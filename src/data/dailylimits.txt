@@ -169,7 +169,7 @@ Cast	Summon Geeky Gifts	_grimoireGeekySummons
 Cast	Summon Hilarious Objects	grimoire1Summons
 Cast	Summon Hobo Underling	_hoboUnderlingSummons	5
 Cast	Summon Holiday Fun!	_holidayFunUsed
-Cast	Summon Kokomo Resort Pass	_summonResortPassUsed
+Cast	Summon Kokomo Resort Pass	_summonResortPassesUsed	[pref(skillLevel135)]
 Cast	Summon Mayfly Swarm	_mayflySummons	30
 Cast	Summon Tasteful Items	grimoire2Summons
 Cast	Surprisingly Sweet Slash	_surprisinglySweetSlashUsed	11

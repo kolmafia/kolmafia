@@ -15,9 +15,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import internal.helpers.Cleanups;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.TreeMap;
@@ -29,6 +31,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.session.LoginManager;
 import net.sourceforge.kolmafia.session.LogoutManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+import net.sourceforge.kolmafia.RequestLogger;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -920,6 +923,65 @@ class PreferencesTest {
       try (cleanups) {
         Preferences.setLong("example", v -> v / 5L);
         assertThat("example", isSetTo(2L));
+      }
+    }
+  }
+
+  @Nested
+  class Deprecation {
+    @Test
+    void warnsWithDefaultNotice() {
+      var pref = "deprecatedPref";
+      var cleanups = withProperty(pref, "value");
+
+      try (cleanups) {
+        Preferences.deprecationNotices.put(pref, "");
+
+        var outputStream = new ByteArrayOutputStream();
+        RequestLogger.openCustom(new PrintStream(outputStream));
+        try {
+          Preferences.getString(pref);
+        } finally {
+          RequestLogger.closeCustom();
+        }
+
+        assertThat(
+            "Deprecation warning not found in output",
+            outputStream.toString(),
+            containsString(
+                "Warning: Preference '"
+                    + pref
+                    + "' is deprecated. This preference is deprecated."));
+
+        Preferences.deprecationNotices.remove(pref);
+      }
+    }
+
+    @Test
+    void warnsWithCustomNotice() {
+      var pref = "customDeprecatedPref";
+      var customNotice = "Do not use this pref!";
+
+      var cleanups = withProperty(pref, "value");
+
+      try (cleanups) {
+        Preferences.deprecationNotices.put(pref, customNotice);
+
+        var outputStream = new ByteArrayOutputStream();
+        RequestLogger.openCustom(new PrintStream(outputStream));
+        try {
+          Preferences.setString(pref, "value");
+          Preferences.getString(pref);
+        } finally {
+          RequestLogger.closeCustom();
+        }
+
+        assertThat(
+            "Deprecation warning not found in output",
+            outputStream.toString(),
+            containsString("Warning: Preference '" + pref + "' is deprecated. " + customNotice));
+
+        Preferences.deprecationNotices.remove(pref);
       }
     }
   }
