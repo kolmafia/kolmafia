@@ -89,6 +89,19 @@ public class DataFileTest {
               "questL(02Larva|03Rat|04Bat|05Goblin|06Friar|07Cyrptic|08Trapper|09Topping|10Garbage|11MacGuffin|12War|12HippyFrat|13Final|13Warehouse)", // property
               "(started|step1|step7|step13|finished)", // quest step
               ".+", // council text
+            }),
+        Arguments.of(
+            "fambattle.txt",
+            1,
+            new String[] {
+              ".+", // type
+              "(x/x|2/2|1/3)", // L2
+              "(x/x|3/2|2/3|1/4)", // L3
+              "(x/x|4/2|3/3|2/4|1/5)", // L4
+              "(Bite|Bonk|Claw|Peck|Punch|Sting)", // M1
+              "(Armor Up|Backstab|Breathe Fire|Chill Out|Embarrass|Encourage|Frighten|Growl|Howl|Hug|Laser Beam|Lick|Regrow|Retreat|Splash|Stinkblast|Swoop|Tackle)", // M2
+              "(Unknown|Bear Hug|Blood Bath|Defense Matrix|Deluxe Impale|Empowering Cheer|Healing Rain|Nasty Cloud|Nuclear Bomb|Owl Stare|Pepperscorn|Rainbow Storm|Spiky Burst|Stick Treats|Universal Backrub|Violent Shred|Vulgar Display)", // M3
+              "(None|Smart|Armor|Spiked|Regenerating)", // Att
             }));
   }
 
