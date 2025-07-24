@@ -3819,10 +3819,10 @@ public abstract class ChoiceAdventures {
         "Beach",
         "The Shore",
         // Option...
-        new ChoiceOption("Muscle Vacation"),
-        new ChoiceOption("Mysticality Vacation"),
-        new ChoiceOption("Moxie Vacation"),
-        new ChoiceOption("2 scrip, +weapon damage effect"));
+        new ChoiceOption("Muscle Vacation", 1),
+        new ChoiceOption("Mysticality Vacation", 2),
+        new ChoiceOption("Moxie Vacation", 3),
+        new ChoiceOption("2 scrip, +weapon damage effect", 5));
 
     // Choice 794 is Once More Unto the Junk
     new ChoiceAdventure(
