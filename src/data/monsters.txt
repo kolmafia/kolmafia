@@ -2388,8 +2388,6 @@ Axis grenadier skeleton	2495	noart.gif	Scale: 5 Cap: 10000 Floor: ? Init: 100 P:
 Axis infantry skeleton	2493	noart.gif	Scale: 15 Cap: 10000 Floor: ? Init: 200 P: undead Article: an	Axis helmet (1)	Axis fatigues (1)	Axis suspenders (5)	orphaned baby skeleton (f0)
 Axis officer skeleton	2496	noart.gif	Scale: 20 Cap: 10000 Floor: ? Init: 250 P: undead Article: an	Axis helmet (10)	Axis fatigues (10)	Axis suspenders (10)	stolen artifact (4)	really expensive stolen artifact (2)	priceless stolen artifact (1)	Chroner (100)
 
-Axis officer skeleton	2496	noart.gif	Scale: 50 Cap: 10000 Floor: ? Init: 250 P: undead Article: an	Axis helmet (1)	Axis fatigues (1)	Axis suspenders (5)
-
 # Crimbo 2023 (December 2023)
 Elf Guard conscript	2392	egconscript.gif	NOWISH Scale: ? Init: -10000 P: elf Article: an	1-2 Elf Guard MPC (m100)	Elf Guard patrol cap (c0)
 Elf Guard convict	2393	egconvict.gif	NOWISH Scale: ? Init: -10000 P: elf Article: an	1-2 Elf Guard MPC (m100)	Elf Guard hotpants (c0)
