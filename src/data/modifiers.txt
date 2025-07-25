@@ -6901,7 +6901,7 @@ Effect	It Went Through All Right	Food Drop: +100, Sleaze Damage: +25, Sleaze Spe
 Effect	It's a Good Life!	Experience: +10, Muscle Percent: +200, Mysticality Percent: +200, Moxie Percent: +200
 Effect	It's Electric!	Thorns: 1
 Effect	It's Good To Be Royal!	Muscle Percent: +200, Mysticality Percent: +200, Moxie Percent: +200, Maximum HP Percent: +200, Maximum MP Percent: +200, Weapon Damage Percent: +200, Spell Damage Percent: +200
-Effect	It's Like a Tickertape Parade	Maximum HP: +1, Muscle Percent: +1, Mysticality Percent: +1, Moxie Percent: +1
+Effect	It's Like a Tickertape Parade	Maximum HP: [T], Muscle Percent: [T], Mysticality Percent: [T], Moxie Percent: [T]
 Effect	It's Not Even Funny	Muscle: +11, Mysticality: +11, Moxie: +11
 Effect	It's Ridiculous	Muscle Percent: +11, Mysticality Percent: +11, Moxie Percent: +11, Initiative: +11, Meat Drop: +11, Item Drop: +11, Weapon Damage: +11, Spell Damage: +11, Maximum HP: +11, Maximum MP: +11, Damage Reduction: 11
 Effect	It's Soporiffic!	MP Regen Min: 1, MP Regen Max: 3
