@@ -3469,6 +3469,8 @@ Item	orange leather lanyard	Weapon Damage: +15, Single Equip, Last Available: "2
 Item	Orange Star of Sacrifice	Muscle: +10, Mysticality: +10, Moxie: +10, Item Drop: +6, Single Equip
 # orc wrist: +15 Damage vs. Orcs
 Item	Order of the Silver Wossname	Muscle: +11, Mysticality: +11, Moxie: +11, Item Drop: +11, Meat Drop: +11, Single Equip
+# ordnance magnet: Occasionally find combat items after fights
+Item	ordnance magnet	Single Equip
 Item	ornamental sextant	Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +15, Last Available: "2013-12"
 Item	Oscus's pelt	Mysticality Percent: +20, Stench Spell Damage: +30, Class: "Pastamancer", Single Equip
 Item	Othello's handkerchief	Othello Skill: +10, Single Equip

@@ -11960,7 +11960,7 @@
 11932	Allied Radio Backpack Pack	388134594	radiopackpack.gif	usable	t	0
 11933	Allied Radio Backpack	116101148	radiopack.gif	container		0
 11934	orphaned baby skeleton	460873306	babyskel_sleep.gif	grow	t	0
-11935
+11935	ordnance magnet	906421946	ordmagnet.gif	accessory	t,d	50
 11936	confetti grenade	645129705	confettigrenade.gif	none, combat	t,d	69
 11937	Skeleton Wars rations	496805659	skelration.gif	food	t,d	95
 11938	skeleton war fuel can	745447757	skelgascan.gif	drink	t,d	85

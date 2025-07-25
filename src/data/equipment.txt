@@ -3013,6 +3013,7 @@ orange leather lanyard	50	none
 Orange Star of Sacrifice	200	Mys: 85
 orc wrist	95	Mys: 32
 Order of the Silver Wossname	200	Mys: 85
+ordnance magnet	0	Mys: 25
 ornamental sextant	200	Mys: 85
 Oscus's pelt	200	Mys: 200
 Othello's handkerchief	150	Mys: 30
