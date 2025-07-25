@@ -7077,6 +7077,7 @@ Effect	Mark of Candy Cain	Critical Hit Percent: +20, Spell Critical Percent: +20
 Effect	Martially-Minded	Weapon Damage: +50, Weapon Damage Percent: +25
 Effect	Matador Nemesis	Avatar: "raging bull"
 Effect	Material Witness	Meat Drop: +10
+Effect	Materiel Intel	Item Drop: +100
 Effect	Mathematically Precise	Combat Item Damage Percent: 50
 Effect	Mayeaugh	Damage Aura: 1
 Effect	Meadulla Oblongota	Experience: +5, Maximum MP Percent: +50
