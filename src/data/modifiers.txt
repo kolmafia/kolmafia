@@ -5020,6 +5020,7 @@ Throne	Baby Gravy Fairy	Weapon Damage: +10, HP Regen Min: 3, HP Regen Max: 5, MP
 Throne	Baby Mayonnaise Wasp	Mysticality Percent: +15
 Throne	Baby Mutant Rattlesnake	Experience (Muscle): +2
 Throne	Baby Sandworm	Maximum HP: +10, Maximum MP: +10
+Throne	Baby Skeleton
 Throne	Baby Yeti	Spell Damage Percent: +10
 Throne	Baby Z-Rex	Experience (Muscle): +2
 Throne	Bad Vibe	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
