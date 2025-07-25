@@ -4215,11 +4215,10 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     // Axis HQ
     //
-    // If you want Axis HQ access codes, they are the exclusive province of the ladies in the crypto pool. Good luck.
+    // If you want Axis HQ access codes, they are the exclusive province of the ladies in the crypto
+    // pool. Good luck.
     new AdventureFailure(
-        "If you want Axis HQ access codes",
-        "You do not have the Current Axis Codes."),
-    
+        "If you want Axis HQ access codes", "You do not have the Current Axis Codes."),
   };
 
   private static final Pattern CRIMBO21_COLD_RES =
