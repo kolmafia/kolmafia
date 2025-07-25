@@ -1517,7 +1517,8 @@ public abstract class UseLinkDecorator {
             uses.add(new UseLink(itemId, 1, "shower", "inventory.php?action=shower"));
           }
           case ItemPool.ALLIED_RADIO_BACKPACK -> {
-            uses.add(new UseLink(itemId, 1, "request drop", "inventory.php?action=requestdrop", false));
+            uses.add(
+                new UseLink(itemId, 1, "request drop", "inventory.php?action=requestdrop", false));
           }
         }
 
