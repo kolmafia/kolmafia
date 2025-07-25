@@ -2383,10 +2383,10 @@ proto-protozoa	2450	protozoa.gif	Scale: ? Cap: 1000 Floor: ? Init: -10000 P: sli
 yeast gang	2452	yeast.gif	Scale: ? Cap: 1000 Floor: ? Init: 100 P: plant Article: a	protogenetic chunklet (muscle) (c0)	fermenting powder (100)	fermenting powder (10)
 
 # Twitch 11 - Skeleton War (July 2025)
-Axis artillery skeleton	2494	noart.gif	Scale: 10 Cap: 10000 Floor: ? Init: 150 P: undead Article: an	Axis suspenders (1)	Axis helmet (1)	Axis fatigues (5)
-Axis grenadier skeleton	2495	noart.gif	Scale: 5 Cap: 10000 Floor: ? Init: 100 P: undead Article: an	Axis fatigues (1)	Axis suspenders (1)	Axis helmet (5)
-Axis infantry skeleton	2493	noart.gif	Scale: 15 Cap: 10000 Floor: ? Init: 200 P: undead Article: an	Axis helmet (1)	Axis fatigues (1)	Axis suspenders (5)
-Axis officer skeleton	2496	noart.gif	Scale: 20 Cap: 10000 Floor: ? Init: 250 P: undead Article: an	Axis helmet (0)	Axis fatigues (0)	Axis suspenders (0)	stolen artifact (0)	really expensive stolen artifact (0)	priceless stolen artifact (0)	Chroner (0)
+Axis artillery skeleton	2494	noart.gif	Scale: 10 Cap: 10000 Floor: ? Init: 150 P: undead Article: an	Axis suspenders (1)	Axis helmet (1)	Axis fatigues (5)	ordnance magnet (f0)
+Axis grenadier skeleton	2495	noart.gif	Scale: 5 Cap: 10000 Floor: ? Init: 100 P: undead Article: an	Axis fatigues (1)	Axis suspenders (1)	Axis helmet (5)	confetti grenade (f0)
+Axis infantry skeleton	2493	noart.gif	Scale: 15 Cap: 10000 Floor: ? Init: 200 P: undead Article: an	Axis helmet (1)	Axis fatigues (1)	Axis suspenders (5)	orphaned baby skeleton (f0)
+Axis officer skeleton	2496	noart.gif	Scale: 20 Cap: 10000 Floor: ? Init: 250 P: undead Article: an	Axis helmet (10)	Axis fatigues (10)	Axis suspenders (10)	stolen artifact (0)	really expensive stolen artifact (0)	priceless stolen artifact (1)	Chroner (0)
 
 # Crimbo 2023 (December 2023)
 Elf Guard conscript	2392	egconscript.gif	NOWISH Scale: ? Init: -10000 P: elf Article: an	1-2 Elf Guard MPC (m100)	Elf Guard patrol cap (c0)
