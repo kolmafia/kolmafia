@@ -7018,7 +7018,7 @@ Effect	Long Live GORF	Damage Aura: 1
 Effect	Long Winter's Napped	Weapon Damage Percent: +100, Spell Damage Percent: +100
 Effect	Lookin' at Some Burning Cereal	Avatar: "Cereal Arsonist"
 Effect	Looking at Fire	Avatar: "Burnglar"
-Effect	Looking Cool	Item Drop: +30, Meat Drop: +30
+Effect	Looking Cool	Item Drop: +100, Meat Drop: +100
 Effect	Loose Joints	Item Drop: [50*loc(The Crimbonium Mining Camp)]
 Effect	Lord of Acid	Avatar: "acid blob"
 Effect	Lost Stomach	Food Drop: +100
