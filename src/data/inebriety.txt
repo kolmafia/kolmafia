@@ -646,6 +646,7 @@ Simepore slime	1	3	awesome	4-6	30-60	0	0	40 The Secret of the Ooze (+200% HP)
 single entendre	1	3	awesome	4-6	0	30-60	0	40 Pounded by the Actual Stars (+100% MP)
 single swig of vodka	2	9	good	5-6	6-8	6-8	6-8	KOLHS
 Sizzling Sinner	2	8	awesome	8-9	30-40	0	0	15 Heart Aflame (+50 Hot Dam)
+skeleton war fuel can	1	6	EPIC	0	0	0	0	Unspaded
 Skull Punch	5	4	awesome	0	0	0	0	Unspaded 30 Tiki Toughness (+100% Muscle, +10% Muscle Gains)
 slap and slap again	3	1	decent	0	0	0	0	+3 PvP fights
 slap and tickle	4	4	good	10-14	0	8-10	25-27

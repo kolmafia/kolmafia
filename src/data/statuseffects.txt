@@ -2996,5 +2996,8 @@
 2993	Echoes of Wetness	wetpaperplane.gif	302a1432c19ace1071272d0fe69fa2ab	neutral	none
 2994	In Your Cups	wetpapercup.gif	c9cc9a1ed9892e908fedefbd66365b6c	neutral	none	use 1 wet paper cup
 2995	Moisticality	wetpaperback.gif	d691b7e2b735ddc8a2fdfa0b7fe07150	neutral	none	use 1 wet paperback
-2996
-2997	Looking Cool	ice.gif	2c2021fad6001c6da810328dd53f033c	neutral	none
+2996	Current Axis Codes	axiscode.gif	415836d626cb8e5c6a9ce26908df5e9c	neutral	none	use 1 Axis HQ Code
+2997	Looking Cool	ice.gif	2c2021fad6001c6da810328dd53f033c	neutral	nohookah
+2998	It's Like a Tickertape Parade	confetti.gif	15517c9531a69396e8c7e07e6dc9181d	neutral	none
+2999
+3000	Materiel Intel	dinseybrain.gif	61d884a9f0584996cabd095045b0d39e	neutral	none

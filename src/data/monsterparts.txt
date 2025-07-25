@@ -2313,3 +2313,6 @@
 2490	Christmas treant	bough	branch	limb	trunk
 2491	self-driving sleigh	chassis	floorboards	rails	seat
 2492	some underbrush	branch	trunk
+2493	Axis infantry skeleton	femur	skull	spine	rib
+2494	Axis artillery skeleton	femur	skull	spine	rib
+2495	Axis grenadier skeleton	femur	skull	spine	rib

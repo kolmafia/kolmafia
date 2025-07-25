@@ -19,6 +19,7 @@ asbestos helmet turtle	80	Mox: 25
 asshat	30	none
 astral chapeau	50	none
 astronaut helmet	30	none
+Axis helmet	100	Mox: 10
 balaclava	50	Mox: 10
 balloon helmet	50	Mox: 10
 bark beret	40	Mox: 5
@@ -486,6 +487,7 @@ antique nutcracker pants	150	Mox: 30
 astral shorts	50	none
 astral trousers	50	none
 astronaut pants	175	Mox: 72
+Axis fatigues	100	Mox: 10
 baggy rave pants	150	Mox: 60
 bakelite breeches	120	Mox: 40
 bankruptcy barrel	100	none
@@ -1942,6 +1944,7 @@ charged druidic orb	10	none
 charged magnet	30	none
 chiffon chamberpot	50	none
 chipped coffee mug	50	none
+chocolate and nylons detector	0	Mys: 20
 Cloaca-Cola shield	70	none	shield
 clockwork detective skull	80	Mox: 25
 clownskin buckler	60	Mus: 15	shield
@@ -2021,6 +2024,7 @@ fiberglass fetish	120	Mus: 40
 fireproof megaphone	10	none
 fishbone catcher's mitt	20	none
 flagstone flag	120	Mus: 40
+flak shield	0	Mus: 30	shield
 flaming talons	90	Mys: 30
 fleshy lump	50	none	shield
 flickering flashlight	50	none
@@ -2449,6 +2453,7 @@ aerogel anvil	50	none
 aerogel apron	50	none
 aerogel ascot	50	none
 albatross necklace	90	Mys: 15
+Allied Forces insignia	0	Mys: 30
 Aluminum Epsilon of Humility	200	Mys: 85
 amber aviator shades	200	Mys: 85
 amulet of extreme plot significance	100	Mys: 35
@@ -2480,6 +2485,7 @@ atlas of local maps	100	none
 attorney's badge	170	Mys: 70
 automatic wine thief	20	none
 autumn leaf pendant	100	none
+Axis suspenders	0	Mys: 10
 backup camera	100	none
 baconstone bracelet	50	Mys: 10
 baconstone earring	50	Mys: 10
@@ -3007,6 +3013,7 @@ orange leather lanyard	50	none
 Orange Star of Sacrifice	200	Mys: 85
 orc wrist	95	Mys: 32
 Order of the Silver Wossname	200	Mys: 85
+ordnance magnet	0	Mys: 25
 ornamental sextant	200	Mys: 85
 Oscus's pelt	200	Mys: 200
 Othello's handkerchief	150	Mys: 30
@@ -3678,6 +3685,7 @@ Zombo's skull ring	200	Mys: 200
 
 # Containers section of equipment.txt
 
+Allied Radio Backpack	0	none
 anniversary pewter cape	0	none
 antique nutcracker cape	150	Mys: 30
 auxiliary backbone	0	Mus: 75

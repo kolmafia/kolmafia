@@ -2352,7 +2352,7 @@ ghost actor	1847	ghostactor.gif	Scale: 3 Cap: 1000 Floor: 10 Init: -10000 P: und
 Groundling	1842	groundling.gif	Scale: 1 Cap: 1000 Floor: 5 Init: -10000 P: dude EA: stench EA: none Article: a	stink-penny (50)
 Hamlet	1843	hamlet.gif	Scale: 3 Cap: 1000 Floor: 10 Init: -10000 P: dude	hawk (5)	hamlet sandwich (25)
 Othello	1844	othello.gif	Scale: 5 Cap: 1000 Floor: 15 Init: -10000 P: dude	bowl of Jeal-O (20)	Othello's dagger (0)	Othello's handkerchief (0)	Othello's military jacket (0)
-Richard X	1841	richardx.gif	NOWISH Scale: 3 Cap: 1000 Floor: 10 Init: -10000 P: dude	heavy crown (0)	ear poison (0)
+Richard X	1841	richardx.gif	NOWISH Scale: 3 Cap: 1000 Floor: 10 Init: -10000 P: dude	heavy crown (5)	ear poison (0)
 Understudy	1846	understudy.gif	Scale: -2 Cap: 1000 Floor: 2 Init: -10000 P: dude Article: an	How to Play Othello (20)
 Ye Olde Key Grippe	1845	keygrip.gif	Scale: 1 Cap: 1000 Floor: 5 Init: -10000 P: dude	grip key (10)
 
@@ -2381,6 +2381,12 @@ herd of archaea	2451	archaea.gif	Scale: ? Cap: 1000 Floor: ? Init: 75 P: beast E
 messenger RNA	2448	mrna.gif	Scale: ? Cap: 1000 Floor: ? Init: 50 P: weird EA: hot Article: a	protogenetic chunklet (synapse) (c0)	messenger bag RNA (f0.1)
 proto-protozoa	2450	protozoa.gif	Scale: ? Cap: 1000 Floor: ? Init: -10000 P: slime EA: stench EA: sleaze Article: a	protogenetic chunklet (lips) (c0)	proto-proto-protozoa (f0.1)
 yeast gang	2452	yeast.gif	Scale: ? Cap: 1000 Floor: ? Init: 100 P: plant Article: a	protogenetic chunklet (muscle) (c0)	fermenting powder (100)	fermenting powder (10)
+
+# Twitch 11 - Skeleton War (July 2025)
+Axis artillery skeleton	2494	noart.gif	Scale: 10 Cap: 10000 Floor: ? Init: 150 P: undead Article: an	Axis suspenders (1)	Axis helmet (1)	Axis fatigues (5)	ordnance magnet (f0)
+Axis grenadier skeleton	2495	noart.gif	Scale: 5 Cap: 10000 Floor: ? Init: 100 P: undead Article: an	Axis fatigues (1)	Axis suspenders (1)	Axis helmet (5)	confetti grenade (f0)
+Axis infantry skeleton	2493	noart.gif	Scale: 15 Cap: 10000 Floor: ? Init: 200 P: undead Article: an	Axis helmet (1)	Axis fatigues (1)	Axis suspenders (5)	orphaned baby skeleton (f0)
+Axis officer skeleton	2496	noart.gif	Scale: 20 Cap: 10000 Floor: ? Init: 250 P: undead Article: an	Axis helmet (10)	Axis fatigues (10)	Axis suspenders (10)	stolen artifact (4)	really expensive stolen artifact (2)	priceless stolen artifact (1)	Chroner (100)
 
 # Crimbo 2023 (December 2023)
 Elf Guard conscript	2392	egconscript.gif	NOWISH Scale: ? Init: -10000 P: elf Article: an	1-2 Elf Guard MPC (m100)	Elf Guard patrol cap (c0)

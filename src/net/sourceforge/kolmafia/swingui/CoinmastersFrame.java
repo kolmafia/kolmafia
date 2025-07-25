@@ -54,6 +54,7 @@ import net.sourceforge.kolmafia.request.coinmaster.MrStoreRequest;
 import net.sourceforge.kolmafia.request.coinmaster.QuartersmasterRequest;
 import net.sourceforge.kolmafia.request.coinmaster.SwaggerShopRequest;
 import net.sourceforge.kolmafia.request.coinmaster.TravelingTraderRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.AlliedHqRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.AppleStoreRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.ArmoryAndLeggeryRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.ArmoryRequest;
@@ -149,6 +150,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
   private CoinmasterPanel BURTPanel = null;
   private CoinmasterPanel CRIMBCOGiftShopPanel = null;
   private CoinmasterPanel SHAWARMAPanel = null;
+  private CoinmasterPanel alliedHqPanel = null;
   private CoinmasterPanel altarOfBonesPanel = null;
   private CoinmasterPanel applePanel = null;
   private CoinmasterPanel arcadePanel = null;
@@ -618,6 +620,11 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     panel.add(twitchSoupPanel);
     this.selectorPanel.addPanel(twitchSoupPanel.getPanelSelector(), panel);
 
+    panel = new JPanel(new BorderLayout());
+    alliedHqPanel = new AlliedHqPanel();
+    panel.add(alliedHqPanel);
+    this.selectorPanel.addPanel(alliedHqPanel.getPanelSelector(), panel);
+
     // Events coinmasters
     this.selectorPanel.addSeparator();
     this.selectorPanel.addCategory("Special Events");
@@ -1072,6 +1079,12 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
         buffer.append(entry.getValue());
         buffer.append(")");
       }
+    }
+  }
+
+  public class AlliedHqPanel extends TwitchPanel {
+    public AlliedHqPanel() {
+      super(AlliedHqRequest.DATA);
     }
   }
 

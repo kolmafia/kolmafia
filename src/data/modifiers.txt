@@ -93,6 +93,7 @@ Item	asbestos helmet turtle	Hot Resistance: +2, Familiar Effect: "hot atk, 1xFai
 Item	asshat	Stench Resistance: +1, Sleaze Damage: +1, Familiar Effect: "stench atk, 1xVolley, cap 7"
 Item	astral chapeau	Mysticality Percent: +25, Spell Damage: +20, MP Regen Min: 3, MP Regen Max: 5, Familiar Effect: "1xVolley, 1xLep, cap 12"
 Item	astronaut helmet	Cold Resistance: +3, Stench Resistance: +3, Lasts Until Rollover, Last Available: "2024-10"
+Item	Axis helmet	Muscle Percent: +5, Weapon Damage Percent: +10
 Item	balaclava	Cold Resistance: +1, Familiar Effect: "cold atk, 1.5xLep, cap 12"
 Item	balloon helmet	Damage Absorption: +20, Clowniness: 25, Familiar Effect: "3xFairy, cap 12"
 Item	bark beret	Damage Reduction: 4, Last Available: "2009-10", Familiar Effect: "2xPotato, 2.5xLep, cap 10"
@@ -607,6 +608,7 @@ Item	antique nutcracker pants	Meat Drop: +15, Moxie Percent: +15, Last Available
 Item	astral shorts	Moxie Percent: +25, Initiative: +20, HP Regen Min: 2, HP Regen Max: 4, MP Regen Min: 2, MP Regen Max: 4, Familiar Effect: "1xGhoul, cap 12"
 Item	astral trousers	Muscle Percent: +25, Weapon Damage Percent: +50, Meat Drop: +20, Familiar Effect: "1xPotato, cap 12"
 Item	astronaut pants	Maximum HP: +30, Maximum MP: +30, Muscle: +5, Last Available: "2006-12", Familiar Effect: "1xVolley, 1.5xPotato, cap 43"
+Item	Axis fatigues	Moxie Percent: +5, Ranged Damage Percent: +10
 Item	baggy rave pants	Damage Absorption: +20, Raveosity: +2, Familiar Effect: "1xVolley, 1xPotato, cap 37"
 # bakelite breeches: Doubles the damage of Disco Inferno
 Item	bakelite breeches	Hot Resistance: +5, Moxie Percent: +20, Last Available: "2016-12"
@@ -2226,6 +2228,7 @@ Item	charged druidic orb	Lasts Until Rollover, Last Available: "2018-04"
 Item	charged magnet	Maximum MP: +5, MP Regen Min: 1, MP Regen Max: 2, Last Available: "2009-09"
 Item	chiffon chamberpot	Mysticality: +10, Sleaze Damage: +10, Sleaze Spell Damage: +10, Last Available: "2023-12", Damage Aura: 1
 Item	chipped coffee mug	Maximum HP: +30, Maximum MP: +15, Last Available: "2020-04"
+# chocolate and nylons detector: Helps you find chocolates and nylons
 Item	Cloaca-Cola shield	Mysticality: +1, Damage Reduction: 4
 # clockwork detective skull
 Item	clownskin buckler	Spooky Damage: +3, Damage Reduction: 3, Clowniness: 50
@@ -2319,6 +2322,8 @@ Item	fiberglass fetish	HP Regen Min: 6, HP Regen Max: 10, Stench Resistance: +5,
 Item	fireproof megaphone	Monster Level: +10, Hot Resistance: +2, Last Available: "2015-08"
 # fishbone catcher's mitt: Prevents some items from washing away in the Heavy Rains
 Item	flagstone flag	Experience (Muscle): +3, Item Drop: +10, Last Available: "2022-12", Conditional Skill (Equipped): "Flagellate"
+# flak shield: Protects you from Axis grenades
+Item	flak shield	Damage Reduction: 9
 Item	flaming talons	Weapon Damage: +5, Hot Damage: +5
 Item	fleshy lump	Maximum HP: +20, HP Regen Min: 2, HP Regen Max: 4, Damage Reduction: 3, Last Available: "2016-08"
 Item	flickering flashlight	Item Drop: +15, Last Available: "2020-04"
@@ -2808,6 +2813,7 @@ Item	aerogel apron	Spell Critical Percent: +5, Hot Resistance: +3, Single Equip,
 # aerogel ascot: Dramatically improves Saucecicle
 Item	aerogel ascot	Mysticality: +10, Adventures: +3, Single Equip, Last Available: "2017-12"
 Item	albatross necklace	Mysticality Percent: +10, Single Equip, Last Available: "2007-06"
+Item	Allied Forces insignia	Experience: +6, HP Regen Min: 8, HP Regen Max: 12, MP Regen Min: 8, MP Regen Max: 12, Damage vs. Skeletons: +100, Single Equip
 Item	Aluminum Epsilon of Humility	Muscle: +7, Mysticality: +7, Moxie: +7, Item Drop: +9, Single Equip
 Item	amber aviator shades	Mysticality Percent: +5, Moxie Percent: +5, Sleaze Damage: +30, Single Equip
 Item	amulet of extreme plot significance	Maximum MP: +30
@@ -2848,6 +2854,7 @@ Item	attorney's badge	Single Equip
 # automatic wine thief: Fully restore your MP after Crimbo Train fights
 Item	automatic wine thief	Single Equip
 Item	autumn leaf pendant	Familiar Weight: +5, Familiar Damage: +10, Experience (familiar): +1, Lasts Until Rollover, Last Available: "2022-10"
+Item	Axis suspenders	Mysticality Percent: +5, Spell Damage Percent: +10, Single Equip
 Item	backup camera	Maximum HP: +20, Maximum MP: +20, Single Equip, Last Available: "2021-04"
 Item	baconstone bracelet	Mysticality: +2, Mana Cost: -1, Single Equip
 Item	baconstone earring	Mysticality: +2, Mana Cost: -1, Single Equip
@@ -3462,6 +3469,8 @@ Item	orange leather lanyard	Weapon Damage: +15, Single Equip, Last Available: "2
 Item	Orange Star of Sacrifice	Muscle: +10, Mysticality: +10, Moxie: +10, Item Drop: +6, Single Equip
 # orc wrist: +15 Damage vs. Orcs
 Item	Order of the Silver Wossname	Muscle: +11, Mysticality: +11, Moxie: +11, Item Drop: +11, Meat Drop: +11, Single Equip
+# ordnance magnet: Occasionally find combat items after fights
+Item	ordnance magnet	Single Equip
 Item	ornamental sextant	Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +15, Last Available: "2013-12"
 Item	Oscus's pelt	Mysticality Percent: +20, Stench Spell Damage: +30, Class: "Pastamancer", Single Equip
 Item	Othello's handkerchief	Othello Skill: +10, Single Equip
@@ -4213,6 +4222,8 @@ Item	Zombo's skull ring	Moxie Percent: +15, PvP Fights: +4, Single Equip
 
 # Containers section of modifiers.txt
 
+# Allied Radio Backpack: Call for support
+Item	Allied Radio Backpack	Muscle Percent: +30, Mysticality Percent: +30, Moxie Percent: +30, Maximum HP: +30, Maximum MP: +30, Initiative: +30
 Item	anniversary pewter cape	Muscle: +1, Mysticality: +1, Moxie: +1
 Item	antique nutcracker cape	Spell Damage Percent: +30, Mysticality Percent: +15, Last Available: "2019-12"
 Item	auxiliary backbone	PvP Fights: +3, Last Available: "2012-10"
@@ -5011,6 +5022,7 @@ Throne	Baby Gravy Fairy	Weapon Damage: +10, HP Regen Min: 3, HP Regen Max: 5, MP
 Throne	Baby Mayonnaise Wasp	Mysticality Percent: +15
 Throne	Baby Mutant Rattlesnake	Experience (Muscle): +2
 Throne	Baby Sandworm	Maximum HP: +10, Maximum MP: +10
+Throne	Baby Skeleton	
 Throne	Baby Yeti	Spell Damage Percent: +10
 Throne	Baby Z-Rex	Experience (Muscle): +2
 Throne	Bad Vibe	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
@@ -6089,6 +6101,7 @@ Effect	Cunctatitis	Initiative: -1000
 Effect	Cupcake of Choice	Item Drop: +30
 Effect	Cupshotten	Muscle Percent: -20, Mysticality Percent: -20, Moxie Percent: -20, Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2
 Effect	Curiosity of Br'er Tarrypin	Experience (familiar): +1
+# Current Axis Codes: You have access to the Axis HQ
 # Curse Magnet: Curses!
 Effect	Curse of Clumsiness	Pickpocket Chance: -50
 Effect	Curse of Dullness	Weapon Damage: -50, Spell Damage: -50, Ranged Damage: -50
@@ -6889,6 +6902,7 @@ Effect	It Went Through All Right	Food Drop: +100, Sleaze Damage: +25, Sleaze Spe
 Effect	It's a Good Life!	Experience: +10, Muscle Percent: +200, Mysticality Percent: +200, Moxie Percent: +200
 Effect	It's Electric!	Thorns: 1
 Effect	It's Good To Be Royal!	Muscle Percent: +200, Mysticality Percent: +200, Moxie Percent: +200, Maximum HP Percent: +200, Maximum MP Percent: +200, Weapon Damage Percent: +200, Spell Damage Percent: +200
+Effect	It's Like a Tickertape Parade	Maximum HP: [T], Muscle Percent: [T], Mysticality Percent: [T], Moxie Percent: [T]
 Effect	It's Not Even Funny	Muscle: +11, Mysticality: +11, Moxie: +11
 Effect	It's Ridiculous	Muscle Percent: +11, Mysticality Percent: +11, Moxie Percent: +11, Initiative: +11, Meat Drop: +11, Item Drop: +11, Weapon Damage: +11, Spell Damage: +11, Maximum HP: +11, Maximum MP: +11, Damage Reduction: 11
 Effect	It's Soporiffic!	MP Regen Min: 1, MP Regen Max: 3
@@ -7018,7 +7032,7 @@ Effect	Long Live GORF	Damage Aura: 1
 Effect	Long Winter's Napped	Weapon Damage Percent: +100, Spell Damage Percent: +100
 Effect	Lookin' at Some Burning Cereal	Avatar: "Cereal Arsonist"
 Effect	Looking at Fire	Avatar: "Burnglar"
-Effect	Looking Cool	Item Drop: +30, Meat Drop: +30
+Effect	Looking Cool	Item Drop: +100, Meat Drop: +100
 Effect	Loose Joints	Item Drop: [50*loc(The Crimbonium Mining Camp)]
 Effect	Lord of Acid	Avatar: "acid blob"
 Effect	Lost Stomach	Food Drop: +100
@@ -7067,6 +7081,7 @@ Effect	Mark of Candy Cain	Critical Hit Percent: +20, Spell Critical Percent: +20
 Effect	Martially-Minded	Weapon Damage: +50, Weapon Damage Percent: +25
 Effect	Matador Nemesis	Avatar: "raging bull"
 Effect	Material Witness	Meat Drop: +10
+Effect	Materiel Intel	Item Drop: +100
 Effect	Mathematically Precise	Combat Item Damage Percent: 50
 Effect	Mayeaugh	Damage Aura: 1
 Effect	Meadulla Oblongota	Experience: +5, Maximum MP Percent: +50
@@ -9034,6 +9049,7 @@ Outfit	Antique Arms and Armor	Damage Reduction: 5, Muscle: +15, Initiative: -10
 Outfit	Antique Nutcracker Outfit	Muscle: +25, Mysticality: +25, Moxie: +25, Meat Drop: +25, Item Drop: +25
 Outfit	Arboreal Raiment	Stench Resistance: +3
 Outfit	Arrrbor Day Apparrrrrel	HP Regen Min: 10, HP Regen Max: 15
+Outfit	Axis Uniform	Weapon Damage: +25, Spell Damage: +25, Ranged Damage: +25
 Outfit	Bakelite Brigandine	Item Drop: +20
 Outfit	Bauxite Baubles	Pool Skill: [10+floor(pref(daycareToddlers)^0.25)]
 Outfit	Bits o' Honey	Item Drop: +5
@@ -12018,6 +12034,7 @@ Item	alien toenails	Last Available: "2017-04"
 Item	alien zoological sample	Last Available: "2017-04"
 Item	all-purpose cleaner	Effect: "Soul-Crushing Headache", Effect Duration: 10
 Item	all-year sucker	Last Available: "2011-11", Effect: "Gonna Get You, Sucker", Effect Duration: 10
+Item	Allied Radio Backpack Pack	Free Pull
 Item	almost-dead walkie-talkie	Last Available: "2016-08"
 # alpine watercolor set: Make a painting of a monster to hang on your wall
 Item	alpine watercolor set	Last Available: "2015-01"
@@ -12086,6 +12103,8 @@ Item	autumn-aton	Last Available: "2022-10"
 Item	avarice stone	Last Available: "2012-12"
 Item	avatar of the Unconscious Collective	Free Pull, Last Available: "2013-12"
 # aviator goggles: Makes your mini kiwi lay mini kiwis more often
+# Axis codebook: Increases the effective duration of Axis HQ codes
+# Axis HQ Code: Allows temporary access to Axis HQ
 Item	Azurite	Last Available: "2023-06"
 Item	baby camelCalf	Free Pull, Last Available: "2020-07"
 Item	baby chest mimic	Free Pull
@@ -12436,6 +12455,7 @@ Item	chitinous pod	Last Available: "2008-12"
 Item	chocolate frosted sugar bomb	Last Available: "2011-09"
 Item	chocolate lump	Last Available: "2011-12"
 Item	chocolate puppy	Last Available: "2016-12"
+# chocolate rations: Somebody will want this, but it's not you
 Item	Chorale of Companionship	Skill: "Chorale of Companionship"
 Item	chunk of cement	Last Available: "2009-12"
 Item	chunk of depleted Grimacite	Last Available: "2011-12"
@@ -13900,6 +13920,7 @@ Item	New-You Club Membership Form	Free Pull, Last Available: "2017-05"
 Item	newborn kobold	Last Available: "2011-09"
 Item	newly-hatched mayonnaise wasp	Last Available: "2015-05"
 # NG: Deals 40-70 Physical Damage
+# nice nylon stockings: Somebody will want this, but it's not you
 Item	ninja pirate zombie robot head	Last Available: "2005-11"
 Item	No Hats as Art	Skill: "Ceci N'Est Pas Un Chapeau", Last Available: "2016-12"
 Item	Non-Euclidean Finance	Skill: "5-D Earning Potential", Last Available: "2017-04"
@@ -14569,6 +14590,7 @@ Item	sizzling desk bell	Last Available: "2020-09"
 # skeletal skiff: <b>Allows Travel to The Mysterious Island of Mystery</b>
 Item	skeletal skiff	Last Available: "2012-10"
 Item	skeleton	Last Available: "2012-10"
+# skeleton war grenade: Deals 200-300 damage, is a <i>lot</i> more effective against rank-and-file skeletons
 Item	skewered cherry	Last Available: "2004-12"
 Item	skewered jumbo olive	Last Available: "2004-12"
 Item	skewered lime	Last Available: "2004-12"
