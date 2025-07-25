@@ -6101,6 +6101,7 @@ Effect	Cunctatitis	Initiative: -1000
 Effect	Cupcake of Choice	Item Drop: +30
 Effect	Cupshotten	Muscle Percent: -20, Mysticality Percent: -20, Moxie Percent: -20, Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2
 Effect	Curiosity of Br'er Tarrypin	Experience (familiar): +1
+# Current Axis Codes: You have access to the Axis HQ
 # Curse Magnet: Curses!
 Effect	Curse of Clumsiness	Pickpocket Chance: -50
 Effect	Curse of Dullness	Weapon Damage: -50, Spell Damage: -50, Ranged Damage: -50
