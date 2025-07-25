@@ -1600,7 +1600,7 @@
 1599	twitch_alliedhq	flak shield	Chroner (20)
 1600	twitch_alliedhq	Axis HQ Code	chocolate rations
 1601	twitch_alliedhq	Axis codebook	nice nylon stockings (50)
-1602
+1602	conmerch	Allied Radio Backpack Pack	Mr. Accessory
 1603	twitch_alliedhq	chocolate and nylons detector	Chroner (100)
 1604	twitch_alliedhq	Allied Forces insignia	Chroner (500)
 1605	twitch_alliedhq	Allied Tattoo Kit	Chroner (2,500)
