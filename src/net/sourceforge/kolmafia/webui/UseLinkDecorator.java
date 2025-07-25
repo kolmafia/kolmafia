@@ -1516,6 +1516,10 @@ public abstract class UseLinkDecorator {
           case ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD -> {
             uses.add(new UseLink(itemId, 1, "shower", "inventory.php?action=shower"));
           }
+          case ItemPool.ALLIED_RADIO_BACKPACK -> {
+            uses.add(
+                new UseLink(itemId, 1, "request drop", "inventory.php?action=requestdrop", false));
+          }
         }
 
         if (uses.size() == 1) {

@@ -3918,6 +3918,7 @@ public class ItemPool {
   public static final int WET_BLANKET = 11891;
   public static final int PERIDOT_OF_PERIL = 11905;
   public static final int PRISMATIC_BERET = 11919;
+  public static final int ALLIED_RADIO_BACKPACK = 11933;
 
   private ItemPool() {}
 
