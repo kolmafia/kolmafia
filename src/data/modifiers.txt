@@ -4223,7 +4223,7 @@ Item	Zombo's skull ring	Moxie Percent: +15, PvP Fights: +4, Single Equip
 # Containers section of modifiers.txt
 
 # Allied Radio Backpack: Call for support
-Item	Allied Radio Backpack	Muscle Percent: +30, Mysticality Percent: +30, Moxie Percent: +30, Maximum HP: +30, Maximum MP: +30, Initiative: +30
+Item	Allied Radio Backpack	Muscle Percent: +30, Mysticality Percent: +30, Moxie Percent: +30, Maximum HP: +30, Maximum MP: +30, Initiative: +30, Conditional Skill (Equipped): "Call in an Airstrike"
 Item	anniversary pewter cape	Muscle: +1, Mysticality: +1, Moxie: +1
 Item	antique nutcracker cape	Spell Damage Percent: +30, Mysticality Percent: +15, Last Available: "2019-12"
 Item	auxiliary backbone	PvP Fights: +3, Last Available: "2012-10"
@@ -12244,6 +12244,7 @@ Item	Bohemian rhapsody	Last Available: "2007-06"
 Item	bolder boulder	Last Available: "2023-01"
 Item	bomb of unknown origin	Last Available: "2016-11"
 Item	bone chips	Last Available: "2011-12"
+Item	bone pacifier	Familiar Weight: +5
 Item	bonsai tree	Last Available: "2013-12"
 Item	book of facts	Skill: "Just the Facts", Last Available: "2023-09"
 Item	book of facts (dog-eared)	Skill: "Just the Facts", Last Available: "2023-09"
