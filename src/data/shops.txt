@@ -64,6 +64,7 @@ fantasyrealm	FantasyRealm Rubee&trade; Store	COIN
 fdkol	FDKOL Requisitions Tent	NPCCOIN
 fishbones	Freshwater Fishbonery	COIN
 fixodent	Craft with Teeth	CONC	FIXODENT
+flowertradein	The Central Loathing Floral Mercantile Exchange	COIN
 fwshop	Clan Underground Fireworks Shop	NPC
 generalstore	The General Store	NPC
 glaciest	Wal-Mart	COIN

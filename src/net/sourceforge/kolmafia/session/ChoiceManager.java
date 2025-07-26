@@ -224,7 +224,9 @@ public abstract class ChoiceManager {
     }
 
     for (int stepCount = 0;
-        !KoLmafia.refusesContinue() && ChoiceManager.stillInChoice(responseText);
+        responseText != null
+            && !KoLmafia.refusesContinue()
+            && ChoiceManager.stillInChoice(responseText);
         ++stepCount) {
       int choice = ChoiceUtilities.extractChoice(responseText);
 
