@@ -1667,6 +1667,11 @@ public class ProxyRecordValue extends RecordValue {
             .add("defense_element", DataTypes.ELEMENT_TYPE)
             .add("physical_resistance", DataTypes.INT_TYPE)
             .add("elemental_resistance", DataTypes.INT_TYPE)
+            .add("hot_resistance", DataTypes.INT_TYPE)
+            .add("cold_resistance", DataTypes.INT_TYPE)
+            .add("stench_resistance", DataTypes.INT_TYPE)
+            .add("spooky_resistance", DataTypes.INT_TYPE)
+            .add("sleaze_resistance", DataTypes.INT_TYPE)
             .add("min_meat", DataTypes.INT_TYPE)
             .add("max_meat", DataTypes.INT_TYPE)
             .add("min_sprinkles", DataTypes.INT_TYPE)
@@ -1770,6 +1775,26 @@ public class ProxyRecordValue extends RecordValue {
 
     public int get_elemental_resistance() {
       return this.content != null ? ((MonsterData) this.content).getElementalResistance() : 0;
+    }
+
+    public int get_hot_resistance() {
+      return this.content != null ? ((MonsterData) this.content).getHotResistance() : 0;
+    }
+
+    public int get_cold_resistance() {
+      return this.content != null ? ((MonsterData) this.content).getColdResistance() : 0;
+    }
+
+    public int get_stench_resistance() {
+      return this.content != null ? ((MonsterData) this.content).getStenchResistance() : 0;
+    }
+
+    public int get_spooky_resistance() {
+      return this.content != null ? ((MonsterData) this.content).getSpookyResistance() : 0;
+    }
+
+    public int get_sleaze_resistance() {
+      return this.content != null ? ((MonsterData) this.content).getSleazeResistance() : 0;
     }
 
     public int get_min_meat() {
