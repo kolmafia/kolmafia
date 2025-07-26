@@ -605,4 +605,29 @@ public class MonsterDataTest {
       }
     }
   }
+
+  @Nested
+  class ElementalResistance {
+    @Test
+    public void shouldDisplayElementalResistancesForGeneralMonster() {
+      var monster = MonsterDatabase.findMonster("Section 11");
+      assertEquals(100, monster.getElementalResistance());
+      assertEquals(100, monster.getHotResistance());
+      assertEquals(100, monster.getColdResistance());
+      assertEquals(100, monster.getStenchResistance());
+      assertEquals(100, monster.getSpookyResistance());
+      assertEquals(100, monster.getSleazeResistance());
+    }
+
+    @Test
+    public void shouldDisplayElementalResistancesForSpecificMonster() {
+      var monster = MonsterDatabase.findMonster("Axis officer skeleton");
+      assertEquals(0, monster.getElementalResistance());
+      assertEquals(90, monster.getHotResistance());
+      assertEquals(90, monster.getColdResistance());
+      assertEquals(50, monster.getStenchResistance());
+      assertEquals(90, monster.getSpookyResistance());
+      assertEquals(90, monster.getSleazeResistance());
+    }
+  }
 }
