@@ -1124,15 +1124,16 @@ Dino World Gift Shop (The Dinostaur)	buy	500	stuffed dinosaur	ROW1288
 
 # KoL Con 13 Merch Table
 
-KoL Con 13 Merch Table	buy	1	unevolved organism	ROW1509
-KoL Con 13 Merch Table	buy	2	crated wardrobe-o-matic	ROW1397
-KoL Con 13 Merch Table	buy	3	KoL Con 13 snowglobe	ROW883
-KoL Con 13 Merch Table	buy	4	potted tea tree	ROW884
-KoL Con 13 Merch Table	buy	5	Xi Receiver Unit	ROW885
-KoL Con 13 Merch Table	buy	6	Gordon Beer's Beer Garden Catalog	ROW886
-KoL Con 13 Merch Table	buy	7	Tome of Rad Libs	ROW887
-KoL Con 13 Merch Table	buy	8	Gygaxian Libram	ROW888
-KoL Con 13 Merch Table	buy	9	hippo tutu	ROW889
+KoL Con 13 Merch Table	buy	1	Allied Radio Backpack Pack	ROW1602
+KoL Con 13 Merch Table	buy	2	unevolved organism	ROW1509
+KoL Con 13 Merch Table	buy	3	crated wardrobe-o-matic	ROW1397
+KoL Con 13 Merch Table	buy	4	KoL Con 13 snowglobe	ROW883
+KoL Con 13 Merch Table	buy	5	potted tea tree	ROW884
+KoL Con 13 Merch Table	buy	6	Xi Receiver Unit	ROW885
+KoL Con 13 Merch Table	buy	7	Gordon Beer's Beer Garden Catalog	ROW886
+KoL Con 13 Merch Table	buy	8	Tome of Rad Libs	ROW887
+KoL Con 13 Merch Table	buy	9	Gygaxian Libram	ROW888
+KoL Con 13 Merch Table	buy	10	hippo tutu	ROW889
 KoL Con 13 Merch Table	buy	1111	Twitching Television Tattoo	ROW895
 
 # Fancy Dan the Cocktail Man
@@ -1403,3 +1404,15 @@ Using your Shower Thoughts	ROW1588	wet shower shoes	glob of wet paper (15)
 Using your Shower Thoughts	ROW1589	wet shower shorts	glob of wet paper (20)
 Using your Shower Thoughts	ROW1590	wet paper tiger	glob of wet paper (1,000)
 Using your Shower Thoughts	ROW1594	wet shower stamp	glob of wet paper (1,000)
+
+# Allied HQ
+
+Allied HQ	ROW1599	flak shield	Chroner (20)
+Allied HQ	ROW1603	chocolate and nylons detector	Chroner (100)
+Allied HQ	ROW1604	Allied Forces insignia	Chroner (500)
+Allied HQ	ROW1605	Allied Tattoo Kit	Chroner (2,500)
+Allied HQ	ROW1600	Axis HQ Code	chocolate rations
+Allied HQ	ROW1601	Axis codebook	nice nylon stockings (50)
+Allied HQ	ROW1596	Chroner (10)	stolen artifact
+Allied HQ	ROW1597	Chroner (20)	really expensive stolen artifact
+Allied HQ	ROW1598	Chroner (30)	priceless stolen artifact

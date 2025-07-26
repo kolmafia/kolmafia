@@ -78,6 +78,7 @@ Anemone Mine	-1	Anemone combatant	killer clownfish	Mer-kin miner
 Anger Man's Level	100	frustrating knight	rage flame	ticking time bomb	Anger Man: 0
 Art Class	100	rulergheist	clay golem	misproportioned portrait	wire sculpture	Fran&ccedil;ois Verte, Art Teacher: 0
 Atomic Crimbo Toy Factory	100	mutant circuit-soldering elf	mutant cookie-baking elf	mutant doll-dressing elf	mutant gift-wrapping elf	mutant whistle-carving elf
+Axis HQ	100	Axis officer skeleton
 Barf Mountain	100	angry tourist	garbage tourist	horrible tourist family
 Barrrney's Barrr	80	tetchy pirate	tipsy pirate	toothy pirate
 Cola Wars Battlefield (Cloaca Uniform)	95	Dyspepsi-Cola General	Dyspepsi-Cola Knight	Dyspepsi-Cola Soldier	The Temporal Bandit: -1
@@ -209,6 +210,7 @@ Near the Witch's House	100	flock of every birds
 Neckback Crick	100	deadly venomtrout	water spider	unearthed monstrosity: 0
 Next to that Barrel with Something Burning in it	100	A.M.C. gremlin	batwinged gremlin	batwinged gremlin (tool)	vegetable gremlin
 Noob Cave	100	crate
+No Man's And Also No Skeleton's Land	100	Axis artillery skeleton	Axis grenadier skeleton	Axis infantry skeleton
 Oil Peak	100	oil baron	oil cartel	oil slick	oil tycoon
 Old Crimbo Town Toy Factory	100	Mob Penguin enforcer	Mob Penguin goon (2008)	Mob Penguin hitpenguin	Mob Penguin psychopath	Mob Penguin racketeer
 Out by that Rusted-Out Car	100	A.M.C. gremlin	erudite gremlin	vegetable gremlin	vegetable gremlin (tool)

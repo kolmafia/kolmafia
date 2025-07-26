@@ -1594,3 +1594,13 @@
 1593	showerthoughts	wet paperback	glob of wet paper (2)
 1594	showerthoughts	wet shower stamp	glob of wet paper (1,000)
 1595	showerthoughts	wet shower radio	glob of wet paper
+1596	twitch_alliedhq	Chroner (10)	stolen artifact
+1597	twitch_alliedhq	Chroner (20)	really expensive stolen artifact
+1598	twitch_alliedhq	Chroner (30)	priceless stolen artifact
+1599	twitch_alliedhq	flak shield	Chroner (20)
+1600	twitch_alliedhq	Axis HQ Code	chocolate rations
+1601	twitch_alliedhq	Axis codebook	nice nylon stockings (50)
+1602	conmerch	Allied Radio Backpack Pack	Mr. Accessory
+1603	twitch_alliedhq	chocolate and nylons detector	Chroner (100)
+1604	twitch_alliedhq	Allied Forces insignia	Chroner (500)
+1605	twitch_alliedhq	Allied Tattoo Kit	Chroner (2,500)

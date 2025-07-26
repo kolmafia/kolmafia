@@ -64,6 +64,7 @@ fantasyrealm	FantasyRealm Rubee&trade; Store	COIN
 fdkol	FDKOL Requisitions Tent	NPCCOIN
 fishbones	Freshwater Fishbonery	COIN
 fixodent	Craft with Teeth	CONC	FIXODENT
+flowertradein	The Central Loathing Floral Mercantile Exchange	COIN
 fwshop	Clan Underground Fireworks Shop	NPC
 generalstore	The General Store	NPC
 glaciest	Wal-Mart	COIN
@@ -129,6 +130,7 @@ toxic	Toxic Chemistry	COIN
 trapper	The Trapper	COIN
 tweedle	The Tweedleporium	NPC
 twitchsoup	The Primordial Soup Kitchen	COIN
+twitch_alliedhq	Allied HQ	COIN
 unclep	Uncle P's Antiques	NPC
 vault1	Fallout Shelter Medical Supply	NPC
 vault2	Fallout Shelter Electronics Supply	NPC
