@@ -1134,6 +1134,7 @@
 7563	Beret Blast	prisberet_blast.gif	combat	0	0
 7564	Beret Boast	prisberet_boast.gif	combat	0	0
 7565	Beret Busking	prisberet_busk.gif	nc,self	0	0
+7566	Call in an Airstrike	missile.gif	combat	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.
