@@ -11971,5 +11971,5 @@
 11943	bone pacifier	509620940	bonebinky.gif	familiar	t,d	75
 11944	Allied Forces insignia	713476461	alliedpin.gif	accessory		0	Allied Forces insigniae
 11945	Allied Tattoo Kit	725098636	allytatkit.gif	usable	t	0
-11946
+11946	handheld Allied radio	762170989	radiopackradio.gif	usable	t	0
 11947	Axis codebook	550271597	book4.gif	none	d	10000
