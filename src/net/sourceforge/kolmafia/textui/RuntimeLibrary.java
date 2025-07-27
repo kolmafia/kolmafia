@@ -3825,6 +3825,9 @@ public abstract class RuntimeLibrary {
 
     params = List.of();
     functions.add(new LibraryFunction("free_smiths", DataTypes.INT_TYPE, params));
+
+    params = List.of(namedParam("request", DataTypes.STRING_TYPE));
+    functions.add(new LibraryFunction("allied_radio", DataTypes.BOOLEAN_TYPE, params));
   }
 
   public static Method findMethod(final String name, final Class<?>[] args)
@@ -11777,5 +11780,12 @@ public abstract class RuntimeLibrary {
 
   public static Value free_smiths(ScriptRuntime controller) {
     return DataTypes.makeIntValue(ConcoctionDatabase.getFreeSmithingTurns());
+  }
+
+  public static Value allied_radio(ScriptRuntime controller, final Value requestValue) {
+    String request = requestValue.toString();
+    AlliedRadioRequest req = new AlliedRadioRequest(request);
+    RequestThread.postRequest(req);
+    return DataTypes.makeBooleanValue(req.responseText != null);
   }
 }
