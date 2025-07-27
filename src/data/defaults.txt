@@ -1813,6 +1813,7 @@ user	_xenomorphCharge	0
 user	_alienAnimalMilkUsed	false
 user	_alienPlantPodUsed	false
 user	_allYearSucker	false
+user	_alliedRadioDropsUsed	0
 user	_ancestralRecallCasts	0
 user	_antihangoverBonus	5
 user	_aprilShower	false
