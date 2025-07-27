@@ -10171,6 +10171,7 @@ public abstract class ChoiceControl {
       case 1556: // Leprechaun's Condo
       case 1558: // Foreseeing Peril
       case 1561: // Request Supply Drop
+      case 1563: // Request Supply Drop
         return true;
 
       default:
