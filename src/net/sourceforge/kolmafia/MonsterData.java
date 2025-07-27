@@ -62,6 +62,11 @@ public class MonsterData extends AdventureResult {
     ED("ED:"),
     PHYS("Phys:"),
     ELEM("Elem:"),
+    ELEM_HOT("ElemHot:"),
+    ELEM_COLD("ElemCold:"),
+    ELEM_STENCH("ElemStench:"),
+    ELEM_SLEAZE("ElemSleaze:"),
+    ELEM_SPOOKY("ElemSpooky:"),
     // Encounter Types
     WANDERER("WANDERER"),
     ULTRARARE("ULTRARARE"),
@@ -169,6 +174,11 @@ public class MonsterData extends AdventureResult {
               SPRINKLE_MIN,
               SPRINKLE_MAX,
               ELEM,
+              ELEM_HOT,
+              ELEM_COLD,
+              ELEM_STENCH,
+              ELEM_SPOOKY,
+              ELEM_SLEAZE,
               PHYS -> {
             value = parseNumeric(tokens);
             attributeMap.put(attribute, value);
@@ -401,6 +411,11 @@ public class MonsterData extends AdventureResult {
     // Resistances
     saveNumericAttribute(Attribute.PHYS, attributeMap, buf);
     saveNumericAttribute(Attribute.ELEM, attributeMap, buf);
+    saveNumericAttribute(Attribute.ELEM_HOT, attributeMap, buf);
+    saveNumericAttribute(Attribute.ELEM_COLD, attributeMap, buf);
+    saveNumericAttribute(Attribute.ELEM_STENCH, attributeMap, buf);
+    saveNumericAttribute(Attribute.ELEM_SPOOKY, attributeMap, buf);
+    saveNumericAttribute(Attribute.ELEM_SLEAZE, attributeMap, buf);
 
     Object EA = attributeMap.get(Attribute.EA);
     Object ED = attributeMap.get(Attribute.ED);
@@ -605,6 +620,11 @@ public class MonsterData extends AdventureResult {
   private Element defenseElement;
   private Object physicalResistance;
   private Object elementalResistance;
+  private Object hotResistance;
+  private Object coldResistance;
+  private Object stenchResistance;
+  private Object spookyResistance;
+  private Object sleazeResistance;
   private int meat;
   private final Object minSprinkles;
   private final Object maxSprinkles;
@@ -659,6 +679,11 @@ public class MonsterData extends AdventureResult {
     this.defenseElement = (Element) attributes.getOrDefault(Attribute.ED, Element.NONE);
     this.physicalResistance = attributes.get(Attribute.PHYS);
     this.elementalResistance = attributes.get(Attribute.ELEM);
+    this.hotResistance = attributes.get(Attribute.ELEM_HOT);
+    this.coldResistance = attributes.get(Attribute.ELEM_COLD);
+    this.stenchResistance = attributes.get(Attribute.ELEM_STENCH);
+    this.spookyResistance = attributes.get(Attribute.ELEM_SPOOKY);
+    this.sleazeResistance = attributes.get(Attribute.ELEM_SLEAZE);
     this.meat = getAverageNumber(attributes.get(Attribute.MEAT));
     this.minSprinkles = attributes.get(Attribute.SPRINKLE_MIN);
     this.maxSprinkles = attributes.get(Attribute.SPRINKLE_MAX);
@@ -766,6 +791,11 @@ public class MonsterData extends AdventureResult {
     this.defenseElement = monster.defenseElement;
     this.physicalResistance = monster.physicalResistance;
     this.elementalResistance = monster.elementalResistance;
+    this.hotResistance = monster.hotResistance;
+    this.coldResistance = monster.coldResistance;
+    this.stenchResistance = monster.stenchResistance;
+    this.spookyResistance = monster.spookyResistance;
+    this.sleazeResistance = monster.sleazeResistance;
     this.meat = monster.meat;
     this.minSprinkles = monster.minSprinkles;
     this.maxSprinkles = monster.maxSprinkles;
@@ -1584,6 +1614,34 @@ public class MonsterData extends AdventureResult {
 
   public int getElementalResistance() {
     return evaluate(this.elementalResistance, 0);
+  }
+
+  public int getHotResistance() {
+    return getResistance(this.hotResistance);
+  }
+
+  public int getColdResistance() {
+    return getResistance(this.coldResistance);
+  }
+
+  public int getStenchResistance() {
+    return getResistance(this.stenchResistance);
+  }
+
+  public int getSpookyResistance() {
+    return getResistance(this.spookyResistance);
+  }
+
+  public int getSleazeResistance() {
+    return getResistance(this.sleazeResistance);
+  }
+
+  private int getResistance(Object sub) {
+    var res = evaluate(sub, 0);
+    if (res == 0) {
+      return getElementalResistance();
+    }
+    return res;
   }
 
   public int getMinMeat() {

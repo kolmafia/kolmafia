@@ -6302,6 +6302,7 @@ Effect	Elemental Flavor	Hot Damage: +5, Cold Damage: +5, Stench Damage: +5, Spoo
 Effect	Elemental Mastery	Hot Damage: +5, Cold Damage: +5, Spooky Damage: +5, Stench Damage: +5, Sleaze Damage: +5
 Effect	Elemental Saucesphere	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2
 # Elf Watch: Increases Item Drops on Crimbo Battlefields
+Effect	Ellipsoidtined	Maximum MP: +25, Maximum HP: +50, MP Regen Min: 5, MP Regen Max: 10
 Effect	Elron's Explosive Etude	Spell Damage Percent: +50
 Effect	Elvish	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 Effect	Embarrassed	Moxie Percent: -30
