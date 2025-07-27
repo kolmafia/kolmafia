@@ -2316,3 +2316,4 @@
 2493	Axis infantry skeleton	femur	skull	spine	rib
 2494	Axis artillery skeleton	femur	skull	spine	rib
 2495	Axis grenadier skeleton	femur	skull	spine	rib
+2495	Axis officer skeleton	femur	skull	spine	rib
