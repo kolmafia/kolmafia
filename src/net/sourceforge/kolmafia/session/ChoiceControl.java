@@ -7064,13 +7064,19 @@ public abstract class ChoiceControl {
 
       case 1561:
         // Request Supply Drop
-        AlliedRadioRequest.postChoice(text, false);
-        break;
+        {
+          String req = request.getFormField("request");
+          AlliedRadioRequest.postChoice(text, false, req);
+          break;
+        }
 
       case 1563:
         // Request Supply Drop
-        AlliedRadioRequest.postChoice(text, true);
-        break;
+        {
+          String req = request.getFormField("request");
+          AlliedRadioRequest.postChoice(text, true, req);
+          break;
+        }
     }
   }
 

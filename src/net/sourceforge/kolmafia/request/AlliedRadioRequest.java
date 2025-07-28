@@ -34,7 +34,9 @@ public class AlliedRadioRequest extends GenericRequest {
     if (InventoryManager.equippedOrInInventory(ItemPool.ALLIED_RADIO_BACKPACK)
         && Preferences.getInteger("_alliedRadioDropsUsed") < 3) {
       handheld = false;
-      GenericRequest radioReq = new GenericRequest("inventory.php?action=requestdrop", false);
+      GenericRequest radioReq =
+          new GenericRequest(
+              "inventory.php?action=requestdrop&pwd=" + GenericRequest.passwordHash, false);
       radioReq.run();
     } else if (InventoryManager.getCount(ItemPool.HANDHELD_ALLIED_RADIO) > 0) {
       handheld = true;
@@ -77,10 +79,10 @@ public class AlliedRadioRequest extends GenericRequest {
   private static final Pattern GREY_TEXT_PATTERN =
       Pattern.compile("<i style='color: #999'>([^<]+)</i>");
 
-  public static void postChoice(final String responseText, final boolean handheld) {
-    if (!responseText.contains("You acquire")) {
-      // request failed somehow
-      return;
+  public static void postChoice(
+      final String responseText, final boolean handheld, final String req) {
+    if (req.equals("sniper support")) {
+      Preferences.setBoolean("noncombatForcerActive", true);
     }
 
     Matcher matcher = AlliedRadioRequest.NUMBER_LETTER_PATTERN.matcher(responseText);
