@@ -20,10 +20,8 @@ public class GraphicsUtilities {
   }
 
   public static BufferedImage[] readImages(List<String> paths) {
-    System.out.println(paths);
     ArrayList<BufferedImage> images = new ArrayList<>();
     for (String path : paths) {
-      System.out.println(path);
       File f = FileUtilities.downloadImage(path);
       BufferedImage image = readImage(f);
       if (image == null) {
@@ -32,7 +30,6 @@ public class GraphicsUtilities {
       }
       images.add(image);
     }
-    System.out.println(images.size());
     return images.toArray(new BufferedImage[0]);
   }
 
