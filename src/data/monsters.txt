@@ -1775,10 +1775,10 @@ drownedbeat	1575	drownedbeat.gif	NOCOPY Atk: 400 Def: 325 HP: 450 Init: 25 Meat:
 one of Doctor Weirdeaux's creations	1632	noart.gif	NOCOPY Init: -10000 P: beast ED: spooky EA: cold EA: hot EA: sleaze EA: spooky EA: stench	experimental serum P-00 (c0)
 
 # The Deep Dark Jungle (Conspiracy Island October 2014)
-bigface	1638	bigface.gif	Scale: 5 Cap: 11111 Init: -10000 P: humanoid ED: spooky EA: sleaze EA: spooky EA: none	&quot;meat&quot; stick (15)	Sasq&trade; watch (c0.1)
-Mercenary of Fortune	1640	mercenary.gif	Scale: 5 Cap: 11111 Init: -10000 P: dude ED: spooky EA: hot EA: none Article: a	specialty ammo bandolier (15)	camouflage T-shirt (c0.1)	Coinspiracy (c30)	mercenary headband (c10)
-smoke monster	1639	smokemonster.gif	Scale: 5 Cap: 11111 Init: -10000 P: weird ED: spooky Article: a	transdermal smoke patch (15)	smoker's cloak (c0.1)
-Venus mantrap	1637	mantrap.gif	Scale: 5 Cap: 11111 Init: -10000 P: plant ED: spooky Article: a	the most dangerous bait (15)	pair of plants (c0.1)
+bigface	1638	bigface.gif	Scale: 5 Cap: 11111 Init: -10000 P: humanoid ED: spooky EA: sleaze EA: spooky EA: none	&quot;meat&quot; stick (15)	Sasq&trade; watch (f0.1)
+Mercenary of Fortune	1640	mercenary.gif	Scale: 5 Cap: 11111 Init: -10000 P: dude ED: spooky EA: hot EA: none Article: a	specialty ammo bandolier (15)	camouflage T-shirt (f0.1)	Coinspiracy (c30)	mercenary headband (c10)
+smoke monster	1639	smokemonster.gif	Scale: 5 Cap: 11111 Init: -10000 P: weird ED: spooky Article: a	transdermal smoke patch (15)	smoker's cloak (f0.1)
+Venus mantrap	1637	mantrap.gif	Scale: 5 Cap: 11111 Init: -10000 P: plant ED: spooky Article: a	the most dangerous bait (15)	pair of plants (f0.1)
 
 # The Secret Government Laboratory (Conspiracy Island October 2014)
 creepy little girl	1635	creepygirl.gif	NOBANISH Atk: [200+150*pref(controlPanel5)+150*pref(controlPanel6)+150*pref(controlPanel9)+ML] Def: [200+150*pref(controlPanel5)+150*pref(controlPanel6)+150*pref(controlPanel9)+ML] HP: [150+150*pref(controlPanel5)+150*pref(controlPanel6)+150*pref(controlPanel9)+ML] Exp: [(200+150*pref(controlPanel5)+150*pref(controlPanel6)+150*pref(controlPanel9))/4+ML/3] Init: -10000 P: dude ED: spooky EA: spooky EA: none Article: a	delicious candy (c15)	jangly bracelet (c5)	cuddly teddy bear (c10)	airborne mutagen (c10)	creepy nursery rhyme (c10)
@@ -1830,9 +1830,9 @@ flashy pirate	1764	flashypirate.gif	NOBANISH Atk: 200 Def: 200 HP: 150 Init: -10
 toxic beastie	1765	toxbeast1.gif,toxbeast2.gif,toxbeast3.gif,toxbeast4.gif	NOBANISH NOCOPY Scale: [5+55*pref(dinseySafetyProtocolsLoose)] Cap: [11111+11111*pref(dinseySafetyProtocolsLoose)] Floor: 50 Init: -10000 P: slime ED: stench EA: stench EA: none Article: a	toxic globule (35)	toxic globule (5)	toxic globule (5)
 
 # Uncle Gator's Country Fun-Time Liquid Waste Sluice (Dinseylandfill April 2015)
-C<i>bzzt</i>er the Grisly Bear	1766	animbear.gif	NOBANISH Scale: [5+20*pref(dinseyAudienceEngagement)] Cap: 11111 Floor: 100 MLMult: [3+2*pref(dinseyAudienceEngagement)] Init: -10000 P: construct ED: stench EA: spooky EA: stench EA: none Wiki: "Cbzzter the Grisly Bear"	jar of swamp honey (15)	backwoods banjo (c0.1)
-Gurgle the Turgle	1768	animturtle.gif	NOBANISH Scale: [5+20*pref(dinseyAudienceEngagement)] Cap: 11111 Floor: 100 MLMult: [3+2*pref(dinseyAudienceEngagement)] Init: -10000 P: construct E: stench	turtle voicebox (15)	fake washboard (c0.1)
-Skeezy the Jug Rat	1767	animrat.gif	NOBANISH Scale: [5+20*pref(dinseyAudienceEngagement)] Cap: 11111 Floor: 100 MLMult: [3+2*pref(dinseyAudienceEngagement)] Init: -10000 P: construct E: stench	grody jug (15)	ratskin pajama pants (c0.1)
+C<i>bzzt</i>er the Grisly Bear	1766	animbear.gif	NOBANISH Scale: [5+20*pref(dinseyAudienceEngagement)] Cap: 11111 Floor: 100 MLMult: [3+2*pref(dinseyAudienceEngagement)] Init: -10000 P: construct ED: stench EA: spooky EA: stench EA: none Wiki: "Cbzzter the Grisly Bear"	jar of swamp honey (15)	backwoods banjo (f0.1)
+Gurgle the Turgle	1768	animturtle.gif	NOBANISH Scale: [5+20*pref(dinseyAudienceEngagement)] Cap: 11111 Floor: 100 MLMult: [3+2*pref(dinseyAudienceEngagement)] Init: -10000 P: construct E: stench	turtle voicebox (15)	fake washboard (f0.1)
+Skeezy the Jug Rat	1767	animrat.gif	NOBANISH Scale: [5+20*pref(dinseyAudienceEngagement)] Cap: 11111 Floor: 100 MLMult: [3+2*pref(dinseyAudienceEngagement)] Init: -10000 P: construct E: stench	grody jug (15)	ratskin pajama pants (f0.1)
 nasty bear	1769	nastybear.gif	NOBANISH NOCOPY Atk: [(150+ML)*(1-pref(dinseyAudienceEngagement))+(max(min(10000,MOX+20),100)+5*max(ML,0))*pref(dinseyAudienceEngagement)] Def: [(150+ML)*(1-pref(dinseyAudienceEngagement))+(max(min(10000,MUS+20),100)+5*max(ML,0))*pref(dinseyAudienceEngagement)] HP: [(1000+ML)*(1-pref(dinseyAudienceEngagement))+(max(min(10000,MUS+20),100)+5*max(ML,0))*pref(dinseyAudienceEngagement)*0.75] Exp: [(150/4+ML/3)*(1-pref(dinseyAudienceEngagement))+(max(min(10000,STAT+20),100)/4+5*max(ML,0)/3)*pref(dinseyAudienceEngagement)] Init: -10000 P: beast ED: stench EA: stench EA: none Article: a
 
 # Dinseylandfill (April 2015)
@@ -1844,9 +1844,9 @@ The Emperor	1782	theemperor.gif	NOCOPY Atk: 100 Def: 100 HP: 100 Init: 100 P: du
 The Hermit	1781	otherimages/hermit.gif	NOCOPY NOMANUEL Atk: 100 Def: 100 HP: 100 Init: 100 P: dude EA: hot Wiki: "Hermit (monster)"	hermit factoid (c100)
 
 # Bubblin' Caldera (That 70s Volcano August 2015)
-basaltamander	1799	basaltamander.gif	Atk: 100 Def: 100 HP: 180 Init: 50 P: beast E: hot Article: a	basaltamander tongue (15)	basaltamander buckler (c0.1)
-lava lamprey	1797	lavalamprey.gif	Atk: 110 Def: 90 HP: 150 Init: 75 P: fish E: hot Article: a	smelted roe (15)	lavalarva (c0.1)
-lavatory	1798	lavatory.gif	Atk: 90 Def: 110 HP: 140 Init: 25 P: elemental E: hot Article: a	lavawater (15)	lava balaclava (c0.1)
+basaltamander	1799	basaltamander.gif	Atk: 100 Def: 100 HP: 180 Init: 50 P: beast E: hot Article: a	basaltamander tongue (15)	basaltamander buckler (f0.1)
+lava lamprey	1797	lavalamprey.gif	Atk: 110 Def: 90 HP: 150 Init: 75 P: fish E: hot Article: a	smelted roe (15)	lavalarva (f0.1)
+lavatory	1798	lavatory.gif	Atk: 90 Def: 110 HP: 140 Init: 25 P: elemental E: hot Article: a	lavawater (15)	lava balaclava (f0.1)
 Lavalos	1821	lavalos.gif	BOSS NOCOPY Atk: 250 Def: 200 HP: 500 Init: 50 P: horror EA: cold EA: none	Lavalos core (n100)	Lavalos's shell (n100)
 
 # The SMOOCH Army HQ (That 70s Volcano August 2015)
@@ -1889,9 +1889,9 @@ VYKEA viking (female)	1849	vykfemale1.gif,vykfemale2.gif,vykfemale3.gif	NOCOPY S
 VYKEA viking (male)	1848	vykmale1.gif,vykmale2.gif,vykmale3.gif	NOCOPY Scale: 6 Cap: 12000 Floor: 85 Init: -10000 P: dude ED: cold EA: cold EA: none	VYKEA instructions (2)	VYKEA woadpaint (10)	VYKEA hex key (1)	1-3 VYKEA dowel (m100)	VYKEA bracket (c100)	VYKEA plank (c100)	VYKEA rail (c100)
 
 # The Ice Hole (The Glaciest November 2015)
-Norwhal	1856	norwhal.gif	Atk: 250 Def: 200 HP: 225 Init: 25 P: fish ED: cold Article: a	bottle of norwhiskey (0)	norwhal helmet (c0.1)
-Arctic Octolus	1857	octolus.gif	Atk: 225 Def: 250 HP: 200 Init: 25 P: fish ED: cold Article: an	octolus oculus (0)	octolus-skin cloak (c0.1)
-Tin of Submardines	1855	submardines.gif	Atk: 225 Def: 200 HP: 250 Init: 25 P: fish ED: cold Article: a	tin of submardines (25)	sardine can key (c0.1)
+Norwhal	1856	norwhal.gif	Atk: 250 Def: 200 HP: 225 Init: 25 P: fish ED: cold Article: a	bottle of norwhiskey (0)	norwhal helmet (f0.1)
+Arctic Octolus	1857	octolus.gif	Atk: 225 Def: 250 HP: 200 Init: 25 P: fish ED: cold Article: an	octolus oculus (0)	octolus-skin cloak (f0.1)
+Tin of Submardines	1855	submardines.gif	Atk: 225 Def: 200 HP: 250 Init: 25 P: fish ED: cold Article: a	tin of submardines (25)	sardine can key (f0.1)
 
 # Deep Machine Tunnels (Machine Elf Capsule December 2015)
 Performer of Actions	1859	blank.gif	Scale: 1 Cap: 10000 Floor: 10 Init: -10000 P: weird	abstraction: action (10)	abstraction: purpose (c10)
@@ -2383,9 +2383,9 @@ proto-protozoa	2450	protozoa.gif	Scale: ? Cap: 1000 Floor: ? Init: -10000 P: sli
 yeast gang	2452	yeast.gif	Scale: ? Cap: 1000 Floor: ? Init: 100 P: plant Article: a	protogenetic chunklet (muscle) (c0)	fermenting powder (100)	fermenting powder (10)
 
 # Twitch 11 - Skeleton War (July 2025)
-Axis artillery skeleton	2494	noart.gif	NOCOPY Scale: 10 Cap: 10000 Floor: ? Init: 150 P: undead ElemHot: 50 ElemCold: 25 ElemStench: 90 ElemSpooky: 90 ElemSleaze: 50 Article: an	Axis suspenders (1)	Axis helmet (1)	Axis fatigues (5)	ordnance magnet (f0)
-Axis grenadier skeleton	2495	noart.gif	NOCOPY Scale: 5 Cap: 10000 Floor: ? Init: 100 P: undead Phys: 25 ElemHot: 90 ElemCold: 50 ElemStench: 90 ElemSpooky: 50 ElemSleaze: 50 Article: an	Axis fatigues (1)	Axis suspenders (1)	Axis helmet (5)	confetti grenade (f0)
-Axis infantry skeleton	2493	noart.gif	NOCOPY Scale: 15 Cap: 10000 Floor: ? Init: 200 P: undead Phys: 75 ElemHot: 50 ElemCold: 50 ElemStench: 90 ElemSpooky: 90 ElemSleaze: 25 Article: an	Axis helmet (1)	Axis fatigues (1)	Axis suspenders (5)	orphaned baby skeleton (f0)
+Axis artillery skeleton	2494	noart.gif	NOCOPY Scale: 10 Cap: 10000 Floor: ? Init: 150 P: undead ElemHot: 50 ElemCold: 25 ElemStench: 90 ElemSpooky: 90 ElemSleaze: 50 Article: an	Axis suspenders (1)	Axis helmet (1)	Axis fatigues (5)	ordnance magnet (c0.03)
+Axis grenadier skeleton	2495	noart.gif	NOCOPY Scale: 5 Cap: 10000 Floor: ? Init: 100 P: undead Phys: 25 ElemHot: 90 ElemCold: 50 ElemStench: 90 ElemSpooky: 50 ElemSleaze: 50 Article: an	Axis fatigues (1)	Axis suspenders (1)	Axis helmet (5)	confetti grenade (c0.1)
+Axis infantry skeleton	2493	noart.gif	NOCOPY Scale: 15 Cap: 10000 Floor: ? Init: 200 P: undead Phys: 75 ElemHot: 50 ElemCold: 50 ElemStench: 90 ElemSpooky: 90 ElemSleaze: 25 Article: an	Axis helmet (1)	Axis fatigues (1)	Axis suspenders (5)	orphaned baby skeleton (f0.1)
 Axis officer skeleton	2496	noart.gif	NOCOPY Scale: 20 Cap: 10000 Floor: ? Init: 250 P: undead Phys: 50 ElemHot: 90 ElemCold: 90 ElemStench: 50 ElemSpooky: 90 ElemSleaze: 90 Article: an	Axis helmet (10)	Axis fatigues (10)	Axis suspenders (10)	stolen artifact (4)	really expensive stolen artifact (2)	priceless stolen artifact (1)	Chroner (100)
 
 # Crimbo 2023 (December 2023)
