@@ -58,7 +58,7 @@ public class AlliedRadioRequestTest {
 
     try (cleanups) {
       var resp = html("request/test_allied_radio_success.html");
-      AlliedRadioRequest.postChoice(resp, false);
+      AlliedRadioRequest.postChoice(resp, false, "radio");
       var text = SessionLoggerOutput.stopStream();
       assertThat("_alliedRadioDropsUsed", isSetTo(1));
       assertThat(text, containsString("Radio number / letter pattern received: 202 - P"));
@@ -74,7 +74,7 @@ public class AlliedRadioRequestTest {
 
     try (cleanups) {
       var resp = html("request/test_allied_radio_last.html");
-      AlliedRadioRequest.postChoice(resp, true);
+      AlliedRadioRequest.postChoice(resp, true, "radio");
       var text = SessionLoggerOutput.stopStream();
       assertThat("_alliedRadioDropsUsed", isSetTo(0));
       assertThat(InventoryManager.getCount(ItemPool.HANDHELD_ALLIED_RADIO), is(0));
@@ -89,7 +89,7 @@ public class AlliedRadioRequestTest {
 
     try (cleanups) {
       var resp = html("request/test_allied_radio_grey_text.html");
-      AlliedRadioRequest.postChoice(resp, false);
+      AlliedRadioRequest.postChoice(resp, false, "anything");
       var text = SessionLoggerOutput.stopStream();
       assertThat(text, containsString("Radio grey text received: ulH"));
     }
@@ -134,7 +134,7 @@ public class AlliedRadioRequestTest {
 
       assertThat(StaticEntity.getContinuationState(), is(MafiaState.CONTINUE));
       var requests = client.getRequests();
-      assertGetRequest(requests.get(0), "/inventory.php", "action=requestdrop");
+      assertGetRequest(requests.get(0), "/inventory.php", "action=requestdrop&pwd=");
       assertGetRequest(requests.get(1), "/choice.php", "forceoption=0");
       assertPostRequest(requests.get(2), "/api.php", "what=status&for=KoLmafia");
       assertPostRequest(requests.get(3), "/choice.php", "option=1&request=radio&whichchoice=1561");
@@ -167,6 +167,41 @@ public class AlliedRadioRequestTest {
       assertGetRequest(requests.get(1), "/choice.php", "forceoption=0");
       assertPostRequest(requests.get(2), "/api.php", "what=status&for=KoLmafia");
       assertPostRequest(requests.get(3), "/choice.php", "option=1&request=radio&whichchoice=1563");
+    }
+  }
+
+  @Test
+  public void updatesPreferenceForSniperSupport() {
+    var cleanups =
+        new Cleanups(
+            withProperty("_alliedRadioDropsUsed", 0), withProperty("noncombatForcerActive"));
+
+    try (cleanups) {
+      AlliedRadioRequest.postChoice("", false, "sniper support");
+      assertThat("noncombatForcerActive", isSetTo(true));
+    }
+  }
+
+  @Test
+  public void updatesPreferenceForMaterielIntel() {
+    var cleanups =
+        new Cleanups(
+            withProperty("_alliedRadioDropsUsed", 0), withProperty("_alliedRadioMaterielIntel"));
+
+    try (cleanups) {
+      AlliedRadioRequest.postChoice("", false, "materiel intel");
+      assertThat("_alliedRadioMaterielIntel", isSetTo(true));
+    }
+  }
+
+  @Test
+  public void secondMaterielIntelDoesNotConsumeCharge() {
+    var cleanups = new Cleanups(withProperty("_alliedRadioDropsUsed", 0));
+
+    try (cleanups) {
+      var resp = html("request/test_allied_radio_materiel_twice.html");
+      AlliedRadioRequest.postChoice(resp, false, "materiel intel");
+      assertThat("_alliedRadioDropsUsed", isSetTo(0));
     }
   }
 }
