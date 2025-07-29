@@ -85,6 +85,10 @@ public class AlliedRadioRequest extends GenericRequest {
       Preferences.setBoolean("noncombatForcerActive", true);
     }
 
+    if (req.equals("materiel intel")) {
+      Preferences.setBoolean("_alliedRadioMaterielIntel", true);
+    }
+
     Matcher matcher = AlliedRadioRequest.NUMBER_LETTER_PATTERN.matcher(responseText);
     if (matcher.find()) {
       String number = matcher.group(1);
@@ -105,6 +109,10 @@ public class AlliedRadioRequest extends GenericRequest {
     if (handheld) {
       ResultProcessor.removeItem(ItemPool.HANDHELD_ALLIED_RADIO);
     } else {
+      if (responseText.contains("Please request something else")) {
+        return;
+      }
+
       Preferences.increment("_alliedRadioDropsUsed");
     }
   }
