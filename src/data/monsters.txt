@@ -2383,10 +2383,10 @@ proto-protozoa	2450	protozoa.gif	Scale: ? Cap: 1000 Floor: ? Init: -10000 P: sli
 yeast gang	2452	yeast.gif	Scale: ? Cap: 1000 Floor: ? Init: 100 P: plant Article: a	protogenetic chunklet (muscle) (c0)	fermenting powder (100)	fermenting powder (10)
 
 # Twitch 11 - Skeleton War (July 2025)
-Axis artillery skeleton	2494	noart.gif	NOCOPY Scale: 10 Cap: 10000 Floor: ? Init: 150 P: undead ElemHot: 50 ElemCold: 25 ElemStench: 90 ElemSpooky: 90 ElemSleaze: 50 Article: an	Axis suspenders (1)	Axis helmet (1)	Axis fatigues (5)	ordnance magnet (c0.03)
-Axis grenadier skeleton	2495	noart.gif	NOCOPY Scale: 5 Cap: 10000 Floor: ? Init: 100 P: undead Phys: 25 ElemHot: 90 ElemCold: 50 ElemStench: 90 ElemSpooky: 50 ElemSleaze: 50 Article: an	Axis fatigues (1)	Axis suspenders (1)	Axis helmet (5)	confetti grenade (c0.1)
-Axis infantry skeleton	2493	noart.gif	NOCOPY Scale: 15 Cap: 10000 Floor: ? Init: 200 P: undead Phys: 75 ElemHot: 50 ElemCold: 50 ElemStench: 90 ElemSpooky: 90 ElemSleaze: 25 Article: an	Axis helmet (1)	Axis fatigues (1)	Axis suspenders (5)	orphaned baby skeleton (f0.1)
-Axis officer skeleton	2496	noart.gif	NOCOPY Scale: 20 Cap: 10000 Floor: ? Init: 250 P: undead Phys: 50 ElemHot: 90 ElemCold: 90 ElemStench: 50 ElemSpooky: 90 ElemSleaze: 90 Article: an	Axis helmet (10)	Axis fatigues (10)	Axis suspenders (10)	stolen artifact (4)	really expensive stolen artifact (2)	priceless stolen artifact (1)	Chroner (100)
+Axis artillery skeleton	2494	otherimages/skeletonwar/spine+rib1+head3+arms1+legs2	NOCOPY Scale: 10 Cap: 10000 Floor: ? Init: 150 P: undead ElemHot: 50 ElemCold: 25 ElemStench: 90 ElemSpooky: 90 ElemSleaze: 50 Article: an	Axis suspenders (1)	Axis helmet (1)	Axis fatigues (5)	ordnance magnet (c0.03)
+Axis grenadier skeleton	2495	otherimages/skeletonwar/spine+rib1+head4+arms2+legs1	NOCOPY Scale: 5 Cap: 10000 Floor: ? Init: 100 P: undead Phys: 25 ElemHot: 90 ElemCold: 50 ElemStench: 90 ElemSpooky: 50 ElemSleaze: 50 Article: an	Axis fatigues (1)	Axis suspenders (1)	Axis helmet (5)	confetti grenade (c0.1)
+Axis infantry skeleton	2493	otherimages/skeletonwar/spine+rib1+rib2+rib4+head1+arms1+legs2	NOCOPY Scale: 15 Cap: 10000 Floor: ? Init: 200 P: undead Phys: 75 ElemHot: 50 ElemCold: 50 ElemStench: 90 ElemSpooky: 90 ElemSleaze: 25 Article: an	Axis helmet (1)	Axis fatigues (1)	Axis suspenders (5)	orphaned baby skeleton (f0.1)
+Axis officer skeleton	2496	otherimages/skeletonwar/spine+rib1+rib3+rib5+rib6+head2+arms1+legs1	NOCOPY Scale: 20 Cap: 10000 Floor: ? Init: 250 P: undead Phys: 50 ElemHot: 90 ElemCold: 90 ElemStench: 50 ElemSpooky: 90 ElemSleaze: 90 Article: an	Axis helmet (10)	Axis fatigues (10)	Axis suspenders (10)	stolen artifact (4)	really expensive stolen artifact (2)	priceless stolen artifact (1)	Chroner (100)
 
 # Crimbo 2023 (December 2023)
 Elf Guard conscript	2392	egconscript.gif	NOWISH Scale: ? Init: -10000 P: elf Article: an	1-2 Elf Guard MPC (m100)	Elf Guard patrol cap (c0)
