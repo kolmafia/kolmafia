@@ -169,4 +169,39 @@ public class AlliedRadioRequestTest {
       assertPostRequest(requests.get(3), "/choice.php", "option=1&request=radio&whichchoice=1563");
     }
   }
+
+  @Test
+  public void updatesPreferenceForSniperSupport() {
+    var cleanups =
+        new Cleanups(
+            withProperty("_alliedRadioDropsUsed", 0), withProperty("noncombatForcerActive"));
+
+    try (cleanups) {
+      AlliedRadioRequest.postChoice("", false, "sniper support");
+      assertThat("noncombatForcerActive", isSetTo(true));
+    }
+  }
+
+  @Test
+  public void updatesPreferenceForMaterielIntel() {
+    var cleanups =
+        new Cleanups(
+            withProperty("_alliedRadioDropsUsed", 0), withProperty("_alliedRadioMaterielIntel"));
+
+    try (cleanups) {
+      AlliedRadioRequest.postChoice("", false, "materiel intel");
+      assertThat("_alliedRadioMaterielIntel", isSetTo(true));
+    }
+  }
+
+  @Test
+  public void secondMaterielIntelDoesNotConsumeCharge() {
+    var cleanups = new Cleanups(withProperty("_alliedRadioDropsUsed", 0));
+
+    try (cleanups) {
+      var resp = html("request/test_allied_radio_materiel_twice.html");
+      AlliedRadioRequest.postChoice(resp, false, "materiel intel");
+      assertThat("_alliedRadioDropsUsed", isSetTo(0));
+    }
+  }
 }
