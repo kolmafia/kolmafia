@@ -26,6 +26,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.AlliedRadioRequest;
 import net.sourceforge.kolmafia.request.ArcadeRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest.CropType;
@@ -113,7 +114,8 @@ public class BreakfastManager {
           BreakfastManager::collectSeaJelly,
           BreakfastManager::harvestBatteries,
           BreakfastManager::useBookOfEverySkill,
-          BreakfastManager::useReplicaBooks);
+          BreakfastManager::useReplicaBooks,
+          BreakfastManager::makeHandheldRadios);
 
   private BreakfastManager() {}
 
@@ -979,6 +981,25 @@ public class BreakfastManager {
     if (InventoryManager.hasItem(book) && !Preferences.getBoolean("_replicaSmithsTomeUsed")) {
       KoLmafia.updateDisplay("Summoning smithables...");
       RequestThread.postRequest(UseItemRequest.getInstance(book));
+    }
+  }
+
+  private static void makeHandheldRadios() {
+    if (!InventoryManager.equippedOrInInventory(ItemPool.ALLIED_RADIO_BACKPACK)) {
+      return;
+    }
+
+    // Can't use the produced radio in G-Lover
+    if (KoLCharacter.inGLover()) {
+      return;
+    }
+
+    if (Preferences.getBoolean(
+        "makeHandheldRadios" + (KoLCharacter.canInteract() ? "Softcore" : "Hardcore"))) {
+      int num = 3 - Preferences.getInteger("_alliedRadioDropsUsed");
+      for (int i = 0; i < num; i++) {
+        RequestThread.postRequest(new AlliedRadioRequest("radio"));
+      }
     }
   }
 }

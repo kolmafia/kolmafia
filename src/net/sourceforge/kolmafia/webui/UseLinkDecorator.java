@@ -981,6 +981,7 @@ public abstract class UseLinkDecorator {
               ItemPool.AUTUMNATON,
               ItemPool.BLACK_AND_WHITE_APRON_MEAL_KIT,
               ItemPool.MAYAM_CALENDAR,
+              ItemPool.HANDHELD_ALLIED_RADIO,
 
               // Not inline, since the redirection to a choice
               // doesn't work ajaxified.
