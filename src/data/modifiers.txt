@@ -8386,6 +8386,7 @@ Effect	Whose Drinks Are These?	Avatar: "Resort Waiter"
 Effect	Why is the Shampoo Always Gone?	Avatar: "flashy pirate"
 Effect	Why So Serious?	Hot Damage: +25, Cold Damage: +25, Stench Damage: +25, Spooky Damage: +25, Sleaze Damage: +25, Hot Spell Damage: +25, Cold Spell Damage: +25, Stench Spell Damage: +25, Spooky Spell Damage: +25, Sleaze Spell Damage: +25
 Effect	Wild and Westy!	Moxie: +10, Initiative: +50, Experience (Moxie): +3, Combat Rate: -5
+Effect	Wildsun Boon	Damage vs. Skeletons: +200, Initiative: +75, Weapon Damage Percent: +50, Spell Damage Percent: +50, Ranged Damage Percent: +50, Familiar Weight: +5, Hot Resistance: +3, Cold Resistance: +3, Stench Resistance: +3, Spooky Resistance: +3, Sleaze Resistance: +3
 Effect	Wine-Befouled	Stench Damage: [pref(vintnerWineLevel)*3], Stench Resistance: [pref(vintnerWineLevel)-2], Muscle: [pref(vintnerWineLevel)*5], Familiar Weight: [pref(vintnerWineLevel)]
 Effect	Wine-Cold	Cold Damage: [pref(vintnerWineLevel)*3], Cold Resistance: [pref(vintnerWineLevel)-2], Maximum MP: [pref(vintnerWineLevel)*5], Meat Drop: [pref(vintnerWineLevel)*5]
 Effect	Wine-Dark	Spooky Damage: [pref(vintnerWineLevel)*4], Spooky Resistance: [pref(vintnerWineLevel)-2], Mysticality: [pref(vintnerWineLevel)*5], Spell Critical Percent: [pref(vintnerWineLevel)*2]
