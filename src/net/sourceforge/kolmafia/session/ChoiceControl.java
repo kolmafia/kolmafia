@@ -1929,20 +1929,18 @@ public abstract class ChoiceControl {
 
       case 852:
         // Shen Copperhead, Jerk
-        // Deliberate fallthrough
       case 853:
-        { // Shen Copperhead, Huge Jerk
-          Matcher matcher = SHEN_PATTERN.matcher(text);
-          if (matcher.find()) {
-            Preferences.setString("shenQuestItem", matcher.group(1));
-          }
-        }
-        // Deliberate fallthrough
+        // Shen Copperhead, Huge Jerk
       case 854:
         // Shen Copperhead, World's Biggest Jerk
         QuestDatabase.advanceQuest(Quest.SHEN);
         if (ChoiceManager.lastChoice == 854) {
           Preferences.setString("shenQuestItem", "");
+        } else {
+          Matcher matcher = SHEN_PATTERN.matcher(text);
+          if (matcher.find()) {
+            Preferences.setString("shenQuestItem", matcher.group(1));
+          }
         }
 
         // You will have exactly one of these items to ger rid of
