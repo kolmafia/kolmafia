@@ -2999,7 +2999,7 @@
 2996	Current Axis Codes	axiscode.gif	415836d626cb8e5c6a9ce26908df5e9c	neutral	none	use 1 Axis HQ Code
 2997	Looking Cool	ice.gif	2c2021fad6001c6da810328dd53f033c	neutral	nohookah
 2998	It's Like a Tickertape Parade	confetti.gif	15517c9531a69396e8c7e07e6dc9181d	neutral	none
-2999
+2999	Wildsun Boon	wild_sun.gif	6f0fbda9b7530056f9deba25393c6eb7	neutral	none
 3000	Materiel Intel	dinseybrain.gif	61d884a9f0584996cabd095045b0d39e	neutral	none
 3001
 3002	Ellipsoidtined	circle.gif	74c598b6434144e0ef61711a547ce203	neutral	none
