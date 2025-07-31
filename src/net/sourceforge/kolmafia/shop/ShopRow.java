@@ -37,6 +37,10 @@ public class ShopRow implements Comparable<ShopRow> {
     return this.item;
   }
 
+  public void setItem(AdventureResult item) {
+    this.item = item;
+  }
+
   public AdventureResult[] getCosts() {
     return this.costs;
   }
