@@ -6928,16 +6928,15 @@ public abstract class ChoiceControl {
         // You notice the moon shining brightly over the cusp of the
         // tower and feel even farther from your professorial self.
         // Garh, no!
-        if (ChoiceManager.lastDecision != 5) {
-          break;
-        }
-        // Fall through
       case 1520:
         // Well, come on
         // -> Lose Savage Beast and gain Mild-Mannered Professor
       case 1521:
         // Turn and face the strange
         // -> Lose Mild-Mannered Professor and gain Savage Beast
+        if (ChoiceManager.lastChoice == 1003 && ChoiceManager.lastDecision != 5) {
+          break;
+        }
         // In either case, access to the Tinkering Bench changes
         ConcoctionDatabase.refreshConcoctions();
         // Savage Beast modifiers might have changes
