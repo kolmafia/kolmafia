@@ -191,8 +191,7 @@ public abstract class ChoiceControl {
 
         // The Horror...
       case 611 -> // To find which step we're on, look at the responseText from the _previous_
-      // request.  This
-      // should still be in lastResponseText.
+      // request.  This should still be in lastResponseText.
       // Handle changing the progress level in postChoice1 where we know the result.
       abooPeakLevel =
           findBooPeakLevel(
@@ -1084,7 +1083,6 @@ public abstract class ChoiceControl {
           ResultProcessor.processItem(ItemPool.AUTOPSY_TWEEZERS, -1);
           Preferences.increment("autopsyTweezersUsed");
         }
-        return;
       }
 
       case 594 -> {
@@ -1100,7 +1098,6 @@ public abstract class ChoiceControl {
             || text.contains("pile the sticks up on top of the briefcase")) {
           ResultProcessor.processItem(ItemPool.CSA_FIRE_STARTING_KIT, -1);
         }
-        return;
       }
 
       case 599 -> {
@@ -1127,8 +1124,6 @@ public abstract class ChoiceControl {
         brain = brain.getInstance(-1 * Math.min(quantity, inventoryCount));
 
         ResultProcessor.processResult(brain);
-
-        return;
       }
 
       case 603 -> {
@@ -1136,7 +1131,6 @@ public abstract class ChoiceControl {
         if (ChoiceManager.lastDecision != 6) {
           ResultProcessor.removeItem(ItemPool.SKELETON);
         }
-        return;
       }
 
       case 607 -> {
@@ -1147,7 +1141,6 @@ public abstract class ChoiceControl {
           prefval |= 1;
           Preferences.setInteger("twinPeakProgress", prefval);
         }
-        return;
       }
 
       case 608 -> {
@@ -1158,7 +1151,6 @@ public abstract class ChoiceControl {
           prefval |= 2;
           Preferences.setInteger("twinPeakProgress", prefval);
         }
-        return;
       }
 
       case 611 -> {
@@ -1175,7 +1167,6 @@ public abstract class ChoiceControl {
             Preferences.setInteger("booPeakProgress", 0);
           }
         }
-        return;
       }
 
       case 614 -> {
@@ -1194,7 +1185,6 @@ public abstract class ChoiceControl {
         if (souls > 0) {
           ResultProcessor.processResult(ItemPool.get(ItemPool.MIME_SOUL_FRAGMENT, 0 - souls));
         }
-        return;
       }
 
       case 616 -> {
@@ -1206,7 +1196,6 @@ public abstract class ChoiceControl {
           Preferences.setInteger("twinPeakProgress", prefval);
           ResultProcessor.processResult(ItemPool.get(ItemPool.JAR_OF_OIL, -1));
         }
-        return;
       }
 
       case 617 -> {
@@ -1216,7 +1205,6 @@ public abstract class ChoiceControl {
           // the other three must be completed at this point.
           Preferences.setInteger("twinPeakProgress", 15);
         }
-        return;
       }
 
       case 618 -> {
@@ -1225,7 +1213,6 @@ public abstract class ChoiceControl {
           // the other three must be completed at this point.
           Preferences.setInteger("twinPeakProgress", 15);
         }
-        return;
       }
 
       case 627, 628, 629, 630, 631, 633 -> ChibiBuddyManager.postChoice(
@@ -1257,7 +1244,6 @@ public abstract class ChoiceControl {
           Preferences.setBoolean("dailyDungeonDone", true);
           Preferences.setInteger("_lastDailyDungeonRoom", 15);
         }
-        return;
       }
 
       case 690, 691 -> {
@@ -1271,7 +1257,6 @@ public abstract class ChoiceControl {
         if (ChoiceManager.lastChoice == 691 && ChoiceManager.lastDecision == 4) {
           Preferences.setBoolean("candyCaneSwordDailyDungeon", true);
         }
-        return;
       }
 
       case 692 -> {
@@ -1283,7 +1268,6 @@ public abstract class ChoiceControl {
         if (ChoiceManager.lastDecision != 8) {
           Preferences.increment("_lastDailyDungeonRoom", 1);
         }
-        return;
       }
 
       case 693 -> {
@@ -1291,7 +1275,6 @@ public abstract class ChoiceControl {
         if (ChoiceManager.lastDecision != 3) {
           Preferences.increment("_lastDailyDungeonRoom", 1);
         }
-        return;
       }
 
       case 699 -> {
@@ -1311,13 +1294,11 @@ public abstract class ChoiceControl {
           // bouquet of swamp roses.
           ResultProcessor.processItem(ItemPool.SWAMP_ROSE_BOUQUET, -1);
         }
-        return;
       }
 
       case 700 -> {
         // Delirium in the Cafeterium
         Preferences.increment("_kolhsAdventures", 1);
-        return;
       }
 
       case 703 -> {
@@ -1327,7 +1308,6 @@ public abstract class ChoiceControl {
           ResultProcessor.processItem(ItemPool.DREADSCROLL, -1);
           return;
         }
-        return;
       }
 
       case 709,
@@ -1337,13 +1317,11 @@ public abstract class ChoiceControl {
           717 -> {
         // Over. Over Now.
         Preferences.setString("merkinQuestPath", "done");
-        return;
       }
 
       case 720 -> {
         // The Florist Friar's Cottage
         FloristRequest.parseResponse(urlString, text);
-        return;
       }
 
       case 721 -> {
@@ -1361,7 +1339,6 @@ public abstract class ChoiceControl {
         } else if (ChoiceManager.lastDecision == 5) {
           ResultProcessor.processResult(ItemPool.get(ItemPool.GHOST_PENCIL, -1));
         }
-        return;
       }
 
       case 722 -> {
@@ -1372,7 +1349,6 @@ public abstract class ChoiceControl {
             ResultProcessor.processResult(ItemPool.get(ItemPool.OLD_DRY_BONE, -1));
           }
         }
-        return;
       }
 
       case 723 -> {
@@ -1388,7 +1364,6 @@ public abstract class ChoiceControl {
             ResultProcessor.processResult(ItemPool.get(ItemPool.WAX_BANANA, -1));
           }
         }
-        return;
       }
 
       case 725 -> {
@@ -1407,8 +1382,6 @@ public abstract class ChoiceControl {
         } else if (ChoiceManager.lastDecision == 5) {
           ResultProcessor.processResult(ItemPool.get(ItemPool.GHOST_PENCIL, -1));
         }
-
-        return;
       }
 
       case 729 -> {
@@ -1416,7 +1389,6 @@ public abstract class ChoiceControl {
         if (ChoiceManager.lastDecision == 5) {
           ResultProcessor.processResult(ItemPool.get(ItemPool.GHOST_PENCIL, -1));
         }
-        return;
       }
 
       case 730 -> {
@@ -1427,7 +1399,6 @@ public abstract class ChoiceControl {
             ResultProcessor.processResult(ItemPool.get(ItemPool.OLD_BALL_AND_CHAIN, -1));
           }
         }
-        return;
       }
 
       case 733 -> {
@@ -1445,7 +1416,6 @@ public abstract class ChoiceControl {
         } else if (ChoiceManager.lastDecision == 5) {
           ResultProcessor.processResult(ItemPool.get(ItemPool.GHOST_PENCIL, -1));
         }
-        return;
       }
 
       case 737 -> {
@@ -1453,7 +1423,6 @@ public abstract class ChoiceControl {
         if (ChoiceManager.lastDecision == 5) {
           ResultProcessor.processResult(ItemPool.get(ItemPool.GHOST_PENCIL, -1));
         }
-        return;
       }
 
       case 739 -> {
@@ -1476,7 +1445,6 @@ public abstract class ChoiceControl {
             ResultProcessor.processResult(ItemPool.get(ItemPool.INTRICATE_MUSIC_BOX_PARTS, -3));
           }
         }
-        return;
       }
 
       case 741 -> {
@@ -1493,7 +1461,6 @@ public abstract class ChoiceControl {
         } else if (ChoiceManager.lastDecision == 5) {
           ResultProcessor.processResult(ItemPool.get(ItemPool.GHOST_PENCIL, -1));
         }
-        return;
       }
 
       case 743 -> {
@@ -1507,7 +1474,6 @@ public abstract class ChoiceControl {
             ResultProcessor.processResult(ItemPool.get(ItemPool.STINKING_AGARICUS, -1));
           }
         }
-        return;
       }
 
       case 744 -> {
@@ -1518,7 +1484,6 @@ public abstract class ChoiceControl {
             ResultProcessor.processResult(ItemPool.get(ItemPool.GHOST_THREAD, -10));
           }
         }
-        return;
       }
 
       case 745 -> {
@@ -1537,7 +1502,6 @@ public abstract class ChoiceControl {
         } else if (ChoiceManager.lastDecision == 5) {
           ResultProcessor.processResult(ItemPool.get(ItemPool.GHOST_PENCIL, -1));
         }
-        return;
       }
 
       case 746 -> {
@@ -1556,7 +1520,6 @@ public abstract class ChoiceControl {
             EquipmentManager.setEquipment(Slot.PANTS, ItemPool.get(ItemPool.WEEDY_SKIRT, 1));
           }
         }
-        return;
       }
 
       case 749 -> {
@@ -1574,7 +1537,6 @@ public abstract class ChoiceControl {
         } else if (ChoiceManager.lastDecision == 5) {
           ResultProcessor.processResult(ItemPool.get(ItemPool.GHOST_PENCIL, -1));
         }
-        return;
       }
 
       case 750 -> {
@@ -1586,7 +1548,6 @@ public abstract class ChoiceControl {
             ResultProcessor.processResult(ItemPool.get(ItemPool.EAU_DE_MORT, -1));
           }
         }
-        return;
       }
 
       case 753 -> {
@@ -1594,7 +1555,6 @@ public abstract class ChoiceControl {
         if (ChoiceManager.lastDecision == 5) {
           ResultProcessor.processResult(ItemPool.get(ItemPool.GHOST_PENCIL, -1));
         }
-        return;
       }
 
       case 762 -> {
@@ -1604,7 +1564,6 @@ public abstract class ChoiceControl {
           ResultProcessor.processResult(ItemPool.get(ItemPool.COOL_IRON_INGOT, -1));
           ResultProcessor.processResult(ItemPool.get(ItemPool.WARM_FUR, -1));
         }
-        return;
       }
 
       case 772 -> {
@@ -1658,7 +1617,6 @@ public abstract class ChoiceControl {
         if (ChoiceManager.lastDecision != 8) {
           Preferences.increment("_kolhsSavedByTheBell", 1);
         }
-        return;
       }
 
       case 778 -> {
@@ -1669,7 +1627,6 @@ public abstract class ChoiceControl {
             ResultProcessor.processResult(ItemPool.get(ItemPool.TONIC_DJINN, -1));
           }
         }
-        return;
       }
 
       case 780 -> {
@@ -1683,7 +1640,6 @@ public abstract class ChoiceControl {
         } else if (ChoiceManager.lastDecision == 4) {
           Preferences.setBoolean("candyCaneSwordApartmentBuilding", true);
         }
-        return;
       }
 
       case 781 -> {
@@ -1697,7 +1653,6 @@ public abstract class ChoiceControl {
         } else if (ChoiceManager.lastDecision == 3) {
           ResultProcessor.processResult(ItemPool.get(ItemPool.SIX_BALL, -1));
         }
-        return;
       }
 
       case 783 -> {
@@ -1711,7 +1666,6 @@ public abstract class ChoiceControl {
         } else if (ChoiceManager.lastDecision == 3) {
           ResultProcessor.processResult(ItemPool.get(ItemPool.TWO_BALL, -1));
         }
-        return;
       }
 
       case 785 -> {
@@ -1727,7 +1681,6 @@ public abstract class ChoiceControl {
         } else if (ChoiceManager.lastDecision == 4) {
           Preferences.setBoolean("_candyCaneSwordOvergrownShrine", true);
         }
-        return;
       }
 
       case 786 -> {
@@ -1746,7 +1699,6 @@ public abstract class ChoiceControl {
             && Preferences.getInteger("hiddenOfficeProgress") < 6) {
           Preferences.setInteger("hiddenOfficeProgress", 6);
         }
-        return;
       }
 
       case 787 -> {
@@ -1760,7 +1712,6 @@ public abstract class ChoiceControl {
         } else if (ChoiceManager.lastDecision == 3) {
           ResultProcessor.processResult(ItemPool.get(ItemPool.FIVE_BALL, -1));
         }
-        return;
       }
 
       case 788 -> {
@@ -1784,7 +1735,6 @@ public abstract class ChoiceControl {
         if (ChoiceManager.lastDecision == 2) {
           Preferences.setBoolean("candyCaneSwordBowlingAlley", true);
         }
-        return;
       }
 
       case 789 -> {
@@ -1792,7 +1742,6 @@ public abstract class ChoiceControl {
         if (ChoiceManager.lastDecision == 2) {
           Preferences.setInteger("relocatePygmyJanitor", KoLCharacter.getAscensions());
         }
-        return;
       }
 
       case 793 -> {
@@ -1811,7 +1760,6 @@ public abstract class ChoiceControl {
           Preferences.setInteger("reanimatorWeirdParts", 0);
           Preferences.setInteger("reanimatorWings", 0);
         }
-        return;
       }
 
       case 805 -> {
@@ -1841,7 +1789,6 @@ public abstract class ChoiceControl {
           gnasirProgress |= 8;
           Preferences.setInteger("gnasirProgress", gnasirProgress);
         }
-        return;
       }
 
       case 812 -> {
@@ -1852,7 +1799,6 @@ public abstract class ChoiceControl {
             Preferences.increment("bankedKarma", Integer.parseInt(matcher.group(2)));
           }
         }
-        return;
       }
       case 821 -> {
         // LP-ROM burner
@@ -2740,7 +2686,6 @@ public abstract class ChoiceControl {
       case 1085, 1086 -> {
         // The Deck of Every Card
         DeckOfEveryCardRequest.postChoice1(text);
-        return;
       }
 
       case 1087 -> {
@@ -2949,7 +2894,6 @@ public abstract class ChoiceControl {
       case 1217 -> {
         // Sweet Synthesis
         SweetSynthesisRequest.postChoice1(urlString, text);
-        return;
       }
 
       case 1222 -> {
@@ -2957,7 +2901,6 @@ public abstract class ChoiceControl {
         if (ChoiceManager.lastDecision == 1) {
           Preferences.setBoolean("_loveTunnelUsed", true);
         }
-        return;
       }
 
       case 1229 -> {
@@ -2969,7 +2912,6 @@ public abstract class ChoiceControl {
           RequestLogger.printLine(message);
           RequestLogger.updateSessionLog(message);
         }
-        return;
       }
 
       case 1231 -> {
@@ -2978,7 +2920,6 @@ public abstract class ChoiceControl {
           ResultProcessor.removeItem(ItemPool.GUMMY_MEMORY);
           Preferences.increment("noobDeferredPoints", 5);
         }
-        return;
       }
 
       case 1234 -> {
@@ -3001,7 +2942,6 @@ public abstract class ChoiceControl {
       case 1235 -> {
         // Spacegate Terminal
         QuestManager.parseSpacegateTerminal(text, true);
-        return;
       }
 
       case 1246 -> {
