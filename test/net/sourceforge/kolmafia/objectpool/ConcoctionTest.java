@@ -7,6 +7,7 @@ import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withFamiliarInTerrarium;
 import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withRange;
 import static internal.helpers.Player.withSign;
@@ -22,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import internal.helpers.Cleanups;
 import java.util.Arrays;
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.AscensionPath;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.equipment.Slot;
@@ -348,6 +350,34 @@ public class ConcoctionTest {
         var conc = ConcoctionPool.get(ItemPool.MINI_KIWI_INTOXICATING_SPIRITS);
         conc.calculate3();
         assertThat(conc.freeTotal, is(haveBought ? 0 : 1));
+      }
+    }
+  }
+
+  @Nested
+  class ClipArt {
+    @ParameterizedTest
+    @ValueSource(booleans = {true, false})
+    public void itShouldReportTheCorrectAmount(boolean isGlover) {
+      AscensionPath.Path path = AscensionPath.Path.STANDARD;
+      if (isGlover) {
+        path = AscensionPath.Path.GLOVER;
+      }
+      var cleanups =
+          new Cleanups(
+              withSkill(SkillPool.CLIP_ART),
+              withPath(path),
+              withProperty("_clipartSummons", 2),
+              withProperty("tomeSummons", 2),
+              withConcoctionRefresh());
+      try (cleanups) {
+        var conc = ConcoctionPool.get(ItemPool.FROMAGE_PINOTAGE);
+        conc.calculate3();
+        int value = 1;
+        if (isGlover) {
+          value = 0;
+        }
+        assertThat(conc.total, is(value));
       }
     }
   }
