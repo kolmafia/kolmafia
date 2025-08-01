@@ -7,6 +7,7 @@ import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withFamiliarInTerrarium;
 import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withRange;
 import static internal.helpers.Player.withSign;
@@ -22,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import internal.helpers.Cleanups;
 import java.util.Arrays;
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.AscensionPath;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.equipment.Slot;
@@ -32,6 +34,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 /* This test was triggered by a runtime error traced back to sorting usable concoctions that
@@ -348,6 +351,27 @@ public class ConcoctionTest {
         var conc = ConcoctionPool.get(ItemPool.MINI_KIWI_INTOXICATING_SPIRITS);
         conc.calculate3();
         assertThat(conc.freeTotal, is(haveBought ? 0 : 1));
+      }
+    }
+  }
+
+  @Nested
+  class ClipArt {
+    @ParameterizedTest
+    @CsvSource({"22,1", "33,0"})
+    public void itShouldReportTheCorrectAmount(int pathId, int count) {
+      AscensionPath.Path path = AscensionPath.idToPath(pathId);
+      var cleanups =
+          new Cleanups(
+              withSkill(SkillPool.CLIP_ART),
+              withPath(path),
+              withProperty("_clipartSummons", 2),
+              withProperty("tomeSummons", 2),
+              withConcoctionRefresh());
+      try (cleanups) {
+        var conc = ConcoctionPool.get(ItemPool.FROMAGE_PINOTAGE);
+        conc.calculate3();
+        assertThat(conc.total, is(count));
       }
     }
   }
