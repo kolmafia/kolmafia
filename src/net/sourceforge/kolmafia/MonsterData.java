@@ -30,6 +30,7 @@ import net.sourceforge.kolmafia.session.EncounterManager.EncounterType;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.MonsterManuelManager;
+import net.sourceforge.kolmafia.utilities.GraphicsUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 @SuppressWarnings("incomplete-switch")
@@ -2030,19 +2031,72 @@ public class MonsterData extends AdventureResult {
     // The image is first, spanning 4 rows
     {
       buffer.append("<td rowspan=4 valign=top style=\"max-width:350;\">");
-      buffer.append("<img src=");
-      buffer.append(imageServerPath);
 
       // Allow variants of image
       int variants = stats.images.length;
       String image =
           variants < 2 ? stats.image : variant < variants ? stats.images[variant] : stats.image;
 
-      if (!image.contains("/")) {
-        buffer.append("adventureimages/");
+      String path;
+      int slash = image.lastIndexOf("/") + 1;
+      if (slash == 0) {
+        path = "adventureimages/";
+      } else {
+        path = image.substring(0, slash);
+        image = image.substring(slash);
       }
+
+      /* RequestFrame supports HTML 3.2.
+         We need something more capable to display a "div" of the sort KoL generated.
+         Here's how we'd do that:
+
+      if (image.contains("+")) {
+        // multiple layers
+        String[] layers = image.split("\\+");
+        StringBuilder div = new StringBuilder();
+        {
+          div.append("<div style='width: 100px; height: 100px; position: relative;'>");
+          for (String layer : layers) {
+            div.append("<img src=");
+            div.append(imageServerPath);
+            div.append(path);
+            div.append(layer);
+            div.append(".png");
+            div.append(" style=\"position: absolute; left: 0px; right: 0px\">");
+          }
+          div.append("</div>");
+        }
+
+        // This is exactly the "div" that KoL generates for overlapping .png images
+        // Unfortunately, HTML rendering in KoLmafia command frames does not handle it.
+
+        buffer.append(div);
+      }
+      */
+
+      // Instead, let's concatenate the layers into a single.png file
+      if (image.contains("+")) {
+        // multiple layers
+        ArrayList<String> paths = new ArrayList<>();
+
+        String[] layers = image.split("\\+");
+        for (String layer : layers) {
+          paths.add(path + layer + ".png");
+        }
+
+        var images = GraphicsUtilities.readImages(paths);
+        var generated = GraphicsUtilities.mergeImages(images);
+        image = "generatedImage.png";
+        GraphicsUtilities.writeImage(generated, path + image);
+      }
+
+      // A single image
+      buffer.append("<img src=");
+      buffer.append(imageServerPath);
+      buffer.append(path);
       buffer.append(image);
       buffer.append(" style=\"max-width:350;\">");
+
       buffer.append("</td>");
     }
 
