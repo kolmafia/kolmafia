@@ -1110,6 +1110,8 @@ user	lttQuestStageCount	0
 user	maelstromOfLoversBoss		roa
 user	madnessBakeryAvailable	false	roa
 user	makeFriendsMonster
+user	makeHandheldRadiosHardcore	false
+user	makeHandheldRadiosSoftcore	false
 user	makePocketWishesHardcore	false
 user	makePocketWishesSoftcore	false
 user	manaBurnSummonThreshold	10
