@@ -113,46 +113,36 @@ public abstract class ChoiceControl {
   public static final void preChoice(final GenericRequest request) {
     switch (ChoiceManager.lastChoice) {
         // Wheel In the Sky Keep on Turning: Muscle Position
-      case 9 -> {
-        Preferences.setString(
-            "currentWheelPosition",
-            ChoiceManager.lastDecision == 1
-                ? "mysticality"
-                : ChoiceManager.lastDecision == 2 ? "moxie" : "muscle");
-      }
+      case 9 -> Preferences.setString(
+          "currentWheelPosition",
+          ChoiceManager.lastDecision == 1
+              ? "mysticality"
+              : ChoiceManager.lastDecision == 2 ? "moxie" : "muscle");
 
         // Wheel In the Sky Keep on Turning: Mysticality Position
-      case 10 -> {
-        Preferences.setString(
-            "currentWheelPosition",
-            ChoiceManager.lastDecision == 1
-                ? "map quest"
-                : ChoiceManager.lastDecision == 2 ? "muscle" : "mysticality");
-      }
+      case 10 -> Preferences.setString(
+          "currentWheelPosition",
+          ChoiceManager.lastDecision == 1
+              ? "map quest"
+              : ChoiceManager.lastDecision == 2 ? "muscle" : "mysticality");
 
         // Wheel In the Sky Keep on Turning: Map Quest Position
-      case 11 -> {
-        Preferences.setString(
-            "currentWheelPosition",
-            ChoiceManager.lastDecision == 1
-                ? "moxie"
-                : ChoiceManager.lastDecision == 2 ? "mysticality" : "map quest");
-      }
+      case 11 -> Preferences.setString(
+          "currentWheelPosition",
+          ChoiceManager.lastDecision == 1
+              ? "moxie"
+              : ChoiceManager.lastDecision == 2 ? "mysticality" : "map quest");
 
         // Wheel In the Sky Keep on Turning: Moxie Position
-      case 12 -> {
-        Preferences.setString(
-            "currentWheelPosition",
-            ChoiceManager.lastDecision == 1
-                ? "muscle"
-                : ChoiceManager.lastDecision == 2 ? "map quest" : "moxie");
-      }
+      case 12 -> Preferences.setString(
+          "currentWheelPosition",
+          ChoiceManager.lastDecision == 1
+              ? "muscle"
+              : ChoiceManager.lastDecision == 2 ? "map quest" : "moxie");
 
         // Maidens: disambiguate the Knights
-      case 89 -> {
-        AdventureRequest.setNameOverride(
-            "Knight", ChoiceManager.lastDecision == 1 ? "Knight (Wolf)" : "Knight (Snake)");
-      }
+      case 89 -> AdventureRequest.setNameOverride(
+          "Knight", ChoiceManager.lastDecision == 1 ? "Knight (Wolf)" : "Knight (Snake)");
 
         // Strung-Up Quartet
       case 106 -> {
@@ -200,14 +190,12 @@ public abstract class ChoiceControl {
       }
 
         // The Horror...
-      case 611 -> {
-        // To find which step we're on, look at the responseText from the _previous_ request.  This
-        // should still be in lastResponseText.
-        abooPeakLevel =
-            findBooPeakLevel(
-                ChoiceUtilities.findChoiceDecisionText(1, ChoiceManager.lastResponseText));
-        // Handle changing the progress level in postChoice1 where we know the result.
-      }
+      case 611 -> // To find which step we're on, look at the responseText from the _previous_
+      // request.  This should still be in lastResponseText.
+      // Handle changing the progress level in postChoice1 where we know the result.
+      abooPeakLevel =
+          findBooPeakLevel(
+              ChoiceUtilities.findChoiceDecisionText(1, ChoiceManager.lastResponseText));
 
         // Behind the world there is a door...
       case 612 -> {
@@ -217,9 +205,7 @@ public abstract class ChoiceControl {
         TurnCounter.startCounting(40, "Silent Invasion window end loc=*", "rparen.gif");
       }
 
-      case 794 -> {
-        ResultProcessor.removeItem(ItemPool.FUNKY_JUNK_KEY);
-      }
+      case 794 -> ResultProcessor.removeItem(ItemPool.FUNKY_JUNK_KEY);
 
       case 804 -> { // Trick-or-Treating!
         {
@@ -238,15 +224,11 @@ public abstract class ChoiceControl {
         }
       }
 
-      case 931 -> {
-        // Life Ain't Nothin But Witches and Mummies
-        QuestDatabase.setQuestIfBetter(Quest.CITADEL, "step6");
-      }
+      case 931 -> // Life Ain't Nothin But Witches and Mummies
+      QuestDatabase.setQuestIfBetter(Quest.CITADEL, "step6");
 
-      case 932 -> {
-        // No Whammies
-        QuestDatabase.setQuestIfBetter(Quest.CITADEL, "step8");
-      }
+      case 932 -> // No Whammies
+      QuestDatabase.setQuestIfBetter(Quest.CITADEL, "step8");
 
       case 1005, // 'Allo
           1006, // One Small Step For Adventurer
@@ -256,12 +238,11 @@ public abstract class ChoiceControl {
           1010, // Another Day, Another Fork
           1011, // Of Mouseholes and Manholes
           1012, // The Last Temptation
-          1013 -> { // Mazel Tov!
-        // Taking any of these takes a turn. We'll eventually
-        // be informed of that in a charpane/api refresh, but
-        // that's too late for logging.
-        ResultProcessor.processAdventuresUsed(1);
-      }
+          1013 -> // Mazel Tov!
+      // Taking any of these takes a turn. We'll eventually
+      // be informed of that in a charpane/api refresh, but
+      // that's too late for logging.
+      ResultProcessor.processAdventuresUsed(1);
 
       case 1023 -> { // Like a Bat into Hell
         if (ChoiceManager.lastDecision == 2) {
@@ -291,10 +272,8 @@ public abstract class ChoiceControl {
         }
       }
 
-      case 1028 -> {
-        // A Shop
-        SpelunkyRequest.logShop(ChoiceManager.lastResponseText, ChoiceManager.lastDecision);
-      }
+      case 1028 -> // A Shop
+      SpelunkyRequest.logShop(ChoiceManager.lastResponseText, ChoiceManager.lastDecision);
 
       case 1085 -> { // Deck of Every Card
         if (ChoiceManager.lastDecision == 1) {
@@ -347,10 +326,8 @@ public abstract class ChoiceControl {
         }
       }
 
-      case 1345 -> {
-        // Blech House
-        Preferences.setInteger("smutOrcNoncombatProgress", 0);
-      }
+      case 1345 -> // Blech House
+      Preferences.setInteger("smutOrcNoncombatProgress", 0);
 
       case 1500 -> {
         // Like a Loded Stone
@@ -373,9 +350,8 @@ public abstract class ChoiceControl {
         }
       }
 
-      case 360 -> { // Wumpus Cave
-        WumpusManager.preWumpus(ChoiceManager.lastDecision);
-      }
+      case 360 -> // Wumpus Cave
+      WumpusManager.preWumpus(ChoiceManager.lastDecision);
 
       case 1019 -> { // Bee Rewarded
         if (ChoiceManager.lastDecision == 1) {
@@ -424,9 +400,8 @@ public abstract class ChoiceControl {
           1316, // GAME OVER
           1317, // A Hello to Arms (Battalion)
           1318, // Defensive Posturing
-          1319 -> { // Cheese Seeking Behavior
-        BastilleBattalionManager.preChoice(urlString, request);
-      }
+          1319 -> // Cheese Seeking Behavior
+      BastilleBattalionManager.preChoice(urlString, request);
 
       case 1356, // Smooth Sailing
           1357, // High Tide, Low Morale
@@ -454,10 +429,8 @@ public abstract class ChoiceControl {
         }
       }
 
-      case 1451 -> {
-        // Fire Captain Hagnk
-        WildfireCampRequest.parseCaptain(text);
-      }
+      case 1451 -> // Fire Captain Hagnk
+      WildfireCampRequest.parseCaptain(text);
       case 1452 -> {
         // Sprinkler Joe
         if (text.contains("Thanks again for your help!")) {
@@ -476,10 +449,8 @@ public abstract class ChoiceControl {
           Preferences.setBoolean("wildfireDusted", true);
         }
       }
-      case 1523 -> {
-        // Research Bench
-        ResearchBenchRequest.postChoice0(urlString, text);
-      }
+      case 1523 -> // Research Bench
+      ResearchBenchRequest.postChoice0(urlString, text);
     }
   }
 
@@ -559,56 +530,56 @@ public abstract class ChoiceControl {
     String text = request.responseText;
 
     switch (ChoiceManager.lastChoice) {
-      case 4:
+      case 4 -> {
         // Finger-Lickin'... Death.
         if (ChoiceManager.lastDecision == 4) {
           Preferences.setBoolean("_candyCaneSwordSouthOfTheBorder", true);
         }
-        break;
+      }
 
-      case 109:
+      case 109 -> {
         // Dumpster Diving
         if (ChoiceManager.lastDecision == 4) {
           Preferences.setBoolean("_candyCaneSwordBackAlley", true);
         }
-        break;
+      }
 
-      case 127:
+      case 127 -> {
         // No sir, away! A papaya war is on!
         if (ChoiceManager.lastDecision == 4) {
           Preferences.setBoolean("_candyCaneSwordPalindome", true);
         }
-        break;
+      }
 
-      case 139:
+      case 139 -> {
         // Bait and Switch
         if (ChoiceManager.lastDecision == 4) {
           Preferences.setBoolean("candyCaneSwordWarHippyBait", true);
         }
-        break;
+      }
 
-      case 140:
+      case 140 -> {
         // The Thin Tie-Dyed Line
         if (ChoiceManager.lastDecision == 4) {
           Preferences.setBoolean("candyCaneSwordWarHippyLine", true);
         }
-        break;
+      }
 
-      case 143:
+      case 143 -> {
         // Catching Some Zetas
         if (ChoiceManager.lastDecision == 4) {
           Preferences.setBoolean("candyCaneSwordWarFratZetas", true);
         }
-        break;
+      }
 
-      case 144:
+      case 144 -> {
         // One Less Room Than In That Movie
         if (ChoiceManager.lastDecision == 4) {
           Preferences.setBoolean("candyCaneSwordWarFratRoom", true);
         }
-        break;
+      }
 
-      case 147:
+      case 147 -> {
         // Cornered!
         int ducks1 =
             switch (ChoiceManager.lastDecision) {
@@ -618,9 +589,9 @@ public abstract class ChoiceControl {
               default -> 0;
             };
         Preferences.setString("duckAreasSelected", String.valueOf(ducks1));
-        break;
+      }
 
-      case 148:
+      case 148 -> {
         // Cornered Again!
         int ducks2 =
             switch (ChoiceManager.lastDecision) {
@@ -630,9 +601,9 @@ public abstract class ChoiceControl {
             };
         Preferences.setString(
             "duckAreasSelected", Preferences.getString("duckAreasSelected") + "," + ducks2);
-        break;
+      }
 
-      case 149:
+      case 149 -> {
         // How Many Corners Does this Stupid Barn Have?
         int ducks3 =
             switch (ChoiceManager.lastDecision) {
@@ -642,16 +613,16 @@ public abstract class ChoiceControl {
             };
         Preferences.setString(
             "duckAreasSelected", Preferences.getString("duckAreasSelected") + "," + ducks3);
-        break;
+      }
 
-      case 151:
+      case 151 -> {
         // Adventurer, $1.99
         if (ChoiceManager.lastDecision == 3) {
           Preferences.setBoolean("candyCaneSwordFunHouse", true);
         }
-        break;
+      }
 
-      case 188:
+      case 188 -> {
         // The Infiltrationist
 
         // Once you're inside the frat house, it's a simple
@@ -662,28 +633,28 @@ public abstract class ChoiceControl {
         if (ChoiceManager.lastDecision == 3 && text.contains("ridiculous trophy case")) {
           ResultProcessor.processResult(ItemPool.get(ItemPool.HOT_WING, -3));
         }
-        break;
+      }
 
-      case 189:
+      case 189 -> {
         // O Cap'm, My Cap'm
         if (ChoiceManager.lastDecision == 3) {
           QuestDatabase.setQuestIfBetter(Quest.NEMESIS, "step26");
         }
-        break;
+      }
 
-      case 191:
+      case 191 -> {
         // Chatterboxing
         if (ChoiceManager.lastDecision == 2
             && text.contains("find a valuable trinket that looks promising")) {
           BanishManager.banishMonster("chatty pirate", BanishManager.Banisher.CHATTERBOXING, true);
         }
-        break;
+      }
 
-      case 237:
-        // Big Merv's Protein Shakes
-      case 238:
-        // Suddenly Salad!
-      case 239:
+      case 237,
+          // Big Merv's Protein Shakes
+          238,
+          // Suddenly Salad!
+          239 -> {
         // Sizzling Weasel On a Stick
         if (ChoiceManager.lastDecision == 1 && text.contains("You gain")) {
           // You spend 20 hobo nickels
@@ -693,13 +664,13 @@ public abstract class ChoiceControl {
           // You gain 5 fullness
           KoLCharacter.setFullness(KoLCharacter.getFullness() + 5);
         }
-        break;
+      }
 
-      case 242:
-        // Arthur Finn's World-Record Homebrew Stout
-      case 243:
-        // Mad Jack's Corn Squeezery
-      case 244:
+      case 242,
+          // Arthur Finn's World-Record Homebrew Stout
+          243,
+          // Mad Jack's Corn Squeezery
+          244 -> {
         // Bathtub Jimmy's Gin Mill
         if (ChoiceManager.lastDecision == 1 && text.contains("You gain")) {
           // You spend 20 hobo nickels
@@ -709,11 +680,11 @@ public abstract class ChoiceControl {
           // You gain 5 drunkenness.  This will be set
           // when we refresh the charpane.
         }
-        break;
+      }
 
-      case 271:
-        // Tattoo Shop
-      case 274:
+      case 271,
+          // Tattoo Shop
+          274 -> {
         // Tattoo Redux
         if (ChoiceManager.lastDecision == 1) {
           Matcher matcher = TATTOO_PATTERN.matcher(request.responseText);
@@ -723,9 +694,9 @@ public abstract class ChoiceControl {
             ResultProcessor.processResult(cost);
           }
         }
-        break;
+      }
 
-      case 298:
+      case 298 -> {
         // In the Shade
 
         // You carefully plant the packet of seeds, sprinkle it
@@ -736,67 +707,53 @@ public abstract class ChoiceControl {
           ResultProcessor.processResult(ItemPool.get(ItemPool.SEED_PACKET, -1));
           ResultProcessor.processResult(ItemPool.get(ItemPool.GREEN_SLIME, -1));
         }
-        break;
+      }
 
-      case 346:
-        // Soup For You
-      case 347:
-        // Yes, Soup For You...
-      case 348:
-        // Souped Up
-      case 351:
-        // Beginner's Luck
-        QuestDatabase.setQuestIfBetter(Quest.PRIMORDIAL, QuestDatabase.STARTED);
-        break;
+      case 346,
+          // Soup For You
+          347,
+          // Yes, Soup For You...
+          348,
+          // Souped Up
+          351 -> // Beginner's Luck
+      QuestDatabase.setQuestIfBetter(Quest.PRIMORDIAL, QuestDatabase.STARTED);
 
-      case 349:
+      case 349 -> {
         // The Primordial Directive
         // You swam upward, into a brighter and warmer part of the soup
         if (ChoiceManager.lastDecision == 1
             && text.contains("a brighter and warmer part of the soup")) {
           QuestDatabase.setQuestIfBetter(Quest.PRIMORDIAL, "step1");
         }
-        break;
+      }
 
-      case 350:
+      case 350 -> {
         // Soupercharged
         if (ChoiceManager.lastDecision == 1 && text.contains("You've fixed me all up")) {
           Preferences.setInteger("aminoAcidsUsed", 0);
           QuestDatabase.setQuestProgress(Quest.PRIMORDIAL, QuestDatabase.FINISHED);
         }
-        break;
+      }
 
-      case 354:
-        // You Can Never Be Too Rich or Too in the Future
-        ResultProcessor.processResult(ItemPool.get(ItemPool.INDIGO_PARTY_INVITATION, -1));
-        break;
+      case 354 -> // You Can Never Be Too Rich or Too in the Future
+      ResultProcessor.processResult(ItemPool.get(ItemPool.INDIGO_PARTY_INVITATION, -1));
 
-      case 355:
-        // I'm on the Hunt, I'm After You
-        ResultProcessor.processResult(ItemPool.get(ItemPool.VIOLET_HUNT_INVITATION, -1));
-        break;
+      case 355 -> // I'm on the Hunt, I'm After You
+      ResultProcessor.processResult(ItemPool.get(ItemPool.VIOLET_HUNT_INVITATION, -1));
 
-      case 357:
-        // Painful, Circuitous Logic
-        ResultProcessor.processResult(ItemPool.get(ItemPool.MECHA_MAYHEM_CLUB_CARD, -1));
-        break;
+      case 357 -> // Painful, Circuitous Logic
+      ResultProcessor.processResult(ItemPool.get(ItemPool.MECHA_MAYHEM_CLUB_CARD, -1));
 
-      case 358:
-        // Brings All the Boys to the Blue Yard
-        ResultProcessor.processResult(ItemPool.get(ItemPool.BLUE_MILK_CLUB_CARD, -1));
-        break;
+      case 358 -> // Brings All the Boys to the Blue Yard
+      ResultProcessor.processResult(ItemPool.get(ItemPool.BLUE_MILK_CLUB_CARD, -1));
 
-      case 362:
-        // A Bridge Too Far
-        ResultProcessor.processResult(ItemPool.get(ItemPool.SPACEFLEET_COMMUNICATOR_BADGE, -1));
-        break;
+      case 362 -> // A Bridge Too Far
+      ResultProcessor.processResult(ItemPool.get(ItemPool.SPACEFLEET_COMMUNICATOR_BADGE, -1));
 
-      case 363:
-        // Does This Bug You? Does This Bug You?
-        ResultProcessor.processResult(ItemPool.get(ItemPool.SMUGGLER_SHOT_FIRST_BUTTON, -1));
-        break;
+      case 363 -> // Does This Bug You? Does This Bug You?
+      ResultProcessor.processResult(ItemPool.get(ItemPool.SMUGGLER_SHOT_FIRST_BUTTON, -1));
 
-      case 373:
+      case 373 -> {
         // Choice 373 is Northern Gate
 
         // Krakrox plugged the small stone block he found in
@@ -814,9 +771,9 @@ public abstract class ChoiceControl {
         else if (text.contains("Krakrox plugged the little stone block")) {
           ResultProcessor.processResult(ItemPool.get(ItemPool.LITTLE_STONE_BLOCK, -1));
         }
-        break;
+      }
 
-      case 376:
+      case 376 -> {
         // Choice 376 is Ancient Temple
 
         // You fit the two halves of the stone circle together,
@@ -830,9 +787,9 @@ public abstract class ChoiceControl {
           ResultProcessor.processResult(ItemPool.get(ItemPool.HALF_STONE_CIRCLE, -1));
           ResultProcessor.processResult(ItemPool.get(ItemPool.STONE_HALF_CIRCLE, -1));
         }
-        break;
+      }
 
-      case 389:
+      case 389 -> {
         // Choice 389 is The Unbearable Supremeness of Being
 
         // "Of course I understand," Jill says, in fluent
@@ -846,9 +803,9 @@ public abstract class ChoiceControl {
           ResultProcessor.processResult(ItemPool.get(ItemPool.SUPREME_BEING_GLOSSARY, -1));
           QuestDatabase.setQuestProgress(Quest.FUTURE, "step1");
         }
-        break;
+      }
 
-      case 390:
+      case 390 -> {
         // Choice 390 is A Winning Pass
 
         // "Um, okay," you say, and stomp off to kill some more time.
@@ -856,9 +813,9 @@ public abstract class ChoiceControl {
         if (text.contains("to kill some more time")) {
           QuestDatabase.setQuestProgress(Quest.FUTURE, "step2");
         }
-        break;
+      }
 
-      case 391:
+      case 391 -> {
         // Choice 391 is OMG KAWAIII
 
         // "Damn it!" you say, and chase after her.
@@ -866,9 +823,9 @@ public abstract class ChoiceControl {
         if (text.contains("and chase after her")) {
           QuestDatabase.setQuestProgress(Quest.FUTURE, "step3");
         }
-        break;
+      }
 
-      case 392:
+      case 392 -> {
         // Choice 392 is The Elements of Surprise . . .
 
         // And as the two of you walk toward the bed, you sense
@@ -887,62 +844,54 @@ public abstract class ChoiceControl {
           ResultProcessor.processResult(ItemPool.get(ItemPool.SECRET_FROM_THE_FUTURE, 1));
           QuestDatabase.setQuestProgress(Quest.FUTURE, QuestDatabase.FINISHED);
         }
-        break;
+      }
 
-      case 393:
+      case 393 -> {
         // The Collector
         if (ChoiceManager.lastDecision == 1) {
           for (int i = ItemPool.GREEN_PEAWEE_MARBLE; i <= ItemPool.BIG_BUMBOOZER_MARBLE; ++i) {
             ResultProcessor.processResult(ItemPool.get(i, -1));
           }
         }
-        break;
+      }
 
-      case 394:
-        {
-          // Hellevator Music
-          // Parse response
-          Matcher matcher = HELLEVATOR_PATTERN.matcher(text);
-          if (!matcher.find()) {
-            break;
-          }
-          String floor = matcher.group(1);
-          for (int mcd = 0; mcd < FLOORS.length; ++mcd) {
-            if (floor.equals(FLOORS[mcd])) {
-              String message = "Setting monster level to " + mcd;
-              RequestLogger.printLine(message);
-              RequestLogger.updateSessionLog(message);
-              break;
-            }
-          }
+      case 394 -> {
+        // Hellevator Music
+        // Parse response
+        Matcher matcher = HELLEVATOR_PATTERN.matcher(text);
+        if (!matcher.find()) {
           break;
         }
+        String floor = matcher.group(1);
+        for (int mcd = 0; mcd < FLOORS.length; ++mcd) {
+          if (floor.equals(FLOORS[mcd])) {
+            String message = "Setting monster level to " + mcd;
+            RequestLogger.printLine(message);
+            RequestLogger.updateSessionLog(message);
+            break;
+          }
+        }
+      }
 
-      case 413:
-      case 414:
-      case 415:
-      case 416:
-      case 417:
-      case 418:
-        HaciendaManager.parseRoom(ChoiceManager.lastChoice, ChoiceManager.lastDecision, text);
-        break;
+      case 413, 414, 415, 416, 417, 418 -> HaciendaManager.parseRoom(
+          ChoiceManager.lastChoice, ChoiceManager.lastDecision, text);
 
-      case 440:
+      case 440 -> {
         // Puttin' on the Wax
         if (ChoiceManager.lastDecision == 1) {
           HaciendaManager.parseRecording(urlString, text);
         }
-        break;
+      }
 
-      case 443:
+      case 443 -> {
         // Chess Puzzle
         if (ChoiceManager.lastDecision == 1) {
           // Option 1 is "Play"
           RabbitHoleManager.parseChessMove(urlString, text);
         }
-        break;
+      }
 
-      case 450:
+      case 450 -> {
         // The Duchess' Cottage
         if (ChoiceManager.lastDecision == 1
             && text.contains("Delectable and pulchritudinous!")) { // Option 1 is Feed the Duchess
@@ -952,77 +901,64 @@ public abstract class ChoiceControl {
           ResultProcessor.processItem(ItemPool.WALRUS_ICE_CREAM, -1);
           ResultProcessor.processItem(ItemPool.HUMPTY_DUMPLINGS, -1);
         }
-        break;
+      }
 
-      case 457:
+      case 457 -> {
         // Oh, No! Five-Oh!
         int count = InventoryManager.getCount(ItemPool.ORQUETTES_PHONE_NUMBER);
         if (ChoiceManager.lastDecision == 1 && count > 0) {
           ResultProcessor.processItem(ItemPool.ORQUETTES_PHONE_NUMBER, -count);
           ResultProcessor.processItem(ItemPool.KEGGER_MAP, -1);
         }
-        break;
+      }
 
-      case 460:
-      case 461:
-      case 462:
-      case 463:
-      case 464:
-      case 465:
-      case 467:
-      case 468:
-      case 469:
-      case 470:
-      case 472:
-      case 473:
-      case 474:
-      case 475:
-      case 476:
-      case 477:
-      case 478:
-      case 479:
-      case 480:
-      case 481:
-      case 482:
-      case 483:
-      case 484:
-        // Space Trip
-        ArcadeRequest.postChoiceSpaceTrip(
-            request, ChoiceManager.lastChoice, ChoiceManager.lastDecision);
-        break;
+      case 460,
+          461,
+          462,
+          463,
+          464,
+          465,
+          467,
+          468,
+          469,
+          470,
+          472,
+          473,
+          474,
+          475,
+          476,
+          477,
+          478,
+          479,
+          480,
+          481,
+          482,
+          483,
+          484 -> // Space Trip
+      ArcadeRequest.postChoiceSpaceTrip(
+          request, ChoiceManager.lastChoice, ChoiceManager.lastDecision);
 
-      case 471:
-        // DemonStar
-        ArcadeRequest.postChoiceDemonStar(request, ChoiceManager.lastDecision);
-        break;
+      case 471 -> // DemonStar
+      ArcadeRequest.postChoiceDemonStar(request, ChoiceManager.lastDecision);
 
-      case 485:
-        // Fighters Of Fighting
-        ArcadeRequest.postChoiceFightersOfFighting(request, ChoiceManager.lastDecision);
-        break;
+      case 485 -> // Fighters Of Fighting
+      ArcadeRequest.postChoiceFightersOfFighting(request, ChoiceManager.lastDecision);
 
-      case 486:
-        // Dungeon Fist!
-        ArcadeRequest.postChoiceDungeonFist(request, ChoiceManager.lastDecision);
-        break;
+      case 486 -> // Dungeon Fist!
+      ArcadeRequest.postChoiceDungeonFist(request, ChoiceManager.lastDecision);
 
-      case 488:
-      case 489:
-      case 490:
-      case 491:
-        // Meteoid
-        ArcadeRequest.postChoiceMeteoid(
-            request, ChoiceManager.lastChoice, ChoiceManager.lastDecision);
-        break;
+      case 488, 489, 490, 491 -> // Meteoid
+      ArcadeRequest.postChoiceMeteoid(
+          request, ChoiceManager.lastChoice, ChoiceManager.lastDecision);
 
-      case 502:
+      case 502 -> {
         // Arboreal Respite
         if (ChoiceManager.lastDecision == 5) {
           Preferences.setBoolean("_candyCaneSwordSpookyForest", true);
         }
-        break;
+      }
 
-      case 523:
+      case 523 -> {
         // Death Rattlin'
         if (ChoiceManager.lastDecision == 5) {
           Preferences.setBoolean("candyCaneSwordDefiledCranny", true);
@@ -1034,27 +970,21 @@ public abstract class ChoiceControl {
             CryptManager.decreaseEvilness(AdventurePool.DEFILED_CRANNY, 11);
           }
         }
-        break;
+      }
 
-      case 529:
-      case 531:
-      case 532:
-      case 533:
-      case 534:
+      case 529, 531, 532, 533, 534 -> {
         Matcher skeletonMatcher = SKELETON_PATTERN.matcher(text);
         if (skeletonMatcher.find()) {
           String message = "You defeated " + skeletonMatcher.group(1) + " skeletons";
           RequestLogger.printLine(message);
           RequestLogger.updateSessionLog(message);
         }
-        break;
+      }
 
-      case 539:
-        // Choice 539 is An E.M.U. for Y.O.U.
-        EquipmentManager.discardEquipment(ItemPool.SPOOKY_LITTLE_GIRL);
-        break;
+      case 539 -> // Choice 539 is An E.M.U. for Y.O.U.
+      EquipmentManager.discardEquipment(ItemPool.SPOOKY_LITTLE_GIRL);
 
-      case 540:
+      case 540 -> {
         // Choice 540 is Big-Time Generator - game board
         //
         // Win:
@@ -1086,9 +1016,9 @@ public abstract class ChoiceControl {
           EquipmentManager.discardEquipment(ItemPool.EMU_UNIT);
           QuestDatabase.setQuestIfBetter(Quest.GENERATOR, QuestDatabase.FINISHED);
         }
-        break;
+      }
 
-      case 542:
+      case 542 -> {
         // The Now's Your Pants!  I Mean... Your Chance!
 
         // Then you make your way back out of the Alley,
@@ -1106,14 +1036,12 @@ public abstract class ChoiceControl {
           EquipmentManager.discardEquipment(EquipmentManager.getEquipment(Slot.PANTS));
           QuestDatabase.setQuestProgress(Quest.MOXIE, "step1");
         }
-        break;
+      }
 
-      case 546:
-        // Interview With You
-        VampOutManager.postChoiceVampOut(text);
-        break;
+      case 546 -> // Interview With You
+      VampOutManager.postChoiceVampOut(text);
 
-      case 559:
+      case 559 -> {
         // Fudge Mountain Breakdown
         if (ChoiceManager.lastDecision == 2) {
           if (text.contains("but nothing comes out")) {
@@ -1124,65 +1052,55 @@ public abstract class ChoiceControl {
             Preferences.increment("_fudgeWaspFights", 1);
           }
         }
-        break;
+      }
 
-      case 571:
-        // Choice 571 is Your Minstrel Vamps
-        QuestDatabase.setQuestProgress(Quest.CLANCY, QuestDatabase.STARTED);
-        break;
+      case 571 -> // Choice 571 is Your Minstrel Vamps
+      QuestDatabase.setQuestProgress(Quest.CLANCY, QuestDatabase.STARTED);
 
-      case 572:
-        // Choice 572 is Your Minstrel Clamps
-        QuestDatabase.setQuestProgress(Quest.CLANCY, "step2");
-        break;
+      case 572 -> // Choice 572 is Your Minstrel Clamps
+      QuestDatabase.setQuestProgress(Quest.CLANCY, "step2");
 
-      case 573:
-        // Choice 573 is Your Minstrel Stamps
-        QuestDatabase.setQuestProgress(Quest.CLANCY, "step4");
-        break;
+      case 573 -> // Choice 573 is Your Minstrel Stamps
+      QuestDatabase.setQuestProgress(Quest.CLANCY, "step4");
 
-      case 576:
-        // Choice 576 is Your Minstrel Camps
-        QuestDatabase.setQuestProgress(Quest.CLANCY, "step6");
-        break;
+      case 576 -> // Choice 576 is Your Minstrel Camps
+      QuestDatabase.setQuestProgress(Quest.CLANCY, "step6");
 
-      case 577:
-        // Choice 577 is Your Minstrel Scamp
-        QuestDatabase.setQuestProgress(Quest.CLANCY, "step8");
-        break;
+      case 577 -> // Choice 577 is Your Minstrel Scamp
+      QuestDatabase.setQuestProgress(Quest.CLANCY, "step8");
 
-      case 588:
+      case 588 -> {
         // Machines!
         if (text.contains("The batbugbears around you start acting weird")) {
           BugbearManager.clearShipZone("Sonar");
         }
-        break;
+      }
 
-      case 589:
+      case 589 -> {
         // Autopsy Auturvy
         // The tweezers you used dissolve in the caustic fluid. Rats.
         if (text.contains("dissolve in the caustic fluid")) {
           ResultProcessor.processItem(ItemPool.AUTOPSY_TWEEZERS, -1);
           Preferences.increment("autopsyTweezersUsed");
         }
-        return;
+      }
 
-      case 594:
+      case 594 -> {
         // A Lost Room
         if (text.contains("You acquire")) {
           ResultProcessor.processItem(ItemPool.LOST_KEY, -1);
         }
-        break;
+      }
 
-      case 595:
+      case 595 -> {
         // Fire! I... have made... fire!
         if (text.contains("rubbing the two stupid sticks together")
             || text.contains("pile the sticks up on top of the briefcase")) {
           ResultProcessor.processItem(ItemPool.CSA_FIRE_STARTING_KIT, -1);
         }
-        return;
+      }
 
-      case 599:
+      case 599 -> {
         // A Zombie Master's Bait
         if (request.getFormField("quantity") == null) {
           return;
@@ -1206,17 +1124,16 @@ public abstract class ChoiceControl {
         brain = brain.getInstance(-1 * Math.min(quantity, inventoryCount));
 
         ResultProcessor.processResult(brain);
+      }
 
-        return;
-
-      case 603:
+      case 603 -> {
         // Skeletons and The Closet
         if (ChoiceManager.lastDecision != 6) {
           ResultProcessor.removeItem(ItemPool.SKELETON);
         }
-        return;
+      }
 
-      case 607:
+      case 607 -> {
         // Room 237
         // Twin Peak first choice
         if (text.contains("You take a moment to steel your nerves.")) {
@@ -1224,9 +1141,9 @@ public abstract class ChoiceControl {
           prefval |= 1;
           Preferences.setInteger("twinPeakProgress", prefval);
         }
-        return;
+      }
 
-      case 608:
+      case 608 -> {
         // Go Check It Out!
         // Twin Peak second choice
         if (text.contains("All work and no play")) {
@@ -1234,9 +1151,9 @@ public abstract class ChoiceControl {
           prefval |= 2;
           Preferences.setInteger("twinPeakProgress", prefval);
         }
-        return;
+      }
 
-      case 611:
+      case 611 -> {
         // The Horror...
         // We need to detect if the choiceadv step was completed OR we got beaten up.
         // If we Flee, nothing changes
@@ -1250,9 +1167,9 @@ public abstract class ChoiceControl {
             Preferences.setInteger("booPeakProgress", 0);
           }
         }
-        return;
+      }
 
-      case 614:
+      case 614 -> {
         // Near the fog there is an... anvil?
         if (!text.contains("You acquire")) {
           return;
@@ -1268,9 +1185,9 @@ public abstract class ChoiceControl {
         if (souls > 0) {
           ResultProcessor.processResult(ItemPool.get(ItemPool.MIME_SOUL_FRAGMENT, 0 - souls));
         }
-        return;
+      }
 
-      case 616:
+      case 616 -> {
         // He Is the Arm, and He Sounds Like This
         // Twin Peak third choice
         if (text.contains("You attempt to mingle")) {
@@ -1279,68 +1196,57 @@ public abstract class ChoiceControl {
           Preferences.setInteger("twinPeakProgress", prefval);
           ResultProcessor.processResult(ItemPool.get(ItemPool.JAR_OF_OIL, -1));
         }
-        return;
+      }
 
-      case 617:
+      case 617 -> {
         // Now It's Dark
         // Twin Peak fourth choice
         if (text.contains("When the lights come back")) {
           // the other three must be completed at this point.
           Preferences.setInteger("twinPeakProgress", 15);
         }
-        return;
+      }
 
-      case 618:
+      case 618 -> {
         // Cabin Fever
         if (text.contains("mercifully, the hotel explodes")) {
           // the other three must be completed at this point.
           Preferences.setInteger("twinPeakProgress", 15);
         }
-        return;
+      }
 
-      case 627:
-      case 628:
-      case 629:
-      case 630:
-      case 631:
-      case 633:
-        ChibiBuddyManager.postChoice(ChoiceManager.lastChoice, ChoiceManager.lastDecision, text);
-        break;
+      case 627, 628, 629, 630, 631, 633 -> ChibiBuddyManager.postChoice(
+          ChoiceManager.lastChoice, ChoiceManager.lastDecision, text);
 
-      case 669:
-      case 670:
-      case 671:
+      case 669, 670, 671 -> {
         // All New Area Unlocked messages unlock the Ground Floor but check for it specifically in
         // case future changes unlock areas with message.
         if (text.contains("New Area Unlocked") && text.contains("The Ground Floor")) {
           Preferences.setInteger("lastCastleGroundUnlock", KoLCharacter.getAscensions());
           QuestDatabase.setQuestProgress(Quest.GARBAGE, "step8");
         }
-        break;
+      }
 
-      case 675:
+      case 675 -> {
         // Melon Collie and the Infinite Lameness
         if (ChoiceManager.lastDecision == 2) {
           ResultProcessor.removeItem(ItemPool.DRUM_N_BASS_RECORD);
         }
-        break;
+      }
 
-      case 679:
-        // Keep On Turnin' the Wheel in the Sky
-        QuestDatabase.setQuestProgress(Quest.GARBAGE, "step10");
-        break;
+      case 679 -> // Keep On Turnin' the Wheel in the Sky
+      QuestDatabase.setQuestProgress(Quest.GARBAGE, "step10");
 
-      case 689:
+      case 689 -> {
         // The Final Reward
         if (text.contains("claim your rightful reward")) {
           // Daily Dungeon Complete
           Preferences.setBoolean("dailyDungeonDone", true);
           Preferences.setInteger("_lastDailyDungeonRoom", 15);
         }
-        return;
+      }
 
-      case 690:
-      case 691:
+      case 690, 691 -> {
         // The First Chest Isn't the Deepest and Second Chest
         if (ChoiceManager.lastDecision == 2) {
           Preferences.increment("_lastDailyDungeonRoom", 3);
@@ -1351,9 +1257,9 @@ public abstract class ChoiceControl {
         if (ChoiceManager.lastChoice == 691 && ChoiceManager.lastDecision == 4) {
           Preferences.setBoolean("candyCaneSwordDailyDungeon", true);
         }
-        return;
+      }
 
-      case 692:
+      case 692 -> {
         // I Wanna Be a Door
         if (text.contains("key breaks off in the lock")) {
           // Unfortunately, the key breaks off in the lock.
@@ -1362,16 +1268,16 @@ public abstract class ChoiceControl {
         if (ChoiceManager.lastDecision != 8) {
           Preferences.increment("_lastDailyDungeonRoom", 1);
         }
-        return;
+      }
 
-      case 693:
+      case 693 -> {
         // It's Almost Certainly a Trap
         if (ChoiceManager.lastDecision != 3) {
           Preferences.increment("_lastDailyDungeonRoom", 1);
         }
-        return;
+      }
 
-      case 699:
+      case 699 -> {
         // Lumber-related Pun
         if (text.contains("hand him the branch")) {
           // Marty's eyes widen when you hand him the
@@ -1388,37 +1294,37 @@ public abstract class ChoiceControl {
           // bouquet of swamp roses.
           ResultProcessor.processItem(ItemPool.SWAMP_ROSE_BOUQUET, -1);
         }
-        return;
+      }
 
-      case 700:
+      case 700 -> {
         // Delirium in the Cafeterium
         Preferences.increment("_kolhsAdventures", 1);
-        return;
+      }
 
-      case 703:
+      case 703 -> {
         // Mer-kin dreadscroll
         if (text.contains("I guess you're the Mer-kin High Priest now")) {
           Preferences.setString("merkinQuestPath", "scholar");
           ResultProcessor.processItem(ItemPool.DREADSCROLL, -1);
           return;
         }
-        return;
+      }
 
-      case 709:
-        // You Beat Shub to a Stub, Bub
-      case 713:
-        // You Brought Her To Her Kn-kn-kn-kn-knees, Knees.
-      case 717:
+      case 709,
+          // You Beat Shub to a Stub, Bub
+          713,
+          // You Brought Her To Her Kn-kn-kn-kn-knees, Knees.
+          717 -> {
         // Over. Over Now.
         Preferences.setString("merkinQuestPath", "done");
-        return;
+      }
 
-      case 720:
+      case 720 -> {
         // The Florist Friar's Cottage
         FloristRequest.parseResponse(urlString, text);
-        return;
+      }
 
-      case 721:
+      case 721 -> {
         // The Cabin in the Dreadsylvanian Woods
         if (ChoiceManager.lastDecision == 3) {
           // Try the Attic
@@ -1433,9 +1339,9 @@ public abstract class ChoiceControl {
         } else if (ChoiceManager.lastDecision == 5) {
           ResultProcessor.processResult(ItemPool.get(ItemPool.GHOST_PENCIL, -1));
         }
-        return;
+      }
 
-      case 722:
+      case 722 -> {
         // The Kitchen in the Woods
         if (ChoiceManager.lastDecision == 2) {
           // Screw around with the flour mill
@@ -1443,9 +1349,9 @@ public abstract class ChoiceControl {
             ResultProcessor.processResult(ItemPool.get(ItemPool.OLD_DRY_BONE, -1));
           }
         }
-        return;
+      }
 
-      case 723:
+      case 723 -> {
         // What Lies Beneath (the Cabin)
         if (ChoiceManager.lastDecision == 3) {
           // Check out the lockbox
@@ -1458,9 +1364,9 @@ public abstract class ChoiceControl {
             ResultProcessor.processResult(ItemPool.get(ItemPool.WAX_BANANA, -1));
           }
         }
-        return;
+      }
 
-      case 725:
+      case 725 -> {
         // Tallest Tree in the Forest
         if (ChoiceManager.lastDecision == 2) {
           // Check out the fire tower
@@ -1476,17 +1382,16 @@ public abstract class ChoiceControl {
         } else if (ChoiceManager.lastDecision == 5) {
           ResultProcessor.processResult(ItemPool.get(ItemPool.GHOST_PENCIL, -1));
         }
+      }
 
-        return;
-
-      case 729:
+      case 729 -> {
         // Below the Roots
         if (ChoiceManager.lastDecision == 5) {
           ResultProcessor.processResult(ItemPool.get(ItemPool.GHOST_PENCIL, -1));
         }
-        return;
+      }
 
-      case 730:
+      case 730 -> {
         // Hot Coals
         if (ChoiceManager.lastDecision == 3) {
           // Melt down an old ball and chain
@@ -1494,9 +1399,9 @@ public abstract class ChoiceControl {
             ResultProcessor.processResult(ItemPool.get(ItemPool.OLD_BALL_AND_CHAIN, -1));
           }
         }
-        return;
+      }
 
-      case 733:
+      case 733 -> {
         // Dreadsylvanian Village Square
         if (ChoiceManager.lastDecision == 1) {
           // The schoolhouse
@@ -1511,16 +1416,16 @@ public abstract class ChoiceControl {
         } else if (ChoiceManager.lastDecision == 5) {
           ResultProcessor.processResult(ItemPool.get(ItemPool.GHOST_PENCIL, -1));
         }
-        return;
+      }
 
-      case 737:
+      case 737 -> {
         // The Even More Dreadful Part of Town
         if (ChoiceManager.lastDecision == 5) {
           ResultProcessor.processResult(ItemPool.get(ItemPool.GHOST_PENCIL, -1));
         }
-        return;
+      }
 
-      case 739:
+      case 739 -> {
         // The Tinker's. Damn.
         if (ChoiceManager.lastDecision == 2) {
           // Make a key using the wax lock impression
@@ -1540,9 +1445,9 @@ public abstract class ChoiceControl {
             ResultProcessor.processResult(ItemPool.get(ItemPool.INTRICATE_MUSIC_BOX_PARTS, -3));
           }
         }
-        return;
+      }
 
-      case 741:
+      case 741 -> {
         // The Old Duke's Estate
         if (ChoiceManager.lastDecision == 3) {
           // Make your way to the master suite
@@ -1556,9 +1461,9 @@ public abstract class ChoiceControl {
         } else if (ChoiceManager.lastDecision == 5) {
           ResultProcessor.processResult(ItemPool.get(ItemPool.GHOST_PENCIL, -1));
         }
-        return;
+      }
 
-      case 743:
+      case 743 -> {
         // No Quarter
         if (ChoiceManager.lastDecision == 2) {
           // Make a shepherd's pie
@@ -1569,9 +1474,9 @@ public abstract class ChoiceControl {
             ResultProcessor.processResult(ItemPool.get(ItemPool.STINKING_AGARICUS, -1));
           }
         }
-        return;
+      }
 
-      case 744:
+      case 744 -> {
         // The Master Suite -- Sweet!
         if (ChoiceManager.lastDecision == 3) {
           // Mess with the loom
@@ -1579,9 +1484,9 @@ public abstract class ChoiceControl {
             ResultProcessor.processResult(ItemPool.get(ItemPool.GHOST_THREAD, -10));
           }
         }
-        return;
+      }
 
-      case 745:
+      case 745 -> {
         // This Hall is Really Great
         if (ChoiceManager.lastDecision == 1) {
           // Head to the ballroom
@@ -1597,9 +1502,9 @@ public abstract class ChoiceControl {
         } else if (ChoiceManager.lastDecision == 5) {
           ResultProcessor.processResult(ItemPool.get(ItemPool.GHOST_PENCIL, -1));
         }
-        return;
+      }
 
-      case 746:
+      case 746 -> {
         // The Belle of the Ballroom
         if (ChoiceManager.lastDecision == 2) {
           // Trip the light fantastic
@@ -1615,9 +1520,9 @@ public abstract class ChoiceControl {
             EquipmentManager.setEquipment(Slot.PANTS, ItemPool.get(ItemPool.WEEDY_SKIRT, 1));
           }
         }
-        return;
+      }
 
-      case 749:
+      case 749 -> {
         // Tower Most Tall
         if (ChoiceManager.lastDecision == 1) {
           // Go to the laboratory
@@ -1632,9 +1537,9 @@ public abstract class ChoiceControl {
         } else if (ChoiceManager.lastDecision == 5) {
           ResultProcessor.processResult(ItemPool.get(ItemPool.GHOST_PENCIL, -1));
         }
-        return;
+      }
 
-      case 750:
+      case 750 -> {
         // Working in the Lab, Late One Night
         if (ChoiceManager.lastDecision == 4) {
           // Use the still
@@ -1643,25 +1548,25 @@ public abstract class ChoiceControl {
             ResultProcessor.processResult(ItemPool.get(ItemPool.EAU_DE_MORT, -1));
           }
         }
-        return;
+      }
 
-      case 753:
+      case 753 -> {
         // The Dreadsylvanian Dungeon
         if (ChoiceManager.lastDecision == 5) {
           ResultProcessor.processResult(ItemPool.get(ItemPool.GHOST_PENCIL, -1));
         }
-        return;
+      }
 
-      case 762:
+      case 762 -> {
         // Try New Extra-Strength Anvil
         // All of the options that craft something use the same ingredients
         if (text.contains("You acquire")) {
           ResultProcessor.processResult(ItemPool.get(ItemPool.COOL_IRON_INGOT, -1));
           ResultProcessor.processResult(ItemPool.get(ItemPool.WARM_FUR, -1));
         }
-        return;
+      }
 
-      case 772:
+      case 772 -> {
         // Saved by the Bell
         if (ChoiceManager.lastDecision == 1) {
           Preferences.setBoolean("_kolhsSchoolSpirited", true);
@@ -1712,9 +1617,9 @@ public abstract class ChoiceControl {
         if (ChoiceManager.lastDecision != 8) {
           Preferences.increment("_kolhsSavedByTheBell", 1);
         }
-        return;
+      }
 
-      case 778:
+      case 778 -> {
         // If You Could Only See
         if (ChoiceManager.lastDecision != 6) {
           Preferences.setBoolean("_tonicDjinn", true);
@@ -1722,9 +1627,9 @@ public abstract class ChoiceControl {
             ResultProcessor.processResult(ItemPool.get(ItemPool.TONIC_DJINN, -1));
           }
         }
-        return;
+      }
 
-      case 780:
+      case 780 -> {
         // Action Elevator
         if (ChoiceManager.lastDecision == 1 && text.contains("penthouse is empty now")) {
           if (Preferences.getInteger("hiddenApartmentProgress") < 7) {
@@ -1735,9 +1640,9 @@ public abstract class ChoiceControl {
         } else if (ChoiceManager.lastDecision == 4) {
           Preferences.setBoolean("candyCaneSwordApartmentBuilding", true);
         }
-        return;
+      }
 
-      case 781:
+      case 781 -> {
         // Earthbound and Down
         if (ChoiceManager.lastDecision == 1) {
           Preferences.setInteger("hiddenApartmentProgress", 1);
@@ -1748,9 +1653,9 @@ public abstract class ChoiceControl {
         } else if (ChoiceManager.lastDecision == 3) {
           ResultProcessor.processResult(ItemPool.get(ItemPool.SIX_BALL, -1));
         }
-        return;
+      }
 
-      case 783:
+      case 783 -> {
         // Water You Dune
         if (ChoiceManager.lastDecision == 1) {
           Preferences.setInteger("hiddenHospitalProgress", 1);
@@ -1761,9 +1666,9 @@ public abstract class ChoiceControl {
         } else if (ChoiceManager.lastDecision == 3) {
           ResultProcessor.processResult(ItemPool.get(ItemPool.TWO_BALL, -1));
         }
-        return;
+      }
 
-      case 785:
+      case 785 -> {
         // Air Apparent
         if (ChoiceManager.lastDecision == 1) {
           Preferences.setInteger("hiddenOfficeProgress", 1);
@@ -1776,9 +1681,9 @@ public abstract class ChoiceControl {
         } else if (ChoiceManager.lastDecision == 4) {
           Preferences.setBoolean("_candyCaneSwordOvergrownShrine", true);
         }
-        return;
+      }
 
-      case 786:
+      case 786 -> {
         // Working Holiday
         if (ChoiceManager.lastDecision == 1 && text.contains("boss's office is empty")) {
           if (Preferences.getInteger("hiddenOfficeProgress") < 7) {
@@ -1794,9 +1699,9 @@ public abstract class ChoiceControl {
             && Preferences.getInteger("hiddenOfficeProgress") < 6) {
           Preferences.setInteger("hiddenOfficeProgress", 6);
         }
-        return;
+      }
 
-      case 787:
+      case 787 -> {
         // Fire when Ready
         if (ChoiceManager.lastDecision == 1) {
           Preferences.setInteger("hiddenBowlingAlleyProgress", 1);
@@ -1807,9 +1712,9 @@ public abstract class ChoiceControl {
         } else if (ChoiceManager.lastDecision == 3) {
           ResultProcessor.processResult(ItemPool.get(ItemPool.FIVE_BALL, -1));
         }
-        return;
+      }
 
-      case 788:
+      case 788 -> {
         // Life is Like a Cherry of Bowls
         if (ChoiceManager.lastDecision == 1
             && text.contains("without a frustrated ghost to torment")) {
@@ -1830,23 +1735,23 @@ public abstract class ChoiceControl {
         if (ChoiceManager.lastDecision == 2) {
           Preferences.setBoolean("candyCaneSwordBowlingAlley", true);
         }
-        return;
+      }
 
-      case 789:
+      case 789 -> {
         // Where Does The Lone Ranger Take His Garbagester?
         if (ChoiceManager.lastDecision == 2) {
           Preferences.setInteger("relocatePygmyJanitor", KoLCharacter.getAscensions());
         }
-        return;
+      }
 
-      case 793:
+      case 793 -> {
         // Welcome to The Shore, Inc.
         if (ChoiceManager.lastDecision == 5) {
           Preferences.setBoolean("candyCaneSwordShore", true);
         }
-        break;
+      }
 
-      case 801:
+      case 801 -> {
         // A Reanimated Conversation
         if (ChoiceManager.lastDecision == 6) {
           Preferences.setInteger("reanimatorArms", 0);
@@ -1855,9 +1760,9 @@ public abstract class ChoiceControl {
           Preferences.setInteger("reanimatorWeirdParts", 0);
           Preferences.setInteger("reanimatorWings", 0);
         }
-        return;
+      }
 
-      case 805:
+      case 805 -> {
         // A Sietch in Time
         int gnasirProgress = Preferences.getInteger("gnasirProgress");
 
@@ -1884,9 +1789,9 @@ public abstract class ChoiceControl {
           gnasirProgress |= 8;
           Preferences.setInteger("gnasirProgress", gnasirProgress);
         }
-        return;
+      }
 
-      case 812:
+      case 812 -> {
         if (ChoiceManager.lastDecision == 1) {
           Matcher matcher = UNPERM_PATTERN.matcher(text);
           if (matcher.find()) {
@@ -1894,29 +1799,29 @@ public abstract class ChoiceControl {
             Preferences.increment("bankedKarma", Integer.parseInt(matcher.group(2)));
           }
         }
-        return;
-      case 821:
+      }
+      case 821 -> {
         // LP-ROM burner
         if (ChoiceManager.lastDecision == 1) {
           HaciendaManager.parseRecording(urlString, text);
         }
-        break;
+      }
 
-      case 835:
+      case 835 -> {
         // Barely Tales
         if (ChoiceManager.lastDecision != 0) {
           Preferences.setBoolean("_grimBuff", true);
         }
-        break;
+      }
 
-      case 836:
+      case 836 -> {
         // Adventures Who Live in Ice Houses...
         if (ChoiceManager.lastDecision == 1) {
           BanishManager.removeBanishByBanisher(BanishManager.Banisher.ICE_HOUSE);
         }
-        break;
+      }
 
-      case 851:
+      case 851 -> {
         // Shen Copperhead, Nightclub Owner
         QuestDatabase.setQuestProgress(Quest.SHEN, "step1");
         Preferences.setInteger("shenInitiationDay", KoLCharacter.getCurrentDays());
@@ -1924,25 +1829,22 @@ public abstract class ChoiceControl {
           // We didn't recognise quest text before accepting quest, so get it from quest log
           RequestThread.postRequest(new QuestLogRequest());
         }
+      }
 
-        break;
-
-      case 852:
-        // Shen Copperhead, Jerk
-        // Deliberate fallthrough
-      case 853:
-        { // Shen Copperhead, Huge Jerk
-          Matcher matcher = SHEN_PATTERN.matcher(text);
-          if (matcher.find()) {
-            Preferences.setString("shenQuestItem", matcher.group(1));
-          }
-        }
-        // Deliberate fallthrough
-      case 854:
+      case 852,
+          // Shen Copperhead, Jerk
+          853,
+          // Shen Copperhead, Huge Jerk
+          854 -> {
         // Shen Copperhead, World's Biggest Jerk
         QuestDatabase.advanceQuest(Quest.SHEN);
         if (ChoiceManager.lastChoice == 854) {
           Preferences.setString("shenQuestItem", "");
+        } else {
+          Matcher matcher = SHEN_PATTERN.matcher(text);
+          if (matcher.find()) {
+            Preferences.setString("shenQuestItem", matcher.group(1));
+          }
         }
 
         // You will have exactly one of these items to ger rid of
@@ -1952,9 +1854,9 @@ public abstract class ChoiceControl {
         ResultProcessor.removeItem(ItemPool.STANKARA_STONE);
         ResultProcessor.removeItem(ItemPool.MURPHYS_FLAG);
         ResultProcessor.removeItem(ItemPool.SHIELD_OF_BROOK);
-        break;
+      }
 
-      case 872:
+      case 872 -> {
         // Drawn Onward - Handle quest in Ed
         if (text.contains("Rot in a jar of dog paws!")) {
           QuestDatabase.setQuestProgress(Quest.PALINDOME, QuestDatabase.FINISHED);
@@ -1964,141 +1866,141 @@ public abstract class ChoiceControl {
             QuestDatabase.setQuestProgress(Quest.MACGUFFIN, QuestDatabase.FINISHED);
           }
         }
-        break;
+      }
 
-      case 876:
+      case 876 -> {
         // One Simple Nightstand
         if (ChoiceManager.lastDecision == 4) {
           Preferences.setBoolean("_candyCaneSwordHauntedBedroom", true);
         }
-        break;
+      }
 
-      case 882:
+      case 882 -> {
         // Off the Rack
         if (ChoiceManager.lastDecision == 1
             && text.contains("You never know when it might come in handy.")) {
           Preferences.setInteger("lastTowelAscension", KoLCharacter.getAscensions());
         }
-        break;
+      }
 
-      case 888:
+      case 888 -> {
         // Take a Look, it's in a Book! (Rise)
         if (ChoiceManager.lastDecision == 4) {
           Preferences.setBoolean("_candyCaneSwordHauntedLibrary", true);
         }
-        break;
+      }
 
-      case 890:
+      case 890 -> {
         // Lights Out in the Storage Room
         if (text.contains("BUT AIN'T NO ONE CAN GET A STAIN OUT LIKE OLD AGNES!")
             && !Preferences.getString("nextSpookyravenElizabethRoom").equals("none")) {
           Preferences.setString("nextSpookyravenElizabethRoom", "The Haunted Laundry Room");
         }
-        break;
+      }
 
-      case 891:
+      case 891 -> {
         // Lights Out in the Laundry Room
         if (text.contains("DO YOU SEE THE STAIN UPON MY TOWEL?")
             && !Preferences.getString("nextSpookyravenElizabethRoom").equals("none")) {
           Preferences.setString("nextSpookyravenElizabethRoom", "The Haunted Bathroom");
         }
-        break;
+      }
 
-      case 892:
+      case 892 -> {
         // Lights Out in the Bathroom
         if (text.contains("THE STAIN HAS BEEN LIFTED")
             && !Preferences.getString("nextSpookyravenElizabethRoom").equals("none")) {
           Preferences.setString("nextSpookyravenElizabethRoom", "The Haunted Kitchen");
         }
-        break;
+      }
 
-      case 893:
+      case 893 -> {
         // Lights Out in the Kitchen
         if (text.contains("If You Give a Demon a Brownie")
             && !Preferences.getString("nextSpookyravenElizabethRoom").equals("none")) {
           Preferences.setString("nextSpookyravenElizabethRoom", "The Haunted Library");
         }
-        break;
+      }
 
-      case 894:
+      case 894 -> {
         // Lights Out in the Library
         if (text.contains("If You Give a Demon a Brownie")
             && !Preferences.getString("nextSpookyravenElizabethRoom").equals("none")) {
           Preferences.setString("nextSpookyravenElizabethRoom", "The Haunted Ballroom");
         }
-        break;
+      }
 
-      case 895:
+      case 895 -> {
         // Lights Out in the Ballroom
         if (text.contains("The Flowerbed of Unearthly Delights")
             && !Preferences.getString("nextSpookyravenElizabethRoom").equals("none")) {
           Preferences.setString("nextSpookyravenElizabethRoom", "The Haunted Gallery");
         }
-        break;
+      }
 
-      case 896:
+      case 896 -> {
         // Lights Out in the Gallery
 
         // The correct option leads to a combat with Elizabeth.
         // If you win, we will set "nextSpookyravenElizabethRoom" to "none"
-        break;
+      }
 
-      case 897:
+      case 897 -> {
         // Lights Out in the Bedroom
         if (text.contains("restock his medical kit in the nursery")
             && !Preferences.getString("nextSpookyravenStephenRoom").equals("none")) {
           Preferences.setString("nextSpookyravenStephenRoom", "The Haunted Nursery");
         }
-        break;
+      }
 
-      case 898:
+      case 898 -> {
         // Lights Out in the Nursery
         if (text.contains("This afternoon we're burying Crumbles")
             && !Preferences.getString("nextSpookyravenStephenRoom").equals("none")) {
           Preferences.setString("nextSpookyravenStephenRoom", "The Haunted Conservatory");
         }
-        break;
+      }
 
-      case 899:
+      case 899 -> {
         // Lights Out in the Conservatory
         if (text.contains("Crumbles isn't buried very deep")
             && !Preferences.getString("nextSpookyravenStephenRoom").equals("none")) {
           Preferences.setString("nextSpookyravenStephenRoom", "The Haunted Billiards Room");
         }
-        break;
+      }
 
-      case 900:
+      case 900 -> {
         // Lights Out in the Billiards Room
         if (text.contains("The wolf head has a particularly nasty expression on its face")
             && !Preferences.getString("nextSpookyravenStephenRoom").equals("none")) {
           Preferences.setString("nextSpookyravenStephenRoom", "The Haunted Wine Cellar");
         }
-        break;
+      }
 
-      case 901:
+      case 901 -> {
         // Lights Out in the Wine Cellar
         if (text.contains("Crumbles II (Wolf)")
             && !Preferences.getString("nextSpookyravenStephenRoom").equals("none")) {
           Preferences.setString("nextSpookyravenStephenRoom", "The Haunted Boiler Room");
         }
-        break;
+      }
 
-      case 902:
+      case 902 -> {
         // Lights Out in the Boiler Room
         if (text.contains("CRUMBLES II")
             && !Preferences.getString("nextSpookyravenStephenRoom").equals("none")) {
           Preferences.setString("nextSpookyravenStephenRoom", "The Haunted Laboratory");
         }
-        break;
+      }
 
-      case 903:
+      case 903 -> {
         // Lights Out in the Laboratory
 
         // The correct option leads to a combat with Stephen.
         // If you win, we will set "nextSpookyravenStephenRoom" to "none"
-        break;
+      }
 
-      case 915:
+      case 915 -> {
         // Choice 915 is Et Tu, Buff Jimmy?
         if (text.contains("skinny mushroom girls")) {
           QuestDatabase.setQuestProgress(Quest.JIMMY_MUSHROOM, QuestDatabase.STARTED);
@@ -2119,8 +2021,8 @@ public abstract class ChoiceControl {
           QuestDatabase.setQuestProgress(Quest.JIMMY_SALT, QuestDatabase.FINISHED);
           ResultProcessor.processItem(ItemPool.SAILOR_SALT, -50);
         }
-        break;
-      case 916:
+      }
+      case 916 -> {
         // Choice 916 is Taco Dan's Taco Stand's Taco Dan
         if (text.contains("find those receipts")) {
           QuestDatabase.setQuestProgress(Quest.TACO_DAN_AUDIT, QuestDatabase.STARTED);
@@ -2141,8 +2043,8 @@ public abstract class ChoiceControl {
           QuestDatabase.setQuestProgress(Quest.TACO_DAN_FISH, QuestDatabase.FINISHED);
           Preferences.setInteger("tacoDanFishMeat", 0);
         }
-        break;
-      case 917:
+      }
+      case 917 -> {
         // Choice 917 is Do You Even Brogurt
         if (text.contains("need about ten shots of it")) {
           QuestDatabase.setQuestProgress(Quest.BRODEN_BACTERIA, QuestDatabase.STARTED);
@@ -2163,15 +2065,15 @@ public abstract class ChoiceControl {
           QuestDatabase.setQuestProgress(Quest.BRODEN_DEBT, QuestDatabase.FINISHED);
           ResultProcessor.processItem(ItemPool.BROUPON, -15);
         }
-        break;
-      case 918:
+      }
+      case 918 -> {
         // Yachtzee!
         if (ChoiceManager.lastDecision == 3 && text.contains("You open the captain's door")) {
           int beads = Math.min(InventoryManager.getCount(ItemPool.MOIST_BEADS), 100);
           ResultProcessor.processResult(ItemPool.get(ItemPool.MOIST_BEADS, -beads));
         }
-        break;
-      case 919:
+      }
+      case 919 -> {
         // Choice 919 is Break Time!
         if (ChoiceManager.lastDecision == 1) {
           if (text.contains("You've already thoroughly")) {
@@ -2180,8 +2082,8 @@ public abstract class ChoiceControl {
             Preferences.increment("_sloppyDinerBeachBucks", 1);
           }
         }
-        break;
-      case 920:
+      }
+      case 920 -> {
         // Choice 920 is Eraser
         if (ChoiceManager.lastDecision == 1) {
           QuestDatabase.setQuestProgress(Quest.JIMMY_MUSHROOM, QuestDatabase.UNSTARTED);
@@ -2199,150 +2101,148 @@ public abstract class ChoiceControl {
         if (ChoiceManager.lastDecision != 4) {
           ResultProcessor.processItem(ItemPool.MIND_DESTROYER, -1);
         }
-        break;
+      }
 
-      case 923:
+      case 923 -> {
         // All Over the Map
         if (ChoiceManager.lastDecision == 5) {
           Preferences.setBoolean("candyCaneSwordBlackForest", true);
         }
-        break;
+      }
 
-      case 930:
+      case 930 -> {
         // Another Errand I Mean Quest
         if (ChoiceManager.lastDecision == 1) {
           QuestDatabase.setQuestIfBetter(Quest.CITADEL, QuestDatabase.STARTED);
         }
-        break;
+      }
 
-      case 932:
+      case 932 -> {
         // No Whammies
         if (text.contains("steel your nerves for what lies ahead")) {
           QuestDatabase.setQuestProgress(Quest.CITADEL, "step9");
         }
-        break;
+      }
 
-      case 967:
+      case 967 -> {
         // The Thunder Rolls...
         if (ChoiceManager.lastDecision != 8) {
           ResultProcessor.removeItem(ItemPool.THUNDER_THIGH);
         }
-        break;
+      }
 
-      case 968:
+      case 968 -> {
         // The Rain Falls Down With Your Help...
         if (ChoiceManager.lastDecision != 8) {
           ResultProcessor.removeItem(ItemPool.AQUA_BRAIN);
         }
-        break;
+      }
 
-      case 969:
+      case 969 -> {
         // And The Lightning Strikes...
         if (ChoiceManager.lastDecision != 8) {
           ResultProcessor.removeItem(ItemPool.LIGHTNING_MILK);
         }
-        break;
+      }
 
-      case 970:
+      case 970 -> {
         // Rainy Fax Dreams on your Wedding Day
         if (ChoiceManager.lastDecision == 1) {
           EncounterManager.ignoreSpecialMonsters();
           KoLAdventure.clearLocation();
           GenericRequest.itemMonster = "Rain Man";
         }
-        break;
+      }
 
-      case 984:
-        {
-          // A Radio on a Beach
-          // Clear quests when accepting a new one as you can only have one
-          if (text.contains("your best paramilitary-sounding radio lingo")) {
-            QuestDatabase.setQuestProgress(Quest.JUNGLE_PUN, QuestDatabase.UNSTARTED);
-            QuestDatabase.setQuestProgress(Quest.GORE, QuestDatabase.UNSTARTED);
-            QuestDatabase.setQuestProgress(Quest.CLIPPER, QuestDatabase.UNSTARTED);
-          }
-          // Also clear repeatable quests if there is no quest active at the radio
-          if (text.contains("Maybe try again tomorrow")) {
-            QuestDatabase.setQuestProgress(Quest.JUNGLE_PUN, QuestDatabase.UNSTARTED);
-            QuestDatabase.setQuestProgress(Quest.GORE, QuestDatabase.UNSTARTED);
-            QuestDatabase.setQuestProgress(Quest.CLIPPER, QuestDatabase.UNSTARTED);
-          }
-          // EVE quest started
-          else if (text.contains("navigation protocol")) {
-            QuestDatabase.setQuestProgress(Quest.EVE, QuestDatabase.STARTED);
-            Preferences.setString("EVEDirections", "LLRLR0");
-          }
-          // EVE quest finished
-          else if (text.contains("a tiny parachute")) {
-            QuestDatabase.setQuestProgress(Quest.EVE, QuestDatabase.FINISHED);
-            Preferences.resetToDefault("EVEDirections");
-          }
-          // Jungle Pun quest finished (start handled in ResultProcessor)
-          else if (text.contains(
-              "tape recorder self-destructs with a shower of sparks and a puff of smoke")) {
-            EquipmentManager.discardEquipment(ItemPool.MINI_CASSETTE_RECORDER);
-            ResultProcessor.removeItem(ItemPool.MINI_CASSETTE_RECORDER);
-            QuestDatabase.setQuestProgress(Quest.JUNGLE_PUN, QuestDatabase.UNSTARTED);
-            Preferences.resetToDefault("junglePuns");
-          }
-          // Gore quest finished (start handled in ResultProcessor)
-          else if (text.contains("bucket came from")) {
-            EquipmentManager.discardEquipment(ItemPool.GORE_BUCKET);
-            ResultProcessor.removeItem(ItemPool.GORE_BUCKET);
-            QuestDatabase.setQuestProgress(Quest.GORE, QuestDatabase.UNSTARTED);
-            Preferences.resetToDefault("goreCollected");
-          }
-          // Clipper quest finished (start handled in ResultProcessor)
-          else if (text.contains("return the fingernails and the clippers")) {
-            ResultProcessor.removeItem(ItemPool.FINGERNAIL_CLIPPERS);
-            QuestDatabase.setQuestProgress(Quest.CLIPPER, QuestDatabase.UNSTARTED);
-            Preferences.resetToDefault("fingernailsClipped");
-          }
-          // Fake Medium quest started
-          else if (text.contains("maximal discretion")) {
-            QuestDatabase.setQuestProgress(Quest.FAKE_MEDIUM, QuestDatabase.STARTED);
-          }
-          // Fake Medium quest finished
-          else if (text.contains("toss the device into the ocean")) {
-            ResultProcessor.removeItem(ItemPool.ESP_COLLAR);
-            QuestDatabase.setQuestProgress(Quest.FAKE_MEDIUM, QuestDatabase.FINISHED);
-          }
-          // Serum quest started
-          else if (text.contains("wonder how many vials they want")) {
-            if (InventoryManager.getCount(ItemPool.EXPERIMENTAL_SERUM_P00) >= 5) {
-              QuestDatabase.setQuestProgress(Quest.SERUM, "step1");
-            } else {
-              QuestDatabase.setQuestProgress(Quest.SERUM, QuestDatabase.STARTED);
-            }
-          }
-          // Serum quest finished
-          else if (text.contains("drop the vials into it")) {
-            ResultProcessor.processItem(ItemPool.EXPERIMENTAL_SERUM_P00, -5);
-            QuestDatabase.setQuestProgress(Quest.SERUM, QuestDatabase.FINISHED);
-          }
-          // Smokes quest started
-          else if (text.contains("acquire cigarettes")) {
-            QuestDatabase.setQuestProgress(Quest.SMOKES, QuestDatabase.STARTED);
-          }
-          // Smokes quest finished
-          else if (text.contains("cigarettes with a grappling gun")) {
-            QuestDatabase.setQuestProgress(Quest.SMOKES, QuestDatabase.FINISHED);
-          }
-          // Out of Order quest finished
-          else if (text.contains("takes your nifty new watch")) {
-            EquipmentManager.discardEquipment(ItemPool.GPS_WATCH);
-            ResultProcessor.removeItem(ItemPool.GPS_WATCH);
-            ResultProcessor.removeItem(ItemPool.PROJECT_TLB);
-            QuestDatabase.setQuestProgress(Quest.OUT_OF_ORDER, QuestDatabase.FINISHED);
-          }
-          // Can't parse quest due to static so visit quest log
-          else {
-            RequestThread.postRequest(new QuestLogRequest());
-          }
-          break;
+      case 984 -> {
+        // A Radio on a Beach
+        // Clear quests when accepting a new one as you can only have one
+        if (text.contains("your best paramilitary-sounding radio lingo")) {
+          QuestDatabase.setQuestProgress(Quest.JUNGLE_PUN, QuestDatabase.UNSTARTED);
+          QuestDatabase.setQuestProgress(Quest.GORE, QuestDatabase.UNSTARTED);
+          QuestDatabase.setQuestProgress(Quest.CLIPPER, QuestDatabase.UNSTARTED);
         }
+        // Also clear repeatable quests if there is no quest active at the radio
+        if (text.contains("Maybe try again tomorrow")) {
+          QuestDatabase.setQuestProgress(Quest.JUNGLE_PUN, QuestDatabase.UNSTARTED);
+          QuestDatabase.setQuestProgress(Quest.GORE, QuestDatabase.UNSTARTED);
+          QuestDatabase.setQuestProgress(Quest.CLIPPER, QuestDatabase.UNSTARTED);
+        }
+        // EVE quest started
+        else if (text.contains("navigation protocol")) {
+          QuestDatabase.setQuestProgress(Quest.EVE, QuestDatabase.STARTED);
+          Preferences.setString("EVEDirections", "LLRLR0");
+        }
+        // EVE quest finished
+        else if (text.contains("a tiny parachute")) {
+          QuestDatabase.setQuestProgress(Quest.EVE, QuestDatabase.FINISHED);
+          Preferences.resetToDefault("EVEDirections");
+        }
+        // Jungle Pun quest finished (start handled in ResultProcessor)
+        else if (text.contains(
+            "tape recorder self-destructs with a shower of sparks and a puff of smoke")) {
+          EquipmentManager.discardEquipment(ItemPool.MINI_CASSETTE_RECORDER);
+          ResultProcessor.removeItem(ItemPool.MINI_CASSETTE_RECORDER);
+          QuestDatabase.setQuestProgress(Quest.JUNGLE_PUN, QuestDatabase.UNSTARTED);
+          Preferences.resetToDefault("junglePuns");
+        }
+        // Gore quest finished (start handled in ResultProcessor)
+        else if (text.contains("bucket came from")) {
+          EquipmentManager.discardEquipment(ItemPool.GORE_BUCKET);
+          ResultProcessor.removeItem(ItemPool.GORE_BUCKET);
+          QuestDatabase.setQuestProgress(Quest.GORE, QuestDatabase.UNSTARTED);
+          Preferences.resetToDefault("goreCollected");
+        }
+        // Clipper quest finished (start handled in ResultProcessor)
+        else if (text.contains("return the fingernails and the clippers")) {
+          ResultProcessor.removeItem(ItemPool.FINGERNAIL_CLIPPERS);
+          QuestDatabase.setQuestProgress(Quest.CLIPPER, QuestDatabase.UNSTARTED);
+          Preferences.resetToDefault("fingernailsClipped");
+        }
+        // Fake Medium quest started
+        else if (text.contains("maximal discretion")) {
+          QuestDatabase.setQuestProgress(Quest.FAKE_MEDIUM, QuestDatabase.STARTED);
+        }
+        // Fake Medium quest finished
+        else if (text.contains("toss the device into the ocean")) {
+          ResultProcessor.removeItem(ItemPool.ESP_COLLAR);
+          QuestDatabase.setQuestProgress(Quest.FAKE_MEDIUM, QuestDatabase.FINISHED);
+        }
+        // Serum quest started
+        else if (text.contains("wonder how many vials they want")) {
+          if (InventoryManager.getCount(ItemPool.EXPERIMENTAL_SERUM_P00) >= 5) {
+            QuestDatabase.setQuestProgress(Quest.SERUM, "step1");
+          } else {
+            QuestDatabase.setQuestProgress(Quest.SERUM, QuestDatabase.STARTED);
+          }
+        }
+        // Serum quest finished
+        else if (text.contains("drop the vials into it")) {
+          ResultProcessor.processItem(ItemPool.EXPERIMENTAL_SERUM_P00, -5);
+          QuestDatabase.setQuestProgress(Quest.SERUM, QuestDatabase.FINISHED);
+        }
+        // Smokes quest started
+        else if (text.contains("acquire cigarettes")) {
+          QuestDatabase.setQuestProgress(Quest.SMOKES, QuestDatabase.STARTED);
+        }
+        // Smokes quest finished
+        else if (text.contains("cigarettes with a grappling gun")) {
+          QuestDatabase.setQuestProgress(Quest.SMOKES, QuestDatabase.FINISHED);
+        }
+        // Out of Order quest finished
+        else if (text.contains("takes your nifty new watch")) {
+          EquipmentManager.discardEquipment(ItemPool.GPS_WATCH);
+          ResultProcessor.removeItem(ItemPool.GPS_WATCH);
+          ResultProcessor.removeItem(ItemPool.PROJECT_TLB);
+          QuestDatabase.setQuestProgress(Quest.OUT_OF_ORDER, QuestDatabase.FINISHED);
+        }
+        // Can't parse quest due to static so visit quest log
+        else {
+          RequestThread.postRequest(new QuestLogRequest());
+        }
+      }
 
-      case 986:
+      case 986 -> {
         // Control Panel
         if (ChoiceManager.lastDecision >= 1 && ChoiceManager.lastDecision <= 9) {
           Preferences.setBoolean("_controlPanelUsed", true);
@@ -2350,8 +2250,8 @@ public abstract class ChoiceControl {
             Preferences.increment("controlPanelOmega", 11, 100, false);
           }
         }
-        break;
-      case 987:
+      }
+      case 987 -> {
         // The Post-Apocalyptic Survivor Encampment
         if (!text.contains("accept your donation")) {
           break;
@@ -2367,9 +2267,9 @@ public abstract class ChoiceControl {
           int encampmentId = StringUtilities.parseInt(encampmentMatcher.group(1));
           ResultProcessor.processItem(encampmentId, qty);
         }
-        break;
+      }
 
-      case 988:
+      case 988 -> {
         // The Containment Unit
         String containment = Preferences.getString("EVEDirections");
         if (containment.length() != 6) {
@@ -2385,23 +2285,23 @@ public abstract class ChoiceControl {
         } else {
           Preferences.setString("EVEDirections", containment.substring(0, 5) + "0");
         }
-        break;
+      }
 
-      case 991:
+      case 991 -> {
         // Build a Crimbot!
         if (ChoiceManager.lastDecision == 1) {
           ResultProcessor.removeItem(ItemPool.CRIMBONIUM_FUEL_ROD);
         }
-        break;
+      }
 
-      case 993:
+      case 993 -> {
         // Tales of Spelunking
         if (ChoiceManager.lastDecision == 1) {
           KoLCharacter.enterLimitmode(LimitMode.SPELUNKY);
         }
-        break;
+      }
 
-      case 994:
+      case 994 -> {
         // Hide a gift!
         if (text.contains("You hide")) {
           HashMap<Integer, Integer> idMap = new HashMap<>(3);
@@ -2436,9 +2336,9 @@ public abstract class ChoiceControl {
           }
           ResultProcessor.removeItem(ItemPool.SNEAKY_WRAPPING_PAPER);
         }
-        break;
+      }
 
-      case 998:
+      case 998 -> {
         if (text.contains("confiscate your deuces")) {
           int removeDeuces = ChoiceManager.lastDecision - 1;
           ResultProcessor.processResult(ItemPool.get(ItemPool.SLEEVE_DEUCE, removeDeuces));
@@ -2447,9 +2347,9 @@ public abstract class ChoiceControl {
         if (ChoiceManager.lastDecision == 5) {
           ResultProcessor.removeItem(ItemPool.POCKET_ACE);
         }
-        break;
+      }
 
-      case 999:
+      case 999 -> {
         if (ChoiceManager.lastDecision == 1) {
           Preferences.setBoolean("_shrubDecorated", true);
           Pattern topperPattern = Pattern.compile("topper=(\\d)");
@@ -2501,9 +2401,9 @@ public abstract class ChoiceControl {
             }
           }
         }
-        break;
+      }
 
-      case 1002:
+      case 1002 -> {
         // Temple of the Legend in the Hidden City - Handle quest in Ed
         if (text.contains("The spectre nods emphatically")) {
           QuestDatabase.setQuestProgress(Quest.WORSHIP, QuestDatabase.FINISHED);
@@ -2513,76 +2413,68 @@ public abstract class ChoiceControl {
             QuestDatabase.setQuestProgress(Quest.MACGUFFIN, QuestDatabase.FINISHED);
           }
         }
-        break;
+      }
 
-      case 1003:
-        // Test Your Might And Also Test Other Things
-        SorceressLairManager.parseContestBooth(ChoiceManager.lastDecision, text);
-        break;
+      case 1003 -> // Test Your Might And Also Test Other Things
+      SorceressLairManager.parseContestBooth(ChoiceManager.lastDecision, text);
 
-      case 1005: // 'Allo
-      case 1008: // Pooling Your Resources
-      case 1011: // Of Mouseholes and Manholes
-        SorceressLairManager.parseMazeTrap(ChoiceManager.lastChoice, text);
-        break;
+      case 1005, // 'Allo
+          1008, // Pooling Your Resources
+          1011 -> // Of Mouseholes and Manholes
+      SorceressLairManager.parseMazeTrap(ChoiceManager.lastChoice, text);
 
-      case 1013: // Mazel Tov!
-        // Then you both giggle and head through the exit at the same time.
-        QuestDatabase.setQuestProgress(Quest.FINAL, "step5");
-        break;
+      case 1013 -> // Mazel Tov!
+      // Then you both giggle and head through the exit at the same time.
+      QuestDatabase.setQuestProgress(Quest.FINAL, "step5");
 
-      case 1015: // The Mirror in the Tower has the View that is True
-        QuestDatabase.setQuestProgress(Quest.FINAL, "step10");
-        break;
+      case 1015 -> // The Mirror in the Tower has the View that is True
+      QuestDatabase.setQuestProgress(Quest.FINAL, "step10");
 
-      case 1022: // Meet Frank
-        // Frank bobs his head toward the hedge maze in front of you.
-        QuestDatabase.setQuestProgress(Quest.FINAL, "step4");
-        break;
+      case 1022 -> // Meet Frank
+      // Frank bobs his head toward the hedge maze in front of you.
+      QuestDatabase.setQuestProgress(Quest.FINAL, "step4");
 
-      case 1023: // Like a Bat Into Hell
+      case 1023 -> { // Like a Bat Into Hell
         if (ChoiceManager.lastDecision == 1) {
           KoLCharacter.setLimitMode(LimitMode.ED);
         }
-        break;
+      }
 
-      case 1027: // The End of the Tale of Spelunking
+      case 1027 -> { // The End of the Tale of Spelunking
         if (ChoiceManager.lastDecision == 1) {
           // Remove all virtual items from inventory/tally
           SpelunkyRequest.resetItems();
         }
-        break;
+      }
 
-      case 1028: // A Shop
-      case 1029: // An Old Clay Pot
-      case 1030: // It's a Trap!  A Dart Trap.
-      case 1031: // A Tombstone
-      case 1032: // It's a Trap!  A Tiki Trap.
-      case 1033: // A Big Block of Ice
-      case 1034: // A Landmine
-      case 1035: // A Crate
-      case 1036: // Idolatry
-      case 1037: // It's a Trap!  A Smashy Trap.
-      case 1038: // A Wicked Web
-      case 1039: // A Golden Chest
-      case 1040: // It's Lump. It's Lump.
-      case 1041: // Spelunkrifice
-      case 1045: // Hostile Work Environment
-        SpelunkyRequest.parseChoice(ChoiceManager.lastChoice, text, ChoiceManager.lastDecision);
-        break;
+      case 1028, // A Shop
+          1029, // An Old Clay Pot
+          1030, // It's a Trap!  A Dart Trap.
+          1031, // A Tombstone
+          1032, // It's a Trap!  A Tiki Trap.
+          1033, // A Big Block of Ice
+          1034, // A Landmine
+          1035, // A Crate
+          1036, // Idolatry
+          1037, // It's a Trap!  A Smashy Trap.
+          1038, // A Wicked Web
+          1039, // A Golden Chest
+          1040, // It's Lump. It's Lump.
+          1041, // Spelunkrifice
+          1045 -> // Hostile Work Environment
+      SpelunkyRequest.parseChoice(ChoiceManager.lastChoice, text, ChoiceManager.lastDecision);
 
-      case 1042: // Pick a Perk
-        SpelunkyRequest.upgrade(ChoiceManager.lastDecision);
-        break;
+      case 1042 -> // Pick a Perk
+      SpelunkyRequest.upgrade(ChoiceManager.lastDecision);
 
-      case 1044:
+      case 1044 -> {
         // The Gates of Hell
         if (text.contains("unlock the padlock")) {
           SpelunkyRequest.unlock("Hell", "Hell");
         }
-        break;
+      }
 
-      case 1049:
+      case 1049 -> {
         // Tomb of the Unknown Your Class Here
         if (text.contains("Also in this room is a ghost")) {
           QuestDatabase.setQuestProgress(Quest.NEMESIS, "step1");
@@ -2592,9 +2484,9 @@ public abstract class ChoiceControl {
           ResultProcessor.processItem(starterWeaponId, -1);
           QuestDatabase.setQuestProgress(Quest.NEMESIS, "step4");
         }
-        break;
+      }
 
-      case 1052:
+      case 1052 -> {
         // Underworld Body Shop
         Matcher skillidMatcher = URL_SKILLID_PATTERN.matcher(urlString);
         if (skillidMatcher.find()) {
@@ -2610,29 +2502,28 @@ public abstract class ChoiceControl {
               };
           ResultProcessor.processResult(ItemPool.get(ItemPool.KA_COIN, -cost));
         }
-        break;
+      }
 
-      case 1053: // The Servants' Quarters
-        EdServantData.manipulateServants(request, text);
-        break;
+      case 1053 -> // The Servants' Quarters
+      EdServantData.manipulateServants(request, text);
 
-      case 1056:
+      case 1056 -> {
         // Now It's Dark
         // Twin Peak fourth choice
         if (text.contains("When the lights come back")) {
           // the other three must be completed at this point.
           Preferences.setInteger("twinPeakProgress", 15);
         }
-        break;
+      }
 
-      case 1057:
+      case 1057 -> {
         // A Stone Shrine
         if (text.contains("shatter the")) {
           KoLCharacter.setHippyStoneBroken(true);
         }
-        break;
+      }
 
-      case 1059:
+      case 1059 -> {
         // Helping Make Ends Meat
         if (text.contains("excitedly takes the check")) {
           QuestDatabase.setQuestProgress(Quest.MEATSMITH, QuestDatabase.FINISHED);
@@ -2642,16 +2533,16 @@ public abstract class ChoiceControl {
           QuestDatabase.setQuestProgress(Quest.MEATSMITH, QuestDatabase.STARTED);
           Preferences.setBoolean("skeletonStoreAvailable", true);
         }
-        break;
+      }
 
-      case 1060:
+      case 1060 -> {
         // Temporarily Out of Skeletons
         if (text.contains("it snaps off")) {
           ResultProcessor.removeItem(ItemPool.SKELETON_KEY);
         }
-        break;
+      }
 
-      case 1061:
+      case 1061 -> {
         // Heart of Madness
         if (ChoiceManager.lastDecision == 1) {
           QuestDatabase.setQuestIfBetter(Quest.ARMORER, "step1");
@@ -2660,16 +2551,16 @@ public abstract class ChoiceControl {
           ResultProcessor.removeItem(ItemPool.POPULAR_PART);
           Preferences.setBoolean("popularTartUnlocked", true);
         }
-        break;
+      }
 
-      case 1062:
+      case 1062 -> {
         // Lots of Options
         if (ChoiceManager.lastDecision == 6) {
           Preferences.setBoolean("_candyCaneSwordOvergrownLot", true);
         }
-        break;
+      }
 
-      case 1064:
+      case 1064 -> {
         // The Doctor is Out.  Of Herbs.
         if (ChoiceManager.lastDecision == 1) {
           QuestDatabase.setQuestProgress(Quest.DOC, QuestDatabase.STARTED);
@@ -2682,9 +2573,9 @@ public abstract class ChoiceControl {
           HPRestoreItemList.updateHealthRestored();
           MPRestoreItemList.updateManaRestored();
         }
-        break;
+      }
 
-      case 1065:
+      case 1065 -> {
         // Lending a Hand (and a Foot)
         if (ChoiceManager.lastDecision == 1) {
           QuestDatabase.setQuestProgress(Quest.ARMORER, QuestDatabase.STARTED);
@@ -2692,9 +2583,9 @@ public abstract class ChoiceControl {
         } else if (ChoiceManager.lastDecision == 3) {
           QuestDatabase.setQuestIfBetter(Quest.ARMORER, QuestDatabase.STARTED);
         }
-        break;
+      }
 
-      case 1066:
+      case 1066 -> {
         // Employee Assignment Kiosk
         if (text.contains("Performance Review:  Sufficient")) {
           EquipmentManager.discardEquipment(ItemPool.TRASH_NET);
@@ -2742,17 +2633,17 @@ public abstract class ChoiceControl {
           Preferences.setInteger("dinseyTouristsFed", 0);
           QuestDatabase.setQuestProgress(Quest.WORK_WITH_FOOD, QuestDatabase.STARTED);
         }
-        break;
+      }
 
-      case 1067:
+      case 1067 -> {
         // Maint Misbehavin'
         if (text.contains("throw a bag of garbage into it")) {
           ResultProcessor.processItem(ItemPool.GARBAGE_BAG, -1);
           Preferences.setBoolean("_dinseyGarbageDisposed", true);
         }
-        break;
+      }
 
-      case 1076:
+      case 1076 -> {
         // Mayo Minder&trade;
         switch (ChoiceManager.lastDecision) {
           case 1 -> Preferences.setString("mayoMinderSetting", "Mayonex");
@@ -2762,9 +2653,9 @@ public abstract class ChoiceControl {
           case 5 -> Preferences.setString("mayoMinderSetting", "Mayoflex");
           case 6 -> Preferences.setString("mayoMinderSetting", "");
         }
-        break;
+      }
 
-      case 1080:
+      case 1080 -> {
         // Bagelmat-5000
         if (text.contains("shove a wad of dough into the slot")) {
           ResultProcessor.removeItem(ItemPool.DOUGH);
@@ -2772,48 +2663,47 @@ public abstract class ChoiceControl {
         if (ChoiceManager.lastDecision == 2) {
           Preferences.setBoolean("_candyCaneSwordMadnessBakery", true);
         }
-        break;
+      }
 
-      case 1081:
+      case 1081 -> {
         // Assault and Baguettery
         if (ChoiceManager.lastDecision == 1
             || ChoiceManager.lastDecision == 2
             || ChoiceManager.lastDecision == 3) {
           ResultProcessor.removeItem(ItemPool.MAGICAL_BAGUETTE);
         }
-        break;
+      }
 
-      case 1084:
+      case 1084 -> {
         // The Popular Machine
         if (text.contains("popular tart springs")) {
           ResultProcessor.removeItem(ItemPool.DOUGH);
           ResultProcessor.removeItem(ItemPool.STRAWBERRY);
           ResultProcessor.removeItem(ItemPool.ENCHANTED_ICING);
         }
-        break;
+      }
 
-      case 1085:
-      case 1086:
+      case 1085, 1086 -> {
         // The Deck of Every Card
         DeckOfEveryCardRequest.postChoice1(text);
-        return;
+      }
 
-      case 1087:
+      case 1087 -> {
         // The Dark and Dank and Sinister Cave Entrance
         if (text.contains("stumpy-legged mushroom creatures")) {
           QuestDatabase.setQuestProgress(Quest.NEMESIS, "step12");
         }
-        break;
+      }
 
-      case 1088:
+      case 1088 -> {
         // Rubble, Rubble, Toil and Trouble
         if (text.contains("BOOOOOOM!")) {
           ResultProcessor.processItem(ItemPool.FIZZING_SPORE_POD, -6);
           QuestDatabase.setQuestProgress(Quest.NEMESIS, "step15");
         }
-        break;
+      }
 
-      case 1103:
+      case 1103 -> {
         {
           int result =
               NumberologyManager.numberology(StringUtilities.parseInt(request.getFormField("num")));
@@ -2821,9 +2711,9 @@ public abstract class ChoiceControl {
             KoLAdventure.clearLocation();
           }
         }
-        break;
+      }
 
-      case 1118:
+      case 1118 -> {
         // X-32-F Combat Training Snowman Control Console
         switch (ChoiceManager.lastDecision) {
           case 1 -> Preferences.setString("snojoSetting", "MUSCLE");
@@ -2831,40 +2721,29 @@ public abstract class ChoiceControl {
           case 3 -> Preferences.setString("snojoSetting", "MOXIE");
           case 4 -> Preferences.setString("snojoSetting", "TOURNAMENT");
         }
-        break;
+      }
 
-      case 1120:
-      case 1121:
-      case 1122:
-      case 1123:
-        // Some Assembly Required
-        VYKEACompanionData.assembleCompanion(
-            ChoiceManager.lastChoice, ChoiceManager.lastDecision, text);
-        break;
+      case 1120, 1121, 1122, 1123 -> // Some Assembly Required
+      VYKEACompanionData.assembleCompanion(
+          ChoiceManager.lastChoice, ChoiceManager.lastDecision, text);
 
-      case 1133:
+      case 1133 -> {
         // Batfellow Begins
         if (ChoiceManager.lastDecision == 1) {
           KoLCharacter.enterLimitmode(LimitMode.BATMAN);
         }
-        break;
+      }
 
-      case 1137:
-        // Bat-Suit Upgrades
-        BatManager.batSuitUpgrade(ChoiceManager.lastDecision, text);
-        break;
+      case 1137 -> // Bat-Suit Upgrades
+      BatManager.batSuitUpgrade(ChoiceManager.lastDecision, text);
 
-      case 1138:
-        // Bat-Sedan Upgrades
-        BatManager.batSedanUpgrade(ChoiceManager.lastDecision, text);
-        break;
+      case 1138 -> // Bat-Sedan Upgrades
+      BatManager.batSedanUpgrade(ChoiceManager.lastDecision, text);
 
-      case 1139:
-        // Bat-Cavern Upgrades
-        BatManager.batCavernUpgrade(ChoiceManager.lastDecision, text);
-        break;
+      case 1139 -> // Bat-Cavern Upgrades
+      BatManager.batCavernUpgrade(ChoiceManager.lastDecision, text);
 
-      case 1140:
+      case 1140 -> {
         // Casing the Conservatory
         if (ChoiceManager.lastDecision == 4) {
           ResultProcessor.removeItem(ItemPool.GLOB_OF_BAT_GLUE);
@@ -2873,9 +2752,9 @@ public abstract class ChoiceControl {
           ResultProcessor.removeItem(ItemPool.FINGERPRINT_DUSTING_KIT);
           ResultProcessor.removeItem(ItemPool.FINGERPRINT_DUSTING_KIT);
         }
-        break;
+      }
 
-      case 1141:
+      case 1141 -> {
         // Researching the Reservoir
         if (ChoiceManager.lastDecision == 4) {
           ResultProcessor.removeItem(ItemPool.BAT_AID_BANDAGE);
@@ -2884,9 +2763,9 @@ public abstract class ChoiceControl {
           ResultProcessor.removeItem(ItemPool.ULTRACOAGULATOR);
           ResultProcessor.removeItem(ItemPool.ULTRACOAGULATOR);
         }
-        break;
+      }
 
-      case 1142:
+      case 1142 -> {
         // Combing the Cemetery
         if (ChoiceManager.lastDecision == 4) {
           ResultProcessor.removeItem(ItemPool.BAT_BEARING);
@@ -2895,68 +2774,68 @@ public abstract class ChoiceControl {
           ResultProcessor.removeItem(ItemPool.EXPLODING_KICKBALL);
           ResultProcessor.removeItem(ItemPool.EXPLODING_KICKBALL);
         }
-        break;
+      }
 
-      case 1143:
+      case 1143 -> {
         // Searching the Sewers
         if (ChoiceManager.lastDecision == 4) {
           ResultProcessor.removeItem(ItemPool.BAT_OOMERANG);
         }
-        break;
+      }
 
-      case 1144:
+      case 1144 -> {
         // Assessing the Asylum
         if (ChoiceManager.lastDecision == 4) {
           ResultProcessor.removeItem(ItemPool.BAT_O_MITE);
         }
-        break;
+      }
 
-      case 1145:
+      case 1145 -> {
         // Looking over the Library
         if (ChoiceManager.lastDecision == 4) {
           ResultProcessor.removeItem(ItemPool.BAT_JUTE);
         }
-        break;
+      }
 
-      case 1146:
+      case 1146 -> {
         // Considering the Clock Factory
         if (ChoiceManager.lastDecision == 4) {
           ResultProcessor.removeItem(ItemPool.EXPLODING_KICKBALL);
         }
-        break;
+      }
 
-      case 1147:
+      case 1147 -> {
         // Frisking the Foundry
         if (ChoiceManager.lastDecision == 4) {
           ResultProcessor.removeItem(ItemPool.ULTRACOAGULATOR);
         }
-        break;
+      }
 
-      case 1148:
+      case 1148 -> {
         // Taking Stock of the Trivia Company
         if (ChoiceManager.lastDecision == 4) {
           ResultProcessor.removeItem(ItemPool.FINGERPRINT_DUSTING_KIT);
         }
-        break;
+      }
 
-      case 1176:
+      case 1176 -> {
         // Go West, Young Adventurer!
         if (ChoiceManager.lastDecision == 3) {
           // Snake Oilers start with extra
           Preferences.setInteger("awolMedicine", 3);
           Preferences.setInteger("awolVenom", 3);
         }
-        break;
+      }
 
-      case 1182:
+      case 1182 -> {
         // Play against the Witchess Pieces
         if (ChoiceManager.lastDecision == 1) {
           KoLAdventure.clearLocation();
           GenericRequest.itemMonster = "Your Witchess Set";
         }
-        break;
+      }
 
-      case 1190:
+      case 1190 -> {
         // The Oracle
         if (ChoiceManager.lastDecision == 2) {
           ResultProcessor.removeItem(ItemPool.NO_SPOON);
@@ -2970,9 +2849,9 @@ public abstract class ChoiceControl {
             Preferences.setString("sourceOracleTarget", matcher.group(1));
           }
         }
-        break;
+      }
 
-      case 1191:
+      case 1191 -> {
         // Source Terminal
         request.setHasResult(false);
         if (ChoiceManager.lastDecision != 1) {
@@ -2983,26 +2862,26 @@ public abstract class ChoiceControl {
           break;
         }
         handleSourceTerminal(input, text);
-        break;
+      }
 
-      case 1195:
+      case 1195 -> {
         // Spinning Your Time-Spinner
         if (ChoiceManager.lastDecision == 3) {
           Preferences.increment("_timeSpinnerMinutesUsed");
         } else if (ChoiceManager.lastDecision == 4) {
           Preferences.increment("_timeSpinnerMinutesUsed", 2);
         }
-        break;
+      }
 
-      case 1196:
+      case 1196 -> {
         // Travel to a Recent Fight
         if (ChoiceManager.lastDecision == 1 && !urlString.contains("monid=0")) {
           Preferences.increment("_timeSpinnerMinutesUsed", 3);
           EncounterManager.ignoreSpecialMonsters();
         }
-        break;
+      }
 
-      case 1215:
+      case 1215 -> {
         // Setting the Clock
         Preferences.setBoolean("_gingerbreadClockVisited", true);
 
@@ -3010,42 +2889,40 @@ public abstract class ChoiceControl {
           Preferences.setBoolean("_gingerbreadClockAdvanced", true);
           Preferences.increment("_gingerbreadCityTurns");
         }
-        break;
+      }
 
-      case 1217:
+      case 1217 -> {
         // Sweet Synthesis
         SweetSynthesisRequest.postChoice1(urlString, text);
-        return;
+      }
 
-      case 1222:
+      case 1222 -> {
         // The Tunnel of L.O.V.E.
         if (ChoiceManager.lastDecision == 1) {
           Preferences.setBoolean("_loveTunnelUsed", true);
         }
-        return;
+      }
 
-      case 1229:
-        {
-          // L.O.V. Exit
+      case 1229 -> {
+        // L.O.V. Exit
 
-          Matcher matcher = LOV_LOGENTRY_PATTERN.matcher(text);
-          if (matcher.find()) {
-            String message = "Your log entry: " + matcher.group(1);
-            RequestLogger.printLine(message);
-            RequestLogger.updateSessionLog(message);
-          }
-          return;
+        Matcher matcher = LOV_LOGENTRY_PATTERN.matcher(text);
+        if (matcher.find()) {
+          String message = "Your log entry: " + matcher.group(1);
+          RequestLogger.printLine(message);
+          RequestLogger.updateSessionLog(message);
         }
+      }
 
-      case 1231:
+      case 1231 -> {
         // Gummi-Memories, In the Corner of Your Mind
         if (ChoiceManager.lastDecision == 1) {
           ResultProcessor.removeItem(ItemPool.GUMMY_MEMORY);
           Preferences.increment("noobDeferredPoints", 5);
         }
-        return;
+      }
 
-      case 1234:
+      case 1234 -> {
         // Spacegate Vaccinator
         //
         // option 1 = Rainbow Vaccine
@@ -3060,21 +2937,21 @@ public abstract class ChoiceControl {
         } else if (text.contains("You acquire an effect")) {
           Preferences.setBoolean("_spacegateVaccine", true);
         }
-        break;
+      }
 
-      case 1235:
+      case 1235 -> {
         // Spacegate Terminal
         QuestManager.parseSpacegateTerminal(text, true);
-        return;
+      }
 
-      case 1246:
+      case 1246 -> {
         // Land Ho
         if (ChoiceManager.lastDecision == 1) {
           parseLanguageFluency(text, "spacePirateLanguageFluency");
         }
-        break;
+      }
 
-      case 1247:
+      case 1247 -> {
         // Half the Ship it used to Be
         if (ChoiceManager.lastDecision == 1) {
           if (text.contains("You acquire an item")) {
@@ -3083,65 +2960,65 @@ public abstract class ChoiceControl {
             parseLanguageFluency(text, "spacePirateLanguageFluency");
           }
         }
-        break;
+      }
 
-      case 1248:
+      case 1248 -> {
         // Paradise Under a Strange Sun
         if (text.contains("You acquire an item")) {
           ResultProcessor.removeItem(ItemPool.SPACE_PIRATE_TREASURE_MAP);
         }
-        break;
+      }
 
-      case 1249:
+      case 1249 -> {
         // That's No Monolith, it's a Monolith
         if (ChoiceManager.lastDecision == 1) {
           parseLanguageFluency(text, "procrastinatorLanguageFluency");
           ResultProcessor.removeItem(ItemPool.MURDERBOT_DATA_CORE);
         }
-        break;
+      }
 
-      case 1250:
+      case 1250 -> {
         // I'm Afraid It's Terminal
         if (ChoiceManager.lastDecision == 1) {
           if (text.contains("You acquire an item")) {
             Preferences.setInteger("procrastinatorLanguageFluency", 0);
           }
         }
-        break;
+      }
 
-      case 1251:
+      case 1251 -> {
         // Curses, A Hex
         if (text.contains("You acquire an item")) {
           ResultProcessor.removeItem(ItemPool.PROCRASTINATOR_LOCKER_KEY);
         }
-        break;
+      }
 
-      case 1252:
+      case 1252 -> {
         // Time Enough at Last
         if (ChoiceManager.lastDecision == 1) {
           // You get a Space Baby children's book which
           // will grants spaceBabyLanguageFluency +10
           // when read
         }
-        break;
+      }
 
-      case 1253:
+      case 1253 -> {
         // Mother May I
         if (ChoiceManager.lastDecision == 1) {
           if (text.contains("You acquire an item")) {
             Preferences.setInteger("spaceBabyLanguageFluency", 0);
           }
         }
-        break;
+      }
 
-      case 1254:
+      case 1254 -> {
         // Please Baby Baby Please
         if (text.contains("You acquire an item")) {
           ResultProcessor.removeItem(ItemPool.SPACE_BABY_BAWBAW);
         }
-        break;
+      }
 
-      case 1260:
+      case 1260 -> {
         // A Strange Panel
         if (ChoiceManager.lastDecision < 1 || ChoiceManager.lastDecision > 3) {
           break;
@@ -3167,9 +3044,9 @@ public abstract class ChoiceControl {
           Preferences.decrement("_villainLairProgress", 7);
         }
         Preferences.setBoolean("_villainLairColorChoiceUsed", true);
-        break;
+      }
 
-      case 1261:
+      case 1261 -> {
         // Which Door?
         if (ChoiceManager.lastDecision == 1) {
           if (text.contains("drop 1000")) {
@@ -3196,9 +3073,9 @@ public abstract class ChoiceControl {
           Preferences.decrement("_villainLairProgress", 13);
           Preferences.setBoolean("_villainLairDoorChoiceUsed", true);
         }
-        break;
+      }
 
-      case 1262:
+      case 1262 -> {
         // What Setting?
         if (ChoiceManager.lastDecision < 1 || ChoiceManager.lastDecision > 3) {
           break;
@@ -3220,9 +3097,9 @@ public abstract class ChoiceControl {
           Preferences.decrement("_villainLairProgress", 15);
         }
         Preferences.setBoolean("_villainLairSymbologyChoiceUsed", true);
-        break;
+      }
 
-      case 1266:
+      case 1266 -> {
         // The Hostler
         if (ChoiceManager.lastDecision < 5) {
           Pattern pattern = Pattern.compile("You rent(|ed) the (.*?)!");
@@ -3253,70 +3130,65 @@ public abstract class ChoiceControl {
           RequestLogger.printLine(message);
           RequestLogger.updateSessionLog(message);
         }
-        break;
+      }
 
-      case 1270:
+      case 1270 -> {
         // Pantagramming
         // The item that we get has a procedurally-generated name
         request.setHasResult(false);
         PantogramRequest.parseResponse(urlString, text);
-        break;
+      }
 
-      case 1271:
-        // Mummery
-        MummeryRequest.parseResponse(ChoiceManager.lastDecision, text);
-        break;
+      case 1271 -> // Mummery
+      MummeryRequest.parseResponse(ChoiceManager.lastDecision, text);
 
-      case 1275:
-        {
-          // Rummaging through the Garbage
-          if (ChoiceManager.lastDecision >= 1 && ChoiceManager.lastDecision <= 5) {
-            // Remove all of the items before parsing the newly-received one
-            EquipmentManager.removeEquipment(ItemPool.DECEASED_TREE);
-            ResultProcessor.removeItem(ItemPool.DECEASED_TREE);
-            EquipmentManager.removeEquipment(ItemPool.BROKEN_CHAMPAGNE);
-            ResultProcessor.removeItem(ItemPool.BROKEN_CHAMPAGNE);
-            EquipmentManager.removeEquipment(ItemPool.TINSEL_TIGHTS);
-            ResultProcessor.removeItem(ItemPool.TINSEL_TIGHTS);
-            EquipmentManager.removeEquipment(ItemPool.WAD_OF_TAPE);
-            ResultProcessor.removeItem(ItemPool.WAD_OF_TAPE);
-            EquipmentManager.removeEquipment(ItemPool.MAKESHIFT_GARBAGE_SHIRT);
-            ResultProcessor.removeItem(ItemPool.MAKESHIFT_GARBAGE_SHIRT);
-            if (!Preferences.getBoolean("_garbageItemChanged")) {
-              Preferences.setInteger("garbageTreeCharge", 1000);
-              Preferences.setInteger("garbageChampagneCharge", 11);
-              Preferences.setInteger("garbageShirtCharge", 37);
-            }
-            Preferences.setBoolean("_garbageItemChanged", true);
+      case 1275 -> {
+        // Rummaging through the Garbage
+        if (ChoiceManager.lastDecision >= 1 && ChoiceManager.lastDecision <= 5) {
+          // Remove all of the items before parsing the newly-received one
+          EquipmentManager.removeEquipment(ItemPool.DECEASED_TREE);
+          ResultProcessor.removeItem(ItemPool.DECEASED_TREE);
+          EquipmentManager.removeEquipment(ItemPool.BROKEN_CHAMPAGNE);
+          ResultProcessor.removeItem(ItemPool.BROKEN_CHAMPAGNE);
+          EquipmentManager.removeEquipment(ItemPool.TINSEL_TIGHTS);
+          ResultProcessor.removeItem(ItemPool.TINSEL_TIGHTS);
+          EquipmentManager.removeEquipment(ItemPool.WAD_OF_TAPE);
+          ResultProcessor.removeItem(ItemPool.WAD_OF_TAPE);
+          EquipmentManager.removeEquipment(ItemPool.MAKESHIFT_GARBAGE_SHIRT);
+          ResultProcessor.removeItem(ItemPool.MAKESHIFT_GARBAGE_SHIRT);
+          if (!Preferences.getBoolean("_garbageItemChanged")) {
+            Preferences.setInteger("garbageTreeCharge", 1000);
+            Preferences.setInteger("garbageChampagneCharge", 11);
+            Preferences.setInteger("garbageShirtCharge", 37);
           }
-          // Do some parsing of needles/wine/scraps here
-          Matcher matcher = DECEASED_TREE_PATTERN.matcher(text);
-          if (matcher.find()) {
-            Preferences.setInteger("garbageTreeCharge", StringUtilities.parseInt(matcher.group(1)));
-          }
-          matcher = BROKEN_CHAMPAGNE_PATTERN.matcher(text);
-          if (matcher.find()) {
-            Preferences.setInteger(
-                "garbageChampagneCharge", StringUtilities.parseInt(matcher.group(1)));
-          }
-          matcher = GARBAGE_SHIRT_PATTERN.matcher(text);
-          if (matcher.find()) {
-            Preferences.setInteger(
-                "garbageShirtCharge", StringUtilities.parseInt(matcher.group(1)));
-          }
-          break;
+          Preferences.setBoolean("_garbageItemChanged", true);
         }
+        // Do some parsing of needles/wine/scraps here
+        Matcher matcher = DECEASED_TREE_PATTERN.matcher(text);
+        if (matcher.find()) {
+          Preferences.setInteger("garbageTreeCharge", StringUtilities.parseInt(matcher.group(1)));
+        }
+        matcher = BROKEN_CHAMPAGNE_PATTERN.matcher(text);
+        if (matcher.find()) {
+          Preferences.setInteger(
+              "garbageChampagneCharge", StringUtilities.parseInt(matcher.group(1)));
+        }
+        matcher = GARBAGE_SHIRT_PATTERN.matcher(text);
+        if (matcher.find()) {
+          Preferences.setInteger("garbageShirtCharge", StringUtilities.parseInt(matcher.group(1)));
+        }
+      }
 
-      case 1277:
+      case 1277 -> {
         // Extra, Extra
         if (ChoiceManager.lastDecision >= 1
             && ChoiceManager.lastDecision <= 5
             && text.contains("You acquire")) {
           ResultProcessor.removeItem(ItemPool.BURNING_NEWSPAPER);
         }
-        break;
+      }
 
-      case 1280:
+      case 1280 -> {
         // Welcome to FantasyRealm
         if (ChoiceManager.lastDecision != 6) {
           Preferences.setInteger("_frHoursLeft", 5);
@@ -3339,535 +3211,480 @@ public abstract class ChoiceControl {
           }
           Preferences.setString("_frAreasUnlocked", unlocks.toString());
         }
-        break;
+      }
 
-      case 1281:
-        {
-          // You'll See You at the Crossroads
-          StringBuffer unlocks = new StringBuffer(Preferences.getString("_frAreasUnlocked"));
-          if (ChoiceManager.lastDecision != 6) {
-            Preferences.decrement("_frHoursLeft");
-            StringUtilities.singleStringReplace(unlocks, "The Bandit Crossroads,", "");
-          }
-          if (ChoiceManager.lastDecision == 1) {
-            unlocks.append("The Towering Mountains,");
-          }
-          if (ChoiceManager.lastDecision == 2) {
-            unlocks.append("The Mystic Wood,");
-          }
-          if (ChoiceManager.lastDecision == 3) {
-            unlocks.append("The Putrid Swamp,");
-          }
-          if (ChoiceManager.lastDecision == 4) {
-            unlocks.append("The Cursed Village,");
-          }
-          if (ChoiceManager.lastDecision == 5) {
-            unlocks.append("The Sprawling Cemetery,");
-          }
-          Preferences.setString("_frAreasUnlocked", unlocks.toString());
-          break;
+      case 1281 -> {
+        // You'll See You at the Crossroads
+        StringBuffer unlocks = new StringBuffer(Preferences.getString("_frAreasUnlocked"));
+        if (ChoiceManager.lastDecision != 6) {
+          Preferences.decrement("_frHoursLeft");
+          StringUtilities.singleStringReplace(unlocks, "The Bandit Crossroads,", "");
         }
-
-      case 1282:
-        {
-          // Out of Range
-          StringBuffer unlocks = new StringBuffer(Preferences.getString("_frAreasUnlocked"));
-          if (ChoiceManager.lastDecision != 11) {
-            Preferences.decrement("_frHoursLeft");
-            StringUtilities.singleStringReplace(unlocks, "The Towering Mountains,", "");
-          }
-          if (ChoiceManager.lastDecision == 1) {
-            unlocks.append("The Old Rubee Mine,");
-            ResultProcessor.removeItem(ItemPool.FR_KEY);
-          }
-          if (ChoiceManager.lastDecision == 2) {
-            unlocks.append("The Foreboding Cave,");
-          }
-          if (ChoiceManager.lastDecision == 3) {
-            unlocks.append("The Master Thief's Chalet,");
-          }
-          if (ChoiceManager.lastDecision == 4) {
-            ResultProcessor.removeItem(ItemPool.FR_DRUIDIC_ORB);
-          }
-          if (ChoiceManager.lastDecision == 5) {
-            unlocks.append("The Ogre Chieftain's Keep,");
-          }
-          if (ChoiceManager.lastDecision == 10) {
-            Preferences.increment("_frButtonsPressed");
-          }
-          Preferences.setString("_frAreasUnlocked", unlocks.toString());
-          break;
+        if (ChoiceManager.lastDecision == 1) {
+          unlocks.append("The Towering Mountains,");
         }
-
-      case 1283:
-        {
-          // Where Wood You Like to Go
-          StringBuffer unlocks = new StringBuffer(Preferences.getString("_frAreasUnlocked"));
-          if (ChoiceManager.lastDecision != 11) {
-            Preferences.decrement("_frHoursLeft");
-            StringUtilities.singleStringReplace(unlocks, "The Mystic Wood,", "");
-          }
-          if (ChoiceManager.lastDecision == 1) {
-            unlocks.append("The Faerie Cyrkle,");
-          }
-          if (ChoiceManager.lastDecision == 2) {
-            unlocks.append("The Druidic Campsite,");
-          }
-          if (ChoiceManager.lastDecision == 3) {
-            unlocks.append("The Ley Nexus,");
-          }
-          if (ChoiceManager.lastDecision == 10) {
-            Preferences.increment("_frButtonsPressed");
-          }
-          Preferences.setString("_frAreasUnlocked", unlocks.toString());
-          break;
+        if (ChoiceManager.lastDecision == 2) {
+          unlocks.append("The Mystic Wood,");
         }
-
-      case 1284:
-        {
-          // Swamped with Leisure
-          StringBuffer unlocks = new StringBuffer(Preferences.getString("_frAreasUnlocked"));
-          if (ChoiceManager.lastDecision != 11) {
-            Preferences.decrement("_frHoursLeft");
-            StringUtilities.singleStringReplace(unlocks, "The Putrid Swamp,", "");
-          }
-          if (ChoiceManager.lastDecision == 1) {
-            unlocks.append("Near the Witch's House,");
-          }
-          if (ChoiceManager.lastDecision == 2) {
-            unlocks.append("The Troll Fortress,");
-            ResultProcessor.removeItem(ItemPool.FR_KEY);
-          }
-          if (ChoiceManager.lastDecision == 3) {
-            unlocks.append("The Dragon's Moor,");
-          }
-          if (ChoiceManager.lastDecision == 10) {
-            Preferences.increment("_frButtonsPressed");
-          }
-          Preferences.setString("_frAreasUnlocked", unlocks.toString());
-          break;
+        if (ChoiceManager.lastDecision == 3) {
+          unlocks.append("The Putrid Swamp,");
         }
-
-      case 1285:
-        {
-          // It Takes a Cursed Village
-          StringBuffer unlocks = new StringBuffer(Preferences.getString("_frAreasUnlocked"));
-          if (ChoiceManager.lastDecision != 11) {
-            Preferences.decrement("_frHoursLeft");
-            StringUtilities.singleStringReplace(unlocks, "The Cursed Village,", "");
-          }
-          if (ChoiceManager.lastDecision == 1) {
-            unlocks.append("The Evil Cathedral,");
-          }
-          if (ChoiceManager.lastDecision == 2) {
-            unlocks.append("The Cursed Village Thieves' Guild,");
-          }
-          if (ChoiceManager.lastDecision == 3) {
-            unlocks.append("The Archwizard's Tower,");
-          }
-          if (ChoiceManager.lastDecision == 6) {
-            ResultProcessor.removeItem(ItemPool.FR_DRAGON_ORE);
-          }
-          if (ChoiceManager.lastDecision == 7) {
-            ResultProcessor.removeItem(ItemPool.FR_ARREST_WARRANT);
-          }
-          if (ChoiceManager.lastDecision == 10) {
-            Preferences.increment("_frButtonsPressed");
-          }
-          Preferences.setString("_frAreasUnlocked", unlocks.toString());
-          break;
+        if (ChoiceManager.lastDecision == 4) {
+          unlocks.append("The Cursed Village,");
         }
-
-      case 1286:
-        {
-          // Resting in Peace
-          StringBuffer unlocks = new StringBuffer(Preferences.getString("_frAreasUnlocked"));
-          if (ChoiceManager.lastDecision != 11) {
-            Preferences.decrement("_frHoursLeft");
-            StringUtilities.singleStringReplace(unlocks, "The Sprawling Cemetery,", "");
-          }
-          if (ChoiceManager.lastDecision == 1) {
-            unlocks.append("The Labyrinthine Crypt,");
-          }
-          if (ChoiceManager.lastDecision == 2) {
-            unlocks.append("The Barrow Mounds,");
-          }
-          if (ChoiceManager.lastDecision == 3) {
-            unlocks.append("Duke Vampire's Chateau,");
-          }
-          if (ChoiceManager.lastDecision == 10) {
-            Preferences.increment("_frButtonsPressed");
-          }
-          Preferences.setString("_frAreasUnlocked", unlocks.toString());
-          break;
+        if (ChoiceManager.lastDecision == 5) {
+          unlocks.append("The Sprawling Cemetery,");
         }
+        Preferences.setString("_frAreasUnlocked", unlocks.toString());
+      }
 
-      case 1288:
-        {
-          // What's Yours is Yours
-          StringBuffer unlocks = new StringBuffer(Preferences.getString("_frAreasUnlocked"));
-          if (ChoiceManager.lastDecision != 6) {
-            Preferences.decrement("_frHoursLeft");
-            StringUtilities.singleStringReplace(unlocks, "The Old Rubee Mine,", "");
-          }
-          Preferences.setString("_frAreasUnlocked", unlocks.toString());
-          break;
+      case 1282 -> {
+        // Out of Range
+        StringBuffer unlocks = new StringBuffer(Preferences.getString("_frAreasUnlocked"));
+        if (ChoiceManager.lastDecision != 11) {
+          Preferences.decrement("_frHoursLeft");
+          StringUtilities.singleStringReplace(unlocks, "The Towering Mountains,", "");
         }
-
-      case 1289:
-        {
-          // A Warm Place
-          StringBuffer unlocks = new StringBuffer(Preferences.getString("_frAreasUnlocked"));
-          if (ChoiceManager.lastDecision != 6) {
-            Preferences.decrement("_frHoursLeft");
-            StringUtilities.singleStringReplace(unlocks, "The Foreboding Cave,", "");
-          }
-          if (ChoiceManager.lastDecision == 3) {
-            unlocks.append("The Lair of the Phoenix,");
-          }
-          Preferences.setString("_frAreasUnlocked", unlocks.toString());
-          break;
+        if (ChoiceManager.lastDecision == 1) {
+          unlocks.append("The Old Rubee Mine,");
+          ResultProcessor.removeItem(ItemPool.FR_KEY);
         }
-
-      case 1290:
-        {
-          // The Cyrkle Is Compleat
-          StringBuffer unlocks = new StringBuffer(Preferences.getString("_frAreasUnlocked"));
-          if (ChoiceManager.lastDecision != 6) {
-            Preferences.decrement("_frHoursLeft");
-            StringUtilities.singleStringReplace(unlocks, "The Faerie Cyrkle,", "");
-          }
-          if (ChoiceManager.lastDecision == 3) {
-            unlocks.append("The Spider Queen's Lair,");
-          }
-          Preferences.setString("_frAreasUnlocked", unlocks.toString());
-          break;
+        if (ChoiceManager.lastDecision == 2) {
+          unlocks.append("The Foreboding Cave,");
         }
-
-      case 1291:
-        {
-          // Dudes, Where's My Druids?
-          StringBuffer unlocks = new StringBuffer(Preferences.getString("_frAreasUnlocked"));
-          if (ChoiceManager.lastDecision != 6) {
-            Preferences.decrement("_frHoursLeft");
-            StringUtilities.singleStringReplace(unlocks, "The Druidic Campsite,", "");
-          }
-          if (ChoiceManager.lastDecision == 2) {
-            ResultProcessor.removeItem(ItemPool.FR_TAINTED_MARSHMALLOW);
-          }
-          Preferences.setString("_frAreasUnlocked", unlocks.toString());
-          break;
+        if (ChoiceManager.lastDecision == 3) {
+          unlocks.append("The Master Thief's Chalet,");
         }
-
-      case 1292:
-        {
-          // Witch One You Want?
-          StringBuffer unlocks = new StringBuffer(Preferences.getString("_frAreasUnlocked"));
-          if (ChoiceManager.lastDecision != 6) {
-            Preferences.decrement("_frHoursLeft");
-            StringUtilities.singleStringReplace(unlocks, "Near the Witch's House,", "");
-          }
-          if (ChoiceManager.lastDecision == 2) {
-            ResultProcessor.removeItem(ItemPool.FR_PURPLE_MUSHROOM);
-          }
-          Preferences.setString("_frAreasUnlocked", unlocks.toString());
-          break;
+        if (ChoiceManager.lastDecision == 4) {
+          ResultProcessor.removeItem(ItemPool.FR_DRUIDIC_ORB);
         }
-
-      case 1293:
-        {
-          // Altared States
-          StringBuffer unlocks = new StringBuffer(Preferences.getString("_frAreasUnlocked"));
-          if (ChoiceManager.lastDecision != 6) {
-            Preferences.decrement("_frHoursLeft");
-            StringUtilities.singleStringReplace(unlocks, "The Evil Cathedral,", "");
-          }
-          Preferences.setString("_frAreasUnlocked", unlocks.toString());
-          break;
+        if (ChoiceManager.lastDecision == 5) {
+          unlocks.append("The Ogre Chieftain's Keep,");
         }
-
-      case 1294:
-        {
-          // Neither a Barrower Nor a Lender Be
-          StringBuffer unlocks = new StringBuffer(Preferences.getString("_frAreasUnlocked"));
-          if (ChoiceManager.lastDecision != 6) {
-            Preferences.decrement("_frHoursLeft");
-            StringUtilities.singleStringReplace(unlocks, "The Barrow Mounds,", "");
-          }
-          if (ChoiceManager.lastDecision == 3) {
-            unlocks.append("The Ghoul King's Catacomb,");
-          }
-          Preferences.setString("_frAreasUnlocked", unlocks.toString());
-          break;
+        if (ChoiceManager.lastDecision == 10) {
+          Preferences.increment("_frButtonsPressed");
         }
+        Preferences.setString("_frAreasUnlocked", unlocks.toString());
+      }
 
-      case 1295:
-        {
-          // Honor Among You
-          StringBuffer unlocks = new StringBuffer(Preferences.getString("_frAreasUnlocked"));
-          if (ChoiceManager.lastDecision != 6) {
-            Preferences.decrement("_frHoursLeft");
-            StringUtilities.singleStringReplace(unlocks, "The Cursed Village Thieves' Guild,", "");
-          }
-          Preferences.setString("_frAreasUnlocked", unlocks.toString());
-          break;
+      case 1283 -> {
+        // Where Wood You Like to Go
+        StringBuffer unlocks = new StringBuffer(Preferences.getString("_frAreasUnlocked"));
+        if (ChoiceManager.lastDecision != 11) {
+          Preferences.decrement("_frHoursLeft");
+          StringUtilities.singleStringReplace(unlocks, "The Mystic Wood,", "");
         }
-
-      case 1296:
-        {
-          // For Whom the Bell Trolls
-          StringBuffer unlocks = new StringBuffer(Preferences.getString("_frAreasUnlocked"));
-          if (ChoiceManager.lastDecision != 6) {
-            Preferences.decrement("_frHoursLeft");
-            StringUtilities.singleStringReplace(unlocks, "The Troll Fortress,", "");
-          }
-          if (ChoiceManager.lastDecision == 3) {
-            ResultProcessor.removeItem(ItemPool.FR_CHESWICKS_NOTES);
-          }
-          Preferences.setString("_frAreasUnlocked", unlocks.toString());
-          break;
+        if (ChoiceManager.lastDecision == 1) {
+          unlocks.append("The Faerie Cyrkle,");
         }
-
-      case 1297:
-        {
-          // Stick to the Crypt
-          StringBuffer unlocks = new StringBuffer(Preferences.getString("_frAreasUnlocked"));
-          if (ChoiceManager.lastDecision != 6) {
-            Preferences.decrement("_frHoursLeft");
-            StringUtilities.singleStringReplace(unlocks, "The Labyrinthine Crypt,", "");
-          }
-          Preferences.setString("_frAreasUnlocked", unlocks.toString());
-          break;
+        if (ChoiceManager.lastDecision == 2) {
+          unlocks.append("The Druidic Campsite,");
         }
-
-      case 1298:
-        {
-          // The "Phoenix"
-          StringBuffer unlocks = new StringBuffer(Preferences.getString("_frAreasUnlocked"));
-          if (ChoiceManager.lastDecision != 6) {
-            StringUtilities.singleStringReplace(unlocks, "The Lair of the Phoenix,", "");
-          }
-          if (ChoiceManager.lastDecision == 1) {
-            ResultProcessor.removeItem(ItemPool.FR_HOLY_WATER);
-          }
-          Preferences.setString("_frAreasUnlocked", unlocks.toString());
-          break;
+        if (ChoiceManager.lastDecision == 3) {
+          unlocks.append("The Ley Nexus,");
         }
-
-      case 1299:
-        {
-          // Stop Dragon Your Feet
-          StringBuffer unlocks = new StringBuffer(Preferences.getString("_frAreasUnlocked"));
-          if (ChoiceManager.lastDecision != 6) {
-            StringUtilities.singleStringReplace(unlocks, "The Dragon's Moor,", "");
-          }
-          Preferences.setString("_frAreasUnlocked", unlocks.toString());
-          break;
+        if (ChoiceManager.lastDecision == 10) {
+          Preferences.increment("_frButtonsPressed");
         }
+        Preferences.setString("_frAreasUnlocked", unlocks.toString());
+      }
 
-      case 1300:
-        {
-          // Just Vamping
-          StringBuffer unlocks = new StringBuffer(Preferences.getString("_frAreasUnlocked"));
-          if (ChoiceManager.lastDecision != 6) {
-            StringUtilities.singleStringReplace(unlocks, "Duke Vampire's Chateau,", "");
-          }
-          Preferences.setString("_frAreasUnlocked", unlocks.toString());
-          break;
+      case 1284 -> {
+        // Swamped with Leisure
+        StringBuffer unlocks = new StringBuffer(Preferences.getString("_frAreasUnlocked"));
+        if (ChoiceManager.lastDecision != 11) {
+          Preferences.decrement("_frHoursLeft");
+          StringUtilities.singleStringReplace(unlocks, "The Putrid Swamp,", "");
         }
-
-      case 1301:
-        {
-          // Now You've Spied Her
-          StringBuffer unlocks = new StringBuffer(Preferences.getString("_frAreasUnlocked"));
-          if (ChoiceManager.lastDecision != 6) {
-            StringUtilities.singleStringReplace(unlocks, "The Spider Queen's Lair,", "");
-          }
-          Preferences.setString("_frAreasUnlocked", unlocks.toString());
-          break;
+        if (ChoiceManager.lastDecision == 1) {
+          unlocks.append("Near the Witch's House,");
         }
-
-      case 1302:
-        {
-          // Don't Be Arch
-          StringBuffer unlocks = new StringBuffer(Preferences.getString("_frAreasUnlocked"));
-          if (ChoiceManager.lastDecision != 6) {
-            StringUtilities.singleStringReplace(unlocks, "The Archwizard's Tower,", "");
-          }
-          if (ChoiceManager.lastDecision == 1) {
-            ResultProcessor.removeItem(ItemPool.FR_CHARGED_ORB);
-          }
-          Preferences.setString("_frAreasUnlocked", unlocks.toString());
-          break;
+        if (ChoiceManager.lastDecision == 2) {
+          unlocks.append("The Troll Fortress,");
+          ResultProcessor.removeItem(ItemPool.FR_KEY);
         }
-
-      case 1303:
-        {
-          // Ley Lady Ley
-          StringBuffer unlocks = new StringBuffer(Preferences.getString("_frAreasUnlocked"));
-          if (ChoiceManager.lastDecision != 6) {
-            StringUtilities.singleStringReplace(unlocks, "The Ley Nexus,", "");
-          }
-          if (ChoiceManager.lastDecision == 1) {
-            ResultProcessor.removeItem(ItemPool.FR_CHESWICKS_COMPASS);
-          }
-          Preferences.setString("_frAreasUnlocked", unlocks.toString());
-          break;
+        if (ChoiceManager.lastDecision == 3) {
+          unlocks.append("The Dragon's Moor,");
         }
-
-      case 1304:
-        {
-          // He Is the Ghoul King, He Can Do Anything
-          StringBuffer unlocks = new StringBuffer(Preferences.getString("_frAreasUnlocked"));
-          if (ChoiceManager.lastDecision != 6) {
-            StringUtilities.singleStringReplace(unlocks, "The Ghoul King's Catacomb,", "");
-          }
-          Preferences.setString("_frAreasUnlocked", unlocks.toString());
-          break;
+        if (ChoiceManager.lastDecision == 10) {
+          Preferences.increment("_frButtonsPressed");
         }
+        Preferences.setString("_frAreasUnlocked", unlocks.toString());
+      }
 
-      case 1305:
-        {
-          // The Brogre's Progress
-          StringBuffer unlocks = new StringBuffer(Preferences.getString("_frAreasUnlocked"));
-          if (ChoiceManager.lastDecision != 6) {
-            StringUtilities.singleStringReplace(unlocks, "The Ogre Chieftain's Keep,", "");
-          }
-          if (ChoiceManager.lastDecision == 1) {
-            ResultProcessor.removeItem(ItemPool.FR_POISONED_SMORE);
-          }
-          Preferences.setString("_frAreasUnlocked", unlocks.toString());
-          break;
+      case 1285 -> {
+        // It Takes a Cursed Village
+        StringBuffer unlocks = new StringBuffer(Preferences.getString("_frAreasUnlocked"));
+        if (ChoiceManager.lastDecision != 11) {
+          Preferences.decrement("_frHoursLeft");
+          StringUtilities.singleStringReplace(unlocks, "The Cursed Village,", "");
         }
-
-      case 1307:
-        {
-          // It Takes a Thief
-          StringBuffer unlocks = new StringBuffer(Preferences.getString("_frAreasUnlocked"));
-          if (ChoiceManager.lastDecision != 6) {
-            StringUtilities.singleStringReplace(unlocks, "The Master Thief's Chalet,", "");
-          }
-          if (ChoiceManager.lastDecision == 1) {
-            ResultProcessor.removeItem(ItemPool.FR_NOTARIZED_WARRANT);
-          }
-          Preferences.setString("_frAreasUnlocked", unlocks.toString());
-          break;
+        if (ChoiceManager.lastDecision == 1) {
+          unlocks.append("The Evil Cathedral,");
         }
+        if (ChoiceManager.lastDecision == 2) {
+          unlocks.append("The Cursed Village Thieves' Guild,");
+        }
+        if (ChoiceManager.lastDecision == 3) {
+          unlocks.append("The Archwizard's Tower,");
+        }
+        if (ChoiceManager.lastDecision == 6) {
+          ResultProcessor.removeItem(ItemPool.FR_DRAGON_ORE);
+        }
+        if (ChoiceManager.lastDecision == 7) {
+          ResultProcessor.removeItem(ItemPool.FR_ARREST_WARRANT);
+        }
+        if (ChoiceManager.lastDecision == 10) {
+          Preferences.increment("_frButtonsPressed");
+        }
+        Preferences.setString("_frAreasUnlocked", unlocks.toString());
+      }
 
-      case 1312:
-        {
-          // Choose a Soundtrack
-          if (!text.contains("decide not to change the station")) {
-            String songChosen =
-                switch (ChoiceManager.lastDecision) {
-                  case 1 -> "Eye of the Giger";
-                  case 2 -> "Food Vibrations";
-                  case 3 -> "Remainin' Alive";
-                  case 4 -> "These Fists Were Made for Punchin'";
-                  case 5 -> "Total Eclipse of Your Meat";
-                  default -> "";
-                };
-            if (!songChosen.equals("")) {
-              if (!KoLCharacter.hasSkill(SkillPool.SING_ALONG)) {
-                KoLCharacter.addAvailableSkill(SkillPool.SING_ALONG);
-              }
-              if (!Preferences.getString("boomBoxSong").equals(songChosen)) {
-                Preferences.setString("boomBoxSong", songChosen);
-                Preferences.decrement("_boomBoxSongsLeft");
-                String message = "Setting soundtrack to " + songChosen;
-                RequestLogger.printLine(message);
-                RequestLogger.updateSessionLog(message);
-              }
-            } else {
-              if (KoLCharacter.hasSkill(SkillPool.SING_ALONG)) {
-                KoLCharacter.removeAvailableSkill(SkillPool.SING_ALONG);
-              }
-              if (!Preferences.getString("boomBoxSong").equals("")) {
-                Preferences.setString("boomBoxSong", "");
-                String message = "Switching soundtrack off";
-                RequestLogger.printLine(message);
-                RequestLogger.updateSessionLog(message);
-              }
+      case 1286 -> {
+        // Resting in Peace
+        StringBuffer unlocks = new StringBuffer(Preferences.getString("_frAreasUnlocked"));
+        if (ChoiceManager.lastDecision != 11) {
+          Preferences.decrement("_frHoursLeft");
+          StringUtilities.singleStringReplace(unlocks, "The Sprawling Cemetery,", "");
+        }
+        if (ChoiceManager.lastDecision == 1) {
+          unlocks.append("The Labyrinthine Crypt,");
+        }
+        if (ChoiceManager.lastDecision == 2) {
+          unlocks.append("The Barrow Mounds,");
+        }
+        if (ChoiceManager.lastDecision == 3) {
+          unlocks.append("Duke Vampire's Chateau,");
+        }
+        if (ChoiceManager.lastDecision == 10) {
+          Preferences.increment("_frButtonsPressed");
+        }
+        Preferences.setString("_frAreasUnlocked", unlocks.toString());
+      }
+
+      case 1288 -> {
+        // What's Yours is Yours
+        StringBuffer unlocks = new StringBuffer(Preferences.getString("_frAreasUnlocked"));
+        if (ChoiceManager.lastDecision != 6) {
+          Preferences.decrement("_frHoursLeft");
+          StringUtilities.singleStringReplace(unlocks, "The Old Rubee Mine,", "");
+        }
+        Preferences.setString("_frAreasUnlocked", unlocks.toString());
+      }
+
+      case 1289 -> {
+        // A Warm Place
+        StringBuffer unlocks = new StringBuffer(Preferences.getString("_frAreasUnlocked"));
+        if (ChoiceManager.lastDecision != 6) {
+          Preferences.decrement("_frHoursLeft");
+          StringUtilities.singleStringReplace(unlocks, "The Foreboding Cave,", "");
+        }
+        if (ChoiceManager.lastDecision == 3) {
+          unlocks.append("The Lair of the Phoenix,");
+        }
+        Preferences.setString("_frAreasUnlocked", unlocks.toString());
+      }
+
+      case 1290 -> {
+        // The Cyrkle Is Compleat
+        StringBuffer unlocks = new StringBuffer(Preferences.getString("_frAreasUnlocked"));
+        if (ChoiceManager.lastDecision != 6) {
+          Preferences.decrement("_frHoursLeft");
+          StringUtilities.singleStringReplace(unlocks, "The Faerie Cyrkle,", "");
+        }
+        if (ChoiceManager.lastDecision == 3) {
+          unlocks.append("The Spider Queen's Lair,");
+        }
+        Preferences.setString("_frAreasUnlocked", unlocks.toString());
+      }
+
+      case 1291 -> {
+        // Dudes, Where's My Druids?
+        StringBuffer unlocks = new StringBuffer(Preferences.getString("_frAreasUnlocked"));
+        if (ChoiceManager.lastDecision != 6) {
+          Preferences.decrement("_frHoursLeft");
+          StringUtilities.singleStringReplace(unlocks, "The Druidic Campsite,", "");
+        }
+        if (ChoiceManager.lastDecision == 2) {
+          ResultProcessor.removeItem(ItemPool.FR_TAINTED_MARSHMALLOW);
+        }
+        Preferences.setString("_frAreasUnlocked", unlocks.toString());
+      }
+
+      case 1292 -> {
+        // Witch One You Want?
+        StringBuffer unlocks = new StringBuffer(Preferences.getString("_frAreasUnlocked"));
+        if (ChoiceManager.lastDecision != 6) {
+          Preferences.decrement("_frHoursLeft");
+          StringUtilities.singleStringReplace(unlocks, "Near the Witch's House,", "");
+        }
+        if (ChoiceManager.lastDecision == 2) {
+          ResultProcessor.removeItem(ItemPool.FR_PURPLE_MUSHROOM);
+        }
+        Preferences.setString("_frAreasUnlocked", unlocks.toString());
+      }
+
+      case 1293 -> {
+        // Altared States
+        StringBuffer unlocks = new StringBuffer(Preferences.getString("_frAreasUnlocked"));
+        if (ChoiceManager.lastDecision != 6) {
+          Preferences.decrement("_frHoursLeft");
+          StringUtilities.singleStringReplace(unlocks, "The Evil Cathedral,", "");
+        }
+        Preferences.setString("_frAreasUnlocked", unlocks.toString());
+      }
+
+      case 1294 -> {
+        // Neither a Barrower Nor a Lender Be
+        StringBuffer unlocks = new StringBuffer(Preferences.getString("_frAreasUnlocked"));
+        if (ChoiceManager.lastDecision != 6) {
+          Preferences.decrement("_frHoursLeft");
+          StringUtilities.singleStringReplace(unlocks, "The Barrow Mounds,", "");
+        }
+        if (ChoiceManager.lastDecision == 3) {
+          unlocks.append("The Ghoul King's Catacomb,");
+        }
+        Preferences.setString("_frAreasUnlocked", unlocks.toString());
+      }
+
+      case 1295 -> {
+        // Honor Among You
+        StringBuffer unlocks = new StringBuffer(Preferences.getString("_frAreasUnlocked"));
+        if (ChoiceManager.lastDecision != 6) {
+          Preferences.decrement("_frHoursLeft");
+          StringUtilities.singleStringReplace(unlocks, "The Cursed Village Thieves' Guild,", "");
+        }
+        Preferences.setString("_frAreasUnlocked", unlocks.toString());
+      }
+
+      case 1296 -> {
+        // For Whom the Bell Trolls
+        StringBuffer unlocks = new StringBuffer(Preferences.getString("_frAreasUnlocked"));
+        if (ChoiceManager.lastDecision != 6) {
+          Preferences.decrement("_frHoursLeft");
+          StringUtilities.singleStringReplace(unlocks, "The Troll Fortress,", "");
+        }
+        if (ChoiceManager.lastDecision == 3) {
+          ResultProcessor.removeItem(ItemPool.FR_CHESWICKS_NOTES);
+        }
+        Preferences.setString("_frAreasUnlocked", unlocks.toString());
+      }
+
+      case 1297 -> {
+        // Stick to the Crypt
+        StringBuffer unlocks = new StringBuffer(Preferences.getString("_frAreasUnlocked"));
+        if (ChoiceManager.lastDecision != 6) {
+          Preferences.decrement("_frHoursLeft");
+          StringUtilities.singleStringReplace(unlocks, "The Labyrinthine Crypt,", "");
+        }
+        Preferences.setString("_frAreasUnlocked", unlocks.toString());
+      }
+
+      case 1298 -> {
+        // The "Phoenix"
+        StringBuffer unlocks = new StringBuffer(Preferences.getString("_frAreasUnlocked"));
+        if (ChoiceManager.lastDecision != 6) {
+          StringUtilities.singleStringReplace(unlocks, "The Lair of the Phoenix,", "");
+        }
+        if (ChoiceManager.lastDecision == 1) {
+          ResultProcessor.removeItem(ItemPool.FR_HOLY_WATER);
+        }
+        Preferences.setString("_frAreasUnlocked", unlocks.toString());
+      }
+
+      case 1299 -> {
+        // Stop Dragon Your Feet
+        StringBuffer unlocks = new StringBuffer(Preferences.getString("_frAreasUnlocked"));
+        if (ChoiceManager.lastDecision != 6) {
+          StringUtilities.singleStringReplace(unlocks, "The Dragon's Moor,", "");
+        }
+        Preferences.setString("_frAreasUnlocked", unlocks.toString());
+      }
+
+      case 1300 -> {
+        // Just Vamping
+        StringBuffer unlocks = new StringBuffer(Preferences.getString("_frAreasUnlocked"));
+        if (ChoiceManager.lastDecision != 6) {
+          StringUtilities.singleStringReplace(unlocks, "Duke Vampire's Chateau,", "");
+        }
+        Preferences.setString("_frAreasUnlocked", unlocks.toString());
+      }
+
+      case 1301 -> {
+        // Now You've Spied Her
+        StringBuffer unlocks = new StringBuffer(Preferences.getString("_frAreasUnlocked"));
+        if (ChoiceManager.lastDecision != 6) {
+          StringUtilities.singleStringReplace(unlocks, "The Spider Queen's Lair,", "");
+        }
+        Preferences.setString("_frAreasUnlocked", unlocks.toString());
+      }
+
+      case 1302 -> {
+        // Don't Be Arch
+        StringBuffer unlocks = new StringBuffer(Preferences.getString("_frAreasUnlocked"));
+        if (ChoiceManager.lastDecision != 6) {
+          StringUtilities.singleStringReplace(unlocks, "The Archwizard's Tower,", "");
+        }
+        if (ChoiceManager.lastDecision == 1) {
+          ResultProcessor.removeItem(ItemPool.FR_CHARGED_ORB);
+        }
+        Preferences.setString("_frAreasUnlocked", unlocks.toString());
+      }
+
+      case 1303 -> {
+        // Ley Lady Ley
+        StringBuffer unlocks = new StringBuffer(Preferences.getString("_frAreasUnlocked"));
+        if (ChoiceManager.lastDecision != 6) {
+          StringUtilities.singleStringReplace(unlocks, "The Ley Nexus,", "");
+        }
+        if (ChoiceManager.lastDecision == 1) {
+          ResultProcessor.removeItem(ItemPool.FR_CHESWICKS_COMPASS);
+        }
+        Preferences.setString("_frAreasUnlocked", unlocks.toString());
+      }
+
+      case 1304 -> {
+        // He Is the Ghoul King, He Can Do Anything
+        StringBuffer unlocks = new StringBuffer(Preferences.getString("_frAreasUnlocked"));
+        if (ChoiceManager.lastDecision != 6) {
+          StringUtilities.singleStringReplace(unlocks, "The Ghoul King's Catacomb,", "");
+        }
+        Preferences.setString("_frAreasUnlocked", unlocks.toString());
+      }
+
+      case 1305 -> {
+        // The Brogre's Progress
+        StringBuffer unlocks = new StringBuffer(Preferences.getString("_frAreasUnlocked"));
+        if (ChoiceManager.lastDecision != 6) {
+          StringUtilities.singleStringReplace(unlocks, "The Ogre Chieftain's Keep,", "");
+        }
+        if (ChoiceManager.lastDecision == 1) {
+          ResultProcessor.removeItem(ItemPool.FR_POISONED_SMORE);
+        }
+        Preferences.setString("_frAreasUnlocked", unlocks.toString());
+      }
+
+      case 1307 -> {
+        // It Takes a Thief
+        StringBuffer unlocks = new StringBuffer(Preferences.getString("_frAreasUnlocked"));
+        if (ChoiceManager.lastDecision != 6) {
+          StringUtilities.singleStringReplace(unlocks, "The Master Thief's Chalet,", "");
+        }
+        if (ChoiceManager.lastDecision == 1) {
+          ResultProcessor.removeItem(ItemPool.FR_NOTARIZED_WARRANT);
+        }
+        Preferences.setString("_frAreasUnlocked", unlocks.toString());
+      }
+
+      case 1312 -> {
+        // Choose a Soundtrack
+        if (!text.contains("decide not to change the station")) {
+          String songChosen =
+              switch (ChoiceManager.lastDecision) {
+                case 1 -> "Eye of the Giger";
+                case 2 -> "Food Vibrations";
+                case 3 -> "Remainin' Alive";
+                case 4 -> "These Fists Were Made for Punchin'";
+                case 5 -> "Total Eclipse of Your Meat";
+                default -> "";
+              };
+          if (!songChosen.equals("")) {
+            if (!KoLCharacter.hasSkill(SkillPool.SING_ALONG)) {
+              KoLCharacter.addAvailableSkill(SkillPool.SING_ALONG);
+            }
+            if (!Preferences.getString("boomBoxSong").equals(songChosen)) {
+              Preferences.setString("boomBoxSong", songChosen);
+              Preferences.decrement("_boomBoxSongsLeft");
+              String message = "Setting soundtrack to " + songChosen;
+              RequestLogger.printLine(message);
+              RequestLogger.updateSessionLog(message);
+            }
+          } else {
+            if (KoLCharacter.hasSkill(SkillPool.SING_ALONG)) {
+              KoLCharacter.removeAvailableSkill(SkillPool.SING_ALONG);
+            }
+            if (!Preferences.getString("boomBoxSong").equals("")) {
+              Preferences.setString("boomBoxSong", "");
+              String message = "Switching soundtrack off";
+              RequestLogger.printLine(message);
+              RequestLogger.updateSessionLog(message);
             }
           }
-          break;
         }
+      }
 
-      case 1313: // Bastille Battalion
-      case 1314: // Bastille Battalion (Master of None)
-      case 1315: // Castle vs. Castle
-      case 1316: // GAME OVER
-      case 1317: // A Hello to Arms (Battalion)
-      case 1318: // Defensive Posturing
-      case 1319: // Cheese Seeking Behavior
-        BastilleBattalionManager.postChoice1(urlString, request);
-        break;
+      case 1313, // Bastille Battalion
+          1314, // Bastille Battalion (Master of None)
+          1315, // Castle vs. Castle
+          1316, // GAME OVER
+          1317, // A Hello to Arms (Battalion)
+          1318, // Defensive Posturing
+          1319 -> // Cheese Seeking Behavior
+      BastilleBattalionManager.postChoice1(urlString, request);
 
-      case 1322:
-        {
-          // The Beginning of the Neverend
-          boolean hard = KoLCharacter.hasEquipped(ItemPool.PARTY_HARD_T_SHIRT);
-          Preferences.setBoolean("_partyHard", hard);
-          if (ChoiceManager.lastDecision == 1) {
-            // Decided to quest
-            Preferences.setInteger("encountersUntilNEPChoice", 7);
+      case 1322 -> {
+        // The Beginning of the Neverend
+        boolean hard = KoLCharacter.hasEquipped(ItemPool.PARTY_HARD_T_SHIRT);
+        Preferences.setBoolean("_partyHard", hard);
+        if (ChoiceManager.lastDecision == 1) {
+          // Decided to quest
+          Preferences.setInteger("encountersUntilNEPChoice", 7);
 
-            String quest = Preferences.getString("_questPartyFairQuest");
-            if (quest.equals("booze") || quest.equals("food")) {
-              QuestDatabase.setQuestProgress(Quest.PARTY_FAIR, QuestDatabase.STARTED);
-              Preferences.setString("_questPartyFairProgress", "");
-            } else {
-              QuestDatabase.setQuestProgress(Quest.PARTY_FAIR, "step1");
-              switch (quest) {
-                case "woots":
-                  Preferences.setInteger("_questPartyFairProgress", 10);
-                  break;
-                case "partiers":
-                  if (hard) {
-                    Preferences.setInteger("_questPartyFairProgress", 100);
-                  } else {
-                    Preferences.setInteger("_questPartyFairProgress", 50);
-                  }
-                  break;
-                case "dj":
-                  if (hard) {
-                    Preferences.setInteger("_questPartyFairProgress", 10000);
-                  } else {
-                    Preferences.setInteger("_questPartyFairProgress", 5000);
-                  }
-                  break;
-                case "trash":
-                  // The amount isn't known, so check quest log
-                  (new GenericRequest("questlog.php?which=1")).run();
-                  break;
-              }
-            }
-          } else if (ChoiceManager.lastDecision == 2) {
-            // Decided to party
-            Preferences.setString("_questPartyFair", "");
-            Preferences.setString("_questPartyFairQuest", "");
+          String quest = Preferences.getString("_questPartyFairQuest");
+          if (quest.equals("booze") || quest.equals("food")) {
+            QuestDatabase.setQuestProgress(Quest.PARTY_FAIR, QuestDatabase.STARTED);
             Preferences.setString("_questPartyFairProgress", "");
+          } else {
+            QuestDatabase.setQuestProgress(Quest.PARTY_FAIR, "step1");
+            switch (quest) {
+              case "woots":
+                Preferences.setInteger("_questPartyFairProgress", 10);
+                break;
+              case "partiers":
+                if (hard) {
+                  Preferences.setInteger("_questPartyFairProgress", 100);
+                } else {
+                  Preferences.setInteger("_questPartyFairProgress", 50);
+                }
+                break;
+              case "dj":
+                if (hard) {
+                  Preferences.setInteger("_questPartyFairProgress", 10000);
+                } else {
+                  Preferences.setInteger("_questPartyFairProgress", 5000);
+                }
+                break;
+              case "trash":
+                // The amount isn't known, so check quest log
+                (new GenericRequest("questlog.php?which=1")).run();
+                break;
+            }
           }
-          break;
+        } else if (ChoiceManager.lastDecision == 2) {
+          // Decided to party
+          Preferences.setString("_questPartyFair", "");
+          Preferences.setString("_questPartyFairQuest", "");
+          Preferences.setString("_questPartyFairProgress", "");
         }
+      }
 
-      case 1323:
+      case 1323 -> {
         // All Done!
         QuestDatabase.setQuestProgress(Quest.PARTY_FAIR, QuestDatabase.FINISHED);
         Preferences.setString("_questPartyFairQuest", "");
         Preferences.setString("_questPartyFairProgress", "");
-        break;
+      }
 
-      case 1324:
+      case 1324 -> {
         // It Hasn't Ended, It's Just Paused
         // Decision 5 is followed by a fight, which will decrement the free turns available itself
         if (ChoiceManager.lastDecision != 5) {
           Preferences.decrement("encountersUntilNEPChoice", 1, 0);
           Preferences.increment("_neverendingPartyFreeTurns", 1, 10, false);
         }
-        break;
+      }
 
-      case 1325:
+      case 1325 -> {
         // A Room With a View...  Of a Bed
         if (ChoiceManager.lastDecision == 3) {
           // Removes 30% of current partiers
@@ -3893,9 +3710,9 @@ public abstract class ChoiceControl {
           }
           ResultProcessor.removeItem(ItemPool.VERY_SMALL_RED_DRESS);
         }
-        break;
+      }
 
-      case 1326:
+      case 1326 -> {
         // Gone Kitchin'
         if (ChoiceManager.lastDecision == 3) {
           Matcher matcher = GERALDINE_PATTERN.matcher(text);
@@ -3928,9 +3745,9 @@ public abstract class ChoiceControl {
                 "_questPartyFairProgress", StringUtilities.parseInt(matcher.group(1)), 0);
           }
         }
-        break;
+      }
 
-      case 1327:
+      case 1327 -> {
         // Forward to the Back
         if (ChoiceManager.lastDecision == 3) {
           Matcher matcher = GERALD_PATTERN.matcher(text);
@@ -3964,9 +3781,9 @@ public abstract class ChoiceControl {
               "_questPartyFairProgress", current - (int) Math.floor(current * 0.2));
           ResultProcessor.removeItem(ItemPool.PURPLE_BEAST_ENERGY_DRINK);
         }
-        break;
+      }
 
-      case 1328:
+      case 1328 -> {
         // Basement Urges
         if (ChoiceManager.lastDecision == 4) {
           // On woots quest
@@ -3976,16 +3793,16 @@ public abstract class ChoiceControl {
           }
           ResultProcessor.removeItem(ItemPool.ELECTRONICS_KIT);
         }
-        break;
+      }
 
-      case 1329:
+      case 1329 -> {
         // Latte Shop
         // The item that we get has a procedurally-generated name
         request.setHasResult(false);
         LatteRequest.parseResponse(urlString, text);
-        break;
+      }
 
-      case 1331:
+      case 1331 -> {
         // Daily Loathing Ballot
         if (ChoiceManager.lastDecision == 1 && !text.contains("must vote for a candidate")) {
           ModifierList modList = new ModifierList();
@@ -4003,14 +3820,12 @@ public abstract class ChoiceControl {
           RequestLogger.printLine(message);
           RequestLogger.updateSessionLog(message);
         }
-        break;
+      }
 
-      case 1332:
-        // government requisition form
-        ResultProcessor.removeItem(ItemPool.GOVERNMENT_REQUISITION_FORM);
-        break;
+      case 1332 -> // government requisition form
+      ResultProcessor.removeItem(ItemPool.GOVERNMENT_REQUISITION_FORM);
 
-      case 1333:
+      case 1333 -> {
         // Canadian cabin
         if (ChoiceManager.lastDecision == 2) {
           ResultProcessor.removeItem(ItemPool.MOOSEFLANK);
@@ -4019,9 +3834,9 @@ public abstract class ChoiceControl {
         } else if (ChoiceManager.lastDecision == 4) {
           ResultProcessor.processItem(ItemPool.TINY_BOMB, -10);
         }
-        break;
+      }
 
-      case 1334:
+      case 1334 -> {
         // Boxing Daycare (Lobby)
         if (ChoiceManager.lastDecision == 1) {
           Preferences.setBoolean("_daycareNap", true);
@@ -4029,69 +3844,67 @@ public abstract class ChoiceControl {
             && text.contains("only allowed one spa treatment")) {
           Preferences.setBoolean("_daycareSpa", true);
         }
-        break;
+      }
 
-      case 1335:
+      case 1335 -> {
         // Boxing Day Spa
         if (ChoiceManager.lastDecision != 5) {
           Preferences.setBoolean("_daycareSpa", true);
         }
-        break;
+      }
 
-      case 1336:
-        {
-          // Boxing Daycare
-          String message1 = null;
-          String message2 = null;
-          if (ChoiceManager.lastDecision == 1) {
-            Matcher matcher = DAYCARE_RECRUIT_PATTERN.matcher(text);
-            if (matcher.find()) {
-              message1 = "Activity: Recruit toddlers";
-              message2 = "You have recruited " + matcher.group(1) + " toddlers";
-              Preferences.increment("_daycareRecruits");
-            }
-          } else if (ChoiceManager.lastDecision == 2) {
-            Matcher matcher = DAYCARE_EQUIPMENT_PATTERN.matcher(text);
-            if (matcher.find()) {
-              AdventureResult effect = EffectPool.get(EffectPool.BOXING_DAY_BREAKFAST, 0);
-              boolean haveBreakfast = effect.getCount(KoLConstants.activeEffects) > 0;
-              String countString = matcher.group(1);
-              int equipment = StringUtilities.parseInt(countString.replaceAll(",", ""));
-              Preferences.setInteger("daycareLastScavenge", equipment / (haveBreakfast ? 2 : 1));
+      case 1336 -> {
+        // Boxing Daycare
+        String message1 = null;
+        String message2 = null;
+        if (ChoiceManager.lastDecision == 1) {
+          Matcher matcher = DAYCARE_RECRUIT_PATTERN.matcher(text);
+          if (matcher.find()) {
+            message1 = "Activity: Recruit toddlers";
+            message2 = "You have recruited " + matcher.group(1) + " toddlers";
+            Preferences.increment("_daycareRecruits");
+          }
+        } else if (ChoiceManager.lastDecision == 2) {
+          Matcher matcher = DAYCARE_EQUIPMENT_PATTERN.matcher(text);
+          if (matcher.find()) {
+            AdventureResult effect = EffectPool.get(EffectPool.BOXING_DAY_BREAKFAST, 0);
+            boolean haveBreakfast = effect.getCount(KoLConstants.activeEffects) > 0;
+            String countString = matcher.group(1);
+            int equipment = StringUtilities.parseInt(countString.replaceAll(",", ""));
+            Preferences.setInteger("daycareLastScavenge", equipment / (haveBreakfast ? 2 : 1));
 
-              message1 = "Activity: Scavenge for gym equipment";
-              message2 = "You have found " + countString + " pieces of gym equipment";
-              Preferences.increment("_daycareGymScavenges");
-            }
-          } else if (ChoiceManager.lastDecision == 3) {
-            if (text.contains("new teacher joins the staff")) {
-              message1 = "Activity: Hire an instructor";
-              message2 = "You have hired a new instructor";
-            }
-            Matcher matcher = DAYCARE_ITEM_PATTERN.matcher(text);
-            if (matcher.find()) {
-              String itemName = matcher.group(1);
-              int itemCount = StringUtilities.parseInt(matcher.group(2).replaceAll(",", ""));
-              ResultProcessor.processItem(ItemDatabase.getItemId(itemName), -itemCount);
-            }
-          } else if (ChoiceManager.lastDecision == 4) {
-            if (text.contains("step into the ring")) {
-              message1 = "Activity: Spar";
-              Preferences.setBoolean("_daycareFights", true);
-            }
+            message1 = "Activity: Scavenge for gym equipment";
+            message2 = "You have found " + countString + " pieces of gym equipment";
+            Preferences.increment("_daycareGymScavenges");
           }
-          if (message1 != null) {
-            RequestLogger.printLine(message1);
-            RequestLogger.updateSessionLog(message1);
+        } else if (ChoiceManager.lastDecision == 3) {
+          if (text.contains("new teacher joins the staff")) {
+            message1 = "Activity: Hire an instructor";
+            message2 = "You have hired a new instructor";
           }
-          if (message2 != null) {
-            RequestLogger.printLine(message2);
-            RequestLogger.updateSessionLog(message2);
+          Matcher matcher = DAYCARE_ITEM_PATTERN.matcher(text);
+          if (matcher.find()) {
+            String itemName = matcher.group(1);
+            int itemCount = StringUtilities.parseInt(matcher.group(2).replaceAll(",", ""));
+            ResultProcessor.processItem(ItemDatabase.getItemId(itemName), -itemCount);
           }
-          break;
+        } else if (ChoiceManager.lastDecision == 4) {
+          if (text.contains("step into the ring")) {
+            message1 = "Activity: Spar";
+            Preferences.setBoolean("_daycareFights", true);
+          }
         }
+        if (message1 != null) {
+          RequestLogger.printLine(message1);
+          RequestLogger.updateSessionLog(message1);
+        }
+        if (message2 != null) {
+          RequestLogger.printLine(message2);
+          RequestLogger.updateSessionLog(message2);
+        }
+      }
 
-      case 1340:
+      case 1340 -> {
         // Is There A Doctor In The House?
         if (ChoiceManager.lastDecision == 1) {
           if (Preferences.getString("doctorBagQuestItem").isEmpty()) {
@@ -4114,9 +3927,9 @@ public abstract class ChoiceControl {
           Preferences.setString("doctorBagQuestItem", "");
           Preferences.setString("doctorBagQuestLocation", "");
         }
-        break;
+      }
 
-      case 1341:
+      case 1341 -> {
         // A Pound of Cure
         if (ChoiceManager.lastDecision == 1) {
           String itemName = Preferences.getString("doctorBagQuestItem");
@@ -4144,9 +3957,9 @@ public abstract class ChoiceControl {
             Preferences.increment("doctorBagUpgrades");
           }
         }
-        break;
+      }
 
-      case 1342:
+      case 1342 -> {
         // Torpor
         if (ChoiceManager.lastDecision == 2) {
           // You can learn or forget Vampyre skills
@@ -4167,70 +3980,56 @@ public abstract class ChoiceControl {
             }
           }
         }
-        break;
+      }
 
-      case 1347: // Groggy's Tavern
-        {
-          Preferences.setString(
-              "_pirateRealmCrewmate",
-              Preferences.getString("_pirateRealmCrewmate" + ChoiceManager.lastDecision));
-          break;
-        }
+      case 1347 -> // Groggy's Tavern
+      Preferences.setString(
+          "_pirateRealmCrewmate",
+          Preferences.getString("_pirateRealmCrewmate" + ChoiceManager.lastDecision));
 
-      case 1348: // Seaside Curios
-        {
-          // The item ids are in order from 10190 to 10195
-          Preferences.setString(
-              "_pirateRealmCurio", String.valueOf(10189 + ChoiceManager.lastDecision));
-          break;
-        }
+      case 1348 -> // Seaside Curios
+      // The item ids are in order from 10190 to 10195
+      Preferences.setString(
+          "_pirateRealmCurio", String.valueOf(10189 + ChoiceManager.lastDecision));
 
-      case 1349: // Dishonest Ed's Ships
-        {
-          Preferences.setString(
-              "_pirateRealmShip",
-              switch (ChoiceManager.lastDecision) {
-                case 1 -> "Rigged Frigate";
-                case 2 -> "Intimidating Galleon";
-                case 3 -> "Speedy Caravel";
-                case 4 -> "Swift Clipper";
-                case 5 -> "Menacing Man o' War";
-                default -> "";
-              });
-          Preferences.setInteger(
-              "_pirateRealmShipSpeed",
-              switch (ChoiceManager.lastDecision) {
-                case 1, 2 -> 7;
-                case 3 -> 6;
-                case 4 -> 4;
-                case 5 -> 9;
-                default -> 0;
-              });
-          break;
-        }
+      case 1349 -> { // Dishonest Ed's Ships
+        Preferences.setString(
+            "_pirateRealmShip",
+            switch (ChoiceManager.lastDecision) {
+              case 1 -> "Rigged Frigate";
+              case 2 -> "Intimidating Galleon";
+              case 3 -> "Speedy Caravel";
+              case 4 -> "Swift Clipper";
+              case 5 -> "Menacing Man o' War";
+              default -> "";
+            });
+        Preferences.setInteger(
+            "_pirateRealmShipSpeed",
+            switch (ChoiceManager.lastDecision) {
+              case 1, 2 -> 7;
+              case 3 -> 6;
+              case 4 -> 4;
+              case 5 -> 9;
+              default -> 0;
+            });
+      }
 
-      case 1352: //  Island #1, Who Are You?
-      case 1353: //  What's Behind Island #2?
-      case 1354: //  Third Island's the Charm
-        {
-          // Advance quest progress
-          QuestManager.setPirateRealmIslandQuestProgress(ChoiceManager.lastChoice - 1352, 0);
-          // Reset per-island flags
-          Preferences.setInteger("_pirateRealmIslandMonstersDefeated", 0);
-          Preferences.setInteger("_pirateRealmSailingTurns", 0);
-          Preferences.setBoolean("_pirateRealmWindicleUsed", false);
-          break;
-        }
+      case 1352, //  Island #1, Who Are You?
+          1353, //  What's Behind Island #2?
+          1354 -> { //  Third Island's the Charm
+        // Advance quest progress
+        QuestManager.setPirateRealmIslandQuestProgress(ChoiceManager.lastChoice - 1352, 0);
+        // Reset per-island flags
+        Preferences.setInteger("_pirateRealmIslandMonstersDefeated", 0);
+        Preferences.setInteger("_pirateRealmSailingTurns", 0);
+        Preferences.setBoolean("_pirateRealmWindicleUsed", false);
+      }
 
-      case 1355:
-        //  Land Ho!
-        {
-          // Step 3 -> 4, 8 -> 9 or 13 -> 14
-          QuestManager.setPirateRealmIslandQuestProgress(2);
-          break;
-        }
+      case 1355 -> //  Land Ho!
+      // Step 3 -> 4, 8 -> 9 or 13 -> 14
+      QuestManager.setPirateRealmIslandQuestProgress(2);
 
-      case 1360: // Like Shops in the Night
+      case 1360 -> { // Like Shops in the Night
         if (ChoiceManager.lastDecision == 5 && text.contains("You gain 500 gold")) {
           // Sell them the cursed compass
           Preferences.setBoolean("_pirateRealmSoldCompass", true);
@@ -4240,9 +4039,9 @@ public abstract class ChoiceControl {
             ResultProcessor.removeItem(ItemPool.CURSED_COMPASS);
           }
         }
-        break;
+      }
 
-      case 1362: // Stormy Weather
+      case 1362 -> { // Stormy Weather
         // Try to gain some extra distance
         if (ChoiceManager.lastDecision == 2) {
           if (text.contains("you manage to outsail the storm")) {
@@ -4258,156 +4057,130 @@ public abstract class ChoiceControl {
             Preferences.increment("pirateRealmStormsEscaped", 1, 10, false);
           }
         }
-        break;
+      }
 
-      case 1364: // An Opportunity for Dastardly Do
+      case 1364 -> { // An Opportunity for Dastardly Do
         // Attack them
         if (ChoiceManager.lastDecision == 1) {
           if (text.contains("blast them to bits")) {
             Preferences.increment("pirateRealmShipsDestroyed", 1, 10, false);
           }
         }
-        break;
+      }
 
-      case 1365: // A Sea Monster!
+      case 1365 -> { // A Sea Monster!
         if (ChoiceManager.lastDecision == 1) {
           if (text.contains("plush sea serpent")) {
             Preferences.setBoolean("pirateRealmUnlockedPlushie", true);
           }
         }
-        break;
+      }
 
       case 1369, // The Battle (Island) Is Won
           1370, // Skull's Well That Ends Skull
           1371, // The Key Takeaway
-          1385: // Just Desserts
-        {
-          QuestDatabase.setQuestIfBetter(Quest.PIRATEREALM, 6);
-          break;
-        }
+          1385 -> // Just Desserts
+      QuestDatabase.setQuestIfBetter(Quest.PIRATEREALM, 6);
 
-      case 1372: // You Can See Clearly Now
-        {
-          Preferences.setBoolean("pirateRealmUnlockedRhum", true);
-          QuestDatabase.setQuestIfBetter(Quest.PIRATEREALM, 6);
-          break;
-        }
+      case 1372 -> { // You Can See Clearly Now
+        Preferences.setBoolean("pirateRealmUnlockedRhum", true);
+        QuestDatabase.setQuestIfBetter(Quest.PIRATEREALM, 6);
+      }
 
-      case 1375: // A Close Shave
-        {
-          Preferences.setBoolean("pirateRealmUnlockedShavingCream", true);
-          QuestDatabase.setQuestIfBetter(Quest.PIRATEREALM, 11);
-          break;
-        }
+      case 1375 -> { // A Close Shave
+        Preferences.setBoolean("pirateRealmUnlockedShavingCream", true);
+        QuestDatabase.setQuestIfBetter(Quest.PIRATEREALM, 11);
+      }
 
       case 1376, // Your Empire of Dirt
-          1377: // A Dreaded Sunny Day
-        {
-          QuestDatabase.setQuestIfBetter(Quest.PIRATEREALM, 11);
-          break;
-        }
+          1377 -> // A Dreaded Sunny Day
+      QuestDatabase.setQuestIfBetter(Quest.PIRATEREALM, 11);
 
-      case 1379: // The Tiki Craze Is Over
-        {
-          if (text.contains("Island Drinkin' skillbook")) {
-            Preferences.setBoolean("pirateRealmUnlockedTikiSkillbook", true);
-            QuestDatabase.setQuestIfBetter(Quest.PIRATEREALM, 16);
-          }
-          break;
-        }
-
-      case 1380: // Temple's Grand End
-        {
-          Preferences.setBoolean("pirateRealmUnlockedTattoo", true);
+      case 1379 -> { // The Tiki Craze Is Over
+        if (text.contains("Island Drinkin' skillbook")) {
+          Preferences.setBoolean("pirateRealmUnlockedTikiSkillbook", true);
           QuestDatabase.setQuestIfBetter(Quest.PIRATEREALM, 16);
-          break;
         }
+      }
 
-      case 1383: // Parole
-        {
-          Preferences.setBoolean("pirateRealmUnlockedThirdCrewmate", true);
-          QuestDatabase.setQuestIfBetter(Quest.PIRATEREALM, 11);
-          break;
-        }
+      case 1380 -> { // Temple's Grand End
+        Preferences.setBoolean("pirateRealmUnlockedTattoo", true);
+        QuestDatabase.setQuestIfBetter(Quest.PIRATEREALM, 16);
+      }
 
-      case 1384: // The Calm After the Storm
-        {
-          Preferences.setBoolean("pirateRealmUnlockedAnemometer", true);
-          QuestDatabase.setQuestIfBetter(Quest.PIRATEREALM, 16);
-          break;
-        }
+      case 1383 -> { // Parole
+        Preferences.setBoolean("pirateRealmUnlockedThirdCrewmate", true);
+        QuestDatabase.setQuestIfBetter(Quest.PIRATEREALM, 11);
+      }
 
-      case 1386:
-        SaberRequest.parseUpgrade(urlString, text);
-        break;
+      case 1384 -> { // The Calm After the Storm
+        Preferences.setBoolean("pirateRealmUnlockedAnemometer", true);
+        QuestDatabase.setQuestIfBetter(Quest.PIRATEREALM, 16);
+      }
 
-      case 1387:
-        SaberRequest.parseForce(urlString, text);
-        break;
+      case 1386 -> SaberRequest.parseUpgrade(urlString, text);
 
-      case 1388:
+      case 1387 -> SaberRequest.parseForce(urlString, text);
+
+      case 1388 -> {
         BeachManager.parseBeachHeadCombing(text);
         BeachManager.parseCombUsage(urlString, text);
-        break;
+      }
 
-      case 1391:
-        {
-          // Rationing out Destruction
-          //    choice.php?whichchoice=1391&option=1&pwd&tossid=10321
+      case 1391 -> {
+        // Rationing out Destruction
+        //    choice.php?whichchoice=1391&option=1&pwd&tossid=10321
 
-          Matcher tossMatcher = TOSSID_PATTERN.matcher(urlString);
-          if (!tossMatcher.find()) {
-            break;
-          }
-          int itemId = StringUtilities.parseInt(tossMatcher.group(1));
-          ResultProcessor.processItem(itemId, -1);
-
-          String army = null;
-          String property = null;
-          String consumable = null;
-          int casualties = 0;
-
-          if (casualties == 0) {
-            Matcher fratMatcher = FRAT_RATIONING_PATTERN.matcher(text);
-            if (fratMatcher.find()) {
-              army = "frat boys";
-              property = "fratboysDefeated";
-              consumable = fratMatcher.group(1);
-              casualties = StringUtilities.parseInt(fratMatcher.group(2));
-            }
-          }
-          if (casualties == 0) {
-            Matcher hippyMatcher = HIPPY_RATIONING_PATTERN.matcher(text);
-            if (hippyMatcher.find()) {
-              army = "hippies";
-              property = "hippiesDefeated";
-              consumable = hippyMatcher.group(1);
-              casualties = StringUtilities.parseInt(hippyMatcher.group(2));
-            }
-          }
-
-          Preferences.increment(property, casualties);
-
-          String message = "You defeated " + casualties + " " + army + " with some " + consumable;
-          RequestLogger.printLine(message);
-          RequestLogger.updateSessionLog(message);
+        Matcher tossMatcher = TOSSID_PATTERN.matcher(urlString);
+        if (!tossMatcher.find()) {
           break;
         }
+        int itemId = StringUtilities.parseInt(tossMatcher.group(1));
+        ResultProcessor.processItem(itemId, -1);
 
-      case 1392:
-        DecorateTentRequest.parseDecoration(urlString, text);
-        break;
+        String army = null;
+        String property = null;
+        String consumable = null;
+        int casualties = 0;
 
-      case 1394:
+        if (casualties == 0) {
+          Matcher fratMatcher = FRAT_RATIONING_PATTERN.matcher(text);
+          if (fratMatcher.find()) {
+            army = "frat boys";
+            property = "fratboysDefeated";
+            consumable = fratMatcher.group(1);
+            casualties = StringUtilities.parseInt(fratMatcher.group(2));
+          }
+        }
+        if (casualties == 0) {
+          Matcher hippyMatcher = HIPPY_RATIONING_PATTERN.matcher(text);
+          if (hippyMatcher.find()) {
+            army = "hippies";
+            property = "hippiesDefeated";
+            consumable = hippyMatcher.group(1);
+            casualties = StringUtilities.parseInt(hippyMatcher.group(2));
+          }
+        }
+
+        Preferences.increment(property, casualties);
+
+        String message = "You defeated " + casualties + " " + army + " with some " + consumable;
+        RequestLogger.printLine(message);
+        RequestLogger.updateSessionLog(message);
+      }
+
+      case 1392 -> DecorateTentRequest.parseDecoration(urlString, text);
+
+      case 1394 -> {
         // Send up a Smoke Signal
         if (ChoiceManager.lastDecision == 1
             && text.contains("You send a smoky message to the sky.")) {
           // Remove from inventory
           ResultProcessor.removeItem(ItemPool.CAMPFIRE_SMOKE);
         }
-        break;
+      }
 
-      case 1396:
+      case 1396 -> {
         // Adjusting Your Fish
         // choice.php?pwd&whichchoice=1396&option=1&cat=fish
         if (urlString.contains("option=1") && urlString.contains("cat=")) {
@@ -4420,9 +4193,9 @@ public abstract class ChoiceControl {
             Preferences.setInteger("redSnapperProgress", 0);
           }
         }
-        break;
+      }
 
-      case 1399:
+      case 1399 -> {
         // New Favorite Bird?
         // Auto correct, in case we cast this outside of KoLmafia
         Preferences.setInteger("_birdsSoughtToday", 6);
@@ -4432,344 +4205,311 @@ public abstract class ChoiceControl {
           ResponseTextParser.learnSkill("Visit your Favorite Bird");
           DebugDatabase.readEffectDescriptionText(EffectPool.BLESSING_OF_YOUR_FAVORITE_BIRD);
         }
-        break;
+      }
 
-      case 1406:
-        {
-          // Drippy House on the Prairie
-          // 1 = Explore the House
-          // Even though the house doesn't have a door, you check under the mat for a key anyway.
-          // You don't find one, but you <i>do</i> find a little puddle of those Driplet things
-          // Jeremy told you about.
-          // 1 = Keep Exploring
-          // Just inside the door of the house, you discover a colony of nasty bat-looking things
-          // nesting in the rafters.
-          // In one of the side rooms of the house, you find a giant spiral shell stuck to the wall.
-          //  You pry it loose -- Jeremy will probably want to see this.
-          // In the house's kitchen, you find a bucket underneath a dripping sink pipe. The
-          // oddly-solid drops make a -thunk-... -thunk-... -thunk-... sound as they fall.
-          // In the backyard of the house, you notice a strange fruit tree you hadn't seen before.
-          // It's maybe... plums? Kinda hard to tell, what with everything being made out of the
-          // same gross stuff.
-          // In one of the back rooms, you find a workbench covered in drippy woodworking supplies.
-          // Underneath a shattered bed frame in one of the back rooms, you find a trap door in the
-          // floor. You press your ear to it and hear some... Thing... slithering around underneath
-          // it.
-          // 2 = Dislodge some bats
-          // You flush some of the vile bat-things out of the rafters and into the nearby forest.
-          // No way that'll come back to bite you in the ass!
-          // 3 = Check the bucket under the sink
-          // You look in the bucket and find a few Driplets.  You collect them and put the bucket
-          // back under the sink.
-          // 4 - Pick a nasty fruit
-          // You pluck the least nasty-looking plum(?) from the tree and pocket it.
-          // 5 - Check out the woodworking bench
-          // You use the tools to carve your truncheon into a sharp stake.
-          // 6 - Go down to the basement
-          // 9 = Leave
-          if (text.contains("vile bat-things")) {
-            Preferences.increment("drippyBatsUnlocked", 7);
-          }
-          if (text.contains("sharp stake")) {
-            EquipmentManager.discardEquipment(ItemPool.DRIPPY_TRUNCHEON);
-          }
+      case 1406 -> {
+        // Drippy House on the Prairie
+        // 1 = Explore the House
+        // Even though the house doesn't have a door, you check under the mat for a key anyway.
+        // You don't find one, but you <i>do</i> find a little puddle of those Driplet things
+        // Jeremy told you about.
+        // 1 = Keep Exploring
+        // Just inside the door of the house, you discover a colony of nasty bat-looking things
+        // nesting in the rafters.
+        // In one of the side rooms of the house, you find a giant spiral shell stuck to the wall.
+        //  You pry it loose -- Jeremy will probably want to see this.
+        // In the house's kitchen, you find a bucket underneath a dripping sink pipe. The
+        // oddly-solid drops make a -thunk-... -thunk-... -thunk-... sound as they fall.
+        // In the backyard of the house, you notice a strange fruit tree you hadn't seen before.
+        // It's maybe... plums? Kinda hard to tell, what with everything being made out of the
+        // same gross stuff.
+        // In one of the back rooms, you find a workbench covered in drippy woodworking supplies.
+        // Underneath a shattered bed frame in one of the back rooms, you find a trap door in the
+        // floor. You press your ear to it and hear some... Thing... slithering around underneath
+        // it.
+        // 2 = Dislodge some bats
+        // You flush some of the vile bat-things out of the rafters and into the nearby forest.
+        // No way that'll come back to bite you in the ass!
+        // 3 = Check the bucket under the sink
+        // You look in the bucket and find a few Driplets.  You collect them and put the bucket
+        // back under the sink.
+        // 4 - Pick a nasty fruit
+        // You pluck the least nasty-looking plum(?) from the tree and pocket it.
+        // 5 - Check out the woodworking bench
+        // You use the tools to carve your truncheon into a sharp stake.
+        // 6 - Go down to the basement
+        // 9 = Leave
+        if (text.contains("vile bat-things")) {
+          Preferences.increment("drippyBatsUnlocked", 7);
+        }
+        if (text.contains("sharp stake")) {
+          EquipmentManager.discardEquipment(ItemPool.DRIPPY_TRUNCHEON);
+        }
 
-          // Since this choice appears on a schedule - the 16th
-          // adventure in The Dripping Trees and then every 15
-          // turns thereafter - "fix" the adventure count as needed.
-          int advs = Preferences.getInteger("drippingTreesAdventuresSinceAscension");
-          if (advs < 16) {
-            Preferences.setInteger("drippingTreesAdventuresSinceAscension", 16);
-            advs = 16;
-          }
-          int mod = (advs - 1) % 15;
-          if (mod != 0) {
-            Preferences.increment("drippingTreesAdventuresSinceAscension", 15 - mod);
-          }
+        // Since this choice appears on a schedule - the 16th
+        // adventure in The Dripping Trees and then every 15
+        // turns thereafter - "fix" the adventure count as needed.
+        int advs = Preferences.getInteger("drippingTreesAdventuresSinceAscension");
+        if (advs < 16) {
+          Preferences.setInteger("drippingTreesAdventuresSinceAscension", 16);
+          advs = 16;
+        }
+        int mod = (advs - 1) % 15;
+        if (mod != 0) {
+          Preferences.increment("drippingTreesAdventuresSinceAscension", 15 - mod);
+        }
+      }
 
+      case 1407 -> {
+        // Mushroom District Costume Shop
+
+        String costume = "none";
+        if (text.contains("You slip into something a little more carpentable")) {
+          costume = "muscle";
+        } else if (text.contains("You let down your guard and put on the gardener costume")) {
+          costume = "mysticality";
+        } else if (text.contains("Todge holds out a tutu and you jump into it")) {
+          costume = "moxie";
+        } else {
           break;
         }
 
-      case 1407:
-        {
-          // Mushroom District Costume Shop
+        int cost = Preferences.getInteger("plumberCostumeCost");
+        ResultProcessor.processItem(ItemPool.COIN, -cost);
+        Preferences.increment("plumberCostumeCost", 50);
+        Preferences.setString("plumberCostumeWorn", costume);
+      }
 
-          String costume = "none";
-          if (text.contains("You slip into something a little more carpentable")) {
-            costume = "muscle";
-          } else if (text.contains("You let down your guard and put on the gardener costume")) {
-            costume = "mysticality";
-          } else if (text.contains("Todge holds out a tutu and you jump into it")) {
-            costume = "moxie";
-          } else {
-            break;
-          }
+      case 1408 -> {
+        // Mushroom District Badge Shop
+        // If successful, deduct coins.
 
-          int cost = Preferences.getInteger("plumberCostumeCost");
+        if (text.contains("You acquire a skill")) {
+          int cost = Preferences.getInteger("plumberBadgeCost");
           ResultProcessor.processItem(ItemPool.COIN, -cost);
-          Preferences.increment("plumberCostumeCost", 50);
-          Preferences.setString("plumberCostumeWorn", costume);
-          break;
+          Preferences.increment("plumberBadgeCost", 25);
         }
+      }
 
-      case 1408:
-        {
-          // Mushroom District Badge Shop
-          // If successful, deduct coins.
-
-          if (text.contains("You acquire a skill")) {
-            int cost = Preferences.getInteger("plumberBadgeCost");
-            ResultProcessor.processItem(ItemPool.COIN, -cost);
-            Preferences.increment("plumberBadgeCost", 25);
-          }
-          break;
+      case 1410 -> {
+        // The Mushy Center
+        int mushroomLevel = 1; // Tomorrow's mushroom
+        switch (ChoiceManager.lastDecision) {
+          case 1 ->
+          // Fertilize the mushroom
+          mushroomLevel = Preferences.increment("mushroomGardenCropLevel", 1, 11, false);
+          case 2 ->
+          // Pick the mushroom
+          Preferences.setInteger("mushroomGardenCropLevel", 1);
         }
+        CampgroundRequest.clearCrop();
+        CampgroundRequest.setCampgroundItem(new Mushroom(mushroomLevel));
+        Preferences.setBoolean("_mushroomGardenVisited", true);
+      }
 
-      case 1410:
-        {
-          // The Mushy Center
-          int mushroomLevel = 1; // Tomorrow's mushroom
-          switch (ChoiceManager.lastDecision) {
-            case 1 ->
-            // Fertilize the mushroom
-            mushroomLevel = Preferences.increment("mushroomGardenCropLevel", 1, 11, false);
-            case 2 ->
-            // Pick the mushroom
-            Preferences.setInteger("mushroomGardenCropLevel", 1);
-          }
-          CampgroundRequest.clearCrop();
-          CampgroundRequest.setCampgroundItem(new Mushroom(mushroomLevel));
-          Preferences.setBoolean("_mushroomGardenVisited", true);
-          break;
-        }
-
-      case 1411:
-        {
-          // The Hall in the Hall
-          switch (ChoiceManager.lastDecision) {
-            case 1 -> {
-              Preferences.setBoolean("_drippingHallDoor1", true);
-              // If you acquire a drippy org, count it
-              if (text.contains("drippy orb")) {
-                Preferences.increment("drippyOrbsClaimed");
-              } else {
-                int known = Preferences.getInteger("drippyOrbsClaimed");
-                int min = KoLCharacter.estimatedPoolSkill() / 20;
-                Preferences.setInteger("drippyOrbsClaimed", Math.max(known, min));
-              }
-            }
-            case 2 -> Preferences.setBoolean("_drippingHallDoor2", true);
-            case 3 -> Preferences.setBoolean("_drippingHallDoor3", true);
-            case 4 -> {
-              Preferences.setBoolean("_drippingHallDoor4", true);
-
-              // If you acquire drippy pilsner, uses a drippy stein
-              if (text.contains("drippy pilsner")) {
-                ResultProcessor.processItem(ItemPool.DRIPPY_STEIN, -1);
-              }
+      case 1411 -> {
+        // The Hall in the Hall
+        switch (ChoiceManager.lastDecision) {
+          case 1 -> {
+            Preferences.setBoolean("_drippingHallDoor1", true);
+            // If you acquire a drippy org, count it
+            if (text.contains("drippy orb")) {
+              Preferences.increment("drippyOrbsClaimed");
+            } else {
+              int known = Preferences.getInteger("drippyOrbsClaimed");
+              int min = KoLCharacter.estimatedPoolSkill() / 20;
+              Preferences.setInteger("drippyOrbsClaimed", Math.max(known, min));
             }
           }
+          case 2 -> Preferences.setBoolean("_drippingHallDoor2", true);
+          case 3 -> Preferences.setBoolean("_drippingHallDoor3", true);
+          case 4 -> {
+            Preferences.setBoolean("_drippingHallDoor4", true);
 
-          // This only advances upon defeating a dripping reveler
-          // or encountering this choice
-          int advs = Preferences.increment("drippingHallAdventuresSinceAscension");
-
-          // Since this choice appears on a schedule - the 12th
-          // adventure in The Dripping Hall and then every 12
-          // turns thereafter - "fix" the adventure count as needed.
-          if (advs < 12) {
-            Preferences.setInteger("drippingHallAdventuresSinceAscension", 12);
-            advs = 12;
+            // If you acquire drippy pilsner, uses a drippy stein
+            if (text.contains("drippy pilsner")) {
+              ResultProcessor.processItem(ItemPool.DRIPPY_STEIN, -1);
+            }
           }
-          int mod = advs % 12;
-          if (mod != 0) {
-            Preferences.increment("drippingHallAdventuresSinceAscension", 12 - mod);
-          }
-
-          break;
         }
 
-      case 1412:
-        {
-          // Guzzlr Client Selection
-          switch (ChoiceManager.lastDecision) {
-            case 1 -> {
-              // Abandon
-              Preferences.setBoolean("_guzzlrQuestAbandoned", true);
+        // This only advances upon defeating a dripping reveler
+        // or encountering this choice
+        int advs = Preferences.increment("drippingHallAdventuresSinceAscension");
 
-              Preferences.setString("guzzlrQuestBooze", "");
-              Preferences.setString("guzzlrQuestClient", "");
-              Preferences.setString("guzzlrQuestLocation", "");
-              Preferences.setString("guzzlrQuestTier", "");
-              QuestDatabase.setQuestProgress(Quest.GUZZLR, QuestDatabase.UNSTARTED);
+        // Since this choice appears on a schedule - the 12th
+        // adventure in The Dripping Hall and then every 12
+        // turns thereafter - "fix" the adventure count as needed.
+        if (advs < 12) {
+          Preferences.setInteger("drippingHallAdventuresSinceAscension", 12);
+          advs = 12;
+        }
+        int mod = advs % 12;
+        if (mod != 0) {
+          Preferences.increment("drippingHallAdventuresSinceAscension", 12 - mod);
+        }
+      }
+
+      case 1412 -> {
+        // Guzzlr Client Selection
+        switch (ChoiceManager.lastDecision) {
+          case 1 -> {
+            // Abandon
+            Preferences.setBoolean("_guzzlrQuestAbandoned", true);
+
+            Preferences.setString("guzzlrQuestBooze", "");
+            Preferences.setString("guzzlrQuestClient", "");
+            Preferences.setString("guzzlrQuestLocation", "");
+            Preferences.setString("guzzlrQuestTier", "");
+            QuestDatabase.setQuestProgress(Quest.GUZZLR, QuestDatabase.UNSTARTED);
+          }
+          case 2, 3, 4 -> {
+            Matcher locationMatcher = GUZZLR_LOCATION_PATTERN.matcher(text);
+            Matcher boozeMatcher = DESCID_PATTERN.matcher(text);
+
+            String tier = "";
+
+            if (locationMatcher.find()) {
+              tier = locationMatcher.group(1).toLowerCase();
+              Preferences.setString("guzzlrQuestClient", locationMatcher.group(2));
+              Preferences.setString("guzzlrQuestLocation", locationMatcher.group(4));
             }
-            case 2, 3, 4 -> {
-              Matcher locationMatcher = GUZZLR_LOCATION_PATTERN.matcher(text);
-              Matcher boozeMatcher = DESCID_PATTERN.matcher(text);
 
-              String tier = "";
+            // If we didn't capture from the ouput we can determine from the choice
+            if (tier.equals("")) {
+              tier =
+                  ChoiceManager.lastDecision == 2
+                      ? "bronze"
+                      : ChoiceManager.lastDecision == 3 ? "gold" : "platinum";
+            }
 
-              if (locationMatcher.find()) {
-                tier = locationMatcher.group(1).toLowerCase();
-                Preferences.setString("guzzlrQuestClient", locationMatcher.group(2));
-                Preferences.setString("guzzlrQuestLocation", locationMatcher.group(4));
-              }
+            // Remember the tier of the current quest
+            Preferences.setString("guzzlrQuestTier", tier);
 
-              // If we didn't capture from the ouput we can determine from the choice
-              if (tier.equals("")) {
-                tier =
-                    ChoiceManager.lastDecision == 2
-                        ? "bronze"
-                        : ChoiceManager.lastDecision == 3 ? "gold" : "platinum";
-              }
+            // Increment the number of gold or platinum deliveres STARTED today
+            if (!tier.equals("bronze")) {
+              Preferences.increment(
+                  "_guzzlr" + StringUtilities.toTitleCase(tier) + "Deliveries", 1);
+            }
 
-              // Remember the tier of the current quest
-              Preferences.setString("guzzlrQuestTier", tier);
+            if (boozeMatcher.find()) {
+              int itemId = ItemDatabase.getItemIdFromDescription(boozeMatcher.group(1));
+              Preferences.setString("guzzlrQuestBooze", ItemDatabase.getItemName(itemId));
+            }
 
-              // Increment the number of gold or platinum deliveres STARTED today
-              if (!tier.equals("bronze")) {
-                Preferences.increment(
-                    "_guzzlr" + StringUtilities.toTitleCase(tier) + "Deliveries", 1);
-              }
+            if (Preferences.getString("guzzlrQuestBooze").isEmpty()
+                || Preferences.getString("guzzlrQuestLocation").isEmpty()) {
+              RequestThread.postRequest(new QuestLogRequest());
+            }
 
-              if (boozeMatcher.find()) {
-                int itemId = ItemDatabase.getItemIdFromDescription(boozeMatcher.group(1));
-                Preferences.setString("guzzlrQuestBooze", ItemDatabase.getItemName(itemId));
-              }
+            int itemId = ItemDatabase.getItemId(Preferences.getString("guzzlrQuestBooze"));
 
-              if (Preferences.getString("guzzlrQuestBooze").isEmpty()
-                  || Preferences.getString("guzzlrQuestLocation").isEmpty()) {
-                RequestThread.postRequest(new QuestLogRequest());
-              }
-
-              int itemId = ItemDatabase.getItemId(Preferences.getString("guzzlrQuestBooze"));
-
-              if (itemId > 0 && itemId != ItemPool.GUZZLR_COCKTAIL_SET) {
-                if (InventoryManager.getCount(itemId) > 0) {
-                  QuestDatabase.setQuestProgress(Quest.GUZZLR, "step1");
-                } else {
-                  QuestDatabase.setQuestProgress(Quest.GUZZLR, QuestDatabase.STARTED);
-                }
+            if (itemId > 0 && itemId != ItemPool.GUZZLR_COCKTAIL_SET) {
+              if (InventoryManager.getCount(itemId) > 0) {
+                QuestDatabase.setQuestProgress(Quest.GUZZLR, "step1");
               } else {
                 QuestDatabase.setQuestProgress(Quest.GUZZLR, QuestDatabase.STARTED);
               }
+            } else {
+              QuestDatabase.setQuestProgress(Quest.GUZZLR, QuestDatabase.STARTED);
             }
           }
-
-          break;
         }
+      }
 
-      case 1414:
-        Preferences.setBoolean("lockPicked", true);
-        break;
+      case 1414 -> Preferences.setBoolean("lockPicked", true);
 
-      case 1418:
+      case 1418 -> {
         // So Cold
         if (ChoiceManager.lastDecision == 1) {
           KoLCharacter.usableFamiliar(FamiliarPool.MELODRAMEDARY).loseExperience();
           Preferences.setBoolean("_entauntaunedToday", true);
         }
-        break;
+      }
 
-      case 1420:
+      case 1420 -> {
         // Cargo Cultist Shorts
         if (ChoiceManager.lastDecision == 1) {
           CargoCultistShortsRequest.parsePocketPick(urlString, text);
         }
-        break;
+      }
 
-      case 1435:
+      case 1435 -> {
         if (ChoiceManager.lastDecision == 1) {
           Preferences.setBoolean("mappingMonsters", false);
         }
-        break;
-      case 1437:
-        {
-          // Configuring the retro cape washing instructions
-          String instructions =
-              ChoiceManager.lastDecision == 2
-                  ? "hold"
-                  : ChoiceManager.lastDecision == 3
-                      ? "thrill"
-                      : ChoiceManager.lastDecision == 4
-                          ? "kiss"
-                          : ChoiceManager.lastDecision == 5 ? "kill" : null;
+      }
+      case 1437 -> {
+        // Configuring the retro cape washing instructions
+        String instructions =
+            ChoiceManager.lastDecision == 2
+                ? "hold"
+                : ChoiceManager.lastDecision == 3
+                    ? "thrill"
+                    : ChoiceManager.lastDecision == 4
+                        ? "kiss"
+                        : ChoiceManager.lastDecision == 5 ? "kill" : null;
 
-          if (instructions != null) {
-            Preferences.setString("retroCapeWashingInstructions", instructions);
-            ItemDatabase.setCapeSkills();
-          }
-          break;
+        if (instructions != null) {
+          Preferences.setString("retroCapeWashingInstructions", instructions);
+          ItemDatabase.setCapeSkills();
         }
-      case 1438:
-        {
-          // Configuring the retro cape superhero
-          String hero =
-              ChoiceManager.lastDecision == 1
-                  ? "vampire"
-                  : ChoiceManager.lastDecision == 2
-                      ? "heck"
-                      : ChoiceManager.lastDecision == 3 ? "robot" : null;
+      }
+      case 1438 -> {
+        // Configuring the retro cape superhero
+        String hero =
+            ChoiceManager.lastDecision == 1
+                ? "vampire"
+                : ChoiceManager.lastDecision == 2
+                    ? "heck"
+                    : ChoiceManager.lastDecision == 3 ? "robot" : null;
 
-          if (hero != null) {
-            Preferences.setString("retroCapeSuperhero", hero);
-            ItemDatabase.setCapeSkills();
-          }
-          break;
+        if (hero != null) {
+          Preferences.setString("retroCapeSuperhero", hero);
+          ItemDatabase.setCapeSkills();
         }
-      case 1442:
-        {
-          if (text.contains("You fill out all the appropriate forms")) {
-            ResultProcessor.removeItem(ItemPool.GOVERNMENT_FOOD_SHIPMENT);
-          }
-          break;
+      }
+      case 1442 -> {
+        if (text.contains("You fill out all the appropriate forms")) {
+          ResultProcessor.removeItem(ItemPool.GOVERNMENT_FOOD_SHIPMENT);
         }
-      case 1443:
-        {
-          if (text.contains("You fill out all the appropriate forms")) {
-            ResultProcessor.removeItem(ItemPool.GOVERNMENT_BOOZE_SHIPMENT);
-          }
-          break;
+      }
+      case 1443 -> {
+        if (text.contains("You fill out all the appropriate forms")) {
+          ResultProcessor.removeItem(ItemPool.GOVERNMENT_BOOZE_SHIPMENT);
         }
-      case 1444:
-        {
-          if (text.contains("You fill out all the appropriate forms")) {
-            ResultProcessor.removeItem(ItemPool.GOVERNMENT_CANDY_SHIPMENT);
-          }
-          break;
+      }
+      case 1444 -> {
+        if (text.contains("You fill out all the appropriate forms")) {
+          ResultProcessor.removeItem(ItemPool.GOVERNMENT_CANDY_SHIPMENT);
         }
+      }
 
-      case 1445: // Reassembly Station
-      case 1447: // Statbot 5000
-        YouRobotManager.postChoice1(urlString, request);
-        break;
+      case 1445, // Reassembly Station
+          1447 -> // Statbot 5000
+      YouRobotManager.postChoice1(urlString, request);
 
-      case 1448:
-        {
-          if (text.contains("You acquire an item:")) {
-            Matcher stalkMatcher = Pattern.compile("pp=(\\d+)").matcher(urlString);
-            if (stalkMatcher.find()) {
-              int pp = Integer.parseInt(stalkMatcher.group(1)) - 1;
-              String[] stalkStatus = Preferences.getString("_pottedPowerPlant").split(",");
-              stalkStatus[pp] = "0";
-              Preferences.setString("_pottedPowerPlant", String.join(",", stalkStatus));
-            }
+      case 1448 -> {
+        if (text.contains("You acquire an item:")) {
+          Matcher stalkMatcher = Pattern.compile("pp=(\\d+)").matcher(urlString);
+          if (stalkMatcher.find()) {
+            int pp = Integer.parseInt(stalkMatcher.group(1)) - 1;
+            String[] stalkStatus = Preferences.getString("_pottedPowerPlant").split(",");
+            stalkStatus[pp] = "0";
+            Preferences.setString("_pottedPowerPlant", String.join(",", stalkStatus));
           }
-          break;
         }
-      case 1449:
-        {
-          switch (ChoiceManager.lastDecision) {
-            case 1 -> Preferences.setString("backupCameraMode", "ml");
-            case 2 -> Preferences.setString("backupCameraMode", "meat");
-            case 3 -> Preferences.setString("backupCameraMode", "init");
-            case 4 -> Preferences.setBoolean("backupCameraReverserEnabled", true);
-            case 5 -> Preferences.setBoolean("backupCameraReverserEnabled", false);
-          }
-
-          break;
+      }
+      case 1449 -> {
+        switch (ChoiceManager.lastDecision) {
+          case 1 -> Preferences.setString("backupCameraMode", "ml");
+          case 2 -> Preferences.setString("backupCameraMode", "meat");
+          case 3 -> Preferences.setString("backupCameraMode", "init");
+          case 4 -> Preferences.setBoolean("backupCameraReverserEnabled", true);
+          case 5 -> Preferences.setBoolean("backupCameraReverserEnabled", false);
         }
-      case 1451:
+      }
+      case 1451 -> {
         // Fire Captain Hagnk
         if (ChoiceManager.lastDecision == 1) {
           Matcher locationIdMatcher = Pattern.compile("zid=([^&]*)").matcher(urlString);
@@ -4786,26 +4526,26 @@ public abstract class ChoiceControl {
           }
         }
         WildfireCampRequest.parseCaptain(text);
-        break;
-      case 1452:
+      }
+      case 1452 -> {
         // Sprinkler Joe
         if (ChoiceManager.lastDecision == 1 && text.contains("raindrop.gif")) {
           Preferences.setBoolean("wildfireSprinkled", true);
         }
-        break;
-      case 1453:
+      }
+      case 1453 -> {
         // Fracker Dan
         if (ChoiceManager.lastDecision == 1 && text.contains("raindrop.gif")) {
           Preferences.setBoolean("wildfireFracked", true);
         }
-        break;
-      case 1454:
+      }
+      case 1454 -> {
         // Cropduster Dusty
         if (ChoiceManager.lastDecision == 1 && text.contains("raindrop.gif")) {
           Preferences.setBoolean("wildfireDusted", true);
         }
-        break;
-      case 1455:
+      }
+      case 1455 -> {
         // Cold Medicine Cabinet
         if (ChoiceManager.lastDecision != 6) {
           if (ChoiceManager.lastDecision == 1) {
@@ -4815,25 +4555,13 @@ public abstract class ChoiceControl {
           Preferences.increment("_coldMedicineConsults", 1, 5, false);
           Preferences.setInteger("_nextColdMedicineConsult", KoLCharacter.getTurnsPlayed() + 20);
         }
-        break;
+      }
 
-      case 1467:
-      case 1468:
-      case 1469:
-      case 1470:
-      case 1471:
-      case 1472:
-      case 1473:
-      case 1474:
-      case 1475:
-        // June cleaver
-        JuneCleaverManager.parseChoice(urlString);
-        break;
-      case 1481:
-        JurassicParkaCommand.parseChoice(ChoiceManager.lastDecision);
-        break;
+      case 1467, 1468, 1469, 1470, 1471, 1472, 1473, 1474, 1475 -> // June cleaver
+      JuneCleaverManager.parseChoice(urlString);
+      case 1481 -> JurassicParkaCommand.parseChoice(ChoiceManager.lastDecision);
 
-      case 1505:
+      case 1505 -> {
         // Sing!
         // This should not fail without intentionally submitting a bad option.
         if (text.contains("You sing:")) {
@@ -4863,24 +4591,22 @@ public abstract class ChoiceControl {
           }
           ResultProcessor.processItem(itemId, -1);
         }
-        break;
+      }
         // Burning Leaves
-      case 1510:
-        {
-          String leaves = request.getFormField("leaves");
-          // Redirects to fight.php also run through postChoice, but those are handled elsewhere
-          // in GenericRequest.checkChoiceRedirection
-          if (leaves != null) BurningLeavesRequest.logLeavesBurned(leaves);
-          break;
-        }
-      case 1512, 1513:
+      case 1510 -> {
+        String leaves = request.getFormField("leaves");
+        // Redirects to fight.php also run through postChoice, but those are handled elsewhere
+        // in GenericRequest.checkChoiceRedirection
+        if (leaves != null) BurningLeavesRequest.logLeavesBurned(leaves);
+      }
+      case 1512, 1513 -> {
         if (ChoiceManager.lastDecision == 1 && text.contains("You press the button.")) {
           Preferences.setString(
               "_automatedFutureSide", ChoiceManager.lastChoice == 1512 ? "solenoids" : "bearings");
           Preferences.increment("_automatedFutureManufactures", 1, 11, false);
         }
-        break;
-      case 1517:
+      }
+      case 1517 -> {
         // Mimic DNA Bank
         switch (ChoiceManager.lastDecision) {
           case 1 -> {
@@ -4900,8 +4626,8 @@ public abstract class ChoiceControl {
             }
           }
         }
-        break;
-      case 1518:
+      }
+      case 1518 -> {
         // Black and White Apron Meal Kit
         if (text.contains("You cook and quickly consume your")) {
           ResultProcessor.processItem(ItemPool.BLACK_AND_WHITE_APRON_MEAL_KIT, -1);
@@ -4910,20 +4636,20 @@ public abstract class ChoiceControl {
             Preferences.increment("bwApronMealsEaten");
           }
         }
-        break;
-      case 1534:
+      }
+      case 1534 -> {
         // Clan Photo Booth - Get your photo taken
         if (ChoiceManager.lastDecision != 6 && text.contains("You select")) {
           Preferences.increment("_photoBoothEffects");
         }
-        break;
-      case 1535:
+      }
+      case 1535 -> {
         // Clan Photo Booth - Borrow a prop
         if (ChoiceManager.lastDecision != 12 && text.contains("You grab your prop")) {
           Preferences.increment("_photoBoothEquipment");
         }
-        break;
-      case 1555:
+      }
+      case 1555 -> {
         // Specimen Preparation Bench
         if (ChoiceManager.lastDecision == 1) {
           if (text.contains("You inject the viscous liquid")) {
@@ -4931,8 +4657,8 @@ public abstract class ChoiceControl {
             Preferences.increment("zootSpecimensPrepared", 1, 11, false);
           }
         }
-        break;
-      case 1558:
+      }
+      case 1558 -> {
         // Foreseeing Peril
         // This choice shows items given to others but will never actually give you an item.
         request.setHasResult(false);
@@ -4959,7 +4685,7 @@ public abstract class ChoiceControl {
           Preferences.increment("_perilsForeseen", 1, 3, false);
           break;
         }
-        break;
+      }
     }
   }
 
@@ -5066,22 +4792,22 @@ public abstract class ChoiceControl {
     String text = request.responseText;
 
     switch (ChoiceManager.lastChoice) {
-      case 3:
+      case 3 -> {
         // The Oracle Will See You Now
         if (text.contains("actually a book")) {
           Preferences.setInteger("lastPlusSignUnlock", KoLCharacter.getAscensions());
         }
-        break;
+      }
 
-      case 7:
+      case 7 -> {
         // How Depressing
 
         if (ChoiceManager.lastDecision == 1) {
           EquipmentManager.discardEquipment(ItemPool.SPOOKY_GLOVE);
         }
-        break;
+      }
 
-      case 21:
+      case 21 -> {
         // Under the Knife
         if (ChoiceManager.lastDecision == 1 && text.contains("anaesthetizes you")) {
           Preferences.increment("sexChanges", 1);
@@ -5090,36 +4816,34 @@ public abstract class ChoiceControl {
               text.contains("in more ways than one") ? Gender.FEMALE : Gender.MALE);
           ConcoctionDatabase.setRefreshNeeded(false);
         }
-        break;
+      }
 
-      case 48:
-      case 49:
-      case 50:
-      case 51:
-      case 52:
-      case 53:
-      case 54:
-      case 55:
-      case 56:
-      case 57:
-      case 58:
-      case 59:
-      case 60:
-      case 61:
-      case 62:
-      case 63:
-      case 64:
-      case 65:
-      case 66:
-      case 67:
-      case 68:
-      case 69:
-      case 70:
-        // Choices in the Violet Fog
-        VioletFogManager.mapChoice(ChoiceManager.lastChoice, ChoiceManager.lastDecision, text);
-        break;
+      case 48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70 -> // Choices in the Violet Fog
+      VioletFogManager.mapChoice(ChoiceManager.lastChoice, ChoiceManager.lastDecision, text);
 
-      case 71:
+      case 71 -> {
         // A Journey to the Center of Your Mind
         String tripZone =
             switch (ChoiceManager.lastDecision) {
@@ -5132,81 +4856,81 @@ public abstract class ChoiceControl {
         // We are now in a pseudo LimitMode
         Preferences.setString("currentAstralTrip", tripZone);
         KoLCharacter.setLimitMode(LimitMode.ASTRAL);
-        break;
+      }
 
-      case 73:
+      case 73 -> {
         // Don't Fence Me In
         if (ChoiceManager.lastDecision == 3) {
           if (text.contains("you pick") || text.contains("you manage")) {
             Preferences.increment("_whiteRiceDrops", 1);
           }
         }
-        break;
+      }
 
-      case 89:
+      case 89 -> {
         if (ChoiceManager.lastDecision == 4) {
           TurnCounter.startCounting(10, "Garden Banished loc=*", "wolfshield.gif");
         }
-        break;
+      }
 
-      case 105:
+      case 105 -> {
         if (ChoiceManager.lastDecision == 3) {
           checkGuyMadeOfBees(request);
         }
-        break;
+      }
 
-      case 112:
+      case 112 -> {
         // Please, Hammer
         if (ChoiceManager.lastDecision == 1 && KoLmafia.isAdventuring()) {
           InventoryManager.retrieveItem(ItemPool.get(ItemPool.HAROLDS_HAMMER, 1));
         }
-        break;
+      }
 
-      case 125:
+      case 125 -> {
         // No visible means of support
         if (ChoiceManager.lastDecision == 3) {
           QuestDatabase.setQuestProgress(Quest.WORSHIP, "step3");
         }
-        break;
+      }
 
-      case 132:
+      case 132 -> {
         // Let's Make a Deal!
         if (ChoiceManager.lastDecision == 2) {
           QuestDatabase.setQuestProgress(Quest.PYRAMID, "step1");
         }
-        break;
+      }
 
-      case 162:
+      case 162 -> {
         // Between a Rock and Some Other Rocks
         if (KoLmafia.isAdventuring()
             && !EquipmentManager.isWearingOutfit(OutfitPool.MINING_OUTFIT)
             && !KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.EARTHEN_FIST))) {
           QuestManager.unlockGoatlet();
         }
-        break;
+      }
 
-      case 197:
-        // Somewhat Higher and Mostly Dry
-      case 198:
-        // Disgustin' Junction
-      case 199:
+      case 197,
+          // Somewhat Higher and Mostly Dry
+          198,
+          // Disgustin' Junction
+          199 -> {
         // The Former or the Ladder
         if (ChoiceManager.lastDecision == 1) {
           checkDungeonSewers(request);
         }
-        break;
+      }
 
-      case 200:
-        // Enter The Hoboverlord
-      case 201:
-        // Home, Home in the Range
-      case 202:
-        // Bumpity Bump Bump
-      case 203:
-        // Deep Enough to Dive
-      case 204:
-        // Welcome To You!
-      case 205:
+      case 200,
+          // Enter The Hoboverlord
+          201,
+          // Home, Home in the Range
+          202,
+          // Bumpity Bump Bump
+          203,
+          // Deep Enough to Dive
+          204,
+          // Welcome To You!
+          205 -> {
         // Van, Damn
 
         // Stop for Hobopolis bosses
@@ -5214,9 +4938,9 @@ public abstract class ChoiceControl {
           KoLmafia.updateDisplay(
               MafiaState.PENDING, hobopolisBossName(ChoiceManager.lastChoice) + " waits for you.");
         }
-        break;
+      }
 
-      case 276:
+      case 276 -> {
         // The Gong Has Been Bung
         String form =
             switch (ChoiceManager.lastDecision) {
@@ -5230,15 +4954,15 @@ public abstract class ChoiceControl {
         Preferences.setString("currentLlamaForm", form);
         // This will look at the property and set actual LimitMode
         KoLCharacter.setLimitMode(LimitMode.NONE);
-        break;
+      }
 
-      case 277:
+      case 277 -> {
         // Welcome Back!
         Preferences.setString("currentLlamaForm", "");
         KoLCharacter.setLimitMode(LimitMode.NONE);
-        break;
+      }
 
-      case 299:
+      case 299 -> {
         // Down at the Hatch
         if (ChoiceManager.lastDecision == 1) {
           // The first time you take option 1, you
@@ -5248,21 +4972,19 @@ public abstract class ChoiceControl {
           Preferences.setBoolean("bigBrotherRescued", true);
           ConcoctionDatabase.setRefreshNeeded(false);
         }
-        break;
+      }
 
-      case 302:
-      case 303:
-        // You've Hit Bottom (Pastamancer, Sauceror)
-      case 306:
-        // Not a Micro Fish (Seal Clubber, Turtle Tamer)
-      case 307:
-        // Ode to the Sea (Disco Bandit)
-      case 308:
-        // Boxing the Juke (Accordion Thief)
-        QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, "step5");
-        break;
+      case 302,
+          303,
+          // You've Hit Bottom (Pastamancer, Sauceror)
+          306,
+          // Not a Micro Fish (Seal Clubber, Turtle Tamer)
+          307,
+          // Ode to the Sea (Disco Bandit)
+          308 -> // Boxing the Juke (Accordion Thief)
+      QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, "step5");
 
-      case 304:
+      case 304 -> {
         // A Vent Horizon
 
         // "You conjure some delicious batter from the core of
@@ -5272,9 +4994,9 @@ public abstract class ChoiceControl {
         if (text.contains("pops and sizzles")) {
           Preferences.increment("tempuraSummons", 1);
         }
-        break;
+      }
 
-      case 309:
+      case 309 -> {
         // Barback
 
         // "You head down the tunnel into the cave, and manage
@@ -5283,28 +5005,26 @@ public abstract class ChoiceControl {
         if (text.contains("salty!")) {
           Preferences.increment("seaodesFound", 1);
         }
-        break;
+      }
 
-      case 326:
+      case 326 -> {
         // Showdown
 
         if (ChoiceManager.lastDecision == 2 && KoLmafia.isAdventuring()) {
           KoLmafia.updateDisplay(MafiaState.ABORT, "Mother Slime waits for you.");
         }
-        break;
+      }
 
-      case 330:
+      case 330 -> {
         // A Shark's Chum
         if (ChoiceManager.lastDecision == 1) {
           Preferences.increment("poolSharkCount", 1);
         }
-        break;
+      }
 
-      case 360:
-        WumpusManager.takeChoice(ChoiceManager.lastDecision, text);
-        break;
+      case 360 -> WumpusManager.takeChoice(ChoiceManager.lastDecision, text);
 
-      case 441:
+      case 441 -> {
         // The Mad Tea Party
 
         // I'm sorry, but there's a very strict dress code for
@@ -5313,9 +5033,9 @@ public abstract class ChoiceControl {
         if (ChoiceManager.lastDecision == 1 && !text.contains("very strict dress code")) {
           Preferences.setBoolean("_madTeaParty", true);
         }
-        break;
+      }
 
-      case 442:
+      case 442 -> {
         // A Moment of Reflection
         if (ChoiceManager.lastDecision == 5) {
           // Option 5 is Chess Puzzle
@@ -5326,21 +5046,19 @@ public abstract class ChoiceControl {
           // Option 6 does not consume the map. Others do.
           ResultProcessor.processItem(ItemPool.REFLECTION_OF_MAP, -1);
         }
-        break;
+      }
 
-      case 508:
+      case 508 -> {
         // Pants-Gazing
         if (text.contains("You acquire an effect")) {
           Preferences.increment("_gapBuffs", 1);
         }
-        break;
+      }
 
-      case 517:
-        // Mr. Alarm, I presarm
-        QuestDatabase.setQuestIfBetter(Quest.PALINDOME, "step3");
-        break;
+      case 517 -> // Mr. Alarm, I presarm
+      QuestDatabase.setQuestIfBetter(Quest.PALINDOME, "step3");
 
-      case 518:
+      case 518 -> {
         // Clear and Present Danger
 
         // Stop for Hobopolis bosses
@@ -5348,9 +5066,9 @@ public abstract class ChoiceControl {
           KoLmafia.updateDisplay(
               MafiaState.PENDING, hobopolisBossName(ChoiceManager.lastChoice) + " waits for you.");
         }
-        break;
+      }
 
-      case 524:
+      case 524 -> {
         // The Adventures of Lars the Cyberian
         if (text.contains("Skullhead's Screw")) {
           // You lose the book if you receive the reward.
@@ -5358,16 +5076,16 @@ public abstract class ChoiceControl {
           // the same choice option
           ResultProcessor.processItem(ItemPool.LARS_THE_CYBERIAN, -1);
         }
-        break;
+      }
 
-      case 548:
+      case 548 -> {
         // Behind Closed Doors
         if (ChoiceManager.lastDecision == 2 && KoLmafia.isAdventuring()) {
           KoLmafia.updateDisplay(MafiaState.ABORT, "The Necbromancer waits for you.");
         }
-        break;
+      }
 
-      case 549:
+      case 549 -> {
         // Dark in the Attic
         if (text.contains("The silver pellets tear through the sorority werewolves")) {
           ResultProcessor.processItem(ItemPool.SILVER_SHOTGUN_SHELL, -1);
@@ -5381,9 +5099,9 @@ public abstract class ChoiceControl {
         } else if (text.contains("a firm counterclockwise twist")) {
           RequestLogger.printLine("You crank down the volume on the boombox.");
         }
-        break;
+      }
 
-      case 550:
+      case 550 -> {
         // The Unliving Room
         if (text.contains("you pull out the chainsaw blades")) {
           ResultProcessor.processItem(ItemPool.CHAINSAW_CHAIN, -1);
@@ -5404,9 +5122,9 @@ public abstract class ChoiceControl {
         } else if (text.contains("open the windows")) {
           RequestLogger.printLine("You open the windows.");
         }
-        break;
+      }
 
-      case 551:
+      case 551 -> {
         // Debasement
         if (text.contains("the vampire girls shriek")) {
           RequestLogger.printLine("You slew some vampires.");
@@ -5419,9 +5137,9 @@ public abstract class ChoiceControl {
         } else if (text.contains("turn the fog machine way down")) {
           RequestLogger.printLine("You crank down the fog machine.");
         }
-        break;
+      }
 
-      case 553:
+      case 553 -> {
         // Relocked and Reloaded
         if (text.contains("You melt")) {
           int item =
@@ -5437,32 +5155,30 @@ public abstract class ChoiceControl {
             ResultProcessor.processItem(item, -1);
           }
         }
-        break;
+      }
 
-      case 558:
+      case 558 -> {
         // Tool Time
         if (text.contains("You acquire an item")) {
           int amount = 3 + ChoiceManager.lastDecision;
           ResultProcessor.processItem(ItemPool.LOLLIPOP_STICK, -amount);
         }
-        break;
+      }
 
-      case 560:
-        // Foreshadowing Demon!
-        QuestDatabase.setQuest(
-            Quest.CLUMSINESS,
-            ChoiceManager.lastDecision == 1 ? QuestDatabase.STARTED : QuestDatabase.UNSTARTED);
-        break;
+      case 560 -> // Foreshadowing Demon!
+      QuestDatabase.setQuest(
+          Quest.CLUMSINESS,
+          ChoiceManager.lastDecision == 1 ? QuestDatabase.STARTED : QuestDatabase.UNSTARTED);
 
-      case 561:
+      case 561 -> {
         // You Must Choose Your Destruction!
         QuestDatabase.setQuest(Quest.CLUMSINESS, "step1");
         Preferences.setString(
             "clumsinessGroveBoss",
             ChoiceManager.lastDecision == 1 ? "The Thorax" : "The Bat in the Spats");
-        break;
+      }
 
-      case 563:
+      case 563 -> {
         // A Test of Your Mettle
         if (ChoiceManager.lastDecision == 1) {
           String nextBoss =
@@ -5472,24 +5188,22 @@ public abstract class ChoiceControl {
           Preferences.setString("clumsinessGroveBoss", nextBoss);
           QuestDatabase.setQuest(Quest.CLUMSINESS, "step3");
         }
-        break;
+      }
 
-      case 564:
-        // A Maelstrom of Trouble
-        QuestDatabase.setQuest(
-            Quest.MAELSTROM,
-            ChoiceManager.lastDecision == 1 ? QuestDatabase.STARTED : QuestDatabase.UNSTARTED);
-        break;
+      case 564 -> // A Maelstrom of Trouble
+      QuestDatabase.setQuest(
+          Quest.MAELSTROM,
+          ChoiceManager.lastDecision == 1 ? QuestDatabase.STARTED : QuestDatabase.UNSTARTED);
 
-      case 565:
+      case 565 -> {
         // To Get Groped or Get Mugged?
         QuestDatabase.setQuest(Quest.MAELSTROM, "step1");
         Preferences.setString(
             "maelstromOfLoversBoss",
             ChoiceManager.lastDecision == 1 ? "The Terrible Pinch" : "Thug 1 and Thug 2");
-        break;
+      }
 
-      case 566:
+      case 566 -> {
         // A Choice to be Made
         if (ChoiceManager.lastDecision == 1) {
           String nextBoss =
@@ -5499,24 +5213,22 @@ public abstract class ChoiceControl {
           Preferences.setString("maelstromOfLoversBoss", nextBoss);
           QuestDatabase.setQuest(Quest.MAELSTROM, "step3");
         }
-        break;
+      }
 
-      case 567:
-        // You May Be on Thin Ice
-        QuestDatabase.setQuest(
-            Quest.GLACIER,
-            ChoiceManager.lastDecision == 1 ? QuestDatabase.STARTED : QuestDatabase.UNSTARTED);
-        break;
+      case 567 -> // You May Be on Thin Ice
+      QuestDatabase.setQuest(
+          Quest.GLACIER,
+          ChoiceManager.lastDecision == 1 ? QuestDatabase.STARTED : QuestDatabase.UNSTARTED);
 
-      case 568:
+      case 568 -> {
         // Some Sounds Most Unnerving
         QuestDatabase.setQuest(Quest.GLACIER, "step1");
         Preferences.setString(
             "glacierOfJerksBoss",
             ChoiceManager.lastDecision == 1 ? "Mammon the Elephant" : "The Large-Bellied Snitch");
-        break;
+      }
 
-      case 569:
+      case 569 -> {
         // One More Demon to Slay
         if (ChoiceManager.lastDecision == 1) {
           String nextBoss =
@@ -5526,14 +5238,12 @@ public abstract class ChoiceControl {
           Preferences.setString("glacierOfJerksBoss", nextBoss);
           QuestDatabase.setQuest(Quest.GLACIER, "step3");
         }
-        break;
+      }
 
-      case 578:
-        // End of the Boris Road
-        handleAfterAvatar(ChoiceManager.lastDecision);
-        break;
+      case 578 -> // End of the Boris Road
+      handleAfterAvatar(ChoiceManager.lastDecision);
 
-      case 579:
+      case 579 -> {
         // Such Great Heights
         if (ChoiceManager.lastDecision == 3
             && Preferences.getInteger("lastTempleAdventures") != KoLCharacter.getAscensions()) {
@@ -5541,16 +5251,16 @@ public abstract class ChoiceControl {
           // Also resets your Mayam Calendar symbols, if you have used any.
           Preferences.setString("_mayamSymbolsUsed", "");
         }
-        break;
+      }
 
-      case 581:
+      case 581 -> {
         // Such Great Depths
         if (ChoiceManager.lastDecision == 2) {
           Preferences.setBoolean("_templeHiddenPower", true);
         }
-        break;
+      }
 
-      case 584:
+      case 584 -> {
         // Unconfusing Buttons
         if (Preferences.getInteger("lastTempleButtonsUnlock") != KoLCharacter.getAscensions()) {
           Preferences.setInteger("lastTempleButtonsUnlock", KoLCharacter.getAscensions());
@@ -5561,28 +5271,26 @@ public abstract class ChoiceControl {
         if (ChoiceManager.lastDecision == 4) {
           QuestDatabase.setQuestIfBetter(Quest.WORSHIP, "step2");
         }
-        break;
+      }
 
-      case 595:
-        // Fire! I... have made... fire!
-        Preferences.setBoolean("_fireStartingKitUsed", true);
-        break;
+      case 595 -> // Fire! I... have made... fire!
+      Preferences.setBoolean("_fireStartingKitUsed", true);
 
-      case 597:
+      case 597 -> {
         // Pick a Part
         Preferences.setBoolean("_gnomePart", true);
         ConcoctionDatabase.refreshConcoctionsNow();
-        break;
+      }
 
-      case 602:
+      case 602 -> {
         // Behind the Gash
         // This is a multi-part choice adventure, and we only want to handle the last choice
         if (text.contains("you shout into the blackness")) {
           handleAfterAvatar(ChoiceManager.lastDecision);
         }
-        break;
+      }
 
-      case 613:
+      case 613 -> {
         // Behind the door there is a fog
         if (ChoiceManager.lastDecision == 1) {
           Matcher fogMatcher = FOG_PATTERN.matcher(text);
@@ -5592,114 +5300,108 @@ public abstract class ChoiceControl {
             RequestLogger.updateSessionLog(message);
           }
         }
-        break;
+      }
 
-      case 640:
-        // Tailor the Snow Suit
-        SnowsuitCommand.setStateFromDecision(ChoiceManager.lastDecision);
-        break;
+      case 640 -> // Tailor the Snow Suit
+      SnowsuitCommand.setStateFromDecision(ChoiceManager.lastDecision);
 
-      case 641:
+      case 641 -> {
         // Stupid Pipes.
         if (ChoiceManager.lastDecision == 2 && text.contains("flickering pixel")) {
           Preferences.setBoolean("flickeringPixel1", true);
         }
-        break;
+      }
 
-      case 642:
+      case 642 -> {
         // You're Freaking Kidding Me
         if (ChoiceManager.lastDecision == 2 && text.contains("flickering pixel")) {
           Preferences.setBoolean("flickeringPixel2", true);
         }
-        break;
+      }
 
-      case 644:
+      case 644 -> {
         // Snakes.
         if (ChoiceManager.lastDecision == 2 && text.contains("flickering pixel")) {
           Preferences.setBoolean("flickeringPixel3", true);
         }
-        break;
+      }
 
-      case 645:
+      case 645 -> {
         // So... Many... Skulls...
         if (ChoiceManager.lastDecision == 2 && text.contains("flickering pixel")) {
           Preferences.setBoolean("flickeringPixel4", true);
         }
-        break;
+      }
 
-      case 647:
+      case 647 -> {
         // A Stupid Dummy. Also, a Straw Man.
         if (ChoiceManager.lastDecision == 2 && text.contains("flickering pixel")) {
           Preferences.setBoolean("flickeringPixel5", true);
         }
-        break;
+      }
 
-      case 648:
+      case 648 -> {
         // Slings and Arrows
         if (ChoiceManager.lastDecision == 2 && text.contains("flickering pixel")) {
           Preferences.setBoolean("flickeringPixel6", true);
         }
-        break;
+      }
 
-      case 650:
+      case 650 -> {
         // This Is Your Life. Your Horrible, Horrible Life.
         if (ChoiceManager.lastDecision == 2 && text.contains("flickering pixel")) {
           Preferences.setBoolean("flickeringPixel7", true);
         }
-        break;
+      }
 
-      case 651:
+      case 651 -> {
         // The Wall of Wailing
         if (ChoiceManager.lastDecision == 2 && text.contains("flickering pixel")) {
           Preferences.setBoolean("flickeringPixel8", true);
         }
-        break;
+      }
 
-      case 677:
+      case 677 -> {
         // Copper Feel
         if (ChoiceManager.lastDecision == 1) {
           ResultProcessor.removeItem(ItemPool.MODEL_AIRSHIP);
         }
-        break;
+      }
 
-      case 682:
-        // Now Leaving Jarlsberg, Population You
-        handleAfterAvatar(ChoiceManager.lastDecision);
-        break;
+      case 682 -> // Now Leaving Jarlsberg, Population You
+      handleAfterAvatar(ChoiceManager.lastDecision);
 
-      case 696:
+      case 696 -> {
         // Stick a Fork In It
         if (ChoiceManager.lastDecision == 1) {
           Preferences.setBoolean("maraisDarkUnlock", true);
         } else if (ChoiceManager.lastDecision == 2) {
           Preferences.setBoolean("maraisWildlifeUnlock", true);
         }
-        break;
+      }
 
-      case 697:
+      case 697 -> {
         // Sophie's Choice
         if (ChoiceManager.lastDecision == 1) {
           Preferences.setBoolean("maraisCorpseUnlock", true);
         } else if (ChoiceManager.lastDecision == 2) {
           Preferences.setBoolean("maraisWizardUnlock", true);
         }
-        break;
+      }
 
-      case 698:
+      case 698 -> {
         // From Bad to Worst
         if (ChoiceManager.lastDecision == 1) {
           Preferences.setBoolean("maraisBeaverUnlock", true);
         } else if (ChoiceManager.lastDecision == 2) {
           Preferences.setBoolean("maraisVillageUnlock", true);
         }
-        break;
+      }
 
-      case 704:
-        // Playing the Catalog Card
-        DreadScrollManager.handleLibrary(text);
-        break;
+      case 704 -> // Playing the Catalog Card
+      DreadScrollManager.handleLibrary(text);
 
-      case 774:
+      case 774 -> {
         // Opening up the Folder Holder
 
         // Choice 1 is adding a folder.
@@ -5716,22 +5418,22 @@ public abstract class ChoiceControl {
 
         // Set all folder slots from the response text
         EquipmentRequest.parseFolders(text);
-        break;
+      }
 
-      case 786:
+      case 786 -> {
         if (ChoiceManager.lastDecision == 2) {
           ResultProcessor.autoCreate(ItemPool.MCCLUSKY_FILE);
         }
-        break;
+      }
 
-      case 798:
+      case 798 -> {
         // Hippy Talkin'
         if (text.contains("Point me at the landfill")) {
           QuestDatabase.setQuestProgress(Quest.HIPPY, QuestDatabase.STARTED);
         }
-        break;
+      }
 
-      case 810:
+      case 810 -> {
         if (ChoiceManager.lastDecision == 2) {
           ResultProcessor.processItem(ItemPool.WARBEAR_WHOSIT, -100);
         } else if (ChoiceManager.lastDecision == 4 && text.contains("You upgrade the robot!")) {
@@ -5742,98 +5444,91 @@ public abstract class ChoiceControl {
             ResultProcessor.processItem(ItemPool.WARBEAR_WHOSIT, -cost);
           }
         }
-        break;
+      }
 
-      case 829:
-        // We all wear masks
-      case 822: // The Prince's Ball (In the Restroom)
-      case 823: // The Prince's Ball (On the Dance Floor)
-      case 824: // The Prince's Ball (The Kitchen)
-      case 825: // The Prince's Ball (On the Balcony)
-      case 826: // The Prince's Ball (The Lounge)
-      case 827: // The Prince's Ball (At the Canapés Table)
-        // stepmother
-      case 830: // Cooldown
-      case 832: // Shower Power
-      case 833: // Vendi, Vidi, Vici
-      case 834: // Back Room Dealings
-        // wolf
-      case 831: // Intrusion
-      case 837: // On Purple Pond
-      case 838: // General Mill
-      case 839: // The Sounds of the Undergrounds
-      case 840: // Hop on Rock Pops
-      case 841: // Building, Structure, Edifice
-      case 842: // The Gingerbread Warehouse
-        // witch
-      case 844: // The Portal to Horrible Parents
-      case 845: // Rumpelstiltskin's Workshop
-      case 846: // Bartering for the Future of Innocent Children
-      case 847: // Pick Your Poison
-      case 848: // Where the Magic Happens
-      case 849: // The Practice
-      case 850: // World of Bartercraft
-        // gnome
-        GrimstoneManager.postChoice2(text);
-        break;
+      case 829,
+          // We all wear masks
+          822, // The Prince's Ball (In the Restroom)
+          823, // The Prince's Ball (On the Dance Floor)
+          824, // The Prince's Ball (The Kitchen)
+          825, // The Prince's Ball (On the Balcony)
+          826, // The Prince's Ball (The Lounge)
+          827, // The Prince's Ball (At the Canapés Table)
+          // stepmother
+          830, // Cooldown
+          832, // Shower Power
+          833, // Vendi, Vidi, Vici
+          834, // Back Room Dealings
+          // wolf
+          831, // Intrusion
+          837, // On Purple Pond
+          838, // General Mill
+          839, // The Sounds of the Undergrounds
+          840, // Hop on Rock Pops
+          841, // Building, Structure, Edifice
+          842, // The Gingerbread Warehouse
+          // witch
+          844, // The Portal to Horrible Parents
+          845, // Rumpelstiltskin's Workshop
+          846, // Bartering for the Future of Innocent Children
+          847, // Pick Your Poison
+          848, // Where the Magic Happens
+          849, // The Practice
+          850 -> // World of Bartercraft
+      // gnome
+      GrimstoneManager.postChoice2(text);
 
-      case 854:
+      case 854 -> {
         // Shen Copperhead, World's Biggest Jerk
         if (InventoryManager.hasItem(ItemPool.COPPERHEAD_CHARM)
             && InventoryManager.hasItem(ItemPool.COPPERHEAD_CHARM_RAMPANT)) {
           ResultProcessor.autoCreate(ItemPool.TALISMAN);
         }
-        break;
+      }
 
-      case 855:
-        {
-          // Behind the 'Stache
-          String hazard =
-              switch (ChoiceManager.lastDecision) {
-                case 1, 5 -> "gong";
-                case 2 -> "ice";
-                case 3 -> "lantern";
-                default -> Preferences.getString("copperheadClubHazard");
-              };
-          Preferences.setString("copperheadClubHazard", hazard);
-          if (ChoiceManager.lastDecision == 5) {
-            Preferences.setBoolean("candyCaneSwordCopperheadClub", true);
-          }
-          break;
+      case 855 -> {
+        // Behind the 'Stache
+        String hazard =
+            switch (ChoiceManager.lastDecision) {
+              case 1, 5 -> "gong";
+              case 2 -> "ice";
+              case 3 -> "lantern";
+              default -> Preferences.getString("copperheadClubHazard");
+            };
+        Preferences.setString("copperheadClubHazard", hazard);
+        if (ChoiceManager.lastDecision == 5) {
+          Preferences.setBoolean("candyCaneSwordCopperheadClub", true);
         }
+      }
 
-      case 856:
-        {
-          // This Looks Like a Good Bush for an Ambush
-          Matcher lynyrdMatcher = LYNYRD_PATTERN.matcher(text);
-          if (lynyrdMatcher.find()) {
-            int protestersScared = StringUtilities.parseInt(lynyrdMatcher.group(1));
-            Preferences.increment("zeppelinProtestors", protestersScared);
-            RequestLogger.printLine("Scared off " + protestersScared + " protesters");
-          }
-          break;
+      case 856 -> {
+        // This Looks Like a Good Bush for an Ambush
+        Matcher lynyrdMatcher = LYNYRD_PATTERN.matcher(text);
+        if (lynyrdMatcher.find()) {
+          int protestersScared = StringUtilities.parseInt(lynyrdMatcher.group(1));
+          Preferences.increment("zeppelinProtestors", protestersScared);
+          RequestLogger.printLine("Scared off " + protestersScared + " protesters");
         }
+      }
 
-      case 857:
-        {
-          // Bench Warrant
-          Matcher benchWarrantMatcher = BENCH_WARRANT_PATTERN.matcher(text);
+      case 857 -> {
+        // Bench Warrant
+        Matcher benchWarrantMatcher = BENCH_WARRANT_PATTERN.matcher(text);
+        if (benchWarrantMatcher.find()) {
+          int protestersCreeped = StringUtilities.parseInt(benchWarrantMatcher.group(1));
+          Preferences.increment("zeppelinProtestors", protestersCreeped);
+          RequestLogger.printLine("Creeped out " + protestersCreeped + " protesters");
+        } else {
+          benchWarrantMatcher = BENCH_WARRANT_CANDY_PATTERN.matcher(text);
           if (benchWarrantMatcher.find()) {
             int protestersCreeped = StringUtilities.parseInt(benchWarrantMatcher.group(1));
             Preferences.increment("zeppelinProtestors", protestersCreeped);
-            RequestLogger.printLine("Creeped out " + protestersCreeped + " protesters");
-          } else {
-            benchWarrantMatcher = BENCH_WARRANT_CANDY_PATTERN.matcher(text);
-            if (benchWarrantMatcher.find()) {
-              int protestersCreeped = StringUtilities.parseInt(benchWarrantMatcher.group(1));
-              Preferences.increment("zeppelinProtestors", protestersCreeped);
-              RequestLogger.printLine("Scared off " + protestersCreeped + " protesters");
-            }
+            RequestLogger.printLine("Scared off " + protestersCreeped + " protesters");
           }
-          break;
         }
+      }
 
-      case 858:
+      case 858 -> {
         // Fire Up Above
         if (text.contains("three nearest protesters")) {
           Preferences.increment("zeppelinProtestors", 3);
@@ -5843,9 +5538,9 @@ public abstract class ChoiceControl {
           ResultProcessor.processItem(ItemPool.FLAMIN_WHATSHISNAME, -1);
           RequestLogger.printLine("Set fire to 10 protesters");
         }
-        break;
+      }
 
-      case 860:
+      case 860 -> {
         // Another Tired Retread
         if (ChoiceManager.lastDecision == 1) {
           Preferences.setString("peteMotorbikeTires", "Racing Slicks");
@@ -5854,8 +5549,8 @@ public abstract class ChoiceControl {
         } else if (ChoiceManager.lastDecision == 3) {
           Preferences.setString("peteMotorbikeTires", "Snow Tires");
         }
-        break;
-      case 861:
+      }
+      case 861 -> {
         // Station of the Gas
         if (ChoiceManager.lastDecision == 1) {
           Preferences.setString("peteMotorbikeGasTank", "Large Capacity Tank");
@@ -5866,8 +5561,8 @@ public abstract class ChoiceControl {
         } else if (ChoiceManager.lastDecision == 3) {
           Preferences.setString("peteMotorbikeGasTank", "Nitro-Burnin' Funny Tank");
         }
-        break;
-      case 862:
+      }
+      case 862 -> {
         // Me and Cinderella Put It All Together
         if (ChoiceManager.lastDecision == 1) {
           Preferences.setString("peteMotorbikeHeadlight", "Ultrabright Yellow Bulb");
@@ -5876,8 +5571,8 @@ public abstract class ChoiceControl {
         } else if (ChoiceManager.lastDecision == 3) {
           Preferences.setString("peteMotorbikeHeadlight", "Blacklight Bulb");
         }
-        break;
-      case 863:
+      }
+      case 863 -> {
         // Endowing the Cowling
         if (ChoiceManager.lastDecision == 1) {
           Preferences.setString("peteMotorbikeCowling", "Ghost Vacuum");
@@ -5886,8 +5581,8 @@ public abstract class ChoiceControl {
         } else if (ChoiceManager.lastDecision == 3) {
           Preferences.setString("peteMotorbikeCowling", "Sweepy Red Light");
         }
-        break;
-      case 864:
+      }
+      case 864 -> {
         // Diving into the Mufflers
         if (ChoiceManager.lastDecision == 1) {
           Preferences.setString("peteMotorbikeMuffler", "Extra-Loud Muffler");
@@ -5896,8 +5591,8 @@ public abstract class ChoiceControl {
         } else if (ChoiceManager.lastDecision == 3) {
           Preferences.setString("peteMotorbikeMuffler", "Extra-Smelly Muffler");
         }
-        break;
-      case 865:
+      }
+      case 865 -> {
         // Ayy, Sit on It
         if (ChoiceManager.lastDecision == 1) {
           Preferences.setString("peteMotorbikeSeat", "Massage Seat");
@@ -5906,24 +5601,20 @@ public abstract class ChoiceControl {
         } else if (ChoiceManager.lastDecision == 3) {
           Preferences.setString("peteMotorbikeSeat", "Sissy Bar");
         }
-        break;
+      }
 
-      case 869:
-        // End of Pete Road
-        handleAfterAvatar(ChoiceManager.lastDecision);
-        break;
+      case 869 -> // End of Pete Road
+      handleAfterAvatar(ChoiceManager.lastDecision);
 
-      case 875:
-        {
-          // Welcome To Our ool Table
-          Matcher poolSkillMatcher = POOL_SKILL_PATTERN.matcher(text);
-          if (poolSkillMatcher.find()) {
-            Preferences.increment("poolSkill", StringUtilities.parseInt(poolSkillMatcher.group(1)));
-          }
-          break;
+      case 875 -> {
+        // Welcome To Our ool Table
+        Matcher poolSkillMatcher = POOL_SKILL_PATTERN.matcher(text);
+        if (poolSkillMatcher.find()) {
+          Preferences.increment("poolSkill", StringUtilities.parseInt(poolSkillMatcher.group(1)));
         }
+      }
 
-      case 918:
+      case 918 -> {
         // Yachtzee!
         Preferences.setInteger("encountersUntilYachtzeeChoice", 19);
         if (text.contains("Ultimate Mind Destroyer")) {
@@ -5931,21 +5622,19 @@ public abstract class ChoiceControl {
           Preferences.setString(
               "umdLastObtained", date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         }
-        break;
+      }
 
-      case 921:
-        // We'll All Be Flat
-        QuestDatabase.setQuestProgress(Quest.MANOR, "step1");
-        break;
+      case 921 -> // We'll All Be Flat
+      QuestDatabase.setQuestProgress(Quest.MANOR, "step1");
 
-      case 928:
+      case 928 -> {
         // The Blackberry Cobbler
         if (ChoiceManager.lastDecision != 6) {
           ResultProcessor.processItem(ItemPool.BLACKBERRY, -3);
         }
-        break;
+      }
 
-      case 929:
+      case 929 -> {
         // Control Freak
         if (ChoiceManager.lastDecision == 1 && text.contains("wooden wheel disintegrating")) {
           ResultProcessor.processItem(ItemPool.CRUMBLING_WHEEL, -1);
@@ -5955,95 +5644,89 @@ public abstract class ChoiceControl {
           ResultProcessor.processItem(ItemPool.TOMB_RATCHET, -1);
           PyramidRequest.advancePyramidPosition();
         }
-        break;
+      }
 
-      case 940:
+      case 940 -> {
         // Let Your Fists Do The Walking
         if (ChoiceManager.lastDecision == 6) {
           ResultProcessor.processItem(ItemPool.WHITE_PAGE, 1);
         }
-        break;
+      }
 
-      case 974:
-        {
-          // Around The World
-          Matcher pinkWordMatcher = PINK_WORD_PATTERN.matcher(text);
-          if (pinkWordMatcher.find()) {
-            String pinkWord = pinkWordMatcher.group(1);
-            String message =
-                "Bohemian Party Pink Word found: "
-                    + pinkWord
-                    + " in clan "
-                    + ClanManager.getClanName(false)
-                    + ".";
-            RequestLogger.printHtml(
-                "<font color=\"blue\">"
-                    + StringUtilities.getEntityEncode(message, false)
-                    + "</font>");
-            RequestLogger.updateSessionLog(message);
-          }
-          break;
+      case 974 -> {
+        // Around The World
+        Matcher pinkWordMatcher = PINK_WORD_PATTERN.matcher(text);
+        if (pinkWordMatcher.find()) {
+          String pinkWord = pinkWordMatcher.group(1);
+          String message =
+              "Bohemian Party Pink Word found: "
+                  + pinkWord
+                  + " in clan "
+                  + ClanManager.getClanName(false)
+                  + ".";
+          RequestLogger.printHtml(
+              "<font color=\"blue\">"
+                  + StringUtilities.getEntityEncode(message, false)
+                  + "</font>");
+          RequestLogger.updateSessionLog(message);
         }
+      }
 
-      case 975:
-        {
-          // Crazy Still After All These Years
-          Matcher stillMatcher = STILL_PATTERN.matcher(text);
-          if (stillMatcher.find()) {
-            ResultProcessor.processItem(
-                ItemPool.COCKTAIL_ONION, -StringUtilities.parseInt(stillMatcher.group(1)));
-          }
-          break;
+      case 975 -> {
+        // Crazy Still After All These Years
+        Matcher stillMatcher = STILL_PATTERN.matcher(text);
+        if (stillMatcher.find()) {
+          ResultProcessor.processItem(
+              ItemPool.COCKTAIL_ONION, -StringUtilities.parseInt(stillMatcher.group(1)));
         }
+      }
 
-      case 977:
+      case 977 -> {
         // [Chariot Betting]
         if (ChoiceManager.lastDecision < 12) {
           ResultProcessor.processItem(ItemPool.CHRONER, -10);
         }
-        break;
+      }
 
-      case 981:
+      case 981 -> {
         // [back room]
         if (ChoiceManager.lastDecision < 12) {
           ResultProcessor.processItem(ItemPool.MERCURY_BLESSING, -1);
         }
-        break;
+      }
 
-      case 982:
-      case 983:
+      case 982, 983 -> {
         // Playing Dice With Romans & The 99-Centurion Store
         if (ChoiceManager.lastDecision < 6) {
           ResultProcessor.processItem(ItemPool.CHRONER, -1);
         }
-        break;
+      }
 
-      case 1042: // Pick a Perk
-        KoLmafia.resetAfterLimitmode();
-        break;
+      case 1042 -> // Pick a Perk
+      KoLmafia.resetAfterLimitmode();
 
-      case 1054:
+      case 1054 -> {
         // Returning the MacGuffin
         QuestDatabase.setQuestProgress(Quest.WAREHOUSE, QuestDatabase.FINISHED);
         if (ChoiceManager.lastDecision == 1) {
           ResultProcessor.processItem(ItemPool.ED_HOLY_MACGUFFIN, -1);
         }
-        break;
+      }
 
-      case 1055:
+      case 1055 -> {
         // Returning the MacGuffin
         KoLCharacter.liberateKing();
         handleAfterAvatar(ChoiceManager.lastDecision);
-        break;
+      }
 
-      case 1062:
+      case 1062 -> {
         // Lots of Options
         if (ChoiceManager.lastDecision == 5) {
           ResultProcessor.processItem(ItemPool.BOOZE_MAP, -1);
         }
-        break;
+      }
 
-      case 1073:
+      case 1073 -> {
         // This Ride Is Like... A Rollercoaster Baby Baby
         if (ChoiceManager.lastDecision == 1) {
           Preferences.setBoolean("dinseyRollercoasterNext", false);
@@ -6051,9 +5734,9 @@ public abstract class ChoiceControl {
         if (text.contains("lubricating every inch of the tracks")) {
           QuestDatabase.setQuestProgress(Quest.SUPER_LUBER, "step2");
         }
-        break;
+      }
 
-      case 1089: // Community Service
+      case 1089 -> { // Community Service
         if (text.contains("You acquire")) {
           String quest =
               switch (ChoiceManager.lastDecision) {
@@ -6079,16 +5762,16 @@ public abstract class ChoiceControl {
             }
           }
         }
-        break;
+      }
 
-      case 1090:
+      case 1090 -> {
         // The Towering Inferno Discotheque
         if (ChoiceManager.lastDecision > 1) {
           Preferences.setBoolean("_infernoDiscoVisited", true);
         }
-        break;
+      }
 
-      case 1091:
+      case 1091 -> {
         // Choice 1091 is The Floor Is Yours
         if (text.contains("You acquire")) {
           switch (ChoiceManager.lastDecision) {
@@ -6105,16 +5788,16 @@ public abstract class ChoiceControl {
             }
           }
         }
-        break;
+      }
 
-      case 1092:
+      case 1092 -> {
         // Choice 1092 is Dyer Maker
         if (text.contains("You acquire")) {
           ResultProcessor.processResult(ItemPool.get(ItemPool.VISCOUS_LAVA_GLOBS, -1));
         }
-        break;
+      }
 
-      case 1093:
+      case 1093 -> {
         // The WLF Bunker
 
         // A woman in an orange denim jumpsuit emerges from a
@@ -6136,66 +5819,63 @@ public abstract class ChoiceControl {
           Preferences.setInteger("_volcanoItemCount2", 0);
           Preferences.setInteger("_volcanoItemCount3", 0);
         }
+      }
 
-        break;
-
-      case 1100:
+      case 1100 -> {
         // Pray to the Barrel God
         if (ChoiceManager.lastDecision <= 4) {
           Preferences.setBoolean("_barrelPrayer", true);
           ConcoctionDatabase.refreshConcoctions();
         }
-        break;
+      }
 
-      case 1101:
-        {
-          // It's a Barrel Smashing Party!
-          if (ChoiceManager.lastDecision == 2) {
-            // We're smashing 100 barrels
-            // The results don't say which barrels are being smashed, but it seems to happen in item
-            // order
-            int count = 100;
-            int itemId = ItemPool.LITTLE_FIRKIN;
-            while (count > 0 && itemId <= ItemPool.BARNACLED_BARREL) {
-              int smashNumber = Math.min(count, InventoryManager.getCount(itemId));
-              if (smashNumber > 0) {
-                ResultProcessor.processResult(ItemPool.get(itemId, -smashNumber));
-                count -= smashNumber;
-              }
-              itemId++;
+      case 1101 -> {
+        // It's a Barrel Smashing Party!
+        if (ChoiceManager.lastDecision == 2) {
+          // We're smashing 100 barrels
+          // The results don't say which barrels are being smashed, but it seems to happen in item
+          // order
+          int count = 100;
+          int itemId = ItemPool.LITTLE_FIRKIN;
+          while (count > 0 && itemId <= ItemPool.BARNACLED_BARREL) {
+            int smashNumber = Math.min(count, InventoryManager.getCount(itemId));
+            if (smashNumber > 0) {
+              ResultProcessor.processResult(ItemPool.get(itemId, -smashNumber));
+              count -= smashNumber;
             }
-            break;
-          }
-          int itemId = extractIidFromURL(request.getURLString());
-          String name = ItemDatabase.getItemName(itemId);
-          if (name != null) {
-            ResultProcessor.removeItem(itemId);
+            itemId++;
           }
           break;
         }
+        int itemId = extractIidFromURL(request.getURLString());
+        String name = ItemDatabase.getItemName(itemId);
+        if (name != null) {
+          ResultProcessor.removeItem(itemId);
+        }
+      }
 
-      case 1103:
+      case 1103 -> {
         // Doing the Maths
         if (!text.contains("Try again")) {
           Preferences.increment("_universeCalculated");
         }
-        break;
+      }
 
-      case 1104:
+      case 1104 -> {
         // Tree Tea
         if (ChoiceManager.lastDecision == 1) {
           Preferences.setBoolean("_pottedTeaTreeUsed", true);
         }
-        break;
+      }
 
-      case 1105:
+      case 1105 -> {
         // Specifici Tea
         if (request.getURLString().contains("itemid")) {
           Preferences.setBoolean("_pottedTeaTreeUsed", true);
         }
-        break;
+      }
 
-      case 1110:
+      case 1110 -> {
         // Spoopy
         if (ChoiceManager.lastDecision == 5) {
           if (text.contains("You board up the doghouse")) {
@@ -6204,9 +5884,9 @@ public abstract class ChoiceControl {
             Preferences.setBoolean("doghouseBoarded", false);
           }
         }
-        break;
+      }
 
-      case 1114:
+      case 1114 -> {
         // Walford Rusley, Bucket Collector
         if (ChoiceManager.lastDecision == 1) {
           QuestDatabase.setQuestProgress(Quest.BUCKET, QuestDatabase.UNSTARTED);
@@ -6236,9 +5916,9 @@ public abstract class ChoiceControl {
             Preferences.setString("walfordBucketItem", "rain");
           }
         }
-        break;
+      }
 
-      case 1115:
+      case 1115 -> {
         // VYKEA!
         if (ChoiceManager.lastDecision == 1) {
           Preferences.setBoolean("_VYKEACafeteriaRaided", true);
@@ -6254,9 +5934,9 @@ public abstract class ChoiceControl {
         } else if (ChoiceManager.lastDecision == 4) {
           Preferences.setBoolean("_VYKEALoungeRaided", true);
         }
-        break;
+      }
 
-      case 1116:
+      case 1116 -> {
         // All They Got Inside is Vacancy (and Ice)
         if (ChoiceManager.lastDecision == 3) {
           Matcher WalfordMatcher = WALFORD_PATTERN.matcher(text);
@@ -6270,98 +5950,90 @@ public abstract class ChoiceControl {
         } else if (ChoiceManager.lastDecision == 5) {
           Preferences.setBoolean("_iceHotelRoomsRaided", true);
         }
-        break;
+      }
 
-      case 1119:
+      case 1119 -> {
         // Shining Mauve Backwards In Time
         Preferences.setInteger("encountersUntilDMTChoice", 49);
         if (ChoiceManager.lastDecision == 4
             && Preferences.getInteger("lastDMTDuplication") != KoLCharacter.getAscensions()) {
           Preferences.setInteger("lastDMTDuplication", KoLCharacter.getAscensions());
         }
-        break;
+      }
 
-      case 1134:
+      case 1134 -> {
         // Batfellow Ends
         // (choosing to exit)
         if (ChoiceManager.lastDecision == 1) {
           KoLCharacter.setLimitMode(LimitMode.NONE);
         }
-        break;
+      }
 
-      case 1168:
-        // Batfellow Ends
-        // (from running out of time)
-        KoLCharacter.setLimitMode(LimitMode.NONE);
-        break;
+      case 1168 -> // Batfellow Ends
+      // (from running out of time)
+      KoLCharacter.setLimitMode(LimitMode.NONE);
 
-      case 1171: // LT&T Office
+      case 1171 -> { // LT&T Office
         if (ChoiceManager.lastDecision < 4) {
           QuestDatabase.setQuestProgress(Quest.TELEGRAM, QuestDatabase.STARTED);
         }
-        break;
+      }
 
-      case 1172: // The Investigation Begins
+      case 1172 -> { // The Investigation Begins
         QuestDatabase.setQuestProgress(Quest.TELEGRAM, "step1");
         Preferences.setInteger("lttQuestStageCount", 0);
-        break;
+      }
 
-      case 1173: // The Investigation Continues
+      case 1173 -> { // The Investigation Continues
         QuestDatabase.setQuestProgress(Quest.TELEGRAM, "step2");
         Preferences.setInteger("lttQuestStageCount", 0);
-        break;
+      }
 
-      case 1174: // The Investigation Continues
+      case 1174 -> { // The Investigation Continues
         QuestDatabase.setQuestProgress(Quest.TELEGRAM, "step3");
         Preferences.setInteger("lttQuestStageCount", 0);
-        break;
+      }
 
-      case 1175: // The Investigation Thrillingly Concludes!
+      case 1175 -> { // The Investigation Thrillingly Concludes!
         QuestDatabase.setQuestProgress(Quest.TELEGRAM, "step4");
         Preferences.setInteger("lttQuestStageCount", 0);
-        break;
+      }
 
-      case 1180:
-        // Back to the East
-        handleAfterAvatar(ChoiceManager.lastDecision);
-        break;
+      case 1180 -> // Back to the East
+      handleAfterAvatar(ChoiceManager.lastDecision);
 
-      case 1188: // The Call is Coming from Outside the Simulation
+      case 1188 -> { // The Call is Coming from Outside the Simulation
         if (ChoiceManager.lastDecision == 1) {
           // Skill learned
           Preferences.decrement("sourceEnlightenment", 1, 0);
         }
-        break;
+      }
 
-      case 1191:
-        // Source Terminal
-        request.setHasResult(true);
-        break;
+      case 1191 -> // Source Terminal
+      request.setHasResult(true);
 
-      case 1198:
+      case 1198 -> {
         // Play a Time Prank
         if (ChoiceManager.lastDecision == 1 && text.contains("paradoxical time copy")) {
           Preferences.increment("_timeSpinnerMinutesUsed");
         }
-        break;
+      }
 
-      case 1199:
-        {
-          // The Far Future
-          if (text.contains("item appears in the replicator")
-              || text.contains("convoluted nature of time-travel")) {
-            Preferences.setBoolean("_timeSpinnerReplicatorUsed", true);
-            break;
-          }
-          Matcher medalMatcher = TIME_SPINNER_MEDALS_PATTERN.matcher(text);
-          if (medalMatcher.find()) {
-            Preferences.setInteger(
-                "timeSpinnerMedals", StringUtilities.parseInt(medalMatcher.group(1)));
-          }
+      case 1199 -> {
+        // The Far Future
+        if (text.contains("item appears in the replicator")
+            || text.contains("convoluted nature of time-travel")) {
+          Preferences.setBoolean("_timeSpinnerReplicatorUsed", true);
           break;
         }
+        Matcher medalMatcher = TIME_SPINNER_MEDALS_PATTERN.matcher(text);
+        if (medalMatcher.find()) {
+          Preferences.setInteger(
+              "timeSpinnerMedals", StringUtilities.parseInt(medalMatcher.group(1)));
+        }
+      }
 
-      case 1202:
+      case 1202 -> {
         // Noon in the Civic Center
 
         // You knock the column over and collect the sprinkles from its shattered remains.
@@ -6384,9 +6056,9 @@ public abstract class ChoiceControl {
           Preferences.setBoolean("gingerBlackmailAccomplished", true);
           break;
         }
-        break;
+      }
 
-      case 1203:
+      case 1203 -> {
         // Midnight in Civic Center
         // You step into the library and spend a few hours studying law. It's surprisingly
         // difficult! You gain a new respect for lawyers.
@@ -6424,9 +6096,9 @@ public abstract class ChoiceControl {
           ResultProcessor.processResult(ItemPool.get(ItemPool.GINGERBREAD_DOG_TREAT, -1));
           break;
         }
-        break;
+      }
 
-      case 1204:
+      case 1204 -> {
         // Noon at the Train Station
         // You pull the lever and hear a rumbling from underneath you as the sewer gets much larger.
         // Now there's more room for the alligators!
@@ -6461,9 +6133,9 @@ public abstract class ChoiceControl {
           }
         }
         // What next?
-        break;
+      }
 
-      case 1205:
+      case 1205 -> {
         // Midnight at the Train Station
         if (text.contains("provide a great workout")) {
           Preferences.increment("gingerMuscleChoice");
@@ -6484,10 +6156,9 @@ public abstract class ChoiceControl {
           Preferences.setInteger("gingerDigCount", 7);
           ResultProcessor.processResult(ItemPool.get(ItemPool.TEETHPICK, -1));
         }
+      }
 
-        break;
-
-      case 1206:
+      case 1206 -> {
         // Noon in the Industrial Zone
         // You buy the tool.
         if (!text.contains("buy the tool")) {
@@ -6508,17 +6179,17 @@ public abstract class ChoiceControl {
           // teethpick
           ResultProcessor.processResult(ItemPool.get(ItemPool.SPRINKLES, -1000));
         }
-        break;
+      }
 
-      case 1207:
+      case 1207 -> {
         // Midnight in the Industrial Zone
         // You can't afford a tattoo.
         if (ChoiceManager.lastDecision == 3 && !text.contains("can't afford a tattoo")) {
           ResultProcessor.processResult(ItemPool.get(ItemPool.SPRINKLES, -100000));
         }
-        break;
+      }
 
-      case 1208:
+      case 1208 -> {
         // Upscale Noon
         if (text.contains("drop off the negatives")) {
           Preferences.setBoolean("gingerNegativesDropped", true);
@@ -6553,9 +6224,9 @@ public abstract class ChoiceControl {
           // gingerbread blackmail photos
           Preferences.setBoolean("gingerNegativesDropped", false);
         }
-        break;
+      }
 
-      case 1210:
+      case 1210 -> {
         // Civic Planning Office
         // You move the policy to the front of the drawer, and by the time you leave the office
         // they've already enacted it!
@@ -6569,9 +6240,9 @@ public abstract class ChoiceControl {
           case 3 -> Preferences.setBoolean("gingerExtraAdventures", true);
           case 4 -> Preferences.setBoolean("gingerAdvanceClockUnlocked", true);
         }
-        break;
+      }
 
-      case 1212:
+      case 1212 -> {
         // Seedy Seedy Seedy
         if (!text.contains("You acquire an item")) {
           break;
@@ -6584,9 +6255,9 @@ public abstract class ChoiceControl {
           // gingerbread beer
           ResultProcessor.processResult(ItemPool.get(ItemPool.GINGERBREAD_MUG, -1));
         }
-        break;
+      }
 
-      case 1214:
+      case 1214 -> {
         // The Gingerbread Gallery
         if (!text.contains("You acquire an item")) {
           break;
@@ -6604,44 +6275,41 @@ public abstract class ChoiceControl {
           // No Hats as Art
           ResultProcessor.processResult(ItemPool.get(ItemPool.SPRINKLES, -1000));
         }
-        break;
+      }
 
-      case 1218:
+      case 1218 -> {
         // Wax On
         if (text.contains("You acquire an item")) {
           ResultProcessor.processResult(ItemPool.get(ItemPool.WAX_GLOB, -1));
         }
-        break;
+      }
 
-      case 1219:
+      case 1219 -> {
         // Approach the Jellyfish
         // You acquire an item: sea jelly
         // You think it'd be best to leave them alone for the rest of the day.
         if (ChoiceManager.lastDecision == 1) {
           Preferences.setBoolean("_seaJellyHarvested", true);
         }
-        break;
+      }
 
-      case 1232: // Finally Human
-        handleAfterAvatar(ChoiceManager.lastDecision);
-        break;
+      case 1232 -> // Finally Human
+      handleAfterAvatar(ChoiceManager.lastDecision);
 
-      case 1264: // Meteor Metal Machinations
+      case 1264 -> { // Meteor Metal Machinations
         if (ChoiceManager.lastDecision >= 1 && ChoiceManager.lastDecision <= 6) {
           // Exchanging for equipment
           ResultProcessor.removeItem(ItemPool.METAL_METEOROID);
         }
-        break;
+      }
 
-      case 1267:
+      case 1267 -> {
         // Rubbed it the Right Way
-        {
-          String wish = request.getFormField("wish");
-          GenieRequest.postChoice(text, wish);
-          break;
-        }
+        String wish = request.getFormField("wish");
+        GenieRequest.postChoice(text, wish);
+      }
 
-      case 1272:
+      case 1272 -> {
         // R&D
         int letterId = extractIidFromURL(urlString);
         String letterName = ItemDatabase.getItemName(letterId);
@@ -6652,44 +6320,39 @@ public abstract class ChoiceControl {
           RequestLogger.updateSessionLog(message);
           ResultProcessor.removeItem(letterId);
         }
-        break;
+      }
 
-      case 1273:
+      case 1273 -> {
         // R&D
         if (text.contains("slide the weird key into the weird lock")) {
           ResultProcessor.removeItem(ItemPool.WAREHOUSE_KEY);
         }
-        break;
+      }
 
-      case 1320:
+      case 1320 -> {
         // A Heist!
         if (ChoiceManager.lastDecision == 1) {
           Preferences.increment("_catBurglarHeistsComplete");
         }
-        break;
+      }
 
-      case 1339:
-        {
-          // A Little Pump and Grind
-          if (ChoiceManager.lastDecision == 1 && text.contains("filling counter increments")) {
-            int itemId = extractIidFromURL(request.getURLString());
-            int qty = extractQtyFromURL(request.getURLString());
-            ResultProcessor.processResult(ItemPool.get(itemId, -qty));
-          } else if (ChoiceManager.lastDecision == 2 && text.contains("You acquire an item")) {
-            ResultProcessor.removeItem(ItemPool.MAGICAL_SAUSAGE_CASING);
-          }
-          break;
+      case 1339 -> {
+        // A Little Pump and Grind
+        if (ChoiceManager.lastDecision == 1 && text.contains("filling counter increments")) {
+          int itemId = extractIidFromURL(request.getURLString());
+          int qty = extractQtyFromURL(request.getURLString());
+          ResultProcessor.processResult(ItemPool.get(itemId, -qty));
+        } else if (ChoiceManager.lastDecision == 2 && text.contains("You acquire an item")) {
+          ResultProcessor.removeItem(ItemPool.MAGICAL_SAUSAGE_CASING);
         }
+      }
 
-      case 1344: // Thank You, Come Again
-        handleAfterAvatar(ChoiceManager.lastDecision);
-        break;
+      case 1344 -> // Thank You, Come Again
+      handleAfterAvatar(ChoiceManager.lastDecision);
 
-      case 1387:
-        SaberRequest.postForce(urlString, text);
-        break;
+      case 1387 -> SaberRequest.postForce(urlString, text);
 
-      case 1395: // Take your Pills
+      case 1395 -> { // Take your Pills
         {
           if (!text.contains("day's worth of pills")) {
             // Something failed.  Not enough spleen space left, already have
@@ -6710,14 +6373,12 @@ public abstract class ChoiceControl {
             Preferences.setBoolean("noncombatForcerActive", true);
           }
         }
-        break;
+      }
 
-      case 1409:
-        // Your Quest is Over
-        handleAfterAvatar(ChoiceManager.lastDecision);
-        break;
+      case 1409 -> // Your Quest is Over
+      handleAfterAvatar(ChoiceManager.lastDecision);
 
-      case 1449:
+      case 1449 -> {
         // If you change the mode with the item equipped, you need to un-equip and re-equip it to
         // get the modifiers
         if (ChoiceManager.lastDecision >= 1 && ChoiceManager.lastDecision <= 3) {
@@ -6729,32 +6390,31 @@ public abstract class ChoiceControl {
             }
           }
         }
-        break;
-      case 1452: // Sprinkler Joe
-      case 1453: // Fracker Dan
-      case 1454: // Cropduster Dusty
-        WildfireCampRequest.refresh();
-        break;
+      }
+      case 1452, // Sprinkler Joe
+          1453, // Fracker Dan
+          1454 -> // Cropduster Dusty
+      WildfireCampRequest.refresh();
 
-      case 1457: // Food Lab
+      case 1457 -> { // Food Lab
         if (ChoiceManager.lastDecision == 1 && text.contains("You acquire an item")) {
           ResultProcessor.processItem(ItemPool.GOOIFIED_ANIMAL_MATTER, -5);
         }
-        break;
+      }
 
-      case 1458: // Nog Lab
+      case 1458 -> { // Nog Lab
         if (ChoiceManager.lastDecision == 1 && text.contains("You acquire an item")) {
           ResultProcessor.processItem(ItemPool.GOOIFIED_VEGETABLE_MATTER, -5);
         }
-        break;
+      }
 
-      case 1459: // Chem Lab
+      case 1459 -> { // Chem Lab
         if (ChoiceManager.lastDecision == 1 && text.contains("You acquire an item")) {
           ResultProcessor.processItem(ItemPool.GOOIFIED_MINERAL_MATTER, -5);
         }
-        break;
+      }
 
-      case 1460: // Gift Fabrication Lab
+      case 1460 -> { // Gift Fabrication Lab
         if (text.contains("You acquire an item")) {
           switch (ChoiceManager.lastDecision) {
             case 1 -> ResultProcessor.processItem(ItemPool.GOOIFIED_ANIMAL_MATTER, -30);
@@ -6780,9 +6440,9 @@ public abstract class ChoiceControl {
             default -> {}
           }
         }
-        break;
+      }
 
-      case 1461: // Site Alpha Primary Lab
+      case 1461 -> { // Site Alpha Primary Lab
         switch (ChoiceManager.lastDecision) {
           case 1 -> Preferences.increment("primaryLabGooIntensity", 1);
           case 2 -> Preferences.decrement("primaryLabGooIntensity", 1);
@@ -6794,62 +6454,58 @@ public abstract class ChoiceControl {
           // Grab the Cheer Core
           Preferences.setBoolean("primaryLabCheerCoreGrabbed", true);
         }
-        break;
+      }
 
-      case 1465:
-        // No More Grey You
-        handleAfterAvatar(ChoiceManager.lastDecision);
-        break;
+      case 1465 -> // No More Grey You
+      handleAfterAvatar(ChoiceManager.lastDecision);
 
-      case 1466: // Configure Your Unbreakable Umbrella
-        UmbrellaRequest.parseUmbrella(urlString, text);
-        break;
+      case 1466 -> // Configure Your Unbreakable Umbrella
+      UmbrellaRequest.parseUmbrella(urlString, text);
 
-      case 1476: // Stillsuit
+      case 1476 -> { // Stillsuit
         if (ChoiceManager.lastDecision == 1) {
           StillSuitManager.handleDrink(text);
         }
-        break;
+      }
 
-      case 1483:
+      case 1483 -> {
         // Direct Autumn-Aton
         {
           int location = StringUtilities.parseInt(request.getFormField("heythereprogrammer"));
           AutumnatonManager.postChoice(ChoiceManager.lastDecision, text, location);
         }
-        break;
+      }
 
-      case 1484: // Conspicuous Plaque
+      case 1484 -> { // Conspicuous Plaque
         if (ChoiceManager.lastDecision == 1 && text.contains("All right, you're the boss.")) {
           var name = request.getFormField("name");
           Preferences.setString("speakeasyName", name);
         }
-        break;
+      }
 
-      case 1486: // Choose an Action During a Caboose Distraction
+      case 1486 -> { // Choose an Action During a Caboose Distraction
         if (ChoiceManager.lastDecision == 2) {
           Preferences.increment("elfGratitude", 3);
         }
-        break;
+      }
 
-      case 1487: // A Passenger Among Passengers
-        Preferences.increment("elfGratitude", 5);
-        break;
+      case 1487 -> // A Passenger Among Passengers
+      Preferences.increment("elfGratitude", 5);
 
-      case 1489: // Slagging Off
+      case 1489 -> { // Slagging Off
         switch (ChoiceManager.lastDecision) {
           case 1, 2 -> ResultProcessor.removeItem(ItemPool.CRIMBO_CRYSTAL_SHARDS);
         }
-        break;
+      }
 
-      case 1490: // Woolin' Around
+      case 1490 -> { // Woolin' Around
         if (ChoiceManager.lastDecision >= 1 && ChoiceManager.lastDecision <= 6) {
           // Exchanging for items
           ResultProcessor.removeItem(ItemPool.GRUBBY_WOOL);
         }
-        break;
+      }
 
-      case 1494: // Examine S.I.T. Course Certificate
+      case 1494 -> { // Examine S.I.T. Course Certificate
         switch (ChoiceManager.lastDecision) {
           case 1 -> {
             KoLCharacter.removeAvailableSkill(SkillPool.INSECTOLOGIST);
@@ -6873,71 +6529,58 @@ public abstract class ChoiceControl {
         // Since you can walk away from this choice, only set you
         // actually selected a course.
         Preferences.setBoolean("_sitCourseCompleted", true);
-        break;
+      }
 
-      case 1496:
-        // Out of the Shadows
-        handleAfterAvatar(ChoiceManager.lastDecision);
-        break;
+      case 1496 -> // Out of the Shadows
+      handleAfterAvatar(ChoiceManager.lastDecision);
 
-      case 1497:
-        // Calling Rufus
-        RufusManager.parseCallResponse(text, ChoiceManager.lastDecision);
-        break;
+      case 1497 -> // Calling Rufus
+      RufusManager.parseCallResponse(text, ChoiceManager.lastDecision);
 
-      case 1498:
-        // Calling Rufus Back
-        RufusManager.parseCallBackResponse(text, ChoiceManager.lastDecision);
-        break;
+      case 1498 -> // Calling Rufus Back
+      RufusManager.parseCallBackResponse(text, ChoiceManager.lastDecision);
 
-      case 1500:
+      case 1500 -> {
         // Like a Loded Stone
         if (ChoiceManager.lastDecision == 3) {
           Preferences.setBoolean("_shadowForestLooted", true);
         }
-        break;
+      }
 
-      case 1501:
+      case 1501 -> {
         // Make a Wish
-        {
-          String wish = request.getFormField("wish");
-          MonkeyPawRequest.postChoice(text, wish);
-          break;
-        }
+        String wish = request.getFormField("wish");
+        MonkeyPawRequest.postChoice(text, wish);
+      }
 
-      case 1509:
-        // Adjust Jill-of-All-Trades Lighting
-        LedCandleRequest.parseUpgrade(urlString, text);
-        break;
+      case 1509 -> // Adjust Jill-of-All-Trades Lighting
+      LedCandleRequest.parseUpgrade(urlString, text);
 
-      case 1510:
+      case 1510 -> {
         // Burning Leaves
-        {
-          String leavesField = request.getFormField("leaves");
-          int leaves = StringUtilities.parseInt(leavesField);
-          BurningLeavesRequest.postChoice(text, leaves);
-          break;
-        }
+        String leavesField = request.getFormField("leaves");
+        int leaves = StringUtilities.parseInt(leavesField);
+        BurningLeavesRequest.postChoice(text, leaves);
+      }
 
-      case 1003:
-        // Test Your Might And Also Test Other Things
-        // If you are in WereProfessor, option 5 is "Look to the Moon".
-        // If you select this as a Mild-Mannered Professor, you change form.
-        // If you are already a Savage Beast:
-        //
-        // You notice the moon shining brightly over the cusp of the
-        // tower and feel even farther from your professorial self.
-        // Garh, no!
-        if (ChoiceManager.lastDecision != 5) {
-          break;
-        }
-        // Fall through
-      case 1520:
-        // Well, come on
-        // -> Lose Savage Beast and gain Mild-Mannered Professor
-      case 1521:
+      case 1003,
+          // Test Your Might And Also Test Other Things
+          // If you are in WereProfessor, option 5 is "Look to the Moon".
+          // If you select this as a Mild-Mannered Professor, you change form.
+          // If you are already a Savage Beast:
+          //
+          // You notice the moon shining brightly over the cusp of the
+          // tower and feel even farther from your professorial self.
+          // Garh, no!
+          1520,
+          // Well, come on
+          // -> Lose Savage Beast and gain Mild-Mannered Professor
+          1521 -> {
         // Turn and face the strange
         // -> Lose Mild-Mannered Professor and gain Savage Beast
+        if (ChoiceManager.lastChoice == 1003 && ChoiceManager.lastDecision != 5) {
+          break;
+        }
         // In either case, access to the Tinkering Bench changes
         ConcoctionDatabase.refreshConcoctions();
         // Savage Beast modifiers might have changes
@@ -6945,9 +6588,9 @@ public abstract class ChoiceControl {
         // In either direction, current modifiers have changed.
         KoLCharacter.recalculateAdjustments();
         KoLCharacter.updateStatus();
-        break;
+      }
 
-      case 1522:
+      case 1522 -> {
         // The Antiscientific Method
         {
           var location = KoLAdventure.lastVisitedLocation;
@@ -6961,33 +6604,27 @@ public abstract class ChoiceControl {
             Preferences.setString("antiScientificMethod", value);
           }
         }
-        break;
+      }
 
-      case 1523:
-        // Research Bench
-        ResearchBenchRequest.postChoice2(urlString, text);
-        break;
+      case 1523 -> // Research Bench
+      ResearchBenchRequest.postChoice2(urlString, text);
 
-      case 1524:
-        // Moonlighting
-        handleAfterAvatar(ChoiceManager.lastDecision);
-        break;
+      case 1524 -> // Moonlighting
+      handleAfterAvatar(ChoiceManager.lastDecision);
 
-      case 1525:
-        // Dart Perks
-        InventoryManager.checkDartPerks();
-        break;
+      case 1525 -> // Dart Perks
+      InventoryManager.checkDartPerks();
 
-      case 1526:
+      case 1526 -> {
         // Conduct the Band
         switch (ChoiceManager.lastDecision) {
           case 1, 2, 3 -> Preferences.setInteger(
               "nextAprilBandTurn", KoLCharacter.getTurnsPlayed() + 11);
           case 4, 5, 6, 7, 8 -> Preferences.increment("_aprilBandInstruments", 1, 2, false);
         }
-        break;
+      }
 
-      case 1527:
+      case 1527 -> {
         // Consider the Calendar
         parseMayamCalendar(text);
         if (text.contains("times without using an adventure")) {
@@ -6996,26 +6633,24 @@ public abstract class ChoiceControl {
         if (text.contains("looks more experienced")) {
           KoLCharacter.getFamiliar().addNonCombatExperience(100);
         }
-        break;
+      }
 
-      case 1532:
+      case 1532 -> {
         // Chatting with your Burly Bodyguard
-        {
-          var monsterIdString = request.getFormField("bgid");
-          if (text.contains("You set off to find a monster with a specific bodyguard to challenge.")
-              && monsterIdString != null) {
-            try {
-              var monsterName = MonsterDatabase.getMonsterName(Integer.parseInt(monsterIdString));
-              Preferences.setInteger("bodyguardCharge", 0);
-              Preferences.setString("bodyguardChatMonster", monsterName);
-            } catch (NumberFormatException e) {
-              break;
-            }
+        var monsterIdString = request.getFormField("bgid");
+        if (text.contains("You set off to find a monster with a specific bodyguard to challenge.")
+            && monsterIdString != null) {
+          try {
+            var monsterName = MonsterDatabase.getMonsterName(Integer.parseInt(monsterIdString));
+            Preferences.setInteger("bodyguardCharge", 0);
+            Preferences.setString("bodyguardChatMonster", monsterName);
+          } catch (NumberFormatException e) {
+            break;
           }
-          break;
         }
+      }
 
-      case 1544:
+      case 1544 -> {
         // Devil some Candy
         if (text.contains("You place your candy in the deviler")) {
           Preferences.increment("_candyEggsDeviled");
@@ -7026,9 +6661,9 @@ public abstract class ChoiceControl {
             break;
           }
         }
-        break;
+      }
 
-      case 1551:
+      case 1551 -> {
         // Hashing with your vice
         if (text.contains("You crush the schematic into little bits of checksum.")) {
           String item = request.getFormField("iid");
@@ -7038,9 +6673,9 @@ public abstract class ChoiceControl {
             break;
           }
         }
-        break;
+      }
 
-      case 1553:
+      case 1553 -> {
         // Hybridization Chamber
         if (ChoiceManager.lastDecision == 1 && text.contains("<span class='guts'>Grafting")) {
           var famId = request.getFormField("fam");
@@ -7055,28 +6690,35 @@ public abstract class ChoiceControl {
           // refresh again because level is wrong the first time
           ApiRequest.updateStatus(true);
         }
-        break;
+      }
 
-      case 1554:
-        // We'll Return to Our Home, Bathed in Rays of Gold
-        handleAfterAvatar(ChoiceManager.lastDecision);
-        break;
+      case 1554 -> // We'll Return to Our Home, Bathed in Rays of Gold
+      handleAfterAvatar(ChoiceManager.lastDecision);
 
-      case 1561:
-        // Request Supply Drop
-        {
-          String req = request.getFormField("request");
-          AlliedRadioRequest.postChoice(text, false, req);
-          break;
+      case 1560 -> {
+        // A Cooler Yeti Conversation
+        switch (ChoiceManager.lastDecision) {
+          case 2 -> {
+            Preferences.setBoolean("_coolerYetiAdventures", true);
+            Preferences.setString("coolerYetiMode", "adventures");
+          }
+          case 3 -> Preferences.setString("coolerYetiMode", "effect");
+          case 4 -> Preferences.setString("coolerYetiMode", "bar");
+          case 5 -> Preferences.setString("coolerYetiMode", "stats");
         }
+      }
 
-      case 1563:
+      case 1561 -> {
         // Request Supply Drop
-        {
-          String req = request.getFormField("request");
-          AlliedRadioRequest.postChoice(text, true, req);
-          break;
-        }
+        String req = request.getFormField("request");
+        AlliedRadioRequest.postChoice(text, false, req);
+      }
+
+      case 1563 -> {
+        // Request Supply Drop
+        String req = request.getFormField("request");
+        AlliedRadioRequest.postChoice(text, true, req);
+      }
     }
   }
 
@@ -7285,45 +6927,29 @@ public abstract class ChoiceControl {
         }
       }
 
-      case 360 -> {
-        // Wumpus Hunt
-        WumpusManager.visitChoice(text);
-      }
+      case 360 -> // Wumpus Hunt
+      WumpusManager.visitChoice(text);
 
-      case 440 -> {
-        // Puttin' on the Wax
-        HaciendaManager.preRecording(text);
-      }
+      case 440 -> // Puttin' on the Wax
+      HaciendaManager.preRecording(text);
 
-      case 443 -> {
-        // A Chess Puzzle
-        RabbitHoleManager.parseChessPuzzle(text);
-      }
+      case 443 -> // A Chess Puzzle
+      RabbitHoleManager.parseChessPuzzle(text);
 
-      case 460 -> {
-        // Space Trip
-        ArcadeRequest.visitSpaceTripChoice(text);
-      }
+      case 460 -> // Space Trip
+      ArcadeRequest.visitSpaceTripChoice(text);
 
-      case 471 -> {
-        // DemonStar
-        ArcadeRequest.visitDemonStarChoice(text);
-      }
+      case 471 -> // DemonStar
+      ArcadeRequest.visitDemonStarChoice(text);
 
-      case 485 -> {
-        // Fighters Of Fighting
-        ArcadeRequest.visitFightersOfFightingChoice(text);
-      }
+      case 485 -> // Fighters Of Fighting
+      ArcadeRequest.visitFightersOfFightingChoice(text);
 
-      case 486 -> {
-        // DungeonFist!
-        ArcadeRequest.visitDungeonFistChoice(text);
-      }
+      case 486 -> // DungeonFist!
+      ArcadeRequest.visitDungeonFistChoice(text);
 
-      case 488 -> {
-        // Meteoid
-        ArcadeRequest.visitMeteoidChoice(text);
-      }
+      case 488 -> // Meteoid
+      ArcadeRequest.visitMeteoidChoice(text);
 
       case 496,
           // Crate Expectations
@@ -7343,10 +6969,8 @@ public abstract class ChoiceControl {
           // A Rat's Home...
           1000,
           // Everything in Moderation
-          1001 -> {
-        // Hot and Cold Dripping Rats
-        TavernRequest.postTavernVisit(request);
-      }
+          1001 -> // Hot and Cold Dripping Rats
+      TavernRequest.postTavernVisit(request);
 
       case 502 -> {
         // Arboreal Respite
@@ -7362,23 +6986,15 @@ public abstract class ChoiceControl {
         }
       }
 
-      case 537 -> {
-        // Play Porko!
-        SpaaaceRequest.visitPorkoChoice(text);
-      }
+      case 537 -> // Play Porko!
+      SpaaaceRequest.visitPorkoChoice(text);
 
-      case 540 -> {
-        // Big-Time Generator
-        SpaaaceRequest.visitGeneratorChoice(text);
-      }
+      case 540 -> // Big-Time Generator
+      SpaaaceRequest.visitGeneratorChoice(text);
 
-      case 570 -> {
-        GameproManager.parseGameproMagazine(text);
-      }
+      case 570 -> GameproManager.parseGameproMagazine(text);
 
-      case 627, 628, 629, 630, 631, 633 -> {
-        ChibiBuddyManager.visit(ChoiceManager.lastChoice, text);
-      }
+      case 627, 628, 629, 630, 631, 633 -> ChibiBuddyManager.visit(ChoiceManager.lastChoice, text);
 
       case 641 -> {
         // Stupid Pipes.
@@ -7446,20 +7062,14 @@ public abstract class ChoiceControl {
         }
       }
 
-      case 658 -> {
-        // Debasement
-        ResultProcessor.processItem(ItemPool.GOLD_PIECE, -30);
-      }
+      case 658 -> // Debasement
+      ResultProcessor.processItem(ItemPool.GOLD_PIECE, -30);
 
-      case 689 -> {
-        // The Final Reward
-        Preferences.setInteger("_lastDailyDungeonRoom", 14);
-      }
+      case 689 -> // The Final Reward
+      Preferences.setInteger("_lastDailyDungeonRoom", 14);
 
-      case 690 -> {
-        // The First Chest Isn't the Deepest
-        Preferences.setInteger("_lastDailyDungeonRoom", 4);
-      }
+      case 690 -> // The First Chest Isn't the Deepest
+      Preferences.setInteger("_lastDailyDungeonRoom", 4);
 
       case 691 -> {
         // Second Chest
@@ -7478,10 +7088,8 @@ public abstract class ChoiceControl {
         }
       }
 
-      case 705 -> {
-        // Halls Passing in the Night
-        ResultProcessor.processItem(ItemPool.MERKIN_HALLPASS, -1);
-      }
+      case 705 -> // Halls Passing in the Night
+      ResultProcessor.processItem(ItemPool.MERKIN_HALLPASS, -1);
 
       case 764 -> {
         // The Machine
@@ -7558,10 +7166,8 @@ public abstract class ChoiceControl {
         }
       }
 
-      case 791 -> {
-        // Legend of the Temple in the Hidden City
-        Preferences.setInteger("zigguratLianas", 1);
-      }
+      case 791 -> // Legend of the Temple in the Hidden City
+      Preferences.setInteger("zigguratLianas", 1);
 
       case 793 -> {
         // Welcome to The Shore, Inc.
@@ -7672,10 +7278,9 @@ public abstract class ChoiceControl {
           847, // Pick Your Poison
           848, // Where the Magic Happens
           849, // The Practice
-          850 -> { // World of Bartercraft
-        // gnome
-        GrimstoneManager.visitChoice(text);
-      }
+          850 -> // World of Bartercraft
+      // gnome
+      GrimstoneManager.visitChoice(text);
 
       case 851 -> {
         {
@@ -7861,15 +7466,11 @@ public abstract class ChoiceControl {
         }
       }
 
-      case 1002 -> {
-        // Legend of the Temple in the Hidden City
-        Preferences.setInteger("zigguratLianas", 1);
-      }
+      case 1002 -> // Legend of the Temple in the Hidden City
+      Preferences.setInteger("zigguratLianas", 1);
 
-      case 1003 -> {
-        // Test Your Might And Also Test Other Things
-        SorceressLairManager.parseContestBooth(0, text);
-      }
+      case 1003 -> // Test Your Might And Also Test Other Things
+      SorceressLairManager.parseContestBooth(0, text);
 
       case 1005, // 'Allo
           1006, // One Small Step For Adventurer
@@ -7879,9 +7480,8 @@ public abstract class ChoiceControl {
           1010, // Another Day, Another Fork
           1011, // Of Mouseholes and Manholes
           1012, // The Last Temptation
-          1013 -> { // Mazel Tov!
-        SorceressLairManager.visitChoice(ChoiceManager.lastChoice, text);
-      }
+          1013 -> // Mazel Tov!
+      SorceressLairManager.visitChoice(ChoiceManager.lastChoice, text);
 
       case 1023, 1024 -> {
         {
@@ -7920,9 +7520,8 @@ public abstract class ChoiceControl {
         }
       }
 
-      case 1051 -> { // The Book of the Undying
-        EdBaseRequest.inspectBook(text);
-      }
+      case 1051 -> // The Book of the Undying
+      EdBaseRequest.inspectBook(text);
 
       case 1053 -> { // The Servants' Quarters
         EdBaseRequest.inspectServants(text);
@@ -8018,15 +7617,11 @@ public abstract class ChoiceControl {
         }
       }
 
-      case 1087 -> {
-        // The Dark and Dank and Sinister Cave Entrance
-        QuestDatabase.setQuestIfBetter(Quest.NEMESIS, "step11");
-      }
+      case 1087 -> // The Dark and Dank and Sinister Cave Entrance
+      QuestDatabase.setQuestIfBetter(Quest.NEMESIS, "step11");
 
-      case 1088 -> {
-        // Rubble, Rubble, Toil and Trouble
-        QuestDatabase.setQuestIfBetter(Quest.NEMESIS, "step13");
-      }
+      case 1088 -> // Rubble, Rubble, Toil and Trouble
+      QuestDatabase.setQuestIfBetter(Quest.NEMESIS, "step13");
 
       case 1093 -> {
         {
@@ -8085,10 +7680,8 @@ public abstract class ChoiceControl {
         }
       }
 
-      case 1110 -> {
-        // Spoopy
-        Preferences.setBoolean("doghouseBoarded", !text.contains("Board up the doghouse"));
-      }
+      case 1110 -> // Spoopy
+      Preferences.setBoolean("doghouseBoarded", !text.contains("Board up the doghouse"));
 
       case 1118 -> {
         {
@@ -8120,10 +7713,8 @@ public abstract class ChoiceControl {
         }
       }
 
-      case 1191 -> {
-        // Source Terminal
-        request.setHasResult(false);
-      }
+      case 1191 -> // Source Terminal
+      request.setHasResult(false);
 
       case 1193 -> {
         {
@@ -8375,10 +7966,8 @@ public abstract class ChoiceControl {
         }
       }
 
-      case 1267 -> {
-        // Rubbed it the Right Way
-        GenieRequest.visitChoice(text);
-      }
+      case 1267 -> // Rubbed it the Right Way
+      GenieRequest.visitChoice(text);
 
       case 1308 -> {
         {
@@ -8451,9 +8040,8 @@ public abstract class ChoiceControl {
           1316, // GAME OVER
           1317, // A Hello to Arms (Battalion)
           1318, // Defensive Posturing
-          1319 -> { // Cheese Seeking Behavior
-        BastilleBattalionManager.visitChoice(request);
-      }
+          1319 -> // Cheese Seeking Behavior
+      BastilleBattalionManager.visitChoice(request);
 
       case 1322 -> {
         // The Beginning of the Neverend
@@ -8473,15 +8061,11 @@ public abstract class ChoiceControl {
         }
       }
 
-      case 1324 -> {
-        // It Hasn't Ended, It's Just Paused
-        Preferences.setInteger("encountersUntilNEPChoice", 7);
-      }
+      case 1324 -> // It Hasn't Ended, It's Just Paused
+      Preferences.setInteger("encountersUntilNEPChoice", 7);
 
-      case 1329 -> {
-        // Latte Shop
-        LatteRequest.parseVisitChoice(text);
-      }
+      case 1329 -> // Latte Shop
+      LatteRequest.parseVisitChoice(text);
 
       case 1331 -> {
         {
@@ -8784,65 +8368,42 @@ public abstract class ChoiceControl {
         }
       }
 
-      case 1420 -> {
-        // Cargo Cultist Shorts
-        CargoCultistShortsRequest.parseAvailablePockets(text);
-      }
+      case 1420 -> // Cargo Cultist Shorts
+      CargoCultistShortsRequest.parseAvailablePockets(text);
 
-      case 1425 -> {
-        // Oh Yeah!
-        Preferences.setInteger("lastCartographyFratHouse", KoLCharacter.getAscensions());
-      }
+      case 1425 -> // Oh Yeah!
+      Preferences.setInteger("lastCartographyFratHouse", KoLCharacter.getAscensions());
 
-      case 1427 -> {
-        //  The Hidden Junction
-        Preferences.setInteger("lastCartographyGuanoJunction", KoLCharacter.getAscensions());
-      }
+      case 1427 -> //  The Hidden Junction
+      Preferences.setInteger("lastCartographyGuanoJunction", KoLCharacter.getAscensions());
 
-      case 1428 -> {
-        //  Your Neck of the Woods
-        Preferences.setInteger("lastCartographyDarkNeck", KoLCharacter.getAscensions());
-      }
+      case 1428 -> //  Your Neck of the Woods
+      Preferences.setInteger("lastCartographyDarkNeck", KoLCharacter.getAscensions());
 
-      case 1429 -> {
-        //  No Nook Unknown
-        Preferences.setInteger("lastCartographyDefiledNook", KoLCharacter.getAscensions());
-      }
+      case 1429 -> //  No Nook Unknown
+      Preferences.setInteger("lastCartographyDefiledNook", KoLCharacter.getAscensions());
 
-      case 1430 -> {
-        //  Ghostly Memories
-        Preferences.setInteger("lastCartographyBooPeak", KoLCharacter.getAscensions());
-      }
+      case 1430 -> //  Ghostly Memories
+      Preferences.setInteger("lastCartographyBooPeak", KoLCharacter.getAscensions());
 
-      case 1431 -> {
-        //  Here There Be Giants
-        Preferences.setInteger("lastCartographyCastleTop", KoLCharacter.getAscensions());
-      }
+      case 1431 -> //  Here There Be Giants
+      Preferences.setInteger("lastCartographyCastleTop", KoLCharacter.getAscensions());
 
-      case 1432 -> {
-        //  Mob Maptality
-        Preferences.setInteger("lastCartographyZeppelinProtesters", KoLCharacter.getAscensions());
-      }
+      case 1432 -> //  Mob Maptality
+      Preferences.setInteger("lastCartographyZeppelinProtesters", KoLCharacter.getAscensions());
 
-      case 1433 -> {
-        //  Sneaky, Sneaky (Frat Warrior Fatigues)
-        Preferences.setInteger("lastCartographyFratHouseVerge", KoLCharacter.getAscensions());
-      }
+      case 1433 -> //  Sneaky, Sneaky (Frat Warrior Fatigues)
+      Preferences.setInteger("lastCartographyFratHouseVerge", KoLCharacter.getAscensions());
 
-      case 1434 -> {
-        //  Sneaky, Sneaky (War Hippy Fatigues)
-        Preferences.setInteger("lastCartographyHippyCampVerge", KoLCharacter.getAscensions());
-      }
+      case 1434 -> //  Sneaky, Sneaky (War Hippy Fatigues)
+      Preferences.setInteger("lastCartographyHippyCampVerge", KoLCharacter.getAscensions());
 
-      case 1436 -> {
-        // Billards Room Options
-        Preferences.setInteger("lastCartographyHauntedBilliards", KoLCharacter.getAscensions());
-      }
+      case 1436 -> // Billards Room Options
+      Preferences.setInteger("lastCartographyHauntedBilliards", KoLCharacter.getAscensions());
 
       case 1445, // Reassembly Station
-          1447 -> { // Statbot 5000
-        YouRobotManager.visitChoice(request);
-      }
+          1447 -> // Statbot 5000
+      YouRobotManager.visitChoice(request);
 
       case 1448 -> {
         {
@@ -8881,18 +8442,10 @@ public abstract class ChoiceControl {
         var equipmentCount = text.contains("ice crown") ? 0 : text.contains("frozen jeans") ? 1 : 2;
         Preferences.setInteger("_coldMedicineEquipmentTaken", equipmentCount);
       }
-      case 1462 -> {
-        CrystalBallManager.parsePonder(text);
-      }
-      case 1463 -> {
-        LocketManager.parseMonsters(text);
-      }
-      case 1476 -> {
-        StillSuitManager.parseChoice(text);
-      }
-      case 1483 -> {
-        AutumnatonManager.visitChoice(text);
-      }
+      case 1462 -> CrystalBallManager.parsePonder(text);
+      case 1463 -> LocketManager.parseMonsters(text);
+      case 1476 -> StillSuitManager.parseChoice(text);
+      case 1483 -> AutumnatonManager.visitChoice(text);
       case 1484 -> { // Conspicuous Plaque
         var pattern = Pattern.compile("The plaque currently reads: <b>(.*?)</b>");
         var matcher = pattern.matcher(text);
@@ -8904,39 +8457,26 @@ public abstract class ChoiceControl {
         CampgroundRequest.setCurrentWorkshedItem(ItemPool.MODEL_TRAIN_SET);
         TrainsetManager.visitChoice(text);
       }
-      case 1491 -> { // Strange Stalagmite(s)
-        Preferences.setBoolean("_strangeStalagmiteUsed", true);
-      }
+      case 1491 -> // Strange Stalagmite(s)
+      Preferences.setBoolean("_strangeStalagmiteUsed", true);
 
-      case 1497 -> {
-        // Calling Rufus
-        RufusManager.parseCall(text);
-      }
+      case 1497 -> // Calling Rufus
+      RufusManager.parseCall(text);
 
-      case 1498 -> {
-        // Calling Rufus Back
-        RufusManager.parseCallBack(text);
-      }
+      case 1498 -> // Calling Rufus Back
+      RufusManager.parseCallBack(text);
 
-      case 1499 -> {
-        // The Shadow Labyrinth
-        RufusManager.handleShadowRiftNC(1499, text);
-      }
+      case 1499 -> // The Shadow Labyrinth
+      RufusManager.handleShadowRiftNC(1499, text);
 
-      case 1500 -> {
-        // Like a Loded Stone
-        RufusManager.handleShadowRiftNC(1500, text);
-      }
+      case 1500 -> // Like a Loded Stone
+      RufusManager.handleShadowRiftNC(1500, text);
 
-      case 1501 -> {
-        // Make a Wish
-        MonkeyPawRequest.visitChoice(text);
-      }
+      case 1501 -> // Make a Wish
+      MonkeyPawRequest.visitChoice(text);
 
-      case 1510 -> {
-        // Burning Leaves
-        BurningLeavesRequest.visitChoice(text);
-      }
+      case 1510 -> // Burning Leaves
+      BurningLeavesRequest.visitChoice(text);
 
       case 1512, 1513 -> {
         if (text.contains("don't even think about pressing that button")) {
@@ -8962,14 +8502,11 @@ public abstract class ChoiceControl {
         }
       }
 
-      case 1523 -> { // Research Bench
-        ResearchBenchRequest.visitChoice(text);
-      }
+      case 1523 -> // Research Bench
+      ResearchBenchRequest.visitChoice(text);
 
-      case 1527 -> {
-        // Consider the Calendar
-        parseMayamCalendar(text);
-      }
+      case 1527 -> // Consider the Calendar
+      parseMayamCalendar(text);
 
       case 1537 -> { // TakerSpace
         CampgroundRequest.setCurrentWorkshedItem(ItemPool.TAKERSPACE_LETTER_OF_MARQUE);
@@ -8991,24 +8528,18 @@ public abstract class ChoiceControl {
         }
       }
 
-      case 1545 -> { // Cyberzone 1 Half-Way
-        Preferences.setInteger("_cyberZone1Turns", 10);
-      }
-      case 1546 -> { // Cyberzone 1 Final
-        Preferences.setInteger("_cyberZone1Turns", 20);
-      }
-      case 1547 -> { // Cyberzone 2 Half-Way
-        Preferences.setInteger("_cyberZone2Turns", 10);
-      }
-      case 1548 -> { // Cyberzone 2 Final
-        Preferences.setInteger("_cyberZone2Turns", 20);
-      }
-      case 1549 -> { // Cyberzone 3 Half-Way
-        Preferences.setInteger("_cyberZone3Turns", 10);
-      }
-      case 1550 -> { // Cyberzone 3 Final
-        Preferences.setInteger("_cyberZone3Turns", 20);
-      }
+      case 1545 -> // Cyberzone 1 Half-Way
+      Preferences.setInteger("_cyberZone1Turns", 10);
+      case 1546 -> // Cyberzone 1 Final
+      Preferences.setInteger("_cyberZone1Turns", 20);
+      case 1547 -> // Cyberzone 2 Half-Way
+      Preferences.setInteger("_cyberZone2Turns", 10);
+      case 1548 -> // Cyberzone 2 Final
+      Preferences.setInteger("_cyberZone2Turns", 20);
+      case 1549 -> // Cyberzone 3 Half-Way
+      Preferences.setInteger("_cyberZone3Turns", 10);
+      case 1550 -> // Cyberzone 3 Final
+      Preferences.setInteger("_cyberZone3Turns", 20);
       case 1555 -> { // Specimen Preparation Bench
         Matcher benchUsed = Pattern.compile(" You have done so (\\d+) time").matcher(text);
         if (benchUsed.find()) {
@@ -9016,22 +8547,20 @@ public abstract class ChoiceControl {
           Preferences.setInteger("zootSpecimensPrepared", spawned);
         }
       }
-      case 1556 -> { // Leprecondo
-        LeprecondoManager.visit(text);
-      }
-      case 1557 -> { // Peering Through Your Peridot
-        Preferences.setString(
-            "_perilLocations",
-            (locations) ->
-                Stream.concat(
-                        Stream.of(KoLAdventure.lastVisitedLocation.getAdventureId()),
-                        Arrays.stream(locations.split(",")))
-                    .filter(Predicate.not(String::isBlank))
-                    .map(StringUtilities::parseInt)
-                    .sorted()
-                    .map(i -> Integer.toString(i))
-                    .collect(Collectors.joining(",")));
-      }
+      case 1556 -> // Leprecondo
+      LeprecondoManager.visit(text);
+      case 1557 -> // Peering Through Your Peridot
+      Preferences.setString(
+          "_perilLocations",
+          (locations) ->
+              Stream.concat(
+                      Stream.of(KoLAdventure.lastVisitedLocation.getAdventureId()),
+                      Arrays.stream(locations.split(",")))
+                  .filter(Predicate.not(String::isBlank))
+                  .map(StringUtilities::parseInt)
+                  .sorted()
+                  .map(i -> Integer.toString(i))
+                  .collect(Collectors.joining(",")));
       case 1558 -> { // Foreseeing Peril
         if (text.contains("You've already foreseen enough peril today.")) {
           Preferences.setInteger("_perilsForeseen", 3);
@@ -9044,10 +8573,29 @@ public abstract class ChoiceControl {
         }
       }
 
-      case 1561 -> {
-        // Request Supply Drop
-        AlliedRadioRequest.visitChoice(text);
+      case 1560 -> {
+        // A Cooler Yeti Conversation
+        if (text.contains("Make my next drink impossibly cold")) {
+          Preferences.setBoolean("_coolerYetiAdventures", false);
+        } else {
+          Preferences.setBoolean("_coolerYetiAdventures", true);
+        }
+
+        if (!text.contains("He's busy with")) {
+          Preferences.setString("coolerYetiMode", "");
+        } else if (text.contains("He's busy with a cooler")) {
+          Preferences.setString("coolerYetiMode", "adventures");
+        } else if (text.contains("He's busy with an ice cup")) {
+          Preferences.setString("coolerYetiMode", "effect");
+        } else if (text.contains("He's busy with his bar")) {
+          Preferences.setString("coolerYetiMode", "bar");
+        } else if (text.contains("He's busy with a flawless ice cube")) {
+          Preferences.setString("coolerYetiMode", "stats");
+        }
       }
+
+      case 1561 -> // Request Supply Drop
+      AlliedRadioRequest.visitChoice(text);
     }
   }
 
@@ -9963,9 +9511,8 @@ public abstract class ChoiceControl {
 
   public static final void registerDeferredChoice(final int choice, final String encounter) {
     switch (choice) {
-      case 123 -> { // At Least It's Not Full Of Trash
-        RequestLogger.registerLocation("The Hidden Temple");
-      }
+      case 123 -> // At Least It's Not Full Of Trash
+      RequestLogger.registerLocation("The Hidden Temple");
 
       case 125 -> { // No Visible Means of Support
         // The tiles took a turn to get here
@@ -9973,18 +9520,16 @@ public abstract class ChoiceControl {
         RequestLogger.registerLocation("The Hidden Temple");
       }
 
-      case 437 -> { // Flying In Circles
-        RequestLogger.registerLocation("The Nemesis' Lair");
-      }
+      case 437 -> // Flying In Circles
+      RequestLogger.registerLocation("The Nemesis' Lair");
 
       case 620, // A Blow Is Struck!
           621, // Hold the Line!
           622, // The Moment of Truth
-          634 -> { // Goodbye Fnord
-        // These all arise out of a multifight, rather than by
-        // visiting a location.
-        RequestLogger.registerLastLocation();
-      }
+          634 -> // Goodbye Fnord
+      // These all arise out of a multifight, rather than by
+      // visiting a location.
+      RequestLogger.registerLastLocation();
 
       case 1005, // 'Allo
           1006, // One Small Step For Adventurer
@@ -10014,11 +9559,10 @@ public abstract class ChoiceControl {
           1225, // L.O.V. Engine Room
           1226, // L.O.V. Emergency Room
           1227, // L.O.V. Elbow Room
-          1228 -> { // L.O.V. Emporium
-        // This is chain of choices that either immediately
-        // follow a fight or the previous choice.
-        RequestLogger.registerLastLocation();
-      }
+          1228 -> // L.O.V. Emporium
+      // This is chain of choices that either immediately
+      // follow a fight or the previous choice.
+      RequestLogger.registerLastLocation();
 
       case 1310 -> { // Granted a Boon
         {
@@ -10029,9 +9573,8 @@ public abstract class ChoiceControl {
 
       case 1334, // Boxing Daycare (Lobby)
           1335, // Boxing Daycare Spa
-          1336 -> { // Boxing Daycare
-        RequestLogger.registerLocation("Boxing Daycare");
-      }
+          1336 -> // Boxing Daycare
+      RequestLogger.registerLocation("Boxing Daycare");
     }
   }
 
