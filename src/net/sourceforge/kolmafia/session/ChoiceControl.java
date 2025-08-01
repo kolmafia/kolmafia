@@ -6695,6 +6695,19 @@ public abstract class ChoiceControl {
       case 1554 -> // We'll Return to Our Home, Bathed in Rays of Gold
       handleAfterAvatar(ChoiceManager.lastDecision);
 
+      case 1560 -> {
+        // A Cooler Yeti Conversation
+        switch (ChoiceManager.lastDecision) {
+          case 2 -> {
+            Preferences.setBoolean("_coolerYetiAdventures", true);
+            Preferences.setString("coolerYetiMode", "adventures");
+          }
+          case 3 -> Preferences.setString("coolerYetiMode", "effect");
+          case 4 -> Preferences.setString("coolerYetiMode", "bar");
+          case 5 -> Preferences.setString("coolerYetiMode", "stats");
+        }
+      }
+
       case 1561 -> {
         // Request Supply Drop
         String req = request.getFormField("request");
@@ -8557,6 +8570,27 @@ public abstract class ChoiceControl {
             Pattern.compile("You can foresee peril (\\d+) more times? today").matcher(text);
         if (matcher.find()) {
           Preferences.setInteger("_perilsForeseen", 3 - Integer.parseInt(matcher.group(1)));
+        }
+      }
+
+      case 1560 -> {
+        // A Cooler Yeti Conversation
+        if (text.contains("Make my next drink impossibly cold")) {
+          Preferences.setBoolean("_coolerYetiAdventures", false);
+        } else {
+          Preferences.setBoolean("_coolerYetiAdventures", true);
+        }
+
+        if (!text.contains("He's busy with")) {
+          Preferences.setString("coolerYetiMode", "");
+        } else if (text.contains("He's busy with a cooler")) {
+          Preferences.setString("coolerYetiMode", "adventures");
+        } else if (text.contains("He's busy with an ice cup")) {
+          Preferences.setString("coolerYetiMode", "effect");
+        } else if (text.contains("He's busy with his bar")) {
+          Preferences.setString("coolerYetiMode", "bar");
+        } else if (text.contains("He's busy with a flawless ice cube")) {
+          Preferences.setString("coolerYetiMode", "stats");
         }
       }
 
