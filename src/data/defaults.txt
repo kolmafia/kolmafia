@@ -498,6 +498,7 @@ user	commerceGhostCombats	0	roa
 user	considerShadowNoodles	false
 user	controlRoomUnlock	false
 user	cookbookbatIngredientsCharge	0	roa
+user	coolerYetiMode		roa
 user	counterScript
 user	concertVisited	false	ld
 user	controlPanel1	false
@@ -2021,6 +2022,7 @@ user	_cookbookbatCombatsUntilNewQuest	0
 user	_cookbookbatQuestLastLocation
 user	_cookbookbatQuestMonster
 user	_cookbookbatQuestIngredient
+user	_coolerYetiAdventures	false
 user	_corruptedStardustUsed	false
 user	_cosmicBowlingSkillsUsed	0
 user	_cosmicSixPackConjured	false
