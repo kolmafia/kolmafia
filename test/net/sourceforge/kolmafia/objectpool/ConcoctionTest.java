@@ -34,6 +34,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 /* This test was triggered by a runtime error traced back to sorting usable concoctions that
@@ -357,12 +358,9 @@ public class ConcoctionTest {
   @Nested
   class ClipArt {
     @ParameterizedTest
-    @ValueSource(booleans = {true, false})
-    public void itShouldReportTheCorrectAmount(boolean isGlover) {
-      AscensionPath.Path path = AscensionPath.Path.STANDARD;
-      if (isGlover) {
-        path = AscensionPath.Path.GLOVER;
-      }
+    @CsvSource({"22,1", "33,0"})
+    public void itShouldReportTheCorrectAmount(int pathId, int count) {
+      AscensionPath.Path path = AscensionPath.idToPath(pathId);
       var cleanups =
           new Cleanups(
               withSkill(SkillPool.CLIP_ART),
@@ -373,11 +371,7 @@ public class ConcoctionTest {
       try (cleanups) {
         var conc = ConcoctionPool.get(ItemPool.FROMAGE_PINOTAGE);
         conc.calculate3();
-        int value = 1;
-        if (isGlover) {
-          value = 0;
-        }
-        assertThat(conc.total, is(value));
+        assertThat(conc.total, is(count));
       }
     }
   }
