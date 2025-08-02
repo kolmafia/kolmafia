@@ -37,6 +37,10 @@ public class ShopRow implements Comparable<ShopRow> {
     return this.item;
   }
 
+  public void setItem(AdventureResult item) {
+    this.item = item;
+  }
+
   public AdventureResult[] getCosts() {
     return this.costs;
   }
@@ -245,7 +249,7 @@ public class ShopRow implements Comparable<ShopRow> {
 
   private static final Pattern ROW_PATTERN =
       Pattern.compile("<tr rel=\"(\\d+)\">(.*?)</tr>", Pattern.DOTALL);
-  private static final Pattern TD_PATTERN = Pattern.compile("<td.*?>(.*?)</td>");
+  private static final Pattern TD_PATTERN = Pattern.compile("<td(.*?)>(.*?)</td>");
   private static final Pattern TD2_PATTERN =
       Pattern.compile("itemimages/(.*?)\\..*?descitem\\((\\d*)\\)");
   private static final Pattern TD2A_PATTERN =
@@ -277,13 +281,17 @@ public class ShopRow implements Comparable<ShopRow> {
       boolean isMeat = false;
       boolean isSkill = false;
       boolean skip = false;
+      boolean even = true;
 
       Matcher td = TD_PATTERN.matcher(m.group(2));
       while (td.find()) {
-        String text = td.group(1);
+        String attrs = td.group(1);
+        String text = td.group(2);
+
         switch (++tds) {
           case 1 -> {
             // Optional radio button.
+            continue;
           }
           case 2 -> {
             // Item image and descid
@@ -300,6 +308,7 @@ public class ShopRow implements Comparable<ShopRow> {
               isSkill = true;
               continue;
             }
+            continue;
           }
           case 3 -> {
             // descid and item name and optional count
@@ -333,74 +342,94 @@ public class ShopRow implements Comparable<ShopRow> {
               ItemDatabase.registerItem(descid);
             }
             item = new AdventureResult(itemId, count, false);
+            continue;
           }
-          case 4, 6, 8, 10, 12 -> {
-            // ingredient image, descid, name
-            if (text.contains("meat.gif")) {
-              isMeat = true;
-            } else {
-              Matcher m4 = IEVEN_PATTERN.matcher(text);
-              if (m4.find()) {
-                iimage = m4.group(1);
-                idescid = m4.group(2);
-              } else {
-                iimage = null;
-                idescid = null;
-              }
-              isMeat = false;
-            }
-          }
-          case 5, 7, 9, 11, 13 -> {
-            if (isMeat && !includeMeat) {
-              skip = true;
-              continue;
-            }
+        }
 
-            // ingredient count
-            Matcher m5 = IODD_PATTERN.matcher(text);
-            int icount = 1;
-            if (m5.find()) {
-              icount = StringUtilities.parseInt(m5.group(1));
-            }
-            // We have found an ingredient. Do we know what it is?
-            if (isMeat) {
-              int price = NPCPurchaseRequest.currentUnDiscountedPrice(icount);
-              AdventureResult cost = new MeatResult(price);
-              ingredients.add(cost);
-            } else if (idescid != null) {
-              // Ingredient is an actual item
-              int iid = ItemDatabase.getItemIdFromDescription(idescid);
-              if (iid == -1) {
-                // No. Register it by looking at the item description
-                ItemDatabase.registerItem(idescid);
-                iid = ItemDatabase.getItemIdFromDescription(idescid);
-              }
-              AdventureResult ingredient = new AdventureResult(iid, icount, false);
-              ingredients.add(ingredient);
-            } else if (iimage != null) {
-              // Ingredient is a token
-              String token = iimage.substring(0, 1).toUpperCase() + iimage.substring(1);
-              AdventureResult ingredient = AdventureResult.tallyItem(token, icount, false);
-              ingredients.add(ingredient);
-            }
+        // Are we done with ingredients?
+        if (text.contains("shop.php")) {
+          // rel string with whichrow
+          Matcher m6 = IROW_PATTERN.matcher(text);
+          if (m6.find()) {
+            row = Integer.valueOf(m6.group(1));
           }
-          case 14 -> {
-            // rel string with whichrow
-            Matcher m6 = IROW_PATTERN.matcher(text);
-            if (m6.find()) {
-              row = Integer.valueOf(m6.group(1));
+          continue;
+        }
+
+        // We are now parsing ingredients.
+        // td 0 = ingredient image, descid, name
+        // td 1 = count
+        // td 2 = (optional) tiny name
+
+        if (attrs != null && attrs.contains("class=tiny")) {
+          // <td valign=center class=tiny>red tulip</td>
+          // We already got the descid. Don't need name.
+          even = true;
+          continue;
+        }
+
+        if (even) {
+          even = false;
+          if (text.contains("meat.gif")) {
+            isMeat = true;
+          } else {
+            Matcher m4 = IEVEN_PATTERN.matcher(text);
+            if (m4.find()) {
+              iimage = m4.group(1);
+              idescid = m4.group(2);
+            } else {
+              iimage = null;
+              idescid = null;
             }
+            isMeat = false;
           }
-          default -> {}
+          continue;
+        } else {
+          even = true;
+          if (isMeat && !includeMeat) {
+            skip = true;
+            continue;
+          }
+
+          // ingredient count
+          Matcher m5 = IODD_PATTERN.matcher(text);
+          int icount = 1;
+          if (m5.find()) {
+            icount = StringUtilities.parseInt(m5.group(1));
+          }
+          // We have found an ingredient. Do we know what it is?
+          if (isMeat) {
+            int price = NPCPurchaseRequest.currentUnDiscountedPrice(icount);
+            AdventureResult cost = new MeatResult(price);
+            ingredients.add(cost);
+          } else if (idescid != null) {
+            // Ingredient is an actual item
+            int iid = ItemDatabase.getItemIdFromDescription(idescid);
+            if (iid == -1) {
+              // No. Register it by looking at the item description
+              ItemDatabase.registerItem(idescid);
+              iid = ItemDatabase.getItemIdFromDescription(idescid);
+            }
+            AdventureResult ingredient = new AdventureResult(iid, icount, false);
+            ingredients.add(ingredient);
+          } else if (iimage != null) {
+            // Ingredient is a token
+            String token = iimage.substring(0, 1).toUpperCase() + iimage.substring(1);
+            AdventureResult ingredient = AdventureResult.tallyItem(token, icount, false);
+            ingredients.add(ingredient);
+          }
         }
       }
-      if (tds != 14) {
+
+      if (tds != 14 && tds != 19) {
         // Don't have enough fields?
         continue;
       }
+
       if (skip) {
         continue;
       }
+
       AdventureResult[] currencies = ingredients.toArray(new AdventureResult[0]);
       ShopRow irow = new ShopRow(row, item, currencies);
       result.add(irow);

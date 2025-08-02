@@ -2231,10 +2231,7 @@ public class QuestManager {
         }
       }
       case "biker", "\"plain\" girl", "jock", "party girl", "burnout" -> {
-        int turnsSpent = Preferences.getInteger("_neverendingPartyFreeTurns");
-        if (turnsSpent < 10) {
-          Preferences.setInteger("_neverendingPartyFreeTurns", turnsSpent + 1);
-        }
+        Preferences.increment("_neverendingPartyFreeTurns", 1, 10, false);
         if (Preferences.getString("_questPartyFairQuest").equals("partiers")) {
           int kills = KoLCharacter.hasEquipped(ItemPool.INTIMIDATING_CHAINSAW) ? 2 : 1;
           Preferences.decrement("_questPartyFairProgress", kills, 0);
