@@ -3003,3 +3003,29 @@
 3000	Materiel Intel	dinseybrain.gif	61d884a9f0584996cabd095045b0d39e	neutral	none
 3001
 3002	Ellipsoidtined	circle.gif	74c598b6434144e0ef61711a547ce203	neutral	none
+3003	Gaining Interest	moneybag.gif	764a5ad0ef18373411c89bf38ea3f281	neutral	none
+3004	Life Goals	runaway.gif	6383756c040fdc3293c6fb9f44fb0827	neutral	none	use 1 Life Goals Pamphlet
+3005	Jelly in the Soul	jellyglob.gif	743fbc971d7605f7da3fa590615318bf	neutral	none	eat 1 toast with mixed berry jelly
+3006	Forearmed	hand.gif	4b63c7d780170476a16516dc04dcc046	neutral	none
+3007	Lifted by your Bootstraps	boot.gif	fb6b06929c3511c7b59ffeac1a250f53	neutral	none
+3008	Trailing Blood	blooddrop.gif	d2bb6aea85722f5efd231417cfbeaf38	neutral	none
+3009	Paranoia	eyesright.gif	6dff0fd65f8296f019780fe70e403743	neutral	none
+3010	Sugar Debt	moneybag2.gif	53a5ee75570b23a90cf5067a552c1027	neutral	none
+3011
+3012	Evil	demonflavor.gif	ab49b92fa43ba7837d5e18a40e304069	neutral	none
+3013	Merry Prankster	funnyhat.gif	def7876d2286933c0110d75c48872642	neutral	none
+3014	Schroedinger's Anticipation	confused.gif	0c77ca1004069e8d37acac0b9de9c374	neutral	none
+3015	Neither Alive nor Dead	confused.gif	3ea8dc6c27947e2fb268b43f3b394364	neutral	none
+3016	Stricken by Lightning	lightning.gif	1d95495cb21877f76f2f2a6f3fe3a9d6	neutral	none
+3017	Hint of Bacon	bacon.gif	2acd80340c29ec4e0ab35884d262c161	neutral	none
+3018	Good Feelings	happy.gif	0f82aae94767a702e12f766cda398486	neutral	none
+3019	Raised on Fresh Air	strboost.gif	79a43e7e4c4ec49cbfb668e6714c0279	neutral	none
+3020	Older than You Look	realbrain.gif	16a9676c640f8f5f4f7174abc07dca0f	neutral	none
+3021	Famous	eyes.gif	0a0c7c4bb73964d31892d9bdf8c05896	neutral	none
+3022	Care Free	sleepy.gif	8bad8aeab66a515a968cbc3e19745a4c	neutral	none
+3023	Very Old	skeleton.gif	1b219555d9cfa9a32418c7fe9a454708	neutral	none
+3024	Scot Free	noart.gif	37575cdfa77b423099871cdef82b0868	neutral	none
+3025	Marked by the Don	kneestick.gif	a50a9d5b4e48a454479473c1d8ea1212	neutral	none
+3026	Favored by the Don	stogie.gif	b33c788389e84cf087ec9a4b29de110d	neutral	none
+3027	Your Own Parents	confused.gif	70ab5d69cc8e7c3842300d9dbae33d9b	neutral	none
+3028	Met Cute	2hearts.gif	b378956d58fbc43b007f4e189e85c3b2	neutral	none
