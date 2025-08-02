@@ -416,6 +416,7 @@ The Necbromancer's Hat	200	Mox: 200
 Third Eye	150	Mox: 40
 three-gallon hat	60	none
 Thunkula's drinking cap	300	Mys: 250
+time cop top hat	100	Mox: 35
 time helmet	100	Mox: 35
 tin foil hat	10	none
 tin tam	100	none
@@ -1759,6 +1760,7 @@ tambourine	50	Mox: 10	1-handed drum
 teacher's pen	100	none
 teflon spatula	200	Mys: 85	1-handed utensil
 terra cotta tongs	120	Mys: 40	1-handed utensil
+the gun	100	Mox: 0	1-handed pistol
 The Jokester's gun	200	Mox: 50	1-handed pistol
 The Landscaper's leafblower	100	Mox: 35	2-handed leafblower
 The Necbromancer's Wizard Staff	10	Mys: 200	1-handed chefstaff
@@ -2566,6 +2568,7 @@ Brutal brogues	200	none
 bugbear communicator badge	0	none
 bugbear detector	0	none
 bullet necklace	0	Mys: 25
+bully badge	100	none
 burning paper slippers	100	none
 C.A.R.N.I.V.O.R.E. button	200	Mys: 10
 cactus key	10	none
@@ -2912,6 +2915,7 @@ lucky rabbitfish fin	150	Mys: 30
 lustrous drippy orb	0	none
 LWA ring	10	none
 LyleCo premium monocle	10	none
+M&ouml;bius ring	100	none
 Mafia bow tie	100	Mys: 35
 mafia middle finger ring	0	Mus: 45
 mafia organizer badge	0	Mus: 30

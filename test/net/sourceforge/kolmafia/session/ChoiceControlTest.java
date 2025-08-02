@@ -1558,4 +1558,61 @@ class ChoiceControlTest {
       }
     }
   }
+
+  @Nested
+  class CoolerYeti {
+    @Test
+    void allChoicesAvailable() {
+      var cleanups =
+          new Cleanups(
+              withProperty("_coolerYetiAdventures", true),
+              withProperty("coolerYetiMode", "adventures"),
+              withChoice(1560, html("request/test_cooler_yeti_all_choices.html")));
+
+      try (cleanups) {
+        assertThat("_coolerYetiAdventures", isSetTo(false));
+        assertThat("coolerYetiMode", isSetTo(""));
+      }
+    }
+
+    @Test
+    void busyWithCooler() {
+      var cleanups =
+          new Cleanups(
+              withProperty("_coolerYetiAdventures", false),
+              withProperty("coolerYetiMode", ""),
+              withChoice(1560, html("request/test_cooler_yeti_busy_with_cooler.html")));
+
+      try (cleanups) {
+        assertThat("_coolerYetiAdventures", isSetTo(true));
+        assertThat("coolerYetiMode", isSetTo("adventures"));
+      }
+    }
+
+    @Test
+    void alwaysFriendsDoesNotChangeMode() {
+      var cleanups =
+          new Cleanups(
+              withProperty("coolerYetiMode", "adventures"),
+              withPostChoice2(1560, 1, html("request/test_cooler_yeti_always_friends.html")));
+
+      try (cleanups) {
+        assertThat("coolerYetiMode", isSetTo("adventures"));
+      }
+    }
+
+    @Test
+    void impossiblyColdSetsAdventures() {
+      var cleanups =
+          new Cleanups(
+              withProperty("_coolerYetiAdventures", false),
+              withProperty("coolerYetiMode", ""),
+              withPostChoice2(1560, 2, html("request/test_cooler_yeti_always_friends.html")));
+
+      try (cleanups) {
+        assertThat("_coolerYetiAdventures", isSetTo(true));
+        assertThat("coolerYetiMode", isSetTo("adventures"));
+      }
+    }
+  }
 }

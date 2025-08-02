@@ -204,4 +204,16 @@ public class AlliedRadioRequestTest {
       assertThat("_alliedRadioDropsUsed", isSetTo(0));
     }
   }
+
+  @Test
+  public void updatesPreferenceForWildsunBoon() {
+    var cleanups =
+        new Cleanups(
+            withProperty("_alliedRadioDropsUsed", 0), withProperty("_alliedRadioWildsunBoon"));
+
+    try (cleanups) {
+      AlliedRadioRequest.postChoice("", false, "WILDSUN BOON");
+      assertThat("_alliedRadioWildsunBoon", isSetTo(true));
+    }
+  }
 }
