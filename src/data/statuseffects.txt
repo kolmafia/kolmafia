@@ -3014,7 +3014,7 @@
 3011
 3012	Evil	demonflavor.gif	ab49b92fa43ba7837d5e18a40e304069	neutral	none
 3013	Merry Prankster	funnyhat.gif	def7876d2286933c0110d75c48872642	neutral	none
-3014
+3014	Schroedinger's Anticipation	confused.gif	0c77ca1004069e8d37acac0b9de9c374	neutral	none
 3015	Neither Alive nor Dead	confused.gif	3ea8dc6c27947e2fb268b43f3b394364	neutral	none
 3016	Stricken by Lightning	lightning.gif	1d95495cb21877f76f2f2a6f3fe3a9d6	neutral	none
 3017	Hint of Bacon	bacon.gif	2acd80340c29ec4e0ab35884d262c161	neutral	none
@@ -3026,5 +3026,5 @@
 3023	Very Old	skeleton.gif	1b219555d9cfa9a32418c7fe9a454708	neutral	none
 3024	Scot Free	noart.gif	37575cdfa77b423099871cdef82b0868	neutral	none
 3025	Marked by the Don	kneestick.gif	a50a9d5b4e48a454479473c1d8ea1212	neutral	none
-3026
+3026	Favored by the Don	stogie.gif	b33c788389e84cf087ec9a4b29de110d	neutral	none
 3027	Your Own Parents	confused.gif	70ab5d69cc8e7c3842300d9dbae33d9b	neutral	none

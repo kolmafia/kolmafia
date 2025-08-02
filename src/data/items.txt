@@ -11975,7 +11975,7 @@
 11947	Axis codebook	550271597	book4.gif	none	d	10000
 11948	Life Goals Pamphlet	936654042	pamphlet.gif	potion, usable	t,d	15
 11949	bully badge	727824335	jetbadge1.gif	accessory	q	0
-11950
+11950	time cop top hat	991820053	timecophat.gif	hat	t	0
 11951	Stock Certificate	339675464	ts_letter1.gif	usable		0
 11952	mixed berry jelly	731715027	jellyglob.gif	spleen, usable, cook	t,d	5	mixed berry jellies
 11953	toast with mixed berry jelly	974768964	jamtoast.gif	food	t,d	11
