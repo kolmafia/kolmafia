@@ -7128,6 +7128,7 @@ Effect	Mer-kinny Flavor	Adventure Underwater
 Effect	Mercenary	Item Drop: +40
 Effect	Merry Prankster	Experience: +5
 Effect	Merry Smithsness	Smithsness: +25, Muscle Percent: [K], Mysticality Percent: [K], Moxie Percent: [K]
+Effect	Met Cute	Moxie: +20, Familiar Weight: +5
 Effect	Metal Speed	Initiative: +20
 Effect	Meteor Showered	Weapon Damage Percent: +200, Spell Damage Percent: +200, Familiar Weight: +20
 Effect	Midgetized	Damage Reduction: 4, Weapon Damage: -8
