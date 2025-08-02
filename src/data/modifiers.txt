@@ -528,6 +528,7 @@ Item	The Necbromancer's Hat	Mysticality Percent: +20, Spooky Spell Damage: +30, 
 Item	Third Eye	Initiative: +20, Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +15, Last Available: "2016-12"
 Item	three-gallon hat	Muscle: +3, Mysticality: +3, Moxie: +3, Experience: +3
 Item	Thunkula's drinking cap	Mysticality Percent: +50, Maximum MP: +250, MP Regen Min: 20, MP Regen Max: 40, Class: "Sauceror", Familiar Effect: "atk, 1xVolley"
+Item	time cop top hat	Adventures: +5, Initiative: +1, Last Available: "2025-08"
 Item	time helmet	Adventures: +3, Last Available: "2005-10", Familiar Effect: "0.5xPotato, 1xFairy, cap 25"
 Item	tin foil hat	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2
 Item	tin tam	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Damage Reduction: 5, Experience (Mysticality): +1, Last Available: "2013-09", Familiar Effect: "MP regen, cap 25"
@@ -2019,6 +2020,7 @@ Item	tambourine	Maximum HP: +20, Maximum MP: +20
 Item	teacher's pen	Experience: +3, Experience (familiar): +2, Last Available: "2022-06"
 Item	teflon spatula	Mysticality Percent: +10, Sleaze Resistance: +3, Spell Damage: +40
 Item	terra cotta tongs	Experience (Mysticality): +3, Spooky Damage: +5, Stench Damage: +5, Hot Damage: +5, Cold Damage: +5, Sleaze Damage: +5, Last Available: "2020-12", Conditional Skill (Equipped): "Unleash Terra Cotta Army"
+Item	the gun	Weapon Damage: +50, Sleaze Damage: +50, Muscle: -25, Mysticality: -25, Moxie: -25, Last Available: "2025-08"
 # The Jokester's gun: Can be fired in a weird way once per day to instantly defeat an opponent
 Item	The Jokester's gun	Spooky Damage: +5, Stench Damage: +5, Hot Damage: +5, Cold Damage: +5, Sleaze Damage: +5, Initiative: +25, Pants Drop: +50, Last Available: "2016-12"
 Item	The Landscaper's leafblower	Last Available: "2010-04", Monster Level: [pref(_leafblowerML)]
@@ -2940,6 +2942,7 @@ Item	brown plastic baby	Maximum HP: +5, Maximum MP: +5, Single Equip, Last Avail
 # bugbear detector: Detects Bugbears (Duh)
 Item	bugbear detector	Single Equip
 Item	bullet necklace	Mysticality: +30, Maximum MP: +30, Single Equip
+Item	bully badge	Combat Rate: +5, Lasts Until Rollover, Last Available: "2025-08"
 Item	burning paper slippers	Cold Resistance: +3, Maximum HP: +25, Maximum MP: +25, Initiative: +50, Single Equip, Lasts Until Rollover, Last Available: "2018-12"
 Item	C.A.R.N.I.V.O.R.E. button	Monster Level: +15
 Item	cactus key	Maximum HP: +20, HP Regen Min: 9, HP Regen Max: 10, Last Available: "2020-08"
@@ -3348,6 +3351,8 @@ Item	lucky rabbitfish fin	HP Regen Min: 10, HP Regen Max: 12, MP Regen Min: 10, 
 # lustrous drippy orb: Increases Driplet drops from monsters
 Item	LWA ring	MP Regen Min: 2, MP Regen Max: 3
 Item	LyleCo premium monocle	Rubee Drop: 1, Single Equip, Last Available: "2018-04"
+# M&ouml;bius ring: Allows interaction with your past and future
+Item	M&ouml;bius ring	Maximum HP: +25, Maximum MP: +25, Muscle: +10, Mysticality: +10, Moxie: +10, Last Available: "2025-08"
 Item	Mafia bow tie	Muscle: +20, Moxie: +20, Last Available: "2004-10"
 # mafia middle finger ring: Show enemies your ring once a day!
 Item	mafia middle finger ring	Weapon Damage Percent: +13, Muscle Percent: +13, Single Equip
@@ -6335,6 +6340,7 @@ Effect	Everybody Calls Him Gorgon	Experience (Mysticality): +5, Mysticality Perc
 # Everything Must Go!: (so you can destroy them)
 Effect	Everything Must Go!	Combat Rate: +10
 Effect	Everything's Zen	Experience Percent (Mysticality): +20
+Effect	Evil	Monster Level: +30
 Effect	EVISCERATE!	Damage Aura: 1
 # Ew, The Humanity: Encounter human monsters more frequently
 Effect	Executive Greed	Meat Drop: +50
@@ -6379,6 +6385,7 @@ Effect	Faboooo	Muscle: +5, Weapon Damage: +10
 Effect	Faerie Fortune	Rubee Drop: 1
 Effect	Familial Ties	Familiar Weight (hidden): [10*env(underwater)]
 Effect	familiar.enq	Familiar Weight: +5
+Effect	Famous	Moxie: +25
 Effect	Fan Dancing	Avatar: "fan dancer"
 Effect	Fan-Cooled	Cold Damage: +10
 Effect	Fanatical Fortune	Rubee Drop: 1
@@ -6491,6 +6498,7 @@ Effect	Football Eyes	Muscle Percent: +10, Weapon Damage: +15, Initiative: -40
 Effect	For Your Brain Only	Mysticality: +30
 Effect	Forbear, Warbears!	WarBear Armor Penetration: +40
 Effect	Force of Mayo Be With You	Sleaze Damage: [pref(mayoLevel)+10], Hot Resistance: +2, Cold Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2, Sleaze Resistance: +2
+Effect	Forearmed	Weapon Drop: +100
 # Form of...Bird!: You're a Bird
 # Form of...Cockroach!: You're a Cockroach
 # Fortunate Resolve: Bonus Luck!
@@ -6547,6 +6555,7 @@ Effect	Fury of the Bells	Muscle Percent: +10
 Effect	Fustulent	Stench Damage: +15, Stench Spell Damage: +15
 Effect	Gabarding	Maximum HP: +10
 Effect	Gaffe Free	Moxie: +15, Moxie Percent: +50
+Effect	Gaining Interest	Meat Drop: +30
 Effect	Gamer Rage	Weapon Damage Percent: +50, Spell Damage Percent: +50
 # Gar-ish: You love lasagna as much as you hate Mondays
 Effect	Gaze of the Gazelle	Spell Damage Percent: +200, Booze Drop: +60
@@ -6590,6 +6599,7 @@ Effect	Goldentongue	Moxie Percent: +100
 Effect	Gonna Get You, Sucker	Muscle: +5, Mysticality: +5, Moxie: +5
 Effect	Goo Vibrations	Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -50
 Effect	Good Chance of Surviving Hell	Hot Resistance: +5
+Effect	Good Feelings	Experience Percent (Muscle): +10, Experience Percent (Mysticality): +10, Experience Percent (Moxie): +10
 Effect	Good Karma	Mysticality: +5
 Effect	Good Motivator	Initiative: +25
 Effect	Good Night's Sleep	Initiative: +25
@@ -6736,6 +6746,7 @@ Effect	High Colognic	Combat Rate: +5
 Effect	High-Falutin'	Meat Drop: +50, Item Drop: +25
 Effect	High-Test Fishing Line	Fishing Skill: +5
 Effect	Highland Sheen	Moxie: +10
+Effect	Hint of Bacon	HP Regen Min: 10, HP Regen Max: 20
 Effect	Hip to Be Square Dancin'	Item Drop: +10
 Effect	[1872]Hip to the Jive	Avatar: "hep cat"
 Effect	[1701]Hip to the Jive	Experience (familiar): +2, Familiar Weight: +10, Familiar Damage: +20
@@ -6927,6 +6938,7 @@ Effect	Jay Walking	Avatar: ""Handyman" Jay Android"
 Effect	Je Ne Sais Porquoise	Moxie Percent: +50, Meat Drop: +6, Item Drop: +5
 Effect	Jeffersonian	Avatar: "Jefferson pilot"
 # Jelly Combed: Makes you harder to hit (when underwater)
+Effect	Jelly in the Soul	Item Drop: +25
 Effect	Jelly-Coated Insides	Experience: +5, Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 Effect	Jerky, Boy	Mysticality Percent: +25
 Effect	Jiggu... What?	Mana Cost: +100
@@ -6999,6 +7011,8 @@ Effect	Lettuce Rejoice	Experience: +7, Muscle Percent: +77, Mysticality Percent:
 Effect	Libra Rising	Experience (Muscle): +1, Experience (Mysticality): +1, Experience (Moxie): +1
 Effect	License to Punch	Muscle Percent: +100
 # LIDARed: Helps you keep your distance from enemies.
+Effect	Life Goals	Combat Rate: -5
+Effect	Lifted by your Bootstraps	Experience (familiar): +5
 Effect	Lifted Spirits	Initiative: +25, Experience: +5
 Effect	Lifting Wets	Muscle: +15, Experience Percent (Muscle): +20
 # Light!
@@ -7112,7 +7126,9 @@ Effect	Mer-kindliness	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance
 Effect	Mer-kinkiness	Hot Resistance: +4, Cold Resistance: +4, Stench Resistance: +4, Spooky Resistance: +4, Sleaze Resistance: +4
 Effect	Mer-kinny Flavor	Adventure Underwater
 Effect	Mercenary	Item Drop: +40
+Effect	Merry Prankster	Experience: +5
 Effect	Merry Smithsness	Smithsness: +25, Muscle Percent: [K], Mysticality Percent: [K], Moxie Percent: [K]
+Effect	Met Cute	Moxie: +20, Familiar Weight: +5
 Effect	Metal Speed	Initiative: +20
 Effect	Meteor Showered	Weapon Damage Percent: +200, Spell Damage Percent: +200, Familiar Weight: +20
 Effect	Midgetized	Damage Reduction: 4, Weapon Damage: -8
@@ -7213,6 +7229,7 @@ Effect	Nauseated	Muscle Percent: [-(30+T)], Mysticality Percent: [-(30+T)], Moxi
 Effect	Nearly All-Natural	Mysticality Percent: +200, Booze Drop: +60
 Effect	Nearly Silent Hunting	Initiative: +25
 Effect	Negavision	Item Drop: +25
+Effect	Neither Alive nor Dead	Maximum HP: 20, Muscle: 10, Muscle Percent: 10
 # Nerd is the Word: +25% Item Drops from Monsters (Chemistry Class only)
 Effect	Nerd is the Word	Mysticality: +5, Item Drop: [25*loc(Chemistry Class)]
 # Nerf'd: Less powerful than you were before
@@ -7273,6 +7290,7 @@ Effect	Okee-Dokee Go!	Initiative: +20
 Effect	Okee-Dokee, Smokee	Spell Damage Percent: +20
 Effect	Old School Pompadour	Moxie Percent: +30, Initiative: +30
 Effect	Old Time Hydration	Muscle: +30, Mysticality: +30, Moxie: +30
+Effect	Older than You Look	Maximum MP: +30, Mysticality: +15
 Effect	Oleaginous Soles	Initiative: +40
 Effect	OMG WTF	Mysticality: +10, Spell Damage: +10, Spell Critical Percent: +10
 Effect	Ominous Wisdom	Experience (Muscle): [2*mainstat(muscle)], Experience (Mysticality): [2*mainstat(mysticality)], Experience (Moxie): [2*mainstat(moxie)]
@@ -7325,6 +7343,7 @@ Effect	Pajama Party	Familiar Weight: +10
 Effect	Panna Consideration	Familiar Weight: +5, Familiar Damage: +10
 Effect	Papowerful	Weapon Damage: +10, Spell Damage: +10, Experience: +2
 Effect	Para-lyzed Jaw	Monster Level: +25
+Effect	Paranoia	Maximum MP: -10, Initiative: +50
 Effect	parfum d'herbes	Mysticality: +5, Mysticality Percent: +50, Stench Resistance: +5
 # Partially Ghosted: Reduces physical damage taken by 30%
 Effect	Partially Paralyzed	Moxie Percent: -50
@@ -7506,6 +7525,7 @@ Effect	Rainbow Bright	Muscle Percent: +30, Mysticality Percent: +30, Moxie Perce
 Effect	Rainbow Vaccine	Hot Resistance: +3, Cold Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3, Sleaze Resistance: +3
 Effect	Rainbowolin	Hot Resistance: +4, Cold Resistance: +4, Stench Resistance: +4, Spooky Resistance: +4, Sleaze Resistance: +4
 Effect	Rainy Soul Miasma	Muscle: +10, Mysticality: +10, Moxie: -5
+Effect	Raised on Fresh Air	Maximum HP: +30, Muscle: +15
 Effect	Ramboner	Avatar: "Mercenary of Fortune"
 Effect	Rampage!	Weapon Damage Percent: +50
 Effect	Rank Sweat	Stench Resistance: +7
@@ -7613,10 +7633,12 @@ Effect	Scarysauce	Sleaze Resistance: +2, Cold Resistance: +2, Thorns: 1
 Effect	Scavengers Scavenging	Item Drop: +20
 Effect	Scent of a Kitchen Elf	Mysticality: +40, Familiar Weight Percent: -50
 Effect	School Spirited	Meat Drop: +100, Item Drop: +50
+# Schroedinger's Anticipation: Varies per turn
 # Schroedinger's Butt: ???
 Effect	Science is Real	Avatar: "Mrs. K, the Chemistry Teacher"
 Effect	Scorched Earth	Experience: +10
 Effect	Scorpio Rising	Initiative: +25
+Effect	Scot Free	Initiative: +10
 Effect	Scowl of the Auk	Weapon Damage: +10
 Effect	Scrappy, Shadowy	Spooky Damage: +25, Damage Reduction: 15
 Effect	Screaming!  SCREAMING!  AAAAAAAH!	Combat Rate: +5
@@ -7951,6 +7973,7 @@ Effect	Strength of Ten Ettins	Muscle Percent: +25
 Effect	Strength of the Gnoll	Muscle: +40
 Effect	Strength of the Tortoise	Muscle: +10, MP Regen Min: 10, MP Regen Max: 20
 Effect	Stretched	Initiative: +75
+Effect	Stricken by Lightning	MP Regen Min: 6, MP Regen Max: 12
 Effect	Strong Grip	Muscle: +20
 Effect	Strong Resolve	Experience (Muscle): +2
 Effect	Strong Spirit	Muscle: +15
@@ -7963,6 +7986,7 @@ Effect	Stuffed	Maximum HP: +100
 Effect	Stumpy	Initiative: -50
 Effect	substats.enh	Experience: +3
 Effect	Sucrose-Colored Glasses	Item Drop: +50
+Effect	Sugar Debt	Candy Drop: -100
 Effect	Sugar High	Mysticality Percent: +30
 Effect	Sugar Rush	Initiative: +20, Muscle Percent: +5, Moxie Percent: +5, Mysticality Percent: -10
 Effect	Sugar Smacks	Muscle Percent: +30
@@ -8218,6 +8242,7 @@ Effect	Towering Muscles	Muscle: +10, Maximum HP: +50, Experience (Muscle): +3, C
 Effect	Towering Strength	Muscle Percent: [100+2*min(50,pref(chessboardsCleared))]
 Effect	Toxic Vengeance	Muscle: [-T], Mysticality: [-T], Moxie: [-T], Stench Damage: [3*T], Spell Damage Percent: [3*T]
 Effect	Traditional Eating	Meat Drop: +25
+Effect	Trailing Blood	Maximum HP: -10, Combat Rate: +5
 Effect	Trainbot Circuitry	Maximum MP: [T], MP Regen Min: [T/5], MP Regen Max: [T/5]
 Effect	Trainbot Linkages	Initiative: [5*T]
 Effect	Trainbot Optics	Spell Damage Percent: [3*T]
@@ -8286,6 +8311,7 @@ Effect	Vented Spleen	Weapon Damage: +25
 Effect	Very Attractive	Combat Rate: +10
 Effect	Very Clean Guns	Ranged Damage: +20
 Effect	Very Clean Teeth	Moxie: +1
+Effect	Very Old	Muscle: -30, Maximum HP: -15
 Effect	Vessel of Magic	Maximum MP: +100, MP Regen Min: 8, MP Regen Max: 12
 Effect	Vicarious Sweat	Maximum HP: +30, Item Drop: +15
 Effect	Video Game Hot Dog	Item Drop: +25, Meat Drop: +25
@@ -8472,6 +8498,7 @@ Effect	Your Favorite Flavor	Hot Damage: +3, Cold Damage: +3, Stench Damage: +3, 
 Effect	Your Fifteen Minutes	Hot Damage: +15, Hot Spell Damage: +15, Initiative: +15
 Effect	Your Head is That of a Hawk	Avatar: "cultist"
 Effect	Your Interest is Peaked	Item Drop: +10, Initiative: +10, Stench Resistance: +1
+Effect	Your Own Parents	Moxie: -15, Initiative: -50
 Effect	Yuletide Industry	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 Effect	Yuletide Mutations	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 Effect	Yuletide Sappiness	Mysticality Percent: +10
@@ -9473,6 +9500,7 @@ Item	Crimbo dinner	Last Available: "2022-12"
 Item	Crimbo salad	Effect: "Salad Days", Effect Duration: 40, Last Available: "2015-12"
 Item	Crimboysters Rockefeller	Last Available: "2018-12"
 Item	cup of lukewarm tea	Effect: "Jittery", Effect Duration: 20
+Item	cup of sugar	Effect: "Sugar Rush", Effect Duration: 10, Last Available: "2025-08"
 Item	cupcake-in-a-cup	Effect: "Cake Caked", Effect Duration: 10, Last Available: "2009-06"
 Item	cursed Aztec tamale	Effect: "Curse of the Tamale", Effect Duration: 20, Last Available: "2024-12"
 Item	cursed black pearl onion	Effect: "Curse of the Black Pearl Onion", Effect Duration: 1
@@ -9816,6 +9844,7 @@ Item	sugarplum ration	Effect: "Sugarplum Visions", Effect Duration: 50, Last Ava
 Item	sun-dried tofu	Effect: "Oversaturated Palate", Effect Duration: 1, Last Available: "2010-08"
 Item	sundae ration	Last Available: "2023-12"
 Item	super good fruit	Last Available: "2023-02"
+Item	Susie's cupcake	Last Available: "2025-08"
 Item	Swedish massage fish	Effect: "Like a Fish to Walter", Effect Duration: 40, Last Available: "2018-02"
 Item	sweet party mix	Last Available: "2018-09"
 Item	sweet roll Alabama	Effect: "Helping Comes Second", Effect Duration: 30
@@ -9847,6 +9876,7 @@ Item	toast with cold jelly	Effect: "Cold Jellied", Effect Duration: 25, Last Ava
 # toast with hot jelly: Lets you breathe on a monster
 Item	toast with hot jelly	Effect: "Hot Jellied", Effect Duration: 25, Last Available: "2017-01"
 Item	toast with jam	Effect: "Jammin'", Effect Duration: 5, Last Available: "2008-12"
+Item	toast with mixed berry jelly	Effect: "Jelly in the Soul", Effect Duration: 10, Last Available: "2025-08"
 # toast with sleaze jelly: Enables Sleazy Bickering
 Item	toast with sleaze jelly	Effect: "Sleazy Jellied", Effect Duration: 25, Last Available: "2017-01"
 # toast with spooky jelly: Makes you emanate Spookily
@@ -10091,6 +10121,7 @@ Item	expired bottle of peppermint schnapps	Effect: "Crimbo Nostalgia", Effect Du
 Item	Extra-slimy Slimosa	Effect: "In the Slimelight", Effect Duration: 10, Last Available: "2012-03"
 Item	extremely slippery nipple	Effect: "Slippery Tongue", Effect Duration: 40, Last Available: "2017-03"
 Item	Falcon&trade; Maltese Liquor	Effect: "Too Noir For Snoir", Effect Duration: 50, Last Available: "2016-07"
+Item	fancy old wine	Last Available: "2025-08"
 Item	Fantasma en la M&aacute;quina	Effect: "Sangre Brillante", Effect Duration: 13
 Item	FantasyRealm mead	Last Available: "2018-04"
 Item	Fauna Libre	Effect: "Transcendental Wind", Effect Duration: 5, Last Available: "2012-03"
@@ -10546,6 +10577,7 @@ Item	Mariner's Friend cough drops	Last Available: "2007-06"
 # Medicinal Herb's medicinal herbs: Restores all HP
 Item	Mer-kin paste	Effect: "Mer-kinny Flavor", Effect Duration: 10, Last Available: "2011-08"
 Item	mime army superserum	Effect: "I'll Have the Soup", Effect Duration: 50, Last Available: "2017-12"
+Item	mixed berry jelly	Last Available: "2025-08"
 Item	moomy dust	Effect: "Cowrruption", Effect Duration: 30, Last Available: "2016-02"
 Item	moss mulch	Last Available: "2024-12"
 Item	mushroom tea	Effect: "Mush-Maw", Effect Duration: 50, Last Available: "2020-03"
@@ -11216,6 +11248,7 @@ Item	libation of liveliness	Effect: "Provocative Perkiness", Effect Duration: [R
 Item	licorice root	Effect: "Rootin' Around", Effect Duration: 20, Last Available: "2011-12"
 Item	licorice snake	Effect: "Whippin' It Good", Effect Duration: 20
 Item	LIDAR candle	Effect: "LIDARed", Effect Duration: 30, Last Available: "2024-12"
+Item	Life Goals Pamphlet	Effect: "Life Goals", Effect Duration: 25, Last Available: "2025-08"
 Item	lime supersucker	Effect: "In the Limelight", Effect Duration: 30, Last Available: "2011-11"
 Item	lime-and-chile-flavored chewing gum	Effect: "Spicy Limeness", Effect Duration: 5
 Item	lion musk	Effect: "Lion in Ambush", Effect Duration: 20, Last Available: "2016-02"
@@ -12491,6 +12524,7 @@ Item	clay	Last Available: "2014-12"
 # clingfilm tangle: Stuns your opponent for a few rounds
 # Cloaca grenade: Deals 50-60 Physical Damage
 # Cloaca-Cola: Restores 10-14 MP
+Item	clock	Last Available: "2025-08"
 Item	cloned monster	Last Available: "2021-12"
 Item	cloning kit	Last Available: "2021-12"
 # closed-circuit pay phone: Grants permanent access to Shadow Rift zones
@@ -13634,6 +13668,7 @@ Item	luxury fly-tying workbench	Fishing Skill: +10, Last Available: "2016-04"
 Item	LyleCo Contractor's Manual	Skill: "Expert Corner-Cutter", Last Available: "2018-04"
 Item	LyleCo premium pickaxe	Last Available: "2018-04"
 Item	LyleCo premium rope	Last Available: "2018-04"
+Item	M&ouml;bius ring box	Free Pull, Last Available: "2025-08"
 Item	machine elf capsule	Free Pull, Last Available: "2015-12"
 # mafia filofax: Organize some quiet moments in an area
 Item	magical battery	Last Available: "2013-12"
@@ -14801,6 +14836,7 @@ Item	stick-on-a-string	Last Available: "2006-12"
 # sticky clay homunculus: Makes a copy of a monster to fight later
 Item	still grill	Free Pull, Last Available: "2014-06"
 Item	stinky cheese ball	Last Available: "2010-01"
+Item	Stock Certificate	Last Available: "2025-08"
 Item	stomach churner	Sleaze Damage: +10, Sleaze Spell Damage: +10
 # stone frisbee: Deals 80-100 Physical Damage
 Item	Stooper	Last Available: "2018-03"
