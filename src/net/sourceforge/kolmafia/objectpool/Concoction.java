@@ -1268,6 +1268,7 @@ public class Concoction implements Comparable<Concoction> {
         }
         case CLIPART -> {
           // Tome summons are also considered an ingredient.
+          if (KoLCharacter.inGLover()) return alreadyHave;
           Concoction c = ConcoctionDatabase.clipArtLimit;
           minMake = Math.min(minMake, c.canMake(needToMake, visited, turnFreeOnly));
           if (Concoction.debug) {
