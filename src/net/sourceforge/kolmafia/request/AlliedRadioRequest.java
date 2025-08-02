@@ -79,14 +79,18 @@ public class AlliedRadioRequest extends GenericRequest {
   private static final Pattern GREY_TEXT_PATTERN =
       Pattern.compile("<i style='color: #999'>([^<]+)</i>");
 
-  public static void postChoice(
-      final String responseText, final boolean handheld, final String req) {
+  public static void postChoice(final String responseText, final boolean handheld, String req) {
+    req = req.toLowerCase();
     if (req.equals("sniper support")) {
       Preferences.setBoolean("noncombatForcerActive", true);
     }
 
     if (req.equals("materiel intel")) {
       Preferences.setBoolean("_alliedRadioMaterielIntel", true);
+    }
+
+    if (req.equals("wildsun boon")) {
+      Preferences.setBoolean("_alliedRadioWildsunBoon", true);
     }
 
     Matcher matcher = AlliedRadioRequest.NUMBER_LETTER_PATTERN.matcher(responseText);
