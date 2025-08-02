@@ -11966,7 +11966,7 @@
 11938	skeleton war fuel can	745447757	skelgascan.gif	drink	t,d	85
 11939	skeleton war grenade	972789838	skelgrenade.gif	none, combat	t,d	75
 11940	chocolate and nylons detector	123517698	chocodetector.gif	offhand	t,d	105
-11941	M&ouml;bius ring box	938142928	moebiusring_box.gif	usable	t	0
+11941	M&ouml;bius ring box	938142928	moebiusring_box.gif	usable	t	0	M&ouml;bius ring boxes
 11942	M&ouml;bius ring	180326628	moebiusring.gif	accessory		0
 11943	bone pacifier	509620940	bonebinky.gif	familiar	t,d	75
 11944	Allied Forces insignia	713476461	alliedpin.gif	accessory		0	Allied Forces insigniae
@@ -11977,10 +11977,10 @@
 11949	bully badge	727824335	jetbadge1.gif	accessory	q	0
 11950
 11951	Stock Certificate	339675464	ts_letter1.gif	usable		0
-11952	mixed berry jelly	731715027	jellyglob.gif	spleen, usable, cook	t,d	5
+11952	mixed berry jelly	731715027	jellyglob.gif	spleen, usable, cook	t,d	5	mixed berry jellies
 11953	toast with mixed berry jelly	974768964	jamtoast.gif	food	t,d	11
-11954	cup of sugar	443989917	dixiecup.gif	food	t,d	8
+11954	cup of sugar	443989917	dixiecup.gif	food	t,d	8	cups of sugar
 11955	Susie's cupcake	314868060	cupcake.gif	food	t,d	25
 11956	clock	696662686	clock.gif	usable	t,d	11
 11957	the gun	720217934	happiness.gif	weapon	q	0
-11958	fancy old wine	590385263	wine.gif	drink	t,d	500
+11958	fancy old wine	590385263	wine.gif	drink	t,d	500	bottles of fancy old wine

@@ -2567,7 +2567,7 @@ Brutal brogues	200	none
 bugbear communicator badge	0	none
 bugbear detector	0	none
 bullet necklace	0	Mys: 25
-bully badge	0	none
+bully badge	100	none
 burning paper slippers	100	none
 C.A.R.N.I.V.O.R.E. button	200	Mys: 10
 cactus key	10	none
@@ -2914,7 +2914,7 @@ lucky rabbitfish fin	150	Mys: 30
 lustrous drippy orb	0	none
 LWA ring	10	none
 LyleCo premium monocle	10	none
-M&ouml;bius ring	0	none
+M&ouml;bius ring	100	none
 Mafia bow tie	100	Mys: 35
 mafia middle finger ring	0	Mus: 45
 mafia organizer badge	0	Mus: 30
