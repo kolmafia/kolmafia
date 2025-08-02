@@ -213,7 +213,7 @@ public class ShopRowTest {
       var shopName = ShopRequest.parseShopNameInResponse(html);
       assertEquals("The Primordial Soup Kitchen", shopName);
 
-      var shopId = ShopRequest.parseShopId(html);
+      var shopId = ShopRequest.parseShopIdInResponse(html);
       assertEquals("twitchsoup", shopId);
 
       var shopRows = ShopRow.parseShop(html, true);
@@ -253,7 +253,7 @@ public class ShopRowTest {
       var shopName = ShopRequest.parseShopNameInResponse(html);
       assertEquals("The Central Loathing Floral Mercantile Exchange", shopName);
 
-      var shopId = ShopRequest.parseShopId(html);
+      var shopId = ShopRequest.parseShopIdInResponse(html);
       assertEquals("flowertradein", shopId);
 
       var shopRows = ShopRow.parseShop(html, false);
@@ -302,6 +302,46 @@ public class ShopRowTest {
       assertTrue(derivedCurrencies.contains(whiteTulip));
       assertTrue(derivedCurrencies.contains(redTulip));
       assertTrue(derivedCurrencies.contains(blueTulip));
+
+      assertEquals(derivedCurrencies, parsedCurrencies);
+    }
+  }
+
+  @Nested
+  class Mystic {
+    static AdventureResult whitePixel = new AdventureResult("white pixel", 1);
+    static AdventureResult blackPixel = new AdventureResult("black pixel", 1);
+    static AdventureResult redPixel = new AdventureResult("red pixel", 1);
+    static AdventureResult greenPixel = new AdventureResult("green pixel", 1);
+    static AdventureResult bluePixel = new AdventureResult("blue pixel", 1);
+    static AdventureResult brownPixel = new AdventureResult("brown pixel", 1);
+    static AdventureResult yellowPixel = new AdventureResult("yellow pixel", 1);
+
+    @Test
+    public void canParseMystic() {
+      String html = html("request/test_shop_mystic.html");
+      var shopName = ShopRequest.parseShopNameInResponse(html);
+      assertEquals("The Crackpot Mystic's Shed", shopName);
+
+      var shopId = ShopRequest.parseShopIdInResponse(html);
+      assertEquals("mystic", shopId);
+
+      var shopRows = ShopRow.parseShop(html, false);
+      assertEquals(22, shopRows.size());
+
+      var parsedCurrencies = ShopRow.parseCurrencies(html);
+      assertEquals(7, parsedCurrencies.size());
+
+      var derivedCurrencies = ShopRow.deriveCurrencies(shopRows);
+      assertEquals(7, derivedCurrencies.size());
+
+      assertTrue(derivedCurrencies.contains(whitePixel));
+      assertTrue(derivedCurrencies.contains(blackPixel));
+      assertTrue(derivedCurrencies.contains(redPixel));
+      assertTrue(derivedCurrencies.contains(greenPixel));
+      assertTrue(derivedCurrencies.contains(bluePixel));
+      assertTrue(derivedCurrencies.contains(brownPixel));
+      assertTrue(derivedCurrencies.contains(yellowPixel));
 
       assertEquals(derivedCurrencies, parsedCurrencies);
     }
