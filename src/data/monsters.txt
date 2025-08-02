@@ -2201,7 +2201,7 @@ ICE man	2473	cr_iceman.gif	NOCOPY Scale: 9 Init: 50 P: construct Article: an Phy
 rat (remote access trojan)	2474	cr_rat.gif	NOCOPY Scale: 9 Init: 200 P: construct Article: a Phys: 100 Elem: 100
 
 # Mobius ring (Aug 2025)
-time cop	2497	timecop.gif	NOCOPY Scale: ? Cap: ? Floor: ? Init: 250 P: dude Article: a
+time cop	2497	timecop.gif	NOCOPY Scale: 2 Cap: ? Floor: ? Init: 250 P: dude Article: a	time cop top hat (n1)
 
 # KoL Con
 
