@@ -219,6 +219,10 @@ public class CharPaneRequest extends GenericRequest {
       CharPaneRequest.checkMask(responseText);
     }
 
+    if (KoLCharacter.hasEquipped(ItemPool.MOBIUS_RING)) {
+      CharPaneRequest.checkParadoxicity(responseText);
+    }
+
     CharPaneRequest.setLastAdventure(responseText);
     CharPaneRequest.refreshEffects(responseText);
     CharPaneRequest.setInteraction();
@@ -367,6 +371,19 @@ public class CharPaneRequest extends GenericRequest {
     Matcher levelMatcher = CharPaneRequest.LEVEL_PATTERN.matcher(responseText);
     if (levelMatcher.find()) {
       KoLCharacter.setLevel(Integer.valueOf(levelMatcher.group(1)));
+    }
+  }
+
+  // <tr><td align=right>Paradoxicity:</td><td align=left><b><font color=black><span alt=""
+  // title="">2</span></font></td></tr>
+  // <tr><td align=right>Pardoxicity:</td><td align=left><b><font color=black><span alt=""
+  // title="">2</span></font></td></tr>
+  public static final Pattern PARADOXICITY_PATTERN = Pattern.compile("Para?doxicity.*?(\\d+)");
+
+  public static void checkParadoxicity(final String responseText) {
+    Matcher paradoxMatcher = CharPaneRequest.PARADOXICITY_PATTERN.matcher(responseText);
+    if (paradoxMatcher.find()) {
+      KoLCharacter.setParadoxicity(Integer.parseInt(paradoxMatcher.group(1)));
     }
   }
 

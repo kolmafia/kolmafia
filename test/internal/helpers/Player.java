@@ -2991,4 +2991,16 @@ public class Player {
     KoLCharacter.setGuildStoreOpen(storeOpen);
     return new Cleanups(() -> KoLCharacter.setGuildStoreOpen(oldKnown));
   }
+
+  /**
+   * Set Paradoxicity.
+   *
+   * @param paradoxicity paradoxicity count
+   * @return restores previous state of paradoxicity
+   */
+  public static Cleanups withParadoxicity(final int paradoxicity) {
+    int old = KoLCharacter.getParadoxicity();
+    KoLCharacter.setParadoxicity(paradoxicity);
+    return new Cleanups(() -> KoLCharacter.setParadoxicity(old));
+  }
 }

@@ -216,6 +216,8 @@ public abstract class KoLCharacter {
   private static int rain = 0;
   private static int lightning = 0;
 
+  private static int paradoxicity = 0;
+
   private static String mask = null;
 
   private static LimitMode limitMode = LimitMode.NONE;
@@ -364,6 +366,7 @@ public abstract class KoLCharacter {
     KoLCharacter.rain = 0;
     KoLCharacter.lightning = 0;
     KoLCharacter.absorbs = 0;
+    KoLCharacter.paradoxicity = 0;
 
     KoLCharacter.mask = null;
 
@@ -1088,6 +1091,14 @@ public abstract class KoLCharacter {
 
   public static final void setMask(final String newMask) {
     KoLCharacter.mask = newMask;
+  }
+
+  public static final int getParadoxicity() {
+    return KoLCharacter.paradoxicity;
+  }
+
+  public static final void setParadoxicity(final int newParadoxicity) {
+    KoLCharacter.paradoxicity = newParadoxicity;
   }
 
   public static final int getAttacksLeft() {

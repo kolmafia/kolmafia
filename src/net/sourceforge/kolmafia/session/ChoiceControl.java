@@ -61,6 +61,7 @@ import net.sourceforge.kolmafia.request.BeachCombRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest.Mushroom;
 import net.sourceforge.kolmafia.request.CargoCultistShortsRequest;
+import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.DeckOfEveryCardRequest;
 import net.sourceforge.kolmafia.request.DecorateTentRequest;
 import net.sourceforge.kolmafia.request.EatItemRequest;
@@ -6719,6 +6720,10 @@ public abstract class ChoiceControl {
         if (text.contains("stock certificate")) {
           Preferences.setInteger("stockCertificateTurn", KoLCharacter.getTurnsPlayed());
         }
+        // update Paradoxicity from charpane
+        // eventually we're going to want to do some parsing to e.g. figure out which choices are
+        // available, but this is much simpler
+        RequestThread.postRequest(new CharPaneRequest());
       }
 
       case 1563 -> {
