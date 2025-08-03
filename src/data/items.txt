@@ -11978,7 +11978,7 @@
 11950	time cop top hat	991820053	timecophat.gif	hat	t	0
 11951	Stock Certificate	339675464	ts_letter1.gif	usable		0
 11952	mixed berry jelly	731715027	jellyglob.gif	spleen, usable, cook	t,d	5	mixed berry jellies
-11953	toast with mixed berry jelly	974768964	jamtoast.gif	food	t,d	11
+11953	toast with mixed berry jelly	974768964	jamtoast.gif	food	t,d	11	pieces of toast with mixed berry jelly
 11954	cup of sugar	443989917	dixiecup.gif	food	t,d	8	cups of sugar
 11955	Susie's cupcake	314868060	cupcake.gif	food	t,d	25
 11956	clock	696662686	clock.gif	usable	t,d	11
