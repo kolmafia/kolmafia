@@ -4325,6 +4325,9 @@ public class FightRequest extends GenericRequest {
           Preferences.setBoolean("pirateRealmUnlockedRadioRing", true);
           QuestDatabase.setQuestIfBetter(Quest.PIRATEREALM, 16);
         }
+        case "time cop" -> {
+          Preferences.increment("_timeCopsFoughtToday", 1);
+        }
       }
 
       if (KoLCharacter.hasEquipped(ItemPool.BONE_ABACUS, Slot.OFFHAND)

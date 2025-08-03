@@ -6714,6 +6714,13 @@ public abstract class ChoiceControl {
         AlliedRadioRequest.postChoice(text, false, req);
       }
 
+      case 1562 -> {
+        // Time is a Möbius Strip
+        if (text.contains("stock certificate")) {
+          Preferences.setInteger("stockCertificateTurn", KoLCharacter.getTurnsPlayed());
+        }
+      }
+
       case 1563 -> {
         // Request Supply Drop
         String req = request.getFormField("request");
@@ -8596,6 +8603,11 @@ public abstract class ChoiceControl {
 
       case 1561 -> // Request Supply Drop
       AlliedRadioRequest.visitChoice(text);
+
+      case 1562 -> { // Time is a Möbius Strip
+        Preferences.setInteger("_lastMobiusStripTurn", KoLCharacter.getTurnsPlayed());
+        Preferences.increment("_mobiusStripEncounters", 1);
+      }
     }
   }
 

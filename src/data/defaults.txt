@@ -1639,6 +1639,7 @@ user	statusWasteProcessing	0
 user	stenchAirportAlways	false
 user	stenchCursedMonster
 user	stillsuitFamiliar
+user	stockCertificateTurn	-1
 user	stopForFixedWanderer	false
 user	stopForUltraRare	true
 user	streamCrossDefaultTarget	ProtonicBot
@@ -2313,6 +2314,7 @@ user	_lastCombatLost	false
 user	_lastCombatStarted
 user	_lastCombatWon	true
 user	_lastDailyDungeonRoom	0
+user	_lastMobiusStripTurn	0
 user	_lastPirateRealmIsland
 user	_lastSausageMonsterTurn	0
 user	_lastZomboEye	0
@@ -2391,6 +2393,7 @@ user	_miniKiwiIntoxicatingSpiritsBought	false
 user	_miniMartiniDrops	0
 user	_missGravesVermouthDrunk	false
 user	_missileLauncherUsed	false
+user	_mobiusStripEncounters	0
 user	_molehillMountainUsed	false
 user	_momFoodReceived	false
 user	_monkeyPawWishesUsed	0
@@ -2657,6 +2660,7 @@ user	_tiedUpFlamingLeafletFought	false
 user	_tiedUpFlamingMonsteraFought	false
 user	_tiedUpLeaviathanFought	false
 user	_timeHelmetAdv	0
+user	_timeCopsFoughtToday	0
 user	_timeSpinnerFoodAvailable
 user	_timeSpinnerMinutesUsed	0
 user	_timeSpinnerReplicatorUsed	false

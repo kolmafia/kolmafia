@@ -1668,7 +1668,7 @@ Item	meatspout staff	Mysticality: +7, Adventures: +3, Meat Drop: +15
 Item	Mer-kin digpick	Weapon Damage: +30
 Item	Mer-kin dodgeball	PvP Fights: +7, Muscle Percent: +10, Moxie Percent: +10
 Item	Mer-kin dragnet	PvP Fights: +7, Muscle Percent: +10, Moxie Percent: +10
-# Mer-kin finpaddle: +100% Damage vs. Mer-kin
+Item	Mer-kin finpaddle	Damage vs. Mer-kin: 100
 # Mer-kin hookspear: Extracts Meat on Critical Hits
 Item	Mer-kin hookspear	Initiative: +20, Weapon Damage: +40, Drops Meat
 Item	Mer-kin rollpin	Mysticality Percent: +25, Food Drop: +75, Last Available: "2019-12"
@@ -6161,7 +6161,7 @@ Effect	Deadly Flashing Blade	Weapon Damage: +10
 Effect	Deadly Lampblade	Spooky Damage: +75
 # Deep-Fried: Extra-Vulnerable to Stench and Sleaze
 Effect	Deep-Fried	Hot Resistance: +2, Stench Vulnerability, Sleaze Vulnerability
-# Deep-Seated Rage: +100% Damage vs. Mer-kin
+Effect	Deep-Seated Rage	Damage vs. Mer-kin: 100
 Effect	Deep-Tainted Mind	Mysticality Percent: -50
 Effect	Deeply Ironic	Damage Reduction: 5, HP Regen Min: 5, HP Regen Max: 8
 Effect	Delayed Gratification	Mysticality: +25
