@@ -6588,6 +6588,9 @@ public abstract class ChoiceAdventures {
       case 1463 ->
       // Reminiscing About Those Monsters You Fought
       LocketManager.decorateMonsterDropdown(buffer);
+      case 1557 ->
+      // Peering Through Your Peridot
+      ChoiceAdventures.decorateMonsterMap(buffer);
     }
   }
 
@@ -6695,7 +6698,7 @@ public abstract class ChoiceAdventures {
 
   public static final Pattern MAPPED_MONSTER_PATTERN =
       Pattern.compile(
-          "(<input type=\"hidden\" name=\"heyscriptswhatsupwinkwink\" value=\"(\\d+)\" />\\s+<input type=\"submit\" class=\"button\" value=\").*?(\" />\\s+</form>)");
+          "(<input type=\"hidden\" name=\"(?:bandersnatch|heyscriptswhatsupwinkwink)\" value=\"(\\d+)\" />\\s+<input type=\"submit\" class=\"button\" value=\").*?(\" />\\s+</form>)");
 
   public static void decorateMonsterMap(final StringBuffer buffer) {
     Matcher matcher = MAPPED_MONSTER_PATTERN.matcher(buffer.toString());
