@@ -61,6 +61,7 @@ import net.sourceforge.kolmafia.request.BeachCombRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest.Mushroom;
 import net.sourceforge.kolmafia.request.CargoCultistShortsRequest;
+import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.DeckOfEveryCardRequest;
 import net.sourceforge.kolmafia.request.DecorateTentRequest;
 import net.sourceforge.kolmafia.request.EatItemRequest;
@@ -6714,6 +6715,17 @@ public abstract class ChoiceControl {
         AlliedRadioRequest.postChoice(text, false, req);
       }
 
+      case 1562 -> {
+        // Time is a Möbius Strip
+        if (text.contains("stock certificate")) {
+          Preferences.setInteger("stockCertificateTurn", KoLCharacter.getTurnsPlayed());
+        }
+        // update Paradoxicity from charpane
+        // eventually we're going to want to do some parsing to e.g. figure out which choices are
+        // available, but this is much simpler
+        RequestThread.postRequest(new CharPaneRequest());
+      }
+
       case 1563 -> {
         // Request Supply Drop
         String req = request.getFormField("request");
@@ -8596,6 +8608,11 @@ public abstract class ChoiceControl {
 
       case 1561 -> // Request Supply Drop
       AlliedRadioRequest.visitChoice(text);
+
+      case 1562 -> { // Time is a Möbius Strip
+        Preferences.setInteger("_lastMobiusStripTurn", KoLCharacter.getTurnsPlayed());
+        Preferences.increment("_mobiusStripEncounters", 1);
+      }
     }
   }
 

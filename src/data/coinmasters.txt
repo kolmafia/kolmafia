@@ -645,10 +645,15 @@ Ye Newe Souvenir Shoppe	buy	1000	Yorick	ROW758
 
 # The Central Loathing Floral Mercantile Exchange
 
-# The Central Loathing Floral Mercantile Exchange	buy	2	Chroner (1)	ROW759
-# The Central Loathing Floral Mercantile Exchange	buy	1	Chroner (16)	ROW760
-# The Central Loathing Floral Mercantile Exchange	buy	1	Chroner (21)	ROW761
-# The Central Loathing Floral Mercantile Exchange	buy	1	Chroner (11)	ROW762
+The Central Loathing Floral Mercantile Exchange	ROW759	Chroner (1)	rose (2)
+The Central Loathing Floral Mercantile Exchange	ROW760	Chroner (16)	red tulip
+The Central Loathing Floral Mercantile Exchange	ROW761	Chroner (21)	white tulip
+The Central Loathing Floral Mercantile Exchange	ROW762	Chroner (11)	blue tulip
+
+# The Central Loathing Floral Mercantile Exchange	sell	1	rose (2)	ROW759
+# The Central Loathing Floral Mercantile Exchange	sell	16	red tulip	ROW760
+# The Central Loathing Floral Mercantile Exchange	sell	21	white tulip	ROW761
+# The Central Loathing Floral Mercantile Exchange	sell	11	blue tulip	ROW762
 
 The Primordial Soup Kitchen	ROW1491	bacteria bisque	Chroner (10)
 The Primordial Soup Kitchen	ROW1492	ciliophora chowder	Chroner (10)

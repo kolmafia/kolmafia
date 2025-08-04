@@ -92,6 +92,7 @@ import net.sourceforge.kolmafia.request.coinmaster.shop.EdShopRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.FDKOLRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.FancyDanRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.FishboneryRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.FlowerTradeinRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.FunALogRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.GMartRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.GeneticFiddlingRequest;
@@ -198,6 +199,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
   private CoinmasterPanel fancyDanPanel = null;
   private CoinmasterPanel fdkolPanel = null;
   private CoinmasterPanel fishboneryPanel = null;
+  private CoinmasterPanel flowerTradeinPanel = null;
   private CoinmasterPanel freeSnackPanel = null;
   private CoinmasterPanel fudgeWandPanel = null;
   private CoinmasterPanel funALogPanel = null;
@@ -609,6 +611,11 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     shakeShopPanel = new ShakeShopPanel();
     panel.add(shakeShopPanel);
     this.selectorPanel.addPanel(shakeShopPanel.getPanelSelector(), panel);
+
+    panel = new JPanel(new BorderLayout());
+    flowerTradeinPanel = new FlowerTradeinPanel();
+    panel.add(flowerTradeinPanel);
+    this.selectorPanel.addPanel(flowerTradeinPanel.getPanelSelector(), panel);
 
     panel = new JPanel(new BorderLayout());
     merchTablePanel = new MerchTablePanel();
@@ -1031,6 +1038,35 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
   public class ShakeShopPanel extends TwitchPanel {
     public ShakeShopPanel() {
       super(YeNeweSouvenirShoppeRequest.SHAKE_SHOP);
+    }
+  }
+
+  public class FlowerTradeinPanel extends CoinmasterPanel {
+    public FlowerTradeinPanel() {
+      super(FlowerTradeinRequest.DATA);
+    }
+
+    static List<Map.Entry<String, String>> currencies = new ArrayList<>();
+
+    static {
+      currencies.add(Map.entry("rose", "rose"));
+      currencies.add(Map.entry("white tulip", "white tulip"));
+      currencies.add(Map.entry("red tulip", "red tulip"));
+      currencies.add(Map.entry("blue tulip", "blue tulip"));
+    }
+
+    @Override
+    public void setTitle(final StringBuffer buffer) {
+      this.standardTitle(buffer);
+      for (var entry : currencies) {
+        int itemId = ItemDatabase.getItemId(entry.getKey());
+        int count = InventoryManager.getCount(itemId);
+        buffer.append(" (");
+        buffer.append(count);
+        buffer.append(" ");
+        buffer.append(entry.getValue());
+        buffer.append(")");
+      }
     }
   }
 
