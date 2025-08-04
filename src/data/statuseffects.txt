@@ -3011,7 +3011,7 @@
 3008	Trailing Blood	blooddrop.gif	d2bb6aea85722f5efd231417cfbeaf38	neutral	none
 3009	Paranoia	eyesright.gif	6dff0fd65f8296f019780fe70e403743	neutral	none
 3010	Sugar Debt	moneybag2.gif	53a5ee75570b23a90cf5067a552c1027	neutral	none
-3011
+3011	Sweet Talkin'	dixiecup.gif	32daa50fc084a29c5e46885c5ab45cb8	neutral	none	eat 1 cup of sugar
 3012	Evil	demonflavor.gif	ab49b92fa43ba7837d5e18a40e304069	neutral	none
 3013	Merry Prankster	funnyhat.gif	def7876d2286933c0110d75c48872642	neutral	none
 3014	Schroedinger's Anticipation	confused.gif	0c77ca1004069e8d37acac0b9de9c374	neutral	none

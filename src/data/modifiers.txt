@@ -8028,6 +8028,7 @@ Effect	Sweet Heart	Meat Drop: [2*min(T,20)], Muscle: [min(T,20)]
 Effect	Sweet Incentive	Familiar Weight: +5
 Effect	Sweet Nostalgia	Candy Drop: +20
 Effect	Sweet Pirate Curse	Critical Hit Percent: +5, Spell Critical Percent: +5
+Effect	Sweet Talkin'	Moxie: +15
 Effect	Sweet Taste	Candy Drop: +10
 Effect	Sweet Tooth	Candy Drop: +40, Wiki Name: "Sweet Tooth"
 Effect	Sweet, Nuts	Mysticality: +5
@@ -9500,7 +9501,7 @@ Item	Crimbo dinner	Last Available: "2022-12"
 Item	Crimbo salad	Effect: "Salad Days", Effect Duration: 40, Last Available: "2015-12"
 Item	Crimboysters Rockefeller	Last Available: "2018-12"
 Item	cup of lukewarm tea	Effect: "Jittery", Effect Duration: 20
-Item	cup of sugar	Effect: "Sugar Rush", Effect Duration: 10, Last Available: "2025-08"
+Item	cup of sugar	Effect: "Sugar Rush", Effect Duration: 10, Effect: "Sweet Talkin'", Effect Duration: 100, Last Available: "2025-08"
 Item	cupcake-in-a-cup	Effect: "Cake Caked", Effect Duration: 10, Last Available: "2009-06"
 Item	cursed Aztec tamale	Effect: "Curse of the Tamale", Effect Duration: 20, Last Available: "2024-12"
 Item	cursed black pearl onion	Effect: "Curse of the Black Pearl Onion", Effect Duration: 1

@@ -1683,6 +1683,9 @@ public abstract class RuntimeLibrary {
     functions.add(new LibraryFunction("my_mask", DataTypes.STRING_TYPE, params));
 
     params = List.of();
+    functions.add(new LibraryFunction("my_paradoxicity", DataTypes.INT_TYPE, params));
+
+    params = List.of();
     functions.add(new LibraryFunction("my_maxfury", DataTypes.INT_TYPE, params));
 
     params = List.of();
@@ -7148,6 +7151,10 @@ public abstract class RuntimeLibrary {
 
   public static Value my_mask(ScriptRuntime controller) {
     return new Value(KoLCharacter.getMask());
+  }
+
+  public static Value my_paradoxicity(ScriptRuntime controller) {
+    return new Value(KoLCharacter.getParadoxicity());
   }
 
   public static Value my_meat(ScriptRuntime controller) {
