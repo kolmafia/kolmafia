@@ -1,0 +1,45 @@
+-1	moldy wobbly bouncing Peche a la Frog	4	crappy	
+-2	big decent bouncing As Jus Gezund Heit	5	good	
+-3	gigantic stale enchanted Bouillabaise Coucher Avec Moi	8	decent	
+-7	adequate low-calorie gumdrop chow mein	1	good	
+-8	delicious snack-sized fuchsia candy cane pizza	2	awesome	
+-9	snack-sized fancy flavorless gingerbread stir-fry	2	decent	
+-10	flavorless immense twigs and gravel	7	decent	
+-11	low-calorie stale shoots and leaves	1	decent	
+-12	stale bowl of unidentifiable goo	3	decent	
+-13	rotten purple pulsating gingerbread massacre	3	crappy	
+-14	adequate green It Came From Beyond Dessert	4	good	
+-15	spoiled special skewed vampire cake	3	crappy	
+-52	decent Soylent Red and Green	4	good	
+-53	fancy miniature spoiled Disc-Shaped Nutrition Unit	2	crappy	
+-54	bland massive Gingerborg Hive	8	decent	
+-61	toothsome Candy Cane Surprise	3	awesome	
+-62	small stale Grimdrop Chow Mein	2	decent	
+-63	stale small upside-down skewed Grimgerbread House	2	decent	
+-67	normal Caviar Carbonara	4	good	
+-68	rotten Halibut Alfredo	4	crappy	
+-69	rotten massive Red Herring Velvet Cake	6	crappy	
+-73	moldy diet CRIMBCO Reconstituted Gruel	1	crappy	
+-74	tasty New and Improved CRIMBCO Reconstituted Gruel	3	awesome	
+-75	bite-sized moldy twirling spinning CRIMBCO Deluxe Reconstituted Gruel with Simulated Raisins	1	crappy	
+-79	rotten Brussels Sprout Stir-Fry	4	crappy	
+-80	miniature yummy Carrot, Cabbage, and Kale Pizza	2	awesome	
+-81	big moldy Turnip and Rutabaga Pie	5	crappy	
+-85	fancy delicious blurry Rainbow Spider Fun Roll	3	awesome	
+-86	rotten enchanted Vegas Volcano Lava Roll	4	crappy	
+-87	stale super-sized mirror Crazy Dragon Shogun Buddha Roll	5	decent	
+-92	flavorless big basic hot dog	5	decent	
+-93	rotten bite-sized savage macho dog	1	crappy	
+-94	adequate big one with everything	5	good	
+-95	bland half-sized enchanted sly dog	2	decent	
+-96	massive moldy devil dog	6	crappy	
+-97	decent skewed chilly dog	4	good	
+-98	bite-sized moldy skewed ghost dog	1	crappy	
+-99	flavorless gigantic junkyard dog	7	decent	
+-100	huge adequate wet dog	7	good	
+-101	toothsome sleeping dog	4	awesome	
+-102	special bland immense upside-down optimal dog	10	decent	
+-103	adequate pulsating video games hot dog	3	good	
+-104	moldy Peppermint Nutrition Block	3	crappy	
+-105	decent fuchsia Gingerbread Nutrition Block	4	good	
+-106	spoiled snack-sized skewed Cinnamon Nutrition Block	2	crappy	

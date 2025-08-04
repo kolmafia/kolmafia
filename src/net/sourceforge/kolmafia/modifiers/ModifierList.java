@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.modifiers;
 
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 import net.sourceforge.kolmafia.ModifierExpression;
@@ -107,15 +108,7 @@ public class ModifierList implements Iterable<ModifierValue> {
 
   @Override
   public String toString() {
-    StringBuilder buffer = new StringBuilder();
-    for (ModifierValue modifier : this.list) {
-      if (buffer.length() > 0) {
-        buffer.append(", ");
-      }
-
-      modifier.toString(buffer);
-    }
-    return buffer.toString();
+    return this.list.stream().map(ModifierValue::toString).collect(Collectors.joining(", "));
   }
 
   public static class ModifierValue {
@@ -174,9 +167,8 @@ public class ModifierList implements Iterable<ModifierValue> {
 
     @Override
     public String toString() {
-      StringBuilder buffer = new StringBuilder();
-      this.toString(buffer);
-      return buffer.toString();
+      if (name.equals("Effect") && !value.startsWith("\"")) return name + ": \"" + value + "\"";
+      return name + ": " + value;
     }
   }
 }

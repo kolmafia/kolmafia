@@ -1,0 +1,45 @@
+-1	spoiled small jittery Peche a la Frog	2	crappy	
+-2	decent half-sized As Jus Gezund Heit	2	good	
+-3	stale big Bouillabaise Coucher Avec Moi	5	decent	
+-7	moldy gumdrop chow mein	3	crappy	
+-8	delicious red candy cane pizza	3	awesome	
+-9	moldy miniature gingerbread stir-fry	2	crappy	
+-10	spoiled jittery twigs and gravel	4	crappy	
+-11	flavorless wobbly shoots and leaves	4	decent	
+-12	thick moldy bouncing bowl of unidentifiable goo	5	crappy	
+-13	thick bland gingerbread massacre	5	decent	
+-14	immense rotten It Came From Beyond Dessert	8	crappy	
+-15	decent vampire cake	4	good	
+-52	half-sized stale ghostly Soylent Red and Green	2	decent	
+-53	adequate Disc-Shaped Nutrition Unit	3	good	
+-54	snack-sized decent Gingerborg Hive	2	good	
+-61	toothsome fancy spinning Candy Cane Surprise	3	awesome	
+-62	decent gigantic Grimdrop Chow Mein	9	good	
+-63	tasty Grimgerbread House	3	awesome	
+-67	decent small Caviar Carbonara	2	good	
+-68	decent Halibut Alfredo	3	good	
+-69	stale Red Herring Velvet Cake	3	decent	
+-73	toothsome CRIMBCO Reconstituted Gruel	3	awesome	
+-74	jumbo flavorless New and Improved CRIMBCO Reconstituted Gruel	5	decent	
+-75	normal blue jittery CRIMBCO Deluxe Reconstituted Gruel with Simulated Raisins	3	good	
+-79	decent diet Brussels Sprout Stir-Fry	1	good	
+-80	super-sized spoiled Carrot, Cabbage, and Kale Pizza	5	crappy	
+-81	normal Turnip and Rutabaga Pie	3	good	
+-85	yummy Rainbow Spider Fun Roll	3	awesome	
+-86	jumbo decent Vegas Volcano Lava Roll	5	good	
+-87	adequate spinning Crazy Dragon Shogun Buddha Roll	3	good	
+-92	moldy basic hot dog	3	crappy	
+-93	enchanted flavorless savage macho dog	4	decent	
+-94	moldy one with everything	3	crappy	
+-95	stale jumbo sly dog	5	decent	
+-96	moldy bouncing devil dog	3	crappy	
+-97	decent chilly dog	4	good	
+-98	flavorless diet ghost dog	1	decent	
+-99	special rotten tumbling junkyard dog	4	crappy	
+-100	normal spinning wet dog	3	good	
+-101	delicious sleeping dog	3	awesome	
+-102	yummy optimal dog	3	awesome	
+-103	decent huge video games hot dog	3	good	
+-104	decent miniature Peppermint Nutrition Block	2	good	
+-105	delicious Gingerbread Nutrition Block	3	awesome	
+-106	tasty Cinnamon Nutrition Block	3	awesome	
