@@ -7,6 +7,7 @@ import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withInebriety;
 import static internal.helpers.Player.withLastLocation;
 import static internal.helpers.Player.withNoEffects;
+import static internal.helpers.Player.withParadoxicity;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static internal.matchers.Preference.isSetTo;
@@ -436,6 +437,29 @@ class CharPaneRequestTest {
           ModifierDatabase.getStringModifier(
               ModifierType.GENERATED, "Enchantments Absorbed", StringModifier.MODIFIERS);
       assertThat(mods, is("Mysticality: 75, Smithsness: 75, Item Drop: 1125"));
+    }
+  }
+
+  @Nested
+  class Paradoxicity {
+    @Test
+    void canParseCharpaneParadoxicity() {
+      var cleanups = new Cleanups(withParadoxicity(0), withEquipped(ItemPool.MOBIUS_RING));
+
+      try (cleanups) {
+        CharPaneRequest.processResults(html("request/test_charpane_paradoxicity.html"));
+        assertThat(KoLCharacter.getParadoxicity(), is(2));
+      }
+    }
+
+    @Test
+    void canParseCompactCharpaneParadoxicity() {
+      var cleanups = new Cleanups(withParadoxicity(0), withEquipped(ItemPool.MOBIUS_RING));
+
+      try (cleanups) {
+        CharPaneRequest.processResults(html("request/test_charpane_compact_paradoxicity.html"));
+        assertThat(KoLCharacter.getParadoxicity(), is(2));
+      }
     }
   }
 }
