@@ -6166,6 +6166,7 @@ Effect	Deep-Tainted Mind	Mysticality Percent: -50
 Effect	Deeply Ironic	Damage Reduction: 5, HP Regen Min: 5, HP Regen Max: 8
 Effect	Delayed Gratification	Mysticality: +25
 Effect	Delighted by Autumn	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
+Effect	Demon in Combat	Spooky Damage: +100, Never Fumble, Damage Reduction: 50, HP Regen Min: 40, HP Regen Max: 50
 Effect	Demonic Flavor	Hot Damage: +10, Hot Resistance: +2
 Effect	Demonic Taint	Stench Damage: +30
 Effect	Demonicity	Monster Level: +40, Spooky Damage: +80, Spooky Spell Damage: +80
