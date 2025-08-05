@@ -44,6 +44,7 @@ QUEST_LOG	demonName8	;&middot;([^<]*?), the Demonic Lord of Revenge<br	demonName
 QUEST_LOG	demonName9	;&middot;([^<]*?), the Smith<br	demonName9=$1
 QUEST_LOG	demonName10	;&middot;([^<]*?), the Pain Enjoyer<br	demonName10=$1
 QUEST_LOG	demonName11	;&middot;([^<]*?), Friend of Gary<br	demonName11=$1
+QUEST_LOG	demonName14	;&middot;([^<]*?), Bane of Allies<br	demonName14=$1
 
 DESC_ITEM	Adventurer bobblehead	Attributes \+(\d+)%	nuclearAutumnPoints=$1
 DESC_ITEM	bishop cookie	\+(\d+)%	chessboardsCleared=[($1-100)/2]
