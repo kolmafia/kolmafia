@@ -3001,7 +3001,7 @@
 2998	It's Like a Tickertape Parade	confetti.gif	15517c9531a69396e8c7e07e6dc9181d	neutral	none
 2999	Wildsun Boon	wild_sun.gif	6f0fbda9b7530056f9deba25393c6eb7	neutral	none
 3000	Materiel Intel	dinseybrain.gif	61d884a9f0584996cabd095045b0d39e	neutral	none
-3001
+3001	Demon in Combat	skeldoll.gif	62733d7f016123c31e2393696cd2c0f0	neutral	none
 3002	Ellipsoidtined	circle.gif	74c598b6434144e0ef61711a547ce203	neutral	none
 3003	Gaining Interest	moneybag.gif	764a5ad0ef18373411c89bf38ea3f281	neutral	none
 3004	Life Goals	runaway.gif	6383756c040fdc3293c6fb9f44fb0827	neutral	none	use 1 Life Goals Pamphlet
