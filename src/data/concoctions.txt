@@ -3393,3 +3393,6 @@ gnomish coal miner's lung	GNOME_PART
 gnomish tennis elbow	GNOME_PART
 gnomish housemaid's kgnee	GNOME_PART
 gnomish athlete's foot	GNOME_PART
+
+# Mobius ring
+toast with mixed berry jelly	COOK	mixed berry jelly	toast
