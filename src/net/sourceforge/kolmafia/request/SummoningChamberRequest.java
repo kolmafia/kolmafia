@@ -16,6 +16,7 @@ import net.sourceforge.kolmafia.persistence.PocketDatabase;
 import net.sourceforge.kolmafia.persistence.PocketDatabase.Pocket;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ClanManager;
+import net.sourceforge.kolmafia.session.DemonName14Manager;
 import net.sourceforge.kolmafia.session.FamiliarManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
@@ -218,9 +219,21 @@ public class SummoningChamberRequest extends GenericRequest {
         new HashSet<>(Arrays.asList(Preferences.getString("demonName14Segments").split(",")));
     segments.add(segment);
 
-    // Once we have more clarity on the construction, we would now check to see if we can construct
-    // a unique 9-syllable
-    // word. If so, we would update demonName14.
-    Preferences.setString("demonName14Segments", String.join(",", segments));
+    var solutions = DemonName14Manager.solve(segments);
+    switch (solutions.size()) {
+      case 0 -> Preferences.setString("demonName14Segments", String.join(",", segments));
+      case 1 -> {
+        String demonName14 = solutions.iterator().next();
+        Preferences.setString("demonName14", demonName14);
+        Preferences.setString("demonName14Segments", "");
+      }
+      default -> {
+        Preferences.setString("demonName14Segments", String.join(",", segments));
+        String message =
+            "Multiple possible solutions found for demon name 14: " + String.join(", ", solutions);
+        RequestLogger.printLine(message);
+        RequestLogger.updateSessionLog(message);
+      }
+    }
   }
 }
