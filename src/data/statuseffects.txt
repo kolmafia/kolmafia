@@ -2808,7 +2808,7 @@
 2805	Shadow's Thickness	shadowwave.gif	cec0a45b03817e4e0b9a4fa6833c556a	neutral	nohookah
 2806	Shadow Waters	shadowvenom.gif	638c1fadfcec6c52ff921d5c1e7da66b	neutral	nohookah
 2807	Shadow Medicine	shadowpill.gif	c382e7e061a9449d2052f45eb188247c	neutral	nohookah	chew 1 shadow pill
-2808	Cursed by a Monkey	monkeypaw0.gif	9038c5de7acbe308ec962059bac040ab	neutral	none
+2808	Cursed by a Monkey	monkeypaw0.gif	9038c5de7acbe308ec962059bac040ab	neutral	noremove
 2809	Party Soundtrack	cinchomusic.gif	11711ccebab2320e2a20cc72fd3f6dd1	good	none	cast 1 Cincho: Party Soundtrack
 2810	Ominous Wisdom	blackskull.gif	a3359cd5464945c32617742e9132f84e	neutral	none
 2811	Hot in Herre	sweaty.gif	e1018384b4e5ad0292ea9d39312505bd	neutral	none	use 1 Charter: Nellyville
@@ -3025,7 +3025,7 @@
 3022	Care Free	sleepy.gif	8bad8aeab66a515a968cbc3e19745a4c	neutral	none
 3023	Very Old	skeleton.gif	1b219555d9cfa9a32418c7fe9a454708	neutral	none
 3024	Scot Free	noart.gif	37575cdfa77b423099871cdef82b0868	neutral	none
-3025	Marked by the Don	kneestick.gif	a50a9d5b4e48a454479473c1d8ea1212	neutral	none
+3025	Marked by the Don	kneestick.gif	a50a9d5b4e48a454479473c1d8ea1212	neutral	noremove
 3026	Favored by the Don	stogie.gif	b33c788389e84cf087ec9a4b29de110d	neutral	none
 3027	Your Own Parents	confused.gif	70ab5d69cc8e7c3842300d9dbae33d9b	neutral	none
 3028	Met Cute	2hearts.gif	b378956d58fbc43b007f4e189e85c3b2	neutral	none
