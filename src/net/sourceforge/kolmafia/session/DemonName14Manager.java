@@ -18,59 +18,41 @@ public class DemonName14Manager {
           "Kar", "Kil", "Kir", "Kru", "Kul", "Kur", "Lag", "Lar", "Mor", "Nar", "Nix", "Nut", "Pha",
           "Rog", "Yer");
 
-  /** Represents a syllable transition in a segment graph */
-  private static class SyllableTransition {
-    public final String from; // null if segment starts a syllable
-    public final String to; // null if segment ends a syllable
-
-    public SyllableTransition(String from, String to) {
-      this.from = from;
-      this.to = to;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-      if (this == obj) return true;
-      if (obj == null || getClass() != obj.getClass()) return false;
-      SyllableTransition that = (SyllableTransition) obj;
-      return Objects.equals(from, that.from) && Objects.equals(to, that.to);
-    }
-
-    @Override
-    public int hashCode() {
-      return Objects.hash(from, to);
-    }
-  }
+  /**
+   * Represents a syllable transition in a segment graph
+   *
+   * @param from null if segment starts a syllable
+   * @param to null if segment ends a syllable
+   */
+  private record SyllableTransition(String from, String to) {}
 
   /** Mini graph representing possible transitions for a segment */
-  private static class SegmentGraph {
-    public final String segment;
-    public final List<SyllableTransition> transitions;
-
-    public SegmentGraph(String segment, List<SyllableTransition> transitions) {
+  private record SegmentGraph(String segment, List<SyllableTransition> transitions) {
+    private SegmentGraph(String segment, List<SyllableTransition> transitions) {
       this.segment = segment;
       this.transitions = new ArrayList<>(transitions);
     }
   }
 
-  /** Node in the composed graph */
-  private static class GraphNode {
-    public final String syllable;
-    public final List<String> segments; // segments that reference this syllable
-
-    public GraphNode(String syllable, List<String> segments) {
+  /**
+   * Node in the composed graph
+   *
+   * @param segments segments that reference this syllable
+   */
+  private record GraphNode(String syllable, List<String> segments) {
+    private GraphNode(String syllable, List<String> segments) {
       this.syllable = syllable;
       this.segments = new ArrayList<>(segments);
     }
   }
 
-  /** Edge in the composed graph */
-  private static class GraphEdge {
-    public final String from;
-    public final String to;
-    public final List<String> segments; // segments that create this transition
-
-    public GraphEdge(String from, String to, List<String> segments) {
+  /**
+   * Edge in the composed graph
+   *
+   * @param segments segments that create this transition
+   */
+  private record GraphEdge(String from, String to, List<String> segments) {
+    private GraphEdge(String from, String to, List<String> segments) {
       this.from = from;
       this.to = to;
       this.segments = new ArrayList<>(segments);
@@ -78,12 +60,9 @@ public class DemonName14Manager {
   }
 
   /** The unified composed graph */
-  private static class ComposedGraph {
-    public final Map<String, GraphNode> nodes;
-    public final List<GraphEdge> edges;
-    public final Set<String> segments;
-
-    public ComposedGraph(
+  private record ComposedGraph(
+      Map<String, GraphNode> nodes, List<GraphEdge> edges, Set<String> segments) {
+    private ComposedGraph(
         Map<String, GraphNode> nodes, List<GraphEdge> edges, Set<String> segments) {
       this.nodes = new HashMap<>(nodes);
       this.edges = new ArrayList<>(edges);
@@ -92,23 +71,16 @@ public class DemonName14Manager {
   }
 
   /** Path during solving */
-  private static class SolverPath {
-    public final List<String> syllables;
-    public final List<String> usedSegments;
-
-    public SolverPath(List<String> syllables, List<String> usedSegments) {
+  private record SolverPath(List<String> syllables, List<String> usedSegments) {
+    private SolverPath(List<String> syllables, List<String> usedSegments) {
       this.syllables = new ArrayList<>(syllables);
       this.usedSegments = new ArrayList<>(usedSegments);
     }
   }
 
   /** Result of solving */
-  private static class SolverResult {
-    public final String demonName;
-    public final List<String> path;
-    public final List<String> usedSegments;
-
-    public SolverResult(String demonName, List<String> path, List<String> usedSegments) {
+  private record SolverResult(String demonName, List<String> path, List<String> usedSegments) {
+    private SolverResult(String demonName, List<String> path, List<String> usedSegments) {
       this.demonName = demonName;
       this.path = new ArrayList<>(path);
       this.usedSegments = new ArrayList<>(usedSegments);
