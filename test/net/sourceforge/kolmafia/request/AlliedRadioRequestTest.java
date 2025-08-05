@@ -84,7 +84,9 @@ public class AlliedRadioRequestTest {
 
   @Test
   public void postChoiceLogsGreyText() {
-    var cleanups = new Cleanups(withProperty("_alliedRadioDropsUsed", 0));
+    var cleanups =
+        new Cleanups(
+            withProperty("_alliedRadioDropsUsed", 0), withProperty("demonName14Segments", "But"));
     SessionLoggerOutput.startStream();
 
     try (cleanups) {
@@ -92,6 +94,7 @@ public class AlliedRadioRequestTest {
       AlliedRadioRequest.postChoice(resp, false, "anything");
       var text = SessionLoggerOutput.stopStream();
       assertThat(text, containsString("Radio grey text received: ulH"));
+      assertThat("demonName14Segments", isSetTo("But,ulH"));
     }
   }
 

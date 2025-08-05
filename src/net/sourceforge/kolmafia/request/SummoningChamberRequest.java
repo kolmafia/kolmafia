@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia.request;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -157,7 +159,7 @@ public class SummoningChamberRequest extends GenericRequest {
       // We will add "Neil" when both of the other pieces are found
       return;
     }
-    if (demonName.equals("")) {
+    if (demonName.isEmpty()) {
       Preferences.setString("demonName12", name);
       return;
     }
@@ -204,5 +206,21 @@ public class SummoningChamberRequest extends GenericRequest {
     String message = "Yeg name (demon13): '" + demonName + "'";
     RequestLogger.printLine(message);
     RequestLogger.updateSessionLog(message);
+  }
+
+  public static void updateDemonInCombatName(final String segment) {
+    // No need to track this if we already have a name
+    if (!Preferences.getString("demonName14").isBlank()) {
+      return;
+    }
+
+    var segments =
+        new HashSet<>(Arrays.asList(Preferences.getString("demonName14Segments").split(",")));
+    segments.add(segment);
+
+    // Once we have more clarity on the construction, we would now check to see if we can construct
+    // a unique 9-syllable
+    // word. If so, we would update demonName14.
+    Preferences.setString("demonName14Segments", String.join(",", segments));
   }
 }

@@ -76,6 +76,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     {"Battlefield", "Infernal Thirst"},
     {null, "Jacked In"},
     {null, "Yeg's Power"},
+    {null, "Demon in Combat"}
   };
 
   public static final AdventureResult BEATEN_UP = EffectPool.get(EffectPool.BEATEN_UP, 4);

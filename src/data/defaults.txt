@@ -615,6 +615,8 @@ user	demonName10
 user	demonName11
 user	demonName12		roa
 user	demonName13		roa
+user	demonName14
+user	demonName14Segments
 user	demonSummoned	false	ld
 user	desertExploration	0
 user	desktopHeight	600

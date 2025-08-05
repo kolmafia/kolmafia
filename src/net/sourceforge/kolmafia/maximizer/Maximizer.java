@@ -860,10 +860,10 @@ public class Maximizer {
           } else {
             try {
               int num = Integer.parseInt(cmd.split(" ")[1]);
-              if (Preferences.getString("demonName" + num).equals("")) {
+              if (Preferences.getString("demonName" + num).isEmpty()) {
                 cmd = "";
               }
-            } catch (Exception e) {
+            } catch (Exception ignored) {
             }
           }
           // Existential Torment is 20 turns, but won't appear here as the effects are unknown
