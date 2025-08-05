@@ -1221,6 +1221,39 @@ public class ModifiersTest {
         assertThat(current.getDouble(DoubleModifier.COLD_RESISTANCE), equalTo(18.0));
       }
     }
+
+    @Test
+    public void doesNotDoubleHoboPowerConversion() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(Slot.OFFHAND, ItemPool.HODGMANS_GARBAGE_STICKER),
+              withEquipped(Slot.ACCESSORY1, ItemPool.HODGMANS_BOW_TIE),
+              withEffect(EffectPool.OFFHAND_REMARKABLE));
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments(false);
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+
+        assertThat(current.getDouble(DoubleModifier.MEATDROP), equalTo(25.0));
+      }
+    }
+
+    @Test
+    public void doublesHamsterStatsOnly() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(Slot.OFFHAND, ItemPool.HODGMANS_HAMSTER),
+              withEquipped(Slot.ACCESSORY1, ItemPool.HODGMANS_BOW_TIE),
+              withEffect(EffectPool.OFFHAND_REMARKABLE));
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments(false);
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+
+        assertThat(current.getDouble(DoubleModifier.MUS_PCT), equalTo(60.0));
+        assertThat(current.getDouble(DoubleModifier.MEATDROP), equalTo(25.0));
+      }
+    }
   }
 
   @Nested

@@ -5810,7 +5810,26 @@ public abstract class KoLCharacter {
     if (item == null
         || item == EquipmentRequest.UNEQUIP
         || ItemDatabase.getConsumptionType(item.id) != ConsumptionType.OFFHAND
-        || item.id == ItemPool.LATTE_MUG) {
+        || item.id == ItemPool.LATTE_MUG
+        // hobo items that convert hobo power don't have that conversion doubled
+        || item.id >= ItemPool.HODGMANS_VARCOLAC_PAW && item.id <= ItemPool.HODGMANS_CANE) {
+      return;
+    }
+
+    if (item.id == ItemPool.HODGMANS_HAMSTER) {
+      // hamster has the stat bonus doubled but not the conversion
+      var mods = ModifierDatabase.getItemModifiers(item.id);
+      if (mods == null) {
+        // argh wtf
+        return;
+      }
+      mods.setDouble(DoubleModifier.ITEMDROP, 0);
+      mods.setDouble(DoubleModifier.MEATDROP, 0);
+      mods.setDouble(DoubleModifier.HP_REGEN_MIN, 0);
+      mods.setDouble(DoubleModifier.HP_REGEN_MAX, 0);
+      mods.setDouble(DoubleModifier.MP_REGEN_MAX, 0);
+      mods.setDouble(DoubleModifier.MP_REGEN_MAX, 0);
+      addModifiersWithOffHandRemarkable(newModifiers, mods);
       return;
     }
 
