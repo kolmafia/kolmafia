@@ -72,7 +72,7 @@ public class SummoningChamberRequest extends GenericRequest {
   private static final Pattern BROWN_WORD_PATTERN =
       Pattern.compile("tell him that the passhword is <font color=brown><b>(.*?)</b></font>");
 
-  public static final void parseResponse(final String location, final String responseText) {
+  public static void parseResponse(final String location, final String responseText) {
     if (!location.startsWith("choice.php")
         || !location.contains("whichchoice=922")
         || !location.contains("option=1")) {
@@ -128,7 +128,7 @@ public class SummoningChamberRequest extends GenericRequest {
     }
   }
 
-  public static final boolean registerRequest(final String urlString) {
+  public static boolean registerRequest(final String urlString) {
     if (!urlString.startsWith("choice.php")
         || !urlString.contains("whichchoice=922")
         || !urlString.contains("option=1")) {
@@ -142,7 +142,7 @@ public class SummoningChamberRequest extends GenericRequest {
 
     String demon = GenericRequest.decodeField(matcher.group(1));
 
-    if (demon.equals("")
+    if (demon.isEmpty()
         || !InventoryManager.retrieveItem(ItemPool.BLACK_CANDLE, 3)
         || !InventoryManager.retrieveItem(ItemPool.EVIL_SCROLL)) {
       return true;
