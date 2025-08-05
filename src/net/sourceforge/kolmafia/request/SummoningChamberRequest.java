@@ -16,7 +16,6 @@ import net.sourceforge.kolmafia.persistence.PocketDatabase;
 import net.sourceforge.kolmafia.persistence.PocketDatabase.Pocket;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ClanManager;
-import net.sourceforge.kolmafia.session.DemonName14Manager;
 import net.sourceforge.kolmafia.session.FamiliarManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
@@ -209,7 +208,7 @@ public class SummoningChamberRequest extends GenericRequest {
     RequestLogger.updateSessionLog(message);
   }
 
-  public static void updateDemonInCombatName(final String segment) {
+  public static void updateDemonInCombatSegments(final String segment) {
     // No need to track this if we already have a name
     if (!Preferences.getString("demonName14").isBlank()) {
       return;
@@ -219,21 +218,15 @@ public class SummoningChamberRequest extends GenericRequest {
         new HashSet<>(Arrays.asList(Preferences.getString("demonName14Segments").split(",")));
     segments.add(segment);
 
-    var solutions = DemonName14Manager.solve(segments);
-    switch (solutions.size()) {
-      case 0 -> Preferences.setString("demonName14Segments", String.join(",", segments));
-      case 1 -> {
-        String demonName14 = solutions.iterator().next();
-        Preferences.setString("demonName14", demonName14);
-        Preferences.setString("demonName14Segments", "");
-      }
-      default -> {
-        Preferences.setString("demonName14Segments", String.join(",", segments));
-        String message =
-            "Multiple possible solutions found for demon name 14: " + String.join(", ", solutions);
-        RequestLogger.printLine(message);
-        RequestLogger.updateSessionLog(message);
-      }
+    Preferences.setString("demonName14Segments", String.join(",", segments));
+
+    if (segments.size() > 10) {
+      String message =
+          "With "
+              + segments.size()
+              + " segments you can probably get close to solving your demon name, try running \"demons solve14\"";
+      RequestLogger.printLine(message);
+      RequestLogger.updateSessionLog(message);
     }
   }
 }
