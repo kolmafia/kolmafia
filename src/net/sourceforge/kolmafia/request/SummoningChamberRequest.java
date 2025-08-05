@@ -216,17 +216,18 @@ public class SummoningChamberRequest extends GenericRequest {
 
     var segments =
         new HashSet<>(Arrays.asList(Preferences.getString("demonName14Segments").split(",")));
-    segments.add(segment);
 
-    Preferences.setString("demonName14Segments", String.join(",", segments));
+    if (segments.add(segment)) {
+      Preferences.setString("demonName14Segments", String.join(",", segments));
 
-    if (segments.size() > 10) {
-      String message =
-          "With "
-              + segments.size()
-              + " segments you can probably get close to solving your demon name, try running \"demons solve14\"";
-      RequestLogger.printLine(message);
-      RequestLogger.updateSessionLog(message);
+      if (segments.size() > 10) {
+        String message =
+            "With "
+                + segments.size()
+                + " segments you can probably get close to solving your demon name, try running \"demons solve14\"";
+        RequestLogger.printLine(message);
+        RequestLogger.updateSessionLog(message);
+      }
     }
   }
 }
