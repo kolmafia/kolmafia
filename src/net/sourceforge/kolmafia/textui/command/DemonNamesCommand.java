@@ -35,7 +35,7 @@ public class DemonNamesCommand extends AbstractCommand {
       RequestLogger.printLine(
           "Attempting to solve your demon name with "
               + segments.size()
-              + " segments. This may take a while...");
+              + " segment(s). This may take a while...");
 
       var solutions = DemonName14Manager.solve(segments);
 
