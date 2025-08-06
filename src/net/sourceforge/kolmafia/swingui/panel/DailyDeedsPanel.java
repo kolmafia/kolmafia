@@ -1172,7 +1172,9 @@ public class DailyDeedsPanel extends Box implements Listener {
         "Why ARE you here?",
         "+80-100 hot damage, 30 turns",
         "Stat boost, 30 turns",
-        "+200% booze drop, 30 turns"
+        "+200% booze drop, 30 turns",
+        "+10% item, +20% meat, +30 spell dmg, +40 weapon dmg, +50% init, 30 turns",
+        "+100 spooky dmg, never fumble, +50 dr, 40-50 hp regen, 30 turns"
       };
 
       for (int i = 1; i <= len; ++i) {
