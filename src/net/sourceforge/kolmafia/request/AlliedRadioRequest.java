@@ -106,6 +106,7 @@ public class AlliedRadioRequest extends GenericRequest {
     if (matcher.find()) {
       String text = matcher.group(1);
       String message = "Radio grey text received: " + text;
+      SummoningChamberRequest.updateDemonInCombatSegments(text);
       RequestLogger.printLine(message);
       RequestLogger.updateSessionLog(message);
     }
