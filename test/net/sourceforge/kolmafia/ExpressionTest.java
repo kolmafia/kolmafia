@@ -76,10 +76,14 @@ public class ExpressionTest {
     "'lte(5,5)', 1",
     "'lte(5,4)', 0",
     "sqrt(25), 5",
+    "'eq(4,4)', 1",
+    "'eq(4,5)', 0",
+    "'neq(4,4)', 0",
+    "'neq(4,5)', 1",
   })
-  public void canDoSupportedMathFunctions(String input, String expected) {
+  public void canDoSupportedMathFunctions(String input, Double expected) {
     var exp = new Expression(input, input);
-    assertEquals(Double.parseDouble(expected), exp.eval());
+    assertEquals(expected, exp.eval());
   }
 
   @Nested

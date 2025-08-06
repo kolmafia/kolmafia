@@ -199,6 +199,8 @@ public class Expression {
         case '≤' -> v = s[--sp] >= s[--sp] ? 1 : 0;
         case '>' -> v = s[--sp] < s[--sp] ? 1 : 0;
         case '≥' -> v = s[--sp] <= s[--sp] ? 1 : 0;
+        case '=' -> v = s[--sp] == s[--sp] ? 1 : 0;
+        case '≠' -> v = s[--sp] != s[--sp] ? 1 : 0;
         case 'o' -> {
           var token = (String) this.literals.get((int) s[--sp]);
           var item =
@@ -635,6 +637,12 @@ public class Expression {
     if (this.optional("lte(")) {
       return binary('≤');
     }
+    if (this.optional("eq(")) {
+      return binary('=');
+    }
+    if (this.optional("neq(")) {
+      return binary('≠');
+    }
     if (this.optional("abs(")) {
       return unary('a');
     }
@@ -712,6 +720,8 @@ public class Expression {
       case '≤':
       case '>':
       case '≥':
+      case '=':
+      case '≠':
       case 'x':
       case 'm':
         break;
