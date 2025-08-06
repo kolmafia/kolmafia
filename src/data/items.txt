@@ -11894,7 +11894,7 @@
 11866	crafting plans	218471243	boatplan.gif	usable	t,d	100	sets of crafting plans
 11867	Book of Irony	671417795	book5.gif	usable		0	Books of Irony
 11868	spoon	262321030	spoooon.gif	usable, combat	t,d	11
-11869
+11869	unironic knife	770625328	knife.gif	weapon	t	0
 11870	bar dart	979911176	nicedart.gif	none, combat	t,d	20
 11871	leprechaun antidepressant pill	798135927	pill3.gif	spleen, usable	t,d	50
 11872	Heck ramen	412904552	bowl.gif	food	t,d	25	bowls of Heck ramen
