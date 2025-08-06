@@ -56,6 +56,17 @@ class DemonName14ManagerTest {
     assertThat(result, hasItem("BallNixArgPhaDarHutRogNixKru"));
   }
 
+  @Test
+  void canSolveDemonNameWithAdjacentRepetitions() {
+    var answer = "NixNixArgPhaDarHutRogNixKru";
+    var segments =
+        Set.of(
+            "Nix", "xNi", "ixN", "xAr", "Arg", "gPh", "Pha", "aDa", "Dar", "arH", "Hut", "utR",
+            "Rog", "ogN", "gNi", "ixK", "Kru");
+    var result = DemonName14Manager.solve(segments);
+    assertThat(result, hasItem(answer));
+  }
+
   @ParameterizedTest
   @CsvSource({
     "'Hut,utR,tRo,Rog,ogN,orN,rNi,Nix,ixA,Arg,rgP,gPh,Pha,haD,arH,aDa,ixK,xKr', MorNixArgPhaDarHutRogNixKru", // wRAR
