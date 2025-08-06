@@ -23,4 +23,9 @@ class UneffectRequestTest {
     assertThat(UneffectRequest.isShruggable(EffectPool.HARE_BRAINED), is(true));
     assertThat(UneffectRequest.isShruggable(EffectPool.ELDRITCH_ATTUNEMENT), is(true));
   }
+
+  @Test
+  void songsAreShruggable() {
+    assertThat(UneffectRequest.isShruggable(EffectPool.ODE), is(true));
+  }
 }
