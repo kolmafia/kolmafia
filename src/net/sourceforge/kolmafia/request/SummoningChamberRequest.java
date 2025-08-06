@@ -1,8 +1,10 @@
 package net.sourceforge.kolmafia.request;
 
+import java.util.Arrays;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -69,7 +71,7 @@ public class SummoningChamberRequest extends GenericRequest {
   private static final Pattern BROWN_WORD_PATTERN =
       Pattern.compile("tell him that the passhword is <font color=brown><b>(.*?)</b></font>");
 
-  public static final void parseResponse(final String location, final String responseText) {
+  public static void parseResponse(final String location, final String responseText) {
     if (!location.startsWith("choice.php")
         || !location.contains("whichchoice=922")
         || !location.contains("option=1")) {
@@ -125,7 +127,7 @@ public class SummoningChamberRequest extends GenericRequest {
     }
   }
 
-  public static final boolean registerRequest(final String urlString) {
+  public static boolean registerRequest(final String urlString) {
     if (!urlString.startsWith("choice.php")
         || !urlString.contains("whichchoice=922")
         || !urlString.contains("option=1")) {
@@ -139,7 +141,7 @@ public class SummoningChamberRequest extends GenericRequest {
 
     String demon = GenericRequest.decodeField(matcher.group(1));
 
-    if (demon.equals("")
+    if (demon.isEmpty()
         || !InventoryManager.retrieveItem(ItemPool.BLACK_CANDLE, 3)
         || !InventoryManager.retrieveItem(ItemPool.EVIL_SCROLL)) {
       return true;
@@ -157,7 +159,7 @@ public class SummoningChamberRequest extends GenericRequest {
       // We will add "Neil" when both of the other pieces are found
       return;
     }
-    if (demonName.equals("")) {
+    if (demonName.isEmpty()) {
       Preferences.setString("demonName12", name);
       return;
     }
@@ -204,5 +206,38 @@ public class SummoningChamberRequest extends GenericRequest {
     String message = "Yeg name (demon13): '" + demonName + "'";
     RequestLogger.printLine(message);
     RequestLogger.updateSessionLog(message);
+  }
+
+  public static void updateDemonInCombatSegments(final String segment) {
+    // No need to track this if we already have a name
+    if (!Preferences.getString("demonName14").isBlank()) {
+      return;
+    }
+
+    var prefValue = Preferences.getString("demonName14Segments");
+    var segments =
+        Arrays.stream(prefValue.split(","))
+            .map(s -> s.split(":", 2))
+            .map(arr -> Map.entry(arr[0], Integer.parseInt(arr.length > 1 ? arr[1] : "1")))
+            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+
+    // If the segment is already in the map, increment its count. Otherwise, add it with a count of
+    // 1.
+    segments.merge(segment, 1, Integer::sum);
+
+    Preferences.setString(
+        "demonName14Segments",
+        segments.entrySet().stream()
+            .map(e -> e.getKey() + (e.getValue() > 1 ? ":" + e.getValue() : ""))
+            .collect(Collectors.joining(",")));
+
+    if (segments.size() > 10) {
+      String message =
+          "With "
+              + segments.size()
+              + " segments you can probably get close to solving your demon name, try running \"demons solve14\"";
+      RequestLogger.printLine(message);
+      RequestLogger.updateSessionLog(message);
+    }
   }
 }
