@@ -11,7 +11,7 @@ import net.sourceforge.kolmafia.session.DemonName14Manager;
 public class DemonNamesCommand extends AbstractCommand {
   {
     this.usage =
-        "|solve14. With no param, list the demon names you know. With solve14, attempt to solve the 14th demon.";
+        " <blank> | solve14 - With no param, list the demon names you know. With solve14, attempt to solve the 14th demon.";
   }
 
   @Override
