@@ -185,10 +185,10 @@ public class UneffectRequest extends GenericRequest {
     // If it's not a buff it isn't shruggable.
     if (!SkillDatabase.isBuff(skillId)) return false;
 
-    // If it is acquired through a buff-like skill but achieved with a casting aid
-    // indicated by a " ^ " (e.g. an April Shower Calendar) it isn't shruggable.
-    var action = EffectDatabase.getDefaultAction(effectId);
-    if (action != null && action.contains(" ^ ")) return false;
+    // If it is acquired through a buff-like skill but achieved with a casting aid, it isn't
+    // shruggable.
+    var aid = UseSkillRequest.requiredItemForSkillEffect(skillId, effectId);
+    if (aid != -1) return false;
 
     // Otherwise we have found a normal buff and it should indeed be shruggable.
     return true;
