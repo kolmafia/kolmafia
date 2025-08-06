@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia;
 
+import static internal.helpers.Player.withAdventuresLeft;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withItemInCloset;
 import static internal.helpers.Player.withItemInStorage;
@@ -44,6 +45,15 @@ public class ExpressionTest {
   public void invalidExpressionReturnsZero() {
     var exp = new Expression("@", "Invalid bytecode");
     assertEquals(0.0, exp.eval());
+  }
+
+  @Test
+  public void canReadAdventuresLeftBytecode() {
+    var cleanups = withAdventuresLeft(69);
+    try (cleanups) {
+      var exp = new Expression("advsleft", "Adventures left");
+      assertThat(exp.eval(), is(69.0));
+    }
   }
 
   @ParameterizedTest
