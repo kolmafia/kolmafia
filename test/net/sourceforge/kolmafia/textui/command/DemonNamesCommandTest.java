@@ -44,7 +44,7 @@ public class DemonNamesCommandTest extends AbstractCommandTestBase {
 
       try (cleanups) {
         String output = execute("solve14");
-        assertThat(output, containsString("You do not have enough segments"));
+        assertThat(output, containsString("do not have enough segments"));
       }
     }
 
