@@ -44,6 +44,18 @@ class DemonName14ManagerTest {
     assertThat(result, hasSize(0));
   }
 
+  @Test
+  void canSolveFake4CharSyllableExample() {
+    var segments =
+        Set.of(
+            "Hut", "utR", "tRo", "Rog", "ogN", "all", "llN", "lNi", "Nix", "ixA", "Arg", "rgP",
+            "gPh", "Pha", "haD", "arH", "aDa", "ixK", "xKr");
+    var result = DemonName14Manager.solve(segments);
+    assertThat(result, hasSize(2));
+    assertThat(result, hasItem("CallNixArgPhaDarHutRogNixKru"));
+    assertThat(result, hasItem("BallNixArgPhaDarHutRogNixKru"));
+  }
+
   @ParameterizedTest
   @CsvSource({
     "'Hut,utR,tRo,Rog,ogN,orN,rNi,Nix,ixA,Arg,rgP,gPh,Pha,haD,arH,aDa,ixK,xKr', MorNixArgPhaDarHutRogNixKru",

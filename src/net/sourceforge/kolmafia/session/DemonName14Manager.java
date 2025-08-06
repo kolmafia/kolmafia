@@ -32,7 +32,7 @@ public class DemonName14Manager {
      * Node in the graph. This represents a syllable and contains a set of segments that could
      * possibly reference it. e.g. the segment "rgB" would produce the nodes "Arg" and "Bal"
      *
-     * @param segments segments that reference this syllable
+     * @param segments Segments that reference ONLY this syllable (i.e. not part of an edge)
      */
     private record GraphNode(String syllable, Set<String> segments) {
       private GraphNode(String syllable, Set<String> segments) {
@@ -60,6 +60,14 @@ public class DemonName14Manager {
       var graph = new Graph();
       graph.addSegment(segment);
 
+      // Check if segment represents a single syllable
+      for (String syllable : SYLLABLES) {
+        // Use contains because some syllables are 4-characters long
+        if (syllable.contains(segment)) {
+          graph.addNode(syllable, segment);
+        }
+      }
+
       // Check all possible syllable-to-syllable transitions
       for (String from : SYLLABLES) {
         for (String to : SYLLABLES) {
@@ -72,8 +80,8 @@ public class DemonName14Manager {
 
             // Check if `from` ends with `fromPart` and `to` starts with `toPart`
             if (from.endsWith(fromPart) && to.startsWith(toPart)) {
-              graph.addNode(from, segment);
-              graph.addNode(to, segment);
+              graph.addNode(from);
+              graph.addNode(to);
               graph.addEdge(from, to, segment);
             }
           }
@@ -97,9 +105,10 @@ public class DemonName14Manager {
         graph.addSegment(segment);
         // Add all edges from the segment graph
         for (GraphEdge edge : segmentGraph.getEdges()) {
-          graph.addNode(edge.from, segment);
-          graph.addNode(edge.to, segment);
           graph.addEdge(edge.from, edge.to, segment);
+        }
+        for (GraphNode node : segmentGraph.getNodes()) {
+          graph.addNode(node.syllable, node.segments);
         }
       }
 
@@ -118,14 +127,22 @@ public class DemonName14Manager {
       return this.edgeMap.values();
     }
 
-    public void addNode(final String syllable, final String segment) {
+    public void addNode(final String syllable) {
+      this.addNode(syllable, (Set<String>) null);
+    }
+
+    public void addNode(final String syllable, final Set<String> segments) {
       this.nodeMap.compute(
           syllable,
           (key, node) -> {
             if (node == null) node = new GraphNode(syllable, new HashSet<>());
-            node.segments.add(segment);
+            if (segments != null) node.segments.addAll(segments);
             return node;
           });
+    }
+
+    public void addNode(final String syllable, final String segment) {
+      this.addNode(syllable, Set.of(segment));
     }
 
     public void addEdge(final String from, final String to, final String segment) {
@@ -210,11 +227,18 @@ public class DemonName14Manager {
     // Pruning: if we've already visited 9 or more syllables, stop
     if (currentPath.syllables.size() >= 9) return;
 
+    // Find current node
+    var node =
+        graph.getNodes().stream()
+            .filter(n -> n.syllable.equals(currentSyllable))
+            .findFirst()
+            .orElse(null);
+
     // Find all outgoing edges from current syllable
-    List<Graph.GraphEdge> outgoingEdges =
+    var outgoingEdges =
         graph.getEdges().stream().filter(edge -> edge.from.equals(currentSyllable)).toList();
 
-    for (Graph.GraphEdge edge : outgoingEdges) {
+    for (var edge : outgoingEdges) {
       String nextSyllable = edge.to;
 
       List<String> newSyllables = new ArrayList<>(currentPath.syllables);
@@ -222,6 +246,7 @@ public class DemonName14Manager {
 
       Set<String> newUsedSegments = new HashSet<>(currentPath.usedSegments);
       newUsedSegments.addAll(edge.segments);
+      if (node != null) newUsedSegments.addAll(node.segments);
 
       SolverPath newPath = new SolverPath(newSyllables, newUsedSegments);
 
