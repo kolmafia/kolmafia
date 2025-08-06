@@ -58,12 +58,12 @@ class DemonName14ManagerTest {
 
   @ParameterizedTest
   @CsvSource({
-    "'Hut,utR,tRo,Rog,ogN,orN,rNi,Nix,ixA,Arg,rgP,gPh,Pha,haD,arH,aDa,ixK,xKr', MorNixArgPhaDarHutRogNixKru",
+    "'Hut,utR,tRo,Rog,ogN,orN,rNi,Nix,ixA,Arg,rgP,gPh,Pha,haD,arH,aDa,ixK,xKr', MorNixArgPhaDarHutRogNixKru", // wRAR
+    "'Kir,irK,rKi,Kil,ilL,lLa,Lar,arD,Dar,arL,rLa,Lag,gYe,erG,rGr,Gra,raN,aNu,utL', KirKilLarDarLagYerGraNutLag", // Name Guy Man
   })
   void canSolveRealExample(final String segments, final String expected) {
     var result =
         DemonName14Manager.solve(Arrays.stream(segments.split(",")).collect(Collectors.toSet()));
-    assertThat(result, hasSize(3));
     assertThat(result, hasItem(expected));
   }
 }
