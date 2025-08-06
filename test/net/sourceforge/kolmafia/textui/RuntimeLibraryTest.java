@@ -2147,4 +2147,81 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       }
     }
   }
+
+  @Nested
+  class Deprecation {
+    @Test
+    void warnsWithDefaultNoticeOnGet() {
+      var pref = "deprecatedPref";
+      var cleanups = withProperty(pref, "value");
+
+      try (cleanups) {
+        Preferences.deprecationNotices.put(pref, "");
+
+        assertThat(
+            execute("get_property('" + pref + "')"),
+            containsString(
+                "Warning: Preference '"
+                    + pref
+                    + "' is deprecated. This preference is deprecated."));
+
+        Preferences.deprecationNotices.remove(pref);
+      }
+    }
+
+    @Test
+    void warnsWithDefaultNoticeOnSet() {
+      var pref = "deprecatedPref";
+      var cleanups = withProperty(pref, "value");
+
+      try (cleanups) {
+        Preferences.deprecationNotices.put(pref, "");
+
+        assertThat(
+            execute("set_property('" + pref + "', 'value2')"),
+            containsString(
+                "Warning: Preference '"
+                    + pref
+                    + "' is deprecated. This preference is deprecated."));
+
+        Preferences.deprecationNotices.remove(pref);
+      }
+    }
+
+    @Test
+    void warnsWithCustomNoticeOnGet() {
+      var pref = "customDeprecatedPref";
+      var customNotice = "Do not use this pref!";
+
+      var cleanups = withProperty(pref, "value");
+
+      try (cleanups) {
+        Preferences.deprecationNotices.put(pref, customNotice);
+
+        assertThat(
+            execute("get_property('" + pref + "')"),
+            containsString("Warning: Preference '" + pref + "' is deprecated. " + customNotice));
+
+        Preferences.deprecationNotices.remove(pref);
+      }
+    }
+
+    @Test
+    void warnsWithCustomNoticeOnSet() {
+      var pref = "customDeprecatedPref";
+      var customNotice = "Do not use this pref!";
+
+      var cleanups = withProperty(pref, "value");
+
+      try (cleanups) {
+        Preferences.deprecationNotices.put(pref, customNotice);
+
+        assertThat(
+            execute("set_property('" + pref + "', 'value2')"),
+            containsString("Warning: Preference '" + pref + "' is deprecated. " + customNotice));
+
+        Preferences.deprecationNotices.remove(pref);
+      }
+    }
+  }
 }
