@@ -32,10 +32,15 @@ public class DemonNamesCommand extends AbstractCommand {
               .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))
               .keySet();
 
+      RequestLogger.printLine(
+          "Attempting to solve your demon name with "
+              + segments.size()
+              + " segments. This may take a while...");
+
       var solutions = DemonName14Manager.solve(segments);
 
       if (solutions.isEmpty()) {
-        RequestLogger.printLine("You do not have enough segments to solve your demon name.");
+        RequestLogger.printLine("Sorry, you do not have enough segments to solve your demon name.");
         return;
       }
 
