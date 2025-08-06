@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 
 /**
  * Demon Name Solver - finds all valid demon names from syllable segments that satisfy specific
- * constraints (exactly 9 syllables, using all segments).
+ * constraints (exactly 9 syllables, using all segment clues).
  */
 public class DemonName14Manager {
 
@@ -35,7 +35,7 @@ public class DemonName14Manager {
   }
 
   /**
-   * Node in the composed graph
+   * Node in the graph
    *
    * @param segments segments that reference this syllable
    */
@@ -47,7 +47,7 @@ public class DemonName14Manager {
   }
 
   /**
-   * Edge in the composed graph
+   * Edge in the graph
    *
    * @param segments segments that create this transition
    */
