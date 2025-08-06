@@ -89,7 +89,7 @@ public class Expression {
     //	compiled = compiled.replaceAll( ".", "?$0" );
     // }
     this.bytecode = compiled.toCharArray();
-    if (this.text.length() > 0) {
+    if (!this.text.isEmpty()) {
       StringBuilder buf = this.newError();
       buf.append("Expected end, found ");
       buf.append(this.text);
@@ -199,6 +199,8 @@ public class Expression {
         case '≤' -> v = s[--sp] >= s[--sp] ? 1 : 0;
         case '>' -> v = s[--sp] < s[--sp] ? 1 : 0;
         case '≥' -> v = s[--sp] <= s[--sp] ? 1 : 0;
+        case '=' -> v = s[--sp] == s[--sp] ? 1 : 0;
+        case '≠' -> v = s[--sp] != s[--sp] ? 1 : 0;
         case 'o' -> {
           var token = (String) this.literals.get((int) s[--sp]);
           var item =
@@ -232,6 +234,7 @@ public class Expression {
             throw new ArithmeticException("Can't take square root of a negative value");
           }
         }
+        case 't' -> v = KoLCharacter.getAdventuresLeft();
         case 'x' -> v = Math.max(s[--sp], s[--sp]);
         case '#' -> v = (Double) this.literals.get((int) s[--sp]);
 
@@ -634,6 +637,12 @@ public class Expression {
     if (this.optional("lte(")) {
       return binary('≤');
     }
+    if (this.optional("eq(")) {
+      return binary('=');
+    }
+    if (this.optional("neq(")) {
+      return binary('≠');
+    }
     if (this.optional("abs(")) {
       return unary('a');
     }
@@ -643,13 +652,16 @@ public class Expression {
     if (this.optional("haveitem(")) {
       return this.literal(this.until(")"), 'o');
     }
+    if (this.optional("advsleft")) {
+      return "t";
+    }
 
     rv = this.function();
     if (rv != null) {
       return rv;
     }
 
-    if (this.text.length() == 0) {
+    if (this.text.isEmpty()) {
       StringBuilder buf = this.newError();
       buf.append("Unexpected end of expr");
       return "\u8000";
@@ -708,6 +720,8 @@ public class Expression {
       case '≤':
       case '>':
       case '≥':
+      case '=':
+      case '≠':
       case 'x':
       case 'm':
         break;
