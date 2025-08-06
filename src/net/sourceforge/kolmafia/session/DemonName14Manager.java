@@ -1,7 +1,12 @@
 package net.sourceforge.kolmafia.session;
 
-import java.util.*;
-import java.util.function.BiConsumer;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -18,39 +23,123 @@ public class DemonName14Manager {
           "Kar", "Kil", "Kir", "Kru", "Kul", "Kur", "Lag", "Lar", "Mor", "Nar", "Nix", "Nut", "Pha",
           "Rog", "Yer");
 
-  /** Unified graph structure that can represent both segment graphs and composed graphs */
-  private record Graph(Map<String, GraphNode> nodes, Set<GraphEdge> edges, List<String> segments) {
-    private Graph(Map<String, GraphNode> nodes, Set<GraphEdge> edges, List<String> segments) {
-      this.nodes = new HashMap<>(nodes);
-      this.edges = new HashSet<>(edges);
-      this.segments = new ArrayList<>(segments);
-    }
-  }
-
   /**
-   * Node in the graph. This represents a syllable and contains a set of segments that could
-   * possibly reference it. e.g. the segment "rgB" would produce the nodes "Arg" and "Bal"
-   *
-   * @param segments segments that reference this syllable
+   * This core directed graph data structure represents the demon name segments as potential
+   * mappings from known syllables to known syllables
    */
-  private record GraphNode(String syllable, Set<String> segments) {
-    private GraphNode(String syllable, Set<String> segments) {
-      this.syllable = syllable;
-      this.segments = new HashSet<>(segments);
+  private static class Graph {
+    /**
+     * Node in the graph. This represents a syllable and contains a set of segments that could
+     * possibly reference it. e.g. the segment "rgB" would produce the nodes "Arg" and "Bal"
+     *
+     * @param segments segments that reference this syllable
+     */
+    private record GraphNode(String syllable, Set<String> segments) {
+      private GraphNode(String syllable, Set<String> segments) {
+        this.syllable = syllable;
+        this.segments = new HashSet<>(segments);
+      }
     }
-  }
 
-  /**
-   * Edge in the graph. This represents one syllable leading to another (and is thus directed). e.g.
-   * the segment "rgB" would produce an edge from "Arg" to "Bal"
-   *
-   * @param segments segments that create this edge
-   */
-  private record GraphEdge(String from, String to, Set<String> segments) {
-    private GraphEdge(String from, String to, Set<String> segments) {
-      this.from = from;
-      this.to = to;
-      this.segments = new HashSet<>(segments);
+    /**
+     * Edge in the graph. This represents one syllable leading to another (and is thus directed).
+     * e.g. the segment "rgB" would produce an edge from "Arg" to "Bal"
+     *
+     * @param segments segments that create this edge
+     */
+    private record GraphEdge(String from, String to, Set<String> segments) {
+      private GraphEdge(String from, String to, Set<String> segments) {
+        this.from = from;
+        this.to = to;
+        this.segments = new HashSet<>(segments);
+      }
+    }
+
+    /** Creates a mini directed graph for a segment showing all possible syllable transitions */
+    private static Graph createFromSegment(String segment) {
+      var graph = new Graph();
+      graph.addSegment(segment);
+
+      // Check all possible syllable-to-syllable transitions
+      for (String from : SYLLABLES) {
+        for (String to : SYLLABLES) {
+          // Check if we can form the segment by taking suffix of `from` + prefix of `to`
+          for (int splitPos = 1; splitPos < 3; splitPos++) {
+            if (splitPos >= segment.length()) continue;
+
+            String fromPart = segment.substring(0, splitPos);
+            String toPart = segment.substring(splitPos);
+
+            // Check if `from` ends with `fromPart` and `to` starts with `toPart`
+            if (from.endsWith(fromPart) && to.startsWith(toPart)) {
+              graph.addNode(from, segment);
+              graph.addNode(to, segment);
+              graph.addEdge(from, to, segment);
+            }
+          }
+        }
+      }
+
+      return graph;
+    }
+
+    /**
+     * Creates and composes individual segment graphs into one unified directed graph with metadata
+     * tracking which segments contributed to each node/edge
+     */
+    private static Graph createFromSegments(Set<String> segments) {
+      var graph = new Graph();
+
+      // Process each segment graph
+      for (var segment : segments) {
+        var segmentGraph = Graph.createFromSegment(segment);
+        // For each segment in the graph (should be a single-element list)
+        graph.addSegment(segment);
+        // Add all edges from the segment graph
+        for (GraphEdge edge : segmentGraph.getEdges()) {
+          graph.addNode(edge.from, segment);
+          graph.addNode(edge.to, segment);
+          graph.addEdge(edge.from, edge.to, segment);
+        }
+      }
+
+      return graph;
+    }
+
+    Map<String, GraphNode> nodeMap = new HashMap<>();
+    Map<String, GraphEdge> edgeMap = new HashMap<>();
+    Set<String> segments = new HashSet<>();
+
+    public Collection<GraphNode> getNodes() {
+      return this.nodeMap.values();
+    }
+
+    public Collection<GraphEdge> getEdges() {
+      return this.edgeMap.values();
+    }
+
+    public void addNode(final String syllable, final String segment) {
+      this.nodeMap.compute(
+          syllable,
+          (key, node) -> {
+            if (node == null) node = new GraphNode(syllable, new HashSet<>());
+            node.segments.add(segment);
+            return node;
+          });
+    }
+
+    public void addEdge(final String from, final String to, final String segment) {
+      this.edgeMap.compute(
+          from + "->" + to,
+          (key, edge) -> {
+            if (edge == null) edge = new GraphEdge(from, to, new HashSet<>());
+            edge.segments.add(segment);
+            return edge;
+          });
+    }
+
+    public void addSegment(final String segment) {
+      this.segments.add(segment);
     }
   }
 
@@ -76,88 +165,6 @@ public class DemonName14Manager {
     }
   }
 
-  /** Creates a mini directed graph for a segment showing all possible syllable transitions */
-  private static Graph createSubgraph(String segment) {
-    Map<String, GraphNode> nodes = new HashMap<>();
-    Set<GraphEdge> edges = new HashSet<>();
-
-    // Check all possible syllable-to-syllable transitions
-    for (String from : SYLLABLES) {
-      for (String to : SYLLABLES) {
-        // Check if we can form the segment by taking suffix of fromSyllable + prefix of toSyllable
-        for (int splitPos = 1; splitPos < 3; splitPos++) {
-          if (splitPos >= segment.length()) continue;
-
-          String fromPart = segment.substring(0, splitPos);
-          String toPart = segment.substring(splitPos);
-
-          // Check if fromSyllable ends with fromPart and toSyllable starts with toPart
-          if (from.endsWith(fromPart) && to.startsWith(toPart)) {
-            nodes.putIfAbsent(from, new GraphNode(from, Set.of(segment)));
-            nodes.putIfAbsent(to, new GraphNode(to, Set.of(segment)));
-            edges.add(new GraphEdge(from, to, Set.of(segment)));
-          }
-        }
-      }
-    }
-
-    return new Graph(nodes, edges, List.of(segment));
-  }
-
-  /** Creates mini graphs for all segments */
-  private static List<Graph> createSubgraphs(Set<String> segments) {
-    return segments.stream().map(DemonName14Manager::createSubgraph).collect(Collectors.toList());
-  }
-
-  /**
-   * Composes individual segment graphs into one unified directed graph with metadata tracking which
-   * segments contributed to each node/edge
-   */
-  private static Graph composeSubgraphs(List<Graph> segmentGraphs) {
-    Map<String, GraphNode> nodes = new HashMap<>();
-    Map<String, GraphEdge> edgeMap = new HashMap<>();
-
-    // Helper function to add or update a node
-    BiConsumer<String, String> addNode =
-        (syllable, segment) ->
-            nodes.compute(
-                syllable,
-                (key, node) -> {
-                  if (node == null) node = new GraphNode(syllable, new HashSet<>());
-                  node.segments.add(segment);
-                  return node;
-                });
-
-    // Helper function to add or update an edge
-    TriConsumer<String, String, String> addEdge =
-        (from, to, segment) ->
-            edgeMap.compute(
-                from + "->" + to,
-                (key, edge) -> {
-                  if (edge == null) edge = new GraphEdge(from, to, new HashSet<>());
-                  edge.segments.add(segment);
-                  return edge;
-                });
-
-    // Process each segment graph
-    for (Graph segmentGraph : segmentGraphs) {
-      // For each segment in the graph (should be a single-element list)
-      for (String segment : segmentGraph.segments) {
-        // Add all edges from the segment graph
-        for (GraphEdge edge : segmentGraph.edges) {
-          addNode.accept(edge.from, segment);
-          addNode.accept(edge.to, segment);
-          addEdge.accept(edge.from, edge.to, segment);
-        }
-      }
-    }
-
-    return new Graph(
-        nodes,
-        new HashSet<>(edgeMap.values()),
-        segmentGraphs.stream().flatMap(sg -> sg.segments.stream()).collect(Collectors.toList()));
-  }
-
   /**
    * Finds all paths in a composed directed graph that satisfy the demon name constraints: - Exactly
    * 9 nodes (syllables) are visited - Edges from every subgraph (segment) are used at least once
@@ -167,8 +174,8 @@ public class DemonName14Manager {
     Set<String> allSegments = new HashSet<>(graph.segments);
 
     // Try starting from each node
-    for (Map.Entry<String, GraphNode> entry : graph.nodes.entrySet()) {
-      String startSyllable = entry.getKey();
+    for (var node : graph.getNodes()) {
+      String startSyllable = node.syllable;
       SolverPath initialPath = new SolverPath(List.of(startSyllable), new HashSet<>());
 
       dfs(graph, startSyllable, initialPath, allSegments, results);
@@ -204,10 +211,10 @@ public class DemonName14Manager {
     if (currentPath.syllables.size() >= 9) return;
 
     // Find all outgoing edges from current syllable
-    List<GraphEdge> outgoingEdges =
-        graph.edges.stream().filter(edge -> edge.from.equals(currentSyllable)).toList();
+    List<Graph.GraphEdge> outgoingEdges =
+        graph.getEdges().stream().filter(edge -> edge.from.equals(currentSyllable)).toList();
 
-    for (GraphEdge edge : outgoingEdges) {
+    for (Graph.GraphEdge edge : outgoingEdges) {
       String nextSyllable = edge.to;
 
       List<String> newSyllables = new ArrayList<>(currentPath.syllables);
@@ -231,14 +238,7 @@ public class DemonName14Manager {
 
   /** Find all valid demon names from segments */
   public static Set<String> solve(Set<String> segments) {
-    var segmentGraphs = createSubgraphs(segments);
-    var composedGraph = composeSubgraphs(segmentGraphs);
-    return solveGraph(composedGraph);
-  }
-
-  // Functional interface for three-parameter consumer (since Java doesn't have one built-in)
-  @FunctionalInterface
-  private interface TriConsumer<T, U, V> {
-    void accept(T t, U u, V v);
+    var graph = Graph.createFromSegments(segments);
+    return solveGraph(graph);
   }
 }
