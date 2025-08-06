@@ -39,7 +39,8 @@ public class DemonNamesCommandTest extends AbstractCommandTestBase {
 
     @Test
     void fewSolutions() {
-      var cleanups = withProperty("demonName14Segments", "Arg,Bal,Ball,Bar,Bob,But,Cak,Cal,Call");
+      var cleanups =
+          withProperty("demonName14Segments", "Arg:5,Bal,Ball,Bar,Bob:2,But,Cak,Cal,Call");
 
       try (cleanups) {
         String output = execute("solve14");
@@ -62,7 +63,7 @@ public class DemonNamesCommandTest extends AbstractCommandTestBase {
       var cleanups =
           withProperty(
               "demonName14Segments",
-              "Hut,utR,tRo,Rog,ogN,orN,rNi,Nix,ixA,Arg,rgP,gPh,Pha,haD,arH,aDa,ixK,xKr");
+              "Hut,utR,tRo,Rog,ogN,orN,rNi,Nix:5,ixA,Arg,rgP,gPh,Pha,haD,arH,aDa,ixK,xKr");
 
       try (cleanups) {
         String output = execute("solve14");

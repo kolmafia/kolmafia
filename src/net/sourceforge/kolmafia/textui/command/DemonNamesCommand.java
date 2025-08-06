@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import java.util.Arrays;
+import java.util.Map;
 import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -24,7 +25,12 @@ public class DemonNamesCommand extends AbstractCommand {
         return;
       }
 
-      var segments = Arrays.stream(prefValue.split(",")).collect(Collectors.toSet());
+      var segments =
+          Arrays.stream(prefValue.split(","))
+              .map(s -> s.split(":", 2))
+              .map(arr -> Map.entry(arr[0], Integer.parseInt(arr.length > 1 ? arr[1] : "1")))
+              .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))
+              .keySet();
 
       var solutions = DemonName14Manager.solve(segments);
 

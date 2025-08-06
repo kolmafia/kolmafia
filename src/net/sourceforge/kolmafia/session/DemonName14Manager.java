@@ -87,7 +87,7 @@ public class DemonName14Manager {
      * Creates and composes individual segment graphs into one unified directed graph with metadata
      * tracking which segments contributed to each node/edge
      */
-    private static Graph createFromSegments(Set<String> segments) {
+    private static Graph createFromSegments(Collection<String> segments) {
       var graph = new Graph();
 
       // Process each segment graph
@@ -237,7 +237,7 @@ public class DemonName14Manager {
   }
 
   /** Find all valid demon names from segments */
-  public static Set<String> solve(Set<String> segments) {
+  public static Set<String> solve(Collection<String> segments) {
     var graph = Graph.createFromSegments(segments);
     return solveGraph(graph);
   }

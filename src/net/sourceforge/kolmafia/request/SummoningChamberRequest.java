@@ -1,10 +1,10 @@
 package net.sourceforge.kolmafia.request;
 
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -214,20 +214,30 @@ public class SummoningChamberRequest extends GenericRequest {
       return;
     }
 
+    var prefValue = Preferences.getString("demonName14Segments");
     var segments =
-        new HashSet<>(Arrays.asList(Preferences.getString("demonName14Segments").split(",")));
+        Arrays.stream(prefValue.split(","))
+            .map(s -> s.split(":", 2))
+            .map(arr -> Map.entry(arr[0], Integer.parseInt(arr.length > 1 ? arr[1] : "1")))
+            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
-    if (segments.add(segment)) {
-      Preferences.setString("demonName14Segments", String.join(",", segments));
+    // If the segment is already in the map, increment its count. Otherwise, add it with a count of
+    // 1.
+    segments.merge(segment, 1, Integer::sum);
 
-      if (segments.size() > 10) {
-        String message =
-            "With "
-                + segments.size()
-                + " segments you can probably get close to solving your demon name, try running \"demons solve14\"";
-        RequestLogger.printLine(message);
-        RequestLogger.updateSessionLog(message);
-      }
+    Preferences.setString(
+        "demonName14Segments",
+        segments.entrySet().stream()
+            .map(e -> e.getKey() + (e.getValue() > 1 ? ":" + e.getValue() : ""))
+            .collect(Collectors.joining(",")));
+
+    if (segments.size() > 10) {
+      String message =
+          "With "
+              + segments.size()
+              + " segments you can probably get close to solving your demon name, try running \"demons solve14\"";
+      RequestLogger.printLine(message);
+      RequestLogger.updateSessionLog(message);
     }
   }
 }
