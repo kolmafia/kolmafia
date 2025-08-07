@@ -50,12 +50,15 @@ public class DemonNamesCommand extends AbstractCommand {
         RequestLogger.printLine();
       }
 
-      RequestLogger.printLine(solutions.size() + " possible solution(s) found:");
+      RequestLogger.printLine(solutions.size() + " solution(s) found:");
 
       var i = 1;
       for (var solution : solutions) {
         RequestLogger.printLine(i++ + ": " + solution);
       }
+
+      RequestLogger.printLine();
+      RequestLogger.printLine("Done! If none of these are correct, try finding more segments.");
 
       return;
     }
