@@ -81,7 +81,7 @@ public class Preferences {
       };
 
   // Map to store deprecation notices for preferences
-  protected static final Map<String, String> deprecationNotices = new HashMap<>();
+  public static final Map<String, String> deprecationNotices = new HashMap<>();
 
   static {
     // Initialize perUserGlobalSet and read defaults.txt into
@@ -477,7 +477,6 @@ public class Preferences {
   }
 
   public static String getString(final String name, final boolean global) {
-    warnIfDeprecated(name);
     Object value = null;
 
     if (global) {
@@ -677,7 +676,6 @@ public class Preferences {
   // key "<name>.<user>"
 
   public static String getString(final String user, final String name) {
-    warnIfDeprecated(name);
     Object value = Preferences.getObject(user, name);
 
     if (value == null) {
@@ -688,7 +686,6 @@ public class Preferences {
   }
 
   public static boolean getBoolean(final String user, final String name) {
-    warnIfDeprecated(name);
     Map<String, Object> map = Preferences.getMap(name);
     Object value = Preferences.getObject(map, user, name);
 
@@ -705,7 +702,6 @@ public class Preferences {
   }
 
   public static int getInteger(final String user, final String name) {
-    warnIfDeprecated(name);
     Map<String, Object> map = Preferences.getMap(name);
     Object value = Preferences.getObject(map, user, name);
 
@@ -1077,7 +1073,7 @@ public class Preferences {
     return defaultsSet.contains(key);
   }
 
-  private static void warnIfDeprecated(String name) {
+  public static void warnIfDeprecated(String name) {
     String notice = deprecationNotices.get(name);
     if (notice == null) return;
     if (notice.isBlank()) notice = "This preference is deprecated.";

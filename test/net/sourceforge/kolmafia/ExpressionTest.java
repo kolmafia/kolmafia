@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia;
 
+import static internal.helpers.Player.withAdventuresLeft;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withItemInCloset;
 import static internal.helpers.Player.withItemInStorage;
@@ -46,6 +47,15 @@ public class ExpressionTest {
     assertEquals(0.0, exp.eval());
   }
 
+  @Test
+  public void canReadAdventuresLeftBytecode() {
+    var cleanups = withAdventuresLeft(69);
+    try (cleanups) {
+      var exp = new Expression("advsleft", "Adventures left");
+      assertThat(exp.eval(), is(69.0));
+    }
+  }
+
   @ParameterizedTest
   @CsvSource({
     "abs(-11), 11",
@@ -66,10 +76,14 @@ public class ExpressionTest {
     "'lte(5,5)', 1",
     "'lte(5,4)', 0",
     "sqrt(25), 5",
+    "'eq(4,4)', 1",
+    "'eq(4,5)', 0",
+    "'neq(4,4)', 0",
+    "'neq(4,5)', 1",
   })
-  public void canDoSupportedMathFunctions(String input, String expected) {
+  public void canDoSupportedMathFunctions(String input, Double expected) {
     var exp = new Expression(input, input);
-    assertEquals(Double.parseDouble(expected), exp.eval());
+    assertEquals(expected, exp.eval());
   }
 
   @Nested

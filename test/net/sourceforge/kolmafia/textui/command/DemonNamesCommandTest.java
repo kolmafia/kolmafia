@@ -67,7 +67,7 @@ public class DemonNamesCommandTest extends AbstractCommandTestBase {
 
       try (cleanups) {
         String output = execute("solve14");
-        assertThat(output, containsString("3 possible solution(s) found:"));
+        assertThat(output, containsString("3 solution(s) found:"));
         assertThat(output, containsString(": MorNixArgPhaDarHutRogNixKru"));
         assertThat(output, containsString(": DorNixArgPhaDarHutRogNixKru"));
         assertThat(output, containsString(": CorNixArgPhaDarHutRogNixKru"));
