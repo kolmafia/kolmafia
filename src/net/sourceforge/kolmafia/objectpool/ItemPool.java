@@ -945,6 +945,7 @@ public class ItemPool {
   public static final int MARSHMALLOW = 3128;
   public static final int ROASTED_MARSHMALLOW = 3129;
   public static final int TIN_CUP_OF_MULLIGAN_STEW = 3131;
+  public static final int HODGMANS_HAMSTER = 3139;
   public static final int TORN_PAPER_STRIP = 3144;
   public static final int PUNCHCARD_ATTACK = 3146;
   public static final int PUNCHCARD_REPAIR = 3147;
@@ -1070,6 +1071,9 @@ public class ItemPool {
   public static final int LAMP_SHADE = 3401;
   public static final int GARBAGE_JUICE = 3402;
   public static final int LEWD_CARD = 3403;
+  public static final int HODGMANS_VARCOLAC_PAW = 3406;
+  public static final int HODGMANS_GARBAGE_STICKER = 3409;
+  public static final int HODGMANS_CANE = 3411;
   public static final int HODGMAN_JOURNAL_1 = 3412;
   public static final int HODGMAN_JOURNAL_2 = 3413;
   public static final int HODGMAN_JOURNAL_3 = 3414;

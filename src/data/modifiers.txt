@@ -2068,6 +2068,7 @@ Item	uncursed machete	Meat Drop: +20
 Item	Underworld flail	Experience (Moxie): +10, Ranged Damage: +30, Moxie Percent: +10, Last Available: "2009-10"
 Item	Underworld truncheon	Experience (Muscle): +10, Weapon Damage Percent: +20, Muscle Percent: +10, Last Available: "2009-10"
 Item	Unionize The Elves sign	Weakens Monster, Last Available: "2005-12"
+Item	unironic knife	Weapon Drop: +75, Item Drop: [100*lte(advsleft,0)], Adventures: [10*gte(advsleft,200)]
 Item	Unkillable Skeleton's restless leg	Weapon Damage: +40, MP Regen Min: 20, MP Regen Max: 30
 Item	Unkillable Skeleton's sawsword	Damage vs. Skeletons: +100, Damage vs. Zombies: +50, Damage vs. Vampires: +50, Damage vs. Werewolves: +50, Damage vs. Ghosts: +50, Damage vs. Bugbears: +50
 Item	unsanitized scalpel	Sleaze Damage: +25
@@ -6166,6 +6167,7 @@ Effect	Deep-Tainted Mind	Mysticality Percent: -50
 Effect	Deeply Ironic	Damage Reduction: 5, HP Regen Min: 5, HP Regen Max: 8
 Effect	Delayed Gratification	Mysticality: +25
 Effect	Delighted by Autumn	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
+Effect	Demon in Combat	Spooky Damage: +100, Never Fumble, Damage Reduction: 50, HP Regen Min: 40, HP Regen Max: 50
 Effect	Demonic Flavor	Hot Damage: +10, Hot Resistance: +2
 Effect	Demonic Taint	Stench Damage: +30
 Effect	Demonicity	Monster Level: +40, Spooky Damage: +80, Spooky Spell Damage: +80

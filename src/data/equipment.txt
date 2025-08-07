@@ -1800,6 +1800,7 @@ uncursed machete	100	Mus: 0	1-handed sword
 Underworld flail	200	Mox: 150	2-handed flail
 Underworld truncheon	200	Mus: 150	2-handed club
 Unionize The Elves sign	50	Mus: 10	1-handed club
+unironic knife	100	Mus: 30	1-handed knife
 Unkillable Skeleton's restless leg	300	Mus: 100	2-handed staff
 Unkillable Skeleton's sawsword	300	Mus: 100	2-handed sword
 unsanitized scalpel	180	Mus: 35	1-handed knife

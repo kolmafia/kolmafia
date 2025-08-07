@@ -9357,6 +9357,7 @@ public abstract class RuntimeLibrary {
     }
 
     if (Preferences.isUserEditable(property)) {
+      Preferences.warnIfDeprecated(property);
       return DataTypes.makeStringValue(Preferences.getString(property));
     }
 
