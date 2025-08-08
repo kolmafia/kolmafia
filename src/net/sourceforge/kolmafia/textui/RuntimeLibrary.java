@@ -11136,7 +11136,7 @@ public abstract class RuntimeLibrary {
             IntStream.range(1, 2991)
                 .filter(i -> EffectDatabase.getEffectName(i) != null)
                 .filter(i -> EffectDatabase.getQuality(i) == EffectDatabase.GOOD)
-                .filter(i -> !EffectDatabase.hasAttribute(i, "nohookah"))
+                .filter(i -> !EffectDatabase.hasAttribute(i, "nohookah") || i == EffectPool.FISHY)
                 .filter(i -> !EffectDatabase.hasAttribute(i, "notcrs"))
                 .boxed()
                 .toList());
@@ -11150,7 +11150,9 @@ public abstract class RuntimeLibrary {
     var total = Math.ceil(cappedPower / 100.0);
     for (int i = 0; i < total; i++) {
       var effectId = rng.pickOne(validEffectIds);
-      var effect = new AdventureResult(EffectDatabase.getEffectName(effectId), 10, true);
+      var effect =
+          new AdventureResult(
+              EffectDatabase.getEffectName(effectId), effectId == EffectPool.FISHY ? 1 : 10, true);
       AdventureResult.addResultToList(results, effect);
     }
 
