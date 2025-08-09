@@ -5911,7 +5911,6 @@ public class FightRequest extends GenericRequest {
     // allow regular node processing to glean whatever it wants
     // from what remains.
 
-    boolean done = false;
     int pokindex = 0;
     // Each familiar is in a table
     for (var child : node.select("table")) {
@@ -6069,7 +6068,7 @@ public class FightRequest extends GenericRequest {
         }
         case 2 -> {
           // Familiar name
-          name = tdnode.wholeText();
+          name = tdnode.text();
         }
         case 3 -> {
           // Familiar power: one image (blacksword.gif) per
@@ -6099,10 +6098,17 @@ public class FightRequest extends GenericRequest {
     String race = "";
 
     Elements row2Tags = rows.get(1).children();
-    if (row2Tags.size() > 0) {
+    if (!row2Tags.isEmpty()) {
       String famtype = row2Tags.get(0).wholeText();
       level = StringUtilities.parseInt(famtype.substring(4, 5));
       race = famtype.substring(6);
+    }
+
+    if (!myFamiliar) {
+      // log the enemy team
+      var message = name + ", Lv. " + level + " " + race;
+      RequestLogger.printLine(message);
+      RequestLogger.updateSessionLog(message);
     }
 
     // If this is your familiar, it might have been boosted with a pokepill
