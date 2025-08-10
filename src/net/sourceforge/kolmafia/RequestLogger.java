@@ -404,7 +404,9 @@ public class RequestLogger extends NullStream {
     // If we are in a fight, don't even look at things which are
     // not fight.php, since they will immediately redirect to
     // continue the fight.
-    if (FightRequest.currentRound != 0 && !urlString.startsWith("fight.php")) {
+    if (FightRequest.currentRound != 0
+        && !urlString.startsWith("fight.php")
+        && !urlString.startsWith("fambattle.php")) {
       return;
     }
 

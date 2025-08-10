@@ -3224,6 +3224,7 @@ public class FightRequestTest {
       try (cleanups) {
         parseCombatData("request/test_fight_pokefam_start.html", "fambattle.php");
         var text = RequestLoggerOutput.stopStream();
+        assertThat(text, containsString("Horlotte, Lv. 1 Trick-or-Treating Tot"));
         assertThat(
             text,
             containsString("Pokefam move2 'Hug' -> 'hug': Heal the frontmost ally by [power]."));
