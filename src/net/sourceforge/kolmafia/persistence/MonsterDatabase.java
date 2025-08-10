@@ -902,10 +902,14 @@ public class MonsterDatabase {
     MonsterDatabase.saveCanonicalNames();
   }
 
-  public static final MonsterData registerMonster(final String name) {
-    MonsterData monster = MonsterDatabase.newMonster(name, 0, new String[0], "");
+  public static final MonsterData registerMonster(final String name, final int id) {
+    MonsterData monster = MonsterDatabase.newMonster(name, id, new String[0], "");
     MonsterDatabase.registerMonster(monster);
     return monster;
+  }
+
+  public static final MonsterData registerMonster(final String name) {
+    return registerMonster(name, 0);
   }
 
   // Register an unknown monster
