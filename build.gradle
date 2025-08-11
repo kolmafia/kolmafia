@@ -17,7 +17,7 @@ plugins {
 	id 'com.gradleup.shadow' version '9.0.1'
 	id 'net.nemerosa.versioning' version '3.1.0'
 	id 'org.ajoberstar.grgit' version '5.2.2'
-	id 'org.panteleyev.jpackageplugin' version '1.6.0'
+	id 'org.panteleyev.jpackageplugin' version '1.7.3'
 	id "com.github.ben-manes.versions" version "0.51.0" // enables ./gradlew dependencyUpdates for outdated
 
 	id 'checkstyle'
@@ -333,28 +333,27 @@ tsDefs.dependsOn getRevision
 
 tasks.jpackage {
 	dependsOn shadowJar, cleanJpackage
-	input = 'dist'
-	destination = 'build/releases'
+	input = file('dist')
+	destination = file('build/releases')
 	mainClass = 'net.sourceforge.kolmafia.KoLmafia'
 	appName = 'KoLmafia'
-	appVersion = new Date().format('yy.MM')
 	linux {
-		icon = 'util/linux/KoLmafia.ico'
+		icon = file('util/linux/KoLmafia.ico')
 	}
 	mac {
 		type = 'dmg'
-		icon = 'util/macosx/limeglass.icns'
+		icon = file('util/macosx/limeglass.icns')
 	}
 	windows {
 		type = 'exe'
-		icon = 'util/windows/KoLmafia.ico'
+		icon = file('util/windows/KoLmafia.ico')
 		winShortcut = true
 		winPerUserInstall = true
 		javaOptions = ["-DuseCWDasROOT=true"]
 	}
+	mainJar = tasks.shadowJar.archiveFileName
+	appVersion = lastRevision() + "${isDirty() ? 'M' : ''}"
 	doFirst {
-		mainJar = tasks.shadowJar.archiveFileName.get()
-		appVersion += '.' + version + "${isDirty() ? 'M' : ''}"
 		println 'Packaging app ' + appName + '.' + appVersion + '...'
 		if (System.properties['os.name'] != 'Linux') {
 			return
