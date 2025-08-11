@@ -22,6 +22,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.ModifierType;
+import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -6588,6 +6589,9 @@ public abstract class ChoiceAdventures {
       case 1463 ->
       // Reminiscing About Those Monsters You Fought
       LocketManager.decorateMonsterDropdown(buffer);
+      case 1517 ->
+      // Mimic DNA Bank
+      ChoiceAdventures.decorateMimicDnaBank(buffer);
       case 1557 ->
       // Peering Through Your Peridot
       ChoiceAdventures.decorateMonsterMap(buffer);
@@ -6710,6 +6714,34 @@ public abstract class ChoiceAdventures {
 
       String replace = matcher.group(1) + monsterName + matcher.group(3);
       StringUtilities.singleStringReplace(buffer, find, replace);
+    }
+  }
+
+  // <option value="823" disabled>a "Handyman" Jay Android (87 samples required)</option>
+  // <option value="1163" > Baa'baa'bu'ran </option>
+  private static final Pattern MIMIC_DNA_PATTERN =
+      Pattern.compile(
+          "<option value=\"(\\d+)\"[^>]*>([^<]+) (\\(\\d+ samples? required\\))?</option>");
+
+  public static void decorateMimicDnaBank(final StringBuffer buffer) {
+    // Disambiguate certain monsters
+    Matcher matcher = MIMIC_DNA_PATTERN.matcher(buffer);
+    try {
+      while (matcher.find()) {
+        int monsterId = Integer.parseInt(matcher.group(1));
+        String name = matcher.group(2);
+        MonsterData monster = MonsterDatabase.findMonsterById(monsterId);
+        if (monster != null) {
+          String monsterName = monster.getName();
+          if (!name.equals(monsterName)) {
+            buffer.replace(matcher.start(2), matcher.end(2), monsterName);
+          }
+        } else {
+          MonsterDatabase.registerMonster(name, monsterId);
+        }
+      }
+    } catch (StringIndexOutOfBoundsException ignored) {
+      // sometimes throws an error, probably https://bugs.openjdk.org/browse/JDK-8238652
     }
   }
 

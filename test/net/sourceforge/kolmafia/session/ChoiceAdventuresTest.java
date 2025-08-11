@@ -221,4 +221,20 @@ class ChoiceAdventuresTest {
         containsString(
             "<input type=\"hidden\" name=\"bandersnatch\" value=\"100\" /><input type=\"submit\" class=\"button\" value=\"Ninja Snowman (Mask)\" />"));
   }
+
+  @Test
+  public void decoratesMimicDnaChoice() {
+    var original = html("request/test_choice_mimic_dna_bank.html");
+    var buffer = new StringBuffer(original);
+
+    ChoiceAdventures.decorateChoice(1517, buffer, true);
+
+    var output = buffer.toString();
+
+    assertThat(
+        output,
+        containsString(
+            "<option value=\"354\" disabled>Astronomer (obsolete) (90 samples required)</option>"));
+    assertThat(output, containsString("<option value=\"1163\" >Baa'baa'bu'ran </option>"));
+  }
 }
