@@ -358,13 +358,13 @@ tasks.jpackage {
 		if (System.properties['os.name'] != 'Linux') {
 			return
 		}
-		def hasDeb = project.exec {
+		def hasDeb = exec {
 			ignoreExitValue = true
 			errorOutput = OutputStream.nullOutputStream()
 			executable 'bash'
 			args '-c', 'which dpkg-deb'
 		}
-		def hasRpm = project.exec {
+		def hasRpm = exec {
 			ignoreExitValue = true
 			errorOutput = OutputStream.nullOutputStream()
 			executable 'bash'
