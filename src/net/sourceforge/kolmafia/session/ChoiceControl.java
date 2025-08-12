@@ -220,7 +220,7 @@ public abstract class ChoiceControl {
             var state = Preferences.getString("_trickOrTreatBlock").toCharArray();
             state[house] = Character.toLowerCase(state[house]);
             Preferences.setString("_trickOrTreatBlock", String.valueOf(state));
-            String message = "[" + KoLAdventure.getAdventureCount()+ "] Trick-or-Treating";
+            String message = "[" + KoLAdventure.getAdventureCount() + "] Trick-or-Treating";
             RequestLogger.printLine(message);
             RequestLogger.updateSessionLog(message);
             KoLAdventure.clearLocation();
