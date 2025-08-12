@@ -5918,6 +5918,7 @@ Effect	Capricorn Rising	Item Drop: +5
 Effect	Car-Charged	Spell Damage Percent: +50, Initiative: +50, Experience: +3, Item Drop: +100, Meat Drop: +100, MP Regen Min: 5, MP Regen Max: 10
 Effect	Carapace of the God Lobster	Hot Resistance: +1, Cold Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1, Sleaze Resistance: +1, Damage Absorption: +20, Damage Reduction: 3
 Effect	Carbonated	MP Regen Min: 8, MP Regen Max: 10
+Effect	Care Free	Free Rests: 5
 Effect	Carlweather's Cantata of Confrontation	Combat Rate: [5*(1+equipped(fiberglass fedora))]
 Effect	Carne Obsesionada	Meat Drop: +20
 Effect	Carol of the Bones	Muscle Percent: +10
