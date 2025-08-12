@@ -1,6 +1,7 @@
 //-*- mode: groovy -*-
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.panteleyev.jpackage.ImageType
 
 buildscript {
 	repositories {
@@ -337,15 +338,17 @@ tasks.jpackage {
 	destination = file('build/releases')
 	mainClass = 'net.sourceforge.kolmafia.KoLmafia'
 	appName = 'KoLmafia'
+
 	linux {
+		type = ImageType.DEB
 		icon = file('util/linux/KoLmafia.ico')
 	}
 	mac {
-		type = 'dmg'
+		type = ImageType.DMG
 		icon = file('util/macosx/limeglass.icns')
 	}
 	windows {
-		type = 'exe'
+		type = ImageType.EXE
 		icon = file('util/windows/KoLmafia.ico')
 		winShortcut = true
 		winPerUserInstall = true
@@ -353,43 +356,6 @@ tasks.jpackage {
 	}
 	mainJar = tasks.shadowJar.archiveFileName
 	appVersion = new Date().format('yy.MM') + '.' + lastRevision()
-	doFirst {
-		println 'Packaging app ' + appName + '.' + appVersion + '...'
-		if (System.properties['os.name'] != 'Linux') {
-			return
-		}
-
-		// Check for packaging tools using try/catch approach
-		def hasDebTool
-		def hasRpmTool
-
-		try {
-			def process = ['which', 'dpkg-deb'].execute()
-			process.waitFor()
-			hasDebTool = (process.exitValue() == 0)
-		} catch (Exception ignored) {
-			hasDebTool = false
-		}
-
-		try {
-			def process = ['which', 'rpmbuild'].execute()
-			process.waitFor()
-			hasRpmTool = (process.exitValue() == 0)
-		} catch (Exception ignored) {
-			hasRpmTool = false
-		}
-
-		if (hasDebTool) {
-			println 'Targeting deb for jpackage...'
-			linux { type = 'deb' }
-		} else if (hasRpmTool) {
-			println 'Targeting rpm for jpackage...'
-			linux { type = 'rpm' }
-		} else {
-			println 'Bundling all files for jpackage.'
-			linux { type = 'app-image' }
-		}
-	}
 }
 
 clean.dependsOn cleanDist
