@@ -136,36 +136,36 @@ spotless {
 	}
 }
 
-task cleanDist(type: Delete) {
-	onlyIf {
-		file('dist').exists()
-	}
-	inputs.dir('dist')
-	outputs.upToDateWhen { true }
-	doLast {
-		file('dist').eachFile(groovy.io.FileType.FILES) { File file ->
-			if (file.name.startsWith('KoLmafia-') && file.name.endsWith('.jar')) {
-				delete file
-			}
-		}
-	}
+tasks.register('cleanDist', Delete) {
+  onlyIf {
+    file('dist').exists()
+  }
+  inputs.dir('dist')
+  outputs.upToDateWhen { true }
+  doLast {
+    file('dist').eachFile(groovy.io.FileType.FILES) { File file ->
+      if (file.name.startsWith('KoLmafia-') && file.name.endsWith('.jar')) {
+        delete file
+      }
+    }
+  }
 }
 
-task pruneDist(type: Delete) {
-	onlyIf {
-		file('dist').exists()
-	}
-	inputs.dir('dist')
-	outputs.upToDateWhen { true }
-	doLast {
-		file('dist').eachFile(groovy.io.FileType.FILES) { File file ->
-			if (file.name.startsWith('KoLmafia-') && file.name.endsWith('.jar')) {
-				if (!file.name.contains(project.getVersion().toString()) || (isDirty() != file.name.endsWith('-M.jar'))) {
-					delete file
-				}
-			}
-		}
-	}
+tasks.register('pruneDist', Delete) {
+  onlyIf {
+    file('dist').exists()
+  }
+  inputs.dir('dist')
+  outputs.upToDateWhen { true }
+  doLast {
+    file('dist').eachFile(groovy.io.FileType.FILES) { File file ->
+      if (file.name.startsWith('KoLmafia-') && file.name.endsWith('.jar')) {
+        if (!file.name.contains(project.getVersion().toString()) || (isDirty() != file.name.endsWith('-M.jar'))) {
+          delete file
+        }
+      }
+    }
+  }
 }
 
 test {
@@ -227,56 +227,56 @@ shadowJar {
 	archiveClassifier.set("${isDirty() ? 'M' : ''}")
 }
 
-task getRevision() {
-	onlyIf {
-		file('.git').exists()
-	}
-	def commit = findProperty('commit') ?: 'HEAD'
-	inputs.dir('.git')
-	inputs.property('commit', commit)
-	outputs.files file('build/revision.txt')
+tasks.register('getRevision') {
+  onlyIf {
+    file('.git').exists()
+  }
+  def commit = findProperty('commit') ?: 'HEAD'
+  inputs.dir('.git')
+  inputs.property('commit', commit)
+  outputs.files file('build/revision.txt')
 
-	doLast {
-		def revision = grgit.log(includes:[commit]).size() - localCommits(commit)
-		logger.info('Commit: {} Revision: {}', commit, revision)
-		file('build/revision.txt').text = revision.toString().trim()
-		// Update the version to the new revision
-		project.setVersion(revision.toString().trim())
-		def revString = isDirty() ? project.getVersion() +'-M': project.getVersion()
-		println '\nRevision: ' + revString
-	}
+  doLast {
+    def revision = grgit.log(includes: [commit]).size() - localCommits(commit)
+    logger.info('Commit: {} Revision: {}', commit, revision)
+    file('build/revision.txt').text = revision.toString().trim()
+    // Update the version to the new revision
+    project.setVersion(revision.toString().trim())
+    def revString = isDirty() ? project.getVersion() + '-M' : project.getVersion()
+    println '\nRevision: ' + revString
+  }
 }
 
-task gitUpdate() {
-	doLast {
-		def remote = grgit.branch.current().trackingBranch.getName()
-		def latestHead = grgit.resolve.toCommit(remote)
-		grgit.fetch {
-			remote = remote
-		}
-		if (grgit.resolve.toCommit(remote) == latestHead) {
-			println 'Already up-to-date, nothing to do.'
-			return
-		}
-		def dirty = isDirty()
-		if (dirty) {
-			// This pollutes the reflog, but there's no stash functionality in
-			// grgit...
-			grgit.commit {
-				message = 'temporary stash commit'
-				all = true
-			}
-		}
-		grgit.pull {
-			rebase = true
-		}
-		if (dirty) {
-			grgit.reset {
-				mode = 'mixed'
-				commit = 'HEAD^'
-			}
-		}
-	}
+tasks.register('gitUpdate') {
+  doLast {
+    def remote = grgit.branch.current().trackingBranch.getName()
+    def latestHead = grgit.resolve.toCommit(remote)
+    grgit.fetch {
+      remote = remote
+    }
+    if (grgit.resolve.toCommit(remote) == latestHead) {
+      println 'Already up-to-date, nothing to do.'
+      return
+    }
+    def dirty = isDirty()
+    if (dirty) {
+      // This pollutes the reflog, but there's no stash functionality in
+      // grgit...
+      grgit.commit {
+        message = 'temporary stash commit'
+        all = true
+      }
+    }
+    grgit.pull {
+      rebase = true
+    }
+    if (dirty) {
+      grgit.reset {
+        mode = 'mixed'
+        commit = 'HEAD^'
+      }
+    }
+  }
 }
 
 java {
@@ -292,27 +292,27 @@ tasks.withType(Checkstyle).configureEach {
 	maxHeapSize = '2g'
 }
 
-tasks.withType(JavaCompile) {
-	options.encoding = 'UTF-8'
+tasks.withType(JavaCompile).configureEach {
+  options.encoding = 'UTF-8'
 }
 
-tasks.withType(Test) {
-	// Mockito requires dynamic loading for mock creation.
-	jvmArgs("-XX:+EnableDynamicAgentLoading")
-	testLogging {
-		events TestLogEvent.FAILED,
-				TestLogEvent.SKIPPED,
-				TestLogEvent.STANDARD_ERROR,
-				TestLogEvent.STANDARD_OUT
-		exceptionFormat = TestExceptionFormat.FULL
-	}
+tasks.withType(Test).configureEach {
+  // Mockito requires dynamic loading for mock creation.
+  jvmArgs("-XX:+EnableDynamicAgentLoading")
+  testLogging {
+    events TestLogEvent.FAILED,
+      TestLogEvent.SKIPPED,
+      TestLogEvent.STANDARD_ERROR,
+      TestLogEvent.STANDARD_OUT
+    exceptionFormat = TestExceptionFormat.FULL
+  }
 }
 
-task cleanJpackage(type: Delete) {
-	onlyIf {
-		file('build/releases').exists()
-	}
-	delete 'build/releases'
+tasks.register('cleanJpackage', Delete) {
+  onlyIf {
+    file('build/releases').exists()
+  }
+  delete 'build/releases'
 }
 
 gradle.taskGraph.whenReady { graph ->
@@ -321,12 +321,12 @@ gradle.taskGraph.whenReady { graph ->
 	}
 }
 
-task tsDefs(type: JavaExec) {
-	classpath = sourceSets.main.runtimeClasspath
-	mainClass = "net.sourceforge.kolmafia.textui.TypescriptDefinition"
-	doFirst {
-		args lastRevision()
-	}
+tasks.register('tsDefs', JavaExec) {
+  classpath = sourceSets.main.runtimeClasspath
+  mainClass = "net.sourceforge.kolmafia.textui.TypescriptDefinition"
+  doFirst {
+    args lastRevision()
+  }
 }
 
 tsDefs.dependsOn getRevision
@@ -352,19 +352,19 @@ tasks.jpackage {
 		javaOptions = ["-DuseCWDasROOT=true"]
 	}
 	mainJar = tasks.shadowJar.archiveFileName
-	appVersion = lastRevision() + "${isDirty() ? 'M' : ''}"
+	appVersion = new Date().format('yy.MM') + '.' + lastRevision()
 	doFirst {
 		println 'Packaging app ' + appName + '.' + appVersion + '...'
 		if (System.properties['os.name'] != 'Linux') {
 			return
 		}
-		def hasDeb = exec {
+		def hasDeb = project.exec {
 			ignoreExitValue = true
 			errorOutput = OutputStream.nullOutputStream()
 			executable 'bash'
 			args '-c', 'which dpkg-deb'
 		}
-		def hasRpm = exec {
+		def hasRpm = project.exec {
 			ignoreExitValue = true
 			errorOutput = OutputStream.nullOutputStream()
 			executable 'bash'
