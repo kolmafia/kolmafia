@@ -1,6 +1,7 @@
 //-*- mode: groovy -*-
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.panteleyev.jpackage.ImageType
 
 buildscript {
 	repositories {
@@ -14,10 +15,10 @@ plugins {
 	id 'java'
 
 	id 'com.diffplug.spotless' version '6.23.3'
-	id 'com.gradleup.shadow' version '8.3.0'
+	id 'com.gradleup.shadow' version '9.0.1'
 	id 'net.nemerosa.versioning' version '3.1.0'
 	id 'org.ajoberstar.grgit' version '5.2.2'
-	id 'org.panteleyev.jpackageplugin' version '1.6.0'
+	id 'org.panteleyev.jpackageplugin' version '1.7.3'
 	id "com.github.ben-manes.versions" version "0.51.0" // enables ./gradlew dependencyUpdates for outdated
 
 	id 'checkstyle'
@@ -136,7 +137,7 @@ spotless {
 	}
 }
 
-task cleanDist(type: Delete) {
+tasks.register('cleanDist', Delete) {
 	onlyIf {
 		file('dist').exists()
 	}
@@ -151,7 +152,7 @@ task cleanDist(type: Delete) {
 	}
 }
 
-task pruneDist(type: Delete) {
+tasks.register('pruneDist', Delete) {
 	onlyIf {
 		file('dist').exists()
 	}
@@ -227,7 +228,7 @@ shadowJar {
 	archiveClassifier.set("${isDirty() ? 'M' : ''}")
 }
 
-task getRevision() {
+tasks.register('getRevision') {
 	onlyIf {
 		file('.git').exists()
 	}
@@ -237,17 +238,17 @@ task getRevision() {
 	outputs.files file('build/revision.txt')
 
 	doLast {
-		def revision = grgit.log(includes:[commit]).size() - localCommits(commit)
+		def revision = grgit.log(includes: [commit]).size() - localCommits(commit)
 		logger.info('Commit: {} Revision: {}', commit, revision)
 		file('build/revision.txt').text = revision.toString().trim()
 		// Update the version to the new revision
 		project.setVersion(revision.toString().trim())
-		def revString = isDirty() ? project.getVersion() +'-M': project.getVersion()
+		def revString = isDirty() ? project.getVersion() + '-M' : project.getVersion()
 		println '\nRevision: ' + revString
 	}
 }
 
-task gitUpdate() {
+tasks.register('gitUpdate') {
 	doLast {
 		def remote = grgit.branch.current().trackingBranch.getName()
 		def latestHead = grgit.resolve.toCommit(remote)
@@ -292,11 +293,11 @@ tasks.withType(Checkstyle).configureEach {
 	maxHeapSize = '2g'
 }
 
-tasks.withType(JavaCompile) {
+tasks.withType(JavaCompile).configureEach {
 	options.encoding = 'UTF-8'
 }
 
-tasks.withType(Test) {
+tasks.withType(Test).configureEach {
 	// Mockito requires dynamic loading for mock creation.
 	jvmArgs("-XX:+EnableDynamicAgentLoading")
 	testLogging {
@@ -308,7 +309,7 @@ tasks.withType(Test) {
 	}
 }
 
-task cleanJpackage(type: Delete) {
+tasks.register('cleanJpackage', Delete) {
 	onlyIf {
 		file('build/releases').exists()
 	}
@@ -321,7 +322,7 @@ gradle.taskGraph.whenReady { graph ->
 	}
 }
 
-task tsDefs(type: JavaExec) {
+tasks.register('tsDefs', JavaExec) {
 	classpath = sourceSets.main.runtimeClasspath
 	mainClass = "net.sourceforge.kolmafia.textui.TypescriptDefinition"
 	doFirst {
@@ -333,55 +334,28 @@ tsDefs.dependsOn getRevision
 
 tasks.jpackage {
 	dependsOn shadowJar, cleanJpackage
-	input = 'dist'
-	destination = 'build/releases'
+	input = file('dist')
+	destination = file('build/releases')
 	mainClass = 'net.sourceforge.kolmafia.KoLmafia'
 	appName = 'KoLmafia'
-	appVersion = new Date().format('yy.MM')
+
 	linux {
-		icon = 'util/linux/KoLmafia.ico'
+		type = ImageType.DEB
+		icon = file('util/linux/KoLmafia.ico')
 	}
 	mac {
-		type = 'dmg'
-		icon = 'util/macosx/limeglass.icns'
+		type = ImageType.DMG
+		icon = file('util/macosx/limeglass.icns')
 	}
 	windows {
-		type = 'exe'
-		icon = 'util/windows/KoLmafia.ico'
+		type = ImageType.EXE
+		icon = file('util/windows/KoLmafia.ico')
 		winShortcut = true
 		winPerUserInstall = true
 		javaOptions = ["-DuseCWDasROOT=true"]
 	}
-	doFirst {
-		mainJar = tasks.shadowJar.archiveFileName.get()
-		appVersion += '.' + version + "${isDirty() ? 'M' : ''}"
-		println 'Packaging app ' + appName + '.' + appVersion + '...'
-		if (System.properties['os.name'] != 'Linux') {
-			return
-		}
-		def hasDeb = exec {
-			ignoreExitValue = true
-			errorOutput = OutputStream.nullOutputStream()
-			executable 'bash'
-			args '-c', 'which dpkg-deb'
-		}
-		def hasRpm = exec {
-			ignoreExitValue = true
-			errorOutput = OutputStream.nullOutputStream()
-			executable 'bash'
-			args '-c', 'which rpmbuild'
-		}
-		if (hasDeb.getExitValue() == 0) {
-			println 'Targeting deb for jpackage...'
-			linux { type = 'deb' }
-		} else if (hasRpm.getExitValue() == 0) {
-			println 'Targeting rpm for jpackage...'
-			linux { type = 'rpm' }
-		} else {
-			println 'Bundling all files for jpackage.'
-			linux { type = 'app-image' }
-		}
-	}
+	mainJar = tasks.shadowJar.archiveFileName
+	appVersion = new Date().format('yy.MM') + '.' + lastRevision()
 }
 
 clean.dependsOn cleanDist

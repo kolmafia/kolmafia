@@ -215,29 +215,33 @@ public class SummoningChamberRequest extends GenericRequest {
     }
 
     var prefValue = Preferences.getString("demonName14Segments");
-    var segments =
-        Arrays.stream(prefValue.split(","))
-            .map(s -> s.split(":", 2))
-            .map(arr -> Map.entry(arr[0], Integer.parseInt(arr.length > 1 ? arr[1] : "1")))
-            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    if (prefValue.isEmpty()) {
+      Preferences.setString("demonName14Segments", segment);
+    } else {
+      var segments =
+          Arrays.stream(prefValue.split(","))
+              .map(s -> s.split(":", 2))
+              .map(arr -> Map.entry(arr[0], Integer.parseInt(arr.length > 1 ? arr[1] : "1")))
+              .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
-    // If the segment is already in the map, increment its count. Otherwise, add it with a count of
-    // 1.
-    segments.merge(segment, 1, Integer::sum);
+      // If the segment is already in the map, increment its count. Otherwise, add it with a count
+      // of 1.
+      segments.merge(segment, 1, Integer::sum);
 
-    Preferences.setString(
-        "demonName14Segments",
-        segments.entrySet().stream()
-            .map(e -> e.getKey() + (e.getValue() > 1 ? ":" + e.getValue() : ""))
-            .collect(Collectors.joining(",")));
+      Preferences.setString(
+          "demonName14Segments",
+          segments.entrySet().stream()
+              .map(e -> e.getKey() + (e.getValue() > 1 ? ":" + e.getValue() : ""))
+              .collect(Collectors.joining(",")));
 
-    if (segments.size() > 10) {
-      String message =
-          "With "
-              + segments.size()
-              + " segments you can probably get close to solving your demon name, try running \"demons solve14\"";
-      RequestLogger.printLine(message);
-      RequestLogger.updateSessionLog(message);
+      if (segments.size() > 10) {
+        String message =
+            "With "
+                + segments.size()
+                + " segments you can probably get close to solving your demon name, try running \"demons solve14\"";
+        RequestLogger.printLine(message);
+        RequestLogger.updateSessionLog(message);
+      }
     }
   }
 }

@@ -112,6 +112,17 @@ public class AlliedRadioRequestTest {
   }
 
   @Test
+  public void postChoiceTracksGreyTextWithEmptyPref() {
+    var cleanups =
+        new Cleanups(withProperty("_alliedRadioDropsUsed", 0), withProperty("demonName14Segments"));
+    try (cleanups) {
+      var resp = html("request/test_allied_radio_grey_text.html");
+      AlliedRadioRequest.postChoice(resp, false, "anything");
+      assertThat("demonName14Segments", isSetTo("ulH"));
+    }
+  }
+
+  @Test
   public void errorsIfNoRadio() {
     var builder = new FakeHttpClientBuilder();
     var client = builder.client;
