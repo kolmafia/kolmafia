@@ -110,6 +110,9 @@ public class ModifierExpression extends Expression {
     if (this.optional("warbearfoilhat")) {
       return "\u008b";
     }
+    if (this.optional("totalturnsplayed")) {
+      return "\u008c";
+    }
     if (this.optional("mus")) {
       return "\u0080";
     }

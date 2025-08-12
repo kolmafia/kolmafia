@@ -17,6 +17,7 @@ import static internal.helpers.Player.withMuscle;
 import static internal.helpers.Player.withMysticality;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withSkill;
+import static internal.helpers.Player.withTurnsPlayed;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
@@ -538,6 +539,15 @@ public class ModifierExpressionTest {
     try (cleanups) {
       var exp = new ModifierExpression("warbearfoilhat", "Warbear Foil Hat");
       assertThat(exp.eval(), is(1.0));
+    }
+  }
+
+  @Test
+  public void canDetectTotalTurnsPlayed() {
+    var cleanups = withTurnsPlayed(665);
+    try (cleanups) {
+      var exp = new ModifierExpression("totalturnsplayed", "Total Turns Played");
+      assertThat(exp.eval(), is(665.0));
     }
   }
 
