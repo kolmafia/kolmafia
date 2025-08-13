@@ -429,6 +429,9 @@ public class Expression {
                   FamiliarPool.WIND_UP_CHATTERING_TEETH -> 1;
               default -> 0;
             };
+
+          // Valid with Modifier Expression:
+        case '\u008c' -> v = KoLCharacter.getTurnsPlayed();
           // Valid with Modifier Expression:
         case '\u0097' -> v = KoLCharacter.getBaseMuscle();
 
