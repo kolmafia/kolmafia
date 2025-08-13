@@ -4481,6 +4481,14 @@ public abstract class KoLCharacter {
   private static boolean isUsable(FamiliarData f) {
     if (f == FamiliarData.NO_FAMILIAR) return !KoLCharacter.inQuantum();
 
+    if (KoLCharacter.inPokefam()) {
+      // pokefam-only familiars are usable
+      var id = f.getId();
+      if (id > FamiliarPool.GARBAGE_FIRE && id < FamiliarPool.UNSPEAKACHU) {
+        return true;
+      }
+    }
+
     return StandardRequest.isAllowed(f)
         && (!KoLCharacter.inZombiecore() || f.isUndead())
         && (!KoLCharacter.inBeecore() || !KoLCharacter.hasBeeosity(f.getRace()))
