@@ -142,35 +142,24 @@ spotless {
 }
 
 tasks.register<Delete>("cleanDist") {
+  val dist = file("dist")
   onlyIf {
-    file("dist").exists()
+    dist.exists()
   }
-  inputs.dir("dist")
-  outputs.upToDateWhen { true }
-  doLast {
-    file("dist").walkTopDown().forEach { file ->
-      if (file.isFile && file.name.startsWith("KoLmafia-") && file.name.endsWith(".jar")) {
-        delete(file)
-      }
-    }
-  }
+  delete(
+    dist.listFiles().filter { it.isFile && it.name.startsWith("KoLmafia-") && it.name.endsWith(".jar") }
+  )
 }
 
 tasks.register<Delete>("pruneDist") {
+  val dist = file("dist")
   onlyIf {
-    file("dist").exists()
+    dist.exists()
   }
-  inputs.dir("dist")
-  outputs.upToDateWhen { true }
-  doLast {
-    file("dist").walkTopDown().forEach { file ->
-      if (file.isFile && file.name.startsWith("KoLmafia-") && file.name.endsWith(".jar")) {
-        if (!file.name.contains(project.version.toString()) || (isDirty() != file.name.endsWith("-M.jar"))) {
-          delete(file)
-        }
-      }
-    }
-  }
+  delete(
+    dist.listFiles().filter { it.isFile && it.name.startsWith("KoLmafia-") && it.name.endsWith(".jar")
+     && (!it.name.contains(project.version.toString()) || (isDirty() != it.name.endsWith("-M.jar"))) }
+  )
 }
 
 tasks.test {
