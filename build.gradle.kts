@@ -150,7 +150,7 @@ tasks.register<Delete>("cleanDist") {
   doLast {
     file("dist").walkTopDown().forEach { file ->
       if (file.isFile && file.name.startsWith("KoLmafia-") && file.name.endsWith(".jar")) {
-        delete(file)
+        file.delete()
       }
     }
   }
@@ -166,7 +166,7 @@ tasks.register<Delete>("pruneDist") {
     file("dist").walkTopDown().forEach { file ->
       if (file.isFile && file.name.startsWith("KoLmafia-") && file.name.endsWith(".jar")) {
         if (!file.name.contains(project.version.toString()) || (isDirty() != file.name.endsWith("-M.jar"))) {
-          delete(file)
+          file.delete()
         }
       }
     }
