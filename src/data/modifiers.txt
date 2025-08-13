@@ -5918,6 +5918,7 @@ Effect	Capricorn Rising	Item Drop: +5
 Effect	Car-Charged	Spell Damage Percent: +50, Initiative: +50, Experience: +3, Item Drop: +100, Meat Drop: +100, MP Regen Min: 5, MP Regen Max: 10
 Effect	Carapace of the God Lobster	Hot Resistance: +1, Cold Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1, Sleaze Resistance: +1, Damage Absorption: +20, Damage Reduction: 3
 Effect	Carbonated	MP Regen Min: 8, MP Regen Max: 10
+Effect	Care Free	Free Rests: 5
 Effect	Carlweather's Cantata of Confrontation	Combat Rate: [5*(1+equipped(fiberglass fedora))]
 Effect	Carne Obsesionada	Meat Drop: +20
 Effect	Carol of the Bones	Muscle Percent: +10
@@ -7635,7 +7636,7 @@ Effect	Scarysauce	Sleaze Resistance: +2, Cold Resistance: +2, Thorns: 1
 Effect	Scavengers Scavenging	Item Drop: +20
 Effect	Scent of a Kitchen Elf	Mysticality: +40, Familiar Weight Percent: -50
 Effect	School Spirited	Meat Drop: +100, Item Drop: +50
-# Schroedinger's Anticipation: Varies per turn
+Effect	Schroedinger's Anticipation	Damage vs. Skeletons: [20*eq(totalturnsplayed%37,0)], Initiative: [25*eq(totalturnsplayed%37,1)], Damage vs. Ghosts: [20*eq(totalturnsplayed%37,2)], Item Drop: [25*eq(totalturnsplayed%37,3)], Hot Resistance: [eq(totalturnsplayed%37,4)], Cold Damage: [eq(totalturnsplayed%37,5)], Meat Drop: [25*eq(totalturnsplayed%37,6)], Monster Level Percent: [10*eq(totalturnsplayed%37,7)], Muscle Percent: [100*eq(totalturnsplayed%37,8)], Hot Damage: [25*eq(totalturnsplayed%37,9)], Stench Damage: [25*eq(totalturnsplayed%37,10)], Damage vs. Vampires: [20*eq(totalturnsplayed%37,11)], Moxie Percent: [100*eq(totalturnsplayed%37,12)], Gear Drop: [50*eq(totalturnsplayed%37,13)], Muscle: [15*eq(totalturnsplayed%37,14)], Stench Resistance: [eq(totalturnsplayed%37,15)], Maximum MP Percent: [100*eq(totalturnsplayed%37,16)], Spooky Damage: [25*eq(totalturnsplayed%37,17)], Sleaze Damage: [25*eq(totalturnsplayed%37,18)], Candy Drop: [50*eq(totalturnsplayed%37,19)], Booze Drop: [50*eq(totalturnsplayed%37,20)], Moxie: [15*eq(totalturnsplayed%37,21)], Damage Absorption: [20*eq(totalturnsplayed%37,22)], Food Drop: [50*eq(totalturnsplayed%37,23)], Spooky Resistance: [eq(totalturnsplayed%37,24)], Weapon Damage: [25*eq(totalturnsplayed%37,25)], Maximum HP Percent: [100*eq(totalturnsplayed%37,26)], Mysticality: [15*eq(totalturnsplayed%37,27)], Ranged Damage: [25*eq(totalturnsplayed%37,28)], Familiar Damage: [10*eq(totalturnsplayed%37,29)], Sleaze Resistance: [eq(totalturnsplayed%37,30)], Cold Resistance: [eq(totalturnsplayed%37,31)], Mysticality Percent: [100*eq(totalturnsplayed%37,32)], Familiar Weight: [5*eq(totalturnsplayed%37,33)], Damage vs. Mer-kin: [20*eq(totalturnsplayed%37,34)], Monster Level: [-10*eq(totalturnsplayed%37,35)], Spell Damage Percent: [100*eq(totalturnsplayed%37,36)]
 # Schroedinger's Butt: ???
 Effect	Science is Real	Avatar: "Mrs. K, the Chemistry Teacher"
 Effect	Scorched Earth	Experience: +10
