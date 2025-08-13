@@ -147,7 +147,7 @@ tasks.register<Delete>("cleanDist") {
     dist.exists()
   }
   delete(
-    dist.listFiles().filter { it.isFile && it.name.startsWith("KoLmafia-") && it.name.endsWith(".jar") }
+    dist.listFiles().filter { it.isFile && it.name.startsWith("KoLmafia-") && it.name.endsWith(".jar") },
   )
 }
 
@@ -157,8 +157,10 @@ tasks.register<Delete>("pruneDist") {
     dist.exists()
   }
   delete(
-    dist.listFiles().filter { it.isFile && it.name.startsWith("KoLmafia-") && it.name.endsWith(".jar")
-     && (!it.name.contains(project.version.toString()) || (isDirty() != it.name.endsWith("-M.jar"))) }
+    dist.listFiles().filter {
+      it.isFile && it.name.startsWith("KoLmafia-") && it.name.endsWith(".jar") &&
+        (!it.name.contains(project.version.toString()) || (isDirty() != it.name.endsWith("-M.jar")))
+    },
   )
 }
 
