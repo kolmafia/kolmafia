@@ -32,7 +32,9 @@ jobs:
       - name: Build
         env:
           ORG_GRADLE_PROJECT_commit: ${{ github.sha }}
-        run: ./gradlew --no-daemon jpackage
+        run: |
+          ./gradlew --no-daemon getRevision
+          ./gradlew --no-daemon jpackage
 
       - name: Upload binaries
         uses: actions/upload-artifact@v4
