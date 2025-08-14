@@ -4483,8 +4483,7 @@ public abstract class KoLCharacter {
 
     if (KoLCharacter.inPokefam()) {
       // pokefam-only familiars are usable
-      var id = f.getId();
-      if (id > FamiliarPool.GARBAGE_FIRE && id < FamiliarPool.UNSPEAKACHU) {
+      if (FamiliarDatabase.isPokefamType(f.getId())) {
         return true;
       }
     }
