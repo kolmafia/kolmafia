@@ -113,6 +113,9 @@ public class ModifierExpression extends Expression {
     if (this.optional("totalturnsplayed")) {
       return "\u008c";
     }
+    if (this.optional("paradoxicity")) {
+      return "\u008d";
+    }
     if (this.optional("mus")) {
       return "\u0080";
     }
