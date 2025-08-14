@@ -7,14 +7,17 @@ import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withInebriety;
 import static internal.helpers.Player.withLastLocation;
 import static internal.helpers.Player.withNoEffects;
+import static internal.helpers.Player.withNotAllowedInStandard;
 import static internal.helpers.Player.withParadoxicity;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withRestricted;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.collection.IsArrayWithSize.arrayWithSize;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
@@ -24,6 +27,7 @@ import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.ModifierType;
+import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
@@ -460,6 +464,27 @@ class CharPaneRequestTest {
         CharPaneRequest.processResults(html("request/test_charpane_compact_paradoxicity.html"));
         assertThat(KoLCharacter.getParadoxicity(), is(2));
       }
+    }
+  }
+
+  @Test
+  void parsePokefamTeam() {
+    var cleanups =
+        new Cleanups(
+            withPath(Path.POKEFAM),
+            withRestricted(true),
+            withNotAllowedInStandard(RestrictedItemType.FAMILIARS, "Slotter"));
+
+    try (cleanups) {
+      CharPaneRequest.processResults(html("request/test_charpane_pokefam.html"));
+      // check team
+      var team = KoLCharacter.getPokeTeam();
+      assertThat(team, arrayWithSize(3));
+      assertThat(team[0].getId(), is(FamiliarPool.BABY_GRAVY_FAIRY));
+      assertThat(team[1].getId(), is(FamiliarPool.SLEAZY_GRAVY_FAIRY));
+      assertThat(team[2].getId(), is(FamiliarPool.SLOTTER));
+      var slotter = team[2];
+      assertThat(slotter.getPokeLevel(), is(5));
     }
   }
 }
