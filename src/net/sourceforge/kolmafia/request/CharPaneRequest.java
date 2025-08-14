@@ -1223,7 +1223,7 @@ public class CharPaneRequest extends GenericRequest {
 
   private static final Pattern PokeFamPattern =
       Pattern.compile(
-          "img align=\"absmiddle\" src=(?:cloudfront.net|images.kingdomofloathing.com)/itemimages/(.*?)>&nbsp;(.*?) \\(Lvl (\\d+)\\)",
+          "img align=\"absmiddle\" src=[^>]*?(?:cloudfront.net|images.kingdomofloathing.com)/itemimages/(.*?)>&nbsp;(.*?) \\(Lvl (\\d+)\\)",
           Pattern.DOTALL);
 
   private static void checkPokeFam(final String responseText) {
@@ -1237,7 +1237,6 @@ public class CharPaneRequest extends GenericRequest {
         if (familiar == null) {
           // Add new familiar to list
           familiar = new FamiliarData(id, name, level);
-          KoLCharacter.addFamiliar(familiar);
         } else {
           // Update existing familiar
           familiar.update(name, level);
