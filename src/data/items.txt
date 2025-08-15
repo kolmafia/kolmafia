@@ -11998,4 +11998,4 @@
 11970	sea gel	865130560	vglob1.gif	usable, combat		0
 11971	ink bladder	962785260	inkbladder.gif	potion, usable	t,d	25
 11972	durable dolphin whistle	754386808	whistle.gif	usable		0
-11973	Thwaitgold lobster statuette	719574059	thwaitlobster.gif	none	0
+11973	Thwaitgold lobster statuette	719574059	thwaitlobster.gif	none		0
