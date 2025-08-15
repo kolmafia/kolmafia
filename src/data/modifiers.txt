@@ -9287,9 +9287,7 @@ Event	Feast of Boris	Stomach Capacity: [min(1,path(none)+path(Teetotaler))*(1-cl
 Event	April Fool's Day	Alters Page Text
 
 # Zone-specific section of modifiers.txt
-# -100% is the most common penalty in The Sea; use it as the default
 
-Zone	The Sea	Initiative Penalty: -100, Item Drop Penalty: -100, Meat Drop Penalty: -100
 Zone	Shadow Rift	Item Drop: [-0.8*mod(Item Drop)]
 Zone	Suburbs	Alters Page Text
 
@@ -9297,17 +9295,26 @@ Zone	Suburbs	Alters Page Text
 
 Loc	The Haiku Dungeon	Alters Page Text
 
-Loc	The Briniest Deepests	Initiative Penalty: +25, Item Drop Penalty: +25, Meat Drop Penalty: +25
-Loc	The Brinier Deepers	Initiative Penalty: +50, Item Drop Penalty: +50, Meat Drop Penalty: +50
-Loc	The Briny Deeps	Initiative Penalty: +75, Item Drop Penalty: +75, Meat Drop Penalty: +75
-Loc	Mer-kin Elementary School	Initiative Penalty: -100, Item Drop Penalty: -100, Meat Drop Penalty: -100
-Loc	Mer-kin Library	Initiative Penalty: -100, Item Drop Penalty: -100, Meat Drop Penalty: -100
-Loc	Mer-kin Gymnasium	Initiative Penalty: -100, Item Drop Penalty: -100, Meat Drop Penalty: -100
-Loc	Mer-kin Colosseum	Initiative Penalty: -100, Item Drop Penalty: -100, Meat Drop Penalty: -100
-Loc	Anemone Mine	Initiative Penalty: -100, Item Drop Penalty: -100, Meat Drop Penalty: -100
-Loc	The Caliginous Abyss	Initiative Penalty: -100, Item Drop Penalty: -100, Meat Drop Penalty: -100
-Loc	The Dive Bar	Initiative Penalty: -100, Item Drop Penalty: -100, Meat Drop Penalty: -100
-Loc	The Marinara Trench	Initiative Penalty: -100, Item Drop Penalty: -100, Meat Drop Penalty: -100
+Loc	The Briny Deeps	Initiative Penalty: -25, Item Drop Penalty: -25, Meat Drop Penalty: -25
+Loc	The Brinier Deepers	Initiative Penalty: -50, Item Drop Penalty: -50, Meat Drop Penalty: -50
+Loc	The Briniest Deepests	Initiative Penalty: -75, Item Drop Penalty: -75, Meat Drop Penalty: -75
+
+Loc	An Octopus's Garden	Initiative Penalty: -100, Item Drop Penalty: -100, Meat Drop Penalty: -100
+Loc	Madness Reef	Initiative Penalty: -100, Item Drop Penalty: -100, Meat Drop Penalty: -100
+Loc	The Coral Corral	Initiative Penalty: -100, Item Drop Penalty: -100, Meat Drop Penalty: -100
+Loc	The Mer-Kin Outpost	Initiative Penalty: -100, Item Drop Penalty: -100, Meat Drop Penalty: -100
+Loc	The Skate Park	Initiative Penalty: -100, Item Drop Penalty: -100, Meat Drop Penalty: -100
+Loc	The Wreck of the Edgar Fitzsimmons	Initiative Penalty: -100, Item Drop Penalty: -100, Meat Drop Penalty: -100
+
+Loc	Mer-kin Elementary School	Initiative Penalty: -150, Item Drop Penalty: -150, Meat Drop Penalty: -150
+Loc	Mer-kin Library	Initiative Penalty: -150, Item Drop Penalty: -150, Meat Drop Penalty: -150
+Loc	Mer-kin Gymnasium	Initiative Penalty: -150, Item Drop Penalty: -150, Meat Drop Penalty: -150
+Loc	Mer-kin Colosseum	Initiative Penalty: -150, Item Drop Penalty: -150, Meat Drop Penalty: -150
+
+Loc	Anemone Mine	Initiative Penalty: -200, Item Drop Penalty: -200, Meat Drop Penalty: -200
+Loc	The Caliginous Abyss	Initiative Penalty: -200, Item Drop Penalty: -200, Meat Drop Penalty: -200
+Loc	The Dive Bar	Initiative Penalty: -200, Item Drop Penalty: -200, Meat Drop Penalty: -200
+Loc	The Marinara Trench	Initiative Penalty: -200, Item Drop Penalty: -200, Meat Drop Penalty: -200
 
 Loc	Gingerbread Reef	Initiative Penalty: -50, Item Drop Penalty: -50, Meat Drop Penalty: -50
 Loc	The Wreck of the H. M. S. Kringle	Initiative Penalty: -75, Item Drop Penalty: -75, Meat Drop Penalty: -75
