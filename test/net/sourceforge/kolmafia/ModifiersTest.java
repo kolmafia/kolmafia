@@ -13,6 +13,7 @@ import static internal.helpers.Player.withLevel;
 import static internal.helpers.Player.withLocation;
 import static internal.helpers.Player.withMP;
 import static internal.helpers.Player.withOverrideModifiers;
+import static internal.helpers.Player.withParadoxicity;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withSkill;
@@ -1700,6 +1701,22 @@ public class ModifiersTest {
 
       assertThat(mods.getDouble(DoubleModifier.ITEMDROP), equalTo(advs > 0 ? 0.0 : 100.0));
       assertThat(mods.getDouble(DoubleModifier.ADVENTURES), equalTo(advs < 200 ? 0.0 : 10.0));
+    }
+  }
+
+  @Test
+  public void mobiusRing() {
+    var cleanup = withParadoxicity(6);
+
+    try (cleanup) {
+      var mods = ModifierDatabase.getModifiers(ModifierType.ITEM, "M&ouml;bius ring");
+
+      assertThat(mods.getDouble(DoubleModifier.WEAPON_DAMAGE), equalTo(0.0));
+      assertThat(mods.getDouble(DoubleModifier.HOT_RESISTANCE), equalTo(2.0));
+      assertThat(mods.getDouble(DoubleModifier.GEARDROP), equalTo(100.0));
+      assertThat(mods.getDouble(DoubleModifier.DAMAGE_REDUCTION), equalTo(6.0));
+      assertThat(mods.getDouble(DoubleModifier.INITIATIVE), equalTo(50.0));
+      assertThat(mods.getDouble(DoubleModifier.FAMILIAR_WEIGHT), equalTo(5.0));
     }
   }
 }
