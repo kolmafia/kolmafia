@@ -1605,16 +1605,16 @@
 1604	twitch_alliedhq	Allied Forces insignia	Chroner (500)
 1605	twitch_alliedhq	Allied Tattoo Kit	Chroner (2,500)
 1606
-1607
-1608
-1609
-1610
-1611
-1612
-1613
-1614
-1615
-1616
-1617
+1607	generalstore	white rice	250 Meat
+1608	sandpenny	sand dollar	sand penny (100)
+1609	sandpenny	undersea surveying goggles	sand penny (100)
+1610	sandpenny	Ocean-Touched Rum	sand penny (30)
+1611	sandpenny	water-logged pill	sand penny (30)
+1612	sandpenny	kelp puck	sand penny (30)
+1613	sandpenny	scroll of sea strength	1,000 Meat
+1614	sandpenny	scroll of sea smarts	1,000 Meat
+1615	sandpenny	scroll of sea smarm	1,000 Meat
+1616	sandpenny	waterlogged scroll of healing	sand penny (10)
+1617	sandpenny	sea gel	sand penny (10)
 1618	grandma	crappy Mer-kin tailpiece	Mer-kin gladiator tailpiece
 1619	grandma	crappy Mer-kin tailpiece	Mer-kin scholar tailpiece

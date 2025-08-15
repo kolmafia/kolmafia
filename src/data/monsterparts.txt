@@ -2318,3 +2318,4 @@
 2495	Axis grenadier skeleton	femur	skull	spine	rib
 2496	Axis officer skeleton	femur	skull	spine	rib
 2497	time cop	arm	head	leg	torso
+2498	Nautical Seaceress

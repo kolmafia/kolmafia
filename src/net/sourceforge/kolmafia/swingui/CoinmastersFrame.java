@@ -132,6 +132,7 @@ import net.sourceforge.kolmafia.request.coinmaster.shop.UsingYourShowerThoughtsR
 import net.sourceforge.kolmafia.request.coinmaster.shop.VendingMachineRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.WalMartRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.WarbearBoxRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.WetCrapForSaleRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.YeNeweSouvenirShoppeRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.YourCampfireRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -244,6 +245,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
   private CoinmasterPanel vendingMachinePanel = null;
   private CoinmasterPanel walmartPanel = null;
   private CoinmasterPanel warbearBoxPanel = null;
+  private CoinmasterPanel wetCrapForSalePanel = null;
   private CoinmasterPanel yourCampfirePanel = null;
 
   public CoinmastersFrame() {
@@ -379,6 +381,11 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     replicaMrStorePanel = new ReplicaMrStorePanel();
     panel.add(replicaMrStorePanel);
     this.selectorPanel.addPanel(replicaMrStorePanel.getPanelSelector(), panel);
+
+    panel = new JPanel(new BorderLayout());
+    wetCrapForSalePanel = new WetCrapForSalePanel();
+    panel.add(wetCrapForSalePanel);
+    this.selectorPanel.addPanel(wetCrapForSalePanel.getPanelSelector(), panel);
 
     // Aftercore coinmasters
     this.selectorPanel.addSeparator();
@@ -1904,6 +1911,12 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
   private class ShowerThoughtsPanel extends CoinmasterPanel {
     public ShowerThoughtsPanel() {
       super(UsingYourShowerThoughtsRequest.DATA);
+    }
+  }
+
+  private class WetCrapForSalePanel extends CoinmasterPanel {
+    public WetCrapForSalePanel() {
+      super(WetCrapForSaleRequest.DATA);
     }
   }
 
