@@ -3032,7 +3032,7 @@
 3029	Briney Brawn	mussel.gif	85f7e9bec851f04b97f7551482ea3999	neutral	none	drink 1 Ocean-Touched Rum
 3030	Briney Brains	braincoral.gif	95560c87c1c29a57a74cb039776b9c9c	neutral	none	chew 1 water-logged pill
 3031	Briney Bravado	seasmirk.gif	6db397c1c9c9ad32d0e5dbd818eb71e6	neutral	none	eat 1 kelp puck
-3032
-3033
-3034
-3035	Inkily Obscured	inkcloud.gif	ca66df45ac7a71194f3f2881c72ed2ef	neutral	none	use 1 ink bladder
+3032	Sea Strength	wetmuscle.gif	a48e0a410bd5bc8cc3bad345fe77de4d	neutral	none	use 1 scroll of sea strength
+3033	Sea Smarts	realbrain.gif	26af2aa4e3c3e5daf377352c48c5756c	neutral	none	use 1 scroll of sea smarts
+3034	Sea Smarm	wink.gif	b69233800ea1cf6af14e7ac88d7532b4	neutral	none	use 1 scroll of sea smarm
+3035	Inkily Obscured	inkcloud.gif	ca66df45ac7a71194f3f2881c72ed2ef	neutral	none	use 1 [11971]ink bladder
