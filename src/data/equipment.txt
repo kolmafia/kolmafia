@@ -432,6 +432,7 @@ turtlemail coif	80	Mox: 25
 two-gallon hat	40	none
 Uncle Crimbo's hat	100	Mox: 35
 Uncle Hobo's stocking cap	200	Mox: 200
+undersea surveying goggles	50	none
 Unfortunato's foolscap	150	Mox: 20
 Unkillable Skeleton's skullcap	300	Mus: 250
 Van der Graaf helmet	30	none
@@ -699,6 +700,7 @@ purpleheart &quot;pants&quot;	200	Mox: 50
 pygmy briefs	165	Mox: 67
 Radio Free Pants	150	Mox: 60
 ratskin pajama pants	150	Mox: 50
+really, really nice swimming trunks	50	none
 red silk skirt	155	Mox: 62
 repaid diaper	200	Mox: 20
 replica Cargo Cultist Shorts	100	none

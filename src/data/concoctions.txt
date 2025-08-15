@@ -968,7 +968,7 @@ demon-horned hat	SMITH	basic meat helmet	demon skin
 eelskin hat	ASMITH	basic meat helmet	eel skin
 lynyrdskin cap	ASMITH	helmet recipe	lynyrd skin
 nasty rat mask	ASMITH	basic meat helmet	leathery rat skin
-sea cowboy hat	ASMITH	helmet recipe	sea leather
+sea cowboy hat	SMITH	helmet recipe	sea leather
 sponge helmet	ASMITH	basic meat helmet	slab of sponge
 yak toupee	ASMITH	basic meat helmet	yak skin
 
@@ -988,7 +988,7 @@ sticky meat pants	SMITH	really really sticky spider web	basic meat pants
 tighty whiteys	SMITH	white snake skin	pants kit
 yakskin pants	ASMITH	yak skin	pants kit
 gnauga hide chaps	ASMITH	gnauga hide	pants kit
-sea chaps	ASMITH	sea leather	pants kit
+sea chaps	SMITH	sea leather	pants kit
 
 
 # Skirts made of hides of various sorts.
@@ -1078,7 +1078,7 @@ rusty old lantern	COMBINE	brittle plastic handle	foggy glass globe
 non-stick pugil stick	WSMITH	decaying wooden pole	teflon ore
 teflon spatula	WSMITH	tarnished metal rod	teflon ore
 teflon shield	ASMITH	rusty valve wheel	teflon ore
-teflon swim fins	ASMITH	waterlogged bootstraps	teflon ore
+teflon swim fins	SMITH	waterlogged bootstraps	teflon ore
 
 velcro broadsword	WSMITH	brittle plastic handle	velcro ore
 velcro paddle ball	WSMITH	decaying wooden paddle	velcro ore
