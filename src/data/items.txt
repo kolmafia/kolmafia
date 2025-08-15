@@ -11984,3 +11984,16 @@
 11956	clock	696662686	clock.gif	usable	t,d	11
 11957	the gun	720217934	happiness.gif	weapon	q	0
 11958	fancy old wine	590385263	wine.gif	drink	t,d	500	bottles of fancy old wine
+11959
+11960
+11961
+11962
+11963	Ocean-Touched Rum	224796689	emberbottle.gif	drink	t	0
+11964	water-logged pill	157807719	stimpill2.gif	spleen, usable	t	0
+11965	kelp puck	526729791	kelppuck.gif	food	t	0
+11966	scroll of sea strength	717070334	limerickscroll.gif	usable	t	0
+11967	scroll of sea smarts	792194441	limerickscroll.gif	usable	t	0
+11968
+11969
+11970
+11971	ink bladder	962785260	inkbladder.gif	potion, usable	t,d	25

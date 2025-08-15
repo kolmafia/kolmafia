@@ -513,6 +513,7 @@ Nog-on-the-Cob	3	1	awesome	12	15-30	15-30	15-30	20 Sulfurous Sinuses (+3 Stench 
 non-aged vinegar	2	4	awesome	6-7	5-10	5-10	5-10	40 Sour Grapes (+40% Item Drop), WINE
 nothingtini	1	1	good	2-4	0	0	0	40 Nothing Happened (+20 Monster Level), MARTINI
 ocean motion	4	4	good	10-14	25-27	8-10	0
+Ocean-Touched Rum	2	1	good	0	0	0	0	Unspaded
 officer's nog	2	1	awesome	10	0	0	0
 Oh, the Humanitini	2	8	awesome	8-9	15-20	15-20	15-20	Restores HP, MARTINI
 Oil Nog	4	5	decent	7-9	0	0	0
