@@ -19,7 +19,7 @@ public abstract class WetCrapForSaleRequest extends CoinMasterShopRequest {
           .withPluralToken("sand pennies")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(TOKEN)
-          .withShopRowFields(master, SHOPID)
+          .withNewShopRowFields(master, SHOPID)
           .withAccessible(WetCrapForSaleRequest::accessible);
 
   public static String accessible() {
