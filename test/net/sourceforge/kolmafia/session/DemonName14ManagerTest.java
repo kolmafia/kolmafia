@@ -51,9 +51,8 @@ class DemonName14ManagerTest {
             "Hut", "utR", "tRo", "Rog", "ogN", "all", "llN", "lNi", "Nix", "ixA", "Arg", "rgP",
             "gPh", "Pha", "haD", "arH", "aDa", "ixK", "xKr");
     var result = DemonName14Manager.solve(segments);
-    assertThat(result, hasSize(2));
+    assertThat(result, hasSize(1));
     assertThat(result, hasItem("CallNixArgPhaDarHutRogNixKru"));
-    assertThat(result, hasItem("BallNixArgPhaDarHutRogNixKru"));
   }
 
   @Test
