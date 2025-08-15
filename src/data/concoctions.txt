@@ -2397,6 +2397,8 @@ Staff of the Standalone Cheese	JARLS, ROW107	cosmic cheese
 crappy Mer-kin mask	MANUAL, GRANDMA, ROW128	Mer-kin gladiator mask
 crappy Mer-kin mask	MANUAL, GRANDMA, ROW131	Mer-kin scholar mask
 crappy Mer-kin mask	GRANDMA, ROW124	aerated diving helmet	pristine fish scale (3)
+crappy Mer-kin tailpiece	MANUAL, GRANDMA, ROW1619	Mer-kin scholar tailpiece
+crappy Mer-kin tailpiece	MANUAL, GRANDMA, ROW1618	Mer-kin gladiator tailpiece
 crappy Mer-kin tailpiece	GRANDMA, ROW125	sea chaps	teflon swim fins	pristine fish scale (3)
 Mer-kin gladiator mask	GRANDMA, ROW126	crappy Mer-kin mask	Mer-kin headguard
 Mer-kin gladiator tailpiece	GRANDMA, ROW127	crappy Mer-kin tailpiece	Mer-kin thighguard

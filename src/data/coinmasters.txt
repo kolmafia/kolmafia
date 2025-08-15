@@ -1377,6 +1377,8 @@ The Dedigitizer	ROW1576	virtual cybertattoo	1 (512)	0 (128)	dedigitizer schemati
 Grandma Sea Monkey	ROW131	crappy Mer-kin mask	Mer-kin scholar mask
 Grandma Sea Monkey	ROW128	crappy Mer-kin mask	Mer-kin gladiator mask
 Grandma Sea Monkey	ROW124	crappy Mer-kin mask	aerated diving helmet	pristine fish scale (3)
+Grandma Sea Monkey	ROW1619	crappy Mer-kin tailpiece	Mer-kin scholar tailpiece
+Grandma Sea Monkey	ROW1618	crappy Mer-kin tailpiece	Mer-kin gladiator tailpiece
 Grandma Sea Monkey	ROW125	crappy Mer-kin tailpiece	sea chaps	teflon swim fins	pristine fish scale (3)
 Grandma Sea Monkey	ROW126	Mer-kin gladiator mask	crappy Mer-kin mask	Mer-kin headguard
 Grandma Sea Monkey	ROW127	Mer-kin gladiator tailpiece	crappy Mer-kin tailpiece	Mer-kin thighguard
