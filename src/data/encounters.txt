@@ -98,6 +98,7 @@ The Black Forest	LUCKY	What the Cluck?
 The Brinier Deepers	LUCKY	The Haggling
 The Briny Deeps	LUCKY	Deeps Impact
 The Bugbear Pen	LUCKY	Faux Fur Pas
+The Caliginous Abyss	LUCKY	A University of Fish
 The Castle in the Clouds in the Sky (Basement)	LUCKY	You Never Know What You're Gonna Find
 The Castle in the Clouds in the Sky (Ground Floor)	LUCKY	Ahead of the Game
 The Castle in the Clouds in the Sky (Top Floor)	LUCKY	All The Rave

@@ -545,6 +545,7 @@ Item	turtlemail coif	Muscle: +5, Damage Reduction: 4, Familiar Effect: "1xPotato
 Item	two-gallon hat	Muscle: +2, Mysticality: +2, Moxie: +2, Experience: +3
 Item	Uncle Crimbo's hat	Adventures: +4, Rollover Effect: "The Spirit of Crimbo", Rollover Effect Duration: 100, Rollover Effect: "Crimbo Nostalgia", Rollover Effect Duration: 100, Last Available: "2016-12"
 Item	Uncle Hobo's stocking cap	Mysticality Percent: +20, Monster Level: +20, Last Available: "2010-12", Familiar Effect: "atk"
+Item	undersea surveying goggles	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50, Item Drop: [50*env(underwater)], Lasts Until Rollover
 Item	Unfortunato's foolscap	Spooky Damage: +10, Stench Damage: +10, Hot Damage: +10, Cold Damage: +10, Sleaze Damage: +10, Mysticality Percent: +10, Mana Cost (combat): -2, Last Available: "2016-08"
 Item	Unkillable Skeleton's skullcap	Muscle Percent: +50, Maximum HP: +500, HP Regen Min: 40, HP Regen Max: 80, Class: "Turtle Tamer", Familiar Effect: "1xPotato, 1xFairy"
 Item	Van der Graaf helmet	Maximum MP: +15, MP Regen Min: 1, MP Regen Max: 3, Last Available: "2011-05", Familiar Effect: "3xPotato, cap 7"
@@ -839,6 +840,7 @@ Item	purpleheart &quot;pants&quot;	Moxie Percent: +100, Initiative: +50, Adventu
 Item	pygmy briefs	Stench Damage: +5, Sleaze Damage: +5, Familiar Effect: "atk, 1xVolley, cap 41"
 Item	Radio Free Pants	Mysticality: +20, Last Available: "2006-07", Familiar Effect: "1xVolley, 1xGhoul, 1xLep, cap 37"
 Item	ratskin pajama pants	PvP Fights: +2, Adventures: +4, Rollover Effect: "Pajama Party", Rollover Effect Duration: 40, Last Available: "2015-04"
+Item	really, really nice swimming trunks	Muscle: [10+90*env(underwater)], Mysticality: [10+90*env(underwater)], Moxie: [10+90*env(underwater)], Adventure Underwater
 Item	red silk skirt	Experience (Moxie): +1, Hat Drop: +30, Familiar Effect: "atk, 1xFairy, cap 38"
 Item	repaid diaper	Familiar Weight: +15
 # replica Cargo Cultist Shorts: 666 Pockets to Explore
@@ -3353,7 +3355,7 @@ Item	lucky rabbitfish fin	HP Regen Min: 10, HP Regen Max: 12, MP Regen Min: 10, 
 Item	LWA ring	MP Regen Min: 2, MP Regen Max: 3
 Item	LyleCo premium monocle	Rubee Drop: 1, Single Equip, Last Available: "2018-04"
 # M&ouml;bius ring: Allows interaction with your past and future
-Item	M&ouml;bius ring	Maximum HP: +25, Maximum MP: +25, Muscle: +10, Mysticality: +10, Moxie: +10, Last Available: "2025-08"
+Item	M&ouml;bius ring	Maximum HP: [25*eq(paradoxicity,0)], Maximum MP: [25*lte(paradoxicity,1)], Muscle: [10*lte(paradoxicity,2)], Mysticality: [10*lte(paradoxicity,3)], Moxie: [10*lte(paradoxicity,4)], Weapon Damage: [15*lte(paradoxicity,5)*gte(paradoxicity,1)], Hot Resistance: [2*lte(paradoxicity,6)*gte(paradoxicity,2)], Gear Drop: [100*lte(paradoxicity,7)*gte(paradoxicity,3)], Damage Reduction: [paradoxicity*lte(paradoxicity,8)*gte(paradoxicity,4)], Initiative: [50*lte(paradoxicity,9)*gte(paradoxicity,5)], Familiar Weight: [5*lte(paradoxicity,10)*gte(paradoxicity,6)], Cold Resistance: [2*lte(paradoxicity,11)*gte(paradoxicity,7)], Food Drop: [100*lte(paradoxicity,12)*gte(paradoxicity,8)], Spell Damage: [25*lte(paradoxicity,13)*gte(paradoxicity,9)], Stench Resistance: [2*lte(paradoxicity,14)*gte(paradoxicity,10)], Booze Drop: [50*lte(paradoxicity,15)*gte(paradoxicity,11)], Meat Drop: [25*lte(paradoxicity,16)*gte(paradoxicity,12)], Item Drop: [100*lte(paradoxicity,17)*gte(paradoxicity,13)], Ranged Damage: [15*lte(paradoxicity,18)*gte(paradoxicity,14)], Spooky Resistance: [2*lte(paradoxicity,19)*gte(paradoxicity,15)], Candy Drop: [100*lte(paradoxicity,20)*gte(paradoxicity,16)], Experience (familiar): [2*lte(paradoxicity,21)*gte(paradoxicity,17)], Experience: [4*lte(paradoxicity,22)*gte(paradoxicity,18)], Sleaze Resistance: [2*gte(paradoxicity,19)], Pickpocket Chance: [25*gte(paradoxicity,20)], Maximum HP Percent: [50*gte(paradoxicity,21)], Maximum MP Percent: [50*gte(paradoxicity,22)], Muscle Percent: [25*gte(paradoxicity,23)], Last Available: "2025-08"
 Item	Mafia bow tie	Muscle: +20, Moxie: +20, Last Available: "2004-10"
 # mafia middle finger ring: Show enemies your ring once a day!
 Item	mafia middle finger ring	Weapon Damage Percent: +13, Muscle Percent: +13, Single Equip
@@ -5855,6 +5857,9 @@ Effect	Bright!	Maximum MP: +100
 Effect	Brilliant Resolve	Experience (Mysticality): +2
 # Brined Liver: Makes you a better diver
 Effect	Brined Liver	Initiative Penalty: [20*env(underwater)], Item Drop Penalty: [20*env(underwater)], Meat Drop Penalty: [20*env(underwater)]
+Effect	Briney Brains	Mysticality Percent: [10+90*env(underwater)]
+Effect	Briney Bravado	Moxie Percent: [10+90*env(underwater)]
+Effect	Briney Brawn	Muscle Percent: [10+90*env(underwater)]
 Effect	Briny Blood	Spell Damage: +20, Maximum MP: +40
 Effect	Brittled	Initiative: +50
 Effect	Broad-Spectrum Vaccine	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
@@ -6875,6 +6880,7 @@ Effect	init.enh	Initiative: +50
 Effect	Initiative and Let Die	Initiative: +50
 Effect	Ink Cloud	Combat Rate: -5
 Effect	Inked Well	Combat Rate: -10
+Effect	Inkily Obscured	Combat Rate (Underwater): -5
 Effect	Inky Camouflage	Combat Rate: -5
 Effect	Innately Strong	Muscle Percent: +100, Experience (Muscle): +3
 Effect	Innately Truthy	Moxie Percent: +100, Experience (Moxie): +3
@@ -7647,6 +7653,9 @@ Effect	Scrappy, Shadowy	Spooky Damage: +25, Damage Reduction: 15
 Effect	Screaming!  SCREAMING!  AAAAAAAH!	Combat Rate: +5
 Effect	Sea Guts	Initiative Penalty: [10*env(underwater)], Item Drop Penalty: [10*env(underwater)], Meat Drop Penalty: [10*env(underwater)]
 Effect	Sea Seeing	Item Drop: [30*env(underwater)]
+Effect	Sea Smarm	Moxie: [25+225*env(underwater)]
+Effect	Sea Smarts	Mysticality: [25+225*env(underwater)]
+Effect	Sea Strength	Muscle: [25+225*env(underwater)]
 Effect	Seal Clubbing Frenzy	Muscle: +2
 Effect	Sealed Brain	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25
 Effect	Securitybot Escort	Damage Aura: 1
@@ -9661,6 +9670,7 @@ Item	jumping horseradish	Effect: "Kicked in the Sinuses", Effect Duration: 50, L
 Item	jungle floor wax	Effect: "Wax On Your Shoes", Effect Duration: 20
 Item	junkyard dog	Effect: "Dog Breath", Effect Duration: 30
 Item	karma shawarma	Last Available: "2014-10"
+Item	kelp puck	Effect: "Briney Bravado", Effect Duration: 50
 Item	king cookie	Effect: "The Royal We", Effect Duration: 30, Last Available: "2010-03"
 Item	knight cookie	Effect: "Knightlife", Effect Duration: 30, Last Available: "2010-03"
 Item	knuckle sandwich	Effect: "Cruisin' for a Bruisin'", Effect Duration: 20, Last Available: "2008-12", Wiki Name: "knuckle sandwich"
@@ -10277,6 +10287,7 @@ Item	nice warm beer	Effect: "Cracked Open a Warm One", Effect Duration: 30
 Item	Nog-on-the-Cob	Effect: "Sulfurous Sinuses", Effect Duration: 20, Last Available: "2020-05"
 Item	non-aged vinegar	Effect: "Sour Grapes", Effect Duration: 40
 Item	nothingtini	Effect: "Nothing Happened", Effect Duration: 40, Last Available: "2017-03"
+Item	Ocean-Touched Rum	Effect: "Briney Brawn", Effect Duration: 50
 Item	officer's nog	Last Available: "2023-12"
 Item	Oh, the Humanitini	Last Available: "2012-03"
 Item	old-school pirate grog	Last Available: "2023-12"
@@ -11211,6 +11222,7 @@ Item	incense bath ball	Effect: "Incensed", Effect Duration: 10, Last Available: 
 Item	industrial frosting	Effect: "Industrially Frosted", Effect Duration: 5, Last Available: "2016-12"
 Item	industrial strength starch	Effect: "Industrial Strength Starch", Effect Duration: 20, Wiki Name: "industrial strength starch"
 Item	infernal snowball	Effect: "Good Chance of Surviving Hell", Effect Duration: 20, Last Available: "2019-12"
+Item	ink bladder	Effect: "Inkily Obscured", Effect Duration: 20
 Item	Inner Strength	Effect: "Innately Strong", Effect Duration: 20, Last Available: "2016-12"
 Item	Inner Truth	Effect: "Innately Truthy", Effect Duration: 20, Last Available: "2016-12"
 Item	Inner Wisdom	Effect: "Innately Wise", Effect Duration: 20, Last Available: "2016-12"
@@ -15261,6 +15273,7 @@ Item	warehouse key	Last Available: "2017-12"
 Item	Wart Dinsey: An Afterlife	Skill: "Rotten Memories"
 # water pipe bomb: Deals 55-75 Physical Damage
 Item	water wings	Wiki Name: "water wings"
+Item	water-logged pill	Effect: "Briney Brains", Effect Duration: 50
 Item	waterlogged cloth	Last Available: "2019-12"
 Item	waterlogged crate	Last Available: "2011-12"
 Item	waterlogged leather	Last Available: "2019-12"
