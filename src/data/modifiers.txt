@@ -545,6 +545,7 @@ Item	turtlemail coif	Muscle: +5, Damage Reduction: 4, Familiar Effect: "1xPotato
 Item	two-gallon hat	Muscle: +2, Mysticality: +2, Moxie: +2, Experience: +3
 Item	Uncle Crimbo's hat	Adventures: +4, Rollover Effect: "The Spirit of Crimbo", Rollover Effect Duration: 100, Rollover Effect: "Crimbo Nostalgia", Rollover Effect Duration: 100, Last Available: "2016-12"
 Item	Uncle Hobo's stocking cap	Mysticality Percent: +20, Monster Level: +20, Last Available: "2010-12", Familiar Effect: "atk"
+Item	undersea surveying goggles	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50, Item Drop: [50*env(underwater)], Lasts Until Rollover
 Item	Unfortunato's foolscap	Spooky Damage: +10, Stench Damage: +10, Hot Damage: +10, Cold Damage: +10, Sleaze Damage: +10, Mysticality Percent: +10, Mana Cost (combat): -2, Last Available: "2016-08"
 Item	Unkillable Skeleton's skullcap	Muscle Percent: +50, Maximum HP: +500, HP Regen Min: 40, HP Regen Max: 80, Class: "Turtle Tamer", Familiar Effect: "1xPotato, 1xFairy"
 Item	Van der Graaf helmet	Maximum MP: +15, MP Regen Min: 1, MP Regen Max: 3, Last Available: "2011-05", Familiar Effect: "3xPotato, cap 7"
@@ -839,6 +840,7 @@ Item	purpleheart &quot;pants&quot;	Moxie Percent: +100, Initiative: +50, Adventu
 Item	pygmy briefs	Stench Damage: +5, Sleaze Damage: +5, Familiar Effect: "atk, 1xVolley, cap 41"
 Item	Radio Free Pants	Mysticality: +20, Last Available: "2006-07", Familiar Effect: "1xVolley, 1xGhoul, 1xLep, cap 37"
 Item	ratskin pajama pants	PvP Fights: +2, Adventures: +4, Rollover Effect: "Pajama Party", Rollover Effect Duration: 40, Last Available: "2015-04"
+Item	really, really nice swimming trunks	Muscle: [10+90*env(underwater)], Mysticality: [10+90*env(underwater)], Moxie: [10+90*env(underwater)], Adventure Underwater
 Item	red silk skirt	Experience (Moxie): +1, Hat Drop: +30, Familiar Effect: "atk, 1xFairy, cap 38"
 Item	repaid diaper	Familiar Weight: +15
 # replica Cargo Cultist Shorts: 666 Pockets to Explore
@@ -5855,12 +5857,9 @@ Effect	Bright!	Maximum MP: +100
 Effect	Brilliant Resolve	Experience (Mysticality): +2
 # Brined Liver: Makes you a better diver
 Effect	Brined Liver	Initiative Penalty: [20*env(underwater)], Item Drop Penalty: [20*env(underwater)], Meat Drop Penalty: [20*env(underwater)]
-# Briney Brains: More Effective Underwater
-Effect	Briney Brains	Mysticality Percent: +10
-# Briney Bravado: More Effective Underwater
-Effect	Briney Bravado	Moxie Percent: +10
-# Briney Brawn: More Effective Underwater
-Effect	Briney Brawn	Muscle Percent: +10
+Effect	Briney Brains	Mysticality Percent: [10+90*env(underwater)]
+Effect	Briney Bravado	Moxie Percent: [10+90*env(underwater)]
+Effect	Briney Brawn	Muscle Percent: [10+90*env(underwater)]
 Effect	Briny Blood	Spell Damage: +20, Maximum MP: +40
 Effect	Brittled	Initiative: +50
 Effect	Broad-Spectrum Vaccine	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
@@ -7654,6 +7653,9 @@ Effect	Scrappy, Shadowy	Spooky Damage: +25, Damage Reduction: 15
 Effect	Screaming!  SCREAMING!  AAAAAAAH!	Combat Rate: +5
 Effect	Sea Guts	Initiative Penalty: [10*env(underwater)], Item Drop Penalty: [10*env(underwater)], Meat Drop Penalty: [10*env(underwater)]
 Effect	Sea Seeing	Item Drop: [30*env(underwater)]
+Effect	Sea Smarm	Moxie: [25+225*env(underwater)]
+Effect	Sea Smarts	Mysticality: [25+225*env(underwater)]
+Effect	Sea Strength	Muscle: [25+225*env(underwater)]
 Effect	Seal Clubbing Frenzy	Muscle: +2
 Effect	Sealed Brain	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25
 Effect	Securitybot Escort	Damage Aura: 1
