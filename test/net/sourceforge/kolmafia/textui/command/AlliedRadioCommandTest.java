@@ -4,8 +4,10 @@ import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.equalTo;
 
 import internal.helpers.Cleanups;
 import internal.network.FakeHttpClient;
@@ -44,6 +46,19 @@ public class AlliedRadioCommandTest extends AbstractCommandTestBase {
   void usage() {
     String output = execute("");
     assertThat(output, containsString("Usage: alliedradio"));
+  }
+
+  @Test
+  void usesRemaining() {
+    var cleanups =
+        new Cleanups(
+            withItem(ItemPool.HANDHELD_ALLIED_RADIO, 6),
+            withItem(ItemPool.ALLIED_RADIO_BACKPACK),
+            withProperty("_alliedRadioDropsUsed", 1));
+
+    try (cleanups) {
+      assertThat(AlliedRadioCommand.usesRemaining(), equalTo(8));
+    }
   }
 
   @Nested

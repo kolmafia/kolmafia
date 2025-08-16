@@ -26,15 +26,27 @@ public class AlliedRadioCommand extends AbstractCommand {
     }
   }
 
-  private boolean lacksRadio() {
-    if (InventoryManager.getCount(ItemPool.HANDHELD_ALLIED_RADIO) > 0
-        || (InventoryManager.equippedOrInInventory(ItemPool.ALLIED_RADIO_BACKPACK)
-            && Preferences.getInteger("_alliedRadioDropsUsed") < 3)) {
-      return false;
-    } else {
-      KoLmafia.updateDisplay(MafiaState.ERROR, "You need a handheld radio, or a charged backpack.");
-      return true;
+  public static boolean lacksRadioAndBackpack() {
+    return InventoryManager.getCount(ItemPool.HANDHELD_ALLIED_RADIO) == 0
+        && (!InventoryManager.equippedOrInInventory(ItemPool.ALLIED_RADIO_BACKPACK)
+            || Preferences.getInteger("_alliedRadioDropsUsed") >= 3);
+  }
+
+  public static int usesRemaining() {
+    var uses = 0;
+    uses += InventoryManager.getCount(ItemPool.HANDHELD_ALLIED_RADIO);
+    if (InventoryManager.equippedOrInInventory(ItemPool.ALLIED_RADIO_BACKPACK)) {
+      uses += 3 - Preferences.getInteger("_alliedRadioDropsUsed");
     }
+    return uses;
+  }
+
+  private boolean lacksRadio() {
+    var lack = lacksRadioAndBackpack();
+    if (lack) {
+      KoLmafia.updateDisplay(MafiaState.ERROR, "You need a handheld radio, or a charged backpack.");
+    }
+    return lack;
   }
 
   private void effect(String[] params) {
