@@ -18,10 +18,10 @@ public class DemonName14Manager {
   // List of all possible syllables
   private static final Set<String> SYLLABLES =
       Set.of(
-          "Arg", "Bal", "Ball", "Bar", "Bob", "But", "Cak", "Cal", "Call", "Car", "Col", "Cor",
-          "Cul", "Cur", "Cut", "Dak", "Dar", "Dor", "Gar", "Ger", "Gra", "Gur", "Har", "Hur", "Hut",
-          "Kar", "Kil", "Kir", "Kru", "Kul", "Kur", "Lag", "Lar", "Mor", "Nar", "Nix", "Nut", "Pha",
-          "Rog", "Yer");
+          "Arg", "Bal", "Bar", "Bob", "But", "Cak", "Cal", "Call", "Car", "Col", "Cor", "Cul",
+          "Cur", "Cut", "Dak", "Dar", "Dor", "Gar", "Ger", "Gra", "Gur", "Har", "Hur", "Hut", "Kar",
+          "Kil", "Kir", "Kru", "Kul", "Kur", "Lag", "Lar", "Mor", "Nar", "Nix", "Nut", "Pha", "Rog",
+          "Yer");
 
   /**
    * This core directed graph data structure represents the demon name segments as potential

@@ -10679,6 +10679,7 @@ Item	velour veneer	Last Available: "2021-12"
 Item	vial of humanoid growth hormone	Effect: "HGH-charged", Effect Duration: 30, Last Available: "2019-12"
 Item	vibrating mushroom	Effect: "Weird Vibrations", Effect Duration: 30, Last Available: "2015-09"
 Item	vitamin G pill	Effect: "Riboflavin'", Effect Duration: 5
+Item	water-logged pill	Effect: "Briney Brains", Effect Duration: 50
 Item	watered-down Red Minotaur	Effect: "Water Wings", Effect Duration: 5
 Item	wickerbits	Last Available: "2016-12"
 Item	wrought-iron flakes	Last Available: "2017-12"
@@ -15280,7 +15281,6 @@ Item	warehouse key	Last Available: "2017-12"
 Item	Wart Dinsey: An Afterlife	Skill: "Rotten Memories"
 # water pipe bomb: Deals 55-75 Physical Damage
 Item	water wings	Wiki Name: "water wings"
-Item	water-logged pill	Effect: "Briney Brains", Effect Duration: 50
 Item	waterlogged cloth	Last Available: "2019-12"
 Item	waterlogged crate	Last Available: "2011-12"
 Item	waterlogged leather	Last Available: "2019-12"
