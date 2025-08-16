@@ -1346,7 +1346,7 @@ public class Maximizer {
           duration = 100;
           usesRemaining = 1 - used;
         } else if (cmd.startsWith("alliedradio effect ")) {
-          if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Allied Radio Backpack ")) {
+          if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Allied Radio Backpack")) {
             continue;
           } else if (AlliedRadioCommand.lacksRadioAndBackpack()) {
             cmd = "";
