@@ -1423,3 +1423,13 @@ Allied HQ	ROW1601	Axis codebook	nice nylon stockings (50)
 Allied HQ	ROW1596	Chroner (10)	stolen artifact
 Allied HQ	ROW1597	Chroner (20)	really expensive stolen artifact
 Allied HQ	ROW1598	Chroner (30)	priceless stolen artifact
+
+# Sea Path
+
+Wet Crap For Sale	ROW1608	sand dollar	sand penny (100)
+Wet Crap For Sale	ROW1609	undersea surveying goggles	sand penny (100)
+Wet Crap For Sale	ROW1612	kelp puck	sand penny (30)
+Wet Crap For Sale	ROW1610	Ocean-Touched Rum	sand penny (30)
+Wet Crap For Sale	ROW1611	water-logged pill	sand penny (30)
+Wet Crap For Sale	ROW1617	sea gel	sand penny (10)
+Wet Crap For Sale	ROW1616	waterlogged scroll of healing	sand penny (10)
