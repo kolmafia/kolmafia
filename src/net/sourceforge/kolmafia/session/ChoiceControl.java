@@ -8574,6 +8574,7 @@ public abstract class ChoiceControl {
                   .filter(Predicate.not(String::isBlank))
                   .map(StringUtilities::parseInt)
                   .sorted()
+                  .distinct()
                   .map(i -> Integer.toString(i))
                   .collect(Collectors.joining(",")));
       case 1558 -> { // Foreseeing Peril
