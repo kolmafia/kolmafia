@@ -3925,6 +3925,7 @@ public class ItemPool {
   public static final int ALLIED_RADIO_BACKPACK = 11933;
   public static final int MOBIUS_RING = 11942;
   public static final int HANDHELD_ALLIED_RADIO = 11946;
+  public static final int SAND_PENNY = 11961;
 
   private ItemPool() {}
 

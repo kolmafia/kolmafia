@@ -1452,6 +1452,10 @@ The Naughty Wolferess	2446	weresorceress.gif	BOSS NOCOPY Atk: 300 Def: 300 HP: 1
 
 ewe	2447	ewe.gif	FREE Scale: 5 Cap: 10000 Init: -10000 P: beast EA: spooky EA: none Article: a
 
+# 11,037 Leagues Under the Sea
+
+Nautical Seaceress	2498	seaceress.gif	BOSS NOCOPY Atk: 2000 Def: 2500 HP: 4000 Init: 10000 P: dude Article: The	Instant Karma (c100)	durable dolphin whistle (n100)	Thwaitgold lobster statuette (n100)
+
 # Items of the Month
 
 # Bad Trip (Astral Badger June 2006)
