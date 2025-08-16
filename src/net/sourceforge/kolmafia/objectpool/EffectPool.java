@@ -401,6 +401,9 @@ public class EffectPool {
   public static final int DISCO_OVER_MATTER = 2987;
   public static final int MARIACHI_MOISTURE = 2988;
   public static final int THOUGHTFUL_EMPATHY = 2989;
+  public static final int WILDSUN_BOON = 2999;
+  public static final int MATERIEL_INTEL = 3000;
+  public static final int ELLIPSOIDTINED = 3002;
 
   public static final AdventureResult CURSE1_EFFECT = EffectPool.get(EffectPool.ONCE_CURSED);
   public static final AdventureResult CURSE2_EFFECT = EffectPool.get(EffectPool.TWICE_CURSED);
