@@ -564,8 +564,7 @@ public class NPCStoreDatabase {
       }
       case "unclep" -> {
         // Uncle P's Antiques
-        return !KoLCharacter.inZombiecore()
-            && !KoLCharacter.inNuclearAutumn();
+        return !KoLCharacter.inZombiecore() && !KoLCharacter.inNuclearAutumn();
       }
       case "whitecitadel" -> {
         // White Citadel
