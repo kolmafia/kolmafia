@@ -3399,6 +3399,10 @@ public abstract class KoLCharacter {
     return KoLCharacter.ascensionPath == Path.HAT_TRICK;
   }
 
+  public static final boolean inSeaPath() {
+    return KoLCharacter.ascensionPath == Path.UNDER_THE_SEA;
+  }
+
   public static final boolean noExperience() {
     return inZootomist();
   }
