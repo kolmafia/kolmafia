@@ -902,14 +902,14 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
     Slot slot =
         UseSkillRequest.attemptSwitch(skillId, item, slot1Allowed, slot2Allowed, slot3Allowed);
 
-    if (isRestore) {
-      if (slot == Slot.NONE) {
+    if (slot == Slot.NONE) {
+      if (isRestore) {
         KoLmafia.updateDisplay(
             MafiaState.ERROR, "Cannot choose slot to equip " + item.getName() + ".");
+      } else {
+        // just use accessory 3
+        (new EquipmentRequest(item, Slot.ACCESSORY3)).run();
       }
-    } else {
-      // just use accessory 3
-      (new EquipmentRequest(item, Slot.ACCESSORY3)).run();
     }
   }
 
