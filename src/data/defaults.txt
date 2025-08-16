@@ -1124,13 +1124,13 @@ user	manorDrawerCount	0
 user	manualOfNumberologyAvailable	true
 user	manualOfNumberologyCost	1000
 user	mappingMonsters	false	roa
-user	mapToAnemoneMinePurchased	false	roa
+user	mapToAnemoneMinePurchased	false
 user	mapToKokomoAvailable	true
 user	mapToKokomoCost	1234
-user	mapToMadnessReefPurchased	false	roa
-user	mapToTheDiveBarPurchased	false	roa
-user	mapToTheMarinaraTrenchPurchased	false	roa
-user	mapToTheSkateParkPurchased	false	roa
+user	mapToMadnessReefPurchased	false
+user	mapToTheDiveBarPurchased	false
+user	mapToTheMarinaraTrenchPurchased	false
+user	mapToTheSkateParkPurchased	false
 user	maraisBeaverUnlock	false
 user	maraisCorpseUnlock	false
 user	maraisDarkUnlock	false

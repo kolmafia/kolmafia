@@ -1788,22 +1788,18 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         return false;
       }
 
-      if (this.zone.equals("The Sea")) {
+      return switch (this.zone) {
+        case "The Sea" ->
         // The Briny Deeps, The Brinier Deepers, The Briniest Deepests
-        return true;
-      }
-
-      if (this.zone.equals("The Sea Floor")) {
-        return this.seaFloorZoneAvailable();
-      }
-
-      if (this.zone.equals("The Mer-Kin Deepcity")) {
+        true;
+        case "The Sea Floor" -> this.seaFloorZoneAvailable();
+        case "The Mer-Kin Deepcity" ->
         // Open when you have a seahorse
-        return !Preferences.getString("seahorseName").equals("");
-      }
-
-      // There are currently no more adventuring areas in The Sea
-      return true;
+        !Preferences.getString("seahorseName").isEmpty();
+        default ->
+        // There are currently no more adventuring areas in The Sea
+        true;
+      };
     }
 
     // The following zones depend on your clan, your permissions, and the
