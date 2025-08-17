@@ -212,6 +212,7 @@ public class EffectPool {
   public static final int CONSUMED_BY_FEAR = 1146;
   public static final int CHIBICHANGED = 1167;
   public static final int DEEP_TAINTED_MIND = 1217;
+  public static final int JELLY_COMBED = 1237;
   public static final int TOUCHED_BY_A_GHOST = 1276;
   public static final int CHILLED_TO_THE_BONE = 1277;
   public static final int NAUSEATED = 1278;
