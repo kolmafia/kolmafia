@@ -5402,8 +5402,10 @@ public abstract class ChoiceControl {
         }
       }
 
-      case 704 -> // Playing the Catalog Card
-      DreadScrollManager.handleLibrary(text);
+      case 704 -> { // Playing the Catalog Card
+        DreadScrollManager.handleLibrary(text);
+        postChoiceCatalog(text, ChoiceManager.lastDecision);
+      }
 
       case 774 -> {
         // Opening up the Folder Holder
@@ -7102,6 +7104,9 @@ public abstract class ChoiceControl {
           Preferences.setInteger("_lastDailyDungeonRoom", round - 1);
         }
       }
+
+      case 704 -> // Playing the Catalog Card
+      visitCatalog(text);
 
       case 705 -> // Halls Passing in the Night
       ResultProcessor.processItem(ItemPool.MERKIN_HALLPASS, -1);
@@ -9606,6 +9611,80 @@ public abstract class ChoiceControl {
     if (m.find()) {
       Preferences.setInteger(setting, StringUtilities.parseInt(m.group(1)));
     }
+  }
+
+  // as you improve your vocabulary, these options get reordered. Hence, store which is which.
+  // <input type=hidden name=option value=1><input  class=button type=submit value="AF531.55:
+  // Underwater Knitting&nbsp;on Five Sand Dollars a Day">
+  private static final Pattern CATALOG_OPTION_PATTERN =
+      Pattern.compile(
+          "<input type=hidden name=option value=(\\d+)><input +class=button type=submit value=\"([A-Z]{2}\\d{3}\\.\\d{2}):");
+
+  private static void visitCatalog(String text) {
+    var choices = merkinCatalogChoicesPrefToList();
+    var newChoices = new ArrayList<MerkinCatalogChoice>();
+    Matcher m = CATALOG_OPTION_PATTERN.matcher(text);
+    while (m.find()) {
+      int choice = Integer.parseInt(m.group(1));
+      String desc = m.group(2);
+      var existing = choices.stream().filter(x -> x.identifier.equals(desc)).findFirst();
+      if (existing.isPresent()) {
+        var actual = existing.get();
+        newChoices.add(new MerkinCatalogChoice(desc, choice, actual.spoiler));
+      } else {
+        newChoices.add(new MerkinCatalogChoice(desc, choice, "unknown"));
+      }
+    }
+    if (!newChoices.isEmpty()) {
+      saveMerkinCatalogChoicePref(newChoices);
+    }
+  }
+
+  private static void postChoiceCatalog(String text, int decision) {
+    var isStat = text.contains("You learn something from it");
+    var lst = merkinCatalogChoicesPrefToList();
+    var relevantOption = lst.stream().filter(x -> x.choice == decision).findFirst();
+    relevantOption.ifPresent(actual -> actual.spoiler = isStat ? "stats" : "clue");
+    saveMerkinCatalogChoicePref(lst);
+  }
+
+  // YH702.74:1:stats
+  // spoiler is "unknown", "stats" or "clue"
+  public static class MerkinCatalogChoice {
+    public String identifier;
+    public int choice;
+    public String spoiler;
+
+    public MerkinCatalogChoice(String identifier, int choice, String spoiler) {
+      this.identifier = identifier;
+      this.choice = choice;
+      this.spoiler = spoiler;
+    }
+  }
+
+  public static ArrayList<MerkinCatalogChoice> merkinCatalogChoicesPrefToList() {
+    ArrayList<MerkinCatalogChoice> lst = new ArrayList<>();
+    var pref = Preferences.getString("merkinCatalogChoices");
+    var cards = pref.split(",");
+    for (var card : cards) {
+      var segments = card.split(":");
+      if (segments.length < 3) {
+        continue;
+      }
+      var num = Integer.parseInt(segments[1]);
+      var choice = new MerkinCatalogChoice(segments[0], num, segments[2]);
+      lst.add(choice);
+    }
+    return lst;
+  }
+
+  private static void saveMerkinCatalogChoicePref(ArrayList<MerkinCatalogChoice> lst) {
+    String value =
+        lst.stream()
+            .map(rec -> rec.identifier + ":" + rec.choice + ":" + rec.spoiler)
+            .sorted()
+            .collect(Collectors.joining(","));
+    Preferences.setString("merkinCatalogChoices", value);
   }
 
   public static boolean canWalkFromChoice(int choice) {
