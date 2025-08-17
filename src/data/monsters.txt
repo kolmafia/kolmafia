@@ -233,7 +233,7 @@ evil vihuela-playing mariachi	662	vihuelamariachi.gif	NOCOPY Atk: 24 Def: 21 HP:
 eXtreme cross-country hippy	1154	skihippy.gif	Atk: 73 Def: 65 HP: 65 Init: 60 P: hippy E: stench Article: an	eXtreme scarf (10)	Mountain Stream soda (30)	enchanted handwarmer (p5)	enchanted muesli (c0)
 eXtreme Orcish snowboarder	1155	fratboard.gif	Atk: 74 Def: 66 HP: 65 Init: 60 Meat: 40 P: orc ED: sleaze EA: sleaze EA: none Article: an	Mountain Stream soda (30)	snowboarder pants (10)	enchanted handwarmer (p5)	eXtreme Bi-Polar Fleece Vest (c5)
 extremely annoyed witch	1581	witchy2.gif	NOCOPY Atk: 36 Def: 32 HP: 32 Init: 25 Meat: 40 P: dude EA: hot EA: stench EA: none Article: an	wand of pigification (c100)
-eye in the darkness	1373	darkeye.gif	Atk: 600 Def: 650 HP: 700 Init: 200 P: horror ED: spooky EA: spooky EA: none Article: an	black tear (n50)
+eye in the darkness	1373	darkeye.gif	NOWISH Atk: 600 Def: 650 HP: 700 Init: 200 P: horror ED: spooky EA: spooky EA: none Article: an	black tear (n50)
 factory-irregular skeleton	1744	badskel1.gif,badskel2.gif,badskel3.gif,badskel4.gif,badskel5.gif,badskel6.gif	Atk: 2 Def: 1 HP: 2 Init: -10000 P: undead ED: spooky Article: a	really thick spine (50)	oversized skullcap (30)	three-legged pants (30)	skeleton bone (25)	loose teeth (25)	alien autoautopsy kit (c10)
 Falcoer	1836	falcoer.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: dude Article: a
 Fallen Archfiend	127	archfiend.gif	Atk: 50 Def: 45 HP: 50 Init: 80 Meat: 45 P: demon E: hot Article: a	demon skin (15)	evil golden arch (3)	infernal insoles (5)	pink slime (30)	heavy-duty bendy straw (c100)
@@ -575,7 +575,7 @@ salamander	334	salamander.gif	NOCOPY Atk: [3] Def: [2] HP: [3] Init: -10000 Meat
 sassy pirate	104	pirate1.gif	Atk: 61 Def: 54 HP: 51 Init: 60 Meat: 20 P: pirate Article: a	crowbarrr (10)	flaregun (30)	sunken chest (15)	swashbuckling pants (10)
 scary clown	111	clown.gif	Atk: 19 Def: 17 HP: 15 Init: 80 Meat: 25 P: horror E: spooky Article: a	big red clown nose (10)	bloody clown pants (10)	long skinny balloon (40)	big bass drum (4)	clown skin (10)	polka-dot bow tie (p5)
 scary pirate	307	zompirate.gif	Atk: 150 Def: 135 HP: 200 Init: 10000 Meat: 45 P: pirate E: spooky Article: a Wiki: "scary pirate (cursed)"	cursed breeches (c0.2)	cursed cutlass (c0.2)	cursed eyepatch (c0.2)	folder (skull and crossbones) (c5)
-school of many	1374	schoolofmany.gif	Atk: 625 Def: 600 HP: 20000 Init: 100 Group: 20 P: horror Article: a	rough fish scale (n20)	rough fish scale (n10)	dull fish scale (n40)	dull fish scale (n20)	jagged tooth (n15)	jagged tooth (n5)
+school of many	1374	schoolofmany.gif	NOWISH Atk: 625 Def: 600 HP: 20000 Init: 100 Group: 20 P: horror Article: a	rough fish scale (n20)	rough fish scale (n10)	dull fish scale (n40)	dull fish scale (n20)	jagged tooth (n15)	jagged tooth (n5)
 school of wizardfish	717	wizardfish.gif	Atk: 300 Def: 270 HP: 400 Init: 100 Meat: 200 Group: 4 P: fish Article: a	dull fish scale (n15)	glistening fish meat (n20)	folder (Seawolf) (c5)
 scimitarfish	723	scimitarfish.gif	Atk: 400 Def: 292 HP: 550 Init: 200 Meat: 220 P: fish Article: a	dull fish scale (n15)	fish scimitar (n2)
 scorched duck	558	duckscorch.gif	Atk: 170 Def: 156 HP: 185 Init: 50 Meat: 150 P: beast E: hot Article: a	flaming feather (10)	duct tape (5)
@@ -621,7 +621,7 @@ sleeping Knob Goblin Guard	152	kg_sleepingguard.gif	Atk: 0 Def: 0 HP: 1 Init: -1
 sleepy 7-Foot Dwarf	1149	dwarf_sleepy.gif	Atk: 53 Def: 47 HP: 40 Init: -10000 Meat: 40 P: humanoid Article: a	miner's pants (10)
 slick lihc	193	lich.gif	NOWISH Atk: 59 Def: 54 HP: 50 Init: 50 P: undead E: spooky Article: a	lihc eye (20)	lihc face (7)
 slithering hollandaise glob	658	holglob.gif	NOCOPY Atk: 24 Def: 21 HP: 21 Init: 40 P: slime EA: sleaze EA: none Article: a	a creased paper strip (30)	a crinkled paper strip (30)	a crumpled paper strip (30)	a folded paper strip (30)	a ragged paper strip (30)	a ripped paper strip (30)	a rumpled paper strip (30)	a torn paper strip (30)	nauseating reagent (0)
-slithering thing	1375	slithering.gif	Atk: 600 Def: 675 HP: 700 Init: 50 Meat: 50 P: horror Elem: 25 EA: sleaze EA: none Article: a	grisly shell fragment (30)	grisly shell fragment (15)	grisly shell fragment (5)
+slithering thing	1375	slithering.gif	NOWISH Atk: 600 Def: 675 HP: 700 Init: 50 Meat: 50 P: horror Elem: 25 EA: sleaze EA: none Article: a	grisly shell fragment (30)	grisly shell fragment (15)	grisly shell fragment (5)
 Slow Talkin' Elliot	511	eliot.gif	NOCOPY Atk: 190 Def: 171 HP: 200 Init: 20 Meat: 150 P: hippy ED: stench EA: stench EA: none	Slow Talkin' Elliot's dogtags (100)	green clay bead (30)	bullet-proof corduroys (0)	Lockenstock&trade; sandals (0)
 small barrel mimic	287	mimic2.gif	Atk: 15 Def: 13 HP: 25 Init: 90 P: weird Article: a
 smarmy pirate	106	pirate1.gif	Atk: 65 Def: 58 HP: 55 Init: 70 Meat: 27 P: pirate ED: sleaze EA: sleaze EA: none Article: a	bottle of rum (50)	eyepatch (10)	flaregun (30)	Jolly Roger charrrm bracelet (20)
@@ -1451,6 +1451,10 @@ The Naughty Wolferess	2446	weresorceress.gif	BOSS NOCOPY Atk: 300 Def: 300 HP: 1
 # 11 Things I Hate About U
 
 ewe	2447	ewe.gif	FREE Scale: 5 Cap: 10000 Init: -10000 P: beast EA: spooky EA: none Article: a
+
+# 11,037 Leagues Under the Sea
+
+Nautical Seaceress	2498	seaceress.gif	BOSS NOCOPY Atk: 2000 Def: 2500 HP: 4000 Init: 10000 P: dude Article: The	Instant Karma (c100)	durable dolphin whistle (n100)	Thwaitgold lobster statuette (n100)
 
 # Items of the Month
 

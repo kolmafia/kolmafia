@@ -1113,6 +1113,7 @@ public class ItemPool {
   public static final int EELSKIN_HAT = 3517;
   public static final int EELSKIN_PANTS = 3518;
   public static final int EELSKIN_SHIELD = 3519;
+  public static final int SHARK_JUMPER = 3522;
   public static final int STICKER_CROSSBOW = 3526;
   public static final int PLANS_FOR_GRIMACITE_HAMMER = 3535;
   public static final int PLANS_FOR_GRIMACITE_GRAVY_BOAT = 3536;
@@ -1371,6 +1372,7 @@ public class ItemPool {
   public static final int PACIFIER_NECKLACE = 4195;
   public static final int SEA_COWBELL = 4196;
   public static final int SEA_LASSO = 4198;
+  public static final int SEA_COWBOY_HAT = 4199;
   public static final int MERKIN_CHEATSHEET = 4204;
   public static final int MERKIN_WORDQUIZ = 4205;
   public static final int SKATE_PARK_MAP = 4222;
@@ -2010,6 +2012,7 @@ public class ItemPool {
   public static final int DAMP_WALLET = 6313;
   public static final int FISHY_PIPE = 6314;
   public static final int OLD_SCUBA_TANK = 6315;
+  public static final int SEA_CHAPS = 6317;
   public static final int SUSHI_DOILY = 6328;
   public static final int COZY_SCIMITAR = 6332;
   public static final int COZY_STAFF = 6333;
@@ -2037,6 +2040,7 @@ public class ItemPool {
   public static final int BALSA_PLANK = 6386;
   public static final int BLOB_OF_WOOD_GLUE = 6387;
   public static final int ENVYFISH_EGG = 6388;
+  public static final int SCALE_MAIL_UNDERWEAR = 6392;
   public static final int ANEMONE_SAUCE = 6394;
   public static final int INKY_SQUID_SAUCE = 6395;
   public static final int MERKIN_WEAKSAUCE = 6396;
@@ -3925,6 +3929,7 @@ public class ItemPool {
   public static final int ALLIED_RADIO_BACKPACK = 11933;
   public static final int MOBIUS_RING = 11942;
   public static final int HANDHELD_ALLIED_RADIO = 11946;
+  public static final int SAND_PENNY = 11961;
 
   private ItemPool() {}
 

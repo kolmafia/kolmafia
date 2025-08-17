@@ -901,6 +901,7 @@ user	kingLiberatedScript
 user	knownAscensions	-1
 user	kolhsTotalSchoolSpirited	0
 user	lassoTraining		roa
+user	lassoTrainingCount	0	roa
 user	lastAdventure
 user	lastAdventureContainer
 user	lastAdventureTrail
@@ -1182,6 +1183,7 @@ user	miniKiwiAiolisUsed	0	roa
 user	miniMartinisDrunk	0
 user	moleTunnelLevel	0
 user	moonTuned	false	roa
+user	momSeaMonkeeProgress	0	roa
 user	monkeyPointMonster		roa
 user	motifMonster		roa
 user	mothershipProgress	0

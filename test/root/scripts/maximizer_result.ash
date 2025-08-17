@@ -21,7 +21,7 @@ MaximizerResult do_maximize(string command, int price, int priceLevel, boolean s
 
 }
 
-MaximizerResult result = do_maximize("initiative", 0, 0, true, false);
+MaximizerResult result = do_maximize("fishing skill", 0, 0, true, false);
 print("display = " + result.display);
 print("command = " + result.command);
 print("score = " + result.score);

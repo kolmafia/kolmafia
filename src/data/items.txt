@@ -11986,15 +11986,16 @@
 11958	fancy old wine	590385263	wine.gif	drink	t,d	500	bottles of fancy old wine
 11959
 11960	really, really nice swimming trunks	689309757	nicetrunks.gif	pants	q	0
-11961	sand penny	692682835	sandpenny.gif	none	q	0
-11962	undersea surveying goggles	351851283	surveygoggles.gif	hat	q	0
-11963	Ocean-Touched Rum	224796689	emberbottle.gif	drink	t	0
+11961	sand penny	692682835	sandpenny.gif	none	q	0	sand pennies
+11962	undersea surveying goggles	351851283	surveygoggles.gif	hat	q	0	pairs of undersea surveying goggles
+11963	Ocean-Touched Rum	224796689	emberbottle.gif	drink	t	0	bottles of Ocean-Touched Rum
 11964	water-logged pill	157807719	stimpill2.gif	spleen, usable	t	0
 11965	kelp puck	526729791	kelppuck.gif	food	t	0
-11966	scroll of sea strength	717070334	limerickscroll.gif	usable	t	0
-11967	scroll of sea smarts	792194441	limerickscroll.gif	usable	t	0
-11968	scroll of sea smarm	376628739	limerickscroll.gif	usable	d	10
-11969	waterlogged scroll of healing	217776170	scroll1.gif	usable, combat		0
-11970	sea gel	865130560	vglob1.gif	usable, combat		0
+11966	scroll of sea strength	717070334	limerickscroll.gif	multiple	t	0	scrolls of sea strength
+11967	scroll of sea smarts	792194441	limerickscroll.gif	multiple	t	0	scrolls of sea smarts
+11968	scroll of sea smarm	376628739	limerickscroll.gif	multiple	d	10	scrolls of sea smarm
+11969	waterlogged scroll of healing	217776170	scroll1.gif	multiple, combat		0	waterlogged scrolls of healing
+11970	sea gel	865130560	vglob1.gif	multiple, combat		0	globs of sea gel
 11971	ink bladder	962785260	inkbladder.gif	potion, usable	t,d	25
 11972	durable dolphin whistle	754386808	whistle.gif	usable		0
+11973	Thwaitgold lobster statuette	719574059	thwaitlobster.gif	none		0

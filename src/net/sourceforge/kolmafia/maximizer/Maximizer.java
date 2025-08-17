@@ -66,6 +66,7 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.MallPriceManager;
 import net.sourceforge.kolmafia.session.RabbitHoleManager;
 import net.sourceforge.kolmafia.swingui.MaximizerFrame;
+import net.sourceforge.kolmafia.textui.command.AlliedRadioCommand;
 import net.sourceforge.kolmafia.textui.command.LoathingIdolCommand;
 import net.sourceforge.kolmafia.utilities.IntOrString;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -1344,6 +1345,20 @@ public class Maximizer {
           }
           duration = 100;
           usesRemaining = 1 - used;
+        } else if (cmd.startsWith("alliedradio effect ")) {
+          if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Allied Radio Backpack")) {
+            continue;
+          } else if (AlliedRadioCommand.lacksRadioAndBackpack()) {
+            cmd = "";
+          }
+          if (effectId == EffectPool.WILDSUN_BOON) {
+            duration = 100;
+          } else if (effectId == EffectPool.ELLIPSOIDTINED) {
+            duration = 30;
+          } else if (effectId == EffectPool.MATERIEL_INTEL) {
+            duration = 10;
+          }
+          usesRemaining = AlliedRadioCommand.usesRemaining();
         }
 
         if (item != null) {

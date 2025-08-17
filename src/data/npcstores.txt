@@ -167,6 +167,7 @@ The General Store	generalstore	high-test fishing line	2500	ROW817
 The General Store	generalstore	Desert Bus pass	5000	ROW657
 The General Store	generalstore	li'l unicorn costume	1000	ROW890
 The General Store	generalstore	li'l candy corn costume	1000	ROW891
+The General Store	generalstore	white rice	250	ROW1607
 
 # Only with an over-the-shoulder folder holder
 The General Store	generalstore	folder (blue)	10	ROW636
@@ -471,3 +472,7 @@ Ornament Stand	crimbo21ornaments	white Crimbo ball	100	ROW1266
 Hack Market	cyber_hackmarket	drenchrome 2.0	500	ROW1557
 Hack Market	cyber_hackmarket	eXpand	500	ROW1556
 Hack Market	cyber_hackmarket	Synapse Blaster	500	ROW1549
+
+Wet Crap For Sale	sandpenny	scroll of sea strength	1000	ROW1613
+Wet Crap For Sale	sandpenny	scroll of sea smarts	1000	ROW1614
+Wet Crap For Sale	sandpenny	scroll of sea smarm	1000	ROW1615
