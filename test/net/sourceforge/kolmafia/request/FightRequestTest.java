@@ -4141,4 +4141,38 @@ public class FightRequestTest {
       assertThat("yearbookCameraPending", isSetTo(true));
     }
   }
+
+  @Test
+  public void tracksLassoTraining() {
+    var cleanups =
+        new Cleanups(
+            withFight(),
+            withProperty("lassoTraining"),
+            withProperty("lassoTrainingCount", 1),
+            withEquipped(ItemPool.SEA_COWBOY_HAT),
+            withEquipped(ItemPool.SEA_CHAPS));
+
+    try (cleanups) {
+      var page = "request/test_fight_sea_lasso.html";
+      parseCombatData(page, "fight.php?action=useitem&whichitem=4198&whichitem2=0");
+      assertThat("lassoTraining", isSetTo("clumsily"));
+      assertThat("lassoTrainingCount", isSetTo(4));
+    }
+  }
+
+  @Test
+  public void tracksMomSeaMonkeeProgress() {
+    var cleanups =
+        new Cleanups(
+            withFight(),
+            withNextMonster("school of many"),
+            withProperty("momSeaMonkeeProgress", 3),
+            withEquipped(ItemPool.SHARK_JUMPER),
+            withEquipped(ItemPool.SCALE_MAIL_UNDERWEAR));
+
+    try (cleanups) {
+      FightRequest.updateFinalRoundData("", true, false);
+      assertThat("momSeaMonkeeProgress", isSetTo(6));
+    }
+  }
 }
