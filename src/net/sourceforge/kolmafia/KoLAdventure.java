@@ -1788,22 +1788,18 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         return false;
       }
 
-      if (this.zone.equals("The Sea")) {
+      return switch (this.zone) {
+        case "The Sea" ->
         // The Briny Deeps, The Brinier Deepers, The Briniest Deepests
-        return true;
-      }
-
-      if (this.zone.equals("The Sea Floor")) {
-        return this.seaFloorZoneAvailable();
-      }
-
-      if (this.zone.equals("The Mer-Kin Deepcity")) {
+        true;
+        case "The Sea Floor" -> this.seaFloorZoneAvailable();
+        case "The Mer-Kin Deepcity" ->
         // Open when you have a seahorse
-        return !Preferences.getString("seahorseName").equals("");
-      }
-
-      // There are currently no more adventuring areas in The Sea
-      return true;
+        !Preferences.getString("seahorseName").isEmpty();
+        default ->
+        // There are currently no more adventuring areas in The Sea
+        true;
+      };
     }
 
     // The following zones depend on your clan, your permissions, and the
@@ -2244,12 +2240,18 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
           Quest.SEA_MONKEES, QuestDatabase.STARTED);
         // Grandpa
         // Free for Muscle classes. Otherwise, must buy map.
-      case AdventurePool.ANEMONE_MINE -> ItemDatabase.haveVirtualItem(ItemPool.ANEMONE_MINE_MAP);
+      case AdventurePool.ANEMONE_MINE -> (QuestDatabase.isQuestLaterThan(Quest.SEA_MONKEES, "step3")
+              && KoLCharacter.isMuscleClass())
+          || ItemDatabase.haveVirtualItem(ItemPool.ANEMONE_MINE_MAP);
         // Free for Mysticality classes Otherwise, must buy map.
-      case AdventurePool.MARINARA_TRENCH -> ItemDatabase.haveVirtualItem(
-          ItemPool.MARINARA_TRENCH_MAP);
+      case AdventurePool.MARINARA_TRENCH -> (QuestDatabase.isQuestLaterThan(
+                  Quest.SEA_MONKEES, "step3")
+              && KoLCharacter.isMysticalityClass())
+          || ItemDatabase.haveVirtualItem(ItemPool.MARINARA_TRENCH_MAP);
         // Free for Moxie classes Otherwise, must buy map.
-      case AdventurePool.DIVE_BAR -> ItemDatabase.haveVirtualItem(ItemPool.DIVE_BAR_MAP);
+      case AdventurePool.DIVE_BAR -> (QuestDatabase.isQuestLaterThan(Quest.SEA_MONKEES, "step3")
+              && KoLCharacter.isMoxieClass())
+          || ItemDatabase.haveVirtualItem(ItemPool.DIVE_BAR_MAP);
         // Grandma. Open when ask grandpa about Grandma.
       case AdventurePool.MERKIN_OUTPOST -> QuestDatabase.isQuestLaterThan(
           Quest.SEA_MONKEES, "step5");
