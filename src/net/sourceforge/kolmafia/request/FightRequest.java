@@ -4328,6 +4328,9 @@ public class FightRequest extends GenericRequest {
         case "time cop" -> {
           Preferences.increment("_timeCopsFoughtToday", 1);
         }
+        case "Shub-Jigguwatt, Elder God of Violence" -> Preferences.setBoolean(
+            "shubJigguwattDefeated", true);
+        case "Yog-Urt, Elder Goddess of Hatred" -> Preferences.setBoolean("yogUrtDefeated", true);
         case "eye in the darkness", "Peanut", "school of many", "slithering thing" -> {
           int momCount = 1;
           if (KoLCharacter.hasEquipped(ItemPool.SHARK_JUMPER)) {
