@@ -794,21 +794,21 @@ user	goreCollected	0
 user	gourdItemCount	5
 user	grabCloversHardcore	false
 user	grabCloversSoftcore	true
-user	grandpaUnlockedBlankPrescriptionSheet	false	roa
-user	grandpaUnlockedEelSauce	false	roa
-user	grandpaUnlockedFishyWand	false	roa
-user	grandpaUnlockedGlowingSyringe	false	roa
-user	grandpaUnlockedGroupieSpangles	false	roa
-user	grandpaUnlockedHairOfTheFish	false	roa
-user	grandpaUnlockedHalibut	false	roa
-user	grandpaUnlockedHeavilyInvestedInPunFutures	false	roa
-user	grandpaUnlockedJellyfishGel	false	roa
-user	grandpaUnlockedMarineAquamarine	false	roa
-user	grandpaUnlockedMidgetClownfish	false	roa
-user	grandpaUnlockedSeaRadish	false	roa
-user	grandpaUnlockedTrophyFish	false	roa
-user	grandpaUnlockedWaterPoloCap	false	roa
-user	grandpaUnlockedWaterPoloMitt	false	roa
+user	grandpaUnlockedBlankPrescriptionSheet	false
+user	grandpaUnlockedEelSauce	false
+user	grandpaUnlockedFishyWand	false
+user	grandpaUnlockedGlowingSyringe	false
+user	grandpaUnlockedGroupieSpangles	false
+user	grandpaUnlockedHairOfTheFish	false
+user	grandpaUnlockedHalibut	false
+user	grandpaUnlockedHeavilyInvestedInPunFutures	false
+user	grandpaUnlockedJellyfishGel	false
+user	grandpaUnlockedMarineAquamarine	false
+user	grandpaUnlockedMidgetClownfish	false
+user	grandpaUnlockedSeaRadish	false
+user	grandpaUnlockedTrophyFish	false
+user	grandpaUnlockedWaterPoloCap	false
+user	grandpaUnlockedWaterPoloMitt	false
 user	greyYouPoints	0
 user	grimoire1Summons	0	ld
 user	grimoire2Summons	0	ld
