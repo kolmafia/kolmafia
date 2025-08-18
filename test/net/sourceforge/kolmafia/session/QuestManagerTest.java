@@ -1904,6 +1904,27 @@ public class QuestManagerTest {
       }
     }
 
+    @ParameterizedTest
+    @CsvSource({"4, PASTAMANCER, false", "4, SEAL_CLUBBER, true", "2, PASTAMANCER, true"})
+    public void seeingTrenchOnSeaFloor(
+        final int step, AscensionClass ascensionClass, boolean unlocked) {
+      var builder = new FakeHttpClientBuilder();
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withClass(ascensionClass),
+              withQuestProgress(Quest.SEA_MONKEES, step));
+      try (cleanups) {
+        builder.client.addResponse(200, html("request/test_quest_sea_monkee_step_4_2.html"));
+        builder.client.addResponse(200, ""); // api.php
+
+        var request = new GenericRequest("seafloor.php", false);
+        request.run();
+
+        assertThat("mapToTheMarinaraTrenchPurchased", isSetTo(unlocked));
+      }
+    }
+
     private static final AdventureResult SAND_DOLLAR = ItemPool.get(ItemPool.SAND_DOLLAR);
 
     // ***** The Old Guy Quest *****
@@ -2325,30 +2346,6 @@ public class QuestManagerTest {
           var requests = builder.client.getRequests();
           assertThat(requests, hasSize(1));
           assertGetRequest(requests.get(0), "/monkeycastle.php", "who=1");
-        }
-      }
-
-      @Test
-      public void seeingTrenchOnSeaFloorAdvancesQuest() {
-        var builder = new FakeHttpClientBuilder();
-        var cleanups =
-            new Cleanups(
-                withHttpClientBuilder(builder),
-                withClass(AscensionClass.PASTAMANCER),
-                withQuestProgress(Quest.SEA_MONKEES, QuestDatabase.UNSTARTED));
-        try (cleanups) {
-          builder.client.addResponse(200, html("request/test_quest_sea_monkee_step_4_2.html"));
-          builder.client.addResponse(200, ""); // api.php
-
-          var request = new GenericRequest("seafloor.php", false);
-          request.run();
-
-          assertThat(Quest.SEA_MONKEES, isStep(4));
-
-          var requests = builder.client.getRequests();
-          assertThat(requests, hasSize(2));
-          assertGetRequest(requests.get(0), "/seafloor.php", null);
-          assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
         }
       }
 

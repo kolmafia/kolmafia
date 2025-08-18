@@ -1431,13 +1431,6 @@ public class QuestManager {
         QuestDatabase.setQuestProgress(Quest.SEA_MONKEES, "step1");
       } else if (responseText.contains("Wanna help me find Grandpa?")) {
         QuestDatabase.setQuestProgress(Quest.SEA_MONKEES, "step4");
-        if (KoLCharacter.isMuscleClass()) {
-          Preferences.setBoolean("mapToAnemoneMinePurchased", true);
-        } else if (KoLCharacter.isMysticalityClass()) {
-          Preferences.setBoolean("mapToTheMarinaraTrenchPurchased", true);
-        } else if (KoLCharacter.isMoxieClass()) {
-          Preferences.setBoolean("mapToTheDiveBarPurchased", true);
-        }
       } else if (responseText.contains("he's been actin' awful weird lately")) {
         QuestDatabase.setQuestProgress(Quest.SEA_MONKEES, "step10");
       }
@@ -1479,24 +1472,21 @@ public class QuestManager {
         QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, QuestDatabase.STARTED);
       }
 
-      if (responseText.contains("mine")) {
-        if (KoLCharacter.isMuscleClass()) {
-          QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, "step4");
-        }
+      if (responseText.contains("mine")
+          && (QuestDatabase.isQuestBefore(Quest.SEA_MONKEES, "step4")
+              || !KoLCharacter.isMuscleClass())) {
         Preferences.setBoolean("mapToAnemoneMinePurchased", true);
       }
 
-      if (responseText.contains("trench")) {
-        if (KoLCharacter.isMysticalityClass()) {
-          QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, "step4");
-        }
+      if (responseText.contains("trench")
+          && (QuestDatabase.isQuestBefore(Quest.SEA_MONKEES, "step4")
+              || !KoLCharacter.isMysticalityClass())) {
         Preferences.setBoolean("mapToTheMarinaraTrenchPurchased", true);
       }
 
-      if (responseText.contains("divebar")) {
-        if (KoLCharacter.isMoxieClass()) {
-          QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, "step4");
-        }
+      if (responseText.contains("divebar")
+          && (QuestDatabase.isQuestBefore(Quest.SEA_MONKEES, "step4")
+              || !KoLCharacter.isMoxieClass())) {
         Preferences.setBoolean("mapToTheDiveBarPurchased", true);
       }
 
