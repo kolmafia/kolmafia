@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 public class GrandpaRequest extends GenericRequest {
@@ -31,7 +32,7 @@ public class GrandpaRequest extends GenericRequest {
     parseResponse(this.getURLString(), this.responseText);
   }
 
-  private static final Map<String, String> STORIES =
+  private static final Map<String, String> STORY_FLAG_PREFS =
       Map.ofEntries(
           Map.entry("avius ticklium", "grandpaUnlockedFishyWand"),
           Map.entry("hierfal", "hasTwinkleVision"),
@@ -55,7 +56,8 @@ public class GrandpaRequest extends GenericRequest {
           Map.entry("scale", "grandpaUnlockedHeavilyInvestedInPunFutures"),
           Map.entry("trophy fish", "grandpaUnlockedTrophyFish"),
           Map.entry("trophyfish", "grandpaUnlockedTrophyFish"),
-          Map.entry("groupie", "grandpaUnlockedGroupieSpangles"));
+          Map.entry("groupie", "grandpaUnlockedGroupieSpangles"),
+          Map.entry("currents", "intenseCurrents"));
 
   public static final Pattern TOPIC_PATTERN = Pattern.compile("topic=([^&]*)");
 
@@ -69,9 +71,16 @@ public class GrandpaRequest extends GenericRequest {
       return;
     }
     var topic = GenericRequest.decodeField(matcher.group(1)).toLowerCase().trim();
-    var pref = STORIES.getOrDefault(topic, null);
-    if (pref != null) {
-      Preferences.setBoolean(pref, true);
+
+    switch (topic) {
+      case "grandma", "wife" -> QuestDatabase.setQuestIfBetter(
+          QuestDatabase.Quest.SEA_MONKEES, "step6");
+      default -> {
+        var pref = STORY_FLAG_PREFS.getOrDefault(topic, null);
+        if (pref != null) {
+          Preferences.setBoolean(pref, true);
+        }
+      }
     }
   }
 
