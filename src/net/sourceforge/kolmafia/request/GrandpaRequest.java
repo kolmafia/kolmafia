@@ -55,7 +55,7 @@ public class GrandpaRequest extends GenericRequest {
           Map.entry("scale", "grandpaUnlockedHeavilyInvestedInPunFutures"),
           Map.entry("trophy fish", "grandpaUnlockedTrophyFish"),
           Map.entry("trophyfish", "grandpaUnlockedTrophyFish"),
-          Map.entry("groupe", "grandpaUnlockedGroupieSpangles"));
+          Map.entry("groupie", "grandpaUnlockedGroupieSpangles"));
 
   public static final Pattern TOPIC_PATTERN = Pattern.compile("topic=([^&]*)");
 
