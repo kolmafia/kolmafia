@@ -1314,11 +1314,18 @@ public abstract class ChoiceControl {
         }
       }
 
-      case 709,
-          // You Beat Shub to a Stub, Bub
-          713,
-          // You Brought Her To Her Kn-kn-kn-kn-knees, Knees.
-          717 -> {
+      case 709 -> {
+        // You Beat Shub to a Stub, Bub
+        Preferences.setBoolean("shubJigguwattDefeated", true);
+        Preferences.setString("merkinQuestPath", "done");
+      }
+
+      case 713 -> {
+        // You Brought Her To Her Kn-kn-kn-kn-knees, Knees.
+        Preferences.setBoolean("yogUrtDefeated", true);
+        Preferences.setString("merkinQuestPath", "done");
+      }
+      case 717 -> {
         // Over. Over Now.
         Preferences.setString("merkinQuestPath", "done");
       }
