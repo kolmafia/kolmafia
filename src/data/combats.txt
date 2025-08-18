@@ -285,7 +285,7 @@ The Beanbat Chamber	100	beanbat	magical fruit bat	musical fruit bat	screambat: 0
 The Beehive	100	bee	queen bee (Spelunky): 0
 The Black Forest	95	black adder	black panther	black widow	black friar	black magic woman	blackberry bush: 0
 The Boss Bat's Lair	100	beefy bodyguard bat	Boss Bat
-The Brinier Deepers	100	bazookafish	clubfish	scimitarfish
+The Brinier Deepers	100	bazookafish	clubfish	scimitarfish	trophyfish
 The Briniest Deepests	100	acoustic electric eel	decent white shark	ganger
 The Briny Deeps	100	funk sole brother	pumped-up bass	school of wizardfish
 The Broodling Grounds	100	hellseal pup	mother hellseal: 0
