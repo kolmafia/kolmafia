@@ -6916,6 +6916,9 @@ public abstract class ChoiceAdventures {
       case 700 ->
       // Delirium in the Cafeterium
       dynamicChoiceSpoilers(choice, "Delirium in the Cafeterium");
+      case 704 ->
+      // Playing the Catalog Card
+      dynamicChoiceSpoilers(choice, "Playing the Catalog Card");
       case 721 ->
       // The Cabin in the Dreadsylvanian Woods
       dynamicChoiceSpoilers(choice, "The Cabin in the Dreadsylvanian Woods");
@@ -7887,6 +7890,28 @@ public abstract class ChoiceAdventures {
         result[2] =
             new ChoiceOption(
                 KoLConstants.activeEffects.contains(GREASER_EFFECT) ? "Gain stats" : "Lose HP");
+        return result;
+      }
+      case 704 -> {
+        // Playing the Catalog Card
+
+        String responseText = ChoiceManager.lastResponseText;
+        var knownChoices =
+            ChoiceControl.merkinCatalogChoicesPrefToList().stream()
+                .collect(Collectors.toMap(x -> x.choice, x -> x));
+        Map<Integer, String> choices = ChoiceUtilities.parseChoices(responseText);
+        int options = choices.size();
+
+        result = new ChoiceOption[options];
+        for (int i = 0; i < options; i++) {
+          var knownChoice = knownChoices.get(i + 1);
+          if (knownChoice != null) {
+            result[i] = new ChoiceOption(knownChoice.spoiler);
+          } else {
+            result[i] = new ChoiceOption("unknown");
+          }
+        }
+
         return result;
       }
       case 721 -> {

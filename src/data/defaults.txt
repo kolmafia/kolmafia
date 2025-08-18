@@ -1175,6 +1175,7 @@ user	mayoInMouth		roa
 user	mayoLevel	0	roa
 user	mayoMinderSetting		roa
 user	meansuckerPrice	400	roa
+user	merkinCatalogChoices		roa
 user	merkinQuestPath	none	roa
 user	merkinLockkeyMonster		roa
 user	merkinVocabularyMastery	0	roa

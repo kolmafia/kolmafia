@@ -6880,7 +6880,7 @@ Effect	init.enh	Initiative: +50
 Effect	Initiative and Let Die	Initiative: +50
 Effect	Ink Cloud	Combat Rate: -5
 Effect	Inked Well	Combat Rate: -10
-Effect	Inkily Obscured	Combat Rate (Underwater): -5
+Effect	Inkily Obscured	Combat Rate: [-5*env(underwater)]
 Effect	Inky Camouflage	Combat Rate: -5
 Effect	Innately Strong	Muscle Percent: +100, Experience (Muscle): +3
 Effect	Innately Truthy	Moxie Percent: +100, Experience (Moxie): +3
