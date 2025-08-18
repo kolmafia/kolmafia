@@ -1662,4 +1662,16 @@ class ChoiceControlTest {
       }
     }
   }
+
+  @Test
+  void seaPathFreeKing() {
+    var cleanups =
+        new Cleanups(
+            withProperty("kingLiberated", false),
+            withPostChoice2(1565, 1, html("request/test_choice_sea_path_free_king.html")));
+
+    try (cleanups) {
+      assertThat("kingLiberated", isSetTo(true));
+    }
+  }
 }
