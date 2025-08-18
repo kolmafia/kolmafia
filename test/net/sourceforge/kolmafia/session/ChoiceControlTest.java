@@ -1615,4 +1615,51 @@ class ChoiceControlTest {
       }
     }
   }
+
+  @Nested
+  class CatalogCard {
+    @Test
+    void parsesChoiceAdventure() {
+      var cleanups =
+          new Cleanups(
+              withProperty("merkinCatalogChoices"),
+              withChoice(704, html("request/test_choice_catalog_0.html")));
+
+      try (cleanups) {
+        assertThat(
+            "merkinCatalogChoices",
+            isSetTo(
+                "AF531.55:1:unknown,AW393.55:2:unknown,CF473.85:11:unknown,CK171.48:4:unknown,DZ919.41:13:unknown,LS807.86:10:unknown,NZ395.76:5:unknown,OF298.41:12:unknown,RH380.67:9:unknown,WG526.35:3:unknown,XQ903.56:6:unknown,ZI598.93:8:unknown,ZM359.31:7:unknown"));
+      }
+    }
+
+    @Test
+    void postChoiceUpdatesSpoilers() {
+      var cleanups =
+          new Cleanups(
+              withProperty("merkinCatalogChoices", "AF531.55:1:unknown,AW393.55:2:unknown"),
+              withPostChoice2(704, 1, html("request/test_choice_catalog_post_0.html")));
+
+      try (cleanups) {
+        assertThat("merkinCatalogChoices", isSetTo("AF531.55:1:stats,AW393.55:2:unknown"));
+      }
+    }
+
+    @Test
+    void keepsSpoilersInReshuffle() {
+      var cleanups =
+          new Cleanups(
+              withProperty(
+                  "merkinCatalogChoices",
+                  "AF531.55:1:stats,AW393.55:2:unknown,CF473.85:11:unknown,CK171.48:4:unknown,DZ919.41:13:unknown,LS807.86:10:unknown,NZ395.76:5:unknown,OF298.41:12:unknown,RH380.67:9:unknown,WG526.35:3:unknown,XQ903.56:6:unknown,ZI598.93:8:unknown,ZM359.31:7:unknown"),
+              withChoice(704, html("request/test_choice_catalog_1.html")));
+
+      try (cleanups) {
+        assertThat(
+            "merkinCatalogChoices",
+            isSetTo(
+                "AF531.55:8:stats,AW393.55:10:unknown,CF473.85:9:unknown,CK171.48:1:unknown,DZ919.41:2:unknown,NZ395.76:4:unknown,OF298.41:11:unknown,RH380.67:7:unknown,WG526.35:3:unknown,XQ903.56:5:unknown,ZI598.93:12:unknown,ZM359.31:6:unknown"));
+      }
+    }
+  }
 }

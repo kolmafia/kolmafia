@@ -18,6 +18,7 @@ import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.GenericRequest;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -236,5 +237,24 @@ class ChoiceAdventuresTest {
         containsString(
             "<option value=\"354\" disabled>Astronomer (obsolete) (90 samples required)</option>"));
     assertThat(output, containsString("<option value=\"1163\" >Baa'baa'bu'ran </option>"));
+  }
+
+  @Test
+  void catalogCardSpoilers() {
+    var cleanups =
+        new Cleanups(withProperty("merkinCatalogChoices", "AF531.55:1:stats,AW393.55:2:clue"));
+
+    try (cleanups) {
+      var req = new GenericRequest("choice.php?whichchoice=" + 704);
+      req.responseText = html("request/test_choice_catalog_0.html");
+
+      ChoiceManager.visitChoice(req);
+
+      var options = ChoiceAdventures.dynamicChoiceOptions(704);
+      assert options != null;
+      assertThat(options[0].getName(), is("stats"));
+      assertThat(options[1].getName(), is("clue"));
+      assertThat(options[2].getName(), is("unknown"));
+    }
   }
 }
