@@ -10476,7 +10476,7 @@ public abstract class RuntimeLibrary {
     Type type = modifier.getType();
     if (type.equals(DataTypes.MODIFIER_TYPE)) {
       Modifier content = (Modifier) modifier.content;
-      if (content.getType() == ModifierValueType.NUMERIC) {
+      if (content != null && content.getType() == ModifierValueType.NUMERIC) {
         return content;
       }
       throw controller.runtimeException("numeric modifier required");
@@ -10490,7 +10490,7 @@ public abstract class RuntimeLibrary {
     Type type = modifier.getType();
     if (type.equals(DataTypes.MODIFIER_TYPE)) {
       Modifier content = (Modifier) modifier.content;
-      if (content.getType() == ModifierValueType.BOOLEAN) {
+      if (content != null && content.getType() == ModifierValueType.BOOLEAN) {
         return (BooleanModifier) content;
       }
       throw controller.runtimeException("boolean modifier required");
@@ -10503,12 +10503,14 @@ public abstract class RuntimeLibrary {
     Type type = modifier.getType();
     if (type.equals(DataTypes.MODIFIER_TYPE)) {
       Modifier content = (Modifier) modifier.content;
-      switch (content.getType()) {
-        case STRING -> {
-          return (StringModifier) content;
-        }
-        case MULTISTRING -> {
-          return (MultiStringModifier) content;
+      if (content != null) {
+        switch (content.getType()) {
+          case STRING -> {
+            return (StringModifier) content;
+          }
+          case MULTISTRING -> {
+            return (MultiStringModifier) content;
+          }
         }
       }
       throw controller.runtimeException("string modifier required");
@@ -10526,7 +10528,7 @@ public abstract class RuntimeLibrary {
     Type type = modifier.getType();
     if (type.equals(DataTypes.MODIFIER_TYPE)) {
       Modifier content = (Modifier) modifier.content;
-      if (content.getType() == ModifierValueType.MULTISTRING) {
+      if (content != null && content.getType() == ModifierValueType.MULTISTRING) {
         return (MultiStringModifier) content;
       }
       throw controller.runtimeException("string modifier required");
