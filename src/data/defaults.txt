@@ -1528,6 +1528,7 @@ user	shrubGarland
 user	shrubGifts
 user	shrubLights
 user	shrubTopper
+user	shubJigguwattDefeated	false	roa
 user	sideDefeated	neither
 user	sidequestArenaCompleted	none
 user	sidequestFarmCompleted	none
@@ -1794,6 +1795,7 @@ user	yearbookCameraAscensions	0
 user	yearbookCameraPending	false	roa
 user	yearbookCameraTarget		roa
 user	yearbookCameraUpgrades	0
+user	yogUrtDefeated	false	roa
 user	yourFavoriteBird
 user	yourFavoriteBirdMods
 user	youRobotBody	0	roa
