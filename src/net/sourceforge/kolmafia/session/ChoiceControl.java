@@ -6743,6 +6743,14 @@ public abstract class ChoiceControl {
         String req = request.getFormField("request");
         AlliedRadioRequest.postChoice(text, true, req);
       }
+
+      case 1565 -> {
+        // The Council of Loathing
+        if (text.contains(
+            "You free King Ralph, signalling a triumphant end to your submaritime adventure")) {
+          KoLCharacter.liberateKing();
+        }
+      }
     }
   }
 
