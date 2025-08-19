@@ -229,14 +229,16 @@ tasks.shadowJar {
   archiveClassifier.set(if (isDirty()) "M" else "")
 }
 
-val revisionProvider: Provider<String> = providers.provider {
-  val commit = findProperty("commit")?.toString() ?: "HEAD"
-  val rev = grgit.log {
-    includes = listOf(commit)
-  }.size - localCommits(commit)
+val revisionProvider: Provider<String> =
+  providers.provider {
+    val commit = findProperty("commit")?.toString() ?: "HEAD"
+    val rev =
+      grgit.log {
+        includes = listOf(commit)
+      }.size - localCommits(commit)
 
-  rev.toString()
-}
+    rev.toString()
+  }
 
 tasks.register("getRevision") {
   onlyIf {
