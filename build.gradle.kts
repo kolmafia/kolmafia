@@ -156,12 +156,15 @@ tasks.register<Delete>("pruneDist") {
   onlyIf {
     dist.exists()
   }
-  delete(
-    dist.listFiles()?.filter {
-      it.isFile && it.name.startsWith("KoLmafia-") && it.name.endsWith(".jar") &&
-        (!it.name.contains(project.version.toString()) || (isDirty() != it.name.endsWith("-M.jar")))
-    }.orEmpty(),
-  )
+  doFirst {
+    val revString = revisionProvider.get()
+    delete(
+      dist.listFiles()?.filter {
+        it.isFile && it.name.startsWith("KoLmafia-") && it.name.endsWith(".jar") &&
+          (!it.name.contains(revString) || (isDirty() != it.name.endsWith("-M.jar")))
+      }.orEmpty(),
+    )
+  }
 }
 
 tasks.test {
@@ -226,6 +229,17 @@ tasks.shadowJar {
   archiveClassifier.set(if (isDirty()) "M" else "")
 }
 
+val revisionProvider: Provider<String> =
+  providers.provider {
+    val commit = findProperty("commit")?.toString() ?: "HEAD"
+    val rev =
+      grgit.log {
+        includes = listOf(commit)
+      }.size - localCommits(commit)
+
+    rev.toString()
+  }
+
 tasks.register("getRevision") {
   onlyIf {
     file(".git").exists()
@@ -236,14 +250,11 @@ tasks.register("getRevision") {
   outputs.files(file("build/revision.txt"))
 
   doLast {
-    val revision =
-      grgit.log {
-        includes = listOf(commit)
-      }.size - localCommits(commit)
+    val revision = revisionProvider.get().trim()
     logger.info("Commit: {} Revision: {}", commit, revision)
-    file("build/revision.txt").writeText(revision.toString().trim())
+    file("build/revision.txt").writeText(revision)
     // Update the version to the new revision
-    project.version = revision.toString().trim()
+    project.version = revision
     val revString = if (isDirty()) "${project.version}-M" else project.version.toString()
     println("\nRevision: $revString")
   }
