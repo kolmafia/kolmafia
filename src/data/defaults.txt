@@ -794,6 +794,21 @@ user	goreCollected	0
 user	gourdItemCount	5
 user	grabCloversHardcore	false
 user	grabCloversSoftcore	true
+user	grandpaUnlockedBlankPrescriptionSheet	false
+user	grandpaUnlockedEelSauce	false
+user	grandpaUnlockedFishyWand	false
+user	grandpaUnlockedGlowingSyringe	false
+user	grandpaUnlockedGroupieSpangles	false
+user	grandpaUnlockedHairOfTheFish	false
+user	grandpaUnlockedHalibut	false
+user	grandpaUnlockedHeavilyInvestedInPunFutures	false
+user	grandpaUnlockedJellyfishGel	false
+user	grandpaUnlockedMarineAquamarine	false
+user	grandpaUnlockedMidgetClownfish	false
+user	grandpaUnlockedSeaRadish	false
+user	grandpaUnlockedTrophyFish	false
+user	grandpaUnlockedWaterPoloCap	false
+user	grandpaUnlockedWaterPoloMitt	false
 user	greyYouPoints	0
 user	grimoire1Summons	0	ld
 user	grimoire2Summons	0	ld
@@ -1160,6 +1175,7 @@ user	mayoInMouth		roa
 user	mayoLevel	0	roa
 user	mayoMinderSetting		roa
 user	meansuckerPrice	400	roa
+user	merkinCatalogChoices		roa
 user	merkinQuestPath	none	roa
 user	merkinLockkeyMonster		roa
 user	merkinVocabularyMastery	0	roa
@@ -1512,6 +1528,7 @@ user	shrubGarland
 user	shrubGifts
 user	shrubLights
 user	shrubTopper
+user	shubJigguwattDefeated	false	roa
 user	sideDefeated	neither
 user	sidequestArenaCompleted	none
 user	sidequestFarmCompleted	none
@@ -1778,6 +1795,7 @@ user	yearbookCameraAscensions	0
 user	yearbookCameraPending	false	roa
 user	yearbookCameraTarget		roa
 user	yearbookCameraUpgrades	0
+user	yogUrtDefeated	false	roa
 user	yourFavoriteBird
 user	yourFavoriteBirdMods
 user	youRobotBody	0	roa

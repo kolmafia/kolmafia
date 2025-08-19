@@ -1883,6 +1883,10 @@ public class AreaCombatData {
           default -> (elfOutfit && pirateMonster) || (pirateOutfit && elfMonster) ? 1 : 0;
         };
       }
+      case "The Brinier Deepers" -> {
+        if (monster.equals("trophyfish") && !Preferences.getBoolean("grandpaUnlockedTrophyFish"))
+          return 0;
+      }
     }
     return weighting;
   }
