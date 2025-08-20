@@ -897,6 +897,8 @@ user	implementGlitchItem	false
 user	intenseCurrents	false	roa
 user	invalidBuffMessage	You sent an amount which does not correspond to a valid buff amount.
 user	ironicSwagger	0
+user	isMerkinGladiatorChampion	false	roa
+user	isMerkinHighPriest	false	roa
 user	itemBoughtPerAscension637	false	roa
 user	itemBoughtPerAscension8266	false	roa
 user	itemBoughtPerAscension10790	false	roa

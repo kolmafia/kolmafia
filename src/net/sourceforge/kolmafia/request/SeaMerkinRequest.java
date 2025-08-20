@@ -61,6 +61,8 @@ public class SeaMerkinRequest extends GenericRequest {
     // totally hate you,) has gone home.
 
     if (responseText.contains("your crowd of Mer-kin admirers")) {
+      Preferences.setBoolean("isMerkinGladiatorChampion", true);
+      // The following is not applicable in the Sea path
       Preferences.setString("merkinQuestPath", "gladiator");
       Preferences.setInteger("lastColosseumRoundWon", 15);
     }
@@ -72,6 +74,8 @@ public class SeaMerkinRequest extends GenericRequest {
     // entrance, and you can't get in.
 
     else if (responseText.contains("Praise be to the High Priest")) {
+      Preferences.setBoolean("isMerkinHighPriest", true);
+      // The following is not applicable in the Sea path
       Preferences.setString("merkinQuestPath", "scholar");
     }
   }
