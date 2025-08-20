@@ -6650,80 +6650,261 @@ public class KoLAdventureValidationTest {
         }
       }
 
-      @CartesianTest
-      public void canAdventureInSchoolWithOutfit(
-          @Values(
-                  ints = {
-                    OutfitPool.CRAPPY_MER_KIN_DISGUISE,
-                    OutfitPool.MER_KIN_GLADIATORIAL_GEAR,
-                    OutfitPool.MER_KIN_SCHOLARS_VESTMENTS
-                  })
-              final int outfitId) {
-        setupFakeClient();
+      @Nested
+      class ElementarySchool {
+        @CartesianTest
+        public void canAdventureInSchoolWithOutfit(
+            @Values(
+                    ints = {
+                      OutfitPool.CRAPPY_MER_KIN_DISGUISE,
+                      OutfitPool.MER_KIN_GLADIATORIAL_GEAR,
+                      OutfitPool.MER_KIN_SCHOLARS_VESTMENTS
+                    })
+                final int outfitId) {
+          setupFakeClient();
 
-        var cleanups =
-            new Cleanups(
-                withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
-                withProperty("seahorseName", "Shimmerwings"),
-                withOutfit(outfitId));
-        try (cleanups) {
-          assertTrue(EquipmentManager.hasOutfit(outfitId));
-          assertTrue(SCHOOL.canAdventure());
-          assertTrue(SCHOOL.prepareForAdventure());
+          var cleanups =
+              new Cleanups(
+                  withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
+                  withProperty("seahorseName", "Shimmerwings"),
+                  withOutfit(outfitId));
+          try (cleanups) {
+            assertTrue(EquipmentManager.hasOutfit(outfitId));
+            assertTrue(SCHOOL.canAdventure());
+            assertTrue(SCHOOL.prepareForAdventure());
 
-          var requests = getRequests();
-          assertThat(requests, hasSize(0));
+            var requests = getRequests();
+            assertThat(requests, hasSize(0));
+          }
+        }
+
+        @CartesianTest
+        public void canAdventureInSchoolWithEquippableOutfit(
+            @Values(
+                    ints = {
+                      OutfitPool.CRAPPY_MER_KIN_DISGUISE,
+                      OutfitPool.MER_KIN_GLADIATORIAL_GEAR,
+                      OutfitPool.MER_KIN_SCHOLARS_VESTMENTS
+                    })
+                final int outfitId) {
+          setupFakeClient();
+
+          var cleanups =
+              new Cleanups(
+                  withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
+                  withProperty("seahorseName", "Shimmerwings"),
+                  withEquippableOutfit(outfitId),
+                  withUnequipped(Slot.HAT),
+                  withUnequipped(Slot.PANTS));
+          try (cleanups) {
+            assertTrue(EquipmentManager.hasOutfit(outfitId));
+            assertTrue(SCHOOL.canAdventure());
+            assertTrue(SCHOOL.prepareForAdventure());
+
+            var requests = getRequests();
+            assertThat(requests, hasSize(1));
+            assertPostRequest(
+                requests.get(0),
+                "/inv_equip.php",
+                "which=2&action=outfit&whichoutfit=" + outfitId + "&ajax=1");
+          }
         }
       }
 
-      @CartesianTest
-      public void canAdventureInSchoolWithEquippableOutfit(
-          @Values(
-                  ints = {
-                    OutfitPool.CRAPPY_MER_KIN_DISGUISE,
-                    OutfitPool.MER_KIN_GLADIATORIAL_GEAR,
-                    OutfitPool.MER_KIN_SCHOLARS_VESTMENTS
-                  })
-              final int outfitId) {
-        setupFakeClient();
+      @Nested
+      class Gymnasium {
+        @CartesianTest
+        public void canAdventureInGymnasiumWithOutfit(
+            @Values(
+                    ints = {
+                      OutfitPool.CRAPPY_MER_KIN_DISGUISE,
+                      OutfitPool.MER_KIN_GLADIATORIAL_GEAR,
+                      OutfitPool.MER_KIN_SCHOLARS_VESTMENTS
+                    })
+                final int outfitId) {
+          setupFakeClient();
 
-        var cleanups =
-            new Cleanups(
-                withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
-                withProperty("seahorseName", "Shimmerwings"),
-                withEquippableOutfit(outfitId),
-                withUnequipped(Slot.HAT),
-                withUnequipped(Slot.PANTS));
-        try (cleanups) {
-          assertTrue(EquipmentManager.hasOutfit(outfitId));
-          assertTrue(SCHOOL.canAdventure());
-          assertTrue(SCHOOL.prepareForAdventure());
+          var cleanups =
+              new Cleanups(
+                  withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
+                  withProperty("seahorseName", "Shimmerwings"),
+                  withOutfit(outfitId));
+          try (cleanups) {
+            assertTrue(EquipmentManager.hasOutfit(outfitId));
+            assertTrue(GYMNASIUM.canAdventure());
+            assertTrue(SCHOOL.prepareForAdventure());
 
-          var requests = getRequests();
-          assertThat(requests, hasSize(1));
-          assertPostRequest(
-              requests.get(0),
-              "/inv_equip.php",
-              "which=2&action=outfit&whichoutfit=" + outfitId + "&ajax=1");
+            var requests = getRequests();
+            assertThat(requests, hasSize(0));
+          }
+        }
+
+        @CartesianTest
+        public void canAdventureInGymnasiumWithEquippableOutfit(
+            @Values(
+                    ints = {
+                      OutfitPool.CRAPPY_MER_KIN_DISGUISE,
+                      OutfitPool.MER_KIN_GLADIATORIAL_GEAR,
+                      OutfitPool.MER_KIN_SCHOLARS_VESTMENTS
+                    })
+                final int outfitId) {
+          setupFakeClient();
+
+          var cleanups =
+              new Cleanups(
+                  withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
+                  withProperty("seahorseName", "Shimmerwings"),
+                  withEquippableOutfit(outfitId),
+                  withUnequipped(Slot.HAT),
+                  withUnequipped(Slot.PANTS));
+          try (cleanups) {
+            assertTrue(EquipmentManager.hasOutfit(outfitId));
+            assertTrue(GYMNASIUM.canAdventure());
+            assertTrue(GYMNASIUM.prepareForAdventure());
+
+            var requests = getRequests();
+            assertThat(requests, hasSize(1));
+            assertPostRequest(
+                requests.get(0),
+                "/inv_equip.php",
+                "which=2&action=outfit&whichoutfit=" + outfitId + "&ajax=1");
+          }
         }
       }
 
-      /*
-      @Test
-      public void accessWithSeahorse() {
-        var cleanups =
-            new Cleanups(
-                withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
-                withProperty("seahorseName", "Shimmerwings"));
-        try (cleanups) {
-          assertTrue(SCHOOL.canAdventure());
-          assertTrue(LIBRARY.canAdventure());
-          assertTrue(GYMNASIUM.canAdventure());
-          assertTrue(COLOSSEUM.canAdventure());
-          assertTrue(TEMPLE.canAdventure());
+      @Nested
+      class Library {
+        @CartesianTest
+        public void canAdventureInLibraryWithScholarOutfit(
+            @Values(
+                    ints = {
+                      OutfitPool.CRAPPY_MER_KIN_DISGUISE,
+                      OutfitPool.MER_KIN_GLADIATORIAL_GEAR,
+                      OutfitPool.MER_KIN_SCHOLARS_VESTMENTS
+                    })
+                final int outfitId) {
+          setupFakeClient();
+
+          var cleanups =
+              new Cleanups(
+                  withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
+                  withProperty("seahorseName", "Shimmerwings"),
+                  withOutfit(outfitId));
+          try (cleanups) {
+            assertTrue(EquipmentManager.hasOutfit(outfitId));
+            boolean valid = outfitId == OutfitPool.MER_KIN_SCHOLARS_VESTMENTS;
+            assertEquals(valid, LIBRARY.canAdventure());
+
+            if (valid) {
+              assertTrue(LIBRARY.prepareForAdventure());
+              var requests = getRequests();
+              assertThat(requests, hasSize(0));
+            }
+          }
+        }
+
+        @CartesianTest
+        public void canAdventureInLibraryWithEquippableOutfit(
+            @Values(
+                    ints = {
+                      OutfitPool.CRAPPY_MER_KIN_DISGUISE,
+                      OutfitPool.MER_KIN_GLADIATORIAL_GEAR,
+                      OutfitPool.MER_KIN_SCHOLARS_VESTMENTS
+                    })
+                final int outfitId) {
+          setupFakeClient();
+
+          var cleanups =
+              new Cleanups(
+                  withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
+                  withProperty("seahorseName", "Shimmerwings"),
+                  withEquippableOutfit(outfitId),
+                  withUnequipped(Slot.HAT),
+                  withUnequipped(Slot.PANTS));
+          try (cleanups) {
+            assertTrue(EquipmentManager.hasOutfit(outfitId));
+            boolean valid = outfitId == OutfitPool.MER_KIN_SCHOLARS_VESTMENTS;
+            assertEquals(valid, LIBRARY.canAdventure());
+
+            if (valid) {
+              assertTrue(LIBRARY.prepareForAdventure());
+              var requests = getRequests();
+              assertThat(requests, hasSize(1));
+              assertPostRequest(
+                  requests.get(0),
+                  "/inv_equip.php",
+                  "which=2&action=outfit&whichoutfit=" + outfitId + "&ajax=1");
+            }
+          }
         }
       }
-      */
+
+      @Nested
+      class Colosseum {
+        @CartesianTest
+        public void canAdventureInColosseumWithGladiatorOutfit(
+            @Values(
+                    ints = {
+                      OutfitPool.CRAPPY_MER_KIN_DISGUISE,
+                      OutfitPool.MER_KIN_GLADIATORIAL_GEAR,
+                      OutfitPool.MER_KIN_SCHOLARS_VESTMENTS
+                    })
+                final int outfitId) {
+          setupFakeClient();
+
+          var cleanups =
+              new Cleanups(
+                  withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
+                  withProperty("seahorseName", "Shimmerwings"),
+                  withOutfit(outfitId));
+          try (cleanups) {
+            assertTrue(EquipmentManager.hasOutfit(outfitId));
+            boolean valid = outfitId == OutfitPool.MER_KIN_GLADIATORIAL_GEAR;
+            assertEquals(valid, COLOSSEUM.canAdventure());
+
+            if (valid) {
+              assertTrue(COLOSSEUM.prepareForAdventure());
+              var requests = getRequests();
+              assertThat(requests, hasSize(0));
+            }
+          }
+        }
+
+        @CartesianTest
+        public void canAdventureInColosseumWithEquippableOutfit(
+            @Values(
+                    ints = {
+                      OutfitPool.CRAPPY_MER_KIN_DISGUISE,
+                      OutfitPool.MER_KIN_GLADIATORIAL_GEAR,
+                      OutfitPool.MER_KIN_SCHOLARS_VESTMENTS
+                    })
+                final int outfitId) {
+          setupFakeClient();
+
+          var cleanups =
+              new Cleanups(
+                  withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
+                  withProperty("seahorseName", "Shimmerwings"),
+                  withEquippableOutfit(outfitId),
+                  withUnequipped(Slot.HAT),
+                  withUnequipped(Slot.PANTS));
+          try (cleanups) {
+            assertTrue(EquipmentManager.hasOutfit(outfitId));
+            boolean valid = outfitId == OutfitPool.MER_KIN_GLADIATORIAL_GEAR;
+            assertEquals(valid, COLOSSEUM.canAdventure());
+
+            if (valid) {
+              assertTrue(COLOSSEUM.prepareForAdventure());
+              var requests = getRequests();
+              assertThat(requests, hasSize(1));
+              assertPostRequest(
+                  requests.get(0),
+                  "/inv_equip.php",
+                  "which=2&action=outfit&whichoutfit=" + outfitId + "&ajax=1");
+            }
+          }
+        }
+      }
     }
   }
 

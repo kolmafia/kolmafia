@@ -2327,7 +2327,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
           return false;
         }
         // Must not have defeated Yog-Urt
-        if (Preferences.getBoolean("yogurttDefeated")) {
+        if (Preferences.getBoolean("yogUrtDefeated")) {
           return false;
         }
         // Requires Mer-kin Scholar's Vestments
@@ -2340,7 +2340,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         }
         // Must have defeated Yog-Urt and Shub-Jugguwatt
         if (!Preferences.getBoolean("shubJigguwattDefeated")
-            || !Preferences.getBoolean("yogurtDefeated")) {
+            || !Preferences.getBoolean("yogUrtDefeated")) {
           return false;
         }
         // Otherwise, no specific outfit required
@@ -3232,7 +3232,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     if (this.formSource.equals("sea_merkin.php")) {
       switch (this.adventureName) {
         case "Mer-kin Temple" -> {
-          // What about Dad Seamonkee?
+          // What about Dad Sea Monkee?
           // - Requires Clothing of Loathing
           // - Cannot have defeated Yog-Urt or Shub-Jugguwatt
           return switch (Preferences.getString("merkinQuestPath")) {
