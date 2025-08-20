@@ -97,6 +97,7 @@ public class GenericRequest implements Runnable {
   // Used in many requests. Here for convenience and non-duplication
   public static final Pattern PREACTION_PATTERN = Pattern.compile("preaction=([^&]*)");
   public static final Pattern ACTION_PATTERN = Pattern.compile("(?<!pre|sub)action=([^&]*)");
+  public static final Pattern SUBACTION_PATTERN = Pattern.compile("subaction=([^&]*)");
   public static final Pattern PLACE_PATTERN = Pattern.compile("place=([^&]*)");
   public static final Pattern WHICHITEM_PATTERN = Pattern.compile("whichitem=(\\d+)");
   public static final Pattern HOWMANY_PATTERN = Pattern.compile("howmany=(\\d+)");
@@ -1026,6 +1027,11 @@ public class GenericRequest implements Runnable {
 
   public static String getAction(final String urlString) {
     Matcher matcher = GenericRequest.ACTION_PATTERN.matcher(urlString);
+    return matcher.find() ? GenericRequest.decodeField(matcher.group(1)) : null;
+  }
+
+  public static String getSubAction(final String urlString) {
+    Matcher matcher = GenericRequest.SUBACTION_PATTERN.matcher(urlString);
     return matcher.find() ? GenericRequest.decodeField(matcher.group(1)) : null;
   }
 

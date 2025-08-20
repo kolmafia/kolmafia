@@ -613,6 +613,20 @@ public class AdventureDatabase {
       }
     }
 
+    // The Mer-Kin Temple has subactions in "11,037 Leagues Under the Sea"
+    if (adventureURL.startsWith("sea_merkin.php") && adventureURL.contains("action=temple")) {
+      String subaction = GenericRequest.getSubAction(adventureURL);
+      if (subaction == null) {
+        return AdventureDatabase.getAdventure("Mer-kin Temple");
+      }
+      return switch (subaction) {
+        case "left" -> AdventureDatabase.getAdventure("Mer-kin Temple (Left Door)");
+        case "center" -> AdventureDatabase.getAdventure("Mer-kin Temple (Center Door)");
+        case "right" -> AdventureDatabase.getAdventure("Mer-kin Temple (Right Door)");
+        default -> null;
+      };
+    }
+
     adventureURL = RelayRequest.removeConfirmationFields(adventureURL);
     adventureURL = GenericRequest.removeField(adventureURL, "pwd");
     adventureURL = GenericRequest.removeField(adventureURL, "blech");

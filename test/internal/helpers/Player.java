@@ -221,6 +221,21 @@ public class Player {
   }
 
   /**
+   * Have the given outfit in inventory
+   *
+   * @param outfitId Outfit to have in inventory
+   * @return Restores previous equipment
+   */
+  public static Cleanups withEquippableOutfit(final int outfitId) {
+    var cleanups = new Cleanups();
+    cleanups.addCleanups(
+        Arrays.stream(EquipmentDatabase.getOutfit(outfitId).getPieces())
+            .map(piece -> withEquippableItem(piece.getItemId()))
+            .collect(Collectors.toList()));
+    return cleanups;
+  }
+
+  /**
    * Equip the given number of fake hands
    *
    * @param fakeHands Number of fake hands to equip

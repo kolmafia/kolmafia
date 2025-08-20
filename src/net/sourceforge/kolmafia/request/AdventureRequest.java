@@ -281,6 +281,16 @@ public class AdventureRequest extends GenericRequest {
       }
       case "sea_merkin.php" -> {
         this.addFormField("action", "temple");
+        String subaction =
+            switch (adventureName) {
+              case "Mer-kin Temple (Left Door)" -> "left";
+              case "Mer-kin Temple (Center Door)" -> "center";
+              case "Mer-kin Temple (Right Door)" -> "right";
+              default -> null;
+            };
+        if (subaction != null) {
+          this.addFormField("subaction", subaction);
+        }
       }
       case "basement.php", "cellar.php" -> {}
       default -> {

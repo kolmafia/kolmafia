@@ -4777,12 +4777,16 @@ public class UseItemRequest extends GenericRequest {
         // curls out and burns the scroll to ashes.
 
         if (responseText.contains("I guess you're the Mer-kin High Priest now")) {
+          Preferences.setBoolean("isMerkinHighPriest", true);
+          // The following is not applicable in the Sea path
           Preferences.setString("merkinQuestPath", "scholar");
           break;
         }
 
         if (!Preferences.getString("merkinQuestPath").equals("done")
             && responseText.contains("The sigil burned into your forehead")) {
+          Preferences.setBoolean("isMerkinGladiatorChampion", true);
+          // The following is not applicable in the Sea path
           Preferences.setString("merkinQuestPath", "gladiator");
           Preferences.setInteger("lastColosseumRoundWon", 15);
           break;

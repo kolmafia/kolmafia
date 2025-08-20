@@ -847,7 +847,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     if (this.formSource.equals("sea_merkin.php")) {
       // If you have a seahorse, you can get to the Mer-Kin Deepcity.
       // Whether or not you can enter the temple is a separate question.
-      return !Preferences.getString("seahorseName").equals("");
+      return this.deepCityZoneAvailable();
     }
 
     // Dwarven Factory Warehouse
@@ -1789,16 +1789,12 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       }
 
       return switch (this.zone) {
-        case "The Sea" ->
-        // The Briny Deeps, The Brinier Deepers, The Briniest Deepests
-        true;
+          // The Briny Deeps, The Brinier Deepers, The Briniest Deepests
+        case "The Sea" -> true;
         case "The Sea Floor" -> this.seaFloorZoneAvailable();
-        case "The Mer-Kin Deepcity" ->
-        // Open when you have a seahorse
-        !Preferences.getString("seahorseName").isEmpty();
-        default ->
-        // There are currently no more adventuring areas in The Sea
-        true;
+        case "The Mer-Kin Deepcity" -> this.deepCityZoneAvailable();
+          // There are currently no more adventuring areas in The Sea
+        default -> false;
       };
     }
 
@@ -2268,6 +2264,93 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     };
   }
 
+  private boolean deepCityZoneAvailable() {
+    if (Preferences.getString("seahorseName").isEmpty()) {
+      return false;
+    }
+
+    switch (this.adventureName) {
+      case "Mer-kin Elementary School", "Mer-kin Gymnasium" -> {
+        // Requires any Mer-kin disguise
+        return hasRequiredOutfit();
+      }
+      case "Mer-kin Library" -> {
+        // Requires Mer-kin Scholar's Vestments
+        return hasRequiredOutfit();
+      }
+      case "Mer-kin Colosseum" -> {
+        // Requires Mer-kin Gladiatorial Gear
+        return hasRequiredOutfit();
+      }
+      case "Mer-kin Temple" -> {
+        if (KoLCharacter.inSeaPath()) {
+          return false;
+        }
+        switch (Preferences.getString("merkinQuestPath")) {
+          case "none" -> {
+            // You can fight Dad Sea Monkee wearing Clothing of Loathing
+            return availableOutfitId(OutfitPool.CLOTHING_OF_LOATHING) != 0;
+          }
+          case "gladiator", "scholar" -> {
+            // If you are Gladiator Champion or High Priest, must still have outfit
+            return hasRequiredOutfit();
+          }
+          case "done" -> {
+            // If you have defeated the boss, nothing more to do.
+            return false;
+          }
+        }
+        return false;
+      }
+      case "Mer-kin Temple (Left Door)" -> {
+        if (!KoLCharacter.inSeaPath()) {
+          return false;
+        }
+        // Must be Gladiator Champion
+        if (!Preferences.getBoolean("isMerkinGladiatorChampion")) {
+          return false;
+        }
+        // Must not have defeated Shub-Jigguwatt
+        if (Preferences.getBoolean("shubJigguwattDefeated")) {
+          return false;
+        }
+        // Requires Mer-kin Gladiatorial Gear
+        // You needed it to adventure in the Colosseum, but you can disassemble it...
+        return hasRequiredOutfit();
+      }
+      case "Mer-kin Temple (Right Door)" -> {
+        if (!KoLCharacter.inSeaPath()) {
+          return false;
+        }
+        // Must be High Priest
+        if (!Preferences.getBoolean("isMerkinHighPriest")) {
+          return false;
+        }
+        // Must not have defeated Yog-Urt
+        if (Preferences.getBoolean("yogUrtDefeated")) {
+          return false;
+        }
+        // Requires Mer-kin Scholar's Vestments
+        // You needed it to adventure in the Library, but you can disassemble it...
+        return hasRequiredOutfit();
+      }
+      case "Mer-kin Temple (Center Door)" -> {
+        if (!KoLCharacter.inSeaPath()) {
+          return false;
+        }
+        // Must have defeated Yog-Urt and Shub-Jugguwatt
+        if (!Preferences.getBoolean("shubJigguwattDefeated")
+            || !Preferences.getBoolean("yogUrtDefeated")) {
+          return false;
+        }
+        // Otherwise, no specific outfit required
+        return true;
+      }
+    }
+    // No more adventuring zones in the Deepcity
+    return false;
+  }
+
   private boolean hasRequiredOutfit() {
     return this.getOutfitId() != 0;
   }
@@ -2724,7 +2807,12 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     if (this.rootZone.equals("The Sea")) {
-      if (!KoLCharacter.currentBooleanModifier(BooleanModifier.ADVENTURE_UNDERWATER)) {
+      // If the zone requires an outfit, assume it allows water breathing.
+      int outfitId = getOutfitId();
+
+      if (outfitId != 0) {
+        wearOutfit(outfitId);
+      } else if (!KoLCharacter.currentBooleanModifier(BooleanModifier.ADVENTURE_UNDERWATER)) {
         // In theory, we could choose equipment or effects.
         // It's complicated. Let the user do that.
         KoLmafia.updateDisplay(MafiaState.ERROR, "You can't breathe underwater.");
@@ -3141,6 +3229,33 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return firstAvailableOutfitId(OutfitPool.DWARVISH_UNIFORM, OutfitPool.MINING_OUTFIT);
     }
 
+    if (this.formSource.equals("sea_merkin.php")) {
+      switch (this.adventureName) {
+        case "Mer-kin Temple" -> {
+          // What about Dad Sea Monkee?
+          // - Requires Clothing of Loathing
+          // - Cannot have defeated Yog-Urt or Shub-Jugguwatt
+          return switch (Preferences.getString("merkinQuestPath")) {
+            case "gladiator" -> OutfitPool.MER_KIN_GLADIATORIAL_GEAR;
+            case "scholar" -> OutfitPool.MER_KIN_SCHOLARS_VESTMENTS;
+            default -> 0;
+          };
+        }
+        case "Mer-kin Temple (Left Door)" -> {
+          return OutfitPool.MER_KIN_GLADIATORIAL_GEAR;
+        }
+        case "Mer-kin Temple (Right Door)" -> {
+          return OutfitPool.MER_KIN_SCHOLARS_VESTMENTS;
+        }
+        case "Mer-kin Temple (Center Door)" -> {
+          // Must have defeated Yog-Urt and Shub-Jugguwatt
+          // No special outfit needed for Her Naughtiness
+          return 0;
+        }
+      }
+      return 0;
+    }
+
     return switch (this.adventureNumber) {
       case AdventurePool.FRAT_HOUSE_DISGUISED -> QuestDatabase.isQuestStep(
               Quest.ISLAND_WAR, QuestDatabase.STARTED)
@@ -3171,6 +3286,16 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       case AdventurePool.FRAT_UNIFORM_BATTLEFIELD -> availableOutfitId(OutfitPool.WAR_FRAT_OUTFIT);
       case AdventurePool.HIPPY_UNIFORM_BATTLEFIELD -> availableOutfitId(
           OutfitPool.WAR_HIPPY_OUTFIT);
+
+      case AdventurePool.MERKIN_ELEMENTARY_SCHOOL,
+          AdventurePool.MERKIN_GYMNASIUM -> firstAvailableOutfitId(
+          OutfitPool.CRAPPY_MER_KIN_DISGUISE,
+          OutfitPool.MER_KIN_SCHOLARS_VESTMENTS,
+          OutfitPool.MER_KIN_GLADIATORIAL_GEAR);
+      case AdventurePool.MERKIN_LIBRARY -> availableOutfitId(OutfitPool.MER_KIN_SCHOLARS_VESTMENTS);
+      case AdventurePool.MERKIN_COLOSSEUM -> availableOutfitId(
+          OutfitPool.MER_KIN_GLADIATORIAL_GEAR);
+
       default -> 0;
     };
   }
@@ -4201,6 +4326,20 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     new AdventureFailure(
         "they're not gonna let you in dressed like this", "You're not dressed appropriately."),
     new AdventureFailure("The temple is empty", "Nothing more to do here.", MafiaState.PENDING),
+
+    // Looks like you've gotta be especially gladitorial to get in there.
+    // The guards at the temple main door point their spears at you and gesture pointedly with their
+    // eyefins at the doors to your left and right.
+    // Looks like you've gotta be somebody especially pious to get in there.
+    new AdventureFailure(
+        "you've gotta be especially gladitorial",
+        "You need to wear the Mer-kin Gladiatorial Gear."),
+    new AdventureFailure(
+        "you've gotta be somebody especially pious",
+        "You need to wear the Mer-kin Scholar's Vestments."),
+    new AdventureFailure(
+        "gesture pointedly with their eyefins at the doors to your left and right",
+        "You must defeat the Elder Gods of Hatred and Violence first."),
 
     // You've already defeated the Trainbot boss.
     new AdventureFailure(
