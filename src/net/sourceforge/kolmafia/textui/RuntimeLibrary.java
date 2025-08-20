@@ -135,6 +135,8 @@ import net.sourceforge.kolmafia.persistence.PocketDatabase.ScrapPocket;
 import net.sourceforge.kolmafia.persistence.PocketDatabase.StatsPocket;
 import net.sourceforge.kolmafia.persistence.PocketDatabase.TwoResultPocket;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.persistence.WardrobeOMaticDatabase;
+import net.sourceforge.kolmafia.persistence.WardrobeOMaticDatabase.FuturisticClothing;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.*;
 import net.sourceforge.kolmafia.request.CampgroundRequest.CropType;
@@ -3831,6 +3833,25 @@ public abstract class RuntimeLibrary {
 
     params = List.of(namedParam("request", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("allied_radio", DataTypes.BOOLEAN_TYPE, params));
+
+    params =
+        List.of(namedParam("slot", DataTypes.SLOT_TYPE), namedParam("tier", DataTypes.INT_TYPE));
+    functions.add(
+        new LibraryFunction(
+            "futuristic_wardrobe",
+            new AggregateType(DataTypes.INT_TYPE, DataTypes.MODIFIER_TYPE),
+            params));
+
+    params =
+        List.of(
+            namedParam("day", DataTypes.INT_TYPE),
+            namedParam("slot", DataTypes.SLOT_TYPE),
+            namedParam("tier", DataTypes.INT_TYPE));
+    functions.add(
+        new LibraryFunction(
+            "futuristic_wardrobe",
+            new AggregateType(DataTypes.INT_TYPE, DataTypes.MODIFIER_TYPE),
+            params));
   }
 
   public static Method findMethod(final String name, final Class<?>[] args)
@@ -11799,5 +11820,43 @@ public abstract class RuntimeLibrary {
     AlliedRadioRequest req = new AlliedRadioRequest(request);
     RequestThread.postRequest(req);
     return DataTypes.makeBooleanValue(req.responseText != null);
+  }
+
+  public static Value futuristic_wardrobe(
+      ScriptRuntime controller, final Value slotVal, final Value tierVal) {
+    var today = KoLCharacter.getGlobalDays();
+    var slot = Slot.byOrdinal((int) slotVal.intValue());
+    var tier = (int) tierVal.intValue();
+    return futuristic_wardrobe(today, slot, tier);
+  }
+
+  public static Value futuristic_wardrobe(
+      ScriptRuntime controller, final Value dayVal, final Value slotVal, final Value tierVal) {
+    var day = (int) dayVal.intValue();
+    var slot = Slot.byOrdinal((int) slotVal.intValue());
+    var tier = (int) tierVal.intValue();
+    return futuristic_wardrobe(day, slot, tier);
+  }
+
+  private static Value futuristic_wardrobe(final int day, final Slot slot, final int tier) {
+    AggregateType type = new AggregateType(DataTypes.STRING_TYPE, DataTypes.MODIFIER_TYPE);
+    MapValue value = new MapValue(type);
+
+    FuturisticClothing clothing = null;
+    switch (slot) {
+      case SHIRT -> clothing = WardrobeOMaticDatabase.shirt(day, tier);
+      case HAT -> clothing = WardrobeOMaticDatabase.hat(day, tier);
+      case FAMILIAR -> clothing = WardrobeOMaticDatabase.collar(day, tier);
+    }
+    if (clothing == null) {
+      return value;
+    }
+    var mods = clothing.modifiers();
+
+    for (var entry : mods.entrySet()) {
+      value.aset(new Value(entry.getKey()), new Value(entry.getValue()));
+    }
+
+    return value;
   }
 }
