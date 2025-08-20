@@ -286,7 +286,7 @@ giant mob of baby spiders	1584	manyspiders.gif	Atk: 36 Def: 31 HP: 37 Init: 50 M
 giant rubber spider	1622	rubberspider.gif	NOCOPY FREE Scale: 3 Cap: 1000 Init: -10000 P: bug EA: stench EA: none Article: a	rubber nubbin (100)
 giant sandworm	458	sandworm.gif	NOCOPY Atk: 175 Def: 166 HP: 200 Init: 60 Meat: 250 P: bug Article: a	spices (10)	spices (10)	spices (10)	spice melange (c0.1)
 giant skeelton	187	giantskel.gif	BOSS NOCOPY Atk: 71 Def: 65 HP: 120 Exp: [53+ML/3] Init: 60 P: undead E: spooky Article: a	skeleton bone (0)	skeleton bone (0)	skeleton bone (0)
-giant squid	763	giantsquid.gif	Atk: 500 Def: 405 HP: 800 Init: 75 Meat: 300 P: fish Article: a	[3679]ink bladder (n30)	inky squid sauce (n50)
+giant squid	763	giantsquid.gif	Atk: 500 Def: 405 HP: 800 Init: 75 Meat: 300 P: fish Article: a	ink bladder (n30)	inky squid sauce (n50)
 giant swarm of ghuol whelps	1074	whelps3.gif	NOWISH Atk: 50 Def: 45 HP: 250 Init: 300 Group: 45 P: undead ED: spooky Article: a
 gingerbread murderer	1750	gingerbreadman.gif	Atk: 2 Def: 1 HP: 2 Init: -10000 P: construct Article: a	glob of enchanted icing (40)	ginger snaps (30)
 Glass of Orange Juice	515	juiceglass.gif	NOCOPY Atk: 220 Def: 198 HP: 350 Init: 100 Meat: 400 P: hippy ED: stench EA: hot EA: sleaze EA: stench EA: none Article: a	green clay bead (30)	orange peel hat (100)	bullet-proof corduroys (0)	Lockenstock&trade; sandals (0)	round purple sunglasses (0)
@@ -480,7 +480,7 @@ Ninja Snowman Weaponmaster	340	ninjacloud.gif	Atk: 90 Def: 81 HP: 80 Init: 75 P:
 novelty tropical skeleton	1746	tropicalskel.gif	Atk: 2 Def: 1 HP: 2 Init: -10000 P: undead ED: spooky Article: a	cherry (0)	cherry (0)	grapefruit (0)	grapefruit (0)	orange (0)	orange (0)	strawberry (0)	strawberry (0)	lemon (0)	lemon (0)	novelty fruit hat (c0)
 nurse shark	769	nurseshark.gif	Atk: 450 Def: 405 HP: 800 Init: 50 Meat: 200 P: fish Article: a	blank prescription sheet (c10)	nurse's hat (n5)	sea salt scrubs (c5)	slug of rum (20)
 oasis monster	459	whirlwind.gif	Atk: 132 Def: 123 HP: 139 Init: 40 Meat: 100 P: elemental Article: an	displaced fish (20)	palm frond (10)	Supernova Champagne (20)	wonderwall shield (4)	carbonated water lily (10)	hot date (5)
-octopus gardener	738	octopus.gif	Atk: 425 Def: 360 HP: 600 Init: 200 Meat: 100 P: fish Article: an	octopus's spade (n2)	sea radish (c3)	soggy seed packet (n30)	straw hat (n2)	[11971]ink bladder (n30)
+octopus gardener	738	octopus.gif	Atk: 425 Def: 360 HP: 600 Init: 200 Meat: 100 P: fish Article: an	octopus's spade (n2)	sea radish (c3)	soggy seed packet (n30)	straw hat (n2)	octopus ink bladder (30)
 Octorok	117	octorok.gif	Atk: 25 Def: 22 HP: 15 Init: 60 P: beast Article: an	red pixel (80)	red pixel (70)	red pixel (60)
 off-duty Knob Goblin Elite Guard	1058	kg_offdutyguard.gif	Atk: 30 Def: 22 HP: 30 Init: 50 Meat: 50 P: goblin Article: an	Cobb's Knob Wurstbrau (15)	Knob Goblin elite pants (10)	Knob Goblin elite polearm (10)	Knob Goblin elite shirt (10)	knob bugle (10)
 oil baron	1237	oilbaron.gif	NOWISH Atk: 85 Def: 77 HP: 60 Init: 80 P: slime Phys: 50 Elem: 50 E: sleaze Article: an	bubblin' crude (100)	bubblin' crude (30)
