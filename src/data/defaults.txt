@@ -1510,6 +1510,7 @@ user	scriptMRULength	0
 user	scriptMRUList
 user	seahorseName		roa
 user	seaodesFound	0	ld
+user	seaPoints	0
 user	SeasoningSwagger	0
 user	serverAddsCustomCombat	false
 user	serverAddsBothCombat	false
@@ -2114,6 +2115,7 @@ user	_drippyPilsnerUsed	false
 user	_drippyPlumUsed	false
 user	_drippyWineUsed	false
 user	_drunkPygmyBanishes	0
+user	_durableDolphinWhistleUsed	0
 user	_edDefeats	0
 user	_edLashCount	0
 user	_eldritchHorrorEvoked	false
