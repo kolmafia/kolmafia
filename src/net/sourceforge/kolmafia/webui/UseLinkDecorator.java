@@ -1011,6 +1011,7 @@ public abstract class UseLinkDecorator {
               ItemPool.AMORPHOUS_BLOB,
               ItemPool.GIANT_AMORPHOUS_BLOB,
               ItemPool.MINIATURE_EMBERING_HULK,
+              ItemPool.DURABLE_DOLPHIN_WHISTLE,
 
               // Not inline, since the redirection to a fight
               // doesn't work ajaxified.

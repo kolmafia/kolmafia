@@ -7079,6 +7079,7 @@ public class UseItemRequest extends GenericRequest {
           ItemPool.CURSED_PIECE_OF_THIRTEEN,
           ItemPool.DECK_OF_EVERY_CARD,
           ItemPool.DOLPHIN_WHISTLE,
+          ItemPool.DURABLE_DOLPHIN_WHISTLE,
           ItemPool.ENVYFISH_EGG,
           ItemPool.FRATHOUSE_BLUEPRINTS,
           ItemPool.GENIE_BOTTLE,
