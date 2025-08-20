@@ -3767,7 +3767,9 @@ public class RelayRequest extends PasswordHashRequest {
         ChatPoller.handleNewChat(chatText, this.getFormField("graf"), ChatPoller.localLastSeen);
       }
 
-      chatText = decorateJsCommands(chatText);
+      if (Preferences.getBoolean("relayDecorateJsCommands")) {
+        chatText = decorateJsCommands(chatText);
+      }
     }
 
     if (Preferences.getBoolean("relayFormatsChatText")) {
