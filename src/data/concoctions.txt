@@ -968,7 +968,7 @@ demon-horned hat	SMITH	basic meat helmet	demon skin
 eelskin hat	ASMITH	basic meat helmet	eel skin
 lynyrdskin cap	ASMITH	helmet recipe	lynyrd skin
 nasty rat mask	ASMITH	basic meat helmet	leathery rat skin
-sea cowboy hat	ASMITH	helmet recipe	sea leather
+sea cowboy hat	SMITH	helmet recipe	sea leather
 sponge helmet	ASMITH	basic meat helmet	slab of sponge
 yak toupee	ASMITH	basic meat helmet	yak skin
 
@@ -988,7 +988,7 @@ sticky meat pants	SMITH	really really sticky spider web	basic meat pants
 tighty whiteys	SMITH	white snake skin	pants kit
 yakskin pants	ASMITH	yak skin	pants kit
 gnauga hide chaps	ASMITH	gnauga hide	pants kit
-sea chaps	ASMITH	sea leather	pants kit
+sea chaps	SMITH	sea leather	pants kit
 
 
 # Skirts made of hides of various sorts.
@@ -1078,7 +1078,7 @@ rusty old lantern	COMBINE	brittle plastic handle	foggy glass globe
 non-stick pugil stick	WSMITH	decaying wooden pole	teflon ore
 teflon spatula	WSMITH	tarnished metal rod	teflon ore
 teflon shield	ASMITH	rusty valve wheel	teflon ore
-teflon swim fins	ASMITH	waterlogged bootstraps	teflon ore
+teflon swim fins	SMITH	waterlogged bootstraps	teflon ore
 
 velcro broadsword	WSMITH	brittle plastic handle	velcro ore
 velcro paddle ball	WSMITH	decaying wooden paddle	velcro ore
@@ -2397,6 +2397,8 @@ Staff of the Standalone Cheese	JARLS, ROW107	cosmic cheese
 crappy Mer-kin mask	MANUAL, GRANDMA, ROW128	Mer-kin gladiator mask
 crappy Mer-kin mask	MANUAL, GRANDMA, ROW131	Mer-kin scholar mask
 crappy Mer-kin mask	GRANDMA, ROW124	aerated diving helmet	pristine fish scale (3)
+crappy Mer-kin tailpiece	MANUAL, GRANDMA, ROW1619	Mer-kin scholar tailpiece
+crappy Mer-kin tailpiece	MANUAL, GRANDMA, ROW1618	Mer-kin gladiator tailpiece
 crappy Mer-kin tailpiece	GRANDMA, ROW125	sea chaps	teflon swim fins	pristine fish scale (3)
 Mer-kin gladiator mask	GRANDMA, ROW126	crappy Mer-kin mask	Mer-kin headguard
 Mer-kin gladiator tailpiece	GRANDMA, ROW127	crappy Mer-kin tailpiece	Mer-kin thighguard
@@ -3393,3 +3395,6 @@ gnomish coal miner's lung	GNOME_PART
 gnomish tennis elbow	GNOME_PART
 gnomish housemaid's kgnee	GNOME_PART
 gnomish athlete's foot	GNOME_PART
+
+# Mobius ring
+toast with mixed berry jelly	COOK	mixed berry jelly	toast

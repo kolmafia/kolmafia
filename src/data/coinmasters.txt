@@ -645,10 +645,15 @@ Ye Newe Souvenir Shoppe	buy	1000	Yorick	ROW758
 
 # The Central Loathing Floral Mercantile Exchange
 
-# The Central Loathing Floral Mercantile Exchange	buy	2	Chroner (1)	ROW759
-# The Central Loathing Floral Mercantile Exchange	buy	1	Chroner (16)	ROW760
-# The Central Loathing Floral Mercantile Exchange	buy	1	Chroner (21)	ROW761
-# The Central Loathing Floral Mercantile Exchange	buy	1	Chroner (11)	ROW762
+The Central Loathing Floral Mercantile Exchange	ROW759	Chroner (1)	rose (2)
+The Central Loathing Floral Mercantile Exchange	ROW760	Chroner (16)	red tulip
+The Central Loathing Floral Mercantile Exchange	ROW761	Chroner (21)	white tulip
+The Central Loathing Floral Mercantile Exchange	ROW762	Chroner (11)	blue tulip
+
+# The Central Loathing Floral Mercantile Exchange	sell	1	rose (2)	ROW759
+# The Central Loathing Floral Mercantile Exchange	sell	16	red tulip	ROW760
+# The Central Loathing Floral Mercantile Exchange	sell	21	white tulip	ROW761
+# The Central Loathing Floral Mercantile Exchange	sell	11	blue tulip	ROW762
 
 The Primordial Soup Kitchen	ROW1491	bacteria bisque	Chroner (10)
 The Primordial Soup Kitchen	ROW1492	ciliophora chowder	Chroner (10)
@@ -1124,15 +1129,16 @@ Dino World Gift Shop (The Dinostaur)	buy	500	stuffed dinosaur	ROW1288
 
 # KoL Con 13 Merch Table
 
-KoL Con 13 Merch Table	buy	1	unevolved organism	ROW1509
-KoL Con 13 Merch Table	buy	2	crated wardrobe-o-matic	ROW1397
-KoL Con 13 Merch Table	buy	3	KoL Con 13 snowglobe	ROW883
-KoL Con 13 Merch Table	buy	4	potted tea tree	ROW884
-KoL Con 13 Merch Table	buy	5	Xi Receiver Unit	ROW885
-KoL Con 13 Merch Table	buy	6	Gordon Beer's Beer Garden Catalog	ROW886
-KoL Con 13 Merch Table	buy	7	Tome of Rad Libs	ROW887
-KoL Con 13 Merch Table	buy	8	Gygaxian Libram	ROW888
-KoL Con 13 Merch Table	buy	9	hippo tutu	ROW889
+KoL Con 13 Merch Table	buy	1	Allied Radio Backpack Pack	ROW1602
+KoL Con 13 Merch Table	buy	2	unevolved organism	ROW1509
+KoL Con 13 Merch Table	buy	3	crated wardrobe-o-matic	ROW1397
+KoL Con 13 Merch Table	buy	4	KoL Con 13 snowglobe	ROW883
+KoL Con 13 Merch Table	buy	5	potted tea tree	ROW884
+KoL Con 13 Merch Table	buy	6	Xi Receiver Unit	ROW885
+KoL Con 13 Merch Table	buy	7	Gordon Beer's Beer Garden Catalog	ROW886
+KoL Con 13 Merch Table	buy	8	Tome of Rad Libs	ROW887
+KoL Con 13 Merch Table	buy	9	Gygaxian Libram	ROW888
+KoL Con 13 Merch Table	buy	10	hippo tutu	ROW889
 KoL Con 13 Merch Table	buy	1111	Twitching Television Tattoo	ROW895
 
 # Fancy Dan the Cocktail Man
@@ -1371,6 +1377,8 @@ The Dedigitizer	ROW1576	virtual cybertattoo	1 (512)	0 (128)	dedigitizer schemati
 Grandma Sea Monkey	ROW131	crappy Mer-kin mask	Mer-kin scholar mask
 Grandma Sea Monkey	ROW128	crappy Mer-kin mask	Mer-kin gladiator mask
 Grandma Sea Monkey	ROW124	crappy Mer-kin mask	aerated diving helmet	pristine fish scale (3)
+Grandma Sea Monkey	ROW1619	crappy Mer-kin tailpiece	Mer-kin scholar tailpiece
+Grandma Sea Monkey	ROW1618	crappy Mer-kin tailpiece	Mer-kin gladiator tailpiece
 Grandma Sea Monkey	ROW125	crappy Mer-kin tailpiece	sea chaps	teflon swim fins	pristine fish scale (3)
 Grandma Sea Monkey	ROW126	Mer-kin gladiator mask	crappy Mer-kin mask	Mer-kin headguard
 Grandma Sea Monkey	ROW127	Mer-kin gladiator tailpiece	crappy Mer-kin tailpiece	Mer-kin thighguard
@@ -1403,3 +1411,25 @@ Using your Shower Thoughts	ROW1588	wet shower shoes	glob of wet paper (15)
 Using your Shower Thoughts	ROW1589	wet shower shorts	glob of wet paper (20)
 Using your Shower Thoughts	ROW1590	wet paper tiger	glob of wet paper (1,000)
 Using your Shower Thoughts	ROW1594	wet shower stamp	glob of wet paper (1,000)
+
+# Allied HQ
+
+Allied HQ	ROW1599	flak shield	Chroner (20)
+Allied HQ	ROW1603	chocolate and nylons detector	Chroner (100)
+Allied HQ	ROW1604	Allied Forces insignia	Chroner (500)
+Allied HQ	ROW1605	Allied Tattoo Kit	Chroner (2,500)
+Allied HQ	ROW1600	Axis HQ Code	chocolate rations
+Allied HQ	ROW1601	Axis codebook	nice nylon stockings (50)
+Allied HQ	ROW1596	Chroner (10)	stolen artifact
+Allied HQ	ROW1597	Chroner (20)	really expensive stolen artifact
+Allied HQ	ROW1598	Chroner (30)	priceless stolen artifact
+
+# Sea Path
+
+Wet Crap For Sale	ROW1608	sand dollar	sand penny (100)
+Wet Crap For Sale	ROW1609	undersea surveying goggles	sand penny (100)
+Wet Crap For Sale	ROW1612	kelp puck	sand penny (30)
+Wet Crap For Sale	ROW1610	Ocean-Touched Rum	sand penny (30)
+Wet Crap For Sale	ROW1611	water-logged pill	sand penny (30)
+Wet Crap For Sale	ROW1617	sea gel	sand penny (10)
+Wet Crap For Sale	ROW1616	waterlogged scroll of healing	sand penny (10)

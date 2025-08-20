@@ -30,6 +30,7 @@ public class FamiliarPool {
   public static final int SWEET_NUTCRACKER = 44;
   public static final int PET_ROCK = 45;
   public static final int NINJA_PIRATE_ZOMBIE_ROBOT = 48;
+  public static final int SLEAZY_GRAVY_FAIRY = 49;
   public static final int HARE = 50;
   public static final int WIND_UP_CHATTERING_TEETH = 51;
   public static final int HOBO = 52;
@@ -124,6 +125,7 @@ public class FamiliarPool {
   public static final int ROBORTENDER = 211;
   public static final int XO_SKELETON = 213;
   public static final int GARBAGE_FIRE = 214;
+  public static final int SLOTTER = 257;
   public static final int UNSPEAKACHU = 260;
   public static final int STOOPER = 261;
   public static final int DISGEIST = 262;

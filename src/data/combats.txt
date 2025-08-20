@@ -78,6 +78,7 @@ Anemone Mine	-1	Anemone combatant	killer clownfish	Mer-kin miner
 Anger Man's Level	100	frustrating knight	rage flame	ticking time bomb	Anger Man: 0
 Art Class	100	rulergheist	clay golem	misproportioned portrait	wire sculpture	Fran&ccedil;ois Verte, Art Teacher: 0
 Atomic Crimbo Toy Factory	100	mutant circuit-soldering elf	mutant cookie-baking elf	mutant doll-dressing elf	mutant gift-wrapping elf	mutant whistle-carving elf
+Axis HQ	100	Axis officer skeleton
 Barf Mountain	100	angry tourist	garbage tourist	horrible tourist family
 Barrrney's Barrr	80	tetchy pirate	tipsy pirate	toothy pirate
 Cola Wars Battlefield (Cloaca Uniform)	95	Dyspepsi-Cola General	Dyspepsi-Cola Knight	Dyspepsi-Cola Soldier	The Temporal Bandit: -1
@@ -176,9 +177,9 @@ Itznotyerzitz Mine	90	dopey 7-Foot Dwarf	grumpy 7-Foot Dwarf	sleepy 7-Foot Dwarf
 JokesterCo	100	The Jokester: 0
 Kegger in the Woods	100	actual orcish frat boy	jailbait orquette	juvenile delinquent orquette	orcish juvenile delinquent	orcish frat wannaboy	totally trashed orquette
 Kokomo Resort	100	Drunken Tropical Vacationer	Lovestruck Tropical Honeymooners	Resort Waiter	Brick Mulligan, the Bartender: 0
-KoL Con Clan Party House	100	Arizona bark scorpion	stumbling-drunk congoer (female)	stumbling-drunk congoer (male)	swimming pool monster
+KoL Con Clan Party House	100	Arizona bark scorpion: 1r50	stumbling-drunk congoer (female)	stumbling-drunk congoer (male)	swimming pool monster: 1r50
 Lair of the Ninja Snowmen	100	Ninja Snowman (Chopsticks)	Ninja Snowman (Hilt)	Ninja Snowman (Mask)	Ninja Snowman Janitor	Ninja Snowman Weaponmaster	ninja snowman assassin: 0	Frozen Solid Snake: 0
-LavaCo&trade; Lamp Factory	100	factory worker (female)	factory overseer (male)	factory overseer (female)	factory worker (male)	lava golem	Mr. Cheeng: 0
+LavaCo&trade; Lamp Factory	100	factory worker (female)	factory overseer (male): 1r50	factory overseer (female): 1r50	factory worker (male)	lava golem	Mr. Cheeng: 0
 Lollipop Forest	90	lollicat	lolligator	lollipede	lolliphaunt	lolrus	trollipop	The Colollilossus
 LOLmec's Lair	100	LOLmec: 0
 Madness Bakery	-1	dinner troll	baguette lady	gingerbread murderer	cr&ecirc;ep	Cake Lord: 0	the ghost of Monsieur Baguelle: 0
@@ -209,6 +210,7 @@ Near the Witch's House	100	flock of every birds
 Neckback Crick	100	deadly venomtrout	water spider	unearthed monstrosity: 0
 Next to that Barrel with Something Burning in it	100	A.M.C. gremlin	batwinged gremlin	batwinged gremlin (tool)	vegetable gremlin
 Noob Cave	100	crate
+No Man's And Also No Skeleton's Land	100	Axis artillery skeleton	Axis grenadier skeleton	Axis infantry skeleton
 Oil Peak	100	oil baron	oil cartel	oil slick	oil tycoon
 Old Crimbo Town Toy Factory	100	Mob Penguin enforcer	Mob Penguin goon (2008)	Mob Penguin hitpenguin	Mob Penguin psychopath	Mob Penguin racketeer
 Out by that Rusted-Out Car	100	A.M.C. gremlin	erudite gremlin	vegetable gremlin	vegetable gremlin (tool)
@@ -283,7 +285,7 @@ The Beanbat Chamber	100	beanbat	magical fruit bat	musical fruit bat	screambat: 0
 The Beehive	100	bee	queen bee (Spelunky): 0
 The Black Forest	95	black adder	black panther	black widow	black friar	black magic woman	blackberry bush: 0
 The Boss Bat's Lair	100	beefy bodyguard bat	Boss Bat
-The Brinier Deepers	100	bazookafish	clubfish	scimitarfish
+The Brinier Deepers	100	bazookafish	clubfish	scimitarfish	trophyfish
 The Briniest Deepests	100	acoustic electric eel	decent white shark	ganger
 The Briny Deeps	100	funk sole brother	pumped-up bass	school of wizardfish
 The Broodling Grounds	100	hellseal pup	mother hellseal: 0
@@ -488,7 +490,7 @@ The Typical Tavern Cellar	80	drunken rat	Baron von Ratsworth: 0
 The Unquiet Garves	100	ghuol	grave rober	lihc	skleleton	Smart Skelton	zmobie	zobmie	Count Bakula: -1	Snakeleton: 0
 The Upper Chamber	85	Iiti Kitty	tomb bat	tomb servant
 The Valley of Rof L'm Fao	100	1335 HaXx0r	Anime Smiley	Flaming Troll	Lamz0r N00b	me4t begZ0r	rampaging adding machine	Spam Witch	XXX pr0n	Bad ASCII Art: 0
-The Velvet / Gold Mine	100	healing crystal golem	mine worker (female)	mine overseer (male)	mine worker (male)	mine overseer (female)	Mr. Choch: 0
+The Velvet / Gold Mine	100	healing crystal golem	mine worker (female)	mine overseer (male): 1r50	mine worker (male)	mine overseer (female): 1r50	Mr. Choch: 0
 The VERY Unquiet Garves	100	corpulent zobmie	grave rober zmobie	senile lihc	slick lihc	gluttonous ghuol	gaunt ghuol	spiny skelelton	toothy sklelton	Skelter Butleton, the Butler Skeleton: 0	Count Bakula: -1	Snakeleton: 0
 The Weird Swamp Village	-1	mud turtle	swamp gator	swamp owl	swamp skunk: 0
 The Wildlife Sanctuarrrrrgh	-1	swamp beaver warrior	swamp entity	swamp gator

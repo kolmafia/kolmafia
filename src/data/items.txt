@@ -5929,7 +5929,7 @@
 5901	jar of psychoses (The Old Man)	643517922	analjar_full.gif	usable	t	0	jars of psychoses (The Old Man)
 5902	jar of psychoses (The Pretentious Artist)	782884590	analjar_full.gif	usable	t	0	jars of psychoses (The Pretentious Artist)
 5903	jar of psychoses (The Meatsmith)	942166242	analjar_full.gif	usable	t	0	jars of psychoses (The Meatsmith)
-5904
+5904	[Jar of psychoses (Trader)]	664426198	analjar_full.gif	usable	t	0
 5905	jar of psychoses (Jick)	457683470	analjar_full.gif	usable	t	0	jars of psychoses (Jick)
 5906	pixel pill	439085798	pixelpill.gif	usable	t	0
 5907	pixel energy tank	337369749	pixeltank.gif	usable, combat	t	0
@@ -11894,7 +11894,7 @@
 11866	crafting plans	218471243	boatplan.gif	usable	t,d	100	sets of crafting plans
 11867	Book of Irony	671417795	book5.gif	usable		0	Books of Irony
 11868	spoon	262321030	spoooon.gif	usable, combat	t,d	11
-11869
+11869	unironic knife	770625328	knife.gif	weapon	t	0	unironic knives
 11870	bar dart	979911176	nicedart.gif	none, combat	t,d	20
 11871	leprechaun antidepressant pill	798135927	pill3.gif	spleen, usable	t,d	50
 11872	Heck ramen	412904552	bowl.gif	food	t,d	25	bowls of Heck ramen
@@ -11945,7 +11945,57 @@
 11917	Thwaitgold mad hatterpillar statuette	270247826	thwaithatter.gif	none		0
 11918	packaged prismatic beret	615950047	prisberet_box.gif	usable	t	0
 11919	prismatic beret	370149661	prisberet.gif	hat		0
-11920
-11921
+11920	flak shield	885234517	flakshield.gif	offhand	t,d	100
+11921	Axis HQ Code	696953952	axiscode.gif	multiple	t	0
 11922	yeti in a travel cooler	486921085	yeticooler.gif	grow	t	0	yetis in travel coolers
-11923	cold exchanger	728269982	heatexchanger.gif	familiar	t,d	15
+11923	cold exchanger	728269982	heatexchanger.gif	familiar	t,d	75
+11924	Axis helmet	244704529	axishelmet.gif	hat	t,d	25
+11925	Axis fatigues	218060035	axispants.gif	pants	t,d	25	pairs of Axis fatigues
+11926	Axis suspenders	846271137	axisuspenders.gif	accessory	t,d	15	pairs of Axis suspenders
+11927	stolen artifact	433310638	axisartifact1.gif	none	t	0
+11928	really expensive stolen artifact	985646795	axisartifact2.gif	none	t	0
+11929	priceless stolen artifact	687569785	axisartifact3.gif	none	t	0
+11930	chocolate rations	936276376	chocoration.gif	none	t,d	22	chocolate rations
+11931	nice nylon stockings	631963405	nylons.gif	none	t,d	22	pairs of nice nylon stockings
+11932	Allied Radio Backpack Pack	388134594	radiopackpack.gif	usable	t	0
+11933	Allied Radio Backpack	116101148	radiopack.gif	container		0
+11934	orphaned baby skeleton	460873306	babyskel_sleep.gif	grow	t	0
+11935	ordnance magnet	906421946	ordmagnet.gif	accessory	t	0
+11936	confetti grenade	645129705	confettigrenade.gif	none, combat	t	0
+11937	Skeleton Wars rations	496805659	skelration.gif	food	t,d	95	cases of Skeleton Wars rations
+11938	skeleton war fuel can	745447757	skelgascan.gif	drink	t,d	85
+11939	skeleton war grenade	972789838	skelgrenade.gif	none, combat	t,d	75
+11940	chocolate and nylons detector	123517698	chocodetector.gif	offhand	t,d	105
+11941	M&ouml;bius ring box	938142928	moebiusring_box.gif	usable	t	0	M&ouml;bius ring boxes
+11942	M&ouml;bius ring	180326628	moebiusring.gif	accessory		0
+11943	bone pacifier	509620940	bonebinky.gif	familiar	t,d	75
+11944	Allied Forces insignia	713476461	alliedpin.gif	accessory		0	Allied Forces insigniae
+11945	Allied Tattoo Kit	725098636	allytatkit.gif	usable	t	0
+11946	handheld Allied radio	762170989	radiopackradio.gif	usable	t	0
+11947	Axis codebook	550271597	book4.gif	none	d	10000
+11948	Life Goals Pamphlet	936654042	pamphlet.gif	potion, usable	t,d	15
+11949	bully badge	727824335	jetbadge1.gif	accessory	q	0
+11950	time cop top hat	991820053	timecophat.gif	hat	t	0
+11951	Stock Certificate	339675464	ts_letter1.gif	usable		0
+11952	mixed berry jelly	731715027	jellyglob.gif	spleen, usable, cook	t,d	5	mixed berry jellies
+11953	toast with mixed berry jelly	974768964	jamtoast.gif	food	t,d	11	pieces of toast with mixed berry jelly
+11954	cup of sugar	443989917	dixiecup.gif	food	t,d	8	cups of sugar
+11955	Susie's cupcake	314868060	cupcake.gif	food	t,d	25
+11956	clock	696662686	clock.gif	usable	t,d	11
+11957	the gun	720217934	happiness.gif	weapon	q	0
+11958	fancy old wine	590385263	wine.gif	drink	t,d	500	bottles of fancy old wine
+11959
+11960	really, really nice swimming trunks	689309757	nicetrunks.gif	pants	q	0
+11961	sand penny	692682835	sandpenny.gif	none	q	0	sand pennies
+11962	undersea surveying goggles	351851283	surveygoggles.gif	hat	q	0	pairs of undersea surveying goggles
+11963	Ocean-Touched Rum	224796689	emberbottle.gif	drink	t	0	bottles of Ocean-Touched Rum
+11964	water-logged pill	157807719	stimpill2.gif	spleen, usable	t	0
+11965	kelp puck	526729791	kelppuck.gif	food	t	0
+11966	scroll of sea strength	717070334	limerickscroll.gif	multiple	t	0	scrolls of sea strength
+11967	scroll of sea smarts	792194441	limerickscroll.gif	multiple	t	0	scrolls of sea smarts
+11968	scroll of sea smarm	376628739	limerickscroll.gif	multiple	d	10	scrolls of sea smarm
+11969	waterlogged scroll of healing	217776170	scroll1.gif	multiple, combat		0	waterlogged scrolls of healing
+11970	sea gel	865130560	vglob1.gif	multiple, combat		0	globs of sea gel
+11971	ink bladder	962785260	inkbladder.gif	potion, usable	t,d	25
+11972	durable dolphin whistle	754386808	whistle.gif	usable		0
+11973	Thwaitgold lobster statuette	719574059	thwaitlobster.gif	none		0

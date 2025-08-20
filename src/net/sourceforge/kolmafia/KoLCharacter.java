@@ -216,6 +216,8 @@ public abstract class KoLCharacter {
   private static int rain = 0;
   private static int lightning = 0;
 
+  private static int paradoxicity = 0;
+
   private static String mask = null;
 
   private static LimitMode limitMode = LimitMode.NONE;
@@ -364,6 +366,7 @@ public abstract class KoLCharacter {
     KoLCharacter.rain = 0;
     KoLCharacter.lightning = 0;
     KoLCharacter.absorbs = 0;
+    KoLCharacter.paradoxicity = 0;
 
     KoLCharacter.mask = null;
 
@@ -1088,6 +1091,14 @@ public abstract class KoLCharacter {
 
   public static final void setMask(final String newMask) {
     KoLCharacter.mask = newMask;
+  }
+
+  public static final int getParadoxicity() {
+    return KoLCharacter.paradoxicity;
+  }
+
+  public static final void setParadoxicity(final int newParadoxicity) {
+    KoLCharacter.paradoxicity = newParadoxicity;
   }
 
   public static final int getAttacksLeft() {
@@ -3388,6 +3399,10 @@ public abstract class KoLCharacter {
     return KoLCharacter.ascensionPath == Path.HAT_TRICK;
   }
 
+  public static final boolean inSeaPath() {
+    return KoLCharacter.ascensionPath == Path.UNDER_THE_SEA;
+  }
+
   public static final boolean noExperience() {
     return inZootomist();
   }
@@ -4469,6 +4484,13 @@ public abstract class KoLCharacter {
 
   private static boolean isUsable(FamiliarData f) {
     if (f == FamiliarData.NO_FAMILIAR) return !KoLCharacter.inQuantum();
+
+    if (KoLCharacter.inPokefam()) {
+      // pokefam-only familiars are usable
+      if (FamiliarDatabase.isPokefamType(f.getId())) {
+        return true;
+      }
+    }
 
     return StandardRequest.isAllowed(f)
         && (!KoLCharacter.inZombiecore() || f.isUndead())
@@ -5799,7 +5821,26 @@ public abstract class KoLCharacter {
     if (item == null
         || item == EquipmentRequest.UNEQUIP
         || ItemDatabase.getConsumptionType(item.id) != ConsumptionType.OFFHAND
-        || item.id == ItemPool.LATTE_MUG) {
+        || item.id == ItemPool.LATTE_MUG
+        // hobo items that convert hobo power don't have that conversion doubled
+        || item.id >= ItemPool.HODGMANS_VARCOLAC_PAW && item.id <= ItemPool.HODGMANS_CANE) {
+      return;
+    }
+
+    if (item.id == ItemPool.HODGMANS_HAMSTER) {
+      // hamster has the stat bonus doubled but not the conversion
+      var mods = ModifierDatabase.getItemModifiers(item.id);
+      if (mods == null) {
+        // argh wtf
+        return;
+      }
+      mods.setDouble(DoubleModifier.ITEMDROP, 0);
+      mods.setDouble(DoubleModifier.MEATDROP, 0);
+      mods.setDouble(DoubleModifier.HP_REGEN_MIN, 0);
+      mods.setDouble(DoubleModifier.HP_REGEN_MAX, 0);
+      mods.setDouble(DoubleModifier.MP_REGEN_MAX, 0);
+      mods.setDouble(DoubleModifier.MP_REGEN_MAX, 0);
+      addModifiersWithOffHandRemarkable(newModifiers, mods);
       return;
     }
 

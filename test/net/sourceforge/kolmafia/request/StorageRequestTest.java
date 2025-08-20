@@ -16,6 +16,7 @@ import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
@@ -43,7 +44,7 @@ import org.junit.jupiter.api.Test;
 
 public class StorageRequestTest {
 
-  private Set<Integer> pulledItemSet = new HashSet<>();
+  private final Set<Integer> pulledItemSet = new HashSet<>();
   private String pulledItemProperty = "";
 
   // *** Here are tests for the primitives that handle ronin item pulls.
@@ -62,21 +63,21 @@ public class StorageRequestTest {
     // Normal case
     pulledItemProperty = "57,60";
     StorageRequest.pullsStringToSet(pulledItemProperty, pulledItemSet);
-    assertTrue(pulledItemSet.size() == 2);
+    assertEquals(2, pulledItemSet.size());
     assertTrue(pulledItemSet.contains(57));
     assertTrue(pulledItemSet.contains(60));
 
     // Duplicate elements with padding
     pulledItemProperty = "57 , 60 , 57, 60";
     StorageRequest.pullsStringToSet(pulledItemProperty, pulledItemSet);
-    assertTrue(pulledItemSet.size() == 2);
+    assertEquals(2, pulledItemSet.size());
     assertTrue(pulledItemSet.contains(57));
     assertTrue(pulledItemSet.contains(60));
 
     // Bogus elements
     pulledItemProperty = "57 , bogus 1 , bogus 2";
     StorageRequest.pullsStringToSet(pulledItemProperty, pulledItemSet);
-    assertTrue(pulledItemSet.size() == 1);
+    assertEquals(1, pulledItemSet.size());
     assertTrue(pulledItemSet.contains(57));
   }
 
@@ -90,7 +91,7 @@ public class StorageRequestTest {
     String result = StorageRequest.pullsSetToString(pulledItemSet);
     // Sets are unordered
     List<String> list = Arrays.asList(result.split(","));
-    assertTrue(list.size() == 2);
+    assertEquals(2, list.size());
     assertTrue(list.contains("57"));
     assertTrue(list.contains("60"));
   }
@@ -101,18 +102,18 @@ public class StorageRequestTest {
 
     // Add an item. It must be present;
     StorageRequest.addPulledItem(pulledItemSet, 57);
-    assertTrue(pulledItemSet.size() == 1);
+    assertEquals(1, pulledItemSet.size());
     assertTrue(pulledItemSet.contains(57));
 
     // Add another item. It also must be present;
     StorageRequest.addPulledItem(pulledItemSet, 60);
-    assertTrue(pulledItemSet.size() == 2);
+    assertEquals(2, pulledItemSet.size());
     assertTrue(pulledItemSet.contains(57));
     assertTrue(pulledItemSet.contains(60));
 
     // Add duplicate item. It also must be present
     StorageRequest.addPulledItem(pulledItemSet, 57);
-    assertTrue(pulledItemSet.size() == 2);
+    assertEquals(2, pulledItemSet.size());
     assertTrue(pulledItemSet.contains(57));
     assertTrue(pulledItemSet.contains(60));
   }
@@ -149,10 +150,10 @@ public class StorageRequestTest {
   @Test
   void itShouldLoadPropertyInRonin() {
     roninStoragePropertySetup();
-    assertTrue(StorageRequest.roninStoragePulls.size() == 0);
+    assertTrue(StorageRequest.roninStoragePulls.isEmpty());
     Preferences.setString("_roninStoragePulls", "57,60");
     StorageRequest.loadRoninStoragePulls();
-    assertTrue(StorageRequest.roninStoragePulls.size() == 2);
+    assertEquals(2, StorageRequest.roninStoragePulls.size());
     Preferences.setString("_roninStoragePulls", "");
   }
 
@@ -160,13 +161,13 @@ public class StorageRequestTest {
   public void itShouldAddPulledItemInRonin() {
     roninStoragePropertySetup();
     String property = Preferences.getString("_roninStoragePulls");
-    assertTrue(property.equals(""));
-    StorageRequest.addPulledItem(ItemPool.get(57));
-    StorageRequest.addPulledItem(60);
+    assertTrue(property.isEmpty());
+    StorageRequest.addPulledItem(ItemPool.get(ItemPool.FIVE_ALARM_SAUCEPAN));
+    StorageRequest.addPulledItem(ItemPool.MACE_OF_THE_TORTOISE);
     property = Preferences.getString("_roninStoragePulls");
-    assertFalse(property.equals(""));
-    assertTrue(property.contains("57"));
-    assertTrue(property.contains("60"));
+    assertFalse(property.isEmpty());
+    assertTrue(property.contains(Integer.toString(ItemPool.FIVE_ALARM_SAUCEPAN)));
+    assertTrue(property.contains(Integer.toString(ItemPool.MACE_OF_THE_TORTOISE)));
     Preferences.setString("_roninStoragePulls", "");
   }
 
@@ -175,21 +176,21 @@ public class StorageRequestTest {
     roninStoragePropertySetup();
     KoLCharacter.setRonin(false);
     String property = Preferences.getString("_roninStoragePulls");
-    assertTrue(property.equals(""));
-    StorageRequest.addPulledItem(ItemPool.get(57));
-    StorageRequest.addPulledItem(60);
+    assertTrue(property.isEmpty());
+    StorageRequest.addPulledItem(ItemPool.get(ItemPool.FIVE_ALARM_SAUCEPAN));
+    StorageRequest.addPulledItem(ItemPool.MACE_OF_THE_TORTOISE);
     property = Preferences.getString("_roninStoragePulls");
-    assertTrue(property.equals(""));
+    assertTrue(property.isEmpty());
     Preferences.setString("_roninStoragePulls", "");
   }
 
   @Test
   public void itShouldFindPulledItemsInRonin() {
     roninStoragePropertySetup();
-    StorageRequest.addPulledItem(ItemPool.get(57));
-    StorageRequest.addPulledItem(60);
-    assertTrue(StorageRequest.itemPulledInRonin(ItemPool.get(57)));
-    assertTrue(StorageRequest.itemPulledInRonin(60));
+    StorageRequest.addPulledItem(ItemPool.get(ItemPool.FIVE_ALARM_SAUCEPAN));
+    StorageRequest.addPulledItem(ItemPool.MACE_OF_THE_TORTOISE);
+    assertTrue(StorageRequest.itemPulledInRonin(ItemPool.get(ItemPool.FIVE_ALARM_SAUCEPAN)));
+    assertTrue(StorageRequest.itemPulledInRonin(ItemPool.MACE_OF_THE_TORTOISE));
     assertFalse(StorageRequest.itemPulledInRonin(100));
     Preferences.setString("_roninStoragePulls", "");
   }
@@ -198,10 +199,10 @@ public class StorageRequestTest {
   public void itShouldNotFindPulledItemsOutOfRonin() {
     roninStoragePropertySetup();
     KoLCharacter.setRonin(false);
-    StorageRequest.addPulledItem(ItemPool.get(57));
-    StorageRequest.addPulledItem(60);
-    assertFalse(StorageRequest.itemPulledInRonin(ItemPool.get(57)));
-    assertFalse(StorageRequest.itemPulledInRonin(60));
+    StorageRequest.addPulledItem(ItemPool.get(ItemPool.FIVE_ALARM_SAUCEPAN));
+    StorageRequest.addPulledItem(ItemPool.MACE_OF_THE_TORTOISE);
+    assertFalse(StorageRequest.itemPulledInRonin(ItemPool.get(ItemPool.FIVE_ALARM_SAUCEPAN)));
+    assertFalse(StorageRequest.itemPulledInRonin(ItemPool.MACE_OF_THE_TORTOISE));
     assertFalse(StorageRequest.itemPulledInRonin(100));
     Preferences.setString("_roninStoragePulls", "");
   }
@@ -210,15 +211,15 @@ public class StorageRequestTest {
   public void itShouldSaveRoninStoragePulls() {
     roninStoragePropertySetup();
     String property = Preferences.getString("_roninStoragePulls");
-    assertTrue(property.equals(""));
-    assertTrue(StorageRequest.roninStoragePulls.size() == 0);
-    StorageRequest.roninStoragePulls.add(57);
-    StorageRequest.roninStoragePulls.add(60);
+    assertTrue(property.isEmpty());
+    assertTrue(StorageRequest.roninStoragePulls.isEmpty());
+    StorageRequest.roninStoragePulls.add(ItemPool.FIVE_ALARM_SAUCEPAN);
+    StorageRequest.roninStoragePulls.add(ItemPool.MACE_OF_THE_TORTOISE);
     StorageRequest.saveRoninStoragePulls();
     property = Preferences.getString("_roninStoragePulls");
-    assertFalse(property.equals(""));
-    assertTrue(property.contains("57"));
-    assertTrue(property.contains("60"));
+    assertFalse(property.isEmpty());
+    assertTrue(property.contains(Integer.toString(ItemPool.FIVE_ALARM_SAUCEPAN)));
+    assertTrue(property.contains(Integer.toString(ItemPool.MACE_OF_THE_TORTOISE)));
     Preferences.setString("_roninStoragePulls", "");
   }
 
@@ -297,7 +298,7 @@ public class StorageRequestTest {
     items.add(ItemPool.get(ItemPool.COLD_WAD, 20));
 
     // StorageRequest wants an actual Java array
-    AdventureResult[] attachments = items.toArray(new AdventureResult[items.size()]);
+    AdventureResult[] attachments = items.toArray(new AdventureResult[0]);
 
     // Test NOT being in Ronin
     KoLCharacter.setRonin(false);
@@ -310,26 +311,26 @@ public class StorageRequestTest {
     ArrayList<TransferItemRequest> subinstances = request.generateSubInstances();
 
     // We expect there to be a single subinstance
-    assertTrue(subinstances.size() == 1);
+    assertEquals(1, subinstances.size());
 
-    TransferItemRequest rq = subinstances.get(0);
+    TransferItemRequest rq = subinstances.getFirst();
 
     // We expect there to be exactly 5 attachments
-    assertTrue(rq.attachments != null);
-    assertTrue(rq.attachments.length == 5);
+    assertNotNull(rq.attachments);
+    assertEquals(5, rq.attachments.length);
 
     // We expect them to be exactly the items that are in storage
     // We expect them to be limited by min(requested, available)
-    assertTrue(rq.attachments[0].getItemId() == ItemPool.MILK_OF_MAGNESIUM);
-    assertTrue(rq.attachments[0].getCount() == 4);
-    assertTrue(rq.attachments[1].getItemId() == ItemPool.FLAMING_MUSHROOM);
-    assertTrue(rq.attachments[1].getCount() == 2);
-    assertTrue(rq.attachments[2].getItemId() == ItemPool.CLOCKWORK_CHEF);
-    assertTrue(rq.attachments[2].getCount() == 1);
-    assertTrue(rq.attachments[3].getItemId() == ItemPool.HOT_WAD);
-    assertTrue(rq.attachments[3].getCount() == 5);
-    assertTrue(rq.attachments[4].getItemId() == ItemPool.COLD_WAD);
-    assertTrue(rq.attachments[4].getCount() == 5);
+    assertEquals(ItemPool.MILK_OF_MAGNESIUM, rq.attachments[0].getItemId());
+    assertEquals(4, rq.attachments[0].getCount());
+    assertEquals(ItemPool.FLAMING_MUSHROOM, rq.attachments[1].getItemId());
+    assertEquals(2, rq.attachments[1].getCount());
+    assertEquals(ItemPool.CLOCKWORK_CHEF, rq.attachments[2].getItemId());
+    assertEquals(1, rq.attachments[2].getCount());
+    assertEquals(ItemPool.HOT_WAD, rq.attachments[3].getItemId());
+    assertEquals(5, rq.attachments[3].getCount());
+    assertEquals(ItemPool.COLD_WAD, rq.attachments[4].getItemId());
+    assertEquals(5, rq.attachments[4].getCount());
   }
 
   @Test
@@ -359,7 +360,7 @@ public class StorageRequestTest {
     items.add(ItemPool.get(ItemPool.SLEAZY_HI_MEIN, 1));
 
     // StorageRequest wants an actual Java array
-    AdventureResult[] attachments = items.toArray(new AdventureResult[items.size()]);
+    AdventureResult[] attachments = items.toArray(new AdventureResult[0]);
 
     // Test NOT being in Ronin
     KoLCharacter.setRonin(false);
@@ -372,57 +373,57 @@ public class StorageRequestTest {
     ArrayList<TransferItemRequest> subinstances = request.generateSubInstances();
 
     // We expect there to be two subinstances
-    assertTrue(subinstances.size() == 2);
+    assertEquals(2, subinstances.size());
 
-    TransferItemRequest rq1 = subinstances.get(0);
+    TransferItemRequest rq1 = subinstances.getFirst();
 
     // We expect there to be exactly 11 attachments in the first request
-    assertTrue(rq1.attachments != null);
-    assertTrue(rq1.attachments.length == 11);
+    assertNotNull(rq1.attachments);
+    assertEquals(11, rq1.attachments.length);
 
     // We expect them to be exactly the items that are in storage
-    assertTrue(rq1.attachments[0].getItemId() == ItemPool.MILK_OF_MAGNESIUM);
-    assertTrue(rq1.attachments[0].getCount() == 1);
-    assertTrue(rq1.attachments[1].getItemId() == ItemPool.FLAMING_MUSHROOM);
-    assertTrue(rq1.attachments[1].getCount() == 1);
-    assertTrue(rq1.attachments[2].getItemId() == ItemPool.FROZEN_MUSHROOM);
-    assertTrue(rq1.attachments[2].getCount() == 1);
-    assertTrue(rq1.attachments[3].getItemId() == ItemPool.STINKY_MUSHROOM);
-    assertTrue(rq1.attachments[3].getCount() == 1);
-    assertTrue(rq1.attachments[4].getItemId() == ItemPool.CLOCKWORK_BARTENDER);
-    assertTrue(rq1.attachments[4].getCount() == 1);
-    assertTrue(rq1.attachments[5].getItemId() == ItemPool.CLOCKWORK_CHEF);
-    assertTrue(rq1.attachments[5].getCount() == 1);
-    assertTrue(rq1.attachments[6].getItemId() == ItemPool.CLOCKWORK_MAID);
-    assertTrue(rq1.attachments[6].getCount() == 1);
-    assertTrue(rq1.attachments[7].getItemId() == ItemPool.HOT_WAD);
-    assertTrue(rq1.attachments[7].getCount() == 1);
-    assertTrue(rq1.attachments[8].getItemId() == ItemPool.COLD_WAD);
-    assertTrue(rq1.attachments[8].getCount() == 1);
-    assertTrue(rq1.attachments[9].getItemId() == ItemPool.SPOOKY_WAD);
-    assertTrue(rq1.attachments[9].getCount() == 1);
-    assertTrue(rq1.attachments[10].getItemId() == ItemPool.STENCH_WAD);
-    assertTrue(rq1.attachments[10].getCount() == 1);
+    assertEquals(ItemPool.MILK_OF_MAGNESIUM, rq1.attachments[0].getItemId());
+    assertEquals(1, rq1.attachments[0].getCount());
+    assertEquals(ItemPool.FLAMING_MUSHROOM, rq1.attachments[1].getItemId());
+    assertEquals(1, rq1.attachments[1].getCount());
+    assertEquals(ItemPool.FROZEN_MUSHROOM, rq1.attachments[2].getItemId());
+    assertEquals(1, rq1.attachments[2].getCount());
+    assertEquals(ItemPool.STINKY_MUSHROOM, rq1.attachments[3].getItemId());
+    assertEquals(1, rq1.attachments[3].getCount());
+    assertEquals(ItemPool.CLOCKWORK_BARTENDER, rq1.attachments[4].getItemId());
+    assertEquals(1, rq1.attachments[4].getCount());
+    assertEquals(ItemPool.CLOCKWORK_CHEF, rq1.attachments[5].getItemId());
+    assertEquals(1, rq1.attachments[5].getCount());
+    assertEquals(ItemPool.CLOCKWORK_MAID, rq1.attachments[6].getItemId());
+    assertEquals(1, rq1.attachments[6].getCount());
+    assertEquals(ItemPool.HOT_WAD, rq1.attachments[7].getItemId());
+    assertEquals(1, rq1.attachments[7].getCount());
+    assertEquals(ItemPool.COLD_WAD, rq1.attachments[8].getItemId());
+    assertEquals(1, rq1.attachments[8].getCount());
+    assertEquals(ItemPool.SPOOKY_WAD, rq1.attachments[9].getItemId());
+    assertEquals(1, rq1.attachments[9].getCount());
+    assertEquals(ItemPool.STENCH_WAD, rq1.attachments[10].getItemId());
+    assertEquals(1, rq1.attachments[10].getCount());
 
     TransferItemRequest rq2 = subinstances.get(1);
 
     // We expect there to be exactly 6 attachments in the second request
-    assertTrue(rq2.attachments != null);
-    assertTrue(rq2.attachments.length == 6);
+    assertNotNull(rq2.attachments);
+    assertEquals(6, rq2.attachments.length);
 
     // We expect them to be exactly the items that are in storage
-    assertTrue(rq2.attachments[0].getItemId() == ItemPool.SLEAZE_WAD);
-    assertTrue(rq2.attachments[0].getCount() == 1);
-    assertTrue(rq2.attachments[1].getItemId() == ItemPool.HOT_HI_MEIN);
-    assertTrue(rq2.attachments[1].getCount() == 1);
-    assertTrue(rq2.attachments[2].getItemId() == ItemPool.COLD_HI_MEIN);
-    assertTrue(rq2.attachments[2].getCount() == 1);
-    assertTrue(rq2.attachments[3].getItemId() == ItemPool.SPOOKY_HI_MEIN);
-    assertTrue(rq2.attachments[3].getCount() == 1);
-    assertTrue(rq2.attachments[4].getItemId() == ItemPool.STINKY_HI_MEIN);
-    assertTrue(rq2.attachments[4].getCount() == 1);
-    assertTrue(rq2.attachments[5].getItemId() == ItemPool.SLEAZY_HI_MEIN);
-    assertTrue(rq2.attachments[5].getCount() == 1);
+    assertEquals(ItemPool.SLEAZE_WAD, rq2.attachments[0].getItemId());
+    assertEquals(1, rq2.attachments[0].getCount());
+    assertEquals(ItemPool.HOT_HI_MEIN, rq2.attachments[1].getItemId());
+    assertEquals(1, rq2.attachments[1].getCount());
+    assertEquals(ItemPool.COLD_HI_MEIN, rq2.attachments[2].getItemId());
+    assertEquals(1, rq2.attachments[2].getCount());
+    assertEquals(ItemPool.SPOOKY_HI_MEIN, rq2.attachments[3].getItemId());
+    assertEquals(1, rq2.attachments[3].getCount());
+    assertEquals(ItemPool.STINKY_HI_MEIN, rq2.attachments[4].getItemId());
+    assertEquals(1, rq2.attachments[4].getCount());
+    assertEquals(ItemPool.SLEAZY_HI_MEIN, rq2.attachments[5].getItemId());
+    assertEquals(1, rq2.attachments[5].getCount());
   }
 
   @Test
@@ -447,7 +448,7 @@ public class StorageRequestTest {
     items.add(ItemPool.get(ItemPool.COLD_WAD, 20));
 
     // StorageRequest wants an actual Java array
-    AdventureResult[] attachments = items.toArray(new AdventureResult[items.size()]);
+    AdventureResult[] attachments = items.toArray(new AdventureResult[0]);
 
     // Test being in Ronin
     KoLCharacter.setRonin(true);
@@ -460,26 +461,26 @@ public class StorageRequestTest {
     ArrayList<TransferItemRequest> subinstances = request.generateSubInstances();
 
     // We expect there to be a single subinstance
-    assertTrue(subinstances.size() == 1);
+    assertEquals(1, subinstances.size());
 
-    TransferItemRequest rq = subinstances.get(0);
+    TransferItemRequest rq = subinstances.getFirst();
 
     // We expect there to be exactly 5 attachments
-    assertTrue(rq.attachments != null);
-    assertTrue(rq.attachments.length == 5);
+    assertNotNull(rq.attachments);
+    assertEquals(5, rq.attachments.length);
 
     // We expect them to be exactly the items that are in storage
     // We expect them to be limited to 1
-    assertTrue(rq.attachments[0].getItemId() == ItemPool.MILK_OF_MAGNESIUM);
-    assertTrue(rq.attachments[0].getCount() == 1);
-    assertTrue(rq.attachments[1].getItemId() == ItemPool.FLAMING_MUSHROOM);
-    assertTrue(rq.attachments[1].getCount() == 1);
-    assertTrue(rq.attachments[2].getItemId() == ItemPool.CLOCKWORK_CHEF);
-    assertTrue(rq.attachments[2].getCount() == 1);
-    assertTrue(rq.attachments[3].getItemId() == ItemPool.HOT_WAD);
-    assertTrue(rq.attachments[3].getCount() == 1);
-    assertTrue(rq.attachments[4].getItemId() == ItemPool.COLD_WAD);
-    assertTrue(rq.attachments[4].getCount() == 1);
+    assertEquals(ItemPool.MILK_OF_MAGNESIUM, rq.attachments[0].getItemId());
+    assertEquals(1, rq.attachments[0].getCount());
+    assertEquals(ItemPool.FLAMING_MUSHROOM, rq.attachments[1].getItemId());
+    assertEquals(1, rq.attachments[1].getCount());
+    assertEquals(ItemPool.CLOCKWORK_CHEF, rq.attachments[2].getItemId());
+    assertEquals(1, rq.attachments[2].getCount());
+    assertEquals(ItemPool.HOT_WAD, rq.attachments[3].getItemId());
+    assertEquals(1, rq.attachments[3].getCount());
+    assertEquals(ItemPool.COLD_WAD, rq.attachments[4].getItemId());
+    assertEquals(1, rq.attachments[4].getCount());
   }
 
   @Test
@@ -499,7 +500,7 @@ public class StorageRequestTest {
     items.add(ItemPool.get(ItemPool.CLOCKWORK_CHEF, 1));
 
     // StorageRequest wants an actual Java array
-    AdventureResult[] attachments = items.toArray(new AdventureResult[items.size()]);
+    AdventureResult[] attachments = items.toArray(new AdventureResult[0]);
 
     // Test NOT being in Ronin
     KoLCharacter.setRonin(false);
@@ -512,26 +513,26 @@ public class StorageRequestTest {
     ArrayList<TransferItemRequest> subinstances = request.generateSubInstances();
 
     // We expect there to be a single subinstance
-    assertTrue(subinstances.size() == 1);
+    assertEquals(1, subinstances.size());
 
-    TransferItemRequest rq = subinstances.get(0);
+    TransferItemRequest rq = subinstances.getFirst();
 
     // We expect there to be exactly 5 attachments
-    assertTrue(rq.attachments != null);
-    assertTrue(rq.attachments.length == 5);
+    assertNotNull(rq.attachments);
+    assertEquals(5, rq.attachments.length);
 
     // We expect them to be exactly the items that are in storage
     // We expect them to be limited by min(requested, available)
-    assertTrue(rq.attachments[0].getItemId() == ItemPool.MILK_OF_MAGNESIUM);
-    assertTrue(rq.attachments[0].getCount() == 4);
-    assertTrue(rq.attachments[1].getItemId() == ItemPool.BRICK);
-    assertTrue(rq.attachments[1].getCount() == 3);
-    assertTrue(rq.attachments[2].getItemId() == ItemPool.FLAMING_MUSHROOM);
-    assertTrue(rq.attachments[2].getCount() == 2);
-    assertTrue(rq.attachments[3].getItemId() == ItemPool.TOILET_PAPER);
-    assertTrue(rq.attachments[3].getCount() == 3);
-    assertTrue(rq.attachments[4].getItemId() == ItemPool.CLOCKWORK_CHEF);
-    assertTrue(rq.attachments[4].getCount() == 1);
+    assertEquals(ItemPool.MILK_OF_MAGNESIUM, rq.attachments[0].getItemId());
+    assertEquals(4, rq.attachments[0].getCount());
+    assertEquals(ItemPool.BRICK, rq.attachments[1].getItemId());
+    assertEquals(3, rq.attachments[1].getCount());
+    assertEquals(ItemPool.FLAMING_MUSHROOM, rq.attachments[2].getItemId());
+    assertEquals(2, rq.attachments[2].getCount());
+    assertEquals(ItemPool.TOILET_PAPER, rq.attachments[3].getItemId());
+    assertEquals(3, rq.attachments[3].getCount());
+    assertEquals(ItemPool.CLOCKWORK_CHEF, rq.attachments[4].getItemId());
+    assertEquals(1, rq.attachments[4].getCount());
   }
 
   @Test
@@ -551,7 +552,7 @@ public class StorageRequestTest {
     items.add(ItemPool.get(ItemPool.CLOCKWORK_CHEF, 1));
 
     // StorageRequest wants an actual Java array
-    AdventureResult[] attachments = items.toArray(new AdventureResult[items.size()]);
+    AdventureResult[] attachments = items.toArray(new AdventureResult[0]);
 
     // Test being in Ronin
     KoLCharacter.setRonin(true);
@@ -564,88 +565,88 @@ public class StorageRequestTest {
     ArrayList<TransferItemRequest> subinstances = request.generateSubInstances();
 
     // We expect there to be 9 subinstances
-    assertTrue(subinstances.size() == 9);
+    assertEquals(9, subinstances.size());
 
     // SubInstance #1
-    TransferItemRequest rq1 = subinstances.get(0);
+    TransferItemRequest rq1 = subinstances.getFirst();
 
     // We expect there to be exactly 1 attachment
-    assertTrue(rq1.attachments != null);
-    assertTrue(rq1.attachments.length == 1);
-    assertTrue(rq1.attachments[0].getItemId() == ItemPool.MILK_OF_MAGNESIUM);
-    assertTrue(rq1.attachments[0].getCount() == 1);
+    assertNotNull(rq1.attachments);
+    assertEquals(1, rq1.attachments.length);
+    assertEquals(ItemPool.MILK_OF_MAGNESIUM, rq1.attachments[0].getItemId());
+    assertEquals(1, rq1.attachments[0].getCount());
 
     // SubInstance #2
     TransferItemRequest rq2 = subinstances.get(1);
 
     // We expect there to be exactly 1 attachment
-    assertTrue(rq2.attachments != null);
-    assertTrue(rq2.attachments.length == 1);
-    assertTrue(rq2.attachments[0].getItemId() == ItemPool.BRICK);
-    assertTrue(rq2.attachments[0].getCount() == 1);
+    assertNotNull(rq2.attachments);
+    assertEquals(1, rq2.attachments.length);
+    assertEquals(ItemPool.BRICK, rq2.attachments[0].getItemId());
+    assertEquals(1, rq2.attachments[0].getCount());
 
     // SubInstance #3
     TransferItemRequest rq3 = subinstances.get(2);
 
     // We expect there to be exactly 1 attachment
-    assertTrue(rq3.attachments != null);
-    assertTrue(rq3.attachments.length == 1);
-    assertTrue(rq3.attachments[0].getItemId() == ItemPool.BRICK);
-    assertTrue(rq3.attachments[0].getCount() == 1);
+    assertNotNull(rq3.attachments);
+    assertEquals(1, rq3.attachments.length);
+    assertEquals(ItemPool.BRICK, rq3.attachments[0].getItemId());
+    assertEquals(1, rq3.attachments[0].getCount());
 
     // SubInstance #4
     TransferItemRequest rq4 = subinstances.get(3);
 
     // We expect there to be exactly 1 attachment
-    assertTrue(rq4.attachments != null);
-    assertTrue(rq4.attachments.length == 1);
-    assertTrue(rq4.attachments[0].getItemId() == ItemPool.BRICK);
-    assertTrue(rq4.attachments[0].getCount() == 1);
+    assertNotNull(rq4.attachments);
+    assertEquals(1, rq4.attachments.length);
+    assertEquals(ItemPool.BRICK, rq4.attachments[0].getItemId());
+    assertEquals(1, rq4.attachments[0].getCount());
 
     // SubInstance #5
     TransferItemRequest rq5 = subinstances.get(4);
 
     // We expect there to be exactly 1 attachment
-    assertTrue(rq5.attachments != null);
-    assertTrue(rq5.attachments.length == 1);
-    assertTrue(rq5.attachments[0].getItemId() == ItemPool.FLAMING_MUSHROOM);
-    assertTrue(rq5.attachments[0].getCount() == 1);
+    assertNotNull(rq5.attachments);
+    assertEquals(1, rq5.attachments.length);
+    assertEquals(ItemPool.FLAMING_MUSHROOM, rq5.attachments[0].getItemId());
+    assertEquals(1, rq5.attachments[0].getCount());
 
     // SubInstance #6
     TransferItemRequest rq6 = subinstances.get(5);
 
     // We expect there to be exactly 1 attachment
-    assertTrue(rq6.attachments != null);
-    assertTrue(rq6.attachments.length == 1);
-    assertTrue(rq6.attachments[0].getItemId() == ItemPool.TOILET_PAPER);
-    assertTrue(rq6.attachments[0].getCount() == 1);
+    assertNotNull(rq6.attachments);
+    assertEquals(1, rq6.attachments.length);
+    assertEquals(ItemPool.TOILET_PAPER, rq6.attachments[0].getItemId());
+    assertEquals(1, rq6.attachments[0].getCount());
 
     // SubInstance #7
     TransferItemRequest rq7 = subinstances.get(6);
 
     // We expect there to be exactly 1 attachment
-    assertTrue(rq7.attachments != null);
-    assertTrue(rq7.attachments.length == 1);
-    assertTrue(rq7.attachments[0].getItemId() == ItemPool.TOILET_PAPER);
-    assertTrue(rq7.attachments[0].getCount() == 1);
+    assertNotNull(rq7.attachments);
+    assertEquals(1, rq7.attachments.length);
+    assertEquals(ItemPool.TOILET_PAPER, rq7.attachments[0].getItemId());
+    assertEquals(1, rq7.attachments[0].getCount());
 
     // SubInstance #8
     TransferItemRequest rq8 = subinstances.get(7);
 
     // We expect there to be exactly 1 attachment
-    assertTrue(rq8.attachments != null);
-    assertTrue(rq8.attachments.length == 1);
-    assertTrue(rq8.attachments[0].getItemId() == ItemPool.TOILET_PAPER);
-    assertTrue(rq8.attachments[0].getCount() == 1);
+    assertNotNull(rq8.attachments);
+    assertEquals(1, rq8.attachments.length);
+    assertEquals(ItemPool.TOILET_PAPER, rq8.attachments[0].getItemId());
+    assertEquals(1, rq8.attachments[0].getCount());
 
     // SubInstance #9
     TransferItemRequest rq9 = subinstances.get(8);
 
     // We expect there to be exactly 1 attachment
-    assertTrue(rq9.attachments != null);
-    assertTrue(rq9.attachments.length == 1);
-    assertTrue(rq9.attachments[0].getItemId() == ItemPool.CLOCKWORK_CHEF);
-    assertTrue(rq9.attachments[0].getCount() == 1);
+    assertNotNull(rq9.attachments);
+    assertEquals(1, rq9.attachments.length);
+    assertEquals(ItemPool.CLOCKWORK_CHEF, rq9.attachments[0].getItemId());
+    assertEquals(1, rq9.attachments[0].getCount());
   }
 
   @Test
@@ -666,7 +667,7 @@ public class StorageRequestTest {
     items.add(ItemPool.get(ItemPool.COLD_WAD, 10));
 
     // StorageRequest wants an actual Java array
-    AdventureResult[] attachments = items.toArray(new AdventureResult[items.size()]);
+    AdventureResult[] attachments = items.toArray(new AdventureResult[0]);
 
     // Test being in Ronin
     KoLCharacter.setRonin(true);
@@ -690,22 +691,22 @@ public class StorageRequestTest {
     Preferences.setString("_roninStoragePulls", "");
 
     // We expect there to be a single subinstance
-    assertTrue(subinstances.size() == 1);
+    assertEquals(1, subinstances.size());
 
-    TransferItemRequest rq = subinstances.get(0);
+    TransferItemRequest rq = subinstances.getFirst();
 
     // We expect there to be exactly 3 attachments
-    assertTrue(rq.attachments != null);
-    assertTrue(rq.attachments.length == 3);
+    assertNotNull(rq.attachments);
+    assertEquals(3, rq.attachments.length);
 
     // We expect them to be exactly the not-yet-pulled items
     // We expect them to be limited to 1
-    assertTrue(rq.attachments[0].getItemId() == ItemPool.MILK_OF_MAGNESIUM);
-    assertTrue(rq.attachments[0].getCount() == 1);
-    assertTrue(rq.attachments[1].getItemId() == ItemPool.CLOCKWORK_CHEF);
-    assertTrue(rq.attachments[1].getCount() == 1);
-    assertTrue(rq.attachments[2].getItemId() == ItemPool.COLD_WAD);
-    assertTrue(rq.attachments[2].getCount() == 1);
+    assertEquals(ItemPool.MILK_OF_MAGNESIUM, rq.attachments[0].getItemId());
+    assertEquals(1, rq.attachments[0].getCount());
+    assertEquals(ItemPool.CLOCKWORK_CHEF, rq.attachments[1].getItemId());
+    assertEquals(1, rq.attachments[1].getCount());
+    assertEquals(ItemPool.COLD_WAD, rq.attachments[2].getItemId());
+    assertEquals(1, rq.attachments[2].getCount());
   }
 
   @Test
@@ -720,7 +721,7 @@ public class StorageRequestTest {
     items.add(new AdventureResult(AdventureLongCountResult.MEAT, 234));
 
     // StorageRequest wants an actual Java array
-    AdventureResult[] attachments = items.toArray(new AdventureResult[items.size()]);
+    AdventureResult[] attachments = items.toArray(new AdventureResult[0]);
 
     // Make a StorageRequest
     StorageRequest request =
@@ -730,16 +731,16 @@ public class StorageRequestTest {
     ArrayList<TransferItemRequest> subinstances = request.generateSubInstances();
 
     // We expect there to be a single subinstance
-    assertTrue(subinstances.size() == 1);
+    assertEquals(1, subinstances.size());
 
-    TransferItemRequest rq = subinstances.get(0);
+    TransferItemRequest rq = subinstances.getFirst();
 
     // We expect to reuse the original request as the subinstance
     assertEquals(request, rq);
 
     // We expect there to be 2 attachments - the originals
-    assertTrue(rq.attachments != null);
-    assertTrue(rq.attachments.length == 2);
+    assertNotNull(rq.attachments);
+    assertEquals(2, rq.attachments.length);
 
     // We expect the total of the Meat values to be saved
     assertTrue(rq.getURLString().contains("amt=1234"));
@@ -756,7 +757,7 @@ public class StorageRequestTest {
     // We expect there to be a single subinstance
     assertThat(subinstances, hasSize(1));
 
-    TransferItemRequest rq = subinstances.get(0);
+    TransferItemRequest rq = subinstances.getFirst();
 
     // We expect it to be a StorageRequest
     assertThat(rq, instanceOf(StorageRequest.class));
@@ -834,7 +835,7 @@ public class StorageRequestTest {
 
         // Run it and verify failure
         request.run();
-        assertEquals(StaticEntity.getContinuationState(), MafiaState.ERROR);
+        assertEquals(MafiaState.ERROR, StaticEntity.getContinuationState());
       }
     }
 
@@ -848,7 +849,7 @@ public class StorageRequestTest {
 
         // Run it and verify failure
         request.run();
-        assertEquals(StaticEntity.getContinuationState(), MafiaState.ERROR);
+        assertEquals(MafiaState.ERROR, StaticEntity.getContinuationState());
       }
     }
 
@@ -862,7 +863,7 @@ public class StorageRequestTest {
 
         // Run it and verify failure
         request.run();
-        assertEquals(StaticEntity.getContinuationState(), MafiaState.ERROR);
+        assertEquals(MafiaState.ERROR, StaticEntity.getContinuationState());
       }
     }
 
@@ -882,7 +883,7 @@ public class StorageRequestTest {
 
         // Run it and verify failure
         request.run();
-        assertEquals(StaticEntity.getContinuationState(), MafiaState.ERROR);
+        assertEquals(MafiaState.ERROR, StaticEntity.getContinuationState());
       }
     }
 
@@ -900,7 +901,7 @@ public class StorageRequestTest {
 
         // Run it and verify failure
         request.run();
-        assertEquals(StaticEntity.getContinuationState(), MafiaState.ERROR);
+        assertEquals(MafiaState.ERROR, StaticEntity.getContinuationState());
       }
     }
 
@@ -914,7 +915,7 @@ public class StorageRequestTest {
 
         // Run it and verify failure
         request.run();
-        assertEquals(StaticEntity.getContinuationState(), MafiaState.ERROR);
+        assertEquals(MafiaState.ERROR, StaticEntity.getContinuationState());
       }
     }
   }
@@ -943,7 +944,7 @@ public class StorageRequestTest {
     items.add(ItemPool.get(ItemPool.SQUEEZE, 1));
 
     // StorageRequest wants an actual Java array
-    AdventureResult[] attachments = items.toArray(new AdventureResult[items.size()]);
+    AdventureResult[] attachments = items.toArray(new AdventureResult[0]);
 
     // Make a StorageRequest
     StorageRequest request =
@@ -975,8 +976,7 @@ public class StorageRequestTest {
 
     // Load the responseText from saved HTML file
     String path = "request/test_request_storage_pulls.html";
-    String html = html(path);
-    request.responseText = html;
+    request.responseText = html(path);
 
     // Voila! we are ready to test
     return subinstance;
@@ -1006,12 +1006,12 @@ public class StorageRequestTest {
     // marked as pulled in ronin
     for (AdventureResult ar : request.attachments) {
       assertTrue(StorageRequest.itemPulledInRonin(ar));
-      assertTrue(ar.getCount(KoLConstants.inventory) == 1);
-      assertTrue(ar.getCount(KoLConstants.storage) == 0);
+      assertEquals(1, ar.getCount(KoLConstants.inventory));
+      assertEquals(0, ar.getCount(KoLConstants.storage));
     }
 
     // Test that pulls remaining has been decremented
-    assertTrue(ConcoctionDatabase.getPullsRemaining() == 13);
+    assertEquals(13, ConcoctionDatabase.getPullsRemaining());
   }
 
   @Test
@@ -1038,12 +1038,12 @@ public class StorageRequestTest {
     // marked as pulled in ronin
     for (AdventureResult ar : request.attachments) {
       assertTrue(StorageRequest.itemPulledInRonin(ar));
-      assertTrue(ar.getCount(KoLConstants.inventory) == 1);
-      assertTrue(ar.getCount(KoLConstants.storage) == 0);
+      assertEquals(1, ar.getCount(KoLConstants.inventory));
+      assertEquals(0, ar.getCount(KoLConstants.storage));
     }
 
     // Test that pulls remaining has been decremented
-    assertTrue(ConcoctionDatabase.getPullsRemaining() == 13);
+    assertEquals(13, ConcoctionDatabase.getPullsRemaining());
   }
 
   @Nested
@@ -1061,13 +1061,13 @@ public class StorageRequestTest {
 
     private void addItem(StringBuilder buf, int index, int itemId, int count) {
       buf.append("&whichitem");
-      buf.append(String.valueOf(index));
+      buf.append(index);
       buf.append("=");
-      buf.append(String.valueOf(itemId));
+      buf.append(itemId);
       buf.append("&howmany");
-      buf.append(String.valueOf(index));
+      buf.append(index);
       buf.append("=");
-      buf.append(String.valueOf(count));
+      buf.append(count);
     }
 
     @Test

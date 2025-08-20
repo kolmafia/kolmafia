@@ -1130,6 +1130,13 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     }
 
     @Test
+    void numericErrorsWithNone() {
+      String input = "numeric_modifier($item[ring of the Skeleton Lord], $modifier[none])";
+      String output = execute(input);
+      assertThat(output, startsWith("numeric modifier required"));
+    }
+
+    @Test
     void canCallBooleanWithModifier() {
       String input = "boolean_modifier($item[Brimstone Beret], $modifier[Four Songs])";
       String output = execute(input);
@@ -1141,6 +1148,13 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     @Test
     void booleanErrorsWithWrongModifierType() {
       String input = "boolean_modifier($item[Brimstone Beret], $modifier[Moxie])";
+      String output = execute(input);
+      assertThat(output, startsWith("boolean modifier required"));
+    }
+
+    @Test
+    void booleanErrorsWithNone() {
+      String input = "boolean_modifier($item[Brimstone Beret], $modifier[none])";
       String output = execute(input);
       assertThat(output, startsWith("boolean modifier required"));
     }
@@ -1165,6 +1179,13 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     }
 
     @Test
+    void stringErrorsWithNone() {
+      String input = "string_modifier(\"Sign:Marmot\", $modifier[none])";
+      String output = execute(input);
+      assertThat(output, startsWith("string modifier required"));
+    }
+
+    @Test
     void canCallEffectWithModifier() {
       String input = "effect_modifier($item[blackberry polite], $modifier[Effect])";
       String output = execute(input);
@@ -1174,6 +1195,13 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     @Test
     void effectErrorsWithWrongModifierType() {
       String input = "effect_modifier($item[blackberry polite], $modifier[Meat Drop])";
+      String output = execute(input);
+      assertThat(output, startsWith("string modifier required"));
+    }
+
+    @Test
+    void effectErrorsWithNone() {
+      String input = "effect_modifier($item[blackberry polite], $modifier[none])";
       String output = execute(input);
       assertThat(output, startsWith("string modifier required"));
     }
@@ -1193,6 +1221,13 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     }
 
     @Test
+    void classErrorsWithNone() {
+      String input = "class_modifier($item[chintzy noodle ring], $modifier[none])";
+      String output = execute(input);
+      assertThat(output, startsWith("string modifier required"));
+    }
+
+    @Test
     void canCallSkillWithModifier() {
       String input = "skill_modifier($item[alien source code printout], $modifier[Skill])";
       String output = execute(input);
@@ -1202,6 +1237,13 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     @Test
     void skillErrorsWithWrongModifierType() {
       String input = "skill_modifier($item[alien source code printout], $modifier[Maximum MP])";
+      String output = execute(input);
+      assertThat(output, startsWith("string modifier required"));
+    }
+
+    @Test
+    void skillErrorsWithNone() {
+      String input = "skill_modifier($item[alien source code printout], $modifier[none])";
       String output = execute(input);
       assertThat(output, startsWith("string modifier required"));
     }
@@ -1223,6 +1265,13 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     }
 
     @Test
+    void statErrorsWithNone() {
+      String input = "stat_modifier($effect[Stabilizing Oiliness], $modifier[none])";
+      String output = execute(input);
+      assertThat(output, startsWith("string modifier required"));
+    }
+
+    @Test
     void canCallMonsterWithModifier() {
       String input = "monster_modifier($effect[A Lovely Day for a Beatnik], $modifier[Avatar])";
       String output = execute(input);
@@ -1232,6 +1281,13 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     @Test
     void monsterErrorsWithWrongModifierType() {
       String input = "monster_modifier($effect[A Lovely Day for a Beatnik], $modifier[Muscle])";
+      String output = execute(input);
+      assertThat(output, startsWith("string modifier required"));
+    }
+
+    @Test
+    void monsterErrorsWithNone() {
+      String input = "monster_modifier($effect[A Lovely Day for a Beatnik], $modifier[none])";
       String output = execute(input);
       assertThat(output, startsWith("string modifier required"));
     }
@@ -2144,6 +2200,83 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
             execute("beret_busking_effects()").trim(),
             is(
                 "Returned: aggregate int [effect]\nnone => 29\nNewt Gets In Your Eyes => 10\nGreasy Flavor => 10"));
+      }
+    }
+  }
+
+  @Nested
+  class Deprecation {
+    @Test
+    void warnsWithDefaultNoticeOnGet() {
+      var pref = "deprecatedPref";
+      var cleanups = withProperty(pref, "value");
+
+      try (cleanups) {
+        Preferences.deprecationNotices.put(pref, "");
+
+        assertThat(
+            execute("get_property('" + pref + "')"),
+            containsString(
+                "Warning: Preference '"
+                    + pref
+                    + "' is deprecated. This preference is deprecated."));
+
+        Preferences.deprecationNotices.remove(pref);
+      }
+    }
+
+    @Test
+    void warnsWithDefaultNoticeOnSet() {
+      var pref = "deprecatedPref";
+      var cleanups = withProperty(pref, "value");
+
+      try (cleanups) {
+        Preferences.deprecationNotices.put(pref, "");
+
+        assertThat(
+            execute("set_property('" + pref + "', 'value2')"),
+            containsString(
+                "Warning: Preference '"
+                    + pref
+                    + "' is deprecated. This preference is deprecated."));
+
+        Preferences.deprecationNotices.remove(pref);
+      }
+    }
+
+    @Test
+    void warnsWithCustomNoticeOnGet() {
+      var pref = "customDeprecatedPref";
+      var customNotice = "Do not use this pref!";
+
+      var cleanups = withProperty(pref, "value");
+
+      try (cleanups) {
+        Preferences.deprecationNotices.put(pref, customNotice);
+
+        assertThat(
+            execute("get_property('" + pref + "')"),
+            containsString("Warning: Preference '" + pref + "' is deprecated. " + customNotice));
+
+        Preferences.deprecationNotices.remove(pref);
+      }
+    }
+
+    @Test
+    void warnsWithCustomNoticeOnSet() {
+      var pref = "customDeprecatedPref";
+      var customNotice = "Do not use this pref!";
+
+      var cleanups = withProperty(pref, "value");
+
+      try (cleanups) {
+        Preferences.deprecationNotices.put(pref, customNotice);
+
+        assertThat(
+            execute("set_property('" + pref + "', 'value2')"),
+            containsString("Warning: Preference '" + pref + "' is deprecated. " + customNotice));
+
+        Preferences.deprecationNotices.remove(pref);
       }
     }
   }

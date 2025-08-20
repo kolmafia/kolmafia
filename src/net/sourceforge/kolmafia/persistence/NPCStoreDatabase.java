@@ -371,6 +371,7 @@ public class NPCStoreDatabase {
           case ItemPool.TRICK_TOT_UNICORN, ItemPool.TRICK_TOT_CANDY -> KoLCharacter.usableFamiliar(
                   FamiliarPool.TRICK_TOT)
               != null;
+          case ItemPool.WHITE_RICE -> KoLCharacter.inSeaPath();
           default -> true;
         };
       }
@@ -563,9 +564,7 @@ public class NPCStoreDatabase {
       }
       case "unclep" -> {
         // Uncle P's Antiques
-        return !KoLCharacter.inZombiecore()
-            && !KoLCharacter.inNuclearAutumn()
-            && KoLCharacter.desertBeachAccessible();
+        return !KoLCharacter.inZombiecore() && !KoLCharacter.inNuclearAutumn();
       }
       case "whitecitadel" -> {
         // White Citadel

@@ -757,10 +757,10 @@
 756	shakeshop	rotten tomato	Chroner (25)
 757	shakeshop	Twelve Night Energy	Chroner (250)
 758	shakeshop	Yorick	Chroner (1,000)
-759
-760
-761
-762
+759	flowertradein	Chroner	rose (2)
+760	flowertradein	Chroner (16)	red tulip
+761	flowertradein	Chroner (21)	white tulip
+762	flowertradein	Chroner (11)	blue tulip
 763	glaciest	shoulder-warming lotion	Wal-Mart gift certificate (5)
 764	glaciest	iceberg lettuce	Wal-Mart gift certificate (15)
 765	glaciest	ice wine	Wal-Mart gift certificate (15)
@@ -1594,3 +1594,27 @@
 1593	showerthoughts	wet paperback	glob of wet paper (2)
 1594	showerthoughts	wet shower stamp	glob of wet paper (1,000)
 1595	showerthoughts	wet shower radio	glob of wet paper
+1596	twitch_alliedhq	Chroner (10)	stolen artifact
+1597	twitch_alliedhq	Chroner (20)	really expensive stolen artifact
+1598	twitch_alliedhq	Chroner (30)	priceless stolen artifact
+1599	twitch_alliedhq	flak shield	Chroner (20)
+1600	twitch_alliedhq	Axis HQ Code	chocolate rations
+1601	twitch_alliedhq	Axis codebook	nice nylon stockings (50)
+1602	conmerch	Allied Radio Backpack Pack	Mr. Accessory
+1603	twitch_alliedhq	chocolate and nylons detector	Chroner (100)
+1604	twitch_alliedhq	Allied Forces insignia	Chroner (500)
+1605	twitch_alliedhq	Allied Tattoo Kit	Chroner (2,500)
+1606
+1607	generalstore	white rice	250 Meat
+1608	sandpenny	sand dollar	sand penny (100)
+1609	sandpenny	undersea surveying goggles	sand penny (100)
+1610	sandpenny	Ocean-Touched Rum	sand penny (30)
+1611	sandpenny	water-logged pill	sand penny (30)
+1612	sandpenny	kelp puck	sand penny (30)
+1613	sandpenny	scroll of sea strength	1,000 Meat
+1614	sandpenny	scroll of sea smarts	1,000 Meat
+1615	sandpenny	scroll of sea smarm	1,000 Meat
+1616	sandpenny	waterlogged scroll of healing	sand penny (10)
+1617	sandpenny	sea gel	sand penny (10)
+1618	grandma	crappy Mer-kin tailpiece	Mer-kin gladiator tailpiece
+1619	grandma	crappy Mer-kin tailpiece	Mer-kin scholar tailpiece

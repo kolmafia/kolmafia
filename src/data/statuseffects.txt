@@ -549,7 +549,7 @@
 546	Scariberi	hob-o.gif	20d098090ca8f63f8243f081d3e085e6	good	notcrs	use 1 strawberry-flavored Hob-O|cargo effect Scariberi
 547	Less Pervious	wallshield.gif	657b63025b771054cdceeb9f427e605f	good	none	use 1 STYX deodorant body spray
 548	Haiku State of Mind	575.gif	664ce35d26fbd678641624e892feb31d	neutral	none	# using The 17 Cuts combat skill
-549	Fishy	fish.gif	17c22c50b2943cf6162d2c001e01cad3	good	none	skate lutz
+549	Fishy	fish.gif	17c22c50b2943cf6162d2c001e01cad3	good	nohookah	skate lutz
 550	Cranberry Cordiality	cran.gif	f3f908946ea0a80e40d92e7db920e77d	good	none	use 1 cranberry cordial
 551	Blackberry Politeness	blackberry.gif	192d4ba46ffe2402b2ff321bafa2db43	good	none	use 1 blackberry polite
 552	The Halls of Muscularity	candy.gif	6353bc586daa8659628f66fb772dd8ea	good	none	use 1 plum lozenge|cargo effect The Halls of Muscularity
@@ -2808,7 +2808,7 @@
 2805	Shadow's Thickness	shadowwave.gif	cec0a45b03817e4e0b9a4fa6833c556a	neutral	nohookah
 2806	Shadow Waters	shadowvenom.gif	638c1fadfcec6c52ff921d5c1e7da66b	neutral	nohookah
 2807	Shadow Medicine	shadowpill.gif	c382e7e061a9449d2052f45eb188247c	neutral	nohookah	chew 1 shadow pill
-2808	Cursed by a Monkey	monkeypaw0.gif	9038c5de7acbe308ec962059bac040ab	neutral	none
+2808	Cursed by a Monkey	monkeypaw0.gif	9038c5de7acbe308ec962059bac040ab	neutral	noremove
 2809	Party Soundtrack	cinchomusic.gif	11711ccebab2320e2a20cc72fd3f6dd1	good	none	cast 1 Cincho: Party Soundtrack
 2810	Ominous Wisdom	blackskull.gif	a3359cd5464945c32617742e9132f84e	neutral	none
 2811	Hot in Herre	sweaty.gif	e1018384b4e5ad0292ea9d39312505bd	neutral	none	use 1 Charter: Nellyville
@@ -2897,8 +2897,8 @@
 2894	Fishing for Meat	fish.gif	e4d466137ef5993f2c987f4e50090204	neutral	none
 2895	Bubbly	orb.gif	900f6bfb97055c5040a2e86766a8ebee	good	none
 2896	Well Fed	apronbox.gif	d8ccf1611c0556c0bb623b83146dfa36	neutral	none
-2897	Mild-Mannered Professor	intrinsic_prof.gif	20b1a36dbe190dd1dd1dc7841ba2c7ab	neutral	none
-2898	Savage Beast	intrinsic_beast.gif	d9cb5591b2638f856456d356f5c4fb0e	neutral	none
+2897	Mild-Mannered Professor	intrinsic_prof.gif	20b1a36dbe190dd1dd1dc7841ba2c7ab	neutral	nohookah
+2898	Savage Beast	intrinsic_beast.gif	d9cb5591b2638f856456d356f5c4fb0e	neutral	nohookah
 2899	Ultra-Soft Steps	softfern.gif	ea08a91c456c3dead7a11092f0bb1213	neutral	none	use 1 ultra-soft ferns
 2900	Crunchy Steps	drybrush.gif	b32c6ab90bda5197d973908ac94fbde4	neutral	none	use 1 crunchy brush
 2901	Apriling Band Patrol Beat	april_music1.gif	315f72f3d2d9f02cddf2b78dca3fbaa6	neutral	none	aprilband effect nc
@@ -2993,8 +2993,46 @@
 2990	Lifting Wets	wetpaperweight.gif	0d92d7086d0bd97090dc51d252f8b7b0	good	none	use 1 wet paper weights
 2991	Wetted Whistle	wetpaperdrink.gif	4c844da112766b6a6d262f86eb724701	neutral	none	drink 1 Three Sheets to the Wind
 2992	A Date With Tomorrow	wetpaperdates.gif	daed8a7f8faf412fd2b27b8cec36e7e3	neutral	none	eat 1 pile of wet dates
-2993	Echoes of Wetness	wetpaperplane.gif	302a1432c19ace1071272d0fe69fa2ab	neutral	none
+2993	Echoes of Wetness	wetpaperplane.gif	302a1432c19ace1071272d0fe69fa2ab	neutral	nohookah
 2994	In Your Cups	wetpapercup.gif	c9cc9a1ed9892e908fedefbd66365b6c	neutral	none	use 1 wet paper cup
 2995	Moisticality	wetpaperback.gif	d691b7e2b735ddc8a2fdfa0b7fe07150	neutral	none	use 1 wet paperback
-2996
-2997	Looking Cool	ice.gif	2c2021fad6001c6da810328dd53f033c	neutral	none
+2996	Current Axis Codes	axiscode.gif	415836d626cb8e5c6a9ce26908df5e9c	neutral	nohookah	use 1 Axis HQ Code
+2997	Looking Cool	ice.gif	2c2021fad6001c6da810328dd53f033c	neutral	nohookah
+2998	It's Like a Tickertape Parade	confetti.gif	15517c9531a69396e8c7e07e6dc9181d	neutral	nohookah
+2999	Wildsun Boon	wild_sun.gif	6f0fbda9b7530056f9deba25393c6eb7	neutral	nohookah	alliedradio effect boon
+3000	Materiel Intel	dinseybrain.gif	61d884a9f0584996cabd095045b0d39e	neutral	nohookah	alliedradio effect intel
+3001	Demon in Combat	skeldoll.gif	62733d7f016123c31e2393696cd2c0f0	neutral	nohookah
+3002	Ellipsoidtined	circle.gif	74c598b6434144e0ef61711a547ce203	neutral	nohookah	alliedradio effect ellipsoidtine
+3003	Gaining Interest	moneybag.gif	764a5ad0ef18373411c89bf38ea3f281	neutral	none
+3004	Life Goals	runaway.gif	6383756c040fdc3293c6fb9f44fb0827	neutral	none	use 1 Life Goals Pamphlet
+3005	Jelly in the Soul	jellyglob.gif	743fbc971d7605f7da3fa590615318bf	neutral	none	eat 1 toast with mixed berry jelly
+3006	Forearmed	hand.gif	4b63c7d780170476a16516dc04dcc046	neutral	none
+3007	Lifted by your Bootstraps	boot.gif	fb6b06929c3511c7b59ffeac1a250f53	neutral	none
+3008	Trailing Blood	blooddrop.gif	d2bb6aea85722f5efd231417cfbeaf38	neutral	none
+3009	Paranoia	eyesright.gif	6dff0fd65f8296f019780fe70e403743	neutral	none
+3010	Sugar Debt	moneybag2.gif	53a5ee75570b23a90cf5067a552c1027	neutral	nohookah
+3011	Sweet Talkin'	dixiecup.gif	32daa50fc084a29c5e46885c5ab45cb8	neutral	none	eat 1 cup of sugar
+3012	Evil	demonflavor.gif	ab49b92fa43ba7837d5e18a40e304069	neutral	none
+3013	Merry Prankster	funnyhat.gif	def7876d2286933c0110d75c48872642	neutral	none
+3014	Schroedinger's Anticipation	confused.gif	0c77ca1004069e8d37acac0b9de9c374	neutral	none
+3015	Neither Alive nor Dead	confused.gif	3ea8dc6c27947e2fb268b43f3b394364	neutral	none
+3016	Stricken by Lightning	lightning.gif	1d95495cb21877f76f2f2a6f3fe3a9d6	neutral	none
+3017	Hint of Bacon	bacon.gif	2acd80340c29ec4e0ab35884d262c161	neutral	none
+3018	Good Feelings	happy.gif	0f82aae94767a702e12f766cda398486	neutral	none
+3019	Raised on Fresh Air	strboost.gif	79a43e7e4c4ec49cbfb668e6714c0279	neutral	none
+3020	Older than You Look	realbrain.gif	16a9676c640f8f5f4f7174abc07dca0f	neutral	none
+3021	Famous	eyes.gif	0a0c7c4bb73964d31892d9bdf8c05896	neutral	none
+3022	Care Free	sleepy.gif	8bad8aeab66a515a968cbc3e19745a4c	neutral	nohookah
+3023	Very Old	skeleton.gif	1b219555d9cfa9a32418c7fe9a454708	neutral	nohookah
+3024	Scot Free	noart.gif	37575cdfa77b423099871cdef82b0868	neutral	none
+3025	Marked by the Don	kneestick.gif	a50a9d5b4e48a454479473c1d8ea1212	neutral	nohookah,noremove
+3026	Favored by the Don	stogie.gif	b33c788389e84cf087ec9a4b29de110d	neutral	nohookah
+3027	Your Own Parents	confused.gif	70ab5d69cc8e7c3842300d9dbae33d9b	neutral	none
+3028	Met Cute	2hearts.gif	b378956d58fbc43b007f4e189e85c3b2	neutral	nohookah
+3029	Briney Brawn	mussel.gif	85f7e9bec851f04b97f7551482ea3999	neutral	none	drink 1 Ocean-Touched Rum
+3030	Briney Brains	braincoral.gif	95560c87c1c29a57a74cb039776b9c9c	neutral	none	chew 1 water-logged pill
+3031	Briney Bravado	seasmirk.gif	6db397c1c9c9ad32d0e5dbd818eb71e6	neutral	none	eat 1 kelp puck
+3032	Sea Strength	wetmuscle.gif	a48e0a410bd5bc8cc3bad345fe77de4d	neutral	none	use 1 scroll of sea strength
+3033	Sea Smarts	realbrain.gif	26af2aa4e3c3e5daf377352c48c5756c	neutral	none	use 1 scroll of sea smarts
+3034	Sea Smarm	wink.gif	b69233800ea1cf6af14e7ac88d7532b4	neutral	none	use 1 scroll of sea smarm
+3035	Inkily Obscured	inkcloud.gif	ca66df45ac7a71194f3f2881c72ed2ef	neutral	none	use 1 [11971]ink bladder

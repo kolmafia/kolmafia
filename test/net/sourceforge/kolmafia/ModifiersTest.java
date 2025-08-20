@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia;
 
+import static internal.helpers.Player.withAdventuresLeft;
 import static internal.helpers.Player.withClass;
 import static internal.helpers.Player.withDay;
 import static internal.helpers.Player.withEffect;
@@ -12,6 +13,7 @@ import static internal.helpers.Player.withLevel;
 import static internal.helpers.Player.withLocation;
 import static internal.helpers.Player.withMP;
 import static internal.helpers.Player.withOverrideModifiers;
+import static internal.helpers.Player.withParadoxicity;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withSkill;
@@ -1221,6 +1223,39 @@ public class ModifiersTest {
         assertThat(current.getDouble(DoubleModifier.COLD_RESISTANCE), equalTo(18.0));
       }
     }
+
+    @Test
+    public void doesNotDoubleHoboPowerConversion() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(Slot.OFFHAND, ItemPool.HODGMANS_GARBAGE_STICKER),
+              withEquipped(Slot.ACCESSORY1, ItemPool.HODGMANS_BOW_TIE),
+              withEffect(EffectPool.OFFHAND_REMARKABLE));
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments(false);
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+
+        assertThat(current.getDouble(DoubleModifier.MEATDROP), equalTo(25.0));
+      }
+    }
+
+    @Test
+    public void doublesHamsterStatsOnly() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(Slot.OFFHAND, ItemPool.HODGMANS_HAMSTER),
+              withEquipped(Slot.ACCESSORY1, ItemPool.HODGMANS_BOW_TIE),
+              withEffect(EffectPool.OFFHAND_REMARKABLE));
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments(false);
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+
+        assertThat(current.getDouble(DoubleModifier.MUS_PCT), equalTo(60.0));
+        assertThat(current.getDouble(DoubleModifier.MEATDROP), equalTo(25.0));
+      }
+    }
   }
 
   @Nested
@@ -1654,5 +1689,34 @@ public class ModifiersTest {
     Modifiers mods = new Modifiers();
     mods.applyPrismaticBeretModifiers(1370);
     assertThat(mods.getDouble(DoubleModifier.DAMAGE_ABSORPTION), closeTo(237, 0.001));
+  }
+
+  @ParameterizedTest
+  @ValueSource(ints = {0, 100, 200})
+  public void unironicKnife(final int advs) {
+    var cleanup = withAdventuresLeft(advs);
+
+    try (cleanup) {
+      var mods = ModifierDatabase.getModifiers(ModifierType.ITEM, "unironic knife");
+
+      assertThat(mods.getDouble(DoubleModifier.ITEMDROP), equalTo(advs > 0 ? 0.0 : 100.0));
+      assertThat(mods.getDouble(DoubleModifier.ADVENTURES), equalTo(advs < 200 ? 0.0 : 10.0));
+    }
+  }
+
+  @Test
+  public void mobiusRing() {
+    var cleanup = withParadoxicity(6);
+
+    try (cleanup) {
+      var mods = ModifierDatabase.getModifiers(ModifierType.ITEM, "M&ouml;bius ring");
+
+      assertThat(mods.getDouble(DoubleModifier.WEAPON_DAMAGE), equalTo(0.0));
+      assertThat(mods.getDouble(DoubleModifier.HOT_RESISTANCE), equalTo(2.0));
+      assertThat(mods.getDouble(DoubleModifier.GEARDROP), equalTo(100.0));
+      assertThat(mods.getDouble(DoubleModifier.DAMAGE_REDUCTION), equalTo(6.0));
+      assertThat(mods.getDouble(DoubleModifier.INITIATIVE), equalTo(50.0));
+      assertThat(mods.getDouble(DoubleModifier.FAMILIAR_WEIGHT), equalTo(5.0));
+    }
   }
 }

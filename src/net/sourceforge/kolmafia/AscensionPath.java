@@ -83,6 +83,7 @@ public class AscensionPath {
     Z_IS_FOR_ZOOTOMIST(
         "Z is for Zootomist", 53, true, "zootomist", "a", "zootomistPoints", 10, false),
     HAT_TRICK("Hat Trick", 54, false, "hat_bycocket", "a"),
+    UNDER_THE_SEA("11,037 Leagues Under the Sea", 55, false, "fishy5", "an"),
     // A "sign" rather than a "path" for some reason
     BAD_MOON("Bad Moon", 999, false, "badmoon", null),
     ;

@@ -177,8 +177,21 @@ public class UneffectRequest extends GenericRequest {
     if (name == null) {
       return false;
     }
-    int id = SkillDatabase.getSkillId(UneffectRequest.effectToSkill(name));
-    return id != -1 && SkillDatabase.isBuff(id);
+    int skillId = SkillDatabase.getSkillId(UneffectRequest.effectToSkill(name));
+
+    // If there was no skill associated with the effect (and was not caught above), not shruggable.
+    if (skillId == -1) return false;
+
+    // If it's not a buff it isn't shruggable.
+    if (!SkillDatabase.isBuff(skillId)) return false;
+
+    // If it is acquired through a buff-like skill but achieved with a casting aid, it isn't
+    // shruggable.
+    var aid = UseSkillRequest.requiredItemForSkillEffect(skillId, effectId);
+    if (aid != -1) return false;
+
+    // Otherwise we have found a normal buff and it should indeed be shruggable.
+    return true;
   }
 
   public static final boolean isShruggable(final String effectName) {

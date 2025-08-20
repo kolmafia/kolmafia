@@ -548,6 +548,12 @@ public class ResponseTextParser {
                 // We have April Showered today
                 Preferences.setBoolean("_aprilShowerGlobsCollected", true);
               }
+              case "requestdrop" -> {
+                // if we have charges, it instead redirects to a choice
+                if (responseText.contains("Seems like your radio needs some time to recharge.")) {
+                  Preferences.setInteger("_alliedRadioDropsUsed", 3);
+                }
+              }
             }
           }
         }

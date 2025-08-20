@@ -867,6 +867,8 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
       return;
     }
 
+    var isRestore = SkillDatabase.isRemedy(skillId);
+
     var slotType =
         EquipmentManager.consumeFilterToEquipmentType(
             ItemDatabase.getConsumptionType(item.getItemId()));
@@ -901,8 +903,13 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
         UseSkillRequest.attemptSwitch(skillId, item, slot1Allowed, slot2Allowed, slot3Allowed);
 
     if (slot == Slot.NONE) {
-      KoLmafia.updateDisplay(
-          MafiaState.ERROR, "Cannot choose slot to equip " + item.getName() + ".");
+      if (isRestore) {
+        KoLmafia.updateDisplay(
+            MafiaState.ERROR, "Cannot choose slot to equip " + item.getName() + ".");
+      } else {
+        // just use accessory 3
+        (new EquipmentRequest(item, Slot.ACCESSORY3)).run();
+      }
     }
   }
 
@@ -1509,6 +1516,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
           SkillPool.INVISIBLE_AVATAR,
           SkillPool.TRIPLE_SIZE,
           SkillPool.SEEK_OUT_A_BIRD,
+          SkillPool.SUMMON_KOKOMO_RESORT_PASS,
           SkillPool.SWEAT_OUT_BOOZE,
           SkillPool.CINCHO_DISPENSE_SALT_AND_LIME,
           SkillPool.CINCHO_PARTY_SOUNDTRACK,

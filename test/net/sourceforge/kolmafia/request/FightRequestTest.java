@@ -3224,6 +3224,7 @@ public class FightRequestTest {
       try (cleanups) {
         parseCombatData("request/test_fight_pokefam_start.html", "fambattle.php");
         var text = RequestLoggerOutput.stopStream();
+        assertThat(text, containsString("Horlotte, Lv. 1 Trick-or-Treating Tot"));
         assertThat(
             text,
             containsString("Pokefam move2 'Hug' -> 'hug': Heal the frontmost ally by [power]."));
@@ -4138,6 +4139,40 @@ public class FightRequestTest {
       var text = RequestLoggerOutput.stopStream();
       assertThat(text, containsString("photographed for Yearbook Club"));
       assertThat("yearbookCameraPending", isSetTo(true));
+    }
+  }
+
+  @Test
+  public void tracksLassoTraining() {
+    var cleanups =
+        new Cleanups(
+            withFight(),
+            withProperty("lassoTraining"),
+            withProperty("lassoTrainingCount", 1),
+            withEquipped(ItemPool.SEA_COWBOY_HAT),
+            withEquipped(ItemPool.SEA_CHAPS));
+
+    try (cleanups) {
+      var page = "request/test_fight_sea_lasso.html";
+      parseCombatData(page, "fight.php?action=useitem&whichitem=4198&whichitem2=0");
+      assertThat("lassoTraining", isSetTo("clumsily"));
+      assertThat("lassoTrainingCount", isSetTo(4));
+    }
+  }
+
+  @Test
+  public void tracksMomSeaMonkeeProgress() {
+    var cleanups =
+        new Cleanups(
+            withFight(),
+            withNextMonster("school of many"),
+            withProperty("momSeaMonkeeProgress", 3),
+            withEquipped(ItemPool.SHARK_JUMPER),
+            withEquipped(ItemPool.SCALE_MAIL_UNDERWEAR));
+
+    try (cleanups) {
+      FightRequest.updateFinalRoundData("", true, false);
+      assertThat("momSeaMonkeeProgress", isSetTo(6));
     }
   }
 }

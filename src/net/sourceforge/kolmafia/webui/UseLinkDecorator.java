@@ -981,6 +981,7 @@ public abstract class UseLinkDecorator {
               ItemPool.AUTUMNATON,
               ItemPool.BLACK_AND_WHITE_APRON_MEAL_KIT,
               ItemPool.MAYAM_CALENDAR,
+              ItemPool.HANDHELD_ALLIED_RADIO,
 
               // Not inline, since the redirection to a choice
               // doesn't work ajaxified.
@@ -1515,6 +1516,10 @@ public abstract class UseLinkDecorator {
           }
           case ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD -> {
             uses.add(new UseLink(itemId, 1, "shower", "inventory.php?action=shower"));
+          }
+          case ItemPool.ALLIED_RADIO_BACKPACK -> {
+            uses.add(
+                new UseLink(itemId, 1, "request drop", "inventory.php?action=requestdrop", false));
           }
         }
 

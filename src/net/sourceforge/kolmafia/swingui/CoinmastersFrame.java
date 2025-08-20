@@ -54,6 +54,7 @@ import net.sourceforge.kolmafia.request.coinmaster.MrStoreRequest;
 import net.sourceforge.kolmafia.request.coinmaster.QuartersmasterRequest;
 import net.sourceforge.kolmafia.request.coinmaster.SwaggerShopRequest;
 import net.sourceforge.kolmafia.request.coinmaster.TravelingTraderRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.AlliedHqRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.AppleStoreRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.ArmoryAndLeggeryRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.ArmoryRequest;
@@ -91,6 +92,7 @@ import net.sourceforge.kolmafia.request.coinmaster.shop.EdShopRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.FDKOLRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.FancyDanRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.FishboneryRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.FlowerTradeinRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.FunALogRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.GMartRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.GeneticFiddlingRequest;
@@ -130,6 +132,7 @@ import net.sourceforge.kolmafia.request.coinmaster.shop.UsingYourShowerThoughtsR
 import net.sourceforge.kolmafia.request.coinmaster.shop.VendingMachineRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.WalMartRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.WarbearBoxRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.WetCrapForSaleRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.YeNeweSouvenirShoppeRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.YourCampfireRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -149,6 +152,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
   private CoinmasterPanel BURTPanel = null;
   private CoinmasterPanel CRIMBCOGiftShopPanel = null;
   private CoinmasterPanel SHAWARMAPanel = null;
+  private CoinmasterPanel alliedHqPanel = null;
   private CoinmasterPanel altarOfBonesPanel = null;
   private CoinmasterPanel applePanel = null;
   private CoinmasterPanel arcadePanel = null;
@@ -196,6 +200,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
   private CoinmasterPanel fancyDanPanel = null;
   private CoinmasterPanel fdkolPanel = null;
   private CoinmasterPanel fishboneryPanel = null;
+  private CoinmasterPanel flowerTradeinPanel = null;
   private CoinmasterPanel freeSnackPanel = null;
   private CoinmasterPanel fudgeWandPanel = null;
   private CoinmasterPanel funALogPanel = null;
@@ -240,6 +245,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
   private CoinmasterPanel vendingMachinePanel = null;
   private CoinmasterPanel walmartPanel = null;
   private CoinmasterPanel warbearBoxPanel = null;
+  private CoinmasterPanel wetCrapForSalePanel = null;
   private CoinmasterPanel yourCampfirePanel = null;
 
   public CoinmastersFrame() {
@@ -375,6 +381,11 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     replicaMrStorePanel = new ReplicaMrStorePanel();
     panel.add(replicaMrStorePanel);
     this.selectorPanel.addPanel(replicaMrStorePanel.getPanelSelector(), panel);
+
+    panel = new JPanel(new BorderLayout());
+    wetCrapForSalePanel = new WetCrapForSalePanel();
+    panel.add(wetCrapForSalePanel);
+    this.selectorPanel.addPanel(wetCrapForSalePanel.getPanelSelector(), panel);
 
     // Aftercore coinmasters
     this.selectorPanel.addSeparator();
@@ -609,6 +620,11 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     this.selectorPanel.addPanel(shakeShopPanel.getPanelSelector(), panel);
 
     panel = new JPanel(new BorderLayout());
+    flowerTradeinPanel = new FlowerTradeinPanel();
+    panel.add(flowerTradeinPanel);
+    this.selectorPanel.addPanel(flowerTradeinPanel.getPanelSelector(), panel);
+
+    panel = new JPanel(new BorderLayout());
     merchTablePanel = new MerchTablePanel();
     panel.add(merchTablePanel);
     this.selectorPanel.addPanel(merchTablePanel.getPanelSelector(), panel);
@@ -617,6 +633,11 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     twitchSoupPanel = new TwitchSoupPanel();
     panel.add(twitchSoupPanel);
     this.selectorPanel.addPanel(twitchSoupPanel.getPanelSelector(), panel);
+
+    panel = new JPanel(new BorderLayout());
+    alliedHqPanel = new AlliedHqPanel();
+    panel.add(alliedHqPanel);
+    this.selectorPanel.addPanel(alliedHqPanel.getPanelSelector(), panel);
 
     // Events coinmasters
     this.selectorPanel.addSeparator();
@@ -1027,6 +1048,35 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     }
   }
 
+  public class FlowerTradeinPanel extends CoinmasterPanel {
+    public FlowerTradeinPanel() {
+      super(FlowerTradeinRequest.DATA);
+    }
+
+    static List<Map.Entry<String, String>> currencies = new ArrayList<>();
+
+    static {
+      currencies.add(Map.entry("rose", "rose"));
+      currencies.add(Map.entry("white tulip", "white tulip"));
+      currencies.add(Map.entry("red tulip", "red tulip"));
+      currencies.add(Map.entry("blue tulip", "blue tulip"));
+    }
+
+    @Override
+    public void setTitle(final StringBuffer buffer) {
+      this.standardTitle(buffer);
+      for (var entry : currencies) {
+        int itemId = ItemDatabase.getItemId(entry.getKey());
+        int count = InventoryManager.getCount(itemId);
+        buffer.append(" (");
+        buffer.append(count);
+        buffer.append(" ");
+        buffer.append(entry.getValue());
+        buffer.append(")");
+      }
+    }
+  }
+
   public class MerchTablePanel extends TwitchPanel {
     public MerchTablePanel() {
       super(MerchTableRequest.MERCH_TABLE);
@@ -1072,6 +1122,12 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
         buffer.append(entry.getValue());
         buffer.append(")");
       }
+    }
+  }
+
+  public class AlliedHqPanel extends TwitchPanel {
+    public AlliedHqPanel() {
+      super(AlliedHqRequest.DATA);
     }
   }
 
@@ -1855,6 +1911,12 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
   private class ShowerThoughtsPanel extends CoinmasterPanel {
     public ShowerThoughtsPanel() {
       super(UsingYourShowerThoughtsRequest.DATA);
+    }
+  }
+
+  private class WetCrapForSalePanel extends CoinmasterPanel {
+    public WetCrapForSalePanel() {
+      super(WetCrapForSaleRequest.DATA);
     }
   }
 

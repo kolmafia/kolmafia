@@ -3,6 +3,7 @@
 # Attributes
 # roa - Reset on ascension
 # ld - Legacy daily (from before a leading underscore was used to indicate preferences that reset at rollover
+# deprecated - Warn that this pref is deprecated on read (format: `deprecated[:optional notice]`)
 #
 # map	pref name	[default value	[attributes]]
 global	abortOnChoiceWhenNotInChoice	true
@@ -497,6 +498,7 @@ user	commerceGhostCombats	0	roa
 user	considerShadowNoodles	false
 user	controlRoomUnlock	false
 user	cookbookbatIngredientsCharge	0	roa
+user	coolerYetiMode		roa
 user	counterScript
 user	concertVisited	false	ld
 user	controlPanel1	false
@@ -613,6 +615,8 @@ user	demonName10
 user	demonName11
 user	demonName12		roa
 user	demonName13		roa
+user	demonName14
+user	demonName14Segments
 user	demonSummoned	false	ld
 user	desertExploration	0
 user	desktopHeight	600
@@ -790,6 +794,21 @@ user	goreCollected	0
 user	gourdItemCount	5
 user	grabCloversHardcore	false
 user	grabCloversSoftcore	true
+user	grandpaUnlockedBlankPrescriptionSheet	false
+user	grandpaUnlockedEelSauce	false
+user	grandpaUnlockedFishyWand	false
+user	grandpaUnlockedGlowingSyringe	false
+user	grandpaUnlockedGroupieSpangles	false
+user	grandpaUnlockedHairOfTheFish	false
+user	grandpaUnlockedHalibut	false
+user	grandpaUnlockedHeavilyInvestedInPunFutures	false
+user	grandpaUnlockedJellyfishGel	false
+user	grandpaUnlockedMarineAquamarine	false
+user	grandpaUnlockedMidgetClownfish	false
+user	grandpaUnlockedSeaRadish	false
+user	grandpaUnlockedTrophyFish	false
+user	grandpaUnlockedWaterPoloCap	false
+user	grandpaUnlockedWaterPoloMitt	false
 user	greyYouPoints	0
 user	grimoire1Summons	0	ld
 user	grimoire2Summons	0	ld
@@ -897,6 +916,7 @@ user	kingLiberatedScript
 user	knownAscensions	-1
 user	kolhsTotalSchoolSpirited	0
 user	lassoTraining		roa
+user	lassoTrainingCount	0	roa
 user	lastAdventure
 user	lastAdventureContainer
 user	lastAdventureTrail
@@ -1109,6 +1129,8 @@ user	lttQuestStageCount	0
 user	maelstromOfLoversBoss		roa
 user	madnessBakeryAvailable	false	roa
 user	makeFriendsMonster
+user	makeHandheldRadiosHardcore	false
+user	makeHandheldRadiosSoftcore	false
 user	makePocketWishesHardcore	false
 user	makePocketWishesSoftcore	false
 user	manaBurnSummonThreshold	10
@@ -1118,13 +1140,13 @@ user	manorDrawerCount	0
 user	manualOfNumberologyAvailable	true
 user	manualOfNumberologyCost	1000
 user	mappingMonsters	false	roa
-user	mapToAnemoneMinePurchased	false	roa
+user	mapToAnemoneMinePurchased	false
 user	mapToKokomoAvailable	true
 user	mapToKokomoCost	1234
-user	mapToMadnessReefPurchased	false	roa
-user	mapToTheDiveBarPurchased	false	roa
-user	mapToTheMarinaraTrenchPurchased	false	roa
-user	mapToTheSkateParkPurchased	false	roa
+user	mapToMadnessReefPurchased	false
+user	mapToTheDiveBarPurchased	false
+user	mapToTheMarinaraTrenchPurchased	false
+user	mapToTheSkateParkPurchased	false
 user	maraisBeaverUnlock	false
 user	maraisCorpseUnlock	false
 user	maraisDarkUnlock	false
@@ -1153,6 +1175,7 @@ user	mayoInMouth		roa
 user	mayoLevel	0	roa
 user	mayoMinderSetting		roa
 user	meansuckerPrice	400	roa
+user	merkinCatalogChoices		roa
 user	merkinQuestPath	none	roa
 user	merkinLockkeyMonster		roa
 user	merkinVocabularyMastery	0	roa
@@ -1176,6 +1199,7 @@ user	miniKiwiAiolisUsed	0	roa
 user	miniMartinisDrunk	0
 user	moleTunnelLevel	0
 user	moonTuned	false	roa
+user	momSeaMonkeeProgress	0	roa
 user	monkeyPointMonster		roa
 user	motifMonster		roa
 user	mothershipProgress	0
@@ -1504,6 +1528,7 @@ user	shrubGarland
 user	shrubGifts
 user	shrubLights
 user	shrubTopper
+user	shubJigguwattDefeated	false	roa
 user	sideDefeated	neither
 user	sidequestArenaCompleted	none
 user	sidequestFarmCompleted	none
@@ -1635,6 +1660,7 @@ user	statusWasteProcessing	0
 user	stenchAirportAlways	false
 user	stenchCursedMonster
 user	stillsuitFamiliar
+user	stockCertificateTurn	-1
 user	stopForFixedWanderer	false
 user	stopForUltraRare	true
 user	streamCrossDefaultTarget	ProtonicBot
@@ -1769,6 +1795,7 @@ user	yearbookCameraAscensions	0
 user	yearbookCameraPending	false	roa
 user	yearbookCameraTarget		roa
 user	yearbookCameraUpgrades	0
+user	yogUrtDefeated	false	roa
 user	yourFavoriteBird
 user	yourFavoriteBirdMods
 user	youRobotBody	0	roa
@@ -1812,6 +1839,9 @@ user	_xenomorphCharge	0
 user	_alienAnimalMilkUsed	false
 user	_alienPlantPodUsed	false
 user	_allYearSucker	false
+user	_alliedRadioDropsUsed	0
+user	_alliedRadioMaterielIntel	false
+user	_alliedRadioWildsunBoon	false
 user	_ancestralRecallCasts	0
 user	_antihangoverBonus	5
 user	_aprilShower	false
@@ -2016,6 +2046,7 @@ user	_cookbookbatCombatsUntilNewQuest	0
 user	_cookbookbatQuestLastLocation
 user	_cookbookbatQuestMonster
 user	_cookbookbatQuestIngredient
+user	_coolerYetiAdventures	false
 user	_corruptedStardustUsed	false
 user	_cosmicBowlingSkillsUsed	0
 user	_cosmicSixPackConjured	false
@@ -2305,6 +2336,7 @@ user	_lastCombatLost	false
 user	_lastCombatStarted
 user	_lastCombatWon	true
 user	_lastDailyDungeonRoom	0
+user	_lastMobiusStripTurn	0
 user	_lastPirateRealmIsland
 user	_lastSausageMonsterTurn	0
 user	_lastZomboEye	0
@@ -2383,6 +2415,7 @@ user	_miniKiwiIntoxicatingSpiritsBought	false
 user	_miniMartiniDrops	0
 user	_missGravesVermouthDrunk	false
 user	_missileLauncherUsed	false
+user	_mobiusStripEncounters	0
 user	_molehillMountainUsed	false
 user	_momFoodReceived	false
 user	_monkeyPawWishesUsed	0
@@ -2624,7 +2657,8 @@ user	_styxSprayUsed	false
 user	_sugarSummons	0
 user	_summonAnnoyanceUsed	false
 user	_summonCarrotUsed	false
-user	_summonResortPassUsed	false
+user	_summonResortPassUsed	false	deprecated:Use numeric _summonResortPassesUsed instead
+user	_summonResortPassesUsed	0
 user	_surprisinglySweetSlashUsed	0
 user	_surprisinglySweetStabUsed	0
 user	_sweatOutSomeBoozeUsed	0
@@ -2648,6 +2682,7 @@ user	_tiedUpFlamingLeafletFought	false
 user	_tiedUpFlamingMonsteraFought	false
 user	_tiedUpLeaviathanFought	false
 user	_timeHelmetAdv	0
+user	_timeCopsFoughtToday	0
 user	_timeSpinnerFoodAvailable
 user	_timeSpinnerMinutesUsed	0
 user	_timeSpinnerReplicatorUsed	false

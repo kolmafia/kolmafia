@@ -219,6 +219,10 @@ public class CharPaneRequest extends GenericRequest {
       CharPaneRequest.checkMask(responseText);
     }
 
+    if (KoLCharacter.hasEquipped(ItemPool.MOBIUS_RING)) {
+      CharPaneRequest.checkParadoxicity(responseText);
+    }
+
     CharPaneRequest.setLastAdventure(responseText);
     CharPaneRequest.refreshEffects(responseText);
     CharPaneRequest.setInteraction();
@@ -296,7 +300,8 @@ public class CharPaneRequest extends GenericRequest {
           "You've engaged exit mode on your cincho and will avoid most combats.", "cincho exit",
           "You are avoiding fights until something cool happens.", "sneakisol",
           "Your tuba playing has scared away most monsters.", "band tuba",
-          "You triggered an avalanche clearing the area of monsters.", "ski avalanche");
+          "You triggered an avalanche clearing the area of monsters.", "ski avalanche",
+          "A sniper is guiding you out of trouble.", "sniper support");
   private static final Pattern NONCOMBAT_FORCER_PATTERN =
       Pattern.compile(
           "<b><font size=2>Adventure Modifiers:</font></b><br><div style='text-align: left'><small>(.*?)</small>");
@@ -366,6 +371,19 @@ public class CharPaneRequest extends GenericRequest {
     Matcher levelMatcher = CharPaneRequest.LEVEL_PATTERN.matcher(responseText);
     if (levelMatcher.find()) {
       KoLCharacter.setLevel(Integer.valueOf(levelMatcher.group(1)));
+    }
+  }
+
+  // <tr><td align=right>Paradoxicity:</td><td align=left><b><font color=black><span alt=""
+  // title="">2</span></font></td></tr>
+  // <tr><td align=right>Pardoxicity:</td><td align=left><b><font color=black><span alt=""
+  // title="">2</span></font></td></tr>
+  public static final Pattern PARADOXICITY_PATTERN = Pattern.compile("Para?doxicity.*?(\\d+)");
+
+  public static void checkParadoxicity(final String responseText) {
+    Matcher paradoxMatcher = CharPaneRequest.PARADOXICITY_PATTERN.matcher(responseText);
+    if (paradoxMatcher.find()) {
+      KoLCharacter.setParadoxicity(Integer.parseInt(paradoxMatcher.group(1)));
     }
   }
 
@@ -1205,7 +1223,7 @@ public class CharPaneRequest extends GenericRequest {
 
   private static final Pattern PokeFamPattern =
       Pattern.compile(
-          "img align=\"absmiddle\" src=(?:cloudfront.net|images.kingdomofloathing.com)/itemimages/(.*?)>&nbsp;(.*?) \\(Lvl (\\d+)\\)",
+          "img align=\"absmiddle\" src=[^>]*?(?:cloudfront.net|images.kingdomofloathing.com)/itemimages/(.*?)>&nbsp;(.*?) \\(Lvl (\\d+)\\)",
           Pattern.DOTALL);
 
   private static void checkPokeFam(final String responseText) {
@@ -1219,7 +1237,6 @@ public class CharPaneRequest extends GenericRequest {
         if (familiar == null) {
           // Add new familiar to list
           familiar = new FamiliarData(id, name, level);
-          KoLCharacter.addFamiliar(familiar);
         } else {
           // Update existing familiar
           familiar.update(name, level);

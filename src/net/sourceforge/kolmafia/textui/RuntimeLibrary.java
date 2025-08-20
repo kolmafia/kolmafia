@@ -1683,6 +1683,9 @@ public abstract class RuntimeLibrary {
     functions.add(new LibraryFunction("my_mask", DataTypes.STRING_TYPE, params));
 
     params = List.of();
+    functions.add(new LibraryFunction("my_paradoxicity", DataTypes.INT_TYPE, params));
+
+    params = List.of();
     functions.add(new LibraryFunction("my_maxfury", DataTypes.INT_TYPE, params));
 
     params = List.of();
@@ -3825,6 +3828,9 @@ public abstract class RuntimeLibrary {
 
     params = List.of();
     functions.add(new LibraryFunction("free_smiths", DataTypes.INT_TYPE, params));
+
+    params = List.of(namedParam("request", DataTypes.STRING_TYPE));
+    functions.add(new LibraryFunction("allied_radio", DataTypes.BOOLEAN_TYPE, params));
   }
 
   public static Method findMethod(final String name, final Class<?>[] args)
@@ -7147,6 +7153,10 @@ public abstract class RuntimeLibrary {
     return new Value(KoLCharacter.getMask());
   }
 
+  public static Value my_paradoxicity(ScriptRuntime controller) {
+    return new Value(KoLCharacter.getParadoxicity());
+  }
+
   public static Value my_meat(ScriptRuntime controller) {
     return new Value(KoLCharacter.getAvailableMeat());
   }
@@ -9347,6 +9357,7 @@ public abstract class RuntimeLibrary {
     }
 
     if (Preferences.isUserEditable(property)) {
+      Preferences.warnIfDeprecated(property);
       return DataTypes.makeStringValue(Preferences.getString(property));
     }
 
@@ -10465,7 +10476,7 @@ public abstract class RuntimeLibrary {
     Type type = modifier.getType();
     if (type.equals(DataTypes.MODIFIER_TYPE)) {
       Modifier content = (Modifier) modifier.content;
-      if (content.getType() == ModifierValueType.NUMERIC) {
+      if (content != null && content.getType() == ModifierValueType.NUMERIC) {
         return content;
       }
       throw controller.runtimeException("numeric modifier required");
@@ -10479,7 +10490,7 @@ public abstract class RuntimeLibrary {
     Type type = modifier.getType();
     if (type.equals(DataTypes.MODIFIER_TYPE)) {
       Modifier content = (Modifier) modifier.content;
-      if (content.getType() == ModifierValueType.BOOLEAN) {
+      if (content != null && content.getType() == ModifierValueType.BOOLEAN) {
         return (BooleanModifier) content;
       }
       throw controller.runtimeException("boolean modifier required");
@@ -10492,12 +10503,14 @@ public abstract class RuntimeLibrary {
     Type type = modifier.getType();
     if (type.equals(DataTypes.MODIFIER_TYPE)) {
       Modifier content = (Modifier) modifier.content;
-      switch (content.getType()) {
-        case STRING -> {
-          return (StringModifier) content;
-        }
-        case MULTISTRING -> {
-          return (MultiStringModifier) content;
+      if (content != null) {
+        switch (content.getType()) {
+          case STRING -> {
+            return (StringModifier) content;
+          }
+          case MULTISTRING -> {
+            return (MultiStringModifier) content;
+          }
         }
       }
       throw controller.runtimeException("string modifier required");
@@ -10515,7 +10528,7 @@ public abstract class RuntimeLibrary {
     Type type = modifier.getType();
     if (type.equals(DataTypes.MODIFIER_TYPE)) {
       Modifier content = (Modifier) modifier.content;
-      if (content.getType() == ModifierValueType.MULTISTRING) {
+      if (content != null && content.getType() == ModifierValueType.MULTISTRING) {
         return (MultiStringModifier) content;
       }
       throw controller.runtimeException("string modifier required");
@@ -11125,7 +11138,7 @@ public abstract class RuntimeLibrary {
             IntStream.range(1, 2991)
                 .filter(i -> EffectDatabase.getEffectName(i) != null)
                 .filter(i -> EffectDatabase.getQuality(i) == EffectDatabase.GOOD)
-                .filter(i -> !EffectDatabase.hasAttribute(i, "nohookah"))
+                .filter(i -> !EffectDatabase.hasAttribute(i, "nohookah") || i == EffectPool.FISHY)
                 .filter(i -> !EffectDatabase.hasAttribute(i, "notcrs"))
                 .boxed()
                 .toList());
@@ -11139,7 +11152,9 @@ public abstract class RuntimeLibrary {
     var total = Math.ceil(cappedPower / 100.0);
     for (int i = 0; i < total; i++) {
       var effectId = rng.pickOne(validEffectIds);
-      var effect = new AdventureResult(EffectDatabase.getEffectName(effectId), 10, true);
+      var effect =
+          new AdventureResult(
+              EffectDatabase.getEffectName(effectId), effectId == EffectPool.FISHY ? 1 : 10, true);
       AdventureResult.addResultToList(results, effect);
     }
 
@@ -11777,5 +11792,12 @@ public abstract class RuntimeLibrary {
 
   public static Value free_smiths(ScriptRuntime controller) {
     return DataTypes.makeIntValue(ConcoctionDatabase.getFreeSmithingTurns());
+  }
+
+  public static Value allied_radio(ScriptRuntime controller, final Value requestValue) {
+    String request = requestValue.toString();
+    AlliedRadioRequest req = new AlliedRadioRequest(request);
+    RequestThread.postRequest(req);
+    return DataTypes.makeBooleanValue(req.responseText != null);
   }
 }

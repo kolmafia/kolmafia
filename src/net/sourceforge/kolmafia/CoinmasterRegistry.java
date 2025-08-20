@@ -19,6 +19,7 @@ import net.sourceforge.kolmafia.request.coinmaster.MrStoreRequest;
 import net.sourceforge.kolmafia.request.coinmaster.QuartersmasterRequest;
 import net.sourceforge.kolmafia.request.coinmaster.SwaggerShopRequest;
 import net.sourceforge.kolmafia.request.coinmaster.TravelingTraderRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.AlliedHqRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.AppleStoreRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.ArmoryAndLeggeryRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.ArmoryRequest;
@@ -56,6 +57,7 @@ import net.sourceforge.kolmafia.request.coinmaster.shop.EdShopRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.FDKOLRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.FancyDanRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.FishboneryRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.FlowerTradeinRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.FunALogRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.GMartRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.GeneticFiddlingRequest;
@@ -95,6 +97,7 @@ import net.sourceforge.kolmafia.request.coinmaster.shop.UsingYourShowerThoughtsR
 import net.sourceforge.kolmafia.request.coinmaster.shop.VendingMachineRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.WalMartRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.WarbearBoxRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.WetCrapForSaleRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.YeNeweSouvenirShoppeRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.YourCampfireRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -102,6 +105,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public abstract class CoinmasterRegistry {
   public static final CoinmasterData[] COINMASTERS =
       new CoinmasterData[] {
+        AlliedHqRequest.DATA,
         AltarOfBonesRequest.ALTAR_OF_BONES,
         AppleStoreRequest.APPLE_STORE,
         ArmoryRequest.ARMORY,
@@ -148,6 +152,7 @@ public abstract class CoinmasterRegistry {
         FancyDanRequest.FANCY_DAN,
         FDKOLRequest.FDKOL,
         FishboneryRequest.FISHBONERY,
+        FlowerTradeinRequest.DATA,
         FreeSnackRequest.FREESNACKS,
         FudgeWandRequest.FUDGEWAND,
         FunALogRequest.FUN_A_LOG,
@@ -195,6 +200,7 @@ public abstract class CoinmasterRegistry {
         VendingMachineRequest.VENDING_MACHINE,
         WalMartRequest.WALMART,
         WarbearBoxRequest.WARBEARBOX,
+        WetCrapForSaleRequest.DATA,
         YeNeweSouvenirShoppeRequest.SHAKE_SHOP,
         YourCampfireRequest.YOUR_CAMPFIRE,
       };
