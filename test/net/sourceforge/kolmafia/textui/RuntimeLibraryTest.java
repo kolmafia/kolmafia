@@ -19,6 +19,7 @@ import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withFamiliarInTerrarium;
 import static internal.helpers.Player.withFamiliarInTerrariumWithItem;
 import static internal.helpers.Player.withFight;
+import static internal.helpers.Player.withGlobalDay;
 import static internal.helpers.Player.withHandlingChoice;
 import static internal.helpers.Player.withHardcore;
 import static internal.helpers.Player.withHttpClientBuilder;
@@ -2278,6 +2279,44 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
         Preferences.deprecationNotices.remove(pref);
       }
+    }
+  }
+
+  @Nested
+  class FuturisticWardrobe {
+    @Test
+    void generatesFuturisticClothingModifiersToday() {
+      // 7600 = 2023-02-12
+      var cleanups = withGlobalDay(7600);
+
+      try (cleanups) {
+        assertThat(
+            execute("futuristic_wardrobe($slot[shirt], 5)").trim(),
+            is(
+                """
+              Returned: aggregate string [modifier]
+              Hot Resistance => 5
+              MP Regen Max => 26
+              MP Regen Min => 15
+              Maximum HP => 92
+              Monster Level => 24
+              Mysticality => 50"""));
+      }
+    }
+
+    @Test
+    void generatesFuturisticClothingModifiersForDay() {
+      assertThat(
+          execute("futuristic_wardrobe(7600, $slot[shirt], 5)").trim(),
+          is(
+              """
+              Returned: aggregate string [modifier]
+              Hot Resistance => 5
+              MP Regen Max => 26
+              MP Regen Min => 15
+              Maximum HP => 92
+              Monster Level => 24
+              Mysticality => 50"""));
     }
   }
 }
