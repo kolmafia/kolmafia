@@ -2282,23 +2282,41 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     }
   }
 
-  @Test
-  void generatesFuturisticClothingModifiers() {
-    // 7600 = 2023-02-12
-    var cleanups = withGlobalDay(7600);
+  @Nested
+  class FuturisticWardrobe {
+    @Test
+    void generatesFuturisticClothingModifiersToday() {
+      // 7600 = 2023-02-12
+      var cleanups = withGlobalDay(7600);
 
-    try (cleanups) {
+      try (cleanups) {
+        assertThat(
+            execute("futuristic_wardrobe($slot[shirt], 5)").trim(),
+            is(
+                """
+              Returned: aggregate string [modifier]
+              Hot Resistance => 5
+              MP Regen Max => 26
+              MP Regen Min => 15
+              Maximum HP => 92
+              Monster Level => 24
+              Mysticality => 50"""));
+      }
+    }
+
+    @Test
+    void generatesFuturisticClothingModifiersForDay() {
       assertThat(
-          execute("futuristic_wardrobe_today($slot[shirt], 5)").trim(),
+          execute("futuristic_wardrobe(7600, $slot[shirt], 5)").trim(),
           is(
               """
-            Returned: aggregate string [modifier]
-            Hot Resistance => 5
-            MP Regen Max => 26
-            MP Regen Min => 15
-            Maximum HP => 92
-            Monster Level => 24
-            Mysticality => 50"""));
+              Returned: aggregate string [modifier]
+              Hot Resistance => 5
+              MP Regen Max => 26
+              MP Regen Min => 15
+              Maximum HP => 92
+              Monster Level => 24
+              Mysticality => 50"""));
     }
   }
 }

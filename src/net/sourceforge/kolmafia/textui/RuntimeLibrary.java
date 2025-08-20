@@ -3838,7 +3838,18 @@ public abstract class RuntimeLibrary {
         List.of(namedParam("slot", DataTypes.SLOT_TYPE), namedParam("tier", DataTypes.INT_TYPE));
     functions.add(
         new LibraryFunction(
-            "futuristic_wardrobe_today",
+            "futuristic_wardrobe",
+            new AggregateType(DataTypes.INT_TYPE, DataTypes.MODIFIER_TYPE),
+            params));
+
+    params =
+        List.of(
+            namedParam("day", DataTypes.INT_TYPE),
+            namedParam("slot", DataTypes.SLOT_TYPE),
+            namedParam("tier", DataTypes.INT_TYPE));
+    functions.add(
+        new LibraryFunction(
+            "futuristic_wardrobe",
             new AggregateType(DataTypes.INT_TYPE, DataTypes.MODIFIER_TYPE),
             params));
   }
@@ -11811,19 +11822,31 @@ public abstract class RuntimeLibrary {
     return DataTypes.makeBooleanValue(req.responseText != null);
   }
 
-  public static Value futuristic_wardrobe_today(
+  public static Value futuristic_wardrobe(
       ScriptRuntime controller, final Value slotVal, final Value tierVal) {
-    AggregateType type = new AggregateType(DataTypes.STRING_TYPE, DataTypes.MODIFIER_TYPE);
-    MapValue value = new MapValue(type);
-
     var today = KoLCharacter.getGlobalDays();
     var slot = Slot.byOrdinal((int) slotVal.intValue());
     var tier = (int) tierVal.intValue();
+    return futuristic_wardrobe(today, slot, tier);
+  }
+
+  public static Value futuristic_wardrobe(
+      ScriptRuntime controller, final Value dayVal, final Value slotVal, final Value tierVal) {
+    var day = (int) dayVal.intValue();
+    var slot = Slot.byOrdinal((int) slotVal.intValue());
+    var tier = (int) tierVal.intValue();
+    return futuristic_wardrobe(day, slot, tier);
+  }
+
+  private static Value futuristic_wardrobe(final int day, final Slot slot, final int tier) {
+    AggregateType type = new AggregateType(DataTypes.STRING_TYPE, DataTypes.MODIFIER_TYPE);
+    MapValue value = new MapValue(type);
+
     FuturisticClothing clothing = null;
     switch (slot) {
-      case SHIRT -> clothing = WardrobeOMaticDatabase.shirt(today, tier);
-      case HAT -> clothing = WardrobeOMaticDatabase.hat(today, tier);
-      case FAMILIAR -> clothing = WardrobeOMaticDatabase.collar(today, tier);
+      case SHIRT -> clothing = WardrobeOMaticDatabase.shirt(day, tier);
+      case HAT -> clothing = WardrobeOMaticDatabase.hat(day, tier);
+      case FAMILIAR -> clothing = WardrobeOMaticDatabase.collar(day, tier);
     }
     if (clothing == null) {
       return value;
