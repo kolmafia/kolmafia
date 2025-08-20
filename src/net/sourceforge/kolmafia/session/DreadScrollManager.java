@@ -311,4 +311,41 @@ public class DreadScrollManager {
       StringUtilities.globalStringReplace(buffer, find, replace);
     }
   }
+
+  public static void recordFailure(String url, String text) {
+    int duration;
+    Matcher m = ResultProcessor.DURATION_PATTERN.matcher(text);
+    if (m.find()) {
+      duration = StringUtilities.parseInt(m.group(1));
+    } else {
+      // need the duration to know how many failed
+      return;
+    }
+
+    var query = url.substring(url.indexOf('?') + 1);
+    var params = query.split("&");
+
+    var pros = new String[8];
+
+    for (String param : params) {
+      if (param.startsWith("pro")) {
+        var pair = param.split("=", 2);
+        if (pair.length < 2) {
+          // something has gone wrong, we need all 8 picks
+          return;
+        }
+        var index = Integer.parseInt(pair[0].substring(3)) - 1;
+        pros[index] = pair[1];
+      }
+    }
+
+    var attempt = String.join("", pros);
+    var newGuess = attempt + ":" + duration / 3;
+    var knownTries = Preferences.getString("dreadScrollGuesses");
+    if (knownTries.isEmpty()) {
+      Preferences.setString("dreadScrollGuesses", newGuess);
+    } else {
+      Preferences.setString("dreadScrollGuesses", knownTries + "," + newGuess);
+    }
+  }
 }

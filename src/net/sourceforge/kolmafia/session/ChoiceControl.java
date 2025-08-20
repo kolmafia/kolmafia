@@ -1310,7 +1310,8 @@ public abstract class ChoiceControl {
         if (text.contains("I guess you're the Mer-kin High Priest now")) {
           Preferences.setString("merkinQuestPath", "scholar");
           ResultProcessor.processItem(ItemPool.DREADSCROLL, -1);
-          return;
+        } else {
+          DreadScrollManager.recordFailure(urlString, text);
         }
       }
 
