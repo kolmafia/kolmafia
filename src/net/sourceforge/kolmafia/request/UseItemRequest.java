@@ -6804,6 +6804,11 @@ public class UseItemRequest extends GenericRequest {
         KoLAdventure.locationLogged = true;
         break;
 
+      case ItemPool.DREADSCROLL:
+        useString = "[" + KoLAdventure.getAdventureCount() + "] Mer-kin dreadscroll";
+        KoLAdventure.locationLogged = true;
+        break;
+
       case ItemPool.JACKING_MAP:
         UseItemRequest.lastFruit = null;
         Matcher m = UseItemRequest.FRUIT_TUBING_PATTERN.matcher(urlString);
