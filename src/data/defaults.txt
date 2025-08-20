@@ -651,6 +651,7 @@ user	dreadScroll5	0	roa
 user	dreadScroll6	0	roa
 user	dreadScroll7	0	roa
 user	dreadScroll8	0	roa
+user	dreadScrollGuesses		roa
 user	dripAdventuresSinceAscension	0	roa
 user	drippingHallAdventuresSinceAscension	0	roa
 user	drippingHallUnlocked	false
