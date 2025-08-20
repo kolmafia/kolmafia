@@ -2511,6 +2511,9 @@ public class GenericRequest implements Runnable {
           m.doneWithItems();
         }
         Preferences.setString("dolphinItem", "");
+        if (itemId == ItemPool.DURABLE_DOLPHIN_WHISTLE) {
+          Preferences.increment("_durableDolphinWhistleUsed");
+        }
       }
       case ItemPool.CARONCH_MAP -> {
         itemName = "Cap'm Caronch's Map";
