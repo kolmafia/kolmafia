@@ -3003,4 +3003,16 @@ public class Player {
     KoLCharacter.setParadoxicity(paradoxicity);
     return new Cleanups(() -> KoLCharacter.setParadoxicity(old));
   }
+
+  /**
+   * Sets the current global day
+   *
+   * @param globalDay The current global day to use
+   * @return Returns value to previous value
+   */
+  public static Cleanups withGlobalDay(final int globalDay) {
+    var oldDays = KoLCharacter.getGlobalDays();
+    KoLCharacter.setGlobalDays(globalDay);
+    return new Cleanups(() -> KoLCharacter.setGlobalDays(oldDays));
+  }
 }
