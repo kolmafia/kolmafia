@@ -847,7 +847,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     if (this.formSource.equals("sea_merkin.php")) {
       // If you have a seahorse, you can get to the Mer-Kin Deepcity.
       // Whether or not you can enter the temple is a separate question.
-      return !Preferences.getString("seahorseName").equals("");
+      return this.deepCityZoneAvailable();
     }
 
     // Dwarven Factory Warehouse
@@ -1793,9 +1793,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         // The Briny Deeps, The Brinier Deepers, The Briniest Deepests
         true;
         case "The Sea Floor" -> this.seaFloorZoneAvailable();
-        case "The Mer-Kin Deepcity" ->
-        // Open when you have a seahorse
-        !Preferences.getString("seahorseName").isEmpty();
+        case "The Mer-Kin Deepcity" -> this.deepCityZoneAvailable();
         default ->
         // There are currently no more adventuring areas in The Sea
         true;
@@ -2266,6 +2264,61 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         // That's all. If a new zone appears, assume you can get to it.
       default -> true;
     };
+  }
+
+  private boolean deepCityZoneAvailable() {
+    if (Preferences.getString("seahorseName").isEmpty()) {
+      return false;
+    }
+    System.out.println(this.adventureName);
+    switch (this.adventureName) {
+      case "Mer-kin Elementary School" -> {
+        return true;
+      }
+      case "Mer-kin Library" -> {
+        return true;
+        // Must be in Scholar outfit
+      }
+      case "Mer-kin Gymnasium" -> {
+        return true;
+      }
+      case "Mer-kin Colosseum" -> {
+        return true;
+        // Must be in Gladiator outfit
+      }
+      case "Mer-kin Temple" -> {
+        if (KoLCharacter.inSeaPath()) {
+          return false;
+        }
+        // Must be Gladiator Champion or High Priest
+        return true;
+      }
+      case "Mer-kin Temple (Left Door)" -> {
+        if (!KoLCharacter.inSeaPath()) {
+          return false;
+        }
+        // Must not have defeated Shub-Jigguwatt
+        // Must be Gladiator Champion and equipped in Gladiator outfit
+        return true;
+      }
+      case "Mer-kin Temple (Right Door)" -> {
+        if (!KoLCharacter.inSeaPath()) {
+          return false;
+        }
+        // Must not have defeated Yog-Urt
+        // Must be High Priest and equipped in Scholar outfit
+        return true;
+      }
+      case "Mer-kin Temple (Center Door)" -> {
+        if (!KoLCharacter.inSeaPath()) {
+          return false;
+        }
+        // Must have defeated Yog-Urt and Shub-Jugguwatt
+        return true;
+      }
+    }
+    // No more adventuring zones in the Deepcity
+    return false;
   }
 
   private boolean hasRequiredOutfit() {
@@ -4201,6 +4254,20 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     new AdventureFailure(
         "they're not gonna let you in dressed like this", "You're not dressed appropriately."),
     new AdventureFailure("The temple is empty", "Nothing more to do here.", MafiaState.PENDING),
+
+    // Looks like you've gotta be especially gladitorial to get in there.
+    // The guards at the temple main door point their spears at you and gesture pointedly with their
+    // eyefins at the doors to your left and right.
+    // Looks like you've gotta be somebody especially pious to get in there.
+    new AdventureFailure(
+        "you've gotta be especially gladitorial",
+        "You need to wear the Mer-kin Gladiatorial Gear."),
+    new AdventureFailure(
+        "you've gotta be somebody especially pious",
+        "You need to wear the Mer-kin Scholar's Vestments."),
+    new AdventureFailure(
+        "gesture pointedly with their eyefins at the doors to your left and right",
+        "You must defeat the Elder Gods of Hatred and Violence first."),
 
     // You've already defeated the Trainbot boss.
     new AdventureFailure(

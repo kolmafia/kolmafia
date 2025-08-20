@@ -1641,7 +1641,7 @@ Black Crayon Slime	1203	cray_slime.gif	FREE Scale: 0 Cap: ? Init: -10000 P: slim
 Black Crayon Spiraling Shape	1200	cray_weird.gif	FREE Scale: 0 Cap: ? Init: -10000 P: weird EA: hot EA: none	crayon shavings (100)
 Black Crayon Undead Thing	1189	cray_undead.gif	FREE Scale: 0 Cap: ? Init: -10000 P: undead EA: spooky EA: none Article: a	crayon shavings (100)
 
-# Psychoses (Angry Yung Man Year 2013)
+# Psychoses (Angry Jung Man Year 2013)
 work hat	1273	doubt1.gif	Atk: 30 Def: 40 HP: 30 Init: 50 P: construct Article: a	black pixel (80)	black pixel (70)	white pixel (60)	pixel power cell (0)
 reproachful heart	1274	doubt2.gif	Atk: 30 Def: 40 HP: 25 Init: 70 P: construct Article: a	red pixel (80)	red pixel (70)	white pixel (60)	pixel power cell (0)
 judgmental eye	1275	doubt3.gif	Atk: 45 Def: 35 HP: 40 Init: 50 P: beast Article: a	red pixel (80)	black pixel (60)	white pixel (70)	pixel power cell (0)
