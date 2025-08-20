@@ -11993,9 +11993,9 @@
 11965	kelp puck	526729791	kelppuck.gif	food	t	0
 11966	scroll of sea strength	717070334	limerickscroll.gif	multiple	t	0	scrolls of sea strength
 11967	scroll of sea smarts	792194441	limerickscroll.gif	multiple	t	0	scrolls of sea smarts
-11968	scroll of sea smarm	376628739	limerickscroll.gif	multiple	d	10	scrolls of sea smarm
+11968	scroll of sea smarm	376628739	limerickscroll.gif	multiple	t	0	scrolls of sea smarm
 11969	waterlogged scroll of healing	217776170	scroll1.gif	multiple, combat		0	waterlogged scrolls of healing
 11970	sea gel	865130560	vglob1.gif	multiple, combat		0	globs of sea gel
-11971	ink bladder	962785260	inkbladder.gif	potion, usable	t,d	25
+11971	octopus ink bladder	962785260	inkbladder.gif	potion, usable	t,d	25
 11972	durable dolphin whistle	754386808	whistle.gif	reusable		0
 11973	Thwaitgold lobster statuette	719574059	thwaitlobster.gif	none		0
