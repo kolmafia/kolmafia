@@ -331,6 +331,7 @@ Use	cursed microwave	_cursedMicrowaveUsed
 Use	cursed pony keg	_cursedKegUsed
 Use	defective Game Grid token	_defectiveTokenUsed
 Use	distention pill	_distentionPillUsed
+Use	durable dolphin whistle	_durableDolphinWhistleUsed	[pref(seaPoints)]
 Use	essential tofu	_essentialTofuUsed
 Use	etched hourglass	_etchedHourglassUsed
 Use	eternal car battery	_eternalCarBatteryUsed
