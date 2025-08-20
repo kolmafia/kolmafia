@@ -1674,4 +1674,55 @@ class ChoiceControlTest {
       assertThat("kingLiberated", isSetTo(true));
     }
   }
+
+  @Nested
+  class DreadScroll {
+    @Test
+    void failureAddsGuessesToBlank() {
+      var cleanups =
+          new Cleanups(
+              withProperty("dreadScrollGuesses"),
+              withPostChoice1(
+                  703,
+                  1,
+                  "pro1=4&pro2=1&pro3=2&pro4=1&pro5=1&pro6=1&pro7=1&pro8=3",
+                  html("request/test_choice_dreadscroll_failure.html")));
+
+      try (cleanups) {
+        assertThat("dreadScrollGuesses", isSetTo("41211113:2"));
+      }
+    }
+
+    @Test
+    void failureAddsGuesses() {
+      var cleanups =
+          new Cleanups(
+              withProperty("dreadScrollGuesses", "42211113:3"),
+              withPostChoice1(
+                  703,
+                  1,
+                  "pro1=4&pro2=1&pro3=2&pro4=1&pro5=1&pro6=1&pro7=1&pro8=3",
+                  html("request/test_choice_dreadscroll_failure.html")));
+
+      try (cleanups) {
+        assertThat("dreadScrollGuesses", isSetTo("42211113:3,41211113:2"));
+      }
+    }
+
+    @Test
+    void successLeavesGuesses() {
+      var cleanups =
+          new Cleanups(
+              withProperty("dreadScrollGuesses", "31424213:3"),
+              withPostChoice1(
+                  703,
+                  1,
+                  "pro1=3&pro2=1&pro3=4&pro4=2&pro5=4&pro6=2&pro7=1&pro8=4",
+                  html("request/test_choice_dreadscroll_success.html")));
+
+      try (cleanups) {
+        assertThat("dreadScrollGuesses", isSetTo("31424213:3"));
+      }
+    }
+  }
 }

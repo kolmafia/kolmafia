@@ -95,6 +95,7 @@ DESC_ITEM	Roman Candelabra	Maximum MP \+<span style="font-family: times new roma
 DESC_ITEM	Roman Candelabra	Muscle \+<span style="font-family: times new roman">(.*?)</span>	romanCandelabraBlueCasts=[(roman($1)/5)-2]
 DESC_ITEM	Roman Candelabra	Mysticality \+<span style="font-family: times new roman">(.*?)</span>	romanCandelabraGreenCasts=[(roman($1)/5)-2]
 DESC_ITEM	Roman Candelabra	Moxie \+<span style="font-family: times new roman">(.*?)</span>	romanCandelabraPurpleCasts=[(roman($1)/5)-2]
+DESC_ITEM	durable dolphin whistle	used (\d+) of (\d+) times? today	_durableDolphinWhistleUsed=$1	seaPoints=$2
 
 # Item modifiers
 DESC_ITEM	no hat		_noHatModifier=mods

@@ -2504,9 +2504,9 @@ public class GenericRequest implements Runnable {
         itemName = "Drum Machine";
         consumed = true;
       }
-      case ItemPool.DOLPHIN_WHISTLE -> {
-        itemName = "Dolphin Whistle";
-        consumed = true;
+      case ItemPool.DOLPHIN_WHISTLE, ItemPool.DURABLE_DOLPHIN_WHISTLE -> {
+        itemName = item.getName();
+        consumed = itemId == ItemPool.DOLPHIN_WHISTLE;
         MonsterData m = MonsterDatabase.findMonster("rotten dolphin thief");
         if (m != null) {
           m.clearItems();
@@ -2517,6 +2517,9 @@ public class GenericRequest implements Runnable {
           m.doneWithItems();
         }
         Preferences.setString("dolphinItem", "");
+        if (itemId == ItemPool.DURABLE_DOLPHIN_WHISTLE) {
+          Preferences.increment("_durableDolphinWhistleUsed");
+        }
       }
       case ItemPool.CARONCH_MAP -> {
         itemName = "Cap'm Caronch's Map";

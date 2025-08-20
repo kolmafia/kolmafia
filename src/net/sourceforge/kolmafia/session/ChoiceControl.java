@@ -1312,7 +1312,8 @@ public abstract class ChoiceControl {
           // The following is not applicable in the Sea path
           Preferences.setString("merkinQuestPath", "scholar");
           ResultProcessor.processItem(ItemPool.DREADSCROLL, -1);
-          return;
+        } else {
+          DreadScrollManager.recordFailure(urlString, text);
         }
       }
 

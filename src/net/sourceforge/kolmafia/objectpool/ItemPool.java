@@ -3930,6 +3930,7 @@ public class ItemPool {
   public static final int MOBIUS_RING = 11942;
   public static final int HANDHELD_ALLIED_RADIO = 11946;
   public static final int SAND_PENNY = 11961;
+  public static final int DURABLE_DOLPHIN_WHISTLE = 11972;
 
   private ItemPool() {}
 
