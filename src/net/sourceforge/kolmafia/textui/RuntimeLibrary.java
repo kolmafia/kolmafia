@@ -11839,7 +11839,7 @@ public abstract class RuntimeLibrary {
   }
 
   private static Value futuristic_wardrobe(final int day, final Slot slot, final int tier) {
-    AggregateType type = new AggregateType(DataTypes.STRING_TYPE, DataTypes.MODIFIER_TYPE);
+    AggregateType type = new AggregateType(DataTypes.INT_TYPE, DataTypes.MODIFIER_TYPE);
     MapValue value = new MapValue(type);
 
     FuturisticClothing clothing = null;
