@@ -334,7 +334,7 @@ Town	adventure=495	DiffLevel: unknown Env: indoor Stat: 0	Super Villain's Lair
 
 Mothership	adventure=281	DiffLevel: mid Env: indoor Stat: 0	Medbay
 Mothership	adventure=282	DiffLevel: mid Env: indoor Stat: 0	Waste Processing
-Mothership	adventure=283	DiffLevel: mid Env: indoor Stat: 25	Sonar
+Mothership	adventure=283	DiffLevel: mid Env: indoor Stat: 25 ForceNoncombat: 5	Sonar
 Mothership	adventure=284	DiffLevel: mid Env: indoor Stat: 50	Science Lab
 Mothership	adventure=285	DiffLevel: mid Env: indoor Stat: 60	Morgue
 Mothership	adventure=286	DiffLevel: mid Env: indoor Stat: 90	Special Ops
@@ -576,7 +576,7 @@ Portal	adventure=164	DiffLevel: high Env: underground Stat: 365	El Vibrato Islan
 Tunnel of L.O.V.E.	place=townwrong_tunnel	DiffLevel: none Env: indoor overdrunk	The Tunnel of L.O.V.E.
 Deep Machine Tunnels	adventure=458	DiffLevel: mid Env: underground Stat: 0	The Deep Machine Tunnels
 LT&T	adventure=474	DiffLevel: mid Env: outdoor Stat: 0	Investigating a Plaintive Telegram
-Neverending Party	adventure=528	DiffLevel: mid Env: indoor Stat: 0	The Neverending Party
+Neverending Party	adventure=528	DiffLevel: mid Env: indoor Stat: 0 ForceNoncombat: 7	The Neverending Party
 
 Shape of Mole	adventure=177	DiffLevel: low Env: underground Stat: 0	Mt. Molehill
 
