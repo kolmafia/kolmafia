@@ -3648,6 +3648,8 @@ user	lastNoncombat343	0	roa
 user	lastNoncombat384	0	roa
 user	lastNoncombat386	0	roa
 user	lastNoncombat391	0	roa
+user	lastNoncombat392	0	roa
+user	lastNoncombat394	0	roa
 user	lastNoncombat405	0	roa
 user	lastNoncombat406	0	roa
 user	lastNoncombat439	0	roa
