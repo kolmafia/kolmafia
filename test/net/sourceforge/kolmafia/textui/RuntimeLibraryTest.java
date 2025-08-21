@@ -2294,7 +2294,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
             execute("futuristic_wardrobe($slot[shirt], 5)").trim(),
             is(
                 """
-              Returned: aggregate string [modifier]
+              Returned: aggregate int [modifier]
               Hot Resistance => 5
               MP Regen Max => 26
               MP Regen Min => 15
@@ -2310,7 +2310,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
           execute("futuristic_wardrobe(7600, $slot[shirt], 5)").trim(),
           is(
               """
-              Returned: aggregate string [modifier]
+              Returned: aggregate int [modifier]
               Hot Resistance => 5
               MP Regen Max => 26
               MP Regen Min => 15
