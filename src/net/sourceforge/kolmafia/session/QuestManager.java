@@ -2358,6 +2358,8 @@ public class QuestManager {
               "Ringogeorge, the Bladeswitcher" -> {
             // Don't mark path chosen unless won round 15
             if (Preferences.increment("lastColosseumRoundWon", 1) == 15) {
+              Preferences.setBoolean("isMerkinGladiatorChampion", true);
+              // The following is not applicable in the Sea path
               Preferences.setString("merkinQuestPath", "gladiator");
             }
           }

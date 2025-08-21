@@ -305,6 +305,9 @@ The Mer-Kin Deepcity	adventure=208	DiffLevel: unknown Env: underwater	Mer-kin Li
 The Mer-Kin Deepcity	adventure=209	DiffLevel: unknown Env: underwater	Mer-kin Gymnasium
 The Mer-Kin Deepcity	adventure=210	DiffLevel: unknown Env: underwater	Mer-kin Colosseum
 The Mer-Kin Deepcity	sea_merkin=temple	DiffLevel: unknown Env: underwater overdrunk	Mer-kin Temple
+The Mer-Kin Deepcity	sea_merkin=temple	DiffLevel: unknown Env: underwater overdrunk	Mer-kin Temple (Left Door)
+The Mer-Kin Deepcity	sea_merkin=temple	DiffLevel: unknown Env: underwater overdrunk	Mer-kin Temple (Center Door)
+The Mer-Kin Deepcity	sea_merkin=temple	DiffLevel: unknown Env: underwater overdrunk	Mer-kin Temple (Right Door)
 
 # Nemesis areas
 

@@ -1308,21 +1308,26 @@ public abstract class ChoiceControl {
       case 703 -> {
         // Mer-kin dreadscroll
         if (text.contains("I guess you're the Mer-kin High Priest now")) {
+          Preferences.setBoolean("isMerkinHighPriest", true);
+          // The following is not applicable in the Sea path
           Preferences.setString("merkinQuestPath", "scholar");
           ResultProcessor.processItem(ItemPool.DREADSCROLL, -1);
-          return;
+        } else {
+          DreadScrollManager.recordFailure(urlString, text);
         }
       }
 
       case 709 -> {
         // You Beat Shub to a Stub, Bub
         Preferences.setBoolean("shubJigguwattDefeated", true);
+        // The following is not applicable in the Sea path
         Preferences.setString("merkinQuestPath", "done");
       }
 
       case 713 -> {
         // You Brought Her To Her Kn-kn-kn-kn-knees, Knees.
         Preferences.setBoolean("yogUrtDefeated", true);
+        // The following is not applicable in the Sea path
         Preferences.setString("merkinQuestPath", "done");
       }
       case 717 -> {
