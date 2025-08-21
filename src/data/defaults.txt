@@ -3638,6 +3638,7 @@ user	lastNoncombat257	0	roa
 user	lastNoncombat270	0	roa
 user	lastNoncombat273	0	roa
 user	lastNoncombat280	0	roa
+user	lastNoncombat283	0	roa
 user	lastNoncombat297	0	roa
 user	lastNoncombat322	0	roa
 user	lastNoncombat323	0	roa
@@ -3647,12 +3648,16 @@ user	lastNoncombat343	0	roa
 user	lastNoncombat384	0	roa
 user	lastNoncombat386	0	roa
 user	lastNoncombat391	0	roa
+user	lastNoncombat392	0	roa
+user	lastNoncombat394	0	roa
 user	lastNoncombat405	0	roa
 user	lastNoncombat406	0	roa
+user	lastNoncombat408	0	roa
 user	lastNoncombat439	0	roa
 user	lastNoncombat440	0	roa
 user	lastNoncombat441	0	roa
 user	lastNoncombat450	0	roa
+user	lastNoncombat528	0	roa
 user	lastNoncombat533	0	roa
 user	lastNoncombat539	0	roa
 user	lastNoncombat540	0	roa
