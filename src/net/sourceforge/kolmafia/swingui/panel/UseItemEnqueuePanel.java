@@ -508,17 +508,17 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
   }
 
   private static class AioliListener extends ThreadedListener {
-      @Override
-      protected void execute() {
-        RequestThread.postRequest(
-            UseItemRequest.getInstance(ItemPool.get(ItemPool.MINI_KIWI_AIOLI, 1)));
-      }
-
-      @Override
-      public String toString() {
-        return "use aioli";
-      }
+    @Override
+    protected void execute() {
+      RequestThread.postRequest(
+          UseItemRequest.getInstance(ItemPool.get(ItemPool.MINI_KIWI_AIOLI, 1)));
     }
+
+    @Override
+    public String toString() {
+      return "use aioli";
+    }
+  }
 
   private static class MilkListener extends ThreadedListener {
     @Override
