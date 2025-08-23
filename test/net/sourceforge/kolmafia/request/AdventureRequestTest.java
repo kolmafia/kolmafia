@@ -602,6 +602,7 @@ public class AdventureRequestTest {
               withProperty("seahorseName", "Shimmerwings"),
               withProperty("merkinQuestPath", "gladiator"),
               withOutfit(OutfitPool.MER_KIN_GLADIATORIAL_GEAR),
+              withProperty("battleAction", "custom combat script"),
               withHP(1000, 1000, 1000),
               withCurrentRun(200),
               withAdventuresLeft(10));
@@ -637,6 +638,7 @@ public class AdventureRequestTest {
                 withProperty("seahorseName", "Shimmerwings"),
                 withProperty("isMerkinGladiatorChampion", true),
                 withOutfit(OutfitPool.MER_KIN_GLADIATORIAL_GEAR),
+                withProperty("battleAction", "custom combat script"),
                 withHP(1000, 1000, 1000),
                 withCurrentRun(200),
                 withAdventuresLeft(10));
@@ -669,6 +671,7 @@ public class AdventureRequestTest {
                 withProperty("seahorseName", "Shimmerwings"),
                 withProperty("isMerkinGladiatorChampion", false),
                 withOutfit(OutfitPool.CRAPPY_MER_KIN_DISGUISE),
+                withProperty("battleAction", "custom combat script"),
                 withHP(1000, 1000, 1000),
                 withCurrentRun(200),
                 withAdventuresLeft(10));
@@ -703,6 +706,7 @@ public class AdventureRequestTest {
                 withProperty("seahorseName", "Shimmerwings"),
                 withProperty("isMerkinHighPriest", true),
                 withOutfit(OutfitPool.MER_KIN_SCHOLARS_VESTMENTS),
+                withProperty("battleAction", "custom combat script"),
                 withHP(1000, 1000, 1000),
                 withCurrentRun(200),
                 withAdventuresLeft(10));
@@ -735,6 +739,7 @@ public class AdventureRequestTest {
                 withProperty("seahorseName", "Shimmerwings"),
                 withProperty("isMerkinHighPriest", false),
                 withOutfit(OutfitPool.CRAPPY_MER_KIN_DISGUISE),
+                withProperty("battleAction", "custom combat script"),
                 withHP(1000, 1000, 1000),
                 withCurrentRun(200),
                 withAdventuresLeft(10));
@@ -770,6 +775,7 @@ public class AdventureRequestTest {
                 withProperty("shubJigguwattDefeated", true),
                 withProperty("yogUrtDefeated", true),
                 withOutfit(OutfitPool.CRAPPY_MER_KIN_DISGUISE),
+                withProperty("battleAction", "custom combat script"),
                 withHP(1000, 1000, 1000),
                 withCurrentRun(200),
                 withAdventuresLeft(10));
@@ -802,6 +808,7 @@ public class AdventureRequestTest {
                 withProperty("seahorseName", "Shimmerwings"),
                 withProperty("isMerkinHighPriest", false),
                 withOutfit(OutfitPool.CRAPPY_MER_KIN_DISGUISE),
+                withProperty("battleAction", "custom combat script"),
                 withHP(1000, 1000, 1000),
                 withCurrentRun(200),
                 withAdventuresLeft(10));
