@@ -235,6 +235,13 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
 
         this.buttons[index++].setEnabled(milkAvailable);
 
+        // The aioli listener is just after the milk listener
+        boolean aioliUsable = UseItemRequest.maximumUses(ItemPool.MINI_KIWI_AIOLI) > 0;
+        boolean aioliAvailable =
+            aioliUsable && (InventoryManager.itemAvailable(ItemPool.MINI_KIWI_AIOLI));
+
+        this.buttons[index++].setEnabled(aioliAvailable);
+
         // The seasoning listener is just after the ghost listener
         boolean seasoningUsable = UseItemRequest.maximumUses(ItemPool.UNIVERSAL_SEASONING) > 0;
         boolean seasoningAvailable =
