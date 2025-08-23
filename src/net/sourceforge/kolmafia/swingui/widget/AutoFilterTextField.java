@@ -288,21 +288,29 @@ public class AutoFilterTextField<E> extends AutoHighlightTextField
         AutoFilterTextField.this.model.updateFilter(false);
       }
 
-      if (AutoFilterTextField.this.list != null) {
-        JList<E> list = AutoFilterTextField.this.list;
-        if (AutoFilterTextField.this.model.getSize() == 1) {
-          list.setSelectedIndex(0);
-        } else if (list.getSelectedIndices().length == 1) {
-          list.ensureIndexIsVisible(list.getSelectedIndex());
-        } else {
-          list.clearSelection();
-        }
-      }
+      updateList();
     } finally {
-      if (AutoFilterTextField.this.model.size() > 0) {
-        AutoFilterTextField.this.model.fireContentsChanged(
-            AutoFilterTextField.this.model, 0, AutoFilterTextField.this.model.size() - 1);
+      fireContentsChanged();
+    }
+  }
+
+  protected void updateList() {
+    if (AutoFilterTextField.this.list != null) {
+      JList<E> list = AutoFilterTextField.this.list;
+      if (AutoFilterTextField.this.model.getSize() == 1) {
+        list.setSelectedIndex(0);
+      } else if (list.getSelectedIndices().length == 1) {
+        list.ensureIndexIsVisible(list.getSelectedIndex());
+      } else {
+        list.clearSelection();
       }
+    }
+  }
+
+  protected void fireContentsChanged() {
+    if (AutoFilterTextField.this.model.size() > 0) {
+      AutoFilterTextField.this.model.fireContentsChanged(
+          AutoFilterTextField.this.model, 0, AutoFilterTextField.this.model.size() - 1);
     }
   }
 

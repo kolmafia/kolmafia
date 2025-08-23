@@ -17,9 +17,23 @@ public class ScrollableFilteredPanel<E> extends ScrollablePanel<ShowDescriptionL
       final String confirmedText,
       final String cancelledText,
       final ShowDescriptionList<E> scrollComponent) {
+    this(
+        title,
+        confirmedText,
+        cancelledText,
+        scrollComponent,
+        new AutoFilterTextField<>(scrollComponent));
+  }
+
+  public ScrollableFilteredPanel(
+      final String title,
+      final String confirmedText,
+      final String cancelledText,
+      final ShowDescriptionList<E> scrollComponent,
+      final AutoFilterTextField<E> filterField) {
     super(title, confirmedText, cancelledText, scrollComponent);
     this.elementList = this.scrollComponent;
-    this.filterField = new AutoFilterTextField<>(this.elementList);
+    this.filterField = filterField;
     JPanel topPanel = new JPanel(new BorderLayout());
 
     if (!title.equals("")) {
