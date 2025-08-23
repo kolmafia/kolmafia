@@ -27,6 +27,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
+import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.filterType;
@@ -373,11 +374,15 @@ public class MaximizerFrame extends GenericFrame implements ListSelectionListene
     }
   }
 
-  private static class FilterBoosts extends AutoFilterTextField<Boost> {
+  static class FilterBoosts extends AutoFilterTextField<Boost> {
     private List<Filter> parsedText;
 
     public FilterBoosts(JList<Boost> list) {
       super(list);
+    }
+
+    LockableListModel<Boost> getModel() {
+      return this.model;
     }
 
     private record Filter(String txt, boolean strict, boolean not) {}
