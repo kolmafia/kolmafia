@@ -89,6 +89,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
       case FOOD -> {
         listeners.add(new BingeGhostListener());
         listeners.add(new MilkListener());
+        listeners.add(new AioliListener());
         listeners.add(new UniversalSeasoningListener());
         listeners.add(new LunchListener());
         listeners.add(new DistendListener());
@@ -233,6 +234,13 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
                         > 0);
 
         this.buttons[index++].setEnabled(milkAvailable);
+
+        // The aioli listener is just after the milk listener
+        boolean aioliUsable = UseItemRequest.maximumUses(ItemPool.MINI_KIWI_AIOLI) > 0;
+        boolean aioliAvailable =
+            aioliUsable && (InventoryManager.itemAvailable(ItemPool.MINI_KIWI_AIOLI));
+
+        this.buttons[index++].setEnabled(aioliAvailable);
 
         // The seasoning listener is just after the ghost listener
         boolean seasoningUsable = UseItemRequest.maximumUses(ItemPool.UNIVERSAL_SEASONING) > 0;
@@ -497,6 +505,19 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
 
     @Override
     public abstract String toString();
+  }
+
+  private static class AioliListener extends ThreadedListener {
+    @Override
+    protected void execute() {
+      RequestThread.postRequest(
+          UseItemRequest.getInstance(ItemPool.get(ItemPool.MINI_KIWI_AIOLI, 1)));
+    }
+
+    @Override
+    public String toString() {
+      return "use aioli";
+    }
   }
 
   private static class MilkListener extends ThreadedListener {
