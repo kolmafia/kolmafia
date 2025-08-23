@@ -89,6 +89,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
       case FOOD -> {
         listeners.add(new BingeGhostListener());
         listeners.add(new MilkListener());
+        listeners.add(new AioliListener());
         listeners.add(new UniversalSeasoningListener());
         listeners.add(new LunchListener());
         listeners.add(new DistendListener());
@@ -498,6 +499,19 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
     @Override
     public abstract String toString();
   }
+
+  private static class AioliListener extends ThreadedListener {
+      @Override
+      protected void execute() {
+        RequestThread.postRequest(
+            UseItemRequest.getInstance(ItemPool.get(ItemPool.MINI_KIWI_AIOLI, 1)));
+      }
+
+      @Override
+      public String toString() {
+        return "use aioli";
+      }
+    }
 
   private static class MilkListener extends ThreadedListener {
     @Override
