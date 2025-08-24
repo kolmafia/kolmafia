@@ -1992,40 +1992,64 @@ public class MaximizerTest {
       }
     }
 
-    @Nested
-    class BirdOfTheDay {
-      @Test
-      public void suggestsBirdIfRelevant() {
-        var cleanups =
-            new Cleanups(
-                withProperty("_canSeekBirds", true),
-                withProperty("_birdOfTheDay", "Filthy Smiling Pine Parrot"),
-                withProperty(
-                    "_birdOfTheDayMods",
-                    "Mysticality Percent: +75, Stench Resistance: +2, Experience: +2, MP Regen Min: 10, MP Regen Max: 20"),
-                withProperty("yourFavoriteBird", "Southern Clandestine Fig Chachalaca"),
-                withProperty(
-                    "yourFavoriteBirdMods",
-                    "Stench Resistance: +2, Combat Rate: -9, MP Regen Min: 10, MP Regen Max: 20"),
-                withSkill(SkillPool.SEEK_OUT_A_BIRD),
-                withSkill(SkillPool.VISIT_YOUR_FAVORITE_BIRD),
-                withOverrideModifiers(
-                    ModifierType.EFFECT,
-                    2551,
-                    "Mysticality Percent: +75, Stench Resistance: +2, Experience: +2, MP Regen Min: 10, MP Regen Max: 20"),
-                withOverrideModifiers(
-                    ModifierType.EFFECT,
-                    2552,
-                    "Stench Resistance: +2, Combat Rate: -9, MP Regen Min: 10, MP Regen Max: 20"));
+    @Test
+    public void suggestsSpiceHazeForNonPastamancer() {
+      var cleanups =
+          new Cleanups(
+              withClass(AscensionClass.ACCORDION_THIEF), withSkill(SkillPool.BIND_SPICE_GHOST));
 
-        try (cleanups) {
-          assertTrue(maximize("mp regen"));
-          assertThat(
-              getBoosts(), hasItem(hasProperty("cmd", startsWith("cast 1 Seek out a Bird"))));
-          assertThat(
-              getBoosts(),
-              hasItem(hasProperty("cmd", startsWith("cast 1 Visit your Favorite Bird"))));
-        }
+      try (cleanups) {
+        maximize("item");
+        assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("cast 1 Bind Spice Ghost"))));
+      }
+    }
+
+    @Test
+    public void doesNotSuggestSpiceHazeForPastamancer() {
+      var cleanups =
+          new Cleanups(
+              withClass(AscensionClass.PASTAMANCER), withSkill(SkillPool.BIND_SPICE_GHOST));
+
+      try (cleanups) {
+        maximize("item");
+        assertThat(
+            getBoosts(), not(hasItem(hasProperty("cmd", startsWith("cast 1 Bind Spice Ghost")))));
+      }
+    }
+  }
+
+  @Nested
+  class BirdOfTheDay {
+    @Test
+    public void suggestsBirdIfRelevant() {
+      var cleanups =
+          new Cleanups(
+              withProperty("_canSeekBirds", true),
+              withProperty("_birdOfTheDay", "Filthy Smiling Pine Parrot"),
+              withProperty(
+                  "_birdOfTheDayMods",
+                  "Mysticality Percent: +75, Stench Resistance: +2, Experience: +2, MP Regen Min: 10, MP Regen Max: 20"),
+              withProperty("yourFavoriteBird", "Southern Clandestine Fig Chachalaca"),
+              withProperty(
+                  "yourFavoriteBirdMods",
+                  "Stench Resistance: +2, Combat Rate: -9, MP Regen Min: 10, MP Regen Max: 20"),
+              withSkill(SkillPool.SEEK_OUT_A_BIRD),
+              withSkill(SkillPool.VISIT_YOUR_FAVORITE_BIRD),
+              withOverrideModifiers(
+                  ModifierType.EFFECT,
+                  2551,
+                  "Mysticality Percent: +75, Stench Resistance: +2, Experience: +2, MP Regen Min: 10, MP Regen Max: 20"),
+              withOverrideModifiers(
+                  ModifierType.EFFECT,
+                  2552,
+                  "Stench Resistance: +2, Combat Rate: -9, MP Regen Min: 10, MP Regen Max: 20"));
+
+      try (cleanups) {
+        assertTrue(maximize("mp regen"));
+        assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("cast 1 Seek out a Bird"))));
+        assertThat(
+            getBoosts(),
+            hasItem(hasProperty("cmd", startsWith("cast 1 Visit your Favorite Bird"))));
       }
     }
   }
