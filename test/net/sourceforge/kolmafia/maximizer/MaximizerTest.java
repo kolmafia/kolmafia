@@ -2426,4 +2426,47 @@ public class MaximizerTest {
       assertEquals(31, modFor(DoubleModifier.HATDROP), 0.01);
     }
   }
+
+  @Nested
+  class Wishable {
+    @Test
+    public void recommendsOnlyWishableEffects() {
+      var cleanups = new Cleanups(withItem(ItemPool.POCKET_WISH));
+
+      try (cleanups) {
+        maximize("-combat");
+        var boosts = getBoosts();
+        assertThat(boosts, hasItem(hasProperty("cmd", startsWith("genie effect Disquiet Riot"))));
+        assertThat(
+            boosts,
+            not(hasItem(hasProperty("cmd", startsWith("genie effect Mild-Mannered Professor")))));
+      }
+    }
+
+    @Test
+    public void recommendsPawableEffectsWithPaw() {
+      var cleanups =
+          new Cleanups(
+              withItem(ItemPool.CURSED_MONKEY_PAW),
+              withProperty("_monkeyPawWishesUsed", 3),
+              withProperty("verboseMaximizer", true));
+
+      try (cleanups) {
+        maximize("-combat");
+        var boosts = getBoosts();
+        assertThat(boosts, hasItem(hasProperty("cmd", equalTo("monkeypaw effect Disquiet Riot"))));
+        assertThat(
+            boosts,
+            hasItem(
+                hasToString(
+                    equalTo(
+                        "monkeypaw effect Disquiet Riot (+20) [30 advs duration, 2 uses remaining]"))));
+        assertThat(
+            boosts,
+            not(
+                hasItem(
+                    hasProperty("cmd", startsWith("monkeypaw effect Mild-Mannered Professor")))));
+      }
+    }
+  }
 }

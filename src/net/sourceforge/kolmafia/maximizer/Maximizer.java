@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.maximizer;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
@@ -464,10 +465,16 @@ public class Maximizer {
           case MEETS:
             isSpecial = true;
         }
-        if (Evaluator.cannotGainEffect(effectId)) {
-          continue;
-        }
         sources = EffectDatabase.getAllActions(effectId);
+        if (Evaluator.cannotGainEffect(effectId)) {
+          // sources do not apply
+          sources = new ArrayList<>();
+        }
+        if (!EffectDatabase.hasAttribute(effectId, "nohookah")) {
+          // effect is wishable
+          sources.add("monkeypaw effect " + name);
+          sources.add("genie effect " + name);
+        }
         if (sources.isEmpty()) {
           if (includeAll) {
             sources = Collections.singletonList("(no known source of " + name + ")");
@@ -1347,17 +1354,64 @@ public class Maximizer {
         } else if (cmd.startsWith("alliedradio effect ")) {
           if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Allied Radio Backpack")) {
             continue;
-          } else if (AlliedRadioCommand.lacksRadioAndBackpack()) {
-            cmd = "";
+          }
+          if (InventoryManager.equippedOrInInventory(ItemPool.ALLIED_RADIO_BACKPACK)
+              && Preferences.getInteger("_alliedRadioDropsUsed") < 3) {
+            // use the backpack, no item change because it can be used in beecore
+          } else {
+            item = ItemPool.get(ItemPool.HANDHELD_ALLIED_RADIO, 1);
           }
           if (effectId == EffectPool.WILDSUN_BOON) {
+            if (Preferences.getBoolean("_alliedRadioWildsunBoon")) {
+              cmd = "";
+            }
             duration = 100;
           } else if (effectId == EffectPool.ELLIPSOIDTINED) {
             duration = 30;
           } else if (effectId == EffectPool.MATERIEL_INTEL) {
+            if (Preferences.getBoolean("_alliedRadioMaterielIntel")) {
+              cmd = "";
+            }
             duration = 10;
           }
           usesRemaining = AlliedRadioCommand.usesRemaining();
+        } else if (cmd.startsWith("monkeypaw effect ")) {
+          if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, "cursed monkey's paw")) {
+            continue;
+          }
+          if (!InventoryManager.equippedOrInInventory(ItemPool.CURSED_MONKEY_PAW)) {
+            if (includeAll) {
+              text = "( acquire a cursed monkey's paw )";
+              cmd = "";
+            } else continue;
+          }
+          var used = Preferences.getInteger("_monkeyPawWishesUsed");
+          if (used >= 5) {
+            cmd = "";
+          }
+          duration = 30;
+          usesRemaining = 5 - used;
+        } else if (cmd.startsWith("genie effect ")) {
+          if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, "pocket wish")) {
+            continue;
+          }
+          if (InventoryManager.getCount(ItemPool.GENIE_BOTTLE) > 0
+              && Preferences.getInteger("_genieWishesUsed") < 3) {
+            item = ItemPool.get(ItemPool.GENIE_BOTTLE);
+          } else if (KoLCharacter.inLegacyOfLoathing()
+              && InventoryManager.getCount(ItemPool.REPLICA_GENIE_BOTTLE) > 0
+              && Preferences.getInteger("_genieWishesUsed") < 3) {
+            item = ItemPool.get(ItemPool.REPLICA_GENIE_BOTTLE, 1);
+          } else {
+            item = ItemPool.get(ItemPool.POCKET_WISH, 1);
+          }
+          duration = 20;
+          usesRemaining =
+              (InventoryManager.getCount(ItemPool.GENIE_BOTTLE) > 0
+                          || InventoryManager.getCount(ItemPool.REPLICA_GENIE_BOTTLE) > 0
+                      ? 3 - Preferences.getInteger("_genieWishesUsed")
+                      : 0)
+                  + InventoryManager.getCount(ItemPool.POCKET_WISH);
         }
 
         if (item != null) {
