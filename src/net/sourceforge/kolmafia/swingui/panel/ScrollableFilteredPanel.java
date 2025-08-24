@@ -17,23 +17,9 @@ public class ScrollableFilteredPanel<E> extends ScrollablePanel<ShowDescriptionL
       final String confirmedText,
       final String cancelledText,
       final ShowDescriptionList<E> scrollComponent) {
-    this(
-        title,
-        confirmedText,
-        cancelledText,
-        scrollComponent,
-        new AutoFilterTextField<>(scrollComponent));
-  }
-
-  public ScrollableFilteredPanel(
-      final String title,
-      final String confirmedText,
-      final String cancelledText,
-      final ShowDescriptionList<E> scrollComponent,
-      final AutoFilterTextField<E> filterField) {
     super(title, confirmedText, cancelledText, scrollComponent);
     this.elementList = this.scrollComponent;
-    this.filterField = filterField;
+    this.filterField = createFilterField();
     JPanel topPanel = new JPanel(new BorderLayout());
 
     if (!title.equals("")) {
@@ -44,6 +30,10 @@ public class ScrollableFilteredPanel<E> extends ScrollablePanel<ShowDescriptionL
     topPanel.add(this.filterField, BorderLayout.CENTER);
     this.centerPanel.add(topPanel, BorderLayout.NORTH);
     this.filterItems();
+  }
+
+  protected AutoFilterTextField<E> createFilterField() {
+    return new AutoFilterTextField<>(this.elementList);
   }
 
   public void filterItems() {

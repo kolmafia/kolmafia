@@ -461,17 +461,14 @@ public class MaximizerFrame extends GenericFrame implements ListSelectionListene
   }
 
   private class BoostsPanel extends ScrollableFilteredPanel<Boost> {
-    private final ShowDescriptionList<Boost> elementList;
-
     public BoostsPanel(final ShowDescriptionList<Boost> list) {
-      super(
-          "Current score: --- \u25CA Predicted: ---",
-          "equip all",
-          "exec selected",
-          list,
-          new FilterBoosts(list));
-      this.elementList = this.scrollComponent;
+      super("Current score: --- \u25CA Predicted: ---", "equip all", "exec selected", list);
       MaximizerFrame.this.listTitle = this.titleComponent;
+    }
+
+    @Override
+    protected AutoFilterTextField<Boost> createFilterField() {
+      return new FilterBoosts(this.elementList);
     }
 
     @Override
