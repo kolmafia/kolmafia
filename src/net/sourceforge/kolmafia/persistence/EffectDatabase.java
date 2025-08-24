@@ -7,9 +7,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -221,13 +219,13 @@ public class EffectDatabase {
     return rv.split("\\|")[0];
   }
 
-  public static final Iterator<String> getAllActions(final int effectId) {
+  public static final ArrayList<String> getAllActions(final int effectId) {
     if (effectId == -1) {
-      return Collections.emptyIterator();
+      return new ArrayList<>();
     }
     String actions = StringUtilities.getDisplayName(EffectDatabase.defaultActions.get(effectId));
     if (actions == null) {
-      return Collections.emptyIterator();
+      return new ArrayList<>();
     }
     ArrayList<String> rv = new ArrayList<>();
     String[] pieces = actions.split("\\|");
@@ -247,7 +245,7 @@ public class EffectDatabase {
       }
     }
 
-    return rv.iterator();
+    return rv;
   }
 
   public static final String getActions(final int effectId) {

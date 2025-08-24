@@ -2,7 +2,6 @@ package net.sourceforge.kolmafia.maximizer;
 
 import java.util.Collections;
 import java.util.EnumSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -444,7 +443,7 @@ public class Maximizer {
       AdventureResult effect = EffectPool.get(effectId);
       String name = effect.getName();
       boolean hasEffect = KoLConstants.activeEffects.contains(effect);
-      Iterator<String> sources;
+      List<String> sources;
 
       if (!hasEffect) {
         spec.addEffect(effect);
@@ -469,9 +468,9 @@ public class Maximizer {
           continue;
         }
         sources = EffectDatabase.getAllActions(effectId);
-        if (!sources.hasNext()) {
+        if (sources.isEmpty()) {
           if (includeAll) {
-            sources = Collections.singletonList("(no known source of " + name + ")").iterator();
+            sources = Collections.singletonList("(no known source of " + name + ")");
           } else continue;
         }
       } else {
@@ -492,12 +491,12 @@ public class Maximizer {
             cmd = "(find some way to remove " + name + ")";
           } else continue;
         }
-        sources = Collections.singletonList(cmd).iterator();
+        sources = Collections.singletonList(cmd);
       }
 
       boolean haveVipKey = InventoryManager.getCount(ItemPool.VIP_LOUNGE_KEY) > 0;
       boolean orFlag = false;
-      while (sources.hasNext()) {
+      for (var source : sources) {
         if (!KoLmafia.permitsContinue()) {
           return;
         }
@@ -521,7 +520,7 @@ public class Maximizer {
         int itemsRemaining = 0;
         int itemsCreatable = 0;
 
-        cmd = text = sources.next();
+        cmd = text = source;
         AdventureResult item = null;
 
         // Check filters
