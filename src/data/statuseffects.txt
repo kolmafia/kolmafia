@@ -1457,8 +1457,8 @@
 1454	Antibiotic Saucesphere	antibiosphere.gif	82aeaeb6a9cdc1c891e17321b88b040c	good	none	cast 1 antibiotic saucesphere
 1455	Sauce Monocle	saucemonocle.gif	23241f2b2e7a5948bc38ee5b501f0fb1	good	none	cast 1 sauce monocle
 1456	Simmering	simmer.gif	dad03f361c134a577b1eb9d818711d8e	good	nohookah	cast 1 simmer
-1457	Blood Sugar Sauce Magic	saucedrops.gif	2283eb9a3ee756de0c56f379307527f6	neutral	none	cast 1 Blood Sugar Sauce Magic
-1458	Blood Sugar Sauce Magic	saucedrops.gif	482968ee1b70ea9ddaf3579d0ff3101c	neutral	none	cast 1 Blood Sugar Sauce Magic
+1457	Blood Sugar Sauce Magic	saucedrops.gif	2283eb9a3ee756de0c56f379307527f6	neutral	nohookah	cast 1 Blood Sugar Sauce Magic
+1458	Blood Sugar Sauce Magic	saucedrops.gif	482968ee1b70ea9ddaf3579d0ff3101c	neutral	nohookah	cast 1 Blood Sugar Sauce Magic
 1459	Blessing of the Hot Linguine	linguinispoon.gif	868e6edb45c276c30db7fee03713039c	good	none	use 1 spoonful of Linguine-Os
 1460	Blessing of the Frozen Tortellini	tortelinus.gif	c6ed6eb619950fd4e56242748857f05b	good	none	use 1 freezer-burned frost-bitten tortellini
 1461	Blessing of the Stinking Alphredo&trade;	alphredo.gif	9ec25859336babf49ea198cfd49026ec	good	none	use 1 blob of Alphredo&trade;

@@ -1992,40 +1992,64 @@ public class MaximizerTest {
       }
     }
 
-    @Nested
-    class BirdOfTheDay {
-      @Test
-      public void suggestsBirdIfRelevant() {
-        var cleanups =
-            new Cleanups(
-                withProperty("_canSeekBirds", true),
-                withProperty("_birdOfTheDay", "Filthy Smiling Pine Parrot"),
-                withProperty(
-                    "_birdOfTheDayMods",
-                    "Mysticality Percent: +75, Stench Resistance: +2, Experience: +2, MP Regen Min: 10, MP Regen Max: 20"),
-                withProperty("yourFavoriteBird", "Southern Clandestine Fig Chachalaca"),
-                withProperty(
-                    "yourFavoriteBirdMods",
-                    "Stench Resistance: +2, Combat Rate: -9, MP Regen Min: 10, MP Regen Max: 20"),
-                withSkill(SkillPool.SEEK_OUT_A_BIRD),
-                withSkill(SkillPool.VISIT_YOUR_FAVORITE_BIRD),
-                withOverrideModifiers(
-                    ModifierType.EFFECT,
-                    2551,
-                    "Mysticality Percent: +75, Stench Resistance: +2, Experience: +2, MP Regen Min: 10, MP Regen Max: 20"),
-                withOverrideModifiers(
-                    ModifierType.EFFECT,
-                    2552,
-                    "Stench Resistance: +2, Combat Rate: -9, MP Regen Min: 10, MP Regen Max: 20"));
+    @Test
+    public void suggestsSpiceHazeForNonPastamancer() {
+      var cleanups =
+          new Cleanups(
+              withClass(AscensionClass.ACCORDION_THIEF), withSkill(SkillPool.BIND_SPICE_GHOST));
 
-        try (cleanups) {
-          assertTrue(maximize("mp regen"));
-          assertThat(
-              getBoosts(), hasItem(hasProperty("cmd", startsWith("cast 1 Seek out a Bird"))));
-          assertThat(
-              getBoosts(),
-              hasItem(hasProperty("cmd", startsWith("cast 1 Visit your Favorite Bird"))));
-        }
+      try (cleanups) {
+        maximize("item");
+        assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("cast 1 Bind Spice Ghost"))));
+      }
+    }
+
+    @Test
+    public void doesNotSuggestSpiceHazeForPastamancer() {
+      var cleanups =
+          new Cleanups(
+              withClass(AscensionClass.PASTAMANCER), withSkill(SkillPool.BIND_SPICE_GHOST));
+
+      try (cleanups) {
+        maximize("item");
+        assertThat(
+            getBoosts(), not(hasItem(hasProperty("cmd", startsWith("cast 1 Bind Spice Ghost")))));
+      }
+    }
+  }
+
+  @Nested
+  class BirdOfTheDay {
+    @Test
+    public void suggestsBirdIfRelevant() {
+      var cleanups =
+          new Cleanups(
+              withProperty("_canSeekBirds", true),
+              withProperty("_birdOfTheDay", "Filthy Smiling Pine Parrot"),
+              withProperty(
+                  "_birdOfTheDayMods",
+                  "Mysticality Percent: +75, Stench Resistance: +2, Experience: +2, MP Regen Min: 10, MP Regen Max: 20"),
+              withProperty("yourFavoriteBird", "Southern Clandestine Fig Chachalaca"),
+              withProperty(
+                  "yourFavoriteBirdMods",
+                  "Stench Resistance: +2, Combat Rate: -9, MP Regen Min: 10, MP Regen Max: 20"),
+              withSkill(SkillPool.SEEK_OUT_A_BIRD),
+              withSkill(SkillPool.VISIT_YOUR_FAVORITE_BIRD),
+              withOverrideModifiers(
+                  ModifierType.EFFECT,
+                  2551,
+                  "Mysticality Percent: +75, Stench Resistance: +2, Experience: +2, MP Regen Min: 10, MP Regen Max: 20"),
+              withOverrideModifiers(
+                  ModifierType.EFFECT,
+                  2552,
+                  "Stench Resistance: +2, Combat Rate: -9, MP Regen Min: 10, MP Regen Max: 20"));
+
+      try (cleanups) {
+        assertTrue(maximize("mp regen"));
+        assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("cast 1 Seek out a Bird"))));
+        assertThat(
+            getBoosts(),
+            hasItem(hasProperty("cmd", startsWith("cast 1 Visit your Favorite Bird"))));
       }
     }
   }
@@ -2400,6 +2424,49 @@ public class MaximizerTest {
       maximize("hat drop");
       assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "prismatic beret")));
       assertEquals(31, modFor(DoubleModifier.HATDROP), 0.01);
+    }
+  }
+
+  @Nested
+  class Wishable {
+    @Test
+    public void recommendsOnlyWishableEffects() {
+      var cleanups = new Cleanups(withItem(ItemPool.POCKET_WISH));
+
+      try (cleanups) {
+        maximize("-combat");
+        var boosts = getBoosts();
+        assertThat(boosts, hasItem(hasProperty("cmd", startsWith("genie effect Disquiet Riot"))));
+        assertThat(
+            boosts,
+            not(hasItem(hasProperty("cmd", startsWith("genie effect Mild-Mannered Professor")))));
+      }
+    }
+
+    @Test
+    public void recommendsPawableEffectsWithPaw() {
+      var cleanups =
+          new Cleanups(
+              withItem(ItemPool.CURSED_MONKEY_PAW),
+              withProperty("_monkeyPawWishesUsed", 3),
+              withProperty("verboseMaximizer", true));
+
+      try (cleanups) {
+        maximize("-combat");
+        var boosts = getBoosts();
+        assertThat(boosts, hasItem(hasProperty("cmd", equalTo("monkeypaw effect Disquiet Riot"))));
+        assertThat(
+            boosts,
+            hasItem(
+                hasToString(
+                    equalTo(
+                        "monkeypaw effect Disquiet Riot (+20) [30 advs duration, 2 uses remaining]"))));
+        assertThat(
+            boosts,
+            not(
+                hasItem(
+                    hasProperty("cmd", startsWith("monkeypaw effect Mild-Mannered Professor")))));
+      }
     }
   }
 }

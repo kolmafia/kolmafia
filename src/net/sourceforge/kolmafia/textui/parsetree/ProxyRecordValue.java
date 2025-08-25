@@ -3,7 +3,6 @@ package net.sourceforge.kolmafia.textui.parsetree;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.EnumSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -1380,9 +1379,9 @@ public class ProxyRecordValue extends RecordValue {
 
     public Value get_all() {
       ArrayList<Value> rv = new ArrayList<>();
-      Iterator<String> i = EffectDatabase.getAllActions((int) this.contentLong);
-      while (i.hasNext()) {
-        rv.add(new Value(i.next()));
+      List<String> i = EffectDatabase.getAllActions((int) this.contentLong);
+      for (var v : i) {
+        rv.add(new Value(v));
       }
       return new PluralValue(DataTypes.STRING_TYPE, rv);
     }
