@@ -6561,7 +6561,7 @@ Effect	Funky Coal Patina	Moxie: +20
 Effect	Furrier Than Thou	Cold Resistance: +5
 Effect	Fury of the Bells	Muscle Percent: +10
 Effect	Fustulent	Stench Damage: +15, Stench Spell Damage: +15
-Effect	Gabarding	Maximum HP: +10
+Effect	Gabarding	Maximum HP: [min(T,500)]
 Effect	Gaffe Free	Moxie: +15, Moxie Percent: +50
 Effect	Gaining Interest	Meat Drop: +30
 Effect	Gamer Rage	Weapon Damage Percent: +50, Spell Damage Percent: +50
@@ -6899,7 +6899,7 @@ Effect	Insectudinal Fortitude	Muscle: +10, Mysticality: +10, Moxie: +10
 # Inside The Snowglobe: You can access the Deep Machine Tunnels beneath Seaside Town
 Effect	Inspired Chef	Meat Drop: +100, Muscle: +10, Muscle Percent: +100
 Effect	Inspired!	Mysticality Percent: +20, Moxie Percent: -20
-Effect	Insulated	Maximum MP: +6
+Effect	Insulated	Maximum MP: [min(T,500)]
 Effect	Insulated Trousers	Cold Resistance: +1
 Effect	Internate Debatable	Monster Level: +10
 Effect	Intimidating Mien	Spooky Damage: +15
@@ -7077,7 +7077,7 @@ Effect	Macaroni Coating	Muscle: +10
 Effect	Macho Profundo	Muscle Percent: +60, Moxie Percent: +60
 Effect	Macho, Macho Dog	Damage vs. Bugbears: +50, Damage vs. Werewolves: +50, Muscle Percent: +50, Critical Hit Percent: +10
 Effect	Mad at Science	Muscle: +3
-Effect	Made Up, Watered Down	Moxie: +30
+Effect	Made Up, Watered Down	Moxie: [min(3*T,900)]
 Effect	Madly Liberated	Avatar: "The Mad Libber"
 # Magic Tongue: Everything tastes weird
 Effect	Magically Delicious	Mysticality: +40

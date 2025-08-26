@@ -87,7 +87,7 @@ public class GenieCommand extends AbstractCommand {
         KoLmafia.updateDisplay(MafiaState.ERROR, parameters + " does not match a monster.");
         return;
       }
-      wish = "to fight " + parameters;
+      wish = "to fight a " + parameters;
     }
 
     if (wish != "") {
