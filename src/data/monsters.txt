@@ -1668,11 +1668,11 @@ box of Batter Mix of Hope	1302	pa_muffin.gif	NOCOPY Atk: 30 Def: 100 HP: 100 Ini
 carton of Eggs of Confidence	1298	pa_eggs.gif	NOCOPY Atk: 30 Def: 100 HP: 100 Init: 100 P: weird EA: sleaze EA: none Article: a
 loaf of Bread of Wonder	1299	pa_bread.gif	NOCOPY Atk: 30 Def: 100 HP: 100 Init: 100 P: weird Article: a
 bundle of Meat of Happiness	1301	pa_meat.gif	NOCOPY Atk: 30 Def: 100 HP: 100 Init: 100 Meat: 100 P: weird EA: hot EA: none Article: a	the kindest cold cut (c0)
-groast	1289	groast.gif	Atk: 200 Def: 200 HP: 300 Init: 50 Meat: 250 P: undead E: spooky Article: a	ectoplasm <i>au jus</i> (c0)
-bacon snake	1287	baconsnake.gif	Atk: 220 Def: 200 HP: 300 Init: 75 Meat: 250 P: beast SNAKE E: sleaze Article: a
-pork butterfly	1288	porkbutterfly.gif	Atk: 180 Def: 240 HP: 300 Init: 50 Meat: 250 P: bug E: sleaze Article: a
-salaminder	1290	salaminder.gif	Atk: 200 Def: 200 HP: 300 Init: 100 Meat: 250 P: beast E: hot Article: a
-cold cutter	1291	coldcutter.gif	Atk: 200 Def: 200 HP: 300 Init: 50 Meat: 250 P: construct ED: cold EA: cold EA: none Article: a
+groast	1289	groast.gif	NOWISH Atk: 200 Def: 200 HP: 300 Init: 50 Meat: 250 P: undead E: spooky Article: a	ectoplasm <i>au jus</i> (c0)
+bacon snake	1287	baconsnake.gif	NOWISH Atk: 220 Def: 200 HP: 300 Init: 75 Meat: 250 P: beast SNAKE E: sleaze Article: a
+pork butterfly	1288	porkbutterfly.gif	NOWISH Atk: 180 Def: 240 HP: 300 Init: 50 Meat: 250 P: bug E: sleaze Article: a
+salaminder	1290	salaminder.gif	NOWISH Atk: 200 Def: 200 HP: 300 Init: 100 Meat: 250 P: beast E: hot Article: a
+cold cutter	1291	coldcutter.gif	NOWISH Atk: 200 Def: 200 HP: 300 Init: 50 Meat: 250 P: construct ED: cold EA: cold EA: none Article: a
 The Beefhemoth	1292	beefhemoth.gif	BOSS NOCOPY Atk: 300 Def: 300 HP: 1000 Init: -10000 Meat: 500 P: beast EA: cold EA: stench EA: none
 tin can conspirator	1282	gourd_can.gif	NOCOPY Atk: 18 Def: 22 HP: 25 Init: 50 Meat: 10 P: construct Article: a	razor-sharp can lid (0)	razor-sharp can lid (0)	censored can label (c0)	sharp tin strip (0)
 goblin conspirator	1281	gourd_goblin.gif	NOCOPY Atk: 20 Def: 20 HP: 25 Init: 50 Meat: 20 P: goblin Article: a	Knob Goblin firecracker (0)	Knob Goblin firecracker (0)	goblin collarbone (0)	Illuminati earpiece (c0)
