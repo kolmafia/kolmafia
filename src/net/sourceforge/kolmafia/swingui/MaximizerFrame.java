@@ -12,10 +12,13 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.EnumSet;
+import java.util.LinkedList;
+import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -24,6 +27,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
+import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.filterType;
@@ -39,12 +43,14 @@ import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.swingui.panel.ScrollableFilteredPanel;
+import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
 import net.sourceforge.kolmafia.swingui.widget.SmartButtonGroup;
 import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MaximizerFrame extends GenericFrame implements ListSelectionListener {
   public static final JComboBox<String> expressionSelect = new JComboBox<>();
@@ -368,13 +374,101 @@ public class MaximizerFrame extends GenericFrame implements ListSelectionListene
     }
   }
 
-  private class BoostsPanel extends ScrollableFilteredPanel<Boost> {
-    private final ShowDescriptionList<Boost> elementList;
+  static class FilterBoosts extends AutoFilterTextField<Boost> {
+    private List<Filter> parsedText;
 
+    public FilterBoosts(JList<Boost> list) {
+      super(list);
+    }
+
+    LockableListModel<Boost> getModel() {
+      return this.model;
+    }
+
+    private record Filter(String txt, boolean strict, boolean not) {}
+
+    private LinkedList<Filter> parseFilter(String text) {
+      var lst = new LinkedList<Filter>();
+      var split = text.split("\\s+");
+
+      for (var spl : split) {
+        if (spl.length() > 2 && spl.startsWith("!'")) {
+          lst.add(new Filter(spl.substring(2), true, true));
+          // backwards compat: accept '-' for not
+        } else if (spl.length() > 1 && (spl.startsWith("!") || spl.startsWith("-"))) {
+          lst.add(new Filter(spl.substring(1), false, true));
+        } else if (spl.length() > 1 && spl.startsWith("'")) {
+          lst.add(new Filter(spl.substring(1), true, false));
+        } else {
+          lst.add(new Filter(spl, false, false));
+        }
+      }
+
+      return lst;
+    }
+
+    @Override
+    public void update() {
+      try {
+        var text = this.getText().toLowerCase();
+        this.text = text;
+        this.parsedText = parseFilter(text);
+
+        if (parsedText.size() == 1 && !parsedText.get(0).strict) {
+          // use the old strict / non-strict behaviour: strict first, else non-strict if no matches
+          var filter = parsedText.get(0);
+          parsedText = List.of(new Filter(filter.txt, true, filter.not));
+          this.model.updateFilter(false);
+          if (this.model.getSize() == 0) {
+            parsedText = List.of(filter);
+            this.model.updateFilter(false);
+          }
+        } else {
+          this.model.updateFilter(false);
+        }
+        updateList();
+      } finally {
+        fireContentsChanged();
+      }
+    }
+
+    @Override
+    public boolean isVisible(final Object element) {
+      if (this.text == null || this.text.isEmpty()) {
+        return true;
+      }
+
+      var cmd = element.toString().toLowerCase();
+
+      for (var elt : parsedText) {
+        var matches = matchedFilter(cmd, elt);
+        if (!matches) {
+          return false;
+        }
+      }
+
+      return true;
+    }
+
+    private boolean matchedFilter(String cmd, Filter filter) {
+      var matches =
+          filter.strict ? cmd.contains(filter.txt) : StringUtilities.fuzzyMatches(cmd, filter.txt);
+      if (filter.not) {
+        matches = !matches;
+      }
+      return matches;
+    }
+  }
+
+  private class BoostsPanel extends ScrollableFilteredPanel<Boost> {
     public BoostsPanel(final ShowDescriptionList<Boost> list) {
       super("Current score: --- \u25CA Predicted: ---", "equip all", "exec selected", list);
-      this.elementList = this.scrollComponent;
       MaximizerFrame.this.listTitle = this.titleComponent;
+    }
+
+    @Override
+    protected AutoFilterTextField<Boost> createFilterField() {
+      return new FilterBoosts(this.elementList);
     }
 
     @Override
