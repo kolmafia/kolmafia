@@ -4758,8 +4758,8 @@ public class KoLAdventureValidationTest {
           new Cleanups(
               withItem("dingy dinghy"), withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.STARTED));
       try (cleanups) {
-        // KoL does not require going directly to verge-of-war zones
-        assertTrue(HIPPY_CAMP.canAdventure());
+        // With war started, only the verge of war zones are available
+        assertFalse(HIPPY_CAMP.canAdventure());
         assertFalse(HIPPY_CAMP_DISGUISED.canAdventure());
         assertTrue(WARTIME_HIPPY_CAMP.canAdventure());
         assertFalse(WARTIME_HIPPY_CAMP_DISGUISED.canAdventure());
@@ -4777,10 +4777,9 @@ public class KoLAdventureValidationTest {
               withEquipped(Slot.PANTS, "Orcish cargo shorts"),
               withEquipped(Slot.WEAPON, "Orcish frat-paddle"));
       try (cleanups) {
-        // KoL does not require going directly to verge-of-war zones
-        assertTrue(HIPPY_CAMP.canAdventure());
-        assertTrue(HIPPY_CAMP_DISGUISED.canAdventure());
-        // ... but it allows it.
+        // With war started, only the verge of war zones are available
+        assertFalse(HIPPY_CAMP.canAdventure());
+        assertFalse(HIPPY_CAMP_DISGUISED.canAdventure());
         assertTrue(WARTIME_HIPPY_CAMP.canAdventure());
         assertTrue(WARTIME_HIPPY_CAMP_DISGUISED.canAdventure());
         assertFalse(BOMBED_HIPPY_CAMP.canAdventure());
@@ -5145,10 +5144,9 @@ public class KoLAdventureValidationTest {
           new Cleanups(
               withItem("dingy dinghy"), withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.STARTED));
       try (cleanups) {
-        // KoL does not require going directly to verge-of-war zones
-        assertTrue(FRAT_HOUSE.canAdventure());
+        // With war started, only the verge of war zones are available
+        assertFalse(FRAT_HOUSE.canAdventure());
         assertFalse(FRAT_HOUSE_DISGUISED.canAdventure());
-        // ... but it allows it.
         assertTrue(WARTIME_FRAT_HOUSE.canAdventure());
         assertFalse(WARTIME_FRAT_HOUSE_DISGUISED.canAdventure());
         assertFalse(BOMBED_FRAT_HOUSE.canAdventure());
@@ -5164,10 +5162,9 @@ public class KoLAdventureValidationTest {
               withEquipped(Slot.HAT, "filthy knitted dread sack"),
               withEquipped(Slot.PANTS, "filthy corduroys"));
       try (cleanups) {
-        // KoL does not require going directly to verge-of-war zones
-        assertTrue(FRAT_HOUSE.canAdventure());
-        assertTrue(FRAT_HOUSE_DISGUISED.canAdventure());
-        // ... but it allows it.
+        // With war started, only the verge of war zones are available
+        assertFalse(FRAT_HOUSE.canAdventure());
+        assertFalse(FRAT_HOUSE_DISGUISED.canAdventure());
         assertTrue(WARTIME_FRAT_HOUSE.canAdventure());
         assertTrue(WARTIME_FRAT_HOUSE_DISGUISED.canAdventure());
         assertFalse(BOMBED_FRAT_HOUSE.canAdventure());
