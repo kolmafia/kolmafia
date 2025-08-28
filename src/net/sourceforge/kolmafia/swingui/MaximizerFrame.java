@@ -204,6 +204,7 @@ public class MaximizerFrame extends GenericFrame implements ListSelectionListene
           new KoLConstants.filterType[] {
             KoLConstants.filterType.EQUIP,
             KoLConstants.filterType.CAST,
+            KoLConstants.filterType.WISH,
             KoLConstants.filterType.OTHER,
           };
       // JPanel filterPanel= new JPanel( new FlowLayout( FlowLayout.LEADING, 0, 0 ) );
