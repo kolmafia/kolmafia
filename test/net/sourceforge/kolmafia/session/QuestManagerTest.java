@@ -1595,6 +1595,21 @@ public class QuestManagerTest {
   }
 
   /*
+   * Z is for Zootomist
+   */
+  @Nested
+  class Zootomist {
+    @Test
+    public void canParseLevel1CouncilPage() {
+      var request = new GenericRequest("council.php");
+      request.responseText = html("request/test_visit_level1_zootomist_council.html");
+      QuestManager.handleQuestChange(request);
+
+      assertThat("Status of Larva quest", Quest.LARVA, isUnstarted());
+    }
+  }
+
+  /*
    * *** Zodiac Quests
    */
 
