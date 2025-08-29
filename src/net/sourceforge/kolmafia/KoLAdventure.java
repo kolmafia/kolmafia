@@ -1219,6 +1219,10 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
           return true;
 
         case AdventurePool.HIPPY_CAMP:
+          // on the verge of war, only the wartime camps are available
+          if (QuestDatabase.isQuestStep(Quest.ISLAND_WAR, QuestDatabase.STARTED)) {
+            return false;
+          }
           // You can visit the hippy camp before or after the war, unless it
           // has been bombed into the stone age.
           if (QuestDatabase.isQuestFinished(Quest.ISLAND_WAR)) {
@@ -1227,6 +1231,10 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
           return true;
 
         case AdventurePool.FRAT_HOUSE:
+          // on the verge of war, only the wartime camps are available
+          if (QuestDatabase.isQuestStep(Quest.ISLAND_WAR, QuestDatabase.STARTED)) {
+            return false;
+          }
           // You can visit the frat house before or after the war, unless it
           // has been bombed into the stone age.
           if (QuestDatabase.isQuestFinished(Quest.ISLAND_WAR)) {
@@ -1235,6 +1243,10 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
           return true;
 
         case AdventurePool.HIPPY_CAMP_DISGUISED:
+          // on the verge of war, only the wartime camps are available
+          if (QuestDatabase.isQuestStep(Quest.ISLAND_WAR, QuestDatabase.STARTED)) {
+            return false;
+          }
           // No disguises in bombed Hippy Camp
           if (QuestDatabase.isQuestFinished(Quest.ISLAND_WAR)
               && (loser.equals("hippies") || loser.equals("both"))) {
@@ -1243,6 +1255,10 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
           return hasRequiredOutfit();
 
         case AdventurePool.FRAT_HOUSE_DISGUISED:
+          // on the verge of war, only the wartime camps are available
+          if (QuestDatabase.isQuestStep(Quest.ISLAND_WAR, QuestDatabase.STARTED)) {
+            return false;
+          }
           // No disguises in bombed Frat Camp
           if (QuestDatabase.isQuestFinished(Quest.ISLAND_WAR)
               && (loser.equals("fratboys") || loser.equals("both"))) {
