@@ -5846,11 +5846,14 @@ public abstract class KoLCharacter {
 
     if (item.id == ItemPool.MCHUGELARGE_LEFT_POLE) {
       // we implement the bonus as though it were an outfit bonus, but it is properly on the item
-      int mcHugeLargeLevel = getMcHugeLargeLevel(newModifiers);
       int totalItems = newModifiers.getBitmap(BitmapModifier.MCHUGELARGE);
-      var mods = new Modifiers();
-      addMcHugeLargeModifiers(mods, mcHugeLargeLevel / totalItems);
-      addModifiersWithOffHandRemarkable(newModifiers, mods);
+
+      if (totalItems > 0) {
+        int mcHugeLargeLevel = getMcHugeLargeLevel(newModifiers);
+        var mods = new Modifiers();
+        addMcHugeLargeModifiers(mods, mcHugeLargeLevel / totalItems);
+        addModifiersWithOffHandRemarkable(newModifiers, mods);
+      }
     }
 
     // use sleeved card as source of modifiers if applicable

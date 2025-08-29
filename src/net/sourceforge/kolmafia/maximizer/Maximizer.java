@@ -470,7 +470,8 @@ public class Maximizer {
           // sources do not apply
           sources = new ArrayList<>();
         }
-        if (!EffectDatabase.hasAttribute(effectId, "nohookah")) {
+        if (filter.contains(KoLConstants.filterType.WISH)
+            && !EffectDatabase.hasAttribute(effectId, "nohookah")) {
           // effect is wishable
           sources.add("monkeypaw effect " + name);
           sources.add("genie effect " + name);
