@@ -359,6 +359,7 @@ public interface KoLConstants extends UtilityConstants {
   enum filterType {
     EQUIP,
     CAST,
+    WISH,
     USABLE,
     BOOZE,
     FOOD,
