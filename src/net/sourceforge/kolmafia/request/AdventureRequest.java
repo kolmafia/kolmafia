@@ -543,11 +543,11 @@ public class AdventureRequest extends GenericRequest {
 
     if (isFight) {
       type = "Combat";
-      encounter = AdventureRequest.parseCombatEncounter(responseText);
+      encounter = parseCombatEncounter(responseText);
     } else if (isChoice) {
       int choice = ChoiceUtilities.extractChoice(responseText);
       type = choiceType(choice);
-      encounter = AdventureRequest.parseChoiceEncounter(urlString, choice, responseText);
+      encounter = parseChoiceEncounter(urlString, choice, responseText);
       ChoiceManager.registerDeferredChoice(choice, encounter);
     } else {
       type = "Noncombat";
