@@ -9,6 +9,7 @@ import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withFight;
 import static internal.helpers.Player.withHP;
 import static internal.helpers.Player.withHttpClientBuilder;
+import static internal.helpers.Player.withItemMonster;
 import static internal.helpers.Player.withLastLocation;
 import static internal.helpers.Player.withNextMonster;
 import static internal.helpers.Player.withOutfit;
@@ -830,6 +831,84 @@ public class AdventureRequestTest {
           assertThat(requests, hasSize(1));
           assertPostRequest(requests.get(0), "/sea_merkin.php", "action=temple&subaction=center");
         }
+      }
+    }
+  }
+
+  @Nested
+  class NonCombatLogging {
+    @Test
+    public void logsNonCombatNormally() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withLastLocation("None"),
+              withCurrentRun(200),
+              withAdventuresLeft(10));
+      try (cleanups) {
+        // Rescuing Grandma
+        client.addResponse(200, html("request/test_quest_sea_monkee_step_9_1.html"));
+        var request = new GenericRequest("adventure.php?snarfblat=" + AdventurePool.MERKIN_OUTPOST);
+
+        RequestLoggerOutput.startStream();
+        // Run the AdventureRequest directly
+        request.run();
+        var text = RequestLoggerOutput.stopStream();
+
+        var lastLocation = Preferences.getString("lastAdventure");
+        assertEquals("The Mer-Kin Outpost", lastLocation);
+
+        var expected =
+            """
+            [201] The Mer-Kin Outpost
+            Encounter: Granny, Does Your Dogfish Bite?""";
+        assertThat(text, containsString(expected));
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(2));
+        assertPostRequest(
+            requests.get(0), "/adventure.php", "snarfblat=" + AdventurePool.MERKIN_OUTPOST);
+        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+      }
+    }
+
+    @Test
+    public void logsNonCombatAfterItemMonster() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withLastLocation("None"),
+              withItemMonster("rotten dolphin thief"),
+              withCurrentRun(200),
+              withAdventuresLeft(10));
+      try (cleanups) {
+        // Rescuing Grandma
+        client.addResponse(200, html("request/test_quest_sea_monkee_step_9_1.html"));
+        var request = new GenericRequest("adventure.php?snarfblat=" + AdventurePool.MERKIN_OUTPOST);
+
+        RequestLoggerOutput.startStream();
+        // Run the AdventureRequest directly
+        request.run();
+        var text = RequestLoggerOutput.stopStream();
+
+        var lastLocation = Preferences.getString("lastAdventure");
+        assertEquals("The Mer-Kin Outpost", lastLocation);
+
+        var expected =
+            """
+            [201] The Mer-Kin Outpost
+            Encounter: Granny, Does Your Dogfish Bite?""";
+        assertThat(text, containsString(expected));
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(2));
+        assertPostRequest(
+            requests.get(0), "/adventure.php", "snarfblat=" + AdventurePool.MERKIN_OUTPOST);
+        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
       }
     }
   }

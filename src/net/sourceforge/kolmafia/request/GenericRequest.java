@@ -2206,6 +2206,9 @@ public class GenericRequest implements Runnable {
     } else if (urlString.startsWith("api.php")) {
       ApiRequest.parseResponse(urlString, this.responseText);
       return;
+    } else if (urlString.startsWith("adventure.php")) {
+      // A non-combat
+      this.itemMonster = null;
     }
 
     EventManager.checkForNewEvents(this.responseText);
