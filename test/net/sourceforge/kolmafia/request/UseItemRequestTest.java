@@ -1322,4 +1322,42 @@ class UseItemRequestTest {
       }
     }
   }
+
+  @Nested
+  class Clock {
+    @ParameterizedTest
+    @ValueSource(ints = {1, 2})
+    void incrementsCounterOnSuccess(int uses) {
+      var cleanups =
+          new Cleanups(
+              withProperty("_clocksUsed", uses - 1),
+              withItem(ItemPool.CLOCK),
+              withNextResponse(200, html("request/test_use_clock_" + uses + ".html")));
+
+      try (cleanups) {
+        var req = UseItemRequest.getInstance(ItemPool.CLOCK);
+        req.run();
+
+        assertThat("_clocksUsed", isSetTo(uses));
+        assertThat(InventoryManager.getCount(ItemPool.CLOCK), is(0));
+      }
+    }
+
+    @Test
+    void maxesCounterOnFailure() {
+      var cleanups =
+          new Cleanups(
+              withProperty("_clocksUsed", 1),
+              withItem(ItemPool.CLOCK),
+              withNextResponse(200, html("request/test_use_clock_failure.html")));
+
+      try (cleanups) {
+        var req = UseItemRequest.getInstance(ItemPool.CLOCK);
+        req.run();
+
+        assertThat("_clocksUsed", isSetTo(2));
+        assertThat(InventoryManager.getCount(ItemPool.CLOCK), is(1));
+      }
+    }
+  }
 }
