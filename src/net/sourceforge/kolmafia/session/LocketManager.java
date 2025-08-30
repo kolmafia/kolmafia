@@ -89,8 +89,8 @@ public class LocketManager {
 
   public static boolean isLocketFight(final String text) {
     return (text.contains("loverslocketframe.png")
-      // Sometimes there's no frame?
-      || text.contains("your locket changes to reflect"));
+        // Sometimes there's no frame?
+        || text.contains("your locket changes to reflect"));
   }
 
   public static void parseFight(final MonsterData monster) {
