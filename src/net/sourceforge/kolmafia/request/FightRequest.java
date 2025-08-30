@@ -2244,8 +2244,6 @@ public class FightRequest extends GenericRequest {
 
       QuestManager.updateQuestFightStarted(responseText, monsterName);
 
-      LocketManager.parseFight(monster, responseText);
-
       // http://kol.coldfront.net/thekolwiki/index.php/Encounter#Encounter_Flowchart (image link
       // there
       // is regularly updated) shows the order is Digitize, Arrow, Enamorang, so check in that order
@@ -2314,6 +2312,8 @@ public class FightRequest extends GenericRequest {
         Preferences.setString("spookyVHSTapeMonster", "");
       } else if (EncounterManager.isMimeographEncounter(responseText)) {
         EncounterManager.ignoreSpecialMonsters();
+      } else if (LocketManager.isLocketFight(responseText)) {
+        LocketManager.parseFight(monster);
       }
 
       // Increment Turtle Blessing counter
