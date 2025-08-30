@@ -2029,6 +2029,7 @@ user	_clanFortuneBuffUsed	false
 user	_clanFortuneConsultUses	0
 user	_claraBellUsed	false
 user	_clipartSummons	0
+user	_clocksUsed	0
 user	_cloudTalkMessage
 user	_cloudTalkSmoker
 user	_cloversPurchased	0
