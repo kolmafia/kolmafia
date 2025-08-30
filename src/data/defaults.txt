@@ -1708,6 +1708,7 @@ user	tempuraSummons	0	ld
 user	testudinalTeachings		roa
 user	textColors	crappy:#999999|good:green|awesome:blue|epic:#8a2be2|junk:gray|memento:olive|notavailable:gray
 user	thanksMessage	Thank you for the donation!
+user	timeposedTopHats	0
 user	timeSpinnerMedals	0
 user	timesRested	0	ld
 user	timeTowerAvailable	false

@@ -528,7 +528,7 @@ Item	The Necbromancer's Hat	Mysticality Percent: +20, Spooky Spell Damage: +30, 
 Item	Third Eye	Initiative: +20, Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +15, Last Available: "2016-12"
 Item	three-gallon hat	Muscle: +3, Mysticality: +3, Moxie: +3, Experience: +3
 Item	Thunkula's drinking cap	Mysticality Percent: +50, Maximum MP: +250, MP Regen Min: 20, MP Regen Max: 40, Class: "Sauceror", Familiar Effect: "atk, 1xVolley"
-Item	time cop top hat	Adventures: +5, Initiative: +1, Last Available: "2025-08"
+Item	time cop top hat	Adventures: +5, Initiative: [1+pref(timeposedTopHats)], Last Available: "2025-08"
 Item	time helmet	Adventures: +3, Last Available: "2005-10", Familiar Effect: "0.5xPotato, 1xFairy, cap 25"
 Item	tin foil hat	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2
 Item	tin tam	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Damage Reduction: 5, Experience (Mysticality): +1, Last Available: "2013-09", Familiar Effect: "MP regen, cap 25"
