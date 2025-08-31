@@ -2909,6 +2909,7 @@ public class GenericRequest implements Runnable {
         name = "mimic egg";
         ChoiceControl.updateMimicMonsters(location, -1);
         ResultProcessor.processResult(ItemPool.get(ItemPool.MIMIC_EGG, -1));
+        EncounterManager.ignoreSpecialMonsters();
         break;
 
       default:
