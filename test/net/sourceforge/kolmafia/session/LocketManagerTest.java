@@ -6,6 +6,7 @@ import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
@@ -33,11 +34,16 @@ public class LocketManagerTest {
   }
 
   @Test
+  public void detectsLocketFight() {
+    var html = html("request/test_fight_start_locket_fight_with_horror.html");
+    assertThat(LocketManager.isLocketFight(html), is(true));
+  }
+
+  @Test
   public void addsFightToMonsterList() {
     try (var cleanups = withProperty("_locketMonstersFought", "5")) {
       var monster = MonsterDatabase.findMonster("alielf");
-      var html = html("request/test_fight_start_locket_fight_with_horror.html");
-      LocketManager.parseFight(monster, html);
+      LocketManager.parseFight(monster);
 
       assertThat("_locketMonstersFought", isSetTo("5,1092"));
     }
@@ -47,8 +53,7 @@ public class LocketManagerTest {
   public void addsFightToMonsterListWithoutDuplicating() {
     try (var cleanups = withProperty("_locketMonstersFought", "5,1092")) {
       var monster = MonsterDatabase.findMonster("alielf");
-      var html = html("request/test_fight_start_locket_fight_with_horror.html");
-      LocketManager.parseFight(monster, html);
+      LocketManager.parseFight(monster);
 
       assertThat("_locketMonstersFought", isSetTo("5,1092"));
     }
