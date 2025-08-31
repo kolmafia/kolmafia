@@ -604,6 +604,10 @@ public class Preferences {
     return Preferences.increment(name, delta, 0, false);
   }
 
+  public static int increment(final String name, final int delta, final int max) {
+    return Preferences.increment(name, delta, max, false);
+  }
+
   public static int increment(
       final String name, final int delta, final int max, final boolean mod) {
     int current = Preferences.getInteger(name);

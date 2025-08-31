@@ -322,6 +322,7 @@ Use	chocolate saucepan	_chocolatesUsed	3
 Use	chocolate seal-clubbing club	_chocolatesUsed	3
 Use	chocolate stolen accordion	_chocolatesUsed	3
 Use	chocolate turtle totem	_chocolatesUsed	3
+Use	clock	_clocksUsed	2
 Use	circle drum	_circleDrumUsed
 Use	coal paperweight	_coalPaperweightUsed
 Use	codpiece	_floundryItemUsed
