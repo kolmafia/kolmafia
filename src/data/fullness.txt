@@ -255,7 +255,7 @@ Crimbo salad	2	1	good	5-7	10-20	0	0	40 Salad Days (+50 HP, +2 muscle stats/fight
 Crimboysters Rockefeller	3	1	EPIC	18-21	10-40	10-40	10-40
 crudles	5	9	awesome	18-22	25-30	0	0
 cup of lukewarm tea	1	1	crappy	1	0	0	0	BEVERAGE, 20 Jittery (+1-3 MP Regen)
-cup of sugar	1	1	good	0	0	0	0	Unspaded
+cup of sugar	1	1	good	2-3	0	0	20-30	100 Sweet Talkin' (+15 Moxie), 10 Sugar Rush
 cupcake-in-a-cup	2	7	awesome	4-9	5-10	15-20	5-10	10 Cake Caked (+50% mys)
 cursed Aztec tamale	1	1	awesome	4-5	0	20-30	0	20 Cursed of the Tamale (+10 spooky damage)
 cursed black pearl onion	1	1	crappy	1	0	0	0	1 Curse of the Black Pearl Onion (combat belches)
@@ -941,7 +941,7 @@ sundae ration	2	1	awesome	10	0	0	0
 super good fruit	1	1	awesome	5	0	10-20	0
 super ka-bob	3	11	awesome	12-15	30-38	0	0
 super salad	3	11	awesome	13-16	30-50	32-40	31-40	SALAD
-Susie's cupcake	1	1	EPIC	0	0	0	0	Unspaded
+Susie's cupcake	1	1	EPIC	5-7	5-25	0	0
 swamp haunch	3	1	good	9	10-15	10-15	10-15
 Swedish massage fish	1	4	good	3	20-40	20-40	20-40	40 Like a Fish to Walter (+5 Fishing skill)
 sweet party mix	1	4	EPIC	5-6	0	0	0	SALAD
