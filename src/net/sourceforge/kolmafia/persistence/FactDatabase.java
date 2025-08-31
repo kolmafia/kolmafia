@@ -295,8 +295,11 @@ public class FactDatabase {
       var seedMod = isHeap ? 11L : 13L;
       var seed = calculateSeed(ascensionClass, path, monster) + seedMod;
       var rng = new PHPMTRandom(seed);
-      return new AdventureResultFact(
-          this.getType(), results.get(rng.nextInt(0, results.size() - 1)));
+      var result = results.get(rng.nextInt(0, results.size() - 1));
+      if (path == Path.UNDER_THE_SEA && result.getEffectId() == EffectPool.FISHY) {
+        result = EffectPool.get(EffectPool.FISHY_FORTIFICATION, 10);
+      }
+      return new AdventureResultFact(this.getType(), result);
     }
   }
 

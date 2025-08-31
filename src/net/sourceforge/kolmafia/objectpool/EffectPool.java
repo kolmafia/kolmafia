@@ -143,6 +143,7 @@ public class EffectPool {
   public static final int DANG_NEAR_CUT_IN_HALF = 445;
   public static final int A_REVOLUTION_IN_YOUR_MOUTH = 453;
   public static final int SOUL_CRUSHING_HEADACHE = 465;
+  public static final int FISHY_FORTIFICATION = 468;
   public static final int EDUCATED_KINDA = 504;
   public static final int FORM_OF_ROACH = 509;
   public static final int SHAPE_OF_MOLE = 510;
