@@ -87,13 +87,14 @@ public class LocketManager {
     knownMonsters.addAll(getFoughtMonsters());
   }
 
-  public static void parseFight(final MonsterData monster, final String text) {
-    if (!text.contains("loverslocketframe.png")
+  public static boolean isLocketFight(final String text) {
+    return (text.contains("loverslocketframe.png")
         // Sometimes there's no frame?
-        && !text.contains("your locket changes to reflect")) {
-      return;
-    }
+        || text.contains("your locket changes to reflect"));
+  }
 
+  public static void parseFight(final MonsterData monster) {
+    if (monster == null) return;
     // This will not double an existing id so is safe to run at any round
     addFoughtMonster(monster.getId());
     EncounterManager.ignoreSpecialMonsters();
