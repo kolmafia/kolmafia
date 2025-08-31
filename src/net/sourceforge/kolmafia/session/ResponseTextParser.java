@@ -554,6 +554,13 @@ public class ResponseTextParser {
                   Preferences.setInteger("_alliedRadioDropsUsed", 3);
                 }
               }
+              case "timepose" -> {
+                if (responseText.contains("The timeline won't support")) {
+                  Preferences.setInteger("timeposedTopHats", 49);
+                } else if (responseText.contains("You superimpose your extra time cop hat")) {
+                  Preferences.increment("timeposedTopHats", 1, 49);
+                }
+              }
             }
           }
         }

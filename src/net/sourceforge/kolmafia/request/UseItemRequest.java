@@ -6357,6 +6357,19 @@ public class UseItemRequest extends GenericRequest {
       case ItemPool.CRAFTING_PLANS:
         Preferences.increment("craftingPlansCharges");
         break;
+
+      case ItemPool.CLOCK:
+        if (responseText.contains("You don't have time")) {
+          // You consider your clock and contemplate time. You don't have time for clocks.
+          Preferences.setInteger("_clocksUsed", 2);
+          return;
+        } else {
+          // You consider your clock and contemplate time. You realize, you have more time.
+          // You consider your clock and contemplate time. You have less time than when you
+          // previously considered your clock.
+          Preferences.increment("_clocksUsed", 1, 2);
+        }
+        break;
     }
 
     if (CampgroundRequest.isWorkshedItem(itemId)) {
