@@ -118,6 +118,7 @@ class FactDatabaseTest {
     "TURTLE_TAMER, STANDARD, Mob Penguin hitman, STATS, +3 moxie substats",
     "TURTLE_TAMER, STANDARD, Candied Yam Golem, STATS, +3 mysticality substats",
     "TURTLE_TAMER, NONE, amateur elf, STATS, +10 moxie substats",
+    "ACCORDION_THIEF, UNDER_THE_SEA, grouper groupie, EFFECT, Fishy Fortification (10)",
   })
   void picksCorrectFact(
       final AscensionClass ascensionClass,
