@@ -731,7 +731,7 @@ unemployed knob goblin	1000	lensgoblin.gif	Atk: 6 Def: 5 HP: 5 Init: -10000 Meat
 unholy diver	745	unholydiver.gif	Atk: 700 Def: 540 HP: 1000 Init: 100 Meat: 250 P: horror Article: an	rusty broken diving helmet (n15)	rusty porthole (n15)	rusty rivet (n20)	rusty rivet (n15)	rusty rivet (n10)	rusty rivet (n5)	glowing syringe (c4)	unholy water (c20)
 upgraded ram	384	ram.gif	Atk: 106 Def: 93 HP: 95 Init: 50 Meat: 100 P: beast ED: cold EA: cold EA: none Article: an	ram horns (5)	ram stick (5)	Ram's Face Lager (30)	Mt. McLargeHuge oyster (25)
 uppercase Q	937	upper_q.gif	Atk: 61 Def: 51 HP: 81 Init: 80 P: dude Article: an	left parenthesis (40)	right parenthesis (10)	dollar sign (p20)
-urchin urchin	733	urchin.gif	Atk: 400 Def: 315 HP: 600 Init: 20 P: fish Article: an	mermaid's purse (n5)	bazookafish bubble gum (n30)	underwater slingshot (n25)
+urchin urchin	733	urchin.gif	Atk: 400 Def: 315 HP: 600 Init: 20 P: fish Article: an	mermaid's purse (n5)	bazookafish bubble gum (30)	underwater slingshot (n25)
 vampire bat	350	regbat.gif	Atk: 17 Def: 14 HP: 10 Init: 60 Meat: 40 P: beast EA: hot EA: stench EA: none Article: a	bat wing (15)	batgut (15)	sonar-in-a-biscuit (10)
 vampire duck	564	duckvampire.gif	Atk: 175 Def: 153 HP: 190 Init: 50 Meat: 150 P: beast E: spooky Article: a	frightful feather (10)	duct tape (5)
 vegetable gremlin	550	gremlinveg.gif	Atk: 168 Def: 154 HP: 170 Init: 60 Meat: 50 P: humanoid Article: a	gremlin juice (3)
