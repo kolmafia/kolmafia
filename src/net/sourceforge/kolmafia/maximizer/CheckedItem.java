@@ -121,7 +121,8 @@ public class CheckedItem extends AdventureResult {
         }
       }
     } else if (!KoLCharacter.isHardcore()
-        && (!KoLCharacter.inLegacyOfLoathing() || InventoryManager.pullableInLoL(itemId))) {
+        && (!KoLCharacter.inLegacyOfLoathing() || InventoryManager.pullableInLoL(itemId))
+        && (!KoLCharacter.inSeaPath() || InventoryManager.pullableInSeaPath(itemId))) {
       // consider pulling
       this.pullable = this.getCount(KoLConstants.storage);
 

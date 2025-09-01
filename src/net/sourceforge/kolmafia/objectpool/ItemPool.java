@@ -1181,6 +1181,7 @@ public class ItemPool {
   public static final int TEFLON_ORE = 3699;
   public static final int VINYL_ORE = 3700;
   public static final int ANEMONE_MINE_MAP = 3701;
+  public static final int TEFLON_SWIM_FINS = 3712;
   public static final int VINYL_BOOTS = 3716;
   public static final int GNOLL_EYE = 3731;
   public static final int CHEAP_CIGAR_BUTT = 3732;
@@ -1371,6 +1372,7 @@ public class ItemPool {
   public static final int BAGGY_RAVE_PANTS = 4194;
   public static final int PACIFIER_NECKLACE = 4195;
   public static final int SEA_COWBELL = 4196;
+  public static final int SEA_LEATHER = 4197;
   public static final int SEA_LASSO = 4198;
   public static final int SEA_COWBOY_HAT = 4199;
   public static final int MERKIN_CHEATSHEET = 4204;
@@ -1395,9 +1397,17 @@ public class ItemPool {
   public static final int VOLARTTAS_BELLBOTTOMS = 4271;
   public static final int LEDERHOSEN_OF_THE_NIGHT = 4272;
   public static final int UNDERWORLD_ACORN = 4274;
+  public static final int MERKIN_BUNWIG = 4281;
   public static final int CRAPPY_MASK = 4282;
+  public static final int CRAPPY_TAILPIECE = 4283;
   public static final int GLADIATOR_MASK = 4284;
   public static final int SCHOLAR_MASK = 4285;
+  public static final int GLADIATOR_TAILPIECE = 4286;
+  public static final int SCHOLAR_TAILPIECE = 4287;
+  public static final int MERKIN_HEADGUARD = 4288;
+  public static final int MERKIN_WAISTROPE = 4289;
+  public static final int MERKIN_FACECOWL = 4290;
+  public static final int MERKIN_THIGHGUARD = 4291;
   public static final int MERKIN_DODGEBALL = 4292;
   public static final int MERKIN_DRAGNET = 4293;
   public static final int MERKIN_SWITCHBLADE = 4294;
@@ -3933,6 +3943,7 @@ public class ItemPool {
   public static final int CLOCK = 11956;
   public static final int SAND_PENNY = 11961;
   public static final int DURABLE_DOLPHIN_WHISTLE = 11972;
+  public static final int UNBLEMISHED_PEARL = 11976;
 
   private ItemPool() {}
 
