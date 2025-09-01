@@ -4201,6 +4201,13 @@ public class FightRequest extends GenericRequest {
         Preferences.decrement("_spookyJellyUses");
       }
 
+      // With your mixed berry jelly-coated hands, you are able to grab everything your foe was
+      // carrying!
+      if (Preferences.getInteger("mixedBerryJellyUses") > 0
+          && responseText.contains("With your mixed berry jelly-coated hands")) {
+        Preferences.decrement("mixedBerryJellyUses");
+      }
+
       if (KoLCharacter.hasEquipped(ItemPool.SNOW_SUIT, Slot.FAMILIAR)) {
         if (Preferences.getInteger("_snowSuitCount") < 75
             && Preferences.increment("_snowSuitCount") % 5 == 0) {
