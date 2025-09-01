@@ -2207,6 +2207,9 @@ rat (remote access trojan)	2474	cr_rat.gif	NOCOPY Scale: 9 Init: 200 P: construc
 # Mobius ring (Aug 2025)
 time cop	2497	timecop.gif	NOCOPY Scale: 2 Cap: ? Floor: ? Init: 250 P: dude Article: a	time cop top hat (n1)
 
+# Monodent of the Sea (Sept 2025)
+some fish	2499	somefish.gif	Scale: 0 Cap: ? Floor: ? Init: -10000 P: fish	beefy fish meat (0)	glistening fish meat (0)	slick fish meat (0)	dull fish scale (0)	rough fish scale (0)	pristine fish scale (0)
+
 # KoL Con
 
 # Gygaxian Libram (KoL Con VIII)
