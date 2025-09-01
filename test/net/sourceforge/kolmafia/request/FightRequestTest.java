@@ -4175,4 +4175,31 @@ public class FightRequestTest {
       assertThat("momSeaMonkeeProgress", isSetTo(6));
     }
   }
+
+  @Nested
+  class Seadent {
+    @Test
+    public void seadentIncrementsConstructKill() {
+      var cleanups =
+          new Cleanups(withProperty("seadentConstructKills"), withProperty("seadentLevel"));
+
+      try (cleanups) {
+        parseCombatData("request/test_fight_seadent_nubbin.html");
+        assertThat("seadentConstructKills", isSetTo(1));
+        assertThat("seadentLevel", isSetTo(1));
+      }
+    }
+
+    @Test
+    public void seadentIncrementsLevel() {
+      var cleanups =
+          new Cleanups(withProperty("seadentConstructKills"), withProperty("seadentLevel"));
+
+      try (cleanups) {
+        parseCombatData("request/test_fight_seadent_tine.html");
+        assertThat("seadentConstructKills", isSetTo(1));
+        assertThat("seadentLevel", isSetTo(2));
+      }
+    }
+  }
 }

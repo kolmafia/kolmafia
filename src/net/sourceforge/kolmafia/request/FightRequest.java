@@ -7221,6 +7221,8 @@ public class FightRequest extends GenericRequest {
       FightRequest.logText(str, status);
     }
 
+    FightRequest.handleSeadent(str, status);
+
     boolean VYKEAaction = status.VYKEACompanion != null && str.contains(status.VYKEACompanion);
     if (VYKEAaction && status.logFamiliar) {
       // VYKEA companion action
@@ -7665,6 +7667,18 @@ public class FightRequest extends GenericRequest {
     FightRequest.logText(str, status);
     if (str.contains("You look down and find a Volcoino!")) {
       Preferences.setBoolean("_luckyGoldRingVolcoino", true);
+    }
+  }
+
+  private static void handleSeadent(String str, TagStatus status) {
+    if (!str.contains(
+        "tiny bits of their constituent construct parts are attracted to the magic of your spear")) {
+      return;
+    }
+    Preferences.increment("seadentConstructKills");
+    FightRequest.logText(str, status);
+    if (str.contains("Whoa, they formed a whole new tine!")) {
+      Preferences.increment("seadentLevel");
     }
   }
 

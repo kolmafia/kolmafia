@@ -1512,6 +1512,8 @@ user	screechCombats	0	ld
 user	scriptCascadingMenus	true
 user	scriptMRULength	0
 user	scriptMRUList
+user	seadentConstructKills	0	roa
+user	seadentLevel	1	roa
 user	seahorseName		roa
 user	seaodesFound	0	ld
 user	seaPoints	0
