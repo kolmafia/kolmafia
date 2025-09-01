@@ -21,6 +21,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
 import net.sourceforge.kolmafia.AreaCombatData;
 import net.sourceforge.kolmafia.AscensionClass;
+import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.EdServantData;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
@@ -4347,6 +4348,18 @@ public class FightRequest extends GenericRequest {
             momCount++;
           }
           Preferences.increment("momSeaMonkeeProgress", momCount, 40, false);
+        }
+        case "Nautical Seaceress" -> {
+          // You feel your dolphin whistling endurance improve.
+          Path path = Path.UNDER_THE_SEA;
+          if (responseText.contains("dolphin whistling endurance")) {
+            int points = KoLCharacter.isHardcore() ? 2 : 1;
+            path.incrementPoints(points);
+          } else {
+            // I don't know if the message is omitted if you are at max points,
+            // but it seems logical
+            path.setPoints(11);
+          }
         }
       }
 

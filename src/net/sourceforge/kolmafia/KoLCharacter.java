@@ -2835,6 +2835,10 @@ public abstract class KoLCharacter {
         Preferences.increment("garlandUpgrades", 1, 10, false);
         oldPath.incrementPoints(points);
       }
+      case UNDER_THE_SEA -> {
+        // Points incremented when you defeat the Nautical Seaceress,
+        // not when you free the King
+      }
       default -> {
         oldPath.incrementPoints(points);
       }
