@@ -1135,7 +1135,10 @@
 7564	Beret Boast	prisberet_boast.gif	combat	0	0
 7565	Beret Busking	prisberet_busk.gif	nc,self	0	0
 7566	Call in an Airstrike	missile.gif	combat	0	0
-7567	Try to Remember		combat	0	0
+7567	Try to Remember	realbrain.gif	combat	0	0
+7568	Sea *dent: Throw a Lightning Bolt	lightningrod.gif	combat	0	0
+7569	Sea *dent: Summon a Wave	wave.gif	nc,self	0	0
+7570	Sea *dent: Talk to Some Fish	somefish.gif	combat	1	0
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.
