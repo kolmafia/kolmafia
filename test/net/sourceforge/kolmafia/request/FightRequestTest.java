@@ -4201,5 +4201,18 @@ public class FightRequestTest {
         assertThat("seadentLevel", isSetTo(2));
       }
     }
+
+    @Test
+    public void canDetectSeadentLightning() {
+      var cleanups = new Cleanups(withFight(), withBanishedMonsters(""));
+
+      try (cleanups) {
+        parseCombatData(
+            "request/test_fight_seadent_lightning_banish.html",
+            "fight.php?action=skill&whichskill=7568");
+
+        assertThat("banishedMonsters", hasStringValue(startsWith("Raver Giant:Sea *dent:")));
+      }
+    }
   }
 }
