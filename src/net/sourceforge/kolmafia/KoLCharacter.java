@@ -5283,7 +5283,8 @@ public abstract class KoLCharacter {
       }
     }
 
-    if (Modifiers.currentLocation.equals(Preferences.getString("_seadentWaveZone"))) {
+    var seadentWaveZone = Preferences.getString("_seadentWaveZone");
+    if (!seadentWaveZone.isEmpty() && Modifiers.currentLocation.equals(seadentWaveZone)) {
       // this is a bonus of +30 to item, probably the same for meat + init
       newModifiers.addDouble(DoubleModifier.ITEMDROP, 30, ModifierType.LOC, "Summon a Wave");
       newModifiers.addDouble(DoubleModifier.MEATDROP, 30, ModifierType.LOC, "Summon a Wave");

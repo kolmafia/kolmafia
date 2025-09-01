@@ -935,7 +935,7 @@ public class AdventureDatabase {
     /*
     String waveSummonedZone = Preferences.getString("_seadentWaveZone");
 
-    if (waveSummonedZone.equals(adventureName)) {
+    if (!waveSummonedZone.isEmpty() && waveSummonedZone.equals(adventureName)) {
       return true;
     }
     */
