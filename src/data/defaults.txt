@@ -1200,6 +1200,7 @@ user	mineState6
 user	miniAdvClass	0	roa
 user	miniKiwiAiolisUsed	0	roa
 user	miniMartinisDrunk	0
+user	mixedBerryJellyUses	0	roa
 user	moleTunnelLevel	0
 user	moonTuned	false	roa
 user	momSeaMonkeeProgress	0	roa

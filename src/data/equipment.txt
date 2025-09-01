@@ -1460,6 +1460,7 @@ mini kiwi icepick	50	Mus: 0	1-handed pick
 miniature deck cannon	200	Mox: 85	2-handed handcannon
 miracle whip	10	Mus: 0	2-handed whip
 Mjolnir Jr.	200	Mys: 85	1-handed utensil
+Monodent of the Sea	200	Mus: 0	1-handed spear
 Moonthril Flamberge	100	Mus: 40	2-handed sword
 Moonthril Longbow	100	Mox: 40	2-handed bow
 moss mace	50	Mus: 0	1-handed club
