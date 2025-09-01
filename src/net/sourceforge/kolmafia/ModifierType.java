@@ -69,6 +69,7 @@ public enum ModifierType {
   PASSIVES,
   GENERATED,
   TERRARIUM_FAMILIAR,
+  SEAHORSE,
   NONE;
 
   private static Map<String, ModifierType> stringToType =

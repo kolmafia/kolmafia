@@ -929,6 +929,20 @@ public class AdventureDatabase {
     return AdventureDatabase.environmentLookup.getOrDefault(adventureName, Environment.NONE);
   }
 
+  public static boolean isUnderwater(String adventureName) {
+    // waveSummonedZone should be underwater, but is currently partially bugged and only underwater
+    // if the monodent is equipped? Also doesn't require Fishy
+    /*
+    String waveSummonedZone = Preferences.getString("_seadentWaveZone");
+
+    if (waveSummonedZone.equals(adventureName)) {
+      return true;
+    }
+    */
+
+    return getEnvironment(adventureName) == Environment.UNDERWATER;
+  }
+
   public static int getRecommendedStat(String adventureName) {
     return AdventureDatabase.statLookup.getOrDefault(adventureName, -1);
   }
