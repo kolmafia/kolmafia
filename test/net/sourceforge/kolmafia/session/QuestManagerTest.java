@@ -1620,9 +1620,21 @@ public class QuestManagerTest {
   @Nested
   class UnderTheSea {
     @ParameterizedTest
-    @CsvSource({"true, 9, 11", "false, 9, 10", "true, 10, 11", "false, 10, 11"})
+    @CsvSource({
+      // We improved our dolphin whistling experience
+      "true, false, true, 9, 11",
+      "true, false, false, 9, 10",
+      "true, false, true, 10, 11",
+      "true, false, false, 10, 11",
+      // We acquired a dolphin whistle
+      "false, true, true, 0, 2",
+      "false, true, false, 0, 1",
+      // We neither improved our dolphin whistling experience nor obtained a whistle
+      "false, false, true, 0, 11",
+      "false, false, false, 0, 11",
+    })
     public void defeatingNauticalSeaceressIncrementsSeaPoints(
-        boolean isHardcore, int before, int after) {
+        boolean message, boolean whistle, boolean isHardcore, int before, int after) {
       var cleanups =
           new Cleanups(
               withPath(Path.UNDER_THE_SEA),
@@ -1633,11 +1645,15 @@ public class QuestManagerTest {
               withNoItems(),
               withHardcore(isHardcore),
               withProperty("seaPoints", before));
-
       try (cleanups) {
+        String html =
+            message
+                ? html("request/test_fight_nautical_seaceress_won.html")
+                : whistle
+                    ? html("request/test_fight_nautical_seaceress_won_whistle.html")
+                    : html("request/test_fight_nautical_seaceress_won_no_whistle.html");
         String location = "Mer-kin Temple (Center Door)";
         String encounter = "The Nautical Seaceress";
-        String html = html("request/test_fight_nautical_seaceress_won.html");
 
         FightRequest.registerRequest(true, location);
         FightRequest.updateCombatData(location, encounter, html);

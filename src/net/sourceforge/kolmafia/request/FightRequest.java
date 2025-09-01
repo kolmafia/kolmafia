@@ -4352,9 +4352,13 @@ public class FightRequest extends GenericRequest {
         case "Nautical Seaceress" -> {
           // You feel your dolphin whistling endurance improve.
           Path path = Path.UNDER_THE_SEA;
+          int points = KoLCharacter.isHardcore() ? 2 : 1;
           if (responseText.contains("dolphin whistling endurance")) {
-            int points = KoLCharacter.isHardcore() ? 2 : 1;
             path.incrementPoints(points);
+          } else if (responseText.contains("durable dolphin whistle")) {
+            // If you don't have a dolphin whistle, the message is
+            // omitted and you receive one.
+            path.setPoints(points);
           } else {
             // I don't know if the message is omitted if you are at max points,
             // but it seems logical
