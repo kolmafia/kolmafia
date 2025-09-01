@@ -4783,6 +4783,8 @@ public abstract class ChoiceControl {
       Pattern.compile("option value=(\\d+).*?class=button type=submit value=\"([^\"]*)");
   private static final Pattern WALFORD_PATTERN =
       Pattern.compile("\\(Walford's bucket filled by (\\d+)%\\)");
+  private static final Pattern SUMMON_WAVE_PATTERN =
+      Pattern.compile("sweep it down and point at (.*?).  A huge wave rises from the sea");
 
   private static final Pattern MAYAM_SYMBOLS =
       Pattern.compile("<img data-pos=\"\\d\" class=\"(used)?\"? alt=\"([^\\s]+)\\s");
@@ -6754,6 +6756,16 @@ public abstract class ChoiceControl {
         if (text.contains(
             "You free King Ralph, signalling a triumphant end to your submaritime adventure")) {
           KoLCharacter.liberateKing();
+        }
+      }
+
+      case 1566 -> {
+        // Summon a Wave
+        if (ChoiceManager.lastDecision == 1) {
+          Matcher waveMatcher = SUMMON_WAVE_PATTERN.matcher(text);
+          if (waveMatcher.find()) {
+            Preferences.setString("_seadentWaveZone", waveMatcher.group(1));
+          }
         }
       }
     }
