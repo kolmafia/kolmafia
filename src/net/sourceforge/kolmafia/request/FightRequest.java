@@ -6437,7 +6437,7 @@ public class FightRequest extends GenericRequest {
 
     /// node-specific processing
     if (name.equals("script")) {
-      Matcher m = CLEESH_PATTERN.matcher(node.wholeText());
+      Matcher m = CLEESH_PATTERN.matcher(node.data());
       if (!m.find()) {
         return;
       }
@@ -7238,6 +7238,8 @@ public class FightRequest extends GenericRequest {
       FightRequest.logText(str, status);
     }
 
+    FightRequest.handleSeadent(str, status);
+
     boolean VYKEAaction = status.VYKEACompanion != null && str.contains(status.VYKEACompanion);
     if (VYKEAaction && status.logFamiliar) {
       // VYKEA companion action
@@ -7682,6 +7684,18 @@ public class FightRequest extends GenericRequest {
     FightRequest.logText(str, status);
     if (str.contains("You look down and find a Volcoino!")) {
       Preferences.setBoolean("_luckyGoldRingVolcoino", true);
+    }
+  }
+
+  private static void handleSeadent(String str, TagStatus status) {
+    if (!str.contains(
+        "tiny bits of their constituent construct parts are attracted to the magic of your spear")) {
+      return;
+    }
+    Preferences.increment("seadentConstructKills");
+    FightRequest.logText(str, status);
+    if (str.contains("Whoa, they formed a whole new tine!")) {
+      Preferences.increment("seadentLevel");
     }
   }
 
@@ -9869,6 +9883,12 @@ public class FightRequest extends GenericRequest {
         if (responseText.contains("You punt your opponent over the horizon")
             || skillRunawaySuccess) {
           BanishManager.banishMonster(monster, Banisher.PUNT_WEREPROF);
+        }
+      }
+      case SkillPool.SEADENT_LIGHTNING -> {
+        if (responseText.contains("A bolt of lightning arcs out and burns your foe to ash.")
+            || skillSuccess) {
+          BanishManager.banishMonster(monster, Banisher.SEADENT_LIGHTNING);
         }
       }
       case SkillPool.POCKET_CRUMBS -> {

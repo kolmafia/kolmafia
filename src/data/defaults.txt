@@ -1512,6 +1512,8 @@ user	screechCombats	0	ld
 user	scriptCascadingMenus	true
 user	scriptMRULength	0
 user	scriptMRUList
+user	seadentConstructKills	0	roa
+user	seadentLevel	1	roa
 user	seahorseName		roa
 user	seaodesFound	0	ld
 user	seaPoints	0
@@ -2572,6 +2574,8 @@ user	_sausageFights	0
 user	_sausagesEaten	0
 user	_sausagesMade	0
 user	_savageBeastMods
+user	_seadentLightningUsed	0
+user	_seadentWaveUsed	false
 user	_seaJellyHarvested	false
 user	_sealFigurineUses	0
 user	_sealScreeches	0

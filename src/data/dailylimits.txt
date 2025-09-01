@@ -150,6 +150,8 @@ Cast	Reflex Hammer	_reflexHammerUsed	3
 Cast	Release the Boots	_bootStomps	7
 Cast	Request Sandwich	_requestSandwichSucceeded
 Cast	Rest upside down	_batWingsRestUsed	11
+Cast	Sea *dent: Summon a Wave	_seadentWaveUsed
+Cast	Sea *dent: Throw a Lightning Bolt	_seadentLightningUsed	11
 Cast	Shattering Punch	_shatteringPunchUsed	3
 Cast	Show them your ring	_mafiaMiddleFingerRingUsed
 Cast	Smash & Graaagh	_zombieSmashPocketsUsed	30
