@@ -6420,7 +6420,7 @@ public class FightRequest extends GenericRequest {
 
     /// node-specific processing
     if (name.equals("script")) {
-      Matcher m = CLEESH_PATTERN.matcher(node.wholeText());
+      Matcher m = CLEESH_PATTERN.matcher(node.data());
       if (!m.find()) {
         return;
       }

@@ -4214,5 +4214,19 @@ public class FightRequestTest {
         assertThat("banishedMonsters", hasStringValue(startsWith("Raver Giant:Sea *dent:")));
       }
     }
+
+    @Test
+    public void canDetectSeadentFishReplace() {
+      RequestLoggerOutput.startStream();
+      var cleanups = new Cleanups(withFight());
+
+      try (cleanups) {
+        parseCombatData(
+            "request/test_fight_replace_some_fish.html", "fight.php?action=skill&whichskill=7570");
+
+        var stream = RequestLoggerOutput.stopStream();
+        assertThat(stream, containsString("your opponent becomes some fish!"));
+      }
+    }
   }
 }
