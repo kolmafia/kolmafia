@@ -1377,6 +1377,7 @@ Item	denim axe	Muscle: +10, Weapon Damage: +10
 Item	dense meat crossbow	Moxie: +3
 Item	dense meat staff	Mysticality: +3
 Item	dense meat sword	Muscle: +3
+Item	dentadent	Monster Level: +10
 Item	dented harmonica	Mysticality: +1
 Item	dented scepter	Experience (Muscle): +5, HP Regen Min: 5, HP Regen Max: 10, Muscle Percent: +50, Weapon Damage Percent: +50, Critical Hit Percent: +10, Single Equip, Lasts Until Rollover, Last Available: "2016-03"
 # depleted Grimacite hammer: Needed for depleted Grimacite smithing

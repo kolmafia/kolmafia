@@ -1183,6 +1183,7 @@ denim axe	170	Mus: 70	2-handed axe
 dense meat crossbow	60	Mox: 15	2-handed crossbow
 dense meat staff	60	Mus: 15	2-handed staff
 dense meat sword	60	Mus: 15	2-handed sword
+dentadent	60	Mus: 10	1-handed spear
 dented harmonica	20	Mox: 0	1-handed horn
 dented scepter	200	Mus: 10	1-handed club
 depleted Grimacite hammer	100	Mus: 35	2-handed club
