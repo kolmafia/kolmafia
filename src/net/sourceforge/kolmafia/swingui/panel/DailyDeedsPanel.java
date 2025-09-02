@@ -317,6 +317,13 @@ public class DailyDeedsPanel extends Box implements Listener {
         1,
         "100 turns of +200 Spell Damage in Dreadsylvania",
         "Silver flask used"),
+    new ItemDeed(
+        "flagellate flagon",
+        "_flagellateFlagonUsed",
+        ItemPool.FLAGELLATE_FLAGON,
+        1,
+        "increases stat gain from next drink by 25x the drink's potency level",
+        "flagellate flagon used"),
     new SpecialDeed("Flush Mojo"),
     new SpecialDeed("Feast"),
     new SpecialDeed("Pudding"),
