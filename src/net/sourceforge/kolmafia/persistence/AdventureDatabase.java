@@ -21,6 +21,7 @@ import net.sourceforge.kolmafia.AreaCombatData;
 import net.sourceforge.kolmafia.AscensionPath;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLAdventure;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLConstants.Stat;
@@ -931,14 +932,14 @@ public class AdventureDatabase {
 
   public static boolean isUnderwater(String adventureName) {
     // waveSummonedZone should be underwater, but is currently partially bugged and only underwater
-    // if the monodent is equipped? Also doesn't require Fishy
-    /*
+    // if the monodent is equipped?
     String waveSummonedZone = Preferences.getString("_seadentWaveZone");
 
-    if (!waveSummonedZone.isEmpty() && waveSummonedZone.equals(adventureName)) {
+    if (!waveSummonedZone.isEmpty()
+        && waveSummonedZone.equals(adventureName)
+        && KoLCharacter.hasEquipped(ItemPool.MONODENT_OF_THE_SEA)) {
       return true;
     }
-    */
 
     return getEnvironment(adventureName) == Environment.UNDERWATER;
   }
