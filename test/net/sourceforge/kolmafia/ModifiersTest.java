@@ -1724,9 +1724,7 @@ public class ModifiersTest {
   class Monodent {
     @Test
     public void noWaveZoneDoesNotAddItemForNoZone() {
-      var cleanups =
-        new Cleanups(
-          withProperty("_seadentWaveZone", ""), withLocation(""));
+      var cleanups = new Cleanups(withProperty("_seadentWaveZone", ""), withLocation(""));
 
       try (cleanups) {
         KoLCharacter.recalculateAdjustments(false);
@@ -1735,11 +1733,11 @@ public class ModifiersTest {
         assertThat(current.getDouble(DoubleModifier.ITEMDROP), equalTo(0.0));
       }
     }
+
     @Test
     public void waveZoneDoesNotAddItemForOtherZone() {
       var cleanups =
-        new Cleanups(
-          withProperty("_seadentWaveZone", "Noob Cave"), withLocation("Dire Warren"));
+          new Cleanups(withProperty("_seadentWaveZone", "Noob Cave"), withLocation("Dire Warren"));
 
       try (cleanups) {
         KoLCharacter.recalculateAdjustments(false);
@@ -1752,8 +1750,7 @@ public class ModifiersTest {
     @Test
     public void waveZoneAddsItemForZone() {
       var cleanups =
-        new Cleanups(
-          withProperty("_seadentWaveZone", "Noob Cave"), withLocation("Noob Cave"));
+          new Cleanups(withProperty("_seadentWaveZone", "Noob Cave"), withLocation("Noob Cave"));
 
       try (cleanups) {
         KoLCharacter.recalculateAdjustments(false);
