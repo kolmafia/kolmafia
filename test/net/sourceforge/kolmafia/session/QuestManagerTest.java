@@ -13,11 +13,15 @@ import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withFight;
 import static internal.helpers.Player.withGender;
 import static internal.helpers.Player.withHandlingChoice;
+import static internal.helpers.Player.withHardcore;
 import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withLastLocation;
 import static internal.helpers.Player.withNextResponse;
+import static internal.helpers.Player.withNoEffects;
+import static internal.helpers.Player.withNoItems;
 import static internal.helpers.Player.withPasswordHash;
+import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withQuestProgress;
 import static internal.matchers.Item.isInInventory;
@@ -45,6 +49,7 @@ import java.util.Set;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionClass;
+import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLCharacter.Gender;
@@ -1606,6 +1611,55 @@ public class QuestManagerTest {
       QuestManager.handleQuestChange(request);
 
       assertThat("Status of Larva quest", Quest.LARVA, isUnstarted());
+    }
+  }
+
+  /*
+   * 11,037 Leagues Under the Sea
+   */
+  @Nested
+  class UnderTheSea {
+    @ParameterizedTest
+    @CsvSource({
+      // We improved our dolphin whistling experience
+      "true, false, true, 9, 11",
+      "true, false, false, 9, 10",
+      "true, false, true, 10, 11",
+      "true, false, false, 10, 11",
+      // We acquired a dolphin whistle
+      "false, true, true, 0, 2",
+      "false, true, false, 0, 1",
+      // We neither improved our dolphin whistling experience nor obtained a whistle
+      "false, false, true, 0, 11",
+      "false, false, false, 0, 11",
+    })
+    public void defeatingNauticalSeaceressIncrementsSeaPoints(
+        boolean message, boolean whistle, boolean isHardcore, int before, int after) {
+      var cleanups =
+          new Cleanups(
+              withPath(Path.UNDER_THE_SEA),
+              withFight(12),
+              // Defeating a monster can give effects (from Book of Facts)
+              withNoEffects(),
+              // Ditto for items
+              withNoItems(),
+              withHardcore(isHardcore),
+              withProperty("seaPoints", before));
+      try (cleanups) {
+        String html =
+            message
+                ? html("request/test_fight_nautical_seaceress_won.html")
+                : whistle
+                    ? html("request/test_fight_nautical_seaceress_won_whistle.html")
+                    : html("request/test_fight_nautical_seaceress_won_no_whistle.html");
+        String location = "Mer-kin Temple (Center Door)";
+        String encounter = "The Nautical Seaceress";
+
+        FightRequest.registerRequest(true, location);
+        FightRequest.updateCombatData(location, encounter, html);
+
+        assertThat("seaPoints", isSetTo(after));
+      }
     }
   }
 

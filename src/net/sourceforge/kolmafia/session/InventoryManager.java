@@ -214,7 +214,8 @@ public abstract class InventoryManager {
       count += item.getCount(KoLConstants.closet);
     }
 
-    if (!KoLCharacter.inLegacyOfLoathing() || pullableInLoL(itemId)) {
+    if ((!KoLCharacter.inLegacyOfLoathing() || pullableInLoL(itemId))
+        && (!KoLCharacter.inSeaPath() || pullableInSeaPath(itemId))) {
       // Free Pulls from Hagnk's are always accessible
       count += item.getCount(KoLConstants.freepulls);
 
@@ -2087,6 +2088,36 @@ public abstract class InventoryManager {
       case NONE -> ItemDatabase.getAttribute(
           itemId, EnumSet.of(Attribute.COMBAT, Attribute.COMBAT_REUSABLE));
       default -> false;
+    };
+  }
+
+  public static boolean pullableInSeaPath(int itemId) {
+    return switch (itemId) {
+      case ItemPool.ROUGH_FISH_SCALE,
+          ItemPool.PRISTINE_FISH_SCALE,
+          ItemPool.RUSTY_BROKEN_DIVING_HELMET,
+          ItemPool.AERATED_DIVING_HELMET,
+          ItemPool.TEFLON_ORE,
+          ItemPool.TEFLON_SWIM_FINS,
+          ItemPool.SEA_LEATHER,
+          ItemPool.SEA_COWBOY_HAT,
+          ItemPool.MERKIN_BUNWIG,
+          ItemPool.CRAPPY_MASK,
+          ItemPool.CRAPPY_TAILPIECE,
+          ItemPool.GLADIATOR_MASK,
+          ItemPool.SCHOLAR_MASK,
+          ItemPool.GLADIATOR_TAILPIECE,
+          ItemPool.SCHOLAR_TAILPIECE,
+          ItemPool.MERKIN_HEADGUARD,
+          ItemPool.MERKIN_WAISTROPE,
+          ItemPool.MERKIN_FACECOWL,
+          ItemPool.MERKIN_THIGHGUARD,
+          ItemPool.MERKIN_DODGEBALL,
+          ItemPool.MERKIN_DRAGNET,
+          ItemPool.MERKIN_SWITCHBLADE,
+          ItemPool.SEA_CHAPS,
+          ItemPool.UNBLEMISHED_PEARL -> false;
+      default -> true;
     };
   }
 }

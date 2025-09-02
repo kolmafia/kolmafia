@@ -4175,4 +4175,58 @@ public class FightRequestTest {
       assertThat("momSeaMonkeeProgress", isSetTo(6));
     }
   }
+
+  @Nested
+  class Seadent {
+    @Test
+    public void seadentIncrementsConstructKill() {
+      var cleanups =
+          new Cleanups(withProperty("seadentConstructKills"), withProperty("seadentLevel"));
+
+      try (cleanups) {
+        parseCombatData("request/test_fight_seadent_nubbin.html");
+        assertThat("seadentConstructKills", isSetTo(1));
+        assertThat("seadentLevel", isSetTo(1));
+      }
+    }
+
+    @Test
+    public void seadentIncrementsLevel() {
+      var cleanups =
+          new Cleanups(withProperty("seadentConstructKills"), withProperty("seadentLevel"));
+
+      try (cleanups) {
+        parseCombatData("request/test_fight_seadent_tine.html");
+        assertThat("seadentConstructKills", isSetTo(1));
+        assertThat("seadentLevel", isSetTo(2));
+      }
+    }
+
+    @Test
+    public void canDetectSeadentLightning() {
+      var cleanups = new Cleanups(withFight(), withBanishedMonsters(""));
+
+      try (cleanups) {
+        parseCombatData(
+            "request/test_fight_seadent_lightning_banish.html",
+            "fight.php?action=skill&whichskill=7568");
+
+        assertThat("banishedMonsters", hasStringValue(startsWith("Raver Giant:Sea *dent:")));
+      }
+    }
+
+    @Test
+    public void canDetectSeadentFishReplace() {
+      RequestLoggerOutput.startStream();
+      var cleanups = new Cleanups(withFight());
+
+      try (cleanups) {
+        parseCombatData(
+            "request/test_fight_replace_some_fish.html", "fight.php?action=skill&whichskill=7570");
+
+        var stream = RequestLoggerOutput.stopStream();
+        assertThat(stream, containsString("your opponent becomes some fish!"));
+      }
+    }
+  }
 }

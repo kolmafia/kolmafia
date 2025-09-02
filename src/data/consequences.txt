@@ -97,6 +97,7 @@ DESC_ITEM	Roman Candelabra	Mysticality \+<span style="font-family: times new rom
 DESC_ITEM	Roman Candelabra	Moxie \+<span style="font-family: times new roman">(.*?)</span>	romanCandelabraPurpleCasts=[(roman($1)/5)-2]
 DESC_ITEM	durable dolphin whistle	used (\d+) of (\d+) times? today	_durableDolphinWhistleUsed=$1	seaPoints=$2
 DESC_ITEM	time cop top hat	\+(\d+)% Combat Initiative	timeposedTopHats=[$1-1]
+DESC_ITEM	Monodent of the Sea	\+(\d+)% Stat	seadentLevel=$1
 
 # Item modifiers
 DESC_ITEM	no hat		_noHatModifier=mods
