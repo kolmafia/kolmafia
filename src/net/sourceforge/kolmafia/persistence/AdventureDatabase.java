@@ -21,7 +21,6 @@ import net.sourceforge.kolmafia.AreaCombatData;
 import net.sourceforge.kolmafia.AscensionPath;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLAdventure;
-import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLConstants.Stat;
@@ -935,9 +934,7 @@ public class AdventureDatabase {
     // if the monodent is equipped?
     String waveSummonedZone = Preferences.getString("_seadentWaveZone");
 
-    if (!waveSummonedZone.isEmpty()
-        && waveSummonedZone.equals(adventureName)
-        && KoLCharacter.hasEquipped(ItemPool.MONODENT_OF_THE_SEA)) {
+    if (!waveSummonedZone.isEmpty() && waveSummonedZone.equals(adventureName)) {
       return true;
     }
 
