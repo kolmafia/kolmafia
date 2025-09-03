@@ -3944,6 +3944,7 @@ public class ItemPool {
   public static final int CLOCK = 11956;
   public static final int SAND_PENNY = 11961;
   public static final int DURABLE_DOLPHIN_WHISTLE = 11972;
+  public static final int MONODENT_OF_THE_SEA = 11975;
   public static final int UNBLEMISHED_PEARL = 11976;
 
   private ItemPool() {}
