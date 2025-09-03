@@ -1230,6 +1230,12 @@ Mr. Store 2002	buy	1	Amulet of Perpetual Darkness	ROW1388
 Mr. Store 2002	buy	1	Giant black monolith	ROW1389
 Mr. Store 2002	buy	1	Crimbo cookie sheet	ROW1390
 
+# Fixodent (Craft with Teeth)
+Craft with Teeth	ROW1395	tooth cap	fixodent (1)	loose teeth (3)
+Craft with Teeth	ROW1394	toothy trousers	fixodent (1)	loose teeth (6)
+Craft with Teeth	ROW1393	cat o' nine teeth	fixodent (1)	loose teeth (9)
+Craft with Teeth	ROW1620	dentadent	fixodent	loose teeth
+
 # Crimbo 2023
 
 Crimbuccaneer Grub Hall	buy	5	candied lime	ROW1402
