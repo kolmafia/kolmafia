@@ -2164,7 +2164,7 @@ public abstract class KoLCharacter {
   /** Accessor method to retrieve the total current combat percent adjustment */
   public static final double getCombatRateAdjustment() {
     double rate = KoLCharacter.currentModifiers.getDouble(DoubleModifier.COMBAT_RATE);
-    if (AdventureDatabase.getEnvironment(Modifiers.currentLocation).isUnderwater()) {
+    if (AdventureDatabase.isUnderwater(Modifiers.currentLocation)) {
       rate += KoLCharacter.currentModifiers.getDouble(DoubleModifier.UNDERWATER_COMBAT_RATE);
     }
     return rate;
@@ -5043,46 +5043,32 @@ public abstract class KoLCharacter {
           data /= 11;
           if (level > 0)
             switch (i) {
-              case 1:
-                newModifiers.addDouble(
-                    DoubleModifier.WEAPON_DAMAGE, level * 20, ModifierType.EL_VIBRATO, "ATTACK");
-                break;
-              case 2:
-                newModifiers.addDouble(
-                    DoubleModifier.HP, level * 100, ModifierType.EL_VIBRATO, "BUILD");
-                break;
-              case 3:
-                newModifiers.addDouble(
-                    DoubleModifier.MP, level * 100, ModifierType.EL_VIBRATO, "BUFF");
-                break;
-              case 4:
-                newModifiers.addDouble(
-                    DoubleModifier.MONSTER_LEVEL, level * 10, ModifierType.EL_VIBRATO, "MODIFY");
-                break;
-              case 5:
+              case 1 -> newModifiers.addDouble(
+                  DoubleModifier.WEAPON_DAMAGE, level * 20, ModifierType.EL_VIBRATO, "ATTACK");
+              case 2 -> newModifiers.addDouble(
+                  DoubleModifier.HP, level * 100, ModifierType.EL_VIBRATO, "BUILD");
+              case 3 -> newModifiers.addDouble(
+                  DoubleModifier.MP, level * 100, ModifierType.EL_VIBRATO, "BUFF");
+              case 4 -> newModifiers.addDouble(
+                  DoubleModifier.MONSTER_LEVEL, level * 10, ModifierType.EL_VIBRATO, "MODIFY");
+              case 5 -> {
                 newModifiers.addDouble(
                     DoubleModifier.HP_REGEN_MIN, level * 16, ModifierType.EL_VIBRATO, "REPAIR");
                 newModifiers.addDouble(
                     DoubleModifier.HP_REGEN_MAX, level * 20, ModifierType.EL_VIBRATO, "REPAIR");
-                break;
-              case 6:
-                newModifiers.addDouble(
-                    DoubleModifier.SPELL_DAMAGE_PCT, level * 10, ModifierType.EL_VIBRATO, "TARGET");
-                break;
-              case 7:
-                newModifiers.addDouble(
-                    DoubleModifier.INITIATIVE, level * 20, ModifierType.EL_VIBRATO, "SELF");
-                break;
-              case 8:
+              }
+              case 6 -> newModifiers.addDouble(
+                  DoubleModifier.SPELL_DAMAGE_PCT, level * 10, ModifierType.EL_VIBRATO, "TARGET");
+              case 7 -> newModifiers.addDouble(
+                  DoubleModifier.INITIATIVE, level * 20, ModifierType.EL_VIBRATO, "SELF");
+              case 8 -> {
                 if (Modifiers.currentFamiliar.contains("megadrone")) {
                   newModifiers.addDouble(
                       DoubleModifier.FAMILIAR_WEIGHT, level * 10, ModifierType.EL_VIBRATO, "DRONE");
                 }
-                break;
-              case 9:
-                newModifiers.addDouble(
-                    DoubleModifier.DAMAGE_REDUCTION, level * 3, ModifierType.EL_VIBRATO, "WALL");
-                break;
+              }
+              case 9 -> newModifiers.addDouble(
+                  DoubleModifier.DAMAGE_REDUCTION, level * 3, ModifierType.EL_VIBRATO, "WALL");
             }
         }
       }
@@ -5296,6 +5282,21 @@ public abstract class KoLCharacter {
             Math.min(1000, 15 * hatred * (hatred + 2)),
             ModifierType.OUTFIT,
             "Slime Hatred");
+      }
+    }
+
+    var seadentWaveZone = Preferences.getString("_seadentWaveZone");
+    if (!seadentWaveZone.isEmpty() && Modifiers.currentLocation.equals(seadentWaveZone)) {
+      // this is a bonus of +30 to item, probably the same for meat + init
+      newModifiers.addDouble(DoubleModifier.ITEMDROP, 30, ModifierType.LOC, "Summon a Wave");
+      newModifiers.addDouble(DoubleModifier.MEATDROP, 30, ModifierType.LOC, "Summon a Wave");
+      newModifiers.addDouble(DoubleModifier.INITIATIVE, 30, ModifierType.LOC, "Summon a Wave");
+    }
+
+    if (AdventureDatabase.isUnderwater(Modifiers.currentLocation)) {
+      if (!Preferences.getString("seahorseName").isEmpty()) {
+        newModifiers.addDouble(
+            DoubleModifier.INITIATIVE, 100, ModifierType.SEAHORSE, "Tamed seahorse");
       }
     }
 
