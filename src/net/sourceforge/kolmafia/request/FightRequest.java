@@ -1679,7 +1679,7 @@ public class FightRequest extends GenericRequest {
     KoLAdventure location = KoLAdventure.lastVisitedLocation();
     Environment environment = location != null ? location.getEnvironment() : null;
 
-    if (environment != null && !environment.isUnderwater()) {
+    if (environment != null && !location.isUnderwater()) {
       KoLmafia.updateDisplay(MafiaState.ABORT, "This skill is useless out of water.");
       return true;
     }
@@ -3597,7 +3597,7 @@ public class FightRequest extends GenericRequest {
           // <name> mutters dark secrets under his breath, and
           // you feel time slow down.
           KoLAdventure lastLocation = KoLAdventure.lastVisitedLocation();
-          boolean underwater = lastLocation != null && lastLocation.getEnvironment().isUnderwater();
+          boolean underwater = lastLocation != null && lastLocation.isUnderwater();
           Preferences.increment("_gibbererCharge", underwater ? 2 : 1, 15, true);
           if (responseText.contains("you feel time slow down")) {
             Preferences.increment("_gibbererAdv", 1);
