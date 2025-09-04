@@ -930,8 +930,6 @@ public class AdventureDatabase {
   }
 
   public static boolean isUnderwater(String adventureName) {
-    // waveSummonedZone should be underwater, but is currently partially bugged and only underwater
-    // if the monodent is equipped?
     String waveSummonedZone = Preferences.getString("_seadentWaveZone");
 
     if (!waveSummonedZone.isEmpty() && waveSummonedZone.equals(adventureName)) {

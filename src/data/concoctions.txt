@@ -3276,11 +3276,6 @@ shadow martini	SHADOW_FORGE, ROW1316	shadow glass	shadow ice	shadow nectar
 shadow pill	SHADOW_FORGE, ROW1317	shadow fluid	shadow flame
 shadow needle	SHADOW_FORGE, ROW1318	shadow stick (13)	shadow fluid (13)	shadow venom (13)	shadow nectar (13)
 
-# Fixodent (Craft with Teeth)
-tooth cap	FIXODENT, ROW1395	fixodent (1)	loose teeth (3)
-toothy trousers	FIXODENT, ROW1394	fixodent (1)	loose teeth (6)
-cat o' nine teeth	FIXODENT, ROW1393	fixodent (1)	loose teeth (9)
-
 # Short
 chitin powder paste	COOK	chitin powder	haemolymphnode
 
