@@ -523,7 +523,6 @@ public interface KoLConstants extends UtilityConstants {
     STILLSUIT, // Distillate from the stillsuit
     WOOL, // Items made from grubby wool
     SHADOW_FORGE, // Items made at The Shadow Forge
-    FIXODENT, // Items made from fixodent
     BURNING_LEAVES, // Items made at the Pile of Burning Leaves
     TINKERING_BENCH, // Items made at the Tinkering Bench
     MAYAM, // Items made at the Mayam Calendar

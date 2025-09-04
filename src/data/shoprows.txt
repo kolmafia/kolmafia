@@ -1618,3 +1618,4 @@
 1617	sandpenny	sea gel	sand penny (10)
 1618	grandma	crappy Mer-kin tailpiece	Mer-kin gladiator tailpiece
 1619	grandma	crappy Mer-kin tailpiece	Mer-kin scholar tailpiece
+1620	fixodent	dentadent	fixodent	loose teeth
