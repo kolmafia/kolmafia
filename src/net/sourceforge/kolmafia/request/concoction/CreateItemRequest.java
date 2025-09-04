@@ -35,7 +35,6 @@ import net.sourceforge.kolmafia.request.concoction.shop.BeerGardenRequest;
 import net.sourceforge.kolmafia.request.concoction.shop.Crimbo12Request;
 import net.sourceforge.kolmafia.request.concoction.shop.Crimbo16Request;
 import net.sourceforge.kolmafia.request.concoction.shop.FiveDPrinterRequest;
-import net.sourceforge.kolmafia.request.concoction.shop.FixodentRequest;
 import net.sourceforge.kolmafia.request.concoction.shop.GrandmaRequest;
 import net.sourceforge.kolmafia.request.concoction.shop.JarlsbergRequest;
 import net.sourceforge.kolmafia.request.concoction.shop.JunkMagazineRequest;
@@ -274,7 +273,6 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
       case STILLSUIT -> new StillSuitRequest();
       case WOOL -> new GrubbyWoolRequest(conc);
       case SHADOW_FORGE -> new ShadowForgeRequest(conc);
-      case FIXODENT -> new FixodentRequest(conc);
       case BURNING_LEAVES -> new BurningLeavesRequest(conc);
       case TINKERING_BENCH -> new TinkeringBenchRequest(conc);
       case MAYAM -> new MayamRequest(conc);

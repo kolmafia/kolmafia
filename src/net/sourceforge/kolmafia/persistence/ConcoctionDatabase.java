@@ -2042,9 +2042,6 @@ public class ConcoctionDatabase {
       permitNoCost(CraftingType.GNOME_PART);
     }
 
-    // Making stuff with fixodent is always allowed
-    permitNoCost(CraftingType.FIXODENT);
-
     // Making stuff with Burning Leaves is always allowed
 
     boolean burningLeaves =
@@ -2479,7 +2476,6 @@ public class ConcoctionDatabase {
       case STILLSUIT -> result.append("tiny stillsuit");
       case WOOL -> result.append("grubby wool");
       case SHADOW_FORGE -> result.append("The Shadow Forge");
-      case FIXODENT -> result.append("Craft with Teeth");
       case BURNING_LEAVES -> result.append("Pile of Burning Leaves");
       case TINKERING_BENCH -> result.append("Tinkering Bench");
       case MAYAM -> result.append("Mayam Calendar");
@@ -2917,7 +2913,6 @@ public class ConcoctionDatabase {
       case "STILLSUIT" -> ConcoctionDatabase.mixingMethod = CraftingType.STILLSUIT;
       case "WOOL" -> ConcoctionDatabase.mixingMethod = CraftingType.WOOL;
       case "SHADOW_FORGE" -> ConcoctionDatabase.mixingMethod = CraftingType.SHADOW_FORGE;
-      case "FIXODENT" -> ConcoctionDatabase.mixingMethod = CraftingType.FIXODENT;
       case "BURNING_LEAVES" -> ConcoctionDatabase.mixingMethod = CraftingType.BURNING_LEAVES;
       case "TINKERING_BENCH" -> ConcoctionDatabase.mixingMethod = CraftingType.TINKERING_BENCH;
       case "MAYAM" -> ConcoctionDatabase.mixingMethod = CraftingType.MAYAM;
