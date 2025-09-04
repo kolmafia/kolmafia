@@ -839,7 +839,7 @@ Mob Penguin hitman	683	pengthug.gif	NOCOPY WANDERER Atk: 75 Def: 67 HP: 90 Init:
 # Seal Clubber
 
 hunting seal	684	huntingseal.gif	NOCOPY WANDERER Atk: 95 Def: 85 HP: 120 Init: 50 P: demon Article: a
-Argarggagarg the Dire Hellseal	701	2headseal.gif	NOCOPY WANDERER Atk: 115 Def: 103 HP: 150 Init: 60 P: demon	secret tropical island volcano lair map (100)	Argarggagarg's fang (100)	adorable seal larva (100)
+Argarggagarg the Dire Hellseal	701	2headseal.gif	BOSS NOCOPY WANDERER Atk: 115 Def: 103 HP: 150 Init: 60 P: demon	secret tropical island volcano lair map (100)	Argarggagarg's fang (100)	adorable seal larva (100)
 hellseal pup	779	sealpup.gif	NOBANISH Atk: 85 Def: 76 HP: 85 Init: 85 P: demon Article: a	hellseal whisker (0)	hellseal claw (0)
 mother hellseal	780	motherseal.gif	NOBANISH NOCOPY SUPERLIKELY Atk: [150*1.385^pref(_sealScreeches)] Def: [150*1.385^pref(_sealScreeches)] HP: 150 Exp: [150*1.385^pref(_sealScreeches)/4] Init: [150*1.385^pref(_sealScreeches)] P: demon Article: a	burst hellseal brain (c0)	shredded hellseal hide (c0)	torn hellseal sinew (c0)	hellseal brain (c0)	hellseal hide (c0)	hellseal sinew (c0)	hellseal whisker (c0)	hellseal claw (c0)
 hellseal guardian	781	sealguard.gif	Atk: 160 Def: 144 HP: 210 Init: 75 P: demon Article: a	hellseal whisker (50)	hellseal whisker (50)	hellseal claw (50)	hellseal claw (50)
@@ -851,7 +851,7 @@ Gorgolok, the Demonic Hellseal	888	1_4a.gif	BOSS NOCOPY Atk: 200 Def: 180 HP: 40
 # Turtle Tamer
 
 turtle trapper	685	turtletrapper.gif	NOCOPY WANDERER Atk: 95 Def: 85 HP: 120 Init: 50 Meat: 100 P: dude EA: stench EA: none Article: a
-Safari Jack, Small-Game Hunter	702	safarijack.gif	NOCOPY WANDERER Atk: 115 Def: 103 HP: 150 Init: 60 P: dude	secret tropical island volcano lair map (100)	Safari Jack's moustache (100)	untamable turtle (100)
+Safari Jack, Small-Game Hunter	702	safarijack.gif	BOSS NOCOPY WANDERER Atk: 115 Def: 103 HP: 150 Init: 60 P: dude	secret tropical island volcano lair map (100)	Safari Jack's moustache (100)	untamable turtle (100)
 guard turtle	782	guardturtle1.gif,guardturtle2.gif,guardturtle3.gif,guardturtle4.gif	NOBANISH NOCOPY Atk: 140 Def: 126 HP: 140 Init: 140 P: beast Article: a	guard turtle shell (0)	guard turtle collar (0)
 french guard turtle	783	frenchturtle.gif	NOCOPY Atk: 140 Def: 126 HP: 140 Init: 140 P: beast Article: a Manuel: "guard turtle" Wiki: "guard turtle (french)"	guard turtle shell (0)	guard turtle collar (0)
 warehouse worker	867	warehouseguy.gif	Atk: 160 Def: 144 HP: 210 Init: 75 P: dude Article: a	crowbar (20)
@@ -863,7 +863,7 @@ Stella, the Demonic Turtle Poacher	889	2_4a.gif	BOSS NOCOPY Atk: 200 Def: 180 HP
 # Pastamancer
 
 evil spaghetti cult assassin	686	spagcult2.gif	NOCOPY WANDERER Atk: 95 Def: 85 HP: 120 Init: 50 P: dude Article: an
-Yakisoba the Executioner	703	yakisoba.gif	NOCOPY WANDERER Atk: 115 Def: 103 HP: 150 Init: 60 P: dude	secret tropical island volcano lair map (100)	Yakisoba's hat (100)	macaroni duck (100)
+Yakisoba the Executioner	703	yakisoba.gif	BOSS NOCOPY WANDERER Atk: 115 Def: 103 HP: 150 Init: 60 P: dude	secret tropical island volcano lair map (100)	Yakisoba's hat (100)	macaroni duck (100)
 evil spaghetti cult middle-manager	806	spagcult3.gif	NOBANISH Atk: 150 Def: 135 HP: 175 Init: 80 P: dude Article: an	spaghetti cult mask (0)	spaghetti cult rosary (0)	crystal orb of spirit wrangling (100)	cult memo (100)
 evil spaghetti cult neophyte	807	spagcult1.gif	NOBANISH Atk: 140 Def: 126 HP: 150 Init: 60 P: dude Article: an	spaghetti cult mask (0)	spaghetti cult rosary (0)
 evil spaghetti cult technician	808	spagcult2.gif	NOBANISH Atk: 140 Def: 126 HP: 150 Init: 60 P: dude Article: an	spaghetti cult mask (0)	spaghetti cult rosary (0)
@@ -876,7 +876,7 @@ Spaghetti Demon	890	3_4a.gif	BOSS NOCOPY Atk: 200 Def: 180 HP: 600 Init: 100 P: 
 # Saucerer
 
 b&eacute;arnaise zombie	687	saucezombie.gif	NOCOPY WANDERER Atk: 95 Def: 85 HP: 120 Init: 50 P: slime EA: spooky EA: none Article: a Manuel: "béarnaise zombie"
-Heimandatz, Nacho Golem	704	nachogolem.gif	NOCOPY WANDERER Atk: 115 Def: 103 HP: 150 Init: 60 P: construct	secret tropical island volcano lair map (100)	Heimandatz's heart (100)	friendly cheez blob (100)
+Heimandatz, Nacho Golem	704	nachogolem.gif	BOSS NOCOPY WANDERER Atk: 115 Def: 103 HP: 150 Init: 60 P: construct	secret tropical island volcano lair map (100)	Heimandatz's heart (100)	friendly cheez blob (100)
 booth slime	803	boothslime.gif	NOBANISH Atk: 140 Def: 126 HP: 150 Init: 50 P: slime EA: stench EA: none Article: a	vial of blue slime (f66)
 fan slime	804	fanslime.gif	NOBANISH Atk: 140 Def: 126 HP: 150 Init: 50 P: slime EA: sleaze EA: none Article: a	vial of yellow slime (f66)
 vendor slime	805	vendorslime.gif	NOBANISH Atk: 145 Def: 130 HP: 160 Init: 75 P: slime Article: a	vial of red slime (f66)
@@ -889,7 +889,7 @@ Lumpy, the Demonic Sauceblob	891	4_4a.gif	BOSS NOCOPY Atk: 200 Def: 180 HP: 500 
 # Disco Bandit
 
 flock of seagulls	699	seagulls.gif	NOCOPY WANDERER Atk: 95 Def: 85 HP: 120 Init: 50 Group: 2 P: beast Article: a
-Jocko Homo	705	jockohomo.gif	NOCOPY WANDERER Atk: 115 Def: 103 HP: 150 Init: 60 P: beast	secret tropical island volcano lair map (100)	Jocko Homo's head (100)	unusual disco ball (100)
+Jocko Homo	705	jockohomo.gif	BOSS NOCOPY WANDERER Atk: 115 Def: 103 HP: 150 Init: 60 P: beast	secret tropical island volcano lair map (100)	Jocko Homo's head (100)	unusual disco ball (100)
 breakdancing raver	855	breakdancer.gif	NOBANISH Atk: 140 Def: 126 HP: 150 Init: 10000 P: dude Article: a	candy necklace (c0)	rave visor (c0)	teddybear backpack (c0)
 pop-and-lock raver	856	popnlocker.gif	NOBANISH Atk: 140 Def: 126 HP: 150 Init: 10000 P: dude Article: a	baggy rave pants (c0)	glowstick on a string (c0)	teddybear backpack (c0)
 running man	857	runningman.gif	NOBANISH Atk: 140 Def: 126 HP: 150 Init: 10000 P: dude EA: sleaze EA: none Article: a	candy necklace (c0)	glowstick on a string (c0)	pacifier necklace (c0)
@@ -902,7 +902,7 @@ Demon of New Wave	892	5_4a.gif	BOSS NOCOPY Atk: 200 Def: 180 HP: 500 Init: 100 P
 # Accordion Thief
 
 mariachi bandolero	700	bandolero.gif	NOCOPY WANDERER Atk: 95 Def: 85 HP: 120 Init: 50 Meat: 50 P: dude EA: hot EA: none Article: a
-The Mariachi With No Name	706	darkmariachi.gif	NOCOPY WANDERER Atk: 115 Def: 103 HP: 150 Init: 60 Meat: 50 P: dude	secret tropical island volcano lair map (100)	The Mariachi's guitar case (100)	stray chihuahua (100)
+The Mariachi With No Name	706	darkmariachi.gif	BOSS NOCOPY WANDERER Atk: 115 Def: 103 HP: 150 Init: 60 Meat: 50 P: dude	secret tropical island volcano lair map (100)	The Mariachi's guitar case (100)	stray chihuahua (100)
 sleepy mariachi	858	mar_sleepy.gif	NOBANISH Atk: 120 Def: 108 HP: 110 Init: 125 P: dude Article: a	spangly mariachi pants (10)	spangly mariachi vest (c5)	spangly sombrero (10)
 surprised mariachi	859	mar_surprised.gif	NOBANISH Atk: 130 Def: 117 HP: 125 Init: 150 P: dude Article: a	spangly mariachi pants (10)	spangly mariachi vest (c10)	spangly sombrero (5)
 alert mariachi	860	mar_alert.gif	NOBANISH Atk: 200 Def: 180 HP: 250 Init: 300 P: dude Article: an	spangly mariachi pants (10)	spangly mariachi vest (c5)	spangly sombrero (10)	alarm accordion (a100)
