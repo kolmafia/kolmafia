@@ -4987,7 +4987,7 @@ public abstract class ChoiceControl {
           // release Big Brother. Subsequent times, you
           // release other creatures.
           if (Preferences.getBoolean("bigBrotherRescued")) {
-             Preferences.setInteger("_lastFitzsimmonsHatch", KoLCharacter.getTurnsPlayed());
+            Preferences.setInteger("_lastFitzsimmonsHatch", KoLCharacter.getTurnsPlayed());
           }
           QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, "step2");
           Preferences.setBoolean("bigBrotherRescued", true);
