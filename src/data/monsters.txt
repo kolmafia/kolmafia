@@ -1000,7 +1000,7 @@ Your Shadow	210	otherimages/shadows/10.gif,otherimages/shadows/11.gif,otherimage
 
 # Retired Sorceress Lair
 
-topiary golem	205	topiary.gif	NOCOPY Atk: 235 Def: 211 HP: 220 Init: 80 P: plant Article: a	hedge maze puzzle (60)
+topiary golem	205	topiary.gif	BOSS NOCOPY Atk: 235 Def: 211 HP: 220 Init: 80 P: plant Article: a	hedge maze puzzle (60)
 
 Beer Batter	208	batter.gif	NOCOPY WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: construct Article: a
 best-selling novelist	602	novelist.gif	NOCOPY WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: dude Article: a
