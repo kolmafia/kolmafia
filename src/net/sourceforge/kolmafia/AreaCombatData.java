@@ -1887,6 +1887,17 @@ public class AreaCombatData {
         if (monster.equals("trophyfish") && !Preferences.getBoolean("grandpaUnlockedTrophyFish"))
           return 0;
       }
+      case "The Wreck of the Edgar Fitzsimmons" -> {
+        var hatchOpen =
+            KoLCharacter.getTurnsPlayed() - Preferences.getInteger("_lastFitzsimmonsHatch") < 20;
+        var present =
+            switch (monster) {
+              case "cargo crab", "drowned sailor" -> !hatchOpen;
+              case "mine crab", "unholy diver" -> hatchOpen;
+              default -> true;
+            };
+        return present ? weighting : 0;
+      }
     }
     return weighting;
   }
