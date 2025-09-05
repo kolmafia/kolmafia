@@ -2588,7 +2588,7 @@ mutant cookie-baking elf	749	elfblob.gif	Scale: 6 Floor: ? Init: 75 P: elf EA: h
 mutant doll-dressing elf	748	elflimbs.gif	Scale: 6 Floor: ? Init: 75 P: elf Article: a	cheap elven gloves (3)
 mutant gift-wrapping elf	747	elfclaw.gif	Scale: 6 Floor: ? Init: 75 P: elf Article: a	elven socks (3)
 mutant whistle-carving elf	750	elfhulk.gif	Scale: 7 Floor: ? Init: 100 P: elf Article: a	elven <i>limbos</i> gingerbread (10)	elven whittling knife (c1)
-The Crimbomination	760	crimbomination.gif	NOCOPY NOMANUEL Atk: 530 Def: 450 HP: 1000000 Init: 0 Wiki: "The Crimbomination (2008)"	throbbing rage gland (c0)	pulsing flesh (c0)	rigid carapace (c0)	twitching claw (c0)	unstable DNA (c0)
+The Crimbomination	760	crimbomination.gif	BOSS NOCOPY NOMANUEL Atk: 530 Def: 450 HP: 1000000 Init: 0 Wiki: "The Crimbomination (2008)"	throbbing rage gland (c0)	pulsing flesh (c0)	rigid carapace (c0)	twitching claw (c0)	unstable DNA (c0)
 
 # Unexplained Tremors (August 2009)
 Crys-Rock	854	crys_rock.gif	NOCOPY NOMANUEL Atk: [min(300,MOX+10)] Def: [min(300,MUS+10)] HP: [min(240,HP*2/3)] Exp: [(min(300,STAT+10))/4] Init: 50 Phys: 50 Elem: 50 EA: cold EA: hot EA: none	crystallized memory (100)	control crystal (100)	floaty inverse geode (100)
