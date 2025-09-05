@@ -2720,10 +2720,15 @@ user	_twelveNightEnergyUsed	false
 user	_ultraMegaSourBallUsed	false
 user	_unaccompaniedMinerUsed	0
 user	_unblemishedPearlAnemoneMine	false
+user	_unblemishedPearlAnemoneMineProgress	0
 user	_unblemishedPearlDiveBar	false
+user	_unblemishedPearlDiveBarProgress	0
 user	_unblemishedPearlMadnessReef	false
+user	_unblemishedPearlMadnessReefProgress	0
 user	_unblemishedPearlMarinaraTrench	false
+user	_unblemishedPearlMarinaraTrenchProgress	0
 user	_unblemishedPearlTheBriniestDeepests	false
+user	_unblemishedPearlTheBriniestDeepestsProgress	0
 user	_unconsciousCollectiveCharge	0
 user	_universalSeasoningsUsed	0
 user	_universeCalculated	0
@@ -3583,11 +3588,6 @@ user	lockedItem4638	true
 user	lockedItem4639	true
 user	lockedItem4646	true
 user	lockedItem4647	true
-user	unblemishedPearlAnemoneMineProgress	0
-user	unblemishedPearlDiveBarProgress	0
-user	unblemishedPearlMadnessReefProgress	0
-user	unblemishedPearlMarinaraTrenchProgress	0
-user	unblemishedPearlTheBriniestDeepestsProgress	0
 user	unknownRecipe3542	true
 user	unknownRecipe3543	true
 user	unknownRecipe3544	true

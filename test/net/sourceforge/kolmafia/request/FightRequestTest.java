@@ -4236,13 +4236,13 @@ public class FightRequestTest {
     public void canDetectUnblemishedPearlDiveBarProgress() {
       RequestLoggerOutput.startStream();
       var cleanups =
-          new Cleanups(withFight(), withProperty("unblemishedPearlDiveBarProgress", 3.7));
+          new Cleanups(withFight(), withProperty("_unblemishedPearlDiveBarProgress", 3.7));
 
       try (cleanups) {
         parseCombatData("request/test_fight_pearl_dive_bar_progress.html");
 
         var stream = RequestLoggerOutput.stopStream();
-        assertThat("unblemishedPearlDiveBarProgress", isSetTo(13.7));
+        assertThat("_unblemishedPearlDiveBarProgress", isSetTo(13.7));
         assertThat(stream, containsString("(10.0% progress made towards shiny thing)"));
       }
     }
@@ -4254,13 +4254,13 @@ public class FightRequestTest {
           new Cleanups(
               withFight(),
               withProperty("_unblemishedPearlDiveBar"),
-              withProperty("unblemishedPearlDiveBarProgress", 90.0));
+              withProperty("_unblemishedPearlDiveBarProgress", 90.0));
 
       try (cleanups) {
         parseCombatData("request/test_fight_pearl_dive_bar.html");
 
         var stream = RequestLoggerOutput.stopStream();
-        assertThat("unblemishedPearlDiveBarProgress", isSetTo(0.0));
+        assertThat("_unblemishedPearlDiveBarProgress", isSetTo(0.0));
         assertThat("_unblemishedPearlDiveBar", isSetTo(true));
         assertThat(
             stream,

@@ -7636,15 +7636,15 @@ public class FightRequest extends GenericRequest {
     String progressPref;
 
     if (nodeText.contains("You see a glint of something")) {
-      progressPref = "unblemishedPearlAnemoneMineProgress";
+      progressPref = "_unblemishedPearlAnemoneMineProgress";
     } else if (nodeText.contains("You stop in the bathroom")) {
-      progressPref = "unblemishedPearlDiveBarProgress";
+      progressPref = "_unblemishedPearlDiveBarProgress";
     } else if (nodeText.contains("You see something shiny")) {
-      progressPref = "unblemishedPearlMadnessReefProgress";
+      progressPref = "_unblemishedPearlMadnessReefProgress";
     } else if (nodeText.contains("You spot something shiny")) {
-      progressPref = "unblemishedPearlMarinaraTrenchProgress";
+      progressPref = "_unblemishedPearlMarinaraTrenchProgress";
     } else if (nodeText.contains("You catch a glint of something shiny")) {
-      progressPref = "unblemishedPearlTheBriniestDeepestsProgress";
+      progressPref = "_unblemishedPearlTheBriniestDeepestsProgress";
     } else {
       return false;
     }
@@ -7663,28 +7663,27 @@ public class FightRequest extends GenericRequest {
 
     if (text.startsWith(
         "You finally screw your courage to the sticking point and dive into the deeps.")) {
-      pref = "unblemishedPearlAnemoneMine";
+      pref = "_unblemishedPearlAnemoneMine";
     } else if (text.startsWith(
         "You finally overcome your inhibitions enough to grab the urinal treasure.")) {
-      pref = "unblemishedPearlDiveBar";
+      pref = "_unblemishedPearlDiveBar";
     } else if (text.startsWith(
         "You finally manage to fight through the stench and grab the shiny thing.")) {
-      pref = "unblemishedPearlMadnessReef";
+      pref = "_unblemishedPearlMadnessReef";
     } else if (text.startsWith(
         "You finally manage to power through the boiling water and grab the shiny object.")) {
-      pref = "unblemishedPearlMarinaraTrench";
+      pref = "_unblemishedPearlMarinaraTrench";
     } else if (text.startsWith(
         "You finally manage to brave the frigid current and retrieve the precious shiny object,")) {
-      pref = "unblemishedPearlTheBriniestDeepests";
+      pref = "_unblemishedPearlTheBriniestDeepests";
     } else {
       return false;
     }
 
     var progressPref = pref + "Progress";
-    var todayPref = "_" + pref;
 
     Preferences.setDouble(progressPref, 0.0);
-    Preferences.setBoolean(todayPref, true);
+    Preferences.setBoolean(pref, true);
 
     FightRequest.logText(text, status);
 
