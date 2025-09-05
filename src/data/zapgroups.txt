@@ -1,6 +1,6 @@
 1
 # Wiki zap groups, as described in the KoL Visual Wiki
-# http://kol.coldfront.net/thekolwiki/index.php/Zapping
+# https://wiki.kingdomofloathing.com/Zapping
 
 cursed eyepatch, cursed cutlass, cursed breeches
 carob brownies, chorizo brownies, herb brownies
