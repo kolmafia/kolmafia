@@ -32,7 +32,7 @@ ancient protector spirit (The Hidden Apartment Building)	442	protspirit.gif	BOSS
 ancient protector spirit (The Hidden Hospital)	443	protspirit.gif	BOSS NOCOPY Atk: 162 Def: 142 HP: 80 Init: 10 P: undead GHOST Phys: 100 EA: spooky EA: none Article: an Manuel: "ancient protector spirit"	dripping stone sphere (c100)
 ancient protector spirit (The Hidden Office Building)	444	protspirit.gif	BOSS NOCOPY Atk: 160 Def: 140 HP: 80 Init: 10 P: undead GHOST Phys: 100 EA: spooky EA: none Article: an Manuel: "ancient protector spirit"	crackling stone sphere (c100)
 ancient protector spirit (The Hidden Bowling Alley)	445	protspirit.gif	BOSS NOCOPY Atk: 156 Def: 144 HP: 80 Init: 10 P: undead GHOST Phys: 100 EA: hot EA: spooky EA: none Article: an Manuel: "ancient protector spirit"	scorched stone sphere (c100)
-ancient protector spirit (obsolete)	446	protspirit.gif	NOCOPY Atk: 160 Def: 144 HP: 80 Init: 10 P: undead GHOST Phys: 100 EA: spooky Article: an Manuel: "ancient protector spirit" Wiki: "ancient protector spirit"	obsidian dagger (c100)
+ancient protector spirit (obsolete)	446	protspirit.gif	BOSS NOCOPY Atk: 160 Def: 144 HP: 80 Init: 10 P: undead GHOST Phys: 100 EA: spooky Article: an Manuel: "ancient protector spirit" Wiki: "ancient protector spirit"	obsidian dagger (c100)
 # ---
 Anemone combatant	766	anemone.gif	Atk: 400 Def: 585 HP: 600 Init: 25 Meat: 100 P: fish Article: an Poison: "Majorly Poisoned"	anemone nematocyst (n25)
 anglerbush	381	anglerbush.gif	Atk: 22 Def: 21 HP: 25 Init: 300 P: plant EA: sleaze EA: none Article: an	meat stack (35)
