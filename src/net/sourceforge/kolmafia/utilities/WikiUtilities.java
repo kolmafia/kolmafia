@@ -79,7 +79,7 @@ public class WikiUtilities {
       name = "Data:" + name;
     }
 
-    return "https://kol.coldfront.net/thekolwiki/index.php/" + name;
+    return "https://wiki.kingdomofloathing.com/" + name;
   }
 
   private static String disambiguateTypes(WikiType type, String name) {
