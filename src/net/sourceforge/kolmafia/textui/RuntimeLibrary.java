@@ -9873,7 +9873,7 @@ public abstract class RuntimeLibrary {
       return DataTypes.ZERO_VALUE;
     }
 
-    // http://kol.coldfront.net/thekolwiki/index.php/Damage
+    // https://wiki.kingdomofloathing.com/Damage
     int attack = monster.getAttack() + attackModifier;
     int defenseStat = KoLCharacter.getAdjustedMoxie();
 
@@ -9886,7 +9886,7 @@ public abstract class RuntimeLibrary {
     double damageAbsorb;
     double elementAbsorb;
 
-    // https://kol.coldfront.net/thekolwiki/index.php/Ninja_snowman_assassin
+    // https://wiki.kingdomofloathing.com/Ninja_snowman_assassin
     if (monster.getName().equals("ninja snowman assassin")) {
       baseValue = Math.max(0, attack - defenseStat) + 120;
       damageAbsorb =

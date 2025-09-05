@@ -7,7 +7,7 @@
 
 		if (name) {
 			var encodedName = encodeURIComponent(name);
-			var wikiUrl = "https://kol.coldfront.net/thekolwiki/index.php/Special:Search?go=Go&search=" + encodedName;
+			var wikiUrl = "https://wiki.kingdomofloathing.com/Special:Search?search=" + encodedName;
 
 			var html = '<div style="width:100%; padding-bottom: 3px;"><b>Search:</b> ';
 			// mallable == !quest && !gift && tradeable
