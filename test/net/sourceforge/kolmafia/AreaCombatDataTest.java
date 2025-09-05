@@ -1128,5 +1128,17 @@ public class AreaCombatDataTest {
             expected ? closeTo(100.0 / 3, 0.001) : is(0.0));
       }
     }
+
+    @Test
+    void hatchNotOpenInFirstFewTurns() {
+      var cleanups = new Cleanups(withTurnsPlayed(4), withProperty("_lastFitzsimmonsHatch", -1));
+
+      try (cleanups) {
+        var appearanceRates =
+            AdventureDatabase.getAreaCombatData("The Wreck of the Edgar Fitzsimmons")
+                .getMonsterData(true);
+        assertThat(appearanceRates.get(MonsterDatabase.findMonster("unholy diver")), is(0.0));
+      }
+    }
   }
 }

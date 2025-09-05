@@ -1888,8 +1888,11 @@ public class AreaCombatData {
           return 0;
       }
       case "The Wreck of the Edgar Fitzsimmons" -> {
+        var hatchTurn = Preferences.getInteger("_lastFitzsimmonsHatch");
         var hatchOpen =
-            KoLCharacter.getTurnsPlayed() - Preferences.getInteger("_lastFitzsimmonsHatch") < 20;
+            hatchTurn >= 0
+                && KoLCharacter.getTurnsPlayed() - Preferences.getInteger("_lastFitzsimmonsHatch")
+                    < 20;
         var present =
             switch (monster) {
               case "cargo crab", "drowned sailor" -> !hatchOpen;

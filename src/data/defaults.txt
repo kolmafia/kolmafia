@@ -2347,7 +2347,7 @@ user	_lastCombatLost	false
 user	_lastCombatStarted
 user	_lastCombatWon	true
 user	_lastDailyDungeonRoom	0
-user	_lastFitzsimmonsHatch	0
+user	_lastFitzsimmonsHatch	-1
 user	_lastMobiusStripTurn	0
 user	_lastPirateRealmIsland
 user	_lastSausageMonsterTurn	0
