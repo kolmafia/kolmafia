@@ -12,7 +12,7 @@
 #
 # Combat percentage figures from Yiab's statistical data:
 #
-# http://kol.coldfront.net/thekolwiki/index.php/Parseable_Area_Statistics
+# https://wiki.kingdomofloathing.com/Parseable_Area_Statistics
 #
 # Missing Combat Percent Data (marked with -1):
 #

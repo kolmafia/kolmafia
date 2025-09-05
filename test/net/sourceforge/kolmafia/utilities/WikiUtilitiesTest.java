@@ -18,50 +18,49 @@ public class WikiUtilitiesTest {
     var vampire = MonsterDatabase.findMonster("spooky vampire");
     String link = WikiUtilities.getWikiLocation(vampire, true);
     assertEquals(
-        "https://kol.coldfront.net/thekolwiki/index.php/Data:Spooky_vampire_%28Spooky_Forest%29",
-        link);
+        "https://wiki.kingdomofloathing.com/Data:Spooky_vampire_%28Spooky_Forest%29", link);
   }
 
   @Test
   public void getWikiLocationWithQuotes() {
     var drippyPlum = AdventureResult.tallyItem("\"caramel\" orange");
     String link = WikiUtilities.getWikiLocation(drippyPlum, true);
-    assertEquals("https://kol.coldfront.net/thekolwiki/index.php/Data:%22caramel%22_orange", link);
+    assertEquals("https://wiki.kingdomofloathing.com/Data:%22caramel%22_orange", link);
   }
 
   @Test
   public void getWikiLocationWithQuestionMark() {
     var drippyPlum = AdventureResult.tallyItem("drippy plum(?)");
     String link = WikiUtilities.getWikiLocation(drippyPlum);
-    assertEquals("https://kol.coldfront.net/thekolwiki/index.php/Drippy_plum%28%3F%29", link);
+    assertEquals("https://wiki.kingdomofloathing.com/Drippy_plum%28%3F%29", link);
   }
 
   @Test
   public void getWikiLocationForItemThatIsAlsoMonster() {
     var flange = AdventureResult.tallyItem("flange");
     String link = WikiUtilities.getWikiLocation(flange);
-    assertEquals("https://kol.coldfront.net/thekolwiki/index.php/Flange_%28item%29", link);
+    assertEquals("https://wiki.kingdomofloathing.com/Flange_%28item%29", link);
   }
 
   @Test
   public void getWikiLocationForMonsterThatIsAlsoItem() {
     var flange = MonsterDatabase.findMonster("Flange");
     String link = WikiUtilities.getWikiLocation(flange, true);
-    assertEquals("https://kol.coldfront.net/thekolwiki/index.php/Data:Flange_%28monster%29", link);
+    assertEquals("https://wiki.kingdomofloathing.com/Data:Flange_%28monster%29", link);
   }
 
   @Test
   public void icePorterItemHasANonStandardDisambiguation() {
     var icePorter = AdventureResult.tallyItem("ice porter");
     String link = WikiUtilities.getWikiLocation(icePorter);
-    assertEquals("https://kol.coldfront.net/thekolwiki/index.php/Ice_porter_%28drink%29", link);
+    assertEquals("https://wiki.kingdomofloathing.com/Ice_porter_%28drink%29", link);
   }
 
   @Test
   public void getWikiLocationUsesModifiers() {
     var hankyu = AdventureResult.tallyItem("frigid hanky&#363;");
     String link = WikiUtilities.getWikiLocation(hankyu);
-    assertEquals("https://kol.coldfront.net/thekolwiki/index.php/Frigid_hankyu", link);
+    assertEquals("https://wiki.kingdomofloathing.com/Frigid_hankyu", link);
   }
 
   @Test
@@ -72,22 +71,21 @@ public class WikiUtilitiesTest {
   @Test
   public void lookupByStringWorks() {
     var link = WikiUtilities.getWikiLocation("Your #1 Problem");
-    assertEquals("https://kol.coldfront.net/thekolwiki/index.php/Your_1_Problem", link);
+    assertEquals("https://wiki.kingdomofloathing.com/Your_1_Problem", link);
   }
 
   @Test
   public void getWikiLocationForBossBatQuestionMark() {
     var edBossBat = MonsterDatabase.findMonster("Boss Bat?");
     String link = WikiUtilities.getWikiLocation(edBossBat, false);
-    assertEquals("https://kol.coldfront.net/thekolwiki/index.php/Boss_Bat%3F", link);
+    assertEquals("https://wiki.kingdomofloathing.com/Boss_Bat%3F", link);
   }
 
   @Test
   public void getWikiLocationForWaluigi() {
     var waluigi = MonsterDatabase.findMonster("Wa%playername/lowercase%");
     String link = WikiUtilities.getWikiLocation(waluigi, false);
-    assertEquals(
-        "https://kol.coldfront.net/thekolwiki/index.php/Wa%25playername/lowercase%25", link);
+    assertEquals("https://wiki.kingdomofloathing.com/Wa%25playername/lowercase%25", link);
   }
 
   private static Stream<Arguments> wikiPages() {
@@ -125,6 +123,6 @@ public class WikiUtilitiesTest {
   public void correctAnswerForWikiPagesOfVariousTypes(
       String name, WikiType type, String expectedPage) {
     var link = WikiUtilities.getWikiLocation(name, type, false);
-    assertEquals("https://kol.coldfront.net/thekolwiki/index.php/" + expectedPage, link);
+    assertEquals("https://wiki.kingdomofloathing.com/" + expectedPage, link);
   }
 }

@@ -46,7 +46,7 @@ public class RestorativeItemPanel extends ItemTableManagePanel<AdventureResult> 
       name = value.getName();
       if (name != null) {
         RelayLoader.openSystemBrowser(
-            "http://kol.coldfront.net/thekolwiki/index.php/Special:Search?search=" + name);
+            "https://wiki.kingdomofloathing.com/Special:Search?search=" + name);
       }
     }
   }
