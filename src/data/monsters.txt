@@ -1525,7 +1525,7 @@ giant spider	820	tarantula.gif	NOCOPY Atk: 90 Def: 81 HP: 90 Init: 60 P: bug Art
 group of cultists	828	cultistgroup.gif	Atk: 80 Def: 63 HP: 75 Init: 30 Group: 3 P: dude Article: a	memory of a cultist's robe (20)
 jungle baboon	832	orangutan.gif	Atk: 50 Def: 54 HP: 50 Init: 80 P: beast Article: a	banana peel (30)	glass of baboon milk (30)
 tribal goblin	831	tribalgoblin.gif	Atk: 60 Def: 45 HP: 60 Init: 60 P: goblin Article: a	goblin autoblowgun (5)	goblin hunting spear (5)	shiny tribal beads (40)	temporary tribal tattoo (c0)	folder (barbarian) (c5)
-wumpus	821	wumpus.gif	NOCOPY Atk: 66 Def: 59 HP: 66 Init: 66 P: beast Article: a	memory of a glowing crystal (c0)	1-5 wumpus hair (m100)
+wumpus	821	wumpus.gif	BOSS NOCOPY Atk: 66 Def: 59 HP: 66 Init: 66 P: beast Article: a	memory of a glowing crystal (c0)	1-5 wumpus hair (m100)
 high priest of Ki'rhuss	829	highpriest.gif	NOCOPY Atk: 110 Def: 99 HP: 110 Init: 50 P: dude Article: a
 
 # Memories of the Distant Future (Baby Sandworm June 2009)
