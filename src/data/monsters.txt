@@ -1029,13 +1029,13 @@ Vicious Easel	275	easel.gif	NOCOPY WISH Atk: 99999 Def: 89999 HP: [99999] Init: 
 
 # Basement
 
-Beast with X Ears	240	earbeast.gif	NOCOPY Atk: [2*ceil(BL^1.4)+ML] Def: [2*ceil(BL^1.4)+ML] HP: [1.7*ceil(BL^1.4)+ML] Init: 70 P: horror Article: The
-Beast with X Eyes	239	eyebeast.gif	NOCOPY Atk: [2*ceil(BL^1.4)+ML] Def: [2*ceil(BL^1.4)+ML] HP: [1.7*ceil(BL^1.4)+ML] Init: 10000 P: horror Article: The
-X Stone Golem	242	stonegolem.gif	NOCOPY Atk: [2*ceil(BL^1.4)+ML] Def: [2*ceil(BL^1.4)+ML] HP: [0.85*ceil(BL^1.4)+ML] Init: 70 P: construct Phys: 50 Article: A	Stone Golem pebbles (c0)
-X-headed Hydra	237	hydra.gif	NOCOPY Atk: [2*ceil(BL^1.4)+ML] Def: [2*ceil(BL^1.4)+ML] HP: [1.7*ceil(BL^1.4)+ML] Init: 70 P: beast EA: cold EA: hot EA: stench EA: none Article: An
-Ghost of Fernswarthy's Grandfather	238	fernghost.gif	NOCOPY Atk: [2*ceil(BL^1.4)+ML] Def: [2*ceil(BL^1.4)+ML] HP: [0.425*ceil(BL^1.4)+ML] Init: 70 P: undead GHOST Phys: 100 Article: The
-X Bottles of Beer on a Golem	241	beergolem.gif	NOCOPY Atk: [2*ceil(BL^1.4)+ML] Def: [2*ceil(BL^1.4)+ML] HP: [1.7*ceil(BL^1.4)+ML] Init: 70 P: construct Spell: 90
-X-dimensional horror	592	dimhorror.gif	NOCOPY Atk: [2*ceil(BL^1.4)+ML] Def: [2*ceil(BL^1.4)+ML] HP: [1.7*ceil(BL^1.4)+ML] Init: -10000 P: horror Article: a
+Beast with X Ears	240	earbeast.gif	BOSS NOCOPY Atk: [2*ceil(BL^1.4)+ML] Def: [2*ceil(BL^1.4)+ML] HP: [1.7*ceil(BL^1.4)+ML] Init: 70 P: horror Article: The
+Beast with X Eyes	239	eyebeast.gif	BOSS NOCOPY Atk: [2*ceil(BL^1.4)+ML] Def: [2*ceil(BL^1.4)+ML] HP: [1.7*ceil(BL^1.4)+ML] Init: 10000 P: horror Article: The
+X Stone Golem	242	stonegolem.gif	BOSS NOCOPY Atk: [2*ceil(BL^1.4)+ML] Def: [2*ceil(BL^1.4)+ML] HP: [0.85*ceil(BL^1.4)+ML] Init: 70 P: construct Phys: 50 Article: A	Stone Golem pebbles (c0)
+X-headed Hydra	237	hydra.gif	BOSS NOCOPY Atk: [2*ceil(BL^1.4)+ML] Def: [2*ceil(BL^1.4)+ML] HP: [1.7*ceil(BL^1.4)+ML] Init: 70 P: beast EA: cold EA: hot EA: stench EA: none Article: An
+Ghost of Fernswarthy's Grandfather	238	fernghost.gif	BOSS NOCOPY Atk: [2*ceil(BL^1.4)+ML] Def: [2*ceil(BL^1.4)+ML] HP: [0.425*ceil(BL^1.4)+ML] Init: 70 P: undead GHOST Phys: 100 Article: The
+X Bottles of Beer on a Golem	241	beergolem.gif	BOSS NOCOPY Atk: [2*ceil(BL^1.4)+ML] Def: [2*ceil(BL^1.4)+ML] HP: [1.7*ceil(BL^1.4)+ML] Init: 70 P: construct Spell: 90
+X-dimensional horror	592	dimhorror.gif	BOSS NOCOPY Atk: [2*ceil(BL^1.4)+ML] Def: [2*ceil(BL^1.4)+ML] HP: [1.7*ceil(BL^1.4)+ML] Init: -10000 P: horror Article: a
 
 # Clan Dungeons
 
