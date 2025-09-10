@@ -11588,6 +11588,9 @@ Item	scroll of minor invulnerability	Effect: "Minor Invulnerability", Effect Dur
 Item	scroll of Protection from Bad Stuff	Effect: "Protection from Bad Stuff", Effect Duration: 20, Last Available: "2013-02"
 Item	scroll of protection from lycanthropes	Effect: "Protection from Lycanthropes", Effect Duration: 50, Last Available: "2023-06"
 Item	scroll of Puddingskin	Effect: "Puddingskin", Effect Duration: 80, Last Available: "2013-02"
+Item	scroll of sea strength	Effect: "Sea Strength", Effect Duration: 50
+Item	scroll of sea smarts	Effect: "Sea Smarts", Effect Duration: 50
+Item	scroll of sea smarm	Effect: "Sea Smarm", Effect Duration: 50
 Item	sea grease	Effect: "Greased-Up Familiar", Effect Duration: 40
 Item	sea salt crystal	Effect: "Salty Dogs", Effect Duration: 5
 Item	seal eyeball	Effect: "Eye of the Seal", Effect Duration: 10
