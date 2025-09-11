@@ -11378,6 +11378,7 @@ Item	Now and Earlier	Effect: "Sugar Rush", Effect Duration: 5, Last Available: "
 Item	Nuclear Blastball	Effect: "Taste the Inferno", Effect Duration: 50, Last Available: "2011-05"
 Item	null-day exploit	Effect: "Null Afternoon", Effect Duration: 30, Last Available: "2025-12"
 Item	O'RLY manual	Effect: "You Read The Manual", Effect Duration: 20
+Item	octopus ink bladder	Effect: "Inkily Obscured", Effect Duration: 20
 Item	Ogres and Oubliettes&trade; module	Effect: "Ogred and Oublietted", Effect Duration: 10
 Item	oil of expertise	Effect: "Expert Oiliness", Effect Duration: [R]
 Item	Oil of Parrrlay	Effect: "Well-Oiled", Effect Duration: 5
