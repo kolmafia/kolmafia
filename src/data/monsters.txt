@@ -96,7 +96,7 @@ bog skeleton	1346	bogskeleton.gif	Atk: 50 Def: 52 HP: 50 Init: 25 Meat: 10 P: un
 bogart	1348	bogart.gif	Atk: 54 Def: 48 HP: 48 Init: 70 Meat: 30 P: humanoid Article: a	fine aged cheddarwurst (30)	stolen meatpouch (20)
 Bonerdagon	198	foss_wyrm.gif	BOSS NOCOPY Atk: 90 Def: 81 HP: 120 Init: 90 P: undead E: spooky Item: 25 Skill: 50 Article: The	skull of the Bonerdagon (n100)	chest of the Bonerdagon (n100)
 bookbat	387	bookbat.gif	Atk: 26 Def: 24 HP: 26 Init: 70 P: construct Article: a	tattered scrap of paper (15)
-booty crab	634	bootycrab.gif	NOCOPY Atk: 100 Def: 90 HP: 70 Init: 10000 Meat: 300 P: beast Phys: 25 E: sleaze Article: a	Cap'm Caronch's nasty booty (100)
+booty crab	634	bootycrab.gif	BOSS NOCOPY Atk: 100 Def: 90 HP: 70 Init: 10000 Meat: 300 P: beast Phys: 25 E: sleaze Article: a	Cap'm Caronch's nasty booty (100)
 Booze Giant	95	boozegiant.gif	Atk: 76 Def: 68 HP: 66 Init: 80 P: humanoid Article: a	bottle of gin (15)	bottle of rum (15)	bottle of tequila (15)	bottle of vodka (15)	bottle of whiskey (15)	boxed wine (15)	giant breath mint (c10)
 Boss Bat	49	bigbossbat.gif	BOSS NOBANISH NOCOPY Atk: 33 Def: 29 HP: 40 Init: 60 P: beast Article: The	batskin belt (100)	dense meat stack (100)	Boss Bat britches (c100)	Boss Bat bling (c100)
 Box	535	box.gif	Atk: 150 Def: 135 HP: 150 Init: 70 P: constellation ED: sleaze EA: hot EA: sleaze Article: The	line (30)	line (30)	line (30)
