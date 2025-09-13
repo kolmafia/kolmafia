@@ -11232,7 +11232,6 @@ Item	incense bath ball	Effect: "Incensed", Effect Duration: 10, Last Available: 
 Item	industrial frosting	Effect: "Industrially Frosted", Effect Duration: 5, Last Available: "2016-12"
 Item	industrial strength starch	Effect: "Industrial Strength Starch", Effect Duration: 20, Wiki Name: "industrial strength starch"
 Item	infernal snowball	Effect: "Good Chance of Surviving Hell", Effect Duration: 20, Last Available: "2019-12"
-Item	ink bladder	Effect: "Inkily Obscured", Effect Duration: 20
 Item	Inner Strength	Effect: "Innately Strong", Effect Duration: 20, Last Available: "2016-12"
 Item	Inner Truth	Effect: "Innately Truthy", Effect Duration: 20, Last Available: "2016-12"
 Item	Inner Wisdom	Effect: "Innately Wise", Effect Duration: 20, Last Available: "2016-12"
