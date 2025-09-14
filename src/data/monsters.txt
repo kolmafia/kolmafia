@@ -794,7 +794,7 @@ white chocolate golem	67	chocgolem.gif	Atk: 37 Def: 32 HP: 21 Init: 70 P: constr
 white elephant	1590	whiteelephant.gif	Atk: 45 Def: 45 HP: 50 Init: 50 Meat: 300 P: beast Article: a	white blood cells (50)	white wine (100)	white elephant gift (5)
 white lion	66	lion.gif	Atk: 36 Def: 31 HP: 21 Init: 60 Meat: 30 P: beast Article: a	catgut (15)	lion oil (25)
 whitesnake	65	whitesnake.gif	Atk: 35 Def: 30 HP: 21 Init: 60 Meat: 10 P: beast SNAKE Article: a Poison: "A Little Bit Poisoned"	white snake skin (30)	bird rib (25)
-wild seahorse	778	seahorse.gif	NOCOPY NOMANUEL Atk: 500 Def: 900000 HP: 1000000 Init: 10000 P: fish Phys: 100 Elem: 100 EA: spooky EA: stench EA: none
+wild seahorse	778	seahorse.gif	BOSS NOCOPY NOMANUEL Atk: 500 Def: 900000 HP: 1000000 Init: 10000 P: fish Phys: 100 Elem: 100 EA: spooky EA: stench EA: none
 witty pirate	629	pirate2.gif	Atk: 120 Def: 108 HP: 110 Init: 50 Meat: 85 P: pirate Article: a	witty rapier (10)	silver tongue charrrm (10)
 wizardly mushroom guy	1804	mush_wizard.gif	Atk: 35 Def: 25 HP: 15 Init: 50 P: plant Article: a	glowing spore pod (0)	pointy mushroom (0)
 wolfman	200	werewolf.gif	Atk: 3 Def: 2 HP: 2 Init: 50 Meat: 10 P: dude Article: a
