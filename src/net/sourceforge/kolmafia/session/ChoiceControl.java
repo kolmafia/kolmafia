@@ -5045,6 +5045,27 @@ public abstract class ChoiceControl {
 
       case 360 -> WumpusManager.takeChoice(ChoiceManager.lastDecision, text);
 
+      case 396 -> {
+        // Scaly Bully
+        if (ChoiceManager.lastDecision == 3) {
+          Preferences.setBoolean("merkinElementaryJanitorUnlock", true);
+        }
+      }
+
+      case 397 -> {
+        // Bored of Education
+        if (ChoiceManager.lastDecision == 2) {
+          Preferences.setBoolean("merkinElementaryBathroomUnlock", true);
+        }
+      }
+
+      case 398 -> {
+        // Mer-kin Graffiti
+        if (ChoiceManager.lastDecision == 1) {
+          Preferences.setBoolean("merkinElementaryTeacherUnlock", true);
+        }
+      }
+
       case 441 -> {
         // The Mad Tea Party
 
