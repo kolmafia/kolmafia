@@ -154,7 +154,7 @@ conservationist hippy	597	conhippy.gif	BOSS NOCOPY Atk: 64 Def: 68 HP: 70 Init: 
 cooler wino	1751	coolerwino.gif	Atk: 2 Def: 1 HP: 2 Init: -10000 P: hobo Article: a	unflavored wine cooler (100)	unflavored wine cooler (30)	mostly-broken sunglasses (30)	handful of stubble (c0)
 Copperhead Club bartender	1510	coppertender.gif	NOWISH Atk: 140 Def: 140 HP: 150 Init: 25 Meat: 100 P: dude EA: cold EA: hot EA: none	handful of tips (20)	unnamed cocktail (15)	unrequired jacket (0)	electric copperhead potion (c0)
 corpulent zobmie	196	fatzombie.gif	NOWISH Atk: 54 Def: 49 HP: 50 Init: 50 Meat: 75 P: undead E: spooky Article: a	cranberries (25)	cranberries (15)	loose teeth (10)	Grateful Undead T-shirt (c1)
-cosmetics wraith	1545	makeupwraith.gif	NOCOPY Atk: 65 Def: 55 HP: 65 Init: 50 P: undead ED: spooky EA: sleaze EA: none Article: a	Lady Spookyraven's powder puff (c100)	old eyebrow pencil (n100)	old rosewater cream (n100)	old bronzer (n100)
+cosmetics wraith	1545	makeupwraith.gif	BOSS NOCOPY Atk: 65 Def: 55 HP: 65 Init: 50 P: undead ED: spooky EA: sleaze EA: none Article: a	Lady Spookyraven's powder puff (c100)	old eyebrow pencil (n100)	old rosewater cream (n100)	old bronzer (n100)
 Count Bakula	348	bakula.gif	NOCOPY NOMANUEL ULTRARARE Atk: 80 Def: 72 HP: 80 Init: 10000 P: dude	Talisman of Bakula (100)
 crate	992	crate.gif	NOWISH Atk: 0 Def: 0 HP: 1 Init: -10000 P: construct Article: a
 craven carven raven	1161	stone_raven.gif	Scale: 0 Cap: 50 Floor: 7 Init: -10000 P: construct Article: a	shiny stones (100)
