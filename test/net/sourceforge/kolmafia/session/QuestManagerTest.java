@@ -1645,7 +1645,7 @@ public class QuestManagerTest {
               withNoItems(),
               withHardcore(isHardcore),
               withProperty("seaPoints", before));
-              withQuestProgress(Quest.FINAL, QuestDatabase.UNSTARTED);
+      withQuestProgress(Quest.FINAL, QuestDatabase.UNSTARTED);
       try (cleanups) {
         String html =
             message
