@@ -2591,7 +2591,7 @@ mutant whistle-carving elf	750	elfhulk.gif	Scale: 7 Floor: ? Init: 100 P: elf Ar
 The Crimbomination	760	crimbomination.gif	BOSS NOCOPY NOMANUEL Atk: 530 Def: 450 HP: 1000000 Init: 0 Wiki: "The Crimbomination (2008)"	throbbing rage gland (c0)	pulsing flesh (c0)	rigid carapace (c0)	twitching claw (c0)	unstable DNA (c0)
 
 # Unexplained Tremors (August 2009)
-Crys-Rock	854	crys_rock.gif	NOCOPY NOMANUEL Atk: [min(300,MOX+10)] Def: [min(300,MUS+10)] HP: [min(240,HP*2/3)] Exp: [(min(300,STAT+10))/4] Init: 50 Phys: 50 Elem: 50 EA: cold EA: hot EA: none	crystallized memory (100)	control crystal (100)	floaty inverse geode (100)
+Crys-Rock	854	crys_rock.gif	BOSS NOCOPY NOMANUEL Atk: [min(300,MOX+10)] Def: [min(300,MUS+10)] HP: [min(240,HP*2/3)] Exp: [(min(300,STAT+10))/4] Init: 50 Phys: 50 Elem: 50 EA: cold EA: hot EA: none	crystallized memory (100)	control crystal (100)	floaty inverse geode (100)
 clod hopper	847	rock_hopper.gif	WANDERER Atk: 100 Def: 90 HP: 150 Init: 50 P: beast Article: a	floaty sand (15)	floaty sand (15)	floaty sand (15)
 rock homunculus	846	rock_guy.gif	WANDERER Atk: 30 Def: 27 HP: 40 Init: -10000 P: beast EA: hot EA: none Article: a	floaty sand (20)	floaty sand (20)
 rock snake	845	rock_snake.gif	NOCOPY NOMANUEL WANDERER Atk: 10 Def: 9 HP: 15 SNAKE	floaty sand (25)
@@ -2603,7 +2603,7 @@ fur tree	862	shiv_fur.gif	Scale: 5 Cap: 200 Floor: ? Init: -10000 P: plant EA: s
 hangman's tree	865	shiv_hangman.gif	Scale: 5 Cap: 200 Floor: ? Init: -10000 P: plant Article: a	petrified wood (5)	spooky bark (10)	spooky sap (5)
 pumpkin tree	863	shiv_pumpkin.gif	Scale: 5 Cap: 200 Floor: ? Init: -10000 P: plant Article: a	petrified wood (5)	pumpkinhead mask (20)	spooky bark (10)	spooky sap (5)
 toilet-papered tree	861	shiv_tp.gif	Scale: 5 Cap: 200 Floor: ? Init: -10000 P: plant Article: a	mummy costume (20)	petrified wood (5)	spooky bark (10)	spooky sap (5)
-Underworld Tree	866	shiv_underworld.gif	NOCOPY NOMANUEL P: plant	Underworld acorn (100)	Underworld trunk (100)
+Underworld Tree	866	shiv_underworld.gif	BOSS NOCOPY NOMANUEL P: plant	Underworld acorn (100)	Underworld trunk (100)
 
 # Crimbo Town Toy Factory (Crimbo 2009)
 amateur elf	899	elf_amateur.gif	Scale: -5 Floor: 5 Init: -10000 P: elf Article: an	elf resistance button (40)	elven cellocello (5)	elven suicide capsule (5)
