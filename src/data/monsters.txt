@@ -2615,7 +2615,7 @@ provocateur elf	896	elf_provocateur.gif	Scale: -5 Floor: 5 Init: -10000 P: elf A
 raconteur elf	897	elf_raconteur.gif	Scale: -5 Floor: 5 Init: -10000 P: elf Article: a	elf resistance button (40)	elven cellocello (5)	elven suicide capsule (5)
 saboteur elf	895	elf_saboteur.gif	Scale: -5 Floor: 5 Init: -10000 P: elf Article: a	elf resistance button (40)	elven cellocello (5)	elven suicide capsule (5)
 wire-crossin' elf	902	elf_wires.gif	NOWISH NOMANUEL P: elf	elf resistance button (40)	handful of wires (c100)	live wire (10)
-Edwing Abbidriel	903	edwing.gif	NOCOPY NOMANUEL P: elf	elf resistance button (100)
+Edwing Abbidriel	903	edwing.gif	BOSS NOCOPY NOMANUEL P: elf	elf resistance button (100)
 
 # Don Crimbo's Compound (Crimbo 2009)
 Black-and-White-Ops Penguin	911	pengblackop.gif	NOWISH Scale: 3 Init: -10000 P: penguin Article: a	8-12 Crimbuck (m100)	grappling hook (c100)	night-vision goggles (10)
@@ -2627,7 +2627,7 @@ Mob Penguin Demolitionist	908	pengdemo.gif	Scale: 0 Init: -10000 P: penguin Arti
 Mob Penguin Goon (2009)	906	penggoon.gif	Scale: 0 Init: -10000 P: penguin Article: a Manuel: "Mob Penguin Goon" Wiki: "Mob Penguin Goon"	8-12 Crimbuck (m100)	herringcello (5)	penguin focaccia bread (5)
 Mob Penguin Kneecapper	904	pengthug.gif	Scale: 0 Init: -10000 P: penguin Article: a	8-12 Crimbuck (m100)	herringcello (5)	penguin focaccia bread (5)
 Undercover Penguin	910	pengundercover.gif	NOWISH Scale: 1 Init: -10000 P: penguin Article: an	cardboard elf ear (c100)	8-12 Crimbuck (m100)	passable elf mask (10)
-Don Crimbo	913	doncrimbo.gif	NOCOPY NOMANUEL Atk: 99999 Def: 89999 HP: 1000000 Init: 100 Phys: 100
+Don Crimbo	913	doncrimbo.gif	BOSS NOCOPY NOMANUEL Atk: 99999 Def: 89999 HP: 1000000 Init: 100 Phys: 100
 
 # Bigg's Diggg (September 2010)
 reanimated baboon skeleton	988	foss_baboon.gif	NOWISH Atk: 150 Def: 135 HP: 150 Init: -10000 P: undead Phys: 100 EA: stench EA: none Article: a	fossilized necklace (c100)
