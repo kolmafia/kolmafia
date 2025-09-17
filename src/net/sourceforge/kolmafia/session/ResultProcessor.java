@@ -2910,6 +2910,10 @@ public class ResultProcessor {
         QuestDatabase.setQuestProgress(Quest.FINAL, QuestDatabase.FINISHED);
         break;
 
+      case ItemPool.LOBSTER_STATUETTE:
+        QuestDatabase.setQuestProgress(Quest.FINAL, QuestDatabase.FINISHED);
+        break;
+
       case ItemPool.MEATSMITH_CHECK:
         QuestDatabase.setQuestProgress(Quest.MEATSMITH, "step1");
         break;
