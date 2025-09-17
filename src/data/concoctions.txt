@@ -2809,8 +2809,8 @@ pine cone necklace	COMBINE	pine cone	iron chain
 
 # Rockin' Robin
 
-robin nog	MIX	Robin's egg	fermenting powder
-robin flan	COOK	Robin's egg	Gnollish pie tin
+robin nog	MIX	robin's egg	fermenting powder
+robin flan	COOK	robin's egg	Gnollish pie tin
 
 # LT&T Telegraph office
 
