@@ -279,7 +279,7 @@ generic duck	544	duckgeneric.gif	Atk: 167 Def: 154 HP: 180 Init: 40 Meat: 75 P: 
 Georgepaul, the Balldodger	879	merkinballer2.gif	BOSS NOCOPY Atk: 1200 Def: 1150 HP: 1400 Init: 100 Meat: 100 P: mer-kin
 ghastly organist	403	phantom.gif	Atk: 65 Def: 55 HP: 70 Init: 50 Meat: 50 P: undead EA: hot EA: spooky EA: none Article: a	opera mask (20)
 ghost miner	370	ghostminer.gif	Atk: 30 Def: 27 HP: 31 Init: 50 P: undead GHOST Phys: 100 E: spooky Article: a	bubblewrap ore (10)	bubblewrap ore (5)	cardboard ore (10)	cardboard ore (5)	styrofoam ore (10)	styrofoam ore (5)
-ghost of Elizabeth Spookyraven	1564	elizabeth.gif	NOCOPY Scale: 5 Cap: 300 Init: 100 P: undead GHOST Phys: 100 EA: hot EA: spooky EA: none Article: the	Elizabeth's Dollie (100)	Elizabeth's paintbrush (100)
+ghost of Elizabeth Spookyraven	1564	elizabeth.gif	BOSS NOCOPY Scale: 5 Cap: 300 Init: 100 P: undead GHOST Phys: 100 EA: hot EA: spooky EA: none Article: the	Elizabeth's Dollie (100)	Elizabeth's paintbrush (100)
 ghuol	30	ghuol_reg.gif	Atk: 19 Def: 17 HP: 10 Init: 60 Meat: 34 P: undead ED: spooky EA: sleaze EA: spooky Article: a	ghuol egg (25)	ghuol ears (25)
 giant giant giant centipede	462	centipede.gif	Atk: 142 Def: 124 HP: 142 Init: 50 Meat: 150 P: bug Article: a	centipede eggs (20)	handful of sand (25)	handful of sand (15)
 giant mob of baby spiders	1584	manyspiders.gif	Atk: 36 Def: 31 HP: 37 Init: 50 Meat: 20 P: bug EA: spooky EA: none Article: a
@@ -654,7 +654,7 @@ spooky vampire	1	vampire.gif	Atk: 3 Def: 3 HP: 2 Init: 50 Meat: 5 P: undead E: s
 Spunky Princess	165	princess.gif	Atk: 90 Def: 81 HP: 75 Init: 90 Meat: 110 P: dude Article: a	cocoa eggshell fragment (30)	tiny house (30)	titanium assault umbrella (10)
 steam elemental	1557	steamelemental.gif	Atk: 160 Def: 137 HP: 140 Init: 75 P: elemental E: hot Article: a
 Steampunk Giant	1337	giant_steampunk.gif	Atk: 145 Def: 135 HP: 150 Init: 40 Meat: 100 P: humanoid EA: hot EA: sleaze EA: none Article: a	brass gear (25)	brown felt tophat (10)	autocalliope (a100)	steampunk potion (c15)
-Stephen Spookyraven	1565	steven.gif	NOCOPY Scale: 5 Cap: 300 Init: 100 Meat: 500 P: undead Elem: 66	Stephen's secret formula (100)	Stephen's lab coat (100)
+Stephen Spookyraven	1565	steven.gif	BOSS NOCOPY Scale: 5 Cap: 300 Init: 100 Meat: 500 P: undead Elem: 66	Stephen's secret formula (100)	Stephen's lab coat (100)
 sticky mummy	1583	stickymummy.gif	Atk: 35 Def: 34 HP: 34 Init: -10000 P: undead EA: spooky EA: none Article: a
 stone temple pirate	1159	stone_pirate.gif	Scale: 0 Cap: 50 Floor: 7 Init: -10000 P: construct Article: a	ancient poisoned dart (35)	eyepatch (15)
 stranglin' algae	741	algae.gif	Atk: 400 Def: 405 HP: 600 Init: 100 P: plant EA: sleaze EA: none Article: some	glob of green slime (n30)	sea lace (n30)
