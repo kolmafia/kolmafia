@@ -11,7 +11,7 @@ public class WikiSearchCommand extends AbstractCommand {
   @Override
   public void run(final String cmd, final String parameters) {
     RelayLoader.openSystemBrowser(
-        "http://kol.coldfront.net/thekolwiki/index.php/Special:Search?search="
+        "https://wiki.kingdomofloathing.com/Special:Search?search="
             + StringUtilities.getURLEncode(parameters)
             + "&go=Go");
   }

@@ -2245,8 +2245,7 @@ public class FightRequest extends GenericRequest {
 
       QuestManager.updateQuestFightStarted(responseText, monsterName);
 
-      // http://kol.coldfront.net/thekolwiki/index.php/Encounter#Encounter_Flowchart (image link
-      // there
+      // https://wiki.kingdomofloathing.com/Encounter#Encounter_Flowchart (image link there
       // is regularly updated) shows the order is Digitize, Arrow, Enamorang, so check in that order
       // Bodyguard chats are entirely separate, so those come before everything else.
       if (EncounterManager.isBodyguardEncounter(responseText)) {

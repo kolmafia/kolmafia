@@ -1179,6 +1179,9 @@ user	mayoLevel	0	roa
 user	mayoMinderSetting		roa
 user	meansuckerPrice	400	roa
 user	merkinCatalogChoices		roa
+user	merkinElementaryBathroomUnlock	false	roa
+user	merkinElementaryJanitorUnlock	false	roa
+user	merkinElementaryTeacherUnlock	false	roa
 user	merkinQuestPath	none	roa
 user	merkinLockkeyMonster		roa
 user	merkinVocabularyMastery	0	roa
@@ -2347,6 +2350,7 @@ user	_lastCombatLost	false
 user	_lastCombatStarted
 user	_lastCombatWon	true
 user	_lastDailyDungeonRoom	0
+user	_lastFitzsimmonsHatch	-1
 user	_lastMobiusStripTurn	0
 user	_lastPirateRealmIsland
 user	_lastSausageMonsterTurn	0
