@@ -2723,6 +2723,16 @@ user	_turtlePowerCast	false
 user	_twelveNightEnergyUsed	false
 user	_ultraMegaSourBallUsed	false
 user	_unaccompaniedMinerUsed	0
+user	_unblemishedPearlAnemoneMine	false
+user	_unblemishedPearlAnemoneMineProgress	0
+user	_unblemishedPearlDiveBar	false
+user	_unblemishedPearlDiveBarProgress	0
+user	_unblemishedPearlMadnessReef	false
+user	_unblemishedPearlMadnessReefProgress	0
+user	_unblemishedPearlMarinaraTrench	false
+user	_unblemishedPearlMarinaraTrenchProgress	0
+user	_unblemishedPearlTheBriniestDeepests	false
+user	_unblemishedPearlTheBriniestDeepestsProgress	0
 user	_unconsciousCollectiveCharge	0
 user	_universalSeasoningsUsed	0
 user	_universeCalculated	0
