@@ -347,6 +347,7 @@ Use	fancy chocolate car	_chocolatesUsed	3
 Use	festive warbear bank	_warbearBankUsed
 Use	fish hatchet	_floundryItemUsed
 Use	fishy pipe	_fishyPipeUsed
+Use	flagellate flagon	_flagellateFlagonUsed
 Use	fudge spork	_fudgeSporkUsed
 Use	glass gnoll eye	_gnollEyeUsed
 Use	green rocket	_fireworkUsed
