@@ -1658,6 +1658,7 @@ public class QuestManagerTest {
         FightRequest.registerRequest(true, location);
         FightRequest.updateCombatData(location, encounter, html);
 
+        assertThat(Quest.FINAL, isFinished());
         assertThat("seaPoints", isSetTo(after));
       }
     }

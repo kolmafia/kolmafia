@@ -4349,6 +4349,7 @@ public class FightRequest extends GenericRequest {
           Preferences.increment("momSeaMonkeeProgress", momCount, 40, false);
         }
         case "Nautical Seaceress" -> {
+          QuestDatabase.setQuestProgress(Quest.FINAL, QuestDatabase.FINISHED);
           // You feel your dolphin whistling endurance improve.
           Path path = Path.UNDER_THE_SEA;
           int points = KoLCharacter.isHardcore() ? 2 : 1;
