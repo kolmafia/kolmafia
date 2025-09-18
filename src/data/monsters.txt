@@ -154,7 +154,7 @@ conservationist hippy	597	conhippy.gif	BOSS NOCOPY Atk: 64 Def: 68 HP: 70 Init: 
 cooler wino	1751	coolerwino.gif	Atk: 2 Def: 1 HP: 2 Init: -10000 P: hobo Article: a	unflavored wine cooler (100)	unflavored wine cooler (30)	mostly-broken sunglasses (30)	handful of stubble (c0)
 Copperhead Club bartender	1510	coppertender.gif	NOWISH Atk: 140 Def: 140 HP: 150 Init: 25 Meat: 100 P: dude EA: cold EA: hot EA: none	handful of tips (20)	unnamed cocktail (15)	unrequired jacket (0)	electric copperhead potion (c0)
 corpulent zobmie	196	fatzombie.gif	NOWISH Atk: 54 Def: 49 HP: 50 Init: 50 Meat: 75 P: undead E: spooky Article: a	cranberries (25)	cranberries (15)	loose teeth (10)	Grateful Undead T-shirt (c1)
-cosmetics wraith	1545	makeupwraith.gif	BOSS NOCOPY Atk: 65 Def: 55 HP: 65 Init: 50 P: undead ED: spooky EA: sleaze EA: none Article: a	Lady Spookyraven's powder puff (c100)	old eyebrow pencil (n100)	old rosewater cream (n100)	old bronzer (n100)
+cosmetics wraith	1545	makeupwraith.gif	BOSS Atk: 65 Def: 55 HP: 65 Init: 50 P: undead ED: spooky EA: sleaze EA: none Article: a	Lady Spookyraven's powder puff (c100)	old eyebrow pencil (n100)	old rosewater cream (n100)	old bronzer (n100)
 Count Bakula	348	bakula.gif	NOCOPY NOMANUEL ULTRARARE Atk: 80 Def: 72 HP: 80 Init: 10000 P: dude	Talisman of Bakula (100)
 crate	992	crate.gif	NOWISH Atk: 0 Def: 0 HP: 1 Init: -10000 P: construct Article: a
 craven carven raven	1161	stone_raven.gif	Scale: 0 Cap: 50 Floor: 7 Init: -10000 P: construct Article: a	shiny stones (100)
@@ -188,7 +188,7 @@ dirty old lihc	1071	dirtyoldlihc.gif	NOWISH Atk: 60 Def: 54 HP: 50 Init: 50 P: u
 dirty thieving brigand	475	bandit.gif	NOCOPY Atk: 169 Def: 153 HP: 185 Init: 50 Meat: 1000 P: dude Article: a	brigand brittle (c0)
 disease-in-the-box	110	dinbox.gif	Atk: 18 Def: 16 HP: 14 Init: 80 P: construct Article: a	box (30)	disease (40)
 diving belle	762	divingbelle.gif	Atk: 400 Def: 450 HP: 750 Init: 50 P: undead ED: spooky EA: spooky EA: none Article: a	diving muff (n3)	salinated mint julep (n32)	water-polo mitt (c0)	comb jelly (n40)
-Doctor Oh, the Junksprite Boss	1439	js_oh.gif	BOSS NOCOPY Atk: 40 Def: 40 HP: 60 Init: -10000 P: humanoid	eternal car battery (n100)
+Doctor Oh, the Junksprite Boss	1439	js_oh.gif	BOSS Atk: 40 Def: 40 HP: 60 Init: -10000 P: humanoid	eternal car battery (n100)
 dopey 7-Foot Dwarf	1150	dwarf_dopey.gif	Atk: 53 Def: 47 HP: 40 Init: 50 Meat: 40 P: humanoid Article: a	miner's helmet (10)
 doughbat	42	doughbat.gif	Atk: 14 Def: 12 HP: 8 Init: 60 Meat: 20 P: beast EA: sleaze EA: none Article: a	sonar-in-a-biscuit (10)	wad of dough (30)
 Dr. Awkward	453	drawkward.gif	BOSS NOCOPY Atk: 175 Def: 157 HP: 200 Init: -10000 P: dude	Drowsy Sword (n100)	[2268]Staff of Fats (n100)	fumble formula (p5)
@@ -654,7 +654,7 @@ spooky vampire	1	vampire.gif	Atk: 3 Def: 3 HP: 2 Init: 50 Meat: 5 P: undead E: s
 Spunky Princess	165	princess.gif	Atk: 90 Def: 81 HP: 75 Init: 90 Meat: 110 P: dude Article: a	cocoa eggshell fragment (30)	tiny house (30)	titanium assault umbrella (10)
 steam elemental	1557	steamelemental.gif	Atk: 160 Def: 137 HP: 140 Init: 75 P: elemental E: hot Article: a
 Steampunk Giant	1337	giant_steampunk.gif	Atk: 145 Def: 135 HP: 150 Init: 40 Meat: 100 P: humanoid EA: hot EA: sleaze EA: none Article: a	brass gear (25)	brown felt tophat (10)	autocalliope (a100)	steampunk potion (c15)
-Stephen Spookyraven	1565	steven.gif	BOSS NOCOPY Scale: 5 Cap: 300 Init: 100 Meat: 500 P: undead Elem: 66	Stephen's secret formula (100)	Stephen's lab coat (100)
+Stephen Spookyraven	1565	steven.gif	BOSS Scale: 5 Cap: 300 Init: 100 Meat: 500 P: undead Elem: 66	Stephen's secret formula (100)	Stephen's lab coat (100)
 sticky mummy	1583	stickymummy.gif	Atk: 35 Def: 34 HP: 34 Init: -10000 P: undead EA: spooky EA: none Article: a
 stone temple pirate	1159	stone_pirate.gif	Scale: 0 Cap: 50 Floor: 7 Init: -10000 P: construct Article: a	ancient poisoned dart (35)	eyepatch (15)
 stranglin' algae	741	algae.gif	Atk: 400 Def: 405 HP: 600 Init: 100 P: plant EA: sleaze EA: none Article: some	glob of green slime (n30)	sea lace (n30)
