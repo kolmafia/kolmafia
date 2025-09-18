@@ -3432,7 +3432,8 @@ public abstract class KoLCharacter {
 
   public static final void setPath(final Path path) {
     ascensionPath = path;
-    if (ascensionPath == Path.ACTUALLY_ED_THE_UNDYING || ascensionPath == Path.KINGDOM_OF_EXPLOATHING) {
+    if (ascensionPath == Path.ACTUALLY_ED_THE_UNDYING
+        || ascensionPath == Path.KINGDOM_OF_EXPLOATHING) {
       KoLCharacter.setDesertBeachAvailable();
     }
   }
