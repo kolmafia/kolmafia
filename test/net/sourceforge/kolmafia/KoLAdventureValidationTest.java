@@ -811,7 +811,7 @@ public class KoLAdventureValidationTest {
               withPath(Path.KINGDOM_OF_EXPLOATHING));
       try (cleanups) {
         // Beach zones are available
-        area = AdventureDatabase.getAdventureByName("The Shore, Inc. Travel Agency");
+        var area = AdventureDatabase.getAdventureByName("The Shore, Inc. Travel Agency");
         assertThat("lastDesertUnlock", isSetTo(2));
         assertTrue(area.canAdventure());
       }
@@ -826,7 +826,7 @@ public class KoLAdventureValidationTest {
               withPath(Path.ACTUALLY_ED_THE_UNDYING));
       try (cleanups) {
         // Beach zones are available
-        area = AdventureDatabase.getAdventureByName("The Shore, Inc. Travel Agency");
+        var area = AdventureDatabase.getAdventureByName("The Shore, Inc. Travel Agency");
         assertThat("lastDesertUnlock", isSetTo(2));
         assertTrue(area.canAdventure());
       }
