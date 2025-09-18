@@ -2229,7 +2229,7 @@ mowing lawn gnome	915	lawngnome2.gif	Atk: 55 Def: 49 HP: 85 Init: 50 P: humanoid
 The Landscaper	917	landscaper.gif	BOSS NOCOPY Atk: 100 Def: 90 HP: 100000 Init: -10000 P: demon Phys: 100 Elem: 100 EA: hot	The Landscaper's leafblower (100)
 
 # Professor Jacking's laboratory (antique record album March-April 2010)
-Professor Jacking	939	profjacking.gif	NOCOPY Atk: 85 Def: 76 HP: 200 Init: 85 Meat: 200 P: dude
+Professor Jacking	939	profjacking.gif	BOSS Atk: 85 Def: 76 HP: 200 Init: 85 Meat: 200 P: dude
 Castle in the Clouds in the Sky	943	thecastle.gif	Atk: 75 Def: 81 HP: 200 Init: 10 P: construct EA: sleaze EA: none Article: the	tiny goth giant (1)
 cruel dust mote	940	dustmote.gif	Atk: 75 Def: 67 HP: 100 Init: 40 P: weird EA: sleaze EA: none Article: a	boulder (30)
 Fearsome Wacken	946	wacken.gif	NOCOPY Atk: 90 Def: 81 HP: 200 Init: 60 P: beast EA: spooky EA: none Article: the	Crazyleg's razor (100)
