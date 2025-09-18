@@ -2232,7 +2232,7 @@ The Landscaper	917	landscaper.gif	BOSS NOCOPY Atk: 100 Def: 90 HP: 100000 Init: 
 Professor Jacking	939	profjacking.gif	BOSS Atk: 85 Def: 76 HP: 200 Init: 85 Meat: 200 P: dude
 Castle in the Clouds in the Sky	943	thecastle.gif	Atk: 75 Def: 81 HP: 200 Init: 10 P: construct EA: sleaze EA: none Article: the	tiny goth giant (1)
 cruel dust mote	940	dustmote.gif	Atk: 75 Def: 67 HP: 100 Init: 40 P: weird EA: sleaze EA: none Article: a	boulder (30)
-Fearsome Wacken	946	wacken.gif	NOCOPY Atk: 90 Def: 81 HP: 200 Init: 60 P: beast EA: spooky EA: none Article: the	Crazyleg's razor (100)
+Fearsome Wacken	946	wacken.gif	BOSS Atk: 90 Def: 81 HP: 200 Init: 60 P: beast EA: spooky EA: none Article: the	Crazyleg's razor (100)
 funk particle	942	funkparticle.gif	Atk: 85 Def: 67 HP: 80 Init: 30 P: weird EA: stench EA: none Article: a	fat bottom quark (30)
 jungle scabie	947	scabie_jungle.gif	Atk: 90 Def: 81 HP: 100 Init: 60 P: bug Article: a	big glob of skin (30)
 loose coalition of yetis, snowmen, and goats	945	coalition.gif	Atk: 80 Def: 72 HP: 100 Init: 80 P: beast Article: a	six tiny wedges of goat cheese (30)	tiny frozen prehistoric meteorite jawbreaker (c100)
