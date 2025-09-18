@@ -803,6 +803,36 @@ public class KoLAdventureValidationTest {
     }
 
     @Test
+    public void thatExploathingHasBeachAccess() {
+      var cleanups =
+          new Cleanups(
+              withAscensions(2),
+              withProperty("lastDesertUnlock"),
+              withPath(Path.KINGDOM_OF_EXPLOATHING));
+      try (cleanups) {
+        // Beach zones are available
+        area = AdventureDatabase.getAdventureByName("The Shore, Inc. Travel Agency");
+        assertThat("lastDesertUnlock", isSetTo(2));
+        assertTrue(area.canAdventure());
+      }
+    }
+
+    @Test
+    public void thatEdHasBeachAccess() {
+      var cleanups =
+          new Cleanups(
+              withAscensions(2),
+              withProperty("lastDesertUnlock"),
+              withPath(Path.ACTUALLY_ED_THE_UNDYING));
+      try (cleanups) {
+        // Beach zones are available
+        area = AdventureDatabase.getAdventureByName("The Shore, Inc. Travel Agency");
+        assertThat("lastDesertUnlock", isSetTo(2));
+        assertTrue(area.canAdventure());
+      }
+    }
+
+    @Test
     public void thatExploathingAftercoreWorks() {
       // In Kingdom of Exploathing:
       //
@@ -832,6 +862,11 @@ public class KoLAdventureValidationTest {
               withAscensions(2),
               withKingLiberated(),
               withProperty("lastDesertUnlock"),
+              // This marks desert available
+              withPath(Path.KINGDOM_OF_EXPLOATHING),
+              // This clears the path but retains desert access
+              // You could get here by dropping the path OR freeing the king
+              withPath(Path.NONE),
               // Assume you took the quest from Paco - even though you could
               // not progress in it.
               withQuestProgress(Quest.MEATCAR, QuestDatabase.STARTED),
