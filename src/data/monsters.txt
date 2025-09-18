@@ -812,12 +812,12 @@ zombie waltzers	401	zomwaltz.gif	Atk: 65 Def: 55 HP: 70 Init: 50 Meat: 50 Group:
 
 # Copperhead Quest
 
-Batsnake	1517	snakeboss5.gif	NOCOPY Atk: 160 Def: 160 HP: 175 Init: 50 P: beast SNAKE E: stench Article: the	The Stankara Stone (n100)
-Frozen Solid Snake	1514	snakeboss1.gif	NOCOPY Atk: 160 Def: 160 HP: 175 Init: 50 P: beast SNAKE E: cold Article: the	The First Pizza (n100)
-Burning Snake of Fire	1518	snakeboss4.gif	NOCOPY Atk: 160 Def: 160 HP: 175 Init: 50 P: beast SNAKE E: hot Article: the	Murphy's Rancid Black Flag (n100)
-The Snake With Like Ten Heads	1516	snakeboss3.gif	NOCOPY Atk: 160 Def: 160 HP: 175 Init: 50 P: beast SNAKE E: sleaze	The Eye of the Stars (n100)
-The Frattlesnake	1515	snakeboss2.gif	NOCOPY Atk: 160 Def: 160 HP: 175 Init: 50 P: beast SNAKE ED: sleaze EA: sleaze EA: none	The Lacrosse Stick of Lacoronado (n100)
-Snakeleton	1519	snakeboss6.gif	NOCOPY Atk: 160 Def: 160 HP: 175 Init: 50 P: beast SNAKE E: spooky Article: the	The Shield of Brook (n100)
+Batsnake	1517	snakeboss5.gif	BOSS NOCOPY Atk: 160 Def: 160 HP: 175 Init: 50 P: beast SNAKE E: stench Article: the	The Stankara Stone (n100)
+Frozen Solid Snake	1514	snakeboss1.gif	BOSS NOCOPY Atk: 160 Def: 160 HP: 175 Init: 50 P: beast SNAKE E: cold Article: the	The First Pizza (n100)
+Burning Snake of Fire	1518	snakeboss4.gif	BOSS NOCOPY Atk: 160 Def: 160 HP: 175 Init: 50 P: beast SNAKE E: hot Article: the	Murphy's Rancid Black Flag (n100)
+The Snake With Like Ten Heads	1516	snakeboss3.gif	BOSS NOCOPY Atk: 160 Def: 160 HP: 175 Init: 50 P: beast SNAKE E: sleaze	The Eye of the Stars (n100)
+The Frattlesnake	1515	snakeboss2.gif	BOSS NOCOPY Atk: 160 Def: 160 HP: 175 Init: 50 P: beast SNAKE ED: sleaze EA: sleaze EA: none	The Lacrosse Stick of Lacoronado (n100)
+Snakeleton	1519	snakeboss6.gif	BOSS NOCOPY Atk: 160 Def: 160 HP: 175 Init: 50 P: beast SNAKE E: spooky Article: the	The Shield of Brook (n100)
 
 # Daily Dungeon
 
