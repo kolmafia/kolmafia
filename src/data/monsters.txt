@@ -2239,7 +2239,7 @@ loose coalition of yetis, snowmen, and goats	945	coalition.gif	Atk: 80 Def: 72 H
 malevolent magnetic field	941	magfield.gif	Atk: 75 Def: 76 HP: 100 Init: 50 P: weird Article: a	bottle of gin (50)
 smooth jazz scabie	948	scabie_jazz.gif	Atk: 95 Def: 85 HP: 140 Init: 50 P: bug Article: a	can-you-dig-it? (30)
 Spookyraven Manor	944	manor.gif	Atk: 80 Def: 72 HP: 120 Init: 20 P: construct Wiki: "Spookyraven Manor (monster)"	collection of tiny spooky objects (50)
-The Whole Kingdom	949	wholekingdom.gif	NOCOPY NOMANUEL Atk: 1 Def: 1 HP: 10000000 P: construct Phys: 100 Elem: 100
+The Whole Kingdom	949	wholekingdom.gif	BOSS NOCOPY NOMANUEL Atk: 1 Def: 1 HP: 10000000 P: construct Phys: 100 Elem: 100
 
 # Kegger in the Woods (antique bottle opener May-June 2010)
 actual orcish frat boy	956	1boy2cups.gif	Atk: 45 Def: 63 HP: 100 Init: 60 Meat: 30 P: orc ED: sleaze EA: stench EA: none Article: an	plastic cup of beer (100)	plastic cup of beer (100)	flask flops (2)
