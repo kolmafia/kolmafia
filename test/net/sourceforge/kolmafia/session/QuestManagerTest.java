@@ -1644,7 +1644,8 @@ public class QuestManagerTest {
               // Ditto for items
               withNoItems(),
               withHardcore(isHardcore),
-              withProperty("seaPoints", before));
+              withProperty("seaPoints", before),
+              withQuestProgress(Quest.FINAL, QuestDatabase.UNSTARTED));
       try (cleanups) {
         String html =
             message
@@ -1658,6 +1659,7 @@ public class QuestManagerTest {
         FightRequest.registerRequest(true, location);
         FightRequest.updateCombatData(location, encounter, html);
 
+        assertThat(Quest.FINAL, isFinished());
         assertThat("seaPoints", isSetTo(after));
       }
     }
