@@ -71,6 +71,7 @@ public class GitManager extends ScriptManager {
         Git.cloneRepository()
             .setURI(repoUrl)
             .setCloneAllBranches(false)
+            .setDepth(1)
             .setDirectory(projectPath.toFile())
             .setProgressMonitor(new MafiaProgressMonitor());
     if (branch != null) {
