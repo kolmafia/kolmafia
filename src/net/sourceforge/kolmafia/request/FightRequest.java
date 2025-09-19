@@ -4349,6 +4349,7 @@ public class FightRequest extends GenericRequest {
           Preferences.increment("momSeaMonkeeProgress", momCount, 40, false);
         }
         case "Nautical Seaceress" -> {
+          QuestDatabase.setQuestProgress(Quest.FINAL, QuestDatabase.FINISHED);
           // You feel your dolphin whistling endurance improve.
           Path path = Path.UNDER_THE_SEA;
           int points = KoLCharacter.isHardcore() ? 2 : 1;
@@ -7105,6 +7106,10 @@ public class FightRequest extends GenericRequest {
       return;
     }
 
+    if (FightRequest.handleUnblemishedPearlProgress(node, status)) {
+      return;
+    }
+
     String str = FightRequest.getContentNodeText(node);
 
     if (status.pebble) {
@@ -7174,6 +7179,10 @@ public class FightRequest extends GenericRequest {
     }
 
     if (handleCosmicBowlingBall(str)) return;
+
+    if (FightRequest.handleUnblemishedPearl(str, status)) {
+      return;
+    }
 
     // As empty track does not have an image, it is specially handled to pass it to the appropiate
     // handler
@@ -7605,6 +7614,78 @@ public class FightRequest extends GenericRequest {
     }
 
     FightRequest.logText(str, status);
+
+    return true;
+  }
+
+  public static final Pattern UNBLEMISHED_PEARL_PATTERN =
+      Pattern.compile("\\(([\\d.]+)% progress made towards shiny thing\\)");
+
+  private static boolean handleUnblemishedPearlProgress(Element node, TagStatus status) {
+    Element small = node.selectFirst("* small");
+    if (small == null) {
+      return false;
+    }
+
+    Matcher matcher = FightRequest.UNBLEMISHED_PEARL_PATTERN.matcher(small.text());
+    if (!matcher.find()) {
+      return false;
+    }
+
+    String nodeText = node.ownText();
+    String progressPref;
+
+    if (nodeText.contains("You see a glint of something")) {
+      progressPref = "_unblemishedPearlAnemoneMineProgress";
+    } else if (nodeText.contains("You stop in the bathroom")) {
+      progressPref = "_unblemishedPearlDiveBarProgress";
+    } else if (nodeText.contains("You see something shiny")) {
+      progressPref = "_unblemishedPearlMadnessReefProgress";
+    } else if (nodeText.contains("You spot something shiny")) {
+      progressPref = "_unblemishedPearlMarinaraTrenchProgress";
+    } else if (nodeText.contains("You catch a glint of something shiny")) {
+      progressPref = "_unblemishedPearlTheBriniestDeepestsProgress";
+    } else {
+      return false;
+    }
+
+    var progress = StringUtilities.parseDouble(matcher.group(1));
+    var curProgress = Preferences.getDouble(progressPref);
+    Preferences.setDouble(progressPref, curProgress + progress);
+
+    FightRequest.logText(node.text(), status);
+
+    return true;
+  }
+
+  private static boolean handleUnblemishedPearl(String text, TagStatus status) {
+    String pref;
+
+    if (text.startsWith(
+        "You finally screw your courage to the sticking point and dive into the deeps.")) {
+      pref = "_unblemishedPearlAnemoneMine";
+    } else if (text.startsWith(
+        "You finally overcome your inhibitions enough to grab the urinal treasure.")) {
+      pref = "_unblemishedPearlDiveBar";
+    } else if (text.startsWith(
+        "You finally manage to fight through the stench and grab the shiny thing.")) {
+      pref = "_unblemishedPearlMadnessReef";
+    } else if (text.startsWith(
+        "You finally manage to power through the boiling water and grab the shiny object.")) {
+      pref = "_unblemishedPearlMarinaraTrench";
+    } else if (text.startsWith(
+        "You finally manage to brave the frigid current and retrieve the precious shiny object,")) {
+      pref = "_unblemishedPearlTheBriniestDeepests";
+    } else {
+      return false;
+    }
+
+    var progressPref = pref + "Progress";
+
+    Preferences.setDouble(progressPref, 0.0);
+    Preferences.setBoolean(pref, true);
+
+    FightRequest.logText(text, status);
 
     return true;
   }
