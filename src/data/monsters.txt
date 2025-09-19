@@ -2213,7 +2213,7 @@ some fish	2499	somefish.gif	Scale: 0 Cap: ? Floor: ? Init: -10000 P: fish	beefy 
 # KoL Con
 
 # Gygaxian Libram (KoL Con VIII)
-family of kobolds	1101	kobolds.gif	NOCOPY Atk: 99999 Def: 89999 HP: 99999 Init: -10000 Group: 100 P: humanoid Article: a	kobold treasure hoard (n100)
+family of kobolds	1101	kobolds.gif	BOSS NOCOPY Atk: 99999 Def: 89999 HP: 99999 Init: -10000 Group: 100 P: humanoid Article: a	kobold treasure hoard (n100)
 
 # Transmissions from planet Xi (Xi Receiver KoL Con XI)
 holographic army	1629	holoarmy.gif	NOCOPY Scale: 30 Floor: ? Init: -10000 Group: 10 P: weird Elem: 50 Article: a	holo-bomber (30)	holo-platoon (30)	holo-tank (30)
