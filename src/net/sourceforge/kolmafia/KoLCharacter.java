@@ -3432,6 +3432,10 @@ public abstract class KoLCharacter {
 
   public static final void setPath(final Path path) {
     ascensionPath = path;
+    if (ascensionPath == Path.ACTUALLY_ED_THE_UNDYING
+        || ascensionPath == Path.KINGDOM_OF_EXPLOATHING) {
+      KoLCharacter.setDesertBeachAvailable();
+    }
   }
 
   public static boolean canEat() {
@@ -3733,11 +3737,8 @@ public abstract class KoLCharacter {
           || InventoryManager.getCount(ItemPool.PUMPKIN_CARRIAGE) > 0
           || InventoryManager.getCount(ItemPool.TIN_LIZZIE) > 0
           || Preferences.getString("peteMotorbikeGasTank").equals("Large Capacity Tank")
-          || QuestDatabase.isQuestFinished(Quest.MEATCAR)
-          || KoLCharacter.kingLiberated()
-          || KoLCharacter.isEd()
-          || KoLCharacter.isKingdomOfExploathing()) {
-        Preferences.setInteger("lastDesertUnlock", KoLCharacter.getAscensions());
+          || QuestDatabase.isQuestFinished(Quest.MEATCAR)) {
+        KoLCharacter.setDesertBeachAvailable();
       }
     }
     return Preferences.getInteger("lastDesertUnlock") == KoLCharacter.getAscensions()
