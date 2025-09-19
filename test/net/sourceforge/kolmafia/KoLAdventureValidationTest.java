@@ -485,6 +485,35 @@ public class KoLAdventureValidationTest {
   }
 
   @Nested
+  class BeachAccess {
+    @Test
+    public void thatExploathingHasBeachAccess() {
+      var cleanups =
+          new Cleanups(
+              withAscensions(2),
+              withProperty("lastDesertUnlock"),
+              withPath(Path.KINGDOM_OF_EXPLOATHING));
+      try (cleanups) {
+        assertThat("lastDesertUnlock", isSetTo(2));
+        assertTrue(KoLCharacter.desertBeachAccessible());
+      }
+    }
+
+    @Test
+    public void thatEdHasBeachAccess() {
+      var cleanups =
+          new Cleanups(
+              withAscensions(2),
+              withProperty("lastDesertUnlock"),
+              withPath(Path.ACTUALLY_ED_THE_UNDYING));
+      try (cleanups) {
+        assertThat("lastDesertUnlock", isSetTo(2));
+        assertTrue(KoLCharacter.desertBeachAccessible());
+      }
+    }
+  }
+
+  @Nested
   class Exploathing {
     public static Cleanups withTempleUnlocked() {
       var cleanups =
@@ -500,8 +529,8 @@ public class KoLAdventureValidationTest {
     public Cleanups withKingdomOfExploathing() {
       // Set up this test to have all quests appropriately started
       return new Cleanups(
-          withPath(Path.KINGDOM_OF_EXPLOATHING),
           withAscensions(1),
+          withPath(Path.KINGDOM_OF_EXPLOATHING),
           // This is not currently true; we don't actually set the property
           // indicating you unlocked it this ascension. Should we?
           // withTempleUnlocked()
@@ -855,6 +884,12 @@ public class KoLAdventureValidationTest {
               // This is a Canadia sign and therefore has a hostile Knoll.
               withSign(ZodiacSign.OPOSSUM));
       try (cleanups) {
+        // This marks desert available
+        KoLCharacter.setPath(Path.KINGDOM_OF_EXPLOATHING);
+        // This clears the path but retains desert access
+        // You could get here by dropping the path OR freeing the king
+        KoLCharacter.setPath(Path.NONE);
+
         // Paco gave us the quest and opened the Knoll.
         var area = AdventureDatabase.getAdventureByName("The Degrassi Knoll Garage");
         assertTrue(area.canAdventure());
