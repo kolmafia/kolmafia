@@ -119,7 +119,7 @@ Buzzy Beetle	273	buzzy.gif	Atk: 20 Def: 18 HP: 15 Init: 60 Meat: 10 P: bug Artic
 C.A.R.N.I.V.O.R.E. Operative	514	carnivore.gif	BOSS NOCOPY Atk: 210 Def: 189 HP: 320 Init: 80 Meat: 300 P: hippy ED: stench EA: sleaze EA: none	C.A.R.N.I.V.O.R.E. button (100)	green clay bead (30)	Lockenstock&trade; sandals (0)
 cabinet of Dr. Limpieza	1561	laundrycabinet.gif	Atk: 142 Def: 148 HP: 150 Init: 25 P: undead Article: the	fabric softener (15)	bottle of laundry sherry (15)	bloodstain stick (20)	fabric hardener (15)	blasting soda (c0)
 cactuary	465	cactuary.gif	Atk: 137 Def: 126 HP: 139 Init: 10 Meat: 100 P: plant Article: a	bit-o-cactus (27)	giant cactus quill (5)	cactus fruit (20)	handful of sand (20)
-Cake Lord	1756	cakelord.gif	NOCOPY Atk: 5 Def: 5 HP: 10 Init: -10000 P: construct EA: hot EA: none Article: the
+Cake Lord	1756	cakelord.gif	BOSS NOCOPY Atk: 5 Def: 5 HP: 10 Init: -10000 P: construct EA: hot EA: none Article: the
 Camel's Toe	541	cameltoe.gif	Atk: 158 Def: 142 HP: 150 Init: 70 P: constellation ED: sleaze EA: hot EA: none Article: The	line (30)	line (30)	star (30)	star (30)
 Carbuncle Top	985	carbuncletop.gif	BOSS NOCOPY Atk: 70 Def: 63 HP: 70 Init: 50 P: demon EA: hot EA: sleaze EA: none	hilarious comedy prop (100)
 cargo crab	743	cargocrab.gif	Atk: 450 Def: 360 HP: 500 Init: 150 Meat: 200 P: fish Article: a	imitation crab crate (n30)
@@ -397,7 +397,7 @@ lobsterfrogman	529	lobsterman.gif	Atk: 171 Def: 152 HP: 190 Init: 40 Meat: 60 P:
 lonely construct	668	vib5.gif	Atk: 300 Def: 315 HP: 350 Init: 80 P: construct Article: a	El Vibrato punchcard (213 holes) (15)	El Vibrato punchcard (182 holes) (15)
 lonely construct (translated)	674	vib5.gif	Atk: 300 Def: 315 HP: 350 Init: 80 P: construct Article: a Manuel: "lonely construct"	El Vibrato punchcard (213 holes) (15)	El Vibrato punchcard (182 holes) (15)
 Lord Spookyraven	464	lordspooky.gif	BOSS NOCOPY Atk: 165 Def: 148 HP: 200 Exp: [120+ML/3] Init: 10000 P: undead ED: spooky EA: cold EA: hot EA: sleaze EA: spooky EA: stench EA: none	[2286]Eye of Ed (n100)	Lord Spookyraven's ear trumpet (n100)
-Lot's Wife	1757	lotswife.gif	NOCOPY Atk: 3 Def: 3 HP: 10 Init: -10000 P: beast EA: stench EA: none Article: the	The Lot's engagement ring (n100)
+Lot's Wife	1757	lotswife.gif	BOSS NOCOPY Atk: 3 Def: 3 HP: 10 Init: -10000 P: beast EA: stench EA: none Article: the	The Lot's engagement ring (n100)
 lounge lizardfish	770	lizardfish.gif	Atk: 400 Def: 630 HP: 550 Init: 100 Meat: 200 P: fish EA: stench EA: none Article: a	amber aviator shades (n5)	hair of the fish (c5)	rough fish scale (n4)	slug of shochu (20)
 lowercase B	934	lower_b.gif	Atk: 58 Def: 52 HP: 70 Init: 40 P: slime Article: a	left parenthesis (15)
 lowercase H	936	lower_h.gif	Atk: 59 Def: 54 HP: 77 Init: 75 P: horror Article: a	left bracket (15)	left parenthesis (20)	percent sign (25)
@@ -691,7 +691,7 @@ The Barrelmech of Diogenes	1840	otherimages/barrelbeast.gif	BOSS NOCOPY Atk: 200
 The Big Wisniewski	545	thisdude.gif	BOSS NOCOPY Atk: 250 Def: 225 HP: 2000 Init: 60 P: hippy ED: stench EA: stench EA: none	solid gold bowling ball (100)
 The Clownlord Beelzebozo	569	beelzebozo.gif	BOSS NOCOPY Atk: 27 Def: 27 HP: 40 Init: 85 P: horror EA: sleaze EA: spooky EA: none
 the darkness (blind)	0	darkness.gif	NOMANUEL Wiki: "Darkness (Temporary Blindness)"
-the former owner of the Skeleton Store	1755	skelmanager.gif	NOCOPY Atk: 5 Def: 5 HP: 8 Init: -10000 P: undead ED: spooky	check to the Meatsmith (c100)	invisibility cream (c0)
+the former owner of the Skeleton Store	1755	skelmanager.gif	BOSS NOCOPY Atk: 5 Def: 5 HP: 8 Init: -10000 P: undead ED: spooky	check to the Meatsmith (c100)	invisibility cream (c0)
 the ghost of Phil Bunion	1352	bunionghost.gif	BOSS NOCOPY Atk: 72 Def: 68 HP: 60 Init: 40 Meat: 30 P: undead GHOST Phys: 100 E: spooky	spectral axe (c100)	Phil Bunion's axe (c100)
 the gunk	1548	thegunk.gif	Atk: 81 Def: 81 HP: 80 Init: -10000 Meat: 50 P: slime	gunky chicken (15)	the funk (15)	half-melted spoon (5)
 The Man	555	theman.gif	BOSS NOCOPY Atk: 250 Def: 225 HP: 2000 Init: 60 P: dude ED: sleaze EA: hot EA: sleaze EA: none	really dense meat stack (100)
