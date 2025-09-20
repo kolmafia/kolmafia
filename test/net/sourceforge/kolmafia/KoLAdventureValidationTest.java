@@ -1449,7 +1449,8 @@ public class KoLAdventureValidationTest {
         AdventureDatabase.getAdventureByName("An Incredibly Strange Place (Mediocre Trip)");
     private static final KoLAdventure GREAT_TRIP =
         AdventureDatabase.getAdventureByName("An Incredibly Strange Place (Great Trip)");
-    private static final AdventureResult ASTRAL_MUSHROOM = ItemPool.get(ItemPool.ASTRAL_MUSHROOM, 1);
+    private static final AdventureResult ASTRAL_MUSHROOM =
+        ItemPool.get(ItemPool.ASTRAL_MUSHROOM, 1);
     private static final AdventureResult HALF_ASTRAL = EffectPool.get(EffectPool.HALF_ASTRAL);
 
     @Test
@@ -5590,7 +5591,9 @@ public class KoLAdventureValidationTest {
         var requests = getRequests();
         assertThat(requests, hasSize(1));
         assertPostRequest(
-            requests.getFirst(), "/inv_use.php", "whichitem=" + ItemPool.DRINK_ME_POTION + "&ajax=1");
+            requests.getFirst(),
+            "/inv_use.php",
+            "whichitem=" + ItemPool.DRINK_ME_POTION + "&ajax=1");
       }
     }
   }
@@ -5665,7 +5668,9 @@ public class KoLAdventureValidationTest {
         var requests = getRequests();
         assertThat(requests, hasSize(1));
         assertPostRequest(
-            requests.getFirst(), "/inv_use.php", "whichitem=" + ItemPool.DEVILISH_FOLIO + "&ajax=1");
+            requests.getFirst(),
+            "/inv_use.php",
+            "whichitem=" + ItemPool.DEVILISH_FOLIO + "&ajax=1");
       }
     }
   }
@@ -5925,7 +5930,9 @@ public class KoLAdventureValidationTest {
         var requests = getRequests();
         assertThat(requests, hasSize(1));
         assertPostRequest(
-            requests.getFirst(), "/inv_use.php", "whichitem=" + ItemPool.MACHINE_SNOWGLOBE + "&ajax=1");
+            requests.getFirst(),
+            "/inv_use.php",
+            "whichitem=" + ItemPool.MACHINE_SNOWGLOBE + "&ajax=1");
       }
     }
   }
