@@ -211,12 +211,12 @@ public class KoLAdventureValidationTest {
           // returns true with no requests
           assertTrue(success);
           assertThat(requests, hasSize(0));
-        } else if (html.equals("")) {
+        } else if (html.isEmpty()) {
           // If we have neither permanent nor daily access and none is visible
           // on the map, pre-validation returns false with one request
           assertFalse(success);
           assertThat(requests, hasSize(1));
-          assertPostRequest(requests.get(0), "/place.php", "whichplace=" + place);
+          assertPostRequest(requests.getFirst(), "/place.php", "whichplace=" + place);
         } else {
           // If we have neither permanent nor daily access but the map shows
           // access, pre-validation returns true with one request and sets
@@ -228,7 +228,7 @@ public class KoLAdventureValidationTest {
             assertTrue(Preferences.getBoolean(alwaysProperty));
           }
           assertThat(requests, hasSize(1));
-          assertPostRequest(requests.get(0), "/place.php", "whichplace=" + place);
+          assertPostRequest(requests.getFirst(), "/place.php", "whichplace=" + place);
         }
       }
     }
@@ -374,7 +374,7 @@ public class KoLAdventureValidationTest {
           boolean success = SPACEGATE.preValidateAdventure();
           var requests = client.getRequests();
           assertThat(requests, hasSize(1));
-          assertPostRequest(requests.get(0), "/place.php", "whichplace=mountains");
+          assertPostRequest(requests.getFirst(), "/place.php", "whichplace=mountains");
           assertTrue(Preferences.getBoolean(always));
           assertTrue(success);
         }
@@ -396,7 +396,7 @@ public class KoLAdventureValidationTest {
           boolean success = SPACEGATE.preValidateAdventure();
           var requests = client.getRequests();
           assertThat(requests, hasSize(1));
-          assertPostRequest(requests.get(0), "/place.php", "whichplace=mountains");
+          assertPostRequest(requests.getFirst(), "/place.php", "whichplace=mountains");
           assertFalse(success);
         }
       }
@@ -434,7 +434,7 @@ public class KoLAdventureValidationTest {
           boolean success = BOHEMIAN_PARTY.preValidateAdventure();
           var requests = client.getRequests();
           assertThat(requests, hasSize(1));
-          assertPostRequest(requests.get(0), "/place.php", "whichplace=town");
+          assertPostRequest(requests.getFirst(), "/place.php", "whichplace=town");
           assertTrue(Preferences.getBoolean(today));
           assertTrue(success);
         }
@@ -452,7 +452,7 @@ public class KoLAdventureValidationTest {
           boolean success = BOHEMIAN_PARTY.preValidateAdventure();
           var requests = client.getRequests();
           assertThat(requests, hasSize(1));
-          assertPostRequest(requests.get(0), "/place.php", "whichplace=town");
+          assertPostRequest(requests.getFirst(), "/place.php", "whichplace=town");
           assertFalse(Preferences.getBoolean(today));
           assertFalse(success);
         }
@@ -1356,7 +1356,7 @@ public class KoLAdventureValidationTest {
   class Memories {
     private static final KoLAdventure PRIMORDIAL_SOUP =
         AdventureDatabase.getAdventureByName("The Primordial Soup");
-    private static AdventureResult EMPTY_AGUA_DE_VIDA_BOTTLE =
+    private static final AdventureResult EMPTY_AGUA_DE_VIDA_BOTTLE =
         ItemPool.get(ItemPool.EMPTY_AGUA_DE_VIDA_BOTTLE);
 
     @Test
@@ -1400,7 +1400,7 @@ public class KoLAdventureValidationTest {
         var requests = client.getRequests();
         assertThat(requests, hasSize(1));
         assertGetRequest(
-            requests.get(0), "/inventory.php", "action=closetpull&ajax=1&whichitem=4130&qty=1");
+            requests.getFirst(), "/inventory.php", "action=closetpull&ajax=1&whichitem=4130&qty=1");
       }
     }
   }
@@ -1449,8 +1449,8 @@ public class KoLAdventureValidationTest {
         AdventureDatabase.getAdventureByName("An Incredibly Strange Place (Mediocre Trip)");
     private static final KoLAdventure GREAT_TRIP =
         AdventureDatabase.getAdventureByName("An Incredibly Strange Place (Great Trip)");
-    private static AdventureResult ASTRAL_MUSHROOM = ItemPool.get(ItemPool.ASTRAL_MUSHROOM, 1);
-    private static AdventureResult HALF_ASTRAL = EffectPool.get(EffectPool.HALF_ASTRAL);
+    private static final AdventureResult ASTRAL_MUSHROOM = ItemPool.get(ItemPool.ASTRAL_MUSHROOM, 1);
+    private static final AdventureResult HALF_ASTRAL = EffectPool.get(EffectPool.HALF_ASTRAL);
 
     @Test
     public void mustHaveAstralMushroomOrHalfAstral() {
@@ -1548,7 +1548,7 @@ public class KoLAdventureValidationTest {
 
         assertEquals(5, HALF_ASTRAL.getCount(KoLConstants.activeEffects));
         assertThat(Preferences.getString("currentAstralTrip"), is("Great Trip"));
-        assertEquals(KoLCharacter.getLimitMode(), LimitMode.ASTRAL);
+        assertEquals(LimitMode.ASTRAL, KoLCharacter.getLimitMode());
 
         var requests = client.getRequests();
         assertThat(requests, hasSize(7));
@@ -1571,8 +1571,8 @@ public class KoLAdventureValidationTest {
   class Mole {
     private static final KoLAdventure MT_MOLEHILL =
         AdventureDatabase.getAdventureByName("Mt. Molehill");
-    private static AdventureResult GONG = ItemPool.get(ItemPool.GONG, 1);
-    private static AdventureResult SHAPE_OF_MOLE = EffectPool.get(EffectPool.SHAPE_OF_MOLE);
+    private static final AdventureResult GONG = ItemPool.get(ItemPool.GONG, 1);
+    private static final AdventureResult SHAPE_OF_MOLE = EffectPool.get(EffectPool.SHAPE_OF_MOLE);
 
     @Test
     public void mustHaveGongOrShapeOfMole() {
@@ -1626,7 +1626,7 @@ public class KoLAdventureValidationTest {
 
         assertEquals(12, SHAPE_OF_MOLE.getCount(KoLConstants.activeEffects));
         assertThat(Preferences.getString("currentLlamaForm"), is("Mole"));
-        assertEquals(KoLCharacter.getLimitMode(), LimitMode.MOLE);
+        assertEquals(LimitMode.MOLE, KoLCharacter.getLimitMode());
 
         var requests = client.getRequests();
         assertThat(requests, hasSize(4));
@@ -1771,7 +1771,7 @@ public class KoLAdventureValidationTest {
         var requests = getRequests();
         assertThat(requests, hasSize(1));
         assertPostRequest(
-            requests.get(0),
+            requests.getFirst(),
             "/inv_equip.php",
             "which=2&action=outfit&whichoutfit=" + OutfitPool.CLOACA_UNIFORM + "&ajax=1");
       }
@@ -1851,7 +1851,7 @@ public class KoLAdventureValidationTest {
         var requests = getRequests();
         assertThat(requests, hasSize(1));
         assertPostRequest(
-            requests.get(0),
+            requests.getFirst(),
             "/inv_equip.php",
             "which=2&action=outfit&whichoutfit=" + OutfitPool.DYSPEPSI_UNIFORM + "&ajax=1");
       }
@@ -1891,7 +1891,7 @@ public class KoLAdventureValidationTest {
         var requests = getRequests();
         assertThat(requests, hasSize(1));
         assertPostRequest(
-            requests.get(0), "/inv_equip.php", "which=2&ajax=1&action=unequip&type=offhand");
+            requests.getFirst(), "/inv_equip.php", "which=2&ajax=1&action=unequip&type=offhand");
       }
     }
 
@@ -1914,7 +1914,7 @@ public class KoLAdventureValidationTest {
         var requests = getRequests();
         assertThat(requests, hasSize(1));
         assertPostRequest(
-            requests.get(0), "/inv_equip.php", "which=2&ajax=1&action=unequip&type=offhand");
+            requests.getFirst(), "/inv_equip.php", "which=2&ajax=1&action=unequip&type=offhand");
       }
     }
   }
@@ -2083,10 +2083,10 @@ public class KoLAdventureValidationTest {
       try (cleanups) {
         client.addResponse(200, html("request/test_spookyraven_telegram.html"));
         client.addResponse(200, ""); // api.php
-        assertEquals(QuestDatabase.getQuest(Quest.SPOOKYRAVEN_NECKLACE), QuestDatabase.UNSTARTED);
+        assertEquals(QuestDatabase.UNSTARTED, QuestDatabase.getQuest(Quest.SPOOKYRAVEN_NECKLACE));
         assertTrue(HAUNTED_KITCHEN.canAdventure());
         assertTrue(HAUNTED_KITCHEN.prepareForAdventure());
-        assertEquals(QuestDatabase.getQuest(Quest.SPOOKYRAVEN_NECKLACE), QuestDatabase.STARTED);
+        assertEquals(QuestDatabase.STARTED, QuestDatabase.getQuest(Quest.SPOOKYRAVEN_NECKLACE));
 
         var requests = client.getRequests();
         assertThat(requests, hasSize(2));
@@ -2124,10 +2124,10 @@ public class KoLAdventureValidationTest {
       try (cleanups) {
         client.addResponse(200, html("request/test_spookyraven_telegram.json"));
         client.addResponse(200, "");
-        assertEquals(QuestDatabase.getQuest(Quest.SPOOKYRAVEN_NECKLACE), QuestDatabase.UNSTARTED);
+        assertEquals(QuestDatabase.UNSTARTED, QuestDatabase.getQuest(Quest.SPOOKYRAVEN_NECKLACE));
         assertTrue(HAUNTED_KITCHEN.canAdventure());
         assertTrue(HAUNTED_KITCHEN.prepareForAdventure());
-        assertEquals(QuestDatabase.getQuest(Quest.SPOOKYRAVEN_NECKLACE), QuestDatabase.STARTED);
+        assertEquals(QuestDatabase.STARTED, QuestDatabase.getQuest(Quest.SPOOKYRAVEN_NECKLACE));
 
         var requests = client.getRequests();
         assertThat(requests, hasSize(2));
@@ -2215,12 +2215,12 @@ public class KoLAdventureValidationTest {
         client.addResponse(
             200, html("request/test_lady_spookyraven_2A.html")); // Unlock second floor
         client.addResponse(200, ""); // api.php
-        assertEquals(QuestDatabase.getQuest(Quest.SPOOKYRAVEN_NECKLACE), QuestDatabase.UNSTARTED);
-        assertEquals(QuestDatabase.getQuest(Quest.SPOOKYRAVEN_DANCE), QuestDatabase.UNSTARTED);
+        assertEquals(QuestDatabase.UNSTARTED, QuestDatabase.getQuest(Quest.SPOOKYRAVEN_NECKLACE));
+        assertEquals(QuestDatabase.UNSTARTED, QuestDatabase.getQuest(Quest.SPOOKYRAVEN_DANCE));
         assertTrue(HAUNTED_GALLERY.canAdventure());
         assertTrue(HAUNTED_GALLERY.prepareForAdventure());
-        assertEquals(QuestDatabase.getQuest(Quest.SPOOKYRAVEN_NECKLACE), QuestDatabase.FINISHED);
-        assertEquals(QuestDatabase.getQuest(Quest.SPOOKYRAVEN_DANCE), "step1");
+        assertEquals(QuestDatabase.FINISHED, QuestDatabase.getQuest(Quest.SPOOKYRAVEN_NECKLACE));
+        assertEquals("step1", QuestDatabase.getQuest(Quest.SPOOKYRAVEN_DANCE));
 
         var requests = client.getRequests();
         assertThat(requests, hasSize(3));
@@ -2291,12 +2291,12 @@ public class KoLAdventureValidationTest {
         client.addResponse(200, ""); // api.php
         client.addResponse(200, html("request/test_lady_spookyraven_2A.html"));
         client.addResponse(200, ""); // api.php
-        assertEquals(QuestDatabase.getQuest(Quest.SPOOKYRAVEN_NECKLACE), QuestDatabase.UNSTARTED);
-        assertEquals(QuestDatabase.getQuest(Quest.SPOOKYRAVEN_DANCE), QuestDatabase.UNSTARTED);
+        assertEquals(QuestDatabase.UNSTARTED, QuestDatabase.getQuest(Quest.SPOOKYRAVEN_NECKLACE));
+        assertEquals(QuestDatabase.UNSTARTED, QuestDatabase.getQuest(Quest.SPOOKYRAVEN_DANCE));
         assertTrue(HAUNTED_GALLERY.canAdventure());
         assertTrue(HAUNTED_GALLERY.prepareForAdventure());
-        assertEquals(QuestDatabase.getQuest(Quest.SPOOKYRAVEN_NECKLACE), QuestDatabase.FINISHED);
-        assertEquals(QuestDatabase.getQuest(Quest.SPOOKYRAVEN_DANCE), "step1");
+        assertEquals(QuestDatabase.FINISHED, QuestDatabase.getQuest(Quest.SPOOKYRAVEN_NECKLACE));
+        assertEquals("step1", QuestDatabase.getQuest(Quest.SPOOKYRAVEN_DANCE));
 
         var requests = client.getRequests();
         assertThat(requests, hasSize(4));
@@ -2341,10 +2341,10 @@ public class KoLAdventureValidationTest {
       try (cleanups) {
         client.addResponse(200, html("request/test_lady_spookyraven_2B.html"));
         client.addResponse(200, ""); // api.php
-        assertEquals(QuestDatabase.getQuest(Quest.SPOOKYRAVEN_DANCE), QuestDatabase.UNSTARTED);
+        assertEquals(QuestDatabase.UNSTARTED, QuestDatabase.getQuest(Quest.SPOOKYRAVEN_DANCE));
         assertTrue(HAUNTED_BALLROOM.canAdventure());
         assertTrue(HAUNTED_BALLROOM.prepareForAdventure());
-        assertEquals(QuestDatabase.getQuest(Quest.SPOOKYRAVEN_DANCE), "step3");
+        assertEquals("step3", QuestDatabase.getQuest(Quest.SPOOKYRAVEN_DANCE));
 
         var requests = client.getRequests();
         assertThat(requests, hasSize(2));
@@ -2368,7 +2368,7 @@ public class KoLAdventureValidationTest {
         client.addResponse(200, html("request/test_spookyraven_after_dance.html"));
         var request = new GenericRequest("adventure.php?snarfblat=395");
         request.run();
-        assertEquals(QuestDatabase.getQuest(Quest.SPOOKYRAVEN_DANCE), QuestDatabase.FINISHED);
+        assertEquals(QuestDatabase.FINISHED, QuestDatabase.getQuest(Quest.SPOOKYRAVEN_DANCE));
         assertTrue(HAUNTED_LABORATORY.canAdventure());
 
         var requests = client.getRequests();
@@ -2914,7 +2914,7 @@ public class KoLAdventureValidationTest {
         var requests = getRequests();
         assertThat(requests, hasSize(1));
         assertPostRequest(
-            requests.get(0),
+            requests.getFirst(),
             "/inv_equip.php",
             "which=2&action=outfit&whichoutfit=" + OutfitPool.MINING_OUTFIT + "&ajax=1");
       }
@@ -2984,7 +2984,7 @@ public class KoLAdventureValidationTest {
         var requests = getRequests();
         assertThat(requests, hasSize(1));
         assertPostRequest(
-            requests.get(0),
+            requests.getFirst(),
             "/inv_equip.php",
             "which=2&action=outfit&whichoutfit=" + OutfitPool.DWARVISH_UNIFORM + "&ajax=1");
       }
@@ -3158,7 +3158,7 @@ public class KoLAdventureValidationTest {
         var requests = getRequests();
         assertThat(requests, hasSize(1));
         assertPostRequest(
-            requests.get(0), "/inv_use.php", "whichitem=" + ItemPool.SONAR + "&ajax=1");
+            requests.getFirst(), "/inv_use.php", "whichitem=" + ItemPool.SONAR + "&ajax=1");
       }
     }
 
@@ -3410,7 +3410,7 @@ public class KoLAdventureValidationTest {
         var requests = getRequests();
         assertThat(requests, hasSize(1));
         assertPostRequest(
-            requests.get(0),
+            requests.getFirst(),
             "/inv_equip.php",
             "which=2&action=outfit&whichoutfit=" + OutfitPool.HAREM_OUTFIT + "&ajax=1");
       }
@@ -3433,7 +3433,7 @@ public class KoLAdventureValidationTest {
         var requests = getRequests();
         assertThat(requests, hasSize(1));
         assertPostRequest(
-            requests.get(0),
+            requests.getFirst(),
             "/inv_use.php",
             "whichitem=" + ItemPool.KNOB_GOBLIN_PERFUME + "&ajax=1");
       }
@@ -3519,7 +3519,7 @@ public class KoLAdventureValidationTest {
         var requests = getRequests();
         assertThat(requests, hasSize(1));
         assertPostRequest(
-            requests.get(0),
+            requests.getFirst(),
             "/inv_equip.php",
             "which=2&action=outfit&whichoutfit=" + OutfitPool.KNOB_ELITE_OUTFIT + "&ajax=1");
       }
@@ -3546,7 +3546,7 @@ public class KoLAdventureValidationTest {
         var requests = getRequests();
         assertThat(requests, hasSize(1));
         assertPostRequest(
-            requests.get(0), "/craft.php", "action=craft&mode=cook&ajax=1&a=4946&b=4945&qty=1");
+            requests.getFirst(), "/craft.php", "action=craft&mode=cook&ajax=1&a=4946&b=4945&qty=1");
       }
     }
 
@@ -3628,7 +3628,7 @@ public class KoLAdventureValidationTest {
         client.addResponse(200, ""); // api.php
         assertTrue(PANDAMONIUM_SLUMS.canAdventure());
         assertTrue(PANDAMONIUM_SLUMS.prepareForAdventure());
-        assertEquals(QuestDatabase.getQuest(Quest.AZAZEL), QuestDatabase.STARTED);
+        assertEquals(QuestDatabase.STARTED, QuestDatabase.getQuest(Quest.AZAZEL));
 
         var requests = client.getRequests();
         assertThat(requests, hasSize(2));
@@ -3660,11 +3660,11 @@ public class KoLAdventureValidationTest {
 
         assertTrue(PANDAMONIUM_SLUMS.canAdventure());
         assertTrue(PANDAMONIUM_SLUMS.prepareForAdventure());
-        assertEquals(QuestDatabase.getQuest(Quest.FRIAR), QuestDatabase.FINISHED);
+        assertEquals(QuestDatabase.FINISHED, QuestDatabase.getQuest(Quest.FRIAR));
         assertEquals(0, InventoryManager.getCount(ItemPool.DODECAGRAM));
         assertEquals(0, InventoryManager.getCount(ItemPool.CANDLES));
         assertEquals(0, InventoryManager.getCount(ItemPool.BUTTERKNIFE));
-        assertEquals(QuestDatabase.getQuest(Quest.AZAZEL), QuestDatabase.STARTED);
+        assertEquals(QuestDatabase.STARTED, QuestDatabase.getQuest(Quest.AZAZEL));
 
         var requests = client.getRequests();
         assertThat(requests, hasSize(4));
@@ -3889,7 +3889,7 @@ public class KoLAdventureValidationTest {
         client.addResponse(200, ""); // api.php
         assertTrue(GOATLET.canAdventure());
         assertTrue(GOATLET.prepareForAdventure());
-        assertEquals(QuestDatabase.getQuest(Quest.TRAPPER), "step1");
+        assertEquals("step1", QuestDatabase.getQuest(Quest.TRAPPER));
 
         var requests = client.getRequests();
         assertThat(requests, hasSize(2));
@@ -4044,7 +4044,7 @@ public class KoLAdventureValidationTest {
         var requests = getRequests();
         assertThat(requests, hasSize(1));
         assertPostRequest(
-            requests.get(0), "/place.php", "whichplace=plains&action=garbage_grounds");
+            requests.getFirst(), "/place.php", "whichplace=plains&action=garbage_grounds");
       }
     }
 
@@ -4464,7 +4464,7 @@ public class KoLAdventureValidationTest {
         var requests = getRequests();
         assertThat(requests, hasSize(1));
         assertPostRequest(
-            requests.get(0),
+            requests.getFirst(),
             "/inv_equip.php",
             "which=2&action=outfit&whichoutfit=" + OutfitPool.SWASHBUCKLING_GETUP + "&ajax=1");
       }
@@ -4522,7 +4522,7 @@ public class KoLAdventureValidationTest {
         var requests = getRequests();
         assertThat(requests, hasSize(1));
         assertPostRequest(
-            requests.get(0),
+            requests.getFirst(),
             "/inv_equip.php",
             "which=2&ajax=1&slot=1&action=equip&whichitem=" + ItemPool.PIRATE_FLEDGES);
       }
@@ -4721,7 +4721,7 @@ public class KoLAdventureValidationTest {
         var requests = getRequests();
         assertThat(requests, hasSize(1));
         assertPostRequest(
-            requests.get(0),
+            requests.getFirst(),
             "/inv_equip.php",
             "which=2&action=outfit&whichoutfit=" + OutfitPool.HIPPY_OUTFIT + "&ajax=1");
       }
@@ -4751,7 +4751,7 @@ public class KoLAdventureValidationTest {
         var requests = getRequests();
         assertThat(requests, hasSize(1));
         assertPostRequest(
-            requests.get(0),
+            requests.getFirst(),
             "/inv_equip.php",
             "which=2&action=outfit&whichoutfit=" + OutfitPool.HIPPY_OUTFIT + "&ajax=1");
       }
@@ -4781,7 +4781,7 @@ public class KoLAdventureValidationTest {
         var requests = getRequests();
         assertThat(requests, hasSize(1));
         assertPostRequest(
-            requests.get(0),
+            requests.getFirst(),
             "/inv_equip.php",
             "which=2&action=outfit&whichoutfit=" + OutfitPool.WAR_HIPPY_OUTFIT + "&ajax=1");
       }
@@ -4846,7 +4846,7 @@ public class KoLAdventureValidationTest {
         var requests = getRequests();
         assertThat(requests, hasSize(1));
         assertPostRequest(
-            requests.get(0),
+            requests.getFirst(),
             "/inv_equip.php",
             "which=2&action=outfit&whichoutfit=" + OutfitPool.FRAT_OUTFIT + "&ajax=1");
       }
@@ -4877,7 +4877,7 @@ public class KoLAdventureValidationTest {
         var requests = getRequests();
         assertThat(requests, hasSize(1));
         assertPostRequest(
-            requests.get(0),
+            requests.getFirst(),
             "/inv_equip.php",
             "which=2&action=outfit&whichoutfit=" + OutfitPool.WAR_FRAT_OUTFIT + "&ajax=1");
       }
@@ -4981,7 +4981,7 @@ public class KoLAdventureValidationTest {
         var requests = getRequests();
         assertThat(requests, hasSize(1));
         assertPostRequest(
-            requests.get(0), "/inv_equip.php", "which=2&action=outfit&whichoutfit=33&ajax=1");
+            requests.getFirst(), "/inv_equip.php", "which=2&action=outfit&whichoutfit=33&ajax=1");
       }
     }
   }
@@ -5105,7 +5105,7 @@ public class KoLAdventureValidationTest {
         var requests = getRequests();
         assertThat(requests, hasSize(1));
         assertPostRequest(
-            requests.get(0),
+            requests.getFirst(),
             "/inv_equip.php",
             "which=2&action=outfit&whichoutfit=" + OutfitPool.FRAT_OUTFIT + "&ajax=1");
       }
@@ -5136,7 +5136,7 @@ public class KoLAdventureValidationTest {
         var requests = getRequests();
         assertThat(requests, hasSize(1));
         assertPostRequest(
-            requests.get(0),
+            requests.getFirst(),
             "/inv_equip.php",
             "which=2&action=outfit&whichoutfit=" + OutfitPool.FRAT_OUTFIT + "&ajax=1");
       }
@@ -5167,7 +5167,7 @@ public class KoLAdventureValidationTest {
         var requests = getRequests();
         assertThat(requests, hasSize(1));
         assertPostRequest(
-            requests.get(0),
+            requests.getFirst(),
             "/inv_equip.php",
             "which=2&action=outfit&whichoutfit=" + OutfitPool.WAR_FRAT_OUTFIT + "&ajax=1");
       }
@@ -5231,7 +5231,7 @@ public class KoLAdventureValidationTest {
         var requests = getRequests();
         assertThat(requests, hasSize(1));
         assertPostRequest(
-            requests.get(0),
+            requests.getFirst(),
             "/inv_equip.php",
             "which=2&action=outfit&whichoutfit=" + OutfitPool.HIPPY_OUTFIT + "&ajax=1");
       }
@@ -5262,7 +5262,7 @@ public class KoLAdventureValidationTest {
         var requests = getRequests();
         assertThat(requests, hasSize(1));
         assertPostRequest(
-            requests.get(0),
+            requests.getFirst(),
             "/inv_equip.php",
             "which=2&action=outfit&whichoutfit=" + OutfitPool.WAR_HIPPY_OUTFIT + "&ajax=1");
       }
@@ -5590,7 +5590,7 @@ public class KoLAdventureValidationTest {
         var requests = getRequests();
         assertThat(requests, hasSize(1));
         assertPostRequest(
-            requests.get(0), "/inv_use.php", "whichitem=" + ItemPool.DRINK_ME_POTION + "&ajax=1");
+            requests.getFirst(), "/inv_use.php", "whichitem=" + ItemPool.DRINK_ME_POTION + "&ajax=1");
       }
     }
   }
@@ -5665,7 +5665,7 @@ public class KoLAdventureValidationTest {
         var requests = getRequests();
         assertThat(requests, hasSize(1));
         assertPostRequest(
-            requests.get(0), "/inv_use.php", "whichitem=" + ItemPool.DEVILISH_FOLIO + "&ajax=1");
+            requests.getFirst(), "/inv_use.php", "whichitem=" + ItemPool.DEVILISH_FOLIO + "&ajax=1");
       }
     }
   }
@@ -5739,7 +5739,7 @@ public class KoLAdventureValidationTest {
         var requests = getRequests();
         assertThat(requests, hasSize(1));
         assertPostRequest(
-            requests.get(0), "/inv_use.php", "whichitem=" + ItemPool.ABSINTHE + "&ajax=1");
+            requests.getFirst(), "/inv_use.php", "whichitem=" + ItemPool.ABSINTHE + "&ajax=1");
       }
     }
   }
@@ -5815,7 +5815,7 @@ public class KoLAdventureValidationTest {
         var requests = getRequests();
         assertThat(requests, hasSize(1));
         assertPostRequest(
-            requests.get(0),
+            requests.getFirst(),
             "/inv_use.php",
             "whichitem=" + ItemPool.TRANSPORTER_TRANSPONDER + "&ajax=1");
       }
@@ -5908,7 +5908,7 @@ public class KoLAdventureValidationTest {
         var requests = getRequests();
         assertThat(requests, hasSize(1));
         assertPostRequest(
-            requests.get(0),
+            requests.getFirst(),
             "/familiar.php",
             "action=newfam&newfam=" + FamiliarPool.MACHINE_ELF + "&ajax=1");
       }
@@ -5925,7 +5925,7 @@ public class KoLAdventureValidationTest {
         var requests = getRequests();
         assertThat(requests, hasSize(1));
         assertPostRequest(
-            requests.get(0), "/inv_use.php", "whichitem=" + ItemPool.MACHINE_SNOWGLOBE + "&ajax=1");
+            requests.getFirst(), "/inv_use.php", "whichitem=" + ItemPool.MACHINE_SNOWGLOBE + "&ajax=1");
       }
     }
   }
@@ -6059,7 +6059,7 @@ public class KoLAdventureValidationTest {
         var requests = client.getRequests();
         assertThat(requests, hasSize(1));
         assertPostRequest(
-            requests.get(0),
+            requests.getFirst(),
             "/inv_equip.php",
             "which=2&ajax=1&action=equip&whichitem=" + ItemPool.EXO_SERVO_LEG_BRACES);
       }
@@ -6260,7 +6260,7 @@ public class KoLAdventureValidationTest {
         } else {
           assertThat(requests, hasSize(1));
           assertPostRequest(
-              requests.get(0), "/inv_use.php", "whichitem=" + chamber.getItemId() + "&ajax=1");
+              requests.getFirst(), "/inv_use.php", "whichitem=" + chamber.getItemId() + "&ajax=1");
         }
 
         assertThat(success, is(nothingToDo || haveGland));
@@ -6449,7 +6449,7 @@ public class KoLAdventureValidationTest {
 
             var requests = client.getRequests();
             assertThat(requests, hasSize(1));
-            assertGetRequest(requests.get(0), "/seafloor.php", null);
+            assertGetRequest(requests.getFirst(), "/seafloor.php", null);
           }
         }
       }
@@ -6736,7 +6736,7 @@ public class KoLAdventureValidationTest {
             var requests = getRequests();
             assertThat(requests, hasSize(1));
             assertPostRequest(
-                requests.get(0),
+                requests.getFirst(),
                 "/inv_equip.php",
                 "which=2&action=outfit&whichoutfit=" + outfitId + "&ajax=1");
           }
@@ -6797,7 +6797,7 @@ public class KoLAdventureValidationTest {
             var requests = getRequests();
             assertThat(requests, hasSize(1));
             assertPostRequest(
-                requests.get(0),
+                requests.getFirst(),
                 "/inv_equip.php",
                 "which=2&action=outfit&whichoutfit=" + outfitId + "&ajax=1");
           }
@@ -6863,7 +6863,7 @@ public class KoLAdventureValidationTest {
               var requests = getRequests();
               assertThat(requests, hasSize(1));
               assertPostRequest(
-                  requests.get(0),
+                  requests.getFirst(),
                   "/inv_equip.php",
                   "which=2&action=outfit&whichoutfit=" + outfitId + "&ajax=1");
             }
@@ -6930,7 +6930,7 @@ public class KoLAdventureValidationTest {
               var requests = getRequests();
               assertThat(requests, hasSize(1));
               assertPostRequest(
-                  requests.get(0),
+                  requests.getFirst(),
                   "/inv_equip.php",
                   "which=2&action=outfit&whichoutfit=" + outfitId + "&ajax=1");
             }
@@ -7099,7 +7099,7 @@ public class KoLAdventureValidationTest {
 
         assertThat(requests, hasSize(1));
         assertPostRequest(
-            requests.get(0),
+            requests.getFirst(),
             "/inv_equip.php",
             "which=2&ajax=1&slot=1&action=equip&whichitem=" + ItemPool.FANTASY_REALM_GEM);
         assertThat(success, is(true));
@@ -7124,7 +7124,7 @@ public class KoLAdventureValidationTest {
 
         var requests = getRequests();
         assertThat(requests, hasSize(1));
-        assertPostRequest(requests.get(0), "/familiar.php", "action=putback&ajax=1");
+        assertPostRequest(requests.getFirst(), "/familiar.php", "action=putback&ajax=1");
         assertThat(success, is(true));
       }
     }
@@ -7240,7 +7240,7 @@ public class KoLAdventureValidationTest {
         var requests = getRequests();
         assertThat(requests, hasSize(1));
         assertPostRequest(
-            requests.get(0),
+            requests.getFirst(),
             "/inv_equip.php",
             "which=2&ajax=1&action=equip&whichitem=" + ItemPool.DRIP_HARNESS);
       }
@@ -7709,7 +7709,7 @@ public class KoLAdventureValidationTest {
         var requests = getRequests();
         assertThat(requests, hasSize(1));
         assertPostRequest(
-            requests.get(0),
+            requests.getFirst(),
             "/inv_equip.php",
             "which=2&ajax=1&slot=1&action=equip&whichitem=" + ItemPool.TRANSFUNCTIONER);
       }
@@ -7831,7 +7831,7 @@ public class KoLAdventureValidationTest {
         var requests = getRequests();
         assertThat(requests, hasSize(1));
         assertPostRequest(
-            requests.get(0), "/place.php", "whichplace=plains&action=garbage_grounds");
+            requests.getFirst(), "/place.php", "whichplace=plains&action=garbage_grounds");
       }
     }
 
