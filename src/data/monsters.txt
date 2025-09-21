@@ -686,7 +686,7 @@ Tan Gnat	135	biggnat.gif	Atk: 136 Def: 127 HP: 128 Init: 50 Meat: 20 P: bug Arti
 tapdancing skeleton	402	hatskel.gif	Atk: 65 Def: 55 HP: 70 Init: 50 P: undead ED: spooky Article: a	tap shoes (5)	worn tophat (5)	janglin' bones (c0)
 Tektite	114	tektite.gif	Atk: 20 Def: 18 HP: 15 Init: 60 P: beast EA: sleaze EA: none Article: a	black pixel (50)	blue pixel (80)	white pixel (50)
 tetchy pirate	619	madpirate.gif	Atk: 83 Def: 75 HP: 72 Init: 50 Meat: 40 P: pirate Article: a	bottle of rum (20)	cocktail napkin (10)
-Thanksgolem	1973	thanksgolem.gif	NOCOPY HP: 10000 Scale: 20 Cap: 10000 Floor: 200 Init: -10000 P: construct Phys: 75 Elem: 50 Article: a	leftovers (n100)	leftovers (n100)	leftovers (n100)	leftovers (n100)	leftovers (n100)	leftovers (n100)	giant pilgrim hat (n100)
+Thanksgolem	1973	thanksgolem.gif	BOSS NOCOPY HP: 10000 Scale: 20 Cap: 10000 Floor: 200 Init: -10000 P: construct Phys: 75 Elem: 50 Article: a	leftovers (n100)	leftovers (n100)	leftovers (n100)	leftovers (n100)	leftovers (n100)	leftovers (n100)	giant pilgrim hat (n100)
 The Barrelmech of Diogenes	1840	otherimages/barrelbeast.gif	BOSS NOCOPY Atk: 200 Def: 250 HP: 1500 Init: 25 P: construct
 The Big Wisniewski	545	thisdude.gif	BOSS NOCOPY Atk: 250 Def: 225 HP: 2000 Init: 60 P: hippy ED: stench EA: stench EA: none	solid gold bowling ball (100)
 The Clownlord Beelzebozo	569	beelzebozo.gif	BOSS NOCOPY Atk: 27 Def: 27 HP: 40 Init: 85 P: horror EA: sleaze EA: spooky EA: none
