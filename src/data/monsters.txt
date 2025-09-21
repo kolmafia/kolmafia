@@ -1845,7 +1845,7 @@ Wart Dinsey	1770	wartdinsey.gif	BOSS NOCOPY Atk: 700 Def: 700 HP: 1000 Init: 250
 # Deck of Every Card (July 2015)
 legal alien	1783	illegal_alien.gif	NOCOPY Atk: 50 Def: 50 HP: 100 Init: 50 P: humanoid Article: a
 The Emperor	1782	theemperor.gif	NOCOPY Atk: 100 Def: 100 HP: 100 Init: 100 P: dude EA: sleaze EA: none	The Emperor's dry cleaning (100)
-The Hermit	1781	otherimages/hermit.gif	NOCOPY NOMANUEL Atk: 100 Def: 100 HP: 100 Init: 100 P: dude EA: hot Wiki: "Hermit (monster)"	hermit factoid (c100)
+The Hermit	1781	otherimages/hermit.gif	BOSS NOCOPY NOMANUEL Atk: 100 Def: 100 HP: 100 Init: 100 P: dude EA: hot Wiki: "Hermit (monster)"	hermit factoid (c100)
 
 # Bubblin' Caldera (That 70s Volcano August 2015)
 basaltamander	1799	basaltamander.gif	Atk: 100 Def: 100 HP: 180 Init: 50 P: beast E: hot Article: a	basaltamander tongue (15)	basaltamander buckler (f0.1)
