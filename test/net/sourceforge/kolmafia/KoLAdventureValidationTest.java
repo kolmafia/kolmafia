@@ -1449,7 +1449,8 @@ public class KoLAdventureValidationTest {
         AdventureDatabase.getAdventureByName("An Incredibly Strange Place (Mediocre Trip)");
     private static final KoLAdventure GREAT_TRIP =
         AdventureDatabase.getAdventureByName("An Incredibly Strange Place (Great Trip)");
-    private static final AdventureResult ASTRAL_MUSHROOM = ItemPool.get(ItemPool.ASTRAL_MUSHROOM, 1);
+    private static final AdventureResult ASTRAL_MUSHROOM =
+        ItemPool.get(ItemPool.ASTRAL_MUSHROOM, 1);
     private static final AdventureResult HALF_ASTRAL = EffectPool.get(EffectPool.HALF_ASTRAL);
 
     @Test
