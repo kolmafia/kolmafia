@@ -5364,7 +5364,7 @@ public abstract class ChoiceAdventures {
         "Interstellar Trade",
         // Option...
         new ChoiceOption("purchase item", 1),
-        new ChoiceOption("leave", 6));
+        new ChoiceOption("leave", 2));
 
     // Choice 1244 is Here There Be No Spants
     new ChoiceAdventure(
