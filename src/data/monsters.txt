@@ -2829,8 +2829,8 @@ the Crimborg	2004	dodec.gif	Scale: 4 Cap: 10000 Floor: 25 Init: -10000 P: weird	
 penguin mafioso	2005	pengthug.gif	Scale: 5 Cap: 10000 Floor: 30 Init: -10000 P: weird Article: a	negative lump (0)
 simple hobo	2006	nhobo1.gif	Scale: 5 Cap: 10000 Floor: 30 Init: -10000 P: weird EA: stench EA: none Article: a	negative lump (0)
 
-Your Brain	2007	brain.gif	NOCOPY NOMANUEL Scale: 6 Cap: 10000 Floor: 40 Init: -10000 P: weird	Third Eye (100)	chakra sludge (100)	chakra sludge (100)	chakra sludge (100)
-The Krampus	2008	krampus.gif	NOCOPY NOMANUEL Scale: 9 Cap: 10000 Floor: 50 Init: -10000 P: weird	Krampus Horn (100)	chakra sludge (100)	chakra sludge (100)	chakra sludge (100)	chakra sludge (100)	chakra sludge (100)	chakra sludge (100)	chakra sludge (100)	chakra sludge (100)
+Your Brain	2007	brain.gif	BOSS NOCOPY NOMANUEL Scale: 6 Cap: 10000 Floor: 40 Init: -10000 P: weird	Third Eye (100)	chakra sludge (100)	chakra sludge (100)	chakra sludge (100)
+The Krampus	2008	krampus.gif	BOSS NOCOPY NOMANUEL Scale: 9 Cap: 10000 Floor: 50 Init: -10000 P: weird	Krampus Horn (100)	chakra sludge (100)	chakra sludge (100)	chakra sludge (100)	chakra sludge (100)	chakra sludge (100)	chakra sludge (100)	chakra sludge (100)	chakra sludge (100)
 
 # El Dia de los Muertos Borrachos y Agradecido (Thnaksgiving 2017)
 Guajolote Cad&aacute;ver	2039	turkeyskel.gif	NOCOPY NOMANUEL WANDERER Scale: -3 Init: -10000 P: undead	cursed wishbone (c100)
