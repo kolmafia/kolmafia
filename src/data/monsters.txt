@@ -2398,73 +2398,6 @@ Axis grenadier skeleton	2495	otherimages/skeletonwar/spine+rib1+head4+arms2+legs
 Axis infantry skeleton	2493	otherimages/skeletonwar/spine+rib1+rib2+rib4+head1+arms1+legs2	NOCOPY Scale: 15 Cap: 10000 Floor: ? Init: 200 P: undead Phys: 75 ElemHot: 50 ElemCold: 50 ElemStench: 90 ElemSpooky: 90 ElemSleaze: 25 Article: an	Axis helmet (1)	Axis fatigues (1)	Axis suspenders (5)	orphaned baby skeleton (f0.1)
 Axis officer skeleton	2496	otherimages/skeletonwar/spine+rib1+rib3+rib5+rib6+head2+arms1+legs1	NOCOPY Scale: 20 Cap: 10000 Floor: ? Init: 250 P: undead Phys: 50 ElemHot: 90 ElemCold: 90 ElemStench: 50 ElemSpooky: 90 ElemSleaze: 90 Article: an	Axis helmet (10)	Axis fatigues (10)	Axis suspenders (10)	stolen artifact (4)	really expensive stolen artifact (2)	priceless stolen artifact (1)	Chroner (100)
 
-# Crimbo 2023 (December 2023)
-Elf Guard conscript	2392	egconscript.gif	NOWISH Scale: ? Init: -10000 P: elf Article: an	1-2 Elf Guard MPC (m100)	Elf Guard patrol cap (c0)
-Elf Guard convict	2393	egconvict.gif	NOWISH Scale: ? Init: -10000 P: elf Article: an	1-2 Elf Guard MPC (m100)	Elf Guard hotpants (c0)
-Elf Guard private	2394	egprivate.gif	NOWISH Scale: ? Init: -10000 P: elf Article: an	1-2 Elf Guard MPC (m100)	Elf Guard insignia (private) (c0)
-Crimbuccaneer new recruit	2395	cbrecruit.gif	NOWISH Scale: ? Init: -10000 P: pirate Article: a	1-2 Crimbuccaneer piece of 12 (m100)	Crimbuccaneer tricorn (c0)
-Crimbuccaneer military school dropout	2405	cbdropout.gif	NOWISH Scale: ? Init: -10000 P: pirate Article: a	1-2 Crimbuccaneer piece of 12 (m100)	Crimbuccaneer breeches (c0)
-Crimbuccaneer navigator	2406	cbnavigator.gif	NOWISH Scale: ? Init: -10000 P: pirate Article: a	1-2 Crimbuccaneer piece of 12 (m100)	Crimbuccaneer shirt (f5)	Crimbuccaneer invasion map (f0.5)
-Crimbuccaneer mudlark	2407	cbmudlark.gif	NOWISH Scale: ? Init: -10000 P: pirate Article: a	1-2 Crimbuccaneer piece of 12 (m100)	1-3 Crimbuccaneer flotsam (m100)	Crimbuccaneer premium booty sack (f0.5)
-Crimbuccaneer vice-captain	2408	cbcaptain.gif	NOWISH Scale: ? Init: -10000 P: pirate Article: a	1-2 Crimbuccaneer piece of 12 (m100)	Crimbuccaneer captain's purse (f5)	brown pirate pants (f0.5)
-Elf Guard strategist	2409	egstrategist.gif	NOWISH Scale: ? Init: -10000 P: elf Article: an	1-2 Elf Guard MPC (m100)	Elf Guard eyedrops (f5)	Elf Guard strategic map (f0.5)
-Elf Guard requisitions officer	2410	egrequisitions.gif	NOWISH Scale: ? Init: -10000 P: elf Article: an	1-2 Elf Guard MPC (m100)	Elf Guard commandeering gloves (f5)	Elf Guard Field Manual: Extortion (f0.5)
-Elf Guard general	2411	eggeneral.gif	NOWISH Scale: ? Init: -10000 P: elf Article: an	1-2 Elf Guard MPC (m100)	Elf Guard officer's sidearm (f5)	Elf Guard insignia (general) (f0.5)
-Crimbuccaneer lamplighter	2412	cblamplighter.gif	NOWISH Scale: ? Init: -10000 P: pirate Article: a	1-2 Crimbuccaneer piece of 12 (m100)	Crimbuccaneer whale oil (f5)	Crimbuccaneer lantern (f0.5)
-Crimbuccaneer bombjack	2413	cbbombjack.gif	NOWISH Scale: ? Init: -10000 P: pirate Article: a	1-2 Crimbuccaneer piece of 12 (m100)	Crimbuccaneer mologrog cocktail (f5)	Crimbuccaneer bombjacket (f0.5)
-Crimbuccaneer rigging rigger	2414	cbrigger.gif	NOWISH Scale: ? Init: -10000 P: pirate Article: a	1-2 Crimbuccaneer piece of 12 (m100)	Crimbuccaneer rigging lasso (f5)	baby rigging snake (f0.5)
-Elf Guard fuel courier	2415	egcourier.gif	NOWISH Scale: ? Init: -10000 P: elf Article: an	1-2 Elf Guard MPC (m100)	military-grade peppermint oil (f5)	Elf Guard fuel tank (f0.5)
-Elf Guard ordnance packer	2416	egpacker.gif	NOWISH Scale: ? Init: -10000 P: elf Article: an	1-2 Elf Guard MPC (m100)	Elf Guard tinsel grenade (f5)	Elf Guard honor present (f0.5)
-Elf Guard engineer	2417	egengineer.gif	NOWISH Scale: ? Init: -10000 P: elf Article: an	1-2 Elf Guard MPC (m100)	1-3 Elf Army machine parts (m100)	massive wrench (f0.5)
-Crimbuccaneer barrrback	2418	cbbarback.gif	NOWISH Scale: ? Init: -10000 P: pirate Article: a	1-2 Crimbuccaneer piece of 12 (m100)	sawed-off blunderbuss (f5)	Crimbuccaneer tavern swab (f0.5)
-Crimbuccaneer grognard	2419	cbgrognard.gif	NOWISH Scale: ? Init: -10000 P: pirate Article: a	1-2 Crimbuccaneer piece of 12 (m100)	old-school pirate grog (f5)	Cocktails of the Age of Sail (f0.5)
-Crimbuccaneer bar brawler	2420	cbbrawler.gif	NOWISH Scale: ? Init: -10000 P: pirate Article: a	1-2 Crimbuccaneer piece of 12 (m100)	grog nuts (f5)	punching mirror (f0.5)
-Elf Guard sanitation officer	2421	egjanitor.gif	NOWISH Scale: ? Init: -10000 P: elf Article: an	1-2 Elf Guard MPC (m100)	peppermint bomb (f5)	Elf Guard broom (f0.5)
-Elf Guard chemist	2422	egchemist.gif	NOWISH Scale: ? Init: -10000 P: elf Article: an	1-2 Elf Guard MPC (m100)	bottle of gin (5)	bottle of rum (5)	bottle of vodka (5)	bottle of tequila (5)	bottle of whiskey (5)	boxed wine (5)	Elf Guard hangover cure (f0.5)
-Elf Guard shore leave specialist	2423	egshoreleave.gif	NOWISH Scale: ? Init: -10000 P: elf Article: an	1-2 Elf Guard MPC (m100)	officer's nog (f5)	Elf Guard Field Manual: Wilderness Sleeping (f0.5)
-Elf Guard desserter	2424	egdessert.gif	NOWISH Scale: ? Init: -10000 P: elf Article: an	1-2 Elf Guard MPC (m100)	sundae ration (f5)	ancient Elf dessert spoon (f0.5)
-Elf Guard provisioner	2425	egprovisioner.gif	NOWISH Scale: ? Init: -10000 P: elf Article: an	1-2 Elf Guard MPC (m100)	peppermint tack (f5)	Elf Guard Field Manual: Culinary Arts (f0.5)
-Elf Guard steward	2426	egsteward.gif	NOWISH Scale: ? Init: -10000 P: elf Article: an	1-2 Elf Guard MPC (m100)	Elf Guard payroll bag (f5)	Elf Guard clipboard (f0.5)
-Crimbuccaneer fruit plunderer	2427	cbfruit.gif	NOWISH Scale: ? Init: -10000 P: pirate Article: a	1-2 Crimbuccaneer piece of 12 (m100)	orange (5)	lemon (5)	lime (5)	cherry (5)	grapefruit (5)	papaya (5)	blackberry (5)	strawberry (5)	peach (5)	pear (5)	plum (5)	kiwi (5)	tangerine (5)	raspberry (5)	kumquat (5)	The Encyclopedia of Fruit (f0.5)
-Crimbuccaneer whalehunter	2428	cbwhaler.gif	NOWISH Scale: ? Init: -10000 P: pirate Article: a	1-2 Crimbuccaneer piece of 12 (m100)	whalesteak (f5)	whalegun (f0.5)
-Crimbuccaneer retiree	2429	cbretiree.gif	NOWISH Scale: ? Init: -10000 P: pirate Article: a	1-2 Crimbuccaneer piece of 12 (m100)	pegfinger (f5)	Crimbuccaneer fledges (disintegrating) (f0.5)
-Crimbuccaneer freebooter	2430	cbboots.gif	NOWISH Scale: ? Init: -10000 P: pirate Article: a	1-2 Crimbuccaneer piece of 12 (m100)	cannonbomb (f5)	free boots (f0.5)
-Crimbuccaneer scrimshander	2431	cbscrimshander.gif	NOWISH Scale: ? Init: -10000 P: pirate Article: a	1-2 Crimbuccaneer piece of 12 (m100)	whale cerebrospinal fluid (f5)	Crimbuccaneer runebone (f0.5)
-Crimbuccaneer carpenter	2432	cbcarpenter.gif	NOWISH Scale: ? Init: -10000 P: pirate Article: a	1-2 Crimbuccaneer piece of 12 (m100)	shipwright's hammer (f5)	gunwale (f0.5)
-Elf Guard arctic seal	2433	egseal.gif	NOWISH Scale: ? Init: -10000 P: elf Article: an	1-2 Elf Guard MPC (m100)	Elf Guard mouthknife (f5)	Elf Guard SCUBA tank (f0.5)
-Elf Guard armorer	2434	egarmorer.gif	NOWISH Scale: ? Init: -10000 P: elf Article: an	1-2 Elf Guard MPC (m100)	Kelflar vest (f5)	Elvish underarmor (f0.5)
-Elf Guard Red and White Beret	2435	egberet.gif	NOWISH Scale: ? Init: -10000 P: elf Article: an	1-2 Elf Guard MPC (m100)	red and white claret (f5)	Elf Guard red and white beret (f0.5)
-Crimbuccaneer privateer	2436	cbprivateer.gif	NOWISH Scale: ? Init: -10000 P: pirate Article: a	1-2 Crimbuccaneer piece of 12 (m100)	Crimbuccaneer fledges (mint) (c0)
-
-# Crimbo 2024 (December 2024)
-feral bunny	2475	feralbunny.gif	Scale: 5 Init: 100 P: beast Article: a	Spirit of Easter (c100)	coney haunch (15)
-chocolate chicken	2476	chocken.gif	Scale: 5 Init: 150 P: beast Article: a	Spirit of Easter (c100)	dark chocolate egg (15)
-moai	2477	moai.gif	Scale: 5 Init: -10000 P: construct Article: a	Spirit of Easter (c100)	moai toai (15)	moaiball (f0.1)
-Easter Island Bunny	2464	moaibunny.gif	NOCOPY NOMANUEL Scale: 10 HP: 300 Init: -10000 P: construct Article: the
-
-giant snake	2478	bigsnake.gif	Scale: 5 Init: 200 P: beast Article: a	Spirit of St. Patrick's Day (c100)	half-digested rat (10)
-giant potato	2479	bigpotato.gif	Scale: 5 Init: 50 P: plant Article: a	Spirit of St. Patrick's Day (c100)	four-leaf potato sprout (10)	potato jacket (f0.1)
-giant potato snake	2480	potatosnake.gif	Scale: 5 Init: 150 P: beast Article: a	Spirit of St. Patrick's Day (c100)	half-digested rat (5)	four-leaf potato sprout (5)
-St. Patrick	2465	stpat.gif	NOCOPY NOMANUEL Scale: 5 HP: 500 Init: -10000 P: dude
-
-spectre of war	2482	trauma.gif	Scale: 20 Init: 100 P: undead Article: a Phys: 100	Spirit of Veteran's Day (c100)	traumatic holiday memory (5)
-Brandonian loyalist	2483	brandonian.gif	Scale: 20 Init: 10000 P: dude Article: a	Spirit of Veteran's Day (c100)	Brandonian footlocker key (5)
-Section 11	2484	section11.gif	Scale: 20 Init: 300 P: dude Article: a Elem: 100	Spirit of Veteran's Day (c100)	military orb (5)	Congressional Medal of Insanity (f0.1)
-some underbrush	2492	hedgerow.gif	NOCOPY NOMANUEL Atk: 0 Def: 100 HP: 1 Init: -10000 P: plant
-Colonel Brando	2466	brando.gif	NOCOPY NOMANUEL Scale: 5 HP: 500 Init: -10000 P: dude
-
-gravy slime	2485	gravyslime.gif	Scale: 30 Init: 100 P: slime Article: a	Spirit of Thanksgiving (c100)	gravy skin (5)
-pumpkin spice wraith	2486	pumpkinwraith.gif	Scale: 30 Init: 200 P: undead Phys: 100 Article: a	Spirit of Thanksgiving (c100)	crystallized pumpkin spice (5)	pumpkin spice whorl (f0.1)
-possessed can of cream of mushroom soup	2487	can_mush.gif	Scale: 30 Init: 100 P: undead Phys: 50 Article: a	Spirit of Thanksgiving (c100)
-possessed can of green beans	2488	can_green.gif	Scale: 30 Init: 100 P: undead Phys: 50 Article: a	Spirit of Thanksgiving (c100)
-Jedediah	2467	jedediah.gif	NOCOPY NOMANUEL Scale: 5 HP: 400 Init: -10000 P: dude
-Boiling Cloud	2468	boilingcloud.gif	NOCOPY NOMANUEL Scale: 5 HP: 400 Init: -10000 P: elemental
-
-magically-animated snowman	2489	regularsnowman.gif	Scale: 40 Init: 150 P: elemental Article: a	Spirit of Christmas (c100)	ragged wool yarn (15)	snowman-enchanting tophat (f0.1)
-Christmas treant	2490	xmastreant.gif	Scale: 40 Init: 250 P: plant Article: a	Spirit of Christmas (c100)	fragile Christmas ornament (5)
-self-driving sleigh	2491	sleigh.gif	Scale: 40 Init: 300 P: construct Article: a	Spirit of Christmas (c100)	LIDAR candle (10)
-"Santa Claus"	2469	santa.gif	NOCOPY NOMANUEL Scale: 40 HP: 2000 Init: -10000 P: dude	Bowl of Infinite Jelly (n100)
-
 # Old Events
 
 # White Wednesday (October 26, 2005)
@@ -2903,6 +2836,73 @@ Coal-Shoveling Trainbot	2263	trainbot_coal.gif	NOWISH Scale: 0 Cap: ? Init: -100
 Slag-Processing Trainbot	2264	trainbot_slag.gif	NOWISH Scale: 0 Cap: ? Init: -10000 P: construct EA: hot EA: none Article: a
 Steam-Routing Trainbot	2265	trainbot_steam.gif	NOWISH Scale: 0 Cap: ? Init: -10000 P: construct EA: hot Article: a
 The Superconductor	2266	superconductor.gif	BOSS NOCOPY NOMANUEL Scale: 30 Cap: ? HP: 300 Init: -10000 P: construct EA: hot EA: none	The Superconductor's CPU (100)
+
+# Crimbo 2023 (December 2023)
+Elf Guard conscript	2392	egconscript.gif	NOWISH Scale: ? Init: -10000 P: elf Article: an	1-2 Elf Guard MPC (m100)	Elf Guard patrol cap (c0)
+Elf Guard convict	2393	egconvict.gif	NOWISH Scale: ? Init: -10000 P: elf Article: an	1-2 Elf Guard MPC (m100)	Elf Guard hotpants (c0)
+Elf Guard private	2394	egprivate.gif	NOWISH Scale: ? Init: -10000 P: elf Article: an	1-2 Elf Guard MPC (m100)	Elf Guard insignia (private) (c0)
+Crimbuccaneer new recruit	2395	cbrecruit.gif	NOWISH Scale: ? Init: -10000 P: pirate Article: a	1-2 Crimbuccaneer piece of 12 (m100)	Crimbuccaneer tricorn (c0)
+Crimbuccaneer military school dropout	2405	cbdropout.gif	NOWISH Scale: ? Init: -10000 P: pirate Article: a	1-2 Crimbuccaneer piece of 12 (m100)	Crimbuccaneer breeches (c0)
+Crimbuccaneer navigator	2406	cbnavigator.gif	NOWISH Scale: ? Init: -10000 P: pirate Article: a	1-2 Crimbuccaneer piece of 12 (m100)	Crimbuccaneer shirt (f5)	Crimbuccaneer invasion map (f0.5)
+Crimbuccaneer mudlark	2407	cbmudlark.gif	NOWISH Scale: ? Init: -10000 P: pirate Article: a	1-2 Crimbuccaneer piece of 12 (m100)	1-3 Crimbuccaneer flotsam (m100)	Crimbuccaneer premium booty sack (f0.5)
+Crimbuccaneer vice-captain	2408	cbcaptain.gif	NOWISH Scale: ? Init: -10000 P: pirate Article: a	1-2 Crimbuccaneer piece of 12 (m100)	Crimbuccaneer captain's purse (f5)	brown pirate pants (f0.5)
+Elf Guard strategist	2409	egstrategist.gif	NOWISH Scale: ? Init: -10000 P: elf Article: an	1-2 Elf Guard MPC (m100)	Elf Guard eyedrops (f5)	Elf Guard strategic map (f0.5)
+Elf Guard requisitions officer	2410	egrequisitions.gif	NOWISH Scale: ? Init: -10000 P: elf Article: an	1-2 Elf Guard MPC (m100)	Elf Guard commandeering gloves (f5)	Elf Guard Field Manual: Extortion (f0.5)
+Elf Guard general	2411	eggeneral.gif	NOWISH Scale: ? Init: -10000 P: elf Article: an	1-2 Elf Guard MPC (m100)	Elf Guard officer's sidearm (f5)	Elf Guard insignia (general) (f0.5)
+Crimbuccaneer lamplighter	2412	cblamplighter.gif	NOWISH Scale: ? Init: -10000 P: pirate Article: a	1-2 Crimbuccaneer piece of 12 (m100)	Crimbuccaneer whale oil (f5)	Crimbuccaneer lantern (f0.5)
+Crimbuccaneer bombjack	2413	cbbombjack.gif	NOWISH Scale: ? Init: -10000 P: pirate Article: a	1-2 Crimbuccaneer piece of 12 (m100)	Crimbuccaneer mologrog cocktail (f5)	Crimbuccaneer bombjacket (f0.5)
+Crimbuccaneer rigging rigger	2414	cbrigger.gif	NOWISH Scale: ? Init: -10000 P: pirate Article: a	1-2 Crimbuccaneer piece of 12 (m100)	Crimbuccaneer rigging lasso (f5)	baby rigging snake (f0.5)
+Elf Guard fuel courier	2415	egcourier.gif	NOWISH Scale: ? Init: -10000 P: elf Article: an	1-2 Elf Guard MPC (m100)	military-grade peppermint oil (f5)	Elf Guard fuel tank (f0.5)
+Elf Guard ordnance packer	2416	egpacker.gif	NOWISH Scale: ? Init: -10000 P: elf Article: an	1-2 Elf Guard MPC (m100)	Elf Guard tinsel grenade (f5)	Elf Guard honor present (f0.5)
+Elf Guard engineer	2417	egengineer.gif	NOWISH Scale: ? Init: -10000 P: elf Article: an	1-2 Elf Guard MPC (m100)	1-3 Elf Army machine parts (m100)	massive wrench (f0.5)
+Crimbuccaneer barrrback	2418	cbbarback.gif	NOWISH Scale: ? Init: -10000 P: pirate Article: a	1-2 Crimbuccaneer piece of 12 (m100)	sawed-off blunderbuss (f5)	Crimbuccaneer tavern swab (f0.5)
+Crimbuccaneer grognard	2419	cbgrognard.gif	NOWISH Scale: ? Init: -10000 P: pirate Article: a	1-2 Crimbuccaneer piece of 12 (m100)	old-school pirate grog (f5)	Cocktails of the Age of Sail (f0.5)
+Crimbuccaneer bar brawler	2420	cbbrawler.gif	NOWISH Scale: ? Init: -10000 P: pirate Article: a	1-2 Crimbuccaneer piece of 12 (m100)	grog nuts (f5)	punching mirror (f0.5)
+Elf Guard sanitation officer	2421	egjanitor.gif	NOWISH Scale: ? Init: -10000 P: elf Article: an	1-2 Elf Guard MPC (m100)	peppermint bomb (f5)	Elf Guard broom (f0.5)
+Elf Guard chemist	2422	egchemist.gif	NOWISH Scale: ? Init: -10000 P: elf Article: an	1-2 Elf Guard MPC (m100)	bottle of gin (5)	bottle of rum (5)	bottle of vodka (5)	bottle of tequila (5)	bottle of whiskey (5)	boxed wine (5)	Elf Guard hangover cure (f0.5)
+Elf Guard shore leave specialist	2423	egshoreleave.gif	NOWISH Scale: ? Init: -10000 P: elf Article: an	1-2 Elf Guard MPC (m100)	officer's nog (f5)	Elf Guard Field Manual: Wilderness Sleeping (f0.5)
+Elf Guard desserter	2424	egdessert.gif	NOWISH Scale: ? Init: -10000 P: elf Article: an	1-2 Elf Guard MPC (m100)	sundae ration (f5)	ancient Elf dessert spoon (f0.5)
+Elf Guard provisioner	2425	egprovisioner.gif	NOWISH Scale: ? Init: -10000 P: elf Article: an	1-2 Elf Guard MPC (m100)	peppermint tack (f5)	Elf Guard Field Manual: Culinary Arts (f0.5)
+Elf Guard steward	2426	egsteward.gif	NOWISH Scale: ? Init: -10000 P: elf Article: an	1-2 Elf Guard MPC (m100)	Elf Guard payroll bag (f5)	Elf Guard clipboard (f0.5)
+Crimbuccaneer fruit plunderer	2427	cbfruit.gif	NOWISH Scale: ? Init: -10000 P: pirate Article: a	1-2 Crimbuccaneer piece of 12 (m100)	orange (5)	lemon (5)	lime (5)	cherry (5)	grapefruit (5)	papaya (5)	blackberry (5)	strawberry (5)	peach (5)	pear (5)	plum (5)	kiwi (5)	tangerine (5)	raspberry (5)	kumquat (5)	The Encyclopedia of Fruit (f0.5)
+Crimbuccaneer whalehunter	2428	cbwhaler.gif	NOWISH Scale: ? Init: -10000 P: pirate Article: a	1-2 Crimbuccaneer piece of 12 (m100)	whalesteak (f5)	whalegun (f0.5)
+Crimbuccaneer retiree	2429	cbretiree.gif	NOWISH Scale: ? Init: -10000 P: pirate Article: a	1-2 Crimbuccaneer piece of 12 (m100)	pegfinger (f5)	Crimbuccaneer fledges (disintegrating) (f0.5)
+Crimbuccaneer freebooter	2430	cbboots.gif	NOWISH Scale: ? Init: -10000 P: pirate Article: a	1-2 Crimbuccaneer piece of 12 (m100)	cannonbomb (f5)	free boots (f0.5)
+Crimbuccaneer scrimshander	2431	cbscrimshander.gif	NOWISH Scale: ? Init: -10000 P: pirate Article: a	1-2 Crimbuccaneer piece of 12 (m100)	whale cerebrospinal fluid (f5)	Crimbuccaneer runebone (f0.5)
+Crimbuccaneer carpenter	2432	cbcarpenter.gif	NOWISH Scale: ? Init: -10000 P: pirate Article: a	1-2 Crimbuccaneer piece of 12 (m100)	shipwright's hammer (f5)	gunwale (f0.5)
+Elf Guard arctic seal	2433	egseal.gif	NOWISH Scale: ? Init: -10000 P: elf Article: an	1-2 Elf Guard MPC (m100)	Elf Guard mouthknife (f5)	Elf Guard SCUBA tank (f0.5)
+Elf Guard armorer	2434	egarmorer.gif	NOWISH Scale: ? Init: -10000 P: elf Article: an	1-2 Elf Guard MPC (m100)	Kelflar vest (f5)	Elvish underarmor (f0.5)
+Elf Guard Red and White Beret	2435	egberet.gif	NOWISH Scale: ? Init: -10000 P: elf Article: an	1-2 Elf Guard MPC (m100)	red and white claret (f5)	Elf Guard red and white beret (f0.5)
+Crimbuccaneer privateer	2436	cbprivateer.gif	NOWISH Scale: ? Init: -10000 P: pirate Article: a	1-2 Crimbuccaneer piece of 12 (m100)	Crimbuccaneer fledges (mint) (c0)
+
+# Crimbo 2024 (December 2024)
+feral bunny	2475	feralbunny.gif	Scale: 5 Init: 100 P: beast Article: a	Spirit of Easter (c100)	coney haunch (15)
+chocolate chicken	2476	chocken.gif	Scale: 5 Init: 150 P: beast Article: a	Spirit of Easter (c100)	dark chocolate egg (15)
+moai	2477	moai.gif	Scale: 5 Init: -10000 P: construct Article: a	Spirit of Easter (c100)	moai toai (15)	moaiball (f0.1)
+Easter Island Bunny	2464	moaibunny.gif	BOSS NOCOPY NOMANUEL Scale: 10 HP: 300 Init: -10000 P: construct Article: the
+
+giant snake	2478	bigsnake.gif	Scale: 5 Init: 200 P: beast Article: a	Spirit of St. Patrick's Day (c100)	half-digested rat (10)
+giant potato	2479	bigpotato.gif	Scale: 5 Init: 50 P: plant Article: a	Spirit of St. Patrick's Day (c100)	four-leaf potato sprout (10)	potato jacket (f0.1)
+giant potato snake	2480	potatosnake.gif	Scale: 5 Init: 150 P: beast Article: a	Spirit of St. Patrick's Day (c100)	half-digested rat (5)	four-leaf potato sprout (5)
+St. Patrick	2465	stpat.gif	BOSS NOCOPY NOMANUEL Scale: 5 HP: 500 Init: -10000 P: dude
+
+spectre of war	2482	trauma.gif	Scale: 20 Init: 100 P: undead Article: a Phys: 100	Spirit of Veteran's Day (c100)	traumatic holiday memory (5)
+Brandonian loyalist	2483	brandonian.gif	Scale: 20 Init: 10000 P: dude Article: a	Spirit of Veteran's Day (c100)	Brandonian footlocker key (5)
+Section 11	2484	section11.gif	Scale: 20 Init: 300 P: dude Article: a Elem: 100	Spirit of Veteran's Day (c100)	military orb (5)	Congressional Medal of Insanity (f0.1)
+some underbrush	2492	hedgerow.gif	BOSS NOCOPY NOMANUEL Atk: 0 Def: 100 HP: 1 Init: -10000 P: plant
+Colonel Brando	2466	brando.gif	BOSS NOCOPY NOMANUEL Scale: 5 HP: 500 Init: -10000 P: dude
+
+gravy slime	2485	gravyslime.gif	Scale: 30 Init: 100 P: slime Article: a	Spirit of Thanksgiving (c100)	gravy skin (5)
+pumpkin spice wraith	2486	pumpkinwraith.gif	Scale: 30 Init: 200 P: undead Phys: 100 Article: a	Spirit of Thanksgiving (c100)	crystallized pumpkin spice (5)	pumpkin spice whorl (f0.1)
+possessed can of cream of mushroom soup	2487	can_mush.gif	Scale: 30 Init: 100 P: undead Phys: 50 Article: a	Spirit of Thanksgiving (c100)
+possessed can of green beans	2488	can_green.gif	Scale: 30 Init: 100 P: undead Phys: 50 Article: a	Spirit of Thanksgiving (c100)
+Jedediah	2467	jedediah.gif	BOSS NOCOPY NOMANUEL Scale: 5 HP: 400 Init: -10000 P: dude
+Boiling Cloud	2468	boilingcloud.gif	BOSS NOCOPY NOMANUEL Scale: 5 HP: 400 Init: -10000 P: elemental
+
+magically-animated snowman	2489	regularsnowman.gif	Scale: 40 Init: 150 P: elemental Article: a	Spirit of Christmas (c100)	ragged wool yarn (15)	snowman-enchanting tophat (f0.1)
+Christmas treant	2490	xmastreant.gif	Scale: 40 Init: 250 P: plant Article: a	Spirit of Christmas (c100)	fragile Christmas ornament (5)
+self-driving sleigh	2491	sleigh.gif	Scale: 40 Init: 300 P: construct Article: a	Spirit of Christmas (c100)	LIDAR candle (10)
+"Santa Claus"	2469	santa.gif	BOSS NOCOPY NOMANUEL Scale: 40 HP: 2000 Init: -10000 P: dude	Bowl of Infinite Jelly (n100)
 
 # Retired Standard Monsters
 Astronomer (obsolete)	354	astronomer.gif	Atk: 168 Def: 151 HP: 150 Init: 70 P: constellation EA: hot Article: The Manuel: "Astronomer"	star chart (100)
