@@ -1707,8 +1707,8 @@ White Bone Demon	1319	whitebonedemon.gif	NOCOPY Atk: 100 Def: 100 HP: 180 Init: 
 procedurally-generated skeleton	1323	bigskeleton.gif	NOCOPY Init: -10000 P: undead EA: cold EA: hot EA: sleaze EA: spooky EA: stench
 
 # Video Game dungeon (GameInformPowerDailyPro magazine February 2013)
-Video Game Boss	1331	faq_boss1.gif,faq_boss2.gif,faq_boss3.gif,faq_boss4.gif,faq_boss5.gif,faq_boss6.gif	NOCOPY Scale: 5 Init: -10000 P: construct EA: cold EA: hot EA: none
-Video Game Miniboss	1330	faq_miniboss1.gif,faq_miniboss2.gif,faq_miniboss3.gif,faq_miniboss4.gif,faq_miniboss5.gif,faq_miniboss6.gif	NOCOPY Scale: 3 Init: -10000 P: construct
+Video Game Boss	1331	faq_boss1.gif,faq_boss2.gif,faq_boss3.gif,faq_boss4.gif,faq_boss5.gif,faq_boss6.gif	BOSS NOCOPY Scale: 5 Init: -10000 P: construct EA: cold EA: hot EA: none
+Video Game Miniboss	1330	faq_miniboss1.gif,faq_miniboss2.gif,faq_miniboss3.gif,faq_miniboss4.gif,faq_miniboss5.gif,faq_miniboss6.gif	BOSS NOCOPY Scale: 3 Init: -10000 P: construct
 Video Game Minion (moderate)	1328	qmark.gif	NOCOPY Scale: -2 Init: -10000 P: construct Article: a
 Video Game Minion (strong)	1329	qmark.gif	NOCOPY Scale: 1 Init: -10000 P: construct Article: a
 Video Game Minion (weak)	1327	qmark.gif	NOCOPY Scale: -7 Init: -10000 P: construct Article: a
