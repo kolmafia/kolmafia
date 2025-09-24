@@ -2150,11 +2150,11 @@ Red Roger	2134	pr_redroger.gif	NOCOPY Atk: 100 Def: 100 HP: 500 Init: -10000 P: 
 Glass Jack Hummel	2135	pr_glassjack.gif	NOCOPY Atk: 100 Def: 100 HP: 200 Init: 50 P: construct EA: spooky EA: none
 
 # Cargo Cultist Shorts (Sep 2020)
-Astrologer of Shub-Jigguwatt	2200	ccs_astrologer.gif	FREE NOCOPY Scale: 15 Init: -10000 P: constellation Phys: 100 E: sleaze Article: an	star chart (n100)	star (n30)	star (n10)	line (n30)	line (n10)
-Burning Daughter	2196	ccs_daughter.gif	FREE NOCOPY Scale: 15 Init: -10000 P: elemental Phys: 100 E: hot Article: a	fire (n100)	fire (n100)	flame orb (n100)
-Chosen of Yog-Urt	2199	ccs_disciple.gif	FREE NOCOPY Scale: 15 Init: -10000 P: horror Phys: 100 E: stench Article: a	bowl of cottage cheese (n100)	bowl of cottage cheese (n100)	bowl of cottage cheese (n25)	bowl of cottage cheese (n10)	bowl of cottage cheese (n5)	glass of goat's milk (n100)	glass of goat's milk (n100)	milk of magnesium (n10)	Hatorade (n20)
-Herald of Fridgr	2197	ccs_herald.gif	FREE NOCOPY Scale: 15 Init: -10000 P: dude Phys: 100 E: cold Article: a	cold wad (n100)	cold nuggets (n100)	cold nuggets (n100)	cold powder (n25)	cold powder (n25)	cold powder (n25)	cold powder (n25)
-Tentacle of Sssshhsssblllrrggghsssssggggrrgglsssshhssslblgl	2198	ccs_tentacle.gif	FREE NOCOPY Scale: 15 Init: -10000 P: horror Phys: 100 E: spooky Article: a	eldritch effluvium (20)	eldritch effluvium (10)	eldritch effluvium (1)
+Astrologer of Shub-Jigguwatt	2200	ccs_astrologer.gif	BOSS FREE NOCOPY Scale: 15 Init: -10000 P: constellation Phys: 100 E: sleaze Article: an	star chart (n100)	star (n30)	star (n10)	line (n30)	line (n10)
+Burning Daughter	2196	ccs_daughter.gif	BOSS FREE NOCOPY Scale: 15 Init: -10000 P: elemental Phys: 100 E: hot Article: a	fire (n100)	fire (n100)	flame orb (n100)
+Chosen of Yog-Urt	2199	ccs_disciple.gif	BOSS FREE NOCOPY Scale: 15 Init: -10000 P: horror Phys: 100 E: stench Article: a	bowl of cottage cheese (n100)	bowl of cottage cheese (n100)	bowl of cottage cheese (n25)	bowl of cottage cheese (n10)	bowl of cottage cheese (n5)	glass of goat's milk (n100)	glass of goat's milk (n100)	milk of magnesium (n10)	Hatorade (n20)
+Herald of Fridgr	2197	ccs_herald.gif	BOSS FREE NOCOPY Scale: 15 Init: -10000 P: dude Phys: 100 E: cold Article: a	cold wad (n100)	cold nuggets (n100)	cold nuggets (n100)	cold powder (n25)	cold powder (n25)	cold powder (n25)	cold powder (n25)
+Tentacle of Sssshhsssblllrrggghsssssggggrrgglsssshhssslblgl	2198	ccs_tentacle.gif	BOSS FREE NOCOPY Scale: 15 Init: -10000 P: horror Phys: 100 E: spooky Article: a	eldritch effluvium (20)	eldritch effluvium (10)	eldritch effluvium (1)
 
 # Oliver's Place (Nov 2022)
 gator-human hybrid	2249	olivers_gator.gif	Atk: 70 Def: 50 HP: 60 Init: 80 P: beast Article: a	drink chit (15)	swamp haunch (20)	gator shades (5)
