@@ -2134,7 +2134,7 @@ melty army man	2117	pr_armyman.gif	Atk: 30 Def: 20 HP: 30 Init: 50 P: dude ED: s
 plastic skeleton	2118	pr_skeleton.gif	Atk: 30 Def: 30 HP: 40 Init: 50 P: undead EA: spooky EA: none Article: a
 plastic pirate	2119	pr_piratefigure.gif	Atk: 35 Def: 30 HP: 30 Init: 75 P: construct Article: a
 translucent monkey	2120	pr_monkey.gif	Atk: 30 Def: 30 HP: 40 Init: 75 P: beast EA: hot EA: stench Article: a
-giant giant crab	2121	pr_bosscrab.gif	NOCOPY Atk: 80 Def: 80 HP: 200 Init: 50 Meat: 2000 P: beast EA: sleaze EA: spooky EA: none Article: a
+giant giant crab	2121	pr_bosscrab.gif	BOSS NOCOPY Atk: 80 Def: 80 HP: 200 Init: 50 Meat: 2000 P: beast EA: sleaze EA: spooky EA: none Article: a
 toy dinosaur	2123	pr_dinosaur.gif	Atk: 50 Def: 50 HP: 60 Init: 75 P: beast Article: a
 cockroach	2124	pr_cockroach.gif	Atk: 40 Def: 80 HP: 60 Init: 50 Meat: 500 P: bug EA: sleaze EA: none Article: a
 vape ghost	2125	pr_vapeghost.gif	Atk: 60 Def: 30 HP: 60 Init: 30 P: undead Phys: 100 GHOST EA: cold EA: hot EA: sleaze EA: spooky EA: stench EA: none Article: a
@@ -2143,11 +2143,11 @@ tiki idol	2127	pr_tiki.gif	Atk: 90 Def: 110 HP: 100 Init: 50 P: construct ED: sl
 pewter torsohunter	2128	pr_headhunter.gif	Atk: 120 Def: 80 HP: 100 Init: 80 P: construct Article: a	pewter shavings (5)
 carnivorous plant	2129	pr_plant.gif	Atk: 100 Def: 80 HP: 80 Init: -10000 P: plant Article: a
 strong wind	2130	pr_wind.gif	Atk: 100 Def: 100 HP: 10 Init: 999 P: weird Phys: 100 Elem: 100 Article: a	windicle (15)
-jungle titan	2131	pr_titan.gif	NOCOPY Atk: 90 Def: 90 HP: 1000 Init: 50 P: dude Article: a
-pirate radio	2132	pr_radio.gif	NOCOPY Atk: 100 Def: 100 HP: 500 Init: -10000 P: construct EA: hot EA: none Article: a
+jungle titan	2131	pr_titan.gif	BOSS NOCOPY Atk: 90 Def: 90 HP: 1000 Init: 50 P: dude Article: a
+pirate radio	2132	pr_radio.gif	BOSS NOCOPY Atk: 100 Def: 100 HP: 500 Init: -10000 P: construct EA: hot EA: none Article: a
 melty freezeface	2133	pr_freezeface.gif	Atk: 80 Def: 80 HP: 100 Init: 100 P: construct ED: cold EA: cold EA: stench EA: none Article: a	oversized ice molecule (15)
-Red Roger	2134	pr_redroger.gif	NOCOPY Atk: 100 Def: 100 HP: 500 Init: -10000 P: construct	Red Roger's reliquary (n100)
-Glass Jack Hummel	2135	pr_glassjack.gif	NOCOPY Atk: 100 Def: 100 HP: 200 Init: 50 P: construct EA: spooky EA: none
+Red Roger	2134	pr_redroger.gif	BOSS NOCOPY Atk: 100 Def: 100 HP: 500 Init: -10000 P: construct	Red Roger's reliquary (n100)
+Glass Jack Hummel	2135	pr_glassjack.gif	BOSS NOCOPY Atk: 100 Def: 100 HP: 200 Init: 50 P: construct EA: spooky EA: none
 
 # Cargo Cultist Shorts (Sep 2020)
 Astrologer of Shub-Jigguwatt	2200	ccs_astrologer.gif	BOSS FREE NOCOPY Scale: 15 Init: -10000 P: constellation Phys: 100 E: sleaze Article: an	star chart (n100)	star (n30)	star (n10)	line (n30)	line (n10)
