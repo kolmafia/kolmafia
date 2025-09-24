@@ -1694,16 +1694,16 @@ yakuza courier	1310	yakcourier.gif	NOCOPY Atk: 70 Def: 70 HP: 85 Init: 65 P: hum
 triad code wizard	1306	triadwizard.gif	Atk: 73 Def: 67 HP: 85 Init: 50 Meat: 20 P: dude Article: a	triad summoning scroll (30)	ASCII fu manchu (c25)
 clean-room daemon	1307	cleanroomdemon.gif	Atk: 70 Def: 70 HP: 85 Init: 50 P: demon Article: a	rubber gloves (15)	demonic surgical gloves (c0)
 fabricator gu&agrave;i	1308	guai.gif	Atk: 67 Def: 73 HP: 90 Init: 40 Meat: 20 P: demon Article: a Manuel: "fabricator guài"	Chinese curse words (30)
-The Sierpinski brothers	1309	sierpinski.gif	NOCOPY Atk: 77 Def: 74 HP: 95 Init: 70 P: dude EA: hot EA: none	triad summoning scroll (0)	triad summoning scroll (0)	triad summoning scroll (0)	cheap Chinese beer (0)	cheap Chinese beer (0)	dead meat bun (0)	magical battery (c1)
+The Sierpinski brothers	1309	sierpinski.gif	BOSS NOCOPY Atk: 77 Def: 74 HP: 95 Init: 70 P: dude EA: hot EA: none	triad summoning scroll (0)	triad summoning scroll (0)	triad summoning scroll (0)	cheap Chinese beer (0)	cheap Chinese beer (0)	dead meat bun (0)	magical battery (c1)
 security robot	1313	secrobot.gif	Atk: 72 Def: 78 HP: 85 Init: 40 P: construct Article: a	great big capacitor (30)
 salaryninja	1312	salaryninja.gif	Atk: 78 Def: 72 HP: 80 Init: 60 Meat: 15 P: dude Article: a	pencil kunai (30)	pencil kunai (20)	weighted paperclip chain (10)	cheap clip-on ninja tie (c0)
 yakuza guard	1311	yakguard.gif	Atk: 75 Def: 75 HP: 95 Init: 50 Meat: 30 P: humanoid Article: a	butterfly knife (15)	tube of herbal ointment (25)
-Chief Electronic Overseer	1314	robotceo.gif	NOCOPY Atk: 82 Def: 82 HP: 105 Init: 75 P: construct Article: the	test site key (100)
+Chief Electronic Overseer	1314	robotceo.gif	BOSS NOCOPY Atk: 82 Def: 82 HP: 105 Init: 75 P: construct Article: the	test site key (100)
 yakuza thug	1317	yakguard.gif	Atk: 76 Def: 84 HP: 100 Init: 30 Meat: 25 P: humanoid Article: a	butterfly knife (20)	tube of herbal ointment (30)
 desperate gold farmer	1315	goldfarmer.gif	Atk: 80 Def: 80 HP: 95 Init: 50 Meat: 40 P: dude Article: a	gold piece (45)	gold piece (30)	gold piece (15)
 rabid MMO addict	1316	mmoaddict.gif	Atk: 84 Def: 76 HP: 90 Init: 60 Meat: 20 P: dude Article: a	gold piece (25)	gamer slurry (c0)
-The Server	1318	theserver.gif	NOCOPY Atk: 90 Def: 90 HP: 999999999 Init: 75 P: construct
-White Bone Demon	1319	whitebonedemon.gif	NOCOPY Atk: 100 Def: 100 HP: 180 Init: 100 P: demon	suspicious-looking fedora (100)
+The Server	1318	theserver.gif	BOSS NOCOPY Atk: 90 Def: 90 HP: 999999999 Init: 75 P: construct
+White Bone Demon	1319	whitebonedemon.gif	BOSS NOCOPY Atk: 100 Def: 100 HP: 180 Init: 100 P: demon	suspicious-looking fedora (100)
 procedurally-generated skeleton	1323	bigskeleton.gif	NOCOPY Init: -10000 P: undead EA: cold EA: hot EA: sleaze EA: spooky EA: stench
 
 # Video Game dungeon (GameInformPowerDailyPro magazine February 2013)
