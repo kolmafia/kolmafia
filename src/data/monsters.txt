@@ -1927,17 +1927,17 @@ spidercow	1915	cowspider.gif	NOWISH Scale: [max(5,25*pref(lttQuestDifficulty)-25
 moomy	1916	moomy.gif	NOWISH Scale: [max(5,25*pref(lttQuestDifficulty)-25)] Cap: 11111 Floor: [60*pref(lttQuestDifficulty)] Init: -10000 P: demon Elem: [max(min(50*(pref(lttQuestDifficulty)-1),75),0)] ED: spooky EA: spooky EA: none Article: a	moomy dust (20)
 
 # Bosses
-Jeff the Fancy Skeleton	1917	fancyjeff.gif	NOCOPY Atk: 180 Def: 200 HP: 300 Init: 100 P: undead Phys: 50 Elem: 70 ED: spooky	buffalo dime (n100)	Fancy Jeff's fancy pocket square (n100)
-Daisy the Unclean	1918	daisy.gif	NOCOPY Atk: 200 Def: 180 HP: 400 Init: 100 P: demon ED: stench EA: stench EA: none	buffalo dime (n100)	Daisy's unclean bloomers (n100)
-Pecos Dave	1919	pecosdave.gif	NOCOPY Atk: 200 Def: 180 HP: 300 Init: 10000 P: dude	buffalo dime (n100)	Pecos Dave's sixgun (n100)
+Jeff the Fancy Skeleton	1917	fancyjeff.gif	BOSS NOCOPY Atk: 180 Def: 200 HP: 300 Init: 100 P: undead Phys: 50 Elem: 70 ED: spooky	buffalo dime (n100)	Fancy Jeff's fancy pocket square (n100)
+Daisy the Unclean	1918	daisy.gif	BOSS NOCOPY Atk: 200 Def: 180 HP: 400 Init: 100 P: demon ED: stench EA: stench EA: none	buffalo dime (n100)	Daisy's unclean bloomers (n100)
+Pecos Dave	1919	pecosdave.gif	BOSS NOCOPY Atk: 200 Def: 180 HP: 300 Init: 10000 P: dude	buffalo dime (n100)	Pecos Dave's sixgun (n100)
 
-Pharaoh Amoon-Ra Cowtep	1920	amoonra.gif	NOCOPY HP: 1000 Scale: 30 Cap: 5000 Floor: 300 Init: 10000 P: demon EA: spooky EA: none	2 buffalo dime (m100)	Amoon-Ra Cowtep's nemes (n100)
-Snake-Eyes Glenn	1921	snakeglenn.gif	NOCOPY HP: 1000 Scale: 30 Cap: 5000 Floor: 300 Init: 10000 P: dude	2 buffalo dime (m100)	Glenn's golden dice (n100)
-Former Sheriff Dan Driscoll	1922	sheriffdan.gif	NOCOPY HP: 800 Scale: 30 Cap: 5000 Floor: 300 Init: -10000 P: dude	2 buffalo dime (m100)	Former Sheriff Dan's tin star (n100)
+Pharaoh Amoon-Ra Cowtep	1920	amoonra.gif	BOSS NOCOPY HP: 1000 Scale: 30 Cap: 5000 Floor: 300 Init: 10000 P: demon EA: spooky EA: none	2 buffalo dime (m100)	Amoon-Ra Cowtep's nemes (n100)
+Snake-Eyes Glenn	1921	snakeglenn.gif	BOSS NOCOPY HP: 1000 Scale: 30 Cap: 5000 Floor: 300 Init: 10000 P: dude	2 buffalo dime (m100)	Glenn's golden dice (n100)
+Former Sheriff Dan Driscoll	1922	sheriffdan.gif	BOSS NOCOPY HP: 800 Scale: 30 Cap: 5000 Floor: 300 Init: -10000 P: dude	2 buffalo dime (m100)	Former Sheriff Dan's tin star (n100)
 
-unusual construct	1923	vib6.gif	NOCOPY HP: 5000 Scale: 60 Cap: 9000 Floor: 500 Init: 10000 P: construct Phys: 50 Elem: 50 EA: hot EA: none Article: an	3 buffalo dime (m100)	El Vibrato restraints (n100)
-Clara	1924	clara.gif	NOCOPY HP: 5000 Scale: 60 Cap: 9000 Floor: 500 Init: 300 P: demon EA: cold EA: hot EA: spooky EA: stench EA: none	3 buffalo dime (m100)	Clara's bell (n100)
-Granny Hackleton	1925	grannyhack.gif	NOCOPY HP: 3000 Scale: 60 Cap: 9000 Floor: 500 Init: -10000 P: dude	3 buffalo dime (m100)	Granny Hackleton's Gatling gun (n100)
+unusual construct	1923	vib6.gif	BOSS NOCOPY HP: 5000 Scale: 60 Cap: 9000 Floor: 500 Init: 10000 P: construct Phys: 50 Elem: 50 EA: hot EA: none Article: an	3 buffalo dime (m100)	El Vibrato restraints (n100)
+Clara	1924	clara.gif	BOSS NOCOPY HP: 5000 Scale: 60 Cap: 9000 Floor: 500 Init: 300 P: demon EA: cold EA: hot EA: spooky EA: stench EA: none	3 buffalo dime (m100)	Clara's bell (n100)
+Granny Hackleton	1925	grannyhack.gif	BOSS NOCOPY HP: 3000 Scale: 60 Cap: 9000 Floor: 500 Init: -10000 P: dude	3 buffalo dime (m100)	Granny Hackleton's Gatling gun (n100)
 
 # Batfellow Area (Batfellow comic IOTY 2016)
 
