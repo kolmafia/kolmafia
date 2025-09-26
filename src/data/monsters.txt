@@ -986,10 +986,10 @@ Leonard	1705	adv_sleaze4.gif	BOSS NOCOPY Atk: [200] Def: [300] HP: [250] Init: -
 
 # - Hedge Maze
 
-topiary chihuahua herd	1712	topiarychi.gif	NOCOPY Atk: 250 Def: 250 HP: 250 Init: 150 P: plant Article: a
-topiary duck	1711	topiaryduck.gif	NOCOPY Atk: 300 Def: 300 HP: 300 Init: 200 P: plant Phys: 50 Elem: 75 Article: a
-topiary gopher	1710	topiarygopher.gif	NOCOPY Atk: 200 Def: 200 HP: 200 Init: 100 P: plant Article: a
-topiary kiwi	1713	topiarykiwi.gif	NOCOPY Atk: 350 Def: 350 HP: 350 Init: 150 P: plant Article: a
+topiary chihuahua herd	1712	topiarychi.gif	BOSS NOCOPY Atk: 250 Def: 250 HP: 250 Init: 150 P: plant Article: a
+topiary duck	1711	topiaryduck.gif	BOSS NOCOPY Atk: 300 Def: 300 HP: 300 Init: 200 P: plant Phys: 50 Elem: 75 Article: a
+topiary gopher	1710	topiarygopher.gif	BOSS NOCOPY Atk: 200 Def: 200 HP: 200 Init: 100 P: plant Article: a
+topiary kiwi	1713	topiarykiwi.gif	BOSS NOCOPY Atk: 350 Def: 350 HP: 350 Init: 150 P: plant Article: a
 
 # - Tower
 
