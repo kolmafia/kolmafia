@@ -11,6 +11,7 @@ import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withTrackedMonsters;
 import static internal.helpers.Player.withTrackedPhyla;
+import static internal.helpers.Player.withTurnsPlayed;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.aMapWithSize;
 import static org.hamcrest.Matchers.allOf;
@@ -1082,6 +1083,61 @@ public class AreaCombatDataTest {
         var combat =
             AdventureDatabase.getAreaCombatData("The SMOOCH Army HQ").areaCombatPercent(true);
         assertThat(combat, is(0.0));
+      }
+    }
+  }
+
+  @Nested
+  class TheSea {
+    static final MonsterData TROPHYFISH = MonsterDatabase.findMonster("trophyfish");
+
+    @ParameterizedTest
+    @ValueSource(booleans = {true, false})
+    void trophyFishNeedsUnlocked(final boolean unlocked) {
+      var cleanups = withProperty("grandpaUnlockedTrophyFish", unlocked);
+
+      try (cleanups) {
+        var appearanceRates =
+            AdventureDatabase.getAreaCombatData("The Brinier Deepers").getMonsterData(true);
+        assertThat(appearanceRates.get(TROPHYFISH), unlocked ? greaterThan(0.0) : is(0.0));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "cargo crab, 15, false",
+      "cargo crab, 20, true",
+      "mine crab, 19, true",
+      "unholy diver, 21, false",
+      "Mer-kin scavenger, 19, true",
+      "Mer-kin scavenger, 20, true",
+    })
+    void hatchAffectsFitzsimmonsMonsters(
+        final String monster, final int turnsAgo, final boolean expected) {
+      var turns = 30;
+      var cleanups =
+          new Cleanups(
+              withTurnsPlayed(turns), withProperty("_lastFitzsimmonsHatch", turns - turnsAgo));
+
+      try (cleanups) {
+        var appearanceRates =
+            AdventureDatabase.getAreaCombatData("The Wreck of the Edgar Fitzsimmons")
+                .getMonsterData(true);
+        assertThat(
+            appearanceRates.get(MonsterDatabase.findMonster(monster)),
+            expected ? closeTo(100.0 / 3, 0.001) : is(0.0));
+      }
+    }
+
+    @Test
+    void hatchNotOpenInFirstFewTurns() {
+      var cleanups = new Cleanups(withTurnsPlayed(4), withProperty("_lastFitzsimmonsHatch", -1));
+
+      try (cleanups) {
+        var appearanceRates =
+            AdventureDatabase.getAreaCombatData("The Wreck of the Edgar Fitzsimmons")
+                .getMonsterData(true);
+        assertThat(appearanceRates.get(MonsterDatabase.findMonster("unholy diver")), is(0.0));
       }
     }
   }

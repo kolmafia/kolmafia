@@ -1725,4 +1725,16 @@ class ChoiceControlTest {
       }
     }
   }
+
+  @Test
+  void seadentWaveZone() {
+    var cleanups =
+        new Cleanups(
+            withProperty("_seadentWaveZone"),
+            withPostChoice2(1566, 1, html("request/test_choice_summon_waves.html")));
+
+    try (cleanups) {
+      assertThat("_seadentWaveZone", isSetTo("Barf Mountain"));
+    }
+  }
 }

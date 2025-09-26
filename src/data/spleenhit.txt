@@ -1,6 +1,6 @@
 3
 # Spleen hit values taken from the KoL Wiki
-# http://kol.coldfront.net/thekolwiki/index.php/Spleen
+# https://wiki.kingdomofloathing.com/Spleen
 
 # Item	Spleenhit	Level Req	Quality	Adv	Musc	Myst	Moxie
 

@@ -468,6 +468,11 @@ public class MonsterDatabase {
     MonsterDatabase.addMapping(wereProfMap, "Naughty Sorceress", "The Naughty Wolferess");
     MonsterDatabase.addMapping(wereProfMap, "Naughty Sorceress (2)", null);
     MonsterDatabase.addMapping(wereProfMap, "Naughty Sorceress (3)", null);
+
+    Map<MonsterData, MonsterData> underSeaMap = getMap(Path.UNDER_THE_SEA);
+    MonsterDatabase.addMapping(underSeaMap, "Naughty Sorceress", "Nautical Seaceress");
+    MonsterDatabase.addMapping(underSeaMap, "Naughty Sorceress (2)", null);
+    MonsterDatabase.addMapping(underSeaMap, "Naughty Sorceress (3)", null);
   }
 
   public static Map<MonsterData, MonsterData> getMonsterPathMap(final String pathName) {

@@ -1377,6 +1377,7 @@ Item	denim axe	Muscle: +10, Weapon Damage: +10
 Item	dense meat crossbow	Moxie: +3
 Item	dense meat staff	Mysticality: +3
 Item	dense meat sword	Muscle: +3
+Item	dentadent	Monster Level: +10
 Item	dented harmonica	Mysticality: +1
 Item	dented scepter	Experience (Muscle): +5, HP Regen Min: 5, HP Regen Max: 10, Muscle Percent: +50, Weapon Damage Percent: +50, Critical Hit Percent: +10, Single Equip, Lasts Until Rollover, Last Available: "2016-03"
 # depleted Grimacite hammer: Needed for depleted Grimacite smithing
@@ -11231,7 +11232,6 @@ Item	incense bath ball	Effect: "Incensed", Effect Duration: 10, Last Available: 
 Item	industrial frosting	Effect: "Industrially Frosted", Effect Duration: 5, Last Available: "2016-12"
 Item	industrial strength starch	Effect: "Industrial Strength Starch", Effect Duration: 20, Wiki Name: "industrial strength starch"
 Item	infernal snowball	Effect: "Good Chance of Surviving Hell", Effect Duration: 20, Last Available: "2019-12"
-Item	ink bladder	Effect: "Inkily Obscured", Effect Duration: 20
 Item	Inner Strength	Effect: "Innately Strong", Effect Duration: 20, Last Available: "2016-12"
 Item	Inner Truth	Effect: "Innately Truthy", Effect Duration: 20, Last Available: "2016-12"
 Item	Inner Wisdom	Effect: "Innately Wise", Effect Duration: 20, Last Available: "2016-12"
@@ -11377,6 +11377,7 @@ Item	Now and Earlier	Effect: "Sugar Rush", Effect Duration: 5, Last Available: "
 Item	Nuclear Blastball	Effect: "Taste the Inferno", Effect Duration: 50, Last Available: "2011-05"
 Item	null-day exploit	Effect: "Null Afternoon", Effect Duration: 30, Last Available: "2025-12"
 Item	O'RLY manual	Effect: "You Read The Manual", Effect Duration: 20
+Item	octopus ink bladder	Effect: "Inkily Obscured", Effect Duration: 20
 Item	Ogres and Oubliettes&trade; module	Effect: "Ogred and Oublietted", Effect Duration: 10
 Item	oil of expertise	Effect: "Expert Oiliness", Effect Duration: [R]
 Item	Oil of Parrrlay	Effect: "Well-Oiled", Effect Duration: 5
@@ -11587,6 +11588,9 @@ Item	scroll of minor invulnerability	Effect: "Minor Invulnerability", Effect Dur
 Item	scroll of Protection from Bad Stuff	Effect: "Protection from Bad Stuff", Effect Duration: 20, Last Available: "2013-02"
 Item	scroll of protection from lycanthropes	Effect: "Protection from Lycanthropes", Effect Duration: 50, Last Available: "2023-06"
 Item	scroll of Puddingskin	Effect: "Puddingskin", Effect Duration: 80, Last Available: "2013-02"
+Item	scroll of sea strength	Effect: "Sea Strength", Effect Duration: 50
+Item	scroll of sea smarts	Effect: "Sea Smarts", Effect Duration: 50
+Item	scroll of sea smarm	Effect: "Sea Smarm", Effect Duration: 50
 Item	sea grease	Effect: "Greased-Up Familiar", Effect Duration: 40
 Item	sea salt crystal	Effect: "Salty Dogs", Effect Duration: 5
 Item	seal eyeball	Effect: "Eye of the Seal", Effect Duration: 10

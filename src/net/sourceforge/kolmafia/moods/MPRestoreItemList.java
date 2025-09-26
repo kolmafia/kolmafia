@@ -88,7 +88,7 @@ public abstract class MPRestoreItemList {
         new MPRestoreItemItem("Nardz energy beverage", 60, false),
         new MPRestoreItemItem("bottle of Monsieur Bubble", 55, true),
         new MPRestoreItemItem("ancient Magi-Wipes", 55, false),
-        new MPRestoreItemItem("unrefined mountain stream syrup", 55, true),
+        new MPRestoreItemItem("unrefined Mountain Stream syrup", 55, true),
         new MPRestoreItemItem("cotton candy pillow", 51, false),
         new MPRestoreItemItem("phonics down", 48, false),
         new MPRestoreItemItem("elven magi-pack", 45, false),
@@ -134,11 +134,10 @@ public abstract class MPRestoreItemList {
         new MPRestoreItemItem("Notes from the Elfpocalypse, Chapter V", 35, false),
         new MPRestoreItemItem("Notes from the Elfpocalypse, Chapter VI", 35, false),
         new MPRestoreItemItem("dueling turtle", 15, false),
-        new MPRestoreItemItem("unrefined Mountain Stream syrup", 55, true),
         new MPRestoreItemItem("grogpagne", 40, false)
       };
 
-  public static final void setPurchaseBasedSort(final boolean purchaseBasedSort) {
+  public static void setPurchaseBasedSort(final boolean purchaseBasedSort) {
     MPRestoreItemList.purchaseBasedSort = purchaseBasedSort;
   }
 
@@ -160,11 +159,11 @@ public abstract class MPRestoreItemList {
     MPRestoreItemList.DOCS_TONIC.purchaseCost = QuestDatabase.isQuestFinished(Quest.DOC) ? 60 : 90;
   }
 
-  public static final boolean contains(final AdventureResult item) {
+  public static boolean contains(final AdventureResult item) {
     return restoreByName.containsKey(item.getName());
   }
 
-  public static final JCheckBox[] getCheckboxes() {
+  public static JCheckBox[] getCheckboxes() {
     String mpRestoreSetting = Preferences.getString("mpAutoRecoveryItems");
     // Automatically convert changed restorative name
     mpRestoreSetting =
@@ -180,7 +179,7 @@ public abstract class MPRestoreItemList {
     return restoreCheckbox;
   }
 
-  public static final void updateCheckboxes(final JCheckBox[] restoreCheckbox) {
+  public static void updateCheckboxes(final JCheckBox[] restoreCheckbox) {
     String mpRestoreSetting = Preferences.getString("mpAutoRecoveryItems");
 
     for (int i = 0; i < MPRestoreItemList.CONFIGURES.length; ++i) {

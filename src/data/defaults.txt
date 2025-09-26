@@ -1179,6 +1179,9 @@ user	mayoLevel	0	roa
 user	mayoMinderSetting		roa
 user	meansuckerPrice	400	roa
 user	merkinCatalogChoices		roa
+user	merkinElementaryBathroomUnlock	false	roa
+user	merkinElementaryJanitorUnlock	false	roa
+user	merkinElementaryTeacherUnlock	false	roa
 user	merkinQuestPath	none	roa
 user	merkinLockkeyMonster		roa
 user	merkinVocabularyMastery	0	roa
@@ -2347,6 +2350,7 @@ user	_lastCombatLost	false
 user	_lastCombatStarted
 user	_lastCombatWon	true
 user	_lastDailyDungeonRoom	0
+user	_lastFitzsimmonsHatch	-1
 user	_lastMobiusStripTurn	0
 user	_lastPirateRealmIsland
 user	_lastSausageMonsterTurn	0
@@ -2576,6 +2580,7 @@ user	_sausagesMade	0
 user	_savageBeastMods
 user	_seadentLightningUsed	0
 user	_seadentWaveUsed	false
+user	_seadentWaveZone
 user	_seaJellyHarvested	false
 user	_sealFigurineUses	0
 user	_sealScreeches	0
@@ -2718,6 +2723,16 @@ user	_turtlePowerCast	false
 user	_twelveNightEnergyUsed	false
 user	_ultraMegaSourBallUsed	false
 user	_unaccompaniedMinerUsed	0
+user	_unblemishedPearlAnemoneMine	false
+user	_unblemishedPearlAnemoneMineProgress	0
+user	_unblemishedPearlDiveBar	false
+user	_unblemishedPearlDiveBarProgress	0
+user	_unblemishedPearlMadnessReef	false
+user	_unblemishedPearlMadnessReefProgress	0
+user	_unblemishedPearlMarinaraTrench	false
+user	_unblemishedPearlMarinaraTrenchProgress	0
+user	_unblemishedPearlTheBriniestDeepests	false
+user	_unblemishedPearlTheBriniestDeepestsProgress	0
 user	_unconsciousCollectiveCharge	0
 user	_universalSeasoningsUsed	0
 user	_universeCalculated	0

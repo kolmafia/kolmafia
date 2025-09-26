@@ -12000,5 +12000,6 @@
 11972	durable dolphin whistle	754386808	whistle.gif	reusable		0
 11973	Thwaitgold lobster statuette	719574059	thwaitlobster.gif	none		0
 11974	packaged Monodent of the Sea	517918243	dentpackage.gif	usable	t	0
-11975	Monodent of the Sea	727681647	dent1.gif	weapon		0
+11975	Monodent of the Sea	727681647	dent1.gif	weapon		0	Multi-tined Spears of the Sea
 11976	unblemished pearl	116285599	nicepearl.gif	none	t,d	11037
+11977	dentadent	523165547	toothspear.gif	weapon	t,d	1
