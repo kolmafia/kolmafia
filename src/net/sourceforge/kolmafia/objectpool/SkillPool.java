@@ -655,6 +655,7 @@ public class SkillPool {
   public static final int RIGHT_KICK = 7560;
   public static final int PUNCH_OUT_YOUR_FOE = 7561;
   public static final int CREATE_AN_AFTERIMAGE = 7562;
+  public static final int TRY_TO_REMEMBER = 7567;
   public static final int SEADENT_LIGHTNING = 7568;
 
   public static final int GOOD_SINGING_VOICE = 11016;

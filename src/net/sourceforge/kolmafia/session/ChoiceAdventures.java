@@ -35,6 +35,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
+import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ArcadeRequest;
 import net.sourceforge.kolmafia.request.BeerPongRequest;
@@ -6862,8 +6863,8 @@ public abstract class ChoiceAdventures {
           new ItemEffectSpoiler(
               "Make yourself forget",
               "3 turns of Beaten Up (-50% all stats), 3 charges of Try to Remember",
-              null,
-              null),
+              SkillPool.TRY_TO_REMEMBER,
+              ImageType.SKILL),
           new ItemEffectSpoiler("Steal a club from the past", "random club", null, null),
           new ItemEffectSpoiler(
               "Prevent the deadly seal invasion", "lose 50 HP, gain 500 meat", null, null),
@@ -7010,6 +7011,14 @@ public abstract class ChoiceAdventures {
         var descId = EffectDatabase.getDescriptionId(spoiler.id);
         var image = EffectDatabase.getImage(spoiler.id);
         return "<img src=\"" + image + "\" valign=middle onclick=\"eff('" + descId + "');\">";
+      }
+      case SKILL -> {
+        var image = SkillDatabase.getSkillImage(spoiler.id);
+        return "<img src=\"/images/itemimages/"
+            + image
+            + "\" valign=middle onclick=\"javascript:poop('desc_skill.php?whichskill="
+            + spoiler.id
+            + "&self=true','skill', 350, 300)\">";
       }
     }
     return "";
