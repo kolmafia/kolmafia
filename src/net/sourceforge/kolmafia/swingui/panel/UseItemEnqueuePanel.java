@@ -99,6 +99,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
         listeners.add(new OdeListener());
         listeners.add(new PrayerListener());
         listeners.add(new DogHairListener());
+        listeners.add(new FlagonListener());
       }
       case SPLEEN -> listeners.add(new MojoListener());
     }
@@ -302,6 +303,11 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
         boolean usedpill = Preferences.getBoolean("_syntheticDogHairPillUsed");
         boolean canFlush = havedrunk && (havepill && !usedpill);
         this.buttons[index++].setEnabled(canFlush);
+
+        // The flagon listener is just after the pill listener
+        boolean haveFlagon = InventoryManager.getAccessibleCount(ItemPool.FLAGELLATE_FLAGON) > 0;
+        boolean flagonUsed = Preferences.getBoolean("_flagonUsed");
+        this.buttons[index++].setEnabled(haveFlagon && !flagonUsed);
       }
       case SPLEEN -> {
         boolean canChew = KoLCharacter.canChew();
@@ -624,6 +630,19 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
       return "dog hair";
     }
   }
+
+  private static class FlagonListener extends ThreadedListener {
+      @Override
+      protected void execute() {
+        RequestThread.postRequest(
+            UseItemRequest.getInstance(ItemPool.get(ItemPool.FLAGELLATE_FLAGON, 1)));
+      }
+
+      @Override
+      public String toString() {
+        return "use flagon";
+      }
+    }
 
   private static class MojoListener extends ThreadedListener {
     @Override
