@@ -6986,11 +6986,7 @@ public abstract class ChoiceAdventures {
     if (spoiler.effectId != null) {
       var descId = EffectDatabase.getDescriptionId(spoiler.effectId);
       var image = EffectDatabase.getImage(spoiler.effectId);
-      return "<img src=\"/images/itemimages/"
-          + image
-          + "\" valign=middle onclick=\"eff('"
-          + descId
-          + "');\">";
+      return "<img src=\"" + image + "\" valign=middle onclick=\"eff('" + descId + "');\">";
     }
     return "";
   }
