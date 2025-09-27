@@ -322,6 +322,26 @@ public class MonsterDataTest {
     }
 
     @Test
+    public void canHandleCopyFlags() {
+      String name = "scary monster";
+      int id = 13;
+      String[] images = {"scary.gif"};
+      String attributes = "BOSS";
+      MonsterData monster = new MonsterData(name, id, images, attributes);
+      // BOSS blocks all current copy mechanics
+      assertTrue(monster.isNoCopy());
+      // BOSS blocks instakills
+
+      attributes = "NOCOPY";
+      monster = new MonsterData(name, id, images, attributes);
+      assertTrue(monster.isNoCopy());
+
+      attributes = "";
+      monster = new MonsterData(name, id, images, attributes);
+      assertFalse(monster.isNoCopy());
+    }
+
+    @Test
     public void canMakeElementalAttackMonsters() {
       String name = "scary monster";
       int id = 13;

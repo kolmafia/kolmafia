@@ -1688,7 +1688,9 @@ public class MonsterData extends AdventureResult {
   }
 
   public boolean isNoCopy() {
-    return this.noCopy;
+    // NOCOPY mimics the ingame `noputty` flag which blocks McTwist
+    // BOSS blocks instakill and copying separately
+    return this.noCopy || this.boss;
   }
 
   public boolean isNoWish() {
