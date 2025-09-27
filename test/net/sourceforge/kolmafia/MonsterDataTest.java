@@ -322,7 +322,7 @@ public class MonsterDataTest {
     }
 
     @Test
-    public void canHandleBossBlockingCopy() {
+    public void canHandleCopyFlags() {
       String name = "scary monster";
       int id = 13;
       String[] images = {"scary.gif"};
@@ -331,6 +331,14 @@ public class MonsterDataTest {
       // BOSS blocks all current copy mechanics
       assertTrue(monster.isNoCopy());
       // BOSS blocks instakills
+
+      attributes = "NOCOPY";
+      monster = new MonsterData(name, id, images, attributes);
+      assertTrue(monster.isNoCopy());
+
+      attributes = "";
+      monster = new MonsterData(name, id, images, attributes);
+      assertFalse(monster.isNoCopy());
     }
 
     @Test
