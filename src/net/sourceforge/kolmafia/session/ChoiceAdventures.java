@@ -6929,7 +6929,7 @@ public abstract class ChoiceAdventures {
     var deleteIndexEnd = buffer.indexOf(deleteEnd);
     buffer.delete(deleteIndexStart, deleteIndexEnd + deleteEnd.length());
 
-    var strBuilder = new StringBuilder("<table  width=95%  cellspacing=0 cellpadding=0>");
+    var strBuilder = new StringBuilder("<center><table width=95%>");
     strBuilder.append("<tr><td colspan=2>");
     strBuilder.append(
         makeSpoilerButton(
@@ -6949,7 +6949,7 @@ public abstract class ChoiceAdventures {
       strBuilder.append(makeSpoilerButton(spoiler, choiceNum));
       strBuilder.append("</td></tr>");
     }
-    strBuilder.append("</table>");
+    strBuilder.append("</table></center>");
     buffer.insert(deleteIndexStart, strBuilder.toString());
   }
 
