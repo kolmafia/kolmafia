@@ -6726,122 +6726,139 @@ public abstract class ChoiceAdventures {
     }
   }
 
+  private enum ImageType {
+    ITEM,
+    EFFECT,
+    SKILL
+  }
+
   private record ItemEffectSpoiler(
-      String choice, String spoiler, Integer itemId, Integer effectId) {}
+      String choice, String spoiler, Integer id, ImageType imageType) {}
 
   private static final List<ItemEffectSpoiler> MOBIUS_CHOICE_SPOILERS =
       List.of(
           new ItemEffectSpoiler(
               "Draw a goatee on yourself",
               "30 turns of +5 stats per fight",
-              null,
-              EffectPool.MERRY_PRANKSTER),
-          new ItemEffectSpoiler("Succumb to evil", "30 turns of +30 ML", null, EffectPool.EVIL),
+              EffectPool.MERRY_PRANKSTER,
+              ImageType.EFFECT),
+          new ItemEffectSpoiler(
+              "Succumb to evil", "30 turns of +30 ML", EffectPool.EVIL, ImageType.EFFECT),
           new ItemEffectSpoiler(
               "Stop your arch-nemesis as a baby",
               "Life Goals Pamphlet",
               ItemPool.LIFE_GOALS_PAMPHLET,
-              null),
+              ImageType.ITEM),
           new ItemEffectSpoiler(
               "Go back and make the Naughty Sorceress naughty again",
               "bully badge",
               ItemPool.BULLY_BADGE,
-              null),
+              ImageType.ITEM),
           new ItemEffectSpoiler(
               "Defend yourself",
               "20 turns of -10 max MP, +50 combat init",
-              null,
-              EffectPool.PARANOIA),
+              EffectPool.PARANOIA,
+              ImageType.EFFECT),
           new ItemEffectSpoiler("Assassinate yourself", "lose HP, gain myst substat", null, null),
           new ItemEffectSpoiler(
               "Take the long odds on the trifecta",
               "5k meat, 100 turns of -HP after combat",
-              null,
-              EffectPool.MARKED_BY_THE_DON),
+              EffectPool.MARKED_BY_THE_DON,
+              ImageType.EFFECT),
           new ItemEffectSpoiler(
               "Fix the race and also fix the race",
               "lose Marked by the Don, gain 100 turns of meat gain after combat",
-              null,
-              EffectPool.FAVORED_BY_THE_DON),
+              EffectPool.FAVORED_BY_THE_DON,
+              ImageType.EFFECT),
           new ItemEffectSpoiler(
               "Plant some seeds in the distant past",
               "30 turns of +30 max HP, +15 muscle",
-              null,
-              EffectPool.RAISED_ON_FRESH_AIR),
+              EffectPool.RAISED_ON_FRESH_AIR,
+              ImageType.EFFECT),
           new ItemEffectSpoiler(
               "Chop down some trees", "3 morningwood plank, 1 cherry", null, null),
           new ItemEffectSpoiler(
               "Give your past self investment tips",
               "Stock Certificate",
               ItemPool.STOCK_CERTIFICATE,
-              null),
+              ImageType.ITEM),
           new ItemEffectSpoiler(
               "Steal from your future self", "1 random food, 1 random booze", null, null),
           new ItemEffectSpoiler(
-              "Steal a cupcake from young Susie", "Susie's cupcake", ItemPool.SUSIES_CUPCAKE, null),
+              "Steal a cupcake from young Susie",
+              "Susie's cupcake",
+              ItemPool.SUSIES_CUPCAKE,
+              ImageType.ITEM),
           new ItemEffectSpoiler(
               "Bake Susie a cupcake",
               "50 turns of +10% stat gains",
-              null,
-              EffectPool.GOOD_FEELINGS),
+              EffectPool.GOOD_FEELINGS,
+              ImageType.EFFECT),
           new ItemEffectSpoiler(
-              "Borrow a cup of sugar from yourself", "cup of sugar", ItemPool.CUP_OF_SUGAR, null),
+              "Borrow a cup of sugar from yourself",
+              "cup of sugar",
+              ItemPool.CUP_OF_SUGAR,
+              ImageType.ITEM),
           new ItemEffectSpoiler(
               "Return the sugar you borrowed",
               "50 turns of -100% candy drops",
-              null,
-              EffectPool.SUGAR_DEBT),
+              EffectPool.SUGAR_DEBT,
+              ImageType.EFFECT),
           new ItemEffectSpoiler(
               "Play Schroedinger's Prank on yourself",
               "20 turns of variable effects",
-              null,
-              EffectPool.SCHROEDINGERS_ANTICIPATION),
+              EffectPool.SCHROEDINGERS_ANTICIPATION,
+              ImageType.EFFECT),
           new ItemEffectSpoiler(
               "Check your pocket",
               "20 turns of +20 HP, +10 musc, +10% musc",
-              null,
-              EffectPool.NEITHER_ALIVE_NOR_DEAD),
+              EffectPool.NEITHER_ALIVE_NOR_DEAD,
+              ImageType.EFFECT),
           new ItemEffectSpoiler("Shoot yourself in the foot", "gain moxie substat", null, null),
           new ItemEffectSpoiler(
               "Get shot in the foot",
               "30 turns of -10 max HP, +combat",
-              null,
-              EffectPool.TRAILING_BLOOD),
+              EffectPool.TRAILING_BLOOD,
+              ImageType.EFFECT),
           new ItemEffectSpoiler(
               "Meet your parents when they were young",
               "200 turns of -15 moxie, -50% combat init",
-              null,
-              EffectPool.YOUR_OWN_PARENTS),
+              EffectPool.YOUR_OWN_PARENTS,
+              ImageType.EFFECT),
           new ItemEffectSpoiler(
               "Fix your parents' relationship",
               "50 turns of +20 moxie, +5 familiar wt",
-              null,
-              EffectPool.MET_CUTE),
+              EffectPool.MET_CUTE,
+              ImageType.EFFECT),
           new ItemEffectSpoiler(
               "Go back and take a 20-year-long nap",
               "30 turns of +30 max MP, +15 myst",
-              null,
-              EffectPool.OLDER_THAN_YOU_LOOK),
-          new ItemEffectSpoiler("Go back and set an alarm", "clock", ItemPool.CLOCK, null),
+              EffectPool.OLDER_THAN_YOU_LOOK,
+              ImageType.EFFECT),
+          new ItemEffectSpoiler(
+              "Go back and set an alarm", "clock", ItemPool.CLOCK, ImageType.ITEM),
           new ItemEffectSpoiler(
               "Lift yourself up by your bootstraps", "gain muscle substat", null, null),
           new ItemEffectSpoiler(
               "Let yourself get lifted up by your bootstraps",
               "100 turns of +5 fam exp per combat",
-              null,
-              EffectPool.LIFTED_BY_YOUR_BOOTSTRAPS),
+              EffectPool.LIFTED_BY_YOUR_BOOTSTRAPS,
+              ImageType.EFFECT),
           new ItemEffectSpoiler(
-              "Go back and write a best-seller.", "30 turns of +25 moxie", null, EffectPool.FAMOUS),
+              "Go back and write a best-seller.",
+              "30 turns of +25 moxie",
+              EffectPool.FAMOUS,
+              ImageType.EFFECT),
           new ItemEffectSpoiler(
               "Replace your novel with AI drivel",
               "100 turns of 5 free rests",
-              null,
-              EffectPool.CARE_FREE),
+              EffectPool.CARE_FREE,
+              ImageType.EFFECT),
           new ItemEffectSpoiler(
               "Peek in on your future",
               "20 turns of +100% weapon drops",
-              null,
-              EffectPool.FOREARMED),
+              EffectPool.FOREARMED,
+              ImageType.EFFECT),
           new ItemEffectSpoiler(
               "Make yourself forget",
               "3 turns of Beaten Up (-50% all stats), 3 charges of Try to Remember",
@@ -6854,55 +6871,55 @@ public abstract class ChoiceAdventures {
           new ItemEffectSpoiler(
               "Sit and write in your journal",
               "40 turns of -10 max MP, +50 combat init",
-              null,
-              EffectPool.PARANOIA),
+              EffectPool.PARANOIA,
+              ImageType.EFFECT),
           new ItemEffectSpoiler(
               "Plant some trees and harvest them in the future", "5 random fruit", null, null),
           new ItemEffectSpoiler(
               "Teach hippies to make jams and jellies",
               "2 mixed berry jellies (drop-forcing spleen item)",
               ItemPool.MIXED_BERRY_JELLY,
-              null),
+              ImageType.ITEM),
           new ItemEffectSpoiler(
               "Go for a nature walk",
               "30 turns of 6-12 MP regen",
-              null,
-              EffectPool.STRICKEN_BY_LIGHTNING),
+              EffectPool.STRICKEN_BY_LIGHTNING,
+              ImageType.EFFECT),
           new ItemEffectSpoiler(
               "Go back in time and kill a butterfly",
               "30 turns of 10-20 HP regen",
-              null,
-              EffectPool.HINT_OF_BACON),
-          new ItemEffectSpoiler("Hey, free gun!", "the gun", ItemPool.THE_GUN, null),
+              EffectPool.HINT_OF_BACON,
+              ImageType.EFFECT),
+          new ItemEffectSpoiler("Hey, free gun!", "the gun", ItemPool.THE_GUN, ImageType.ITEM),
           new ItemEffectSpoiler("Sell the gun", "lose the gun, gain 2546 meat", null, null),
           new ItemEffectSpoiler(
               "Make friends with a famous poet",
               "1000 turns of combat text in anapests",
-              null,
-              EffectPool.JUST_THE_BEST_ANAPESTS),
+              EffectPool.JUST_THE_BEST_ANAPESTS,
+              ImageType.EFFECT),
           new ItemEffectSpoiler(
               "Make enemies with a famous poet",
               "lose Just the Best Anapests, fancy old wine",
               ItemPool.FANCY_OLD_WINE,
-              null),
+              ImageType.ITEM),
           new ItemEffectSpoiler(
               "Cheeze it, it's the pigs!",
               "100 turns of -30 muscle, -15 max HP",
-              null,
-              EffectPool.VERY_OLD),
+              EffectPool.VERY_OLD,
+              ImageType.EFFECT),
           new ItemEffectSpoiler(
               "Aiding and abetterment",
               "100 turns of +10% combat init",
-              null,
-              EffectPool.SCOT_FREE),
+              EffectPool.SCOT_FREE,
+              ImageType.EFFECT),
           new ItemEffectSpoiler("Borrow meat from your future", "1k meat", null, null),
           new ItemEffectSpoiler(
               "Repay yourself in the past",
               "lose 10 meat, gain 50 turns of +30% meat",
-              null,
-              EffectPool.GAINING_INTEREST));
+              EffectPool.GAINING_INTEREST,
+              ImageType.EFFECT));
 
-  public static void decorateMobiusStrip(final StringBuffer buffer) {
+  private static void decorateMobiusStrip(final StringBuffer buffer) {
     // choiceform1 is not messing with the timeline
     // choiceformX after that is a pickable choice
 
@@ -6950,7 +6967,7 @@ public abstract class ChoiceAdventures {
       strBuilder.append("</td></tr>");
     }
     strBuilder.append("</table></center>");
-    buffer.insert(deleteIndexStart, strBuilder.toString());
+    buffer.insert(deleteIndexStart, strBuilder);
   }
 
   private static String makeSpoilerButton(ItemEffectSpoiler spoiler, Integer choiceNum) {
@@ -6976,19 +6993,24 @@ public abstract class ChoiceAdventures {
   }
 
   private static String makeItemEffectIcon(ItemEffectSpoiler spoiler) {
-    if (spoiler.itemId != null) {
-      var descId = ItemDatabase.getDescriptionId(spoiler.itemId);
-      var image = ItemDatabase.getImage(spoiler.itemId);
-      return "<img src=\"/images/itemimages/"
-          + image
-          + "\" valign=middle onclick=\"descitem('"
-          + descId
-          + "');\">";
+    if (spoiler.imageType == null) {
+      return "";
     }
-    if (spoiler.effectId != null) {
-      var descId = EffectDatabase.getDescriptionId(spoiler.effectId);
-      var image = EffectDatabase.getImage(spoiler.effectId);
-      return "<img src=\"" + image + "\" valign=middle onclick=\"eff('" + descId + "');\">";
+    switch (spoiler.imageType) {
+      case ITEM -> {
+        var descId = ItemDatabase.getDescriptionId(spoiler.id);
+        var image = ItemDatabase.getImage(spoiler.id);
+        return "<img src=\"/images/itemimages/"
+            + image
+            + "\" valign=middle onclick=\"descitem('"
+            + descId
+            + "');\">";
+      }
+      case EFFECT -> {
+        var descId = EffectDatabase.getDescriptionId(spoiler.id);
+        var image = EffectDatabase.getImage(spoiler.id);
+        return "<img src=\"" + image + "\" valign=middle onclick=\"eff('" + descId + "');\">";
+      }
     }
     return "";
   }
@@ -6999,7 +7021,7 @@ public abstract class ChoiceAdventures {
       Pattern.compile(
           "<option value=\"(\\d+)\"[^>]*>([^<]+) (\\(\\d+ samples? required\\))?</option>");
 
-  public static void decorateMimicDnaBank(final StringBuffer buffer) {
+  private static void decorateMimicDnaBank(final StringBuffer buffer) {
     // Disambiguate certain monsters
     Matcher matcher = MIMIC_DNA_PATTERN.matcher(buffer);
     try {
