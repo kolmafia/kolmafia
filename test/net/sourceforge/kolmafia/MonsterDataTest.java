@@ -322,6 +322,16 @@ public class MonsterDataTest {
     }
 
     @Test
+    public void canHandleBossBlockingCopy() {
+      String name = "scary monster";
+      int id = 13;
+      String[] images = {"scary.gif"};
+      String attributes = "BOSS";
+      MonsterData monster = new MonsterData(name, id, images, attributes);
+      assertTrue(monster.isNoCopy());
+    }
+    
+    @Test
     public void canMakeElementalAttackMonsters() {
       String name = "scary monster";
       int id = 13;
