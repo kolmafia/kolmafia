@@ -6739,12 +6739,12 @@ public abstract class ChoiceAdventures {
           new ItemEffectSpoiler("Succumb to evil", "30 turns of +30 ML", null, EffectPool.EVIL),
           new ItemEffectSpoiler(
               "Stop your arch-nemesis as a baby",
-              "Life Goals Pamphlet (potion, 25 turns -combat)",
+              "Life Goals Pamphlet",
               ItemPool.LIFE_GOALS_PAMPHLET,
               null),
           new ItemEffectSpoiler(
               "Go back and make the Naughty Sorceress naughty again",
-              "bully badge (melting accessory, +combat)",
+              "bully badge",
               ItemPool.BULLY_BADGE,
               null),
           new ItemEffectSpoiler(
@@ -6846,7 +6846,7 @@ public abstract class ChoiceAdventures {
               "Make yourself forget",
               "3 turns of Beaten Up (-50% all stats), 3 charges of Try to Remember",
               null,
-              EffectPool.BEATEN_UP),
+              null),
           new ItemEffectSpoiler("Steal a club from the past", "random club", null, null),
           new ItemEffectSpoiler(
               "Prevent the deadly seal invasion", "lose 50 HP, gain 500 meat", null, null),
@@ -6865,19 +6865,19 @@ public abstract class ChoiceAdventures {
               null),
           new ItemEffectSpoiler(
               "Go for a nature walk",
-              "30 turns of 6–12 MP regen",
+              "30 turns of 6-12 MP regen",
               null,
               EffectPool.STRICKEN_BY_LIGHTNING),
           new ItemEffectSpoiler(
               "Go back in time and kill a butterfly",
-              "30 turns of 10–20 HP regen",
+              "30 turns of 10-20 HP regen",
               null,
               EffectPool.HINT_OF_BACON),
           new ItemEffectSpoiler("Hey, free gun!", "the gun", ItemPool.THE_GUN, null),
           new ItemEffectSpoiler("Sell the gun", "lose the gun, gain 2546 meat", null, null),
           new ItemEffectSpoiler(
               "Make friends with a famous poet",
-              "combat text in anapests (1000 turns)",
+              "1000 turns of combat text in anapests",
               null,
               EffectPool.JUST_THE_BEST_ANAPESTS),
           new ItemEffectSpoiler(
