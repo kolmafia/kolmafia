@@ -6966,7 +6966,9 @@ public abstract class ChoiceAdventures {
         + num
         + "><input "
         + disabled
-        + " class=button type=submit value=\""
+        + " class=\"button "
+        + disabled
+        + "\" type=submit value=\""
         + spoiler.choice
         + "\">"
         + spoilerPost
