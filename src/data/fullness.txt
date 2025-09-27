@@ -370,7 +370,7 @@ fishy fish	2	8	good	3-9	0	0	26-33
 fishy fish casserole	3	9	awesome	8-15	0	0	38-44
 fishy fish lasagna	3	10	awesome	12-16	0	0	46-55	LASAGNA
 flaming mushroom	3	2	decent	3-9	3-5	0	0	lose 3 HP
-flan del mar	1	1	EPIC	4	0	0	0
+flan del mar	1	1	EPIC	0	0	0	0	Unspaded 30 Festively Brined (better diver)
 flask of peppermint oil	0	1	crappy	0	0	0	0	BEVERAGE
 flavorless gruel	4	4	good	9-11	90-110	0	0
 fleetwood mac 'n' cheese	6	8	awesome	28-33	30-40	30-40	30-40	SAUCY

@@ -1,0 +1,45 @@
+-1	decent Peche a la Frog	3	good	
+-2	toothsome special shaking As Jus Gezund Heit	3	awesome	
+-3	normal snack-sized Bouillabaise Coucher Avec Moi	2	good	
+-7	spoiled miniature gumdrop chow mein	2	crappy	
+-8	bland red candy cane pizza	3	decent	
+-9	super-sized delicious gingerbread stir-fry	5	awesome	
+-10	fancy stale twigs and gravel	3	decent	
+-11	diet moldy narrow shoots and leaves	1	crappy	
+-12	super-sized normal bowl of unidentifiable goo	5	good	
+-13	fancy rotten half-sized gingerbread massacre	2	crappy	
+-14	thick decent It Came From Beyond Dessert	5	good	
+-15	flavorless vampire cake	4	decent	
+-52	fancy big adequate lime green Soylent Red and Green	5	good	
+-53	adequate Disc-Shaped Nutrition Unit	4	good	
+-54	snack-sized normal fancy Gingerborg Hive	2	good	
+-61	fancy stale Candy Cane Surprise	4	decent	
+-62	moldy Grimdrop Chow Mein	4	crappy	
+-63	toothsome Grimgerbread House	3	awesome	
+-67	spoiled Caviar Carbonara	3	crappy	
+-68	spoiled olive Halibut Alfredo	4	crappy	
+-69	small decent Red Herring Velvet Cake	2	good	
+-73	spoiled yellow CRIMBCO Reconstituted Gruel	4	crappy	
+-74	decent big New and Improved CRIMBCO Reconstituted Gruel	5	good	
+-75	moldy upside-down CRIMBCO Deluxe Reconstituted Gruel with Simulated Raisins	3	crappy	
+-79	half-sized adequate pulsating jittery Brussels Sprout Stir-Fry	2	good	
+-80	low-calorie decent Carrot, Cabbage, and Kale Pizza	1	good	
+-81	special toothsome half-sized Turnip and Rutabaga Pie	2	awesome	
+-85	adequate miniature Rainbow Spider Fun Roll	2	good	
+-86	miniature adequate Vegas Volcano Lava Roll	2	good	
+-87	tiny yummy Crazy Dragon Shogun Buddha Roll	1	awesome	
+-92	huge tasty basic hot dog	7	awesome	
+-93	spoiled savage macho dog	3	crappy	
+-94	stale one with everything	3	decent	
+-95	bland miniature sly dog	2	decent	
+-96	flavorless devil dog	4	decent	
+-97	half-sized spoiled upside-down chilly dog	2	crappy	
+-98	decent ghost dog	4	good	
+-99	decent jumbo narrow junkyard dog	5	good	
+-100	decent wet dog	4	good	
+-101	big rotten sleeping dog	5	crappy	
+-102	normal upside-down optimal dog	4	good	
+-103	flavorless massive video games hot dog	8	decent	
+-104	bite-sized spoiled mirror Peppermint Nutrition Block	1	crappy	
+-105	flavorless Gingerbread Nutrition Block	4	decent	
+-106	delicious huge Cinnamon Nutrition Block	3	awesome	
