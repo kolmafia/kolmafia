@@ -257,4 +257,37 @@ class ChoiceAdventuresTest {
       assertThat(options[2].getName(), is("unknown"));
     }
   }
+
+  @Nested
+  class MobiusRing {
+    @Test
+    void decoratesMobiusChoice() {
+      var original = html("request/test_choice_mobius_0.html");
+      var buffer = new StringBuffer(original);
+
+      ChoiceAdventures.decorateChoice(1562, buffer, true);
+
+      var output = buffer.toString();
+
+      assertThat(
+          output,
+          containsString(
+              "value=\"Draw a goatee on yourself\"><br><font size=-1>(30 turns of +5 stats per fight"));
+    }
+
+    @Test
+    void disablesAbsentChoices() {
+      var original = html("request/test_choice_mobius_1.html");
+      var buffer = new StringBuffer(original);
+
+      ChoiceAdventures.decorateChoice(1562, buffer, true);
+
+      var output = buffer.toString();
+
+      assertThat(
+          output,
+          containsString(
+              "<input disabled class=\"button disabled\" type=submit value=\"Go back and take a 20-year-long nap\">"));
+    }
+  }
 }
