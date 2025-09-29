@@ -248,7 +248,7 @@ public interface KoLConstants extends UtilityConstants {
   String CLI_HTML = "cli.html";
   String COMBATFILTER_JS = "combatfilter.1.js";
   String HOTKEYS_JS = "hotkeys.js";
-  String IRCM_JS = "ircm_extend.3.js";
+  String IRCM_JS = "ircm_extend.4.js";
   String MACROHELPER_JS = "macrohelper.6.js";
   String ONFOCUS_JS = "onfocus.1.js";
   String SORTTABLE_JS = "sorttable.2.js";
@@ -523,7 +523,6 @@ public interface KoLConstants extends UtilityConstants {
     STILLSUIT, // Distillate from the stillsuit
     WOOL, // Items made from grubby wool
     SHADOW_FORGE, // Items made at The Shadow Forge
-    FIXODENT, // Items made from fixodent
     BURNING_LEAVES, // Items made at the Pile of Burning Leaves
     TINKERING_BENCH, // Items made at the Tinkering Bench
     MAYAM, // Items made at the Mayam Calendar

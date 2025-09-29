@@ -1719,4 +1719,45 @@ public class ModifiersTest {
       assertThat(mods.getDouble(DoubleModifier.FAMILIAR_WEIGHT), equalTo(5.0));
     }
   }
+
+  @Nested
+  class Monodent {
+    @Test
+    public void noWaveZoneDoesNotAddItemForNoZone() {
+      var cleanups = new Cleanups(withProperty("_seadentWaveZone", ""), withLocation(""));
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments(false);
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+
+        assertThat(current.getDouble(DoubleModifier.ITEMDROP), equalTo(0.0));
+      }
+    }
+
+    @Test
+    public void waveZoneDoesNotAddItemForOtherZone() {
+      var cleanups =
+          new Cleanups(withProperty("_seadentWaveZone", "Noob Cave"), withLocation("Dire Warren"));
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments(false);
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+
+        assertThat(current.getDouble(DoubleModifier.ITEMDROP), equalTo(0.0));
+      }
+    }
+
+    @Test
+    public void waveZoneAddsItemForZone() {
+      var cleanups =
+          new Cleanups(withProperty("_seadentWaveZone", "Noob Cave"), withLocation("Noob Cave"));
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments(false);
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+
+        assertThat(current.getDouble(DoubleModifier.ITEMDROP), equalTo(30.0));
+      }
+    }
+  }
 }

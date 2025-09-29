@@ -1679,7 +1679,7 @@ public class FightRequest extends GenericRequest {
     KoLAdventure location = KoLAdventure.lastVisitedLocation();
     Environment environment = location != null ? location.getEnvironment() : null;
 
-    if (environment != null && !environment.isUnderwater()) {
+    if (environment != null && !location.isUnderwater()) {
       KoLmafia.updateDisplay(MafiaState.ABORT, "This skill is useless out of water.");
       return true;
     }
@@ -2245,8 +2245,7 @@ public class FightRequest extends GenericRequest {
 
       QuestManager.updateQuestFightStarted(responseText, monsterName);
 
-      // http://kol.coldfront.net/thekolwiki/index.php/Encounter#Encounter_Flowchart (image link
-      // there
+      // https://wiki.kingdomofloathing.com/Encounter#Encounter_Flowchart (image link there
       // is regularly updated) shows the order is Digitize, Arrow, Enamorang, so check in that order
       // Bodyguard chats are entirely separate, so those come before everything else.
       if (EncounterManager.isBodyguardEncounter(responseText)) {
@@ -3597,7 +3596,7 @@ public class FightRequest extends GenericRequest {
           // <name> mutters dark secrets under his breath, and
           // you feel time slow down.
           KoLAdventure lastLocation = KoLAdventure.lastVisitedLocation();
-          boolean underwater = lastLocation != null && lastLocation.getEnvironment().isUnderwater();
+          boolean underwater = lastLocation != null && lastLocation.isUnderwater();
           Preferences.increment("_gibbererCharge", underwater ? 2 : 1, 15, true);
           if (responseText.contains("you feel time slow down")) {
             Preferences.increment("_gibbererAdv", 1);

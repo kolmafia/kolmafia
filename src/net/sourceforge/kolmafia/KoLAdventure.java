@@ -4564,6 +4564,10 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         : KoLCharacter.getCurrentRun() + 1;
   }
 
+  public boolean isUnderwater() {
+    return AdventureDatabase.isUnderwater(adventureName);
+  }
+
   @Override
   public int compareTo(final KoLAdventure o) {
     if (o == null) {

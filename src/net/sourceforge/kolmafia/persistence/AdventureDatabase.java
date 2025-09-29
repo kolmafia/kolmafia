@@ -929,6 +929,16 @@ public class AdventureDatabase {
     return AdventureDatabase.environmentLookup.getOrDefault(adventureName, Environment.NONE);
   }
 
+  public static boolean isUnderwater(String adventureName) {
+    String waveSummonedZone = Preferences.getString("_seadentWaveZone");
+
+    if (!waveSummonedZone.isEmpty() && waveSummonedZone.equals(adventureName)) {
+      return true;
+    }
+
+    return getEnvironment(adventureName) == Environment.UNDERWATER;
+  }
+
   public static int getRecommendedStat(String adventureName) {
     return AdventureDatabase.statLookup.getOrDefault(adventureName, -1);
   }

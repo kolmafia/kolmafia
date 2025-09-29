@@ -616,7 +616,7 @@ public class Evaluator {
           index = DoubleModifier.primeStat();
         } else if (keyword.startsWith("com")) {
           index = DoubleModifier.COMBAT_RATE;
-          if (AdventureDatabase.getEnvironment(Modifiers.currentLocation).isUnderwater()) {
+          if (AdventureDatabase.isUnderwater(Modifiers.currentLocation)) {
             this.weight.set(DoubleModifier.UNDERWATER_COMBAT_RATE, weight);
           }
         } else if (keyword.startsWith("item")) {
