@@ -632,17 +632,17 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
   }
 
   private static class FlagonListener extends ThreadedListener {
-      @Override
-      protected void execute() {
-        RequestThread.postRequest(
-            UseItemRequest.getInstance(ItemPool.get(ItemPool.FLAGELLATE_FLAGON, 1)));
-      }
-
-      @Override
-      public String toString() {
-        return "use flagon";
-      }
+    @Override
+    protected void execute() {
+      RequestThread.postRequest(
+          UseItemRequest.getInstance(ItemPool.get(ItemPool.FLAGELLATE_FLAGON, 1)));
     }
+
+    @Override
+    public String toString() {
+      return "use flagon";
+    }
+  }
 
   private static class MojoListener extends ThreadedListener {
     @Override
