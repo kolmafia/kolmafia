@@ -6294,8 +6294,10 @@ public class UseItemRequest extends GenericRequest {
         break;
 
       case ItemPool.FLAGELLATE_FLAGON:
+        // Flagon uses can stack, but can only be used once a day
         Preferences.setBoolean("_flagellateFlagonUsed", true);
-        break;
+        Preferences.increment("_flagonsUsed");
+        return;
 
       case ItemPool.SYNAPTIC_SOUP:
       case ItemPool.MUSCULAR_SOUP:
