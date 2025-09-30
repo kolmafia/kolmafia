@@ -2179,6 +2179,7 @@ user	_fireworksShopEquipmentBought	false
 user	_fireworkUsed	false
 user	_fishyPipeUsed	false
 user	_flagellateFlagonUsed	false
+user	_flagonsUsed 0
 user	_floristPlantsUsed
 user	_floundryItemCreated	false
 user	_floundryItemUsed	false
