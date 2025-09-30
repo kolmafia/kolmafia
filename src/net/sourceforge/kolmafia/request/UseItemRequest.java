@@ -6294,18 +6294,18 @@ public class UseItemRequest extends GenericRequest {
         break;
 
       case ItemPool.FLAGELLATE_FLAGON:
-      {
-        // You get your flagellate flagon ready for your next drink.
-        if (responseText.contains("You get your flagellate flagon ready for your next drink.")) {
-          Preferences.setBoolean("flagellateFlagonActive", true);
-          Preferences.increment("_flagonsUsed");
+        {
+          // You get your flagellate flagon ready for your next drink.
+          if (responseText.contains("You get your flagellate flagon ready for your next drink.")) {
+            Preferences.setBoolean("flagellateFlagonActive", true);
+            Preferences.increment("_flagonsUsed");
+            return;
+          }
+
+          Preferences.setBoolean("_flagellateFlagonUsed", true);
+
           return;
         }
-
-        Preferences.setBoolean("_flagellateFlagonUsed", true);
-
-        return;
-      }
       case ItemPool.SYNAPTIC_SOUP:
       case ItemPool.MUSCULAR_SOUP:
       case ItemPool.FLAGELLATE_SOUP:
