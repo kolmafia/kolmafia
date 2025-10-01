@@ -717,7 +717,7 @@ user	fistTeachingsSlums	false	roa
 user	fistTeachingsFratHouse	false	roa
 user	fistTeachingsRoad	false	roa
 user	fistTeachingsNinjaSnowmen	false	roa
-user	flagellateFlagonActive false
+user	flagellateFlagonActive	false
 user	flickeringPixel1	false
 user	flickeringPixel2	false
 user	flickeringPixel3	false
