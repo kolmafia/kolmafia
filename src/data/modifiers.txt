@@ -2920,6 +2920,8 @@ Item	blackberry galoshes	Muscle: +7, Mysticality: +7, Moxie: +7, Single Equip
 Item	blackberry moccasins	Moxie: +8, Initiative: +25, Damage Reduction: 3, Single Equip
 Item	blackberry slippers	Mysticality: +10, Spell Damage: +10, Spell Damage Percent: +5, Single Equip
 Item	Bling of the New Wave	Moxie: +11, HP Regen Min: 5, HP Regen Max: 9, MP Regen Min: 5, MP Regen Max: 9, Extra Pickpocket, Class: "Disco Bandit", Single Equip
+# blood cubic zirconia: Weakens Monster on Critical Hit
+Item	blood cubic zirconia	Spooky Resistance: +3, Spooky Damage: [3*L], Spooky Spell Damage: [3*L], Critical Hit Percent: +20, Meat Drop: +20, Last Available: "2025-10"
 Item	Blue Diamond of Honesty	Muscle: +7, Mysticality: +7, Moxie: +7, Item Drop: +9, Single Equip
 Item	blue glowstick	Maximum MP: +5, Moxie: -3, Last Available: "2007-11", Raveosity: +1
 Item	blue plastic baby	Maximum HP: +5, Maximum MP: +5, Single Equip, Last Available: "2008-12"
@@ -5790,6 +5792,7 @@ Effect	[1457]Blood Sugar Sauce Magic	Maximum HP Percent: -10, Maximum MP Percent
 Effect	[1458]Blood Sugar Sauce Magic	Maximum HP Percent: -30, Maximum MP Percent: +30
 Effect	Blood-Gorged	Sleaze Damage: +40, Sleaze Spell Damage: +40
 Effect	Blood-Rich	HP Regen Min: 8, HP Regen Max: 12
+Effect	Bloodbathed	Monster Level: +75, Combat Rate: +5, Weapon Damage Percent: +100
 Effect	Bloodstain-Resistant	HP Regen Min: 8, HP Regen Max: 10
 Effect	Bloodthirsty	Monster Level: +30
 Effect	Bloody Bloody Bloody!	Spooky Damage: +50
@@ -7558,6 +7561,7 @@ Effect	Real Meat Craving	Meat Drop: +30
 Effect	Really Deep Breath	Adventure Underwater
 Effect	Really Hard	Damage Reduction: 50
 Effect	Really Quite Poisoned	Muscle Percent: -70, Mysticality Percent: -70, Moxie Percent: -70, Muscle: -9, Mysticality: -9, Moxie: -9
+Effect	Really Thin Blood	Maximum HP: +100, Maximum HP Percent: +1000
 Effect	Reassured	Muscle: [10*interact()], Mysticality: [10*interact()], Moxie: [10*interact()]
 # Record Hunger: Food gives 100% more Adventures
 # Red Around the Gills: Regenerate 140-150 HP and MP per fight (Underwater only)
@@ -8034,6 +8038,7 @@ Effect	Sur La Table	MP Regen Min: 5, MP Regen Max: 10, HP Regen Min: 5, HP Regen
 Effect	Surrealist's Moustache	Mysticality: +25, Food Drop: +50
 Effect	Surreally Buff	Muscle Percent: +20
 Effect	Suspicious Gaze	Initiative: +20
+Effect	Sweat Equity	Meat Drop: +40
 Effect	Swedish Courage	Monster Level: -50
 Effect	Sweet and Green	Weapon Damage: +15, Weapon Damage Percent: +15
 Effect	Sweet and Red	Spell Damage: +10, Spell Damage Percent: +10
@@ -8080,6 +8085,7 @@ Effect	Taking the Plunge	Avatar: "Gnollish Plungermaster"
 Effect	Tamarind Torment	Muscle: +5, Moxie: -5
 Effect	Tangled Up	Moxie Percent: -20
 Effect	Tango, O Gnat	Avatar: "Tan Gnat"
+Effect	Tapased Out	Mysticality Percent: +300
 Effect	Taped Up	Maximum HP Percent: +100, Damage Absorption: +100, HP Regen Min: 8, HP Regen Max: 10
 Effect	Tapped In	Experience: +5
 # Tar-Struck: Continually take damage
@@ -8315,6 +8321,8 @@ Effect	Unpopular	Monster Level: +30
 Effect	Unrunnable Face	Moxie Percent: +50
 Effect	Unusual Fashion Sense	Damage Absorption: +50
 Effect	Unusual Perspective	Item Drop: +50
+# Up To 11: All spells stagger your foes
+Effect	Up To 11	Spell Damage Percent: +111, Mysticality Percent: +111
 Effect	Updated	Muscle: +20, Mysticality: +20, Moxie: +20
 Effect	Ur-Kel's Aria of Annoyance	Monster Level: [min(60,2*L)]
 Effect	Using Protection	Mana Cost: -2
@@ -9849,6 +9857,7 @@ Item	snow crab	Last Available: "2014-01"
 Item	space jam toast	Last Available: "2011-01"
 Item	spaghetti con calaveras	Effect: "Eso S&iacute; Que Es", Effect Duration: 10, Last Available: "2011-04"
 Item	Spaghetti with Moonballs	Last Available: "2011-06"
+Item	spinal tapas	Effect: "Tapased Out", Effect Duration: 30, Last Available: "2025-10"
 Item	spiritual candy cane	Last Available: "2016-12"
 Item	spiritual fruitcake	Last Available: "2016-12"
 Item	spiritual gingerbread	Last Available: "2016-12"
@@ -10315,6 +10324,8 @@ Item	perfect negroni	Last Available: "2015-11"
 Item	perfect old-fashioned	Last Available: "2015-11"
 Item	perfect paloma	Last Available: "2015-11"
 Item	perpendicular hula with a fly in it	Last Available: "2006-04"
+# pheromone cocktail: Lets you mark your territory after drinking it
+Item	pheromone cocktail	Last Available: "2025-10"
 Item	Phil Collins	Effect: "Hello, I Must Be Going", Effect Duration: 40, Last Available: "2017-03"
 Item	Phlegethon	Effect: "Flambé-a-thon", Effect Duration: 40, Last Available: "2017-03"
 Item	Phonus Balonus	Last Available: "2014-07"
@@ -10505,6 +10516,7 @@ Item	beggin' cologne	Effect: "Eau d' Clochard", Effect Duration: 60, Last Availa
 Item	black paisley oyster egg	Effect: "Egg-stortionary Tactics", Effect Duration: 20
 Item	black polka-dot oyster egg	Effect: "Egg-stortionary Tactics", Effect Duration: 20
 Item	black striped oyster egg	Effect: "Egg-stortionary Tactics", Effect Duration: 20
+Item	blood thinner	Effect: "Really Thin Blood", Effect Duration: 50, Last Available: "2025-10"
 # blue paisley oyster egg: Restores 30-35 MP
 # blue polka-dot oyster egg: Restores 30-35 MP
 # blue striped oyster egg: Restores 30-35 MP
@@ -13587,6 +13599,7 @@ Item	Kokomo Resort Order Pad	Last Available: "2015-04"
 Item	KoLHS Pep Squad Box	Free Pull, Last Available: "2013-09"
 Item	Kramco Industries packing carton	Free Pull, Last Available: "2019-01"
 Item	kumquartz	Last Available: "2011-11"
+Item	lab-grown blood cubic zirconia	Free Pull, Last Available: "2025-10"
 Item	Lapis Lazuli	Last Available: "2023-06"
 Item	large pile of sand	Last Available: "2019-07"
 Item	LARP membership card	Last Available: "2008-10"
