@@ -99,6 +99,7 @@ public class BanishManager {
     KGB_TRANQUILIZER_DART("KGB tranquilizer dart", 20, 1, true, Reset.TURN_ROLLOVER_RESET),
     LICORICE_ROPE("licorice rope", -1, 1, false, Reset.ROLLOVER_RESET),
     LOUDER_THAN_BOMB("louder than bomb", 20, 1, true, Reset.TURN_ROLLOVER_RESET),
+    MARK_YOUR_TERRITORY("Mark Your Territory", -1, 1, false, Reset.ROLLOVER_RESET),
     MAFIA_MIDDLEFINGER_RING("mafia middle finger ring", 60, 1, true, Reset.TURN_ROLLOVER_RESET),
     MONKEY_SLAP("Monkey Slap", -1, 1, false, Reset.ROLLOVER_RESET),
     NANORHINO("nanorhino", -1, 1, false, Reset.ROLLOVER_RESET),

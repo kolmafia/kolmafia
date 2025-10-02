@@ -3953,6 +3953,7 @@ public class ItemPool {
   public static final int MONODENT_OF_THE_SEA = 11975;
   public static final int UNBLEMISHED_PEARL = 11976;
   public static final int DENTADENT = 11977;
+  public static final int PHEROMONE_COCKTAIL = 12045;
 
   private ItemPool() {}
 

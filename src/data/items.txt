@@ -12069,6 +12069,6 @@
 12041
 12042
 12043
-12044	blood thinner	295771919	cbz_vial.gif	spleen, usable	t,d	25
+12044	blood thinner	295771919	cbz_vial.gif	spleen, usable	t,d	25	vials of blood thinner
 12045	pheromone cocktail	796820375	cbz_booze.gif	drink	t,d	25
-12046	spinal tapas	283199142	cbz_tapasplate.gif	food	t,d	25
+12046	spinal tapas	283199142	cbz_tapasplate.gif	food	t,d	25	plates of spinal tapas

@@ -2921,7 +2921,7 @@ Item	blackberry moccasins	Moxie: +8, Initiative: +25, Damage Reduction: 3, Singl
 Item	blackberry slippers	Mysticality: +10, Spell Damage: +10, Spell Damage Percent: +5, Single Equip
 Item	Bling of the New Wave	Moxie: +11, HP Regen Min: 5, HP Regen Max: 9, MP Regen Min: 5, MP Regen Max: 9, Extra Pickpocket, Class: "Disco Bandit", Single Equip
 # blood cubic zirconia: Weakens Monster on Critical Hit
-Item	blood cubic zirconia	Spooky Resistance: +3, Spooky Damage: [3*L], Spooky Spell Damage: [3*L], Critical Hit Percent: +20, Meat Drop: +20, Last Available: "2025-10"
+Item	blood cubic zirconia	Spooky Resistance: +3, Spooky Damage: [3*L], Spooky Spell Damage: [3*L], Critical Hit Percent: +20, Meat Drop: +20, Last Available: "2025-10", Conditional Skill (Equipped): "BCZ: Blood Geyser", Conditional Skill (Equipped): "BCZ: Refracted Gaze", Conditional Skill (Equipped): "BCZ: Sweat Bullets", Conditional Skill (Equipped): "BCZ: Blood Bath", Conditional Skill (Equipped): "BCZ: Dial it up to 11", Conditional Skill (Equipped): "BCZ: Sweat Equity", Conditional Skill (Equipped): "BCZ: Create Blood Thinner", Conditional Skill (Equipped): "BCZ: Prepare Spinal Tapas", Conditional Skill (Equipped): "BCZ: Craft a Pheromone Cocktail"
 Item	Blue Diamond of Honesty	Muscle: +7, Mysticality: +7, Moxie: +7, Item Drop: +9, Single Equip
 Item	blue glowstick	Maximum MP: +5, Moxie: -3, Last Available: "2007-11", Raveosity: +1
 Item	blue plastic baby	Maximum HP: +5, Maximum MP: +5, Single Equip, Last Available: "2008-12"
@@ -5792,7 +5792,7 @@ Effect	[1457]Blood Sugar Sauce Magic	Maximum HP Percent: -10, Maximum MP Percent
 Effect	[1458]Blood Sugar Sauce Magic	Maximum HP Percent: -30, Maximum MP Percent: +30
 Effect	Blood-Gorged	Sleaze Damage: +40, Sleaze Spell Damage: +40
 Effect	Blood-Rich	HP Regen Min: 8, HP Regen Max: 12
-Effect	Bloodbathed	Monster Level: +75, Combat Rate: +5, Weapon Damage Percent: +100
+Effect	Bloodbathed	Monster Level: [min(5*L,75)], Combat Rate: +5, Weapon Damage Percent: +100
 Effect	Bloodstain-Resistant	HP Regen Min: 8, HP Regen Max: 10
 Effect	Bloodthirsty	Monster Level: +30
 Effect	Bloody Bloody Bloody!	Spooky Damage: +50
