@@ -896,6 +896,8 @@ public class DrinkItemRequest extends UseItemRequest {
         Preferences.setInteger("vintnerCharge", 0);
         KoLCharacter.usableFamiliar(FamiliarPool.VAMPIRE_VINTNER).setCharges(0);
       }
+      case ItemPool.PHEROMONE_COCKTAIL -> Preferences.increment(
+          "markYourTerritoryCharges", item.getCount());
     }
   }
 

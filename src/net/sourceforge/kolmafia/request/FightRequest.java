@@ -9971,6 +9971,12 @@ public class FightRequest extends GenericRequest {
           BanishManager.banishMonster(monster, Banisher.SEADENT_LIGHTNING);
         }
       }
+      case SkillPool.MARK_YOUR_TERRITORY -> {
+        if (responseText.contains("spew a heaping helping of your pheromones") || skillSuccess) {
+          BanishManager.banishMonster(monster, Banisher.MARK_YOUR_TERRITORY);
+          Preferences.decrement("markYourTerritoryCharges");
+        }
+      }
       case SkillPool.POCKET_CRUMBS -> {
         if (responseText.contains("pocket next to the crumbs")) {
           // No casting limit, can drop items up to 10 times a day

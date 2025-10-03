@@ -657,6 +657,7 @@ public class SkillPool {
   public static final int CREATE_AN_AFTERIMAGE = 7562;
   public static final int TRY_TO_REMEMBER = 7567;
   public static final int SEADENT_LIGHTNING = 7568;
+  public static final int MARK_YOUR_TERRITORY = 7580;
 
   public static final int GOOD_SINGING_VOICE = 11016;
   public static final int BANISHING_SHOUT = 11020;
