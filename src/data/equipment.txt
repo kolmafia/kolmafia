@@ -2546,6 +2546,7 @@ blackberry galoshes	180	Mox: 60
 blackberry moccasins	180	Mys: 75
 blackberry slippers	180	Mys: 75
 Bling of the New Wave	150	Mox: 45
+blood cubic zirconia	0	none
 Blue Diamond of Honesty	200	Mys: 85
 blue glowstick	20	none
 blue plastic baby	20	none

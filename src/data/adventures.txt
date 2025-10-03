@@ -561,7 +561,7 @@ PastEvents	adventure=363	DiffLevel: unknown Env: indoor	The Space Odyssey Discot
 PastEvents	adventure=365	DiffLevel: unknown Env: outdoor	The Spirit World
 
 PastEvents	adventure=408	DiffLevel: unknown Env: outdoor ForceNoncombat: 12	Some Scattered Smoking Debris
-Events	adventure=409	DiffLevel: unknown Env: outdoor	A Crater Full of Space Beasts
+PastEvents	adventure=409	DiffLevel: unknown Env: outdoor	A Crater Full of Space Beasts
 
 PastEvents	place=town_eincursion	DiffLevel: unknown Env: outdoor overdrunk	An Eldritch Fissure
 PastEvents	place=town_eicfight2	DiffLevel: unknown Env: outdoor overdrunk	An Eldritch Horror

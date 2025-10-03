@@ -896,6 +896,7 @@ spicy enchanted bean burrito	3	4	good	6-12	0	22-28	0
 spicy jumping bean burrito	3	3	good	5-12	0	0	22-28
 spicy mushroom quesadilla	3	1	decent	3-8	35-40	0	0
 spicy noodles	3	4	good	6-12	0	0	0
+spinal tapas	1	1	awesome	3-4	0	20-30	0	30 Tapased Out (+300% mys)
 spiritual candy cane	1	4	good	1-5	0	30-60	0
 spiritual fruitcake	3	1	decent	3-6	0	45-60	0
 spiritual gingerbread	1	4	good	1-5	0	30-60	0
