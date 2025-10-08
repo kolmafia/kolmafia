@@ -11985,7 +11985,7 @@
 11957	the gun	720217934	happiness.gif	weapon	q	0
 11958	fancy old wine	590385263	wine.gif	drink	t,d	500	bottles of fancy old wine
 11959
-11960	really, really nice swimming trunks	689309757	nicetrunks.gif	pants	q	0
+11960	really, really nice swimming trunks	689309757	nicetrunks.gif	pants	q	0	pairs of really, really nice swimming trunks
 11961	sand penny	692682835	sandpenny.gif	none	q	0	sand pennies
 11962	undersea surveying goggles	351851283	surveygoggles.gif	hat	q	0	pairs of undersea surveying goggles
 11963	Ocean-Touched Rum	224796689	emberbottle.gif	drink	t	0	bottles of Ocean-Touched Rum
