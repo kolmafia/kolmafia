@@ -6789,6 +6789,7 @@ public abstract class ChoiceControl {
           Matcher waveMatcher = SUMMON_WAVE_PATTERN.matcher(text);
           if (waveMatcher.find()) {
             Preferences.setString("_seadentWaveZone", waveMatcher.group(1));
+            Preferences.setBoolean("_seadentWaveUsed", true);
           }
         }
       }
