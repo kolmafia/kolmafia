@@ -175,7 +175,7 @@ dairy goat	83	biggoat.gif	Atk: 68 Def: 61 HP: 50 Init: 80 Meat: 50 P: beast EA: 
 dancing mushroom guy	1806	mush_dancing.gif	Atk: 20 Def: 35 HP: 20 Init: 100 P: plant Article: a	cool spore pod (0)	cool mushroom (0)
 Danglin' Chad	519	chad.gif	BOSS NOCOPY Atk: 210 Def: 189 HP: 320 Init: 80 Meat: 300 P: orc ED: sleaze EA: sleaze EA: none	Danglin' Chad's loincloth (100)	white class ring (30)	beer helmet (0)	bejeweled pledge pin (0)	distressed denim pants (0)	kick-ass kicks (0)
 decent lumberjack	233	lumberjack.gif	Atk: 35 Def: 31 HP: 35 Init: 60 Meat: 20 P: dude Article: a	poutine (30)	disbelief suspenders (10)	jack flapper (10)	manly bloomers (p15)
-decent white shark	735	whiteshark.gif	Atk: 425 Def: 337 HP: 600 Init: 150 Meat: 240 P: fish Article: a	dull fish scale (n15)	shark cartilage (c10)	shark jumper (c3)	shark tooth (n2)	shark tooth (n1)
+decent white shark	735	whiteshark.gif	Atk: 425 Def: 337 HP: 600 Init: 150 Meat: 240 P: fish Article: a	dull fish scale (n15)	shark tooth (n2)	shark jumper (c3)	shark cartilage (c10)	shark tooth (n2)
 demonic icebox	373	demfridge.gif	Atk: 21 Def: 19 HP: 21 Init: 50 Meat: 5 P: demon EA: cold EA: hot EA: stench EA: none Article: a	accidental cider (30)	ancient frozen dinner (30)	dire fudgesicle (30)	leftovers of indeterminate origin (40)	ancient meat (5)	hand grenegg (p20)
 Demoninja	126	demoninja.gif	Atk: 48 Def: 27 HP: 48 Init: 75 Meat: 50 P: demon E: hot Article: a	demon skin (15)	hot katana blade (30)	ninja hot pants (5)
 dense liana	1426	liana.gif	Atk: 144 Def: 140 HP: 150 Init: -10000 P: plant Article: a	exotic jungle fruit (50)
