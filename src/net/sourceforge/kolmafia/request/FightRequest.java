@@ -10870,6 +10870,30 @@ public class FightRequest extends GenericRequest {
           Preferences.setString("_chainedAfterimageMonster", monsterName);
         }
       }
+      case SkillPool.BCZ__BLOOD_GEYSER -> {
+        if (responseText.contains("shoot blood out of your fingers")
+            || responseText.contains("flow of blood geysers")
+            || responseText.contains("shoot a stream of blood")
+            || skillSuccess) {
+          Preferences.increment("_bczBloodGeyserCasts");
+        }
+      }
+      case SkillPool.BCZ__REFRACTED_GAZE -> {
+        if (responseText.contains("give yourself a spinal tap")
+            || responseText.contains("stab yourself in the spine")
+            || responseText.contains("tap your spinal fluid")
+            || skillSuccess) {
+          Preferences.increment("_bczRefractedGazeCasts");
+        }
+      }
+      case SkillPool.BCZ__SWEAT_BULLETS -> {
+        if (responseText.contains("sweat literal bullets")
+            || responseText.contains("fire off some sweat bullets")
+            || responseText.contains("fire sweat bullets")
+            || skillSuccess) {
+          Preferences.increment("_bczSweatBulletsCasts");
+        }
+      }
 
         // CyberRealm skills
       case SkillPool.THROW_CYBER_ROCK -> {
