@@ -50,14 +50,14 @@
 3	Oyster	puce paisley oyster egg
 4	Chess	onyx knight
 5	Effect	Super Vision (40)
-6	Candy	Just the Brown Ones (20)	The Wisdom... of the Future (20)
+6	Candy	Just the Brown Ones (20)	The Wisdom...  of the Future (20)
 7	Scrap	3
 8	Avatar	creepy nursery rhyme
 9	Buff	Power Ballad of the Arrowsmith (20)
 10	Needle	Heal Thy Nanoself (20)	Space Cowboy (30)
 11	Element	Spooky Hand (20)
 12	Stats	80	90	120
-13	Candy	Vitamin-Maxed (40)	The Wisdom... of the Future (20)
+13	Candy	Vitamin-Maxed (40)	The Wisdom...  of the Future (20)
 14	Oyster	off-white paisley oyster egg
 15	Effect	Black Eyes (80)
 16	Potion	Wax Flask
@@ -114,7 +114,7 @@
 67	Potion	virgin jello shot
 68	Candy2	The Halls of Muscularity (40)
 69	Stats	120	80	90
-70	Candy	Dweeby (40)	The Strength... of the Future (20)
+70	Candy	Dweeby (40)	The Strength...  of the Future (20)
 71	Potion	Senior Mints
 72	Element	Sizzlin' Hand (20)
 73	Needle	It's Soporiffic! (40)	Vented Spleen (40)
@@ -158,10 +158,10 @@
 111	Chess	alabaster rook
 112	Joke	"Q: What is a skeleton's favorite competitive college sport? A: Skeleton crew."
 113	Avatar	ectoplasm <i>au jus</i>
-114	Candy	Sourpuss (40)	The Wisdom... of the Future (20)
+114	Candy	Sourpuss (40)	The Wisdom...  of the Future (20)
 115	Meat	351	Perilous or likely to do harm
 116	Item	honey-dipped locust
-117	Candy	Vitamin-Maxed (40)	The Strength... of the Future (20)
+117	Candy	Vitamin-Maxed (40)	The Strength...  of the Future (20)
 118	Effect	Coldfinger (10)
 119	Joke	"Q: How does a skeleton know what's about to happen? A: He feels it in his bones."
 120	Element	Frosty Hand (20)
@@ -196,7 +196,7 @@
 149	Meat	245	A bittersweet longing for people or things from the past
 150	Needle	Heal Thy Nanoself (20)	Vented Spleen (40)
 151	Effect	Eye of the Seal (80)
-152	Candy	Discomfited (30)	The Wisdom... of the Future (20)
+152	Candy	Discomfited (30)	The Wisdom...  of the Future (20)
 153	Poem	21	OLLU JH JYJVL, FOMGXQJVL XQMVUMVT
 154	Common	Very Attractive (20)
 155	Effect	Hippy Stench (50)
@@ -206,7 +206,7 @@
 159	Effect	Ocelot Eyes (80)
 160	Effect	Frozen Hands (50)
 161	Stats	250	0	0
-162	Candy	Discomfited (30)	The Style... of the Future (20)
+162	Candy	Discomfited (30)	The Style...  of the Future (20)
 163	Joke	"Q: Why didn't the skeleton go to school? A: His heart wasn't in it."
 164	Lens	Seeing Colors (20)	20/20 Vision (40)
 165	Restore	Extra Terrestrial (20)
@@ -224,7 +224,7 @@
 177	Yeg	Yeg's Motel hand soap
 178	Element	Frosty Hand (20)
 179	Needle1	It's Soporiffic! (80)
-180	Candy2	The Wisdom... of the Future (40)
+180	Candy2	The Wisdom...  of the Future (40)
 181	Poem	17	QDL XUI RVC ARQLO XDROLC JVL HRSL
 182	Stats	30	30	200
 183	Stats	0	200	50
@@ -242,7 +242,7 @@
 195	Effect	Funky Coal Patina (80)
 196	Item	skeleton key
 197	Chess	onyx rook
-198	Candy2	The Style... of the Future (40)
+198	Candy2	The Style...  of the Future (40)
 199	Item2	star (3)	line
 200	Effect	Abominably Slippery (50)
 201	Candy	Discomfited (30)	Scariberi (10)
@@ -285,7 +285,7 @@
 238	Common	Finding Stuff (20)
 239	Element	Sizzlin' Hand (20)
 240	Element	Frosty Hand (20)
-241	Candy	Vitamin-Maxed (40)	The Style... of the Future (20)
+241	Candy	Vitamin-Maxed (40)	The Style...  of the Future (20)
 242	Buff	Ode to Booze (20)
 243	Effect	Clumsy (10)
 244	Effect	Itchy Trigger Finger (30)
@@ -365,7 +365,7 @@
 318	Effect	Missing Fingers (10)
 319	Needle	Tetanus (10)	It's Soporiffic! (40)
 320	Candy	Milk Studly (20)	Refuse Reflux (10)
-321	Candy	Milk Studly (40)	The Strength... of the Future (20)
+321	Candy	Milk Studly (40)	The Strength...  of the Future (20)
 322	Yeg	Yeg's Motel disposable razor
 323	Element	Foul Hand (20)
 324	Booze	flask of moonshine
@@ -385,8 +385,8 @@
 338	Cash	black pension check
 339	Lens1	Night Vision (50)
 340	Common	Wary (20)
-341	Candy	Sourpuss (40)	The Style... of the Future (20)
-342	Candy2	The Strength... of the Future (40)
+341	Candy	Sourpuss (40)	The Style...  of the Future (20)
+342	Candy2	The Strength...  of the Future (40)
 343	Effect	Filthworm Drone Stench (5)
 344	Avatar	alien autoautopsy kit
 345	Restore	Glo-Face (20)
@@ -424,7 +424,7 @@
 377	Common	Wary (20)
 378	Stats	50	50	150
 379	Candy2	The Halls of Moxiousness (40)
-380	Candy	Sourpuss (40)	The Strength... of the Future (20)
+380	Candy	Sourpuss (40)	The Strength...  of the Future (20)
 381	Choco	chocolate seal-clubbing club
 382	Effect	Stinky Hands (10)
 383	Monster	Skinflute
@@ -432,13 +432,13 @@
 385	Element	Spooky Hand (20)
 386	Effect	Hot Hands (10)
 387	Joke	"Q: What did the skeleton bring to the picnic? A: Spare ribs."
-388	Candy	Milk Studly (40)	The Style... of the Future (20)
+388	Candy	Milk Studly (40)	The Style...  of the Future (20)
 389	Potion	Drizzlers&trade; Black Licorice
 390	Oyster	puce plastic oyster egg
 391	Candy	Sourpuss (40)	The Halls of Muscularity (20)
 392	Potion	Plexipips
 393	Candy2	Fire Down Below (20)
-394	Candy	Milk Studly (40)	The Wisdom... of the Future (20)
+394	Candy	Milk Studly (40)	The Wisdom...  of the Future (20)
 395	Common	Wary (20)
 396	Fruit	tangerine
 397	Potion	sterno-flavored Hob-O
@@ -541,7 +541,7 @@
 494	Effect	Vinegavotte (50)
 495	Avatar	ravenous eye
 496	Effect	Barking Mad (40)
-497	Candy	Dweeby (40)	The Style... of the Future (20)
+497	Candy	Dweeby (40)	The Style...  of the Future (20)
 498	Avatar	enchanted muesli
 499	Element	Spooky Hand (20)
 500	Stats	90	80	120
@@ -572,7 +572,7 @@
 525	Potion	piece of after eight
 526	Buff	Brawnee's Anthem of Absorption (20)
 527	Candy	Sourpuss (40)	Refuse Reflux (10)
-528	Candy	Dweeby (40)	The Wisdom... of the Future (20)
+528	Candy	Dweeby (40)	The Wisdom...  of the Future (20)
 529	Potion	children of the candy corn
 530	Common	Wary (20)
 531	Poem	2	QDJKTD ALQ FLDMVC QDL LROX
@@ -640,7 +640,7 @@
 593	Candy	Discomfited (30)	The Halls of Moxiousness (20)
 594	Avatar	skeleton beans
 595	Gum	Mystic Pickleness (40)	Nasty, Nasty Breath (20)
-596	Candy	Just the Brown Ones (40)	The Strength... of the Future (20)
+596	Candy	Just the Brown Ones (40)	The Strength...  of the Future (20)
 597	Avatar	haunted flame
 598	Element	Foul Hand (20)
 599	Fruit	raspberry
@@ -682,7 +682,7 @@
 635	Element	Nasty Hand (20)
 636	Potion	cursed chocolate doubloon
 637	Candy2	Refuse Reflux (20)
-638	Candy	Just the Brown Ones (40)	The Style... of the Future (20)
+638	Candy	Just the Brown Ones (40)	The Style...  of the Future (20)
 639	Potion	rainbow jellybean
 640	Poem	8	QDL XLR KVSJGGJV QRGL
 641	Effect	Spooky Hands (10)
@@ -709,5 +709,5 @@
 662	Potion	Glo-Pop
 663	Element	Frosty Hand (20)
 664	Restore	Waxing Mystical (20)
-665	Candy	Discomfited (30)	The Strength... of the Future (20)
+665	Candy	Discomfited (30)	The Strength...  of the Future (20)
 666	Monster	smut orc pervert

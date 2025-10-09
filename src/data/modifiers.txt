@@ -8178,14 +8178,14 @@ Effect	The Sonata of Sneakiness	Combat Rate: [-5*(1+equipped(fiberglass fedora))
 # The Spirit of Crimbo
 Effect	The Spirit of Taking	Item Drop: +10
 Effect	The Spy Who Loved XP	Experience: +5
-Effect	The Strength... of the Future	Muscle Percent: +50, Muscle: +15, Experience (Muscle): +3
-Effect	The Style... of the Future	Moxie Percent: +50, Moxie: +15, Experience (Moxie): +3
+Effect	The Strength...  of the Future	Muscle Percent: +50, Muscle: +15, Experience (Muscle): +3
+Effect	The Style...  of the Future	Moxie Percent: +50, Moxie: +15, Experience (Moxie): +3
 Effect	The Sweats	Stench Resistance: +5
 # The Tunger&trade;: +3 Adventures from the next thing you eat
 Effect	The Two-Prong Crown	Sleaze Damage: +30
 Effect	The Visible Adventurer	Avatar: "skeleton"
 Effect	The Vitus Virus	Item Drop: +50, Experience: -5
-Effect	The Wisdom... of the Future	Mysticality Percent: +50, Mysticality: +15, Experience (Mysticality): +3
+Effect	The Wisdom...  of the Future	Mysticality Percent: +50, Mysticality: +15, Experience (Mysticality): +3
 Effect	There Is A Spoon	Mysticality: +20
 # There is No Spoon
 Effect	There Wolf	Weapon Damage Percent: +100
@@ -11116,9 +11116,9 @@ Item	Fun-Guy spore	Effect: "Mush-Mouth", Effect Duration: 11, Last Available: "2
 Item	funky dried mushroom	Effect: "Seeing Colors", Effect Duration: 10
 Item	funny bone	Effect: "Angry Bone", Effect Duration: 30
 Item	fustulent seal grulch	Effect: "Grulched", Effect Duration: 10
-Item	future drug: Coolscaline	Effect: "The Style... of the Future", Effect Duration: 25
-Item	future drug: Muscularactum	Effect: "The Strength... of the Future", Effect Duration: 25
-Item	future drug: Smartinex	Effect: "The Wisdom... of the Future", Effect Duration: 25
+Item	future drug: Coolscaline	Effect: "The Style...  of the Future", Effect Duration: 25
+Item	future drug: Muscularactum	Effect: "The Strength...  of the Future", Effect Duration: 25
+Item	future drug: Smartinex	Effect: "The Wisdom...  of the Future", Effect Duration: 25
 Item	Gabarbar	Effect: "Gabarding", Effect Duration: 25
 Item	gaffer's tape	Effect: "Gaffe Free", Effect Duration: 20, Last Available: "2022-05"
 Item	garbage-juice-flavored Hob-O	Effect: "Refuse Reflux", Effect Duration: 1

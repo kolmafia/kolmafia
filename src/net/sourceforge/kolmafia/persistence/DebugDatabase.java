@@ -1525,7 +1525,7 @@ public class DebugDatabase {
     }
   }
 
-  private static void appendModifier(final ModifierList known, final String mod) {
+  public static void appendModifier(final ModifierList known, final String mod) {
     if (mod != null) {
       // If the value contains a quoted string, it can contain commas
       if (mod.contains("\"") || !mod.contains(",")) {
