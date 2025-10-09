@@ -2108,6 +2108,16 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
           Preferences.increment("_augSkillsCast", 1, 5, false);
         }
       }
+      case SkillPool.BCZ__BLOOD_GEYSER -> Preferences.increment("_bczBloodGeyserCasts");
+      case SkillPool.BCZ__REFRACTED_GAZE -> Preferences.increment("_bczRefractedGazeCasts");
+      case SkillPool.BCZ__SWEAT_BULLETS -> Preferences.increment("_bczSweatBulletsCasts");
+      case SkillPool.BCZ__BLOOD_BATH -> Preferences.increment("_bczBloodBathCasts");
+      case SkillPool.BCZ__DIAL_IT_UP_TO_11 -> Preferences.increment("_bczDialitupCasts");
+      case SkillPool.BCZ__SWEAT_EQUITY -> Preferences.increment("_bczSweatEquityCasts");
+      case SkillPool.BCZ__CREATE_BLOOD_THINNER -> Preferences.increment("_bczBloodThinnerCasts");
+      case SkillPool.BCZ__PREPARE_SPINAL_TAPAS -> Preferences.increment("_bczSpinalTapasCasts");
+      case SkillPool.BCZ__CRAFT_A_PHEROMONE_COCKTAIL -> Preferences.increment(
+          "_bczPheromoneCocktailCasts");
     }
 
     if (KoLCharacter.hasEquipped(ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD)) {
