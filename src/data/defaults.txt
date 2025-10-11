@@ -1941,6 +1941,15 @@ user	_batWingsCauldronUsed	0
 user	_batWingsFreeFights	0
 user	_batWingsRestUsed	0
 user	_batWingsSwoopUsed	0
+user	_bczBloodGeyserCasts	0
+user	_bczRefractedGazeCasts	0
+user	_bczSweatBulletsCasts	0
+user	_bczBloodBathCasts	0
+user	_bczDialitupCasts	0
+user	_bczSweatEquityCasts	0
+user	_bczBloodThinnerCasts	0
+user	_bczSpinalTapasCasts	0
+user	_bczPheromoneCocktailCasts	0
 user	_beachCombing	false
 user	_beachHeadsUsed
 user	_beachLayout
