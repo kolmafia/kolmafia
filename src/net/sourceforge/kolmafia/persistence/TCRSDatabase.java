@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia.persistence;
 
+import static net.sourceforge.kolmafia.persistence.ModifierDatabase.CARRIED_OVER;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
@@ -27,10 +29,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.ZodiacSign;
-import net.sourceforge.kolmafia.modifiers.BitmapModifier;
-import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
-import net.sourceforge.kolmafia.modifiers.Modifier;
 import net.sourceforge.kolmafia.modifiers.MultiStringModifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.Concoction;
@@ -437,36 +436,6 @@ public class TCRSDatabase {
       applyModifiers(id, deriveItem(id, text));
     }
   }
-
-  private static final Set<Modifier> CARRIED_OVER =
-      Set.of(
-          MultiStringModifier.CONDITIONAL_SKILL_EQUIPPED,
-          MultiStringModifier.CONDITIONAL_SKILL_INVENTORY,
-          StringModifier.WIKI_NAME,
-          StringModifier.LAST_AVAILABLE_DATE,
-          StringModifier.RECIPE,
-          StringModifier.CLASS,
-          StringModifier.SKILL,
-          StringModifier.EQUIPS_ON,
-          BitmapModifier.BRIMSTONE,
-          BitmapModifier.CLOATHING,
-          BitmapModifier.SYNERGETIC,
-          BitmapModifier.RAVEOSITY,
-          BitmapModifier.MCHUGELARGE,
-          BitmapModifier.STINKYCHEESE,
-          BooleanModifier.NONSTACKABLE_WATCH,
-          BooleanModifier.NOPULL,
-          BooleanModifier.ALTERS_PAGE_TEXT,
-          BooleanModifier.BLIND,
-          BooleanModifier.BREAKABLE,
-          BooleanModifier.DROPS_ITEMS,
-          BooleanModifier.DROPS_MEAT,
-          DoubleModifier.THORNS,
-          DoubleModifier.SPORADIC_THORNS,
-          DoubleModifier.DAMAGE_AURA,
-          DoubleModifier.SPORADIC_DAMAGE_AURA,
-          DoubleModifier.LEAVES,
-          DoubleModifier.LANTERN);
 
   private static List<String> carriedOverModifiers(final int itemId) {
     var modifiers = ModifierDatabase.getItemModifiers(itemId);

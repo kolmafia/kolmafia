@@ -176,6 +176,36 @@ public class ModifierDatabase {
           ModifierType.UNBREAKABLE_UMBRELLA,
           ModifierType.PASSIVES);
 
+  public static final Set<Modifier> CARRIED_OVER =
+      Set.of(
+          MultiStringModifier.CONDITIONAL_SKILL_EQUIPPED,
+          MultiStringModifier.CONDITIONAL_SKILL_INVENTORY,
+          StringModifier.WIKI_NAME,
+          StringModifier.LAST_AVAILABLE_DATE,
+          StringModifier.RECIPE,
+          StringModifier.CLASS,
+          StringModifier.SKILL,
+          StringModifier.EQUIPS_ON,
+          BitmapModifier.BRIMSTONE,
+          BitmapModifier.CLOATHING,
+          BitmapModifier.SYNERGETIC,
+          BitmapModifier.RAVEOSITY,
+          BitmapModifier.MCHUGELARGE,
+          BitmapModifier.STINKYCHEESE,
+          BooleanModifier.NONSTACKABLE_WATCH,
+          BooleanModifier.NOPULL,
+          BooleanModifier.ALTERS_PAGE_TEXT,
+          BooleanModifier.BLIND,
+          BooleanModifier.BREAKABLE,
+          BooleanModifier.DROPS_ITEMS,
+          BooleanModifier.DROPS_MEAT,
+          DoubleModifier.THORNS,
+          DoubleModifier.SPORADIC_THORNS,
+          DoubleModifier.DAMAGE_AURA,
+          DoubleModifier.SPORADIC_DAMAGE_AURA,
+          DoubleModifier.LEAVES,
+          DoubleModifier.LANTERN);
+
   public static void ensureModifierDatabaseInitialised() {
     if (modifierTypesByName.isEmpty()) {
       initialiseModifierDatabase();
@@ -1113,12 +1143,49 @@ public class ModifierDatabase {
   }
 
   private static void overrideModifierInternal(final Lookup lookup, final Modifiers value) {
-    if (!modifierStringsByName.containsKey(lookup.type, lookup.getKey())
-        && !(lookup.type == ModifierType.GENERATED)) {
-      RequestLogger.updateSessionLog("WARNING: updated modifier not in modifiers.txt: " + lookup);
-      modifierStringsByName.put(lookup.type, lookup.getKey(), value.toString());
+    if (lookup.type == ModifierType.GENERATED) {
+      // if generated, override exactly as given
+      modifiersByName.put(lookup.type, lookup.getKey(), value);
+      return;
     }
-    modifiersByName.put(lookup.type, lookup.getKey(), value);
+    // otherwise, persist CARRIED_OVER attributes
+    var key = lookup.getKey();
+    var existing = getModifiers(lookup);
+    if (existing != null) {
+      for (var mod : CARRIED_OVER) {
+        if (mod instanceof DoubleModifier dm) {
+          var cur = existing.getNumeric(dm);
+          if (cur != 0.0) {
+            value.setDouble(dm, cur);
+          }
+        } else if (mod instanceof BooleanModifier bm) {
+          var cur = existing.getBoolean(bm);
+          if (cur) {
+            value.setBoolean(bm, cur);
+          }
+        } else if (mod instanceof BitmapModifier bm) {
+          var cur = existing.getRawBitmap(bm);
+          if (cur != 0) {
+            value.setBitmap(bm, cur);
+          }
+        } else if (mod instanceof StringModifier sm) {
+          var cur = existing.getString(sm);
+          if (!cur.isEmpty()) {
+            value.setString(sm, cur);
+          }
+        } else if (mod instanceof MultiStringModifier msm) {
+          var cur = existing.getStrings(msm);
+          if (!cur.isEmpty()) {
+            value.setStrings(msm, cur);
+          }
+        }
+      }
+    }
+    if (!modifierStringsByName.containsKey(lookup.type, key)) {
+      RequestLogger.updateSessionLog("WARNING: updated modifier not in modifiers.txt: " + lookup);
+      modifierStringsByName.put(lookup.type, key, value.toString());
+    }
+    modifiersByName.put(lookup.type, key, value);
   }
 
   public static void overrideRemoveModifier(final ModifierType type, final int key) {
