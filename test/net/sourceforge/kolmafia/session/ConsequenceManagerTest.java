@@ -11,6 +11,7 @@ import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
+import net.sourceforge.kolmafia.modifiers.MultiStringModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
@@ -247,5 +248,11 @@ public class ConsequenceManagerTest {
         ModifierDatabase.getNumericModifier(
             ModifierType.ITEM, ItemPool.KREMLIN_BRIEFCASE, DoubleModifier.ADVENTURES),
         equalTo(5.0));
+    assertThat(
+        ModifierDatabase.getStringModifier(
+            ModifierType.ITEM,
+            ItemPool.KREMLIN_BRIEFCASE,
+            MultiStringModifier.CONDITIONAL_SKILL_EQUIPPED),
+        equalTo("KGB tranquilizer dart"));
   }
 }
