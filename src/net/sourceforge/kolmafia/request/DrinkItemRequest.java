@@ -703,10 +703,7 @@ public class DrinkItemRequest extends UseItemRequest {
     }
 
     if (responseText.contains("You pour your drink into your flagellate flagon.")) {
-      Preferences.decrement("_flagonsUsed");
-      if (Preferences.getInteger("_flagonsUsed") < 1) {
-        Preferences.setBoolean("flagellateFlagonActive", false);
-      }
+      Preferences.decrement("flagellateFlagonsActive");
     }
 
     // Check for consumption helpers, which will need to be removed
