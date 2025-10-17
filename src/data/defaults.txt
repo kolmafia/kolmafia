@@ -2132,6 +2132,7 @@ user	_edLashCount	0
 user	_eldritchHorrorEvoked	false
 user	_eldritchTentacleFought	false
 user	_eldritchTentaclesFoughtToday	0
+user	_eleventRestEffectGained	false
 user	_elfGuardCookingUsed	0
 user	_elronsCasts	0
 user	_emberingHulkFought	false
@@ -2151,6 +2152,7 @@ user	_eyeAndATwistUsed	false
 user	_fancyChessSetUsed	false
 user	_falloutShelterSpaUsed	false
 user	_fancyHotDogEaten	false
+user	_faradayCageRestEffectGained	false
 user	_farmerItemsCollected	false
 user	_favoriteBirdVisited	false
 user	_favorRareSummons	0
@@ -2217,6 +2219,7 @@ user	_gingerbreadCityTurns	0
 user	_gingerbreadClockAdvanced	false
 user	_gingerbreadClockVisited	false
 user	_gingerbreadColumnDestroyed	false
+user	_gingerbreadHouseRestEffectGained	false
 user	_gingerbreadMobHitUsed	false
 user	_glarkCableUses	0
 user	_glennGoldenDiceUsed	false
@@ -2263,6 +2266,7 @@ user	_holidayMultitaskingUsed	0
 user	_holoWristCrystal	false
 user	_holoWristDrops	0
 user	_holoWristProgress	0
+user	_hoboFortRestEffectsGained	false
 user	_horsery
 user	_horseryCrazyMox
 user	_horseryCrazyMus
@@ -2445,6 +2449,7 @@ user	_mummeryMods
 user	_mummeryUses
 user	_mushroomGardenVisited	false
 user	_mushroomGardenFights	0
+user	_mushroomHouseRestEffectGained	false
 user	_nanorhinoBanishedMonster
 user	_nanorhinoCharge	100
 user	_navelRunaways	0
@@ -2537,7 +2542,9 @@ user	_prToday	false
 user	_psychoJarFilled	false
 user	_psychoJarUsed	false
 user	_psychokineticHugUsed	false
+user	_pumpkinRestEffectGained	false
 user	_punchingMirrorUsed	false
+user	_pyramidRestEffectsGained	false
 user	_questESp
 user	_questPartyFair	unstarted
 user	_questPartyFairItemsOpened	0
@@ -2556,6 +2563,7 @@ user	_replicaSnowconeTomeUsed	false
 user	_replicaResolutionLibramUsed	false
 user	_replicaSmithsTomeUsed	false
 user	_requestSandwichSucceeded	false
+user	_residenceCubeRestEffectGained	false
 user	_resolutionAdv	0
 user	_resolutionRareSummons	0
 user	_rhinestonesAcquired	false
@@ -2615,6 +2623,7 @@ user	_snojoParts	0
 user	_snokebombUsed	0
 user	_snowballFactoryUsed	false
 user	_snowconeSummons	0
+user	_snowFortRestEffectGained	false
 user	_snowglobeDrops	0
 user	_snowmanHatPlaceUsed	0
 user	_snowSuitCount	0
@@ -2704,6 +2713,7 @@ user	_timeCopsFoughtToday	0
 user	_timeSpinnerFoodAvailable
 user	_timeSpinnerMinutesUsed	0
 user	_timeSpinnerReplicatorUsed	false
+user	_tipiMiniKiwiGained	false
 user	_toastSummoned	false
 user	_tokenDrops	0
 user	_tonicDjinn	false
