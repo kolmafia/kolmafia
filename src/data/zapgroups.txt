@@ -22,7 +22,7 @@ fettucini Inconnu, linguini immondizia bianco, shells a la shellfish
 gnocchetti di Nietzsche, spaghetti with Skullheads
 asparagus stir-fry, Knob stir-fry, Knoll stir-fry, olive stir-fry, spooky stir-fry
 bat wing stir-fry, Knob sausage stir-fry, pr0n stir-fry, rat appendix stir-fry, tofu stir-fry
-long pork, displaced fish, Filet of tangy gnat ("fotelif")
+long pork, displaced fish, filet of tangy gnat (&quot;fotelif&quot;)
 margarita, martini, monkey wrench, salty dog, screwdriver, strawberry daiquiri, strawberry wine, tequila sunrise, vodka martini, whiskey and soda, whiskey sour, wine spritzer
 a little sump'm sump'm, calle de miel, ducha de oro, fuzzbump, horizontal tango, ocean motion, perpendicular hula, pink pony, rockin' wagon, roll in the hay, slap and tickle, slip 'n' slide
 bottle of gin, bottle of rum, bottle of tequila, bottle of vodka, bottle of whiskey, boxed wine
@@ -31,7 +31,7 @@ plum wine, shot of pear schnapps, shot of peach schnapps
 ice-cold fotie, ice-cold Sir Schlitz, ice-cold Willer
 bottle of Calcutta Emerald, bottle of Definit, bottle of Domesticated Turkey, bottle of Jorge Sinsonte, bottle of Lieutenant Freeman, boxed champagne
 Acqua Del Piatto Merlot, Acque Luride Grezze Cabernet, Maiali Sifilitici Pinot Noir, Uovo Marcio Shiraz
-Knob mushroom wine, Knoll mushroom wine, spooky mushroom wine
+knob mushroom wine, knoll mushroom wine, spooky mushroom wine
 cool mushroom wine, flat mushroom wine, pointy mushroom wine
 flaming mushroom wine, icy mushroom wine, stinky mushroom wine
 dusty bottle of Marsala, dusty bottle of Merlot, dusty bottle of Muscat, dusty bottle of Pinot Noir, dusty bottle of Port, dusty bottle of Zinfandel
@@ -62,7 +62,7 @@ extra-strength strongness elixir, jug-o-magicalness, suntan lotion of moxiousnes
 ant hoe, ant pick, ant pitchfork, ant rake, ant sickle
 pixel hat, pixel pants, pixel sword
 antique greaves, antique helmet, antique shield, antique spear
-can of fake snow, colored-light "necklace", tree skirt
+can of fake snow, colored-light &quot;necklace&quot;, tree skirt
 black helmet, black sword, black shield, black greaves
 bounty-hunting helmet, bounty-hunting pants, bounty-hunting rifle
 bugbear beanie, bugbear bungguard
@@ -213,7 +213,7 @@ tiny plastic Bugbear Captain, tiny plastic Rene C. Corman, tiny plastic Lord Fla
 crappy brain, decent brain, good brain
 fancy tophat, fancy tuxedo pants, fancy black tie
 bow staff, bowlegged pants, bowler
-bätzle, menudo ravioli, ratini
+b&auml;tzle, menudo ravioli, ratini
 boring spaghetti, Knob stroganoff, Knob stuffed shells
 Elf Guard patrol cap, Elf Guard hotpants
 Crimbuccaneer breeches, Crimbuccaneer tricorn

@@ -487,6 +487,18 @@ public class Modifiers {
     return this.multiStrings.set(modifier, mod == null ? List.of() : List.of(mod));
   }
 
+  public boolean setStrings(final MultiStringModifier modifier, List<String> mod) {
+    if (modifier == null) {
+      return false;
+    }
+
+    if (mod == null) {
+      mod = List.of();
+    }
+
+    return this.multiStrings.set(modifier, mod);
+  }
+
   public boolean set(final Modifiers mods) {
     if (mods == null) {
       return false;
