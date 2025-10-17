@@ -1139,6 +1139,16 @@
 7568	Sea *dent: Throw a Lightning Bolt	lightningrod.gif	combat	0	0
 7569	Sea *dent: Summon a Wave	wave.gif	nc,self	0	0
 7570	Sea *dent: Talk to Some Fish	somefish.gif	combat	1	0
+7571	BCZ: Blood Geyser	cbz_bloodgeyser.gif	combat	0	0
+7572	BCZ: Refracted Gaze	cbz_reflect.gif	combat	0	0
+7573	BCZ: Sweat Bullets	cbz_sweatbullets.gif	combat	0	0
+7574	BCZ: Blood Bath	cbz_bloodbath.gif	nc,effect,self	0	30
+7575	BCZ: Dial it up to 11	cbz_11knob.gif	nc,effect,self	0	30
+7576	BCZ: Sweat Equity	cbz_sweatequity.gif	nc,effect,self	0	30
+7577	BCZ: Create Blood Thinner	cbz_vial.gif	nc,item	0	0
+7578	BCZ: Prepare Spinal Tapas	cbz_tapasplate.gif	nc,item	0	0
+7579	BCZ: Craft a Pheromone Cocktail	cbz_booze.gif	nc,item	0	0
+7580	Mark Your Territory	hydrant.gif	combat	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.

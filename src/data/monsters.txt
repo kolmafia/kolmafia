@@ -175,7 +175,7 @@ dairy goat	83	biggoat.gif	Atk: 68 Def: 61 HP: 50 Init: 80 Meat: 50 P: beast EA: 
 dancing mushroom guy	1806	mush_dancing.gif	Atk: 20 Def: 35 HP: 20 Init: 100 P: plant Article: a	cool spore pod (0)	cool mushroom (0)
 Danglin' Chad	519	chad.gif	BOSS NOCOPY Atk: 210 Def: 189 HP: 320 Init: 80 Meat: 300 P: orc ED: sleaze EA: sleaze EA: none	Danglin' Chad's loincloth (100)	white class ring (30)	beer helmet (0)	bejeweled pledge pin (0)	distressed denim pants (0)	kick-ass kicks (0)
 decent lumberjack	233	lumberjack.gif	Atk: 35 Def: 31 HP: 35 Init: 60 Meat: 20 P: dude Article: a	poutine (30)	disbelief suspenders (10)	jack flapper (10)	manly bloomers (p15)
-decent white shark	735	whiteshark.gif	Atk: 425 Def: 337 HP: 600 Init: 150 Meat: 240 P: fish Article: a	dull fish scale (n15)	shark cartilage (c10)	shark jumper (c3)	shark tooth (n2)	shark tooth (n1)
+decent white shark	735	whiteshark.gif	Atk: 425 Def: 337 HP: 600 Init: 150 Meat: 240 P: fish Article: a	dull fish scale (n15)	shark tooth (n2)	shark jumper (c3)	shark cartilage (c10)	shark tooth (n2)
 demonic icebox	373	demfridge.gif	Atk: 21 Def: 19 HP: 21 Init: 50 Meat: 5 P: demon EA: cold EA: hot EA: stench EA: none Article: a	accidental cider (30)	ancient frozen dinner (30)	dire fudgesicle (30)	leftovers of indeterminate origin (40)	ancient meat (5)	hand grenegg (p20)
 Demoninja	126	demoninja.gif	Atk: 48 Def: 27 HP: 48 Init: 75 Meat: 50 P: demon E: hot Article: a	demon skin (15)	hot katana blade (30)	ninja hot pants (5)
 dense liana	1426	liana.gif	Atk: 144 Def: 140 HP: 150 Init: -10000 P: plant Article: a	exotic jungle fruit (50)
@@ -2150,16 +2150,16 @@ Red Roger	2134	pr_redroger.gif	BOSS NOCOPY Atk: 100 Def: 100 HP: 500 Init: -1000
 Glass Jack Hummel	2135	pr_glassjack.gif	BOSS NOCOPY Atk: 100 Def: 100 HP: 200 Init: 50 P: construct EA: spooky EA: none
 
 # Cargo Cultist Shorts (Sep 2020)
-Astrologer of Shub-Jigguwatt	2200	ccs_astrologer.gif	BOSS FREE NOCOPY Scale: 15 Init: -10000 P: constellation Phys: 100 E: sleaze Article: an	star chart (n100)	star (n30)	star (n10)	line (n30)	line (n10)
-Burning Daughter	2196	ccs_daughter.gif	BOSS FREE NOCOPY Scale: 15 Init: -10000 P: elemental Phys: 100 E: hot Article: a	fire (n100)	fire (n100)	flame orb (n100)
-Chosen of Yog-Urt	2199	ccs_disciple.gif	BOSS FREE NOCOPY Scale: 15 Init: -10000 P: horror Phys: 100 E: stench Article: a	bowl of cottage cheese (n100)	bowl of cottage cheese (n100)	bowl of cottage cheese (n25)	bowl of cottage cheese (n10)	bowl of cottage cheese (n5)	glass of goat's milk (n100)	glass of goat's milk (n100)	milk of magnesium (n10)	Hatorade (n20)
-Herald of Fridgr	2197	ccs_herald.gif	BOSS FREE NOCOPY Scale: 15 Init: -10000 P: dude Phys: 100 E: cold Article: a	cold wad (n100)	cold nuggets (n100)	cold nuggets (n100)	cold powder (n25)	cold powder (n25)	cold powder (n25)	cold powder (n25)
-Tentacle of Sssshhsssblllrrggghsssssggggrrgglsssshhssslblgl	2198	ccs_tentacle.gif	BOSS FREE NOCOPY Scale: 15 Init: -10000 P: horror Phys: 100 E: spooky Article: a	eldritch effluvium (20)	eldritch effluvium (10)	eldritch effluvium (1)
+Astrologer of Shub-Jigguwatt	2200	ccs_astrologer.gif	BOSS FREE NOCOPY Scale: 15 Init: -10000 P: constellation Phys: 100 ElemHot: 100 ElemSpooky: 100 ElemStench: 100 ElemSleaze: 100 E: sleaze Article: an	star chart (n100)	star (n30)	star (n10)	line (n30)	line (n10)
+Burning Daughter	2196	ccs_daughter.gif	BOSS FREE NOCOPY Scale: 15 Init: -10000 P: elemental Phys: 100 ElemHot: 100 ElemCold: 100 ElemSpooky: 100 ElemSleaze: 100 E: hot Article: a	fire (n100)	fire (n100)	flame orb (n100)
+Chosen of Yog-Urt	2199	ccs_disciple.gif	BOSS FREE NOCOPY Scale: 15 Init: -10000 P: horror Phys: 100 ElemHot: 100 ElemCold: 100 ElemSpooky: 100 ElemStench: 100 E: stench Article: a	bowl of cottage cheese (n100)	bowl of cottage cheese (n100)	bowl of cottage cheese (n25)	bowl of cottage cheese (n10)	bowl of cottage cheese (n5)	glass of goat's milk (n100)	glass of goat's milk (n100)	milk of magnesium (n10)	Hatorade (n20)
+Herald of Fridgr	2197	ccs_herald.gif	BOSS FREE NOCOPY Scale: 15 Init: -10000 P: dude Phys: 100 ElemHot: 100 ElemCold: 100 ElemSleaze: 100 ElemStench: 100 E: cold Article: a	cold wad (n100)	cold nuggets (n100)	cold nuggets (n100)	cold powder (n25)	cold powder (n25)	cold powder (n25)	cold powder (n25)
+Tentacle of Sssshhsssblllrrggghsssssggggrrgglsssshhssslblgl	2198	ccs_tentacle.gif	BOSS FREE NOCOPY Scale: 15 Init: -10000 P: horror Phys: 100 ElemCold: 100 ElemSpooky: 100 ElemSleaze: 100 ElemStench: 100 E: spooky Article: a	eldritch effluvium (20)	eldritch effluvium (10)	eldritch effluvium (1)
 
 # Oliver's Place (Nov 2022)
 gator-human hybrid	2249	olivers_gator.gif	Atk: 70 Def: 50 HP: 60 Init: 80 P: beast Article: a	drink chit (15)	swamp haunch (20)	gator shades (5)
 gangster's moll	2250	olivers_moll.gif	Atk: 70 Def: 60 HP: 40 Init: 100 P: dude Article: a EA: spooky EA: none	drink chit (15)	drink chit (15)	bullet necklace (c0.2)
-traveling hobo	2251	olivers_hobo.gif	Atk: 50 Def: 50 HP: 50 Init: -10000 P: hobo Article: a	drink chit (15)	booze bindle (20)	rare oboe (c0.2)
+traveling hobo	2251	olivers_hobo.gif	Atk: 50 Def: 50 HP: 50 Init: -10000 P: hobo ElemSpooky: 100 Article: a	drink chit (15)	booze bindle (20)	rare oboe (c0.2)
 goblin flapper	2252	olivers_gob.gif	Atk: 40 Def: 40 HP: 100 Init: 40 P: goblin EA: sleaze EA: none	drink chit (15)	imported taffy (20)	Charleston shoes (c0.2)
 undercover prohibition agent	2253	olivers_prohie.gif	Atk: 60 Def: 60 HP: 70 Init: 50 P: dude Article: an	government per-diem (20)	prohie's hat (c0.2)
 
@@ -2389,7 +2389,7 @@ clerical robot	2404	jetcleric.gif	Scale: 3 Cap: 1000 Init: -10000 P: construct	a
 flailing flagellate	2449	bacterium.gif	Scale: ? Cap: 1000 Floor: ? Init: 100 P: bug EA: stench Article: a	protogenetic chunklet (flagellum) (c0)	flagellate flagon (f0.1)
 herd of archaea	2451	archaea.gif	Scale: ? Cap: 1000 Floor: ? Init: 75 P: beast EA: stench EA: sleaze Article: a	protogenetic chunklet (elbow) (c0)
 messenger RNA	2448	mrna.gif	Scale: ? Cap: 1000 Floor: ? Init: 50 P: weird EA: hot Article: a	protogenetic chunklet (synapse) (c0)	messenger bag RNA (f0.1)
-proto-protozoa	2450	protozoa.gif	Scale: ? Cap: 1000 Floor: ? Init: -10000 P: slime EA: stench EA: sleaze Article: a	protogenetic chunklet (lips) (c0)	proto-proto-protozoa (f0.1)
+proto-protozoa	2450	protozoa.gif	Scale: ? Cap: 1000 Floor: ? Init: -10000 P: slime EA: stench EA: sleaze ElemStench: 100 ElemSleaze: 100 Article: a	protogenetic chunklet (lips) (c0)	proto-proto-protozoa (f0.1)
 yeast gang	2452	yeast.gif	Scale: ? Cap: 1000 Floor: ? Init: 100 P: plant Article: a	protogenetic chunklet (muscle) (c0)	fermenting powder (100)	fermenting powder (10)
 
 # Twitch 11 - Skeleton War (July 2025)
@@ -2663,8 +2663,8 @@ four-shadowed mime	1164	mime.gif	Scale: -3 Cap: 50 Floor: 3 Init: -10000 P: horr
 # A Smoldering Fortress (June 2012)
 brushfire	1208	brushfire.gif	NOCOPY NOMANUEL EA: hot EA: none
 blazing bat	1210	firebat.gif	Atk: 200 Def: 180 HP: 500 Init: 50 P: beast Phys: 100 E: hot Article: a	fiery wing (5)
-snakefire in the grassfire	1209	firesnake.gif	NOCOPY NOMANUEL P: beast SNAKE EA: hot EA: none	smoking grass (10)	hot egg (c0.1)
-Servant of Lord Flameface	1211	fireservant1.gif,fireservant2.gif,fireservant3.gif,fireservant4.gif,fireservant5.gif	Atk: 100 Def: 90 HP: 150 Init: 50 P: demon Phys: 100 E: hot Wiki: "Servant of Lord Flameface (monster)"	molten brick (c5)
+snakefire in the grassfire	1209	firesnake.gif	NOCOPY NOMANUEL P: beast SNAKE ElemHot: 100 ElemStench: 100 ElemSpooky: 100 ElemSleaze: 100 Phys: 100 EA: hot EA: none	smoking grass (10)	hot egg (f0.1)
+Servant of Lord Flameface	1211	fireservant1.gif,fireservant2.gif,fireservant3.gif,fireservant4.gif,fireservant5.gif	Atk: 100 Def: 90 HP: 150 Init: 50 P: demon Phys: 100 ElemHot: 100 ElemSpooky: 100 ElemStench: 100 ElemSleaze: 100 E: hot Wiki: "Servant of Lord Flameface (monster)"	molten brick (c5)
 Lord Flameface	1212	lordflameface.gif	BOSS NOCOPY NOMANUEL Atk: 250 Def: 75 HP: 2000 Init: 0 P: goblin Phys: 100 E: hot	blank note (n100)	3 forbidden sausage (m100)	Lord Flameface's cloak (n100)
 
 # Crimbo Town Toy Factory (Crimbo 2012)

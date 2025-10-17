@@ -3036,3 +3036,14 @@
 3033	Sea Smarts	realbrain.gif	26af2aa4e3c3e5daf377352c48c5756c	good	none	use 1 scroll of sea smarts
 3034	Sea Smarm	wink.gif	b69233800ea1cf6af14e7ac88d7532b4	good	none	use 1 scroll of sea smarm
 3035	Inkily Obscured	inkcloud.gif	ca66df45ac7a71194f3f2881c72ed2ef	neutral	none	use 1 octopus ink bladder
+3036
+3037
+3038
+3039
+3040
+3041
+3042	Bloodbathed	cbz_bloodbath.gif	07ff05023d13d356f8941e35e27e0288	neutral	none	cast 1 BCZ: Blood Bath
+3043	Up To 11	cbz_11knob.gif	4bdc6a780d86aeb1310cc5a973db5e6f	neutral	none	cast 1 BCZ: Dial it up to 11
+3044	Sweat Equity	cbz_sweatequity.gif	9cf1083b396c3af873f54509b647ae90	neutral	none	cast 1 BCZ: Sweat Equity
+3045	Really Thin Blood	cbz_vial.gif	4efeb52fce11f4817853414434939a59	neutral	none	chew 1 blood thinner
+3046	Tapased Out	cbz_tapasplate.gif	5c8500f690d5918ea2e7ca82c8d58ad3	neutral	none	eat 1 spinal tapas

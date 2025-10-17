@@ -9971,6 +9971,12 @@ public class FightRequest extends GenericRequest {
           BanishManager.banishMonster(monster, Banisher.SEADENT_LIGHTNING);
         }
       }
+      case SkillPool.MARK_YOUR_TERRITORY -> {
+        if (responseText.contains("spew a heaping helping of your pheromones") || skillSuccess) {
+          BanishManager.banishMonster(monster, Banisher.MARK_YOUR_TERRITORY);
+          Preferences.decrement("markYourTerritoryCharges");
+        }
+      }
       case SkillPool.POCKET_CRUMBS -> {
         if (responseText.contains("pocket next to the crumbs")) {
           // No casting limit, can drop items up to 10 times a day
@@ -10862,6 +10868,30 @@ public class FightRequest extends GenericRequest {
         if (responseText.contains("absorb all the photons") || skillSuccess) {
           Preferences.decrement("phosphorTracesUses");
           Preferences.setString("_chainedAfterimageMonster", monsterName);
+        }
+      }
+      case SkillPool.BCZ__BLOOD_GEYSER -> {
+        if (responseText.contains("shoot blood out of your fingers")
+            || responseText.contains("flow of blood geysers")
+            || responseText.contains("shoot a stream of blood")
+            || skillSuccess) {
+          Preferences.increment("_bczBloodGeyserCasts");
+        }
+      }
+      case SkillPool.BCZ__REFRACTED_GAZE -> {
+        if (responseText.contains("give yourself a spinal tap")
+            || responseText.contains("stab yourself in the spine")
+            || responseText.contains("tap your spinal fluid")
+            || skillSuccess) {
+          Preferences.increment("_bczRefractedGazeCasts");
+        }
+      }
+      case SkillPool.BCZ__SWEAT_BULLETS -> {
+        if (responseText.contains("sweat literal bullets")
+            || responseText.contains("fire off some sweat bullets")
+            || responseText.contains("fire sweat bullets")
+            || skillSuccess) {
+          Preferences.increment("_bczSweatBulletsCasts");
         }
       }
 

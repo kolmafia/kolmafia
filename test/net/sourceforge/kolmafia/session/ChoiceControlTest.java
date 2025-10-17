@@ -1731,10 +1731,12 @@ class ChoiceControlTest {
     var cleanups =
         new Cleanups(
             withProperty("_seadentWaveZone"),
+            withProperty("_seadentWaveUsed"),
             withPostChoice2(1566, 1, html("request/test_choice_summon_waves.html")));
 
     try (cleanups) {
       assertThat("_seadentWaveZone", isSetTo("Barf Mountain"));
+      assertThat("_seadentWaveUsed", isSetTo(true));
     }
   }
 }
