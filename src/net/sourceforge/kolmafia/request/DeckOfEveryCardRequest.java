@@ -261,15 +261,17 @@ public class DeckOfEveryCardRequest extends GenericRequest {
 
     int deckUsed;
 
-    if (InventoryManager.retrieveItem(ItemPool.DECK_OF_EVERY_CARD, 1, true)) {
-      deckUsed = ItemPool.DECK_OF_EVERY_CARD;
-    } else if (KoLCharacter.inLegacyOfLoathing()
+    if (KoLCharacter.inLegacyOfLoathing()
         && InventoryManager.retrieveItem(ItemPool.REPLICA_DECK_OF_EVERY_CARD, 1, true)) {
       deckUsed = ItemPool.REPLICA_DECK_OF_EVERY_CARD;
     } else {
-      // If you can't get a deck into inventory, punt
-      KoLmafia.updateDisplay(MafiaState.ERROR, "You don't have a Deck of Every Card available");
-      return;
+      if (InventoryManager.retrieveItem(ItemPool.DECK_OF_EVERY_CARD, 1, true)) {
+        deckUsed = ItemPool.DECK_OF_EVERY_CARD;
+      } else {
+        // If you can't get a deck into inventory, punt
+        KoLmafia.updateDisplay(MafiaState.ERROR, "You don't have a Deck of Every Card available");
+        return;
+      }
     }
 
     // If you've used up your draws for the day, punt
