@@ -2266,7 +2266,7 @@ user	_holidayMultitaskingUsed	0
 user	_holoWristCrystal	false
 user	_holoWristDrops	0
 user	_holoWristProgress	0
-user	_hoboFortRestEffectsGained	false
+user	_hoboFortRestEffectsGained	0
 user	_horsery
 user	_horseryCrazyMox
 user	_horseryCrazyMus
@@ -2544,7 +2544,7 @@ user	_psychoJarUsed	false
 user	_psychokineticHugUsed	false
 user	_pumpkinRestEffectGained	false
 user	_punchingMirrorUsed	false
-user	_pyramidRestEffectsGained	false
+user	_pyramidRestEffectsGained	0
 user	_questESp
 user	_questPartyFair	unstarted
 user	_questPartyFairItemsOpened	0
