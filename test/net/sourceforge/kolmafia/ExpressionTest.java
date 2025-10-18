@@ -34,6 +34,15 @@ public class ExpressionTest {
     assertEquals(Double.parseDouble(expected), exp.eval());
   }
 
+  @Test
+  public void canParseSmallNumericLiterals() {
+    for (int i = -32768; i < 32768; ++i) {
+      String s = String.valueOf(i);
+      var exp = new Expression(s, s);
+      assertEquals(i, exp.eval());
+    }
+  }
+
   @ParameterizedTest
   @ValueSource(strings = {"1/0", "-4^0.5", "999^999", "sqrt(-1)"})
   public void invalidArithmeticReturnsZero(String invalidExpr) {
