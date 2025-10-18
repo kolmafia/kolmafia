@@ -83,11 +83,6 @@ public class Expression {
     this.bytecode = this.validBytecodes().toCharArray();
     Arrays.sort(this.bytecode);
     String compiled = this.expr() + "r";
-    // if ( name.length() > 0 && name.equalsIgnoreCase(
-    //	Preferences.getString( "debugEval" ) ) )
-    // {
-    //	compiled = compiled.replaceAll( ".", "?$0" );
-    // }
     this.bytecode = compiled.toCharArray();
     if (!this.text.isEmpty()) {
       StringBuilder buf = this.newError();
@@ -130,40 +125,6 @@ public class Expression {
     while (true) {
       char inst = this.bytecode[pc++];
       switch (inst) {
-          // 			case '?':	// temporary instrumentation
-          // 				KoLmafia.updateDisplay( "\u2326 Eval " + this.name + " from " +
-          // 					Thread.currentThread().getName() );
-          // 				StringBuffer b = new StringBuffer();
-          // 				if ( pc == 1 )
-          // 				{
-          // 					b.append( "\u2326 Bytecode=" );
-          // 					b.append( this.bytecode );
-          // 					for ( int i = 1; i < this.bytecode.length; i += 2 )
-          // 					{
-          // 						b.append( ' ' );
-          // 						b.append( Integer.toHexString( this.bytecode[ i ] ) );
-          // 					}
-          // 					KoLmafia.updateDisplay( b.toString() );
-          // 					b.setLength( 0 );
-          // 				}
-          // 				b.append( "\u2326 PC=" );
-          // 				b.append( pc );
-          // 				b.append( " Stack=" );
-          // 				if ( sp < 0 )
-          // 				{
-          // 					b.append( sp );
-          // 				}
-          // 				else
-          // 				{
-          // 					for ( int i = 0; i < sp && i < INITIAL_STACK; ++i )
-          // 					{
-          // 						b.append( ' ' );
-          // 						b.append( s[ i ] );
-          // 					}
-          // 				}
-          // 				KoLmafia.updateDisplay( b.toString() );
-          // 				continue;
-
         case 'r' -> {
           v = s[--sp];
           stackFactory(s); // recycle this stack
@@ -686,7 +647,7 @@ public class Expression {
     if (m.matches()) {
       double v = Double.parseDouble(m.group(1));
       this.text = m.group(2);
-      if (v % 1.0 == 0.0 && v >= -0x7F00 && v < 0x8000) {
+      if (v % 1.0 == 0.0 && v >= -0x7F00 && v < 0x8000 && doesNotCollide((int) v)) {
         return String.valueOf((char) ((int) v + 0x8000));
       } else {
         return this.literal(v, '#');
@@ -701,6 +662,20 @@ public class Expression {
     buf.append(this.text);
     this.text = "";
     return "\u8000";
+  }
+
+  // Nominally, we reserve the ASCII range for expression symbols, then map [-32512, 32767) onto the
+  // char space to compress the resulting expression. However, we use a few other special characters
+  // to express mathematical operations, and so these values should also be considered ineligible
+  // for the compressed integer representation.
+  private boolean doesNotCollide(int v) {
+    switch (v + 0x8000) {
+      case '≤':
+      case '≥':
+      case '≠':
+        return false;
+    }
+    return true;
   }
 
   protected String function() {
