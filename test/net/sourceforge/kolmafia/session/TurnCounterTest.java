@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.session;
 
+import static internal.helpers.Player.withAdjustmentsRecalculated;
 import static internal.helpers.Player.withContinuationState;
 import static internal.helpers.Player.withCounter;
 import static internal.helpers.Player.withEffect;
@@ -464,6 +465,7 @@ public class TurnCounterTest {
       //
       // place.php?whichplace=falloutshelter&action=vault1
 
+      @Nested
       class Campground {
         public void testRest(boolean rest, int turns) {
           // Automation
@@ -484,7 +486,7 @@ public class TurnCounterTest {
 
         @Test
         public void thatNonRestsTakeNoTurns() {
-          var cleanups = new Cleanups(withSkill("Disco Nap"), withProperty("timesRested", 0));
+          var cleanups = new Cleanups(withSkill("Disco Nap"), withProperty("timesRested", 0), withAdjustmentsRecalculated());
           try (cleanups) {
             testRest(false, 0);
           }
@@ -492,7 +494,7 @@ public class TurnCounterTest {
 
         @Test
         public void thatFreeRestsTakeNoTurns() {
-          var cleanups = new Cleanups(withSkill("Disco Nap"), withProperty("timesRested", 0));
+          var cleanups = new Cleanups(withSkill("Disco Nap"), withProperty("timesRested", 0), withAdjustmentsRecalculated());
           try (cleanups) {
             testRest(true, 0);
           }
@@ -500,13 +502,14 @@ public class TurnCounterTest {
 
         @Test
         public void thatNonFreeRestsTakeOneTurns() {
-          var cleanups = new Cleanups(withSkill("Disco Nap"), withProperty("timesRested", 1));
+          var cleanups = new Cleanups(withSkill("Disco Nap"), withProperty("timesRested", 1), withAdjustmentsRecalculated());
           try (cleanups) {
             testRest(true, 1);
           }
         }
       }
 
+      @Nested
       class Chateau {
         public void testRest(boolean rest, int turns) {
           // Automation
@@ -527,7 +530,7 @@ public class TurnCounterTest {
 
         @Test
         public void thatNonRestsTakeNoTurns() {
-          var cleanups = new Cleanups(withSkill("Disco Nap"), withProperty("timesRested", 0));
+          var cleanups = new Cleanups(withSkill("Disco Nap"), withProperty("timesRested", 0), withAdjustmentsRecalculated());
           try (cleanups) {
             testRest(false, 0);
           }
@@ -535,7 +538,7 @@ public class TurnCounterTest {
 
         @Test
         public void thatFreeRestsTakeNoTurns() {
-          var cleanups = new Cleanups(withSkill("Disco Nap"), withProperty("timesRested", 0));
+          var cleanups = new Cleanups(withSkill("Disco Nap"), withProperty("timesRested", 0), withAdjustmentsRecalculated());
           try (cleanups) {
             testRest(true, 0);
           }
@@ -543,13 +546,14 @@ public class TurnCounterTest {
 
         @Test
         public void thatNonFreeRestsTakeOneTurns() {
-          var cleanups = new Cleanups(withSkill("Disco Nap"), withProperty("timesRested", 1));
+          var cleanups = new Cleanups(withSkill("Disco Nap"), withProperty("timesRested", 1), withAdjustmentsRecalculated());
           try (cleanups) {
             testRest(true, 1);
           }
         }
       }
 
+      @Nested
       class CampAway {
         public void testRest(boolean rest, int turns) {
           // Automation
@@ -570,7 +574,7 @@ public class TurnCounterTest {
 
         @Test
         public void thatNonRestsTakeNoTurns() {
-          var cleanups = new Cleanups(withSkill("Disco Nap"), withProperty("timesRested", 0));
+          var cleanups = new Cleanups(withSkill("Disco Nap"), withProperty("timesRested", 0), withAdjustmentsRecalculated());
           try (cleanups) {
             testRest(false, 0);
           }
@@ -578,7 +582,7 @@ public class TurnCounterTest {
 
         @Test
         public void thatFreeRestsTakeNoTurns() {
-          var cleanups = new Cleanups(withSkill("Disco Nap"), withProperty("timesRested", 0));
+          var cleanups = new Cleanups(withSkill("Disco Nap"), withProperty("timesRested", 0), withAdjustmentsRecalculated());
           try (cleanups) {
             testRest(true, 0);
           }
@@ -586,13 +590,14 @@ public class TurnCounterTest {
 
         @Test
         public void thatNonFreeRestsTakeOneTurns() {
-          var cleanups = new Cleanups(withSkill("Disco Nap"), withProperty("timesRested", 1));
+          var cleanups = new Cleanups(withSkill("Disco Nap"), withProperty("timesRested", 1), withAdjustmentsRecalculated());
           try (cleanups) {
             testRest(true, 1);
           }
         }
       }
 
+      @Nested
       class FalloutShelter {
         public void testRest(boolean rest, int turns) {
           // Automation
@@ -602,7 +607,7 @@ public class TurnCounterTest {
 
           // Relay Browser
           var relay = new RelayRequest(false);
-          String url = "place.php?whichplace=campaway&action=" + action;
+          String url = "place.php?whichplace=falloutshelter&action=" + action;
           relay.constructURLString(url);
           assertEquals(turns, TurnCounter.getTurnsUsed(relay));
 
@@ -613,7 +618,7 @@ public class TurnCounterTest {
 
         @Test
         public void thatNonRestsTakeNoTurns() {
-          var cleanups = new Cleanups(withSkill("Disco Nap"), withProperty("timesRested", 0));
+          var cleanups = new Cleanups(withSkill("Disco Nap"), withProperty("timesRested", 0), withAdjustmentsRecalculated());
           try (cleanups) {
             testRest(false, 0);
           }
@@ -621,7 +626,7 @@ public class TurnCounterTest {
 
         @Test
         public void thatFreeRestsNotAvailable() {
-          var cleanups = new Cleanups(withSkill("Disco Nap"), withProperty("timesRested", 0));
+          var cleanups = new Cleanups(withSkill("Disco Nap"), withProperty("timesRested", 0), withAdjustmentsRecalculated());
           try (cleanups) {
             testRest(true, 1);
           }
@@ -629,7 +634,7 @@ public class TurnCounterTest {
 
         @Test
         public void thatNonFreeRestsTakeOneTurns() {
-          var cleanups = new Cleanups(withSkill("Disco Nap"), withProperty("timesRested", 1));
+          var cleanups = new Cleanups(withSkill("Disco Nap"), withProperty("timesRested", 1), withAdjustmentsRecalculated());
           try (cleanups) {
             testRest(true, 1);
           }
