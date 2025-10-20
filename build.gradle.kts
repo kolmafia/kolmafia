@@ -72,14 +72,10 @@ dependencies {
 
   testImplementation("org.hamcrest:hamcrest:3.0")
   testImplementation("com.spotify:hamcrest-optional:1.3.2")
-  testImplementation("org.junit.jupiter:junit-jupiter-api:5.11.0")
-  testImplementation("org.junit.jupiter:junit-jupiter-params:5.11.0")
-  testImplementation("org.mockito:mockito-core:5.20.0")
-  testImplementation("org.eclipse.xtext:org.eclipse.xtext.xbase.lib:2.41.0.M1") {
   testImplementation("org.junit.jupiter:junit-jupiter-api:5.14.0")
   testImplementation("org.junit.jupiter:junit-jupiter-params:5.14.0")
-  testImplementation("org.mockito:mockito-core:5.13.0")
-  testImplementation("org.eclipse.xtext:org.eclipse.xtext.xbase.lib:2.36.0") {
+  testImplementation("org.mockito:mockito-core:5.20.0")
+  testImplementation("org.eclipse.xtext:org.eclipse.xtext.xbase.lib:2.41.0.M1") {
     because("assertion errors including Location/Range/Position need it")
   }
   testImplementation("org.junit-pioneer:junit-pioneer:2.3.0")
