@@ -486,7 +486,11 @@ public class TurnCounterTest {
 
         @Test
         public void thatNonRestsTakeNoTurns() {
-          var cleanups = new Cleanups(withSkill("Disco Nap"), withProperty("timesRested", 0), withAdjustmentsRecalculated());
+          var cleanups =
+              new Cleanups(
+                  withSkill("Disco Nap"),
+                  withProperty("timesRested", 0),
+                  withAdjustmentsRecalculated());
           try (cleanups) {
             testRest(false, 0);
           }
@@ -494,7 +498,11 @@ public class TurnCounterTest {
 
         @Test
         public void thatFreeRestsTakeNoTurns() {
-          var cleanups = new Cleanups(withSkill("Disco Nap"), withProperty("timesRested", 0), withAdjustmentsRecalculated());
+          var cleanups =
+              new Cleanups(
+                  withSkill("Disco Nap"),
+                  withProperty("timesRested", 0),
+                  withAdjustmentsRecalculated());
           try (cleanups) {
             testRest(true, 0);
           }
@@ -502,7 +510,11 @@ public class TurnCounterTest {
 
         @Test
         public void thatNonFreeRestsTakeOneTurns() {
-          var cleanups = new Cleanups(withSkill("Disco Nap"), withProperty("timesRested", 1), withAdjustmentsRecalculated());
+          var cleanups =
+              new Cleanups(
+                  withSkill("Disco Nap"),
+                  withProperty("timesRested", 1),
+                  withAdjustmentsRecalculated());
           try (cleanups) {
             testRest(true, 1);
           }
@@ -530,7 +542,11 @@ public class TurnCounterTest {
 
         @Test
         public void thatNonRestsTakeNoTurns() {
-          var cleanups = new Cleanups(withSkill("Disco Nap"), withProperty("timesRested", 0), withAdjustmentsRecalculated());
+          var cleanups =
+              new Cleanups(
+                  withSkill("Disco Nap"),
+                  withProperty("timesRested", 0),
+                  withAdjustmentsRecalculated());
           try (cleanups) {
             testRest(false, 0);
           }
@@ -538,7 +554,11 @@ public class TurnCounterTest {
 
         @Test
         public void thatFreeRestsTakeNoTurns() {
-          var cleanups = new Cleanups(withSkill("Disco Nap"), withProperty("timesRested", 0), withAdjustmentsRecalculated());
+          var cleanups =
+              new Cleanups(
+                  withSkill("Disco Nap"),
+                  withProperty("timesRested", 0),
+                  withAdjustmentsRecalculated());
           try (cleanups) {
             testRest(true, 0);
           }
@@ -546,7 +566,11 @@ public class TurnCounterTest {
 
         @Test
         public void thatNonFreeRestsTakeOneTurns() {
-          var cleanups = new Cleanups(withSkill("Disco Nap"), withProperty("timesRested", 1), withAdjustmentsRecalculated());
+          var cleanups =
+              new Cleanups(
+                  withSkill("Disco Nap"),
+                  withProperty("timesRested", 1),
+                  withAdjustmentsRecalculated());
           try (cleanups) {
             testRest(true, 1);
           }
@@ -574,7 +598,11 @@ public class TurnCounterTest {
 
         @Test
         public void thatNonRestsTakeNoTurns() {
-          var cleanups = new Cleanups(withSkill("Disco Nap"), withProperty("timesRested", 0), withAdjustmentsRecalculated());
+          var cleanups =
+              new Cleanups(
+                  withSkill("Disco Nap"),
+                  withProperty("timesRested", 0),
+                  withAdjustmentsRecalculated());
           try (cleanups) {
             testRest(false, 0);
           }
@@ -582,7 +610,11 @@ public class TurnCounterTest {
 
         @Test
         public void thatFreeRestsTakeNoTurns() {
-          var cleanups = new Cleanups(withSkill("Disco Nap"), withProperty("timesRested", 0), withAdjustmentsRecalculated());
+          var cleanups =
+              new Cleanups(
+                  withSkill("Disco Nap"),
+                  withProperty("timesRested", 0),
+                  withAdjustmentsRecalculated());
           try (cleanups) {
             testRest(true, 0);
           }
@@ -590,7 +622,11 @@ public class TurnCounterTest {
 
         @Test
         public void thatNonFreeRestsTakeOneTurns() {
-          var cleanups = new Cleanups(withSkill("Disco Nap"), withProperty("timesRested", 1), withAdjustmentsRecalculated());
+          var cleanups =
+              new Cleanups(
+                  withSkill("Disco Nap"),
+                  withProperty("timesRested", 1),
+                  withAdjustmentsRecalculated());
           try (cleanups) {
             testRest(true, 1);
           }
@@ -618,7 +654,11 @@ public class TurnCounterTest {
 
         @Test
         public void thatNonRestsTakeNoTurns() {
-          var cleanups = new Cleanups(withSkill("Disco Nap"), withProperty("timesRested", 0), withAdjustmentsRecalculated());
+          var cleanups =
+              new Cleanups(
+                  withSkill("Disco Nap"),
+                  withProperty("timesRested", 0),
+                  withAdjustmentsRecalculated());
           try (cleanups) {
             testRest(false, 0);
           }
@@ -626,7 +666,11 @@ public class TurnCounterTest {
 
         @Test
         public void thatFreeRestsNotAvailable() {
-          var cleanups = new Cleanups(withSkill("Disco Nap"), withProperty("timesRested", 0), withAdjustmentsRecalculated());
+          var cleanups =
+              new Cleanups(
+                  withSkill("Disco Nap"),
+                  withProperty("timesRested", 0),
+                  withAdjustmentsRecalculated());
           try (cleanups) {
             testRest(true, 1);
           }
@@ -634,7 +678,11 @@ public class TurnCounterTest {
 
         @Test
         public void thatNonFreeRestsTakeOneTurns() {
-          var cleanups = new Cleanups(withSkill("Disco Nap"), withProperty("timesRested", 1), withAdjustmentsRecalculated());
+          var cleanups =
+              new Cleanups(
+                  withSkill("Disco Nap"),
+                  withProperty("timesRested", 1),
+                  withAdjustmentsRecalculated());
           try (cleanups) {
             testRest(true, 1);
           }
