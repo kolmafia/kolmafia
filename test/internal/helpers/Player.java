@@ -6,6 +6,7 @@ import internal.network.FakeHttpResponse;
 import java.io.File;
 import java.io.IOException;
 import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.time.LocalDateTime;
@@ -18,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.BiConsumer;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionClass;
@@ -1430,8 +1432,8 @@ public class Player {
   /**
    * Sets the player's pvp attacks left
    *
-   * @param fullness Desired fullness
-   * @return Resets fullness to previous value
+   * @param attacks Desired attacks
+   * @return Resets attacks to previous value
    */
   public static Cleanups withAttacksLeft(final int attacks) {
     var old = KoLCharacter.getAttacksLeft();
@@ -2125,9 +2127,32 @@ public class Player {
     GenericRequest.resetClient();
     GenericRequest.sessionId = "TEST"; // we fake the client, so "run" the requests
 
-    for (var entry : responseMap.entrySet()) {
-      builder.client.addResponse(entry.getKey(), entry.getValue());
-    }
+    builder.client.setResponseFunc(r -> responseMap.get(r.uri().toString()));
+
+    return new Cleanups(
+        () -> {
+          GenericRequest.sessionId = null;
+          HttpUtilities.setClientBuilder(() -> old);
+          GenericRequest.resetClient();
+        });
+  }
+
+  /**
+   * Sets next response to a GenericRequest Note that this uses its own FakeHttpClientBuilder so
+   * getRequests() will not work on one set separately
+   *
+   * @param responseFunc Function returning responses, keyed by request.
+   * @return Cleans up so this response is not given afterwards.
+   */
+  public static Cleanups withResponseFunc(
+      final Function<HttpRequest, FakeHttpResponse<String>> responseFunc) {
+    var old = HttpUtilities.getClientBuilder();
+    var builder = new FakeHttpClientBuilder();
+    HttpUtilities.setClientBuilder(() -> builder);
+    GenericRequest.resetClient();
+    GenericRequest.sessionId = "TEST"; // we fake the client, so "run" the requests
+
+    builder.client.setResponseFunc(responseFunc);
 
     return new Cleanups(
         () -> {

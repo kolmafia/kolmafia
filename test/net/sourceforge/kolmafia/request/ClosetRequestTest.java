@@ -1,17 +1,16 @@
 package net.sourceforge.kolmafia.request;
 
+import static internal.helpers.Networking.getPostRequestBody;
 import static internal.helpers.Networking.html;
-import static internal.helpers.Player.withGender;
-import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withMeatInCloset;
 import static internal.helpers.Player.withNoItemsInCloset;
+import static internal.helpers.Player.withResponseFunc;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
 import internal.helpers.Cleanups;
-import internal.network.FakeHttpClientBuilder;
+import internal.network.FakeHttpResponse;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLCharacter.Gender;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -32,23 +31,31 @@ public class ClosetRequestTest {
 
   @Test
   void shouldRefreshCloset() {
-    var builder = new FakeHttpClientBuilder();
-    var client = builder.client;
-
     var cleanups =
         new Cleanups(
             withNoItemsInCloset(),
             withMeatInCloset(0),
-            withHttpClientBuilder(builder),
-            // skip vinyl boots lookup
-            withGender(Gender.FEMALE));
+            withResponseFunc(
+                r -> {
+                  var path = r.uri().getPath();
+                  if (path.startsWith("/closet.php")) {
+                    return new FakeHttpResponse<>(html("request/test_closet_refresh.html"));
+                  }
+                  if (path.startsWith("/api.php")) {
+                    var body = getPostRequestBody(r);
+                    // response contains charpane.php, so GenericRequest will call
+                    // api.php?what=status
+                    if (body.startsWith("what=status")) {
+                      return new FakeHttpResponse<>(html("request/test_status.json"));
+                    }
+                    if (body.startsWith("what=closet")) {
+                      return new FakeHttpResponse<>(html("request/test_api_closet.json"));
+                    }
+                  }
+                  return null;
+                }));
 
     try (cleanups) {
-      client.addResponse(200, html("request/test_closet_refresh.html"));
-      // response contains charpane.php, so GenericRequest will call api.php?what=status
-      client.addResponse(200, html("request/test_status.json"));
-      client.addResponse(200, html("request/test_api_closet.json"));
-
       ClosetRequest.refresh();
 
       assertThat(KoLCharacter.getClosetMeat(), is(100_000_000L));
