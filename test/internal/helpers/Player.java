@@ -298,6 +298,16 @@ public class Player {
   }
 
   /**
+   * Clears Closet
+   *
+   * @return Clears closet
+   */
+  public static Cleanups withNoItemsInCloset() {
+    KoLConstants.closet.clear();
+    return new Cleanups(KoLConstants.closet::clear);
+  }
+
+  /**
    * Puts the given item into the player's inventory
    *
    * @param itemName Item to give
