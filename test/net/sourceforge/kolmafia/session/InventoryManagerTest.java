@@ -9,6 +9,7 @@ import static internal.helpers.Player.withInteractivity;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withMeat;
 import static internal.helpers.Player.withNPCStoreReset;
+import static internal.helpers.Player.withNoItems;
 import static internal.helpers.Player.withProperty;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -407,6 +408,23 @@ public class InventoryManagerTest {
         assertPostRequest(
             requests.get(1), "/desc_effect.php", "whicheffect=f562dd161fe50cc22b3ab10f04e1f26a");
       }
+    }
+  }
+
+  @Test
+  void shouldReadInventoryJson() {
+    var builder = new FakeHttpClientBuilder();
+    var client = builder.client;
+
+    var cleanups = new Cleanups(withNoItems(), withHttpClientBuilder(builder));
+
+    try (cleanups) {
+      client.addResponse(200, html("request/test_api_inventory.json"));
+
+      InventoryManager.refresh();
+
+      assertThat(InventoryManager.getCount(ItemPool.WORTHLESS_TRINKET), is(25252));
+      assertThat(InventoryManager.getCount(ItemPool.WORTHLESS_GEWGAW), is(10622));
     }
   }
 }
