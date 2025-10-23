@@ -8,14 +8,11 @@ import static internal.helpers.Player.withClass;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withFamiliarInTerrariumWithItem;
-import static internal.helpers.Player.withGender;
-import static internal.helpers.Player.withGuildStoreOpen;
 import static internal.helpers.Player.withHP;
 import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withPasswordHash;
 import static internal.helpers.Player.withProperty;
-import static internal.helpers.Player.withSavePreferencesToFile;
 import static internal.helpers.Player.withStats;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -24,6 +21,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import internal.helpers.Cleanups;
 import internal.network.FakeHttpClientBuilder;
+import java.util.List;
+import java.util.Map;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -32,11 +31,6 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
-
-import java.util.List;
-import java.util.Map;
 
 class PlayCommandTest extends AbstractCommandTestBase {
   public PlayCommandTest() {
@@ -138,14 +132,18 @@ class PlayCommandTest extends AbstractCommandTestBase {
     assertTrue(output.contains("is an ambiguous card name"));
   }
 
-  // These tests increase coverage by taking a different path driven by input.  The failure is because
-  // the request is not actually run.  The cleanups are to force DeckOfEveryCardRequest to get as far as it
+  // These tests increase coverage by taking a different path driven by input.  The failure is
+  // because
+  // the request is not actually run.  The cleanups are to force DeckOfEveryCardRequest to get as
+  // far as it
   // can without a faux request.
   @Test
   public void drawRandom() {
-    var cleanups = new Cleanups(withItem(ItemPool.DECK_OF_EVERY_CARD),
-      withProperty("_deckCardsDrawn", 0),
-      withHP(123, 123, 123));
+    var cleanups =
+        new Cleanups(
+            withItem(ItemPool.DECK_OF_EVERY_CARD),
+            withProperty("_deckCardsDrawn", 0),
+            withHP(123, 123, 123));
     try (cleanups) {
       String output = execute("random");
       assertErrorState();
@@ -153,41 +151,51 @@ class PlayCommandTest extends AbstractCommandTestBase {
     }
   }
 
-    @Test
-    public void drawNamedCard() {
-      var cleanups = new Cleanups(withItem(ItemPool.DECK_OF_EVERY_CARD),
-        withProperty("_deckCardsDrawn", 0),
-        withHP(123,123,123));
-      try (cleanups) {
-        String output = execute("race");
-        assertErrorState();
-        assertTrue(output.contains("I/O error"));
-      }
+  @Test
+  public void drawNamedCard() {
+    var cleanups =
+        new Cleanups(
+            withItem(ItemPool.DECK_OF_EVERY_CARD),
+            withProperty("_deckCardsDrawn", 0),
+            withHP(123, 123, 123));
+    try (cleanups) {
+      String output = execute("race");
+      assertErrorState();
+      assertTrue(output.contains("I/O error"));
+    }
   }
+
   @Test
   public void drawSpecificStat() {
-    var cleanups = new Cleanups(withItem(ItemPool.DECK_OF_EVERY_CARD),
-      withProperty("_deckCardsDrawn", 0),
-      withHP(123, 123, 123));
+    var cleanups =
+        new Cleanups(
+            withItem(ItemPool.DECK_OF_EVERY_CARD),
+            withProperty("_deckCardsDrawn", 0),
+            withHP(123, 123, 123));
     try (cleanups) {
       String output = execute("stat myst");
       assertErrorState();
       assertTrue(output.contains("I/O error"));
     }
   }
+
   @Test
   public void drawMainStat() {
-    var cleanups = new Cleanups(withItem(ItemPool.DECK_OF_EVERY_CARD),
-      withProperty("_deckCardsDrawn", 0),
-      withHP(123, 123, 123),
-      withClass(AscensionClass.ACCORDION_THIEF));
+    var cleanups =
+        new Cleanups(
+            withItem(ItemPool.DECK_OF_EVERY_CARD),
+            withProperty("_deckCardsDrawn", 0),
+            withHP(123, 123, 123),
+            withClass(AscensionClass.ACCORDION_THIEF));
     try (cleanups) {
       String output = execute("stat main");
       assertErrorState();
       assertTrue(output.contains("I/O error"));
     }
   }
-  // This test was modified from DeckOfEveryCardRequestTest so that the run request could be triggered
+
+  // This test was modified from DeckOfEveryCardRequestTest so that the run request could be
+  // triggered
   // by the cheat command and not just by request.run()
   @Test
   public void itShouldRunAndDrawCard() {
@@ -202,28 +210,28 @@ class PlayCommandTest extends AbstractCommandTestBase {
     client.addResponse(200, html("request/cheat_5.json"));
     client.addResponse(200, html("request/cheat_6.html"));
     var cleanups =
-      new Cleanups(
-        withHttpClientBuilder(builder),
-        withStats(26238,38694, 26255 ),
-        withItem(ItemPool.DECK_OF_EVERY_CARD),
-        withEquipped(ItemPool.GOLD_CROWN),
-        withEquipped(ItemPool.GARBAGE_STICKER),
-        //withEquipped(ItemPool.CURSED_PIRATE_CUTLASS),
-        withEquipped(ItemPool.SILVER_COW_CREAMER),
-        withEquipped(ItemPool.BUDDY_BJORN),
-        withEquipped(ItemPool.DUCT_TAPE_SHIRT),
-        withEquipped(ItemPool.POODLE_SKIRT),
-        withEquipped(ItemPool.CURSED_SWASH_BUCKLE),
-        withEquipped(ItemPool.RING_OF_THE_SKELETON_LORD),
-        withEquipped(ItemPool.INCREDIBLY_DENSE_MEAT_GEM),
-        withFamiliarInTerrariumWithItem(2, ItemPool.SOLID_SHIFTING_TIME_WEIRDNESS),
-        withFamiliar(2),
-        withProperty("_deckCardsDrawn", 0),
-        withProperty("_deckCardsSeen", ""),
-        //withGender(KoLCharacter.Gender.FEMALE),
-        //withGuildStoreOpen(false),
-        withPasswordHash("frono"),
-        withAdventuresLeft(100));
+        new Cleanups(
+            withHttpClientBuilder(builder),
+            withStats(26238, 38694, 26255),
+            withItem(ItemPool.DECK_OF_EVERY_CARD),
+            withEquipped(ItemPool.GOLD_CROWN),
+            withEquipped(ItemPool.GARBAGE_STICKER),
+            // withEquipped(ItemPool.CURSED_PIRATE_CUTLASS),
+            withEquipped(ItemPool.SILVER_COW_CREAMER),
+            withEquipped(ItemPool.BUDDY_BJORN),
+            withEquipped(ItemPool.DUCT_TAPE_SHIRT),
+            withEquipped(ItemPool.POODLE_SKIRT),
+            withEquipped(ItemPool.CURSED_SWASH_BUCKLE),
+            withEquipped(ItemPool.RING_OF_THE_SKELETON_LORD),
+            withEquipped(ItemPool.INCREDIBLY_DENSE_MEAT_GEM),
+            withFamiliarInTerrariumWithItem(2, ItemPool.SOLID_SHIFTING_TIME_WEIRDNESS),
+            withFamiliar(2),
+            withProperty("_deckCardsDrawn", 0),
+            withProperty("_deckCardsSeen", ""),
+            // withGender(KoLCharacter.Gender.FEMALE),
+            // withGuildStoreOpen(false),
+            withPasswordHash("frono"),
+            withAdventuresLeft(100));
     try (cleanups) {
       String output = execute("Ancestral Recall");
       assertTrue(output.contains("play Ancestral Recall"));
@@ -233,8 +241,7 @@ class PlayCommandTest extends AbstractCommandTestBase {
       assertPostRequest(requests.get(0), "/inv_use.php", "whichitem=8382&cheat=1");
       assertGetRequest(requests.get(1), "/choice.php", "forceoption=0");
       assertPostRequest(requests.get(2), "/api.php", "what=status&for=KoLmafia");
-      assertPostRequest(
-        requests.get(3), "/desc_item.php", "whichitem=809051828");
+      assertPostRequest(requests.get(3), "/desc_item.php", "whichitem=809051828");
       assertGetRequest(requests.get(4), "/choice.php", "forceoption=0");
       assertPostRequest(requests.get(5), "/api.php", "what=status&for=KoLmafia");
       assertPostRequest(requests.get(6), "/choice.php", "whichchoice=1085&option=1");
