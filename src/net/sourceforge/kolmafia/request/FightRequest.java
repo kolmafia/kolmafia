@@ -10870,6 +10870,16 @@ public class FightRequest extends GenericRequest {
           Preferences.setString("_chainedAfterimageMonster", monsterName);
         }
       }
+      case SkillPool.BERET_BLAST -> {
+        if (responseText.contains("You focus your decades") || skillSuccess) {
+          Preferences.increment("_beretBlastUses");
+        }
+      }
+      case SkillPool.BERET_BOAST -> {
+        if (responseText.contains("You brag about your beret until") || skillSuccess) {
+          Preferences.increment("_beretBoastUses");
+        }
+      }
       case SkillPool.BCZ__BLOOD_GEYSER -> {
         if (responseText.contains("shoot blood out of your fingers")
             || responseText.contains("flow of blood geysers")
