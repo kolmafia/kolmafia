@@ -2698,6 +2698,7 @@ public class ItemPool {
   public static final int LUBE_SHOES = 8244;
   public static final int TRASH_NET = 8245;
   public static final int MASCOT_MASK = 8246;
+  public static final int GARBAGE_STICKER = 8251;
   public static final int DINSEY_GUIDE_BOOK = 8253;
   public static final int TRASH_MEMOIR_BOOK = 8254;
   public static final int DINSEY_MAINTENANCE_MANUAL = 8255;

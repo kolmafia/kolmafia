@@ -16,6 +16,7 @@ import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withPasswordHash;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withSavePreferencesToFile;
+import static internal.helpers.Player.withStats;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
@@ -28,8 +29,6 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.request.DeckOfEveryCardRequest;
-import net.sourceforge.kolmafia.request.GenericRequest;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -190,26 +189,26 @@ class PlayCommandTest extends AbstractCommandTestBase {
   }
   // This test was modified from DeckOfEveryCardRequestTest so that the run request could be triggered
   // by the cheat command and not just by request.run()
-  @ParameterizedTest
-  @CsvSource({"true, true", "true, false", "false, true", "false, false"})
-  public void itShouldRunAndUpdatePreferences(boolean useUpdate, boolean useWrite) {
-    //DeckOfEveryCardRequest.EveryCard mickey = getCardById(58);
+  @Test
+  public void itShouldRunAndDrawCard() {
     var builder = new FakeHttpClientBuilder();
     var client = builder.client;
     client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
-    client.addResponse(200, html("request/use_deck_one.html"));
-    client.addResponse(200, html("request/use_deck_two.json"));
+    client.addResponse(200, html("request/cheat_1.html"));
+    client.addResponse(200, html("request/cheat_2.json"));
     client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
-    client.addResponse(200, html("request/use_deck_three.html"));
-    client.addResponse(200, html("request/use_deck_four.json"));
-    client.addResponse(200, html("request/use_deck_five.html"));
-    client.addResponse(200, html("request/use_deck_six.json"));
+    client.addResponse(200, html("request/cheat_3.html"));
+    client.addResponse(200, html("request/cheat_4.html"));
+    client.addResponse(200, html("request/cheat_5.json"));
+    client.addResponse(200, html("request/cheat_6.html"));
     var cleanups =
       new Cleanups(
         withHttpClientBuilder(builder),
+        withStats(26238,38694, 26255 ),
         withItem(ItemPool.DECK_OF_EVERY_CARD),
         withEquipped(ItemPool.GOLD_CROWN),
-        withEquipped(ItemPool.CURSED_PIRATE_CUTLASS),
+        withEquipped(ItemPool.GARBAGE_STICKER),
+        //withEquipped(ItemPool.CURSED_PIRATE_CUTLASS),
         withEquipped(ItemPool.SILVER_COW_CREAMER),
         withEquipped(ItemPool.BUDDY_BJORN),
         withEquipped(ItemPool.DUCT_TAPE_SHIRT),
@@ -217,35 +216,31 @@ class PlayCommandTest extends AbstractCommandTestBase {
         withEquipped(ItemPool.CURSED_SWASH_BUCKLE),
         withEquipped(ItemPool.RING_OF_THE_SKELETON_LORD),
         withEquipped(ItemPool.INCREDIBLY_DENSE_MEAT_GEM),
-        withFamiliarInTerrariumWithItem(1, ItemPool.SOLID_SHIFTING_TIME_WEIRDNESS),
-        withFamiliar(1),
+        withFamiliarInTerrariumWithItem(2, ItemPool.SOLID_SHIFTING_TIME_WEIRDNESS),
+        withFamiliar(2),
         withProperty("_deckCardsDrawn", 0),
         withProperty("_deckCardsSeen", ""),
-        withGender(KoLCharacter.Gender.FEMALE),
-        withGuildStoreOpen(false),
-        withPasswordHash("cafebabe"),
-        withProperty("saveSettingsOnSet", useUpdate),
+        //withGender(KoLCharacter.Gender.FEMALE),
+        //withGuildStoreOpen(false),
+        withPasswordHash("frono"),
         withAdventuresLeft(100));
-    // Because this is a test the assumption is that saving preferences is disabled
-    if (useWrite) {
-      cleanups.add(withSavePreferencesToFile());
-    }
     try (cleanups) {
-      String output = execute("1952 Mickey Mantle");
-      //new DeckOfEveryCardRequest(mickey).run();
+      String output = execute("Ancestral Recall");
+      assertTrue(output.contains("play Ancestral Recall"));
+      assertTrue(output.contains("You acquire an item: blue mana"));
       var requests = builder.client.getRequests();
-      assertThat(requests, hasSize(8));
-      assertPostRequest(requests.get(0), "/inv_use.php", "whichitem=8382&cheat=1&pwd=cafebabe");
+      assertThat(requests, hasSize(10));
+      assertPostRequest(requests.get(0), "/inv_use.php", "whichitem=8382&cheat=1");
       assertGetRequest(requests.get(1), "/choice.php", "forceoption=0");
       assertPostRequest(requests.get(2), "/api.php", "what=status&for=KoLmafia");
       assertPostRequest(
-        requests.get(3), "/choice.php", "whichchoice=1086&option=1&which=58&pwd=cafebabe");
+        requests.get(3), "/desc_item.php", "whichitem=809051828");
       assertGetRequest(requests.get(4), "/choice.php", "forceoption=0");
       assertPostRequest(requests.get(5), "/api.php", "what=status&for=KoLmafia");
-      assertPostRequest(requests.get(6), "/choice.php", "whichchoice=1085&option=1&pwd=cafebabe");
+      assertPostRequest(requests.get(6), "/choice.php", "whichchoice=1085&option=1");
       assertPostRequest(requests.get(7), "/api.php", "what=status&for=KoLmafia");
       assertThat("_deckCardsDrawn", isSetTo(5));
-      assertThat("_deckCardsSeen", isSetTo("1952 Mickey Mantle"));
+      assertThat("_deckCardsSeen", isSetTo("Ancestral Recall"));
     }
   }
 }
