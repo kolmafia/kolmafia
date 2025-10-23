@@ -10872,12 +10872,12 @@ public class FightRequest extends GenericRequest {
       }
       case SkillPool.BERET_BLAST -> {
         if (responseText.contains("You focus your decades") || skillSuccess) {
-          Preferences.increment("_beretBlastUses");
+          skillSuccess = true;
         }
       }
       case SkillPool.BERET_BOAST -> {
         if (responseText.contains("You brag about your beret until") || skillSuccess) {
-          Preferences.increment("_beretBoastUses");
+          skillSuccess = true;
         }
       }
       case SkillPool.BCZ__BLOOD_GEYSER -> {
