@@ -4,7 +4,7 @@ import static internal.helpers.Networking.getPostRequestBody;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withMeatInCloset;
 import static internal.helpers.Player.withNoItemsInCloset;
-import static internal.helpers.Player.withResponseFunc;
+import static internal.helpers.Player.withResponses;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
@@ -35,7 +35,7 @@ public class ClosetRequestTest {
         new Cleanups(
             withNoItemsInCloset(),
             withMeatInCloset(0),
-            withResponseFunc(
+            withResponses(
                 r -> {
                   var path = r.uri().getPath();
                   if (path.startsWith("/closet.php")) {

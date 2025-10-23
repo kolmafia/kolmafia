@@ -2120,7 +2120,7 @@ public class Player {
    * @param responseMap Map of responses, keyed by request.
    * @return Cleans up so this response is not given afterwards.
    */
-  public static Cleanups withResponseMap(final Map<String, FakeHttpResponse<String>> responseMap) {
+  public static Cleanups withResponses(final Map<String, FakeHttpResponse<String>> responseMap) {
     var old = HttpUtilities.getClientBuilder();
     var builder = new FakeHttpClientBuilder();
     HttpUtilities.setClientBuilder(() -> builder);
@@ -2144,7 +2144,7 @@ public class Player {
    * @param responseFunc Function returning responses, keyed by request.
    * @return Cleans up so this response is not given afterwards.
    */
-  public static Cleanups withResponseFunc(
+  public static Cleanups withResponses(
       final Function<HttpRequest, FakeHttpResponse<String>> responseFunc) {
     var old = HttpUtilities.getClientBuilder();
     var builder = new FakeHttpClientBuilder();
