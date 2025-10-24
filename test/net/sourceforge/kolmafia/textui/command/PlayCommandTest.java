@@ -205,10 +205,10 @@ class PlayCommandTest extends AbstractCommandTestBase {
     client.addResponse(200, html("request/cheat_1.html"));
     client.addResponse(200, html("request/cheat_2.json"));
     client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
-    client.addResponse(200, html("request/cheat_3.html"));
-    //client.addResponse(200, html("request/cheat_4.json"));
-    //client.addResponse(200, html("request/cheat_5.html"));
-    //client.addResponse(200, html("request/cheat_4.json"));
+    //client.addResponse(200, html("request/cheat_3.html"));
+    client.addResponse(200, html("request/cheat_4.json"));
+    client.addResponse(200, html("request/cheat_5.html"));
+    client.addResponse(200, html("request/cheat_4.json"));
     var cleanups =
         new Cleanups(
             withHttpClientBuilder(builder),
