@@ -206,9 +206,9 @@ class PlayCommandTest extends AbstractCommandTestBase {
     client.addResponse(200, html("request/cheat_2.json"));
     client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
     client.addResponse(200, html("request/cheat_3.html"));
-    client.addResponse(200, html("request/cheat_4.json"));
-    client.addResponse(200, html("request/cheat_5.html"));
-    client.addResponse(200, html("request/cheat_4.json"));
+    //client.addResponse(200, html("request/cheat_4.json"));
+    //client.addResponse(200, html("request/cheat_5.html"));
+    //client.addResponse(200, html("request/cheat_4.json"));
     var cleanups =
         new Cleanups(
             withHttpClientBuilder(builder),
@@ -216,7 +216,6 @@ class PlayCommandTest extends AbstractCommandTestBase {
             withItem(ItemPool.DECK_OF_EVERY_CARD),
             withEquipped(ItemPool.GOLD_CROWN),
             withEquipped(ItemPool.GARBAGE_STICKER),
-            // withEquipped(ItemPool.CURSED_PIRATE_CUTLASS),
             withEquipped(ItemPool.SILVER_COW_CREAMER),
             withEquipped(ItemPool.BUDDY_BJORN),
             withEquipped(ItemPool.DUCT_TAPE_SHIRT),
@@ -228,8 +227,6 @@ class PlayCommandTest extends AbstractCommandTestBase {
             withFamiliar(2),
             withProperty("_deckCardsDrawn", 0),
             withProperty("_deckCardsSeen", ""),
-            // withGender(KoLCharacter.Gender.FEMALE),
-            // withGuildStoreOpen(false),
             withPasswordHash("frono"),
             withAdventuresLeft(100));
     try (cleanups) {
