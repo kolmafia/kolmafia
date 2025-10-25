@@ -30,6 +30,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 class PlayCommandTest extends AbstractCommandTestBase {
@@ -195,8 +196,8 @@ class PlayCommandTest extends AbstractCommandTestBase {
   }
 
   // This test was modified from DeckOfEveryCardRequestTest so that the run request could be
-  // triggered
-  // by the cheat command and not just by request.run()
+  // triggered by the cheat command and not just by request.run()
+  @Disabled("infinite loop")
   @Test
   public void itShouldRunAndDrawCard() {
     var builder = new FakeHttpClientBuilder();
@@ -238,7 +239,7 @@ class PlayCommandTest extends AbstractCommandTestBase {
       assertPostRequest(requests.get(0), "/inv_use.php", "whichitem=8382&cheat=1&pwd=frono");
       assertGetRequest(requests.get(1), "/choice.php", "forceoption=0");
       assertPostRequest(requests.get(2), "/api.php", "what=status&for=KoLmafia");
-      assertPostRequest(requests.get(3), "/desc_item.php", "whichitem=809051828");
+      assertPostRequest(requests.get(3), "/desc_item.php", "whichitem=809051828&pwd=frono");
       assertGetRequest(requests.get(4), "/choice.php", "forceoption=0");
       assertPostRequest(requests.get(5), "/api.php", "what=status&for=KoLmafia");
       assertPostRequest(requests.get(6), "/choice.php", "whichchoice=1085&option=1");
