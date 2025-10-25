@@ -134,10 +134,8 @@ class PlayCommandTest extends AbstractCommandTestBase {
   }
 
   // These tests increase coverage by taking a different path driven by input.  The failure is
-  // because
-  // the request is not actually run.  The cleanups are to force DeckOfEveryCardRequest to get as
-  // far as it
-  // can without a faux request.
+  // because the request is not actually run.  The cleanups are to force DeckOfEveryCardRequest
+  // to get as far as it can without a faux request.
   @Test
   public void drawRandom() {
     var cleanups =
@@ -242,7 +240,7 @@ class PlayCommandTest extends AbstractCommandTestBase {
       assertPostRequest(requests.get(3), "/desc_item.php", "whichitem=809051828&pwd=frono");
       assertGetRequest(requests.get(4), "/choice.php", "forceoption=0");
       assertPostRequest(requests.get(5), "/api.php", "what=status&for=KoLmafia");
-      assertPostRequest(requests.get(6), "/choice.php", "whichchoice=1085&option=1");
+      assertPostRequest(requests.get(6), "/choice.php", "whichchoice=1085&option=1&pwd=frono");
       assertPostRequest(requests.get(7), "/api.php", "what=status&for=KoLmafia");
       assertThat("_deckCardsDrawn", isSetTo(5));
       assertThat("_deckCardsSeen", isSetTo("Ancestral Recall"));
