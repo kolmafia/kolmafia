@@ -4,7 +4,6 @@ import com.alibaba.fastjson2.JSONException;
 import com.alibaba.fastjson2.JSONObject;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -49,10 +48,7 @@ public class ClosetRequest extends TransferItemRequest {
 
     try {
       // {"1":"1","2":"1" ... }
-      Iterator<String> keys = json.keySet().iterator();
-
-      while (keys.hasNext()) {
-        String key = keys.next();
+      for (String key : json.keySet()) {
         int itemId = StringUtilities.parseInt(key);
         int count = json.getIntValue(key);
         String name = ItemDatabase.getItemDataName(itemId);

@@ -17,6 +17,10 @@ public class FakeHttpResponse<T> implements HttpResponse<T> {
   private final Map<String, List<String>> headers;
   private final T body;
 
+  public FakeHttpResponse(T body) {
+    this(200, body);
+  }
+
   public FakeHttpResponse(int statusCode, T body) {
     this(statusCode, new HashMap<>(), body);
   }
