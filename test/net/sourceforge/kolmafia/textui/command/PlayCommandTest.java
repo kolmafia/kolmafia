@@ -26,6 +26,7 @@ import java.util.Map;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import org.junit.jupiter.api.BeforeAll;
@@ -195,7 +196,7 @@ class PlayCommandTest extends AbstractCommandTestBase {
 
   // This test was modified from DeckOfEveryCardRequestTest so that the run request could be
   // triggered by the cheat command and not just by request.run()
-  @Disabled("infinite loop")
+  //@Disabled("infinite loop")
   @Test
   public void itShouldRunAndDrawCard() {
     var builder = new FakeHttpClientBuilder();
@@ -226,21 +227,23 @@ class PlayCommandTest extends AbstractCommandTestBase {
             withFamiliar(2),
             withProperty("_deckCardsDrawn", 0),
             withProperty("_deckCardsSeen", ""),
-            withPasswordHash("frono"),
+            withPasswordHash("babe"),
             withAdventuresLeft(100));
     try (cleanups) {
+      RequestLogger.openDebugLog();
       String output = execute("Ancestral Recall");
+      RequestLogger.closeDebugLog();
       assertTrue(output.contains("play Ancestral Recall"));
       assertTrue(output.contains("You acquire an item: blue mana"));
       var requests = builder.client.getRequests();
       assertThat(requests, hasSize(10));
-      assertPostRequest(requests.get(0), "/inv_use.php", "whichitem=8382&cheat=1&pwd=frono");
+      assertPostRequest(requests.get(0), "/inv_use.php", "whichitem=8382&cheat=1&pwd=babe");
       assertGetRequest(requests.get(1), "/choice.php", "forceoption=0");
       assertPostRequest(requests.get(2), "/api.php", "what=status&for=KoLmafia");
-      assertPostRequest(requests.get(3), "/desc_item.php", "whichitem=809051828&pwd=frono");
+      assertPostRequest(requests.get(3), "/desc_item.php", "whichitem=809051828&pwd=babe");
       assertGetRequest(requests.get(4), "/choice.php", "forceoption=0");
       assertPostRequest(requests.get(5), "/api.php", "what=status&for=KoLmafia");
-      assertPostRequest(requests.get(6), "/choice.php", "whichchoice=1085&option=1&pwd=frono");
+      assertPostRequest(requests.get(6), "/choice.php", "whichchoice=1085&option=1&pwd=babe");
       assertPostRequest(requests.get(7), "/api.php", "what=status&for=KoLmafia");
       assertThat("_deckCardsDrawn", isSetTo(5));
       assertThat("_deckCardsSeen", isSetTo("Ancestral Recall"));
