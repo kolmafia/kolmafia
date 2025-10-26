@@ -14,6 +14,7 @@ import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withPasswordHash;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withStats;
+import static internal.helpers.Player.withTurnsPlayed;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
@@ -228,7 +229,9 @@ class PlayCommandTest extends AbstractCommandTestBase {
             withProperty("_deckCardsDrawn", 0),
             withProperty("_deckCardsSeen", ""),
             withPasswordHash("babe"),
-            withAdventuresLeft(100));
+            withTurnsPlayed(2272543),
+            withAdventuresLeft(167));
+    KoLCharacter.setCurrentRun(2272543);
     try (cleanups) {
       RequestLogger.openDebugLog();
       String output = execute("Ancestral Recall");
