@@ -47,6 +47,7 @@ class PlayCommandTest extends AbstractCommandTestBase {
 
   @BeforeEach
   public void initializeState() {
+    KoLCharacter.reset("PlayCommandTestUser");
     StaticEntity.setContinuationState(KoLConstants.MafiaState.CONTINUE);
   }
 
@@ -197,7 +198,6 @@ class PlayCommandTest extends AbstractCommandTestBase {
 
   // This test was modified from DeckOfEveryCardRequestTest so that the run request could be
   // triggered by the cheat command and not just by request.run()
-  // @Disabled("infinite loop")
   @Test
   public void itShouldRunAndDrawCard() {
     var builder = new FakeHttpClientBuilder();
@@ -215,15 +215,15 @@ class PlayCommandTest extends AbstractCommandTestBase {
             withHttpClientBuilder(builder),
             withStats(26238, 38694, 26255),
             withItem(ItemPool.DECK_OF_EVERY_CARD),
-            withEquipped(ItemPool.GOLD_CROWN),
-            withEquipped(ItemPool.GARBAGE_STICKER),
-            withEquipped(ItemPool.SILVER_COW_CREAMER),
-            withEquipped(ItemPool.BUDDY_BJORN),
-            withEquipped(ItemPool.DUCT_TAPE_SHIRT),
-            withEquipped(ItemPool.POODLE_SKIRT),
-            withEquipped(ItemPool.CURSED_SWASH_BUCKLE),
-            withEquipped(ItemPool.RING_OF_THE_SKELETON_LORD),
-            withEquipped(ItemPool.INCREDIBLY_DENSE_MEAT_GEM),
+            //withEquipped(ItemPool.GOLD_CROWN),
+            //withEquipped(ItemPool.GARBAGE_STICKER),
+            //withEquipped(ItemPool.SILVER_COW_CREAMER),
+            //withEquipped(ItemPool.BUDDY_BJORN),
+            //withEquipped(ItemPool.DUCT_TAPE_SHIRT),
+            //withEquipped(ItemPool.POODLE_SKIRT),
+            //withEquipped(ItemPool.CURSED_SWASH_BUCKLE),
+            //withEquipped(ItemPool.RING_OF_THE_SKELETON_LORD),
+            //withEquipped(ItemPool.INCREDIBLY_DENSE_MEAT_GEM),
             withFamiliarInTerrariumWithItem(2, ItemPool.SOLID_SHIFTING_TIME_WEIRDNESS),
             withFamiliar(2),
             withProperty("_deckCardsDrawn", 0),
@@ -232,11 +232,9 @@ class PlayCommandTest extends AbstractCommandTestBase {
             withPasswordHash("babe"),
             withTurnsPlayed(2272543),
             withAdventuresLeft(167));
-    KoLCharacter.setCurrentRun(2272543);
+    //KoLCharacter.setCurrentRun(2272543);
     try (cleanups) {
-      RequestLogger.openDebugLog();
       String output = execute("Ancestral Recall");
-      RequestLogger.closeDebugLog();
       assertTrue(output.contains("play Ancestral Recall"));
       assertTrue(output.contains("You acquire an item: blue mana"));
       var requests = builder.client.getRequests();
