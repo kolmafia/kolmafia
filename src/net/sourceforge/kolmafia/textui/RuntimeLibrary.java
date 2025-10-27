@@ -636,6 +636,10 @@ public abstract class RuntimeLibrary {
     params = List.of(namedParam("skill", DataTypes.SKILL_TYPE));
     functions.add(new LibraryFunction("to_effect", DataTypes.EFFECT_TYPE, params));
 
+    params = List.of(namedParam("skill", DataTypes.SKILL_TYPE));
+    functions.add(
+        new LibraryFunction("to_effects", new AggregateType(DataTypes.EFFECT_TYPE, 0), params));
+
     params = List.of(namedParam("name", DataTypes.STRICT_STRING_TYPE));
     functions.add(new LibraryFunction("to_familiar", DataTypes.FAMILIAR_TYPE, params));
     params = List.of(namedParam("id", DataTypes.INT_TYPE));
@@ -4635,6 +4639,19 @@ public abstract class RuntimeLibrary {
     DataTypes.EFFECT_TYPE.validateValue(controller, s1, effect);
 
     return effect;
+  }
+
+  public static ArrayValue to_effects(ScriptRuntime controller, final Value value) {
+    String[] effectNames = UneffectRequest.skillToEffects(value.toString());
+    ArrayValue effects =
+        new ArrayValue(new AggregateType(DataTypes.EFFECT_TYPE, effectNames.length));
+
+    int i = 0;
+    for (String effect : effectNames) {
+      effects.aset(DataTypes.makeIntValue(i++), DataTypes.parseEffectValue(effect, true));
+    }
+
+    return effects;
   }
 
   public static Value to_location(ScriptRuntime controller, final Value value) {
