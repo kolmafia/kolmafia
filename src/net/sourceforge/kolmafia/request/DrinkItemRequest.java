@@ -702,6 +702,10 @@ public class DrinkItemRequest extends UseItemRequest {
       Preferences.setBoolean("_mimeArmyShotglassUsed", true);
     }
 
+    if (responseText.contains("You pour your drink into your flagellate flagon.")) {
+      Preferences.decrement("flagellateFlagonsActive");
+    }
+
     // Check for consumption helpers, which will need to be removed
     // from inventory if they were successfully used.
 
