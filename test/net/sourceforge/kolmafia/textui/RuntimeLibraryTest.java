@@ -2319,4 +2319,69 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
               Mysticality => 50"""));
     }
   }
+
+  @Nested
+  class AprilShowerThoughtsShield {
+    final String skillEffects =
+        """
+        Seal Clubbing Frenzy,Seal Clubbing Frenzy,Slippery as a Seal
+        Patience of the Tortoise,Patience of the Tortoise,Strength of the Tortoise
+        Manicotti Meditation,Pasta Oneness,Tubes of Universal Meat
+        Sauce Contemplation,Saucemastery,Lubricating Sauce
+        Disco Aerobics,Disco State of Mind,Disco Over Matter
+        Moxie of the Mariachi,Mariachi Mood,Mariachi Moisture
+        """;
+
+    @ParameterizedTest
+    @CsvSource(skillEffects)
+    void onlyBasicEffectWithoutShieldEquipped(String skill, String basic, String bonus) {
+      String output = execute("$skill[" + skill + "].to_effect().name");
+      assertThat(output, both(containsString(basic)).and(not(containsString(bonus))));
+    }
+
+    @ParameterizedTest
+    @CsvSource(skillEffects)
+    void onlyBonusEffectWithShieldEquipped(String skill, String basic, String bonus) {
+      var cleanups = new Cleanups(withEquipped(ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD));
+
+      try (cleanups) {
+        String output = execute("$skill[" + skill + "].to_effect().name");
+        assertThat(output, both(containsString(bonus)).and(not(containsString(basic))));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource(skillEffects)
+    void toEffectsReturnsBothEffects(String skill, String basic, String bonus) {
+      String output = execute("$skill[" + skill + "].to_effects()");
+      assertThat(output, both(containsString(basic)).and(containsString(bonus)));
+    }
+  }
+
+  @Nested
+  class ToEffects {
+    @Test
+    void nullSkill() {
+      String output = execute("$skill[none].to_effects()");
+      assertThat(output, containsString("aggregate effect [0]"));
+    }
+
+    @Test
+    void skillWithNoEffects() {
+      String output = execute("$skill[Advanced Cocktailcrafting].to_effects()");
+      assertThat(output, containsString("aggregate effect [0]"));
+    }
+
+    @Test
+    void skillWithOneEffect() {
+      String output = execute("$skill[The Ode to Booze].to_effects()");
+      assertThat(output, containsString("aggregate effect [1]"));
+    }
+
+    @Test
+    void skillWithTwoEffects() {
+      String output = execute("$skill[Sauce Contemplation].to_effects()");
+      assertThat(output, containsString("aggregate effect [2]"));
+    }
+  }
 }

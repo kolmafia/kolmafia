@@ -333,6 +333,42 @@ public class UneffectRequest extends GenericRequest {
                 ? EffectPool.THOUGHTFUL_EMPATHY
                 : EffectPool.EMPATHY);
       }
+      case SkillPool.SEAL_CLUBBING_FRENZY -> {
+        return EffectDatabase.getEffectName(
+            KoLCharacter.hasEquipped(ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD)
+                ? EffectPool.SLIPPERY_AS_A_SEAL
+                : EffectPool.SEAL_CLUBBING_FRENZY);
+      }
+      case SkillPool.PATIENCE_OF_THE_TORTOISE -> {
+        return EffectDatabase.getEffectName(
+            KoLCharacter.hasEquipped(ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD)
+                ? EffectPool.STRENGTH_OF_THE_TORTOISE
+                : EffectPool.PATIENCE_OF_THE_TORTOISE);
+      }
+      case SkillPool.MANICOTTI_MEDITATION -> {
+        return EffectDatabase.getEffectName(
+            KoLCharacter.hasEquipped(ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD)
+                ? EffectPool.TUBES_OF_UNIVERSAL_MEAT
+                : EffectPool.PASTA_ONENESS);
+      }
+      case SkillPool.SAUCE_CONTEMPLATION -> {
+        return EffectDatabase.getEffectName(
+            KoLCharacter.hasEquipped(ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD)
+                ? EffectPool.LUBRICATING_SAUCE
+                : EffectPool.SAUCEMASTERY);
+      }
+      case SkillPool.DISCO_AEROBICS -> {
+        return EffectDatabase.getEffectName(
+            KoLCharacter.hasEquipped(ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD)
+                ? EffectPool.DISCO_OVER_MATTER
+                : EffectPool.DISCO_STATE_OF_MIND);
+      }
+      case SkillPool.MOXIE_OF_THE_MARIACHI -> {
+        return EffectDatabase.getEffectName(
+            KoLCharacter.hasEquipped(ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD)
+                ? EffectPool.MARIACHI_MOISTURE
+                : EffectPool.MARIACHI_MOOD);
+      }
     }
 
     // Handle remaining skills with a lookup
@@ -344,6 +380,18 @@ public class UneffectRequest extends GenericRequest {
     }
 
     return null;
+  }
+
+  public static final String[] skillToEffects(final String skillName) {
+    Set<String> effectSet = new HashSet<String>();
+
+    for (Entry<String, String> entry : UneffectRequest.EFFECT_SKILL.entrySet()) {
+      if (entry.getValue().equalsIgnoreCase(skillName)) {
+        effectSet.add(entry.getKey());
+      }
+    }
+
+    return effectSet.toArray(new String[0]);
   }
 
   private static Set<Entry<String, Set<Integer>>> REMOVABLE_BY_SKILL;
