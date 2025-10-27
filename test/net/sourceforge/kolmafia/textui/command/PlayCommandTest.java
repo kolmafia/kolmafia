@@ -31,6 +31,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.request.GenericRequest;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -49,6 +50,7 @@ class PlayCommandTest extends AbstractCommandTestBase {
   public void initializeState() {
     KoLCharacter.reset("PlayCommandTestUser");
     StaticEntity.setContinuationState(KoLConstants.MafiaState.CONTINUE);
+    GenericRequest.sessionId = null;
   }
 
   // These tests check for cases where user input is being checked
@@ -238,7 +240,7 @@ class PlayCommandTest extends AbstractCommandTestBase {
       assertTrue(output.contains("play Ancestral Recall"));
       assertTrue(output.contains("You acquire an item: blue mana"));
       var requests = builder.client.getRequests();
-      assertThat(requests, hasSize(9));
+      assertThat(requests, hasSize(8));
       assertPostRequest(requests.get(0), "/inv_use.php", "whichitem=8382&cheat=1&pwd=babe");
       assertGetRequest(requests.get(1), "/choice.php", "forceoption=0");
       assertPostRequest(requests.get(2), "/api.php", "what=status&for=KoLmafia");
