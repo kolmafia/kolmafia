@@ -57,6 +57,7 @@ import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDrop.DropFlag;
@@ -1402,7 +1403,7 @@ public class GenericRequest implements Runnable {
     this.externalExecute();
 
     if (!LoginRequest.isInstanceRunning() && !this.isChatRequest) {
-      // ConcoctionDatabase.refreshConcoctions(false);
+      ConcoctionDatabase.refreshConcoctions(false);
     }
   }
 
