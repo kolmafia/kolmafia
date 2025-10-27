@@ -200,7 +200,6 @@ class PlayCommandTest extends AbstractCommandTestBase {
 
   // This test was modified from DeckOfEveryCardRequestTest so that the run request could be
   // triggered by the cheat command and not just by request.run()
-  @Disabled("Preference not being set")
   @Test
   public void itShouldRunAndDrawCard() {
     var builder = new FakeHttpClientBuilder();
