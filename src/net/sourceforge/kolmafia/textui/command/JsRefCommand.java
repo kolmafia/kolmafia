@@ -12,7 +12,6 @@ import net.sourceforge.kolmafia.textui.parsetree.RecordType;
 import net.sourceforge.kolmafia.textui.parsetree.Type;
 import net.sourceforge.kolmafia.textui.parsetree.VariableReference;
 
-
 public class JsRefCommand extends AbstractCommand {
   public JsRefCommand() {
     this.usage = " [<filter>] - summarize JS built-in functions [matching filter].";

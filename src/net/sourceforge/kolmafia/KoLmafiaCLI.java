@@ -16,7 +16,6 @@ import net.sourceforge.kolmafia.persistence.Aliases;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.LoginRequest;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
-
 import net.sourceforge.kolmafia.textui.command.AbortCommand;
 import net.sourceforge.kolmafia.textui.command.AbsorbCommand;
 import net.sourceforge.kolmafia.textui.command.AbsorptionsCommand;

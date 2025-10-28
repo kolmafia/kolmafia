@@ -138,7 +138,6 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.persistence.WardrobeOMaticDatabase;
 import net.sourceforge.kolmafia.persistence.WardrobeOMaticDatabase.FuturisticClothing;
 import net.sourceforge.kolmafia.preferences.Preferences;
-
 import net.sourceforge.kolmafia.request.AlliedRadioRequest;
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.AutoSellRequest;
