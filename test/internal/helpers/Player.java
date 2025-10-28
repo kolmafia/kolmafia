@@ -46,7 +46,6 @@ import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
