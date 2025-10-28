@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.swingui.widget;
 
-import java.awt.*;
+
+import java.awt.Shape;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.io.StringWriter;
