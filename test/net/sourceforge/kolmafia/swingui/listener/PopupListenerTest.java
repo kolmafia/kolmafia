@@ -3,10 +3,15 @@ package net.sourceforge.kolmafia.swingui.listener;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Point;
 import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
-import javax.swing.*;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPopupMenu;
+import javax.swing.JTable;
+import javax.swing.SwingUtilities;
 import javax.swing.plaf.basic.BasicListUI;
 import javax.swing.plaf.basic.BasicTableUI;
 import org.junit.jupiter.api.Test;

@@ -1,12 +1,18 @@
 package net.sourceforge.kolmafia.swingui.widget;
 
-import java.awt.*;
+import java.awt.Shape;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.io.StringWriter;
 import java.util.Enumeration;
-import javax.swing.*;
-import javax.swing.text.*;
+import javax.swing.JEditorPane;
+import javax.swing.ToolTipManager;
+import javax.swing.text.Element;
+import javax.swing.text.LabelView;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.View;
+import javax.swing.text.ViewFactory;
 import javax.swing.text.html.HTML;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLWriter;
