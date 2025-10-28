@@ -12,6 +12,12 @@ public class EffectPool {
   public static final int BLOODY_HAND = 15;
   public static final int LEASH_OF_LINGUINI = 16;
   public static final int GHOSTLY_SHELL = 18;
+  public static final int SEAL_CLUBBING_FRENZY = 21;
+  public static final int PATIENCE_OF_THE_TORTOISE = 22;
+  public static final int PASTA_ONENESS = 23;
+  public static final int SAUCEMASTERY = 24;
+  public static final int DISCO_STATE_OF_MIND = 25;
+  public static final int MARIACHI_MOOD = 26;
   public static final int EXPERT_OILINESS = 37;
   public static final int HERNIA = 39;
   public static final int SUNBURNED = 42;
