@@ -15,7 +15,6 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.nio.charset.StandardCharsets;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -2287,7 +2286,7 @@ public class DebugDatabase {
   }
 
   private static void saveScrapeData(
-    final Iterator<Integer> it, final Map<Integer, String> stringMap, final String fileName) {
+      final Iterator<Integer> it, final Map<Integer, String> stringMap, final String fileName) {
     File file = new File(KoLConstants.DATA_LOCATION, fileName);
     PrintStream livedata = LogStream.openStream(file, true);
 
@@ -2795,7 +2794,7 @@ public class DebugDatabase {
   }
 
   private static void conditionallyAddItems(
-    Collection<AdventureResult> items, Collection<AdventureResult> location, boolean force) {
+      Collection<AdventureResult> items, Collection<AdventureResult> location, boolean force) {
     // If checking display case, retrieve if necessary
     if (location == KoLConstants.collection) {
       if (!KoLCharacter.hasDisplayCase()) {

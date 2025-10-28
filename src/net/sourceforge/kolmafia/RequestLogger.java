@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
-
 import net.sourceforge.kolmafia.request.AfterLifeRequest;
 import net.sourceforge.kolmafia.request.AltarOfLiteracyRequest;
 import net.sourceforge.kolmafia.request.ArcadeRequest;

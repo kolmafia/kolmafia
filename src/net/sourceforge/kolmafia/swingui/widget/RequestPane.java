@@ -5,7 +5,6 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.io.StringWriter;
 import java.util.Enumeration;
-
 import javax.swing.JEditorPane;
 import javax.swing.ToolTipManager;
 import javax.swing.text.Element;
