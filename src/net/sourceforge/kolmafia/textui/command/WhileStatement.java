@@ -1,7 +1,5 @@
 package net.sourceforge.kolmafia.textui.command;
 
-import net.sourceforge.kolmafia.KoLmafiaCLI;
-
 public class WhileStatement extends ConditionalStatement {
   public WhileStatement() {
     this.usage = " <condition>; <commands> - do commands repeatedly while condition is true.";

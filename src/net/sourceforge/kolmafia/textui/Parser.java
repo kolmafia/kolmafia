@@ -18,7 +18,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLmafiaCLI;
+import net.sourceforge.kolmafia.textui.command.KoLmafiaCLI;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;

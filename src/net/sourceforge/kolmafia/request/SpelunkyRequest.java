@@ -13,7 +13,6 @@ import net.sourceforge.kolmafia.KoLConstants.Stat;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.MonsterData;
-import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;

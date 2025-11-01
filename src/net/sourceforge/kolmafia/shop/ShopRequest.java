@@ -10,7 +10,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
-import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.request.RequestLogger;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;

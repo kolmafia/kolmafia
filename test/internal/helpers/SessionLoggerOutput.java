@@ -2,7 +2,7 @@ package internal.helpers;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.request.RequestLogger;
 
 public class SessionLoggerOutput {
 

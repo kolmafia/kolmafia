@@ -2,8 +2,7 @@ package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLmafiaCLI;
-import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.request.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;

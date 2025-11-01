@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import net.sourceforge.kolmafia.KoLConstants.Stat;
-import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.request.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 

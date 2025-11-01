@@ -2,7 +2,7 @@ package net.sourceforge.kolmafia.scripts.svn;
 
 import java.io.File;
 import java.util.concurrent.Callable;
-import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.request.RequestLogger;
 import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.io.SVNRepository;
 

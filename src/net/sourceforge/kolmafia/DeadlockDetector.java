@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia;
 
+import net.sourceforge.kolmafia.request.RequestLogger;
+
 import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadInfo;
 import java.lang.management.ThreadMXBean;

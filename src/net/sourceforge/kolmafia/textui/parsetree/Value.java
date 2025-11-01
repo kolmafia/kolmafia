@@ -6,7 +6,7 @@ import java.util.Comparator;
 import java.util.List;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.request.RequestLogger;
 import net.sourceforge.kolmafia.VYKEACompanionData;
 import net.sourceforge.kolmafia.modifiers.Modifier;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;

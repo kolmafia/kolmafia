@@ -13,7 +13,7 @@ import net.sourceforge.kolmafia.EdServantData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.PastaThrallData;
-import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.request.RequestLogger;
 import net.sourceforge.kolmafia.VYKEACompanionData;
 import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.modifiers.Modifier;

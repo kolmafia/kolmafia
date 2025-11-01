@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia;
 
+import net.sourceforge.kolmafia.request.RequestLogger;
+
 import java.util.HashMap;
 import java.util.Map;
 

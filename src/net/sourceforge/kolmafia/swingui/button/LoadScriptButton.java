@@ -1,7 +1,7 @@
 package net.sourceforge.kolmafia.swingui.button;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
-import net.sourceforge.kolmafia.KoLmafiaCLI;
+import net.sourceforge.kolmafia.textui.command.KoLmafiaCLI;
 
 public class LoadScriptButton extends ThreadedButton {
 

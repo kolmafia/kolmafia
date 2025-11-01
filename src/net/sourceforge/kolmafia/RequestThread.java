@@ -18,6 +18,7 @@ import net.sourceforge.kolmafia.chat.InternalMessage;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.RequestLogger;
 import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
 import net.sourceforge.kolmafia.textui.javascript.JavascriptRuntime;
 import net.sourceforge.kolmafia.utilities.PauseObject;

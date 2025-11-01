@@ -67,6 +67,7 @@ import net.sourceforge.kolmafia.request.HellKitchenRequest;
 import net.sourceforge.kolmafia.request.MicroBreweryRequest;
 import net.sourceforge.kolmafia.request.QuantumTerrariumRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
+import net.sourceforge.kolmafia.request.RequestLogger;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.TelescopeRequest;

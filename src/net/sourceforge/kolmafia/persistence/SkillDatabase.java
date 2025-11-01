@@ -12,6 +12,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.FightRequest;
+import net.sourceforge.kolmafia.request.RequestLogger;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest.BuffTool;
 import net.sourceforge.kolmafia.utilities.FileUtilities;

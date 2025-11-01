@@ -16,7 +16,7 @@ import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CreateFrameRunnable;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLmafiaCLI;
+import net.sourceforge.kolmafia.textui.command.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.maximizer.Boost;

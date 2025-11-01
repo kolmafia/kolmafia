@@ -12,7 +12,7 @@ import net.sourceforge.kolmafia.KoLConstants.CraftingMisc;
 import net.sourceforge.kolmafia.KoLConstants.CraftingRequirements;
 import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.ModifierType;
-import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.request.RequestLogger;
 import net.sourceforge.kolmafia.modifiers.MultiStringModifier;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.Consumable;

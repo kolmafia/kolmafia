@@ -2,7 +2,7 @@ package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.PastaThrallData;
-import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.request.RequestLogger;
 
 public class PastaThrallCommand extends AbstractCommand {
   public PastaThrallCommand() {

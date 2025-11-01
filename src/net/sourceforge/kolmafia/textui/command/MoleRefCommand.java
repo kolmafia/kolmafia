@@ -1,6 +1,6 @@
 package net.sourceforge.kolmafia.textui.command;
 
-import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.request.RequestLogger;
 
 public class MoleRefCommand extends AbstractCommand {
   public MoleRefCommand() {

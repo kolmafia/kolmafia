@@ -1,7 +1,7 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.request.RequestLogger;
 import net.sourceforge.kolmafia.session.TowerDoorManager;
 import net.sourceforge.kolmafia.session.TowerDoorManager.Lock;
 

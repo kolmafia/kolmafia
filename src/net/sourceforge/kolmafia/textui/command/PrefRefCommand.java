@@ -3,7 +3,7 @@ package net.sourceforge.kolmafia.textui.command;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.regex.Pattern;
-import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.request.RequestLogger;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 public class PrefRefCommand extends AbstractCommand {

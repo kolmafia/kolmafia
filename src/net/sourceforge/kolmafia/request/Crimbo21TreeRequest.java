@@ -3,7 +3,6 @@ package net.sourceforge.kolmafia.request;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 

@@ -2,7 +2,7 @@ package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
-import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.request.RequestLogger;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;

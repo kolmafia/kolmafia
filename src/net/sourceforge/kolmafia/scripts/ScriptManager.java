@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.request.RequestLogger;
 import net.sourceforge.kolmafia.scripts.git.GitManager;
 import net.sourceforge.kolmafia.scripts.svn.SVNManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;

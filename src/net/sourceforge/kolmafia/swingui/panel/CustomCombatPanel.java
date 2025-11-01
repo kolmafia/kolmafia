@@ -37,7 +37,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLCharacter.TurtleBlessing;
 import net.sourceforge.kolmafia.KoLGUIConstants;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.KoLmafiaCLI;
+import net.sourceforge.kolmafia.textui.command.KoLmafiaCLI;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.combat.CombatActionManager;
 import net.sourceforge.kolmafia.listener.Listener;

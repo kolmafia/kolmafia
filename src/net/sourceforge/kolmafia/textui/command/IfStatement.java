@@ -1,7 +1,5 @@
 package net.sourceforge.kolmafia.textui.command;
 
-import net.sourceforge.kolmafia.KoLmafiaCLI;
-
 public class IfStatement extends ConditionalStatement {
   public IfStatement() {
     this.usage = " <condition>; <commands> - do commands once if condition is true (see condref).";

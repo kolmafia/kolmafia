@@ -1,15 +1,19 @@
-package net.sourceforge.kolmafia;
+package net.sourceforge.kolmafia.request;
 
 import java.io.PrintStream;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+
+import net.sourceforge.kolmafia.KoLAdventure;
+import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
+import net.sourceforge.kolmafia.KoLmafiaTUI;
+import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
-import net.sourceforge.kolmafia.request.*;
-import net.sourceforge.kolmafia.request.GrandpaRequest;
 import net.sourceforge.kolmafia.request.coinmaster.AWOLQuartermasterRequest;
 import net.sourceforge.kolmafia.request.coinmaster.AltarOfBonesRequest;
 import net.sourceforge.kolmafia.request.coinmaster.BURTRequest;

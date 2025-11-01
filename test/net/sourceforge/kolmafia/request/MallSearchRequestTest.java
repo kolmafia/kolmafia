@@ -11,7 +11,7 @@ import static org.mockito.Mockito.mockStatic;
 import internal.helpers.Cleanups;
 import java.util.ArrayList;
 import java.util.List;
-import net.sourceforge.kolmafia.RequestLogger;
+
 import net.sourceforge.kolmafia.ZodiacSign;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

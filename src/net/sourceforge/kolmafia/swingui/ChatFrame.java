@@ -29,7 +29,7 @@ import javax.swing.SwingConstants;
 import net.java.dev.spellcast.utilities.ChatBuffer;
 import net.sourceforge.kolmafia.KoLGUIConstants;
 import net.sourceforge.kolmafia.KoLmafiaASH;
-import net.sourceforge.kolmafia.KoLmafiaCLI;
+import net.sourceforge.kolmafia.textui.command.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.chat.ChatFormatter;
 import net.sourceforge.kolmafia.chat.ChatManager;

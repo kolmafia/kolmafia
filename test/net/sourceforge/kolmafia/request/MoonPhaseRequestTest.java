@@ -13,7 +13,7 @@ import internal.network.FakeHttpClientBuilder;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.time.Month;
-import net.sourceforge.kolmafia.RequestLogger;
+
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import org.junit.jupiter.api.Test;
 

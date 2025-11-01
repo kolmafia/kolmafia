@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.RequestLogger;
 import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.textui.DataTypes;

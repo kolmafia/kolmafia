@@ -16,7 +16,7 @@ import internal.helpers.Cleanups;
 import internal.network.FakeHttpClientBuilder;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import net.sourceforge.kolmafia.RequestLogger;
+
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import org.junit.jupiter.api.BeforeAll;

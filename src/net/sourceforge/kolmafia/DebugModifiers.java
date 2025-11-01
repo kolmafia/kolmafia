@@ -12,6 +12,7 @@ import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.request.RequestLogger;
 import net.sourceforge.kolmafia.utilities.IntOrString;
 
 public class DebugModifiers extends Modifiers {

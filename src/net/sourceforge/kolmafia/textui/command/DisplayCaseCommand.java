@@ -3,7 +3,7 @@ package net.sourceforge.kolmafia.textui.command;
 import java.util.List;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.request.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.request.DisplayCaseRequest;

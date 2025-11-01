@@ -19,7 +19,6 @@ import java.time.Month;
 import java.util.List;
 import java.util.Map;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import org.junit.jupiter.api.AfterAll;

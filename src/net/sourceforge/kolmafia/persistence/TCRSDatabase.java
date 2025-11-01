@@ -25,7 +25,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.ModifierType;
-import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.request.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.ZodiacSign;

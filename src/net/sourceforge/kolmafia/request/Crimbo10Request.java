@@ -1,6 +1,5 @@
 package net.sourceforge.kolmafia.request;
 
-import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.request.coinmaster.CRIMBCOGiftShopRequest;
 
 public class Crimbo10Request extends GenericRequest {

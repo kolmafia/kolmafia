@@ -12,7 +12,7 @@
 
 package net.sourceforge.kolmafia.scripts.svn;
 
-import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.request.RequestLogger;
 import org.tmatesoft.svn.core.SVNNodeKind;
 import org.tmatesoft.svn.core.wc.ISVNInfoHandler;
 import org.tmatesoft.svn.core.wc.SVNInfo;

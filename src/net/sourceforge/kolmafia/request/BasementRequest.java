@@ -13,7 +13,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.KoLmafiaCLI;
+import net.sourceforge.kolmafia.textui.command.KoLmafiaCLI;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestThread;

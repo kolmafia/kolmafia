@@ -19,7 +19,7 @@ import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
-import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.request.RequestLogger;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;

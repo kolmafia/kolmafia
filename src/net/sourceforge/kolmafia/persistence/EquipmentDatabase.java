@@ -21,7 +21,7 @@ import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLConstants.Stat;
 import net.sourceforge.kolmafia.KoLConstants.WeaponType;
 import net.sourceforge.kolmafia.Modifiers;
-import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.request.RequestLogger;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;

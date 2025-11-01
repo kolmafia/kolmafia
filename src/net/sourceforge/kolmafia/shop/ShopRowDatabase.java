@@ -16,7 +16,7 @@ import net.sourceforge.kolmafia.AdventureResult.MeatResult;
 import net.sourceforge.kolmafia.AdventureResult.SkillResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.CraftingType;
-import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.request.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.utilities.FileUtilities;

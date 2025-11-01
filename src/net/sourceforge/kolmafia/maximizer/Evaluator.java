@@ -27,7 +27,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modeable;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
-import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.request.RequestLogger;
 import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.equipment.Slot;

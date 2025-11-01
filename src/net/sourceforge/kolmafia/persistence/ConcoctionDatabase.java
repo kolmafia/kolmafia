@@ -28,7 +28,7 @@ import net.sourceforge.kolmafia.KoLConstants.CraftingMisc;
 import net.sourceforge.kolmafia.KoLConstants.CraftingRequirements;
 import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.request.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;

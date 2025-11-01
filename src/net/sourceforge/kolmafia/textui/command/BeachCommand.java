@@ -6,7 +6,7 @@ import java.util.Map.Entry;
 import java.util.Stack;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.request.RequestLogger;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.BeachCombRequest;
 import net.sourceforge.kolmafia.request.BeachCombRequest.BeachCombCommand;

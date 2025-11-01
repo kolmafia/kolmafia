@@ -1,7 +1,7 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.KoLmafiaCLI.ParameterHandling;
+import net.sourceforge.kolmafia.textui.command.KoLmafiaCLI.ParameterHandling;
 import net.sourceforge.kolmafia.textui.RuntimeLibrary;
 import net.sourceforge.kolmafia.textui.javascript.JavascriptRuntime;
 import net.sourceforge.kolmafia.textui.parsetree.CompositeValue;

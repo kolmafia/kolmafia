@@ -1,7 +1,7 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import java.util.List;
-import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.request.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.javascript.JavascriptRuntime;

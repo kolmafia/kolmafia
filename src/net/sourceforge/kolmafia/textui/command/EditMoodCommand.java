@@ -1,7 +1,7 @@
 package net.sourceforge.kolmafia.textui.command;
 
-import net.sourceforge.kolmafia.KoLmafiaCLI.ParameterHandling;
-import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.textui.command.KoLmafiaCLI.ParameterHandling;
+import net.sourceforge.kolmafia.request.RequestLogger;
 import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.moods.MoodTrigger;
 

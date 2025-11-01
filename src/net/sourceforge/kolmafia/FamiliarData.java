@@ -34,6 +34,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.LoginRequest;
+import net.sourceforge.kolmafia.request.RequestLogger;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.YouRobotManager;

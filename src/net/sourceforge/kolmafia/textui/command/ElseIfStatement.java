@@ -1,7 +1,5 @@
 package net.sourceforge.kolmafia.textui.command;
 
-import net.sourceforge.kolmafia.KoLmafiaCLI;
-
 public class ElseIfStatement extends ConditionalStatement {
   public ElseIfStatement() {
     this.usage =

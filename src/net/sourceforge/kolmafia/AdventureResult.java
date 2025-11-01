@@ -16,6 +16,7 @@ import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
+import net.sourceforge.kolmafia.request.RequestLogger;
 import net.sourceforge.kolmafia.request.UneffectRequest;
 import net.sourceforge.kolmafia.session.ElVibratoManager;
 import net.sourceforge.kolmafia.session.ElVibratoManager.Punchcard;

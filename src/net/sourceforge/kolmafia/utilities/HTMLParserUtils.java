@@ -1,6 +1,6 @@
 package net.sourceforge.kolmafia.utilities;
 
-import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.request.RequestLogger;
 import org.htmlcleaner.CleanerProperties;
 import org.htmlcleaner.HtmlCleaner;
 import org.jsoup.nodes.Attributes;

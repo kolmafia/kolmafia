@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Set;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
-import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.request.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.StandardRewardDatabase;
 import net.sourceforge.kolmafia.persistence.StandardRewardDatabase.StandardPulverized;
