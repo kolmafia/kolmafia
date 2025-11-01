@@ -2,8 +2,17 @@ package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.EnumMap;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.*;
 import net.sourceforge.kolmafia.equipment.Slot;
