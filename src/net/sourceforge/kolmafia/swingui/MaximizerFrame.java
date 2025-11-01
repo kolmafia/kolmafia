@@ -12,8 +12,10 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.EnumSet;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -227,6 +229,18 @@ public class MaximizerFrame extends GenericFrame implements ListSelectionListene
       }
       boolean usageUnderLimit;
       for (KoLConstants.filterType fType : KoLConstants.filterType.values()) {
+        String filterString = fType.toString().toLowerCase();
+
+        boolean isLastUsedFilter = true;
+        boolean isPersistedFilter = true;
+        if (Preferences.getBoolean("maximizerSingleFilter")) {
+          isLastUsedFilter =
+              Preferences.getString("maximizerLastSingleFilter").equals(filterString);
+        } else if (Preferences.getBoolean("maximizerPersistFilters")) {
+          String filters = Preferences.getString("maximizerLastFilters");
+          isPersistedFilter =
+              Set.of(filters.split(",")).contains(filterString) || filters.equals("");
+        }
         usageUnderLimit =
             switch (fType) {
               case BOOZE -> (KoLCharacter.canDrink()
@@ -236,12 +250,9 @@ public class MaximizerFrame extends GenericFrame implements ListSelectionListene
               case SPLEEN -> (KoLCharacter.getSpleenUse() < KoLCharacter.getSpleenLimit());
               default -> true;
             };
-        boolean isLastUsedFilter =
-            Preferences.getString("maximizerLastSingleFilter").equalsIgnoreCase(fType.name());
-        if (Preferences.getBoolean("maximizerSingleFilter")) {
-          usageUnderLimit = isLastUsedFilter;
-        }
-        filterButtons.put(fType, new JCheckBox(fType.toString().toLowerCase(), usageUnderLimit));
+        boolean isEnabled = isLastUsedFilter && isPersistedFilter && usageUnderLimit;
+
+        filterButtons.put(fType, new JCheckBox(filterString, isEnabled));
         filterButtons.get(fType).addItemListener(this);
 
         if (Arrays.asList(TopRowFilters).contains(fType)) {
@@ -249,7 +260,7 @@ public class MaximizerFrame extends GenericFrame implements ListSelectionListene
         } else {
           filterCheckboxBottomPanel.add(filterButtons.get(fType));
         }
-        updateFilter(fType, usageUnderLimit);
+        updateFilter(fType, isEnabled);
       }
       filterPanelTopRow.add(filterCheckboxTopPanel, BorderLayout.CENTER);
       filterPanelBottomRow.add(filterCheckboxBottomPanel, BorderLayout.CENTER);
@@ -300,7 +311,8 @@ public class MaximizerFrame extends GenericFrame implements ListSelectionListene
         Preferences.setString("maximizerLastSingleFilter", changedBox.getText());
       } else if (thisFilter != null) {
         boolean updatedValue = (e.getStateChange() == ItemEvent.SELECTED);
-        updateFilter(thisFilter, updatedValue);
+        boolean persist = Preferences.getBoolean("maximizerPersistFilters");
+        updateFilter(thisFilter, updatedValue, persist);
       }
     }
 
@@ -334,6 +346,32 @@ public class MaximizerFrame extends GenericFrame implements ListSelectionListene
     }
   }
 
+  protected void updateFilter(KoLConstants.filterType f, boolean value, boolean persist) {
+    if (persist) {
+      String lastFilters = Preferences.getString("maximizerLastFilters");
+
+      Set<String> newFilters;
+      if (lastFilters.equals("")) {
+        newFilters = new HashSet();
+        for (KoLConstants.filterType filter : KoLConstants.filterType.values()) {
+          newFilters.add(filter.toString().toLowerCase());
+        }
+      } else {
+        newFilters = new HashSet(Arrays.asList(lastFilters.split(",")));
+      }
+
+      if (value) {
+        newFilters.add(f.toString().toLowerCase());
+      } else {
+        newFilters.remove(f.toString().toLowerCase());
+      }
+      Preferences.setString("maximizerLastFilters", String.join(",", newFilters));
+    } else {
+      Preferences.setString("maximizerLastFilters", "");
+    }
+    updateFilter(f, value);
+  }
+
   protected void updateFilter(KoLConstants.filterType f, boolean value) {
     try {
       if (value) {
@@ -344,6 +382,10 @@ public class MaximizerFrame extends GenericFrame implements ListSelectionListene
     } catch (Exception Ex) {
       // This should probably log the error...
     }
+  }
+
+  protected EnumSet<filterType> getActiveFilters() {
+    return this.activeFilters;
   }
 
   private static class PullableRadioButton extends JRadioButton implements Listener {
