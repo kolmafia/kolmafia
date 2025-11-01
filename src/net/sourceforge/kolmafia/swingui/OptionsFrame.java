@@ -849,11 +849,13 @@ public class OptionsFrame extends GenericFrame {
               "Show all, effects with no direct source, skills you don't have, etc."));
       this.queue(
           new PreferenceIntegerTextField("maximizerMRUSize", 4, "Recent maximizer string buffer"));
-
+      this.queue(
+          new PreferenceCheckBox(
+              "maximizerSingleFilter",
+              "Treat filter checkboxes as an exclusive group (will close Maximizer)"));
       this.queue(
               new PreferenceCheckBox(
-                  "maximizerSingleFilter",
-                  "Treat filter checkboxes as an exclusive group (will close Maximizer)"))
+                  "maximizerPersistFilters", "Remember previous filter selections"))
           .addActionListener(new CloseMaximizerListener());
 
       this.makeLayout();
