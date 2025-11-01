@@ -11,7 +11,7 @@
  */
 package net.sourceforge.kolmafia.scripts.svn;
 
-import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.request.RequestLogger;
 import org.tmatesoft.svn.core.SVNCancelException;
 import org.tmatesoft.svn.core.wc.ISVNEventHandler;
 import org.tmatesoft.svn.core.wc.SVNEvent;

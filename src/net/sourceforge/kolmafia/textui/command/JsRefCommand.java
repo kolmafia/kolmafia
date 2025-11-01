@@ -1,11 +1,16 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import java.util.List;
-import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.request.RequestLogger;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.javascript.JavascriptRuntime;
-import net.sourceforge.kolmafia.textui.parsetree.*;
+import net.sourceforge.kolmafia.textui.parsetree.AggregateType;
+import net.sourceforge.kolmafia.textui.parsetree.Function;
+import net.sourceforge.kolmafia.textui.parsetree.PluralValueType;
+import net.sourceforge.kolmafia.textui.parsetree.RecordType;
+import net.sourceforge.kolmafia.textui.parsetree.Type;
+import net.sourceforge.kolmafia.textui.parsetree.VariableReference;
 
 public class JsRefCommand extends AbstractCommand {
   public JsRefCommand() {

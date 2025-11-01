@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
+import net.sourceforge.kolmafia.request.RequestLogger;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.NamespaceInterpreter;
 import net.sourceforge.kolmafia.textui.Parser;

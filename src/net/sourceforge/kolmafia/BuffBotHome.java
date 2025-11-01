@@ -14,6 +14,7 @@ import javax.swing.JList;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
+import net.sourceforge.kolmafia.request.RequestLogger;
 import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.utilities.LogStream;
 

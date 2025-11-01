@@ -2,7 +2,6 @@ package net.sourceforge.kolmafia.request;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import net.sourceforge.kolmafia.RequestLogger;
 
 public class LeafletRequest extends GenericRequest {
   private static final Pattern COMMAND_PATTERN = Pattern.compile("command=([^&]*)");
