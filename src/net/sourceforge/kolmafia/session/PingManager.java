@@ -7,9 +7,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.request.RequestLogger;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.PingRequest;
+import net.sourceforge.kolmafia.request.RequestLogger;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class PingManager {

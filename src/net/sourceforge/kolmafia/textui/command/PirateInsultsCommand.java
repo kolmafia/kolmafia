@@ -2,8 +2,8 @@ package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.request.RequestLogger;
 import net.sourceforge.kolmafia.request.BeerPongRequest;
+import net.sourceforge.kolmafia.request.RequestLogger;
 
 public class PirateInsultsCommand extends AbstractCommand {
   {

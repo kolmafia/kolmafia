@@ -1,7 +1,7 @@
 package net.sourceforge.kolmafia.textui.command;
 
-import net.sourceforge.kolmafia.request.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.request.RequestLogger;
 
 public class VersionCommand extends AbstractCommand {
   public VersionCommand() {

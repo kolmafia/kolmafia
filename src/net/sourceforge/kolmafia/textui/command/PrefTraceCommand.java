@@ -1,11 +1,11 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import java.util.ArrayList;
-import net.sourceforge.kolmafia.request.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.RequestLogger;
 
 public class PrefTraceCommand extends AbstractCommand {
   private static final ArrayList<PreferenceListener> audience =

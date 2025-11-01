@@ -4,12 +4,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.textui.command.KoLmafiaCLI.ParameterHandling;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
+import net.sourceforge.kolmafia.textui.command.KoLmafiaCLI.ParameterHandling;
 import net.sourceforge.kolmafia.utilities.PrefixMap;
 
 public abstract class AbstractCommand {

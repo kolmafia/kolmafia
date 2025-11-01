@@ -1,8 +1,8 @@
 package net.sourceforge.kolmafia.textui.command;
 
-import net.sourceforge.kolmafia.request.RequestLogger;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.request.RequestLogger;
 
 public class DustyBottlesCommand extends AbstractCommand {
   public DustyBottlesCommand() {

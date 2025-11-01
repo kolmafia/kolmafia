@@ -1,7 +1,7 @@
 package net.sourceforge.kolmafia.textui.command;
 
-import net.sourceforge.kolmafia.request.RequestLogger;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.RequestLogger;
 import net.sourceforge.kolmafia.session.BugbearManager;
 import net.sourceforge.kolmafia.session.BugbearManager.Bugbear;
 import net.sourceforge.kolmafia.utilities.StringUtilities;

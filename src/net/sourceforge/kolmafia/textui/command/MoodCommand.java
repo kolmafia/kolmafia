@@ -1,9 +1,9 @@
 package net.sourceforge.kolmafia.textui.command;
 
-import net.sourceforge.kolmafia.request.RequestLogger;
 import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.RequestLogger;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MoodCommand extends AbstractCommand {

@@ -3,9 +3,9 @@ package net.sourceforge.kolmafia.maximizer;
 import java.util.Map;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
-import net.sourceforge.kolmafia.textui.command.KoLmafiaCLI;
 import net.sourceforge.kolmafia.Modeable;
 import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.textui.command.KoLmafiaCLI;
 
 public class Boost implements Comparable<Boost> {
   private boolean isEquipment, isShrug, priority;

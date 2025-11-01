@@ -1,9 +1,8 @@
 package net.sourceforge.kolmafia;
 
-import net.sourceforge.kolmafia.request.RequestLogger;
-
 import java.util.HashMap;
 import java.util.Map;
+import net.sourceforge.kolmafia.request.RequestLogger;
 
 public class PokefamData implements Comparable<PokefamData> {
   private final String race;

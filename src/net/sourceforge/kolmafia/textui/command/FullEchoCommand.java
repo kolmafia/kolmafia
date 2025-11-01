@@ -1,7 +1,7 @@
 package net.sourceforge.kolmafia.textui.command;
 
-import net.sourceforge.kolmafia.textui.command.KoLmafiaCLI.ParameterHandling;
 import net.sourceforge.kolmafia.request.RequestLogger;
+import net.sourceforge.kolmafia.textui.command.KoLmafiaCLI.ParameterHandling;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class FullEchoCommand extends AbstractCommand {

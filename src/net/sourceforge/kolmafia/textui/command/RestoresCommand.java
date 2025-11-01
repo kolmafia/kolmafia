@@ -1,8 +1,8 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.request.RequestLogger;
 import net.sourceforge.kolmafia.persistence.RestoresDatabase;
+import net.sourceforge.kolmafia.request.RequestLogger;
 
 public class RestoresCommand extends AbstractCommand {
   public RestoresCommand() {

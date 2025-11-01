@@ -4,8 +4,8 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.KoLAdventure;
-import net.sourceforge.kolmafia.request.RequestLogger;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.RequestLogger;
 import net.sourceforge.kolmafia.session.DemonName14Manager;
 
 public class DemonNamesCommand extends AbstractCommand {

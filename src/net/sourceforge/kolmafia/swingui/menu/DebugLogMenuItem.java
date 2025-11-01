@@ -1,8 +1,8 @@
 package net.sourceforge.kolmafia.swingui.menu;
 
-import net.sourceforge.kolmafia.request.RequestLogger;
 import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
+import net.sourceforge.kolmafia.request.RequestLogger;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 
 public class DebugLogMenuItem extends ThreadedMenuItem implements Listener {

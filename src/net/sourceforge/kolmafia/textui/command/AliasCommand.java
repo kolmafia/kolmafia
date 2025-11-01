@@ -1,8 +1,8 @@
 package net.sourceforge.kolmafia.textui.command;
 
-import net.sourceforge.kolmafia.textui.command.KoLmafiaCLI.ParameterHandling;
-import net.sourceforge.kolmafia.request.RequestLogger;
 import net.sourceforge.kolmafia.persistence.Aliases;
+import net.sourceforge.kolmafia.request.RequestLogger;
+import net.sourceforge.kolmafia.textui.command.KoLmafiaCLI.ParameterHandling;
 import net.sourceforge.kolmafia.utilities.CharacterEntities;
 
 public class AliasCommand extends AbstractCommand {

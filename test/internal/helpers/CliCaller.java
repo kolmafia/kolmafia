@@ -2,8 +2,8 @@ package internal.helpers;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import net.sourceforge.kolmafia.textui.command.KoLmafiaCLI;
 import net.sourceforge.kolmafia.request.RequestLogger;
+import net.sourceforge.kolmafia.textui.command.KoLmafiaCLI;
 
 public class CliCaller {
   public static String callCli(final String command, final String params) {

@@ -1,7 +1,7 @@
 package net.sourceforge.kolmafia.textui.command;
 
-import net.sourceforge.kolmafia.request.RequestLogger;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
+import net.sourceforge.kolmafia.request.RequestLogger;
 
 public class ManaRestoreCountCommand extends AbstractCommand {
   public ManaRestoreCountCommand() {

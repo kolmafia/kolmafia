@@ -1,7 +1,5 @@
 package net.sourceforge.kolmafia;
 
-import net.sourceforge.kolmafia.request.RequestLogger;
-
 import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadInfo;
 import java.lang.management.ThreadMXBean;
@@ -9,6 +7,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+import net.sourceforge.kolmafia.request.RequestLogger;
 
 class DeadlockDetector {
   static ThreadMXBean bean = ManagementFactory.getThreadMXBean();

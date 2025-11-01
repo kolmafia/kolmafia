@@ -3,11 +3,11 @@ package net.sourceforge.kolmafia.textui.command;
 import java.util.ArrayList;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.request.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.listener.ItemListenerRegistry;
 import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
+import net.sourceforge.kolmafia.request.RequestLogger;
 
 public class ItemTraceCommand extends AbstractCommand {
   private static final ArrayList<ItemListener> audience =

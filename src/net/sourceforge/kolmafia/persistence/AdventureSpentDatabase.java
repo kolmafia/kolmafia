@@ -16,8 +16,8 @@ import java.util.TreeMap;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.request.RequestLogger;
 import net.sourceforge.kolmafia.request.FightRequest;
+import net.sourceforge.kolmafia.request.RequestLogger;
 
 /*
  * Instead of packing and unpacking a giant map into user preference files,

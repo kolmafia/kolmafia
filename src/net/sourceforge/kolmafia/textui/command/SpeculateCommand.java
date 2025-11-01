@@ -2,10 +2,8 @@ package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.textui.command.KoLmafiaCLI.ParameterHandling;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
-import net.sourceforge.kolmafia.request.RequestLogger;
 import net.sourceforge.kolmafia.Speculation;
 import net.sourceforge.kolmafia.modifiers.BitmapModifier;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
@@ -13,6 +11,8 @@ import net.sourceforge.kolmafia.modifiers.DerivedModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
+import net.sourceforge.kolmafia.request.RequestLogger;
+import net.sourceforge.kolmafia.textui.command.KoLmafiaCLI.ParameterHandling;
 
 public class SpeculateCommand extends AbstractCommand {
   public SpeculateCommand() {

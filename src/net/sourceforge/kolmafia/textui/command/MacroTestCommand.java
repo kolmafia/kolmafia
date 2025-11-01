@@ -1,12 +1,12 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.MonsterData;
-import net.sourceforge.kolmafia.request.RequestLogger;
 import net.sourceforge.kolmafia.combat.Macrofier;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.FightRequest;
+import net.sourceforge.kolmafia.request.RequestLogger;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MacroTestCommand extends AbstractCommand {
