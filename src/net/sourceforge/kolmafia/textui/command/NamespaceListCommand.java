@@ -3,7 +3,6 @@ package net.sourceforge.kolmafia.textui.command;
 import java.io.File;
 import java.util.List;
 import net.sourceforge.kolmafia.KoLmafiaASH;
-import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.textui.AshRuntime;
