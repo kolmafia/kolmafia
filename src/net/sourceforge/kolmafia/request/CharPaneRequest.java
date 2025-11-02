@@ -1662,7 +1662,9 @@ public class CharPaneRequest extends GenericRequest {
   }
 
   private static final Pattern shrunkenHeadPattern =
-    Pattern.compile("Animating ([^<]+)</small><table border=0><tr><td><img alt=\"Abilities: ([^\"]+)\" [^>]+></td><td class=\"small\">HP: <b>(\\d+)</b>", Pattern.DOTALL);
+      Pattern.compile(
+          "Animating ([^<]+)</small><table border=0><tr><td><img alt=\"Abilities: ([^\"]+)\" [^>]+></td><td class=\"small\">HP: <b>(\\d+)</b>",
+          Pattern.DOTALL);
 
   private static void checkShrunkenHead(final String responseText) {
     Matcher matcher = shrunkenHeadPattern.matcher(responseText);
