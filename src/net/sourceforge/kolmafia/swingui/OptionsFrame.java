@@ -850,12 +850,9 @@ public class OptionsFrame extends GenericFrame {
       this.queue(
           new PreferenceIntegerTextField("maximizerMRUSize", 4, "Recent maximizer string buffer"));
       this.queue(
-          new PreferenceCheckBox(
-              "maximizerSingleFilter",
-              "Treat filter checkboxes as an exclusive group (will close Maximizer)"));
-      this.queue(
               new PreferenceCheckBox(
-                  "maximizerPersistFilters", "Remember previous filter selections"))
+                  "maximizerSingleFilter",
+                  "Treat filter checkboxes as an exclusive group (will close Maximizer)"))
           .addActionListener(new CloseMaximizerListener());
 
       this.makeLayout();

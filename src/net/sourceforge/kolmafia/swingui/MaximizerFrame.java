@@ -232,15 +232,15 @@ public class MaximizerFrame extends GenericFrame implements ListSelectionListene
         String filterString = fType.toString().toLowerCase();
 
         boolean isLastUsedFilter = true;
-        boolean isPersistedFilter = true;
         if (Preferences.getBoolean("maximizerSingleFilter")) {
           isLastUsedFilter =
               Preferences.getString("maximizerLastSingleFilter").equals(filterString);
-        } else if (Preferences.getBoolean("maximizerPersistFilters")) {
-          String filters = Preferences.getString("maximizerLastFilters");
-          isPersistedFilter =
-              Set.of(filters.split(",")).contains(filterString) || filters.equals("");
         }
+
+        String lastFilters = Preferences.getString("maximizerLastFilters");
+        boolean isPersistedFilter =
+            Set.of(lastFilters.split(",")).contains(filterString) || lastFilters.equals("");
+
         usageUnderLimit =
             switch (fType) {
               case BOOZE -> (KoLCharacter.canDrink()
@@ -311,8 +311,7 @@ public class MaximizerFrame extends GenericFrame implements ListSelectionListene
         Preferences.setString("maximizerLastSingleFilter", changedBox.getText());
       } else if (thisFilter != null) {
         boolean updatedValue = (e.getStateChange() == ItemEvent.SELECTED);
-        boolean persist = Preferences.getBoolean("maximizerPersistFilters");
-        updateFilter(thisFilter, updatedValue, persist);
+        updateFilter(thisFilter, updatedValue);
       }
     }
 
@@ -346,8 +345,8 @@ public class MaximizerFrame extends GenericFrame implements ListSelectionListene
     }
   }
 
-  protected void updateFilter(KoLConstants.filterType f, boolean value, boolean persist) {
-    if (persist) {
+  protected void updateFilter(KoLConstants.filterType f, boolean value) {
+    try {
       String lastFilters = Preferences.getString("maximizerLastFilters");
 
       Set<String> newFilters;
@@ -361,24 +360,13 @@ public class MaximizerFrame extends GenericFrame implements ListSelectionListene
       }
 
       if (value) {
+        activeFilters.add(f);
         newFilters.add(f.toString().toLowerCase());
       } else {
+        activeFilters.remove(f);
         newFilters.remove(f.toString().toLowerCase());
       }
       Preferences.setString("maximizerLastFilters", String.join(",", newFilters));
-    } else {
-      Preferences.setString("maximizerLastFilters", "");
-    }
-    updateFilter(f, value);
-  }
-
-  protected void updateFilter(KoLConstants.filterType f, boolean value) {
-    try {
-      if (value) {
-        activeFilters.add(f);
-      } else {
-        activeFilters.remove(f);
-      }
     } catch (Exception Ex) {
       // This should probably log the error...
     }
