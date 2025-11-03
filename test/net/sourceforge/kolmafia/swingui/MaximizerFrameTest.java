@@ -1,17 +1,29 @@
 package net.sourceforge.kolmafia.swingui;
 
+import static internal.helpers.Player.withFullness;
+import static internal.helpers.Player.withInebriety;
+import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withSpleenUse;
+import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.hasSize;
 
+import internal.helpers.Cleanups;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import net.java.dev.spellcast.utilities.LockableListModel;
+import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.maximizer.Boost;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.swingui.MaximizerFrame.FilterBoosts;
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -183,6 +195,123 @@ public class MaximizerFrameTest {
       }
 
       return lst;
+    }
+  }
+
+  @Nested
+  class PersistentFiltersTest {
+    private static final String TESTUSER = "PersistentFiltersTestUser";
+
+    @BeforeEach
+    void beforeEach() {
+      KoLCharacter.reset(TESTUSER);
+    }
+
+    @AfterAll
+    static void afterAll() {
+      KoLCharacter.reset(TESTUSER);
+    }
+
+    @Test
+    void enableAllFiltersByDefault() {
+      MaximizerFrame maximizerFrame = new MaximizerFrame();
+      for (KoLConstants.filterType filter : KoLConstants.filterType.values()) {
+        assertThat(maximizerFrame.getActiveFilters(), hasItem(filter));
+      }
+    }
+
+    @Test
+    void enableOnlyPersistedFilters() {
+      var cleanups = new Cleanups(withProperty("maximizerLastFilters", "equip,cast"));
+
+      try (cleanups) {
+        MaximizerFrame maximizerFrame = new MaximizerFrame();
+        KoLConstants.filterType[] persisted = {
+          KoLConstants.filterType.EQUIP, KoLConstants.filterType.CAST
+        };
+        for (KoLConstants.filterType filter : KoLConstants.filterType.values()) {
+          if (Arrays.asList(persisted).contains(filter)) {
+            assertThat(maximizerFrame.getActiveFilters(), hasItem(filter));
+          } else {
+            assertThat(maximizerFrame.getActiveFilters(), not(hasItem(filter)));
+          }
+        }
+      }
+    }
+
+    @Test
+    void disableFullOrgansEvenIfPersisted() {
+      var cleanups =
+          new Cleanups(
+              withProperty(
+                  "maximizerLastFilters", "equip,cast,wish,other,usable,booze,food,spleen"),
+              withInebriety(KoLCharacter.getLiverCapacity()),
+              withFullness(KoLCharacter.getStomachCapacity()),
+              withSpleenUse(KoLCharacter.getSpleenLimit()));
+
+      try (cleanups) {
+        MaximizerFrame maximizerFrame = new MaximizerFrame();
+        KoLConstants.filterType[] fullOrgans = {
+          KoLConstants.filterType.BOOZE,
+          KoLConstants.filterType.FOOD,
+          KoLConstants.filterType.SPLEEN
+        };
+        for (KoLConstants.filterType filter : KoLConstants.filterType.values()) {
+          if (Arrays.asList(fullOrgans).contains(filter)) {
+            assertThat(maximizerFrame.getActiveFilters(), not(hasItem(filter)));
+          } else {
+            assertThat(maximizerFrame.getActiveFilters(), hasItem(filter));
+          }
+        }
+      }
+    }
+
+    @Nested
+    class UpdateFilters {
+      @Test
+      void disableFilters() {
+        var cleanups =
+            new Cleanups(withProperty("maximizerLastFilters", "equip,cast,wish,other,usable"));
+
+        try (cleanups) {
+          MaximizerFrame maximizerFrame = new MaximizerFrame();
+          KoLConstants.filterType[] disabled = {
+            KoLConstants.filterType.WISH, KoLConstants.filterType.USABLE,
+          };
+          for (KoLConstants.filterType disabledFilter : disabled) {
+            maximizerFrame.updateFilter(disabledFilter, false);
+            assertThat(maximizerFrame.getActiveFilters(), not(hasItem(disabledFilter)));
+          }
+
+          String[] lastFilters = Preferences.getString("maximizerLastFilters").split(",");
+          for (String lastFilter : new String[] {"equip", "cast", "other"}) {
+            assertThat(Arrays.asList(lastFilters), hasItem(lastFilter));
+          }
+        }
+      }
+
+      @Test
+      void enableFilters() {
+        var cleanups = new Cleanups(withProperty("maximizerLastFilters", "equip"));
+
+        try (cleanups) {
+          MaximizerFrame maximizerFrame = new MaximizerFrame();
+          KoLConstants.filterType[] enabled = {
+            KoLConstants.filterType.BOOZE,
+            KoLConstants.filterType.FOOD,
+            KoLConstants.filterType.SPLEEN
+          };
+          for (KoLConstants.filterType enabledFilter : enabled) {
+            maximizerFrame.updateFilter(enabledFilter, true);
+            assertThat(maximizerFrame.getActiveFilters(), hasItem(enabledFilter));
+          }
+
+          String[] lastFilters = Preferences.getString("maximizerLastFilters").split(",");
+          for (String lastFilter : new String[] {"equip", "booze", "food", "spleen"}) {
+            assertThat(Arrays.asList(lastFilters), hasItem(lastFilter));
+          }
+        }
+      }
     }
   }
 }

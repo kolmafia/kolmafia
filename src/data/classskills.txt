@@ -1149,6 +1149,7 @@
 7578	BCZ: Prepare Spinal Tapas	cbz_tapasplate.gif	nc,item	0	0
 7579	BCZ: Craft a Pheromone Cocktail	cbz_booze.gif	nc,item	0	0
 7580	Mark Your Territory	hydrant.gif	combat	0	0
+7581	Prepare to reanimate your Foe	shrunkenhead.gif	combat	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.
