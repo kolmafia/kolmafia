@@ -1541,6 +1541,9 @@ user	shrubGarland
 user	shrubGifts
 user	shrubLights
 user	shrubTopper
+user	shrunkenHeadZombieAbilities		roa
+user	shrunkenHeadZombieHP	0	roa
+user	shrunkenHeadZombieMonster		roa
 user	shubJigguwattDefeated	false	roa
 user	sideDefeated	neither
 user	sidequestArenaCompleted	none
