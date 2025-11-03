@@ -111,12 +111,12 @@ public class PvpManager {
     return true;
   }
 
-  public static void executePvpRequest(final int attacks, final String mission, final int stance) {
+  public static void executePvpRequest(final int attacks, final String mission, final int stance, final boolean tougher) {
     if (!PvpManager.checkHippyStone()) {
       return;
     }
 
-    PeeVPeeRequest request = new PeeVPeeRequest("", stance, mission, false);
+    PeeVPeeRequest request = new PeeVPeeRequest("", stance, mission, tougher);
 
     int availableFights = KoLCharacter.getAttacksLeft();
     int totalFights = (attacks > availableFights || attacks == 0) ? availableFights : attacks;
