@@ -65,14 +65,15 @@ public class PeeVPeeRequest extends GenericRequest {
     this.addFormField("place", place);
   }
 
-  public PeeVPeeRequest(final String opponent, final int stance, final String mission) {
+  public PeeVPeeRequest(final String opponent, final int stance, final String mission, final boolean harder) {
     super("peevpee.php");
 
     this.addFormField("action", "fight");
     this.addFormField("place", "fight");
     this.addFormField("attacktype", mission);
     // ranked=1 for normal, 2 for harder
-    this.addFormField("ranked", "1");
+    if (harder) this.addFormField("ranked", "2");
+    else this.addFormField("ranked", "1");
     this.addFormField("stance", String.valueOf(stance));
     this.addFormField("who", opponent);
 

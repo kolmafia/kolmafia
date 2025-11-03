@@ -116,7 +116,7 @@ public class PvpManager {
       return;
     }
 
-    PeeVPeeRequest request = new PeeVPeeRequest("", stance, mission);
+    PeeVPeeRequest request = new PeeVPeeRequest("", stance, mission, false);
 
     int availableFights = KoLCharacter.getAttacksLeft();
     int totalFights = (attacks > availableFights || attacks == 0) ? availableFights : attacks;
@@ -204,7 +204,7 @@ public class PvpManager {
       // only available mission is "flowers";
       String realMission = (canInteract && !target.canInteract()) ? "flowers" : mission;
 
-      PeeVPeeRequest request = new PeeVPeeRequest("", 0, realMission);
+      PeeVPeeRequest request = new PeeVPeeRequest("", 0, realMission, false);
 
       // Choose current "best" stance
       // *** this is broken, as of Season 19
