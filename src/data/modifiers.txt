@@ -2639,6 +2639,7 @@ Item	shadowy seal eye	Spooky Damage: +20, Monster Level: +15, Class: "Seal Clubb
 Item	Shield of Icy Fate	Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1, Weapon Damage Percent: +25, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Damage Reduction: 7, Last Available: "2013-02"
 Item	shield of the Skeleton Lord	Muscle Percent: +50, Monster Level: +50, Familiar Weight: +5, Damage Reduction: 19, Last Available: "2018-04"
 Item	Shrub's Premium Baked Beans	Maximum MP: [25*(1+skill(Beanweaver))], Spell Damage Percent: [25*(1+skill(Beanweaver))], Spell Critical Percent: [5*(1+skill(Beanweaver))], Last Available: "2016-02"
+Item	shrunken head	Damage Reduction: [5*L], Muscle: [3*L], Mysticality: [3*L], Moxie: [3*L], MP Regen Min: 13, MP Regen Max: 15, Last Available: "2025-11", Conditional Skill (Equipped): "Prepare to reanimate your Foe"
 # signal receiver: Receives signals, presumably
 Item	silver cow creamer	Adventures: +3, PvP Fights: +3, Meat Drop: +30, Last Available: "2014-12"
 # silver sausage
@@ -14620,6 +14621,7 @@ Item	shrine to the Barrel god	Free Pull, Last Available: "2015-09"
 Item	shrink-wrapped 2002 Mr. Store Catalog	Free Pull, Last Available: "2023-06"
 Item	shrink-wrapped Cincho de Mayo	Free Pull, Last Available: "2023-05"
 # shrinking powder: Reduce an enemy's size (Hit Points) by 35-50%
+Item	shrunken head in a duffel bag	Free Pull, Last Available: "2025-11"
 Item	Shudder	Last Available: "2018-03"
 Item	shuddering cow skull	Last Available: "2016-02"
 # shuriken salad: Deals 25-35 Physical Damage, 25-35 <font color=blue>Cold Damage</font> and 25-35 <font color=green>Stench Damage</font>
