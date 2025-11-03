@@ -65,7 +65,8 @@ public class PeeVPeeRequest extends GenericRequest {
     this.addFormField("place", place);
   }
 
-  public PeeVPeeRequest(final String opponent, final int stance, final String mission, final boolean tougher) {
+  public PeeVPeeRequest(
+      final String opponent, final int stance, final String mission, final boolean tougher) {
     super("peevpee.php");
 
     this.addFormField("action", "fight");
