@@ -81,6 +81,15 @@ public class PvpStealCommand extends AbstractCommand {
       }
       mission = "lootwhatever";
     } else {
+      spaceIndex = parameters.indexOf(" ");
+      if (spaceIndex != -1) {
+        String maybeMission = parameters.substring(0, spaceIndex);
+        if (maybeMission.equals("flowers") || maybeMission.equals("fame") || maybeMission.equals("loot")) {
+          KoLmafia.updateDisplay(MafiaState.ERROR, param + " is neither \"random\" or \"tougher\"");
+          return;
+        }
+      }
+
       KoLmafia.updateDisplay(MafiaState.ERROR, "What do you want to steal?");
       return;
     }
