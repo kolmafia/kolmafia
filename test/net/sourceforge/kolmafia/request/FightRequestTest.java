@@ -4269,4 +4269,25 @@ public class FightRequestTest {
       }
     }
   }
+
+  @Nested
+  class ShrunkenHead {
+    @Test
+    public void canDetectShrunkenHeadZombieCreation() {
+      RequestLoggerOutput.startStream();
+      var cleanups =
+          new Cleanups(
+              withFight(),
+              withFamiliar(FamiliarPool.LEFT_HAND),
+              withEquipped(Slot.FAMILIAR, ItemPool.SHRUNKEN_HEAD));
+
+      try (cleanups) {
+        parseCombatData("request/test_fight_shrunken_head_reanimate_skill_win.html");
+
+        var stream = RequestLoggerOutput.stopStream();
+        assertThat(EquipmentManager.getEquipment(Slot.FAMILIAR), equalTo(EquipmentRequest.UNEQUIP));
+        assertThat(stream, containsString("You toss your shrunken head at your foe."));
+      }
+    }
+  }
 }

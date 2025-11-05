@@ -7184,6 +7184,10 @@ public class FightRequest extends GenericRequest {
       return;
     }
 
+    if (FightRequest.handleShrunkenHeadZombieCreation(str, status)) {
+      return;
+    }
+
     // As empty track does not have an image, it is specially handled to pass it to the appropiate
     // handler
     if (str.equals("Your toy train moves ahead to some empty track.")) {
@@ -7688,6 +7692,23 @@ public class FightRequest extends GenericRequest {
     FightRequest.logText(text, status);
 
     return true;
+  }
+
+  private static boolean handleShrunkenHeadZombieCreation(String text, TagStatus status) {
+    if (text.startsWith("You toss your shrunken head at your foe")) {
+      FightRequest.logText(text, status);
+
+      // find out which slot has the shrunken head equipped, and unequip it
+      if (EquipmentManager.getEquipment(Slot.OFFHAND).getItemId() == ItemPool.SHRUNKEN_HEAD) {
+        EquipmentManager.setEquipment(Slot.OFFHAND, EquipmentRequest.UNEQUIP);
+      } else if (KoLCharacter.getFamiliar().getId() == FamiliarPool.LEFT_HAND
+          && EquipmentManager.getFamiliarItem().getItemId() == ItemPool.SHRUNKEN_HEAD) {
+        EquipmentManager.setEquipment(Slot.FAMILIAR, EquipmentRequest.UNEQUIP);
+      }
+
+      return true;
+    }
+    return false;
   }
 
   private static void handleVillainLairRadio(Element node, TagStatus status) {
