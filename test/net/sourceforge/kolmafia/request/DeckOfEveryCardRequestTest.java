@@ -9,6 +9,7 @@ import static internal.helpers.Player.withGuildStoreOpen;
 import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withPasswordHash;
+import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withSavePreferencesToFile;
 import static internal.matchers.Preference.isSetTo;
@@ -30,8 +31,10 @@ import internal.helpers.Cleanups;
 import internal.network.FakeHttpClientBuilder;
 import java.util.List;
 import java.util.Map;
+import net.sourceforge.kolmafia.AscensionPath;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import org.junit.jupiter.api.BeforeAll;
@@ -189,5 +192,48 @@ class DeckOfEveryCardRequestTest {
       assertThat("_deckCardsDrawn", isSetTo(5));
       assertThat("_deckCardsSeen", isSetTo("1952 Mickey Mantle"));
     }
+  }
+
+  @Test
+  public void permitsContinueWhenUsingReplica() {
+    DeckOfEveryCardRequest.EveryCard mickey = getCardById(58);
+    var builder = new FakeHttpClientBuilder();
+    var client = builder.client;
+    client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
+    client.addResponse(200, html("request/use_deck_one.html"));
+    client.addResponse(200, html("request/use_deck_two.json"));
+    client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
+    client.addResponse(200, html("request/use_deck_three.html"));
+    client.addResponse(200, html("request/use_deck_four.json"));
+    client.addResponse(200, html("request/use_deck_five.html"));
+    client.addResponse(200, html("request/use_deck_six.json"));
+    var cleanups =
+        new Cleanups(
+            withHttpClientBuilder(builder),
+            withPath(AscensionPath.Path.LEGACY_OF_LOATHING),
+            withItem(ItemPool.REPLICA_DECK_OF_EVERY_CARD),
+            withProperty("_deckCardsDrawn", 0),
+            withProperty("_deckCardsSeen", ""),
+            withGender(KoLCharacter.Gender.FEMALE),
+            withGuildStoreOpen(false),
+            withPasswordHash("cafebabe"),
+            withAdventuresLeft(100));
+    try (cleanups) {
+      new DeckOfEveryCardRequest(mickey).run();
+      var requests = builder.client.getRequests();
+      assertThat(requests, hasSize(8));
+      assertPostRequest(requests.get(0), "/inv_use.php", "whichitem=11230&cheat=1&pwd=cafebabe");
+      assertGetRequest(requests.get(1), "/choice.php", "forceoption=0");
+      assertPostRequest(requests.get(2), "/api.php", "what=status&for=KoLmafia");
+      assertPostRequest(
+          requests.get(3), "/choice.php", "whichchoice=1086&option=1&which=58&pwd=cafebabe");
+      assertGetRequest(requests.get(4), "/choice.php", "forceoption=0");
+      assertPostRequest(requests.get(5), "/api.php", "what=status&for=KoLmafia");
+      assertPostRequest(requests.get(6), "/choice.php", "whichchoice=1085&option=1&pwd=cafebabe");
+      assertPostRequest(requests.get(7), "/api.php", "what=status&for=KoLmafia");
+      assertThat("_deckCardsDrawn", isSetTo(5));
+      assertThat("_deckCardsSeen", isSetTo("1952 Mickey Mantle"));
+    }
+    assertTrue(KoLmafia.permitsContinue());
   }
 }

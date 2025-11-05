@@ -282,6 +282,8 @@ public class CharPaneRequest extends GenericRequest {
 
     CharPaneRequest.checkWereProfessor(responseText);
 
+    CharPaneRequest.checkShrunkenHead(responseText);
+
     // Mana cost adjustment may have changed
 
     LockableListFactory.sort(KoLConstants.summoningSkills);
@@ -1656,6 +1658,27 @@ public class CharPaneRequest extends GenericRequest {
     if (tmatcher.find()) {
       Preferences.setInteger(
           "wereProfessorTransformTurns", StringUtilities.parseInt(tmatcher.group(1)));
+    }
+  }
+
+  private static final Pattern shrunkenHeadPattern =
+      Pattern.compile(
+          "Animating ([^<]+)</small><table border=0><tr><td><img alt=\"Abilities: ([^\"]+)\" [^>]+></td><td class=\"small\">HP: <b>(\\d+)</b>",
+          Pattern.DOTALL);
+
+  private static void checkShrunkenHead(final String responseText) {
+    Matcher matcher = shrunkenHeadPattern.matcher(responseText);
+    if (matcher.find()) {
+      String monster = matcher.group(1);
+      String abilities = matcher.group(2);
+      int hp = Integer.parseInt(matcher.group(3));
+      Preferences.setString("shrunkenHeadZombieMonster", monster);
+      Preferences.setString("shrunkenHeadZombieAbilities", abilities);
+      Preferences.setInteger("shrunkenHeadZombieHP", hp);
+    } else {
+      Preferences.setString("shrunkenHeadZombieMonster", "");
+      Preferences.setString("shrunkenHeadZombieAbilities", "");
+      Preferences.setInteger("shrunkenHeadZombieHP", 0);
     }
   }
 

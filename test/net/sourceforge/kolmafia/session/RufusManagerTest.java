@@ -379,7 +379,7 @@ public class RufusManagerTest {
     // This tests the "default" response to calling Back Rufus
     // Even if you have the goal, the user is allowed to hang up.
     @Test
-    private void callingBackRufusWithoutGoalHangsUp() {
+    void callingBackRufusWithoutGoalHangsUp() {
       String responseText = html("request/test_call_rufus_back_no_artifact.html");
       var cleanups = new Cleanups(withQuestProgress(Quest.RUFUS, "started"));
       try (cleanups) {
@@ -391,7 +391,7 @@ public class RufusManagerTest {
     }
 
     @Test
-    private void callingBackRufusWithGoalFinishes() {
+    void callingBackRufusWithGoalFinishes() {
       String responseText = html("request/test_call_rufus_back_artifact.html");
       var cleanups = new Cleanups(withQuestProgress(Quest.RUFUS, "step1"));
       try (cleanups) {

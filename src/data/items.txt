@@ -12072,3 +12072,5 @@
 12044	blood thinner	295771919	cbz_vial.gif	spleen, usable	t,d	25	vials of blood thinner
 12045	pheromone cocktail	796820375	cbz_booze.gif	drink	t,d	25
 12046	spinal tapas	283199142	cbz_tapasplate.gif	food	t,d	25	plates of spinal tapas
+12047	shrunken head in a duffel bag	237386044	headbag.gif	usable	t	0	shrunken heads in duffel bags
+12048	shrunken head	895261260	shrunkenhead.gif	offhand		0

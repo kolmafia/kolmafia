@@ -487,4 +487,44 @@ class CharPaneRequestTest {
       assertThat(slotter.getPokeLevel(), is(5));
     }
   }
+
+  @Nested
+  class ShrunkenHead {
+    @Test
+    void parseShrunkenHead() {
+      var cleanups =
+          new Cleanups(
+              withProperty("shrunkenHeadZombieMonster"),
+              withProperty("shrunkenHeadZombieAbilities"),
+              withProperty("shrunkenHeadZombieHP"));
+
+      try (cleanups) {
+        CharPaneRequest.processResults(html("request/test_charpane_shrunken_head.html"));
+        assertThat("shrunkenHeadZombieMonster", isSetTo("me4t begZ0r"));
+        assertThat(
+            "shrunkenHeadZombieAbilities",
+            isSetTo("Hot Attack (33%), Spooky Attack (30%), HP Regen (37%)"));
+        assertThat("shrunkenHeadZombieHP", isSetTo("535"));
+      }
+    }
+
+    @Test
+    void parseShrunkenHeadCompact() {
+      var cleanups =
+          new Cleanups(
+              withProperty("shrunkenHeadZombieMonster"),
+              withProperty("shrunkenHeadZombieAbilities"),
+              withProperty("shrunkenHeadZombieHP"));
+
+      try (cleanups) {
+        CharPaneRequest.processResults(html("request/test_charpane_shrunken_head_compact.html"));
+        assertThat("shrunkenHeadZombieMonster", isSetTo("BRICKO ooze"));
+        assertThat(
+            "shrunkenHeadZombieAbilities",
+            isSetTo(
+                "Item Drop Bonus (29%), Physical Attack (23%), Hot Attack (22%), Cold Attack (26%)"));
+        assertThat("shrunkenHeadZombieHP", isSetTo("400"));
+      }
+    }
+  }
 }

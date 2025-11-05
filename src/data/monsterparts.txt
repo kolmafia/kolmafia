@@ -2319,3 +2319,4 @@
 2496	Axis officer skeleton	femur	skull	spine	rib
 2497	time cop	arm	head	leg	torso
 2498	Nautical Seaceress	arm	head	tail	torso
+2499	some fish	fin	head	tail

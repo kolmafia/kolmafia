@@ -17,17 +17,17 @@ plugins {
   java
 
   id("com.diffplug.spotless") version "6.23.3"
-  id("com.gradleup.shadow") version "9.0.1"
+  id("com.gradleup.shadow") version "9.2.2"
   id("net.nemerosa.versioning") version "3.1.0"
-  id("org.ajoberstar.grgit") version "5.2.2"
-  id("org.panteleyev.jpackageplugin") version "1.7.3"
-  id("com.github.ben-manes.versions") version "0.51.0" // enables ./gradlew dependencyUpdates for outdated
+  id("org.ajoberstar.grgit") version "5.3.3"
+  id("org.panteleyev.jpackageplugin") version "1.7.6"
+  id("com.github.ben-manes.versions") version "0.53.0" // enables ./gradlew dependencyUpdates for outdated
 
   checkstyle
 }
 
 checkstyle {
-  toolVersion = "10.21.1"
+  toolVersion = "12.1.0"
 }
 
 sourceSets {
@@ -67,26 +67,26 @@ repositories {
 
 dependencies {
   // Use JUnit Jupiter for running JUnit5 tests.
-  testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.11.0")
-  testRuntimeOnly("org.junit.jupiter:junit-jupiter:5.11.0")
+  testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.14.0")
+  testRuntimeOnly("org.junit.jupiter:junit-jupiter:5.14.0")
 
   testImplementation("org.hamcrest:hamcrest:3.0")
   testImplementation("com.spotify:hamcrest-optional:1.3.2")
-  testImplementation("org.junit.jupiter:junit-jupiter-api:5.11.0")
-  testImplementation("org.junit.jupiter:junit-jupiter-params:5.11.0")
-  testImplementation("org.mockito:mockito-core:5.13.0")
-  testImplementation("org.eclipse.xtext:org.eclipse.xtext.xbase.lib:2.36.0") {
+  testImplementation("org.junit.jupiter:junit-jupiter-api:5.14.0")
+  testImplementation("org.junit.jupiter:junit-jupiter-params:5.14.0")
+  testImplementation("org.mockito:mockito-core:5.20.0")
+  testImplementation("org.eclipse.xtext:org.eclipse.xtext.xbase.lib:2.41.0.M1") {
     because("assertion errors including Location/Range/Position need it")
   }
-  testImplementation("org.junit-pioneer:junit-pioneer:2.2.0")
+  testImplementation("org.junit-pioneer:junit-pioneer:2.3.0")
 
   implementation("com.formdev:flatlaf:1.6.5")
   implementation("com.formdev:flatlaf-intellij-themes:1.6.5")
   implementation("com.formdev:flatlaf-swingx:1.6.5")
   // Optional runtime deps for svnkit
   runtimeOnly("com.trilead:trilead-ssh2:1.0.0-build222")
-  runtimeOnly("net.java.dev.jna:jna:5.14.0")
-  runtimeOnly("net.java.dev.jna:jna-platform:5.14.0")
+  runtimeOnly("net.java.dev.jna:jna:5.18.1")
+  runtimeOnly("net.java.dev.jna:jna-platform:5.18.1")
 
   "libImplementation"("org.swinglabs:swingx:1.0")
 
@@ -97,19 +97,19 @@ dependencies {
   )
 
   implementation("net.sourceforge.htmlcleaner:htmlcleaner:2.29")
-  implementation("org.jsoup:jsoup:1.19.1")
-  implementation("org.eclipse.lsp4j:org.eclipse.lsp4j:0.23.1") {
+  implementation("org.jsoup:jsoup:1.21.2")
+  implementation("org.eclipse.lsp4j:org.eclipse.lsp4j:0.24.0") {
     exclude(group = "org.eclipse.xtend", module = "org.eclipse.xtend.lib")
   }
-  implementation("org.slf4j:slf4j-nop:2.0.16")
-  implementation("org.fusesource.jansi:jansi:2.4.1")
-  implementation("com.alibaba.fastjson2:fastjson2:2.0.53")
+  implementation("org.slf4j:slf4j-nop:2.0.17")
+  implementation("org.fusesource.jansi:jansi:2.4.2")
+  implementation("com.alibaba.fastjson2:fastjson2:2.0.59")
   implementation("org.mozilla:rhino:1.8.0")
   implementation("org.swinglabs:swingx:1.0")
   implementation("org.tmatesoft.svnkit:svnkit:1.10.11")
   implementation("com.jgoodies:jgoodies-binding:2.13.0")
-  implementation("org.eclipse.jgit:org.eclipse.jgit:6.10.0.202406032230-r")
-  implementation("org.eclipse.jgit:org.eclipse.jgit.ssh.apache:6.10.0.202406032230-r")
+  implementation("org.eclipse.jgit:org.eclipse.jgit:7.4.0.202509020913-r")
+  implementation("org.eclipse.jgit:org.eclipse.jgit.ssh.apache:7.4.0.202509020913-r")
 
   checkstyle("com.puppycrawl.tools:checkstyle:${checkstyle.toolVersion}")
 }
