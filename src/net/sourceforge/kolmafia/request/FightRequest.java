@@ -6515,7 +6515,6 @@ public class FightRequest extends GenericRequest {
   }
 
   private static void processChildren(final Element node, final TagStatus status) {
-    StringBuffer action = status.action;
     for (Node child : node.childNodes()) {
       if (child instanceof Comment object) {
         FightRequest.processComment(object, status);
@@ -6595,7 +6594,14 @@ public class FightRequest extends GenericRequest {
 
         if (str.startsWith("You notice a button on your doctor bag that you hadn't seen before")) {
           Preferences.setBoolean("_bloodBagDoctorBag", true);
-          FightRequest.logText(str);
+          FightRequest.logText(str, status);
+          continue;
+        }
+
+        if (str.startsWith("Your zombie has taken too much damage, and falls to pieces")) {
+          FightRequest.logText(str, status);
+          // refresh the charpane to get zombie details
+          RequestThread.postRequest(new CharPaneRequest());
           continue;
         }
 

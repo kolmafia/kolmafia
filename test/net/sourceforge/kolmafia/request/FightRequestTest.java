@@ -4289,5 +4289,19 @@ public class FightRequestTest {
         assertThat(stream, containsString("You toss your shrunken head at your foe."));
       }
     }
+
+    @Test
+    public void canDetectShrunkenHeadZombieCollapse() {
+      RequestLoggerOutput.startStream();
+      var cleanups = withFight();
+
+      try (cleanups) {
+        parseCombatData("request/test_fight_shrunken_head_zombie_collapse.html");
+
+        var stream = RequestLoggerOutput.stopStream();
+        assertThat(
+            stream, containsString("Your zombie has taken too much damage, and falls to pieces."));
+      }
+    }
   }
 }
