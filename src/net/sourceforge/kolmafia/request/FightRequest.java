@@ -7725,6 +7725,8 @@ public class FightRequest extends GenericRequest {
         EquipmentManager.setEquipment(Slot.FAMILIAR, EquipmentRequest.UNEQUIP);
       }
 
+      // refresh the charpane to get zombie details
+      RequestThread.postRequest(new CharPaneRequest());
       return true;
     }
     return false;
