@@ -4291,6 +4291,19 @@ public class FightRequestTest {
     }
 
     @Test
+    public void swapsToPreviousEquipmentOnZombieCreation() {
+      var cleanups = new Cleanups(withFight(), withEquipped(Slot.OFFHAND, ItemPool.SHRUNKEN_HEAD));
+
+      try (cleanups) {
+        parseCombatData("request/test_fight_shrunken_head_reanimate_skill_win_swap.html");
+
+        assertThat(
+            EquipmentManager.getEquipment(Slot.OFFHAND).getItemId(),
+            equalTo(ItemPool.CARNIVOROUS_POTTED_PLANT));
+      }
+    }
+
+    @Test
     public void canDetectShrunkenHeadZombieCollapse() {
       RequestLoggerOutput.startStream();
       var cleanups = withFight();

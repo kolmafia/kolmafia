@@ -7116,6 +7116,10 @@ public class FightRequest extends GenericRequest {
       return;
     }
 
+    if (FightRequest.handleShrunkenHeadZombieCreation(node, status)) {
+      return;
+    }
+
     String str = FightRequest.getContentNodeText(node);
 
     if (status.pebble) {
@@ -7187,10 +7191,6 @@ public class FightRequest extends GenericRequest {
     if (handleCosmicBowlingBall(str)) return;
 
     if (FightRequest.handleUnblemishedPearl(str, status)) {
-      return;
-    }
-
-    if (FightRequest.handleShrunkenHeadZombieCreation(str, status)) {
       return;
     }
 
@@ -7700,13 +7700,26 @@ public class FightRequest extends GenericRequest {
     return true;
   }
 
-  private static boolean handleShrunkenHeadZombieCreation(String text, TagStatus status) {
+  private static final Pattern OFFHAND_SWAP_PATTERN =
+      Pattern.compile("You pick up your (.+) in your off-hand again");
+
+  private static boolean handleShrunkenHeadZombieCreation(Element node, TagStatus status) {
+    var text = node.wholeText();
     if (text.startsWith("You toss your shrunken head at your foe")) {
       FightRequest.logText(text, status);
 
       // find out which slot has the shrunken head equipped, and unequip it
       if (EquipmentManager.getEquipment(Slot.OFFHAND).getItemId() == ItemPool.SHRUNKEN_HEAD) {
-        EquipmentManager.setEquipment(Slot.OFFHAND, EquipmentRequest.UNEQUIP);
+        var nextPara = node.nextElementSibling();
+        var equip = EquipmentRequest.UNEQUIP;
+        if (nextPara != null) {
+          Matcher matcher = OFFHAND_SWAP_PATTERN.matcher(nextPara.text());
+          if (matcher.find()) {
+            String itemName = matcher.group(1);
+            equip = ItemPool.get(itemName);
+          }
+        }
+        EquipmentManager.setEquipment(Slot.OFFHAND, equip);
       } else if (KoLCharacter.getFamiliar().getId() == FamiliarPool.LEFT_HAND
           && EquipmentManager.getFamiliarItem().getItemId() == ItemPool.SHRUNKEN_HEAD) {
         EquipmentManager.setEquipment(Slot.FAMILIAR, EquipmentRequest.UNEQUIP);
