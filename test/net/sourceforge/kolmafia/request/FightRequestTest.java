@@ -4328,8 +4328,8 @@ public class FightRequestTest {
 
       var stream = RequestLoggerOutput.stopStream();
       assertThat(InventoryManager.getCount(ItemPool.LION_OIL), equalTo(0));
-      assertThat(
-        stream, not(containsString("You acquire an item: lion oil")));
+      assertThat(stream, not(containsString("You acquire an item: lion oil")));
+      assertThat(stream, containsString("A hated ewe stole an item: lion oil"));
     }
   }
 }

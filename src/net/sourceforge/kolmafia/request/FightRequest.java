@@ -6741,7 +6741,7 @@ public class FightRequest extends GenericRequest {
 
     // Look for items and effects first
     if (!onclick.isEmpty()) {
-      if (onclick.startsWith("descitem") && !str.contains("An item drops:") && !str.contains("A hated ewe appears")) {
+      if (onclick.startsWith("descitem") && !str.contains("An item drops:")) {
         Matcher m = INT_PATTERN.matcher(onclick);
         if (!m.find()) {
           return false;
@@ -6749,6 +6749,11 @@ public class FightRequest extends GenericRequest {
 
         int itemId = ItemDatabase.getItemIdFromDescription(m.group());
         AdventureResult result = ItemPool.get(itemId);
+
+        if (str.contains("A hated ewe appears")) {
+          FightRequest.logText("A hated ewe stole an item: " + result.getName(), status);
+          return false;
+        }
 
         boolean autoEquip = str.contains("automatically equipped");
         String acquisition = autoEquip ? "You acquire and equip an item:" : "You acquire an item:";
