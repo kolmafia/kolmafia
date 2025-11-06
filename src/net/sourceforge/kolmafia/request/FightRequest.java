@@ -6741,7 +6741,7 @@ public class FightRequest extends GenericRequest {
 
     // Look for items and effects first
     if (!onclick.isEmpty()) {
-      if (onclick.startsWith("descitem") && !str.contains("An item drops:")) {
+      if (onclick.startsWith("descitem") && !str.contains("An item drops:") && !str.contains("A hated ewe appears")) {
         Matcher m = INT_PATTERN.matcher(onclick);
         if (!m.find()) {
           return false;
