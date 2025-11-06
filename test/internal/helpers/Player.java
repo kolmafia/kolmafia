@@ -1211,7 +1211,8 @@ public class Player {
    * @return Resets stats to zero
    */
   public static Cleanups withStats(final int muscle, final int mysticality, final int moxie) {
-    return withSubStats(muscle * muscle, mysticality * mysticality, moxie * moxie);
+    return withSubStats(
+        (long) muscle * muscle, (long) mysticality * mysticality, (long) moxie * moxie);
   }
 
   /**
@@ -2063,10 +2064,7 @@ public class Player {
   public static Cleanups withPasswordHash(String passwordHash) {
     var old = GenericRequest.passwordHash;
     GenericRequest.setPasswordHash(passwordHash);
-    return new Cleanups(
-        () -> {
-          GenericRequest.setPasswordHash(old);
-        });
+    return new Cleanups(() -> GenericRequest.setPasswordHash(old));
   }
 
   /**
@@ -2779,10 +2777,7 @@ public class Player {
   public static Cleanups withTopMenuStyle(final TopMenuStyle style) {
     var oldStyle = GenericRequest.topMenuStyle;
     GenericRequest.topMenuStyle = style;
-    return new Cleanups(
-        () -> {
-          GenericRequest.topMenuStyle = oldStyle;
-        });
+    return new Cleanups(() -> GenericRequest.topMenuStyle = oldStyle);
   }
 
   /**
@@ -2794,10 +2789,7 @@ public class Player {
   public static Cleanups withUserId(final int id) {
     var oldId = KoLCharacter.getUserId();
     KoLCharacter.setUserId(id);
-    return new Cleanups(
-        () -> {
-          KoLCharacter.setUserId(oldId);
-        });
+    return new Cleanups(() -> KoLCharacter.setUserId(oldId));
   }
 
   /**
@@ -2938,10 +2930,7 @@ public class Player {
     } catch (IOException e) {
       System.out.println(e + " while copying " + sourceName + " to " + destinationName + ".");
     }
-    return new Cleanups(
-        () -> {
-          destinationFile.delete();
-        });
+    return new Cleanups(destinationFile::delete);
   }
 
   /**
@@ -2994,10 +2983,7 @@ public class Player {
   public static Cleanups withGoal(final AdventureResult goal) {
     var goals = GoalManager.getGoals();
     GoalManager.addGoal(goal);
-    return new Cleanups(
-        () -> {
-          GoalManager.addGoal(goal.getNegation());
-        });
+    return new Cleanups(() -> GoalManager.addGoal(goal.getNegation()));
   }
 
   private static void updateMallResults(int itemId, List<PurchaseRequest> results) {
