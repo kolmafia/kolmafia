@@ -145,34 +145,36 @@ public class DebugDatabaseTest {
   @Test
   public void checkManuel() {
     String expectedOutput =
-        "Checking Monster Manuel...\n"
-            + "Page A\n"
-            + "Page B\n"
-            + "Page C\n"
-            + "Page D\n"
-            + "Page E\n"
-            + "Page F\n"
-            + "Page G\n"
-            + "Page H\n"
-            + "Page I\n"
-            + "Page J\n"
-            + "Page K\n"
-            + "Page L\n"
-            + "Page M\n"
-            + "Page N\n"
-            + "Page O\n"
-            + "Page P\n"
-            + "Page Q\n"
-            + "Page R\n"
-            + "Page S\n"
-            + "Page T\n"
-            + "Page U\n"
-            + "Page V\n"
-            + "Page W\n"
-            + "Page X\n"
-            + "Page Y\n"
-            + "Page Z\n"
-            + "Page -\n";
+        """
+        Checking Monster Manuel...
+        Page A
+        Page B
+        Page C
+        Page D
+        Page E
+        Page F
+        Page G
+        Page H
+        Page I
+        Page J
+        Page K
+        Page L
+        Page M
+        Page N
+        Page O
+        Page P
+        Page Q
+        Page R
+        Page S
+        Page T
+        Page U
+        Page V
+        Page W
+        Page X
+        Page Y
+        Page Z
+        Page -
+        """;
     ByteArrayOutputStream ostream = new ByteArrayOutputStream();
     PrintStream out = new PrintStream(ostream);
     // Inject custom output stream.
