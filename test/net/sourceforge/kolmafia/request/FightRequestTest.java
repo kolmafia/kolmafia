@@ -4321,7 +4321,7 @@ public class FightRequestTest {
   @Test
   public void shouldNotAcquireItemsStolenByEwes() {
     RequestLoggerOutput.startStream();
-    var cleanups = withFight();
+    var cleanups = new Cleanups(withFight(), withNoItems());
 
     try (cleanups) {
       parseCombatData("request/test_fight_ewe_theft.html");
