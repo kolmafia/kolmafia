@@ -15,7 +15,8 @@ import internal.helpers.Cleanups;
 import internal.network.FakeHttpClient;
 import internal.network.FakeHttpClientBuilder;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.preferences.Preferences;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junitpioneer.jupiter.cartesian.CartesianTest;
@@ -26,15 +27,14 @@ public class PvpStealCommandTest extends AbstractCommandTestBase {
     this.command = "pvp";
   }
 
-  @BeforeEach
-  public void beforeEach() {
+  @BeforeAll
+  public static void beforeAll() {
     KoLCharacter.reset("testUser");
+  }
 
-    // Figure out this for pvp?
-    // new HeistCommandFakeRequest().register("heistFake");
-
-    // Stop requests from actually running
-    GenericRequest.sessionId = null;
+  @BeforeEach
+  protected void beforeEach() {
+    Preferences.reset("testUser");
   }
 
   @Test
@@ -111,6 +111,69 @@ public class PvpStealCommandTest extends AbstractCommandTestBase {
     }
   }
 
+  @Test
+  void validatesStance() {
+    var setup = setupClient();
+    var client = setup.client;
+    var cleanups = setup.cleanups;
+
+    try (cleanups) {
+      String output = execute("1 flowers 14");
+
+      assertThat(output, containsString("14 is not a valid stance"));
+      assertErrorState();
+    }
+  }
+
+  @Test
+  void attacksWithAllSuccessfully() {
+    var setup = setupClient();
+    var client = setup.client;
+    var cleanups = setup.cleanups;
+
+    try (cleanups) {
+      String output = execute("tougher fame 1");
+
+      assertThat(
+          output,
+          containsString("Use all remaining PVP attacks to steal fame via Quality Assurance"));
+    }
+  }
+
+  @Test
+  void fuzzyMatchesStanceSuccessfully() {
+    var setup = setupClient();
+    var client = setup.client;
+    var cleanups = setup.cleanups;
+
+    try (cleanups) {
+      client.addResponse(200, "");
+
+      String output = execute("loots bet");
+
+      assertThat(
+          output, containsString("Use all remaining PVP attacks to steal loots via Beta Tester"));
+    }
+  }
+
+  @Test
+  void fuzzyMatchingFails() {
+    var setup = setupClient();
+    var client = setup.client;
+    var cleanups = setup.cleanups;
+
+    try (cleanups) {
+      String totallyRealStance = "a totally real stance";
+      String output = execute("1 flowers " + totallyRealStance);
+
+      assertThat(
+          output,
+          containsString(
+              "\"" + totallyRealStance + "\" does not uniquely match a currently known stance"));
+      assertErrorState();
+    }
+  }
+
   @CartesianTest
   void attacksSuccessfully(
       @Values(strings = {"random", "tougher"}) final String tougher,
@@ -121,9 +184,12 @@ public class PvpStealCommandTest extends AbstractCommandTestBase {
     var cleanups = setup.cleanups;
 
     try (cleanups) {
-      execute("1 " + tougher + " " + mission + " 1");
+      String output = execute("1 " + tougher + " " + mission + " 1");
 
-      assertRequest(client, mission, tougher);
+      assertThat(
+          output,
+          containsString("Use 1 PVP attacks to steal " + mission + " via Quality Assurance"));
+      assertRequest(client, mission, tougher, 1);
     }
   }
 
@@ -149,7 +215,7 @@ public class PvpStealCommandTest extends AbstractCommandTestBase {
     client.addResponse(200, html("request/test_pvp_fight_menu.html")); // checkStances
   }
 
-  private void assertRequest(FakeHttpClient client, String mission, String tougher) {
+  private void assertRequest(FakeHttpClient client, String mission, String tougher, int stance) {
     var requests = client.getRequests();
 
     // For the ranked field, 1 = random opponent, 2 = random tougher opponent.
@@ -167,7 +233,9 @@ public class PvpStealCommandTest extends AbstractCommandTestBase {
             + mission
             + "&ranked="
             + tougherNum
-            + "&stance=1&who=&winmessage=lucky!&losemessage=oops.");
+            + "&stance="
+            + stance
+            + "&who=&winmessage=lucky!&losemessage=oops.");
     assertContinueState();
   }
 }
