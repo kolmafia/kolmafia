@@ -8,7 +8,7 @@ import net.sourceforge.kolmafia.utilities.HttpUtilities;
 
 public class HttpClientWrapper {
 
-  public static FakeHttpClientBuilder fakeClientBuilder = new FakeHttpClientBuilder();
+  public static final FakeHttpClientBuilder fakeClientBuilder = new FakeHttpClientBuilder();
 
   public static List<HttpRequest> getRequests() {
     return fakeClientBuilder.client.getRequests();
