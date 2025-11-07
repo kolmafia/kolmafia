@@ -137,6 +137,7 @@ public class PvpStealCommandTest extends AbstractCommandTestBase {
       assertThat(
           output,
           containsString("Use all remaining PVP attacks to steal fame via Quality Assurance"));
+      assertContinueState();
     }
   }
 
@@ -153,6 +154,7 @@ public class PvpStealCommandTest extends AbstractCommandTestBase {
 
       assertThat(
           output, containsString("Use all remaining PVP attacks to steal loots via Beta Tester"));
+      assertContinueState();
     }
   }
 
