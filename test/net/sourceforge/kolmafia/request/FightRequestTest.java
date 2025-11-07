@@ -4317,4 +4317,19 @@ public class FightRequestTest {
       }
     }
   }
+
+  @Test
+  public void shouldNotAcquireItemsStolenByEwes() {
+    RequestLoggerOutput.startStream();
+    var cleanups = new Cleanups(withFight(), withNoItems());
+
+    try (cleanups) {
+      parseCombatData("request/test_fight_ewe_theft.html");
+
+      var stream = RequestLoggerOutput.stopStream();
+      assertThat(InventoryManager.getCount(ItemPool.LION_OIL), equalTo(0));
+      assertThat(stream, not(containsString("You acquire an item: lion oil")));
+      assertThat(stream, containsString("A hated ewe stole an item: lion oil"));
+    }
+  }
 }

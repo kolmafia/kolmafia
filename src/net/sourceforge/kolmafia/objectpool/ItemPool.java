@@ -656,6 +656,7 @@ public class ItemPool {
   public static final int CALAVERA_CONCERTINA = 2234;
   public static final int TURTLE_PHEROMONES = 2236;
   public static final int PHOTOGRAPH_OF_GOD = 2259;
+  public static final int LION_OIL = 2263;
   public static final int WET_STUNT_NUT_STEW = 2266;
   public static final int MEGA_GEM = 2267;
   public static final int STAFF_OF_FATS = 2268;
