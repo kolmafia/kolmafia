@@ -4330,6 +4330,8 @@ public class FightRequestTest {
       assertThat(InventoryManager.getCount(ItemPool.LION_OIL), equalTo(0));
       assertThat(stream, not(containsString("You acquire an item: lion oil")));
       assertThat(stream, containsString("A hated ewe stole an item: lion oil"));
+      assertThat(
+          Preferences.getString("eweItem"), containsString(String.valueOf(ItemPool.LION_OIL)));
     }
   }
 }
