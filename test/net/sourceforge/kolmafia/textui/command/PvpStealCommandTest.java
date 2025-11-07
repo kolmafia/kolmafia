@@ -38,7 +38,7 @@ public class PvpStealCommandTest extends AbstractCommandTestBase {
   }
 
   @Test
-  void mustHaveNonEmptyCommand() {
+  void mustReturnMissionsOnEmpty() {
     var setup = setupClient();
     var client = setup.client;
     var cleanups = setup.cleanups;
@@ -46,8 +46,8 @@ public class PvpStealCommandTest extends AbstractCommandTestBase {
     try (cleanups) {
       String output = execute("");
 
-      assertThat(output, containsString("Must specify both mission and stance"));
-      assertErrorState();
+      assertThat(output, containsString("7: Installation Wizard"));
+      assertContinueState();
     }
   }
 
@@ -95,15 +95,19 @@ public class PvpStealCommandTest extends AbstractCommandTestBase {
 
   @Test
   void validatesMission() { // Can't attack for loot if you're in Ronin/HC
-    var setup = setupClient();
-    var client = setup.client;
-    var cleanups = new Cleanups(setup.cleanups, withInteractivity(false));
+    var builder = new FakeHttpClientBuilder();
+    var cleanups =
+        new Cleanups(
+            withHttpClientBuilder(builder),
+            withHippyStoneBroken(),
+            withAttacksLeft(1),
+            withInteractivity(false));
 
     try (cleanups) {
-      String output = execute("1 loot");
+      String output = execute("1 loot 1");
 
       assertThat(output, containsString("You cannot attack for loot now."));
-      assertErrorState();
+      assertContinueState();
     }
   }
 
@@ -133,6 +137,7 @@ public class PvpStealCommandTest extends AbstractCommandTestBase {
             withHttpClientBuilder(builder),
             withHippyStoneBroken(),
             withAttacksLeft(1),
+            withInteractivity(true),
             withProperty("defaultFlowerWinMessage", "lucky!"),
             withProperty("defaultFlowerLossMessage", "oops."));
 
@@ -142,7 +147,6 @@ public class PvpStealCommandTest extends AbstractCommandTestBase {
 
   private void addResponses(FakeHttpClient client) {
     client.addResponse(200, html("request/test_pvp_fight_menu.html")); // checkStances
-    client.addResponse(200, "");
   }
 
   private void assertRequest(FakeHttpClient client, String mission, String tougher) {
@@ -157,12 +161,13 @@ public class PvpStealCommandTest extends AbstractCommandTestBase {
     }
 
     assertPostRequest(
-        requests.get(1),
+        requests.get(0),
         "/peevpee.php",
         "action=fight&place=fight&attacktype="
             + mission
-            + "&winmessage=lucky!&losemessage=oops.&stance=1&ranked="
-            + tougherNum);
+            + "&ranked="
+            + tougherNum
+            + "&stance=1&who=&winmessage=lucky!&losemessage=oops.");
     assertContinueState();
   }
 }
