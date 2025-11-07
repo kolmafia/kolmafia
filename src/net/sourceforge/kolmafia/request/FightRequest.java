@@ -6752,6 +6752,7 @@ public class FightRequest extends GenericRequest {
 
         if (str.contains("A hated ewe appears")) {
           FightRequest.logText("A hated ewe stole an item: " + result.getName(), status);
+          Preferences.setString("eweItem", result.getName());
           return false;
         }
 
