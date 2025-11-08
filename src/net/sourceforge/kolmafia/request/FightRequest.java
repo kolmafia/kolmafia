@@ -4365,6 +4365,10 @@ public class FightRequest extends GenericRequest {
             path.setPoints(11);
           }
         }
+        // When fighting a Ewe, all prior ewe item drops become unavailable
+        case "Ewe" -> {
+          Preferences.setString("eweItem", "")
+        }
       }
 
       if (KoLCharacter.hasEquipped(ItemPool.BONE_ABACUS, Slot.OFFHAND)
