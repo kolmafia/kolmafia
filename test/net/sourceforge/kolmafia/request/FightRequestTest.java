@@ -4340,9 +4340,7 @@ public class FightRequestTest {
     RequestLoggerOutput.startStream();
     var cleanups =
         new Cleanups(
-            withFight(),
-            withNoItems(),
-            withProperty("eweItem", String.valueOf(ItemPool.LION_OIL)));
+            withFight(), withNoItems(), withProperty("eweItem", String.valueOf(ItemPool.LION_OIL)));
     try (cleanups) {
       parseCombatData("request/test_ewe_fight_drops.html");
       var stream = RequestLoggerOutput.stopStream();
