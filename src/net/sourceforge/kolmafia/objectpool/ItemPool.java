@@ -597,6 +597,7 @@ public class ItemPool {
   public static final int VANGOGHBITUSSIN = 1950;
   public static final int PINOT_RENOIR = 1951;
   public static final int FLAT_CHAMPAGNE = 1953;
+  public static final int SNIFTER_BRANDY = 1956;
   public static final int QUILL_PEN = 1957;
   public static final int INKWELL = 1958;
   public static final int SCRAP_OF_PAPER = 1959;
