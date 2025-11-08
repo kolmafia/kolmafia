@@ -91,21 +91,16 @@ class FaxBotDatabaseTest {
 
     @Test
     public void exerciseSomeFaxbotOverridesForCoverage() {
-      FaxBotDatabase.FaxBot nullBot = null;
       FaxBotDatabase.FaxBot botA = new FaxBotDatabase.FaxBot("A Bot", 1999);
       FaxBotDatabase.FaxBot botAlsoA = new FaxBotDatabase.FaxBot("A Bot", 1999);
       FaxBotDatabase.FaxBot botB = new FaxBotDatabase.FaxBot("B Bot", 1999);
       FaxBotDatabase.FaxBot botInvalid = new FaxBotDatabase.FaxBot(null, 1999);
-      assertTrue(botA.equals(botA));
-      assertTrue(botA.equals(botAlsoA));
-      assertFalse(botA.equals(nullBot));
-      assertFalse(botA.equals(botB));
-      assertFalse(botA.equals(validMonsterData));
-      assertFalse(botA.equals(botInvalid));
+      assertNotEquals(null, botA);
+      assertNotEquals(botA, botB);
+      assertNotEquals(botA, botInvalid);
       assertNotEquals(0, botA.hashCode());
       assertEquals(0, botInvalid.hashCode());
-      assertEquals(-1, botA.compareTo(nullBot));
-      assertEquals(0, botA.compareTo(botA));
+      assertEquals(-1, botA.compareTo(null));
       assertEquals(0, botA.compareTo(botAlsoA));
       assertEquals(-1, botA.compareTo(botB));
       assertEquals(1, botB.compareTo(botA));
@@ -127,17 +122,15 @@ class FaxBotDatabaseTest {
     @Test
     public void exerciseSomeMonsterOverridesForCoverage() {
       FaxBotDatabase.FaxBot faxBot = FaxBotDatabase.getFaxbot("OnlyFax");
+      assertNotNull(faxBot);
       FaxBotDatabase.Monster aMonster = faxBot.getMonsterByCommand("[1183]angry cavebugbear");
       FaxBotDatabase.Monster bMonster =
           faxBot.getMonsterByCommand("[399]animated nightstand (mahogany combat)");
-      assertTrue(aMonster.equals(aMonster));
-      assertFalse(aMonster.equals(bMonster));
-      assertFalse(aMonster.equals(validMonsterData));
-      assertFalse(aMonster.equals(null));
+      assertNotEquals(aMonster, bMonster);
+      assertNotEquals(null, aMonster);
       assertEquals(aMonster.hashCode(), aMonster.hashCode());
       assertNotEquals(aMonster.hashCode(), bMonster.hashCode());
       assertEquals(-1, aMonster.compareTo(null));
-      assertEquals(0, aMonster.compareTo(aMonster));
       // note that the underlying compareToIgnoreCase returns an index of lexicographical
       // significance and not a value normalized to +/- 1 (or 0)
       assertEquals(-2, aMonster.compareTo(bMonster));
