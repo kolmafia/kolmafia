@@ -95,7 +95,7 @@ class FaxBotDatabaseTest {
       FaxBotDatabase.FaxBot botAlsoA = new FaxBotDatabase.FaxBot("A Bot", 1999);
       FaxBotDatabase.FaxBot botB = new FaxBotDatabase.FaxBot("B Bot", 1999);
       FaxBotDatabase.FaxBot botInvalid = new FaxBotDatabase.FaxBot(null, 1999);
-      assertNotEquals(null, botA);
+      assertNotNull(botA);
       assertNotEquals(botA, botB);
       assertNotEquals(botA, botInvalid);
       assertNotEquals(0, botA.hashCode());
@@ -127,7 +127,7 @@ class FaxBotDatabaseTest {
       FaxBotDatabase.Monster bMonster =
           faxBot.getMonsterByCommand("[399]animated nightstand (mahogany combat)");
       assertNotEquals(aMonster, bMonster);
-      assertNotEquals(null, aMonster);
+      assertNotNull(aMonster);
       assertEquals(aMonster.hashCode(), aMonster.hashCode());
       assertNotEquals(aMonster.hashCode(), bMonster.hashCode());
       assertEquals(-1, aMonster.compareTo(null));
