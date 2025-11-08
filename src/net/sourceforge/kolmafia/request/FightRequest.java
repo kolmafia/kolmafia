@@ -4366,7 +4366,7 @@ public class FightRequest extends GenericRequest {
           }
         }
           // When fighting a Ewe, all prior ewe item drops become unavailable
-        case "Ewe" -> {
+        case "ewe" -> {
           Preferences.setString("eweItem", "");
         }
       }
