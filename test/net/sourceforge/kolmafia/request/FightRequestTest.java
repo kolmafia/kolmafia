@@ -4330,6 +4330,21 @@ public class FightRequestTest {
       assertThat(InventoryManager.getCount(ItemPool.LION_OIL), equalTo(0));
       assertThat(stream, not(containsString("You acquire an item: lion oil")));
       assertThat(stream, containsString("A hated ewe stole an item: lion oil"));
+      assertThat(
+          Preferences.getString("eweItem"), containsString(String.valueOf(ItemPool.LION_OIL)));
+    }
+  }
+
+  @Test
+  public void shouldClearEweItemsWhenNoItemsStolen() {
+    RequestLoggerOutput.startStream();
+    var cleanups =
+        new Cleanups(
+            withFight(0), withProperty("eweItem", String.valueOf(ItemPool.SNIFTER_BRANDY)));
+    try (cleanups) {
+      parseCombatData("request/test_ewe_fight_drops.html");
+      var stream = RequestLoggerOutput.stopStream();
+      assertThat(Preferences.getString("eweItem"), equalTo(""));
     }
   }
 }
