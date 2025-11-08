@@ -267,7 +267,7 @@ class DailyLimitDatabaseTest {
     }
 
     @Test
-    void incrementingSummonKokomoResortPassBackfillsDeprecatedPref() throws Exception {
+    void incrementingSummonKokomoResortPassBackfillsDeprecatedPref() {
       var cleanups =
           new Cleanups(
               withProperty("_summonResortPassUsed", false),

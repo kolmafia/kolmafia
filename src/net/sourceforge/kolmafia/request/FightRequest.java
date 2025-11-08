@@ -4365,6 +4365,10 @@ public class FightRequest extends GenericRequest {
             path.setPoints(11);
           }
         }
+          // When fighting a Ewe, all prior ewe item drops become unavailable
+        case "ewe" -> {
+          Preferences.setString("eweItem", "");
+        }
       }
 
       if (KoLCharacter.hasEquipped(ItemPool.BONE_ABACUS, Slot.OFFHAND)
@@ -6752,6 +6756,16 @@ public class FightRequest extends GenericRequest {
 
         if (str.contains("A hated ewe appears")) {
           FightRequest.logText("A hated ewe stole an item: " + result.getName(), status);
+          String newItem = String.valueOf(itemId);
+          String existing = Preferences.getString("eweItem");
+
+          if (existing == null || existing.isBlank()) {
+            // First item
+            Preferences.setString("eweItem", newItem);
+          } else {
+            // Append
+            Preferences.setString("eweItem", existing + "," + newItem);
+          }
           return false;
         }
 

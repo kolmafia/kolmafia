@@ -131,8 +131,8 @@ public class EquipmentDatabaseTest {
         assertThat(treats, hasSize(hasRussianIce ? 1 : 0));
 
         if (hasRussianIce) {
-          assertThat(treats.get(0).treat().getName(), is("double-ice gum"));
-          assertThat(treats.get(0).chance(), is(1.0));
+          assertThat(treats.getFirst().treat().getName(), is("double-ice gum"));
+          assertThat(treats.getFirst().chance(), is(1.0));
         }
       }
     }

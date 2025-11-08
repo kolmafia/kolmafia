@@ -11,7 +11,6 @@ import java.io.PrintStream;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.stream.Collectors;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.ModifierType;
@@ -76,7 +75,7 @@ public class ModifierDatabaseTest {
 
     ModifierDatabase.writeModifiers(writer);
     writer.close();
-    List<String> writeModifiersLines = ostream.toString().lines().collect(Collectors.toList());
+    List<String> writeModifiersLines = ostream.toString().lines().toList();
 
     BufferedReader reader =
         DataUtilities.getReader(KoLConstants.DATA_DIRECTORY, "modifiers.txt", true);
@@ -97,10 +96,10 @@ public class ModifierDatabaseTest {
     if (writeModifiersLine != null) {
       int index = writeModifiersLines.indexOf(writeModifiersLine);
       for (int i = Math.min(3, index); i >= 0; i--) {
-        message.append("previous line: [" + writeModifiersLines.get(index - i) + "]\n");
+        message.append("previous line: [").append(writeModifiersLines.get(index - i)).append("]\n");
       }
     }
-    message.append("unmatched line: [" + writeModifiersLine + "]");
+    message.append("unmatched line: [").append(writeModifiersLine).append("]");
     assertThat(message.toString(), writeModifiersIterator.hasNext(), is(false));
   }
 
