@@ -16,6 +16,7 @@ import internal.network.FakeHttpClient;
 import internal.network.FakeHttpClientBuilder;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.session.PvpManager;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,6 +36,8 @@ public class PvpStealCommandTest extends AbstractCommandTestBase {
   @BeforeEach
   protected void beforeEach() {
     Preferences.reset("testUser");
+    PvpManager.stancesKnown = false;
+    PvpManager.canonicalStances = null;
   }
 
   @Test
@@ -96,6 +99,7 @@ public class PvpStealCommandTest extends AbstractCommandTestBase {
   @Test
   void validatesMission() { // Can't attack for loot if you're in Ronin/HC
     var builder = new FakeHttpClientBuilder();
+    var client = builder.client;
     var cleanups =
         new Cleanups(
             withHttpClientBuilder(builder),
@@ -104,6 +108,8 @@ public class PvpStealCommandTest extends AbstractCommandTestBase {
             withInteractivity(false));
 
     try (cleanups) {
+      addResponses(client);
+
       String output = execute("1 loot 1");
 
       assertThat(output, containsString("You cannot attack for loot now."));
@@ -137,7 +143,7 @@ public class PvpStealCommandTest extends AbstractCommandTestBase {
       assertThat(
           output,
           containsString("Use all remaining PVP attacks to steal fame via Quality Assurance"));
-      assertContinueState();
+      assertRequest(client, "fame", "tougher", 1);
     }
   }
 
@@ -154,7 +160,7 @@ public class PvpStealCommandTest extends AbstractCommandTestBase {
 
       assertThat(
           output, containsString("Use all remaining PVP attacks to steal loots via Beta Tester"));
-      assertContinueState();
+      assertRequest(client, "lootwhatever", "random", 11);
     }
   }
 
@@ -229,7 +235,7 @@ public class PvpStealCommandTest extends AbstractCommandTestBase {
     }
 
     assertPostRequest(
-        requests.get(0),
+        requests.get(1),
         "/peevpee.php",
         "action=fight&place=fight&attacktype="
             + mission
