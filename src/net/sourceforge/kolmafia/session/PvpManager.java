@@ -111,12 +111,13 @@ public class PvpManager {
     return true;
   }
 
-  public static void executePvpRequest(final int attacks, final String mission, final int stance) {
+  public static void executePvpRequest(
+      final int attacks, final String mission, final int stance, final boolean tougher) {
     if (!PvpManager.checkHippyStone()) {
       return;
     }
 
-    PeeVPeeRequest request = new PeeVPeeRequest("", stance, mission);
+    PeeVPeeRequest request = new PeeVPeeRequest("", stance, mission, tougher);
 
     int availableFights = KoLCharacter.getAttacksLeft();
     int totalFights = (attacks > availableFights || attacks == 0) ? availableFights : attacks;
@@ -204,7 +205,7 @@ public class PvpManager {
       // only available mission is "flowers";
       String realMission = (canInteract && !target.canInteract()) ? "flowers" : mission;
 
-      PeeVPeeRequest request = new PeeVPeeRequest("", 0, realMission);
+      PeeVPeeRequest request = new PeeVPeeRequest("", 0, realMission, false);
 
       // Choose current "best" stance
       // *** this is broken, as of Season 19
