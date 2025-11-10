@@ -75,7 +75,7 @@ public class CampgroundRequestTest {
     String html = html("request/test_campground_medicine_cabinet_out_of_consults.html");
     CampgroundRequest.parseResponse("campground.php?action=workshed", html);
     assertEquals(
-      ItemPool.COLD_MEDICINE_CABINET, CampgroundRequest.getCurrentWorkshedItem().getItemId());
+        ItemPool.COLD_MEDICINE_CABINET, CampgroundRequest.getCurrentWorkshedItem().getItemId());
   }
 
   @Test
