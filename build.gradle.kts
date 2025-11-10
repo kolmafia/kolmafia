@@ -129,6 +129,7 @@ spotless {
   }
   format("xml") {
     target("**/*.xml")
+    targetExclude("test/**/*.xml", ".idea/*")
 
     trimTrailingWhitespace()
     indentWithSpaces(2)
