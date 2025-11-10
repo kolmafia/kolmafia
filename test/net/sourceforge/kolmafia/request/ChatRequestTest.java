@@ -23,13 +23,13 @@ public class ChatRequestTest {
     fullURL = creq.getFullURLString();
     expect = "newchatmessages.php?aa=0.7275636800328681&j=1&lasttime=0";
     assertEquals(fullURL, expect);
-    assertEquals(creq.getGraf(), "");
+    assertEquals("", creq.getGraf());
     assertTrue(creq.retryOnTimeout());
     creq = new ChatRequest(8675309L, true, false);
     fullURL = creq.getFullURLString();
     expect = "newchatmessages.php?aa=0.6832234717598454&j=1&lasttime=8675309";
     assertEquals(fullURL, expect);
-    assertEquals(creq.getGraf(), "");
+    assertEquals("", creq.getGraf());
     assertTrue(creq.retryOnTimeout());
   }
 
@@ -39,13 +39,13 @@ public class ChatRequestTest {
     fullURL = creq.getFullURLString();
     expect = "newchatmessages.php?lasttime=0&afk=0";
     assertEquals(fullURL, expect);
-    assertEquals(creq.getGraf(), "");
+    assertEquals("", creq.getGraf());
     assertTrue(creq.retryOnTimeout());
     creq = new ChatRequest(8675309L, false, false);
     fullURL = creq.getFullURLString();
     expect = "newchatmessages.php?lasttime=8675309&afk=0";
     assertEquals(fullURL, expect);
-    assertEquals(creq.getGraf(), "");
+    assertEquals("", creq.getGraf());
     assertTrue(creq.retryOnTimeout());
   }
 
@@ -55,13 +55,13 @@ public class ChatRequestTest {
     fullURL = creq.getFullURLString();
     expect = "newchatmessages.php?lasttime=0&afk=1";
     assertEquals(fullURL, expect);
-    assertEquals(creq.getGraf(), "");
+    assertEquals("", creq.getGraf());
     assertTrue(creq.retryOnTimeout());
     creq = new ChatRequest(8675309L, false, true);
     fullURL = creq.getFullURLString();
     expect = "newchatmessages.php?lasttime=8675309&afk=1";
     assertEquals(fullURL, expect);
-    assertEquals(creq.getGraf(), "");
+    assertEquals("", creq.getGraf());
     assertTrue(creq.retryOnTimeout());
   }
 
@@ -71,7 +71,7 @@ public class ChatRequestTest {
     fullURL = creq.getFullURLString();
     expect = "submitnewchat.php?j=1&pwd=&playerid=0&graf=This+is+not+a+message.";
     assertEquals(fullURL, expect);
-    assertEquals(creq.getGraf(), "This is not a message.");
+    assertEquals("This is not a message.", creq.getGraf());
     assertTrue(creq.retryOnTimeout());
   }
 
@@ -81,7 +81,7 @@ public class ChatRequestTest {
     fullURL = creq.getFullURLString();
     expect = "submitnewchat.php?pwd=&playerid=0&graf=This+is+not+a+message.";
     assertEquals(fullURL, expect);
-    assertEquals(creq.getGraf(), "This is not a message.");
+    assertEquals("This is not a message.", creq.getGraf());
     assertTrue(creq.retryOnTimeout());
   }
 }
