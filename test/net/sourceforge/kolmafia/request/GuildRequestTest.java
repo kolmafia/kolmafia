@@ -62,7 +62,7 @@ public class GuildRequestTest {
     request.responseText = responseText;
     request.setHasResult(true);
     request.processResponse();
-    assertEquals(QuestDatabase.getQuest(Quest.EGO), QuestDatabase.UNSTARTED);
+    assertEquals(QuestDatabase.UNSTARTED, QuestDatabase.getQuest(Quest.EGO));
 
     // Second talk with "ocg"
     request = new GuildRequest("ocg");
@@ -70,7 +70,7 @@ public class GuildRequestTest {
     request.responseText = responseText;
     request.setHasResult(true);
     request.processResponse();
-    assertEquals(QuestDatabase.getQuest(Quest.EGO), QuestDatabase.STARTED);
+    assertEquals(QuestDatabase.STARTED, QuestDatabase.getQuest(Quest.EGO));
 
     // Talk after turning in key and getting next step
     AdventureResult key = ItemPool.get(ItemPool.FERNSWARTHYS_KEY);
@@ -79,7 +79,7 @@ public class GuildRequestTest {
     request.responseText = responseText;
     request.setHasResult(true);
     request.processResponse();
-    assertEquals(QuestDatabase.getQuest(Quest.EGO), "step2");
+    assertEquals("step2", QuestDatabase.getQuest(Quest.EGO));
     assertTrue(KoLConstants.inventory.contains(key));
 
     // Talk after finding dusty old book
@@ -90,7 +90,7 @@ public class GuildRequestTest {
     request.responseText = responseText;
     request.setHasResult(true);
     request.processResponse();
-    assertEquals(QuestDatabase.getQuest(Quest.EGO), QuestDatabase.FINISHED);
+    assertEquals(QuestDatabase.FINISHED, QuestDatabase.getQuest(Quest.EGO));
     assertFalse(KoLConstants.inventory.contains(key));
     assertFalse(KoLConstants.inventory.contains(dusty));
     assertTrue(KoLConstants.inventory.contains(manual));
