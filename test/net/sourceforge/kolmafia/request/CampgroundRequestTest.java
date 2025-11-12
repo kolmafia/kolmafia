@@ -75,7 +75,7 @@ public class CampgroundRequestTest {
     String html = html("request/test_campground_medicine_cabinet_out_of_consults.html");
     CampgroundRequest.parseResponse("campground.php?action=workshed", html);
     assertEquals(
-        CampgroundRequest.getCurrentWorkshedItem().getItemId(), ItemPool.COLD_MEDICINE_CABINET);
+        ItemPool.COLD_MEDICINE_CABINET, CampgroundRequest.getCurrentWorkshedItem().getItemId());
   }
 
   @Test
@@ -100,18 +100,18 @@ public class CampgroundRequestTest {
             withMP(1000, 1000, 1000),
             new Cleanups(mocked::close))) {
       // Initial state.
-      assertEquals(UseSkillRequest.lastSkillUsed, -1);
-      assertEquals(UseSkillRequest.lastSkillCount, 0);
-      assertEquals(Preferences.getInteger("libramSummons"), 0);
+      assertEquals(-1, UseSkillRequest.lastSkillUsed);
+      assertEquals(0, UseSkillRequest.lastSkillCount);
+      assertEquals(0, Preferences.getInteger("libramSummons"));
 
       CampgroundRequest.registerRequest(url);
-      assertEquals(UseSkillRequest.lastSkillUsed, SkillPool.CANDY_HEART);
-      assertEquals(UseSkillRequest.lastSkillCount, 12);
+      assertEquals(SkillPool.CANDY_HEART, UseSkillRequest.lastSkillUsed);
+      assertEquals(12, UseSkillRequest.lastSkillCount);
 
       CampgroundRequest.parseResponse(url, html);
-      assertEquals(Preferences.getInteger("libramSummons"), 12);
-      assertEquals(UseSkillRequest.lastSkillUsed, -1);
-      assertEquals(UseSkillRequest.lastSkillCount, 0);
+      assertEquals(12, Preferences.getInteger("libramSummons"));
+      assertEquals(-1, UseSkillRequest.lastSkillUsed);
+      assertEquals(0, UseSkillRequest.lastSkillCount);
     }
   }
 
@@ -460,7 +460,7 @@ public class CampgroundRequestTest {
             """;
         assertThat(output, startsWith(expected));
         assertCampgroundItemCount(ItemPool.MEAT_BUTLER, 1);
-        assertEquals(KoLCharacter.getAvailableMeat(), 917);
+        assertEquals(917, KoLCharacter.getAvailableMeat());
       }
     }
   }

@@ -114,7 +114,7 @@ public class FightRequestTest {
   @Test
   public void itShouldHaveAName() {
     String name = fr.toString();
-    assertEquals(name, "fight.php");
+    assertEquals("fight.php", name);
   }
 
   @Test
@@ -128,10 +128,10 @@ public class FightRequestTest {
   @Test
   public void itShouldReportDreadKisses() {
     FightRequest.resetKisses();
-    assertEquals(FightRequest.dreadKisses("Woods"), 1);
-    assertEquals(FightRequest.dreadKisses("Village"), 1);
-    assertEquals(FightRequest.dreadKisses("Castle"), 1);
-    assertEquals(FightRequest.dreadKisses("None of the above"), 0);
+    assertEquals(1, FightRequest.dreadKisses("Woods"));
+    assertEquals(1, FightRequest.dreadKisses("Village"));
+    assertEquals(1, FightRequest.dreadKisses("Castle"));
+    assertEquals(0, FightRequest.dreadKisses("None of the above"));
   }
 
   @Test
@@ -623,7 +623,7 @@ public class FightRequestTest {
       try (cleanups) {
         parseCombatData("request/test_fight_witchess_with_locket.html");
 
-        assertEquals(Preferences.getInteger("_witchessFights"), 0);
+        assertEquals(0, Preferences.getInteger("_witchessFights"));
       }
     }
   }
@@ -1218,8 +1218,8 @@ public class FightRequestTest {
 
     try (cleanups) {
       parseCombatData("request/test_" + file + ".html");
-      assertEquals(Preferences.getInteger("_juneCleaver" + element), 2);
-      assertEquals(Preferences.getInteger("_juneCleaverFightsLeft"), 0);
+      assertEquals(2, Preferences.getInteger("_juneCleaver" + element));
+      assertEquals(0, Preferences.getInteger("_juneCleaverFightsLeft"));
     }
   }
 
@@ -2156,7 +2156,7 @@ public class FightRequestTest {
       var cleanups = withLastLocation("An Unusually Quiet Barroom Brawl");
       try (cleanups) {
         parseCombatData("request/test_oliver_free.html");
-        assertEquals(Preferences.getInteger("_speakeasyFreeFights"), 1);
+        assertEquals(1, Preferences.getInteger("_speakeasyFreeFights"));
       }
     }
 
@@ -2165,7 +2165,7 @@ public class FightRequestTest {
       var cleanups = withLastLocation("An Unusually Quiet Barroom Brawl");
       try (cleanups) {
         parseCombatData("request/test_oliver_heating_up.html");
-        assertEquals(Preferences.getInteger("_speakeasyFreeFights"), 3);
+        assertEquals(3, Preferences.getInteger("_speakeasyFreeFights"));
       }
     }
 
@@ -2174,7 +2174,7 @@ public class FightRequestTest {
       var cleanups = withLastLocation("An Unusually Quiet Barroom Brawl");
       try (cleanups) {
         parseCombatData("request/test_oliver_not_free.html");
-        assertEquals(Preferences.getInteger("_speakeasyFreeFights"), 0);
+        assertEquals(0, Preferences.getInteger("_speakeasyFreeFights"));
       }
     }
   }
