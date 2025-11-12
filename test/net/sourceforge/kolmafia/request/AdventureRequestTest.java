@@ -369,46 +369,46 @@ public class AdventureRequestTest {
   public void juneCleaverTrackingTest() {
     // regular encounter
     JuneCleaverManager.parseChoice("choice.php?whichchoice=1467&option=1");
-    assertEquals(Preferences.getString("juneCleaverQueue"), "1467");
-    assertEquals(Preferences.getInteger("_juneCleaverEncounters"), 1);
-    assertEquals(Preferences.getInteger("_juneCleaverFightsLeft"), 6);
-    assertEquals(Preferences.getInteger("_juneCleaverSkips"), 0);
+    assertEquals("1467", Preferences.getString("juneCleaverQueue"));
+    assertEquals(1, Preferences.getInteger("_juneCleaverEncounters"));
+    assertEquals(6, Preferences.getInteger("_juneCleaverFightsLeft"));
+    assertEquals(0, Preferences.getInteger("_juneCleaverSkips"));
 
     // Skip
     JuneCleaverManager.parseChoice("choice.php?whichchoice=1468&option=4");
-    assertEquals(Preferences.getString("juneCleaverQueue"), "1467,1468");
-    assertEquals(Preferences.getInteger("_juneCleaverEncounters"), 1);
-    assertEquals(Preferences.getInteger("_juneCleaverFightsLeft"), 2);
-    assertEquals(Preferences.getInteger("_juneCleaverSkips"), 1);
+    assertEquals("1467,1468", Preferences.getString("juneCleaverQueue"));
+    assertEquals(1, Preferences.getInteger("_juneCleaverEncounters"));
+    assertEquals(2, Preferences.getInteger("_juneCleaverFightsLeft"));
+    assertEquals(1, Preferences.getInteger("_juneCleaverSkips"));
 
     // Wrong choice
     JuneCleaverManager.parseChoice("choice.php?whichchoice=7000&option=4");
-    assertEquals(Preferences.getString("juneCleaverQueue"), "1467,1468");
-    assertEquals(Preferences.getInteger("_juneCleaverEncounters"), 1);
-    assertEquals(Preferences.getInteger("_juneCleaverFightsLeft"), 2);
-    assertEquals(Preferences.getInteger("_juneCleaverSkips"), 1);
+    assertEquals("1467,1468", Preferences.getString("juneCleaverQueue"));
+    assertEquals(1, Preferences.getInteger("_juneCleaverEncounters"));
+    assertEquals(2, Preferences.getInteger("_juneCleaverFightsLeft"));
+    assertEquals(1, Preferences.getInteger("_juneCleaverSkips"));
 
     // No option
     JuneCleaverManager.parseChoice("choice.php?whichchoice=1469");
-    assertEquals(Preferences.getString("juneCleaverQueue"), "1467,1468");
-    assertEquals(Preferences.getInteger("_juneCleaverEncounters"), 1);
-    assertEquals(Preferences.getInteger("_juneCleaverFightsLeft"), 2);
-    assertEquals(Preferences.getInteger("_juneCleaverSkips"), 1);
+    assertEquals("1467,1468", Preferences.getString("juneCleaverQueue"));
+    assertEquals(1, Preferences.getInteger("_juneCleaverEncounters"));
+    assertEquals(2, Preferences.getInteger("_juneCleaverFightsLeft"));
+    assertEquals(1, Preferences.getInteger("_juneCleaverSkips"));
 
     // Can load queue
     Preferences.setString("juneCleaverQueue", "1467,1468,1469,1470,1471");
     JuneCleaverManager.parseChoice("choice.php?whichchoice=1472&option=3");
-    assertEquals(Preferences.getString("juneCleaverQueue"), "1467,1468,1469,1470,1471,1472");
-    assertEquals(Preferences.getInteger("_juneCleaverEncounters"), 2);
-    assertEquals(Preferences.getInteger("_juneCleaverFightsLeft"), 10);
-    assertEquals(Preferences.getInteger("_juneCleaverSkips"), 1);
+    assertEquals("1467,1468,1469,1470,1471,1472", Preferences.getString("juneCleaverQueue"));
+    assertEquals(2, Preferences.getInteger("_juneCleaverEncounters"));
+    assertEquals(10, Preferences.getInteger("_juneCleaverFightsLeft"));
+    assertEquals(1, Preferences.getInteger("_juneCleaverSkips"));
 
     // Queue has max length of 6
     JuneCleaverManager.parseChoice("choice.php?whichchoice=1473&option=1");
-    assertEquals(Preferences.getString("juneCleaverQueue"), "1468,1469,1470,1471,1472,1473");
-    assertEquals(Preferences.getInteger("_juneCleaverEncounters"), 3);
-    assertEquals(Preferences.getInteger("_juneCleaverFightsLeft"), 12);
-    assertEquals(Preferences.getInteger("_juneCleaverSkips"), 1);
+    assertEquals("1468,1469,1470,1471,1472,1473", Preferences.getString("juneCleaverQueue"));
+    assertEquals(3, Preferences.getInteger("_juneCleaverEncounters"));
+    assertEquals(12, Preferences.getInteger("_juneCleaverFightsLeft"));
+    assertEquals(1, Preferences.getInteger("_juneCleaverSkips"));
   }
 
   @Test
