@@ -16,6 +16,7 @@ import net.sourceforge.kolmafia.persistence.Aliases;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.LoginRequest;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
+// CHECKSTYLE.SUPPRESS: AvoidStarImport
 import net.sourceforge.kolmafia.textui.command.*;
 import net.sourceforge.kolmafia.utilities.CharacterEntities;
 import net.sourceforge.kolmafia.utilities.FileUtilities;

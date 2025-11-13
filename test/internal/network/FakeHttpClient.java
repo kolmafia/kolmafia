@@ -1,6 +1,5 @@
 package internal.network;
 
-import java.io.IOException;
 import java.net.Authenticator;
 import java.net.CookieHandler;
 import java.net.ProxySelector;
@@ -60,7 +59,7 @@ public class FakeHttpClient extends HttpClient {
       return null;
     }
 
-    return requests.get(requests.size() - 1);
+    return requests.getLast();
   }
 
   public void clear() {
@@ -114,8 +113,7 @@ public class FakeHttpClient extends HttpClient {
   }
 
   @Override
-  public <T> HttpResponse<T> send(HttpRequest request, BodyHandler<T> responseBodyHandler)
-      throws IOException, InterruptedException {
+  public <T> HttpResponse<T> send(HttpRequest request, BodyHandler<T> responseBodyHandler) {
     this.requests.add(request);
     var response = responseFunc == null ? responses.poll() : responseFunc.apply(request);
 
@@ -154,8 +152,8 @@ public class FakeHttpClient extends HttpClient {
 
   static class ResponseInfoImpl implements ResponseInfo {
 
-    int statusCode;
-    Map<String, List<String>> headers;
+    final int statusCode;
+    final Map<String, List<String>> headers;
 
     public ResponseInfoImpl(int statusCode, Map<String, List<String>> headers) {
       this.statusCode = statusCode;

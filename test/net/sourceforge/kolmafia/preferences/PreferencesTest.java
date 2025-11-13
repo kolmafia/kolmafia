@@ -132,12 +132,12 @@ class PreferencesTest {
     Preferences.setString(PrefName, "");
 
     String checkPref = Preferences.getString(PrefName);
-    assertEquals(checkPref, "", "Pref not cleared");
+    assertEquals("", checkPref, "Pref not cleared");
 
     String PrefValue = "ANewValue";
     Preferences.setString(PrefName, PrefValue);
     checkPref = Preferences.getString(PrefName);
-    assertEquals(checkPref, PrefValue, "String not stored in Prefs");
+    assertEquals(PrefValue, checkPref, "String not stored in Prefs");
   }
 
   @Test
@@ -437,23 +437,23 @@ class PreferencesTest {
     Preferences.setInteger(newStyleDaily, newStyleValue);
     Preferences.setInteger(notADaily, notADailyValue);
     Preferences.setInteger(notARealDaily, notARealDailyValue);
-    assertEquals(Preferences.getInteger(legacyDaily), legacyValue, legacyDaily + "value not set");
+    assertEquals(legacyValue, Preferences.getInteger(legacyDaily), legacyDaily + "value not set");
     assertEquals(
-        Preferences.getInteger(newStyleDaily), newStyleValue, newStyleDaily + "value not set");
-    assertEquals(Preferences.getInteger(notADaily), notADailyValue, notADaily + "value not set");
+        newStyleValue, Preferences.getInteger(newStyleDaily), newStyleDaily + "value not set");
+    assertEquals(notADailyValue, Preferences.getInteger(notADaily), notADaily + "value not set");
     assertEquals(
-        Preferences.getInteger(notARealDaily), notARealDailyValue, notADaily + "value not set");
+        notARealDailyValue, Preferences.getInteger(notARealDaily), notADaily + "value not set");
 
     Preferences.resetDailies();
     assertNotEquals(
-        Preferences.getInteger(legacyDaily), legacyValue, legacyDaily + "value not reset");
+        legacyValue, Preferences.getInteger(legacyDaily), legacyDaily + "value not reset");
     assertNotEquals(
-        Preferences.getInteger(newStyleDaily), newStyleValue, newStyleDaily + "value not reset");
+        newStyleValue, Preferences.getInteger(newStyleDaily), newStyleDaily + "value not reset");
     assertEquals(
-        Preferences.getInteger(notADaily), notADailyValue, notADaily + "value unexpectedly reset");
+        notADailyValue, Preferences.getInteger(notADaily), notADaily + "value unexpectedly reset");
     assertEquals(
-        Preferences.getInteger(notARealDaily),
         notARealDailyValue,
+        Preferences.getInteger(notARealDaily),
         notARealDaily + "value unexpectedly reset");
   }
 
@@ -495,7 +495,7 @@ class PreferencesTest {
     "nonExistentPref, false"
   })
   void isResetOnAscension(String name, boolean expected) {
-    assertEquals(Preferences.isResetOnAscension(name), expected);
+    assertEquals(expected, Preferences.isResetOnAscension(name));
   }
 
   @Test

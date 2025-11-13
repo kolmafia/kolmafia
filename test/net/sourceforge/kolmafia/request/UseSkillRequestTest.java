@@ -268,7 +268,7 @@ class UseSkillRequestTest {
           "runskillz.php?action=Skillz&whichskill=7414&ajax=1&quantity=1",
           html("request/test_cast_sweat_booze.html"));
       // 31 - 25 = 6
-      assertEquals(Preferences.getInteger("sweat"), 6);
+      assertEquals(6, Preferences.getInteger("sweat"));
     }
 
     @Test
@@ -280,7 +280,7 @@ class UseSkillRequestTest {
           "runskillz.php?action=Skillz&whichskill=7419&ajax=1&quantity=1",
           html("request/test_cast_drench_sweat.html"));
       // 69 - 15 = 54
-      assertEquals(Preferences.getInteger("sweat"), 54);
+      assertEquals(54, Preferences.getInteger("sweat"));
     }
   }
 

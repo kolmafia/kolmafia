@@ -63,14 +63,14 @@ public class DebugDatabaseTest {
       DebugDatabase.checkMuseumPlurals();
       assertTrue(plurals.exists());
       assertEquals(
-          Files.readString(plurals.toPath()),
           """
-          Unrecognised item -999: "non-existent item"
-          item 1 has name "misnamed seal-clubbing club" but Mafia says "seal-clubbing club"
-          Item 2: "seal tooth" has default plural, but Mafia says "seal teeth"
-          Item 3: "helmet turtle" has plural unknown to Mafia: "bad plural for helmet turtle"
-          Item 8: "spices" has plural "spiceses" but Mafia says "spices"
-          """);
+        Unrecognised item -999: "non-existent item"
+        item 1 has name "misnamed seal-clubbing club" but Mafia says "seal-clubbing club"
+        Item 2: "seal tooth" has default plural, but Mafia says "seal teeth"
+        Item 3: "helmet turtle" has plural unknown to Mafia: "bad plural for helmet turtle"
+        Item 8: "spices" has plural "spiceses" but Mafia says "spices"
+        """,
+          Files.readString(plurals.toPath()));
       DebugDatabase.checkMuseumPlurals();
     } catch (IOException e) {
       fail("unexpected exception: ", e);
@@ -93,13 +93,13 @@ public class DebugDatabaseTest {
       DebugDatabase.checkMuseumItems();
       assertTrue(plurals.exists());
       assertEquals(
-          Files.readString(plurals.toPath()),
           """
-          Unrecognised item -999: "non-existent item"
-          Mismatch - 8884:plate of Val-U Brand Every Bean Salad - image - Mafia: franksbeans.gif - Museum: beans.gif
-          Mismatch - 8884:plate of Val-U Brand Every Bean Salad - salad - Mafia: false - Museum: true
-          Mismatch - 8884:plate of Val-U Brand Every Bean Salad - beans - Mafia: true - Museum: false
-          """);
+        Unrecognised item -999: "non-existent item"
+        Mismatch - 8884:plate of Val-U Brand Every Bean Salad - image - Mafia: franksbeans.gif - Museum: beans.gif
+        Mismatch - 8884:plate of Val-U Brand Every Bean Salad - salad - Mafia: false - Museum: true
+        Mismatch - 8884:plate of Val-U Brand Every Bean Salad - beans - Mafia: true - Museum: false
+        """,
+          Files.readString(plurals.toPath()));
       DebugDatabase.checkMuseumItems();
     } catch (IOException e) {
       fail("unexpected exception: ", e);
@@ -145,34 +145,36 @@ public class DebugDatabaseTest {
   @Test
   public void checkManuel() {
     String expectedOutput =
-        "Checking Monster Manuel...\n"
-            + "Page A\n"
-            + "Page B\n"
-            + "Page C\n"
-            + "Page D\n"
-            + "Page E\n"
-            + "Page F\n"
-            + "Page G\n"
-            + "Page H\n"
-            + "Page I\n"
-            + "Page J\n"
-            + "Page K\n"
-            + "Page L\n"
-            + "Page M\n"
-            + "Page N\n"
-            + "Page O\n"
-            + "Page P\n"
-            + "Page Q\n"
-            + "Page R\n"
-            + "Page S\n"
-            + "Page T\n"
-            + "Page U\n"
-            + "Page V\n"
-            + "Page W\n"
-            + "Page X\n"
-            + "Page Y\n"
-            + "Page Z\n"
-            + "Page -\n";
+        """
+        Checking Monster Manuel...
+        Page A
+        Page B
+        Page C
+        Page D
+        Page E
+        Page F
+        Page G
+        Page H
+        Page I
+        Page J
+        Page K
+        Page L
+        Page M
+        Page N
+        Page O
+        Page P
+        Page Q
+        Page R
+        Page S
+        Page T
+        Page U
+        Page V
+        Page W
+        Page X
+        Page Y
+        Page Z
+        Page -
+        """;
     ByteArrayOutputStream ostream = new ByteArrayOutputStream();
     PrintStream out = new PrintStream(ostream);
     // Inject custom output stream.

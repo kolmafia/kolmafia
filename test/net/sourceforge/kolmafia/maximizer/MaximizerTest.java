@@ -830,7 +830,7 @@ public class MaximizerTest {
 
       try (cleanups) {
         assertEquals(
-            AdventureDatabase.getEnvironment(Modifiers.currentLocation), Environment.UNDERWATER);
+            Environment.UNDERWATER, AdventureDatabase.getEnvironment(Modifiers.currentLocation));
         assertTrue(maximize("-combat -tie"));
 
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "Mer-kin sneakmask")));
