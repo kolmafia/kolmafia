@@ -2915,7 +2915,7 @@ public class FightRequestTest {
 
         String expected =
             skillMap.entrySet().stream()
-                .map(e -> String.valueOf(e.getKey()) + ":" + e.getValue())
+                .map(e -> e.getKey() + ":" + e.getValue())
                 .collect(Collectors.joining(","));
 
         String url = "fight.php?ireallymeanit=1710016436";

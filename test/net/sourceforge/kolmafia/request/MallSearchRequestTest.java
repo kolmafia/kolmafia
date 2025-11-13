@@ -24,7 +24,7 @@ public class MallSearchRequestTest {
   private static Cleanups mockRequestLogger() {
     var mocked = mockStatic(RequestLogger.class, Mockito.CALLS_REAL_METHODS);
     mocked
-        .when(() -> RequestLogger.updateSessionLog())
+        .when(RequestLogger::updateSessionLog)
         .thenAnswer(
             invocation -> {
               lastSessionLogLine = "";

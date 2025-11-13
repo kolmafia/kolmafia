@@ -2,7 +2,6 @@ package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Networking.html;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;

@@ -169,9 +169,7 @@ public class GenericRequestTest {
       var old = GenericRequest.updateSuppressed();
       GenericRequest.suppressUpdate(true);
       return new Cleanups(
-          () -> {
-            GenericRequest.suppressUpdate(old);
-          });
+          () -> GenericRequest.suppressUpdate(old));
     }
 
     @Test

@@ -23,8 +23,8 @@ import static net.sourceforge.kolmafia.request.DeckOfEveryCardRequest.statToCard
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -113,6 +113,7 @@ class DeckOfEveryCardRequestTest {
       DeckOfEveryCardRequest req = new DeckOfEveryCardRequest();
       assertNull(req.getRequestCard());
       req = new DeckOfEveryCardRequest(getCardById(58));
+      assertNotNull(req);
       assertEquals(58, req.getRequestCard().id);
     }
 

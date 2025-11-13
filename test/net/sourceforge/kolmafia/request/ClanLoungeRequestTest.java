@@ -24,6 +24,7 @@ import internal.helpers.SessionLoggerOutput;
 import internal.network.FakeHttpClientBuilder;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -220,7 +221,7 @@ public class ClanLoungeRequestTest {
 
     // This loads ClanLoungeRequest and executes static initialization
     private static final Set<SpeakeasyDrink> ALL_SPEAKEASY =
-        ClanLoungeRequest.ALL_SPEAKEASY.stream().collect(Collectors.toSet());
+      new HashSet<>(ClanLoungeRequest.ALL_SPEAKEASY);
 
     @Test
     void allSpeakeasyDrinksRemainOnUsablesList() {

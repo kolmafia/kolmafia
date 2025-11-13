@@ -87,7 +87,7 @@ public class CampgroundRequestTest {
 
     var mocked = Mockito.mockStatic(ApiRequest.class, Mockito.CALLS_REAL_METHODS);
     mocked
-        .when(() -> ApiRequest.updateStatus())
+        .when(ApiRequest::updateStatus)
         .thenAnswer(
             invocation -> {
               // UseSkillRequest just cares that MP is updated.

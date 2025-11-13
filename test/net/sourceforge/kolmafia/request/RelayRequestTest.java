@@ -491,7 +491,7 @@ public class RelayRequestTest {
       {
         "a": "b"
       }
-            """,
+      """,
           "\"a\"",
           "2",
           """
@@ -618,7 +618,7 @@ public class RelayRequestTest {
 
       JSONObject expected = JSON.parseObject("""
        { "functions": [2] }
-        """);
+       """);
       assertThat(rr.statusLine, is("HTTP/1.1 200 OK"));
       assertThat(rr.responseCode, is(200));
       assertThat(JSON.parse(rr.responseText), is(expected));
@@ -638,7 +638,7 @@ public class RelayRequestTest {
       JSONObject expected =
           JSON.parseObject("""
        { "functions": [{ "star chart": 100.0 }] }
-        """);
+       """);
       assertThat(rr.statusLine, is("HTTP/1.1 200 OK"));
       assertThat(rr.responseCode, is(200));
       assertThat(JSON.parse(rr.responseText), is(expected));
@@ -788,7 +788,6 @@ public class RelayRequestTest {
     @BeforeAll
     public static void beforeAll() {
       Preferences.reset("RelayRequestTest.ChatDecoration");
-      ;
     }
 
     @ParameterizedTest
