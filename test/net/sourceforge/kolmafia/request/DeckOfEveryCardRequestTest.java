@@ -24,6 +24,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -123,10 +124,10 @@ class DeckOfEveryCardRequestTest {
           new DeckOfEveryCardRequest.EveryCard(mickey.id, mickey.name);
       // Not simplifying the assertion because this makes it explicit that EveryCard.equals is being
       // tested
-      assertFalse(mickey.equals(null));
-      assertFalse(mickey.equals(notMickey));
-      assertTrue(mickey.equals(mickey));
-      assertTrue(mickey.equals(copyMickey));
+      assertNotEquals(null, mickey);
+      assertNotEquals(mickey, notMickey);
+      assertEquals(mickey, mickey);
+        assertEquals(mickey, copyMickey);
       assertEquals("1952 Mickey Mantle (58)", mickey.toString());
     }
 

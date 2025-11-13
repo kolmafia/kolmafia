@@ -7,6 +7,7 @@ import static internal.helpers.Player.withItemInStorage;
 import static internal.helpers.Player.withMeat;
 import static internal.helpers.Player.withProperty;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
@@ -48,7 +49,7 @@ public class MallPurchaseRequestTest {
       var cleanups = new Cleanups(withInteractivity(true), withItem(item));
       try (cleanups) {
         MallPurchaseRequest request = makeMallPurchaseRequest(item);
-        assertTrue(request.getCurrentCount() == 1);
+        assertEquals(1, request.getCurrentCount());
       }
     }
 
@@ -58,7 +59,7 @@ public class MallPurchaseRequestTest {
       var cleanups = new Cleanups(withInteractivity(false), withItemInStorage(item));
       try (cleanups) {
         MallPurchaseRequest request = makeMallPurchaseRequest(item);
-        assertTrue(request.getCurrentCount() == 1);
+        assertEquals(1, request.getCurrentCount());
       }
     }
 
@@ -68,7 +69,7 @@ public class MallPurchaseRequestTest {
       var cleanups = new Cleanups(withInteractivity(false), withItemInFreepulls(item));
       try (cleanups) {
         MallPurchaseRequest request = makeMallPurchaseRequest(item);
-        assertTrue(request.getCurrentCount() == 1);
+        assertEquals(1, request.getCurrentCount());
       }
     }
   }
@@ -81,7 +82,7 @@ public class MallPurchaseRequestTest {
       var cleanups = new Cleanups(withInteractivity(true), withMeat(100));
       try (cleanups) {
         MallPurchaseRequest request = makeMallPurchaseRequest(item);
-        assertEquals(null, request.color());
+        assertNull(request.color());
         MallPurchaseRequest.addDisabledStore(request.getShopId());
         assertEquals("gray", request.color());
       }
@@ -93,7 +94,7 @@ public class MallPurchaseRequestTest {
       var cleanups = new Cleanups(withInteractivity(true), withMeat(100));
       try (cleanups) {
         MallPurchaseRequest request = makeMallPurchaseRequest(item);
-        assertEquals(null, request.color());
+        assertNull(request.color());
         MallPurchaseRequest.addIgnoringStore(request.getShopId());
         assertEquals("gray", request.color());
       }
@@ -106,7 +107,7 @@ public class MallPurchaseRequestTest {
           new Cleanups(withInteractivity(true), withMeat(100), withProperty("forbiddenStores"));
       try (cleanups) {
         MallPurchaseRequest request = makeMallPurchaseRequest(item);
-        assertEquals(null, request.color());
+        assertNull(request.color());
         MallPurchaseRequest.addForbiddenStore(request.getShopId());
         assertEquals("red", request.color());
       }

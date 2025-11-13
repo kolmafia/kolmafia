@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Networking.html;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import net.sourceforge.kolmafia.AdventureResult;
@@ -71,9 +72,9 @@ public class ProcessAcquiredItemsTest {
 
     // Test whether item is in inventory, storage, or freepulls
     int count = item.getCount();
-    assertTrue(item.getCount(KoLConstants.inventory) == count);
-    assertTrue(item.getCount(KoLConstants.storage) == 0);
-    assertTrue(item.getCount(KoLConstants.freepulls) == 0);
+    assertEquals(item.getCount(KoLConstants.inventory), count);
+    assertEquals(0, item.getCount(KoLConstants.storage));
+    assertEquals(0, item.getCount(KoLConstants.freepulls));
   }
 
   @Test
@@ -94,9 +95,9 @@ public class ProcessAcquiredItemsTest {
 
     // Test whether item is in inventory, storage, or freepulls
     int count = item.getCount();
-    assertTrue(item.getCount(KoLConstants.inventory) == 0);
-    assertTrue(item.getCount(KoLConstants.storage) == count);
-    assertTrue(item.getCount(KoLConstants.freepulls) == 0);
+    assertEquals(0, item.getCount(KoLConstants.inventory));
+    assertEquals(item.getCount(KoLConstants.storage), count);
+    assertEquals(0, item.getCount(KoLConstants.freepulls));
   }
 
   @Test
@@ -117,9 +118,9 @@ public class ProcessAcquiredItemsTest {
 
     // Test whether item is in inventory, storage, or freepulls
     int count = item.getCount();
-    assertTrue(item.getCount(KoLConstants.inventory) == 0);
-    assertTrue(item.getCount(KoLConstants.storage) == 0);
-    assertTrue(item.getCount(KoLConstants.freepulls) == count);
+    assertEquals(0, item.getCount(KoLConstants.inventory));
+    assertEquals(0, item.getCount(KoLConstants.storage));
+    assertEquals(item.getCount(KoLConstants.freepulls), count);
   }
 
   // *** Here are tests for buying items from the mall
@@ -169,9 +170,9 @@ public class ProcessAcquiredItemsTest {
 
     // Test whether item is in inventory, storage, or freepulls
     int count = item.getCount();
-    assertTrue(item.getCount(KoLConstants.inventory) == count);
-    assertTrue(item.getCount(KoLConstants.storage) == 0);
-    assertTrue(item.getCount(KoLConstants.freepulls) == 0);
+    assertEquals(item.getCount(KoLConstants.inventory), count);
+    assertEquals(0, item.getCount(KoLConstants.storage));
+    assertEquals(0, item.getCount(KoLConstants.freepulls));
   }
 
   @Test
@@ -192,9 +193,9 @@ public class ProcessAcquiredItemsTest {
 
     // Test whether item is in inventory, storage, or freepulls
     int count = item.getCount();
-    assertTrue(item.getCount(KoLConstants.inventory) == 0);
-    assertTrue(item.getCount(KoLConstants.storage) == count);
-    assertTrue(item.getCount(KoLConstants.freepulls) == 0);
+    assertEquals(0, item.getCount(KoLConstants.inventory));
+    assertEquals(item.getCount(KoLConstants.storage), count);
+    assertEquals(0, item.getCount(KoLConstants.freepulls));
   }
 
   @Test
@@ -215,8 +216,8 @@ public class ProcessAcquiredItemsTest {
 
     // Test whether item is in inventory, storage, or freepulls
     int count = item.getCount();
-    assertTrue(item.getCount(KoLConstants.inventory) == 0);
-    assertTrue(item.getCount(KoLConstants.storage) == 0);
-    assertTrue(item.getCount(KoLConstants.freepulls) == count);
+    assertEquals(0, item.getCount(KoLConstants.inventory));
+    assertEquals(0, item.getCount(KoLConstants.storage));
+    assertEquals(item.getCount(KoLConstants.freepulls), count);
   }
 }

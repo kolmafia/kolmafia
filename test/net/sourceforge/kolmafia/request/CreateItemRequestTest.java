@@ -153,7 +153,7 @@ public class CreateItemRequestTest {
 
         // You can create a nice warm beer with Schlitz
         var concoction = ConcoctionPool.get(ItemPool.NICE_WARM_BEER);
-        assertTrue(concoction.creatable == 1);
+        assertEquals(1, concoction.creatable);
 
         // Force it.
 
@@ -192,7 +192,7 @@ public class CreateItemRequestTest {
 
         // You can't create a nice warm beer with Willer
         var concoction = ConcoctionPool.get(ItemPool.NICE_WARM_BEER);
-        assertTrue(concoction.creatable == 0);
+        assertEquals(0, concoction.creatable);
 
         // Force it.
 
@@ -239,7 +239,7 @@ public class CreateItemRequestTest {
 
         // We have the ingredients for a shadow pill, but the forge is not open
         var concoction = ConcoctionPool.get(ItemPool.SHADOW_PILL);
-        assertTrue(concoction.creatable == 0);
+        assertEquals(0, concoction.creatable);
 
         var req = new GenericRequest("adventure.php?snarfblat=" + AdventurePool.SHADOW_RIFT);
         req.run();
@@ -255,7 +255,7 @@ public class CreateItemRequestTest {
 
         // We have unlocked the forge and can craft things
         assertThat("lastShadowForgeUnlockAdventure", isSetTo(666));
-        assertTrue(concoction.creatable == 1);
+        assertEquals(1, concoction.creatable);
       }
     }
   }

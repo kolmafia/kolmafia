@@ -24,6 +24,7 @@ import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.Matchers.startsWith;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import internal.helpers.Cleanups;
 import internal.helpers.RequestLoggerOutput;
@@ -75,7 +76,7 @@ public class CampgroundRequestTest {
     String html = html("request/test_campground_medicine_cabinet_out_of_consults.html");
     CampgroundRequest.parseResponse("campground.php?action=workshed", html);
     assertEquals(
-        ItemPool.COLD_MEDICINE_CABINET, CampgroundRequest.getCurrentWorkshedItem().getItemId());
+      ItemPool.COLD_MEDICINE_CABINET, CampgroundRequest.getCurrentWorkshedItem().getItemId());
   }
 
   @Test
@@ -159,9 +160,9 @@ public class CampgroundRequestTest {
       // Correct dwelling
       assertEquals(CampgroundRequest.GINORMOUS_PUMPKIN, CampgroundRequest.getCurrentDwelling());
       // No garden
-      assertEquals(null, CampgroundRequest.getCropType());
+      assertNull(CampgroundRequest.getCropType());
       // No crop
-      assertEquals(null, CampgroundRequest.getCrop());
+      assertNull(CampgroundRequest.getCrop());
       // Dwelling does not appear in Campground item list
       assertCampgroundItemAbsent(ItemPool.GINORMOUS_PUMPKIN);
     }
