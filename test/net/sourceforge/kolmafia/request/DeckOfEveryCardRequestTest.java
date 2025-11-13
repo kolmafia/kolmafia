@@ -128,7 +128,7 @@ class DeckOfEveryCardRequestTest {
       assertNotEquals(null, mickey);
       assertNotEquals(mickey, notMickey);
       assertEquals(mickey, mickey);
-        assertEquals(mickey, copyMickey);
+      assertEquals(mickey, copyMickey);
       assertEquals("1952 Mickey Mantle (58)", mickey.toString());
     }
 

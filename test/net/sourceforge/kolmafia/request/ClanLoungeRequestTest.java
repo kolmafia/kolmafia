@@ -28,7 +28,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -221,7 +220,7 @@ public class ClanLoungeRequestTest {
 
     // This loads ClanLoungeRequest and executes static initialization
     private static final Set<SpeakeasyDrink> ALL_SPEAKEASY =
-      new HashSet<>(ClanLoungeRequest.ALL_SPEAKEASY);
+        new HashSet<>(ClanLoungeRequest.ALL_SPEAKEASY);
 
     @Test
     void allSpeakeasyDrinksRemainOnUsablesList() {

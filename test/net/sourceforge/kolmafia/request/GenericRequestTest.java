@@ -168,8 +168,7 @@ public class GenericRequestTest {
     public static Cleanups withUpdateSuppressed() {
       var old = GenericRequest.updateSuppressed();
       GenericRequest.suppressUpdate(true);
-      return new Cleanups(
-          () -> GenericRequest.suppressUpdate(old));
+      return new Cleanups(() -> GenericRequest.suppressUpdate(old));
     }
 
     @Test
