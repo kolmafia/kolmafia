@@ -504,7 +504,7 @@ class LimitModeTest {
         request.run();
 
         assertEquals(5, HALF_ASTRAL.getCount(KoLConstants.activeEffects));
-        assertEquals(KoLCharacter.getLimitMode(), LimitMode.ASTRAL);
+        assertEquals(LimitMode.ASTRAL, KoLCharacter.getLimitMode());
 
         var requests = client.getRequests();
         assertThat(requests, hasSize(2));
@@ -528,7 +528,7 @@ class LimitModeTest {
 
         assertEquals(0, HALF_ASTRAL.getCount(KoLConstants.activeEffects));
         assertThat(Preferences.getString("currentAstralTrip"), is(""));
-        assertEquals(KoLCharacter.getLimitMode(), LimitMode.NONE);
+        assertEquals(LimitMode.NONE, KoLCharacter.getLimitMode());
       }
     }
   }
@@ -567,7 +567,7 @@ class LimitModeTest {
 
         assertEquals(12, SHAPE_OF_MOLE.getCount(KoLConstants.activeEffects));
         assertThat(Preferences.getString("currentLlamaForm"), is("Mole"));
-        assertEquals(KoLCharacter.getLimitMode(), LimitMode.MOLE);
+        assertEquals(LimitMode.MOLE, KoLCharacter.getLimitMode());
 
         var requests = client.getRequests();
         assertThat(requests, hasSize(4));
@@ -605,7 +605,7 @@ class LimitModeTest {
         request.run();
 
         assertThat(Preferences.getString("currentLlamaForm"), is(""));
-        assertEquals(KoLCharacter.getLimitMode(), LimitMode.NONE);
+        assertEquals(LimitMode.NONE, KoLCharacter.getLimitMode());
 
         var requests = client.getRequests();
         assertThat(requests, hasSize(4));
@@ -653,7 +653,7 @@ class LimitModeTest {
 
         assertEquals(15, FORM_OF_BIRD.getCount(KoLConstants.activeEffects));
         assertThat(Preferences.getString("currentLlamaForm"), is("Bird"));
-        assertEquals(KoLCharacter.getLimitMode(), LimitMode.BIRD);
+        assertEquals(LimitMode.BIRD, KoLCharacter.getLimitMode());
 
         var requests = client.getRequests();
         assertThat(requests, hasSize(4));
@@ -691,7 +691,7 @@ class LimitModeTest {
         request.run();
 
         assertThat(Preferences.getString("currentLlamaForm"), is(""));
-        assertEquals(KoLCharacter.getLimitMode(), LimitMode.NONE);
+        assertEquals(LimitMode.NONE, KoLCharacter.getLimitMode());
 
         var requests = client.getRequests();
         assertThat(requests, hasSize(4));
@@ -747,26 +747,26 @@ class LimitModeTest {
 
         assertEquals(3, FORM_OF_ROACH.getCount(KoLConstants.activeEffects));
         assertThat(Preferences.getString("currentLlamaForm"), is("Roach"));
-        assertEquals(KoLCharacter.getLimitMode(), LimitMode.ROACH);
+        assertEquals(LimitMode.ROACH, KoLCharacter.getLimitMode());
 
         // Three choice adventures as a roach
         choice = new GenericRequest("choice.php?whichchoice=278&option=2");
         choice.run();
-        assertEquals(KoLCharacter.getLimitMode(), LimitMode.ROACH);
+        assertEquals(LimitMode.ROACH, KoLCharacter.getLimitMode());
 
         choice = new GenericRequest("choice.php?whichchoice=280&option=2");
         choice.run();
-        assertEquals(KoLCharacter.getLimitMode(), LimitMode.ROACH);
+        assertEquals(LimitMode.ROACH, KoLCharacter.getLimitMode());
 
         choice = new GenericRequest("choice.php?whichchoice=286&option=1");
         choice.run();
-        assertEquals(KoLCharacter.getLimitMode(), LimitMode.ROACH);
+        assertEquals(LimitMode.ROACH, KoLCharacter.getLimitMode());
 
         // Welcome Back!
         choice = new GenericRequest("choice.php?whichchoice=277&option=1");
         choice.run();
         assertThat(Preferences.getString("currentLlamaForm"), is(""));
-        assertEquals(KoLCharacter.getLimitMode(), LimitMode.NONE);
+        assertEquals(LimitMode.NONE, KoLCharacter.getLimitMode());
 
         var requests = client.getRequests();
         assertThat(requests, hasSize(12));
@@ -811,7 +811,7 @@ class LimitModeTest {
         request = new GenericRequest("choice.php?whichchoice=277&option=1");
         request.run();
 
-        assertEquals(KoLCharacter.getLimitMode(), LimitMode.NONE);
+        assertEquals(LimitMode.NONE, KoLCharacter.getLimitMode());
         assertThat(Preferences.getString("currentLlamaForm"), is(""));
 
         var requests = client.getRequests();

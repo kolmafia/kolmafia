@@ -739,7 +739,7 @@ public class RufusManagerTest {
       var text = "Opt for the white-hot cleft";
       ShadowTheme theme = RufusManager.shadowLabyrinthTheme(text);
       ChoiceOption spoiler = RufusManager.shadowLabyrinthSpoiler(text);
-      assertEquals(theme, ShadowTheme.FIRE);
+      assertEquals(ShadowTheme.FIRE, theme);
       assertEquals("90-100 Muscle substats", spoiler.toString());
     }
 
@@ -748,7 +748,7 @@ public class RufusManagerTest {
       var text = "Opt for the iced-over passage";
       ShadowTheme theme = RufusManager.shadowLabyrinthTheme(text);
       ChoiceOption spoiler = RufusManager.shadowLabyrinthSpoiler(text);
-      assertEquals(theme, ShadowTheme.COLD);
+      assertEquals(ShadowTheme.COLD, theme);
       assertEquals("30 Shadow's Chill: Maximum MP +300%", spoiler.toString());
     }
 
@@ -756,7 +756,7 @@ public class RufusManagerTest {
       var text = "Leap into the sodden hole";
       ShadowTheme theme = RufusManager.shadowLabyrinthTheme(text);
       ChoiceOption spoiler = RufusManager.shadowLabyrinthSpoiler(text);
-      assertEquals(theme, ShadowTheme.WATER);
+      assertEquals(ShadowTheme.WATER, theme);
       assertEquals("90-100 Moxie substats", spoiler.toString());
     }
 
@@ -765,7 +765,7 @@ public class RufusManagerTest {
       var text = "Try to reach the irrational portal";
       ShadowTheme theme = RufusManager.shadowLabyrinthTheme(text);
       ChoiceOption spoiler = RufusManager.shadowLabyrinthSpoiler(text);
-      assertEquals(theme, ShadowTheme.MATH);
+      assertEquals(ShadowTheme.MATH, theme);
       assertEquals("90-100 Mysticality substats", spoiler.toString());
     }
 
@@ -774,7 +774,7 @@ public class RufusManagerTest {
       var text = "Try to reach the old opening";
       ShadowTheme theme = RufusManager.shadowLabyrinthTheme(text);
       ChoiceOption spoiler = RufusManager.shadowLabyrinthSpoiler(text);
-      assertEquals(theme, ShadowTheme.TIME);
+      assertEquals(ShadowTheme.TIME, theme);
       assertEquals("+3 turns to 3 random effects", spoiler.toString());
     }
 
@@ -783,7 +783,7 @@ public class RufusManagerTest {
       var text = "Walk to the vein-shot lane";
       ShadowTheme theme = RufusManager.shadowLabyrinthTheme(text);
       ChoiceOption spoiler = RufusManager.shadowLabyrinthSpoiler(text);
-      assertEquals(theme, ShadowTheme.BLOOD);
+      assertEquals(ShadowTheme.BLOOD, theme);
       assertEquals("30 Shadow's Heart: Maximum HP +300%", spoiler.toString());
     }
 
@@ -792,7 +792,7 @@ public class RufusManagerTest {
       var text = "Try to reach the nearly invisible hole";
       ShadowTheme theme = RufusManager.shadowLabyrinthTheme(text);
       ChoiceOption spoiler = RufusManager.shadowLabyrinthSpoiler(text);
-      assertEquals(theme, ShadowTheme.GHOST);
+      assertEquals(ShadowTheme.GHOST, theme);
       assertEquals(
           "30 Shadow's Thickness: Superhuman (+5) Spooky, Hot, Sleaze resistance",
           spoiler.toString());
