@@ -11,13 +11,13 @@ public class LowerCaseEntryTest {
   @Test
   public void itShouldCreateWhatWasAskedFor() {
     LowerCaseEntry<String, String> lca = new LowerCaseEntry<>("Key", "Value");
-    assertEquals(lca.getKey(), "Key");
-    assertEquals(lca.getValue(), "Value");
-    assertEquals(lca.toString(), "Value (Key)");
+    assertEquals("Key", lca.getKey());
+    assertEquals("Value", lca.getValue());
+    assertEquals("Value (Key)", lca.toString());
     LowerCaseEntry<String, String> lcb = new LowerCaseEntry<>("kEY", "vALUE");
     assertNotEquals(lca, lcb);
     assertEquals(lca.getLowerCase(), lcb.getLowerCase());
-    assertNotEquals(lcb.getValue(), "value");
+    assertNotEquals("value", lcb.getValue());
   }
 
   @Test
@@ -26,7 +26,7 @@ public class LowerCaseEntryTest {
     LowerCaseEntry<String, String> lcb = new LowerCaseEntry<>("Key", "Value");
     assertEquals(lca, lcb);
     String sv = lcb.setValue("NotValue");
-    assertEquals(sv, "Value");
+    assertEquals("Value", sv);
     assertNotEquals(lca, lcb);
   }
 
@@ -36,9 +36,9 @@ public class LowerCaseEntryTest {
         LowerCaseEntry.createListModel(ItemDatabase.entrySet());
     assertNotNull(llm);
     LowerCaseEntry<Integer, String> lce = llm.get(50);
-    assertEquals(lce.getLowerCase(), "knob goblin uberpants");
+    assertEquals("knob goblin uberpants", lce.getLowerCase());
     String z = lce.setValue("Knob Goblin Panties");
-    assertEquals(z, "Knob Goblin Uberpants");
-    assertEquals(lce.getLowerCase(), "knob goblin panties");
+    assertEquals("Knob Goblin Uberpants", z);
+    assertEquals("knob goblin panties", lce.getLowerCase());
   }
 }
