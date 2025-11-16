@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia;
 
+import static internal.helpers.Player.withAdjustmentsRecalculated;
 import static internal.helpers.Player.withAdventuresLeft;
 import static internal.helpers.Player.withClass;
 import static internal.helpers.Player.withDay;
@@ -1758,6 +1759,24 @@ public class ModifiersTest {
 
         assertThat(current.getDouble(DoubleModifier.ITEMDROP), equalTo(30.0));
       }
+    }
+  }
+
+  @Test
+  public void addsItemsAndMeatFromShrunkenHead() {
+    var cleanups =
+        new Cleanups(
+            withProperty("shrunkenHeadZombieHP", 3),
+            withProperty(
+                "shrunkenHeadZombieAbilities",
+                "Item Drop Bonus (38%), Meat Drop Bonus (31%), Stench Attack (31%)"),
+            withAdjustmentsRecalculated());
+
+    try (cleanups) {
+      Modifiers current = KoLCharacter.getCurrentModifiers();
+
+      assertThat(current.getDouble(DoubleModifier.ITEMDROP), equalTo(38.0));
+      assertThat(current.getDouble(DoubleModifier.MEATDROP), equalTo(31.0));
     }
   }
 }

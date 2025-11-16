@@ -5372,6 +5372,31 @@ public abstract class KoLCharacter {
       }
     }
 
+    if (Preferences.getInteger("shrunkenHeadZombieHP") > 0) {
+      var abilities = Preferences.getString("shrunkenHeadZombieAbilities");
+      for (var ability : abilities.split(", ")) {
+        if (ability.contains("Item Drop Bonus")) {
+          var start = ability.indexOf('(') + 1;
+          var end = ability.indexOf('%');
+          String num = ability.substring(start, end);
+          newModifiers.addDouble(
+              DoubleModifier.ITEMDROP,
+              Double.parseDouble(num),
+              ModifierType.SHRUNKEN_HEAD,
+              "shrunken head zombie");
+        } else if (ability.contains("Meat Drop Bonus")) {
+          var start = ability.indexOf('(') + 1;
+          var end = ability.indexOf('%');
+          String num = ability.substring(start, end);
+          newModifiers.addDouble(
+              DoubleModifier.MEATDROP,
+              Double.parseDouble(num),
+              ModifierType.SHRUNKEN_HEAD,
+              "shrunken head zombie");
+        }
+      }
+    }
+
     if (KoLCharacter.inRobocore()) {
       YouRobotManager.addRobotModifiers(newModifiers);
     }
