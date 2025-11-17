@@ -2,19 +2,26 @@ package net.sourceforge.kolmafia.persistence;
 
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withNextResponse;
+import static internal.helpers.Player.withResponses;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
 
 import internal.helpers.Cleanups;
 import internal.helpers.RequestLoggerOutput;
+import internal.network.FakeHttpResponse;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -278,5 +285,30 @@ public class DebugDatabaseTest {
     Mockito.when(retVal.isDirectory()).thenReturn(true);
     Mockito.when(retVal.listFiles()).thenReturn(contents);
     return retVal;
+  }
+
+  @Test
+  public void parsesLevelScalingEnchants() {
+    var cleanups =
+        new Cleanups(
+            withResponses(
+                r -> {
+                  var path = r.uri().getPath();
+                  if (path.startsWith("/desc_item.php")) {
+                    return new FakeHttpResponse<>(
+                        html("request/test_desc_item_vampyric_cloake.html"));
+                  }
+                  return null;
+                }));
+
+    try (cleanups) {
+      var desc = DebugDatabase.itemDescriptionText(ItemPool.VAMPYRIC_CLOAKE, false);
+      assertThat(desc, containsString("Improves the effectiveness of various Dark Gyffte skills"));
+
+      ArrayList<String> unknown = new ArrayList<>();
+      String known = DebugDatabase.parseItemEnchantments(desc, unknown, ConsumptionType.CONTAINER);
+      assertThat(unknown, hasItem("Improves the effectiveness of various Dark Gyffte skills"));
+      assertThat(known, containsString("Maximum HP: +240"));
+    }
   }
 }
