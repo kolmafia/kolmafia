@@ -1251,7 +1251,7 @@ public class ModifierDatabase {
     }
 
     if (known.isEmpty()) {
-      if (unknown.size() == 0) {
+      if (unknown.isEmpty()) {
         String printMe = modifierCommentString(name);
         RequestLogger.printLine(printMe);
         RequestLogger.updateSessionLog(printMe);
