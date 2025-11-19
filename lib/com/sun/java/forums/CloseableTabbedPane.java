@@ -72,6 +72,11 @@ public class CloseableTabbedPane
 	private Icon pressedCloseIcon = null;
 
 	/**
+	 * The index of the last tab that was clicked.
+	 */
+	private int lastClickedTab = -1;
+
+	/**
 	 * Creates a new instance of <code>CloseableTabbedPane</code>
 	 */
 	public CloseableTabbedPane()
@@ -353,6 +358,7 @@ public class CloseableTabbedPane
 			{
 				icon.mousepressed = e.getModifiers() == InputEvent.BUTTON1_MASK;
 				this.repaint( drawRect );
+				this.lastClickedTab = tabNumber;
 			}
 			else if ( e.getID() == MouseEvent.MOUSE_MOVED || e.getID() == MouseEvent.MOUSE_DRAGGED || e.getID() == MouseEvent.MOUSE_CLICKED )
 			{
@@ -363,7 +369,7 @@ public class CloseableTabbedPane
 					if ( e.getID() == MouseEvent.MOUSE_CLICKED )
 					{
 						int selIndex = this.getSelectedIndex();
-						if ( this.fireCloseTab( selIndex ) )
+						if ( this.lastClickedTab == tabNumber && this.fireCloseTab( selIndex ) )
 						{
 							if ( selIndex > 0 )
 							{
