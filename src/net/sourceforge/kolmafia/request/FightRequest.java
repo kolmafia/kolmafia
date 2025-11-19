@@ -7726,22 +7726,17 @@ public class FightRequest extends GenericRequest {
     var text = node.wholeText();
     if (text.startsWith("You toss your shrunken head at your foe")) {
       FightRequest.logText(text, status);
+      var slot = EquipmentManager.discardEquipment(ItemPool.SHRUNKEN_HEAD);
 
-      // find out which slot has the shrunken head equipped, and unequip it
-      if (EquipmentManager.getEquipment(Slot.OFFHAND).getItemId() == ItemPool.SHRUNKEN_HEAD) {
+      if (slot == Slot.OFFHAND) {
         var nextPara = node.nextElementSibling();
-        var equip = EquipmentRequest.UNEQUIP;
         if (nextPara != null) {
           Matcher matcher = OFFHAND_SWAP_PATTERN.matcher(nextPara.text());
           if (matcher.find()) {
             String itemName = matcher.group(1);
-            equip = ItemPool.get(itemName);
+            EquipmentManager.setEquipment(Slot.OFFHAND, ItemPool.get(itemName));
           }
         }
-        EquipmentManager.setEquipment(Slot.OFFHAND, equip);
-      } else if (KoLCharacter.getFamiliar().getId() == FamiliarPool.LEFT_HAND
-          && EquipmentManager.getFamiliarItem().getItemId() == ItemPool.SHRUNKEN_HEAD) {
-        EquipmentManager.setEquipment(Slot.FAMILIAR, EquipmentRequest.UNEQUIP);
       }
 
       // refresh the charpane to get zombie details
