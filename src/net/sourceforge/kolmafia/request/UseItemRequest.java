@@ -6297,9 +6297,10 @@ public class UseItemRequest extends GenericRequest {
         {
           // You get your flagellate flagon ready for your next drink.
           if (responseText.contains("You get your flagellate flagon ready for your next drink.")) {
-            Preferences.setBoolean("_flagellateFlagonUsed", true);
             Preferences.increment("flagellateFlagonsActive");
           }
+
+          Preferences.setBoolean("_flagellateFlagonUsed", true);
 
           return;
         }
