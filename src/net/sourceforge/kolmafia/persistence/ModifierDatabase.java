@@ -176,16 +176,21 @@ public class ModifierDatabase {
           ModifierType.UNBREAKABLE_UMBRELLA,
           ModifierType.PASSIVES);
 
+  // in general these are the modifiers which cannot be read from the item description
   public static final Set<Modifier> CARRIED_OVER =
       Set.of(
           MultiStringModifier.CONDITIONAL_SKILL_EQUIPPED,
           MultiStringModifier.CONDITIONAL_SKILL_INVENTORY,
-          StringModifier.WIKI_NAME,
-          StringModifier.LAST_AVAILABLE_DATE,
-          StringModifier.RECIPE,
+          MultiStringModifier.LANTERN_ELEMENT,
           StringModifier.CLASS,
-          StringModifier.SKILL,
+          StringModifier.WIKI_NAME,
+          // stat tuning is (likely) carried over for mime army but not tropical
+          StringModifier.STAT_TUNING,
           StringModifier.EQUIPS_ON,
+          StringModifier.FAMILIAR_EFFECT,
+          StringModifier.SKILL,
+          StringModifier.RECIPE,
+          StringModifier.LAST_AVAILABLE_DATE,
           BitmapModifier.BRIMSTONE,
           BitmapModifier.CLOATHING,
           BitmapModifier.SYNERGETIC,
@@ -820,8 +825,8 @@ public class ModifierDatabase {
     return newMods;
   }
 
-  // TODO: what's the difference between these are the above?
   // Parsing item enchantments into KoLmafia modifiers
+  // these methods parse non-enchantment modifiers
 
   public static final String parseSkill(final String text) {
     Matcher matcher = SKILL_PATTERN.matcher(text);
@@ -1246,7 +1251,7 @@ public class ModifierDatabase {
     }
 
     if (known.isEmpty()) {
-      if (unknown.size() == 0) {
+      if (unknown.isEmpty()) {
         String printMe = modifierCommentString(name);
         RequestLogger.printLine(printMe);
         RequestLogger.updateSessionLog(printMe);
