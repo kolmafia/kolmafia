@@ -4365,6 +4365,10 @@ public class FightRequest extends GenericRequest {
             path.setPoints(11);
           }
         }
+          // When fighting a Ewe, all prior ewe item drops become unavailable
+        case "ewe" -> {
+          Preferences.setString("eweItem", "");
+        }
       }
 
       if (KoLCharacter.hasEquipped(ItemPool.BONE_ABACUS, Slot.OFFHAND)
@@ -6515,7 +6519,6 @@ public class FightRequest extends GenericRequest {
   }
 
   private static void processChildren(final Element node, final TagStatus status) {
-    StringBuffer action = status.action;
     for (Node child : node.childNodes()) {
       if (child instanceof Comment object) {
         FightRequest.processComment(object, status);
@@ -6595,7 +6598,14 @@ public class FightRequest extends GenericRequest {
 
         if (str.startsWith("You notice a button on your doctor bag that you hadn't seen before")) {
           Preferences.setBoolean("_bloodBagDoctorBag", true);
-          FightRequest.logText(str);
+          FightRequest.logText(str, status);
+          continue;
+        }
+
+        if (str.startsWith("Your zombie has taken too much damage, and falls to pieces")) {
+          FightRequest.logText(str, status);
+          // refresh the charpane to get zombie details
+          RequestThread.postRequest(new CharPaneRequest());
           continue;
         }
 
@@ -6743,6 +6753,21 @@ public class FightRequest extends GenericRequest {
 
         int itemId = ItemDatabase.getItemIdFromDescription(m.group());
         AdventureResult result = ItemPool.get(itemId);
+
+        if (str.contains("A hated ewe appears")) {
+          FightRequest.logText("A hated ewe stole an item: " + result.getName(), status);
+          String newItem = String.valueOf(itemId);
+          String existing = Preferences.getString("eweItem");
+
+          if (existing == null || existing.isBlank()) {
+            // First item
+            Preferences.setString("eweItem", newItem);
+          } else {
+            // Append
+            Preferences.setString("eweItem", existing + "," + newItem);
+          }
+          return false;
+        }
 
         boolean autoEquip = str.contains("automatically equipped");
         String acquisition = autoEquip ? "You acquire and equip an item:" : "You acquire an item:";
@@ -7107,6 +7132,10 @@ public class FightRequest extends GenericRequest {
     }
 
     if (FightRequest.handleUnblemishedPearlProgress(node, status)) {
+      return;
+    }
+
+    if (FightRequest.handleShrunkenHeadZombieCreation(node, status)) {
       return;
     }
 
@@ -7688,6 +7717,33 @@ public class FightRequest extends GenericRequest {
     FightRequest.logText(text, status);
 
     return true;
+  }
+
+  private static final Pattern OFFHAND_SWAP_PATTERN =
+      Pattern.compile("You pick up your (.+) in your off-hand again");
+
+  private static boolean handleShrunkenHeadZombieCreation(Element node, TagStatus status) {
+    var text = node.wholeText();
+    if (text.startsWith("You toss your shrunken head at your foe")) {
+      FightRequest.logText(text, status);
+      var slot = EquipmentManager.discardEquipment(ItemPool.SHRUNKEN_HEAD);
+
+      if (slot == Slot.OFFHAND) {
+        var nextPara = node.nextElementSibling();
+        if (nextPara != null) {
+          Matcher matcher = OFFHAND_SWAP_PATTERN.matcher(nextPara.text());
+          if (matcher.find()) {
+            String itemName = matcher.group(1);
+            EquipmentManager.setEquipment(Slot.OFFHAND, ItemPool.get(itemName));
+          }
+        }
+      }
+
+      // refresh the charpane to get zombie details
+      RequestThread.postRequest(new CharPaneRequest());
+      return true;
+    }
+    return false;
   }
 
   private static void handleVillainLairRadio(Element node, TagStatus status) {
@@ -10868,6 +10924,16 @@ public class FightRequest extends GenericRequest {
         if (responseText.contains("absorb all the photons") || skillSuccess) {
           Preferences.decrement("phosphorTracesUses");
           Preferences.setString("_chainedAfterimageMonster", monsterName);
+        }
+      }
+      case SkillPool.BERET_BLAST -> {
+        if (responseText.contains("You focus your decades") || skillSuccess) {
+          skillSuccess = true;
+        }
+      }
+      case SkillPool.BERET_BOAST -> {
+        if (responseText.contains("You brag about your beret until") || skillSuccess) {
+          skillSuccess = true;
         }
       }
       case SkillPool.BCZ__BLOOD_GEYSER -> {

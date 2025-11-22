@@ -130,7 +130,7 @@ class RequestLoggerTest {
         assertTrue(adventure != null);
 
         // Simply doing that lookup does not register the current Shadow Rift
-        assertEquals(Preferences.getString("shadowRiftIngress"), "");
+        assertEquals("", Preferences.getString("shadowRiftIngress"));
 
         // Registering that URL will be claimed by KoLAdventure.
         var request = new GenericRequest(url);

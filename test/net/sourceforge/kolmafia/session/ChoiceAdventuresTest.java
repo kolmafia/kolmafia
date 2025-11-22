@@ -118,7 +118,7 @@ class ChoiceAdventuresTest {
       try (cleanups) {
         var options = ChoiceAdventures.dynamicChoiceOptions(choice);
         assertNotNull(options);
-        assertEquals(options.length, 2);
+        assertEquals(2, options.length);
         String expected = "Get 0 (" + bits + ") and suffer " + damage + " " + element + " damage";
         assertThat(options[0].getName(), is(expected));
         assertThat(options[1].getName(), is("no reward, no damage"));
@@ -134,7 +134,7 @@ class ChoiceAdventuresTest {
       try (cleanups) {
         var options = ChoiceAdventures.dynamicChoiceOptions(choice);
         assertNotNull(options);
-        assertEquals(options.length, 2);
+        assertEquals(2, options.length);
         String expected = "Get 0 (" + bits + ") and suffer " + damage + " " + element + " damage";
         assertThat(options[0].getName(), is(expected));
         assertThat(options[1].getName(), is("no reward, no damage"));

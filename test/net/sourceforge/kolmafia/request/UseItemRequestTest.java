@@ -1117,28 +1117,28 @@ class UseItemRequestTest {
     @Test
     void potionsAreMultiusable() {
       assertEquals(
-          UseItemRequest.getConsumptionType(ItemPool.get(ItemPool.VIAL_OF_PURPLE_SLIME)),
-          ConsumptionType.USE_MULTIPLE);
+          ConsumptionType.USE_MULTIPLE,
+          UseItemRequest.getConsumptionType(ItemPool.get(ItemPool.VIAL_OF_PURPLE_SLIME)));
     }
 
     @Test
     void reusablePotionsAreReusable() {
       assertEquals(
-          UseItemRequest.getConsumptionType(ItemPool.get(ItemPool.BRASS_DREAD_FLASK)),
-          ConsumptionType.USE_INFINITE);
+          ConsumptionType.USE_INFINITE,
+          UseItemRequest.getConsumptionType(ItemPool.get(ItemPool.BRASS_DREAD_FLASK)));
     }
 
     @Test
     void singleUsePotionsAreUsable() {
       assertEquals(
-          UseItemRequest.getConsumptionType(ItemPool.get(ItemPool.GOOFBALLS)), ConsumptionType.USE);
+          ConsumptionType.USE, UseItemRequest.getConsumptionType(ItemPool.get(ItemPool.GOOFBALLS)));
     }
 
     @Test
     void familiarHatchlingsAreTheirOwnType() {
       assertEquals(
-          UseItemRequest.getConsumptionType(ItemPool.get(ItemPool.MOSQUITO_LARVA)),
-          ConsumptionType.FAMILIAR_HATCHLING);
+          ConsumptionType.FAMILIAR_HATCHLING,
+          UseItemRequest.getConsumptionType(ItemPool.get(ItemPool.MOSQUITO_LARVA)));
     }
   }
 

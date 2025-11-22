@@ -28,13 +28,13 @@ class SuburbanDisRequestTest {
   @Test
   void getAdventuresUsedOnlyCostsForFighting() {
     var fight = new SuburbanDisRequest("dothis");
-    assertEquals(fight.getAdventuresUsed(), 1);
+    assertEquals(1, fight.getAdventuresUsed());
   }
 
   @Test
   void getAdventuresUsedHasNoCostForAltar() {
     var fight = new SuburbanDisRequest("altar");
-    assertEquals(fight.getAdventuresUsed(), 0);
+    assertEquals(0, fight.getAdventuresUsed());
   }
 
   @Test

@@ -597,6 +597,7 @@ public class ItemPool {
   public static final int VANGOGHBITUSSIN = 1950;
   public static final int PINOT_RENOIR = 1951;
   public static final int FLAT_CHAMPAGNE = 1953;
+  public static final int SNIFTER_BRANDY = 1956;
   public static final int QUILL_PEN = 1957;
   public static final int INKWELL = 1958;
   public static final int SCRAP_OF_PAPER = 1959;
@@ -656,6 +657,7 @@ public class ItemPool {
   public static final int CALAVERA_CONCERTINA = 2234;
   public static final int TURTLE_PHEROMONES = 2236;
   public static final int PHOTOGRAPH_OF_GOD = 2259;
+  public static final int LION_OIL = 2263;
   public static final int WET_STUNT_NUT_STEW = 2266;
   public static final int MEGA_GEM = 2267;
   public static final int STAFF_OF_FATS = 2268;
@@ -3954,6 +3956,7 @@ public class ItemPool {
   public static final int UNBLEMISHED_PEARL = 11976;
   public static final int DENTADENT = 11977;
   public static final int PHEROMONE_COCKTAIL = 12045;
+  public static final int SHRUNKEN_HEAD = 12048;
 
   private ItemPool() {}
 

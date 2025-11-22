@@ -25,6 +25,6 @@ public class ScriptManagerTest {
 
     List<Script> repoScripts = ScriptManager.getRepoScripts();
     assertThat(repoScripts, hasSize(2));
-    assertEquals(repoScripts.get(0).getScriptName(), "acquireBuff");
+    assertEquals("acquireBuff", repoScripts.getFirst().getScriptName());
   }
 }

@@ -71,7 +71,7 @@ public class OceanManagerTest {
 
         // Validate sensible request logging
         String expected = "Encounter: Set an Open Course for the Virgin Booty";
-        assertEquals(RequestLogger.previousUpdateString, expected);
+        assertEquals(expected, RequestLogger.previousUpdateString);
 
         // Redirects to ocean.php
         // No longer in a choice
@@ -120,7 +120,7 @@ public class OceanManagerTest {
 
         // Validate sensible request logging
         String expected = "Encounter: Set an Open Course for the Virgin Booty";
-        assertEquals(RequestLogger.previousUpdateString, expected);
+        assertEquals(expected, RequestLogger.previousUpdateString);
 
         // Redirects to ocean.php
         // No longer in a choice
@@ -308,7 +308,7 @@ public class OceanManagerTest {
         // Abort and tell them to continue in the relay browser
         assertThat(StaticEntity.getContinuationState(), equalTo(MafiaState.ABORT));
         String expected = ABORT_MESSAGE;
-        assertEquals(RequestLogger.previousUpdateString, expected);
+        assertEquals(expected, RequestLogger.previousUpdateString);
 
         var requests = builder.client.getRequests();
         assertThat(requests, hasSize(3));

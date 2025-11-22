@@ -13,6 +13,7 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLConstants.Stat;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -265,6 +266,8 @@ public class DeckOfEveryCardRequest extends GenericRequest {
       deckUsed = ItemPool.DECK_OF_EVERY_CARD;
     } else if (KoLCharacter.inLegacyOfLoathing()
         && InventoryManager.retrieveItem(ItemPool.REPLICA_DECK_OF_EVERY_CARD, 1, true)) {
+      // retrieveItem failed for the regular Deck of Every Card.
+      StaticEntity.setContinuationState(MafiaState.CONTINUE);
       deckUsed = ItemPool.REPLICA_DECK_OF_EVERY_CARD;
     } else {
       // If you can't get a deck into inventory, punt

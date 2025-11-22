@@ -6,6 +6,7 @@ import internal.network.FakeHttpResponse;
 import java.io.File;
 import java.io.IOException;
 import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.time.LocalDateTime;
@@ -18,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.BiConsumer;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionClass;
@@ -44,7 +46,20 @@ import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.persistence.*;
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
+import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.EffectDatabase;
+import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.persistence.HolidayDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase;
+import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase;
+import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.BasementRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
@@ -295,6 +310,16 @@ public class Player {
   public static Cleanups withNoItems() {
     KoLConstants.inventory.clear();
     return new Cleanups(KoLConstants.inventory::clear);
+  }
+
+  /**
+   * Clears Closet
+   *
+   * @return Clears closet
+   */
+  public static Cleanups withNoItemsInCloset() {
+    KoLConstants.closet.clear();
+    return new Cleanups(KoLConstants.closet::clear);
   }
 
   /**
@@ -1186,7 +1211,8 @@ public class Player {
    * @return Resets stats to zero
    */
   public static Cleanups withStats(final int muscle, final int mysticality, final int moxie) {
-    return withSubStats(muscle * muscle, mysticality * mysticality, moxie * moxie);
+    return withSubStats(
+        (long) muscle * muscle, (long) mysticality * mysticality, (long) moxie * moxie);
   }
 
   /**
@@ -1420,8 +1446,8 @@ public class Player {
   /**
    * Sets the player's pvp attacks left
    *
-   * @param fullness Desired fullness
-   * @return Resets fullness to previous value
+   * @param attacks Desired attacks
+   * @return Resets attacks to previous value
    */
   public static Cleanups withAttacksLeft(final int attacks) {
     var old = KoLCharacter.getAttacksLeft();
@@ -2038,10 +2064,7 @@ public class Player {
   public static Cleanups withPasswordHash(String passwordHash) {
     var old = GenericRequest.passwordHash;
     GenericRequest.setPasswordHash(passwordHash);
-    return new Cleanups(
-        () -> {
-          GenericRequest.setPasswordHash(old);
-        });
+    return new Cleanups(() -> GenericRequest.setPasswordHash(old));
   }
 
   /**
@@ -2108,16 +2131,39 @@ public class Player {
    * @param responseMap Map of responses, keyed by request.
    * @return Cleans up so this response is not given afterwards.
    */
-  public static Cleanups withResponseMap(final Map<String, FakeHttpResponse<String>> responseMap) {
+  public static Cleanups withResponses(final Map<String, FakeHttpResponse<String>> responseMap) {
     var old = HttpUtilities.getClientBuilder();
     var builder = new FakeHttpClientBuilder();
     HttpUtilities.setClientBuilder(() -> builder);
     GenericRequest.resetClient();
     GenericRequest.sessionId = "TEST"; // we fake the client, so "run" the requests
 
-    for (var entry : responseMap.entrySet()) {
-      builder.client.addResponse(entry.getKey(), entry.getValue());
-    }
+    builder.client.setResponseFunc(r -> responseMap.get(r.uri().toString()));
+
+    return new Cleanups(
+        () -> {
+          GenericRequest.sessionId = null;
+          HttpUtilities.setClientBuilder(() -> old);
+          GenericRequest.resetClient();
+        });
+  }
+
+  /**
+   * Sets next response to a GenericRequest Note that this uses its own FakeHttpClientBuilder so
+   * getRequests() will not work on one set separately
+   *
+   * @param responseFunc Function returning responses, keyed by request.
+   * @return Cleans up so this response is not given afterwards.
+   */
+  public static Cleanups withResponses(
+      final Function<HttpRequest, FakeHttpResponse<String>> responseFunc) {
+    var old = HttpUtilities.getClientBuilder();
+    var builder = new FakeHttpClientBuilder();
+    HttpUtilities.setClientBuilder(() -> builder);
+    GenericRequest.resetClient();
+    GenericRequest.sessionId = "TEST"; // we fake the client, so "run" the requests
+
+    builder.client.setResponseFunc(responseFunc);
 
     return new Cleanups(
         () -> {
@@ -2731,10 +2777,7 @@ public class Player {
   public static Cleanups withTopMenuStyle(final TopMenuStyle style) {
     var oldStyle = GenericRequest.topMenuStyle;
     GenericRequest.topMenuStyle = style;
-    return new Cleanups(
-        () -> {
-          GenericRequest.topMenuStyle = oldStyle;
-        });
+    return new Cleanups(() -> GenericRequest.topMenuStyle = oldStyle);
   }
 
   /**
@@ -2746,10 +2789,7 @@ public class Player {
   public static Cleanups withUserId(final int id) {
     var oldId = KoLCharacter.getUserId();
     KoLCharacter.setUserId(id);
-    return new Cleanups(
-        () -> {
-          KoLCharacter.setUserId(oldId);
-        });
+    return new Cleanups(() -> KoLCharacter.setUserId(oldId));
   }
 
   /**
@@ -2890,10 +2930,7 @@ public class Player {
     } catch (IOException e) {
       System.out.println(e + " while copying " + sourceName + " to " + destinationName + ".");
     }
-    return new Cleanups(
-        () -> {
-          destinationFile.delete();
-        });
+    return new Cleanups(destinationFile::delete);
   }
 
   /**
@@ -2946,10 +2983,7 @@ public class Player {
   public static Cleanups withGoal(final AdventureResult goal) {
     var goals = GoalManager.getGoals();
     GoalManager.addGoal(goal);
-    return new Cleanups(
-        () -> {
-          GoalManager.addGoal(goal.getNegation());
-        });
+    return new Cleanups(() -> GoalManager.addGoal(goal.getNegation()));
   }
 
   private static void updateMallResults(int itemId, List<PurchaseRequest> results) {

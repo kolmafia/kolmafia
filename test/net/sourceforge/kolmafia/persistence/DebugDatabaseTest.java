@@ -2,19 +2,26 @@ package net.sourceforge.kolmafia.persistence;
 
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withNextResponse;
+import static internal.helpers.Player.withResponses;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
 
 import internal.helpers.Cleanups;
 import internal.helpers.RequestLoggerOutput;
+import internal.network.FakeHttpResponse;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -63,14 +70,14 @@ public class DebugDatabaseTest {
       DebugDatabase.checkMuseumPlurals();
       assertTrue(plurals.exists());
       assertEquals(
-          Files.readString(plurals.toPath()),
           """
-          Unrecognised item -999: "non-existent item"
-          item 1 has name "misnamed seal-clubbing club" but Mafia says "seal-clubbing club"
-          Item 2: "seal tooth" has default plural, but Mafia says "seal teeth"
-          Item 3: "helmet turtle" has plural unknown to Mafia: "bad plural for helmet turtle"
-          Item 8: "spices" has plural "spiceses" but Mafia says "spices"
-          """);
+        Unrecognised item -999: "non-existent item"
+        item 1 has name "misnamed seal-clubbing club" but Mafia says "seal-clubbing club"
+        Item 2: "seal tooth" has default plural, but Mafia says "seal teeth"
+        Item 3: "helmet turtle" has plural unknown to Mafia: "bad plural for helmet turtle"
+        Item 8: "spices" has plural "spiceses" but Mafia says "spices"
+        """,
+          Files.readString(plurals.toPath()));
       DebugDatabase.checkMuseumPlurals();
     } catch (IOException e) {
       fail("unexpected exception: ", e);
@@ -93,13 +100,13 @@ public class DebugDatabaseTest {
       DebugDatabase.checkMuseumItems();
       assertTrue(plurals.exists());
       assertEquals(
-          Files.readString(plurals.toPath()),
           """
-          Unrecognised item -999: "non-existent item"
-          Mismatch - 8884:plate of Val-U Brand Every Bean Salad - image - Mafia: franksbeans.gif - Museum: beans.gif
-          Mismatch - 8884:plate of Val-U Brand Every Bean Salad - salad - Mafia: false - Museum: true
-          Mismatch - 8884:plate of Val-U Brand Every Bean Salad - beans - Mafia: true - Museum: false
-          """);
+        Unrecognised item -999: "non-existent item"
+        Mismatch - 8884:plate of Val-U Brand Every Bean Salad - image - Mafia: franksbeans.gif - Museum: beans.gif
+        Mismatch - 8884:plate of Val-U Brand Every Bean Salad - salad - Mafia: false - Museum: true
+        Mismatch - 8884:plate of Val-U Brand Every Bean Salad - beans - Mafia: true - Museum: false
+        """,
+          Files.readString(plurals.toPath()));
       DebugDatabase.checkMuseumItems();
     } catch (IOException e) {
       fail("unexpected exception: ", e);
@@ -145,34 +152,36 @@ public class DebugDatabaseTest {
   @Test
   public void checkManuel() {
     String expectedOutput =
-        "Checking Monster Manuel...\n"
-            + "Page A\n"
-            + "Page B\n"
-            + "Page C\n"
-            + "Page D\n"
-            + "Page E\n"
-            + "Page F\n"
-            + "Page G\n"
-            + "Page H\n"
-            + "Page I\n"
-            + "Page J\n"
-            + "Page K\n"
-            + "Page L\n"
-            + "Page M\n"
-            + "Page N\n"
-            + "Page O\n"
-            + "Page P\n"
-            + "Page Q\n"
-            + "Page R\n"
-            + "Page S\n"
-            + "Page T\n"
-            + "Page U\n"
-            + "Page V\n"
-            + "Page W\n"
-            + "Page X\n"
-            + "Page Y\n"
-            + "Page Z\n"
-            + "Page -\n";
+        """
+        Checking Monster Manuel...
+        Page A
+        Page B
+        Page C
+        Page D
+        Page E
+        Page F
+        Page G
+        Page H
+        Page I
+        Page J
+        Page K
+        Page L
+        Page M
+        Page N
+        Page O
+        Page P
+        Page Q
+        Page R
+        Page S
+        Page T
+        Page U
+        Page V
+        Page W
+        Page X
+        Page Y
+        Page Z
+        Page -
+        """;
     ByteArrayOutputStream ostream = new ByteArrayOutputStream();
     PrintStream out = new PrintStream(ostream);
     // Inject custom output stream.
@@ -276,5 +285,30 @@ public class DebugDatabaseTest {
     Mockito.when(retVal.isDirectory()).thenReturn(true);
     Mockito.when(retVal.listFiles()).thenReturn(contents);
     return retVal;
+  }
+
+  @Test
+  public void parsesLevelScalingEnchants() {
+    var cleanups =
+        new Cleanups(
+            withResponses(
+                r -> {
+                  var path = r.uri().getPath();
+                  if (path.startsWith("/desc_item.php")) {
+                    return new FakeHttpResponse<>(
+                        html("request/test_desc_item_vampyric_cloake.html"));
+                  }
+                  return null;
+                }));
+
+    try (cleanups) {
+      var desc = DebugDatabase.itemDescriptionText(ItemPool.VAMPYRIC_CLOAKE, false);
+      assertThat(desc, containsString("Improves the effectiveness of various Dark Gyffte skills"));
+
+      ArrayList<String> unknown = new ArrayList<>();
+      String known = DebugDatabase.parseItemEnchantments(desc, unknown, ConsumptionType.CONTAINER);
+      assertThat(unknown, hasItem("Improves the effectiveness of various Dark Gyffte skills"));
+      assertThat(known, containsString("Maximum HP: +240"));
+    }
   }
 }

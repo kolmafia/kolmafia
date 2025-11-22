@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
+// CHECKSTYLE.SUPPRESS: AvoidStarImport
 import net.sourceforge.kolmafia.request.*;
 import net.sourceforge.kolmafia.request.GrandpaRequest;
 import net.sourceforge.kolmafia.request.coinmaster.AWOLQuartermasterRequest;

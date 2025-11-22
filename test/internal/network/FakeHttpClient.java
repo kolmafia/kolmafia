@@ -1,6 +1,5 @@
 package internal.network;
 
-import java.io.IOException;
 import java.net.Authenticator;
 import java.net.CookieHandler;
 import java.net.ProxySelector;
@@ -25,6 +24,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.SubmissionPublisher;
+import java.util.function.Function;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLParameters;
 
@@ -32,7 +32,7 @@ public class FakeHttpClient extends HttpClient {
 
   private final List<HttpRequest> requests = new ArrayList<>();
   private final Queue<FakeHttpResponse<String>> responses = new LinkedList<>();
-  private final Map<String, FakeHttpResponse<String>> responseMap = new HashMap<>();
+  private Function<HttpRequest, FakeHttpResponse<String>> responseFunc = null;
 
   public void addResponse(int responseCode, String response) {
     addResponse(responseCode, new HashMap<>(), response);
@@ -46,8 +46,8 @@ public class FakeHttpClient extends HttpClient {
     responses.add(response);
   }
 
-  public void addResponse(String uri, FakeHttpResponse<String> response) {
-    responseMap.put(uri, response);
+  public void setResponseFunc(Function<HttpRequest, FakeHttpResponse<String>> func) {
+    responseFunc = func;
   }
 
   public List<HttpRequest> getRequests() {
@@ -55,11 +55,11 @@ public class FakeHttpClient extends HttpClient {
   }
 
   public HttpRequest getLastRequest() {
-    if (requests.size() == 0) {
+    if (requests.isEmpty()) {
       return null;
     }
 
-    return requests.get(requests.size() - 1);
+    return requests.getLast();
   }
 
   public void clear() {
@@ -113,10 +113,9 @@ public class FakeHttpClient extends HttpClient {
   }
 
   @Override
-  public <T> HttpResponse<T> send(HttpRequest request, BodyHandler<T> responseBodyHandler)
-      throws IOException, InterruptedException {
+  public <T> HttpResponse<T> send(HttpRequest request, BodyHandler<T> responseBodyHandler) {
     this.requests.add(request);
-    var response = responseMap.getOrDefault(request.uri().toString(), responses.poll());
+    var response = responseFunc == null ? responses.poll() : responseFunc.apply(request);
 
     var responseCode = response != null ? response.statusCode() : 0;
     var headers = response != null ? response.rawHeaders() : new HashMap<String, List<String>>();
@@ -153,8 +152,8 @@ public class FakeHttpClient extends HttpClient {
 
   static class ResponseInfoImpl implements ResponseInfo {
 
-    int statusCode;
-    Map<String, List<String>> headers;
+    final int statusCode;
+    final Map<String, List<String>> headers;
 
     public ResponseInfoImpl(int statusCode, Map<String, List<String>> headers) {
       this.statusCode = statusCode;

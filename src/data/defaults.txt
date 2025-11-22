@@ -691,6 +691,7 @@ user	essenceOfBearAvailable	true
 user	essenceOfBearCost	1000
 user	EVEDirections	LLRLR0
 user	everfullDartPerks		roa
+user	eweItem		roa
 user	expressCardUsed	false	ld
 user	extraCosmeticModifiers
 user	extraRolloverAdventures	0	ld
@@ -1169,6 +1170,7 @@ user	maximizerEquipmentLevel	1
 user	maximizerEquipmentScope	0
 user	maximizerFoldables	true
 user	maximizerIncludeAll	false
+user	maximizerLastFilters	equip,cast,wish,other,usable,booze,food,spleen
 user	maximizerMaxPrice	0
 user	maximizerNoAdventures	false
 user	maximizerPriceLevel	0
@@ -1540,6 +1542,9 @@ user	shrubGarland
 user	shrubGifts
 user	shrubLights
 user	shrubTopper
+user	shrunkenHeadZombieAbilities		roa
+user	shrunkenHeadZombieHP	0	roa
+user	shrunkenHeadZombieMonster		roa
 user	shubJigguwattDefeated	false	roa
 user	sideDefeated	neither
 user	sidequestArenaCompleted	none
