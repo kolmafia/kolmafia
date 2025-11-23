@@ -1682,7 +1682,7 @@ spider-goblin conspirator	1285	gourd_spidergob.gif	NOCOPY Atk: 32 Def: 26 HP: 35
 tin spider conspirator	1284	gourd_canspider.gif	NOCOPY Atk: 28 Def: 28 HP: 35 Init: 50 Meat: 20 P: construct Article: a	razor-sharp can lid (0)	spider web (0)	sharp tin strip (0)	wad of spider silk (0)
 Fnord the Unspeakable	1286	gourd_fnord.gif	NOCOPY Atk: 38 Def: 38 HP: 50 Init: 75 P: horror	razor-sharp can lid (0)	razor-sharp can lid (0)	Knob Goblin firecracker (0)	Knob Goblin firecracker (0)	spider web (0)	spider web (0)	sharp tin strip (0)	wad of spider silk (0)	goblin collarbone (0)
 fearsome giant squid	1320	bath_octopus.gif	NOCOPY Atk: 125 Def: 125 HP: 140 Init: 500 P: fish Article: a	old chum (10)
-ferocious roc	1322	bath_pelican.gif	NOCOPY Atk: 120 Def: 130 HP: 140 Init: 500 P: beast Article: a	old chum (0)
+ferocious roc	1322	bath_pelican.gif	NOCOPY Atk: 120 Def: 130 HP: 140 Init: 500 P: beast Article: a
 giant man-eating shark	1321	bath_whale.gif	NOCOPY Atk: 130 Def: 120 HP: 140 Init: 500 P: fish Article: a	old chum (10)
 Bristled Man-O-War	1325	bath_bubble.gif	NOCOPY Atk: 135 Def: 135 HP: 160 Init: 500 P: fish Article: a	old chum (15)
 Deadly Hydra	1326	bath_showerhead.gif	NOCOPY Atk: 140 Def: 140 HP: 180 Init: 750 P: beast Article: the	Hundred Headed IPA (25)
@@ -2668,9 +2668,9 @@ Servant of Lord Flameface	1211	fireservant1.gif,fireservant2.gif,fireservant3.gi
 Lord Flameface	1212	lordflameface.gif	BOSS NOCOPY NOMANUEL Atk: 250 Def: 75 HP: 2000 Init: 0 P: goblin Phys: 100 E: hot	blank note (n100)	3 forbidden sausage (m100)	Lord Flameface's cloak (n100)
 
 # Crimbo Town Toy Factory (Crimbo 2012)
-sign-twirling Crimbo elf	1261	tacoelf_sign.gif	Scale: 0 Cap: 150 Init: -10000 P: elf Article: a	Taco Dan's Taco Stand Chillacious Churro (0)	Taco Dan's Taco Stand Flier (0)
-tacobuilding elf	1263	tacoelf_cart.gif	Scale: 0 Cap: 150 Init: -10000 P: elf EA: hot EA: none	Taco Dan's Taco Stand Chimichangarita (0)	Taco Dan's Taco Stand Flier (0)
-taco-clad Crimbo elf	1262	tacoelf_taco.gif	Scale: 0 Cap: 150 Init: -10000 P: elf EA: hot EA: none	Taco Dan's Taco Stand Taco (100)	Taco Dan's Taco Stand Flier (0)
+sign-twirling Crimbo elf	1261	tacoelf_sign.gif	Scale: 0 Cap: 150 Init: -10000 P: elf Article: a	Taco Dan's Taco Stand Chillacious Churro (n100)	Taco Dan's Taco Stand Flier (0)
+tacobuilding elf	1263	tacoelf_cart.gif	Scale: 0 Cap: 150 Init: -10000 P: elf EA: hot EA: none	Taco Dan's Taco Stand Chimichangarita (n100)	Taco Dan's Taco Stand Flier (0)
+taco-clad Crimbo elf	1262	tacoelf_taco.gif	Scale: 0 Cap: 150 Init: -10000 P: elf EA: hot EA: none	Taco Dan's Taco Stand Taco (n100)	Taco Dan's Taco Stand Flier (0)
 circuit-soldering animelf	1253	animelf3.gif	Scale: 0 Init: -10000 P: elf EA: hot EA: none	electrical thingamabob (50)	electrical thingamabob (10)
 plastic-extruding animelf	1251	animelf2.gif	Scale: 0 Init: -10000 P: elf	plastic ingot (50)	plastic ingot (10)
 quality control animelf	1259	animelf4.gif	Scale: 0 Init: -10000 P: elf	electrical thingamabob (50)	plastic ingot (10)

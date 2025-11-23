@@ -6292,6 +6292,18 @@ public class UseItemRequest extends GenericRequest {
       case ItemPool.YAM_BATTERY:
         Preferences.setBoolean("_yamBatteryUsed", true);
         break;
+
+      case ItemPool.FLAGELLATE_FLAGON:
+        {
+          // You get your flagellate flagon ready for your next drink.
+          if (responseText.contains("You get your flagellate flagon ready for your next drink.")) {
+            Preferences.increment("flagellateFlagonsActive");
+          }
+
+          Preferences.setBoolean("_flagellateFlagonUsed", true);
+
+          return;
+        }
       case ItemPool.SYNAPTIC_SOUP:
       case ItemPool.MUSCULAR_SOUP:
       case ItemPool.FLAGELLATE_SOUP:
