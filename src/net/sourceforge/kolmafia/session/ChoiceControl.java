@@ -5746,8 +5746,17 @@ public abstract class ChoiceControl {
         }
       }
 
-      case 1042 -> // Pick a Perk
-      KoLmafia.resetAfterLimitmode();
+      case 1027 -> { // The End of the Tale of Spelunking
+        boolean haveAllPerks = Preferences.getString("spelunkyUpgrades").equals("YYYYYYYYY");
+        // If we won't Pick a Perk again, this is the last choice. Reset now.
+        if (ChoiceManager.lastDecision == 1 && haveAllPerks) {
+          KoLCharacter.setLimitMode(LimitMode.NONE);
+        }
+      }
+
+      case 1042 -> { // Pick a Perk
+        KoLCharacter.setLimitMode(LimitMode.NONE);
+      }
 
       case 1054 -> {
         // Returning the MacGuffin
