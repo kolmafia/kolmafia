@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia;
 
+import static internal.helpers.Player.withAdjustmentsRecalculated;
 import static internal.helpers.Player.withAdventuresLeft;
 import static internal.helpers.Player.withClass;
 import static internal.helpers.Player.withDay;
@@ -36,9 +37,11 @@ import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.DerivedModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.Lookup;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.OutfitPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -1758,6 +1761,34 @@ public class ModifiersTest {
 
         assertThat(current.getDouble(DoubleModifier.ITEMDROP), equalTo(30.0));
       }
+    }
+  }
+
+  @Test
+  public void addsItemsAndMeatFromShrunkenHead() {
+    var cleanups =
+        new Cleanups(
+            withProperty("shrunkenHeadZombieHP", 3),
+            withProperty(
+                "shrunkenHeadZombieAbilities",
+                "Item Drop Bonus (38%), Meat Drop Bonus (31%), Stench Attack (31%)"),
+            withAdjustmentsRecalculated());
+
+    try (cleanups) {
+      Modifiers current = KoLCharacter.getCurrentModifiers();
+
+      assertThat(current.getDouble(DoubleModifier.ITEMDROP), equalTo(38.0));
+      assertThat(current.getDouble(DoubleModifier.MEATDROP), equalTo(31.0));
+    }
+  }
+
+  @Test
+  void outfitModifierStoresCurrentOutfit() {
+    var cleanups = Player.withOutfit(OutfitPool.CLOTHING_OF_LOATHING);
+
+    try (cleanups) {
+      Modifiers current = KoLCharacter.getCurrentModifiers();
+      assertThat(current.getString(StringModifier.OUTFIT), is("Clothing of Loathing"));
     }
   }
 }

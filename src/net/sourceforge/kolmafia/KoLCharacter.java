@@ -44,9 +44,23 @@ import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
-import net.sourceforge.kolmafia.persistence.*;
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.Consumable;
+import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
+import net.sourceforge.kolmafia.persistence.DailyLimitDatabase;
+import net.sourceforge.kolmafia.persistence.EffectDatabase;
+import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
+import net.sourceforge.kolmafia.persistence.HolidayDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
+import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
+import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.PreferenceModifiers;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
@@ -5355,6 +5369,31 @@ public abstract class KoLCharacter {
         newModifiers.add(
             ModifierDatabase.getModifiers(
                 ModifierType.ENSORCEL, ensorcelee.getPhylum().toString()));
+      }
+    }
+
+    if (Preferences.getInteger("shrunkenHeadZombieHP") > 0) {
+      var abilities = Preferences.getString("shrunkenHeadZombieAbilities");
+      for (var ability : abilities.split(", ")) {
+        if (ability.contains("Item Drop Bonus")) {
+          var start = ability.indexOf('(') + 1;
+          var end = ability.indexOf('%');
+          String num = ability.substring(start, end);
+          newModifiers.addDouble(
+              DoubleModifier.ITEMDROP,
+              Double.parseDouble(num),
+              ModifierType.SHRUNKEN_HEAD,
+              "shrunken head zombie");
+        } else if (ability.contains("Meat Drop Bonus")) {
+          var start = ability.indexOf('(') + 1;
+          var end = ability.indexOf('%');
+          String num = ability.substring(start, end);
+          newModifiers.addDouble(
+              DoubleModifier.MEATDROP,
+              Double.parseDouble(num),
+              ModifierType.SHRUNKEN_HEAD,
+              "shrunken head zombie");
+        }
       }
     }
 

@@ -4365,6 +4365,10 @@ public class FightRequest extends GenericRequest {
             path.setPoints(11);
           }
         }
+          // When fighting a Ewe, all prior ewe item drops become unavailable
+        case "ewe" -> {
+          Preferences.setString("eweItem", "");
+        }
       }
 
       if (KoLCharacter.hasEquipped(ItemPool.BONE_ABACUS, Slot.OFFHAND)
@@ -6750,6 +6754,21 @@ public class FightRequest extends GenericRequest {
         int itemId = ItemDatabase.getItemIdFromDescription(m.group());
         AdventureResult result = ItemPool.get(itemId);
 
+        if (str.contains("A hated ewe appears")) {
+          FightRequest.logText("A hated ewe stole an item: " + result.getName(), status);
+          String newItem = String.valueOf(itemId);
+          String existing = Preferences.getString("eweItem");
+
+          if (existing == null || existing.isBlank()) {
+            // First item
+            Preferences.setString("eweItem", newItem);
+          } else {
+            // Append
+            Preferences.setString("eweItem", existing + "," + newItem);
+          }
+          return false;
+        }
+
         boolean autoEquip = str.contains("automatically equipped");
         String acquisition = autoEquip ? "You acquire and equip an item:" : "You acquire an item:";
         ResultProcessor.processItem(true, acquisition, result, null);
@@ -7707,22 +7726,17 @@ public class FightRequest extends GenericRequest {
     var text = node.wholeText();
     if (text.startsWith("You toss your shrunken head at your foe")) {
       FightRequest.logText(text, status);
+      var slot = EquipmentManager.discardEquipment(ItemPool.SHRUNKEN_HEAD);
 
-      // find out which slot has the shrunken head equipped, and unequip it
-      if (EquipmentManager.getEquipment(Slot.OFFHAND).getItemId() == ItemPool.SHRUNKEN_HEAD) {
+      if (slot == Slot.OFFHAND) {
         var nextPara = node.nextElementSibling();
-        var equip = EquipmentRequest.UNEQUIP;
         if (nextPara != null) {
           Matcher matcher = OFFHAND_SWAP_PATTERN.matcher(nextPara.text());
           if (matcher.find()) {
             String itemName = matcher.group(1);
-            equip = ItemPool.get(itemName);
+            EquipmentManager.setEquipment(Slot.OFFHAND, ItemPool.get(itemName));
           }
         }
-        EquipmentManager.setEquipment(Slot.OFFHAND, equip);
-      } else if (KoLCharacter.getFamiliar().getId() == FamiliarPool.LEFT_HAND
-          && EquipmentManager.getFamiliarItem().getItemId() == ItemPool.SHRUNKEN_HEAD) {
-        EquipmentManager.setEquipment(Slot.FAMILIAR, EquipmentRequest.UNEQUIP);
       }
 
       // refresh the charpane to get zombie details

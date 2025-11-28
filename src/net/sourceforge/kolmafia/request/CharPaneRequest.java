@@ -164,10 +164,6 @@ public class CharPaneRequest extends GenericRequest {
       return true;
     }
 
-    if (KoLCharacter.getLimitMode() == LimitMode.SPELUNKY) {
-      KoLCharacter.setLimitMode(LimitMode.NONE);
-    }
-
     // We can deduce whether we are in compact charpane mode
 
     CharPaneRequest.compactCharacterPane = responseText.contains("<br>Lvl. ");

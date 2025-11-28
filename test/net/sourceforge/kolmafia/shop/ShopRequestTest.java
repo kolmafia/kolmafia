@@ -82,9 +82,9 @@ public class ShopRequestTest {
         String url = "shop.php?whichshop=starchart&action=buyitem&quantity=2&whichrow=139";
         var request = new GenericRequest(url);
         request.run();
-        assertEquals(InventoryManager.getCount(ItemPool.STAR_CHART), 1);
-        assertEquals(InventoryManager.getCount(ItemPool.STAR), 4);
-        assertEquals(InventoryManager.getCount(ItemPool.LINE), 2);
+        assertEquals(1, InventoryManager.getCount(ItemPool.STAR_CHART));
+        assertEquals(4, InventoryManager.getCount(ItemPool.STAR));
+        assertEquals(2, InventoryManager.getCount(ItemPool.LINE));
       }
     }
   }

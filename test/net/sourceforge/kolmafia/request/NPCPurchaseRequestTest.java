@@ -292,7 +292,7 @@ class NPCPurchaseRequestTest {
         request.run();
         var workshedItem = CampgroundRequest.getCurrentWorkshedItem();
         assertNotNull(workshedItem);
-        assertEquals(workshedItem.getItemId(), ItemPool.MAYO_CLINIC);
+        assertEquals(ItemPool.MAYO_CLINIC, workshedItem.getItemId());
         assertThat("mayoLevel", isSetTo(2));
         assertThat("_mayoDeviceRented", isSetTo(false));
         assertThat("itemBoughtPerAscension8266", isSetTo(false));

@@ -51,7 +51,7 @@ public class EquipmentDatabaseTest {
   public void itShouldGetAnOutfitAsString() {
     String bbo = EquipmentDatabase.outfitString(1, "Bugbear Costume", "bugbear.gif");
     String expected = "1\tBugbear Costume\tbugbear.gif\tbugbear beanie, bugbear bungguard";
-    assertEquals(bbo, expected);
+    assertEquals(expected, bbo);
   }
 
   @Test
@@ -71,35 +71,35 @@ public class EquipmentDatabaseTest {
   @Test
   public void powerStorageShouldBehave() {
     // negative indices
-    assertEquals(EquipmentDatabase.getPower(-1), 0);
-    assertEquals(EquipmentDatabase.getPower(-999), 0);
+    assertEquals(0, EquipmentDatabase.getPower(-1));
+    assertEquals(0, EquipmentDatabase.getPower(-999));
     // there is no item 13 but it should return zero and not an access violation
-    assertEquals(EquipmentDatabase.getPower(13), 0);
+    assertEquals(0, EquipmentDatabase.getPower(13));
     // an index past the end of the array
-    assertEquals(EquipmentDatabase.getPower(ItemDatabase.maxItemId() + 5), 0);
+    assertEquals(0, EquipmentDatabase.getPower(ItemDatabase.maxItemId() + 5));
   }
 
   @Test
   public void handsStorageShouldBehave() {
     // negative indices
-    assertEquals(EquipmentDatabase.getHands(-1), 0);
-    assertEquals(EquipmentDatabase.getHands(-999), 0);
+    assertEquals(0, EquipmentDatabase.getHands(-1));
+    assertEquals(0, EquipmentDatabase.getHands(-999));
     // there is no item 13 but it should return zero and not an access violation
-    assertEquals(EquipmentDatabase.getHands(13), 0);
+    assertEquals(0, EquipmentDatabase.getHands(13));
     // an index past the end of the array
-    assertEquals(EquipmentDatabase.getHands(ItemDatabase.maxItemId() + 5), 0);
+    assertEquals(0, EquipmentDatabase.getHands(ItemDatabase.maxItemId() + 5));
   }
 
   @Test
   public void pulverizationStorageShouldBehave() {
     // negative indices - pulverization is special and -1 is trapped
     // by code and not storage access.  -1 is returned for not-pulverizable
-    assertEquals(EquipmentDatabase.getPulverization(-1), -1);
-    assertEquals(EquipmentDatabase.getPulverization(-999), -1);
+    assertEquals(-1, EquipmentDatabase.getPulverization(-1));
+    assertEquals(-1, EquipmentDatabase.getPulverization(-999));
     // there is no item 13 but it should return -1 and not an access violation
-    assertEquals(EquipmentDatabase.getPulverization(13), -1);
+    assertEquals(-1, EquipmentDatabase.getPulverization(13));
     // an index past the end of the array
-    assertEquals(EquipmentDatabase.getPulverization(ItemDatabase.maxItemId() + 5), -1);
+    assertEquals(-1, EquipmentDatabase.getPulverization(ItemDatabase.maxItemId() + 5));
   }
 
   @Nested
@@ -131,8 +131,8 @@ public class EquipmentDatabaseTest {
         assertThat(treats, hasSize(hasRussianIce ? 1 : 0));
 
         if (hasRussianIce) {
-          assertThat(treats.get(0).treat().getName(), is("double-ice gum"));
-          assertThat(treats.get(0).chance(), is(1.0));
+          assertThat(treats.getFirst().treat().getName(), is("double-ice gum"));
+          assertThat(treats.getFirst().chance(), is(1.0));
         }
       }
     }

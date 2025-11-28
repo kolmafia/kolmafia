@@ -477,7 +477,7 @@ class StringUtilitiesTest {
     StringBuffer input = new StringBuffer();
     input.append("Substitute in me.");
     StringUtilities.globalStringReplace(input, "e", 3);
-    assertEquals(input.toString(), "Substitut3 in m3.");
+    assertEquals("Substitut3 in m3.", input.toString());
   }
 
   @ParameterizedTest

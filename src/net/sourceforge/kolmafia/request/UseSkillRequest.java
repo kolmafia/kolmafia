@@ -1520,7 +1520,13 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
           SkillPool.SWEAT_OUT_BOOZE,
           SkillPool.CINCHO_DISPENSE_SALT_AND_LIME,
           SkillPool.CINCHO_PARTY_SOUNDTRACK,
-          SkillPool.CINCHO_FIESTA_EXIT -> true;
+          SkillPool.CINCHO_FIESTA_EXIT,
+          SkillPool.BCZ__BLOOD_BATH,
+          SkillPool.BCZ__DIAL_IT_UP_TO_11,
+          SkillPool.BCZ__SWEAT_EQUITY,
+          SkillPool.BCZ__CREATE_BLOOD_THINNER,
+          SkillPool.BCZ__PREPARE_SPINAL_TAPAS,
+          SkillPool.BCZ__CRAFT_A_PHEROMONE_COCKTAIL -> true;
       default -> false;
     };
   }

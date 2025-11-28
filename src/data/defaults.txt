@@ -691,6 +691,7 @@ user	essenceOfBearAvailable	true
 user	essenceOfBearCost	1000
 user	EVEDirections	LLRLR0
 user	everfullDartPerks		roa
+user	eweItem		roa
 user	expressCardUsed	false	ld
 user	extraCosmeticModifiers
 user	extraRolloverAdventures	0	ld
@@ -717,6 +718,7 @@ user	fistTeachingsSlums	false	roa
 user	fistTeachingsFratHouse	false	roa
 user	fistTeachingsRoad	false	roa
 user	fistTeachingsNinjaSnowmen	false	roa
+user	flagellateFlagonsActive	0 roa
 user	flickeringPixel1	false
 user	flickeringPixel2	false
 user	flickeringPixel3	false
@@ -2192,6 +2194,7 @@ user	_fireworksShopHatBought	false
 user	_fireworksShopEquipmentBought	false
 user	_fireworkUsed	false
 user	_fishyPipeUsed	false
+user	_flagellateFlagonUsed	false
 user	_floristPlantsUsed
 user	_floundryItemCreated	false
 user	_floundryItemUsed	false

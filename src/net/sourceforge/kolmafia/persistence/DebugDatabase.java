@@ -15,8 +15,22 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -1357,13 +1371,6 @@ public class DebugDatabase {
     return known.toString();
   }
 
-  public static String parseItemEnchantments(final String text, final ConsumptionType type) {
-    ModifierList known = new ModifierList();
-    ArrayList<String> unknown = new ArrayList<>();
-    DebugDatabase.parseItemEnchantments(text, known, unknown, type);
-    return known.toString();
-  }
-
   public static void parseStandardEnchantments(
       final String text,
       final ModifierList known,
@@ -1442,6 +1449,7 @@ public class DebugDatabase {
     String[] mods = enchantments.toString().split("\n+");
     String BLUE_START = "<font color=\"blue\">";
     String BLUE_END = "</font>";
+    String DAGGER_FOOTNOTE = " <sup>&dagger;</sup>";
 
     boolean decemberEvent = false;
 
@@ -1449,6 +1457,11 @@ public class DebugDatabase {
       String enchantment = s.trim();
       if (enchantment.isEmpty()) {
         continue;
+      }
+
+      // <sup>&dagger;</sup> This enchantment scales with your level.
+      if (enchantment.endsWith(DAGGER_FOOTNOTE)) {
+        enchantment = enchantment.substring(0, enchantment.length() - DAGGER_FOOTNOTE.length());
       }
 
       // Unfortunately, since KoL has removed any indication
