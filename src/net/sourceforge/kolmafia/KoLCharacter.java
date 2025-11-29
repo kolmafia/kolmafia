@@ -1260,6 +1260,7 @@ public abstract class KoLCharacter {
       EffectPool.get(EffectPool.OFFHAND_REMARKABLE);
 
   public static void setLimitMode(final LimitMode limitmode) {
+    boolean resetAfter = false;
     switch (limitmode) {
       case NONE -> {
         // Check for "pseudo" LimitModes - when certain effects are active,
@@ -1292,13 +1293,17 @@ public abstract class KoLCharacter {
         // If it does require making requests, can't do it in a fight or choice
         if (KoLCharacter.limitMode.requiresReset()
             && !GenericRequest.abortIfInFightOrChoice(true)) {
-          KoLmafia.resetAfterLimitmode();
+          resetAfter = true;
         }
       }
       case BATMAN -> BatManager.setCombatSkills();
     }
 
     KoLCharacter.limitMode = limitmode;
+
+    if (resetAfter) {
+      KoLmafia.resetAfterLimitmode();
+    }
   }
 
   public static void setLimitMode(final String name) {
