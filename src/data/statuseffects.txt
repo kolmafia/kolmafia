@@ -3047,3 +3047,4 @@
 3044	Sweat Equity	cbz_sweatequity.gif	9cf1083b396c3af873f54509b647ae90	neutral	none	cast 1 BCZ: Sweat Equity
 3045	Really Thin Blood	cbz_vial.gif	4efeb52fce11f4817853414434939a59	neutral	none	chew 1 blood thinner
 3046	Tapased Out	cbz_tapasplate.gif	5c8500f690d5918ea2e7ca82c8d58ad3	neutral	none	eat 1 spinal tapas
+3047	You Yam What You Yam	yamcandy.gif	3ddf08619291bc133afdab734b803704	neutral	none	use 1 yammed candy

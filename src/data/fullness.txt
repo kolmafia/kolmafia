@@ -391,6 +391,7 @@ fruit-stuffed rumcake	5	1	awesome	20	0	0	0	100 Fruit-Based Animosity (+5 Pirate 
 fruitcake	3	1	decent	3-6	17-23	17-23	17-23
 fudge bunny	10	8	EPIC	60-66	50-90	50-90	50-90
 fudgesicle	1	1	decent	2	0	0	0	30 Fudge Headache (+75% Fudge Finding)
+full-sized pumpkin pie	4	1	awesome	0	0	0	0	Unspaded
 fusilli marrownarrow	5	7	awesome	16-19	20-30	0	0
 fusillocybin	5	11	awesome	20-23	0	40-45	0	SAUCY
 gallon of milk	15	1	awesome	70-75	500	500	500	100 Feeling Queasy (-10% item drop, -20% meat drop, -30% init)
