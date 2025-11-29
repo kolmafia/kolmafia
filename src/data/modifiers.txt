@@ -8505,6 +8505,7 @@ Effect	You Liver	Maximum HP: +200, HP Regen Min: 20, HP Regen Max: 40
 Effect	You Might Have Gotten Wet	Moxie: +20, Ranged Damage: +20, Damage Reduction: 10
 # You Pray To Yeg Your Soul To Keep: Now Lay You Down To Sleep
 Effect	You Read The Manual	Experience (Mysticality): +4
+Effect	You Yam What You Yam	Food Drop: +25, Booze Drop: +25, Candy Drop: +25
 Effect	You're a Brick . . . Ooze	Avatar: "BRICKO ooze"
 Effect	You're Back...	Spooky Damage: +300, Muscle: +25, Maximum HP Percent: -25, Moxie: -10
 Effect	You're High as a Crow, Marty	Initiative: +100
@@ -9613,6 +9614,7 @@ Item	frozen tofu pop	Last Available: "2021-12"
 Item	fruit-stuffed rumcake	Effect: "Fruit-Based Animosity", Effect Duration: 100, Last Available: "2023-12"
 Item	fudge bunny	Last Available: "2011-11"
 Item	fudgesicle	Effect: "Fudge Headache", Effect Duration: 30, Last Available: "2011-11"
+Item	full-sized pumpkin pie	Effect: "Halloweeny", Effect Duration: 5, Last Available: "2025-11"
 Item	gallon of milk	Effect: "Feeling Queasy", Effect Duration: 100, Last Available: "2016-05"
 Item	ghost dog	Effect: "Scaredy Dog", Effect Duration: 30
 Item	ghostly ectoplasm	Effect: "Haunted Stomach", Effect Duration: 3, Last Available: "2018-11"
@@ -10456,6 +10458,7 @@ Item	Uovo Marcio Shiraz	Last Available: "2004-10"
 Item	vesper	Last Available: "2004-12"
 Item	vintage smart drink	Effect: "Smart Drunk", Effect Duration: 1
 Item	vodka barracuda	Effect: "Mer-kinkiness", Effect Duration: 40, Last Available: "2017-03"
+Item	vodka cranberry sauce	Effect: "Cranberry Cordiality", Effect Duration: 5, Last Available: "2025-11"
 Item	Vodka Matryoshka	Last Available: "2011-12"
 Item	vodka stinger	Effect: "Mer-kindliness", Effect Duration: 40, Last Available: "2017-03"
 Item	vodka stratocaster sidecar	Last Available: "2025-03"
@@ -11601,9 +11604,9 @@ Item	scroll of minor invulnerability	Effect: "Minor Invulnerability", Effect Dur
 Item	scroll of Protection from Bad Stuff	Effect: "Protection from Bad Stuff", Effect Duration: 20, Last Available: "2013-02"
 Item	scroll of protection from lycanthropes	Effect: "Protection from Lycanthropes", Effect Duration: 50, Last Available: "2023-06"
 Item	scroll of Puddingskin	Effect: "Puddingskin", Effect Duration: 80, Last Available: "2013-02"
-Item	scroll of sea strength	Effect: "Sea Strength", Effect Duration: 50
-Item	scroll of sea smarts	Effect: "Sea Smarts", Effect Duration: 50
 Item	scroll of sea smarm	Effect: "Sea Smarm", Effect Duration: 50
+Item	scroll of sea smarts	Effect: "Sea Smarts", Effect Duration: 50
+Item	scroll of sea strength	Effect: "Sea Strength", Effect Duration: 50
 Item	sea grease	Effect: "Greased-Up Familiar", Effect Duration: 40
 Item	sea salt crystal	Effect: "Salty Dogs", Effect Duration: 5
 Item	seal eyeball	Effect: "Eye of the Seal", Effect Duration: 10
@@ -11808,6 +11811,7 @@ Item	worst candy	Effect: "Predjudicetidigitation", Effect Duration: 10
 Item	wriggling worm	Effect: "Baited Hook", Effect Duration: 100, Last Available: "2016-04"
 Item	writhing drippy candy bar	Effect: "Slithering Mounds", Effect Duration: 10
 Item	Wrotz	Effect: "Wrought Nerves", Effect Duration: 20
+Item	yammed candy	Effect: "You Yam What You Yam", Effect Duration: 25, Last Available: "2025-11"
 Item	Ye Olde Bawdy Limerick	Effect: "From Nantucket", Effect Duration: 20
 Item	Yeg's Motel hand soap	Effect: "Sigils of Yeg", Effect Duration: 50, Last Available: "2020-09"
 Item	Yeg's Motel mouthwash	Effect: "Breath of Yeg", Effect Duration: 50, Last Available: "2020-09"
