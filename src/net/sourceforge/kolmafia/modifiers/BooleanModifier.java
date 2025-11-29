@@ -82,7 +82,11 @@ public enum BooleanModifier implements Modifier {
   NEGATIVE_STATUS_RESIST(
       "Negative Status Resist",
       Pattern.compile("75% Chance of Preventing Negative Status Attacks"),
-      Pattern.compile("Negative Status Resist"));
+      Pattern.compile("Negative Status Resist")),
+  WEAKENS_MONSTER_ON_CRITICAL_HIT(
+      "Weakens Monster on Critical Hit",
+      Pattern.compile("Weakens Monster on Critical Hit"),
+      Pattern.compile("Weakens Monster on Critical Hit"));
 
   private final String name;
   private final Pattern[] descPatterns;

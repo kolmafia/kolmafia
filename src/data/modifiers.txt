@@ -549,8 +549,7 @@ Item	undersea surveying goggles	Muscle Percent: +50, Mysticality Percent: +50, M
 Item	Unfortunato's foolscap	Spooky Damage: +10, Stench Damage: +10, Hot Damage: +10, Cold Damage: +10, Sleaze Damage: +10, Mysticality Percent: +10, Mana Cost (combat): -2, Last Available: "2016-08"
 Item	Unkillable Skeleton's skullcap	Muscle Percent: +50, Maximum HP: +500, HP Regen Min: 40, HP Regen Max: 80, Class: "Turtle Tamer", Familiar Effect: "1xPotato, 1xFairy"
 Item	Van der Graaf helmet	Maximum MP: +15, MP Regen Min: 1, MP Regen Max: 3, Last Available: "2011-05", Familiar Effect: "3xPotato, cap 7"
-# very pointy crown: Weakens Monster on Critical Hit
-Item	very pointy crown	Experience (Moxie): +5, Adventures: +5, Moxie Percent: +50, Combat Rate: -5, Lasts Until Rollover, Last Available: "2016-03", Familiar Effect: "atk, 1xGhuol"
+Item	very pointy crown	Experience (Moxie): +5, Adventures: +5, Moxie Percent: +50, Combat Rate: -5, Weakens Monster on Critical Hit, Lasts Until Rollover, Last Available: "2016-03", Familiar Effect: "atk, 1xGhuol"
 Item	viking helmet	Muscle: +1, Familiar Effect: "atk, cap 5"
 Item	Voluminous Radio Hat	MP Regen Min: 5, MP Regen Max: 6, Familiar Effect: "1xPotato, 1xGhoul, cap 37"
 Item	wad of used tape	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Item Drop: +15, Meat Drop: +30, Last Available: "2018-01", Lasts Until Rollover
@@ -1322,8 +1321,7 @@ Item	chrome staff	Mysticality: +7, Adventures: +3
 Item	chrome sword	Muscle: +7, Adventures: +3
 # Cloaca-Cola-issue combat knife: Drains MP on Successful Hit
 Item	clock-cleaning hammer	Weapon Damage: +20, Last Available: "2011-09"
-# clockwork crossbow: Weakens Monster on Critical Hit
-Item	clockwork crossbow	Ranged Damage: +10, Critical Hit Percent: +7
+Item	clockwork crossbow	Ranged Damage: +10, Critical Hit Percent: +7, Weakens Monster on Critical Hit
 # clockwork staff: Restores 3-24 MP on Critical Hit
 Item	clockwork staff	Spell Damage: +10, Critical Hit Percent: +15
 # clockwork sword: Heals 3-24 HP on Critical Hit
@@ -2921,8 +2919,7 @@ Item	blackberry galoshes	Muscle: +7, Mysticality: +7, Moxie: +7, Single Equip
 Item	blackberry moccasins	Moxie: +8, Initiative: +25, Damage Reduction: 3, Single Equip
 Item	blackberry slippers	Mysticality: +10, Spell Damage: +10, Spell Damage Percent: +5, Single Equip
 Item	Bling of the New Wave	Moxie: +11, HP Regen Min: 5, HP Regen Max: 9, MP Regen Min: 5, MP Regen Max: 9, Extra Pickpocket, Class: "Disco Bandit", Single Equip
-# blood cubic zirconia: Weakens Monster on Critical Hit
-Item	blood cubic zirconia	Spooky Resistance: +3, Spooky Damage: [3*L], Spooky Spell Damage: [3*L], Critical Hit Percent: +20, Meat Drop: +20, Last Available: "2025-10", Conditional Skill (Equipped): "BCZ: Blood Geyser", Conditional Skill (Equipped): "BCZ: Refracted Gaze", Conditional Skill (Equipped): "BCZ: Sweat Bullets", Conditional Skill (Equipped): "BCZ: Blood Bath", Conditional Skill (Equipped): "BCZ: Dial it up to 11", Conditional Skill (Equipped): "BCZ: Sweat Equity", Conditional Skill (Equipped): "BCZ: Create Blood Thinner", Conditional Skill (Equipped): "BCZ: Prepare Spinal Tapas", Conditional Skill (Equipped): "BCZ: Craft a Pheromone Cocktail"
+Item	blood cubic zirconia	Spooky Resistance: +3, Spooky Damage: [3*L], Spooky Spell Damage: [3*L], Critical Hit Percent: +20, Weakens Monster on Critical Hit, Meat Drop: +20, Last Available: "2025-10", Conditional Skill (Equipped): "BCZ: Blood Geyser", Conditional Skill (Equipped): "BCZ: Refracted Gaze", Conditional Skill (Equipped): "BCZ: Sweat Bullets", Conditional Skill (Equipped): "BCZ: Blood Bath", Conditional Skill (Equipped): "BCZ: Dial it up to 11", Conditional Skill (Equipped): "BCZ: Sweat Equity", Conditional Skill (Equipped): "BCZ: Create Blood Thinner", Conditional Skill (Equipped): "BCZ: Prepare Spinal Tapas", Conditional Skill (Equipped): "BCZ: Craft a Pheromone Cocktail"
 Item	Blue Diamond of Honesty	Muscle: +7, Mysticality: +7, Moxie: +7, Item Drop: +9, Single Equip
 Item	blue glowstick	Maximum MP: +5, Moxie: -3, Last Available: "2007-11", Raveosity: +1
 Item	blue plastic baby	Maximum HP: +5, Maximum MP: +5, Single Equip, Last Available: "2008-12"
