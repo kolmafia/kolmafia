@@ -127,7 +127,14 @@ spotless {
     indentWithSpaces(2)
     endWithNewline()
   }
+  format("xml") {
+    target("**/*.xml")
+    targetExclude("test/**/*.xml", ".idea/*")
 
+    trimTrailingWhitespace()
+    indentWithSpaces(2)
+    endWithNewline()
+  }
   freshmark {
     target("*.md")
   }
