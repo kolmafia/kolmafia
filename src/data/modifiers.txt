@@ -6232,6 +6232,7 @@ Effect	Double Frozen	Cold Damage: +20, Hot Resistance: +4
 Effect	Double Hot Soupy Garbage	Stench Damage: +20, Cold Resistance: +4
 Effect	Double Negavision	Item Drop: +50
 Effect	Double-Barreled	Ranged Damage Percent: +150
+# Doublooned: Doubles all skeleton-related bonuses
 Effect	Doubly Burningly Oiled	Hot Damage: +20, Sleaze Resistance: +4
 Effect	Doubly Craving Prawns	Food Drop: +100
 Effect	Doubly Shivering Spine	Spooky Damage: +20, Stench Resistance: +4
@@ -9923,6 +9924,7 @@ Item	toxo	Effect: "Radiated and Grodiated", Effect Duration: 40, Last Available:
 Item	traditional Crimbo cookie	Effect: "Yeast-Hungry", Effect Duration: 75, Last Available: "2023-06"
 Item	traffic jam toast	Last Available: "2011-01"
 Item	transparent nog	Effect: "Holiday Disappointment", Effect Duration: 10, Last Available: "2017-12"
+Item	treasure chestnut	Last Available: "2025-12"
 Item	tree-shaped Crimbo cookie	Effect: "Yuletide Sappiness", Effect Duration: 10, Last Available: "2023-06"
 Item	triangular CRIMBCOOKIE	Effect: "Triangle, Man", Effect Duration: 10, Last Available: "2010-12"
 Item	turtle soup	Effect: "[598]A Little Bit Evil", Effect Duration: 10
@@ -10288,6 +10290,7 @@ Item	morning dew	Effect: "Granolarrrgh", Effect Duration: 40, Last Available: "2
 Item	Morto Moreto	Effect: "Majorly Poisoned", Effect Duration: 100, Last Available: "2011-09"
 Item	mourning wine	Last Available: "2018-04"
 Item	mulled berry wine	Effect: "Sweet Nostalgia", Effect Duration: 30, Last Available: "2014-12"
+Item	mulled butter rum	Last Available: "2025-12"
 Item	mulled cider	Last Available: "2009-10"
 Item	mulled hobo wine	Effect: "Burnt 'n' Turnt", Effect Duration: 20, Last Available: "2018-12"
 Item	mulled wine	Effect: "Mullin' for Bullion", Effect Duration: 50, Last Available: "2023-12"
@@ -10873,6 +10876,7 @@ Item	chocolate-covered loofah	Effect: "Aloofah", Effect Duration: 20
 Item	Chubby and Plump bar	Effect: "Plump and Chubby", Effect Duration: 60, Last Available: "2020-12"
 Item	chunk of rock salt	Effect: "Fresh Scent", Effect Duration: 10
 Item	cigar box turtle	Effect: "Colorful Gratitude", Effect Duration: 15
+Item	cinnamon doubloon	Effect: "Doublooned", Effect Duration: 100, Last Available: "2025-12"
 Item	Climate Colada	Effect: "Weather, Man", Effect Duration: 20, Last Available: "2008-06"
 # Cloaca Cola Polar: Restores 100-200 MP
 Item	Cloaca Cola Polar	Effect: "Polar Express", Effect Duration: 50, Last Available: "2013-12"
