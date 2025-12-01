@@ -490,6 +490,7 @@ mourning wine	2	1	good	5-7	30-50	30-50	30-50	WINE
 Mt. Noob Pale Ale	2	1	good	3-6	0	0	0	BEER
 mulled berry wine	5	7	awesome	18-22	0	30-50	0	30 Sweet Nostalgia (+20 Candy Drop), WINE
 mulled blood	1	1	super ultra mega turbo EPIC	14	10-15	10-15	10-15	Vampyre
+mulled butter rum	2	1	awesome	0	0	0	0	Unspaded
 mulled cider	3	5	awesome	8-12	25-40	25-40	25-40
 mulled hobo wine	1	1	awesome	4-5	5-15	5-15	5-15	20 Burnt 'n' Turnt (+100% MP)
 mulled wine	4	1	awesome	13	0	0	0	50 Mullin' for Bullion (more pieces of 12), WINE
