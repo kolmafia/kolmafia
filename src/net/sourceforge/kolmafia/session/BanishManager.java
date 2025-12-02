@@ -229,10 +229,10 @@ public class BanishManager {
     public boolean isValid() {
       return switch (banisher.getResetType()) {
         case TURN_RESET, TURN_ROLLOVER_RESET -> turnsLeft() > 0;
-        case COSMIC_BOWLING_BALL_RESET -> Preferences.getInteger("cosmicBowlingBallReturnCombats")
-            > 0;
-        case EFFECT_RESET -> KoLConstants.activeEffects.contains(
-            EffectPool.get(EffectPool.HEAR_ME_ROAR));
+        case COSMIC_BOWLING_BALL_RESET ->
+            Preferences.getInteger("cosmicBowlingBallReturnCombats") > 0;
+        case EFFECT_RESET ->
+            KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.HEAR_ME_ROAR));
         default -> true;
       };
     }
@@ -245,9 +245,10 @@ public class BanishManager {
         case EFFECT_RESET -> "Until Hear Me Roar expires";
         case AVATAR_RESET -> "Until Prism Break";
         case NEVER_RESET -> "Until Ice House opened";
-        case COSMIC_BOWLING_BALL_RESET -> "Until Ball returns ("
-            + Preferences.getInteger("cosmicBowlingBallReturnCombats")
-            + " combats) or Until Rollover";
+        case COSMIC_BOWLING_BALL_RESET ->
+            "Until Ball returns ("
+                + Preferences.getInteger("cosmicBowlingBallReturnCombats")
+                + " combats) or Until Rollover";
       };
     }
   }
@@ -433,21 +434,23 @@ public class BanishManager {
     // Legacy support
     switch (banisher) {
       case NANORHINO -> Preferences.setString("_nanorhinoBanishedMonster", banished);
-      case BANISHING_SHOUT, HOWL_OF_THE_ALPHA -> Preferences.setString(
-          "banishingShoutMonsters",
-          Stream.concat(
-                  Stream.of(banished),
-                  Arrays.stream(Preferences.getString("banishingShoutMonsters").split("\\|"))
-                      .limit(2)
-                      .filter(Predicate.not(String::isEmpty)))
-              .collect(Collectors.joining("|")));
-      case STAFF_OF_THE_STANDALONE_CHEESE -> Preferences.setString(
-          "_jiggleCheesedMonsters",
-          Stream.concat(
-                  Stream.of(banished),
-                  Arrays.stream(Preferences.getString("_jiggleCheesedMonsters").split("\\|"))
-                      .filter(Predicate.not(String::isEmpty)))
-              .collect(Collectors.joining("|")));
+      case BANISHING_SHOUT, HOWL_OF_THE_ALPHA ->
+          Preferences.setString(
+              "banishingShoutMonsters",
+              Stream.concat(
+                      Stream.of(banished),
+                      Arrays.stream(Preferences.getString("banishingShoutMonsters").split("\\|"))
+                          .limit(2)
+                          .filter(Predicate.not(String::isEmpty)))
+                  .collect(Collectors.joining("|")));
+      case STAFF_OF_THE_STANDALONE_CHEESE ->
+          Preferences.setString(
+              "_jiggleCheesedMonsters",
+              Stream.concat(
+                      Stream.of(banished),
+                      Arrays.stream(Preferences.getString("_jiggleCheesedMonsters").split("\\|"))
+                          .filter(Predicate.not(String::isEmpty)))
+                  .collect(Collectors.joining("|")));
     }
   }
 

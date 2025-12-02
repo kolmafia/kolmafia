@@ -449,7 +449,7 @@ public class CoinMasterRequest extends GenericRequest {
         switch (balance) {
           case "no" -> "0";
           case "one" -> "1";
-            // The Tr4pz0r doesn't give a number if you have 1
+          // The Tr4pz0r doesn't give a number if you have 1
           case "" -> "1";
           default -> balance;
         };

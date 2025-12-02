@@ -16,9 +16,8 @@ public class PyramidRequest {
 
   public static final String getPyramidPositionString() {
     return switch (Preferences.getInteger("pyramidPosition")) {
-      case 1 -> !Preferences.getBoolean("pyramidBombUsed")
-          ? "Empty/Rubble"
-          : "Empty/Empty/Ed's Chamber";
+      case 1 ->
+          !Preferences.getBoolean("pyramidBombUsed") ? "Empty/Rubble" : "Empty/Empty/Ed's Chamber";
       case 2 -> "Rats/Token";
       case 3 -> "Rubble/Bomb";
       case 4 -> "Token/Empty";

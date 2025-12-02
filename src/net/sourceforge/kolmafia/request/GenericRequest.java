@@ -1683,7 +1683,7 @@ public class GenericRequest implements Runnable {
         case 302: // Treat 302 as a 303, like all modern browsers.
         case 303:
           this.redirectMethod = "GET";
-          // FALL THROUGH!
+        // FALL THROUGH!
         case 301:
         case 307:
         case 308:
@@ -2305,8 +2305,8 @@ public class GenericRequest implements Runnable {
     String urlString = this.getURLString();
 
     return switch (this.baseURLString) {
-      case "adventure.php", "basement.php", "cellar.php", "mining.php" -> AdventureRequest
-          .getAdventuresUsed(urlString);
+      case "adventure.php", "basement.php", "cellar.php", "mining.php" ->
+          AdventureRequest.getAdventuresUsed(urlString);
       case "choice.php" -> ChoiceManager.getAdventuresUsed(urlString);
       case "place.php" -> PlaceRequest.getAdventuresUsed(urlString);
       case "campground.php" -> CampgroundRequest.getAdventuresUsed(urlString);
@@ -2884,9 +2884,9 @@ public class GenericRequest implements Runnable {
         Preferences.setBoolean("_eldritchTentacleFought", true);
         break;
 
-        // NB: Pocket / genie wishes aren't handled via a redirect, so this code path should not be
-        // triggered.
-        // Instead, postChoice2 calls GenieRequest.postChoice.
+      // NB: Pocket / genie wishes aren't handled via a redirect, so this code path should not be
+      // triggered.
+      // Instead, postChoice2 calls GenieRequest.postChoice.
       case 1267:
         name = "Genie Wish";
         break;
@@ -2986,7 +2986,8 @@ public class GenericRequest implements Runnable {
           ItemPool.CHARRED_SEAL,
           ItemPool.COLD_SEAL,
           ItemPool.SLIPPERY_SEAL,
-          ItemPool.DEPLETED_URANIUM_SEAL -> ItemPool.get(ItemPool.IMBUED_SEAL_BLUBBER_CANDLE, -1);
+          ItemPool.DEPLETED_URANIUM_SEAL ->
+          ItemPool.get(ItemPool.IMBUED_SEAL_BLUBBER_CANDLE, -1);
       default -> null;
     };
   }

@@ -88,8 +88,8 @@ public class ChoiceUtilities {
 
     return switch (AdventureRequest.parseEncounter(responseText)) {
       case "Hippy Talkin'" ->
-      // Is this really missing? My logs look normal - Veracity
-      798;
+          // Is this really missing? My logs look normal - Veracity
+          798;
       case "Another Errand I Mean Quest" -> 930;
       case "The WLF Bunker" -> 1093;
       case "Lyle, LyleCo CEO" -> 1309;

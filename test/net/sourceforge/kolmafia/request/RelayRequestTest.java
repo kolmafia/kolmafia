@@ -281,12 +281,14 @@ public class RelayRequestTest {
       var cleanups = withProperty("kingLiberated", true);
       try (cleanups) {
         var rr =
-            this.makeApiRequest("""
+            this.makeApiRequest(
+                """
           { "properties": ["kingLiberated"] }
           """);
 
         JSONObject expected =
-            JSON.parseObject("""
+            JSON.parseObject(
+                """
           { "properties": ["true"] }
           """);
         assertThat(rr.statusLine, is("HTTP/1.1 200 OK"));
@@ -308,7 +310,8 @@ public class RelayRequestTest {
           """);
 
         JSONObject expected =
-            JSON.parseObject("""
+            JSON.parseObject(
+                """
           { "properties": ["true", "1000"] }
           """);
         assertThat(rr.statusLine, is("HTTP/1.1 200 OK"));
@@ -327,7 +330,9 @@ public class RelayRequestTest {
       { "functions": [{ "name": "totalTurnsPlayed", "args": [] }] }
       """);
 
-        JSONObject expected = JSON.parseObject("""
+        JSONObject expected =
+            JSON.parseObject(
+                """
           { "functions": [22] }
           """);
         assertThat(rr.statusLine, is("HTTP/1.1 200 OK"));
@@ -374,7 +379,8 @@ public class RelayRequestTest {
       """);
 
         JSONObject expected =
-            JSON.parseObject("""
+            JSON.parseObject(
+                """
           { "functions": [22, 1000] }
           """);
         assertThat(rr.statusLine, is("HTTP/1.1 200 OK"));
@@ -396,9 +402,11 @@ public class RelayRequestTest {
                   .formatted(function, input));
 
       JSONObject expected =
-          JSON.parseObject("""
+          JSON.parseObject(
+              """
           { "functions": [%s] }
-          """.formatted(output));
+          """
+                  .formatted(output));
       assertThat(rr.statusLine, is("HTTP/1.1 200 OK"));
       assertThat(rr.responseCode, is(200));
       assertThat(JSON.parse(rr.responseText), is(expected));
@@ -417,7 +425,9 @@ public class RelayRequestTest {
       }] }] }
       """);
 
-        JSONObject expected = JSON.parseObject("""
+        JSONObject expected =
+            JSON.parseObject(
+                """
       { "functions": [1] }
       """);
         assertThat(rr.statusLine, is("HTTP/1.1 200 OK"));
@@ -515,13 +525,17 @@ public class RelayRequestTest {
     public void ignoresPartialIdentityOrOtherObject(String json) {
       var rr =
           this.makeApiRequest(
-              """
+"""
 { "functions": [{ "name": "identity", "args": [%s] }] }
-""".formatted(json));
+"""
+                  .formatted(json));
 
-      JSONObject expected = JSON.parseObject("""
+      JSONObject expected =
+          JSON.parseObject(
+"""
 { "functions": [%s] }
-""".formatted(json));
+"""
+                  .formatted(json));
       assertThat(rr.statusLine, is("HTTP/1.1 200 OK"));
       assertThat(rr.responseCode, is(200));
       assertThat(JSON.parse(rr.responseText), is(expected));
@@ -568,9 +582,10 @@ public class RelayRequestTest {
     public void errorsOnInvalidIdentifiedObject(String json) {
       var rr =
           this.makeApiRequest(
-              """
+"""
 { "functions": [{ "name": "identity", "args": [%s] }] }
-""".formatted(json));
+"""
+                  .formatted(json));
 
       JSONObject expected = new JSONObject();
       expected.put("error", "Invalid argument to identity: " + JSON.toJSONString(JSON.parse(json)));
@@ -616,7 +631,9 @@ public class RelayRequestTest {
     }] }] }
     """);
 
-      JSONObject expected = JSON.parseObject("""
+      JSONObject expected =
+          JSON.parseObject(
+              """
        { "functions": [2] }
         """);
       assertThat(rr.statusLine, is("HTTP/1.1 200 OK"));
@@ -636,7 +653,8 @@ public class RelayRequestTest {
         """);
 
       JSONObject expected =
-          JSON.parseObject("""
+          JSON.parseObject(
+              """
        { "functions": [{ "star chart": 100.0 }] }
         """);
       assertThat(rr.statusLine, is("HTTP/1.1 200 OK"));
@@ -662,7 +680,9 @@ public class RelayRequestTest {
               """
                     .formatted(type, identifier));
 
-        JSONObject expected = JSON.parseObject("""
+        JSONObject expected =
+            JSON.parseObject(
+                """
           { "functions": [20.0] }
           """);
         assertThat(rr.statusLine, is("HTTP/1.1 200 OK"));
@@ -775,7 +795,8 @@ public class RelayRequestTest {
           JSON.parseObject(
               """
             { "error": "%s" }
-        """.formatted(errorMessage.trim()));
+        """
+                  .formatted(errorMessage.trim()));
 
       assertThat(rr.statusLine, is("HTTP/1.1 400 Bad Request"));
       assertThat(rr.responseCode, is(400));

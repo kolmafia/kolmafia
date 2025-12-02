@@ -267,8 +267,8 @@ public class SpleenItemRequest extends UseItemRequest {
       }
       case ItemPool.MANSQUITO_SERUM -> Preferences.setBoolean("_mansquitoSerumUsed", true);
       case ItemPool.AUTHORS_INK -> Preferences.setBoolean("_authorsInkUsed", true);
-      case ItemPool.INQUISITORS_UNIDENTIFIABLE_OBJECT -> Preferences.setBoolean(
-          "_inquisitorsUnidentifiableObjectUsed", true);
+      case ItemPool.INQUISITORS_UNIDENTIFIABLE_OBJECT ->
+          Preferences.setBoolean("_inquisitorsUnidentifiableObjectUsed", true);
       case ItemPool.HOT_JELLY -> Preferences.increment("_hotJellyUses", count);
       case ItemPool.SPOOKY_JELLY -> Preferences.increment("_spookyJellyUses", count);
       case ItemPool.STENCH_JELLY -> Preferences.setBoolean("noncombatForcerActive", true);
@@ -288,8 +288,8 @@ public class SpleenItemRequest extends UseItemRequest {
           Preferences.increment("breathitinCharges", 5 * count);
         }
       }
-      case ItemPool.SCOOP_OF_PREWORKOUT_POWDER -> Preferences.increment(
-          "preworkoutPowderUses", count);
+      case ItemPool.SCOOP_OF_PREWORKOUT_POWDER ->
+          Preferences.increment("preworkoutPowderUses", count);
       case ItemPool.PHOSPHOR_TRACES -> Preferences.increment("phosphorTracesUses", count);
       case ItemPool.MIXED_BERRY_JELLY -> Preferences.increment("mixedBerryJellyUses", count);
     }

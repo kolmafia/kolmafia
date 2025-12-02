@@ -512,8 +512,8 @@ public class BatManager {
 
   public static void gainItem(final AdventureResult item) {
     switch (item.getItemId()) {
-      case ItemPool.EXPERIMENTAL_GENE_THERAPY -> BatManager.stats.increment(
-          "Maximum Bat-Health", 10);
+      case ItemPool.EXPERIMENTAL_GENE_THERAPY ->
+          BatManager.stats.increment("Maximum Bat-Health", 10);
       case ItemPool.SELF_DEFENSE_TRAINING -> BatManager.stats.increment("Bat-Armor", 1);
       case ItemPool.CONFIDENCE_BUILDING_HUG -> {
         BatManager.stats.increment("Bat-Punch Modifier", 1);
@@ -528,7 +528,7 @@ public class BatManager {
 
   public static void wonFight(final String monsterName, final String responseText) {
     switch (monsterName) {
-        // Low Crime zones
+      // Low Crime zones
       case "vicious plant creature":
         if (responseText.contains("(+1 Bat-Health regeneration per fight)")) {
           BatManager.stats.increment("Bat-Health Regeneration", 1);
@@ -544,7 +544,7 @@ public class BatManager {
           BatManager.stats.increment("Bat-Armor", 1);
         }
         break;
-        // Medium Crime zones
+      // Medium Crime zones
       case "former guard":
         if (responseText.contains("(+1 Bat-Bulletproofing)")) {
           BatManager.stats.increment("Bat-Bulletproofing", 1);
@@ -560,7 +560,7 @@ public class BatManager {
           BatManager.stats.increment("Bat-Spooky Resistance", 10);
         }
         break;
-        // High Crime zones
+      // High Crime zones
       case "time bandit":
         if (responseText.contains("(+10 Bat-Minutes)")) {
           BatManager.BatMinutes += 10;

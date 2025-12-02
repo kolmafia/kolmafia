@@ -401,7 +401,7 @@ public class ItemDatabase {
           int intDescId = StringUtilities.parseInt(descId);
           int skillId =
               switch (itemId) {
-                  // Override Robortender items
+                // Override Robortender items
                 case ItemPool.NOVELTY_HOT_SAUCE -> SkillPool.FROWN_MUSCLES;
                 case ItemPool.COCKTAIL_MUSHROOM -> SkillPool.RETRACTABLE_TOES;
                 case ItemPool.GRANOLA_LIQUEUR -> SkillPool.INK_GLAND;
@@ -1468,7 +1468,8 @@ public class ItemDatabase {
           ItemPool.FOLDER_12,
           ItemPool.FOLDER_13,
           ItemPool.FOLDER_24,
-          ItemPool.FOLDER_26 -> "folder2.gif";
+          ItemPool.FOLDER_26 ->
+          "folder2.gif";
       case ItemPool.FOLDER_06,
           ItemPool.FOLDER_08,
           ItemPool.FOLDER_11,
@@ -1484,7 +1485,8 @@ public class ItemDatabase {
           ItemPool.FOLDER_23,
           ItemPool.FOLDER_25,
           ItemPool.FOLDER_27,
-          ItemPool.FOLDER_28 -> "folder1.gif";
+          ItemPool.FOLDER_28 ->
+          "folder1.gif";
       default -> imageById.getOrDefault(itemId, "");
     };
   }
@@ -1632,7 +1634,8 @@ public class ItemDatabase {
           ItemPool.HOT_SOCKS,
           ItemPool.PHONUS_BALONUS,
           ItemPool.FLIVVER,
-          ItemPool.SLOPPY_JALOPY -> true;
+          ItemPool.SLOPPY_JALOPY ->
+          true;
       default -> false;
     };
   }
@@ -1640,8 +1643,8 @@ public class ItemDatabase {
   public static final boolean haveVirtualItem(final int itemId) {
     return switch (itemId) {
       case ItemPool.MADNESS_REEF_MAP -> Preferences.getBoolean("mapToMadnessReefPurchased");
-      case ItemPool.MARINARA_TRENCH_MAP -> Preferences.getBoolean(
-          "mapToTheMarinaraTrenchPurchased");
+      case ItemPool.MARINARA_TRENCH_MAP ->
+          Preferences.getBoolean("mapToTheMarinaraTrenchPurchased");
       case ItemPool.ANEMONE_MINE_MAP -> Preferences.getBoolean("mapToAnemoneMinePurchased");
       case ItemPool.DIVE_BAR_MAP -> Preferences.getBoolean("mapToTheDiveBarPurchased");
       case ItemPool.SKATE_PARK_MAP -> Preferences.getBoolean("mapToTheSkateParkPurchased");
@@ -1868,10 +1871,12 @@ public class ItemDatabase {
           FAMILIAR_HATCHLING,
           // Any potion
           POTION,
-          AVATAR_POTION -> true;
-      default -> attributes.contains(Attribute.USABLE)
-          || attributes.contains(Attribute.MULTIPLE)
-          || attributes.contains(Attribute.REUSABLE);
+          AVATAR_POTION ->
+          true;
+      default ->
+          attributes.contains(Attribute.USABLE)
+              || attributes.contains(Attribute.MULTIPLE)
+              || attributes.contains(Attribute.REUSABLE);
     };
   }
 
@@ -1973,7 +1978,7 @@ public class ItemDatabase {
    */
   public static final boolean isGrimacite(int itemId) {
     return switch (itemId) {
-        // Grimacite Generation 1
+      // Grimacite Generation 1
       case ItemPool.GRIMACITE_GOGGLES,
           ItemPool.GRIMACITE_GLAIVE,
           ItemPool.GRIMACITE_GREAVES,
@@ -1997,7 +2002,8 @@ public class ItemDatabase {
           ItemPool.GRIMACITE_NINJA_MASK,
           ItemPool.GRIMACITE_SHINGUARDS,
           ItemPool.GRIMACITE_ASTROLABE,
-          ItemPool.GRIMACITE_KNEECAPPING_STICK -> true;
+          ItemPool.GRIMACITE_KNEECAPPING_STICK ->
+          true;
       default -> false;
     };
   }
@@ -2014,7 +2020,8 @@ public class ItemDatabase {
           ItemPool.CHARRED_SEAL,
           ItemPool.COLD_SEAL,
           ItemPool.SLIPPERY_SEAL,
-          ItemPool.DEPLETED_URANIUM_SEAL -> true;
+          ItemPool.DEPLETED_URANIUM_SEAL ->
+          true;
       default -> false;
     };
   }
@@ -2031,7 +2038,8 @@ public class ItemDatabase {
           ItemPool.BRICKO_VACUUM_CLEANER,
           ItemPool.BRICKO_AIRSHIP,
           ItemPool.BRICKO_CATHEDRAL,
-          ItemPool.BRICKO_CHICKEN -> true;
+          ItemPool.BRICKO_CHICKEN ->
+          true;
       default -> false;
     };
   }
@@ -2042,7 +2050,8 @@ public class ItemDatabase {
           ItemPool.STINKY_CHEESE_DIAPER,
           ItemPool.STINKY_CHEESE_WHEEL,
           ItemPool.STINKY_CHEESE_EYE,
-          ItemPool.STINKY_CHEESE_STAFF -> true;
+          ItemPool.STINKY_CHEESE_STAFF ->
+          true;
       default -> false;
     };
   }
@@ -2445,14 +2454,15 @@ public class ItemDatabase {
           ItemPool.LOATHING_LEGION_ROLLERBLADES,
           // "using" this is really planting
 
-          ItemPool.ENCHANTED_BEAN -> false;
+          ItemPool.ENCHANTED_BEAN ->
+          false;
       default -> KoLCharacter.hasBeeosity(ItemDatabase.getItemName(itemId));
     };
   }
 
   public static boolean unusableInGLover(final int itemId) {
     switch (itemId) {
-        // More stuff might belong here
+      // More stuff might belong here
       case ItemPool.COBBS_KNOB_MAP:
       case ItemPool.ENCHANTED_BEAN:
       case ItemPool.PALINDROME_BOOK_1:

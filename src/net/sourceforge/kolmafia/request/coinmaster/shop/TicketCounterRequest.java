@@ -31,13 +31,15 @@ public abstract class TicketCounterRequest extends CoinMasterShopRequest {
 
   private static Boolean canBuyItem(final Integer itemId) {
     return switch (itemId) {
-      case ItemPool.FOLDER_14 -> KoLCharacter.hasEquipped(EquipmentManager.FOLDER_HOLDER)
-          || KoLCharacter.hasEquipped(EquipmentManager.REPLICA_FOLDER_HOLDER);
+      case ItemPool.FOLDER_14 ->
+          KoLCharacter.hasEquipped(EquipmentManager.FOLDER_HOLDER)
+              || KoLCharacter.hasEquipped(EquipmentManager.REPLICA_FOLDER_HOLDER);
       case ItemPool.SINISTER_DEMON_MASK,
           ItemPool.CHAMPION_BELT,
           ItemPool.SPACE_TRIP_HEADPHONES,
           ItemPool.DUNGEON_FIST_GAUNTLET,
-          ItemPool.METEOID_ICE_BEAM -> !Preferences.getBoolean("lockedItem" + itemId);
+          ItemPool.METEOID_ICE_BEAM ->
+          !Preferences.getBoolean("lockedItem" + itemId);
       default -> ItemPool.get(itemId).getCount(TICKET_COUNTER.getBuyItems()) > 0;
     };
   }

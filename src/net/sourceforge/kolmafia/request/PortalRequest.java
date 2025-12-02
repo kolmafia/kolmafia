@@ -22,8 +22,8 @@ public class PortalRequest extends GenericRequest {
 
     switch (item.getItemId()) {
       case ItemPool.POWER_SPHERE -> this.addFormField("action", "powerelvibratoportal");
-      case ItemPool.OVERCHARGED_POWER_SPHERE -> this.addFormField(
-          "action", "overpowerelvibratoportal");
+      case ItemPool.OVERCHARGED_POWER_SPHERE ->
+          this.addFormField("action", "overpowerelvibratoportal");
     }
   }
 

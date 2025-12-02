@@ -159,10 +159,12 @@ tasks.register<Delete>("pruneDist") {
   doFirst {
     val revString = revisionProvider.get()
     delete(
-      dist.listFiles()?.filter {
-        it.isFile && it.name.startsWith("KoLmafia-") && it.name.endsWith(".jar") &&
-          (!it.name.contains(revString) || (isDirty() != it.name.endsWith("-M.jar")))
-      }.orEmpty(),
+      dist
+        .listFiles()
+        ?.filter {
+          it.isFile && it.name.startsWith("KoLmafia-") && it.name.endsWith(".jar") &&
+            (!it.name.contains(revString) || (isDirty() != it.name.endsWith("-M.jar")))
+        }.orEmpty(),
     )
   }
 }
@@ -195,9 +197,7 @@ tasks.jar {
       "Main-Class" to "net.sourceforge.kolmafia.KoLmafia",
       "Build-Revision" to
         object {
-          override fun toString(): String {
-            return project.version.toString()
-          }
+          override fun toString(): String = project.version.toString()
         },
       "Build-Branch" to versioning.info.branchId,
       "Build-Build" to versioning.info.build,
@@ -233,9 +233,10 @@ val revisionProvider: Provider<String> =
   providers.provider {
     val commit = findProperty("commit")?.toString() ?: "HEAD"
     val rev =
-      grgit.log {
-        includes = listOf(commit)
-      }.size - localCommits(commit)
+      grgit
+        .log {
+          includes = listOf(commit)
+        }.size - localCommits(commit)
 
     rev.toString()
   }
@@ -262,7 +263,10 @@ tasks.register("getRevision") {
 
 tasks.register("gitUpdate") {
   doLast {
-    val remote = grgit.branch.current().trackingBranch.name
+    val remote =
+      grgit.branch
+        .current()
+        .trackingBranch.name
     val latestHead = grgit.resolve.toCommit(remote)
     grgit.fetch {
       this.remote = remote
@@ -332,7 +336,10 @@ tasks.register<Delete>("cleanJpackage") {
 
 gradle.taskGraph.whenReady {
   if (hasTask(":tsDefs") || hasTask(":test")) {
-    tasks.compileJava.get().options.compilerArgs.add("-parameters")
+    tasks.compileJava
+      .get()
+      .options.compilerArgs
+      .add("-parameters")
   }
 }
 
@@ -410,16 +417,14 @@ tasks.jacocoTestReport {
   dependsOn("test")
 }
 
-fun isDirty(): Boolean {
-  return versioning.info.dirty || localCommits(findProperty("commit")?.toString() ?: "HEAD") > 0
-}
+fun isDirty(): Boolean = versioning.info.dirty || localCommits(findProperty("commit")?.toString() ?: "HEAD") > 0
 
-fun localCommits(commit: String): Int {
-  return grgit.log {
-    includes = listOf(commit)
-    excludes = listOf("origin/main")
-  }.size
-}
+fun localCommits(commit: String): Int =
+  grgit
+    .log {
+      includes = listOf(commit)
+      excludes = listOf("origin/main")
+    }.size
 
 fun lastRevision(): String {
   val revisionFile = file("build/revision.txt")

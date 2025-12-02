@@ -759,8 +759,8 @@ public class EffectDatabase {
           case EffectPool.WINE_DARK -> (int) emods.getDouble(DoubleModifier.SPOOKY_DAMAGE) / 4;
           case EffectPool.WINE_BEFOULED -> (int) emods.getDouble(DoubleModifier.STENCH_DAMAGE) / 3;
           case EffectPool.WINE_FRISKY -> (int) emods.getDouble(DoubleModifier.SLEAZE_DAMAGE) / 3;
-          case EffectPool.WINE_FRIENDLY -> (int) emods.getDouble(DoubleModifier.FAMILIAR_DAMAGE)
-              / 3;
+          case EffectPool.WINE_FRIENDLY ->
+              (int) emods.getDouble(DoubleModifier.FAMILIAR_DAMAGE) / 3;
           default -> -1;
         };
 

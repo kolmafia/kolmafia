@@ -845,9 +845,9 @@ public class RelayRequest extends PasswordHashRequest {
     int outfitId = outfit.getOutfitId();
     return switch (outfitId) {
       case 32, 33 ->
-      // War Hippy Fatigues
-      // Frat Warrior Fatigues
-      checkBattle(outfitId);
+          // War Hippy Fatigues
+          // Frat Warrior Fatigues
+          checkBattle(outfitId);
       default -> false;
     };
   }
@@ -4302,8 +4302,9 @@ public class RelayRequest extends PasswordHashRequest {
             msg.append(", so you may wish to adventure somewhere else at this time.");
           }
         }
-        case 1 -> msg.append(
-            " counter will expire after 1 more turn, so you may wish to adventure somewhere else that takes 1 turn.");
+        case 1 ->
+            msg.append(
+                " counter will expire after 1 more turn, so you may wish to adventure somewhere else that takes 1 turn.");
         default -> {
           msg.append(" counter will expire after ");
           msg.append(remain);

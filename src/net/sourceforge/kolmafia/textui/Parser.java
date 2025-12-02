@@ -5263,7 +5263,8 @@ public class Parser {
           '>',
           '?',
           ':',
-          '\u2248' -> true;
+          '\u2248' ->
+          true;
       default -> false;
     };
   }

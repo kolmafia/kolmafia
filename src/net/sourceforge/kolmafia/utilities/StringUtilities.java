@@ -993,12 +993,13 @@ public class StringUtilities {
     return num
         + switch (num % 100) {
           case 11, 12, 13 -> "th";
-          default -> switch (num % 10) {
-            case 1 -> "st";
-            case 2 -> "nd";
-            case 3 -> "rd";
-            default -> "th";
-          };
+          default ->
+              switch (num % 10) {
+                case 1 -> "st";
+                case 2 -> "nd";
+                case 3 -> "rd";
+                default -> "th";
+              };
         };
   }
 

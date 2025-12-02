@@ -150,13 +150,13 @@ public class ProfileSnapshot {
     try {
       switch (filterType) {
         case NAME -> compareValue = request.getPlayerName().compareToIgnoreCase(filter);
-        case LEVEL -> compareValue =
-            request.getPlayerLevel().intValue() - StringUtilities.parseInt(filter);
-        case PVP -> compareValue =
-            request.getPvpRank().intValue() - StringUtilities.parseInt(filter);
+        case LEVEL ->
+            compareValue = request.getPlayerLevel().intValue() - StringUtilities.parseInt(filter);
+        case PVP ->
+            compareValue = request.getPvpRank().intValue() - StringUtilities.parseInt(filter);
         case CLASS -> compareValue = request.getClassType().compareToIgnoreCase(filter);
-        case KARMA -> compareValue =
-            request.getKarma().intValue() - StringUtilities.parseInt(filter);
+        case KARMA ->
+            compareValue = request.getKarma().intValue() - StringUtilities.parseInt(filter);
         case LOGIN -> {
           int daysIdle = StringUtilities.parseInt(filter);
           long millisecondsIdle = 86400000L * daysIdle;

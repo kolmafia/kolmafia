@@ -27,10 +27,8 @@ public abstract class Crimbo20CandyRequest extends CoinMasterShopRequest {
   private static Boolean canBuyItem(final Integer itemId) {
     AdventureResult item = ItemPool.get(itemId);
     return switch (itemId) {
-      case ItemPool.CANDY_DRIVE_BUTTON, ItemPool.CANDY_MAILING_LIST -> item.getCount(
-                  KoLConstants.closet)
-              + item.getCount(KoLConstants.inventory)
-          == 0;
+      case ItemPool.CANDY_DRIVE_BUTTON, ItemPool.CANDY_MAILING_LIST ->
+          item.getCount(KoLConstants.closet) + item.getCount(KoLConstants.inventory) == 0;
       default -> item.getCount(CRIMBO20CANDY.getBuyItems()) > 0;
     };
   }

@@ -113,7 +113,10 @@ public class JavaScriptCommandTest extends AbstractCommandTestBase {
     public void nullValueInStringifiedObject() {
       String output = execute("JSON.stringify({\"hello\": null})");
 
-      assertThat(output, equalTo("""
+      assertThat(
+          output,
+          equalTo(
+              """
               Returned: {"hello":null}
               """));
     }
@@ -122,7 +125,10 @@ public class JavaScriptCommandTest extends AbstractCommandTestBase {
     public void nullCoalescing() {
       String output = execute("null ?? true");
 
-      assertThat(output, equalTo("""
+      assertThat(
+          output,
+          equalTo(
+              """
               Returned: true
               """));
     }

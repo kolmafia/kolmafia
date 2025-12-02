@@ -570,7 +570,7 @@ public abstract class ChoiceManager {
 
         return decision;
 
-        // Out in the Garden
+      // Out in the Garden
       case 89:
 
         // Handle the maidens adventure in a less random
@@ -595,7 +595,7 @@ public abstract class ChoiceManager {
         }
         return decision;
 
-        // Dungeon Fist!
+      // Dungeon Fist!
       case 486:
         if (ChoiceManager.action
             == PostChoiceAction
@@ -605,7 +605,7 @@ public abstract class ChoiceManager {
         }
         return decision;
 
-        // Interview With You
+      // Interview With You
       case 546:
         if (ChoiceManager.action
             == PostChoiceAction
@@ -616,7 +616,7 @@ public abstract class ChoiceManager {
         }
         return "0";
 
-        // Summon Minion is a skill
+      // Summon Minion is a skill
       case 600:
         if (ChoiceManager.skillUses > 0) {
           ChoiceManager.skillUses = 0;
@@ -624,7 +624,7 @@ public abstract class ChoiceManager {
         }
         return "2";
 
-        // Summon Horde is a skill
+      // Summon Horde is a skill
       case 601:
         if (ChoiceManager.skillUses > 0) {
           // This skill has to be done 1 cast at a time
@@ -1001,22 +1001,22 @@ public abstract class ChoiceManager {
 
     // Otherwise, modify the decision based on character state
     switch (choice) {
-        // Heart of Very, Very Dark Darkness
+      // Heart of Very, Very Dark Darkness
       case 5:
         if (InventoryManager.getCount(ItemPool.INEXPLICABLY_GLOWING_ROCK) < 1) {
           return "2";
         }
         return "1";
 
-        // How Depressing
+      // How Depressing
       case 7:
         if (!KoLCharacter.hasEquipped(ItemPool.get(ItemPool.SPOOKY_GLOVE, 1))) {
           return "2";
         }
         return "1";
 
-        // A Three-Tined Fork
-        // Footprints
+      // A Three-Tined Fork
+      // Footprints
       case 26:
       case 27:
 
@@ -1029,7 +1029,7 @@ public abstract class ChoiceManager {
 
         return decision;
 
-        // No sir, away! A papaya war is on!
+      // No sir, away! A papaya war is on!
       case 127:
         switch (StringUtilities.parseInt(decision)) {
           case 1:
@@ -1043,7 +1043,7 @@ public abstract class ChoiceManager {
         }
         return decision;
 
-        // Skull, Skull, Skull
+      // Skull, Skull, Skull
       case 155:
         // Option 4 - "Check the shiny object" - is not always available.
         if (decision.equals("4") && !responseText.contains("Check the shiny object")) {
@@ -1051,7 +1051,7 @@ public abstract class ChoiceManager {
         }
         return decision;
 
-        // Bureaucracy of the Damned
+      // Bureaucracy of the Damned
       case 161:
         // Check if we have all of Azazel's objects of evil
         for (int i = 2566; i <= 2568; ++i) {
@@ -1062,7 +1062,7 @@ public abstract class ChoiceManager {
         }
         return "1";
 
-        // Choice 162 is Between a Rock and Some Other Rocks
+      // Choice 162 is Between a Rock and Some Other Rocks
       case 162:
 
         // If you are wearing the outfit, have Worldpunch, or
@@ -1079,7 +1079,7 @@ public abstract class ChoiceManager {
                             EffectPool.get(EffectPool.EARTHEN_FIST))
                     ? "1"
                     : KoLCharacter.inAxecore() ? "3" : "2";
-        // Random Lack of an Encounter
+      // Random Lack of an Encounter
       case 182:
 
         // If the player is looking for the model airship,
@@ -1095,26 +1095,26 @@ public abstract class ChoiceManager {
         return (option4Mask & Integer.parseInt(decision)) > 0
             ? "4"
             : String.valueOf(Integer.parseInt(decision) - 3);
-        // That Explains All The Eyepatches
+      // That Explains All The Eyepatches
       case 184:
         switch (KoLCharacter.getPrimeIndex() * 10 + StringUtilities.parseInt(decision)) {
-            // Options 4-6 are mapped to the actual class-specific options:
-            // 4=drunk & stats, 5=rotgut, 6=combat (not available to Myst)
-            // Mus
+          // Options 4-6 are mapped to the actual class-specific options:
+          // 4=drunk & stats, 5=rotgut, 6=combat (not available to Myst)
+          // Mus
           case 04:
             return "3";
           case 05:
             return "2";
           case 06:
             return "1";
-            // Mys
+          // Mys
           case 14:
             return "1";
           case 15:
             return "2";
           case 16:
             return "3";
-            // Mox
+          // Mox
           case 24:
             return "2";
           case 25:
@@ -1124,7 +1124,7 @@ public abstract class ChoiceManager {
         }
         return decision;
 
-        // Chatterboxing
+      // Chatterboxing
       case 191:
         boolean trink = InventoryManager.getCount(ItemPool.VALUABLE_TRINKET) > 0;
         switch (StringUtilities.parseInt(decision)) {
@@ -1149,7 +1149,7 @@ public abstract class ChoiceManager {
         }
         return decision;
 
-        // In the Shade
+      // In the Shade
       case 298:
         if (decision.equals("1")) {
           int seeds = InventoryManager.getCount(ItemPool.SEED_PACKET);
@@ -1160,7 +1160,7 @@ public abstract class ChoiceManager {
         }
         return decision;
 
-        // A Vent Horizon
+      // A Vent Horizon
       case 304:
 
         // If we've already summoned three batters today or we
@@ -1173,7 +1173,7 @@ public abstract class ChoiceManager {
         }
         return decision;
 
-        // There is Sauce at the Bottom of the Ocean
+      // There is Sauce at the Bottom of the Ocean
       case 305:
 
         // If we don't have a Mer-kin pressureglobe, ignore
@@ -1184,7 +1184,7 @@ public abstract class ChoiceManager {
         }
         return decision;
 
-        // Barback
+      // Barback
       case 309:
 
         // If we've already found three seaodes today,
@@ -1195,19 +1195,19 @@ public abstract class ChoiceManager {
         }
         return decision;
 
-        // These choices always have option 1, which takes a turn and
-        // gives you some items.
-        //
-        // If you have at least 20 of a particular kind of elemental
-        // damage, option 2 is available, which passes the choice
-        // without taking a turn.
-        //
-        // We could parse the page to make sure the option is actually
-        // available, but we'll be doing that later, anyway.
-        //
-        // Lets check the specific elemental weapon damage.
+      // These choices always have option 1, which takes a turn and
+      // gives you some items.
+      //
+      // If you have at least 20 of a particular kind of elemental
+      // damage, option 2 is available, which passes the choice
+      // without taking a turn.
+      //
+      // We could parse the page to make sure the option is actually
+      // available, but we'll be doing that later, anyway.
+      //
+      // Lets check the specific elemental weapon damage.
 
-        // Crate Expectations
+      // Crate Expectations
       case 496:
         if (decision.equals("2")) {
           if (KoLCharacter.currentNumericModifier(DoubleModifier.HOT_DAMAGE) < 20) {
@@ -1243,7 +1243,7 @@ public abstract class ChoiceManager {
         }
         return decision;
 
-        // Arboreal Respite
+      // Arboreal Respite
       case 502:
         if (decision.equals("2")) {
           // mosquito larva, tree-holed coin, vampire
@@ -1263,7 +1263,7 @@ public abstract class ChoiceManager {
         }
         return decision;
 
-        // Tree's Last Stand
+      // Tree's Last Stand
       case 504:
 
         // If we don't have a Spooky Sapling, buy one
@@ -1302,7 +1302,7 @@ public abstract class ChoiceManager {
         }
         return "0";
 
-        // Dark in the Attic
+      // Dark in the Attic
       case 549:
 
         // Some choices appear depending on whether
@@ -1346,7 +1346,7 @@ public abstract class ChoiceManager {
         }
         return decision;
 
-        // The Unliving Room
+      // The Unliving Room
       case 550:
 
         // Some choices appear depending on whether
@@ -1390,7 +1390,7 @@ public abstract class ChoiceManager {
         }
         return decision;
 
-        // Debasement
+      // Debasement
       case 551:
 
         // Some choices appear depending on whether
@@ -1419,7 +1419,7 @@ public abstract class ChoiceManager {
         }
         return decision;
 
-        // Prop Deportment
+      // Prop Deportment
       case 552:
 
         // Allow the user to let Mafia pick
@@ -1444,7 +1444,7 @@ public abstract class ChoiceManager {
         }
         return decision;
 
-        // Relocked and Reloaded
+      // Relocked and Reloaded
       case 553:
 
         // Choices appear depending on whether
@@ -1485,7 +1485,7 @@ public abstract class ChoiceManager {
         }
         return InventoryManager.getCount(item) > 0 ? decision : "6";
 
-        // Tool Time
+      // Tool Time
       case 558:
 
         // Choices appear depending on whether
@@ -1505,7 +1505,7 @@ public abstract class ChoiceManager {
         int amount = 3 + StringUtilities.parseInt(decision);
         return InventoryManager.getCount(ItemPool.LOLLIPOP_STICK) >= amount ? decision : "6";
 
-        // Duffel on the Double
+      // Duffel on the Double
       case 575:
         // Option 2 - "Dig deeper" - is not always available.
         if (decision.equals("2") && !responseText.contains("Dig deeper")) {
@@ -1531,7 +1531,7 @@ public abstract class ChoiceManager {
         return decision;
 
       case 690:
-        // The First Chest Isn't the Deepest.
+      // The First Chest Isn't the Deepest.
       case 691:
         // Second Chest
 
@@ -1589,7 +1589,7 @@ public abstract class ChoiceManager {
 
         return decision;
 
-        // Delirium in the Cafeterium
+      // Delirium in the Cafeterium
       case 700:
         if (decision.equals("1")) {
           return (KoLConstants.activeEffects.contains(ChoiceManager.JOCK_EFFECT)
@@ -1598,7 +1598,7 @@ public abstract class ChoiceManager {
         }
         return decision;
 
-        // Halls Passing in the Night
+      // Halls Passing in the Night
       case 705:
         // Option 2-4 aren't always available, but decision to take isn't clear if it's selected, so
         // show in browser
@@ -1613,7 +1613,7 @@ public abstract class ChoiceManager {
         }
         return decision;
 
-        // The Cabin in the Dreadsylvanian Woods
+      // The Cabin in the Dreadsylvanian Woods
       case 721:
         // Option 5 - "Use a ghost pencil" - is not always available.
         // Even if it is, if you already have this shortcut, skip it
@@ -1624,7 +1624,7 @@ public abstract class ChoiceManager {
         }
         return decision;
 
-        // Tallest Tree in the Forest
+      // Tallest Tree in the Forest
       case 725:
         // Option 5 - "Use a ghost pencil" - is not always available.
         // Even if it is, if you already have this shortcut, skip it
@@ -1635,7 +1635,7 @@ public abstract class ChoiceManager {
         }
         return decision;
 
-        // Below the Roots
+      // Below the Roots
       case 729:
         // Option 5 - "Use a ghost pencil" - is not always available.
         // Even if it is, if you already have this shortcut, skip it
@@ -1646,7 +1646,7 @@ public abstract class ChoiceManager {
         }
         return decision;
 
-        // Dreadsylvanian Village Square
+      // Dreadsylvanian Village Square
       case 733:
         // Option 5 - "Use a ghost pencil" - is not always available.
         // Even if it is, if you already have this shortcut, skip it
@@ -1657,7 +1657,7 @@ public abstract class ChoiceManager {
         }
         return decision;
 
-        // The Even More Dreadful Part of Town
+      // The Even More Dreadful Part of Town
       case 737:
         // Option 5 - "Use a ghost pencil" - is not always available.
         // Even if it is, if you already have this shortcut, skip it
@@ -1668,7 +1668,7 @@ public abstract class ChoiceManager {
         }
         return decision;
 
-        // The Old Duke's Estate
+      // The Old Duke's Estate
       case 741:
         // Option 5 - "Use a ghost pencil" - is not always available.
         // Even if it is, if you already have this shortcut, skip it
@@ -1679,7 +1679,7 @@ public abstract class ChoiceManager {
         }
         return decision;
 
-        // This Hall is Really Great
+      // This Hall is Really Great
       case 745:
         // Option 5 - "Use a ghost pencil" - is not always available.
         // Even if it is, if you already have this shortcut, skip it
@@ -1690,7 +1690,7 @@ public abstract class ChoiceManager {
         }
         return decision;
 
-        // Tower Most Tall
+      // Tower Most Tall
       case 749:
         // Option 5 - "Use a ghost pencil" - is not always available.
         // Even if it is, if you already have this shortcut, skip it
@@ -1701,7 +1701,7 @@ public abstract class ChoiceManager {
         }
         return decision;
 
-        // The Dreadsylvanian Dungeon
+      // The Dreadsylvanian Dungeon
       case 753:
         // Option 5 - "Use a ghost pencil" - is not always available.
         // Even if it is, if you already have this shortcut, skip it
@@ -1712,7 +1712,7 @@ public abstract class ChoiceManager {
         }
         return decision;
 
-        // Action Elevator
+      // Action Elevator
       case 780:
         // If Boss dead, skip, else if thrice-cursed, fight spirit, if not, get cursed.
         if (decision.equals("1")) {
@@ -1728,7 +1728,7 @@ public abstract class ChoiceManager {
         }
         return decision;
 
-        // Earthbound and Down
+      // Earthbound and Down
       case 781:
         {
           // Option 1 and 2 are not always available. Take appropriate one if option to
@@ -1740,7 +1740,7 @@ public abstract class ChoiceManager {
           return decision;
         }
 
-        // Water You Dune
+      // Water You Dune
       case 783:
         {
           // Option 1 and 2 are not always available. Take appropriate one if option to
@@ -1752,7 +1752,7 @@ public abstract class ChoiceManager {
           return decision;
         }
 
-        // Air Apparent
+      // Air Apparent
       case 785:
         {
           // Option 1 and 2 are not always available. Take appropriate one if option to
@@ -1764,7 +1764,7 @@ public abstract class ChoiceManager {
           return decision;
         }
 
-        // Working Holiday
+      // Working Holiday
       case 786:
         {
           // If boss dead, fight accountant, fight boss if available, if not, get binder clip if you
@@ -1781,7 +1781,7 @@ public abstract class ChoiceManager {
           return decision;
         }
 
-        // Fire when Ready
+      // Fire when Ready
       case 787:
         {
           // Option 1 and 2 are not always available. Take appropriate one if option to
@@ -1795,7 +1795,7 @@ public abstract class ChoiceManager {
           return decision;
         }
 
-        // Where Does The Lone Ranger Take His Garbagester?
+      // Where Does The Lone Ranger Take His Garbagester?
       case 789:
         // Only relocate pygmy janitors once, then get random items
         if (decision.equals("2")
@@ -1804,7 +1804,7 @@ public abstract class ChoiceManager {
         }
         return decision;
 
-        // Legend of the Temple in the Hidden City
+      // Legend of the Temple in the Hidden City
       case 791:
         {
           // Leave if not enough triangles to fight spectre
@@ -1815,7 +1815,7 @@ public abstract class ChoiceManager {
           return decision;
         }
 
-        // Silence at last
+      // Silence at last
       case 808:
         // Abort if you want to fight spirit alarm clock but it isn't available.
         if (decision.equals("2") && !responseText.contains("nightstand wasn't here before")) {
@@ -1823,7 +1823,7 @@ public abstract class ChoiceManager {
         }
         return decision;
 
-        // One Rustic Nightstand
+      // One Rustic Nightstand
       case 879:
         boolean sausagesAvailable =
             responseText != null && responseText.contains("Check under the nightstand");
@@ -1852,7 +1852,7 @@ public abstract class ChoiceManager {
         LouvreManager.resetDecisions();
         return Preferences.getInteger("louvreGoal") != 0 ? "1" : "2";
 
-        // Break Time!
+      // Break Time!
       case 919:
         // Abort if you have plundered the register too many times today
         if (decision.equals("1") && responseText.contains("You've already thoroughly")) {
@@ -1860,7 +1860,7 @@ public abstract class ChoiceManager {
         }
         return decision;
 
-        // All Over the Map
+      // All Over the Map
       case 923:
         // Manual control if the choice you want isn't available
         if ((decision.equals("2") && !responseText.contains("Visit the blacksmith's cottage"))
@@ -1870,7 +1870,7 @@ public abstract class ChoiceManager {
         }
         return decision;
 
-        // Shoe Repair Store
+      // Shoe Repair Store
       case 973:
         // Leave if you have no hooch but have chosen to exchange hooch for chroners
         if (decision.equals("2") && !responseText.contains("Turn in Hooch")) {
@@ -1878,7 +1878,7 @@ public abstract class ChoiceManager {
         }
         return decision;
 
-        // Crazy Still After All These Years
+      // Crazy Still After All These Years
       case 975:
         // Leave if you have less than 5 cocktail onions, even if you haven't decided to
         if (!responseText.contains("Stick in the onions")) {
@@ -1948,7 +1948,7 @@ public abstract class ChoiceManager {
         }
         return decision;
 
-        // The Floor Is Yours
+      // The Floor Is Yours
       case 1091:
         if (decision.equals("1") && InventoryManager.getCount(ItemPool.GOLD_1970) < 1) {
           // Manual Control if don't have 1,970 carat gold
@@ -2145,7 +2145,7 @@ public abstract class ChoiceManager {
       case 68:
       case 69:
       case 70:
-        // Violet Fog
+      // Violet Fog
       case 904:
       case 905:
       case 906:
@@ -2156,15 +2156,15 @@ public abstract class ChoiceManager {
       case 911:
       case 912:
       case 913:
-        // The Louvre.
+      // The Louvre.
       case 535:
-        // Ronald Safety Shelter Map
+      // Ronald Safety Shelter Map
       case 536:
-        // Grimace Safety Shelter Map
+      // Grimace Safety Shelter Map
       case 546:
-        // Interview With You
+      // Interview With You
       case 594:
-        // A Lost Room
+      // A Lost Room
       case 665:
         // A Gracious Maze
         return true;
