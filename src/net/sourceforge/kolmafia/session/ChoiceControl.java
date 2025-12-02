@@ -8688,6 +8688,13 @@ public abstract class ChoiceControl {
         Preferences.setInteger("_lastMobiusStripTurn", KoLCharacter.getTurnsPlayed());
         Preferences.increment("_mobiusStripEncounters", 1);
       }
+
+      case 1567 -> {
+        // Visiting the Skeleton of Crimbo Past
+        Preferences.setBoolean("_crimboPastSmokingPope", !text.contains("Buy a Smoking Pope"));
+        Preferences.setBoolean("_crimboPastPrizeTurkey", !text.contains("Buy a prize turkey"));
+        Preferences.setBoolean("_crimboPastMedicalGruel", !text.contains("Buy medical gruel"));
+      }
     }
   }
 
