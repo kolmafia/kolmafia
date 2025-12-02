@@ -1730,7 +1730,8 @@ public class ResultProcessor {
 
       case ItemPool.LIT_BIRTHDAY_CAKE:
         ResultProcessor.processItem(ItemPool.UNLIT_BIRTHDAY_CAKE, -1);
-      //noinspection fallthrough
+        QuestDatabase.setQuestProgress(Quest.BAKER, QuestDatabase.STARTED);
+        break;
       case ItemPool.UNLIT_BIRTHDAY_CAKE:
         // Yes, they are the same quest step!
         QuestDatabase.setQuestProgress(Quest.BAKER, QuestDatabase.STARTED);
@@ -1813,7 +1814,7 @@ public class ResultProcessor {
         QuestDatabase.setQuestProgress(Quest.MUSCLE, "step1");
         break;
 
-      case ItemPool.BATSKIN_BELT:
+      case ItemPool.BATSKIN_BELT, ItemPool.BONERDAGON_SKULL:
         if (adventureResults) {
           ResultProcessor.autoCreate(ItemPool.BADASS_BELT);
         }
@@ -1837,12 +1838,6 @@ public class ResultProcessor {
         if (InventoryManager.getCount(ItemPool.DODECAGRAM) > 0
             && InventoryManager.getCount(ItemPool.CANDLES) > 0) {
           QuestDatabase.setQuestProgress(Quest.FRIAR, "step2");
-        }
-        break;
-
-      case ItemPool.BONERDAGON_SKULL:
-        if (adventureResults) {
-          ResultProcessor.autoCreate(ItemPool.BADASS_BELT);
         }
         break;
 
@@ -2134,8 +2129,10 @@ public class ResultProcessor {
       case ItemPool.BELT_BUCKLE_OF_LOPEZ:
         if (adventureResults) {
           HaciendaManager.questCompleted();
+          QuestDatabase.setQuestProgress(Quest.NEMESIS, QuestDatabase.FINISHED);
         }
-      // fall through
+        break;
+
       case ItemPool.INFERNAL_SEAL_CLAW:
       case ItemPool.TURTLE_POACHER_GARTER:
       case ItemPool.SPAGHETTI_BANDOLIER:
@@ -2273,7 +2270,14 @@ public class ResultProcessor {
         if (adventureResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.TRON) {
           Preferences.increment("_tokenDrops", 1);
         }
-      // Fall through
+        // If this is the first token or ticket we've gotten
+        // this ascension, visit the wrong side of the tracks
+        // to unlock the arcade.
+        if (Preferences.getInteger("lastArcadeAscension") < KoLCharacter.getAscensions()) {
+          Preferences.setInteger("lastArcadeAscension", KoLCharacter.getAscensions());
+          RequestThread.postRequest(new PlaceRequest("town_wrong"));
+        }
+        break;
       case ItemPool.GG_TICKET:
         // If this is the first token or ticket we've gotten
         // this ascension, visit the wrong side of the tracks
@@ -2931,7 +2935,8 @@ public class ResultProcessor {
 
       case ItemPool.MIRACLE_WHIP:
         Preferences.setBoolean("itemBoughtPerAscension8266", true);
-      // Deliberate fallthrough
+        Preferences.setBoolean("_mayoDeviceRented", true);
+        break;
       case ItemPool.SPHYGMAYOMANOMETER:
       case ItemPool.REFLEX_HAMMER:
       case ItemPool.MAYO_LANCE:
