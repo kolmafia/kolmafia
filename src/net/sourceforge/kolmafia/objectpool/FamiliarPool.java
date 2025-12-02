@@ -157,6 +157,7 @@ public class FamiliarPool {
   public static final int PHANTOM_LIMB = 315;
   public static final int DIRE_CASSAVA = 317;
   public static final int OBSERVER = 318;
+  public static final int SKELETON_OF_CRIMBO_PAST = 326;
 
   private FamiliarPool() {}
 }

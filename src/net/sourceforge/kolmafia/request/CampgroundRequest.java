@@ -1078,6 +1078,10 @@ public class CampgroundRequest extends GenericRequest {
         Preferences.decrement("_nightmareFuelCharges");
       }
 
+      if (responseText.contains("find a knucklebone under your pillow")) {
+        Preferences.increment("_knuckleboneRests");
+      }
+
       handleCinchoRest(responseText);
 
       var m = HOUSING_PATTERN.matcher(responseText);
