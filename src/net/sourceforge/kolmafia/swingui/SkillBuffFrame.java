@@ -255,29 +255,29 @@ public class SkillBuffFrame extends GenericFrame {
         ComboBoxModel<UseSkillRequest> newModel =
             switch (SkillTypeComboBox.this.getSelectedIndex()) {
               case 0 ->
-              // All skills
-              (LockableListModel<UseSkillRequest>) KoLConstants.usableSkills;
+                  // All skills
+                  (LockableListModel<UseSkillRequest>) KoLConstants.usableSkills;
               case 1 ->
-              // Summoning skills
-              (LockableListModel<UseSkillRequest>) KoLConstants.summoningSkills;
+                  // Summoning skills
+                  (LockableListModel<UseSkillRequest>) KoLConstants.summoningSkills;
               case 2 ->
-              // Remedy skills
-              (LockableListModel<UseSkillRequest>) KoLConstants.remedySkills;
+                  // Remedy skills
+                  (LockableListModel<UseSkillRequest>) KoLConstants.remedySkills;
               case 3 ->
-              // Self-only skills
-              (LockableListModel<UseSkillRequest>) KoLConstants.selfOnlySkills;
+                  // Self-only skills
+                  (LockableListModel<UseSkillRequest>) KoLConstants.selfOnlySkills;
               case 4 ->
-              // Buff skills
-              (LockableListModel<UseSkillRequest>) KoLConstants.buffSkills;
+                  // Buff skills
+                  (LockableListModel<UseSkillRequest>) KoLConstants.buffSkills;
               case 5 ->
-              // Song skills
-              (LockableListModel<UseSkillRequest>) KoLConstants.songSkills;
+                  // Song skills
+                  (LockableListModel<UseSkillRequest>) KoLConstants.songSkills;
               case 6 ->
-              // Expression skills
-              (LockableListModel<UseSkillRequest>) KoLConstants.expressionSkills;
+                  // Expression skills
+                  (LockableListModel<UseSkillRequest>) KoLConstants.expressionSkills;
               case 7 ->
-              // Walk skills
-              (LockableListModel<UseSkillRequest>) KoLConstants.walkSkills;
+                  // Walk skills
+                  (LockableListModel<UseSkillRequest>) KoLConstants.walkSkills;
               default -> oldModel;
             };
         if (newModel != oldModel) {

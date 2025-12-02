@@ -277,7 +277,8 @@ public class MonsterData extends AdventureResult {
               NOWANDER,
               GHOST,
               SNAKE,
-              DRIPPY -> attributeMap.put(attribute, true);
+              DRIPPY ->
+              attributeMap.put(attribute, true);
         }
       } catch (Exception e) {
         // This should not happen.  Therefore, print
@@ -1161,14 +1162,14 @@ public class MonsterData extends AdventureResult {
           // Cold Aura
         }
 
-          // Nuclear Autumn
+        // Nuclear Autumn
         case "mutant" -> {
           monster.health = monster.getRawHP() * 6 / 5;
           monster.attack = monster.getRawAttack() * 6 / 5;
           monster.defense = monster.getRawDefense() * 6 / 5;
         }
 
-          // Masks
+        // Masks
         case "Mr. mask", "Bonerdagon mask" -> {
           if (this.scale == null) {
             monster.health = monster.getRawHP() * 2;
@@ -1203,7 +1204,7 @@ public class MonsterData extends AdventureResult {
           }
         }
 
-          // Fall of the Dinosaurs
+        // Fall of the Dinosaurs
         case "archelon" -> {
           // Reflects spells
         }
@@ -1229,7 +1230,7 @@ public class MonsterData extends AdventureResult {
           // Runs away if lose initiative, lots of +item when killed
         }
 
-          // Hat Trick
+        // Hat Trick
         case "terrycloth turban" -> monster.health = monster.getRawHP() * 5 / 4;
         case "jockey's hat" -> {
           // faster: unknown, probably init
@@ -1706,9 +1707,8 @@ public class MonsterData extends AdventureResult {
     var forceFree =
         switch (this.name) {
           case "X-32-F Combat Training Snowman" -> Preferences.getInteger("_snojoFreeFights") < 10;
-          case "biker", "\"plain\" girl", "jock", "party girl", "burnout" -> Preferences.getInteger(
-                  "_neverendingPartyFreeTurns")
-              < 10;
+          case "biker", "\"plain\" girl", "jock", "party girl", "burnout" ->
+              Preferences.getInteger("_neverendingPartyFreeTurns") < 10;
           default -> false;
         };
 

@@ -230,7 +230,8 @@ public class CoinMasterRequestTest {
 
         var text = SessionLoggerOutput.stopStream();
 
-        var expected = """
+        var expected =
+            """
     Created an empty checkpoint.
 
     Visiting Elf Guard Armory""";
@@ -267,7 +268,8 @@ public class CoinMasterRequestTest {
         visit.run();
 
         var text = SessionLoggerOutput.stopStream();
-        var expected = """
+        var expected =
+            """
     Visiting Elf Guard Armory""";
 
         assertThat(text, containsString(expected));

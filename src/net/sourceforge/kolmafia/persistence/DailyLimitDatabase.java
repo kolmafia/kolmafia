@@ -152,7 +152,8 @@ public class DailyLimitDatabase {
             SkillPool.TRIPLE_SIZE,
             SkillPool.CINCHO_PROJECTILE_PINATA,
             SkillPool.CINCHO_PARTY_FOUL,
-            SkillPool.CINCHO_CONFETTI_EXTRAVAGANZA -> 5;
+            SkillPool.CINCHO_CONFETTI_EXTRAVAGANZA ->
+            5;
         case SkillPool.REPLACE_ENEMY -> 10;
         case SkillPool.CINCHO_DISPENSE_SALT_AND_LIME, SkillPool.CINCHO_PARTY_SOUNDTRACK -> 25;
         case SkillPool.CINCHO_FIESTA_EXIT -> 60;

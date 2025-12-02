@@ -61,9 +61,10 @@ public class Lookup {
 
   public String getName() {
     return switch (type) {
-      case ITEM -> getIntKey() < -1
-          ? ClanLoungeRequest.hotdogIdToName(getIntKey())
-          : ItemDatabase.getItemName(getIntKey());
+      case ITEM ->
+          getIntKey() < -1
+              ? ClanLoungeRequest.hotdogIdToName(getIntKey())
+              : ItemDatabase.getItemName(getIntKey());
       case EFFECT -> EffectDatabase.getEffectName(getIntKey());
       case SKILL -> SkillDatabase.getSkillName(getIntKey());
       default -> getStringKey();

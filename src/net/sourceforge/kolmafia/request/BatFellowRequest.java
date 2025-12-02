@@ -33,7 +33,7 @@ public class BatFellowRequest extends GenericRequest {
         location = "The Bat-Sedan";
         break;
 
-        // whichplace=batman_downtown
+      // whichplace=batman_downtown
       case "batman_downtown_hospital":
         location = "Gotpork Memorial Hospital";
         break;
@@ -41,17 +41,17 @@ public class BatFellowRequest extends GenericRequest {
         location = "The Bat-Sedan";
         break;
 
-        // whichplace=batman_park
+      // whichplace=batman_park
       case "batman_park_car":
         location = "The Bat-Sedan";
         break;
 
-        // whichplace=batman_slums
+      // whichplace=batman_slums
       case "batman_slums_car":
         location = "The Bat-Sedan";
         break;
 
-        // whichplace=batman_industrial
+      // whichplace=batman_industrial
       case "batman_industrial_car":
         location = "The Bat-Sedan";
         break;

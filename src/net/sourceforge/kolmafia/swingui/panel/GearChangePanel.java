@@ -893,9 +893,9 @@ public class GearChangePanel extends JPanel {
   private boolean slotItemCanBeNone(final Slot slot) {
     return switch (slot) {
       case BOOTSKIN, BOOTSPUR ->
-      // You cannot remove the item in this slot, but if
-      // nothing is equipped, need a placeholder
-      EquipmentManager.getEquipment(slot).equals(EquipmentRequest.UNEQUIP);
+          // You cannot remove the item in this slot, but if
+          // nothing is equipped, need a placeholder
+          EquipmentManager.getEquipment(slot).equals(EquipmentRequest.UNEQUIP);
       default -> true;
     };
   }
@@ -952,25 +952,25 @@ public class GearChangePanel extends JPanel {
           }
           break;
 
-          /*
-          case CONSUME_STICKER:
-            if (this.shouldAddItem(item, consumption, slot)) {
-              lists.get(Slot.STICKER1).add(item);
-              lists.get(Slot.STICKER2).add(item);
-              lists.get(Slot.STICKER3).add(item);
-            }
-            break;
+        /*
+        case CONSUME_STICKER:
+          if (this.shouldAddItem(item, consumption, slot)) {
+            lists.get(Slot.STICKER1).add(item);
+            lists.get(Slot.STICKER2).add(item);
+            lists.get(Slot.STICKER3).add(item);
+          }
+          break;
 
-          case CONSUME_FOLDER:
-            if (this.shouldAddItem(item, consumption, slot)) {
-              lists.get(Slot.FOLDER1).add(item);
-              lists.get(Slot.FOLDER2).add(item);
-              lists.get(Slot.FOLDER3).add(item);
-              lists.get(Slot.FOLDER4).add(item);
-              lists.get(Slot.FOLDER5).add(item);
-            }
-            break;
-          */
+        case CONSUME_FOLDER:
+          if (this.shouldAddItem(item, consumption, slot)) {
+            lists.get(Slot.FOLDER1).add(item);
+            lists.get(Slot.FOLDER2).add(item);
+            lists.get(Slot.FOLDER3).add(item);
+            lists.get(Slot.FOLDER4).add(item);
+            lists.get(Slot.FOLDER5).add(item);
+          }
+          break;
+        */
 
         default:
           if (this.shouldAddItem(item, consumption, slot)) {
@@ -1033,7 +1033,7 @@ public class GearChangePanel extends JPanel {
 
   private boolean shouldAddItem(AdventureResult item, ConsumptionType consumption, Slot slot) {
     switch (consumption) {
-        // The following lists are local to GearChanger
+      // The following lists are local to GearChanger
       case HAT:
       case SHIRT:
       case CONTAINER:
@@ -1058,7 +1058,7 @@ public class GearChangePanel extends JPanel {
           return false;
         }
         break;
-        // The following lists are in EquipmentManager
+      // The following lists are in EquipmentManager
       case STICKER:
       case CARD:
       case FOLDER:

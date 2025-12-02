@@ -18,9 +18,9 @@ public enum EquipScope {
     return switch (index) {
       case 0 -> SPECULATE_INVENTORY;
       case 1 -> SPECULATE_CREATABLE;
-        // backwards compat
+      // backwards compat
       case -1 -> EQUIP_NOW;
-        // ideally should just be 2, but allow backwards compat greater values
+      // ideally should just be 2, but allow backwards compat greater values
       default -> SPECULATE_ANY;
     };
   }

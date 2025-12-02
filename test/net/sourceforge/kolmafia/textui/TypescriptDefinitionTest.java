@@ -58,7 +58,7 @@ public class TypescriptDefinitionTest {
             "export function factType(cls: Class, path: Path, monster: Monster): \"none\" | \"effect\" | \"item\" | \"stats\" | \"hp\" | \"mp\" | \"meat\" | \"modifier\";"),
         Arguments.of(
             "get_items_hash(string)",
-            """
+"""
 export function getItemsHash(itemsSource: "inventory" | "closet" | "storage" | "display" | "shop"): number;"""));
   }
 

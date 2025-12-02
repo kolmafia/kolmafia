@@ -338,7 +338,7 @@ public class DrinkItemRequest extends UseItemRequest {
             DrinkItemRequest.queuedDrinkHelper = null;
             return;
           }
-          // deliberate fallthrough
+        // deliberate fallthrough
         case ItemPool.DIVINE_FLUTE:
         case ItemPool.CRIMBCO_MUG:
         case ItemPool.BGE_SHOTGLASS:
@@ -375,9 +375,9 @@ public class DrinkItemRequest extends UseItemRequest {
           ItemPool.VESPER,
           ItemPool.BODYSLAM,
           ItemPool.SANGRIA_DEL_DIABLO ->
-      // Allow player who owns a single tiny plastic sword to
-      // make and drink multiple drinks in succession.
-      true;
+          // Allow player who owns a single tiny plastic sword to
+          // make and drink multiple drinks in succession.
+          true;
       default -> false;
     };
   }
@@ -872,8 +872,8 @@ public class DrinkItemRequest extends UseItemRequest {
         Preferences.setBoolean("_missGravesVermouthDrunk", true);
       }
       case ItemPool.MAD_LIQUOR -> Preferences.setBoolean("_madLiquorDrunk", true);
-      case ItemPool.DOC_CLOCKS_THYME_COCKTAIL -> Preferences.setBoolean(
-          "_docClocksThymeCocktailDrunk", true);
+      case ItemPool.DOC_CLOCKS_THYME_COCKTAIL ->
+          Preferences.setBoolean("_docClocksThymeCocktailDrunk", true);
       case ItemPool.DRIPPY_PILSNER -> {
         Preferences.setBoolean("_drippyPilsnerUsed", true);
         Preferences.increment("drippyJuice", 5);
@@ -900,8 +900,8 @@ public class DrinkItemRequest extends UseItemRequest {
         Preferences.setInteger("vintnerCharge", 0);
         KoLCharacter.usableFamiliar(FamiliarPool.VAMPIRE_VINTNER).setCharges(0);
       }
-      case ItemPool.PHEROMONE_COCKTAIL -> Preferences.increment(
-          "markYourTerritoryCharges", item.getCount());
+      case ItemPool.PHEROMONE_COCKTAIL ->
+          Preferences.increment("markYourTerritoryCharges", item.getCount());
     }
   }
 

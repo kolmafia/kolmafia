@@ -14,7 +14,8 @@ public class KOLHSRequest extends CreateItemRequest {
       case AdventurePool.THE_HALLOWED_HALLS,
           AdventurePool.SHOP_CLASS,
           AdventurePool.CHEMISTRY_CLASS,
-          AdventurePool.ART_CLASS -> true;
+          AdventurePool.ART_CLASS ->
+          true;
       default -> false;
     };
   }

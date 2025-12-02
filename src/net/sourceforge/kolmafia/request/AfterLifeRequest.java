@@ -177,9 +177,9 @@ public class AfterLifeRequest extends GenericRequest {
     switch (action) {
       case "pearlygates" -> message = "Welcome to Valhalla!";
 
-        // Perming a skill
-        // afterlife.php?action=scperm&whichskill=6027
-        // afterlife.php?action=hcperm&whichskill=6027
+      // Perming a skill
+      // afterlife.php?action=scperm&whichskill=6027
+      // afterlife.php?action=hcperm&whichskill=6027
       case "scperm", "hcperm" -> {
         Matcher m = SKILL_PATTERN.matcher(urlString);
         if (!m.find()) {
@@ -204,8 +204,8 @@ public class AfterLifeRequest extends GenericRequest {
                 + ")";
       }
 
-        // Returning a skill
-        // afterlife.php?action=returnskill&classid=6&skillid=27&hc=1
+      // Returning a skill
+      // afterlife.php?action=returnskill&classid=6&skillid=27&hc=1
       case "returnskill" -> {
         Matcher m = CLASSID_PATTERN.matcher(urlString);
         if (!m.find()) {
@@ -243,10 +243,10 @@ public class AfterLifeRequest extends GenericRequest {
                 + ")";
       }
 
-        // Buying from the Deli
-        // afterlife.php?action=buydeli&whichitem=5045
-        // Buying an item
-        // afterlife.php?action=buyarmory&whichitem=5041
+      // Buying from the Deli
+      // afterlife.php?action=buydeli&whichitem=5045
+      // Buying an item
+      // afterlife.php?action=buyarmory&whichitem=5041
       case "buydeli", "buyarmory" -> {
         Matcher m = GenericRequest.WHICHITEM_PATTERN.matcher(urlString);
         if (!m.find()) {
@@ -258,10 +258,10 @@ public class AfterLifeRequest extends GenericRequest {
         message = "Buy " + itemName + " for " + cost + " Karma (initial balance = " + karma + ")";
       }
 
-        // Returning an item to the Deli
-        // afterlife.php?action=delireturn&whichitem=5045
-        // Returning an item
-        // afterlife.php?action=armoryreturn&whichitem=5041
+      // Returning an item to the Deli
+      // afterlife.php?action=delireturn&whichitem=5045
+      // Returning an item
+      // afterlife.php?action=armoryreturn&whichitem=5041
       case "delireturn", "armoryreturn" -> {
         Matcher m = GenericRequest.WHICHITEM_PATTERN.matcher(urlString);
         if (!m.find()) {
@@ -274,10 +274,10 @@ public class AfterLifeRequest extends GenericRequest {
             "Return " + itemName + " for " + cost + " Karma (initial balance = " + karma + ")";
       }
 
-        // Ascending
-        // afterlife.php?action=ascend&asctype=3&whichclass=4&gender=2&whichpath=4&whichsign=2
-        // Confirming Ascension
-        // afterlife.php?action=ascend&confirmascend=1&whichsign=2&gender=2&whichclass=4&whichpath=4&asctype=3
+      // Ascending
+      // afterlife.php?action=ascend&asctype=3&whichclass=4&gender=2&whichpath=4&whichsign=2
+      // Confirming Ascension
+      // afterlife.php?action=ascend&confirmascend=1&whichsign=2&gender=2&whichclass=4&whichpath=4&asctype=3
       case "ascend" -> {
         if (!urlString.contains("confirmascend=1")) {
           return true;

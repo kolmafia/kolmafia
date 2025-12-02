@@ -567,15 +567,10 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
         ConsumptionType usageType = ItemDatabase.getConsumptionType(item.getItemId());
 
         switch (usageType) {
-          case FAMILIAR_EQUIPMENT,
-              ACCESSORY,
-              HAT,
-              PANTS,
-              CONTAINER,
-              SHIRT,
-              WEAPON,
-              OFFHAND -> RequestThread.postRequest(
-              new EquipmentRequest(item, EquipmentManager.consumeFilterToEquipmentType(usageType)));
+          case FAMILIAR_EQUIPMENT, ACCESSORY, HAT, PANTS, CONTAINER, SHIRT, WEAPON, OFFHAND ->
+              RequestThread.postRequest(
+                  new EquipmentRequest(
+                      item, EquipmentManager.consumeFilterToEquipmentType(usageType)));
         }
       }
     }
@@ -810,14 +805,8 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
       switch (ItemDatabase.getConsumptionType(itemId)) {
         case EAT -> isVisibleWithFilter = FilterItemField.this.food;
         case DRINK -> isVisibleWithFilter = FilterItemField.this.booze;
-        case HAT,
-            SHIRT,
-            WEAPON,
-            OFFHAND,
-            PANTS,
-            CONTAINER,
-            ACCESSORY,
-            FAMILIAR_EQUIPMENT -> isVisibleWithFilter = FilterItemField.this.equip;
+        case HAT, SHIRT, WEAPON, OFFHAND, PANTS, CONTAINER, ACCESSORY, FAMILIAR_EQUIPMENT ->
+            isVisibleWithFilter = FilterItemField.this.equip;
         default -> {
           if (element instanceof CreateItemRequest) {
             isVisibleWithFilter =

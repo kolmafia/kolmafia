@@ -270,7 +270,7 @@ public class DiscoCombatHelper {
               break;
             }
           }
-          // Fall through
+        // Fall through
         case 0:
           // We no longer need random rave
           knownCombo[combo] = false;

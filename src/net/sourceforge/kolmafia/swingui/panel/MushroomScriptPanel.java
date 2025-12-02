@@ -354,11 +354,11 @@ public class MushroomScriptPanel extends JPanel {
       this.loopIndex = (this.loopIndex + 1) % 5;
 
       switch (this.loopIndex) {
-          // If you loop around, then test to see if the
-          // old data was a blank.  If it was, then you
-          // have already displayed it, so move on to the
-          // next element in the cycle.  If not, return a
-          // blank, as that's the next element in the cycle.
+        // If you loop around, then test to see if the
+        // old data was a blank.  If it was, then you
+        // have already displayed it, so move on to the
+        // next element in the cycle.  If not, return a
+        // blank, as that's the next element in the cycle.
 
         case 0:
           if (MushroomScriptPanel.this.originalData[this.dayIndex][this.squareIndex].equals("__")) {
@@ -368,8 +368,8 @@ public class MushroomScriptPanel extends JPanel {
             return "__";
           }
 
-          // In all other cases, return the next element
-          // in the mushroom toggle cycle.
+        // In all other cases, return the next element
+        // in the mushroom toggle cycle.
         case 1:
           return "kb";
         case 2:

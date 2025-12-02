@@ -40,7 +40,7 @@ public class ChatMessageTest {
     assertNotNull(jso);
     JSONObject expected =
         JSON.parseObject(
-            """
+"""
 {
   "type": "private",
   "who": {

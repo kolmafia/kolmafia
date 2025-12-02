@@ -877,12 +877,10 @@ public class TurnCounterTest {
               case VISIT -> "main.php?comb=1";
               case EXIT, COMMON, RANDOM -> "choice.php?whichchoice=1388&option=" + command.option();
               case HEAD -> "choice.php?whichchoice=1388&option=" + command.option() + "&buff=1";
-              case WANDER -> "choice.php?whichchoice=1388&option="
-                  + command.option()
-                  + "&minutes=137";
-              case COMB -> "choice.php?whichchoice=1388&option="
-                  + command.option()
-                  + "&coords=6,1364";
+              case WANDER ->
+                  "choice.php?whichchoice=1388&option=" + command.option() + "&minutes=137";
+              case COMB ->
+                  "choice.php?whichchoice=1388&option=" + command.option() + "&coords=6,1364";
             };
         relay.constructURLString(url);
         assertEquals(turns, TurnCounter.getTurnsUsed(relay));

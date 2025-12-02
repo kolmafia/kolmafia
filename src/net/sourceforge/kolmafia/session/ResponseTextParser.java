@@ -397,22 +397,21 @@ public class ResponseTextParser {
 
             switch (itemId) {
               case ItemPool.YEARBOOK_CAMERA -> ItemDatabase.parseYearbookCamera(responseText);
-              case ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE -> ItemDatabase.parseRetroCape(
-                  responseText);
+              case ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE ->
+                  ItemDatabase.parseRetroCape(responseText);
               case ItemPool.HATSEAT -> ItemDatabase.parseCrownOfThrones(responseText);
               case ItemPool.BUDDY_BJORN -> ItemDatabase.parseBuddyBjorn(responseText);
-              case ItemPool.FOURTH_SABER, ItemPool.REPLICA_FOURTH_SABER -> ItemDatabase.parseSaber(
-                  responseText);
-              case ItemPool.VAMPIRE_VINTNER_WINE -> ItemDatabase.parseVampireVintnerWine(
-                  responseText);
+              case ItemPool.FOURTH_SABER, ItemPool.REPLICA_FOURTH_SABER ->
+                  ItemDatabase.parseSaber(responseText);
+              case ItemPool.VAMPIRE_VINTNER_WINE ->
+                  ItemDatabase.parseVampireVintnerWine(responseText);
               case ItemPool.COMBAT_LOVERS_LOCKET -> LocketManager.parseLocket(responseText);
               case ItemPool.UNBREAKABLE_UMBRELLA -> ItemDatabase.parseUmbrella(responseText);
               case ItemPool.JUNE_CLEAVER -> ItemDatabase.parseCleaver(responseText);
-              case ItemPool.DESIGNER_SWEATPANTS,
-                  ItemPool.REPLICA_DESIGNER_SWEATPANTS -> ItemDatabase.parseDesignerSweatpants(
-                  responseText);
-              case ItemPool.POWERFUL_GLOVE, ItemPool.REPLICA_POWERFUL_GLOVE -> ItemDatabase
-                  .parsePowerfulGlove(responseText);
+              case ItemPool.DESIGNER_SWEATPANTS, ItemPool.REPLICA_DESIGNER_SWEATPANTS ->
+                  ItemDatabase.parseDesignerSweatpants(responseText);
+              case ItemPool.POWERFUL_GLOVE, ItemPool.REPLICA_POWERFUL_GLOVE ->
+                  ItemDatabase.parsePowerfulGlove(responseText);
               case ItemPool.RING -> ItemDatabase.parseRing(responseText);
               case ItemPool.LATTE_MUG -> LatteRequest.parseDescription(responseText);
               case ItemPool.EVERFULL_DART_HOLSTER -> ItemDatabase.parseDartPerks(responseText);
@@ -439,8 +438,8 @@ public class ResponseTextParser {
                 EffectPool.WINE_COLD,
                 EffectPool.WINE_DARK,
                 EffectPool.WINE_BEFOULED,
-                EffectPool.WINE_FRIENDLY -> EffectDatabase.parseVampireVintnerWineEffect(
-                responseText, effectId);
+                EffectPool.WINE_FRIENDLY ->
+                EffectDatabase.parseVampireVintnerWineEffect(responseText, effectId);
           }
         }
       }
@@ -927,9 +926,9 @@ public class ResponseTextParser {
           ResultProcessor.processItem(ItemPool.BIZARRE_ILLEGIBLE_SHEET_MUSIC, -1);
         }
       }
-        // These skills are separate as we expect their max level to change from time to time
-        // We don't want to avoid incrementing the pref if they are increased before that maximum
-        // is reflected in KoLmafia data
+      // These skills are separate as we expect their max level to change from time to time
+      // We don't want to avoid incrementing the pref if they are increased before that maximum
+      // is reflected in KoLmafia data
       case SkillPool.TOGGLE_OPTIMALITY,
           SkillPool.PIRATE_BELLOW,
           SkillPool.HOLIDAY_FUN,
@@ -938,7 +937,8 @@ public class ResponseTextParser {
           SkillPool.CALCULATE_THE_UNIVERSE,
           SkillPool.EXPERIENCE_SAFARI,
           SkillPool.SUMMON_KOKOMO_RESORT_PASS,
-          SkillPool.GENERATE_IRONY -> Preferences.increment(levelPref);
+          SkillPool.GENERATE_IRONY ->
+          Preferences.increment(levelPref);
       default -> {
         var maxLevel = SkillDatabase.getMaxLevel(skillId);
         if (maxLevel > 0) {

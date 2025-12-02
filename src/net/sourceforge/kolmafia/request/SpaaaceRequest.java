@@ -257,8 +257,8 @@ public class SpaaaceRequest extends GenericRequest {
       case RIGHT -> buffer.append("&#8600;");
       case RANDOM -> buffer.append(".");
       default ->
-      // Should not come here
-      buffer.append(" ");
+          // Should not come here
+          buffer.append(" ");
     }
     buffer.append("</div>");
     return buffer.toString();

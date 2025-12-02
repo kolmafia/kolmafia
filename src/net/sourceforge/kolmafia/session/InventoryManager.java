@@ -2083,10 +2083,12 @@ public abstract class InventoryManager {
           CARD,
           FOLDER,
           BOOTSKIN,
-          BOOTSPUR -> true;
-        // combat
-      case NONE -> ItemDatabase.getAttribute(
-          itemId, EnumSet.of(Attribute.COMBAT, Attribute.COMBAT_REUSABLE));
+          BOOTSPUR ->
+          true;
+      // combat
+      case NONE ->
+          ItemDatabase.getAttribute(
+              itemId, EnumSet.of(Attribute.COMBAT, Attribute.COMBAT_REUSABLE));
       default -> false;
     };
   }
@@ -2116,7 +2118,8 @@ public abstract class InventoryManager {
           ItemPool.MERKIN_DRAGNET,
           ItemPool.MERKIN_SWITCHBLADE,
           ItemPool.SEA_CHAPS,
-          ItemPool.UNBLEMISHED_PEARL -> false;
+          ItemPool.UNBLEMISHED_PEARL ->
+          false;
       default -> true;
     };
   }

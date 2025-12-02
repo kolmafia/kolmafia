@@ -697,9 +697,8 @@ public class StationaryButtonDecorator {
 
     switch (action) {
       case "attack", "steal" -> actionBuffer.append(action);
-      case "steal accordion" -> actionBuffer
-          .append("skill&whichskill=")
-          .append(SkillPool.STEAL_ACCORDION);
+      case "steal accordion" ->
+          actionBuffer.append("skill&whichskill=").append(SkillPool.STEAL_ACCORDION);
       case "jiggle" -> {
         actionBuffer.append("chefstaff");
         isEnabled &= !FightRequest.alreadyJiggled();
@@ -732,16 +731,16 @@ public class StationaryButtonDecorator {
         // Some skills cannot be used but KoL does not remove them
         switch (skillID) {
           case SkillPool.LASH_OF_COBRA -> isEnabled = !Preferences.getBoolean("edUsedLash");
-          case SkillPool.GINGERBREAD_MOB_HIT -> isEnabled =
-              !Preferences.getBoolean("_gingerbreadMobHitUsed");
-          case SkillPool.FREE_FOR_ALL -> isEnabled =
-              !KoLConstants.activeEffects.contains(EVERYTHING_LOOKS_RED);
-          case SkillPool.DART_BULLSEYE -> isEnabled =
-              !KoLConstants.activeEffects.contains(EVERYTHING_LOOKS_RED);
-          case SkillPool.FONDELUGE -> isEnabled =
-              !KoLConstants.activeEffects.contains(EVERYTHING_LOOKS_YELLOW);
-          case SkillPool.MOTIF -> isEnabled =
-              !KoLConstants.activeEffects.contains(EVERYTHING_LOOKS_BLUE);
+          case SkillPool.GINGERBREAD_MOB_HIT ->
+              isEnabled = !Preferences.getBoolean("_gingerbreadMobHitUsed");
+          case SkillPool.FREE_FOR_ALL ->
+              isEnabled = !KoLConstants.activeEffects.contains(EVERYTHING_LOOKS_RED);
+          case SkillPool.DART_BULLSEYE ->
+              isEnabled = !KoLConstants.activeEffects.contains(EVERYTHING_LOOKS_RED);
+          case SkillPool.FONDELUGE ->
+              isEnabled = !KoLConstants.activeEffects.contains(EVERYTHING_LOOKS_YELLOW);
+          case SkillPool.MOTIF ->
+              isEnabled = !KoLConstants.activeEffects.contains(EVERYTHING_LOOKS_BLUE);
           case SkillPool.ADVANCED_RESEARCH -> {
             var monster = MonsterStatusTracker.getLastMonster();
             isEnabled = monster != null && !FightRequest.hasResearchedMonster(monster.getId());

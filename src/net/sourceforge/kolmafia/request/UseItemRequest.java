@@ -314,8 +314,8 @@ public class UseItemRequest extends GenericRequest {
           ItemPool.ELEVENT,
           ItemPool.RESIDENCE_CUBE,
           ItemPool.GIANT_PILGRIM_HAT,
-          ItemPool.HOUSE_SIZED_MUSHROOM -> CampgroundRequest.getCurrentDwelling()
-          != CampgroundRequest.BIG_ROCK;
+          ItemPool.HOUSE_SIZED_MUSHROOM ->
+          CampgroundRequest.getCurrentDwelling() != CampgroundRequest.BIG_ROCK;
       default -> false;
     };
   }
@@ -410,7 +410,7 @@ public class UseItemRequest extends GenericRequest {
       case ItemPool.BALL_POLISH:
       case ItemPool.FRATHOUSE_BLUEPRINTS:
       case ItemPool.BINDER_CLIP:
-        // These "B" items ARE usable in Beecore.
+      // These "B" items ARE usable in Beecore.
       case ItemPool.ICE_BABY:
       case ItemPool.JUGGLERS_BALLS:
       case ItemPool.EYEBALL_PENDANT:
@@ -598,7 +598,7 @@ public class UseItemRequest extends GenericRequest {
       case ItemPool.SCARECROW:
       case ItemPool.MEAT_GOLEM:
       case ItemPool.MEAT_GLOBE:
-        // Other furnishings
+      // Other furnishings
       case ItemPool.BLACK_BLUE_LIGHT:
       case ItemPool.LOUDMOUTH_LARRY:
       case ItemPool.PLASMA_BALL:
@@ -869,9 +869,9 @@ public class UseItemRequest extends GenericRequest {
             "the fine print in your Familiar-Gro\u2122 Terrarium owner's manual";
         return 1;
       }
-        // Even if you can dual-wield, if we attempt to "use" a
-        // weapon, it will become an "equip", which always goes
-        // in the main hand.
+      // Even if you can dual-wield, if we attempt to "use" a
+      // weapon, it will become an "equip", which always goes
+      // in the main hand.
       case WEAPON, FAMILIAR_EQUIPMENT, HAT, PANTS, CONTAINER, SHIRT, OFFHAND -> {
         UseItemRequest.limiter = "slot";
         return 1;
@@ -1374,7 +1374,7 @@ public class UseItemRequest extends GenericRequest {
           this.addFormField("action", "useitem");
           this.addFormField("quantity", String.valueOf(this.itemUsed.getCount()));
         }
-        // Fall through
+      // Fall through
       default:
         this.addFormField("ajax", "1");
         if (UseItemRequest.needsConfirmation(this.itemUsed)) {
@@ -1978,8 +1978,8 @@ public class UseItemRequest extends GenericRequest {
     switch (consumptionType) {
       case FOOD_HELPER:
       case DRINK_HELPER:
-        // Consumption helpers are removed above when you
-        // successfully eat or drink.
+      // Consumption helpers are removed above when you
+      // successfully eat or drink.
 
       case NONE:
         return;
@@ -2007,7 +2007,7 @@ public class UseItemRequest extends GenericRequest {
             return;
           }
         }
-        // Fall through
+      // Fall through
       case ItemPool.LOATHING_LEGION_KNIFE:
       case ItemPool.LOATHING_LEGION_MANY_PURPOSE_HOOK:
       case ItemPool.LOATHING_LEGION_MOONDIAL:
@@ -2082,7 +2082,7 @@ public class UseItemRequest extends GenericRequest {
         }
         return;
 
-        // If it's a gift package, get the inner message
+      // If it's a gift package, get the inner message
 
       case ItemPool.GIFT1:
       case ItemPool.GIFT2:
@@ -2655,7 +2655,7 @@ public class UseItemRequest extends GenericRequest {
           return;
         }
         CampgroundRequest.removeCampgroundItem(ItemPool.get(ItemPool.CHEF, 1));
-        // Fall through
+      // Fall through
       case ItemPool.CHEF:
         if (responseText.contains("already got a chef-in-the-box")) {
           return;
@@ -2686,7 +2686,7 @@ public class UseItemRequest extends GenericRequest {
           return;
         }
         CampgroundRequest.removeCampgroundItem(ItemPool.get(ItemPool.BARTENDER, 1));
-        // Fall through
+      // Fall through
       case ItemPool.BARTENDER:
         if (responseText.contains("already got a bartender-in-the-box")) {
           return;
@@ -2701,27 +2701,27 @@ public class UseItemRequest extends GenericRequest {
         CampgroundRequest.setCampgroundItem(itemId, 1);
         break;
 
-        // Tomes
+      // Tomes
       case ItemPool.SNOWCONE_BOOK:
       case ItemPool.STICKER_BOOK:
       case ItemPool.SUGAR_BOOK:
       case ItemPool.CLIP_ART_BOOK:
       case ItemPool.RAD_LIB_BOOK:
       case ItemPool.SMITH_BOOK:
-        // Grimoires
+      // Grimoires
       case ItemPool.HILARIOUS_BOOK:
       case ItemPool.TASTEFUL_BOOK:
       case ItemPool.CARD_GAME_BOOK:
       case ItemPool.GEEKY_BOOK:
       case ItemPool.CONFISCATOR_BOOK:
-        // Librams
+      // Librams
       case ItemPool.CANDY_BOOK:
       case ItemPool.DIVINE_BOOK:
       case ItemPool.LOVE_BOOK:
       case ItemPool.BRICKO_BOOK:
       case ItemPool.DICE_BOOK:
       case ItemPool.RESOLUTION_BOOK:
-        // Others
+      // Others
       case ItemPool.JEWELRY_BOOK:
       case ItemPool.RAINBOWS_GRAVITY:
       case ItemPool.RAGE_GLAND:
@@ -2993,7 +2993,7 @@ public class UseItemRequest extends GenericRequest {
 
       case ItemPool.GREEN_THUMB:
         Preferences.setBoolean("ownsFloristFriar", true);
-        // Fall through
+      // Fall through
       case ItemPool.REPLICA_GREEN_THUMB:
         FloristRequest.checkFloristAvailable();
         break;
@@ -3761,21 +3761,21 @@ public class UseItemRequest extends GenericRequest {
         break;
 
       case ItemPool.NEWBIESPORT_TENT,
-          ItemPool.BARSKIN_TENT,
-          ItemPool.COTTAGE,
-          ItemPool.BRICKO_PYRAMID,
-          ItemPool.HOUSE,
-          ItemPool.SANDCASTLE,
-          ItemPool.TWIG_HOUSE,
-          ItemPool.GINGERBREAD_HOUSE,
-          ItemPool.HOBO_FORTRESS,
-          ItemPool.GIANT_FARADAY_CAGE,
-          ItemPool.SNOW_FORT,
-          ItemPool.ELEVENT,
-          ItemPool.RESIDENCE_CUBE,
-          ItemPool.GIANT_PILGRIM_HAT,
-          ItemPool.HOUSE_SIZED_MUSHROOM,
-          ItemPool.MINI_KIWI_TIPI:
+      ItemPool.BARSKIN_TENT,
+      ItemPool.COTTAGE,
+      ItemPool.BRICKO_PYRAMID,
+      ItemPool.HOUSE,
+      ItemPool.SANDCASTLE,
+      ItemPool.TWIG_HOUSE,
+      ItemPool.GINGERBREAD_HOUSE,
+      ItemPool.HOBO_FORTRESS,
+      ItemPool.GIANT_FARADAY_CAGE,
+      ItemPool.SNOW_FORT,
+      ItemPool.ELEVENT,
+      ItemPool.RESIDENCE_CUBE,
+      ItemPool.GIANT_PILGRIM_HAT,
+      ItemPool.HOUSE_SIZED_MUSHROOM,
+      ItemPool.MINI_KIWI_TIPI:
         if (responseText.contains("You've already got")) {
           return;
         }
@@ -3785,13 +3785,13 @@ public class UseItemRequest extends GenericRequest {
         break;
 
       case ItemPool.SCARECROW,
-          ItemPool.MEAT_GOLEM,
-          ItemPool.BLACK_BLUE_LIGHT,
-          ItemPool.LOUDMOUTH_LARRY,
-          ItemPool.PLASMA_BALL,
-          ItemPool.LED_CLOCK,
-          ItemPool.BONSAI_TREE,
-          ItemPool.MEAT_GLOBE:
+      ItemPool.MEAT_GOLEM,
+      ItemPool.BLACK_BLUE_LIGHT,
+      ItemPool.LOUDMOUTH_LARRY,
+      ItemPool.PLASMA_BALL,
+      ItemPool.LED_CLOCK,
+      ItemPool.BONSAI_TREE,
+      ItemPool.MEAT_GLOBE:
         if (responseText.contains("You've already got")) {
           return;
         }
@@ -3800,9 +3800,9 @@ public class UseItemRequest extends GenericRequest {
         break;
 
       case ItemPool.MAID,
-          ItemPool.MEAT_BUTLER,
-          ItemPool.CLOCKWORK_MAID,
-          ItemPool.PORTABLE_HOUSEKEEPING_ROBOT:
+      ItemPool.MEAT_BUTLER,
+      ItemPool.CLOCKWORK_MAID,
+      ItemPool.PORTABLE_HOUSEKEEPING_ROBOT:
         if (responseText.contains("You've already got")) {
           return;
         }
@@ -3818,14 +3818,14 @@ public class UseItemRequest extends GenericRequest {
         break;
 
       case ItemPool.MILKY_POTION,
-          ItemPool.SWIRLY_POTION,
-          ItemPool.BUBBLY_POTION,
-          ItemPool.SMOKY_POTION,
-          ItemPool.CLOUDY_POTION,
-          ItemPool.EFFERVESCENT_POTION,
-          ItemPool.FIZZY_POTION,
-          ItemPool.DARK_POTION,
-          ItemPool.MURKY_POTION:
+      ItemPool.SWIRLY_POTION,
+      ItemPool.BUBBLY_POTION,
+      ItemPool.SMOKY_POTION,
+      ItemPool.CLOUDY_POTION,
+      ItemPool.EFFERVESCENT_POTION,
+      ItemPool.FIZZY_POTION,
+      ItemPool.DARK_POTION,
+      ItemPool.MURKY_POTION:
         String[][] strings = ItemPool.bangPotionStrings;
 
         for (int i = 0; i < strings.length; ++i) {
@@ -3865,8 +3865,8 @@ public class UseItemRequest extends GenericRequest {
         break;
 
       case ItemPool.VIAL_OF_ORANGE_SLIME,
-          ItemPool.VIAL_OF_GREEN_SLIME,
-          ItemPool.VIAL_OF_VIOLET_SLIME:
+      ItemPool.VIAL_OF_GREEN_SLIME,
+      ItemPool.VIAL_OF_VIOLET_SLIME:
         strings = ItemPool.slimeVialStrings[1];
         for (int i = 0; i < strings.length; ++i) {
           if (responseText.contains(strings[i][1])) {
@@ -3886,11 +3886,11 @@ public class UseItemRequest extends GenericRequest {
         break;
 
       case ItemPool.VIAL_OF_VERMILION_SLIME,
-          ItemPool.VIAL_OF_AMBER_SLIME,
-          ItemPool.VIAL_OF_CHARTREUSE_SLIME,
-          ItemPool.VIAL_OF_TEAL_SLIME,
-          ItemPool.VIAL_OF_INDIGO_SLIME,
-          ItemPool.VIAL_OF_PURPLE_SLIME:
+      ItemPool.VIAL_OF_AMBER_SLIME,
+      ItemPool.VIAL_OF_CHARTREUSE_SLIME,
+      ItemPool.VIAL_OF_TEAL_SLIME,
+      ItemPool.VIAL_OF_INDIGO_SLIME,
+      ItemPool.VIAL_OF_PURPLE_SLIME:
         strings = ItemPool.slimeVialStrings[2];
         for (int i = 0; i < strings.length; ++i) {
           if (responseText.contains(strings[i][1])) {
@@ -4110,9 +4110,9 @@ public class UseItemRequest extends GenericRequest {
       case ItemPool.COLD_SEAL:
       case ItemPool.SLIPPERY_SEAL:
 
-        // If we are redirected to a fight, the item is
-        // consumed elsewhere. If we got here, it wasn't
-        // actually consumed
+      // If we are redirected to a fight, the item is
+      // consumed elsewhere. If we got here, it wasn't
+      // actually consumed
 
       case ItemPool.DEPLETED_URANIUM_SEAL:
 
@@ -5399,12 +5399,12 @@ public class UseItemRequest extends GenericRequest {
             total = StringUtilities.parseInt(chipMatcher.group(1));
           }
           switch (itemId) {
-            case ItemPool.SOURCE_TERMINAL_PRAM_CHIP -> Preferences.setInteger(
-                "sourceTerminalPram", total);
-            case ItemPool.SOURCE_TERMINAL_GRAM_CHIP -> Preferences.setInteger(
-                "sourceTerminalGram", total);
-            case ItemPool.SOURCE_TERMINAL_SPAM_CHIP -> Preferences.setInteger(
-                "sourceTerminalSpam", total);
+            case ItemPool.SOURCE_TERMINAL_PRAM_CHIP ->
+                Preferences.setInteger("sourceTerminalPram", total);
+            case ItemPool.SOURCE_TERMINAL_GRAM_CHIP ->
+                Preferences.setInteger("sourceTerminalGram", total);
+            case ItemPool.SOURCE_TERMINAL_SPAM_CHIP ->
+                Preferences.setInteger("sourceTerminalSpam", total);
           }
           if (responseText.contains("You've already installed")) {
             return;
@@ -6990,7 +6990,7 @@ public class UseItemRequest extends GenericRequest {
           useString = "roll percentile dice";
           break;
         }
-        // Fall through
+      // Fall through
       case ItemPool.D4:
       case ItemPool.D6:
       case ItemPool.D8:
@@ -7072,7 +7072,8 @@ public class UseItemRequest extends GenericRequest {
       case ItemPool.CHATEAU_WATERCOLOR,
           ItemPool.GOD_LOBSTER,
           ItemPool.WITCHESS_SET,
-          ItemPool.REPLICA_WITCHESS_SET -> 0;
+          ItemPool.REPLICA_WITCHESS_SET ->
+          0;
       default -> UseItemRequest.getAdventuresUsedByItem(this.itemUsed);
     };
   }

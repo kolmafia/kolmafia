@@ -2195,8 +2195,8 @@ public class FightRequest extends GenericRequest {
             Preferences.setInteger("_lastDailyDungeonRoom", round - 1);
           }
         }
-        case AdventurePool.WARBEAR_FORTRESS_LEVEL_THREE -> ResultProcessor.processItem(
-            ItemPool.WARBEAR_BADGE, -1);
+        case AdventurePool.WARBEAR_FORTRESS_LEVEL_THREE ->
+            ResultProcessor.processItem(ItemPool.WARBEAR_BADGE, -1);
         case AdventurePool.SHADOW_RIFT -> {
           Preferences.increment("_shadowRiftCombats");
           MonsterStatusTracker.recalculateOriginalStats();
@@ -2394,11 +2394,11 @@ public class FightRequest extends GenericRequest {
             }
           }
           case FAMILY_OF_KOBOLDS ->
-          // Remove 100 D4's from inventory
-          ResultProcessor.processItem(ItemPool.D4, -100);
+              // Remove 100 D4's from inventory
+              ResultProcessor.processItem(ItemPool.D4, -100);
           case GLITCH_MONSTER ->
-          // This appears to be NOCOPY.
-          Preferences.increment("_glitchMonsterFights", 1);
+              // This appears to be NOCOPY.
+              Preferences.increment("_glitchMonsterFights", 1);
           case SAUSAGE_GOBLIN -> {
             if (!EncounterManager.ignoreSpecialMonsters) {
               Preferences.increment("_sausageFights");
@@ -3021,7 +3021,8 @@ public class FightRequest extends GenericRequest {
     switch (KoLAdventure.lastAdventureId()) {
       case AdventurePool.FRAT_UNIFORM_BATTLEFIELD,
           AdventurePool.HIPPY_UNIFORM_BATTLEFIELD,
-          AdventurePool.EXPLOADED_BATTLEFIELD -> IslandManager.handleBattlefield(responseText);
+          AdventurePool.EXPLOADED_BATTLEFIELD ->
+          IslandManager.handleBattlefield(responseText);
       case AdventurePool.HOBOPOLIS_TOWN_SQUARE -> HobopolisDecorator.handleTownSquare(responseText);
     }
 
@@ -4003,8 +4004,8 @@ public class FightRequest extends GenericRequest {
         case FamiliarPool.ROCKIN_ROBIN -> Preferences.increment("rockinRobinProgress");
         case FamiliarPool.CANDLE -> Preferences.increment("optimisticCandleProgress");
         case FamiliarPool.GARBAGE_FIRE -> Preferences.increment("garbageFireProgress");
-        case FamiliarPool.PUCK_MAN, FamiliarPool.MS_PUCK_MAN -> Preferences.increment(
-            "powerPillProgress");
+        case FamiliarPool.PUCK_MAN, FamiliarPool.MS_PUCK_MAN ->
+            Preferences.increment("powerPillProgress");
         case FamiliarPool.ROBORTENDER -> {
           for (String s : ROBORTENDER_DROP_MESSAGES) {
             if (!responseText.contains(s)) continue;
@@ -4293,8 +4294,8 @@ public class FightRequest extends GenericRequest {
       switch (monsterName) {
         case "black pudding" -> Preferences.increment("blackPuddingsDefeated", 1);
         case "general seal" -> ResultProcessor.removeItem(ItemPool.ABYSSAL_BATTLE_PLANS);
-        case "Frank &quot;Skipper&quot; Dan, the Accordion Lord" -> ResultProcessor.removeItem(
-            ItemPool.SUSPICIOUS_ADDRESS);
+        case "Frank &quot;Skipper&quot; Dan, the Accordion Lord" ->
+            ResultProcessor.removeItem(ItemPool.SUSPICIOUS_ADDRESS);
         case "Chef Boy, R&amp;D" -> ResultProcessor.removeItem(ItemPool.CHEF_BOY_BUSINESS_CARD);
         case "drunk pygmy" -> {
           if (responseText.contains("notices the Bowl of Scorpions")) {
@@ -4326,8 +4327,8 @@ public class FightRequest extends GenericRequest {
           Preferences.setBoolean("pirateRealmUnlockedBreastplate", true);
           QuestDatabase.setQuestIfBetter(Quest.PIRATEREALM, 11);
         }
-        case "plastic pirate" -> Preferences.increment(
-            "pirateRealmPlasticPiratesDefeated", 1, 50, false);
+        case "plastic pirate" ->
+            Preferences.increment("pirateRealmPlasticPiratesDefeated", 1, 50, false);
         case "pirate radio" -> {
           Preferences.setBoolean("pirateRealmUnlockedRadioRing", true);
           QuestDatabase.setQuestIfBetter(Quest.PIRATEREALM, 16);
@@ -4365,7 +4366,7 @@ public class FightRequest extends GenericRequest {
             path.setPoints(11);
           }
         }
-          // When fighting a Ewe, all prior ewe item drops become unavailable
+        // When fighting a Ewe, all prior ewe item drops become unavailable
         case "ewe" -> {
           Preferences.setString("eweItem", "");
         }
@@ -9807,8 +9808,8 @@ public class FightRequest extends GenericRequest {
           skillSuccess = true;
         }
       }
-      case SkillPool.VICIOUS_TALON_SLASH, SkillPool.WING_BUFFET -> Preferences.increment(
-          "birdformRoc", 1);
+      case SkillPool.VICIOUS_TALON_SLASH, SkillPool.WING_BUFFET ->
+          Preferences.increment("birdformRoc", 1);
       case SkillPool.TUNNEL_UP -> Preferences.increment("moleTunnelLevel", 1);
       case SkillPool.TUNNEL_DOWN -> Preferences.increment("moleTunnelLevel", -1);
       case SkillPool.RISE_FROM_YOUR_ASHES -> Preferences.increment("birdformHot", 1);
@@ -9816,13 +9817,12 @@ public class FightRequest extends GenericRequest {
       case SkillPool.STATUE_TREATMENT -> Preferences.increment("birdformStench", 1);
       case SkillPool.FEAST_ON_CARRION -> Preferences.increment("birdformSpooky", 1);
       case SkillPool.GIVE_OPPONENT_THE_BIRD -> Preferences.increment("birdformSleaze", 1);
-      case SkillPool.HOBO_JOKE -> addFightModifiers(
-          "Ask the hobo to tell you a joke", DoubleModifier.MEATDROP, 100);
-      case SkillPool.HOBO_DANCE -> addFightModifiers(
-          "Ask the hobo to dance for you", DoubleModifier.ITEMDROP, 100);
-      case SkillPool.BOXING_GLOVE_ARROW,
-          SkillPool.POISON_ARROW,
-          SkillPool.FINGERTRAP_ARROW -> skillSuccess = true;
+      case SkillPool.HOBO_JOKE ->
+          addFightModifiers("Ask the hobo to tell you a joke", DoubleModifier.MEATDROP, 100);
+      case SkillPool.HOBO_DANCE ->
+          addFightModifiers("Ask the hobo to dance for you", DoubleModifier.ITEMDROP, 100);
+      case SkillPool.BOXING_GLOVE_ARROW, SkillPool.POISON_ARROW, SkillPool.FINGERTRAP_ARROW ->
+          skillSuccess = true;
       case SkillPool.SQUEEZE_STRESS_BALL -> {
         singleCastsThisFight.add(skillId);
         skillSuccess = true;
@@ -9925,7 +9925,7 @@ public class FightRequest extends GenericRequest {
         }
       }
 
-        // Banishing Shout has lots of success messages.  Check for the failure message instead
+      // Banishing Shout has lots of success messages.  Check for the failure message instead
       case SkillPool.BANISHING_SHOUT -> {
         if (!responseText.contains("but this foe refuses")) {
           BanishManager.banishMonster(monster, Banisher.BANISHING_SHOUT);
@@ -10133,28 +10133,28 @@ public class FightRequest extends GenericRequest {
         }
       }
 
-        // Casting Carbohydrate Cudgel uses Dry Noodles
+      // Casting Carbohydrate Cudgel uses Dry Noodles
       case SkillPool.CARBOHYDRATE_CUDGEL -> {
         if (responseText.contains("You toss a bundle") || skillSuccess) {
           ResultProcessor.processItem(ItemPool.DRY_NOODLES, -1);
         }
       }
 
-        // Casting Unload Tommy Gun uses Tommy Ammo
+      // Casting Unload Tommy Gun uses Tommy Ammo
       case SkillPool.UNLOAD_TOMMY_GUN -> {
         if (responseText.contains("firing the tommy gun") || skillSuccess) {
           ResultProcessor.processItem(ItemPool.TOMMY_AMMO, -1);
         }
       }
 
-        // Casting Shovel Hot Coal uses Hot Coal
+      // Casting Shovel Hot Coal uses Hot Coal
       case SkillPool.SHOVEL_HOT_COAL -> {
         if (responseText.contains("hot coal into the shovel") || skillSuccess) {
           ResultProcessor.processItem(ItemPool.HOT_COAL, -1);
         }
       }
 
-        // Casting Crackpot Mystic item spells uses a Pixel Power Cell
+      // Casting Crackpot Mystic item spells uses a Pixel Power Cell
       case SkillPool.RAGE_FLAME -> {
         if (responseText.contains("resulting torrent of flame") || skillSuccess) {
           ResultProcessor.processItem(ItemPool.PIXEL_POWER_CELL, -1);
@@ -10184,15 +10184,15 @@ public class FightRequest extends GenericRequest {
           skillSuccess = true;
         }
       }
-      case SkillPool.OVERLOAD_TEDDY_BEAR -> EquipmentManager.discardEquipment(
-          ItemPool.CUDDLY_TEDDY_BEAR);
-      case SkillPool.THROW_SKULL -> EquipmentManager.discardSpelunkyEquipment(
-          ItemPool.SPELUNKY_SKULL);
-      case SkillPool.THROW_ROCK -> EquipmentManager.discardSpelunkyEquipment(
-          ItemPool.SPELUNKY_ROCK);
+      case SkillPool.OVERLOAD_TEDDY_BEAR ->
+          EquipmentManager.discardEquipment(ItemPool.CUDDLY_TEDDY_BEAR);
+      case SkillPool.THROW_SKULL ->
+          EquipmentManager.discardSpelunkyEquipment(ItemPool.SPELUNKY_SKULL);
+      case SkillPool.THROW_ROCK ->
+          EquipmentManager.discardSpelunkyEquipment(ItemPool.SPELUNKY_ROCK);
       case SkillPool.THROW_POT -> EquipmentManager.discardSpelunkyEquipment(ItemPool.SPELUNKY_POT);
-      case SkillPool.THROW_TORCH -> EquipmentManager.discardSpelunkyEquipment(
-          ItemPool.SPELUNKY_TORCH);
+      case SkillPool.THROW_TORCH ->
+          EquipmentManager.discardSpelunkyEquipment(ItemPool.SPELUNKY_TORCH);
       case SkillPool.LASH_OF_COBRA -> {
         Preferences.setBoolean("edUsedLash", true);
         if (responseText.contains("You acquire an item") || skillSuccess) {
@@ -10200,7 +10200,7 @@ public class FightRequest extends GenericRequest {
         }
       }
 
-        // Casting Curse of Fortune uses Ka Coin
+      // Casting Curse of Fortune uses Ka Coin
       case SkillPool.CURSE_OF_FORTUNE -> {
         if (responseText.contains("Jackal demon shrugs and produces a large wad of meat")
             || skillSuccess) {
@@ -10315,9 +10315,10 @@ public class FightRequest extends GenericRequest {
         }
       }
       case SkillPool.MICROMETEOR ->
-      // Delevels by 25% initially, but decreases by 1% per use until reaching its minimum delevel
-      // of 10%.
-      Preferences.increment("_micrometeoriteUses");
+          // Delevels by 25% initially, but decreases by 1% per use until reaching its minimum
+          // delevel
+          // of 10%.
+          Preferences.increment("_micrometeoriteUses");
       case SkillPool.MACROMETEOR -> {
         if (responseText.contains("You quickly step") || skillSuccess) {
           skillSuccess = true;
@@ -10480,15 +10481,16 @@ public class FightRequest extends GenericRequest {
       }
       case SkillPool.HAMMER_THROW_COMBAT,
           SkillPool.JUGGLE_FIREBALLS_COMBAT,
-          SkillPool.SPIN_JUMP_COMBAT -> KoLCharacter.spendPP(1);
+          SkillPool.SPIN_JUMP_COMBAT ->
+          KoLCharacter.spendPP(1);
       case SkillPool.ULTRA_SMASH_COMBAT -> {
         if (responseText.contains("knock your opponent into tomorrow") || skillRunawaySuccess) {
           BanishManager.banishMonster(monster, Banisher.ULTRA_HAMMER);
         }
         KoLCharacter.spendPP(2);
       }
-      case SkillPool.FIREBALL_BARRAGE_COMBAT, SkillPool.MULTI_BOUNCE_COMBAT -> KoLCharacter.spendPP(
-          2);
+      case SkillPool.FIREBALL_BARRAGE_COMBAT, SkillPool.MULTI_BOUNCE_COMBAT ->
+          KoLCharacter.spendPP(2);
       case SkillPool.FEEL_NOSTALGIC -> {
         if (responseText.contains("really feeling nostalgic") || skillSuccess) {
           skillSuccess = true;
@@ -10713,16 +10715,16 @@ public class FightRequest extends GenericRequest {
         }
       }
       case SkillPool.JUNK_BLAST, SkillPool.SNIPE, SkillPool.JUNK_MACE_SMASH ->
-      // These skills consume 1 scrap per use
-      KoLCharacter.setYouRobotScraps(KoLCharacter.getYouRobotScraps() - 1);
+          // These skills consume 1 scrap per use
+          KoLCharacter.setYouRobotScraps(KoLCharacter.getYouRobotScraps() - 1);
       case SkillPool.TESLA_BLAST,
           SkillPool.BLOW_SNOW,
           SkillPool.SHOOT_GREASE,
           SkillPool.PROD,
           SkillPool.SOLENOID_SLAM,
           SkillPool.THROW_FLAME ->
-      // These skills consume 1 energy per use
-      KoLCharacter.setYouRobotEnergy(KoLCharacter.getYouRobotEnergy() - 1);
+          // These skills consume 1 energy per use
+          KoLCharacter.setYouRobotEnergy(KoLCharacter.getYouRobotEnergy() - 1);
       case SkillPool.LAUNCH_SPIKOLODON_SPIKES -> {
         if (responseText.contains("The spikolodon spikes both")) {
           Preferences.setBoolean("noncombatForcerActive", true);
@@ -10961,7 +10963,7 @@ public class FightRequest extends GenericRequest {
         }
       }
 
-        // CyberRealm skills
+      // CyberRealm skills
       case SkillPool.THROW_CYBER_ROCK -> {
         // RAM Cost: 0
         // You envision some 1s in a clump and throw it at your foe for <b>10</b> damage.
@@ -11095,7 +11097,7 @@ public class FightRequest extends GenericRequest {
         }
       }
 
-        // Handle item banishers
+      // Handle item banishers
       case ItemPool.CRYSTAL_SKULL -> {
         if (responseText.contains("skull explodes into a million worthless shards of glass")
             || itemRunawaySuccess) {

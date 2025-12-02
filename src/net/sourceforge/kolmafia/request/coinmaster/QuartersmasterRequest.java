@@ -44,9 +44,8 @@ public class QuartersmasterRequest extends CoinMasterRequest {
 
   private static Boolean canBuyItem(final Integer itemId) {
     return switch (itemId) {
-      case ItemPool.TEQUILA_GRENADE, ItemPool.MOLOTOV_COCKTAIL_COCKTAIL -> Preferences.getString(
-              "sidequestLighthouseCompleted")
-          .equals("fratboy");
+      case ItemPool.TEQUILA_GRENADE, ItemPool.MOLOTOV_COCKTAIL_COCKTAIL ->
+          Preferences.getString("sidequestLighthouseCompleted").equals("fratboy");
       default -> ItemPool.get(itemId).getCount(FRATBOY.getBuyItems()) > 0;
     };
   }

@@ -350,10 +350,10 @@ public class AreaCombatData {
 
   public int getRejection(final MonsterData monster) {
     return switch (monster.getName()) {
-      case "alielf", "cat-alien", "dog-alien" -> getMoonlightRejection(
-          HolidayDatabase::getGrimaceMoonlight);
-      case "dogcat", "ferrelf", "hamsterpus" -> getMoonlightRejection(
-          HolidayDatabase::getRonaldMoonlight);
+      case "alielf", "cat-alien", "dog-alien" ->
+          getMoonlightRejection(HolidayDatabase::getGrimaceMoonlight);
+      case "dogcat", "ferrelf", "hamsterpus" ->
+          getMoonlightRejection(HolidayDatabase::getRonaldMoonlight);
       default -> this.rejection.get(monster);
     };
   }
@@ -1372,12 +1372,10 @@ public class AreaCombatData {
           return monster.equals("The Big Wisniewski") ? 1 : 0;
         }
         return switch (monster) {
-            // Junkyard quest completed as hippy
-          case "Bailey's Beetle" -> Preferences.getString("sidequestJunkyardCompleted")
-                  .equals("hippy")
-              ? 1
-              : 0;
-            // After specific number of hippies defeated
+          // Junkyard quest completed as hippy
+          case "Bailey's Beetle" ->
+              Preferences.getString("sidequestJunkyardCompleted").equals("hippy") ? 1 : 0;
+          // After specific number of hippies defeated
           case "Green Ops Soldier" -> hippiesDefeated >= 401 ? 1 : 0;
           case "Mobile Armored Sweat Lodge" -> hippiesDefeated >= 151 ? 1 : 0;
           case "War Hippy Airborne Commander" -> hippiesDefeated >= 351 ? 1 : 0;
@@ -1388,9 +1386,8 @@ public class AreaCombatData {
           case "War Hippy Elite Rigger" -> hippiesDefeated >= 301 ? 2 : 0;
           case "War Hippy F.R.O.G." -> hippiesDefeated >= 51 && hippiesDefeated <= 500 ? 2 : 0;
           case "War Hippy Fire Spinner" -> hippiesDefeated >= 301 && hippiesDefeated <= 650 ? 1 : 0;
-          case "War Hippy Green Gourmet" -> hippiesDefeated >= 201 && hippiesDefeated <= 750
-              ? 2
-              : 0;
+          case "War Hippy Green Gourmet" ->
+              hippiesDefeated >= 201 && hippiesDefeated <= 750 ? 2 : 0;
           case "War Hippy Homeopath" -> hippiesDefeated <= 900 ? 1 : 0;
           case "War Hippy Infantryman" -> hippiesDefeated <= 400 ? 2 : 0;
           case "War Hippy Naturopathic Homeopath" -> hippiesDefeated >= 451 ? 1 : 0;
@@ -1398,13 +1395,12 @@ public class AreaCombatData {
           case "War Hippy Shaman" -> hippiesDefeated >= 26 && hippiesDefeated <= 700 ? 1 : 0;
           case "War Hippy Sky Captain" -> hippiesDefeated >= 76 && hippiesDefeated <= 550 ? 1 : 0;
           case "War Hippy Windtalker" -> hippiesDefeated > 0 ? 1 : 0;
-            // Hippy Heroes only appear in specific range. Very low encounter chance
+          // Hippy Heroes only appear in specific range. Very low encounter chance
           case "Slow Talkin' Elliot" -> hippiesDefeated >= 501 && hippiesDefeated <= 600 ? -1 : 0;
           case "Neil" -> hippiesDefeated >= 601 && hippiesDefeated <= 700 ? -1 : 0;
           case "Zim Merman" -> hippiesDefeated >= 701 && hippiesDefeated <= 800 ? -1 : 0;
-          case "C.A.R.N.I.V.O.R.E. Operative" -> hippiesDefeated >= 801 && hippiesDefeated <= 900
-              ? -1
-              : 0;
+          case "C.A.R.N.I.V.O.R.E. Operative" ->
+              hippiesDefeated >= 801 && hippiesDefeated <= 900 ? -1 : 0;
           case "Glass of Orange Juice" -> hippiesDefeated >= 901 && hippiesDefeated <= 999 ? -1 : 0;
           default -> weighting;
         };
@@ -1418,24 +1414,19 @@ public class AreaCombatData {
         }
 
         return switch (monster) {
-            // Junkyard quest completed as fratboy
-          case "War Frat Mobile Grill Unit" -> Preferences.getString("sidequestJunkyardCompleted")
-                  .equals("fratboy")
-              ? 1
-              : 0;
-            // After specific number of fratboys defeated (todo: has not been spaded)
+          // Junkyard quest completed as fratboy
+          case "War Frat Mobile Grill Unit" ->
+              Preferences.getString("sidequestJunkyardCompleted").equals("fratboy") ? 1 : 0;
+          // After specific number of fratboys defeated (todo: has not been spaded)
           case "Sorority Operator" -> fratboysDefeated >= 151 ? 1 : 0;
           case "Panty Raider Frat Boy" -> fratboysDefeated >= 401 ? 1 : 0;
-            // Fratboy Heroes only appear in specific range. Very low encounter chance
-          case "Next-generation Frat Boy" -> fratboysDefeated >= 501 && fratboysDefeated <= 600
-              ? -1
-              : 0;
-          case "Monty Basingstoke-Pratt, IV" -> fratboysDefeated >= 601 && fratboysDefeated <= 700
-              ? -1
-              : 0;
-          case "Brutus, the toga-clad lout" -> fratboysDefeated >= 701 && fratboysDefeated <= 800
-              ? -1
-              : 0;
+          // Fratboy Heroes only appear in specific range. Very low encounter chance
+          case "Next-generation Frat Boy" ->
+              fratboysDefeated >= 501 && fratboysDefeated <= 600 ? -1 : 0;
+          case "Monty Basingstoke-Pratt, IV" ->
+              fratboysDefeated >= 601 && fratboysDefeated <= 700 ? -1 : 0;
+          case "Brutus, the toga-clad lout" ->
+              fratboysDefeated >= 701 && fratboysDefeated <= 800 ? -1 : 0;
           case "Danglin' Chad" -> fratboysDefeated >= 801 && fratboysDefeated <= 900 ? -1 : 0;
           case "War Frat Streaker" -> fratboysDefeated >= 901 && fratboysDefeated <= 999 ? -1 : 0;
           default -> weighting;
@@ -1541,35 +1532,23 @@ public class AreaCombatData {
         int lairTurns = AdventureSpentDatabase.getTurns(zone);
         return switch (monster) {
           case "hellseal guardian" -> KoLCharacter.isSealClubber() ? 1 : 0;
-          case "Gorgolok, the Infernal Seal (Inner Sanctum)" -> KoLCharacter.isSealClubber()
-                  && lairTurns >= 4
-              ? 1
-              : 0;
+          case "Gorgolok, the Infernal Seal (Inner Sanctum)" ->
+              KoLCharacter.isSealClubber() && lairTurns >= 4 ? 1 : 0;
           case "warehouse worker" -> KoLCharacter.isTurtleTamer() ? 1 : 0;
-          case "Stella, the Turtle Poacher (Inner Sanctum)" -> KoLCharacter.isTurtleTamer()
-                  && lairTurns >= 4
-              ? 1
-              : 0;
+          case "Stella, the Turtle Poacher (Inner Sanctum)" ->
+              KoLCharacter.isTurtleTamer() && lairTurns >= 4 ? 1 : 0;
           case "evil spaghetti cult zealot" -> KoLCharacter.isPastamancer() ? 1 : 0;
-          case "Spaghetti Elemental (Inner Sanctum)" -> KoLCharacter.isPastamancer()
-                  && lairTurns >= 4
-              ? 1
-              : 0;
+          case "Spaghetti Elemental (Inner Sanctum)" ->
+              KoLCharacter.isPastamancer() && lairTurns >= 4 ? 1 : 0;
           case "security slime" -> KoLCharacter.isSauceror() ? 1 : 0;
-          case "Lumpy, the Sinister Sauceblob (Inner Sanctum)" -> KoLCharacter.isSauceror()
-                  && lairTurns >= 4
-              ? 1
-              : 0;
+          case "Lumpy, the Sinister Sauceblob (Inner Sanctum)" ->
+              KoLCharacter.isSauceror() && lairTurns >= 4 ? 1 : 0;
           case "daft punk" -> KoLCharacter.isDiscoBandit() ? 1 : 0;
-          case "Spirit of New Wave (Inner Sanctum)" -> KoLCharacter.isDiscoBandit()
-                  && lairTurns >= 4
-              ? 1
-              : 0;
+          case "Spirit of New Wave (Inner Sanctum)" ->
+              KoLCharacter.isDiscoBandit() && lairTurns >= 4 ? 1 : 0;
           case "mariachi bruiser" -> KoLCharacter.isAccordionThief() ? 1 : 0;
-          case "Somerset Lopez, Dread Mariachi (Inner Sanctum)" -> KoLCharacter.isAccordionThief()
-                  && lairTurns >= 4
-              ? 1
-              : 0;
+          case "Somerset Lopez, Dread Mariachi (Inner Sanctum)" ->
+              KoLCharacter.isAccordionThief() && lairTurns >= 4 ? 1 : 0;
           default -> weighting;
         };
       }
@@ -1596,158 +1575,155 @@ public class AreaCombatData {
         String quest = Preferences.getString("lttQuestName");
         String questStep = Preferences.getString("questLTTQuestByWire");
         return switch (monster) {
-          case "drunk cowpoke" -> (quest.equals("Missing: Fancy Man") && questStep.equals("step1"))
-                  || (quest.equals("Help!  Desperados|") && questStep.equals("step1"))
-                  || (quest.equals("Big Gambling Tournament Announced")
-                      && questStep.equals("step1"))
-                  || (quest.equals("Sheriff Wanted") && questStep.equals("step1"))
-                  || (quest.equals("Madness at the Mine") && questStep.equals("step1"))
-              ? 1
-              : 0;
-          case "surly gambler" -> (quest.equals("Missing: Fancy Man") && questStep.equals("step1"))
-                  || (quest.equals("Big Gambling Tournament Announced")
-                      && questStep.equals("step3"))
-                  || (quest.equals("Sheriff Wanted") && questStep.equals("step1"))
-              ? 1
-              : 0;
-          case "wannabe gunslinger" -> (quest.equals("Help!  Desperados|")
-                      && questStep.equals("step1"))
-                  || (quest.equals("Big Gambling Tournament Announced")
-                      && questStep.equals("step1"))
-                  || (quest.equals("Sheriff Wanted") && questStep.equals("step1"))
-                  || (quest.equals("Wagon Train Escort Wanted") && questStep.equals("step3"))
-              ? 1
-              : 0;
-          case "cow cultist" -> (quest.equals("Missing: Pioneer Daughter")
-                      && questStep.equals("step2"))
-                  || (quest.equals("Haunted Boneyard") && questStep.equals("step3"))
-                  || (quest.equals("Sheriff Wanted") && questStep.equals("step2"))
-                  || (quest.equals("Missing: Many Children") && questStep.equals("step1"))
-              ? 1
-              : 0;
-          case "hired gun" -> (quest.equals("Missing: Fancy Man") && questStep.equals("step1"))
-                  || (quest.equals("Help!  Desperados|") && questStep.equals("step1"))
-                  || (quest.equals("Missing: Pioneer Daughter") && questStep.equals("step2"))
-                  || (quest.equals("Big Gambling Tournament Announced")
-                      && questStep.equals("step3"))
-                  || (quest.equals("Sheriff Wanted") && questStep.equals("step3"))
-                  || (quest.equals("Missing: Many Children") && questStep.equals("step1"))
-                  || (quest.equals("Wagon Train Escort Wanted") && questStep.equals("step3"))
-              ? 1
-              : 0;
-          case "camp cook" -> (quest.equals("Missing: Fancy Man") && questStep.equals("step2"))
-                  || (quest.equals("Sheriff Wanted") && questStep.equals("step3"))
-                  || (quest.equals("Madness at the Mine") && questStep.equals("step1"))
-                  || (quest.equals("Wagon Train Escort Wanted") && questStep.equals("step3"))
-              ? 1
-              : 0;
-          case "skeletal gunslinger" -> (quest.equals("Help!  Desperados|")
-                      && questStep.equals("step3"))
-                  || (quest.equals("Haunted Boneyard") && questStep.equals("step1"))
-                  || (quest.equals("Madness at the Mine") && questStep.equals("step3"))
-                  || (quest.equals("Wagon Train Escort Wanted") && questStep.equals("step2"))
-              ? 1
-              : 0;
-          case "restless ghost" -> (quest.equals("Missing: Fancy Man") && questStep.equals("step3"))
-                  || (quest.equals("Missing: Pioneer Daughter") && questStep.equals("step1"))
-                  || (quest.equals("Haunted Boneyard") && questStep.equals("step2"))
-                  || (quest.equals("Madness at the Mine") && questStep.equals("step3"))
-                  || (quest.equals("Missing: Many Children") && questStep.equals("step2"))
-                  || (quest.equals("Wagon Train Escort Wanted") && questStep.equals("step2"))
-              ? 1
-              : 0;
-          case "buzzard" -> (quest.equals("Missing: Fancy Man") && questStep.equals("step2"))
-                  || (quest.equals("Help! Desperados|") && questStep.equals("step2"))
-                  || (quest.equals("Missing: Pioneer Daughter") && questStep.equals("step1"))
-                  || (quest.equals("Haunted Boneyard") && questStep.equals("step1"))
-              ? 1
-              : 0;
-          case "mountain lion" -> (quest.equals("Missing: Fancy Man") && questStep.equals("step2"))
-                  || (quest.equals("Help!  Desperados|") && questStep.equals("step2"))
-                  || (quest.equals("Sheriff Wanted") && questStep.equals("step2"))
-                  || (quest.equals("Madness at the Mine") && questStep.equals("step2"))
-                  || (quest.equals("Wagon Train Escort Wanted") && questStep.equals("step1"))
-              ? 1
-              : 0;
-          case "grizzled bear" -> (quest.equals("Help!  Desperados|") && questStep.equals("step3"))
-                  || (quest.equals("Madness at the Mine") && questStep.equals("step3"))
-                  || (quest.equals("Wagon Train Escort Wanted") && questStep.equals("step1"))
-              ? 1
-              : 0;
-          case "diamondback rattler" -> (quest.equals("Help!  Desperados|")
-                      && questStep.equals("step2"))
-                  || (quest.equals("Big Gambling Tournament Announced")
-                      && questStep.equals("step2"))
-                  || (quest.equals("Madness at the Mine") && questStep.equals("step2"))
-                  || (quest.equals("Wagon Train Escort Wanted") && questStep.equals("step1"))
-              ? 1
-              : 0;
-          case "coal snake" -> (quest.equals("Missing: Fancy Man") && questStep.equals("step3"))
-                  || (quest.equals("Big Gambling Tournament Announced")
-                      && questStep.equals("step2"))
-                  || (quest.equals("Madness at the Mine") && questStep.equals("step1"))
-              ? 1
-              : 0;
-          case "frontwinder" -> (quest.equals("Big Gambling Tournament Announced")
-                      && questStep.equals("step2"))
-                  || (quest.equals("Sheriff Wanted") && questStep.equals("step2"))
-              ? 1
-              : 0;
-          case "caugr" -> (quest.equals("Missing: Pioneer Daughter") && questStep.equals("step3"))
-                  || (quest.equals("Missing: Many Children") && questStep.equals("step3"))
-              ? 1
-              : 0;
-          case "pyrobove" -> (quest.equals("Missing: Pioneer Daughter")
-                      && questStep.equals("step3"))
-                  || (quest.equals("Missing: Many Children") && questStep.equals("step3"))
-                  || (quest.equals("Wagon Train Escort Wanted") && questStep.equals("step2"))
-              ? 1
-              : 0;
-          case "spidercow" -> (quest.equals("Missing: Pioneer Daughter")
-                      && questStep.equals("step3"))
-                  || (quest.equals("Haunted Boneyard") && questStep.equals("step3"))
-                  || (quest.equals("Missing: Many Children") && questStep.equals("step1"))
-              ? 1
-              : 0;
-          case "moomy" -> (quest.equals("Haunted Boneyard") && questStep.equals("step3"))
-                  || (quest.equals("Madness at the Mine") && questStep.equals("step2"))
-                  || (quest.equals("Missing: Many Children") && questStep.equals("step3"))
-              ? 1
-              : 0;
-          case "Jeff the Fancy Skeleton" -> (quest.equals("Missing: Fancy Man")
-                  && questStep.equals("step4"))
-              ? 1
-              : 0;
-          case "Daisy the Unclean" -> (quest.equals("Missing: Pioneer Daughter")
-                  && questStep.equals("step4"))
-              ? 1
-              : 0;
-          case "Pecos Dave" -> (quest.equals("Help!  Desperados|") && questStep.equals("step4"))
-              ? 1
-              : 0;
-          case "Pharaoh Amoon-Ra Cowtep" -> (quest.equals("Haunted Boneyard")
-                  && questStep.equals("step4"))
-              ? 1
-              : 0;
-          case "Snake-Eyes Glenn" -> (quest.equals("Big Gambling Tournament Announced")
-                  && questStep.equals("step4"))
-              ? 1
-              : 0;
-          case "Former Sheriff Dan Driscoll" -> (quest.equals("Sheriff Wanted")
-                  && questStep.equals("step4"))
-              ? 1
-              : 0;
-          case "unusual construct" -> (quest.equals("Madness at the Mine")
-                  && questStep.equals("step4"))
-              ? 1
-              : 0;
-          case "Clara" -> (quest.equals("Missing: Many Children") && questStep.equals("step4"))
-              ? 1
-              : 0;
-          case "Granny Hackleton" -> (quest.equals("Wagon Train Escort Wanted")
-                  && questStep.equals("step4"))
-              ? 1
-              : 0;
+          case "drunk cowpoke" ->
+              (quest.equals("Missing: Fancy Man") && questStep.equals("step1"))
+                      || (quest.equals("Help!  Desperados|") && questStep.equals("step1"))
+                      || (quest.equals("Big Gambling Tournament Announced")
+                          && questStep.equals("step1"))
+                      || (quest.equals("Sheriff Wanted") && questStep.equals("step1"))
+                      || (quest.equals("Madness at the Mine") && questStep.equals("step1"))
+                  ? 1
+                  : 0;
+          case "surly gambler" ->
+              (quest.equals("Missing: Fancy Man") && questStep.equals("step1"))
+                      || (quest.equals("Big Gambling Tournament Announced")
+                          && questStep.equals("step3"))
+                      || (quest.equals("Sheriff Wanted") && questStep.equals("step1"))
+                  ? 1
+                  : 0;
+          case "wannabe gunslinger" ->
+              (quest.equals("Help!  Desperados|") && questStep.equals("step1"))
+                      || (quest.equals("Big Gambling Tournament Announced")
+                          && questStep.equals("step1"))
+                      || (quest.equals("Sheriff Wanted") && questStep.equals("step1"))
+                      || (quest.equals("Wagon Train Escort Wanted") && questStep.equals("step3"))
+                  ? 1
+                  : 0;
+          case "cow cultist" ->
+              (quest.equals("Missing: Pioneer Daughter") && questStep.equals("step2"))
+                      || (quest.equals("Haunted Boneyard") && questStep.equals("step3"))
+                      || (quest.equals("Sheriff Wanted") && questStep.equals("step2"))
+                      || (quest.equals("Missing: Many Children") && questStep.equals("step1"))
+                  ? 1
+                  : 0;
+          case "hired gun" ->
+              (quest.equals("Missing: Fancy Man") && questStep.equals("step1"))
+                      || (quest.equals("Help!  Desperados|") && questStep.equals("step1"))
+                      || (quest.equals("Missing: Pioneer Daughter") && questStep.equals("step2"))
+                      || (quest.equals("Big Gambling Tournament Announced")
+                          && questStep.equals("step3"))
+                      || (quest.equals("Sheriff Wanted") && questStep.equals("step3"))
+                      || (quest.equals("Missing: Many Children") && questStep.equals("step1"))
+                      || (quest.equals("Wagon Train Escort Wanted") && questStep.equals("step3"))
+                  ? 1
+                  : 0;
+          case "camp cook" ->
+              (quest.equals("Missing: Fancy Man") && questStep.equals("step2"))
+                      || (quest.equals("Sheriff Wanted") && questStep.equals("step3"))
+                      || (quest.equals("Madness at the Mine") && questStep.equals("step1"))
+                      || (quest.equals("Wagon Train Escort Wanted") && questStep.equals("step3"))
+                  ? 1
+                  : 0;
+          case "skeletal gunslinger" ->
+              (quest.equals("Help!  Desperados|") && questStep.equals("step3"))
+                      || (quest.equals("Haunted Boneyard") && questStep.equals("step1"))
+                      || (quest.equals("Madness at the Mine") && questStep.equals("step3"))
+                      || (quest.equals("Wagon Train Escort Wanted") && questStep.equals("step2"))
+                  ? 1
+                  : 0;
+          case "restless ghost" ->
+              (quest.equals("Missing: Fancy Man") && questStep.equals("step3"))
+                      || (quest.equals("Missing: Pioneer Daughter") && questStep.equals("step1"))
+                      || (quest.equals("Haunted Boneyard") && questStep.equals("step2"))
+                      || (quest.equals("Madness at the Mine") && questStep.equals("step3"))
+                      || (quest.equals("Missing: Many Children") && questStep.equals("step2"))
+                      || (quest.equals("Wagon Train Escort Wanted") && questStep.equals("step2"))
+                  ? 1
+                  : 0;
+          case "buzzard" ->
+              (quest.equals("Missing: Fancy Man") && questStep.equals("step2"))
+                      || (quest.equals("Help! Desperados|") && questStep.equals("step2"))
+                      || (quest.equals("Missing: Pioneer Daughter") && questStep.equals("step1"))
+                      || (quest.equals("Haunted Boneyard") && questStep.equals("step1"))
+                  ? 1
+                  : 0;
+          case "mountain lion" ->
+              (quest.equals("Missing: Fancy Man") && questStep.equals("step2"))
+                      || (quest.equals("Help!  Desperados|") && questStep.equals("step2"))
+                      || (quest.equals("Sheriff Wanted") && questStep.equals("step2"))
+                      || (quest.equals("Madness at the Mine") && questStep.equals("step2"))
+                      || (quest.equals("Wagon Train Escort Wanted") && questStep.equals("step1"))
+                  ? 1
+                  : 0;
+          case "grizzled bear" ->
+              (quest.equals("Help!  Desperados|") && questStep.equals("step3"))
+                      || (quest.equals("Madness at the Mine") && questStep.equals("step3"))
+                      || (quest.equals("Wagon Train Escort Wanted") && questStep.equals("step1"))
+                  ? 1
+                  : 0;
+          case "diamondback rattler" ->
+              (quest.equals("Help!  Desperados|") && questStep.equals("step2"))
+                      || (quest.equals("Big Gambling Tournament Announced")
+                          && questStep.equals("step2"))
+                      || (quest.equals("Madness at the Mine") && questStep.equals("step2"))
+                      || (quest.equals("Wagon Train Escort Wanted") && questStep.equals("step1"))
+                  ? 1
+                  : 0;
+          case "coal snake" ->
+              (quest.equals("Missing: Fancy Man") && questStep.equals("step3"))
+                      || (quest.equals("Big Gambling Tournament Announced")
+                          && questStep.equals("step2"))
+                      || (quest.equals("Madness at the Mine") && questStep.equals("step1"))
+                  ? 1
+                  : 0;
+          case "frontwinder" ->
+              (quest.equals("Big Gambling Tournament Announced") && questStep.equals("step2"))
+                      || (quest.equals("Sheriff Wanted") && questStep.equals("step2"))
+                  ? 1
+                  : 0;
+          case "caugr" ->
+              (quest.equals("Missing: Pioneer Daughter") && questStep.equals("step3"))
+                      || (quest.equals("Missing: Many Children") && questStep.equals("step3"))
+                  ? 1
+                  : 0;
+          case "pyrobove" ->
+              (quest.equals("Missing: Pioneer Daughter") && questStep.equals("step3"))
+                      || (quest.equals("Missing: Many Children") && questStep.equals("step3"))
+                      || (quest.equals("Wagon Train Escort Wanted") && questStep.equals("step2"))
+                  ? 1
+                  : 0;
+          case "spidercow" ->
+              (quest.equals("Missing: Pioneer Daughter") && questStep.equals("step3"))
+                      || (quest.equals("Haunted Boneyard") && questStep.equals("step3"))
+                      || (quest.equals("Missing: Many Children") && questStep.equals("step1"))
+                  ? 1
+                  : 0;
+          case "moomy" ->
+              (quest.equals("Haunted Boneyard") && questStep.equals("step3"))
+                      || (quest.equals("Madness at the Mine") && questStep.equals("step2"))
+                      || (quest.equals("Missing: Many Children") && questStep.equals("step3"))
+                  ? 1
+                  : 0;
+          case "Jeff the Fancy Skeleton" ->
+              (quest.equals("Missing: Fancy Man") && questStep.equals("step4")) ? 1 : 0;
+          case "Daisy the Unclean" ->
+              (quest.equals("Missing: Pioneer Daughter") && questStep.equals("step4")) ? 1 : 0;
+          case "Pecos Dave" ->
+              (quest.equals("Help!  Desperados|") && questStep.equals("step4")) ? 1 : 0;
+          case "Pharaoh Amoon-Ra Cowtep" ->
+              (quest.equals("Haunted Boneyard") && questStep.equals("step4")) ? 1 : 0;
+          case "Snake-Eyes Glenn" ->
+              (quest.equals("Big Gambling Tournament Announced") && questStep.equals("step4"))
+                  ? 1
+                  : 0;
+          case "Former Sheriff Dan Driscoll" ->
+              (quest.equals("Sheriff Wanted") && questStep.equals("step4")) ? 1 : 0;
+          case "unusual construct" ->
+              (quest.equals("Madness at the Mine") && questStep.equals("step4")) ? 1 : 0;
+          case "Clara" ->
+              (quest.equals("Missing: Many Children") && questStep.equals("step4")) ? 1 : 0;
+          case "Granny Hackleton" ->
+              (quest.equals("Wagon Train Escort Wanted") && questStep.equals("step4")) ? 1 : 0;
           default -> weighting;
         };
       }
@@ -1786,14 +1762,13 @@ public class AreaCombatData {
       }
       case "Seaside Megalopolis" -> {
         return switch (monster) {
-          case "cyborg policeman" -> (InventoryManager.hasItem(ItemPool.MULTI_PASS)
-                  && !QuestDatabase.isQuestFinished(Quest.FUTURE))
-              ? 1
-              : 0;
-          case "obese tourist", "terrifying robot" -> QuestDatabase.isQuestLaterThan(
-                  Quest.FUTURE, "step1")
-              ? 1
-              : 0;
+          case "cyborg policeman" ->
+              (InventoryManager.hasItem(ItemPool.MULTI_PASS)
+                      && !QuestDatabase.isQuestFinished(Quest.FUTURE))
+                  ? 1
+                  : 0;
+          case "obese tourist", "terrifying robot" ->
+              QuestDatabase.isQuestLaterThan(Quest.FUTURE, "step1") ? 1 : 0;
           default -> weighting;
         };
       }
@@ -1812,47 +1787,59 @@ public class AreaCombatData {
       case "Shadow Rift" -> {
         var ingress = Preferences.getString("shadowRiftIngress");
         return switch (monster) {
-              case "shadow bat" -> ingress.equals("manor3")
-                  || ingress.equals("pyramid")
-                  || ingress.equals("plains")
-                  || ingress.equals("giantcastle");
-              case "shadow cow" -> ingress.equals("mclargehuge")
-                  || ingress.equals("plains")
-                  || ingress.equals("town_right");
-              case "shadow devil" -> ingress.equals("desertbeach")
-                  || ingress.equals("manor3")
-                  || ingress.equals("woods");
-              case "shadow guy" -> ingress.equals("forestvillage")
-                  || ingress.equals("town_right")
-                  || ingress.equals("giantcastle")
-                  || ingress.equals("cemetery");
-              case "shadow hexagon" -> ingress.equals("mclargehuge")
-                  || ingress.equals("8bit")
-                  || ingress.equals("forestvillage");
-              case "shadow orb" -> ingress.equals("desertbeach")
-                  || ingress.equals("8bit")
-                  || ingress.equals("beanstalk")
-                  || ingress.equals("giantcastle");
-              case "shadow prism" -> ingress.equals("8bit")
-                  || ingress.equals("town_right")
-                  || ingress.equals("beanstalk");
-              case "shadow slab" -> ingress.equals("pyramid")
-                  || ingress.equals("hiddencity")
-                  || ingress.equals("cemetery");
-              case "shadow spider" -> ingress.equals("manor3")
-                  || ingress.equals("forestvillage")
-                  || ingress.equals("plains");
-              case "shadow snake" -> ingress.equals("desertbeach")
-                  || ingress.equals("pyramid")
-                  || ingress.equals("hiddencity");
-              case "shadow stalk" -> ingress.equals("hiddencity")
-                  || ingress.equals("beanstalk")
-                  || ingress.equals("woods");
-              case "shadow tree" -> ingress.equals("mclargehuge")
-                  || ingress.equals("woods")
-                  || ingress.equals("cemetery");
-                // If you somehow get another monster here, assume it's not affected by ingress
-                // point
+              case "shadow bat" ->
+                  ingress.equals("manor3")
+                      || ingress.equals("pyramid")
+                      || ingress.equals("plains")
+                      || ingress.equals("giantcastle");
+              case "shadow cow" ->
+                  ingress.equals("mclargehuge")
+                      || ingress.equals("plains")
+                      || ingress.equals("town_right");
+              case "shadow devil" ->
+                  ingress.equals("desertbeach")
+                      || ingress.equals("manor3")
+                      || ingress.equals("woods");
+              case "shadow guy" ->
+                  ingress.equals("forestvillage")
+                      || ingress.equals("town_right")
+                      || ingress.equals("giantcastle")
+                      || ingress.equals("cemetery");
+              case "shadow hexagon" ->
+                  ingress.equals("mclargehuge")
+                      || ingress.equals("8bit")
+                      || ingress.equals("forestvillage");
+              case "shadow orb" ->
+                  ingress.equals("desertbeach")
+                      || ingress.equals("8bit")
+                      || ingress.equals("beanstalk")
+                      || ingress.equals("giantcastle");
+              case "shadow prism" ->
+                  ingress.equals("8bit")
+                      || ingress.equals("town_right")
+                      || ingress.equals("beanstalk");
+              case "shadow slab" ->
+                  ingress.equals("pyramid")
+                      || ingress.equals("hiddencity")
+                      || ingress.equals("cemetery");
+              case "shadow spider" ->
+                  ingress.equals("manor3")
+                      || ingress.equals("forestvillage")
+                      || ingress.equals("plains");
+              case "shadow snake" ->
+                  ingress.equals("desertbeach")
+                      || ingress.equals("pyramid")
+                      || ingress.equals("hiddencity");
+              case "shadow stalk" ->
+                  ingress.equals("hiddencity")
+                      || ingress.equals("beanstalk")
+                      || ingress.equals("woods");
+              case "shadow tree" ->
+                  ingress.equals("mclargehuge")
+                      || ingress.equals("woods")
+                      || ingress.equals("cemetery");
+              // If you somehow get another monster here, assume it's not affected by ingress
+              // point
               default -> true;
             }
             ? weighting
@@ -1879,7 +1866,8 @@ public class AreaCombatData {
               "Crimbuccaneer privateer",
               "Elf Guard conscript",
               "Elf Guard convict",
-              "Elf Guard private" -> !elfOutfit && !pirateOutfit ? 1 : 0;
+              "Elf Guard private" ->
+              !elfOutfit && !pirateOutfit ? 1 : 0;
           default -> (elfOutfit && pirateMonster) || (pirateOutfit && elfMonster) ? 1 : 0;
         };
       }
