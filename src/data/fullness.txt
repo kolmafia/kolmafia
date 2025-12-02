@@ -756,6 +756,7 @@ pr0n taco	2	1	decent	2-5	0	0	11-33	TACO
 prescription noodles	5	11	awesome	20-23	0	0	40-45	SAUCY
 primitive alien salad	1	1	good	2-3	5-25	5-25	5-25	SALAD
 primitive candy cane	1	1	good	3-4	0	0	0
+prize turkey	2	1	EPIC	0	0	0	0	Unspaded
 protein paste	2	7	good	4-8	38-60	0	0	10 Pasty (+50% mus)
 pumpkin pie	3	2	EPIC	16-18	12-24	12-24	12-24
 purple pixel pie	3	1	decent	3-6	12-18	12-18	12-18
