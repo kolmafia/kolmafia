@@ -2354,6 +2354,8 @@ user	_kgbTranquilizerDartUses	0
 user	_klawSummons	0
 user	_kloopCharge	0
 user	_kloopDrops	0
+user	_knuckleboneDrops	0
+user	_knuckleboneRests	0
 user	_kolConSixPackUsed	false
 user	_kolhsAdventures	0
 user	_kolhsCutButNotDried	false

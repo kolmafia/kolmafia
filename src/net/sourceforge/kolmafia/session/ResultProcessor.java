@@ -3328,6 +3328,12 @@ public class ResultProcessor {
           Preferences.increment("_miniKiwiDrops", 1);
         }
         break;
+      case ItemPool.KNUCKLEBONE:
+        if (adventureResults
+            && KoLCharacter.currentFamiliar.getId() == FamiliarPool.SKELETON_OF_CRIMBO_PAST) {
+          Preferences.increment("_knuckleboneDrops", 1, 100);
+        }
+        break;
     }
 
     // Gaining items can achieve goals.

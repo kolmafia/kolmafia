@@ -1078,6 +1078,10 @@ public class CampgroundRequest extends GenericRequest {
         Preferences.decrement("_nightmareFuelCharges");
       }
 
+      if (responseText.contains("onClick='descitem(693029493)'")) {
+        Preferences.increment("_knuckleboneRests", 1, 5);
+      }
+
       handleCinchoRest(responseText);
 
       var m = HOUSING_PATTERN.matcher(responseText);
