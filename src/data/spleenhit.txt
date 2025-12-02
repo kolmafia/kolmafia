@@ -156,6 +156,7 @@ Mariner's Friend cough drops	1	1	good	0	10-12	0	0
 mauve paisley oyster egg	1	1	awesome	0	0	22-30	0
 mauve polka-dot oyster egg	1	1	awesome	0	0	11-15	11-15
 mauve striped oyster egg	1	1	awesome	0	11-15	11-15	0
+medical gruel	1	1		0	0	0	0	Unspaded
 Medicinal Herb's medicinal herbs	1	3	good	0	0	0	0	full heal
 Mer-kin paste	4	4	good	5-10	18-22	18-22	18-22	10 Mer-kinny Flavor (breathe underwater)
 mime army superserum	1	15	good	0	0	0	0	50 I'll Have the Soup (+300% HP, 20 DR, +100 DA)

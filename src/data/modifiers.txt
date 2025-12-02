@@ -5229,6 +5229,7 @@ Throne	Scary Death Orb	Mysticality Percent: +15, MP Regen Min: 5, MP Regen Max: 
 Throne	Shame Spiral	none
 Throne	Shorter-Order Cook	Maximum HP: +20, Maximum MP: +20
 Throne	Significant Bit	none
+Throne	Skeleton of Crimbo Past	Damage vs. Skeletons: 100
 Throne	Sleazy Gravy Fairy	Sleaze Damage: +20, Drops Items
 Throne	Slimeling	Weapon Drop: +15
 Throne	Sludgepuppy	Stench Damage: +15
@@ -6232,6 +6233,7 @@ Effect	Double Frozen	Cold Damage: +20, Hot Resistance: +4
 Effect	Double Hot Soupy Garbage	Stench Damage: +20, Cold Resistance: +4
 Effect	Double Negavision	Item Drop: +50
 Effect	Double-Barreled	Ranged Damage Percent: +150
+# Doublooned: Doubles all skeleton-related bonuses
 Effect	Doubly Burningly Oiled	Hot Damage: +20, Sleaze Resistance: +4
 Effect	Doubly Craving Prawns	Food Drop: +100
 Effect	Doubly Shivering Spine	Spooky Damage: +20, Stench Resistance: +4
@@ -6655,6 +6657,7 @@ Effect	Groast Out	Avatar: "groast"
 Effect	Grogged For Battle	Pirate Warfare Effectiveness: +10
 Effect	Groggipopped	Stench Resistance: +1, Sleaze Resistance: +1
 Effect	Grrrrrrreat!	Experience (Muscle): +10
+Effect	Grueling Gravitas	Maximum HP: +200, Maximum HP Percent: +200, Familiar Weight: +5, HP Regen Min: 50, HP Regen Max: 200
 Effect	Grulched	Stench Damage: +25, Monster Level: +20
 Effect	Grumpy and Ornery	Weapon Damage: +10, Spell Damage: +20
 Effect	Guanified	Stench Damage: +10, Damage Reduction: -2
@@ -7337,6 +7340,7 @@ Effect	Orange Tongue	Experience: +3
 Effect	Orc Chops	Muscle: +50
 Effect	Orchid Blood	MP Regen Min: 5, MP Regen Max: 10
 Effect	Orcmouth	Sleaze Damage: +40, Sleaze Spell Damage: +40
+Effect	Ordained	Damage vs. Skeletons: +50, Item Drop: +50
 Effect	Oriental Mysticism	Mysticality Percent: +5
 Effect	Osseous George	Avatar: "skeletal monkey"
 Effect	Oth-Jeal-O	Othello Skill: +20
@@ -8286,6 +8290,7 @@ Effect	Truffle Tango	Item Drop: +50
 Effect	Trufflin'	Meat Drop: +100
 Effect	Truly Gritty	Weapon Damage: +20, Muscle: +20
 Effect	Truthful	Monster Level: +40
+Effect	Tryptofan	Initiative: +50, Meat Drop: +100
 Effect	Tubes of Universal Meat	Meat Drop: +30, Mysticality: +10
 Effect	Tundra Mouth	Cold Damage: [min(100,T)]
 Effect	Turbocharged	Maximum MP Percent: +100
@@ -9796,6 +9801,7 @@ Item	popcorn	Last Available: "2011-04"
 Item	powdered donut	Effect: "Powdered", Effect Duration: 5, Last Available: "2010-03"
 Item	primitive alien salad	Last Available: "2017-04"
 Item	primitive candy cane	Last Available: "2018-12"
+Item	prize turkey	Effect: "Tryptofan", Effect Duration: 50
 Item	protein paste	Effect: "Pasty", Effect Duration: 10, Last Available: "2009-06"
 Item	pumpkin pie	Last Available: "2010-11"
 Item	quantum taco	Last Available: "2010-10"
@@ -9923,6 +9929,7 @@ Item	toxo	Effect: "Radiated and Grodiated", Effect Duration: 40, Last Available:
 Item	traditional Crimbo cookie	Effect: "Yeast-Hungry", Effect Duration: 75, Last Available: "2023-06"
 Item	traffic jam toast	Last Available: "2011-01"
 Item	transparent nog	Effect: "Holiday Disappointment", Effect Duration: 10, Last Available: "2017-12"
+Item	treasure chestnut	Last Available: "2025-12"
 Item	tree-shaped Crimbo cookie	Effect: "Yuletide Sappiness", Effect Duration: 10, Last Available: "2023-06"
 Item	triangular CRIMBCOOKIE	Effect: "Triangle, Man", Effect Duration: 10, Last Available: "2010-12"
 Item	turtle soup	Effect: "[598]A Little Bit Evil", Effect Duration: 10
@@ -10288,6 +10295,7 @@ Item	morning dew	Effect: "Granolarrrgh", Effect Duration: 40, Last Available: "2
 Item	Morto Moreto	Effect: "Majorly Poisoned", Effect Duration: 100, Last Available: "2011-09"
 Item	mourning wine	Last Available: "2018-04"
 Item	mulled berry wine	Effect: "Sweet Nostalgia", Effect Duration: 30, Last Available: "2014-12"
+Item	mulled butter rum	Last Available: "2025-12"
 Item	mulled cider	Last Available: "2009-10"
 Item	mulled hobo wine	Effect: "Burnt 'n' Turnt", Effect Duration: 20, Last Available: "2018-12"
 Item	mulled wine	Effect: "Mullin' for Bullion", Effect Duration: 50, Last Available: "2023-12"
@@ -10404,6 +10412,7 @@ Item	Sloppy Jalopy	Last Available: "2014-07"
 Item	slug of rum	Effect: "Brined Liver", Effect Duration: 10
 Item	slug of shochu	Effect: "Brined Liver", Effect Duration: 10
 Item	slug of vodka	Effect: "Brined Liver", Effect Duration: 10
+Item	Smoking Pope	Effect: "Ordained", Effect Duration: 50
 Item	smooth mushroom wine	Effect: "Gyromitra Gymnastics", Effect Duration: 80, Last Available: "2014-05"
 Item	Smuggler's Punch	Effect: "Tiki Temerity", Effect Duration: 30, Last Available: "2019-04"
 Item	snakebite	Effect: "Sweet Tooth", Effect Duration: 30, Last Available: "2014-12"
@@ -10611,6 +10620,7 @@ Item	magnificent oyster egg	Effect: "Eggstraordinary Strength", Effect Duration:
 Item	Mansquito Serum	Effect: "More Mansquito Than Man", Effect Duration: 400, Last Available: "2016-12"
 Item	marble molecules	Last Available: "2019-12"
 Item	Mariner's Friend cough drops	Last Available: "2007-06"
+Item	medical gruel	Effect: "Grueling Gravitas", Effect Duration: 100
 # Medicinal Herb's medicinal herbs: Restores all HP
 Item	Mer-kin paste	Effect: "Mer-kinny Flavor", Effect Duration: 10, Last Available: "2011-08"
 Item	mime army superserum	Effect: "I'll Have the Soup", Effect Duration: 50, Last Available: "2017-12"
@@ -10873,6 +10883,7 @@ Item	chocolate-covered loofah	Effect: "Aloofah", Effect Duration: 20
 Item	Chubby and Plump bar	Effect: "Plump and Chubby", Effect Duration: 60, Last Available: "2020-12"
 Item	chunk of rock salt	Effect: "Fresh Scent", Effect Duration: 10
 Item	cigar box turtle	Effect: "Colorful Gratitude", Effect Duration: 15
+Item	cinnamon doubloon	Effect: "Doublooned", Effect Duration: 100, Last Available: "2025-12"
 Item	Climate Colada	Effect: "Weather, Man", Effect Duration: 20, Last Available: "2008-06"
 # Cloaca Cola Polar: Restores 100-200 MP
 Item	Cloaca Cola Polar	Effect: "Polar Express", Effect Duration: 50, Last Available: "2013-12"
@@ -14707,6 +14718,7 @@ Item	small Crimbo Pressie	Last Available: "2004-12"
 # small golem: Deals Physical Damage each round for the rest of the fight
 Item	small golem	Last Available: "2014-12"
 Item	Small Medium	Free Pull, Last Available: "2012-03"
+# small peppermint-flavored sugar walking crook: Find more knucklebones
 Item	small pile of sand	Last Available: "2019-07"
 Item	Smashmoth	Last Available: "2018-03"
 # smoke grenade: Banishes a monster for a while
@@ -14883,6 +14895,7 @@ Item	stick-on-a-string	Last Available: "2006-12"
 Item	still grill	Free Pull, Last Available: "2014-06"
 Item	stinky cheese ball	Last Available: "2010-01"
 Item	Stock Certificate	Last Available: "2025-08"
+Item	stocking full of bones	Free Pull, Last Available: "2025-12"
 Item	stomach churner	Sleaze Damage: +10, Sleaze Spell Damage: +10
 # stone frisbee: Deals 80-100 Physical Damage
 Item	Stooper	Last Available: "2018-03"

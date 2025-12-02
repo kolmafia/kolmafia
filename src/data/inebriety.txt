@@ -490,6 +490,7 @@ mourning wine	2	1	good	5-7	30-50	30-50	30-50	WINE
 Mt. Noob Pale Ale	2	1	good	3-6	0	0	0	BEER
 mulled berry wine	5	7	awesome	18-22	0	30-50	0	30 Sweet Nostalgia (+20 Candy Drop), WINE
 mulled blood	1	1	super ultra mega turbo EPIC	14	10-15	10-15	10-15	Vampyre
+mulled butter rum	2	1	awesome	0	0	0	0	Unspaded
 mulled cider	3	5	awesome	8-12	25-40	25-40	25-40
 mulled hobo wine	1	1	awesome	4-5	5-15	5-15	5-15	20 Burnt 'n' Turnt (+100% MP)
 mulled wine	4	1	awesome	13	0	0	0	50 Mullin' for Bullion (more pieces of 12), WINE
@@ -665,6 +666,7 @@ Sloppy Jalopy	5	1	awesome	18-22	20-40	20-40	20-40	acquire Hollow Leg (+1 Liver)
 slug of rum	3	2	crappy	3	0	0	0	10 Brined Liver
 slug of shochu	3	2	crappy	3	0	0	0	10 Brined Liver
 slug of vodka	3	2	crappy	3	0	0	0	10 Brined Liver
+Smoking Pope	2	1	EPIC	0	0	0	0	Unspaded
 smooth mushroom wine	4	3	EPIC	22-24	0	0	100-150	80 Gyromitra Gymnastics (+40 Mox), WINE
 Smuggler's Punch	5	4	awesome	0	0	0	0	Unspaded 30 Tiki Temerity (+100% Moxie, +10% Moxie Gains)
 snakebite	1	4	crappy	1	-1	-1	-1	30 Sweet Tooth (+40% Candy Drops), BEER
