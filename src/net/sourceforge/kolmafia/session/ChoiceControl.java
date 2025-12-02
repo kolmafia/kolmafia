@@ -9903,6 +9903,7 @@ public abstract class ChoiceControl {
       case 1558: // Foreseeing Peril
       case 1561: // Request Supply Drop
       case 1563: // Request Supply Drop
+      case 1567: // Visiting the Skeleton of Crimbo Past
         return true;
 
       default:

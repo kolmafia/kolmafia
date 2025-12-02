@@ -12074,12 +12074,15 @@
 12046	spinal tapas	283199142	cbz_tapasplate.gif	food	t,d	25	plates of spinal tapas
 12047	shrunken head in a duffel bag	237386044	headbag.gif	usable	t	0	shrunken heads in duffel bags
 12048	shrunken head	895261260	shrunkenhead.gif	offhand		0
-12049
-12050
-12051
-12052
-12053
-12054
+12049	stocking full of bones	400945094	bonestocking.gif	grow	t	0
+12050	small peppermint-flavored sugar walking crook	331776652	candycane.gif	familiar	t,d	75
+12051	knucklebone	693029493	knucklebone2.gif	none		0
+12052	Smoking Pope	636925864	smokingpope.gif	drink	t,d	25
+12053	prize turkey	691007693	prizeturkey.gif	food	t,d	25
+12054	medical gruel	965873114	soupbowl.gif	spleen, usable	t,d	25
 12055	full-sized pumpkin pie	119123875	pecanpie.gif	food	t,d	25
 12056	vodka cranberry sauce	294119932	nachocan.gif	drink	t,d	25	cans of vodka cranberry sauce
 12057	yammed candy	662308374	yamcandy.gif	potion	t,d	25	yammed candies
+12058	treasure chestnut	542394681	chestnut.gif	food	t,d	11
+12059	mulled butter rum	206500230	mulledrum.gif	drink	t,d	11
+12060	cinnamon doubloon	711461021	cinnacoin.gif	potion, usable	t,d	11
