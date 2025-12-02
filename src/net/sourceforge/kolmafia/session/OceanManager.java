@@ -314,13 +314,8 @@ public class OceanManager {
 
     return switch (dest) {
       case "manual" -> null;
-      case "muscle",
-          "mysticality",
-          "moxie",
-          "sand",
-          "altar",
-          "sphere",
-          "plinth" -> getRandomDestination(dest);
+      case "muscle", "mysticality", "moxie", "sand", "altar", "sphere", "plinth" ->
+          getRandomDestination(dest);
       case "random" -> getRandomDestination();
       default -> (dest.contains(",")) ? Point.parse(dest) : null;
     };

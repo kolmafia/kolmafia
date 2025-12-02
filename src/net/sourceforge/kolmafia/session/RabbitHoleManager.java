@@ -577,7 +577,7 @@ public abstract class RabbitHoleManager {
           if (row != 1) {
             return -1;
           }
-          // Fall through
+        // Fall through
         case Square.ROOK:
         case Square.QUEEN:
           return col;

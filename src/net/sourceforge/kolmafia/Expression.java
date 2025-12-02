@@ -155,7 +155,7 @@ public class Expression {
         case 'c' -> v = Math.ceil(s[--sp]);
         case 'f' -> v = Math.floor(s[--sp]);
         case 'm' -> v = Math.min(s[--sp], s[--sp]);
-          // args are read in reverse, so the operation is different from what you'd expect
+        // args are read in reverse, so the operation is different from what you'd expect
         case '<' -> v = s[--sp] > s[--sp] ? 1 : 0;
         case '≤' -> v = s[--sp] >= s[--sp] ? 1 : 0;
         case '>' -> v = s[--sp] < s[--sp] ? 1 : 0;
@@ -199,7 +199,7 @@ public class Expression {
         case 'x' -> v = Math.max(s[--sp], s[--sp]);
         case '#' -> v = (Double) this.literals.get((int) s[--sp]);
 
-          // Valid with ModifierExpression:
+        // Valid with ModifierExpression:
         case 'b' -> {
           String elem = (String) this.literals.get((int) s[--sp]);
           Element element = Element.fromString(elem);
@@ -229,29 +229,36 @@ public class Expression {
           AdventureResult item = ItemPool.get(itemId);
           v = KoLCharacter.hasEquipped(item) ? 1 : 0;
         }
-        case 'h' -> v =
-            Modifiers.mainhandClass.equalsIgnoreCase((String) this.literals.get((int) s[--sp]))
-                ? 1
-                : 0;
-        case 'i' -> v =
-            FamiliarDatabase.hasAttribute(
-                    Modifiers.currentFamiliar, (String) this.literals.get((int) s[--sp]))
-                ? 1
-                : 0;
-        case 'j' -> v =
-            Modifiers.currentEnvironment.equalsIgnoreCase((String) this.literals.get((int) s[--sp]))
-                ? 1
-                : 0;
-        case 'k' -> v =
-            KoLCharacter.mainStat()
-                    .name()
-                    .equalsIgnoreCase((String) this.literals.get((int) s[--sp]))
-                ? 1
-                : 0;
-        case 'l' -> v =
-            Modifiers.currentLocation.equalsIgnoreCase((String) this.literals.get((int) s[--sp]))
-                ? 1
-                : 0;
+        case 'h' ->
+            v =
+                Modifiers.mainhandClass.equalsIgnoreCase((String) this.literals.get((int) s[--sp]))
+                    ? 1
+                    : 0;
+        case 'i' ->
+            v =
+                FamiliarDatabase.hasAttribute(
+                        Modifiers.currentFamiliar, (String) this.literals.get((int) s[--sp]))
+                    ? 1
+                    : 0;
+        case 'j' ->
+            v =
+                Modifiers.currentEnvironment.equalsIgnoreCase(
+                        (String) this.literals.get((int) s[--sp]))
+                    ? 1
+                    : 0;
+        case 'k' ->
+            v =
+                KoLCharacter.mainStat()
+                        .name()
+                        .equalsIgnoreCase((String) this.literals.get((int) s[--sp]))
+                    ? 1
+                    : 0;
+        case 'l' ->
+            v =
+                Modifiers.currentLocation.equalsIgnoreCase(
+                        (String) this.literals.get((int) s[--sp]))
+                    ? 1
+                    : 0;
         case 'n' -> {
           var input = (String) this.literals.get((int) s[--sp]);
           if (input.equalsIgnoreCase("awol")) {
@@ -297,62 +304,62 @@ public class Expression {
           }
         }
 
-          // Valid with MonsterExpression:
+        // Valid with MonsterExpression:
         case '\u0080' -> v = KoLCharacter.getAdjustedMuscle();
 
-          // Valid with MonsterExpression:
+        // Valid with MonsterExpression:
         case '\u0081' -> v = KoLCharacter.getAdjustedMysticality();
 
-          // Valid with MonsterExpression:
+        // Valid with MonsterExpression:
         case '\u0082' -> v = KoLCharacter.getAdjustedMoxie();
 
-          // Valid with MonsterExpression:
+        // Valid with MonsterExpression:
         case '\u0083' -> v = KoLCharacter.getMonsterLevelAdjustment();
 
-          // Valid with MonsterExpression:
+        // Valid with MonsterExpression:
         case '\u0084' -> v = KoLCharacter.getMindControlLevel();
 
-          // Valid with MonsterExpression and RestoreExpression:
+        // Valid with MonsterExpression and RestoreExpression:
         case '\u0085' -> v = KoLCharacter.getMaximumHP();
 
-          // Valid with MonsterExpression:
+        // Valid with MonsterExpression:
         case '\u0086' -> v = BasementRequest.getBasementLevel();
 
-          // Valid with MonsterExpression:
+        // Valid with MonsterExpression:
         case '\u0087' -> v = FightRequest.dreadKisses("Woods");
 
-          // Valid with MonsterExpression:
+        // Valid with MonsterExpression:
         case '\u0088' -> v = FightRequest.dreadKisses("Village");
 
-          // Valid with MonsterExpression:
+        // Valid with MonsterExpression:
         case '\u0089' -> v = FightRequest.dreadKisses("Castle");
 
-          // Valid with MonsterExpression:
+        // Valid with MonsterExpression:
         case '\u0090' -> v = KoLCharacter.getAdjustedHighestStat();
 
-          // Valid with RestoreExpression:
+        // Valid with RestoreExpression:
         case '\u0091' -> v = KoLCharacter.getMaximumMP();
 
-          // Valid with ModifierExpression and MonsterExpression:
+        // Valid with ModifierExpression and MonsterExpression:
         case '\u0092' -> {
           AscensionPath.Path p =
               AscensionPath.nameToPath((String) this.literals.get((int) s[--sp]));
           v = KoLCharacter.getPath() == p ? 1 : 0;
         }
-          // Valid with ModifierExpression:
+        // Valid with ModifierExpression:
         case '\u0093' -> {
           Modifiers mods = KoLCharacter.getCurrentModifiers();
           String modName = (String) this.literals.get((int) s[--sp]);
           DoubleModifier modifier = DoubleModifier.byCaselessName(modName);
           v = mods.getAccumulator(modifier);
         }
-          // Valid with ModifierExpression:
+        // Valid with ModifierExpression:
         case '\u0094' -> v = KoLCharacter.canInteract() ? 1 : 0;
 
-          // Valid with RestoreExpression:
+        // Valid with RestoreExpression:
         case '\u0095' -> v = KoLCharacter.getCurrentHP();
 
-          // Valid with Modifier Expression:
+        // Valid with Modifier Expression:
         case '\u0096' -> {
           String arg = (String) this.literals.get((int) s[--sp]);
           v = StringUtilities.parseInt(arg.replaceAll(",", ""));
@@ -361,46 +368,48 @@ public class Expression {
           String arg = (String) this.literals.get((int) s[--sp]);
           v = StringUtilities.parseRomanNumerals(arg);
         }
-          // Valid with Modifier Expression:
-        case '\u008b' -> v =
-            switch (FamiliarDatabase.getFamiliarId(Modifiers.currentFamiliar)) {
-              case FamiliarPool.AUTONOMOUS_DISCO_BALL,
-                  FamiliarPool.CLOCKWORK_GRAPEFRUIT,
-                  FamiliarPool.PRESSIE,
-                  FamiliarPool.CYMBAL_PLAYING_MONKEY,
-                  FamiliarPool.DATASPIDER,
-                  FamiliarPool.MEGADRONE,
-                  FamiliarPool.HOMEMADE_ROBOT,
-                  FamiliarPool.MAGIMECHTECH_MICROMECHAMECH,
-                  FamiliarPool.MECHANICAL_SONGBIRD,
-                  FamiliarPool.MINI_CRIMBOT,
-                  FamiliarPool.MINIMECHAELF,
-                  FamiliarPool.NANORHINO,
-                  FamiliarPool.NINJA_PIRATE_ZOMBIE_ROBOT,
-                  FamiliarPool.OAF,
-                  FamiliarPool.POCKET_PROFESSOR,
-                  FamiliarPool.ROBOGOOSE,
-                  FamiliarPool.ROBORTENDER,
-                  FamiliarPool.ROBOT_REINDEER,
-                  FamiliarPool.ORB,
-                  FamiliarPool.STEAM_CHEERLEADER,
-                  FamiliarPool.SWEET_NUTCRACKER,
-                  FamiliarPool.TEDDY_BORG,
-                  FamiliarPool.WARBEAR_DRONE,
-                  FamiliarPool.WIND_UP_CHATTERING_TEETH -> 1;
-              default -> 0;
-            };
+        // Valid with Modifier Expression:
+        case '\u008b' ->
+            v =
+                switch (FamiliarDatabase.getFamiliarId(Modifiers.currentFamiliar)) {
+                  case FamiliarPool.AUTONOMOUS_DISCO_BALL,
+                      FamiliarPool.CLOCKWORK_GRAPEFRUIT,
+                      FamiliarPool.PRESSIE,
+                      FamiliarPool.CYMBAL_PLAYING_MONKEY,
+                      FamiliarPool.DATASPIDER,
+                      FamiliarPool.MEGADRONE,
+                      FamiliarPool.HOMEMADE_ROBOT,
+                      FamiliarPool.MAGIMECHTECH_MICROMECHAMECH,
+                      FamiliarPool.MECHANICAL_SONGBIRD,
+                      FamiliarPool.MINI_CRIMBOT,
+                      FamiliarPool.MINIMECHAELF,
+                      FamiliarPool.NANORHINO,
+                      FamiliarPool.NINJA_PIRATE_ZOMBIE_ROBOT,
+                      FamiliarPool.OAF,
+                      FamiliarPool.POCKET_PROFESSOR,
+                      FamiliarPool.ROBOGOOSE,
+                      FamiliarPool.ROBORTENDER,
+                      FamiliarPool.ROBOT_REINDEER,
+                      FamiliarPool.ORB,
+                      FamiliarPool.STEAM_CHEERLEADER,
+                      FamiliarPool.SWEET_NUTCRACKER,
+                      FamiliarPool.TEDDY_BORG,
+                      FamiliarPool.WARBEAR_DRONE,
+                      FamiliarPool.WIND_UP_CHATTERING_TEETH ->
+                      1;
+                  default -> 0;
+                };
 
-          // Valid with Modifier Expression:
+        // Valid with Modifier Expression:
         case '\u008c' -> v = KoLCharacter.getTurnsPlayed();
         case '\u008d' -> v = KoLCharacter.getParadoxicity();
-          // Valid with Modifier Expression:
+        // Valid with Modifier Expression:
         case '\u0097' -> v = KoLCharacter.getBaseMuscle();
 
-          // Valid with Modifier Expression:
+        // Valid with Modifier Expression:
         case '\u0098' -> v = KoLCharacter.getBaseMysticality();
 
-          // Valid with Modifier Expression:
+        // Valid with Modifier Expression:
         case '\u0099' -> v = KoLCharacter.getBaseMoxie();
         case 'A' -> v = KoLCharacter.getAscensions();
         case 'B' -> v = HolidayDatabase.getBloodEffect();
@@ -426,10 +435,11 @@ public class Expression {
         case 'P' -> v = KoLCharacter.currentPastaThrall.getLevel();
         case 'R' -> v = KoLCharacter.getReagentPotionDuration();
         case 'S' -> v = KoLCharacter.getSpleenUse();
-        case 'T' -> v =
-            this.effect == null
-                ? 0.0
-                : Math.max(1, this.effect.getCount(KoLConstants.activeEffects));
+        case 'T' ->
+            v =
+                this.effect == null
+                    ? 0.0
+                    : Math.max(1, this.effect.getCount(KoLConstants.activeEffects));
         case 'U' -> v = KoLCharacter.getTelescopeUpgrades();
         case 'W' -> v = Modifiers.currentWeight;
         case 'X' -> v = KoLCharacter.getGender().modifierValue;

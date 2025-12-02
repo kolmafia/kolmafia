@@ -385,20 +385,21 @@ public class ListCellRendererFactory {
       switch (item.getItemId()) {
         case ItemPool.MUNCHIES_PILL -> stringForm.append("+1-3 adv from next food");
         case ItemPool.WHETSTONE -> stringForm.append("+1 adv from next food");
-        case ItemPool.SUSHI_DOILY -> stringForm.append(
-            "+3 adv from next sushi (automatically used from inventory)");
-        case ItemPool.GRAINS_OF_SALT -> stringForm.append(
-            "+3 adv from next food (automatically used from inventory)");
-        case ItemPool.SCRATCHS_FORK -> stringForm.append(
-            "+30% adv/mus/mys/mox from next food, +50% from salad");
+        case ItemPool.SUSHI_DOILY ->
+            stringForm.append("+3 adv from next sushi (automatically used from inventory)");
+        case ItemPool.GRAINS_OF_SALT ->
+            stringForm.append("+3 adv from next food (automatically used from inventory)");
+        case ItemPool.SCRATCHS_FORK ->
+            stringForm.append("+30% adv/mus/mys/mox from next food, +50% from salad");
         case ItemPool.DIVINE_FLUTE -> stringForm.append("+(7*adv)+(0-15) MP from next drink");
-        case ItemPool.FROSTYS_MUG -> stringForm.append(
-            "+30% adv/mus/mys/mox from next drink, +50% from beer");
+        case ItemPool.FROSTYS_MUG ->
+            stringForm.append("+30% adv/mus/mys/mox from next drink, +50% from beer");
         case ItemPool.CRIMBCO_MUG -> stringForm.append("does something to next drink");
         case ItemPool.BGE_SHOTGLASS -> stringForm.append("+3 adv from next drink");
         case ItemPool.FUDGE_SPORK -> stringForm.append("+3 adv from next food, 10 sugar rush");
-        case ItemPool.JAR_OF_SWAMP_HONEY -> stringForm.append(
-            "+10-15 mus/mys/mox from next food (automatically used from inventory)");
+        case ItemPool.JAR_OF_SWAMP_HONEY ->
+            stringForm.append(
+                "+10-15 mus/mys/mox from next food (automatically used from inventory)");
         case ItemPool.MAYONEX -> stringForm.append("adv from next food converted to BMC");
         case ItemPool.MAYODIOL -> stringForm.append("1 full from next food converted to drunk");
         case ItemPool.MAYOSTAT -> stringForm.append("return some of next food");

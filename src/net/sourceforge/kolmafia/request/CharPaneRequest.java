@@ -953,10 +953,11 @@ public class CharPaneRequest extends GenericRequest {
     }
 
     switch (effectId) {
-      case EffectPool.BLESSING_OF_THE_BIRD -> ResultProcessor.updateBird(
-          EffectPool.BLESSING_OF_THE_BIRD, effectName, "_birdOfTheDay");
-      case EffectPool.BLESSING_OF_YOUR_FAVORITE_BIRD -> ResultProcessor.updateBird(
-          EffectPool.BLESSING_OF_YOUR_FAVORITE_BIRD, effectName, "yourFavoriteBird");
+      case EffectPool.BLESSING_OF_THE_BIRD ->
+          ResultProcessor.updateBird(EffectPool.BLESSING_OF_THE_BIRD, effectName, "_birdOfTheDay");
+      case EffectPool.BLESSING_OF_YOUR_FAVORITE_BIRD ->
+          ResultProcessor.updateBird(
+              EffectPool.BLESSING_OF_YOUR_FAVORITE_BIRD, effectName, "yourFavoriteBird");
     }
 
     return EffectPool.get(effectId, duration);

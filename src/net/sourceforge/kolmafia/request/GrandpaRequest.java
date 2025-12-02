@@ -73,8 +73,8 @@ public class GrandpaRequest extends GenericRequest {
     var topic = GenericRequest.decodeField(matcher.group(1)).toLowerCase().trim();
 
     switch (topic) {
-      case "grandma", "wife" -> QuestDatabase.setQuestIfBetter(
-          QuestDatabase.Quest.SEA_MONKEES, "step6");
+      case "grandma", "wife" ->
+          QuestDatabase.setQuestIfBetter(QuestDatabase.Quest.SEA_MONKEES, "step6");
       default -> {
         var pref = STORY_FLAG_PREFS.getOrDefault(topic, null);
         if (pref != null) {

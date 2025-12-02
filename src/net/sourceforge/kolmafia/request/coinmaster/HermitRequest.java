@@ -389,9 +389,8 @@ public class HermitRequest extends CoinMasterRequest {
 
   public static final boolean isWorthlessItem(final int itemId) {
     return switch (itemId) {
-      case ItemPool.WORTHLESS_TRINKET,
-          ItemPool.WORTHLESS_GEWGAW,
-          ItemPool.WORTHLESS_KNICK_KNACK -> true;
+      case ItemPool.WORTHLESS_TRINKET, ItemPool.WORTHLESS_GEWGAW, ItemPool.WORTHLESS_KNICK_KNACK ->
+          true;
       default -> false;
     };
   }

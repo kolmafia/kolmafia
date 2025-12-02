@@ -177,16 +177,13 @@ public class ResultProcessor {
           if (monsterDrop.item().getItemId() == itemId) {
             String message =
                 switch (monsterDrop.flag()) {
-                  case NO_PICKPOCKET -> "Pickpocketed item "
-                      + name
-                      + " which is marked as non pickpocketable.";
-                  case CONDITIONAL -> "Pickpocketed item "
-                      + name
-                      + " which is marked as conditional.";
+                  case NO_PICKPOCKET ->
+                      "Pickpocketed item " + name + " which is marked as non pickpocketable.";
+                  case CONDITIONAL ->
+                      "Pickpocketed item " + name + " which is marked as conditional.";
                   case FIXED -> "Pickpocketed item " + name + " which is marked as fixed chance.";
-                  case STEAL_ACCORDION -> "Pickpocketed item "
-                      + name
-                      + " which is marked as accordion steal.";
+                  case STEAL_ACCORDION ->
+                      "Pickpocketed item " + name + " which is marked as accordion steal.";
                   case MULTI_DROP -> "Pickpocketed item " + name + " which is marked as multidrop.";
                   default -> null;
                 };
@@ -361,10 +358,10 @@ public class ResultProcessor {
       // If the effect is "Blessing of the Bird", KoL changes
       // it to "Blessing of the XXX", where XXX is today's bird
       switch (effectId) {
-        case EffectPool.BLESSING_OF_THE_BIRD -> updateBird(
-            EffectPool.BLESSING_OF_THE_BIRD, effectName, "_birdOfTheDay");
-        case EffectPool.BLESSING_OF_YOUR_FAVORITE_BIRD -> updateBird(
-            EffectPool.BLESSING_OF_YOUR_FAVORITE_BIRD, effectName, "yourFavoriteBird");
+        case EffectPool.BLESSING_OF_THE_BIRD ->
+            updateBird(EffectPool.BLESSING_OF_THE_BIRD, effectName, "_birdOfTheDay");
+        case EffectPool.BLESSING_OF_YOUR_FAVORITE_BIRD ->
+            updateBird(EffectPool.BLESSING_OF_YOUR_FAVORITE_BIRD, effectName, "yourFavoriteBird");
         case EffectPool.ENTAUNTAUNED,
             EffectPool.BUZZED_ON_DISTILLATE,
             EffectPool.WINE_FORTIFIED,
@@ -377,8 +374,8 @@ public class ResultProcessor {
             EffectPool.CITIZEN_OF_A_ZONE,
             EffectPool.GRAFTED,
             EffectPool.MILK_OF_FAMILIAR_CRUELTY,
-            EffectPool.MILK_OF_FAMILIAR_KINDNESS -> DebugDatabase.readEffectDescriptionText(
-            effectId);
+            EffectPool.MILK_OF_FAMILIAR_KINDNESS ->
+            DebugDatabase.readEffectDescriptionText(effectId);
       }
 
       String acquisition = effectMatcher.group(2);
@@ -1504,7 +1501,7 @@ public class ResultProcessor {
         }
         break;
 
-        // Sticker weapons may have been folded from the other form
+      // Sticker weapons may have been folded from the other form
       case ItemPool.STICKER_SWORD:
         ResultProcessor.removeItem(ItemPool.STICKER_CROSSBOW);
         break;
@@ -1770,7 +1767,7 @@ public class ResultProcessor {
 
       case ItemPool.LIT_BIRTHDAY_CAKE:
         ResultProcessor.processItem(ItemPool.UNLIT_BIRTHDAY_CAKE, -1);
-        //noinspection fallthrough
+      //noinspection fallthrough
       case ItemPool.UNLIT_BIRTHDAY_CAKE:
         // Yes, they are the same quest step!
         QuestDatabase.setQuestProgress(Quest.BAKER, QuestDatabase.STARTED);
@@ -1781,8 +1778,8 @@ public class ResultProcessor {
         QuestDatabase.setQuestProgress(Quest.BAKER, QuestDatabase.FINISHED);
         break;
 
-        // These update the session results for the item swapping in
-        // the Gnome's Going Postal quest.
+      // These update the session results for the item swapping in
+      // the Gnome's Going Postal quest.
 
       case ItemPool.REALLY_BIG_TINY_HOUSE:
         ResultProcessor.processItem(ItemPool.RED_PAPER_CLIP, -1);
@@ -2169,13 +2166,13 @@ public class ResultProcessor {
         ResultProcessor.processItem(ItemPool.CULT_MEMO, -5);
         break;
 
-        // If you acquire this item you've just completed Nemesis quest
-        // Contents of Hacienda for Accordion Thief changes
+      // If you acquire this item you've just completed Nemesis quest
+      // Contents of Hacienda for Accordion Thief changes
       case ItemPool.BELT_BUCKLE_OF_LOPEZ:
         if (adventureResults) {
           HaciendaManager.questCompleted();
         }
-        // fall through
+      // fall through
       case ItemPool.INFERNAL_SEAL_CLAW:
       case ItemPool.TURTLE_POACHER_GARTER:
       case ItemPool.SPAGHETTI_BANDOLIER:
@@ -2313,7 +2310,7 @@ public class ResultProcessor {
         if (adventureResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.TRON) {
           Preferences.increment("_tokenDrops", 1);
         }
-        // Fall through
+      // Fall through
       case ItemPool.GG_TICKET:
         // If this is the first token or ticket we've gotten
         // this ascension, visit the wrong side of the tracks
@@ -2971,7 +2968,7 @@ public class ResultProcessor {
 
       case ItemPool.MIRACLE_WHIP:
         Preferences.setBoolean("itemBoughtPerAscension8266", true);
-        // Deliberate fallthrough
+      // Deliberate fallthrough
       case ItemPool.SPHYGMAYOMANOMETER:
       case ItemPool.REFLEX_HAMMER:
       case ItemPool.MAYO_LANCE:
@@ -3012,7 +3009,7 @@ public class ResultProcessor {
         Preferences.setBoolean("prayedForVigor", true);
         break;
 
-        // Correct Snojo progress based on drops - note that it increments after the fight!
+      // Correct Snojo progress based on drops - note that it increments after the fight!
       case ItemPool.ANCIENT_MEDICINAL_HERBS:
         if (adventureResults) {
           int progress = Preferences.getInteger("snojoMuscleWins");
@@ -3326,6 +3323,12 @@ public class ResultProcessor {
       case ItemPool.MINI_KIWI:
         if (adventureResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.MINI_KIWI) {
           Preferences.increment("_miniKiwiDrops", 1);
+        }
+        break;
+      case ItemPool.KNUCKLEBONE:
+        if (adventureResults
+            && KoLCharacter.currentFamiliar.getId() == FamiliarPool.SKELETON_OF_CRIMBO_PAST) {
+          Preferences.increment("_knuckleboneDrops", 1, 100);
         }
         break;
     }

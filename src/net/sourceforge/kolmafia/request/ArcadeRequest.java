@@ -211,7 +211,8 @@ public class ArcadeRequest extends GenericRequest {
           488,
           489,
           490,
-          491 -> true;
+          491 ->
+          true;
       default -> false;
     };
   }

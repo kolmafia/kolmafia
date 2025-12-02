@@ -51,11 +51,13 @@ public class BigBrotherRequest extends CoinMasterRequest {
           ItemPool.MARINARA_TRENCH_MAP,
           ItemPool.ANEMONE_MINE_MAP,
           ItemPool.DIVE_BAR_MAP,
-          ItemPool.SKATE_PARK_MAP -> !ItemDatabase.haveVirtualItem(itemId);
+          ItemPool.SKATE_PARK_MAP ->
+          !ItemDatabase.haveVirtualItem(itemId);
       case ItemPool.DAMP_OLD_BOOT -> !Preferences.getBoolean("dampOldBootPurchased");
       case ItemPool.BLACK_GLASS -> BLACK_GLASS.getCount(KoLConstants.inventory) == 0;
-      case ItemPool.FOLDER_19 -> KoLCharacter.hasEquipped(EquipmentManager.FOLDER_HOLDER)
-          || KoLCharacter.hasEquipped(EquipmentManager.REPLICA_FOLDER_HOLDER);
+      case ItemPool.FOLDER_19 ->
+          KoLCharacter.hasEquipped(EquipmentManager.FOLDER_HOLDER)
+              || KoLCharacter.hasEquipped(EquipmentManager.REPLICA_FOLDER_HOLDER);
       default -> ItemPool.get(itemId).getCount(BIG_BROTHER.getBuyItems()) > 0;
     };
   }

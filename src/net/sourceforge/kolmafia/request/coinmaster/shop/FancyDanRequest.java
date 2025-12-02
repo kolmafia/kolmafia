@@ -30,11 +30,11 @@ public abstract class FancyDanRequest extends CoinMasterShopRequest {
           switch (itemId) {
             case ItemPool.STRONG_SILENT_TYPE,
                 ItemPool.MYSTERIOUS_STRANGER,
-                ItemPool.CHAMPAGNE_SHIMMY -> MILK_CAP.getInstance(price);
-            case ItemPool.CHARLESTON_CHOO_CHOO,
-                ItemPool.VELVET_VEIL,
-                ItemPool.MARLTINI -> DRINK_CHIT.getInstance(price);
-              // Should not happen
+                ItemPool.CHAMPAGNE_SHIMMY ->
+                MILK_CAP.getInstance(price);
+            case ItemPool.CHARLESTON_CHOO_CHOO, ItemPool.VELVET_VEIL, ItemPool.MARLTINI ->
+                DRINK_CHIT.getInstance(price);
+            // Should not happen
             default -> null;
           };
       buyCosts.put(itemId, cost);

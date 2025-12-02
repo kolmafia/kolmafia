@@ -611,8 +611,8 @@ public class DataFileConsistencyTest {
               "one pill" -> {
             // some items give a non-deterministic effect
           }
-          default -> fail(
-              "Expected " + mod1 + " and " + mod2 + " to appear in pairs on " + element);
+          default ->
+              fail("Expected " + mod1 + " and " + mod2 + " to appear in pairs on " + element);
         }
       }
     }

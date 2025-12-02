@@ -463,11 +463,11 @@ public class FamiliarData implements Comparable<FamiliarData> {
   public void setWeight() {
     int weight =
         switch (this.getEffectiveId()) {
-            // Homemade Robot ignores experience entirely
-          case FamiliarPool.HOMEMADE_ROBOT -> 1
-              + Math.min(Preferences.getInteger("homemadeRobotUpgrades") * 11, 99);
-          default -> Math.max(
-              Math.min(this.getMaxBaseWeight(), (int) Math.sqrt(this.experience)), 1);
+          // Homemade Robot ignores experience entirely
+          case FamiliarPool.HOMEMADE_ROBOT ->
+              1 + Math.min(Preferences.getInteger("homemadeRobotUpgrades") * 11, 99);
+          default ->
+              Math.max(Math.min(this.getMaxBaseWeight(), (int) Math.sqrt(this.experience)), 1);
         };
 
     this.setWeight(weight);
@@ -515,7 +515,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
         if (!KoLCharacter.inQuantum()) {
           break;
         }
-        // fall through
+      // fall through
       case FamiliarPool.GHOST_CAROLS:
       case FamiliarPool.GHOST_CHEER:
       case FamiliarPool.GHOST_COMMERCE:
@@ -862,8 +862,8 @@ public class FamiliarData implements Comparable<FamiliarData> {
           EquipmentManager.updateEquipmentList(Slot.FAMILIAR);
         }
         default ->
-        // Everything else
-        EquipmentManager.updateEquipmentList(Slot.FAMILIAR);
+            // Everything else
+            EquipmentManager.updateEquipmentList(Slot.FAMILIAR);
       }
       EquipmentManager.lockFamiliarItem();
     }
@@ -1248,6 +1248,13 @@ public class FamiliarData implements Comparable<FamiliarData> {
     DROP_FAMILIARS.add(
         new DropInfo(
             FamiliarPool.MINI_KIWI, ItemPool.MINI_KIWI, "mini kiwis", "_miniKiwiDrops", -1));
+    DROP_FAMILIARS.add(
+        new DropInfo(
+            FamiliarPool.SKELETON_OF_CRIMBO_PAST,
+            ItemPool.KNUCKLEBONE,
+            "knucklebones",
+            "_knuckleboneDrops",
+            100));
   }
 
   public static DropInfo getDropInfo(int id) {
@@ -1369,7 +1376,8 @@ public class FamiliarData implements Comparable<FamiliarData> {
       case FamiliarPool.CHAMELEON,
           FamiliarPool.GHOST_CAROLS,
           FamiliarPool.GHOST_CHEER,
-          FamiliarPool.GHOST_COMMERCE -> false;
+          FamiliarPool.GHOST_COMMERCE ->
+          false;
       default -> true;
     };
   }

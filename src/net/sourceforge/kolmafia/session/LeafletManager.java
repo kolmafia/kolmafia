@@ -551,7 +551,7 @@ public abstract class LeafletManager {
           case CLEARING:
           case CAVE:
             LeafletManager.goTo(LeafletManager.FIELD);
-            // Fall through
+          // Fall through
           case FIELD:
             LeafletManager.openDoor();
             LeafletManager.executeCommand("east");
@@ -570,7 +570,7 @@ public abstract class LeafletManager {
           case CLEARING:
           case CAVE:
             LeafletManager.goTo(LeafletManager.PATH);
-            // Fall through
+          // Fall through
           case PATH:
             LeafletManager.executeCommand("south");
             break;
@@ -588,7 +588,7 @@ public abstract class LeafletManager {
           case HOUSE:
           case BANK:
             LeafletManager.goTo(LeafletManager.FIELD);
-            // Fall through
+          // Fall through
           case FIELD:
             LeafletManager.executeCommand("north");
             break;
@@ -622,7 +622,7 @@ public abstract class LeafletManager {
         LeafletManager.executeCommand("south");
         break;
 
-        // From here on we've entered the maze and can't go back
+      // From here on we've entered the maze and can't go back
       case FOREST:
 
         // No return
@@ -638,7 +638,7 @@ public abstract class LeafletManager {
         switch (LeafletManager.location) {
           default:
             LeafletManager.goTo(LeafletManager.FOREST);
-            // Fall through
+          // Fall through
           case FOREST:
             // Stumble around until we get out
             KoLmafia.updateDisplay("Navigating the forest...");
@@ -648,7 +648,7 @@ public abstract class LeafletManager {
             break;
           case TABLE:
             LeafletManager.goTo(LeafletManager.TREE);
-            // Fall through
+          // Fall through
           case TREE:
             LeafletManager.executeCommand("down");
             break;

@@ -42,9 +42,8 @@ public abstract class CosmicRaysBazaarRequest extends CoinMasterShopRequest {
           switch (itemId) {
             default -> RARE_MEAT_ISOTOPE.getInstance(price);
             case ItemPool.DIGITAL_KEY -> WHITE_PIXEL.getInstance(price);
-            case ItemPool.BORIS_KEY,
-                ItemPool.JARLSBERG_KEY,
-                ItemPool.SNEAKY_PETE_KEY -> FAT_LOOT_TOKEN.getInstance(price);
+            case ItemPool.BORIS_KEY, ItemPool.JARLSBERG_KEY, ItemPool.SNEAKY_PETE_KEY ->
+                FAT_LOOT_TOKEN.getInstance(price);
             case ItemPool.RARE_MEAT_ISOTOPE -> CoinmasterData.MEAT.getInstance(price);
           };
       buyCosts.put(itemId, cost);

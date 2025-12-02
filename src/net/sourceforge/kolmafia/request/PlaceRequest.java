@@ -93,10 +93,8 @@ public class PlaceRequest extends GenericRequest {
 
     return switch (place) {
       case "bugbearship" -> action.equals("bb_bridge") ? 1 : 0;
-      case "campaway" -> action.startsWith("campaway_tent")
-              && KoLCharacter.freeRestsRemaining() == 0
-          ? 1
-          : 0;
+      case "campaway" ->
+          action.startsWith("campaway_tent") && KoLCharacter.freeRestsRemaining() == 0 ? 1 : 0;
       case "chateau" -> {
         if (action.equals("chateau_painting")) {
           yield (Preferences.getBoolean("_chateauMonsterFought") ? 0 : 1);
@@ -110,27 +108,28 @@ public class PlaceRequest extends GenericRequest {
       case "ioty2014_wolf" -> action.equals("wolf_houserun") ? 3 : 0;
       case "manor4" -> action.equals("manor4_chamberboss") ? 1 : 0;
       case "nemesiscave" -> action.equals("nmcave_boss") ? 1 : 0;
-      case "nstower" -> switch (action) {
-        case "ns_01_crowd1",
-            "ns_01_crowd2",
-            "ns_01_crowd3",
-            // Wall of Skin
-            "ns_05_monster1",
-            // Wall of Meat
-            "ns_06_monster2",
-            // Wall of Bones
-            "ns_07_monster3",
-            // Mirror
-            "ns_08_monster4",
-            // Your Shadow
-            "ns_09_monster5",
-            // Her Naughtiness
-            "ns_10_sorcfight" -> 1;
-        default -> 0;
-      };
-      case "pyramid" -> action.startsWith("pyramid_state")
-          ? PyramidRequest.lowerChamberTurnsUsed()
-          : 0;
+      case "nstower" ->
+          switch (action) {
+            case "ns_01_crowd1",
+                "ns_01_crowd2",
+                "ns_01_crowd3",
+                // Wall of Skin
+                "ns_05_monster1",
+                // Wall of Meat
+                "ns_06_monster2",
+                // Wall of Bones
+                "ns_07_monster3",
+                // Mirror
+                "ns_08_monster4",
+                // Your Shadow
+                "ns_09_monster5",
+                // Her Naughtiness
+                "ns_10_sorcfight" ->
+                1;
+            default -> 0;
+          };
+      case "pyramid" ->
+          action.startsWith("pyramid_state") ? PyramidRequest.lowerChamberTurnsUsed() : 0;
       default -> 0;
     };
   }
@@ -280,7 +279,8 @@ public class PlaceRequest extends GenericRequest {
           "junggate_4",
           "junggate_5",
           "junggate_6",
-          "junggate_11" -> UseItemRequest.parseConsumption(responseText, false);
+          "junggate_11" ->
+          UseItemRequest.parseConsumption(responseText, false);
       case "kgb" -> KGBRequest.parseResponse(urlString, responseText);
       case "knoll_friendly" -> KnollRequest.parseResponse(urlString, responseText);
       case "manor1" -> {
@@ -350,8 +350,8 @@ public class PlaceRequest extends GenericRequest {
         }
       }
       case "nstower" -> SorceressLairManager.parseTowerResponse(action, responseText);
-      case "nstower_door", "nstower_doorlowkey" -> TowerDoorManager.parseTowerDoorResponse(
-          action, responseText);
+      case "nstower_door", "nstower_doorlowkey" ->
+          TowerDoorManager.parseTowerDoorResponse(action, responseText);
       case "orc_chasm" -> OrcChasmRequest.parseResponse(urlString, responseText);
       case "rabbithole" -> RabbitHoleRequest.parseResponse(urlString, responseText);
       case "scrapheap" -> ScrapheapRequest.parseResponse(urlString, responseText);
@@ -512,19 +512,21 @@ public class PlaceRequest extends GenericRequest {
           message = "Visiting The Treasure House";
         }
       }
-      case "airport_hot" -> message =
-          switch (action) {
-            case "airport4_zone1" -> "Visiting The Towering Inferno Discotheque";
-            case "airport4_questhub" -> "Visiting The WLF Bunker";
-            default -> null;
-          };
-      case "airport_sleaze" -> message =
-          switch (action) {
-            case "airport1_npc1" -> "Talking to Buff Jimmy";
-            case "airport1_npc2" -> "Talking to Taco Dan";
-            case "airport1_npc3" -> "Talking to Broden";
-            default -> null;
-          };
+      case "airport_hot" ->
+          message =
+              switch (action) {
+                case "airport4_zone1" -> "Visiting The Towering Inferno Discotheque";
+                case "airport4_questhub" -> "Visiting The WLF Bunker";
+                default -> null;
+              };
+      case "airport_sleaze" ->
+          message =
+              switch (action) {
+                case "airport1_npc1" -> "Talking to Buff Jimmy";
+                case "airport1_npc2" -> "Talking to Taco Dan";
+                case "airport1_npc3" -> "Talking to Broden";
+                default -> null;
+              };
       case "airport_spooky" -> {
         if (action.equals("airport2_radio")) {
           message = "Using the radio on Conspiracy Island";
@@ -535,59 +537,63 @@ public class PlaceRequest extends GenericRequest {
           case "si_shop1locked", "si_shop2locked", "si_shop3locked" -> {
             return true;
           }
-          case "si_controlpanel" -> message =
-              "Manipulating the Control Panel in the Conspiracy Island bunker";
+          case "si_controlpanel" ->
+              message = "Manipulating the Control Panel in the Conspiracy Island bunker";
         }
       }
-      case "airport_stench" -> message =
-          switch (action) {
-            case "airport3_tunnels" -> "Visiting the Maintenance Tunnels";
-            case "airport3_kiosk" -> "Visiting the Employee Assignment Kiosk";
-            default -> null;
-          };
+      case "airport_stench" ->
+          message =
+              switch (action) {
+                case "airport3_tunnels" -> "Visiting the Maintenance Tunnels";
+                case "airport3_kiosk" -> "Visiting the Employee Assignment Kiosk";
+                default -> null;
+              };
       case "bugbearship" -> {
         if (action.equals("bb_bridge")) {
           message = "Bugbear Ship Bridge";
           turns = true;
         }
       }
-      case "canadia" -> message =
-          switch (action) {
-            case "lc_mcd" -> "Visiting the Super-Secret Canadian Mind Control Device";
-            case "lc_marty" -> "Talking to Marty";
-            default -> null;
-          };
+      case "canadia" ->
+          message =
+              switch (action) {
+                case "lc_mcd" -> "Visiting the Super-Secret Canadian Mind Control Device";
+                case "lc_marty" -> "Talking to Marty";
+                default -> null;
+              };
       case "cemetery" -> {
         if (action.equals("cem_advtomb")) {
           message = "The Unknown Tomb";
           turns = true;
         }
       }
-      case "crimbo2016" -> message =
-          switch (action) {
-            case "crimbo16_trailer" -> "Visiting Uncle Crimbo's Mobile Home";
-            case "crimbo16_tammy" -> "Visiting Tammy's Tent";
-            case "crimbo16_guy2" -> "Visiting A Ninja Snowman";
-            case "crimbo16_guy2a" -> "Visiting An Elf Boot-Polisher";
-            case "crimbo16_guy3" -> "Visiting A Hobo";
-            case "crimbo16_guy3a" -> "Visiting An Elf Cook";
-            case "crimbo16_guy4" -> "Visiting A Bugbear";
-            case "crimbo16_guy4a" -> "Visiting An Elf Reindeerstler";
-            case "crimbo16_guy5" -> "Visiting A Hippy";
-            case "crimbo16_guy5a" -> "Visiting An Elf Bearddresser";
-            case "crimbo16_guy6" -> "Visiting A Frat Boy";
-            case "crimbo16_guy6a" -> "Visiting An Elf Haberdasher";
-            default -> null;
-          };
+      case "crimbo2016" ->
+          message =
+              switch (action) {
+                case "crimbo16_trailer" -> "Visiting Uncle Crimbo's Mobile Home";
+                case "crimbo16_tammy" -> "Visiting Tammy's Tent";
+                case "crimbo16_guy2" -> "Visiting A Ninja Snowman";
+                case "crimbo16_guy2a" -> "Visiting An Elf Boot-Polisher";
+                case "crimbo16_guy3" -> "Visiting A Hobo";
+                case "crimbo16_guy3a" -> "Visiting An Elf Cook";
+                case "crimbo16_guy4" -> "Visiting A Bugbear";
+                case "crimbo16_guy4a" -> "Visiting An Elf Reindeerstler";
+                case "crimbo16_guy5" -> "Visiting A Hippy";
+                case "crimbo16_guy5a" -> "Visiting An Elf Bearddresser";
+                case "crimbo16_guy6" -> "Visiting A Frat Boy";
+                case "crimbo16_guy6a" -> "Visiting An Elf Haberdasher";
+                default -> null;
+              };
       case "crimbo16m" -> {
         // A Meditation Mat
       }
-      case "crimbo17_silentnight" -> message =
-          switch (action) {
-            case "crimbo17_bossfight" -> "Mime-Head Building";
-            case "crimbo17_warehouse" -> "The Warehouse";
-            default -> null;
-          };
+      case "crimbo17_silentnight" ->
+          message =
+              switch (action) {
+                case "crimbo17_bossfight" -> "Mime-Head Building";
+                case "crimbo17_warehouse" -> "The Warehouse";
+                default -> null;
+              };
       case "crashsite" -> {
         if (action.equals("crash_ship")) {
           message = "Visiting the Crashed Spaceship";
@@ -605,13 +611,14 @@ public class PlaceRequest extends GenericRequest {
           }
         }
       }
-      case "dinorf" -> message =
-          switch (action) {
-            case "dinorf_hunter" -> "Visiting the Dino World Game Warden's Shed";
-            case "dinorf_chaos" -> "Visiting the Dino World Visitor's Center";
-            case "dinorf_owner" -> "Visiting the Dino World Owner's Trailer";
-            default -> null;
-          };
+      case "dinorf" ->
+          message =
+              switch (action) {
+                case "dinorf_hunter" -> "Visiting the Dino World Game Warden's Shed";
+                case "dinorf_chaos" -> "Visiting the Dino World Visitor's Center";
+                case "dinorf_owner" -> "Visiting the Dino World Owner's Trailer";
+                default -> null;
+              };
       case "dripfacility" -> {
         switch (action) {
           case "" -> {
@@ -731,12 +738,13 @@ public class PlaceRequest extends GenericRequest {
           }
         }
       }
-      case "mountains" -> message =
-          switch (action) {
-            case "mts_melvin" -> "Talking to Melvign the Gnome";
-            case "mts_caveblocked" -> "Entering the Nemesis Cave";
-            default -> null;
-          };
+      case "mountains" ->
+          message =
+              switch (action) {
+                case "mts_melvin" -> "Talking to Melvign the Gnome";
+                case "mts_caveblocked" -> "Entering the Nemesis Cave";
+                default -> null;
+              };
       case "nemesiscave" -> {
         switch (action) {
           case "nmcave_rubble" -> message = "Examining the rubble in the Nemesis Cave";
@@ -746,16 +754,17 @@ public class PlaceRequest extends GenericRequest {
           }
         }
       }
-      case "northpole" -> message =
-          switch (action) {
-            case "np_bonfire" -> "Visiting the Bonfire";
-            case "np_sauna" -> "Entering the Sauna";
-            case "np_foodlab" -> "Entering the Food Lab";
-            case "np_boozelab" -> "Entering the Nog Lab";
-            case "np_spleenlab" -> "Entering the Chem Lab";
-            case "np_toylab" -> "Entering the Gift Fabrication Lab";
-            default -> null;
-          };
+      case "northpole" ->
+          message =
+              switch (action) {
+                case "np_bonfire" -> "Visiting the Bonfire";
+                case "np_sauna" -> "Entering the Sauna";
+                case "np_foodlab" -> "Entering the Food Lab";
+                case "np_boozelab" -> "Entering the Nog Lab";
+                case "np_spleenlab" -> "Entering the Chem Lab";
+                case "np_toylab" -> "Entering the Gift Fabrication Lab";
+                default -> null;
+              };
       case "orc_chasm" -> {
         if (action.startsWith("bridge") || action.equals("label1") || action.equals("label2")) {
           // Building the bridge. Do we need to log anything?
@@ -800,26 +809,28 @@ public class PlaceRequest extends GenericRequest {
           message = "Visiting Snojo Control Console";
         }
       }
-      case "spacegate" -> message =
-          switch (action) {
-            case "sg_requisition" -> "Visiting Spacegate Equipment Requisition";
-            case "sg_tech" -> "Visiting Spacegate R&D";
-            case "sg_Terminal" -> "Visiting the Spacegate Terminal";
-            case "sg_vaccinator" -> "Visiting the Spacegate Vaccination Machine";
-            default -> null;
-          };
+      case "spacegate" ->
+          message =
+              switch (action) {
+                case "sg_requisition" -> "Visiting Spacegate Equipment Requisition";
+                case "sg_tech" -> "Visiting Spacegate R&D";
+                case "sg_Terminal" -> "Visiting the Spacegate Terminal";
+                case "sg_vaccinator" -> "Visiting the Spacegate Vaccination Machine";
+                default -> null;
+              };
       case "spacegate_portable" -> message = "Visiting your portable Spacegate";
-      case "speakeasy" -> message =
-          switch (action) {
-            case "olivers_pooltable" -> "Visiting the Pool Table";
-            case "olivers_sot" -> "Talking to the Milky-Eyed Sot";
-              // case "olivers_piano" -> "Examining the Piano";
-            case "olivers_sign" -> "Looking at the conspicuous plaque";
-              // case "olivers_codetable" -> "Looking at the scratched-Up Table";
-              // case "olivers_bouncer" -> "Talking to the  Bouncer";
-            case "" -> "Visiting " + Preferences.getString("speakeasyName");
-            default -> null;
-          };
+      case "speakeasy" ->
+          message =
+              switch (action) {
+                case "olivers_pooltable" -> "Visiting the Pool Table";
+                case "olivers_sot" -> "Talking to the Milky-Eyed Sot";
+                // case "olivers_piano" -> "Examining the Piano";
+                case "olivers_sign" -> "Looking at the conspicuous plaque";
+                // case "olivers_codetable" -> "Looking at the scratched-Up Table";
+                // case "olivers_bouncer" -> "Talking to the  Bouncer";
+                case "" -> "Visiting " + Preferences.getString("speakeasyName");
+                default -> null;
+              };
       case "sea_oldman" -> {
         // place.php?whichplace=sea_oldman&action=oldman_oldman&preaction=pickreward&whichreward=6313[/code]
         if (action.equals("oldman_oldman")) {
@@ -850,24 +861,26 @@ public class PlaceRequest extends GenericRequest {
           case "townright_vote" -> message = "Visiting The Voting Booth";
         }
       }
-      case "town_wrong" -> message =
-          switch (action) {
-            case "townwrong_precinct" -> "Visiting the 11th Precinct Headquarters";
-            case "townwrong_boxingdaycare" -> "Visiting the Boxing Daycare";
-            default -> null;
-          };
-      case "twitch" -> message =
-          switch (action) {
-            case "twitch_votingbooth" -> "Visiting the Voting / Phone Booth";
-            case "twitch_dancave1" -> "Visiting Caveman Dan's Cave";
-            case "twitch_shoerepair" -> "Visiting the Shoe Repair Store";
-            case "twitch_colosseum" -> "Visiting the Chariot-Racing Colosseum";
-            case "twitch_survivors" -> "Visiting the Post-Apocalyptic Survivor Encampment";
-            case "twitch_bank" -> "Visiting the Third Four-Fifths Bank of the West";
-            case "twitch_boat2" -> "Visiting The Pinta";
-            case "twitch_boat3" -> "Visiting The Santa Claus";
-            default -> null;
-          };
+      case "town_wrong" ->
+          message =
+              switch (action) {
+                case "townwrong_precinct" -> "Visiting the 11th Precinct Headquarters";
+                case "townwrong_boxingdaycare" -> "Visiting the Boxing Daycare";
+                default -> null;
+              };
+      case "twitch" ->
+          message =
+              switch (action) {
+                case "twitch_votingbooth" -> "Visiting the Voting / Phone Booth";
+                case "twitch_dancave1" -> "Visiting Caveman Dan's Cave";
+                case "twitch_shoerepair" -> "Visiting the Shoe Repair Store";
+                case "twitch_colosseum" -> "Visiting the Chariot-Racing Colosseum";
+                case "twitch_survivors" -> "Visiting the Post-Apocalyptic Survivor Encampment";
+                case "twitch_bank" -> "Visiting the Third Four-Fifths Bank of the West";
+                case "twitch_boat2" -> "Visiting The Pinta";
+                case "twitch_boat3" -> "Visiting The Santa Claus";
+                default -> null;
+              };
       case "wereprof_cottage" -> {
         switch (action) {
           case "wereprof_bookshelf" -> {

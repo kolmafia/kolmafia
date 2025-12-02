@@ -80,7 +80,8 @@ public class GitManagerTest {
       String output = CliCaller.callCli("git", "list");
       assertThat(
           output,
-          equalTo("""
+          equalTo(
+              """
           midgleyc-mafia-script-install-test-test-basic
           """));
     }

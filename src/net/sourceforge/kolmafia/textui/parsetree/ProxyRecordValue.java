@@ -1607,14 +1607,16 @@ public class ProxyRecordValue extends RecordValue {
             case 0 -> "Item Drop: 30, Spooky Damage: 10, Spooky Spell Damage: 10";
             case 1 -> "Item Drop: 15, Meat Drop: 25, Stench Damage: 10, Stench Spell Damage: 10";
             case 2 -> "Meat Drop: 50, Hot Damage: 10, Hot Spell Damage: 10";
-            case 3 -> "Meat Drop: 25, "
-                + all_resistance(2)
-                + ", Cold Damage: 10, Cold Spell Damage: 10";
+            case 3 ->
+                "Meat Drop: 25, " + all_resistance(2) + ", Cold Damage: 10, Cold Spell Damage: 10";
             case 4 -> all_resistance(4) + ", Sleaze Damage: 10, Sleaze Spell Damage: 10";
-            case 5 -> all_resistance(2)
-                + ", Spooky Damage: 10, Spooky Spell Damage: 10, MP Regen Min: 10, MP Regen Max: 15";
-            case 6 -> "Stench Damage: 10, Stench Spell Damage: 10, MP Regen Min: 20, MP Regen Max: 30";
-            case 7 -> "Initiative: 50, Hot Damage: 10, Hot Spell Damage: 10, MP Regen Min: 10, MP Regen Max: 15";
+            case 5 ->
+                all_resistance(2)
+                    + ", Spooky Damage: 10, Spooky Spell Damage: 10, MP Regen Min: 10, MP Regen Max: 15";
+            case 6 ->
+                "Stench Damage: 10, Stench Spell Damage: 10, MP Regen Min: 20, MP Regen Max: 30";
+            case 7 ->
+                "Initiative: 50, Hot Damage: 10, Hot Spell Damage: 10, MP Regen Min: 10, MP Regen Max: 15";
             case 8 -> "Initiative: 100, Cold Damage: 10, Cold Spell Damage: 10";
             case 9 -> "Item Drop: 15, Initiative: 50, Sleaze Damage: 10, Sleaze Spell Damage: 10";
             default -> throw new IllegalStateException("Unexpected value: " + mod);
@@ -1987,7 +1989,7 @@ public class ProxyRecordValue extends RecordValue {
 
     public String get_image() {
       return switch ((Element) this.content) {
-          // No image for Slime or Supercold in Manuel
+        // No image for Slime or Supercold in Manuel
         case NONE, SLIME, SUPERCOLD -> "circle.gif";
         case COLD -> "snowflake.gif";
         case HOT -> "fire.gif";

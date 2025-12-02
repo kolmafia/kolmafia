@@ -195,7 +195,8 @@ public class AscensionPath {
             AVATAR_OF_SNEAKY_PETE,
             ACTUALLY_ED_THE_UNDYING,
             LICENSE_TO_ADVENTURE,
-            DARK_GYFFTE -> false;
+            DARK_GYFFTE ->
+            false;
         default -> true;
       };
     }

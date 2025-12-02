@@ -133,7 +133,8 @@ public class UneffectRequest extends GenericRequest {
           EffectPool.DEEP_TAINTED_MIND,
           EffectPool.SPIRIT_PARIAH,
           EffectPool.BORED_WITH_EXPLOSIONS,
-          EffectPool.FEELING_QUEASY -> false;
+          EffectPool.FEELING_QUEASY ->
+          false;
       default -> true;
     };
   }
@@ -222,7 +223,8 @@ public class UneffectRequest extends GenericRequest {
           EffectPool.CURSE_OF_WEAKNESS,
           EffectPool.TOUCHED_BY_A_GHOST,
           EffectPool.CHILLED_TO_THE_BONE,
-          EffectPool.NAUSEATED -> true;
+          EffectPool.NAUSEATED ->
+          true;
       default -> false;
     };
   }

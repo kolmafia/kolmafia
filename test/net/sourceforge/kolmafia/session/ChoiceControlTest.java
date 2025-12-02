@@ -1739,4 +1739,24 @@ class ChoiceControlTest {
       assertThat("_seadentWaveUsed", isSetTo(true));
     }
   }
+
+  @Test
+  void visitingCrimboPastSkeletonSetsDailies() {
+    var cleanups =
+        new Cleanups(
+            withProperty("_crimboPastSmokingPope"),
+            withProperty("_crimboPastPrizeTurkey"),
+            withProperty("_crimboPastMedicalGruel"));
+
+    try (cleanups) {
+      var req = new GenericRequest("choice.php?whichchoice=1567");
+      req.responseText = html("request/test_choice_crimbo_past_none.html");
+
+      ChoiceManager.visitChoice(req);
+
+      assertThat("_crimboPastSmokingPope", isSetTo(true));
+      assertThat("_crimboPastPrizeTurkey", isSetTo(true));
+      assertThat("_crimboPastMedicalGruel", isSetTo(true));
+    }
+  }
 }

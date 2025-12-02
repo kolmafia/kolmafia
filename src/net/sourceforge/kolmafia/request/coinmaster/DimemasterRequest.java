@@ -44,9 +44,8 @@ public class DimemasterRequest extends CoinMasterRequest {
 
   private static Boolean canBuyItem(final Integer itemId) {
     return switch (itemId) {
-      case ItemPool.PATCHOULI_OIL_BOMB, ItemPool.EXPLODING_HACKY_SACK -> Preferences.getString(
-              "sidequestLighthouseCompleted")
-          .equals("hippy");
+      case ItemPool.PATCHOULI_OIL_BOMB, ItemPool.EXPLODING_HACKY_SACK ->
+          Preferences.getString("sidequestLighthouseCompleted").equals("hippy");
       default -> ItemPool.get(itemId).getCount(HIPPY.getBuyItems()) > 0;
     };
   }

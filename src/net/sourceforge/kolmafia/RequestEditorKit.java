@@ -1220,8 +1220,8 @@ public class RequestEditorKit extends HTMLEditorKit {
       switch (group) {
         case "Normal Outfits" -> addOutfitGroup(obuffer, "outfit", "Outfits", "an", options);
         case "Custom Outfits" -> addOutfitGroup(obuffer, "outfit2", "Custom", "a custom", options);
-        case "Automatic Outfits" -> addOutfitGroup(
-            obuffer, "outfit3", "Automatic", "an automatic", options);
+        case "Automatic Outfits" ->
+            addOutfitGroup(obuffer, "outfit3", "Automatic", "an automatic", options);
       }
     }
 
@@ -1791,7 +1791,7 @@ public class RequestEditorKit extends HTMLEditorKit {
         }
       }
 
-        // No special text, just append to You win the fight if on clear the party quest
+      // No special text, just append to You win the fight if on clear the party quest
       case "partiers" -> {
         Matcher m = RequestEditorKit.PARTIERS_PATTERN.matcher(buffer);
         if (m.find()) {
@@ -1978,7 +1978,7 @@ public class RequestEditorKit extends HTMLEditorKit {
     int option = ChoiceUtilities.extractOptionFromURL(location);
 
     switch (choice) {
-        // The Oracle Will See You Now
+      // The Oracle Will See You Now
       case 3:
         StringUtilities.singleStringReplace(
             buffer,
@@ -2006,7 +2006,7 @@ public class RequestEditorKit extends HTMLEditorKit {
             "rat problem. <font size=1>[<a href=\"tavern.php?place=barkeep\">Visit Bart</a>]</font>");
         break;
       case 537:
-        // Play Porko!
+      // Play Porko!
       case 540:
         // Big-Time Generator
         SpaaaceRequest.decoratePorko(buffer);

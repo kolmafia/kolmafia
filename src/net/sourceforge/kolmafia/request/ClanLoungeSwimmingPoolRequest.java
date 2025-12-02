@@ -68,7 +68,7 @@ public class ClanLoungeSwimmingPoolRequest extends GenericRequest {
         this.addFormField("option", "1");
         this.addFormField("action", "say");
       }
-        // this.addFormField( "say", "" );
+      // this.addFormField( "say", "" );
       case ClanLoungeSwimmingPoolRequest.CLOSE_EYES -> {
         RequestLogger.printLine("In the pool, closing your eyes.");
         this.constructURLString("choice.php");

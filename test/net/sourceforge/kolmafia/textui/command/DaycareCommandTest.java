@@ -168,7 +168,9 @@ public class DaycareCommandTest extends AbstractCommandTestBase {
   }
 
   @ParameterizedTest
-  @CsvSource(textBlock = """
+  @CsvSource(
+      textBlock =
+          """
       mus, 1
       mys, 3
       mox, 2
