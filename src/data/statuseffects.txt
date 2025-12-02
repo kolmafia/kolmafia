@@ -3049,3 +3049,6 @@
 3046	Tapased Out	cbz_tapasplate.gif	5c8500f690d5918ea2e7ca82c8d58ad3	neutral	none	eat 1 spinal tapas
 3047	You Yam What You Yam	yamcandy.gif	3ddf08619291bc133afdab734b803704	neutral	none	use 1 yammed candy
 3048	Doublooned	cinnacoin.gif	019666e6c3e63706a4ae9d9bfa7a672d	neutral	none	use 1 cinnamon doubloon
+3049	Grueling Gravitas	soupbowl.gif	1c5f82613ee85a175018cd3520c6ca89	neutral	none	chew 1 medical gruel
+3050	Ordained	smokingpope.gif	57c7ce619059e2792d24de1a60588f7a	neutral	none	drink 1 Smoking Pope
+3051	Tryptofan	prizeturkey.gif	5d7674e3501766459946768a4f32a63d	neutral	none	eat 1 prize turkey
