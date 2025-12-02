@@ -67,20 +67,19 @@ public class UseItemPanel extends InventoryPanel<AdventureResult> {
                 USE_MULTIPLE,
                 AVATAR_POTION,
                 FAMILIAR_HATCHLING,
-                ZAP -> UsableItemFilterField.this.other;
-            case FAMILIAR_EQUIPMENT,
-                ACCESSORY,
-                HAT,
-                PANTS,
-                CONTAINER,
-                SHIRT,
-                WEAPON,
-                OFFHAND -> UsableItemFilterField.this.equip;
-            default -> UsableItemFilterField.this.other
-                && ItemDatabase.getAttribute(
-                    itemId,
-                    EnumSet.of(
-                        Attribute.USABLE, Attribute.MULTIPLE, Attribute.REUSABLE, Attribute.CURSE));
+                ZAP ->
+                UsableItemFilterField.this.other;
+            case FAMILIAR_EQUIPMENT, ACCESSORY, HAT, PANTS, CONTAINER, SHIRT, WEAPON, OFFHAND ->
+                UsableItemFilterField.this.equip;
+            default ->
+                UsableItemFilterField.this.other
+                    && ItemDatabase.getAttribute(
+                        itemId,
+                        EnumSet.of(
+                            Attribute.USABLE,
+                            Attribute.MULTIPLE,
+                            Attribute.REUSABLE,
+                            Attribute.CURSE));
           };
 
       return filter && super.isVisible(element);

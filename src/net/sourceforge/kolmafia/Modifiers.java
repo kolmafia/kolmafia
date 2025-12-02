@@ -589,7 +589,7 @@ public class Modifiers {
         if (KoLCharacter.noExperience()) {
           break;
         }
-        //noinspection fallthrough
+      //noinspection fallthrough
       case INITIATIVE:
       case HOT_DAMAGE:
       case COLD_DAMAGE:
@@ -807,8 +807,8 @@ public class Modifiers {
               this.setDouble(DoubleModifier.HP_REGEN_MAX, 12.0);
               this.setDouble(DoubleModifier.FAMILIAR_WEIGHT, 5.0);
             }
-            case DISCO_BANDIT, AVATAR_OF_SNEAKY_PETE -> this.setDouble(
-                DoubleModifier.RANGED_DAMAGE, 20.0);
+            case DISCO_BANDIT, AVATAR_OF_SNEAKY_PETE ->
+                this.setDouble(DoubleModifier.RANGED_DAMAGE, 20.0);
             case ACCORDION_THIEF -> this.setBoolean(BooleanModifier.FOUR_SONGS, true);
             case PASTAMANCER -> {
               this.setDouble(DoubleModifier.MP_REGEN_MIN, 5.0);
@@ -1428,14 +1428,18 @@ public class Modifiers {
     }
 
     switch (companion) {
-      case EGGMAN -> this.addDouble(
-          DoubleModifier.ITEMDROP, 50 * multiplier, ModifierType.COMPANION, "Eggman");
-      case RADISH -> this.addDouble(
-          DoubleModifier.INITIATIVE, 50 * multiplier, ModifierType.COMPANION, "Radish Horse");
-      case HIPPO -> this.addDouble(
-          DoubleModifier.EXPERIENCE, 3 * multiplier, ModifierType.COMPANION, "Hippotatomous");
-      case CREAM -> this.addDouble(
-          DoubleModifier.MONSTER_LEVEL, 20 * multiplier, ModifierType.COMPANION, "Cream Puff");
+      case EGGMAN ->
+          this.addDouble(
+              DoubleModifier.ITEMDROP, 50 * multiplier, ModifierType.COMPANION, "Eggman");
+      case RADISH ->
+          this.addDouble(
+              DoubleModifier.INITIATIVE, 50 * multiplier, ModifierType.COMPANION, "Radish Horse");
+      case HIPPO ->
+          this.addDouble(
+              DoubleModifier.EXPERIENCE, 3 * multiplier, ModifierType.COMPANION, "Hippotatomous");
+      case CREAM ->
+          this.addDouble(
+              DoubleModifier.MONSTER_LEVEL, 20 * multiplier, ModifierType.COMPANION, "Cream Puff");
     }
   }
 
@@ -1472,8 +1476,8 @@ public class Modifiers {
     int level = companion.getLevel();
     switch (type) {
       case LAMP -> this.addDouble(DoubleModifier.ITEMDROP, level * 10, ModifierType.VYKEA, "Lamp");
-      case COUCH -> this.addDouble(
-          DoubleModifier.MEATDROP, level * 10, ModifierType.VYKEA, "Couch");
+      case COUCH ->
+          this.addDouble(DoubleModifier.MEATDROP, level * 10, ModifierType.VYKEA, "Couch");
     }
   }
 

@@ -92,9 +92,10 @@ public class TypescriptDefinition {
     private static String getReturnType(Function f) {
       return switch (f.getName()) {
         case "abort" -> "never";
-        case "fact_type" -> Arrays.stream(FactDatabase.FactType.values())
-            .map(v -> "\"" + v.toString() + "\"")
-            .collect(Collectors.joining(" | "));
+        case "fact_type" ->
+            Arrays.stream(FactDatabase.FactType.values())
+                .map(v -> "\"" + v.toString() + "\"")
+                .collect(Collectors.joining(" | "));
         default -> getType(f.getType());
       };
     }

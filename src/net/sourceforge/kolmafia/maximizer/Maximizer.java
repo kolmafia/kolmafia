@@ -1852,7 +1852,7 @@ public class Maximizer {
             switch (method) {
               case "uncloset" -> "closet take 1 \u00B6" + item.getItemId() + ";" + cmd;
               case "unstash" -> "stash take 1 \u00B6" + item.getItemId() + ";" + cmd;
-                // Should be only hitting this after Ronin I think
+              // Should be only hitting this after Ronin I think
               case "pull" -> "pull 1 \u00B6" + item.getItemId() + ";" + cmd;
               default -> cmd;
             };
@@ -1931,9 +1931,9 @@ public class Maximizer {
   private static boolean excludedTCRSItem(int itemId) {
     return switch (itemId) {
       case ItemPool.DIETING_PILL ->
-      // Doubles adventures and stats from next food.  Also
-      // doubles fullness - which can be a surprise.
-      true;
+          // Doubles adventures and stats from next food.  Also
+          // doubles fullness - which can be a surprise.
+          true;
       default -> false;
     };
   }

@@ -243,7 +243,8 @@ public class CoinmastersDatabase {
           ItemPool.TALES_OF_DREAD,
           ItemPool.BRASS_DREAD_FLASK,
           ItemPool.SILVER_DREAD_FLASK,
-          ItemPool.MINI_KIWI_INTOXICATING_SPIRITS -> 1;
+          ItemPool.MINI_KIWI_INTOXICATING_SPIRITS ->
+          1;
       default -> PurchaseRequest.MAX_QUANTITY;
     };
   }

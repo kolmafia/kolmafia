@@ -99,8 +99,8 @@ public class ClosetRequest extends TransferItemRequest {
 
     switch (moveType) {
       case REFRESH ->
-      // It doesn't matter which page we visit to get Meat
-      this.addFormField("which", "1");
+          // It doesn't matter which page we visit to get Meat
+          this.addFormField("which", "1");
       case MEAT_TO_CLOSET -> {
         // closet.php?action=addtakeclosetmeat&addtake=add&pwd&quantity=x
         this.addFormField("action", "addtakeclosetmeat");

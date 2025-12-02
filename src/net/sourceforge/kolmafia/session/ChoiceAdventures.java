@@ -6504,12 +6504,12 @@ public abstract class ChoiceAdventures {
     // Some choices are so clear (or non-standard) that we don't want to mark them up
     // but do want a choice in Mafia GUI
     return switch (choice) { // L.O.V. Entrance
-        // L.O.V. Equipment Room
-        // L.O.V. Engine Room
-        // L.O.V. Emergency Room
-        // L.O.V. Elbow Room
+      // L.O.V. Equipment Room
+      // L.O.V. Engine Room
+      // L.O.V. Emergency Room
+      // L.O.V. Elbow Room
       case 1223, 1224, 1225, 1226, 1227, 1228 -> // L.O.V. Emporium
-      true;
+          true;
       default -> false;
     };
   }
@@ -6535,70 +6535,70 @@ public abstract class ChoiceAdventures {
       case 360 -> WumpusManager.decorate(buffer);
       case 392 -> MemoriesDecorator.decorateElements(choice, buffer);
       case 443 ->
-      // Chess Puzzle
-      RabbitHoleManager.decorateChessPuzzle(buffer);
+          // Chess Puzzle
+          RabbitHoleManager.decorateChessPuzzle(buffer);
       case 485 ->
-      // Fighters of Fighting
-      ArcadeRequest.decorateFightersOfFighting(buffer);
+          // Fighters of Fighting
+          ArcadeRequest.decorateFightersOfFighting(buffer);
       case 486 ->
-      // Dungeon Fist
-      ArcadeRequest.decorateDungeonFist(buffer);
+          // Dungeon Fist
+          ArcadeRequest.decorateDungeonFist(buffer);
       case 535 ->
-      // Add "Go To Goal" button for a Safety Shelter Map
-      SafetyShelterManager.addRonaldGoalButton(buffer);
+          // Add "Go To Goal" button for a Safety Shelter Map
+          SafetyShelterManager.addRonaldGoalButton(buffer);
       case 536 ->
-      // Add "Go To Goal" button for a Safety Shelter Map
-      SafetyShelterManager.addGrimaceGoalButton(buffer);
+          // Add "Go To Goal" button for a Safety Shelter Map
+          SafetyShelterManager.addGrimaceGoalButton(buffer);
 
       case 537,
           // Play Porko!
           540 ->
-      // Big-Time Generator
-      SpaaaceRequest.decoratePorko(buffer);
+          // Big-Time Generator
+          SpaaaceRequest.decoratePorko(buffer);
       case 546 ->
-      // Add "Go To Goal" button for Interview With You
-      VampOutManager.addGoalButton(buffer);
+          // Add "Go To Goal" button for Interview With You
+          VampOutManager.addGoalButton(buffer);
       case 594 ->
-      // Add "Go To Goal" button for a Lost Room
-      LostKeyManager.addGoalButton(buffer);
+          // Add "Go To Goal" button for a Lost Room
+          LostKeyManager.addGoalButton(buffer);
       case 665 ->
-      // Add "Solve" button for A Gracious Maze
-      GameproManager.addGoalButton(buffer);
+          // Add "Solve" button for A Gracious Maze
+          GameproManager.addGoalButton(buffer);
       case 703 ->
-      // Load the options of the dreadscroll with the correct responses
-      DreadScrollManager.decorate(buffer);
+          // Load the options of the dreadscroll with the correct responses
+          DreadScrollManager.decorate(buffer);
       case 850 -> RumpleManager.decorateWorkshop(buffer);
       case 872 -> ChoiceAdventures.decorateDrawnOnward(buffer);
       case 989 ->
-      // Highlight valid card
-      ChoiceAdventures.decorateParanormalTestLab(buffer);
+          // Highlight valid card
+          ChoiceAdventures.decorateParanormalTestLab(buffer);
       case 1023 ->
-      // Like a Bat Into Hell
-      StringUtilities.globalStringReplace(buffer, "Go right back to the fight!", "UNDYING!");
+          // Like a Bat Into Hell
+          StringUtilities.globalStringReplace(buffer, "Go right back to the fight!", "UNDYING!");
       case 1024 ->
-      // Like a Bat out of Hell
-      StringUtilities.globalStringReplace(buffer, "Return to the fight!", "UNDYING!");
+          // Like a Bat out of Hell
+          StringUtilities.globalStringReplace(buffer, "Return to the fight!", "UNDYING!");
       case 1094 ->
-      // Back Room SMOOCHing
-      ChoiceAdventures.decorateBackRoomSMOOCHing(buffer);
+          // Back Room SMOOCHing
+          ChoiceAdventures.decorateBackRoomSMOOCHing(buffer);
       case 1278 ->
-      // Madame Zatara’s Relationship Fortune Teller
-      ClanFortuneDecorator.decorateQuestion(buffer);
+          // Madame Zatara’s Relationship Fortune Teller
+          ClanFortuneDecorator.decorateQuestion(buffer);
       case 1331 ->
-      // Daily Loathing Ballot
-      ChoiceAdventures.decorateVote(buffer);
+          // Daily Loathing Ballot
+          ChoiceAdventures.decorateVote(buffer);
       case 1435 ->
-      // Leading Yourself Right to Them
-      ChoiceAdventures.decorateMonsterMap(buffer);
+          // Leading Yourself Right to Them
+          ChoiceAdventures.decorateMonsterMap(buffer);
       case 1463 ->
-      // Reminiscing About Those Monsters You Fought
-      LocketManager.decorateMonsterDropdown(buffer);
+          // Reminiscing About Those Monsters You Fought
+          LocketManager.decorateMonsterDropdown(buffer);
       case 1517 ->
-      // Mimic DNA Bank
-      ChoiceAdventures.decorateMimicDnaBank(buffer);
+          // Mimic DNA Bank
+          ChoiceAdventures.decorateMimicDnaBank(buffer);
       case 1557 ->
-      // Peering Through Your Peridot
-      ChoiceAdventures.decorateMonsterMap(buffer);
+          // Peering Through Your Peridot
+          ChoiceAdventures.decorateMonsterMap(buffer);
       case 1562 -> {
         // Time is a Möbius Strip
         if (addComplexFeatures) {
@@ -7112,306 +7112,306 @@ public abstract class ChoiceAdventures {
 
   private static Spoilers dynamicChoiceSpoilers(final int choice) {
     return switch (choice) {
-        // How Depressing
+      // How Depressing
       case 5, 7 ->
-      // Heart of Very, Very Dark Darkness
-      dynamicChoiceSpoilers(choice, "Spooky Gravy Burrow");
-        // Yes, You're a Rock Starrr
-        // Arrr You Man Enough?
+          // Heart of Very, Very Dark Darkness
+          dynamicChoiceSpoilers(choice, "Spooky Gravy Burrow");
+      // Yes, You're a Rock Starrr
+      // Arrr You Man Enough?
       case 184, 185, 187 ->
-      // That Explains All The Eyepatches
-      dynamicChoiceSpoilers(choice, "Barrrney's Barrr");
+          // That Explains All The Eyepatches
+          dynamicChoiceSpoilers(choice, "Barrrney's Barrr");
       case 188 ->
-      // The Infiltrationist
-      dynamicChoiceSpoilers(choice, "Orcish Frat House Blueprints");
+          // The Infiltrationist
+          dynamicChoiceSpoilers(choice, "Orcish Frat House Blueprints");
       case 272 ->
-      // Marketplace Entrance
-      dynamicChoiceSpoilers(choice, "Hobo Marketplace");
+          // Marketplace Entrance
+          dynamicChoiceSpoilers(choice, "Hobo Marketplace");
       case 298 ->
-      // In the Shade
-      dynamicChoiceSpoilers(choice, "An Octopus's Garden");
+          // In the Shade
+          dynamicChoiceSpoilers(choice, "An Octopus's Garden");
       case 304 ->
-      // A Vent Horizon
-      dynamicChoiceSpoilers(choice, "The Marinara Trench");
+          // A Vent Horizon
+          dynamicChoiceSpoilers(choice, "The Marinara Trench");
       case 305 ->
-      // There is Sauce at the Bottom of the Ocean
-      dynamicChoiceSpoilers(choice, "The Marinara Trench");
+          // There is Sauce at the Bottom of the Ocean
+          dynamicChoiceSpoilers(choice, "The Marinara Trench");
       case 309 ->
-      // Barback
-      dynamicChoiceSpoilers(choice, "The Dive Bar");
+          // Barback
+          dynamicChoiceSpoilers(choice, "The Dive Bar");
       case 360 ->
-      // Wumpus Hunt
-      dynamicChoiceSpoilers(choice, "The Jungles of Ancient Loathing");
+          // Wumpus Hunt
+          dynamicChoiceSpoilers(choice, "The Jungles of Ancient Loathing");
       case 410, 411, 412, 413, 414, 415, 416, 417, 418 ->
-      // The Barracks
-      dynamicChoiceSpoilers(choice, "The Barracks");
+          // The Barracks
+          dynamicChoiceSpoilers(choice, "The Barracks");
       case 442 ->
-      // A Moment of Reflection
-      dynamicChoiceSpoilers(choice, "Rabbit Hole");
+          // A Moment of Reflection
+          dynamicChoiceSpoilers(choice, "Rabbit Hole");
       case 522 ->
-      // Welcome to the Footlocker
-      dynamicChoiceSpoilers(choice, "Welcome to the Footlocker");
+          // Welcome to the Footlocker
+          dynamicChoiceSpoilers(choice, "Welcome to the Footlocker");
       case 502 ->
-      // Arboreal Respite
-      dynamicChoiceSpoilers(choice, "Arboreal Respite");
+          // Arboreal Respite
+          dynamicChoiceSpoilers(choice, "Arboreal Respite");
       case 579 ->
-      // Such Great Heights
-      dynamicChoiceSpoilers(choice, "Such Great Heights");
+          // Such Great Heights
+          dynamicChoiceSpoilers(choice, "Such Great Heights");
       case 580 ->
-      // The Hidden Heart of the Hidden Temple
-      dynamicChoiceSpoilers(choice, "The Hidden Heart of the Hidden Temple");
+          // The Hidden Heart of the Hidden Temple
+          dynamicChoiceSpoilers(choice, "The Hidden Heart of the Hidden Temple");
       case 581 ->
-      // Such Great Depths
-      dynamicChoiceSpoilers(choice, "Such Great Depths");
+          // Such Great Depths
+          dynamicChoiceSpoilers(choice, "Such Great Depths");
       case 582 ->
-      // Fitting In
-      dynamicChoiceSpoilers(choice, "Fitting In");
+          // Fitting In
+          dynamicChoiceSpoilers(choice, "Fitting In");
       case 606 ->
-      // Lost in the Great Overlook Lodge
-      dynamicChoiceSpoilers(choice, "Lost in the Great Overlook Lodge");
+          // Lost in the Great Overlook Lodge
+          dynamicChoiceSpoilers(choice, "Lost in the Great Overlook Lodge");
       case 611 ->
-      // The Horror...(A-Boo Peak)
-      dynamicChoiceSpoilers(choice, "The Horror...");
+          // The Horror...(A-Boo Peak)
+          dynamicChoiceSpoilers(choice, "The Horror...");
       case 636, 637, 638, 639 ->
-      // Old Man psychoses
-      dynamicChoiceSpoilers(choice, "First Mate's Log Entry");
+          // Old Man psychoses
+          dynamicChoiceSpoilers(choice, "First Mate's Log Entry");
       case 641 ->
-      // Stupid Pipes. (Mystic's psychoses)
-      dynamicChoiceSpoilers(choice, "Stupid Pipes.");
+          // Stupid Pipes. (Mystic's psychoses)
+          dynamicChoiceSpoilers(choice, "Stupid Pipes.");
       case 642 ->
-      // You're Freaking Kidding Me (Mystic's psychoses)
-      dynamicChoiceSpoilers(choice, "You're Freaking Kidding Me");
+          // You're Freaking Kidding Me (Mystic's psychoses)
+          dynamicChoiceSpoilers(choice, "You're Freaking Kidding Me");
       case 644 ->
-      // Snakes. (Mystic's psychoses)
-      dynamicChoiceSpoilers(choice, "Snakes.");
+          // Snakes. (Mystic's psychoses)
+          dynamicChoiceSpoilers(choice, "Snakes.");
       case 645 ->
-      // So... Many... Skulls... (Mystic's psychoses)
-      dynamicChoiceSpoilers(choice, "So... Many... Skulls...");
+          // So... Many... Skulls... (Mystic's psychoses)
+          dynamicChoiceSpoilers(choice, "So... Many... Skulls...");
       case 647 ->
-      // A Stupid Dummy. Also, a Straw Man. (Mystic's psychoses)
-      dynamicChoiceSpoilers(choice, "A Stupid Dummy. Also, a Straw Man.");
+          // A Stupid Dummy. Also, a Straw Man. (Mystic's psychoses)
+          dynamicChoiceSpoilers(choice, "A Stupid Dummy. Also, a Straw Man.");
       case 648 ->
-      // Slings and Arrows (Mystic's psychoses)
-      dynamicChoiceSpoilers(choice, "Slings and Arrows");
+          // Slings and Arrows (Mystic's psychoses)
+          dynamicChoiceSpoilers(choice, "Slings and Arrows");
       case 650 ->
-      // This Is Your Life. Your Horrible, Horrible Life. (Mystic's psychoses)
-      dynamicChoiceSpoilers(choice, "This Is Your Life. Your Horrible, Horrible Life.");
+          // This Is Your Life. Your Horrible, Horrible Life. (Mystic's psychoses)
+          dynamicChoiceSpoilers(choice, "This Is Your Life. Your Horrible, Horrible Life.");
       case 651 ->
-      // The Wall of Wailing (Mystic's psychoses)
-      dynamicChoiceSpoilers(choice, "The Wall of Wailing");
+          // The Wall of Wailing (Mystic's psychoses)
+          dynamicChoiceSpoilers(choice, "The Wall of Wailing");
       case 669 ->
-      // The Fast and the Furry-ous
-      dynamicChoiceSpoilers(choice, "The Fast and the Furry-ous");
+          // The Fast and the Furry-ous
+          dynamicChoiceSpoilers(choice, "The Fast and the Furry-ous");
       case 670 ->
-      // You Don't Mess Around with Gym
-      dynamicChoiceSpoilers(choice, "You Don't Mess Around with Gym");
+          // You Don't Mess Around with Gym
+          dynamicChoiceSpoilers(choice, "You Don't Mess Around with Gym");
       case 678 ->
-      // Yeah, You're for Me, Punk Rock Giant
-      dynamicChoiceSpoilers(choice, "Yeah, You're for Me, Punk Rock Giant");
+          // Yeah, You're for Me, Punk Rock Giant
+          dynamicChoiceSpoilers(choice, "Yeah, You're for Me, Punk Rock Giant");
       case 692 ->
-      // I Wanna Be a Door
-      dynamicChoiceSpoilers(choice, "I Wanna Be a Door");
+          // I Wanna Be a Door
+          dynamicChoiceSpoilers(choice, "I Wanna Be a Door");
       case 696 ->
-      // Stick a Fork In It
-      dynamicChoiceSpoilers(choice, "Stick a Fork In It");
+          // Stick a Fork In It
+          dynamicChoiceSpoilers(choice, "Stick a Fork In It");
       case 697 ->
-      // Sophie's Choice
-      dynamicChoiceSpoilers(choice, "Sophie's Choice");
+          // Sophie's Choice
+          dynamicChoiceSpoilers(choice, "Sophie's Choice");
       case 698 ->
-      // From Bad to Worst
-      dynamicChoiceSpoilers(choice, "From Bad to Worst");
+          // From Bad to Worst
+          dynamicChoiceSpoilers(choice, "From Bad to Worst");
       case 700 ->
-      // Delirium in the Cafeterium
-      dynamicChoiceSpoilers(choice, "Delirium in the Cafeterium");
+          // Delirium in the Cafeterium
+          dynamicChoiceSpoilers(choice, "Delirium in the Cafeterium");
       case 704 ->
-      // Playing the Catalog Card
-      dynamicChoiceSpoilers(choice, "Playing the Catalog Card");
+          // Playing the Catalog Card
+          dynamicChoiceSpoilers(choice, "Playing the Catalog Card");
       case 721 ->
-      // The Cabin in the Dreadsylvanian Woods
-      dynamicChoiceSpoilers(choice, "The Cabin in the Dreadsylvanian Woods");
+          // The Cabin in the Dreadsylvanian Woods
+          dynamicChoiceSpoilers(choice, "The Cabin in the Dreadsylvanian Woods");
       case 722 ->
-      // The Kitchen in the Woods
-      dynamicChoiceSpoilers(choice, "The Kitchen in the Woods");
+          // The Kitchen in the Woods
+          dynamicChoiceSpoilers(choice, "The Kitchen in the Woods");
       case 723 ->
-      // What Lies Beneath (the Cabin)
-      dynamicChoiceSpoilers(choice, "What Lies Beneath (the Cabin)");
+          // What Lies Beneath (the Cabin)
+          dynamicChoiceSpoilers(choice, "What Lies Beneath (the Cabin)");
       case 724 ->
-      // Where it's Attic
-      dynamicChoiceSpoilers(choice, "Where it's Attic");
+          // Where it's Attic
+          dynamicChoiceSpoilers(choice, "Where it's Attic");
       case 725 ->
-      // Tallest Tree in the Forest
-      dynamicChoiceSpoilers(choice, "Tallest Tree in the Forest");
+          // Tallest Tree in the Forest
+          dynamicChoiceSpoilers(choice, "Tallest Tree in the Forest");
       case 726 ->
-      // Top of the Tree, Ma!
-      dynamicChoiceSpoilers(choice, "Top of the Tree, Ma!");
+          // Top of the Tree, Ma!
+          dynamicChoiceSpoilers(choice, "Top of the Tree, Ma!");
       case 727 ->
-      // All Along the Watchtower
-      dynamicChoiceSpoilers(choice, "All Along the Watchtower");
+          // All Along the Watchtower
+          dynamicChoiceSpoilers(choice, "All Along the Watchtower");
       case 728 ->
-      // Treebasing
-      dynamicChoiceSpoilers(choice, "Treebasing");
+          // Treebasing
+          dynamicChoiceSpoilers(choice, "Treebasing");
       case 729 ->
-      // Below the Roots
-      dynamicChoiceSpoilers(choice, "Below the Roots");
+          // Below the Roots
+          dynamicChoiceSpoilers(choice, "Below the Roots");
       case 730 ->
-      // Hot Coals
-      dynamicChoiceSpoilers(choice, "Hot Coals");
+          // Hot Coals
+          dynamicChoiceSpoilers(choice, "Hot Coals");
       case 731 ->
-      // The Heart of the Matter
-      dynamicChoiceSpoilers(choice, "The Heart of the Matter");
+          // The Heart of the Matter
+          dynamicChoiceSpoilers(choice, "The Heart of the Matter");
       case 732 ->
-      // Once Midden, Twice Shy
-      dynamicChoiceSpoilers(choice, "Once Midden, Twice Shy");
+          // Once Midden, Twice Shy
+          dynamicChoiceSpoilers(choice, "Once Midden, Twice Shy");
       case 733 ->
-      // Dreadsylvanian Village Square
-      dynamicChoiceSpoilers(choice, "Dreadsylvanian Village Square");
+          // Dreadsylvanian Village Square
+          dynamicChoiceSpoilers(choice, "Dreadsylvanian Village Square");
       case 734 ->
-      // Fright School
-      dynamicChoiceSpoilers(choice, "Fright School");
+          // Fright School
+          dynamicChoiceSpoilers(choice, "Fright School");
       case 735 ->
-      // Smith, Black as Night
-      dynamicChoiceSpoilers(choice, "Smith, Black as Night");
+          // Smith, Black as Night
+          dynamicChoiceSpoilers(choice, "Smith, Black as Night");
       case 736 ->
-      // Gallows
-      dynamicChoiceSpoilers(choice, "Gallows");
+          // Gallows
+          dynamicChoiceSpoilers(choice, "Gallows");
       case 737 ->
-      // The Even More Dreadful Part of Town
-      dynamicChoiceSpoilers(choice, "The Even More Dreadful Part of Town");
+          // The Even More Dreadful Part of Town
+          dynamicChoiceSpoilers(choice, "The Even More Dreadful Part of Town");
       case 738 ->
-      // A Dreadful Smell
-      dynamicChoiceSpoilers(choice, "A Dreadful Smell");
+          // A Dreadful Smell
+          dynamicChoiceSpoilers(choice, "A Dreadful Smell");
       case 739 ->
-      // The Tinker's. Damn.
-      dynamicChoiceSpoilers(choice, "The Tinker's. Damn.");
+          // The Tinker's. Damn.
+          dynamicChoiceSpoilers(choice, "The Tinker's. Damn.");
       case 740 ->
-      // Eight, Nine, Tenement
-      dynamicChoiceSpoilers(choice, "Eight, Nine, Tenement");
+          // Eight, Nine, Tenement
+          dynamicChoiceSpoilers(choice, "Eight, Nine, Tenement");
       case 741 ->
-      // The Old Duke's Estate
-      dynamicChoiceSpoilers(choice, "The Old Duke's Estate");
+          // The Old Duke's Estate
+          dynamicChoiceSpoilers(choice, "The Old Duke's Estate");
       case 742 ->
-      // The Plot Thickens
-      dynamicChoiceSpoilers(choice, "The Plot Thickens");
+          // The Plot Thickens
+          dynamicChoiceSpoilers(choice, "The Plot Thickens");
       case 743 ->
-      // No Quarter
-      dynamicChoiceSpoilers(choice, "No Quarter");
+          // No Quarter
+          dynamicChoiceSpoilers(choice, "No Quarter");
       case 744 ->
-      // The Master Suite -- Sweet!
-      dynamicChoiceSpoilers(choice, "The Master Suite -- Sweet!");
+          // The Master Suite -- Sweet!
+          dynamicChoiceSpoilers(choice, "The Master Suite -- Sweet!");
       case 745 ->
-      // This Hall is Really Great
-      dynamicChoiceSpoilers(choice, "This Hall is Really Great");
+          // This Hall is Really Great
+          dynamicChoiceSpoilers(choice, "This Hall is Really Great");
       case 746 ->
-      // The Belle of the Ballroom
-      dynamicChoiceSpoilers(choice, "The Belle of the Ballroom");
+          // The Belle of the Ballroom
+          dynamicChoiceSpoilers(choice, "The Belle of the Ballroom");
       case 747 ->
-      // Cold Storage
-      dynamicChoiceSpoilers(choice, "Cold Storage");
+          // Cold Storage
+          dynamicChoiceSpoilers(choice, "Cold Storage");
       case 748 ->
-      // Dining In (the Castle)
-      dynamicChoiceSpoilers(choice, "Dining In (the Castle)");
+          // Dining In (the Castle)
+          dynamicChoiceSpoilers(choice, "Dining In (the Castle)");
       case 749 ->
-      // Tower Most Tall
-      dynamicChoiceSpoilers(choice, "Tower Most Tall");
+          // Tower Most Tall
+          dynamicChoiceSpoilers(choice, "Tower Most Tall");
       case 750 ->
-      // Working in the Lab, Late One Night
-      dynamicChoiceSpoilers(choice, "Working in the Lab, Late One Night");
+          // Working in the Lab, Late One Night
+          dynamicChoiceSpoilers(choice, "Working in the Lab, Late One Night");
       case 751 ->
-      // Among the Quaint and Curious Tomes.
-      dynamicChoiceSpoilers(choice, "Among the Quaint and Curious Tomes.");
+          // Among the Quaint and Curious Tomes.
+          dynamicChoiceSpoilers(choice, "Among the Quaint and Curious Tomes.");
       case 752 ->
-      // In The Boudoir
-      dynamicChoiceSpoilers(choice, "In The Boudoir");
+          // In The Boudoir
+          dynamicChoiceSpoilers(choice, "In The Boudoir");
       case 753 ->
-      // The Dreadsylvanian Dungeon
-      dynamicChoiceSpoilers(choice, "The Dreadsylvanian Dungeon");
+          // The Dreadsylvanian Dungeon
+          dynamicChoiceSpoilers(choice, "The Dreadsylvanian Dungeon");
       case 754 ->
-      // Live from Dungeon Prison
-      dynamicChoiceSpoilers(choice, "Live from Dungeon Prison");
+          // Live from Dungeon Prison
+          dynamicChoiceSpoilers(choice, "Live from Dungeon Prison");
       case 755 ->
-      // The Hot Bowels
-      dynamicChoiceSpoilers(choice, "The Hot Bowels");
+          // The Hot Bowels
+          dynamicChoiceSpoilers(choice, "The Hot Bowels");
       case 756 ->
-      // Among the Fungus
-      dynamicChoiceSpoilers(choice, "Among the Fungus");
+          // Among the Fungus
+          dynamicChoiceSpoilers(choice, "Among the Fungus");
       case 758 ->
-      // End of the Path
-      dynamicChoiceSpoilers(choice, "End of the Path");
+          // End of the Path
+          dynamicChoiceSpoilers(choice, "End of the Path");
       case 759 ->
-      // You're About to Fight City Hall
-      dynamicChoiceSpoilers(choice, "You're About to Fight City Hall");
+          // You're About to Fight City Hall
+          dynamicChoiceSpoilers(choice, "You're About to Fight City Hall");
       case 760 ->
-      // Holding Court
-      dynamicChoiceSpoilers(choice, "Holding Court");
+          // Holding Court
+          dynamicChoiceSpoilers(choice, "Holding Court");
 
-        // Choice 761 is Staring Upwards...
-        // Choice 762 is Try New Extra-Strength Anvil
-        // Choice 764 is The Machine
-        // Choice 765 is Hello Gallows
+      // Choice 761 is Staring Upwards...
+      // Choice 762 is Try New Extra-Strength Anvil
+      // Choice 764 is The Machine
+      // Choice 765 is Hello Gallows
 
       case 772 ->
-      // Saved by the Bell
-      dynamicChoiceSpoilers(choice, "Saved by the Bell");
+          // Saved by the Bell
+          dynamicChoiceSpoilers(choice, "Saved by the Bell");
       case 780 ->
-      // Action Elevator
-      dynamicChoiceSpoilers(choice, "Action Elevator");
+          // Action Elevator
+          dynamicChoiceSpoilers(choice, "Action Elevator");
       case 781 ->
-      // Earthbound and Down
-      dynamicChoiceSpoilers(choice, "Earthbound and Down");
+          // Earthbound and Down
+          dynamicChoiceSpoilers(choice, "Earthbound and Down");
       case 783 ->
-      // Water You Dune
-      dynamicChoiceSpoilers(choice, "Water You Dune");
+          // Water You Dune
+          dynamicChoiceSpoilers(choice, "Water You Dune");
       case 784 ->
-      // You, M. D.
-      dynamicChoiceSpoilers(choice, "You, M. D.");
+          // You, M. D.
+          dynamicChoiceSpoilers(choice, "You, M. D.");
       case 785 ->
-      // Air Apparent
-      dynamicChoiceSpoilers(choice, "Air Apparent");
+          // Air Apparent
+          dynamicChoiceSpoilers(choice, "Air Apparent");
       case 786 ->
-      // Working Holiday
-      dynamicChoiceSpoilers(choice, "Working Holiday");
+          // Working Holiday
+          dynamicChoiceSpoilers(choice, "Working Holiday");
       case 787 ->
-      // Fire when Ready
-      dynamicChoiceSpoilers(choice, "Fire when Ready");
+          // Fire when Ready
+          dynamicChoiceSpoilers(choice, "Fire when Ready");
       case 788 ->
-      // Life is Like a Cherry of Bowls
-      dynamicChoiceSpoilers(choice, "Life is Like a Cherry of Bowls");
+          // Life is Like a Cherry of Bowls
+          dynamicChoiceSpoilers(choice, "Life is Like a Cherry of Bowls");
       case 789 ->
-      // Where Does The Lone Ranger Take His Garbagester?
-      dynamicChoiceSpoilers(choice, "Where Does The Lone Ranger Take His Garbagester?");
+          // Where Does The Lone Ranger Take His Garbagester?
+          dynamicChoiceSpoilers(choice, "Where Does The Lone Ranger Take His Garbagester?");
       case 791 ->
-      // Legend of the Temple in the Hidden City
-      dynamicChoiceSpoilers(choice, "Legend of the Temple in the Hidden City");
+          // Legend of the Temple in the Hidden City
+          dynamicChoiceSpoilers(choice, "Legend of the Temple in the Hidden City");
       case 801 ->
-      // A Reanimated Conversation
-      dynamicChoiceSpoilers(choice, "A Reanimated Conversation");
+          // A Reanimated Conversation
+          dynamicChoiceSpoilers(choice, "A Reanimated Conversation");
       case 918 ->
-      // Yachtzee!
-      dynamicChoiceSpoilers(choice, "Yachtzee!");
+          // Yachtzee!
+          dynamicChoiceSpoilers(choice, "Yachtzee!");
       case 988 ->
-      // The Containment Unit
-      dynamicChoiceSpoilers(choice, "The Containment Unit");
+          // The Containment Unit
+          dynamicChoiceSpoilers(choice, "The Containment Unit");
       case 1049 ->
-      // Tomb of the Unknown Your Class Here
-      dynamicChoiceSpoilers(choice, "Tomb of the Unknown Your Class Here");
+          // Tomb of the Unknown Your Class Here
+          dynamicChoiceSpoilers(choice, "Tomb of the Unknown Your Class Here");
       case 1411 ->
-      // The Hall in the Hall
-      dynamicChoiceSpoilers(choice, "The Hall in the Hall");
+          // The Hall in the Hall
+          dynamicChoiceSpoilers(choice, "The Hall in the Hall");
       case 1489 ->
-      // Slagging Off
-      dynamicChoiceSpoilers(choice, "Slagging Off");
+          // Slagging Off
+          dynamicChoiceSpoilers(choice, "Slagging Off");
       case 1499 ->
-      // A Labyrinth of Shadows
-      dynamicChoiceSpoilers(choice, "A Labyrinth of Shadows");
+          // A Labyrinth of Shadows
+          dynamicChoiceSpoilers(choice, "A Labyrinth of Shadows");
       case 1545 ->
-      // CyberRealm Zone 1 Half-Way
-      dynamicChoiceSpoilers(choice, "CyberRealm Zone 1 Half-Way");
+          // CyberRealm Zone 1 Half-Way
+          dynamicChoiceSpoilers(choice, "CyberRealm Zone 1 Half-Way");
       case 1547 ->
-      // CyberRealm Zone 2 Half-Way
-      dynamicChoiceSpoilers(choice, "CyberRealm Zone 2 Half-Way");
+          // CyberRealm Zone 2 Half-Way
+          dynamicChoiceSpoilers(choice, "CyberRealm Zone 2 Half-Way");
       case 1549 ->
-      // CyberRealm Zone 3 Half-Way
-      dynamicChoiceSpoilers(choice, "CyberRealm Zone 3 Half-Way");
+          // CyberRealm Zone 3 Half-Way
+          dynamicChoiceSpoilers(choice, "CyberRealm Zone 3 Half-Way");
       default -> null;
     };
   }

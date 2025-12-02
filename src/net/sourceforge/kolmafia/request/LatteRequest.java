@@ -534,15 +534,18 @@ public class LatteRequest extends GenericRequest {
       if (ingredients[i] == null) {
         String message =
             switch (i) {
-              case 0 -> "Cannot find ingredient "
-                  + first
-                  + ". Use 'latte unlocked' to see available ingredients.";
-              case 1 -> "Cannot find ingredient "
-                  + second
-                  + ". Use 'latte unlocked' to see available ingredients.";
-              case 2 -> "Cannot find ingredient "
-                  + third
-                  + ". Use 'latte unlocked' to see available ingredients.";
+              case 0 ->
+                  "Cannot find ingredient "
+                      + first
+                      + ". Use 'latte unlocked' to see available ingredients.";
+              case 1 ->
+                  "Cannot find ingredient "
+                      + second
+                      + ". Use 'latte unlocked' to see available ingredients.";
+              case 2 ->
+                  "Cannot find ingredient "
+                      + third
+                      + ". Use 'latte unlocked' to see available ingredients.";
               default -> null;
             };
         KoLmafia.updateDisplay(MafiaState.ERROR, message);

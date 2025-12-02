@@ -96,10 +96,12 @@ public class EquipmentManager {
       EquipmentManager.historyLists.put(slot, new ArrayList<>());
 
       switch (slot) {
-        case ACCESSORY1, ACCESSORY2, ACCESSORY3 -> EquipmentManager.equipmentLists.put(
-            slot, LockableListFactory.getMirror(EquipmentManager.accessories));
-        default -> EquipmentManager.equipmentLists.put(
-            slot, LockableListFactory.getSortedInstance(AdventureResult.class));
+        case ACCESSORY1, ACCESSORY2, ACCESSORY3 ->
+            EquipmentManager.equipmentLists.put(
+                slot, LockableListFactory.getMirror(EquipmentManager.accessories));
+        default ->
+            EquipmentManager.equipmentLists.put(
+                slot, LockableListFactory.getSortedInstance(AdventureResult.class));
       }
     }
   }
@@ -369,8 +371,8 @@ public class EquipmentManager {
           removed =
               switch (consumption) {
                 case HAT -> hat.getItemId() != old.getItemId();
-                case WEAPON, OFFHAND -> weapon.getItemId() != old.getItemId()
-                    && offhand.getItemId() != old.getItemId();
+                case WEAPON, OFFHAND ->
+                    weapon.getItemId() != old.getItemId() && offhand.getItemId() != old.getItemId();
                 case PANTS -> pants.getItemId() != old.getItemId();
                 default -> removed;
               };
@@ -618,18 +620,19 @@ public class EquipmentManager {
 
   public static final void breakEquipment(int itemId, String msg) {
     switch (itemId) {
-        // Breaking sugar equipment resets sugar counter
+      // Breaking sugar equipment resets sugar counter
       case ItemPool.SUGAR_CHAPEAU,
           ItemPool.SUGAR_SHANK,
           ItemPool.SUGAR_SHIELD,
           ItemPool.SUGAR_SHILLELAGH,
           ItemPool.SUGAR_SHIRT,
           ItemPool.SUGAR_SHOTGUN,
-          ItemPool.SUGAR_SHORTS -> Preferences.setInteger("sugarCounter" + itemId, 0);
+          ItemPool.SUGAR_SHORTS ->
+          Preferences.setInteger("sugarCounter" + itemId, 0);
 
-        // Breaking cozy equipment resets cozy counter
-      case ItemPool.COZY_SCIMITAR, ItemPool.COZY_STAFF, ItemPool.COZY_BAZOOKA -> Preferences
-          .setInteger("cozyCounter" + itemId, 0);
+      // Breaking cozy equipment resets cozy counter
+      case ItemPool.COZY_SCIMITAR, ItemPool.COZY_STAFF, ItemPool.COZY_BAZOOKA ->
+          Preferences.setInteger("cozyCounter" + itemId, 0);
     }
 
     // Discard the item, but do not clear it from outfit checkpoints yet.
@@ -891,9 +894,10 @@ public class EquipmentManager {
           ItemPool.SUGAR_SHILLELAGH,
           ItemPool.SUGAR_SHIRT,
           ItemPool.SUGAR_SHOTGUN,
-          ItemPool.SUGAR_SHORTS -> Preferences.increment("sugarCounter" + itemId, 1);
-      case ItemPool.COZY_SCIMITAR, ItemPool.COZY_STAFF, ItemPool.COZY_BAZOOKA -> Preferences
-          .increment("cozyCounter" + itemId, 1);
+          ItemPool.SUGAR_SHORTS ->
+          Preferences.increment("sugarCounter" + itemId, 1);
+      case ItemPool.COZY_SCIMITAR, ItemPool.COZY_STAFF, ItemPool.COZY_BAZOOKA ->
+          Preferences.increment("cozyCounter" + itemId, 1);
     }
   }
 

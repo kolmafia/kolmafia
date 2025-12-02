@@ -483,10 +483,10 @@ public class ClanRumpusRequest extends GenericRequest {
         }
       }
       case "jukebox" ->
-      // Whether we get a song or not, we are done for the
-      // day with the Jukebox, unless we ascend, which will
-      // reset the preference.
-      Preferences.setBoolean("_jukebox", true);
+          // Whether we get a song or not, we are done for the
+          // day with the Jukebox, unless we ascend, which will
+          // reset the preference.
+          Preferences.setBoolean("_jukebox", true);
     }
   }
 

@@ -68,8 +68,9 @@ public class MayamCommand extends AbstractCommand {
     switch (args[0]) {
       case "rings" -> rings(params);
       case "resonance" -> resonance(params);
-      default -> KoLmafia.updateDisplay(
-          MafiaState.ERROR, "Mayam command not recognised. Stop tzolk'in around.");
+      default ->
+          KoLmafia.updateDisplay(
+              MafiaState.ERROR, "Mayam command not recognised. Stop tzolk'in around.");
     }
   }
 

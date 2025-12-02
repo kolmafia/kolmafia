@@ -419,7 +419,8 @@ public class WardrobeOMaticDatabase {
           COLD_RESISTANCE,
           STENCH_RESISTANCE,
           SPOOKY_RESISTANCE,
-          SLEAZE_RESISTANCE -> mtRand.nextInt(level + 1, level + 3);
+          SLEAZE_RESISTANCE ->
+          mtRand.nextInt(level + 1, level + 3);
       case HP, MP -> mtRand.nextInt(20 * level + 10, 20 * level + 30);
       case HP_REGEN_MIN -> mtRand.nextInt(2 * level + 2, 2 * level + 4);
       case MP_REGEN_MIN -> mtRand.nextInt(3 * level + 3, 3 * level + 5);
@@ -438,7 +439,8 @@ public class WardrobeOMaticDatabase {
           COLD_SPELL_DAMAGE,
           STENCH_SPELL_DAMAGE,
           SPOOKY_SPELL_DAMAGE,
-          SLEAZE_SPELL_DAMAGE -> mtRand.nextInt(4 * level + 4, 6 * level + 6);
+          SLEAZE_SPELL_DAMAGE ->
+          mtRand.nextInt(4 * level + 4, 6 * level + 6);
       case FAMILIAR_WEIGHT -> 7 + 2 * level - mtRand.nextInt(0, 2);
       case FAMILIAR_DAMAGE -> mtRand.nextInt(15 * level + 15, 25 * level + 25);
       case FAMILIAR_EXP -> level + 1;

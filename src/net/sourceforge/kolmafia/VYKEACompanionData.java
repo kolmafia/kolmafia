@@ -425,11 +425,11 @@ public class VYKEACompanionData implements Comparable<VYKEACompanionData> {
     if (choice == 1120) {
       switch (decision) {
         case 1 ->
-        // Start with 5 planks -> bookshelf, ceiling fan, dresser
-        ResultProcessor.processItem(ItemPool.VYKEA_PLANK, -5);
+            // Start with 5 planks -> bookshelf, ceiling fan, dresser
+            ResultProcessor.processItem(ItemPool.VYKEA_PLANK, -5);
         case 2 ->
-        // Start with 5 rails -> couch, dishrack, lamp
-        ResultProcessor.processItem(ItemPool.VYKEA_RAIL, -5);
+            // Start with 5 rails -> couch, dishrack, lamp
+            ResultProcessor.processItem(ItemPool.VYKEA_RAIL, -5);
         default -> {
           // Do nothing or invalid decision (presumably from URL manipulation).
           return;
@@ -462,7 +462,7 @@ public class VYKEACompanionData implements Comparable<VYKEACompanionData> {
             case 2 -> BLOOD_RUNE;
             case 3 -> LIGHTNING_RUNE;
             case 6 -> NO_RUNE;
-              // Don't add any runes
+            // Don't add any runes
             default -> null;
           };
 
@@ -534,14 +534,14 @@ public class VYKEACompanionData implements Comparable<VYKEACompanionData> {
     if (choice == 1123) {
       switch (decision) {
         case 1 ->
-        // Add 5 planks -> bookshelf, couch
-        ResultProcessor.processItem(ItemPool.VYKEA_PLANK, -5);
+            // Add 5 planks -> bookshelf, couch
+            ResultProcessor.processItem(ItemPool.VYKEA_PLANK, -5);
         case 2 ->
-        // Add 5 rails -> dresser, lamp
-        ResultProcessor.processItem(ItemPool.VYKEA_RAIL, -5);
+            // Add 5 rails -> dresser, lamp
+            ResultProcessor.processItem(ItemPool.VYKEA_RAIL, -5);
         case 3 ->
-        // Add 5 brackets -> ceiling fan, dishrack
-        ResultProcessor.processItem(ItemPool.VYKEA_BRACKET, -5);
+            // Add 5 brackets -> ceiling fan, dishrack
+            ResultProcessor.processItem(ItemPool.VYKEA_BRACKET, -5);
         default -> {
           // Invalid decision, presumably from URL manipulation.
           return;

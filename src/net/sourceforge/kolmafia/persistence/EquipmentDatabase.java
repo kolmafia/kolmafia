@@ -893,13 +893,14 @@ public class EquipmentDatabase {
       case AdventurePool.HIPPY_CAMP, AdventurePool.HIPPY_CAMP_DISGUISED -> OutfitPool.HIPPY_OUTFIT;
       case AdventurePool.FRAT_HOUSE, AdventurePool.FRAT_HOUSE_DISGUISED -> OutfitPool.FRAT_OUTFIT;
       case AdventurePool.PIRATE_COVE -> OutfitPool.SWASHBUCKLING_GETUP;
-        // Choose the uniform randomly
-      case AdventurePool.COLA_BATTLEFIELD -> KoLConstants.RNG.nextInt(2) == 0
-          ? OutfitPool.CLOACA_UNIFORM
-          : OutfitPool.DYSPEPSI_UNIFORM;
+      // Choose the uniform randomly
+      case AdventurePool.COLA_BATTLEFIELD ->
+          KoLConstants.RNG.nextInt(2) == 0
+              ? OutfitPool.CLOACA_UNIFORM
+              : OutfitPool.DYSPEPSI_UNIFORM;
       case AdventurePool.CLOACA_BATTLEFIELD -> OutfitPool.CLOACA_UNIFORM;
       case AdventurePool.DYSPEPSI_BATTLEFIELD -> OutfitPool.DYSPEPSI_UNIFORM;
-        // No outfit existed for this area
+      // No outfit existed for this area
       default -> -1;
     };
   }

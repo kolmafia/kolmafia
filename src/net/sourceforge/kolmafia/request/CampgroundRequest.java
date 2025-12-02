@@ -1559,9 +1559,10 @@ public class CampgroundRequest extends GenericRequest {
       case 15 -> itemId = ItemPool.GIANT_PILGRIM_HAT;
       case 16 -> itemId = ItemPool.HOUSE_SIZED_MUSHROOM;
       case 17 -> itemId = ItemPool.MINI_KIWI_TIPI;
-      default -> KoLmafia.updateDisplay(
-          MafiaState.ERROR,
-          "Unrecognized housing type (" + CampgroundRequest.currentDwellingLevel + ")!");
+      default ->
+          KoLmafia.updateDisplay(
+              MafiaState.ERROR,
+              "Unrecognized housing type (" + CampgroundRequest.currentDwellingLevel + ")!");
     }
 
     if (itemId != -1) {
@@ -1839,7 +1840,8 @@ public class CampgroundRequest extends GenericRequest {
           ItemPool.SPIRIT_BED,
           ItemPool.SPOOKY_BEDDING,
           ItemPool.STENCH_BEDDING,
-          ItemPool.WET_BLANKET -> true;
+          ItemPool.WET_BLANKET ->
+          true;
       default -> false;
     };
   }

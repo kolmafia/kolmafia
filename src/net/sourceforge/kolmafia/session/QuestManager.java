@@ -108,8 +108,8 @@ public class QuestManager {
     if (redirectLocation != null) {
       if (location.startsWith("adventure")) {
         switch (locationId) {
-          case AdventurePool.PALINDOME -> QuestDatabase.setQuestIfBetter(
-              Quest.PALINDOME, QuestDatabase.STARTED);
+          case AdventurePool.PALINDOME ->
+              QuestDatabase.setQuestIfBetter(Quest.PALINDOME, QuestDatabase.STARTED);
           case AdventurePool.EL_VIBRATO_ISLAND -> handleElVibratoChange(location, "");
         }
       }
@@ -386,7 +386,7 @@ public class QuestManager {
           case "sea_oldman" -> handleSeaChange(location, responseText);
           case "spacegate" -> handleSpacegateChange(location, responseText);
           case "speakeasy" -> handleSpeakeasyChange(responseText);
-            // don't catch town_wrong, town_right, or town_market
+          // don't catch town_wrong, town_right, or town_market
           case "town" -> handleTownChange(location, responseText);
           case "town_right" -> handleTownRightChange(location, responseText);
           case "town_wrong" -> handleTownWrongChange(location, responseText);
@@ -2743,8 +2743,8 @@ public class QuestManager {
   public static void updateQuestItemEquipped(final int itemId) {
     switch (itemId) {
       case ItemPool.GORE_BUCKET -> QuestDatabase.setQuestIfBetter(Quest.GORE, "step1");
-      case ItemPool.MINI_CASSETTE_RECORDER -> QuestDatabase.setQuestIfBetter(
-          Quest.JUNGLE_PUN, "step1");
+      case ItemPool.MINI_CASSETTE_RECORDER ->
+          QuestDatabase.setQuestIfBetter(Quest.JUNGLE_PUN, "step1");
       case ItemPool.GPS_WATCH -> QuestDatabase.setQuestIfBetter(Quest.OUT_OF_ORDER, "step1");
       case ItemPool.TRASH_NET -> QuestDatabase.setQuestIfBetter(Quest.FISH_TRASH, "step1");
       case ItemPool.LUBE_SHOES -> QuestDatabase.setQuestIfBetter(Quest.SUPER_LUBER, "step1");

@@ -614,19 +614,19 @@ public class BreakfastManager {
     long totalCasts =
         switch (type) {
           case TOME ->
-          // In Ronin or Hardcore, Tomes can be used three times a day,
-          // spread among all available tomes.
-          // In other cases, all available tomes can be cast three times a day.
-          KoLCharacter.canInteract() ? skillCount * 3L : 3;
+              // In Ronin or Hardcore, Tomes can be used three times a day,
+              // spread among all available tomes.
+              // In other cases, all available tomes can be cast three times a day.
+              KoLCharacter.canInteract() ? skillCount * 3L : 3;
           case GRIMOIRE ->
-          // Grimoires can be used once a day, each.
-          skillCount;
+              // Grimoires can be used once a day, each.
+              skillCount;
           case LIBRAM ->
-          // Librams can be used as many times per day as you
-          // have mana available.
-          // Note that if we allow MP to be restored, we could
-          // potentially summon a lot more. Maybe someday...
-          SkillDatabase.libramSkillCasts(KoLCharacter.getCurrentMP() - manaRemaining);
+              // Librams can be used as many times per day as you
+              // have mana available.
+              // Note that if we allow MP to be restored, we could
+              // potentially summon a lot more. Maybe someday...
+              SkillDatabase.libramSkillCasts(KoLCharacter.getCurrentMP() - manaRemaining);
         };
 
     if (skillCount == 1) {

@@ -133,16 +133,8 @@ public class Type extends Symbol {
 
   public boolean isStringLike() {
     return switch (this.getType()) {
-      case STRING,
-          BUFFER,
-          LOCATION,
-          STAT,
-          MONSTER,
-          ELEMENT,
-          COINMASTER,
-          PHYLUM,
-          BOUNTY,
-          MODIFIER -> true;
+      case STRING, BUFFER, LOCATION, STAT, MONSTER, ELEMENT, COINMASTER, PHYLUM, BOUNTY, MODIFIER ->
+          true;
       default -> false;
     };
   }
@@ -163,7 +155,8 @@ public class Type extends Symbol {
           LOCATION,
           SLOT,
           PATH,
-          CLASS -> true;
+          CLASS ->
+          true;
       default -> false;
     };
   }
@@ -246,7 +239,7 @@ public class Type extends Symbol {
       case SLOT -> DataTypes.makeSlotValue(id, returnDefault);
       case PATH -> DataTypes.makePathValue(id, returnDefault);
       case CLASS -> DataTypes.makeClassValue(id, returnDefault);
-        // The following don't have an integer -> object mapping
+      // The following don't have an integer -> object mapping
       case STAT -> DataTypes.STAT_INIT;
       case ELEMENT -> DataTypes.ELEMENT_INIT;
       case COINMASTER -> DataTypes.COINMASTER_INIT;

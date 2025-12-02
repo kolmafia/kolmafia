@@ -168,26 +168,28 @@ public class Evaluator {
 
   private int maxUseful(Slot slot) {
     return switch (slot) {
-      case /* Evaluator.WEAPON_1H */ STICKER3 -> 1
-          + relevantSkill(SkillPool.DOUBLE_FISTED_SKULL_SMASHING)
-          + this.relevantFamiliar(FamiliarPool.HAND);
+      case /* Evaluator.WEAPON_1H */ STICKER3 ->
+          1
+              + relevantSkill(SkillPool.DOUBLE_FISTED_SKULL_SMASHING)
+              + this.relevantFamiliar(FamiliarPool.HAND);
       case OFFHAND -> 1 + this.relevantFamiliar(FamiliarPool.LEFT_HAND);
       case ACCESSORY1 -> 3;
       case FAMILIAR ->
-      // Familiar items include weapons, hats and pants, make sure we have enough to consider for
-      // other slots
-      1
-          + this.relevantFamiliar(FamiliarPool.SCARECROW)
-          + this.relevantFamiliar(FamiliarPool.HAND)
-          + this.relevantFamiliar(FamiliarPool.HATRACK);
+          // Familiar items include weapons, hats and pants, make sure we have enough to consider
+          // for
+          // other slots
+          1
+              + this.relevantFamiliar(FamiliarPool.SCARECROW)
+              + this.relevantFamiliar(FamiliarPool.HAND)
+              + this.relevantFamiliar(FamiliarPool.HATRACK);
       default -> 1;
     };
   }
 
   private static Slot toUseSlot(Slot slot) {
     return switch (slot) {
-      case /* Evaluator.OFFHAND_MELEE */ ACCESSORY2, /* Evaluator.OFFHAND_RANGED */
-          ACCESSORY3 -> Slot.OFFHAND;
+      case /* Evaluator.OFFHAND_MELEE */ ACCESSORY2, /* Evaluator.OFFHAND_RANGED */ ACCESSORY3 ->
+          Slot.OFFHAND;
       case /* Evaluator.WEAPON_1H */ STICKER3 -> Slot.WEAPON;
       default -> slot;
     };
@@ -733,20 +735,20 @@ public class Evaluator {
     // Find the best plumber tool
     return switch (primeIndex) {
       case 0 -> // Muscle
-      haveHeavyHammer ? heavyHammer : haveHammer ? hammer : null;
+          haveHeavyHammer ? heavyHammer : haveHammer ? hammer : null;
       case 1 -> // Mysticality
-      haveBonfireFlower ? bonfireFlower : haveFireFlower ? fireFlower : null;
+          haveBonfireFlower ? bonfireFlower : haveFireFlower ? fireFlower : null;
       case 2 -> // Moxie
-      haveFancyBoots ? fancyBoots : haveWorkBoots ? workBoots : null;
+          haveFancyBoots ? fancyBoots : haveWorkBoots ? workBoots : null;
       default ->
-      // If you don't care about stat, pick the best item you own.
-      haveHeavyHammer
-          ? heavyHammer
-          : haveBonfireFlower
-              ? bonfireFlower
-              : haveFancyBoots
-                  ? fancyBoots
-                  : haveHammer ? hammer : haveFireFlower ? fireFlower : workBoots;
+          // If you don't care about stat, pick the best item you own.
+          haveHeavyHammer
+              ? heavyHammer
+              : haveBonfireFlower
+                  ? bonfireFlower
+                  : haveFancyBoots
+                      ? fancyBoots
+                      : haveHammer ? hammer : haveFireFlower ? fireFlower : workBoots;
     };
   }
 
@@ -986,39 +988,43 @@ public class Evaluator {
     return switch (effectId) {
       case EffectPool.NEARLY_SILENT_HUNTING -> KoLCharacter.isSealClubber();
       case EffectPool.SILENT_HUNTING, EffectPool.BARREL_CHESTED -> !KoLCharacter.isSealClubber();
-      case EffectPool.BOON_OF_SHE_WHO_WAS -> KoLCharacter.getBlessingType()
-              != TurtleBlessing.SHE_WHO_WAS
-          || KoLCharacter.getBlessingLevel() == TurtleBlessingLevel.AVATAR;
-      case EffectPool.BOON_OF_THE_STORM_TORTOISE -> KoLCharacter.getBlessingType()
-              != TurtleBlessing.STORM
-          || KoLCharacter.getBlessingLevel() == TurtleBlessingLevel.AVATAR;
-      case EffectPool.BOON_OF_THE_WAR_SNAPPER -> KoLCharacter.getBlessingType()
-              != TurtleBlessing.WAR
-          || KoLCharacter.getBlessingLevel() == TurtleBlessingLevel.AVATAR;
-      case EffectPool.AVATAR_OF_SHE_WHO_WAS -> KoLCharacter.getBlessingType()
-              != TurtleBlessing.SHE_WHO_WAS
-          || KoLCharacter.getBlessingLevel() != TurtleBlessingLevel.GLORIOUS_BLESSING;
-      case EffectPool.AVATAR_OF_THE_STORM_TORTOISE -> KoLCharacter.getBlessingType()
-              != TurtleBlessing.STORM
-          || KoLCharacter.getBlessingLevel() != TurtleBlessingLevel.GLORIOUS_BLESSING;
-      case EffectPool.AVATAR_OF_THE_WAR_SNAPPER -> KoLCharacter.getBlessingType()
-              != TurtleBlessing.WAR
-          || KoLCharacter.getBlessingLevel() != TurtleBlessingLevel.GLORIOUS_BLESSING;
-      case EffectPool.BLESSING_OF_SHE_WHO_WAS -> !KoLCharacter.isTurtleTamer()
-          || KoLCharacter.getBlessingType() == TurtleBlessing.SHE_WHO_WAS
-          || KoLCharacter.getBlessingLevel() == TurtleBlessingLevel.PARIAH
-          || KoLCharacter.getBlessingLevel() == TurtleBlessingLevel.AVATAR;
-      case EffectPool.BLESSING_OF_THE_STORM_TORTOISE -> !KoLCharacter.isTurtleTamer()
-          || KoLCharacter.getBlessingType() == TurtleBlessing.STORM
-          || KoLCharacter.getBlessingLevel() == TurtleBlessingLevel.PARIAH
-          || KoLCharacter.getBlessingLevel() == TurtleBlessingLevel.AVATAR;
-      case EffectPool.BLESSING_OF_THE_WAR_SNAPPER -> !KoLCharacter.isTurtleTamer()
-          || KoLCharacter.getBlessingType() == TurtleBlessing.WAR
-          || KoLCharacter.getBlessingLevel() == TurtleBlessingLevel.PARIAH
-          || KoLCharacter.getBlessingLevel() == TurtleBlessingLevel.AVATAR;
+      case EffectPool.BOON_OF_SHE_WHO_WAS ->
+          KoLCharacter.getBlessingType() != TurtleBlessing.SHE_WHO_WAS
+              || KoLCharacter.getBlessingLevel() == TurtleBlessingLevel.AVATAR;
+      case EffectPool.BOON_OF_THE_STORM_TORTOISE ->
+          KoLCharacter.getBlessingType() != TurtleBlessing.STORM
+              || KoLCharacter.getBlessingLevel() == TurtleBlessingLevel.AVATAR;
+      case EffectPool.BOON_OF_THE_WAR_SNAPPER ->
+          KoLCharacter.getBlessingType() != TurtleBlessing.WAR
+              || KoLCharacter.getBlessingLevel() == TurtleBlessingLevel.AVATAR;
+      case EffectPool.AVATAR_OF_SHE_WHO_WAS ->
+          KoLCharacter.getBlessingType() != TurtleBlessing.SHE_WHO_WAS
+              || KoLCharacter.getBlessingLevel() != TurtleBlessingLevel.GLORIOUS_BLESSING;
+      case EffectPool.AVATAR_OF_THE_STORM_TORTOISE ->
+          KoLCharacter.getBlessingType() != TurtleBlessing.STORM
+              || KoLCharacter.getBlessingLevel() != TurtleBlessingLevel.GLORIOUS_BLESSING;
+      case EffectPool.AVATAR_OF_THE_WAR_SNAPPER ->
+          KoLCharacter.getBlessingType() != TurtleBlessing.WAR
+              || KoLCharacter.getBlessingLevel() != TurtleBlessingLevel.GLORIOUS_BLESSING;
+      case EffectPool.BLESSING_OF_SHE_WHO_WAS ->
+          !KoLCharacter.isTurtleTamer()
+              || KoLCharacter.getBlessingType() == TurtleBlessing.SHE_WHO_WAS
+              || KoLCharacter.getBlessingLevel() == TurtleBlessingLevel.PARIAH
+              || KoLCharacter.getBlessingLevel() == TurtleBlessingLevel.AVATAR;
+      case EffectPool.BLESSING_OF_THE_STORM_TORTOISE ->
+          !KoLCharacter.isTurtleTamer()
+              || KoLCharacter.getBlessingType() == TurtleBlessing.STORM
+              || KoLCharacter.getBlessingLevel() == TurtleBlessingLevel.PARIAH
+              || KoLCharacter.getBlessingLevel() == TurtleBlessingLevel.AVATAR;
+      case EffectPool.BLESSING_OF_THE_WAR_SNAPPER ->
+          !KoLCharacter.isTurtleTamer()
+              || KoLCharacter.getBlessingType() == TurtleBlessing.WAR
+              || KoLCharacter.getBlessingLevel() == TurtleBlessingLevel.PARIAH
+              || KoLCharacter.getBlessingLevel() == TurtleBlessingLevel.AVATAR;
       case EffectPool.DISDAIN_OF_SHE_WHO_WAS,
           EffectPool.DISDAIN_OF_THE_STORM_TORTOISE,
-          EffectPool.DISDAIN_OF_THE_WAR_SNAPPER -> KoLCharacter.isTurtleTamer();
+          EffectPool.DISDAIN_OF_THE_WAR_SNAPPER ->
+          KoLCharacter.isTurtleTamer();
       case EffectPool.BARREL_OF_LAUGHS -> !KoLCharacter.isTurtleTamer();
       case EffectPool.FLIMSY_SHIELD_OF_THE_PASTALORD,
           EffectPool.BLOODY_POTATO_BITS,
@@ -1027,19 +1033,21 @@ public class Evaluator {
           EffectPool.MACARONI_COATING,
           EffectPool.PENNE_FEDORA,
           EffectPool.PASTA_EYEBALL,
-          EffectPool.SPICE_HAZE -> KoLCharacter.isPastamancer();
-      case EffectPool.SHIELD_OF_THE_PASTALORD, EffectPool.PORK_BARREL -> !KoLCharacter
-          .isPastamancer();
+          EffectPool.SPICE_HAZE ->
+          KoLCharacter.isPastamancer();
+      case EffectPool.SHIELD_OF_THE_PASTALORD, EffectPool.PORK_BARREL ->
+          !KoLCharacter.isPastamancer();
       case EffectPool.BLOOD_SUGAR_SAUCE_MAGIC,
           EffectPool.SOULERSKATES,
-          EffectPool.WARLOCK_WARSTOCK_WARBARREL -> !KoLCharacter.isSauceror();
+          EffectPool.WARLOCK_WARSTOCK_WARBARREL ->
+          !KoLCharacter.isSauceror();
       case EffectPool.BLOOD_SUGAR_SAUCE_MAGIC_LITE -> KoLCharacter.isSauceror();
       case EffectPool.DOUBLE_BARRELED -> !KoLCharacter.isDiscoBandit();
       case EffectPool.BEER_BARREL_POLKA -> !KoLCharacter.isAccordionThief();
-      case EffectPool.UNMUFFLED -> !Preferences.getString("peteMotorbikeMuffler")
-          .equals("Extra-Loud Muffler");
-      case EffectPool.MUFFLED -> !Preferences.getString("peteMotorbikeMuffler")
-          .equals("Extra-Quiet Muffler");
+      case EffectPool.UNMUFFLED ->
+          !Preferences.getString("peteMotorbikeMuffler").equals("Extra-Loud Muffler");
+      case EffectPool.MUFFLED ->
+          !Preferences.getString("peteMotorbikeMuffler").equals("Extra-Quiet Muffler");
       default -> false;
     };
   }
@@ -1443,13 +1451,15 @@ public class Evaluator {
         if (modeable != null) {
           var slotWeightings =
               switch (modeable.getSlot()) {
-                case ACCESSORY1 -> List.of(
-                    this.slots.getOrDefault(Slot.ACCESSORY1, 0),
-                    this.slots.getOrDefault(Slot.ACCESSORY2, 0),
-                    this.slots.getOrDefault(Slot.ACCESSORY3, 0));
-                case OFFHAND -> List.of(
-                    this.slots.getOrDefault(Slot.OFFHAND, 0),
-                    this.slots.getOrDefault(Slot.FAMILIAR, 0));
+                case ACCESSORY1 ->
+                    List.of(
+                        this.slots.getOrDefault(Slot.ACCESSORY1, 0),
+                        this.slots.getOrDefault(Slot.ACCESSORY2, 0),
+                        this.slots.getOrDefault(Slot.ACCESSORY3, 0));
+                case OFFHAND ->
+                    List.of(
+                        this.slots.getOrDefault(Slot.OFFHAND, 0),
+                        this.slots.getOrDefault(Slot.FAMILIAR, 0));
                 default -> List.of(this.slots.getOrDefault(modeable.getSlot(), 0));
               };
           modeablesNeeded.put(modeable, slotWeightings.stream().anyMatch(s -> s >= 0));

@@ -209,9 +209,10 @@ public class Concoction implements Comparable<Concoction> {
       return switch (ItemDatabase.getConsumptionType(itemId)) {
         case FOOD_HELPER -> ConcoctionType.FOOD;
         case DRINK_HELPER -> ConcoctionType.BOOZE;
-        case USE, USE_MULTIPLE -> forceFood.contains(itemId)
-            ? ConcoctionType.FOOD
-            : forceBooze.contains(itemId) ? ConcoctionType.BOOZE : ConcoctionType.NONE;
+        case USE, USE_MULTIPLE ->
+            forceFood.contains(itemId)
+                ? ConcoctionType.FOOD
+                : forceBooze.contains(itemId) ? ConcoctionType.BOOZE : ConcoctionType.NONE;
         case POTION, AVATAR_POTION -> ConcoctionType.POTION;
         default -> ConcoctionType.NONE;
       };
@@ -239,8 +240,8 @@ public class Concoction implements Comparable<Concoction> {
     final String range =
         switch (KoLCharacter.mainStat()) {
           case MUSCLE -> ConsumablesDatabase.getStatRange(Consumable.MUSCLE, this.consumable);
-          case MYSTICALITY -> ConsumablesDatabase.getStatRange(
-              Consumable.MYSTICALITY, this.consumable);
+          case MYSTICALITY ->
+              ConsumablesDatabase.getStatRange(Consumable.MYSTICALITY, this.consumable);
           case MOXIE -> ConsumablesDatabase.getStatRange(Consumable.MOXIE, this.consumable);
           default -> "+0.0";
         };

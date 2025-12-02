@@ -1016,7 +1016,10 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       String input =
           "string str = \"" + input2 + "\"; split_string(str, \" \").join_strings(\" \")";
       String output = execute(input);
-      assertThat(output, is("""
+      assertThat(
+          output,
+          is(
+              """
               Returned: foo bar baz
               """));
     }
@@ -1118,7 +1121,10 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     void canCallNumericWithModifier() {
       String input = "numeric_modifier($item[ring of the Skeleton Lord], $modifier[Meat Drop])";
       String output = execute(input);
-      assertThat(output, is("""
+      assertThat(
+          output,
+          is(
+              """
                  Returned: 50.0
                  """));
     }
@@ -1141,7 +1147,10 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     void canCallBooleanWithModifier() {
       String input = "boolean_modifier($item[Brimstone Beret], $modifier[Four Songs])";
       String output = execute(input);
-      assertThat(output, is("""
+      assertThat(
+          output,
+          is(
+              """
                  Returned: true
                  """));
     }
@@ -1253,7 +1262,10 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     void canCallStatWithModifier() {
       String input = "stat_modifier($effect[Stabilizing Oiliness], $modifier[Equalize])";
       String output = execute(input);
-      assertThat(output, is("""
+      assertThat(
+          output,
+          is(
+              """
                  Returned: Muscle
                  """));
     }
@@ -2081,7 +2093,8 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       var fragment = "<select><option value=\"90485\">Bonus Adventures from Hell</option></select>";
       assertThat(
           xpath(fragment, "//@value"),
-          is("""
+          is(
+              """
           Returned: aggregate string [1]
           0 => 90485
           """));
