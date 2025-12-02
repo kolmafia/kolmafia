@@ -1082,6 +1082,11 @@ public class CampgroundRequest extends GenericRequest {
         Preferences.increment("_knuckleboneRests", 1, 5);
       }
 
+      // It looks like another mini kiwi has sprung up next to your tiny kiwi tipi!
+      if (responseText.contains("next to your tiny kiwi tipi")) {
+        Preferences.setBoolean("_miniKiwiTipiDrop", true);
+      }
+
       handleCinchoRest(responseText);
 
       var m = HOUSING_PATTERN.matcher(responseText);
