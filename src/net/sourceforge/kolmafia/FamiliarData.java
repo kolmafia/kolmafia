@@ -1252,7 +1252,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
         new DropInfo(
             FamiliarPool.SKELETON_OF_CRIMBO_PAST,
             ItemPool.KNUCKLEBONE,
-            "knucklebone",
+            "knucklebones",
             "_knuckleboneDrops",
             100));
   }
