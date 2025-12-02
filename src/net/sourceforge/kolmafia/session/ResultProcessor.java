@@ -1333,92 +1333,55 @@ public class ResultProcessor {
     // handled here.
 
     switch (itemId) {
-      case ItemPool.FAKE_HAND:
-        NamedListenerRegistry.fireChange("(fakehands)");
-        break;
-
-      case ItemPool.BLACK_BARTS_BOOTY:
-        // Whether you just got Black Bart's booty or just used
-        // it to get the skill, you ain't gettin' another this season.
-        Preferences.setBoolean("blackBartsBootyAvailable", false);
-        break;
-
-      case ItemPool.HOLIDAY_FUN_BOOK:
-        Preferences.setBoolean("holidayHalsBookAvailable", false);
-        break;
-
-      case ItemPool.ANTAGONISTIC_SNOWMAN_KIT:
-        Preferences.setBoolean("antagonisticSnowmanKitAvailable", false);
-        break;
-
-      case ItemPool.MAP_TO_KOKOMO:
-        Preferences.setBoolean("mapToKokomoAvailable", false);
-        break;
-
-      case ItemPool.ESSENCE_OF_BEAR:
-        Preferences.setBoolean("essenceOfBearAvailable", false);
-        break;
-
-      case ItemPool.MANUAL_OF_NUMBEROLOGY:
-        Preferences.setBoolean("manualOfNumberologyAvailable", false);
-        break;
-
-      case ItemPool.ROM_OF_OPTIMALITY:
-        Preferences.setBoolean("ROMOfOptimalityAvailable", false);
-        break;
-
-      case ItemPool.SCHOOL_OF_HARD_KNOCKS_DIPLOMA:
+      case ItemPool.FAKE_HAND -> NamedListenerRegistry.fireChange("(fakehands)");
+      case ItemPool.BLACK_BARTS_BOOTY ->
+          // Whether you just got Black Bart's booty or just used
+          // it to get the skill, you ain't gettin' another this season.
+          Preferences.setBoolean("blackBartsBootyAvailable", false);
+      case ItemPool.HOLIDAY_FUN_BOOK -> Preferences.setBoolean("holidayHalsBookAvailable", false);
+      case ItemPool.ANTAGONISTIC_SNOWMAN_KIT ->
+          Preferences.setBoolean("antagonisticSnowmanKitAvailable", false);
+      case ItemPool.MAP_TO_KOKOMO -> Preferences.setBoolean("mapToKokomoAvailable", false);
+      case ItemPool.ESSENCE_OF_BEAR -> Preferences.setBoolean("essenceOfBearAvailable", false);
+      case ItemPool.MANUAL_OF_NUMBEROLOGY ->
+          Preferences.setBoolean("manualOfNumberologyAvailable", false);
+      case ItemPool.ROM_OF_OPTIMALITY -> Preferences.setBoolean("ROMOfOptimalityAvailable", false);
+      case ItemPool.SCHOOL_OF_HARD_KNOCKS_DIPLOMA -> {
         // You actual can (could) buy multiple School of Hard Knocks diplomas
         // Preferences.setBoolean( "schoolOfHardKnocksDiplomaAvailable", false );
-        break;
-
-      case ItemPool.GUIDE_TO_SAFARI:
-        Preferences.setBoolean("guideToSafariAvailable", false);
-        break;
-
-      case ItemPool.GLITCH_ITEM:
-        Preferences.setBoolean("glitchItemAvailable", false);
-        break;
-
-      case ItemPool.LAW_OF_AVERAGES:
-        Preferences.setBoolean("lawOfAveragesAvailable", false);
-        break;
-
-      case ItemPool.UNIVERSAL_SEASONING:
-        Preferences.setBoolean("universalSeasoningAvailable", false);
-        break;
-
-      case ItemPool.BOOK_OF_IRONY:
-        Preferences.setBoolean("bookOfIronyAvailable", false);
-        break;
-      case ItemPool.MAGNIFICENT_OYSTER_EGG:
-      case ItemPool.BRILLIANT_OYSTER_EGG:
-      case ItemPool.GLISTENING_OYSTER_EGG:
-      case ItemPool.SCINTILLATING_OYSTER_EGG:
-      case ItemPool.PEARLESCENT_OYSTER_EGG:
-      case ItemPool.LUSTROUS_OYSTER_EGG:
-      case ItemPool.GLEAMING_OYSTER_EGG:
+      }
+      case ItemPool.GUIDE_TO_SAFARI -> Preferences.setBoolean("guideToSafariAvailable", false);
+      case ItemPool.GLITCH_ITEM -> Preferences.setBoolean("glitchItemAvailable", false);
+      case ItemPool.LAW_OF_AVERAGES -> Preferences.setBoolean("lawOfAveragesAvailable", false);
+      case ItemPool.UNIVERSAL_SEASONING ->
+          Preferences.setBoolean("universalSeasoningAvailable", false);
+      case ItemPool.BOOK_OF_IRONY -> Preferences.setBoolean("bookOfIronyAvailable", false);
+      case ItemPool.MAGNIFICENT_OYSTER_EGG,
+          ItemPool.BRILLIANT_OYSTER_EGG,
+          ItemPool.GLISTENING_OYSTER_EGG,
+          ItemPool.SCINTILLATING_OYSTER_EGG,
+          ItemPool.PEARLESCENT_OYSTER_EGG,
+          ItemPool.LUSTROUS_OYSTER_EGG,
+          ItemPool.GLEAMING_OYSTER_EGG -> {
         if (KoLCharacter.hasEquipped(ItemPool.OYSTER_BASKET)
             && HolidayDatabase.getHoliday().contains("Oyster Egg Day")
             && adventureResults) {
           Preferences.increment("_oysterEggsFound");
         }
-        break;
-
-      case ItemPool.SHADOW_SAUSAGE:
-      case ItemPool.SHADOW_SKIN:
-      case ItemPool.SHADOW_FLAME:
-      case ItemPool.SHADOW_BREAD:
-      case ItemPool.SHADOW_ICE:
-      case ItemPool.SHADOW_FLUID:
-      case ItemPool.SHADOW_GLASS:
-      case ItemPool.SHADOW_BRICK:
-      case ItemPool.SHADOW_SINEW:
-      case ItemPool.SHADOW_VENOM:
-      case ItemPool.SHADOW_NECTAR:
-      case ItemPool.SHADOW_STICK:
-        RufusManager.handleShadowItems(result.getName());
-        break;
+      }
+      case ItemPool.SHADOW_SAUSAGE,
+          ItemPool.SHADOW_SKIN,
+          ItemPool.SHADOW_FLAME,
+          ItemPool.SHADOW_BREAD,
+          ItemPool.SHADOW_ICE,
+          ItemPool.SHADOW_FLUID,
+          ItemPool.SHADOW_GLASS,
+          ItemPool.SHADOW_BRICK,
+          ItemPool.SHADOW_SINEW,
+          ItemPool.SHADOW_VENOM,
+          ItemPool.SHADOW_NECTAR,
+          ItemPool.SHADOW_STICK ->
+          RufusManager.handleShadowItems(result.getName());
     }
 
     if (CoinmastersDatabase.isCurrency(result)) {
