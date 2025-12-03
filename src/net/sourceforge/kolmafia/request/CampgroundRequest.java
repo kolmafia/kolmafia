@@ -1080,6 +1080,7 @@ public class CampgroundRequest extends GenericRequest {
 
       if (responseText.contains("onClick='descitem(693029493)'")) {
         Preferences.increment("_knuckleboneRests", 1, 5);
+        Preferences.increment("_knuckleboneDrops", 1, 100);
       }
 
       // It looks like another mini kiwi has sprung up next to your tiny kiwi tipi!
