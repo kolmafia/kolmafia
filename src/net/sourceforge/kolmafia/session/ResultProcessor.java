@@ -1333,92 +1333,55 @@ public class ResultProcessor {
     // handled here.
 
     switch (itemId) {
-      case ItemPool.FAKE_HAND:
-        NamedListenerRegistry.fireChange("(fakehands)");
-        break;
-
-      case ItemPool.BLACK_BARTS_BOOTY:
-        // Whether you just got Black Bart's booty or just used
-        // it to get the skill, you ain't gettin' another this season.
-        Preferences.setBoolean("blackBartsBootyAvailable", false);
-        break;
-
-      case ItemPool.HOLIDAY_FUN_BOOK:
-        Preferences.setBoolean("holidayHalsBookAvailable", false);
-        break;
-
-      case ItemPool.ANTAGONISTIC_SNOWMAN_KIT:
-        Preferences.setBoolean("antagonisticSnowmanKitAvailable", false);
-        break;
-
-      case ItemPool.MAP_TO_KOKOMO:
-        Preferences.setBoolean("mapToKokomoAvailable", false);
-        break;
-
-      case ItemPool.ESSENCE_OF_BEAR:
-        Preferences.setBoolean("essenceOfBearAvailable", false);
-        break;
-
-      case ItemPool.MANUAL_OF_NUMBEROLOGY:
-        Preferences.setBoolean("manualOfNumberologyAvailable", false);
-        break;
-
-      case ItemPool.ROM_OF_OPTIMALITY:
-        Preferences.setBoolean("ROMOfOptimalityAvailable", false);
-        break;
-
-      case ItemPool.SCHOOL_OF_HARD_KNOCKS_DIPLOMA:
+      case ItemPool.FAKE_HAND -> NamedListenerRegistry.fireChange("(fakehands)");
+      case ItemPool.BLACK_BARTS_BOOTY ->
+          // Whether you just got Black Bart's booty or just used
+          // it to get the skill, you ain't gettin' another this season.
+          Preferences.setBoolean("blackBartsBootyAvailable", false);
+      case ItemPool.HOLIDAY_FUN_BOOK -> Preferences.setBoolean("holidayHalsBookAvailable", false);
+      case ItemPool.ANTAGONISTIC_SNOWMAN_KIT ->
+          Preferences.setBoolean("antagonisticSnowmanKitAvailable", false);
+      case ItemPool.MAP_TO_KOKOMO -> Preferences.setBoolean("mapToKokomoAvailable", false);
+      case ItemPool.ESSENCE_OF_BEAR -> Preferences.setBoolean("essenceOfBearAvailable", false);
+      case ItemPool.MANUAL_OF_NUMBEROLOGY ->
+          Preferences.setBoolean("manualOfNumberologyAvailable", false);
+      case ItemPool.ROM_OF_OPTIMALITY -> Preferences.setBoolean("ROMOfOptimalityAvailable", false);
+      case ItemPool.SCHOOL_OF_HARD_KNOCKS_DIPLOMA -> {
         // You actual can (could) buy multiple School of Hard Knocks diplomas
         // Preferences.setBoolean( "schoolOfHardKnocksDiplomaAvailable", false );
-        break;
-
-      case ItemPool.GUIDE_TO_SAFARI:
-        Preferences.setBoolean("guideToSafariAvailable", false);
-        break;
-
-      case ItemPool.GLITCH_ITEM:
-        Preferences.setBoolean("glitchItemAvailable", false);
-        break;
-
-      case ItemPool.LAW_OF_AVERAGES:
-        Preferences.setBoolean("lawOfAveragesAvailable", false);
-        break;
-
-      case ItemPool.UNIVERSAL_SEASONING:
-        Preferences.setBoolean("universalSeasoningAvailable", false);
-        break;
-
-      case ItemPool.BOOK_OF_IRONY:
-        Preferences.setBoolean("bookOfIronyAvailable", false);
-        break;
-      case ItemPool.MAGNIFICENT_OYSTER_EGG:
-      case ItemPool.BRILLIANT_OYSTER_EGG:
-      case ItemPool.GLISTENING_OYSTER_EGG:
-      case ItemPool.SCINTILLATING_OYSTER_EGG:
-      case ItemPool.PEARLESCENT_OYSTER_EGG:
-      case ItemPool.LUSTROUS_OYSTER_EGG:
-      case ItemPool.GLEAMING_OYSTER_EGG:
+      }
+      case ItemPool.GUIDE_TO_SAFARI -> Preferences.setBoolean("guideToSafariAvailable", false);
+      case ItemPool.GLITCH_ITEM -> Preferences.setBoolean("glitchItemAvailable", false);
+      case ItemPool.LAW_OF_AVERAGES -> Preferences.setBoolean("lawOfAveragesAvailable", false);
+      case ItemPool.UNIVERSAL_SEASONING ->
+          Preferences.setBoolean("universalSeasoningAvailable", false);
+      case ItemPool.BOOK_OF_IRONY -> Preferences.setBoolean("bookOfIronyAvailable", false);
+      case ItemPool.MAGNIFICENT_OYSTER_EGG,
+          ItemPool.BRILLIANT_OYSTER_EGG,
+          ItemPool.GLISTENING_OYSTER_EGG,
+          ItemPool.SCINTILLATING_OYSTER_EGG,
+          ItemPool.PEARLESCENT_OYSTER_EGG,
+          ItemPool.LUSTROUS_OYSTER_EGG,
+          ItemPool.GLEAMING_OYSTER_EGG -> {
         if (KoLCharacter.hasEquipped(ItemPool.OYSTER_BASKET)
             && HolidayDatabase.getHoliday().contains("Oyster Egg Day")
             && adventureResults) {
           Preferences.increment("_oysterEggsFound");
         }
-        break;
-
-      case ItemPool.SHADOW_SAUSAGE:
-      case ItemPool.SHADOW_SKIN:
-      case ItemPool.SHADOW_FLAME:
-      case ItemPool.SHADOW_BREAD:
-      case ItemPool.SHADOW_ICE:
-      case ItemPool.SHADOW_FLUID:
-      case ItemPool.SHADOW_GLASS:
-      case ItemPool.SHADOW_BRICK:
-      case ItemPool.SHADOW_SINEW:
-      case ItemPool.SHADOW_VENOM:
-      case ItemPool.SHADOW_NECTAR:
-      case ItemPool.SHADOW_STICK:
-        RufusManager.handleShadowItems(result.getName());
-        break;
+      }
+      case ItemPool.SHADOW_SAUSAGE,
+          ItemPool.SHADOW_SKIN,
+          ItemPool.SHADOW_FLAME,
+          ItemPool.SHADOW_BREAD,
+          ItemPool.SHADOW_ICE,
+          ItemPool.SHADOW_FLUID,
+          ItemPool.SHADOW_GLASS,
+          ItemPool.SHADOW_BRICK,
+          ItemPool.SHADOW_SINEW,
+          ItemPool.SHADOW_VENOM,
+          ItemPool.SHADOW_NECTAR,
+          ItemPool.SHADOW_STICK ->
+          RufusManager.handleShadowItems(result.getName());
     }
 
     if (CoinmastersDatabase.isCurrency(result)) {
@@ -1480,106 +1443,62 @@ public class ResultProcessor {
     }
 
     switch (itemId) {
-      case ItemPool.GMOB_POLLEN:
+      case ItemPool.GMOB_POLLEN -> {
         if (adventureResults) {
           // Record that we beat the guy made of bees.
           Preferences.setBoolean("guyMadeOfBeesDefeated", true);
         }
-        break;
-
-      case ItemPool.ROASTED_MARSHMALLOW:
+      }
+      case ItemPool.ROASTED_MARSHMALLOW -> {
         // Special Yuletide adventures
         if (KoLAdventure.lastAdventureId() == AdventurePool.YULETIDE) {
           ResultProcessor.removeItem(ItemPool.MARSHMALLOW);
         }
-        break;
-
-      case ItemPool.MARSHMALLOW_BOMB:
+      }
+      case ItemPool.MARSHMALLOW_BOMB -> {
         // Special St Sneaky Pete's Day Yuletide adventures
         if (KoLAdventure.lastAdventureId() == AdventurePool.YULETIDE) {
           ResultProcessor.removeItem(ItemPool.GREEN_MARSHMALLOW);
         }
-        break;
+      }
 
       // Sticker weapons may have been folded from the other form
-      case ItemPool.STICKER_SWORD:
-        ResultProcessor.removeItem(ItemPool.STICKER_CROSSBOW);
-        break;
-
-      case ItemPool.STICKER_CROSSBOW:
-        ResultProcessor.removeItem(ItemPool.STICKER_SWORD);
-        break;
-
-      case ItemPool.MOSQUITO_LARVA:
-        QuestDatabase.setQuestProgress(Quest.LARVA, "step1");
-        break;
-
-      case ItemPool.BITCHIN_MEATCAR:
-      case ItemPool.DESERT_BUS_PASS:
-      case ItemPool.PUMPKIN_CARRIAGE:
-      case ItemPool.TIN_LIZZIE:
-        // Desert beach unlocked
-        KoLCharacter.setDesertBeachAvailable();
-        break;
-
-      case ItemPool.RUSTY_SCREWDRIVER:
-        QuestDatabase.setQuestProgress(Quest.UNTINKER, "step1");
-        break;
-
-      case ItemPool.JUNK_JUNK:
-        QuestDatabase.setQuestProgress(Quest.HIPPY, "step3");
-        break;
-
-      case ItemPool.DINGY_DINGHY:
-      case ItemPool.SKIFF:
-      case ItemPool.YELLOW_SUBMARINE:
-        // Island unlocked
-        Preferences.setInteger("lastIslandUnlock", KoLCharacter.getAscensions());
-        break;
-
-      case ItemPool.TISSUE_PAPER_IMMATERIA:
-        QuestDatabase.setQuestProgress(Quest.GARBAGE, "step3");
-        break;
-
-      case ItemPool.TIN_FOIL_IMMATERIA:
-        QuestDatabase.setQuestProgress(Quest.GARBAGE, "step4");
-        break;
-
-      case ItemPool.GAUZE_IMMATERIA:
-        QuestDatabase.setQuestProgress(Quest.GARBAGE, "step5");
-        break;
-
-      case ItemPool.PLASTIC_WRAP_IMMATERIA:
-        QuestDatabase.setQuestProgress(Quest.GARBAGE, "step6");
-        break;
-
-      case ItemPool.SOCK:
+      case ItemPool.STICKER_SWORD -> ResultProcessor.removeItem(ItemPool.STICKER_CROSSBOW);
+      case ItemPool.STICKER_CROSSBOW -> ResultProcessor.removeItem(ItemPool.STICKER_SWORD);
+      case ItemPool.MOSQUITO_LARVA -> QuestDatabase.setQuestProgress(Quest.LARVA, "step1");
+      case ItemPool.BITCHIN_MEATCAR,
+          ItemPool.DESERT_BUS_PASS,
+          ItemPool.PUMPKIN_CARRIAGE,
+          ItemPool.TIN_LIZZIE ->
+          // Desert beach unlocked
+          KoLCharacter.setDesertBeachAvailable();
+      case ItemPool.RUSTY_SCREWDRIVER -> QuestDatabase.setQuestProgress(Quest.UNTINKER, "step1");
+      case ItemPool.JUNK_JUNK -> QuestDatabase.setQuestProgress(Quest.HIPPY, "step3");
+      case ItemPool.DINGY_DINGHY, ItemPool.SKIFF, ItemPool.YELLOW_SUBMARINE ->
+          // Island unlocked
+          Preferences.setInteger("lastIslandUnlock", KoLCharacter.getAscensions());
+      case ItemPool.TISSUE_PAPER_IMMATERIA ->
+          QuestDatabase.setQuestProgress(Quest.GARBAGE, "step3");
+      case ItemPool.TIN_FOIL_IMMATERIA -> QuestDatabase.setQuestProgress(Quest.GARBAGE, "step4");
+      case ItemPool.GAUZE_IMMATERIA -> QuestDatabase.setQuestProgress(Quest.GARBAGE, "step5");
+      case ItemPool.PLASTIC_WRAP_IMMATERIA ->
+          QuestDatabase.setQuestProgress(Quest.GARBAGE, "step6");
+      case ItemPool.SOCK -> {
         // If you get a S.O.C.K., you lose all the Immateria
         ResultProcessor.processItem(ItemPool.TISSUE_PAPER_IMMATERIA, -1);
         ResultProcessor.processItem(ItemPool.TIN_FOIL_IMMATERIA, -1);
         ResultProcessor.processItem(ItemPool.GAUZE_IMMATERIA, -1);
         ResultProcessor.processItem(ItemPool.PLASTIC_WRAP_IMMATERIA, -1);
         QuestDatabase.setQuestProgress(Quest.GARBAGE, "step7");
-        break;
-
-      case ItemPool.BROKEN_WINGS:
-      case ItemPool.SUNKEN_EYES:
-        // Make the blackbird so you don't need to have the familiar with you
-        ResultProcessor.autoCreate(ItemPool.REASSEMBLED_BLACKBIRD);
-        break;
-
-      case ItemPool.BUSTED_WINGS:
-      case ItemPool.BIRD_BRAIN:
-        // Make the Crow so you don't need to have the familiar with you
-        ResultProcessor.autoCreate(ItemPool.RECONSTITUTED_CROW);
-        break;
-
-      case ItemPool.PIRATE_FLEDGES:
-        QuestDatabase.setQuestProgress(Quest.PIRATE, "step6");
-        break;
-
-      case ItemPool.MACGUFFIN_DIARY:
-      case ItemPool.ED_DIARY:
+      }
+      case ItemPool.BROKEN_WINGS, ItemPool.SUNKEN_EYES ->
+          // Make the blackbird so you don't need to have the familiar with you
+          ResultProcessor.autoCreate(ItemPool.REASSEMBLED_BLACKBIRD);
+      case ItemPool.BUSTED_WINGS, ItemPool.BIRD_BRAIN ->
+          // Make the Crow so you don't need to have the familiar with you
+          ResultProcessor.autoCreate(ItemPool.RECONSTITUTED_CROW);
+      case ItemPool.PIRATE_FLEDGES -> QuestDatabase.setQuestProgress(Quest.PIRATE, "step6");
+      case ItemPool.MACGUFFIN_DIARY, ItemPool.ED_DIARY -> {
         // If you get your father's MacGuffin diary, you lose
         // your forged identification documents
         ResultProcessor.processItem(ItemPool.FORGED_ID_DOCUMENTS, -1);
@@ -1588,9 +1507,8 @@ public class ResultProcessor {
         if (Preferences.getBoolean("autoQuest")) {
           UseItemRequest.getInstance(result).run();
         }
-        break;
-
-      case ItemPool.VOLCANO_MAP:
+      }
+      case ItemPool.VOLCANO_MAP -> {
         // A counter was made in case we lost the fight against the
         // final assassin, but since this dropped we won the fight
         TurnCounter.stopCounting("Nemesis Assassin window begin");
@@ -1600,22 +1518,20 @@ public class ResultProcessor {
         if (Preferences.getBoolean("autoQuest")) {
           UseItemRequest.getInstance(result).run();
         }
-        break;
-
-      case ItemPool.FIRST_PIZZA:
-      case ItemPool.LACROSSE_STICK:
-      case ItemPool.EYE_OF_THE_STARS:
-      case ItemPool.STANKARA_STONE:
-      case ItemPool.MURPHYS_FLAG:
-      case ItemPool.SHIELD_OF_BROOK:
+      }
+      case ItemPool.FIRST_PIZZA,
+          ItemPool.LACROSSE_STICK,
+          ItemPool.EYE_OF_THE_STARS,
+          ItemPool.STANKARA_STONE,
+          ItemPool.MURPHYS_FLAG,
+          ItemPool.SHIELD_OF_BROOK -> {
         // Annoyingly, matter-duplicating drones can duplicate quest items
         if (InventoryManager.getCount(itemId) == 1) {
           QuestDatabase.advanceQuest(Quest.SHEN);
         }
         Preferences.setString("shenQuestItem", result.getName());
-        break;
-
-      case ItemPool.PALINDROME_BOOK_2:
+      }
+      case ItemPool.PALINDROME_BOOK_2 -> {
         // If you get "2 Love Me, Vol. 2", you lose
         // the items you put on the shelves
         ResultProcessor.processItem(ItemPool.PHOTOGRAPH_OF_GOD, -1);
@@ -1623,27 +1539,22 @@ public class ResultProcessor {
         ResultProcessor.processItem(ItemPool.PHOTOGRAPH_OF_OSTRICH_EGG, -1);
         ResultProcessor.processItem(ItemPool.PHOTOGRAPH_OF_DOG, -1);
         QuestDatabase.setQuestIfBetter(Quest.PALINDOME, "step1");
-        break;
-
-      case ItemPool.WET_STUNT_NUT_STEW:
+      }
+      case ItemPool.WET_STUNT_NUT_STEW -> {
         // If you have been asked to get the stew, you now have it.
         if (QuestDatabase.isQuestStep(Quest.PALINDOME, "step3")) {
           QuestDatabase.setQuestProgress(Quest.PALINDOME, "step4");
         }
-        break;
-
-      case ItemPool.MEGA_GEM:
+      }
+      case ItemPool.MEGA_GEM -> {
         // If you get the Mega Gem, you lose your wet stunt nut
         // stew
         ResultProcessor.processItem(ItemPool.WET_STUNT_NUT_STEW, -1);
         QuestDatabase.setQuestIfBetter(Quest.PALINDOME, "step5");
-        break;
-
-      case ItemPool.HOLY_MACGUFFIN:
-        QuestDatabase.setQuestProgress(Quest.PYRAMID, QuestDatabase.FINISHED);
-        break;
-
-      case ItemPool.CONFETTI:
+      }
+      case ItemPool.HOLY_MACGUFFIN ->
+          QuestDatabase.setQuestProgress(Quest.PYRAMID, QuestDatabase.FINISHED);
+      case ItemPool.CONFETTI -> {
         // If you get the confetti, you lose the Holy MacGuffin
         if (InventoryManager.getCount(ItemPool.HOLY_MACGUFFIN) > 0) {
           ResultProcessor.processItem(ItemPool.HOLY_MACGUFFIN, -1);
@@ -1653,9 +1564,8 @@ public class ResultProcessor {
           QuestDatabase.setQuestProgress(Quest.PALINDOME, QuestDatabase.FINISHED);
           QuestDatabase.setQuestProgress(Quest.MACGUFFIN, QuestDatabase.FINISHED);
         }
-        break;
-
-      case ItemPool.MORTAR_DISSOLVING_RECIPE:
+      }
+      case ItemPool.MORTAR_DISSOLVING_RECIPE -> {
         QuestDatabase.setQuestIfBetter(Quest.MANOR, "step2");
         if (Preferences.getBoolean("autoQuest")) {
           boolean equipSpecs = InventoryManager.getCount(ItemPool.SPOOKYRAVEN_SPECTACLES) > 0;
@@ -1689,208 +1599,130 @@ public class ResultProcessor {
             Preferences.setString("spookyravenRecipeUsed", "no_glasses");
           }
         }
-
-        break;
-
-      case ItemPool.MOLYBDENUM_MAGNET:
-        // When you get the molybdenum magnet, tell quest handler
-        IslandManager.startJunkyardQuest();
-        break;
-
-      case ItemPool.MOLYBDENUM_HAMMER:
-      case ItemPool.MOLYBDENUM_SCREWDRIVER:
-      case ItemPool.MOLYBDENUM_PLIERS:
-      case ItemPool.MOLYBDENUM_WRENCH:
-        // When you get a molybdenum item, tell quest handler
-        IslandManager.resetGremlinTool();
-        break;
-
-      case ItemPool.SPOOKY_BICYCLE_CHAIN:
+      }
+      case ItemPool.MOLYBDENUM_MAGNET ->
+          // When you get the molybdenum magnet, tell quest handler
+          IslandManager.startJunkyardQuest();
+      case ItemPool.MOLYBDENUM_HAMMER,
+          ItemPool.MOLYBDENUM_SCREWDRIVER,
+          ItemPool.MOLYBDENUM_PLIERS,
+          ItemPool.MOLYBDENUM_WRENCH ->
+          // When you get a molybdenum item, tell quest handler
+          IslandManager.resetGremlinTool();
+      case ItemPool.SPOOKY_BICYCLE_CHAIN -> {
         if (adventureResults) QuestDatabase.setQuestIfBetter(Quest.BUGBEAR, "step3");
-        break;
-
-      case ItemPool.RONALD_SHELTER_MAP:
-      case ItemPool.GRIMACE_SHELTER_MAP:
-        QuestDatabase.setQuestIfBetter(Quest.GENERATOR, "step1");
-        break;
-
-      case ItemPool.SPOOKY_LITTLE_GIRL:
-        QuestDatabase.setQuestIfBetter(Quest.GENERATOR, "step2");
-        break;
-
-      case ItemPool.EMU_UNIT:
+      }
+      case ItemPool.RONALD_SHELTER_MAP, ItemPool.GRIMACE_SHELTER_MAP ->
+          QuestDatabase.setQuestIfBetter(Quest.GENERATOR, "step1");
+      case ItemPool.SPOOKY_LITTLE_GIRL -> QuestDatabase.setQuestIfBetter(Quest.GENERATOR, "step2");
+      case ItemPool.EMU_UNIT -> {
         // If you get an E.M.U. Unit, you lose all the E.M.U. parts
         ResultProcessor.processItem(ItemPool.EMU_JOYSTICK, -1);
         ResultProcessor.processItem(ItemPool.EMU_ROCKET, -1);
         ResultProcessor.processItem(ItemPool.EMU_HELMET, -1);
         ResultProcessor.processItem(ItemPool.EMU_HARNESS, -1);
         QuestDatabase.setQuestIfBetter(Quest.GENERATOR, "step3");
-        break;
-
-      case ItemPool.OVERCHARGED_POWER_SPHERE:
-      case ItemPool.EL_VIBRATO_HELMET:
-      case ItemPool.EL_VIBRATO_SPEAR:
-      case ItemPool.EL_VIBRATO_PANTS:
+      }
+      case ItemPool.OVERCHARGED_POWER_SPHERE,
+          ItemPool.EL_VIBRATO_HELMET,
+          ItemPool.EL_VIBRATO_SPEAR,
+          ItemPool.EL_VIBRATO_PANTS -> {
         if (adventureResults) ResultProcessor.removeItem(ItemPool.POWER_SPHERE);
-        break;
-
-      case ItemPool.BROKEN_DRONE:
+      }
+      case ItemPool.BROKEN_DRONE -> {
         if (adventureResults) ResultProcessor.removeItem(ItemPool.DRONE);
-        break;
-
-      case ItemPool.REPAIRED_DRONE:
+      }
+      case ItemPool.REPAIRED_DRONE -> {
         if (adventureResults) ResultProcessor.removeItem(ItemPool.BROKEN_DRONE);
-        break;
-
-      case ItemPool.AUGMENTED_DRONE:
+      }
+      case ItemPool.AUGMENTED_DRONE -> {
         if (adventureResults) ResultProcessor.removeItem(ItemPool.REPAIRED_DRONE);
-        break;
-
-      case ItemPool.TRAPEZOID:
-        ResultProcessor.removeItem(ItemPool.POWER_SPHERE);
-        break;
-
-      case ItemPool.CITADEL_SATCHEL:
-        ResultProcessor.processMeat(-300);
-        break;
-
-      case ItemPool.HAROLDS_HAMMER_HEAD:
-      case ItemPool.HAROLDS_HAMMER:
-        // Yes, they are the same quest step!
-        QuestDatabase.setQuestProgress(Quest.HAMMER, QuestDatabase.STARTED);
-        break;
-
-      case ItemPool.HAROLDS_BELL:
+      }
+      case ItemPool.TRAPEZOID -> ResultProcessor.removeItem(ItemPool.POWER_SPHERE);
+      case ItemPool.CITADEL_SATCHEL -> ResultProcessor.processMeat(-300);
+      case ItemPool.HAROLDS_HAMMER_HEAD, ItemPool.HAROLDS_HAMMER ->
+          // Yes, they are the same quest step!
+          QuestDatabase.setQuestProgress(Quest.HAMMER, QuestDatabase.STARTED);
+      case ItemPool.HAROLDS_BELL -> {
         QuestDatabase.setQuestProgress(Quest.HAMMER, QuestDatabase.FINISHED);
         ResultProcessor.processItem(ItemPool.HAROLDS_HAMMER, -1);
-        break;
-
-      case ItemPool.LIT_BIRTHDAY_CAKE:
+      }
+      case ItemPool.LIT_BIRTHDAY_CAKE -> {
         ResultProcessor.processItem(ItemPool.UNLIT_BIRTHDAY_CAKE, -1);
-      //noinspection fallthrough
-      case ItemPool.UNLIT_BIRTHDAY_CAKE:
-        // Yes, they are the same quest step!
         QuestDatabase.setQuestProgress(Quest.BAKER, QuestDatabase.STARTED);
-        break;
-
-      case ItemPool.PAT_A_CAKE_PENDANT:
+      }
+      case ItemPool.UNLIT_BIRTHDAY_CAKE ->
+          // Yes, they are the same quest step!
+          QuestDatabase.setQuestProgress(Quest.BAKER, QuestDatabase.STARTED);
+      case ItemPool.PAT_A_CAKE_PENDANT -> {
         ResultProcessor.processItem(ItemPool.LIT_BIRTHDAY_CAKE, -1);
         QuestDatabase.setQuestProgress(Quest.BAKER, QuestDatabase.FINISHED);
-        break;
+      }
 
       // These update the session results for the item swapping in
       // the Gnome's Going Postal quest.
 
-      case ItemPool.REALLY_BIG_TINY_HOUSE:
-        ResultProcessor.processItem(ItemPool.RED_PAPER_CLIP, -1);
-        break;
-      case ItemPool.NONESSENTIAL_AMULET:
-        ResultProcessor.processItem(ItemPool.REALLY_BIG_TINY_HOUSE, -1);
-        break;
-      case ItemPool.WHITE_WINE_VINAIGRETTE:
-        ResultProcessor.processItem(ItemPool.NONESSENTIAL_AMULET, -1);
-        break;
-      case ItemPool.CURIOUSLY_SHINY_AX:
-        ResultProcessor.processItem(ItemPool.WHITE_WINE_VINAIGRETTE, -1);
-        break;
-      case ItemPool.CUP_OF_STRONG_TEA:
-        ResultProcessor.processItem(ItemPool.CURIOUSLY_SHINY_AX, -1);
-        break;
-      case ItemPool.MARINATED_STAKES:
-        ResultProcessor.processItem(ItemPool.CUP_OF_STRONG_TEA, -1);
-        break;
-      case ItemPool.KNOB_BUTTER:
-        ResultProcessor.processItem(ItemPool.MARINATED_STAKES, -1);
-        break;
-      case ItemPool.VIAL_OF_ECTOPLASM:
-        ResultProcessor.processItem(ItemPool.KNOB_BUTTER, -1);
-        break;
-      case ItemPool.BOOCK_OF_MAGICKS:
-        ResultProcessor.processItem(ItemPool.VIAL_OF_ECTOPLASM, -1);
-        break;
-      case ItemPool.EZ_PLAY_HARMONICA_BOOK:
-        ResultProcessor.processItem(ItemPool.BOOCK_OF_MAGICKS, -1);
-        break;
-      case ItemPool.FINGERLESS_HOBO_GLOVES:
-        ResultProcessor.processItem(ItemPool.EZ_PLAY_HARMONICA_BOOK, -1);
-        break;
-      case ItemPool.CHOMSKYS_COMICS:
-        ResultProcessor.processItem(ItemPool.FINGERLESS_HOBO_GLOVES, -1);
-        break;
-      case ItemPool.GNOME_DEMODULIZER:
-        ResultProcessor.removeItem(ItemPool.CHOMSKYS_COMICS);
-        break;
-
-      case ItemPool.SHOPPING_LIST:
-        QuestDatabase.setQuestIfBetter(Quest.MEATCAR, QuestDatabase.STARTED);
-        break;
-
-      case ItemPool.MUS_MANUAL:
-      case ItemPool.MYS_MANUAL:
-      case ItemPool.MOX_MANUAL:
+      case ItemPool.REALLY_BIG_TINY_HOUSE ->
+          ResultProcessor.processItem(ItemPool.RED_PAPER_CLIP, -1);
+      case ItemPool.NONESSENTIAL_AMULET ->
+          ResultProcessor.processItem(ItemPool.REALLY_BIG_TINY_HOUSE, -1);
+      case ItemPool.WHITE_WINE_VINAIGRETTE ->
+          ResultProcessor.processItem(ItemPool.NONESSENTIAL_AMULET, -1);
+      case ItemPool.CURIOUSLY_SHINY_AX ->
+          ResultProcessor.processItem(ItemPool.WHITE_WINE_VINAIGRETTE, -1);
+      case ItemPool.CUP_OF_STRONG_TEA ->
+          ResultProcessor.processItem(ItemPool.CURIOUSLY_SHINY_AX, -1);
+      case ItemPool.MARINATED_STAKES -> ResultProcessor.processItem(ItemPool.CUP_OF_STRONG_TEA, -1);
+      case ItemPool.KNOB_BUTTER -> ResultProcessor.processItem(ItemPool.MARINATED_STAKES, -1);
+      case ItemPool.VIAL_OF_ECTOPLASM -> ResultProcessor.processItem(ItemPool.KNOB_BUTTER, -1);
+      case ItemPool.BOOCK_OF_MAGICKS -> ResultProcessor.processItem(ItemPool.VIAL_OF_ECTOPLASM, -1);
+      case ItemPool.EZ_PLAY_HARMONICA_BOOK ->
+          ResultProcessor.processItem(ItemPool.BOOCK_OF_MAGICKS, -1);
+      case ItemPool.FINGERLESS_HOBO_GLOVES ->
+          ResultProcessor.processItem(ItemPool.EZ_PLAY_HARMONICA_BOOK, -1);
+      case ItemPool.CHOMSKYS_COMICS ->
+          ResultProcessor.processItem(ItemPool.FINGERLESS_HOBO_GLOVES, -1);
+      case ItemPool.GNOME_DEMODULIZER -> ResultProcessor.removeItem(ItemPool.CHOMSKYS_COMICS);
+      case ItemPool.SHOPPING_LIST ->
+          QuestDatabase.setQuestIfBetter(Quest.MEATCAR, QuestDatabase.STARTED);
+      case ItemPool.MUS_MANUAL, ItemPool.MYS_MANUAL, ItemPool.MOX_MANUAL -> {
         ResultProcessor.processItem(ItemPool.DUSTY_BOOK, -1);
         ResultProcessor.processItem(ItemPool.FERNSWARTHYS_KEY, -1);
-        break;
-
-      case ItemPool.FRATHOUSE_BLUEPRINTS:
+      }
+      case ItemPool.FRATHOUSE_BLUEPRINTS -> {
         ResultProcessor.processItem(ItemPool.CARONCH_MAP, -1);
         ResultProcessor.processItem(ItemPool.CARONCH_NASTY_BOOTY, -1);
         QuestDatabase.setQuestIfBetter(Quest.PIRATE, "step2");
-        break;
-
-      case ItemPool.CARONCH_DENTURES:
-        QuestDatabase.setQuestIfBetter(Quest.PIRATE, "step3");
-        break;
-
-      case ItemPool.EXORCISED_SANDWICH:
-        QuestDatabase.setQuestProgress(Quest.MYST, "step1");
-        break;
-
-      case ItemPool.BIG_KNOB_SAUSAGE:
-        QuestDatabase.setQuestProgress(Quest.MUSCLE, "step1");
-        break;
-
-      case ItemPool.BATSKIN_BELT:
+      }
+      case ItemPool.CARONCH_DENTURES -> QuestDatabase.setQuestIfBetter(Quest.PIRATE, "step3");
+      case ItemPool.EXORCISED_SANDWICH -> QuestDatabase.setQuestProgress(Quest.MYST, "step1");
+      case ItemPool.BIG_KNOB_SAUSAGE -> QuestDatabase.setQuestProgress(Quest.MUSCLE, "step1");
+      case ItemPool.BATSKIN_BELT, ItemPool.BONERDAGON_SKULL -> {
         if (adventureResults) {
           ResultProcessor.autoCreate(ItemPool.BADASS_BELT);
         }
-        break;
-
-      case ItemPool.DODECAGRAM:
+      }
+      case ItemPool.DODECAGRAM -> {
         if (InventoryManager.getCount(ItemPool.CANDLES) > 0
             && InventoryManager.getCount(ItemPool.BUTTERKNIFE) > 0) {
           QuestDatabase.setQuestProgress(Quest.FRIAR, "step2");
         }
-        break;
-
-      case ItemPool.CANDLES:
+      }
+      case ItemPool.CANDLES -> {
         if (InventoryManager.getCount(ItemPool.DODECAGRAM) > 0
             && InventoryManager.getCount(ItemPool.BUTTERKNIFE) > 0) {
           QuestDatabase.setQuestProgress(Quest.FRIAR, "step2");
         }
-        break;
-
-      case ItemPool.BUTTERKNIFE:
+      }
+      case ItemPool.BUTTERKNIFE -> {
         if (InventoryManager.getCount(ItemPool.DODECAGRAM) > 0
             && InventoryManager.getCount(ItemPool.CANDLES) > 0) {
           QuestDatabase.setQuestProgress(Quest.FRIAR, "step2");
         }
-        break;
-
-      case ItemPool.BONERDAGON_SKULL:
-        if (adventureResults) {
-          ResultProcessor.autoCreate(ItemPool.BADASS_BELT);
-        }
-        break;
-
-      case ItemPool.GROARS_FUR:
-      case ItemPool.WINGED_YETI_FUR:
-        QuestDatabase.setQuestProgress(Quest.TRAPPER, "step5");
-        break;
-
-      case ItemPool.MISTY_CLOAK:
-      case ItemPool.MISTY_ROBE:
-      case ItemPool.MISTY_CAPE:
+      }
+      case ItemPool.GROARS_FUR, ItemPool.WINGED_YETI_FUR ->
+          QuestDatabase.setQuestProgress(Quest.TRAPPER, "step5");
+      case ItemPool.MISTY_CLOAK, ItemPool.MISTY_ROBE, ItemPool.MISTY_CAPE -> {
         if (RequestLogger.getLastURLString().contains("action=highlands_dude")) {
           QuestDatabase.setQuestProgress(Quest.TOPPING, QuestDatabase.FINISHED);
           QuestDatabase.setQuestProgress(Quest.LOL, QuestDatabase.STARTED);
@@ -1900,15 +1732,10 @@ public class ResultProcessor {
           Preferences.setFloat("oilPeakProgress", 0);
           Preferences.setBoolean("oilPeakLit", true);
         }
-        break;
-
-      case ItemPool.HEMP_STRING:
-      case ItemPool.BONERDAGON_VERTEBRA:
-        ResultProcessor.autoCreate(ItemPool.BONERDAGON_NECKLACE);
-        break;
-
-      case ItemPool.COPPERHEAD_CHARM:
-      case ItemPool.COPPERHEAD_CHARM_RAMPANT:
+      }
+      case ItemPool.HEMP_STRING, ItemPool.BONERDAGON_VERTEBRA ->
+          ResultProcessor.autoCreate(ItemPool.BONERDAGON_NECKLACE);
+      case ItemPool.COPPERHEAD_CHARM, ItemPool.COPPERHEAD_CHARM_RAMPANT -> {
         if (InventoryManager.hasItem(ItemPool.COPPERHEAD_CHARM)) {
           QuestDatabase.setQuestProgress(Quest.SHEN, QuestDatabase.FINISHED);
         }
@@ -1919,23 +1746,15 @@ public class ResultProcessor {
             && InventoryManager.hasItem(ItemPool.COPPERHEAD_CHARM_RAMPANT)) {
           ResultProcessor.autoCreate(ItemPool.TALISMAN);
         }
-        break;
-
-      case ItemPool.TALISMAN:
-        // Having a Talisman is good enough to adventure in the Palindome.
-        // Which is to say, The Palindome quest is now started.
-        QuestDatabase.setQuestIfBetter(Quest.PALINDOME, QuestDatabase.STARTED);
-        break;
-
-      case ItemPool.EYE_OF_ED:
-        QuestDatabase.setQuestProgress(Quest.MANOR, QuestDatabase.FINISHED);
-        break;
-
-      case ItemPool.MCCLUSKY_FILE_PAGE5:
-        ResultProcessor.autoCreate(ItemPool.MCCLUSKY_FILE);
-        break;
-
-      case ItemPool.MOSS_COVERED_STONE_SPHERE:
+      }
+      case ItemPool.TALISMAN ->
+          // Having a Talisman is good enough to adventure in the Palindome.
+          // Which is to say, The Palindome quest is now started.
+          QuestDatabase.setQuestIfBetter(Quest.PALINDOME, QuestDatabase.STARTED);
+      case ItemPool.EYE_OF_ED ->
+          QuestDatabase.setQuestProgress(Quest.MANOR, QuestDatabase.FINISHED);
+      case ItemPool.MCCLUSKY_FILE_PAGE5 -> ResultProcessor.autoCreate(ItemPool.MCCLUSKY_FILE);
+      case ItemPool.MOSS_COVERED_STONE_SPHERE -> {
         Preferences.setInteger("hiddenApartmentProgress", 7);
         QuestDatabase.setQuestProgress(Quest.CURSES, QuestDatabase.FINISHED);
         if (QuestDatabase.isQuestFinished(Quest.DOCTOR)
@@ -1943,9 +1762,8 @@ public class ResultProcessor {
             && QuestDatabase.isQuestFinished(Quest.SPARE)) {
           QuestDatabase.setQuestProgress(Quest.WORSHIP, "step4");
         }
-        break;
-
-      case ItemPool.DRIPPING_STONE_SPHERE:
+      }
+      case ItemPool.DRIPPING_STONE_SPHERE -> {
         Preferences.setInteger("hiddenHospitalProgress", 7);
         QuestDatabase.setQuestProgress(Quest.DOCTOR, QuestDatabase.FINISHED);
         if (QuestDatabase.isQuestFinished(Quest.CURSES)
@@ -1953,9 +1771,8 @@ public class ResultProcessor {
             && QuestDatabase.isQuestFinished(Quest.SPARE)) {
           QuestDatabase.setQuestProgress(Quest.WORSHIP, "step4");
         }
-        break;
-
-      case ItemPool.CRACKLING_STONE_SPHERE:
+      }
+      case ItemPool.CRACKLING_STONE_SPHERE -> {
         // Lose McClusky File when you kill the Protector Spirit
         ResultProcessor.processItem(ItemPool.MCCLUSKY_FILE, -1);
         Preferences.setInteger("hiddenOfficeProgress", 7);
@@ -1965,9 +1782,8 @@ public class ResultProcessor {
             && QuestDatabase.isQuestFinished(Quest.SPARE)) {
           QuestDatabase.setQuestProgress(Quest.WORSHIP, "step4");
         }
-        break;
-
-      case ItemPool.SCORCHED_STONE_SPHERE:
+      }
+      case ItemPool.SCORCHED_STONE_SPHERE -> {
         Preferences.setInteger("hiddenBowlingAlleyProgress", 7);
         QuestDatabase.setQuestProgress(Quest.SPARE, QuestDatabase.FINISHED);
         if (QuestDatabase.isQuestFinished(Quest.CURSES)
@@ -1975,9 +1791,8 @@ public class ResultProcessor {
             && QuestDatabase.isQuestFinished(Quest.DOCTOR)) {
           QuestDatabase.setQuestProgress(Quest.WORSHIP, "step4");
         }
-        break;
-
-      case ItemPool.ANCIENT_AMULET:
+      }
+      case ItemPool.ANCIENT_AMULET -> {
         // If you get the ancient amulet, you lose the 4 stone triangles, and have definitely
         // completed quest actions
         ResultProcessor.processItem(ItemPool.STONE_TRIANGLE, -4);
@@ -1986,128 +1801,77 @@ public class ResultProcessor {
         Preferences.setInteger("hiddenOfficeProgress", 8);
         Preferences.setInteger("hiddenBowlingAlleyProgress", 8);
         QuestDatabase.setQuestProgress(Quest.WORSHIP, QuestDatabase.FINISHED);
-        break;
-
-      case ItemPool.STAFF_OF_FATS:
-        QuestDatabase.setQuestProgress(Quest.PALINDOME, QuestDatabase.FINISHED);
-        break;
-
-      case ItemPool.ANCIENT_BOMB:
-        ResultProcessor.processItem(ItemPool.ANCIENT_BRONZE_TOKEN, -1);
-        break;
-
-      case ItemPool.CARONCH_MAP:
-        QuestDatabase.setQuestProgress(Quest.PIRATE, QuestDatabase.STARTED);
-        break;
-
-      case ItemPool.CARONCH_NASTY_BOOTY:
-        QuestDatabase.setQuestIfBetter(Quest.PIRATE, "step1");
-        break;
-
-      case ItemPool.BILLIARDS_KEY:
-        QuestDatabase.setQuestProgress(Quest.SPOOKYRAVEN_NECKLACE, "step1");
-        break;
-
-      case ItemPool.LIBRARY_KEY:
-        QuestDatabase.setQuestProgress(Quest.SPOOKYRAVEN_NECKLACE, "step3");
-        break;
-
-      case ItemPool.SPOOKYRAVEN_NECKLACE:
+      }
+      case ItemPool.STAFF_OF_FATS ->
+          QuestDatabase.setQuestProgress(Quest.PALINDOME, QuestDatabase.FINISHED);
+      case ItemPool.ANCIENT_BOMB -> ResultProcessor.processItem(ItemPool.ANCIENT_BRONZE_TOKEN, -1);
+      case ItemPool.CARONCH_MAP ->
+          QuestDatabase.setQuestProgress(Quest.PIRATE, QuestDatabase.STARTED);
+      case ItemPool.CARONCH_NASTY_BOOTY -> QuestDatabase.setQuestIfBetter(Quest.PIRATE, "step1");
+      case ItemPool.BILLIARDS_KEY ->
+          QuestDatabase.setQuestProgress(Quest.SPOOKYRAVEN_NECKLACE, "step1");
+      case ItemPool.LIBRARY_KEY ->
+          QuestDatabase.setQuestProgress(Quest.SPOOKYRAVEN_NECKLACE, "step3");
+      case ItemPool.SPOOKYRAVEN_NECKLACE -> {
         Preferences.setInteger("writingDesksDefeated", 5);
         QuestDatabase.setQuestProgress(Quest.SPOOKYRAVEN_NECKLACE, "step4");
-        break;
-
-      case ItemPool.DUSTY_POPPET:
-        QuestDatabase.setQuestProgress(Quest.SPOOKYRAVEN_BABIES, QuestDatabase.STARTED);
-        break;
-
-      case ItemPool.BABY_GHOSTS:
+      }
+      case ItemPool.DUSTY_POPPET ->
+          QuestDatabase.setQuestProgress(Quest.SPOOKYRAVEN_BABIES, QuestDatabase.STARTED);
+      case ItemPool.BABY_GHOSTS -> {
         QuestDatabase.setQuestProgress(Quest.SPOOKYRAVEN_BABIES, "step1");
         ResultProcessor.removeItem(ItemPool.DUSTY_POPPET);
         ResultProcessor.removeItem(ItemPool.RICKETY_ROCKING_HORSE);
         ResultProcessor.removeItem(ItemPool.ANTIQUE_JACK_IN_THE_BOX);
-        break;
-
-      case ItemPool.GHOST_FORMULA:
+      }
+      case ItemPool.GHOST_FORMULA -> {
         QuestDatabase.setQuestProgress(Quest.SPOOKYRAVEN_BABIES, QuestDatabase.FINISHED);
         ResultProcessor.removeItem(ItemPool.BABY_GHOSTS);
-        break;
-
-      case ItemPool.NEOPRENE_SKULLCAP:
+      }
+      case ItemPool.NEOPRENE_SKULLCAP -> {
         if (adventureResults) {
           QuestDatabase.setQuestProgress(Quest.BAT, "step4");
         }
-        break;
-
-      case ItemPool.HAND_CARVED_BOKKEN:
-      case ItemPool.HAND_CARVED_BOW:
-      case ItemPool.HAND_CARVED_STAFF:
+      }
+      case ItemPool.HAND_CARVED_BOKKEN, ItemPool.HAND_CARVED_BOW, ItemPool.HAND_CARVED_STAFF -> {
         if (RequestLogger.getLastURLString().contains("action=lc_marty")) {
           QuestDatabase.setQuestProgress(Quest.SWAMP, QuestDatabase.FINISHED);
         }
-        break;
-
-      case ItemPool.WORSE_HOMES_GARDENS:
+      }
+      case ItemPool.WORSE_HOMES_GARDENS -> {
         QuestDatabase.setQuestProgress(Quest.HIPPY, "step1");
         ConcoctionDatabase.setRefreshNeeded(false);
-        break;
-
-      case ItemPool.STEEL_LIVER:
-      case ItemPool.STEEL_STOMACH:
-      case ItemPool.STEEL_SPLEEN:
-        QuestDatabase.setQuestProgress(Quest.AZAZEL, QuestDatabase.FINISHED);
-        break;
-
-      case ItemPool.BATHYSPHERE:
-        QuestDatabase.setQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED);
-        break;
-
-      case ItemPool.BUBBLIN_STONE:
-        QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, "step3");
-        break;
-
-      case ItemPool.DAS_BOOT:
-      case ItemPool.FISHY_PIPE:
-      case ItemPool.FISH_MEAT_CRATE:
-      case ItemPool.DAMP_WALLET:
+      }
+      case ItemPool.STEEL_LIVER, ItemPool.STEEL_STOMACH, ItemPool.STEEL_SPLEEN ->
+          QuestDatabase.setQuestProgress(Quest.AZAZEL, QuestDatabase.FINISHED);
+      case ItemPool.BATHYSPHERE ->
+          QuestDatabase.setQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED);
+      case ItemPool.BUBBLIN_STONE -> QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, "step3");
+      case ItemPool.DAS_BOOT,
+          ItemPool.FISHY_PIPE,
+          ItemPool.FISH_MEAT_CRATE,
+          ItemPool.DAMP_WALLET -> {
         if (RequestLogger.getLastURLString().contains("action=oldman_oldman")) {
           ResultProcessor.removeItem(ItemPool.DAMP_OLD_BOOT);
           QuestDatabase.setQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.FINISHED);
         }
-        break;
-
-      case ItemPool.PREGNANT_FLAMING_MUSHROOM:
-        ResultProcessor.processItem(ItemPool.FLAMING_MUSHROOM, -1);
-        break;
-
-      case ItemPool.PREGNANT_FROZEN_MUSHROOM:
-        ResultProcessor.processItem(ItemPool.FROZEN_MUSHROOM, -1);
-        break;
-
-      case ItemPool.PREGNANT_STINKY_MUSHROOM:
-        ResultProcessor.processItem(ItemPool.STINKY_MUSHROOM, -1);
-        break;
-
-      case ItemPool.GRANDMAS_NOTE:
-        QuestDatabase.setQuestProgress(Quest.SEA_MONKEES, "step7");
-        break;
-
-      case ItemPool.GRANDMAS_MAP:
+      }
+      case ItemPool.PREGNANT_FLAMING_MUSHROOM ->
+          ResultProcessor.processItem(ItemPool.FLAMING_MUSHROOM, -1);
+      case ItemPool.PREGNANT_FROZEN_MUSHROOM ->
+          ResultProcessor.processItem(ItemPool.FROZEN_MUSHROOM, -1);
+      case ItemPool.PREGNANT_STINKY_MUSHROOM ->
+          ResultProcessor.processItem(ItemPool.STINKY_MUSHROOM, -1);
+      case ItemPool.GRANDMAS_NOTE -> QuestDatabase.setQuestProgress(Quest.SEA_MONKEES, "step7");
+      case ItemPool.GRANDMAS_MAP -> {
         ResultProcessor.processItem(ItemPool.GRANDMAS_NOTE, -1);
         ResultProcessor.processItem(ItemPool.FUCHSIA_YARN, -1);
         ResultProcessor.processItem(ItemPool.CHARTREUSE_YARN, -1);
         QuestDatabase.setQuestProgress(Quest.SEA_MONKEES, "step8");
-        break;
-
-      case ItemPool.BLACK_GLASS:
-        QuestDatabase.setQuestProgress(Quest.SEA_MONKEES, "step12");
-        break;
-
-      case ItemPool.SMALL_STONE_BLOCK:
-        ResultProcessor.processItem(ItemPool.IRON_KEY, -1);
-        break;
-
-      case ItemPool.CRIMBOMINATION_CONTRAPTION:
+      }
+      case ItemPool.BLACK_GLASS -> QuestDatabase.setQuestProgress(Quest.SEA_MONKEES, "step12");
+      case ItemPool.SMALL_STONE_BLOCK -> ResultProcessor.processItem(ItemPool.IRON_KEY, -1);
+      case ItemPool.CRIMBOMINATION_CONTRAPTION -> {
         ResultProcessor.removeItem(ItemPool.WRENCH_HANDLE);
         ResultProcessor.removeItem(ItemPool.HEADLESS_BOLTS);
         ResultProcessor.removeItem(ItemPool.AGITPROP_INK);
@@ -2116,74 +1880,65 @@ public class ResultProcessor {
         ResultProcessor.removeItem(ItemPool.PENGUIN_GRAPPLING_HOOK);
         ResultProcessor.removeItem(ItemPool.CARDBOARD_ELF_EAR);
         ResultProcessor.removeItem(ItemPool.SPIRALING_SHAPE);
-        break;
-
-      case ItemPool.HAMMER_OF_SMITING:
-      case ItemPool.CHELONIAN_MORNINGSTAR:
-      case ItemPool.GREEK_PASTA_OF_PERIL:
-      case ItemPool.SEVENTEEN_ALARM_SAUCEPAN:
-      case ItemPool.SHAGADELIC_DISCO_BANJO:
-      case ItemPool.SQUEEZEBOX_OF_THE_AGES:
-        QuestDatabase.setQuestProgress(Quest.NEMESIS, "step8");
-        break;
-
-      case ItemPool.FIZZING_SPORE_POD:
+      }
+      case ItemPool.HAMMER_OF_SMITING,
+          ItemPool.CHELONIAN_MORNINGSTAR,
+          ItemPool.GREEK_PASTA_OF_PERIL,
+          ItemPool.SEVENTEEN_ALARM_SAUCEPAN,
+          ItemPool.SHAGADELIC_DISCO_BANJO,
+          ItemPool.SQUEEZEBOX_OF_THE_AGES ->
+          QuestDatabase.setQuestProgress(Quest.NEMESIS, "step8");
+      case ItemPool.FIZZING_SPORE_POD -> {
         if (InventoryManager.getCount(ItemPool.FIZZING_SPORE_POD) + count >= 6
             && QuestDatabase.isQuestLaterThan(Quest.NEMESIS, "step9")) {
           QuestDatabase.setQuestIfBetter(Quest.NEMESIS, "step14");
         }
-        break;
-
-      case ItemPool.SCALP_OF_GORGOLOK:
-      case ItemPool.ELDER_TURTLE_SHELL:
-      case ItemPool.COLANDER_OF_EMERIL:
-      case ItemPool.ANCIENT_SAUCEHELM:
-      case ItemPool.DISCO_FRO_PICK:
-      case ItemPool.EL_SOMBRERO_DE_LOPEZ:
+      }
+      case ItemPool.SCALP_OF_GORGOLOK,
+          ItemPool.ELDER_TURTLE_SHELL,
+          ItemPool.COLANDER_OF_EMERIL,
+          ItemPool.ANCIENT_SAUCEHELM,
+          ItemPool.DISCO_FRO_PICK,
+          ItemPool.EL_SOMBRERO_DE_LOPEZ -> {
         if (adventureResults) {
           QuestDatabase.setQuestProgress(Quest.NEMESIS, "step16");
         }
-        break;
-
-      case ItemPool.KRAKROXS_LOINCLOTH:
-      case ItemPool.GALAPAGOSIAN_CUISSES:
-      case ItemPool.ANGELHAIR_CULOTTES:
-      case ItemPool.NEWMANS_OWN_TROUSERS:
-      case ItemPool.VOLARTTAS_BELLBOTTOMS:
-      case ItemPool.LEDERHOSEN_OF_THE_NIGHT:
+      }
+      case ItemPool.KRAKROXS_LOINCLOTH,
+          ItemPool.GALAPAGOSIAN_CUISSES,
+          ItemPool.ANGELHAIR_CULOTTES,
+          ItemPool.NEWMANS_OWN_TROUSERS,
+          ItemPool.VOLARTTAS_BELLBOTTOMS,
+          ItemPool.LEDERHOSEN_OF_THE_NIGHT -> {
         if (adventureResults) {
           QuestDatabase.setQuestProgress(Quest.NEMESIS, "step27");
         }
-        break;
-
-      case ItemPool.HELLSEAL_DISGUISE:
+      }
+      case ItemPool.HELLSEAL_DISGUISE -> {
         ResultProcessor.processItem(ItemPool.HELLSEAL_HIDE, -6);
         ResultProcessor.processItem(ItemPool.HELLSEAL_BRAIN, -6);
         ResultProcessor.processItem(ItemPool.HELLSEAL_SINEW, -6);
-        break;
-
-      case ItemPool.DECODED_CULT_DOCUMENTS:
-        ResultProcessor.processItem(ItemPool.CULT_MEMO, -5);
-        break;
+      }
+      case ItemPool.DECODED_CULT_DOCUMENTS -> ResultProcessor.processItem(ItemPool.CULT_MEMO, -5);
 
       // If you acquire this item you've just completed Nemesis quest
       // Contents of Hacienda for Accordion Thief changes
-      case ItemPool.BELT_BUCKLE_OF_LOPEZ:
+      case ItemPool.BELT_BUCKLE_OF_LOPEZ -> {
         if (adventureResults) {
           HaciendaManager.questCompleted();
+          QuestDatabase.setQuestProgress(Quest.NEMESIS, QuestDatabase.FINISHED);
         }
-      // fall through
-      case ItemPool.INFERNAL_SEAL_CLAW:
-      case ItemPool.TURTLE_POACHER_GARTER:
-      case ItemPool.SPAGHETTI_BANDOLIER:
-      case ItemPool.SAUCEBLOB_BELT:
-      case ItemPool.NEW_WAVE_BLING:
+      }
+      case ItemPool.INFERNAL_SEAL_CLAW,
+          ItemPool.TURTLE_POACHER_GARTER,
+          ItemPool.SPAGHETTI_BANDOLIER,
+          ItemPool.SAUCEBLOB_BELT,
+          ItemPool.NEW_WAVE_BLING -> {
         if (adventureResults) {
           QuestDatabase.setQuestProgress(Quest.NEMESIS, QuestDatabase.FINISHED);
         }
-        break;
-
-      case ItemPool.PIXEL_CHAIN_WHIP:
+      }
+      case ItemPool.PIXEL_CHAIN_WHIP -> {
         if (adventureResults) {
           // If you acquire a pixel chain whip, you lose
           // the pixel whip you were wielding and wield
@@ -2193,9 +1948,8 @@ public class ResultProcessor {
           EquipmentManager.transformEquipment(whip, result);
           ResultProcessor.processItem(itemId, -1);
         }
-        break;
-
-      case ItemPool.PIXEL_MORNING_STAR:
+      }
+      case ItemPool.PIXEL_MORNING_STAR -> {
         if (adventureResults) {
           // If you acquire a pixel morning star, you
           // lose the pixel chain whip you were wielding
@@ -2205,23 +1959,20 @@ public class ResultProcessor {
           EquipmentManager.transformEquipment(chainWhip, result);
           ResultProcessor.processItem(itemId, -1);
         }
-        break;
-
-      case ItemPool.REFLECTION_OF_MAP:
+      }
+      case ItemPool.REFLECTION_OF_MAP -> {
         if (adventureResults) {
           int current = Preferences.getInteger("pendingMapReflections");
           current = Math.max(0, current - 1);
           Preferences.setInteger("pendingMapReflections", current);
         }
-        break;
-
-      case ItemPool.GONG:
+      }
+      case ItemPool.GONG -> {
         if (adventureResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.LLAMA) {
           Preferences.increment("_gongDrops", 1);
         }
-        break;
-
-      case ItemPool.SLIME_STACK:
+      }
+      case ItemPool.SLIME_STACK -> {
         if (adventureResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.SLIMELING) {
           int dropped = Preferences.increment("slimelingStacksDropped", 1);
           if (dropped > Preferences.getInteger("slimelingStacksDue")) {
@@ -2229,89 +1980,69 @@ public class ResultProcessor {
             Preferences.setInteger("slimelingStacksDue", dropped);
           }
         }
-        break;
-
-      case ItemPool.ABSINTHE:
+      }
+      case ItemPool.ABSINTHE -> {
         if (adventureResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.PIXIE) {
           Preferences.increment("_absintheDrops", 1);
         }
-        break;
-
-      case ItemPool.ASTRAL_MUSHROOM:
+      }
+      case ItemPool.ASTRAL_MUSHROOM -> {
         if (adventureResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.BADGER) {
           Preferences.increment("_astralDrops", 1);
         }
-        break;
-
-      case ItemPool.AGUA_DE_VIDA:
+      }
+      case ItemPool.AGUA_DE_VIDA -> {
         if (adventureResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.SANDWORM) {
           Preferences.increment("_aguaDrops", 1);
         }
-        break;
-
-      case ItemPool.DEVILISH_FOLIO:
+      }
+      case ItemPool.DEVILISH_FOLIO -> {
         if (adventureResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.KLOOP) {
           Preferences.increment("_kloopDrops", 1);
         }
-        break;
+      }
+      case ItemPool.FURIOUS_STONE, ItemPool.VANITY_STONE -> {
+        String step =
+            ((InventoryManager.getCount(ItemPool.FURIOUS_STONE)
+                        + InventoryManager.getCount(ItemPool.VANITY_STONE))
+                    < 2)
+                ? "step2"
+                : QuestDatabase.FINISHED;
 
-      case ItemPool.FURIOUS_STONE:
-      case ItemPool.VANITY_STONE:
-        {
-          String step =
-              ((InventoryManager.getCount(ItemPool.FURIOUS_STONE)
-                          + InventoryManager.getCount(ItemPool.VANITY_STONE))
-                      < 2)
-                  ? "step2"
-                  : QuestDatabase.FINISHED;
+        QuestDatabase.setQuest(Quest.CLUMSINESS, step);
+        Preferences.setString("clumsinessGroveBoss", "");
+      }
+      case ItemPool.LECHEROUS_STONE, ItemPool.JEALOUSY_STONE -> {
+        String step =
+            ((InventoryManager.getCount(ItemPool.LECHEROUS_STONE)
+                        + InventoryManager.getCount(ItemPool.JEALOUSY_STONE))
+                    < 2)
+                ? "step2"
+                : QuestDatabase.FINISHED;
 
-          QuestDatabase.setQuest(Quest.CLUMSINESS, step);
-          Preferences.setString("clumsinessGroveBoss", "");
-          break;
-        }
+        QuestDatabase.setQuest(Quest.MAELSTROM, step);
+        Preferences.setString("maelstromOfLoversBoss", "");
+      }
+      case ItemPool.AVARICE_STONE, ItemPool.GLUTTONOUS_STONE -> {
+        String step =
+            ((InventoryManager.getCount(ItemPool.AVARICE_STONE)
+                        + InventoryManager.getCount(ItemPool.GLUTTONOUS_STONE))
+                    < 2)
+                ? "step2"
+                : QuestDatabase.FINISHED;
 
-      case ItemPool.LECHEROUS_STONE:
-      case ItemPool.JEALOUSY_STONE:
-        {
-          String step =
-              ((InventoryManager.getCount(ItemPool.LECHEROUS_STONE)
-                          + InventoryManager.getCount(ItemPool.JEALOUSY_STONE))
-                      < 2)
-                  ? "step2"
-                  : QuestDatabase.FINISHED;
-
-          QuestDatabase.setQuest(Quest.MAELSTROM, step);
-          Preferences.setString("maelstromOfLoversBoss", "");
-          break;
-        }
-
-      case ItemPool.AVARICE_STONE:
-      case ItemPool.GLUTTONOUS_STONE:
-        {
-          String step =
-              ((InventoryManager.getCount(ItemPool.AVARICE_STONE)
-                          + InventoryManager.getCount(ItemPool.GLUTTONOUS_STONE))
-                      < 2)
-                  ? "step2"
-                  : QuestDatabase.FINISHED;
-
-          QuestDatabase.setQuest(Quest.GLACIER, step);
-          Preferences.setString("glacierOfJerksBoss", "");
-          break;
-        }
-
-      case ItemPool.GROOSE_GREASE:
+        QuestDatabase.setQuest(Quest.GLACIER, step);
+        Preferences.setString("glacierOfJerksBoss", "");
+      }
+      case ItemPool.GROOSE_GREASE -> {
         if (adventureResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.GROOSE) {
           Preferences.increment("_grooseDrops", 1);
         }
-        break;
-
-      case ItemPool.GG_TOKEN:
+      }
+      case ItemPool.GG_TOKEN -> {
         if (adventureResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.TRON) {
           Preferences.increment("_tokenDrops", 1);
         }
-      // Fall through
-      case ItemPool.GG_TICKET:
         // If this is the first token or ticket we've gotten
         // this ascension, visit the wrong side of the tracks
         // to unlock the arcade.
@@ -2319,248 +2050,220 @@ public class ResultProcessor {
           Preferences.setInteger("lastArcadeAscension", KoLCharacter.getAscensions());
           RequestThread.postRequest(new PlaceRequest("town_wrong"));
         }
-        break;
-
-      case ItemPool.TRANSPORTER_TRANSPONDER:
+      }
+      case ItemPool.GG_TICKET -> {
+        // If this is the first token or ticket we've gotten
+        // this ascension, visit the wrong side of the tracks
+        // to unlock the arcade.
+        if (Preferences.getInteger("lastArcadeAscension") < KoLCharacter.getAscensions()) {
+          Preferences.setInteger("lastArcadeAscension", KoLCharacter.getAscensions());
+          RequestThread.postRequest(new PlaceRequest("town_wrong"));
+        }
+      }
+      case ItemPool.TRANSPORTER_TRANSPONDER -> {
         if (adventureResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.ALIEN) {
           Preferences.increment("_transponderDrops", 1);
         }
-        break;
-
-      case ItemPool.UNCONSCIOUS_COLLECTIVE_DREAM_JAR:
+      }
+      case ItemPool.UNCONSCIOUS_COLLECTIVE_DREAM_JAR -> {
         if (adventureResults
             && KoLCharacter.currentFamiliar.getId() == FamiliarPool.UNCONSCIOUS_COLLECTIVE) {
           Preferences.increment("_dreamJarDrops", 1);
         }
-        break;
-
-      case ItemPool.HOT_ASHES:
+      }
+      case ItemPool.HOT_ASHES -> {
         if (adventureResults
             && KoLCharacter.currentFamiliar.getId() == FamiliarPool.GALLOPING_GRILL) {
           Preferences.increment("_hotAshesDrops", 1);
         }
-        break;
-
-      case ItemPool.PSYCHOANALYTIC_JAR:
+      }
+      case ItemPool.PSYCHOANALYTIC_JAR -> {
         if (adventureResults
             && KoLCharacter.currentFamiliar.getId() == FamiliarPool.ANGRY_JUNG_MAN) {
           Preferences.increment("_jungDrops", 1);
           Preferences.setInteger("jungCharge", 0);
           KoLCharacter.usableFamiliar(FamiliarPool.ANGRY_JUNG_MAN).setCharges(0);
         }
-        break;
-
-      case ItemPool.TALES_OF_SPELUNKING:
+      }
+      case ItemPool.TALES_OF_SPELUNKING -> {
         if (adventureResults
             && KoLCharacter.currentFamiliar.getId() == FamiliarPool.ADVENTUROUS_SPELUNKER) {
           Preferences.increment("_spelunkingTalesDrops", 1);
         }
-        break;
-
-      case ItemPool.POWDERED_GOLD:
+      }
+      case ItemPool.POWDERED_GOLD -> {
         if (adventureResults
             && KoLCharacter.currentFamiliar.getId() == FamiliarPool.GOLDEN_MONKEY) {
           Preferences.increment("_powderedGoldDrops", 1);
         }
-        break;
-
-      case ItemPool.MINI_MARTINI:
+      }
+      case ItemPool.MINI_MARTINI -> {
         if (adventureResults
             && KoLCharacter.currentFamiliar.getId() == FamiliarPool.SWORD_AND_MARTINI_GUY) {
           Preferences.increment("_miniMartiniDrops", 1);
         }
-        break;
-
-      case ItemPool.POWER_PILL:
+      }
+      case ItemPool.POWER_PILL -> {
         if (adventureResults
             && (KoLCharacter.currentFamiliar.getId() == FamiliarPool.PUCK_MAN
                 || KoLCharacter.currentFamiliar.getId() == FamiliarPool.MS_PUCK_MAN)) {
           Preferences.setInteger("powerPillProgress", 0);
           Preferences.increment("_powerPillDrops", 1);
         }
-        break;
-
-      case ItemPool.MACHINE_SNOWGLOBE:
+      }
+      case ItemPool.MACHINE_SNOWGLOBE -> {
         if (adventureResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.MACHINE_ELF) {
           Preferences.increment("_snowglobeDrops", 1);
         }
-        break;
-
-      case ItemPool.LIVER_PIE:
-      case ItemPool.BADASS_PIE:
-      case ItemPool.FISH_PIE:
-      case ItemPool.PIPING_PIE:
-      case ItemPool.IGLOO_PIE:
-      case ItemPool.TURNOVER:
-      case ItemPool.DEAD_PIE:
-      case ItemPool.THROBBING_PIE:
+      }
+      case ItemPool.LIVER_PIE,
+          ItemPool.BADASS_PIE,
+          ItemPool.FISH_PIE,
+          ItemPool.PIPING_PIE,
+          ItemPool.IGLOO_PIE,
+          ItemPool.TURNOVER,
+          ItemPool.DEAD_PIE,
+          ItemPool.THROBBING_PIE -> {
         if (adventureResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.GRINDER) {
           Preferences.increment("_pieDrops", 1);
           Preferences.setInteger("_piePartsCount", -1);
           Preferences.setString("pieStuffing", "");
         }
-        break;
-
-      case ItemPool.GOOEY_PASTE:
-      case ItemPool.BEASTLY_PASTE:
-      case ItemPool.OILY_PASTE:
-      case ItemPool.ECTOPLASMIC:
-      case ItemPool.GREASY_PASTE:
-      case ItemPool.BUG_PASTE:
-      case ItemPool.HIPPY_PASTE:
-      case ItemPool.ORC_PASTE:
-      case ItemPool.DEMONIC_PASTE:
-      case ItemPool.INDESCRIBABLY_HORRIBLE_PASTE:
-      case ItemPool.FISHY_PASTE:
-      case ItemPool.GOBLIN_PASTE:
-      case ItemPool.PIRATE_PASTE:
-      case ItemPool.CHLOROPHYLL_PASTE:
-      case ItemPool.STRANGE_PASTE:
-      case ItemPool.MER_KIN_PASTE:
-      case ItemPool.SLIMY_PASTE:
-      case ItemPool.PENGUIN_PASTE:
-      case ItemPool.ELEMENTAL_PASTE:
-      case ItemPool.COSMIC_PASTE:
-      case ItemPool.HOBO_PASTE:
-      case ItemPool.CRIMBO_PASTE:
+      }
+      case ItemPool.GOOEY_PASTE,
+          ItemPool.BEASTLY_PASTE,
+          ItemPool.OILY_PASTE,
+          ItemPool.ECTOPLASMIC,
+          ItemPool.GREASY_PASTE,
+          ItemPool.BUG_PASTE,
+          ItemPool.HIPPY_PASTE,
+          ItemPool.ORC_PASTE,
+          ItemPool.DEMONIC_PASTE,
+          ItemPool.INDESCRIBABLY_HORRIBLE_PASTE,
+          ItemPool.FISHY_PASTE,
+          ItemPool.GOBLIN_PASTE,
+          ItemPool.PIRATE_PASTE,
+          ItemPool.CHLOROPHYLL_PASTE,
+          ItemPool.STRANGE_PASTE,
+          ItemPool.MER_KIN_PASTE,
+          ItemPool.SLIMY_PASTE,
+          ItemPool.PENGUIN_PASTE,
+          ItemPool.ELEMENTAL_PASTE,
+          ItemPool.COSMIC_PASTE,
+          ItemPool.HOBO_PASTE,
+          ItemPool.CRIMBO_PASTE -> {
         if (adventureResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.BOOTS) {
           Preferences.increment("_pasteDrops", 1);
         }
-        break;
-
-      case ItemPool.BEER_LENS:
+      }
+      case ItemPool.BEER_LENS -> {
         if (adventureResults) {
           Preferences.increment("_beerLensDrops", 1);
         }
-        break;
-
-      case ItemPool.COTTON_CANDY_CONDE:
-      case ItemPool.COTTON_CANDY_PINCH:
-      case ItemPool.COTTON_CANDY_SMIDGEN:
-      case ItemPool.COTTON_CANDY_SKOSHE:
-      case ItemPool.COTTON_CANDY_PLUG:
-      case ItemPool.COTTON_CANDY_PILLOW:
-      case ItemPool.COTTON_CANDY_BALE:
+      }
+      case ItemPool.COTTON_CANDY_CONDE,
+          ItemPool.COTTON_CANDY_PINCH,
+          ItemPool.COTTON_CANDY_SMIDGEN,
+          ItemPool.COTTON_CANDY_SKOSHE,
+          ItemPool.COTTON_CANDY_PLUG,
+          ItemPool.COTTON_CANDY_PILLOW,
+          ItemPool.COTTON_CANDY_BALE -> {
         if (adventureResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.CARNIE) {
           Preferences.increment("_carnieCandyDrops", 1);
         }
-        break;
-
-      case ItemPool.LESSER_GRODULATED_VIOLET:
-      case ItemPool.TIN_MAGNOLIA:
-      case ItemPool.BEGPWNIA:
-      case ItemPool.UPSY_DAISY:
-      case ItemPool.HALF_ORCHID:
+      }
+      case ItemPool.LESSER_GRODULATED_VIOLET,
+          ItemPool.TIN_MAGNOLIA,
+          ItemPool.BEGPWNIA,
+          ItemPool.UPSY_DAISY,
+          ItemPool.HALF_ORCHID -> {
         if (adventureResults) {
           Preferences.increment("_mayflowerDrops", 1);
         }
-        break;
-
-      case ItemPool.EVILOMETER:
-        CryptManager.acquireEvilometer();
-        break;
-
-      case ItemPool.TEACHINGS_OF_THE_FIST:
+      }
+      case ItemPool.EVILOMETER -> CryptManager.acquireEvilometer();
+      case ItemPool.TEACHINGS_OF_THE_FIST -> {
         // save which location the scroll was found in.
         String setting =
             AdventureDatabase.fistcoreLocationToSetting(KoLAdventure.lastAdventureId());
         if (setting != null) {
           Preferences.setBoolean(setting, true);
         }
-        break;
-
-      case ItemPool.KEYOTRON:
+      }
+      case ItemPool.KEYOTRON -> {
         BugbearManager.resetStatus();
         Preferences.setInteger("lastKeyotronUse", KoLCharacter.getAscensions());
-        break;
-
-      case ItemPool.JICK_JAR:
+      }
+      case ItemPool.JICK_JAR -> {
         if (RequestLogger.getLastURLString().contains("action=jung")) {
           Preferences.setBoolean("_psychoJarFilled", true);
           ResultProcessor.removeItem(ItemPool.PSYCHOANALYTIC_JAR);
         }
-        break;
-
-      case ItemPool.SUSPICIOUS_JAR:
-      case ItemPool.GOURD_JAR:
-      case ItemPool.MYSTIC_JAR:
-      case ItemPool.OLD_MAN_JAR:
-      case ItemPool.ARTIST_JAR:
-      case ItemPool.MEATSMITH_JAR:
+      }
+      case ItemPool.SUSPICIOUS_JAR,
+          ItemPool.GOURD_JAR,
+          ItemPool.MYSTIC_JAR,
+          ItemPool.OLD_MAN_JAR,
+          ItemPool.ARTIST_JAR,
+          ItemPool.MEATSMITH_JAR -> {
         if (RequestLogger.getLastURLString().contains("action=jung")) {
           ResultProcessor.removeItem(ItemPool.PSYCHOANALYTIC_JAR);
         }
-        break;
-
-      case ItemPool.BRICKO_EYE:
+      }
+      case ItemPool.BRICKO_EYE -> {
         if (RequestLogger.getLastURLString().startsWith("campground.php")
             || RequestLogger.getLastURLString().startsWith("skills.php")) {
           Preferences.increment("_brickoEyeSummons");
         }
-        break;
-
-      case ItemPool.DIVINE_CHAMPAGNE_POPPER:
-      case ItemPool.DIVINE_CRACKER:
-      case ItemPool.DIVINE_FLUTE:
+      }
+      case ItemPool.DIVINE_CHAMPAGNE_POPPER, ItemPool.DIVINE_CRACKER, ItemPool.DIVINE_FLUTE -> {
         if (RequestLogger.getLastURLString().startsWith("campground.php")
             || RequestLogger.getLastURLString().startsWith("skills.php")) {
           Preferences.increment("_favorRareSummons");
         }
-        break;
-
-      case ItemPool.RESOLUTION_KINDER:
-      case ItemPool.RESOLUTION_ADVENTUROUS:
-      case ItemPool.RESOLUTION_LUCKIER:
+      }
+      case ItemPool.RESOLUTION_KINDER,
+          ItemPool.RESOLUTION_ADVENTUROUS,
+          ItemPool.RESOLUTION_LUCKIER -> {
         if (RequestLogger.getLastURLString().startsWith("campground.php")
             || RequestLogger.getLastURLString().startsWith("skills.php")) {
           Preferences.increment("_resolutionRareSummons");
         }
-        break;
-
-      case ItemPool.YELLOW_TAFFY:
+      }
+      case ItemPool.YELLOW_TAFFY -> {
         if (RequestLogger.getLastURLString().startsWith("campground.php")
             || RequestLogger.getLastURLString().startsWith("skills.php")) {
           Preferences.increment("_taffyRareSummons");
           Preferences.increment("_taffyYellowSummons");
         }
-        break;
-
-      case ItemPool.GREEN_TAFFY:
-      case ItemPool.INDIGO_TAFFY:
+      }
+      case ItemPool.GREEN_TAFFY, ItemPool.INDIGO_TAFFY -> {
         if (RequestLogger.getLastURLString().startsWith("campground.php")
             || RequestLogger.getLastURLString().startsWith("skills.php")) {
           Preferences.increment("_taffyRareSummons");
         }
-        break;
-
-      case ItemPool.BOSS_HELM:
-      case ItemPool.BOSS_CLOAK:
-      case ItemPool.BOSS_SWORD:
-      case ItemPool.BOSS_SHIELD:
-      case ItemPool.BOSS_PANTS:
-      case ItemPool.BOSS_GAUNTLETS:
-      case ItemPool.BOSS_BOOTS:
-      case ItemPool.BOSS_BELT:
+      }
+      case ItemPool.BOSS_HELM,
+          ItemPool.BOSS_CLOAK,
+          ItemPool.BOSS_SWORD,
+          ItemPool.BOSS_SHIELD,
+          ItemPool.BOSS_PANTS,
+          ItemPool.BOSS_GAUNTLETS,
+          ItemPool.BOSS_BOOTS,
+          ItemPool.BOSS_BELT -> {
         if (adventureResults) {
           ResultProcessor.removeItem(ItemPool.GAMEPRO_WALKTHRU);
         }
-        break;
-
-      case ItemPool.CARROT_NOSE:
+      }
+      case ItemPool.CARROT_NOSE -> {
         if (adventureResults) {
           Preferences.increment("_carrotNoseDrops");
         }
-        break;
-
-      case ItemPool.COSMIC_SIX_PACK:
-        Preferences.setBoolean("_cosmicSixPackConjured", true);
-        break;
-
-      case ItemPool.COBBS_KNOB_MAP:
-        QuestDatabase.setQuestProgress(Quest.GOBLIN, QuestDatabase.STARTED);
-        break;
-
-      case ItemPool.MERKIN_LOCKKEY:
+      }
+      case ItemPool.COSMIC_SIX_PACK -> Preferences.setBoolean("_cosmicSixPackConjured", true);
+      case ItemPool.COBBS_KNOB_MAP ->
+          QuestDatabase.setQuestProgress(Quest.GOBLIN, QuestDatabase.STARTED);
+      case ItemPool.MERKIN_LOCKKEY -> {
         MonsterData merkinMonster = MonsterStatusTracker.getLastMonster();
         if (merkinMonster == null) {
           break;
@@ -2572,41 +2275,36 @@ public class ResultProcessor {
           case "Mer-kin raider" -> Preferences.setInteger("choiceAdventure312", 2);
           case "Mer-kin healer" -> Preferences.setInteger("choiceAdventure312", 3);
         }
-        break;
-
-      case ItemPool.YEARBOOK_CAMERA:
-        {
-          String desc = DebugDatabase.rawItemDescriptionText(ItemPool.YEARBOOK_CAMERA);
-          int upgrades = ItemDatabase.parseYearbookCamera(desc);
-          Preferences.setInteger("yearbookCameraAscensions", upgrades);
-          break;
-        }
-
-      case ItemPool.CLANCY_LUTE:
+      }
+      case ItemPool.YEARBOOK_CAMERA -> {
+        String desc = DebugDatabase.rawItemDescriptionText(ItemPool.YEARBOOK_CAMERA);
+        int upgrades = ItemDatabase.parseYearbookCamera(desc);
+        Preferences.setInteger("yearbookCameraAscensions", upgrades);
+      }
+      case ItemPool.CLANCY_LUTE -> {
         if (adventureResults) {
           QuestDatabase.setQuestProgress(Quest.CLANCY, "step5");
         }
-        break;
-
-      case ItemPool.BEER_BATTERED_ACCORDION:
-      case ItemPool.BARITONE_ACCORDION:
-      case ItemPool.MAMAS_SQUEEZEBOX:
-      case ItemPool.GUANCERTINA:
-      case ItemPool.ACCORDION_FILE:
-      case ItemPool.ACCORD_ION:
-      case ItemPool.BONE_BANDONEON:
-      case ItemPool.PENTATONIC_ACCORDION:
-      case ItemPool.NON_EUCLIDEAN_NON_ACCORDION:
-      case ItemPool.ACCORDION_OF_JORDION:
-      case ItemPool.AUTOCALLIOPE:
-      case ItemPool.ACCORDIONOID_ROCCA:
-      case ItemPool.PYGMY_CONCERTINETTE:
-      case ItemPool.GHOST_ACCORDION:
-      case ItemPool.PEACE_ACCORDION:
-      case ItemPool.ALARM_ACCORDION:
-      case ItemPool.BAL_MUSETTE_ACCORDION:
-      case ItemPool.CAJUN_ACCORDION:
-      case ItemPool.QUIRKY_ACCORDION:
+      }
+      case ItemPool.BEER_BATTERED_ACCORDION,
+          ItemPool.BARITONE_ACCORDION,
+          ItemPool.MAMAS_SQUEEZEBOX,
+          ItemPool.GUANCERTINA,
+          ItemPool.ACCORDION_FILE,
+          ItemPool.ACCORD_ION,
+          ItemPool.BONE_BANDONEON,
+          ItemPool.PENTATONIC_ACCORDION,
+          ItemPool.NON_EUCLIDEAN_NON_ACCORDION,
+          ItemPool.ACCORDION_OF_JORDION,
+          ItemPool.AUTOCALLIOPE,
+          ItemPool.ACCORDIONOID_ROCCA,
+          ItemPool.PYGMY_CONCERTINETTE,
+          ItemPool.GHOST_ACCORDION,
+          ItemPool.PEACE_ACCORDION,
+          ItemPool.ALARM_ACCORDION,
+          ItemPool.BAL_MUSETTE_ACCORDION,
+          ItemPool.CAJUN_ACCORDION,
+          ItemPool.QUIRKY_ACCORDION -> {
         if (adventureResults) {
           StringBuilder buffer = new StringBuilder(Preferences.getString("_stolenAccordions"));
           if (buffer.length() > 0) {
@@ -2615,14 +2313,12 @@ public class ResultProcessor {
           buffer.append(itemId);
           Preferences.setString("_stolenAccordions", buffer.toString());
         }
-        break;
-
-      case ItemPool.DAMP_OLD_BOOT:
+      }
+      case ItemPool.DAMP_OLD_BOOT -> {
         QuestDatabase.setQuestProgress(Quest.SEA_OLD_GUY, "step1");
         Preferences.setBoolean("dampOldBootPurchased", true);
-        break;
-
-      case ItemPool.GRIMSTONE_MASK:
+      }
+      case ItemPool.GRIMSTONE_MASK -> {
         if (adventureResults) {
           if (KoLCharacter.getFamiliar()
               .equals(KoLCharacter.usableFamiliar(FamiliarPool.GRIMSTONE_GOLEM))) {
@@ -2634,9 +2330,8 @@ public class ResultProcessor {
             Preferences.increment("_grimstoneMaskDropsCrown");
           }
         }
-        break;
-
-      case ItemPool.GRIM_FAIRY_TALE:
+      }
+      case ItemPool.GRIM_FAIRY_TALE -> {
         if (adventureResults) {
           if (KoLCharacter.getFamiliar()
               .equals(KoLCharacter.usableFamiliar(FamiliarPool.GRIM_BROTHER))) {
@@ -2646,10 +2341,8 @@ public class ResultProcessor {
             Preferences.increment("_grimFairyTaleDropsCrown");
           }
         }
-        break;
-
-      case ItemPool.TOASTED_HALF_SANDWICH:
-      case ItemPool.MULLED_HOBO_WINE:
+      }
+      case ItemPool.TOASTED_HALF_SANDWICH, ItemPool.MULLED_HOBO_WINE -> {
         if (adventureResults) {
           if (KoLCharacter.getFamiliar()
               .equals(KoLCharacter.usableFamiliar(FamiliarPool.GARBAGE_FIRE))) {
@@ -2658,9 +2351,8 @@ public class ResultProcessor {
             Preferences.increment("_garbageFireDrops", 1);
           }
         }
-        break;
-
-      case ItemPool.BURNING_NEWSPAPER:
+      }
+      case ItemPool.BURNING_NEWSPAPER -> {
         if (adventureResults) {
           if (KoLCharacter.getFamiliar()
               .equals(KoLCharacter.usableFamiliar(FamiliarPool.GARBAGE_FIRE))) {
@@ -2672,15 +2364,13 @@ public class ResultProcessor {
             Preferences.increment("_garbageFireDropsCrown");
           }
         }
-        break;
-
-      case ItemPool.HOARDED_CANDY_WAD:
+      }
+      case ItemPool.HOARDED_CANDY_WAD -> {
         if (adventureResults) {
           Preferences.increment("_hoardedCandyDropsCrown");
         }
-        break;
-
-      case ItemPool.SPACE_BEAST_FUR:
+      }
+      case ItemPool.SPACE_BEAST_FUR -> {
         if (adventureResults) {
           // It could still drop from a space beast while this is true, but that would
           // be harder to check for
@@ -2689,14 +2379,13 @@ public class ResultProcessor {
             Preferences.increment("_spaceFurDropsCrown");
           }
         }
-        break;
-
-      case ItemPool.CARDBOARD_ORE:
-      case ItemPool.STYROFOAM_ORE:
-      case ItemPool.BUBBLEWRAP_ORE:
-      case ItemPool.VELCRO_ORE:
-      case ItemPool.TEFLON_ORE:
-      case ItemPool.VINYL_ORE:
+      }
+      case ItemPool.CARDBOARD_ORE,
+          ItemPool.STYROFOAM_ORE,
+          ItemPool.BUBBLEWRAP_ORE,
+          ItemPool.VELCRO_ORE,
+          ItemPool.TEFLON_ORE,
+          ItemPool.VINYL_ORE -> {
         if (adventureResults) {
           // First three could still drop from a ghost miner while this is true, but that would
           // be harder to check for
@@ -2705,233 +2394,176 @@ public class ResultProcessor {
             Preferences.increment("_oreDropsCrown");
           }
         }
-        break;
-
-      case ItemPool.ABSTRACTION_ACTION:
-      case ItemPool.ABSTRACTION_THOUGHT:
-      case ItemPool.ABSTRACTION_SENSATION:
-      case ItemPool.ABSTRACTION_PURPOSE:
-      case ItemPool.ABSTRACTION_CATEGORY:
-      case ItemPool.ABSTRACTION_PERCEPTION:
+      }
+      case ItemPool.ABSTRACTION_ACTION,
+          ItemPool.ABSTRACTION_THOUGHT,
+          ItemPool.ABSTRACTION_SENSATION,
+          ItemPool.ABSTRACTION_PURPOSE,
+          ItemPool.ABSTRACTION_CATEGORY,
+          ItemPool.ABSTRACTION_PERCEPTION -> {
         if (adventureResults) {
           if (KoLCharacter.currentBjorned.getId() == FamiliarPool.MACHINE_ELF
               || KoLCharacter.currentEnthroned.getId() == FamiliarPool.MACHINE_ELF) {
             Preferences.increment("_abstractionDropsCrown");
           }
         }
-        break;
-
-      case ItemPool.PROFESSOR_WHAT_GARMENT:
-        QuestDatabase.setQuestProgress(Quest.SHIRT, "step1");
-        break;
-
-      case ItemPool.THINKNERD_PACKAGE:
+      }
+      case ItemPool.PROFESSOR_WHAT_GARMENT -> QuestDatabase.setQuestProgress(Quest.SHIRT, "step1");
+      case ItemPool.THINKNERD_PACKAGE -> {
         if (adventureResults) {
           Preferences.increment("_thinknerdPackageDrops");
         }
-        break;
-
-      case ItemPool.STEAM_FIST_1:
-      case ItemPool.STEAM_FIST_2:
-      case ItemPool.STEAM_FIST_3:
-      case ItemPool.STEAM_TRIP_1:
-      case ItemPool.STEAM_TRIP_2:
-      case ItemPool.STEAM_TRIP_3:
-      case ItemPool.STEAM_METEOID_1:
-      case ItemPool.STEAM_METEOID_2:
-      case ItemPool.STEAM_METEOID_3:
-      case ItemPool.STEAM_DEMON_1:
-      case ItemPool.STEAM_DEMON_2:
-      case ItemPool.STEAM_DEMON_3:
-      case ItemPool.STEAM_PLUMBER_1:
-      case ItemPool.STEAM_PLUMBER_2:
-      case ItemPool.STEAM_PLUMBER_3:
+      }
+      case ItemPool.STEAM_FIST_1,
+          ItemPool.STEAM_FIST_2,
+          ItemPool.STEAM_FIST_3,
+          ItemPool.STEAM_TRIP_1,
+          ItemPool.STEAM_TRIP_2,
+          ItemPool.STEAM_TRIP_3,
+          ItemPool.STEAM_METEOID_1,
+          ItemPool.STEAM_METEOID_2,
+          ItemPool.STEAM_METEOID_3,
+          ItemPool.STEAM_DEMON_1,
+          ItemPool.STEAM_DEMON_2,
+          ItemPool.STEAM_DEMON_3,
+          ItemPool.STEAM_PLUMBER_1,
+          ItemPool.STEAM_PLUMBER_2,
+          ItemPool.STEAM_PLUMBER_3 -> {
         if (adventureResults) {
           Preferences.increment("_steamCardDrops");
         }
-        break;
-
-      case ItemPool.PENCIL_THIN_MUSHROOM:
+      }
+      case ItemPool.PENCIL_THIN_MUSHROOM -> {
         if (InventoryManager.getCount(ItemPool.PENCIL_THIN_MUSHROOM) >= 9) {
           QuestDatabase.setQuestProgress(Quest.JIMMY_MUSHROOM, "step1");
         }
-        break;
-
-      case ItemPool.SAILOR_SALT:
+      }
+      case ItemPool.SAILOR_SALT -> {
         if (InventoryManager.getCount(ItemPool.SAILOR_SALT) >= 49) {
           QuestDatabase.setQuestProgress(Quest.JIMMY_SALT, "step1");
         }
-        break;
-
-      case ItemPool.TACO_DAN_RECEIPT:
+      }
+      case ItemPool.TACO_DAN_RECEIPT -> {
         if (InventoryManager.getCount(ItemPool.TACO_DAN_RECEIPT) >= 9) {
           QuestDatabase.setQuestProgress(Quest.TACO_DAN_AUDIT, "step1");
         }
-        break;
-
-      case ItemPool.BROUPON:
+      }
+      case ItemPool.BROUPON -> {
         if (InventoryManager.getCount(ItemPool.BROUPON) >= 14) {
           QuestDatabase.setQuestProgress(Quest.BRODEN_DEBT, "step1");
         }
-        break;
-
-      case ItemPool.ELIZABETH_DOLLIE:
+      }
+      case ItemPool.ELIZABETH_DOLLIE -> {
         if (adventureResults) {
           Preferences.setString("nextSpookyravenElizabethRoom", "none");
         }
-        break;
-
-      case ItemPool.STEPHEN_LAB_COAT:
+      }
+      case ItemPool.STEPHEN_LAB_COAT -> {
         if (adventureResults) {
           Preferences.setString("nextSpookyravenStephenRoom", "none");
         }
-        break;
-
-      case ItemPool.WINE_BOMB:
-        EquipmentManager.discardEquipment(ItemPool.UNSTABLE_FULMINATE);
-        break;
-
-      case ItemPool.LIGHTNING_MILK:
+      }
+      case ItemPool.WINE_BOMB -> EquipmentManager.discardEquipment(ItemPool.UNSTABLE_FULMINATE);
+      case ItemPool.LIGHTNING_MILK -> {
         // These are starting skills if no turns have been played this ascension
         if (KoLCharacter.getCurrentRun() == 0) {
           Preferences.setInteger("heavyRainsStartingLightning", count);
         }
-        break;
-
-      case ItemPool.AQUA_BRAIN:
+      }
+      case ItemPool.AQUA_BRAIN -> {
         // These are starting skills if no turns have been played this ascension
         if (KoLCharacter.getCurrentRun() == 0) {
           Preferences.setInteger("heavyRainsStartingRain", count);
         }
-        break;
-
-      case ItemPool.THUNDER_THIGH:
+      }
+      case ItemPool.THUNDER_THIGH -> {
         // These are starting skills if no turns have been played this ascension
         if (KoLCharacter.getCurrentRun() == 0) {
           Preferences.setInteger("heavyRainsStartingThunder", count);
         }
-        break;
-
-      case ItemPool.EXPERIMENTAL_SERUM_P00:
+      }
+      case ItemPool.EXPERIMENTAL_SERUM_P00 -> {
         if (InventoryManager.getCount(ItemPool.EXPERIMENTAL_SERUM_P00) >= 4
             && QuestDatabase.isQuestStep(Quest.SERUM, QuestDatabase.STARTED)) {
           QuestDatabase.setQuestProgress(Quest.SERUM, "step1");
         }
-        break;
-
-      case ItemPool.MINI_CASSETTE_RECORDER:
+      }
+      case ItemPool.MINI_CASSETTE_RECORDER -> {
         QuestDatabase.setQuestProgress(Quest.JUNGLE_PUN, QuestDatabase.STARTED);
         Preferences.setInteger("junglePuns", 0);
-        break;
-
-      case ItemPool.GORE_BUCKET:
+      }
+      case ItemPool.GORE_BUCKET -> {
         QuestDatabase.setQuestProgress(Quest.GORE, QuestDatabase.STARTED);
         Preferences.setInteger("goreCollected", 0);
-        break;
-
-      case ItemPool.FINGERNAIL_CLIPPERS:
+      }
+      case ItemPool.FINGERNAIL_CLIPPERS -> {
         QuestDatabase.setQuestProgress(Quest.CLIPPER, QuestDatabase.STARTED);
         Preferences.setInteger("fingernailsClipped", 0);
-        break;
-
-      case ItemPool.ESP_COLLAR:
-        QuestDatabase.setQuestProgress(Quest.FAKE_MEDIUM, "step1");
-        break;
-
-      case ItemPool.GPS_WATCH:
-        QuestDatabase.setQuestProgress(Quest.OUT_OF_ORDER, QuestDatabase.STARTED);
-        break;
-
-      case ItemPool.PROJECT_TLB:
-        QuestDatabase.setQuestProgress(Quest.OUT_OF_ORDER, "step2");
-        break;
-
-      case ItemPool.PACK_OF_SMOKES:
+      }
+      case ItemPool.ESP_COLLAR -> QuestDatabase.setQuestProgress(Quest.FAKE_MEDIUM, "step1");
+      case ItemPool.GPS_WATCH ->
+          QuestDatabase.setQuestProgress(Quest.OUT_OF_ORDER, QuestDatabase.STARTED);
+      case ItemPool.PROJECT_TLB -> QuestDatabase.setQuestProgress(Quest.OUT_OF_ORDER, "step2");
+      case ItemPool.PACK_OF_SMOKES -> {
         if (InventoryManager.getCount(ItemPool.PACK_OF_SMOKES) >= 10) {
           QuestDatabase.setQuestProgress(Quest.SMOKES, "step1");
         }
-        break;
-
-      case ItemPool.SUBJECT_37_FILE:
-        QuestDatabase.setQuestProgress(Quest.ESCAPE, "step1");
-        break;
-
-      case ItemPool.GOTO:
+      }
+      case ItemPool.SUBJECT_37_FILE -> QuestDatabase.setQuestProgress(Quest.ESCAPE, "step1");
+      case ItemPool.GOTO -> {
         if (QuestDatabase.isQuestStep(Quest.ESCAPE, "step2")) {
           QuestDatabase.setQuestProgress(Quest.ESCAPE, "step3");
         }
-        break;
-
-      case ItemPool.WEREMOOSE_SPIT:
+      }
+      case ItemPool.WEREMOOSE_SPIT -> {
         if (QuestDatabase.isQuestStep(Quest.ESCAPE, "step4")) {
           QuestDatabase.setQuestProgress(Quest.ESCAPE, "step5");
         }
-        break;
-
-      case ItemPool.ABOMINABLE_BLUBBER:
+      }
+      case ItemPool.ABOMINABLE_BLUBBER -> {
         if (QuestDatabase.isQuestStep(Quest.ESCAPE, "step6")) {
           QuestDatabase.setQuestProgress(Quest.ESCAPE, "step7");
         }
-        break;
-
-      case ItemPool.FRIENDLY_TURKEY:
-      case ItemPool.AGITATED_TURKEY:
-      case ItemPool.AMBITIOUS_TURKEY:
+      }
+      case ItemPool.FRIENDLY_TURKEY, ItemPool.AGITATED_TURKEY, ItemPool.AMBITIOUS_TURKEY -> {
         if (adventureResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.FIST_TURKEY) {
           Preferences.increment("_turkeyBooze");
         }
-        break;
-
-      case ItemPool.XIBLAXIAN_ALLOY:
-      case ItemPool.XIBLAXIAN_CIRCUITRY:
-      case ItemPool.XIBLAXIAN_POLYMER:
+      }
+      case ItemPool.XIBLAXIAN_ALLOY, ItemPool.XIBLAXIAN_CIRCUITRY, ItemPool.XIBLAXIAN_POLYMER -> {
         if (adventureResults) {
           Preferences.increment("_holoWristDrops");
           // This will be incremented to 0 during later processing
           Preferences.setInteger("_holoWristProgress", -1);
         }
-        break;
-
-      case ItemPool.ED_EYE:
+      }
+      case ItemPool.ED_EYE -> {
         EquipmentManager.removeEquipment(ItemPool.ED_STAFF);
         ResultProcessor.removeItem(ItemPool.ED_STAFF);
-        break;
-
-      case ItemPool.XIBLAXIAN_CRYSTAL:
+      }
+      case ItemPool.XIBLAXIAN_CRYSTAL -> {
         if (RequestLogger.getLastURLString().contains("mining.php")) {
           Preferences.setBoolean("_holoWristCrystal", true);
         }
-        break;
-
-      case ItemPool.SCARAB_BEETLE_STATUETTE:
-        QuestDatabase.setQuestProgress(Quest.FINAL, QuestDatabase.FINISHED);
-        break;
-
-      case ItemPool.MEATSMITH_CHECK:
-        QuestDatabase.setQuestProgress(Quest.MEATSMITH, "step1");
-        break;
-
-      case ItemPool.TOXIC_GLOBULE:
+      }
+      case ItemPool.SCARAB_BEETLE_STATUETTE ->
+          QuestDatabase.setQuestProgress(Quest.FINAL, QuestDatabase.FINISHED);
+      case ItemPool.MEATSMITH_CHECK -> QuestDatabase.setQuestProgress(Quest.MEATSMITH, "step1");
+      case ItemPool.TOXIC_GLOBULE -> {
         if (InventoryManager.getCount(ItemPool.TOXIC_GLOBULE) + count >= 20
             && QuestDatabase.isQuestStep(Quest.GIVE_ME_FUEL, QuestDatabase.STARTED)) {
           QuestDatabase.setQuestProgress(Quest.GIVE_ME_FUEL, "step1");
         }
-        break;
-
-      case ItemPool.LUBE_SHOES:
-        QuestDatabase.setQuestProgress(Quest.SUPER_LUBER, QuestDatabase.STARTED);
-        break;
-
-      case ItemPool.TRASH_NET:
+      }
+      case ItemPool.LUBE_SHOES ->
+          QuestDatabase.setQuestProgress(Quest.SUPER_LUBER, QuestDatabase.STARTED);
+      case ItemPool.TRASH_NET -> {
         QuestDatabase.setQuestProgress(Quest.FISH_TRASH, QuestDatabase.STARTED);
         Preferences.setInteger("dinseyFilthLevel", 100);
-        break;
-
-      case ItemPool.MASCOT_MASK:
-        QuestDatabase.setQuestProgress(Quest.ZIPPITY_DOO_DAH, QuestDatabase.STARTED);
-        break;
-
-      case ItemPool.YELLOW_PIXEL:
+      }
+      case ItemPool.MASCOT_MASK ->
+          QuestDatabase.setQuestProgress(Quest.ZIPPITY_DOO_DAH, QuestDatabase.STARTED);
+      case ItemPool.YELLOW_PIXEL -> {
         if (adventureResults) {
           if (KoLCharacter.currentBjorned.getId() == FamiliarPool.PUCK_MAN
               || KoLCharacter.currentEnthroned.getId() == FamiliarPool.PUCK_MAN
@@ -2940,77 +2572,56 @@ public class ResultProcessor {
             Preferences.increment("_yellowPixelDropsCrown");
           }
         }
-        break;
-
-      case ItemPool.FRAUDWORT:
+      }
+      case ItemPool.FRAUDWORT -> {
         if (InventoryManager.getCount(ItemPool.FRAUDWORT) + count >= 3
             && InventoryManager.getCount(ItemPool.SHYSTERWEED) >= 3
             && InventoryManager.getCount(ItemPool.SWINDLEBLOSSOM) >= 3) {
           QuestDatabase.setQuestIfBetter(Quest.DOC, "step1");
         }
-        break;
-
-      case ItemPool.SHYSTERWEED:
+      }
+      case ItemPool.SHYSTERWEED -> {
         if (InventoryManager.getCount(ItemPool.FRAUDWORT) >= 3
             && InventoryManager.getCount(ItemPool.SHYSTERWEED) + count >= 3
             && InventoryManager.getCount(ItemPool.SWINDLEBLOSSOM) >= 3) {
           QuestDatabase.setQuestIfBetter(Quest.DOC, "step1");
         }
-        break;
-
-      case ItemPool.SWINDLEBLOSSOM:
+      }
+      case ItemPool.SWINDLEBLOSSOM -> {
         if (InventoryManager.getCount(ItemPool.FRAUDWORT) >= 3
             && InventoryManager.getCount(ItemPool.SHYSTERWEED) >= 3
             && InventoryManager.getCount(ItemPool.SWINDLEBLOSSOM) + count >= 3) {
           QuestDatabase.setQuestIfBetter(Quest.DOC, "step1");
         }
-        break;
-
-      case ItemPool.MIRACLE_WHIP:
+      }
+      case ItemPool.MIRACLE_WHIP -> {
         Preferences.setBoolean("itemBoughtPerAscension8266", true);
-      // Deliberate fallthrough
-      case ItemPool.SPHYGMAYOMANOMETER:
-      case ItemPool.REFLEX_HAMMER:
-      case ItemPool.MAYO_LANCE:
         Preferences.setBoolean("_mayoDeviceRented", true);
-        break;
-
-      case ItemPool.NO_HANDED_PIE:
-        QuestDatabase.setQuestProgress(Quest.ARMORER, "step4");
-        break;
-
-      case ItemPool.POPULAR_PART:
+      }
+      case ItemPool.SPHYGMAYOMANOMETER, ItemPool.REFLEX_HAMMER, ItemPool.MAYO_LANCE ->
+          Preferences.setBoolean("_mayoDeviceRented", true);
+      case ItemPool.NO_HANDED_PIE -> QuestDatabase.setQuestProgress(Quest.ARMORER, "step4");
+      case ItemPool.POPULAR_PART -> {
         QuestDatabase.setQuestProgress(Quest.ARMORER, QuestDatabase.FINISHED);
         ResultProcessor.removeItem(ItemPool.NO_HANDED_PIE);
-        break;
-
-      case ItemPool.SUPERHEATED_METAL:
+      }
+      case ItemPool.SUPERHEATED_METAL -> {
         if (adventureResults) {
           ResultProcessor.removeItem(ItemPool.HEAT_RESISTANT_SHEET_METAL);
         }
-        break;
-
-      case ItemPool.SUPERDUPERHEATED_METAL:
+      }
+      case ItemPool.SUPERDUPERHEATED_METAL -> {
         if (adventureResults) {
           Preferences.setBoolean("_volcanoSuperduperheatedMetal", true);
           ResultProcessor.removeItem(ItemPool.HEAT_RESISTANT_SHEET_METAL);
         }
-        break;
-
-      case ItemPool.BARREL_LID:
-        Preferences.setBoolean("prayedForProtection", true);
-        break;
-
-      case ItemPool.BARREL_HOOP_EARRING:
-        Preferences.setBoolean("prayedForGlamour", true);
-        break;
-
-      case ItemPool.BANKRUPTCY_BARREL:
-        Preferences.setBoolean("prayedForVigor", true);
-        break;
+      }
+      case ItemPool.BARREL_LID -> Preferences.setBoolean("prayedForProtection", true);
+      case ItemPool.BARREL_HOOP_EARRING -> Preferences.setBoolean("prayedForGlamour", true);
+      case ItemPool.BANKRUPTCY_BARREL -> Preferences.setBoolean("prayedForVigor", true);
 
       // Correct Snojo progress based on drops - note that it increments after the fight!
-      case ItemPool.ANCIENT_MEDICINAL_HERBS:
+      case ItemPool.ANCIENT_MEDICINAL_HERBS -> {
         if (adventureResults) {
           int progress = Preferences.getInteger("snojoMuscleWins");
           // Always should be a multiple of 7 for this drop, after the counter increments later!
@@ -3018,9 +2629,8 @@ public class ResultProcessor {
             Preferences.setInteger("snojoMuscleWins", (int) Math.floor(progress / 7) * 7 + 6);
           }
         }
-        break;
-
-      case ItemPool.ICE_RICE:
+      }
+      case ItemPool.ICE_RICE -> {
         if (adventureResults) {
           int progress = Preferences.getInteger("snojoMysticalityWins");
           // Always should be a multiple of 7 for this drop, after the counter increments later!
@@ -3028,9 +2638,8 @@ public class ResultProcessor {
             Preferences.setInteger("snojoMysticalityWins", (int) Math.floor(progress / 7) * 7 + 6);
           }
         }
-        break;
-
-      case ItemPool.ICED_PLUM_WINE:
+      }
+      case ItemPool.ICED_PLUM_WINE -> {
         if (adventureResults) {
           int progress = Preferences.getInteger("snojoMoxieWins");
           // Always should be a multiple of 7 for this drop, after the counter increments later!
@@ -3038,55 +2647,43 @@ public class ResultProcessor {
             Preferences.setInteger("snojoMoxieWins", (int) Math.floor(progress / 7) * 7 + 6);
           }
         }
-        break;
-
-      case ItemPool.TRAINING_BELT:
+      }
+      case ItemPool.TRAINING_BELT -> {
         if (adventureResults) {
           Preferences.setInteger("snojoMuscleWins", 10);
         }
-        break;
-
-      case ItemPool.TRAINING_LEGWARMERS:
+      }
+      case ItemPool.TRAINING_LEGWARMERS -> {
         if (adventureResults) {
           Preferences.setInteger("snojoMysticalityWins", 10);
         }
-        break;
-
-      case ItemPool.TRAINING_HELMET:
+      }
+      case ItemPool.TRAINING_HELMET -> {
         if (adventureResults) {
           Preferences.setInteger("snojoMoxieWins", 10);
         }
-        break;
-
-      case ItemPool.SCROLL_SHATTERING_PUNCH:
+      }
+      case ItemPool.SCROLL_SHATTERING_PUNCH -> {
         if (adventureResults) {
           Preferences.setInteger("snojoMuscleWins", 49);
         }
-        break;
-
-      case ItemPool.SCROLL_SNOKEBOMB:
+      }
+      case ItemPool.SCROLL_SNOKEBOMB -> {
         if (adventureResults) {
           Preferences.setInteger("snojoMysticalityWins", 49);
         }
-        break;
-
-      case ItemPool.SCROLL_SHIVERING_MONKEY:
+      }
+      case ItemPool.SCROLL_SHIVERING_MONKEY -> {
         if (adventureResults) {
           Preferences.setInteger("snojoMoxieWins", 49);
         }
-        break;
-
-      case ItemPool.EXPERIMENTAL_GENE_THERAPY:
-      case ItemPool.SELF_DEFENSE_TRAINING:
-      case ItemPool.CONFIDENCE_BUILDING_HUG:
-        BatManager.gainItem(result);
-        break;
-
-      case ItemPool.COWBOY_BOOTS:
-        EquipmentRequest.checkCowboyBoots();
-        break;
-
-      case ItemPool.ROBIN_EGG:
+      }
+      case ItemPool.EXPERIMENTAL_GENE_THERAPY,
+          ItemPool.SELF_DEFENSE_TRAINING,
+          ItemPool.CONFIDENCE_BUILDING_HUG ->
+          BatManager.gainItem(result);
+      case ItemPool.COWBOY_BOOTS -> EquipmentRequest.checkCowboyBoots();
+      case ItemPool.ROBIN_EGG -> {
         if (adventureResults) {
           if (KoLCharacter.currentFamiliar.getId() == FamiliarPool.ROCKIN_ROBIN) {
             // This will be updated to 0 in FightRequest later
@@ -3094,9 +2691,8 @@ public class ResultProcessor {
             Preferences.increment("_robinEggDrops", 1);
           }
         }
-        break;
-
-      case ItemPool.WAX_GLOB:
+      }
+      case ItemPool.WAX_GLOB -> {
         if (adventureResults) {
           if (KoLCharacter.currentFamiliar.getId() == FamiliarPool.CANDLE) {
             // This will be updated to 0 in FightRequest later
@@ -3107,9 +2703,8 @@ public class ResultProcessor {
             Preferences.increment("_optimisticCandleDropsCrown");
           }
         }
-        break;
-
-      case ItemPool.X:
+      }
+      case ItemPool.X -> {
         if (adventureResults) {
           if (KoLCharacter.currentFamiliar.getId() == FamiliarPool.XO_SKELETON) {
             // This will be updated to 0 in FightRequest later
@@ -3117,9 +2712,8 @@ public class ResultProcessor {
             Preferences.setInteger("xoSkeleltonOProgress", 3);
           }
         }
-        break;
-
-      case ItemPool.O:
+      }
+      case ItemPool.O -> {
         if (adventureResults) {
           if (KoLCharacter.currentFamiliar.getId() == FamiliarPool.XO_SKELETON) {
             // This will be updated to 0 in FightRequest later
@@ -3127,210 +2721,167 @@ public class ResultProcessor {
             Preferences.setInteger("xoSkeleltonXProgress", 4);
           }
         }
-        break;
-
-      case ItemPool.SHIELDING_POTION:
-      case ItemPool.PUNCHING_POTION:
-      case ItemPool.SPECIAL_SEASONING:
-      case ItemPool.NIGHTMARE_FUEL:
-      case ItemPool.MEAT_CLIP:
+      }
+      case ItemPool.SHIELDING_POTION,
+          ItemPool.PUNCHING_POTION,
+          ItemPool.SPECIAL_SEASONING,
+          ItemPool.NIGHTMARE_FUEL,
+          ItemPool.MEAT_CLIP -> {
         if (adventureResults) {
           // This will be updated to 0 in FightRequest later
           Preferences.setInteger("_boomBoxFights", -1);
         }
-        break;
-
-      case ItemPool.NO_SPOON:
-        QuestDatabase.setQuestProgress(Quest.ORACLE, "step1");
-        break;
-
-      case ItemPool.TALES_OF_DREAD:
-        Preferences.setBoolean("itemBoughtPerCharacter6423", true);
-        break;
-
-      case ItemPool.BRASS_DREAD_FLASK:
-        Preferences.setBoolean("itemBoughtPerCharacter6428", true);
-        break;
-
-      case ItemPool.SILVER_DREAD_FLASK:
-        Preferences.setBoolean("itemBoughtPerCharacter6429", true);
-        break;
-
-      case ItemPool.NO_HAT:
-        {
-          String rawText =
-              DebugDatabase.rawItemDescriptionText(ItemDatabase.getDescriptionId(itemId), true);
-          String mod =
-              DebugDatabase.parseItemEnchantments(rawText, new ArrayList<>(), ConsumptionType.HAT);
-          ModifierDatabase.overrideModifier(ModifierType.ITEM, itemId, mod);
-          Preferences.setString("_noHatModifier", mod);
-        }
-        break;
-
-      case ItemPool.HOT_JELLY:
-      case ItemPool.COLD_JELLY:
-      case ItemPool.SPOOKY_JELLY:
-      case ItemPool.SLEAZE_JELLY:
-      case ItemPool.STENCH_JELLY:
+      }
+      case ItemPool.NO_SPOON -> QuestDatabase.setQuestProgress(Quest.ORACLE, "step1");
+      case ItemPool.TALES_OF_DREAD -> Preferences.setBoolean("itemBoughtPerCharacter6423", true);
+      case ItemPool.BRASS_DREAD_FLASK -> Preferences.setBoolean("itemBoughtPerCharacter6428", true);
+      case ItemPool.SILVER_DREAD_FLASK ->
+          Preferences.setBoolean("itemBoughtPerCharacter6429", true);
+      case ItemPool.NO_HAT -> {
+        String rawText =
+            DebugDatabase.rawItemDescriptionText(ItemDatabase.getDescriptionId(itemId), true);
+        String mod =
+            DebugDatabase.parseItemEnchantments(rawText, new ArrayList<>(), ConsumptionType.HAT);
+        ModifierDatabase.overrideModifier(ModifierType.ITEM, itemId, mod);
+        Preferences.setString("_noHatModifier", mod);
+      }
+      case ItemPool.HOT_JELLY,
+          ItemPool.COLD_JELLY,
+          ItemPool.SPOOKY_JELLY,
+          ItemPool.SLEAZE_JELLY,
+          ItemPool.STENCH_JELLY -> {
         if (adventureResults
             && KoLCharacter.currentFamiliar.getId() == FamiliarPool.SPACE_JELLYFISH) {
           Preferences.increment("_spaceJellyfishDrops");
         }
-        break;
-
-      case ItemPool.LICENSE_TO_CHILL:
+      }
+      case ItemPool.LICENSE_TO_CHILL -> {
         if (adventureResults) {
           ResultProcessor.processResult(ItemPool.get(ItemPool.LICENSE_TO_KILL, -11));
         }
-        break;
-
-      case ItemPool.POKE_GROW_FERTILIZER:
+      }
+      case ItemPool.POKE_GROW_FERTILIZER -> {
         if (adventureResults) {
           Preferences.increment("_pokeGrowFertilizerDrops");
         }
-        break;
-
-      case ItemPool.BOOMBOX:
-        KoLCharacter.addAvailableSkill(SkillPool.SING_ALONG);
-        break;
-
-      case ItemPool.GARLAND_OF_GREATNESS:
+      }
+      case ItemPool.BOOMBOX -> KoLCharacter.addAvailableSkill(SkillPool.SING_ALONG);
+      case ItemPool.GARLAND_OF_GREATNESS -> {
         if (adventureResults) {
           Preferences.increment("garlandUpgrades");
         }
-        break;
-
-      case ItemPool.HUMAN_MUSK:
-      case ItemPool.EXTRA_WARM_FUR:
-      case ItemPool.INDUSTRIAL_LUBRICANT:
-      case ItemPool.UNFINISHED_PLEASURE:
-      case ItemPool.HUMANOID_GROWTH_HORMONE:
-      case ItemPool.BUG_LYMPH:
-      case ItemPool.ORGANIC_POTPOURRI:
-      case ItemPool.BOOT_FLASK:
-      case ItemPool.INFERNAL_SNOWBALL:
-      case ItemPool.POWDERED_MADNESS:
-      case ItemPool.FISH_SAUCE:
-      case ItemPool.GUFFIN:
-      case ItemPool.SHANTIX:
-      case ItemPool.GOODBERRY:
-      case ItemPool.EUCLIDEAN_ANGLE:
-      case ItemPool.PEPPERMINT_SYRUP:
-      case ItemPool.MERKIN_EYEDROPS:
-      case ItemPool.EXTRA_STRENGTH_GOO:
-      case ItemPool.ENVELOPE_MEAT:
-      case ItemPool.LIVID_ENERGY:
-      case ItemPool.MICRONOVA:
-      case ItemPool.BEGGIN_COLOGNE:
+      }
+      case ItemPool.HUMAN_MUSK,
+          ItemPool.EXTRA_WARM_FUR,
+          ItemPool.INDUSTRIAL_LUBRICANT,
+          ItemPool.UNFINISHED_PLEASURE,
+          ItemPool.HUMANOID_GROWTH_HORMONE,
+          ItemPool.BUG_LYMPH,
+          ItemPool.ORGANIC_POTPOURRI,
+          ItemPool.BOOT_FLASK,
+          ItemPool.INFERNAL_SNOWBALL,
+          ItemPool.POWDERED_MADNESS,
+          ItemPool.FISH_SAUCE,
+          ItemPool.GUFFIN,
+          ItemPool.SHANTIX,
+          ItemPool.GOODBERRY,
+          ItemPool.EUCLIDEAN_ANGLE,
+          ItemPool.PEPPERMINT_SYRUP,
+          ItemPool.MERKIN_EYEDROPS,
+          ItemPool.EXTRA_STRENGTH_GOO,
+          ItemPool.ENVELOPE_MEAT,
+          ItemPool.LIVID_ENERGY,
+          ItemPool.MICRONOVA,
+          ItemPool.BEGGIN_COLOGNE -> {
         if (adventureResults) {
           // The end of the fight will increment it to 0
           Preferences.setInteger("redSnapperProgress", -1);
         }
-        break;
-
-      case ItemPool.POWDER_PUFF:
-      case ItemPool.FINEST_GOWN:
-      case ItemPool.DANCING_SHOES:
+      }
+      case ItemPool.POWDER_PUFF, ItemPool.FINEST_GOWN, ItemPool.DANCING_SHOES -> {
         if (InventoryManager.hasItem(ItemPool.POWDER_PUFF)
             && InventoryManager.hasItem(ItemPool.FINEST_GOWN)
             && InventoryManager.hasItem(ItemPool.DANCING_SHOES)) {
           QuestDatabase.setQuestProgress(Quest.SPOOKYRAVEN_DANCE, "step2");
         }
-        break;
-
-      case ItemPool.BLACK_MAP:
-        QuestDatabase.setQuestProgress(Quest.BLACK, "step1");
-        break;
-
-      case ItemPool.FEDORA_MOUNTED_FOUNTAIN:
-      case ItemPool.PORKPIE_MOUNTED_POPPER:
-      case ItemPool.SOMBRERO_MOUNTED_SPARKLER:
-        Preferences.setBoolean("_fireworksShopHatBought", true);
-        break;
-
-      case ItemPool.CATHERINE_WHEEL:
-      case ItemPool.ROCKET_BOOTS:
-      case ItemPool.OVERSIZED_SPARKLER:
-        Preferences.setBoolean("_fireworksShopEquipmentBought", true);
-        break;
-
-      case ItemPool.VAMPIRE_VINTNER_WINE:
+      }
+      case ItemPool.BLACK_MAP -> QuestDatabase.setQuestProgress(Quest.BLACK, "step1");
+      case ItemPool.FEDORA_MOUNTED_FOUNTAIN,
+          ItemPool.PORKPIE_MOUNTED_POPPER,
+          ItemPool.SOMBRERO_MOUNTED_SPARKLER ->
+          Preferences.setBoolean("_fireworksShopHatBought", true);
+      case ItemPool.CATHERINE_WHEEL, ItemPool.ROCKET_BOOTS, ItemPool.OVERSIZED_SPARKLER ->
+          Preferences.setBoolean("_fireworksShopEquipmentBought", true);
+      case ItemPool.VAMPIRE_VINTNER_WINE -> {
         Preferences.setInteger("vintnerCharge", 13);
         ItemDatabase.parseVampireVintnerWine();
-        break;
-
-      case ItemPool.COSMIC_BOWLING_BALL:
+      }
+      case ItemPool.COSMIC_BOWLING_BALL -> {
         if (adventureResults) {
           BanishManager.resetCosmicBowlingBall();
           Preferences.setInteger("cosmicBowlingBallReturnCombats", -1);
         }
-        break;
-
-      case ItemPool.MAYDAY_SUPPLY_PACKAGE:
+      }
+      case ItemPool.MAYDAY_SUPPLY_PACKAGE -> {
         if (adventureResults) {
           Preferences.setBoolean("_maydayDropped", true);
         }
-        break;
-
-      case ItemPool.ROBY_BORIS_BEER:
-      case ItemPool.ROBY_HONEY_BUN_OF_BORIS:
-      case ItemPool.ROBY_RATATOUILLE_DE_JARLSBERG:
-      case ItemPool.ROBY_JARLSBERGS_VEGETABLE_SOUP:
-      case ItemPool.ROBY_PETES_WILY_WHEY_BAR:
-      case ItemPool.ROBY_PETES_SNEAKY_SMOOTHIE:
-      case ItemPool.ROBY_BORIS_BREAD:
-      case ItemPool.ROBY_ROASTED_VEGETABLE_OF_J:
-      case ItemPool.ROBY_PETES_RICH_RICOTTA:
-      case ItemPool.ROBY_ROASTED_VEGETABLE_FOCACCIA:
-      case ItemPool.ROBY_PLAIN_CALZONE:
-      case ItemPool.ROBY_BAKED_VEGGIE_RICOTTA:
-      case ItemPool.ROBY_DEEP_DISH_OF_LEGEND:
-      case ItemPool.ROBY_CALZONE_OF_LEGEND:
-      case ItemPool.ROBY_PIZZA_OF_LEGEND:
+      }
+      case ItemPool.ROBY_BORIS_BEER,
+          ItemPool.ROBY_HONEY_BUN_OF_BORIS,
+          ItemPool.ROBY_RATATOUILLE_DE_JARLSBERG,
+          ItemPool.ROBY_JARLSBERGS_VEGETABLE_SOUP,
+          ItemPool.ROBY_PETES_WILY_WHEY_BAR,
+          ItemPool.ROBY_PETES_SNEAKY_SMOOTHIE,
+          ItemPool.ROBY_BORIS_BREAD,
+          ItemPool.ROBY_ROASTED_VEGETABLE_OF_J,
+          ItemPool.ROBY_PETES_RICH_RICOTTA,
+          ItemPool.ROBY_ROASTED_VEGETABLE_FOCACCIA,
+          ItemPool.ROBY_PLAIN_CALZONE,
+          ItemPool.ROBY_BAKED_VEGGIE_RICOTTA,
+          ItemPool.ROBY_DEEP_DISH_OF_LEGEND,
+          ItemPool.ROBY_CALZONE_OF_LEGEND,
+          ItemPool.ROBY_PIZZA_OF_LEGEND -> {
         if (adventureResults) {
           Preferences.setBoolean("_cookbookbatRecipeDrops", true);
         }
-        break;
-
-      case ItemPool.GRUBBY_WOOL:
+      }
+      case ItemPool.GRUBBY_WOOL -> {
         if (adventureResults
             && KoLCharacter.currentFamiliar.getId() == FamiliarPool.HOBO_IN_SHEEPS_CLOTHING) {
           Preferences.increment("_grubbyWoolDrops", 1);
         }
-        break;
-
-      case ItemPool.SHADOW_LIGHTER:
-      case ItemPool.SHADOW_HEPTAHEDRON:
-      case ItemPool.SHADOW_SNOWFLAKE:
-      case ItemPool.SHADOW_HEART:
-      case ItemPool.SHADOW_BUCKET:
-      case ItemPool.SHADOW_WAVE:
-        QuestDatabase.setQuestProgress(Quest.RUFUS, "step1");
-        break;
-
-      case ItemPool.LED_CANDLE:
+      }
+      case ItemPool.SHADOW_LIGHTER,
+          ItemPool.SHADOW_HEPTAHEDRON,
+          ItemPool.SHADOW_SNOWFLAKE,
+          ItemPool.SHADOW_HEART,
+          ItemPool.SHADOW_BUCKET,
+          ItemPool.SHADOW_WAVE ->
+          QuestDatabase.setQuestProgress(Quest.RUFUS, "step1");
+      case ItemPool.LED_CANDLE -> {
         if (adventureResults
             && KoLCharacter.currentFamiliar.getId() == FamiliarPool.JILL_OF_ALL_TRADES) {
           Preferences.setBoolean("ledCandleDropped", true);
         }
-        break;
-      case ItemPool.MAP_TO_A_CANDY_RICH_BLOCK:
+      }
+      case ItemPool.MAP_TO_A_CANDY_RICH_BLOCK -> {
         if (adventureResults
             && KoLCharacter.currentFamiliar.getId() == FamiliarPool.JILL_OF_ALL_TRADES) {
           Preferences.increment("_mapToACandyRichBlockDrops", 1);
         }
-        break;
-      case ItemPool.MINI_KIWI:
+      }
+      case ItemPool.MINI_KIWI -> {
         if (adventureResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.MINI_KIWI) {
           Preferences.increment("_miniKiwiDrops", 1);
         }
-        break;
-      case ItemPool.KNUCKLEBONE:
+      }
+      case ItemPool.KNUCKLEBONE -> {
         if (adventureResults
             && KoLCharacter.currentFamiliar.getId() == FamiliarPool.SKELETON_OF_CRIMBO_PAST) {
           Preferences.increment("_knuckleboneDrops", 1, 100);
         }
-        break;
+      }
     }
 
     // Gaining items can achieve goals.
