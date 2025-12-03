@@ -8699,6 +8699,7 @@ public abstract class ChoiceControl {
         Preferences.setBoolean("_crimboPastSmokingPope", !text.contains("Buy a Smoking Pope"));
         Preferences.setBoolean("_crimboPastPrizeTurkey", !text.contains("Buy a prize turkey"));
         Preferences.setBoolean("_crimboPastMedicalGruel", !text.contains("Buy medical gruel"));
+        Preferences.setBoolean("_crimboPastDailySpecial", !text.contains("Daily Special"));
       }
     }
   }
