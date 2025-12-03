@@ -147,6 +147,50 @@ public class CampgroundRequestTest {
         assertThat("timesRested", isSetTo(138));
       }
     }
+
+    @Test
+    void trackCinchoLoosening() {
+      var cleanups =
+          new Cleanups(
+              withNextResponse(200, html("request/test_rest_cincho_loosens.html")),
+              withProperty("_cinchUsed", 75),
+              withProperty("_cinchoRests", 2));
+
+      try (cleanups) {
+        new GenericRequest("campground.php?action=rest").run();
+
+        assertThat("_cinchUsed", isSetTo(45));
+        assertThat("_cinchoRests", isSetTo(3));
+      }
+    }
+
+    @Test
+    void trackKnuckleboneDrop() {
+      var cleanups =
+          new Cleanups(
+              withNextResponse(200, html("request/test_campground_rest_knucklebone.html")),
+              withProperty("_knuckleboneRests", 2));
+
+      try (cleanups) {
+        new GenericRequest("campground.php?action=rest").run();
+
+        assertThat("_knuckleboneRests", isSetTo(3));
+      }
+    }
+
+    @Test
+    void trackMiniKiwiDrop() {
+      var cleanups =
+          new Cleanups(
+              withNextResponse(200, html("request/test_campground_rest_knucklebone.html")),
+              withProperty("_miniKiwiTipiDrop", false));
+
+      try (cleanups) {
+        new GenericRequest("campground.php?action=rest").run();
+
+        assertThat("_miniKiwiTipiDrop", isSetTo(true));
+      }
+    }
   }
 
   @Nested
@@ -380,36 +424,6 @@ public class CampgroundRequestTest {
         assertThat("_blackMonolithUsed", isSetTo(true));
         assertThat(OMINOUS_WISDOM.getCount(KoLConstants.activeEffects), is(0));
       }
-    }
-  }
-
-  @Test
-  void trackCinchoLoosening() {
-    var cleanups =
-        new Cleanups(
-            withNextResponse(200, html("request/test_rest_cincho_loosens.html")),
-            withProperty("_cinchUsed", 75),
-            withProperty("_cinchoRests", 2));
-
-    try (cleanups) {
-      new GenericRequest("campground.php?action=rest").run();
-
-      assertThat("_cinchUsed", isSetTo(45));
-      assertThat("_cinchoRests", isSetTo(3));
-    }
-  }
-
-  @Test
-  void trackKnuckleboneDrop() {
-    var cleanups =
-        new Cleanups(
-            withNextResponse(200, html("request/test_campground_rest_knucklebone.html")),
-            withProperty("_knuckleboneRests", 2));
-
-    try (cleanups) {
-      new GenericRequest("campground.php?action=rest").run();
-
-      assertThat("_knuckleboneRests", isSetTo(3));
     }
   }
 
