@@ -169,12 +169,14 @@ public class CampgroundRequestTest {
       var cleanups =
           new Cleanups(
               withNextResponse(200, html("request/test_campground_rest_knucklebone.html")),
-              withProperty("_knuckleboneRests", 2));
+              withProperty("_knuckleboneRests", 2),
+              withProperty("_knuckleboneDrops", 50));
 
       try (cleanups) {
         new GenericRequest("campground.php?action=rest").run();
 
         assertThat("_knuckleboneRests", isSetTo(3));
+        assertThat("_knuckleboneDrops", isSetTo(51));
       }
     }
 
