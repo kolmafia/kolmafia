@@ -32,7 +32,7 @@ public class FalloutShelterRequest extends GenericRequest {
   public FalloutShelterRequest(final String action) {
     super("place.php");
     this.addFormField("whichplace", "falloutshelter");
-    if (!action.equals("")) {
+    if (!action.isEmpty()) {
       this.addFormField("action", action);
     }
     this.action = action;
