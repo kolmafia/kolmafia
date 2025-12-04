@@ -863,6 +863,7 @@ user	hasMaydayContract	false
 user	hasOven	false	roa
 user	hasRange	false	roa
 user	hasShaker	false	roa
+user	hasShrunkenHead	false
 user	hasSushiMat	false	roa
 user	hasTwinkleVision	false
 user	haveBoxingDaydreamHardcore	false
