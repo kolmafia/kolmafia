@@ -168,7 +168,7 @@ public class Preferences {
     // Prevent anybody from manipulating the user map until we are
     // done bulk-loading it.
     synchronized (Preferences.userValues) {
-      if (username == null || username.equals("")) {
+      if (username == null || username.isEmpty()) {
         if (Preferences.userPropertiesFile != null) {
           Preferences.saveToFile(Preferences.userPropertiesFile, Preferences.userEncodedValues);
           Preferences.userPropertiesFile = null;
@@ -190,7 +190,7 @@ public class Preferences {
   }
 
   public static String baseUserName(final String name) {
-    return name == null || name.equals("")
+    return name == null || name.isEmpty()
         ? "GLOBAL"
         : StringUtilities.globalStringReplace(name.trim(), " ", "_").toLowerCase();
   }
@@ -239,7 +239,7 @@ public class Preferences {
     synchronized (lock) {
       Properties p = Preferences.loadPreferences(userPrefsFile);
 
-      if (p.size() == 0) {
+      if (p.isEmpty()) {
         // Something went wrong reading the preferences.
         if (backupFile.exists()) {
           KoLmafia.updateDisplay(
@@ -251,7 +251,7 @@ public class Preferences {
 
           p = Preferences.loadPreferences(backupFile);
 
-          if (p.size() > 0) {
+          if (!p.isEmpty()) {
             try {
               Files.copy(
                   backupFile.toPath(), userPrefsFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
@@ -356,7 +356,7 @@ public class Preferences {
 
     Preferences.encodeString(buffer, name);
 
-    if (value != null && value.length() > 0) {
+    if (value != null && !value.isEmpty()) {
       buffer.append("=");
       Preferences.encodeString(buffer, value);
     }
@@ -831,7 +831,7 @@ public class Preferences {
     // We stop tracking encoded values when saveSettingsOnSet is off. When it is turned back on,
     // many encoded values will be out of date, and we don't know which ones, so we have to
     // recompute all of them.
-    if (name == "saveSettingsOnSet" && (boolean) object) {
+    if (name.equals("saveSettingsOnSet") && (boolean) object) {
       Preferences.reinitializeEncodedValues();
       trackEncoded |= Preferences.saveSettingsToFile;
     }
