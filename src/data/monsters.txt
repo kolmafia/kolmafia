@@ -1704,7 +1704,7 @@ desperate gold farmer	1315	goldfarmer.gif	Atk: 80 Def: 80 HP: 95 Init: 50 Meat: 
 rabid MMO addict	1316	mmoaddict.gif	Atk: 84 Def: 76 HP: 90 Init: 60 Meat: 20 P: dude Article: a	gold piece (25)	gamer slurry (c0)
 The Server	1318	theserver.gif	BOSS NOCOPY Atk: 90 Def: 90 HP: 999999999 Init: 75 P: construct
 White Bone Demon	1319	whitebonedemon.gif	BOSS NOCOPY Atk: 100 Def: 100 HP: 180 Init: 100 P: demon	suspicious-looking fedora (100)
-procedurally-generated skeleton	1323	bigskeleton.gif	NOCOPY Init: -10000 P: undead EA: cold EA: hot EA: sleaze EA: spooky EA: stench
+procedurally-generated skeleton	1323	bigskeleton.gif	NOCOPY Init: -10000 P: undead SKELETON EA: cold EA: hot EA: sleaze EA: spooky EA: stench
 
 # Video Game dungeon (GameInformPowerDailyPro magazine February 2013)
 Video Game Boss	1331	faq_boss1.gif,faq_boss2.gif,faq_boss3.gif,faq_boss4.gif,faq_boss5.gif,faq_boss6.gif	BOSS NOCOPY Scale: 5 Init: -10000 P: construct EA: cold EA: hot EA: none
