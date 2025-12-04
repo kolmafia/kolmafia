@@ -40,8 +40,7 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
+import org.junitpioneer.jupiter.cartesian.CartesianTest;
 
 class DeckOfEveryCardRequestTest {
   private static final String USERNAME = "DeckOfEveryCardRequestTest";
@@ -147,9 +146,11 @@ class DeckOfEveryCardRequestTest {
     }
   }
 
-  @ParameterizedTest
-  @CsvSource({"true, true", "true, false", "false, true", "false, false"})
-  public void itShouldRunAndUpdatePreferences(boolean useUpdate, boolean useWrite) {
+  @CartesianTest
+  public void itShouldRunAndUpdatePreferences(
+      @CartesianTest.Values(booleans = {false, true}) boolean useUpdate,
+      @CartesianTest.Values(booleans = {false, true}) boolean useWrite) {
+
     DeckOfEveryCardRequest.EveryCard mickey = getCardById(58);
     var builder = new FakeHttpClientBuilder();
     var client = builder.client;
