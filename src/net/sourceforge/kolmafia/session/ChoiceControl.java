@@ -86,6 +86,7 @@ import net.sourceforge.kolmafia.request.SweetSynthesisRequest;
 import net.sourceforge.kolmafia.request.TavernRequest;
 import net.sourceforge.kolmafia.request.UmbrellaRequest;
 import net.sourceforge.kolmafia.request.WildfireCampRequest;
+import net.sourceforge.kolmafia.request.coinmaster.SkeletonOfCrimboPastRequest;
 import net.sourceforge.kolmafia.request.concoction.BurningLeavesRequest;
 import net.sourceforge.kolmafia.session.ChoiceAdventures.Spoilers;
 import net.sourceforge.kolmafia.session.TrackManager.Tracker;
@@ -8700,6 +8701,8 @@ public abstract class ChoiceControl {
         Preferences.setBoolean("_crimboPastPrizeTurkey", !text.contains("Buy a prize turkey"));
         Preferences.setBoolean("_crimboPastMedicalGruel", !text.contains("Buy medical gruel"));
         Preferences.setBoolean("_crimboPastDailySpecial", !text.contains("Daily Special"));
+        Preferences.setInteger(
+            "_crimboPastDailySpecialItem", SkeletonOfCrimboPastRequest.extractDailySpecial(text));
       }
     }
   }

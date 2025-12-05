@@ -3959,6 +3959,9 @@ public class ItemPool {
   public static final int PHEROMONE_COCKTAIL = 12045;
   public static final int SHRUNKEN_HEAD = 12048;
   public static final int KNUCKLEBONE = 12051;
+  public static final int SMOKING_POPE = 12052;
+  public static final int PRIZE_TURKEY = 12053;
+  public static final int MEDICAL_GRUEL = 12054;
 
   private ItemPool() {}
 
