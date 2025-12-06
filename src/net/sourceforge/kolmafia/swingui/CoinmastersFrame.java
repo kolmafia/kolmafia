@@ -294,11 +294,6 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     panel.add(wetCrapForSalePanel);
     this.selectorPanel.addPanel(wetCrapForSalePanel.getPanelSelector(), panel);
 
-    panel = new JPanel(new BorderLayout());
-    var skeletonOfCrimboPastPanel = new SkeletonOfCrimboPastPanel();
-    panel.add(skeletonOfCrimboPastPanel);
-    this.selectorPanel.addPanel(skeletonOfCrimboPastPanel.getPanelSelector(), panel);
-
     // Aftercore coinmasters
     this.selectorPanel.addSeparator();
     this.selectorPanel.addCategory("Aftercore");
@@ -501,6 +496,11 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     var showerThoughtsPanel = new ShowerThoughtsPanel();
     panel.add(showerThoughtsPanel);
     this.selectorPanel.addPanel(showerThoughtsPanel.getPanelSelector(), panel);
+
+    panel = new JPanel(new BorderLayout());
+    var skeletonOfCrimboPastPanel = new SkeletonOfCrimboPastPanel();
+    panel.add(skeletonOfCrimboPastPanel);
+    this.selectorPanel.addPanel(skeletonOfCrimboPastPanel.getPanelSelector(), panel);
 
     // Twitch coinmasters
     this.selectorPanel.addSeparator();

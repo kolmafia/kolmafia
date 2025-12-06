@@ -17,6 +17,7 @@ import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.CoinMasterShopRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class SkeletonOfCrimboPastRequest extends CoinMasterRequest {
@@ -188,6 +189,14 @@ public class SkeletonOfCrimboPastRequest extends CoinMasterRequest {
   public static Boolean unequip() {
     RequestThread.postRequest(new GenericRequest("choice.php?whichchoice=1567&option=5"));
     return true;
+  }
+
+  public static boolean shouldCheck() {
+    return accessible() == null && Preferences.getInteger("_crimboPastDailySpecialItem") < 0;
+  }
+
+  public static CoinMasterShopRequest getRequest() {
+    return CoinMasterShopRequest.getRequest(SKELETON_OF_CRIMBO_PAST);
   }
 
   private static final Pattern DAILY_SPECIAL_PATTERN =

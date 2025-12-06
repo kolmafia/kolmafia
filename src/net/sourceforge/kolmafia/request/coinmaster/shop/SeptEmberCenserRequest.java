@@ -35,6 +35,10 @@ public abstract class SeptEmberCenserRequest extends CoinMasterShopRequest {
     }
   }
 
+  public static boolean shouldCheck() {
+    return accessible() == null && !Preferences.getBoolean("_septEmberBalanceChecked");
+  }
+
   public static String accessible() {
     if (InventoryManager.hasItem(ItemPool.SEPTEMBER_CENSER)) {
       return null;

@@ -86,6 +86,7 @@ import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.WildfireCampRequest;
 import net.sourceforge.kolmafia.request.coinmaster.BountyHunterHunterRequest;
 import net.sourceforge.kolmafia.request.coinmaster.HermitRequest;
+import net.sourceforge.kolmafia.request.coinmaster.SkeletonOfCrimboPastRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.SeptEmberCenserRequest;
 import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
 import net.sourceforge.kolmafia.session.BanishManager;
@@ -886,9 +887,11 @@ public abstract class KoLmafia {
     ResultProcessor.updateEntauntauned();
     ResultProcessor.updateSavageBeast();
     CargoCultistShortsRequest.loadPockets();
-    if (SeptEmberCenserRequest.accessible() == null
-        && !Preferences.getBoolean("_septEmberBalanceChecked")) {
+    if (SeptEmberCenserRequest.shouldCheck()) {
       RequestThread.postRequest(SeptEmberCenserRequest.getRequest());
+    }
+    if (SkeletonOfCrimboPastRequest.accessible() == null) {
+      RequestThread.postRequest(SkeletonOfCrimboPastRequest.getRequest());
     }
 
     // This needs to be checked once, to set the property.
