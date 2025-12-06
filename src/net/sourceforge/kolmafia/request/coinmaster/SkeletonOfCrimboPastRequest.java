@@ -98,39 +98,38 @@ public class SkeletonOfCrimboPastRequest extends CoinMasterRequest {
 
       Preferences.setInteger("_crimboPastDailySpecialItem", item.getItemId());
       Preferences.setInteger("_crimboPastDailySpecialPrice", price);
+      applySpecial();
     }
   }
 
   public static void checkSpecial() {
+    // SKip if no skeleton
     if (SkeletonOfCrimboPastRequest.accessible() != null) return;
+    // If we're able to just apply a daily special we're already aware of, great.
+    if (applySpecial()) return;
+    // Otherwise we need to visit to learn and apply the special.
+    RequestThread.postRequest(getRequest());
+  }
 
+  private static boolean applySpecial() {
     var itemId = Preferences.getInteger("_crimboPastDailySpecialItem");
     var price = Preferences.getInteger("_crimboPastDailySpecialPrice");
 
-    if (itemId < 0 || price <= 0) {
-      RequestThread.postRequest(getRequest());
-      itemId = Preferences.getInteger("_crimboPastDailySpecialItem");
-      price = Preferences.getInteger("_crimboPastDailySpecialPrice");
-
-      if (itemId < 0 || price <= 0) {
-        return;
-      }
-    }
-
-    Preferences.setInteger("_crimboPastDailySpecialItem", itemId);
-    Preferences.setInteger("_crimboPastDailySpecialPrice", price);
+    if (itemId < 0 || price <= 0) return false;
 
     var item = ItemPool.get(itemId);
     var items = SKELETON_OF_CRIMBO_PAST.getBuyItems();
     var prices = SKELETON_OF_CRIMBO_PAST.getBuyPrices();
 
-    if (!items.contains(item) || !prices.getOrDefault(itemId, 0).equals(price)) {
-      items.removeIf(i -> i.getItemId() < ItemPool.SMOKING_POPE);
-      items.add(item);
-      prices.entrySet().removeIf(e -> e.getKey() < ItemPool.SMOKING_POPE);
-      prices.put(item.getItemId(), price);
-      SKELETON_OF_CRIMBO_PAST.registerPurchaseRequests();
-    }
+    if (items.contains(item) && prices.getOrDefault(itemId, 0).equals(price)) return true;
+
+    items.removeIf(i -> i.getItemId() < ItemPool.SMOKING_POPE);
+    items.add(item);
+    prices.entrySet().removeIf(e -> e.getKey() < ItemPool.SMOKING_POPE);
+    prices.put(item.getItemId(), price);
+    SKELETON_OF_CRIMBO_PAST.registerPurchaseRequests();
+
+    return true;
   }
 
   public static void parseResponse(final String location, final String responseText) {
