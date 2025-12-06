@@ -1155,6 +1155,7 @@ public class ItemPool {
   public static final int PARASITIC_HEADGNAWER = 3626;
   public static final int PARASITIC_STRANGLEWORM = 3627;
   public static final int BURROWGRUB_HIVE = 3629;
+  public static final int ELVEN_SOCKS = 3633;
   public static final int JAMFISH_JAM = 3641;
   public static final int DRAGONFISH_CAVIAR = 3642;
   public static final int GRIMACITE_KNEECAPPING_STICK = 3644;

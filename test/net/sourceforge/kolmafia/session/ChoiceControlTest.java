@@ -24,6 +24,7 @@ import static internal.matchers.Preference.isSetTo;
 import static internal.matchers.Quest.isStep;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
@@ -44,6 +45,7 @@ import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -1758,7 +1760,14 @@ class ChoiceControlTest {
       assertThat("_crimboPastSmokingPope", isSetTo(true));
       assertThat("_crimboPastPrizeTurkey", isSetTo(true));
       assertThat("_crimboPastMedicalGruel", isSetTo(true));
-      assertThat("_crimboPastDailySpecialItem", isSetTo(3633));
+      assertThat("_crimboPastDailySpecialItem", isSetTo(ItemPool.ELVEN_SOCKS));
+      assertThat("_crimboPastDailySpecialPrice", isSetTo(442));
+
+      var items = CoinmastersDatabase.getBuyItems("Skeleton of Crimbo Past");
+      assertThat(items, hasSize(4));
+      assertThat(items, hasItem(ItemPool.get(ItemPool.ELVEN_SOCKS)));
+      var prices = CoinmastersDatabase.getBuyPrices("Skeleton of Crimbo Past");
+      assertThat(prices.get(ItemPool.ELVEN_SOCKS), is(442));
     }
   }
 }

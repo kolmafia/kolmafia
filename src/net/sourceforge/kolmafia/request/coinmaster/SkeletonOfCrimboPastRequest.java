@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.request.coinmaster;
 import static net.sourceforge.kolmafia.objectpool.ItemPool.KNUCKLEBONE;
 
 import java.util.Arrays;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -14,7 +15,9 @@ import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class SkeletonOfCrimboPastRequest extends CoinMasterRequest {
   public static final String master = "Skeleton of Crimbo Past";
@@ -78,6 +81,34 @@ public class SkeletonOfCrimboPastRequest extends CoinMasterRequest {
   @Override
   public void processResults() {
     parseResponse(this.getURLString(), this.responseText);
+  }
+
+  public static void visit(final String text) {
+    var special = extractDailySpecial(text);
+
+    Preferences.setBoolean("_crimboPastSmokingPope", !text.contains("Buy a Smoking Pope"));
+    Preferences.setBoolean("_crimboPastPrizeTurkey", !text.contains("Buy a prize turkey"));
+    Preferences.setBoolean("_crimboPastMedicalGruel", !text.contains("Buy medical gruel"));
+    Preferences.setBoolean("_crimboPastDailySpecial", !text.contains("Daily Special"));
+
+    if (special != null) {
+      var item = special.getKey();
+      var price = special.getValue();
+
+      Preferences.setInteger("_crimboPastDailySpecialItem", item.getItemId());
+      Preferences.setInteger("_crimboPastDailySpecialPrice", price);
+
+      var items = SKELETON_OF_CRIMBO_PAST.getBuyItems();
+      var prices = SKELETON_OF_CRIMBO_PAST.getBuyPrices();
+
+      if (!items.contains(item) || !prices.getOrDefault(item.getItemId(), 0).equals(price)) {
+        items.removeIf(i -> i.getItemId() < ItemPool.SMOKING_POPE);
+        items.add(item);
+        prices.entrySet().removeIf(e -> e.getKey() < ItemPool.SMOKING_POPE);
+        prices.put(item.getItemId(), price);
+        SKELETON_OF_CRIMBO_PAST.registerPurchaseRequests();
+      }
+    }
   }
 
   public static void parseResponse(final String location, final String responseText) {
@@ -160,16 +191,19 @@ public class SkeletonOfCrimboPastRequest extends CoinMasterRequest {
   }
 
   private static final Pattern DAILY_SPECIAL_PATTERN =
-      Pattern.compile("Daily Special:.*?descitem\\((\\d+)\\)");
+      Pattern.compile("Daily Special:.*?descitem\\((\\d+)\\).*?\\((\\d+) knucklebones\\)");
 
-  public static int extractDailySpecial(final String text) {
+  public static Map.Entry<AdventureResult, Integer> extractDailySpecial(final String text) {
     Matcher matcher = DAILY_SPECIAL_PATTERN.matcher(text);
 
     if (matcher.find()) {
       var descid = matcher.group(1);
-      return ItemDatabase.getItemIdFromDescription(descid);
+      var id = ItemDatabase.getItemIdFromDescription(descid);
+      var item = ItemPool.get(id);
+      var price = StringUtilities.parseInt(matcher.group(2));
+      return Map.entry(ItemPool.get(item.getItemId()), price);
     }
 
-    return -1;
+    return null;
   }
 }
