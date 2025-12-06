@@ -196,6 +196,8 @@ public class SkeletonOfCrimboPastRequest extends CoinMasterRequest {
     if (!ownsFamiliar) {
       return "You do not have a Skeleton of Crimbo Past";
     }
+    // From initial testing it appears that the familiar needn't be active to visit the shop.
+    // Once it is out of standard we will need to check if this still works.
     return null;
   }
 
