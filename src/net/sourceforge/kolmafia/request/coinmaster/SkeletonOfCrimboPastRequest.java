@@ -160,8 +160,7 @@ public class SkeletonOfCrimboPastRequest extends CoinMasterRequest {
   public static final boolean registerRequest(final String urlString) {
     CoinmasterData data = SKELETON_OF_CRIMBO_PAST;
 
-    // using the wand is simply a visit
-    // inv_use.php?whichitem=5441
+    // "Chat[ting]" to the Skeleton of Crimbo Past visits the coinmaster choice
     if (urlString.startsWith("main.php") && urlString.contains("talktosocp=1")) {
       RequestLogger.updateSessionLog();
       RequestLogger.updateSessionLog("Visiting " + data.getMaster());
