@@ -887,12 +887,8 @@ public abstract class KoLmafia {
     ResultProcessor.updateEntauntauned();
     ResultProcessor.updateSavageBeast();
     CargoCultistShortsRequest.loadPockets();
-    if (SeptEmberCenserRequest.shouldCheck()) {
-      RequestThread.postRequest(SeptEmberCenserRequest.getRequest());
-    }
-    if (SkeletonOfCrimboPastRequest.accessible() == null) {
-      RequestThread.postRequest(SkeletonOfCrimboPastRequest.getRequest());
-    }
+    SeptEmberCenserRequest.checkBalance();
+    SkeletonOfCrimboPastRequest.checkSpecial();
 
     // This needs to be checked once, to set the property.
     // Once it is set, no further requests will be issued.

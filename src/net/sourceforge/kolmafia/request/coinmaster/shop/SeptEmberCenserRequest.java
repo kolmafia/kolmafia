@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.request.coinmaster.shop;
 
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.CoinmasterData;
+import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
@@ -35,8 +36,9 @@ public abstract class SeptEmberCenserRequest extends CoinMasterShopRequest {
     }
   }
 
-  public static boolean shouldCheck() {
-    return accessible() == null && !Preferences.getBoolean("_septEmberBalanceChecked");
+  public static void checkBalance() {
+    if (accessible() != null || Preferences.getBoolean("_septEmberBalanceChecked")) return;
+    RequestThread.postRequest(getRequest());
   }
 
   public static String accessible() {

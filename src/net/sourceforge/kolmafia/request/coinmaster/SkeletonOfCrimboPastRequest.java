@@ -1,7 +1,5 @@
 package net.sourceforge.kolmafia.request.coinmaster;
 
-import static net.sourceforge.kolmafia.objectpool.ItemPool.KNUCKLEBONE;
-
 import java.util.Arrays;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -98,17 +96,38 @@ public class SkeletonOfCrimboPastRequest extends CoinMasterRequest {
 
       Preferences.setInteger("_crimboPastDailySpecialItem", item.getItemId());
       Preferences.setInteger("_crimboPastDailySpecialPrice", price);
+    }
+  }
 
-      var items = SKELETON_OF_CRIMBO_PAST.getBuyItems();
-      var prices = SKELETON_OF_CRIMBO_PAST.getBuyPrices();
+  public static void checkSpecial() {
+    if (SkeletonOfCrimboPastRequest.accessible() != null) return;
 
-      if (!items.contains(item) || !prices.getOrDefault(item.getItemId(), 0).equals(price)) {
-        items.removeIf(i -> i.getItemId() < ItemPool.SMOKING_POPE);
-        items.add(item);
-        prices.entrySet().removeIf(e -> e.getKey() < ItemPool.SMOKING_POPE);
-        prices.put(item.getItemId(), price);
-        SKELETON_OF_CRIMBO_PAST.registerPurchaseRequests();
+    var itemId = Preferences.getInteger("_crimboPastDailySpecialItem");
+    var price = Preferences.getInteger("_crimboPastDailySpecialPrice");
+
+    if (itemId < 0 || price <= 0) {
+      RequestThread.postRequest(getRequest());
+      itemId = Preferences.getInteger("_crimboPastDailySpecialItem");
+      price = Preferences.getInteger("_crimboPastDailySpecialPrice");
+
+      if (itemId < 0 || price <= 0) {
+        return;
       }
+    }
+
+    Preferences.setInteger("_crimboPastDailySpecialItem", itemId);
+    Preferences.setInteger("_crimboPastDailySpecialPrice", price);
+
+    var item = ItemPool.get(itemId);
+    var items = SKELETON_OF_CRIMBO_PAST.getBuyItems();
+    var prices = SKELETON_OF_CRIMBO_PAST.getBuyPrices();
+
+    if (!items.contains(item) || !prices.getOrDefault(itemId, 0).equals(price)) {
+      items.removeIf(i -> i.getItemId() < ItemPool.SMOKING_POPE);
+      items.add(item);
+      prices.entrySet().removeIf(e -> e.getKey() < ItemPool.SMOKING_POPE);
+      prices.put(item.getItemId(), price);
+      SKELETON_OF_CRIMBO_PAST.registerPurchaseRequests();
     }
   }
 
