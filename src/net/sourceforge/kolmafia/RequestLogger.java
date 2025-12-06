@@ -498,8 +498,7 @@ public class RequestLogger extends NullStream {
     }
 
     // We want to register visits to the Visiting your Skeleton of Crimbo Past choice adventure
-    // before
-    // ChoiceManager.
+    // before ChoiceManager.
     if ((isExternal || request instanceof SkeletonOfCrimboPastRequest)
         && SkeletonOfCrimboPastRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
@@ -643,15 +642,6 @@ public class RequestLogger extends NullStream {
       // Wax Glob creation is an instance of choice.php
       if ((isExternal || request instanceof WaxGlobRequest)
           && WaxGlobRequest.registerRequest(urlString)) {
-        RequestLogger.wasLastRequestSimple = false;
-        return;
-      }
-
-      // We want to register visits to the Visiting your Skeleton of Crimbo Past choice adventure
-      // before
-      // ChoiceManager.
-      if ((isExternal || request instanceof SkeletonOfCrimboPastRequest)
-          && SkeletonOfCrimboPastRequest.registerRequest(urlString)) {
         RequestLogger.wasLastRequestSimple = false;
         return;
       }
