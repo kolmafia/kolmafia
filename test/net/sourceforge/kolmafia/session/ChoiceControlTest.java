@@ -1762,6 +1762,7 @@ class ChoiceControlTest {
       assertThat("_crimboPastSmokingPope", isSetTo(true));
       assertThat("_crimboPastPrizeTurkey", isSetTo(true));
       assertThat("_crimboPastMedicalGruel", isSetTo(true));
+      assertThat("_crimboPastDailySpecial", isSetTo(false));
       assertThat("_crimboPastDailySpecialItem", isSetTo(ItemPool.ELVEN_SOCKS));
       assertThat("_crimboPastDailySpecialPrice", isSetTo(442));
 
