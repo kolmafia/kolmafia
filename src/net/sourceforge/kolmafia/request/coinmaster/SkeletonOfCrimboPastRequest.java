@@ -47,6 +47,7 @@ public class SkeletonOfCrimboPastRequest extends CoinMasterRequest {
   };
 
   private static String idToOption(final int id) {
+    if (id < ItemPool.SMOKING_POPE) return "4";
     return Arrays.stream(OPTIONS)
         .filter(o -> o.id == id)
         .map(o -> o.option)
@@ -55,6 +56,7 @@ public class SkeletonOfCrimboPastRequest extends CoinMasterRequest {
   }
 
   private static int optionToId(final String opt) {
+    if (opt.equals("4")) return Preferences.getInteger("_crimboPastDailySpecialItem");
     return Arrays.stream(OPTIONS)
         .filter(o -> o.option.equals(opt))
         .map(o -> o.id)
@@ -210,10 +212,6 @@ public class SkeletonOfCrimboPastRequest extends CoinMasterRequest {
   public static Boolean unequip() {
     RequestThread.postRequest(new GenericRequest("choice.php?whichchoice=1567&option=5"));
     return true;
-  }
-
-  public static boolean shouldCheck() {
-    return accessible() == null && Preferences.getInteger("_crimboPastDailySpecialItem") < 0;
   }
 
   public static CoinMasterShopRequest getRequest() {
