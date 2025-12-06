@@ -78,6 +78,7 @@ public class MonsterData extends AdventureResult {
     // Subtypes
     GHOST("GHOST"),
     SKELETON("SKELETON"),
+    ZOMBIE("ZOMBIE"),
     SNAKE("SNAKE"),
     DRIPPY("DRIPPY"),
     // Specialized
@@ -278,6 +279,7 @@ public class MonsterData extends AdventureResult {
               NOWANDER,
               GHOST,
               SKELETON,
+              ZOMBIE,
               SNAKE,
               DRIPPY ->
               attributeMap.put(attribute, true);
@@ -410,6 +412,7 @@ public class MonsterData extends AdventureResult {
     // Subtypes
     saveKeywordAttribute(Attribute.GHOST, attributeMap, buf);
     saveKeywordAttribute(Attribute.SKELETON, attributeMap, buf);
+    saveKeywordAttribute(Attribute.ZOMBIE, attributeMap, buf);
     saveKeywordAttribute(Attribute.SNAKE, attributeMap, buf);
     saveKeywordAttribute(Attribute.DRIPPY, attributeMap, buf);
 
