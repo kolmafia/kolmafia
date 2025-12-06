@@ -1749,7 +1749,9 @@ class ChoiceControlTest {
             withProperty("_crimboPastSmokingPope"),
             withProperty("_crimboPastPrizeTurkey"),
             withProperty("_crimboPastMedicalGruel"),
-            withProperty("_crimboPastDailySpecialItem"));
+            withProperty("_crimboPastDailySpecial"),
+            withProperty("_crimboPastDailySpecialItem"),
+            withProperty("_crimboPastDailySpecialPrice"));
 
     try (cleanups) {
       var req = new GenericRequest("choice.php?whichchoice=1567");
