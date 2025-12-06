@@ -1746,7 +1746,8 @@ class ChoiceControlTest {
         new Cleanups(
             withProperty("_crimboPastSmokingPope"),
             withProperty("_crimboPastPrizeTurkey"),
-            withProperty("_crimboPastMedicalGruel"));
+            withProperty("_crimboPastMedicalGruel"),
+            withProperty("_crimboPastDailySpecialItem"));
 
     try (cleanups) {
       var req = new GenericRequest("choice.php?whichchoice=1567");
@@ -1757,6 +1758,7 @@ class ChoiceControlTest {
       assertThat("_crimboPastSmokingPope", isSetTo(true));
       assertThat("_crimboPastPrizeTurkey", isSetTo(true));
       assertThat("_crimboPastMedicalGruel", isSetTo(true));
+      assertThat("_crimboPastDailySpecialItem", isSetTo(3633));
     }
   }
 }
