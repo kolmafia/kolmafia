@@ -1439,3 +1439,10 @@ Wet Crap For Sale	ROW1610	Ocean-Touched Rum	sand penny (30)
 Wet Crap For Sale	ROW1611	water-logged pill	sand penny (30)
 Wet Crap For Sale	ROW1617	sea gel	sand penny (10)
 Wet Crap For Sale	ROW1616	waterlogged scroll of healing	sand penny (10)
+
+# Things you can buy with knucklebones
+
+Skeleton of Crimbo Past	buy	5	Smoking Pope
+Skeleton of Crimbo Past	buy	5	prize turkey
+Skeleton of Crimbo Past	buy	5	medical gruel
+# A fourth rotating daily special is available

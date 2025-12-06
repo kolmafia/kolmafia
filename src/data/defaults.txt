@@ -2084,6 +2084,8 @@ user	_crappyCameraUsed	false
 user	_creepyVoodooDollUsed	false
 user	_crimbo21ColdResistance	0
 user	_crimboPastDailySpecial	false
+user	_crimboPastDailySpecialItem	-1
+user	_crimboPastDailySpecialPrice	0
 user	_crimboPastMedicalGruel	false
 user	_crimboPastPrizeTurkey	false
 user	_crimboPastSmokingPope	false

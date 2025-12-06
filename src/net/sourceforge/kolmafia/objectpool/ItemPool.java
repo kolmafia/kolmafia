@@ -1155,6 +1155,7 @@ public class ItemPool {
   public static final int PARASITIC_HEADGNAWER = 3626;
   public static final int PARASITIC_STRANGLEWORM = 3627;
   public static final int BURROWGRUB_HIVE = 3629;
+  public static final int ELVEN_SOCKS = 3633;
   public static final int JAMFISH_JAM = 3641;
   public static final int DRAGONFISH_CAVIAR = 3642;
   public static final int GRIMACITE_KNEECAPPING_STICK = 3644;
@@ -3959,6 +3960,9 @@ public class ItemPool {
   public static final int PHEROMONE_COCKTAIL = 12045;
   public static final int SHRUNKEN_HEAD = 12048;
   public static final int KNUCKLEBONE = 12051;
+  public static final int SMOKING_POPE = 12052;
+  public static final int PRIZE_TURKEY = 12053;
+  public static final int MEDICAL_GRUEL = 12054;
 
   private ItemPool() {}
 
