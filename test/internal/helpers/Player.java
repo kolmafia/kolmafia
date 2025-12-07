@@ -878,6 +878,18 @@ public class Player {
   }
 
   /**
+   * Removes familiar from player's terrarium
+   *
+   * @param familiarId Familiar to remove
+   * @return Removes familiar removed if it was added by test
+   */
+  public static Cleanups withoutFamiliarInTerrarium(final int familiarId) {
+    var familiar = FamiliarData.registerFamiliar(familiarId, 0);
+    KoLCharacter.removeFamiliar(familiar);
+    return new Cleanups(() -> KoLCharacter.removeFamiliar(familiar));
+  }
+
+  /**
    * Adds familiar to player's terrarium, but does not take it out
    *
    * @param familiarId Familiar to add
