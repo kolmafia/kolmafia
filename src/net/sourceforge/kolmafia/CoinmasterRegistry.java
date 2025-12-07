@@ -17,6 +17,7 @@ import net.sourceforge.kolmafia.request.coinmaster.GameShoppeRequest;
 import net.sourceforge.kolmafia.request.coinmaster.HermitRequest;
 import net.sourceforge.kolmafia.request.coinmaster.MrStoreRequest;
 import net.sourceforge.kolmafia.request.coinmaster.QuartersmasterRequest;
+import net.sourceforge.kolmafia.request.coinmaster.SkeletonOfCrimboPastRequest;
 import net.sourceforge.kolmafia.request.coinmaster.SwaggerShopRequest;
 import net.sourceforge.kolmafia.request.coinmaster.TravelingTraderRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.AlliedHqRequest;
@@ -190,6 +191,7 @@ public abstract class CoinmasterRegistry {
         ShoreGiftShopRequest.SHORE_GIFT_SHOP,
         SpacegateFabricationRequest.SPACEGATE_STORE,
         SpinMasterLatheRequest.YOUR_SPINMASTER_LATHE,
+        SkeletonOfCrimboPastRequest.SKELETON_OF_CRIMBO_PAST,
         SwaggerShopRequest.SWAGGER_SHOP,
         TacoDanRequest.TACO_DAN,
         TerrifiedEagleInnRequest.TERRIFIED_EAGLE_INN,

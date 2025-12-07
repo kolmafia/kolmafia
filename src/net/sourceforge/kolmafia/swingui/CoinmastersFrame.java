@@ -57,6 +57,7 @@ import net.sourceforge.kolmafia.request.coinmaster.GameShoppeRequest;
 import net.sourceforge.kolmafia.request.coinmaster.HermitRequest;
 import net.sourceforge.kolmafia.request.coinmaster.MrStoreRequest;
 import net.sourceforge.kolmafia.request.coinmaster.QuartersmasterRequest;
+import net.sourceforge.kolmafia.request.coinmaster.SkeletonOfCrimboPastRequest;
 import net.sourceforge.kolmafia.request.coinmaster.SwaggerShopRequest;
 import net.sourceforge.kolmafia.request.coinmaster.TravelingTraderRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.AlliedHqRequest;
@@ -495,6 +496,11 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     var showerThoughtsPanel = new ShowerThoughtsPanel();
     panel.add(showerThoughtsPanel);
     this.selectorPanel.addPanel(showerThoughtsPanel.getPanelSelector(), panel);
+
+    panel = new JPanel(new BorderLayout());
+    var skeletonOfCrimboPastPanel = new SkeletonOfCrimboPastPanel();
+    panel.add(skeletonOfCrimboPastPanel);
+    this.selectorPanel.addPanel(skeletonOfCrimboPastPanel.getPanelSelector(), panel);
 
     // Twitch coinmasters
     this.selectorPanel.addSeparator();
@@ -1824,6 +1830,12 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
   private class WetCrapForSalePanel extends CoinmasterPanel {
     public WetCrapForSalePanel() {
       super(WetCrapForSaleRequest.DATA);
+    }
+  }
+
+  private class SkeletonOfCrimboPastPanel extends CoinmasterPanel {
+    public SkeletonOfCrimboPastPanel() {
+      super(SkeletonOfCrimboPastRequest.SKELETON_OF_CRIMBO_PAST);
     }
   }
 
