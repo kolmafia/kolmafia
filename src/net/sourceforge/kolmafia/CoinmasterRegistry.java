@@ -103,6 +103,7 @@ import net.sourceforge.kolmafia.request.coinmaster.shop.WalMartRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.WarbearBoxRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.WetCrapForSaleRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.WinterGardenRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.XOShopRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.YeNeweSouvenirShoppeRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.YourCampfireRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -211,6 +212,7 @@ public abstract class CoinmasterRegistry {
         WarbearBoxRequest.WARBEARBOX,
         WetCrapForSaleRequest.DATA,
         WinterGardenRequest.DATA,
+        XOShopRequest.DATA,
         YeNeweSouvenirShoppeRequest.SHAKE_SHOP,
         YourCampfireRequest.YOUR_CAMPFIRE,
       };

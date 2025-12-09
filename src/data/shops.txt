@@ -140,4 +140,4 @@ warbear	Warbear Black Box	COIN
 wereprofessor_tinker	Tinkering Bench	CONC	TINKERING_BENCH
 whitecitadel	White Citadel	NPC
 wildfire	FDKOL Auxiliary	NPC
-xo	XO Shop	CONC	XO
+xo	XO Shop	COIN

@@ -958,6 +958,19 @@ Spant Bit Assembly	ROW940	spant shield	spant chitin (6)	spant tendon (4)
 Spant Bit Assembly	ROW941	spant shoulderpads	spant chitin (3)	spant tendon (7)
 Spant Bit Assembly	ROW939	spants	spant chitin (7)	spant tendon (3)
 
+# XO Shop
+XO Shop	ROW953	pair of candy glasses	O (2)
+XO Shop	ROW957	temporary X tattoos	X (2)
+XO Shop	ROW956	Hide-rox&trade; cookie	O (3)
+XO Shop	ROW955	jug of booze	X (3)
+XO Shop	ROW958	glyph of athleticism	O (5)
+XO Shop	ROW959	pair of scissors	O (2)	X (1)
+XO Shop	ROW960	new habit	X (31)
+XO Shop	ROW961	bridge truss	X (23)
+XO Shop	ROW962	pearl necklace	O (37)
+XO Shop	ROW963	amorphous blob	X (111)	O (111)
+XO Shop	ROW964	giant amorphous blob	giant X (11)	giant O (11)
+
 # Crimbo 2017
 Cheer-o-Vend 3000	buy	10	stale cheer wine	ROW966
 Cheer-o-Vend 3000	buy	10	stale Cheer-E-Os	ROW967

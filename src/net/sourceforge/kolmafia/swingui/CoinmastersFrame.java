@@ -143,6 +143,7 @@ import net.sourceforge.kolmafia.request.coinmaster.shop.WalMartRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.WarbearBoxRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.WetCrapForSaleRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.WinterGardenRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.XOShopRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.YeNeweSouvenirShoppeRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.YourCampfireRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -239,6 +240,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     addPanel(new CashewPanel());
     addPanel(new SpacegateFabricationPanel());
     addPanel(new SpantPanel());
+    addPanel(new XOPanel());
     addPanel(new RubeePanel());
     addPanel(new FunALogPanel());
     addPanel(new YourCampfirePanel());
@@ -683,6 +685,12 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
   public class SpantPanel extends CoinmasterPanel {
     public SpantPanel() {
       super(SpantRequest.DATA);
+    }
+  }
+
+  public class XOPanel extends CoinmasterPanel {
+    public XOPanel() {
+      super(XOShopRequest.DATA);
     }
   }
 
