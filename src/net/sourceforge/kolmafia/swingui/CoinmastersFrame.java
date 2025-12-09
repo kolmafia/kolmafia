@@ -140,6 +140,7 @@ import net.sourceforge.kolmafia.request.coinmaster.shop.VendingMachineRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.WalMartRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.WarbearBoxRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.WetCrapForSaleRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.WinterGardenRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.YeNeweSouvenirShoppeRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.YourCampfireRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -213,6 +214,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     addPanel(new IsotopeSmitheryPanel());
     addPanel(new DollHawkerPanel());
     addPanel(new LunarLunchPanel());
+    addPanel(new WinterGardenPanel());
     addPanel(new BoutiquePanel());
     addPanel(new BrogurtPanel());
     addPanel(new BuffJimmyPanel());
@@ -1159,6 +1161,12 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
   private class WarbearBoxPanel extends CoinmasterPanel {
     public WarbearBoxPanel() {
       super(WarbearBoxRequest.WARBEARBOX);
+    }
+  }
+
+  private class WinterGardenPanel extends CoinmasterPanel {
+    public WinterGardenPanel() {
+      super(WinterGardenRequest.DATA);
     }
   }
 

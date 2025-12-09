@@ -502,7 +502,6 @@ public interface KoLConstants extends UtilityConstants {
     SHOPCLASS, // Items made in Shop Class at KOLHS
     BEER, // Items made with ingredients from A Beer Garden
     JUNK, // Items made from using a Worse Homes and Gardens
-    WINTER, // Items made with ingredients from A Winter Garden
     RUMPLE, // Items made at Rumpelstiltskin's Workshop
     FIVE_D, // Xiblaxian 5d Printer
     VYKEA, // Items made with VYKEA instructions

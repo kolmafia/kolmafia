@@ -583,6 +583,23 @@ Warbear Black Box	buy	300	warbear dress bracers	ROW243
 Warbear Black Box	buy	400	warbear dress helmet	ROW244
 Warbear Black Box	buy	500	warbear officer requisition box	ROW226
 
+# Winter Garden
+Winter Gardening	ROW227	snow cleats	snow berries
+Winter Gardening	ROW228	liquid ice pack	ice harvest
+Winter Gardening	ROW230	snow crab	snow berries (2)
+Winter Gardening	ROW231	Ice Island Long Tea	snow berries	ice harvest (3)
+Winter Gardening	ROW229	snow boards	snow berries (2)
+Winter Gardening	ROW232	unfinished ice sculpture	snow berries (3)	ice harvest (3)
+Winter Gardening	ROW235	snow mobile	snow berries (3)	ice harvest (2)
+Winter Gardening	ROW236	ice bucket	ice harvest (3)
+Winter Gardening	ROW237	snow shovel	snow berries (4)	ice harvest
+Winter Gardening	ROW238	bod-ice	snow berries	ice harvest (4)
+Winter Gardening	ROW239	snow belt	snow berries (7)	ice harvest
+Winter Gardening	ROW240	ice nine	ice harvest (9)
+Winter Gardening	ROW233	ice house	ice harvest (8)
+Winter Gardening	ROW241	snow fort	snow berries (9)
+Winter Gardening	ROW234	snow machine	snow berries (30)	ice harvest (30)
+
 # Things you can buy with odd silver coins
 
 Paul's Boutique	buy	2	cinnamon cannoli	ROW245

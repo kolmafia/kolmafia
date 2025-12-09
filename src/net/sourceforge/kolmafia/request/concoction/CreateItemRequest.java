@@ -49,7 +49,6 @@ import net.sourceforge.kolmafia.request.concoction.shop.StarChartRequest;
 import net.sourceforge.kolmafia.request.concoction.shop.StillRequest;
 import net.sourceforge.kolmafia.request.concoction.shop.SugarSheetRequest;
 import net.sourceforge.kolmafia.request.concoction.shop.TinkeringBenchRequest;
-import net.sourceforge.kolmafia.request.concoction.shop.WinterGardenRequest;
 import net.sourceforge.kolmafia.request.concoction.shop.XOShopRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -253,7 +252,6 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
       case CHEMCLASS, ARTCLASS, SHOPCLASS -> new KOLHSRequest(conc);
       case BEER -> new BeerGardenRequest(conc);
       case JUNK -> new JunkMagazineRequest(conc);
-      case WINTER -> new WinterGardenRequest(conc);
       case RUMPLE -> new RumpleRequest(conc);
       case FIVE_D -> new FiveDPrinterRequest(conc);
       case VYKEA -> new VYKEARequest(conc);

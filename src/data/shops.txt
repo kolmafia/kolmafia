@@ -117,7 +117,7 @@ showerthoughts	Using your Shower Thoughts	COIN
 si_shop1	The SHAWARMA Initiative	COIN
 si_shop2	The Canteen	COIN
 snackbar	Huggler Memorial Colosseum Snack Bar	NPC
-snowgarden	Winter Gardening	CONC	WINTER
+snowgarden	Winter Gardening	COIN
 spacegate	Spacegate Fabrication Facility	COIN
 spant	Spant Bit Assembly	CONC	SPANT
 starchart	A Star Chart	CONC	STARCHART

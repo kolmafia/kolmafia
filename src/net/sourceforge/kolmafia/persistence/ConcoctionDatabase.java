@@ -1956,9 +1956,6 @@ public class ConcoctionDatabase {
     ConcoctionDatabase.EXCUSE.put(
         CraftingType.JUNK, "You can't make that without a copy of Worse Homes and Gardens.");
 
-    // Making stuff with Winter Garden ingredients is always allowed
-    permitNoCost(CraftingType.WINTER);
-
     // Making stuff with Rumplestiltskin's Workshop is allowed when have access to it
     if (Preferences.getString("grimstoneMaskPath").equals("gnome")) {
       permitNoCost(CraftingType.RUMPLE);
@@ -2456,7 +2453,6 @@ public class ConcoctionDatabase {
       case GRANDMA -> result.append("Grandma Sea Monkee");
       case BEER -> result.append("Beer Garden");
       case JUNK -> result.append("Worse Homes and Gardens");
-      case WINTER -> result.append("Winter Garden");
       case FIVE_D -> result.append("Xiblaxian 5D printer");
       case VYKEA -> result.append("VYKEA");
       case DUTYFREE -> result.append("Elemental International Airport Duty Free Shop");
@@ -2899,7 +2895,6 @@ public class ConcoctionDatabase {
       case "KRINGLE" -> ConcoctionDatabase.mixingMethod = CraftingType.KRINGLE;
       case "BEER" -> ConcoctionDatabase.mixingMethod = CraftingType.BEER;
       case "JUNK" -> ConcoctionDatabase.mixingMethod = CraftingType.JUNK;
-      case "WINTER" -> ConcoctionDatabase.mixingMethod = CraftingType.WINTER;
       case "RUMPLE" -> ConcoctionDatabase.mixingMethod = CraftingType.RUMPLE;
       case "5D" -> ConcoctionDatabase.mixingMethod = CraftingType.FIVE_D;
       case "VYKEA" -> ConcoctionDatabase.mixingMethod = CraftingType.VYKEA;
