@@ -952,6 +952,12 @@ Spacegate Fabrication Facility	buy	3000	Spacegate diplomat's insignia	ROW950
 Spacegate Fabrication Facility	buy	5000	Spacegate emergency disintegrator	ROW951
 Spacegate Fabrication Facility	buy	10000	Spacegate Initiative tattoo unit	ROW952
 
+# Spant Bit Assembly
+Spant Bit Assembly	ROW942	spant backplate	spant chitin (4)	spant tendon (6)
+Spant Bit Assembly	ROW940	spant shield	spant chitin (6)	spant tendon (4)
+Spant Bit Assembly	ROW941	spant shoulderpads	spant chitin (3)	spant tendon (7)
+Spant Bit Assembly	ROW939	spants	spant chitin (7)	spant tendon (3)
+
 # Crimbo 2017
 Cheer-o-Vend 3000	buy	10	stale cheer wine	ROW966
 Cheer-o-Vend 3000	buy	10	stale Cheer-E-Os	ROW967

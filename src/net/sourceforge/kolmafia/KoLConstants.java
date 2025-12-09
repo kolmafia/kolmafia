@@ -509,7 +509,6 @@ public interface KoLConstants extends UtilityConstants {
     TERMINAL, // Items extruded from Source Terminal
     BARREL, // Items granted at the Barrel Shrine
     WAX, // Items made from globs of melted wax
-    SPANT, // Items made from spant chitin/tendons
     SPACEGATE, // Items granted at Spacegate Equipment Requisition
     XO, // Items made using Xes and Os
     SLIEMCE, // Items made using slime blobs

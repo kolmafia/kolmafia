@@ -119,7 +119,7 @@ si_shop2	The Canteen	COIN
 snackbar	Huggler Memorial Colosseum Snack Bar	NPC
 snowgarden	Winter Gardening	COIN
 spacegate	Spacegate Fabrication Facility	COIN
-spant	Spant Bit Assembly	CONC	SPANT
+spant	Spant Bit Assembly	COIN
 starchart	A Star Chart	CONC	STARCHART
 still	Nash Crosby's Still	CONC	STILL
 sugarsheets	Sugar Sheet Folding	CONC	SUGAR_FOLDING

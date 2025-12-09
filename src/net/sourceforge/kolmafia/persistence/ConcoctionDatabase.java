@@ -1997,9 +1997,6 @@ public class ConcoctionDatabase {
     // Making stuff with globs of melted wax is always allowed
     permitNoCost(CraftingType.WAX);
 
-    // Making stuff with spant chitin/tendons is always allowed
-    permitNoCost(CraftingType.SPANT);
-
     // Making stuff with Xes/Os is always allowed
     permitNoCost(CraftingType.XO);
 
@@ -2456,7 +2453,6 @@ public class ConcoctionDatabase {
       case TERMINAL -> result.append("Source Terminal");
       case BARREL -> result.append("shrine to the Barrel god");
       case WAX -> result.append("globs of wax");
-      case SPANT -> result.append("spant pieces");
       case SPACEGATE -> result.append("Spacegate Equipment Requisition");
       case XO -> result.append("XO Shop");
       case SLIEMCE -> result.append("Mad Sliemce");
@@ -2897,7 +2893,6 @@ public class ConcoctionDatabase {
       case "TERMINAL" -> ConcoctionDatabase.mixingMethod = CraftingType.TERMINAL;
       case "BARREL" -> ConcoctionDatabase.mixingMethod = CraftingType.BARREL;
       case "WAX" -> ConcoctionDatabase.mixingMethod = CraftingType.WAX;
-      case "SPANT" -> ConcoctionDatabase.mixingMethod = CraftingType.SPANT;
       case "XOSHOP" -> ConcoctionDatabase.mixingMethod = CraftingType.XO;
       case "SLIEMCE" -> ConcoctionDatabase.mixingMethod = CraftingType.SLIEMCE;
       case "SPACEGATE" -> ConcoctionDatabase.mixingMethod = CraftingType.SPACEGATE;

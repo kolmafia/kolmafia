@@ -129,6 +129,7 @@ import net.sourceforge.kolmafia.request.coinmaster.shop.SeptEmberCenserRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.ShoeRepairRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.ShoreGiftShopRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.SpacegateFabricationRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.SpantRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.SpinMasterLatheRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.TacoDanRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.TerrifiedEagleInnRequest;
@@ -237,6 +238,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     addPanel(new PrecinctPanel());
     addPanel(new CashewPanel());
     addPanel(new SpacegateFabricationPanel());
+    addPanel(new SpantPanel());
     addPanel(new RubeePanel());
     addPanel(new FunALogPanel());
     addPanel(new YourCampfirePanel());
@@ -675,6 +677,12 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
   public class SpacegateFabricationPanel extends CoinmasterPanel {
     public SpacegateFabricationPanel() {
       super(SpacegateFabricationRequest.SPACEGATE_STORE);
+    }
+  }
+
+  public class SpantPanel extends CoinmasterPanel {
+    public SpantPanel() {
+      super(SpantRequest.DATA);
     }
   }
 
