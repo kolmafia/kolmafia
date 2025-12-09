@@ -88,6 +88,7 @@ import net.sourceforge.kolmafia.request.coinmaster.shop.SHAWARMARequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.SeptEmberCenserRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.ShoeRepairRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.ShoreGiftShopRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.SliemceRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.SpacegateFabricationRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.SpantRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.SpinMasterLatheRequest;
@@ -195,6 +196,7 @@ public abstract class CoinmasterRegistry {
         ShoeRepairRequest.SHOE_REPAIR,
         ShoreGiftShopRequest.SHORE_GIFT_SHOP,
         SkeletonOfCrimboPastRequest.SKELETON_OF_CRIMBO_PAST,
+        SliemceRequest.DATA,
         SpacegateFabricationRequest.SPACEGATE_STORE,
         SpantRequest.DATA,
         SpinMasterLatheRequest.YOUR_SPINMASTER_LATHE,

@@ -2977,9 +2977,6 @@ FantasyRealm Rogue's Mask	FANTASY_REALM
 glued A-Boo clue	SUSE	A-Boo glue	A-Boo clue
 
 # Voter Registation Form
-slime fedora	SLIEMCE,ROW1025	black slime glob (1)	orange slime glob (100)	green slime glob (10)
-slime knuckles	SLIEMCE,ROW1026	black slime glob (1)	orange slime glob (50)	green slime glob (20)
-slime waders	SLIEMCE,ROW1027	black slime glob (1)	orange slime glob (10)	green slime glob (30)
 haunted orange	COOK	ghostly ectoplasm	orange
 haunted pizza	COOK	ghostly ectoplasm	plain pizza
 haunted cherry pie	COOK	ghostly ectoplasm	cherry pie

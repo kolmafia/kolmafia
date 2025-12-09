@@ -42,7 +42,6 @@ import net.sourceforge.kolmafia.request.concoction.shop.KringleRequest;
 import net.sourceforge.kolmafia.request.concoction.shop.PixelRequest;
 import net.sourceforge.kolmafia.request.concoction.shop.RumpleRequest;
 import net.sourceforge.kolmafia.request.concoction.shop.ShadowForgeRequest;
-import net.sourceforge.kolmafia.request.concoction.shop.SliemceRequest;
 import net.sourceforge.kolmafia.request.concoction.shop.StarChartRequest;
 import net.sourceforge.kolmafia.request.concoction.shop.StillRequest;
 import net.sourceforge.kolmafia.request.concoction.shop.SugarSheetRequest;
@@ -256,7 +255,6 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
       case TERMINAL -> new TerminalExtrudeRequest(conc);
       case BARREL -> new BarrelShrineRequest(conc);
       case WAX -> new WaxGlobRequest(conc);
-      case SLIEMCE -> new SliemceRequest(conc);
       case NEWSPAPER -> new BurningNewspaperRequest(conc);
       case METEOROID -> new MeteoroidRequest(conc);
       case SAUSAGE_O_MATIC -> new SausageOMaticRequest(conc);

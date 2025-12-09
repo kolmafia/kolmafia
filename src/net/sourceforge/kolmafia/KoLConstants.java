@@ -510,7 +510,6 @@ public interface KoLConstants extends UtilityConstants {
     BARREL, // Items granted at the Barrel Shrine
     WAX, // Items made from globs of melted wax
     SPACEGATE, // Items granted at Spacegate Equipment Requisition
-    SLIEMCE, // Items made using slime blobs
     NEWSPAPER, // Items made from burning newspaper
     METEOROID, // Items made from metal meteoroid
     FANTASY_REALM, // Items made by visiting FantasyRealm welcome center

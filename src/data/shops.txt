@@ -135,7 +135,7 @@ unclep	Uncle P's Antiques	NPC
 vault1	Fallout Shelter Medical Supply	NPC
 vault2	Fallout Shelter Electronics Supply	NPC
 vault3	Underground Record Store	NPC
-voteslime	Mad Sliemce	CONC	SLIEMCE
+voteslime	Mad Sliemce	COIN
 warbear	Warbear Black Box	COIN
 wereprofessor_tinker	Tinkering Bench	CONC	TINKERING_BENCH
 whitecitadel	White Citadel	NPC

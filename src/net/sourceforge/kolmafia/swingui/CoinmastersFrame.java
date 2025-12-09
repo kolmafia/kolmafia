@@ -128,6 +128,7 @@ import net.sourceforge.kolmafia.request.coinmaster.shop.SHAWARMARequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.SeptEmberCenserRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.ShoeRepairRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.ShoreGiftShopRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.SliemceRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.SpacegateFabricationRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.SpantRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.SpinMasterLatheRequest;
@@ -242,6 +243,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     addPanel(new SpantPanel());
     addPanel(new XOPanel());
     addPanel(new RubeePanel());
+    addPanel(new SliemcePanel());
     addPanel(new FunALogPanel());
     addPanel(new YourCampfirePanel());
     addPanel(new GuzzlrPanel());
@@ -1114,6 +1116,12 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
       String title = buffer.toString();
       buffer.setLength(0);
       buffer.append(StringUtilities.getEntityDecode(title));
+    }
+  }
+
+  private class SliemcePanel extends CoinmasterPanel {
+    public SliemcePanel() {
+      super(SliemceRequest.DATA);
     }
   }
 
