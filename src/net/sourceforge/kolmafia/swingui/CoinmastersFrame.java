@@ -304,11 +304,6 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     this.selectorPanel.addPanel(bigBrotherPanel.getPanelSelector(), panel);
 
     panel = new JPanel(new BorderLayout());
-    var dedigitizerPanel = new DedigitizerPanel();
-    panel.add(dedigitizerPanel);
-    this.selectorPanel.addPanel(dedigitizerPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
     var terrifiedEagleInnPanel = new TerrifiedEagleInnPanel();
     panel.add(terrifiedEagleInnPanel);
     this.selectorPanel.addPanel(terrifiedEagleInnPanel.getPanelSelector(), panel);
@@ -491,6 +486,11 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     var septEmberPanel = new SeptEmberPanel();
     panel.add(septEmberPanel);
     this.selectorPanel.addPanel(septEmberPanel.getPanelSelector(), panel);
+
+    panel = new JPanel(new BorderLayout());
+    var dedigitizerPanel = new DedigitizerPanel();
+    panel.add(dedigitizerPanel);
+    this.selectorPanel.addPanel(dedigitizerPanel.getPanelSelector(), panel);
 
     panel = new JPanel(new BorderLayout());
     var showerThoughtsPanel = new ShowerThoughtsPanel();
