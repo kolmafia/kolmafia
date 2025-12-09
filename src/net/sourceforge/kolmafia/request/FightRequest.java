@@ -1824,6 +1824,9 @@ public class FightRequest extends GenericRequest {
     FightRequest.parseCombatItems(responseText);
     FightRequest.parseAvailableCombatSkills(responseText);
 
+    // Report combat round to spading manager
+    SpadingManager.processCombatRound(MonsterStatusTracker.getLastMonsterName(), responseText);
+
     // Now that we have processed the page, generated the decorated HTML
     FightRequest.lastDecoratedResponseText =
         RequestEditorKit.getFeatureRichHTML("fight.php", responseText);
@@ -2565,9 +2568,6 @@ public class FightRequest extends GenericRequest {
 
     // Perform other processing for the final round
     FightRequest.updateRoundData(macroMatcher);
-
-    // Report combat round to spading manager
-    SpadingManager.processCombatRound(MonsterStatusTracker.getLastMonsterName(), responseText);
 
     if (responseText.contains("Macro Abort")
         || responseText.contains("Macro abort")
