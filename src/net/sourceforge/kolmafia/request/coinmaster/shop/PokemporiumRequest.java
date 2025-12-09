@@ -29,15 +29,13 @@ public abstract class PokemporiumRequest extends CoinMasterShopRequest {
           .withTokenPattern(POKEDOLLAR_PATTERN)
           .withItem(POKEDOLLAR)
           .withShopRowFields(master, SHOPID)
-          .withCanBuyItem(PokemporiumRequest::canBuyItem)
           .withAccessible(PokemporiumRequest::accessible);
 
-  private static Boolean canBuyItem(final Integer itemId) {
-    return KoLCharacter.inPokefam();
-  }
-
   public static String accessible() {
-    // Change after it closes
+    if (!KoLCharacter.inPokefam()) {
+      return "You're not in PokeFam";
+    }
+
     return null;
   }
 }
