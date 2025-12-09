@@ -25,6 +25,7 @@ import net.sourceforge.kolmafia.request.coinmaster.shop.AppleStoreRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.ArmoryAndLeggeryRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.ArmoryRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.BatFabricatorRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.BeerGardenRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.BlackMarketRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.BoutiqueRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.BrogurtRequest;
@@ -115,6 +116,7 @@ public abstract class CoinmasterRegistry {
         ArmoryAndLeggeryRequest.ARMORY_AND_LEGGERY,
         AWOLQuartermasterRequest.AWOL,
         BatFabricatorRequest.BAT_FABRICATOR,
+        BeerGardenRequest.DATA,
         BigBrotherRequest.BIG_BROTHER,
         BlackMarketRequest.BLACK_MARKET,
         BountyHunterHunterRequest.BHH,

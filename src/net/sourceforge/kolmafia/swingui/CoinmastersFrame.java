@@ -65,6 +65,7 @@ import net.sourceforge.kolmafia.request.coinmaster.shop.AppleStoreRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.ArmoryAndLeggeryRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.ArmoryRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.BatFabricatorRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.BeerGardenRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.BlackMarketRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.BoutiqueRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.BrogurtRequest;
@@ -214,6 +215,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     addPanel(new IsotopeSmitheryPanel());
     addPanel(new DollHawkerPanel());
     addPanel(new LunarLunchPanel());
+    addPanel(new BeerGardenPanel());
     addPanel(new WinterGardenPanel());
     addPanel(new BoutiquePanel());
     addPanel(new BrogurtPanel());
@@ -1155,6 +1157,12 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
         case ItemPool.TALES_OF_DREAD, ItemPool.BRASS_DREAD_FLASK, ItemPool.SILVER_DREAD_FLASK -> 1;
         default -> max;
       };
+    }
+  }
+
+  private class BeerGardenPanel extends CoinmasterPanel {
+    public BeerGardenPanel() {
+      super(BeerGardenRequest.DATA);
     }
   }
 

@@ -11,7 +11,7 @@ batman_cave	Bat-Fabricator	COIN
 batman_chemicorp	ChemiCorp	COIN
 batman_orphanage	Gotpork Orphanage	COIN
 batman_pd	Gotpork P. D.	COIN
-beergarden	Beer Garden	CONC	BEER
+beergarden	Beer Garden	COIN
 blackmarket	The Black Market	NPCCOIN
 bugbear	Bugbear Bakery	NPC
 campfire	Your Campfire	COIN

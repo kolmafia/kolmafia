@@ -571,6 +571,17 @@ The Shore, Inc. Gift Shop	buy	1	UV-resistant compass	ROW183
 The Shore, Inc. Gift Shop	buy	3	dinghy plans	ROW176
 The Shore, Inc. Gift Shop	buy	5	fuzzy dice	ROW177
 
+# Beer Garden
+Beer Garden	ROW214	can of Br&uuml;talbr&auml;u	handful of barley	cluster of hops
+Beer Garden	ROW215	can of Drooling Monk	handful of barley	cluster of hops
+Beer Garden	ROW216	can of Impetuous Scofflaw	handful of barley	cluster of hops
+Beer Garden	ROW291	liquid bread	handful of barley	cluster of hops
+Beer Garden	ROW217	bottle of Old Pugilist	handful of barley	cluster of hops	fancy beer bottle	fancy beer label
+Beer Garden	ROW218	bottle of Professor Beer	handful of barley	cluster of hops	fancy beer bottle	fancy beer label
+Beer Garden	ROW219	bottle of Rapier Witbier	handful of barley	cluster of hops	fancy beer bottle	fancy beer label
+Beer Garden	ROW816	bottle of Fishhead 900-Day IPA	handful of barley	cluster of hops	fancy beer bottle	fancy beer label
+Beer Garden	ROW220	artisanal homebrew gift package	handful of barley (3)	cluster of hops (3)	fancy beer bottle (3)	fancy beer label (3)
+
 # Things you can buy with warbear whosits
 
 Warbear Black Box	buy	10	blind-packed die-cast metal toy	ROW224

@@ -1946,9 +1946,6 @@ public class ConcoctionDatabase {
     ConcoctionDatabase.EXCUSE.put(
         CraftingType.SHOPCLASS, "You cannot make that as you are not at school.");
 
-    // Making stuff with Beer Garden ingredients needs
-    permitNoCost(CraftingType.BEER);
-
     // Making stuff with the Junk Magazine requires the magazine
     if (InventoryManager.hasItem(ItemPool.WORSE_HOMES_GARDENS)) {
       permitNoCost(CraftingType.JUNK);
@@ -2451,7 +2448,6 @@ public class ConcoctionDatabase {
       case CLIPART -> result.append("Summon Clip Art");
       case JARLS -> result.append("Jarlsberg's Kitchen");
       case GRANDMA -> result.append("Grandma Sea Monkee");
-      case BEER -> result.append("Beer Garden");
       case JUNK -> result.append("Worse Homes and Gardens");
       case FIVE_D -> result.append("Xiblaxian 5D printer");
       case VYKEA -> result.append("VYKEA");
@@ -2893,7 +2889,6 @@ public class ConcoctionDatabase {
       }
       case "GRANDMA" -> ConcoctionDatabase.mixingMethod = CraftingType.GRANDMA;
       case "KRINGLE" -> ConcoctionDatabase.mixingMethod = CraftingType.KRINGLE;
-      case "BEER" -> ConcoctionDatabase.mixingMethod = CraftingType.BEER;
       case "JUNK" -> ConcoctionDatabase.mixingMethod = CraftingType.JUNK;
       case "RUMPLE" -> ConcoctionDatabase.mixingMethod = CraftingType.RUMPLE;
       case "5D" -> ConcoctionDatabase.mixingMethod = CraftingType.FIVE_D;
