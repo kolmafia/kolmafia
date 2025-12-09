@@ -98,6 +98,7 @@ import net.sourceforge.kolmafia.request.coinmaster.shop.EdShopRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.FDKOLRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.FancyDanRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.FishboneryRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.FixodentRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.FlowerTradeinRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.FunALogRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.GMartRequest;
@@ -476,6 +477,11 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     var mrStore2002Panel = new MrStore2002Panel();
     panel.add(mrStore2002Panel);
     this.selectorPanel.addPanel(mrStore2002Panel.getPanelSelector(), panel);
+
+    panel = new JPanel(new BorderLayout());
+    var fixodentPanel = new FixodentPanel();
+    panel.add(fixodentPanel);
+    this.selectorPanel.addPanel(fixodentPanel.getPanelSelector(), panel);
 
     panel = new JPanel(new BorderLayout());
     var kiwiKwikiMartPanel = new KiwiKwikiMartPanel();
@@ -1713,6 +1719,12 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
   private class MrStore2002Panel extends CoinmasterPanel {
     public MrStore2002Panel() {
       super(MrStore2002Request.MR_STORE_2002);
+    }
+  }
+
+  private class FixodentPanel extends CoinmasterPanel {
+    public FixodentPanel() {
+      super(FixodentRequest.DATA);
     }
   }
 
