@@ -1244,6 +1244,18 @@ Fancy Dan the Cocktail Man	buy	1	Mysterious Stranger	ROW1293
 Fancy Dan the Cocktail Man	buy	1	Strong, Silent Type	ROW1292
 Fancy Dan the Cocktail Man	buy	1	Velvet Veil	ROW1290
 
+# The Shadow Forge
+
+The Shadow Forge	ROW1309	shadow chef's hat	shadow skin (3)	shadow bread (2)
+The Shadow Forge	ROW1310	shadow trousers	shadow skin (3)	shadow sinew (2)
+The Shadow Forge	ROW1311	shadow hammer	shadow brick (3)	shadow stick (3)
+The Shadow Forge	ROW1312	shadow monocle	shadow brick	shadow glass (3)	shadow ice (2)
+The Shadow Forge	ROW1313	shadow candle	shadow sausage (3)	shadow sinew (2)	shadow flame
+The Shadow Forge	ROW1315	shadow hot dog	shadow sausage	shadow bread	shadow venom
+The Shadow Forge	ROW1316	shadow martini	shadow glass	shadow ice	shadow nectar
+The Shadow Forge	ROW1317	shadow pill	shadow fluid	shadow flame
+The Shadow Forge	ROW1318	shadow needle	shadow stick (13)	shadow fluid (13)	shadow venom (13)	shadow nectar (13)
+
 # Replica Mr. Store
 
 Replica Mr. Store	buy	1	replica Dark Jill-O-Lantern	ROW1319

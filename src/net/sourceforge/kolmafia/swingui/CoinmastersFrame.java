@@ -131,6 +131,7 @@ import net.sourceforge.kolmafia.request.coinmaster.shop.RubeeRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.RumpleRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.SHAWARMARequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.SeptEmberCenserRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.ShadowForgeRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.ShoeRepairRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.ShoreGiftShopRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.SliemceRequest;
@@ -259,6 +260,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     addPanel(new GuzzlrPanel());
     addPanel(new SpinMasterLathePanel());
     addPanel(new FancyDanPanel());
+    addPanel(new ShadowForgePanel());
     addPanel(new MrStore2002Panel());
     addPanel(new FixodentPanel());
     addPanel(new KiwiKwikiMartPanel());
@@ -1393,6 +1395,13 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
         buffer.append(currency.getPluralName(count));
         buffer.append(")");
       }
+    }
+  }
+
+  private class ShadowForgePanel extends CoinmasterPanel {
+    public ShadowForgePanel() {
+      super(ShadowForgeRequest.DATA);
+      PreferenceListenerRegistry.registerPreferenceListener("lastShadowForgeUnlockAdventure", this);
     }
   }
 

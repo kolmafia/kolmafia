@@ -1987,15 +1987,6 @@ public class ConcoctionDatabase {
     // Making stuff with grubby wool is always allowed
     permitNoCost(CraftingType.WOOL);
 
-    // Making stuff at The Shadow Forge is only allowed if you have not
-    // spent any adventures since you last encountered it.
-    if (Preferences.getInteger("lastShadowForgeUnlockAdventure") == KoLCharacter.getCurrentRun()) {
-      permitNoCost(CraftingType.SHADOW_FORGE);
-    } else {
-      ConcoctionDatabase.EXCUSE.put(
-          CraftingType.SHADOW_FORGE, "You need to be at The Shadow Forge to make that.");
-    }
-
     // You need a gnome to pick a gnome part and can only do so once per day.
     if (Preferences.getBoolean("_gnomePart")) {
       ConcoctionDatabase.EXCUSE.put(CraftingType.GNOME_PART, "You have already picked a part.");
@@ -2416,7 +2407,6 @@ public class ConcoctionDatabase {
       case KRINGLE -> result.append("Kringle's workshop");
       case STILLSUIT -> result.append("tiny stillsuit");
       case WOOL -> result.append("grubby wool");
-      case SHADOW_FORGE -> result.append("The Shadow Forge");
       case BURNING_LEAVES -> result.append("Pile of Burning Leaves");
       case TINKERING_BENCH -> result.append("Tinkering Bench");
       case MAYAM -> result.append("Mayam Calendar");
@@ -2846,7 +2836,6 @@ public class ConcoctionDatabase {
       case "FANTASY_REALM" -> ConcoctionDatabase.mixingMethod = CraftingType.FANTASY_REALM;
       case "STILLSUIT" -> ConcoctionDatabase.mixingMethod = CraftingType.STILLSUIT;
       case "WOOL" -> ConcoctionDatabase.mixingMethod = CraftingType.WOOL;
-      case "SHADOW_FORGE" -> ConcoctionDatabase.mixingMethod = CraftingType.SHADOW_FORGE;
       case "BURNING_LEAVES" -> ConcoctionDatabase.mixingMethod = CraftingType.BURNING_LEAVES;
       case "TINKERING_BENCH" -> ConcoctionDatabase.mixingMethod = CraftingType.TINKERING_BENCH;
       case "MAYAM" -> ConcoctionDatabase.mixingMethod = CraftingType.MAYAM;

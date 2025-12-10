@@ -109,7 +109,7 @@ sbb_brogurt	The Frozen Brogurt Stand	COIN
 sbb_jimmy	Buff Jimmy's Souvenir Shop	COIN
 sbb_taco	Taco Dan's Taco Stand	COIN
 september	Sept-Ember Censer	COIN
-shadowforge	The Shadow Forge	CONC	SHADOW_FORGE
+shadowforge	The Shadow Forge	COIN
 shakeshop	Ye Newe Souvenir Shoppe	COIN
 shoeshop	Legitimate Shoe Repair, Inc.	COIN
 shore	The Shore, Inc. Gift Shop	COIN
