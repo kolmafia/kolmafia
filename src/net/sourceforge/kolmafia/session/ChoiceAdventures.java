@@ -4764,7 +4764,8 @@ public abstract class ChoiceAdventures {
             2,
             "ring of telling skeletons what to do"),
         new ChoiceOption("gain muscle stats", 3),
-        new ChoiceOption("fight former owner of the Skeleton Store, with office key", 4));
+        new ChoiceOption("fight former owner of the Skeleton Store, with office key", 4),
+        new ChoiceOption("skip adventure", 5));
 
     // Choice 1061 is Heart of Madness
     new ChoiceAdventure(
@@ -4790,7 +4791,8 @@ public abstract class ChoiceAdventures {
         new ChoiceOption("acquire drinks", 3),
         new ChoiceOption("gain moxie stats", 4),
         new ChoiceOption("acquire more booze with map", 5),
-        new ChoiceOption("acquire flowers and 2 grass clippings, then pick again", 6));
+        new ChoiceOption("acquire flowers and 2 grass clippings, then pick again", 6),
+        new ChoiceOption("skip adventure", 7));
 
     // Choice 1063 is Adjust your 'Edpiece
     new ChoiceSpoiler(
