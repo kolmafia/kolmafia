@@ -128,6 +128,7 @@ import net.sourceforge.kolmafia.request.coinmaster.shop.PrecinctRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.PrimordialSoupKitchenRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.ReplicaMrStoreRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.RubeeRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.RumpleRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.SHAWARMARequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.SeptEmberCenserRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.ShoeRepairRequest;
@@ -228,6 +229,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     addPanel(new BeerGardenPanel());
     addPanel(new WinterGardenPanel());
     addPanel(new BoutiquePanel());
+    addPanel(new RumplePanel());
     addPanel(new BrogurtPanel());
     addPanel(new BuffJimmyPanel());
     addPanel(new TacoDanPanel());
@@ -1237,6 +1239,12 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
   private class BoutiquePanel extends CoinmasterPanel {
     public BoutiquePanel() {
       super(BoutiqueRequest.BOUTIQUE);
+    }
+  }
+
+  private class RumplePanel extends CoinmasterPanel {
+    public RumplePanel() {
+      super(RumpleRequest.DATA);
     }
   }
 

@@ -498,7 +498,6 @@ public interface KoLConstants extends UtilityConstants {
     JARLS, // Items that can only be made by an Avatar of Jarlsberg
     GRANDMA, // Items made by Grandma Sea Monkee
     JUNK, // Items made from using a Worse Homes and Gardens
-    RUMPLE, // Items made at Rumpelstiltskin's Workshop
     FIVE_D, // Xiblaxian 5d Printer
     VYKEA, // Items made with VYKEA instructions
     FLOUNDRY, // Items made in Clan Floundry

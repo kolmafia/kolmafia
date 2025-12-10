@@ -641,6 +641,18 @@ Paul's Boutique	buy	4	fancy oil painting	ROW248
 Paul's Boutique	buy	5	solid gold rosary	ROW249
 Paul's Boutique	buy	5	ornate dowsing rod	ROW250
 
+# Rumplestiltskin's Workshop
+
+Rumplestiltskin's Workshop	ROW251	smudge stick	straw	leather
+Rumplestiltskin's Workshop	ROW252	portable wall	straw	clay
+Rumplestiltskin's Workshop	ROW255	jug of &quot;wine&quot;	straw	glass
+Rumplestiltskin's Workshop	ROW254	scroll case	straw	parchment
+Rumplestiltskin's Workshop	ROW258	humble pie	clay	filling
+Rumplestiltskin's Workshop	ROW259	small golem	clay	parchment
+Rumplestiltskin's Workshop	ROW257	crappy camera	leather	glass
+Rumplestiltskin's Workshop	ROW253	large tankard of ale	leather	clay
+Rumplestiltskin's Workshop	ROW256	juggling ball	leather	filling
+
 # Things you can buy with Beach Bucks
 
 The Frozen Brogurt Stand	buy	1	regular-size brogurt	ROW293

@@ -1938,13 +1938,6 @@ public class ConcoctionDatabase {
     ConcoctionDatabase.EXCUSE.put(
         CraftingType.JUNK, "You can't make that without a copy of Worse Homes and Gardens.");
 
-    // Making stuff with Rumplestiltskin's Workshop is allowed when have access to it
-    if (Preferences.getString("grimstoneMaskPath").equals("gnome")) {
-      permitNoCost(CraftingType.RUMPLE);
-    }
-    ConcoctionDatabase.EXCUSE.put(
-        CraftingType.RUMPLE, "You need access to Rumplestiltskin's Workshop to make that.");
-
     // You trade tokens to Coin Masters if you have opted in to do so,
 
     if (Preferences.getBoolean("autoSatisfyWithCoinmasters")) {
@@ -2388,7 +2381,6 @@ public class ConcoctionDatabase {
       case STARCHART -> result.append("star chart");
       case SUGAR_FOLDING -> result.append("sugar sheet");
       case PIXEL -> result.append("Crackpot Mystic");
-      case RUMPLE -> result.append("Rumpelstiltskin's Workshop");
       case ROLLING_PIN -> result.append("rolling pin/unrolling pin");
       case GNOME_TINKER -> result.append("Supertinkering");
       case STAFF -> result.append("Rodoric, the Staffcrafter");
@@ -2842,7 +2834,6 @@ public class ConcoctionDatabase {
       case "GRANDMA" -> ConcoctionDatabase.mixingMethod = CraftingType.GRANDMA;
       case "KRINGLE" -> ConcoctionDatabase.mixingMethod = CraftingType.KRINGLE;
       case "JUNK" -> ConcoctionDatabase.mixingMethod = CraftingType.JUNK;
-      case "RUMPLE" -> ConcoctionDatabase.mixingMethod = CraftingType.RUMPLE;
       case "5D" -> ConcoctionDatabase.mixingMethod = CraftingType.FIVE_D;
       case "VYKEA" -> ConcoctionDatabase.mixingMethod = CraftingType.VYKEA;
       case "TERMINAL" -> ConcoctionDatabase.mixingMethod = CraftingType.TERMINAL;

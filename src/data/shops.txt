@@ -104,7 +104,7 @@ nina	Ni&ntilde;a Store	COIN
 olivers	Fancy Dan the Cocktail Man	COIN
 piraterealm	PirateRealm Fun-a-Log	COIN
 pokefam	The Pok&eacute;mporium	COIN
-rumple	Rumplestiltskin's Workshop	CONC	RUMPLE
+rumple	Rumplestiltskin's Workshop	COIN
 sbb_brogurt	The Frozen Brogurt Stand	COIN
 sbb_jimmy	Buff Jimmy's Souvenir Shop	COIN
 sbb_taco	Taco Dan's Taco Stand	COIN
