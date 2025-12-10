@@ -4,6 +4,7 @@ import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withCurrentRun;
 import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withLocation;
 import static internal.helpers.Player.withProperty;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -49,7 +50,8 @@ public class ShadowForgeRequestTest {
             withCurrentRun(666),
             withItem(ItemPool.SHADOW_FLUID),
             withItem(ItemPool.SHADOW_FLAME),
-            withItem(ItemPool.RUFUS_SHADOW_LODESTONE));
+            withItem(ItemPool.RUFUS_SHADOW_LODESTONE),
+            withLocation("Shadow Rift"));
 
     try (cleanups) {
       client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
