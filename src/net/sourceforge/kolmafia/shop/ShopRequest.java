@@ -15,7 +15,6 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.concoction.shop.FiveDPrinterRequest;
-import net.sourceforge.kolmafia.request.concoction.shop.JunkMagazineRequest;
 import net.sourceforge.kolmafia.request.concoction.shop.StillRequest;
 import net.sourceforge.kolmafia.request.concoction.shop.SugarSheetRequest;
 import net.sourceforge.kolmafia.session.ResultProcessor;
@@ -200,10 +199,6 @@ public class ShopRequest extends GenericRequest {
     switch (shopId) {
       case "starchart" -> {
         quantity = 1;
-        break;
-      }
-      case "junkmagazine" -> {
-        JunkMagazineRequest.parseResponse(urlString, responseText);
         break;
       }
       case "still" -> {

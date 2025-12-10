@@ -1931,13 +1931,6 @@ public class ConcoctionDatabase {
     }
     ConcoctionDatabase.EXCUSE.put(CraftingType.GRANDMA, "You must rescue Grandma first.");
 
-    // Making stuff with the Junk Magazine requires the magazine
-    if (InventoryManager.hasItem(ItemPool.WORSE_HOMES_GARDENS)) {
-      permitNoCost(CraftingType.JUNK);
-    }
-    ConcoctionDatabase.EXCUSE.put(
-        CraftingType.JUNK, "You can't make that without a copy of Worse Homes and Gardens.");
-
     // You trade tokens to Coin Masters if you have opted in to do so,
 
     if (Preferences.getBoolean("autoSatisfyWithCoinmasters")) {
@@ -2391,7 +2384,6 @@ public class ConcoctionDatabase {
       case CLIPART -> result.append("Summon Clip Art");
       case JARLS -> result.append("Jarlsberg's Kitchen");
       case GRANDMA -> result.append("Grandma Sea Monkee");
-      case JUNK -> result.append("Worse Homes and Gardens");
       case FIVE_D -> result.append("Xiblaxian 5D printer");
       case VYKEA -> result.append("VYKEA");
       case FLOUNDRY -> result.append("Clan Floundry");
@@ -2823,7 +2815,6 @@ public class ConcoctionDatabase {
       }
       case "GRANDMA" -> ConcoctionDatabase.mixingMethod = CraftingType.GRANDMA;
       case "KRINGLE" -> ConcoctionDatabase.mixingMethod = CraftingType.KRINGLE;
-      case "JUNK" -> ConcoctionDatabase.mixingMethod = CraftingType.JUNK;
       case "5D" -> ConcoctionDatabase.mixingMethod = CraftingType.FIVE_D;
       case "VYKEA" -> ConcoctionDatabase.mixingMethod = CraftingType.VYKEA;
       case "TERMINAL" -> ConcoctionDatabase.mixingMethod = CraftingType.TERMINAL;

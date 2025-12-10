@@ -109,6 +109,7 @@ import net.sourceforge.kolmafia.request.coinmaster.shop.GotporkOrphanageRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.GotporkPDRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.GuzzlrRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.IsotopeSmitheryRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.JunkMagazineRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.KOLHSArtRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.KOLHSChemRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.KOLHSShopRequest;
@@ -182,6 +183,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     addPanel(new BlackMarketPanel());
     addPanel(new HermitPanel());
     addPanel(new ShoreGiftShopPanel());
+    addPanel(new JunkMagazinePanel());
     addPanel(new TrapperPanel());
     addPanel(new VendingMachinePanel());
     addPanel(new SwaggerShopPanel());
@@ -711,6 +713,12 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     public ShoreGiftShopPanel() {
       super(ShoreGiftShopRequest.SHORE_GIFT_SHOP);
       PreferenceListenerRegistry.registerPreferenceListener("itemBoughtPerAscension637", this);
+    }
+  }
+
+  public class JunkMagazinePanel extends CoinmasterPanel {
+    public JunkMagazinePanel() {
+      super(JunkMagazineRequest.DATA);
     }
   }
 

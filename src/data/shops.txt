@@ -81,7 +81,7 @@ hippy	Hippy Store (Pre-War)	NPC
 infernodisco	Disco GiftCo	COIN
 jarl	Jarlsberg's Cosmic Kitchen	CONC	JARLS
 jewelers	Little Canadia Jewelers	NPC
-junkmagazine	Worse Homes and Gardens	CONC	JUNK
+junkmagazine	Worse Homes and Gardens	COIN
 kiwi	Kiwi Kwiki Mart	COIN
 knobdisp	The Knob Dispensary	NPC
 kolhs_art	Art Class (After School)	COIN

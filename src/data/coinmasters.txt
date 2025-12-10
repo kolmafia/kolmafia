@@ -592,6 +592,17 @@ The Shore, Inc. Gift Shop	buy	1	UV-resistant compass	ROW183
 The Shore, Inc. Gift Shop	buy	3	dinghy plans	ROW176
 The Shore, Inc. Gift Shop	buy	5	fuzzy dice	ROW177
 
+# Junk Magazine
+Worse Homes and Gardens	ROW184	junk junk	old claw-foot bathtub	old clothesline pole	antique cigar sign
+Worse Homes and Gardens	ROW188	junk food	jagged scrap metal	bent scrap metal	molten scrap metal
+Worse Homes and Gardens	ROW189	junk yard	jagged scrap metal	bent scrap metal	molten scrap metal
+Worse Homes and Gardens	ROW185	junk band	bent scrap metal	molten scrap metal (2)	tangle of copper wire	Junk-Bond
+Worse Homes and Gardens	ROW186	junk trunks	jagged scrap metal (2)	bent scrap metal	tangle of copper wire
+Worse Homes and Gardens	ROW187	junk-mail shirt	jagged scrap metal	bent scrap metal (2)	Junk-Bond
+Worse Homes and Gardens	ROW191	arm buzzer	bent scrap metal (2)	tangle of copper wire	Junk-Bond	eternal car battery
+Worse Homes and Gardens	ROW192	boilgun	molten scrap metal (2)	tangle of copper wire	Junk-Bond	eternal car battery
+Worse Homes and Gardens	ROW190	swordzall	jagged scrap metal (2)	tangle of copper wire	Junk-Bond	eternal car battery
+
 # Beer Garden
 Beer Garden	ROW214	can of Br&uuml;talbr&auml;u	handful of barley	cluster of hops
 Beer Garden	ROW215	can of Drooling Monk	handful of barley	cluster of hops

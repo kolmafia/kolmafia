@@ -69,6 +69,7 @@ import net.sourceforge.kolmafia.request.coinmaster.shop.GotporkOrphanageRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.GotporkPDRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.GuzzlrRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.IsotopeSmitheryRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.JunkMagazineRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.KOLHSArtRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.KOLHSChemRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.KOLHSShopRequest;
@@ -180,6 +181,7 @@ public abstract class CoinmasterRegistry {
         GuzzlrRequest.GUZZLR,
         HermitRequest.HERMIT,
         IsotopeSmitheryRequest.ISOTOPE_SMITHERY,
+        JunkMagazineRequest.DATA,
         KiwiKwikiMartRequest.DATA,
         KOLHSArtRequest.DATA,
         KOLHSChemRequest.DATA,

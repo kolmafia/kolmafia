@@ -497,7 +497,6 @@ public interface KoLConstants extends UtilityConstants {
     CLIPART, // Tome of Clip Art summons
     JARLS, // Items that can only be made by an Avatar of Jarlsberg
     GRANDMA, // Items made by Grandma Sea Monkee
-    JUNK, // Items made from using a Worse Homes and Gardens
     FIVE_D, // Xiblaxian 5d Printer
     VYKEA, // Items made with VYKEA instructions
     FLOUNDRY, // Items made in Clan Floundry
