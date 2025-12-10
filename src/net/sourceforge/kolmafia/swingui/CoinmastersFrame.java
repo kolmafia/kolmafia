@@ -541,18 +541,24 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
   public class KOLHSArtPanel extends CoinmasterPanel {
     public KOLHSArtPanel() {
       super(KOLHSArtRequest.DATA);
+      PreferenceListenerRegistry.registerPreferenceListener(
+          "lastKOLHSArtClassUnlockAdventure", this);
     }
   }
 
   public class KOLHSChemPanel extends CoinmasterPanel {
     public KOLHSChemPanel() {
       super(KOLHSChemRequest.DATA);
+      PreferenceListenerRegistry.registerPreferenceListener(
+          "lastKOLHSChemClassUnlockAdventure", this);
     }
   }
 
   public class KOLHSShopPanel extends CoinmasterPanel {
     public KOLHSShopPanel() {
       super(KOLHSShopRequest.DATA);
+      PreferenceListenerRegistry.registerPreferenceListener(
+          "lastKOLHSShopClassUnlockAdventure", this);
     }
   }
 

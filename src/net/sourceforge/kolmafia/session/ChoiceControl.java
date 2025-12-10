@@ -343,7 +343,6 @@ public abstract class ChoiceControl {
         // Like a Loded Stone
         if (ChoiceManager.lastDecision == 1) {
           Preferences.setInteger("lastShadowForgeUnlockAdventure", KoLCharacter.getCurrentRun());
-          ConcoctionDatabase.refreshConcoctions();
         }
       }
     }
@@ -1635,8 +1634,14 @@ public abstract class ChoiceControl {
           Preferences.setBoolean("_kolhsCutButNotDried", true);
         } else if (ChoiceManager.lastDecision == 5) {
           Preferences.setBoolean("_kolhsIsskayLikeAnAshtray", true);
+        } else if (ChoiceManager.lastDecision == 6) {
+          Preferences.setInteger("lastKOLHSChemClassUnlockAdventure", KoLCharacter.getCurrentRun());
+        } else if (ChoiceManager.lastDecision == 7) {
+          Preferences.setInteger("lastKOLHSArtClassUnlockAdventure", KoLCharacter.getCurrentRun());
+        } else if (ChoiceManager.lastDecision == 8) {
+          Preferences.setInteger("lastKOLHSShopClassUnlockAdventure", KoLCharacter.getCurrentRun());
         }
-        if (ChoiceManager.lastDecision != 8) {
+        if (ChoiceManager.lastDecision != 10) {
           Preferences.increment("_kolhsSavedByTheBell", 1);
         }
       }

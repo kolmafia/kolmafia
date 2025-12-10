@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.request.coinmaster.shop;
 
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.preferences.Preferences;
 
 public abstract class KOLHSArtRequest extends CoinMasterShopRequest {
   public static final String master = "Art Class (After School)";
@@ -13,9 +14,11 @@ public abstract class KOLHSArtRequest extends CoinMasterShopRequest {
           .withAccessible(KOLHSArtRequest::accessible);
 
   public static String accessible() {
-    if (KoLCharacter.inHighschool()) {
+    if (KoLCharacter.inHighschool()
+        && Preferences.getInteger("lastKOLHSArtClassUnlockAdventure")
+            == KoLCharacter.getCurrentRun()) {
       return null;
     }
-    return "You cannot make that as you are not at school.";
+    return "You need to be in Art Class to make that.";
   }
 }
