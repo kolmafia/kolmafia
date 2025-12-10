@@ -1946,18 +1946,12 @@ public class ConcoctionDatabase {
     ConcoctionDatabase.EXCUSE.put(
         CraftingType.SHOPCLASS, "You cannot make that as you are not at school.");
 
-    // Making stuff with Beer Garden ingredients needs
-    permitNoCost(CraftingType.BEER);
-
     // Making stuff with the Junk Magazine requires the magazine
     if (InventoryManager.hasItem(ItemPool.WORSE_HOMES_GARDENS)) {
       permitNoCost(CraftingType.JUNK);
     }
     ConcoctionDatabase.EXCUSE.put(
         CraftingType.JUNK, "You can't make that without a copy of Worse Homes and Gardens.");
-
-    // Making stuff with Winter Garden ingredients is always allowed
-    permitNoCost(CraftingType.WINTER);
 
     // Making stuff with Rumplestiltskin's Workshop is allowed when have access to it
     if (Preferences.getString("grimstoneMaskPath").equals("gnome")) {
@@ -2002,15 +1996,6 @@ public class ConcoctionDatabase {
 
     // Making stuff with globs of melted wax is always allowed
     permitNoCost(CraftingType.WAX);
-
-    // Making stuff with spant chitin/tendons is always allowed
-    permitNoCost(CraftingType.SPANT);
-
-    // Making stuff with Xes/Os is always allowed
-    permitNoCost(CraftingType.XO);
-
-    // Making stuff with Slime is always allowed
-    permitNoCost(CraftingType.SLIEMCE);
 
     // Making stuff with burning newspaper is always allowed
     permitNoCost(CraftingType.NEWSPAPER);
@@ -2454,9 +2439,7 @@ public class ConcoctionDatabase {
       case CLIPART -> result.append("Summon Clip Art");
       case JARLS -> result.append("Jarlsberg's Kitchen");
       case GRANDMA -> result.append("Grandma Sea Monkee");
-      case BEER -> result.append("Beer Garden");
       case JUNK -> result.append("Worse Homes and Gardens");
-      case WINTER -> result.append("Winter Garden");
       case FIVE_D -> result.append("Xiblaxian 5D printer");
       case VYKEA -> result.append("VYKEA");
       case DUTYFREE -> result.append("Elemental International Airport Duty Free Shop");
@@ -2464,10 +2447,7 @@ public class ConcoctionDatabase {
       case TERMINAL -> result.append("Source Terminal");
       case BARREL -> result.append("shrine to the Barrel god");
       case WAX -> result.append("globs of wax");
-      case SPANT -> result.append("spant pieces");
       case SPACEGATE -> result.append("Spacegate Equipment Requisition");
-      case XO -> result.append("XO Shop");
-      case SLIEMCE -> result.append("Mad Sliemce");
       case NEWSPAPER -> result.append("burning newspaper");
       case METEOROID -> result.append("metal meteoroid");
       case SAUSAGE_O_MATIC -> result.append("Kramco Sausage-o-Matic");
@@ -2897,9 +2877,7 @@ public class ConcoctionDatabase {
       }
       case "GRANDMA" -> ConcoctionDatabase.mixingMethod = CraftingType.GRANDMA;
       case "KRINGLE" -> ConcoctionDatabase.mixingMethod = CraftingType.KRINGLE;
-      case "BEER" -> ConcoctionDatabase.mixingMethod = CraftingType.BEER;
       case "JUNK" -> ConcoctionDatabase.mixingMethod = CraftingType.JUNK;
-      case "WINTER" -> ConcoctionDatabase.mixingMethod = CraftingType.WINTER;
       case "RUMPLE" -> ConcoctionDatabase.mixingMethod = CraftingType.RUMPLE;
       case "5D" -> ConcoctionDatabase.mixingMethod = CraftingType.FIVE_D;
       case "VYKEA" -> ConcoctionDatabase.mixingMethod = CraftingType.VYKEA;
@@ -2907,9 +2885,6 @@ public class ConcoctionDatabase {
       case "TERMINAL" -> ConcoctionDatabase.mixingMethod = CraftingType.TERMINAL;
       case "BARREL" -> ConcoctionDatabase.mixingMethod = CraftingType.BARREL;
       case "WAX" -> ConcoctionDatabase.mixingMethod = CraftingType.WAX;
-      case "SPANT" -> ConcoctionDatabase.mixingMethod = CraftingType.SPANT;
-      case "XOSHOP" -> ConcoctionDatabase.mixingMethod = CraftingType.XO;
-      case "SLIEMCE" -> ConcoctionDatabase.mixingMethod = CraftingType.SLIEMCE;
       case "SPACEGATE" -> ConcoctionDatabase.mixingMethod = CraftingType.SPACEGATE;
       case "NEWSPAPER" -> ConcoctionDatabase.mixingMethod = CraftingType.NEWSPAPER;
       case "METEOROID" -> ConcoctionDatabase.mixingMethod = CraftingType.METEOROID;

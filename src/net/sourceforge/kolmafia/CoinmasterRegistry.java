@@ -25,6 +25,7 @@ import net.sourceforge.kolmafia.request.coinmaster.shop.AppleStoreRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.ArmoryAndLeggeryRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.ArmoryRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.BatFabricatorRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.BeerGardenRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.BlackMarketRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.BoutiqueRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.BrogurtRequest;
@@ -87,7 +88,9 @@ import net.sourceforge.kolmafia.request.coinmaster.shop.SHAWARMARequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.SeptEmberCenserRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.ShoeRepairRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.ShoreGiftShopRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.SliemceRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.SpacegateFabricationRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.SpantRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.SpinMasterLatheRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.TacoDanRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.TerrifiedEagleInnRequest;
@@ -100,6 +103,8 @@ import net.sourceforge.kolmafia.request.coinmaster.shop.VendingMachineRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.WalMartRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.WarbearBoxRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.WetCrapForSaleRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.WinterGardenRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.XOShopRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.YeNeweSouvenirShoppeRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.YourCampfireRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -114,6 +119,7 @@ public abstract class CoinmasterRegistry {
         ArmoryAndLeggeryRequest.ARMORY_AND_LEGGERY,
         AWOLQuartermasterRequest.AWOL,
         BatFabricatorRequest.BAT_FABRICATOR,
+        BeerGardenRequest.DATA,
         BigBrotherRequest.BIG_BROTHER,
         BlackMarketRequest.BLACK_MARKET,
         BountyHunterHunterRequest.BHH,
@@ -189,9 +195,11 @@ public abstract class CoinmasterRegistry {
         SHAWARMARequest.SHAWARMA,
         ShoeRepairRequest.SHOE_REPAIR,
         ShoreGiftShopRequest.SHORE_GIFT_SHOP,
-        SpacegateFabricationRequest.SPACEGATE_STORE,
-        SpinMasterLatheRequest.YOUR_SPINMASTER_LATHE,
         SkeletonOfCrimboPastRequest.SKELETON_OF_CRIMBO_PAST,
+        SliemceRequest.DATA,
+        SpacegateFabricationRequest.SPACEGATE_STORE,
+        SpantRequest.DATA,
+        SpinMasterLatheRequest.YOUR_SPINMASTER_LATHE,
         SwaggerShopRequest.SWAGGER_SHOP,
         TacoDanRequest.TACO_DAN,
         TerrifiedEagleInnRequest.TERRIFIED_EAGLE_INN,
@@ -205,6 +213,8 @@ public abstract class CoinmasterRegistry {
         WalMartRequest.WALMART,
         WarbearBoxRequest.WARBEARBOX,
         WetCrapForSaleRequest.DATA,
+        WinterGardenRequest.DATA,
+        XOShopRequest.DATA,
         YeNeweSouvenirShoppeRequest.SHAKE_SHOP,
         YourCampfireRequest.YOUR_CAMPFIRE,
       };

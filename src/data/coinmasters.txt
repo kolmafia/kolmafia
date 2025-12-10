@@ -571,6 +571,17 @@ The Shore, Inc. Gift Shop	buy	1	UV-resistant compass	ROW183
 The Shore, Inc. Gift Shop	buy	3	dinghy plans	ROW176
 The Shore, Inc. Gift Shop	buy	5	fuzzy dice	ROW177
 
+# Beer Garden
+Beer Garden	ROW214	can of Br&uuml;talbr&auml;u	handful of barley	cluster of hops
+Beer Garden	ROW215	can of Drooling Monk	handful of barley	cluster of hops
+Beer Garden	ROW216	can of Impetuous Scofflaw	handful of barley	cluster of hops
+Beer Garden	ROW291	liquid bread	handful of barley	cluster of hops
+Beer Garden	ROW217	bottle of Old Pugilist	handful of barley	cluster of hops	fancy beer bottle	fancy beer label
+Beer Garden	ROW218	bottle of Professor Beer	handful of barley	cluster of hops	fancy beer bottle	fancy beer label
+Beer Garden	ROW219	bottle of Rapier Witbier	handful of barley	cluster of hops	fancy beer bottle	fancy beer label
+Beer Garden	ROW816	bottle of Fishhead 900-Day IPA	handful of barley	cluster of hops	fancy beer bottle	fancy beer label
+Beer Garden	ROW220	artisanal homebrew gift package	handful of barley (3)	cluster of hops (3)	fancy beer bottle (3)	fancy beer label (3)
+
 # Things you can buy with warbear whosits
 
 Warbear Black Box	buy	10	blind-packed die-cast metal toy	ROW224
@@ -582,6 +593,23 @@ Warbear Black Box	buy	200	warbear dress greaves	ROW242
 Warbear Black Box	buy	300	warbear dress bracers	ROW243
 Warbear Black Box	buy	400	warbear dress helmet	ROW244
 Warbear Black Box	buy	500	warbear officer requisition box	ROW226
+
+# Winter Garden
+Winter Gardening	ROW227	snow cleats	snow berries
+Winter Gardening	ROW228	liquid ice pack	ice harvest
+Winter Gardening	ROW230	snow crab	snow berries (2)
+Winter Gardening	ROW231	Ice Island Long Tea	snow berries	ice harvest (3)
+Winter Gardening	ROW229	snow boards	snow berries (2)
+Winter Gardening	ROW232	unfinished ice sculpture	snow berries (3)	ice harvest (3)
+Winter Gardening	ROW235	snow mobile	snow berries (3)	ice harvest (2)
+Winter Gardening	ROW236	ice bucket	ice harvest (3)
+Winter Gardening	ROW237	snow shovel	snow berries (4)	ice harvest
+Winter Gardening	ROW238	bod-ice	snow berries	ice harvest (4)
+Winter Gardening	ROW239	snow belt	snow berries (7)	ice harvest
+Winter Gardening	ROW240	ice nine	ice harvest (9)
+Winter Gardening	ROW233	ice house	ice harvest (8)
+Winter Gardening	ROW241	snow fort	snow berries (9)
+Winter Gardening	ROW234	snow machine	snow berries (30)	ice harvest (30)
 
 # Things you can buy with odd silver coins
 
@@ -924,6 +952,25 @@ Spacegate Fabrication Facility	buy	3000	Spacegate diplomat's insignia	ROW950
 Spacegate Fabrication Facility	buy	5000	Spacegate emergency disintegrator	ROW951
 Spacegate Fabrication Facility	buy	10000	Spacegate Initiative tattoo unit	ROW952
 
+# Spant Bit Assembly
+Spant Bit Assembly	ROW942	spant backplate	spant chitin (4)	spant tendon (6)
+Spant Bit Assembly	ROW940	spant shield	spant chitin (6)	spant tendon (4)
+Spant Bit Assembly	ROW941	spant shoulderpads	spant chitin (3)	spant tendon (7)
+Spant Bit Assembly	ROW939	spants	spant chitin (7)	spant tendon (3)
+
+# XO Shop
+XO Shop	ROW953	pair of candy glasses	O (2)
+XO Shop	ROW957	temporary X tattoos	X (2)
+XO Shop	ROW956	Hide-rox&trade; cookie	O (3)
+XO Shop	ROW955	jug of booze	X (3)
+XO Shop	ROW958	glyph of athleticism	O (5)
+XO Shop	ROW959	pair of scissors	O (2)	X (1)
+XO Shop	ROW960	new habit	X (31)
+XO Shop	ROW961	bridge truss	X (23)
+XO Shop	ROW962	pearl necklace	O (37)
+XO Shop	ROW963	amorphous blob	X (111)	O (111)
+XO Shop	ROW964	giant amorphous blob	giant X (11)	giant O (11)
+
 # Crimbo 2017
 Cheer-o-Vend 3000	buy	10	stale cheer wine	ROW966
 Cheer-o-Vend 3000	buy	10	stale Cheer-E-Os	ROW967
@@ -976,6 +1023,11 @@ G-Mart	buy	1	gaseous gravy	ROW1024
 G-Mart	buy	1	A-Boo glue	ROW1020
 G-Mart	buy	3	crude oil congealer	ROW1021
 G-Mart	buy	11	gattoo	ROW1019
+
+# Mad Sliemce
+Mad Sliemce	ROW1025	slime fedora	black slime glob (1)	orange slime glob (100)	green slime glob (10)
+Mad Sliemce	ROW1026	slime knuckles	black slime glob (1)	orange slime glob (50)	green slime glob (20)
+Mad Sliemce	ROW1027	slime waders	black slime glob (1)	orange slime glob (10)	green slime glob (30)
 
 # PirateRealm
 PirateRealm Fun-a-Log	buy	20	PirateRealm party hat	ROW1064

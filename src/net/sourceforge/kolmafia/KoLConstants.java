@@ -500,9 +500,7 @@ public interface KoLConstants extends UtilityConstants {
     CHEMCLASS, // Items made in Chemistry Class at KOLHS
     ARTCLASS, // Items made in Art Class at KOLHS
     SHOPCLASS, // Items made in Shop Class at KOLHS
-    BEER, // Items made with ingredients from A Beer Garden
     JUNK, // Items made from using a Worse Homes and Gardens
-    WINTER, // Items made with ingredients from A Winter Garden
     RUMPLE, // Items made at Rumpelstiltskin's Workshop
     FIVE_D, // Xiblaxian 5d Printer
     VYKEA, // Items made with VYKEA instructions
@@ -511,10 +509,7 @@ public interface KoLConstants extends UtilityConstants {
     TERMINAL, // Items extruded from Source Terminal
     BARREL, // Items granted at the Barrel Shrine
     WAX, // Items made from globs of melted wax
-    SPANT, // Items made from spant chitin/tendons
     SPACEGATE, // Items granted at Spacegate Equipment Requisition
-    XO, // Items made using Xes and Os
-    SLIEMCE, // Items made using slime blobs
     NEWSPAPER, // Items made from burning newspaper
     METEOROID, // Items made from metal meteoroid
     FANTASY_REALM, // Items made by visiting FantasyRealm welcome center

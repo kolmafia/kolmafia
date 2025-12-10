@@ -65,6 +65,7 @@ import net.sourceforge.kolmafia.request.coinmaster.shop.AppleStoreRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.ArmoryAndLeggeryRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.ArmoryRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.BatFabricatorRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.BeerGardenRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.BlackMarketRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.BoutiqueRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.BrogurtRequest;
@@ -98,6 +99,7 @@ import net.sourceforge.kolmafia.request.coinmaster.shop.EdShopRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.FDKOLRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.FancyDanRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.FishboneryRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.FixodentRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.FlowerTradeinRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.FunALogRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.GMartRequest;
@@ -126,7 +128,9 @@ import net.sourceforge.kolmafia.request.coinmaster.shop.SHAWARMARequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.SeptEmberCenserRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.ShoeRepairRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.ShoreGiftShopRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.SliemceRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.SpacegateFabricationRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.SpantRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.SpinMasterLatheRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.TacoDanRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.TerrifiedEagleInnRequest;
@@ -139,6 +143,8 @@ import net.sourceforge.kolmafia.request.coinmaster.shop.VendingMachineRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.WalMartRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.WarbearBoxRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.WetCrapForSaleRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.WinterGardenRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.XOShopRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.YeNeweSouvenirShoppeRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.YourCampfireRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -160,529 +166,145 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
 
     this.selectorPanel =
         new CardLayoutSelectorPanel("coinMasterIndex", "ABCDEFGHIJKLMNOPQRSTUVWXYZ");
-    JPanel panel;
 
     // Always available coinmasters
     this.selectorPanel.addCategory("Always Available");
 
-    panel = new JPanel(new BorderLayout());
-    var bhhPanel = new BountyHunterHunterPanel();
-    panel.add(bhhPanel);
-    this.selectorPanel.addPanel(bhhPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var mrStorePanel = new MrStorePanel();
-    panel.add(mrStorePanel);
-    this.selectorPanel.addPanel(mrStorePanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var armoryAndLeggeryPanel = new ArmoryAndLeggeryPanel();
-    panel.add(armoryAndLeggeryPanel);
-    this.selectorPanel.addPanel(armoryAndLeggeryPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var blackMarketPanel = new BlackMarketPanel();
-    panel.add(blackMarketPanel);
-    this.selectorPanel.addPanel(blackMarketPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var hermitPanel = new HermitPanel();
-    panel.add(hermitPanel);
-    this.selectorPanel.addPanel(hermitPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var shoreGiftShopPanel = new ShoreGiftShopPanel();
-    panel.add(shoreGiftShopPanel);
-    this.selectorPanel.addPanel(shoreGiftShopPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var trapperPanel = new TrapperPanel();
-    panel.add(trapperPanel);
-    this.selectorPanel.addPanel(trapperPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var vendingMachinePanel = new VendingMachinePanel();
-    panel.add(vendingMachinePanel);
-    this.selectorPanel.addPanel(vendingMachinePanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var swaggerShopPanel = new SwaggerShopPanel();
-    panel.add(swaggerShopPanel);
-    this.selectorPanel.addPanel(swaggerShopPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var nuggletcraftingPanel = new NuggletCraftingPanel();
-    panel.add(nuggletcraftingPanel);
-    this.selectorPanel.addPanel(nuggletcraftingPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var dripArmoryPanel = new DripArmoryPanel();
-    panel.add(dripArmoryPanel);
-    this.selectorPanel.addPanel(dripArmoryPanel.getPanelSelector(), panel);
+    addPanel(new BountyHunterHunterPanel());
+    addPanel(new MrStorePanel());
+    addPanel(new ArmoryAndLeggeryPanel());
+    addPanel(new BlackMarketPanel());
+    addPanel(new HermitPanel());
+    addPanel(new ShoreGiftShopPanel());
+    addPanel(new TrapperPanel());
+    addPanel(new VendingMachinePanel());
+    addPanel(new SwaggerShopPanel());
+    addPanel(new NuggletCraftingPanel());
+    addPanel(new DripArmoryPanel());
 
     // Ascension coinmasters
     this.selectorPanel.addSeparator();
     this.selectorPanel.addCategory("Ascension");
 
-    panel = new JPanel(new BorderLayout());
-    var dimemasterPanel = new DimemasterPanel();
-    panel.add(dimemasterPanel);
-    this.selectorPanel.addPanel(dimemasterPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var quartersmasterPanel = new QuartersmasterPanel();
-    panel.add(quartersmasterPanel);
-    this.selectorPanel.addPanel(quartersmasterPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var BURTPanel = new BURTPanel();
-    panel.add(BURTPanel);
-    this.selectorPanel.addPanel(BURTPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var fishboneryPanel = new FishboneryPanel();
-    panel.add(fishboneryPanel);
-    this.selectorPanel.addPanel(fishboneryPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var edshopPanel = new EdShopPanel();
-    panel.add(edshopPanel);
-    this.selectorPanel.addPanel(edshopPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var geneticFiddlingPanel = new GeneticFiddlingPanel();
-    panel.add(geneticFiddlingPanel);
-    this.selectorPanel.addPanel(geneticFiddlingPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var pokemporiumPanel = new PokemporiumPanel();
-    panel.add(pokemporiumPanel);
-    this.selectorPanel.addPanel(pokemporiumPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var gmartPanel = new GMartPanel();
-    panel.add(gmartPanel);
-    this.selectorPanel.addPanel(gmartPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var cosmicRaysBazaarPanel = new CosmicRaysBazaarPanel();
-    panel.add(cosmicRaysBazaarPanel);
-    this.selectorPanel.addPanel(cosmicRaysBazaarPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var plumberGearPanel = new PlumberGearPanel();
-    panel.add(plumberGearPanel);
-    this.selectorPanel.addPanel(plumberGearPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var plumberItemPanel = new PlumberItemPanel();
-    panel.add(plumberItemPanel);
-    this.selectorPanel.addPanel(plumberItemPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var dinostaurPanel = new DinostaurPanel();
-    panel.add(dinostaurPanel);
-    this.selectorPanel.addPanel(dinostaurPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var replicaMrStorePanel = new ReplicaMrStorePanel();
-    panel.add(replicaMrStorePanel);
-    this.selectorPanel.addPanel(replicaMrStorePanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var wetCrapForSalePanel = new WetCrapForSalePanel();
-    panel.add(wetCrapForSalePanel);
-    this.selectorPanel.addPanel(wetCrapForSalePanel.getPanelSelector(), panel);
+    addPanel(new DimemasterPanel());
+    addPanel(new QuartersmasterPanel());
+    addPanel(new BURTPanel());
+    addPanel(new FishboneryPanel());
+    addPanel(new EdShopPanel());
+    addPanel(new GeneticFiddlingPanel());
+    addPanel(new PokemporiumPanel());
+    addPanel(new GMartPanel());
+    addPanel(new CosmicRaysBazaarPanel());
+    addPanel(new PlumberGearPanel());
+    addPanel(new PlumberItemPanel());
+    addPanel(new DinostaurPanel());
+    addPanel(new ReplicaMrStorePanel());
+    addPanel(new WetCrapForSalePanel());
 
     // Aftercore coinmasters
     this.selectorPanel.addSeparator();
     this.selectorPanel.addCategory("Aftercore");
 
-    panel = new JPanel(new BorderLayout());
-    var bigBrotherPanel = new BigBrotherPanel();
-    panel.add(bigBrotherPanel);
-    this.selectorPanel.addPanel(bigBrotherPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var dedigitizerPanel = new DedigitizerPanel();
-    panel.add(dedigitizerPanel);
-    this.selectorPanel.addPanel(dedigitizerPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var terrifiedEagleInnPanel = new TerrifiedEagleInnPanel();
-    panel.add(terrifiedEagleInnPanel);
-    this.selectorPanel.addPanel(terrifiedEagleInnPanel.getPanelSelector(), panel);
+    addPanel(new BigBrotherPanel());
+    addPanel(new TerrifiedEagleInnPanel());
 
     // IOTM coinmasters
     this.selectorPanel.addSeparator();
     this.selectorPanel.addCategory("Item of the Month");
 
-    panel = new JPanel(new BorderLayout());
-    var arcadePanel = new TicketCounterPanel();
-    panel.add(arcadePanel);
-    this.selectorPanel.addPanel(arcadePanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var gameShoppePanel = new GameShoppePanel();
-    panel.add(gameShoppePanel);
-    this.selectorPanel.addPanel(gameShoppePanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var freeSnackPanel = new SnackVoucherPanel();
-    panel.add(freeSnackPanel);
-    this.selectorPanel.addPanel(freeSnackPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var isotopeSmitheryPanel = new IsotopeSmitheryPanel();
-    panel.add(isotopeSmitheryPanel);
-    this.selectorPanel.addPanel(isotopeSmitheryPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var dollhawkerPanel = new DollHawkerPanel();
-    panel.add(dollhawkerPanel);
-    this.selectorPanel.addPanel(dollhawkerPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var lunarLunchPanel = new LunarLunchPanel();
-    panel.add(lunarLunchPanel);
-    this.selectorPanel.addPanel(lunarLunchPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var boutiquePanel = new BoutiquePanel();
-    panel.add(boutiquePanel);
-    this.selectorPanel.addPanel(boutiquePanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var brogurtPanel = new BrogurtPanel();
-    panel.add(brogurtPanel);
-    this.selectorPanel.addPanel(brogurtPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var buffJimmyPanel = new BuffJimmyPanel();
-    panel.add(buffJimmyPanel);
-    this.selectorPanel.addPanel(buffJimmyPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var tacoDanPanel = new TacoDanPanel();
-    panel.add(tacoDanPanel);
-    this.selectorPanel.addPanel(tacoDanPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var SHAWARMAPanel = new SHAWARMAPanel();
-    panel.add(SHAWARMAPanel);
-    this.selectorPanel.addPanel(SHAWARMAPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var canteenPanel = new CanteenPanel();
-    panel.add(canteenPanel);
-    this.selectorPanel.addPanel(canteenPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var armoryPanel = new ArmoryPanel();
-    panel.add(armoryPanel);
-    this.selectorPanel.addPanel(armoryPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var dinseyCompanyStorePanel = new DinseyCompanyStorePanel();
-    panel.add(dinseyCompanyStorePanel);
-    this.selectorPanel.addPanel(dinseyCompanyStorePanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var toxicChemistryPanel = new ToxicChemistryPanel();
-    panel.add(toxicChemistryPanel);
-    this.selectorPanel.addPanel(toxicChemistryPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var discoGiftCoPanel = new DiscoGiftCoPanel();
-    panel.add(discoGiftCoPanel);
-    this.selectorPanel.addPanel(discoGiftCoPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var walmartPanel = new WalmartPanel();
-    panel.add(walmartPanel);
-    this.selectorPanel.addPanel(walmartPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var batFabricatorPanel = new BatFabricatorPanel();
-    panel.add(batFabricatorPanel);
-    this.selectorPanel.addPanel(batFabricatorPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var chemCorpPanel = new ChemiCorpPanel();
-    panel.add(chemCorpPanel);
-    this.selectorPanel.addPanel(chemCorpPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var gotporkOrphanagePanel = new GotporkOrphanagePanel();
-    panel.add(gotporkOrphanagePanel);
-    this.selectorPanel.addPanel(gotporkOrphanagePanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var gotporkPDPanel = new GotporkPDPanel();
-    panel.add(gotporkPDPanel);
-    this.selectorPanel.addPanel(gotporkPDPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var lttPanel = new LTTPanel();
-    panel.add(lttPanel);
-    this.selectorPanel.addPanel(lttPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var baconPanel = new BaconPanel();
-    panel.add(baconPanel);
-    this.selectorPanel.addPanel(baconPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var precinctPanel = new PrecinctPanel();
-    panel.add(precinctPanel);
-    this.selectorPanel.addPanel(precinctPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var cashewPanel = new CashewPanel();
-    panel.add(cashewPanel);
-    this.selectorPanel.addPanel(cashewPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var spacegateFabricationPanel = new SpacegateFabricationPanel();
-    panel.add(spacegateFabricationPanel);
-    this.selectorPanel.addPanel(spacegateFabricationPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var rubeePanel = new RubeePanel();
-    panel.add(rubeePanel);
-    this.selectorPanel.addPanel(rubeePanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var funALogPanel = new FunALogPanel();
-    panel.add(funALogPanel);
-    this.selectorPanel.addPanel(funALogPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var yourCampfirePanel = new YourCampfirePanel();
-    panel.add(yourCampfirePanel);
-    this.selectorPanel.addPanel(yourCampfirePanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var guzzlrPanel = new GuzzlrPanel();
-    panel.add(guzzlrPanel);
-    this.selectorPanel.addPanel(guzzlrPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var spinMasterLathePanel = new SpinMasterLathePanel();
-    panel.add(spinMasterLathePanel);
-    this.selectorPanel.addPanel(spinMasterLathePanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var fancyDanPanel = new FancyDanPanel();
-    panel.add(fancyDanPanel);
-    this.selectorPanel.addPanel(fancyDanPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var mrStore2002Panel = new MrStore2002Panel();
-    panel.add(mrStore2002Panel);
-    this.selectorPanel.addPanel(mrStore2002Panel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var kiwiKwikiMartPanel = new KiwiKwikiMartPanel();
-    panel.add(kiwiKwikiMartPanel);
-    this.selectorPanel.addPanel(kiwiKwikiMartPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var septEmberPanel = new SeptEmberPanel();
-    panel.add(septEmberPanel);
-    this.selectorPanel.addPanel(septEmberPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var showerThoughtsPanel = new ShowerThoughtsPanel();
-    panel.add(showerThoughtsPanel);
-    this.selectorPanel.addPanel(showerThoughtsPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var skeletonOfCrimboPastPanel = new SkeletonOfCrimboPastPanel();
-    panel.add(skeletonOfCrimboPastPanel);
-    this.selectorPanel.addPanel(skeletonOfCrimboPastPanel.getPanelSelector(), panel);
+    addPanel(new TicketCounterPanel());
+    addPanel(new GameShoppePanel());
+    addPanel(new SnackVoucherPanel());
+    addPanel(new IsotopeSmitheryPanel());
+    addPanel(new DollHawkerPanel());
+    addPanel(new LunarLunchPanel());
+    addPanel(new BeerGardenPanel());
+    addPanel(new WinterGardenPanel());
+    addPanel(new BoutiquePanel());
+    addPanel(new BrogurtPanel());
+    addPanel(new BuffJimmyPanel());
+    addPanel(new TacoDanPanel());
+    addPanel(new SHAWARMAPanel());
+    addPanel(new CanteenPanel());
+    addPanel(new ArmoryPanel());
+    addPanel(new DinseyCompanyStorePanel());
+    addPanel(new ToxicChemistryPanel());
+    addPanel(new DiscoGiftCoPanel());
+    addPanel(new WalmartPanel());
+    addPanel(new BatFabricatorPanel());
+    addPanel(new ChemiCorpPanel());
+    addPanel(new GotporkOrphanagePanel());
+    addPanel(new GotporkPDPanel());
+    addPanel(new LTTPanel());
+    addPanel(new BaconPanel());
+    addPanel(new PrecinctPanel());
+    addPanel(new CashewPanel());
+    addPanel(new SpacegateFabricationPanel());
+    addPanel(new SpantPanel());
+    addPanel(new XOPanel());
+    addPanel(new RubeePanel());
+    addPanel(new SliemcePanel());
+    addPanel(new FunALogPanel());
+    addPanel(new YourCampfirePanel());
+    addPanel(new GuzzlrPanel());
+    addPanel(new SpinMasterLathePanel());
+    addPanel(new FancyDanPanel());
+    addPanel(new MrStore2002Panel());
+    addPanel(new FixodentPanel());
+    addPanel(new KiwiKwikiMartPanel());
+    addPanel(new SeptEmberPanel());
+    addPanel(new DedigitizerPanel());
+    addPanel(new ShowerThoughtsPanel());
+    addPanel(new SkeletonOfCrimboPastPanel());
 
     // Twitch coinmasters
     this.selectorPanel.addSeparator();
     this.selectorPanel.addCategory("Twitch");
 
-    panel = new JPanel(new BorderLayout());
-    var neandermallPanel = new NeandermallPanel();
-    panel.add(neandermallPanel);
-    this.selectorPanel.addPanel(neandermallPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var shoeRepairPanel = new ShoeRepairPanel();
-    panel.add(shoeRepairPanel);
-    this.selectorPanel.addPanel(shoeRepairPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var applePanel = new ApplePanel();
-    panel.add(applePanel);
-    this.selectorPanel.addPanel(applePanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var ninjaPanel = new NinjaPanel();
-    panel.add(ninjaPanel);
-    this.selectorPanel.addPanel(ninjaPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var shakeShopPanel = new ShakeShopPanel();
-    panel.add(shakeShopPanel);
-    this.selectorPanel.addPanel(shakeShopPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var flowerTradeinPanel = new FlowerTradeinPanel();
-    panel.add(flowerTradeinPanel);
-    this.selectorPanel.addPanel(flowerTradeinPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var merchTablePanel = new MerchTablePanel();
-    panel.add(merchTablePanel);
-    this.selectorPanel.addPanel(merchTablePanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var twitchSoupPanel = new TwitchSoupPanel();
-    panel.add(twitchSoupPanel);
-    this.selectorPanel.addPanel(twitchSoupPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var alliedHqPanel = new AlliedHqPanel();
-    panel.add(alliedHqPanel);
-    this.selectorPanel.addPanel(alliedHqPanel.getPanelSelector(), panel);
+    addPanel(new NeandermallPanel());
+    addPanel(new ShoeRepairPanel());
+    addPanel(new ApplePanel());
+    addPanel(new NinjaPanel());
+    addPanel(new ShakeShopPanel());
+    addPanel(new FlowerTradeinPanel());
+    addPanel(new MerchTablePanel());
+    addPanel(new TwitchSoupPanel());
+    addPanel(new AlliedHqPanel());
 
     // Events coinmasters
     this.selectorPanel.addSeparator();
     this.selectorPanel.addCategory("Special Events");
 
-    panel = new JPanel(new BorderLayout());
-    var awolPanel = new CommendationPanel();
-    panel.add(awolPanel);
-    this.selectorPanel.addPanel(awolPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var fudgeWandPanel = new FudgeWandPanel();
-    panel.add(fudgeWandPanel);
-    this.selectorPanel.addPanel(fudgeWandPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var travelerPanel = new TravelingTraderPanel();
-    panel.add(travelerPanel);
-    this.selectorPanel.addPanel(travelerPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var fdkolPanel = new fdkolPanel();
-    panel.add(fdkolPanel);
-    this.selectorPanel.addPanel(fdkolPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var warbearBoxPanel = new WarbearBoxPanel();
-    panel.add(warbearBoxPanel);
-    this.selectorPanel.addPanel(warbearBoxPanel.getPanelSelector(), panel);
+    addPanel(new CommendationPanel());
+    addPanel(new FudgeWandPanel());
+    addPanel(new TravelingTraderPanel());
+    addPanel(new fdkolPanel());
+    addPanel(new WarbearBoxPanel());
 
     // Removed coinmasters
     this.selectorPanel.addSeparator();
     this.selectorPanel.addCategory("Removed");
 
-    panel = new JPanel(new BorderLayout());
-    var altarOfBonesPanel = new AltarOfBonesPanel();
-    panel.add(altarOfBonesPanel);
-    this.selectorPanel.addPanel(altarOfBonesPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var crimboCartelPanel = new CrimboCartelPanel();
-    panel.add(crimboCartelPanel);
-    this.selectorPanel.addPanel(crimboCartelPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var CRIMBCOGiftShopPanel = new CRIMBCOGiftShopPanel();
-    panel.add(CRIMBCOGiftShopPanel);
-    this.selectorPanel.addPanel(CRIMBCOGiftShopPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var crimbo11Panel = new Crimbo11Panel();
-    panel.add(crimbo11Panel);
-    this.selectorPanel.addPanel(crimbo11Panel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var crimbo14Panel = new Crimbo14Panel();
-    panel.add(crimbo14Panel);
-    this.selectorPanel.addPanel(crimbo14Panel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var crimbo17Panel = new Crimbo17Panel();
-    panel.add(crimbo17Panel);
-    this.selectorPanel.addPanel(crimbo17Panel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var crimbo20boozePanel = new Crimbo20BoozePanel();
-    panel.add(crimbo20boozePanel);
-    this.selectorPanel.addPanel(crimbo20boozePanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var crimbo20candyPanel = new Crimbo20CandyPanel();
-    panel.add(crimbo20candyPanel);
-    this.selectorPanel.addPanel(crimbo20candyPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var crimbo20foodPanel = new Crimbo20FoodPanel();
-    panel.add(crimbo20foodPanel);
-    this.selectorPanel.addPanel(crimbo20foodPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var crimbo23ElfBarPanel = new Crimbo23ElfBarPanel();
-    panel.add(crimbo23ElfBarPanel);
-    this.selectorPanel.addPanel(crimbo23ElfBarPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var crimbo23ElfCafePanel = new Crimbo23ElfCafePanel();
-    panel.add(crimbo23ElfCafePanel);
-    this.selectorPanel.addPanel(crimbo23ElfCafePanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var crimbo23ElfArmoryPanel = new Crimbo23ElfArmoryPanel();
-    panel.add(crimbo23ElfArmoryPanel);
-    this.selectorPanel.addPanel(crimbo23ElfArmoryPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var crimbo23ElfFactoryPanel = new Crimbo23ElfFactoryPanel();
-    panel.add(crimbo23ElfFactoryPanel);
-    this.selectorPanel.addPanel(crimbo23ElfFactoryPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var crimbo23PirateBarPanel = new Crimbo23PirateBarPanel();
-    panel.add(crimbo23PirateBarPanel);
-    this.selectorPanel.addPanel(crimbo23PirateBarPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var crimbo23PirateCafePanel = new Crimbo23PirateCafePanel();
-    panel.add(crimbo23PirateCafePanel);
-    this.selectorPanel.addPanel(crimbo23PirateCafePanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var crimbo23PirateArmoryPanel = new Crimbo23PirateArmoryPanel();
-    panel.add(crimbo23PirateArmoryPanel);
-    this.selectorPanel.addPanel(crimbo23PirateArmoryPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var crimbo23PirateFactoryPanel = new Crimbo23PirateFactoryPanel();
-    panel.add(crimbo23PirateFactoryPanel);
-    this.selectorPanel.addPanel(crimbo23PirateFactoryPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var crimbo24BarPanel = new Crimbo24BarPanel();
-    panel.add(crimbo24BarPanel);
-    this.selectorPanel.addPanel(crimbo24BarPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var crimbo24CafePanel = new Crimbo24CafePanel();
-    panel.add(crimbo24CafePanel);
-    this.selectorPanel.addPanel(crimbo24CafePanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    var crimbo24FactoryPanel = new Crimbo24FactoryPanel();
-    panel.add(crimbo24FactoryPanel);
-    this.selectorPanel.addPanel(crimbo24FactoryPanel.getPanelSelector(), panel);
+    addPanel(new AltarOfBonesPanel());
+    addPanel(new CrimboCartelPanel());
+    addPanel(new CRIMBCOGiftShopPanel());
+    addPanel(new Crimbo11Panel());
+    addPanel(new Crimbo14Panel());
+    addPanel(new Crimbo17Panel());
+    addPanel(new Crimbo20BoozePanel());
+    addPanel(new Crimbo20CandyPanel());
+    addPanel(new Crimbo20FoodPanel());
+    addPanel(new Crimbo23ElfBarPanel());
+    addPanel(new Crimbo23ElfCafePanel());
+    addPanel(new Crimbo23ElfArmoryPanel());
+    addPanel(new Crimbo23ElfFactoryPanel());
+    addPanel(new Crimbo23PirateBarPanel());
+    addPanel(new Crimbo23PirateCafePanel());
+    addPanel(new Crimbo23PirateArmoryPanel());
+    addPanel(new Crimbo23PirateFactoryPanel());
+    addPanel(new Crimbo24BarPanel());
+    addPanel(new Crimbo24CafePanel());
+    addPanel(new Crimbo24FactoryPanel());
 
     this.selectorPanel.addChangeListener(this);
     this.selectorPanel.setSelectedIndex(Preferences.getInteger("coinMasterIndex"));
@@ -697,7 +319,13 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
   private CoinmasterPanel currentPanel() {
     JComponent panel = this.selectorPanel.currentPanel();
     Component cm = (panel instanceof JPanel) ? panel.getComponent(0) : null;
-    return (cm instanceof CoinmasterPanel) ? ((CoinmasterPanel) cm) : null;
+    return (cm instanceof CoinmasterPanel cp) ? cp : null;
+  }
+
+  private void addPanel(CoinmasterPanel newPanel) {
+    var panel = new JPanel(new BorderLayout());
+    panel.add(newPanel);
+    this.selectorPanel.addPanel(newPanel.getPanelSelector(), panel);
   }
 
   /**
@@ -1053,6 +681,18 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
   public class SpacegateFabricationPanel extends CoinmasterPanel {
     public SpacegateFabricationPanel() {
       super(SpacegateFabricationRequest.SPACEGATE_STORE);
+    }
+  }
+
+  public class SpantPanel extends CoinmasterPanel {
+    public SpantPanel() {
+      super(SpantRequest.DATA);
+    }
+  }
+
+  public class XOPanel extends CoinmasterPanel {
+    public XOPanel() {
+      super(XOShopRequest.DATA);
     }
   }
 
@@ -1479,6 +1119,12 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     }
   }
 
+  private class SliemcePanel extends CoinmasterPanel {
+    public SliemcePanel() {
+      super(SliemceRequest.DATA);
+    }
+  }
+
   private class FunALogPanel extends CoinmasterPanel {
     public FunALogPanel() {
       super(FunALogRequest.FUN_A_LOG);
@@ -1538,9 +1184,21 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     }
   }
 
+  private class BeerGardenPanel extends CoinmasterPanel {
+    public BeerGardenPanel() {
+      super(BeerGardenRequest.DATA);
+    }
+  }
+
   private class WarbearBoxPanel extends CoinmasterPanel {
     public WarbearBoxPanel() {
       super(WarbearBoxRequest.WARBEARBOX);
+    }
+  }
+
+  private class WinterGardenPanel extends CoinmasterPanel {
+    public WinterGardenPanel() {
+      super(WinterGardenRequest.DATA);
     }
   }
 
@@ -1713,6 +1371,12 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
   private class MrStore2002Panel extends CoinmasterPanel {
     public MrStore2002Panel() {
       super(MrStore2002Request.MR_STORE_2002);
+    }
+  }
+
+  private class FixodentPanel extends CoinmasterPanel {
+    public FixodentPanel() {
+      super(FixodentRequest.DATA);
     }
   }
 

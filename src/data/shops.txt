@@ -11,7 +11,7 @@ batman_cave	Bat-Fabricator	COIN
 batman_chemicorp	ChemiCorp	COIN
 batman_orphanage	Gotpork Orphanage	COIN
 batman_pd	Gotpork P. D.	COIN
-beergarden	Beer Garden	CONC	BEER
+beergarden	Beer Garden	COIN
 blackmarket	The Black Market	NPCCOIN
 bugbear	Bugbear Bakery	NPC
 campfire	Your Campfire	COIN
@@ -117,9 +117,9 @@ showerthoughts	Using your Shower Thoughts	COIN
 si_shop1	The SHAWARMA Initiative	COIN
 si_shop2	The Canteen	COIN
 snackbar	Huggler Memorial Colosseum Snack Bar	NPC
-snowgarden	Winter Gardening	CONC	WINTER
+snowgarden	Winter Gardening	COIN
 spacegate	Spacegate Fabrication Facility	COIN
-spant	Spant Bit Assembly	CONC	SPANT
+spant	Spant Bit Assembly	COIN
 starchart	A Star Chart	CONC	STARCHART
 still	Nash Crosby's Still	CONC	STILL
 sugarsheets	Sugar Sheet Folding	CONC	SUGAR_FOLDING
@@ -135,9 +135,9 @@ unclep	Uncle P's Antiques	NPC
 vault1	Fallout Shelter Medical Supply	NPC
 vault2	Fallout Shelter Electronics Supply	NPC
 vault3	Underground Record Store	NPC
-voteslime	Mad Sliemce	CONC	SLIEMCE
+voteslime	Mad Sliemce	COIN
 warbear	Warbear Black Box	COIN
 wereprofessor_tinker	Tinkering Bench	CONC	TINKERING_BENCH
 whitecitadel	White Citadel	NPC
 wildfire	FDKOL Auxiliary	NPC
-xo	XO Shop	CONC	XO
+xo	XO Shop	COIN

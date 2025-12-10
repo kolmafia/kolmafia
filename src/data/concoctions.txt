@@ -2444,17 +2444,6 @@ tin foil	MUSE	fancy tin beer can (11)
 tin drum	MUSE	fancy tin beer can (16)
 tin roof (rusted)	MUSE	fancy tin beer can (32)
 
-# Beer Garden
-can of Br&uuml;talbr&auml;u	BEER, ROW214	handful of barley	cluster of hops
-can of Drooling Monk	BEER, ROW215	handful of barley	cluster of hops
-can of Impetuous Scofflaw	BEER, ROW216	handful of barley	cluster of hops
-liquid bread	BEER, ROW291	handful of barley	cluster of hops
-bottle of Old Pugilist	BEER, ROW217	handful of barley	cluster of hops	fancy beer bottle	fancy beer label
-bottle of Professor Beer	BEER, ROW218	handful of barley	cluster of hops	fancy beer bottle	fancy beer label
-bottle of Rapier Witbier	BEER, ROW219	handful of barley	cluster of hops	fancy beer bottle	fancy beer label
-bottle of Fishhead 900-Day IPA	BEER, ROW816	handful of barley	cluster of hops	fancy beer bottle	fancy beer label
-artisanal homebrew gift package	BEER, ROW220	handful of barley (3)	cluster of hops (3)	fancy beer bottle (3)	fancy beer label (3)
-
 # Junk Magazine
 junk junk	JUNK, ROW184	old claw-foot bathtub	old clothesline pole	antique cigar sign
 junk food	JUNK, ROW188	jagged scrap metal	bent scrap metal	molten scrap metal
@@ -2524,23 +2513,6 @@ warbear nuclear bowtie	MUSE	warbear accoutrements chunk (36)
 warbear warscarf	MUSE	warbear accoutrements chunk (9)
 warbear fleece-lined warscarf	MUSE	warbear accoutrements chunk (21)
 warbear electric warscarf	MUSE	warbear accoutrements chunk (35)
-
-# Winter Garden
-snow cleats	WINTER, ROW227	snow berries
-liquid ice pack	WINTER, ROW228	ice harvest
-snow crab	WINTER, ROW230	snow berries (2)
-Ice Island Long Tea	WINTER, ROW231	snow berries	ice harvest (3)
-snow boards	WINTER, ROW229	snow berries (2)
-unfinished ice sculpture	WINTER, ROW232	snow berries (3)	ice harvest (3)
-snow mobile	WINTER, ROW235	snow berries (3)	ice harvest (2)
-ice bucket	WINTER, ROW236	ice harvest (3)
-snow shovel	WINTER, ROW237	snow berries (4)	ice harvest
-bod-ice	WINTER, ROW238	snow berries	ice harvest (4)
-snow belt	WINTER, ROW239	snow berries (7)	ice harvest
-ice nine	WINTER, ROW240	ice harvest (9)
-ice house	WINTER, ROW233	ice harvest (8)
-snow fort	WINTER, ROW241	snow berries (9)
-snow machine	WINTER, ROW234	snow berries (30)	ice harvest (30)
 
 # Grimstone Mask content
 
@@ -2963,10 +2935,6 @@ murderbot mask	COMBINE	murderbot component casing	murderbot component casing
 murderbot shield unit	COMBINE	murderbot power cell	murderbot power cell
 murderbot spring injector	COMBINE	murderbot component casing	murderbot monofilament
 murderbot whip	COMBINE	murderbot monofilament	murderbot monofilament
-spant backplate	SPANT, ROW942	spant chitin (4)	spant tendon (6)
-spant shield	SPANT, ROW940	spant chitin (6)	spant tendon (4)
-spant shoulderpads	SPANT, ROW941	spant chitin (3)	spant tendon (7)
-spants	SPANT, ROW939	spant chitin (7)	spant tendon (3)
 filter helmet	SPACEGATE
 exo-servo leg braces	SPACEGATE
 rad cloak	SPACEGATE
@@ -2975,19 +2943,6 @@ high-friction boots	SPACEGATE
 geological sample kit	SPACEGATE
 botanical sample kit	SPACEGATE
 zoological sample kit	SPACEGATE
-
-# XO Shop
-pair of candy glasses	XOSHOP,ROW953	O (2)
-temporary X tattoos	XOSHOP,ROW957	X (2)
-Hide-rox&trade; cookie	XOSHOP,ROW956	O (3)
-jug of booze	XOSHOP,ROW955	X (3)
-glyph of athleticism	XOSHOP,ROW958	O (5)
-pair of scissors	XOSHOP,ROW959	O (2)	X (1)
-new habit	XOSHOP,ROW960	X (31)
-bridge truss	XOSHOP,ROW961	X (23)
-pearl necklace	XOSHOP,ROW962	O (37)
-amorphous blob	XOSHOP,ROW963	X (111)	O (111)
-giant amorphous blob	XOSHOP,ROW964	giant X (11)	giant O (11)
 
 # Crimbo 2017
 half double fruitcake	COOK	fruitcake	unfinished fruitcake
@@ -3022,9 +2977,6 @@ FantasyRealm Rogue's Mask	FANTASY_REALM
 glued A-Boo clue	SUSE	A-Boo glue	A-Boo clue
 
 # Voter Registation Form
-slime fedora	SLIEMCE,ROW1025	black slime glob (1)	orange slime glob (100)	green slime glob (10)
-slime knuckles	SLIEMCE,ROW1026	black slime glob (1)	orange slime glob (50)	green slime glob (20)
-slime waders	SLIEMCE,ROW1027	black slime glob (1)	orange slime glob (10)	green slime glob (30)
 haunted orange	COOK	ghostly ectoplasm	orange
 haunted pizza	COOK	ghostly ectoplasm	plain pizza
 haunted cherry pie	COOK	ghostly ectoplasm	cherry pie
