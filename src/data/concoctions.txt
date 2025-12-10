@@ -2030,17 +2030,6 @@ traffic jam toast	SUSE	traffic jam	toast
 space jam toast	SUSE	space jam	toast
 
 
-# Items created by folding sugar sheets
-
-sugar shotgun	SUGAR, ROW327	sugar sheet
-sugar shillelagh	SUGAR, ROW328	sugar sheet
-sugar shank	SUGAR, ROW329	sugar sheet
-sugar chapeau	SUGAR, ROW330	sugar sheet
-sugar shorts	SUGAR, ROW331	sugar sheet
-sugar shield	SUGAR, ROW332	sugar sheet
-sugar shirt	SUGAR, ROW333, TORSO	sugar sheet
-
-
 # Legendary Beat quest items
 squirmy violent party snack	COOK	a dance upon the palate	tiny frozen prehistoric meteorite jawbreaker
 world's most unappetizing beverage	MIX	hair of the calf	can of depilatory cream

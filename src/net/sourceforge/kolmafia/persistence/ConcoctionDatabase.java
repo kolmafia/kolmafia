@@ -1668,7 +1668,6 @@ public class ConcoctionDatabase {
     permitNoCost(CraftingType.STARCHART);
     permitNoCost(CraftingType.MULTI_USE);
     permitNoCost(CraftingType.SINGLE_USE);
-    permitNoCost(CraftingType.SUGAR_FOLDING);
 
     // Pixel recipes are not available in Kingdom of Exploathing
     if (!KoLCharacter.isKingdomOfExploathing()) {
@@ -2363,7 +2362,6 @@ public class ConcoctionDatabase {
       case MALUS -> result.append("Malus of Forethought");
       case JEWELRY -> result.append("Jewelry-making pliers");
       case STARCHART -> result.append("star chart");
-      case SUGAR_FOLDING -> result.append("sugar sheet");
       case PIXEL -> result.append("Crackpot Mystic");
       case ROLLING_PIN -> result.append("rolling pin/unrolling pin");
       case GNOME_TINKER -> result.append("Supertinkering");
@@ -2621,8 +2619,6 @@ public class ConcoctionDatabase {
       case "JEWEL" -> ConcoctionDatabase.mixingMethod = CraftingType.JEWELRY;
       // Items anybody can create with starcharts, stars, and lines
       case "STAR" -> ConcoctionDatabase.mixingMethod = CraftingType.STARCHART;
-      // Items anybody can create by folding sugar sheets
-      case "SUGAR" -> ConcoctionDatabase.mixingMethod = CraftingType.SUGAR_FOLDING;
       // Items anybody can create with pixels
       case "PIXEL" -> ConcoctionDatabase.mixingMethod = CraftingType.PIXEL;
       // Items created with a rolling pin or and an unrolling pin

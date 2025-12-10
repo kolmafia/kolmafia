@@ -139,6 +139,7 @@ import net.sourceforge.kolmafia.request.coinmaster.shop.SliemceRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.SpacegateFabricationRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.SpantRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.SpinMasterLatheRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.SugarSheetRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.TacoDanRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.TerrifiedEagleInnRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.ThankShopRequest;
@@ -223,6 +224,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     this.selectorPanel.addSeparator();
     this.selectorPanel.addCategory("Item of the Month");
 
+    addPanel(new SugarSheetPanel());
     addPanel(new TicketCounterPanel());
     addPanel(new GameShoppePanel());
     addPanel(new SnackVoucherPanel());
@@ -913,6 +915,12 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
       String title = buffer.toString();
       buffer.setLength(0);
       buffer.append(StringUtilities.getEntityDecode(title));
+    }
+  }
+
+  private class SugarSheetPanel extends CoinmasterPanel {
+    public SugarSheetPanel() {
+      super(SugarSheetRequest.DATA);
     }
   }
 

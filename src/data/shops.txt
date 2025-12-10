@@ -122,7 +122,7 @@ spacegate	Spacegate Fabrication Facility	COIN
 spant	Spant Bit Assembly	COIN
 starchart	A Star Chart	CONC	STARCHART
 still	Nash Crosby's Still	CONC	STILL
-sugarsheets	Sugar Sheet Folding	CONC	SUGAR_FOLDING
+sugarsheets	Sugar Sheet Folding	COIN
 thankshop	A traveling Thanksgiving salesman	COIN
 topiary	Topiary Nuggletcrafting	COIN
 town_giftshop.php	Gift Shop	NPC

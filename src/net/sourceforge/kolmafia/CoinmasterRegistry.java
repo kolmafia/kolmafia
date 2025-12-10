@@ -99,6 +99,7 @@ import net.sourceforge.kolmafia.request.coinmaster.shop.SliemceRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.SpacegateFabricationRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.SpantRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.SpinMasterLatheRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.SugarSheetRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.TacoDanRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.TerrifiedEagleInnRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.ThankShopRequest;
@@ -214,6 +215,7 @@ public abstract class CoinmasterRegistry {
         SpacegateFabricationRequest.SPACEGATE_STORE,
         SpantRequest.DATA,
         SpinMasterLatheRequest.YOUR_SPINMASTER_LATHE,
+        SugarSheetRequest.DATA,
         SwaggerShopRequest.SWAGGER_SHOP,
         TacoDanRequest.TACO_DAN,
         TerrifiedEagleInnRequest.TERRIFIED_EAGLE_INN,

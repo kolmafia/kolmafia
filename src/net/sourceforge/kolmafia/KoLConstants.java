@@ -488,7 +488,6 @@ public interface KoLConstants extends UtilityConstants {
     CRIMBO07, // Items formerly creatable in Crimbo Town during Crimbo 2007
     CRIMBO12, // Items creatable in Crimbo Town during Crimbo 2012
     CRIMBO16, // Items creatable in Crimbo Town during Crimbo 2016
-    SUGAR_FOLDING, // Items anybody can create by folding a sugar sheet
     PHINEAS, // Items requiring access to Phineas
     COOK_FANCY, // Items created with an Dramatic Range
     MIX_FANCY, // Items created with a Cocktailcrafting Kit

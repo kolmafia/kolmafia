@@ -135,6 +135,16 @@ Crimbo Cartel	buy	2000	snow pants
 Crimbo Cartel	buy	5000	pile of loose snow
 Crimbo Cartel	buy	10000	Crimbough
 
+# Items created by folding sugar sheets
+
+Sugar Sheet Folding	ROW327	sugar shotgun	sugar sheet
+Sugar Sheet Folding	ROW328	sugar shillelagh	sugar sheet
+Sugar Sheet Folding	ROW329	sugar shank	sugar sheet
+Sugar Sheet Folding	ROW330	sugar chapeau	sugar sheet
+Sugar Sheet Folding	ROW331	sugar shorts	sugar sheet
+Sugar Sheet Folding	ROW332	sugar shield	sugar sheet
+Sugar Sheet Folding	ROW333	sugar shirt	sugar sheet
+
 # Things you can buy with Game Grid tickets
 
 Arcade Ticket Counter	buy	1	finger cuffs	ROW359

@@ -16,7 +16,6 @@ import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.concoction.shop.FiveDPrinterRequest;
 import net.sourceforge.kolmafia.request.concoction.shop.StillRequest;
-import net.sourceforge.kolmafia.request.concoction.shop.SugarSheetRequest;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.shop.ShopDatabase.SHOP;
 import net.sourceforge.kolmafia.shop.ShopRowDatabase.ShopRowData;
@@ -208,11 +207,6 @@ public class ShopRequest extends GenericRequest {
       case "5dprinter" -> {
         FiveDPrinterRequest.parseResponse(urlString, responseText);
         break;
-      }
-      case "sugarsheets" -> {
-        // Sugar Sheet folding always removes exactly one.
-        SugarSheetRequest.parseResponse(urlString, responseText);
-        return;
       }
     }
 
