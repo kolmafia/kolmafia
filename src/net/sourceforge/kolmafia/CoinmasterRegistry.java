@@ -20,6 +20,7 @@ import net.sourceforge.kolmafia.request.coinmaster.QuartersmasterRequest;
 import net.sourceforge.kolmafia.request.coinmaster.SkeletonOfCrimboPastRequest;
 import net.sourceforge.kolmafia.request.coinmaster.SwaggerShopRequest;
 import net.sourceforge.kolmafia.request.coinmaster.TravelingTraderRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.AirportRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.AlliedHqRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.AppleStoreRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.ArmoryAndLeggeryRequest;
@@ -112,6 +113,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public abstract class CoinmasterRegistry {
   public static final CoinmasterData[] COINMASTERS =
       new CoinmasterData[] {
+        AirportRequest.DATA,
         AlliedHqRequest.DATA,
         AltarOfBonesRequest.ALTAR_OF_BONES,
         AppleStoreRequest.APPLE_STORE,

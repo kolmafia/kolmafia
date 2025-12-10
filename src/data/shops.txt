@@ -1,6 +1,6 @@
 2
 5dprinter	Xiblaxian 5D printer	CONC	FIVE_D
-airport	Elemental Duty Free, Inc.	CONC	DUTYFREE
+airport	Elemental Duty Free, Inc.	COIN
 applestore	The Applecalypse Store	COIN
 arcade	Arcade Ticket Counter	COIN
 armory	Armory and Leggery	NPCCOIN

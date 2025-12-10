@@ -60,6 +60,7 @@ import net.sourceforge.kolmafia.request.coinmaster.QuartersmasterRequest;
 import net.sourceforge.kolmafia.request.coinmaster.SkeletonOfCrimboPastRequest;
 import net.sourceforge.kolmafia.request.coinmaster.SwaggerShopRequest;
 import net.sourceforge.kolmafia.request.coinmaster.TravelingTraderRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.AirportRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.AlliedHqRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.AppleStoreRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.ArmoryAndLeggeryRequest;
@@ -231,6 +232,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     addPanel(new ToxicChemistryPanel());
     addPanel(new DiscoGiftCoPanel());
     addPanel(new WalmartPanel());
+    addPanel(new AirportPanel());
     addPanel(new BatFabricatorPanel());
     addPanel(new ChemiCorpPanel());
     addPanel(new GotporkOrphanagePanel());
@@ -1054,6 +1056,12 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
   private class WalmartPanel extends CoinmasterPanel {
     public WalmartPanel() {
       super(WalMartRequest.WALMART);
+    }
+  }
+
+  private class AirportPanel extends CoinmasterPanel {
+    public AirportPanel() {
+      super(AirportRequest.DATA);
     }
   }
 

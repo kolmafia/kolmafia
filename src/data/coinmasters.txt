@@ -826,6 +826,15 @@ Wal-Mart	buy	150	The Chill of the Wild	ROW770
 Wal-Mart	buy	150	Cold Fang	ROW772
 Wal-Mart	buy	250	Wal-Mart tattoo kit	ROW771
 
+# Elemental Duty Free, Inc.
+
+Elemental Duty Free, Inc.	ROW776	That 70s Cologne	Volcoino (5)
+Elemental Duty Free, Inc.	ROW778	Puffstone cigar	FunFunds&trade; (20)
+Elemental Duty Free, Inc.	ROW777	Wal-Mart &quot;diamond&quot; ring	Wal-Mart gift certificate (50)
+Elemental Duty Free, Inc.	ROW779	Conspiracy&trade; mascara	Coinspiracy (75)
+Elemental Duty Free, Inc.	ROW780	Spring Break Beach &quot;swimsuit&quot;	Beach Buck (125)
+Elemental Duty Free, Inc.	ROW781	airplane tattoo	Volcoino (20)	FunFunds&trade; (80)	Wal-Mart gift certificate (200)	Coinspiracy (300)	Beach Buck (500)
+
 # Things you can Bat-Fabricate
 
 Bat-Fabricator	buy	3	bat-oomerang	ROW782

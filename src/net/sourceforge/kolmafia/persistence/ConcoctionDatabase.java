@@ -2100,19 +2100,6 @@ public class ConcoctionDatabase {
     }
     ConcoctionDatabase.EXCUSE.put(CraftingType.JARLS, "You are not an Avatar of Jarlsberg");
 
-    if (Preferences.getBoolean("coldAirportAlways")
-        || Preferences.getBoolean("hotAirportAlways")
-        || Preferences.getBoolean("spookyAirportAlways")
-        || Preferences.getBoolean("stenchAirportAlways")
-        || Preferences.getBoolean("sleazeAirportAlways")
-        || Preferences.getBoolean("_coldAirportToday")
-        || Preferences.getBoolean("_hotAirportToday")
-        || Preferences.getBoolean("_spookyAirportToday")
-        || Preferences.getBoolean("_stenchAirportToday")
-        || Preferences.getBoolean("_sleazeAirportToday")) {
-      permitNoCost(CraftingType.DUTYFREE);
-    }
-
     // It's Crimbo, so allow creation!
     // permitNoCost( CraftingType.CRIMBO16 );
 
@@ -2442,7 +2429,6 @@ public class ConcoctionDatabase {
       case JUNK -> result.append("Worse Homes and Gardens");
       case FIVE_D -> result.append("Xiblaxian 5D printer");
       case VYKEA -> result.append("VYKEA");
-      case DUTYFREE -> result.append("Elemental International Airport Duty Free Shop");
       case FLOUNDRY -> result.append("Clan Floundry");
       case TERMINAL -> result.append("Source Terminal");
       case BARREL -> result.append("shrine to the Barrel god");
@@ -2881,7 +2867,6 @@ public class ConcoctionDatabase {
       case "RUMPLE" -> ConcoctionDatabase.mixingMethod = CraftingType.RUMPLE;
       case "5D" -> ConcoctionDatabase.mixingMethod = CraftingType.FIVE_D;
       case "VYKEA" -> ConcoctionDatabase.mixingMethod = CraftingType.VYKEA;
-      case "DUTYFREE" -> ConcoctionDatabase.mixingMethod = CraftingType.DUTYFREE;
       case "TERMINAL" -> ConcoctionDatabase.mixingMethod = CraftingType.TERMINAL;
       case "BARREL" -> ConcoctionDatabase.mixingMethod = CraftingType.BARREL;
       case "WAX" -> ConcoctionDatabase.mixingMethod = CraftingType.WAX;
