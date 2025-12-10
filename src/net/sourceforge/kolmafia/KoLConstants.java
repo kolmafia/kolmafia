@@ -497,9 +497,6 @@ public interface KoLConstants extends UtilityConstants {
     CLIPART, // Tome of Clip Art summons
     JARLS, // Items that can only be made by an Avatar of Jarlsberg
     GRANDMA, // Items made by Grandma Sea Monkee
-    CHEMCLASS, // Items made in Chemistry Class at KOLHS
-    ARTCLASS, // Items made in Art Class at KOLHS
-    SHOPCLASS, // Items made in Shop Class at KOLHS
     JUNK, // Items made from using a Worse Homes and Gardens
     RUMPLE, // Items made at Rumpelstiltskin's Workshop
     FIVE_D, // Xiblaxian 5d Printer

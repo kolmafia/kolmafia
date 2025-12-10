@@ -74,7 +74,6 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.FamTeamRequest.PokeBoost;
 import net.sourceforge.kolmafia.request.coinmaster.BountyHunterHunterRequest;
-import net.sourceforge.kolmafia.request.concoction.shop.KOLHSRequest;
 import net.sourceforge.kolmafia.session.AutumnatonManager;
 import net.sourceforge.kolmafia.session.BanishManager;
 import net.sourceforge.kolmafia.session.BanishManager.Banisher;
@@ -3440,7 +3439,7 @@ public class FightRequest extends GenericRequest {
 
     int adventure = KoLAdventure.lastAdventureId();
 
-    if (KOLHSRequest.isKOLHSLocation(adventure)) {
+    if (isKOLHSLocation(adventure)) {
       Preferences.increment("_kolhsAdventures", 1);
     }
 
@@ -4442,6 +4441,17 @@ public class FightRequest extends GenericRequest {
     if (FightRequest.inMultiFight && responseText.contains("The barrier between world")) {
       KoLAdventure.lastLocationName = "Eldritch Attunement";
     }
+  }
+
+  private static final boolean isKOLHSLocation(final int adventureId) {
+    return switch (adventureId) {
+      case AdventurePool.THE_HALLOWED_HALLS,
+          AdventurePool.SHOP_CLASS,
+          AdventurePool.CHEMISTRY_CLASS,
+          AdventurePool.ART_CLASS ->
+          true;
+      default -> false;
+    };
   }
 
   // <p>You see a strange cartouche painted on a nearby wall.<div style='position: relative;

@@ -1931,21 +1931,6 @@ public class ConcoctionDatabase {
     }
     ConcoctionDatabase.EXCUSE.put(CraftingType.GRANDMA, "You must rescue Grandma first.");
 
-    // KOLHS concoctions are "permitted" so that we can calculate
-    // how many items are allowed given available ingredients
-    // But only in KOLHS!
-    if (KoLCharacter.inHighschool()) {
-      permitNoCost(CraftingType.CHEMCLASS);
-      permitNoCost(CraftingType.ARTCLASS);
-      permitNoCost(CraftingType.SHOPCLASS);
-    }
-    ConcoctionDatabase.EXCUSE.put(
-        CraftingType.CHEMCLASS, "You cannot make that as you are not at school.");
-    ConcoctionDatabase.EXCUSE.put(
-        CraftingType.ARTCLASS, "You cannot make that as you are not at school.");
-    ConcoctionDatabase.EXCUSE.put(
-        CraftingType.SHOPCLASS, "You cannot make that as you are not at school.");
-
     // Making stuff with the Junk Magazine requires the magazine
     if (InventoryManager.hasItem(ItemPool.WORSE_HOMES_GARDENS)) {
       permitNoCost(CraftingType.JUNK);
@@ -2403,9 +2388,6 @@ public class ConcoctionDatabase {
       case STARCHART -> result.append("star chart");
       case SUGAR_FOLDING -> result.append("sugar sheet");
       case PIXEL -> result.append("Crackpot Mystic");
-      case CHEMCLASS -> result.append("Chemistry Class");
-      case ARTCLASS -> result.append("Art Class");
-      case SHOPCLASS -> result.append("Shop Class");
       case RUMPLE -> result.append("Rumpelstiltskin's Workshop");
       case ROLLING_PIN -> result.append("rolling pin/unrolling pin");
       case GNOME_TINKER -> result.append("Supertinkering");
@@ -2669,10 +2651,6 @@ public class ConcoctionDatabase {
       case "SUGAR" -> ConcoctionDatabase.mixingMethod = CraftingType.SUGAR_FOLDING;
       // Items anybody can create with pixels
       case "PIXEL" -> ConcoctionDatabase.mixingMethod = CraftingType.PIXEL;
-      // Items anybody can create in KOLHS
-      case "CHEMCLASS" -> ConcoctionDatabase.mixingMethod = CraftingType.CHEMCLASS;
-      case "ARTCLASS" -> ConcoctionDatabase.mixingMethod = CraftingType.ARTCLASS;
-      case "SHOPCLASS" -> ConcoctionDatabase.mixingMethod = CraftingType.SHOPCLASS;
       // Items created with a rolling pin or and an unrolling pin
       case "ROLL" -> ConcoctionDatabase.mixingMethod = CraftingType.ROLLING_PIN;
       // Items requiring access to the Gnome supertinker

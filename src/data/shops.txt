@@ -84,9 +84,9 @@ jewelers	Little Canadia Jewelers	NPC
 junkmagazine	Worse Homes and Gardens	CONC	JUNK
 kiwi	Kiwi Kwiki Mart	COIN
 knobdisp	The Knob Dispensary	NPC
-kolhs_art	Art Class (After School)	CONC	ARTCLASS
-kolhs_chem	Chemistry Class (After School)	CONC	CHEMCLASS
-kolhs_shop	Shop Class (After School)	CONC	SHOPCLASS
+kolhs_art	Art Class (After School)	COIN
+kolhs_chem	Chemistry Class (After School)	COIN
+kolhs_shop	Shop Class (After School)	COIN
 landfillstore	The Dinsey Company Store	COIN
 lathe	Your SpinMaster&trade; lathe	COIN
 ltt	LT&T Gift Shop	COIN

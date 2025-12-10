@@ -69,6 +69,9 @@ import net.sourceforge.kolmafia.request.coinmaster.shop.GotporkOrphanageRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.GotporkPDRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.GuzzlrRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.IsotopeSmitheryRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.KOLHSArtRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.KOLHSChemRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.KOLHSShopRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.KiwiKwikiMartRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.LTTRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.LunarLunchRequest;
@@ -176,6 +179,9 @@ public abstract class CoinmasterRegistry {
         HermitRequest.HERMIT,
         IsotopeSmitheryRequest.ISOTOPE_SMITHERY,
         KiwiKwikiMartRequest.DATA,
+        KOLHSArtRequest.DATA,
+        KOLHSChemRequest.DATA,
+        KOLHSShopRequest.DATA,
         LTTRequest.LTT,
         LunarLunchRequest.LUNAR_LUNCH,
         MemeShopRequest.BACON_STORE,

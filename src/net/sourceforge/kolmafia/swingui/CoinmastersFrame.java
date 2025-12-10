@@ -109,6 +109,9 @@ import net.sourceforge.kolmafia.request.coinmaster.shop.GotporkOrphanageRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.GotporkPDRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.GuzzlrRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.IsotopeSmitheryRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.KOLHSArtRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.KOLHSChemRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.KOLHSShopRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.KiwiKwikiMartRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.LTTRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.LunarLunchRequest;
@@ -190,6 +193,9 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     addPanel(new DimemasterPanel());
     addPanel(new QuartersmasterPanel());
     addPanel(new BURTPanel());
+    addPanel(new KOLHSArtPanel());
+    addPanel(new KOLHSChemPanel());
+    addPanel(new KOLHSShopPanel());
     addPanel(new FishboneryPanel());
     addPanel(new EdShopPanel());
     addPanel(new GeneticFiddlingPanel());
@@ -525,6 +531,24 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
   public class BURTPanel extends CoinmasterPanel {
     public BURTPanel() {
       super(BURTRequest.BURT);
+    }
+  }
+
+  public class KOLHSArtPanel extends CoinmasterPanel {
+    public KOLHSArtPanel() {
+      super(KOLHSArtRequest.DATA);
+    }
+  }
+
+  public class KOLHSChemPanel extends CoinmasterPanel {
+    public KOLHSChemPanel() {
+      super(KOLHSChemRequest.DATA);
+    }
+  }
+
+  public class KOLHSShopPanel extends CoinmasterPanel {
+    public KOLHSShopPanel() {
+      super(KOLHSShopRequest.DATA);
     }
   }
 
