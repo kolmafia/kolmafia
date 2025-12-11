@@ -1,4 +1,4 @@
-package net.sourceforge.kolmafia.request;
+package net.sourceforge.kolmafia.request.concoction;
 
 import static internal.helpers.Player.withFamiliarInTerrarium;
 import static internal.helpers.Player.withProperty;
@@ -10,7 +10,6 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.concoction.StillSuitRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

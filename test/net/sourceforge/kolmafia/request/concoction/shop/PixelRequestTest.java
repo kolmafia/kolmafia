@@ -1,4 +1,4 @@
-package net.sourceforge.kolmafia.request;
+package net.sourceforge.kolmafia.request.concoction.shop;
 
 import static internal.helpers.Networking.html;
 import static internal.matchers.Item.isInInventory;
@@ -10,7 +10,6 @@ import java.util.Set;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.request.concoction.shop.PixelRequest;
 import net.sourceforge.kolmafia.shop.ShopRequest;
 import org.junit.jupiter.api.Test;
 
