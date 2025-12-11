@@ -1524,22 +1524,6 @@ tempura cucumber	TEMPURA	bubbling tempura batter	sea cucumber
 tempura radish	TEMPURA	bubbling tempura batter	sea radish
 tempura air	TEMPURA	bubbling tempura batter	[0]
 
-# Star Chart items
-
-star boomerang	STAR, ROW144	star chart	star (4)	line (5)
-star buckler	STAR, ROW138	star chart	star (4)	line (6)
-star crossbow	STAR, ROW134	star chart	star (5)	line (6)
-star hat	STAR, ROW137	star chart	star (5)	line (3)
-star pants	STAR, ROW136	star chart	star (7)	line (7)
-star spatula	STAR, ROW145	star chart	star (5)	line (5)
-star staff	STAR, ROW135	star chart	star (6)	line (5)
-star starfish	STAR, ROW140	star chart	star (6)	line (4)
-star stiletto	STAR, ROW143	star chart	star (5)	line (4)
-star sword	STAR, ROW133	star chart	star (7)	line (4)
-star throwing star	STAR, ROW139	star chart	star (4)	line (2)
-Richard's star key	STAR, ROW141	star chart	star (8)	line (7)
-star shirt	STAR, TORSO, ROW142	star chart	star (15)	line (15)
-
 
 # Pixel items.  These are items which are created at the Crackpot
 # mystic after collecting enough pixels.

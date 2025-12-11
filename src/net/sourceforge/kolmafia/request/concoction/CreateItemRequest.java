@@ -37,7 +37,6 @@ import net.sourceforge.kolmafia.request.concoction.shop.GrandmaRequest;
 import net.sourceforge.kolmafia.request.concoction.shop.JarlsbergRequest;
 import net.sourceforge.kolmafia.request.concoction.shop.KringleRequest;
 import net.sourceforge.kolmafia.request.concoction.shop.PixelRequest;
-import net.sourceforge.kolmafia.request.concoction.shop.StarChartRequest;
 import net.sourceforge.kolmafia.request.concoction.shop.StillRequest;
 import net.sourceforge.kolmafia.request.concoction.shop.TinkeringBenchRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -220,7 +219,6 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
     return switch (conc.getMixingMethod()) {
       case NOCREATE -> null;
       case STILL -> new StillRequest(conc);
-      case STARCHART -> new StarChartRequest(conc);
       case PIXEL -> new PixelRequest(conc);
       case GNOME_TINKER -> new GnomeTinkerRequest(conc);
       case STAFF -> new ChefStaffRequest(conc);

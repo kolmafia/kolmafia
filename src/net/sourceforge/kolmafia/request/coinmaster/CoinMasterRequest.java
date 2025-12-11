@@ -240,24 +240,39 @@ public class CoinMasterRequest extends GenericRequest {
       return;
     }
 
-    this.setCount(this.quantity);
+    int count = this.setCount(this.quantity);
 
     String master = data.getMaster();
-    KoLmafia.updateDisplay("Visiting the " + master + "...");
-    super.run();
 
-    if (this.responseText.contains("You don't have enough")) {
-      KoLmafia.updateDisplay(MafiaState.ERROR, "You can't afford that item.");
-    }
+    // coinmasters that don't support quantity need multiple visits
+    int visits = data.getCountField() == null ? count : 1;
+    int visit = 0;
 
-    if (this.responseText.contains("You don't have that many of that item")) {
-      KoLmafia.updateDisplay(MafiaState.ERROR, "You don't have that many of that item to turn in.");
-    }
+    while (KoLmafia.permitsContinue() && ++visit <= visits) {
+      if (visits > 1) {
+        KoLmafia.updateDisplay("Visiting the " + master + " (" + visit + " of " + visits + ")...");
+      } else if (visits == 1) {
+        KoLmafia.updateDisplay("Visiting the " + master + "...");
+      }
 
-    if (KoLmafia.permitsContinue()) {
-      AdventureResult item = this.row.getItem();
-      if (item.isSkill()) {
-        ResponseTextParser.learnSkill(item.getSkillId());
+      super.run();
+
+      if (this.responseText.contains("You don't have enough")) {
+        KoLmafia.updateDisplay(MafiaState.ERROR, "You can't afford that item.");
+        break;
+      }
+
+      if (this.responseText.contains("You don't have that many of that item")) {
+        KoLmafia.updateDisplay(
+            MafiaState.ERROR, "You don't have that many of that item to turn in.");
+        break;
+      }
+
+      if (KoLmafia.permitsContinue()) {
+        AdventureResult item = this.row.getItem();
+        if (item.isSkill()) {
+          ResponseTextParser.learnSkill(item.getSkillId());
+        }
       }
     }
   }

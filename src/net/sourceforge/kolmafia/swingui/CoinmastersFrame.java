@@ -139,6 +139,7 @@ import net.sourceforge.kolmafia.request.coinmaster.shop.SliemceRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.SpacegateFabricationRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.SpantRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.SpinMasterLatheRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.StarChartRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.SugarSheetRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.TacoDanRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.TerrifiedEagleInnRequest;
@@ -195,6 +196,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     this.selectorPanel.addSeparator();
     this.selectorPanel.addCategory("Ascension");
 
+    addPanel(new StarChartPanel());
     addPanel(new DimemasterPanel());
     addPanel(new QuartersmasterPanel());
     addPanel(new BURTPanel());
@@ -353,6 +355,12 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     CoinmasterPanel current = this.currentPanel();
     if (current != null) {
       current.setTitle();
+    }
+  }
+
+  private class StarChartPanel extends CoinmasterPanel {
+    public StarChartPanel() {
+      super(StarChartRequest.DATA);
     }
   }
 
