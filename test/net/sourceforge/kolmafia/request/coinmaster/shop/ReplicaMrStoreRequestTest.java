@@ -1,4 +1,4 @@
-package net.sourceforge.kolmafia.request;
+package net.sourceforge.kolmafia.request.coinmaster.shop;
 
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withItem;
@@ -13,7 +13,6 @@ import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.coinmaster.shop.ReplicaMrStoreRequest;
 import net.sourceforge.kolmafia.shop.ShopRequest;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

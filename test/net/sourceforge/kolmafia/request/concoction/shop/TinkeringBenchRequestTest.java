@@ -1,4 +1,4 @@
-package net.sourceforge.kolmafia.request;
+package net.sourceforge.kolmafia.request.concoction.shop;
 
 import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
@@ -23,6 +23,7 @@ import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import org.junit.jupiter.api.BeforeAll;
