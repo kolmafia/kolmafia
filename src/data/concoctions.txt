@@ -2030,17 +2030,6 @@ traffic jam toast	SUSE	traffic jam	toast
 space jam toast	SUSE	space jam	toast
 
 
-# Items created by folding sugar sheets
-
-sugar shotgun	SUGAR, ROW327	sugar sheet
-sugar shillelagh	SUGAR, ROW328	sugar sheet
-sugar shank	SUGAR, ROW329	sugar sheet
-sugar chapeau	SUGAR, ROW330	sugar sheet
-sugar shorts	SUGAR, ROW331	sugar sheet
-sugar shield	SUGAR, ROW332	sugar sheet
-sugar shirt	SUGAR, ROW333, TORSO	sugar sheet
-
-
 # Legendary Beat quest items
 squirmy violent party snack	COOK	a dance upon the palate	tiny frozen prehistoric meteorite jawbreaker
 world's most unappetizing beverage	MIX	hair of the calf	can of depilatory cream
@@ -2414,27 +2403,6 @@ sea shawl	GRANDMA, ROW121	pristine fish scale (5)
 sea cape	GRANDMA, ROW122	pristine fish scale (5)
 saltwaterbed	GRANDMA, ROW123	sea leather (15)
 
-# KOL High School Art Class
-giant eraser	ARTCLASS, ROW163	eraser nubbin (4)
-giant Faraday cage	ARTCLASS, ROW165	twisted piece of wire (8)	angry inch (2)	eraser nubbin (2)	Mountain Stream Code Black Alert (1)
-modeling claymore	ARTCLASS, ROW166	lump of clay (6)	twisted piece of wire (2)	angry inch (4)	eraser nubbin (2)	illegal firecracker (2)
-quasireligious sculpture	ARTCLASS, ROW164	lump of clay (2)	twisted piece of wire (6)	angry inch (4)	Mountain Stream Code Black Alert (1)
-sticky clay homunculus	ARTCLASS, ROW167	lump of clay (4)	twisted piece of wire (2)	angry inch (2)	Mountain Stream Code Black Alert (1)
-
-# KOL High School Chemistry Class
-dirty stinkbomb	CHEMCLASS, ROW171	chlorine crystal (2)	ph balancer (2)	nugget of sodium (4)	surgical tape (1)	illegal firecracker (1)
-grains of salt	CHEMCLASS, ROW169	chlorine crystal (2)	nugget of sodium (2)
-sodium pentasomething	CHEMCLASS, ROW168	nugget of sodium (2)	mysterious chemical residue (4)	Mountain Stream Code Black Alert (1)
-superwater	CHEMCLASS, ROW172	ph balancer (6)	mysterious chemical residue (2)	Mountain Stream Code Black Alert (1)
-yellowcake bomb	CHEMCLASS, ROW170	chlorine crystal (4)	ph balancer (4)	mysterious chemical residue (4)	surgical tape (1)	illegal firecracker (1)
-
-# KOL High School Shop Class
-deathchucks	SHOPCLASS, ROW162	jigsaw blade (4)	wood screw (2)	balsa plank (2)	scrap metal (1)
-miniature suspension bridge	SHOPCLASS, ROW158	wood screw (4)	balsa plank (4)	blob of wood glue (2)	surgical tape (1)
-Staff of the Lunch Lady	SHOPCLASS, ROW159	jigsaw blade (2)	balsa plank (6)	blob of wood glue (4)
-universal key	SHOPCLASS, ROW160	jigsaw blade (4)	wood screw (4)	blob of wood glue (8)	surgical tape (1)	scrap metal (1)
-world's most dangerous birdhouse	SHOPCLASS, ROW161	jigsaw blade (4)	wood screw (4)	balsa plank (2)	blob of wood glue (2)	illegal firecracker (2)
-
 # Beer Can
 tin cup	MUSE	fancy tin beer can (1)
 tin snips	MUSE	fancy tin beer can (2)
@@ -2443,17 +2411,6 @@ tin tam	MUSE	fancy tin beer can (8)
 tin foil	MUSE	fancy tin beer can (11)
 tin drum	MUSE	fancy tin beer can (16)
 tin roof (rusted)	MUSE	fancy tin beer can (32)
-
-# Junk Magazine
-junk junk	JUNK, ROW184	old claw-foot bathtub	old clothesline pole	antique cigar sign
-junk food	JUNK, ROW188	jagged scrap metal	bent scrap metal	molten scrap metal
-junk yard	JUNK, ROW189	jagged scrap metal	bent scrap metal	molten scrap metal
-junk band	JUNK, ROW185	bent scrap metal	molten scrap metal (2)	tangle of copper wire	Junk-Bond
-junk trunks	JUNK, ROW186	jagged scrap metal (2)	bent scrap metal	tangle of copper wire
-junk-mail shirt	JUNK, ROW187	jagged scrap metal	bent scrap metal (2)	Junk-Bond
-arm buzzer	JUNK, ROW191	bent scrap metal (2)	tangle of copper wire	Junk-Bond	eternal car battery
-boilgun	JUNK, ROW192	molten scrap metal (2)	tangle of copper wire	Junk-Bond	eternal car battery
-swordzall	JUNK, ROW190	jagged scrap metal (2)	tangle of copper wire	Junk-Bond	eternal car battery
 
 # Smith Tome
 Every Day is Like This Sundae	COOK	handful of Smithereens	cool whip
@@ -2525,15 +2482,6 @@ snakebite	MIX	cream stout	anise-flavored venom
 pecan pie	COOK	candied pecan	pie crust
 chocotini	MIX_FANCY	vodka martini	candy mountain oyster
 mulled berry wine	MIX	mulberry	boxed wine
-smudge stick	RUMPLE, ROW251	straw	leather
-portable wall	RUMPLE, ROW252	straw	clay
-jug of &quot;wine&quot;	RUMPLE, ROW255	straw	glass
-scroll case	RUMPLE, ROW254	straw	parchment
-humble pie	RUMPLE, ROW258	clay	filling
-small golem	RUMPLE, ROW259	clay	parchment
-crappy camera	RUMPLE, ROW257	leather	glass
-large tankard of ale	RUMPLE, ROW253	leather	clay
-juggling ball	RUMPLE, ROW256	leather	filling
 
 # can of V-11
 elevenderizing hammer	SMITH, MANUAL	can of V-11	tenderizing hammer
@@ -2801,15 +2749,6 @@ patent aggression tonic	COOK, PATENT	unusual oil	snake oil
 patent sallowness tonic	COOK, PATENT	eldritch oil	skin oil
 patent avarice tonic	COOK, PATENT	unusual oil	skin oil
 patent alacrity tonic	COOK, PATENT	eldritch oil	unusual oil
-
-# Elemental International Airport Duty Free Shop
-
-That 70s Cologne	DUTYFREE, ROW776	Volcoino (5)
-Puffstone cigar	DUTYFREE, ROW778	FunFunds&trade; (20)
-Wal-Mart &quot;diamond&quot; ring	DUTYFREE, ROW777	Wal-Mart gift certificate (50)
-Conspiracy&trade; mascara	DUTYFREE, ROW779	Coinspiracy (75)
-Spring Break Beach &quot;swimsuit&quot;	DUTYFREE, ROW780	Beach Buck (125)
-airplane tattoo	DUTYFREE, ROW781	Volcoino (20)	FunFunds&trade; (80)	Wal-Mart gift certificate (200)	Coinspiracy (300)	Beach Buck (500)
 
 # Source Terminal
 
@@ -3216,17 +3155,6 @@ grubby wool beerwarmer	WOOL	grubby wool
 grubby woolball (3)	WOOL	grubby wool
 
 nice warm beer	MIX	ice-cold Sir Schlitz	grubby wool beerwarmer
-
-# The Shadow Forge
-shadow chef's hat	SHADOW_FORGE, ROW1309	shadow skin (3)	shadow bread (2)
-shadow trousers	SHADOW_FORGE, ROW1310	shadow skin (3)	shadow sinew (2)
-shadow hammer	SHADOW_FORGE, ROW1311	shadow brick (3)	shadow stick (3)
-shadow monocle	SHADOW_FORGE, ROW1312	shadow brick	shadow glass (3)	shadow ice (2)
-shadow candle	SHADOW_FORGE, ROW1313	shadow sausage (3)	shadow sinew (2)	shadow flame
-shadow hot dog	SHADOW_FORGE, ROW1315	shadow sausage	shadow bread	shadow venom
-shadow martini	SHADOW_FORGE, ROW1316	shadow glass	shadow ice	shadow nectar
-shadow pill	SHADOW_FORGE, ROW1317	shadow fluid	shadow flame
-shadow needle	SHADOW_FORGE, ROW1318	shadow stick (13)	shadow fluid (13)	shadow venom (13)	shadow nectar (13)
 
 # Short
 chitin powder paste	COOK	chitin powder	haemolymphnode

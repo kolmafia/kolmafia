@@ -1045,6 +1045,9 @@ user	lastQuartetAscension	-1
 user	lastQuartetRequest	0
 user	lastSecondFloorUnlock	-1
 user	lastShadowForgeUnlockAdventure	-1	roa
+user	lastKOLHSArtClassUnlockAdventure	-1	roa
+user	lastKOLHSChemClassUnlockAdventure	-1	roa
+user	lastKOLHSShopClassUnlockAdventure	-1	roa
 user	lastSkateParkReset	-1
 user	lastSlimeVial3885
 user	lastSlimeVial3886

@@ -488,7 +488,6 @@ public interface KoLConstants extends UtilityConstants {
     CRIMBO07, // Items formerly creatable in Crimbo Town during Crimbo 2007
     CRIMBO12, // Items creatable in Crimbo Town during Crimbo 2012
     CRIMBO16, // Items creatable in Crimbo Town during Crimbo 2016
-    SUGAR_FOLDING, // Items anybody can create by folding a sugar sheet
     PHINEAS, // Items requiring access to Phineas
     COOK_FANCY, // Items created with an Dramatic Range
     MIX_FANCY, // Items created with a Cocktailcrafting Kit
@@ -497,14 +496,8 @@ public interface KoLConstants extends UtilityConstants {
     CLIPART, // Tome of Clip Art summons
     JARLS, // Items that can only be made by an Avatar of Jarlsberg
     GRANDMA, // Items made by Grandma Sea Monkee
-    CHEMCLASS, // Items made in Chemistry Class at KOLHS
-    ARTCLASS, // Items made in Art Class at KOLHS
-    SHOPCLASS, // Items made in Shop Class at KOLHS
-    JUNK, // Items made from using a Worse Homes and Gardens
-    RUMPLE, // Items made at Rumpelstiltskin's Workshop
     FIVE_D, // Xiblaxian 5d Printer
     VYKEA, // Items made with VYKEA instructions
-    DUTYFREE, // Elemental International Airport Duty Free Shop
     FLOUNDRY, // Items made in Clan Floundry
     TERMINAL, // Items extruded from Source Terminal
     BARREL, // Items granted at the Barrel Shrine
@@ -517,7 +510,6 @@ public interface KoLConstants extends UtilityConstants {
     KRINGLE, // Items made from waterlogged items
     STILLSUIT, // Distillate from the stillsuit
     WOOL, // Items made from grubby wool
-    SHADOW_FORGE, // Items made at The Shadow Forge
     BURNING_LEAVES, // Items made at the Pile of Burning Leaves
     TINKERING_BENCH, // Items made at the Tinkering Bench
     MAYAM, // Items made at the Mayam Calendar

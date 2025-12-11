@@ -1668,7 +1668,6 @@ public class ConcoctionDatabase {
     permitNoCost(CraftingType.STARCHART);
     permitNoCost(CraftingType.MULTI_USE);
     permitNoCost(CraftingType.SINGLE_USE);
-    permitNoCost(CraftingType.SUGAR_FOLDING);
 
     // Pixel recipes are not available in Kingdom of Exploathing
     if (!KoLCharacter.isKingdomOfExploathing()) {
@@ -1931,35 +1930,6 @@ public class ConcoctionDatabase {
     }
     ConcoctionDatabase.EXCUSE.put(CraftingType.GRANDMA, "You must rescue Grandma first.");
 
-    // KOLHS concoctions are "permitted" so that we can calculate
-    // how many items are allowed given available ingredients
-    // But only in KOLHS!
-    if (KoLCharacter.inHighschool()) {
-      permitNoCost(CraftingType.CHEMCLASS);
-      permitNoCost(CraftingType.ARTCLASS);
-      permitNoCost(CraftingType.SHOPCLASS);
-    }
-    ConcoctionDatabase.EXCUSE.put(
-        CraftingType.CHEMCLASS, "You cannot make that as you are not at school.");
-    ConcoctionDatabase.EXCUSE.put(
-        CraftingType.ARTCLASS, "You cannot make that as you are not at school.");
-    ConcoctionDatabase.EXCUSE.put(
-        CraftingType.SHOPCLASS, "You cannot make that as you are not at school.");
-
-    // Making stuff with the Junk Magazine requires the magazine
-    if (InventoryManager.hasItem(ItemPool.WORSE_HOMES_GARDENS)) {
-      permitNoCost(CraftingType.JUNK);
-    }
-    ConcoctionDatabase.EXCUSE.put(
-        CraftingType.JUNK, "You can't make that without a copy of Worse Homes and Gardens.");
-
-    // Making stuff with Rumplestiltskin's Workshop is allowed when have access to it
-    if (Preferences.getString("grimstoneMaskPath").equals("gnome")) {
-      permitNoCost(CraftingType.RUMPLE);
-    }
-    ConcoctionDatabase.EXCUSE.put(
-        CraftingType.RUMPLE, "You need access to Rumplestiltskin's Workshop to make that.");
-
     // You trade tokens to Coin Masters if you have opted in to do so,
 
     if (Preferences.getBoolean("autoSatisfyWithCoinmasters")) {
@@ -2008,15 +1978,6 @@ public class ConcoctionDatabase {
 
     // Making stuff with grubby wool is always allowed
     permitNoCost(CraftingType.WOOL);
-
-    // Making stuff at The Shadow Forge is only allowed if you have not
-    // spent any adventures since you last encountered it.
-    if (Preferences.getInteger("lastShadowForgeUnlockAdventure") == KoLCharacter.getCurrentRun()) {
-      permitNoCost(CraftingType.SHADOW_FORGE);
-    } else {
-      ConcoctionDatabase.EXCUSE.put(
-          CraftingType.SHADOW_FORGE, "You need to be at The Shadow Forge to make that.");
-    }
 
     // You need a gnome to pick a gnome part and can only do so once per day.
     if (Preferences.getBoolean("_gnomePart")) {
@@ -2099,19 +2060,6 @@ public class ConcoctionDatabase {
       }
     }
     ConcoctionDatabase.EXCUSE.put(CraftingType.JARLS, "You are not an Avatar of Jarlsberg");
-
-    if (Preferences.getBoolean("coldAirportAlways")
-        || Preferences.getBoolean("hotAirportAlways")
-        || Preferences.getBoolean("spookyAirportAlways")
-        || Preferences.getBoolean("stenchAirportAlways")
-        || Preferences.getBoolean("sleazeAirportAlways")
-        || Preferences.getBoolean("_coldAirportToday")
-        || Preferences.getBoolean("_hotAirportToday")
-        || Preferences.getBoolean("_spookyAirportToday")
-        || Preferences.getBoolean("_stenchAirportToday")
-        || Preferences.getBoolean("_sleazeAirportToday")) {
-      permitNoCost(CraftingType.DUTYFREE);
-    }
 
     // It's Crimbo, so allow creation!
     // permitNoCost( CraftingType.CRIMBO16 );
@@ -2414,12 +2362,7 @@ public class ConcoctionDatabase {
       case MALUS -> result.append("Malus of Forethought");
       case JEWELRY -> result.append("Jewelry-making pliers");
       case STARCHART -> result.append("star chart");
-      case SUGAR_FOLDING -> result.append("sugar sheet");
       case PIXEL -> result.append("Crackpot Mystic");
-      case CHEMCLASS -> result.append("Chemistry Class");
-      case ARTCLASS -> result.append("Art Class");
-      case SHOPCLASS -> result.append("Shop Class");
-      case RUMPLE -> result.append("Rumpelstiltskin's Workshop");
       case ROLLING_PIN -> result.append("rolling pin/unrolling pin");
       case GNOME_TINKER -> result.append("Supertinkering");
       case STAFF -> result.append("Rodoric, the Staffcrafter");
@@ -2439,10 +2382,8 @@ public class ConcoctionDatabase {
       case CLIPART -> result.append("Summon Clip Art");
       case JARLS -> result.append("Jarlsberg's Kitchen");
       case GRANDMA -> result.append("Grandma Sea Monkee");
-      case JUNK -> result.append("Worse Homes and Gardens");
       case FIVE_D -> result.append("Xiblaxian 5D printer");
       case VYKEA -> result.append("VYKEA");
-      case DUTYFREE -> result.append("Elemental International Airport Duty Free Shop");
       case FLOUNDRY -> result.append("Clan Floundry");
       case TERMINAL -> result.append("Source Terminal");
       case BARREL -> result.append("shrine to the Barrel god");
@@ -2456,7 +2397,6 @@ public class ConcoctionDatabase {
       case KRINGLE -> result.append("Kringle's workshop");
       case STILLSUIT -> result.append("tiny stillsuit");
       case WOOL -> result.append("grubby wool");
-      case SHADOW_FORGE -> result.append("The Shadow Forge");
       case BURNING_LEAVES -> result.append("Pile of Burning Leaves");
       case TINKERING_BENCH -> result.append("Tinkering Bench");
       case MAYAM -> result.append("Mayam Calendar");
@@ -2679,14 +2619,8 @@ public class ConcoctionDatabase {
       case "JEWEL" -> ConcoctionDatabase.mixingMethod = CraftingType.JEWELRY;
       // Items anybody can create with starcharts, stars, and lines
       case "STAR" -> ConcoctionDatabase.mixingMethod = CraftingType.STARCHART;
-      // Items anybody can create by folding sugar sheets
-      case "SUGAR" -> ConcoctionDatabase.mixingMethod = CraftingType.SUGAR_FOLDING;
       // Items anybody can create with pixels
       case "PIXEL" -> ConcoctionDatabase.mixingMethod = CraftingType.PIXEL;
-      // Items anybody can create in KOLHS
-      case "CHEMCLASS" -> ConcoctionDatabase.mixingMethod = CraftingType.CHEMCLASS;
-      case "ARTCLASS" -> ConcoctionDatabase.mixingMethod = CraftingType.ARTCLASS;
-      case "SHOPCLASS" -> ConcoctionDatabase.mixingMethod = CraftingType.SHOPCLASS;
       // Items created with a rolling pin or and an unrolling pin
       case "ROLL" -> ConcoctionDatabase.mixingMethod = CraftingType.ROLLING_PIN;
       // Items requiring access to the Gnome supertinker
@@ -2877,11 +2811,8 @@ public class ConcoctionDatabase {
       }
       case "GRANDMA" -> ConcoctionDatabase.mixingMethod = CraftingType.GRANDMA;
       case "KRINGLE" -> ConcoctionDatabase.mixingMethod = CraftingType.KRINGLE;
-      case "JUNK" -> ConcoctionDatabase.mixingMethod = CraftingType.JUNK;
-      case "RUMPLE" -> ConcoctionDatabase.mixingMethod = CraftingType.RUMPLE;
       case "5D" -> ConcoctionDatabase.mixingMethod = CraftingType.FIVE_D;
       case "VYKEA" -> ConcoctionDatabase.mixingMethod = CraftingType.VYKEA;
-      case "DUTYFREE" -> ConcoctionDatabase.mixingMethod = CraftingType.DUTYFREE;
       case "TERMINAL" -> ConcoctionDatabase.mixingMethod = CraftingType.TERMINAL;
       case "BARREL" -> ConcoctionDatabase.mixingMethod = CraftingType.BARREL;
       case "WAX" -> ConcoctionDatabase.mixingMethod = CraftingType.WAX;
@@ -2892,7 +2823,6 @@ public class ConcoctionDatabase {
       case "FANTASY_REALM" -> ConcoctionDatabase.mixingMethod = CraftingType.FANTASY_REALM;
       case "STILLSUIT" -> ConcoctionDatabase.mixingMethod = CraftingType.STILLSUIT;
       case "WOOL" -> ConcoctionDatabase.mixingMethod = CraftingType.WOOL;
-      case "SHADOW_FORGE" -> ConcoctionDatabase.mixingMethod = CraftingType.SHADOW_FORGE;
       case "BURNING_LEAVES" -> ConcoctionDatabase.mixingMethod = CraftingType.BURNING_LEAVES;
       case "TINKERING_BENCH" -> ConcoctionDatabase.mixingMethod = CraftingType.TINKERING_BENCH;
       case "MAYAM" -> ConcoctionDatabase.mixingMethod = CraftingType.MAYAM;

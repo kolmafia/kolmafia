@@ -135,6 +135,16 @@ Crimbo Cartel	buy	2000	snow pants
 Crimbo Cartel	buy	5000	pile of loose snow
 Crimbo Cartel	buy	10000	Crimbough
 
+# Items created by folding sugar sheets
+
+Sugar Sheet Folding	ROW327	sugar shotgun	sugar sheet
+Sugar Sheet Folding	ROW328	sugar shillelagh	sugar sheet
+Sugar Sheet Folding	ROW329	sugar shank	sugar sheet
+Sugar Sheet Folding	ROW330	sugar chapeau	sugar sheet
+Sugar Sheet Folding	ROW331	sugar shorts	sugar sheet
+Sugar Sheet Folding	ROW332	sugar shield	sugar sheet
+Sugar Sheet Folding	ROW333	sugar shirt	sugar sheet
+
 # Things you can buy with Game Grid tickets
 
 Arcade Ticket Counter	buy	1	finger cuffs	ROW359
@@ -560,6 +570,27 @@ The Terrified Eagle Inn	buy	500	dreadful sweater	ROW154
 The Terrified Eagle Inn	buy	500	dreadful glove	ROW155
 The Terrified Eagle Inn	buy	1000	Official Seal of Dreadsylvania	ROW148
 
+# KOL High School Art Class
+Art Class (After School)	ROW163	giant eraser	eraser nubbin (4)
+Art Class (After School)	ROW165	giant Faraday cage	twisted piece of wire (8)	angry inch (2)	eraser nubbin (2)	Mountain Stream Code Black Alert (1)
+Art Class (After School)	ROW166	modeling claymore	lump of clay (6)	twisted piece of wire (2)	angry inch (4)	eraser nubbin (2)	illegal firecracker (2)
+Art Class (After School)	ROW164	quasireligious sculpture	lump of clay (2)	twisted piece of wire (6)	angry inch (4)	Mountain Stream Code Black Alert (1)
+Art Class (After School)	ROW167	sticky clay homunculus	lump of clay (4)	twisted piece of wire (2)	angry inch (2)	Mountain Stream Code Black Alert (1)
+
+# KOL High School Chemistry Class
+Chemistry Class (After School)	ROW171	dirty stinkbomb	chlorine crystal (2)	ph balancer (2)	nugget of sodium (4)	surgical tape (1)	illegal firecracker (1)
+Chemistry Class (After School)	ROW169	grains of salt	chlorine crystal (2)	nugget of sodium (2)
+Chemistry Class (After School)	ROW168	sodium pentasomething	nugget of sodium (2)	mysterious chemical residue (4)	Mountain Stream Code Black Alert (1)
+Chemistry Class (After School)	ROW172	superwater	ph balancer (6)	mysterious chemical residue (2)	Mountain Stream Code Black Alert (1)
+Chemistry Class (After School)	ROW170	yellowcake bomb	chlorine crystal (4)	ph balancer (4)	mysterious chemical residue (4)	surgical tape (1)	illegal firecracker (1)
+
+# KOL High School Shop Class
+Shop Class (After School)	ROW162	deathchucks	jigsaw blade (4)	wood screw (2)	balsa plank (2)	scrap metal (1)
+Shop Class (After School)	ROW158	miniature suspension bridge	wood screw (4)	balsa plank (4)	blob of wood glue (2)	surgical tape (1)
+Shop Class (After School)	ROW159	Staff of the Lunch Lady	jigsaw blade (2)	balsa plank (6)	blob of wood glue (4)
+Shop Class (After School)	ROW160	universal key	jigsaw blade (4)	wood screw (4)	blob of wood glue (8)	surgical tape (1)	scrap metal (1)
+Shop Class (After School)	ROW161	world's most dangerous birdhouse	jigsaw blade (4)	wood screw (4)	balsa plank (2)	blob of wood glue (2)	illegal firecracker (2)
+
 # Things you can buy with Shore Inc. Ship Trip Scrip
 
 The Shore, Inc. Gift Shop	buy	1	dude ranch souvenir crate	ROW180
@@ -570,6 +601,17 @@ The Shore, Inc. Gift Shop	buy	3	cheap toaster	ROW179
 The Shore, Inc. Gift Shop	buy	1	UV-resistant compass	ROW183
 The Shore, Inc. Gift Shop	buy	3	dinghy plans	ROW176
 The Shore, Inc. Gift Shop	buy	5	fuzzy dice	ROW177
+
+# Junk Magazine
+Worse Homes and Gardens	ROW184	junk junk	old claw-foot bathtub	old clothesline pole	antique cigar sign
+Worse Homes and Gardens	ROW188	junk food	jagged scrap metal	bent scrap metal	molten scrap metal
+Worse Homes and Gardens	ROW189	junk yard	jagged scrap metal	bent scrap metal	molten scrap metal
+Worse Homes and Gardens	ROW185	junk band	bent scrap metal	molten scrap metal (2)	tangle of copper wire	Junk-Bond
+Worse Homes and Gardens	ROW186	junk trunks	jagged scrap metal (2)	bent scrap metal	tangle of copper wire
+Worse Homes and Gardens	ROW187	junk-mail shirt	jagged scrap metal	bent scrap metal (2)	Junk-Bond
+Worse Homes and Gardens	ROW191	arm buzzer	bent scrap metal (2)	tangle of copper wire	Junk-Bond	eternal car battery
+Worse Homes and Gardens	ROW192	boilgun	molten scrap metal (2)	tangle of copper wire	Junk-Bond	eternal car battery
+Worse Homes and Gardens	ROW190	swordzall	jagged scrap metal (2)	tangle of copper wire	Junk-Bond	eternal car battery
 
 # Beer Garden
 Beer Garden	ROW214	can of Br&uuml;talbr&auml;u	handful of barley	cluster of hops
@@ -619,6 +661,18 @@ Paul's Boutique	buy	3	polo trophy	ROW247
 Paul's Boutique	buy	4	fancy oil painting	ROW248
 Paul's Boutique	buy	5	solid gold rosary	ROW249
 Paul's Boutique	buy	5	ornate dowsing rod	ROW250
+
+# Rumplestiltskin's Workshop
+
+Rumplestiltskin's Workshop	ROW251	smudge stick	straw	leather
+Rumplestiltskin's Workshop	ROW252	portable wall	straw	clay
+Rumplestiltskin's Workshop	ROW255	jug of &quot;wine&quot;	straw	glass
+Rumplestiltskin's Workshop	ROW254	scroll case	straw	parchment
+Rumplestiltskin's Workshop	ROW258	humble pie	clay	filling
+Rumplestiltskin's Workshop	ROW259	small golem	clay	parchment
+Rumplestiltskin's Workshop	ROW257	crappy camera	leather	glass
+Rumplestiltskin's Workshop	ROW253	large tankard of ale	leather	clay
+Rumplestiltskin's Workshop	ROW256	juggling ball	leather	filling
 
 # Things you can buy with Beach Bucks
 
@@ -825,6 +879,15 @@ Wal-Mart	buy	150	To Build an Igloo	ROW769
 Wal-Mart	buy	150	The Chill of the Wild	ROW770
 Wal-Mart	buy	150	Cold Fang	ROW772
 Wal-Mart	buy	250	Wal-Mart tattoo kit	ROW771
+
+# Elemental Duty Free, Inc.
+
+Elemental Duty Free, Inc.	ROW776	That 70s Cologne	Volcoino (5)
+Elemental Duty Free, Inc.	ROW778	Puffstone cigar	FunFunds&trade; (20)
+Elemental Duty Free, Inc.	ROW777	Wal-Mart &quot;diamond&quot; ring	Wal-Mart gift certificate (50)
+Elemental Duty Free, Inc.	ROW779	Conspiracy&trade; mascara	Coinspiracy (75)
+Elemental Duty Free, Inc.	ROW780	Spring Break Beach &quot;swimsuit&quot;	Beach Buck (125)
+Elemental Duty Free, Inc.	ROW781	airplane tattoo	Volcoino (20)	FunFunds&trade; (80)	Wal-Mart gift certificate (200)	Coinspiracy (300)	Beach Buck (500)
 
 # Things you can Bat-Fabricate
 
@@ -1201,6 +1264,18 @@ Fancy Dan the Cocktail Man	buy	1	Marltini	ROW1291
 Fancy Dan the Cocktail Man	buy	1	Mysterious Stranger	ROW1293
 Fancy Dan the Cocktail Man	buy	1	Strong, Silent Type	ROW1292
 Fancy Dan the Cocktail Man	buy	1	Velvet Veil	ROW1290
+
+# The Shadow Forge
+
+The Shadow Forge	ROW1309	shadow chef's hat	shadow skin (3)	shadow bread (2)
+The Shadow Forge	ROW1310	shadow trousers	shadow skin (3)	shadow sinew (2)
+The Shadow Forge	ROW1311	shadow hammer	shadow brick (3)	shadow stick (3)
+The Shadow Forge	ROW1312	shadow monocle	shadow brick	shadow glass (3)	shadow ice (2)
+The Shadow Forge	ROW1313	shadow candle	shadow sausage (3)	shadow sinew (2)	shadow flame
+The Shadow Forge	ROW1315	shadow hot dog	shadow sausage	shadow bread	shadow venom
+The Shadow Forge	ROW1316	shadow martini	shadow glass	shadow ice	shadow nectar
+The Shadow Forge	ROW1317	shadow pill	shadow fluid	shadow flame
+The Shadow Forge	ROW1318	shadow needle	shadow stick (13)	shadow fluid (13)	shadow venom (13)	shadow nectar (13)
 
 # Replica Mr. Store
 

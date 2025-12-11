@@ -20,6 +20,7 @@ import net.sourceforge.kolmafia.request.coinmaster.QuartersmasterRequest;
 import net.sourceforge.kolmafia.request.coinmaster.SkeletonOfCrimboPastRequest;
 import net.sourceforge.kolmafia.request.coinmaster.SwaggerShopRequest;
 import net.sourceforge.kolmafia.request.coinmaster.TravelingTraderRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.AirportRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.AlliedHqRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.AppleStoreRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.ArmoryAndLeggeryRequest;
@@ -68,6 +69,10 @@ import net.sourceforge.kolmafia.request.coinmaster.shop.GotporkOrphanageRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.GotporkPDRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.GuzzlrRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.IsotopeSmitheryRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.JunkMagazineRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.KOLHSArtRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.KOLHSChemRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.KOLHSShopRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.KiwiKwikiMartRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.LTTRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.LunarLunchRequest;
@@ -84,14 +89,17 @@ import net.sourceforge.kolmafia.request.coinmaster.shop.PrecinctRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.PrimordialSoupKitchenRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.ReplicaMrStoreRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.RubeeRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.RumpleRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.SHAWARMARequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.SeptEmberCenserRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.ShadowForgeRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.ShoeRepairRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.ShoreGiftShopRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.SliemceRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.SpacegateFabricationRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.SpantRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.SpinMasterLatheRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.SugarSheetRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.TacoDanRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.TerrifiedEagleInnRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.ThankShopRequest;
@@ -112,6 +120,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public abstract class CoinmasterRegistry {
   public static final CoinmasterData[] COINMASTERS =
       new CoinmasterData[] {
+        AirportRequest.DATA,
         AlliedHqRequest.DATA,
         AltarOfBonesRequest.ALTAR_OF_BONES,
         AppleStoreRequest.APPLE_STORE,
@@ -173,7 +182,11 @@ public abstract class CoinmasterRegistry {
         GuzzlrRequest.GUZZLR,
         HermitRequest.HERMIT,
         IsotopeSmitheryRequest.ISOTOPE_SMITHERY,
+        JunkMagazineRequest.DATA,
         KiwiKwikiMartRequest.DATA,
+        KOLHSArtRequest.DATA,
+        KOLHSChemRequest.DATA,
+        KOLHSShopRequest.DATA,
         LTTRequest.LTT,
         LunarLunchRequest.LUNAR_LUNCH,
         MemeShopRequest.BACON_STORE,
@@ -191,7 +204,9 @@ public abstract class CoinmasterRegistry {
         QuartersmasterRequest.FRATBOY,
         ReplicaMrStoreRequest.REPLICA_MR_STORE,
         RubeeRequest.RUBEE,
+        RumpleRequest.DATA,
         SeptEmberCenserRequest.SEPTEMBER_CENSER,
+        ShadowForgeRequest.DATA,
         SHAWARMARequest.SHAWARMA,
         ShoeRepairRequest.SHOE_REPAIR,
         ShoreGiftShopRequest.SHORE_GIFT_SHOP,
@@ -200,6 +215,7 @@ public abstract class CoinmasterRegistry {
         SpacegateFabricationRequest.SPACEGATE_STORE,
         SpantRequest.DATA,
         SpinMasterLatheRequest.YOUR_SPINMASTER_LATHE,
+        SugarSheetRequest.DATA,
         SwaggerShopRequest.SWAGGER_SHOP,
         TacoDanRequest.TACO_DAN,
         TerrifiedEagleInnRequest.TERRIFIED_EAGLE_INN,

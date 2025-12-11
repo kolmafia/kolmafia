@@ -60,6 +60,7 @@ import net.sourceforge.kolmafia.request.coinmaster.QuartersmasterRequest;
 import net.sourceforge.kolmafia.request.coinmaster.SkeletonOfCrimboPastRequest;
 import net.sourceforge.kolmafia.request.coinmaster.SwaggerShopRequest;
 import net.sourceforge.kolmafia.request.coinmaster.TravelingTraderRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.AirportRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.AlliedHqRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.AppleStoreRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.ArmoryAndLeggeryRequest;
@@ -108,6 +109,10 @@ import net.sourceforge.kolmafia.request.coinmaster.shop.GotporkOrphanageRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.GotporkPDRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.GuzzlrRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.IsotopeSmitheryRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.JunkMagazineRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.KOLHSArtRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.KOLHSChemRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.KOLHSShopRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.KiwiKwikiMartRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.LTTRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.LunarLunchRequest;
@@ -124,14 +129,17 @@ import net.sourceforge.kolmafia.request.coinmaster.shop.PrecinctRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.PrimordialSoupKitchenRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.ReplicaMrStoreRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.RubeeRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.RumpleRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.SHAWARMARequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.SeptEmberCenserRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.ShadowForgeRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.ShoeRepairRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.ShoreGiftShopRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.SliemceRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.SpacegateFabricationRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.SpantRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.SpinMasterLatheRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.SugarSheetRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.TacoDanRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.TerrifiedEagleInnRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.ThankShopRequest;
@@ -176,6 +184,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     addPanel(new BlackMarketPanel());
     addPanel(new HermitPanel());
     addPanel(new ShoreGiftShopPanel());
+    addPanel(new JunkMagazinePanel());
     addPanel(new TrapperPanel());
     addPanel(new VendingMachinePanel());
     addPanel(new SwaggerShopPanel());
@@ -189,6 +198,9 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     addPanel(new DimemasterPanel());
     addPanel(new QuartersmasterPanel());
     addPanel(new BURTPanel());
+    addPanel(new KOLHSArtPanel());
+    addPanel(new KOLHSChemPanel());
+    addPanel(new KOLHSShopPanel());
     addPanel(new FishboneryPanel());
     addPanel(new EdShopPanel());
     addPanel(new GeneticFiddlingPanel());
@@ -212,6 +224,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     this.selectorPanel.addSeparator();
     this.selectorPanel.addCategory("Item of the Month");
 
+    addPanel(new SugarSheetPanel());
     addPanel(new TicketCounterPanel());
     addPanel(new GameShoppePanel());
     addPanel(new SnackVoucherPanel());
@@ -221,6 +234,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     addPanel(new BeerGardenPanel());
     addPanel(new WinterGardenPanel());
     addPanel(new BoutiquePanel());
+    addPanel(new RumplePanel());
     addPanel(new BrogurtPanel());
     addPanel(new BuffJimmyPanel());
     addPanel(new TacoDanPanel());
@@ -231,6 +245,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     addPanel(new ToxicChemistryPanel());
     addPanel(new DiscoGiftCoPanel());
     addPanel(new WalmartPanel());
+    addPanel(new AirportPanel());
     addPanel(new BatFabricatorPanel());
     addPanel(new ChemiCorpPanel());
     addPanel(new GotporkOrphanagePanel());
@@ -249,6 +264,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     addPanel(new GuzzlrPanel());
     addPanel(new SpinMasterLathePanel());
     addPanel(new FancyDanPanel());
+    addPanel(new ShadowForgePanel());
     addPanel(new MrStore2002Panel());
     addPanel(new FixodentPanel());
     addPanel(new KiwiKwikiMartPanel());
@@ -526,6 +542,30 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     }
   }
 
+  public class KOLHSArtPanel extends CoinmasterPanel {
+    public KOLHSArtPanel() {
+      super(KOLHSArtRequest.DATA);
+      PreferenceListenerRegistry.registerPreferenceListener(
+          "lastKOLHSArtClassUnlockAdventure", this);
+    }
+  }
+
+  public class KOLHSChemPanel extends CoinmasterPanel {
+    public KOLHSChemPanel() {
+      super(KOLHSChemRequest.DATA);
+      PreferenceListenerRegistry.registerPreferenceListener(
+          "lastKOLHSChemClassUnlockAdventure", this);
+    }
+  }
+
+  public class KOLHSShopPanel extends CoinmasterPanel {
+    public KOLHSShopPanel() {
+      super(KOLHSShopRequest.DATA);
+      PreferenceListenerRegistry.registerPreferenceListener(
+          "lastKOLHSShopClassUnlockAdventure", this);
+    }
+  }
+
   public class FishboneryPanel extends CoinmasterPanel {
     public FishboneryPanel() {
       super(FishboneryRequest.FISHBONERY);
@@ -675,6 +715,12 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     public ShoreGiftShopPanel() {
       super(ShoreGiftShopRequest.SHORE_GIFT_SHOP);
       PreferenceListenerRegistry.registerPreferenceListener("itemBoughtPerAscension637", this);
+    }
+  }
+
+  public class JunkMagazinePanel extends CoinmasterPanel {
+    public JunkMagazinePanel() {
+      super(JunkMagazineRequest.DATA);
     }
   }
 
@@ -872,6 +918,12 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     }
   }
 
+  private class SugarSheetPanel extends CoinmasterPanel {
+    public SugarSheetPanel() {
+      super(SugarSheetRequest.DATA);
+    }
+  }
+
   public class TicketCounterPanel extends CoinmasterPanel {
     private final JButton skeeball = new InvocationButton("skeeball", this, "skeeball");
     private int gameGridTokens = 0;
@@ -1057,6 +1109,12 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     }
   }
 
+  private class AirportPanel extends CoinmasterPanel {
+    public AirportPanel() {
+      super(AirportRequest.DATA);
+    }
+  }
+
   private class BatFabricatorPanel extends BatFellowPanel {
     public BatFabricatorPanel() {
       super(BatFabricatorRequest.BAT_FABRICATOR);
@@ -1208,6 +1266,12 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     }
   }
 
+  private class RumplePanel extends CoinmasterPanel {
+    public RumplePanel() {
+      super(RumpleRequest.DATA);
+    }
+  }
+
   private class BaconPanel extends CoinmasterPanel {
     public BaconPanel() {
       super(MemeShopRequest.BACON_STORE);
@@ -1353,6 +1417,13 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
         buffer.append(currency.getPluralName(count));
         buffer.append(")");
       }
+    }
+  }
+
+  private class ShadowForgePanel extends CoinmasterPanel {
+    public ShadowForgePanel() {
+      super(ShadowForgeRequest.DATA);
+      PreferenceListenerRegistry.registerPreferenceListener("lastShadowForgeUnlockAdventure", this);
     }
   }
 
