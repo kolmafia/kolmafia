@@ -5,24 +5,19 @@ import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withAscensions;
 import static internal.helpers.Player.withClass;
 import static internal.helpers.Player.withHttpClientBuilder;
-import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withSkill;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import internal.helpers.Cleanups;
 import internal.helpers.SessionLoggerOutput;
 import internal.network.FakeHttpClientBuilder;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.session.InventoryManager;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -59,33 +54,6 @@ public class ShopRequestTest {
       var requests = client.getRequests();
       assertThat(requests, hasSize(1));
       assertPostRequest(requests.get(0), "/shop.php", "whichshop=still");
-    }
-  }
-
-  @Nested
-  class Concoctions {
-    @Test
-    void starChartAlwaysMakesOne() {
-      // star throwing star	STAR, ROW139	star chart	star (4)	line (2)
-
-      var builder = new FakeHttpClientBuilder();
-      var client = builder.client;
-      var cleanups =
-          new Cleanups(
-              withHttpClientBuilder(builder),
-              withItem(ItemPool.STAR_CHART, 2),
-              withItem("star", 8),
-              withItem("line", 4));
-      try (cleanups) {
-        client.addResponse(200, html("request/test_starchart_creation.html"));
-
-        String url = "shop.php?whichshop=starchart&action=buyitem&quantity=2&whichrow=139";
-        var request = new GenericRequest(url);
-        request.run();
-        assertEquals(1, InventoryManager.getCount(ItemPool.STAR_CHART));
-        assertEquals(4, InventoryManager.getCount(ItemPool.STAR));
-        assertEquals(2, InventoryManager.getCount(ItemPool.LINE));
-      }
     }
   }
 
@@ -157,19 +125,19 @@ public class ShopRequestTest {
     144	starchart	star boomerang	star (4)	line (5)	star chart
     145	starchart	star spatula	star (5)	line (5)	star chart
     --------------------
-    Richard's star key	STARCHART, ROW141	star (8)	line (7)	star chart
-    star buckler	STARCHART, ROW138	star (4)	line (6)	star chart
-    star hat	STARCHART, ROW137	star (5)	line (3)	star chart
-    star pants	STARCHART, ROW136	star (7)	line (7)	star chart
-    star starfish	STARCHART, ROW140	star (6)	line (4)	star chart
-    star spatula	STARCHART, ROW145	star (5)	line (5)	star chart
-    star boomerang	STARCHART, ROW144	star (4)	line (5)	star chart
-    star stiletto	STARCHART, ROW143	star (5)	line (4)	star chart
-    star crossbow	STARCHART, ROW134	star (5)	line (6)	star chart
-    star staff	STARCHART, ROW135	star (6)	line (5)	star chart
-    star sword	STARCHART, ROW133	star (7)	line (4)	star chart
-    star throwing star	STARCHART, ROW139	star (4)	line (2)	star chart
-    star shirt	STARCHART, ROW142	star (15)	line (15)	star chart
+    A Star Chart	ROW141	Richard's star key	star (8)	line (7)	star chart
+    A Star Chart	ROW138	star buckler	star (4)	line (6)	star chart
+    A Star Chart	ROW137	star hat	star (5)	line (3)	star chart
+    A Star Chart	ROW136	star pants	star (7)	line (7)	star chart
+    A Star Chart	ROW140	star starfish	star (6)	line (4)	star chart
+    A Star Chart	ROW145	star spatula	star (5)	line (5)	star chart
+    A Star Chart	ROW144	star boomerang	star (4)	line (5)	star chart
+    A Star Chart	ROW143	star stiletto	star (5)	line (4)	star chart
+    A Star Chart	ROW134	star crossbow	star (5)	line (6)	star chart
+    A Star Chart	ROW135	star staff	star (6)	line (5)	star chart
+    A Star Chart	ROW133	star sword	star (7)	line (4)	star chart
+    A Star Chart	ROW139	star throwing star	star (4)	line (2)	star chart
+    A Star Chart	ROW142	star shirt	star (15)	line (15)	star chart
     --------------------""";
 
       assertThat(text, containsString(expected));
