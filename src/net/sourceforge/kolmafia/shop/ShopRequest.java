@@ -196,10 +196,6 @@ public class ShopRequest extends GenericRequest {
     // Certain shops want to handle Preferences and Quests.  Give them a
     // chance to do so and finish removing ingredients when they return.
     switch (shopId) {
-      case "starchart" -> {
-        quantity = 1;
-        break;
-      }
       case "still" -> {
         StillRequest.parseResponse(urlString, responseText);
         break;

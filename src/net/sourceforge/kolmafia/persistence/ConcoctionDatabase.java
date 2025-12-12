@@ -1663,9 +1663,6 @@ public class ConcoctionDatabase {
       ConcoctionDatabase.REQUIREMENT_MET.add(CraftingRequirements.EXPENSIVE);
     }
 
-    // Star chart recipes are always available to all players.
-
-    permitNoCost(CraftingType.STARCHART);
     permitNoCost(CraftingType.MULTI_USE);
     permitNoCost(CraftingType.SINGLE_USE);
 
@@ -2361,7 +2358,6 @@ public class ConcoctionDatabase {
       case STILL -> result.append("Nash Crosby's Still");
       case MALUS -> result.append("Malus of Forethought");
       case JEWELRY -> result.append("Jewelry-making pliers");
-      case STARCHART -> result.append("star chart");
       case PIXEL -> result.append("Crackpot Mystic");
       case ROLLING_PIN -> result.append("rolling pin/unrolling pin");
       case GNOME_TINKER -> result.append("Supertinkering");
@@ -2617,8 +2613,6 @@ public class ConcoctionDatabase {
       case "MALUS" -> ConcoctionDatabase.mixingMethod = CraftingType.MALUS;
       // Items anybody can create with jewelry-making pliers
       case "JEWEL" -> ConcoctionDatabase.mixingMethod = CraftingType.JEWELRY;
-      // Items anybody can create with starcharts, stars, and lines
-      case "STAR" -> ConcoctionDatabase.mixingMethod = CraftingType.STARCHART;
       // Items anybody can create with pixels
       case "PIXEL" -> ConcoctionDatabase.mixingMethod = CraftingType.PIXEL;
       // Items created with a rolling pin or and an unrolling pin

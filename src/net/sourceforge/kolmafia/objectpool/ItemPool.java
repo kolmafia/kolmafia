@@ -373,6 +373,7 @@ public class ItemPool {
   public static final int PREGNANT_STINKY_MUSHROOM = 1120;
   public static final int INEXPLICABLY_GLOWING_ROCK = 1121;
   public static final int SPOOKY_GLOVE = 1125;
+  public static final int STAR_SHIRT = 1133;
   public static final int SPOOKY_BICYCLE_CHAIN = 1137;
   public static final int FLAMING_MUSHROOM_WINE = 1139;
   public static final int ICY_MUSHROOM_WINE = 1140;

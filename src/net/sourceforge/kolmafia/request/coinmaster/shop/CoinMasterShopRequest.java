@@ -23,7 +23,10 @@ public class CoinMasterShopRequest extends CoinMasterRequest {
     this.row = row;
     this.quantity = quantity;
     this.addFormField("whichrow", String.valueOf(row.getRow()));
-    this.addFormField("quantity", String.valueOf(quantity));
+    // don't add quantity for star chart or anything that works the same way
+    if (data.getCountField() != null) {
+      this.addFormField("quantity", String.valueOf(quantity));
+    }
 
     // We want to parse the balance for virtual currencies
     // We want the full responseText if we are buying a skill

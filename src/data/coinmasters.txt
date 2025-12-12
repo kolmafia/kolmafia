@@ -2,6 +2,22 @@
 # Shop name	buy/sell	shop currency gained/lost	item bought/sold	ROWXXX
 # ROW and quantity sold are optional, if both are used they must be separated by a comma
 
+# Star Chart items
+
+A Star Chart	ROW144	star boomerang	star chart	star (4)	line (5)
+A Star Chart	ROW138	star buckler	star chart	star (4)	line (6)
+A Star Chart	ROW134	star crossbow	star chart	star (5)	line (6)
+A Star Chart	ROW137	star hat	star chart	star (5)	line (3)
+A Star Chart	ROW136	star pants	star chart	star (7)	line (7)
+A Star Chart	ROW145	star spatula	star chart	star (5)	line (5)
+A Star Chart	ROW135	star staff	star chart	star (6)	line (5)
+A Star Chart	ROW140	star starfish	star chart	star (6)	line (4)
+A Star Chart	ROW143	star stiletto	star chart	star (5)	line (4)
+A Star Chart	ROW133	star sword	star chart	star (7)	line (4)
+A Star Chart	ROW139	star throwing star	star chart	star (4)	line (2)
+A Star Chart	ROW141	Richard's star key	star chart	star (8)	line (7)
+A Star Chart	ROW142	star shirt	star chart	star (15)	line (15)
+
 # Things you can sell to get dimes
 
 Dimemaster	sell	3	beer bong

@@ -28,6 +28,8 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo23ElfArmoryRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.GeneticFiddlingRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.StarChartRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.SugarSheetRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.shop.ShopRow;
 import net.sourceforge.kolmafia.shop.ShopRowDatabase;
@@ -588,6 +590,59 @@ public class CoinMasterRequestTest {
             "/shop.php",
             "whichshop=mutate&action=buyitem&quantity=1&whichrow=861");
         assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+      }
+    }
+  }
+
+  @Nested
+  class Quantity {
+    @Test
+    void buyingFromSugarSheetBuysAllAtOnce() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+
+      var cleanups =
+          new Cleanups(withHttpClientBuilder(builder), withItem(ItemPool.SUGAR_SHEET, 2));
+      try (cleanups) {
+        int row = 327;
+        ShopRow shopRow = ShopRowDatabase.getShopRow(row);
+
+        var buy = SugarSheetRequest.DATA.getRequest(shopRow, 2);
+        buy.run();
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(1));
+        assertPostRequest(
+            requests.get(0),
+            "/shop.php",
+            "whichshop=sugarsheets&action=buyitem&whichrow=327&ajax=1&quantity=2");
+      }
+    }
+
+    @Test
+    void buyingFromStarChartBuysOneAtATime() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withItem(ItemPool.STAR_CHART, 2),
+              withItem(ItemPool.STAR, 8),
+              withItem(ItemPool.LINE, 10));
+      try (cleanups) {
+        int row = 144;
+        ShopRow shopRow = ShopRowDatabase.getShopRow(row);
+
+        var buy = StarChartRequest.DATA.getRequest(shopRow, 2);
+        buy.run();
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(2));
+        assertPostRequest(
+            requests.get(0), "/shop.php", "whichshop=starchart&action=buyitem&whichrow=144&ajax=1");
+        assertPostRequest(
+            requests.get(1), "/shop.php", "whichshop=starchart&action=buyitem&whichrow=144&ajax=1");
       }
     }
   }

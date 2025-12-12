@@ -120,7 +120,7 @@ snackbar	Huggler Memorial Colosseum Snack Bar	NPC
 snowgarden	Winter Gardening	COIN
 spacegate	Spacegate Fabrication Facility	COIN
 spant	Spant Bit Assembly	COIN
-starchart	A Star Chart	CONC	STARCHART
+starchart	A Star Chart	COIN
 still	Nash Crosby's Still	CONC	STILL
 sugarsheets	Sugar Sheet Folding	COIN
 thankshop	A traveling Thanksgiving salesman	COIN
