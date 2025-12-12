@@ -782,6 +782,15 @@ Freshwater Fishbonery	buy	15	fishbone kneepads	ROW321
 Freshwater Fishbonery	buy	30	fishbone catcher's mitt	ROW320
 Freshwater Fishbonery	buy	20	fishbone fins	ROW323
 
+# Xiblaxian 5D Printer
+Xiblaxian 5D printer	ROW337	Xiblaxian xeno-detection goggles	Xiblaxian polymer (4)	Xiblaxian crystal (2)
+Xiblaxian 5D printer	ROW334	Xiblaxian stealth cowl	Xiblaxian circuitry (4)	Xiblaxian polymer (9)	Xiblaxian alloy (5)
+Xiblaxian 5D printer	ROW336	Xiblaxian stealth vest	Xiblaxian circuitry (5)	Xiblaxian polymer (4)	Xiblaxian alloy (9)
+Xiblaxian 5D printer	ROW335	Xiblaxian stealth trousers	Xiblaxian circuitry (9)	Xiblaxian polymer (4)	Xiblaxian alloy (5)
+Xiblaxian 5D printer	ROW339	Xiblaxian ultraburrito	Xiblaxian circuitry	Xiblaxian polymer	Xiblaxian alloy (3)
+Xiblaxian 5D printer	ROW338	Xiblaxian space-whiskey	Xiblaxian circuitry (3)	Xiblaxian polymer	Xiblaxian alloy
+Xiblaxian 5D printer	ROW340	Xiblaxian residence-cube	Xiblaxian circuitry (11)	Xiblaxian polymer (11)	Xiblaxian alloy (11)	Xiblaxian crystal (3)
+
 # Things you can buy with Coins-spiracy
 
 The SHAWARMA Initiative	buy	2	initiative shawarma	ROW342

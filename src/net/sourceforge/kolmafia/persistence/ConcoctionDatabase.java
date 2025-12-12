@@ -1947,11 +1947,6 @@ public class ConcoctionDatabase {
     ConcoctionDatabase.EXCUSE.put(
         CraftingType.SAUSAGE_O_MATIC, "You do not have a Kramco Sausage-o-Matic&trade;.");
 
-    if (InventoryManager.getCount(ItemPool.FIVE_D_PRINTER) > 0) {
-      permitNoCost(CraftingType.FIVE_D);
-    }
-    ConcoctionDatabase.EXCUSE.put(CraftingType.FIVE_D, "You do not have a Xiblaxian 5D printer.");
-
     if (VYKEACompanionData.currentCompanion() != VYKEACompanionData.NO_COMPANION) {
       ConcoctionDatabase.EXCUSE.put(
           CraftingType.VYKEA, "You can only build one VYKEA Companion a day.");
@@ -2378,7 +2373,6 @@ public class ConcoctionDatabase {
       case CLIPART -> result.append("Summon Clip Art");
       case JARLS -> result.append("Jarlsberg's Kitchen");
       case GRANDMA -> result.append("Grandma Sea Monkee");
-      case FIVE_D -> result.append("Xiblaxian 5D printer");
       case VYKEA -> result.append("VYKEA");
       case FLOUNDRY -> result.append("Clan Floundry");
       case TERMINAL -> result.append("Source Terminal");
@@ -2805,7 +2799,6 @@ public class ConcoctionDatabase {
       }
       case "GRANDMA" -> ConcoctionDatabase.mixingMethod = CraftingType.GRANDMA;
       case "KRINGLE" -> ConcoctionDatabase.mixingMethod = CraftingType.KRINGLE;
-      case "5D" -> ConcoctionDatabase.mixingMethod = CraftingType.FIVE_D;
       case "VYKEA" -> ConcoctionDatabase.mixingMethod = CraftingType.VYKEA;
       case "TERMINAL" -> ConcoctionDatabase.mixingMethod = CraftingType.TERMINAL;
       case "BARREL" -> ConcoctionDatabase.mixingMethod = CraftingType.BARREL;
