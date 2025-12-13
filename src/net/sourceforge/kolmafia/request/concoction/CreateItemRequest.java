@@ -31,7 +31,6 @@ import net.sourceforge.kolmafia.request.PulverizeRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.concoction.shop.Crimbo12Request;
-import net.sourceforge.kolmafia.request.concoction.shop.JarlsbergRequest;
 import net.sourceforge.kolmafia.request.concoction.shop.PixelRequest;
 import net.sourceforge.kolmafia.request.concoction.shop.StillRequest;
 import net.sourceforge.kolmafia.request.concoction.shop.TinkeringBenchRequest;
@@ -228,7 +227,6 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
       case CRIMBO12 -> new Crimbo12Request(conc);
       case PHINEAS -> new PhineasRequest(conc);
       case CLIPART -> new ClipArtRequest(conc);
-      case JARLS -> new JarlsbergRequest(conc);
       case VYKEA -> new VYKEARequest(conc);
       case FLOUNDRY -> new FloundryRequest(conc);
       case TERMINAL -> new TerminalExtrudeRequest(conc);

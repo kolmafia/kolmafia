@@ -106,6 +106,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     addPanel(new DimemasterPanel());
     addPanel(new QuartersmasterPanel());
     addPanel(new BURTPanel());
+    addPanel(new JarlsbergPanel());
     addPanel(new KOLHSArtPanel());
     addPanel(new KOLHSChemPanel());
     addPanel(new KOLHSShopPanel());
@@ -457,6 +458,12 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
   public class BURTPanel extends CoinmasterPanel {
     public BURTPanel() {
       super(BURTRequest.BURT);
+    }
+  }
+
+  public class JarlsbergPanel extends CoinmasterPanel {
+    public JarlsbergPanel() {
+      super(JarlsbergRequest.DATA);
     }
   }
 

@@ -37,12 +37,6 @@
 # EJEWEL (skilled jewelrymaking)
 # TIKI (Tiki mixing)
 
-# JARLS for Avatar of Jarlsberg crafting
-# Combination of Jarlsberg crafting and the required skill
-# JARLSBOIL, JARLSFRY, JARLSCHOP, JARLSSLICE
-# JARLSBAKE, JARLSGRILL, JARLSFREEZE, JARLSBLEND
-
-
 # Items which can be obtained by simply using another item.  There are
 # lots more of these, but this appears to be the only one that
 # guarantees that each item drops exactly once.
@@ -2300,71 +2294,7 @@ Mark IV Steam-Hat	COMBINE	Mark III Steam-Hat	brass gear
 Mark V Steam-Hat	COMBINE	Mark IV Steam-Hat	brass gear
 
 # Avatar of Jarlsberg ingredients
-consummate hard-boiled egg	JARLSBOIL, ROW42	cosmic egg
-consummate bagel	JARLSBOIL, ROW45	cosmic dough
-consummate soup	JARLSBOIL, ROW51	cosmic vegetable
-consummate fried egg	JARLSFRY, ROW43	cosmic egg
-consummate bacon	JARLSFRY, ROW58	cosmic potted meat product
-consummate french fries	JARLSFRY, ROW63	cosmic potato
-consummate hot dog bun	JARLSCHOP, ROW47	cosmic dough
-consummate salad	JARLSCHOP, ROW53	cosmic vegetable
-consummate sliced bread	JARLSSLICE, ROW46	cosmic dough
-consummate corn chips	JARLSSLICE, ROW52	cosmic vegetable
-consummate cheese slice	JARLSSLICE, ROW56	cosmic cheese
-consummate strawberries	JARLSSLICE, ROW69	cosmic fruit
-consummate brownie	JARLSBAKE, ROW48	cosmic dough
-consummate melted cheese	JARLSBAKE, ROW57	cosmic cheese
-consummate meatloaf	JARLSBAKE, ROW59	cosmic potted meat product
-consummate baked potato	JARLSBAKE, ROW64	cosmic potato
-consummate toast	JARLSGRILL, ROW49	cosmic dough
-consummate steak	JARLSGRILL, ROW60	cosmic potted meat product
-consummate cold cuts	JARLSFREEZE, ROW61	cosmic potted meat product
-consummate ice cream	JARLSFREEZE, ROW66	cosmic cream
-consummate sorbet	JARLSFREEZE, ROW70	cosmic fruit
-consummate egg salad	JARLSBLEND, ROW44	cosmic egg
-consummate salsa	JARLSBLEND, ROW54	cosmic vegetable
-consummate frankfurter	JARLSBLEND, ROW62	cosmic potted meat product
-consummate whipped cream	JARLSBLEND, ROW67	cosmic cream
-passable stout	JARLSCURDLE, ROW50	cosmic dough
-consummate sauerkraut	JARLSCURDLE, ROW55	cosmic vegetable
-acceptable vodka	JARLSCURDLE, ROW65	cosmic potato
-consummate sour cream	JARLSCURDLE, ROW68	cosmic cream
-adequate rum	JARLSCURDLE, ROW71	cosmic fruit
-cosmic six-pack	JARLS, ROW112
 mediocre lager (6)	SUSE	cosmic six-pack
-
-# Avatar of Jarlsberg dishes
-immaculate grilled cheese	JARLS, ROW72	consummate toast	consummate cheese slice
-immaculate ice cream sandwich	JARLS, ROW73	consummate ice cream	consummate brownie
-immaculate hot dog	JARLS, ROW74	consummate hot dog bun	consummate frankfurter
-immaculate egg salad sandwich	JARLS, ROW75	consummate egg salad	consummate sliced bread
-perfect sandwich	JARLS, ROW76	consummate sliced bread	consummate cheese slice	consummate cold cuts
-perfect chef salad	JARLS, ROW77	consummate salad	consummate hard-boiled egg	consummate cold cuts
-perfect breakfast	JARLS, ROW78	consummate fried egg	consummate bacon	consummate toast
-sublime deluxe hot dog	JARLS, ROW79	consummate hot dog bun	consummate frankfurter	consummate sauerkraut
-sublime stew	JARLS, ROW80	consummate soup	consummate steak	consummate baked potato
-sublime nachos	JARLS, ROW81	consummate corn chips	consummate salsa	consummate melted cheese	consummate sour cream
-Ultimate Breakfast Sandwich	JARLS, ROW82	consummate fried egg	consummate bagel	consummate cheese slice	consummate bacon
-Loaded Baked Potato	JARLS, ROW83	consummate baked potato	consummate bacon	consummate melted cheese	consummate sour cream
-Omega Sundae	JARLS, ROW84	consummate ice cream	consummate whipped cream	consummate strawberries	consummate brownie
-Das Sauerlager	JARLS, ROW85	mediocre lager	consummate sauerkraut
-Bologna Lambic	JARLS, ROW86	passable stout	consummate cold cuts
-Vodka Dog	JARLS, ROW87	acceptable vodka	consummate hot dog bun
-Disappointed Russian	JARLS, ROW88	acceptable vodka	consummate sour cream
-Chunky Mary	JARLS, ROW89	acceptable vodka	consummate salsa
-Nachojito	JARLS, ROW90	adequate rum	consummate melted cheese
-Le Roi	JARLS, ROW91	adequate rum	consummate french fries
-Over Easy Rider	JARLS, ROW92	adequate rum	consummate fried egg
-
-# Avatar of Jarlsberg chefstaves
-Staff of Fruit Salad	JARLS, ROW110	cosmic fruit
-Staff of the All-Steak	JARLS, ROW109	cosmic potted meat product
-Staff of the Cream of the Cream	JARLS, ROW111	cosmic cream
-Staff of the Healthy Breakfast	JARLS, ROW104	cosmic egg
-Staff of the Hearty Dinner	JARLS, ROW108	cosmic potato
-Staff of the Light Lunch	JARLS, ROW106	cosmic vegetable
-Staff of the Staff of Life	JARLS, ROW105	cosmic dough
-Staff of the Standalone Cheese	JARLS, ROW107	cosmic cheese
 
 # Beer Can
 tin cup	MUSE	fancy tin beer can (1)

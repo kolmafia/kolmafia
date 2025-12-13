@@ -2013,39 +2013,6 @@ public class ConcoctionDatabase {
       ConcoctionDatabase.REQUIREMENT_MET.add(CraftingRequirements.NOBEE);
     }
 
-    if (KoLCharacter.isJarlsberg()) {
-      permitNoCost(CraftingType.JARLS);
-
-      if (KoLCharacter.hasSkill(SkillPool.BAKE)) {
-        ConcoctionDatabase.REQUIREMENT_MET.add(CraftingRequirements.BAKE);
-      }
-      if (KoLCharacter.hasSkill(SkillPool.BLEND)) {
-        ConcoctionDatabase.REQUIREMENT_MET.add(CraftingRequirements.BLEND);
-      }
-      if (KoLCharacter.hasSkill(SkillPool.BOIL)) {
-        ConcoctionDatabase.REQUIREMENT_MET.add(CraftingRequirements.BOIL);
-      }
-      if (KoLCharacter.hasSkill(SkillPool.CHOP)) {
-        ConcoctionDatabase.REQUIREMENT_MET.add(CraftingRequirements.CHOP);
-      }
-      if (KoLCharacter.hasSkill(SkillPool.CURDLE)) {
-        ConcoctionDatabase.REQUIREMENT_MET.add(CraftingRequirements.CURDLE);
-      }
-      if (KoLCharacter.hasSkill(SkillPool.FREEZE)) {
-        ConcoctionDatabase.REQUIREMENT_MET.add(CraftingRequirements.FREEZE);
-      }
-      if (KoLCharacter.hasSkill(SkillPool.FRY)) {
-        ConcoctionDatabase.REQUIREMENT_MET.add(CraftingRequirements.FRY);
-      }
-      if (KoLCharacter.hasSkill(SkillPool.GRILL)) {
-        ConcoctionDatabase.REQUIREMENT_MET.add(CraftingRequirements.GRILL);
-      }
-      if (KoLCharacter.hasSkill(SkillPool.SLICE)) {
-        ConcoctionDatabase.REQUIREMENT_MET.add(CraftingRequirements.SLICE);
-      }
-    }
-    ConcoctionDatabase.EXCUSE.put(CraftingType.JARLS, "You are not an Avatar of Jarlsberg");
-
     boolean clanFloundry =
         ClanLoungeRequest.hasClanLoungeItem(ItemPool.get(ItemPool.CLAN_FLOUNDRY, 1));
     boolean gotFloundryItem =
@@ -2354,7 +2321,6 @@ public class ConcoctionDatabase {
       case ACOMBINE -> result.append("Meatpasting (not untinkerable)");
       case COINMASTER -> result.append("Coin Master purchase");
       case CLIPART -> result.append("Summon Clip Art");
-      case JARLS -> result.append("Jarlsberg's Kitchen");
       case VYKEA -> result.append("VYKEA");
       case FLOUNDRY -> result.append("Clan Floundry");
       case TERMINAL -> result.append("Source Terminal");
@@ -2438,24 +2404,6 @@ public class ConcoctionDatabase {
 
     if (mixingRequirements.contains(CraftingRequirements.NOBEE))
       result.append(" (Unavailable in Beecore)");
-
-    if (mixingRequirements.contains(CraftingRequirements.BAKE)) result.append(" (Bake)");
-
-    if (mixingRequirements.contains(CraftingRequirements.BLEND)) result.append(" (Blend)");
-
-    if (mixingRequirements.contains(CraftingRequirements.BOIL)) result.append(" (Boil)");
-
-    if (mixingRequirements.contains(CraftingRequirements.CHOP)) result.append(" (Chop)");
-
-    if (mixingRequirements.contains(CraftingRequirements.CURDLE)) result.append(" (Curdle)");
-
-    if (mixingRequirements.contains(CraftingRequirements.FREEZE)) result.append(" (Freeze)");
-
-    if (mixingRequirements.contains(CraftingRequirements.FRY)) result.append(" (Fry)");
-
-    if (mixingRequirements.contains(CraftingRequirements.GRILL)) result.append(" (Grill)");
-
-    if (mixingRequirements.contains(CraftingRequirements.SLICE)) result.append(" (Slice)");
 
     return result.toString();
   }
@@ -2738,43 +2686,6 @@ public class ConcoctionDatabase {
       case "DSAUCE" -> {
         ConcoctionDatabase.mixingMethod = CraftingType.COOK_FANCY;
         ConcoctionDatabase.requirements.add(CraftingRequirements.DEEP_SAUCERY);
-      }
-      case "JARLS" -> ConcoctionDatabase.mixingMethod = CraftingType.JARLS;
-      case "JARLSBAKE" -> {
-        ConcoctionDatabase.mixingMethod = CraftingType.JARLS;
-        ConcoctionDatabase.requirements.add(CraftingRequirements.BAKE);
-      }
-      case "JARLSBLEND" -> {
-        ConcoctionDatabase.mixingMethod = CraftingType.JARLS;
-        ConcoctionDatabase.requirements.add(CraftingRequirements.BLEND);
-      }
-      case "JARLSBOIL" -> {
-        ConcoctionDatabase.mixingMethod = CraftingType.JARLS;
-        ConcoctionDatabase.requirements.add(CraftingRequirements.BOIL);
-      }
-      case "JARLSCHOP" -> {
-        ConcoctionDatabase.mixingMethod = CraftingType.JARLS;
-        ConcoctionDatabase.requirements.add(CraftingRequirements.CHOP);
-      }
-      case "JARLSCURDLE" -> {
-        ConcoctionDatabase.mixingMethod = CraftingType.JARLS;
-        ConcoctionDatabase.requirements.add(CraftingRequirements.CURDLE);
-      }
-      case "JARLSFREEZE" -> {
-        ConcoctionDatabase.mixingMethod = CraftingType.JARLS;
-        ConcoctionDatabase.requirements.add(CraftingRequirements.FREEZE);
-      }
-      case "JARLSFRY" -> {
-        ConcoctionDatabase.mixingMethod = CraftingType.JARLS;
-        ConcoctionDatabase.requirements.add(CraftingRequirements.FRY);
-      }
-      case "JARLSGRILL" -> {
-        ConcoctionDatabase.mixingMethod = CraftingType.JARLS;
-        ConcoctionDatabase.requirements.add(CraftingRequirements.GRILL);
-      }
-      case "JARLSSLICE" -> {
-        ConcoctionDatabase.mixingMethod = CraftingType.JARLS;
-        ConcoctionDatabase.requirements.add(CraftingRequirements.SLICE);
       }
       case "VYKEA" -> ConcoctionDatabase.mixingMethod = CraftingType.VYKEA;
       case "TERMINAL" -> ConcoctionDatabase.mixingMethod = CraftingType.TERMINAL;

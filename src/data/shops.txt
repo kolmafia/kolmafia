@@ -79,7 +79,7 @@ guzzlr	Guzzlr Company Store Website	COIN
 hiddentavern	The Hidden Tavern	NPC
 hippy	Hippy Store (Pre-War)	NPC
 infernodisco	Disco GiftCo	COIN
-jarl	Jarlsberg's Cosmic Kitchen	CONC	JARLS
+jarl	Jarlsberg's Cosmic Kitchen	COIN
 jewelers	Little Canadia Jewelers	NPC
 junkmagazine	Worse Homes and Gardens	COIN
 kiwi	Kiwi Kwiki Mart	COIN
