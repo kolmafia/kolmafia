@@ -22,7 +22,7 @@ cindy	Paul's Boutique	COIN
 conmerch	KoL Con 13 Merch Table	COIN
 crimbo12	Uncle Crimbo's Futuristic Trailer	CONC	CRIMBO12
 crimbo14	Crimbo 2014	COIN
-crimbo16	Crimbo Lumps Shop	CONC	CRIMBO16
+crimbo16	Crimbo Lumps Shop	COIN
 crimbo17	Cheer-o-Vend 3000	COIN
 crimbo18	The Crimbo Cafe (2018)	NPC
 crimbo18giftomat	Crimbo Town Gift-O-Mat	NPC

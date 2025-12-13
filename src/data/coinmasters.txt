@@ -1028,6 +1028,23 @@ A traveling Thanksgiving salesman	buy	3	gravy boat	ROW906
 
 The Black Market	buy	1	Red Zeppelin ticket	ROW290
 
+# Crimbo 16
+
+Crimbo Lumps Shop	ROW911	hambrosier	negative lump (10)
+Crimbo Lumps Shop	ROW912	chakra-mental wine	negative lump (10)
+Crimbo Lumps Shop	ROW913	chakra malt	negative lump (10)
+Crimbo Lumps Shop	ROW914	Black Angus blackburger	negative lump (20)	chakra sludge
+Crimbo Lumps Shop	ROW915	black brandy	negative lump (20)	chakra sludge
+Crimbo Lumps Shop	ROW916	potion of spiritual gunkifying	negative lump (20)	chakra sludge
+Crimbo Lumps Shop	ROW917	bad vibroknife	negative lump (100)	chakra sludge (10)
+Crimbo Lumps Shop	ROW918	crystal belt buckle	negative lump (100)	chakra sludge (10)
+Crimbo Lumps Shop	ROW919	saffron antaravasaka	negative lump (200)	chakra sludge (20)
+Crimbo Lumps Shop	ROW920	saffron uttarasanga	negative lump (200)	chakra sludge (20)
+Crimbo Lumps Shop	ROW921	Lump-Stacking for Beginners	negative lump (1000)	chakra sludge (30)
+Crimbo Lumps Shop	ROW922	pet bad vibe	negative lump (2000)	chakra sludge (50)
+Crimbo Lumps Shop	ROW923	Rethinking Candy	negative lump (4000)	chakra sludge (75)
+Crimbo Lumps Shop	ROW924	eternal knot tattoo	negative lump (8000)	chakra sludge (100)
+
 # Things you can buy with Spacegate Research
 
 Spacegate Fabrication Facility	buy	50	Aldebaran sardines	ROW943

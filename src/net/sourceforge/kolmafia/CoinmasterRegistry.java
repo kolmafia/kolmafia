@@ -35,6 +35,7 @@ import net.sourceforge.kolmafia.request.coinmaster.shop.CanteenRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.ChemiCorpRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.CosmicRaysBazaarRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo14Request;
+import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo16Request;
 import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo17Request;
 import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo20BoozeRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo20CandyRequest;
@@ -144,6 +145,7 @@ public abstract class CoinmasterRegistry {
         CRIMBCOGiftShopRequest.CRIMBCO_GIFT_SHOP,
         Crimbo11Request.CRIMBO11,
         Crimbo14Request.CRIMBO14,
+        Crimbo16Request.DATA,
         Crimbo17Request.CRIMBO17,
         Crimbo20BoozeRequest.CRIMBO20BOOZE,
         Crimbo20CandyRequest.CRIMBO20CANDY,

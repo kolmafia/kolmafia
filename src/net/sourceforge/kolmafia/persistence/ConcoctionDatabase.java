@@ -2053,9 +2053,6 @@ public class ConcoctionDatabase {
     }
     ConcoctionDatabase.EXCUSE.put(CraftingType.JARLS, "You are not an Avatar of Jarlsberg");
 
-    // It's Crimbo, so allow creation!
-    // permitNoCost( CraftingType.CRIMBO16 );
-
     boolean clanFloundry =
         ClanLoungeRequest.hasClanLoungeItem(ItemPool.get(ItemPool.CLAN_FLOUNDRY, 1));
     boolean gotFloundryItem =
@@ -2364,7 +2361,6 @@ public class ConcoctionDatabase {
       case CRIMBO06 -> result.append("Uncle Crimbo's Mobile Home (Crimboween 2006)");
       case CRIMBO07 -> result.append("Uncle Crimbo's Mobile Home (Crimbo 2007)");
       case CRIMBO12 -> result.append("Uncle Crimbo's Futuristic Trailer (Crimboku 2012)");
-      case CRIMBO16 -> result.append("Crimbo Lumps Shop (Crimbo 2016)");
       case PHINEAS -> result.append("Phineas");
       case COOK_FANCY -> result.append("Cooking (fancy)");
       case MIX_FANCY -> result.append("Mixing (fancy)");
@@ -2634,8 +2630,6 @@ public class ConcoctionDatabase {
       case "CRIMBO07" -> ConcoctionDatabase.mixingMethod = CraftingType.CRIMBO07;
       // Items formerly creatable in Crimbo Town during Crimbo 2012
       case "CRIMBO12" -> ConcoctionDatabase.mixingMethod = CraftingType.CRIMBO12;
-      // Items creatable in Crimbo Town during Crimbo 2016
-      case "CRIMBO16" -> ConcoctionDatabase.mixingMethod = CraftingType.CRIMBO16;
       // Items requiring access to Phineas
       case "PHINEAS" -> ConcoctionDatabase.mixingMethod = CraftingType.PHINEAS;
       // Items that require a Dramatic Range

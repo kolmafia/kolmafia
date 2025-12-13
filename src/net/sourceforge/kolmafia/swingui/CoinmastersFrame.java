@@ -75,6 +75,7 @@ import net.sourceforge.kolmafia.request.coinmaster.shop.CanteenRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.ChemiCorpRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.CosmicRaysBazaarRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo14Request;
+import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo16Request;
 import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo17Request;
 import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo20BoozeRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo20CandyRequest;
@@ -310,6 +311,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     addPanel(new CRIMBCOGiftShopPanel());
     addPanel(new Crimbo11Panel());
     addPanel(new Crimbo14Panel());
+    addPanel(new Crimbo16Panel());
     addPanel(new Crimbo17Panel());
     addPanel(new Crimbo20BoozePanel());
     addPanel(new Crimbo20CandyPanel());
@@ -887,6 +889,12 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
       this.add(this.sellPanel, BorderLayout.NORTH);
       this.buyPanel = new BuyPanel();
       this.add(this.buyPanel, BorderLayout.CENTER);
+    }
+  }
+
+  private class Crimbo16Panel extends CoinmasterPanel {
+    public Crimbo16Panel() {
+      super(Crimbo16Request.DATA);
     }
   }
 
