@@ -88,6 +88,7 @@ public abstract class CoinmasterRegistry {
         GeneticFiddlingRequest.DATA,
         GotporkOrphanageRequest.GOTPORK_ORPHANAGE,
         GotporkPDRequest.GOTPORK_PD,
+        GrandmaRequest.DATA,
         GuzzlrRequest.GUZZLR,
         HermitRequest.HERMIT,
         IsotopeSmitheryRequest.ISOTOPE_SMITHERY,

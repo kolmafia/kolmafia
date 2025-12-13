@@ -126,6 +126,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     this.selectorPanel.addCategory("Aftercore");
 
     addPanel(new BigBrotherPanel());
+    addPanel(new GrandmaPanel());
     addPanel(new TerrifiedEagleInnPanel());
 
     // IOTM coinmasters
@@ -668,6 +669,12 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
   private class BigBrotherPanel extends CoinmasterPanel {
     public BigBrotherPanel() {
       super(BigBrotherRequest.BIG_BROTHER);
+    }
+  }
+
+  private class GrandmaPanel extends CoinmasterPanel {
+    public GrandmaPanel() {
+      super(GrandmaRequest.DATA);
     }
   }
 

@@ -2366,27 +2366,6 @@ Staff of the Light Lunch	JARLS, ROW106	cosmic vegetable
 Staff of the Staff of Life	JARLS, ROW105	cosmic dough
 Staff of the Standalone Cheese	JARLS, ROW107	cosmic cheese
 
-# Grandma's Sea Shop
-crappy Mer-kin mask	MANUAL, GRANDMA, ROW128	Mer-kin gladiator mask
-crappy Mer-kin mask	MANUAL, GRANDMA, ROW131	Mer-kin scholar mask
-crappy Mer-kin mask	GRANDMA, ROW124	aerated diving helmet	pristine fish scale (3)
-crappy Mer-kin tailpiece	MANUAL, GRANDMA, ROW1619	Mer-kin scholar tailpiece
-crappy Mer-kin tailpiece	MANUAL, GRANDMA, ROW1618	Mer-kin gladiator tailpiece
-crappy Mer-kin tailpiece	GRANDMA, ROW125	sea chaps	teflon swim fins	pristine fish scale (3)
-Mer-kin gladiator mask	GRANDMA, ROW126	crappy Mer-kin mask	Mer-kin headguard
-Mer-kin gladiator tailpiece	GRANDMA, ROW127	crappy Mer-kin tailpiece	Mer-kin thighguard
-Mer-kin scholar mask	GRANDMA, ROW129	crappy Mer-kin mask	Mer-kin facecowl
-Mer-kin scholar tailpiece	GRANDMA, ROW130	crappy Mer-kin tailpiece	Mer-kin waistrope
-sushi doily	GRANDMA, ROW116	sea lace
-scimitar cozy	GRANDMA, ROW117	sea lace (3)	pristine fish scale
-fish stick cozy	GRANDMA, ROW118	sea lace (3)	pristine fish scale
-bazooka cozy	GRANDMA, ROW119	sea lace (3)	pristine fish scale
-scale-mail underwear	GRANDMA, ROW132	dull fish scale (25)	pristine fish scale
-sea mantle	GRANDMA, ROW120	pristine fish scale (5)
-sea shawl	GRANDMA, ROW121	pristine fish scale (5)
-sea cape	GRANDMA, ROW122	pristine fish scale (5)
-saltwaterbed	GRANDMA, ROW123	sea leather (15)
-
 # Beer Can
 tin cup	MUSE	fancy tin beer can (1)
 tin snips	MUSE	fancy tin beer can (2)

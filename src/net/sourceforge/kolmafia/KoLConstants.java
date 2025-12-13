@@ -493,7 +493,6 @@ public interface KoLConstants extends UtilityConstants {
     COINMASTER, // Coinmaster purchase
     CLIPART, // Tome of Clip Art summons
     JARLS, // Items that can only be made by an Avatar of Jarlsberg
-    GRANDMA, // Items made by Grandma Sea Monkee
     VYKEA, // Items made with VYKEA instructions
     FLOUNDRY, // Items made in Clan Floundry
     TERMINAL, // Items extruded from Source Terminal

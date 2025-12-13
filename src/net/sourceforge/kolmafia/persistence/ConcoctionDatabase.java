@@ -43,7 +43,6 @@ import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
-import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
@@ -1921,12 +1920,6 @@ public class ConcoctionDatabase {
     ConcoctionDatabase.EXCUSE.put(
         CraftingType.SUSHI, "You cannot make sushi without a sushi-rolling mat.");
 
-    // You can ask Grandma to make stuff if you have rescued her.
-    if (QuestDatabase.isQuestLaterThan(Quest.SEA_MONKEES, "step8")) {
-      permitNoCost(CraftingType.GRANDMA);
-    }
-    ConcoctionDatabase.EXCUSE.put(CraftingType.GRANDMA, "You must rescue Grandma first.");
-
     // You trade tokens to Coin Masters if you have opted in to do so,
 
     if (Preferences.getBoolean("autoSatisfyWithCoinmasters")) {
@@ -2362,7 +2355,6 @@ public class ConcoctionDatabase {
       case COINMASTER -> result.append("Coin Master purchase");
       case CLIPART -> result.append("Summon Clip Art");
       case JARLS -> result.append("Jarlsberg's Kitchen");
-      case GRANDMA -> result.append("Grandma Sea Monkee");
       case VYKEA -> result.append("VYKEA");
       case FLOUNDRY -> result.append("Clan Floundry");
       case TERMINAL -> result.append("Source Terminal");
@@ -2784,7 +2776,6 @@ public class ConcoctionDatabase {
         ConcoctionDatabase.mixingMethod = CraftingType.JARLS;
         ConcoctionDatabase.requirements.add(CraftingRequirements.SLICE);
       }
-      case "GRANDMA" -> ConcoctionDatabase.mixingMethod = CraftingType.GRANDMA;
       case "VYKEA" -> ConcoctionDatabase.mixingMethod = CraftingType.VYKEA;
       case "TERMINAL" -> ConcoctionDatabase.mixingMethod = CraftingType.TERMINAL;
       case "BARREL" -> ConcoctionDatabase.mixingMethod = CraftingType.BARREL;

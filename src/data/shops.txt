@@ -71,7 +71,7 @@ glaciest	Wal-Mart	COIN
 glover	G-Mart	COIN
 gnoll	Degrassi Knoll Bakery and Hardware Store	NPC
 gnomart	Gno-Mart	NPC
-grandma	Grandma Sea Monkey	CONC	GRANDMA
+grandma	Grandma Sea Monkey	COIN
 guildstore1	Shadowy Store	NPC
 guildstore2	Gouda's Grimoire and Grocery	NPC
 guildstore3	Smacketeria	NPC

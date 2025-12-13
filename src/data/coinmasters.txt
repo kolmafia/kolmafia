@@ -569,6 +569,28 @@ FDKOL Tent	buy	1500	FDKOL fire hose	ROW11
 FDKOL Tent	buy	1500	enchanted fire extinguisher	ROW8
 FDKOL Tent	buy	3500	Hjodor's Guide to Arctic Dalmatians	ROW9
 
+# Grandma's Sea Shop
+
+# Grandma Sea Monkey	ROW128	crappy Mer-kin mask	Mer-kin gladiator mask
+# Grandma Sea Monkey	ROW131	crappy Mer-kin mask	Mer-kin scholar mask
+Grandma Sea Monkey	ROW124	crappy Mer-kin mask	aerated diving helmet	pristine fish scale (3)
+# Grandma Sea Monkey	ROW1619	crappy Mer-kin tailpiece	Mer-kin scholar tailpiece
+# Grandma Sea Monkey	ROW1618	crappy Mer-kin tailpiece	Mer-kin gladiator tailpiece
+Grandma Sea Monkey	ROW125	crappy Mer-kin tailpiece	sea chaps	teflon swim fins	pristine fish scale (3)
+Grandma Sea Monkey	ROW126	Mer-kin gladiator mask	crappy Mer-kin mask	Mer-kin headguard
+Grandma Sea Monkey	ROW127	Mer-kin gladiator tailpiece	crappy Mer-kin tailpiece	Mer-kin thighguard
+Grandma Sea Monkey	ROW129	Mer-kin scholar mask	crappy Mer-kin mask	Mer-kin facecowl
+Grandma Sea Monkey	ROW130	Mer-kin scholar tailpiece	crappy Mer-kin tailpiece	Mer-kin waistrope
+Grandma Sea Monkey	ROW116	sushi doily	sea lace
+Grandma Sea Monkey	ROW117	scimitar cozy	sea lace (3)	pristine fish scale
+Grandma Sea Monkey	ROW118	fish stick cozy	sea lace (3)	pristine fish scale
+Grandma Sea Monkey	ROW119	bazooka cozy	sea lace (3)	pristine fish scale
+Grandma Sea Monkey	ROW132	scale-mail underwear	dull fish scale (25)	pristine fish scale
+Grandma Sea Monkey	ROW120	sea mantle	pristine fish scale (5)
+Grandma Sea Monkey	ROW121	sea shawl	pristine fish scale (5)
+Grandma Sea Monkey	ROW122	sea cape	pristine fish scale (5)
+Grandma Sea Monkey	ROW123	saltwaterbed	sea leather (15)
+
 # Things you can buy with Freddy Kruegerands
 
 The Terrified Eagle Inn	buy	1	hot Dreadsylvanian cocoa	ROW156
@@ -1558,28 +1580,6 @@ The Dedigitizer	ROW1570	OVERCLOCK(10) rom chip	1 (256)	0 (64)	dedigitizer schema
 The Dedigitizer	ROW1569	SLEEP(5) rom chip	1 (256)	0 (64)	dedigitizer schematic: SLEEP(5) rom chip
 The Dedigitizer	ROW1571	STATS+++ rom chip	1 (256)	0 (64)	dedigitizer schematic: STATS+++ rom chip
 The Dedigitizer	ROW1576	virtual cybertattoo	1 (512)	0 (128)	dedigitizer schematic: virtual cybertattoo
-
-# Mixing methods with multiple recipes for the same item
-
-Grandma Sea Monkey	ROW131	crappy Mer-kin mask	Mer-kin scholar mask
-Grandma Sea Monkey	ROW128	crappy Mer-kin mask	Mer-kin gladiator mask
-Grandma Sea Monkey	ROW124	crappy Mer-kin mask	aerated diving helmet	pristine fish scale (3)
-Grandma Sea Monkey	ROW1619	crappy Mer-kin tailpiece	Mer-kin scholar tailpiece
-Grandma Sea Monkey	ROW1618	crappy Mer-kin tailpiece	Mer-kin gladiator tailpiece
-Grandma Sea Monkey	ROW125	crappy Mer-kin tailpiece	sea chaps	teflon swim fins	pristine fish scale (3)
-Grandma Sea Monkey	ROW126	Mer-kin gladiator mask	crappy Mer-kin mask	Mer-kin headguard
-Grandma Sea Monkey	ROW127	Mer-kin gladiator tailpiece	crappy Mer-kin tailpiece	Mer-kin thighguard
-Grandma Sea Monkey	ROW129	Mer-kin scholar mask	crappy Mer-kin mask	Mer-kin facecowl
-Grandma Sea Monkey	ROW130	Mer-kin scholar tailpiece	crappy Mer-kin tailpiece	Mer-kin waistrope
-Grandma Sea Monkey	ROW116	sushi doily	sea lace
-Grandma Sea Monkey	ROW117	scimitar cozy	sea lace (3)	pristine fish scale
-Grandma Sea Monkey	ROW118	fish stick cozy	sea lace (3)	pristine fish scale
-Grandma Sea Monkey	ROW119	bazooka cozy	sea lace (3)	pristine fish scale
-Grandma Sea Monkey	ROW132	scale-mail underwear	dull fish scale (25)	pristine fish scale
-Grandma Sea Monkey	ROW120	sea mantle	pristine fish scale (5)
-Grandma Sea Monkey	ROW121	sea shawl	pristine fish scale (5)
-Grandma Sea Monkey	ROW122	sea cape	pristine fish scale (5)
-Grandma Sea Monkey	ROW123	saltwaterbed	sea leather (15)
 
 # April Shower Thoughts
 
