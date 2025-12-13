@@ -2366,27 +2366,6 @@ Staff of the Light Lunch	JARLS, ROW106	cosmic vegetable
 Staff of the Staff of Life	JARLS, ROW105	cosmic dough
 Staff of the Standalone Cheese	JARLS, ROW107	cosmic cheese
 
-# Grandma's Sea Shop
-crappy Mer-kin mask	MANUAL, GRANDMA, ROW128	Mer-kin gladiator mask
-crappy Mer-kin mask	MANUAL, GRANDMA, ROW131	Mer-kin scholar mask
-crappy Mer-kin mask	GRANDMA, ROW124	aerated diving helmet	pristine fish scale (3)
-crappy Mer-kin tailpiece	MANUAL, GRANDMA, ROW1619	Mer-kin scholar tailpiece
-crappy Mer-kin tailpiece	MANUAL, GRANDMA, ROW1618	Mer-kin gladiator tailpiece
-crappy Mer-kin tailpiece	GRANDMA, ROW125	sea chaps	teflon swim fins	pristine fish scale (3)
-Mer-kin gladiator mask	GRANDMA, ROW126	crappy Mer-kin mask	Mer-kin headguard
-Mer-kin gladiator tailpiece	GRANDMA, ROW127	crappy Mer-kin tailpiece	Mer-kin thighguard
-Mer-kin scholar mask	GRANDMA, ROW129	crappy Mer-kin mask	Mer-kin facecowl
-Mer-kin scholar tailpiece	GRANDMA, ROW130	crappy Mer-kin tailpiece	Mer-kin waistrope
-sushi doily	GRANDMA, ROW116	sea lace
-scimitar cozy	GRANDMA, ROW117	sea lace (3)	pristine fish scale
-fish stick cozy	GRANDMA, ROW118	sea lace (3)	pristine fish scale
-bazooka cozy	GRANDMA, ROW119	sea lace (3)	pristine fish scale
-scale-mail underwear	GRANDMA, ROW132	dull fish scale (25)	pristine fish scale
-sea mantle	GRANDMA, ROW120	pristine fish scale (5)
-sea shawl	GRANDMA, ROW121	pristine fish scale (5)
-sea cape	GRANDMA, ROW122	pristine fish scale (5)
-saltwaterbed	GRANDMA, ROW123	sea leather (15)
-
 # Beer Can
 tin cup	MUSE	fancy tin beer can (1)
 tin snips	MUSE	fancy tin beer can (2)
@@ -2769,23 +2748,6 @@ mince pie	COOK	raw mincemeat	glass pie plate
 thanksgiving turkey	COOK	raw turkey	turkey blaster
 warm gravy	COOK	raw gravy	gravy boat
 
-# Crimbo 16
-
-hambrosier	CRIMBO16, ROW911	negative lump (10)
-chakra-mental wine	CRIMBO16, ROW912	negative lump (10)
-chakra malt	CRIMBO16, ROW913	negative lump (10)
-Black Angus blackburger	CRIMBO16, ROW914	negative lump (20)	chakra sludge
-black brandy	CRIMBO16, ROW915	negative lump (20)	chakra sludge
-potion of spiritual gunkifying	CRIMBO16, ROW916	negative lump (20)	chakra sludge
-bad vibroknife	CRIMBO16, ROW917	negative lump (100)	chakra sludge (10)
-crystal belt buckle	CRIMBO16, ROW918	negative lump (100)	chakra sludge (10)
-saffron antaravasaka	CRIMBO16, ROW919	negative lump (200)	chakra sludge (20)
-saffron uttarasanga	CRIMBO16, ROW920	negative lump (200)	chakra sludge (20)
-Lump-Stacking for Beginners	CRIMBO16, ROW921	negative lump (1000)	chakra sludge (30)
-pet bad vibe	CRIMBO16, ROW922	negative lump (2000)	chakra sludge (50)
-Rethinking Candy	CRIMBO16, ROW923	negative lump (4000)	chakra sludge (75)
-eternal knot tattoo	CRIMBO16, ROW924	negative lump (8000)	chakra sludge (100)
-
 # Space Jellyfish
 
 toast with cold jelly	COOK	toast	cold jelly
@@ -2963,17 +2925,6 @@ bottle of sea wine	SUSE	bunch of sea grapes
 stick of firewood (10)	SUSE	bundle of firewood
 
 # Crimbo 2019
-antique nutcracker hat	KRINGLE, ROW1105	waterlogged cloth (3)	waterlogged stuffing (3)
-antique nutcracker beard	KRINGLE, ROW1110	waterlogged stuffing (3)
-antique nutcracker epaulets	KRINGLE, ROW1111	waterlogged wood (3)	waterlogged metal (3)
-antique nutcracker cape	KRINGLE, ROW1106	waterlogged cloth (3)
-antique nutcracker waistcoat	KRINGLE, ROW1107	waterlogged cloth (3)	waterlogged stuffing (3)	waterlogged leather (3)
-antique nutcracker sword	KRINGLE, ROW1109	waterlogged wood (3)	waterlogged metal (3)
-antique nutcracker drumstick	KRINGLE, ROW1112	waterlogged wood (3)	waterlogged stuffing (3)	waterlogged leather (3)
-antique nutcracker pants	KRINGLE, ROW1114	waterlogged cloth (3)	waterlogged leather (3)	waterlogged metal (3)
-antique nutcracker boots	KRINGLE, ROW1108	waterlogged leather (3)	waterlogged metal (3)
-antique nutcracker figurine	KRINGLE, ROW1113	waterlogged wood (3)
-
 tempura green and red bean	TEMPURA	bubbling tempura batter	green and red bean
 salt plum sake	SCOCK	bottle of Pete's Sake	salt plum
 pressurized potion of possessiveness	DSAUCE	globe of Deep Sauce	salt plum

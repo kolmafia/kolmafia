@@ -22,12 +22,12 @@ cindy	Paul's Boutique	COIN
 conmerch	KoL Con 13 Merch Table	COIN
 crimbo12	Uncle Crimbo's Futuristic Trailer	CONC	CRIMBO12
 crimbo14	Crimbo 2014	COIN
-crimbo16	Crimbo Lumps Shop	CONC	CRIMBO16
+crimbo16	Crimbo Lumps Shop	COIN
 crimbo17	Cheer-o-Vend 3000	COIN
 crimbo18	The Crimbo Cafe (2018)	NPC
 crimbo18giftomat	Crimbo Town Gift-O-Mat	NPC
 crimbo19	The Crimbo Cafe (2019)	NPC
-crimbo19toys	The H. M. S. Kringle's Workshop	CONC	KRINGLE
+crimbo19toys	The H. M. S. Kringle's Workshop	COIN
 crimbo20blackmarket	The Black and White and Red All Over Market	NPC
 crimbo20booze	Elf Booze Drive	COIN
 crimbo20cafe	The Crimbo Cafe (2020)	NPC
@@ -71,7 +71,7 @@ glaciest	Wal-Mart	COIN
 glover	G-Mart	COIN
 gnoll	Degrassi Knoll Bakery and Hardware Store	NPC
 gnomart	Gno-Mart	NPC
-grandma	Grandma Sea Monkey	CONC	GRANDMA
+grandma	Grandma Sea Monkey	COIN
 guildstore1	Shadowy Store	NPC
 guildstore2	Gouda's Grimoire and Grocery	NPC
 guildstore3	Smacketeria	NPC

@@ -569,6 +569,28 @@ FDKOL Tent	buy	1500	FDKOL fire hose	ROW11
 FDKOL Tent	buy	1500	enchanted fire extinguisher	ROW8
 FDKOL Tent	buy	3500	Hjodor's Guide to Arctic Dalmatians	ROW9
 
+# Grandma's Sea Shop
+
+# Grandma Sea Monkey	ROW128	crappy Mer-kin mask	Mer-kin gladiator mask
+# Grandma Sea Monkey	ROW131	crappy Mer-kin mask	Mer-kin scholar mask
+Grandma Sea Monkey	ROW124	crappy Mer-kin mask	aerated diving helmet	pristine fish scale (3)
+# Grandma Sea Monkey	ROW1619	crappy Mer-kin tailpiece	Mer-kin scholar tailpiece
+# Grandma Sea Monkey	ROW1618	crappy Mer-kin tailpiece	Mer-kin gladiator tailpiece
+Grandma Sea Monkey	ROW125	crappy Mer-kin tailpiece	sea chaps	teflon swim fins	pristine fish scale (3)
+Grandma Sea Monkey	ROW126	Mer-kin gladiator mask	crappy Mer-kin mask	Mer-kin headguard
+Grandma Sea Monkey	ROW127	Mer-kin gladiator tailpiece	crappy Mer-kin tailpiece	Mer-kin thighguard
+Grandma Sea Monkey	ROW129	Mer-kin scholar mask	crappy Mer-kin mask	Mer-kin facecowl
+Grandma Sea Monkey	ROW130	Mer-kin scholar tailpiece	crappy Mer-kin tailpiece	Mer-kin waistrope
+Grandma Sea Monkey	ROW116	sushi doily	sea lace
+Grandma Sea Monkey	ROW117	scimitar cozy	sea lace (3)	pristine fish scale
+Grandma Sea Monkey	ROW118	fish stick cozy	sea lace (3)	pristine fish scale
+Grandma Sea Monkey	ROW119	bazooka cozy	sea lace (3)	pristine fish scale
+Grandma Sea Monkey	ROW132	scale-mail underwear	dull fish scale (25)	pristine fish scale
+Grandma Sea Monkey	ROW120	sea mantle	pristine fish scale (5)
+Grandma Sea Monkey	ROW121	sea shawl	pristine fish scale (5)
+Grandma Sea Monkey	ROW122	sea cape	pristine fish scale (5)
+Grandma Sea Monkey	ROW123	saltwaterbed	sea leather (15)
+
 # Things you can buy with Freddy Kruegerands
 
 The Terrified Eagle Inn	buy	1	hot Dreadsylvanian cocoa	ROW156
@@ -1028,6 +1050,23 @@ A traveling Thanksgiving salesman	buy	3	gravy boat	ROW906
 
 The Black Market	buy	1	Red Zeppelin ticket	ROW290
 
+# Crimbo 16
+
+Crimbo Lumps Shop	ROW911	hambrosier	negative lump (10)
+Crimbo Lumps Shop	ROW912	chakra-mental wine	negative lump (10)
+Crimbo Lumps Shop	ROW913	chakra malt	negative lump (10)
+Crimbo Lumps Shop	ROW914	Black Angus blackburger	negative lump (20)	chakra sludge
+Crimbo Lumps Shop	ROW915	black brandy	negative lump (20)	chakra sludge
+Crimbo Lumps Shop	ROW916	potion of spiritual gunkifying	negative lump (20)	chakra sludge
+Crimbo Lumps Shop	ROW917	bad vibroknife	negative lump (100)	chakra sludge (10)
+Crimbo Lumps Shop	ROW918	crystal belt buckle	negative lump (100)	chakra sludge (10)
+Crimbo Lumps Shop	ROW919	saffron antaravasaka	negative lump (200)	chakra sludge (20)
+Crimbo Lumps Shop	ROW920	saffron uttarasanga	negative lump (200)	chakra sludge (20)
+Crimbo Lumps Shop	ROW921	Lump-Stacking for Beginners	negative lump (1000)	chakra sludge (30)
+Crimbo Lumps Shop	ROW922	pet bad vibe	negative lump (2000)	chakra sludge (50)
+Crimbo Lumps Shop	ROW923	Rethinking Candy	negative lump (4000)	chakra sludge (75)
+Crimbo Lumps Shop	ROW924	eternal knot tattoo	negative lump (8000)	chakra sludge (100)
+
 # Things you can buy with Spacegate Research
 
 Spacegate Fabrication Facility	buy	50	Aldebaran sardines	ROW943
@@ -1171,6 +1210,18 @@ Cosmic Ray's Bazaar	buy	1	Boris's key	ROW1093
 Cosmic Ray's Bazaar	buy	1	Jarlsberg's key	ROW1094
 Cosmic Ray's Bazaar	buy	1	Sneaky Pete's key	ROW1095
 Cosmic Ray's Bazaar	buy	1000	rare Meat isotope	ROW1096
+
+# Crimbo 2019
+The H. M. S. Kringle's Workshop	ROW1105	antique nutcracker hat	waterlogged cloth (3)	waterlogged stuffing (3)
+The H. M. S. Kringle's Workshop	ROW1110	antique nutcracker beard	waterlogged stuffing (3)
+The H. M. S. Kringle's Workshop	ROW1111	antique nutcracker epaulets	waterlogged wood (3)	waterlogged metal (3)
+The H. M. S. Kringle's Workshop	ROW1106	antique nutcracker cape	waterlogged cloth (3)
+The H. M. S. Kringle's Workshop	ROW1107	antique nutcracker waistcoat	waterlogged cloth (3)	waterlogged stuffing (3)	waterlogged leather (3)
+The H. M. S. Kringle's Workshop	ROW1109	antique nutcracker sword	waterlogged wood (3)	waterlogged metal (3)
+The H. M. S. Kringle's Workshop	ROW1112	antique nutcracker drumstick	waterlogged wood (3)	waterlogged stuffing (3)	waterlogged leather (3)
+The H. M. S. Kringle's Workshop	ROW1114	antique nutcracker pants	waterlogged cloth (3)	waterlogged leather (3)	waterlogged metal (3)
+The H. M. S. Kringle's Workshop	ROW1108	antique nutcracker boots	waterlogged leather (3)	waterlogged metal (3)
+The H. M. S. Kringle's Workshop	ROW1113	antique nutcracker figurine	waterlogged wood (3)
 
 # Plumber
 
@@ -1529,28 +1580,6 @@ The Dedigitizer	ROW1570	OVERCLOCK(10) rom chip	1 (256)	0 (64)	dedigitizer schema
 The Dedigitizer	ROW1569	SLEEP(5) rom chip	1 (256)	0 (64)	dedigitizer schematic: SLEEP(5) rom chip
 The Dedigitizer	ROW1571	STATS+++ rom chip	1 (256)	0 (64)	dedigitizer schematic: STATS+++ rom chip
 The Dedigitizer	ROW1576	virtual cybertattoo	1 (512)	0 (128)	dedigitizer schematic: virtual cybertattoo
-
-# Mixing methods with multiple recipes for the same item
-
-Grandma Sea Monkey	ROW131	crappy Mer-kin mask	Mer-kin scholar mask
-Grandma Sea Monkey	ROW128	crappy Mer-kin mask	Mer-kin gladiator mask
-Grandma Sea Monkey	ROW124	crappy Mer-kin mask	aerated diving helmet	pristine fish scale (3)
-Grandma Sea Monkey	ROW1619	crappy Mer-kin tailpiece	Mer-kin scholar tailpiece
-Grandma Sea Monkey	ROW1618	crappy Mer-kin tailpiece	Mer-kin gladiator tailpiece
-Grandma Sea Monkey	ROW125	crappy Mer-kin tailpiece	sea chaps	teflon swim fins	pristine fish scale (3)
-Grandma Sea Monkey	ROW126	Mer-kin gladiator mask	crappy Mer-kin mask	Mer-kin headguard
-Grandma Sea Monkey	ROW127	Mer-kin gladiator tailpiece	crappy Mer-kin tailpiece	Mer-kin thighguard
-Grandma Sea Monkey	ROW129	Mer-kin scholar mask	crappy Mer-kin mask	Mer-kin facecowl
-Grandma Sea Monkey	ROW130	Mer-kin scholar tailpiece	crappy Mer-kin tailpiece	Mer-kin waistrope
-Grandma Sea Monkey	ROW116	sushi doily	sea lace
-Grandma Sea Monkey	ROW117	scimitar cozy	sea lace (3)	pristine fish scale
-Grandma Sea Monkey	ROW118	fish stick cozy	sea lace (3)	pristine fish scale
-Grandma Sea Monkey	ROW119	bazooka cozy	sea lace (3)	pristine fish scale
-Grandma Sea Monkey	ROW132	scale-mail underwear	dull fish scale (25)	pristine fish scale
-Grandma Sea Monkey	ROW120	sea mantle	pristine fish scale (5)
-Grandma Sea Monkey	ROW121	sea shawl	pristine fish scale (5)
-Grandma Sea Monkey	ROW122	sea cape	pristine fish scale (5)
-Grandma Sea Monkey	ROW123	saltwaterbed	sea leather (15)
 
 # April Shower Thoughts
 

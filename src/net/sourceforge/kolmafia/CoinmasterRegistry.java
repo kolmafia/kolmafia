@@ -20,103 +20,8 @@ import net.sourceforge.kolmafia.request.coinmaster.QuartersmasterRequest;
 import net.sourceforge.kolmafia.request.coinmaster.SkeletonOfCrimboPastRequest;
 import net.sourceforge.kolmafia.request.coinmaster.SwaggerShopRequest;
 import net.sourceforge.kolmafia.request.coinmaster.TravelingTraderRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.AirportRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.AlliedHqRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.AppleStoreRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.ArmoryAndLeggeryRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.ArmoryRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.BatFabricatorRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.BeerGardenRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.BlackMarketRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.BoutiqueRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.BrogurtRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.BuffJimmyRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.CanteenRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.ChemiCorpRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.CosmicRaysBazaarRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo14Request;
-import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo17Request;
-import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo20BoozeRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo20CandyRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo20FoodRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo23ElfArmoryRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo23ElfBarRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo23ElfCafeRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo23ElfFactoryRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo23PirateArmoryRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo23PirateBarRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo23PirateCafeRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo23PirateFactoryRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo24BarRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo24CafeRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo24FactoryRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.DedigitizerRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.DinostaurRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.DinseyCompanyStoreRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.DiscoGiftCoRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.DollHawkerRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.DripArmoryRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.EdShopRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.FDKOLRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.FancyDanRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.FishboneryRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.FiveDPrinterRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.FixodentRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.FlowerTradeinRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.FunALogRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.GMartRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.GeneticFiddlingRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.GotporkOrphanageRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.GotporkPDRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.GuzzlrRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.IsotopeSmitheryRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.JunkMagazineRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.KOLHSArtRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.KOLHSChemRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.KOLHSShopRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.KiwiKwikiMartRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.LTTRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.LunarLunchRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.MemeShopRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.MerchTableRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.MrStore2002Request;
-import net.sourceforge.kolmafia.request.coinmaster.shop.NeandermallRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.NinjaStoreRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.NuggletCraftingRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.PlumberGearRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.PlumberItemRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.PokemporiumRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.PrecinctRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.PrimordialSoupKitchenRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.ReplicaMrStoreRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.RubeeRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.RumpleRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.SHAWARMARequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.SeptEmberCenserRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.ShadowForgeRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.ShoeRepairRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.ShoreGiftShopRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.SliemceRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.SpacegateFabricationRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.SpantRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.SpinMasterLatheRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.StarChartRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.SugarSheetRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.TacoDanRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.TerrifiedEagleInnRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.ThankShopRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.TicketCounterRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.ToxicChemistryRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.TrapperRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.UsingYourShowerThoughtsRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.VendingMachineRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.WalMartRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.WarbearBoxRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.WetCrapForSaleRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.WinterGardenRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.XOShopRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.YeNeweSouvenirShoppeRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.YourCampfireRequest;
+// CHECKSTYLE.SUPPRESS: AvoidStarImport
+import net.sourceforge.kolmafia.request.coinmaster.shop.*;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class CoinmasterRegistry {
@@ -144,6 +49,7 @@ public abstract class CoinmasterRegistry {
         CRIMBCOGiftShopRequest.CRIMBCO_GIFT_SHOP,
         Crimbo11Request.CRIMBO11,
         Crimbo14Request.CRIMBO14,
+        Crimbo16Request.DATA,
         Crimbo17Request.CRIMBO17,
         Crimbo20BoozeRequest.CRIMBO20BOOZE,
         Crimbo20CandyRequest.CRIMBO20CANDY,
@@ -182,6 +88,7 @@ public abstract class CoinmasterRegistry {
         GeneticFiddlingRequest.DATA,
         GotporkOrphanageRequest.GOTPORK_ORPHANAGE,
         GotporkPDRequest.GOTPORK_PD,
+        GrandmaRequest.DATA,
         GuzzlrRequest.GUZZLR,
         HermitRequest.HERMIT,
         IsotopeSmitheryRequest.ISOTOPE_SMITHERY,
@@ -190,6 +97,7 @@ public abstract class CoinmasterRegistry {
         KOLHSArtRequest.DATA,
         KOLHSChemRequest.DATA,
         KOLHSShopRequest.DATA,
+        KringleRequest.DATA,
         LTTRequest.LTT,
         LunarLunchRequest.LUNAR_LUNCH,
         MemeShopRequest.BACON_STORE,
