@@ -492,7 +492,6 @@ public interface KoLConstants extends UtilityConstants {
     ACOMBINE, // Un-untinkerable Ideas
     COINMASTER, // Coinmaster purchase
     CLIPART, // Tome of Clip Art summons
-    JARLS, // Items that can only be made by an Avatar of Jarlsberg
     VYKEA, // Items made with VYKEA instructions
     FLOUNDRY, // Items made in Clan Floundry
     TERMINAL, // Items extruded from Source Terminal
@@ -536,15 +535,6 @@ public interface KoLConstants extends UtilityConstants {
     SALACIOUS, // Requires Salacious Cocktailcrafting
     TIKI, // Requires Tiki Mixology
     NOBEE, // Not on Bees Hate You path
-    BAKE, // Requires Avatar of Jarlsberg skill Bake
-    BLEND, // Requires Avatar of Jarlsberg skill Blend
-    BOIL, // Requires Avatar of Jarlsberg skill Boil
-    CHOP, // Requires Avatar of Jarlsberg skill Chop
-    CURDLE, // Requires Avatar of Jarlsberg skill Curdle
-    FREEZE, // Requires Avatar of Jarlsberg skill Freeze
-    FRY, // Requires Avatar of Jarlsberg skill Fry
-    GRILL, // Requires Avatar of Jarlsberg skill Grill
-    SLICE, // Requires Avatar of Jarlsberg skill Slice
   }
 
   enum CraftingMisc {

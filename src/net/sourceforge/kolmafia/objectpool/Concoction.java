@@ -1293,22 +1293,6 @@ public class Concoction implements Comparable<Concoction> {
                     + " by terminal extrudes");
           }
         }
-        case JARLS -> {
-          if (this.name.contains("Staff")) {
-            if (KoLConstants.inventory.contains(this.concoction)
-                || KoLCharacter.hasEquipped(this.concoction)) {
-              return alreadyHave;
-            }
-            return 1;
-          }
-
-          if (this.concoction.equals(ItemPool.get(ItemPool.COSMIC_SIX_PACK, 1))) {
-            if (Preferences.getBoolean("_cosmicSixPackConjured")) {
-              return alreadyHave;
-            }
-            return alreadyHave + 1;
-          }
-        }
         case TINKERING_BENCH -> {
           // If we currently have the item, 1 is available
           if (KoLConstants.inventory.contains(this.concoction)

@@ -39,6 +39,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.JarlsbergRequest;
 import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
@@ -819,9 +820,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
         if (creation.hotdog || creation.speakeasy != null) {
           return false;
         }
-        if (creation.getMixingMethod() != CraftingType.JARLS
-            && !name.equals("steel margarita")
-            && !name.equals("mediocre lager")) {
+        if (!JarlsbergRequest.isJarlsbergian(item.getItemId()) && !name.equals("steel margarita")) {
           return false;
         }
       }
