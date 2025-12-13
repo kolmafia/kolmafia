@@ -600,7 +600,7 @@ Jarlsberg's Cosmic Kitchen	ROW55	consummate sauerkraut	cosmic vegetable
 Jarlsberg's Cosmic Kitchen	ROW65	acceptable vodka	cosmic potato
 Jarlsberg's Cosmic Kitchen	ROW68	consummate sour cream	cosmic cream
 Jarlsberg's Cosmic Kitchen	ROW71	adequate rum	cosmic fruit
-Jarlsberg's Cosmic Kitchen	ROW112	cosmic six-pack
+Jarlsberg's Cosmic Kitchen	ROW112	cosmic six-pack	[0] (0)
 
 # Avatar of Jarlsberg dishes
 Jarlsberg's Cosmic Kitchen	ROW72	immaculate grilled cheese	consummate toast	consummate cheese slice

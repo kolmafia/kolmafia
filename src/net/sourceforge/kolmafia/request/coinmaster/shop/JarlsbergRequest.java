@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.request.coinmaster.shop;
 
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -15,7 +16,8 @@ public abstract class JarlsbergRequest extends CoinMasterShopRequest {
       new CoinmasterData(master, SHOPID, JarlsbergRequest.class)
           .withNewShopRowFields(master, SHOPID)
           .withAccessible(JarlsbergRequest::accessible)
-          .withCanBuyItem(JarlsbergRequest::canBuyItem);
+          .withCanBuyItem(JarlsbergRequest::canBuyItem)
+          .withPurchasedItem(JarlsbergRequest::purchasedItem);
 
   public static String accessible() {
     if (!KoLCharacter.isJarlsberg()) {
@@ -75,6 +77,13 @@ public abstract class JarlsbergRequest extends CoinMasterShopRequest {
           !InventoryManager.equippedOrInInventory(itemId);
       default -> DATA.availableItem(itemId);
     };
+  }
+
+  public static void purchasedItem(final AdventureResult item, final Boolean storage) {
+    // Purchasing certain items makes them unavailable
+    if (item.getItemId() == ItemPool.COSMIC_SIX_PACK) {
+      Preferences.setBoolean("_cosmicSixPackConjured", true);
+    }
   }
 
   public static boolean isJarlsbergian(final int itemId) {

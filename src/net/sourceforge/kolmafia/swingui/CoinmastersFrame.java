@@ -465,6 +465,14 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     public JarlsbergPanel() {
       super(JarlsbergRequest.DATA);
     }
+
+    @Override
+    public int buyMax(final AdventureResult item, final int max) {
+      return switch (item.getItemId()) {
+        case ItemPool.COSMIC_SIX_PACK -> 1;
+        default -> max;
+      };
+    }
   }
 
   public class KOLHSArtPanel extends CoinmasterPanel {
