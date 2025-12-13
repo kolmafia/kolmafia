@@ -1189,6 +1189,18 @@ Cosmic Ray's Bazaar	buy	1	Jarlsberg's key	ROW1094
 Cosmic Ray's Bazaar	buy	1	Sneaky Pete's key	ROW1095
 Cosmic Ray's Bazaar	buy	1000	rare Meat isotope	ROW1096
 
+# Crimbo 2019
+The H. M. S. Kringle's Workshop	ROW1105	antique nutcracker hat	waterlogged cloth (3)	waterlogged stuffing (3)
+The H. M. S. Kringle's Workshop	ROW1110	antique nutcracker beard	waterlogged stuffing (3)
+The H. M. S. Kringle's Workshop	ROW1111	antique nutcracker epaulets	waterlogged wood (3)	waterlogged metal (3)
+The H. M. S. Kringle's Workshop	ROW1106	antique nutcracker cape	waterlogged cloth (3)
+The H. M. S. Kringle's Workshop	ROW1107	antique nutcracker waistcoat	waterlogged cloth (3)	waterlogged stuffing (3)	waterlogged leather (3)
+The H. M. S. Kringle's Workshop	ROW1109	antique nutcracker sword	waterlogged wood (3)	waterlogged metal (3)
+The H. M. S. Kringle's Workshop	ROW1112	antique nutcracker drumstick	waterlogged wood (3)	waterlogged stuffing (3)	waterlogged leather (3)
+The H. M. S. Kringle's Workshop	ROW1114	antique nutcracker pants	waterlogged cloth (3)	waterlogged leather (3)	waterlogged metal (3)
+The H. M. S. Kringle's Workshop	ROW1108	antique nutcracker boots	waterlogged leather (3)	waterlogged metal (3)
+The H. M. S. Kringle's Workshop	ROW1113	antique nutcracker figurine	waterlogged wood (3)
+
 # Plumber
 
 Mushroom District Item Shop	buy	5	mushroom	ROW1134

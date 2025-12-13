@@ -504,7 +504,6 @@ public interface KoLConstants extends UtilityConstants {
     METEOROID, // Items made from metal meteoroid
     FANTASY_REALM, // Items made by visiting FantasyRealm welcome center
     SAUSAGE_O_MATIC, // Items made by Kramco Sausage-o-Matic
-    KRINGLE, // Items made from waterlogged items
     STILLSUIT, // Distillate from the stillsuit
     WOOL, // Items made from grubby wool
     BURNING_LEAVES, // Items made at the Pile of Burning Leaves

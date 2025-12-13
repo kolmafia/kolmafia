@@ -2130,12 +2130,6 @@ public class ConcoctionDatabase {
           CraftingType.FANTASY_REALM, "You do not have access to Fantasy Realm welcome center.");
     }
 
-    // You can't use Kringle's workshop on demand; it is a shop
-    // found in a non-combat adventure. However, if you are in
-    // that shop, you can "create" the item normally.
-    permitNoCost(CraftingType.KRINGLE);
-    ConcoctionDatabase.EXCUSE.put(CraftingType.KRINGLE, "You must be in Kringle's workshop.");
-
     boolean stillsuitUsable =
         StandardRequest.isAllowed(RestrictedItemType.ITEMS, "tiny stillsuit")
             && InventoryManager.hasItem(ItemPool.STILLSUIT);
@@ -2380,7 +2374,6 @@ public class ConcoctionDatabase {
       case SAUSAGE_O_MATIC -> result.append("Kramco Sausage-o-Matic");
       case SEWER -> result.append("chewing gum");
       case FANTASY_REALM -> result.append("Fantasy Realm Welcome Center");
-      case KRINGLE -> result.append("Kringle's workshop");
       case STILLSUIT -> result.append("tiny stillsuit");
       case WOOL -> result.append("grubby wool");
       case BURNING_LEAVES -> result.append("Pile of Burning Leaves");
@@ -2792,7 +2785,6 @@ public class ConcoctionDatabase {
         ConcoctionDatabase.requirements.add(CraftingRequirements.SLICE);
       }
       case "GRANDMA" -> ConcoctionDatabase.mixingMethod = CraftingType.GRANDMA;
-      case "KRINGLE" -> ConcoctionDatabase.mixingMethod = CraftingType.KRINGLE;
       case "VYKEA" -> ConcoctionDatabase.mixingMethod = CraftingType.VYKEA;
       case "TERMINAL" -> ConcoctionDatabase.mixingMethod = CraftingType.TERMINAL;
       case "BARREL" -> ConcoctionDatabase.mixingMethod = CraftingType.BARREL;
