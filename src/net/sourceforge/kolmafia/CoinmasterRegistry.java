@@ -60,6 +60,7 @@ import net.sourceforge.kolmafia.request.coinmaster.shop.EdShopRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.FDKOLRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.FancyDanRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.FishboneryRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.FiveDPrinterRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.FixodentRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.FlowerTradeinRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.FunALogRequest;
@@ -170,6 +171,7 @@ public abstract class CoinmasterRegistry {
         FancyDanRequest.FANCY_DAN,
         FDKOLRequest.FDKOL,
         FishboneryRequest.FISHBONERY,
+        FiveDPrinterRequest.DATA,
         FixodentRequest.DATA,
         FlowerTradeinRequest.DATA,
         FreeSnackRequest.FREESNACKS,

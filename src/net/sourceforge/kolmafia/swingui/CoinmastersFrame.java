@@ -100,6 +100,7 @@ import net.sourceforge.kolmafia.request.coinmaster.shop.EdShopRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.FDKOLRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.FancyDanRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.FishboneryRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.FiveDPrinterRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.FixodentRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.FlowerTradeinRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.FunALogRequest;
@@ -179,6 +180,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     // Always available coinmasters
     this.selectorPanel.addCategory("Always Available");
 
+    addPanel(new StarChartPanel());
     addPanel(new BountyHunterHunterPanel());
     addPanel(new MrStorePanel());
     addPanel(new ArmoryAndLeggeryPanel());
@@ -196,7 +198,6 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     this.selectorPanel.addSeparator();
     this.selectorPanel.addCategory("Ascension");
 
-    addPanel(new StarChartPanel());
     addPanel(new DimemasterPanel());
     addPanel(new QuartersmasterPanel());
     addPanel(new BURTPanel());
@@ -240,6 +241,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     addPanel(new BrogurtPanel());
     addPanel(new BuffJimmyPanel());
     addPanel(new TacoDanPanel());
+    addPanel(new FiveDPanel());
     addPanel(new SHAWARMAPanel());
     addPanel(new CanteenPanel());
     addPanel(new ArmoryPanel());
@@ -1070,6 +1072,12 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
   private class TacoDanPanel extends CoinmasterPanel {
     public TacoDanPanel() {
       super(TacoDanRequest.TACO_DAN);
+    }
+  }
+
+  private class FiveDPanel extends CoinmasterPanel {
+    public FiveDPanel() {
+      super(FiveDPrinterRequest.DATA);
     }
   }
 

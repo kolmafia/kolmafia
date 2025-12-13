@@ -14,7 +14,6 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
-import net.sourceforge.kolmafia.request.concoction.shop.FiveDPrinterRequest;
 import net.sourceforge.kolmafia.request.concoction.shop.StillRequest;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.shop.ShopDatabase.SHOP;
@@ -198,10 +197,6 @@ public class ShopRequest extends GenericRequest {
     switch (shopId) {
       case "still" -> {
         StillRequest.parseResponse(urlString, responseText);
-        break;
-      }
-      case "5dprinter" -> {
-        FiveDPrinterRequest.parseResponse(urlString, responseText);
         break;
       }
     }
