@@ -76,7 +76,9 @@ public class ShopRow implements Comparable<ShopRow> {
       if (cost.isMeat()) {
         price = NPCPurchaseRequest.currentDiscountedPrice(price);
       }
-      max = Math.min(max, available / price);
+      if (price > 0) {
+        max = Math.min(max, available / price);
+      }
     }
 
     return max;
