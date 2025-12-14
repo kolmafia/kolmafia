@@ -12079,10 +12079,122 @@
 12051	knucklebone	693029493	knucklebone2.gif	none		0
 12052	Smoking Pope	636925864	smokingpope.gif	drink	t,d	25
 12053	prize turkey	691007693	prizeturkey.gif	food	t,d	25
-12054	medical gruel	965873114	soupbowl.gif	spleen, usable	t,d	25	bowls of medical gruel
+12054	medicinal gruel	965873114	soupbowl.gif	spleen, usable	t,d	25	bowls of medicinal gruel
 12055	full-sized pumpkin pie	119123875	pecanpie.gif	food	t,d	25
 12056	vodka cranberry sauce	294119932	nachocan.gif	drink	t,d	25	cans of vodka cranberry sauce
 12057	yammed candy	662308374	yamcandy.gif	potion	t,d	25	yammed candies
 12058	treasure chestnut	542394681	chestnut.gif	food	t,d	11
 12059	mulled butter rum	206500230	mulledrum.gif	drink	t,d	11	cups of mulled butter rum
 12060	cinnamon doubloon	711461021	cinnacoin.gif	potion, usable	t,d	11
+12061
+12062
+12063
+12064
+12065
+12066
+12067
+12068
+12069
+12070
+12071
+12072
+12073
+12074
+12075
+12076
+12077
+12078
+12079
+12080
+12081
+12082
+12083
+12084
+12085
+12086
+12087
+12088
+12089
+12090
+12091
+12092
+12093
+12094
+12095
+12096
+12097
+12098
+12099
+12100
+12101
+12102
+12103
+12104
+12105
+12106
+12107
+12108
+12109
+12110
+12111
+12112
+12113
+12114
+12115
+12116
+12117
+12118
+12119
+12120
+12121
+12122
+12123
+12124
+12125
+12126
+12127
+12128
+12129
+12130
+12131
+12132
+12133
+12134
+12135
+12136
+12137
+12138
+12139
+12140
+12141
+12142
+12143
+12144
+12145
+12146
+12147
+12148
+12149
+12150
+12151
+12152
+12153
+12154
+12155
+12156
+12157
+12158
+12159
+12160
+12161
+12162
+12163
+12164
+12165
+12166
+12167
+12168
+12169
+12170
+12171	traditional gingerloaf	952863249	gingerloaf.gif	food	t,d	35
+12172	Scotch and eggnog	391232132	coffeecup.gif	drink	t,d	37
