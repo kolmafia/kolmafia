@@ -9927,6 +9927,7 @@ Item	toe jam toast	Last Available: "2011-01"
 Item	tombstone-shaped Crimboween cookie	Effect: "Crimbo Epiphany", Effect Duration: 10, Last Available: "2023-06"
 Item	toxo	Effect: "Radiated and Grodiated", Effect Duration: 40, Last Available: "2015-04"
 Item	traditional Crimbo cookie	Effect: "Yeast-Hungry", Effect Duration: 75, Last Available: "2023-06"
+Item	traditional gingerloaf	Last Available: "2025-12"
 Item	traffic jam toast	Last Available: "2011-01"
 Item	transparent nog	Effect: "Holiday Disappointment", Effect Duration: 10, Last Available: "2017-12"
 Item	treasure chestnut	Last Available: "2025-12"
@@ -10381,6 +10382,7 @@ Item	Sazerorc	Effect: "Orc Chops", Effect Duration: 5, Last Available: "2012-03"
 Item	Sazuruk-hai	Effect: "Orc Chops", Effect Duration: 10, Last Available: "2012-03"
 Item	Schr&ouml;dinger's thermos	Last Available: "2010-04"
 Item	Scorpion Bowl	Effect: "Tiki Toughness", Effect Duration: 40, Last Available: "2019-04"
+Item	Scotch and eggnog	Last Available: "2025-12"
 Item	scotch on the rocks	Effect: "Hair on Your Chest", Effect Duration: 30
 Item	screwdiver	Effect: "Brined Liver", Effect Duration: 20
 Item	Sexy Cosmo	Last Available: "2023-06"
@@ -10620,7 +10622,7 @@ Item	magnificent oyster egg	Effect: "Eggstraordinary Strength", Effect Duration:
 Item	Mansquito Serum	Effect: "More Mansquito Than Man", Effect Duration: 400, Last Available: "2016-12"
 Item	marble molecules	Last Available: "2019-12"
 Item	Mariner's Friend cough drops	Last Available: "2007-06"
-Item	medical gruel	Effect: "Grueling Gravitas", Effect Duration: 100
+Item	medicinal gruel	Effect: "Grueling Gravitas", Effect Duration: 100
 # Medicinal Herb's medicinal herbs: Restores all HP
 Item	Mer-kin paste	Effect: "Mer-kinny Flavor", Effect Duration: 10, Last Available: "2011-08"
 Item	mime army superserum	Effect: "I'll Have the Soup", Effect Duration: 50, Last Available: "2017-12"

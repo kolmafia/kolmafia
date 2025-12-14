@@ -1625,5 +1625,5 @@ Wet Crap For Sale	ROW1616	waterlogged scroll of healing	sand penny (10)
 
 Skeleton of Crimbo Past	buy	5	Smoking Pope
 Skeleton of Crimbo Past	buy	5	prize turkey
-Skeleton of Crimbo Past	buy	5	medical gruel
+Skeleton of Crimbo Past	buy	5	medicinal gruel
 # A fourth rotating daily special is available
