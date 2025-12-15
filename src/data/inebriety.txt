@@ -620,6 +620,7 @@ Sazerorc	2	1	good	4-5	10-20	0	0	5 Orc Chops (+50 Muscle)
 Sazuruk-hai	2	4	awesome	6-7	20-30	0	0	10 Orc Chops (+50 Muscle)
 Schr&ouml;dinger's thermos	0	1	???	0	0	0	0	random booze
 Scorpion Bowl	6	6	awesome	19-24	40-60	0	0	40 Tiki Toughness (+100% Muscle, +10% Muscle Gains)
+Scotch and eggnog	4	1	awesome	0	0	0	0	Unspaded
 scotch on the rocks	3	11	EPIC	15-18	10-20	10-20	10-20	30 Hair on Your Chest (+50% MP)
 Scrawny Stout	3	6	decent	3-6	0	0	0
 screwdiver	3	4	decent	5-6	34-80	0	0	20 Brined Liver
@@ -666,7 +667,7 @@ Sloppy Jalopy	5	1	awesome	18-22	20-40	20-40	20-40	acquire Hollow Leg (+1 Liver)
 slug of rum	3	2	crappy	3	0	0	0	10 Brined Liver
 slug of shochu	3	2	crappy	3	0	0	0	10 Brined Liver
 slug of vodka	3	2	crappy	3	0	0	0	10 Brined Liver
-Smoking Pope	2	1	EPIC	0	0	0	0	Unspaded
+Smoking Pope	2	1	EPIC	10-12	20-30	20-30	20-30	50 Ordained (+50% skeleton damage, +50% item)
 smooth mushroom wine	4	3	EPIC	22-24	0	0	100-150	80 Gyromitra Gymnastics (+40 Mox), WINE
 Smuggler's Punch	5	4	awesome	0	0	0	0	Unspaded 30 Tiki Temerity (+100% Moxie, +10% Moxie Gains)
 snakebite	1	4	crappy	1	-1	-1	-1	30 Sweet Tooth (+40% Candy Drops), BEER

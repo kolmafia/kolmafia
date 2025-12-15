@@ -476,3 +476,6 @@ Hack Market	cyber_hackmarket	Synapse Blaster	500	ROW1549
 Wet Crap For Sale	sandpenny	scroll of sea strength	1000	ROW1613
 Wet Crap For Sale	sandpenny	scroll of sea smarts	1000	ROW1614
 Wet Crap For Sale	sandpenny	scroll of sea smarm	1000	ROW1615
+
+Crimbo Cafe (2025)	crimbo25_cafe	traditional gingerloaf	300	ROW1675
+Crimbo Cafe (2025)	crimbo25_cafe	Scotch and eggnog	300	ROW1676

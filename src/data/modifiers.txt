@@ -3728,6 +3728,7 @@ Item	slime convention pin	Moxie: -1
 # slime-covered necklace: +50 Damage against Slimes
 Item	slime-covered necklace	Muscle: +6, Mysticality: +6, Moxie: +6, Maximum HP: +200, Weapon Damage: [50*loc(The Slime Tube)]
 Item	Slow Talkin' Elliot's dogtags	Muscle: +30, Initiative: -30
+Item	smoldering vertebra	Spooky Damage: +75, Spooky Spell Damage: +75, Experience: +1, Single Equip, Last Available: "2025-12"
 Item	SMOOCH bracers	Damage Reduction: 5, Damage Absorption: +15, Single Equip, Last Available: "2015-08", Thorns: 1
 Item	SMOOCH kneepads	Damage Reduction: 10, Single Equip, Last Available: "2015-08", Thorns: 1
 Item	SMOOCH spaulders	Damage Absorption: +25, Single Equip, Last Available: "2015-08", Thorns: 1
@@ -9927,6 +9928,7 @@ Item	toe jam toast	Last Available: "2011-01"
 Item	tombstone-shaped Crimboween cookie	Effect: "Crimbo Epiphany", Effect Duration: 10, Last Available: "2023-06"
 Item	toxo	Effect: "Radiated and Grodiated", Effect Duration: 40, Last Available: "2015-04"
 Item	traditional Crimbo cookie	Effect: "Yeast-Hungry", Effect Duration: 75, Last Available: "2023-06"
+Item	traditional gingerloaf	Last Available: "2025-12"
 Item	traffic jam toast	Last Available: "2011-01"
 Item	transparent nog	Effect: "Holiday Disappointment", Effect Duration: 10, Last Available: "2017-12"
 Item	treasure chestnut	Last Available: "2025-12"
@@ -10381,6 +10383,7 @@ Item	Sazerorc	Effect: "Orc Chops", Effect Duration: 5, Last Available: "2012-03"
 Item	Sazuruk-hai	Effect: "Orc Chops", Effect Duration: 10, Last Available: "2012-03"
 Item	Schr&ouml;dinger's thermos	Last Available: "2010-04"
 Item	Scorpion Bowl	Effect: "Tiki Toughness", Effect Duration: 40, Last Available: "2019-04"
+Item	Scotch and eggnog	Last Available: "2025-12"
 Item	scotch on the rocks	Effect: "Hair on Your Chest", Effect Duration: 30
 Item	screwdiver	Effect: "Brined Liver", Effect Duration: 20
 Item	Sexy Cosmo	Last Available: "2023-06"
@@ -10620,7 +10623,7 @@ Item	magnificent oyster egg	Effect: "Eggstraordinary Strength", Effect Duration:
 Item	Mansquito Serum	Effect: "More Mansquito Than Man", Effect Duration: 400, Last Available: "2016-12"
 Item	marble molecules	Last Available: "2019-12"
 Item	Mariner's Friend cough drops	Last Available: "2007-06"
-Item	medical gruel	Effect: "Grueling Gravitas", Effect Duration: 100
+Item	medicinal gruel	Effect: "Grueling Gravitas", Effect Duration: 100
 # Medicinal Herb's medicinal herbs: Restores all HP
 Item	Mer-kin paste	Effect: "Mer-kinny Flavor", Effect Duration: 10, Last Available: "2011-08"
 Item	mime army superserum	Effect: "I'll Have the Soup", Effect Duration: 50, Last Available: "2017-12"
@@ -12461,6 +12464,10 @@ Item	bundle of firewood	Last Available: "2019-08"
 Item	burned government manual fragment	Last Available: "2014-05"
 # burning newspaper: Deal a bunch of <font color=red>Hot Damage</font> and briefly stun your enemy
 Item	burning newspaper	Last Available: "2018-12"
+# burnt incisor: Sammy will want to see this
+Item	burnt incisor	Last Available: "2025-12"
+# burnt phalange: Sammy will want to see this
+Item	burnt phalange	Last Available: "2025-12"
 Item	burnt stick	Last Available: "2019-08"
 Item	burrowgrub hive	Last Available: "2008-12"
 # bus pass: Deals 45-50 Physical Damage

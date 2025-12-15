@@ -46,6 +46,7 @@ crimbo23_pirate_factory	Crimbuccaneer Foundry	COIN
 crimbo24_bar	Crimbo24 Bar	COIN
 crimbo24_cafe	Crimbo24 Cafe	COIN
 crimbo24_factory	Crimbo24 Factory	COIN
+crimbo25_cafe	Crimbo Cafe (2025)	NPC
 cyber_dedigitizer	The Dedigitizer	COIN
 cyber_hackmarket	Hack Market	NPC
 damachine	Vending Machine	COIN
