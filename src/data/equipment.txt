@@ -3239,6 +3239,7 @@ slicksilver ring	100	Mys: 10
 slime convention pin	10	none
 slime-covered necklace	200	Mys: 200
 Slow Talkin' Elliot's dogtags	200	Mys: 45
+smoldering vertebra	0	Mys: 60
 SMOOCH bracers	85	Mys: 27
 SMOOCH kneepads	90	Mys: 30
 SMOOCH spaulders	95	Mus: 32

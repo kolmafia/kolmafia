@@ -182,6 +182,8 @@ Events	Events	Events
 
 Twitch	Town	Time-Twitching Tower
 
+Crimbo25	Holiday	Christmas 2025
+
 # The following zones are all retired Events or Holidays
 
 Removed	Removed	Removed Areas

@@ -256,6 +256,7 @@ Sleaziest Adventurer Contest	100	Grease Trapper	Ham Shaman	Porkpocket	Leonard: 0
 Sloppy Seconds Diner	100	Sloppy Seconds Sundae	Sloppy Seconds Burger	Sloppy Seconds Cocktail
 Smartest Adventurer Contest	100	Accountant-Barbarian	Metaphysical Gastronomist	Kleptobrainiac	The Mastermind: 0
 Smoothest Adventurer Contest	100	Savage Beatnik	Creamweaver	Smooth Criminal	Seannery the Conman: 0
+Smoldering Bone Spikes	100	tiny charred skeleton	pillar of charred skulls	fire-breathing charred skull
 Some Scattered Smoking Debris	100	Government agent	perimeter defense sphere	illegal alien
 Sonar	-1	batbugbear
 Sonofa Beach	10	lobsterfrogman

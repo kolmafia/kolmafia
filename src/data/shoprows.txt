@@ -1619,3 +1619,59 @@
 1618	grandma	crappy Mer-kin tailpiece	Mer-kin gladiator tailpiece
 1619	grandma	crappy Mer-kin tailpiece	Mer-kin scholar tailpiece
 1620	fixodent	dentadent	fixodent	loose teeth
+1621
+1622
+1623
+1624
+1625
+1626
+1627
+1628
+1629
+1630
+1631
+1632
+1633
+1634
+1635
+1636
+1637
+1638
+1639
+1640
+1641
+1642
+1643
+1644
+1645
+1646
+1647
+1648
+1649
+1650
+1651
+1652
+1653
+1654
+1655
+1656
+1657
+1658
+1659
+1660
+1661
+1662
+1663
+1664
+1665
+1666
+1667
+1668
+1669
+1670
+1671
+1672
+1673
+1674
+1675	crimbo25_cafe	traditional gingerloaf	300 Meat
+1676	crimbo25_cafe	Scotch and eggnog	300 Meat

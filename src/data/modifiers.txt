@@ -3728,6 +3728,7 @@ Item	slime convention pin	Moxie: -1
 # slime-covered necklace: +50 Damage against Slimes
 Item	slime-covered necklace	Muscle: +6, Mysticality: +6, Moxie: +6, Maximum HP: +200, Weapon Damage: [50*loc(The Slime Tube)]
 Item	Slow Talkin' Elliot's dogtags	Muscle: +30, Initiative: -30
+Item	smoldering vertebra	Spooky Damage: +75, Spooky Spell Damage: +75, Experience: +1, Single Equip, Last Available: "2025-12"
 Item	SMOOCH bracers	Damage Reduction: 5, Damage Absorption: +15, Single Equip, Last Available: "2015-08", Thorns: 1
 Item	SMOOCH kneepads	Damage Reduction: 10, Single Equip, Last Available: "2015-08", Thorns: 1
 Item	SMOOCH spaulders	Damage Absorption: +25, Single Equip, Last Available: "2015-08", Thorns: 1
@@ -12463,6 +12464,10 @@ Item	bundle of firewood	Last Available: "2019-08"
 Item	burned government manual fragment	Last Available: "2014-05"
 # burning newspaper: Deal a bunch of <font color=red>Hot Damage</font> and briefly stun your enemy
 Item	burning newspaper	Last Available: "2018-12"
+# burnt incisor: Sammy will want to see this
+Item	burnt incisor	Last Available: "2025-12"
+# burnt phalange: Sammy will want to see this
+Item	burnt phalange	Last Available: "2025-12"
 Item	burnt stick	Last Available: "2019-08"
 Item	burrowgrub hive	Last Available: "2008-12"
 # bus pass: Deals 45-50 Physical Damage
