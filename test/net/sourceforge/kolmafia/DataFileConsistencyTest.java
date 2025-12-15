@@ -13,6 +13,7 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.in;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.lessThanOrEqualTo;
+import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -337,8 +338,8 @@ public class DataFileConsistencyTest {
       }
       assertThat(
           String.format("%s is in coinmasters.txt but not in items.txt", name),
-          ItemDatabase.getItemId(name),
-          greaterThan(0));
+          ItemDatabase.getExactItemId(name),
+          not(-1));
     }
   }
 

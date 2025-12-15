@@ -8,7 +8,6 @@ import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
-import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -24,6 +23,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase.Attribute;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.coinmaster.shop.JarlsbergRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.ResultProcessor;
@@ -93,8 +93,7 @@ public class EatItemRequest extends UseItemRequest {
       return 1;
     }
 
-    if (KoLCharacter.isJarlsberg()
-        && ConcoctionDatabase.getMixingMethod(itemId) != CraftingType.JARLS) {
+    if (KoLCharacter.isJarlsberg() && !JarlsbergRequest.isJarlsbergian(itemId)) {
       UseItemRequest.limiter = "its non-Jarlsbergian nature";
       return 0;
     }

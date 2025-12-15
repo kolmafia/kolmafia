@@ -569,6 +569,72 @@ FDKOL Tent	buy	1500	FDKOL fire hose	ROW11
 FDKOL Tent	buy	1500	enchanted fire extinguisher	ROW8
 FDKOL Tent	buy	3500	Hjodor's Guide to Arctic Dalmatians	ROW9
 
+# Avatar of Jarlsberg ingredients
+Jarlsberg's Cosmic Kitchen	ROW42	consummate hard-boiled egg	cosmic egg
+Jarlsberg's Cosmic Kitchen	ROW45	consummate bagel	cosmic dough
+Jarlsberg's Cosmic Kitchen	ROW51	consummate soup	cosmic vegetable
+Jarlsberg's Cosmic Kitchen	ROW43	consummate fried egg	cosmic egg
+Jarlsberg's Cosmic Kitchen	ROW58	consummate bacon	cosmic potted meat product
+Jarlsberg's Cosmic Kitchen	ROW63	consummate french fries	cosmic potato
+Jarlsberg's Cosmic Kitchen	ROW47	consummate hot dog bun	cosmic dough
+Jarlsberg's Cosmic Kitchen	ROW53	consummate salad	cosmic vegetable
+Jarlsberg's Cosmic Kitchen	ROW46	consummate sliced bread	cosmic dough
+Jarlsberg's Cosmic Kitchen	ROW52	consummate corn chips	cosmic vegetable
+Jarlsberg's Cosmic Kitchen	ROW56	consummate cheese slice	cosmic cheese
+Jarlsberg's Cosmic Kitchen	ROW69	consummate strawberries	cosmic fruit
+Jarlsberg's Cosmic Kitchen	ROW48	consummate brownie	cosmic dough
+Jarlsberg's Cosmic Kitchen	ROW57	consummate melted cheese	cosmic cheese
+Jarlsberg's Cosmic Kitchen	ROW59	consummate meatloaf	cosmic potted meat product
+Jarlsberg's Cosmic Kitchen	ROW64	consummate baked potato	cosmic potato
+Jarlsberg's Cosmic Kitchen	ROW49	consummate toast	cosmic dough
+Jarlsberg's Cosmic Kitchen	ROW60	consummate steak	cosmic potted meat product
+Jarlsberg's Cosmic Kitchen	ROW61	consummate cold cuts	cosmic potted meat product
+Jarlsberg's Cosmic Kitchen	ROW66	consummate ice cream	cosmic cream
+Jarlsberg's Cosmic Kitchen	ROW70	consummate sorbet	cosmic fruit
+Jarlsberg's Cosmic Kitchen	ROW44	consummate egg salad	cosmic egg
+Jarlsberg's Cosmic Kitchen	ROW54	consummate salsa	cosmic vegetable
+Jarlsberg's Cosmic Kitchen	ROW62	consummate frankfurter	cosmic potted meat product
+Jarlsberg's Cosmic Kitchen	ROW67	consummate whipped cream	cosmic cream
+Jarlsberg's Cosmic Kitchen	ROW50	passable stout	cosmic dough
+Jarlsberg's Cosmic Kitchen	ROW55	consummate sauerkraut	cosmic vegetable
+Jarlsberg's Cosmic Kitchen	ROW65	acceptable vodka	cosmic potato
+Jarlsberg's Cosmic Kitchen	ROW68	consummate sour cream	cosmic cream
+Jarlsberg's Cosmic Kitchen	ROW71	adequate rum	cosmic fruit
+Jarlsberg's Cosmic Kitchen	ROW112	cosmic six-pack	[0] (0)
+
+# Avatar of Jarlsberg dishes
+Jarlsberg's Cosmic Kitchen	ROW72	immaculate grilled cheese	consummate toast	consummate cheese slice
+Jarlsberg's Cosmic Kitchen	ROW73	immaculate ice cream sandwich	consummate ice cream	consummate brownie
+Jarlsberg's Cosmic Kitchen	ROW74	immaculate hot dog	consummate hot dog bun	consummate frankfurter
+Jarlsberg's Cosmic Kitchen	ROW75	immaculate egg salad sandwich	consummate egg salad	consummate sliced bread
+Jarlsberg's Cosmic Kitchen	ROW76	perfect sandwich	consummate sliced bread	consummate cheese slice	consummate cold cuts
+Jarlsberg's Cosmic Kitchen	ROW77	perfect chef salad	consummate salad	consummate hard-boiled egg	consummate cold cuts
+Jarlsberg's Cosmic Kitchen	ROW78	perfect breakfast	consummate fried egg	consummate bacon	consummate toast
+Jarlsberg's Cosmic Kitchen	ROW79	sublime deluxe hot dog	consummate hot dog bun	consummate frankfurter	consummate sauerkraut
+Jarlsberg's Cosmic Kitchen	ROW80	sublime stew	consummate soup	consummate steak	consummate baked potato
+Jarlsberg's Cosmic Kitchen	ROW81	sublime nachos	consummate corn chips	consummate salsa	consummate melted cheese	consummate sour cream
+Jarlsberg's Cosmic Kitchen	ROW82	Ultimate Breakfast Sandwich	consummate fried egg	consummate bagel	consummate cheese slice	consummate bacon
+Jarlsberg's Cosmic Kitchen	ROW83	Loaded Baked Potato	consummate baked potato	consummate bacon	consummate melted cheese	consummate sour cream
+Jarlsberg's Cosmic Kitchen	ROW84	Omega Sundae	consummate ice cream	consummate whipped cream	consummate strawberries	consummate brownie
+Jarlsberg's Cosmic Kitchen	ROW85	Das Sauerlager	mediocre lager	consummate sauerkraut
+Jarlsberg's Cosmic Kitchen	ROW86	Bologna Lambic	passable stout	consummate cold cuts
+Jarlsberg's Cosmic Kitchen	ROW87	Vodka Dog	acceptable vodka	consummate hot dog bun
+Jarlsberg's Cosmic Kitchen	ROW88	Disappointed Russian	acceptable vodka	consummate sour cream
+Jarlsberg's Cosmic Kitchen	ROW89	Chunky Mary	acceptable vodka	consummate salsa
+Jarlsberg's Cosmic Kitchen	ROW90	Nachojito	adequate rum	consummate melted cheese
+Jarlsberg's Cosmic Kitchen	ROW91	Le Roi	adequate rum	consummate french fries
+Jarlsberg's Cosmic Kitchen	ROW92	Over Easy Rider	adequate rum	consummate fried egg
+
+# Avatar of Jarlsberg chefstaves
+Jarlsberg's Cosmic Kitchen	ROW110	Staff of Fruit Salad	cosmic fruit
+Jarlsberg's Cosmic Kitchen	ROW109	Staff of the All-Steak	cosmic potted meat product
+Jarlsberg's Cosmic Kitchen	ROW111	Staff of the Cream of the Cream	cosmic cream
+Jarlsberg's Cosmic Kitchen	ROW104	Staff of the Healthy Breakfast	cosmic egg
+Jarlsberg's Cosmic Kitchen	ROW108	Staff of the Hearty Dinner	cosmic potato
+Jarlsberg's Cosmic Kitchen	ROW106	Staff of the Light Lunch	cosmic vegetable
+Jarlsberg's Cosmic Kitchen	ROW105	Staff of the Staff of Life	cosmic dough
+Jarlsberg's Cosmic Kitchen	ROW107	Staff of the Standalone Cheese	cosmic cheese
+
 # Grandma's Sea Shop
 
 # Grandma Sea Monkey	ROW128	crappy Mer-kin mask	Mer-kin gladiator mask
@@ -601,7 +667,7 @@ The Terrified Eagle Inn	buy	25	folder (tranquil landscape)	ROW157
 The Terrified Eagle Inn	buy	100	brass Dreadsylvanian flask	ROW151
 The Terrified Eagle Inn	buy	100	silver Dreadsylvanian flask	ROW152
 The Terrified Eagle Inn	buy	200	bottle of Bloodweiser	ROW774
-The Terrified Eagle Inn	buy	200	electric Kool-Aid 	ROW775
+The Terrified Eagle Inn	buy	200	electric Kool-Aid	ROW775
 The Terrified Eagle Inn	buy	250	Tales of Dread	ROW146
 The Terrified Eagle Inn	buy	500	dreadful fedora	ROW153
 The Terrified Eagle Inn	buy	500	dreadful sweater	ROW154
@@ -1544,7 +1610,7 @@ Sept-Ember Censer	buy	1	blade of dismemberment	ROW1510
 Sept-Ember Censer	buy	1	embers-only jacket	ROW1515
 Sept-Ember Censer	buy	1	hat of remembering	ROW1518
 Sept-Ember Censer	buy	1	wheel of camembert	ROW1517
-Sept-Ember Censer	buy	2	Mmm-brr! brand mouthwash 	ROW1512
+Sept-Ember Censer	buy	2	Mmm-brr! brand mouthwash	ROW1512
 Sept-Ember Censer	buy	2	head of emberg lettuce	ROW1520
 Sept-Ember Censer	buy	2	Septapus summoning charm	ROW1513
 Sept-Ember Censer	buy	2	throwin' ember	ROW1519
