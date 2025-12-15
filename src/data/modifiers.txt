@@ -6788,11 +6788,14 @@ Effect	Hoppyness	Initiative: +100
 Effect	Hornswaggled	Moxie Percent: +50, Muscle Percent: -50
 Effect	Horrid, Torrid	Weapon Damage Percent: +10
 Effect	Hot Blooded	Muscle Percent: +30, Mysticality Percent: +10, Moxie Percent: +20, Hot Damage: +10, Hot Resistance: +2
+Effect	Hot Bones	Muscle Percent: +500
+Effect	Hot Brains	Mysticality Percent: +500
 # Hot Breath: Can breathe fire in combat
 Effect	Hot Buttoned	Hot Damage: +10, Hot Spell Damage: +10
 Effect	Hot Hands	Hot Damage: +10, Hot Spell Damage: +20, Cold Resistance: +2, Spooky Resistance: +2
 Effect	Hot in Herre	Hot Damage: +20, Hot Spell Damage: +20, Spooky Resistance: +5, Cold Resistance: +5, Experience Percent (Muscle): +10, Experience Percent (Mysticality): +10, Experience Percent (Moxie): +10
 Effect	Hot Jellied	Experience (Muscle): +3, Hot Damage: +5, Muscle Percent: +30
+Effect	Hot Joints	Moxie Percent: +500
 Effect	Hot Soupy Garbage	Stench Damage: +10, Cold Resistance: +2
 Effect	Hot Sweat	Hot Resistance: +7
 Effect	Hot-Headed	Hot Resistance: +3, Hot Damage: +15, Hot Spell Damage: +15
@@ -10813,9 +10816,12 @@ Item	blooper ink	Effect: "Blooper Inked", Effect Duration: 10
 Item	blue grass	Effect: "The Grass...  Is Blue...", Effect Duration: 20
 Item	blue snowcone	Effect: "Blue Tongue", Effect Duration: 20, Last Available: "2006-01"
 Item	blue-frosted astral cupcake	Last Available: "2006-06", Effect: "Cupcake of Choice", Effect Duration: 20
+Item	boiling bone marrow	Effect: "Hot Bones", Effect Duration: 30, Last Available: "2025-12"
 Item	boiling broth	Effect: "Boiling Determination", Effect Duration: 1, Last Available: "2018-07"
+Item	boiling cerebrospinal fluid	Effect: "Hot Brains", Effect Duration: 30, Last Available: "2025-12"
 Item	boiling hot cocoa	Effect: "Cocoa-Crispy", Effect Duration: 20, Last Available: "2020-12"
 Item	boiling seal blood	Effect: "Abyssal Blood", Effect Duration: 20
+Item	boiling synovial fluid	Effect: "Hot Joints", Effect Duration: 30, Last Available: "2025-12"
 Item	Boletus Broletus mushroom	Effect: "Boletus Swoletus", Effect Duration: 10, Last Available: "2014-05"
 Item	bone bons	Effect: "Bone Chilling", Effect Duration: 20
 Item	Boosty Juice	Effect: "Juicy Boost", Effect Duration: 300
