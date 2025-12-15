@@ -12154,9 +12154,9 @@
 12126
 12127
 12128
-12129
-12130
-12131
+12129	boiling bone marrow	153427849	c25goo1.gif	potion, usable	t,d	22
+12130	boiling cerebrospinal fluid	233745225	c25goo2.gif	potion, usable	t,d	22
+12131	boiling synovial fluid	618141245	c25goo3.gif	potion, usable	t,d	22
 12132	smoldering vertebra	437643856	vertebraring.gif	accessory	t	0
 12133
 12134
