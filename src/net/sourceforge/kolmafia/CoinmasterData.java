@@ -92,6 +92,7 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   private String storageAction = null;
   private String tradeAllAction = null;
   private boolean needsPasswordHash = false;
+  private boolean useAjax = true;
 
   // False if the coinmaster doesn't sell anything that goes into
   // inventory. I.e., whether we need to construct PurchaseRequests.
@@ -608,6 +609,21 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   }
 
   /**
+   * Specifies whether transactions with this coinmaster should use ajax.
+   *
+   * <p>For some coinmasters, we want to load the whole page after purchasing. If this is the case,
+   * call this with <code>false</code>. (<code>true
+   * </code> is the default.)
+   *
+   * @param needsPasswordHash - "false" if full page load desired after purchase
+   * @return this - Allows fluid chaining of fields
+   */
+  public CoinmasterData withAjax(boolean useAjax) {
+    this.useAjax = useAjax;
+    return this;
+  }
+
+  /**
    * Specifies that at least some transactions with this coinmaster deal with actual items from
    * inventory.
    *
@@ -1042,6 +1058,10 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
 
   public final boolean needsPasswordHash() {
     return this.needsPasswordHash;
+  }
+
+  public final boolean useAjax() {
+    return this.useAjax;
   }
 
   public final boolean getCanPurchase() {
