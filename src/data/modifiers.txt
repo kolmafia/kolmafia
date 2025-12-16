@@ -5817,6 +5817,7 @@ Effect	Bone Springs	Initiative: +20
 Effect	Boned Up	Avatar: "Smart Skelton"
 Effect	Bonelording	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25, Spooky Damage: +25
 Effect	Boner Battalion	Damage Aura: 1
+Effect	Bones Against Bones	Damage vs. Skeletons: +75, Damage vs. Undead: +50, Initiative: +25, Damage Reduction: 5
 Effect	Bony Dancer	Avatar: "tapdancing skeleton"
 Effect	Boo Tea	Spooky Damage: +30
 Effect	Booing Radly	Damage vs. Ghosts: +50
@@ -9986,6 +9987,7 @@ Item	yule gruel	Last Available: "2018-12"
 
 # Booze section of modifiers.txt
 
+Item	&quot;salvaged&quot; wine	Last Available: "2025-12"
 Item	1950 Vampire Vintner wine	Effect Duration: 10
 Item	Acqua Del Piatto Merlot	Last Available: "2004-10"
 Item	Acque Luride Grezze Cabernet	Last Available: "2004-10"
@@ -10926,6 +10928,7 @@ Item	correction fluid	Effect: "The Solution", Effect Duration: 30, Last Availabl
 Item	corrupted data	Effect: "Corrupted", Effect Duration: 30, Last Available: "2011-06"
 Item	corrupted marrow	Effect: "Cowrruption", Effect Duration: 30
 Item	cosmic lemonade	Effect: "Lemon Enlightenment", Effect Duration: 10, Last Available: "2007-01"
+Item	counterskeleton elixir	Effect: "Bones Against Bones", Effect Duration: 50, Last Available: "2025-12"
 Item	cranberry cordial	Effect: "Cranberry Cordiality", Effect Duration: [R]
 Item	crappy waiter disguise	Effect: "Crappily Disguised as a Waiter", Effect Duration: 5
 Item	crepe paper peanut candy	Effect: "Crepe Paper Pedestrian Cacophony", Effect Duration: 20
@@ -12476,6 +12479,7 @@ Item	burnt incisor	Last Available: "2025-12"
 Item	burnt phalange	Last Available: "2025-12"
 Item	burnt stick	Last Available: "2019-08"
 Item	burrowgrub hive	Last Available: "2008-12"
+Item	buryable chest	Last Available: "2025-12"
 # bus pass: Deals 45-50 Physical Damage
 Item	calm attention-deficit demon	Free Pull, Last Available: "2006-10"
 # Camp Scout pup tent: Restores up to 1,000 HP
@@ -12781,6 +12785,8 @@ Item	croquet hedgehog	Last Available: "2010-03"
 # crude voodoo doll: Makes an enemy smaller than you
 Item	crumbling rat skull	Class: "Pastamancer"
 Item	crushed steamer trunk	Last Available: "2017-01"
+Item	Crymbocurrency	Last Available: "2025-12"
+Item	Crymbocurrency tattoo	Last Available: "2025-12"
 # crystal skull: Banishes a monster for a while
 Item	crystal skull	Last Available: "2011-09"
 Item	crystalline cheer	Last Available: "2017-12"
@@ -13870,6 +13876,7 @@ Item	Merc Core challenge coin	Last Available: "2014-10"
 Item	Merc Core deployment orders	Last Available: "2014-10"
 Item	Merc Core Field Manual: Intimidation Techniques	Skill: "Intimidating Mien", Last Available: "2014-10"
 Item	Merc Core Field Manual: Sanity Maintenance	Skill: "Hypersane", Last Available: "2014-10"
+Item	messenger parrot egg	Last Available: "2025-12"
 # metal meteoroid: Can be shaped into various pieces of equipment
 Item	metal meteoroid	Last Available: "2017-08"
 # metandienone: Increase a Pokefamiliar's power by 1

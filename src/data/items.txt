@@ -12146,7 +12146,7 @@
 12118
 12119
 12120
-12121
+12121	Crymbocurrency	939831959	crypto.gif	none		0
 12122
 12123
 12124
@@ -12179,8 +12179,8 @@
 12151
 12152
 12153
-12154
-12155
+12154	messenger parrot egg	125833643	jarl_egg.gif	none, usable, curse	t,d	50
+12155	buryable chest	472888474	buryablechest.gif	usable	t,d	100
 12156
 12157
 12158
@@ -12191,10 +12191,12 @@
 12163
 12164
 12165
-12166
+12166	Crymbocurrency tattoo	804475271	cryptotat.gif	usable	t	0
 12167
 12168
 12169
 12170
 12171	traditional gingerloaf	952863249	gingerloaf.gif	food	t,d	35
 12172	Scotch and eggnog	391232132	coffeecup.gif	drink	t,d	37
+12173	counterskeleton elixir	696432516	skullpotion.gif	potion, usable	t,d	69
+12174	&quot;salvaged&quot; wine	396890642	salvagewine.gif	drink	t,d	1500
