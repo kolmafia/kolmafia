@@ -207,6 +207,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     addPanel(new TravelingTraderPanel());
     addPanel(new fdkolPanel());
     addPanel(new WarbearBoxPanel());
+    addPanel(new Crimbo25SammyPanel());
 
     // Removed coinmasters
     this.selectorPanel.addSeparator();
@@ -1490,6 +1491,12 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
   private class Crimbo24FactoryPanel extends Crimbo24Panel {
     public Crimbo24FactoryPanel() {
       super(Crimbo24FactoryRequest.DATA);
+    }
+  }
+
+  private class Crimbo25SammyPanel extends Crimbo24Panel {
+    public Crimbo25SammyPanel() {
+      super(Crimbo25SammyRequest.DATA);
     }
   }
 

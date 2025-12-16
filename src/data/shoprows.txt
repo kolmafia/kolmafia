@@ -1641,26 +1641,26 @@
 1640
 1641
 1642
-1643
-1644
+1643	crimbo25_sammy	Crymbocurrency	burnt incisor
+1644	crimbo25_sammy	Crymbocurrency (5)	burnt phalange
 1645
 1646
 1647
 1648
-1649
-1650
+1649	crimbo25_sammy	Crymbocurrency (5)	cold wad
+1650	crimbo25_sammy	Crymbocurrency (5)	twinkly wad (3)
 1651
 1652
 1653
 1654
 1655
 1656
-1657
+1657	crimbo25_sammy	counterskeleton elixir	Crymbocurrency (10)
 1658
 1659
 1660
-1661
-1662
+1661	crimbo25_sammy	messenger parrot egg	Crymbocurrency (200)
+1662	crimbo25_sammy	buryable chest	Crymbocurrency (300)
 1663
 1664
 1665
@@ -1669,8 +1669,8 @@
 1668
 1669
 1670
-1671
-1672
+1671	crimbo25_sammy	Crymbocurrency tattoo	Crymbocurrency (10,000)
+1672	crimbo25_sammy	&quot;salvaged&quot; wine	Crymbocurrency (3,000)
 1673
 1674
 1675	crimbo25_cafe	traditional gingerloaf	300 Meat

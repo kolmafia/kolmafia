@@ -65,6 +65,7 @@ public abstract class CoinmasterRegistry {
         Crimbo24BarRequest.DATA,
         Crimbo24CafeRequest.DATA,
         Crimbo24FactoryRequest.DATA,
+        Crimbo25SammyRequest.DATA,
         CrimboCartelRequest.CRIMBO_CARTEL,
         DedigitizerRequest.DATA,
         DimemasterRequest.HIPPY,

@@ -45,6 +45,10 @@ public class ShopRow implements Comparable<ShopRow> {
     return this.costs;
   }
 
+  public void setCosts(AdventureResult[] costs) {
+    this.costs = costs;
+  }
+
   public boolean isMeatPurchase() {
     return costs.length == 1 && costs[0].isMeat();
   }
