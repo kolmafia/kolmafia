@@ -12191,7 +12191,7 @@
 12163
 12164
 12165
-12166	Crymbocurrency tattoo	804475271	cryptotat.gif	usable	t	0
+12166	Crymbocurrency tattoo	804475271	cryptotat.gif	usable	t	0	Crymbocurrency
 12167
 12168
 12169
