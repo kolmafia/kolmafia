@@ -2905,9 +2905,9 @@ self-driving sleigh	2491	sleigh.gif	Scale: 40 Init: 300 P: construct Article: a	
 "Santa Claus"	2469	santa.gif	BOSS NOCOPY NOMANUEL Scale: 40 HP: 2000 Init: -10000 P: dude	Bowl of Infinite Jelly (n100)
 
 # Crimbo 25
-tiny charred skeleton	2500	c25mob1.gif	Atk: 100 Def: 100 HP: 100 Init: 50 P: undead SKELETON ED: hot Article: a	boiling synovial fluid (15)	burnt incisor (c10)	burnt phalange (c2)	smoldering vertebra (f0)
-pillar of charred skulls	2501	c25mob3.gif	Atk: 80 Def: 110 HP: 150 Init: 20 P: undead SKELETON ED: hot Article: a	boiling bone marrow (15)	burnt incisor (c10)	burnt phalange (c2)
-fire-breathing charred skull	2502	c25mob2.gif	Atk: 150 Def: 100 HP: 75 Init: 150 P: undead SKELETON ED: hot Article: a	boiling cerebrospinal fluid (15)	burnt incisor (c10)	burnt phalange (c2)
+tiny charred skeleton	2500	c25mob1.gif	Atk: 100 Def: 100 HP: 100 Init: 50 P: undead SKELETON ED: hot Article: a	boiling synovial fluid (15)	burnt incisor (f10)	burnt phalange (f1)	smoldering vertebra (f0.1)
+pillar of charred skulls	2501	c25mob3.gif	Atk: 80 Def: 110 HP: 150 Init: 20 P: undead SKELETON ED: hot Article: a	boiling bone marrow (15)	burnt incisor (f10)	burnt phalange (f1)
+fire-breathing charred skull	2502	c25mob2.gif	Atk: 150 Def: 100 HP: 75 Init: 150 P: undead SKELETON ED: hot Article: a	boiling cerebrospinal fluid (15)	burnt incisor (f10)	burnt phalange (f1)
 
 # Retired Standard Monsters
 Astronomer (obsolete)	354	astronomer.gif	Atk: 168 Def: 151 HP: 150 Init: 70 P: constellation EA: hot Article: The Manuel: "Astronomer"	star chart (100)
