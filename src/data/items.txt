@@ -12154,10 +12154,10 @@
 12126
 12127
 12128
-12129	boiling bone marrow	153427849	c25goo1.gif	potion, usable	t,d	22
-12130	boiling cerebrospinal fluid	233745225	c25goo2.gif	potion, usable	t,d	22
-12131	boiling synovial fluid	618141245	c25goo3.gif	potion, usable	t,d	22
-12132	smoldering vertebra	437643856	vertebraring.gif	accessory	t	0
+12129	boiling bone marrow	153427849	c25goo1.gif	potion	t,d	22	globs of boiling bone marrow
+12130	boiling cerebrospinal fluid	233745225	c25goo2.gif	potion	t,d	22	globs of boiling cerebrospinal fluid
+12131	boiling synovial fluid	618141245	c25goo3.gif	potion	t,d	22	globs of boiling synovial fluid
+12132	smoldering vertebra	437643856	vertebraring.gif	accessory	t	0	smoldering vertebrae
 12133
 12134
 12135
@@ -12196,7 +12196,7 @@
 12168
 12169
 12170
-12171	traditional gingerloaf	952863249	gingerloaf.gif	food	t,d	35
-12172	Scotch and eggnog	391232132	coffeecup.gif	drink	t,d	37
+12171	traditional gingerloaf	952863249	gingerloaf.gif	food	t,d	35	traditional gingerloaves
+12172	Scotch and eggnog	391232132	coffeecup.gif	drink	t,d	37	cups of Scotch and eggnog
 12173	counterskeleton elixir	696432516	skullpotion.gif	potion, usable	t,d	69
-12174	&quot;salvaged&quot; wine	396890642	salvagewine.gif	drink	t,d	1500
+12174	&quot;salvaged&quot; wine	396890642	salvagewine.gif	drink	t,d	1500	bottles of &quot;salvaged&quot; wine

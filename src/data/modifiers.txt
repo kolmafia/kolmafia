@@ -8107,6 +8107,7 @@ Effect	Teacher's Pet	Sleaze Resistance: +2, Damage Absorption: +50, Damage Reduc
 Effect	Tearful, Fearful	Item Drop: +30
 Effect	Techno Bliss	Item Drop: +10
 Effect	Teleportitis	Adventure Randomly
+Effect	Temporarily Damned	Hot Damage: +13, Hot Spell Damage: +13
 Effect	Temporarily Filtered	Stench Resistance: +5
 # Temporary Amnesia: Who am I?
 Effect	Temporary Blindness	Item Drop: -75, Moxie Percent: -25, Initiative: -30, Blind
