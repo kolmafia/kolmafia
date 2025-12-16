@@ -30,8 +30,9 @@ public class CoinMasterShopRequest extends CoinMasterRequest {
 
     // We want to parse the balance for virtual currencies
     // We want the full responseText if we are buying a skill
+    // or if we explicitly configure it
     AdventureResult item = row.getItem();
-    if (data.getProperty() == null && !item.isSkill()) {
+    if (data.getProperty() == null && !item.isSkill() && data.useAjax()) {
       this.addFormField("ajax", "1");
     }
   }

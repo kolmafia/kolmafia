@@ -13,6 +13,7 @@ public abstract class Crimbo25SammyRequest extends CoinMasterShopRequest {
           .inZone("Crimbo25")
           .withNewShopRowFields(master, SHOPID)
           .withVisitShopRows(Crimbo25SammyRequest::visitShopRows)
+          .withAjax(false)
           // for now, you can't trade in multiple wads / bone fragments
           .withCountField(null);
 

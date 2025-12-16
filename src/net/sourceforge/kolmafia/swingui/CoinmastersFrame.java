@@ -1494,7 +1494,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     }
   }
 
-  private class Crimbo25SammyPanel extends Crimbo24Panel {
+  private class Crimbo25SammyPanel extends CoinmasterPanel {
     public Crimbo25SammyPanel() {
       super(Crimbo25SammyRequest.DATA);
     }
@@ -1720,6 +1720,9 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
 
       RequestThread.postRequest(request);
 
+      if (this.shopRowPanel != null) {
+        this.shopRowPanel.filterItems();
+      }
       if (this.buyPanel != null) {
         this.buyPanel.filterItems();
       }
