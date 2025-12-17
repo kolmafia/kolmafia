@@ -3063,4 +3063,4 @@
 3060
 3061
 3062
-3063	And the Winner Is...	crate.gif	c3930af415b9fc4c3f364e11263a299e	neutral	none	drink 1 bottle of prize-winning rum
+3063	And the Winner Is...	crate.gif	c3930af415b9fc4c3f364e11263a299e	neutral	none	drink 1 bottle of prize-winning rum|eat 1 wedge of prize-winning cheese
