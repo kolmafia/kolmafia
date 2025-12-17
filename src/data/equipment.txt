@@ -1365,6 +1365,7 @@ hippo whip	20	Mus: 0	1-handed whip
 hippy bongo	70	Mox: 20	1-handed drum
 Hodgman's whackin' stick	200	Mus: 200	1-handed club
 honey dipper	175	Mys: 72	1-handed utensil
+hot boning knife	150	Mus: 60	1-handed knife
 hot cross bow	130	Mox: 45	2-handed crossbow
 hot-ass club	160	Mus: 65	2-handed club
 hothammer	225	Mus: 200	1-handed club
@@ -2032,6 +2033,7 @@ fireproof megaphone	10	none
 fishbone catcher's mitt	20	none
 flagstone flag	120	Mus: 40
 flak shield	150	Mus: 30	shield
+flaming fistbone	0	Mys: 60
 flaming talons	90	Mys: 30
 fleshy lump	50	none	shield
 flickering flashlight	50	none
@@ -2577,6 +2579,7 @@ bugbear detector	0	none
 bullet necklace	0	Mys: 25
 bully badge	100	none
 burning paper slippers	100	none
+burnt bone belt	0	Mox: 60
 C.A.R.N.I.V.O.R.E. button	200	Mys: 10
 cactus key	10	none
 candy dress shoes	100	Mus: 20

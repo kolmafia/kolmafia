@@ -257,6 +257,7 @@ Sloppy Seconds Diner	100	Sloppy Seconds Sundae	Sloppy Seconds Burger	Sloppy Seco
 Smartest Adventurer Contest	100	Accountant-Barbarian	Metaphysical Gastronomist	Kleptobrainiac	The Mastermind: 0
 Smoothest Adventurer Contest	100	Savage Beatnik	Creamweaver	Smooth Criminal	Seannery the Conman: 0
 Smoldering Bone Spikes	100	tiny charred skeleton	pillar of charred skulls	fire-breathing charred skull
+Smoldering Fingerbones	100	sneaky smoldering skeleton	sorcerous smoldering skeleton	stout smoldering skeleton
 Some Scattered Smoking Debris	100	Government agent	perimeter defense sphere	illegal alien
 Sonar	-1	batbugbear
 Sonofa Beach	10	lobsterfrogman
