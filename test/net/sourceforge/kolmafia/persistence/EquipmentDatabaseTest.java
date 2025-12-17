@@ -83,6 +83,18 @@ public class EquipmentDatabaseTest {
       var yield = EquipmentDatabase.getPulverization(ItemPool.SHADOW_SKIN);
       assertThat(yield, is(0x8001B002));
     }
+
+    @Test
+    void beerGogglesTwinkly() {
+      var yield = EquipmentDatabase.getPulverization(ItemPool.BEER_GOGGLES);
+      assertThat(yield, is(0x80001002));
+    }
+
+    @Test
+    void unenchantedUseless() {
+      var yield = EquipmentDatabase.getPulverization(ItemPool.CHISEL);
+      assertThat(yield, is(ItemPool.USELESS_POWDER));
+    }
   }
 
   // This is a canary test.  There are homebrew array implementations that are used in
