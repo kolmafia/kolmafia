@@ -773,7 +773,7 @@ public class EquipmentDatabase {
     Modifiers mods = ModifierDatabase.getItemModifiers(id);
 
     // Null mods might suggest no enchantments at all, which would imply
-    // that this pulverizes to uselgiess powder.  However, there are many items
+    // that this pulverizes to useless powder.  However, there are many items
     // with enchantments that don't correspond to a KoLmafia modifier
     // (the "They do nothing!" enchantment of beer goggles, for example),
     // so this can't safely be assumed, so for now all truly unenchanted
