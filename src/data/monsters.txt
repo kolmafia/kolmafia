@@ -2909,8 +2909,8 @@ tiny charred skeleton	2500	c25mob1.gif	Atk: 100 Def: 100 HP: 100 Init: 50 P: und
 pillar of charred skulls	2501	c25mob3.gif	Atk: 80 Def: 110 HP: 150 Init: 20 P: undead SKELETON ED: hot Article: a	boiling bone marrow (15)	burnt incisor (f10)	burnt phalange (f1)
 fire-breathing charred skull	2502	c25mob2.gif	Atk: 150 Def: 100 HP: 75 Init: 150 P: undead SKELETON ED: hot Article: a	boiling cerebrospinal fluid (15)	burnt incisor (f10)	burnt phalange (f1)
 sneaky smoldering skeleton	2503	c25mobmox6.gif	Init: 100 P: undead SKELETON ED: hot Article: a	smoldering bone dust (10)	burnt phalange (f0)	burnt radius (f0)	burnt bone belt (0)
-sorcerous smoldering skeleton	2505	c25mobmyst5.gif	Init: 100 P: undead SKELETON ED: hot Article: a	smoldering bone dust (10)	burnt phalange (f0)	burnt radius (f0)	flaming fistbone (0)
-stout smoldering skeleton	2504	c25mobmus4.gif	Init: 50 P: undead SKELETON ED: hot Article: a	smoldering bone dust (10)	burnt phalange (f0)	burnt radius (f0)	hot boning knife (0)
+sorcerous smoldering skeleton	2505	c25mobmyst5.gif	Init: 1000 P: undead SKELETON ED: hot Article: a	smoldering bone dust (10)	burnt phalange (f0)	burnt radius (f0)	flaming fistbone (0)
+stout smoldering skeleton	2504	c25mobmus4.gif	Init: -1000 P: undead SKELETON ED: hot Article: a	smoldering bone dust (10)	burnt phalange (f0)	burnt radius (f0)	hot boning knife (0)
 
 # Retired Standard Monsters
 Astronomer (obsolete)	354	astronomer.gif	Atk: 168 Def: 151 HP: 150 Init: 70 P: constellation EA: hot Article: The Manuel: "Astronomer"	star chart (100)
