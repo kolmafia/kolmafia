@@ -771,38 +771,23 @@ public class EquipmentDatabase {
 
     int pulver = PULVERIZE_BITS | ELEM_TWINKLY;
     Modifiers mods = ModifierDatabase.getItemModifiers(id);
-    if (mods == null) { // Apparently no enchantments at all, which would imply that this
-      // item pulverizes to useless powder.  However, there are many items
-      // with enchantments that don't correspond to a KoLmafia modifier
-      // (the "They do nothing!" enchantment of beer goggles, for example),
-      // so this can't safely be assumed, so for now all truly unenchanted
-      // items will have to be explicitly listed in pulverize.txt.
-      pulver |= EquipmentDatabase.ELEM_TWINKLY;
-    } else {
-      for (var implication : IMPLICATIONS.entrySet()) {
-        if (mods.getDouble(implication.getKey()) > 0.0f) {
-          pulver |= implication.getValue();
-        }
-      }
+
+    // Null mods might suggest no enchantments at all, which would imply
+    // that this pulverizes to useless powder.  However, there are many items
+    // with enchantments that don't correspond to a KoLmafia modifier
+    // (the "They do nothing!" enchantment of beer goggles, for example),
+    // so this can't safely be assumed, so for now all truly unenchanted
+    // items will have to be explicitly listed in pulverize.txt.
+
+    if (mods != null) {
+      pulver |=
+          IMPLICATIONS.entrySet().stream()
+              .filter(e -> mods.getDouble(e.getKey()) > 0.0)
+              .mapToInt(Map.Entry::getValue)
+              .reduce(0, (a, b) -> a | b);
     }
 
     int power = EquipmentDatabase.getPower(id);
-    if (power <= 0) {
-      // power is unknown, derive from requirement (which isn't always accurate)
-      pulver |= YIELD_UNCERTAIN;
-      String req = EquipmentDatabase.statRequirements.get(id);
-
-      if (req == null || req.equals("none")) {
-        power = 0;
-      } else {
-        int colonIndex = req.indexOf(":");
-
-        if (colonIndex != -1) {
-          String reqValue = req.substring(colonIndex + 1).trim();
-          power = StringUtilities.parseInt(reqValue) * 2 + 30;
-        }
-      }
-    }
     if (power >= 180) {
       pulver |= YIELD_3W;
     } else if (power >= 160) {
