@@ -1580,6 +1580,7 @@ Item	hippy bongo	Stench Damage: +5
 # Hodgman's whackin' stick: On Critical: Insanity!
 Item	Hodgman's whackin' stick	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20
 Item	honey dipper	Mysticality Percent: +5, MP Regen Min: 3, MP Regen Max: 7, Spell Damage: +15
+Item	hot boning knife	Hot Damage: +75, HP Regen Min: 4, HP Regen Max: 8, Experience (Muscle): +2, Single Equip, Last Available: "2025-12"
 Item	hot cross bow	Moxie: +7, Muscle: +5, Hot Damage: +5
 Item	hot-ass club	Weapon Damage: +25, Monster Level: +15, Hot Damage: +15, Class: "Seal Clubber"
 Item	hothammer	Hot Damage: +50
@@ -2329,6 +2330,7 @@ Item	fireproof megaphone	Monster Level: +10, Hot Resistance: +2, Last Available:
 Item	flagstone flag	Experience (Muscle): +3, Item Drop: +10, Last Available: "2022-12", Conditional Skill (Equipped): "Flagellate"
 # flak shield: Protects you from Axis grenades
 Item	flak shield	Damage Reduction: 9
+Item	flaming fistbone	Hot Spell Damage: +75, MP Regen Min: 4, MP Regen Max: 8, Experience (Mysticality): +2, Last Available: "2025-12"
 Item	flaming talons	Weapon Damage: +5, Hot Damage: +5
 Item	fleshy lump	Maximum HP: +20, HP Regen Min: 2, HP Regen Max: 4, Damage Reduction: 3, Last Available: "2016-08"
 Item	flickering flashlight	Item Drop: +15, Last Available: "2020-04"
@@ -2949,6 +2951,7 @@ Item	bugbear detector	Single Equip
 Item	bullet necklace	Mysticality: +30, Maximum MP: +30, Single Equip
 Item	bully badge	Combat Rate: +5, Lasts Until Rollover, Last Available: "2025-08"
 Item	burning paper slippers	Cold Resistance: +3, Maximum HP: +25, Maximum MP: +25, Initiative: +50, Single Equip, Lasts Until Rollover, Last Available: "2018-12"
+Item	burnt bone belt	Stench Damage: +75, HP Regen Min: 3, HP Regen Max: 6, MP Regen Min: 3, MP Regen Max: 6, Experience (Moxie): +2, Single Equip, Last Available: "2025-12"
 Item	C.A.R.N.I.V.O.R.E. button	Monster Level: +15
 Item	cactus key	Maximum HP: +20, HP Regen Min: 9, HP Regen Max: 10, Last Available: "2020-08"
 Item	candy dress shoes	Maximum HP: +20, Weapon Damage: +15, Critical Hit Percent: +10, Single Equip, Last Available: "2016-12"
@@ -5584,6 +5587,7 @@ Effect	Ancient Annoying Serpent Poison	Muscle: -5, Mysticality: -5, Moxie: -5
 # Ancient Fortitude: You are impervious to negative effects
 Effect	Ancient Fortitude	Maximum HP Percent: +100, HP Regen Min: 90, HP Regen Max: 100
 Effect	Ancient Protected	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
+Effect	And the Winner Is...	Familiar Damage: +25, Familiar Weight: +5, Experience (familiar): +3
 Effect	And Your Family, Too	Familiar Weight: -10
 Effect	Angering Pizza Purists	Monster Level: +50, Moxie: +15, Muscle Percent: +200
 Effect	Angry	Combat Rate: +5
@@ -9962,6 +9966,7 @@ Item	wasabi pocky	Effect: "Wasabi With You", Effect Duration: 30, Last Available
 Item	water log	Last Available: "2015-09"
 Item	wax pancake	Effect: "Waxing", Effect Duration: 30, Last Available: "2017-01"
 Item	wedge of gray cheese	Last Available: "2008-11"
+Item	wedge of prize-winning cheese	Effect: "And the Winner Is...", Effect Duration: 40, Last Available: "2025-12"
 Item	weird gazelle steak	Effect: "Gaze of the Gazelle", Effect Duration: 1
 Item	wet dog	Effect: "Hangdog", Effect Duration: 30
 Item	wet tack	Last Available: "2023-12"
@@ -10051,6 +10056,7 @@ Item	bottle of Old Pugilist	Effect: "Fightin' Drunk", Effect Duration: 20, Last 
 Item	bottle of Ooze-O	Effect: "Really Quite Poisoned", Effect Duration: 20
 Item	bottle of peppermint schnapps	Effect: "Crimbo Nostalgia", Effect Duration: 50, Last Available: "2010-12"
 Item	bottle of Pete's Sake	Effect: "Warm Belly", Effect Duration: 1
+Item	bottle of prize-winning rum	Effect: "And the Winner Is...", Effect Duration: 40, Last Available: "2025-12"
 Item	bottle of Professor Beer	Effect: "Thinkin' Drunk", Effect Duration: 20, Last Available: "2013-09"
 Item	bottle of Race Car Red	Effect: "Flyin' Drunk", Effect Duration: 20, Last Available: "2013-09"
 Item	bottle of Rapier Witbier	Effect: "Jokin' Drunk", Effect Duration: 20, Last Available: "2013-09"
@@ -12474,9 +12480,7 @@ Item	bundle of firewood	Last Available: "2019-08"
 Item	burned government manual fragment	Last Available: "2014-05"
 # burning newspaper: Deal a bunch of <font color=red>Hot Damage</font> and briefly stun your enemy
 Item	burning newspaper	Last Available: "2018-12"
-# burnt incisor: Sammy will want to see this
 Item	burnt incisor	Last Available: "2025-12"
-# burnt phalange: Sammy will want to see this
 Item	burnt phalange	Last Available: "2025-12"
 Item	burnt stick	Last Available: "2019-08"
 Item	burrowgrub hive	Last Available: "2008-12"
@@ -12685,6 +12689,8 @@ Item	crafting plans	Last Available: "2025-03"
 # crappy camera: Makes a copy of a monster to fight later
 # crappy camera: (when it works)
 Item	crappy camera	Last Available: "2014-12"
+Item	crate of prize-winning cheese	Last Available: "2025-12"
+Item	crate of prize-winning rum	Last Available: "2025-12"
 # crayon shavings: Weakens enemies by 30%
 Item	crayon shavings	Last Available: "2012-06"
 # crazy hobo notebook: Deals <font color=gray>Spooky Damage</font> every round to every monster you fight today in the zone where you used it
@@ -14746,6 +14752,7 @@ Item	Smashmoth	Last Available: "2018-03"
 # smoking grass: Deals 250-300 <font color=red>Hot Damage</font> and also, like, weakens enemies a bunch and briefly makes them forget what they were doing
 Item	smoking grass	Last Available: "2012-07"
 Item	smoking talon	Class: "Pastamancer"
+Item	smoldering bone dust	Last Available: "2025-12"
 # SMOOCH bottlecap: It's a collector's item!
 Item	SMOOCH bottlecap	Last Available: "2020-09"
 # smooth stone sphere: Mysterious, Deprecated
@@ -15280,6 +15287,8 @@ Item	viscous lava globs	Last Available: "2015-08"
 Item	Vivian's Vitamin	Last Available: "2012-12"
 # void stone: I'm sure it's safe to just sell it
 Item	void stone	Last Available: "2022-12"
+# volatile bone bomb: Deals 100 damage, except against skeletons, in which case it's like a billion damage
+Item	volatile bone bomb	Last Available: "2025-12"
 # Volcoino: Spend it at the Towering Inferno Discotheque's Gift Shop
 Item	Volcoino	Last Available: "2015-08"
 Item	voter registration form	Free Pull, Last Available: "2018-11"

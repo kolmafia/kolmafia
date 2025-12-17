@@ -3058,3 +3058,9 @@
 3055	Hot Brains	c25goo2.gif	6cdc1dbeef4fc0625c310c3a830599c8	neutral	none	use 1 boiling cerebrospinal fluid
 3056	Hot Joints	c25goo3.gif	5a63313d40c3dd52ffa253ef02215a92	neutral	none	use 1 boiling synovial fluid
 3057	Bones Against Bones	bigbone.gif	9e3f39cf594ed9129659d791dc865e7e	neutral	none	use 1 counterskeleton elixir
+3058
+3059
+3060
+3061
+3062
+3063	And the Winner Is...	crate.gif	c3930af415b9fc4c3f364e11263a299e	neutral	none	drink 1 bottle of prize-winning rum
