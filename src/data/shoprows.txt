@@ -1644,13 +1644,13 @@
 1643	crimbo25_sammy	Crymbocurrency	burnt incisor
 1644	crimbo25_sammy	Crymbocurrency (5)	burnt phalange
 1645
-1646
+1646	crimbo25_sammy	Crymbocurrency (10)	burnt radius
 1647
 1648
 1649	crimbo25_sammy	Crymbocurrency (5)	cold wad
 1650	crimbo25_sammy	Crymbocurrency (5)	twinkly wad (3)
 1651
-1652
+1652	crimbo25_sammy	volatile bone bomb	smoldering bone dust	100 Meat
 1653
 1654
 1655

@@ -1701,7 +1701,9 @@ The HMS Bounty Hunter	ROW1662	buryable chest	Crymbocurrency (300)
 The HMS Bounty Hunter	ROW1672	&quot;salvaged&quot; wine	Crymbocurrency (3,000)
 The HMS Bounty Hunter	ROW1671	Crymbocurrency tattoo	Crymbocurrency (10,000)
 The HMS Bounty Hunter	ROW1657	counterskeleton elixir	Crymbocurrency (10)
+The HMS Bounty Hunter	ROW1652	volatile bone bomb	smoldering bone dust	100 Meat
 The HMS Bounty Hunter	ROW1643	Crymbocurrency	burnt incisor
 The HMS Bounty Hunter	ROW1644	Crymbocurrency (5)	burnt phalange
+The HMS Bounty Hunter	ROW1646	Crymbocurrency (10)	burnt radius
 The HMS Bounty Hunter	ROW1649	Crymbocurrency (5)	cold wad
 The HMS Bounty Hunter	ROW1650	Crymbocurrency (5)	twinkly wad (3)

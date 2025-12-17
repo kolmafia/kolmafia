@@ -875,7 +875,7 @@ Spaghetti Demon	890	3_4a.gif	BOSS NOCOPY Atk: 200 Def: 180 HP: 600 Init: 100 P: 
 
 # Saucerer
 
-b&eacute;arnaise zombie	687	saucezombie.gif	NOCOPY WANDERER Atk: 95 Def: 85 HP: 120 Init: 50 P: slime EA: spooky EA: none Article: a Manuel: "béarnaise zombie"
+b&eacute;arnaise zombie	687	saucezombie.gif	NOCOPY WANDERER Atk: 95 Def: 85 HP: 120 Init: 50 P: slime ZOMBIE EA: spooky EA: none Article: a Manuel: "béarnaise zombie"
 Heimandatz, Nacho Golem	704	nachogolem.gif	BOSS NOCOPY WANDERER Atk: 115 Def: 103 HP: 150 Init: 60 P: construct	secret tropical island volcano lair map (100)	Heimandatz's heart (100)	friendly cheez blob (100)
 booth slime	803	boothslime.gif	NOBANISH Atk: 140 Def: 126 HP: 150 Init: 50 P: slime EA: stench EA: none Article: a	vial of blue slime (f66)
 fan slime	804	fanslime.gif	NOBANISH Atk: 140 Def: 126 HP: 150 Init: 50 P: slime EA: sleaze EA: none Article: a	vial of yellow slime (f66)
