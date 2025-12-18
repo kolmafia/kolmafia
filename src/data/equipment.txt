@@ -353,6 +353,7 @@ safarrri hat	90	Mox: 30
 samurai turtle helmet	25	none
 Satan hat	200	Mys: 75
 Scalp of Gorgolok	100	Mus: 15
+scorched skeleton mask	150	Mus: 60
 sea cowboy hat	200	Mox: 85
 seal-skull helmet	10	none
 sealhide hood	160	Mox: 65
@@ -709,6 +710,7 @@ replica Greatest American Pants	100	none
 rusty metal greaves	150	Mus: 60
 saffron antaravasaka	100	Mox: 35
 scale-mail underwear	200	Mox: 85
+scorched skeleton pants	150	Mox: 60
 sea chaps	200	Mox: 85
 sealhide leggings	160	Mox: 65
 servo-assisted exo-pants	50	none
@@ -929,6 +931,7 @@ red-and-green sweater	50	Mox: 35
 reflective vest	50	none
 rhinestone cowboy shirt	100	Mus: 35
 safety vest	70	Mus: 20
+scorched skeleton shirt	150	Mys: 60
 sea salt scrubs	200	Mus: 85
 sequin-encrusted sweater	50	none
 shark jumper	200	Mus: 85
@@ -1248,6 +1251,7 @@ finger cymbals	65	Mox: 17	1-handed cymbals
 fire axe	200	Mus: 85	2-handed axe
 [10462]fire flower	0	Mus: 0	1-handed flower
 fire poi	190	Mox: 80	2-handed flail
+fireproof bonesaw	120	Mus: 20	1-handed saw
 fish bazooka	200	Mox: 85	2-handed bazooka
 fish hatchet	200	Mus: 0	1-handed axe
 fish scimitar	200	Mus: 85	1-handed sword
@@ -1354,6 +1358,7 @@ happiness	165	Mox: 67	1-handed pistol
 haunted bindle	50	Mus: 0	2-handed polearm
 haunted paddle-ball	110	Mox: 40	1-handed flail
 hawk	110	Mus: 40	1-handed saw
+heat-resistant harpoon pistol	120	Mox: 20	1-handed pistol
 heavy hammer	0	Mus: 0	1-handed hammer
 heavy leather-bound tome	150	Mus: 60	1-handed club
 heavy metal thunderrr guitarrr	160	Mox: 65	2-handed axe
@@ -1802,6 +1807,7 @@ two-handed depthsword	120	Mus: 45	2-handed sword
 ultimate ultimate frisbee	75	Mox: 22	1-handed frisbee
 Uncle Hobo's highest bough	200	Mus: 200	1-handed club
 uncursed machete	100	Mus: 0	1-handed sword
+undertakers' forceps	100	Mus: 35	1-handed pliers
 Underworld flail	200	Mox: 150	2-handed flail
 Underworld truncheon	200	Mus: 150	2-handed club
 Unionize The Elves sign	50	Mus: 10	1-handed club
@@ -1984,6 +1990,7 @@ cursed arcane orb	0	none
 cursed coffee cup	0	none
 cursed compass	50	none
 cursed magnifying glass	100	none
+cursed ship's lantern	0	Mys: 20
 cursed stats	0	none
 cyborg doll	110	Mys: 40
 Dallas Dynasty Falcon Crest shield	240	Mus: 85	shield
@@ -2033,7 +2040,7 @@ fireproof megaphone	10	none
 fishbone catcher's mitt	20	none
 flagstone flag	120	Mus: 40
 flak shield	150	Mus: 30	shield
-flaming fistbone	0	Mys: 60
+flaming fistbone	150	Mys: 60
 flaming talons	90	Mys: 30
 fleshy lump	50	none	shield
 flickering flashlight	50	none
@@ -2427,6 +2434,7 @@ vampire pellet	180	Mys: 35
 velcro shield	220	Mus: 85	shield
 velour valise	50	none
 vengeful spirit	225	Mys: 200
+vermiculite shield	0	Mus: 20	shield
 Victor, the Insult Comic Hellhound Puppet	10	none
 vinyl shield	220	Mus: 85	shield
 visual packet sniffer	50	none
@@ -2579,7 +2587,7 @@ bugbear detector	0	none
 bullet necklace	0	Mys: 25
 bully badge	100	none
 burning paper slippers	100	none
-burnt bone belt	0	Mox: 60
+burnt bone belt	150	Mox: 60
 C.A.R.N.I.V.O.R.E. button	200	Mys: 10
 cactus key	10	none
 candy dress shoes	100	Mus: 20
