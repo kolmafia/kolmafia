@@ -99,6 +99,9 @@ public class ShopRow implements Comparable<ShopRow> {
     buf.append("(");
     for (AdventureResult cost : costs) {
       long price = cost.getCount() * count;
+      if (price == 0l) {
+        continue;
+      }
       if (cost.isMeat()) {
         price = NPCPurchaseRequest.currentDiscountedPrice(price);
       }
@@ -110,7 +113,11 @@ public class ShopRow implements Comparable<ShopRow> {
       buf.append(cost.getPluralName(price));
     }
     buf.append(")");
-    return buf.toString();
+    var str = buf.toString();
+    if (str.equals("()")) {
+      return "";
+    }
+    return str;
   }
 
   /* The Armory and Leggery: Meat
