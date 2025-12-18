@@ -4796,6 +4796,9 @@ public abstract class ChoiceControl {
       Pattern.compile("\\(Walford's bucket filled by (\\d+)%\\)");
   private static final Pattern SUMMON_WAVE_PATTERN =
       Pattern.compile("sweep it down and point at (.*?).  A huge wave rises from the sea");
+  private static final Pattern DIGGING_GIFT_PATTERN =
+      Pattern.compile(
+          "Looks like they left a note: <div style=\"padding: 1em; margin: 1em; border: 1px solid black\">(.*?)</div>");
 
   private static final Pattern MAYAM_SYMBOLS =
       Pattern.compile("<img data-pos=\"\\d\" class=\"(used)?\"? alt=\"([^\\s]+)\\s");
@@ -6810,6 +6813,18 @@ public abstract class ChoiceControl {
           if (waveMatcher.find()) {
             Preferences.setString("_seadentWaveZone", waveMatcher.group(1));
             Preferences.setBoolean("_seadentWaveUsed", true);
+          }
+        }
+      }
+
+      case 1591 -> {
+        // Diggin' up a Gift!
+        if (ChoiceManager.lastDecision == 1) {
+          Matcher giftMatcher = DIGGING_GIFT_PATTERN.matcher(text);
+          if (giftMatcher.find()) {
+            var message = "Note: " + giftMatcher.group(1);
+            RequestLogger.printLine(message);
+            RequestLogger.updateSessionLog(message);
           }
         }
       }

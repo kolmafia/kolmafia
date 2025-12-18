@@ -14,6 +14,7 @@ import static internal.helpers.Player.withIntrinsicEffect;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withLastLocation;
 import static internal.helpers.Player.withNoEffects;
+import static internal.helpers.Player.withNoItems;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withPostChoice1;
 import static internal.helpers.Player.withPostChoice2;
@@ -28,6 +29,7 @@ import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.core.StringContains.containsString;
 
 import internal.helpers.Cleanups;
 import internal.helpers.RequestLoggerOutput;
@@ -1771,6 +1773,20 @@ class ChoiceControlTest {
       assertThat(items, hasItem(ItemPool.get(ItemPool.ELVEN_SOCKS)));
       var prices = CoinmastersDatabase.getBuyPrices("Skeleton of Crimbo Past");
       assertThat(prices.get(ItemPool.ELVEN_SOCKS), is(442));
+    }
+  }
+
+  @Test
+  void diggingUpGiftLogsNote() {
+    RequestLoggerOutput.startStream();
+    var cleanups =
+        new Cleanups(
+            withNoItems(),
+            withPostChoice2(1591, 1, html("request/test_choice_diggin_up_a_gift.html")));
+
+    try (cleanups) {
+      var stream = RequestLoggerOutput.stopStream();
+      assertThat(stream, containsString("Note: bottom text"));
     }
   }
 }
