@@ -1698,10 +1698,18 @@ Skeleton of Crimbo Past	buy	5	medicinal gruel
 
 The HMS Bounty Hunter	ROW1661	messenger parrot egg	Crymbocurrency (200)
 The HMS Bounty Hunter	ROW1662	buryable chest	Crymbocurrency (300)
+The HMS Bounty Hunter	ROW1663	scorched skeleton mask	Crymbocurrency (1,000)
+The HMS Bounty Hunter	ROW1664	scorched skeleton shirt	Crymbocurrency (1,000)
+The HMS Bounty Hunter	ROW1665	scorched skeleton pants	Crymbocurrency (1,000)
 The HMS Bounty Hunter	ROW1672	&quot;salvaged&quot; wine	Crymbocurrency (3,000)
 The HMS Bounty Hunter	ROW1671	Crymbocurrency tattoo	Crymbocurrency (10,000)
 The HMS Bounty Hunter	ROW1657	counterskeleton elixir	Crymbocurrency (10)
 The HMS Bounty Hunter	ROW1652	volatile bone bomb	smoldering bone dust	100 Meat
+The HMS Bounty Hunter	ROW1653	fireproof bonesaw	Crymbocurrency (50)
+The HMS Bounty Hunter	ROW1656	heat-resistant harpoon pistol	Crymbocurrency (50)
+The HMS Bounty Hunter	ROW1655	cursed ship's lantern	Crymbocurrency (50)
+The HMS Bounty Hunter	ROW1654	vermiculite shield	Crymbocurrency (50)
+The HMS Bounty Hunter	ROW1673	undertakers' forceps	Crymbocurrency (1,500)
 The HMS Bounty Hunter	ROW1643	Crymbocurrency	burnt incisor
 The HMS Bounty Hunter	ROW1644	Crymbocurrency (5)	burnt phalange
 The HMS Bounty Hunter	ROW1646	Crymbocurrency (10)	burnt radius
