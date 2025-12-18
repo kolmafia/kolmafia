@@ -175,6 +175,7 @@ public class ItemPool {
   public static final int CHEF = 438;
   public static final int BARTENDER = 440;
   public static final int BEER_LENS = 443;
+  public static final int BEER_GOGGLES = 444;
   public static final int PRETENTIOUS_PAINTBRUSH = 450;
   public static final int PRETENTIOUS_PALETTE = 451;
   public static final int RUSTY_SCREWDRIVER = 454;

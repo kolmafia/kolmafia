@@ -19,14 +19,16 @@ import net.sourceforge.kolmafia.StaticEntity;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.DisabledOnOs;
 import org.junit.jupiter.api.condition.OS;
 
 @DisabledOnOs(
-    value = {OS.WINDOWS},
-    disabledReason = "deleting script can fail")
+    value = {OS.WINDOWS, OS.MAC},
+    disabledReason = "installing or deleting script can fail")
+@Disabled("Relies on external resource (GitHub)")
 public class GitManagerTest {
 
   /**
