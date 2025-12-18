@@ -464,6 +464,7 @@ Item	safarrri hat	Maximum HP: +15, Familiar Effect: "2xVolley, cap 22"
 Item	samurai turtle helmet	Muscle: +1, Weapon Damage: +2, Familiar Effect: "atk, 1xPotato, cap 6"
 Item	Satan hat	Hat Drop: +50, Hot Damage: +30, Class: "Sauceror", Last Available: "2020-12"
 Item	Scalp of Gorgolok	Muscle: +11, Weapon Damage: +7, Class: "Seal Clubber", Familiar Effect: "3xGhuol, cap 25"
+Item	scorched skeleton mask	Experience Percent (Muscle): +20, Hot Resistance: +3, Last Available: "2025-12"
 Item	sea cowboy hat	Adventures: +3, Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1, Maximum HP: +50, Familiar Effect: "1xLep"
 Item	seal-skull helmet	Weapon Damage: +1, Familiar Effect: "atk, cap 2"
 Item	sealhide hood	Initiative: +20, Familiar Effect: "atk, 1xBarrr, cap 40"
@@ -852,6 +853,7 @@ Item	rusty metal greaves	Initiative: -10, Familiar Effect: "1xBarrr, cap 37"
 # saffron antaravasaka: Improves chances of finding lumps and sludge
 Item	saffron antaravasaka	MP Regen Min: 4, MP Regen Max: 6, Spell Critical Percent: +5, Last Available: "2016-12"
 Item	scale-mail underwear	MP Regen Min: 8, MP Regen Max: 12, Spooky Resistance: +3, Familiar Effect: "2xVolley"
+Item	scorched skeleton pants	Experience Percent (Moxie): +20, Hot Resistance: +3, Last Available: "2025-12"
 Item	sea chaps	Muscle Percent: +15, HP Regen Min: 6, HP Regen Max: 10, Familiar Effect: "atk, 2xBarrr"
 Item	sealhide leggings	HP Regen Min: 5, HP Regen Max: 10, Familiar Effect: "1xVolley, cap 40"
 Item	servo-assisted exo-pants	Initiative: -30, Last Available: "2014-12", Familiar Effect: "cold atk, 1xPotato, cap 12"
@@ -1087,6 +1089,7 @@ Item	reflective vest	Combat Rate: +10
 Item	replica Jurassic Parka	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Spooky Resistance: 1, Stench Resistance: 1, Hot Resistance: 1, Cold Resistance: 1, Sleaze Resistance: 1, Avoid Attack: 1
 Item	rhinestone cowboy shirt	Muscle: +5
 Item	safety vest	Damage Reduction: 3, Moxie: +5
+Item	scorched skeleton shirt	Experience Percent (Mysticality): +20, Hot Resistance: +3, Last Available: "2025-12"
 Item	sea salt scrubs	Maximum HP: +400, Maximum MP: +400, Mysticality Percent: +15
 Item	sequin-encrusted sweater	Spooky Damage: +9, Stench Damage: +9, Hot Damage: +9, Cold Damage: +9, Sleaze Damage: +9, Last Available: "2023-12"
 Item	shark jumper	Spooky Resistance: +3, Stench Resistance: +3, Hot Resistance: +3, Cold Resistance: +3, Sleaze Resistance: +3, HP Regen Min: 20, HP Regen Max: 40
@@ -1447,6 +1450,7 @@ Item	fire axe	Cold Damage: +200, Last Available: "2012-07"
 Item	fire crackers	Effect: "Fire cracked", Effect Duration: 20, Last Available: "2021-07"
 Item	[10462]fire flower	Plumber Stat: "Mysticality", Plumber Power: 1
 Item	fire poi	Hot Damage: +15, Moxie: +3
+Item	fireproof bonesaw	Damage vs. Skeletons: +50, Muscle Percent: +10, Last Available: "2025-12"
 Item	fish bazooka	Moxie Percent: +5, Meat Drop: +10
 Item	fish hatchet	Muscle Percent: +100, Weapon Damage: +50, Familiar Weight: +5, Combat Rate: -10, Lasts Until Rollover, Last Available: "2016-04"
 Item	fish scimitar	Muscle Percent: +5, Weapon Damage Percent: +10
@@ -1566,6 +1570,7 @@ Item	happiness	Hot Damage: +12
 Item	haunted bindle	Spooky Damage: +10, Spooky Spell Damage: +10, Last Available: "2016-08"
 Item	haunted paddle-ball	Monster Level: +5, Spooky Damage: +10
 Item	hawk	Critical Hit Percent: +5, Weapon Damage: +11, Damage vs. Skeletons: +22
+Item	heat-resistant harpoon pistol	Damage vs. Skeletons: +50, Moxie Percent: +10, Last Available: "2025-12"
 # heavy hammer: +2 to Hammer attacks
 Item	heavy hammer	Plumber Stat: "Muscle", Plumber Power: 2
 Item	heavy leather-bound tome	Weakens Monster
@@ -2068,6 +2073,8 @@ Item	twisted-up wet towel	Item Drop: [+25*zone(KOL High School)]
 Item	ultimate ultimate frisbee	Moxie: +2, Ranged Damage: +4
 Item	Uncle Hobo's highest bough	Muscle Percent: +15, HP Regen Min: 15, HP Regen Max: 30, MP Regen Min: 15, MP Regen Max: 30, Last Available: "2010-12"
 Item	uncursed machete	Meat Drop: +20
+# undertakers' forceps: Greater chance of collecting trophies from Crimbo '25 skeletons
+Item	undertakers' forceps	Last Available: "2025-12"
 Item	Underworld flail	Experience (Moxie): +10, Ranged Damage: +30, Moxie Percent: +10, Last Available: "2009-10"
 Item	Underworld truncheon	Experience (Muscle): +10, Weapon Damage Percent: +20, Muscle Percent: +10, Last Available: "2009-10"
 Item	Unionize The Elves sign	Weakens Monster, Last Available: "2005-12"
@@ -2268,6 +2275,8 @@ Item	cursed arcane orb	Spooky Damage: +13, Stench Damage: +13, Hot Damage: +13, 
 Item	cursed compass	Lasts Until Rollover, Last Available: "2019-04", Item Drop: [100*zone(PirateRealm)]
 # cursed magnifying glass: Reveals things you weren't meant to see
 Item	cursed magnifying glass	Item Drop: +13, Spooky Damage: +13, Initiative: +13, Last Available: "2022-12"
+# cursed ship's lantern: Causes your spells to echo against skeletons
+Item	cursed ship's lantern	Mysticality Percent: +10, Last Available: "2025-12"
 Item	cursed stats	Experience: +5, Muscle Limit: 69, Mysticality Limit: 69, Moxie Limit: 69
 Item	cyborg doll	Muscle: +3, Last Available: "2007-12"
 Item	Dallas Dynasty Falcon Crest shield	Spooky Resistance: +5, Stench Resistance: +5, Hot Resistance: +5, Cold Resistance: +5, Sleaze Resistance: +5, Damage Reduction: 15
@@ -2777,6 +2786,7 @@ Item	velcro shield	Mysticality Percent: +10, Damage Reduction: 24, Weapon Drop: 
 # velour valise: Triples the damage and deleveling of Tango of Terror
 Item	velour valise	Experience (Moxie): +2, Booze Drop: +30, Last Available: "2021-12"
 Item	vengeful spirit	Hot Spell Damage: +80
+Item	vermiculite shield	Damage Reduction: 19, Hot Resistance: +3, Last Available: "2025-12"
 Item	Victor, the Insult Comic Hellhound Puppet	Monster Level: +5
 Item	vinyl shield	Moxie Percent: +10, Damage Reduction: 24, Monster Level: +25
 # visual packet sniffer: CyberRealm:  Gives a chance for additional 1s to drop after combat

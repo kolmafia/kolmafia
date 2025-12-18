@@ -2320,6 +2320,9 @@
 2497	time cop	arm	head	leg	torso
 2498	Nautical Seaceress	arm	head	tail	torso
 2499	some fish	fin	head	tail
-2500	tiny charred skeleton	armbone	horn	rib	skull	spine
-2501	pillar of charred skulls	horn	skull	skull	skull	skull
+2500	tiny charred skeleton	armbone	horn	legbone	rib	skull	spine
+2501	pillar of charred skulls	horn	skull	skull	skull
 2502	fire-breathing charred skull	horn	skull
+2503	sneaky smoldering skeleton	armbone	knife	legbone	other knife	rib	skull	spine
+2504	stout smoldering skeleton	armbone	legbone	pelvis	rib cage	skull
+2505	sorcerous smoldering skeleton	 armbone	ribs	skull	spine 

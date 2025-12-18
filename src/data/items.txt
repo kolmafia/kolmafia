@@ -12143,15 +12143,15 @@
 12115
 12116	burnt incisor	503478323	c25tro1.gif	none		0
 12117	burnt phalange	902668920	c25trob2.gif	none		0
-12118	burnt radius	774034777	c25trub4.gif	none		0
+12118	burnt radius	774034777	c25trub4.gif	none		0	burnt radii
 12119
 12120
 12121	Crymbocurrency	939831959	crypto.gif	none		0	Crymbocurrency
 12122
 12123
 12124
-12125	crate of prize-winning rum	824419496	crate.gif	usable	t	0
-12126	bottle of prize-winning rum	431517630	prizerumbottle.gif	drink	t,d	25
+12125	crate of prize-winning rum	824419496	crate.gif	usable	t	0	crates of prize-winning rum
+12126	bottle of prize-winning rum	431517630	prizerumbottle.gif	drink	t,d	25	bottles of prize-winning rum
 12127
 12128
 12129	boiling bone marrow	153427849	c25goo1.gif	potion	t,d	22	globs of boiling bone marrow
@@ -12160,9 +12160,9 @@
 12132	smoldering vertebra	437643856	vertebraring.gif	accessory	t	0	smoldering vertebrae
 12133
 12134
-12135	smoldering bone dust	407867545	smolderdust.gif	none	t,d	15
+12135	smoldering bone dust	407867545	smolderdust.gif	none	t,d	15	piles of smoldering bone dust
 12136	volatile bone bomb	613792951	bonebomb.gif	none, combat	t,d	111
-12137	hot boning knife	593295785	hotboningknife.gif	weapon	t	0
+12137	hot boning knife	593295785	hotboningknife.gif	weapon	t	0	hot boning knive
 12138	flaming fistbone	521112927	flamefist.gif	offhand	t	0
 12139	burnt bone belt	876239904	bonebelt2.gif	accessory	t	0
 12140
@@ -12174,11 +12174,11 @@
 12146
 12147
 12148
-12149
+12149	undertakers' forceps	345457303	forceps.gif	weapon	t	0	pairs of undertakers' forceps
 12150
-12151
-12152
-12153
+12151	scorched skeleton mask	771021400	sskelmask.gif	hat	t	0
+12152	scorched skeleton shirt	385403056	sskelshirt.gif	shirt	t	0
+12153	scorched skeleton pants	461712890	sskelpants.gif	pants	t	0	pairs of scorched skeleton pants
 12154	messenger parrot egg	125833643	jarl_egg.gif	none, usable, curse	t,d	50
 12155	buryable chest	472888474	buryablechest.gif	usable	t,d	100
 12156
@@ -12192,14 +12192,14 @@
 12164
 12165
 12166	Crymbocurrency tattoo	804475271	cryptotat.gif	usable	t	0
-12167
-12168
-12169
-12170
+12167	fireproof bonesaw	816245231	fireproofsaw.gif	weapon	t,d	100
+12168	vermiculite shield	886101819	vermicshield.gif	offhand	t,d	100
+12169	cursed ship's lantern	317886719	cursedlantern.gif	offhand	t,d	100
+12170	heat-resistant harpoon pistol	515543041	harpoonpistol.gif	weapon	t,d	100
 12171	traditional gingerloaf	952863249	gingerloaf.gif	food	t,d	35	traditional gingerloaves
 12172	Scotch and eggnog	391232132	coffeecup.gif	drink	t,d	37	cups of Scotch and eggnog
 12173	counterskeleton elixir	696432516	skullpotion.gif	potion, usable	t,d	69
-12174	&quot;salvaged&quot; wine	396890642	salvagewine.gif	drink	t,d	1500	bottles of &quot;salvaged&quot; wine
+12174	&quot;salvaged&quot; wine	396890642	salvagewine.gif	drink	t	0	bottles of &quot;salvaged&quot; wine
 12175
-12176	crate of prize-winning cheese	738719260	crate.gif	usable	t	0
-12177	wedge of prize-winning cheese	357068703	yamcheese.gif	food	t,d	25
+12176	crate of prize-winning cheese	738719260	crate.gif	usable	t	0	crates of prize-winning cheese
+12177	wedge of prize-winning cheese	357068703	yamcheese.gif	food	t,d	25	wedges of prize-winning cheese
