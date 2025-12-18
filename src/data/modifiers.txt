@@ -2194,6 +2194,8 @@ Item	battered hubcap	Muscle: +15, Maximum HP: +100, Spooky Resistance: +2, Stenc
 Item	beach ball marble	Spell Damage: +35, Hot Spell Damage: +35, Cold Spell Damage: +35
 Item	beetle antenna	Maximum MP: +30, Mysticality: [5*L]
 Item	beige clambroth marble	Spell Damage: +30, Hot Spell Damage: +30
+# big birthday bloon: Happy Birthday!
+Item	big birthday bloon	Initiative: +5
 Item	big bumboozer marble	Spell Damage: +80
 Item	big hot pepper	Spell Damage: +10, Hot Damage: +10, Last Available: "2023-02", Lantern: 1, Lantern Element: "Hot"
 Item	birdybug antenna	Maximum MP: +20, Mysticality: [4*L]
@@ -10455,6 +10457,7 @@ Item	spooky eggnog	Last Available: "2006-12"
 Item	stale cheer wine	Last Available: "2017-12"
 Item	stealth bomber	Last Available: "2014-05"
 Item	Steamboat	Effect: "Steamed", Effect Duration: 20, Last Available: "2020-05"
+Item	Steve Abrams' Holiday Sampler Beer	Last Available: "2025-12"
 Item	Strikes Again Bigmouth	Effect: "Smithsness Cheer", Effect Duration: 50, Last Available: "2013-12"
 Item	Strong, Silent Type	Effect: "Speakin' Even Easier", Effect Duration: 30
 Item	Suffering Sinner	Effect: "Heart Aflame", Effect Duration: 5, Last Available: "2012-03"

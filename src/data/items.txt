@@ -11927,7 +11927,7 @@
 11899	wet paperback	793289806	wetpaperback.gif	potion	t,d	11
 11900	wet shower radio	360902606	wetpaperradio.gif	accessory	q	0
 11901	wet shower stamp	834166843	wetpaperstamp.gif	usable	t	0
-11902
+11902	big birthday bloon	424747677	bdayballoon.gif	offhand		0
 11903	jawwetter	169174157	wetpaperball.gif	potion	t,d	5
 11904	Unpeeled Peridot of Peril	147004779	peridot_box.gif	usable	t	0	Unpeeled Peridots of Peril
 11905	Peridot of Peril	519151496	peridot.gif	accessory, curse		0	Peridots of Peril
@@ -12149,7 +12149,7 @@
 12121	Crymbocurrency	939831959	crypto.gif	none		0	Crymbocurrency
 12122
 12123
-12124
+12124	Steve Abrams' Holiday Sampler Beer	150977618	holidaybeer.gif	drink	t,d	25
 12125	crate of prize-winning rum	824419496	crate.gif	usable	t	0	crates of prize-winning rum
 12126	bottle of prize-winning rum	431517630	prizerumbottle.gif	drink	t,d	25	bottles of prize-winning rum
 12127
