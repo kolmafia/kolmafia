@@ -179,3 +179,16 @@
 172	Governor's Daughter's Fancy Finery	govtat.gif	governor's daughter's pearl hairpin, governor's daughter's petticoats, governor's daughter's lace collar	rum ball
 173	Wet Wear	wetoutfittat.gif	wet shower cap, wet shower shorts, wet shower shoes	jawwetter
 174	Axis Uniform	axistat.gif	Axis helmet, Axis fatigues, Axis suspenders
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187	Scorched Skeleton Suit	sskeltat.gif	scorched skeleton mask, scorched skeleton shirt, scorched skeleton pants

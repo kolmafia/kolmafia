@@ -9241,6 +9241,7 @@ Outfit	Pyrotechnic Paper Paraphernalia	Hot Damage: +30, Hot Spell Damage: +30
 Outfit	Radio Free Regalia	Never Fumble
 Outfit	Raiments of the Final Boss	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 Outfit	Roy Orbison Disguise	Moxie: +15
+Outfit	Scorched Skeleton Suit	Damage vs. Skeletons: +50
 Outfit	Seafaring Suit	Initiative: +100
 Outfit	Shadow Shuit	Cold Resistance: +3, Hot Resistance: +3
 Outfit	Shallow Sea Fishing Outfit	Fishing Skill: +5
