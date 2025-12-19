@@ -12144,7 +12144,7 @@
 12116	burnt incisor	503478323	c25tro1.gif	none		0
 12117	burnt phalange	902668920	c25trob2.gif	none		0
 12118	burnt radius	774034777	c25trub4.gif	none		0	burnt radii
-12119
+12119	burnt rib	198797379	c25tronk3.gif	none		0
 12120
 12121	Crymbocurrency	939831959	crypto.gif	none		0	Crymbocurrency
 12122
@@ -12166,9 +12166,9 @@
 12138	flaming fistbone	521112927	flamefist.gif	offhand	t	0
 12139	burnt bone belt	876239904	bonebelt2.gif	accessory	t	0
 12140
-12141
-12142
-12143
+12141	wing bone	379107449	wingbone.gif	food	t,d	42
+12142	weak skeleton venom	845778217	venomcocktail.gif	drink	t,d	40
+12143	baked bone meal	588339257	bakedbonemeal.gif	spleen, usable	t,d	99
 12144
 12145
 12146

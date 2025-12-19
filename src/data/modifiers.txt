@@ -9991,6 +9991,7 @@ Item	whole roasted chicken	Last Available: "2013-02"
 # whole turkey leg: Selling Price: <b>1 Meat.</b><p><center><b><font color=blue>Deals <font color=blueviolet>Sleaze Damage</font> based on your Moxie when used as a combat item
 Item	whole turkey leg	Last Available: "2013-11"
 Item	wild honey pie	Effect: "Sugar Rush", Effect Duration: 10
+Item	wing bone	Last Available: "2025-12"
 Item	witch's bread	Effect: "Witch Breaded", Effect Duration: 20, Last Available: "2014-12"
 Item	wreath-shaped Crimbo cookie	Effect: "Wreathed in Merriment", Effect Duration: 10, Last Available: "2023-06"
 Item	Xiblaxian ultraburrito	Last Available: "2014-09"
@@ -10505,6 +10506,7 @@ Item	warbear feasting mead	Effect: "Warbear Loot Lust", Effect Duration: 40, Las
 Item	wasabi-infused sake	Effect: "Wasabi With You", Effect Duration: 30, Last Available: "2011-03"
 Item	water purification pills	Last Available: "2012-07"
 Item	wax booze	Effect: "Waxing", Effect Duration: 30, Last Available: "2017-01"
+Item	weak skeleton venom	Last Available: "2025-12"
 Item	whiskey in a broken glass	Effect: "Bloody Grin", Effect Duration: 50
 Item	whiskey squeeze	Effect: "Hobo Powers Activate!", Effect Duration: 20, Last Available: "2017-03"
 Item	white Canadian	Effect: "Canadianity", Effect Duration: 3
@@ -10548,6 +10550,7 @@ Item	armored prawn	Effect: "Rushtacean'", Effect Duration: 50, Last Available: "
 # astral energy drink: Gives you good luck
 Item	astronaut ice-cream	Last Available: "2006-05"
 Item	autumn breeze	Effect: "Delighted by Autumn", Effect Duration: 50, Last Available: "2022-10"
+Item	baked bone meal	Last Available: "2025-12"
 Item	bakelite bits	Last Available: "2016-12"
 Item	beastly paste	Effect: "Beastly Flavor", Effect Duration: 10, Last Available: "2011-08"
 Item	beefy pill	Effect: "Beefy", Effect Duration: 30
@@ -12497,6 +12500,7 @@ Item	burning newspaper	Last Available: "2018-12"
 Item	burnt incisor	Last Available: "2025-12"
 Item	burnt phalange	Last Available: "2025-12"
 Item	burnt radius	Last Available: "2025-12"
+Item	burnt rib	Last Available: "2025-12"
 Item	burnt stick	Last Available: "2019-08"
 Item	burrowgrub hive	Last Available: "2008-12"
 Item	buryable chest	Last Available: "2025-12"
