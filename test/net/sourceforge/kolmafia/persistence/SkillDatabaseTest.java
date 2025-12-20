@@ -193,6 +193,13 @@ public class SkillDatabaseTest {
     }
 
     @Test
+    void shanty() {
+      assertThat(
+          SkillDatabase.getSkillTypeName(SkillPool.ONLY_DOGS_LOVE_A_DRUNKEN_SAILOR),
+          equalTo("shanty"));
+    }
+
+    @Test
     void remedyPassive() {
       assertThat(
           SkillDatabase.getSkillTypeName(SkillPool.DISCO_NAP), equalTo("noncombat remedy/passive"));

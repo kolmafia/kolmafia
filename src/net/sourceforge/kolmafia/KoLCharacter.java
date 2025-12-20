@@ -510,6 +510,7 @@ public abstract class KoLCharacter {
     KoLConstants.songSkills.clear();
     KoLConstants.expressionSkills.clear();
     KoLConstants.walkSkills.clear();
+    KoLConstants.shantySkills.clear();
     KoLConstants.availableSkills.clear();
     KoLConstants.availableSkillsSet.clear();
     KoLConstants.availableCombatSkillsSet.clear();
@@ -3983,6 +3984,9 @@ public abstract class KoLCharacter {
     } else if (SkillDatabase.isWalk(skillId)) {
       KoLConstants.walkSkills.add(skill);
       LockableListFactory.sort(KoLConstants.walkSkills);
+    } else if (SkillDatabase.isShanty(skillId)) {
+      KoLConstants.shantySkills.add(skill);
+      LockableListFactory.sort(KoLConstants.shantySkills);
     } else if (SkillDatabase.isSelfOnly(skillId)) {
       KoLConstants.selfOnlySkills.add(skill);
       LockableListFactory.sort(KoLConstants.selfOnlySkills);
@@ -4039,6 +4043,7 @@ public abstract class KoLCharacter {
     KoLConstants.songSkills.remove(skill);
     KoLConstants.expressionSkills.remove(skill);
     KoLConstants.walkSkills.remove(skill);
+    KoLConstants.shantySkills.remove(skill);
     KoLCharacter.battleSkillNames.remove("skill " + skill.getSkillName().toLowerCase());
     KoLCharacter.updateStatus();
     ConcoctionDatabase.setRefreshNeeded(true);
