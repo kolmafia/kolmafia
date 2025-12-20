@@ -178,7 +178,7 @@
 171	Petrified Wood Professional Wardrobe	pwoodtat.gif	petrified wood whoopie panama, petrified wood war pike, petrified wood water purifier, petrified wood walking pants, petrified wood waist protector, petrified wood wizard's pouch	petrified wood wafer praline
 172	Governor's Daughter's Fancy Finery	govtat.gif	governor's daughter's pearl hairpin, governor's daughter's petticoats, governor's daughter's lace collar	rum ball
 173	Wet Wear	wetoutfittat.gif	wet shower cap, wet shower shorts, wet shower shoes	jawwetter
-174	Axis Uniform	axistat.gif	Axis helmet, Axis fatigues, Axis suspenders
+174	Axis Uniform	axistat.gif	Axis helmet, Axis fatigues, Axis suspenders	loose teeth
 175
 176
 177
@@ -191,4 +191,4 @@
 184
 185
 186
-187	Scorched Skeleton Suit	sskeltat.gif	scorched skeleton mask, scorched skeleton shirt, scorched skeleton pants
+187	Scorched Skeleton Suit	sskeltat.gif	scorched skeleton mask, scorched skeleton shirt, scorched skeleton pants	gummi fingerbone

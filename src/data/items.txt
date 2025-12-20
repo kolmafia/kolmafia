@@ -12188,7 +12188,7 @@
 12160	Shanty: Look At That Drunken Sailor Dance	842142519	book3.gif	usable	t	0
 12161
 12162	Shanty: Who's Going to Pay This Drunken Sailor?	112805285	book3.gif	usable	t	0
-12163
+12163	Shanty: Who's Going to Pay This Drunken Sailor? (used)	546484497	book3.gif	usable		0
 12164	Shanty: Only Dogs Love a Drunken Sailor	111305891	book3.gif	usable	t	0
 12165
 12166	Crymbocurrency tattoo	804475271	cryptotat.gif	usable	t	0
@@ -12203,3 +12203,4 @@
 12175
 12176	crate of prize-winning cheese	738719260	crate.gif	usable	t	0	crates of prize-winning cheese
 12177	wedge of prize-winning cheese	357068703	yamcheese.gif	food	t,d	25	wedges of prize-winning cheese
+12178	gummi fingerbone	781996967	c25trob2.gif	potion, usable	t,d	15
