@@ -1645,7 +1645,7 @@
 1644	crimbo25_sammy	Crymbocurrency (5)	burnt phalange
 1645	crimbo25_sammy	Crymbocurrency (20)	burnt rib
 1646	crimbo25_sammy	Crymbocurrency (10)	burnt radius
-1647
+1647	crimbo25_sammy	Crymbocurrency (50)	burnt skull
 1648
 1649	crimbo25_sammy	Crymbocurrency (5)	cold wad
 1650	crimbo25_sammy	Crymbocurrency (5)	twinkly wad (3)
@@ -1664,14 +1664,14 @@
 1663	crimbo25_sammy	scorched skeleton mask	Crymbocurrency (1,000)
 1664	crimbo25_sammy	scorched skeleton shirt	Crymbocurrency (1,000)
 1665	crimbo25_sammy	scorched skeleton pants	Crymbocurrency (1,000)
-1666
-1667
-1668
-1669
-1670
+1666	crimbo25_sammy	Shanty: Let's Beat Up This Drunken Sailor	Crymbocurrency (5,000)
+1667	crimbo25_sammy	Shanty: I'm Smarter Than a Drunken Sailor	Crymbocurrency (5,000)
+1668	crimbo25_sammy	Shanty: Look At That Drunken Sailor Dance	Crymbocurrency (5,000)
+1669	crimbo25_sammy	Shanty: Who's Going to Pay This Drunken Sailor?	Crymbocurrency (5,000)
+1670	crimbo25_sammy	Shanty: Only Dogs Love a Drunken Sailor	Crymbocurrency (5,000)
 1671	crimbo25_sammy	Crymbocurrency tattoo	Crymbocurrency (10,000)
 1672	crimbo25_sammy	&quot;salvaged&quot; wine	Crymbocurrency (3,000)
 1673	crimbo25_sammy	undertakers' forceps	Crymbocurrency (1,500)
-1674
+1674	crimbo25_sammy	bone-polishing rag	Crymbocurrency (4,000)
 1675	crimbo25_cafe	traditional gingerloaf	300 Meat
 1676	crimbo25_cafe	Scotch and eggnog	300 Meat

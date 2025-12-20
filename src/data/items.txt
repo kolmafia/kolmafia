@@ -12145,7 +12145,7 @@
 12117	burnt phalange	902668920	c25trob2.gif	none		0
 12118	burnt radius	774034777	c25trub4.gif	none		0	burnt radii
 12119	burnt rib	198797379	c25tronk3.gif	none		0
-12120
+12120	burnt skull	796508560	c25tranq5.gif	none		0
 12121	Crymbocurrency	939831959	crypto.gif	none		0	Crymbocurrency
 12122
 12123
@@ -12175,21 +12175,21 @@
 12147
 12148
 12149	undertakers' forceps	345457303	forceps.gif	weapon	t	0	pairs of undertakers' forceps
-12150
+12150	bone-polishing rag	118717041	bonerag.gif	offhand	t	0
 12151	scorched skeleton mask	771021400	sskelmask.gif	hat	t	0
 12152	scorched skeleton shirt	385403056	sskelshirt.gif	shirt	t	0
 12153	scorched skeleton pants	461712890	sskelpants.gif	pants	t	0	pairs of scorched skeleton pants
 12154	messenger parrot egg	125833643	jarl_egg.gif	none, usable, curse	t,d	50
 12155	buryable chest	472888474	buryablechest.gif	usable	t,d	100
-12156
+12156	Shanty: Let's Beat Up This Drunken Sailor	363038603	book3.gif	usable	t	0
 12157
-12158
+12158	Shanty: I'm Smarter Than a Drunken Sailor	216960066	book3.gif	usable	t	0
 12159
-12160
+12160	Shanty: Look At That Drunken Sailor Dance	842142519	book3.gif	usable	t	0
 12161
-12162
+12162	Shanty: Who's Going to Pay This Drunken Sailor?	112805285	book3.gif	usable	t	0
 12163
-12164
+12164	Shanty: Only Dogs Love a Drunken Sailor	111305891	book3.gif	usable	t	0
 12165
 12166	Crymbocurrency tattoo	804475271	cryptotat.gif	usable	t	0
 12167	fireproof bonesaw	816245231	fireproofsaw.gif	weapon	t,d	100

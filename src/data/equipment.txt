@@ -1927,6 +1927,7 @@ black shield	160	Mus: 65	shield
 blue LavaCo Lamp&trade;	100	Mys: 35
 bobble-hip hula elf doll	40	Mys: 5
 bone abacus	100	Mys: 5
+bone-polishing rag	0	Mys: 35
 Book of Old-Timey Carols	50	none
 borg sock monkey	110	Mys: 40
 botanical sample kit	10	none
