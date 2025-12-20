@@ -2204,6 +2204,8 @@ Item	black shield	Muscle: +5, Maximum HP: +20, Damage Reduction: 10
 Item	blue LavaCo Lamp&trade;	Adventures: +5, Rollover Effect: "Blue Eyed Devil", Rollover Effect Duration: 50, Last Available: "2015-08"
 Item	bobble-hip hula elf doll	Muscle: +5, Mysticality: +5, Moxie: +5, Meat Drop: +15, Last Available: "2006-12"
 # bone abacus: Helps you track your progress
+# bone-polishing rag: Chance of upgrading the trophies collected from Crimbo '25 skeletons
+Item	bone-polishing rag	Last Available: "2025-12"
 Item	Book of Old-Timey Carols	Item Drop: [15*event(December)], Last Available: "2020-12"
 Item	borg sock monkey	Moxie: +3, Last Available: "2007-12"
 # botanical sample kit: Increases the yield of Spacegate botany operations
@@ -6858,6 +6860,7 @@ Effect	Hypnotized	Mysticality Percent: -50
 Effect	I Am the Slaw!	Monster Level: +20
 Effect	I See Everything Thrice!	Item Drop: +33
 Effect	I'll Have the Soup	Maximum HP Percent: +300, Damage Reduction: 20, Damage Absorption: +100
+Effect	I'm Smarter Than a Drunken Sailor	Experience (Mysticality): +2
 Effect	Ice Packed	HP Regen Min: 10, HP Regen Max: 15
 Effect	Icebergled	Avatar: "Iceberglar"
 Effect	Iced and Tainted	Sprinkle Drop: +25, Cold Damage: +15, Spell Critical Percent: +5
@@ -7041,6 +7044,7 @@ Effect	Leonarded	Avatar: "Leonard"
 Effect	Less Pervious	Damage Reduction: 3
 Effect	Less Vincible	HP Regen Min: 2, HP Regen Max: 5
 Effect	Let It Snow/Boil/Stink/Frighten/Grease	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
+Effect	Let's Beat Up This Drunken Sailor	Experience (Muscle): +2
 Effect	Let's Go Shopping!	Mysticality Percent: -300, Item Drop: +75, Meat Drop: +150
 Effect	Lettuce Go!	Initiative: +100
 Effect	Lettuce Rejoice	Experience: +7, Muscle Percent: +77, Mysticality Percent: +77, Moxie Percent: +77, Item Drop: +7, Meat Drop: +7, Weapon Damage: +7
@@ -7081,6 +7085,7 @@ Effect	Loco Motives	Weapon Damage: +10, Initiative: +10
 Effect	Loded	Meat Drop: +100
 Effect	Long Live GORF	Damage Aura: 1
 Effect	Long Winter's Napped	Weapon Damage Percent: +100, Spell Damage Percent: +100
+Effect	Look At That Drunken Sailor Dance	Experience (Moxie): +2
 Effect	Lookin' at Some Burning Cereal	Avatar: "Cereal Arsonist"
 Effect	Looking at Fire	Avatar: "Burnglar"
 Effect	Looking Cool	Item Drop: +100, Meat Drop: +100
@@ -7349,6 +7354,7 @@ Effect	One Foot Heavier	Maximum HP Percent: +50, Familiar Weight: +5
 Effect	One For Tea	MP Regen Min: 10, MP Regen Max: 15
 Effect	One Lip in the Grave	Avatar: "Miss Graves"
 Effect	One Very Clear Eye	Item Drop: +100
+Effect	Only Dogs Love a Drunken Sailor	Familiar Weight: +5
 Effect	Ooh, Bitter!	Spooky Damage: +5
 Effect	Ooh, Salty!	Cold Damage: +5
 Effect	Ooh, Sour!	Stench Damage: +5
@@ -8454,6 +8460,7 @@ Effect	White-boy Angst	Initiative: +50
 Effect	Whitened Teeth	Moxie Percent: +10
 # Whitesloshed: +500% Item Drops from Monsters (Dreadsylvania only)
 Effect	Whitesloshed	Item Drop: [500*zone(Dreadsylvania)]
+Effect	Who's Going to Pay This Drunken Sailor?	Item Drop: +25
 Effect	Whole Latte Love	Familiar Weight: +10
 Effect	Wholesomely Resolved	Spooky Resistance: +2, Stench Resistance: +2, Sleaze Resistance: +2, Damage Reduction: +15
 Effect	Whose Drinks Are These?	Avatar: "Resort Waiter"
@@ -12501,6 +12508,7 @@ Item	burnt incisor	Last Available: "2025-12"
 Item	burnt phalange	Last Available: "2025-12"
 Item	burnt radius	Last Available: "2025-12"
 Item	burnt rib	Last Available: "2025-12"
+Item	burnt skull	Last Available: "2025-12"
 Item	burnt stick	Last Available: "2019-08"
 Item	burrowgrub hive	Last Available: "2008-12"
 Item	buryable chest	Last Available: "2025-12"
@@ -14660,6 +14668,11 @@ Item	shadowy cheat sheet	Free Pull
 Item	shaker of dry rub	Last Available: "2014-06"
 Item	shaking crappy camera	Last Available: "2014-12"
 Item	shaking skull	No Pull
+Item	Shanty: I'm Smarter Than a Drunken Sailor	Skill: "I'm Smarter Than a Drunken Sailor", Last Available: "2025-12"
+Item	Shanty: Let's Beat Up This Drunken Sailor	Skill: "Let's Beat Up This Drunken Sailor", Last Available: "2025-12"
+Item	Shanty: Look At That Drunken Sailor Dance	Skill: "Look At That Drunken Sailor Dance", Last Available: "2025-12"
+Item	Shanty: Only Dogs Love a Drunken Sailor	Skill: "Only Dogs Love a Drunken Sailor", Last Available: "2025-12"
+Item	Shanty: Who's Going to Pay This Drunken Sailor?	Skill: "Who's Going to Pay This Drunken Sailor?", Last Available: "2025-12"
 # shard of double-ice: Deals <font color=blue>Cold Damage</font> based on your highest stat
 # shard of double-ice: (and leaves the monster permanently cold)
 Item	shard of double-ice	Last Available: "2011-04"
