@@ -47,7 +47,8 @@ public class SkillDatabase {
     SONG("song"),
     EXPRESSION("expression"),
     WALK("walk"),
-    SPELL("spell");
+    SPELL("spell"),
+    SHANTY("shanty");
 
     public final String name;
     private static final Map<String, SkillTag> skillTagByName = new HashMap<>();
@@ -600,6 +601,9 @@ public class SkillDatabase {
       return "remedy";
     }
     // noncombat buffs
+    if (tags.contains(SkillTag.SHANTY)) {
+      return "shanty";
+    }
     if (tags.contains(SkillTag.WALK)) {
       return "walk";
     }
@@ -1112,6 +1116,15 @@ public class SkillDatabase {
    */
   public static final boolean isWalk(final int skillId) {
     return SkillDatabase.isType(skillId, SkillTag.WALK);
+  }
+
+  /**
+   * Returns whether or not the skill is a shanty
+   *
+   * @return <code>true</code> if the skill is a shanty
+   */
+  public static final boolean isShanty(final int skillId) {
+    return SkillDatabase.isType(skillId, SkillTag.SHANTY);
   }
 
   /**

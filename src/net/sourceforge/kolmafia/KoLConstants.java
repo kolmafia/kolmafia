@@ -636,6 +636,7 @@ public interface KoLConstants extends UtilityConstants {
   List<UseSkillRequest> songSkills = LockableListFactory.getInstance(UseSkillRequest.class);
   List<UseSkillRequest> expressionSkills = LockableListFactory.getInstance(UseSkillRequest.class);
   List<UseSkillRequest> walkSkills = LockableListFactory.getInstance(UseSkillRequest.class);
+  List<UseSkillRequest> shantySkills = LockableListFactory.getInstance(UseSkillRequest.class);
   List<UseSkillRequest> availableSkills = LockableListFactory.getInstance(UseSkillRequest.class);
   Set<Integer> availableSkillsSet = new HashSet<>();
   // The list of combat skills displayed in skills dropdown from the current (last) fight.php

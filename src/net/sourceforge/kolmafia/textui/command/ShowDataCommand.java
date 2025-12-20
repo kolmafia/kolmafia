@@ -406,6 +406,12 @@ public class ShowDataCommand extends AbstractCommand {
         filter = "";
       }
 
+      if (filter.startsWith("shanty")) {
+        List<UseSkillRequest> intersect = SkillDatabase.getSkillsByType(SkillTag.SHANTY);
+        skillsList.retainAll(intersect);
+        filter = "";
+      }
+
       mainList = skillsList;
     }
 

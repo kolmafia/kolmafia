@@ -272,11 +272,11 @@
 244	STATS+++	ss_codeblock.gif	passive	0	0
 245	Generate Irony	book5.gif	nc,item	10	0
 246
-247	Let's Beat Up This Drunken Sailor	shanty1.gif	nc,effect,self	11	10
-248	I'm Smarter Than a Drunken Sailor	shanty2.gif	nc,effect,self	11	10
-249	Look At That Drunken Sailor Dance	shanty3.gif	nc,effect,self	11	10
-250	Who's Going to Pay This Drunken Sailor?	shanty4.gif	nc,effect,self	22	10
-251	Only Dogs Love a Drunken Sailor	shanty5.gif	nc,effect,self	22	10
+247	Let's Beat Up This Drunken Sailor	shanty1.gif	nc,effect,self,shanty	11	10
+248	I'm Smarter Than a Drunken Sailor	shanty2.gif	nc,effect,self,shanty	11	10
+249	Look At That Drunken Sailor Dance	shanty3.gif	nc,effect,self,shanty	11	10
+250	Who's Going to Pay This Drunken Sailor?	shanty4.gif	nc,effect,self,shanty	22	10
+251	Only Dogs Love a Drunken Sailor	shanty5.gif	nc,effect,self,shanty	22	10
 
 # Skills available to Clubbers
 
