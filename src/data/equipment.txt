@@ -1992,7 +1992,7 @@ cursed arcane orb	0	none
 cursed coffee cup	0	none
 cursed compass	50	none
 cursed magnifying glass	100	none
-cursed ship's lantern	0	Mys: 20
+cursed ship's lantern	120	Mys: 20
 cursed stats	0	none
 cyborg doll	110	Mys: 40
 Dallas Dynasty Falcon Crest shield	240	Mus: 85	shield
@@ -2436,7 +2436,7 @@ vampire pellet	180	Mys: 35
 velcro shield	220	Mus: 85	shield
 velour valise	50	none
 vengeful spirit	225	Mys: 200
-vermiculite shield	0	Mus: 20	shield
+vermiculite shield	150	Mus: 20	shield
 Victor, the Insult Comic Hellhound Puppet	10	none
 vinyl shield	220	Mus: 85	shield
 visual packet sniffer	50	none
