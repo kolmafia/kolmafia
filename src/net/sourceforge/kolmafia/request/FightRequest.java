@@ -11204,6 +11204,11 @@ public class FightRequest extends GenericRequest {
           Preferences.increment("_nuclearStockpileUsed", 1, 10, false);
         }
       }
+      case ItemPool.WAND_OF_PIGIFICATION -> {
+        if (responseText.contains("a hot pink beam") || itemSuccess) {
+          Preferences.increment("_wandOfPigificationUsed");
+        }
+      }
       case ItemPool.AFFIRMATION_SUPERFICIALLY_INTERESTED -> {
         if (responseText.contains("are feeling really, really interested") || itemSuccess) {
           TrackManager.trackCurrentMonster(Tracker.SUPERFICIAL);

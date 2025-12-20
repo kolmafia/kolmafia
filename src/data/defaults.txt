@@ -2817,6 +2817,7 @@ user	_VYKEACompanionLevel	0
 user	_VYKEACompanionName
 user	_VYKEALoungeRaided	false
 user	_walfordQuestStartedToday	false
+user	_wandOfPigificationUsed	0
 user	_warbearAutoAnvilCrafting	0
 user	_warbearBankUsed	false
 user	_warbearBreakfastMachineUsed	false
