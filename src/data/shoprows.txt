@@ -1665,7 +1665,7 @@
 1664	crimbo25_sammy	scorched skeleton shirt	Crymbocurrency (1,000)
 1665	crimbo25_sammy	scorched skeleton pants	Crymbocurrency (1,000)
 1666	crimbo25_sammy	Shanty: Let's Beat Up This Drunken Sailor	Crymbocurrency (5,000)
-1667	crimbo25_sammy	Shanty:  I'm Smarter Than a Drunken Sailor	Crymbocurrency (5,000)
+1667	crimbo25_sammy	Shanty: I'm Smarter Than a Drunken Sailor	Crymbocurrency (5,000)
 1668	crimbo25_sammy	Shanty: Look At That Drunken Sailor Dance	Crymbocurrency (5,000)
 1669	crimbo25_sammy	Shanty: Who's Going to Pay This Drunken Sailor?	Crymbocurrency (5,000)
 1670	crimbo25_sammy	Shanty: Only Dogs Love a Drunken Sailor	Crymbocurrency (5,000)

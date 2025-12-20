@@ -12183,7 +12183,7 @@
 12155	buryable chest	472888474	buryablechest.gif	usable	t,d	100
 12156	Shanty: Let's Beat Up This Drunken Sailor	363038603	book3.gif	usable	t	0
 12157
-12158	Shanty:  I'm Smarter Than a Drunken Sailor	216960066	book3.gif	usable	t	0
+12158	Shanty: I'm Smarter Than a Drunken Sailor	216960066	book3.gif	usable	t	0
 12159
 12160	Shanty: Look At That Drunken Sailor Dance	842142519	book3.gif	usable	t	0
 12161

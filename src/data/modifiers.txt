@@ -5504,7 +5504,6 @@ Item	ceiling fan	Last Available: "2015-01", Free Rests: 5
 
 # Status Effects section of modifiers.txt
 
-Effect	 I'm Smarter Than a Drunken Sailor	Experience (Mysticality): +2
 Effect	'Roids of the Rhinoceros	Muscle: +100
 Effect	&quot;The Disease&quot;	Moxie: -5
 Effect	&Uuml;berraschthexengebr&uuml;hten	Avatar: "surprised and annoyed witch"
@@ -6861,6 +6860,7 @@ Effect	Hypnotized	Mysticality Percent: -50
 Effect	I Am the Slaw!	Monster Level: +20
 Effect	I See Everything Thrice!	Item Drop: +33
 Effect	I'll Have the Soup	Maximum HP Percent: +300, Damage Reduction: 20, Damage Absorption: +100
+Effect	I'm Smarter Than a Drunken Sailor	Experience (Mysticality): +2
 Effect	Ice Packed	HP Regen Min: 10, HP Regen Max: 15
 Effect	Icebergled	Avatar: "Iceberglar"
 Effect	Iced and Tainted	Sprinkle Drop: +25, Cold Damage: +15, Spell Critical Percent: +5
@@ -14668,7 +14668,7 @@ Item	shadowy cheat sheet	Free Pull
 Item	shaker of dry rub	Last Available: "2014-06"
 Item	shaking crappy camera	Last Available: "2014-12"
 Item	shaking skull	No Pull
-Item	Shanty:  I'm Smarter Than a Drunken Sailor	Skill: " I'm Smarter Than a Drunken Sailor", Last Available: "2025-12"
+Item	Shanty: I'm Smarter Than a Drunken Sailor	Skill: "I'm Smarter Than a Drunken Sailor", Last Available: "2025-12"
 Item	Shanty: Let's Beat Up This Drunken Sailor	Skill: "Let's Beat Up This Drunken Sailor", Last Available: "2025-12"
 Item	Shanty: Look At That Drunken Sailor Dance	Skill: "Look At That Drunken Sailor Dance", Last Available: "2025-12"
 Item	Shanty: Only Dogs Love a Drunken Sailor	Skill: "Only Dogs Love a Drunken Sailor", Last Available: "2025-12"
