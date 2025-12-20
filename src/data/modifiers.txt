@@ -6685,6 +6685,7 @@ Effect	Guild by Association	Avatar: "rabid MMO addict"
 Effect	Gull-Wing Moustache	Initiative: +100, Hot Resistance: +5
 Effect	Gummed Shoes	Combat Rate: -5
 Effect	Gummi Badass	Thorns: 5
+Effect	Gummi Fingerbones	Moxie Percent: +10
 Effect	Gummi-Grin	Experience (Muscle): +1
 Effect	Gummibrain	Mysticality: +100
 Effect	Gummiheart	Muscle: +100
@@ -11239,6 +11240,7 @@ Item	gummi ammonite	Effect: "Sugar Rush", Effect Duration: 100, Last Available: 
 Item	gummi belemnite	Effect: "Sugar Rush", Effect Duration: 100, Last Available: "2011-11"
 Item	gummi canary	Effect: "Gummiskin", Effect Duration: 1, Last Available: "2011-11"
 Item	gummi fang	Effect: "Gummi Badass", Effect Duration: 5, Last Available: "2014-12"
+Item	gummi fingerbone	Effect: "Gummi Fingerbones", Effect Duration: 10
 Item	gummi salamander	Effect: "Gummiheart", Effect Duration: 1, Last Available: "2011-11"
 Item	gummi snake	Effect: "Gummibrain", Effect Duration: 1, Last Available: "2011-11"
 Item	gummi trilobite	Effect: "Sugar Rush", Effect Duration: 100, Last Available: "2011-11"
@@ -14673,6 +14675,7 @@ Item	Shanty: Let's Beat Up This Drunken Sailor	Skill: "Let's Beat Up This Drunke
 Item	Shanty: Look At That Drunken Sailor Dance	Skill: "Look At That Drunken Sailor Dance", Last Available: "2025-12"
 Item	Shanty: Only Dogs Love a Drunken Sailor	Skill: "Only Dogs Love a Drunken Sailor", Last Available: "2025-12"
 Item	Shanty: Who's Going to Pay This Drunken Sailor?	Skill: "Who's Going to Pay This Drunken Sailor?", Last Available: "2025-12"
+Item	Shanty: Who's Going to Pay This Drunken Sailor? (used)	Skill: "Who's Going to Pay This Drunken Sailor?", Last Available: "2025-12"
 # shard of double-ice: Deals <font color=blue>Cold Damage</font> based on your highest stat
 # shard of double-ice: (and leaves the monster permanently cold)
 Item	shard of double-ice	Last Available: "2011-04"
