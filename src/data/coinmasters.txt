@@ -1720,5 +1720,6 @@ The HMS Bounty Hunter	ROW1643	Crymbocurrency	burnt incisor
 The HMS Bounty Hunter	ROW1644	Crymbocurrency (5)	burnt phalange
 The HMS Bounty Hunter	ROW1646	Crymbocurrency (10)	burnt radius
 The HMS Bounty Hunter	ROW1645	Crymbocurrency (20)	burnt rib
+The HMS Bounty Hunter	ROW1647	Crymbocurrency (50)	burnt skull
 The HMS Bounty Hunter	ROW1649	Crymbocurrency (5)	cold wad
 The HMS Bounty Hunter	ROW1650	Crymbocurrency (5)	twinkly wad (3)

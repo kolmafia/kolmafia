@@ -12145,7 +12145,7 @@
 12117	burnt phalange	902668920	c25trob2.gif	none		0
 12118	burnt radius	774034777	c25trub4.gif	none		0	burnt radii
 12119	burnt rib	198797379	c25tronk3.gif	none		0
-12120
+12120	burnt skull	796508560	c25tranq5.gif	none		0
 12121	Crymbocurrency	939831959	crypto.gif	none		0	Crymbocurrency
 12122
 12123
