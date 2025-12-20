@@ -1710,6 +1710,12 @@ The HMS Bounty Hunter	ROW1656	heat-resistant harpoon pistol	Crymbocurrency (50)
 The HMS Bounty Hunter	ROW1655	cursed ship's lantern	Crymbocurrency (50)
 The HMS Bounty Hunter	ROW1654	vermiculite shield	Crymbocurrency (50)
 The HMS Bounty Hunter	ROW1673	undertakers' forceps	Crymbocurrency (1,500)
+The HMS Bounty Hunter	ROW1674	bone-polishing rag	Crymbocurrency (4,000)
+The HMS Bounty Hunter	ROW1666	Shanty: Let's Beat Up This Drunken Sailor	Crymbocurrency (5,000)
+The HMS Bounty Hunter	ROW1667	Shanty:  I'm Smarter Than a Drunken Sailor	Crymbocurrency (5,000)
+The HMS Bounty Hunter	ROW1668	Shanty: Look At That Drunken Sailor Dance	Crymbocurrency (5,000)
+The HMS Bounty Hunter	ROW1669	Shanty: Who's Going to Pay This Drunken Sailor?	Crymbocurrency (5,000)
+The HMS Bounty Hunter	ROW1670	Shanty: Only Dogs Love a Drunken Sailor	Crymbocurrency (5,000)
 The HMS Bounty Hunter	ROW1643	Crymbocurrency	burnt incisor
 The HMS Bounty Hunter	ROW1644	Crymbocurrency (5)	burnt phalange
 The HMS Bounty Hunter	ROW1646	Crymbocurrency (10)	burnt radius

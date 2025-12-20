@@ -3058,9 +3058,9 @@
 3055	Hot Brains	c25goo2.gif	6cdc1dbeef4fc0625c310c3a830599c8	neutral	none	use 1 boiling cerebrospinal fluid
 3056	Hot Joints	c25goo3.gif	5a63313d40c3dd52ffa253ef02215a92	neutral	none	use 1 boiling synovial fluid
 3057	Bones Against Bones	bigbone.gif	9e3f39cf594ed9129659d791dc865e7e	neutral	none	use 1 counterskeleton elixir
-3058
-3059
-3060
-3061
-3062
+3058	Let's Beat Up This Drunken Sailor	shanty1.gif	31d286eed57aea16a20d4c4698a15d70	neutral	none	cast 1 Let's Beat Up This Drunken Sailor
+3059	 I'm Smarter Than a Drunken Sailor	shanty2.gif	2a5cd4b1e8ec911e84568a2092a4c922	neutral	none	cast 1 I'm Smarter Than a Drunken Sailor
+3060	Look At That Drunken Sailor Dance	shanty3.gif	eb5712b26f30fd77c3bb6a71aa184a5e	neutral	none	cast 1 Look At That Drunken Sailor Dance
+3061	Who's Going to Pay This Drunken Sailor?	shanty4.gif	b018ed6a6cd386df3a60e73b25d24a42	neutral	none	cast 1 Who's Going to Pay This Drunken Sailor?
+3062	Only Dogs Love a Drunken Sailor	shanty5.gif	66724bf060daab3110b8ad9d367003f7	neutral	none	cast 1 Only Dogs Love a Drunken Sailor
 3063	And the Winner Is...	crate.gif	c3930af415b9fc4c3f364e11263a299e	neutral	none	drink 1 bottle of prize-winning rum|eat 1 wedge of prize-winning cheese
