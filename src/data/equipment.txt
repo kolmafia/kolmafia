@@ -3514,6 +3514,7 @@ tiny plastic Knob Goblin mad scientist	10	none
 tiny plastic Knott Yeti	10	none
 tiny plastic Knows About Chakras	10	none
 tiny plastic Krampus	10	none
+tiny plastic left skeleton arm	10	none
 tiny plastic lemon-in-the-box	10	none
 tiny plastic leprechaun	10	none
 tiny plastic levitating potato	10	none

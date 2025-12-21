@@ -4025,6 +4025,7 @@ Item	tiny plastic Knob Goblin mad scientist	Monster Level: +1
 Item	tiny plastic Knott Yeti	Monster Level: +1
 Item	tiny plastic Knows About Chakras	Spell Damage: +10, Last Available: "2016-12"
 Item	tiny plastic Krampus	PvP Fights: +1, Last Available: "2016-12"
+Item	tiny plastic left skeleton arm	Damage Reduction: 3, Last Available: "2025-12"
 Item	tiny plastic lemon-in-the-box	Monster Level: +1
 Item	tiny plastic leprechaun	Familiar Weight: +1
 Item	tiny plastic levitating potato	Familiar Weight: +1
@@ -14671,9 +14672,13 @@ Item	shaker of dry rub	Last Available: "2014-06"
 Item	shaking crappy camera	Last Available: "2014-12"
 Item	shaking skull	No Pull
 Item	Shanty: I'm Smarter Than a Drunken Sailor	Skill: "I'm Smarter Than a Drunken Sailor", Last Available: "2025-12"
+Item	Shanty: I'm Smarter Than a Drunken Sailor (used)	Skill: "I'm Smarter Than a Drunken Sailor", Last Available: "2025-12"
 Item	Shanty: Let's Beat Up This Drunken Sailor	Skill: "Let's Beat Up This Drunken Sailor", Last Available: "2025-12"
+Item	Shanty: Let's Beat Up This Drunken Sailor (used)	Skill: "Let's Beat Up This Drunken Sailor", Last Available: "2025-12"
 Item	Shanty: Look At That Drunken Sailor Dance	Skill: "Look At That Drunken Sailor Dance", Last Available: "2025-12"
+Item	Shanty: Look At That Drunken Sailor Dance (used)	Skill: "Look At That Drunken Sailor Dance", Last Available: "2025-12"
 Item	Shanty: Only Dogs Love a Drunken Sailor	Skill: "Only Dogs Love a Drunken Sailor", Last Available: "2025-12"
+Item	Shanty: Only Dogs Love Drunken Sailors (used)	Skill: "Only Dogs Love a Drunken Sailor", Last Available: "2025-12"
 Item	Shanty: Who's Going to Pay This Drunken Sailor?	Skill: "Who's Going to Pay This Drunken Sailor?", Last Available: "2025-12"
 Item	Shanty: Who's Going to Pay This Drunken Sailor? (used)	Skill: "Who's Going to Pay This Drunken Sailor?", Last Available: "2025-12"
 # shard of double-ice: Deals <font color=blue>Cold Damage</font> based on your highest stat
