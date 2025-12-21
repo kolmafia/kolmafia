@@ -18,7 +18,9 @@ public abstract class TinkeringBenchRequest extends CoinMasterShopRequest {
           .withNewShopRowFields(master, SHOPID)
           .withCanBuyItem(TinkeringBenchRequest::canBuyItem)
           .withAccessible(TinkeringBenchRequest::accessible)
-          .withPurchasedItem(TinkeringBenchRequest::purchasedItem);
+          .withPurchasedItem(TinkeringBenchRequest::purchasedItem)
+          // previous version didn't use ajax so we won't here either
+          .withAjax(false);
 
   // There are 10 items you can make at the Tinkering Bench.
   // You can only ever make one of each, even if you've upgraded.
