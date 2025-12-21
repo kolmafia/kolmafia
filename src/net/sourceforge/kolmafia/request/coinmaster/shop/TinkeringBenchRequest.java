@@ -1,19 +1,26 @@
-package net.sourceforge.kolmafia.request.concoction.shop;
+package net.sourceforge.kolmafia.request.coinmaster.shop;
 
 import java.util.Arrays;
 import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.CoinmasterData;
+import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.SpecialOutfit;
-import net.sourceforge.kolmafia.objectpool.Concoction;
-import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.shop.ShopRequest;
 
-public class TinkeringBenchRequest extends CreateItemRequest {
+public abstract class TinkeringBenchRequest extends CoinMasterShopRequest {
+  public static final String master = "Tinkering Bench";
   public static final String SHOPID = "wereprofessor_tinker";
+
+  public static final CoinmasterData DATA =
+      new CoinmasterData(master, SHOPID, TinkeringBenchRequest.class)
+          .withNewShopRowFields(master, SHOPID)
+          .withCanBuyItem(TinkeringBenchRequest::canBuyItem)
+          .withAccessible(TinkeringBenchRequest::accessible)
+          .withPurchasedItem(TinkeringBenchRequest::purchasedItem)
+          // previous version didn't use ajax so we won't here either
+          .withAjax(false);
 
   // There are 10 items you can make at the Tinkering Bench.
   // You can only ever make one of each, even if you've upgraded.
@@ -72,63 +79,46 @@ public class TinkeringBenchRequest extends CreateItemRequest {
     public static TinkeredItem find(AdventureResult ar) {
       return find(ar.getItemId());
     }
+  }
 
-    public static TinkeredItem find(final Concoction conc) {
-      return find(conc.getItemId());
+  public static boolean canMake(final int itemId) {
+    return TinkeredItem.find(itemId).canMake();
+  }
+
+  public static boolean haveItem(final int itemId) {
+    return TinkeredItem.find(itemId).haveItem();
+  }
+
+  private static Boolean canBuyItem(final Integer itemId) {
+    if (!TinkeringBenchRequest.canMake(itemId)) {
+      return false;
     }
+    return DATA.availableItem(itemId);
   }
 
-  public static boolean canMake(final Concoction conc) {
-    return TinkeredItem.find(conc).canMake();
-  }
-
-  public static boolean haveItem(final Concoction conc) {
-    return TinkeredItem.find(conc).haveItem();
-  }
-
-  public TinkeringBenchRequest(final Concoction conc) {
-    super("shop.php", conc);
-
-    this.addFormField("whichshop", SHOPID);
-    this.addFormField("action", "buyitem");
-    int row = ConcoctionPool.idToRow(this.getItemId());
-    this.addFormField("whichrow", String.valueOf(row));
-    // You can only ever create 1 of each item
-    this.setQuantityNeeded(1);
-    this.addFormField("quantity", "1");
-  }
-
-  @Override
-  public void run() {
-    // Attempt to retrieve the ingredients
-    if (!this.makeIngredients()) {
-      return;
+  public static String accessible() {
+    if (!KoLCharacter.isMildManneredProfessor()) {
+      return "Only a mild-mannered professor can work at their Tinkering Bench.";
     }
+    return null;
+  }
 
+  public static void purchasedItem(final AdventureResult item, final Boolean storage) {
     // CreateItemRequest makes an outfit Checkpoint in its item creation
     // loop. If we were wearing an item which we are upgrading, we don't
     // want it to try to equip it, find it is gone, and try to make
     // another one. It won't be possible, but its wasted effort and
     // obfuscates the logging.
-    for (AdventureResult item : this.concoction.getIngredients()) {
-      SpecialOutfit.forgetEquipment(item);
-    }
-
-    KoLmafia.updateDisplay("Creating 1 " + this.getName() + "...");
-    super.run();
-  }
-
-  @Override
-  public void processResults() {
-    String urlString = this.getURLString();
-    String responseText = this.responseText;
-
-    if (urlString.contains("action=buyitem") && !responseText.contains("You acquire")) {
-      KoLmafia.updateDisplay(
-          KoLConstants.MafiaState.ERROR, "Creating at Tinkering Bench was unsuccessful.");
+    var shopRow = DATA.getShopRow(item.getItemId());
+    if (shopRow == null) {
+      var message = "Unrecognised shop row for Tinkering Bench creation of " + item.getName();
+      RequestLogger.printLine(message);
+      RequestLogger.updateSessionLog(message);
       return;
     }
-
-    ShopRequest.parseResponse(urlString, responseText);
+    var ingredients = shopRow.getCosts();
+    for (AdventureResult ingredient : ingredients) {
+      SpecialOutfit.forgetEquipment(ingredient);
+    }
   }
 }

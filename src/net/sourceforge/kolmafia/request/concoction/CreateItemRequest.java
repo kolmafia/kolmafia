@@ -33,7 +33,6 @@ import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.concoction.shop.Crimbo12Request;
 import net.sourceforge.kolmafia.request.concoction.shop.PixelRequest;
 import net.sourceforge.kolmafia.request.concoction.shop.StillRequest;
-import net.sourceforge.kolmafia.request.concoction.shop.TinkeringBenchRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.MallPriceManager;
@@ -240,7 +239,6 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
       case STILLSUIT -> new StillSuitRequest();
       case WOOL -> new GrubbyWoolRequest(conc);
       case BURNING_LEAVES -> new BurningLeavesRequest(conc);
-      case TINKERING_BENCH -> new TinkeringBenchRequest(conc);
       case MAYAM -> new MayamRequest(conc);
       case PHOTO_BOOTH -> new PhotoBoothRequest(conc);
       case TAKERSPACE -> new TakerSpaceRequest(conc);

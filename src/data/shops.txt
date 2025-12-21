@@ -139,7 +139,7 @@ vault2	Fallout Shelter Electronics Supply	NPC
 vault3	Underground Record Store	NPC
 voteslime	Mad Sliemce	COIN
 warbear	Warbear Black Box	COIN
-wereprofessor_tinker	Tinkering Bench	CONC	TINKERING_BENCH
+wereprofessor_tinker	Tinkering Bench	COIN
 whitecitadel	White Citadel	NPC
 wildfire	FDKOL Auxiliary	NPC
 xo	XO Shop	COIN

@@ -7,7 +7,6 @@ import java.util.Set;
 import java.util.TreeSet;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.CraftingMisc;
 import net.sourceforge.kolmafia.KoLConstants.CraftingRequirements;
 import net.sourceforge.kolmafia.KoLConstants.CraftingType;
@@ -32,7 +31,6 @@ import net.sourceforge.kolmafia.request.concoction.MayamRequest;
 import net.sourceforge.kolmafia.request.concoction.PhotoBoothRequest;
 import net.sourceforge.kolmafia.request.concoction.StillSuitRequest;
 import net.sourceforge.kolmafia.request.concoction.TakerSpaceRequest;
-import net.sourceforge.kolmafia.request.concoction.shop.TinkeringBenchRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -1015,10 +1013,6 @@ public class Concoction implements Comparable<Concoction> {
       this.visited = true;
     }
 
-    if (this.mixingMethod == CraftingType.TINKERING_BENCH && TinkeringBenchRequest.haveItem(this)) {
-      this.initial = 1;
-    }
-
     int alreadyHave = this.initial - this.allocated;
     if (alreadyHave < 0
         || requested <= 0) { // Already overspent this ingredient - either due to it being
@@ -1292,19 +1286,6 @@ public class Concoction implements Comparable<Concoction> {
                     + (lastMinMake == minMake ? " not limited" : " limited to " + minMake)
                     + " by terminal extrudes");
           }
-        }
-        case TINKERING_BENCH -> {
-          // If we currently have the item, 1 is available
-          if (KoLConstants.inventory.contains(this.concoction)
-              || KoLCharacter.hasEquipped(this.concoction)) {
-            return 1;
-          }
-          // If already used to make something, can't make another.
-          if (!TinkeringBenchRequest.canMake(this)) {
-            return 0;
-          }
-          // Otherwise, regardless of ingredients, can only make 1
-          return 1;
         }
       }
     }
