@@ -12182,15 +12182,15 @@
 12154	messenger parrot egg	125833643	jarl_egg.gif	none, usable, curse	t,d	50
 12155	buryable chest	472888474	buryablechest.gif	usable	t,d	100
 12156	Shanty: Let's Beat Up This Drunken Sailor	363038603	book3.gif	usable	t	0
-12157
+12157	Shanty: Let's Beat Up This Drunken Sailor (used)	375418743	book3.gif	usable		0
 12158	Shanty: I'm Smarter Than a Drunken Sailor	216960066	book3.gif	usable	t	0
-12159
+12159	Shanty: I'm Smarter Than a Drunken Sailor (used)	170222668	book3.gif	usable		0
 12160	Shanty: Look At That Drunken Sailor Dance	842142519	book3.gif	usable	t	0
-12161
+12161	Shanty: Look At That Drunken Sailor Dance (used)	735801035	book3.gif	usable		0
 12162	Shanty: Who's Going to Pay This Drunken Sailor?	112805285	book3.gif	usable	t	0
 12163	Shanty: Who's Going to Pay This Drunken Sailor? (used)	546484497	book3.gif	usable		0
 12164	Shanty: Only Dogs Love a Drunken Sailor	111305891	book3.gif	usable	t	0
-12165
+12165	Shanty: Only Dogs Love Drunken Sailors (used)	760508477	book3.gif	usable		0
 12166	Crymbocurrency tattoo	804475271	cryptotat.gif	usable	t	0
 12167	fireproof bonesaw	816245231	fireproofsaw.gif	weapon	t,d	100
 12168	vermiculite shield	886101819	vermicshield.gif	offhand	t,d	100
