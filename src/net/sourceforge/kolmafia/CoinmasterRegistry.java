@@ -135,6 +135,7 @@ public abstract class CoinmasterRegistry {
         TerrifiedEagleInnRequest.TERRIFIED_EAGLE_INN,
         ThankShopRequest.CASHEW_STORE,
         TicketCounterRequest.TICKET_COUNTER,
+        TinkeringBenchRequest.DATA,
         ToxicChemistryRequest.TOXIC_CHEMISTRY,
         TrapperRequest.TRAPPER,
         TravelingTraderRequest.TRAVELER,

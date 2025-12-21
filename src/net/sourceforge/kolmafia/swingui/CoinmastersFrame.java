@@ -120,6 +120,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     addPanel(new PlumberItemPanel());
     addPanel(new DinostaurPanel());
     addPanel(new ReplicaMrStorePanel());
+    addPanel(new TinkeringBenchPanel());
     addPanel(new WetCrapForSalePanel());
 
     // Aftercore coinmasters
@@ -1394,6 +1395,12 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
   private class ReplicaMrStorePanel extends CoinmasterPanel {
     public ReplicaMrStorePanel() {
       super(ReplicaMrStoreRequest.REPLICA_MR_STORE);
+    }
+  }
+
+  private class TinkeringBenchPanel extends CoinmasterPanel {
+    public TinkeringBenchPanel() {
+      super(TinkeringBenchRequest.DATA);
     }
   }
 

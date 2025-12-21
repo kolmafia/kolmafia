@@ -1554,6 +1554,19 @@ Elf Guard Toy and Munitions Factory	buy	400	Lil' Snowball Factory	ROW1429
 Elf Guard Toy and Munitions Factory	buy	1000	Elf Guard safety bear	ROW1440
 Elf Guard Toy and Munitions Factory	buy	2000	Elf Guard temporary (permanent) tattoo	ROW1430
 
+# WereProfessor - Tinkering Bench
+
+Tinkering Bench	ROW1467	biphasic molecular oculus	smashed scientific equipment
+Tinkering Bench	ROW1468	triphasic molecular oculus	biphasic molecular oculus	smashed scientific equipment
+Tinkering Bench	ROW1476	focused magnetron pistol	smashed scientific equipment
+Tinkering Bench	ROW1475	motion sensor	smashed scientific equipment
+Tinkering Bench	ROW1472	quick-release belt pouch	smashed scientific equipment
+Tinkering Bench	ROW1473	quick-release fannypack	quick-release belt pouch	smashed scientific equipment
+Tinkering Bench	ROW1474	quick-release utility belt	quick-release fannypack	smashed scientific equipment
+Tinkering Bench	ROW1469	high-tension exoskeleton	smashed scientific equipment
+Tinkering Bench	ROW1470	ultra-high-tension exoskeleton	high-tension exoskeleton	smashed scientific equipment
+Tinkering Bench	ROW1471	irresponsible-tension exoskeleton	ultra-high-tension exoskeleton	smashed scientific equipment
+
 # Crimbo 2024
 
 Crimbo24 Cafe	ROW1527	chocolate ostrich egg	Spirit of Easter (15)

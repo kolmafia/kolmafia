@@ -1,4 +1,4 @@
-package net.sourceforge.kolmafia.request.concoction.shop;
+package net.sourceforge.kolmafia.request.coinmaster.shop;
 
 import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
@@ -290,7 +290,7 @@ public class TinkeringBenchRequestTest {
       buy.run();
 
       var text = SessionLoggerOutput.stopStream();
-      assertTrue(text.contains("Use 1 quick-release fannypack, 1 smashed scientific equipment"));
+      assertTrue(text.contains("Trade 1 quick-release fannypack, 1 smashed scientific equipment"));
 
       assertThat(InventoryManager.getCount(ItemPool.SMASHED_SCIENTIFIC_EQUIPMENT), is(1));
       assertThat(InventoryManager.getCount(ItemPool.QUICK_RELEASE_FANNYPACK), is(0));
