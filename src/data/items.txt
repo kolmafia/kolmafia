@@ -12086,7 +12086,7 @@
 12058	treasure chestnut	542394681	chestnut.gif	food	t,d	11
 12059	mulled butter rum	206500230	mulledrum.gif	drink	t,d	11	cups of mulled butter rum
 12060	cinnamon doubloon	711461021	cinnacoin.gif	potion, usable	t,d	11
-12061
+12061	tiny plastic left skeleton arm	242792400	tpc25larm.gif	accessory	t	0
 12062
 12063
 12064
