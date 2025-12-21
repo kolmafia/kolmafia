@@ -4369,6 +4369,8 @@ public class FightRequest extends GenericRequest {
         case "ewe" -> {
           Preferences.setString("eweItem", "");
         }
+        case "smoldering skeletal monstrosity" ->
+            Preferences.increment("_smolderingSkeletonsDefeated");
       }
 
       if (KoLCharacter.hasEquipped(ItemPool.BONE_ABACUS, Slot.OFFHAND)

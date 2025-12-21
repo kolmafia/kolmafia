@@ -58,6 +58,7 @@ A Pile of Old Servers	100	antique database server
 A Scorching Abyssal Portal	100	scout seal
 A Skeleton Invasion!	100	skeleton invader	two skeleton invaders	three skeleton invaders	four skeleton invaders	five skeleton invaders
 A Smoldering Pelvis	100	half-buried singed skeleton	venomous singed skeleton	winged singed skeleton
+A Smoldering Ribcage	100	smoldering skeletal monstrosity
 A Stinking Abyssal Portal	100	scout seal
 A Terrifying Abyssal Portal	100	scout seal
 A Yawning Abyssal Portal	100	official seal
