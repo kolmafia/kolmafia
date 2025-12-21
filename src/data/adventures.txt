@@ -450,6 +450,7 @@ Tammy's Offshore Platform	adventure=538	DiffLevel: unknown Env: underwater Stat:
 Crimbo25	adventure=595	DiffLevel: mid Env: outdoor Stat: 0	Smoldering Bone Spikes
 Crimbo25	adventure=596	DiffLevel: mid Env: outdoor Stat: 0	Smoldering Fingerbones
 Crimbo25	adventure=597	DiffLevel: mid Env: outdoor Stat: 0	A Smoldering Pelvis
+Crimbo25	adventure=598	DiffLevel: mid Env: outdoor Stat: 0	A Smoldering Ribcage
 
 Holiday Islands	adventure=588	DiffLevel: mid Env: outdoor Stat: 0 ForceNoncombat: 11	Easter Island
 Holiday Islands	adventure=589	DiffLevel: mid Env: outdoor Stat: 0 ForceNoncombat: 12	St. Patrick's Day Island

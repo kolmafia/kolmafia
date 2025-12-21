@@ -12086,7 +12086,7 @@
 12058	treasure chestnut	542394681	chestnut.gif	food	t,d	11
 12059	mulled butter rum	206500230	mulledrum.gif	drink	t,d	11	cups of mulled butter rum
 12060	cinnamon doubloon	711461021	cinnacoin.gif	potion, usable	t,d	11
-12061
+12061	tiny plastic left skeleton arm	242792400	tpc25larm.gif	accessory	t	0
 12062
 12063
 12064
@@ -12149,7 +12149,7 @@
 12121	Crymbocurrency	939831959	crypto.gif	none		0	Crymbocurrency
 12122
 12123
-12124	Steve Abrams' Holiday Sampler Beer	150977618	holidaybeer.gif	drink	t,d	25
+12124	Steve Abrams' Holiday Sampler Beer	150977618	holidaybeer.gif	drink	t,d	25	bottles of Steve Abrams' Holiday Sampler Beer
 12125	crate of prize-winning rum	824419496	crate.gif	usable	t	0	crates of prize-winning rum
 12126	bottle of prize-winning rum	431517630	prizerumbottle.gif	drink	t,d	25	bottles of prize-winning rum
 12127
@@ -12167,8 +12167,8 @@
 12139	burnt bone belt	876239904	bonebelt2.gif	accessory	t	0
 12140
 12141	wing bone	379107449	wingbone.gif	food	t,d	42
-12142	weak skeleton venom	845778217	venomcocktail.gif	drink	t,d	40
-12143	baked bone meal	588339257	bakedbonemeal.gif	spleen, usable	t,d	99
+12142	weak skeleton venom	845778217	venomcocktail.gif	drink	t,d	40	cups of weak skeleton venom
+12143	baked bone meal	588339257	bakedbonemeal.gif	spleen, usable	t,d	99	handfuls of baked bone meal
 12144
 12145
 12146
@@ -12181,16 +12181,16 @@
 12153	scorched skeleton pants	461712890	sskelpants.gif	pants	t	0	pairs of scorched skeleton pants
 12154	messenger parrot egg	125833643	jarl_egg.gif	none, usable, curse	t,d	50
 12155	buryable chest	472888474	buryablechest.gif	usable	t,d	100
-12156	Shanty: Let's Beat Up This Drunken Sailor	363038603	book3.gif	usable	t	0
-12157
-12158	Shanty: I'm Smarter Than a Drunken Sailor	216960066	book3.gif	usable	t	0
-12159
-12160	Shanty: Look At That Drunken Sailor Dance	842142519	book3.gif	usable	t	0
-12161
-12162	Shanty: Who's Going to Pay This Drunken Sailor?	112805285	book3.gif	usable	t	0
-12163	Shanty: Who's Going to Pay This Drunken Sailor? (used)	546484497	book3.gif	usable		0
-12164	Shanty: Only Dogs Love a Drunken Sailor	111305891	book3.gif	usable	t	0
-12165
+12156	Shanty: Let's Beat Up This Drunken Sailor	363038603	book3.gif	usable	t	0	Shanties: Let's Beat Up This Drunken Sailor
+12157	Shanty: Let's Beat Up This Drunken Sailor (used)	375418743	book3.gif	usable		0	Shanties: Let's Beat Up This Drunken Sailor (used)
+12158	Shanty: I'm Smarter Than a Drunken Sailor	216960066	book3.gif	usable	t	0	Shanties: I'm Smarter Than a Drunken Sailor
+12159	Shanty: I'm Smarter Than a Drunken Sailor (used)	170222668	book3.gif	usable		0	Shanties: I'm Smarter Than a Drunken Sailor (used)
+12160	Shanty: Look At That Drunken Sailor Dance	842142519	book3.gif	usable	t	0	Shanties: Look At That Drunken Sailor Dance
+12161	Shanty: Look At That Drunken Sailor Dance (used)	735801035	book3.gif	usable		0	Shanties: Look At That Drunken Sailor Dance (used)
+12162	Shanty: Who's Going to Pay This Drunken Sailor?	112805285	book3.gif	usable	t	0	Shanties: Shanty: Who's Going to Pay This Drunken 
+12163	Shanty: Who's Going to Pay This Drunken Sailor? (used)	546484497	book3.gif	usable		0	Shanties: Who's Going to Pay This Drunken Sailor? (used)
+12164	Shanty: Only Dogs Love a Drunken Sailor	111305891	book3.gif	usable	t	0	Shanties: Only Dogs Love a Drunken Sailor
+12165	Shanty: Only Dogs Love Drunken Sailors (used)	760508477	book3.gif	usable		0	Shanties: Only Dogs Love Drunken Sailors (used)
 12166	Crymbocurrency tattoo	804475271	cryptotat.gif	usable	t	0
 12167	fireproof bonesaw	816245231	fireproofsaw.gif	weapon	t,d	100
 12168	vermiculite shield	886101819	vermicshield.gif	offhand	t,d	100
