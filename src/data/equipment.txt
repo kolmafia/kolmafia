@@ -857,6 +857,7 @@ duct tape shirt	195	Mus: 82
 elf army poncho	10	none
 embers-only jacket	100	none
 extra-see-thru nightie	200	Mus: 200
+extra-thick Crimbo sweater	100	none
 eXtreme Bi-Polar Fleece Vest	90	Mus: 30
 extremely wet T-shirt	200	Mus: 85
 famous blue raincoat	100	none
@@ -2298,6 +2299,7 @@ Scepter of Loathing	200	Mys: 150
 Sceptre of the Torremolinos Prince	0	none
 Science Notebook	0	Mys: 11
 scissor duck	0	none
+scorched skull trophy	0	Mus: 85
 sealhide buckler	160	Mus: 65	shield
 sealskin drum	160	Mus: 150
 sebaceous shield	35	Mus: 2	shield
@@ -3515,6 +3517,7 @@ tiny plastic Knott Yeti	10	none
 tiny plastic Knows About Chakras	10	none
 tiny plastic Krampus	10	none
 tiny plastic left skeleton arm	10	none
+tiny plastic left skeleton leg	10	none
 tiny plastic lemon-in-the-box	10	none
 tiny plastic leprechaun	10	none
 tiny plastic levitating potato	10	none
