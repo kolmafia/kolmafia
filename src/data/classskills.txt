@@ -271,7 +271,7 @@
 243	OVERCLOCK(10)	ss_overclocked.gif	passive	0	0
 244	STATS+++	ss_codeblock.gif	passive	0	0
 245	Generate Irony	book5.gif	nc,item	10	0
-246
+246	Holiday Burial Knowledge	tombstone.gif	passive	0	0
 247	Let's Beat Up This Drunken Sailor	shanty1.gif	nc,effect,self,shanty	11	10
 248	I'm Smarter Than a Drunken Sailor	shanty2.gif	nc,effect,self,shanty	11	10
 249	Look At That Drunken Sailor Dance	shanty3.gif	nc,effect,self,shanty	11	10

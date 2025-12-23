@@ -4067,6 +4067,7 @@ Item	tiny plastic protector spectre	Spooky Damage: +10
 Item	tiny plastic Queen Bee	Maximum HP: +10, Last Available: "2012-12"
 Item	tiny plastic reindeer	Cold Resistance: +1, Last Available: "2018-12"
 Item	tiny plastic Rene C. Corman	Mysticality Percent: +5, Spell Damage Percent: +25, Single Equip, Last Available: "2012-12"
+Item	tiny plastic right skeleton arm	Damage Reduction: 3, Last Available: "2025-12"
 Item	tiny plastic Rudolph the Red	Hot Resistance: +2, Last Available: "2015-12"
 Item	tiny plastic sabre-toothed lime	Familiar Weight: +1
 Item	tiny plastic sauceror	Mysticality: +2, Moxie: +1
@@ -8795,6 +8796,7 @@ Skill	High Water Content	Hot Resistance: +2
 Skill	His Master's Voice	Familiar Weight: +5
 # Hivemindedness: Regenerate 100 MP per Adventure (Scales with your Mysticality)
 Skill	Hivemindedness	MP Regen Min: [min(ceil(basemys/10),100)], MP Regen Max: [min(ceil(basemys/10),100)]
+# Holiday Burial Knowledge: +25% Stat Gains from Undead Monsters
 # Holiday Multitasking: Craft up to 3 items per day without using an Adventure
 Skill	Hollow Leg	Liver Capacity: +1
 Skill	Hot Headedness	Hot Damage: +11
@@ -15085,6 +15087,8 @@ Item	The Emperor's dry cleaning	Last Available: "2015-07"
 # The Emperor's new cookie: So delicious!
 Item	The Encyclopedia of Fruit	Skill: "Fruit Recognition", Last Available: "2023-12"
 Item	The Encyclopedia of Fruit (used)	Skill: "Fruit Recognition", Last Available: "2023-12"
+Item	The Encyclopedia of Holiday Funerary Rites	Skill: "Holiday Burial Knowledge", Last Available: "2025-12"
+Item	The Encyclopedia of Holiday Funerary Rites (used)	Skill: "Holiday Burial Knowledge", Last Available: "2025-12"
 Item	the finger	Last Available: "2011-04"
 # The Fingernail of the Thing in the Basement: Jeremy Science will be interested in this
 Item	The Firegate Tapes	Skill: "Firegate", Last Available: "2015-08"
