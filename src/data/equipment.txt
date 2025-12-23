@@ -1928,7 +1928,7 @@ black shield	160	Mus: 65	shield
 blue LavaCo Lamp&trade;	100	Mys: 35
 bobble-hip hula elf doll	40	Mys: 5
 bone abacus	100	Mys: 5
-bone-polishing rag	0	Mys: 35
+bone-polishing rag	100	Mys: 35
 Book of Old-Timey Carols	50	none
 borg sock monkey	110	Mys: 40
 botanical sample kit	10	none
@@ -2299,7 +2299,7 @@ Scepter of Loathing	200	Mys: 150
 Sceptre of the Torremolinos Prince	0	none
 Science Notebook	0	Mys: 11
 scissor duck	0	none
-scorched skull trophy	0	Mus: 85
+scorched skull trophy	200	Mus: 85
 sealhide buckler	160	Mus: 65	shield
 sealskin drum	160	Mus: 150
 sebaceous shield	35	Mus: 2	shield

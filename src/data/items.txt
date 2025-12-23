@@ -12165,7 +12165,7 @@
 12137	hot boning knife	593295785	hotboningknife.gif	weapon	t	0	hot boning knive
 12138	flaming fistbone	521112927	flamefist.gif	offhand	t	0
 12139	burnt bone belt	876239904	bonebelt2.gif	accessory	t	0
-12140	scorched skull trophy	607107330	skulltrophy.gif	offhand	t	0
+12140	scorched skull trophy	607107330	skulltrophy.gif	offhand	t	0	scorched skull trophies
 12141	wing bone	379107449	wingbone.gif	food	t,d	42
 12142	weak skeleton venom	845778217	venomcocktail.gif	drink	t,d	40	cups of weak skeleton venom
 12143	baked bone meal	588339257	bakedbonemeal.gif	spleen, usable	t,d	99	handfuls of baked bone meal
