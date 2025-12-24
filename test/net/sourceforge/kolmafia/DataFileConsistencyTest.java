@@ -210,8 +210,8 @@ public class DataFileConsistencyTest {
     for (var name : familiarSpecificEquipment) {
       assertThat(
           String.format("%s is in familiars.txt but not in items.txt", name),
-          ItemDatabase.getItemId(name),
-          greaterThan(0));
+          ItemDatabase.getExactItemId(name),
+          not(-1));
     }
   }
 
@@ -857,6 +857,18 @@ public class DataFileConsistencyTest {
       }
     } catch (IOException e) {
       fail("Couldn't read from monsters.txt");
+    }
+  }
+
+  @Test
+  public void pulverizablesAreItems() throws IOException {
+    var pulverize = datafileItems("pulverize.txt", 2, 0);
+
+    for (var name : pulverize) {
+      assertThat(
+        String.format("%s is in pulverize.txt but not in items.txt", name),
+        ItemDatabase.getExactItemId(name),
+        not(-1));
     }
   }
 }
