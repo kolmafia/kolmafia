@@ -1656,9 +1656,9 @@
 1655	crimbo25_sammy	cursed ship's lantern	Crymbocurrency (50)
 1656	crimbo25_sammy	heat-resistant harpoon pistol	Crymbocurrency (50)
 1657	crimbo25_sammy	counterskeleton elixir	Crymbocurrency (10)
-1658
-1659
-1660
+1658	crimbo25_sammy	tiny plastic skeleton skull	Crymbocurrency (1,500)
+1659	crimbo25_sammy	tiny plastic skeleton rib cage	Crymbocurrency (1,500)
+1660	crimbo25_sammy	tiny plastic skeleton Crimbo hat	Crymbocurrency (1,500)
 1661	crimbo25_sammy	messenger parrot egg	Crymbocurrency (200)
 1662	crimbo25_sammy	buryable chest	Crymbocurrency (300)
 1663	crimbo25_sammy	scorched skeleton mask	Crymbocurrency (1,000)

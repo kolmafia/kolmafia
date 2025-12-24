@@ -3557,6 +3557,7 @@ tiny plastic Queen Bee	30	none
 tiny plastic reindeer	10	none
 tiny plastic Rene C. Corman	50	Mys: 10
 tiny plastic right skeleton arm	10	none
+tiny plastic right skeleton leg	10	none
 tiny plastic Rudolph the Red	10	none
 tiny plastic sabre-toothed lime	10	none
 tiny plastic sauceror	20	none
@@ -3568,6 +3569,9 @@ tiny plastic seal clubber	20	none
 tiny plastic semi-autonomous drill unit	10	none
 tiny plastic senile lihc	10	none
 tiny plastic skeletal reindeer	10	none
+tiny plastic skeleton Crimbo hat	10	none
+tiny plastic skeleton rib cage	10	none
+tiny plastic skeleton skull	10	none
 tiny plastic smarmy pirate	10	none
 tiny plastic Sneaky Pete	30	none
 tiny plastic Spam Witch	10	none
