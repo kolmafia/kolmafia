@@ -12089,7 +12089,7 @@
 12061	tiny plastic left skeleton arm	242792400	tpc25larm.gif	accessory	t	0
 12062	tiny plastic left skeleton leg	864836935	tpc25leg.gif	accessory	t	0
 12063	tiny plastic right skeleton arm	614426579	tpc25rarm.gif	accessory	t	0
-12064
+12064	tiny plastic right skeleton leg	472689693	tpc25reg.gif	accessory	t	0
 12065
 12066
 12067
@@ -12169,9 +12169,9 @@
 12141	wing bone	379107449	wingbone.gif	food	t,d	42
 12142	weak skeleton venom	845778217	venomcocktail.gif	drink	t,d	40	cups of weak skeleton venom
 12143	baked bone meal	588339257	bakedbonemeal.gif	spleen, usable	t,d	99	handfuls of baked bone meal
-12144
-12145
-12146
+12144	tiny plastic skeleton rib cage	420030820	tpc25chest.gif	accessory	t	0
+12145	tiny plastic skeleton skull	398658711	tpc25head.gif	accessory	t	0
+12146	tiny plastic skeleton Crimbo hat	158147284	tpc25hat.gif	accessory	t	0
 12147
 12148
 12149	undertakers' forceps	345457303	forceps.gif	weapon	t	0	pairs of undertakers' forceps
