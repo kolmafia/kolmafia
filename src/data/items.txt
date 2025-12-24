@@ -12089,7 +12089,7 @@
 12061	tiny plastic left skeleton arm	242792400	tpc25larm.gif	accessory	t	0
 12062	tiny plastic left skeleton leg	864836935	tpc25leg.gif	accessory	t	0
 12063	tiny plastic right skeleton arm	614426579	tpc25rarm.gif	accessory	t	0
-12064
+12064	tiny plastic right skeleton leg	472689693	tpc25reg.gif	accessory	t	0
 12065
 12066
 12067
@@ -12148,7 +12148,7 @@
 12120	burnt skull	796508560	c25tranq5.gif	none		0
 12121	Crymbocurrency	939831959	crypto.gif	none		0	Crymbocurrency
 12122	extra-thick Crimbo sweater	377151348	c25sweater.gif	shirt	t	0
-12123	The Encyclopedia of Holiday Funerary Rites	669691654	book4.gif	usable	t	0
+12123	The Encyclopedia of Holiday Funerary Rites	669691654	book4.gif	usable	t	0	copies of The Encyclopedia of Holiday Funerary Rit
 12124	Steve Abrams' Holiday Sampler Beer	150977618	holidaybeer.gif	drink	t,d	25	bottles of Steve Abrams' Holiday Sampler Beer
 12125	crate of prize-winning rum	824419496	crate.gif	usable	t	0	crates of prize-winning rum
 12126	bottle of prize-winning rum	431517630	prizerumbottle.gif	drink	t,d	25	bottles of prize-winning rum
@@ -12169,9 +12169,9 @@
 12141	wing bone	379107449	wingbone.gif	food	t,d	42
 12142	weak skeleton venom	845778217	venomcocktail.gif	drink	t,d	40	cups of weak skeleton venom
 12143	baked bone meal	588339257	bakedbonemeal.gif	spleen, usable	t,d	99	handfuls of baked bone meal
-12144
-12145
-12146
+12144	tiny plastic skeleton rib cage	420030820	tpc25chest.gif	accessory	t	0
+12145	tiny plastic skeleton skull	398658711	tpc25head.gif	accessory	t	0
+12146	tiny plastic skeleton Crimbo hat	158147284	tpc25hat.gif	accessory	t	0
 12147
 12148
 12149	undertakers' forceps	345457303	forceps.gif	weapon	t	0	pairs of undertakers' forceps
@@ -12200,7 +12200,7 @@
 12172	Scotch and eggnog	391232132	coffeecup.gif	drink	t,d	37	cups of Scotch and eggnog
 12173	counterskeleton elixir	696432516	skullpotion.gif	potion, usable	t,d	69
 12174	&quot;salvaged&quot; wine	396890642	salvagewine.gif	drink	t	0	bottles of &quot;salvaged&quot; wine
-12175	The Encyclopedia of Holiday Funerary Rites (used)	707499135	book4.gif	usable		0
+12175	The Encyclopedia of Holiday Funerary Rites (used)	707499135	book4.gif	usable		0	used copies of The Encyclopedia of Holiday Funerar
 12176	crate of prize-winning cheese	738719260	crate.gif	usable	t	0	crates of prize-winning cheese
 12177	wedge of prize-winning cheese	357068703	yamcheese.gif	food	t,d	25	wedges of prize-winning cheese
 12178	gummi fingerbone	781996967	c25trob2.gif	potion, usable	t,d	15

@@ -1727,6 +1727,9 @@ The HMS Bounty Hunter	ROW1667	Shanty: I'm Smarter Than a Drunken Sailor	Crymbocu
 The HMS Bounty Hunter	ROW1668	Shanty: Look At That Drunken Sailor Dance	Crymbocurrency (5,000)
 The HMS Bounty Hunter	ROW1669	Shanty: Who's Going to Pay This Drunken Sailor?	Crymbocurrency (5,000)
 The HMS Bounty Hunter	ROW1670	Shanty: Only Dogs Love a Drunken Sailor	Crymbocurrency (5,000)
+The HMS Bounty Hunter	ROW1659	tiny plastic skeleton rib cage	Crymbocurrency (1,500)
+The HMS Bounty Hunter	ROW1658	tiny plastic skeleton skull	Crymbocurrency (1,500)
+The HMS Bounty Hunter	ROW1660	tiny plastic skeleton Crimbo hat	Crymbocurrency (1,500)
 The HMS Bounty Hunter	ROW1643	Crymbocurrency	burnt incisor
 The HMS Bounty Hunter	ROW1644	Crymbocurrency (5)	burnt phalange
 The HMS Bounty Hunter	ROW1646	Crymbocurrency (10)	burnt radius
