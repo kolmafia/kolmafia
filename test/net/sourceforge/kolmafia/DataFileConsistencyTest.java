@@ -6,7 +6,6 @@ import static org.hamcrest.Matchers.anyOf;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.everyItem;
-import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasSize;
@@ -210,8 +209,8 @@ public class DataFileConsistencyTest {
     for (var name : familiarSpecificEquipment) {
       assertThat(
           String.format("%s is in familiars.txt but not in items.txt", name),
-          ItemDatabase.getItemId(name),
-          greaterThan(0));
+          ItemDatabase.getExactItemId(name),
+          not(-1));
     }
   }
 
@@ -857,6 +856,18 @@ public class DataFileConsistencyTest {
       }
     } catch (IOException e) {
       fail("Couldn't read from monsters.txt");
+    }
+  }
+
+  @Test
+  public void pulverizablesAreItems() throws IOException {
+    var pulverize = datafileItems("pulverize.txt", 2, 0);
+
+    for (var name : pulverize) {
+      assertThat(
+          String.format("%s is in pulverize.txt but not in items.txt", name),
+          ItemDatabase.getExactItemId(name),
+          not(-1));
     }
   }
 }
