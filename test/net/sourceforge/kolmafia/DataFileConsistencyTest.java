@@ -6,7 +6,6 @@ import static org.hamcrest.Matchers.anyOf;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.everyItem;
-import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasSize;
@@ -866,9 +865,9 @@ public class DataFileConsistencyTest {
 
     for (var name : pulverize) {
       assertThat(
-        String.format("%s is in pulverize.txt but not in items.txt", name),
-        ItemDatabase.getExactItemId(name),
-        not(-1));
+          String.format("%s is in pulverize.txt but not in items.txt", name),
+          ItemDatabase.getExactItemId(name),
+          not(-1));
     }
   }
 }
