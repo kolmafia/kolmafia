@@ -2325,4 +2325,8 @@
 2502	fire-breathing charred skull	horn	skull
 2503	sneaky smoldering skeleton	armbone	knife	legbone	other knife	rib	skull	spine
 2504	stout smoldering skeleton	armbone	legbone	pelvis	rib cage	skull
-2505	sorcerous smoldering skeleton	 armbone	ribs	skull	spine 
+2505	sorcerous smoldering skeleton	armbone	ribs	skull	spine
+2506	half-buried singed skeleton	armbone	rib cage	skull
+2507	winged singed skeleton	armbone	legbone	pelvis	rib cage	skull	wingbone
+2508	venomous singed skeleton	armbone	legbone	pelvis	rib cage	skull	stinger	tailbone
+2509	The Unquiet Bones of Claus	giant bone	giant claw	giant rib	giant skull
