@@ -2803,6 +2803,7 @@ gingerservo	100	none
 Girdle of Hatred	200	Mus: 125
 glacial clock	30	none
 glass eye	100	Mys: 50
+glimmering golden crystal	50	none
 glow-in-the-dark necklace	100	Mys: 10
 glow-in-the-dark wristwatch	0	none
 glowing red eye	150	Mys: 60
@@ -3211,6 +3212,7 @@ rubber WWtNSD? bracelet	10	none
 rum barrel charrrm bracelet	110	Mys: 40
 rusty chain necklace	180	Mys: 75
 Saccharine Maple pendant	75	Mys: 22
+Santa-Slayer medal	100	none
 sardine can key	200	Mus: 50
 Sasq&trade; watch	50	Mys: 10
 scabrous seal epaulets	0	none
@@ -3570,6 +3572,7 @@ tiny plastic semi-autonomous drill unit	10	none
 tiny plastic senile lihc	10	none
 tiny plastic skeletal reindeer	10	none
 tiny plastic skeleton Crimbo hat	10	none
+tiny plastic skeleton pelvis	10	none
 tiny plastic skeleton rib cage	10	none
 tiny plastic skeleton skull	10	none
 tiny plastic smarmy pirate	10	none

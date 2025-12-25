@@ -1649,7 +1649,7 @@
 1648
 1649	crimbo25_sammy	Crymbocurrency (5)	cold wad
 1650	crimbo25_sammy	Crymbocurrency (5)	twinkly wad (3)
-1651
+1651	crimbo25_sammy	Santa-Slayer medal	Skull of Claus
 1652	crimbo25_sammy	volatile bone bomb	smoldering bone dust	100 Meat
 1653	crimbo25_sammy	fireproof bonesaw	Crymbocurrency (50)
 1654	crimbo25_sammy	vermiculite shield	Crymbocurrency (50)
