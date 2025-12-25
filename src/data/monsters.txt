@@ -2914,7 +2914,8 @@ stout smoldering skeleton	2504	c25mobmus4.gif	Scale: 1 Cap: 10000 Init: -1000 P:
 half-buried singed skeleton	2506	c25mobfighter7.gif	Scale: 20 Cap: ? Init: -10000 P: undead SKELETON Phys: 50 Elem: 50 ED: hot	baked bone meal (5)	burnt radius (f28)	burnt rib (f12)
 venomous singed skeleton	2508	c25mobrogue9.gif	Scale: 30 Cap: ? Init: 50 P: undead SKELETON Phys: 50 Elem: 75 ED: hot	weak skeleton venom (5)	burnt radius (f28)	burnt rib (f12)
 winged singed skeleton	2507	c25mobwiz8.gif	Scale: 20 Cap: ? Init: 250 P: undead SKELETON Elem: 50 ED: hot	wing bone (5)	burnt radius (f28)	burnt rib (f12)
-smoldering skeletal monstrosity	2509	noart.gif NOCOPY NOMANUEL	Atk: [1000+1000*pref(_smolderingSkeletonsDefeated)] Def: [1000+1000*pref(_smolderingSkeletonsDefeated)] HP: [4000+1000*pref(_smolderingSkeletonsDefeated)] Init: -10000 P: undead SKELETON ED: hot	burnt rib (f48)	burnt skull (f32)
+smoldering skeletal monstrosity	2509	noart.gif	NOCOPY NOMANUEL Atk: [1000+1000*pref(_smolderingSkeletonsDefeated)] Def: [1000+1000*pref(_smolderingSkeletonsDefeated)] HP: [4000+1000*pref(_smolderingSkeletonsDefeated)] Init: -10000 P: undead SKELETON ED: hot	burnt rib (f48)	burnt skull (f32)
+The Unquiet Bones of Claus	2510	santa_therevenge.gif	NOCOPY NOMANUEL Atk: 500 Def: 500 HP: 3000 Init: -10000 P: undead SKELETON	Skull of Claus (n100)
 
 # Retired Standard Monsters
 Astronomer (obsolete)	354	astronomer.gif	Atk: 168 Def: 151 HP: 150 Init: 70 P: constellation EA: hot Article: The Manuel: "Astronomer"	star chart (100)

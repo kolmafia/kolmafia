@@ -3221,6 +3221,7 @@ Item	gingerservo	Muscle Percent: +25, HP Regen Min: 6, HP Regen Max: 12, PvP Fig
 Item	Girdle of Hatred	Initiative: +45, Reduce Enemy Defense: 10, Spell Damage Percent: +60, Single Equip, Conditional Skill (Equipped): "Tighten Girdle"
 Item	glacial clock	Cold Damage: +15, Last Available: "2011-09"
 Item	glass eye	Initiative: +20, Weapon Damage: +20, Item Drop: [40*zone(Twitch)], Single Equip
+Item	glimmering golden crystal	Maximum MP: +10, Cold Resistance: +1, Last Available: "2025-12"
 Item	glow-in-the-dark necklace	Mysticality Percent: +10, Spell Damage: +10, MP Regen Min: 2, MP Regen Max: 10, Last Available: "2014-08"
 Item	glow-in-the-dark wristwatch	Mysticality: [9-M], Spell Damage: [9-M], Adventures: +3, Single Equip, Last Available: "2009-01", Nonstackable Watch
 Item	glowing red eye	Spooky Resistance: +2
@@ -3695,6 +3696,7 @@ Item	rubber gloves	Sleaze Resistance: +2, Last Available: "2013-12"
 Item	rum barrel charrrm bracelet	Booze Drop: +5
 Item	rusty chain necklace	Muscle: +9, Maximum HP: +25
 Item	Saccharine Maple pendant	Maximum HP: +20, Maximum MP: +20, Conditional Skill (Equipped): "Spray Sap"
+Item	Santa-Slayer medal	Cold Damage: +25, Cold Spell Damage: +25, Cold Resistance: +3, Single Equip, Last Available: "2025-12"
 Item	sardine can key	Cold Damage: +40, Hot Resistance: +4, Food Drop: +60, Last Available: "2015-11"
 Item	Sasq&trade; watch	PvP Fights: +3, Adventures: +6, Rollover Effect: "The Rich Get Richer", Rollover Effect Duration: 30, Single Equip, Last Available: "2014-10", Nonstackable Watch
 Item	scabrous seal epaulets	Maximum HP: +20, HP Regen Min: 8, HP Regen Max: 10, Single Equip
@@ -4081,6 +4083,7 @@ Item	tiny plastic semi-autonomous drill unit	Mysticality: +1, Last Available: "2
 Item	tiny plastic senile lihc	Monster Level: +1
 Item	tiny plastic skeletal reindeer	Adventures: +1, Single Equip, Last Available: "2006-12"
 Item	tiny plastic skeleton Crimbo hat	Damage Reduction: 3, Last Available: "2025-12"
+Item	tiny plastic skeleton pelvis	Damage Reduction: 3, Last Available: "2025-12"
 Item	tiny plastic skeleton rib cage	Damage Reduction: 3, Last Available: "2025-12"
 Item	tiny plastic skeleton skull	Damage Reduction: 3, Last Available: "2025-12"
 Item	tiny plastic smarmy pirate	Monster Level: +1
@@ -5283,6 +5286,7 @@ Throne	Teddy Bear	Initiative: +20
 Throne	Teddy Borg	Initiative: +20
 Throne	Temporal Riftlet	Initiative: +20, Drops Meat
 Throne	Tickle-Me Emilio	Muscle: +10, Mysticality: +10, Moxie: +10
+Throne	Tiny Plastic Santa Claus Skeleton	
 Throne	Toothsome Rock	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 Throne	Topiary Skunk	Stench Damage: +15
 Throne	Trick-or-Treating Tot	Muscle: +10, Mysticality: +10, Moxie: +10, Drops Items, Variable
@@ -12237,6 +12241,7 @@ Item	Asdon Martin keyfob (on ring)	Last Available: "2017-07"
 Item	Asleep in the Cemetery	Skill: "Creepy Lullaby"
 Item	aspirin	Last Available: "2005-12"
 Item	assemble-it-yourself Leprecondo	Free Pull, Last Available: "2025-03"
+Item	assembled tiny plastic Santa skeleton	Last Available: "2025-12"
 Item	astral badger	Free Pull, Last Available: "2006-06"
 Item	atomic vector plotter	Last Available: "2011-12"
 Item	Autobiography Of Dynamite Superman Jones (used)	Class: "Disco Bandit", Skill: "Kung Fu Hustler", Last Available: "2011-01"
@@ -13950,6 +13955,7 @@ Item	Mini-Crimbot crate	Last Available: "2014-12"
 # miniature boiler: Deals 20-40 Physical Damage
 # miniature Embering Hulk: Fight an Embering Hulk
 Item	miniature Embering Hulk	Last Available: "2024-09"
+Item	miniature sleigh	Familiar Weight: +10
 # Miniborg beeper: Deals 20-25 Physical Damage and hurts you a little bit
 # Miniborg beeper: (doesn't go away when used)
 Item	Miniborg beeper	Last Available: "2007-12"
@@ -14765,6 +14771,7 @@ Item	skeleton	Last Available: "2012-10"
 Item	skewered cherry	Last Available: "2004-12"
 Item	skewered jumbo olive	Last Available: "2004-12"
 Item	skewered lime	Last Available: "2004-12"
+Item	Skull of Claus	Last Available: "2025-12"
 # skull with a fuse in it: Deals 400-500 Physical Damage
 Item	skull with a fuse in it	Last Available: "2011-09"
 Item	skulldozer egg	Last Available: "2012-10"
