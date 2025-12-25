@@ -184,6 +184,7 @@ public class ItemDatabase {
     CANDY1("candy1"),
     CANDY2("candy2"),
     MATCHABLE("matchable"),
+    PERISHABLE("perishable"),
     FANCY("fancy"),
     CHOCOLATE("chocolate"),
     PASTE("paste"),
@@ -930,6 +931,9 @@ public class ItemDatabase {
     }
     if (multi && usage != ConsumptionType.USE_MULTIPLE) {
       attrs.add(Attribute.MULTIPLE);
+    }
+    if (text.contains("<b>NOTE:</b> This item is perishable")) {
+      attrs.add(Attribute.PERISHABLE);
     }
     ItemDatabase.attributesById.put(itemId, attrs);
 
