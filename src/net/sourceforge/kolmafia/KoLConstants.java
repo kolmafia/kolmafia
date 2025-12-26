@@ -468,7 +468,6 @@ public interface KoLConstants extends UtilityConstants {
     STILL, // Items requiring access to Nash Crosby's Still
     MALUS, // Items requiring access to the Malus of Forethought
     JEWELRY, // Items created with jewelry-making pliers
-    PIXEL, // Items anybody can create with pixels
     ROLLING_PIN, // Items created with a rolling pin or and an unrolling pin
     GNOME_TINKER, // Items requiring access to the Gnome supertinker
     STAFF, // Items requiring access to Roderic the Staffcrafter

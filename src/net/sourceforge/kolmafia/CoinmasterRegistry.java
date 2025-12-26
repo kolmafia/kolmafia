@@ -109,6 +109,7 @@ public abstract class CoinmasterRegistry {
         NeandermallRequest.NEANDERMALL,
         NinjaStoreRequest.NINJA_STORE,
         NuggletCraftingRequest.NUGGLETCRAFTING,
+        PixelRequest.DATA,
         PlumberGearRequest.PLUMBER_GEAR,
         PlumberItemRequest.PLUMBER_ITEMS,
         PokemporiumRequest.POKEMPORIUM,
