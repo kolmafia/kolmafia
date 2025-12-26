@@ -20,7 +20,7 @@ Gyms	clan_hobopolis=2	DiffLevel: none Env: none Stat: 0	Richard's Hobo Moxie
 Gyms	clan_hobopolis=3	DiffLevel: none Env: none Stat: 0	Richard's Hobo Muscle
 
 Hobopolis	adventure=166	DiffLevel: mid Env: underground Stat: 250	A Maze of Sewer Tunnels
-Hobopolis	adventure=167	DiffLevel: unknown Env: underground Stat: 300	Hobopolis Town Square
+Hobopolis	adventure=167	DiffLevel: mid Env: underground Stat: 300	Hobopolis Town Square
 Hobopolis	adventure=168	DiffLevel: unknown Env: underground Stat: 350	Burnbarrel Blvd.	+1 jar of squeeze
 Hobopolis	adventure=169	DiffLevel: unknown Env: underground Stat: 350	Exposure Esplanade	+1 bowl of fishysoisse
 Hobopolis	adventure=170	DiffLevel: unknown Env: underground Stat: 350	The Heap	+1 concentrated garbage juice
@@ -344,7 +344,7 @@ Mothership	adventure=289	DiffLevel: mid Env: indoor Stat: 210	Galley
 
 # KoL High School path
 
-KOL High School	adventure=326	DiffLevel: unknown Env: indoor Stat: 0	The Hallowed Halls
+KOL High School	adventure=326	DiffLevel: mid Env: indoor Stat: 0	The Hallowed Halls
 KOL High School	adventure=327	DiffLevel: unknown Env: indoor Stat: 0	Shop Class
 KOL High School	adventure=328	DiffLevel: unknown Env: indoor Stat: 0	Chemistry Class
 KOL High School	adventure=329	DiffLevel: unknown Env: indoor Stat: 0	Art Class
@@ -400,7 +400,7 @@ Holiday	adventure=599	DiffLevel: unknown Env: outdoor	Bloated and Nauseous
 Holiday	adventure=600	DiffLevel: unknown Env: outdoor	Poisoned Spleen
 Holiday	adventure=163	DiffLevel: unknown Env: outdoor	The Yuletide Bonfire
 Holiday	adventure=174	DiffLevel: unknown Env: outdoor	The Arrrboretum
-Holiday	adventure=37	DiffLevel: unknown Env: indoor	The Spectral Pickle Factory
+Holiday	adventure=37	DiffLevel: high Env: indoor	The Spectral Pickle Factory
 Holiday	adventure=173	DiffLevel: unknown Env: outdoor	Generic Summer Holiday Swimming!
 
 # Special (maybe eventually recurring?) Events
@@ -620,7 +620,7 @@ Vanya's Castle	adventure=229	DiffLevel: unknown Env: indoor	Vanya's Castle Foyer
 Vanya's Castle	adventure=230	DiffLevel: unknown Env: indoor	Vanya's Castle Chapel
 Kegger	adventure=231	DiffLevel: unknown Env: outdoor	Kegger in the Woods
 Magic Commune	adventure=232	DiffLevel: mid Env: outdoor	The Electric Lemonade Acid Parade
-Ellsbury's Claim	adventure=236	DiffLevel: unknown Env: outdoor	Neckback Crick
+Ellsbury's Claim	adventure=236	DiffLevel: mid Env: outdoor	Neckback Crick
 
 The Crackpot Mystic's Psychoses	adventure=301	DiffLevel: unknown Env: outdoor	Anger Man's Level
 The Crackpot Mystic's Psychoses	adventure=302	DiffLevel: unknown Env: outdoor	Fear Man's Level	1 digital key
@@ -633,7 +633,7 @@ The Pretentious Artist's Obsession	adventure=306	DiffLevel: unknown Env: indoor	
 The Pretentious Artist's Obsession	adventure=307	DiffLevel: unknown Env: indoor	A Grocery Bag
 
 The Suspicious-Looking Guy's Shady Past	adventure=309	DiffLevel: unknown Env: outdoor	Chinatown Shops	1 zaibatsu lobby card
-The Suspicious-Looking Guy's Shady Past	adventure=310	DiffLevel: unknown Env: indoor	Triad Factory	1 strange goggles
+The Suspicious-Looking Guy's Shady Past	adventure=310	DiffLevel: mid Env: indoor	Triad Factory	1 strange goggles
 The Suspicious-Looking Guy's Shady Past	adventure=311	DiffLevel: unknown Env: indoor	1st Floor, Shiawase-Mitsuhama Building	1 zaibatsu level 2 card
 The Suspicious-Looking Guy's Shady Past	adventure=312	DiffLevel: unknown Env: indoor	2nd Floor, Shiawase-Mitsuhama Building	1 zaibatsu level 3 card
 The Suspicious-Looking Guy's Shady Past	adventure=313	DiffLevel: unknown Env: indoor	3rd Floor, Shiawase-Mitsuhama Building	1 CEO office card
@@ -645,7 +645,7 @@ Jick's Obsessions	adventure=317	DiffLevel: unknown Env: indoor	The Tower of Proc
 
 The Old Man's Past	adventure=318	DiffLevel: unknown Env: outdoor	The Old Man's Bathtime Adventures
 
-Skid Row	adventure=369	DiffLevel: unknown Env: indoor nowander Stat: 0	The Inner Wolf Gym
+Skid Row	adventure=369	DiffLevel: mid Env: indoor nowander Stat: 0	The Inner Wolf Gym
 Skid Row	place=ioty2014_wolf	DiffLevel: none Env: none Stat: 0 overdrunk	Unleash Your Inner Wolf
 
 The Candy Witch and the Relentless Child Thieves	adventure=370	DiffLevel: mid Env: outdoor Stat: 0	Sweet-Ade Lake
@@ -778,9 +778,9 @@ PirateRealm Island	adventure=531	DiffLevel: mid Env: outdoor Stat: 0 nowander	Re
 PirateRealm Island	adventure=531	DiffLevel: mid Env: outdoor Stat: 0 nowander	Jack's Hideout
 PirateRealm Island	adventure=531	DiffLevel: mid Env: outdoor Stat: 0 nowander	The Temple
 
-Server Room	adventure=585	DiffLevel: unknown Env: indoor Stat: 0	Cyberzone 1
-Server Room	adventure=586	DiffLevel: unknown Env: indoor Stat: 0	Cyberzone 2
-Server Room	adventure=587	DiffLevel: unknown Env: indoor Stat: 0	Cyberzone 3
+Server Room	adventure=585	DiffLevel: mid Env: indoor Stat: 0	Cyberzone 1
+Server Room	adventure=586	DiffLevel: mid Env: indoor Stat: 0	Cyberzone 2
+Server Room	adventure=587	DiffLevel: mid Env: indoor Stat: 0	Cyberzone 3
 
 # Obsolete areas that nevertheless are reported as possibilities for the autumnaton
 Obsolete	adventure=18	DiffLevel: unknown Env: unknown Stat: 10	Degrassi Knoll
