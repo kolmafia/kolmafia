@@ -2,6 +2,47 @@
 # Shop name	buy/sell	shop currency gained/lost	item bought/sold	ROWXXX
 # ROW and quantity sold are optional, if both are used they must be separated by a comma
 
+# Pixel items.  These are items which are created at the Crackpot
+# mystic after collecting enough pixels.
+
+The Crackpot Mystic's Shed	ROW31	monster bait	red pixel (20)	white pixel (15)
+# The Crackpot Mystic's Shed	ROW36	digital key	white pixel (30)
+
+The Crackpot Mystic's Shed	ROW26	white pixel	red pixel	green pixel	blue pixel
+The Crackpot Mystic's Shed	ROW27	red pixel potion	black pixel (3)	red pixel (2)
+The Crackpot Mystic's Shed	ROW28	blue pixel potion	black pixel (3)	blue pixel (2)
+The Crackpot Mystic's Shed	ROW29	green pixel potion	black pixel (4)	green pixel (3)
+The Crackpot Mystic's Shed	ROW30	purple pixel pie	white pixel (5)	red pixel (2)	blue pixel (2)
+
+# 8-Bit Finery
+The Crackpot Mystic's Shed	ROW33	pixel hat	white pixel (10)	green pixel (15)
+The Crackpot Mystic's Shed	ROW35	pixel sword	white pixel (20)	black pixel (10)	blue pixel (10)
+The Crackpot Mystic's Shed	ROW34	pixel pants	black pixel (10)	red pixel (20)
+
+The Crackpot Mystic's Shed	ROW32	pixel shield	red pixel (20)	black pixel (10)	white pixel (10)
+The Crackpot Mystic's Shed	ROW37	pixel boomerang	black pixel (10)	white pixel (10)	blue pixel (20)
+
+# Uses brown pixels from Vanya's Castle
+The Crackpot Mystic's Shed	ROW38	pixel whip	brown pixel (10)
+The Crackpot Mystic's Shed	ROW1307	pixel bread	white pixel (5)	brown pixel (5)
+The Crackpot Mystic's Shed	ROW1308	pixel whiskey	white pixel (5)	brown pixel (5)
+
+# Uses yellow pixels from Puck Man or Ms. Puck Man
+The Crackpot Mystic's Shed	ROW726	pixel coin	yellow pixel (10)
+The Crackpot Mystic's Shed	ROW734	miniature power pill	yellow pixel (15)
+The Crackpot Mystic's Shed	ROW728	pixel star	yellow pixel (15)	black pixel (2)
+The Crackpot Mystic's Shed	ROW735	yellow pixel potion	yellow pixel (10)
+The Crackpot Mystic's Shed	ROW732	pixel lemon	yellow pixel (10)
+The Crackpot Mystic's Shed	ROW729	pixel banana	yellow pixel (10)	black pixel
+The Crackpot Mystic's Shed	ROW733	pixel daiquiri	yellow pixel (10)
+The Crackpot Mystic's Shed	ROW730	pixel beer	yellow pixel (10)	white pixel (5)
+The Crackpot Mystic's Shed	ROW731	yellow submarine	yellow pixel (50)	red pixel (5)	green pixel (5)	blue pixel (5)
+
+# Unlockable after defeating Crackpot Mystic's Psychoses
+The Crackpot Mystic's Shed	ROW39	pixel pill	red pixel (20)	white pixel (20)
+The Crackpot Mystic's Shed	ROW40	pixel energy tank	blue pixel (40)	white pixel (10)
+The Crackpot Mystic's Shed	ROW41	pixel grappling hook	white pixel (50)	black pixel (50)
+
 # Star Chart items
 
 A Star Chart	ROW144	star boomerang	star chart	star (4)	line (5)

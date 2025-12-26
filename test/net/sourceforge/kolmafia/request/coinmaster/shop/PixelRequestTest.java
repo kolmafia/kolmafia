@@ -1,4 +1,4 @@
-package net.sourceforge.kolmafia.request.concoction.shop;
+package net.sourceforge.kolmafia.request.coinmaster.shop;
 
 import static internal.helpers.Networking.html;
 import static internal.matchers.Item.isInInventory;
@@ -7,8 +7,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import internal.helpers.Cleanups;
 import internal.helpers.Player;
 import java.util.Set;
-import net.sourceforge.kolmafia.objectpool.Concoction;
-import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.shop.ShopRequest;
 import org.junit.jupiter.api.Test;
@@ -25,9 +23,6 @@ public class PixelRequestTest {
     BASE_PIXELS.stream().map(Player::withItem).forEach(cleanups::add);
 
     try (cleanups) {
-      Concoction whitePixel = ConcoctionPool.get(ItemPool.WHITE_PIXEL);
-      PixelRequest request = new PixelRequest(whitePixel);
-
       // Check pixel counts.
       for (int itemId : BASE_PIXELS) {
         assertThat(ItemPool.get(itemId), isInInventory(1));
@@ -50,9 +45,6 @@ public class PixelRequestTest {
     BASE_PIXELS.stream().map(Player::withItem).forEach(cleanups::add);
 
     try (cleanups) {
-      Concoction whitePixel = ConcoctionPool.get(ItemPool.WHITE_PIXEL);
-      PixelRequest request = new PixelRequest(whitePixel);
-
       // Check pixel counts.
       for (int itemId : BASE_PIXELS) {
         assertThat(ItemPool.get(itemId), isInInventory(1));
@@ -75,9 +67,6 @@ public class PixelRequestTest {
     BASE_PIXELS.stream().map(Player::withItem).forEach(cleanups::add);
 
     try (cleanups) {
-      Concoction whitePixel = ConcoctionPool.get(ItemPool.WHITE_PIXEL);
-      PixelRequest request = new PixelRequest(whitePixel);
-
       // Check pixel counts.
       for (int itemId : BASE_PIXELS) {
         assertThat(ItemPool.get(itemId), isInInventory(1));
