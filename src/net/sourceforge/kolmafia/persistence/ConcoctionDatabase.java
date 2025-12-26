@@ -1665,11 +1665,6 @@ public class ConcoctionDatabase {
     permitNoCost(CraftingType.MULTI_USE);
     permitNoCost(CraftingType.SINGLE_USE);
 
-    // Pixel recipes are not available in Kingdom of Exploathing
-    if (!KoLCharacter.isKingdomOfExploathing()) {
-      permitNoCost(CraftingType.PIXEL);
-    }
-
     // A rolling pin or unrolling pin can be always used in item
     // creation because we can get the same effect even without the
     // tool.
@@ -2292,7 +2287,6 @@ public class ConcoctionDatabase {
       case STILL -> result.append("Nash Crosby's Still");
       case MALUS -> result.append("Malus of Forethought");
       case JEWELRY -> result.append("Jewelry-making pliers");
-      case PIXEL -> result.append("Crackpot Mystic");
       case ROLLING_PIN -> result.append("rolling pin/unrolling pin");
       case GNOME_TINKER -> result.append("Supertinkering");
       case STAFF -> result.append("Rodoric, the Staffcrafter");
@@ -2523,8 +2517,6 @@ public class ConcoctionDatabase {
       case "MALUS" -> ConcoctionDatabase.mixingMethod = CraftingType.MALUS;
       // Items anybody can create with jewelry-making pliers
       case "JEWEL" -> ConcoctionDatabase.mixingMethod = CraftingType.JEWELRY;
-      // Items anybody can create with pixels
-      case "PIXEL" -> ConcoctionDatabase.mixingMethod = CraftingType.PIXEL;
       // Items created with a rolling pin or and an unrolling pin
       case "ROLL" -> ConcoctionDatabase.mixingMethod = CraftingType.ROLLING_PIN;
       // Items requiring access to the Gnome supertinker

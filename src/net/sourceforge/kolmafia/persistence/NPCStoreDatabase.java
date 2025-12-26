@@ -501,21 +501,6 @@ public class NPCStoreDatabase {
             && !KoLCharacter.inNuclearAutumn()
             && !KoLCharacter.isKingdomOfExploathing();
       }
-      case "mystic" -> {
-        // The Crackpot Mystic's Shed
-        if (KoLCharacter.isKingdomOfExploathing()) {
-          return false;
-        }
-        // The following is not complete:
-        // Items unlocked by beating all four bosses in the Crackpot Mystic's Psychoses:
-        //    pixel energy tank
-        //    pixel grappling hook
-        //    pixel pill
-        return switch (itemId) {
-          case ItemPool.YELLOW_SUBMARINE -> !KoLCharacter.desertBeachAccessible();
-          default -> true;
-        };
-      }
       case "nerve" -> {
         // Nervewrecker's Store
         return KoLCharacter.inBadMoon();

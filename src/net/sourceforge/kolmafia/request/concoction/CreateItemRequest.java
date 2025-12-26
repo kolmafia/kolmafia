@@ -31,7 +31,6 @@ import net.sourceforge.kolmafia.request.PulverizeRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.concoction.shop.Crimbo12Request;
-import net.sourceforge.kolmafia.request.concoction.shop.PixelRequest;
 import net.sourceforge.kolmafia.request.concoction.shop.StillRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -213,7 +212,6 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
     return switch (conc.getMixingMethod()) {
       case NOCREATE -> null;
       case STILL -> new StillRequest(conc);
-      case PIXEL -> new PixelRequest(conc);
       case GNOME_TINKER -> new GnomeTinkerRequest(conc);
       case STAFF -> new ChefStaffRequest(conc);
       case SUSHI -> new SushiRequest(conc);

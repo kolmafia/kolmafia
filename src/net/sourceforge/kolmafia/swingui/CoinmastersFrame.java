@@ -85,6 +85,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     // Always available coinmasters
     this.selectorPanel.addCategory("Always Available");
 
+    addPanel(new PixelPanel());
     addPanel(new StarChartPanel());
     addPanel(new BountyHunterHunterPanel());
     addPanel(new MrStorePanel());
@@ -268,6 +269,12 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     CoinmasterPanel current = this.currentPanel();
     if (current != null) {
       current.setTitle();
+    }
+  }
+
+  private class PixelPanel extends CoinmasterPanel {
+    public PixelPanel() {
+      super(PixelRequest.DATA);
     }
   }
 
