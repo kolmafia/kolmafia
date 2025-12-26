@@ -4813,7 +4813,6 @@ Thrall	Vermincelli	Maximum MP: [floor(P/10)*30]
 # value of 1.
 
 Familiar	(none)	Underwater Familiar
-# Initiative bonus is a guess for now
 Familiar	Adventurous Spelunker	Last Available: "2015-12"
 Familiar	Aiolion	Last Available: "2018-03"
 Familiar	Amanitee	Last Available: "2018-03"
@@ -4992,6 +4991,7 @@ Familiar	Sequestrian	Last Available: "2018-03"
 Familiar	Shorter-Order Cook	Last Available: "2021-05"
 Familiar	Shudder	Last Available: "2018-03"
 Familiar	Significant Bit	Last Available: "2025-12"
+Familiar	Skeleton of Crimbo Past	Last Available: "2025-12"
 Familiar	Sledgehamster	Last Available: "2018-03"
 Familiar	Slotter	Last Available: "2018-03"
 Familiar	Sludgepuppy	Last Available: "2015-04"
@@ -5014,6 +5014,7 @@ Familiar	Teddy Bear	Last Available: "2005-12"
 Familiar	Teddy Borg	Last Available: "2007-12"
 Familiar	Temporal Riftlet	Last Available: "2005-11"
 Familiar	Tickle-Me Emilio	Last Available: "2011-11"
+Familiar	Tiny Plastic Santa Claus Skeleton	Lantern: 1, Lantern Element: "Hot", Last Available: "2025-12"
 Familiar	Toothsome Rock	Last Available: "2008-12"
 Familiar	Trafikoan	Last Available: "2018-03"
 Familiar	Trick-or-Treating Tot	Last Available: "2016-10"
@@ -5286,7 +5287,7 @@ Throne	Teddy Bear	Initiative: +20
 Throne	Teddy Borg	Initiative: +20
 Throne	Temporal Riftlet	Initiative: +20, Drops Meat
 Throne	Tickle-Me Emilio	Muscle: +10, Mysticality: +10, Moxie: +10
-Throne	Tiny Plastic Santa Claus Skeleton	
+Throne	Tiny Plastic Santa Claus Skeleton	Cold Resistance: +2, Lantern: 1, Lantern Element: "Hot"
 Throne	Toothsome Rock	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 Throne	Topiary Skunk	Stench Damage: +15
 Throne	Trick-or-Treating Tot	Muscle: +10, Mysticality: +10, Moxie: +10, Drops Items, Variable
