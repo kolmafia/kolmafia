@@ -240,12 +240,16 @@ public class CoinMasterRequest extends GenericRequest {
       return;
     }
 
-    int count = this.setCount(this.quantity);
-
     String master = data.getMaster();
 
     // coinmasters that don't support quantity need multiple visits
-    int visits = data.getCountField() == null ? count : 1;
+    boolean shouldVisitMultiple = data.getCountField() == null || !data.useCountField(this.row);
+    int visits = 1;
+    if (shouldVisitMultiple) {
+      visits = this.quantity;
+    } else {
+      this.setCount(this.quantity);
+    }
     int visit = 0;
 
     while (KoLmafia.permitsContinue() && ++visit <= visits) {

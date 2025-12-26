@@ -14,8 +14,7 @@ public abstract class Crimbo25SammyRequest extends CoinMasterShopRequest {
           .withNewShopRowFields(master, SHOPID)
           .withVisitShopRows(Crimbo25SammyRequest::visitShopRows)
           .withAjax(false)
-          // for now, you can't trade in multiple wads / bone fragments
-          .withCountField(null);
+          .withUseCountField(Crimbo25SammyRequest::useCountField);
 
   // as you buy more currency with wads, the price increases
   public static void visitShopRows(final List<ShopRow> shopRows, Boolean force) {
@@ -26,5 +25,14 @@ public abstract class Crimbo25SammyRequest extends CoinMasterShopRequest {
         }
       }
     }
+  }
+
+  private static boolean useCountField(ShopRow row) {
+    var num = row.getRow();
+    // we need to refresh costs when wads are traded
+    if (num == 1649 || num == 1650) {
+      return false;
+    }
+    return true;
   }
 }
