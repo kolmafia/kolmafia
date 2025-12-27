@@ -2870,7 +2870,7 @@
 2867	Stocking Stuffer	gingernylons.gif	5ec54d1d09b7dd2e8800428389678deb	neutral	none	eat 1 gingerbread nylons
 2868	Tiny Pirate Inside	gingerpirate.gif	2abfea7455bc3f9602395e3a72f107a2	neutral	none	eat 1 gingerbread pirate
 2869	Fruit-Based Animosity	fruitrumcake.gif	20e0893ec448342f47293263b75eccee	neutral	none	eat 1 fruit-stuffed rumcake
-2870	Swedish Courage	coffeecup.gif	c72546f4452019961109535a0803f172	neutral	none	drink 1 Swedish coffee
+2870	Swedish Courage	coffeecup.gif	c72546f4452019961109535a0803f172	neutral	nohookah	drink 1 Swedish coffee
 2871	All Liquored Up For War	canteen.gif	8c9403bf70d7d58d325b2ef813289cf0	neutral	none	drink 1 canteen of eggnog
 2872	Grogged For Battle	flask.gif	0fd395468fb546496eb74d36fbc9f6dc	neutral	none	drink 1 flask of egggrog
 2873	Abuela's Army	eginsignia2.gif	fc02d532f4b1039d66aea96112f5abd3	neutral	none
@@ -2932,7 +2932,7 @@
 2929	Wild and Westy!	cowboyboots.gif	b5f7e03c415eee2ee0cfd74105468c32	neutral	none	photobooth effect wild
 2930	Towering Muscles	stronggnome.gif	ae32f8a8b0a2868710d497d6939e6ea7	neutral	none	photobooth effect tower
 2931	Spaced Out	celesteyes.gif	67ec6215eff43af9f0373ff2c69cde99	neutral	none	photobooth effect space
-2932	Spiced Out	spicecrystal.gif	d153b432e94f2f20896da4ea1a1d54c7	neutral	none	use 1 crystallized pumpkin spice
+2932	Spiced Out	spicecrystal.gif	d153b432e94f2f20896da4ea1a1d54c7	neutral	nohookah	use 1 crystallized pumpkin spice
 2933	Brittled	pto_brittle.gif	169314abffcc7f5695decb01733520c9	neutral	none	use 1 pea brittle
 2934	Helping Fingers	pto.gif	4dd19b77677c06ff1d6fef76281c6a81	neutral	none
 2935	Peppermint Endoskeleton	pepperpeg.gif	92bf2d2fcf7ec4082c685df639677cf0	neutral	none	use 1 peppermint pegleg
