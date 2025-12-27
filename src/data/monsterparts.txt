@@ -2329,4 +2329,5 @@
 2506	half-buried singed skeleton	armbone	rib cage	skull
 2507	winged singed skeleton	armbone	legbone	pelvis	rib cage	skull	wingbone
 2508	venomous singed skeleton	armbone	legbone	pelvis	rib cage	skull	stinger	tailbone
-2509	The Unquiet Bones of Claus	giant bone	giant claw	giant rib	giant skull
+2509	smoldering skeletal monstrosity	armbone	footbone	handbone	legbone	pelvis	rib	skull
+2510	The Unquiet Bones of Claus	giant bone	giant claw	giant rib	giant skull
