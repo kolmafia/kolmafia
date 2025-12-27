@@ -1244,10 +1244,20 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   }
 
   private AdventureResult itemBuyPriceInternal(final Integer itemId) {
-    int price = this.getBuyPrice(itemId);
-    return this.item != null
-        ? this.item.getInstance(price)
-        : this.token != null ? this.getTokenItem().getInstance(price) : null;
+    if (this.shopRows == null) {
+      int price = this.getBuyPrice(itemId);
+      return this.item != null
+          ? this.item.getInstance(price)
+          : this.token != null ? this.getTokenItem().getInstance(price) : null;
+    }
+    for (ShopRow shopRow : this.shopRows) {
+      AdventureResult item = shopRow.getItem();
+      if (item.isItem() && item.getItemId() == itemId) {
+        AdventureResult[] costs = shopRow.getCosts();
+        return (costs.length == 1) ? costs[0] : null;
+      }
+    }
+    return null;
   }
 
   public AdventureResult skillBuyPrice(final Integer skillId) {
