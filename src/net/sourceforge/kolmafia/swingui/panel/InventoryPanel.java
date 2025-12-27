@@ -77,7 +77,8 @@ public class InventoryPanel<E> extends ItemTableManagePanel<E> {
 
     this.equipmentFilters =
         Arrays.asList(
-            new FilterRadioButton("weapons", true),
+            new FilterRadioButton("all", true),
+            new FilterRadioButton("weapons"),
             new FilterRadioButton("offhand"),
             new FilterRadioButton("hats"),
             new FilterRadioButton("back"),
@@ -172,11 +173,15 @@ public class InventoryPanel<E> extends ItemTableManagePanel<E> {
           break;
 
         case FAMILIAR_EQUIPMENT:
-          isVisibleWithFilter = InventoryPanel.this.equipmentFilters.get(7).isSelected();
+          isVisibleWithFilter = InventoryPanel.this.equipmentFilters.get(8).isSelected();
           break;
 
         default:
-          return false;
+          // Show miscellaneous items (potions, combat items, quest items, etc.)
+          // when "all" filter is selected.
+          // The equipment filters only apply to actual equipment types.
+          isVisibleWithFilter = InventoryPanel.this.equipmentFilters.get(0).isSelected();
+          break;
       }
 
       return isVisibleWithFilter && super.isVisible(element);

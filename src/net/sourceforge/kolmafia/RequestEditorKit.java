@@ -32,13 +32,16 @@ import javax.swing.text.html.ImageView;
 import net.sourceforge.kolmafia.chat.ChatPoller;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
@@ -410,6 +413,10 @@ public class RequestEditorKit extends HTMLEditorKit {
     } else if (location.startsWith("inventory.php")) {
       RequestEditorKit.decorateInventory(buffer, addComplexFeatures);
       UseItemDecorator.decorate(location, buffer);
+    } else if (location.startsWith("storage.php")) {
+      RequestEditorKit.decorateInventory(buffer, addComplexFeatures);
+    } else if (location.startsWith("closet.php")) {
+      RequestEditorKit.decorateInventory(buffer, addComplexFeatures);
     } else if (location.startsWith("inv_use.php")) {
       UseItemDecorator.decorate(location, buffer);
     } else if (location.contains("lchat.php")) {
@@ -1158,6 +1165,10 @@ public class RequestEditorKit extends HTMLEditorKit {
 
   private static void decorateInventory(
       final StringBuffer buffer, final boolean addComplexFeatures) {
+    // Log that we're here
+    System.out.println(
+        "=== DECORATOR: decorateInventory called, buffer length: " + buffer.length());
+
     // <table width=100%><tr><td colspan=2 width="210"></td><td width=20 rowspan=2></td><td
     // class=small align=center valign=top rowspan=2><font size=2>[<a
     // href="craft.php">craft&nbsp;stuff</a>]&nbsp;  [<a
@@ -1191,6 +1202,46 @@ public class RequestEditorKit extends HTMLEditorKit {
     // purposes while adventuring in browser.
 
     StringUtilities.insertAfter(buffer, "<input type=text name=outfitname", " value=\"Backup\"");
+
+    // Add toggle for inline modifiers at the very top of the page
+    String modifierToggle =
+        "<div style='margin: 10px 0; padding: 10px; background-color: #f0f0f0; border: 1px solid #ccc; text-align: center;'>"
+            + "<label style='cursor: pointer; font-weight: bold;'>"
+            + "<input type='checkbox' id='showInlineModifiers' "
+            + (Preferences.getBoolean("showInlineModifiers") ? "checked" : "")
+            + " onchange='toggleInlineModifiers(this.checked)'> "
+            + "Show item modifiers"
+            + "</label>"
+            + "</div>";
+
+    // Insert right after <body> tag or at the very beginning of content
+    System.out.println("=== DECORATOR: Looking for insertion point");
+    int insertPos = -1;
+
+    // Try to find <body> tag first (most pages)
+    int bodyIndex = buffer.indexOf("<body");
+    if (bodyIndex >= 0) {
+      insertPos = buffer.indexOf(">", bodyIndex) + 1;
+      System.out.println(
+          "=== DECORATOR: Found <body> at index: " + bodyIndex + ", inserting at: " + insertPos);
+    }
+
+    // Fallback to <center> tag if no body tag found
+    if (insertPos < 0) {
+      int centerIndex = buffer.indexOf("<center>");
+      if (centerIndex >= 0) {
+        insertPos = centerIndex;
+        System.out.println("=== DECORATOR: Found <center> at index: " + centerIndex);
+      }
+    }
+
+    if (insertPos > 0) {
+      buffer.insert(insertPos, modifierToggle);
+      System.out.println("=== DECORATOR: Inserted checkbox at position: " + insertPos);
+    }
+
+    // Inject JavaScript to add modifiers - do this for ALL inventory pages
+    injectModifierJavaScript(buffer);
 
     if (!addComplexFeatures) {
       return;
@@ -1229,6 +1280,304 @@ public class RequestEditorKit extends HTMLEditorKit {
 
     // Replace the original form with a table of forms
     buffer.replace(fmatcher.start(), fmatcher.end(), obuffer.toString());
+  }
+
+  private static void injectModifierJavaScript(final StringBuffer buffer) {
+    String script =
+        "<script type='text/javascript'>\n"
+            + "// KoLmafia: Add inline modifier displays to inventory items\n"
+            + "(function() {\n"
+            + "  var modifierData = "
+            + buildModifierDataJSON()
+            + ";\n"
+            + "  console.log('KoLmafia: Loaded modifiers for ' + Object.keys(modifierData).length + ' items');\n"
+            + "  var showModifiers = "
+            + Preferences.getBoolean("showInlineModifiers")
+            + ";\n"
+            + "  \n"
+            + "  window.toggleInlineModifiers = function(enabled) {\n"
+            + "    showModifiers = enabled;\n"
+            + "    // Save preference\n"
+            + "    fetch('/KoLmafia/specialCommand?cmd=set+showInlineModifiers=' + enabled + '&pwd="
+            + GenericRequest.passwordHash
+            + "');\n"
+            + "    // Show or hide existing modifiers\n"
+            + "    var modSpans = document.querySelectorAll('.kolmafia-modifiers');\n"
+            + "    modSpans.forEach(function(span) {\n"
+            + "      span.style.display = enabled ? 'block' : 'none';\n"
+            + "    });\n"
+            + "    // If enabling, rerun to catch any new items\n"
+            + "    if (enabled) {\n"
+            + "      addModifiers();\n"
+            + "    }\n"
+            + "  };\n"
+            + "  \n"
+            + "  function addModifiers() {\n"
+            + "    if (!showModifiers) return;\n"
+            + "    \n"
+            + "    // Find ALL items with rel attributes (both equipped and in inventory)\n"
+            + "    // Only look at <b> tags, not images, to avoid duplicates\n"
+            + "    var items = document.querySelectorAll('b[rel]');\n"
+            + "    console.log('KoLmafia: Found ' + items.length + ' items with rel attributes');\n"
+            + "    \n"
+            + "    items.forEach(function(item) {\n"
+            + "      if (item.dataset.modsAdded) return; // Already processed\n"
+            + "      \n"
+            + "      var itemId = item.getAttribute('rel');\n"
+            + "      if (!itemId || !modifierData[itemId]) return;\n"
+            + "      \n"
+            + "      var mods = modifierData[itemId];\n"
+            + "      \n"
+            + "      // Find where to insert the modifiers\n"
+            + "      // For equipped items, look for the item name (b tag)\n"
+            + "      // For inventory items, look for text after the item\n"
+            + "      var itemName = item.tagName === 'B' ? item : item.parentNode.querySelector('b');\n"
+            + "      if (!itemName) itemName = item;\n"
+            + "      \n"
+            + "      var parent = itemName.parentNode;\n"
+            + "      var insertPoint = null;\n"
+            + "      \n"
+            + "      // Look for Power: or Damage: text\n"
+            + "      var textNodes = Array.from(parent.childNodes);\n"
+            + "      for (var i = 0; i < textNodes.length; i++) {\n"
+            + "        var node = textNodes[i];\n"
+            + "        if (node.nodeType === Node.TEXT_NODE) {\n"
+            + "          if (node.textContent.indexOf('Power:') >= 0 || node.textContent.indexOf('Damage:') >= 0) {\n"
+            + "            insertPoint = node;\n"
+            + "            break;\n"
+            + "          }\n"
+            + "        } else if (node.tagName === 'FONT' && node.textContent.indexOf('Power:') >= 0) {\n"
+            + "          insertPoint = node;\n"
+            + "          break;\n"
+            + "        }\n"
+            + "      }\n"
+            + "      \n"
+            + "      // If no Power/Damage text, insert after item name or the [equip] link\n"
+            + "      if (!insertPoint) {\n"
+            + "        var equipLink = parent.querySelector('a[href*=\"equip\"]');\n"
+            + "        insertPoint = equipLink || itemName;\n"
+            + "      }\n"
+            + "      \n"
+            + "      if (insertPoint) {\n"
+            + "        var modSpan = document.createElement('font');\n"
+            + "        modSpan.className = 'kolmafia-modifiers';\n"
+            + "        modSpan.setAttribute('size', '1');\n"
+            + "        modSpan.style.display = showModifiers ? 'block' : 'none';\n"
+            + "        \n"
+            + "        // Parse modifiers and apply color coding\n"
+            + "        var modParts = mods.split(', ');\n"
+            + "        var coloredMods = modParts.map(function(mod) {\n"
+            + "          var color = 'blue'; // default\n"
+            + "          \n"
+            + "          // Determine color based on damage type\n"
+            + "          if (mod.indexOf('Spooky') >= 0) color = 'gray';\n"
+            + "          else if (mod.indexOf('Stench') >= 0) color = 'green';\n"
+            + "          else if (mod.indexOf('Hot') >= 0) color = 'red';\n"
+            + "          else if (mod.indexOf('Cold') >= 0) color = 'blue';\n"
+            + "          else if (mod.indexOf('Sleaze') >= 0) color = 'purple';\n"
+            + "          \n"
+            + "          // Format ranges like \"Damage: +3-3\" instead of two lines\n"
+            + "          mod = mod.replace(/Damage: \\+(\\d+)-\\+(\\d+)/, 'Damage: +$1-$2');\n"
+            + "          \n"
+            + "          return '<font color=\"' + color + '\">' + mod + '</font>';\n"
+            + "        }).join('<br>');\n"
+            + "        \n"
+            + "        modSpan.innerHTML = coloredMods;\n"
+            + "        \n"
+            + "        if (insertPoint.nextSibling) {\n"
+            + "          insertPoint.parentNode.insertBefore(modSpan, insertPoint.nextSibling);\n"
+            + "        } else {\n"
+            + "          insertPoint.parentNode.appendChild(modSpan);\n"
+            + "        }\n"
+            + "        \n"
+            + "        item.dataset.modsAdded = 'true';\n"
+            + "        if (itemName !== item) itemName.dataset.modsAdded = 'true';\n"
+            + "      }\n"
+            + "    });\n"
+            + "  }\n"
+            + "  \n"
+            + "  // Run after page load\n"
+            + "  if (document.readyState === 'loading') {\n"
+            + "    document.addEventListener('DOMContentLoaded', function() {\n"
+            + "      setTimeout(addModifiers, 100);\n"
+            + "      setTimeout(addModifiers, 500);\n"
+            + "      setTimeout(addModifiers, 1000); // Extra delay for slow loads\n"
+            + "    });\n"
+            + "  } else {\n"
+            + "    setTimeout(addModifiers, 100);\n"
+            + "    setTimeout(addModifiers, 500);\n"
+            + "    setTimeout(addModifiers, 1000);\n"
+            + "  }\n"
+            + "  \n"
+            + "  // Watch for new items being added (when sections expand)\n"
+            + "  if (typeof MutationObserver !== 'undefined') {\n"
+            + "    var observer = new MutationObserver(function(mutations) {\n"
+            + "      setTimeout(addModifiers, 100);\n"
+            + "    });\n"
+            + "    observer.observe(document.body, { childList: true, subtree: true });\n"
+            + "  }\n"
+            + "})();\n"
+            + "</script>";
+
+    int bodyEnd = buffer.lastIndexOf("</body>");
+    if (bodyEnd > 0) {
+      buffer.insert(bodyEnd, script);
+    }
+  }
+
+  // Get combat damage for combat items (from comments in modifiers.txt)
+  private static String getCombatDamage(int itemId) {
+    // Map of item IDs to their combat damage descriptions
+    // This data is extracted from comments in modifiers.txt
+    return switch (itemId) {
+      case 744 -> "Deals 3-4 Hot Damage"; // hair spray
+      default -> null;
+    };
+  }
+
+  private static String buildModifierDataJSON() {
+    // Build a JSON object mapping item IDs to their modifier strings
+    // Only include items that have equipment slots (Power rating)
+    StringBuilder json = new StringBuilder("{");
+    boolean first = true;
+
+    for (int itemId : ItemDatabase.descriptionIdKeySet()) {
+      Modifiers mods = ModifierDatabase.getItemModifiers(itemId);
+      if (mods != null) {
+        // Get evaluated modifiers (with formulas resolved)
+        String modText = mods.getString(StringModifier.EVALUATED_MODIFIERS);
+        if (modText != null && !modText.isEmpty()) {
+          // Filter out non-enchantment metadata (but keep effects, combat modifiers, etc.)
+          String[] parts = modText.split(", ");
+          StringBuilder filtered = new StringBuilder();
+
+          if (itemId == 744) {
+            System.out.println("=== HAIR SPRAY FILTER DEBUG ===");
+            System.out.println("Original: " + modText);
+            System.out.println("Split into " + parts.length + " parts:");
+            for (int i = 0; i < parts.length; i++) {
+              System.out.println("  Part " + i + ": [" + parts[i] + "]");
+            }
+          }
+
+          for (String part : parts) {
+            // Skip only metadata fields, not actual game effects
+            if (part.startsWith("Last Available:")
+                || part.startsWith("Wiki Name:")
+                || part.startsWith("Equips On:")
+                || part.startsWith("Modifiers:")
+                || part.startsWith("Class:")
+                || part.startsWith("Single Equip")
+                || part.startsWith("Drops Items:")
+                || part.startsWith("Familiar Effect:")
+                || part.startsWith("Outfit:")
+                || part.startsWith("Intrinsic Effect:")
+                || part.startsWith("Pullable:")
+                || part.startsWith("Free Pull")
+                || part.startsWith("No Pull")
+                || part.matches("cap \\d+\"?")
+                || part.matches("\"?\\d+\\.?\\d*x[A-Za-z]+\"?")) {
+              if (itemId == 744) System.out.println("  FILTERED OUT: " + part);
+              continue;
+            }
+
+            // Keep effect name and expand to include their modifiers
+            if (part.startsWith("Effect: \"")) {
+              if (itemId == 744) System.out.println("  EXPANDING EFFECT: " + part);
+              // Extract effect name from: Effect: "Effect Name"
+              int startQuote = part.indexOf('"');
+              int endQuote = part.indexOf('"', startQuote + 1);
+              if (startQuote >= 0 && endQuote > startQuote) {
+                String effectName = part.substring(startQuote + 1, endQuote);
+                if (itemId == 744) System.out.println("  Effect name: " + effectName);
+
+                // First, add the effect name itself
+                if (filtered.length() > 0) {
+                  filtered.append(", ");
+                }
+                filtered.append(part); // Keep "Effect: \"Effect Name\""
+
+                // Then look up and add the effect's modifiers
+                int effectId = EffectDatabase.getEffectId(effectName);
+                if (itemId == 744) System.out.println("  Effect ID: " + effectId);
+                if (effectId != -1) {
+                  Modifiers effectMods = ModifierDatabase.getEffectModifiers(effectId);
+                  if (effectMods != null) {
+                    String effectModText = effectMods.getString(StringModifier.EVALUATED_MODIFIERS);
+                    if (itemId == 744) System.out.println("  Effect mods: " + effectModText);
+                    if (effectModText != null && !effectModText.isEmpty()) {
+                      // Filter and add effect modifiers
+                      String[] effectParts = effectModText.split(", ");
+                      for (String effectPart : effectParts) {
+                        if (!effectPart.startsWith("Last Available:")
+                            && !effectPart.startsWith("Wiki Name:")
+                            && !effectPart.startsWith("Class:")
+                            && !effectPart.isEmpty()) {
+                          if (itemId == 744)
+                            System.out.println("  Adding effect mod: " + effectPart);
+                          filtered.append(", ");
+                          filtered.append(effectPart);
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+              // We've already added the effect and its modifiers
+              continue;
+            }
+
+            if (itemId == 744) System.out.println("  KEEPING: " + part);
+            if (filtered.length() > 0) {
+              filtered.append(", ");
+            }
+            filtered.append(part);
+          }
+
+          String cleanText = filtered.toString();
+          if (itemId == 744) {
+            System.out.println("Final filtered text: [" + cleanText + "]");
+            System.out.println("Is empty? " + cleanText.isEmpty());
+          }
+
+          // Add combat damage info if available (from modifiers.txt comments)
+          String combatDamage = getCombatDamage(itemId);
+          if (combatDamage != null && !cleanText.isEmpty()) {
+            cleanText = cleanText + ", " + combatDamage;
+            if (itemId == 744) {
+              System.out.println("Added combat damage: " + combatDamage);
+              System.out.println("Final text with damage: [" + cleanText + "]");
+            }
+          }
+
+          // Only add items that have actual modifiers after filtering
+          if (!cleanText.isEmpty()) {
+            // Get the descid for this item
+            String descId = ItemDatabase.getDescriptionId(itemId);
+            if (itemId == 744) {
+              System.out.println("DescId: [" + descId + "]");
+              System.out.println("DescId is null? " + (descId == null));
+              System.out.println("DescId is empty? " + (descId != null && descId.isEmpty()));
+            }
+            if (descId != null && !descId.isEmpty()) {
+              if (!first) json.append(",");
+              first = false;
+              json.append("\"").append(descId).append("\":\"");
+              json.append(cleanText.replace("\"", "\\\"").replace("\n", "\\n"));
+              json.append("\"");
+              if (itemId == 744) {
+                System.out.println("ADDED TO JSON!");
+              }
+            } else if (itemId == 744) {
+              System.out.println("NOT ADDED - descId is null or empty!");
+            }
+          }
+        }
+      }
+    }
+
+    json.append("}");
+    return json.toString();
   }
 
   private static void addOutfitGroup(
@@ -1468,7 +1817,6 @@ public class RequestEditorKit extends HTMLEditorKit {
     String name = matcher.group(1);
 
     int nameIndex = matcher.start(1);
-    int nameEnd = matcher.end(1);
 
     // The actual name of the monster
     String monsterName = monster.getName();

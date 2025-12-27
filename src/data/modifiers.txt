@@ -678,7 +678,7 @@ Item	digibritches	Last Available: "2025-12"
 # Dinsey's pants: Disco Bandit Combat Skills weaken enemies by an additional 50%
 Item	Dinsey's pants	DB Combat Damage: +15, Last Available: "2015-04"
 Item	discarded swimming trunks	Experience Percent (Muscle): +5, Sleaze Damage: +10, Sleaze Spell Damage: +10
-Item	distressed denim pants	Stench Resistance: +1, Damage Reduction: 2, Familiar Effect: "sleaze atk, 1xPotato, cap 42"
+Item	distressed denim pants	Stench Resistance: +1, Damage Reduction: 2
 Item	double-ice britches	Hot Resistance: +4, Damage Reduction: 4, Maximum HP: +40, Maximum MP: +40, Last Available: "2011-04", Familiar Effect: "cold atk, 3xVolley, 3xLep, cap 17"
 Item	drafty drawers	Maximum MP: +200, MP Regen Min: 15, MP Regen Max: 20, Familiar Effect: "1.5xVolley"
 Item	dress pants	Moxie: +5, Familiar Effect: "2xFairy, cap 28"

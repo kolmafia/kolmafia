@@ -910,6 +910,36 @@ public class GearChangePanel extends JPanel {
     };
   }
 
+  private void sortByAdventures(List<AdventureResult> items) {
+    // Sort by Adventures modifier descending, then alphabetically
+    items.sort((a, b) -> {
+      // Get adventure modifiers for both items
+      double aAdv = getAdventureModifier(a);
+      double bAdv = getAdventureModifier(b);
+      
+      // Sort by adventures descending (higher first)
+      if (aAdv != bAdv) {
+        return Double.compare(bAdv, aAdv);
+      }
+      
+      // Fall back to alphabetical sorting
+      return a.compareTo(b);
+    });
+  }
+
+  private double getAdventureModifier(AdventureResult item) {
+    if (item == EquipmentRequest.UNEQUIP) {
+      return 0.0;
+    }
+    
+    Modifiers mods = ModifierDatabase.getItemModifiers(item.getItemId());
+    if (mods == null) {
+      return 0.0;
+    }
+    
+    return mods.getDouble(DoubleModifier.ADVENTURES);
+  }
+
   private EnumMap<Slot, List<AdventureResult>> populateEquipmentLists() {
     EnumMap<Slot, List<AdventureResult>> lists = new EnumMap<>(Slot.class);
 
@@ -1021,6 +1051,14 @@ public class GearChangePanel extends JPanel {
             && !items.contains(famItem)) {
           items.add(famItem);
         }
+      }
+    }
+
+    // Sort equipment lists by Adventures modifier (power sort)
+    for (var slot : SlotSet.ALL_SLOTS) {
+      List<AdventureResult> items = lists.get(slot);
+      if (items != null && items.size() > 1) {
+        sortByAdventures(items);
       }
     }
 
