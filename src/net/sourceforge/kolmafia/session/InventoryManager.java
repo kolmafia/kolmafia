@@ -1717,6 +1717,8 @@ public abstract class InventoryManager {
     checkCrimboTrainingManual();
     checkRing();
     checkFuturistic();
+
+    checkExperimentalEffectG9();
     checkZootomistMods();
   }
 
@@ -1885,6 +1887,10 @@ public abstract class InventoryManager {
     checkItem(ItemPool.FUTURISTIC_HAT, "_futuristicHatModifier");
     checkItem(ItemPool.FUTURISTIC_SHIRT, "_futuristicShirtModifier");
     checkItem(ItemPool.FUTURISTIC_COLLAR, "_futuristicCollarModifier");
+  }
+
+  public static void checkExperimentalEffectG9() {
+    checkEffectDescription(EffectPool.EXPERIMENTAL_EFFECT_G9);
   }
 
   public static void checkZootomistMods() {
