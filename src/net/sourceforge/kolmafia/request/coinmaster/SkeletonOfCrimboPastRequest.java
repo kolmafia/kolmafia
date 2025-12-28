@@ -217,7 +217,7 @@ public class SkeletonOfCrimboPastRequest extends CoinMasterRequest {
   }
 
   private static final Pattern DAILY_SPECIAL_PATTERN =
-      Pattern.compile("Daily Special:.*?descitem\\((\\d+)\\).*?\\((\\d+) knucklebones\\)");
+      Pattern.compile("Daily Special:.*?descitem\\((\\d+)\\).*?\\((\\d+) knucklebones\\)?");
 
   public static Map.Entry<AdventureResult, Integer> extractDailySpecial(final String text) {
     Matcher matcher = DAILY_SPECIAL_PATTERN.matcher(text);
