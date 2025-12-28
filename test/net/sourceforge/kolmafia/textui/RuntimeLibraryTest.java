@@ -2199,6 +2199,9 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       assertThat(
           execute("sell_price($coinmaster[the dedigitizer], $item[cyburger])").trim(),
           is("Returned: 0"));
+      assertThat(
+          execute("sell_price($coinmaster[Kiwi Kwiki Mart], $item[mini kiwi bikini])").trim(),
+          is("Returned: 2"));
     }
   }
 
