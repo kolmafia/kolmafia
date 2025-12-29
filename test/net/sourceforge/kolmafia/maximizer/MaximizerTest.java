@@ -2469,4 +2469,35 @@ public class MaximizerTest {
       }
     }
   }
+
+  @Nested
+  class Holiday {
+    @Test
+    public void recommendsCrystallizedSpiceInAutumn() {
+      var cleanups =
+          new Cleanups(
+              withItem(ItemPool.CRYSTALLIZED_PUMPKIN_SPICE), withDay(2025, Month.OCTOBER, 11));
+
+      try (cleanups) {
+        maximize("item");
+        var boosts = getBoosts();
+        assertThat(
+            boosts, hasItem(hasProperty("cmd", equalTo("use 1 crystallized pumpkin spice"))));
+      }
+    }
+
+    @Test
+    public void doesNotRecommendCrystallizedSpiceOutsideAutumn() {
+      var cleanups =
+          new Cleanups(
+              withItem(ItemPool.CRYSTALLIZED_PUMPKIN_SPICE), withDay(2025, Month.DECEMBER, 11));
+
+      try (cleanups) {
+        maximize("item");
+        var boosts = getBoosts();
+        assertThat(
+            boosts, not(hasItem(hasProperty("cmd", equalTo("use 1 crystallized pumpkin spice")))));
+      }
+    }
+  }
 }
