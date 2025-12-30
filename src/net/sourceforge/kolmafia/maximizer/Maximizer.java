@@ -35,6 +35,7 @@ import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.CandyDatabase;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
+import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
@@ -586,6 +587,10 @@ public class Maximizer {
 
           // Can get Box of Sunshine in hardcore/ronin, but can't use it
           if (!KoLCharacter.canInteract() && cmd.startsWith("use 1 box of sunshine")) {
+            continue;
+          }
+
+          if (!HolidayDatabase.isAutumn() && cmd.startsWith("use 1 crystallized pumpkin spice")) {
             continue;
           }
 

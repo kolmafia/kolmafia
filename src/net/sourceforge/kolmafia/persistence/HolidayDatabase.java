@@ -1042,6 +1042,25 @@ public class HolidayDatabase {
     return dateTime.getDayOfWeek() == DayOfWeek.SATURDAY;
   }
 
+  /**
+   * Is it Autumn in Arizona
+   *
+   * @return Returns true if it is currently Autumn in Arizona
+   */
+  public static boolean isAutumn() {
+    return isAutumn(DateTimeManager.getArizonaDateTime());
+  }
+
+  /**
+   * Is the given date and time in Autumn in Arizona
+   *
+   * @return Returns true if the given date and time is in Autumn in Arizona
+   */
+  public static boolean isAutumn(ZonedDateTime dateTime) {
+    var month = dateTime.getMonth();
+    return month == Month.SEPTEMBER || month == Month.OCTOBER || month == Month.NOVEMBER;
+  }
+
   public static void addPredictionHTML(
       final StringBuffer displayHTML, final ZonedDateTime dateTime, final int phaseStep) {
     HolidayDatabase.addPredictionHTML(displayHTML, dateTime, phaseStep, true);
