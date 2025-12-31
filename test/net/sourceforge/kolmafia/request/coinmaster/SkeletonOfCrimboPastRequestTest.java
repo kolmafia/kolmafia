@@ -86,14 +86,13 @@ class SkeletonOfCrimboPastRequestTest {
 
   @Test
   public void dailySpecialPopulatesInConcoctionPool() {
-    // Item 10883 is "Crimbo snack mix" (descid 957545937)
     String responseText =
-        "value=\"Daily Special: candy egg deviler\"></td><td valign=center><img style=\"margin-right: 1em;  cursor:pointer;\" onclick=\"descitem(477053908)\" alt=\"candy egg deviler\" title=\"candy egg deviler\" src=\"/images/itemimages/deviler.gif\" height=\"30\" width=\"30\" />(1315 knucklebones)";
+        "Daily Special: candy egg deviler> onclick=\"descitem(477053908)\"  />(1315 knucklebones)";
 
     SkeletonOfCrimboPastRequest.visit(responseText);
 
     // Verify it is in the ConcoctionPool
-    var concoction = ConcoctionPool.get(ItemPool.RETHINKING_CANDY_BOOK);
+    var concoction = ConcoctionPool.get(ItemPool.CANDY_EGG_DEVILER);
     assertThat(concoction, notNullValue());
     assertThat(concoction.getPurchaseRequest(), notNullValue());
     assertThat(
