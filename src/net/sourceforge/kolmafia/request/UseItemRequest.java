@@ -202,9 +202,9 @@ public class UseItemRequest extends GenericRequest {
 
     // We want to display the result of using certain items
     switch (itemId) {
-      case ItemPool.HOBO_CODE_BINDER:
-      case ItemPool.STUFFED_BARON:
+      case ItemPool.HOBO_CODE_BINDER, ItemPool.STUFFED_BARON -> {
         return ConsumptionType.USE_MESSAGE_DISPLAY;
+      }
     }
 
     ConsumptionType consumptionType = ItemDatabase.getConsumptionType(itemId);
@@ -237,36 +237,26 @@ public class UseItemRequest extends GenericRequest {
 
   private static String getConsumptionLocation(
       final ConsumptionType consumptionType, final AdventureResult item) {
-    switch (consumptionType) {
-      case EAT:
-        return "inv_eat.php";
-      case DRINK:
-        return "inv_booze.php";
-      case SPLEEN:
-        return "inv_spleen.php";
-      case FAMILIAR_HATCHLING:
-        return "inv_familiar.php";
-      case SPIRIT_HOBO:
-      case GLUTTONOUS_GHOST:
-      case SLIMELING:
-        return "familiarbinger.php";
-      case ROBORTENDER:
-        return "inventory.php";
-      case EL_VIBRATO_SPHERE:
-        return "campground.php";
-      case USE_MULTIPLE:
+    return switch (consumptionType) {
+      case EAT -> "inv_eat.php";
+      case DRINK -> "inv_booze.php";
+      case SPLEEN -> "inv_spleen.php";
+      case FAMILIAR_HATCHLING -> "inv_familiar.php";
+      case SPIRIT_HOBO, GLUTTONOUS_GHOST, SLIMELING -> "familiarbinger.php";
+      case ROBORTENDER -> "inventory.php";
+      case EL_VIBRATO_SPHERE -> "campground.php";
+      case USE_MULTIPLE -> {
         if (item.getCount() > 1) {
-          return "multiuse.php";
+          yield "multiuse.php";
         }
-        return "inv_use.php";
-      case USE_INFINITE:
-        {
-          ConsumptionType type = ItemDatabase.getConsumptionType(item.getItemId());
-          return type == ConsumptionType.USE_MULTIPLE ? "multiuse.php" : "inv_use.php";
-        }
-      default:
-        return "inv_use.php";
-    }
+        yield "inv_use.php";
+      }
+      case USE_INFINITE -> {
+        ConsumptionType type = ItemDatabase.getConsumptionType(item.getItemId());
+        yield type == ConsumptionType.USE_MULTIPLE ? "multiuse.php" : "inv_use.php";
+      }
+      default -> "inv_use.php";
+    };
   }
 
   public static final AdventureResult getLastItemUsed() {
@@ -407,27 +397,27 @@ public class UseItemRequest extends GenericRequest {
     // Beecore path check
 
     switch (itemId) {
-      case ItemPool.BALL_POLISH:
-      case ItemPool.FRATHOUSE_BLUEPRINTS:
-      case ItemPool.BINDER_CLIP:
-      // These "B" items ARE usable in Beecore.
-      case ItemPool.ICE_BABY:
-      case ItemPool.JUGGLERS_BALLS:
-      case ItemPool.EYEBALL_PENDANT:
-      case ItemPool.SPOOKY_PUTTY_BALL:
-      case ItemPool.LOATHING_LEGION_ABACUS:
-      case ItemPool.LOATHING_LEGION_DEFIBRILLATOR:
-      case ItemPool.LOATHING_LEGION_DOUBLE_PRISM:
-      case ItemPool.LOATHING_LEGION_ROLLERBLADES:
+      case ItemPool.BALL_POLISH,
+          ItemPool.FRATHOUSE_BLUEPRINTS,
+          ItemPool.BINDER_CLIP,
+          // These "B" items ARE usable in Beecore.
+          ItemPool.ICE_BABY,
+          ItemPool.JUGGLERS_BALLS,
+          ItemPool.EYEBALL_PENDANT,
+          ItemPool.SPOOKY_PUTTY_BALL,
+          ItemPool.LOATHING_LEGION_ABACUS,
+          ItemPool.LOATHING_LEGION_DEFIBRILLATOR,
+          ItemPool.LOATHING_LEGION_DOUBLE_PRISM,
+          ItemPool.LOATHING_LEGION_ROLLERBLADES -> {
         // And so are these IOTM foldables
         return Integer.MAX_VALUE;
-
-      case ItemPool.COBBS_KNOB_MAP:
+      }
+      case ItemPool.COBBS_KNOB_MAP -> {
         // This "B" item IS usable in Beecore.
         UseItemRequest.limiter = "encryption key";
         return InventoryManager.getCount(ItemPool.ENCRYPTION_KEY);
-
-      default:
+      }
+      default -> {
         if (KoLCharacter.inBeecore() && ItemDatabase.unusableInBeecore(itemId)) {
           UseItemRequest.limiter = "bees";
           return 0;
@@ -436,7 +426,7 @@ public class UseItemRequest extends GenericRequest {
           UseItemRequest.limiter = "g-lessness";
           return 0;
         }
-        break;
+      }
     }
 
     if (KoLCharacter.inRobocore()
@@ -448,24 +438,28 @@ public class UseItemRequest extends GenericRequest {
 
     // Check binge requests before checking fullness or inebriety
     switch (consumptionType) {
-      case SPIRIT_HOBO:
-      case GLUTTONOUS_GHOST:
-      case SLIMELING:
+      case SPIRIT_HOBO, GLUTTONOUS_GHOST, SLIMELING -> {
         return Integer.MAX_VALUE;
-      case ROBORTENDER:
+      }
+      case ROBORTENDER -> {
         return 1;
-      case PASTA_GUARDIAN:
+      }
+      case PASTA_GUARDIAN -> {
         UseItemRequest.limiter = "character class";
         return KoLCharacter.isPastamancer() ? 1 : 0;
-      case EAT:
+      }
+      case EAT -> {
         return EatItemRequest.maximumUses(
             itemId, itemName, ConsumablesDatabase.getFullness(itemName));
-      case DRINK:
+      }
+      case DRINK -> {
         return DrinkItemRequest.maximumUses(
             itemId, itemName, ConsumablesDatabase.getInebriety(itemName), allowOverDrink);
-      case SPLEEN:
+      }
+      case SPLEEN -> {
         return SpleenItemRequest.maximumUses(
             itemId, itemName, ConsumablesDatabase.getSpleenHit(itemName));
+      }
     }
 
     // Delegate to specialized classes as appropriate
@@ -1125,23 +1119,17 @@ public class UseItemRequest extends GenericRequest {
     }
 
     switch (itemId) {
-      case ItemPool.LUCIFER:
-        // Burn any existing MP that would otherwise be wasted.
-        ManaBurnManager.burnMana(
-            KoLCharacter.getMaximumMP() - 9 * (KoLCharacter.getCurrentHP() - 1));
-        break;
-      case ItemPool.WHAT_CARD:
-      case ItemPool.WHEN_CARD:
-      case ItemPool.WHO_CARD:
-      case ItemPool.WHERE_CARD:
-        this.addFormField("answerplz", "1");
-        break;
-
-      case ItemPool.PHIAL_OF_HOTNESS:
-      case ItemPool.PHIAL_OF_COLDNESS:
-      case ItemPool.PHIAL_OF_SPOOKINESS:
-      case ItemPool.PHIAL_OF_STENCH:
-      case ItemPool.PHIAL_OF_SLEAZINESS:
+      case ItemPool.LUCIFER ->
+          // Burn any existing MP that would otherwise be wasted.
+          ManaBurnManager.burnMana(
+              KoLCharacter.getMaximumMP() - 9 * (KoLCharacter.getCurrentHP() - 1));
+      case ItemPool.WHAT_CARD, ItemPool.WHEN_CARD, ItemPool.WHO_CARD, ItemPool.WHERE_CARD ->
+          this.addFormField("answerplz", "1");
+      case ItemPool.PHIAL_OF_HOTNESS,
+          ItemPool.PHIAL_OF_COLDNESS,
+          ItemPool.PHIAL_OF_SPOOKINESS,
+          ItemPool.PHIAL_OF_STENCH,
+          ItemPool.PHIAL_OF_SLEAZINESS -> {
         // If it's an elemental phial, remove other elemental effects first.
         for (int i = 0; i < BasementRequest.ELEMENT_PHIALS.length; ++i) {
           AdventureResult phial = BasementRequest.ELEMENT_PHIALS[i];
@@ -1171,7 +1159,7 @@ public class UseItemRequest extends GenericRequest {
 
           break;
         }
-        break;
+      }
     }
 
     if (this.consumptionType != ConsumptionType.USE_INFINITE
@@ -1194,24 +1182,18 @@ public class UseItemRequest extends GenericRequest {
         this.itemUsed = this.itemUsed.getInstance((origCount + 10) % 11 + 1);
       } else
         switch (this.consumptionType) {
-          case USE_INFINITE:
-            {
-              ConsumptionType type = ItemDatabase.getConsumptionType(this.itemUsed.getItemId());
-              if (type != ConsumptionType.USE_MULTIPLE) {
-                iterations = origCount;
-                this.itemUsed = this.itemUsed.getInstance(1);
-              }
-              break;
+          case USE_INFINITE -> {
+            ConsumptionType type = ItemDatabase.getConsumptionType(this.itemUsed.getItemId());
+            if (type != ConsumptionType.USE_MULTIPLE) {
+              iterations = origCount;
+              this.itemUsed = this.itemUsed.getInstance(1);
             }
-          case USE_MULTIPLE:
-          case SPIRIT_HOBO:
-          case GLUTTONOUS_GHOST:
-          case SLIMELING:
-          case ROBORTENDER:
-            break;
-          default:
+          }
+          case USE_MULTIPLE, SPIRIT_HOBO, GLUTTONOUS_GHOST, SLIMELING, ROBORTENDER -> {}
+          default -> {
             iterations = origCount;
             this.itemUsed = this.itemUsed.getInstance(1);
+          }
         }
     }
 
@@ -1832,17 +1814,17 @@ public class UseItemRequest extends GenericRequest {
       boolean success = true;
 
       switch (helper.getItemId()) {
-        case ItemPool.PUNCHCARD_ATTACK:
-        case ItemPool.PUNCHCARD_REPAIR:
-        case ItemPool.PUNCHCARD_BUFF:
-        case ItemPool.PUNCHCARD_MODIFY:
-        case ItemPool.PUNCHCARD_BUILD:
-        case ItemPool.PUNCHCARD_TARGET:
-        case ItemPool.PUNCHCARD_SELF:
-        case ItemPool.PUNCHCARD_FLOOR:
-        case ItemPool.PUNCHCARD_DRONE:
-        case ItemPool.PUNCHCARD_WALL:
-        case ItemPool.PUNCHCARD_SPHERE:
+        case ItemPool.PUNCHCARD_ATTACK,
+            ItemPool.PUNCHCARD_REPAIR,
+            ItemPool.PUNCHCARD_BUFF,
+            ItemPool.PUNCHCARD_MODIFY,
+            ItemPool.PUNCHCARD_BUILD,
+            ItemPool.PUNCHCARD_TARGET,
+            ItemPool.PUNCHCARD_SELF,
+            ItemPool.PUNCHCARD_FLOOR,
+            ItemPool.PUNCHCARD_DRONE,
+            ItemPool.PUNCHCARD_WALL,
+            ItemPool.PUNCHCARD_SPHERE -> {
 
           // A voice speaks (for a long time) from the
           // helmet:
@@ -1854,7 +1836,7 @@ public class UseItemRequest extends GenericRequest {
           } else {
             UseItemRequest.parseEVHelmet(responseText);
           }
-          break;
+        }
       }
 
       if (!success) {
@@ -6397,21 +6379,20 @@ public class UseItemRequest extends GenericRequest {
     // Finally, remove the item from inventory if it was successfully used.
 
     switch (consumptionType) {
-      case ZAP:
-      case FAMILIAR_EQUIPMENT:
-      case ACCESSORY:
-      case HAT:
-      case PANTS:
-      case WEAPON:
-      case OFFHAND:
-      case CONTAINER:
-      case USE_INFINITE:
-        break;
-
-      default:
+      case ZAP,
+          FAMILIAR_EQUIPMENT,
+          ACCESSORY,
+          HAT,
+          PANTS,
+          WEAPON,
+          OFFHAND,
+          CONTAINER,
+          USE_INFINITE -> {}
+      default -> {
         if (!ItemDatabase.isReusable(itemId)) {
           ResultProcessor.processResult(item.getNegation());
         }
+      }
     }
   }
 
@@ -6734,17 +6715,18 @@ public class UseItemRequest extends GenericRequest {
     int itemId = item.getItemId();
 
     switch (itemId) {
-      case ItemPool.AWOL_COMMENDATION:
+      case ItemPool.AWOL_COMMENDATION -> {
         return AWOLQuartermasterRequest.registerRequest(urlString);
-
-      case ItemPool.BURT:
+      }
+      case ItemPool.BURT -> {
         return BURTRequest.registerRequest(urlString);
-
-      case ItemPool.FDKOL_COMMENDATION:
+      }
+      case ItemPool.FDKOL_COMMENDATION -> {
         return FDKOLRequest.registerRequest(urlString);
-
-      case ItemPool.FUDGE_WAND:
+      }
+      case ItemPool.FUDGE_WAND -> {
         return FudgeWandRequest.registerRequest(urlString);
+      }
     }
 
     boolean isSealFigurine = ItemDatabase.isSealFigurine(itemId);
@@ -6785,133 +6767,102 @@ public class UseItemRequest extends GenericRequest {
     String useString = null;
 
     switch (consumptionType) {
-      case NONE:
+      case NONE -> {
         if (itemId != ItemPool.LOATHING_LEGION_JACKHAMMER) {
           return false;
         }
-        break;
-
-      case USE:
-      case USE_MULTIPLE:
-
+      }
+      case USE, USE_MULTIPLE -> {
         // See if it is a concoction
         if (SingleUseRequest.registerRequest(urlString)
             || MultiUseRequest.registerRequest(urlString)) {
           return true;
         }
-        break;
-
-      case EAT:
-
+      }
+      case EAT -> {
         // Fortune cookies, for example
         if (urlString.startsWith("inv_use")) {
           consumptionType = ConsumptionType.USE;
-          break;
         }
-        break;
+      }
     }
 
     switch (itemId) {
-      case ItemPool.REFLECTION_OF_MAP:
+      case ItemPool.REFLECTION_OF_MAP -> {
         useString = "[" + KoLAdventure.getAdventureCount() + "] Reflection of a Map";
         KoLAdventure.locationLogged = true;
-        break;
-
-      case ItemPool.DREADSCROLL:
+      }
+      case ItemPool.DREADSCROLL -> {
         useString = "[" + KoLAdventure.getAdventureCount() + "] Mer-kin dreadscroll";
         KoLAdventure.locationLogged = true;
-        break;
-
-      case ItemPool.JACKING_MAP:
+      }
+      case ItemPool.JACKING_MAP -> {
         UseItemRequest.lastFruit = null;
         Matcher m = UseItemRequest.FRUIT_TUBING_PATTERN.matcher(urlString);
         if (m.find()) {
           UseItemRequest.lastFruit = ItemPool.get(StringUtilities.parseInt(m.group(1)), 1);
           useString = "insert " + UseItemRequest.lastFruit + " into pneumatic tube interface";
         }
-        break;
-
-      case ItemPool.EXPRESS_CARD:
-        Preferences.setBoolean("expressCardUsed", true);
-        break;
-
-      case ItemPool.SPICE_MELANGE:
-        Preferences.setBoolean("spiceMelangeUsed", true);
-        break;
-
-      case ItemPool.ULTRA_MEGA_SOUR_BALL:
-        Preferences.setBoolean("_ultraMegaSourBallUsed", true);
-        break;
-
-      case ItemPool.MUNCHIES_PILL:
-        Preferences.increment("munchiesPillsUsed", count);
-        break;
-
-      case ItemPool.WHETSTONE:
-        Preferences.increment("whetstonesUsed", count);
-        break;
-
-      case ItemPool.DRINK_ME_POTION:
-        Preferences.increment("pendingMapReflections", count);
-        break;
-
-      case ItemPool.EL_VIBRATO_HELMET:
-      case ItemPool.DRONE:
+      }
+      case ItemPool.EXPRESS_CARD -> Preferences.setBoolean("expressCardUsed", true);
+      case ItemPool.SPICE_MELANGE -> Preferences.setBoolean("spiceMelangeUsed", true);
+      case ItemPool.ULTRA_MEGA_SOUR_BALL -> Preferences.setBoolean("_ultraMegaSourBallUsed", true);
+      case ItemPool.MUNCHIES_PILL -> Preferences.increment("munchiesPillsUsed", count);
+      case ItemPool.WHETSTONE -> Preferences.increment("whetstonesUsed", count);
+      case ItemPool.DRINK_ME_POTION -> Preferences.increment("pendingMapReflections", count);
+      case ItemPool.EL_VIBRATO_HELMET, ItemPool.DRONE -> {
         if (UseItemRequest.lastHelperUsed == null) {
           return true;
         }
         useString =
             "insert " + UseItemRequest.lastHelperUsed + " into " + UseItemRequest.lastItemUsed;
-        break;
-
-      case ItemPool.PUNCHCARD_ATTACK:
-      case ItemPool.PUNCHCARD_REPAIR:
-      case ItemPool.PUNCHCARD_BUFF:
-      case ItemPool.PUNCHCARD_MODIFY:
-      case ItemPool.PUNCHCARD_BUILD:
+      }
+      case ItemPool.PUNCHCARD_ATTACK,
+          ItemPool.PUNCHCARD_REPAIR,
+          ItemPool.PUNCHCARD_BUFF,
+          ItemPool.PUNCHCARD_MODIFY,
+          ItemPool.PUNCHCARD_BUILD -> {
         if (KoLCharacter.getFamiliar().getId() != FamiliarPool.MEGADRONE) {
           return true;
         }
         useString = "insert " + UseItemRequest.lastItemUsed + " into El Vibrato Megadrone";
-        break;
-
-      case ItemPool.WRETCHED_SEAL:
-      case ItemPool.CUTE_BABY_SEAL:
-      case ItemPool.ARMORED_SEAL:
-      case ItemPool.ANCIENT_SEAL:
-      case ItemPool.SLEEK_SEAL:
-      case ItemPool.SHADOWY_SEAL:
-      case ItemPool.STINKING_SEAL:
-      case ItemPool.CHARRED_SEAL:
-      case ItemPool.COLD_SEAL:
-      case ItemPool.SLIPPERY_SEAL:
-      case ItemPool.DEPLETED_URANIUM_SEAL:
+      }
+      case ItemPool.WRETCHED_SEAL,
+          ItemPool.CUTE_BABY_SEAL,
+          ItemPool.ARMORED_SEAL,
+          ItemPool.ANCIENT_SEAL,
+          ItemPool.SLEEK_SEAL,
+          ItemPool.SHADOWY_SEAL,
+          ItemPool.STINKING_SEAL,
+          ItemPool.CHARRED_SEAL,
+          ItemPool.COLD_SEAL,
+          ItemPool.SLIPPERY_SEAL,
+          ItemPool.DEPLETED_URANIUM_SEAL -> {
         // You only actually use a seal figurine when you
         // "Begin the Ritual"
         if (urlString.contains("checked")) {
           return true;
         }
-        break;
-
-      case ItemPool.LOATHING_LEGION_KNIFE:
-      case ItemPool.LOATHING_LEGION_MANY_PURPOSE_HOOK:
-      case ItemPool.LOATHING_LEGION_MOONDIAL:
-      case ItemPool.LOATHING_LEGION_NECKTIE:
-      case ItemPool.LOATHING_LEGION_ELECTRIC_KNIFE:
-      case ItemPool.LOATHING_LEGION_CORKSCREW:
-      case ItemPool.LOATHING_LEGION_CAN_OPENER:
-      case ItemPool.LOATHING_LEGION_CHAINSAW:
-      case ItemPool.LOATHING_LEGION_ROLLERBLADES:
-      case ItemPool.LOATHING_LEGION_FLAMETHROWER:
-      case ItemPool.LOATHING_LEGION_DEFIBRILLATOR:
-      case ItemPool.LOATHING_LEGION_DOUBLE_PRISM:
-      case ItemPool.LOATHING_LEGION_TAPE_MEASURE:
-      case ItemPool.LOATHING_LEGION_KITCHEN_SINK:
-      case ItemPool.LOATHING_LEGION_ABACUS:
-      case ItemPool.LOATHING_LEGION_HELICOPTER:
-      case ItemPool.LOATHING_LEGION_PIZZA_STONE:
-      case ItemPool.LOATHING_LEGION_JACKHAMMER:
-      case ItemPool.LOATHING_LEGION_HAMMER:
+      }
+      case ItemPool.LOATHING_LEGION_KNIFE,
+          ItemPool.LOATHING_LEGION_MANY_PURPOSE_HOOK,
+          ItemPool.LOATHING_LEGION_MOONDIAL,
+          ItemPool.LOATHING_LEGION_NECKTIE,
+          ItemPool.LOATHING_LEGION_ELECTRIC_KNIFE,
+          ItemPool.LOATHING_LEGION_CORKSCREW,
+          ItemPool.LOATHING_LEGION_CAN_OPENER,
+          ItemPool.LOATHING_LEGION_CHAINSAW,
+          ItemPool.LOATHING_LEGION_ROLLERBLADES,
+          ItemPool.LOATHING_LEGION_FLAMETHROWER,
+          ItemPool.LOATHING_LEGION_DEFIBRILLATOR,
+          ItemPool.LOATHING_LEGION_DOUBLE_PRISM,
+          ItemPool.LOATHING_LEGION_TAPE_MEASURE,
+          ItemPool.LOATHING_LEGION_KITCHEN_SINK,
+          ItemPool.LOATHING_LEGION_ABACUS,
+          ItemPool.LOATHING_LEGION_HELICOPTER,
+          ItemPool.LOATHING_LEGION_PIZZA_STONE,
+          ItemPool.LOATHING_LEGION_JACKHAMMER,
+          ItemPool.LOATHING_LEGION_HAMMER -> {
         // inv_use.php?whichitem=xxx&pwd&switch=1
         // Attempting to use one of these items takes you to a
         // page where you can select the new form.
@@ -6921,9 +6872,8 @@ public class UseItemRequest extends GenericRequest {
           return true;
         }
         useString = "fold " + UseItemRequest.lastItemUsed;
-        break;
-
-      case ItemPool.LOATHING_LEGION_UNIVERSAL_SCREWDRIVER:
+      }
+      case ItemPool.LOATHING_LEGION_UNIVERSAL_SCREWDRIVER -> {
         // You can either use the unversal screwdriver to
         // untinker something or switch forms.
         // inv_use.php?whichitem=4926&pwd&action=screw&dowhichitem=xxx
@@ -6956,9 +6906,8 @@ public class UseItemRequest extends GenericRequest {
           return true;
         }
         useString = "fold " + UseItemRequest.lastItemUsed;
-        break;
-
-      case ItemPool.LOATHING_LEGION_TATTOO_NEEDLE:
+      }
+      case ItemPool.LOATHING_LEGION_TATTOO_NEEDLE -> {
         // You can either "use" the reusable tattoo needle or
         // switch forms.
         if (urlString.contains("switch")) {
@@ -6967,77 +6916,54 @@ public class UseItemRequest extends GenericRequest {
           }
           useString = "fold " + UseItemRequest.lastItemUsed;
         }
-        break;
-
-      case ItemPool.D10:
+      }
+      case ItemPool.D10 -> {
         if (count == 2) {
           useString = "roll percentile dice";
-          break;
+        } else {
+          useString = "roll " + count + name;
         }
-      // Fall through
-      case ItemPool.D4:
-      case ItemPool.D6:
-      case ItemPool.D8:
-      case ItemPool.D12:
-      case ItemPool.D20:
-        useString = "roll " + count + name;
-        break;
-
-      case ItemPool.WHAT_CARD:
-      case ItemPool.WHEN_CARD:
-      case ItemPool.WHO_CARD:
-      case ItemPool.WHERE_CARD:
+      }
+      case ItemPool.D4, ItemPool.D6, ItemPool.D8, ItemPool.D12, ItemPool.D20 ->
+          useString = "roll " + count + name;
+      case ItemPool.WHAT_CARD, ItemPool.WHEN_CARD, ItemPool.WHO_CARD, ItemPool.WHERE_CARD -> {
         // Unless you are looking for the answer, using a card
         // simply presents you with the question.
         if (!urlString.contains("answerplz=1")) {
           return true;
         }
-        break;
-
-      case ItemPool.LITTLE_FIRKIN:
-      case ItemPool.NORMAL_BARREL:
-      case ItemPool.BIG_TUN:
-      case ItemPool.WEATHERED_BARREL:
-      case ItemPool.DUSTY_BARREL:
-      case ItemPool.DISINTEGRATING_BARREL:
-      case ItemPool.MOIST_BARREL:
-      case ItemPool.ROTTING_BARREL:
-      case ItemPool.MOULDERING_BARREL:
-      case ItemPool.BARNACLED_BARREL:
-        useString =
-            urlString.contains("choice=1") ? "Throw a barrel smashing party!" : ("smash " + name);
-        break;
-
-      case ItemPool.HEIMZ_BEANS:
-      case ItemPool.TESLA_BEANS:
-      case ItemPool.MIXED_BEANS:
-      case ItemPool.HELLFIRE_BEANS:
-      case ItemPool.FRIGID_BEANS:
-      case ItemPool.BLACKEST_EYED_PEAS:
-      case ItemPool.STINKBEANS:
-      case ItemPool.PORK_N_BEANS:
-        useString = "plate " + name;
-        break;
-
-      case ItemPool.HEWN_MOON_RUNE_SPOON:
-      case ItemPool.REPLICA_HEWN_MOON_RUNE_SPOON:
-        {
-          ZodiacSign sign = parseAscensionSign(urlString);
-          if (sign != ZodiacSign.NONE && urlString.contains("doit=96")) {
-            useString = "tuning moon to The " + sign;
-          }
-          break;
+      }
+      case ItemPool.LITTLE_FIRKIN,
+          ItemPool.NORMAL_BARREL,
+          ItemPool.BIG_TUN,
+          ItemPool.WEATHERED_BARREL,
+          ItemPool.DUSTY_BARREL,
+          ItemPool.DISINTEGRATING_BARREL,
+          ItemPool.MOIST_BARREL,
+          ItemPool.ROTTING_BARREL,
+          ItemPool.MOULDERING_BARREL,
+          ItemPool.BARNACLED_BARREL ->
+          useString =
+              urlString.contains("choice=1") ? "Throw a barrel smashing party!" : ("smash " + name);
+      case ItemPool.HEIMZ_BEANS,
+          ItemPool.TESLA_BEANS,
+          ItemPool.MIXED_BEANS,
+          ItemPool.HELLFIRE_BEANS,
+          ItemPool.FRIGID_BEANS,
+          ItemPool.BLACKEST_EYED_PEAS,
+          ItemPool.STINKBEANS,
+          ItemPool.PORK_N_BEANS ->
+          useString = "plate " + name;
+      case ItemPool.HEWN_MOON_RUNE_SPOON, ItemPool.REPLICA_HEWN_MOON_RUNE_SPOON -> {
+        ZodiacSign sign = parseAscensionSign(urlString);
+        if (sign != ZodiacSign.NONE && urlString.contains("doit=96")) {
+          useString = "tuning moon to The " + sign;
         }
-
-      case ItemPool.MR_STORE_2002_CATALOG:
-      case ItemPool.REPLICA_MR_STORE_2002_CATALOG:
-        // This redirects to shop.php
-        Preferences.setBoolean("_2002MrStoreCreditsCollected", true);
-        break;
-
-      case ItemPool.MINI_KIWI_AIOLI:
-        Preferences.increment("miniKiwiAiolisUsed", count);
-        break;
+      }
+      case ItemPool.MR_STORE_2002_CATALOG, ItemPool.REPLICA_MR_STORE_2002_CATALOG ->
+          // This redirects to shop.php
+          Preferences.setBoolean("_2002MrStoreCreditsCollected", true);
+      case ItemPool.MINI_KIWI_AIOLI -> Preferences.increment("miniKiwiAiolisUsed", count);
     }
 
     if (useString == null) {
