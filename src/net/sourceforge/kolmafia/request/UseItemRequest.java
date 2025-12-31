@@ -512,8 +512,7 @@ public class UseItemRequest extends GenericRequest {
     UseItemRequest.limiter = "a wizard";
 
     switch (itemId) {
-      case ItemPool.TINY_HOUSE:
-      case ItemPool.TEARS:
+      case ItemPool.TINY_HOUSE, ItemPool.TEARS -> {
         // These restore HP/MP but also remove Beaten Up
         // If you are currently Beaten Up, allow a single
         // usage. Otherwise, let code below limit based on
@@ -523,22 +522,18 @@ public class UseItemRequest extends GenericRequest {
           UseItemRequest.limiter = "needed restoration";
           return 1;
         }
-        break;
-
-      case ItemPool.ASTRAL_MUSHROOM:
-      case ItemPool.GONG:
-      case ItemPool.KETCHUP_HOUND:
+      }
+      case ItemPool.ASTRAL_MUSHROOM, ItemPool.GONG, ItemPool.KETCHUP_HOUND -> {
         UseItemRequest.limiter = "usability";
         return 1;
-
-      case ItemPool.MEDICINAL_HERBS:
+      }
+      case ItemPool.MEDICINAL_HERBS -> {
         if (restorationMaximum > 0) {
           UseItemRequest.limiter = "usability";
           return 1;
         }
-        break;
-
-      case ItemPool.FIELD_GAR_POTION:
+      }
+      case ItemPool.FIELD_GAR_POTION -> {
         // Disallow using potion on Monday
         if (HolidayDatabase.isMonday()) {
           UseItemRequest.limiter = "uselessness on Mondays";
@@ -550,19 +545,17 @@ public class UseItemRequest extends GenericRequest {
           return 0;
         }
         return 1;
-
-      case ItemPool.TOASTER:
+      }
+      case ItemPool.TOASTER -> {
         UseItemRequest.limiter = "usability";
         return Preferences.getBoolean("_toastSummoned") ? 0 : 1;
-
-      case ItemPool.AMINO_ACIDS:
-        {
-          UseItemRequest.limiter = "usability";
-          int aminoAcidsUsed = Preferences.getInteger("aminoAcidsUsed");
-          return 3 - aminoAcidsUsed;
-        }
-
-      case ItemPool.DANCE_CARD:
+      }
+      case ItemPool.AMINO_ACIDS -> {
+        UseItemRequest.limiter = "usability";
+        int aminoAcidsUsed = Preferences.getInteger("aminoAcidsUsed");
+        return 3 - aminoAcidsUsed;
+      }
+      case ItemPool.DANCE_CARD -> {
         // Disallow using a dance card if already active
         if (TurnCounter.isCounting("Dance Card")) {
           UseItemRequest.limiter = "existing counter";
@@ -571,86 +564,84 @@ public class UseItemRequest extends GenericRequest {
         // Or if another counter would end on the same turn
         UseItemRequest.limiter = TurnCounter.getCounters("", 3, 3);
         return UseItemRequest.limiter.length() > 0 ? 0 : 1;
-
-      case ItemPool.GREEN_PEAWEE_MARBLE:
-      case ItemPool.BROWN_CROCK_MARBLE:
-      case ItemPool.RED_CHINA_MARBLE:
-      case ItemPool.LEMONADE_MARBLE:
-      case ItemPool.BUMBLEBEE_MARBLE:
-      case ItemPool.JET_BENNIE_MARBLE:
-      case ItemPool.BEIGE_CLAMBROTH_MARBLE:
-      case ItemPool.STEELY_MARBLE:
-      case ItemPool.BEACH_BALL_MARBLE:
-      case ItemPool.BLACK_CATSEYE_MARBLE:
+      }
+      case ItemPool.GREEN_PEAWEE_MARBLE,
+          ItemPool.BROWN_CROCK_MARBLE,
+          ItemPool.RED_CHINA_MARBLE,
+          ItemPool.LEMONADE_MARBLE,
+          ItemPool.BUMBLEBEE_MARBLE,
+          ItemPool.JET_BENNIE_MARBLE,
+          ItemPool.BEIGE_CLAMBROTH_MARBLE,
+          ItemPool.STEELY_MARBLE,
+          ItemPool.BEACH_BALL_MARBLE,
+          ItemPool.BLACK_CATSEYE_MARBLE -> {
         // Using up to 1/2 produces bigger marbles.
         // Larger quantities can be used, but do nothing.
         UseItemRequest.limiter = "1/2 inventory";
         return InventoryManager.getCount(itemId) / 2;
-
-      case ItemPool.CHEF:
-      case ItemPool.CLOCKWORK_CHEF:
-      case ItemPool.BARTENDER:
-      case ItemPool.CLOCKWORK_BARTENDER:
-      case ItemPool.MAID:
-      case ItemPool.CLOCKWORK_MAID:
-      case ItemPool.MEAT_BUTLER:
-      case ItemPool.PORTABLE_HOUSEKEEPING_ROBOT:
-      case ItemPool.SCARECROW:
-      case ItemPool.MEAT_GOLEM:
-      case ItemPool.MEAT_GLOBE:
-      // Other furnishings
-      case ItemPool.BLACK_BLUE_LIGHT:
-      case ItemPool.LOUDMOUTH_LARRY:
-      case ItemPool.PLASMA_BALL:
-      case ItemPool.FENG_SHUI:
+      }
+      case ItemPool.CHEF,
+          ItemPool.CLOCKWORK_CHEF,
+          ItemPool.BARTENDER,
+          ItemPool.CLOCKWORK_BARTENDER,
+          ItemPool.MAID,
+          ItemPool.CLOCKWORK_MAID,
+          ItemPool.MEAT_BUTLER,
+          ItemPool.PORTABLE_HOUSEKEEPING_ROBOT,
+          ItemPool.SCARECROW,
+          ItemPool.MEAT_GOLEM,
+          ItemPool.MEAT_GLOBE,
+          // Other furnishings
+          ItemPool.BLACK_BLUE_LIGHT,
+          ItemPool.LOUDMOUTH_LARRY,
+          ItemPool.PLASMA_BALL,
+          ItemPool.FENG_SHUI -> {
         // Dwelling furnishings
         UseItemRequest.limiter = "campground regulations";
         return 1;
-
-      case ItemPool.ANCIENT_CURSED_FOOTLOCKER:
+      }
+      case ItemPool.ANCIENT_CURSED_FOOTLOCKER -> {
         UseItemRequest.limiter = "simple cursed key";
         return InventoryManager.getCount(ItemPool.SIMPLE_CURSED_KEY);
-
-      case ItemPool.ORNATE_CURSED_CHEST:
+      }
+      case ItemPool.ORNATE_CURSED_CHEST -> {
         UseItemRequest.limiter = "ornate cursed key";
         return InventoryManager.getCount(ItemPool.ORNATE_CURSED_KEY);
-
-      case ItemPool.GILDED_CURSED_CHEST:
+      }
+      case ItemPool.GILDED_CURSED_CHEST -> {
         UseItemRequest.limiter = "gilded cursed key";
         return InventoryManager.getCount(ItemPool.GILDED_CURSED_KEY);
-
-      case ItemPool.STUFFED_CHEST:
+      }
+      case ItemPool.STUFFED_CHEST -> {
         UseItemRequest.limiter = "stuffed key";
         return InventoryManager.getCount(ItemPool.STUFFED_KEY);
-
-      case ItemPool.PHOTOCOPIER:
+      }
+      case ItemPool.PHOTOCOPIER -> {
         UseItemRequest.limiter = "photocopied monster";
         return InventoryManager.hasItem(ItemPool.PHOTOCOPIED_MONSTER) ? 0 : 1;
-
-      case ItemPool.MOJO_FILTER:
+      }
+      case ItemPool.MOJO_FILTER -> {
         UseItemRequest.limiter = "spleen";
         return KoLCharacter.getSpleenUse();
-
-      case ItemPool.SYNTHETIC_DOG_HAIR_PILL:
+      }
+      case ItemPool.SYNTHETIC_DOG_HAIR_PILL -> {
         if (KoLCharacter.getInebriety() == 0) {
           UseItemRequest.limiter = "sobriety";
           return 0;
         }
-        break;
-
-      case ItemPool.MOVEABLE_FEAST:
+      }
+      case ItemPool.MOVEABLE_FEAST -> {
         String familiar = KoLCharacter.getFamiliar().getRace();
         if (Preferences.getString("_feastedFamiliars").contains(familiar)) {
           UseItemRequest.limiter = "a previous " + familiar + " feasting";
           return 0;
         }
-        break;
-
-      case ItemPool.GHOSTLY_BODY_PAINT:
-      case ItemPool.NECROTIZING_BODY_SPRAY:
-      case ItemPool.BITE_LIPSTICK:
-      case ItemPool.WHISKER_PENCIL:
-      case ItemPool.PRESS_ON_RIBS:
+      }
+      case ItemPool.GHOSTLY_BODY_PAINT,
+          ItemPool.NECROTIZING_BODY_SPRAY,
+          ItemPool.BITE_LIPSTICK,
+          ItemPool.WHISKER_PENCIL,
+          ItemPool.PRESS_ON_RIBS -> {
         if (KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.HAUNTING_LOOKS))
             || KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.DEAD_SEXY))
             || KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.VAMPIN))
@@ -660,97 +651,93 @@ public class UseItemRequest extends GenericRequest {
           return 0;
         }
         return 1;
-
-      case ItemPool.BLACK_PAINT:
+      }
+      case ItemPool.BLACK_PAINT -> {
         if (KoLCharacter.inFistcore()) {
           UseItemRequest.limiter = "your teachings";
           return 0;
         }
         return Integer.MAX_VALUE;
-
-      case ItemPool.SLAPFIGHTING_BOOK:
-      case ItemPool.SLAPFIGHTING_BOOK_USED:
-      case ItemPool.UNCLE_ROMULUS:
-      case ItemPool.UNCLE_ROMULUS_USED:
-      case ItemPool.SNAKE_CHARMING_BOOK:
-      case ItemPool.SNAKE_CHARMING_BOOK_USED:
-      case ItemPool.ZU_MANNKASE_DIENEN:
-      case ItemPool.ZU_MANNKASE_DIENEN_USED:
-      case ItemPool.DYNAMITE_SUPERMAN_JONES:
-      case ItemPool.DYNAMITE_SUPERMAN_JONES_USED:
-      case ItemPool.INIGO_BOOK:
-      case ItemPool.INIGO_BOOK_USED:
+      }
+      case ItemPool.SLAPFIGHTING_BOOK,
+          ItemPool.SLAPFIGHTING_BOOK_USED,
+          ItemPool.UNCLE_ROMULUS,
+          ItemPool.UNCLE_ROMULUS_USED,
+          ItemPool.SNAKE_CHARMING_BOOK,
+          ItemPool.SNAKE_CHARMING_BOOK_USED,
+          ItemPool.ZU_MANNKASE_DIENEN,
+          ItemPool.ZU_MANNKASE_DIENEN_USED,
+          ItemPool.DYNAMITE_SUPERMAN_JONES,
+          ItemPool.DYNAMITE_SUPERMAN_JONES_USED,
+          ItemPool.INIGO_BOOK,
+          ItemPool.INIGO_BOOK_USED -> {
         String bookClass = UseItemRequest.itemToClass(itemId);
         if (!bookClass.equals(KoLCharacter.getAscensionClassName())) {
           UseItemRequest.limiter = "your class";
           return 0;
         }
         return Integer.MAX_VALUE;
-
-      case ItemPool.DARK_CHOCOLATE_HEART:
+      }
+      case ItemPool.DARK_CHOCOLATE_HEART -> {
         if (restorationMaximum == 0) {
           UseItemRequest.limiter = "already at full health";
           return 0;
         }
-        break;
-
-      case ItemPool.RESOLUTION_ADVENTUROUS:
+      }
+      case ItemPool.RESOLUTION_ADVENTUROUS -> {
         if (Preferences.getInteger("_resolutionAdv") == 10) {
           UseItemRequest.limiter = "daily limit";
           return 0;
         }
-        break;
-
-      case ItemPool.CSA_FIRE_STARTING_KIT:
+      }
+      case ItemPool.CSA_FIRE_STARTING_KIT -> {
         if (!KoLCharacter.getHippyStoneBroken()
             && Preferences.getInteger("choiceAdventure595") == 1) {
           UseItemRequest.limiter = "an unbroken hippy stone";
           return 0;
         }
-        break;
-
-      case ItemPool.LEFT_BEAR_ARM:
+      }
+      case ItemPool.LEFT_BEAR_ARM -> {
         UseItemRequest.limiter = "insufficient right bear arms";
         return InventoryManager.getCount(ItemPool.RIGHT_BEAR_ARM);
-
-      case ItemPool.SUSHI_ROLLING_MAT:
+      }
+      case ItemPool.SUSHI_ROLLING_MAT -> {
         UseItemRequest.limiter = "usability";
         return KoLCharacter.hasSushiMat() ? 0 : 1;
-
-      case ItemPool.ETERNAL_CAR_BATTERY:
+      }
+      case ItemPool.ETERNAL_CAR_BATTERY -> {
         if (restorationMaximum == 0) {
           UseItemRequest.limiter = "already at full MP";
           return 0;
         }
-        break;
-
-      case ItemPool.FOLDER_01:
-      case ItemPool.FOLDER_02:
-      case ItemPool.FOLDER_03:
-      case ItemPool.FOLDER_04:
-      case ItemPool.FOLDER_05:
-      case ItemPool.FOLDER_06:
-      case ItemPool.FOLDER_07:
-      case ItemPool.FOLDER_08:
-      case ItemPool.FOLDER_09:
-      case ItemPool.FOLDER_10:
-      case ItemPool.FOLDER_11:
-      case ItemPool.FOLDER_12:
-      case ItemPool.FOLDER_13:
-      case ItemPool.FOLDER_14:
-      case ItemPool.FOLDER_15:
-      case ItemPool.FOLDER_16:
-      case ItemPool.FOLDER_17:
-      case ItemPool.FOLDER_18:
-      case ItemPool.FOLDER_19:
-      case ItemPool.FOLDER_20:
-      case ItemPool.FOLDER_21:
-      case ItemPool.FOLDER_22:
-      case ItemPool.FOLDER_23:
+      }
+      case ItemPool.FOLDER_01,
+          ItemPool.FOLDER_02,
+          ItemPool.FOLDER_03,
+          ItemPool.FOLDER_04,
+          ItemPool.FOLDER_05,
+          ItemPool.FOLDER_06,
+          ItemPool.FOLDER_07,
+          ItemPool.FOLDER_08,
+          ItemPool.FOLDER_09,
+          ItemPool.FOLDER_10,
+          ItemPool.FOLDER_11,
+          ItemPool.FOLDER_12,
+          ItemPool.FOLDER_13,
+          ItemPool.FOLDER_14,
+          ItemPool.FOLDER_15,
+          ItemPool.FOLDER_16,
+          ItemPool.FOLDER_17,
+          ItemPool.FOLDER_18,
+          ItemPool.FOLDER_19,
+          ItemPool.FOLDER_20,
+          ItemPool.FOLDER_21,
+          ItemPool.FOLDER_22,
+          ItemPool.FOLDER_23 -> {
         UseItemRequest.limiter = "folder holder";
         return EquipmentRequest.availableFolder() == Slot.NONE ? 0 : 1;
-
-      case ItemPool.PASTA_ADDITIVE:
+      }
+      case ItemPool.PASTA_ADDITIVE -> {
         if (!KoLCharacter.isPastamancer()) {
           UseItemRequest.limiter = "character class";
           return 0;
@@ -759,46 +746,43 @@ public class UseItemRequest extends GenericRequest {
           UseItemRequest.limiter = "daily limit";
           return 0;
         }
-        break;
-
-      case ItemPool.CHRONER_CROSS:
+      }
+      case ItemPool.CHRONER_CROSS -> {
         if (InventoryManager.getCount(ItemPool.CHRONER) == 0) {
           UseItemRequest.limiter = "not having a Chroner";
           return 0;
         }
-        break;
-
-      case ItemPool.GAUDY_KEY:
+      }
+      case ItemPool.GAUDY_KEY -> {
         if (!KoLCharacter.hasEquipped(ItemPool.get(ItemPool.PIRATE_FLEDGES, 1))
             && !EquipmentManager.isWearingOutfit(OutfitPool.SWASHBUCKLING_GETUP)) {
           UseItemRequest.limiter = "not wearing pirate gear";
           return 0;
         }
-        break;
-
-      case ItemPool.BITTYCAR_HOTCAR:
+      }
+      case ItemPool.BITTYCAR_HOTCAR -> {
         UseItemRequest.limiter = "already being active";
         return Preferences.getString("_bittycar").equals("hotcar") ? 0 : 1;
-
-      case ItemPool.BITTYCAR_MEATCAR:
+      }
+      case ItemPool.BITTYCAR_MEATCAR -> {
         UseItemRequest.limiter = "already being active";
         return Preferences.getString("_bittycar").equals("meatcar") ? 0 : 1;
-
-      case ItemPool.BITTYCAR_SOULCAR:
+      }
+      case ItemPool.BITTYCAR_SOULCAR -> {
         UseItemRequest.limiter = "already being active";
         return Preferences.getString("_bittycar").equals("soulcar") ? 0 : 1;
-
-      case ItemPool.STILL_BEATING_SPLEEN:
+      }
+      case ItemPool.STILL_BEATING_SPLEEN -> {
         UseItemRequest.limiter = "already being active";
         return Preferences.getInteger("lastStillBeatingSpleen") == KoLCharacter.getAscensions()
             ? 0
             : 1;
-
-      case ItemPool.MAYONEX:
-      case ItemPool.MAYODIOL:
-      case ItemPool.MAYOSTAT:
-      case ItemPool.MAYOZAPINE:
-      case ItemPool.MAYOFLEX:
+      }
+      case ItemPool.MAYONEX,
+          ItemPool.MAYODIOL,
+          ItemPool.MAYOSTAT,
+          ItemPool.MAYOZAPINE,
+          ItemPool.MAYOFLEX -> {
         AdventureResult workshedItem = CampgroundRequest.getCurrentWorkshedItem();
         if (workshedItem == null || workshedItem.getItemId() != ItemPool.MAYO_CLINIC) {
           UseItemRequest.limiter = "mayo clinic not installed";
@@ -806,48 +790,41 @@ public class UseItemRequest extends GenericRequest {
         }
         UseItemRequest.limiter = "mayonaise already in mouth";
         return Preferences.getString("mayoInMouth").equals("") ? 1 : 0;
-
-      case ItemPool.HOLORECORD_POWERGUY:
-      case ItemPool.HOLORECORD_SHRIEKING_WEASEL:
-      case ItemPool.HOLORECORD_SUPERDRIFTER:
-      case ItemPool.HOLORECORD_LUCKY_STRIKES:
-      case ItemPool.HOLORECORD_DRUNK_UNCLES:
-      case ItemPool.HOLORECORD_EMD:
-      case ItemPool.HOLORECORD_PIGS:
+      }
+      case ItemPool.HOLORECORD_POWERGUY,
+          ItemPool.HOLORECORD_SHRIEKING_WEASEL,
+          ItemPool.HOLORECORD_SUPERDRIFTER,
+          ItemPool.HOLORECORD_LUCKY_STRIKES,
+          ItemPool.HOLORECORD_DRUNK_UNCLES,
+          ItemPool.HOLORECORD_EMD,
+          ItemPool.HOLORECORD_PIGS -> {
         UseItemRequest.limiter = "lack of Wrist-Boy";
         return InventoryManager.hasItem(ItemPool.WRIST_BOY) ? Integer.MAX_VALUE : 0;
-
-      case ItemPool.SCHOOL_OF_HARD_KNOCKS_DIPLOMA:
-      case ItemPool.PUNCHING_MIRROR:
+      }
+      case ItemPool.SCHOOL_OF_HARD_KNOCKS_DIPLOMA, ItemPool.PUNCHING_MIRROR -> {
         if (!KoLCharacter.getHippyStoneBroken()) {
           UseItemRequest.limiter = "an unbroken hippy stone";
           return 0;
         }
-        break;
-
-      case ItemPool.VICTOR_SPOILS:
+      }
+      case ItemPool.VICTOR_SPOILS -> {
         if (!KoLCharacter.inBondcore()) {
           UseItemRequest.limiter = "not being Bond";
           return 0;
         }
-        break;
-
-      case ItemPool.M282:
-      case ItemPool.SNAKE:
-      case ItemPool.SPARKLER:
-      case ItemPool.GREEN_ROCKET:
+      }
+      case ItemPool.M282, ItemPool.SNAKE, ItemPool.SPARKLER, ItemPool.GREEN_ROCKET -> {
         if (!HolidayDatabase.getHoliday().contains("Dependence Day")) {
           UseItemRequest.limiter = "not Dependence Day";
           return 0;
         }
-        break;
-
-      case ItemPool.CRYSTALLIZED_PUMPKIN_SPICE:
+      }
+      case ItemPool.CRYSTALLIZED_PUMPKIN_SPICE -> {
         if (!HolidayDatabase.isAutumn()) {
           UseItemRequest.limiter = "not Autumn";
           return 0;
         }
-        break;
+      }
     }
 
     var dailyLimit = DailyLimitType.USE.getDailyLimit(itemId);
