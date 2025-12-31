@@ -88,7 +88,7 @@ class SkeletonOfCrimboPastRequestTest {
   public void dailySpecialPopulatesInConcoctionPool() {
     // Item 10883 is "Crimbo snack mix" (descid 957545937)
     String responseText =
-        "Daily Special: <a class=\"nounder\" href=\"descitem(352309634)\"><b>rethinking candy</b></a> (10 knucklebones)";
+        "value=\"Daily Special: candy egg deviler\"></td><td valign=center><img style=\"margin-right: 1em;  cursor:pointer;\" onclick=\"descitem(477053908)\" alt=\"candy egg deviler\" title=\"candy egg deviler\" src=\"/images/itemimages/deviler.gif\" height=\"30\" width=\"30\" />(1315 knucklebones)";
 
     SkeletonOfCrimboPastRequest.visit(responseText);
 
