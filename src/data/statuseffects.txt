@@ -2382,7 +2382,7 @@
 2379	Berry Elemental	berry6.gif	af9af3569337294dbdea4f6e7f68a49a	good	none	use 1 Tapioc berry
 2380	Berry Statistical	berry7.gif	b2d5b36903a6918769fc02b251d11c49	good	none	use 1 Snarf berry
 2381	Berry Defensive	berry8.gif	5420b4cff604f9ed359f27aa8ec25001	good	none	use 1 Keese berry
-2382	Berry Experiential	berry4.gif	644bbe5f4cdba76d224cbca0a58c8269	good	none	# use any Pokefam berry
+2382	Berry Experiential	berry4.gif	644bbe5f4cdba76d224cbca0a58c8269	good	none	use either 1 Egnaro berry, 1 Glum berry, 1 Jamocha berry, 1 Keese berry, 1 Nadsat berry, 1 Sitrep berry, 1 Snarf berry, 1 Tapioc berry
 2383	Eggstraordinary Strength	neweggs.gif	2c7883265ade115090d1f842b25e5f9d	good	nohookah	chew 1 magnificent oyster egg
 2384	Eggstraordinary Brilliance	neweggs.gif	3b08e01bbfb51228106328cda1f75105	good	nohookah	chew 1 brilliant oyster egg
 2385	Eggstraordinary Style	neweggs.gif	3a189ec6d0cb1c990d8789c71f69b8f2	good	nohookah	chew 1 glistening oyster egg

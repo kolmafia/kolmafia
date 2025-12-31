@@ -13024,7 +13024,7 @@ Item	E.M.U. rocket thrusters	Last Available: "2011-06"
 Item	eaves droppers	Last Available: "2018-02"
 Item	eggman noodles	Last Available: "2010-03"
 # Egnaro berry: Restores MP and energizes you for a while
-Item	Egnaro berry	Last Available: "2018-03"
+Item	Egnaro berry	Effect: "Berry Experiential", Effect Duration: 20, Last Available: "2018-03"
 Item	El Vibrato punchcard (ATTACK)	Wiki Name: "El Vibrato punchcard (115 holes)"
 Item	El Vibrato punchcard (BUFF)	Wiki Name: "El Vibrato punchcard (129 holes)"
 Item	El Vibrato punchcard (BUILD)	Wiki Name: "El Vibrato punchcard (165 holes)"
@@ -13342,7 +13342,7 @@ Item	glowing frisbee	Free Pull, Last Available: "2011-12"
 Item	glowing New Age crystal	Last Available: "2015-08"
 # glowing spore pod: Briefly enhances your Mysticality
 # Glum berry: Removes negative effects and energizes you for a while
-Item	Glum berry	Last Available: "2018-03"
+Item	Glum berry	Effect: "Berry Experiential", Effect Duration: 20, Last Available: "2018-03"
 Item	gluttonous stone	Last Available: "2012-12"
 Item	gnashing teeth	Last Available: "2008-12"
 # Gnomitronic Hyperspatial Demodulizer: Science!
@@ -13621,7 +13621,7 @@ Item	Jackass Plumber home game	Last Available: "2011-11", Effect: "Gamer Rage", 
 Item	jam band bootleg	Last Available: "2018-09"
 # jam band flyers: Advertise!
 # Jamocha berry: Grants passive physical damage and energizes you for a while
-Item	Jamocha berry	Last Available: "2018-03", Effect: "Berry Thorny", Effect Duration: 20
+Item	Jamocha berry	Last Available: "2018-03", Effect: "Berry Thorny", Effect Duration: 20, Effect: "Berry Experiential", Effect Duration: 20
 Item	jangly spurs	Last Available: "2016-02"
 # janitor sponge: Deals 20-30 <font color=green>Stench Damage</font> and briefly stuns your opponent
 # January's Garbage Tote: Allows you to rummage up Holiday Detritus
@@ -13654,7 +13654,7 @@ Item	jug of Sneaky Pete's Mojo	Free Pull
 Item	juggling ball	Last Available: "2014-12"
 # Junk-Bond: Weakens enemies somewhat and briefly stuns them
 # Keese berry: Improves your defenses and energizes you for a while
-Item	Keese berry	Last Available: "2018-03", Effect: "Berry Defensive", Effect Duration: 20
+Item	Keese berry	Last Available: "2018-03", Effect: "Berry Defensive", Effect Duration: 20, Effect: "Berry Experiential", Effect Duration: 20
 Item	kerosene-soaked skip	Free Pull, Last Available: "2018-12"
 Item	kevlateflocite helmet	Last Available: "2007-12"
 Item	keycard &alpha;	Last Available: "2015-04"
@@ -14055,7 +14055,7 @@ Item	mysterious present	Last Available: "2011-04"
 # Mysterious Red Box: Can only be opened on February 29
 Item	Mysterious Red Box	Last Available: "2018-02"
 # Nadsat berry: Improves critical hit chance and energizes you for a while (also gives Berry Experiential)
-Item	Nadsat berry	Last Available: "2018-03", Effect: "Berry Critical", Effect Duration: 20
+Item	Nadsat berry	Last Available: "2018-03", Effect: "Berry Critical", Effect Duration: 20, Effect: "Berry Experiential", Effect Duration: 20
 Item	nanofiber cloth	Last Available: "2007-12"
 # Nardz energy beverage: Restores 50-70 MP
 Item	nasty desk bell	Last Available: "2020-09"
@@ -14762,7 +14762,7 @@ Item	silver shotgun shell	Last Available: "2011-10"
 Item	Single Alice's Army Foil	Last Available: "2011-03"
 Item	sinistral homunculus	Free Pull, Last Available: "2020-04"
 # Sitrep berry: Restores HP and energizes you for a while
-Item	Sitrep berry	Last Available: "2018-03"
+Item	Sitrep berry	Effect: "Berry Experiential", Effect Duration: 20, Last Available: "2018-03"
 Item	sizzling desk bell	Last Available: "2020-09"
 # skate skates: Deals 150-300 Physical Damage and briefly stuns your opponent
 # skeletal skiff: <b>Allows Travel to The Mysterious Island of Mystery</b>
@@ -14816,7 +14816,7 @@ Item	SMOOCH bottlecap	Last Available: "2020-09"
 # snake oil: Increase the venom and medicine level of your briefcase full of snakes
 Item	snake skin	Last Available: "2018-11"
 # Snarf berry: Increases your stats and energizes you for a while
-Item	Snarf berry	Last Available: "2018-03", Effect: "Berry Statistical", Effect Duration: 20
+Item	Snarf berry	Last Available: "2018-03", Effect: "Berry Statistical", Effect Duration: 20, Effect: "Berry Experiential", Effect Duration: 20
 # sneaky wrapping paper: Hide gifts for other players in various locations
 Item	sneaky wrapping paper	Last Available: "2014-12"
 Item	Snoutlet	Last Available: "2018-03"
@@ -15063,7 +15063,7 @@ Item	talisman of Seshat	Free Pull
 Item	talking spade	Free Pull
 # tangle of rat tails: Deals 50-70 <font color=blueviolet>Sleaze Damage</font> and 100-120 <font color=green>Stench Damage</font>
 # Tapioc berry: Grants elemental resistance and energizes you for a while
-Item	Tapioc berry	Last Available: "2018-03", Effect: "Berry Elemental", Effect Duration: 20
+Item	Tapioc berry	Last Available: "2018-03", Effect: "Berry Elemental", Effect Duration: 20, Effect: "Berry Experiential", Effect Duration: 20
 Item	tarnished luggage key	Last Available: "2017-01"
 Item	tasty louse	Last Available: "2008-06"
 # tattered scrap of paper: Lets you escape from combat without spending an Adventure
