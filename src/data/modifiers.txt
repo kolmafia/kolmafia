@@ -11106,7 +11106,8 @@ Item	eldritch rub	Effect: "Infused with Sssshhsssblllrrggghsssssggggrrgglssss", 
 Item	electric mushroom	Effect: "Tingling Insides", Effect Duration: 20, Last Available: "2023-02"
 Item	Elf Guard eyedrops	Effect: "Elf Watch", Effect Duration: 30, Last Available: "2023-12"
 Item	Elizabeth's paintbrush	Effect: "Boschface", Effect Duration: 25
-Item	elven suicide capsule	Effect: "Sugar Rush", Effect Duration: 10, Last Available: "2009-12" # actually gives one of Sugar High, Sugar Smacks, Sugary Tongue
+# elven suicide capsule actually gives one of Sugar High, Sugar Smacks, Sugary Tongue
+Item	elven suicide capsule	Effect: "Sugar Rush", Effect Duration: 10, Last Available: "2009-12"
 Item	Elvish delight	Effect: "Cuts Like a Lightly-Buttered Knife", Effect Duration: 3
 Item	EMD holo-record	Effect: "Ministrations in the Dark", Effect Duration: 10
 Item	emergency glowstick	Effect: "Glowing Hands", Effect Duration: 20, Last Available: "2022-05"
@@ -11468,7 +11469,8 @@ Item	Oil of Parrrlay	Effect: "Well-Oiled", Effect Duration: 5
 Item	oil of slipperiness	Effect: "Slippery Oiliness", Effect Duration: [R]
 Item	oil of stability	Effect: "Stabilizing Oiliness", Effect Duration: [R]
 Item	ointment of the occult	Effect: "Mystically Oiled", Effect Duration: [R]
-Item	Okee-Dokee soda	Effect: "Sugar Rush", Effect Duration: 20, Effect: "Okee-Dokee Go!", Effect Duration: 10, Effect: "Okee-Dokee Computer", Effect Duration: 10, Effect: "Okee-Dokee, Smokee", Effect Duration: 10, Last Available: "2011-05" # okee dokee effects are 10-20 turns
+# okee dokee effects are 10-20 turns
+Item	Okee-Dokee soda	Effect: "Sugar Rush", Effect Duration: 20, Effect: "Okee-Dokee Go!", Effect Duration: 10, Effect: "Okee-Dokee Computer", Effect Duration: 10, Effect: "Okee-Dokee, Smokee", Effect Duration: 10, Last Available: "2011-05"
 Item	old bronzer	Effect: "Sepia Tan", Effect Duration: 25
 Item	old candy wrapper	Effect: "Litterbug", Effect Duration: 5, Last Available: "2013-11"
 Item	old eyebrow pencil	Effect: "Browbeaten", Effect Duration: 25
@@ -11476,7 +11478,8 @@ Item	old love note	Effect: "Memories of Puppy Love", Effect Duration: 20, Last A
 Item	old rosewater cream	Effect: "Rosewater Mark", Effect Duration: 25
 Item	Omphalotus Omphaloskepsis mushroom	Effect: "Omphalotus Omnipresence", Effect Duration: 10, Last Available: "2014-05"
 Item	one piece of bubble gum	Effect: "Sugar Rush", Effect Duration: 10
-Item	one pill	Effect Duration: 0 # gives one of Larger, Small or nothing
+# one pill gives one of Larger, Small or nothing
+Item	one pill	Effect Duration: 0
 Item	orange and black Crimboween candy	Effect: "Sugar Rush", Effect Duration: 5, Last Available: "2020-09"
 Item	orange candy heart	Effect: "Heart of Orange", Effect Duration: 10, Last Available: "2007-02"
 Item	orange snowcone	Effect: "Orange Tongue", Effect Duration: 20, Last Available: "2006-01"

@@ -110,7 +110,7 @@ public class DataFileConsistencyTest {
   }
 
   @Test
-  public void testPotions() throws IOException {
+  public void testPotions() {
     boolean bogus = false;
     for (var id : allItems()) {
       var type = ItemDatabase.getConsumptionType(id);
