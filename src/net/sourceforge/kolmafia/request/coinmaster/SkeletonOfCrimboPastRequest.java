@@ -9,6 +9,8 @@ import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.objectpool.Concoction;
+import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
@@ -128,7 +130,9 @@ public class SkeletonOfCrimboPastRequest extends CoinMasterRequest {
     prices.entrySet().removeIf(e -> e.getKey() < ItemPool.SMOKING_POPE);
     prices.put(item.getItemId(), price);
     SKELETON_OF_CRIMBO_PAST.registerPurchaseRequests();
-
+    Concoction conc = ConcoctionPool.get(item);
+    conc.resetIngredients();
+    conc.addIngredient(KNUCKLEBONE);
     return true;
   }
 

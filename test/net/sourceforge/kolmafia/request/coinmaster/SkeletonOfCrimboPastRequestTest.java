@@ -83,7 +83,7 @@ class SkeletonOfCrimboPastRequestTest {
   @Test
   public void dailySpecialPopulatesInConcoctionPool() {
     // Item 10883 is "Crimbo snack mix" (descid 957545937)
-    String responseText = "Daily Special: <a class=\"nounder\" href=\"descitem(352309634)\"><b>rethinking cnady</b></a> (10 knucklebones)";
+    String responseText = "Daily Special: <a class=\"nounder\" href=\"descitem(352309634)\"><b>rethinking candy</b></a> (10 knucklebones)";
 
     SkeletonOfCrimboPastRequest.visit(responseText);
 
@@ -91,6 +91,10 @@ class SkeletonOfCrimboPastRequestTest {
     var concoction = ConcoctionPool.get(ItemPool.RETHINKING_CANDY_BOOK);
     assertThat(concoction, notNullValue());
     assertThat(concoction.getPurchaseRequest(), notNullValue());
-    assertThat(concoction.getPurchaseRequest().getShopName(), is(SkeletonOfCrimboPastRequest.SKELETON_OF_CRIMBO_PAST.toString()));
+    assertThat(concoction.getPurchaseRequest().getShopName(),
+      is(SkeletonOfCrimboPastRequest.SKELETON_OF_CRIMBO_PAST.toString()));
+    assertThat("Has more than 1 ingredient",
+      concoction.getIngredients().length,is(1));
+
   }
 }
