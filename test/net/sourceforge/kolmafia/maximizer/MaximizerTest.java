@@ -20,6 +20,7 @@ import static internal.helpers.Player.withItemInStorage;
 import static internal.helpers.Player.withLocation;
 import static internal.helpers.Player.withMCD;
 import static internal.helpers.Player.withMeat;
+import static internal.helpers.Player.withMuscle;
 import static internal.helpers.Player.withNotAllowedInStandard;
 import static internal.helpers.Player.withOverrideModifiers;
 import static internal.helpers.Player.withPath;
@@ -2497,6 +2498,30 @@ public class MaximizerTest {
         var boosts = getBoosts();
         assertThat(
             boosts, not(hasItem(hasProperty("cmd", equalTo("use 1 crystallized pumpkin spice")))));
+      }
+    }
+
+    @Test
+    public void recommendsM242OnDependenceDay() {
+      var cleanups =
+          new Cleanups(withItem(ItemPool.M282), withDay(2025, Month.OCTOBER, 30), withMuscle(100));
+
+      try (cleanups) {
+        maximize("muscle");
+        var boosts = getBoosts();
+        assertThat(boosts, hasItem(hasProperty("cmd", equalTo("use 1 M-242"))));
+      }
+    }
+
+    @Test
+    public void doesNotRecommendM242OutsideDependenceDay() {
+      var cleanups =
+          new Cleanups(withItem(ItemPool.M282), withDay(2025, Month.DECEMBER, 11), withMuscle(100));
+
+      try (cleanups) {
+        maximize("muscle");
+        var boosts = getBoosts();
+        assertThat(boosts, not(hasItem(hasProperty("cmd", equalTo("use 1 M-242")))));
       }
     }
   }
