@@ -939,7 +939,7 @@ succulent marrow	3	1	decent	5-7	25-30	0	0
 suddenly salad!	5	1	pseudoitem	60-80	0	220-400	0
 sugarplum ration	5	1	awesome	17	0	0	0	50 Sugarplum Visions (more pieces of 12 from Crimbuccaneers)
 suggestive strozzapreti	5	7	awesome	16-19	0	0	20-30
-sun-dried tofu	2	3	crappy	2-4	0	0	0	gain Deadened Palate or lose Oversaturated Palate
+sun-dried tofu	2	3	crappy	2-4	0	0	0	gain Deadened palate or lose Oversaturated Palate
 sundae ration	2	1	awesome	10	0	0	0
 super good fruit	1	1	awesome	5	0	10-20	0
 super ka-bob	3	11	awesome	12-15	30-38	0	0
