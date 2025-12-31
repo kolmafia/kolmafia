@@ -69,21 +69,26 @@ class SkeletonOfCrimboPastRequestTest {
   @Test
   public void canRegisterDailySpecial() {
     // Daily Special: <item description link> (10 knucklebones)
-    String responseText = "Daily Special: <a class=\"nounder\" href=\"descitem(352309634)\"><b>rethinking cnady</b></a> (10 knucklebones)";
+    String responseText =
+        "Daily Special: <a class=\"nounder\" href=\"descitem(352309634)\"><b>rethinking cnady</b></a> (10 knucklebones)";
 
     // Visit the skeleton with the response text
     SkeletonOfCrimboPastRequest.visit(responseText);
 
     // Verify preferences are set correctly
-    assertThat(Preferences.getInteger("_crimboPastDailySpecialItem"), is(ItemPool.RETHINKING_CANDY_BOOK));
+    assertThat(
+        Preferences.getInteger("_crimboPastDailySpecialItem"), is(ItemPool.RETHINKING_CANDY_BOOK));
     assertThat(Preferences.getInteger("_crimboPastDailySpecialPrice"), is(10));
-    assertThat(Preferences.getBoolean("_crimboPastDailySpecial"), is(false)); // false means "not yet bought"
+    assertThat(
+        Preferences.getBoolean("_crimboPastDailySpecial"),
+        is(false)); // false means "not yet bought"
   }
 
   @Test
   public void dailySpecialPopulatesInConcoctionPool() {
     // Item 10883 is "Crimbo snack mix" (descid 957545937)
-    String responseText = "Daily Special: <a class=\"nounder\" href=\"descitem(352309634)\"><b>rethinking candy</b></a> (10 knucklebones)";
+    String responseText =
+        "Daily Special: <a class=\"nounder\" href=\"descitem(352309634)\"><b>rethinking candy</b></a> (10 knucklebones)";
 
     SkeletonOfCrimboPastRequest.visit(responseText);
 
@@ -91,10 +96,9 @@ class SkeletonOfCrimboPastRequestTest {
     var concoction = ConcoctionPool.get(ItemPool.RETHINKING_CANDY_BOOK);
     assertThat(concoction, notNullValue());
     assertThat(concoction.getPurchaseRequest(), notNullValue());
-    assertThat(concoction.getPurchaseRequest().getShopName(),
-      is(SkeletonOfCrimboPastRequest.SKELETON_OF_CRIMBO_PAST.toString()));
-    assertThat("Has more than 1 ingredient",
-      concoction.getIngredients().length,is(1));
-
+    assertThat(
+        concoction.getPurchaseRequest().getShopName(),
+        is(SkeletonOfCrimboPastRequest.SKELETON_OF_CRIMBO_PAST.toString()));
+    assertThat("Has more than 1 ingredient", concoction.getIngredients().length, is(1));
   }
 }
