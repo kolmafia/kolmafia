@@ -3937,6 +3937,7 @@ public class ItemPool {
   public static final int ANCHOR_BOMB = 11706;
   public static final int SILKY_PIRATE_DRAWERS = 11707;
   public static final int MILITARY_ORB = 11731;
+  public static final int CRYSTALLIZED_PUMPKIN_SPICE = 11738;
   public static final int SNOWMAN_ENCHANTING_TOPHAT = 11743;
   public static final int PUMPKIN_SPICE_WHORL = 11746;
   public static final int EGG_GUN = 11772;

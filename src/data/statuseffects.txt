@@ -2558,7 +2558,7 @@
 2555	Snarl of Three Timberwolves	wolfmask.gif	193ef2bbdde7fe95e51e5a527ae4f42e	good	nohookah	cast 1 Snarl of the Timberwolf ^ Snarl of Three Timberwolves
 2556	Invisible Avatar	missingavatar.gif	da6f47ae655716b599e530128712c36c	neutral	none	cast 1 CHEAT CODE: Invisible Avatar
 2557	Triple-Sized	triplesize.gif	6be2d9af5964c3bc987c0696ea60eeeb	good	nohookah	cast 1 CHEAT CODE: Triple Size
-2558	Warmed Up	mario_juggle.gif	9fea199e3a5fd92b82e46f9e0ecc203c	neutral	none
+2558	Warmed Up	mario_juggle.gif	9fea199e3a5fd92b82e46f9e0ecc203c	neutral	nohookah
 2559	Heated Up	mario_juggle.gif	7ff2479058ced96de968b27a32df19e1	good	nohookah
 2560	Half-Sized	mario_halfsize.gif	a2e799db00f83234a97fe1ab9d38ee88	bad	none
 2561	Fizzy Fizzy	mario_soda.gif	8e2c240a3b8a8330268136b316d334d4	good	none	use 1 fizzy soda
@@ -2858,7 +2858,7 @@
 2855	Clericbot Blessing	acore_cleric.gif	8411214ff53d8afb3375ea40fda74e27	neutral	none
 2856	Martially-Minded	sword.gif	13078bcdf837700bc047bbc706e97bbb	good	none
 2857	Animal Lover	happy.gif	e6711e9b198ebf036a0ff668a5f370b0	good	none
-2858	Cracked Open a Warm One	gwoolbeer.gif	a1704d5a88cbcc92db8c129396b4d984	neutral	none	drink 1 nice warm beer
+2858	Cracked Open a Warm One	gwoolbeer.gif	a1704d5a88cbcc92db8c129396b4d984	neutral	nohookah	drink 1 nice warm beer
 2859	Elf Watch	eyes.gif	b17a1e7aecddb2fc6852a1b117f278b0	neutral	none	use 1 Elf Guard eyedrops
 2860	Whalethoughts	realbrain.gif	1b7a1beabd7276bf26a976bb56c3fd96	neutral	none	use 1 whale cerebrospinal fluid
 2861	Jamaican' Me Acquisitive	coffeecup.gif	5a4ef3e149e9a128ee2d3a8d7c248b71	neutral	none	drink 1 Jamaican coffee
