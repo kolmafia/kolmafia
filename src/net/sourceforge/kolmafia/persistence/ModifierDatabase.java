@@ -124,6 +124,7 @@ public class ModifierDatabase {
   private static final Pattern LASTS_ONE_DAY_PATTERN =
       Pattern.compile("This item will disappear at the end of the day");
   private static final Pattern FREE_PULL_PATTERN = Pattern.compile("Free pull from Hagnk's");
+  private static final Pattern NO_PULL_PATTERN = Pattern.compile("Cannot be pulled from Hagnk's");
   private static final Pattern EFFECT_PATTERN =
       Pattern.compile("Effect: <b><a([^>]*)>([^<]*)</a></b>");
   private static final Pattern EFFECT_DURATION_PATTERN =
@@ -892,6 +893,15 @@ public class ModifierDatabase {
     Matcher matcher = FREE_PULL_PATTERN.matcher(text);
     if (matcher.find()) {
       return BooleanModifier.FREE_PULL.getTag();
+    }
+
+    return null;
+  }
+
+  public static final String parseNoPull(final String text) {
+    Matcher matcher = NO_PULL_PATTERN.matcher(text);
+    if (matcher.find()) {
+      return BooleanModifier.NOPULL.getTag();
     }
 
     return null;
