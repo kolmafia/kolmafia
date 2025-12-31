@@ -841,6 +841,13 @@ public class UseItemRequest extends GenericRequest {
           return 0;
         }
         break;
+
+      case ItemPool.CRYSTALLIZED_PUMPKIN_SPICE:
+        if (!HolidayDatabase.isAutumn()) {
+          UseItemRequest.limiter = "not Autumn";
+          return 0;
+        }
+        break;
     }
 
     var dailyLimit = DailyLimitType.USE.getDailyLimit(itemId);

@@ -375,9 +375,9 @@
 372	Flashing Eyes	bigeyes.gif	eaa0f2cd06a00116af53bd65177fdf4b	good	none	drink 1 white Xanadian
 373	Mmmmmelon	melon.gif	bd27dcbc85c224d16256b51a8ca02db5	good	none	eat 1 honey-dew
 374	Contagious Bad Luck	bmirror.gif	86bb1d1be1a84c4554906852f4273f90	bad	none	use 1 bottle of black cat tonic
-375	Sparkling Consciousness	snowflakes.gif	a735ff0b16a7d7491c0dbb79c2e7895c	good	none	# using sparkler on Dependence Day
-376	Sneaky Serpentine Subtlety	snakehead.gif	1539b9172f5093b00da60bf5764477a6	good	none	# using snake on Dependence Day
-377	Adrenaline Rush	hoppeddown.gif	47a740988991d8f1ef1ab26e72ee2a86	good	none	# using M-242 on Dependence Day
+375	Sparkling Consciousness	snowflakes.gif	a735ff0b16a7d7491c0dbb79c2e7895c	good	none	use 1 sparkler
+376	Sneaky Serpentine Subtlety	snakehead.gif	1539b9172f5093b00da60bf5764477a6	good	none	use 1 snake
+377	Adrenaline Rush	hoppeddown.gif	47a740988991d8f1ef1ab26e72ee2a86	good	none	use 1 M-242
 378	Crusty Head	hippywig.gif	81b2fce49b337b3ef3c6a1b11d77c2df	good	none	use 1 tube of dread wax
 379	Florid Cheeks	henna.gif	c6eba521aa725f3dbd0a27ac95cabaab	good	none	use 1 henna face paint
 380
