@@ -12092,8 +12092,8 @@
 12063	tiny plastic right skeleton arm	614426579	tpc25rarm.gif	accessory	t	0
 12064	tiny plastic right skeleton leg	472689693	tpc25reg.gif	accessory	t	0
 12065	tiny plastic skeleton pelvis	463690423	tpc25butt.gif	accessory	t	0
-12066
-12067
+12066	discreetly-wrapped Eternity Codpiece	323763723	eternitycodbox.gif	usable	t	0
+12067	The Eternity Codpiece	313152180	eternitycod.gif	accessory		0
 12068
 12069
 12070
