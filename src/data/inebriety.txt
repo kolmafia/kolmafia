@@ -680,7 +680,7 @@ soilzerac	1	1	good	2-4	0	0	0	40 Here's Mud in Your Eye (+50 Meat Drop)
 Sourfinger	3	1	awesome	12	15-30	15-30	15-30	20 Touched (+3 Spooky Resist, +20 Spooky Dam, +3 Experience)
 Southern yam	2	4	EPIC	10-12	0	54-56	0
 soy cordial	5	6	EPIC	28-35	55-61	38-50	35-52	2 Electrolyte Fantastic (+10% mys exp)
-soyburger juice	2	3	crappy	2-4	0	0	0	gain Oversaturated Palate or lose Deadened Palate
+soyburger juice	2	3	crappy	2-4	0	0	0	gain Oversaturated Palate or lose Deadened palate
 space port	2	5	good	5-6	10-20	10-20	10-20	WINE
 space wine	6	1	awesome	20-22	0	0	0
 Spasmi Dolorosi Del Rene Champagne	1	10	super ultra mega turbo EPIC	6-10	60	60	60	WINE
