@@ -6566,7 +6566,7 @@ Effect	Fresh Breath	Combat Rate: +10, Moxie Percent: +20, Moxie: +10
 Effect	Fresh Scent	Combat Rate: -5
 Effect	Friendly Chops	Meat Drop: +100, Sleaze Resistance: +5
 Effect	Frigid Weapon	Cold Damage: +3
-Effect	Frigidalmatian	Damage Aura: 1
+Effect	Frigidalmatian	Damage Aura: 1, Lantern: 1, Lantern Element: "Cold"
 Effect	Frio Como Helado	Cold Damage: +10
 Effect	Frisky Spirit	Moxie: +15
 Effect	Frog In Your Throat	Muscle: +25
