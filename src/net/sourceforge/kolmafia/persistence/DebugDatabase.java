@@ -1292,6 +1292,7 @@ public class DebugDatabase {
     DebugDatabase.appendModifier(known, ModifierDatabase.parseSoftcoreOnly(text));
     DebugDatabase.appendModifier(known, ModifierDatabase.parseLastsOneDay(text));
     DebugDatabase.appendModifier(known, ModifierDatabase.parseFreePull(text));
+    DebugDatabase.appendModifier(known, ModifierDatabase.parseNoPull(text));
     DebugDatabase.appendModifier(known, ModifierDatabase.parseEffect(text));
     DebugDatabase.appendModifier(known, ModifierDatabase.parseEffectDuration(text));
     DebugDatabase.appendModifier(known, ModifierDatabase.parseSongDuration(text));
