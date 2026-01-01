@@ -12159,8 +12159,8 @@
 12130	boiling cerebrospinal fluid	233745225	c25goo2.gif	potion, perishable	t,d	22	globs of boiling cerebrospinal fluid
 12131	boiling synovial fluid	618141245	c25goo3.gif	potion, perishable	t,d	22	globs of boiling synovial fluid
 12132	smoldering vertebra	437643856	vertebraring.gif	accessory	t	0	smoldering vertebrae
-12133
-12134
+12133	seal-clubbing club loot box	175163561	leg_club_box.gif	usable	t	0	seal-clubbing club loot boxes
+12134	legendary seal-clubbing club	226823809	leg_club.gif	weapon		0
 12135	smoldering bone dust	407867545	smolderdust.gif	none	t,d	15	piles of smoldering bone dust
 12136	volatile bone bomb	613792951	bonebomb.gif	none, combat, perishable	t,d	111
 12137	hot boning knife	593295785	hotboningknife.gif	weapon	t	0	hot boning knive
