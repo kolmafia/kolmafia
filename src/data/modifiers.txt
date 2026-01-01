@@ -12737,8 +12737,8 @@ Item	crafting plans	Last Available: "2025-03"
 # crappy camera: Makes a copy of a monster to fight later
 # crappy camera: (when it works)
 Item	crappy camera	Last Available: "2014-12"
-Item	crate of prize-winning cheese	Last Available: "2025-12"
-Item	crate of prize-winning rum	Last Available: "2025-12"
+Item	crate of prize-winning cheese	No Pull, Last Available: "2025-12"
+Item	crate of prize-winning rum	No Pull, Last Available: "2025-12"
 # crayon shavings: Weakens enemies by 30%
 Item	crayon shavings	Last Available: "2012-06"
 # crazy hobo notebook: Deals <font color=gray>Spooky Damage</font> every round to every monster you fight today in the zone where you used it
