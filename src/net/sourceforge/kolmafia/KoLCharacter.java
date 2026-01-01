@@ -35,6 +35,7 @@ import net.sourceforge.kolmafia.modifiers.DerivedModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.Lookup;
 import net.sourceforge.kolmafia.modifiers.Modifier;
+import net.sourceforge.kolmafia.modifiers.MultiDoubleModifier;
 import net.sourceforge.kolmafia.modifiers.MultiStringModifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.moods.HPRestoreItemList;
@@ -2141,6 +2142,10 @@ public abstract class KoLCharacter {
 
   public static List<String> currentMultiStringModifier(final MultiStringModifier mod) {
     return KoLCharacter.currentModifiers.getStrings(mod);
+  }
+
+  public static List<Double> currentMultiDoubleModifier(final MultiDoubleModifier mod) {
+    return KoLCharacter.currentModifiers.getDoubles(mod);
   }
 
   /** Accessor method to retrieve the total current monster level adjustment */
