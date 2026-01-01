@@ -541,29 +541,11 @@ public class ModifierDatabase {
   }
 
   public static String getStringModifier(
-      final ModifierType type, final int id, final MultiStringModifier mod) {
-    return getStringModifier(new Lookup(type, id), mod);
-  }
-
-  public static String getStringModifier(
       final ModifierType type, final String name, final Modifier mod) {
     return getStringModifier(new Lookup(type, name), mod);
   }
 
-  public static String getStringModifier(
-      final ModifierType type, final String name, final MultiStringModifier mod) {
-    return getStringModifier(new Lookup(type, name), mod);
-  }
-
   public static String getStringModifier(final Lookup lookup, final Modifier mod) {
-    Modifiers mods = getModifiers(lookup);
-    if (mods == null) {
-      return "";
-    }
-    return mods.getString(mod);
-  }
-
-  public static String getStringModifier(final Lookup lookup, final MultiStringModifier mod) {
     Modifiers mods = getModifiers(lookup);
     if (mods == null) {
       return "";

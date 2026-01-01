@@ -10579,11 +10579,8 @@ public abstract class RuntimeLibrary {
       Modifier content = (Modifier) modifier.content;
       if (content != null) {
         switch (content.getType()) {
-          case STRING -> {
-            return (StringModifier) content;
-          }
-          case MULTISTRING -> {
-            return (MultiStringModifier) content;
+          case STRING, MULTISTRING -> {
+            return content;
           }
         }
       }
