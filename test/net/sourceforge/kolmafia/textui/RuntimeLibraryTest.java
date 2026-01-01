@@ -1144,6 +1144,13 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     }
 
     @Test
+    void numericReadsMultiNumericModifiers() {
+      String input = "numeric_modifier($item[bitter pill], \"Effect Duration\")";
+      String output = execute(input);
+      assertThat(output, startsWith("Returned: 100"));
+    }
+
+    @Test
     void canCallBooleanWithModifier() {
       String input = "boolean_modifier($item[Brimstone Beret], $modifier[Four Songs])";
       String output = execute(input);
