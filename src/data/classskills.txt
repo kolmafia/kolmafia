@@ -1156,6 +1156,9 @@
 7579	BCZ: Craft a Pheromone Cocktail	cbz_booze.gif	nc,item	0	0
 7580	Mark Your Territory	hydrant.gif	combat	0	0
 7581	Prepare to reanimate your Foe	shrunkenhead.gif	combat	0	0
+7582	Club 'Em Across the Battlefield	leg_club3.gif	combat	0	0
+7583	Club 'Em Into Next Week	leg_club2.gif	combat	0	0
+7584	Club 'Em Back in Time	leg_club1.gif	combat	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.

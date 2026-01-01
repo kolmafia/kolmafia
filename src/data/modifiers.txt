@@ -1636,6 +1636,8 @@ Item	lawnmower blade	Weapon Damage: +15, Last Available: "2010-04"
 Item	lead pipe	Maximum HP: +50, Muscle Percent: +100, Lasts Until Rollover, Last Available: "2015-07"
 # lead yo-yo
 Item	leechknife	Maximum HP: +10, Maximum MP: +5, HP Regen Min: 4, HP Regen Max: 6, MP Regen Min: 4, MP Regen Max: 6
+# legendary seal-clubbing club: Increase Fury Capacity and Generation (Seal Clubbers Only)
+Item	legendary seal-clubbing club	Muscle Percent: +50, Weapon Damage: [10*L], Initiative: +50, Attacks Can't Miss, Last Available: "2026-01", Conditional Skill (Equipped): "Club 'Em Across the Battlefield", Conditional Skill (Equipped): "Club 'Em Into Next Week", Conditional Skill (Equipped): "Club 'Em Back in Time"
 # licorice whip: Candiful Crits
 Item	licorice whip	Critical Hit Percent: +5, Last Available: "2014-12"
 Item	lightning rod	Spell Damage Percent: +200, Maximum MP: +50, MP Regen Min: 5, MP Regen Max: 10, Lasts Until Rollover
@@ -14654,6 +14656,7 @@ Item	Scurvy and Sobriety Prevention	Skill: "Prevent Scurvy and Sobriety", Last A
 # seal tooth: Deals 1 Physical Damage
 Item	seal tooth	Effect: "Bloody Hand", Effect Duration: 3
 Item	seal-blubber candle	Class: "Seal Clubber"
+Item	seal-clubbing club loot box	Free Pull, Last Available: "2026-01"
 Item	Sealed TakerSpace letter of Marque	Free Pull, Last Available: "2024-12"
 # sealhide snare: Stuns your opponent for a few rounds
 Item	secret from the future	Last Available: "2009-06"
