@@ -6202,7 +6202,7 @@ Effect	Dazed, Confused	Avatar: "wastoid"
 # Dazzling Smile: Increases your ability to spread Crimbo cheer
 Effect	Dead Man's Handoff	Avatar: "gamblin' man"
 Effect	Dead Sexy	Avatar: "sexy zombie"
-# Deadened Palate: Bleah
+# Deadened palate: Bleah
 Effect	Deadly Flashing Blade	Weapon Damage: +10
 # Deadly Lampblade: 100% chance of poisoning opponent
 Effect	Deadly Lampblade	Spooky Damage: +75
@@ -9895,7 +9895,7 @@ Item	shoo-fish pie	Effect: "Fishy", Effect Duration: 20, Last Available: "2010-1
 Item	shrapnel jelly donut	Effect: "Filled with Magic", Effect Duration: 30, Last Available: "2011-09"
 Item	shushed potatoes	Effect: "Noise Cancelled", Effect Duration: 100, Last Available: "2017-12"
 Item	skeleton quiche	Last Available: "2012-10"
-Item	skull-shaped Crimboween cookie	Effect: "Bells in the Batfry", Effect Duration: 10, Last Available: "2023-06"
+Item	skull-shaped Crimboween cookie	Effect: "Carol of the Bones", Effect Duration: 10, Last Available: "2023-06"
 Item	Skully's hot chocolate	Effect: "Skull Full of Hot Chocolate", Effect Duration: 10
 Item	sleazy hi mein	Effect: "Sleazy Breath", Effect Duration: 5
 Item	slice of pizza	Last Available: "2013-02"
@@ -9927,7 +9927,7 @@ Item	stomach turnover	Last Available: "2010-10"
 Item	Strix stix	Effect: "Sugar-Frosted Pet Guts", Effect Duration: 40
 Item	stuffed red and green pepper (stale)	Last Available: "2020-12"
 Item	sugarplum ration	Effect: "Sugarplum Visions", Effect Duration: 50, Last Available: "2023-12"
-Item	sun-dried tofu	Effect: "Oversaturated Palate", Effect Duration: 1, Last Available: "2010-08"
+Item	sun-dried tofu	Effect: "Deadened palate", Effect Duration: 1, Last Available: "2010-08"
 Item	sundae ration	Last Available: "2023-12"
 Item	super good fruit	Last Available: "2023-02"
 Item	Susie's cupcake	Last Available: "2025-08"
@@ -10053,7 +10053,7 @@ Item	Aye Aye, Tooth Tooth	Effect: "Arresistible", Effect Duration: 15, Last Avai
 # *** KoL bug: bad rum and good cola grants Faerie Fortune, no item grants Fanatical Fortune.
 # *** Bug reported and acknowledged. bad rum and good cola DOES give Fanatical Fortune, but
 # *** the description is wrong for unknown reasons. Maybe the description will eventually be fixed..
-Item	bad rum and good cola	Effect: "Faerie Fortune", Effect Duration: 30, Last Available: "2018-04"
+Item	bad rum and good cola	Effect: "Fanatical Fortune", Effect Duration: 30, Last Available: "2018-04"
 Item	bark rootbeer	Effect: "Bark of the Dog", Effect Duration: 40, Last Available: "2015-12"
 Item	barrel-aged eggnog	Last Available: "2020-12"
 Item	barrel-aged martini	Effect: "Just Aged Enough", Effect Duration: 50, Last Available: "2015-09"
@@ -10797,7 +10797,7 @@ Item	alphabet gum	Effect: "Bubble, Bubble", Effect Duration: 5
 Item	Ancient Protector Soda	Effect: "Ancient Protected", Effect Duration: 50
 Item	angry agate	Effect: "Misplaced Rage", Effect Duration: 20, Last Available: "2023-02"
 Item	Angry Farmer candy	Effect: "Sugar Rush", Effect Duration: 10
-Item	Angry Farmer's Wife Candy	Effect: "Sugar Rush", Effect Duration: 10
+Item	Angry Farmer's Wife Candy	Effect: "Sugar Rush", Effect Duration: 10, Effect: "Amorous", Effect Duration: 10
 Item	ant agonist	Effect: "All Fired Up", Effect Duration: 10
 Item	anti-burn cream	Effect: "Anti-Burning", Effect Duration: 20, Last Available: "2021-12"
 Item	anti-creep cream	Effect: "Anti-Creeped", Effect Duration: 20, Last Available: "2021-12"
@@ -10931,7 +10931,7 @@ Item	cheap wind-up clock	Effect: "Ticking Clock", Effect Duration: 10
 Item	Cheer-Up soda	Effect: "Cheered Up", Effect Duration: 20, Last Available: "2017-12"
 Item	chicle de salchicha	Effect: "Here to Kick Ass", Effect Duration: 20
 Item	chiffon lemon	Effect: "Bulging Jaw Muscles", Effect Duration: 20
-Item	children of the candy corn	Effect: "Sugar Rush", Effect Duration: 5
+Item	children of the candy corn	Effect: "Sugar Rush", Effect Duration: 5, Effect: "Chilblains of the Corn", Effect Duration: 3
 Item	chitin powder	Effect: "Chitin Powderful", Effect Duration: 10
 Item	chitin powder paste	Effect: "Pastey Power", Effect Duration: 30
 Item	choco-Crimbot	Last Available: "2014-12"
@@ -10981,9 +10981,9 @@ Item	counterskeleton elixir	Effect: "Bones Against Bones", Effect Duration: 50, 
 Item	cranberry cordial	Effect: "Cranberry Cordiality", Effect Duration: [R]
 Item	crappy waiter disguise	Effect: "Crappily Disguised as a Waiter", Effect Duration: 5
 Item	crepe paper peanut candy	Effect: "Crepe Paper Pedestrian Cacophony", Effect Duration: 20
-Item	Crimbo candied pecan	Effect: "Sweet, Nuts", Effect Duration: 5, Last Available: "2009-12"
-Item	Crimbo fudge	Effect: "Busy Bein' Delicious", Effect Duration: 5, Last Available: "2009-12"
-Item	Crimbo peppermint bark	Effect: "Peppermint Bite", Effect Duration: 5, Last Available: "2009-12"
+Item	Crimbo candied pecan	Effect: "Sweet, Nuts", Effect Duration: 5, Effect: "Sugar Rush", Effect Duration: 5, Last Available: "2009-12"
+Item	Crimbo fudge	Effect: "Busy Bein' Delicious", Effect Duration: 5, Effect: "Sugar Rush", Effect Duration: 5, Last Available: "2009-12"
+Item	Crimbo peppermint bark	Effect: "Peppermint Bite", Effect Duration: 5, Effect: "Sugar Rush", Effect Duration: 5, Last Available: "2009-12"
 Item	Crimbot battery	Effect: "Batteries Included", Effect Duration: 50, Last Available: "2014-12"
 Item	crude crudit&eacute;s	Effect: "Crud&eacute;", Effect Duration: 10
 Item	crunchy brush	Effect: "Crunchy Steps", Effect Duration: 5, Last Available: "2024-02"
@@ -11093,7 +11093,7 @@ Item	Drizzlers&trade; Black Licorice	Effect: "Rainy Soul Miasma", Effect Duratio
 Item	drop of water-37	Effect: "Extra-Wet", Effect Duration: 30, Last Available: "2012-07"
 Item	drum of pomade	Effect: "Perfect Hair", Effect Duration: 10, Last Available: "2011-10"
 Item	Drunk Uncles holo-record	Effect: "Drunk and Avuncular", Effect Duration: 10
-Item	dubious peppermint	Effect: "Minty Freshness", Effect Duration: 5, Last Available: "2020-09"
+Item	dubious peppermint	Effect: "Minty Freshness", Effect Duration: 5, Effect: "Sugar Rush", Effect Duration: 3, Last Available: "2020-09"
 Item	eagle feather	Effect: "Eagle Eyes", Effect Duration: 20
 Item	ear candle	Effect: "Clear Ears, Can't Lose", Effect Duration: 80, Last Available: "2021-08"
 Item	Eau de Guaneau	Effect: "Chauve-Souris Merde Fou", Effect Duration: 10
@@ -11108,6 +11108,7 @@ Item	eldritch rub	Effect: "Infused with Sssshhsssblllrrggghsssssggggrrgglssss", 
 Item	electric mushroom	Effect: "Tingling Insides", Effect Duration: 20, Last Available: "2023-02"
 Item	Elf Guard eyedrops	Effect: "Elf Watch", Effect Duration: 30, Last Available: "2023-12"
 Item	Elizabeth's paintbrush	Effect: "Boschface", Effect Duration: 25
+# elven suicide capsule actually gives one of Sugar High, Sugar Smacks, Sugary Tongue
 Item	elven suicide capsule	Effect: "Sugar Rush", Effect Duration: 10, Last Available: "2009-12"
 Item	Elvish delight	Effect: "Cuts Like a Lightly-Buttered Knife", Effect Duration: 3
 Item	EMD holo-record	Effect: "Ministrations in the Dark", Effect Duration: 10
@@ -11115,14 +11116,14 @@ Item	emergency glowstick	Effect: "Glowing Hands", Effect Duration: 20, Last Avai
 Item	ennui-flavored potato chips	Effect: "Also Schmeckt Zarathustra", Effect Duration: 10
 Item	essential cameraderie	Effect: "2 Hearts, 1 Mind", Effect Duration: 50, Last Available: "2010-08"
 Item	essential soy	Effect: "Electrolyte Fantastic", Effect Duration: 50, Last Available: "2010-08"
-Item	Everlasting Deckswabber	Effect: "Sugar Rush", Effect Duration: 10
-Item	evil eyedrops of the ermine	Effect: "Ermine Eyes", Effect Duration: [R+5]
-Item	evil libation of liveliness	Effect: "Provocative Perkiness", Effect Duration: [R+5]
-Item	evil ointment of the occult	Effect: "Mystically Oiled", Effect Duration: [R+5]
-Item	evil philter of phorce	Effect: "Phorcefullness", Effect Duration: [R+5]
-Item	evil potion of potency	Effect: "Pronounced Potency", Effect Duration: [R+5]
-Item	evil serum of sarcasm	Effect: "Superhuman Sarcasm", Effect Duration: [R+5]
-Item	evil tomato juice of powerful power	Effect: "Tomato Power", Effect Duration: [R+5]
+Item	Everlasting Deckswabber	Effect: "Sugar Rush", Effect Duration: 10, Effect: "Chain Chain Chains", Effect Duration: 10
+Item	evil eyedrops of the ermine	Effect: "Ermine Eyes", Effect Duration: [R+5], Effect: "[600]A Little Bit Evil", Effect Duration: 10
+Item	evil libation of liveliness	Effect: "Provocative Perkiness", Effect Duration: [R+5], Effect: "[600]A Little Bit Evil", Effect Duration: 10
+Item	evil ointment of the occult	Effect: "Mystically Oiled", Effect Duration: [R+5], Effect: "[600]A Little Bit Evil", Effect Duration: 10
+Item	evil philter of phorce	Effect: "Phorcefullness", Effect Duration: [R+5], Effect: "[600]A Little Bit Evil", Effect Duration: 10
+Item	evil potion of potency	Effect: "Pronounced Potency", Effect Duration: [R+5], Effect: "[600]A Little Bit Evil", Effect Duration: 10
+Item	evil serum of sarcasm	Effect: "Superhuman Sarcasm", Effect Duration: [R+5], Effect: "[600]A Little Bit Evil", Effect Duration: 10
+Item	evil tomato juice of powerful power	Effect: "Tomato Power", Effect Duration: [R+5], Effect: "[600]A Little Bit Evil", Effect Duration: 10
 Item	evil vihuela	Effect: "El Tango de la Maldita Suegra", Effect Duration: 10
 Item	exotic travel brochure	Effect: "Expert Vacationer", Effect Duration: 20, Last Available: "2015-11"
 Item	experimental serum G-9	Effect: "Experimental Effect G-9", Effect Duration: 40, Last Available: "2014-10"
@@ -11235,7 +11236,7 @@ Item	glowing syringe	Effect: "Biologically Shocked", Effect Duration: 20
 Item	go-go potion	Effect: "Go-Gone", Effect Duration: 20, Last Available: "2014-05"
 Item	goblin water	Effect: "Wet and Greedy", Effect Duration: 100
 Item	Good 'n' Quiet	Effect: "Quiet 'n' Good", Effect Duration: 10
-Item	Good 'n' Slimy	Effect: "Sugar Rush", Effect Duration: 5
+Item	Good 'n' Slimy	Effect: "Sugar Rush", Effect Duration: 5, Effect: "Slimed Stomach", Effect Duration: 1
 Item	gooey drippy candy bar	Effect: "Snichors", Effect Duration: 10
 Item	gourmet gourami oil	Effect: "Fishy, Oily", Effect Duration: 40
 Item	government	Effect: "I See Everything Thrice!", Effect Duration: 10, Last Available: "2014-05"
@@ -11349,7 +11350,7 @@ Item	Knob Goblin sharpening spray	Effect: "Sharp Weapon", Effect Duration: 5
 Item	Knob Goblin steroids	Effect: "Steroid Boost", Effect Duration: 5
 Item	Kokomo Resort Brand Suntan Oil	Effect: "Tropical Contact High", Effect Duration: 3, Last Available: "2015-04"
 Item	Kokomo Resort Pass	Effect: "Tropical Contact High", Effect Duration: 10, Last Available: "2023-08"
-Item	kumquat supersucker	Effect: "Koyaaniskumquatsi", Effect Duration: 30, Last Available: "2011-11"
+Item	kumquat supersucker	Effect: "Koyaaniskumquatsi", Effect Duration: 30, Effect: "Sugar Rush", Effect Duration: 30, Last Available: "2011-11"
 Item	labrador cookie	Effect: "Insatiable Hunger", Effect Duration: 40, Last Available: "2015-08"
 Item	lavender candy heart	Effect: "Heart of Lavender", Effect Duration: 10, Last Available: "2007-02"
 Item	leftover chocolate bar	Effect: "Sugar Rush", Effect Duration: 50
@@ -11360,7 +11361,7 @@ Item	licorice root	Effect: "Rootin' Around", Effect Duration: 20, Last Available
 Item	licorice snake	Effect: "Whippin' It Good", Effect Duration: 20
 Item	LIDAR candle	Effect: "LIDARed", Effect Duration: 30, Last Available: "2024-12"
 Item	Life Goals Pamphlet	Effect: "Life Goals", Effect Duration: 25, Last Available: "2025-08"
-Item	lime supersucker	Effect: "In the Limelight", Effect Duration: 30, Last Available: "2011-11"
+Item	lime supersucker	Effect: "In the Limelight", Effect Duration: 30, Effect: "Sugar Rush", Effect Duration: 30, Last Available: "2011-11"
 Item	lime-and-chile-flavored chewing gum	Effect: "Spicy Limeness", Effect Duration: 5
 Item	lion musk	Effect: "Lion in Ambush", Effect Duration: 20, Last Available: "2016-02"
 Item	liquid ice	Effect: "Cold as Ice", Effect Duration: 50
@@ -11459,7 +11460,7 @@ Item	neurostim pill	Effect: "Stimulated Brain", Effect Duration: 10, Last Availa
 Item	new habit	Effect: "Habituated", Effect Duration: 365, Last Available: "2017-10"
 Item	Nightstalker perfume	Effect: "Nightstalkin'", Effect Duration: 30, Last Available: "2011-10"
 Item	Northern pemmican	Effect: "Pemmican't", Effect Duration: 20
-Item	Now and Earlier	Effect: "Sugar Rush", Effect Duration: 5, Last Available: "2020-09"
+Item	Now and Earlier	Effect: "Sugar Rush", Effect Duration: 5, Effect: "Confused", Effect Duration: 5, Last Available: "2020-09"
 Item	Nuclear Blastball	Effect: "Taste the Inferno", Effect Duration: 50, Last Available: "2011-05"
 Item	null-day exploit	Effect: "Null Afternoon", Effect Duration: 30, Last Available: "2025-12"
 Item	O'RLY manual	Effect: "You Read The Manual", Effect Duration: 20
@@ -11470,7 +11471,8 @@ Item	Oil of Parrrlay	Effect: "Well-Oiled", Effect Duration: 5
 Item	oil of slipperiness	Effect: "Slippery Oiliness", Effect Duration: [R]
 Item	oil of stability	Effect: "Stabilizing Oiliness", Effect Duration: [R]
 Item	ointment of the occult	Effect: "Mystically Oiled", Effect Duration: [R]
-Item	Okee-Dokee soda	Effect: "Sugar Rush", Effect Duration: 20, Last Available: "2011-05"
+# okee dokee effects are 10-20 turns
+Item	Okee-Dokee soda	Effect: "Sugar Rush", Effect Duration: 20, Effect: "Okee-Dokee Go!", Effect Duration: 10, Effect: "Okee-Dokee Computer", Effect Duration: 10, Effect: "Okee-Dokee, Smokee", Effect Duration: 10, Last Available: "2011-05"
 Item	old bronzer	Effect: "Sepia Tan", Effect Duration: 25
 Item	old candy wrapper	Effect: "Litterbug", Effect Duration: 5, Last Available: "2013-11"
 Item	old eyebrow pencil	Effect: "Browbeaten", Effect Duration: 25
@@ -11478,6 +11480,7 @@ Item	old love note	Effect: "Memories of Puppy Love", Effect Duration: 20, Last A
 Item	old rosewater cream	Effect: "Rosewater Mark", Effect Duration: 25
 Item	Omphalotus Omphaloskepsis mushroom	Effect: "Omphalotus Omnipresence", Effect Duration: 10, Last Available: "2014-05"
 Item	one piece of bubble gum	Effect: "Sugar Rush", Effect Duration: 10
+# one pill gives one of Larger, Small or nothing
 Item	one pill	Effect Duration: 0
 Item	orange and black Crimboween candy	Effect: "Sugar Rush", Effect Duration: 5, Last Available: "2020-09"
 Item	orange candy heart	Effect: "Heart of Orange", Effect Duration: 10, Last Available: "2007-02"
@@ -11508,7 +11511,7 @@ Item	patent sallowness tonic	Effect: "Patent Sallowness", Effect Duration: 50
 Item	pea brittle	Effect: "Brittled", Effect Duration: 20, Last Available: "2024-11"
 Item	peach lozenge	Effect: "The Halls of Moxiousness", Effect Duration: [R]
 Item	pear lozenge	Effect: "The Halls of Mysticality", Effect Duration: [R]
-Item	pear supersucker	Effect: "Dirty Pear", Effect Duration: 30, Last Available: "2011-11"
+Item	pear supersucker	Effect: "Dirty Pear", Effect Duration: 30, Effect: "Sugar Rush", Effect Duration: 30, Last Available: "2011-11"
 Item	pec oil	Effect: "Oiled-Up", Effect Duration: 20
 Item	PEEZ dispenser	Effect: "Sugar Rush", Effect Duration: 5
 Item	peppermint pegleg	Effect: "Peppermint Endoskeleton", Effect Duration: 30, Last Available: "2024-12"
@@ -11654,7 +11657,7 @@ Item	ribbon candy	Effect: "Sugar Rush", Effect Duration: 10, Last Available: "20
 # robin's egg: When used in combat: weakens enemies by 50% and briefly stuns them
 Item	robin's egg	Effect: "Egged On", Effect Duration: 10, Last Available: "2016-12"
 Item	robot grease	Effect: "Greasy Peasy", Effect Duration: 30
-Item	Rock Pops	Effect: "Sugar Rush", Effect Duration: 3
+Item	Rock Pops	Effect: "Sugar Rush", Effect Duration: 3, Effect: "Popping Stomach", Effect Duration: 3
 Item	roll of meat	Effect: "Stick Emporium Membership", Effect Duration: 50
 Item	rubber nubbin	Effect: "You're Rubber", Effect Duration: 20, Last Available: "2014-08"
 Item	ruby on canes	Effect: "Ruby-ous", Effect Duration: 20, Last Available: "2014-12"
@@ -11684,7 +11687,7 @@ Item	seal lube	Effect: "Lubed", Effect Duration: 10
 Item	seal-brain elixir	Effect: "Sealed Brain", Effect Duration: 20
 Item	sealhide seal doll	Effect: "Red Misty-Eyed", Effect Duration: 10
 Item	seegar butt	Effect: "Stinking Cloud", Effect Duration: 10
-Item	Senior Mints	Effect: "Sugar Rush", Effect Duration: 3
+Item	Senior Mints	Effect: "Sugar Rush", Effect Duration: 3, Effect: "Confused", Effect Duration: 5
 Item	sensitive poetry journal	Effect: "Moon June Spooned", Effect Duration: 10, Last Available: "2007-06"
 Item	serum of sarcasm	Effect: "Superhuman Sarcasm", Effect Duration: [R]
 Item	shady shades	Effect: "Throwing Some Shade", Effect Duration: 1
@@ -11734,7 +11737,7 @@ Item	spooky lipstick	Effect: "Gothy", Effect Duration: 10
 Item	spooky nuggets	Effect: "Spooky Weapon", Effect Duration: 5
 Item	spooky powder	Effect: "Spookypants", Effect Duration: 5
 # spooky sap: Weakens enemies a lot when used as a combat item
-Item	spooky sap	Effect: "Sugar Rush", Effect Duration: 5, Last Available: "2009-10"
+Item	spooky sap	Effect: "Sugar Rush", Effect Duration: 5, Effect: "Sappy Blood", Effect Duration: 5, Last Available: "2009-10"
 Item	spooky sound effects record	Effect: "Permanent Halloween", Effect Duration: 10
 Item	spoonful of Linguine-Os	Effect: "Blessing of the Hot Linguine", Effect Duration: 10, Last Available: "2013-11"
 Item	Spring Break Beach &quot;swimsuit&quot;	Effect: "Painted-On Bikini", Effect Duration: 50, Last Available: "2015-11"
@@ -11749,18 +11752,18 @@ Item	Stephen's secret formula	Effect: "Spookyravin'", Effect Duration: 20
 Item	sterno-flavored Hob-O	Effect: "Fire Down Below", Effect Duration: 1
 Item	sticky lava globs	Effect: "Burning Hands", Effect Duration: 20, Last Available: "2015-08"
 Item	stone wool	Effect: "Stone-Faced", Effect Duration: 5
-Item	strawberry supersucker	Effect: "Strawberry Alarm", Effect Duration: 30, Last Available: "2011-11"
+Item	strawberry supersucker	Effect: "Strawberry Alarm", Effect Duration: 30, Effect: "Sugar Rush", Effect Duration: 30, Last Available: "2011-11"
 Item	strawberry-flavored Hob-O	Effect: "Scariberi", Effect Duration: 1
 Item	STYX deodorant body spray	Effect: "Less Pervious", Effect Duration: 10
 Item	sugar banana	Effect: "Sweet and Yellow", Effect Duration: 10, Last Available: "2008-12"
 Item	sugar bunny	Effect: "Sweet Incentive", Effect Duration: 20, Last Available: "2014-05"
 Item	sugar cherry	Effect: "Sweet and Red", Effect Duration: 10, Last Available: "2008-12"
-Item	Sugar Cog	Effect: "Sugar Rush", Effect Duration: 5
+Item	Sugar Cog	Effect: "Sugar Rush", Effect Duration: 5, Effect: "Sticky Hands", Effect Duration: 10
 Item	sugar fairy	Effect: "Dance of the Sugar Fairy", Effect Duration: 20, Last Available: "2014-05"
 Item	sugar lime	Effect: "Sweet and Green", Effect Duration: 10, Last Available: "2008-12"
 Item	sugar plum	Last Available: "2008-12"
 Item	sugar sphere	Effect: "Influence of Sphere", Effect Duration: 10
-Item	sugar-coated pine cone	Effect: "Sugar Rush", Effect Duration: 5, Last Available: "2020-09"
+Item	sugar-coated pine cone	Effect: "Sugar Rush", Effect Duration: 5, Effect: "Antsy in your Pantsy", Effect Duration: 10, Last Available: "2020-09"
 Item	Super Weight-Gain 9000	Effect: "Superveiny 9000", Effect Duration: 10
 Item	super-spiky hair gel	Effect: "Spiky Hair", Effect Duration: 5
 Item	Superdrifter holo-record	Effect: "Superdrifting", Effect Duration: 10
@@ -13026,7 +13029,7 @@ Item	E.M.U. rocket thrusters	Last Available: "2011-06"
 Item	eaves droppers	Last Available: "2018-02"
 Item	eggman noodles	Last Available: "2010-03"
 # Egnaro berry: Restores MP and energizes you for a while
-Item	Egnaro berry	Last Available: "2018-03"
+Item	Egnaro berry	Effect: "Berry Experiential", Effect Duration: 20, Last Available: "2018-03"
 Item	El Vibrato punchcard (ATTACK)	Wiki Name: "El Vibrato punchcard (115 holes)"
 Item	El Vibrato punchcard (BUFF)	Wiki Name: "El Vibrato punchcard (129 holes)"
 Item	El Vibrato punchcard (BUILD)	Wiki Name: "El Vibrato punchcard (165 holes)"
@@ -13344,7 +13347,7 @@ Item	glowing frisbee	Free Pull, Last Available: "2011-12"
 Item	glowing New Age crystal	Last Available: "2015-08"
 # glowing spore pod: Briefly enhances your Mysticality
 # Glum berry: Removes negative effects and energizes you for a while
-Item	Glum berry	Last Available: "2018-03"
+Item	Glum berry	Effect: "Berry Experiential", Effect Duration: 20, Last Available: "2018-03"
 Item	gluttonous stone	Last Available: "2012-12"
 Item	gnashing teeth	Last Available: "2008-12"
 # Gnomitronic Hyperspatial Demodulizer: Science!
@@ -13623,7 +13626,7 @@ Item	Jackass Plumber home game	Last Available: "2011-11", Effect: "Gamer Rage", 
 Item	jam band bootleg	Last Available: "2018-09"
 # jam band flyers: Advertise!
 # Jamocha berry: Grants passive physical damage and energizes you for a while
-Item	Jamocha berry	Last Available: "2018-03", Effect: "Berry Thorny", Effect Duration: 20
+Item	Jamocha berry	Last Available: "2018-03", Effect: "Berry Thorny", Effect Duration: 20, Effect: "Berry Experiential", Effect Duration: 20
 Item	jangly spurs	Last Available: "2016-02"
 # janitor sponge: Deals 20-30 <font color=green>Stench Damage</font> and briefly stuns your opponent
 # January's Garbage Tote: Allows you to rummage up Holiday Detritus
@@ -13656,7 +13659,7 @@ Item	jug of Sneaky Pete's Mojo	Free Pull
 Item	juggling ball	Last Available: "2014-12"
 # Junk-Bond: Weakens enemies somewhat and briefly stuns them
 # Keese berry: Improves your defenses and energizes you for a while
-Item	Keese berry	Last Available: "2018-03", Effect: "Berry Defensive", Effect Duration: 20
+Item	Keese berry	Last Available: "2018-03", Effect: "Berry Defensive", Effect Duration: 20, Effect: "Berry Experiential", Effect Duration: 20
 Item	kerosene-soaked skip	Free Pull, Last Available: "2018-12"
 Item	kevlateflocite helmet	Last Available: "2007-12"
 Item	keycard &alpha;	Last Available: "2015-04"
@@ -14057,7 +14060,7 @@ Item	mysterious present	Last Available: "2011-04"
 # Mysterious Red Box: Can only be opened on February 29
 Item	Mysterious Red Box	Last Available: "2018-02"
 # Nadsat berry: Improves critical hit chance and energizes you for a while (also gives Berry Experiential)
-Item	Nadsat berry	Last Available: "2018-03", Effect: "Berry Critical", Effect Duration: 20
+Item	Nadsat berry	Last Available: "2018-03", Effect: "Berry Critical", Effect Duration: 20, Effect: "Berry Experiential", Effect Duration: 20
 Item	nanofiber cloth	Last Available: "2007-12"
 # Nardz energy beverage: Restores 50-70 MP
 Item	nasty desk bell	Last Available: "2020-09"
@@ -14765,7 +14768,7 @@ Item	silver shotgun shell	Last Available: "2011-10"
 Item	Single Alice's Army Foil	Last Available: "2011-03"
 Item	sinistral homunculus	Free Pull, Last Available: "2020-04"
 # Sitrep berry: Restores HP and energizes you for a while
-Item	Sitrep berry	Last Available: "2018-03"
+Item	Sitrep berry	Effect: "Berry Experiential", Effect Duration: 20, Last Available: "2018-03"
 Item	sizzling desk bell	Last Available: "2020-09"
 # skate skates: Deals 150-300 Physical Damage and briefly stuns your opponent
 # skeletal skiff: <b>Allows Travel to The Mysterious Island of Mystery</b>
@@ -14819,7 +14822,7 @@ Item	SMOOCH bottlecap	Last Available: "2020-09"
 # snake oil: Increase the venom and medicine level of your briefcase full of snakes
 Item	snake skin	Last Available: "2018-11"
 # Snarf berry: Increases your stats and energizes you for a while
-Item	Snarf berry	Last Available: "2018-03", Effect: "Berry Statistical", Effect Duration: 20
+Item	Snarf berry	Last Available: "2018-03", Effect: "Berry Statistical", Effect Duration: 20, Effect: "Berry Experiential", Effect Duration: 20
 # sneaky wrapping paper: Hide gifts for other players in various locations
 Item	sneaky wrapping paper	Last Available: "2014-12"
 Item	Snoutlet	Last Available: "2018-03"
@@ -15066,7 +15069,7 @@ Item	talisman of Seshat	Free Pull
 Item	talking spade	Free Pull
 # tangle of rat tails: Deals 50-70 <font color=blueviolet>Sleaze Damage</font> and 100-120 <font color=green>Stench Damage</font>
 # Tapioc berry: Grants elemental resistance and energizes you for a while
-Item	Tapioc berry	Last Available: "2018-03", Effect: "Berry Elemental", Effect Duration: 20
+Item	Tapioc berry	Last Available: "2018-03", Effect: "Berry Elemental", Effect Duration: 20, Effect: "Berry Experiential", Effect Duration: 20
 Item	tarnished luggage key	Last Available: "2017-01"
 Item	tasty louse	Last Available: "2008-06"
 # tattered scrap of paper: Lets you escape from combat without spending an Adventure

@@ -19,7 +19,7 @@ const { printHtml } = require("kolmafia");
 });
 
 [
-  'Beaten up',
+  'Red Neck',
   'Tomato Power'
 ].forEach((name) => {
   const effect = Effect.get(name);
