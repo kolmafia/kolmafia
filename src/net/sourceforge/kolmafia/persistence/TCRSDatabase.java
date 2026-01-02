@@ -29,7 +29,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.ZodiacSign;
-import net.sourceforge.kolmafia.modifiers.DoubleModifier;
+import net.sourceforge.kolmafia.modifiers.MultiDoubleModifier;
 import net.sourceforge.kolmafia.modifiers.MultiStringModifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.Concoction;
@@ -741,7 +741,7 @@ public class TCRSDatabase {
       int duration =
           (int)
               ModifierDatabase.getNumericModifier(
-                  ModifierType.ITEM, itemName, DoubleModifier.EFFECT_DURATION);
+                  ModifierType.ITEM, itemName, MultiDoubleModifier.EFFECT_DURATION);
       String effectModifiers =
           ModifierDatabase.getStringModifier(
               ModifierType.EFFECT, effectName, StringModifier.MODIFIERS);

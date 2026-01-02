@@ -295,7 +295,6 @@ public enum DoubleModifier implements Modifier {
       Pattern.compile("([+-]\\d+) Moxie Stat.*Per Fight"),
       Pattern.compile("Experience \\(Moxie\\): " + EXPR),
       "Experience (Moxie)"),
-  EFFECT_DURATION("Effect Duration", Pattern.compile("Effect Duration: " + EXPR)),
   CANDYDROP(
       "Candy Drop",
       Pattern.compile("([+-]\\d+)% Candy Drops? [Ff]rom Monsters$"),
@@ -431,10 +430,6 @@ public enum DoubleModifier implements Modifier {
       "Disco Style",
       Pattern.compile("([+-]\\d+) Disco Style"),
       Pattern.compile("Disco Style: " + EXPR)),
-  ROLLOVER_EFFECT_DURATION(
-      "Rollover Effect Duration",
-      Pattern.compile("Grants (\\d+) Adventures of <b>.*?</b> at Rollover"),
-      Pattern.compile("Rollover Effect Duration: " + EXPR)),
   SIXGUN_DAMAGE("Sixgun Damage", Pattern.compile("Sixgun Damage: " + EXPR)),
   FISHING_SKILL(
       "Fishing Skill",
