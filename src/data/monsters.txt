@@ -2547,7 +2547,7 @@ propaganda-spewin' elf	901	elf_propaganda.gif	NOWISH Scale: ? Cap: ? Floor: ? In
 provocateur elf	896	elf_provocateur.gif	Scale: -5 Floor: 5 Init: -10000 P: elf Article: a	elf resistance button (40)	elven cellocello (5)	elven suicide capsule (5)
 raconteur elf	897	elf_raconteur.gif	Scale: -5 Floor: 5 Init: -10000 P: elf Article: a	elf resistance button (40)	elven cellocello (5)	elven suicide capsule (5)
 saboteur elf	895	elf_saboteur.gif	Scale: -5 Floor: 5 Init: -10000 P: elf Article: a	elf resistance button (40)	elven cellocello (5)	elven suicide capsule (5)
-wire-crossin' elf	902	elf_wires.gif	NOWISH NOMANUEL P: elf	elf resistance button (40)	handful of wires (c100)	live wire (10)
+wire-crossin' elf	902	elf_wires.gif	NOWISH Scale: 0 Floor: ? Init: -10000 P: elf Article: a	elf resistance button (40)	handful of wires (c100)	live wire (10)
 Edwing Abbidriel	903	edwing.gif	BOSS NOCOPY NOMANUEL P: elf	elf resistance button (100)
 
 # Don Crimbo's Compound (Crimbo 2009)

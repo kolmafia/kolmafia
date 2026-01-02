@@ -11,6 +11,7 @@ All-Hallow's Steve's fright wig	100	Mox: 35
 Amoon-Ra Cowtep's nemes	225	Mox: 50
 Ancient Saucehelm	100	Mys: 15
 ancient turtle shell helmet	35	Mox: 2
+angelbone halo	50	none
 anniversary concrete fedora	10	none
 antique helmet	150	Mus: 60
 antique nutcracker hat	150	Mox: 30
@@ -97,6 +98,7 @@ Daylight Shavings Helmet	100	none
 demon-horned hat	70	Mox: 20
 depleted Crimbonium football helmet	100	Mus: 30
 depleted Grimacite ninja mask	100	Mox: 35
+devilbone helmet	120	Mox: 40
 dice-print do-rag	10	none
 dilapidated wizard hat	125	Mox: 47
 Dinsey mascot mask	10	none
@@ -484,6 +486,7 @@ Zombo's skullcap	200	Mus: 200
 1337 7r0uZ0RZ	110	Mox: 40
 adobe arsecover	120	Mus: 40
 alpha-mail pants	140	Mox: 55
+angelbone kilt	50	none
 Angelhair Culottes	125	Mys: 30
 antique greaves	150	Mus: 60
 antique nutcracker pants	150	Mox: 30
@@ -547,6 +550,7 @@ Danglin' Chad's loincloth	200	Mox: 75
 demonskin trousers	70	Mox: 20
 depleted Grimacite shinguards	100	Mox: 35
 designer sweatpants	100	none
+devilbone greaves	120	Mox: 40
 dice-print pajama pants	10	none
 digibritches	100	none
 Dinsey's pants	200	Mox: 100
@@ -851,6 +855,7 @@ Crimbuccaneer bombjacket	100	none
 Crimbuccaneer shirt	50	none
 demonskin jacket	80	Mus: 25
 denim jacket	50	none
+devilbone corset	120	Mus: 40
 Dragonscale breastplate	200	Mus: 40
 dreadful sweater	200	Mys: 200
 duct tape shirt	195	Mus: 82
@@ -995,6 +1000,7 @@ amok putter	30	Mus: 0	2-handed club
 ancient Elf dessert spoon	100	Mys: 0	1-handed utensil
 ancient ice cream scoop	170	Mys: 70	1-handed utensil
 ancient stone fist	85	Mus: 27	1-handed club
+angelbone totem	50	Mus: 0	1-handed totem
 anger blaster	85	Mox: 30	1-handed forearm replacement
 antique accordion	10	Mox: 0	2-handed accordion
 antique machete	155	Mus: 62	1-handed sword
@@ -1193,6 +1199,7 @@ dented scepter	200	Mus: 10	1-handed club
 depleted Grimacite hammer	100	Mus: 35	2-handed club
 depleted Grimacite kneecapping stick	90	Mus: 30	1-handed club
 detective roscoe	100	Mox: 0	1-handed pistol
+devilbone flute	120	Mox: 40	1-handed flute
 diabolical crossbow	200	Mox: 150	1-handed crossbow
 diamond-studded cane	60	Mus: 15	1-handed club
 didgeridooka	180	Mox: 75	2-handed blowgun
@@ -2484,6 +2491,8 @@ Amulet of Perpetual Darkness	0	none
 Amulet of Yendor	10	none
 anchovy can key	10	none
 anemoney clip	80	Mys: 15
+angelbone chopsticks	0	none
+angelbone dice	0	none
 Ankh of Badahnkadh	165	Mys: 67
 ankleweights	100	Mys: 35
 annealed drippy orb	0	none
@@ -2684,6 +2693,8 @@ depleted Grimacite astrolabe	80	Mys: 25
 depleted Grimacite grappling hook	80	Mys: 25
 depleted Grimacite weightlifting belt	80	Mys: 25
 dethklok	30	none
+devilbone rosary	0	Mys: 40
+devilbone shinguards	0	Mys: 40
 diamond necklace	10	none
 dice belt buckle	10	none
 dice ring	10	none
@@ -3725,6 +3736,7 @@ Zombo's skull ring	200	Mys: 200
 # Containers section of equipment.txt
 
 Allied Radio Backpack	100	none
+angelbone mantle	0	none
 anniversary pewter cape	0	none
 antique nutcracker cape	150	Mys: 30
 auxiliary backbone	0	Mus: 75
