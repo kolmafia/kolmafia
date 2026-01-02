@@ -84,6 +84,8 @@ Item	All-Hallow's Steve's fright wig	Sleaze Damage: +20, Spooky Resistance: +2, 
 Item	Amoon-Ra Cowtep's nemes	Mysticality Percent: +35, Spell Damage: +25, Spell Critical Percent: +15, Last Available: "2016-02", Familiar Effect: "atk, 1xVolley"
 Item	Ancient Saucehelm	Mysticality: +11, Spell Damage: +11, Class: "Sauceror", Familiar Effect: "3xGhuol, cap 25"
 Item	ancient turtle shell helmet	Meat Drop: +10, Familiar Effect: "hot atk, cap 8"
+# angelbone halo: 15% Chance to avoid an enemy attack
+Item	angelbone halo	HP Regen Min: 7, HP Regen Max: 11, Spleen Drop: +77, Last Available: "2026-12"
 Item	anniversary concrete fedora	Muscle: +1, Mysticality: +1, Moxie: +1, Familiar Effect: "5xVolley, 5xLep, cap 2"
 Item	antique helmet	Initiative: -10, Spooky Resistance: +2, Breakable, Familiar Effect: "0.5xPotato, 0.5xFairy"
 Item	antique nutcracker hat	Initiative: +15, Moxie Percent: +15, Last Available: "2019-12"
@@ -179,6 +181,8 @@ Item	demon-horned hat	Moxie: +4, Familiar Effect: "hot atk, 1xLep, cap 17"
 # depleted Crimbonium football helmet: Reduce all damage taken from monster attacks by 50%
 Item	depleted Crimbonium football helmet	Initiative: -50, Last Available: "2021-12"
 Item	depleted Grimacite ninja mask	Moxie Percent: [5*G], PvP Fights: [G], Last Available: "2011-12", Familiar Effect: "1xBarrr, 1xFairy, cap 25"
+# devilbone helmet: Adds Hot Damage to your Attacks
+Item	devilbone helmet	Monster Level: +13, Combat Rate: +5, Last Available: "2026-12"
 Item	dice-print do-rag	Random Monster Modifiers: +1
 Item	dilapidated wizard hat	Hot Damage: +10, Hot Spell Damage: +15, Familiar Effect: "cap 31"
 # Dinsey mascot mask: Changes Your Avatar
@@ -604,6 +608,8 @@ Item	Zombo's skullcap	Muscle Percent: +20, Familiar Weight: +10, Class: "Turtle 
 Item	1337 7r0uZ0RZ	Muscle: +6, Moxie: -3, Familiar Effect: "2xPotato, cap 27"
 Item	adobe arsecover	Muscle Percent: [20+20*min(1,effect(Adobe Arsecover Subscription))], Item Drop: [10+10*min(1,effect(Adobe Arsecover Subscription))], Last Available: "2024-12"
 Item	alpha-mail pants	Familiar Effect: "atk, 1xBarrr, cap 35"
+# angelbone kilt: 15% Chance to avoid an enemy attack
+Item	angelbone kilt	HP Regen Min: 7, HP Regen Max: 11, Food Drop: +77, Last Available: "2026-12"
 Item	Angelhair Culottes	Mysticality: +11, Spell Damage: +15, Class: "Pastamancer", Familiar Effect: "1.5xPotato, 2xGhoul, cap 31"
 Item	antique greaves	Initiative: -10, Breakable, Familiar Effect: "1xBarrr"
 Item	antique nutcracker pants	Meat Drop: +15, Moxie Percent: +15, Last Available: "2019-12"
@@ -672,6 +678,8 @@ Item	demonskin trousers	Hot Resistance: +2, Familiar Effect: "hot atk, 3xPotato,
 Item	depleted Grimacite shinguards	Muscle Percent: [5*G], PvP Fights: [G], Last Available: "2011-12", Familiar Effect: "atk, 3xBarrr, cap 25"
 # designer sweatpants: oh, and also a 5% discount at NPC stores
 Item	designer sweatpants	Muscle: [5+(2*floor(sqrt(pref(sweat))))], Mysticality: [5+(2*floor(sqrt(pref(sweat))))], Moxie: [5+(2*floor(sqrt(pref(sweat))))], Damage Reduction: [5+(1*floor(sqrt(pref(sweat))))], Hot Resistance: [1+(0.5*floor(sqrt(pref(sweat))))], Sleaze Damage: [10+(5*floor(sqrt(pref(sweat))))], Sleaze Spell Damage: [10+(5*floor(sqrt(pref(sweat))))], Last Available: "2022-07", Conditional Skill (Equipped): "Sweat Flick", Conditional Skill (Equipped): "Sweat Flood", Conditional Skill (Equipped): "Sweat Spray", Conditional Skill (Equipped): "Sweat Sip", Conditional Skill (Equipped): "Make Sweat-Ade", Conditional Skill (Equipped): "Drench Yourself in Sweat", Conditional Skill (Equipped): "Sip Some Sweat", Conditional Skill (Inventory): "Sweat Out Some Booze"
+# devilbone greaves: Adds Hot Damage to your Attacks
+Item	devilbone greaves	Monster Level: +13, Spleen Capacity: +1, Last Available: "2026-12"
 Item	dice-print pajama pants	Random Monster Modifiers: +1
 # digibritches: CyberRealm: Take less damage from processes
 Item	digibritches	Last Available: "2025-12"
@@ -1008,6 +1016,8 @@ Item	Crimbuccaneer bombjacket	Moxie Percent: +25, Ranged Damage: +25, Last Avail
 Item	Crimbuccaneer shirt	Familiar Weight: [+10*event(December)], Last Available: "2023-12"
 Item	demonskin jacket	Mysticality: +5, Hot Spell Damage: +5
 Item	denim jacket	Mysticality: +10, MP Regen Min: 4, MP Regen Max: 8, Last Available: "2018-09"
+# devilbone corset: Adds Hot Damage to your Attacks
+Item	devilbone corset	Monster Level: +13, Stomach Capacity: +1, Last Available: "2026-12"
 Item	Dragonscale breastplate	Muscle: +15, Muscle Percent: +25, Spooky Resistance: +3, Stench Resistance: +3, Hot Resistance: +3, Cold Resistance: +3, Sleaze Resistance: +3, Last Available: "2018-04"
 Item	dreadful sweater	HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 10, MP Regen Max: 20, Kruegerand Drop: 5
 Item	duct tape shirt	Moxie: +9, Meat Drop: +20
@@ -1163,6 +1173,8 @@ Item	amok putter	Hot Damage: +9, Cold Damage: +9, Initiative: +18
 Item	ancient Elf dessert spoon	Hot Spell Damage: +20, Cold Spell Damage: +20, Spooky Spell Damage: +20, Stench Spell Damage: +20, Sleaze Spell Damage: +20, Spell Damage Percent: +20, Last Available: "2023-12"
 Item	ancient ice cream scoop	Spell Damage: +20
 Item	ancient stone fist	Damage Reduction: 2, Maximum HP: +20, Last Available: "2009-06"
+# angelbone totem: 15% Chance to avoid an enemy attack
+Item	angelbone totem	HP Regen Min: 7, HP Regen Max: 11, Spleen Capacity: +1, Single Equip, Last Available: "2026-12"
 Item	anger blaster	Hot Damage: +10, Last Available: "2013-12", Conditional Skill (Equipped): "Rage Flame"
 Item	antique accordion	Song Duration: 10
 Item	antique machete	Muscle Percent: +5
@@ -1386,6 +1398,8 @@ Item	dented scepter	Experience (Muscle): +5, HP Regen Min: 5, HP Regen Max: 10, 
 Item	depleted Grimacite hammer	Monster Level: [5*G], Last Available: "2011-12"
 Item	depleted Grimacite kneecapping stick	Critical Hit Percent: [ceil(G/2)], Last Available: "2007-06"
 Item	detective roscoe	Ranged Damage: +10, Weakens Monster, Booze Drop: +20, Last Available: "2016-07"
+# devilbone flute: Adds Hot Damage to your Attacks
+Item	devilbone flute	Monster Level: +13, Mana Cost (combat): -2, Last Available: "2026-12"
 Item	diabolical crossbow	Spooky Damage: +30, Critical Hit Percent: +10, Slime Hates It: +1
 Item	diamond-studded cane	Moxie: +5, Class: "Disco Bandit"
 Item	didgeridooka	Moxie: +9
@@ -2849,6 +2863,10 @@ Item	Amulet of Yendor	Mana Cost: +3, Initiative: -10, Single Equip, Last Availab
 Item	anchovy can key	Food Drop: +100, Last Available: "2020-08"
 # anemoney clip: +50% Meat Drops (Underwater only)
 Item	anemoney clip	Meat Drop: [25+50*env(underwater)], Single Equip, Last Available: "2019-12"
+# angelbone chopsticks: 15% Chance to avoid an enemy attack
+Item	angelbone chopsticks	HP Regen Min: 7, HP Regen Max: 11, Stomach Capacity: +1, Single Equip, Last Available: "2026-12"
+# angelbone dice: 15% Chance to avoid an enemy attack
+Item	angelbone dice	HP Regen Min: 7, HP Regen Max: 11, Liver Capacity: +1, Single Equip, Last Available: "2026-12"
 Item	Ankh of Badahnkadh	Spell Damage Percent: +25, Single Equip
 Item	ankleweights	PvP Fights: +4, Experience: +1, Single Equip, Last Available: "2014-12"
 Item	annealed drippy orb	Drippy Resistance: +5
@@ -3080,6 +3098,10 @@ Item	depleted Grimacite astrolabe	Mysticality Percent: [5*G], PvP Fights: [G], S
 Item	depleted Grimacite grappling hook	Moxie Percent: [5*G], Adventures: [G], Single Equip, Last Available: "2011-12"
 Item	depleted Grimacite weightlifting belt	Muscle Percent: [5*G], Adventures: [G], Single Equip, Last Available: "2011-12"
 Item	dethklok	Spooky Damage: +15, Last Available: "2011-09"
+# devilbone rosary: Adds Hot Damage to your Attacks
+Item	devilbone rosary	Monster Level: +13, Liver Capacity: +1, Single Equip, Last Available: "2026-12"
+# devilbone shinguards: Adds Hot Damage to your Attacks
+Item	devilbone shinguards	Monster Level: +13, Experience: +3, Single Equip, Last Available: "2026-12"
 # diamond necklace
 Item	dice belt buckle	Random Monster Modifiers: +1, Single Equip
 Item	dice ring	Random Monster Modifiers: +1, Single Equip
@@ -4268,6 +4290,8 @@ Item	Zombo's skull ring	Moxie Percent: +15, PvP Fights: +4, Single Equip
 
 # Allied Radio Backpack: Call for support
 Item	Allied Radio Backpack	Muscle Percent: +30, Mysticality Percent: +30, Moxie Percent: +30, Maximum HP: +30, Maximum MP: +30, Initiative: +30, Conditional Skill (Equipped): "Call in an Airstrike"
+# angelbone mantle: 15% Chance to avoid an enemy attack
+Item	angelbone mantle	HP Regen Min: 7, HP Regen Max: 11, Booze Drop: +77, Last Available: "2026-12"
 Item	anniversary pewter cape	Muscle: +1, Mysticality: +1, Moxie: +1
 Item	antique nutcracker cape	Spell Damage Percent: +30, Mysticality Percent: +15, Last Available: "2019-12"
 Item	auxiliary backbone	PvP Fights: +3, Last Available: "2012-10"
@@ -9149,6 +9173,7 @@ Skill	Zombie Maestro	Mana Cost: -1
 Outfit	8-Bit Finery	Initiative: +25
 Outfit	Adobe Armor	Damage Reduction: 10
 Outfit	Aeroutfit	Meat Drop: +40
+Outfit	Angelbone Vestments	Familiar Weight: +5
 Outfit	Animelf Apparel	HP Regen Min: 4, HP Regen Max: 6, MP Regen Min: 2, MP Regen Max: 3
 Outfit	Antique Arms and Armor	Damage Reduction: 5, Muscle: +15, Initiative: -10
 Outfit	Antique Nutcracker Outfit	Muscle: +25, Mysticality: +25, Moxie: +25, Meat Drop: +25, Item Drop: +25
@@ -9186,6 +9211,7 @@ Outfit	Cursed Skeleton Pirate Costume	Critical Hit Percent: +10, Spell Critical 
 Outfit	Cursed Zombie Pirate Costume	Spooky Damage: +30
 Outfit	Dark Bro's Vestments	Spooky Spell Damage: +40
 Outfit	Dental Drip	Candy Drop: +25
+Outfit	Devilbone Prison	Monster Level: +25
 Outfit	Dinsey's Exoskeleton	Muscle: +100, Mysticality: +100, Moxie: +100
 Outfit	Dire Drifter Duds	Familiar Weight: +5
 Outfit	Dreadful Bugbear Suit	Hot Damage: +50, Hot Spell Damage: +50
