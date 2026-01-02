@@ -68,6 +68,9 @@ Cast	Cincho: Fiesta Exit	_cinchUsed	100
 Cast	Cincho: Party Foul	_cinchUsed	100
 Cast	Cincho: Party Soundtrack	_cinchUsed	100
 Cast	Cincho: Projectile Piñata	_cinchUsed	100
+Cast	Club 'Em Across the Battlefield	_clubEmBattlefieldUsed	5
+Cast	Club 'Em Into Next Week	_clubEmNextWeekUsed	5
+Cast	Club 'Em Back in Time	_clubEmTimeUsed	5
 Cast	Communism!	_communismUsed
 Cast	Conjure Cheese	_jarlsCheeseSummoned
 Cast	Conjure Cream	_jarlsCreamSummoned

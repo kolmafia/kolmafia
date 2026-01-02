@@ -2060,6 +2060,9 @@ user	_clocksUsed	0
 user	_cloudTalkMessage
 user	_cloudTalkSmoker
 user	_cloversPurchased	0
+user	_clubEmBattlefieldUsed	0
+user	_clubEmNextWeekUsed	0
+user	_clubEmTimeUsed	0
 user	_coalPaperweightUsed	false
 user	_coatOfPaintModifier
 user	_cocoaDispenserUsed	false
