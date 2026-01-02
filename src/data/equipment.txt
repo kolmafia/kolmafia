@@ -3335,6 +3335,7 @@ tarrrnished charrrm bracelet	150	Mys: 60
 teflon swim fins	200	Mus: 85
 terra cotta tie tack	120	Mox: 40
 terra cotta truss	120	Mus: 40
+The Eternity Codpiece	100	none
 the Ley Incursion's waist	200	Mys: 40
 The Lost Glasses	0	Mys: 25
 The One Mood Ring	150	Mys: 60

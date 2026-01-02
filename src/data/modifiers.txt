@@ -3842,6 +3842,8 @@ Item	tarrrnished charrrm bracelet	Stench Damage: +10, Stench Spell Damage: +10, 
 Item	teflon swim fins	Moxie Percent: -5, Initiative: +25, Single Equip, Initiative Penalty: [10*env(underwater)], Item Drop Penalty: [10*env(underwater)], Meat Drop Penalty: [10*env(underwater)]
 Item	terra cotta tie tack	Experience (Moxie): +3, Meat Drop: +20, Single Equip, Last Available: "2020-12", Conditional Skill (Equipped): "Unleash Terra Cotta Army"
 Item	terra cotta truss	Experience (Muscle): +3, Initiative: +40, Single Equip, Last Available: "2020-12", Conditional Skill (Equipped): "Unleash Terra Cotta Army"
+# The Eternity Codpiece: Holds Gems
+Item	The Eternity Codpiece	Muscle: +5, Mysticality: +5, Moxie: +5, Last Available: "2026-12"
 Item	the Ley Incursion's waist	Mysticality: +15, Mysticality Percent: +25, Experience (Mysticality): +5, Single Equip, Last Available: "2018-04"
 Item	The Lost Glasses	Reduce Enemy Defense: 15, Hot Resistance: +2, Single Equip
 Item	The One Mood Ring	Muscle Percent: [5*G], Mysticality Percent: [5*G], Moxie Percent: [5*G], Monster Level: [25-5*G], Single Equip, Last Available: "2015-08"
@@ -12966,6 +12968,7 @@ Item	Dinsey tattoo kit	Last Available: "2015-04"
 # discarded button: Absorb it for a useful skill!
 Item	disconnected intergnat	Free Pull, Last Available: "2016-05"
 Item	Discontent&trade; Winter Garden Catalog	Free Pull, Last Available: "2014-01"
+Item	discreetly-wrapped Eternity Codpiece	Free Pull, Last Available: "2026-12"
 # disease: Weakens enemies very slightly
 Item	Disgeist	Last Available: "2018-03"
 Item	Dish of Clarified Butter	Last Available: "2018-05"
