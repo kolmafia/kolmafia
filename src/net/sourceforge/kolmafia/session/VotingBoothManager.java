@@ -24,7 +24,7 @@ public class VotingBoothManager {
     new ModifierValue("Item Drop", "+15"),
     new ModifierValue("Cold Damage", "+10"),
     new ModifierValue("Hot Resistance", "+3"),
-    new ModifierValue("Weapon Damage Unarmed", "+20"),
+    new ModifierValue("Weapon Damage", "[20*unarmed]"),
     new ModifierValue("Muscle Percent", "+25"),
     new ModifierValue("Experience", "+3"),
     new ModifierValue("Spell Damage Percent", "+20"),

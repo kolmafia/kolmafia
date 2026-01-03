@@ -1357,7 +1357,8 @@ public class EquipmentManager {
       default:
       case MUSCLE:
         hitStat = KoLCharacter.getAdjustedMuscle();
-        if (Modifiers.unarmed && KoLCharacter.hasSkill(SkillPool.MASTER_OF_THE_SURPRISING_FIST)) {
+        if (KoLCharacter.isUnarmed()
+            && KoLCharacter.hasSkill(SkillPool.MASTER_OF_THE_SURPRISING_FIST)) {
           hitStat += 20;
         }
         return hitStat;

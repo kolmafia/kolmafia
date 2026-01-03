@@ -1529,9 +1529,8 @@ public class Evaluator {
           if (item.automaticFlag) continue;
         }
 
-        if (mods.getBoolean(BooleanModifier.UNARMED)
-            || mods.getRawBitmap(BitmapModifier.MUTEX)
-                != 0) { // This item may turn out to be unequippable, so don't
+        if (mods.getRawBitmap(BitmapModifier.MUTEX) != 0) {
+          // This item may turn out to be unequippable, so don't
           // count it towards the shortlist length.
           item.conditionalFlag = true;
         }
