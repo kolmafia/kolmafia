@@ -116,6 +116,9 @@ public class ModifierExpression extends Expression {
     if (this.optional("paradoxicity")) {
       return "\u008d";
     }
+    if (this.optional("unarmed")) {
+      return "\u008e";
+    }
     if (this.optional("mus")) {
       return "\u0080";
     }

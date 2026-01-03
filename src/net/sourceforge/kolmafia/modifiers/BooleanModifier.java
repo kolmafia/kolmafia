@@ -52,10 +52,6 @@ public enum BooleanModifier implements Modifier {
       Pattern.compile("Lets your Familiar Breathe Underwater"),
       Pattern.compile("Underwater Familiar")),
   GENERIC("Generic", Pattern.compile("Generic")),
-  UNARMED(
-      "Unarmed",
-      Pattern.compile("Bonus&nbsp;for&nbsp;Unarmed&nbsp;Characters&nbsp;only"),
-      Pattern.compile("Unarmed")),
   NOPULL("No Pull", Pattern.compile("No Pull")),
   LASTS_ONE_DAY(
       "Lasts Until Rollover",
