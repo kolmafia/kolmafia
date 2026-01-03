@@ -5036,6 +5036,10 @@ public abstract class KoLCharacter {
     AdventureResult weapon = equipment.get(Slot.WEAPON);
     Modifiers.mainhandClass =
         weapon == null ? "" : EquipmentDatabase.getItemType(weapon.getItemId());
+    AdventureResult offhand = equipment.get(Slot.OFFHAND);
+    Modifiers.unarmed =
+        (weapon == null || weapon == EquipmentRequest.UNEQUIP)
+            && (offhand == null || offhand == EquipmentRequest.UNEQUIP);
 
     // Area-specific adjustments
     newModifiers.add(ModifierDatabase.getModifiers(ModifierType.LOC, Modifiers.currentLocation));
