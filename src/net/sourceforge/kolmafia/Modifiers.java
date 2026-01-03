@@ -62,7 +62,6 @@ public class Modifiers {
   public static double hoboPower = 0.0;
   public static double smithsness = 0.0;
   public static double currentWeight = 0.0;
-  public static boolean unarmed = false;
 
   // caching of passive skills for the current character
   private static boolean availableSkillsChanged = false;
