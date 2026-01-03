@@ -659,12 +659,6 @@ public class Modifiers {
       }
     }
 
-    // Unarmed modifiers apply only if the character has no weapon or offhand
-    boolean unarmed = mods.getBoolean(BooleanModifier.UNARMED);
-    if (unarmed && !Modifiers.unarmed) {
-      return;
-    }
-
     Lookup lookup = mods.originalLookup;
 
     // Add in the double modifiers

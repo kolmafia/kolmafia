@@ -1131,7 +1131,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
     @Test
     void numericErrorsWithWrongModifierType() {
-      String input = "numeric_modifier($item[ring of the Skeleton Lord], $modifier[Unarmed])";
+      String input = "numeric_modifier($item[ring of the Skeleton Lord], $modifier[No Pull])";
       String output = execute(input);
       assertThat(output, startsWith("numeric modifier required"));
     }
@@ -1308,7 +1308,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     @Test
     void parsesModifierString() {
       String input =
-          "split_modifiers(\"Meat Drop: 25, Hot Resistance: 2, Cold Resistance: 2, Unarmed, Cold Damage: 10, Cold Spell Damage: 10\")";
+          "split_modifiers(\"Meat Drop: 25, Hot Resistance: 2, Cold Resistance: 2, No Pull, Cold Damage: 10, Cold Spell Damage: 10\")";
       String output = execute(input);
       assertThat(
           output,
@@ -1320,7 +1320,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
                  Cold Spell Damage => 10
                  Hot Resistance => 2
                  Meat Drop => 25
-                 Unarmed =>
+                 No Pull =>
                  """));
     }
 

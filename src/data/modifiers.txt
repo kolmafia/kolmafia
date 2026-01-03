@@ -3205,14 +3205,14 @@ Item	freshwater pearl necklace	Spell Critical Percent: +5
 Item	Frigid Northern Beans	Cold Spell Damage: [15*(1+skill(Beanweaver))], Last Available: "2016-02"
 # frosty button: Makes your fireball attacks deal Cold damage
 Item	frosty button	Single Equip
-Item	frosty halo	Item Drop: +25, Unarmed, Single Equip, Last Available: "2011-09"
+Item	frosty halo	Item Drop: [25*unarmed], Single Equip, Last Available: "2011-09"
 Item	Frosty's carrot	Stench Resistance: +3, Sleaze Resistance: +3, Class: "Seal Clubber", Single Equip
 Item	Frown Exerciser	Monster Level: [5*G], Moxie: -5, Single Equip, Last Available: "2012-12"
 Item	fudge pocket square	Muscle: +5, Last Available: "2011-11"
 Item	fudgecycle	Adventures: +7, Candy Drop: +100, HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 10, MP Regen Max: 20, Single Equip, Last Available: "2011-11"
 Item	furniture dolly	Initiative: +30, Single Equip
 Item	furry green earmuffs	Cold Resistance: +1
-Item	furry halo	Familiar Weight: +5, Unarmed, Single Equip, Last Available: "2011-09"
+Item	furry halo	Familiar Weight: [5*unarmed], Single Equip, Last Available: "2011-09"
 Item	fuzzy bracelets	Muscle: +15, Mysticality: +15, Moxie: +15
 # Fuzzy Slippers of Hatred: Makes running more comfortable
 Item	Fuzzy Slippers of Hatred	Combat Rate: -5, Reduce Enemy Defense: 10, Spell Damage Percent: +60, Single Equip
@@ -3746,7 +3746,7 @@ Item	Sheriff badge	Mysticality Percent: +50, Spooky Resistance: +3, Single Equip
 # Sheriff moustache: Provides 1/3 Authority
 Item	Sheriff moustache	Moxie Percent: +50, Initiative: +25, Single Equip, Lasts Until Rollover, Last Available: "2024-10"
 Item	shin gourds	Damage Reduction: 5, Weapon Damage: +10, Single Equip, Last Available: "2010-11"
-Item	shining halo	Experience: +3, Unarmed, Single Equip, Last Available: "2011-09"
+Item	shining halo	Experience: [3*unarmed], Single Equip, Last Available: "2011-09"
 Item	shiny hood ornament	Muscle: +5, Mysticality: +5, Moxie: +5, Maximum HP: +30, Maximum MP: +30, Initiative: +10
 Item	shiny ring	Muscle: +3, Mysticality: +3, Moxie: +3
 Item	shiny tribal beads	Mysticality: +6, Last Available: "2009-06"
@@ -3878,7 +3878,7 @@ Item	ticksilver ring	Adventures: +6, PvP Fights: +4, Single Equip, Last Availabl
 Item	tie-dyed fannypack	Spooky Damage: +2, Stench Damage: +2, Hot Damage: +2, Cold Damage: +2, Sleaze Damage: +2, Item Drop: +10, Single Equip, Last Available: "2016-08"
 # Time Bandit Badge of Courage: Proves your worth to the Time Bandits
 Item	Time Bandit Badge of Courage	Muscle Limit: 50, Mysticality Limit: 50, Moxie Limit: 50
-Item	time halo	Adventures: +5, Unarmed, Single Equip, Last Available: "2011-09"
+Item	time halo	Adventures: [5*unarmed], Single Equip, Last Available: "2011-09"
 # Time Lord Badge of Honor: Proves your worth to the Time Lords
 Item	Time Lord Badge of Honor	Muscle Limit: 50, Mysticality Limit: 50, Moxie Limit: 50
 # time-twitching toolbelt: Reveals various Time-Forgotten Secrets
@@ -8905,7 +8905,7 @@ Skill	Marginally Insane	Maximum MP Percent: +10
 Skill	Mariachi Memory	Additional Song: 1
 Skill	Master Accordion Master Thief	Pickpocket Chance: +10
 Skill	Master Egg Hunter	Item Drop: +10
-Skill	Master of the Surprising Fist	Weapon Damage: +10, Damage Reduction: 10, Unarmed
+Skill	Master of the Surprising Fist	Weapon Damage: [10*unarmed], Damage Reduction: [10*unarmed]
 Skill	Master Saucier	Spell Damage Percent: +10
 Skill	Matter Over Mind	Maximum MP Percent: +25
 Skill	Medical Manchego	Maximum HP Percent: +20, HP Regen Min: 3, HP Regen Max: 5

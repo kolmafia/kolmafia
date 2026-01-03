@@ -403,6 +403,7 @@ public class Expression {
         // Valid with Modifier Expression:
         case '\u008c' -> v = KoLCharacter.getTurnsPlayed();
         case '\u008d' -> v = KoLCharacter.getParadoxicity();
+        case '\u008e' -> v = Modifiers.unarmed ? 1 : 0;
         // Valid with Modifier Expression:
         case '\u0097' -> v = KoLCharacter.getBaseMuscle();
 
