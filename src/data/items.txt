@@ -12091,7 +12091,7 @@
 12062	tiny plastic left skeleton leg	864836935	tpc25leg.gif	accessory	t	0
 12063	tiny plastic right skeleton arm	614426579	tpc25rarm.gif	accessory	t	0
 12064	tiny plastic right skeleton leg	472689693	tpc25reg.gif	accessory	t	0
-12065	tiny plastic skeleton pelvis	463690423	tpc25butt.gif	accessory	t	0
+12065	tiny plastic skeleton pelvis	463690423	tpc25butt.gif	accessory	t	0	tiny plastic skeleton pelvi
 12066	discreetly-wrapped Eternity Codpiece	323763723	eternitycodbox.gif	usable	t	0
 12067	The Eternity Codpiece	313152180	eternitycod.gif	accessory		0
 12068	angelbone kilt	117499768	abonekilt.gif	pants		0
@@ -12154,7 +12154,7 @@
 12125	crate of prize-winning rum	824419496	crate.gif	usable	t	0	crates of prize-winning rum
 12126	bottle of prize-winning rum	431517630	prizerumbottle.gif	drink	t,d	25	bottles of prize-winning rum
 12127	Santa-Slayer medal	625460805	ssmedal.gif	accessory		0
-12128	Skull of Claus	134749599	santaskull.gif	none		0
+12128	Skull of Claus	134749599	santaskull.gif	none		0	Skulls of Claus
 12129	boiling bone marrow	153427849	c25goo1.gif	potion, perishable	t,d	22	globs of boiling bone marrow
 12130	boiling cerebrospinal fluid	233745225	c25goo2.gif	potion, perishable	t,d	22	globs of boiling cerebrospinal fluid
 12131	boiling synovial fluid	618141245	c25goo3.gif	potion, perishable	t,d	22	globs of boiling synovial fluid
@@ -12163,7 +12163,7 @@
 12134	legendary seal-clubbing club	226823809	leg_club.gif	weapon		0
 12135	smoldering bone dust	407867545	smolderdust.gif	none	t,d	15	piles of smoldering bone dust
 12136	volatile bone bomb	613792951	bonebomb.gif	none, combat, perishable	t,d	111
-12137	hot boning knife	593295785	hotboningknife.gif	weapon	t	0	hot boning knive
+12137	hot boning knife	593295785	hotboningknife.gif	weapon	t	0	hot boning knives
 12138	flaming fistbone	521112927	flamefist.gif	offhand	t	0
 12139	burnt bone belt	876239904	bonebelt2.gif	accessory	t	0
 12140	scorched skull trophy	607107330	skulltrophy.gif	offhand	t	0	scorched skull trophies
@@ -12190,8 +12190,8 @@
 12161	Shanty: Look At That Drunken Sailor Dance (used)	735801035	book3.gif	usable		0	Shanties: Look At That Drunken Sailor Dance (used)
 12162	Shanty: Who's Going to Pay This Drunken Sailor?	112805285	book3.gif	usable	t	0	Shanties: Shanty: Who's Going to Pay This Drunken 
 12163	Shanty: Who's Going to Pay This Drunken Sailor? (used)	546484497	book3.gif	usable		0	Shanties: Who's Going to Pay This Drunken Sailor? (used)
-12164	Shanty: Only Dogs Love a Drunken Sailor	111305891	book3.gif	usable	t	0	Shanties: Only Dogs Love a Drunken Sailor
-12165	Shanty: Only Dogs Love Drunken Sailors (used)	760508477	book3.gif	usable		0	Shanties: Only Dogs Love Drunken Sailors (used)
+12164	Shanty: Only Dogs Love a Drunken Sailor	111305891	book3.gif	usable	t	0	Shanties: Only Dogs Love Drunken Sailors
+12165	Shanty: Only Dogs Love a Drunken Sailor (used)	760508477	book3.gif	usable		0	Shanties: Only Dogs Love Drunken Sailors (used)
 12166	Crymbocurrency tattoo	804475271	cryptotat.gif	usable	t	0
 12167	fireproof bonesaw	816245231	fireproofsaw.gif	weapon	t,d	100
 12168	vermiculite shield	886101819	vermicshield.gif	offhand	t,d	100
