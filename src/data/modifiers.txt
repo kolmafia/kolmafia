@@ -6825,8 +6825,8 @@ Effect	High-Test Fishing Line	Fishing Skill: +5
 Effect	Highland Sheen	Moxie: +10
 Effect	Hint of Bacon	HP Regen Min: 10, HP Regen Max: 20
 Effect	Hip to Be Square Dancin'	Item Drop: +10
-Effect	[1872]Hip to the Jive	Avatar: "hep cat"
-Effect	[1701]Hip to the Jive	Experience (familiar): +2, Familiar Weight: +10, Familiar Damage: +20
+Effect	[1872]Hip to the Jive	Avatar: "hep cat", Wiki Name: "Hip to the Jive (avatar effect)"
+Effect	[1701]Hip to the Jive	Experience (familiar): +2, Familiar Weight: +10, Familiar Damage: +20, Wiki Name: "Hip to the Jive"
 Effect	Hippy Antimilitarism	Combat Rate: -10
 Effect	Hippy Flavor	Mysticality: +15
 Effect	Hippy Stench	Combat Rate: +5
