@@ -3894,21 +3894,17 @@ public abstract class RuntimeLibrary {
             new AggregateType(DataTypes.INT_TYPE, DataTypes.MODIFIER_TYPE),
             params));
 
-    params =
-      List.of(namedParam("monster", DataTypes.MONSTER_TYPE));
+    params = List.of(namedParam("monster", DataTypes.MONSTER_TYPE));
     functions.add(
-      new LibraryFunction(
-        "shrunken_head_zombie",
-        new AggregateType(DataTypes.STRING_TYPE, 0),
-        params));
+        new LibraryFunction(
+            "shrunken_head_zombie", new AggregateType(DataTypes.STRING_TYPE, 0), params));
 
     params =
-      List.of(namedParam("monster", DataTypes.MONSTER_TYPE), namedParam("path", DataTypes.PATH_TYPE));
+        List.of(
+            namedParam("monster", DataTypes.MONSTER_TYPE), namedParam("path", DataTypes.PATH_TYPE));
     functions.add(
-      new LibraryFunction(
-        "shrunken_head_zombie",
-        new AggregateType(DataTypes.STRING_TYPE, 0),
-        params));
+        new LibraryFunction(
+            "shrunken_head_zombie", new AggregateType(DataTypes.STRING_TYPE, 0), params));
   }
 
   public static Method findMethod(final String name, final Class<?>[] args)
@@ -11927,15 +11923,14 @@ public abstract class RuntimeLibrary {
     return value;
   }
 
-  public static Value shrunken_head_zombie(
-    ScriptRuntime controller, final Value monsterVal) {
+  public static Value shrunken_head_zombie(ScriptRuntime controller, final Value monsterVal) {
     var monId = ((MonsterData) monsterVal.content).getId();
     var pathId = KoLCharacter.getPath().id;
     return shrunken_head_zombie(monId, pathId);
   }
 
   public static Value shrunken_head_zombie(
-    ScriptRuntime controller, final Value monsterVal, final Value pathVal) {
+      ScriptRuntime controller, final Value monsterVal, final Value pathVal) {
     var monId = ((MonsterData) monsterVal.content).getId();
     var pathId = ((Path) pathVal.content).id;
     return shrunken_head_zombie(monId, pathId);
