@@ -593,6 +593,10 @@ public enum DoubleModifier implements Modifier {
       "Damage vs. Orcs",
       Pattern.compile("([+-]\\d+) Damage vs. Orcs"),
       Pattern.compile("Damage vs. Orcs: " + EXPR)),
+  SEAL_DAMAGE(
+      "Damage vs. Seals",
+      Pattern.compile("([+-]\\d+)% Damage vs. Seals"),
+      Pattern.compile("Damage vs. Seals: " + EXPR)),
   RAM("RAM", Pattern.compile("([+-]\\d+) RAM"), Pattern.compile("RAM: " + EXPR)),
   LANTERN("Lantern", Pattern.compile("Lantern: " + EXPR)),
   RAW_COMBAT_RATE("Raw Combat Rate", null);
