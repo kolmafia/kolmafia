@@ -9768,6 +9768,7 @@ public class FightRequest extends GenericRequest {
     // Number to increment daily limit prop (almost always 1)
     int increment = 1;
 
+    // skills in dailylimits.txt need to set skillSuccess = true in here to increment preferences
     switch (skillId) {
       case SkillPool.GOTHY_HANDWAVE -> NemesisDecorator.useGothyHandwave(monsterName, responseText);
       case SkillPool.VOLCANOMETEOR -> ResultProcessor.processItem(ItemPool.VOLCANIC_ASH, -1);
@@ -11064,6 +11065,11 @@ public class FightRequest extends GenericRequest {
           currentRAM -= 7;
         }
       }
+      case SkillPool.CLUB_EM_ACROSS_THE_BATTLEFIELD -> {
+        if (responseText.contains("across the battlefield") || skillSuccess) {
+          skillSuccess = true;
+        }
+      }
       case SkillPool.CLUB_EM_INTO_NEXT_WEEK -> {
         if (responseText.contains("save some leftovers") || skillSuccess) {
           skillSuccess = true;
@@ -11077,6 +11083,13 @@ public class FightRequest extends GenericRequest {
           }
           Preferences.setString("clubEmNextWeekMonster", monsterName);
           Preferences.setInteger("clubEmNextWeekMonsterTurn", KoLCharacter.getTurnsPlayed());
+        }
+      }
+      case SkillPool.CLUB_EM_BACK_IN_TIME -> {
+        if (responseText.contains("you've already defeated")
+            || responseText.contains("about fifteen seconds")
+            || skillSuccess) {
+          skillSuccess = true;
         }
       }
     }
