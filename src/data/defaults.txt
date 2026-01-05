@@ -489,6 +489,8 @@ user	clanFortuneWord1	pizza
 user	clanFortuneWord2	batman
 user	clanFortuneWord3	thick
 user	clanAttacksEnabled	false
+user	clubEmNextWeekMonster		roa
+user	clubEmNextWeekMonsterTurn	-1	roa
 user	clumsinessGroveBoss		roa
 user	cocktailSummons	0	ld
 user	coldAirportAlways	false
