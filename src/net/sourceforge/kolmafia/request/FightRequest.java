@@ -11069,7 +11069,8 @@ public class FightRequest extends GenericRequest {
           skillSuccess = true;
           TurnCounter.stopCounting("Club 'Em Into Next Week Monster");
           if (Preferences.getBoolean("stopForFixedWanderer")) {
-            TurnCounter.startCountingTemporary(8, "Club 'Em Into Next Week Monster type=wander", "watch.gif");
+            TurnCounter.startCountingTemporary(
+                8, "Club 'Em Into Next Week Monster type=wander", "watch.gif");
           } else {
             TurnCounter.startCountingTemporary(
                 8, "Club 'Em Into Next Week Monster loc=* type=wander", "watch.gif");
