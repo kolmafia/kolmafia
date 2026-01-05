@@ -1130,6 +1130,18 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     }
 
     @Test
+    void canCallNumericWithMultiNumeric() {
+      String input = "numeric_modifier($item[blackberry polite], $modifier[Effect Duration])";
+      String output = execute(input);
+      assertThat(
+          output,
+          is(
+              """
+                 Returned: 5.0
+                 """));
+    }
+
+    @Test
     void numericErrorsWithWrongModifierType() {
       String input = "numeric_modifier($item[ring of the Skeleton Lord], $modifier[No Pull])";
       String output = execute(input);
