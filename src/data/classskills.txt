@@ -678,7 +678,7 @@
 7095	Give Your Opponent the Stinkeye	sc_eye.gif	combat	0	0
 7096	Bashing Slam Smash	sledge.gif	combat	15	0
 7097	Turtle of Seven Tails	7aspects.gif	combat	15	0
-7098	Noodles of Fire	capspoon.gif	combat	15	0
+7098	Noodles of Fire	capspoon.gif	combat,spell	15	0
 7099	Saucemageddon	windsorpan.gif	combat,spell	24	0
 7100	Funk Bluegrass Fusion	seegerbanjo.gif	combat	10	0
 7101	Extreme High Note	trikitixa.gif	combat	15	0
@@ -714,7 +714,7 @@
 7131	Kodiak Moment	bearpic.gif	combat	0	0
 7132	Grizzly Scene	slashes.gif	combat	0	0
 7133	Bear-Backrub	bear_backrub.gif	combat	0	0
-7134	Bear-ly Legal	beararm_left.gif	combat	0	0
+7134	Bear-ly Legal	origamimag.gif	combat	0	0
 7135	Bear Hug	bear_hug.gif	combat	0	0
 7136	I Can Bearly Hear You Over the Applause	bear_applause.gif	combat	0	0
 7137	Unleash Nanites	unleashnanites.gif	combat	0	0
@@ -901,7 +901,7 @@
 7318	lecture on mass	mass.gif	combat	0	0
 7319	lecture on relativity	relativity.gif	combat	0	0
 7320	Detect Weakness	retrospecs.gif	combat	0	0
-7321	Unleash Terra Cotta Army	tc_soldier,gif	combat	20	0
+7321	Unleash Terra Cotta Army	tc_soldier.gif	combat	20	0
 7322	Paraffin Prism	paraffinprism.gif	combat	30	0
 7323	Seek out a Bird	findbird.gif	nc,effect,self	5	10
 7324	CHEAT CODE: Invisible Avatar	missingavatar.gif	nc,effect,self	0	10
