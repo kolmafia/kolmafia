@@ -270,6 +270,22 @@ public abstract class EncounterManager {
     return false;
   }
 
+  public static boolean isClubEmNextWeekMonster(
+      final String responseText, final boolean checkMonster) {
+    if (responseText.contains("you clubbed into next week")) {
+      return true;
+    }
+
+    if (checkMonster
+        && TurnCounter.isCounting("Club 'Em Into Next Week Monster", 0)
+        && Preferences.getString("nextAdventure").equals("The Deep Machine Tunnels")) {
+      String name = MonsterStatusTracker.getLastMonsterName();
+      return name.equalsIgnoreCase(Preferences.getString("clubEmNextWeekMonster"));
+    }
+
+    return false;
+  }
+
   public static final boolean isDigitizedEncounter(
       final String responseText, final boolean checkMonster) {
     if (responseText.contains("must have hit CTRL+V")) {
