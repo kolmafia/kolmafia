@@ -76,9 +76,13 @@ public class MonsterData extends AdventureResult {
     FREE("FREE"),
     NOWANDER("NOWANDER"),
     // Subtypes
+    BUGBEAR("BUGBEAR"),
     GHOST("GHOST"),
     SKELETON("SKELETON"),
+    VAMPIRE("VAMPIRE"),
+    WEREWOLF("WEREWOLF"),
     ZOMBIE("ZOMBIE"),
+    SEAL("SEAL"),
     SNAKE("SNAKE"),
     DRIPPY("DRIPPY"),
     // Specialized
@@ -277,9 +281,13 @@ public class MonsterData extends AdventureResult {
               SUPERLIKELY,
               FREE,
               NOWANDER,
+              BUGBEAR,
               GHOST,
               SKELETON,
+              VAMPIRE,
+              WEREWOLF,
               ZOMBIE,
+              SEAL,
               SNAKE,
               DRIPPY ->
               attributeMap.put(attribute, true);
@@ -410,9 +418,13 @@ public class MonsterData extends AdventureResult {
     saveValueAttribute(Attribute.PHYLUM, attributeMap, buf);
 
     // Subtypes
+    saveKeywordAttribute(Attribute.BUGBEAR, attributeMap, buf);
     saveKeywordAttribute(Attribute.GHOST, attributeMap, buf);
     saveKeywordAttribute(Attribute.SKELETON, attributeMap, buf);
+    saveKeywordAttribute(Attribute.VAMPIRE, attributeMap, buf);
+    saveKeywordAttribute(Attribute.WEREWOLF, attributeMap, buf);
     saveKeywordAttribute(Attribute.ZOMBIE, attributeMap, buf);
+    saveKeywordAttribute(Attribute.SEAL, attributeMap, buf);
     saveKeywordAttribute(Attribute.SNAKE, attributeMap, buf);
     saveKeywordAttribute(Attribute.DRIPPY, attributeMap, buf);
 
@@ -592,8 +604,26 @@ public class MonsterData extends AdventureResult {
 
   private Set<String> attributeMapToSubtypes(final Map<Attribute, Object> attributeMap) {
     Set<String> subTypes = new HashSet<>();
+    if (attributeMap.containsKey(Attribute.BUGBEAR)) {
+      subTypes.add("bugbear");
+    }
     if (attributeMap.containsKey(Attribute.GHOST)) {
       subTypes.add("ghost");
+    }
+    if (attributeMap.containsKey(Attribute.SKELETON)) {
+      subTypes.add("skeleton");
+    }
+    if (attributeMap.containsKey(Attribute.VAMPIRE)) {
+      subTypes.add("vampire");
+    }
+    if (attributeMap.containsKey(Attribute.WEREWOLF)) {
+      subTypes.add("werewolf");
+    }
+    if (attributeMap.containsKey(Attribute.ZOMBIE)) {
+      subTypes.add("zombie");
+    }
+    if (attributeMap.containsKey(Attribute.SEAL)) {
+      subTypes.add("seal");
     }
     if (attributeMap.containsKey(Attribute.SNAKE)) {
       subTypes.add("snake");
