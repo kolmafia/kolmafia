@@ -26,6 +26,7 @@ ancient meat	1	1		0	0	0	0	Gain some meat
 ancient medicinal herbs	1	1	awesome	0	0	0	0	50 Ancient Fortitude (+100% HP, +90-100 HP Regen, Impervious to negative effects)
 ancient pills	1	2	crappy	0	8-10	18-20	8-10	Restore 30-40 MP
 ancient protein powder	1	1	good	0	12-14	0	0
+angelbone fragments	2	12		0	0	0	0	Unspaded
 antimatter wad	2	3	awesome	5-7	-20-30	-20-30	-20-30
 antique bottle of cough syrup	1	6	awesome	0	0	18-20	0	10 The Q Is Talking To You (+10% mys)
 armored prawn	1	1	EPIC	0	30-50	30-50	30-50	50 Rushtacean' (+50 Init)
@@ -77,6 +78,7 @@ cuppa Activi tea	2	1	decent	3-5	8-10	8-10	8-10
 cuppa Cruel tea	4	1	crappy	0	0	0	0	+5 PvP fights
 cute mushroom	4	6	decent	7-9	5-10	5-10	5-10	50 Cute Vision (+5 familiar weight)
 demonic paste	4	4	good	5-10	18-22	18-22	18-22	10 Demonic Flavor (hot dmg/res)
+devilbone chunks	3	12		0	0	0	0	Unspaded
 dieting pill	3	7	good	0	0	0	0	2x fullness, stats and adventures for next food
 drenchrome 2.0	1	1		0	0	0	0	30 Cyber Slicer (+dmg to Cyber attacks)
 ectoplasmic paste	4	4	good	5-10	18-22	18-22	18-22	10 Spooky Flavor (spooky dmg/res)
