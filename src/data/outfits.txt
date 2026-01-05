@@ -185,7 +185,7 @@
 178
 179
 180
-181	Angelbone Vestments	abonetat.gif	angelbone halo, angelbone totem, angelbone mantle, angelbone kilt, angelbone dice, angelbone chopsticks
+181	Angelbone Vestments	abonetat.gif	angelbone halo, angelbone totem, angelbone mantle, angelbone kilt, angelbone dice, angelbone chopsticks	biblically accurate gumdrops
 182	Devilbone Prison	dbonetat.gif	devilbone helmet, devilbone flute, devilbone corset, devilbone greaves, devilbone shinguards, devilbone rosary
 183
 184

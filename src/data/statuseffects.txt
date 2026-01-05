@@ -3052,7 +3052,7 @@
 3049	Grueling Gravitas	soupbowl.gif	1c5f82613ee85a175018cd3520c6ca89	neutral	nohookah	chew 1 medicinal gruel
 3050	Ordained	smokingpope.gif	57c7ce619059e2792d24de1a60588f7a	neutral	nohookah	drink 1 Smoking Pope
 3051	Tryptofan	prizeturkey.gif	5d7674e3501766459946768a4f32a63d	neutral	nohookah	eat 1 prize turkey
-3052
+3052	A Drop of the Divine	abonecandy.gif	22eccd078eedf10acc188417ff124f9c	neutral	none	use 1 biblically accurate gumdrops
 3053	Temporarily Damned	dbonetattoo.gif	5bf0e8aecedca4c9f7352a9adeca8147	neutral	none
 3054	Hot Bones	c25goo1.gif	a46f2c75236cfcc9df3aa13ef91df33b	neutral	nohookah	use 1 boiling bone marrow
 3055	Hot Brains	c25goo2.gif	6cdc1dbeef4fc0625c310c3a830599c8	neutral	nohookah	use 1 boiling cerebrospinal fluid

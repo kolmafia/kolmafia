@@ -12100,15 +12100,15 @@
 12071	angelbone mantle	190969423	abonemantle.gif	container		0
 12072	angelbone dice	179374516	abonedice.gif	accessory		0
 12073	angelbone halo	945612369	abonehalo.gif	hat		0
-12074
-12075
+12074	angelbone fragments	982280688	abonebits.gif	spleen, usable		0
+12075	biblically accurate gumdrops	256315867	abonecandy.gif	potion, usable	t,d	15
 12076	devilbone helmet	133557227	dbonehelm.gif	hat		0
 12077	devilbone greaves	670583672	dbonepants.gif	pants		0
 12078	devilbone shinguards	741836596	dboneshins.gif	accessory		0
 12079	devilbone corset	480217987	dbonecorset.gif	shirt		0
 12080	devilbone flute	196343443	dboneflute.gif	weapon		0
 12081	devilbone rosary	973060638	dbonerosary.gif	accessory		0
-12082
+12082	devilbone chunks	866251215	dbonebits.gif	spleen, usable		0
 12083
 12084
 12085

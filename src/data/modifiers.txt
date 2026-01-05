@@ -5562,6 +5562,7 @@ Effect	A Brush with Grossness	Stench Resistance: +3, Stench Damage: +15, Stench 
 Effect	A Bug's Life	Maximum HP Percent: +100, HP Regen Min: 8, HP Regen Max: 10
 Effect	A Contender	Muscle Percent: +200, Mysticality Percent: +200, Moxie Percent: +200
 Effect	A Date With Tomorrow	Adventures: +10
+Effect	A Drop of the Divine	HP Regen Min: 5, HP Regen Max: 7
 Effect	A Few Extra Pounds	Maximum HP: [5*min(L,11)]
 Effect	A Girl Named Sue	Familiar Weight: +5, Experience (familiar): +5, Familiar Damage: +10
 # A Hole in the World: Time destroys everything
@@ -10597,6 +10598,7 @@ Item	alien plant goo	Effect: "Celestial Mind", Effect Duration: 40, Last Availab
 Item	alien protein powder	Last Available: "2014-05"
 Item	ancient medicinal herbs	Effect: "Ancient Fortitude", Effect Duration: 50, Last Available: "2016-01"
 # ancient pills: Restore 30-40 MP
+Item	angelbone fragments	Last Available: "2026-12"
 Item	antimatter wad	Last Available: "2013-12"
 Item	antique bottle of cough syrup	Effect: "The Q Is Talking To You", Effect Duration: 10
 Item	armored prawn	Effect: "Rushtacean'", Effect Duration: 50, Last Available: "2016-03"
@@ -10644,6 +10646,7 @@ Item	cuppa Activi tea	Last Available: "2015-09"
 Item	cuppa Cruel tea	Last Available: "2015-09"
 Item	cute mushroom	Effect: "Cute Vision", Effect Duration: 50, Last Available: "2015-09"
 Item	demonic paste	Effect: "Demonic Flavor", Effect Duration: 10, Last Available: "2011-08"
+Item	devilbone chunks	Last Available: "2026-12"
 # dieting pill: Eat less, Enjoy it More!
 Item	drenchrome 2.0	Effect: "Cyber Slicer", Effect Duration: 30, Last Available: "2025-12"
 Item	ectoplasmic paste	Effect: "Spooky Flavor", Effect Duration: 10, Last Available: "2011-08"
@@ -10870,6 +10873,7 @@ Item	bellhop bell	Effect: "Ringing Ears", Effect Duration: 10, Last Available: "
 Item	Ben-Gal&trade; Balm	Effect: "Go Get 'Em, Tiger!", Effect Duration: 3
 Item	bent scrap metal	Effect: "Armor-Plated", Effect Duration: 10
 Item	Bettie page	Effect: "Paging Betty", Effect Duration: 20, Last Available: "2018-02"
+Item	biblically accurate gumdrops	Effect: "A Drop of the Divine", Effect Duration: 10
 Item	big dribbly candle	Effect: "Waxing Mystical", Effect Duration: 10
 Item	Big Punk	Effect: "Big Punkin'", Effect Duration: 50
 Item	Bit O' Ectoplasm	Effect: "Sugar Rush", Effect Duration: 5
