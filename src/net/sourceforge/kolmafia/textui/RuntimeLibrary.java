@@ -85,6 +85,7 @@ import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.Modifier;
 import net.sourceforge.kolmafia.modifiers.ModifierList.ModifierValue;
 import net.sourceforge.kolmafia.modifiers.ModifierValueType;
+import net.sourceforge.kolmafia.modifiers.MultiDoubleModifier;
 import net.sourceforge.kolmafia.modifiers.MultiStringModifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.moods.Mood;
@@ -3143,6 +3144,47 @@ public abstract class RuntimeLibrary {
             namedParam("thrall", DataTypes.THRALL_TYPE),
             namedParam("modifier", DataTypes.MODIFIER_TYPE));
     functions.add(new LibraryFunction("numeric_modifier", DataTypes.FLOAT_TYPE, params));
+
+    params = List.of(namedParam("modifier", DataTypes.STRING_TYPE));
+    functions.add(
+        new LibraryFunction(
+            "numerics_modifier", new AggregateType(DataTypes.FLOAT_TYPE, 0), params));
+
+    params = List.of(namedParam("modifier", DataTypes.MODIFIER_TYPE));
+    functions.add(
+        new LibraryFunction(
+            "numerics_modifier", new AggregateType(DataTypes.FLOAT_TYPE, 0), params));
+
+    params =
+        List.of(
+            namedParam("type", DataTypes.STRING_TYPE),
+            namedParam("modifier", DataTypes.STRING_TYPE));
+    functions.add(
+        new LibraryFunction(
+            "numerics_modifier", new AggregateType(DataTypes.FLOAT_TYPE, 0), params));
+
+    params =
+        List.of(
+            namedParam("type", DataTypes.STRING_TYPE),
+            namedParam("modifier", DataTypes.MODIFIER_TYPE));
+    functions.add(
+        new LibraryFunction(
+            "numerics_modifier", new AggregateType(DataTypes.FLOAT_TYPE, 0), params));
+
+    params =
+        List.of(
+            namedParam("item", DataTypes.ITEM_TYPE), namedParam("modifier", DataTypes.STRING_TYPE));
+    functions.add(
+        new LibraryFunction(
+            "numerics_modifier", new AggregateType(DataTypes.FLOAT_TYPE, 0), params));
+
+    params =
+        List.of(
+            namedParam("item", DataTypes.ITEM_TYPE),
+            namedParam("modifier", DataTypes.MODIFIER_TYPE));
+    functions.add(
+        new LibraryFunction(
+            "numerics_modifier", new AggregateType(DataTypes.FLOAT_TYPE, 0), params));
 
     params = List.of(namedParam("modifier", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("boolean_modifier", DataTypes.BOOLEAN_TYPE, params));
@@ -10563,13 +10605,21 @@ public abstract class RuntimeLibrary {
     Type type = modifier.getType();
     if (type.equals(DataTypes.MODIFIER_TYPE)) {
       Modifier content = (Modifier) modifier.content;
-      if (content != null && content.getType() == ModifierValueType.NUMERIC) {
-        return content;
+      if (content != null) {
+        switch (content.getType()) {
+          case NUMERIC, MULTINUMERIC -> {
+            return content;
+          }
+        }
       }
       throw controller.runtimeException("numeric modifier required");
     }
     String mod = modifier.toString();
-    return ModifierDatabase.numericByCaselessName(mod);
+    var num = ModifierDatabase.numericByCaselessName(mod);
+    if (num != null) {
+      return num;
+    }
+    return MultiDoubleModifier.byCaselessName(mod);
   }
 
   private static BooleanModifier getBooleanModifier(
@@ -10621,6 +10671,20 @@ public abstract class RuntimeLibrary {
     return MultiStringModifier.byCaselessName(mod);
   }
 
+  private static MultiDoubleModifier getMultiDoubleModifier(
+      ScriptRuntime controller, final Value modifier) {
+    Type type = modifier.getType();
+    if (type.equals(DataTypes.MODIFIER_TYPE)) {
+      Modifier content = (Modifier) modifier.content;
+      if (content != null && content.getType() == ModifierValueType.MULTINUMERIC) {
+        return (MultiDoubleModifier) content;
+      }
+      throw controller.runtimeException("numeric modifier required");
+    }
+    String mod = modifier.toString();
+    return MultiDoubleModifier.byCaselessName(mod);
+  }
+
   public static Value numeric_modifier(ScriptRuntime controller, final Value modifier) {
     Modifier realMod = getNumericModifier(controller, modifier);
     return new Value(KoLCharacter.currentNumericModifier(realMod));
@@ -10647,6 +10711,38 @@ public abstract class RuntimeLibrary {
     AdventureResult it = ItemPool.get((int) item.intValue());
 
     return new Value(ModifierDatabase.getNumericModifier(fam, realMod, w, it));
+  }
+
+  public static Value numerics_modifier(ScriptRuntime controller, final Value modifier) {
+    var mod = getMultiDoubleModifier(controller, modifier);
+
+    var values = KoLCharacter.currentMultiDoubleModifier(mod);
+    ArrayValue value = new ArrayValue(new AggregateType(DataTypes.FLOAT_TYPE, values.size()));
+
+    int i = 0;
+    for (var val : values) {
+      value.aset(DataTypes.makeIntValue(i++), new Value(val));
+    }
+
+    return value;
+  }
+
+  public static Value numerics_modifier(
+      ScriptRuntime controller, final Value arg, final Value modifier) {
+    var mod = getMultiDoubleModifier(controller, modifier);
+
+    ModifierType type = RuntimeLibrary.getModifierType(arg);
+    String name = RuntimeLibrary.getModifierName(arg);
+
+    var values = ModifierDatabase.getMultiDoubleModifier(type, name, mod);
+    ArrayValue value = new ArrayValue(new AggregateType(DataTypes.FLOAT_TYPE, values.size()));
+
+    int i = 0;
+    for (var val : values) {
+      value.aset(DataTypes.makeIntValue(i++), new Value(val));
+    }
+
+    return value;
   }
 
   public static Value boolean_modifier(ScriptRuntime controller, final Value modifier) {

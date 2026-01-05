@@ -26,6 +26,7 @@ import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.modifiers.BitmapModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
+import net.sourceforge.kolmafia.modifiers.MultiDoubleModifier;
 import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -645,7 +646,7 @@ public class Maximizer {
 
             Modifiers effMod = ModifierDatabase.getItemModifiers(item.getItemId());
             if (effMod != null) {
-              duration = (int) effMod.getDouble(DoubleModifier.EFFECT_DURATION);
+              duration = (int) effMod.getDouble(MultiDoubleModifier.EFFECT_DURATION);
             }
           }
           // Hot Dogs don't have items
@@ -680,7 +681,7 @@ public class Maximizer {
             } else {
               Modifiers effMod = ModifierDatabase.getModifiers(ModifierType.ITEM, iName);
               if (effMod != null) {
-                duration = (int) effMod.getDouble(DoubleModifier.EFFECT_DURATION);
+                duration = (int) effMod.getDouble(MultiDoubleModifier.EFFECT_DURATION);
               }
               usesRemaining = 1;
             }
