@@ -448,6 +448,32 @@ public class MaximizerTest {
   }
 
   @Nested
+  class Potions {
+    @Test
+    public void recommendsUsableNonPotion() {
+      var cleanups = withItem(ItemPool.CHARTER_NELLYVILLE);
+
+      try (cleanups) {
+        maximize("hot dmg");
+
+        assertThat(
+            getBoosts(), hasItem(hasProperty("cmd", startsWith("use 1 Charter: Nellyville"))));
+      }
+    }
+
+    @Test
+    public void recommendsLoathingIdol() {
+      var cleanups = withItem(ItemPool.LOATHING_IDOL_MICROPHONE_50);
+
+      try (cleanups) {
+        maximize("init");
+
+        assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("loathingidol pop"))));
+      }
+    }
+  }
+
+  @Nested
   class Beecore {
 
     @Test
@@ -546,29 +572,6 @@ public class MaximizerTest {
           assertThat(
               getBoosts(),
               not(hasItem(hasProperty("cmd", startsWith("use 1 baggie of powdered sugar")))));
-        }
-      }
-
-      @Test
-      public void recommendsUsableNonPotion() {
-        var cleanups = withItem(ItemPool.CHARTER_NELLYVILLE);
-
-        try (cleanups) {
-          maximize("hot dmg");
-
-          assertThat(
-              getBoosts(), hasItem(hasProperty("cmd", startsWith("use 1 Charter: Nellyville"))));
-        }
-      }
-
-      @Test
-      public void recommendsLoathingIdol() {
-        var cleanups = withItem(ItemPool.LOATHING_IDOL_MICROPHONE_50);
-
-        try (cleanups) {
-          maximize("init");
-
-          assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("loathingidol pop"))));
         }
       }
     }
