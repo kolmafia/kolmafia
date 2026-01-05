@@ -36,7 +36,7 @@ ancient protector spirit (obsolete)	446	protspirit.gif	BOSS NOCOPY Atk: 160 Def:
 # ---
 Anemone combatant	766	anemone.gif	Atk: 400 Def: 585 HP: 600 Init: 25 Meat: 100 P: fish Article: an Poison: "Majorly Poisoned"	anemone nematocyst (n25)
 anglerbush	381	anglerbush.gif	Atk: 22 Def: 21 HP: 25 Init: 300 P: plant EA: sleaze EA: none Article: an	meat stack (35)
-angry bugbear	256	angbugbear.gif	Atk: 15 Def: 14 HP: 12 Init: 50 P: beast Article: an
+angry bugbear	256	angbugbear.gif	Atk: 15 Def: 14 HP: 12 Init: 50 P: beast BUGBEAR Article: an
 angry pi&ntilde;ata	269	pinata.gif	Atk: 22 Def: 19 HP: 20 Init: 50 P: construct Article: an	pile of candy (100)
 angry mushroom guy	1800	mush_angry.gif	Atk: 30 Def: 25 HP: 20 Init: 75 P: plant Article: an	fizzing spore pod (70)	Knob mushroom (20)
 animated mahogany nightstand	1541	nightstand2.gif	Atk: 55 Def: 55 HP: 60 Init: -10000 P: construct Article: an
@@ -53,7 +53,7 @@ baa-relief sheep	1160	stone_sheep.gif	Scale: 0 Cap: 50 Floor: 7 Init: -10000 P: 
 Bad ASCII Art	426	badascii.gif	LUCKY Atk: 85 Def: 76 HP: 75 Init: 50 P: construct Article: Some	ASCII shirt (c100)	30669 scroll (100)	33398 scroll (100)	334 scroll (100)	334 scroll (100)
 baguette lady	1748	baglady.gif	Atk: 2 Def: 1 HP: 2 Init: -10000 P: construct EA: sleaze EA: spooky EA: none Article: a	magical baguette (30)	wad of dough (25)
 Bailey's Beetle	576	warhipmo.gif	Atk: 195 Def: 175 HP: 210 Init: 70 P: hippy ED: stench EA: hot EA: stench EA: none Article: a	green clay bead (30)	floorboard cruft (30)	battered hubcap (30)	communications windchimes (10)	reinforced beaded headband (1)	round purple sunglasses (2)	bullet-proof corduroys (4)
-Baiowulf	231	baiowulf.gif	NOCOPY NOMANUEL ULTRARARE Atk: 15 Def: 13 HP: 20 Init: 10000 P: dude	Talisman of Baio (100)
+Baiowulf	231	baiowulf.gif	NOCOPY NOMANUEL ULTRARARE Atk: 15 Def: 13 HP: 20 Init: 10000 P: dude WEREWOLF	Talisman of Baio (100)
 banshee librarian	388	banshee.gif	Atk: 28 Def: 25 HP: 30 Init: -10000 P: undead GHOST ED: spooky EA: spooky EA: none Article: a	disintegrating quill pen (20)	killing jar (10)
 bar	202	bar.gif	Atk: 3 Def: 2 HP: 5 Init: 50 Meat: 15 P: beast Article: a	bar skin (35)	baritone accordion (a100)
 Baron von Ratsworth	286	ratsworth.gif	BOSS NOCOPY Atk: [MOX+min(13,3+A)] Def: [MUS+min(13,3+A)] HP: [HP*1.25] Init: 80 P: beast	Baron von Ratsworth's monocle (c100)	Baron von Ratsworth's money clip (c100)	Baron von Ratsworth's tophat (c100)
@@ -107,8 +107,8 @@ briefcase bat	46	casebat.gif	Atk: 17 Def: 15 HP: 11 Init: 60 Meat: 28 P: beast A
 broodling seal	794	babyseal.gif	NOCOPY FREE Atk: 80 Def: 90 HP: 100 Init: -10000 P: demon SEAL Article: a	severed flipper (35)
 Brutus, the toga-clad lout	518	togafrat.gif	BOSS NOCOPY Atk: 200 Def: 180 HP: 280 Init: 60 Meat: 250 P: orc ED: sleaze EA: sleaze EA: none	wreath of laurels (100)	white class ring (30)	kick-ass kicks (0)
 Bubblemint Twins	1240	twins_bubble.gif	Atk: 93 Def: 83 HP: 90 Init: 40 Meat: 65 Group: 2 P: dude EA: sleaze EA: stench EA: none Article: the	dress pants (5)	that gum you like (25)
-bugbear-in-the-box	108	binbox.gif	Atk: 16 Def: 16 HP: 11 Init: 70 Meat: 15 P: beast Article: a	box (20)	bugbear beanie (10)	bugbear bungguard (10)
-bugged bugbear	258	bugbugbear.gif	Atk: 17 Def: 16 HP: 14 Init: 50 P: beast Article: a	gnoll teeth (30)	gnoll lips (30)	software glitch (p25)
+bugbear-in-the-box	108	binbox.gif	Atk: 16 Def: 16 HP: 11 Init: 70 Meat: 15 P: beast BUGBEAR Article: a	box (20)	bugbear beanie (10)	bugbear bungguard (10)
+bugged bugbear	258	bugbugbear.gif	Atk: 17 Def: 16 HP: 14 Init: 50 P: beast BUGBEAR Article: a	gnoll teeth (30)	gnoll lips (30)	software glitch (p25)
 Bullet Bill	121	bulletbill.gif	Atk: 25 Def: 22 HP: 15 Init: 60 Meat: 10 P: construct Article: a	black pixel (70)	black pixel (70)	black pixel (70)
 bunch of drunken rats	995	ratbunch.gif	Atk: 20 Def: 18 HP: 16 Init: 80 Meat: 20 Group: 3 P: beast EA: sleaze EA: none Article: a	rat whisker (100)	rat whisker (25)	rat whisker (10)	rat appendix (20)	rat appendix (20)	rat appendix (20)
 Burly Sidekick	166	sidekick.gif	Atk: 100 Def: 90 HP: 100 Init: 80 Meat: 130 P: dude Article: a	armgun (9)	cocoa eggshell fragment (30)	Mohawk wig (10)	tiny house (30)
@@ -240,7 +240,7 @@ Fallen Archfiend	127	archfiend.gif	Atk: 50 Def: 45 HP: 50 Init: 80 Meat: 45 P: d
 Family Jewels	180	jewels.gif	Atk: 156 Def: 140 HP: 150 Init: 70 Group: 2 P: constellation ED: sleaze EA: sleaze EA: none Article: The	star (30)	star (30)	star (30)
 fan dancer	1532	fandancer.gif	NOWISH Atk: 145 Def: 140 HP: 145 Init: 150 Meat: 100 P: dude Article: a	blowdart (20)	red silk skirt (5)	combat fan (5)	dancing fan (c0)
 Felonia, Queen of the Spooky Gravy Fairies	266	felonia.gif	BOSS NOCOPY Atk: 75 Def: 67 HP: 80 Init: 100 P: plant E: spooky	spooky bicycle chain (n100)	spooky cosmetics bag (n100)	miniature carton of clove cigarettes (c100)
-ferocious bugbear	531	haiku2.gif	Atk: 3 Def: 2 HP: 5 Init: 50 Meat: 20 P: beast Article: a	bugbear beanie (20)	bugbear bungguard (20)
+ferocious bugbear	531	haiku2.gif	Atk: 3 Def: 2 HP: 5 Init: 50 Meat: 20 P: beast BUGBEAR Article: a	bugbear beanie (20)	bugbear bungguard (20)
 fiendish can of asparagus	146	asparagus.gif	Atk: 2 Def: 0 HP: 1 Init: 50 Meat: 5 P: undead E: stench Article: a	asparagus knife (20)	stalk of asparagus (40)	razor-sharp can lid (40)
 fiery mushroom guy	1805	mush_flaming.gif	Atk: 30 Def: 25 HP: 20 Init: 50 P: plant Article: a	hot spore pod (0)	flaming mushroom (0)
 figure-skating duck	557	duckskate.gif	Atk: 179 Def: 154 HP: 180 Init: 50 Meat: 150 P: beast E: cold Article: a	frozen feather (10)	duct tape (5)
@@ -318,7 +318,7 @@ groovy pirate	613	pirate2.gif	Atk: 140 Def: 126 HP: 120 Init: 50 Meat: 100 P: pi
 grouper groupie	734	groupie.gif	Atk: 350 Def: 405 HP: 500 Init: 40 P: fish Article: a	groupie bra (n10)	groupie lipstick (n25)	groupie spangles (c30)
 grumpy 7-Foot Dwarf	1151	dwarf_grumpy.gif	Atk: 58 Def: 52 HP: 45 Init: 50 Meat: 50 P: humanoid Article: a	7-Foot Dwarven mattock (10)
 grungy pirate	616	grungypirate.gif	Atk: 140 Def: 126 HP: 120 Init: 50 Meat: 98 P: pirate Article: a	acoustic guitarrr (20)	grungy bandana (10)	grungy flannel shirt (c5)
-Guard Bugbear	28	haiku2.gif	Atk: 12 Def: 10 HP: 6 Init: 60 Meat: 24 P: beast EA: sleaze EA: none Article: a	bugbear beanie (25)	bugbear bungguard (25)
+Guard Bugbear	28	haiku2.gif	Atk: 12 Def: 10 HP: 6 Init: 60 Meat: 24 P: beast BUGBEAR EA: sleaze EA: none Article: a	bugbear beanie (25)	bugbear bungguard (25)
 Guy Made Of Bees	424	beeguy.gif	BOSS NOCOPY Atk: 99999 Def: 89999 HP: [99999] Exp: 40 Init: -10000 P: horror Article: The	guy made of bee pollen (100)	handful of bees (p10)
 guy with a pitchfork, and his wife	394	gothic.gif	Atk: 58 Def: 52 HP: 60 Init: 50 Meat: 50 Group: 2 P: dude Article: a	pitchfork (5)
 handsome mariachi	270	mariachi1.gif	Atk: 17 Def: 15 HP: 15 Init: 50 Meat: 5 P: dude Article: a	bottle of tequila (30)	chorizo taco (20)	handsomeness potion (20)
@@ -407,7 +407,7 @@ lumberjill	234	lumberjill.gif	Atk: 36 Def: 32 HP: 36 Init: 60 Meat: 20 P: dude A
 lumberjuan	235	lumberjuan.gif	Atk: 35 Def: 31 HP: 35 Init: 60 Meat: 20 P: dude Article: a	los chinos (5)	leaflet (15)	wooden axe (5)
 lynyrd	1533	lynyrd.gif	FREE Atk: 150 Def: 150 HP: 155 Init: 10000 P: beast Article: a	lynyrd skin (100)
 lynyrd skinner	1526	skinner.gif	NOWISH Atk: 140 Def: 130 HP: 135 Init: 50 Meat: 125 P: dude Article: a	sweet roll Alabama (25)	Saturday Night Special (5)	lynyrd snare (15)	lynyrd musk (25)	lynyrd skinner toothblack (c0)
-mad bugbears	257	madbugbear.gif	Atk: 16 Def: 15 HP: 13 Init: 50 Group: 3 P: beast
+mad bugbears	257	madbugbear.gif	Atk: 16 Def: 15 HP: 13 Init: 50 Group: 3 P: beast BUGBEAR
 mad wino	1563	madwino.gif	Atk: 148 Def: 141 HP: 150 Init: 50 Meat: 50 P: hobo EA: spooky EA: none Article: a	pie man was not meant to eat (10)	crazy hobo notebook (10)	Psychotic Train wine (10)	page of the Necrohobocon (c15)
 magic dragonfish	758	dragonfish.gif	Atk: 500 Def: 360 HP: 750 Init: 50 Meat: 200 P: fish EA: cold EA: hot EA: sleaze EA: spooky EA: stench EA: none Article: a	rough fish scale (n4)	seaweed (n5)	dragonfish caviar (n5)
 magical fruit bat	2156	fruitbat1.gif	NOWISH Atk: 19 Def: 19 HP: 20 Init: 50 Meat: 40 P: beast EA: hot EA: stench EA: none Article: a	sonar-in-a-biscuit (10)	lemon (10)	orange (50)	strawberry (20)
@@ -559,8 +559,8 @@ remaindered skeleton	1745	headlessskel.gif	Atk: 2 Def: 1 HP: 2 Init: -10000 P: u
 remains of a jilted mistress	396	mistress.gif	Atk: 65 Def: 60 HP: 65 Init: 50 P: undead ED: spooky Article: the	antique hand mirror (40)	gilt perfume bottle (c0)
 Remarkable Elba Kramer	1966	elbakramer.gif	NOCOPY NOMANUEL ULTRARARE Atk: 220 Def: 200 HP: 240 Init: 10000	repaid diaper (n100)
 Renaissance Giant	1335	giant_renfair.gif	Atk: 125 Def: 110 HP: 150 Init: 40 Meat: 100 P: humanoid EA: hot EA: none Article: a	giant turkey leg (10)	Ye Olde Bawdy Limerick (25)	Ye Olde Meade (15)	Ye Olde Medieval Insult (25)
-revolting bugbear	254	angbugbear.gif	Atk: 13 Def: 12 HP: 10 Init: 50 P: beast E: stench Article: a
-revolving bugbear	255	revbugbear.gif	Atk: 14 Def: 13 HP: 11 Init: 50 P: beast Article: a
+revolting bugbear	254	angbugbear.gif	Atk: 13 Def: 12 HP: 10 Init: 50 P: beast BUGBEAR E: stench Article: a
+revolving bugbear	255	revbugbear.gif	Atk: 14 Def: 13 HP: 11 Init: 50 P: beast BUGBEAR Article: a
 Ringogeorge, the Bladeswitcher	881	merkinswitcher2.gif	BOSS NOCOPY Atk: 1300 Def: 1250 HP: 1600 Init: 100 Meat: 100 P: mer-kin
 rock scorpion	463	scorpion.gif	Atk: 139 Def: 127 HP: 145 Init: 30 Meat: 200 P: bug Article: a	handful of sand (25)	handful of sand (15)	scorpion whip (5)
 roller skate	730	rollerskate.gif	Atk: 450 Def: 360 HP: 700 Init: 30 Meat: 100 P: fish Article: a	brand new key (n2)	brass dorsal fin (n4)	skate skin (n20)	skate skates (n15)
@@ -1089,31 +1089,31 @@ Mother Slime	792	otherimages/slimetube/stboss.gif	BOSS NOCOPY Atk: 1000 Def: 900
 # Stench: environmental damage + (K-1) turns of Nauseated
 # Spooky: (K-1) turns of curse
 
-cold bugbear	1393	dvcoldbear1.gif,dvcoldbear2.gif,dvcoldbear3.gif	NOCOPY Atk: [400+KW*100+ML] Def: [400+KW*100+ML] HP: [600+KW*200+ML] Init: [15+KW*10] P: beast E: cold	Dreadsylvanian Almanac page (f1)	Freddy Kruegerand (f5)	snowstick (c0.1)
+cold bugbear	1393	dvcoldbear1.gif,dvcoldbear2.gif,dvcoldbear3.gif	NOCOPY Atk: [400+KW*100+ML] Def: [400+KW*100+ML] HP: [600+KW*200+ML] Init: [15+KW*10] P: beast BUGBEAR E: cold	Dreadsylvanian Almanac page (f1)	Freddy Kruegerand (f5)	snowstick (c0.1)
 cold ghost	1408	dvcoldghost1.gif,dvcoldghost2.gif,dvcoldghost3.gif	NOCOPY Atk: [400+KV*100+ML] Def: [400+KV*100+ML] HP: [600+KV*200+ML] Init: [15+KV*10] P: undead GHOST Phys: 100 ED: cold EA: cold EA: none	Dreadsylvanian Almanac page (f1)	Freddy Kruegerand (f5)	BOOtonniere (c0.1)
 cold skeleton	1418	dvcoldskel1.gif,dvcoldskel2.gif,dvcoldskel3.gif	NOCOPY Atk: [400+KC*100+ML] Def: [400+KC*100+ML] HP: [1000*2^(KC-1)+ML] Init: [15+KC*10] P: undead SKELETON E: cold	Dreadsylvanian Almanac page (f1)	Freddy Kruegerand (f5)	old ball and chain (c0.1)
 cold vampire	1413	dvcoldvamp1.gif,dvcoldvamp2.gif,dvcoldvamp3.gif	NOCOPY Atk: [400+KC*100+ML] Def: [400+KC*100+ML] HP: [600+KC*200+ML] Init: [15+KC*10] P: undead VAMPIRE E: cold	Dreadsylvanian Almanac page (f1)	Freddy Kruegerand (f5)	remorseless knife (c0.1)
 cold werewolf	1398	dvcoldwolf1.gif,dvcoldwolf2.gif,dvcoldwolf3.gif	NOCOPY Atk: [max(400,MOX+(KW-2)*10)+ML] Def: [max(400,MUS+(KW-2)*10)+ML] HP: [max(500,1.25*(MUS+(KW-2)*10))+ML] Exp: [(max(400,STAT+(KW-2)*10))/4+max(ML,0)/3-min(0,ML)/4] Init: [15+KW*10] P: beast WEREWOLF E: cold	Dreadsylvanian Almanac page (f1)	Freddy Kruegerand (f5)	drafty drawers (c0.1)
 cold zombie	1403	dvcoldzom1.gif,dvcoldzom2.gif,dvcoldzom3.gif	NOCOPY Atk: [400+KV*100+ML] Def: [400+KV*100+ML] HP: [600+KV*200+ML] Init: [15+KV*10] P: undead ZOMBIE E: cold	Dreadsylvanian Almanac page (f1)	Freddy Kruegerand (f5)	Thriller Ice (c0.1)
-hot bugbear	1392	dvhotbear1.gif,dvhotbear2.gif,dvhotbear3.gif	NOCOPY Atk: [400+KW*100+ML] Def: [400+KW*100+ML] HP: [600+KW*200+ML] Init: [15+KW*60] P: beast E: hot	Dreadsylvanian Almanac page (f1)	Freddy Kruegerand (f5)	warm fur (c0.1)
+hot bugbear	1392	dvhotbear1.gif,dvhotbear2.gif,dvhotbear3.gif	NOCOPY Atk: [400+KW*100+ML] Def: [400+KW*100+ML] HP: [600+KW*200+ML] Init: [15+KW*60] P: beast BUGBEAR E: hot	Dreadsylvanian Almanac page (f1)	Freddy Kruegerand (f5)	warm fur (c0.1)
 hot ghost	1407	dvhotghost1.gif,dvhotghost2.gif,dvhotghost3.gif	NOCOPY Atk: [400+KV*100+ML] Def: [400+KV*100+ML] HP: [600+KV*200+ML] Init: [15+KV*60] P: undead GHOST Phys: 100 E: hot	Dreadsylvanian Almanac page (f1)	Freddy Kruegerand (f5)	vengeful spirit (c0.1)
 hot skeleton	1417	dvhotskel1.gif,dvhotskel2.gif,dvhotskel3.gif	NOCOPY Atk: [400+KC*100+ML] Def: [400+KC*100+ML] HP: [1000*2^(KC-1)+ML] Init: [15+KC*10] P: undead SKELETON E: hot	Dreadsylvanian Almanac page (f1)	Freddy Kruegerand (f5)	frying brainpan (c0.1)
 hot vampire	1412	dvhotvamp1.gif,dvhotvamp2.gif,dvhotvamp3.gif	NOCOPY Atk: [400+KC*100+ML] Def: [400+KC*100+ML] HP: [600+KC*200+ML] Init: [15+KC*60] P: undead VAMPIRE E: hot	Dreadsylvanian Almanac page (f1)	Freddy Kruegerand (f5)	vial of hot blood (c0.1)
 hot werewolf	1397	dvhotwolf1.gif,dvhotwolf2.gif,dvhotwolf3.gif	NOCOPY Atk: [max(400,MOX+(KW-2)*10)+ML] Def: [max(400,MUS+(KW-2)*10)+ML] HP: [max(500,1.25*(MUS+(KW-2)*10))+ML] Exp: [(max(400,STAT+(KW-2)*10))/4+max(ML,0)/3-min(0,ML)/4] Init: [15+KW*60] P: beast WEREWOLF E: hot	Dreadsylvanian Almanac page (f1)	Freddy Kruegerand (f5)	accidental mutton (c0.1)
 hot zombie	1402	dvhotzom1.gif,dvhotzom2.gif,dvhotzom3.gif	NOCOPY Atk: [400+KV*100+ML] Def: [400+KV*100+ML] HP: [600+KV*200+ML] Init: [15+KV*60] P: undead ZOMBIE E: hot	Dreadsylvanian Almanac page (f1)	Freddy Kruegerand (f5)	hothammer (c0.1)
-sleaze bugbear	1396	dvsleazebear1.gif,dvsleazebear2.gif,dvsleazebear3.gif	NOCOPY Atk: [400+KW*100+ML] Def: [400+KW*100+ML] HP: [600+KW*200+ML] Init: [15+KW*10] P: beast E: sleaze	Dreadsylvanian Almanac page (f1)	Freddy Kruegerand (f5)	dubious loincloth (c0.1)
+sleaze bugbear	1396	dvsleazebear1.gif,dvsleazebear2.gif,dvsleazebear3.gif	NOCOPY Atk: [400+KW*100+ML] Def: [400+KW*100+ML] HP: [600+KW*200+ML] Init: [15+KW*10] P: beast BUGBEAR E: sleaze	Dreadsylvanian Almanac page (f1)	Freddy Kruegerand (f5)	dubious loincloth (c0.1)
 sleaze ghost	1411	dvsleazeghost1.gif,dvsleazeghost2.gif,dvsleazeghost3.gif	NOCOPY Atk: [400+KV*100+ML] Def: [400+KV*100+ML] HP: [600+KV*200+ML] Init: [15+KV*10] P: undead GHOST Phys: 100 E: sleaze	Dreadsylvanian Almanac page (f1)	Freddy Kruegerand (f5)	transparent pants (c0.1)
 sleaze skeleton	1421	dvsleazeskel1.gif,dvsleazeskel2.gif,dvsleazeskel3.gif	NOCOPY Atk: [400+KC*100+ML] Def: [400+KC*100+ML] HP: [1000*2^(KC-1)+ML] Init: [15+KC*10] P: undead SKELETON E: sleaze	Dreadsylvanian Almanac page (f1)	Freddy Kruegerand (f5)	tonguebone (c0.1)
 sleaze vampire	1416	dvsleazevamp1.gif,dvsleazevamp2.gif,dvsleazevamp3.gif	NOCOPY Atk: [400+KC*100+ML] Def: [400+KC*100+ML] HP: [600+KC*200+ML] Init: [15+KC*10] P: undead VAMPIRE E: sleaze	Dreadsylvanian Almanac page (f1)	Freddy Kruegerand (f5)	blood sausage (c0.1)
 sleaze werewolf	1401	dvsleazewolf1.gif,dvsleazewolf2.gif,dvsleazewolf3.gif	NOCOPY Atk: [max(400,MOX+(KW-2)*10)+ML] Def: [max(400,MUS+(KW-2)*10)+ML] HP: [max(500,1.25*(MUS+(KW-2)*10))+ML] Exp: [(max(400,STAT+(KW-2)*10))/4+max(ML,0)/3-min(0,ML)/4] Init: [15+KW*10] P: beast WEREWOLF E: sleaze	Dreadsylvanian Almanac page (f1)	Freddy Kruegerand (f5)	groping claw (c0.1)
 sleaze zombie	1406	dvsleazezom1.gif,dvsleazezom2.gif,dvsleazezom3.gif	NOCOPY Atk: [400+KV*100+ML] Def: [400+KV*100+ML] HP: [600+KV*200+ML] Init: [15+KV*10] P: undead ZOMBIE ED: sleaze EA: sleaze EA: none	Dreadsylvanian Almanac page (f1)	Freddy Kruegerand (f5)	antique spyglass (c0.1)
-spooky bugbear	1394	dvspookybear1.gif,dvspookybear2.gif,dvspookybear3.gif	NOCOPY Atk: [400+KW*100+ML] Def: [400+KW*100+ML] HP: [600+KW*200+ML] Init: [15+KW*10] P: beast E: spooky	Dreadsylvanian Almanac page (f1)	Freddy Kruegerand (f5)	eerie fetish (c0.1)
+spooky bugbear	1394	dvspookybear1.gif,dvspookybear2.gif,dvspookybear3.gif	NOCOPY Atk: [400+KW*100+ML] Def: [400+KW*100+ML] HP: [600+KW*200+ML] Init: [15+KW*10] P: beast BUGBEAR E: spooky	Dreadsylvanian Almanac page (f1)	Freddy Kruegerand (f5)	eerie fetish (c0.1)
 spooky ghost (Dreadsylvanian)	1409	dvspookyghost1.gif,dvspookyghost2.gif,dvspookyghost3.gif	NOCOPY Atk: [400+KV*100+ML] Def: [400+KV*100+ML] HP: [600+KV*200+ML] Init: [15+KV*10] P: undead GHOST Phys: 100 E: spooky Manuel: "spooky ghost" Wiki: "spooky ghost"	Dreadsylvanian Almanac page (f1)	Freddy Kruegerand (f5)	ghost thread (c0.1)
 spooky skeleton	1419	dvspookyskel1.gif,dvspookyskel2.gif,dvspookyskel3.gif	NOCOPY Atk: [400+KC*100+ML] Def: [400+KC*100+ML] HP: [1000*2^(KC-1)+ML] Init: [15+KC*10] P: undead SKELETON E: spooky	Dreadsylvanian Almanac page (f1)	Freddy Kruegerand (f5)	old dry bone (c0.1)
 spooky vampire (Dreadsylvanian)	1414	dvspookyvamp1.gif,dvspookyvamp2.gif,dvspookyvamp3.gif	NOCOPY Atk: [400+KC*100+ML] Def: [400+KC*100+ML] HP: [600+KC*200+ML] Init: [15+KC*10] P: undead VAMPIRE E: spooky Manuel: "spooky vampire" Wiki: "spooky vampire (Dreadsylvanian Castle)"	Dreadsylvanian Almanac page (f1)	Freddy Kruegerand (f5)	intimidating coiffure (c0.1)
 spooky werewolf	1399	dvspookywolf1.gif,dvspookywolf2.gif,dvspookywolf3.gif	NOCOPY Atk: [max(400,MOX+(KW-2)*10)+ML] Def: [max(400,MUS+(KW-2)*10)+ML] HP: [max(500,1.25*(MUS+(KW-2)*10))+ML] Exp: [(max(400,STAT+(KW-2)*10))/4+max(ML,0)/3-min(0,ML)/4] Init: [15+KW*10] P: beast WEREWOLF E: spooky	Dreadsylvanian Almanac page (f1)	Freddy Kruegerand (f5)	wolfskull mask (c0.1)
 spooky zombie	1404	dvspookyzom1.gif,dvspookyzom2.gif,dvspookyzom3.gif	NOCOPY Atk: [400+KV*100+ML] Def: [400+KV*100+ML] HP: [600+KV*200+ML] Init: [15+KV*10] P: undead ZOMBIE E: spooky	Dreadsylvanian Almanac page (f1)	Freddy Kruegerand (f5)	grandfather watch (c0.1)
-stench bugbear	1395	dvstenchbear1.gif,dvstenchbear2.gif,dvstenchbear3.gif	NOCOPY Atk: [400+KW*100+ML] Def: [400+KW*100+ML] HP: [600+KW*200+ML] Init: [15+KW*10] P: beast ED: stench EA: stench EA: none	Dreadsylvanian Almanac page (f1)	Freddy Kruegerand (f5)	stinkwater (c0.1)
+stench bugbear	1395	dvstenchbear1.gif,dvstenchbear2.gif,dvstenchbear3.gif	NOCOPY Atk: [400+KW*100+ML] Def: [400+KW*100+ML] HP: [600+KW*200+ML] Init: [15+KW*10] P: beast BUGBEAR ED: stench EA: stench EA: none	Dreadsylvanian Almanac page (f1)	Freddy Kruegerand (f5)	stinkwater (c0.1)
 stench ghost	1410	dvstenchghost1.gif,dvstenchghost2.gif,dvstenchghost3.gif	NOCOPY Atk: [400+KV*100+ML] Def: [400+KV*100+ML] HP: [600+KV*200+ML] Init: [15+KV*10] P: undead GHOST Phys: 100 E: stench	Dreadsylvanian Almanac page (f1)	Freddy Kruegerand (f5)	bag of unfinished business (c0.1)	folder (Stinky Trash Kid) (c0)
 stench skeleton	1420	dvstenchskel1.gif,dvstenchskel2.gif,dvstenchskel3.gif	NOCOPY Atk: [400+KC*100+ML] Def: [400+KC*100+ML] HP: [1000*2^(KC-1)+ML] Init: [15+KC*10] P: undead SKELETON E: stench	Dreadsylvanian Almanac page (f1)	Freddy Kruegerand (f5)	tailbone shield (c0.1)
 stench vampire	1415	dvstenchvamp1.gif,dvstenchvamp2.gif,dvstenchvamp3.gif	NOCOPY Atk: [400+KC*100+ML] Def: [400+KC*100+ML] HP: [600+KC*200+ML] Init: [15+KC*10] P: undead VAMPIRE E: stench	Dreadsylvanian Almanac page (f1)	Freddy Kruegerand (f5)	cod cape (c0.1)
