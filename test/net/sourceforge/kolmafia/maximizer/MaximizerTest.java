@@ -471,6 +471,25 @@ public class MaximizerTest {
         assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("loathingidol pop"))));
       }
     }
+
+    @Test
+    public void givesCorrectEffectDuration() {
+      var cleanups =
+          new Cleanups(withProperty("verboseMaximizer", true), withItem(ItemPool.CUP_OF_SUGAR));
+
+      try (cleanups) {
+        maximize("init");
+
+        var boosts = getBoosts();
+        assertThat(boosts, hasItem(hasProperty("cmd", startsWith("eat 1 cup of sugar"))));
+        var boost =
+            boosts.stream()
+                .filter(x -> x.getCmd().startsWith("eat 1 cup of sugar"))
+                .findAny()
+                .orElseThrow();
+        assertThat(boost.toString(), containsString("10 advs duration"));
+      }
+    }
   }
 
   @Nested
