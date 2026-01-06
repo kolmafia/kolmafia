@@ -9037,10 +9037,8 @@ public abstract class RuntimeLibrary {
       // string should be formatted like maximizerLastFilters
       Set<filterType> filters = EnumSet.noneOf(filterType.class);
       String filterString = showEquipmentOrFiltersValue.toString().toLowerCase();
-      RequestLogger.printLine(filterString);
       for (filterType filter : filterType.values()) {
         if (filterString.contains(filter.toString().toLowerCase())) {
-          RequestLogger.printLine(filter.toString());
           filters.add(filter);
         }
       }
