@@ -281,21 +281,6 @@ public abstract class RuntimeLibrary {
             DataTypes.STRING_TYPE
           });
 
-  private static final RecordType maximizerFilters =
-      new RecordType(
-          "{boolean equip; boolean cast; boolean wish; boolean other; boolean usable; boolean booze; boolean food; boolean spleen;}",
-          new String[] {"equip", "cast", "wish", "other", "usable", "booze", "food", "spleen"},
-          new Type[] {
-            DataTypes.BOOLEAN_TYPE,
-            DataTypes.BOOLEAN_TYPE,
-            DataTypes.BOOLEAN_TYPE,
-            DataTypes.BOOLEAN_TYPE,
-            DataTypes.BOOLEAN_TYPE,
-            DataTypes.BOOLEAN_TYPE,
-            DataTypes.BOOLEAN_TYPE,
-            DataTypes.BOOLEAN_TYPE
-          });
-
   private static final RecordType svnInfoRec =
       new RecordType(
           "{string url; int revision; string last_changed_author; int last_changed_rev; string last_changed_date;}",
@@ -2589,8 +2574,7 @@ public abstract class RuntimeLibrary {
             namedParam("maxPriceValue", DataTypes.INT_TYPE),
             namedParam("priceLevelValue", DataTypes.INT_TYPE),
             namedParam("isSpeculateOnlyValue", DataTypes.BOOLEAN_TYPE),
-            namedParam("showEquipment", DataTypes.BOOLEAN_TYPE),
-            namedParam("filters", maximizerFilters));
+            namedParam("filters", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("maximize", maximizerResultArray, params));
 
     params = List.of();
@@ -9036,22 +9020,55 @@ public abstract class RuntimeLibrary {
             maximizerString, maxPrice, PriceLevel.byIndex(priceLevel), isSpeculateOnly));
   }
 
-  private static Value maximizeHelper(List<Boost> boosts, boolean showEquip) {
+  public static Value maximize(
+      ScriptRuntime controller,
+      final Value maximizerStringValue,
+      final Value maxPriceValue,
+      final Value priceLevelValue,
+      final Value isSpeculateOnlyValue,
+      final Value showEquipmentOrFiltersValue) {
+    String maximizerString = maximizerStringValue.toString();
+    int maxPrice = (int) maxPriceValue.intValue();
+    int priceLevel = (int) priceLevelValue.intValue();
+    boolean isSpeculateOnly = isSpeculateOnlyValue.intValue() != 0;
+    boolean showEquip = showEquipmentOrFiltersValue.intValue() == 1;
+
+    if (showEquipmentOrFiltersValue.getType().equals(DataTypes.STRING_TYPE)) {
+      // string should be formatted like maximizerLastFilters
+      Set<filterType> filters = EnumSet.noneOf(filterType.class);
+      String filterString = showEquipmentOrFiltersValue.toString().toLowerCase();
+      RequestLogger.printLine(filterString);
+      for (filterType filter : filterType.values()) {
+        if (filterString.contains(filter.toString().toLowerCase())) {
+          RequestLogger.printLine(filter.toString());
+          filters.add(filter);
+        }
+      }
+      showEquip = filters.contains(filterType.EQUIP);
+      Maximizer.maximize(
+          maximizerString, maxPrice, PriceLevel.byIndex(priceLevel), isSpeculateOnly, filters);
+    } else {
+      Maximizer.maximize(
+          maximizerString, maxPrice, PriceLevel.byIndex(priceLevel), isSpeculateOnly);
+    }
+
+    List<Boost> m = Maximizer.boosts;
+
     int lastEquipIndex = 0;
 
     if (!showEquip) {
-      for (Boost boo : boosts) {
+      for (Boost boo : m) {
         if (!boo.isEquipment()) break;
         lastEquipIndex++;
       }
     }
 
     AggregateType type =
-        new AggregateType(RuntimeLibrary.maximizerResult, boosts.size() - lastEquipIndex);
+        new AggregateType(RuntimeLibrary.maximizerResult, m.size() - lastEquipIndex);
     ArrayValue value = new ArrayValue(type);
 
-    for (int i = lastEquipIndex; i < boosts.size(); ++i) {
-      Boost boo = boosts.get(i);
+    for (int i = lastEquipIndex; i < m.size(); ++i) {
+      Boost boo = m.get(i);
       String text = boo.toString();
       String afterText = "";
       String cmd = boo.getCmd();
@@ -9090,69 +9107,6 @@ public abstract class RuntimeLibrary {
     }
 
     return value;
-  }
-
-  public static Value maximize(
-      ScriptRuntime controller,
-      final Value maximizerStringValue,
-      final Value maxPriceValue,
-      final Value priceLevelValue,
-      final Value isSpeculateOnlyValue,
-      final Value showEquipment) {
-    String maximizerString = maximizerStringValue.toString();
-    int maxPrice = (int) maxPriceValue.intValue();
-    int priceLevel = (int) priceLevelValue.intValue();
-    boolean isSpeculateOnly = isSpeculateOnlyValue.intValue() != 0;
-    boolean showEquip = showEquipment.intValue() == 1;
-
-    Maximizer.maximize(maximizerString, maxPrice, PriceLevel.byIndex(priceLevel), isSpeculateOnly);
-    return maximizeHelper(Maximizer.boosts, showEquip);
-  }
-
-  public static Value maximize(
-      ScriptRuntime controller,
-      final Value maximizerStringValue,
-      final Value maxPriceValue,
-      final Value priceLevelValue,
-      final Value isSpeculateOnlyValue,
-      // This is kind of redundant with filtersValue but...
-      // I need to differentiate the arg count somehow
-      final Value showEquipment,
-      final Value filtersValue) {
-    String maximizerString = maximizerStringValue.toString();
-    int maxPrice = (int) maxPriceValue.intValue();
-    int priceLevel = (int) priceLevelValue.intValue();
-    boolean isSpeculateOnly = isSpeculateOnlyValue.intValue() != 0;
-    boolean showEquip = showEquipment.intValue() == 1;
-    Set<filterType> filter = EnumSet.noneOf(filterType.class);
-
-    // TODO: Error handling for if the argument is not a RecordValue
-    // Also if it's not the right KIND of record
-    RecordValue rec = (RecordValue) filtersValue;
-    Value[] fields = rec.getRecordFields();
-    filterType[] filterOrder =
-        new filterType[] {
-          filterType.EQUIP,
-          filterType.CAST,
-          filterType.WISH,
-          filterType.OTHER,
-          filterType.USABLE,
-          filterType.BOOZE,
-          filterType.FOOD,
-          filterType.SPLEEN
-        };
-    int filterIndex = 0;
-    for (Value field : fields) {
-      boolean filterValue = field.intValue() == 1;
-      if (filterValue) {
-        filter.add(filterOrder[filterIndex]);
-      }
-      ++filterIndex;
-    }
-
-    Maximizer.maximize(
-        maximizerString, maxPrice, PriceLevel.byIndex(priceLevel), isSpeculateOnly, filter);
-    return maximizeHelper(Maximizer.boosts, showEquip);
   }
 
   public static Value last_maximizer_score(ScriptRuntime controller) {
