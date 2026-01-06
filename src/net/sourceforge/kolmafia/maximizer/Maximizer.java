@@ -96,7 +96,8 @@ public class Maximizer {
   private Maximizer() {}
 
   public static boolean maximize(
-      String maximizerString, int maxPrice, PriceLevel priceLevel, boolean isSpeculationOnly) {
+      String maximizerString, int maxPrice, PriceLevel priceLevel, boolean isSpeculationOnly,
+      Set<filterType> filter) {
     MaximizerFrame.expressionSelect.setSelectedItem(maximizerString);
     EquipScope equipScope =
         isSpeculationOnly ? EquipScope.SPECULATE_INVENTORY : EquipScope.EQUIP_NOW;
@@ -107,7 +108,7 @@ public class Maximizer {
 
     KoLmafiaCLI.isExecutingCheckOnlyCommand = false;
 
-    Maximizer.maximize(equipScope, maxPrice, priceLevel, false, EnumSet.allOf(filterType.class));
+    Maximizer.maximize(equipScope, maxPrice, priceLevel, false, filter);
 
     if (!KoLmafia.permitsContinue()) {
       return false;
@@ -117,6 +118,11 @@ public class Maximizer {
     ModifierDatabase.overrideModifier(ModifierType.GENERATED, "_spec", mods);
 
     return !Maximizer.best.failed;
+  }
+
+  public static boolean maximize(
+      String maximizerString, int maxPrice, PriceLevel priceLevel, boolean isSpeculationOnly) {
+    return maximize(maximizerString, maxPrice, priceLevel, isSpeculationOnly, EnumSet.allOf(filterType.class));
   }
 
   public static void maximize(
