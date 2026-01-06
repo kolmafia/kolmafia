@@ -282,19 +282,19 @@ public abstract class RuntimeLibrary {
           });
 
   private static final RecordType maximizerFilters =
-    new RecordType(
-        "{boolean equip; boolean cast; boolean wish; boolean other; boolean usable; boolean booze; boolean food; boolean spleen;}",
-        new String[] {"equip", "cast", "wish", "other", "usable", "booze", "food", "spleen"},
-        new Type[] {
-          DataTypes.BOOLEAN_TYPE,
-          DataTypes.BOOLEAN_TYPE,
-          DataTypes.BOOLEAN_TYPE,
-          DataTypes.BOOLEAN_TYPE,
-          DataTypes.BOOLEAN_TYPE,
-          DataTypes.BOOLEAN_TYPE,
-          DataTypes.BOOLEAN_TYPE,
-          DataTypes.BOOLEAN_TYPE
-        });
+      new RecordType(
+          "{boolean equip; boolean cast; boolean wish; boolean other; boolean usable; boolean booze; boolean food; boolean spleen;}",
+          new String[] {"equip", "cast", "wish", "other", "usable", "booze", "food", "spleen"},
+          new Type[] {
+            DataTypes.BOOLEAN_TYPE,
+            DataTypes.BOOLEAN_TYPE,
+            DataTypes.BOOLEAN_TYPE,
+            DataTypes.BOOLEAN_TYPE,
+            DataTypes.BOOLEAN_TYPE,
+            DataTypes.BOOLEAN_TYPE,
+            DataTypes.BOOLEAN_TYPE,
+            DataTypes.BOOLEAN_TYPE
+          });
 
   private static final RecordType svnInfoRec =
       new RecordType(
@@ -9130,31 +9130,33 @@ public abstract class RuntimeLibrary {
     // Also if it's not the right KIND of record
     RecordValue rec = (RecordValue) filtersValue;
     Value[] fields = rec.getRecordFields();
-    filterType[] filterOrder = new filterType[] {
-      filterType.EQUIP,
-      filterType.CAST,
-      filterType.WISH,
-      filterType.OTHER,
-      filterType.USABLE,
-      filterType.BOOZE,
-      filterType.FOOD,
-      filterType.SPLEEN
-    };
+    filterType[] filterOrder =
+        new filterType[] {
+          filterType.EQUIP,
+          filterType.CAST,
+          filterType.WISH,
+          filterType.OTHER,
+          filterType.USABLE,
+          filterType.BOOZE,
+          filterType.FOOD,
+          filterType.SPLEEN
+        };
     int filterIndex = 0;
-    for(Value field : fields) {
+    for (Value field : fields) {
       boolean filterValue = field.intValue() == 1;
-      if(filterValue) {
+      if (filterValue) {
         filter.add(filterOrder[filterIndex]);
       }
       ++filterIndex;
     }
 
-    Maximizer.maximize(maximizerString, maxPrice, PriceLevel.byIndex(priceLevel), isSpeculateOnly, filter);
+    Maximizer.maximize(
+        maximizerString, maxPrice, PriceLevel.byIndex(priceLevel), isSpeculateOnly, filter);
     return maximizeHelper(Maximizer.boosts, showEquip);
   }
 
   public static Value last_maximizer_score(ScriptRuntime controller) {
-    if(Maximizer.eval == null) {
+    if (Maximizer.eval == null) {
       return DataTypes.makeFloatValue(0);
     }
     double current = Maximizer.eval.getScore(KoLCharacter.getCurrentModifiers());

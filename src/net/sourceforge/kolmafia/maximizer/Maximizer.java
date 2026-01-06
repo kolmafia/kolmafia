@@ -96,7 +96,10 @@ public class Maximizer {
   private Maximizer() {}
 
   public static boolean maximize(
-      String maximizerString, int maxPrice, PriceLevel priceLevel, boolean isSpeculationOnly,
+      String maximizerString,
+      int maxPrice,
+      PriceLevel priceLevel,
+      boolean isSpeculationOnly,
       Set<filterType> filter) {
     MaximizerFrame.expressionSelect.setSelectedItem(maximizerString);
     EquipScope equipScope =
@@ -122,7 +125,8 @@ public class Maximizer {
 
   public static boolean maximize(
       String maximizerString, int maxPrice, PriceLevel priceLevel, boolean isSpeculationOnly) {
-    return maximize(maximizerString, maxPrice, priceLevel, isSpeculationOnly, EnumSet.allOf(filterType.class));
+    return maximize(
+        maximizerString, maxPrice, priceLevel, isSpeculationOnly, EnumSet.allOf(filterType.class));
   }
 
   public static void maximize(
