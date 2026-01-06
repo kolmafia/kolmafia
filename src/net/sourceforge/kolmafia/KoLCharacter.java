@@ -5748,6 +5748,15 @@ public abstract class KoLCharacter {
         case ItemPool.VAMPYRIC_CLOAKE -> newModifiers.applyVampyricCloakeModifiers();
         case ItemPool.PRISMATIC_BERET ->
             newModifiers.applyPrismaticBeretModifiers(getTotalPower(equipment::get));
+        case ItemPool.THE_ETERNITY_CODPIECE ->
+            SlotSet.CODPIECE_SLOTS.stream()
+                .map(equipment::get)
+                .filter(s -> s != null && s != EquipmentRequest.UNEQUIP)
+                .map(AdventureResult::getItemId)
+                .forEach(
+                    (id) ->
+                        newModifiers.add(
+                            ModifierDatabase.getModifiers(ModifierType.ETERNITY_CODPIECE, id)));
         default -> {
           var modeable = Modeable.find(itemId);
           if (modeable != null) {

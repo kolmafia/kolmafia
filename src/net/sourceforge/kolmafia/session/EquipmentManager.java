@@ -1700,6 +1700,7 @@ public class EquipmentManager {
     // "hats":["11565","2283"]
     // "stickers":[0,0,0],
     // "folder_holder":["01","22","12","00","00"]
+    // "eternitycod":[10963,11274,0,0,11273]
 
     EnumMap<Slot, AdventureResult> current = EquipmentManager.allEquipment();
     EnumMap<Slot, AdventureResult> equipment = EquipmentManager.emptyEquipmentArray(true);
@@ -1742,6 +1743,14 @@ public class EquipmentManager {
       int folder = folders.getIntValue(i++);
       AdventureResult item =
           folder == 0 ? EquipmentRequest.UNEQUIP : ItemPool.get(ItemPool.FOLDER_01 - 1 + folder, 1);
+      equipment.put(slot, item);
+    }
+
+    // Read gems
+    JSONArray eternitycod = json.getJSONArray("eternitycod");
+    i = 0;
+    for (var slot : SlotSet.CODPIECE_SLOTS) {
+      AdventureResult item = EquipmentManager.equippedItem(eternitycod.getIntValue(i++));
       equipment.put(slot, item);
     }
 

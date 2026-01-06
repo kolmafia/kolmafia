@@ -3794,6 +3794,7 @@ public class ItemPool {
   public static final int FLASH_LIQUIDIZER_ULTRA_DOUSING_ACCESSORY = 11266;
   public static final int GIANT_BLACK_MONOLITH = 11268;
   public static final int SPOOKY_VHS_TAPE = 11270;
+  public static final int AZURITE = 11274;
   public static final int LOATHING_IDOL_MICROPHONE_75 = 11277;
   public static final int LOATHING_IDOL_MICROPHONE_50 = 11278;
   public static final int LOATHING_IDOL_MICROPHONE_25 = 11279;
@@ -4006,6 +4007,7 @@ public class ItemPool {
   public static final int SMOKING_POPE = 12052;
   public static final int PRIZE_TURKEY = 12053;
   public static final int MEDICAL_GRUEL = 12054;
+  public static final int THE_ETERNITY_CODPIECE = 12067;
   public static final int LEGENDARY_SEAL_CLUBBING_CLUB = 12134;
 
   private ItemPool() {}

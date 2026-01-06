@@ -27,7 +27,7 @@ public class Lookup {
     this.type = type;
     this.key =
         switch (type) {
-          case ITEM -> new IntOrString(ItemDatabase.getExactItemId(name));
+          case ITEM, ETERNITY_CODPIECE -> new IntOrString(ItemDatabase.getExactItemId(name));
           case EFFECT -> new IntOrString(EffectDatabase.getEffectId(name, true));
           case SKILL -> new IntOrString(SkillDatabase.getSkillId(name, true));
           default -> new IntOrString(name);
