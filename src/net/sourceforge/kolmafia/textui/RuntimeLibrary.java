@@ -268,15 +268,16 @@ public abstract class RuntimeLibrary {
 
   private static final RecordType maximizerResult =
       new RecordType(
-          "{string display; string command; float score; effect effect; item item; skill skill;}",
-          new String[] {"display", "command", "score", "effect", "item", "skill"},
+          "{string display; string command; float score; effect effect; item item; skill skill; string afterdisplay;}",
+          new String[] {"display", "command", "score", "effect", "item", "skill", "afterdisplay"},
           new Type[] {
             DataTypes.STRING_TYPE,
             DataTypes.STRING_TYPE,
             DataTypes.FLOAT_TYPE,
             DataTypes.EFFECT_TYPE,
             DataTypes.ITEM_TYPE,
-            DataTypes.SKILL_TYPE
+            DataTypes.SKILL_TYPE,
+            DataTypes.STRING_TYPE,
           });
 
   private static final RecordType svnInfoRec =
@@ -9039,6 +9040,7 @@ public abstract class RuntimeLibrary {
     for (int i = lastEquipIndex; i < m.size(); ++i) {
       Boost boo = m.get(i);
       String text = boo.toString();
+      String afterText = "";
       String cmd = boo.getCmd();
       double boost = boo.getBoost();
       AdventureResult arEffect = boo.isEquipment() ? null : boo.getItem();
@@ -9049,6 +9051,8 @@ public abstract class RuntimeLibrary {
       // remove the (+ X) from the display text, that info is in the score
       int cutIndex = boo.toString().indexOf(" (");
       if (cutIndex != -1) {
+        // get rid of the space
+        afterText = text.substring(cutIndex + 1);
         text = text.substring(0, cutIndex);
       }
 
@@ -9069,6 +9073,7 @@ public abstract class RuntimeLibrary {
           null);
       rec.aset(
           5, skill == null ? DataTypes.SKILL_INIT : DataTypes.parseSkillValue(skill, true), null);
+      rec.aset(6, DataTypes.parseStringValue(afterText), null);
     }
 
     return value;
