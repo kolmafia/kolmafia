@@ -866,10 +866,18 @@ public abstract class KoLCharacter {
 
   public static final int getFuryLimit() {
     // 0 if not Seal Clubber, 3 with only Wrath of the Wolverine, 5 with Ire of the Orca in addition
-    return (ascensionClass != AscensionClass.SEAL_CLUBBER
-            || !KoLCharacter.hasSkill(SkillPool.WRATH_OF_THE_WOLVERINE))
-        ? 0
-        : KoLCharacter.hasSkill(SkillPool.IRE_OF_THE_ORCA) ? 5 : 3;
+    if (ascensionClass != AscensionClass.SEAL_CLUBBER
+        || !KoLCharacter.hasSkill(SkillPool.WRATH_OF_THE_WOLVERINE)) {
+      return 0;
+    }
+    var fury = 3;
+    if (KoLCharacter.hasSkill(SkillPool.IRE_OF_THE_ORCA)) {
+      fury += 2;
+    }
+    if (KoLCharacter.hasEquipped(ItemPool.LEGENDARY_SEAL_CLUBBING_CLUB)) {
+      fury += 1;
+    }
+    return fury;
   }
 
   public static final void setFury(final int newFury) {
