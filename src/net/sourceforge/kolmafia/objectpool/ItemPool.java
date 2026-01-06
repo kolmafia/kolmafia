@@ -4006,6 +4006,7 @@ public class ItemPool {
   public static final int SMOKING_POPE = 12052;
   public static final int PRIZE_TURKEY = 12053;
   public static final int MEDICAL_GRUEL = 12054;
+  public static final int LEGENDARY_SEAL_CLUBBING_CLUB = 12134;
 
   private ItemPool() {}
 
