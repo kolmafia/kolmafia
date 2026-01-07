@@ -3,7 +3,10 @@ package net.sourceforge.kolmafia.swingui.panel;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Component;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListCellRenderer;
@@ -19,8 +22,11 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
+import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CardLayoutSelectorPanel extends JPanel {
   private final String indexPreference;
@@ -31,6 +37,7 @@ public class CardLayoutSelectorPanel extends JPanel {
   private final CardLayout panelCards = new CardLayout();
   private final JPanel mainPanel = new JPanel(this.panelCards);
   protected ChangeListener changeListener = null;
+  private final PanelFilterField filterField;
 
   public CardLayoutSelectorPanel() {
     this(null);
@@ -41,6 +48,11 @@ public class CardLayoutSelectorPanel extends JPanel {
   }
 
   public CardLayoutSelectorPanel(final String indexPreference, final String prototype) {
+    this(indexPreference, prototype, false);
+  }
+
+  public CardLayoutSelectorPanel(
+      final String indexPreference, final String prototype, final boolean showFilter) {
     super(new BorderLayout());
 
     this.indexPreference = indexPreference;
@@ -49,8 +61,23 @@ public class CardLayoutSelectorPanel extends JPanel {
     this.panelList.setPrototypeCellValue(prototype);
     this.panelList.setCellRenderer(new OptionRenderer());
 
-    JPanel listHolder = new JPanel(new CardLayout(10, 10));
-    listHolder.add(new GenericScrollPane(this.panelList), "");
+    JPanel listHolder = new JPanel(new BorderLayout());
+
+    if (showFilter) {
+      this.filterField = new PanelFilterField();
+      this.panelNames.setFilter(this.filterField);
+
+      JPanel filterHolder = new JPanel(new BorderLayout());
+      filterHolder.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10));
+      filterHolder.add(this.filterField, BorderLayout.CENTER);
+      listHolder.add(filterHolder, BorderLayout.NORTH);
+    } else {
+      this.filterField = null;
+    }
+
+    JPanel scrollHolder = new JPanel(new CardLayout(10, 10));
+    scrollHolder.add(new GenericScrollPane(this.panelList), "");
+    listHolder.add(scrollHolder, BorderLayout.CENTER);
 
     this.add(listHolder, BorderLayout.WEST);
     this.add(this.mainPanel, BorderLayout.CENTER);
@@ -151,6 +178,59 @@ public class CardLayoutSelectorPanel extends JPanel {
       return value instanceof JComponent
           ? (Component) value
           : super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+    }
+  }
+
+  private class PanelFilterField extends AutoHighlightTextField implements ListElementFilter {
+    private String filterText = "";
+
+    public PanelFilterField() {
+      this.putClientProperty("JTextField.variant", "search");
+      this.addKeyListener(
+          new KeyAdapter() {
+            @Override
+            public void keyReleased(final KeyEvent e) {
+              PanelFilterField.this.update();
+            }
+          });
+    }
+
+    private void update() {
+      this.filterText = this.getText().toLowerCase().trim();
+      CardLayoutSelectorPanel.this.panelNames.updateFilter(false);
+    }
+
+    @Override
+    public boolean isVisible(final Object element) {
+      if (this.filterText.isEmpty()) {
+        return true;
+      }
+
+      // Categories and separators are JComponents - show them if any following panel matches
+      if (element instanceof JComponent) {
+        int index = CardLayoutSelectorPanel.this.panelNames.indexOf(element);
+        // Look ahead to find the next category/separator or end
+        for (int i = index + 1; i < CardLayoutSelectorPanel.this.panelNames.size(); i++) {
+          Object next = CardLayoutSelectorPanel.this.panelNames.get(i);
+          if (next instanceof JComponent) {
+            // Reached another category/separator without finding a match
+            break;
+          }
+          if (this.matchesFilter(next)) {
+            return true;
+          }
+        }
+        return false;
+      }
+
+      return this.matchesFilter(element);
+    }
+
+    private boolean matchesFilter(final Object element) {
+      String name = element.toString().toLowerCase();
+      // Strip HTML tags for matching
+      name = name.replaceAll("<[^>]*>", "");
+      return StringUtilities.fuzzyMatches(name, this.filterText);
     }
   }
 }
