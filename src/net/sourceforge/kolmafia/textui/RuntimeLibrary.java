@@ -269,6 +269,19 @@ public abstract class RuntimeLibrary {
 
   private static final RecordType maximizerResult =
       new RecordType(
+          "{string display; string command; float score; effect effect; item item; skill skill;}",
+          new String[] {"display", "command", "score", "effect", "item", "skill"},
+          new Type[] {
+            DataTypes.STRING_TYPE,
+            DataTypes.STRING_TYPE,
+            DataTypes.FLOAT_TYPE,
+            DataTypes.EFFECT_TYPE,
+            DataTypes.ITEM_TYPE,
+            DataTypes.SKILL_TYPE,
+          });
+
+  private static final RecordType maximizerResultFull =
+      new RecordType(
           "{string display; string command; float score; effect effect; item item; skill skill; string afterdisplay;}",
           new String[] {"display", "command", "score", "effect", "item", "skill", "afterdisplay"},
           new Type[] {
@@ -2544,6 +2557,7 @@ public abstract class RuntimeLibrary {
     functions.add(new LibraryFunction("modifier_eval", DataTypes.FLOAT_TYPE, params));
 
     Type maximizerResultArray = new AggregateType(maximizerResult, 0);
+    Type maximizerResultFullArray = new AggregateType(maximizerResultFull, 0);
 
     params =
         List.of(
@@ -2575,7 +2589,7 @@ public abstract class RuntimeLibrary {
             namedParam("priceLevelValue", DataTypes.INT_TYPE),
             namedParam("isSpeculateOnlyValue", DataTypes.BOOLEAN_TYPE),
             namedParam("filters", DataTypes.STRING_TYPE));
-    functions.add(new LibraryFunction("maximize", maximizerResultArray, params));
+    functions.add(new LibraryFunction("maximize", maximizerResultFullArray, params));
 
     params = List.of();
     functions.add(new LibraryFunction("last_maximizer_score", DataTypes.FLOAT_TYPE, params));
@@ -9032,9 +9046,11 @@ public abstract class RuntimeLibrary {
     int priceLevel = (int) priceLevelValue.intValue();
     boolean isSpeculateOnly = isSpeculateOnlyValue.intValue() != 0;
     boolean showEquip = showEquipmentOrFiltersValue.intValue() == 1;
+    boolean isFilterVariant = false;
 
     if (showEquipmentOrFiltersValue.getType().equals(DataTypes.STRING_TYPE)) {
       // string should be formatted like maximizerLastFilters
+      isFilterVariant = true;
       Set<filterType> filters = EnumSet.noneOf(filterType.class);
       String filterString = showEquipmentOrFiltersValue.toString().toLowerCase();
       for (filterType filter : filterType.values()) {
@@ -9062,7 +9078,9 @@ public abstract class RuntimeLibrary {
     }
 
     AggregateType type =
-        new AggregateType(RuntimeLibrary.maximizerResult, m.size() - lastEquipIndex);
+        new AggregateType(
+            isFilterVariant ? RuntimeLibrary.maximizerResultFull : RuntimeLibrary.maximizerResult,
+            m.size() - lastEquipIndex);
     ArrayValue value = new ArrayValue(type);
 
     for (int i = lastEquipIndex; i < m.size(); ++i) {
@@ -9101,7 +9119,11 @@ public abstract class RuntimeLibrary {
           null);
       rec.aset(
           5, skill == null ? DataTypes.SKILL_INIT : DataTypes.parseSkillValue(skill, true), null);
-      rec.aset(6, DataTypes.parseStringValue(afterText), null);
+      // can't change the record type for the old function results without breaking existing
+      // scripts, so only add this field in the new method form
+      if (isFilterVariant) {
+        rec.aset(6, DataTypes.parseStringValue(afterText), null);
+      }
     }
 
     return value;
