@@ -99,11 +99,9 @@ public class Maximizer {
       String maximizerString,
       int maxPrice,
       PriceLevel priceLevel,
-      boolean isSpeculationOnly,
+      EquipScope equipScope,
       Set<filterType> filter) {
     MaximizerFrame.expressionSelect.setSelectedItem(maximizerString);
-    EquipScope equipScope =
-        isSpeculationOnly ? EquipScope.SPECULATE_INVENTORY : EquipScope.EQUIP_NOW;
 
     // iECOC has to be turned off before actually maximizing as
     // it would cause all item lookups during the process to just
@@ -129,8 +127,10 @@ public class Maximizer {
 
   public static boolean maximize(
       String maximizerString, int maxPrice, PriceLevel priceLevel, boolean isSpeculationOnly) {
+    EquipScope equipScope =
+        isSpeculationOnly ? EquipScope.SPECULATE_INVENTORY : EquipScope.EQUIP_NOW;
     return maximize(
-        maximizerString, maxPrice, priceLevel, isSpeculationOnly, EnumSet.allOf(filterType.class));
+        maximizerString, maxPrice, priceLevel, equipScope, EnumSet.allOf(filterType.class));
   }
 
   public static void maximize(

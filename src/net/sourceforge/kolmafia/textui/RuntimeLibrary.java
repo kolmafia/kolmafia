@@ -79,6 +79,7 @@ import net.sourceforge.kolmafia.combat.Macrofier;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.maximizer.Boost;
+import net.sourceforge.kolmafia.maximizer.EquipScope;
 import net.sourceforge.kolmafia.maximizer.Evaluator;
 import net.sourceforge.kolmafia.maximizer.Maximizer;
 import net.sourceforge.kolmafia.maximizer.PriceLevel;
@@ -2588,7 +2589,7 @@ public abstract class RuntimeLibrary {
             namedParam("maximizerStringValue", DataTypes.STRING_TYPE),
             namedParam("maxPriceValue", DataTypes.INT_TYPE),
             namedParam("priceLevelValue", DataTypes.INT_TYPE),
-            namedParam("isSpeculateOnlyValue", DataTypes.BOOLEAN_TYPE),
+            namedParam("equipScope", DataTypes.INT_TYPE),
             namedParam("filters", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("maximize", maximizerResultFullArray, params));
 
@@ -9040,18 +9041,18 @@ public abstract class RuntimeLibrary {
       final Value maximizerStringValue,
       final Value maxPriceValue,
       final Value priceLevelValue,
-      final Value isSpeculateOnlyValue,
+      final Value isSpeculateOnlyOrEquipScopeValue,
       final Value showEquipmentOrFiltersValue) {
     String maximizerString = maximizerStringValue.toString();
     int maxPrice = (int) maxPriceValue.intValue();
     int priceLevel = (int) priceLevelValue.intValue();
-    boolean isSpeculateOnly = isSpeculateOnlyValue.intValue() != 0;
     boolean showEquip = showEquipmentOrFiltersValue.intValue() == 1;
     boolean isFilterVariant = false;
 
     if (showEquipmentOrFiltersValue.getType().equals(DataTypes.STRING_TYPE)) {
       // string should be formatted like maximizerLastFilters
       isFilterVariant = true;
+      EquipScope equipScope = EquipScope.byIndex((int)isSpeculateOnlyOrEquipScopeValue.intValue());
       Set<filterType> filters = EnumSet.noneOf(filterType.class);
       String filterString = showEquipmentOrFiltersValue.toString().toLowerCase();
       for (filterType filter : filterType.values()) {
@@ -9061,8 +9062,9 @@ public abstract class RuntimeLibrary {
       }
       showEquip = filters.contains(filterType.EQUIP);
       Maximizer.maximize(
-          maximizerString, maxPrice, PriceLevel.byIndex(priceLevel), isSpeculateOnly, filters);
+          maximizerString, maxPrice, PriceLevel.byIndex(priceLevel), equipScope, filters);
     } else {
+      boolean isSpeculateOnly = isSpeculateOnlyOrEquipScopeValue.intValue() != 0;
       Maximizer.maximize(
           maximizerString, maxPrice, PriceLevel.byIndex(priceLevel), isSpeculateOnly);
     }

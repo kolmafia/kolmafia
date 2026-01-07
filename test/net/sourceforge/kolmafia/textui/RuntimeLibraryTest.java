@@ -1780,10 +1780,11 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
           new Cleanups(
               withUnequipped(Slot.HAT),
               withEquippableItem("Apriling band helmet"),
-              withItem(ItemPool.POCKET_WISH));
+              withProperty("genieWishesUsed", "0"),
+              withItem(ItemPool.GENIE_BOTTLE));
       String out1, out2;
-      String cmd1 = "maximize(\"" + maxStr + "\", 0, 0, true, \"wish\")";
-      String cmd2 = "maximize(\"" + maxStr + "\", 0, 0, true, \"equip\")";
+      String cmd1 = "maximize(\"" + maxStr + "\", 0, 0, 0, \"wish\")";
+      String cmd2 = "maximize(\"" + maxStr + "\", 0, 0, 0, \"equip\")";
       try (cleanups) {
         out1 = execute(cmd1);
         out2 = execute(cmd2);
