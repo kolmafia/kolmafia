@@ -1748,10 +1748,12 @@ public class EquipmentManager {
 
     // Read gems
     JSONArray eternitycod = json.getJSONArray("eternitycod");
-    i = 0;
-    for (var slot : SlotSet.CODPIECE_SLOTS) {
-      AdventureResult item = EquipmentManager.equippedItem(eternitycod.getIntValue(i++));
-      equipment.put(slot, item);
+    if (eternitycod != null) {
+      i = 0;
+      for (var slot : SlotSet.CODPIECE_SLOTS) {
+        AdventureResult item = EquipmentManager.equippedItem(eternitycod.getIntValue(i++));
+        equipment.put(slot, item);
+      }
     }
 
     // We can't read these from api.php (yet?)
