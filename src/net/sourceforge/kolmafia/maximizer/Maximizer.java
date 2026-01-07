@@ -117,6 +117,10 @@ public class Maximizer {
       return false;
     }
 
+    if (Maximizer.best == null) {
+      Maximizer.best = new MaximizerSpeculation();
+    }
+
     Modifiers mods = Maximizer.best.calculate();
     ModifierDatabase.overrideModifier(ModifierType.GENERATED, "_spec", mods);
 
