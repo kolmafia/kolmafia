@@ -79,6 +79,7 @@ import net.sourceforge.kolmafia.combat.Macrofier;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.maximizer.Boost;
+import net.sourceforge.kolmafia.maximizer.Evaluator;
 import net.sourceforge.kolmafia.maximizer.Maximizer;
 import net.sourceforge.kolmafia.maximizer.PriceLevel;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
@@ -2591,8 +2592,8 @@ public abstract class RuntimeLibrary {
             namedParam("filters", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("maximize", maximizerResultFullArray, params));
 
-    params = List.of();
-    functions.add(new LibraryFunction("last_maximizer_score", DataTypes.FLOAT_TYPE, params));
+    params = List.of(namedParam("evaluationString", DataTypes.STRING_TYPE));
+    functions.add(new LibraryFunction("current_score", DataTypes.FLOAT_TYPE, params));
 
     params = List.of(namedParam("expr", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("monster_eval", DataTypes.FLOAT_TYPE, params));
@@ -9129,11 +9130,9 @@ public abstract class RuntimeLibrary {
     return value;
   }
 
-  public static Value last_maximizer_score(ScriptRuntime controller) {
-    if (Maximizer.eval == null) {
-      return DataTypes.makeFloatValue(0);
-    }
-    double current = Maximizer.eval.getScore(KoLCharacter.getCurrentModifiers());
+  public static Value current_score(ScriptRuntime controller, Value evaluationStringValue) {
+    Evaluator eval = new Evaluator(evaluationStringValue.toString());
+    double current = eval.getScore(KoLCharacter.getCurrentModifiers());
     return DataTypes.makeFloatValue(current);
   }
 
