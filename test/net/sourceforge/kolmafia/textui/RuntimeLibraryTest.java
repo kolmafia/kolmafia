@@ -1771,6 +1771,30 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       }
       assertEquals(expectedEq, passed, "Did not find expected equip request.");
     }
+
+    @Test
+    public void itShouldRespectFilters() {
+      String maxStr = "meat";
+      HttpClientWrapper.setupFakeClient();
+      var cleanups =
+          new Cleanups(
+              withUnequipped(Slot.HAT),
+              withEquippableItem("Apriling band helmet"),
+              withItem(ItemPool.POCKET_WISH));
+      String out1, out2;
+      String cmd1 = "maximize(\"" + maxStr + "\", 0, 0, true, \"wish\")";
+      String cmd2 = "maximize(\"" + maxStr + "\", 0, 0, true, \"equip\")";
+      try (cleanups) {
+        out1 = execute(cmd1);
+        out2 = execute(cmd2);
+      }
+      assertFalse(out1.isEmpty());
+      assertFalse(out1.contains("equip hat Apriling band helmet"));
+      // TODO: Figure out why wishes aren't showing up in this command despite having a pocket
+      // wish...
+      assertFalse(out2.isEmpty());
+      assertTrue(out2.contains("equip hat Apriling band helmet"));
+    }
   }
 
   @Nested
