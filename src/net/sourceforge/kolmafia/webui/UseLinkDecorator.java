@@ -1522,6 +1522,9 @@ public abstract class UseLinkDecorator {
             uses.add(
                 new UseLink(itemId, 1, "request drop", "inventory.php?action=requestdrop", false));
           }
+          case ItemPool.THE_ETERNITY_CODPIECE -> {
+            uses.add(new UseLink(itemId, 1, "decorate", "inventory.php?action=docodpiece", false));
+          }
         }
 
         if (uses.size() == 1) {
