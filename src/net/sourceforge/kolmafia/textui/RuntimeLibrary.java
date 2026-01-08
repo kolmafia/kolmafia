@@ -9052,7 +9052,7 @@ public abstract class RuntimeLibrary {
     if (showEquipmentOrFiltersValue.getType().equals(DataTypes.STRING_TYPE)) {
       // string should be formatted like maximizerLastFilters
       isFilterVariant = true;
-      EquipScope equipScope = EquipScope.byIndex((int)isSpeculateOnlyOrEquipScopeValue.intValue());
+      EquipScope equipScope = EquipScope.byIndex((int) isSpeculateOnlyOrEquipScopeValue.intValue());
       Set<filterType> filters = EnumSet.noneOf(filterType.class);
       String filterString = showEquipmentOrFiltersValue.toString().toLowerCase();
       for (filterType filter : filterType.values()) {
