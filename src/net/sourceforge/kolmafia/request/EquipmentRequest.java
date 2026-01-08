@@ -645,8 +645,7 @@ public class EquipmentRequest extends PasswordHashRequest {
       case SIXGUN -> Slot.HOLSTER;
       default -> {
         // if it's a gem not equippable elsewhere, assume codpiece
-        var codpieceMods = ModifierDatabase.getModifiers(ModifierType.ETERNITY_CODPIECE, itemId);
-        if (codpieceMods != null) {
+        if (isCodpieceGem(itemId)) {
           yield EquipmentRequest.availableCodpiece();
         }
         yield Slot.NONE;
@@ -2145,5 +2144,10 @@ public class EquipmentRequest extends PasswordHashRequest {
 
     // Have to get it from the Equipment page of the Inventory
     RequestThread.postRequest(new EquipmentRequest(EquipmentRequestType.EQUIPMENT));
+  }
+
+  public static boolean isCodpieceGem(int itemId) {
+    var codpieceMods = ModifierDatabase.getModifiers(ModifierType.ETERNITY_CODPIECE, itemId);
+    return codpieceMods != null;
   }
 }

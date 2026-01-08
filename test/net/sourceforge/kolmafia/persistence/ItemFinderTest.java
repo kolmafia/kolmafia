@@ -844,4 +844,15 @@ public class ItemFinderTest {
     assertEquals(MafiaState.CONTINUE, StaticEntity.getContinuationState());
     assertEquals(ItemFinder.SingleResult.Type.NO_MATCH, match.type);
   }
+
+  @Test
+  public void itShouldReturnGemsWithEquip() {
+    try (var cleanups = withItem("Azurite")) {
+      AdventureResult item = ItemFinder.getFirstMatchingItem("Azurite", Match.EQUIP);
+      assertEquals(MafiaState.CONTINUE, StaticEntity.getContinuationState());
+      assertNotNull(item);
+      assertEquals(ItemPool.AZURITE, item.getItemId());
+      assertEquals(1, item.getCount());
+    }
+  }
 }
