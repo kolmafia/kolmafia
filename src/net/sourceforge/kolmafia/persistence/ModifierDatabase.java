@@ -43,6 +43,7 @@ import net.sourceforge.kolmafia.modifiers.Lookup;
 import net.sourceforge.kolmafia.modifiers.Modifier;
 import net.sourceforge.kolmafia.modifiers.ModifierList;
 import net.sourceforge.kolmafia.modifiers.ModifierList.ModifierValue;
+import net.sourceforge.kolmafia.modifiers.MultiDoubleModifier;
 import net.sourceforge.kolmafia.modifiers.MultiStringModifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -225,6 +226,12 @@ public class ModifierDatabase {
       modifierTypesByName.put(tag, modifier);
       numericModifiers.add(tag);
     }
+    for (var modifier : MultiDoubleModifier.MULTIDOUBLE_MODIFIERS) {
+      modifierTypesByName.put(modifier.getName(), modifier);
+      String tag = modifier.getTag();
+      modifierTypesByName.put(tag, modifier);
+      numericModifiers.add(tag);
+    }
     for (var modifier : BitmapModifier.BITMAP_MODIFIERS) {
       bitmapMasks.put(modifier, 1);
       modifierTypesByName.put(modifier.getName(), modifier);
@@ -348,6 +355,10 @@ public class ModifierDatabase {
     var num = ModifierDatabase.numericByCaselessName(name);
     if (num != null) {
       return num;
+    }
+    var mNum = MultiDoubleModifier.byCaselessName(name);
+    if (mNum != null) {
+      return mNum;
     }
     var str = StringModifier.byCaselessName(name);
     if (str != null) {
@@ -515,6 +526,25 @@ public class ModifierDatabase {
     tempMods.lookupFamiliarModifiers(fam, weight, item);
 
     return tempMods.getNumeric(mod);
+  }
+
+  public static List<Double> getMultiDoubleModifier(
+      final ModifierType type, final int id, final MultiDoubleModifier mod) {
+    return getMultiDoubleModifier(new Lookup(type, id), mod);
+  }
+
+  public static List<Double> getMultiDoubleModifier(
+      final ModifierType type, final String name, final MultiDoubleModifier mod) {
+    return getMultiDoubleModifier(new Lookup(type, name), mod);
+  }
+
+  public static List<Double> getMultiDoubleModifier(
+      final Lookup lookup, final MultiDoubleModifier mod) {
+    Modifiers mods = getModifiers(lookup);
+    if (mods == null) {
+      return List.of();
+    }
+    return mods.getDoubles(mod);
   }
 
   public static final boolean getBooleanModifier(
@@ -703,6 +733,26 @@ public class ModifierDatabase {
 
         if (matcher.group(1) != null) {
           newMods.setDouble(mod, Double.parseDouble(matcher.group(1)));
+        } else {
+          newMods.addExpression(
+              new Indexed<>(mod, ModifierExpression.getInstance(matcher.group(2), lookup)));
+        }
+        continue modLoop;
+      }
+
+      for (var mod : MultiDoubleModifier.MULTIDOUBLE_MODIFIERS) {
+        Pattern pattern = mod.getTagPattern();
+        if (pattern == null) {
+          continue;
+        }
+
+        Matcher matcher = pattern.matcher(string);
+        if (!matcher.matches()) {
+          continue;
+        }
+
+        if (matcher.group(1) != null) {
+          newMods.addMultiDouble(mod, Double.parseDouble(matcher.group(1)));
         } else {
           newMods.addExpression(
               new Indexed<>(mod, ModifierExpression.getInstance(matcher.group(2), lookup)));
@@ -914,7 +964,7 @@ public class ModifierDatabase {
   public static final String parseEffectDuration(final String text) {
     Matcher matcher = EFFECT_DURATION_PATTERN.matcher(text);
     if (matcher.find()) {
-      return DoubleModifier.EFFECT_DURATION.getTag() + ": " + matcher.group(1);
+      return MultiDoubleModifier.EFFECT_DURATION.getTag() + ": " + matcher.group(1);
     }
 
     return null;
@@ -1174,6 +1224,11 @@ public class ModifierDatabase {
           var cur = existing.getStrings(msm);
           if (!cur.isEmpty()) {
             value.setStrings(msm, cur);
+          }
+        } else if (mod instanceof MultiDoubleModifier mdm) {
+          var cur = existing.getDoubles(mdm);
+          if (!cur.isEmpty()) {
+            value.setDoubles(mdm, cur);
           }
         }
       }
@@ -1581,6 +1636,9 @@ public class ModifierDatabase {
           String mod = modifier.toString();
 
           if (DoubleModifier.byTagPattern(mod) != null) {
+            continue;
+          }
+          if (MultiDoubleModifier.byTagPattern(mod) != null) {
             continue;
           }
           if (BitmapModifier.byTagPattern(mod) != null) {

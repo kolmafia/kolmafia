@@ -670,6 +670,9 @@ public class SkillPool {
   public static final int BCZ__PREPARE_SPINAL_TAPAS = 7578;
   public static final int BCZ__CRAFT_A_PHEROMONE_COCKTAIL = 7579;
   public static final int MARK_YOUR_TERRITORY = 7580;
+  public static final int CLUB_EM_ACROSS_THE_BATTLEFIELD = 7582;
+  public static final int CLUB_EM_INTO_NEXT_WEEK = 7583;
+  public static final int CLUB_EM_BACK_IN_TIME = 7584;
 
   public static final int GOOD_SINGING_VOICE = 11016;
   public static final int BANISHING_SHOUT = 11020;

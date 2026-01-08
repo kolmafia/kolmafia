@@ -2312,6 +2312,12 @@ public class FightRequest extends GenericRequest {
         TurnCounter.stopCounting("Spooky VHS Tape unknown monster window begin");
         TurnCounter.stopCounting("Spooky VHS Tape unknown monster window end");
         Preferences.setString("spookyVHSTapeMonster", "");
+      } else if (EncounterManager.isClubEmNextWeekMonster(responseText, true)) {
+        EncounterManager.ignoreSpecialMonsters();
+        TurnCounter.stopCounting("Club 'Em Into Next Week Monster");
+        TurnCounter.stopCounting("Club 'Em Into Next Week unknown monster window begin");
+        TurnCounter.stopCounting("Club 'Em Into Next Week unknown monster window end");
+        Preferences.setString("clubEmNextWeekMonster", "");
       } else if (EncounterManager.isMimeographEncounter(responseText)) {
         EncounterManager.ignoreSpecialMonsters();
       } else if (LocketManager.isLocketFight(responseText)) {
@@ -9762,6 +9768,7 @@ public class FightRequest extends GenericRequest {
     // Number to increment daily limit prop (almost always 1)
     int increment = 1;
 
+    // skills in dailylimits.txt need to set skillSuccess = true in here to increment preferences
     switch (skillId) {
       case SkillPool.GOTHY_HANDWAVE -> NemesisDecorator.useGothyHandwave(monsterName, responseText);
       case SkillPool.VOLCANOMETEOR -> ResultProcessor.processItem(ItemPool.VOLCANIC_ASH, -1);
@@ -11056,6 +11063,33 @@ public class FightRequest extends GenericRequest {
         if (responseText.contains("You quickly thrust") || skillSuccess) {
           skillSuccess = true;
           currentRAM -= 7;
+        }
+      }
+      case SkillPool.CLUB_EM_ACROSS_THE_BATTLEFIELD -> {
+        if (responseText.contains("across the battlefield") || skillSuccess) {
+          skillSuccess = true;
+        }
+      }
+      case SkillPool.CLUB_EM_INTO_NEXT_WEEK -> {
+        if (responseText.contains("save some leftovers") || skillSuccess) {
+          skillSuccess = true;
+          TurnCounter.stopCounting("Club 'Em Into Next Week Monster");
+          if (Preferences.getBoolean("stopForFixedWanderer")) {
+            TurnCounter.startCountingTemporary(
+                8, "Club 'Em Into Next Week Monster type=wander", "watch.gif");
+          } else {
+            TurnCounter.startCountingTemporary(
+                8, "Club 'Em Into Next Week Monster loc=* type=wander", "watch.gif");
+          }
+          Preferences.setString("clubEmNextWeekMonster", monsterName);
+          Preferences.setInteger("clubEmNextWeekMonsterTurn", KoLCharacter.getTurnsPlayed());
+        }
+      }
+      case SkillPool.CLUB_EM_BACK_IN_TIME -> {
+        if (responseText.contains("you've already defeated")
+            || responseText.contains("about fifteen seconds")
+            || skillSuccess) {
+          skillSuccess = true;
         }
       }
     }

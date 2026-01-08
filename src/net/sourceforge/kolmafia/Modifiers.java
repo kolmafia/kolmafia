@@ -25,6 +25,8 @@ import net.sourceforge.kolmafia.modifiers.Lookup;
 import net.sourceforge.kolmafia.modifiers.Modifier;
 import net.sourceforge.kolmafia.modifiers.ModifierList;
 import net.sourceforge.kolmafia.modifiers.ModifierList.ModifierValue;
+import net.sourceforge.kolmafia.modifiers.MultiDoubleModifier;
+import net.sourceforge.kolmafia.modifiers.MultiDoubleModifierCollection;
 import net.sourceforge.kolmafia.modifiers.MultiStringModifier;
 import net.sourceforge.kolmafia.modifiers.MultiStringModifierCollection;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
@@ -80,6 +82,7 @@ public class Modifiers {
   private final BitmapModifierCollection bitmaps = new BitmapModifierCollection();
   private final StringModifierCollection strings = new StringModifierCollection();
   private final MultiStringModifierCollection multiStrings = new MultiStringModifierCollection();
+  private final MultiDoubleModifierCollection multiDoubles = new MultiDoubleModifierCollection();
   private ArrayList<Indexed<Modifier, ModifierExpression>> expressions = null;
   // These are used for Steely-Eyed Squint and so on
   private final DoubleModifierCollection accumulators = new DoubleModifierCollection();
@@ -289,6 +292,7 @@ public class Modifiers {
 
   public final void reset() {
     this.doubles.reset();
+    this.multiDoubles.reset();
     this.strings.reset();
     this.multiStrings.reset();
     this.booleans.reset();
@@ -299,6 +303,8 @@ public class Modifiers {
   public double getNumeric(final Modifier modifier) {
     if (modifier instanceof DoubleModifier db) {
       return getDouble(db);
+    } else if (modifier instanceof MultiDoubleModifier mdm) {
+      return getDouble(mdm);
     } else if (modifier instanceof DerivedModifier db) {
       return getDerived(db);
     } else if (modifier instanceof BitmapModifier bm) {
@@ -339,7 +345,7 @@ public class Modifiers {
     return rate;
   }
 
-  public double getDouble(final DoubleModifier modifier) {
+  public double getDouble(final Modifier modifier) {
     if (modifier == DoubleModifier.PRISMATIC_DAMAGE) {
       return this.derivePrismaticDamage();
     }
@@ -354,7 +360,21 @@ public class Modifiers {
       return 0.0;
     }
 
-    return this.doubles.get(modifier);
+    if (modifier instanceof DoubleModifier dm) {
+      return this.doubles.get(dm);
+    }
+
+    if (modifier instanceof MultiDoubleModifier mdm) {
+      return this.multiDoubles.getOne(mdm);
+    }
+
+    return 0.0;
+  }
+
+  public List<Double> getDoubles(final MultiDoubleModifier modifier) {
+    if (modifier == null) return List.of();
+
+    return this.multiDoubles.get(modifier);
   }
 
   public int getRawBitmap(final BitmapModifier modifier) {
@@ -451,6 +471,26 @@ public class Modifiers {
     return this.doubles.set(mod, value);
   }
 
+  public boolean setDouble(final MultiDoubleModifier modifier, double mod) {
+    if (modifier == null) {
+      return false;
+    }
+
+    return this.multiDoubles.set(modifier, mod == 0.0 ? List.of() : List.of(mod));
+  }
+
+  public boolean setDoubles(final MultiDoubleModifier modifier, List<Double> mod) {
+    if (modifier == null) {
+      return false;
+    }
+
+    if (mod == null) {
+      mod = List.of();
+    }
+
+    return this.multiDoubles.set(modifier, mod);
+  }
+
   public boolean setBitmap(final BitmapModifier modifier, final int value) {
     if (modifier == null) {
       return false;
@@ -509,6 +549,10 @@ public class Modifiers {
 
     for (var mod : DoubleModifier.DOUBLE_MODIFIERS) {
       changed |= this.setDouble(mod, mods.doubles.get(mod));
+    }
+
+    for (var mod : MultiDoubleModifier.MULTIDOUBLE_MODIFIERS) {
+      changed |= this.multiDoubles.set(mod, mods.multiDoubles.get(mod));
     }
 
     for (var mod : BitmapModifier.BITMAP_MODIFIERS) {
@@ -633,6 +677,11 @@ public class Modifiers {
     }
   }
 
+  private void addDouble(
+      MultiDoubleModifier mod, int delta, ModifierType modifierType, String name) {
+    this.multiDoubles.addLast(mod, delta);
+  }
+
   public void addBitmap(BitmapModifier modifier, int bit) {
     this.bitmaps.add(modifier, bit);
   }
@@ -643,6 +692,14 @@ public class Modifiers {
     }
 
     return this.multiStrings.add(modifier, mod);
+  }
+
+  public boolean addMultiDouble(final MultiDoubleModifier modifier, double mod) {
+    if (modifier == null || mod == 0.0) {
+      return false;
+    }
+
+    return this.multiDoubles.add(modifier, mod);
   }
 
   public void add(final Modifiers mods) {
@@ -729,6 +786,8 @@ public class Modifiers {
     var modifier = ModifierDatabase.getModifierByName(mod.getName());
     if (modifier != null) {
       if (modifier instanceof DoubleModifier d) {
+        return this.setDouble(d, Double.parseDouble(mod.getValue()));
+      } else if (modifier instanceof MultiDoubleModifier d) {
         return this.setDouble(d, Double.parseDouble(mod.getValue()));
       } else if (modifier instanceof StringModifier s) {
         return this.setString(s, mod.getValue());
@@ -872,11 +931,13 @@ public class Modifiers {
     return false;
   }
 
-  // TODO: what does this do? what is expressions? Something to do with the [X] strings?
+  // expressions are the numeric override [] strings, such as [R]
   public boolean override(final Lookup lookup) {
     if (this.expressions != null) {
       for (Indexed<Modifier, ModifierExpression> entry : this.expressions) {
         if (entry.index instanceof DoubleModifier m) {
+          this.setDouble(m, entry.value.eval());
+        } else if (entry.index instanceof MultiDoubleModifier m) {
           this.setDouble(m, entry.value.eval());
         } else if (entry.index instanceof BooleanModifier m) {
           this.setBoolean(m, entry.value.eval() != 0.0);
@@ -1635,13 +1696,13 @@ public class Modifiers {
       if (this.variable) {
         this.addExpression(
             new Indexed<>(
-                DoubleModifier.EFFECT_DURATION,
+                MultiDoubleModifier.EFFECT_DURATION,
                 ModifierExpression.getInstance(
                     delta + "*path(" + AscensionPath.Path.ELEVEN_THINGS.name + ')',
                     AscensionPath.Path.ELEVEN_THINGS.name)));
       } else {
         this.addDouble(
-            DoubleModifier.EFFECT_DURATION,
+            MultiDoubleModifier.EFFECT_DURATION,
             delta,
             ModifierType.PATH,
             AscensionPath.Path.ELEVEN_THINGS.name);
