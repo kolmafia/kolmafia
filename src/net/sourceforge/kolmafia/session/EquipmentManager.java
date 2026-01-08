@@ -1773,6 +1773,10 @@ public class EquipmentManager {
         if (slot == Slot.FAMILIAR && KoLCharacter.inQuantum()) {
           continue;
         }
+        // we use api.php to update our knowledge of codpiece slots
+        if (SlotSet.CODPIECE_SLOTS.contains(slot)) {
+          continue;
+        }
         if (!current.get(slot).equals(equipment.get(slot))) {
           String slotName = slot.name;
           String message =
