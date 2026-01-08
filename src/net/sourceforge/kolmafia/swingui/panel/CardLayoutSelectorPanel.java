@@ -26,7 +26,6 @@ import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CardLayoutSelectorPanel extends JPanel {
   private final String indexPreference;
@@ -215,24 +214,44 @@ public class CardLayoutSelectorPanel extends JPanel {
         return true;
       }
 
-      // Categories and separators are JComponents - show them if any following panel matches
-      if (element instanceof JComponent) {
-        int index = CardLayoutSelectorPanel.this.originalPanelNames.indexOf(element);
-        // Look ahead to find the next category/separator or end
-        return CardLayoutSelectorPanel.this.originalPanelNames.stream()
+      // Categories and separators are JComponents, if this is not just match it normally.
+      if (!(element instanceof JComponent component)) {
+        return this.matchesFilter(element);
+      }
+
+      int index = CardLayoutSelectorPanel.this.originalPanelNames.indexOf(component);
+      var names = CardLayoutSelectorPanel.this.originalPanelNames;
+
+      // Separators (have two children) should show if there was a match before it and after the
+      // last component
+      // and there are any matches after at all
+      if (component.getComponentCount() == 2) {
+        var matchBefore =
+            names.subList(0, index).reversed().stream()
+                .takeWhile(prev -> !(prev instanceof JComponent))
+                .anyMatch(this::matchesFilter);
+        var matchAfter = names.stream().skip(index + 1).anyMatch(this::matchesFilter);
+        return matchAfter && matchBefore;
+      }
+
+      // Categories (have one child) should show if there are matches after before the next
+      // component
+      if (component.getComponentCount() == 1) {
+        return names.stream()
             .skip(index + 1)
             .takeWhile(next -> !(next instanceof JComponent))
             .anyMatch(this::matchesFilter);
       }
 
-      return this.matchesFilter(element);
+      // Any other count is unknown
+      return false;
     }
 
     private boolean matchesFilter(final Object element) {
       String name = element.toString().toLowerCase();
       // Strip HTML tags for matching
       name = name.replaceAll("<[^>]*>", "");
-      return StringUtilities.fuzzyMatches(name, this.filterText);
+      return name.contains(this.filterText);
     }
   }
 }
