@@ -1815,6 +1815,9 @@ public class CharPaneRequest extends GenericRequest {
         KoLCharacter.setRadSickness(0);
       }
     }
+
+    int paradoxicity = json.getIntValue("paradoxicity");
+    KoLCharacter.setParadoxicity(paradoxicity);
   }
 
   private static void parseFamiliarStatus(final JSONObject json) {
