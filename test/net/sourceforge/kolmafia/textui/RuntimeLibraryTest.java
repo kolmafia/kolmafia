@@ -1816,6 +1816,19 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     }
   }
 
+  @Test
+  public void canScoreCorrectly() {
+    HttpClientWrapper.setupFakeClient();
+    var cleanups = new Cleanups(withEquipped(ItemPool.APRILING_BAND_HELMET));
+    String out;
+    try (cleanups) {
+      out = execute("current_score(\"meat\")");
+    }
+    assertFalse(out.isEmpty());
+    // 100 base, +40 for Apriling band helmet
+    assertEquals("Returned: 140.0\n", out);
+  }
+
   @Nested
   class Darts {
     @Test
