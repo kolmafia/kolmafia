@@ -145,21 +145,19 @@ public class EquipmentRequest extends PasswordHashRequest {
     // of the inventory you want to request
 
     switch (requestType) {
-      case EQUIPMENT:
-        this.addFormField("which", "2");
-        break;
-      case BEDAZZLEMENTS:
+      case EQUIPMENT -> this.addFormField("which", "2");
+      case BEDAZZLEMENTS -> {
         // no fields necessary
-        break;
-      case SAVE_OUTFIT:
+      }
+      case SAVE_OUTFIT -> {
         this.addFormField("ajax", "1");
         this.addFormField("which", "2");
-        break;
-      case UNEQUIP_ALL:
+      }
+      case UNEQUIP_ALL -> {
         this.addFormField("ajax", "1");
         this.addFormField("which", "2");
         this.addFormField("action", "unequipall");
-        break;
+      }
     }
   }
 
@@ -189,37 +187,19 @@ public class EquipmentRequest extends PasswordHashRequest {
     this.error = null;
 
     switch (equipmentSlot) {
-      case CROWNOFTHRONES:
-        this.error = "Cannot change enthronement using equip command; use enthrone command instead";
-        break;
-      case BUDDYBJORN:
-        this.error =
-            "Cannot change bjorned familiar using equip command; use bjornify command instead";
-        break;
-      case STICKER1:
-      case STICKER2:
-      case STICKER3:
-        this.initializeStickerData(changeItem, equipmentSlot);
-        break;
-      case CARDSLEEVE:
-        this.initializeCardSleeveData(changeItem);
-        break;
-      case FOLDER1:
-      case FOLDER2:
-      case FOLDER3:
-      case FOLDER4:
-      case FOLDER5:
-        this.initializeFolderData(changeItem, equipmentSlot);
-        break;
-      case BOOTSKIN:
-      case BOOTSPUR:
-        this.initializeBootData(changeItem, equipmentSlot);
-        break;
-      case HOLSTER:
-        this.initializeSixgunData(changeItem, equipmentSlot);
-        break;
-      default:
-        this.initializeChangeData(changeItem, equipmentSlot);
+      case CROWNOFTHRONES ->
+          this.error =
+              "Cannot change enthronement using equip command; use enthrone command instead";
+      case BUDDYBJORN ->
+          this.error =
+              "Cannot change bjorned familiar using equip command; use bjornify command instead";
+      case STICKER1, STICKER2, STICKER3 -> this.initializeStickerData(changeItem, equipmentSlot);
+      case CARDSLEEVE -> this.initializeCardSleeveData(changeItem);
+      case FOLDER1, FOLDER2, FOLDER3, FOLDER4, FOLDER5 ->
+          this.initializeFolderData(changeItem, equipmentSlot);
+      case BOOTSKIN, BOOTSPUR -> this.initializeBootData(changeItem, equipmentSlot);
+      case HOLSTER -> this.initializeSixgunData(changeItem, equipmentSlot);
+      default -> this.initializeChangeData(changeItem, equipmentSlot);
     }
   }
 
@@ -239,23 +219,31 @@ public class EquipmentRequest extends PasswordHashRequest {
   }
 
   private static String chooseEquipmentLocation(final Slot slot) {
-    return slot == Slot.HOLSTER
-        ? "inventory.php"
-        : SlotSet.SLOTS.contains(slot) || slot == Slot.HATS
-            ? "inv_equip.php"
-            : slot == Slot.CROWNOFTHRONES || slot == Slot.BUDDYBJORN
-                ? "bogus.php"
-                : SlotSet.STICKER_SLOTS.contains(slot)
-                    ? "bedazzle.php"
-                    : slot == Slot.CARDSLEEVE
-                        ? "inv_use.php"
-                        : slot == Slot.FAKEHAND
-                            ? "inv_equip.php"
-                            : SlotSet.FOLDER_SLOTS.contains(slot)
-                                ? "choice.php"
-                                : (slot == Slot.BOOTSKIN || slot == Slot.BOOTSPUR)
-                                    ? "inv_use.php"
-                                    : "bogus.php";
+    if (slot == Slot.HOLSTER) {
+      return "inventory.php";
+    }
+    if (SlotSet.SLOTS.contains(slot) || slot == Slot.HATS) {
+      return "inv_equip.php";
+    }
+    if (slot == Slot.CROWNOFTHRONES || slot == Slot.BUDDYBJORN) {
+      return "bogus.php";
+    }
+    if (SlotSet.STICKER_SLOTS.contains(slot)) {
+      return "bedazzle.php";
+    }
+    if (slot == Slot.CARDSLEEVE) {
+      return "inv_use.php";
+    }
+    if (slot == Slot.FAKEHAND) {
+      return "inv_equip.php";
+    }
+    if (SlotSet.FOLDER_SLOTS.contains(slot)) {
+      return "choice.php";
+    }
+    if (slot == Slot.BOOTSKIN || slot == Slot.BOOTSPUR) {
+      return "inv_use.php";
+    }
+    return "bogus.php";
   }
 
   public static boolean isEquipmentChange(final String path) {
