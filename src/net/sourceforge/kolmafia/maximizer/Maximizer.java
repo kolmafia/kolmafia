@@ -568,6 +568,10 @@ public class Maximizer {
           case "use":
             if (!filter.contains(KoLConstants.filterType.USABLE)) continue;
             break;
+          case "genie":
+          case "monkeypaw":
+            if (!filter.contains(KoLConstants.filterType.WISH)) continue;
+            break;
           default:
             if (!filter.contains(KoLConstants.filterType.OTHER)) continue;
         }
