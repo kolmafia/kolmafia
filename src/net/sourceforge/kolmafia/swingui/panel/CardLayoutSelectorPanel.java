@@ -219,17 +219,10 @@ public class CardLayoutSelectorPanel extends JPanel {
       if (element instanceof JComponent) {
         int index = CardLayoutSelectorPanel.this.originalPanelNames.indexOf(element);
         // Look ahead to find the next category/separator or end
-        for (int i = index + 1; i < CardLayoutSelectorPanel.this.originalPanelNames.size(); i++) {
-          Object next = CardLayoutSelectorPanel.this.originalPanelNames.get(i);
-          if (next instanceof JComponent) {
-            // Reached another category/separator without finding a match
-            break;
-          }
-          if (this.matchesFilter(next)) {
-            return true;
-          }
-        }
-        return false;
+        return CardLayoutSelectorPanel.this.originalPanelNames.stream()
+            .skip(index + 1)
+            .takeWhile(next -> !(next instanceof JComponent))
+            .anyMatch(this::matchesFilter);
       }
 
       return this.matchesFilter(element);
