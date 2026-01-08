@@ -1799,8 +1799,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
           new Cleanups(
               withUnequipped(Slot.HAT),
               withEquippableItem("Apriling band helmet"),
-              withProperty("_genieWishesUsed", "0"),
-              withItem(ItemPool.GENIE_BOTTLE));
+              withItem(ItemPool.POCKET_WISH));
       String out1, out2;
       String cmd1 = "maximize(\"" + maxStr + "\", 0, 0, 0, \"wish\")";
       String cmd2 = "maximize(\"" + maxStr + "\", 0, 0, 0, \"equip\")";
@@ -1810,10 +1809,10 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       }
       assertFalse(out1.isEmpty());
       assertFalse(out1.contains("equip hat Apriling band helmet"));
-      // TODO: Figure out why wishes aren't showing up in this command despite having a pocket
-      // wish...
+      assertTrue(out1.contains("genie effect Sinuses For Miles"));
       assertFalse(out2.isEmpty());
       assertTrue(out2.contains("equip hat Apriling band helmet"));
+      assertFalse(out2.contains("genie effect Sinuses For Miles"));
     }
   }
 
