@@ -65,19 +65,16 @@ public class CardLayoutSelectorPanel extends JPanel {
     JPanel listHolder = new JPanel(new BorderLayout());
     listHolder.setBorder(BorderFactory.createEmptyBorder(20, 10, 10, 0));
 
-    JPanel scrollHolder = new JPanel(new BorderLayout());
-
     if (showFilter) {
       this.filterField = new PanelFilterField();
       this.panelNames.setFilter(this.filterField);
 
-      scrollHolder.add(this.filterField, BorderLayout.NORTH);
+      listHolder.add(this.filterField, BorderLayout.NORTH);
     } else {
       this.filterField = null;
     }
 
-    scrollHolder.add(new GenericScrollPane(this.panelList), BorderLayout.CENTER);
-    listHolder.add(scrollHolder, BorderLayout.CENTER);
+    listHolder.add(new GenericScrollPane(this.panelList), BorderLayout.CENTER);
 
     this.add(listHolder, BorderLayout.WEST);
     this.add(this.mainPanel, BorderLayout.CENTER);
