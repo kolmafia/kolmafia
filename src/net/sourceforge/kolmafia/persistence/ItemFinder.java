@@ -231,69 +231,51 @@ public class ItemFinder {
       ConsumptionType useType = ItemDatabase.getConsumptionType(itemId);
 
       switch (filterType) {
-        case FOOD:
-          ItemFinder.conditionalRemove(
-              nameIterator,
-              useType != ConsumptionType.EAT && useType != ConsumptionType.FOOD_HELPER);
-          break;
-        case BOOZE:
-          ItemFinder.conditionalRemove(
-              nameIterator,
-              useType != ConsumptionType.DRINK && useType != ConsumptionType.DRINK_HELPER);
-          break;
-        case SPLEEN:
-          ItemFinder.conditionalRemove(nameIterator, useType != ConsumptionType.SPLEEN);
-          break;
-        case EQUIP:
+        case FOOD ->
+            ItemFinder.conditionalRemove(
+                nameIterator,
+                useType != ConsumptionType.EAT && useType != ConsumptionType.FOOD_HELPER);
+        case BOOZE ->
+            ItemFinder.conditionalRemove(
+                nameIterator,
+                useType != ConsumptionType.DRINK && useType != ConsumptionType.DRINK_HELPER);
+        case SPLEEN ->
+            ItemFinder.conditionalRemove(nameIterator, useType != ConsumptionType.SPLEEN);
+        case EQUIP -> {
           switch (useType) {
-            case FAMILIAR_EQUIPMENT:
-            case ACCESSORY:
-            case HAT:
-            case PANTS:
-            case SHIRT:
-            case WEAPON:
-            case OFFHAND:
-            case CONTAINER:
-            case STICKER:
-            case CARD:
-            case FOLDER:
-            case BOOTSKIN:
-            case BOOTSPUR:
-            case SIXGUN:
-              break;
-
-            default:
-              nameIterator.remove();
+            case FAMILIAR_EQUIPMENT,
+                ACCESSORY,
+                HAT,
+                PANTS,
+                SHIRT,
+                WEAPON,
+                OFFHAND,
+                CONTAINER,
+                STICKER,
+                CARD,
+                FOLDER,
+                BOOTSKIN,
+                BOOTSPUR,
+                SIXGUN -> {}
+            default -> nameIterator.remove();
           }
-
-          break;
-        case CANDY:
-          ItemFinder.conditionalRemove(nameIterator, !ItemDatabase.isCandyItem(itemId));
-          break;
-
-        case ABSORB:
-          ItemFinder.conditionalRemove(
-              nameIterator,
-              (ItemDatabase.getNoobSkillId(itemId) == 0
-                  && !(ItemDatabase.isEquipment(itemId)
-                      && !ItemDatabase.isFamiliarEquipment(itemId))));
-          break;
-
-        case ROBO:
-          ItemFinder.conditionalRemove(
-              nameIterator,
-              itemId < ItemPool.LITERAL_GRASSHOPPER
-                  || itemId > ItemPool.PHIL_COLLINS
-                  || Preferences.getString("_roboDrinks").contains(itemName));
-          break;
-
-        case ASDON:
-          ItemFinder.conditionalRemove(nameIterator, NPCStoreDatabase.contains(itemId, false));
-          break;
-
-        case USE:
-          ItemFinder.conditionalRemove(nameIterator, !ItemDatabase.isUsable(itemId));
-          break;
+        }
+        case CANDY -> ItemFinder.conditionalRemove(nameIterator, !ItemDatabase.isCandyItem(itemId));
+        case ABSORB ->
+            ItemFinder.conditionalRemove(
+                nameIterator,
+                (ItemDatabase.getNoobSkillId(itemId) == 0
+                    && !(ItemDatabase.isEquipment(itemId)
+                        && !ItemDatabase.isFamiliarEquipment(itemId))));
+        case ROBO ->
+            ItemFinder.conditionalRemove(
+                nameIterator,
+                itemId < ItemPool.LITERAL_GRASSHOPPER
+                    || itemId > ItemPool.PHIL_COLLINS
+                    || Preferences.getString("_roboDrinks").contains(itemName));
+        case ASDON ->
+            ItemFinder.conditionalRemove(nameIterator, NPCStoreDatabase.contains(itemId, false));
+        case USE -> ItemFinder.conditionalRemove(nameIterator, !ItemDatabase.isUsable(itemId));
       }
     }
   }
