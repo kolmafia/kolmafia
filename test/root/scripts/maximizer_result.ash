@@ -31,8 +31,8 @@ MaximizerResult do_maximize(string command, int price, int priceLevel, boolean s
     return new MaximizerResult("", "", 0.0, $effect[none], $item[none], $skill[none]);
 }
 
-MaximizerResultFull do_maximize_full(string command, int price, int priceLevel, boolean speculate, string filter) {
-    MaximizerResultFull[] results = maximize(command, price, priceLevel, speculate, filter);
+MaximizerResultFull do_maximize_full(string command, int price, int priceLevel, int equipScope, string filter) {
+    MaximizerResultFull[] results = maximize(command, price, priceLevel, equipScope, filter);
     int count = count(results);
     print(count + " results");
     MaximizerResultFull retval;
@@ -51,7 +51,7 @@ print("effect = " + result.effect);
 print("item = " + result.item);
 print("skill = " + result.skill);
 
-MaximizerResultFull resultFull = do_maximize_full("fishing skill", 0, 0, true, "");
+MaximizerResultFull resultFull = do_maximize_full("fishing skill", 0, 0, 0, "");
 print("display = " + resultFull.display);
 print("command = " + resultFull.command);
 print("score = " + resultFull.score);
