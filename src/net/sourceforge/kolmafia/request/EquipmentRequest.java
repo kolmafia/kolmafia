@@ -16,6 +16,7 @@ import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
@@ -27,6 +28,7 @@ import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.DebugDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.QuestManager;
@@ -199,6 +201,8 @@ public class EquipmentRequest extends PasswordHashRequest {
           this.initializeFolderData(changeItem, equipmentSlot);
       case BOOTSKIN, BOOTSPUR -> this.initializeBootData(changeItem, equipmentSlot);
       case HOLSTER -> this.initializeSixgunData(changeItem, equipmentSlot);
+      case CODPIECE1, CODPIECE2, CODPIECE3, CODPIECE4, CODPIECE5 ->
+          this.initializeCodpieceData(changeItem, equipmentSlot);
       default -> this.initializeChangeData(changeItem, equipmentSlot);
     }
   }
@@ -242,6 +246,9 @@ public class EquipmentRequest extends PasswordHashRequest {
     }
     if (slot == Slot.BOOTSKIN || slot == Slot.BOOTSPUR) {
       return "inv_use.php";
+    }
+    if (SlotSet.CODPIECE_SLOTS.contains(slot)) {
+      return "choice.php";
     }
     return "bogus.php";
   }
@@ -488,6 +495,35 @@ public class EquipmentRequest extends PasswordHashRequest {
     this.addFormField("ajax", "1");
   }
 
+  private void initializeCodpieceData(final AdventureResult gem, final Slot slot) {
+    this.equipmentSlot = slot;
+    this.addFormField("whichchoice", "1588");
+    var slotOpt =
+        switch (equipmentSlot) {
+          case CODPIECE1 -> "1";
+          case CODPIECE2 -> "2";
+          case CODPIECE3 -> "3";
+          case CODPIECE4 -> "4";
+          case CODPIECE5 -> "5";
+          default -> throw new IllegalStateException("Unexpected value: " + equipmentSlot);
+        };
+
+    if (gem.equals(EquipmentRequest.UNEQUIP)) {
+      this.requestType = EquipmentRequestType.REMOVE_ITEM;
+      this.addFormField("option", "2");
+      this.addFormField("which", slotOpt);
+      return;
+    }
+
+    // only gems can be equipped -- however, TPTB may add more in the future
+
+    this.requestType = EquipmentRequestType.CHANGE_ITEM;
+    this.changeItem = gem;
+    this.addFormField("option", "1");
+    this.addFormField("which", slotOpt);
+    this.addFormField("iid", String.valueOf(this.itemId));
+  }
+
   private String getAction() {
     switch (this.equipmentSlot) {
       case HAT, HATS -> {
@@ -607,7 +643,14 @@ public class EquipmentRequest extends PasswordHashRequest {
       case CARD -> Slot.CARDSLEEVE;
       case FOLDER -> EquipmentRequest.availableFolder();
       case SIXGUN -> Slot.HOLSTER;
-      default -> Slot.NONE;
+      default -> {
+        // if it's a gem not equippable elsewhere, assume codpiece
+        var codpieceMods = ModifierDatabase.getModifiers(ModifierType.ETERNITY_CODPIECE, itemId);
+        if (codpieceMods != null) {
+          yield EquipmentRequest.availableCodpiece();
+        }
+        yield Slot.NONE;
+      }
     };
   }
 
@@ -650,6 +693,10 @@ public class EquipmentRequest extends PasswordHashRequest {
   public static Slot availableFolder() {
     return EquipmentRequest.availableSlot(
         KoLCharacter.inHighschool() ? SlotSet.FOLDER_SLOTS : SlotSet.FOLDER_SLOTS_AFTERCORE);
+  }
+
+  public static Slot availableCodpiece() {
+    return EquipmentRequest.availableSlot(SlotSet.CODPIECE_SLOTS);
   }
 
   /**
@@ -815,6 +862,9 @@ public class EquipmentRequest extends PasswordHashRequest {
     if (SlotSet.FOLDER_SLOTS.contains(this.equipmentSlot)) {
       (new GenericRequest("inventory.php?action=useholder")).run();
     }
+    if (SlotSet.CODPIECE_SLOTS.contains(this.equipmentSlot)) {
+      (new GenericRequest("inventory.php?action=docodpiece")).run();
+    }
 
     switch (this.requestType) {
       case EQUIPMENT -> KoLmafia.updateDisplay("Retrieving equipment...");
@@ -888,6 +938,12 @@ public class EquipmentRequest extends PasswordHashRequest {
 
     if (urlString.startsWith("choice.php") && urlString.contains("whichchoice=774")) {
       EquipmentRequest.parseFolders(responseText);
+      return;
+    }
+
+    if (urlString.startsWith("choice.php") && urlString.contains("whichchoice=1588")) {
+      // instead of parsing the page, get our updated gems from api.php
+      ApiRequest.updateStatus();
       return;
     }
 
