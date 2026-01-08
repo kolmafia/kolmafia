@@ -27,12 +27,17 @@ public class Lookup {
     this.type = type;
     this.key =
         switch (type) {
-          case ITEM -> new IntOrString(ItemDatabase.getExactItemId(name));
+          case ITEM, ETERNITY_CODPIECE -> new IntOrString(ItemDatabase.getExactItemId(name));
           case EFFECT -> new IntOrString(EffectDatabase.getEffectId(name, true));
           case SKILL -> new IntOrString(SkillDatabase.getSkillId(name, true));
           default -> new IntOrString(name);
         };
-    if (EnumSet.of(ModifierType.ITEM, ModifierType.EFFECT, ModifierType.SKILL).contains(type)
+    if (EnumSet.of(
+                ModifierType.ITEM,
+                ModifierType.ETERNITY_CODPIECE,
+                ModifierType.EFFECT,
+                ModifierType.SKILL)
+            .contains(type)
         && this.key.getIntValue() == -1) {
       this.type = ModifierType.fromString("PSEUDO_" + type.name());
       this.key = new IntOrString(name);
@@ -42,7 +47,8 @@ public class Lookup {
   @Override
   public String toString() {
     return switch (this.type) {
-      case ITEM, EFFECT, SKILL -> this.type.pascalCaseName() + ":[" + this.key + "]";
+      case ITEM, ETERNITY_CODPIECE, EFFECT, SKILL ->
+          this.type.pascalCaseName() + ":[" + this.key + "]";
       default -> this.type.pascalCaseName() + ":" + this.key;
     };
   }
@@ -61,7 +67,7 @@ public class Lookup {
 
   public String getName() {
     return switch (type) {
-      case ITEM ->
+      case ITEM, ETERNITY_CODPIECE ->
           getIntKey() < -1
               ? ClanLoungeRequest.hotdogIdToName(getIntKey())
               : ItemDatabase.getItemName(getIntKey());

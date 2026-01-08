@@ -15790,3 +15790,72 @@ RobotCPU	robot_resist	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance
 RobotCPU	robot_items	Item Drop: +20
 RobotCPU	robot_energy	Energy: +1
 RobotCPU	robot_hp2	Maximum HP: +30
+
+# Eternity Codpiece
+
+EternityCodpiece	alien gemstone	Experience (Muscle): +1
+EternityCodpiece	angry agate	PvP Fights: +1
+EternityCodpiece	autumn years wisdom	Experience (Mysticality): +1
+EternityCodpiece	Azurite	Sleaze Damage: +10
+EternityCodpiece	baconstone	Mysticality Percent: +11
+EternityCodpiece	bananagate	Stench Spell Damage: +10
+EternityCodpiece	barrel beryl	Booze Drop: +20
+EternityCodpiece	beach ball marble	Initiative: +9
+EternityCodpiece	beige clambroth marble	Initiative: +7
+EternityCodpiece	big bumboozer marble	Initiative: +11
+EternityCodpiece	black catseye marble	Initiative: +10
+EternityCodpiece	blood cubic zirconia	Spooky Resistance: +3, Spooky Damage: +5
+EternityCodpiece	BRICKO pearl	Candy Drop: +20
+EternityCodpiece	brown crock marble	Initiative: +2
+EternityCodpiece	bumblebee marble	Initiative: +5
+EternityCodpiece	control crystal	Mysticality: +5
+EternityCodpiece	crystalline seal eye	Damage vs. Seals: +25
+EternityCodpiece	crystallized memory	Muscle: +5
+EternityCodpiece	crystallized pumpkin spice	Food Drop: +20
+EternityCodpiece	cubic zirconia	Maximum MP Percent: +10
+EternityCodpiece	effluvious emerald	Stench Resistance: +2
+EternityCodpiece	Eye Agate	Damage vs. Zombies: +25
+EternityCodpiece	eye of the Tiger-lily	Spell Damage Percent: +10
+EternityCodpiece	floaty inverse geode	Moxie: +5
+EternityCodpiece	giant pearl	Pool Skill: +1
+EternityCodpiece	glacial sapphire	Cold Resistance: +2
+EternityCodpiece	glimmering golden crystal	Experience (familiar): +1
+EternityCodpiece	glowing new age crystal	MP Regen Min: 5, MP Regen Max: 10
+EternityCodpiece	green peawee marble	Initiative: +1
+EternityCodpiece	hamethyst	Muscle Percent: +11
+EternityCodpiece	incredibly dense meat gem	Meat Drop: +30
+EternityCodpiece	jet bennie marble	Initiative: +6
+EternityCodpiece	kumquartz	Cold Spell Damage: +10
+EternityCodpiece	Lapis Lazuli	Stench Damage: +10
+EternityCodpiece	lemonade marble	Initiative: +4
+EternityCodpiece	lump of diamond	Damage Reduction: +5
+EternityCodpiece	lunar isotope	Pickpocket Chance: +10
+EternityCodpiece	marine aquamarine	Fishing Skill: +5
+EternityCodpiece	massive gemstone	Item Drop: +10
+EternityCodpiece	moon-amber	Damage vs. Ghosts: +25
+EternityCodpiece	New Age healing crystal	HP Regen Min: 10, HP Regen Max: 20
+EternityCodpiece	New Age hurting crystal	Familiar Damage: +10
+EternityCodpiece	pearidot	Sleaze Spell Damage: +10
+EternityCodpiece	Peridot of Peril	Maximum HP: +20, Maximum MP: +20
+EternityCodpiece	polished moon-amber	Damage vs. Werewolves: +25
+EternityCodpiece	porquoise	Moxie Percent: +11
+EternityCodpiece	priceless diamond	Damage Absorption: +10
+EternityCodpiece	rainbow pearl	Hot Damage: +5, Cold Damage: +5, Stench Damage: +5, Spooky Damage: +5, Sleaze Damage: +5
+EternityCodpiece	red China marble	Initiative: +3
+EternityCodpiece	rhinestone	Experience (Moxie): +1
+EternityCodpiece	Rubee™	Hot Damage: +10
+EternityCodpiece	shadow glass	Spooky Damage: +10
+EternityCodpiece	shard of double-ice	Cold Damage: +10
+EternityCodpiece	solid gold jewel	Maximum HP Percent: +20
+EternityCodpiece	steamy ruby	Hot Resistance: +2
+EternityCodpiece	steely marble	Initiative: +8
+EternityCodpiece	stone of eXtreme power	Muscle: +3, Mysticality: +3, Moxie: +3
+EternityCodpiece	strawberyl	Hot Spell Damage: +10
+EternityCodpiece	tawdry amethyst	Sleaze Resistance: +2
+EternityCodpiece	torquoise	Weapon Damage Percent: +10
+EternityCodpiece	tourmalime	Spooky Spell Damage: +10
+EternityCodpiece	Tuesday's ruby	Monster Level: +5
+EternityCodpiece	unblemished pearl	Adventures: +1
+EternityCodpiece	unearthly onyx	Spooky Resistance: +2
+EternityCodpiece	vampire pearl	Damage vs. Vampires: +25
+EternityCodpiece	Xiblaxian crystal	Damage vs. Bugbears: +25
