@@ -516,6 +516,7 @@ public class EquipmentRequest extends PasswordHashRequest {
     }
 
     // only gems can be equipped -- however, TPTB may add more in the future
+    this.itemId = gem.getItemId();
 
     this.requestType = EquipmentRequestType.CHANGE_ITEM;
     this.changeItem = gem;
