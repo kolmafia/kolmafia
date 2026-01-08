@@ -1700,6 +1700,7 @@ public class EquipmentManager {
     // "hats":["11565","2283"]
     // "stickers":[0,0,0],
     // "folder_holder":["01","22","12","00","00"]
+    // "eternitycod":[10963,11274,0,0,11273]
 
     EnumMap<Slot, AdventureResult> current = EquipmentManager.allEquipment();
     EnumMap<Slot, AdventureResult> equipment = EquipmentManager.emptyEquipmentArray(true);
@@ -1745,6 +1746,16 @@ public class EquipmentManager {
       equipment.put(slot, item);
     }
 
+    // Read gems
+    JSONArray eternitycod = json.getJSONArray("eternitycod");
+    if (eternitycod != null) {
+      i = 0;
+      for (var slot : SlotSet.CODPIECE_SLOTS) {
+        AdventureResult item = EquipmentManager.equippedItem(eternitycod.getIntValue(i++));
+        equipment.put(slot, item);
+      }
+    }
+
     // We can't read these from api.php (yet?)
     equipment.put(Slot.CROWNOFTHRONES, current.get(Slot.CROWNOFTHRONES));
     equipment.put(Slot.BUDDYBJORN, current.get(Slot.BUDDYBJORN));
@@ -1760,6 +1771,10 @@ public class EquipmentManager {
         // Quantum Terrarium will have a familiar item in api.php even
         // if the particular familiar can't equip it. Ignore that.
         if (slot == Slot.FAMILIAR && KoLCharacter.inQuantum()) {
+          continue;
+        }
+        // we use api.php to update our knowledge of codpiece slots
+        if (SlotSet.CODPIECE_SLOTS.contains(slot)) {
           continue;
         }
         if (!current.get(slot).equals(equipment.get(slot))) {
