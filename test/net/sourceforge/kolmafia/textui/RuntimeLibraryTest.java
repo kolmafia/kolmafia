@@ -1822,6 +1822,43 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       assertTrue(out3.contains("equip hat Apriling band helmet"));
       assertTrue(out3.contains("genie effect Sinuses For Miles"));
     }
+
+    @Test
+    public void itShouldRespectEquipScope() {
+      String maxStr = "item,-tie";
+      HttpClientWrapper.setupFakeClient();
+      var cleanups =
+          new Cleanups(
+              withUnequipped(Slot.HAT),
+              withItem("brown felt tophat"),
+              withItem("brass gear", 4),
+              withItem("meat paste", 4),
+              withUnequipped(Slot.CONTAINER),
+              withEquippableItem("makeshift cape"),
+              withItemInStorage(ItemPool.ICE_PICK),
+              withStats(100, 100, 100));
+      String out1, out2, out3;
+      String cmd1 = "maximize(\"" + maxStr + "\", 0, 0, 0, \"equip\")";
+      String cmd2 = "maximize(\"" + maxStr + "\", 0, 0, 1, \"equip\")";
+      String cmd3 = "maximize(\"" + maxStr + "\", 10000, 2, 2, \"equip\")";
+      try (cleanups) {
+        out1 = execute(cmd1);
+        out2 = execute(cmd2);
+        out3 = execute(cmd3);
+      }
+
+      assertFalse(out1.isEmpty());
+      assertTrue(out1.contains("equip back makeshift cape"));
+
+      assertFalse(out2.isEmpty());
+      assertTrue(out2.contains("equip back makeshift cape"));
+      assertTrue(out2.contains("make &amp; equip hat Mark IV Steam-Hat"));
+
+      assertFalse(out3.isEmpty());
+      assertTrue(out3.contains("equip back makeshift cape"));
+      assertFalse(out3.contains("Mark IV Steam-Hat"));
+      assertTrue(out3.contains("pull &amp; equip hat ice pick"));
+    }
   }
 
   @Test
