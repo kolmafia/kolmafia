@@ -10,6 +10,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.equipment.Slot;
@@ -309,6 +310,8 @@ public class ValhallaDecorator {
 
     ValhallaDecorator.switchFolderHolder(buffer);
 
+    ValhallaDecorator.switchCodpiece(buffer);
+
     ValhallaDecorator.checkIceHouse(buffer);
 
     ValhallaDecorator.switchChateau(buffer);
@@ -569,6 +572,35 @@ public class ValhallaDecorator {
     }
     folderHolderBuffer.append("<br>");
     buffer.append(folderHolderBuffer);
+  }
+
+  private static void switchCodpiece(StringBuffer buffer) {
+    StringBuilder builder = new StringBuilder();
+
+    if (!InventoryManager.equippedOrInInventory(ItemPool.THE_ETERNITY_CODPIECE)) {
+      return;
+    }
+
+    builder.append("Eternity Codpiece: ");
+    for (var slot : SlotSet.CODPIECE_SLOTS) {
+      AdventureResult gem = EquipmentManager.getEquipment(slot);
+      if (gem != null) {
+        String name = gem.getName();
+        var mods = ModifierDatabase.getModifiers(ModifierType.ETERNITY_CODPIECE, gem.getItemId());
+        String enchantments = mods != null ? mods.getString(StringModifier.MODIFIERS) : "none";
+        builder
+            .append("<nobr><a href=\"inventory.php?action=docodpiece&pwd=")
+            .append(GenericRequest.passwordHash)
+            .append("\" title=\"Change from ")
+            .append(enchantments)
+            .append("\">")
+            .append(name)
+            .append("</a></nobr> ");
+      }
+    }
+
+    builder.append("<br>");
+    buffer.append(builder);
   }
 
   private static void checkIceHouse(StringBuffer buffer) {
