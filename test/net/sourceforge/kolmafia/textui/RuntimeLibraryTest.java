@@ -1859,6 +1859,83 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       assertFalse(out3.contains("Mark IV Steam-Hat"));
       assertTrue(out3.contains("pull &amp; equip hat ice pick"));
     }
+
+    @Test
+    public void itShouldProvideDetailedAfterTextWhenVerboe() {
+      HttpClientWrapper.setupFakeClient();
+      var cleanups =
+          new Cleanups(
+              withClass(AscensionClass.SAUCEROR),
+              withSkill("The Polka of Plenty"),
+              withItem("antique accordion"),
+              withSkill("Blood Sugar Sauce Magic"),
+              withStats(100, 100, 100),
+              withItem(ItemPool.GENIE_BOTTLE),
+              withProperty("_genieWishesUsed", "0"),
+              withProperty("verboseMaximizer", "true"));
+      String out1, out2, out3;
+      String cmd1 = "maximize(\"meat\", 0, 0, 0, \"cast\")";
+      String cmd2 = "maximize(\"mp\", 0, 0, 0, \"cast\")";
+      String cmd3 = "maximize(\"fishing skill\", 0, 0, 0, \"wish\")";
+      try (cleanups) {
+        out1 = execute(cmd1);
+        out2 = execute(cmd2);
+        out3 = execute(cmd3);
+      }
+
+      assertFalse(out1.isEmpty());
+      assertTrue(out1.contains("display => cast 1 The Polka of Plenty"));
+      assertTrue(out1.contains("afterdisplay => (7 mp, +50) [10 advs duration]"));
+
+      assertFalse(out2.isEmpty());
+      assertTrue(out2.contains("display => cast 1 Blood Sugar Sauce Magic"));
+      assertTrue(out2.contains("afterdisplay => (+30) [intrinsic]"));
+
+      assertFalse(out3.isEmpty());
+      assertTrue(out3.contains("display => genie effect Floundering"));
+      assertTrue(
+          out3.contains(
+              "afterdisplay => (+5) [20 advs duration, 3 uses remaining, 1 in inventory]"));
+    }
+
+    @Test
+    public void itShouldProvideSimplifiedAfterTextWhenNotVerbose() {
+      HttpClientWrapper.setupFakeClient();
+      var cleanups =
+          new Cleanups(
+              withClass(AscensionClass.SAUCEROR),
+              withSkill("The Polka of Plenty"),
+              withItem("antique accordion"),
+              withSkill("Blood Sugar Sauce Magic"),
+              withStats(100, 100, 100),
+              withItem(ItemPool.GENIE_BOTTLE),
+              withProperty("_genieWishesUsed", "0"),
+              withProperty("verboseMaximizer", "false"));
+      String out1, out2, out3;
+      String cmd1 = "maximize(\"meat\", 0, 0, 0, \"cast\")";
+      String cmd2 = "maximize(\"mp\", 0, 0, 0, \"cast\")";
+      String cmd3 = "maximize(\"fishing skill\", 0, 0, 0, \"wish\")";
+      try (cleanups) {
+        out1 = execute(cmd1);
+        out2 = execute(cmd2);
+        out3 = execute(cmd3);
+      }
+
+      assertFalse(out1.isEmpty());
+      assertTrue(out1.contains("display => cast 1 The Polka of Plenty"));
+      assertTrue(out1.contains("afterdisplay => (7 mp, +50)"));
+      assertFalse(out1.contains("[10 advs duration]"));
+
+      assertFalse(out2.isEmpty());
+      assertTrue(out2.contains("display => cast 1 Blood Sugar Sauce Magic"));
+      assertTrue(out2.contains("afterdisplay => (+30)"));
+      assertFalse(out2.contains("[intrinsic]"));
+
+      assertFalse(out3.isEmpty());
+      assertTrue(out3.contains("display => genie effect Floundering"));
+      assertTrue(out3.contains("afterdisplay => (+5)"));
+      assertFalse(out3.contains("[20 advs duration, 3 uses remaining, 1 in inventory]"));
+    }
   }
 
   @Test
