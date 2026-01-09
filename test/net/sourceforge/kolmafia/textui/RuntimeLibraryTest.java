@@ -1800,19 +1800,27 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
               withUnequipped(Slot.HAT),
               withEquippableItem("Apriling band helmet"),
               withItem(ItemPool.POCKET_WISH));
-      String out1, out2;
+      String out1, out2, out3;
       String cmd1 = "maximize(\"" + maxStr + "\", 0, 0, 0, \"wish\")";
       String cmd2 = "maximize(\"" + maxStr + "\", 0, 0, 0, \"equip\")";
+      String cmd3 = "maximize(\"" + maxStr + "\", 0, 0, 0, \"wish,equip\")";
       try (cleanups) {
         out1 = execute(cmd1);
         out2 = execute(cmd2);
+        out3 = execute(cmd3);
       }
+
       assertFalse(out1.isEmpty());
       assertFalse(out1.contains("equip hat Apriling band helmet"));
       assertTrue(out1.contains("genie effect Sinuses For Miles"));
+
       assertFalse(out2.isEmpty());
       assertTrue(out2.contains("equip hat Apriling band helmet"));
       assertFalse(out2.contains("genie effect Sinuses For Miles"));
+
+      assertFalse(out3.isEmpty());
+      assertTrue(out3.contains("equip hat Apriling band helmet"));
+      assertTrue(out3.contains("genie effect Sinuses For Miles"));
     }
   }
 
