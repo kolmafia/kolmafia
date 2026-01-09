@@ -2595,7 +2595,7 @@ public abstract class RuntimeLibrary {
     functions.add(new LibraryFunction("maximize", maximizerResultFullArray, params));
 
     params = List.of(namedParam("evaluationString", DataTypes.STRING_TYPE));
-    functions.add(new LibraryFunction("current_score", DataTypes.FLOAT_TYPE, params));
+    functions.add(new LibraryFunction("current_maximizer_score", DataTypes.FLOAT_TYPE, params));
 
     params = List.of(namedParam("expr", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("monster_eval", DataTypes.FLOAT_TYPE, params));
@@ -9174,7 +9174,8 @@ public abstract class RuntimeLibrary {
     return value;
   }
 
-  public static Value current_score(ScriptRuntime controller, Value evaluationStringValue) {
+  public static Value current_maximizer_score(
+      ScriptRuntime controller, Value evaluationStringValue) {
     Evaluator eval = new Evaluator(evaluationStringValue.toString());
     double current = eval.getScore(KoLCharacter.getCurrentModifiers());
     return DataTypes.makeFloatValue(current);

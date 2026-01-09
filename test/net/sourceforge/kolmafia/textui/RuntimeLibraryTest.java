@@ -1822,7 +1822,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     var cleanups = new Cleanups(withEquipped(ItemPool.APRILING_BAND_HELMET));
     String out;
     try (cleanups) {
-      out = execute("current_score(\"meat\")");
+      out = execute("current_maximizer_score(\"meat\")");
     }
     assertFalse(out.isEmpty());
     // 100 base, +40 for Apriling band helmet
