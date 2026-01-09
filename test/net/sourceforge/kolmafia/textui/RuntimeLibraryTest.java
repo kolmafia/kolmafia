@@ -1840,7 +1840,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       String out1, out2, out3;
       String cmd1 = "maximize(\"" + maxStr + "\", 0, 0, 0, \"equip\")";
       String cmd2 = "maximize(\"" + maxStr + "\", 0, 0, 1, \"equip\")";
-      String cmd3 = "maximize(\"" + maxStr + "\", 10000, 2, 2, \"equip\")";
+      String cmd3 = "maximize(\"" + maxStr + "\", 0, 0, 2, \"equip\")";
       try (cleanups) {
         out1 = execute(cmd1);
         out2 = execute(cmd2);
