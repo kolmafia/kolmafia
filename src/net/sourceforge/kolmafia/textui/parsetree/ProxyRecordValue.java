@@ -1972,7 +1972,7 @@ public class ProxyRecordValue extends RecordValue {
     }
 
     public boolean get_sells() {
-      return this.content != null && ((CoinmasterData) this.content).getBuyAction() != null;
+      return this.content != null;
     }
 
     public String get_nickname() {
