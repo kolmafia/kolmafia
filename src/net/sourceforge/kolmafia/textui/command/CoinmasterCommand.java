@@ -82,7 +82,6 @@ public class CoinmasterCommand extends AbstractCommand {
     } else {
       action = data.getSellAction();
       List<AdventureResult> selllist = data.getSellItems();
-
       if (action == null && selllist == null) {
         KoLmafia.updateDisplay(MafiaState.ERROR, "You can't sell to " + data.getMaster());
         return;
