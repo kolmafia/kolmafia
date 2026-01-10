@@ -1861,7 +1861,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     }
 
     @Test
-    public void itShouldProvideDetailedAfterTextWhenVerboe() {
+    public void itShouldProvideDetailedAfterTextWhenVerbose() {
       HttpClientWrapper.setupFakeClient();
       var cleanups =
           new Cleanups(
