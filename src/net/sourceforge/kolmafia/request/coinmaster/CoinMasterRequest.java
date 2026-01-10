@@ -368,7 +368,7 @@ public class CoinMasterRequest extends GenericRequest {
     String buy = data.getBuyAction();
     String sell = data.getSellAction();
 
-    if (buy == null && sell == null && data.getBuyItems() == null && data.getSellItems() == null) {
+    if (buy == null && sell == null && data.getBuyItems() == null) {
 
       // You can neither buy nor sell from this Coinmaster?
       return;
@@ -771,7 +771,7 @@ public class CoinMasterRequest extends GenericRequest {
     String buy = data.getBuyAction();
     String sell = data.getSellAction();
 
-    if (buy == null && sell == null && data.getBuyItems() == null && data.getSellItems() == null) {
+    if (buy == null && sell == null) {
       // You can neither buy nor sell from this Coinmaster?
       return false;
     }
