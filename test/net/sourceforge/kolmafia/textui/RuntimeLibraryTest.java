@@ -1936,6 +1936,26 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       assertTrue(out3.contains("afterdisplay => (+5)"));
       assertFalse(out3.contains("[20 advs duration, 3 uses remaining, 1 in inventory]"));
     }
+
+    @Test
+    public void itShouldSilentlyIgnoreInvalidFilters() {
+      String maxStr = "meat";
+      HttpClientWrapper.setupFakeClient();
+      var cleanups =
+          new Cleanups(
+              withUnequipped(Slot.HAT),
+              withEquippableItem("Apriling band helmet"),
+              withItem(ItemPool.POCKET_WISH));
+      String out;
+      String cmd = "maximize(\"" + maxStr + "\", 0, 0, 0, \"equip,banana\")";
+      try (cleanups) {
+        out = execute(cmd);
+      }
+      assertFalse(out.isEmpty());
+      assertTrue(out.contains("equip hat Apriling band helmet"));
+      assertFalse(out.toLowerCase().contains("error"));
+      assertFalse(out.toLowerCase().contains("banana"));
+    }
   }
 
   @Test
