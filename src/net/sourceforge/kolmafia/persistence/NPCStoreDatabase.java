@@ -291,13 +291,14 @@ public class NPCStoreDatabase {
         // Ornament Stand
         return false;
       }
-      case "cyber_hackmarket" -> {
-        return Preferences.getBoolean("crAlways") || Preferences.getBoolean("_crToday");
-      }
       case "crimbo25_cafe" -> {
         // The Crimbo Cafe
         return false;
       }
+      case "cyber_hackmarket" -> {
+        return Preferences.getBoolean("crAlways") || Preferences.getBoolean("_crToday");
+      }
+
       case "doc" -> {
         // Doc Galaktik's Medicine Show
         if (KoLCharacter.inZombiecore()
