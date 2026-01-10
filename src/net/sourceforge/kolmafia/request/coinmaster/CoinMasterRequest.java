@@ -60,7 +60,9 @@ public class CoinMasterRequest extends GenericRequest {
 
     String action = buying ? data.getBuyAction() : data.getSellAction();
     this.action = action;
-    this.addFormField("action", action);
+    if (action != null) {
+      this.addFormField("action", action);
+    }
 
     this.attachments = attachments;
   }
@@ -102,10 +104,9 @@ public class CoinMasterRequest extends GenericRequest {
       return;
     }
 
-    String action = data.getBuyAction();
     int itemId = it.getItemId();
     String itemName = it.getName();
-    if (action == null || !data.canBuyItem(itemId)) {
+    if (!data.canBuyItem(itemId)) {
       KoLmafia.updateDisplay(
           MafiaState.ERROR, "You can't buy " + itemName + " from " + data.getMaster());
       return;
