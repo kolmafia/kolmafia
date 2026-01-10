@@ -7,13 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.TreeMap;
-import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.*;
 import net.sourceforge.kolmafia.AdventureResult.MeatResult;
-import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.RestrictedItemType;
-import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -293,6 +288,10 @@ public class NPCStoreDatabase {
       }
       case "cyber_hackmarket" -> {
         return Preferences.getBoolean("crAlways") || Preferences.getBoolean("_crToday");
+      }
+      case "crimbo25_cafe" -> {
+        // The Crimbo Cafe
+        return false;
       }
       case "doc" -> {
         // Doc Galaktik's Medicine Show
