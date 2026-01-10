@@ -298,7 +298,6 @@ public class NPCStoreDatabase {
       case "cyber_hackmarket" -> {
         return Preferences.getBoolean("crAlways") || Preferences.getBoolean("_crToday");
       }
-
       case "doc" -> {
         // Doc Galaktik's Medicine Show
         if (KoLCharacter.inZombiecore()
