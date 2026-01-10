@@ -210,6 +210,6 @@ Crimbo22	Removed	Christmas 2022
 Crimbo23	Removed	Christmas 2023
 Crimbo24	Removed	Christmas 2024
 Holiday Islands	Crimbo24	Holiday Islands
-Crimbo25	Removed	Holiday	Christmas 2025
+Crimbo25	Removed	Christmas 2025
 
 Obsolete	Removed	Retired zones
