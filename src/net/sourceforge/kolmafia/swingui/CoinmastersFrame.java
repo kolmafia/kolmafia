@@ -80,7 +80,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     super("Coin Masters");
 
     this.selectorPanel =
-        new CardLayoutSelectorPanel("coinMasterIndex", "ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+        new CardLayoutSelectorPanel("coinMasterIndex", "ABCDEFGHIJKLMNOPQRSTUVWXYZ", true);
 
     // Always available coinmasters
     this.selectorPanel.addCategory("Always Available");
