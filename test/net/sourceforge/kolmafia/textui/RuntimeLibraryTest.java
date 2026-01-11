@@ -2345,6 +2345,31 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
   }
 
   @Nested
+  class ProxyRecordCoinmasters {
+    @Test
+    void dimesmasterBuys() {
+      assertThat(execute("$coinmaster[dimemaster].buys").trim(), is("Returned: true"));
+    }
+
+    @Test
+    void dimesmasterSells() {
+      assertThat(execute("$coinmaster[dimemaster].sells").trim(), is("Returned: true"));
+    }
+
+    @Test
+    void skeletonofcrimbopastDoesntBuy() {
+      assertThat(
+          execute("$coinmaster[skeleton of crimbo past].buys").trim(), is("Returned: false"));
+    }
+
+    @Test
+    void skeletonofcrimbopastSells() {
+      assertThat(
+          execute("$coinmaster[skeleton of crimbo past].sells").trim(), is("Returned: true"));
+    }
+  }
+
+  @Nested
   class SkillCoinmasters {
     @Test
     void sellsSkillWorks() {

@@ -1459,7 +1459,7 @@
 1458	armory	moss mantle	crepe paper pared cuttings
 1459	armory	moss marlinspike	crepe paper pared cuttings
 1460	armory	adobe arsecover	petrified wood waste parts
-1461	armory	adobe adze	petrified wood waste parts
+1461	armory	crepe paper phrygian cap	angelbone fragments
 1462	armory	adobe abacus	petrified wood waste parts
 1463	armory	adobe ayam	petrified wood waste parts
 1464	armory	adobe ascot	petrified wood waste parts
@@ -1675,3 +1675,8 @@
 1674	crimbo25_sammy	bone-polishing rag	Crymbocurrency (4,000)
 1675	crimbo25_cafe	traditional gingerloaf	300 Meat
 1676	crimbo25_cafe	Scotch and eggnog	300 Meat
+1677	armory	crepe paper parachute cape	angelbone fragments
+1678	armory	crepe paper pie clip	angelbone fragments
+1679	armory	crepe paper puzzle cube	angelbone fragments
+1680	armory	crepe paper plunge camisole	angelbone fragments
+1681	armory	crepe paper polka charm	angelbone fragments
