@@ -7,14 +7,23 @@ import static org.hamcrest.Matchers.*;
 
 import internal.helpers.Cleanups;
 import internal.helpers.HttpClientWrapper;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
+import net.sourceforge.kolmafia.preferences.Preferences;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class CoinmasterCommandTest extends AbstractCommandTestBase {
+  @BeforeAll
+  public static void init() {
+    KoLCharacter.reset("testUser");
+    Preferences.reset("testUser");
+  }
+
   public CoinmasterCommandTest() {
     this.command = "coinmaster";
   }
