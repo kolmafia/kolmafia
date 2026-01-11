@@ -59,11 +59,6 @@ public class CoinmasterCommand extends AbstractCommand {
     String action;
 
     if (isBuy) {
-      List<AdventureResult> buylist = data.getBuyItems();
-      if (buylist == null) {
-        KoLmafia.updateDisplay(MafiaState.ERROR, "You can't buy from " + data.getMaster());
-        return;
-      }
       for (int i = 0; i < itemList.length; ++i) {
         AdventureResult item = itemList[i];
         if (!data.canBuyItem(item.getItemId())) {
