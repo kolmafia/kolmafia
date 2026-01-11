@@ -2178,13 +2178,15 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     }
 
     @Test
-    void bigbrotherDoesntBuy() {
-      assertThat(execute("$coinmaster[big brother].buys").trim(), is("Returned: false"));
+    void skeletonofcrimbopastDoesntBuy() {
+      assertThat(
+          execute("$coinmaster[skeleton of crimbo past].buys").trim(), is("Returned: false"));
     }
 
     @Test
-    void bigbrotherSells() {
-      assertThat(execute("$coinmaster[big brother].sells").trim(), is("Returned: true"));
+    void skeletonofcrimbopastSells() {
+      assertThat(
+          execute("$coinmaster[skeleton of crimbo past].sells").trim(), is("Returned: true"));
     }
   }
 
