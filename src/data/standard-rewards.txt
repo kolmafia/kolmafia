@@ -121,12 +121,12 @@
 11515	2024	hard	SA	ROW1463	adobe ayam
 11516	2024	hard	DB	ROW1464	adobe ascot
 11517	2024	hard	AT	ROW1465	adobe abaya
-11520	2025	norm	SC	UNKNOWN	crepe paper phrygian cap
-11521	2025	norm	TT	UNKNOWN	crepe paper parachute cape
-11522	2025	norm	PA	UNKNOWN	crepe paper pie clip
-11523	2025	norm	SA	UNKNOWN	crepe paper puzzle cube
-11524	2025	norm	DB	UNKNOWN	crepe paper plunge camisole
-11525	2025	norm	AT	UNKNOWN	crepe paper polka charm
+11520	2025	norm	SC	ROW1461	crepe paper phrygian cap
+11521	2025	norm	TT	ROW1677	crepe paper parachute cape
+11522	2025	norm	PA	ROW1678	crepe paper pie clip
+11523	2025	norm	SA	ROW1679	crepe paper puzzle cube
+11524	2025	norm	DB	ROW1680	crepe paper plunge camisole
+11525	2025	norm	AT	ROW1681	crepe paper polka charm
 11528	2025	hard	SC	UNKNOWN	petrified wood war pike
 11529	2025	hard	TT	UNKNOWN	petrified wood waist protector
 11530	2025	hard	PA	UNKNOWN	petrified wood wizard's pouch
