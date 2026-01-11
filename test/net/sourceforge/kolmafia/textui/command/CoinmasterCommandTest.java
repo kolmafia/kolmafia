@@ -71,7 +71,7 @@ public class CoinmasterCommandTest extends AbstractCommandTestBase {
   }
 
   @Test
-  public void cantBuy() {
+  public void cantAccess() {
     String output;
     output = execute("buy socp 1 smoking pope");
 
