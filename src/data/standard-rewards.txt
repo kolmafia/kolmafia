@@ -133,4 +133,15 @@
 11531	2025	hard	SA	UNKNOWN	petrified wood water purifier
 11532	2025	hard	DB	UNKNOWN	petrified wood whoopie panama
 11533	2025	hard	AT	UNKNOWN	petrified wood walking pants
-
+12068	2026	norm	SC	UNKNOWN	angelbone kilt
+12069	2026	norm	TT	UNKNOWN	angelbone totem
+12070	2026	norm	PA	UNKNOWN	angelbone chopsticks
+12071	2026	norm	SA	UNKNOWN	angelbone mantel
+12072	2026	norm	DB	UNKNOWN	angelbone dice
+12073	2026	norm	AT	UNKNOWN	angelbone halo
+12076	2026	hard	SC	UNKNOWN	devilbone helmet
+12077	2026	hard	TT	UNKNOWN	devilbone greaves
+12078	2026	hard	PA	UNKNOWN	devilbone shinguards
+12079	2026	hard	SA	UNKNOWN	devilbone corset
+12080	2026	hard	DB	UNKNOWN	devilbone flute
+12081	2026	hard	AT	UNKNOWN	devilbone rosary
