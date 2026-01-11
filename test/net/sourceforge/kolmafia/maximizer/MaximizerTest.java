@@ -490,6 +490,24 @@ public class MaximizerTest {
         assertThat(boost.toString(), containsString("10 advs duration"));
       }
     }
+
+    @Test
+    public void doesntCrashOnInvalidData() {
+      // you can end up with effects without durations e.g. in current TCRS
+      var cleanups =
+          new Cleanups(
+              withProperty("verboseMaximizer", true),
+              withItem(ItemPool.BLACK_CANDLE),
+              withOverrideModifiers(
+                  ModifierType.ITEM, ItemPool.BLACK_CANDLE, "Effect: \"Rainy Soul Miasma\""));
+
+      try (cleanups) {
+        maximize("muscle");
+
+        var boosts = getBoosts();
+        assertThat(boosts, hasItem(hasProperty("cmd", startsWith("use 1 thin black candle"))));
+      }
+    }
   }
 
   @Nested
