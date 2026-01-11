@@ -651,7 +651,11 @@ public class Maximizer {
               var effectIndex = effects.indexOf(effect.getName());
               if (effectIndex != -1) {
                 var effectDurations = effMod.getDoubles(MultiDoubleModifier.EFFECT_DURATION);
-                duration = effectDurations.get(effectIndex).intValue();
+                if (effectIndex >= effectDurations.size()) {
+                  duration = 0;
+                } else {
+                  duration = effectDurations.get(effectIndex).intValue();
+                }
               }
             }
           }
