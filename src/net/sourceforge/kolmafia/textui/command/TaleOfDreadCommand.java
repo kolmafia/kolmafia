@@ -80,7 +80,7 @@ public class TaleOfDreadCommand extends AbstractCommand {
             "inv_use.php?pwd&which=3&whichitem=" + ItemPool.TALES_OF_DREAD + "&ajax=1");
     RequestThread.postRequest(request);
 
-    if (!request.responseText.contains("<b>Tales of Dread</b>")) {
+    if (!request.responseText.contains(">Tales of Dread</b>")) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "You don't own the Tales of Dread");
       return;
     }
