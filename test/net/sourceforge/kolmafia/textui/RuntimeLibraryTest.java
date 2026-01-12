@@ -37,6 +37,7 @@ import static internal.helpers.Player.withNoEffects;
 import static internal.helpers.Player.withNpcPrice;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withRonin;
 import static internal.helpers.Player.withSign;
 import static internal.helpers.Player.withSkill;
 import static internal.helpers.Player.withStats;
@@ -1835,12 +1836,16 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
               withItem("meat paste", 4),
               withUnequipped(Slot.CONTAINER),
               withEquippableItem("makeshift cape"),
-              withItemInStorage(ItemPool.ICE_PICK),
+              withMallPrice(ItemPool.PANTSGIVING, 500),
+              withRonin(false),
+              withMeat(10000),
+              withProperty("autoBuyPriceLimit", "10000"),
+              withProperty("autoSatisfyWithMall", "true"),
               withStats(100, 100, 100));
       String out1, out2, out3;
       String cmd1 = "maximize(\"" + maxStr + "\", 0, 0, 0, \"equip\")";
       String cmd2 = "maximize(\"" + maxStr + "\", 0, 0, 1, \"equip\")";
-      String cmd3 = "maximize(\"" + maxStr + "\", 0, 0, 2, \"equip\")";
+      String cmd3 = "maximize(\"" + maxStr + "\", 10000, 2, 2, \"equip\")";
       try (cleanups) {
         out1 = execute(cmd1);
         out2 = execute(cmd2);
@@ -1849,6 +1854,8 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
       assertFalse(out1.isEmpty());
       assertTrue(out1.contains("equip back makeshift cape"));
+      assertFalse(out1.contains("Mark IV Steam-Hat"));
+      assertFalse(out1.contains("Pantsgiving"));
 
       assertFalse(out2.isEmpty());
       assertTrue(out2.contains("equip back makeshift cape"));
@@ -1856,8 +1863,8 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
       assertFalse(out3.isEmpty());
       assertTrue(out3.contains("equip back makeshift cape"));
-      assertFalse(out3.contains("Mark IV Steam-Hat"));
-      assertTrue(out3.contains("pull &amp; equip hat ice pick"));
+      assertTrue(out3.contains("make &amp; equip hat Mark IV Steam-Hat"));
+      assertTrue(out3.contains("acquire &amp; equip pants Pantsgiving"));
     }
 
     @Test
