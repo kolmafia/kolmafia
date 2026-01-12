@@ -1838,6 +1838,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
               withEquippableItem("makeshift cape"),
               withMallPrice(ItemPool.PANTSGIVING, 500),
               withRonin(false),
+              withInteractivity(true),
               withMeat(10000),
               withProperty("autoBuyPriceLimit", "10000"),
               withProperty("autoSatisfyWithMall", "true"),
