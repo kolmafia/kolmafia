@@ -316,13 +316,11 @@ public class TypescriptDefinition {
   private static final List<Type> TYPES_WITH_EXHAUSTIVE_UNIONS =
       List.of(
           DataTypes.STAT_TYPE,
-          DataTypes.SKILL_TYPE,
           DataTypes.SLOT_TYPE,
           DataTypes.ELEMENT_TYPE,
           DataTypes.PHYLUM_TYPE,
           DataTypes.THRALL_TYPE,
-          DataTypes.SERVANT_TYPE,
-          DataTypes.VYKEA_TYPE);
+          DataTypes.SERVANT_TYPE);
 
   private static List<String> formatMafiaClass(final Type t) {
     var name = formatMafiaClassName(t);
