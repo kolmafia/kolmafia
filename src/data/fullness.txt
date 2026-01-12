@@ -1114,7 +1114,7 @@ white rice	1	1	crappy	1	1	1-2	1-2
 whole roasted chicken	3	9	awesome	15	18-22	18-22	18-22
 whole turkey leg	1	4	awesome	4-5	0	0	0
 wild honey pie	2	1	decent	4-6	5-7	5-7	5-7	10 Sugar Rush
-wing bone	2	4	EPIC	12-14	1-20	1-20	1-20
+wing bone	2	4	awesome	6-7	1-20	1-20	1-20
 wise dragon roll	3	1	pseudoitem	9-14	20-30	8-16	0	45/55 Fishy
 witch's bread	3	6	awesome	12-15	0	30-45	0	20 Witch Breaded (+100% Mys, +200% Spell Damage, +20% Spell Critical)
 wizened master roll	3	1	pseudoitem	9-14	20-30	28-46	20-30	45/55 Fishy

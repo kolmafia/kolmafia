@@ -12148,28 +12148,28 @@
 12119	burnt rib	198797379	c25tronk3.gif	none		0
 12120	burnt skull	796508560	c25tranq5.gif	none		0
 12121	Crymbocurrency	939831959	crypto.gif	none		0	Crymbocurrency
-12122	extra-thick Crimbo sweater	377151348	c25sweater.gif	shirt, perishable	t	0
+12122	extra-thick Crimbo sweater	377151348	c25sweater.gif	shirt	t	0
 12123	The Encyclopedia of Holiday Funerary Rites	669691654	book4.gif	usable	t	0	copies of The Encyclopedia of Holiday Funerary Rit
 12124	Steve Abrams' Holiday Sampler Beer	150977618	holidaybeer.gif	drink	t,d	25	bottles of Steve Abrams' Holiday Sampler Beer
 12125	crate of prize-winning rum	824419496	crate.gif	usable	t	0	crates of prize-winning rum
 12126	bottle of prize-winning rum	431517630	prizerumbottle.gif	drink	t,d	25	bottles of prize-winning rum
 12127	Santa-Slayer medal	625460805	ssmedal.gif	accessory		0
 12128	Skull of Claus	134749599	santaskull.gif	none		0	Skulls of Claus
-12129	boiling bone marrow	153427849	c25goo1.gif	potion, perishable	t,d	22	globs of boiling bone marrow
-12130	boiling cerebrospinal fluid	233745225	c25goo2.gif	potion, perishable	t,d	22	globs of boiling cerebrospinal fluid
-12131	boiling synovial fluid	618141245	c25goo3.gif	potion, perishable	t,d	22	globs of boiling synovial fluid
+12129	boiling bone marrow	153427849	c25goo1.gif	potion	t,d	22	globs of boiling bone marrow
+12130	boiling cerebrospinal fluid	233745225	c25goo2.gif	potion	t,d	22	globs of boiling cerebrospinal fluid
+12131	boiling synovial fluid	618141245	c25goo3.gif	potion	t,d	22	globs of boiling synovial fluid
 12132	smoldering vertebra	437643856	vertebraring.gif	accessory	t	0	smoldering vertebrae
 12133	seal-clubbing club loot box	175163561	leg_club_box.gif	usable	t	0	seal-clubbing club loot boxes
 12134	legendary seal-clubbing club	226823809	leg_club.gif	weapon		0
 12135	smoldering bone dust	407867545	smolderdust.gif	none	t,d	15	piles of smoldering bone dust
-12136	volatile bone bomb	613792951	bonebomb.gif	none, combat, perishable	t,d	111
+12136	volatile bone bomb	613792951	bonebomb.gif	none, combat	t,d	111
 12137	hot boning knife	593295785	hotboningknife.gif	weapon	t	0	hot boning knives
 12138	flaming fistbone	521112927	flamefist.gif	offhand	t	0
 12139	burnt bone belt	876239904	bonebelt2.gif	accessory	t	0
 12140	scorched skull trophy	607107330	skulltrophy.gif	offhand	t	0	scorched skull trophies
-12141	wing bone	379107449	wingbone.gif	food, perishable	t,d	42
-12142	weak skeleton venom	845778217	venomcocktail.gif	drink, perishable	t,d	40	cups of weak skeleton venom
-12143	baked bone meal	588339257	bakedbonemeal.gif	spleen, usable, perishable	t,d	99	handfuls of baked bone meal
+12141	wing bone	379107449	wingbone.gif	food	t,d	42
+12142	weak skeleton venom	845778217	venomcocktail.gif	drink	t,d	40	cups of weak skeleton venom
+12143	baked bone meal	588339257	bakedbonemeal.gif	spleen, usable	t,d	99	handfuls of baked bone meal
 12144	tiny plastic skeleton rib cage	420030820	tpc25chest.gif	accessory	t	0
 12145	tiny plastic skeleton skull	398658711	tpc25head.gif	accessory	t	0
 12146	tiny plastic skeleton Crimbo hat	158147284	tpc25hat.gif	accessory	t	0
