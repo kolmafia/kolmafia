@@ -36,6 +36,7 @@ public class SkeletonOfCrimboPastRequest extends CoinMasterRequest {
           .withBuyPrices(master)
           .withEquip(SkeletonOfCrimboPastRequest::equip)
           .withUnequip(SkeletonOfCrimboPastRequest::unequip)
+          .withCanBuyItem(SkeletonOfCrimboPastRequest::canBuyItem)
           .withAccessible(SkeletonOfCrimboPastRequest::accessible);
 
   private record Option(String option, int id) {}
@@ -103,7 +104,7 @@ public class SkeletonOfCrimboPastRequest extends CoinMasterRequest {
   }
 
   public static void checkSpecial() {
-    // SKip if no skeleton
+    // Skip if no skeleton
     if (SkeletonOfCrimboPastRequest.accessible() != null) return;
     // If we're able to just apply a daily special we're already aware of, great.
     if (applySpecial()) return;
@@ -189,6 +190,19 @@ public class SkeletonOfCrimboPastRequest extends CoinMasterRequest {
     }
 
     return true;
+  }
+
+  private static Boolean canBuyItem(final Integer itemId) {
+    var daily = Preferences.getInteger("_crimboPastDailySpecialItem");
+    if (daily != -1 && itemId == daily) {
+      return !Preferences.getBoolean("_crimboPastDailySpecial");
+    }
+    return switch (itemId) {
+      case ItemPool.PRIZE_TURKEY -> !Preferences.getBoolean("_crimboPastPrizeTurkey");
+      case ItemPool.SMOKING_POPE -> !Preferences.getBoolean("_crimboPastSmokingPope");
+      case ItemPool.MEDICAL_GRUEL -> !Preferences.getBoolean("_crimboPastMedicalGruel");
+      default -> SKELETON_OF_CRIMBO_PAST.availableItem(itemId);
+    };
   }
 
   public static String accessible() {
