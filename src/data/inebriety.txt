@@ -773,7 +773,7 @@ warbear feasting mead	3	1	awesome	12-15	5-10	5-10	5-10	40 Warbear Loot Lust (+15
 wasabi-infused sake	3	1	good	6-8	6-8	8-8	6-8	30 Wasabi With You (+150% weapon dmg), WINE
 water purification pills	3	1	decent	6	25-35	25-35	25-35
 wax booze	2	1	awesome	8-9	20-25	20-25	20-25	30 Waxing (+100% HP, +50% MP, +50 Init)
-weak skeleton venom	2	4	EPIC	12-14	1-30	1-30	1-30
+weak skeleton venom	2	4	awesome	8-9	1-10	1-10	1-10
 Wet Russian	3	11	awesome	13-14	0	40-60	0
 whiskey and cola	3	1	decent	5-6	0	4-6	4-6	14-16 MP
 whiskey and soda	3	1	decent	5-6	0	8-10	0	3-5 MP
