@@ -156,6 +156,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
         new BuffTool(ItemPool.PRIMITIVE_ALIEN_TOTEM, 25, false, null),
         new BuffTool(ItemPool.FLAIL_OF_THE_SEVEN_ASPECTS, 15, false, null),
         new BuffTool(ItemPool.CHELONIAN_MORNINGSTAR, 10, false, null),
+        new BuffTool(ItemPool.ANGELBONE_TOTEM, 6, false, null),
         new BuffTool(ItemPool.MACE_OF_THE_TORTOISE, 5, false, null),
         new BuffTool(ItemPool.OUIJA_BOARD, 2, true, null),
         new BuffTool(ItemPool.TURTLE_TOTEM, 0, false, null),
