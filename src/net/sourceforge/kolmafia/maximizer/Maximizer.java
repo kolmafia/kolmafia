@@ -98,10 +98,12 @@ public class Maximizer {
   private Maximizer() {}
 
   public static boolean maximize(
-      String maximizerString, int maxPrice, PriceLevel priceLevel, boolean isSpeculationOnly) {
+      String maximizerString,
+      int maxPrice,
+      PriceLevel priceLevel,
+      EquipScope equipScope,
+      Set<filterType> filter) {
     MaximizerFrame.expressionSelect.setSelectedItem(maximizerString);
-    EquipScope equipScope =
-        isSpeculationOnly ? EquipScope.SPECULATE_INVENTORY : EquipScope.EQUIP_NOW;
 
     // iECOC has to be turned off before actually maximizing as
     // it would cause all item lookups during the process to just
@@ -109,7 +111,7 @@ public class Maximizer {
 
     KoLmafiaCLI.isExecutingCheckOnlyCommand = false;
 
-    Maximizer.maximize(equipScope, maxPrice, priceLevel, false, EnumSet.allOf(filterType.class));
+    Maximizer.maximize(equipScope, maxPrice, priceLevel, false, filter);
 
     if (!KoLmafia.permitsContinue()) {
       return false;
@@ -119,6 +121,14 @@ public class Maximizer {
     ModifierDatabase.overrideModifier(ModifierType.GENERATED, "_spec", mods);
 
     return !Maximizer.best.failed;
+  }
+
+  public static boolean maximize(
+      String maximizerString, int maxPrice, PriceLevel priceLevel, boolean isSpeculationOnly) {
+    EquipScope equipScope =
+        isSpeculationOnly ? EquipScope.SPECULATE_INVENTORY : EquipScope.EQUIP_NOW;
+    return maximize(
+        maximizerString, maxPrice, priceLevel, equipScope, EnumSet.allOf(filterType.class));
   }
 
   public static void maximize(
@@ -554,6 +564,10 @@ public class Maximizer {
           case "use":
             if (!filter.contains(KoLConstants.filterType.USABLE)) continue;
             break;
+          case "genie":
+          case "monkeypaw":
+            if (!filter.contains(KoLConstants.filterType.WISH)) continue;
+            break;
           default:
             if (!filter.contains(KoLConstants.filterType.OTHER)) continue;
         }
@@ -651,7 +665,11 @@ public class Maximizer {
               var effectIndex = effects.indexOf(effect.getName());
               if (effectIndex != -1) {
                 var effectDurations = effMod.getDoubles(MultiDoubleModifier.EFFECT_DURATION);
-                duration = effectDurations.get(effectIndex).intValue();
+                if (effectIndex >= effectDurations.size()) {
+                  duration = 0;
+                } else {
+                  duration = effectDurations.get(effectIndex).intValue();
+                }
               }
             }
           }

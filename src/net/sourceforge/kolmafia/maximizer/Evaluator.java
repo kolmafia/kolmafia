@@ -200,7 +200,7 @@ public class Evaluator {
     this.totalMax = Double.POSITIVE_INFINITY;
   }
 
-  Evaluator(String expr) {
+  public Evaluator(String expr) {
     this();
 
     Evaluator tiebreaker = new Evaluator();

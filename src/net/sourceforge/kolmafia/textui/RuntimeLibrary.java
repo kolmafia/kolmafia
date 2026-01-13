@@ -54,6 +54,7 @@ import net.sourceforge.kolmafia.KoLConstants.CraftingRequirements;
 import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLConstants.Stat;
+import net.sourceforge.kolmafia.KoLConstants.filterType;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
@@ -78,6 +79,8 @@ import net.sourceforge.kolmafia.combat.Macrofier;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.maximizer.Boost;
+import net.sourceforge.kolmafia.maximizer.EquipScope;
+import net.sourceforge.kolmafia.maximizer.Evaluator;
 import net.sourceforge.kolmafia.maximizer.Maximizer;
 import net.sourceforge.kolmafia.maximizer.PriceLevel;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
@@ -277,7 +280,21 @@ public abstract class RuntimeLibrary {
             DataTypes.FLOAT_TYPE,
             DataTypes.EFFECT_TYPE,
             DataTypes.ITEM_TYPE,
-            DataTypes.SKILL_TYPE
+            DataTypes.SKILL_TYPE,
+          });
+
+  private static final RecordType maximizerResultFull =
+      new RecordType(
+          "{string display; string command; float score; effect effect; item item; skill skill; string afterdisplay;}",
+          new String[] {"display", "command", "score", "effect", "item", "skill", "afterdisplay"},
+          new Type[] {
+            DataTypes.STRING_TYPE,
+            DataTypes.STRING_TYPE,
+            DataTypes.FLOAT_TYPE,
+            DataTypes.EFFECT_TYPE,
+            DataTypes.ITEM_TYPE,
+            DataTypes.SKILL_TYPE,
+            DataTypes.STRING_TYPE
           });
 
   private static final RecordType svnInfoRec =
@@ -2543,6 +2560,7 @@ public abstract class RuntimeLibrary {
     functions.add(new LibraryFunction("modifier_eval", DataTypes.FLOAT_TYPE, params));
 
     Type maximizerResultArray = new AggregateType(maximizerResult, 0);
+    Type maximizerResultFullArray = new AggregateType(maximizerResultFull, 0);
 
     params =
         List.of(
@@ -2566,6 +2584,18 @@ public abstract class RuntimeLibrary {
             namedParam("isSpeculateOnlyValue", DataTypes.BOOLEAN_TYPE),
             namedParam("showEquipment", DataTypes.BOOLEAN_TYPE));
     functions.add(new LibraryFunction("maximize", maximizerResultArray, params));
+
+    params =
+        List.of(
+            namedParam("maximizerStringValue", DataTypes.STRING_TYPE),
+            namedParam("maxPriceValue", DataTypes.INT_TYPE),
+            namedParam("priceLevelValue", DataTypes.INT_TYPE),
+            namedParam("equipScope", DataTypes.INT_TYPE),
+            namedParam("filters", DataTypes.STRING_TYPE));
+    functions.add(new LibraryFunction("maximize", maximizerResultFullArray, params));
+
+    params = List.of(namedParam("evaluationString", DataTypes.STRING_TYPE));
+    functions.add(new LibraryFunction("current_maximizer_score", DataTypes.FLOAT_TYPE, params));
 
     params = List.of(namedParam("expr", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("monster_eval", DataTypes.FLOAT_TYPE, params));
@@ -9053,15 +9083,33 @@ public abstract class RuntimeLibrary {
       final Value maximizerStringValue,
       final Value maxPriceValue,
       final Value priceLevelValue,
-      final Value isSpeculateOnlyValue,
-      final Value showEquipment) {
+      final Value isSpeculateOnlyOrEquipScopeValue,
+      final Value showEquipmentOrFiltersValue) {
     String maximizerString = maximizerStringValue.toString();
     int maxPrice = (int) maxPriceValue.intValue();
     int priceLevel = (int) priceLevelValue.intValue();
-    boolean isSpeculateOnly = isSpeculateOnlyValue.intValue() != 0;
-    boolean showEquip = showEquipment.intValue() == 1;
+    boolean showEquip = showEquipmentOrFiltersValue.intValue() == 1;
+    boolean isFilterVariant = false;
 
-    Maximizer.maximize(maximizerString, maxPrice, PriceLevel.byIndex(priceLevel), isSpeculateOnly);
+    if (showEquipmentOrFiltersValue.getType().equals(DataTypes.STRING_TYPE)) {
+      // string should be formatted like maximizerLastFilters
+      isFilterVariant = true;
+      EquipScope equipScope = EquipScope.byIndex((int) isSpeculateOnlyOrEquipScopeValue.intValue());
+      Set<filterType> filters = EnumSet.noneOf(filterType.class);
+      String filterString = showEquipmentOrFiltersValue.toString().toLowerCase();
+      for (filterType filter : filterType.values()) {
+        if (filterString.contains(filter.toString().toLowerCase())) {
+          filters.add(filter);
+        }
+      }
+      showEquip = filters.contains(filterType.EQUIP);
+      Maximizer.maximize(
+          maximizerString, maxPrice, PriceLevel.byIndex(priceLevel), equipScope, filters);
+    } else {
+      boolean isSpeculateOnly = isSpeculateOnlyOrEquipScopeValue.intValue() != 0;
+      Maximizer.maximize(
+          maximizerString, maxPrice, PriceLevel.byIndex(priceLevel), isSpeculateOnly);
+    }
 
     List<Boost> m = Maximizer.boosts;
 
@@ -9075,12 +9123,15 @@ public abstract class RuntimeLibrary {
     }
 
     AggregateType type =
-        new AggregateType(RuntimeLibrary.maximizerResult, m.size() - lastEquipIndex);
+        new AggregateType(
+            isFilterVariant ? RuntimeLibrary.maximizerResultFull : RuntimeLibrary.maximizerResult,
+            m.size() - lastEquipIndex);
     ArrayValue value = new ArrayValue(type);
 
     for (int i = lastEquipIndex; i < m.size(); ++i) {
       Boost boo = m.get(i);
       String text = boo.toString();
+      String afterText = "";
       String cmd = boo.getCmd();
       double boost = boo.getBoost();
       AdventureResult arEffect = boo.isEquipment() ? null : boo.getItem();
@@ -9091,6 +9142,8 @@ public abstract class RuntimeLibrary {
       // remove the (+ X) from the display text, that info is in the score
       int cutIndex = boo.toString().indexOf(" (");
       if (cutIndex != -1) {
+        // get rid of the space
+        afterText = text.substring(cutIndex + 1);
         text = text.substring(0, cutIndex);
       }
 
@@ -9111,9 +9164,21 @@ public abstract class RuntimeLibrary {
           null);
       rec.aset(
           5, skill == null ? DataTypes.SKILL_INIT : DataTypes.parseSkillValue(skill, true), null);
+      // can't change the record type for the old function results without breaking existing
+      // scripts, so only add this field in the new method form
+      if (isFilterVariant) {
+        rec.aset(6, DataTypes.parseStringValue(afterText), null);
+      }
     }
 
     return value;
+  }
+
+  public static Value current_maximizer_score(
+      ScriptRuntime controller, Value evaluationStringValue) {
+    Evaluator eval = new Evaluator(evaluationStringValue.toString());
+    double current = eval.getScore(KoLCharacter.getCurrentModifiers());
+    return DataTypes.makeFloatValue(current);
   }
 
   public static Value monster_eval(ScriptRuntime controller, final Value expr) {
