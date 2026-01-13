@@ -9,3 +9,12 @@ score = 0.0
 effect = none
 item = none
 skill = none
+Maximizer: fishing skill
+0 results
+display =
+command =
+score = 0.0
+effect = none
+item = none
+skill = none
+afterdisplay =
