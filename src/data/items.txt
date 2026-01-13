@@ -12109,7 +12109,7 @@
 12080	devilbone flute	196343443	dboneflute.gif	weapon		0
 12081	devilbone rosary	973060638	dbonerosary.gif	accessory		0
 12082	devilbone chunks	866251215	dbonebits.gif	spleen, usable		0
-12083
+12083 gehenna tattoo	454030160	dbonetattoo.gif	potion, usable	t,d	15
 12084
 12085
 12086
