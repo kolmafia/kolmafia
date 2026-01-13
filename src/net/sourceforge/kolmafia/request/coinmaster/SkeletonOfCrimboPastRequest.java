@@ -194,7 +194,7 @@ public class SkeletonOfCrimboPastRequest extends CoinMasterRequest {
 
   private static Boolean canBuyItem(final Integer itemId) {
     var daily = Preferences.getInteger("_crimboPastDailySpecialItem");
-    if (itemId == daily) {
+    if (daily != -1 && itemId == daily) {
       return !Preferences.getBoolean("_crimboPastDailySpecial");
     }
     return switch (itemId) {
