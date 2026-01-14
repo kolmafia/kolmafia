@@ -37,6 +37,7 @@ import static internal.helpers.Player.withNoEffects;
 import static internal.helpers.Player.withNpcPrice;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withRonin;
 import static internal.helpers.Player.withSign;
 import static internal.helpers.Player.withSkill;
 import static internal.helpers.Player.withStats;
@@ -1790,6 +1791,192 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       }
       assertEquals(expectedEq, passed, "Did not find expected equip request.");
     }
+
+    @Test
+    public void itShouldRespectFilters() {
+      String maxStr = "meat";
+      HttpClientWrapper.setupFakeClient();
+      var cleanups =
+          new Cleanups(
+              withUnequipped(Slot.HAT),
+              withEquippableItem("Apriling band helmet"),
+              withItem(ItemPool.POCKET_WISH));
+      String out1, out2, out3;
+      String cmd1 = "maximize(\"" + maxStr + "\", 0, 0, 0, \"wish\")";
+      String cmd2 = "maximize(\"" + maxStr + "\", 0, 0, 0, \"equip\")";
+      String cmd3 = "maximize(\"" + maxStr + "\", 0, 0, 0, \"wish,equip\")";
+      try (cleanups) {
+        out1 = execute(cmd1);
+        out2 = execute(cmd2);
+        out3 = execute(cmd3);
+      }
+
+      assertFalse(out1.isEmpty());
+      assertFalse(out1.contains("equip hat Apriling band helmet"));
+      assertTrue(out1.contains("genie effect Sinuses For Miles"));
+
+      assertFalse(out2.isEmpty());
+      assertTrue(out2.contains("equip hat Apriling band helmet"));
+      assertFalse(out2.contains("genie effect Sinuses For Miles"));
+
+      assertFalse(out3.isEmpty());
+      assertTrue(out3.contains("equip hat Apriling band helmet"));
+      assertTrue(out3.contains("genie effect Sinuses For Miles"));
+    }
+
+    @Test
+    public void itShouldRespectEquipScope() {
+      String maxStr = "item,-tie";
+      HttpClientWrapper.setupFakeClient();
+      var cleanups =
+          new Cleanups(
+              withUnequipped(Slot.HAT),
+              withItem("brown felt tophat"),
+              withItem("brass gear", 4),
+              withItem("meat paste", 4),
+              withUnequipped(Slot.CONTAINER),
+              withEquippableItem("makeshift cape"),
+              withMallPrice(ItemPool.PANTSGIVING, 500),
+              withRonin(false),
+              withInteractivity(true),
+              withMeat(10000),
+              withProperty("autoBuyPriceLimit", "10000"),
+              withProperty("autoSatisfyWithMall", "true"),
+              withStats(100, 100, 100));
+      String out1, out2, out3;
+      String cmd1 = "maximize(\"" + maxStr + "\", 0, 0, 0, \"equip\")";
+      String cmd2 = "maximize(\"" + maxStr + "\", 0, 0, 1, \"equip\")";
+      String cmd3 = "maximize(\"" + maxStr + "\", 10000, 2, 2, \"equip\")";
+      try (cleanups) {
+        out1 = execute(cmd1);
+        out2 = execute(cmd2);
+        out3 = execute(cmd3);
+      }
+
+      assertFalse(out1.isEmpty());
+      assertTrue(out1.contains("equip back makeshift cape"));
+      assertFalse(out1.contains("Mark IV Steam-Hat"));
+      assertFalse(out1.contains("Pantsgiving"));
+
+      assertFalse(out2.isEmpty());
+      assertTrue(out2.contains("equip back makeshift cape"));
+      assertTrue(out2.contains("make &amp; equip hat Mark IV Steam-Hat"));
+
+      assertFalse(out3.isEmpty());
+      assertTrue(out3.contains("equip back makeshift cape"));
+      assertTrue(out3.contains("make &amp; equip hat Mark IV Steam-Hat"));
+      assertTrue(out3.contains("acquire &amp; equip pants Pantsgiving"));
+    }
+
+    @Test
+    public void itShouldProvideDetailedAfterTextWhenVerbose() {
+      HttpClientWrapper.setupFakeClient();
+      var cleanups =
+          new Cleanups(
+              withClass(AscensionClass.SAUCEROR),
+              withSkill("The Polka of Plenty"),
+              withItem("antique accordion"),
+              withSkill("Blood Sugar Sauce Magic"),
+              withStats(100, 100, 100),
+              withItem(ItemPool.GENIE_BOTTLE),
+              withProperty("_genieWishesUsed", "0"),
+              withProperty("verboseMaximizer", "true"));
+      String out1, out2, out3;
+      String cmd1 = "maximize(\"meat\", 0, 0, 0, \"cast\")";
+      String cmd2 = "maximize(\"mp\", 0, 0, 0, \"cast\")";
+      String cmd3 = "maximize(\"fishing skill\", 0, 0, 0, \"wish\")";
+      try (cleanups) {
+        out1 = execute(cmd1);
+        out2 = execute(cmd2);
+        out3 = execute(cmd3);
+      }
+
+      assertFalse(out1.isEmpty());
+      assertTrue(out1.contains("display => cast 1 The Polka of Plenty"));
+      assertTrue(out1.contains("afterdisplay => (7 mp, +50) [10 advs duration]"));
+
+      assertFalse(out2.isEmpty());
+      assertTrue(out2.contains("display => cast 1 Blood Sugar Sauce Magic"));
+      assertTrue(out2.contains("afterdisplay => (+30) [intrinsic]"));
+
+      assertFalse(out3.isEmpty());
+      assertTrue(out3.contains("display => genie effect Floundering"));
+      assertTrue(
+          out3.contains(
+              "afterdisplay => (+5) [20 advs duration, 3 uses remaining, 1 in inventory]"));
+    }
+
+    @Test
+    public void itShouldProvideSimplifiedAfterTextWhenNotVerbose() {
+      HttpClientWrapper.setupFakeClient();
+      var cleanups =
+          new Cleanups(
+              withClass(AscensionClass.SAUCEROR),
+              withSkill("The Polka of Plenty"),
+              withItem("antique accordion"),
+              withSkill("Blood Sugar Sauce Magic"),
+              withStats(100, 100, 100),
+              withItem(ItemPool.GENIE_BOTTLE),
+              withProperty("_genieWishesUsed", "0"),
+              withProperty("verboseMaximizer", "false"));
+      String out1, out2, out3;
+      String cmd1 = "maximize(\"meat\", 0, 0, 0, \"cast\")";
+      String cmd2 = "maximize(\"mp\", 0, 0, 0, \"cast\")";
+      String cmd3 = "maximize(\"fishing skill\", 0, 0, 0, \"wish\")";
+      try (cleanups) {
+        out1 = execute(cmd1);
+        out2 = execute(cmd2);
+        out3 = execute(cmd3);
+      }
+
+      assertFalse(out1.isEmpty());
+      assertTrue(out1.contains("display => cast 1 The Polka of Plenty"));
+      assertTrue(out1.contains("afterdisplay => (7 mp, +50)"));
+      assertFalse(out1.contains("[10 advs duration]"));
+
+      assertFalse(out2.isEmpty());
+      assertTrue(out2.contains("display => cast 1 Blood Sugar Sauce Magic"));
+      assertTrue(out2.contains("afterdisplay => (+30)"));
+      assertFalse(out2.contains("[intrinsic]"));
+
+      assertFalse(out3.isEmpty());
+      assertTrue(out3.contains("display => genie effect Floundering"));
+      assertTrue(out3.contains("afterdisplay => (+5)"));
+      assertFalse(out3.contains("[20 advs duration, 3 uses remaining, 1 in inventory]"));
+    }
+
+    @Test
+    public void itShouldSilentlyIgnoreInvalidFilters() {
+      String maxStr = "meat";
+      HttpClientWrapper.setupFakeClient();
+      var cleanups =
+          new Cleanups(
+              withUnequipped(Slot.HAT),
+              withEquippableItem("Apriling band helmet"),
+              withItem(ItemPool.POCKET_WISH));
+      String out;
+      String cmd = "maximize(\"" + maxStr + "\", 0, 0, 0, \"equip,banana\")";
+      try (cleanups) {
+        out = execute(cmd);
+      }
+      assertFalse(out.isEmpty());
+      assertTrue(out.contains("equip hat Apriling band helmet"));
+      assertFalse(out.toLowerCase().contains("error"));
+      assertFalse(out.toLowerCase().contains("banana"));
+    }
+  }
+
+  @Test
+  public void canScoreCorrectly() {
+    HttpClientWrapper.setupFakeClient();
+    var cleanups = new Cleanups(withEquipped(ItemPool.APRILING_BAND_HELMET));
+    String out;
+    try (cleanups) {
+      out = execute("current_maximizer_score(\"meat\")");
+    }
+    assertFalse(out.isEmpty());
+    // 100 base, +40 for Apriling band helmet
+    assertEquals("Returned: 140.0\n", out);
   }
 
   @Nested
@@ -2162,6 +2349,31 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       assertThat(execute("is_banished($phylum[construct])").trim(), is("Returned: false"));
       assertThat(execute("is_banished($monster[none])").trim(), is("Returned: false"));
       assertThat(execute("is_banished($phylum[none])").trim(), is("Returned: false"));
+    }
+  }
+
+  @Nested
+  class ProxyRecordCoinmasters {
+    @Test
+    void dimesmasterBuys() {
+      assertThat(execute("$coinmaster[dimemaster].buys").trim(), is("Returned: true"));
+    }
+
+    @Test
+    void dimesmasterSells() {
+      assertThat(execute("$coinmaster[dimemaster].sells").trim(), is("Returned: true"));
+    }
+
+    @Test
+    void skeletonofcrimbopastDoesntBuy() {
+      assertThat(
+          execute("$coinmaster[skeleton of crimbo past].buys").trim(), is("Returned: false"));
+    }
+
+    @Test
+    void skeletonofcrimbopastSells() {
+      assertThat(
+          execute("$coinmaster[skeleton of crimbo past].sells").trim(), is("Returned: true"));
     }
   }
 

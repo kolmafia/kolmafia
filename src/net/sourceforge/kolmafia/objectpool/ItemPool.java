@@ -4008,6 +4008,7 @@ public class ItemPool {
   public static final int PRIZE_TURKEY = 12053;
   public static final int MEDICAL_GRUEL = 12054;
   public static final int THE_ETERNITY_CODPIECE = 12067;
+  public static final int ANGELBONE_TOTEM = 12069;
   public static final int LEGENDARY_SEAL_CLUBBING_CLUB = 12134;
 
   private ItemPool() {}

@@ -1968,11 +1968,11 @@ public class ProxyRecordValue extends RecordValue {
     }
 
     public boolean get_buys() {
-      return this.content != null && ((CoinmasterData) this.content).getSellAction() != null;
+      return this.content != null && ((CoinmasterData) this.content).getSellItems() != null;
     }
 
     public boolean get_sells() {
-      return this.content != null && ((CoinmasterData) this.content).getBuyAction() != null;
+      return this.content != null && ((CoinmasterData) this.content).getBuyItems() != null;
     }
 
     public String get_nickname() {
