@@ -116,7 +116,7 @@
 11508	2024	norm	DB	ROW1458	moss mantle
 11509	2024	norm	AT	ROW1459	moss marlinspike
 11512	2024	hard	SC	ROW1460	adobe arsecover
-11513	2024	hard	TT	ROW1461	adobe adze
+11513	2024	hard	TT	ROW1712	adobe adze
 11514	2024	hard	PA	ROW1462	adobe abacus
 11515	2024	hard	SA	ROW1463	adobe ayam
 11516	2024	hard	DB	ROW1464	adobe ascot
