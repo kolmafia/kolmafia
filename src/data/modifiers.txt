@@ -15793,6 +15793,7 @@ RobotCPU	robot_hp2	Maximum HP: +30
 
 # Eternity Codpiece
 
+EternityCodpiece	18-picohertz resonator crystal	Cold Damage: +5, Cold Spell Damage: +5
 EternityCodpiece	alien gemstone	Experience (Muscle): +1
 EternityCodpiece	angry agate	PvP Fights: +1
 EternityCodpiece	autumn years wisdom	Experience (Mysticality): +1
@@ -15808,7 +15809,9 @@ EternityCodpiece	blood cubic zirconia	Spooky Resistance: +3, Spooky Damage: +5
 EternityCodpiece	BRICKO pearl	Candy Drop: +20
 EternityCodpiece	brown crock marble	Initiative: +2
 EternityCodpiece	bumblebee marble	Initiative: +5
+EternityCodpiece	chlorine crystal	Stench Damage: +5, Stench Spell Damage: +5
 EternityCodpiece	control crystal	Mysticality: +5
+EternityCodpiece	crystalline cheer	Sleaze Damage: +5, Sleaze Spell Damage: +5
 EternityCodpiece	crystalline seal eye	Damage vs. Seals: +25
 EternityCodpiece	crystallized memory	Muscle: +5
 EternityCodpiece	crystallized pumpkin spice	Food Drop: +20
@@ -15823,6 +15826,7 @@ EternityCodpiece	glimmering golden crystal	Experience (familiar): +1
 EternityCodpiece	glowing new age crystal	MP Regen Min: 5, MP Regen Max: 10
 EternityCodpiece	green peawee marble	Initiative: +1
 EternityCodpiece	hamethyst	Muscle Percent: +11
+EternityCodpiece	heart of the volcano	Hot Damage: +5, Hot Spell Damage: +5
 EternityCodpiece	incredibly dense meat gem	Meat Drop: +30
 EternityCodpiece	jet bennie marble	Initiative: +6
 EternityCodpiece	kumquartz	Cold Spell Damage: +10
@@ -15858,4 +15862,5 @@ EternityCodpiece	Tuesday's ruby	Monster Level: +5
 EternityCodpiece	unblemished pearl	Adventures: +1
 EternityCodpiece	unearthly onyx	Spooky Resistance: +2
 EternityCodpiece	vampire pearl	Damage vs. Vampires: +25
+EternityCodpiece	void stone	Spooky Damage: +5, Spooky Spell Damage: +5
 EternityCodpiece	Xiblaxian crystal	Damage vs. Bugbears: +25
