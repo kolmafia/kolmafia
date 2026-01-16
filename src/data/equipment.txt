@@ -2491,8 +2491,8 @@ Amulet of Perpetual Darkness	0	none
 Amulet of Yendor	10	none
 anchovy can key	10	none
 anemoney clip	80	Mys: 15
-angelbone chopsticks	0	none
-angelbone dice	0	none
+angelbone chopsticks	50	none
+angelbone dice	50	none
 Ankh of Badahnkadh	165	Mys: 67
 ankleweights	100	Mys: 35
 annealed drippy orb	0	none
@@ -2694,7 +2694,7 @@ depleted Grimacite grappling hook	80	Mys: 25
 depleted Grimacite weightlifting belt	80	Mys: 25
 dethklok	30	none
 devilbone rosary	0	Mys: 40
-devilbone shinguards	0	Mys: 40
+devilbone shinguards	120	Mys: 40
 diamond necklace	10	none
 dice belt buckle	10	none
 dice ring	10	none
@@ -3736,7 +3736,7 @@ Zombo's skull ring	200	Mys: 200
 # Containers section of equipment.txt
 
 Allied Radio Backpack	100	none
-angelbone mantle	0	none
+angelbone mantle	50	none
 anniversary pewter cape	0	none
 antique nutcracker cape	150	Mys: 30
 auxiliary backbone	0	Mus: 75

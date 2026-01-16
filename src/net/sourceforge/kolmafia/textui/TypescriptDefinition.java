@@ -313,11 +313,21 @@ public class TypescriptDefinition {
     return StringUtilities.capitalize(t.getName());
   }
 
+  private static final List<Type> TYPES_WITH_EXHAUSTIVE_UNIONS =
+      List.of(
+          DataTypes.STAT_TYPE,
+          DataTypes.SLOT_TYPE,
+          DataTypes.ELEMENT_TYPE,
+          DataTypes.PHYLUM_TYPE,
+          DataTypes.THRALL_TYPE,
+          DataTypes.SERVANT_TYPE);
+
   private static List<String> formatMafiaClass(final Type t) {
     var name = formatMafiaClassName(t);
 
+    // Prepare the type union for members
     List<String> values =
-        t.allValues().count() < 30
+        TYPES_WITH_EXHAUSTIVE_UNIONS.contains(t)
             ? Arrays.stream(t.allValues().keys()).map(v -> v.contentString).toList()
             : List.of();
 
