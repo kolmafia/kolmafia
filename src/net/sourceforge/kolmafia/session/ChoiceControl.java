@@ -6785,6 +6785,8 @@ public abstract class ChoiceControl {
         // Time is a Möbius Strip
         if (text.contains("stock certificate")) {
           Preferences.setInteger("stockCertificateTurn", KoLCharacter.getTurnsPlayed());
+        } else if (text.contains("In an effort to repair the timeline")) {
+          Preferences.increment("tryToRememberCharges", 3);
         }
         // update Paradoxicity from charpane
         // eventually we're going to want to do some parsing to e.g. figure out which choices are
