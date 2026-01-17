@@ -1741,6 +1741,7 @@ user	trackedMonsters
 user	trackedPhyla
 user	trainsetConfiguration		roa
 user	trainsetPosition	0	roa
+user	tryToRememberCharges	0	roa
 user	turtleBlessingTurns	0	roa
 user	trapperOre		roa
 user	twinPeakProgress	0	roa
