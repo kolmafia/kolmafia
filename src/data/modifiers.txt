@@ -4877,7 +4877,7 @@ Familiar	Chocolate Lab	Last Available: "2016-12", Sprinkle Drop: [W]
 Familiar	Coffee Pixie	Last Available: "2005-10"
 Familiar	Comma Chameleon	Last Available: "2006-08"
 Familiar	Cookbookbat	Food Fairy Effectiveness: 1.5, Last Available: "2022-11"
-Familiar	Cooler Yeti	Cold Resistance: [floor(W/11)], Last Available: "2025-07"
+Familiar	Cooler Yeti	Cold Resistance: [floor(W/11)+1], Last Available: "2025-07"
 Familiar	Cornbeefadon	Last Available: "2018-03"
 Familiar	Cotton Candy Carnie	Last Available: "2008-08"
 Familiar	Crimbo Elf	Last Available: "2004-12"
