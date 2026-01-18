@@ -10958,6 +10958,13 @@ public class FightRequest extends GenericRequest {
           skillSuccess = true;
         }
       }
+      case SkillPool.TRY_TO_REMEMBER -> {
+        if (responseText.contains("You close your eyes and try") || skillSuccess) {
+          TrackManager.trackMonster(monster, Tracker.TRY_TO_REMEMBER);
+          Preferences.decrement("tryToRememberCharges");
+          skillSuccess = true;
+        }
+      }
       case SkillPool.BCZ__BLOOD_GEYSER -> {
         if (responseText.contains("shoot blood out of your fingers")
             || responseText.contains("flow of blood geysers")
