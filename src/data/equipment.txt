@@ -2693,7 +2693,7 @@ depleted Grimacite astrolabe	80	Mys: 25
 depleted Grimacite grappling hook	80	Mys: 25
 depleted Grimacite weightlifting belt	80	Mys: 25
 dethklok	30	none
-devilbone rosary	0	Mys: 40
+devilbone rosary	120	Mys: 40
 devilbone shinguards	120	Mys: 40
 diamond necklace	10	none
 dice belt buckle	10	none
