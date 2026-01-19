@@ -10,20 +10,17 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
-import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
-import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
-import net.sourceforge.kolmafia.persistence.DailyLimitDatabase;
-import net.sourceforge.kolmafia.persistence.HolidayDatabase;
-import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.*;
 import net.sourceforge.kolmafia.persistence.ItemDatabase.Attribute;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
-import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.coinmaster.shop.JarlsbergRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -637,9 +634,26 @@ public class DrinkItemRequest extends UseItemRequest {
         // get Mafia Pinky Ring
         InventoryManager.retrieveItem(ItemPool.MAFIA_PINKY_RING);
       }
-      RequestThread.postRequest(
-          new EquipmentRequest(ItemPool.get(ItemPool.MAFIA_PINKY_RING, 1), Slot.ACCESSORY3));
-      if (EquipmentManager.getEquipment(Slot.ACCESSORY3).getItemId() != ItemPool.MAFIA_PINKY_RING) {
+      Slot[] accessorySlots = {Slot.ACCESSORY1, Slot.ACCESSORY2, Slot.ACCESSORY3};
+      Slot pinkyRingSlot = null;
+      for (Slot slot : accessorySlots) {
+        int itemId = EquipmentManager.getEquipment(slot).getItemId();
+        Modifiers mods = ModifierDatabase.getItemModifiers(itemId);
+
+        // Check if the currently equipped item provides Liver Capacity
+        boolean hasLiverModifier =
+            mods != null && mods.getNumeric(DoubleModifier.LIVER_CAPACITY) > 0;
+        if (!hasLiverModifier) {
+          // Equip the Mafia Pinky Ring in this slot
+          pinkyRingSlot = slot;
+          RequestThread.postRequest(
+              new EquipmentRequest(ItemPool.get(ItemPool.MAFIA_PINKY_RING, 1), slot));
+          break; // Stop after equipping it in the first available non-liver slot
+        }
+      }
+      if (pinkyRingSlot == null
+          || EquipmentManager.getEquipment(pinkyRingSlot).getItemId()
+              != ItemPool.MAFIA_PINKY_RING) {
         KoLmafia.updateDisplay(MafiaState.ERROR, "Failed to equip mafia pinky ring.");
         return false;
       } else {
