@@ -104,7 +104,7 @@ dependencies {
   implementation("org.slf4j:slf4j-nop:2.0.17")
   implementation("org.fusesource.jansi:jansi:2.4.2")
   implementation("com.alibaba.fastjson2:fastjson2:2.0.59")
-  implementation("org.mozilla:rhino:1.8.1")
+  implementation("org.mozilla:rhino:1.9.0")
   implementation("org.swinglabs:swingx:1.0")
   implementation("org.tmatesoft.svnkit:svnkit:1.10.11")
   implementation("com.jgoodies:jgoodies-binding:2.13.0")
