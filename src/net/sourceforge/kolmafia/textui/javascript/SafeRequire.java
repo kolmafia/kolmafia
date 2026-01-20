@@ -2,6 +2,8 @@ package net.sourceforge.kolmafia.textui.javascript;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URLConnection;
 import java.util.Arrays;
 import java.util.List;
@@ -19,6 +21,7 @@ import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 import org.mozilla.javascript.commonjs.module.Require;
+import org.mozilla.javascript.commonjs.module.provider.ModuleSource;
 import org.mozilla.javascript.commonjs.module.provider.ParsedContentType;
 import org.mozilla.javascript.commonjs.module.provider.SoftCachingModuleScriptProvider;
 import org.mozilla.javascript.commonjs.module.provider.UrlModuleSourceProvider;
@@ -113,6 +116,44 @@ public class SafeRequire extends Require {
         return encoding;
       }
       return "utf-8";
+    }
+
+    @Override
+    protected ModuleSource loadFromActualUri(URI uri, URI base, Object validator)
+        throws IOException {
+      ModuleSource source = super.loadFromActualUri(uri, base, validator);
+      if (source == null) {
+        return null;
+      }
+
+      // Check if the URI path contains characters invalid for Java identifiers
+      String uriString = source.getUri().toString();
+      if (needsSanitization(uriString)) {
+        try {
+          URI sanitizedUri = new URI(sanitizeForJavaIdentifier(uriString));
+          return new ModuleSource(
+              source.getReader(),
+              source.getSecurityDomain(),
+              sanitizedUri,
+              source.getBase(),
+              source.getValidator());
+        } catch (URISyntaxException e) {
+          // If sanitization creates an invalid URI, fall back to original
+          return source;
+        }
+      }
+      return source;
+    }
+
+    private static boolean needsSanitization(String uri) {
+      // Check for characters that are problematic in Java identifiers
+      // Focus on the path portion which typically contains the filename
+      return uri.contains("-") || uri.contains(" ") || uri.contains("+");
+    }
+
+    private static String sanitizeForJavaIdentifier(String uri) {
+      // Replace problematic characters with underscores
+      return uri.replace("-", "_").replace(" ", "_").replace("+", "_");
     }
   }
 }
