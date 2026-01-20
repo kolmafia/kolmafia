@@ -1,29 +1,40 @@
 package net.sourceforge.kolmafia.request;
 
+import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withClass;
 import static internal.helpers.Player.withDay;
+import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliarInTerrarium;
 import static internal.helpers.Player.withFullness;
+import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withInebriety;
 import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withPasswordHash;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withStats;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
 
 import internal.helpers.Cleanups;
+import internal.helpers.Player;
+import internal.network.FakeHttpClientBuilder;
 import java.time.Month;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.swingui.GenericPanelFrame;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -279,6 +290,43 @@ class DrinkItemRequestTest {
     void limitExtendedForGreenBeerOnSSPD(final boolean sspd) {
       try (var cleanups = new Cleanups(withDay(2023, Month.MAY, sspd ? 17 : 1), withInebriety(0))) {
         assertThat(DrinkItemRequest.maximumUses(ItemPool.GREEN_BEER), is(sspd ? 25 : 15));
+      }
+    }
+  }
+
+  @Test
+  public void itEquipsPinkyRingInFirstAvailableNonLiverSlot() {
+    var builder = new FakeHttpClientBuilder();
+    builder.client.addResponse(200, "Item equipped.");
+
+    var cleanups =
+        new Cleanups(
+            withPasswordHash("testHash"),
+            withStats(100, 100, 100), // Give enough stats to meet equipment requirements
+            withProperty("autoPinkyRing", true),
+            withItem(ItemPool.MAFIA_PINKY_RING),
+            withEquipped(Slot.ACCESSORY1, "angelbone dice"),
+            withEquipped(Slot.ACCESSORY2, "Radio Free Baseball Cap"),
+            withEquipped(Slot.ACCESSORY3, "bejeweled pledge pin"),
+            withHttpClientBuilder(builder),
+            Player.withUserId(12345));
+    try (cleanups) {
+      var frame = new GenericPanelFrame("Test Frame");
+      try {
+        DrinkItemRequest.allowBoozeConsumption("Doc's Fortifying Wine", 1);
+        var requests = builder.client.getRequests();
+        assertThat(requests.size(), greaterThan(0));
+        var equipreq =
+            requests.stream()
+                .filter(req -> req.uri().getPath().equals("/inv_equip.php"))
+                .findFirst()
+                .orElseThrow();
+        assertPostRequest(
+            equipreq,
+            "/inv_equip.php",
+            allOf(containsString("slot=2"), containsString("whichitem=9546")));
+      } finally {
+        frame.dispose();
       }
     }
   }
