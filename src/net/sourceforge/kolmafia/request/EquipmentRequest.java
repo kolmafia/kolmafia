@@ -53,43 +53,43 @@ public class EquipmentRequest extends PasswordHashRequest {
   // rowboat</a></b>&nbsp;<span></span><font size=1><br></font></td></table>
 
   private static final Pattern HAT_PATTERN =
-    Pattern.compile(
-      "Hat</a>:</td>(<td><img[^']*'descitem\\((\\d+)[^>]*></td>)?<td><b[^>]*>(.*?)</b>.*?unequip&type=hat");
+      Pattern.compile(
+          "Hat</a>:</td>(<td><img[^']*'descitem\\((\\d+)[^>]*></td>)?<td><b[^>]*>(.*?)</b>.*?unequip&type=hat");
   private static final Pattern WEAPON_PATTERN =
-    Pattern.compile(
-      "Weapon</a>:</td>(<td><img[^']*'descitem\\((\\d+)[^>]*></td>)?<td><b[^>]*>(.*?)</b>.*?unequip&type=weapon");
+      Pattern.compile(
+          "Weapon</a>:</td>(<td><img[^']*'descitem\\((\\d+)[^>]*></td>)?<td><b[^>]*>(.*?)</b>.*?unequip&type=weapon");
   private static final Pattern HOLSTER_PATTERN =
-    Pattern.compile(
-      "Holstered</a>:</td>(<td><img[^']*'descitem\\((\\d+)[^>]*></td>)?<td><b[^>]*>(.*?)</b>.*?action=holster&holster=0");
+      Pattern.compile(
+          "Holstered</a>:</td>(<td><img[^']*'descitem\\((\\d+)[^>]*></td>)?<td><b[^>]*>(.*?)</b>.*?action=holster&holster=0");
   private static final Pattern OFFHAND_PATTERN =
-    Pattern.compile(
-      "Off-Hand</a>:</td>(<td><img[^']*'descitem\\((\\d+)[^>]*></td>)?<td><b[^>]*>(.*?)</b>.*?unequip&type=offhand");
+      Pattern.compile(
+          "Off-Hand</a>:</td>(<td><img[^']*'descitem\\((\\d+)[^>]*></td>)?<td><b[^>]*>(.*?)</b>.*?unequip&type=offhand");
   private static final Pattern CONTAINER_PATTERN =
-    Pattern.compile(
-      "Back</a>:</td>(<td><img[^']*'descitem\\((\\d+)[^>]*></td>)?<td><b[^>]*>(.*?)</b>.*?unequip&type=container");
+      Pattern.compile(
+          "Back</a>:</td>(<td><img[^']*'descitem\\((\\d+)[^>]*></td>)?<td><b[^>]*>(.*?)</b>.*?unequip&type=container");
   private static final Pattern SHIRT_PATTERN =
-    Pattern.compile(
-      "Shirt</a>:</td>(<td><img[^']*'descitem\\((\\d+)[^>]*></td>)?<td><b[^>]*>(.*?)</b>.*?unequip&type=shirt");
+      Pattern.compile(
+          "Shirt</a>:</td>(<td><img[^']*'descitem\\((\\d+)[^>]*></td>)?<td><b[^>]*>(.*?)</b>.*?unequip&type=shirt");
   private static final Pattern PANTS_PATTERN =
-    Pattern.compile(
-      "Pants</a>:</td>(<td><img[^']*'descitem\\((\\d+)[^>]*></td>)?<td><b[^>]*>(.*?)</b>.*?unequip&type=pants");
+      Pattern.compile(
+          "Pants</a>:</td>(<td><img[^']*'descitem\\((\\d+)[^>]*></td>)?<td><b[^>]*>(.*?)</b>.*?unequip&type=pants");
   private static final Pattern ACC1_PATTERN =
-    Pattern.compile(
-      "Accessory</a>(?:&nbsp;1)?:</td>(<td><img[^']*'descitem\\((\\d+)[^>]*></td>)?<td><b[^>]*>([^<]+)</b> *<a[^>]*unequip&type=acc1");
+      Pattern.compile(
+          "Accessory</a>(?:&nbsp;1)?:</td>(<td><img[^']*'descitem\\((\\d+)[^>]*></td>)?<td><b[^>]*>([^<]+)</b> *<a[^>]*unequip&type=acc1");
   private static final Pattern ACC2_PATTERN =
-    Pattern.compile(
-      "Accessory</a>(?:&nbsp;2)?:</td>(<td><img[^']*'descitem\\((\\d+)[^>]*></td>)?<td><b[^>]*>([^<]+)</b> *<a[^>]*unequip&type=acc2");
+      Pattern.compile(
+          "Accessory</a>(?:&nbsp;2)?:</td>(<td><img[^']*'descitem\\((\\d+)[^>]*></td>)?<td><b[^>]*>([^<]+)</b> *<a[^>]*unequip&type=acc2");
   private static final Pattern ACC3_PATTERN =
-    Pattern.compile(
-      "Accessory</a>(?:&nbsp;3)?:</td>(<td><img[^']*'descitem\\((\\d+)[^>]*></td>)?<td><b[^>]*>([^<]+)</b> *<a[^>]*unequip&type=acc3");
+      Pattern.compile(
+          "Accessory</a>(?:&nbsp;3)?:</td>(<td><img[^']*'descitem\\((\\d+)[^>]*></td>)?<td><b[^>]*>([^<]+)</b> *<a[^>]*unequip&type=acc3");
   private static final Pattern FAMILIARITEM_PATTERN =
-    Pattern.compile(
-      "Familiar</a>:</td>(<td><img[^']*'descitem\\((\\d+)[^>]*></td>)?<td><b[^>]*>(.*?)</b>.*?unequip&type=familiarequip\"");
+      Pattern.compile(
+          "Familiar</a>:</td>(<td><img[^']*'descitem\\((\\d+)[^>]*></td>)?<td><b[^>]*>(.*?)</b>.*?unequip&type=familiarequip\"");
   private static final Pattern OUTFITLIST_PATTERN =
-    Pattern.compile("<select name=whichoutfit>.*?</select>");
+      Pattern.compile("<select name=whichoutfit>.*?</select>");
   private static final Pattern STICKER_PATTERN =
-    Pattern.compile(
-      "<td>\\s*(shiny|dull)?\\s*([^<]+)<a [^>]+action=peel|<td>\\s*<img [^>]+magnify");
+      Pattern.compile(
+          "<td>\\s*(shiny|dull)?\\s*([^<]+)<a [^>]+action=peel|<td>\\s*<img [^>]+magnify");
   private static final Pattern FOLDER_PATTERN = Pattern.compile("folders/folder(\\d+).gif");
 
   private static final Pattern OUTFIT_ACTION_PATTERN = Pattern.compile("([a-zA-Z])=([^=]+)(?!=)");
@@ -102,10 +102,10 @@ public class EquipmentRequest extends PasswordHashRequest {
   private static final Pattern OUTFITID_PATTERN = Pattern.compile("outfitid: (\\d+)");
 
   private static final Pattern EQUIPPED_PATTERN =
-    Pattern.compile(
-      "(?:Item equipped|equip an item):</td><td>.*?descitem\\((.*?)\\)'> <b>(.*?)</b></td>");
+      Pattern.compile(
+          "(?:Item equipped|equip an item):</td><td>.*?descitem\\((.*?)\\)'> <b>(.*?)</b></td>");
   private static final Pattern UNEQUIPPED_PATTERN =
-    Pattern.compile("Item unequipped:</td><td>.*?descitem\\((.*?)\\)'> <b>(.*?)</b></td>");
+      Pattern.compile("Item unequipped:</td><td>.*?descitem\\((.*?)\\)'> <b>(.*?)</b></td>");
   private static final Pattern HOLSTER_URL_PATTERN = Pattern.compile("holster=(\\d+)");
 
   public static final AdventureResult UNEQUIP = ItemPool.get("(none)", 1);
@@ -190,19 +190,19 @@ public class EquipmentRequest extends PasswordHashRequest {
 
     switch (equipmentSlot) {
       case CROWNOFTHRONES ->
-        this.error =
-          "Cannot change enthronement using equip command; use enthrone command instead";
+          this.error =
+              "Cannot change enthronement using equip command; use enthrone command instead";
       case BUDDYBJORN ->
-        this.error =
-          "Cannot change bjorned familiar using equip command; use bjornify command instead";
+          this.error =
+              "Cannot change bjorned familiar using equip command; use bjornify command instead";
       case STICKER1, STICKER2, STICKER3 -> this.initializeStickerData(changeItem, equipmentSlot);
       case CARDSLEEVE -> this.initializeCardSleeveData(changeItem);
       case FOLDER1, FOLDER2, FOLDER3, FOLDER4, FOLDER5 ->
-        this.initializeFolderData(changeItem, equipmentSlot);
+          this.initializeFolderData(changeItem, equipmentSlot);
       case BOOTSKIN, BOOTSPUR -> this.initializeBootData(changeItem, equipmentSlot);
       case HOLSTER -> this.initializeSixgunData(changeItem, equipmentSlot);
       case CODPIECE1, CODPIECE2, CODPIECE3, CODPIECE4, CODPIECE5 ->
-        this.initializeCodpieceData(changeItem, equipmentSlot);
+          this.initializeCodpieceData(changeItem, equipmentSlot);
       default -> this.initializeChangeData(changeItem, equipmentSlot);
     }
   }
@@ -213,8 +213,8 @@ public class EquipmentRequest extends PasswordHashRequest {
     this.addFormField("which", "2");
     this.addFormField("action", "outfit");
     this.addFormField(
-      "whichoutfit",
-      change == SpecialOutfit.PREVIOUS_OUTFIT ? "last" : String.valueOf(change.getOutfitId()));
+        "whichoutfit",
+        change == SpecialOutfit.PREVIOUS_OUTFIT ? "last" : String.valueOf(change.getOutfitId()));
     this.addFormField("ajax", "1");
 
     this.requestType = EquipmentRequestType.CHANGE_OUTFIT;
@@ -255,9 +255,9 @@ public class EquipmentRequest extends PasswordHashRequest {
 
   public static boolean isEquipmentChange(final String path) {
     return path.startsWith("inv_equip.php")
-      &&
-      // Saving a custom outfit is OK
-      !path.contains("action=customoutfit");
+        &&
+        // Saving a custom outfit is OK
+        !path.contains("action=customoutfit");
   }
 
   @Override
@@ -313,12 +313,12 @@ public class EquipmentRequest extends PasswordHashRequest {
   private void initializeStickerData(final AdventureResult sticker, final Slot equipmentSlot) {
     this.equipmentSlot = equipmentSlot;
     var slot =
-      switch (equipmentSlot) {
-        case STICKER1 -> "1";
-        case STICKER2 -> "2";
-        case STICKER3 -> "3";
-        default -> throw new IllegalStateException("Unexpected value: " + equipmentSlot);
-      };
+        switch (equipmentSlot) {
+          case STICKER1 -> "1";
+          case STICKER2 -> "2";
+          case STICKER3 -> "3";
+          default -> throw new IllegalStateException("Unexpected value: " + equipmentSlot);
+        };
     this.addFormField("slot", slot);
 
     if (sticker.equals(EquipmentRequest.UNEQUIP)) {
@@ -335,7 +335,7 @@ public class EquipmentRequest extends PasswordHashRequest {
 
     if (this.equipmentType != ConsumptionType.STICKER) {
       this.error =
-        "You can't equip a " + ItemDatabase.getItemName(this.itemId) + " in a sticker slot.";
+          "You can't equip a " + ItemDatabase.getItemName(this.itemId) + " in a sticker slot.";
       return;
     }
 
@@ -369,7 +369,7 @@ public class EquipmentRequest extends PasswordHashRequest {
 
     if (this.equipmentType != ConsumptionType.CARD) {
       this.error =
-        "You can't slide a " + ItemDatabase.getItemName(this.itemId) + " into a card sleeve.";
+          "You can't slide a " + ItemDatabase.getItemName(this.itemId) + " into a card sleeve.";
       return;
     }
 
@@ -385,23 +385,23 @@ public class EquipmentRequest extends PasswordHashRequest {
     if (folder.equals(EquipmentRequest.UNEQUIP)) {
       this.requestType = EquipmentRequestType.REMOVE_ITEM;
       var slotOpt =
-        switch (equipmentSlot) {
-          case FOLDER1 -> "0";
-          case FOLDER2 -> "1";
-          case FOLDER3 -> "2";
-          case FOLDER4 -> "3";
-          case FOLDER5 -> "4";
-          default -> throw new IllegalStateException("Unexpected value: " + equipmentSlot);
-        };
+          switch (equipmentSlot) {
+            case FOLDER1 -> "0";
+            case FOLDER2 -> "1";
+            case FOLDER3 -> "2";
+            case FOLDER4 -> "3";
+            case FOLDER5 -> "4";
+            default -> throw new IllegalStateException("Unexpected value: " + equipmentSlot);
+          };
       this.addFormField("slot", slotOpt);
       this.addFormField("option", "2");
       return;
     }
 
     if (SlotSet.FOLDER_SLOTS.stream()
-      .filter(s -> s != slot)
-      .map(EquipmentManager::getEquipment)
-      .anyMatch(folder::equals)) {
+        .filter(s -> s != slot)
+        .map(EquipmentManager::getEquipment)
+        .anyMatch(folder::equals)) {
       this.error = "You can't equip two of the same folder";
       return;
     }
@@ -414,7 +414,7 @@ public class EquipmentRequest extends PasswordHashRequest {
 
     if (this.equipmentType != ConsumptionType.FOLDER) {
       this.error =
-        "You can't equip a " + ItemDatabase.getItemName(this.itemId) + " in a folder slot.";
+          "You can't equip a " + ItemDatabase.getItemName(this.itemId) + " in a folder slot.";
       return;
     }
 
@@ -439,9 +439,9 @@ public class EquipmentRequest extends PasswordHashRequest {
     this.equipmentType = ItemDatabase.getConsumptionType(this.itemId);
 
     if (this.equipmentType != ConsumptionType.BOOTSKIN
-      && this.equipmentType != ConsumptionType.BOOTSPUR) {
+        && this.equipmentType != ConsumptionType.BOOTSPUR) {
       this.error =
-        "You can't equip a " + ItemDatabase.getItemName(this.itemId) + " on your cowboy boots.";
+          "You can't equip a " + ItemDatabase.getItemName(this.itemId) + " on your cowboy boots.";
       return;
     }
 
@@ -499,14 +499,14 @@ public class EquipmentRequest extends PasswordHashRequest {
     this.equipmentSlot = slot;
     this.addFormField("whichchoice", "1588");
     var slotOpt =
-      switch (equipmentSlot) {
-        case CODPIECE1 -> "1";
-        case CODPIECE2 -> "2";
-        case CODPIECE3 -> "3";
-        case CODPIECE4 -> "4";
-        case CODPIECE5 -> "5";
-        default -> throw new IllegalStateException("Unexpected value: " + equipmentSlot);
-      };
+        switch (equipmentSlot) {
+          case CODPIECE1 -> "1";
+          case CODPIECE2 -> "2";
+          case CODPIECE3 -> "3";
+          case CODPIECE4 -> "4";
+          case CODPIECE5 -> "5";
+          default -> throw new IllegalStateException("Unexpected value: " + equipmentSlot);
+        };
 
     if (gem.equals(EquipmentRequest.UNEQUIP)) {
       this.requestType = EquipmentRequestType.REMOVE_ITEM;
@@ -542,7 +542,7 @@ public class EquipmentRequest extends PasswordHashRequest {
           return "equip";
         }
         if (this.equipmentType == ConsumptionType.WEAPON
-          && EquipmentDatabase.getHands(this.itemId) == 1) {
+            && EquipmentDatabase.getHands(this.itemId) == 1) {
           return "dualwield";
         }
       }
@@ -600,11 +600,11 @@ public class EquipmentRequest extends PasswordHashRequest {
     }
 
     this.error =
-      "You can't equip a "
-        + ItemDatabase.getItemName(this.itemId)
-        + " in the "
-        + this.equipmentSlot.name
-        + " slot.";
+        "You can't equip a "
+            + ItemDatabase.getItemName(this.itemId)
+            + " in the "
+            + this.equipmentSlot.name
+            + " slot.";
 
     return null;
   }
@@ -692,7 +692,7 @@ public class EquipmentRequest extends PasswordHashRequest {
 
   public static Slot availableFolder() {
     return EquipmentRequest.availableSlot(
-      KoLCharacter.inHighschool() ? SlotSet.FOLDER_SLOTS : SlotSet.FOLDER_SLOTS_AFTERCORE);
+        KoLCharacter.inHighschool() ? SlotSet.FOLDER_SLOTS : SlotSet.FOLDER_SLOTS_AFTERCORE);
   }
 
   public static Slot availableCodpiece() {
@@ -793,8 +793,8 @@ public class EquipmentRequest extends PasswordHashRequest {
         int offhand = EquipmentManager.getEquipment(Slot.OFFHAND).getItemId();
 
         if (ItemDatabase.getConsumptionType(offhand) == ConsumptionType.WEAPON
-          && EquipmentDatabase.getWeaponType(itemId)
-          != EquipmentDatabase.getWeaponType(offhand)) {
+            && EquipmentDatabase.getWeaponType(itemId)
+                != EquipmentDatabase.getWeaponType(offhand)) {
           (new EquipmentRequest(EquipmentRequest.UNEQUIP, Slot.OFFHAND)).run();
         }
       }
@@ -810,32 +810,32 @@ public class EquipmentRequest extends PasswordHashRequest {
 
         if (itemType == ConsumptionType.WEAPON && weaponItemId <= 0) {
           KoLmafia.updateDisplay(
-            MafiaState.ERROR, "You can't dual wield unless you already have a main weapon.");
+              MafiaState.ERROR, "You can't dual wield unless you already have a main weapon.");
           return;
         }
 
         if (EquipmentDatabase.getHands(weaponItemId) > 1) {
           String message =
-            itemType == ConsumptionType.WEAPON
-              ? ("You can't wield a "
-              + this.changeItem.getName()
-              + " in your off-hand while wielding a 2-handed weapon.")
-              : ("You can't equip a "
-              + this.changeItem.getName()
-              + " in your off-hand while wielding a 2-handed weapon.");
+              itemType == ConsumptionType.WEAPON
+                  ? ("You can't wield a "
+                      + this.changeItem.getName()
+                      + " in your off-hand while wielding a 2-handed weapon.")
+                  : ("You can't equip a "
+                      + this.changeItem.getName()
+                      + " in your off-hand while wielding a 2-handed weapon.");
           KoLmafia.updateDisplay(MafiaState.ERROR, message);
           return;
         }
 
         if (itemType == ConsumptionType.WEAPON
-          && EquipmentDatabase.getWeaponType(itemId)
-          != EquipmentDatabase.getWeaponType(weaponItemId)) {
+            && EquipmentDatabase.getWeaponType(itemId)
+                != EquipmentDatabase.getWeaponType(weaponItemId)) {
           KoLmafia.updateDisplay(
-            MafiaState.ERROR,
-            "You can't hold a "
-              + this.changeItem.getName()
-              + " in your off-hand when wielding a "
-              + weapon.getName());
+              MafiaState.ERROR,
+              "You can't hold a "
+                  + this.changeItem.getName()
+                  + " in your off-hand when wielding a "
+                  + weapon.getName());
           return;
         }
       }
@@ -847,15 +847,15 @@ public class EquipmentRequest extends PasswordHashRequest {
       // Must remove an existing sticker or folder before
       // installing a new one in the same slot.
       if ((SlotSet.STICKER_SLOTS.contains(this.equipmentSlot)
-        || SlotSet.FOLDER_SLOTS.contains(this.equipmentSlot))
-        && !EquipmentManager.getEquipment(this.equipmentSlot).equals(EquipmentRequest.UNEQUIP)) {
+              || SlotSet.FOLDER_SLOTS.contains(this.equipmentSlot))
+          && !EquipmentManager.getEquipment(this.equipmentSlot).equals(EquipmentRequest.UNEQUIP)) {
         (new EquipmentRequest(EquipmentRequest.UNEQUIP, this.equipmentSlot)).run();
       }
     }
 
     if (this.requestType == EquipmentRequestType.REMOVE_ITEM
-      && equipmentSlot != Slot.FAKEHAND
-      && EquipmentManager.getEquipment(this.equipmentSlot).equals(EquipmentRequest.UNEQUIP)) {
+        && equipmentSlot != Slot.FAKEHAND
+        && EquipmentManager.getEquipment(this.equipmentSlot).equals(EquipmentRequest.UNEQUIP)) {
       return;
     }
 
@@ -872,32 +872,32 @@ public class EquipmentRequest extends PasswordHashRequest {
       case SAVE_OUTFIT -> KoLmafia.updateDisplay("Saving outfit: " + this.outfitName);
       case CHANGE_OUTFIT -> KoLmafia.updateDisplay("Putting on outfit: " + this.outfit);
       case CHANGE_ITEM ->
-        KoLmafia.updateDisplay(
-          (this.equipmentSlot == Slot.WEAPON
-            ? "Wielding "
-            : this.equipmentSlot == Slot.OFFHAND
-            ? "Holding "
-            : this.equipmentSlot == Slot.CARDSLEEVE
-            ? "Sliding in "
-            : this.equipmentSlot == Slot.HOLSTER ? "Holstering " : "Putting on ")
-            + ItemDatabase.getItemName(this.itemId)
-            + "...");
+          KoLmafia.updateDisplay(
+              (this.equipmentSlot == Slot.WEAPON
+                      ? "Wielding "
+                      : this.equipmentSlot == Slot.OFFHAND
+                          ? "Holding "
+                          : this.equipmentSlot == Slot.CARDSLEEVE
+                              ? "Sliding in "
+                              : this.equipmentSlot == Slot.HOLSTER ? "Holstering " : "Putting on ")
+                  + ItemDatabase.getItemName(this.itemId)
+                  + "...");
       case REMOVE_ITEM ->
-        KoLmafia.updateDisplay(
-          (this.equipmentSlot == Slot.CARDSLEEVE
-            ? "Sliding out "
-            : this.equipmentSlot == Slot.HOLSTER ? "Unholstering " : "Taking off ")
-            + (this.equipmentSlot == Slot.FAKEHAND
-            ? "fake hands"
-            : EquipmentManager.getEquipment(this.equipmentSlot).getName())
-            + "...");
+          KoLmafia.updateDisplay(
+              (this.equipmentSlot == Slot.CARDSLEEVE
+                      ? "Sliding out "
+                      : this.equipmentSlot == Slot.HOLSTER ? "Unholstering " : "Taking off ")
+                  + (this.equipmentSlot == Slot.FAKEHAND
+                      ? "fake hands"
+                      : EquipmentManager.getEquipment(this.equipmentSlot).getName())
+                  + "...");
       case UNEQUIP_ALL -> KoLmafia.updateDisplay("Taking off everything...");
     }
 
     // You can only change a card in the card sleeve while it is in inventory
     boolean changeCardSleeve =
-      this.equipmentSlot == Slot.CARDSLEEVE
-        && KoLCharacter.hasEquipped(EquipmentManager.CARD_SLEEVE);
+        this.equipmentSlot == Slot.CARDSLEEVE
+            && KoLCharacter.hasEquipped(EquipmentManager.CARD_SLEEVE);
 
     if (changeCardSleeve) {
       RequestThread.postRequest(new EquipmentRequest(EquipmentRequest.UNEQUIP, Slot.OFFHAND));
@@ -980,19 +980,19 @@ public class EquipmentRequest extends PasswordHashRequest {
 
           if (result.contains("which you possess or can wear")) {
             KoLmafia.updateDisplay(
-              MafiaState.ERROR, "You're already wearing as much of that outfit as you can.");
+                MafiaState.ERROR, "You're already wearing as much of that outfit as you can.");
             return;
           }
 
           if (this.equipmentSlot != Slot.HOLSTER
-            && !result.contains("You put")
-            && !result.contains("You equip")
-            && !result.contains("Item equipped")
-            && !result.contains("equips an item")
-            && !result.contains("as you put it on")
-            && !result.contains("You take the existing card out of the sleeve to make room")
-            && !result.contains("You apply the shiny sticker")
-            && !result.contains("fold it into an impromptu sword")) {
+              && !result.contains("You put")
+              && !result.contains("You equip")
+              && !result.contains("Item equipped")
+              && !result.contains("equips an item")
+              && !result.contains("as you put it on")
+              && !result.contains("You take the existing card out of the sleeve to make room")
+              && !result.contains("You apply the shiny sticker")
+              && !result.contains("fold it into an impromptu sword")) {
             KoLmafia.updateDisplay(MafiaState.ERROR, result);
             return;
           }
@@ -1042,7 +1042,7 @@ public class EquipmentRequest extends PasswordHashRequest {
     if (KoLCharacter.isPlumber()) {
       // If we put on or removed power pants, our maximum PP changes
       int delta =
-        (oldItemId == ItemPool.POWER_PANTS) ? -1 : (newItemId == ItemPool.POWER_PANTS) ? 1 : 0;
+          (oldItemId == ItemPool.POWER_PANTS) ? -1 : (newItemId == ItemPool.POWER_PANTS) ? 1 : 0;
       if (delta != 0) {
         KoLCharacter.deltaPP(delta);
       }
@@ -1062,14 +1062,14 @@ public class EquipmentRequest extends PasswordHashRequest {
 
     // If we remove Special Sauce Glove, also remove Chefstaff
     if (oldItemId == ItemPool.SPECIAL_SAUCE_GLOVE
-      && !KoLCharacter.hasSkill(SkillPool.SPIRIT_OF_RIGATONI)
-      && !KoLCharacter.isJarlsberg()
-      && EquipmentManager.usingChefstaff()) {
+        && !KoLCharacter.hasSkill(SkillPool.SPIRIT_OF_RIGATONI)
+        && !KoLCharacter.isJarlsberg()
+        && EquipmentManager.usingChefstaff()) {
       EquipmentManager.removeEquipment(EquipmentManager.getEquipment(Slot.WEAPON), Slot.WEAPON);
     }
 
     return !ConcoctionDatabase.getKnownUses(oldItem).isEmpty()
-      || !ConcoctionDatabase.getKnownUses(newItem).isEmpty();
+        || !ConcoctionDatabase.getKnownUses(newItem).isEmpty();
   }
 
   public static void parseBedazzlements(final String responseText) {
@@ -1088,7 +1088,7 @@ public class EquipmentRequest extends PasswordHashRequest {
       EquipmentManager.setEquipment(slot, newItem);
       if (!KoLmafia.isRefreshing() && !newItem.equals(oldItem)) {
         if (!oldItem.equals(EquipmentRequest.UNEQUIP)
-          && !KoLConstants.inventory.contains(oldItem)) {
+            && !KoLConstants.inventory.contains(oldItem)) {
           // Item was in the list for this slot
           // only so that it could be displayed
           // as the current item.	 Remove it.
@@ -1114,9 +1114,9 @@ public class EquipmentRequest extends PasswordHashRequest {
   }
 
   private static final Pattern ACQUIRE_PATTERN =
-    Pattern.compile("You acquire an item: <b>(.*?)</b>");
+      Pattern.compile("You acquire an item: <b>(.*?)</b>");
   private static final Pattern CONTAINS_PATTERN =
-    Pattern.compile("Your card sleeve currently contains an <b>(.*?)</b>");
+      Pattern.compile("Your card sleeve currently contains an <b>(.*?)</b>");
 
   public static void parseCardSleeve(final String responseText) {
     // Putting a card into an empty card sleeve
@@ -1144,9 +1144,9 @@ public class EquipmentRequest extends PasswordHashRequest {
     String contains = containsMatcher.find() ? containsMatcher.group(1) : null;
     int containsId = ItemDatabase.getItemId(contains);
     AdventureResult oldItem =
-      acquired != null ? ItemPool.get(acquiredId) : EquipmentRequest.UNEQUIP;
+        acquired != null ? ItemPool.get(acquiredId) : EquipmentRequest.UNEQUIP;
     AdventureResult newItem =
-      contains != null ? ItemPool.get(containsId) : EquipmentRequest.UNEQUIP;
+        contains != null ? ItemPool.get(containsId) : EquipmentRequest.UNEQUIP;
 
     if (acquired != null) {
       // *** result processing added it to inventory and tally.
@@ -1163,8 +1163,8 @@ public class EquipmentRequest extends PasswordHashRequest {
   public static AdventureResult idToFolder(final String id) {
     int itemId = ItemPool.FOLDER_01 + StringUtilities.parseInt(id) - 1;
     return (itemId < ItemPool.FOLDER_01 || itemId > ItemPool.FOLDER_28)
-      ? EquipmentRequest.UNEQUIP
-      : ItemPool.get(itemId, 1);
+        ? EquipmentRequest.UNEQUIP
+        : ItemPool.get(itemId, 1);
   }
 
   public static void parseFolders(String responseText) {
@@ -1207,7 +1207,7 @@ public class EquipmentRequest extends PasswordHashRequest {
 
     AdventureResult newItem = lost != null ? ItemPool.get(lostId) : EquipmentRequest.UNEQUIP;
     AdventureResult oldItem =
-      acquired != null ? ItemPool.get(acquiredId) : EquipmentRequest.UNEQUIP;
+        acquired != null ? ItemPool.get(acquiredId) : EquipmentRequest.UNEQUIP;
 
     if (newItem != EquipmentRequest.UNEQUIP) {
       AdventureResult remove = oldItem.getInstance(-1);
@@ -1219,8 +1219,8 @@ public class EquipmentRequest extends PasswordHashRequest {
 
   public static void parseEquipment(final String location, final String responseText) {
     if (location.contains("onlyitem=")
-      || location.contains("ajax=1")
-      || location.contains("ftext=")) {
+        || location.contains("ajax=1")
+        || location.contains("ftext=")) {
       return;
     }
 
@@ -1235,82 +1235,82 @@ public class EquipmentRequest extends PasswordHashRequest {
     EnumMap<Slot, AdventureResult> equipment = EquipmentManager.emptyEquipmentArray();
 
     EquipmentRequest.parseEquipment(
-      responseText,
-      equipment,
-      "unequip&type=hat",
-      EquipmentRequest.HAT_PATTERN,
-      "Hat: ",
-      Slot.HAT);
+        responseText,
+        equipment,
+        "unequip&type=hat",
+        EquipmentRequest.HAT_PATTERN,
+        "Hat: ",
+        Slot.HAT);
     EquipmentRequest.parseEquipment(
-      responseText,
-      equipment,
-      "unequip&type=weapon",
-      EquipmentRequest.WEAPON_PATTERN,
-      "Weapon: ",
-      Slot.WEAPON);
+        responseText,
+        equipment,
+        "unequip&type=weapon",
+        EquipmentRequest.WEAPON_PATTERN,
+        "Weapon: ",
+        Slot.WEAPON);
     EquipmentRequest.parseEquipment(
-      responseText,
-      equipment,
-      "action=holster&holster=0",
-      EquipmentRequest.HOLSTER_PATTERN,
-      "Holstered: ",
-      Slot.HOLSTER);
+        responseText,
+        equipment,
+        "action=holster&holster=0",
+        EquipmentRequest.HOLSTER_PATTERN,
+        "Holstered: ",
+        Slot.HOLSTER);
     EquipmentRequest.parseEquipment(
-      responseText,
-      equipment,
-      "unequip&type=offhand",
-      EquipmentRequest.OFFHAND_PATTERN,
-      "Offhand: ",
-      Slot.OFFHAND);
+        responseText,
+        equipment,
+        "unequip&type=offhand",
+        EquipmentRequest.OFFHAND_PATTERN,
+        "Offhand: ",
+        Slot.OFFHAND);
     EquipmentRequest.parseEquipment(
-      responseText,
-      equipment,
-      "unequip&type=container",
-      EquipmentRequest.CONTAINER_PATTERN,
-      "Back: ",
-      Slot.CONTAINER);
+        responseText,
+        equipment,
+        "unequip&type=container",
+        EquipmentRequest.CONTAINER_PATTERN,
+        "Back: ",
+        Slot.CONTAINER);
     EquipmentRequest.parseEquipment(
-      responseText,
-      equipment,
-      "unequip&type=shirt",
-      EquipmentRequest.SHIRT_PATTERN,
-      "Shirt: ",
-      Slot.SHIRT);
+        responseText,
+        equipment,
+        "unequip&type=shirt",
+        EquipmentRequest.SHIRT_PATTERN,
+        "Shirt: ",
+        Slot.SHIRT);
     EquipmentRequest.parseEquipment(
-      responseText,
-      equipment,
-      "unequip&type=pants",
-      EquipmentRequest.PANTS_PATTERN,
-      "Pants: ",
-      Slot.PANTS);
+        responseText,
+        equipment,
+        "unequip&type=pants",
+        EquipmentRequest.PANTS_PATTERN,
+        "Pants: ",
+        Slot.PANTS);
     EquipmentRequest.parseEquipment(
-      responseText,
-      equipment,
-      "unequip&type=acc1",
-      EquipmentRequest.ACC1_PATTERN,
-      "Accessory 1: ",
-      Slot.ACCESSORY1);
+        responseText,
+        equipment,
+        "unequip&type=acc1",
+        EquipmentRequest.ACC1_PATTERN,
+        "Accessory 1: ",
+        Slot.ACCESSORY1);
     EquipmentRequest.parseEquipment(
-      responseText,
-      equipment,
-      "unequip&type=acc2",
-      EquipmentRequest.ACC2_PATTERN,
-      "Accessory 2: ",
-      Slot.ACCESSORY2);
+        responseText,
+        equipment,
+        "unequip&type=acc2",
+        EquipmentRequest.ACC2_PATTERN,
+        "Accessory 2: ",
+        Slot.ACCESSORY2);
     EquipmentRequest.parseEquipment(
-      responseText,
-      equipment,
-      "unequip&type=acc3",
-      EquipmentRequest.ACC3_PATTERN,
-      "Accessory 3: ",
-      Slot.ACCESSORY3);
+        responseText,
+        equipment,
+        "unequip&type=acc3",
+        EquipmentRequest.ACC3_PATTERN,
+        "Accessory 3: ",
+        Slot.ACCESSORY3);
     EquipmentRequest.parseEquipment(
-      responseText,
-      equipment,
-      "unequip&type=familiarequip",
-      EquipmentRequest.FAMILIARITEM_PATTERN,
-      "Familiar: ",
-      Slot.FAMILIAR);
+        responseText,
+        equipment,
+        "unequip&type=familiarequip",
+        EquipmentRequest.FAMILIARITEM_PATTERN,
+        "Familiar: ",
+        Slot.FAMILIAR);
 
     int index = 0;
     while ((index = responseText.indexOf("unequip&type=fakehand", index)) != -1) {
@@ -1335,7 +1335,7 @@ public class EquipmentRequest extends PasswordHashRequest {
 
     if (oldFakeHands != newFakeHands) {
       AdventureResult.addResultToList(
-        KoLConstants.inventory, ItemPool.get(ItemPool.FAKE_HAND, oldFakeHands - newFakeHands));
+          KoLConstants.inventory, ItemPool.get(ItemPool.FAKE_HAND, oldFakeHands - newFakeHands));
       EquipmentManager.setFakeHands(newFakeHands);
     }
 
@@ -1361,12 +1361,12 @@ public class EquipmentRequest extends PasswordHashRequest {
   }
 
   private static void parseEquipment(
-    final String responseText,
-    Map<Slot, AdventureResult> equipment,
-    final String test,
-    final Pattern pattern,
-    final String tag,
-    final Slot slot) {
+      final String responseText,
+      Map<Slot, AdventureResult> equipment,
+      final String test,
+      final Pattern pattern,
+      final String tag,
+      final Slot slot) {
     if (!responseText.contains(test)) {
       return;
     }
@@ -1395,8 +1395,8 @@ public class EquipmentRequest extends PasswordHashRequest {
   }
 
   private static final Pattern HATS_PATTERN =
-    Pattern.compile(
-      "Hat</a>:</td>(<td><img[^']*'descitem\\((\\d+)[^>]*></td>)?<td><b[^>]*>(.*?)</b></td>");
+      Pattern.compile(
+          "Hat</a>:</td>(<td><img[^']*'descitem\\((\\d+)[^>]*></td>)?<td><b[^>]*>(.*?)</b></td>");
 
   private static List<AdventureResult> parseHatTrickHats(String responseText) {
     var hats = new ArrayList<AdventureResult>();
@@ -1427,8 +1427,8 @@ public class EquipmentRequest extends PasswordHashRequest {
    * concoctions
    */
   public static boolean switchEquipment(
-    final Map<Slot, AdventureResult> oldEquipment,
-    final Map<Slot, AdventureResult> newEquipment) {
+      final Map<Slot, AdventureResult> oldEquipment,
+      final Map<Slot, AdventureResult> newEquipment) {
     boolean refresh = false;
 
     if (!KoLmafia.isRefreshing()) {
@@ -1473,10 +1473,10 @@ public class EquipmentRequest extends PasswordHashRequest {
         // anything in the off-hand.
         // Dropping a weapon in the main hand automatically drops a weapon in the off-hand
         if (EquipmentDatabase.getHands(newItem.getItemId()) > 1
-          || (newItem.equals(EquipmentRequest.UNEQUIP) && EquipmentManager.isDualWielding())) {
+            || (newItem.equals(EquipmentRequest.UNEQUIP) && EquipmentManager.isDualWielding())) {
           refresh |= EquipmentRequest.switchItem(Slot.OFFHAND, EquipmentRequest.UNEQUIP);
         }
-        // fall through
+      // fall through
       default:
         AdventureResult oldItem = EquipmentManager.getEquipment(type);
         refresh |= EquipmentRequest.switchItem(oldItem, newItem);
@@ -1514,8 +1514,8 @@ public class EquipmentRequest extends PasswordHashRequest {
     if (action.equals("equip")) {
       // Detect failure to equip
       if (!responseText.contains("You equip an item")
-        && !responseText.contains("Item equipped")
-        && !responseText.contains("equips an item")) {
+          && !responseText.contains("Item equipped")
+          && !responseText.contains("equips an item")) {
         return false;
       }
 
@@ -1529,7 +1529,7 @@ public class EquipmentRequest extends PasswordHashRequest {
         int oldFakeHands = EquipmentManager.getFakeHands();
         EquipmentManager.setFakeHands(oldFakeHands + 1);
         AdventureResult.addResultToList(
-          KoLConstants.inventory, ItemPool.get(ItemPool.FAKE_HAND, -1));
+            KoLConstants.inventory, ItemPool.get(ItemPool.FAKE_HAND, -1));
         return false;
       }
 
@@ -1610,7 +1610,7 @@ public class EquipmentRequest extends PasswordHashRequest {
       if (type == Slot.FAKEHAND) {
         int oldFakeHands = EquipmentManager.getFakeHands();
         AdventureResult.addResultToList(
-          KoLConstants.inventory, ItemPool.get(ItemPool.FAKE_HAND, oldFakeHands));
+            KoLConstants.inventory, ItemPool.get(ItemPool.FAKE_HAND, oldFakeHands));
         EquipmentManager.setFakeHands(0);
         return false;
       }
@@ -1804,9 +1804,9 @@ public class EquipmentRequest extends PasswordHashRequest {
     int accessoryIndex = 0;
 
     Slot[] accessories =
-      new Slot[] {
-        Slot.ACCESSORY1, Slot.ACCESSORY2, Slot.ACCESSORY3,
-      };
+        new Slot[] {
+          Slot.ACCESSORY1, Slot.ACCESSORY2, Slot.ACCESSORY3,
+        };
     // Consume unfilled slots from 1 to 3
     for (Slot slot : SlotSet.ACCESSORY_SLOTS) {
       if (oldEquipment.get(slot) == EquipmentRequest.UNEQUIP) {
@@ -1817,22 +1817,22 @@ public class EquipmentRequest extends PasswordHashRequest {
     for (Slot slot : List.of(Slot.ACCESSORY3, Slot.ACCESSORY2, Slot.ACCESSORY1)) {
       if (accessoryIndex >= 3) break;
       if (oldEquipment.get(slot) != EquipmentRequest.UNEQUIP
-        && newEquipment.get(slot) == EquipmentRequest.UNEQUIP) {
+          && newEquipment.get(slot) == EquipmentRequest.UNEQUIP) {
         accessories[accessoryIndex++] = slot;
       }
     }
 
     // Calculate weapon fill order
     Slot[] weapons =
-      new Slot[] {
-        Slot.WEAPON, Slot.OFFHAND,
-      };
+        new Slot[] {
+          Slot.WEAPON, Slot.OFFHAND,
+        };
     int weaponIndex = 0;
 
     // If the offhand slot is empty and the weapon slot is
     // not, put new weapon into offhand slot
     if (newEquipment.get(Slot.OFFHAND) == EquipmentRequest.UNEQUIP
-      && newEquipment.get(Slot.WEAPON) != EquipmentRequest.UNEQUIP) {
+        && newEquipment.get(Slot.WEAPON) != EquipmentRequest.UNEQUIP) {
       weapons[0] = Slot.OFFHAND;
       weapons[1] = Slot.WEAPON;
     }
@@ -1885,8 +1885,8 @@ public class EquipmentRequest extends PasswordHashRequest {
           weaponIndex++;
         }
         default -> {}
-        // Everything else goes into an
-        // unambiguous slot.
+          // Everything else goes into an
+          // unambiguous slot.
       }
 
       newEquipment.put(slot, item);
@@ -2062,9 +2062,9 @@ public class EquipmentRequest extends PasswordHashRequest {
     UseItemRequest.setLastItemUsed(EquipmentManager.CARD_SLEEVE);
     Matcher m = SLEEVECARD_PATTERN.matcher(urlString);
     String message =
-      m.find()
-        ? "equip card-sleeve " + ItemDatabase.getItemName(StringUtilities.parseInt(m.group(1)))
-        : urlString.contains("removecard=1") ? "unequip card-sleeve " : null;
+        m.find()
+            ? "equip card-sleeve " + ItemDatabase.getItemName(StringUtilities.parseInt(m.group(1)))
+            : urlString.contains("removecard=1") ? "unequip card-sleeve " : null;
     if (message != null) {
       RequestLogger.updateSessionLog();
       RequestLogger.updateSessionLog(message);
@@ -2112,9 +2112,9 @@ public class EquipmentRequest extends PasswordHashRequest {
     Matcher m = HOLSTER_URL_PATTERN.matcher(urlString);
     int itemId = m.find() ? StringUtilities.parseInt(m.group(1)) : -1;
     String message =
-      itemId > 0
-        ? "equip holster " + ItemDatabase.getItemName(itemId)
-        : itemId == 0 ? "unequip holster" : null;
+        itemId > 0
+            ? "equip holster " + ItemDatabase.getItemName(itemId)
+            : itemId == 0 ? "unequip holster" : null;
 
     if (message != null) {
       RequestLogger.updateSessionLog();
@@ -2126,7 +2126,7 @@ public class EquipmentRequest extends PasswordHashRequest {
 
   public static void checkCowboyBoots() {
     if (!InventoryManager.hasItem(EquipmentManager.COWBOY_BOOTS)
-      && !KoLCharacter.hasEquipped(EquipmentManager.COWBOY_BOOTS)) {
+        && !KoLCharacter.hasEquipped(EquipmentManager.COWBOY_BOOTS)) {
       EquipmentManager.setEquipment(Slot.BOOTSKIN, EquipmentRequest.UNEQUIP);
       EquipmentManager.setEquipment(Slot.BOOTSPUR, EquipmentRequest.UNEQUIP);
       return;
