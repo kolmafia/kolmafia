@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.HttpClientWrapper.getRequests;
+import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withClass;
 import static internal.helpers.Player.withDay;
@@ -28,6 +29,7 @@ import java.lang.reflect.Field;
 import java.time.Month;
 
 import internal.helpers.HttpClientWrapper;
+import internal.helpers.Networking;
 import internal.network.FakeHttpClientBuilder;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
@@ -301,7 +303,9 @@ class DrinkItemRequestTest {
   @Test
   public void itEquipsPinkyRingInFirstAvailableNonLiverSlot() {
     // Reset static fields via reflection
+    HttpClientWrapper.setupFakeClient();
     var builder = new FakeHttpClientBuilder();
+    var client = builder.client;
     try {
       for (String fieldName : new String[]{"askedAboutPinkyRing", "ignorePrompt"}) {
         Field field = DrinkItemRequest.class.getDeclaredField(fieldName);
@@ -326,15 +330,16 @@ class DrinkItemRequestTest {
       var frame = new GenericPanelFrame("Test Frame");
 
       try {
-        builder.client.addResponse(200, "Item equipped.");
+        HttpClientWrapper.fakeClientBuilder.client.addResponse(200, "Item equipped.");
         DrinkItemRequest.allowBoozeConsumption("Doc's Fortifying Wine", 1);
-        var requests = builder.client.getRequests();
-        var equipRequest =
-          requests.stream();
-
-        assertEquals("angelbone dice", EquipmentManager.getEquipment(Slot.ACCESSORY1).getName());
-        assertEquals(ItemPool.MAFIA_PINKY_RING, EquipmentManager.getEquipment(Slot.ACCESSORY2).getItemId());
-        assertEquals("bejeweled pledge pin", EquipmentManager.getEquipment(Slot.ACCESSORY3).getName());
+        var requests = HttpClientWrapper.getRequests();
+        var equipreq = requests.stream()
+          .filter(req->req.uri().getPath().equals("/inv_equip.php"))
+          .findFirst()
+          .orElseThrow();
+        assertPostRequest(equipreq,
+          "/inv_equip.php",
+          "which=2&ajax=1&slot=2&action=equip&whichitem=9546&pwd=testHash");
       } finally {
         frame.dispose();
       }
