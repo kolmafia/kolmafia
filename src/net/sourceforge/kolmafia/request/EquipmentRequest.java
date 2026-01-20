@@ -1206,9 +1206,9 @@ public class EquipmentRequest extends PasswordHashRequest {
     String acquired = acquiredMatcher.find() ? acquiredMatcher.group(1) : null;
     int acquiredId = ItemDatabase.getItemId(acquired);
 
-
     AdventureResult newItem = lost != null ? ItemPool.get(lostId) : EquipmentRequest.UNEQUIP;
-    AdventureResult oldItem = acquired != null ? ItemPool.get(acquiredId) : EquipmentRequest.UNEQUIP;
+    AdventureResult oldItem =
+        acquired != null ? ItemPool.get(acquiredId) : EquipmentRequest.UNEQUIP;
 
     if (newItem != EquipmentRequest.UNEQUIP) {
       AdventureResult remove = oldItem.getInstance(-1);
