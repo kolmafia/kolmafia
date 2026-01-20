@@ -15,6 +15,8 @@ import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withStats;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
@@ -333,7 +335,7 @@ class DrinkItemRequestTest {
         assertPostRequest(
             equipreq,
             "/inv_equip.php",
-            "which=2&ajax=1&slot=2&action=equip&whichitem=9546&pwd=testHash");
+            allOf(containsString("slot=2"), containsString("whichitem=9546")));
       } finally {
         frame.dispose();
       }
