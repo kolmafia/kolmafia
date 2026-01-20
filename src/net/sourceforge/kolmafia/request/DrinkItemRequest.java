@@ -10,9 +10,12 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.equipment.SlotSet;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
@@ -22,6 +25,7 @@ import net.sourceforge.kolmafia.persistence.DailyLimitDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase.Attribute;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -44,7 +48,7 @@ public class DrinkItemRequest extends UseItemRequest {
   public static int boozeConsumed = 0;
 
   private static final Pattern EVERFULL_GLASS_PATTERN =
-      Pattern.compile("Someone must have poured some of their (.*?) into it");
+    Pattern.compile("Someone must have poured some of their (.*?) into it");
 
   public DrinkItemRequest(final AdventureResult item) {
     super(ItemDatabase.getConsumptionType(item.getItemId()), item);
@@ -66,13 +70,13 @@ public class DrinkItemRequest extends UseItemRequest {
 
   public static final AdventureResult currentDrinkHelper() {
     return (DrinkItemRequest.queuedDrinkHelper != null
-            && DrinkItemRequest.queuedDrinkHelperCount > 0)
-        ? DrinkItemRequest.queuedDrinkHelper.getInstance(DrinkItemRequest.queuedDrinkHelperCount)
-        : null;
+      && DrinkItemRequest.queuedDrinkHelperCount > 0)
+      ? DrinkItemRequest.queuedDrinkHelper.getInstance(DrinkItemRequest.queuedDrinkHelperCount)
+      : null;
   }
 
   public static int maximumUses(
-      final int itemId, final String itemName, final int inebriety, boolean allowOverDrink) {
+    final int itemId, final String itemName, final int inebriety, boolean allowOverDrink) {
     if (KoLCharacter.isGreyGoo()) {
       // If we ever track what items have already been absorbed this ascension, this is a great
       // place to use those data.
@@ -80,8 +84,8 @@ public class DrinkItemRequest extends UseItemRequest {
     }
 
     if (KoLCharacter.isJarlsberg()
-        && !JarlsbergRequest.isJarlsbergian(itemId)
-        && itemId != ItemPool.STEEL_LIVER) {
+      && !JarlsbergRequest.isJarlsbergian(itemId)
+      && itemId != ItemPool.STEEL_LIVER) {
       UseItemRequest.limiter = "its non-Jarlsbergian nature";
       return 0;
     }
@@ -89,8 +93,8 @@ public class DrinkItemRequest extends UseItemRequest {
     var notes = ConsumablesDatabase.getNotes(itemName);
 
     if (KoLCharacter.inHighschool()
-        && itemId != ItemPool.STEEL_LIVER
-        && (notes == null || !notes.startsWith("KOLHS"))) {
+      && itemId != ItemPool.STEEL_LIVER
+      && (notes == null || !notes.startsWith("KOLHS"))) {
       UseItemRequest.limiter = "your unrefined palate";
       return 0;
     }
@@ -146,9 +150,9 @@ public class DrinkItemRequest extends UseItemRequest {
 
     int shotglass = 0;
     if (inebriety == 1
-        && !ConcoctionDatabase.queuedMimeShotglass
-        && InventoryManager.getCount(ItemPool.MIME_SHOTGLASS) > 0
-        && !Preferences.getBoolean("_mimeArmyShotglassUsed")) {
+      && !ConcoctionDatabase.queuedMimeShotglass
+      && InventoryManager.getCount(ItemPool.MIME_SHOTGLASS) > 0
+      && !Preferences.getBoolean("_mimeArmyShotglassUsed")) {
       shotglass = 1;
     }
 
@@ -223,12 +227,12 @@ public class DrinkItemRequest extends UseItemRequest {
       }
 
       KoLmafia.updateDisplay(
-          this.itemUsed.getName()
-              + " queued for next "
-              + count
-              + " beverage"
-              + (count == 1 ? "" : "s")
-              + " drunk.");
+        this.itemUsed.getName()
+          + " queued for next "
+          + count
+          + " beverage"
+          + (count == 1 ? "" : "s")
+          + " drunk.");
 
       return;
     }
@@ -245,13 +249,13 @@ public class DrinkItemRequest extends UseItemRequest {
     int maximumUses = UseItemRequest.maximumUses(itemId, this.consumptionType);
     if (maximumUses < this.itemUsed.getCount()) {
       KoLmafia.updateDisplay(
-          "(usable quantity of "
-              + this.itemUsed
-              + " is limited to "
-              + maximumUses
-              + " by "
-              + UseItemRequest.limiter
-              + ")");
+        "(usable quantity of "
+          + this.itemUsed
+          + " is limited to "
+          + maximumUses
+          + " by "
+          + UseItemRequest.limiter
+          + ")");
       this.itemUsed = this.itemUsed.getInstance(maximumUses);
     }
 
@@ -270,7 +274,7 @@ public class DrinkItemRequest extends UseItemRequest {
     }
 
     if (!DrinkItemRequest.sequentialConsume(itemId)
-        && !InventoryManager.retrieveItem(this.itemUsed)) {
+      && !InventoryManager.retrieveItem(this.itemUsed)) {
       return;
     }
 
@@ -279,9 +283,9 @@ public class DrinkItemRequest extends UseItemRequest {
 
     // The miracle of "consume some" does not apply to TPS drinks
     if (origCount != 1
-        && (DrinkItemRequest.singleConsume(itemId)
-            || (DrinkItemRequest.sequentialConsume(itemId)
-                && InventoryManager.getCount(itemId) < origCount))) {
+      && (DrinkItemRequest.singleConsume(itemId)
+      || (DrinkItemRequest.sequentialConsume(itemId)
+      && InventoryManager.getCount(itemId) < origCount))) {
       iterations = origCount;
       this.itemUsed = this.itemUsed.getInstance(1);
     }
@@ -292,8 +296,8 @@ public class DrinkItemRequest extends UseItemRequest {
       DrinkItemRequest.boozeConsumed = i - 1;
       if (!this.allowBoozeConsumption()) {
         KoLmafia.updateDisplay(
-            MafiaState.ERROR,
-            "Aborted drinking " + this.itemUsed.getCount() + " " + this.itemUsed.getName() + ".");
+          MafiaState.ERROR,
+          "Aborted drinking " + this.itemUsed.getCount() + " " + this.itemUsed.getName() + ".");
         return;
       }
 
@@ -304,13 +308,13 @@ public class DrinkItemRequest extends UseItemRequest {
     if (KoLmafia.permitsContinue()) {
       DrinkItemRequest.boozeConsumed = origCount;
       KoLmafia.updateDisplay(
-          "Finished drinking " + origCount + " " + this.itemUsed.getName() + ".");
+        "Finished drinking " + origCount + " " + this.itemUsed.getName() + ".");
     }
   }
 
   @Override
   public void useOnce(
-      final int currentIteration, final int totalIterations, String useTypeAsString) {
+    final int currentIteration, final int totalIterations, String useTypeAsString) {
     UseItemRequest.lastUpdate = "";
 
     // Check to make sure the character has the item in their
@@ -331,13 +335,13 @@ public class DrinkItemRequest extends UseItemRequest {
         case ItemPool.FROSTYS_MUG:
           // Check it can be safely used
           UseItemRequest.lastUpdate =
-              UseItemRequest.elementalHelper("Coldform", Element.COLD, 1000);
+            UseItemRequest.elementalHelper("Coldform", Element.COLD, 1000);
           if (!UseItemRequest.lastUpdate.equals("")) {
             KoLmafia.updateDisplay(MafiaState.ERROR, UseItemRequest.lastUpdate);
             DrinkItemRequest.queuedDrinkHelper = null;
             return;
           }
-        // deliberate fallthrough
+          // deliberate fallthrough
         case ItemPool.DIVINE_FLUTE:
         case ItemPool.CRIMBCO_MUG:
         case ItemPool.BGE_SHOTGLASS:
@@ -362,21 +366,21 @@ public class DrinkItemRequest extends UseItemRequest {
     // there is no interface for doing so in game, but that's
     // probably not something that should be relied on.
     return itemId == ItemPool.ICE_STEIN
-        || (DrinkItemRequest.queuedDrinkHelper != null
-            && DrinkItemRequest.queuedDrinkHelperCount > 0);
+      || (DrinkItemRequest.queuedDrinkHelper != null
+      && DrinkItemRequest.queuedDrinkHelperCount > 0);
   }
 
   private static boolean sequentialConsume(final int itemId) {
     return switch (itemId) {
       case ItemPool.DIRTY_MARTINI,
-          ItemPool.GROGTINI,
-          ItemPool.CHERRY_BOMB,
-          ItemPool.VESPER,
-          ItemPool.BODYSLAM,
-          ItemPool.SANGRIA_DEL_DIABLO ->
-          // Allow player who owns a single tiny plastic sword to
-          // make and drink multiple drinks in succession.
-          true;
+           ItemPool.GROGTINI,
+           ItemPool.CHERRY_BOMB,
+           ItemPool.VESPER,
+           ItemPool.BODYSLAM,
+           ItemPool.SANGRIA_DEL_DIABLO ->
+        // Allow player who owns a single tiny plastic sword to
+        // make and drink multiple drinks in succession.
+        true;
       default -> false;
     };
   }
@@ -398,8 +402,8 @@ public class DrinkItemRequest extends UseItemRequest {
     int inebriety = ConsumablesDatabase.getInebriety(itemName);
     int mimeShotglass = 0;
     if (inebriety == 1
-        && InventoryManager.getCount(ItemPool.MIME_SHOTGLASS) > 0
-        && !Preferences.getBoolean("_mimeArmyShotglassUsed")) {
+      && InventoryManager.getCount(ItemPool.MIME_SHOTGLASS) > 0
+      && !Preferences.getBoolean("_mimeArmyShotglassUsed")) {
       mimeShotglass = 1;
     }
     int inebrietyBonus = inebriety * count;
@@ -442,20 +446,20 @@ public class DrinkItemRequest extends UseItemRequest {
     // have adventures or fullness remaining.
 
     if (KoLCharacter.getInebriety() + inebrietyBonus - mimeShotglass
-        > KoLCharacter.getLiverCapacity()) {
+      > KoLCharacter.getLiverCapacity()) {
       FamiliarData stooper = KoLCharacter.usableFamiliar(FamiliarPool.STOOPER);
       FamiliarData current = KoLCharacter.getFamiliar();
       if (stooper != null
-          && (current == null || stooper != current)
-          && !KoLCharacter.inPokefam()
-          && !KoLCharacter.inQuantum()
-          && !InputFieldUtilities.confirm(
-              "Are you sure you want to overdrink before using Stooper?")) {
+        && (current == null || stooper != current)
+        && !KoLCharacter.inPokefam()
+        && !KoLCharacter.inQuantum()
+        && !InputFieldUtilities.confirm(
+        "Are you sure you want to overdrink before using Stooper?")) {
         return false;
       }
       if ((KoLCharacter.getAdventuresLeft() > 0
-              || KoLCharacter.getFullness() < KoLCharacter.getStomachCapacity())
-          && !InputFieldUtilities.confirm("Are you sure you want to overdrink?")) {
+        || KoLCharacter.getFullness() < KoLCharacter.getStomachCapacity())
+        && !InputFieldUtilities.confirm("Are you sure you want to overdrink?")) {
         return false;
       }
     }
@@ -464,7 +468,7 @@ public class DrinkItemRequest extends UseItemRequest {
   }
 
   private static boolean askAboutOde(
-      String itemName, final int inebriety, final int count, final int shotglass) {
+    String itemName, final int inebriety, final int count, final int shotglass) {
     // Can't use ode if shotglass brings inebriety to 0
     if (inebriety * count - shotglass == 0) {
       return true;
@@ -493,12 +497,12 @@ public class DrinkItemRequest extends UseItemRequest {
 
     // Check for Drunk and Avuncular
     boolean skipDrunkAvuncularNag =
-        (DrinkItemRequest.askedAboutDrunkAvuncular == myUserId
-            || DrinkItemRequest.ignorePrompt == myUserId);
+      (DrinkItemRequest.askedAboutDrunkAvuncular == myUserId
+        || DrinkItemRequest.ignorePrompt == myUserId);
     if (!skipDrunkAvuncularNag) {
       // See if already have Drunk and Avuncular effect
       int drunkAvuncularTurns =
-          ConsumablesDatabase.DRUNK_AVUNCULAR.getCount(KoLConstants.activeEffects);
+        ConsumablesDatabase.DRUNK_AVUNCULAR.getCount(KoLConstants.activeEffects);
 
       if (drunkAvuncularTurns < 1) {
         String message = "Are you sure you want to drink without Drunk and Avuncular?";
@@ -521,9 +525,9 @@ public class DrinkItemRequest extends UseItemRequest {
     // Check if character can cast Ode.
     UseSkillRequest ode = UseSkillRequest.getInstance(SkillPool.ODE_TO_BOOZE);
     boolean canOde =
-        !KoLCharacter.inGLover()
-            && KoLCharacter.hasSkill(SkillPool.ODE_TO_BOOZE)
-            && UseSkillRequest.hasAccordion();
+      !KoLCharacter.inGLover()
+        && KoLCharacter.hasSkill(SkillPool.ODE_TO_BOOZE)
+        && UseSkillRequest.hasAccordion();
     boolean shouldOde = canOde && KoLCharacter.canInteract();
 
     if (shouldOde) {
@@ -531,8 +535,8 @@ public class DrinkItemRequest extends UseItemRequest {
       // when you are out of Ronin/HC
       long odeCost = SkillDatabase.getMPConsumptionById(SkillPool.ODE_TO_BOOZE);
       while (odeTurns < consumptionTurns
-          && KoLCharacter.getCurrentMP() >= odeCost
-          && KoLmafia.permitsContinue()) {
+        && KoLCharacter.getCurrentMP() >= odeCost
+        && KoLmafia.permitsContinue()) {
         ode.setBuffCount(1);
         RequestThread.postRequest(ode);
         int newTurns = ConsumablesDatabase.ODE.getCount(KoLConstants.activeEffects);
@@ -549,15 +553,15 @@ public class DrinkItemRequest extends UseItemRequest {
     }
 
     boolean requestBuffOde =
-        KoLCharacter.canInteract() && Preferences.getBoolean("odeBuffbotCheck");
+      KoLCharacter.canInteract() && Preferences.getBoolean("odeBuffbotCheck");
     if (canOde || requestBuffOde) {
       boolean skipOdeNag =
-          (DrinkItemRequest.askedAboutOde == myUserId || DrinkItemRequest.ignorePrompt == myUserId);
+        (DrinkItemRequest.askedAboutOde == myUserId || DrinkItemRequest.ignorePrompt == myUserId);
 
       String message =
-          odeTurns > 0
-              ? "The Ode to Booze will run out before you finish drinking that. Are you sure?"
-              : "Are you sure you want to drink without ode?";
+        odeTurns > 0
+          ? "The Ode to Booze will run out before you finish drinking that. Are you sure?"
+          : "Are you sure you want to drink without ode?";
 
       if (!skipOdeNag && !InputFieldUtilities.confirm(message)) {
         return false;
@@ -582,8 +586,8 @@ public class DrinkItemRequest extends UseItemRequest {
 
     // If equipped already or can't be equipped, or we can't get one, no need to ask
     if (KoLCharacter.hasEquipped(ItemPool.get(ItemPool.TUXEDO_SHIRT, 1))
-        || !EquipmentManager.canEquip(ItemPool.TUXEDO_SHIRT)
-        || !InventoryManager.itemAvailable(ItemPool.TUXEDO_SHIRT)) {
+      || !EquipmentManager.canEquip(ItemPool.TUXEDO_SHIRT)
+      || !InventoryManager.itemAvailable(ItemPool.TUXEDO_SHIRT)) {
       return true;
     }
 
@@ -594,7 +598,7 @@ public class DrinkItemRequest extends UseItemRequest {
         InventoryManager.retrieveItem(ItemPool.TUXEDO_SHIRT);
       }
       RequestThread.postRequest(
-          new EquipmentRequest(ItemPool.get(ItemPool.TUXEDO_SHIRT, 1), Slot.SHIRT));
+        new EquipmentRequest(ItemPool.get(ItemPool.TUXEDO_SHIRT, 1), Slot.SHIRT));
       if (EquipmentManager.getEquipment(Slot.SHIRT).getItemId() != ItemPool.TUXEDO_SHIRT) {
         KoLmafia.updateDisplay(MafiaState.ERROR, "Failed to equip Tuxedo Shirt.");
         return false;
@@ -604,7 +608,7 @@ public class DrinkItemRequest extends UseItemRequest {
     }
 
     if (DrinkItemRequest.ignorePrompt != KoLCharacter.getUserId()
-        && !InputFieldUtilities.confirm("Are you sure you want to drink without Tuxedo ?")) {
+      && !InputFieldUtilities.confirm("Are you sure you want to drink without Tuxedo ?")) {
       return false;
     }
 
@@ -626,8 +630,8 @@ public class DrinkItemRequest extends UseItemRequest {
 
     // If equipped already or can't be equipped, or we can't get one, no need to ask
     if (KoLCharacter.hasEquipped(ItemPool.get(ItemPool.MAFIA_PINKY_RING, 1))
-        || !EquipmentManager.canEquip(ItemPool.MAFIA_PINKY_RING)
-        || !InventoryManager.itemAvailable(ItemPool.MAFIA_PINKY_RING)) {
+      || !EquipmentManager.canEquip(ItemPool.MAFIA_PINKY_RING)
+      || !InventoryManager.itemAvailable(ItemPool.MAFIA_PINKY_RING)) {
       return true;
     }
 
@@ -637,9 +641,26 @@ public class DrinkItemRequest extends UseItemRequest {
         // get Mafia Pinky Ring
         InventoryManager.retrieveItem(ItemPool.MAFIA_PINKY_RING);
       }
-      RequestThread.postRequest(
-          new EquipmentRequest(ItemPool.get(ItemPool.MAFIA_PINKY_RING, 1), Slot.ACCESSORY3));
-      if (EquipmentManager.getEquipment(Slot.ACCESSORY3).getItemId() != ItemPool.MAFIA_PINKY_RING) {
+      EnumSet<Slot> accessorySlots = SlotSet.ACCESSORY_SLOTS;
+      Slot pinkyRingSlot = null;
+      for (Slot slot : accessorySlots) {
+        int itemId = EquipmentManager.getEquipment(slot).getItemId();
+        Modifiers mods = ModifierDatabase.getItemModifiers(itemId);
+
+        // Check if the currently equipped item provides Liver Capacity
+        boolean hasLiverModifier =
+          mods != null && mods.getNumeric(DoubleModifier.LIVER_CAPACITY) > 0;
+        if (!hasLiverModifier) {
+          // Equip the Mafia Pinky Ring in this slot
+          pinkyRingSlot = slot;
+          RequestThread.postRequest(
+            new EquipmentRequest(ItemPool.get(ItemPool.MAFIA_PINKY_RING, 1), slot));
+          break; // Stop after equipping it in the first available non-liver slot
+        }
+      }
+      if (pinkyRingSlot == null
+        || EquipmentManager.getEquipment(pinkyRingSlot).getItemId()
+        != ItemPool.MAFIA_PINKY_RING) {
         KoLmafia.updateDisplay(MafiaState.ERROR, "Failed to equip mafia pinky ring.");
         return false;
       } else {
@@ -648,8 +669,8 @@ public class DrinkItemRequest extends UseItemRequest {
     }
 
     if (DrinkItemRequest.ignorePrompt != KoLCharacter.getUserId()
-        && !InputFieldUtilities.confirm(
-            "Are you sure you want to drink without mafia pinky ring ?")) {
+      && !InputFieldUtilities.confirm(
+      "Are you sure you want to drink without mafia pinky ring ?")) {
       return false;
     }
 
@@ -659,10 +680,10 @@ public class DrinkItemRequest extends UseItemRequest {
   }
 
   public static final void parseConsumption(
-      AdventureResult item,
-      final AdventureResult helper,
-      final String responseText,
-      final boolean showHTML) {
+    AdventureResult item,
+    final AdventureResult helper,
+    final String responseText,
+    final boolean showHTML) {
     if (responseText.contains("too drunk")) {
       UseItemRequest.lastUpdate = "Inebriety limit reached.";
       KoLmafia.updateDisplay(MafiaState.ERROR, UseItemRequest.lastUpdate);
@@ -816,13 +837,13 @@ public class DrinkItemRequest extends UseItemRequest {
     int swizzlerCount = InventoryManager.getCount(ItemPool.SWIZZLER);
     if (swizzlerCount > 0) {
       ResultProcessor.processResult(
-          ItemPool.get(ItemPool.SWIZZLER, Math.max(-item.getCount(), -swizzlerCount)));
+        ItemPool.get(ItemPool.SWIZZLER, Math.max(-item.getCount(), -swizzlerCount)));
     }
 
     int limeCount = InventoryManager.getCount(ItemPool.TWIST_OF_LIME);
     if (limeCount > 0) {
       ResultProcessor.processResult(
-          ItemPool.get(ItemPool.TWIST_OF_LIME, Math.max(-item.getCount(), -limeCount)));
+        ItemPool.get(ItemPool.TWIST_OF_LIME, Math.max(-item.getCount(), -limeCount)));
     }
 
     // So are black labels, for base booze. Check response text to see if it was used.
@@ -830,7 +851,7 @@ public class DrinkItemRequest extends UseItemRequest {
     int labelCount = InventoryManager.getCount(ItemPool.BLACK_LABEL);
     if (labelCount > 0 && responseText.contains("You slap a black label on the bottle")) {
       ResultProcessor.processResult(
-          ItemPool.get(ItemPool.BLACK_LABEL, Math.max(-item.getCount(), -labelCount)));
+        ItemPool.get(ItemPool.BLACK_LABEL, Math.max(-item.getCount(), -labelCount)));
     }
 
     // If you've dispensed salt and lime from your Cincho de Mayo, stats are increased.
@@ -872,7 +893,7 @@ public class DrinkItemRequest extends UseItemRequest {
       }
       case ItemPool.MAD_LIQUOR -> Preferences.setBoolean("_madLiquorDrunk", true);
       case ItemPool.DOC_CLOCKS_THYME_COCKTAIL ->
-          Preferences.setBoolean("_docClocksThymeCocktailDrunk", true);
+        Preferences.setBoolean("_docClocksThymeCocktailDrunk", true);
       case ItemPool.DRIPPY_PILSNER -> {
         Preferences.setBoolean("_drippyPilsnerUsed", true);
         Preferences.increment("drippyJuice", 5);
@@ -900,7 +921,7 @@ public class DrinkItemRequest extends UseItemRequest {
         KoLCharacter.usableFamiliar(FamiliarPool.VAMPIRE_VINTNER).setCharges(0);
       }
       case ItemPool.PHEROMONE_COCKTAIL ->
-          Preferences.increment("markYourTerritoryCharges", item.getCount());
+        Preferences.increment("markYourTerritoryCharges", item.getCount());
     }
   }
 
