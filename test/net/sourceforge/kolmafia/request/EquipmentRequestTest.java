@@ -6,7 +6,10 @@ import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withHatTrickHat;
+import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withPath;
+import static internal.helpers.Player.withUnequipped;
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.junit.jupiter.api.Assertions.*;
@@ -19,7 +22,9 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -135,6 +140,45 @@ public class EquipmentRequestTest {
         assertItem(Slot.FOLDER3, "folder (owl)");
         assertItemUnequip(Slot.FOLDER4);
         assertItemUnequip(Slot.FOLDER5);
+      }
+    }
+  }
+
+  @Nested
+  class codpiece {
+    @Test
+    public void canParseCodpieceInsert() {
+      var cleanups =
+          new Cleanups(withUnequipped(Slot.CODPIECE1), withItem(ItemPool.PERIDOT_OF_PERIL));
+      try (cleanups) {
+        String text = html("request/test_codpiece_insert.html");
+        EquipmentRequest.parseCodpiece(text);
+        assertThat(InventoryManager.getCount(ItemPool.PERIDOT_OF_PERIL), equalTo(0));
+      }
+    }
+
+    @Test
+    public void canParseCodpieceRemove() {
+      var cleanups = new Cleanups(withEquipped(Slot.CODPIECE1, ItemPool.PERIDOT_OF_PERIL));
+      try (cleanups) {
+        String text = html("request/test_codpiece_remove.html");
+        EquipmentRequest.parseCodpiece(text);
+        assertThat(InventoryManager.getCount(ItemPool.PERIDOT_OF_PERIL), equalTo(1));
+      }
+    }
+
+    @Test
+    public void canParseCodpieceChange() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(Slot.CODPIECE1, ItemDatabase.getItemId("Massive Gemstone")),
+              withItem(ItemPool.PERIDOT_OF_PERIL));
+      try (cleanups) {
+        String text = html("request/test_codpiece_change.html");
+        EquipmentRequest.parseCodpiece(text);
+        assertThat(InventoryManager.getCount(ItemPool.PERIDOT_OF_PERIL), equalTo(0));
+        assertThat(
+            InventoryManager.getCount(ItemDatabase.getItemId("Massive Gemstone")), equalTo(1));
       }
     }
   }
