@@ -1,11 +1,10 @@
 package net.sourceforge.kolmafia.request;
 
-import static internal.helpers.HttpClientWrapper.getRequests;
 import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withClass;
 import static internal.helpers.Player.withDay;
-import static internal.helpers.Player.withEquippableItem;
+import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliarInTerrarium;
 import static internal.helpers.Player.withFullness;
 import static internal.helpers.Player.withInebriety;
@@ -13,24 +12,18 @@ import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withPasswordHash;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
-import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withStats;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
-
+import internal.helpers.HttpClientWrapper;
+import internal.network.FakeHttpClientBuilder;
 import java.lang.reflect.Field;
 import java.time.Month;
-
-import internal.helpers.HttpClientWrapper;
-import internal.helpers.Networking;
-import internal.network.FakeHttpClientBuilder;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.FamiliarData;
@@ -38,9 +31,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.swingui.GenericPanelFrame;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
@@ -59,15 +50,15 @@ class DrinkItemRequestTest {
   @Test
   public void drinkingVintnerWineResetsVinterCharges() {
     var cleanups =
-      new Cleanups(
-        withFamiliarInTerrarium(FamiliarPool.VAMPIRE_VINTNER),
-        withProperty("vintnerCharge", 13));
+        new Cleanups(
+            withFamiliarInTerrarium(FamiliarPool.VAMPIRE_VINTNER),
+            withProperty("vintnerCharge", 13));
     try (cleanups) {
       DrinkItemRequest.parseConsumption(
-        ItemPool.get(ItemPool.VAMPIRE_VINTNER_WINE),
-        null,
-        html("request/test_drink_vintner_wine.html"),
-        false);
+          ItemPool.get(ItemPool.VAMPIRE_VINTNER_WINE),
+          null,
+          html("request/test_drink_vintner_wine.html"),
+          false);
       assertThat("vintnerCharge", isSetTo(0));
 
       var vintner = new FamiliarData(FamiliarPool.VAMPIRE_VINTNER);
@@ -80,7 +71,7 @@ class DrinkItemRequestTest {
     @Test
     public void tracksSuccessfulConsumption() {
       var cleanups =
-        new Cleanups(withProperty("getsYouDrunkTurnsLeft"), withItem(ItemPool.GETS_YOU_DRUNK));
+          new Cleanups(withProperty("getsYouDrunkTurnsLeft"), withItem(ItemPool.GETS_YOU_DRUNK));
       try (cleanups) {
         var req = new DrinkItemRequest(ItemPool.get(ItemPool.GETS_YOU_DRUNK));
         req.responseText = html("request/test_drink_gets_you_drunk_success.html");
@@ -93,7 +84,7 @@ class DrinkItemRequestTest {
     @Test
     public void tracksUnsuccessfulConsumption() {
       var cleanups =
-        new Cleanups(withProperty("getsYouDrunkTurnsLeft", 3), withItem(ItemPool.GETS_YOU_DRUNK));
+          new Cleanups(withProperty("getsYouDrunkTurnsLeft", 3), withItem(ItemPool.GETS_YOU_DRUNK));
       try (cleanups) {
         var req = new DrinkItemRequest(ItemPool.get(ItemPool.GETS_YOU_DRUNK));
         req.responseText = html("request/test_drink_gets_you_drunk_failure.html");
@@ -136,8 +127,8 @@ class DrinkItemRequestTest {
   @Test
   public void setsDailyLimitOnSuccessfulConsumption() {
     var cleanups =
-      new Cleanups(
-        withProperty("_pickleJuiceDrunk", false), withItem(ItemPool.FERMENTED_PICKLE_JUICE));
+        new Cleanups(
+            withProperty("_pickleJuiceDrunk", false), withItem(ItemPool.FERMENTED_PICKLE_JUICE));
     try (cleanups) {
       var req = new DrinkItemRequest(ItemPool.get(ItemPool.FERMENTED_PICKLE_JUICE));
       req.responseText = html("request/test_drink_pickle_juice_success.html");
@@ -149,8 +140,8 @@ class DrinkItemRequestTest {
   @Test
   public void setsDailyLimitOnFailedConsumption() {
     var cleanups =
-      new Cleanups(
-        withProperty("_pickleJuiceDrunk", false), withItem(ItemPool.FERMENTED_PICKLE_JUICE));
+        new Cleanups(
+            withProperty("_pickleJuiceDrunk", false), withItem(ItemPool.FERMENTED_PICKLE_JUICE));
     try (cleanups) {
       var req = new DrinkItemRequest(ItemPool.get(ItemPool.FERMENTED_PICKLE_JUICE));
       req.responseText = html("request/test_drink_pickle_juice_limit_failure.html");
@@ -162,7 +153,7 @@ class DrinkItemRequestTest {
   @Test
   public void trackUseOfCinchoSaltAndLime() {
     var cleanups =
-      new Cleanups(withProperty("cinchoSaltAndLime", 2), withItem(ItemPool.VODKA_MARTINI));
+        new Cleanups(withProperty("cinchoSaltAndLime", 2), withItem(ItemPool.VODKA_MARTINI));
     try (cleanups) {
       var req = new DrinkItemRequest(ItemPool.get(ItemPool.VODKA_MARTINI));
       req.responseText = html("request/test_drink_with_salt_and_lime.html");
@@ -183,10 +174,10 @@ class DrinkItemRequestTest {
     })
     void jarlsbergOnlyAllowsCertainBooze(final int itemId, final boolean allowed) {
       try (var cleanups =
-             new Cleanups(
-               withPath(Path.AVATAR_OF_JARLSBERG),
-               withClass(AscensionClass.AVATAR_OF_JARLSBERG),
-               withInebriety(0))) {
+          new Cleanups(
+              withPath(Path.AVATAR_OF_JARLSBERG),
+              withClass(AscensionClass.AVATAR_OF_JARLSBERG),
+              withInebriety(0))) {
         assertThat(DrinkItemRequest.maximumUses(itemId), allowed ? greaterThan(0) : is(0));
         if (!allowed) {
           assertThat(DrinkItemRequest.limiter, is("its non-Jarlsbergian nature"));
@@ -212,8 +203,8 @@ class DrinkItemRequestTest {
     @Test
     void vampyresCanOnlyDrinkBloodBooze() {
       try (var cleanups =
-             new Cleanups(
-               withPath(Path.DARK_GYFFTE), withClass(AscensionClass.VAMPYRE), withInebriety(0))) {
+          new Cleanups(
+              withPath(Path.DARK_GYFFTE), withClass(AscensionClass.VAMPYRE), withInebriety(0))) {
         assertThat(DrinkItemRequest.maximumUses(ItemPool.VAMPAGNE), is(5));
         assertThat(DrinkItemRequest.maximumUses(ItemPool.PERFECT_NEGRONI), is(0));
         assertThat(DrinkItemRequest.limiter, is("your lust for blood"));
@@ -235,13 +226,13 @@ class DrinkItemRequestTest {
       if (inNA) cleanups.add(withPath(Path.NUCLEAR_AUTUMN));
       try (cleanups) {
         assertThat(
-          DrinkItemRequest.maximumUses(ItemPool.GREEN_BEER, "green beer", 1, false),
-          is(inNA ? 2 : 14));
+            DrinkItemRequest.maximumUses(ItemPool.GREEN_BEER, "green beer", 1, false),
+            is(inNA ? 2 : 14));
         if (inNA) {
           assertThat(
-            DrinkItemRequest.maximumUses(
-              ItemPool.DUSTY_BOTTLE_OF_MARSALA, "dusty bottle of Marsala", 2, false),
-            is(0));
+              DrinkItemRequest.maximumUses(
+                  ItemPool.DUSTY_BOTTLE_OF_MARSALA, "dusty bottle of Marsala", 2, false),
+              is(0));
           assertThat(DrinkItemRequest.limiter, is("your narrow, mutated throat"));
         }
       }
@@ -260,10 +251,10 @@ class DrinkItemRequestTest {
     @Test
     void correctlyIdentifyWhenInebrietyIsCausingLimit() {
       try (var cleanups =
-             new Cleanups(
-               withInebriety(11),
-               withProperty("_speakeasyDrinksDrunk", 1),
-               withItem(ItemPool.VIP_LOUNGE_KEY))) {
+          new Cleanups(
+              withInebriety(11),
+              withProperty("_speakeasyDrinksDrunk", 1),
+              withItem(ItemPool.VIP_LOUNGE_KEY))) {
         var max = DrinkItemRequest.maximumUses(ItemPool.BEES_KNEES, "Bee's Knees", 2, false);
         assertThat(max, is(1));
         assertThat(DrinkItemRequest.limiter, is("inebriety"));
@@ -273,10 +264,10 @@ class DrinkItemRequestTest {
     @Test
     void correctlyIdentifyWhenDailyLimitIsCausingLimit() {
       try (var cleanups =
-             new Cleanups(
-               withInebriety(11),
-               withProperty("_speakeasyDrinksDrunk", 3),
-               withItem(ItemPool.VIP_LOUNGE_KEY))) {
+          new Cleanups(
+              withInebriety(11),
+              withProperty("_speakeasyDrinksDrunk", 3),
+              withItem(ItemPool.VIP_LOUNGE_KEY))) {
         var max = DrinkItemRequest.maximumUses(ItemPool.BEES_KNEES, "Bee's Knees", 2, false);
         assertThat(max, is(0));
         assertThat(DrinkItemRequest.limiter, is("daily limit"));
@@ -287,7 +278,7 @@ class DrinkItemRequestTest {
     void abilityToDrinkDrunkiBearIsNotAffectedByInebriety() {
       try (var cleanups = new Cleanups(withInebriety(10), withFullness(0))) {
         var max =
-          DrinkItemRequest.maximumUses(ItemPool.GREEN_DRUNKI_BEAR, "green drunki-bear", 4, false);
+            DrinkItemRequest.maximumUses(ItemPool.GREEN_DRUNKI_BEAR, "green drunki-bear", 4, false);
         assertThat(max, is(3));
       }
     }
@@ -300,6 +291,7 @@ class DrinkItemRequestTest {
       }
     }
   }
+
   @Test
   public void itEquipsPinkyRingInFirstAvailableNonLiverSlot() {
     // Reset static fields via reflection
@@ -307,7 +299,7 @@ class DrinkItemRequestTest {
     var builder = new FakeHttpClientBuilder();
     var client = builder.client;
     try {
-      for (String fieldName : new String[]{"askedAboutPinkyRing", "ignorePrompt"}) {
+      for (String fieldName : new String[] {"askedAboutPinkyRing", "ignorePrompt"}) {
         Field field = DrinkItemRequest.class.getDeclaredField(fieldName);
         field.setAccessible(true);
         field.set(null, -1);
@@ -317,14 +309,14 @@ class DrinkItemRequestTest {
     }
 
     var cleanups =
-      new Cleanups(
-        withPasswordHash("testHash"),
-        withStats(100, 100, 100), // Give enough stats to meet equipment requirements
-        withProperty("autoPinkyRing", true),
-        withItem(ItemPool.MAFIA_PINKY_RING),
-        withEquipped(Slot.ACCESSORY1, "angelbone dice"),
-        withEquipped(Slot.ACCESSORY2, "Radio Free Baseball Cap"),
-        withEquipped(Slot.ACCESSORY3, "bejeweled pledge pin"));
+        new Cleanups(
+            withPasswordHash("testHash"),
+            withStats(100, 100, 100), // Give enough stats to meet equipment requirements
+            withProperty("autoPinkyRing", true),
+            withItem(ItemPool.MAFIA_PINKY_RING),
+            withEquipped(Slot.ACCESSORY1, "angelbone dice"),
+            withEquipped(Slot.ACCESSORY2, "Radio Free Baseball Cap"),
+            withEquipped(Slot.ACCESSORY3, "bejeweled pledge pin"));
 
     try (cleanups) {
       var frame = new GenericPanelFrame("Test Frame");
@@ -333,13 +325,15 @@ class DrinkItemRequestTest {
         HttpClientWrapper.fakeClientBuilder.client.addResponse(200, "Item equipped.");
         DrinkItemRequest.allowBoozeConsumption("Doc's Fortifying Wine", 1);
         var requests = HttpClientWrapper.getRequests();
-        var equipreq = requests.stream()
-          .filter(req->req.uri().getPath().equals("/inv_equip.php"))
-          .findFirst()
-          .orElseThrow();
-        assertPostRequest(equipreq,
-          "/inv_equip.php",
-          "which=2&ajax=1&slot=2&action=equip&whichitem=9546&pwd=testHash");
+        var equipreq =
+            requests.stream()
+                .filter(req -> req.uri().getPath().equals("/inv_equip.php"))
+                .findFirst()
+                .orElseThrow();
+        assertPostRequest(
+            equipreq,
+            "/inv_equip.php",
+            "which=2&ajax=1&slot=2&action=equip&whichitem=9546&pwd=testHash");
       } finally {
         frame.dispose();
       }
