@@ -51,15 +51,15 @@ class DrinkItemRequestTest {
   @Test
   public void drinkingVintnerWineResetsVinterCharges() {
     var cleanups =
-      new Cleanups(
-        withFamiliarInTerrarium(FamiliarPool.VAMPIRE_VINTNER),
-        withProperty("vintnerCharge", 13));
+        new Cleanups(
+            withFamiliarInTerrarium(FamiliarPool.VAMPIRE_VINTNER),
+            withProperty("vintnerCharge", 13));
     try (cleanups) {
       DrinkItemRequest.parseConsumption(
-        ItemPool.get(ItemPool.VAMPIRE_VINTNER_WINE),
-        null,
-        html("request/test_drink_vintner_wine.html"),
-        false);
+          ItemPool.get(ItemPool.VAMPIRE_VINTNER_WINE),
+          null,
+          html("request/test_drink_vintner_wine.html"),
+          false);
       assertThat("vintnerCharge", isSetTo(0));
 
       var vintner = new FamiliarData(FamiliarPool.VAMPIRE_VINTNER);
@@ -72,7 +72,7 @@ class DrinkItemRequestTest {
     @Test
     public void tracksSuccessfulConsumption() {
       var cleanups =
-        new Cleanups(withProperty("getsYouDrunkTurnsLeft"), withItem(ItemPool.GETS_YOU_DRUNK));
+          new Cleanups(withProperty("getsYouDrunkTurnsLeft"), withItem(ItemPool.GETS_YOU_DRUNK));
       try (cleanups) {
         var req = new DrinkItemRequest(ItemPool.get(ItemPool.GETS_YOU_DRUNK));
         req.responseText = html("request/test_drink_gets_you_drunk_success.html");
@@ -85,7 +85,7 @@ class DrinkItemRequestTest {
     @Test
     public void tracksUnsuccessfulConsumption() {
       var cleanups =
-        new Cleanups(withProperty("getsYouDrunkTurnsLeft", 3), withItem(ItemPool.GETS_YOU_DRUNK));
+          new Cleanups(withProperty("getsYouDrunkTurnsLeft", 3), withItem(ItemPool.GETS_YOU_DRUNK));
       try (cleanups) {
         var req = new DrinkItemRequest(ItemPool.get(ItemPool.GETS_YOU_DRUNK));
         req.responseText = html("request/test_drink_gets_you_drunk_failure.html");
@@ -128,8 +128,8 @@ class DrinkItemRequestTest {
   @Test
   public void setsDailyLimitOnSuccessfulConsumption() {
     var cleanups =
-      new Cleanups(
-        withProperty("_pickleJuiceDrunk", false), withItem(ItemPool.FERMENTED_PICKLE_JUICE));
+        new Cleanups(
+            withProperty("_pickleJuiceDrunk", false), withItem(ItemPool.FERMENTED_PICKLE_JUICE));
     try (cleanups) {
       var req = new DrinkItemRequest(ItemPool.get(ItemPool.FERMENTED_PICKLE_JUICE));
       req.responseText = html("request/test_drink_pickle_juice_success.html");
@@ -141,8 +141,8 @@ class DrinkItemRequestTest {
   @Test
   public void setsDailyLimitOnFailedConsumption() {
     var cleanups =
-      new Cleanups(
-        withProperty("_pickleJuiceDrunk", false), withItem(ItemPool.FERMENTED_PICKLE_JUICE));
+        new Cleanups(
+            withProperty("_pickleJuiceDrunk", false), withItem(ItemPool.FERMENTED_PICKLE_JUICE));
     try (cleanups) {
       var req = new DrinkItemRequest(ItemPool.get(ItemPool.FERMENTED_PICKLE_JUICE));
       req.responseText = html("request/test_drink_pickle_juice_limit_failure.html");
@@ -154,7 +154,7 @@ class DrinkItemRequestTest {
   @Test
   public void trackUseOfCinchoSaltAndLime() {
     var cleanups =
-      new Cleanups(withProperty("cinchoSaltAndLime", 2), withItem(ItemPool.VODKA_MARTINI));
+        new Cleanups(withProperty("cinchoSaltAndLime", 2), withItem(ItemPool.VODKA_MARTINI));
     try (cleanups) {
       var req = new DrinkItemRequest(ItemPool.get(ItemPool.VODKA_MARTINI));
       req.responseText = html("request/test_drink_with_salt_and_lime.html");
@@ -175,10 +175,10 @@ class DrinkItemRequestTest {
     })
     void jarlsbergOnlyAllowsCertainBooze(final int itemId, final boolean allowed) {
       try (var cleanups =
-             new Cleanups(
-               withPath(Path.AVATAR_OF_JARLSBERG),
-               withClass(AscensionClass.AVATAR_OF_JARLSBERG),
-               withInebriety(0))) {
+          new Cleanups(
+              withPath(Path.AVATAR_OF_JARLSBERG),
+              withClass(AscensionClass.AVATAR_OF_JARLSBERG),
+              withInebriety(0))) {
         assertThat(DrinkItemRequest.maximumUses(itemId), allowed ? greaterThan(0) : is(0));
         if (!allowed) {
           assertThat(DrinkItemRequest.limiter, is("its non-Jarlsbergian nature"));
@@ -204,8 +204,8 @@ class DrinkItemRequestTest {
     @Test
     void vampyresCanOnlyDrinkBloodBooze() {
       try (var cleanups =
-             new Cleanups(
-               withPath(Path.DARK_GYFFTE), withClass(AscensionClass.VAMPYRE), withInebriety(0))) {
+          new Cleanups(
+              withPath(Path.DARK_GYFFTE), withClass(AscensionClass.VAMPYRE), withInebriety(0))) {
         assertThat(DrinkItemRequest.maximumUses(ItemPool.VAMPAGNE), is(5));
         assertThat(DrinkItemRequest.maximumUses(ItemPool.PERFECT_NEGRONI), is(0));
         assertThat(DrinkItemRequest.limiter, is("your lust for blood"));
@@ -227,13 +227,13 @@ class DrinkItemRequestTest {
       if (inNA) cleanups.add(withPath(Path.NUCLEAR_AUTUMN));
       try (cleanups) {
         assertThat(
-          DrinkItemRequest.maximumUses(ItemPool.GREEN_BEER, "green beer", 1, false),
-          is(inNA ? 2 : 14));
+            DrinkItemRequest.maximumUses(ItemPool.GREEN_BEER, "green beer", 1, false),
+            is(inNA ? 2 : 14));
         if (inNA) {
           assertThat(
-            DrinkItemRequest.maximumUses(
-              ItemPool.DUSTY_BOTTLE_OF_MARSALA, "dusty bottle of Marsala", 2, false),
-            is(0));
+              DrinkItemRequest.maximumUses(
+                  ItemPool.DUSTY_BOTTLE_OF_MARSALA, "dusty bottle of Marsala", 2, false),
+              is(0));
           assertThat(DrinkItemRequest.limiter, is("your narrow, mutated throat"));
         }
       }
@@ -252,10 +252,10 @@ class DrinkItemRequestTest {
     @Test
     void correctlyIdentifyWhenInebrietyIsCausingLimit() {
       try (var cleanups =
-             new Cleanups(
-               withInebriety(11),
-               withProperty("_speakeasyDrinksDrunk", 1),
-               withItem(ItemPool.VIP_LOUNGE_KEY))) {
+          new Cleanups(
+              withInebriety(11),
+              withProperty("_speakeasyDrinksDrunk", 1),
+              withItem(ItemPool.VIP_LOUNGE_KEY))) {
         var max = DrinkItemRequest.maximumUses(ItemPool.BEES_KNEES, "Bee's Knees", 2, false);
         assertThat(max, is(1));
         assertThat(DrinkItemRequest.limiter, is("inebriety"));
@@ -265,10 +265,10 @@ class DrinkItemRequestTest {
     @Test
     void correctlyIdentifyWhenDailyLimitIsCausingLimit() {
       try (var cleanups =
-             new Cleanups(
-               withInebriety(11),
-               withProperty("_speakeasyDrinksDrunk", 3),
-               withItem(ItemPool.VIP_LOUNGE_KEY))) {
+          new Cleanups(
+              withInebriety(11),
+              withProperty("_speakeasyDrinksDrunk", 3),
+              withItem(ItemPool.VIP_LOUNGE_KEY))) {
         var max = DrinkItemRequest.maximumUses(ItemPool.BEES_KNEES, "Bee's Knees", 2, false);
         assertThat(max, is(0));
         assertThat(DrinkItemRequest.limiter, is("daily limit"));
@@ -279,7 +279,7 @@ class DrinkItemRequestTest {
     void abilityToDrinkDrunkiBearIsNotAffectedByInebriety() {
       try (var cleanups = new Cleanups(withInebriety(10), withFullness(0))) {
         var max =
-          DrinkItemRequest.maximumUses(ItemPool.GREEN_DRUNKI_BEAR, "green drunki-bear", 4, false);
+            DrinkItemRequest.maximumUses(ItemPool.GREEN_DRUNKI_BEAR, "green drunki-bear", 4, false);
         assertThat(max, is(3));
       }
     }
@@ -299,15 +299,15 @@ class DrinkItemRequestTest {
     HttpClientWrapper.setupFakeClient();
 
     var cleanups =
-      new Cleanups(
-        withPasswordHash("testHash"),
-        withStats(100, 100, 100), // Give enough stats to meet equipment requirements
-        withProperty("autoPinkyRing", true),
-        withItem(ItemPool.MAFIA_PINKY_RING),
-        withEquipped(Slot.ACCESSORY1, "angelbone dice"),
-        withEquipped(Slot.ACCESSORY2, "Radio Free Baseball Cap"),
-        withEquipped(Slot.ACCESSORY3, "bejeweled pledge pin"),
-        Player.withUserId(12345));
+        new Cleanups(
+            withPasswordHash("testHash"),
+            withStats(100, 100, 100), // Give enough stats to meet equipment requirements
+            withProperty("autoPinkyRing", true),
+            withItem(ItemPool.MAFIA_PINKY_RING),
+            withEquipped(Slot.ACCESSORY1, "angelbone dice"),
+            withEquipped(Slot.ACCESSORY2, "Radio Free Baseball Cap"),
+            withEquipped(Slot.ACCESSORY3, "bejeweled pledge pin"),
+            Player.withUserId(12345));
     try (cleanups) {
       var frame = new GenericPanelFrame("Test Frame");
 
@@ -317,14 +317,14 @@ class DrinkItemRequestTest {
         var requests = HttpClientWrapper.getRequests();
         assertThat(requests.size(), greaterThan(0));
         var equipreq =
-          requests.stream()
-            .filter(req -> req.uri().getPath().equals("/inv_equip.php"))
-            .findFirst()
-            .orElseThrow();
+            requests.stream()
+                .filter(req -> req.uri().getPath().equals("/inv_equip.php"))
+                .findFirst()
+                .orElseThrow();
         assertPostRequest(
-          equipreq,
-          "/inv_equip.php",
-          allOf(containsString("slot=2"), containsString("whichitem=9546")));
+            equipreq,
+            "/inv_equip.php",
+            allOf(containsString("slot=2"), containsString("whichitem=9546")));
       } finally {
         frame.dispose();
       }
