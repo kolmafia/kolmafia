@@ -23,8 +23,7 @@ import static org.hamcrest.Matchers.is;
 
 import internal.helpers.Cleanups;
 import internal.helpers.HttpClientWrapper;
-import internal.network.FakeHttpClientBuilder;
-import java.lang.reflect.Field;
+import internal.helpers.Player;
 import java.time.Month;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
@@ -298,17 +297,6 @@ class DrinkItemRequestTest {
   public void itEquipsPinkyRingInFirstAvailableNonLiverSlot() {
     // Reset static fields via reflection
     HttpClientWrapper.setupFakeClient();
-    var builder = new FakeHttpClientBuilder();
-    var client = builder.client;
-    try {
-      for (String fieldName : new String[] {"askedAboutPinkyRing", "ignorePrompt"}) {
-        Field field = DrinkItemRequest.class.getDeclaredField(fieldName);
-        field.setAccessible(true);
-        field.set(null, -1);
-      }
-    } catch (Exception e) {
-      throw new RuntimeException(e);
-    }
 
     var cleanups =
         new Cleanups(
@@ -318,8 +306,8 @@ class DrinkItemRequestTest {
             withItem(ItemPool.MAFIA_PINKY_RING),
             withEquipped(Slot.ACCESSORY1, "angelbone dice"),
             withEquipped(Slot.ACCESSORY2, "Radio Free Baseball Cap"),
-            withEquipped(Slot.ACCESSORY3, "bejeweled pledge pin"));
-
+            withEquipped(Slot.ACCESSORY3, "bejeweled pledge pin"),
+            Player.withUserId(12345));
     try (cleanups) {
       var frame = new GenericPanelFrame("Test Frame");
 
@@ -327,6 +315,7 @@ class DrinkItemRequestTest {
         HttpClientWrapper.fakeClientBuilder.client.addResponse(200, "Item equipped.");
         DrinkItemRequest.allowBoozeConsumption("Doc's Fortifying Wine", 1);
         var requests = HttpClientWrapper.getRequests();
+        assertThat(requests.size(), greaterThan(0));
         var equipreq =
             requests.stream()
                 .filter(req -> req.uri().getPath().equals("/inv_equip.php"))

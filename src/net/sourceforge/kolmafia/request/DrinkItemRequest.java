@@ -14,6 +14,7 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -640,7 +641,7 @@ public class DrinkItemRequest extends UseItemRequest {
         // get Mafia Pinky Ring
         InventoryManager.retrieveItem(ItemPool.MAFIA_PINKY_RING);
       }
-      Slot[] accessorySlots = {Slot.ACCESSORY1, Slot.ACCESSORY2, Slot.ACCESSORY3};
+      EnumSet<Slot> accessorySlots = SlotSet.ACCESSORY_SLOTS;
       Slot pinkyRingSlot = null;
       for (Slot slot : accessorySlots) {
         int itemId = EquipmentManager.getEquipment(slot).getItemId();
