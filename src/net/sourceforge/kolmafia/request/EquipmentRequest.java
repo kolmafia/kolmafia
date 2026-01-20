@@ -1204,11 +1204,6 @@ public class EquipmentRequest extends PasswordHashRequest {
 
     AdventureResult newItem = lost != null ? ItemPool.get(lostId) : EquipmentRequest.UNEQUIP;
 
-    KoLmafia.updateDisplay(
-        "KOL thinks you have "
-            + InventoryManager.getCount(ItemPool.PERIDOT_OF_PERIL)
-            + " Peridots");
-
     if (newItem != EquipmentRequest.UNEQUIP) {
       AdventureResult.addResultToList(KoLConstants.inventory, newItem.getInstance(-1));
       QuestManager.updateQuestItemEquipped(newItem.getItemId());
