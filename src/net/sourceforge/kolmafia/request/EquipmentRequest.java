@@ -943,6 +943,7 @@ public class EquipmentRequest extends PasswordHashRequest {
 
     if (urlString.startsWith("choice.php") && urlString.contains("whichchoice=1588")) {
       // instead of parsing the page, get our updated gems from api.php
+      parseCodpiece(responseText);
       ApiRequest.updateStatus();
       return;
     }
@@ -1191,6 +1192,26 @@ public class EquipmentRequest extends PasswordHashRequest {
         failed = true;
         EquipmentManager.setEquipment(slot, EquipmentRequest.UNEQUIP);
       }
+    }
+  }
+
+  private static final Pattern LOSE_PATTERN = Pattern.compile("You lose an item:.*?<b>(.*?)</b>");
+
+  public static void parseCodpiece(final String responseText) {
+    Matcher lostMatcher = EquipmentRequest.LOSE_PATTERN.matcher(responseText);
+    String lost = lostMatcher.find() ? lostMatcher.group(1) : null;
+    int lostId = ItemDatabase.getItemId(lost);
+
+    AdventureResult newItem = lost != null ? ItemPool.get(lostId) : EquipmentRequest.UNEQUIP;
+
+    KoLmafia.updateDisplay(
+        "KOL thinks you have "
+            + InventoryManager.getCount(ItemPool.PERIDOT_OF_PERIL)
+            + " Peridots");
+
+    if (newItem != EquipmentRequest.UNEQUIP) {
+      AdventureResult.addResultToList(KoLConstants.inventory, newItem.getInstance(-1));
+      QuestManager.updateQuestItemEquipped(newItem.getItemId());
     }
   }
 
