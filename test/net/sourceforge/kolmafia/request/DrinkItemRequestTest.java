@@ -7,6 +7,7 @@ import static internal.helpers.Player.withDay;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliarInTerrarium;
 import static internal.helpers.Player.withFullness;
+import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withInebriety;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withPasswordHash;
@@ -22,8 +23,8 @@ import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
 
 import internal.helpers.Cleanups;
-import internal.helpers.HttpClientWrapper;
 import internal.helpers.Player;
+import internal.network.FakeHttpClientBuilder;
 import java.time.Month;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
@@ -295,8 +296,8 @@ class DrinkItemRequestTest {
 
   @Test
   public void itEquipsPinkyRingInFirstAvailableNonLiverSlot() {
-    // Reset static fields via reflection
-    HttpClientWrapper.setupFakeClient();
+    var builder = new FakeHttpClientBuilder();
+    builder.client.addResponse(200, "Item equipped.");
 
     var cleanups =
         new Cleanups(
@@ -307,14 +308,13 @@ class DrinkItemRequestTest {
             withEquipped(Slot.ACCESSORY1, "angelbone dice"),
             withEquipped(Slot.ACCESSORY2, "Radio Free Baseball Cap"),
             withEquipped(Slot.ACCESSORY3, "bejeweled pledge pin"),
+            withHttpClientBuilder(builder),
             Player.withUserId(12345));
     try (cleanups) {
       var frame = new GenericPanelFrame("Test Frame");
-
       try {
-        HttpClientWrapper.fakeClientBuilder.client.addResponse(200, "Item equipped.");
         DrinkItemRequest.allowBoozeConsumption("Doc's Fortifying Wine", 1);
-        var requests = HttpClientWrapper.getRequests();
+        var requests = builder.client.getRequests();
         assertThat(requests.size(), greaterThan(0));
         var equipreq =
             requests.stream()
