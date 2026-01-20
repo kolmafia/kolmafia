@@ -338,6 +338,8 @@ public class JavascriptRuntime extends AbstractRuntime {
         "promise resolver",
         0,
         null);
+    // Process microtasks to execute the .then() callbacks before checking the result
+    cx.processMicrotasks();
     if (promiseScope.has("promiseRejectedValue", promiseScope)) {
       Object promiseRejectedValue = promiseScope.get("promiseRejectedValue", promiseScope);
       throw new JavaScriptException(promiseRejectedValue, null, 0);
