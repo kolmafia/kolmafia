@@ -159,7 +159,7 @@ public class JavascriptRuntime extends AbstractRuntime {
 
     var wrapFactory = cx.getWrapFactory();
     wrapFactory.setJavaPrimitiveWrap(false);
-    var jsObject = (NativeJavaObject) wrapFactory.wrap(cx, scope, storage, null);
+    var jsObject = (NativeJavaObject) wrapFactory.wrap(cx, scope, storage, (Class<?>) null);
     ScriptableObject.defineProperty(
         stdLib, "sessionStorage", jsObject, DONTENUM | READONLY | PERMANENT);
 
