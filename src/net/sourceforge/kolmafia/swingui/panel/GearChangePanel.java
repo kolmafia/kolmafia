@@ -170,20 +170,21 @@ public class GearChangePanel extends JPanel {
           mods = new Modifiers();
           var taoFactor = KoLCharacter.hasSkill(SkillPool.TAO_OF_THE_TERRAPIN) ? 2 : 1;
           KoLCharacter.addItemAdjustment(
-            mods,
-            slot,
-            item,
-            EquipmentManager.allEquipment(),
-            KoLCharacter.getEnthroned(),
-            KoLCharacter.getBjorned(),
-            Modeable.getStateMap(),
-            true,
-            taoFactor);
+              mods,
+              slot,
+              item,
+              EquipmentManager.allEquipment(),
+              KoLCharacter.getEnthroned(),
+              KoLCharacter.getBjorned(),
+              Modeable.getStateMap(),
+              true,
+              taoFactor);
         }
       }
-      case SpecialOutfit outfit -> mods = ModifierDatabase.getModifiers(ModifierType.OUTFIT, outfit.getName());
+      case SpecialOutfit outfit ->
+          mods = ModifierDatabase.getModifiers(ModifierType.OUTFIT, outfit.getName());
       case FamiliarData familiar when isCustomizablePanel ->
-        mods = ModifierDatabase.getModifiers(ModifierType.THRONE, familiar.getRace());
+          mods = ModifierDatabase.getModifiers(ModifierType.THRONE, familiar.getRace());
       case null, default -> {
         return null;
       }
