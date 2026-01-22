@@ -519,7 +519,7 @@ public class EquipmentRequest extends PasswordHashRequest {
     this.itemId = gem.getItemId();
 
     this.requestType = EquipmentRequestType.CHANGE_ITEM;
-    this.changeItem = gem;
+    this.changeItem = gem.getCount() == 1 ? gem : gem.getInstance(1);
     this.addFormField("option", "1");
     this.addFormField("which", slotOpt);
     this.addFormField("iid", String.valueOf(this.itemId));

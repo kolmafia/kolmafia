@@ -14,6 +14,7 @@ import static internal.helpers.Player.withStats;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasItem;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.alibaba.fastjson2.JSONObject;
@@ -229,6 +230,64 @@ public class EquipmentManagerTest {
       try (cleanups) {
         assertEquals(canBeEquipped, EquipmentManager.canEquip(itemAR));
       }
+    }
+  }
+
+  @Nested
+  class Codpiece {
+    @Test
+    public void gemsInInventoryAvailableInAllSlots() {
+      // baconstone has EternityCodpiece modifiers
+      var cleanups = new Cleanups(withItem(ItemPool.BACONSTONE));
+
+      try (cleanups) {
+        var lists = EquipmentManager.getEquipmentLists();
+        // Should be in all 5 codpiece slot lists
+        assertThat(
+            lists.get(Slot.CODPIECE1),
+            contains(EquipmentRequest.UNEQUIP, ItemPool.get(ItemPool.BACONSTONE, 1)));
+        assertThat(
+            lists.get(Slot.CODPIECE2),
+            contains(EquipmentRequest.UNEQUIP, ItemPool.get(ItemPool.BACONSTONE, 1)));
+        assertThat(
+            lists.get(Slot.CODPIECE3),
+            contains(EquipmentRequest.UNEQUIP, ItemPool.get(ItemPool.BACONSTONE, 1)));
+        assertThat(
+            lists.get(Slot.CODPIECE4),
+            contains(EquipmentRequest.UNEQUIP, ItemPool.get(ItemPool.BACONSTONE, 1)));
+        assertThat(
+            lists.get(Slot.CODPIECE5),
+            contains(EquipmentRequest.UNEQUIP, ItemPool.get(ItemPool.BACONSTONE, 1)));
+      }
+    }
+
+    @Test
+    public void codpieceListIncludesCurrentlyEquippedGem() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(Slot.CODPIECE1, ItemPool.BACONSTONE), withItem(ItemPool.HAMETHYST));
+
+      try (cleanups) {
+        var lists = EquipmentManager.getEquipmentLists();
+        // CODPIECE1 should include the equipped baconstone even though it's not in inventory
+        assertThat(lists.get(Slot.CODPIECE1), hasItem(ItemPool.get(ItemPool.BACONSTONE, 1)));
+        // And also the hamethyst that is in inventory
+        assertThat(lists.get(Slot.CODPIECE1), hasItem(ItemPool.get(ItemPool.HAMETHYST, 1)));
+      }
+    }
+
+    @Test
+    public void canParseStatusWithCodpieceGems() {
+      String text = html("request/test_status_codpiece.json");
+      JSONObject jsonObject = json(text);
+
+      EquipmentManager.parseStatus(jsonObject);
+
+      assertItem(Slot.CODPIECE1, "baconstone");
+      assertItem(Slot.CODPIECE2, "hamethyst");
+      assertItemUnequip(Slot.CODPIECE3);
+      assertItemUnequip(Slot.CODPIECE4);
+      assertItemUnequip(Slot.CODPIECE5);
     }
   }
 }

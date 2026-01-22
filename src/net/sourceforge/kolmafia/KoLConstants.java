@@ -386,7 +386,7 @@ public interface KoLConstants extends UtilityConstants {
     // Cannot be "used" in any way by itself
     NONE("none"),
 
-    // Consumables
+    // Consumablesin the ch
     EAT("food"),
     DRINK("drink"),
     SPLEEN("spleen"),

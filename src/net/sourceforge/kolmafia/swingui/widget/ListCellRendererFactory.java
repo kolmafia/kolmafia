@@ -19,6 +19,7 @@ import net.sourceforge.kolmafia.KoLGUIConstants;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.MultiDoubleModifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
@@ -796,7 +797,10 @@ public class ListCellRendererFactory {
       } else if (ar.equals(EquipmentRequest.UNEQUIP)) {
         stringForm = ar.getName();
       } else {
-        if (equipmentType == ConsumptionType.ACCESSORY) {
+        // Show "(X max)" for accessories, but not for codpiece slots
+        // since single-equip constraints don't apply there
+        if (equipmentType == ConsumptionType.ACCESSORY
+            && !SlotSet.CODPIECE_SLOTS.contains(this.slot)) {
           int count;
           Modifiers mods = ModifierDatabase.getItemModifiers(ar.getItemId());
           if (mods != null && mods.getBoolean(BooleanModifier.SINGLE)) {

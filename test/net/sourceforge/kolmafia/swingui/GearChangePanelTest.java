@@ -158,5 +158,33 @@ class GearChangePanelTest {
         assertThat(modifierText(mods.toString()), equalTo(expectedMods));
       }
     }
+
+    @Test
+    void codpieceSlotShowsEternityCodpieceModifiers() {
+      // baconstone as an item has no modifiers, but as a codpiece gem it gives +11% Myst
+      var mods =
+          GearChangePanel.getModifiers(ItemPool.get(ItemPool.BACONSTONE), Slot.CODPIECE1, true, 1);
+      assertThat(
+          modifierText(mods.toString()), equalTo("Mysticality %:<div align=right>+11.00</div>"));
+    }
+
+    @Test
+    void codpieceSlotDoesNotShowEvaluatedModifiers() {
+      // Ensure we don't show the redundant "Evaluated Modifiers" string
+      var mods =
+          GearChangePanel.getModifiers(ItemPool.get(ItemPool.BACONSTONE), Slot.CODPIECE1, true, 1);
+      assertThat(mods.toString(), not(containsString("Evaluated Modifiers")));
+    }
+
+    @Test
+    void accessorySlotShowsStandardModifiersNotCodpieceModifiers() {
+      // baconstone in an accessory slot should show its item modifiers (none),
+      // not its codpiece modifiers
+      var mods =
+          GearChangePanel.getModifiers(
+              ItemPool.get(ItemPool.BACONSTONE), Slot.ACCESSORY1, false, 1);
+      // baconstone has no item modifiers
+      assertThat(modifierText(mods.toString()), equalTo(""));
+    }
   }
 }
