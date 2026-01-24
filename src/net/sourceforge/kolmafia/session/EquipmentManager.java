@@ -89,6 +89,8 @@ public class EquipmentManager {
   public static final AdventureResult REPLICA_FOLDER_HOLDER =
       ItemPool.get(ItemPool.REPLICA_FOLDER_HOLDER, 1);
   public static final AdventureResult COWBOY_BOOTS = ItemPool.get(ItemPool.COWBOY_BOOTS, 1);
+  public static final AdventureResult ETERNITY_CODPIECE =
+      ItemPool.get(ItemPool.THE_ETERNITY_CODPIECE, 1);
 
   static {
     for (var slot : SlotSet.ALL_SLOTS) {
@@ -220,7 +222,21 @@ public class EquipmentManager {
           EquipmentManager.equipmentLists.get(slot).add(current);
         }
       }
-    } else if (itemId == ItemPool.HATSEAT) {
+    }
+
+    // Codpiece gems can also have other consumption types (e.g. accessories),
+    // so check for ETERNITY_CODPIECE modifiers separately
+    if (EquipmentRequest.isCodpieceGem(itemId)) {
+      for (Slot slot : SlotSet.CODPIECE_SLOTS) {
+        AdventureResult current = EquipmentManager.getEquipment(slot);
+        AdventureResult.addResultToList(EquipmentManager.equipmentLists.get(slot), item);
+        if (!EquipmentManager.equipmentLists.get(slot).contains(current)) {
+          EquipmentManager.equipmentLists.get(slot).add(current);
+        }
+      }
+    }
+
+    if (itemId == ItemPool.HATSEAT) {
       AdventureResult.addResultToList(EquipmentManager.equipmentLists.get(Slot.HAT), item);
     } else if (itemId == ItemPool.BUDDY_BJORN) {
       AdventureResult.addResultToList(EquipmentManager.equipmentLists.get(Slot.CONTAINER), item);
@@ -938,7 +954,8 @@ public class EquipmentManager {
 
   public static final void updateEquipmentList(final Slot listIndex) {
     ConsumptionType consumeFilter = EquipmentManager.equipmentTypeToConsumeFilter(listIndex);
-    if (consumeFilter == ConsumptionType.UNKNOWN) {
+    // Codpiece slots don't have a ConsumptionType, handle them specially
+    if (consumeFilter == ConsumptionType.UNKNOWN && !SlotSet.CODPIECE_SLOTS.contains(listIndex)) {
       return;
     }
 
@@ -948,7 +965,6 @@ public class EquipmentManager {
       case ACCESSORY1:
       case ACCESSORY2:
         return; // do all the work when updating ACC3
-
       case ACCESSORY3:
         EquipmentManager.updateEquipmentList(consumeFilter, EquipmentManager.accessories);
         AdventureResult accessory = EquipmentManager.getEquipment(Slot.ACCESSORY1);
@@ -986,6 +1002,15 @@ public class EquipmentManager {
           }
         }
 
+        break;
+
+      case CODPIECE1:
+      case CODPIECE2:
+      case CODPIECE3:
+      case CODPIECE4:
+        return; // do all the work when updating CODPIECE5
+      case CODPIECE5:
+        EquipmentManager.updateCodpieceList();
         break;
 
       default:
@@ -1060,6 +1085,37 @@ public class EquipmentManager {
     currentList.retainAll(temporary);
     temporary.removeAll(currentList);
     currentList.addAll(temporary);
+  }
+
+  private static void updateCodpieceList() {
+    // Codpiece gems are identified by having ETERNITY_CODPIECE modifiers
+    ArrayList<AdventureResult> temporary = new ArrayList<>();
+    temporary.add(EquipmentRequest.UNEQUIP);
+
+    for (AdventureResult currentItem : KoLConstants.inventory) {
+      int itemId = currentItem.getItemId();
+      if (EquipmentRequest.isCodpieceGem(itemId)) {
+        temporary.add(currentItem);
+      }
+    }
+
+    // Update all codpiece slot lists
+    for (Slot slot : SlotSet.CODPIECE_SLOTS) {
+      List<AdventureResult> currentList = EquipmentManager.equipmentLists.get(slot);
+      AdventureResult equippedItem = EquipmentManager.getEquipment(slot);
+
+      currentList.retainAll(temporary);
+      ArrayList<AdventureResult> toAdd = new ArrayList<>(temporary);
+      toAdd.removeAll(currentList);
+      currentList.addAll(toAdd);
+
+      // Make sure currently equipped item is in the list
+      if (equippedItem != EquipmentRequest.UNEQUIP && !currentList.contains(equippedItem)) {
+        currentList.add(equippedItem);
+      }
+
+      LockableListFactory.setSelectedItem(currentList, equippedItem);
+    }
   }
 
   /**

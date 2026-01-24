@@ -161,25 +161,33 @@ public class GearChangePanel extends JPanel {
     StringBuffer buff = new StringBuffer();
     Modifiers mods;
 
-    if (value instanceof AdventureResult item) {
-      mods = new Modifiers();
-      var taoFactor = KoLCharacter.hasSkill(SkillPool.TAO_OF_THE_TERRAPIN) ? 2 : 1;
-      KoLCharacter.addItemAdjustment(
-          mods,
-          slot,
-          item,
-          EquipmentManager.allEquipment(),
-          KoLCharacter.getEnthroned(),
-          KoLCharacter.getBjorned(),
-          Modeable.getStateMap(),
-          true,
-          taoFactor);
-    } else if (value instanceof SpecialOutfit outfit) {
-      mods = ModifierDatabase.getModifiers(ModifierType.OUTFIT, outfit.getName());
-    } else if (value instanceof FamiliarData familiar && isCustomizablePanel) {
-      mods = ModifierDatabase.getModifiers(ModifierType.THRONE, familiar.getRace());
-    } else {
-      return null;
+    switch (value) {
+      case AdventureResult item -> {
+        // Codpiece slots use ETERNITY_CODPIECE modifiers, not standard item modifiers
+        if (SlotSet.CODPIECE_SLOTS.contains(slot)) {
+          mods = ModifierDatabase.getModifiers(ModifierType.ETERNITY_CODPIECE, item.getItemId());
+        } else {
+          mods = new Modifiers();
+          var taoFactor = KoLCharacter.hasSkill(SkillPool.TAO_OF_THE_TERRAPIN) ? 2 : 1;
+          KoLCharacter.addItemAdjustment(
+              mods,
+              slot,
+              item,
+              EquipmentManager.allEquipment(),
+              KoLCharacter.getEnthroned(),
+              KoLCharacter.getBjorned(),
+              Modeable.getStateMap(),
+              true,
+              taoFactor);
+        }
+      }
+      case SpecialOutfit outfit ->
+          mods = ModifierDatabase.getModifiers(ModifierType.OUTFIT, outfit.getName());
+      case FamiliarData familiar when isCustomizablePanel ->
+          mods = ModifierDatabase.getModifiers(ModifierType.THRONE, familiar.getRace());
+      case null, default -> {
+        return null;
+      }
     }
 
     if (mods == null) {
@@ -187,7 +195,7 @@ public class GearChangePanel extends JPanel {
     }
 
     String name = mods.getString(StringModifier.INTRINSIC_EFFECT);
-    if (name.length() > 0) {
+    if (!name.isEmpty()) {
       Modifiers newMods = new Modifiers();
       newMods.add(mods);
       newMods.add(ModifierDatabase.getModifiers(ModifierType.EFFECT, name));
@@ -235,13 +243,14 @@ public class GearChangePanel extends JPanel {
     for (var mod : StringModifier.STRING_MODIFIERS) {
       if (mod == StringModifier.WIKI_NAME
           || mod == StringModifier.MODIFIERS
+          || mod == StringModifier.EVALUATED_MODIFIERS
           || mod == StringModifier.OUTFIT
           || mod == StringModifier.FAMILIAR_EFFECT) {
         continue;
       }
 
       String strval = mods.getString(mod);
-      if (strval.equals("")) continue;
+      if (strval.isEmpty()) continue;
       name = mod.getName();
       name = StringUtilities.singleStringReplace(name, "Familiar", "Fam");
       if (anyBool) {
@@ -545,6 +554,18 @@ public class GearChangePanel extends JPanel {
       rows.add(
           new VerifiableElement("Boot Spur:", GearChangePanel.this.equipment.get(Slot.BOOTSPUR)));
 
+      rows.add(new VerifiableElement());
+      rows.add(
+          new VerifiableElement("Codpiece:", GearChangePanel.this.equipment.get(Slot.CODPIECE1)));
+      rows.add(
+          new VerifiableElement("Codpiece:", GearChangePanel.this.equipment.get(Slot.CODPIECE2)));
+      rows.add(
+          new VerifiableElement("Codpiece:", GearChangePanel.this.equipment.get(Slot.CODPIECE3)));
+      rows.add(
+          new VerifiableElement("Codpiece:", GearChangePanel.this.equipment.get(Slot.CODPIECE4)));
+      rows.add(
+          new VerifiableElement("Codpiece:", GearChangePanel.this.equipment.get(Slot.CODPIECE5)));
+
       VerifiableElement[] elements = new VerifiableElement[rows.size()];
       elements = rows.toArray(elements);
 
@@ -594,6 +615,14 @@ public class GearChangePanel extends JPanel {
       boolean hasBoots = InventoryManager.equippedOrInInventory(EquipmentManager.COWBOY_BOOTS);
       GearChangePanel.this.equipment.get(Slot.BOOTSKIN).setEnabled(isEnabled && hasBoots);
       GearChangePanel.this.equipment.get(Slot.BOOTSPUR).setEnabled(isEnabled && hasBoots);
+
+      boolean hasCodpiece =
+          InventoryManager.equippedOrInInventory(EquipmentManager.ETERNITY_CODPIECE);
+      GearChangePanel.this.equipment.get(Slot.CODPIECE1).setEnabled(isEnabled && hasCodpiece);
+      GearChangePanel.this.equipment.get(Slot.CODPIECE2).setEnabled(isEnabled && hasCodpiece);
+      GearChangePanel.this.equipment.get(Slot.CODPIECE3).setEnabled(isEnabled && hasCodpiece);
+      GearChangePanel.this.equipment.get(Slot.CODPIECE4).setEnabled(isEnabled && hasCodpiece);
+      GearChangePanel.this.equipment.get(Slot.CODPIECE5).setEnabled(isEnabled && hasCodpiece);
     }
 
     @Override
@@ -650,6 +679,20 @@ public class GearChangePanel extends JPanel {
       if (!EquipmentManager.getEquipment(slot).equals(decoration)) {
         RequestThread.postRequest(new EquipmentRequest(decoration, slot));
       }
+    }
+
+    // Eternity Codpiece
+    // Collect all changes first, since each request triggers ApiRequest.updateStatus()
+    // which would otherwise reset the combo box selections before we finish iterating
+    Map<Slot, AdventureResult> codpieceChanges = new EnumMap<>(Slot.class);
+    for (var slot : SlotSet.CODPIECE_SLOTS) {
+      AdventureResult gem = (AdventureResult) this.equipment.get(slot).getSelectedItem();
+      if (!EquipmentManager.getEquipment(slot).equals(gem)) {
+        codpieceChanges.put(slot, gem);
+      }
+    }
+    for (var entry : codpieceChanges.entrySet()) {
+      RequestThread.postRequest(new EquipmentRequest(entry.getValue(), entry.getKey()));
     }
 
     int oldFakeHands = EquipmentManager.getFakeHands();
