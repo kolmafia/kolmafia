@@ -965,17 +965,6 @@ public class EquipmentManager {
       case ACCESSORY1:
       case ACCESSORY2:
         return; // do all the work when updating ACC3
-
-      case CODPIECE1:
-      case CODPIECE2:
-      case CODPIECE3:
-      case CODPIECE4:
-        return; // do all the work when updating CODPIECE5
-
-      case CODPIECE5:
-        EquipmentManager.updateCodpieceList();
-        break;
-
       case ACCESSORY3:
         EquipmentManager.updateEquipmentList(consumeFilter, EquipmentManager.accessories);
         AdventureResult accessory = EquipmentManager.getEquipment(Slot.ACCESSORY1);
@@ -1013,6 +1002,15 @@ public class EquipmentManager {
           }
         }
 
+        break;
+
+      case CODPIECE1:
+      case CODPIECE2:
+      case CODPIECE3:
+      case CODPIECE4:
+        return; // do all the work when updating CODPIECE5
+      case CODPIECE5:
+        EquipmentManager.updateCodpieceList();
         break;
 
       default:
