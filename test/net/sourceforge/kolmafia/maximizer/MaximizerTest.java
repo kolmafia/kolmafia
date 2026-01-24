@@ -29,6 +29,8 @@ import static internal.helpers.Player.withRestricted;
 import static internal.helpers.Player.withSign;
 import static internal.helpers.Player.withSkill;
 import static internal.helpers.Player.withStats;
+import static internal.helpers.Player.withStatsRequiredForEquipment;
+import static internal.helpers.Player.withUnequipped;
 import static internal.matchers.Maximizer.recommends;
 import static internal.matchers.Maximizer.recommendsSlot;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -46,6 +48,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
 import java.time.Month;
+import java.util.Map;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -57,11 +60,14 @@ import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.modifiers.BitmapModifier;
 import net.sourceforge.kolmafia.modifiers.DerivedModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase.Environment;
+import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.junit.jupiter.api.BeforeAll;
@@ -809,6 +815,274 @@ public class MaximizerTest {
       try (cleanups) {
         assertTrue(maximize("spooky dmg, sword"));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.WEAPON, "sweet ninja sword")));
+      }
+    }
+  }
+
+  @Nested
+  class OffhandSynergy {
+    @Test
+    public void offhandBonusBeatsTwoHandedWeapon() {
+      int oneHanded = ItemDatabase.getItemId("yam cannon");
+      int twoHanded = ItemDatabase.getItemId("stolen accordion");
+      int twoHandedAlt = ItemDatabase.getItemId("slightly peevedbow");
+      int offhand = ItemDatabase.getItemId("august scepter");
+      assertTrue(oneHanded > 0, "Missing yam cannon");
+      assertTrue(twoHanded > 0, "Missing stolen accordion");
+      assertTrue(twoHandedAlt > 0, "Missing slightly peevedbow");
+      assertTrue(offhand > 0, "Missing august scepter");
+      assertEquals(1, EquipmentDatabase.getHands(oneHanded), "yam cannon not 1-handed");
+      assertEquals(2, EquipmentDatabase.getHands(twoHanded), "stolen accordion not 2-handed");
+      assertEquals(2, EquipmentDatabase.getHands(twoHandedAlt), "slightly peevedbow not 2-handed");
+
+      final var cleanups =
+          new Cleanups(
+              withEquippableItem("yam cannon"),
+              withEquippableItem("stolen accordion"),
+              withEquippableItem("slightly peevedbow"),
+              withEquippableItem("august scepter"),
+              withStatsRequiredForEquipment("yam cannon"),
+              withStatsRequiredForEquipment("stolen accordion"),
+              withStatsRequiredForEquipment("slightly peevedbow"),
+              withUnequipped(Slot.WEAPON),
+              withUnequipped(Slot.OFFHAND),
+              withOverrideModifiers(ModifierType.ITEM, oneHanded, "Item Drop: +0"),
+              withOverrideModifiers(ModifierType.ITEM, twoHanded, "Item Drop: +200"),
+              withOverrideModifiers(ModifierType.ITEM, twoHandedAlt, "Item Drop: +180"),
+              withOverrideModifiers(ModifierType.ITEM, offhand, "Item Drop: +250"));
+
+      try (cleanups) {
+        assertTrue(maximize("item"));
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.WEAPON, "yam cannon")));
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.OFFHAND, "august scepter")));
+      }
+    }
+
+    @Test
+    public void effectiveStillEquipsWeaponWhenOffhandIsBest() {
+      int oneHanded = ItemDatabase.getItemId("yam cannon");
+      int twoHanded = ItemDatabase.getItemId("stolen accordion");
+      int twoHandedAlt = ItemDatabase.getItemId("slightly peevedbow");
+      int offhand = ItemDatabase.getItemId("august scepter");
+      assertTrue(oneHanded > 0, "Missing yam cannon");
+      assertTrue(twoHanded > 0, "Missing stolen accordion");
+      assertTrue(twoHandedAlt > 0, "Missing slightly peevedbow");
+      assertTrue(offhand > 0, "Missing august scepter");
+      assertEquals(1, EquipmentDatabase.getHands(oneHanded), "yam cannon not 1-handed");
+      assertEquals(2, EquipmentDatabase.getHands(twoHanded), "stolen accordion not 2-handed");
+      assertEquals(2, EquipmentDatabase.getHands(twoHandedAlt), "slightly peevedbow not 2-handed");
+
+      final var cleanups =
+          new Cleanups(
+              withStats(1, 1, 150),
+              withEquippableItem("yam cannon"),
+              withEquippableItem("stolen accordion"),
+              withEquippableItem("slightly peevedbow"),
+              withEquippableItem("august scepter"),
+              withStatsRequiredForEquipment("yam cannon"),
+              withStatsRequiredForEquipment("stolen accordion"),
+              withStatsRequiredForEquipment("slightly peevedbow"),
+              withUnequipped(Slot.WEAPON),
+              withUnequipped(Slot.OFFHAND),
+              withOverrideModifiers(ModifierType.ITEM, oneHanded, "Item Drop: +0"),
+              withOverrideModifiers(ModifierType.ITEM, twoHanded, "Item Drop: +200"),
+              withOverrideModifiers(ModifierType.ITEM, twoHandedAlt, "Item Drop: +180"),
+              withOverrideModifiers(ModifierType.ITEM, offhand, "Item Drop: +250"));
+
+      try (cleanups) {
+        assertTrue(maximize("item, effective"));
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.WEAPON, "yam cannon")));
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.OFFHAND, "august scepter")));
+      }
+    }
+
+    @Test
+    public void offhandComboWinsForFullExpression() {
+      int oneHanded = ItemDatabase.getItemId("yam cannon");
+      int twoHanded = ItemDatabase.getItemId("stolen accordion");
+      int twoHandedAlt = ItemDatabase.getItemId("slightly peevedbow");
+      int offhand = ItemDatabase.getItemId("august scepter");
+      assertTrue(oneHanded > 0, "Missing yam cannon");
+      assertTrue(twoHanded > 0, "Missing stolen accordion");
+      assertTrue(twoHandedAlt > 0, "Missing slightly peevedbow");
+      assertTrue(offhand > 0, "Missing august scepter");
+
+      final var cleanups =
+          new Cleanups(
+              withStats(1, 1, 150),
+              withEquippableItem("yam cannon"),
+              withEquippableItem("stolen accordion"),
+              withEquippableItem("slightly peevedbow"),
+              withEquippableItem("august scepter"),
+              withStatsRequiredForEquipment("yam cannon"),
+              withStatsRequiredForEquipment("stolen accordion"),
+              withStatsRequiredForEquipment("slightly peevedbow"),
+              withUnequipped(Slot.WEAPON),
+              withUnequipped(Slot.OFFHAND),
+              withOverrideModifiers(ModifierType.ITEM, oneHanded, "Item Drop: +0"),
+              withOverrideModifiers(ModifierType.ITEM, twoHanded, "Item Drop: +200"),
+              withOverrideModifiers(ModifierType.ITEM, twoHandedAlt, "Item Drop: +180"),
+              withOverrideModifiers(ModifierType.ITEM, offhand, "Item Drop: +250"));
+
+      try (cleanups) {
+        assertTrue(
+            maximize(
+                "5item,meat,0.5initiative,0.1da 1000max,dr,0.5all res,1.5mainstat,-fumble,0.4hp,"
+                    + "0.2mp 1000max,3mp regen,1.5weapon damage,0.75weapon damage percent,"
+                    + "1.5elemental damage,2familiar weight,5familiar exp,15Moxie experience,"
+                    + "5Moxie experience percent,+200bonus spring shoes,+200bonus bat wings,effective"));
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.WEAPON, "yam cannon")));
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.OFFHAND, "august scepter")));
+      }
+    }
+
+    @Test
+    public void offhandComboWinsWithAndWithoutEffective() {
+      int oneHanded = ItemDatabase.getItemId("yam cannon");
+      int twoHanded = ItemDatabase.getItemId("stolen accordion");
+      int twoHandedAlt = ItemDatabase.getItemId("slightly peevedbow");
+      int offhand = ItemDatabase.getItemId("august scepter");
+      assertTrue(oneHanded > 0, "Missing yam cannon");
+      assertTrue(twoHanded > 0, "Missing stolen accordion");
+      assertTrue(twoHandedAlt > 0, "Missing slightly peevedbow");
+      assertTrue(offhand > 0, "Missing august scepter");
+
+      final var cleanups =
+          new Cleanups(
+              withStats(1, 1, 150),
+              withEquippableItem("yam cannon"),
+              withEquippableItem("stolen accordion"),
+              withEquippableItem("slightly peevedbow"),
+              withEquippableItem("august scepter"),
+              withStatsRequiredForEquipment("yam cannon"),
+              withStatsRequiredForEquipment("stolen accordion"),
+              withStatsRequiredForEquipment("slightly peevedbow"),
+              withUnequipped(Slot.WEAPON),
+              withUnequipped(Slot.OFFHAND),
+              withOverrideModifiers(ModifierType.ITEM, oneHanded, "Item Drop: +0"),
+              withOverrideModifiers(ModifierType.ITEM, twoHanded, "Item Drop: +200"),
+              withOverrideModifiers(ModifierType.ITEM, twoHandedAlt, "Item Drop: +180"),
+              withOverrideModifiers(ModifierType.ITEM, offhand, "Item Drop: +250"));
+
+      String baseExpr =
+          "5item,meat,0.5initiative,0.1da 1000max,dr,0.5all res,1.5mainstat,-fumble,0.4hp,"
+              + "0.2mp 1000max,3mp regen,1.5weapon damage,0.75weapon damage percent,"
+              + "1.5elemental damage,2familiar weight,5familiar exp,15Moxie experience,"
+              + "5Moxie experience percent,+200bonus spring shoes,+200bonus bat wings";
+
+      try (cleanups) {
+        assertTrue(maximize(baseExpr));
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.WEAPON, "yam cannon")));
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.OFFHAND, "august scepter")));
+
+        assertTrue(maximize(baseExpr + ",effective"));
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.WEAPON, "yam cannon")));
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.OFFHAND, "august scepter")));
+      }
+    }
+
+    @Test
+    public void offhandComboRespectsEffectiveByStatFocus() {
+      int oneHanded = ItemDatabase.getItemId("yam cannon");
+      int twoHanded = ItemDatabase.getItemId("stolen accordion");
+      int twoHandedAlt = ItemDatabase.getItemId("slightly peevedbow");
+      int offhand = ItemDatabase.getItemId("august scepter");
+      assertTrue(oneHanded > 0, "Missing yam cannon");
+      assertTrue(twoHanded > 0, "Missing stolen accordion");
+      assertTrue(twoHandedAlt > 0, "Missing slightly peevedbow");
+      assertTrue(offhand > 0, "Missing august scepter");
+
+      final var cleanups =
+          new Cleanups(
+              withEquippableItem("yam cannon"),
+              withEquippableItem("stolen accordion"),
+              withEquippableItem("slightly peevedbow"),
+              withEquippableItem("august scepter"),
+              withStatsRequiredForEquipment("yam cannon"),
+              withStatsRequiredForEquipment("stolen accordion"),
+              withStatsRequiredForEquipment("slightly peevedbow"),
+              withUnequipped(Slot.WEAPON),
+              withUnequipped(Slot.OFFHAND),
+              withOverrideModifiers(ModifierType.ITEM, oneHanded, "Item Drop: +0"),
+              withOverrideModifiers(ModifierType.ITEM, twoHanded, "Item Drop: +200"),
+              withOverrideModifiers(ModifierType.ITEM, twoHandedAlt, "Item Drop: +180"),
+              withOverrideModifiers(ModifierType.ITEM, offhand, "Item Drop: +250"));
+
+      String baseExpr =
+          "5item,meat,0.5initiative,0.1da 1000max,dr,0.5all res,1.5mainstat,-fumble,0.4hp,"
+              + "0.2mp 1000max,3mp regen,1.5weapon damage,0.75weapon damage percent,"
+              + "1.5elemental damage,2familiar weight,5familiar exp,15Moxie experience,"
+              + "5Moxie experience percent,+200bonus spring shoes,+200bonus bat wings";
+
+      try (cleanups) {
+        var moxieStats = new Cleanups(withStats(1, 1, 150));
+        try (moxieStats) {
+          assertTrue(maximize(baseExpr + ",effective"));
+          assertThat(getBoosts(), hasItem(recommendsSlot(Slot.WEAPON, "yam cannon")));
+          assertThat(getBoosts(), hasItem(recommendsSlot(Slot.OFFHAND, "august scepter")));
+        }
+
+        var muscleStats = new Cleanups(withStats(150, 1, 1));
+        try (muscleStats) {
+          assertTrue(maximize(baseExpr + ",effective"));
+          assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.WEAPON, "yam cannon"))));
+          assertThat(getBoosts(), hasItem(recommendsSlot(Slot.OFFHAND, "august scepter")));
+        }
+      }
+    }
+
+    @Test
+    public void comboScoresPreferWeaponAndOffhandTogether() {
+      int oneHanded = ItemDatabase.getItemId("yam cannon");
+      int twoHanded = ItemDatabase.getItemId("stolen accordion");
+      int offhand = ItemDatabase.getItemId("august scepter");
+      assertTrue(oneHanded > 0, "Missing yam cannon");
+      assertTrue(twoHanded > 0, "Missing stolen accordion");
+      assertTrue(offhand > 0, "Missing august scepter");
+
+      final var cleanups =
+          new Cleanups(
+              withStats(1, 1, 150),
+              withEquippableItem("yam cannon"),
+              withEquippableItem("stolen accordion"),
+              withEquippableItem("august scepter"),
+              withStatsRequiredForEquipment("yam cannon"),
+              withStatsRequiredForEquipment("stolen accordion"),
+              withUnequipped(Slot.WEAPON),
+              withUnequipped(Slot.OFFHAND),
+              withOverrideModifiers(ModifierType.ITEM, oneHanded, "Item Drop: +0"),
+              withOverrideModifiers(ModifierType.ITEM, twoHanded, "Item Drop: +200"),
+              withOverrideModifiers(ModifierType.ITEM, offhand, "Item Drop: +250"));
+
+      try (cleanups) {
+        String expr =
+            "5item,meat,0.5initiative,0.1da 1000max,dr,0.5all res,1.5mainstat,"
+                + "-fumble,0.4hp,0.2mp 1000max,3mp regen,1.5weapon damage,"
+                + "0.75weapon damage percent,1.5elemental damage,2familiar weight,"
+                + "5familiar exp,15Moxie experience,5Moxie experience percent,"
+                + "+200bonus spring shoes,+200bonus bat wings,effective";
+
+        var evaluator = new Evaluator(expr);
+        double base = evaluator.getScore(new Modifiers(), Map.of());
+
+        var offhandOnly = new MaximizerSpeculation();
+        offhandOnly.equip(Slot.OFFHAND, ItemPool.get(offhand));
+        double offhandScore = evaluator.getScore(offhandOnly.calculate(), offhandOnly.equipment);
+
+        var oneHandedCombo = new MaximizerSpeculation();
+        oneHandedCombo.equip(Slot.WEAPON, ItemPool.get(oneHanded));
+        oneHandedCombo.equip(Slot.OFFHAND, ItemPool.get(offhand));
+        double oneHandedScore =
+            evaluator.getScore(oneHandedCombo.calculate(), oneHandedCombo.equipment);
+
+        var twoHandedOnly = new MaximizerSpeculation();
+        twoHandedOnly.equip(Slot.WEAPON, ItemPool.get(twoHanded));
+        double twoHandedScore =
+            evaluator.getScore(twoHandedOnly.calculate(), twoHandedOnly.equipment);
+
+        assertTrue(offhandScore > base, "Offhand should beat base");
+        assertTrue(oneHandedScore > offhandScore, "Weapon+offhand should beat offhand only");
+        assertTrue(oneHandedScore > twoHandedScore, "Weapon+offhand should beat 2-handed");
       }
     }
   }
@@ -2349,6 +2623,32 @@ public class MaximizerTest {
       assertThat(getBoosts(), not(hasItem(hasProperty("cmd", startsWith("aprilband effect c")))));
     }
   }
+
+  @Test
+  public void offHandRemarkableDoublesMcHugeLargeLeftPole() {
+    var cleanups =
+         new Cleanups(
+              withEquippableItem( ItemPool.MCHUGELARGE_DUFFEL_BAG),
+              withEquippableItem( ItemPool.MCHUGELARGE_RIGHT_POLE),
+              withEquippableItem( ItemPool.MCHUGELARGE_LEFT_POLE),
+              withEquippableItem( ItemPool.MCHUGELARGE_LEFT_SKI),
+              withEquippableItem( ItemPool.MCHUGELARGE_RIGHT_SKI),
+              withEffect( EffectPool.OFFHAND_REMARKABLE));
+
+    try (cleanups) {
+      assertTrue(maximize("cold res"));
+      assertEquals(
+           18,
+           modFor(DoubleModifier.COLD_RESISTANCE) ,
+           0.01,
+           "Maximizing with all McHugeLarge items should be worth 18"
+      );
+      var result = KoLCharacter.recalculateAdjustments();
+      System.out.println("Result:" + result);
+    }
+  }
+
+
 
   @Nested
   class Mayam {
