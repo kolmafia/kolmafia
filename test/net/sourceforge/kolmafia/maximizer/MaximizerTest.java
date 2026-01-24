@@ -2627,28 +2627,25 @@ public class MaximizerTest {
   @Test
   public void offHandRemarkableDoublesMcHugeLargeLeftPole() {
     var cleanups =
-         new Cleanups(
-              withEquippableItem( ItemPool.MCHUGELARGE_DUFFEL_BAG),
-              withEquippableItem( ItemPool.MCHUGELARGE_RIGHT_POLE),
-              withEquippableItem( ItemPool.MCHUGELARGE_LEFT_POLE),
-              withEquippableItem( ItemPool.MCHUGELARGE_LEFT_SKI),
-              withEquippableItem( ItemPool.MCHUGELARGE_RIGHT_SKI),
-              withEffect( EffectPool.OFFHAND_REMARKABLE));
+        new Cleanups(
+            withEquippableItem(ItemPool.MCHUGELARGE_DUFFEL_BAG),
+            withEquippableItem(ItemPool.MCHUGELARGE_RIGHT_POLE),
+            withEquippableItem(ItemPool.MCHUGELARGE_LEFT_POLE),
+            withEquippableItem(ItemPool.MCHUGELARGE_LEFT_SKI),
+            withEquippableItem(ItemPool.MCHUGELARGE_RIGHT_SKI),
+            withEffect(EffectPool.OFFHAND_REMARKABLE));
 
     try (cleanups) {
       assertTrue(maximize("cold res"));
       assertEquals(
-           18,
-           modFor(DoubleModifier.COLD_RESISTANCE) ,
-           0.01,
-           "Maximizing with all McHugeLarge items should be worth 18"
-      );
+          18,
+          modFor(DoubleModifier.COLD_RESISTANCE),
+          0.01,
+          "Maximizing with all McHugeLarge items should be worth 18");
       var result = KoLCharacter.recalculateAdjustments();
       System.out.println("Result:" + result);
     }
   }
-
-
 
   @Nested
   class Mayam {
