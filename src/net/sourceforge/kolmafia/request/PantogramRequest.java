@@ -163,7 +163,7 @@ public class PantogramRequest extends GenericRequest {
       }
 
       modList.addModifier("Lasts Until Rollover", null);
-      modList.addModifier("Last Available",  "\"2017-11\"");
+      modList.addModifier("Last Available", "\"2017-11\"");
 
       Preferences.setString("_pantogramModifier", modList.toString());
       ModifierDatabase.overrideModifier(
