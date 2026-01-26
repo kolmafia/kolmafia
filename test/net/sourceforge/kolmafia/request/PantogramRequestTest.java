@@ -2,7 +2,7 @@ package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withHttpClientBuilder;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import internal.helpers.Cleanups;
 import internal.network.FakeHttpClientBuilder;
@@ -49,9 +49,7 @@ public class PantogramRequestTest {
       // Order of modifiers could be different, so do a weird check
       Set<String> initMods = new HashSet<String>(Arrays.asList(initPantoModifier.split(",")));
       Set<String> parsedMods = new HashSet<String>(Arrays.asList(parsedPantoModifier.split(",")));
-      for (String mod : parsedMods) {
-        assertTrue(initMods.contains(mod), mod + " was not correctly initialized.");
-      }
+      assertEquals(initMods, parsedMods);
     }
   }
 }
