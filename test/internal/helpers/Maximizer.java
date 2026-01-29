@@ -35,6 +35,22 @@ public class Maximizer {
         EquipScope.SPECULATE_ANY, 0, PriceLevel.DONT_CHECK, false, EnumSet.allOf(filterType.class));
   }
 
+  public static void maximizeIncludeAll(String maximizerString) {
+    MaximizerFrame.expressionSelect.setSelectedItem(maximizerString);
+    net.sourceforge.kolmafia.maximizer.Maximizer.maximize(
+        EquipScope.SPECULATE_ANY, 0, PriceLevel.DONT_CHECK, true, EnumSet.allOf(filterType.class));
+  }
+
+  public static void maximizeWithFilter(String maximizerString, filterType... types) {
+    MaximizerFrame.expressionSelect.setSelectedItem(maximizerString);
+    EnumSet<filterType> filter = EnumSet.noneOf(filterType.class);
+    for (filterType type : types) {
+      filter.add(type);
+    }
+    net.sourceforge.kolmafia.maximizer.Maximizer.maximize(
+        EquipScope.SPECULATE_ANY, 0, PriceLevel.DONT_CHECK, false, filter);
+  }
+
   public static double modFor(Modifier modifier) {
     return ModifierDatabase.getNumericModifier(ModifierType.GENERATED, "_spec", modifier);
   }

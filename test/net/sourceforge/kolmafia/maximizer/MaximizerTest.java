@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.maximizer;
 import static internal.helpers.Maximizer.getBoosts;
 import static internal.helpers.Maximizer.maximize;
 import static internal.helpers.Maximizer.maximizeAny;
+import static internal.helpers.Maximizer.maximizeIncludeAll;
 import static internal.helpers.Maximizer.modFor;
 import static internal.helpers.Player.withCampgroundItem;
 import static internal.helpers.Player.withClass;
@@ -25,6 +26,7 @@ import static internal.helpers.Player.withNotAllowedInStandard;
 import static internal.helpers.Player.withOverrideModifiers;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withQuestProgress;
 import static internal.helpers.Player.withRestricted;
 import static internal.helpers.Player.withSign;
 import static internal.helpers.Player.withSkill;
@@ -62,6 +64,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase.Environment;
+import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.junit.jupiter.api.BeforeAll;
@@ -2563,6 +2566,251 @@ public class MaximizerTest {
         var boosts = getBoosts();
         assertThat(boosts, not(hasItem(hasProperty("cmd", equalTo("use 1 M-242")))));
       }
+    }
+  }
+
+  @Nested
+  class SkeletonEffects {
+    @Test
+    public void suggestsSkeletonEffectWhenHaveSkeletonItem() {
+      var cleanups = new Cleanups(withItem(ItemPool.SKELETON));
+      try (cleanups) {
+        assertTrue(maximize("exp"));
+        assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("skeleton"))));
+      }
+    }
+
+    @Test
+    public void doesNotSuggestSkeletonEffectWithoutSkeletonItem() {
+      assertTrue(maximize("exp"));
+      assertThat(getBoosts(), not(hasItem(hasProperty("cmd", startsWith("skeleton")))));
+    }
+  }
+
+  @Nested
+  class LoathingIdol {
+    @Test
+    public void suggestsLoathingIdolWhenHaveMicrophone() {
+      var cleanups = new Cleanups(withItem(ItemPool.LOATHING_IDOL_MICROPHONE));
+      try (cleanups) {
+        assertTrue(maximize("init"));
+        assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("loathingidol"))));
+      }
+    }
+
+    @Test
+    public void doesNotSuggestLoathingIdolWithoutMicrophone() {
+      assertTrue(maximize("init"));
+      assertThat(getBoosts(), not(hasItem(hasProperty("cmd", startsWith("loathingidol")))));
+    }
+  }
+
+  @Nested
+  class Monorail {
+    @Test
+    public void suggestsMonorailWhenNotUsedToday() {
+      var cleanups = new Cleanups(withProperty("_lyleFavored", false));
+      try (cleanups) {
+        assertTrue(maximize("moxie percent"));
+        assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("monorail"))));
+      }
+    }
+
+    @Test
+    public void doesNotSuggestMonorailWhenAlreadyUsed() {
+      var cleanups = new Cleanups(withProperty("_lyleFavored", true));
+      try (cleanups) {
+        assertTrue(maximize("moxie percent"));
+        assertThat(getBoosts(), not(hasItem(hasProperty("cmd", startsWith("monorail")))));
+      }
+    }
+  }
+
+  @Nested
+  class DemonSummoning {
+    @Test
+    public void suggestsDemonSummoningWhenQuestFinishedAndHaveItems() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(QuestDatabase.Quest.MANOR, QuestDatabase.FINISHED),
+              withProperty("demonName2", "Preternatural Greed"),
+              withItem(ItemPool.EVIL_SCROLL),
+              withItem(ItemPool.BLACK_CANDLE, 3));
+      try (cleanups) {
+        assertTrue(maximize("meat"));
+        assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("summon"))));
+      }
+    }
+
+    @Test
+    public void suggestsDemonSummoningWhenQuestFinishedAndInteractive() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(QuestDatabase.Quest.MANOR, QuestDatabase.FINISHED),
+              withProperty("demonName2", "Preternatural Greed"),
+              withInteractivity(true));
+      try (cleanups) {
+        assertTrue(maximize("meat"));
+        assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("summon"))));
+      }
+    }
+
+    @Test
+    public void doesNotSuggestDemonSummoningWithoutDemonName() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(QuestDatabase.Quest.MANOR, QuestDatabase.FINISHED),
+              withProperty("demonName2", ""),
+              withItem(ItemPool.EVIL_SCROLL),
+              withItem(ItemPool.BLACK_CANDLE, 3));
+      try (cleanups) {
+        assertTrue(maximize("meat"));
+        assertThat(getBoosts(), not(hasItem(hasProperty("cmd", startsWith("summon")))));
+      }
+    }
+  }
+
+  @Nested
+  class MomFood {
+    @Test
+    public void suggestsMomFoodWhenQuestFinishedAndNotReceived() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(QuestDatabase.Quest.SEA_MONKEES, QuestDatabase.FINISHED),
+              withProperty("_momFoodReceived", false));
+      try (cleanups) {
+        assertTrue(maximize("cold res"));
+        assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("mom"))));
+      }
+    }
+
+    @Test
+    public void doesNotSuggestMomFoodWhenAlreadyReceived() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(QuestDatabase.Quest.SEA_MONKEES, QuestDatabase.FINISHED),
+              withProperty("_momFoodReceived", true));
+      try (cleanups) {
+        assertTrue(maximize("cold res"));
+        assertThat(getBoosts(), not(hasItem(hasProperty("cmd", startsWith("mom")))));
+      }
+    }
+
+    @Test
+    public void doesNotSuggestMomFoodWhenQuestNotFinished() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(QuestDatabase.Quest.SEA_MONKEES, "step1"),
+              withProperty("_momFoodReceived", false));
+      try (cleanups) {
+        assertTrue(maximize("cold res"));
+        assertThat(getBoosts(), not(hasItem(hasProperty("cmd", startsWith("mom")))));
+      }
+    }
+  }
+
+  // AprilBand tests - not nested due to annotation processor limits
+  @Test
+  public void suggestsAprilBandWhenHaveHelmet() {
+    var cleanups = new Cleanups(withItem(ItemPool.APRILING_BAND_HELMET));
+    try (cleanups) {
+      assertTrue(maximize("+combat"));
+      assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("aprilband"))));
+    }
+  }
+
+  @Test
+  public void doesNotSuggestAprilBandWithoutHelmet() {
+    assertTrue(maximize("+combat"));
+    assertThat(getBoosts(), not(hasItem(hasProperty("cmd", startsWith("aprilband")))));
+  }
+
+  // Concert tests - not nested due to annotation processor limits
+  @Test
+  public void suggestsConcertWhenHippySideCompleted() {
+    var cleanups =
+        new Cleanups(
+            withProperty("sidequestArenaCompleted", "hippy"),
+            withProperty("concertVisited", false));
+    try (cleanups) {
+      assertTrue(maximize("exp"));
+      assertThat(getBoosts(), hasItem(hasProperty("cmd", containsString("Moon"))));
+    }
+  }
+
+  @Test
+  public void suggestsConcertWhenFratboySideCompleted() {
+    var cleanups =
+        new Cleanups(
+            withProperty("sidequestArenaCompleted", "fratboy"),
+            withProperty("concertVisited", false));
+    try (cleanups) {
+      assertTrue(maximize("meat"));
+      assertThat(getBoosts(), hasItem(hasProperty("cmd", containsString("Winklered"))));
+    }
+  }
+
+  @Test
+  public void doesNotSuggestConcertWhenAlreadyVisited() {
+    var cleanups =
+        new Cleanups(
+            withProperty("sidequestArenaCompleted", "hippy"),
+            withProperty("concertVisited", true));
+    try (cleanups) {
+      assertTrue(maximize("exp"));
+      assertThat(getBoosts(), not(hasItem(hasProperty("cmd", containsString("concert")))));
+    }
+  }
+
+  @Test
+  public void doesNotSuggestConcertWhenQuestNotCompleted() {
+    var cleanups =
+        new Cleanups(
+            withProperty("sidequestArenaCompleted", "none"),
+            withProperty("concertVisited", false));
+    try (cleanups) {
+      assertTrue(maximize("exp"));
+      assertThat(getBoosts(), not(hasItem(hasProperty("cmd", containsString("concert")))));
+    }
+  }
+
+  // Friars tests - not nested due to annotation processor limits
+  @Test
+  public void suggestsFriarsWhenCeremonyDone() {
+    var cleanups =
+        new Cleanups(
+            withProperty("lastFriarCeremonyAscension", 5),
+            withProperty("knownAscensions", 5),
+            withProperty("friarsBlessingReceived", false));
+    try (cleanups) {
+      assertTrue(maximize("food drop"));
+      assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("friars"))));
+    }
+  }
+
+  @Test
+  public void doesNotSuggestFriarsWhenBlessingReceived() {
+    var cleanups =
+        new Cleanups(
+            withProperty("lastFriarCeremonyAscension", 5),
+            withProperty("knownAscensions", 5),
+            withProperty("friarsBlessingReceived", true));
+    try (cleanups) {
+      assertTrue(maximize("food drop"));
+      assertThat(getBoosts(), not(hasItem(hasProperty("cmd", startsWith("friars")))));
+    }
+  }
+
+  @Test
+  public void doesNotSuggestFriarsWhenCeremonyNotDoneThisAscension() {
+    var cleanups =
+        new Cleanups(
+            withProperty("lastFriarCeremonyAscension", 4),
+            withProperty("knownAscensions", 5),
+            withProperty("friarsBlessingReceived", false));
+    try (cleanups) {
+      assertTrue(maximize("food drop"));
+      assertThat(getBoosts(), not(hasItem(hasProperty("cmd", startsWith("friars")))));
     }
   }
 }
