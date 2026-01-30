@@ -241,12 +241,28 @@ val revisionProvider: Provider<String> =
     rev.toString()
   }
 
+fun resolveGitDir(): File {
+  val dotGit = file(".git")
+  return if (dotGit.isFile) {
+    // In a worktree, .git is a file containing "gitdir: /path/to/git/dir"
+    val content = dotGit.readText().trim()
+    if (content.startsWith("gitdir:")) {
+      file(content.removePrefix("gitdir:").trim())
+    } else {
+      dotGit
+    }
+  } else {
+    dotGit
+  }
+}
+
 tasks.register("getRevision") {
   onlyIf {
     file(".git").exists()
   }
   val commit = findProperty("commit")?.toString() ?: "HEAD"
-  inputs.dir(".git")
+  val gitDir = resolveGitDir()
+  inputs.dir(gitDir)
   inputs.property("commit", commit)
   outputs.files(file("build/revision.txt"))
 
