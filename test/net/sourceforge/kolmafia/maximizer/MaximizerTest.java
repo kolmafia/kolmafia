@@ -2565,4 +2565,22 @@ public class MaximizerTest {
       }
     }
   }
+
+  @Test
+  void canMaximizeRolloverEffectDuration() {
+    var cleanups =
+        new Cleanups(
+            withEquippableItem(ItemPool.SILENT_NIGHTLIGHT),
+            withEquippableItem(ItemPool.SPACEGATE_MILITARY_INSIGNIA),
+            withEquippableItem(ItemPool.SPACEGATE_SCIENTIST_INSIGNIA),
+            withEquippableItem(ItemPool.SHINY_HOOD_ORNAMENT, 3));
+
+    try (cleanups) {
+      maximize(
+          "10.0 adv, 0.001 rollover effect duration, switch disembodied hand, switch left-hand man, -tie");
+      assertThat(getBoosts(), hasItem(recommends(ItemPool.SPACEGATE_SCIENTIST_INSIGNIA)));
+      assertThat(getBoosts(), hasItem(recommends(ItemPool.SPACEGATE_MILITARY_INSIGNIA)));
+      assertThat(getBoosts(), hasItem(recommends(ItemPool.SILENT_NIGHTLIGHT)));
+    }
+  }
 }

@@ -35,7 +35,6 @@ import net.sourceforge.kolmafia.modifiers.DerivedModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.Lookup;
 import net.sourceforge.kolmafia.modifiers.Modifier;
-import net.sourceforge.kolmafia.modifiers.MultiDoubleModifier;
 import net.sourceforge.kolmafia.modifiers.MultiStringModifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.moods.HPRestoreItemList;
@@ -2152,7 +2151,7 @@ public abstract class KoLCharacter {
     return KoLCharacter.currentModifiers.getStrings(mod);
   }
 
-  public static List<Double> currentMultiDoubleModifier(final MultiDoubleModifier mod) {
+  public static List<Double> currentMultiDoubleModifier(final DoubleModifier mod) {
     return KoLCharacter.currentModifiers.getDoubles(mod);
   }
 
