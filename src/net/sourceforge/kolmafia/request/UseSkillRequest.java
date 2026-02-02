@@ -27,7 +27,7 @@ import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.DerivedModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
-import net.sourceforge.kolmafia.modifiers.MultiStringModifier;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.moods.HPRestoreItemList;
 import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
@@ -952,7 +952,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
               .filter(
                   l ->
                       ModifierDatabase.getMultiStringModifier(
-                              l, MultiStringModifier.CONDITIONAL_SKILL_EQUIPPED)
+                              l, StringModifier.CONDITIONAL_SKILL_EQUIPPED)
                           .stream()
                           .mapToInt(SkillDatabase::getSkillId)
                           .anyMatch(i -> i == skillId))

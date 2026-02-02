@@ -25,8 +25,6 @@ import net.sourceforge.kolmafia.modifiers.Lookup;
 import net.sourceforge.kolmafia.modifiers.Modifier;
 import net.sourceforge.kolmafia.modifiers.ModifierList;
 import net.sourceforge.kolmafia.modifiers.ModifierList.ModifierValue;
-import net.sourceforge.kolmafia.modifiers.MultiStringModifier;
-import net.sourceforge.kolmafia.modifiers.MultiStringModifierCollection;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.modifiers.StringModifierCollection;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -79,7 +77,6 @@ public class Modifiers {
   private final BooleanModifierCollection booleans = new BooleanModifierCollection();
   private final BitmapModifierCollection bitmaps = new BitmapModifierCollection();
   private final StringModifierCollection strings = new StringModifierCollection();
-  private final MultiStringModifierCollection multiStrings = new MultiStringModifierCollection();
   private ArrayList<Indexed<Modifier, ModifierExpression>> expressions = null;
   // These are used for Steely-Eyed Squint and so on
   private final DoubleModifierCollection accumulators = new DoubleModifierCollection();
@@ -290,7 +287,6 @@ public class Modifiers {
   public final void reset() {
     this.doubles.reset();
     this.strings.reset();
-    this.multiStrings.reset();
     this.booleans.reset();
     this.bitmaps.reset();
     this.expressions = null;
@@ -424,25 +420,21 @@ public class Modifiers {
     // that can change within a session, like character level.
     if (modifier == StringModifier.EVALUATED_MODIFIERS) {
       return ModifierDatabase.evaluateModifiers(
-              this.originalLookup, this.strings.get(StringModifier.MODIFIERS))
+              this.originalLookup, this.strings.getString(StringModifier.MODIFIERS))
           .toString();
     }
 
     if (modifier instanceof StringModifier sm) {
-      return this.strings.get(sm);
-    }
-
-    if (modifier instanceof MultiStringModifier msm) {
-      return this.multiStrings.getOne(msm);
+      return this.strings.getString(sm);
     }
 
     return "";
   }
 
-  public List<String> getStrings(final MultiStringModifier modifier) {
+  public List<String> getStrings(final StringModifier modifier) {
     if (modifier == null) return List.of();
 
-    return this.multiStrings.get(modifier);
+    return this.strings.getList(modifier);
   }
 
   public double getAccumulator(final DoubleModifier modifier) {
@@ -501,15 +493,7 @@ public class Modifiers {
     return this.strings.set(modifier, mod);
   }
 
-  public boolean setString(final MultiStringModifier modifier, String mod) {
-    if (modifier == null) {
-      return false;
-    }
-
-    return this.multiStrings.set(modifier, mod == null ? List.of() : List.of(mod));
-  }
-
-  public boolean setStrings(final MultiStringModifier modifier, List<String> mod) {
+  public boolean setStrings(final StringModifier modifier, List<String> mod) {
     if (modifier == null) {
       return false;
     }
@@ -518,7 +502,7 @@ public class Modifiers {
       mod = List.of();
     }
 
-    return this.multiStrings.set(modifier, mod);
+    return this.strings.set(modifier, mod);
   }
 
   public boolean set(final Modifiers mods) {
@@ -546,11 +530,11 @@ public class Modifiers {
     }
 
     for (var mod : StringModifier.STRING_MODIFIERS) {
-      changed |= this.setString(mod, mods.strings.get(mod));
-    }
-
-    for (var mod : MultiStringModifier.MULTISTRING_MODIFIERS) {
-      changed |= this.multiStrings.set(mod, mods.multiStrings.get(mod));
+      if (mod.isMultiple()) {
+        changed |= this.strings.set(mod, mods.strings.getList(mod));
+      } else {
+        changed |= this.setString(mod, mods.strings.getString(mod));
+      }
     }
 
     return changed;
@@ -663,21 +647,13 @@ public class Modifiers {
     this.bitmaps.add(modifier, bit);
   }
 
-  public boolean addMultiString(final MultiStringModifier modifier, String mod) {
-    if (modifier == null || mod == null) {
-      return false;
-    }
-
-    return this.multiStrings.add(modifier, mod);
-  }
-
   public void add(final Modifiers mods) {
     if (mods == null) {
       return;
     }
 
     // Make sure the modifiers apply to current class
-    String className = mods.strings.get(StringModifier.CLASS);
+    String className = mods.strings.getString(StringModifier.CLASS);
     if (className != null && !className.isEmpty()) {
       AscensionClass ascensionClass = AscensionClass.findByExactName(className);
       if (ascensionClass != null && ascensionClass != KoLCharacter.getAscensionClass()) {
@@ -702,32 +678,32 @@ public class Modifiers {
     // Add in string modifiers as appropriate.
 
     String val;
-    val = mods.strings.get(StringModifier.EQUALIZE);
-    if (!val.isEmpty() && this.strings.get(StringModifier.EQUALIZE).isEmpty()) {
+    val = mods.strings.getString(StringModifier.EQUALIZE);
+    if (!val.isEmpty() && this.strings.getString(StringModifier.EQUALIZE).isEmpty()) {
       this.strings.set(StringModifier.EQUALIZE, val);
     }
-    val = mods.strings.get(StringModifier.INTRINSIC_EFFECT);
+    val = mods.strings.getString(StringModifier.INTRINSIC_EFFECT);
     if (!val.isEmpty()) {
-      String prev = this.strings.get(StringModifier.INTRINSIC_EFFECT);
+      String prev = this.strings.getString(StringModifier.INTRINSIC_EFFECT);
       if (prev.isEmpty()) {
         this.strings.set(StringModifier.INTRINSIC_EFFECT, val);
       } else {
         this.strings.set(StringModifier.INTRINSIC_EFFECT, prev + "\t" + val);
       }
     }
-    val = mods.strings.get(StringModifier.STAT_TUNING);
+    val = mods.strings.getString(StringModifier.STAT_TUNING);
     if (!val.isEmpty()) {
       this.strings.set(StringModifier.STAT_TUNING, val);
     }
-    val = mods.strings.get(StringModifier.EQUALIZE_MUSCLE);
+    val = mods.strings.getString(StringModifier.EQUALIZE_MUSCLE);
     if (!val.isEmpty()) {
       this.strings.set(StringModifier.EQUALIZE_MUSCLE, val);
     }
-    val = mods.strings.get(StringModifier.EQUALIZE_MYST);
+    val = mods.strings.getString(StringModifier.EQUALIZE_MYST);
     if (!val.isEmpty()) {
       this.strings.set(StringModifier.EQUALIZE_MYST, val);
     }
-    val = mods.strings.get(StringModifier.EQUALIZE_MOXIE);
+    val = mods.strings.getString(StringModifier.EQUALIZE_MOXIE);
     if (!val.isEmpty()) {
       this.strings.set(StringModifier.EQUALIZE_MOXIE, val);
     }
@@ -762,8 +738,6 @@ public class Modifiers {
         return this.setBitmap(b, Integer.parseInt(mod.getValue()));
       } else if (modifier instanceof BooleanModifier b) {
         return this.setBoolean(b, mod.getValue().equals("true"));
-      } else if (modifier instanceof MultiStringModifier s) {
-        return this.setString(s, mod.getValue());
       }
     }
     return false;
