@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.modifiers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 public abstract class ListOrT<T> {
   protected T tValue;
@@ -54,6 +55,17 @@ public abstract class ListOrT<T> {
       return new ArrayList<>(List.of());
     }
     return new ArrayList<>(List.of(tValue));
+  }
+
+  public <R extends ListOrT<T>> R append(ListOrT<T> newValue, Function<List<T>, R> factory) {
+    var curVal = getListValue();
+    if (newValue.isT()) {
+      curVal.add(newValue.getTValue());
+    } else {
+      // don't think this ever happens in practice but support anyway
+      curVal.addAll(newValue.getListValue());
+    }
+    return factory.apply(curVal);
   }
 
   @Override

@@ -7,7 +7,6 @@ import java.util.List;
 public class DoubleOrList extends ListOrT<Double> {
   public DoubleOrList(double doubleValue) {
     super(doubleValue);
-    ;
   }
 
   public DoubleOrList(List<Double> listValue) {
@@ -28,14 +27,7 @@ public class DoubleOrList extends ListOrT<Double> {
   }
 
   public DoubleOrList append(DoubleOrList newValue) {
-    var curVal = getListValue();
-    if (newValue.isDouble()) {
-      curVal.add(newValue.getDoubleValue());
-    } else {
-      // don't think this ever happens in practice but support anyway
-      curVal.addAll(newValue.getListValue());
-    }
-    return new DoubleOrList(curVal);
+    return super.append(newValue, DoubleOrList::new);
   }
 
   /**

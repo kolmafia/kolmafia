@@ -43,7 +43,6 @@ import net.sourceforge.kolmafia.modifiers.Lookup;
 import net.sourceforge.kolmafia.modifiers.Modifier;
 import net.sourceforge.kolmafia.modifiers.ModifierList;
 import net.sourceforge.kolmafia.modifiers.ModifierList.ModifierValue;
-import net.sourceforge.kolmafia.modifiers.MultiStringModifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -180,9 +179,6 @@ public class ModifierDatabase {
   // in general these are the modifiers which cannot be read from the item description
   public static final Set<Modifier> CARRIED_OVER =
       Set.of(
-          MultiStringModifier.CONDITIONAL_SKILL_EQUIPPED,
-          MultiStringModifier.CONDITIONAL_SKILL_INVENTORY,
-          MultiStringModifier.LANTERN_ELEMENT,
           StringModifier.CLASS,
           StringModifier.WIKI_NAME,
           // stat tuning is (likely) carried over for mime army but not tropical
@@ -192,6 +188,9 @@ public class ModifierDatabase {
           StringModifier.SKILL,
           StringModifier.RECIPE,
           StringModifier.LAST_AVAILABLE_DATE,
+          StringModifier.CONDITIONAL_SKILL_EQUIPPED,
+          StringModifier.CONDITIONAL_SKILL_INVENTORY,
+          StringModifier.LANTERN_ELEMENT,
           BitmapModifier.BRIMSTONE,
           BitmapModifier.CLOATHING,
           BitmapModifier.SYNERGETIC,
@@ -235,10 +234,6 @@ public class ModifierDatabase {
       modifierTypesByName.put(modifier.getTag(), modifier);
     }
     for (var modifier : StringModifier.STRING_MODIFIERS) {
-      modifierTypesByName.put(modifier.getName(), modifier);
-      modifierTypesByName.put(modifier.getTag(), modifier);
-    }
-    for (var modifier : MultiStringModifier.MULTISTRING_MODIFIERS) {
       modifierTypesByName.put(modifier.getName(), modifier);
       modifierTypesByName.put(modifier.getTag(), modifier);
     }
@@ -352,10 +347,6 @@ public class ModifierDatabase {
     var str = StringModifier.byCaselessName(name);
     if (str != null) {
       return str;
-    }
-    var mStr = MultiStringModifier.byCaselessName(name);
-    if (mStr != null) {
-      return mStr;
     }
     return BooleanModifier.byCaselessName(name);
   }
@@ -572,17 +563,16 @@ public class ModifierDatabase {
   }
 
   public static List<String> getMultiStringModifier(
-      final ModifierType type, final int id, final MultiStringModifier mod) {
+      final ModifierType type, final int id, final StringModifier mod) {
     return getMultiStringModifier(new Lookup(type, id), mod);
   }
 
   public static List<String> getMultiStringModifier(
-      final ModifierType type, final String name, final MultiStringModifier mod) {
+      final ModifierType type, final String name, final StringModifier mod) {
     return getMultiStringModifier(new Lookup(type, name), mod);
   }
 
-  public static List<String> getMultiStringModifier(
-      final Lookup lookup, final MultiStringModifier mod) {
+  public static List<String> getMultiStringModifier(final Lookup lookup, final StringModifier mod) {
     Modifiers mods = getModifiers(lookup);
     if (mods == null) {
       return List.of();
@@ -803,23 +793,6 @@ public class ModifierDatabase {
         newMods.setString(mod, value);
         continue modLoop;
       }
-
-      for (var mod : MultiStringModifier.MULTISTRING_MODIFIERS) {
-        Pattern pattern = mod.getTagPattern();
-        if (pattern == null) {
-          continue;
-        }
-
-        Matcher matcher = pattern.matcher(string);
-        if (!matcher.matches()) {
-          continue;
-        }
-
-        String value = matcher.group(1);
-
-        newMods.addMultiString(mod, value);
-        continue modLoop;
-      }
     }
     newMods.setString(StringModifier.MODIFIERS, list.toString());
 
@@ -923,7 +896,7 @@ public class ModifierDatabase {
           name = "[" + effectId + "]" + name;
         }
       }
-      return MultiStringModifier.EFFECT.getTag() + ": \"" + name + "\"";
+      return StringModifier.EFFECT.getTag() + ": \"" + name + "\"";
     }
 
     return null;
@@ -1191,14 +1164,16 @@ public class ModifierDatabase {
             value.setBitmap(bm, cur);
           }
         } else if (mod instanceof StringModifier sm) {
-          var cur = existing.getString(sm);
-          if (!cur.isEmpty()) {
-            value.setString(sm, cur);
-          }
-        } else if (mod instanceof MultiStringModifier msm) {
-          var cur = existing.getStrings(msm);
-          if (!cur.isEmpty()) {
-            value.setStrings(msm, cur);
+          if (sm.isMultiple()) {
+            var cur = existing.getStrings(sm);
+            if (!cur.isEmpty()) {
+              value.setStrings(sm, cur);
+            }
+          } else {
+            var cur = existing.getString(sm);
+            if (!cur.isEmpty()) {
+              value.setString(sm, cur);
+            }
           }
         }
       }
@@ -1334,7 +1309,7 @@ public class ModifierDatabase {
           if (mods == null) {
             break;
           }
-          if (!mods.getString(MultiStringModifier.EFFECT).isEmpty()) {
+          if (!mods.getString(StringModifier.EFFECT).isEmpty()) {
             potions.add(name);
           } else if (mods.getBoolean(BooleanModifier.FREE_PULL)) {
             freepulls.add(name);
@@ -1617,9 +1592,6 @@ public class ModifierDatabase {
           if (StringModifier.byTagPattern(mod) != null) {
             continue;
           }
-          if (MultiStringModifier.byTagPattern(mod) != null) {
-            continue;
-          }
           if (type == ModifierType.FAM_EQ) {
             continue; // these may contain freeform text
           }
@@ -1679,13 +1651,12 @@ public class ModifierDatabase {
           modifierStringsByName.put(ModifierType.FAM_EQ, new IntOrString(name), effect);
         }
 
-        matcher =
-            MultiStringModifier.CONDITIONAL_SKILL_INVENTORY.getTagPattern().matcher(modifiers);
+        matcher = StringModifier.CONDITIONAL_SKILL_INVENTORY.getTagPattern().matcher(modifiers);
         if (matcher.find()) {
           inventorySkillProviders.add(lookup);
         }
 
-        matcher = MultiStringModifier.CONDITIONAL_SKILL_EQUIPPED.getTagPattern().matcher(modifiers);
+        matcher = StringModifier.CONDITIONAL_SKILL_EQUIPPED.getTagPattern().matcher(modifiers);
         while (matcher.find()) {
           var skill = matcher.group(1);
           var id = SkillDatabase.getSkillId(skill, true);
