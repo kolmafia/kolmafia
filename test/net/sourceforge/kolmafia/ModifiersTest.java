@@ -37,7 +37,6 @@ import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.DerivedModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.Lookup;
-import net.sourceforge.kolmafia.modifiers.MultiDoubleModifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -1616,7 +1615,7 @@ public class ModifiersTest {
 
       try (cleanups) {
         Modifiers mods = ModifierDatabase.getModifiers(ModifierType.ITEM, itemId);
-        assertThat(mods.getDouble(MultiDoubleModifier.EFFECT_DURATION), closeTo(duration, 0.001));
+        assertThat(mods.getDouble(DoubleModifier.EFFECT_DURATION), closeTo(duration, 0.001));
       }
     }
 
@@ -1627,11 +1626,11 @@ public class ModifiersTest {
 
       try (cleanups) {
         Modifiers mods = ModifierDatabase.getModifiers(ModifierType.ITEM, item);
-        assertThat(mods.getDouble(MultiDoubleModifier.EFFECT_DURATION), closeTo(8, 0.001));
+        assertThat(mods.getDouble(DoubleModifier.EFFECT_DURATION), closeTo(8, 0.001));
       }
 
       Modifiers mods = ModifierDatabase.getModifiers(ModifierType.ITEM, item);
-      assertThat(mods.getDouble(MultiDoubleModifier.EFFECT_DURATION), closeTo(5, 0.001));
+      assertThat(mods.getDouble(DoubleModifier.EFFECT_DURATION), closeTo(5, 0.001));
     }
   }
 

@@ -25,8 +25,6 @@ import net.sourceforge.kolmafia.modifiers.Lookup;
 import net.sourceforge.kolmafia.modifiers.Modifier;
 import net.sourceforge.kolmafia.modifiers.ModifierList;
 import net.sourceforge.kolmafia.modifiers.ModifierList.ModifierValue;
-import net.sourceforge.kolmafia.modifiers.MultiDoubleModifier;
-import net.sourceforge.kolmafia.modifiers.MultiDoubleModifierCollection;
 import net.sourceforge.kolmafia.modifiers.MultiStringModifier;
 import net.sourceforge.kolmafia.modifiers.MultiStringModifierCollection;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
@@ -82,7 +80,6 @@ public class Modifiers {
   private final BitmapModifierCollection bitmaps = new BitmapModifierCollection();
   private final StringModifierCollection strings = new StringModifierCollection();
   private final MultiStringModifierCollection multiStrings = new MultiStringModifierCollection();
-  private final MultiDoubleModifierCollection multiDoubles = new MultiDoubleModifierCollection();
   private ArrayList<Indexed<Modifier, ModifierExpression>> expressions = null;
   // These are used for Steely-Eyed Squint and so on
   private final DoubleModifierCollection accumulators = new DoubleModifierCollection();
@@ -292,7 +289,6 @@ public class Modifiers {
 
   public final void reset() {
     this.doubles.reset();
-    this.multiDoubles.reset();
     this.strings.reset();
     this.multiStrings.reset();
     this.booleans.reset();
@@ -303,8 +299,6 @@ public class Modifiers {
   public double getNumeric(final Modifier modifier) {
     if (modifier instanceof DoubleModifier db) {
       return getDouble(db);
-    } else if (modifier instanceof MultiDoubleModifier mdm) {
-      return getDouble(mdm);
     } else if (modifier instanceof DerivedModifier db) {
       return getDerived(db);
     } else if (modifier instanceof BitmapModifier bm) {
@@ -315,11 +309,11 @@ public class Modifiers {
   }
 
   private double derivePrismaticDamage() {
-    double damage = this.doubles.get(DoubleModifier.COLD_DAMAGE);
-    damage = Math.min(damage, this.doubles.get(DoubleModifier.HOT_DAMAGE));
-    damage = Math.min(damage, this.doubles.get(DoubleModifier.SLEAZE_DAMAGE));
-    damage = Math.min(damage, this.doubles.get(DoubleModifier.SPOOKY_DAMAGE));
-    damage = Math.min(damage, this.doubles.get(DoubleModifier.STENCH_DAMAGE));
+    double damage = this.doubles.getDouble(DoubleModifier.COLD_DAMAGE);
+    damage = Math.min(damage, this.doubles.getDouble(DoubleModifier.HOT_DAMAGE));
+    damage = Math.min(damage, this.doubles.getDouble(DoubleModifier.SLEAZE_DAMAGE));
+    damage = Math.min(damage, this.doubles.getDouble(DoubleModifier.SPOOKY_DAMAGE));
+    damage = Math.min(damage, this.doubles.getDouble(DoubleModifier.STENCH_DAMAGE));
     // TODO: check if there is a point to this -- we never read the cached value?
     this.setDouble(DoubleModifier.PRISMATIC_DAMAGE, damage);
     return damage;
@@ -327,7 +321,7 @@ public class Modifiers {
 
   private double cappedCombatRate() {
     // Combat Rate has diminishing returns beyond + or - 25%
-    double rate = this.doubles.get(DoubleModifier.COMBAT_RATE);
+    double rate = this.doubles.getDouble(DoubleModifier.COMBAT_RATE);
     if (rate > 75.0) {
       return 35.0;
     }
@@ -350,7 +344,7 @@ public class Modifiers {
       return this.derivePrismaticDamage();
     }
     if (modifier == DoubleModifier.RAW_COMBAT_RATE) {
-      return this.doubles.get(DoubleModifier.COMBAT_RATE);
+      return this.doubles.getDouble(DoubleModifier.COMBAT_RATE);
     }
     if (modifier == DoubleModifier.COMBAT_RATE) {
       return this.cappedCombatRate();
@@ -361,20 +355,16 @@ public class Modifiers {
     }
 
     if (modifier instanceof DoubleModifier dm) {
-      return this.doubles.get(dm);
-    }
-
-    if (modifier instanceof MultiDoubleModifier mdm) {
-      return this.multiDoubles.getOne(mdm);
+      return this.doubles.getDouble(dm);
     }
 
     return 0.0;
   }
 
-  public List<Double> getDoubles(final MultiDoubleModifier modifier) {
+  public List<Double> getDoubles(final DoubleModifier modifier) {
     if (modifier == null) return List.of();
 
-    return this.multiDoubles.get(modifier);
+    return this.doubles.getList(modifier);
   }
 
   public int getRawBitmap(final BitmapModifier modifier) {
@@ -460,7 +450,7 @@ public class Modifiers {
       // For now, make it obvious that something went wrong
       return -9999.0;
     }
-    return this.accumulators.get(modifier);
+    return this.accumulators.getDouble(modifier);
   }
 
   public boolean setDouble(final DoubleModifier mod, final double value) {
@@ -471,15 +461,7 @@ public class Modifiers {
     return this.doubles.set(mod, value);
   }
 
-  public boolean setDouble(final MultiDoubleModifier modifier, double mod) {
-    if (modifier == null) {
-      return false;
-    }
-
-    return this.multiDoubles.set(modifier, mod == 0.0 ? List.of() : List.of(mod));
-  }
-
-  public boolean setDoubles(final MultiDoubleModifier modifier, List<Double> mod) {
+  public boolean setDoubles(final DoubleModifier modifier, List<Double> mod) {
     if (modifier == null) {
       return false;
     }
@@ -488,7 +470,7 @@ public class Modifiers {
       mod = List.of();
     }
 
-    return this.multiDoubles.set(modifier, mod);
+    return this.doubles.set(modifier, mod);
   }
 
   public boolean setBitmap(final BitmapModifier modifier, final int value) {
@@ -548,11 +530,11 @@ public class Modifiers {
     this.originalLookup = mods.originalLookup;
 
     for (var mod : DoubleModifier.DOUBLE_MODIFIERS) {
-      changed |= this.setDouble(mod, mods.doubles.get(mod));
-    }
-
-    for (var mod : MultiDoubleModifier.MULTIDOUBLE_MODIFIERS) {
-      changed |= this.multiDoubles.set(mod, mods.multiDoubles.get(mod));
+      if (mod.isMultiple()) {
+        changed |= this.doubles.set(mod, mods.doubles.getList(mod));
+      } else {
+        changed |= this.setDouble(mod, mods.doubles.getDouble(mod));
+      }
     }
 
     for (var mod : BitmapModifier.BITMAP_MODIFIERS) {
@@ -596,14 +578,14 @@ public class Modifiers {
     switch (mod) {
       case MANA_COST:
         // Total Mana Cost reduction cannot exceed 3
-        if (this.doubles.add(mod, value) < -3) {
+        if (this.doubles.increment(mod, value) < -3) {
           this.doubles.set(mod, -3);
         }
         break;
       case FAMILIAR_WEIGHT_PCT:
         // TODO: this seems extremely fragile. Also, as the mod is negative is this right?
         // The three current sources of -wt% do not stack
-        if (this.doubles.get(mod) > value) {
+        if (this.doubles.getDouble(mod) > value) {
           this.doubles.set(mod, value);
         }
         break;
@@ -612,7 +594,7 @@ public class Modifiers {
       case MOX_LIMIT:
         {
           // Only the lowest limiter applies
-          double current = this.doubles.get(mod);
+          double current = this.doubles.getDouble(mod);
           if ((current == 0.0 || current > value) && value > 0.0) {
             this.doubles.set(mod, value);
           }
@@ -620,9 +602,9 @@ public class Modifiers {
         }
       case ITEMDROP:
         if (ModifierDatabase.DOUBLED_BY_SQUINT_CHAMPAGNE.contains(type)) {
-          this.accumulators.add(mod, value);
+          this.accumulators.increment(mod, value);
         }
-        this.doubles.add(mod, value);
+        this.doubles.increment(mod, value);
         break;
       case MUS_EXPERIENCE:
       case MYS_EXPERIENCE:
@@ -650,36 +632,31 @@ public class Modifiers {
         // multipliers like makeshift garbage shirt, Bendin' Hell, Bow-Legged Swagger, or Dirty
         // Pear.
         // TODO: Figure out which ones aren't multiplied and exclude them. BoomBox?
-        this.accumulators.add(mod, value);
-        this.doubles.add(mod, value);
+        this.accumulators.increment(mod, value);
+        this.doubles.increment(mod, value);
         break;
       case FAMILIAR_ACTION_BONUS:
         this.doubles.set(mod, Math.min(100, this.getDouble(mod) + value));
         break;
       case STOMACH_CAPACITY:
         if (KoLCharacter.canExpandStomachCapacity()) {
-          this.doubles.add(mod, value);
+          this.doubles.increment(mod, value);
         }
         break;
       case LIVER_CAPACITY:
         if (KoLCharacter.canExpandLiverCapacity()) {
-          this.doubles.add(mod, value);
+          this.doubles.increment(mod, value);
         }
         break;
       case SPLEEN_CAPACITY:
         if (KoLCharacter.canExpandSpleenCapacity()) {
-          this.doubles.add(mod, value);
+          this.doubles.increment(mod, value);
         }
         break;
       default:
-        this.doubles.add(mod, value);
+        this.doubles.increment(mod, value);
         break;
     }
-  }
-
-  private void addDouble(
-      MultiDoubleModifier mod, int delta, ModifierType modifierType, String name) {
-    this.multiDoubles.addLast(mod, delta);
   }
 
   public void addBitmap(BitmapModifier modifier, int bit) {
@@ -692,14 +669,6 @@ public class Modifiers {
     }
 
     return this.multiStrings.add(modifier, mod);
-  }
-
-  public boolean addMultiDouble(final MultiDoubleModifier modifier, double mod) {
-    if (modifier == null || mod == 0.0) {
-      return false;
-    }
-
-    return this.multiDoubles.add(modifier, mod);
   }
 
   public void add(final Modifiers mods) {
@@ -726,7 +695,7 @@ public class Modifiers {
     mods.doubles.forEach(
         (i, addition) -> {
           if (!bothWatches || i != DoubleModifier.ADVENTURES) {
-            this.addDouble(i, addition, lookup);
+            this.addDouble(i, addition.getDoubleValue(), lookup);
           }
         });
 
@@ -786,8 +755,6 @@ public class Modifiers {
     var modifier = ModifierDatabase.getModifierByName(mod.getName());
     if (modifier != null) {
       if (modifier instanceof DoubleModifier d) {
-        return this.setDouble(d, Double.parseDouble(mod.getValue()));
-      } else if (modifier instanceof MultiDoubleModifier d) {
         return this.setDouble(d, Double.parseDouble(mod.getValue()));
       } else if (modifier instanceof StringModifier s) {
         return this.setString(s, mod.getValue());
@@ -936,9 +903,14 @@ public class Modifiers {
     if (this.expressions != null) {
       for (Indexed<Modifier, ModifierExpression> entry : this.expressions) {
         if (entry.index instanceof DoubleModifier m) {
-          this.setDouble(m, entry.value.eval());
-        } else if (entry.index instanceof MultiDoubleModifier m) {
-          this.setDouble(m, entry.value.eval());
+          if (m.isMultiple()) {
+            // technically here we want to know which entry the previous expression corresponds to
+            // the previous implementation overwrote the whole thing with a list containing only
+            // the expression, which is definitely wrong, but this is also wrong. Leaving it as TODO
+            this.setDouble(m, entry.value.eval());
+          } else {
+            this.setDouble(m, entry.value.eval());
+          }
         } else if (entry.index instanceof BooleanModifier m) {
           this.setBoolean(m, entry.value.eval() != 0.0);
         }
@@ -1696,13 +1668,13 @@ public class Modifiers {
       if (this.variable) {
         this.addExpression(
             new Indexed<>(
-                MultiDoubleModifier.EFFECT_DURATION,
+                DoubleModifier.EFFECT_DURATION,
                 ModifierExpression.getInstance(
                     delta + "*path(" + AscensionPath.Path.ELEVEN_THINGS.name + ')',
                     AscensionPath.Path.ELEVEN_THINGS.name)));
       } else {
         this.addDouble(
-            MultiDoubleModifier.EFFECT_DURATION,
+            DoubleModifier.EFFECT_DURATION,
             delta,
             ModifierType.PATH,
             AscensionPath.Path.ELEVEN_THINGS.name);
