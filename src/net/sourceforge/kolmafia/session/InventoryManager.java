@@ -30,7 +30,7 @@ import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.listener.ItemListenerRegistry;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.modifiers.Lookup;
-import net.sourceforge.kolmafia.modifiers.MultiStringModifier;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -1971,9 +1971,9 @@ public abstract class InventoryManager {
               var mods = ModifierDatabase.getItemModifiers(id);
               if (mods == null) return Stream.empty();
               return Stream.concat(
-                  mods.getStrings(MultiStringModifier.CONDITIONAL_SKILL_INVENTORY).stream()
+                  mods.getStrings(StringModifier.CONDITIONAL_SKILL_INVENTORY).stream()
                       .map(s -> Map.entry(true, s)),
-                  mods.getStrings(MultiStringModifier.CONDITIONAL_SKILL_EQUIPPED).stream()
+                  mods.getStrings(StringModifier.CONDITIONAL_SKILL_EQUIPPED).stream()
                       .map(s -> Map.entry(false, s)));
             })
         .map(e -> Map.entry(e.getKey(), SkillDatabase.getSkillId(e.getValue())))
