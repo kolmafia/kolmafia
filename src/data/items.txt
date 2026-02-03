@@ -12206,3 +12206,5 @@
 12177	wedge of prize-winning cheese	357068703	yamcheese.gif	food	t,d	25	wedges of prize-winning cheese
 12178	gummi fingerbone	781996967	c25trob2.gif	potion, usable	t,d	15
 12179	glimmering golden crystal	723176160	abuelacrystal.gif	accessory		0
+12180	boxed Heartstone	395789145	heartstonebox.gif	usable	t	0
+12181	Heartstone	641176960	heartgem.gif	accessory		0

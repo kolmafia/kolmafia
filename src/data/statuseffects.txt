@@ -3065,3 +3065,10 @@
 3062	Only Dogs Love a Drunken Sailor	shanty5.gif	66724bf060daab3110b8ad9d367003f7	neutral	none	cast 1 Only Dogs Love a Drunken Sailor
 3063	And the Winner Is...	crate.gif	c3930af415b9fc4c3f364e11263a299e	neutral	nohookah	drink 1 bottle of prize-winning rum|eat 1 wedge of prize-winning cheese
 3064	Gummi Fingerbones	c25trob2.gif	02b4cdeecf36967e6ee6619e29db95f8	neutral	none	use 1 gummi fingerbone
+3065
+3066
+3067
+3068
+3069
+3070
+3071	Heartstone Attunement	heartgem.gif	b5ac26c6c1857e9ec22fd7d75c04d779	neutral	none
