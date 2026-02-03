@@ -3305,6 +3305,7 @@ Item	hazardous sauce dosimeter	Class: "Sauceror", Last Available: "2013-11"
 Item	head mirror	Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1, Surgeonosity: +1
 Item	headhunter necktie	Muscle: +15, Moxie: -3, Single Equip
 Item	heart of the volcano	HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 2, MP Regen Max: 5
+Item	Heartstone	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25, Experience: +3, HP Regen Min: 15, HP Regen Max: 20, Single Equip, Last Available: "2026-02", Conditional Skill (Equipped): "Steal Monster's Heart"
 Item	heat-resistant gloves	Hot Resistance: +4, Weapon Damage Percent: -50, Fumble: 2, Single Equip, Last Available: "2015-08"
 Item	heat-resistant necktie	Hot Resistance: +4, Spell Damage: -50, Single Equip, Last Available: "2015-08"
 Item	Helps-You-Sleep	Initiative: +75, Critical Hit Percent: +10, Single Equip, Blind
@@ -6789,6 +6790,7 @@ Effect	Heart of Orange	Muscle: +3, Mysticality: +3, Moxie: +3, Hot Damage: +5, H
 Effect	Heart of Pink	Muscle: +3, Mysticality: +3, Moxie: +3, Meat Drop: +20
 Effect	Heart of White	Muscle: +3, Mysticality: +3, Moxie: +3, Experience: +1, Experience (familiar): +1
 Effect	Heart of Yellow	Muscle: +3, Mysticality: +3, Moxie: +3, Initiative: +20
+# Heartstone Attunement: Variable
 Effect	Heated Up	Muscle Percent: +200, Mysticality Percent: +200, Moxie Percent: +200
 Effect	Heavily Breathing	Experience (Muscle): [L]
 Effect	Heavy Petting	Familiar Weight: +5, Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10
@@ -12485,6 +12487,7 @@ Item	boxed august scepter	Free Pull
 Item	boxed autumn-aton	Free Pull, Last Available: "2022-10"
 Item	boxed bat wings	Free Pull, Last Available: "2024-10"
 Item	boxed gumball machine	Last Available: "2021-12"
+Item	boxed Heartstone	Free Pull, Last Available: "2026-02"
 Item	boxed Mayam Calendar	Free Pull, Last Available: "2024-05"
 Item	boxed Sept-Ember Censer	Free Pull, Last Available: "2024-09"
 Item	Boxing Day care package	Free Pull, Last Available: "2018-12"
@@ -15827,6 +15830,7 @@ EternityCodpiece	glowing new age crystal	MP Regen Min: 5, MP Regen Max: 10
 EternityCodpiece	green peawee marble	Initiative: +1
 EternityCodpiece	hamethyst	Muscle Percent: +11
 EternityCodpiece	heart of the volcano	Hot Damage: +5, Hot Spell Damage: +5
+EternityCodpiece	Heartstone	Familiar Weight: +5
 EternityCodpiece	incredibly dense meat gem	Meat Drop: +30
 EternityCodpiece	jet bennie marble	Initiative: +6
 EternityCodpiece	kumquartz	Cold Spell Damage: +10
