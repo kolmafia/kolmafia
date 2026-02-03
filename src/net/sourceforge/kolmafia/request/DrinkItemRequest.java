@@ -833,6 +833,10 @@ public class DrinkItemRequest extends UseItemRequest {
       ResultProcessor.processResult(item.getNegation());
     }
 
+    if (!Preferences.getString("coolerYetiMode").isEmpty()) {
+      Preferences.setString("coolerYetiMode", "");
+    }
+
     // Swizzlers and twists of lime are consumed when you drink booze
     int swizzlerCount = InventoryManager.getCount(ItemPool.SWIZZLER);
     if (swizzlerCount > 0) {
