@@ -16,9 +16,9 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.modifiers.BitmapModifier;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.Lookup;
-import net.sourceforge.kolmafia.modifiers.MultiDoubleModifier;
-import net.sourceforge.kolmafia.modifiers.MultiStringModifier;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -108,14 +108,13 @@ public class ModifierDatabaseTest {
   void canParseMultiStringModifier() {
     String enchantment = "Rollover Effect: \"Sleepy\", Rollover Effect: \"Light!\"";
     var mods = ModifierDatabase.parseModifiers(new Lookup(ModifierType.ITEM, "1"), enchantment);
-    assertThat(
-        mods.getStrings(MultiStringModifier.ROLLOVER_EFFECT), is(List.of("Sleepy", "Light!")));
+    assertThat(mods.getStrings(StringModifier.ROLLOVER_EFFECT), is(List.of("Sleepy", "Light!")));
   }
 
   @Test
   void canParseMultiDoubleModifier() {
     String enchantment = "Effect Duration: 5, Effect Duration: 10";
     var mods = ModifierDatabase.parseModifiers(new Lookup(ModifierType.ITEM, "1"), enchantment);
-    assertThat(mods.getDoubles(MultiDoubleModifier.EFFECT_DURATION), is(List.of(5.0, 10.0)));
+    assertThat(mods.getDoubles(DoubleModifier.EFFECT_DURATION), is(List.of(5.0, 10.0)));
   }
 }

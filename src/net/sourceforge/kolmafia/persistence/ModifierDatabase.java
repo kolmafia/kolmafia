@@ -43,8 +43,6 @@ import net.sourceforge.kolmafia.modifiers.Lookup;
 import net.sourceforge.kolmafia.modifiers.Modifier;
 import net.sourceforge.kolmafia.modifiers.ModifierList;
 import net.sourceforge.kolmafia.modifiers.ModifierList.ModifierValue;
-import net.sourceforge.kolmafia.modifiers.MultiDoubleModifier;
-import net.sourceforge.kolmafia.modifiers.MultiStringModifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -181,9 +179,6 @@ public class ModifierDatabase {
   // in general these are the modifiers which cannot be read from the item description
   public static final Set<Modifier> CARRIED_OVER =
       Set.of(
-          MultiStringModifier.CONDITIONAL_SKILL_EQUIPPED,
-          MultiStringModifier.CONDITIONAL_SKILL_INVENTORY,
-          MultiStringModifier.LANTERN_ELEMENT,
           StringModifier.CLASS,
           StringModifier.WIKI_NAME,
           // stat tuning is (likely) carried over for mime army but not tropical
@@ -193,6 +188,9 @@ public class ModifierDatabase {
           StringModifier.SKILL,
           StringModifier.RECIPE,
           StringModifier.LAST_AVAILABLE_DATE,
+          StringModifier.CONDITIONAL_SKILL_EQUIPPED,
+          StringModifier.CONDITIONAL_SKILL_INVENTORY,
+          StringModifier.LANTERN_ELEMENT,
           BitmapModifier.BRIMSTONE,
           BitmapModifier.CLOATHING,
           BitmapModifier.SYNERGETIC,
@@ -226,12 +224,6 @@ public class ModifierDatabase {
       modifierTypesByName.put(tag, modifier);
       numericModifiers.add(tag);
     }
-    for (var modifier : MultiDoubleModifier.MULTIDOUBLE_MODIFIERS) {
-      modifierTypesByName.put(modifier.getName(), modifier);
-      String tag = modifier.getTag();
-      modifierTypesByName.put(tag, modifier);
-      numericModifiers.add(tag);
-    }
     for (var modifier : BitmapModifier.BITMAP_MODIFIERS) {
       bitmapMasks.put(modifier, 1);
       modifierTypesByName.put(modifier.getName(), modifier);
@@ -242,10 +234,6 @@ public class ModifierDatabase {
       modifierTypesByName.put(modifier.getTag(), modifier);
     }
     for (var modifier : StringModifier.STRING_MODIFIERS) {
-      modifierTypesByName.put(modifier.getName(), modifier);
-      modifierTypesByName.put(modifier.getTag(), modifier);
-    }
-    for (var modifier : MultiStringModifier.MULTISTRING_MODIFIERS) {
       modifierTypesByName.put(modifier.getName(), modifier);
       modifierTypesByName.put(modifier.getTag(), modifier);
     }
@@ -356,17 +344,9 @@ public class ModifierDatabase {
     if (num != null) {
       return num;
     }
-    var mNum = MultiDoubleModifier.byCaselessName(name);
-    if (mNum != null) {
-      return mNum;
-    }
     var str = StringModifier.byCaselessName(name);
     if (str != null) {
       return str;
-    }
-    var mStr = MultiStringModifier.byCaselessName(name);
-    if (mStr != null) {
-      return mStr;
     }
     return BooleanModifier.byCaselessName(name);
   }
@@ -529,17 +509,16 @@ public class ModifierDatabase {
   }
 
   public static List<Double> getMultiDoubleModifier(
-      final ModifierType type, final int id, final MultiDoubleModifier mod) {
+      final ModifierType type, final int id, final DoubleModifier mod) {
     return getMultiDoubleModifier(new Lookup(type, id), mod);
   }
 
   public static List<Double> getMultiDoubleModifier(
-      final ModifierType type, final String name, final MultiDoubleModifier mod) {
+      final ModifierType type, final String name, final DoubleModifier mod) {
     return getMultiDoubleModifier(new Lookup(type, name), mod);
   }
 
-  public static List<Double> getMultiDoubleModifier(
-      final Lookup lookup, final MultiDoubleModifier mod) {
+  public static List<Double> getMultiDoubleModifier(final Lookup lookup, final DoubleModifier mod) {
     Modifiers mods = getModifiers(lookup);
     if (mods == null) {
       return List.of();
@@ -584,17 +563,16 @@ public class ModifierDatabase {
   }
 
   public static List<String> getMultiStringModifier(
-      final ModifierType type, final int id, final MultiStringModifier mod) {
+      final ModifierType type, final int id, final StringModifier mod) {
     return getMultiStringModifier(new Lookup(type, id), mod);
   }
 
   public static List<String> getMultiStringModifier(
-      final ModifierType type, final String name, final MultiStringModifier mod) {
+      final ModifierType type, final String name, final StringModifier mod) {
     return getMultiStringModifier(new Lookup(type, name), mod);
   }
 
-  public static List<String> getMultiStringModifier(
-      final Lookup lookup, final MultiStringModifier mod) {
+  public static List<String> getMultiStringModifier(final Lookup lookup, final StringModifier mod) {
     Modifiers mods = getModifiers(lookup);
     if (mods == null) {
       return List.of();
@@ -740,26 +718,6 @@ public class ModifierDatabase {
         continue modLoop;
       }
 
-      for (var mod : MultiDoubleModifier.MULTIDOUBLE_MODIFIERS) {
-        Pattern pattern = mod.getTagPattern();
-        if (pattern == null) {
-          continue;
-        }
-
-        Matcher matcher = pattern.matcher(string);
-        if (!matcher.matches()) {
-          continue;
-        }
-
-        if (matcher.group(1) != null) {
-          newMods.addMultiDouble(mod, Double.parseDouble(matcher.group(1)));
-        } else {
-          newMods.addExpression(
-              new Indexed<>(mod, ModifierExpression.getInstance(matcher.group(2), lookup)));
-        }
-        continue modLoop;
-      }
-
       for (var mod : BitmapModifier.BITMAP_MODIFIERS) {
         Pattern pattern = mod.getTagPattern();
         if (pattern == null) {
@@ -833,23 +791,6 @@ public class ModifierDatabase {
         }
 
         newMods.setString(mod, value);
-        continue modLoop;
-      }
-
-      for (var mod : MultiStringModifier.MULTISTRING_MODIFIERS) {
-        Pattern pattern = mod.getTagPattern();
-        if (pattern == null) {
-          continue;
-        }
-
-        Matcher matcher = pattern.matcher(string);
-        if (!matcher.matches()) {
-          continue;
-        }
-
-        String value = matcher.group(1);
-
-        newMods.addMultiString(mod, value);
         continue modLoop;
       }
     }
@@ -955,7 +896,7 @@ public class ModifierDatabase {
           name = "[" + effectId + "]" + name;
         }
       }
-      return MultiStringModifier.EFFECT.getTag() + ": \"" + name + "\"";
+      return StringModifier.EFFECT.getTag() + ": \"" + name + "\"";
     }
 
     return null;
@@ -964,7 +905,7 @@ public class ModifierDatabase {
   public static final String parseEffectDuration(final String text) {
     Matcher matcher = EFFECT_DURATION_PATTERN.matcher(text);
     if (matcher.find()) {
-      return MultiDoubleModifier.EFFECT_DURATION.getTag() + ": " + matcher.group(1);
+      return DoubleModifier.EFFECT_DURATION.getTag() + ": " + matcher.group(1);
     }
 
     return null;
@@ -1201,9 +1142,16 @@ public class ModifierDatabase {
     if (existing != null) {
       for (var mod : CARRIED_OVER) {
         if (mod instanceof DoubleModifier dm) {
-          var cur = existing.getNumeric(dm);
-          if (cur != 0.0) {
-            value.setDouble(dm, cur);
+          if (dm.isMultiple()) {
+            var cur = existing.getDoubles(dm);
+            if (!cur.isEmpty()) {
+              value.setDoubles(dm, cur);
+            }
+          } else {
+            var cur = existing.getNumeric(dm);
+            if (cur != 0.0) {
+              value.setDouble(dm, cur);
+            }
           }
         } else if (mod instanceof BooleanModifier bm) {
           var cur = existing.getBoolean(bm);
@@ -1216,19 +1164,16 @@ public class ModifierDatabase {
             value.setBitmap(bm, cur);
           }
         } else if (mod instanceof StringModifier sm) {
-          var cur = existing.getString(sm);
-          if (!cur.isEmpty()) {
-            value.setString(sm, cur);
-          }
-        } else if (mod instanceof MultiStringModifier msm) {
-          var cur = existing.getStrings(msm);
-          if (!cur.isEmpty()) {
-            value.setStrings(msm, cur);
-          }
-        } else if (mod instanceof MultiDoubleModifier mdm) {
-          var cur = existing.getDoubles(mdm);
-          if (!cur.isEmpty()) {
-            value.setDoubles(mdm, cur);
+          if (sm.isMultiple()) {
+            var cur = existing.getStrings(sm);
+            if (!cur.isEmpty()) {
+              value.setStrings(sm, cur);
+            }
+          } else {
+            var cur = existing.getString(sm);
+            if (!cur.isEmpty()) {
+              value.setString(sm, cur);
+            }
           }
         }
       }
@@ -1364,7 +1309,7 @@ public class ModifierDatabase {
           if (mods == null) {
             break;
           }
-          if (!mods.getString(MultiStringModifier.EFFECT).isEmpty()) {
+          if (!mods.getString(StringModifier.EFFECT).isEmpty()) {
             potions.add(name);
           } else if (mods.getBoolean(BooleanModifier.FREE_PULL)) {
             freepulls.add(name);
@@ -1638,9 +1583,6 @@ public class ModifierDatabase {
           if (DoubleModifier.byTagPattern(mod) != null) {
             continue;
           }
-          if (MultiDoubleModifier.byTagPattern(mod) != null) {
-            continue;
-          }
           if (BitmapModifier.byTagPattern(mod) != null) {
             continue;
           }
@@ -1648,9 +1590,6 @@ public class ModifierDatabase {
             continue;
           }
           if (StringModifier.byTagPattern(mod) != null) {
-            continue;
-          }
-          if (MultiStringModifier.byTagPattern(mod) != null) {
             continue;
           }
           if (type == ModifierType.FAM_EQ) {
@@ -1712,13 +1651,12 @@ public class ModifierDatabase {
           modifierStringsByName.put(ModifierType.FAM_EQ, new IntOrString(name), effect);
         }
 
-        matcher =
-            MultiStringModifier.CONDITIONAL_SKILL_INVENTORY.getTagPattern().matcher(modifiers);
+        matcher = StringModifier.CONDITIONAL_SKILL_INVENTORY.getTagPattern().matcher(modifiers);
         if (matcher.find()) {
           inventorySkillProviders.add(lookup);
         }
 
-        matcher = MultiStringModifier.CONDITIONAL_SKILL_EQUIPPED.getTagPattern().matcher(modifiers);
+        matcher = StringModifier.CONDITIONAL_SKILL_EQUIPPED.getTagPattern().matcher(modifiers);
         while (matcher.find()) {
           var skill = matcher.group(1);
           var id = SkillDatabase.getSkillId(skill, true);

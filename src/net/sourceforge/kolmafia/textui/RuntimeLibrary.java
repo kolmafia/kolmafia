@@ -88,8 +88,6 @@ import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.Modifier;
 import net.sourceforge.kolmafia.modifiers.ModifierList.ModifierValue;
 import net.sourceforge.kolmafia.modifiers.ModifierValueType;
-import net.sourceforge.kolmafia.modifiers.MultiDoubleModifier;
-import net.sourceforge.kolmafia.modifiers.MultiStringModifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.moods.Mood;
 import net.sourceforge.kolmafia.moods.MoodManager;
@@ -10680,11 +10678,7 @@ public abstract class RuntimeLibrary {
       throw controller.runtimeException("numeric modifier required");
     }
     String mod = modifier.toString();
-    var num = ModifierDatabase.numericByCaselessName(mod);
-    if (num != null) {
-      return num;
-    }
-    return MultiDoubleModifier.byCaselessName(mod);
+    return ModifierDatabase.numericByCaselessName(mod);
   }
 
   private static BooleanModifier getBooleanModifier(
@@ -10715,39 +10709,35 @@ public abstract class RuntimeLibrary {
       throw controller.runtimeException("string modifier required");
     }
     String mod = modifier.toString();
-    var str = StringModifier.byCaselessName(mod);
-    if (str != null) {
-      return str;
-    }
-    return MultiStringModifier.byCaselessName(mod);
+    return StringModifier.byCaselessName(mod);
   }
 
-  private static MultiStringModifier getMultiStringModifier(
+  private static StringModifier getMultiStringModifier(
       ScriptRuntime controller, final Value modifier) {
     Type type = modifier.getType();
     if (type.equals(DataTypes.MODIFIER_TYPE)) {
       Modifier content = (Modifier) modifier.content;
       if (content != null && content.getType() == ModifierValueType.MULTISTRING) {
-        return (MultiStringModifier) content;
+        return (StringModifier) content;
       }
-      throw controller.runtimeException("string modifier required");
+      throw controller.runtimeException("multistring modifier required");
     }
     String mod = modifier.toString();
-    return MultiStringModifier.byCaselessName(mod);
+    return StringModifier.byCaselessName(mod);
   }
 
-  private static MultiDoubleModifier getMultiDoubleModifier(
+  private static DoubleModifier getMultiDoubleModifier(
       ScriptRuntime controller, final Value modifier) {
     Type type = modifier.getType();
     if (type.equals(DataTypes.MODIFIER_TYPE)) {
       Modifier content = (Modifier) modifier.content;
       if (content != null && content.getType() == ModifierValueType.MULTINUMERIC) {
-        return (MultiDoubleModifier) content;
+        return (DoubleModifier) content;
       }
-      throw controller.runtimeException("numeric modifier required");
+      throw controller.runtimeException("multinumeric modifier required");
     }
     String mod = modifier.toString();
-    return MultiDoubleModifier.byCaselessName(mod);
+    return DoubleModifier.byCaselessName(mod);
   }
 
   public static Value numeric_modifier(ScriptRuntime controller, final Value modifier) {

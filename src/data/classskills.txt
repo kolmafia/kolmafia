@@ -1159,6 +1159,7 @@
 7582	Club 'Em Across the Battlefield	leg_club3.gif	combat	0	0
 7583	Club 'Em Into Next Week	leg_club2.gif	combat	0	0
 7584	Club 'Em Back in Time	leg_club1.gif	combat	0	0
+7585	Steal Monster's Heart	heartstonex.gif	combat	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.

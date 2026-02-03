@@ -32,7 +32,7 @@ import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.modifiers.BitmapModifier;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
-import net.sourceforge.kolmafia.modifiers.MultiStringModifier;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -453,7 +453,7 @@ public class EquipmentManager {
 
     if (add && !outfit.isWearing()) return;
 
-    outfitMods.getStrings(MultiStringModifier.CONDITIONAL_SKILL_EQUIPPED).stream()
+    outfitMods.getStrings(StringModifier.CONDITIONAL_SKILL_EQUIPPED).stream()
         .map(SkillDatabase::getSkillId)
         .forEach(cb);
   }
@@ -484,7 +484,7 @@ public class EquipmentManager {
 
     var mods = ModifierDatabase.getItemModifiers(id);
     if (mods != null) {
-      mods.getStrings(MultiStringModifier.CONDITIONAL_SKILL_EQUIPPED).stream()
+      mods.getStrings(StringModifier.CONDITIONAL_SKILL_EQUIPPED).stream()
           .map(SkillDatabase::getSkillId)
           .filter(Predicate.not(SkillDatabase::isNonCombat))
           .forEach(cb);
