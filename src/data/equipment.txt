@@ -2867,6 +2867,7 @@ hazardous sauce dosimeter	0	none
 head mirror	155	Mys: 62
 headhunter necktie	160	Mys: 65
 heart of the volcano	200	Mys: 50
+Heartstone	100	none
 heat-resistant gloves	100	Mox: 35
 heat-resistant necktie	100	Mys: 35
 Helps-You-Sleep	300	Mox: 100

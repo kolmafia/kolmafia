@@ -36,7 +36,6 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.VYKEACompanionData;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.modifiers.ModifierList;
-import net.sourceforge.kolmafia.modifiers.MultiStringModifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
@@ -990,7 +989,7 @@ public class ItemDatabase {
     }
 
     // Potions grant an effect. Check for a new effect.
-    ModifierDatabase.getMultiStringModifier(ModifierType.ITEM, itemId, MultiStringModifier.EFFECT)
+    ModifierDatabase.getMultiStringModifier(ModifierType.ITEM, itemId, StringModifier.EFFECT)
         .stream()
         .filter(e -> !e.isEmpty())
         .filter(e -> EffectDatabase.getEffectId(e, true) == -1)
@@ -1009,7 +1008,7 @@ public class ItemDatabase {
 
     // Equipment can have Rollover Effects. Check for new effect.
     ModifierDatabase.getMultiStringModifier(
-            ModifierType.ITEM, itemId, MultiStringModifier.ROLLOVER_EFFECT)
+            ModifierType.ITEM, itemId, StringModifier.ROLLOVER_EFFECT)
         .stream()
         .filter(e -> !e.isEmpty())
         .filter(e -> EffectDatabase.getEffectId(e, true) == -1)
@@ -2226,7 +2225,7 @@ public class ItemDatabase {
             ModifierType.ITEM, ItemPool.VAMPIRE_VINTNER_WINE, iEnchantments);
 
     // Validate this by seeing what effect this wine grants.
-    String effectName = imods.getString(MultiStringModifier.EFFECT);
+    String effectName = imods.getString(StringModifier.EFFECT);
     int effectId = EffectDatabase.getEffectId(effectName);
 
     // If it doesn't grant one, this is the generic 1950 Vampire Vintner wine

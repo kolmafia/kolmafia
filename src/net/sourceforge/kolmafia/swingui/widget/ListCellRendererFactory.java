@@ -21,7 +21,7 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
-import net.sourceforge.kolmafia.modifiers.MultiDoubleModifier;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -482,7 +482,7 @@ public class ListCellRendererFactory {
       int effectDuration =
           (int)
               ModifierDatabase.getNumericModifier(
-                  ModifierType.ITEM, name, MultiDoubleModifier.EFFECT_DURATION);
+                  ModifierType.ITEM, name, DoubleModifier.EFFECT_DURATION);
       stringForm.append(effectDuration).append(" ").append(effectName);
 
       int active = effect.getCount(KoLConstants.activeEffects);
