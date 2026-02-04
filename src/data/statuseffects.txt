@@ -3072,7 +3072,7 @@
 3069
 3070
 3071	Heartstone Attunement	heartgem.gif	b5ac26c6c1857e9ec22fd7d75c04d779	neutral	none
-3072
+3072	Best Pals	heartgem.gif	52a5ee2d62c329533e5d29401aea351b	neutral	none	cast 1 Heartstone: %pals
 3073	Ultraheart	heartgem.gif	bf1d5761d4a9947d4cbbcb746bee18b0	neutral	none	cast 1 Heartstone: %buff
 3074
 3075

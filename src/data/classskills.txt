@@ -1164,7 +1164,7 @@
 7587	Heartstone: %banish	heartgem.gif	combat	0	0
 7588	Heartstone: %stun	heartgem.gif	combat	0	0
 7589	Heartstone: %luck	heartgem.gif	nc,effect,self	0	0
-7590
+7590	Heartstone: %pals	heartgem.gif	nc,effect,self	0	25
 7591	Heartstone: %buff	heartgem.gif	nc,effect,self	0	25
 
 # Skills granted by books on your Mystical Bookshelf

@@ -5765,6 +5765,7 @@ Effect	Berry Elemental	Cold Resistance: +1, Hot Resistance: +1, Stench Resistanc
 Effect	Berry Experiential	Experience: +6
 Effect	Berry Statistical	Muscle Percent: +66, Mysticality Percent: +100, Moxie Percent: +66
 Effect	Berry Thorny	Thorns: 1
+Effect	Best Pals	Experience (familiar): +1, Familiar Weight: +5, Familiar Damage: +10
 Effect	Bestial Sympathy	Familiar Weight: +3
 Effect	Bet Your Autumn Dollar	Meat Drop: +50
 Effect	Beta Carotene Overdose	Item Drop: +50
