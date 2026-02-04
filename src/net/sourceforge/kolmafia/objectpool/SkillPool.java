@@ -356,6 +356,7 @@ public class SkillPool {
   public static final int FIRE_ROCKET = 7164;
   public static final int GREAT_SLASH = 7165;
   public static final int GET_A_GOOD_WHIFF = 7166;
+  public static final int BLINDING_FLASH = 7167;
   public static final int WINK = 7168;
   public static final int TALK_ABOUT_POLITICS = 7169;
   public static final int POCKET_CRUMBS = 7170;
@@ -549,6 +550,7 @@ public class SkillPool {
   public static final int SIP_SOME_SWEAT = 7420;
   public static final int SWEAT_SIP = 7421;
   public static final int LAUNCH_SPIKOLODON_SPIKES = 7424;
+  public static final int ENGAGE_ULTRA_ATTRACTIVE_PARKA_MODE = 7425;
   public static final int CERAMIC_PUNCH = 7426;
   public static final int CERAMIC_BASH = 7427;
   public static final int CERAMIC_GRATE = 7428;

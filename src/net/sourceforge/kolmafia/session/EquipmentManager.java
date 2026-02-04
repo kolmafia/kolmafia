@@ -487,6 +487,8 @@ public class EquipmentManager {
       mods.getStrings(StringModifier.CONDITIONAL_SKILL_EQUIPPED).stream()
           .map(SkillDatabase::getSkillId)
           .filter(Predicate.not(SkillDatabase::isNonCombat))
+          // always remove skills, or add skills available sometimes
+          .filter(x -> !add || EquipmentManager.shouldApplySkill(x))
           .forEach(cb);
     }
 
@@ -500,20 +502,6 @@ public class EquipmentManager {
           cb.accept(SkillPool.I_CAN_BEARLY_HEAR_YOU_OVER_THE_APPLAUSE);
         }
       }
-      case ItemPool.WARBEAR_OIL_PAN -> {
-        if (KoLCharacter.isSauceror()) {
-          cb.accept(SkillPool.SPRAY_HOT_GREASE);
-        }
-      }
-      case ItemPool.HEWN_MOON_RUNE_SPOON, ItemPool.REPLICA_HEWN_MOON_RUNE_SPOON -> {
-        if (KoLCharacter.isMuscleClass()) {
-          cb.accept(SkillPool.DRAGOON_PLATOON);
-        } else if (KoLCharacter.isMysticalityClass()) {
-          cb.accept(SkillPool.SPITTOON_MONSOON);
-        } else if (KoLCharacter.isMoxieClass()) {
-          cb.accept(SkillPool.FESTOON_BUFFOON);
-        }
-      }
       case ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE -> ItemDatabase.setCapeSkills();
       case ItemPool.SHERIFF_BADGE, ItemPool.SHERIFF_PISTOL, ItemPool.SHERIFF_MOUSTACHE -> {
         if (KoLCharacter.hasEquipped(ItemPool.SHERIFF_PISTOL)
@@ -523,6 +511,20 @@ public class EquipmentManager {
         }
       }
     }
+  }
+
+  private static boolean shouldApplySkill(Integer id) {
+    return switch (id) {
+      case SkillPool.BLINDING_FLASH -> Preferences.getInteger("yearbookCameraUpgrades") >= 21;
+      case SkillPool.SPRAY_HOT_GREASE -> KoLCharacter.isSauceror();
+      case SkillPool.BECOME_WOLF, SkillPool.BECOME_MIST, SkillPool.BECOME_BAT ->
+          !KoLCharacter.inDarkGyffte();
+      case SkillPool.DRAGOON_PLATOON -> KoLCharacter.isMuscleClass();
+      case SkillPool.SPITTOON_MONSOON -> KoLCharacter.isMysticalityClass();
+      case SkillPool.FESTOON_BUFFOON -> KoLCharacter.isMoxieClass();
+      case SkillPool.ENGAGE_ULTRA_ATTRACTIVE_PARKA_MODE -> KoLCharacter.inDinocore();
+      default -> true;
+    };
   }
 
   public static final void transformEquipment(AdventureResult before, AdventureResult after) {
