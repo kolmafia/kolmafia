@@ -3072,3 +3072,14 @@
 3069
 3070
 3071	Heartstone Attunement	heartgem.gif	b5ac26c6c1857e9ec22fd7d75c04d779	neutral	none
+3072
+3073	Ultraheart	heartgem.gif	bf1d5761d4a9947d4cbbcb746bee18b0	neutral	none	cast 1 Heartstone: %buff
+3074
+3075
+3076
+3077
+3078
+3079
+3080
+3081
+3082	Dirty Mind	noart.gif	037763ef9580c3b743173bc1c546a08c	neutral	none
