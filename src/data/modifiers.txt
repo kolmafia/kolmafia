@@ -5765,6 +5765,7 @@ Effect	Berry Elemental	Cold Resistance: +1, Hot Resistance: +1, Stench Resistanc
 Effect	Berry Experiential	Experience: +6
 Effect	Berry Statistical	Muscle Percent: +66, Mysticality Percent: +100, Moxie Percent: +66
 Effect	Berry Thorny	Thorns: 1
+Effect	Best Pals	Experience (familiar): +1, Familiar Weight: +5, Familiar Damage: +10
 Effect	Bestial Sympathy	Familiar Weight: +3
 Effect	Bet Your Autumn Dollar	Meat Drop: +50
 Effect	Beta Carotene Overdose	Item Drop: +50
@@ -6240,6 +6241,7 @@ Effect	Dilated Pupils	Item Drop: +20
 # Dino Pheromoned: You are attracting a certain class of dinosaur
 Effect	Dirge of Dreadfulness	Spooky Damage: +12, Spooky Spell Damage: +12
 Effect	Dirge of Dreadfulness (Remastered)	Spooky Damage: +36, Spooky Spell Damage: +36
+Effect	Dirty Mind	Sleaze Resistance: +5, Sleaze Damage: +50
 Effect	Dirty Pear	Sleaze Damage: [mod(Sleaze Damage)], Sleaze Spell Damage: [mod(Sleaze Spell Damage)]
 # Dis Abled: Grants access to the Suburb of Dis
 Effect	Disabled Olfactory Processing	Stench Resistance: +3
@@ -8368,6 +8370,7 @@ Effect	Twitching Senses	Item Drop: [50*zone(Twitch)]
 Effect	Two Car Bar Rag	Avatar: "craggy bartender"
 Effect	Two Left Feet	Moxie: -5
 Effect	Ultra-Soft Steps	Combat Rate: -5
+Effect	Ultraheart	Muscle: +50, Muscle Percent: +50, Mysticality: +50, Mysticality Percent: +50, Moxie: +50, Moxie Percent: +50
 # Ultrahydrated: Glug, Glug
 Effect	Unbarking Dogs	Familiar Weight: +10
 Effect	Uncaged Power	Maximum MP: +50, MP Regen Min: 5, MP Regen Max: 8
