@@ -523,6 +523,12 @@ public class EquipmentManager {
       case SkillPool.SPITTOON_MONSOON -> KoLCharacter.isMysticalityClass();
       case SkillPool.FESTOON_BUFFOON -> KoLCharacter.isMoxieClass();
       case SkillPool.ENGAGE_ULTRA_ATTRACTIVE_PARKA_MODE -> KoLCharacter.inDinocore();
+      case SkillPool.HEARTSTONE_KILL -> Preferences.getBoolean("heartstoneKillUnlocked");
+      case SkillPool.HEARTSTONE_BANISH -> Preferences.getBoolean("heartstoneBanishUnlocked");
+      case SkillPool.HEARTSTONE_STUN -> Preferences.getBoolean("heartstoneStunUnlocked");
+      case SkillPool.HEARTSTONE_LUCK -> Preferences.getBoolean("heartstoneLuckUnlocked");
+      case SkillPool.HEARTSTONE_PALS -> Preferences.getBoolean("heartstonePalsUnlocked");
+      case SkillPool.HEARTSTONE_BUFF -> Preferences.getBoolean("heartstoneBuffUnlocked");
       default -> true;
     };
   }

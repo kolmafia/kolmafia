@@ -210,7 +210,7 @@
 229	crazy bastard
 230	infinite meat bug
 231	Baiowulf	arm	head	leg	torso
-232	Hypnotist of Hey Deze
+232	Hypnotist of Hey Deze	arm	head	leg	torso
 233	decent lumberjack	arm	head	leg	torso
 234	lumberjill	arm	head	leg	torso
 235	lumberjuan	arm	head	leg	torso

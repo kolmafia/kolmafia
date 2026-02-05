@@ -675,6 +675,13 @@ public class SkillPool {
   public static final int CLUB_EM_ACROSS_THE_BATTLEFIELD = 7582;
   public static final int CLUB_EM_INTO_NEXT_WEEK = 7583;
   public static final int CLUB_EM_BACK_IN_TIME = 7584;
+  public static final int STEAL_HEART = 7585;
+  public static final int HEARTSTONE_KILL = 7586;
+  public static final int HEARTSTONE_BANISH = 7587;
+  public static final int HEARTSTONE_STUN = 7588;
+  public static final int HEARTSTONE_LUCK = 7589;
+  public static final int HEARTSTONE_PALS = 7590;
+  public static final int HEARTSTONE_BUFF = 7591;
 
   public static final int GOOD_SINGING_VOICE = 11016;
   public static final int BANISHING_SHOUT = 11020;
