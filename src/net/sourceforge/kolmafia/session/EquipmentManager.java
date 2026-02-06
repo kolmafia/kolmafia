@@ -515,6 +515,15 @@ public class EquipmentManager {
 
   private static boolean shouldApplySkill(Integer id) {
     return switch (id) {
+      case SkillPool.BALL_BUST -> Preferences.getInteger("gladiatorBallMovesKnown") > 0;
+      case SkillPool.BALL_SWEAT -> Preferences.getInteger("gladiatorBallMovesKnown") > 1;
+      case SkillPool.BALL_SACK -> Preferences.getInteger("gladiatorBallMovesKnown") > 2;
+      case SkillPool.NET_GAIN -> Preferences.getInteger("gladiatorNetMovesKnown") > 0;
+      case SkillPool.NET_LOSS -> Preferences.getInteger("gladiatorNetMovesKnown") > 1;
+      case SkillPool.NET_NEUTRALITY -> Preferences.getInteger("gladiatorNetMovesKnown") > 2;
+      case SkillPool.BLADE_SLING -> Preferences.getInteger("gladiatorBladeMovesKnown") > 0;
+      case SkillPool.BLADE_RUNNER -> Preferences.getInteger("gladiatorBladeMovesKnown") > 1;
+      case SkillPool.BLADE_ROLLER -> Preferences.getInteger("gladiatorBladeMovesKnown") > 2;
       case SkillPool.BLINDING_FLASH -> Preferences.getInteger("yearbookCameraUpgrades") >= 21;
       case SkillPool.SPRAY_HOT_GREASE -> KoLCharacter.isSauceror();
       case SkillPool.BECOME_WOLF, SkillPool.BECOME_MIST, SkillPool.BECOME_BAT ->
