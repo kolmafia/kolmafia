@@ -11113,12 +11113,13 @@ public class FightRequest extends GenericRequest {
         }
       }
       case SkillPool.HEARTSTONE_BANISH -> {
-        if (responseText.contains("You focus your attention on your Heartstone") || skillSuccess) {
+        if (responseText.contains("A ray blasts out of the stone") || skillSuccess) {
+          BanishManager.banishMonster(monster, Banisher.HEARTSTONE_BANISH);
           skillSuccess = true;
         }
       }
       case SkillPool.HEARTSTONE_STUN -> {
-        if (responseText.contains("You focus your attention on your Heartstone") || skillSuccess) {
+        if (responseText.contains("You touch your Heartstone and think the word") || skillSuccess) {
           skillSuccess = true;
         }
       }

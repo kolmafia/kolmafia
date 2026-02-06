@@ -4347,4 +4347,17 @@ public class FightRequestTest {
       assertThat(Preferences.getString("eweItem"), equalTo(""));
     }
   }
+
+  @Test
+  public void canDetectHeartstoneBanish() {
+    var cleanups = new Cleanups(withFight(), withBanishedMonsters(""));
+
+    try (cleanups) {
+      parseCombatData(
+          "request/test_fight_heartstone_banish.html", "fight.php?action=skill&whichskill=7587");
+
+      assertThat(
+          "banishedMonsters", hasStringValue(startsWith("pygmy bowler:Heartstone %banish:")));
+    }
+  }
 }
