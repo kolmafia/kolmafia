@@ -306,7 +306,8 @@ public abstract class CombatActionManager {
         || (action.contains("steal")
             && !action.contains("stealth")
             && !action.contains("combo")
-            && !action.contains("accordion"))) {
+            && !action.contains("accordion")
+            && !action.contains("heart"))) {
       return "try to steal an item";
     }
 
@@ -491,7 +492,8 @@ public abstract class CombatActionManager {
         || (action.contains("steal")
             && !action.contains("stealth")
             && !action.contains("combo")
-            && !action.contains("accordion"))) {
+            && !action.contains("accordion")
+            && !action.contains("heart"))) {
       return "steal";
     }
 

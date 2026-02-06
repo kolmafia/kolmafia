@@ -1220,7 +1220,8 @@ public class FightRequest extends GenericRequest {
 
     if (FightRequest.nextAction.contains("steal")
         && !FightRequest.nextAction.contains("stealth")
-        && !FightRequest.nextAction.contains("accordion")) {
+        && !FightRequest.nextAction.contains("accordion")
+        && !FightRequest.nextAction.contains("heart")) {
       if (FightRequest.canStillSteal() && MonsterStatusTracker.shouldSteal()) {
         FightRequest.nextAction = "steal";
         this.addFormField("action", "steal");
