@@ -2693,7 +2693,7 @@
 2690	Puttied, Fleshly	fleshputty.gif	80ea9b026aaf0d54448990c17613a2f0	neutral	none	use 1 fleshy putty
 2691	Real Meat Craving	synthmeat.gif	d46677458bfe6610d4d0255c031c4a34	neutral	none	eat 1 lab-grown meat
 2692	Well-Ventilated	friedair.gif	9d8854ac085d8cd580399c9540556d17	neutral	nohookah	chew 1 fried air
-2693	Lucky!	11leafclover.gif	de95d62abb71d5221ec6c068c1c72626	neutral	none
+2693	Lucky!	11leafclover.gif	de95d62abb71d5221ec6c068c1c72626	neutral	none	use 1 11-leaf clover|cast 1 Heartstone: %luck|cast 1 Aug. 2nd: Find an Eleven-Leaf Clover Day|chew either 1 [10883]astral energy drink, 1 clovermint|eat 1 optimal dog|drink 1 Lucky Lindy
 2694	On the Trail	snout.gif	519edacbd99d93658cc2ef05bd6baefb	neutral	none	# Transcendent Olfaction
 2695	Dizzy	dizzy.gif	c9fe57705a1a6d4b2a24e03228e49faf	neutral	none
 2696	Sluggish	slug.gif	f07d57053c4ed45f8523a4ae8dd95495	neutral	none

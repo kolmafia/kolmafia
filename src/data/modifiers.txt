@@ -3288,7 +3288,7 @@ Item	hazardous sauce dosimeter	Class: "Sauceror", Last Available: "2013-11"
 Item	head mirror	Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1, Surgeonosity: +1
 Item	headhunter necktie	Muscle: +15, Moxie: -3, Single Equip
 Item	heart of the volcano	HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 2, MP Regen Max: 5
-Item	Heartstone	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25, Experience: +3, HP Regen Min: 15, HP Regen Max: 20, Single Equip, Last Available: "2026-02", Conditional Skill (Equipped): "Steal Monster's Heart"
+Item	Heartstone	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25, Experience: +3, HP Regen Min: 15, HP Regen Max: 20, Single Equip, Last Available: "2026-02", Conditional Skill (Equipped): "Steal Monster's Heart", Conditional Skill (Equipped): "Heartstone: %kill", Conditional Skill (Equipped): "Heartstone: %banish", Conditional Skill (Equipped): "Heartstone: %stun", Conditional Skill (Equipped): "Heartstone: %luck", Conditional Skill (Equipped): "Heartstone: %pals", Conditional Skill (Equipped): "Heartstone: %buff"
 Item	heat-resistant gloves	Hot Resistance: +4, Weapon Damage Percent: -50, Fumble: 2, Single Equip, Last Available: "2015-08"
 Item	heat-resistant necktie	Hot Resistance: +4, Spell Damage: -50, Single Equip, Last Available: "2015-08"
 Item	Helps-You-Sleep	Initiative: +75, Critical Hit Percent: +10, Single Equip, Blind

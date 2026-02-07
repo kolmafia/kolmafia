@@ -113,6 +113,12 @@ Cast	Gingerbread Mob Hit	_gingerbreadMobHitUsed
 Cast	Give Your Opponent the Stinkeye	_stinkyCheeseBanisherUsed
 Cast	Grab a Cold One	_coldOne
 Cast	Gulp Latte	_latteDrinkUsed
+Cast	Heartstone: %kill	_heartstoneKillUsed	5
+Cast	Heartstone: %banish	_heartstoneBanishUsed	5
+Cast	Heartstone: %stun	_heartstoneStunUsed	5
+Cast	Heartstone: %luck	_heartstoneLuckUsed
+Cast	Heartstone: %pals	_heartstonePalsUsed	5
+Cast	Heartstone: %buff	_heartstoneBuffUsed	5
 Cast	Hugs and Kisses!	_xoHugsUsed	11
 Cast	Implode Universe	_universeImploded	[pref(skillLevel188)]
 Cast	Incite Riot	_peteRiotIncited

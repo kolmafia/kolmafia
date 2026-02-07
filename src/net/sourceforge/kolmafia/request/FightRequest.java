@@ -4890,6 +4890,13 @@ public class FightRequest extends GenericRequest {
           Preferences.setInteger("gladiatorBallMovesKnown", skillId - 7090);
         }
       }
+      // If Heartstone skills present, they've been unlocked
+      switch (skillId) {
+        case SkillPool.HEARTSTONE_KILL -> Preferences.setBoolean("heartstoneKillUnlocked", true);
+        case SkillPool.HEARTSTONE_BANISH ->
+            Preferences.setBoolean("heartstoneBanishUnlocked", true);
+        case SkillPool.HEARTSTONE_STUN -> Preferences.setBoolean("heartstoneStunUnlocked", true);
+      }
     }
   }
 
@@ -11098,6 +11105,22 @@ public class FightRequest extends GenericRequest {
         if (responseText.contains("you've already defeated")
             || responseText.contains("about fifteen seconds")
             || skillSuccess) {
+          skillSuccess = true;
+        }
+      }
+      case SkillPool.HEARTSTONE_KILL -> {
+        if (responseText.contains("You focus your attention on your Heartstone") || skillSuccess) {
+          skillSuccess = true;
+        }
+      }
+      case SkillPool.HEARTSTONE_BANISH -> {
+        if (responseText.contains("A ray blasts out of the stone") || skillSuccess) {
+          BanishManager.banishMonster(monster, Banisher.HEARTSTONE_BANISH);
+          skillSuccess = true;
+        }
+      }
+      case SkillPool.HEARTSTONE_STUN -> {
+        if (responseText.contains("You touch your Heartstone and think the word") || skillSuccess) {
           skillSuccess = true;
         }
       }
