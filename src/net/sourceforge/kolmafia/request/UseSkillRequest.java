@@ -67,7 +67,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
 
   private static final Pattern SKILLZ_PATTERN =
       Pattern.compile(
-          "rel=\\\"(\\d+)\\\".*?<span class=small>(.*?)</font></center></span>", Pattern.DOTALL);
+          "rel=\\\"(\\d+)\\\".*?<span class=small>(.*?)</center></span>", Pattern.DOTALL);
 
   private static final Pattern SWEAT_PATTERN = Pattern.compile("You get (\\d+)% less Sweaty.");
 
@@ -1527,7 +1527,9 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
           SkillPool.BCZ__SWEAT_EQUITY,
           SkillPool.BCZ__CREATE_BLOOD_THINNER,
           SkillPool.BCZ__PREPARE_SPINAL_TAPAS,
-          SkillPool.BCZ__CRAFT_A_PHEROMONE_COCKTAIL ->
+          SkillPool.BCZ__CRAFT_A_PHEROMONE_COCKTAIL,
+          SkillPool.HEARTSTONE_BUFF,
+          SkillPool.HEARTSTONE_PALS ->
           true;
       default -> false;
     };
@@ -1777,8 +1779,18 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
       // This is a skill list, parse skills for consequences.
       Matcher matcher = UseSkillRequest.SKILLZ_PATTERN.matcher(responseText);
       while (matcher.find()) {
-        ConsequenceManager.parseSkillDesc(
-            StringUtilities.parseInt(matcher.group(1)), matcher.group(2));
+        int id = StringUtilities.parseInt(matcher.group(1));
+        ConsequenceManager.parseSkillDesc(id, matcher.group(2));
+        // If Heartstone skills present, they've been unlocked
+        switch (id) {
+          case SkillPool.HEARTSTONE_KILL -> Preferences.setBoolean("heartstoneKillUnlocked", true);
+          case SkillPool.HEARTSTONE_BANISH ->
+              Preferences.setBoolean("heartstoneBanishUnlocked", true);
+          case SkillPool.HEARTSTONE_STUN -> Preferences.setBoolean("heartstoneStunUnlocked", true);
+          case SkillPool.HEARTSTONE_LUCK -> Preferences.setBoolean("heartstoneLuckUnlocked", true);
+          case SkillPool.HEARTSTONE_PALS -> Preferences.setBoolean("heartstonePalsUnlocked", true);
+          case SkillPool.HEARTSTONE_BUFF -> Preferences.setBoolean("heartstoneBuffUnlocked", true);
+        }
       }
     }
 

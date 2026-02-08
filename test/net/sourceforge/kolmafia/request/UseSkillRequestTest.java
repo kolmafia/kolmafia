@@ -668,5 +668,29 @@ class UseSkillRequestTest {
             requests.get(0), "/inv_equip.php", "which=2&ajax=1&action=unequip&type=weapon");
       }
     }
+
+    @Test
+    public void parsesHeartstoneSkillsFromSkillzPage() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(Slot.ACCESSORY1, ItemPool.HEARTSTONE),
+              withProperty("heartstoneKillUnlocked", false),
+              withProperty("heartstoneBanishUnlocked", false),
+              withProperty("heartstoneStunUnlocked", false),
+              withProperty("heartstoneBuffUnlocked", false),
+              withProperty("heartstoneLuckUnlocked", false),
+              withProperty("heartstonePalsUnlocked", false));
+
+      try (cleanups) {
+        UseSkillRequest.parseResponse("skillz.php", html("request/test_parse_skillz.html"));
+
+        assertThat("heartstoneKillUnlocked", isSetTo(false));
+        assertThat("heartstoneBanishUnlocked", isSetTo(true));
+        assertThat("heartstoneStunUnlocked", isSetTo(true));
+        assertThat("heartstoneBuffUnlocked", isSetTo(true));
+        assertThat("heartstoneLuckUnlocked", isSetTo(true));
+        assertThat("heartstonePalsUnlocked", isSetTo(true));
+      }
+    }
   }
 }

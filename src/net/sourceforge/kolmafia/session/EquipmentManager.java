@@ -515,6 +515,15 @@ public class EquipmentManager {
 
   private static boolean shouldApplySkill(Integer id) {
     return switch (id) {
+      case SkillPool.BALL_BUST -> Preferences.getInteger("gladiatorBallMovesKnown") > 0;
+      case SkillPool.BALL_SWEAT -> Preferences.getInteger("gladiatorBallMovesKnown") > 1;
+      case SkillPool.BALL_SACK -> Preferences.getInteger("gladiatorBallMovesKnown") > 2;
+      case SkillPool.NET_GAIN -> Preferences.getInteger("gladiatorNetMovesKnown") > 0;
+      case SkillPool.NET_LOSS -> Preferences.getInteger("gladiatorNetMovesKnown") > 1;
+      case SkillPool.NET_NEUTRALITY -> Preferences.getInteger("gladiatorNetMovesKnown") > 2;
+      case SkillPool.BLADE_SLING -> Preferences.getInteger("gladiatorBladeMovesKnown") > 0;
+      case SkillPool.BLADE_RUNNER -> Preferences.getInteger("gladiatorBladeMovesKnown") > 1;
+      case SkillPool.BLADE_ROLLER -> Preferences.getInteger("gladiatorBladeMovesKnown") > 2;
       case SkillPool.BLINDING_FLASH -> Preferences.getInteger("yearbookCameraUpgrades") >= 21;
       case SkillPool.SPRAY_HOT_GREASE -> KoLCharacter.isSauceror();
       case SkillPool.BECOME_WOLF, SkillPool.BECOME_MIST, SkillPool.BECOME_BAT ->
@@ -523,6 +532,12 @@ public class EquipmentManager {
       case SkillPool.SPITTOON_MONSOON -> KoLCharacter.isMysticalityClass();
       case SkillPool.FESTOON_BUFFOON -> KoLCharacter.isMoxieClass();
       case SkillPool.ENGAGE_ULTRA_ATTRACTIVE_PARKA_MODE -> KoLCharacter.inDinocore();
+      case SkillPool.HEARTSTONE_KILL -> Preferences.getBoolean("heartstoneKillUnlocked");
+      case SkillPool.HEARTSTONE_BANISH -> Preferences.getBoolean("heartstoneBanishUnlocked");
+      case SkillPool.HEARTSTONE_STUN -> Preferences.getBoolean("heartstoneStunUnlocked");
+      case SkillPool.HEARTSTONE_LUCK -> Preferences.getBoolean("heartstoneLuckUnlocked");
+      case SkillPool.HEARTSTONE_PALS -> Preferences.getBoolean("heartstonePalsUnlocked");
+      case SkillPool.HEARTSTONE_BUFF -> Preferences.getBoolean("heartstoneBuffUnlocked");
       default -> true;
     };
   }

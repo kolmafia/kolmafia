@@ -870,6 +870,12 @@ user	hasSushiMat	false	roa
 user	hasTwinkleVision	false
 user	haveBoxingDaydreamHardcore	false
 user	haveBoxingDaydreamSoftcore	false
+user	heartstoneBanishUnlocked	false
+user	heartstoneBuffUnlocked	false
+user	heartstoneKillUnlocked	false
+user	heartstoneLuckUnlocked	false
+user	heartstonePalsUnlocked	false
+user	heartstoneStunUnlocked	false
 user	heavyRainsStartingThunder	0
 user	heavyRainsStartingRain	0
 user	heavyRainsStartingLightning	0
@@ -2284,6 +2290,12 @@ user	_guzzlrQuestAbandoned	false
 user	_hardKnocksDiplomaUsed	false
 user	_hareAdv	0
 user	_hareCharge	0
+user	_heartstoneBanishUsed	0
+user	_heartstoneBuffUsed	0
+user	_heartstoneKillUsed	0
+user	_heartstoneLuckUsed	false
+user	_heartstonePalsUsed	0
+user	_heartstoneStunUsed	0
 user	_highTopPumps	0
 user	_hippyMeatCollected	false
 user	_hipsterAdv	0
