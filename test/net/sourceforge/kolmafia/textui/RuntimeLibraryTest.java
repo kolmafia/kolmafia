@@ -10,6 +10,7 @@ import static internal.helpers.Player.withAdventuresLeft;
 import static internal.helpers.Player.withAdventuresSpent;
 import static internal.helpers.Player.withBanishedPhyla;
 import static internal.helpers.Player.withClass;
+import static internal.helpers.Player.withCurrentEncounter;
 import static internal.helpers.Player.withCurrentRun;
 import static internal.helpers.Player.withDay;
 import static internal.helpers.Player.withEffect;
@@ -2629,6 +2630,39 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     void skillWithTwoEffects() {
       String output = execute("$skill[Sauce Contemplation].to_effects()");
       assertThat(output, containsString("aggregate effect [2]"));
+    }
+  }
+
+  @Nested
+  class HeartstoneMiddleLetter {
+    @Test
+    void middleLetterMonsterSuccess() {
+      assertThat(
+          execute("heartstone_middle_letter($monster[Orcish Frat Boy (Paddler)])").trim(),
+          is("Returned: F"));
+    }
+
+    @Test
+    void middleLetterMonsterEvenIsBlank() {
+      assertThat(
+          execute("heartstone_middle_letter($monster[Ninja Snowman (Chopsticks)])").trim(),
+          is("Returned:"));
+    }
+
+    @Test
+    void middleLetterMonsterNonAlphaIsBlank() {
+      assertThat(
+          execute("heartstone_middle_letter($monster[War Frat 151st Captain])").trim(),
+          is("Returned:"));
+    }
+
+    @Test
+    void parameterlessUsesCurrentEncounter() {
+      var cleanups = withCurrentEncounter("wet jock");
+
+      try (cleanups) {
+        assertThat(execute("heartstone_middle_letter()").trim(), is("Returned: J"));
+      }
     }
   }
 }
