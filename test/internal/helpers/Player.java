@@ -3076,4 +3076,16 @@ public class Player {
     KoLCharacter.setGlobalDays(globalDay);
     return new Cleanups(() -> KoLCharacter.setGlobalDays(oldDays));
   }
+
+  /**
+   * Sets the FightRequest current encounter string
+   *
+   * @param currentEncounter Current encounter name
+   * @return Resets to previous value
+   */
+  public static Cleanups withCurrentEncounter(final String currentEncounter) {
+    var old = FightRequest.currentEncounter;
+    FightRequest.currentEncounter = currentEncounter;
+    return new Cleanups(() -> FightRequest.setCurrentEncounter(old));
+  }
 }
