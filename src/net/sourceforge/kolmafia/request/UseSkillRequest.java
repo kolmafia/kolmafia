@@ -1527,9 +1527,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
           SkillPool.BCZ__SWEAT_EQUITY,
           SkillPool.BCZ__CREATE_BLOOD_THINNER,
           SkillPool.BCZ__PREPARE_SPINAL_TAPAS,
-          SkillPool.BCZ__CRAFT_A_PHEROMONE_COCKTAIL,
-          SkillPool.HEARTSTONE_BUFF,
-          SkillPool.HEARTSTONE_PALS ->
+          SkillPool.BCZ__CRAFT_A_PHEROMONE_COCKTAIL ->
           true;
       default -> false;
     };
