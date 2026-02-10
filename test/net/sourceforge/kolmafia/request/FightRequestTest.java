@@ -4360,4 +4360,16 @@ public class FightRequestTest {
           "banishedMonsters", hasStringValue(startsWith("pygmy bowler:Heartstone %banish:")));
     }
   }
+
+  @Test
+  public void canUpdateStolenLetters() {
+    var cleanups = new Cleanups(withFight(), withProperty("heartstoneLetters", "GO"));
+
+    try (cleanups) {
+      parseCombatData(
+          "request/test_fight_steal_letter.html", "fight.php?action=skill&whichskill=7585");
+
+      assertThat("heartstoneLetters", isSetTo("GON"));
+    }
+  }
 }

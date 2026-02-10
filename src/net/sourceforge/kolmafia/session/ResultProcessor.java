@@ -374,7 +374,8 @@ public class ResultProcessor {
             EffectPool.CITIZEN_OF_A_ZONE,
             EffectPool.GRAFTED,
             EffectPool.MILK_OF_FAMILIAR_CRUELTY,
-            EffectPool.MILK_OF_FAMILIAR_KINDNESS ->
+            EffectPool.MILK_OF_FAMILIAR_KINDNESS,
+            EffectPool.HEARTSTONE_ATTUNEMENT ->
             DebugDatabase.readEffectDescriptionText(effectId);
       }
 

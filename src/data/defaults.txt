@@ -870,9 +870,12 @@ user	hasSushiMat	false	roa
 user	hasTwinkleVision	false
 user	haveBoxingDaydreamHardcore	false
 user	haveBoxingDaydreamSoftcore	false
+user	heartstoneAttunementMods		roa
+user	heartstoneAttunementWord		roa
 user	heartstoneBanishUnlocked	false
 user	heartstoneBuffUnlocked	false
 user	heartstoneKillUnlocked	false
+user	heartstoneLetters		roa
 user	heartstoneLuckUnlocked	false
 user	heartstonePalsUnlocked	false
 user	heartstoneStunUnlocked	false

@@ -1720,6 +1720,7 @@ public abstract class InventoryManager {
 
     checkExperimentalEffectG9();
     checkZootomistMods();
+    checkHeartstoneAttunement();
   }
 
   public static void checkNoHat() {
@@ -1901,6 +1902,13 @@ public abstract class InventoryManager {
     checkEffectDescription(EffectPool.GRAFTED);
     checkEffectDescription(EffectPool.MILK_OF_FAMILIAR_KINDNESS);
     checkEffectDescription(EffectPool.MILK_OF_FAMILIAR_CRUELTY);
+  }
+
+  public static void checkHeartstoneAttunement() {
+    if (!KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.HEARTSTONE_ATTUNEMENT))) {
+      return;
+    }
+    checkEffectDescription(EffectPool.HEARTSTONE_ATTUNEMENT);
   }
 
   private static void checkItem(int id, String preference) {
