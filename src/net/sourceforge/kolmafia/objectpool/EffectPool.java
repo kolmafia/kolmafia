@@ -436,6 +436,7 @@ public class EffectPool {
   public static final int FAVORED_BY_THE_DON = 3026;
   public static final int YOUR_OWN_PARENTS = 3027;
   public static final int MET_CUTE = 3028;
+  public static final int HEARTSTONE_ATTUNEMENT = 3071;
 
   public static final AdventureResult CURSE1_EFFECT = EffectPool.get(EffectPool.ONCE_CURSED);
   public static final AdventureResult CURSE2_EFFECT = EffectPool.get(EffectPool.TWICE_CURSED);

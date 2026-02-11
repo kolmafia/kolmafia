@@ -3975,6 +3975,12 @@ public abstract class RuntimeLibrary {
     functions.add(
         new LibraryFunction(
             "shrunken_head_zombie", new AggregateType(DataTypes.STRING_TYPE, 0), params));
+
+    params = List.of();
+    functions.add(new LibraryFunction("heartstone_middle_letter", DataTypes.STRING_TYPE, params));
+
+    params = List.of(namedParam("monster", DataTypes.MONSTER_TYPE));
+    functions.add(new LibraryFunction("heartstone_middle_letter", DataTypes.STRING_TYPE, params));
   }
 
   public static Method findMethod(final String name, final Class<?>[] args)
@@ -12090,5 +12096,32 @@ public abstract class RuntimeLibrary {
   private static Value shrunken_head_zombie(int monsterId, int pathId) {
     var abilities = ShrunkenHeadDatabase.shrunkenHeadZombie(monsterId, pathId);
     return DataTypes.makeStringArrayValue(abilities);
+  }
+
+  public static Value heartstone_middle_letter(ScriptRuntime controller, final Value monsterVal) {
+    var data = ((MonsterData) monsterVal.content);
+    var monName = data.getManuelName();
+    return heartstone_middle_letter(monName);
+  }
+
+  public static Value heartstone_middle_letter(ScriptRuntime controller) {
+    return heartstone_middle_letter(FightRequest.currentEncounter);
+  }
+
+  private static Value heartstone_middle_letter(String monsterName) {
+    if (monsterName.isEmpty()) {
+      return DataTypes.STRING_INIT;
+    }
+    var noSpaces = monsterName.replaceAll(" ", "");
+    var length = noSpaces.length();
+    // even length has no middle
+    if (length % 2 == 0) {
+      return DataTypes.STRING_INIT;
+    }
+    var middle = String.valueOf(noSpaces.charAt(length / 2)).toUpperCase(Locale.ENGLISH);
+    if (!middle.matches("[A-Z]")) {
+      return DataTypes.STRING_INIT;
+    }
+    return DataTypes.makeStringValue(middle);
   }
 }

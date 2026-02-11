@@ -9580,6 +9580,9 @@ public class FightRequest extends GenericRequest {
   private static final AdventureResult METEOR_SHOWERED =
       EffectPool.get(EffectPool.METEOR_SHOWERED, 1);
 
+  private static final Pattern STEAL_LETTER_PATTERN =
+      Pattern.compile("You rip the heart \\(([A-Z])\\) right out of your foe");
+
   private static void payActionCost(final String responseText) {
     // If we don't know what we tried, punt now.
     if (FightRequest.nextAction == null || FightRequest.nextAction.isEmpty()) {
@@ -11106,6 +11109,17 @@ public class FightRequest extends GenericRequest {
             || responseText.contains("about fifteen seconds")
             || skillSuccess) {
           skillSuccess = true;
+        }
+      }
+      case SkillPool.STEAL_HEART -> {
+        Matcher heartMatcher = STEAL_LETTER_PATTERN.matcher(responseText);
+        if (heartMatcher.find()) {
+          var letter = heartMatcher.group(1);
+          var curLetters = Preferences.getString("heartstoneLetters");
+          if (curLetters.length() > 3) {
+            curLetters = "";
+          }
+          Preferences.setString("heartstoneLetters", curLetters + letter);
         }
       }
       case SkillPool.HEARTSTONE_KILL -> {
