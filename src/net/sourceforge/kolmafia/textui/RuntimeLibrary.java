@@ -3981,6 +3981,9 @@ public abstract class RuntimeLibrary {
 
     params = List.of(namedParam("monster", DataTypes.MONSTER_TYPE));
     functions.add(new LibraryFunction("heartstone_middle_letter", DataTypes.STRING_TYPE, params));
+
+    params = List.of(namedParam("monster", DataTypes.STRING_TYPE));
+    functions.add(new LibraryFunction("heartstone_middle_letter", DataTypes.STRING_TYPE, params));
   }
 
   public static Method findMethod(final String name, final Class<?>[] args)
@@ -12098,10 +12101,14 @@ public abstract class RuntimeLibrary {
     return DataTypes.makeStringArrayValue(abilities);
   }
 
-  public static Value heartstone_middle_letter(ScriptRuntime controller, final Value monsterVal) {
-    var data = ((MonsterData) monsterVal.content);
-    var monName = data.getManuelName();
-    return heartstone_middle_letter(monName);
+  public static Value heartstone_middle_letter(ScriptRuntime controller, final Value value) {
+    var valType = value.getType();
+    if (valType.equals(TypeSpec.MONSTER)) {
+      var data = ((MonsterData) value.content);
+      var monName = data.getManuelName();
+      return heartstone_middle_letter(monName);
+    }
+    return heartstone_middle_letter(value.toString());
   }
 
   public static Value heartstone_middle_letter(ScriptRuntime controller) {

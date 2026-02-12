@@ -2657,6 +2657,11 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     }
 
     @Test
+    void middleLetterStringWorks() {
+      assertThat(execute("heartstone_middle_letter(\"crate\")").trim(), is("Returned: A"));
+    }
+
+    @Test
     void parameterlessUsesCurrentEncounter() {
       var cleanups = withCurrentEncounter("wet jock");
 
