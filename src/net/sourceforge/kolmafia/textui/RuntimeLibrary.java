@@ -12120,12 +12120,15 @@ public abstract class RuntimeLibrary {
       return DataTypes.STRING_INIT;
     }
     var noSpaces = monsterName.replaceAll(" ", "");
-    var length = noSpaces.length();
+    var bytes = noSpaces.getBytes(StandardCharsets.UTF_8);
+    var length = bytes.length;
     // even length has no middle
     if (length % 2 == 0) {
       return DataTypes.STRING_INIT;
     }
-    var middle = String.valueOf(noSpaces.charAt(length / 2)).toUpperCase(Locale.ENGLISH);
+    var middle =
+        new String(new byte[] {bytes[length / 2]}, StandardCharsets.UTF_8)
+            .toUpperCase(Locale.ENGLISH);
     if (!middle.matches("[A-Z]")) {
       return DataTypes.STRING_INIT;
     }
