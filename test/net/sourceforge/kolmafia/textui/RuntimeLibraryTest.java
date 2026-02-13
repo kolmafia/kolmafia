@@ -2657,12 +2657,37 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     }
 
     @Test
+    void middleLetterStringWorks() {
+      assertThat(execute("heartstone_middle_letter(\"crate\")").trim(), is("Returned: A"));
+    }
+
+    @Test
     void parameterlessUsesCurrentEncounter() {
       var cleanups = withCurrentEncounter("wet jock");
 
       try (cleanups) {
         assertThat(execute("heartstone_middle_letter()").trim(), is("Returned: J"));
       }
+    }
+
+    @Test
+    void middleLetterUsesBytes() {
+      assertThat(
+          execute("heartstone_middle_letter($monster[Legstrong™ stationary bicycle])").trim(),
+          containsString("Returned: A"));
+    }
+
+    @ParameterizedTest
+    @CsvSource({"Wardröb nightstand,", "wet Wardröb nightstand,B", "haunted Wardröb nightstand,"})
+    public void wardröbNightstandTests(String monster, String letter) {
+      if (letter != null) {
+        letter = " " + letter;
+      } else {
+        letter = "";
+      }
+      assertThat(
+          execute("heartstone_middle_letter(\"" + monster + "\")").trim(),
+          is("Returned:" + letter));
     }
   }
 }
