@@ -2658,8 +2658,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
     @Test
     void middleLetterMonsterNoneIsBlank() {
-      assertThat(
-          execute("heartstone_middle_letter($monster[none])").trim(), is("Returned:"));
+      assertThat(execute("heartstone_middle_letter($monster[none])").trim(), is("Returned:"));
     }
 
     @Test
