@@ -15,6 +15,7 @@ import net.sourceforge.kolmafia.request.ContactListRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.swingui.ContactListFrame;
 import net.sourceforge.kolmafia.utilities.HTMLListEntry;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ContactManager {
   private static final HashMap<String, String> seenPlayerIds = new HashMap<>();
@@ -188,7 +189,7 @@ public class ContactManager {
     // Otherwise, split the list of targets, and
     // determine who all the unique targets are.
 
-    String[] targets = targetList.trim().split("\\s*,\\s*");
+    String[] targets = StringUtilities.splitByComma(targetList.trim());
     for (int i = 0; i < targets.length; ++i) {
       targets[i] = getPlayerId(targets[i]) == null ? targets[i] : getPlayerId(targets[i]);
     }

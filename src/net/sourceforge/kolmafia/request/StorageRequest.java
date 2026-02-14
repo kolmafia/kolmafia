@@ -82,7 +82,7 @@ public class StorageRequest extends TransferItemRequest {
 
   public static void pullsStringToSet(String value, Set<Integer> set) {
     set.clear();
-    for (String val : value.split("\\s*,\\s*")) {
+    for (String val : StringUtilities.splitByComma(value)) {
       if (StringUtilities.isNumeric(val)) {
         set.add(StringUtilities.parseInt(val));
       }

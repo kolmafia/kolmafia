@@ -33,6 +33,12 @@ public class StringUtilities {
   private static final HashMap<String, String> prepositionsMap = new HashMap<>();
   private static final WeakHashMap<String[], int[]> hashCache = new WeakHashMap<>();
 
+  private static final Pattern COMMA_DELIMITED_PATTERN = Pattern.compile("\\s*,\\s*");
+
+  public static String[] splitByComma(String input) {
+    return COMMA_DELIMITED_PATTERN.split(input);
+  }
+
   private static final Pattern NONINTEGER_PATTERN = Pattern.compile("[^0-9\\-]+");
 
   private static final Pattern PREPOSITIONS_PATTERN =

@@ -5,6 +5,7 @@ import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class DebugCreateCommand extends AbstractCommand {
   public DebugCreateCommand() {
@@ -17,7 +18,7 @@ public class DebugCreateCommand extends AbstractCommand {
       return;
     }
 
-    String[] itemNames = parameters.split("\\s*,\\s*");
+    String[] itemNames = StringUtilities.splitByComma(parameters);
 
     AdventureResult item;
 

@@ -60,6 +60,7 @@ import net.sourceforge.kolmafia.swingui.widget.RequestPane;
 import net.sourceforge.kolmafia.textui.command.ConditionsCommand;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.PauseObject;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class AdventureSelectPanel extends JPanel {
   private ThreadedButton begin;
@@ -418,7 +419,7 @@ public class AdventureSelectPanel extends JPanel {
 
       GoalManager.clearGoals();
 
-      String[] splitConditions = conditionList.split("\\s*,\\s*");
+      String[] splitConditions = StringUtilities.splitByComma(conditionList);
 
       // First, figure out whether or not you need to do a
       // disjunction on the conditions, which changes how

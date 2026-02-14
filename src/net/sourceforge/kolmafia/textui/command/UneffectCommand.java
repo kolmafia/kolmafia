@@ -11,6 +11,7 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.request.UneffectRequest;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class UneffectCommand extends AbstractCommand {
   public UneffectCommand() {
@@ -25,7 +26,7 @@ public class UneffectCommand extends AbstractCommand {
       if (EffectDatabase.getEffectId(parameters.trim()) == -1) {
         // Nope. It is a list of effects. Assume that
         // none contain a comma.
-        String[] effects = parameters.split("\\s*,\\s*");
+        String[] effects = StringUtilities.splitByComma(parameters);
         for (int i = 0; i < effects.length; ++i) {
           this.run("uneffect", effects[i]);
         }

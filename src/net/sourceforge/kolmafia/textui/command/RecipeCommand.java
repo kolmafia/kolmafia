@@ -12,6 +12,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class RecipeCommand extends AbstractCommand {
   public RecipeCommand() {
@@ -20,7 +21,7 @@ public class RecipeCommand extends AbstractCommand {
 
   @Override
   public void run(final String cmd, final String params) {
-    String[] concoctions = params.split("\\s*,\\s*");
+    String[] concoctions = StringUtilities.splitByComma(params);
 
     if (concoctions.length == 0) {
       return;

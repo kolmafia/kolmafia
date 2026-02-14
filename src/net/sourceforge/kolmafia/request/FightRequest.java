@@ -7791,7 +7791,7 @@ public class FightRequest extends GenericRequest {
   private static Set<Integer> getAdvancedResearchedMonsters() {
     String value = Preferences.getString("wereProfessorAdvancedResearch");
     Set<Integer> monsterIds =
-        Arrays.stream(value.split("\\s*,\\s*"))
+        Arrays.stream(StringUtilities.splitByComma(value))
             .filter(s -> !s.isEmpty())
             .map(Integer::valueOf)
             .filter(i -> i != 0)

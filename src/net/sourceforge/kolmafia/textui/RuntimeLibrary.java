@@ -11963,7 +11963,7 @@ public abstract class RuntimeLibrary {
   public static Value dart_parts_to_skills(ScriptRuntime controller) {
     MapValue value = new MapValue(DataTypes.STRING_TO_SKILL_TYPE);
 
-    String[] darts = Preferences.getString("_currentDartboard").split("\\s*,\\s*");
+    String[] darts = StringUtilities.splitByComma(Preferences.getString("_currentDartboard"));
     for (String dart : darts) {
       int colon = dart.indexOf(":");
       if (colon != -1) {
@@ -11980,7 +11980,7 @@ public abstract class RuntimeLibrary {
   public static Value dart_skills_to_parts(ScriptRuntime controller) {
     MapValue value = new MapValue(DataTypes.SKILL_TO_STRING_TYPE);
 
-    String[] darts = Preferences.getString("_currentDartboard").split("\\s*,\\s*");
+    String[] darts = StringUtilities.splitByComma(Preferences.getString("_currentDartboard"));
     for (String dart : darts) {
       int colon = dart.indexOf(":");
       if (colon != -1) {

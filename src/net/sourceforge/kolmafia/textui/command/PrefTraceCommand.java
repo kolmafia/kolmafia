@@ -6,6 +6,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class PrefTraceCommand extends AbstractCommand {
   private static final ArrayList<PreferenceListener> audience =
@@ -29,7 +30,7 @@ public class PrefTraceCommand extends AbstractCommand {
       return;
     }
 
-    String[] prefList = parameters.split("\\s*,\\s*");
+    String[] prefList = StringUtilities.splitByComma(parameters);
     for (String pref : prefList) {
       audience.add(new PreferenceListener(pref));
     }
