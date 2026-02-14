@@ -12105,6 +12105,9 @@ public abstract class RuntimeLibrary {
     var valType = value.getType();
     if (valType.equals(TypeSpec.MONSTER)) {
       var data = ((MonsterData) value.content);
+      if (data == null) {
+        return DataTypes.STRING_INIT;
+      }
       var monName = data.getManuelName();
       return heartstone_middle_letter(monName);
     }
