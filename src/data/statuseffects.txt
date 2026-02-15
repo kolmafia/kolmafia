@@ -3074,12 +3074,12 @@
 3071	Heartstone Attunement	heartgem.gif	b5ac26c6c1857e9ec22fd7d75c04d779	neutral	none
 3072	Best Pals	heartgem.gif	52a5ee2d62c329533e5d29401aea351b	neutral	none	cast 1 Heartstone: %pals
 3073	Ultraheart	heartgem.gif	bf1d5761d4a9947d4cbbcb746bee18b0	neutral	none	cast 1 Heartstone: %buff
-3074
-3075
-3076
-3077
-3078
-3079
-3080
-3081
+3074	Acting Jerky	jerky.gif	fd8674a0bb8e71f6a5f1ee94ba481c1c	neutral	none	cast 1 Act Jerky
+3075	Stewing	soupbowl.gif	ce52a49112ef6449e1ec2f6115676d7b	neutral	none	cast 1 Stew
+3076	Tenderized	selftenderize.gif	31fb38026fe408f6da7ed83b46635192	neutral	none	cast 1 Self-Tenderize
+3077	Beef Goggles	beefgoggles.gif	f8bd8ff95255fba5581ff179a7a56bc0	neutral	none	cast 1 Beef Goggles
+3078	Meat Puppet	meatpuppet.gif	1bb2aaa9530daba232684c32a6420cce	neutral	none	cast 1 Meat Puppet
+3079	Darkened Meat	bigturkeyleg.gif	0df89669a46a03194c7da020a60f3e07	neutral	none	cast 1 Dark Meat
+3080	Hamming It Up	ham.gif	b7fac4ac8f38062d2c67d7e28db5bd0c	neutral	none	cast 1 Ham It Up
+3081	Steak Skirt	steakskirt.gif	528b163d59bf6ba790e9f35c9847aa4f	neutral	none	cast 1 Steak Skirt
 3082	Dirty Mind	noart.gif	037763ef9580c3b743173bc1c546a08c	neutral	none
