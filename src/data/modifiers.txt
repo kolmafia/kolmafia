@@ -5575,6 +5575,7 @@ Effect	Abyssal Blood	Weapon Damage Percent: +100, Hot Damage: +50, HP Regen Min:
 Effect	Abyssal Sweat	Avoid Attack: 1
 Effect	Abyssal Tears	Reduce Enemy Defense: 20
 Effect	Ack!  Barred!	Muscle Percent: +30
+Effect	Acting Jerky	Combat Rate: +5, Monster Level: +10
 Effect	Action	Muscle Percent: +100
 Effect	Adapt to Change Eventually	Experience: +4, Initiative: +50
 Effect	Adorable Lookout	Initiative: +30
@@ -5742,6 +5743,7 @@ Effect	Beaten Up	Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -
 Effect	Become Intensely interested	Combat Rate: +5
 Effect	Become Superficially interested	Combat Rate: -5
 Effect	Bedraggled Dragoon	Avatar: "drowned sailor"
+Effect	Beef Goggles	Item Drop: +50
 Effect	Beefy	Damage Reduction: 10, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Stench Resistance: +1, Spooky Resistance: +1
 Effect	Beefy Heart	Familiar Weight: +10
 # Beer Barrel Polka: Makes booze more effective!
@@ -6207,6 +6209,7 @@ Effect	Dang Near Cut In Half	Muscle Percent: -50
 Effect	Dangerous Zone Song	Meat Drop: +25
 Effect	Danish Cunning	Pickpocket Chance: +25
 Effect	Dark Orchestral Song	Moxie: +5
+Effect	Darkened Meat	Combat Rate: -5
 Effect	Darkened Photons	Combat Rate: -10
 Effect	Dawn of the Goblin	Avatar: "tribal goblin"
 Effect	Dazed, Confused	Avatar: "wastoid"
@@ -6745,6 +6748,7 @@ Effect	Ham-Fisted	Muscle Percent: +50, Weapon Damage: +11
 Effect	Ham(ster)-Handed	Avatar: "skeletal hamster"
 Effect	Hammered	Weapon Damage Percent: +50
 # Hammertime: Seriously, your pants are huge
+Effect	Hamming It Up	Monster Level: +25
 Effect	Hangdog	Sleaze Damage: +30, Hot Resistance: +3, Stench Resistance: +3, Initiative: +20
 Effect	Happy Salamander	Familiar Weight: +3
 Effect	Happy Trails	Mysticality: +100
@@ -7171,6 +7175,7 @@ Effect	Materiel Intel	Item Drop: +100
 Effect	Mathematically Precise	Combat Item Damage Percent: 50
 Effect	Mayeaugh	Damage Aura: 1
 Effect	Meadulla Oblongota	Experience: +5, Maximum MP Percent: +50
+Effect	Meat Puppet	Familiar Weight: +5
 # Meat Shielded
 Effect	Meat the Flintstones	Maximum HP Percent: +50
 Effect	meat.enh	Meat Drop: +60
@@ -8010,6 +8015,7 @@ Effect	Starry-Eyed	Muscle Percent: [+5*U], Mysticality Percent: [+5*U], Moxie Pe
 Effect	Started Your Day Right	Experience: +3, Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25
 Effect	stats.enq	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 Effect	Staying Frosty	Cold Damage: +100
+Effect	Steak Skirt	Damage Absorption: +200, Damage Reduction: 10
 Effect	Steamed	Hot Resistance: +3, Hot Damage: +30, Item Drop: +20
 Effect	Steamed Sinuses	Item Drop: +25
 Effect	Steely-Eyed Squint	Item Drop: [mod(Item Drop)]
@@ -8020,6 +8026,7 @@ Effect	Stenchform	Stench Immunity, Cold Vulnerability, Sleaze Vulnerability
 Effect	Stenchtastic	Muscle Percent: +20, Mysticality Percent: +30, Moxie Percent: +10, Stench Damage: +10, Stench Resistance: +2
 Effect	Steroid Boost	Muscle: +2
 Effect	Stevedave's Shanty of Superiority	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
+# Stewing: Your meat attacks will deal 50% more damage
 Effect	Stick Emporium Membership	Weapon Drop: +100
 Effect	Stickler for Promptness	Familiar Action Bonus: +20
 Effect	Sticks and Stones	Damage vs. Skeletons: +50
@@ -8166,6 +8173,7 @@ Effect	Temporary Blindness	Item Drop: -75, Moxie Percent: -25, Initiative: -30, 
 Effect	Temporary Lycanthropy	Muscle Percent: [B]
 Effect	Ten out of Ten	Moxie Percent: +200, Initiative: +50
 Effect	Tenacity of the Snapper	Weapon Damage: +8
+Effect	Tenderized	HP Regen Min: 30, HP Regen Max: 50
 Effect	Tennis Elbow-wow	Initiative: +50
 Effect	Tenuous Grip on Reality	Moxie Percent: -95
 Effect	Tetanus	Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10
@@ -8672,10 +8680,12 @@ Skill	Business Acumen	Meat Drop: +50
 Skill	C Sharp Eyes	Item Drop: +50, Meat Drop: +50
 Skill	Calluses	Damage Reduction: 5
 Skill	Camp Subroutines	Sleaze Damage: +5
+Skill	Caramelized Fat	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 Skill	Cartilage	Damage Reduction: 5
 Skill	Ceaseless Snarl	Maximum HP: -15
 Skill	Central Hypothalamus	Absorb Adventures: +1
 Skill	Chatterable Teeth	Cold Resistance: +2
+# Chicken Fingers: Allows you to pickpocket
 Skill	Chill of the Tomb	Maximum HP: -10
 Skill	Chip on your Shoulder	PvP Fights: +5
 Skill	Chitinous Soul	Maximum HP: [pref(skillLevel227)]
@@ -8732,6 +8742,7 @@ Skill	Drinking to Drink	Liver Capacity: +1
 # Drippy Eye-Beetle: It is awful!
 # Drippy Eye-Sprout: It tickles!
 # Drippy Eye-Stone: It is irritating!
+Skill	Dry-Aged	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 # Early Riser: +1 Food Conjuration
 Skill	Easy Riding	Experience (Moxie): +5
 Skill	Ectogenesis	Spooky Resistance: +2
@@ -8801,6 +8812,7 @@ Skill	Golgi Apparatus	Absorb Stats: +25
 # Good Singing Voice: Doubles duration of Boris songs
 Skill	Gorgonzola's Guile	Item Drop: +25
 # Gourmand: Increases adventures from food
+# Grass-Fed: Get an extra Adventure when spending meat at the amino sac
 # Gravitational Compression: +100% Item Drops from Monsters (Scales with your Mysticality)
 Skill	Gravitational Compression	Item Drop: [min(ceil(basemys/5),100)]
 Skill	Greed	Meat Drop: +50, Item Drop: -15
@@ -8850,6 +8862,7 @@ Skill	Introspection	Mysticality: +20
 # Ire of the Orca: Fury capacity increases to 5 gallons
 Skill	Ire Proof	Hot Resistance: +3
 Skill	Irrepressible Spunk	Maximum HP Percent: +5, Maximum MP Percent: +5
+# It's All Gravy: Gain half of your +Monster Level in Meat after a fight
 # Itchy Curse Finger: Your curses take hold too quickly for your opponents to react
 Skill	Jazz Hands	MP Regen Min: 4, MP Regen Max: 5
 # Juggle Fireballs: Level 1: Briefly stun enemy and increase your stats by 100%
@@ -8889,6 +8902,7 @@ Skill	Lysosomes	Absorb Stats: +5
 Skill	Macabre Cunning	Experience: +5, Maximum HP: -20
 Skill	Mad Looting Skillz	Item Drop: +20
 Skill	Madness of Untold Aeons	Mysticality Percent: +150, Maximum HP: -25
+Skill	Maillard Reaction	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 Skill	Marginally Insane	Maximum MP Percent: +10
 Skill	Mariachi Memory	Additional Song: 1
 Skill	Master Accordion Master Thief	Pickpocket Chance: +10
@@ -8920,6 +8934,7 @@ Skill	Natural Born Skeleton Killer	Damage vs. Skeletons: +10
 Skill	Natural Dancer	Item Drop: +200
 # Neurogourmet: +1 Adventure per Brain Eaten
 Skill	Never Late for Dinner	Initiative: +50, Adventures: +10
+Skill	Nicely Marbled	Maximum HP Percent: +20
 Skill	Nightcap	Liver Capacity: +5
 Skill	Nimble Fingers	Meat Drop: +20
 Skill	Northern Exposure	Cold Resistance: +2
@@ -8950,12 +8965,14 @@ Skill	Peccorino Bravado	Muscle Percent: +20, Mysticality Percent: +20, Moxie Per
 Skill	Pectoral Muscles	Muscle: +20
 Skill	Perceive Soul	Maximum HP: -15
 # Perfect Embouchure: Your musical skills deal 33% more damage
+Skill	Perfectly Seared	Damage Absorption: +100, Damage Reduction: 5
 Skill	Piercing Gaze	Maximum HP: -20
 Skill	Pinchable Nose	Stench Resistance: +1
 Skill	Pinky Fingers	Pickpocket Chance: +10
 # Pizza Lover: You really, really like pizza
 Skill	Politeness	Sleaze Resistance: +2
 Skill	Ponzi Apparatus	Meat Drop: +200
+# Pork Belly: Get an extra adventure when you trade in meat at the amino sac
 Skill	Power Plus	Maximum PP: +1
 Skill	Powers of Observatiogn	Item Drop: +10
 # Precision of the Penguin: +1% chance of Critical Hit for each gallon of Fury
@@ -8983,6 +9000,7 @@ Skill	Replacement Liver	Liver Capacity: +4
 Skill	Replacement Stomach	Stomach Capacity: +5
 Skill	Rhythm In Your Blood	Maximum HP Percent: +20
 Skill	Rhythmic Precision	Mana Cost: -3
+Skill	Rib Eyes	Item Drop: +30
 Skill	Ribald Memories	Sleaze Resistance: +3, Sleaze Damage: +15
 Skill	Ribosomes	Absorb Stats: +15
 Skill	Riding Tall	Muscle Percent: +30, Mysticality Percent: +30, Moxie Percent: +50
@@ -8997,6 +9015,7 @@ Skill	Rigid Pelvis	Damage Absorption: +50
 Skill	Rigid Rib Cage	Damage Absorption: +70
 Skill	Ring Fingers	Pickpocket Chance: +20
 # Ripped Triceps: Your damaging skills deal 25% more damage
+# Roastmaster: Weaken your foes at the start of each fight
 # Rowdy Drinker: You love booze, and get more Adventures from drinking it
 Skill	Rudimentary Alimentary Canal	Absorb Adventures: +1
 # Rugged Survivalist: Restore HP and MP after fights
@@ -9058,6 +9077,7 @@ Skill	Spooky Veins	Adventures: +10
 # Spot Weakness: Weakens foes at the start of combat
 Skill	Spot Weakness	Maximum HP: -15
 Skill	STATS+++	Experience: +3
+Skill	Steak Flanks	Maximum HP: +50
 Skill	Steam Mycelia	Hot Damage: +15
 # Sticky Fingers: Pickpocketing also gives Meat
 Skill	Still Another Extra Spleen	Spleen Capacity: +5
@@ -9084,6 +9104,7 @@ Skill	Taut Hamstrings	Initiative: +50
 Skill	Temporal Bent	Adventures: +5
 Skill	Temporal Hyperextension	Adventures: +10
 # Tempuramancy: Lets you cook tempura dishes
+Skill	Tender Loins	Initiative: +50
 # Testudinal Teachings: Your familiars gain weight faster
 Skill	The Concept of Property	Meat Drop: +30
 Skill	The Long View	Adventures: +3
@@ -9118,6 +9139,7 @@ Skill	Two Right Feet	Item Drop: +10
 # Ultra Smash: Level 1: Deal 100% of your Muscle as Physical Damage
 # Ultra Smash: Level 2: Deal 200% of your Muscle as Physical Damage
 # Ultra Smash: Level 3: Banish foe for the rest of the day
+# Umami: Get an extra Adventure when spending meat at the amino sac
 # Unaccompanied Miner: 5 free minings per day
 Skill	Undying Greed	Meat Drop: +25
 Skill	Unoffendable	Sleaze Resistance: +3
@@ -9143,6 +9165,7 @@ Skill	Warm Smile	Hot Damage: +3
 Skill	Waxy Ears	Sleaze Damage: +5
 Skill	Weak Esophageal Sphincter	Stench Damage: +9
 # Well-Oiled Guns: All skills involving your sixgun are more effective
+Skill	Well-Rested	Adventures: +20
 Skill	Wisdom of Countless Centuries	Experience: +3
 Skill	Wisdom of Jarlsberg	Experience (Mysticality): +3
 Skill	Wisdom of the Elder Tortoises	Maximum MP Percent: +50

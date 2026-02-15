@@ -1894,3 +1894,39 @@
 30019	Grit Teeth	gritteeth.gif	combat	5	0	Level: 9
 30020	Soothing Flute	flute.gif	nc,effect,self	15	10	Level: 10
 30021	Motif	motif.gif	combat	50	0	Level: 11
+
+# Meat Golem
+
+33001	Beef Shank	beefshank.gif	combat	0	0
+33002	Meat Cleaver	meatycleaver.gif	combat	0	0
+33003	Steak Through the Heart	heartstake.gif	combat	0	0
+33004	Act Jerky	jerky.gif	nc,effect,self	0	10
+33005	Stew	soupbowl.gif	nc,effect,self	0	50
+33006	Self-Tenderize	selftenderize.gif	nc,effect,self	0	100
+33007	Steak Flanks	steakflank.gif	passive	0	0
+33008	Nicely Marbled	marbled.gif	passive	0	0
+33009	Dry-Aged	dryaged.gif	passive	0	0
+33010	Pork Belly	porkbelly.gif	passive	0	0
+33011	Roastmaster	roastmaster.gif	passive	0	0
+33012	Spicy Meatball	meatball.gif	combat	0	0
+33013	Meat Cute	meatcute.gif	combat	0	0
+33014	Chew the Fat	chewthefat.gif	combat	0	0
+33015	Beef Goggles	beefgoggles.gif	nc,effect,self	0	20
+33016	Meat Loaf	jarl_meatloaf.gif	nc,effect,self	0	0
+33017	Meat Puppet	meatpuppet.gif	nc,effect,self	0	30
+33018	Perfectly Seared	grilledsteak.gif	passive	0	0
+33019	Maillard Reaction	molecule2.gif	passive	0	0
+33020	Umami	tonguewalrus.gif	passive	0	0
+33021	Rib Eyes	ribeyes.gif	passive	0	0
+33022	Tender Loins	tenderloins.gif	passive	0	0
+33023	Bacon Ray	bacon.gif	combat	0	0
+33024	Meat Locker	meatlocker2.gif	combat	0	0
+33025	Wet Rub	wetrub.gif	combat	0	0
+33026	Dark Meat	bigturkeyleg.gif	nc,effect,self	0	10
+33027	Ham It Up	ham.gif	nc,effect,self	0	10
+33028	Steak Skirt	steakskirt.gif	nc,effect,self	0	50
+33029	It's All Gravy	allgravy.gif	passive	0	0
+33030	Well-Rested	sleepy.gif	passive	0	0
+33031	Caramelized Fat	caramelfat.gif	passive	0	0
+33032	Chicken Fingers	chickenfingers.gif	passive	0	0
+33033	Grass-Fed	grassfed.gif	passive	0	0
