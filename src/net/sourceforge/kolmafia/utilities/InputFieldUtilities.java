@@ -255,7 +255,7 @@ public class InputFieldUtilities {
 
       String reply = KoLmafiaCLI.DEFAULT_SHELL.getNextLine(" > ");
 
-      String[] replyList = reply.split("\\s*,\\s*");
+      String[] replyList = StringUtilities.splitByComma(reply);
 
       Set<T> selectedValues = new HashSet<>();
 

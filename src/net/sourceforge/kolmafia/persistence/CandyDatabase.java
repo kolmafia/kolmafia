@@ -17,6 +17,7 @@ import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.MallPriceManager;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 @SuppressWarnings("incomplete-switch")
 public class CandyDatabase {
@@ -135,7 +136,7 @@ public class CandyDatabase {
       return;
     }
 
-    String[] candies = blacklisted.split("\\s*,\\s*");
+    String[] candies = StringUtilities.splitByComma(blacklisted);
     for (String candy : candies) {
       AdventureResult[] itemList = ItemFinder.getMatchingItemList(candy, false, null, Match.CANDY);
 

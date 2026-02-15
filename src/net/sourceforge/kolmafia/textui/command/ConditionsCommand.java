@@ -71,7 +71,7 @@ public class ConditionsCommand extends AbstractCommand {
   }
 
   public static boolean update(final String option, final String conditionListString) {
-    String[] conditionList = conditionListString.split("\\s*,\\s*");
+    String[] conditionList = StringUtilities.splitByComma(conditionListString);
 
     boolean hasUpdate = false;
 

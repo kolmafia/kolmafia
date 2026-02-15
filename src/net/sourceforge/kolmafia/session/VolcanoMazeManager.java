@@ -267,7 +267,7 @@ public abstract class VolcanoMazeManager {
       return false;
     }
 
-    String[] platforms = coordinates.split("\\s*,\\s*");
+    String[] platforms = StringUtilities.splitByComma(coordinates);
     for (int i = 0; i < platforms.length; ++i) {
       String coord = platforms[i];
       if (!StringUtilities.isNumeric(coord)) {
@@ -1156,7 +1156,7 @@ public abstract class VolcanoMazeManager {
       this.coordinates = coordinates;
 
       // Make an array of all the platforms
-      String[] squares = coordinates.split("\\s*,\\s*");
+      String[] squares = StringUtilities.splitByComma(coordinates);
       List<Integer> list = new ArrayList<>();
       for (int i = 0; i < squares.length; ++i) {
         String coord = squares[i];
