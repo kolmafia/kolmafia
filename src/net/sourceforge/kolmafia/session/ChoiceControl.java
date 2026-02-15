@@ -6819,6 +6819,11 @@ public abstract class ChoiceControl {
         }
       }
 
+      case 1588 -> {
+        // Decorate Your Eternity Codpiece
+        EquipmentRequest.parseCodpiece(text);
+      }
+
       case 1591 -> {
         // Diggin' up a Gift!
         if (ChoiceManager.lastDecision == 1) {

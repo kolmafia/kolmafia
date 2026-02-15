@@ -942,9 +942,7 @@ public class EquipmentRequest extends PasswordHashRequest {
     }
 
     if (urlString.startsWith("choice.php") && urlString.contains("whichchoice=1588")) {
-      // instead of parsing the page, get our updated gems from api.php
       parseCodpiece(responseText);
-      ApiRequest.updateStatus();
       return;
     }
 
@@ -1216,6 +1214,9 @@ public class EquipmentRequest extends PasswordHashRequest {
       AdventureResult.addResultToList(KoLConstants.inventory, remove);
     }
     EquipmentRequest.switchItem(oldItem, newItem);
+
+    // instead of parsing the page, get our updated gems from api.php
+    ApiRequest.updateStatus();
   }
 
   public static void parseEquipment(final String location, final String responseText) {
