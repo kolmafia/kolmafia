@@ -4457,7 +4457,8 @@ public abstract class KoLCharacter {
             || KoLCharacter.getLimitMode() == LimitMode.BIRD
             || KoLCharacter.hasEquipped(ItemPool.FOCUSED_MAGNETRON_PISTOL, Slot.WEAPON)
             || KoLCharacter.hasEquipped(ItemPool.TINY_BLACK_HOLE, Slot.OFFHAND)
-            || KoLCharacter.hasEquipped(ItemPool.MIME_ARMY_INFILTRATION_GLOVE));
+            || KoLCharacter.hasEquipped(ItemPool.MIME_ARMY_INFILTRATION_GLOVE)
+            || KoLCharacter.hasSkill(SkillPool.CHICKEN_FINGERS));
   }
 
   public static final boolean isTorsoAware() {

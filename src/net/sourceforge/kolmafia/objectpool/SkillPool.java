@@ -926,6 +926,7 @@ public class SkillPool {
   public static final int VENOMOUS_RIFF = 30015;
   public static final int DRUM_ROLL = 30016;
   public static final int MOTIF = 30021;
+  public static final int CHICKEN_FINGERS = 33032;
 
   private SkillPool() {}
 }
