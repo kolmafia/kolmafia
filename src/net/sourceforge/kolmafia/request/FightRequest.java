@@ -7791,7 +7791,7 @@ public class FightRequest extends GenericRequest {
   private static Set<Integer> getAdvancedResearchedMonsters() {
     String value = Preferences.getString("wereProfessorAdvancedResearch");
     Set<Integer> monsterIds =
-        Arrays.stream(value.split("\\s*,\\s*"))
+        Arrays.stream(StringUtilities.splitByComma(value))
             .filter(s -> !s.isEmpty())
             .map(Integer::valueOf)
             .filter(i -> i != 0)
@@ -10052,7 +10052,7 @@ public class FightRequest extends GenericRequest {
         }
       }
       case SkillPool.SEADENT_LIGHTNING -> {
-        if (responseText.contains("A bolt of lightning arcs out and burns your foe to ash.")
+        if (responseText.contains("A bolt of lightning arcs out and burns your foe")
             || skillSuccess) {
           skillSuccess = true;
           BanishManager.banishMonster(monster, Banisher.SEADENT_LIGHTNING);

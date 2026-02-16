@@ -128,7 +128,7 @@ public class MallPurchaseRequest extends PurchaseRequest {
       }
 
       Set<Integer> forbidden =
-          Arrays.stream(input.split("\\s*,\\s*"))
+          Arrays.stream(StringUtilities.splitByComma(input))
               .filter(s -> s.matches("[0-9]+"))
               .mapToInt(Integer::parseInt)
               .boxed()

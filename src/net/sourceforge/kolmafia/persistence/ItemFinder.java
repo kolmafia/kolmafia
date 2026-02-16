@@ -607,7 +607,7 @@ public class ItemFinder {
       return items;
     }
 
-    String[] itemNames = itemList.split("\\s*,\\s*");
+    String[] itemNames = StringUtilities.splitByComma(itemList);
 
     boolean isMeatMatch;
     ArrayList<AdventureResult> items = new ArrayList<>();

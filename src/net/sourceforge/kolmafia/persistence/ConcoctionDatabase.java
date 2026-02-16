@@ -226,7 +226,7 @@ public class ConcoctionDatabase {
     ConcoctionDatabase.info.clear();
     ConcoctionDatabase.row = 0;
     String name = data[0];
-    String[] mixes = data[1].split("\\s*,\\s*");
+    String[] mixes = StringUtilities.splitByComma(data[1]);
     for (String mix : mixes) {
       ConcoctionDatabase.addCraftingData(mix, name);
     }

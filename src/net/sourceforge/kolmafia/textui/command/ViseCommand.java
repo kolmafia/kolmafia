@@ -11,6 +11,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.request.HashingViseRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ViseCommand extends AbstractCommand {
 
@@ -28,7 +29,7 @@ public class ViseCommand extends AbstractCommand {
       return;
     }
 
-    String[] itemNames = parameters.split("\\s*,\\s*");
+    String[] itemNames = StringUtilities.splitByComma(parameters);
     List<AdventureResult> items = new ArrayList<>();
 
     for (String itemName : itemNames) {

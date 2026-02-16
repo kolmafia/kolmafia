@@ -167,10 +167,10 @@ public class EquipmentDatabase {
           String image = data[2];
           outfit.setImage(image);
 
-          String[] pieces = data[3].split("\\s*,\\s*");
+          String[] pieces = StringUtilities.splitByComma(data[3]);
 
           if (data.length >= 5) {
-            String[] treats = data[4].split("\\s*,\\s*");
+            String[] treats = StringUtilities.splitByComma(data[4]);
             for (String treat : treats) {
               if (treat.equals("none")) {
                 break;
