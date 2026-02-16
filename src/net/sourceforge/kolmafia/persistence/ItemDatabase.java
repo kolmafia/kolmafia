@@ -147,7 +147,7 @@ public class ItemDatabase {
       return "";
     }
 
-    String[] accessTypes = data.split("\\s*,\\s*");
+    String[] accessTypes = StringUtilities.splitByComma(data);
     for (String accessType : accessTypes) {
       if (!ACCESS.contains(Attribute.byDescription(accessType))) {
         throw new IllegalStateException("Data file contained unrecognised flag");
@@ -342,7 +342,7 @@ public class ItemDatabase {
         String image = data[3];
         ItemDatabase.imageById.put(itemId, image);
 
-        String[] usages = data[4].split("\\s*,\\s*");
+        String[] usages = StringUtilities.splitByComma(data[4]);
         String access = ItemDatabase.parseAccess(data[5]);
         int price = StringUtilities.parseInt(data[6]);
 

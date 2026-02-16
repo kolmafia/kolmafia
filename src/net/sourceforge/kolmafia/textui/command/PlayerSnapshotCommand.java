@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class PlayerSnapshotCommand extends AbstractCommand {
   public PlayerSnapshotCommand() {
@@ -38,7 +39,7 @@ public class PlayerSnapshotCommand extends AbstractCommand {
     RequestLogger.getDebugStream().println(title.toString());
     RequestLogger.getDebugStream().println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
 
-    String[] options = parameters.split("\\s*,\\s*");
+    String[] options = StringUtilities.splitByComma(parameters);
 
     for (int i = 0; i < options.length; ++i) {
       RequestLogger.updateSessionLog();

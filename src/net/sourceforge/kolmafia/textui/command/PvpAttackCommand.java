@@ -62,7 +62,7 @@ public class PvpAttackCommand extends AbstractCommand {
       stanceString = PvpManager.findStance(stance);
     }
 
-    String[] names = params[0].trim().split("\\s*,\\s*");
+    String[] names = StringUtilities.splitByComma(params[0].trim());
     ProfileRequest[] targets = new ProfileRequest[names.length];
 
     for (int i = 0; i < names.length; ++i) {

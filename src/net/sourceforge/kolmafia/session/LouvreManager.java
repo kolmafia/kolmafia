@@ -6,6 +6,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ChoiceAdventures.Spoilers;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class LouvreManager {
 
@@ -166,7 +167,7 @@ public abstract class LouvreManager {
 
     String override = Preferences.getString("louvreOverride");
     if (override.contains(",")) {
-      String[] options = override.split("\\s*,\\s*");
+      String[] options = StringUtilities.splitByComma(override);
       if (options.length > stepCount) {
         if (options[stepCount].equalsIgnoreCase("up")) {
           return "1";

@@ -48,7 +48,7 @@ public class UseSkillCommand extends AbstractCommand {
   }
 
   public static boolean cast(final String parameters, boolean sim) {
-    String[] buffs = parameters.split("\\s*,\\s*");
+    String[] buffs = StringUtilities.splitByComma(parameters);
 
     for (String buff : buffs) {
       String skill, effect = null, player = null;

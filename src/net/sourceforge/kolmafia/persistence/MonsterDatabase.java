@@ -508,7 +508,7 @@ public class MonsterDatabase {
         String attributes = data.length > 3 ? data[3] : "";
 
         int id = StringUtilities.isNumeric(idString) ? StringUtilities.parseInt(idString) : 0;
-        String[] images = imageString.split("\\s*,\\s*");
+        String[] images = StringUtilities.splitByComma(imageString);
 
         MonsterData monster = MonsterDatabase.newMonster(name, id, images, attributes);
         if (monster == null) {

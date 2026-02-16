@@ -163,7 +163,7 @@ public class FamiliarDatabase {
         }
 
         if (data.length == 11) {
-          String[] list = data[10].split("\\s*,\\s*");
+          String[] list = StringUtilities.splitByComma(data[10]);
           List<String> attrs = Arrays.asList(list);
           FamiliarDatabase.attributesById.put(id, attrs);
         }

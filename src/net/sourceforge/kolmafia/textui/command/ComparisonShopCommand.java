@@ -18,6 +18,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.request.ZapRequest;
 import net.sourceforge.kolmafia.session.MallPriceManager;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ComparisonShopCommand extends AbstractCommand implements Comparator<AdventureResult> {
   public ComparisonShopCommand() {
@@ -35,7 +36,7 @@ public class ComparisonShopCommand extends AbstractCommand implements Comparator
       commands = parameters.substring(pos + 1).trim();
       parameters = parameters.substring(0, pos).trim();
     }
-    String[] pieces = parameters.split("\\s*,\\s*");
+    String[] pieces = StringUtilities.splitByComma(parameters);
     TreeSet<String> names = new TreeSet<>();
     for (int i = 0; i < pieces.length; ++i) {
       String piece = pieces[i];
