@@ -138,6 +138,8 @@ Cast	Map the Monsters	_monstersMapped	3
 Cast	McHugeLarge Avalanche	_mcHugeLargeAvalancheUses	3
 Cast	McHugeLarge Ski Plow	_mcHugeLargeSkiPlowUses	11
 Cast	McHugeLarge Slash	_mcHugeLargeSlashUses	3
+Cast	Meat Cute	_meatCuteUsed	5
+Cast	Meat Loaf	_meatLoafUsed	11
 Cast	Meatify Matter	_meatifyMatterUsed
 Cast	Meteor Shower	_meteorShowerUses	5
 Cast	Offer Latte to Opponent	_latteCopyUsed
