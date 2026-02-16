@@ -2883,6 +2883,9 @@ public class ResultProcessor {
           Preferences.increment("_knuckleboneDrops", 1, 100);
         }
       }
+      case ItemPool.THE_ETERNITY_CODPIECE -> {
+        InventoryManager.checkSkillGrantingEquipment(itemId);
+      }
     }
 
     // Gaining items can achieve goals.

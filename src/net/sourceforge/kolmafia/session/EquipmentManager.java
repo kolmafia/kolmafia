@@ -492,6 +492,8 @@ public class EquipmentManager {
           .forEach(cb);
     }
 
+    // TODO: if it was the codpiece, add the conditional skills
+
     manageConditionalSkillsFromOutfit(add, id, cb);
 
     switch (id) {

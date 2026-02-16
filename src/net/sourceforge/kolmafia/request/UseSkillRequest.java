@@ -950,6 +950,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
           ModifierDatabase.getNonCombatSkillProviders().stream()
               .filter(l -> l.getType() == ModifierType.ITEM)
               .filter(
+                  // TODO: if codpiece, check contained gems
                   l ->
                       ModifierDatabase.getMultiStringModifier(
                               l, StringModifier.CONDITIONAL_SKILL_EQUIPPED)

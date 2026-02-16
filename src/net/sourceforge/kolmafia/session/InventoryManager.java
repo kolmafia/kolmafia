@@ -1976,6 +1976,7 @@ public abstract class InventoryManager {
         .filter(id -> KoLCharacter.hasEquipped(id) || InventoryManager.hasItem(id))
         .flatMap(
             id -> {
+              // TODO: if codpiece, check skills of contained gems
               var mods = ModifierDatabase.getItemModifiers(id);
               if (mods == null) return Stream.empty();
               return Stream.concat(
