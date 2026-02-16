@@ -59,7 +59,8 @@ public enum AscensionClass {
   CHEESE_WIZARD("Cheese Wizard", 29, "jarl_cheeseslice", 1, Path.SHADOWS_OVER_LOATHING),
   JAZZ_AGENT("Jazz Agent", 30, "motif", 2, Path.SHADOWS_OVER_LOATHING, "Drum Roll"),
   WEREPROFESSOR("Kindly Professor", 31, "intrinsic_prof", 0, Path.WEREPROFESSOR),
-  ZOOTOMIST("Zootomist", 32, "zootomist", 0, Path.Z_IS_FOR_ZOOTOMIST);
+  ZOOTOMIST("Zootomist", 32, "zootomist", 0, Path.Z_IS_FOR_ZOOTOMIST),
+  MEAT_GOLEM("Meat Golem", 33, "meat", -1, Path.ADVENTURER_MEATS_WORLD);
 
   public static final List<AscensionClass> standardClasses =
       Arrays.asList(
@@ -207,6 +208,7 @@ public enum AscensionClass {
     switch (this) {
       case PLUMBER:
       case GREY_GOO:
+      case MEAT_GOLEM:
         long mus = KoLCharacter.getTotalMuscle();
         long mys = KoLCharacter.getTotalMysticality();
         long mox = KoLCharacter.getTotalMoxie();

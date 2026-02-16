@@ -11138,6 +11138,12 @@ public class FightRequest extends GenericRequest {
           skillSuccess = true;
         }
       }
+      case SkillPool.MEAT_CUTE -> {
+        if (responseText.contains("flex and ripple") || skillSuccess) {
+          TrackManager.trackMonster(monster, Tracker.MEAT_CUTE);
+          skillSuccess = true;
+        }
+      }
     }
 
     if (skillSuccess || skillRunawaySuccess || familiarSkillSuccess) {

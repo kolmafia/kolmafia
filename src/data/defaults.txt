@@ -2466,6 +2466,8 @@ user	_mcHugeLargeSkiPlowUses	0
 user	_mcHugeLargeSlashUses	0
 user	_meatballMachineUsed	false
 user	_meatifyMatterUsed	false
+user	_meatCuteUsed	0
+user	_meatLoafUsed	0
 user	_mediumSiphons	0
 user	_meteoriteAdesUsed	0
 user	_meteorShowerUses	0

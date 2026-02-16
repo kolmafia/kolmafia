@@ -3440,6 +3440,10 @@ public abstract class KoLCharacter {
     return KoLCharacter.ascensionPath == Path.UNDER_THE_SEA;
   }
 
+  public static final boolean isMeat() {
+    return KoLCharacter.ascensionPath == Path.ADVENTURER_MEATS_WORLD;
+  }
+
   public static final boolean noExperience() {
     return inZootomist();
   }
@@ -3478,7 +3482,7 @@ public abstract class KoLCharacter {
       return false;
     }
 
-    if (KoLCharacter.inNoobcore()) {
+    if (KoLCharacter.inNoobcore() || KoLCharacter.isMeat()) {
       return false;
     }
 
@@ -3498,7 +3502,10 @@ public abstract class KoLCharacter {
       return false;
     }
 
-    if (KoLCharacter.inNoobcore() || KoLCharacter.isPlumber() || KoLCharacter.inRobocore()) {
+    if (KoLCharacter.inNoobcore()
+        || KoLCharacter.isPlumber()
+        || KoLCharacter.inRobocore()
+        || KoLCharacter.isMeat()) {
       return false;
     }
 
@@ -3514,7 +3521,7 @@ public abstract class KoLCharacter {
       return false;
     }
 
-    if (KoLCharacter.inNoobcore() || KoLCharacter.inRobocore()) {
+    if (KoLCharacter.inNoobcore() || KoLCharacter.inRobocore() || KoLCharacter.isMeat()) {
       return false;
     }
 
@@ -4450,7 +4457,8 @@ public abstract class KoLCharacter {
             || KoLCharacter.getLimitMode() == LimitMode.BIRD
             || KoLCharacter.hasEquipped(ItemPool.FOCUSED_MAGNETRON_PISTOL, Slot.WEAPON)
             || KoLCharacter.hasEquipped(ItemPool.TINY_BLACK_HOLE, Slot.OFFHAND)
-            || KoLCharacter.hasEquipped(ItemPool.MIME_ARMY_INFILTRATION_GLOVE));
+            || KoLCharacter.hasEquipped(ItemPool.MIME_ARMY_INFILTRATION_GLOVE)
+            || KoLCharacter.hasSkill(SkillPool.CHICKEN_FINGERS));
   }
 
   public static final boolean isTorsoAware() {
