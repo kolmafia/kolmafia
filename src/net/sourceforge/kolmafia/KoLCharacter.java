@@ -5755,7 +5755,6 @@ public abstract class KoLCharacter {
         case ItemPool.PRISMATIC_BERET ->
             newModifiers.applyPrismaticBeretModifiers(getTotalPower(equipment::get));
         case ItemPool.THE_ETERNITY_CODPIECE ->
-            // TODO: maybe something here to do with skills and overrides
             SlotSet.CODPIECE_SLOTS.stream()
                 .map(equipment::get)
                 .filter(s -> s != null && s != EquipmentRequest.UNEQUIP)

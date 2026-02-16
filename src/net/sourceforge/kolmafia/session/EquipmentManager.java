@@ -458,6 +458,18 @@ public class EquipmentManager {
         .forEach(cb);
   }
 
+  private static void applyNoncombatSkills(Modifiers mods, boolean add, Consumer<Integer> cb) {
+    if (mods == null) {
+      return;
+    }
+    mods.getStrings(StringModifier.CONDITIONAL_SKILL_EQUIPPED).stream()
+        .map(SkillDatabase::getSkillId)
+        .filter(Predicate.not(SkillDatabase::isNonCombat))
+        // always remove skills, or add skills available sometimes
+        .filter(x -> !add || EquipmentManager.shouldApplySkill(x))
+        .forEach(cb);
+  }
+
   private static void manageConditionalSkills(
       final boolean add, final Slot slot, AdventureResult item) {
     Consumer<Integer> cb =
@@ -483,16 +495,25 @@ public class EquipmentManager {
     }
 
     var mods = ModifierDatabase.getItemModifiers(id);
-    if (mods != null) {
-      mods.getStrings(StringModifier.CONDITIONAL_SKILL_EQUIPPED).stream()
-          .map(SkillDatabase::getSkillId)
-          .filter(Predicate.not(SkillDatabase::isNonCombat))
-          // always remove skills, or add skills available sometimes
-          .filter(x -> !add || EquipmentManager.shouldApplySkill(x))
-          .forEach(cb);
+    applyNoncombatSkills(mods, add, cb);
+
+    // if it was a codpiece slot, add or remove the conditional skills
+    if (SlotSet.CODPIECE_SLOTS.contains(slot)) {
+      var gemMods = ModifierDatabase.getModifiers(ModifierType.ETERNITY_CODPIECE, id);
+      applyNoncombatSkills(gemMods, add, cb);
     }
 
-    // TODO: if it was the codpiece, add the conditional skills
+    // if we are equipping the codpiece itself, add or remove all conditional skills
+    if (id == ItemPool.THE_ETERNITY_CODPIECE) {
+      SlotSet.CODPIECE_SLOTS.stream()
+          .map(EquipmentManager::getEquipment)
+          .map(AdventureResult::getItemId)
+          .forEach(
+              gemId -> {
+                var gemMods = ModifierDatabase.getModifiers(ModifierType.ETERNITY_CODPIECE, gemId);
+                applyNoncombatSkills(gemMods, add, cb);
+              });
+    }
 
     manageConditionalSkillsFromOutfit(add, id, cb);
 
