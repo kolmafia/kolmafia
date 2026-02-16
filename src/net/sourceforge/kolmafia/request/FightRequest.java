@@ -10052,7 +10052,7 @@ public class FightRequest extends GenericRequest {
         }
       }
       case SkillPool.SEADENT_LIGHTNING -> {
-        if (responseText.contains("A bolt of lightning arcs out and burns your foe to ash.")
+        if (responseText.contains("A bolt of lightning arcs out and burns your foe")
             || skillSuccess) {
           skillSuccess = true;
           BanishManager.banishMonster(monster, Banisher.SEADENT_LIGHTNING);
