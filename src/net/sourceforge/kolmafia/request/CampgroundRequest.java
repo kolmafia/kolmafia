@@ -1124,11 +1124,6 @@ public class CampgroundRequest extends GenericRequest {
       return;
     }
 
-    if (action.equals("terminal")) {
-      CampgroundRequest.parseTerminal(responseText);
-      return;
-    }
-
     if (action.equals("dnapotion")) {
       if (responseText.contains("little bottle of gene tonic")) {
         Preferences.increment("_dnaPotionsMade", 1);
@@ -1180,6 +1175,11 @@ public class CampgroundRequest extends GenericRequest {
       if (fuelMatcher.find()) {
         asdonMartinFuel = StringUtilities.parseInt(fuelMatcher.group(1));
       }
+      return;
+    }
+
+    if (action.equals("terminal")) {
+      CampgroundRequest.parseTerminal(responseText);
       return;
     }
 
