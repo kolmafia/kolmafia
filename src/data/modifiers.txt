@@ -15816,7 +15816,7 @@ EternityCodpiece	beach ball marble	Initiative: +9
 EternityCodpiece	beige clambroth marble	Initiative: +7
 EternityCodpiece	big bumboozer marble	Initiative: +11
 EternityCodpiece	black catseye marble	Initiative: +10
-EternityCodpiece	blood cubic zirconia	Spooky Resistance: +3, Spooky Damage: +5
+EternityCodpiece	blood cubic zirconia	Spooky Resistance: +3, Spooky Damage: +5, Conditional Skill (Equipped): "BCZ: Blood Geyser", Conditional Skill (Equipped): "BCZ: Refracted Gaze", Conditional Skill (Equipped): "BCZ: Sweat Bullets", Conditional Skill (Equipped): "BCZ: Blood Bath", Conditional Skill (Equipped): "BCZ: Dial it up to 11", Conditional Skill (Equipped): "BCZ: Sweat Equity", Conditional Skill (Equipped): "BCZ: Create Blood Thinner", Conditional Skill (Equipped): "BCZ: Prepare Spinal Tapas", Conditional Skill (Equipped): "BCZ: Craft a Pheromone Cocktail"
 EternityCodpiece	BRICKO pearl	Candy Drop: +20
 EternityCodpiece	brown crock marble	Initiative: +2
 EternityCodpiece	bumblebee marble	Initiative: +5
@@ -15838,7 +15838,7 @@ EternityCodpiece	glowing new age crystal	MP Regen Min: 5, MP Regen Max: 10
 EternityCodpiece	green peawee marble	Initiative: +1
 EternityCodpiece	hamethyst	Muscle Percent: +11
 EternityCodpiece	heart of the volcano	Hot Damage: +5, Hot Spell Damage: +5
-EternityCodpiece	Heartstone	Familiar Weight: +5
+EternityCodpiece	Heartstone	Familiar Weight: +5, Conditional Skill (Equipped): "Steal Monster's Heart", Conditional Skill (Equipped): "Heartstone: %kill", Conditional Skill (Equipped): "Heartstone: %banish", Conditional Skill (Equipped): "Heartstone: %stun", Conditional Skill (Equipped): "Heartstone: %luck", Conditional Skill (Equipped): "Heartstone: %pals", Conditional Skill (Equipped): "Heartstone: %buff"
 EternityCodpiece	incredibly dense meat gem	Meat Drop: +30
 EternityCodpiece	jet bennie marble	Initiative: +6
 EternityCodpiece	kumquartz	Cold Spell Damage: +10

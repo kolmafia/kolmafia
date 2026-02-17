@@ -8,6 +8,7 @@ import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -22,6 +23,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.ModifierType;
+import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
@@ -1969,21 +1971,33 @@ public abstract class InventoryManager {
   }
 
   public static void checkSkillGrantingEquipment(final Integer itemId) {
-    ModifierDatabase.getInventorySkillProviders().stream()
-        .filter(l -> l.getType() == ModifierType.ITEM)
-        .map(Lookup::getIntKey)
-        .filter(i -> itemId == null || i.equals(itemId))
-        .filter(id -> KoLCharacter.hasEquipped(id) || InventoryManager.hasItem(id))
-        .flatMap(
-            id -> {
-              var mods = ModifierDatabase.getItemModifiers(id);
-              if (mods == null) return Stream.empty();
-              return Stream.concat(
-                  mods.getStrings(StringModifier.CONDITIONAL_SKILL_INVENTORY).stream()
-                      .map(s -> Map.entry(true, s)),
-                  mods.getStrings(StringModifier.CONDITIONAL_SKILL_EQUIPPED).stream()
-                      .map(s -> Map.entry(false, s)));
-            })
+    var skills =
+        ModifierDatabase.getInventorySkillProviders().stream()
+            .filter(l -> l.getType() == ModifierType.ITEM)
+            .map(Lookup::getIntKey)
+            .filter(i -> itemId == null || i.equals(itemId))
+            .filter(id -> KoLCharacter.hasEquipped(id) || InventoryManager.hasItem(id))
+            .flatMap(
+                id -> {
+                  var mods = ModifierDatabase.getItemModifiers(id);
+                  return conditionalSkillsFromMods(mods);
+                });
+
+    if ((itemId == null || ItemPool.THE_ETERNITY_CODPIECE == itemId)
+        && InventoryManager.equippedOrInInventory(ItemPool.THE_ETERNITY_CODPIECE)) {
+      var codpieceSkills =
+          SlotSet.CODPIECE_SLOTS.stream()
+              .map(EquipmentManager::getEquipment)
+              .map(AdventureResult::getItemId)
+              .flatMap(
+                  id -> {
+                    var mods = ModifierDatabase.getModifiers(ModifierType.ETERNITY_CODPIECE, id);
+                    return conditionalSkillsFromMods(mods);
+                  });
+      skills = Stream.concat(skills, codpieceSkills);
+    }
+
+    skills
         .map(e -> Map.entry(e.getKey(), SkillDatabase.getSkillId(e.getValue())))
         .filter(
             e ->
@@ -1992,6 +2006,15 @@ public abstract class InventoryManager {
                         .contains(SkillDatabase.SkillTag.NONCOMBAT))
         .map(Map.Entry::getValue)
         .forEach(KoLCharacter::addAvailableSkill);
+  }
+
+  private static Stream<Entry<Boolean, String>> conditionalSkillsFromMods(Modifiers mods) {
+    if (mods == null) return Stream.empty();
+    return Stream.concat(
+        mods.getStrings(StringModifier.CONDITIONAL_SKILL_INVENTORY).stream()
+            .map(s -> Map.entry(true, s)),
+        mods.getStrings(StringModifier.CONDITIONAL_SKILL_EQUIPPED).stream()
+            .map(s -> Map.entry(false, s)));
   }
 
   public static void checkRing() {
