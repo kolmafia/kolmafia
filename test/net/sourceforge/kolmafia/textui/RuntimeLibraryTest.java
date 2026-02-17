@@ -2695,4 +2695,60 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
           is("Returned:" + letter));
     }
   }
+
+  @Nested
+  class MobiusRingNoncombat {
+    @Test
+    void withoutPrimingTakesInfinity() {
+      var cleanups = withProperty("_mobiusRingPrimed", false);
+
+      try (cleanups) {
+        assertThat(
+            execute("turns_until_mobius_noncombat_available()").trim(),
+            is("Returned: " + Integer.MAX_VALUE));
+      }
+    }
+
+    @Test
+    void calculatesFirstNcCorrectly() {
+      var cleanups =
+          new Cleanups(
+              withProperty("_mobiusRingPrimed", true),
+              withProperty("_mobiusRingPrimedTurn", 20),
+              withTurnsPlayed(21));
+
+      try (cleanups) {
+        assertThat(execute("turns_until_mobius_noncombat_available()").trim(), is("Returned: 3"));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "1,10,15,2",
+      "1,10,20,0",
+      "2,10,15,8",
+      "3,10,15,14",
+      "4,10,15,20",
+      "5,10,15,26",
+      "6,10,15,36",
+      "8,10,15,36",
+      "11,10,15,46",
+      "17,10,15,71",
+    })
+    void calculatesFutureNcsCorrectly(
+        int numEncounters, int stripTurn, int turnsPlayed, int expected) {
+      var cleanups =
+          new Cleanups(
+              withProperty("_mobiusRingPrimed", true),
+              withProperty("_mobiusStripEncounters", numEncounters),
+              withProperty("_lastMobiusStripTurn", stripTurn),
+              withTurnsPlayed(turnsPlayed));
+
+      try (cleanups) {
+        assertThat(
+            execute("turns_until_mobius_noncombat_available()").trim(),
+            is("Returned: " + expected));
+      }
+    }
+  }
 }

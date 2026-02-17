@@ -3100,7 +3100,7 @@ public class FightRequest extends GenericRequest {
     if (responseText.contains("The mulled wine you drank") && KoLCharacter.getCurrentHP() > 0) {
       Preferences.decrement("getsYouDrunkTurnsLeft", 1, 1);
     } else if (garbledCombat) {
-      Preferences.decrement("ghostPepperTurnsLeft", 1, 0);
+      Preferences.decrement("getsYouDrunkTurnsLeft", 1, 0);
     } else {
       Preferences.setInteger("getsYouDrunkTurnsLeft", 0);
     }
@@ -3549,6 +3549,14 @@ public class FightRequest extends GenericRequest {
         Preferences.setInteger("_speakeasyFreeFights", 3);
       } else if (free) {
         Preferences.increment("_speakeasyFreeFights", 1, 3, false);
+      }
+    }
+
+    if (!Preferences.getBoolean("_mobiusRingPrimed")) {
+      // ring is primed on completion of any combat, win or lose
+      if (KoLCharacter.hasEquipped(ItemPool.MOBIUS_RING)) {
+        Preferences.setBoolean("_mobiusRingPrimed", true);
+        Preferences.setInteger("_mobiusRingPrimedTurn", KoLCharacter.getTurnsPlayed());
       }
     }
 
