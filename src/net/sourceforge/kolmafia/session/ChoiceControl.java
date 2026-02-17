@@ -6835,6 +6835,9 @@ public abstract class ChoiceControl {
           }
         }
       }
+
+      case 1595 -> // Meat, meat. Meat?
+          handleAfterAvatar(ChoiceManager.lastDecision);
     }
   }
 

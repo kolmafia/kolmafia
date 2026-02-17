@@ -2331,3 +2331,14 @@
 2508	venomous singed skeleton	armbone	legbone	pelvis	rib cage	skull	stinger	tailbone
 2509	smoldering skeletal monstrosity	armbone	footbone	handbone	legbone	pelvis	rib	skull
 2510	The Unquiet Bones of Claus	giant bone	giant claw	giant rib	giant skull
+2511	beef bodyguard bat	steak	vein	wing
+2512	Basted Boss Bat	head	torso	wing
+2513	Gabogooblin King
+2514	The Maety Bonerdagon	bone	flesh chunk
+2515	Feeble Dr. Awkward, El Beef
+2516	Lard Spookyraven
+2517	Protector Speck-ter
+2518	Groarst
+2519	The Big Mac Wisniewski
+2520	The Manwich
+2521	Naughty Sorceress, all sausage	head	sausage
