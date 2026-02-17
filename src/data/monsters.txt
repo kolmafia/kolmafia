@@ -1456,6 +1456,20 @@ ewe	2447	ewe.gif	FREE Scale: 5 Cap: 10000 Init: -10000 P: beast EA: spooky EA: n
 
 Nautical Seaceress	2498	seaceress.gif	BOSS NOCOPY Atk: 2000 Def: 2500 HP: 4000 Init: 10000 P: dude Article: The	Instant Karma (c100)	durable dolphin whistle (n100)	Thwaitgold lobster statuette (n100)
 
+# Adventurer Meat World
+
+beef bodyguard bat	2511	beefbat.gif	Atk: 25 Def: 22 HP: 50 Init: 50 Meat: 200 P: construct Article: a	beefy pill (0)
+Basted Boss Bat	2512	bastedbossbat.gif	BOSS NOCOPY Atk: 50 Def: 50 HP: 50 Init: 60 Meat: 300 P: beast Article: The	loose Meats (n100)
+Gabogooblin King	2513	gabagooblin.gif	BOSS NOCOPY Atk: 60 Def: 60 HP: 75 Init: 100 Meat: 300 P: construct Article: The	Cobb's Knob lab key (c100)	loose Meats (n100)
+The Maety Bonerdagon	2514	meatybonerdagon.gif	BOSS NOCOPY Atk: 0 Def: 0 HP: 150 Init: -10000 Meat: 300 P: undead ED: spooky Article: The	skull of the Bonerdagon (n100)	chest of the Bonerdagon (n100)	loose Meats (n100)
+Feeble Dr. Awkward, El Beef	2515	drawkwardmeat.gif	BOSS NOCOPY Atk: 200 Def: 200 HP: 250 Init: -10000 Meat: 900 P: dude	Drowsy Sword (n100)	[2268]Staff of Fats (n100)	loose Meats (n100)
+Lard Spookyraven	2516	lardspookyraven.gif	BOSS NOCOPY Atk: 200 Def: 200 HP: 300 Init: 10000 Meat: 900 P: slime ED: sleaze	[2286]Eye of Ed (n100)	Lord Spookyraven's ear trumpet (n100)	loose Meats (n100)
+Protector Speck-ter	2517	specktre.gif	BOSS NOCOPY Atk: 200 Def: 200 HP: 500 Init: 30 Meat: 900 P: construct Article: a	[2180]ancient amulet (n100)	spectre scepter (n100)	loose Meats (n100)
+Groarst	2518	groarst.gif	BOSS NOCOPY Atk: 150 Def: 150 HP: 1000 Init: 50 Meat: 900 P: construct	loose Meats (n100)
+The Big Mac Wisniewski	2519	bigmacwis.gif	BOSS NOCOPY Atk: 300 Def: 300 HP: 3000 Init: 60 Meat: 1200 P: hippy	solid gold bowling ball (100)	loose Meats (n100)
+The Manwich	2520	manwich.gif	BOSS NOCOPY Atk: 300 Def: 300 HP: 3000 Init: 60 Meat: 1200 P: dude	really dense meat stack (100)	loose Meats (n100)
+Naughty Sorceress, all sausage	2521	sausagesorc.gif	BOSS NOCOPY Atk: 400 Def: 400 HP: 5000 Init: 10000 Meat: 3000 P: construct Article: The	loose Meats (n100)	Thwaitgold meat bee statuette (n100)
+
 # Items of the Month
 
 # Bad Trip (Astral Badger June 2006)
