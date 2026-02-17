@@ -1470,7 +1470,7 @@ public class CampgroundRequest extends GenericRequest {
 
   private static void parseTerminal(final String responseText) {
     findImage(responseText, "terminal_lightos.gif", ItemPool.SOURCE_TERMINAL);
-   
+
     if (responseText.contains("terminal_lightos.gif")
         && Preferences.getString("sourceTerminalEducateKnown").equals("")) {
       // There is a Terminal, but we don't know what upgrades it has, so find out
@@ -1481,7 +1481,7 @@ public class CampgroundRequest extends GenericRequest {
       RequestThread.postRequest(new TerminalRequest("extrude"));
     }
   }
-  
+
   private static boolean findRockGarden(final String responseText) {
     if (!responseText.contains("/rockgarden/")) {
       return false;
