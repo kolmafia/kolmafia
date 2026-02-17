@@ -1237,14 +1237,8 @@ public class CampgroundRequest extends GenericRequest {
       updateElVibratoPortal();
     }
 
-    if (responseText.contains("campterminal.gif")
-        && Preferences.getString("sourceTerminalEducateKnown").equals("")) {
-      // There is a Terminal, but we don't know what upgrades it has, so find out
-      RequestThread.postRequest(new TerminalRequest("status"));
-      RequestThread.postRequest(new TerminalRequest("educate"));
-      RequestThread.postRequest(new TerminalRequest("enhance"));
-      RequestThread.postRequest(new TerminalRequest("enquiry"));
-      RequestThread.postRequest(new TerminalRequest("extrude"));
+    if (responseText.contains("campterminal.gif")) {
+      checkTerminalUpgrades();
     }
 
     findImage(responseText, "teatree", ItemPool.POTTED_TEA_TREE);
@@ -1271,6 +1265,17 @@ public class CampgroundRequest extends GenericRequest {
     }
 
     CampgroundRequest.parseDwelling(responseText);
+  }
+
+  private static void checkTerminalUpgrades() {
+    if (Preferences.getString("sourceTerminalEducateKnown").equals("")) {
+      // There is a Terminal, but we don't know what upgrades it has, so find out
+      RequestThread.postRequest(new TerminalRequest("status"));
+      RequestThread.postRequest(new TerminalRequest("educate"));
+      RequestThread.postRequest(new TerminalRequest("enhance"));
+      RequestThread.postRequest(new TerminalRequest("enquiry"));
+      RequestThread.postRequest(new TerminalRequest("extrude"));
+    }
   }
 
   private static boolean parseGarden(final String responseText) {
@@ -1471,14 +1476,8 @@ public class CampgroundRequest extends GenericRequest {
   private static void parseTerminal(final String responseText) {
     findImage(responseText, "terminal_lightos.gif", ItemPool.SOURCE_TERMINAL);
 
-    if (responseText.contains("terminal_lightos.gif")
-        && Preferences.getString("sourceTerminalEducateKnown").equals("")) {
-      // There is a Terminal, but we don't know what upgrades it has, so find out
-      RequestThread.postRequest(new TerminalRequest("status"));
-      RequestThread.postRequest(new TerminalRequest("educate"));
-      RequestThread.postRequest(new TerminalRequest("enhance"));
-      RequestThread.postRequest(new TerminalRequest("enquiry"));
-      RequestThread.postRequest(new TerminalRequest("extrude"));
+    if (responseText.contains("terminal_lightos.gif")) {
+      checkTerminalUpgrades();
     }
   }
 
