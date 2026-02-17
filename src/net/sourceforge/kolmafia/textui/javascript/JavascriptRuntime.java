@@ -159,7 +159,7 @@ public class JavascriptRuntime extends AbstractRuntime {
 
     var wrapFactory = cx.getWrapFactory();
     wrapFactory.setJavaPrimitiveWrap(false);
-    var jsObject = (NativeJavaObject) wrapFactory.wrap(cx, scope, storage, null);
+    var jsObject = (NativeJavaObject) wrapFactory.wrap(cx, scope, storage, (Class<?>) null);
     ScriptableObject.defineProperty(
         stdLib, "sessionStorage", jsObject, DONTENUM | READONLY | PERMANENT);
 
@@ -338,6 +338,8 @@ public class JavascriptRuntime extends AbstractRuntime {
         "promise resolver",
         0,
         null);
+    // Process microtasks to execute the .then() callbacks before checking the result
+    cx.processMicrotasks();
     if (promiseScope.has("promiseRejectedValue", promiseScope)) {
       Object promiseRejectedValue = promiseScope.get("promiseRejectedValue", promiseScope);
       throw new JavaScriptException(promiseRejectedValue, null, 0);
