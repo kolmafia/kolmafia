@@ -12208,3 +12208,5 @@
 12179	glimmering golden crystal	723176160	abuelacrystal.gif	accessory		0
 12180	boxed Heartstone	395789145	heartstonebox.gif	usable	t	0
 12181	Heartstone	641176960	heartgem.gif	accessory		0
+12182	Thwaitgold meat bee statuette	224458473	thwaitmeatbee.gif	none		0
+12183	loose Meats	805027757	loosemeats.gif	multiple		0	piles of loose Meats
