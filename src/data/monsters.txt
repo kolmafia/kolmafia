@@ -1458,7 +1458,7 @@ Nautical Seaceress	2498	seaceress.gif	BOSS NOCOPY Atk: 2000 Def: 2500 HP: 4000 I
 
 # Adventurer Meat World
 
-beef bodyguard bat	2511	beefbat.gif	Atk: 25 Def: 22 HP: 50 Init: 50 Meat: 200 P: construct Article: a	beefy pill (0)
+beef bodyguard bat	2511	beefbat.gif	Atk: 25 Def: 22 HP: 50 Init: 50 Meat: 200 P: construct Article: a	beefy pill (10)
 Basted Boss Bat	2512	bastedbossbat.gif	BOSS NOCOPY Atk: 50 Def: 50 HP: 50 Init: 60 Meat: 300 P: beast Article: The	loose Meats (n100)
 Gabogooblin King	2513	gabagooblin.gif	BOSS NOCOPY Atk: 60 Def: 60 HP: 75 Init: 100 Meat: 300 P: construct Article: The	Cobb's Knob lab key (c100)	loose Meats (n100)
 The Maety Bonerdagon	2514	meatybonerdagon.gif	BOSS NOCOPY Atk: 0 Def: 0 HP: 150 Init: -10000 Meat: 300 P: undead ED: spooky Article: The	skull of the Bonerdagon (n100)	chest of the Bonerdagon (n100)	loose Meats (n100)
