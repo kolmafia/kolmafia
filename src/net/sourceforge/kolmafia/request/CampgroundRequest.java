@@ -1125,7 +1125,7 @@ public class CampgroundRequest extends GenericRequest {
     }
 
     if (action.equals("terminal")) {
-      CampgroundRequest.parseCampground(urlString, responseText);
+      CampgroundRequest.parseTerminal(responseText);
       return;
     }
 
@@ -1210,7 +1210,6 @@ public class CampgroundRequest extends GenericRequest {
     findImage(responseText, "doghouse.gif", ItemPool.HAUNTED_DOGHOUSE);
     findImage(responseText, "chesstable.gif", ItemPool.WITCHESS_SET);
     findImage(responseText, "campterminal.gif", ItemPool.SOURCE_TERMINAL);
-    findImage(responseText, "terminal_lightos.gif", ItemPool.SOURCE_TERMINAL);
     findImage(responseText, "monolith.gif", ItemPool.GIANT_BLACK_MONOLITH);
     findImage(responseText, "campground/leaves", ItemPool.A_GUIDE_TO_BURNING_LEAVES);
 
@@ -1238,8 +1237,7 @@ public class CampgroundRequest extends GenericRequest {
       updateElVibratoPortal();
     }
 
-    if ((responseText.contains("campterminal.gif")
-        || responseText.contains("terminal_lightos.gif"))
+    if (responseText.contains("campterminal.gif")
         && Preferences.getString("sourceTerminalEducateKnown").equals("")) {
       // There is a Terminal, but we don't know what upgrades it has, so find out
       RequestThread.postRequest(new TerminalRequest("status"));
@@ -1470,6 +1468,20 @@ public class CampgroundRequest extends GenericRequest {
         || findRockGarden(responseText);
   }
 
+  private static void parseTerminal(final String responseText) {
+    findImage(responseText, "terminal_lightos.gif", ItemPool.SOURCE_TERMINAL);
+   
+    if (responseText.contains("terminal_lightos.gif")
+        && Preferences.getString("sourceTerminalEducateKnown").equals("")) {
+      // There is a Terminal, but we don't know what upgrades it has, so find out
+      RequestThread.postRequest(new TerminalRequest("status"));
+      RequestThread.postRequest(new TerminalRequest("educate"));
+      RequestThread.postRequest(new TerminalRequest("enhance"));
+      RequestThread.postRequest(new TerminalRequest("enquiry"));
+      RequestThread.postRequest(new TerminalRequest("extrude"));
+    }
+  }
+  
   private static boolean findRockGarden(final String responseText) {
     if (!responseText.contains("/rockgarden/")) {
       return false;
