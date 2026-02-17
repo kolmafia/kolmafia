@@ -1124,6 +1124,11 @@ public class CampgroundRequest extends GenericRequest {
       return;
     }
 
+    if (action.equals("terminal")) {
+      CampgroundRequest.parseCampground(urlString, responseText);
+      return;
+    }
+
     if (action.equals("dnapotion")) {
       if (responseText.contains("little bottle of gene tonic")) {
         Preferences.increment("_dnaPotionsMade", 1);
@@ -1979,7 +1984,8 @@ public class CampgroundRequest extends GenericRequest {
 
     if (action.equals("inspectdwelling")
         || action.equals("inspectkitchen")
-        || action.equals("workshed")) {
+        || action.equals("workshed")
+        || action.equals("terminal")) {
       // Nothing to log.
       return true;
     }
