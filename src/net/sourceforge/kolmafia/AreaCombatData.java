@@ -969,6 +969,8 @@ public class AreaCombatData {
 
     this.appendFact(buffer, monster, fullString);
 
+    this.appendShrunkenHeadZombie(buffer, monster);
+
     String bounty = BountyDatabase.getNameByMonster(monster.getName());
     if (bounty != null) {
       buffer.append("<br>").append(bounty).append(" (bounty)");
@@ -1148,6 +1150,14 @@ public class AreaCombatData {
     String fact = monster.getFact();
     if (fact != null) {
       buffer.append(fact);
+    }
+    return;
+  }
+
+  private void appendShrunkenHeadZombie(final StringBuffer buffer, final MonsterData monster) {
+    String zombie = monster.getShrunkenHeadZombie(false);
+    if (zombie != null) {
+      buffer.append(zombie);
     }
     return;
   }

@@ -1533,6 +1533,8 @@ public class RequestEditorKit extends HTMLEditorKit {
 
     monster.appendFact(monsterData);
 
+    monster.appendShrunkenHeadZombie(monsterData, true);
+
     monster.appendMeat(monsterData, true);
 
     monster.appendSprinkles(monsterData, true);
