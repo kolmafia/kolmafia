@@ -759,7 +759,7 @@ public class AreaCombatData {
 
     if (InventoryManager.hasItem(ItemPool.LEPRECONDO)) {
       var furniture = LeprecondoManager.getUndiscoveredFurnitureForLocation(this.zone);
-      if (furniture.isBlank()) {
+      if (!furniture.isBlank()) {
         buffer.append("<br>");
         buffer.append("<b>Leprecondo:</b> ");
         buffer.append(furniture);
