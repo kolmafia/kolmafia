@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -901,8 +902,14 @@ public class AreaCombatData {
     StringBuffer buffer = new StringBuffer();
 
     Element ed = monster.getDefenseElement();
-    Element ea = monster.getAttackElement();
-    Element element = ed == Element.NONE ? ea : ed;
+    Element ea = Element.NONE;
+    EnumSet<Element> eas = monster.getAttackElements();
+    Element element = ed;
+    if (ed == Element.NONE) {
+      if (eas.size() == 1) {
+        element = ea = eas.iterator().next();
+      }
+    }
 
     Phylum phylum = monster.getPhylum();
     int init = monster.getInitiative();
