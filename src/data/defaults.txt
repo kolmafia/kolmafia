@@ -2483,6 +2483,8 @@ user	_miniKiwiTipiDrop	false
 user	_miniMartiniDrops	0
 user	_missGravesVermouthDrunk	false
 user	_missileLauncherUsed	false
+user	_mobiusRingPrimed	false
+user	_mobiusRingPrimedTurn	-1
 user	_mobiusStripEncounters	0
 user	_molehillMountainUsed	false
 user	_momFoodReceived	false

@@ -3984,6 +3984,10 @@ public abstract class RuntimeLibrary {
 
     params = List.of(namedParam("monster", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("heartstone_middle_letter", DataTypes.STRING_TYPE, params));
+
+    params = List.of();
+    functions.add(
+        new LibraryFunction("turns_until_mobius_noncombat_available", DataTypes.INT_TYPE, params));
   }
 
   public static Method findMethod(final String name, final Class<?>[] args)
@@ -12136,5 +12140,38 @@ public abstract class RuntimeLibrary {
       return DataTypes.STRING_INIT;
     }
     return DataTypes.makeStringValue(middle);
+  }
+
+  public static Value turns_until_mobius_noncombat_available(ScriptRuntime controller) {
+    // if ring is not primed, cannot get NC
+    if (!Preferences.getBoolean("_mobiusRingPrimed")) {
+      return DataTypes.makeIntValue(Integer.MAX_VALUE);
+    }
+    var numEncounters = Preferences.getInteger("_mobiusStripEncounters");
+    var encounterDelay = mobiusDelay(numEncounters);
+    var turnsPlayed = KoLCharacter.getTurnsPlayed();
+    int encounterTurn;
+    if (numEncounters == 0) {
+      encounterTurn = Preferences.getInteger("_mobiusRingPrimedTurn");
+    } else {
+      encounterTurn = Preferences.getInteger("_lastMobiusStripTurn");
+    }
+    var turnsSince = turnsPlayed - encounterTurn;
+    var left = encounterDelay - turnsSince;
+    return DataTypes.makeIntValue(Math.max(left, 0));
+  }
+
+  private static int mobiusDelay(int numEncounters) {
+    return switch (numEncounters) {
+      case 0 -> 4;
+      case 1 -> 7;
+      case 2 -> 13;
+      case 3 -> 19;
+      case 4 -> 25;
+      case 5 -> 31;
+      case 6, 7, 8, 9, 10 -> 41;
+      case 11, 12, 13, 14, 15 -> 51;
+      default -> 76;
+    };
   }
 }
