@@ -843,6 +843,9 @@ public abstract class KoLmafia {
       if (!KoLCharacter.isVampyre()) {
         RequestThread.postRequest(new CampgroundRequest("inspectdwelling"));
       }
+      if (KoLCharacter.inSmallcore()) {
+        RequestThread.postRequest(new CampgroundRequest("terminal"));
+      }
       RequestThread.postRequest(new CampgroundRequest("inspectkitchen"));
       RequestThread.postRequest(new CampgroundRequest("workshed"));
       KoLCharacter.checkTelescope();

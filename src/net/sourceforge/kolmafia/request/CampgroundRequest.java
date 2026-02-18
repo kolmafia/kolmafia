@@ -1178,6 +1178,11 @@ public class CampgroundRequest extends GenericRequest {
       return;
     }
 
+    if (action.equals("terminal")) {
+      CampgroundRequest.parseTerminal(responseText);
+      return;
+    }
+
     if (action.equals("monolith")) {
       Preferences.setBoolean("_blackMonolithUsed", true);
       return;
@@ -1232,14 +1237,8 @@ public class CampgroundRequest extends GenericRequest {
       updateElVibratoPortal();
     }
 
-    if (responseText.contains("campterminal.gif")
-        && Preferences.getString("sourceTerminalEducateKnown").equals("")) {
-      // There is a Terminal, but we don't know what upgrades it has, so find out
-      RequestThread.postRequest(new TerminalRequest("status"));
-      RequestThread.postRequest(new TerminalRequest("educate"));
-      RequestThread.postRequest(new TerminalRequest("enhance"));
-      RequestThread.postRequest(new TerminalRequest("enquiry"));
-      RequestThread.postRequest(new TerminalRequest("extrude"));
+    if (responseText.contains("campterminal.gif")) {
+      checkTerminalUpgrades();
     }
 
     findImage(responseText, "teatree", ItemPool.POTTED_TEA_TREE);
@@ -1266,6 +1265,17 @@ public class CampgroundRequest extends GenericRequest {
     }
 
     CampgroundRequest.parseDwelling(responseText);
+  }
+
+  private static void checkTerminalUpgrades() {
+    if (Preferences.getString("sourceTerminalEducateKnown").equals("")) {
+      // There is a Terminal, but we don't know what upgrades it has, so find out
+      RequestThread.postRequest(new TerminalRequest("status"));
+      RequestThread.postRequest(new TerminalRequest("educate"));
+      RequestThread.postRequest(new TerminalRequest("enhance"));
+      RequestThread.postRequest(new TerminalRequest("enquiry"));
+      RequestThread.postRequest(new TerminalRequest("extrude"));
+    }
   }
 
   private static boolean parseGarden(final String responseText) {
@@ -1461,6 +1471,14 @@ public class CampgroundRequest extends GenericRequest {
             "mushgarden.gif",
             new Mushroom(Preferences.getInteger("mushroomGardenCropLevel")))
         || findRockGarden(responseText);
+  }
+
+  private static void parseTerminal(final String responseText) {
+    findImage(responseText, "terminal_lightos.gif", ItemPool.SOURCE_TERMINAL);
+
+    if (responseText.contains("terminal_lightos.gif")) {
+      checkTerminalUpgrades();
+    }
   }
 
   private static boolean findRockGarden(final String responseText) {
@@ -1979,7 +1997,8 @@ public class CampgroundRequest extends GenericRequest {
 
     if (action.equals("inspectdwelling")
         || action.equals("inspectkitchen")
-        || action.equals("workshed")) {
+        || action.equals("workshed")
+        || action.equals("terminal")) {
       // Nothing to log.
       return true;
     }
