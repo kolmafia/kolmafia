@@ -530,6 +530,19 @@ public class MonsterDataTest {
     }
 
     @Test
+    void shrunkenHeadZombieNotRenderedForUncopyable() {
+      var monster = MonsterDatabase.findMonster("giant skeelton");
+
+      var cleanups = withProperty("hasShrunkenHead", true);
+
+      try (cleanups) {
+        var builder = new StringBuilder();
+        monster.appendShrunkenHeadZombie(builder, false);
+        assertThat(builder.toString(), not(containsString("Shrunken Head Zombie: ")));
+      }
+    }
+
+    @Test
     void shrunkenHeadZombieRenderedWithHeadEquippedIfSpecified() {
       var monster = MonsterDatabase.findMonster("fluffy bunny");
 

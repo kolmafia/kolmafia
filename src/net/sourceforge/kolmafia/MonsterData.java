@@ -1967,6 +1967,10 @@ public class MonsterData extends AdventureResult {
   }
 
   public String getShrunkenHeadZombie(boolean requireEquipped) {
+    if (this.isNoCopy()) {
+      // uncopyable monsters can't be reanimated
+      return null;
+    }
     if (!Preferences.getBoolean("hasShrunkenHead")) {
       return null;
     }
