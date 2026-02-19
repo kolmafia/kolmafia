@@ -9951,6 +9951,8 @@ public abstract class ChoiceControl {
       case 1563: // Request Supply Drop
       case 1567: // Visiting the Skeleton of Crimbo Past
       case 1588: // Decorate Your Eternity Codpiece
+      case 1592: // Flesh Workbench
+      case 1593: // Amino Sac
         return true;
 
       default:
