@@ -14,6 +14,7 @@ import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -334,10 +335,7 @@ public class RestoresDatabase {
                     && (!KoLCharacter.inBadMoon() || KoLCharacter.kingLiberated())
                     && StandardRequest.isAllowed(RestrictedItemType.CLAN_ITEMS, "April Shower")
                     && !limitMode.limitClan();
-            case "Campground" ->
-                !limitMode.limitCampground()
-                    && !KoLCharacter.isEd()
-                    && !KoLCharacter.inNuclearAutumn();
+            case "Campground" -> CampgroundRequest.haveCampground() || KoLCharacter.inSmallcore();
             case "Comfy Sofa" -> !limitMode.limitClan();
             case "Doc Galaktik's" -> true;
             case "Free rests" -> KoLCharacter.freeRestsAvailable() > 0;

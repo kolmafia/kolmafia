@@ -2040,4 +2040,26 @@ public class CampgroundRequest extends GenericRequest {
     RequestLogger.updateSessionLog(message);
     return true;
   }
+
+  public static final boolean haveCampground() {
+    if (KoLCharacter.getLimitMode().limitCampground()) {
+      return false;
+    }
+    if (KoLCharacter.isEd()
+        || KoLCharacter.inRobocore()
+        || KoLCharacter.inNuclearAutumn()
+        || KoLCharacter.inSmallcore()
+        || KoLCharacter.inWereProfessor()
+        || KoLCharacter.isMeat()) {
+      return false;
+    }
+    return true;
+  }
+
+  public static final boolean haveWorkshed() {
+    if (KoLCharacter.inSmallcore()) {
+      return true;
+    }
+    return haveCampground();
+  }
 }

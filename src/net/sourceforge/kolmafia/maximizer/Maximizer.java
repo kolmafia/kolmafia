@@ -926,14 +926,14 @@ public class Maximizer {
           duration = 20;
           usesRemaining = Preferences.getBoolean("concertVisited") ? 0 : 1;
         } else if (cmd.startsWith("telescope ")) {
-          if (limitMode.limitCampground()) {
+          if (!CampgroundRequest.haveCampground()) {
             continue;
           } else if (Preferences.getInteger("telescopeUpgrades") == 0) {
             if (includeAll) {
               text = "( get a telescope )";
               cmd = "";
             } else continue;
-          } else if (KoLCharacter.inBadMoon() || KoLCharacter.inNuclearAutumn()) {
+          } else if (KoLCharacter.inBadMoon()) {
             continue;
           } else if (Preferences.getBoolean("telescopeLookedHigh")) {
             cmd = "";
