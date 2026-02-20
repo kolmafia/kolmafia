@@ -342,9 +342,7 @@ public abstract class MPRestoreItemList {
             RequestThread.postRequest(new CampAwayRequest(CampAwayRequest.TENT));
             return;
           }
-          if (!KoLCharacter.getLimitMode().limitCampground()
-              && !KoLCharacter.isEd()
-              && !KoLCharacter.inNuclearAutumn()) {
+          if (CampgroundRequest.haveCampground() || KoLCharacter.inSmallcore()) {
             RequestThread.postRequest(new CampgroundRequest("rest"));
             return;
           }

@@ -41,6 +41,7 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.ChateauRequest;
 import net.sourceforge.kolmafia.request.MomRequest;
 import net.sourceforge.kolmafia.request.PottedTeaTreeRequest;
@@ -1997,11 +1998,10 @@ public class DailyDeedsPanel extends Box implements Listener {
     @Override
     public void update() {
       boolean bm = KoLCharacter.inBadMoon();
-      boolean na = KoLCharacter.inNuclearAutumn();
       boolean kf = KoLCharacter.kingLiberated();
-      boolean limited = KoLCharacter.getLimitMode().limitCampground();
+      boolean camp = CampgroundRequest.haveCampground();
       int nu = Preferences.getInteger("telescopeUpgrades");
-      this.setShown((!bm || kf) && (nu > 0) && !limited && !na);
+      this.setShown((!bm || kf) && (nu > 0) && camp);
       this.setEnabled(nu > 0);
       if (Preferences.getBoolean("telescopeLookedHigh")) {
         this.setText("You have stared into space today");
