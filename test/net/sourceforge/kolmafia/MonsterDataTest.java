@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia;
 
 import static internal.helpers.Player.withEffect;
+import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withMoxie;
 import static internal.helpers.Player.withNotAllowedInStandard;
 import static internal.helpers.Player.withProperty;
@@ -27,6 +28,7 @@ import java.util.Map;
 import java.util.Set;
 import net.sourceforge.kolmafia.MonsterData.Attribute;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
@@ -495,6 +497,75 @@ public class MonsterDataTest {
         var builder = new StringBuilder();
         monster.appendFact(builder);
         assertThat(builder.toString(), not(containsString("Just the Facts: ")));
+      }
+    }
+  }
+
+  @Nested
+  class ShrunkenHead {
+    @Test
+    void shrunkenHeadZombieNotRenderedWithoutZombie() {
+      var monster = MonsterDatabase.findMonster("fluffy bunny");
+
+      var cleanups = withProperty("hasShrunkenHead", false);
+
+      try (cleanups) {
+        var builder = new StringBuilder();
+        monster.appendShrunkenHeadZombie(builder, false);
+        assertThat(builder.toString(), not(containsString("Shrunken Head Zombie: ")));
+      }
+    }
+
+    @Test
+    void shrunkenHeadZombieRenderedWithHead() {
+      var monster = MonsterDatabase.findMonster("fluffy bunny");
+
+      var cleanups = withProperty("hasShrunkenHead", true);
+
+      try (cleanups) {
+        var builder = new StringBuilder();
+        monster.appendShrunkenHeadZombie(builder, false);
+        assertThat(builder.toString(), containsString("Shrunken Head Zombie: "));
+      }
+    }
+
+    @Test
+    void shrunkenHeadZombieNotRenderedForUncopyable() {
+      var monster = MonsterDatabase.findMonster("giant skeelton");
+
+      var cleanups = withProperty("hasShrunkenHead", true);
+
+      try (cleanups) {
+        var builder = new StringBuilder();
+        monster.appendShrunkenHeadZombie(builder, false);
+        assertThat(builder.toString(), not(containsString("Shrunken Head Zombie: ")));
+      }
+    }
+
+    @Test
+    void shrunkenHeadZombieRenderedWithHeadEquippedIfSpecified() {
+      var monster = MonsterDatabase.findMonster("fluffy bunny");
+
+      var cleanups =
+          new Cleanups(withProperty("hasShrunkenHead", true), withEquipped(ItemPool.SHRUNKEN_HEAD));
+
+      try (cleanups) {
+        var builder = new StringBuilder();
+        monster.appendShrunkenHeadZombie(builder, true);
+        assertThat(builder.toString(), containsString("Shrunken Head Zombie: "));
+      }
+    }
+
+    @Test
+    void shrunkenHeadZombieNotRenderedWithoutHeadEquippedIfSpecified() {
+      var monster = MonsterDatabase.findMonster("fluffy bunny");
+
+      var cleanups = new Cleanups(withProperty("hasShrunkenHead", true));
+
+      try (cleanups) {
+        var builder = new StringBuilder();
+        monster.appendShrunkenHeadZombie(builder, true);
+        assertThat(builder.toString(), not(containsString("Shrunken Head Zombie: ")));
       }
     }
   }

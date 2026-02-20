@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -758,7 +759,7 @@ public class AreaCombatData {
 
     if (InventoryManager.hasItem(ItemPool.LEPRECONDO)) {
       var furniture = LeprecondoManager.getUndiscoveredFurnitureForLocation(this.zone);
-      if (furniture.isBlank()) {
+      if (!furniture.isBlank()) {
         buffer.append("<br>");
         buffer.append("<b>Leprecondo:</b> ");
         buffer.append(furniture);
@@ -901,8 +902,14 @@ public class AreaCombatData {
     StringBuffer buffer = new StringBuffer();
 
     Element ed = monster.getDefenseElement();
-    Element ea = monster.getAttackElement();
-    Element element = ed == Element.NONE ? ea : ed;
+    Element ea = Element.NONE;
+    EnumSet<Element> eas = monster.getAttackElements();
+    Element element = ed;
+    if (ed == Element.NONE) {
+      if (eas.size() == 1) {
+        element = ea = eas.iterator().next();
+      }
+    }
 
     Phylum phylum = monster.getPhylum();
     int init = monster.getInitiative();
@@ -968,6 +975,8 @@ public class AreaCombatData {
     this.appendItemList(buffer, monster.getItems(), monster.getPocketRates(), fullString);
 
     this.appendFact(buffer, monster, fullString);
+
+    this.appendShrunkenHeadZombie(buffer, monster);
 
     String bounty = BountyDatabase.getNameByMonster(monster.getName());
     if (bounty != null) {
@@ -1148,6 +1157,14 @@ public class AreaCombatData {
     String fact = monster.getFact();
     if (fact != null) {
       buffer.append(fact);
+    }
+    return;
+  }
+
+  private void appendShrunkenHeadZombie(final StringBuffer buffer, final MonsterData monster) {
+    String zombie = monster.getShrunkenHeadZombie(false);
+    if (zombie != null) {
+      buffer.append(zombie);
     }
     return;
   }

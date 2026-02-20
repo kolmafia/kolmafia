@@ -24,6 +24,7 @@ import net.sourceforge.kolmafia.persistence.FactDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
 import net.sourceforge.kolmafia.persistence.MonsterDrop;
+import net.sourceforge.kolmafia.persistence.ShrunkenHeadDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.session.EncounterManager.EncounterType;
@@ -1961,6 +1962,29 @@ public class MonsterData extends AdventureResult {
     String fact = this.getFact();
     if (fact != null) {
       buffer.append(fact);
+    }
+    return;
+  }
+
+  public String getShrunkenHeadZombie(boolean requireEquipped) {
+    if (this.isNoCopy()) {
+      // uncopyable monsters can't be reanimated
+      return null;
+    }
+    if (!Preferences.getBoolean("hasShrunkenHead")) {
+      return null;
+    }
+    if (requireEquipped && !KoLCharacter.hasEquipped(ItemPool.SHRUNKEN_HEAD)) {
+      return null;
+    }
+    var z = ShrunkenHeadDatabase.shrunkenHeadZombie(this.id, KoLCharacter.getPath().id);
+    return "<br />Shrunken Head Zombie: " + z.toString();
+  }
+
+  public void appendShrunkenHeadZombie(StringBuilder buffer, boolean requireEquipped) {
+    String zombie = this.getShrunkenHeadZombie(requireEquipped);
+    if (zombie != null) {
+      buffer.append(zombie);
     }
     return;
   }
