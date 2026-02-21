@@ -3988,6 +3988,9 @@ public abstract class RuntimeLibrary {
     params = List.of();
     functions.add(
         new LibraryFunction("turns_until_mobius_noncombat_available", DataTypes.INT_TYPE, params));
+
+    params = List.of();
+    functions.add(new LibraryFunction("have_campground", DataTypes.BOOLEAN_TYPE, params));
   }
 
   public static Method findMethod(final String name, final Class<?>[] args)
@@ -12173,5 +12176,9 @@ public abstract class RuntimeLibrary {
       case 11, 12, 13, 14, 15 -> 51;
       default -> 76;
     };
+  }
+
+  public static Value have_campground(ScriptRuntime controller) {
+    return DataTypes.makeBooleanValue(CampgroundRequest.haveCampground());
   }
 }

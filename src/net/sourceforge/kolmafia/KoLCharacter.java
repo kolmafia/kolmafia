@@ -563,6 +563,8 @@ public abstract class KoLCharacter {
     if (inRobocore()) return false;
     // Spies can eat size-0 magical sausages but have no fullness
     if (inBondcore()) return false;
+    // Meat Golems can eat size-0 magical sausages but have no fullness
+    if (isMeat()) return false;
     // Grey Goo can "eat" things but they don't go into a stomach.
     if (isGreyGoo()) return false;
 
@@ -3482,7 +3484,7 @@ public abstract class KoLCharacter {
       return false;
     }
 
-    if (KoLCharacter.inNoobcore() || KoLCharacter.isMeat()) {
+    if (KoLCharacter.inNoobcore()) {
       return false;
     }
 

@@ -39,7 +39,7 @@ public class CampgroundCommand extends AbstractCommand {
         "campground",
         "campground",
         new CampgroundRequest("rest"),
-        () -> !KoLCharacter.getLimitMode().limitCampground() && !KoLCharacter.isEd());
+        () -> CampgroundRequest.haveCampground());
 
     private final String name;
     private final String shortname;
@@ -90,15 +90,17 @@ public class CampgroundCommand extends AbstractCommand {
       return;
     }
 
-    if (KoLCharacter.getLimitMode().limitCampground() || KoLCharacter.isEd()) {
-      KoLmafia.updateDisplay(MafiaState.ERROR, "You don't have a campground right now.");
-      return;
-    }
+    GenericRequest request;
+    if (KoLCharacter.inNuclearAutumn()) {
+      request = new FalloutShelterRequest(action.equals("terminal") ? "vault_term" : action);
+    } else {
+      if (!CampgroundRequest.haveCampground()) {
+        KoLmafia.updateDisplay(MafiaState.ERROR, "You don't have a campground right now.");
+        return;
+      }
 
-    var request =
-        KoLCharacter.inNuclearAutumn()
-            ? new FalloutShelterRequest(action.equals("terminal") ? "vault_term" : action)
-            : new CampgroundRequest(action);
+      request = new CampgroundRequest(action);
+    }
 
     var count = parameterList.isEmpty() ? 1 : StringUtilities.parseInt(parameterList.getLast());
 

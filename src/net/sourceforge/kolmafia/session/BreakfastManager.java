@@ -365,9 +365,7 @@ public class BreakfastManager {
   }
 
   public static void harvestGarden() {
-    if (KoLCharacter.isEd()
-        || KoLCharacter.inNuclearAutumn()
-        || KoLCharacter.getLimitMode().limitCampground()) {
+    if (!CampgroundRequest.haveCampground()) {
       return;
     }
 
@@ -434,9 +432,7 @@ public class BreakfastManager {
   }
 
   public static void useSpinningWheel() {
-    if (KoLCharacter.isEd()
-        || KoLCharacter.inNuclearAutumn()
-        || KoLCharacter.getLimitMode().limitCampground()) {
+    if (!CampgroundRequest.haveWorkshed()) {
       return;
     }
 
