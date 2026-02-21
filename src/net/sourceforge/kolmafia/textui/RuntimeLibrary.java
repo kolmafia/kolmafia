@@ -1393,6 +1393,9 @@ public abstract class RuntimeLibrary {
     functions.add(new LibraryFunction("get_free_pulls", DataTypes.ITEM_TO_INT_TYPE, params));
 
     params = List.of();
+    functions.add(new LibraryFunction("get_no_pulls", DataTypes.ITEM_TO_INT_TYPE, params));
+
+    params = List.of();
     functions.add(new LibraryFunction("get_shop", DataTypes.ITEM_TO_INT_TYPE, params));
 
     params = List.of();
@@ -6363,6 +6366,19 @@ public abstract class RuntimeLibrary {
 
     AdventureResult[] items = new AdventureResult[KoLConstants.freepulls.size()];
     KoLConstants.freepulls.toArray(items);
+
+    for (AdventureResult item : items) {
+      value.aset(DataTypes.makeItemValue(item.getItemId(), true), new Value(item.getCount()));
+    }
+
+    return value;
+  }
+
+  public static Value get_no_pulls(ScriptRuntime controller) {
+    MapValue value = new MapValue(DataTypes.ITEM_TO_INT_TYPE);
+
+    AdventureResult[] items = new AdventureResult[KoLConstants.nopulls.size()];
+    KoLConstants.nopulls.toArray(items);
 
     for (AdventureResult item : items) {
       value.aset(DataTypes.makeItemValue(item.getItemId(), true), new Value(item.getCount()));
