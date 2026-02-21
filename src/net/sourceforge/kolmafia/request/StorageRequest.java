@@ -619,6 +619,7 @@ public class StorageRequest extends TransferItemRequest {
   public static final void emptyStorage(final String urlString) {
     KoLConstants.storage.clear();
     KoLConstants.freepulls.clear();
+    KoLConstants.nopulls.clear();
     KoLCharacter.setAvailableMeat(KoLCharacter.getStorageMeat() + KoLCharacter.getAvailableMeat());
     KoLCharacter.setStorageMeat(0);
 
