@@ -399,6 +399,7 @@ public abstract class KoLCharacter {
     KoLConstants.storage.clear();
     KoLCharacter.storageMeat = 0;
     KoLConstants.freepulls.clear();
+    KoLConstants.nopulls.clear();
     KoLConstants.collection.clear();
     KoLConstants.pulverizeQueue.clear();
     KoLCharacter.sessionMeat = 0;
