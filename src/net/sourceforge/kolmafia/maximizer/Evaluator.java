@@ -1058,6 +1058,7 @@ public class Evaluator {
     SlotList<CheckedItem> automatic = new SlotList<>(this.familiars.size());
     // Items to be considered based on their score
     SlotList<CheckedItem> ranked = new SlotList<>(this.familiars.size());
+    List<CheckedItem> deferredOneHandedNegatives = new ArrayList<>();
 
     double nullScore = this.getScore(new Modifiers());
 
@@ -1522,7 +1523,12 @@ public class Evaluator {
           mods = newMods;
         }
         double delta = this.getScore(mods, Map.of(Slot.HAT, item)) - nullScore;
-        if (delta < 0.0) continue;
+        if (delta < 0.0) {
+          if (slot == Evaluator.WEAPON_1H) {
+            deferredOneHandedNegatives.add(item);
+          }
+          continue;
+        }
         if (delta == 0.0) {
           if (KoLCharacter.hasEquipped(item) && this.current) break gotItem;
           if (item.initial == 0) continue;
@@ -2294,6 +2300,38 @@ public class Evaluator {
         useCard,
         useCrownFamiliar,
         useBjornFamiliar);
+
+    if (Maximizer.best != null) {
+      AdventureResult bestWeapon = Maximizer.best.equipment.get(Slot.WEAPON);
+      AdventureResult bestOffhand = Maximizer.best.equipment.get(Slot.OFFHAND);
+      if ((bestWeapon == null || bestWeapon.equals(EquipmentRequest.UNEQUIP))
+          && bestOffhand != null
+          && !bestOffhand.equals(EquipmentRequest.UNEQUIP)) {
+        List<CheckedItem> candidates = new ArrayList<>();
+        candidates.addAll(automatic.get(Evaluator.WEAPON_1H));
+        candidates.addAll(ranked.get(Evaluator.WEAPON_1H));
+        candidates.addAll(deferredOneHandedNegatives);
+
+        for (CheckedItem candidate : candidates) {
+          int itemId = candidate.getItemId();
+          if (itemId <= 0 || EquipmentDatabase.getHands(itemId) != 1) {
+            continue;
+          }
+          if (candidate.getCount() <= 0) {
+            continue;
+          }
+          MaximizerSpeculation candidateSpec = Maximizer.best.clone();
+          if (candidateSpec == null) {
+            break;
+          }
+          candidateSpec.equip(Slot.WEAPON, candidate);
+          candidateSpec.getScore();
+          if (!candidateSpec.failed && candidateSpec.compareTo(Maximizer.best) > 0) {
+            Maximizer.best = candidateSpec;
+          }
+        }
+      }
+    }
   }
 
   private boolean isCatUseful(double nullScore, String catName) {
