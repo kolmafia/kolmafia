@@ -2333,12 +2333,12 @@
 2510	The Unquiet Bones of Claus	giant bone	giant claw	giant rib	giant skull
 2511	beef bodyguard bat	steak	vein	wing
 2512	Basted Boss Bat	head	torso	wing
-2513	Gabogooblin King
-2514	The Maety Bonerdagon	bone	flesh chunk
-2515	Feeble Dr. Awkward, El Beef
-2516	Lard Spookyraven
-2517	Protector Speck-ter
-2518	Groarst
-2519	The Big Mac Wisniewski
-2520	The Manwich
+2513	Gabogooblin King	arm	head	leg	torso
+2514	The Maety Bonerdagon	bone	flesh chunk	skull
+2515	Feeble Dr. Awkward, El Beef	arm	head	leg	torso
+2516	Lard Spookyraven	lard
+2517	Protector Speck-ter	head	tendril
+2518	Groarst	roast	wing
+2519	The Big Mac Wisniewski	arm	cheeseburger	leg	torso
+2520	The Manwich	arm	leg	sandwich	torso
 2521	Naughty Sorceress, all sausage	head	sausage
