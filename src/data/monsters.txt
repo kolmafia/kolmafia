@@ -1131,8 +1131,8 @@ Mayor Ghost	1389	mayorghost.gif	NOCOPY Atk: 1500 Def: 1500 HP: 10000 Init: 200 P
 Mayor Ghost (Hard Mode)	-86	mayorghost_hm.gif	NOCOPY NOMANUEL P: undead GHOST Phys: 100 EA: spooky	Mayor Ghost's cloak (c100)	Mayor Ghost's khakis (c100)	Mayor Ghost's toupee (c100)	Mayor Ghost's gavel (c100)	Mayor Ghost's sash (c100)	Mayor Ghost's scissors (c100)	1-4 ghost pepper (m100)
 The Unkillable Skeleton	1391	ukskeleton.gif	NOCOPY Atk: 500 Def: 500 HP: 500 Init: 200 P: undead SKELETON Elem: 90	Unkillable Skeleton's breastplate (c100)	Unkillable Skeleton's shinguards (c100)	Unkillable Skeleton's skullcap (c100)	0-3 electric Kool-Aid (m100)
 The Unkillable Skeleton (Hard Mode)	-85	ukskeleton_hm.gif	NOCOPY NOMANUEL P: undead SKELETON Phys: 50 Elem: 95	Unkillable Skeleton's breastplate (c100)	Unkillable Skeleton's shinguards (c100)	Unkillable Skeleton's skullcap (c100)	Unkillable Skeleton's sawsword (c100)	Unkillable Skeleton's shield (c100)	Unkillable Skeleton's restless leg (c100)	skull capacitor (100)	1-4 electric Kool-Aid (m100)
-Zombie Homeowners' Association	1388	zombiehoa.gif	NOCOPY Atk: 700 Def: 700 HP: 15000 Init: 200 P: undead EA: sleaze EA: stench Article: the	zombie mariachi hat (c100)	zombie accordion (c100)	zombie mariachi pants (c100)	0-3 wriggling severed nose (m100)
-Zombie Homeowners' Association (Hard Mode)	-84	zombiehoa_hm.gif	NOCOPY P: undead EA: sleaze EA: stench Article: the	zombie mariachi hat (c100)	zombie accordion (c100)	zombie mariachi pants (c100)	HOA regulation book (c100)	HOA zombie eyes (c100)	HOA citation pad (c100)	1-4 wriggling severed nose (m100)
+Zombie Homeowners' Association	1388	zombiehoa.gif	NOCOPY Atk: 700 Def: 700 HP: 15000 Init: 200 P: undead ZOMBIE EA: sleaze EA: stench Article: the	zombie mariachi hat (c100)	zombie accordion (c100)	zombie mariachi pants (c100)	0-3 wriggling severed nose (m100)
+Zombie Homeowners' Association (Hard Mode)	-84	zombiehoa_hm.gif	NOCOPY P: undead ZOMBIE EA: sleaze EA: stench Article: the	zombie mariachi hat (c100)	zombie accordion (c100)	zombie mariachi pants (c100)	HOA regulation book (c100)	HOA zombie eyes (c100)	HOA citation pad (c100)	1-4 wriggling severed nose (m100)
 
 # Challenge Paths
 
@@ -1477,7 +1477,7 @@ Swarm of Country Bats	359	ralphbat.gif	Atk: 20 Def: 18 HP: 20 Init: 60 P: beast 
 Trippy Floating Head (Casey Kasem)	356	kasemhead.gif	Atk: 20 Def: 18 HP: 20 Init: 60 P: weird EA: spooky Article: a Manuel: "Trippy Floating Head"	green-frosted astral cupcake (15)
 Trippy Floating Head (Grand Moff Tarkin)	357	tarkinhead.gif	Atk: 20 Def: 18 HP: 20 Init: 60 P: weird EA: spooky EA: none Article: a Manuel: "Trippy Floating Head"	pink-frosted astral cupcake (15)
 Trippy Floating Head (Mona Lisa)	355	monahead.gif	Atk: 20 Def: 18 HP: 20 Init: 60 P: weird EA: spooky Article: a Manuel: "Trippy Floating Head"	blue-frosted astral cupcake (15)
-Zombie Baby	358	zmobaby.gif	Atk: 20 Def: 18 HP: 20 Init: 60 P: undead Article: a	purple-frosted astral cupcake (15)
+Zombie Baby	358	zmobaby.gif	Atk: 20 Def: 18 HP: 20 Init: 60 P: undead ZOMBIE Article: a	purple-frosted astral cupcake (15)
 
 # Mediocre Trip (Astral Badger June 2006)
 Best Carpet Ever	364	carpet.gif	Atk: 53 Def: 47 HP: 50 Init: 60 P: weird Article: the	purple-frosted astral cupcake (15)
@@ -1787,7 +1787,7 @@ cocktail shrimp	1572	cocktailshrimp.gif	Atk: 350 Def: 325 HP: 400 Init: 75 Meat:
 taco fish	1573	tacofish.gif	NOCOPY Atk: 350 Def: 400 HP: 500 Init: 50 Meat: 150 P: fish ED: sleaze EA: hot EA: none Article: a
 wild girl	1570	wildgirl.gif	Atk: 325 Def: 350 HP: 450 Init: 100 Meat: 100 P: dude ED: sleaze EA: sleaze EA: none Article: a	extremely wet T-shirt (n5)	go-go potion (n25)	string of moist beads (n30)
 son of a son of a sailor	1574	sonofsailor.gif	NOCOPY Atk: 350 Def: 350 HP: 600 Init: 50 Meat: 75 P: dude ED: sleaze Article: a	1-6 salty sailor salt (m100)
-drownedbeat	1575	drownedbeat.gif	NOCOPY Atk: 400 Def: 325 HP: 450 Init: 25 Meat: 25 P: dude ED: sleaze Article: a	bike rental broupon (c100)
+drownedbeat	1575	drownedbeat.gif	NOCOPY Atk: 400 Def: 325 HP: 450 Init: 25 Meat: 25 P: dude ZOMBIE ED: sleaze Article: a	bike rental broupon (c100)
 
 # The Mansion of Dr. Weirdeaux (Conspiracy Island October 2014)
 one of Doctor Weirdeaux's creations	1632	noart.gif	NOCOPY Init: -10000 P: beast ED: spooky EA: cold EA: hot EA: sleaze EA: spooky EA: stench	experimental serum P-00 (c0)
@@ -2424,7 +2424,7 @@ Mob Penguin Thug	217	pengthug.gif	Atk: 95 Def: 85 HP: 80 Init: 80 Meat: 50 P: pe
 
 # Market Square, 28 Days Later (November 2005)
 drunken zombie half-orc hobo	296	zomhobo.gif	Atk: 1 Def: 0 HP: 1 Init: 40 P: undead ED: spooky Article: a	Mad Train wine (0)	dirty hobo gloves (0)	moxie weed (0)	zombie pineal gland (0)
-fiendish zombie can of asparagus	297	asparagus.gif	Atk: 2 Def: 0 HP: 1 Init: 50 P: undead ED: spooky Article: a	razor-sharp can lid (0)	asparagus knife (0)	stalk of asparagus (0)	zombie pineal gland (0)
+fiendish zombie can of asparagus	297	asparagus.gif	Atk: 2 Def: 0 HP: 1 Init: 50 P: undead ZOMBIE ED: spooky Article: a	razor-sharp can lid (0)	asparagus knife (0)	stalk of asparagus (0)	zombie pineal gland (0)
 Knob Goblin Elite Zombie	300	zomelite.gif	Atk: 30 Def: 25 HP: 30 Init: 90 P: goblin E: spooky Article: a	Knob Goblin elite helm (4)	Knob Goblin elite pants (4)	Knob Goblin elite polearm (4)	Knob Goblin elite shirt (c5)	zombie pineal gland (10)
 zombie Gnollish crossdresser	301	zomknoll.gif	Atk: 11 Def: 9 HP: 5 Init: 60 Meat: 22 P: humanoid ZOMBIE Article: a	frilly shirt (0)	frilly skirt (0)	gnoll teeth (0)	maiden wig (0)	zombie pineal gland (0)
 Zombie Knob Goblin Assistant Chef	299	zomchef.gif	Atk: 2 Def: 0 HP: 1 Init: 40 Meat: 8 P: goblin ED: spooky Article: a	Knob Goblin tongs (12)	Knob Goblin pants (8)	chef's hat (32)	zombie pineal gland (10)
@@ -2436,7 +2436,7 @@ zombie apathetic lizardman	298	zomlizard.gif	Atk: 20 Def: 18 HP: 12 Init: 60 P: 
 Zombie Clown	302	zomclown.gif	Atk: 19 Def: 17 HP: 15 Init: 80 Meat: 25 P: horror ED: spooky Article: a	bloody clown pants (0)	long skinny balloon (0)	big red clown nose (0)	zombie pineal gland (0)
 zombie frat boy	305	zomfrat.gif	Atk: 41 Def: 36 HP: 30 Init: 60 Meat: 30 P: orc ED: sleaze Article: a	ice-cold Sir Schlitz (0)	bottle of tequila (0)	Orcish frat-paddle (0)	zombie pineal gland (0)	deodorant (0)
 zombie hippy	306	zomhippy.gif	Atk: 41 Def: 36 HP: 30 Init: 25 P: hippy ED: spooky Article: a	filthy corduroys (0)	filthy knitted dread sack (0)	windchimes (0)	reodorant (0)	zombie pineal gland (0)
-zombie zmobie	303	zombie2.gif	Atk: 20 Def: 18 HP: 11 Init: 60 P: undead ED: spooky Article: a	loose teeth (0)	cranberries (0)	zombie pineal gland (0)
+zombie zmobie	303	zombie2.gif	Atk: 20 Def: 18 HP: 11 Init: 60 P: undead ZOMBIE ED: spooky Article: a	loose teeth (0)	cranberries (0)	zombie pineal gland (0)
 
 # Wrong Side of the Tracks, 28 Days Later (November 2005)
 # scary pirate	307	zompirate.gif
@@ -2646,7 +2646,7 @@ sexy sorority ghost	1102	sororghost1.gif,sororghost2.gif,sororghost3.gif	NOWISH 
 sexy sorority skeleton	1103	sororeton1.gif,sororeton2.gif,sororeton3.gif	NOWISH Atk: 50 Def: 45 HP: 100 Init: 50 P: undead SKELETON Elem: 100 EA: spooky EA: none	Haunted Sorority House staff guide (1)	press-on ribs (5)	Bone's Farm &quot;wine&quot; (c1)	throwing bone (c1)	extremely skinny jeans (c1)
 sexy sorority vampire	1104	sororpire1.gif,sororpire2.gif,sororpire3.gif	NOWISH Atk: 50 Def: 45 HP: 100 Init: 50 P: undead VAMPIRE	Haunted Sorority House staff guide (1)	bite-me-red lipstick (5)	Blood Light (c1)	Nightstalker perfume (c1)	Mesmereyes&trade; contact lenses (c1)
 sexy sorority werewolf	1106	sororwolf1.gif,sororwolf2.gif,sororwolf3.gif	NOWISH Atk: 50 Def: 45 HP: 100 Init: 50 P: dude WEREWOLF Phys: 50 Elem: 50 EA: spooky EA: none	Haunted Sorority House staff guide (1)	whisker pencil (5)	Silver Bullet beer (c1)	drum of pomade (c1)	cursed scrunchie (c1)
-sexy sorority zombie	1105	sororbie1.gif,sororbie2.gif,sororbie3.gif	NOWISH Atk: 50 Def: 45 HP: 100 Init: 50 P: undead EA: spooky EA: none	Haunted Sorority House staff guide (1)	necrotizing body spray (5)	Bartles and BRAAAINS wine cooler (c1)	sorority brain (c1)	BRAINS shorts (c1)
+sexy sorority zombie	1105	sororbie1.gif,sororbie2.gif,sororbie3.gif	NOWISH Atk: 50 Def: 45 HP: 100 Init: 50 P: undead ZOMBIE EA: spooky EA: none	Haunted Sorority House staff guide (1)	necrotizing body spray (5)	Bartles and BRAAAINS wine cooler (c1)	sorority brain (c1)	BRAINS shorts (c1)
 The Necbromancer (1)	1107	necbromancer.gif	BOSS NOCOPY NOMANUEL Atk: 350 Def: 350 HP: 5000 EA: cold EA: spooky Manuel: "The Necbromancer" Wiki: "The Necbromancer (1)"
 The Necbromancer's horde	1108	fratskeletons.gif	BOSS NOCOPY NOMANUEL Atk: 1000 Def: 1000 HP: 100000 EA: sleaze EA: spooky Group: 3
 The Necbromancer (2)	1109	necbromancer2.gif	BOSS NOCOPY NOMANUEL Atk: 1000 Def: 1000 HP: 1020 EA: sleaze EA: spooky Manuel: "The Necbromancer" Wiki: "The Necbromancer (2)"	1-100 The Cooler Out of Space (m100)	The Necbromancer's Hat (c0)	The Necbromancer's Shorts (c0)	The Necbromancer's Stein (c0)	The Necbromancer's Wizard Staff (f35)	The Necbronomicon (c0)
