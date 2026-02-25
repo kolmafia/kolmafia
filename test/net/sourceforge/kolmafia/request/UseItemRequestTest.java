@@ -1360,4 +1360,19 @@ class UseItemRequestTest {
       }
     }
   }
+
+  @Test
+  void stockCertificateClearsOldestValue() {
+    var cleanups =
+        new Cleanups(
+            withProperty("stockCertificateTurns", "111,222,333,444"),
+            withItem(ItemPool.STOCK_CERTIFICATE),
+            withNextResponse(200, "unused"));
+
+    try (cleanups) {
+      UseItemRequest.getInstance(ItemPool.STOCK_CERTIFICATE).run();
+
+      assertThat("stockCertificateTurns", isSetTo("222,333,444"));
+    }
+  }
 }

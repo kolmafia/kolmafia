@@ -6784,7 +6784,14 @@ public abstract class ChoiceControl {
       case 1562 -> {
         // Time is a Möbius Strip
         if (text.contains("stock certificate")) {
-          Preferences.setInteger("stockCertificateTurn", KoLCharacter.getTurnsPlayed());
+          var turnsPlayed = KoLCharacter.getTurnsPlayed();
+          Preferences.setInteger("stockCertificateTurn", turnsPlayed);
+          var turnsPref = Preferences.getString("stockCertificateTurns");
+          if (turnsPref.isEmpty()) {
+            Preferences.setString("stockCertificateTurns", String.valueOf(turnsPlayed));
+          } else {
+            Preferences.setString("stockCertificateTurns", turnsPref + "," + turnsPlayed);
+          }
         } else if (text.contains("In an effort to repair the timeline")) {
           Preferences.increment("tryToRememberCharges", 3);
         }

@@ -1693,7 +1693,8 @@ user	statusWasteProcessing	0
 user	stenchAirportAlways	false
 user	stenchCursedMonster
 user	stillsuitFamiliar
-user	stockCertificateTurn	-1
+user	stockCertificateTurn	-1	deprecated:Use stockCertificateTurns instead
+user	stockCertificateTurns	
 user	stopForFixedWanderer	false
 user	stopForUltraRare	true
 user	streamCrossDefaultTarget	ProtonicBot

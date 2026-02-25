@@ -6346,6 +6346,15 @@ public class UseItemRequest extends GenericRequest {
           Preferences.increment("_clocksUsed", 1, 2);
         }
         break;
+
+      case ItemPool.STOCK_CERTIFICATE:
+        // remove the first entry in the preference
+        var turnsPlayed = Preferences.getString("stockCertificateTurns");
+        var commaIndex = turnsPlayed.indexOf(",");
+        if (commaIndex != -1) {
+          Preferences.setString("stockCertificateTurns", turnsPlayed.substring(commaIndex + 1));
+        }
+        break;
     }
 
     if (CampgroundRequest.isWorkshedItem(itemId)) {
