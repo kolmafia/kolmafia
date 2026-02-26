@@ -1086,27 +1086,27 @@ public class CampgroundRequest extends GenericRequest {
       // Pyramid
       if (responseText.contains("Spending time in your pyramid")) {
         // Limit of 3 per day
-        preferences.increment("_pyramidRestEffectsGained");
+        Preferences.increment("_pyramidRestEffectsGained");
       }
 
       // Ginormous Pumpkin
       if (responseText.contains("You are suffused with pumpkinliness")) {
-        preferences.setBoolean("_pumpkinRestEffectGained", true);
+        Preferences.setBoolean("_pumpkinRestEffectGained", true);
       }
 
       // Giant Faraday Cage
       if (responseText.contains("All of the static electricity")) {
-        preferences.setBoolean("_faradayCageRestEffectGained", true);
+        Preferences.setBoolean("_faradayCageRestEffectGained", true);
       }
 
       // Snow Fort
       if (responseText.contains("Your snow fort makes you feel safe")) {
-        preferences.setBoolean("_snowFortRestEffectGained", true);
+        Preferences.setBoolean("_snowFortRestEffectGained", true);
       }
 
       // Elevent
       if (responseText.contains("You get some sleep that is, like, 10% better")) {
-        preferences.setBoolean("_eleventRestEffectGained", true);
+        Preferences.setBoolean("_eleventRestEffectGained", true);
       }
 
       // Tipi
@@ -1118,25 +1118,25 @@ public class CampgroundRequest extends GenericRequest {
       // Gingerbread House
       // Your festively-decorated dwelling brings a smile to your face as you drift off.
       if (responseText.contains("festively-decorated dwelling brings a smile to your face")) {
-        preferences.setBoolean("_gingerbreadHouseRestEffectGained", true);
+        Preferences.setBoolean("_gingerbreadHouseRestEffectGained", true);
       }
 
       // Hobo Fortress
       if (responseText.contains("You stare up at the vaulted ceiling of your hobo fortress")) {
         // No limit
-        preferences.increment("_hoboFortRestEffectsGained");
+        Preferences.increment("_hoboFortRestEffectsGained");
       }
 
       // Residence-Cube
       if (responseText.contains("the spinning would make it harder to relax")) {
-        preferences.setBoolean("_residenceCubeRestEffectGained", true);
+        Preferences.setBoolean("_residenceCubeRestEffectGained", true);
       }
 
       // Mushroom House
       // You lie down on the floor for a quick nap.
       if (responseText.contains("You lie down on the floor for a quick nap.")) {
         // Mushroom house does not have an effect-specific message
-        preferences.setBoolean("_mushroomHouseRestEffectGained", true);
+        Preferences.setBoolean("_mushroomHouseRestEffectGained", true);
       }
 
       handleCinchoRest(responseText);
