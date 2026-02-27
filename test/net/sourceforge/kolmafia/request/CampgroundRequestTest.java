@@ -4,6 +4,7 @@ import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withCampgroundItem;
 import static internal.helpers.Player.withClass;
 import static internal.helpers.Player.withContinuationState;
+import static internal.helpers.Player.withDwelling;
 import static internal.helpers.Player.withEmptyCampground;
 import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withItem;
@@ -184,6 +185,7 @@ public class CampgroundRequestTest {
     void trackMiniKiwiDrop() {
       var cleanups =
           new Cleanups(
+              withDwelling(ItemPool.MINI_KIWI_TIPI),
               withNextResponse(200, html("request/test_campground_rest_knucklebone.html")),
               withProperty("_miniKiwiTipiDrop", false));
 

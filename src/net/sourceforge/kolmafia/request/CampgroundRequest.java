@@ -1083,58 +1083,68 @@ public class CampgroundRequest extends GenericRequest {
         Preferences.increment("_knuckleboneDrops", 1, 100);
       }
 
+      var dwellingId = getCurrentDwelling().getItemId();
+
       // Pyramid
-      if (responseText.contains("Spending time in your pyramid")) {
+      if (dwellingId == ItemPool.BRICKO_PYRAMID
+          && responseText.contains("Spending time in your pyramid")) {
         // Limit of 3 per day
-        Preferences.increment("_pyramidRestEffectsGained");
+        Preferences.increment("_pyramidRestEffectsGained", 1, 3);
       }
 
       // Ginormous Pumpkin
-      if (responseText.contains("You are suffused with pumpkinliness")) {
+      if (dwellingId == ItemPool.GINORMOUS_PUMPKIN
+          && responseText.contains("You are suffused with pumpkinliness")) {
         Preferences.setBoolean("_pumpkinRestEffectGained", true);
       }
 
       // Giant Faraday Cage
-      if (responseText.contains("All of the static electricity")) {
+      if (dwellingId == ItemPool.GIANT_FARADAY_CAGE
+          && responseText.contains("All of the static electricity")) {
         Preferences.setBoolean("_faradayCageRestEffectGained", true);
       }
 
       // Snow Fort
-      if (responseText.contains("Your snow fort makes you feel safe")) {
+      if (dwellingId == ItemPool.SNOW_FORT
+          && responseText.contains("Your snow fort makes you feel safe")) {
         Preferences.setBoolean("_snowFortRestEffectGained", true);
       }
 
       // Elevent
-      if (responseText.contains("You get some sleep that is, like, 10% better")) {
+      if (dwellingId == ItemPool.ELEVENT
+          && responseText.contains("You get some sleep that is, like, 10% better")) {
         Preferences.setBoolean("_eleventRestEffectGained", true);
       }
 
       // Tipi
       // It looks like another mini kiwi has sprung up next to your tiny kiwi tipi!
-      if (responseText.contains("next to your tiny kiwi tipi")) {
+      if (dwellingId == ItemPool.MINI_KIWI_TIPI
+          && responseText.contains("next to your tiny kiwi tipi")) {
         Preferences.setBoolean("_miniKiwiTipiDrop", true);
       }
 
       // Gingerbread House
       // Your festively-decorated dwelling brings a smile to your face as you drift off.
-      if (responseText.contains("festively-decorated dwelling brings a smile to your face")) {
+      if (dwellingId == ItemPool.GINGERBREAD_HOUSE
+          && responseText.contains("festively-decorated dwelling brings a smile to your face")) {
         Preferences.setBoolean("_gingerbreadHouseRestEffectGained", true);
       }
 
       // Hobo Fortress
-      if (responseText.contains("You stare up at the vaulted ceiling of your hobo fortress")) {
+      if (dwellingId == ItemPool.HOBO_FORTRESS
+          && responseText.contains("You stare up at the vaulted ceiling of your hobo fortress")) {
         // No limit
         Preferences.increment("_hoboFortRestEffectsGained");
       }
 
       // Residence-Cube
-      if (responseText.contains("the spinning would make it harder to relax")) {
+      if (dwellingId == ItemPool.RESIDENCE_CUBE
+          && responseText.contains("the spinning would make it harder to relax")) {
         Preferences.setBoolean("_residenceCubeRestEffectGained", true);
       }
 
       // Mushroom House
-      // You lie down on the floor for a quick nap.
-      if (responseText.contains("You lie down on the floor for a quick nap.")) {
+      if (dwellingId == ItemPool.HOUSE_SIZED_MUSHROOM) {
         // Mushroom house does not have an effect-specific message
         Preferences.setBoolean("_mushroomHouseRestEffectGained", true);
       }
