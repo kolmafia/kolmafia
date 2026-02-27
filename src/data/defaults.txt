@@ -2770,7 +2770,6 @@ user	_timeCopsFoughtToday	0
 user	_timeSpinnerFoodAvailable
 user	_timeSpinnerMinutesUsed	0
 user	_timeSpinnerReplicatorUsed	false
-user	_tipiMiniKiwiGained	false
 user	_toastSummoned	false
 user	_tokenDrops	0
 user	_tonicDjinn	false
