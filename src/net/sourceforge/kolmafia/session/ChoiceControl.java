@@ -9960,6 +9960,7 @@ public abstract class ChoiceControl {
       case 1588: // Decorate Your Eternity Codpiece
       case 1592: // Flesh Workbench
       case 1593: // Amino Sac
+      case 1596: // Dig at Location
         return true;
 
       default:

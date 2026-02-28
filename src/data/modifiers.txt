@@ -12160,6 +12160,7 @@ Item	4:20 bomb	Last Available: "2011-09"
 # 1952 Mickey Mantle card: Super valuable!
 Item	1952 Mickey Mantle card	Last Available: "2015-07"
 Item	2002 Mr. Store Catalog	Last Available: "2023-06"
+Item	2015 landfill detritus	Last Available: "2026-03"
 # 30669 scroll: Mostly Just Confuses Enemies
 # 31337 scroll: Mostly Just Confuses Enemies
 # 33398 scroll: Mostly Just Confuses Enemies
@@ -12243,6 +12244,7 @@ Item	anchor bomb	Last Available: "2024-12"
 # ancient cure-all: Allows you to remove an Effect
 # ancient Magi-Wipes: Restores 50-60 MP and HP and removes some negative effects
 # ancient poisoned dart: Poisons your opponent
+Item	ancient Pork Elf pottery shard	Last Available: "2026-03"
 Item	ancient redwood	Last Available: "2020-08"
 # ancient skull key: Presumably unlocks things in PirateRealm
 Item	ancient skull key	Lasts Until Rollover, Last Available: "2019-04"
@@ -12268,6 +12270,8 @@ Item	antique souvenir drawing	Last Available: "2010-08"
 Item	antique tacklebox	Fishing Skill: +5, Last Available: "2016-04"
 Item	Apathargic Bandersnatch	Free Pull, Last Available: "2011-12"
 Item	Apriling band piccolo	Familiar Weight: +10, Lasts Until Rollover, Generic
+# Archaeologist's Spade: Dig up ancient relics, 11 times per day
+Item	Archaeologist's Spade	Last Available: "2026-03"
 Item	Armory keycard	Last Available: "2014-10"
 Item	Arr, M80	Last Available: "2021-07"
 Item	arrest warrant	Lasts Until Rollover, Last Available: "2018-04"
@@ -12491,6 +12495,7 @@ Item	box of hammers	Last Available: "2011-09"
 Item	box of Pok&euml;mann band-aids	Last Available: "2011-05"
 Item	box of sunshine	Free Pull
 Item	boxed Apriling band helmet	Free Pull, Last Available: "2024-04"
+Item	boxed Archaeologist's Spade	Free Pull, Last Available: "2026-03"
 Item	boxed august scepter	Free Pull
 Item	boxed autumn-aton	Free Pull, Last Available: "2022-10"
 Item	boxed bat wings	Free Pull, Last Available: "2024-10"
@@ -13000,6 +13005,7 @@ Item	Dickory Farms Gift Basket	Last Available: "2011-01"
 # Diet Cloaca Cola: Restores 7-9 MP
 # dinged-up triangle: Summons a Hobo buddy
 # dingy dinghy: <b>Allows Travel to The Mysterious Island of Mystery</b>
+Item	dinosaur bone fragment	Last Available: "2026-03"
 # dinosaur dart: Deal 500 damage to any non-Boss dinosaur
 Item	Dinsey Maintenance Manual	Skill: "Dinsey Operations Expert", Last Available: "2015-04"
 # Dinsey tattoo kit: Grants a cool Dinsey tattoo when used
@@ -13271,6 +13277,7 @@ Item	foreign language tapes	Last Available: "2015-01"
 # forest tears: Restores 5-10 HP
 Item	fossilized baboon skull	Last Available: "2010-09"
 Item	fossilized bat skull	Last Available: "2010-09"
+Item	fossilized cow femur	Familiar Weight: +5
 Item	fossilized demon skull	Last Available: "2010-09"
 Item	fossilized limb	Last Available: "2010-09"
 Item	fossilized serpent skull	Last Available: "2010-09"
