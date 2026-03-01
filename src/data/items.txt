@@ -12214,7 +12214,7 @@
 12185	boxed Archaeologist's Spade	146343756	archspade_box.gif	usable	t	0
 12186	dinosaur bone fragment	340995100	dinoshard.gif	none	t,d	11
 12187	ancient Pork Elf pottery shard	442853146	porkelfpot.gif	none	t,d	11
-12188	2015 landfill detritus	574158181	2015junk.gif	none	t,d	11
+12188	2015 landfill detritus	574158181	2015junk.gif	none	t,d	11	piles of 2015 landfill detritus
 12189	intact dinosaur egg	833010684	dinoegg.gif	grow	t	0
 12190	fossilized cow femur	778779356	dinobone.gif	familiar	t,d	75
 12191	unopened Pork Elf toiletries kit	892256018	toiletrieskit1.gif	usable	t	0
