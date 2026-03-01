@@ -771,6 +771,7 @@ raisin	1	1	crappy	1	0	0	0
 raspberry	1	2	decent	2	0	0	0
 rat appendix kabob	2	1	decent	2-5	0	0	6-9
 rat appendix stir-fry	3	4	awesome	8-12	0	0	27-31
+rat pizza	2	1	awesome	0	0	0	0	Unspaded
 rat scrapple	2	2	decent	2-7	0	0	10-12
 ratatouille de Jarlsberg	1	1	EPIC	5-7	0	20-40	0	30 parfum d'herbes (+5 Mysticality, +50% Mysticality, +5 Stench Res)
 ratini	4	4	good	10-14	0	20-30	0

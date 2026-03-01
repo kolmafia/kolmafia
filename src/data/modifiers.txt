@@ -7626,6 +7626,7 @@ Effect	Ramboner	Avatar: "Mercenary of Fortune"
 Effect	Rampage!	Weapon Damage Percent: +50
 Effect	Rank Sweat	Stench Resistance: +7
 Effect	Rat-Faced	Moxie Percent: +10
+Effect	Ratabunga, Dude!	Familiar Weight: +10
 Effect	Rational Thought	Combat Rate: -5
 Effect	Rattlin' Head	Avatar: "forest spirit"
 Effect	Rave Concentration	Item Drop: +30
@@ -9914,6 +9915,7 @@ Item	quantum taco	Last Available: "2010-10"
 Item	queen cookie	Effect: "Towering Strength", Effect Duration: 30, Effect: "Mitre Cut", Effect Duration: 30, Effect: "Knightlife", Effect Duration: 30, Effect: "The Royal We", Effect Duration: 30, Last Available: "2010-03"
 Item	rack of dinosaur ribs	Effect: "Meat the Flintstones", Effect Duration: 30
 Item	raisin	Last Available: "2010-04"
+Item	rat pizza	Effect: "Ratabunga, Dude!", Effect Duration: 50, Last Available: "2026-03"
 Item	ratatouille de Jarlsberg	Effect: "parfum d'herbes", Effect Duration: 30, Last Available: "2022-11"
 Item	raw bread	Last Available: "2016-11"
 Item	raw cranberry sauce	Last Available: "2016-11"

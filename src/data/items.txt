@@ -12235,7 +12235,7 @@
 12206	Pork Elf medicine cabinet	784227709	pork_cabinet.gif	usable	d	50
 12207	Pork Elf sink	505264807	pork_sink.gif	usable	d	100
 12208	Pork Elf toilet	568128576	pork_toilet.gif	usable	d	200
-12209
+12209	rat pizza	254859445	ratpizza.gif	food	d	10
 12210
 12211	hoverboard	501769867	hoverboard.gif	accessory	d	50
 12212	left shark fin	565452460	leftsharkfin.gif	offhand	d	100
