@@ -5118,6 +5118,7 @@ Throne	Crimbo Elf	Weapon Damage: +10, Drops Items
 Throne	Crimbo P. R. E. S. S. I. E.	Muscle: +10, Mysticality: +10, Moxie: +10
 Throne	Crimbo Shrub	Muscle: +10, Mysticality: +10, Moxie: +10
 Throne	Cuddlefish	Initiative: +20
+Throne	Cute Skeletal Dinosaur	
 Throne	Cute Meteor	Hot Damage: +15
 Throne	Cymbal-Playing Monkey	Experience (Moxie): +2
 Throne	Dancing Frog	Meat Drop: +20
