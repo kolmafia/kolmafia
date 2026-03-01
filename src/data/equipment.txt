@@ -101,6 +101,7 @@ depleted Grimacite ninja mask	100	Mox: 35
 devilbone helmet	120	Mox: 40
 dice-print do-rag	10	none
 dilapidated wizard hat	125	Mox: 47
+dinosaur skull helmet	100	none
 Dinsey mascot mask	10	none
 Dinsey's brain	200	Mox: 100
 Disco 'Fro Pick	100	Mox: 15
@@ -831,6 +832,7 @@ BGE 'cuddly critter' shirt	30	none
 BGE 'ferocious fruit' shirt	30	none
 birdbone corset	50	none
 blessed rustproof +2 gray dragon scale mail	150	none
+blue and black dress	50	none
 bod-ice	100	none
 Brogre brolo shirt	100	Mus: 35
 bronze breastplate	105	Mus: 37
@@ -856,6 +858,7 @@ Crimbuccaneer shirt	50	none
 demonskin jacket	80	Mus: 25
 denim jacket	50	none
 devilbone corset	120	Mus: 40
+dinosaur bone corset	100	none
 Dragonscale breastplate	200	Mus: 40
 dreadful sweater	200	Mys: 200
 duct tape shirt	195	Mus: 82
@@ -967,6 +970,7 @@ tuxedo shirt	100	Mus: 35
 Ultracolor&trade; shirt	100	Mus: 35
 Unkillable Skeleton's breastplate	300	Mus: 250
 unrequired jacket	160	Mus: 65
+white and gold dress	50	none
 white hat hacker T-shirt	65	Mus: 17
 white snakeskin duster	45	Mus: 7
 witch's bra	200	Mys: 85
@@ -1203,6 +1207,7 @@ devilbone flute	120	Mox: 40	1-handed flute
 diabolical crossbow	200	Mox: 150	1-handed crossbow
 diamond-studded cane	60	Mus: 15	1-handed club
 didgeridooka	180	Mox: 75	2-handed blowgun
+dinosaur bone club	100	Mus: 0	2-handed club
 Dinsey's pizza cutter	200	Mys: 100	1-handed utensil
 disco ball	10	Mox: 0	1-handed disco ball
 Disco Banjo	50	Mox: 10	2-handed banjo
@@ -2144,6 +2149,7 @@ LARP carp	0	none
 latte lovers member's mug	0	none
 lead umbrella	0	none
 left bear arm	0	none
+left shark fin	0	none
 Left-Hand Man action figure	50	none
 left-handed melodica	160	Mox: 150
 lemonade marble	204	Mys: 85
@@ -2765,6 +2771,7 @@ fishbone bracers	20	none
 fishbone facemask	20	none
 fishbone fins	20	none
 fishbone kneepads	20	none
+fitness tracking bracelet	0	none
 flagstone flip-flops	120	Mys: 40
 flagstone fringe	120	Mox: 40
 flapper floppers	100	Mys: 35
@@ -2882,6 +2889,7 @@ hockey stick of furious angry rage	100	Mys: 35
 Hodgman's bow tie	200	Mys: 200
 Hodgman's lucky sock	200	Mys: 200
 hopping socks	200	Mys: 200
+hoverboard	0	none
 ice key	10	none
 ice skates	0	none
 ice wrap	100	none

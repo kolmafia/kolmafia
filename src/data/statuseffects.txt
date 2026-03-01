@@ -3083,3 +3083,15 @@
 3080	Hamming It Up	ham.gif	b7fac4ac8f38062d2c67d7e28db5bd0c	neutral	none	cast 1 Ham It Up
 3081	Steak Skirt	steakskirt.gif	528b163d59bf6ba790e9f35c9847aa4f	neutral	none	cast 1 Steak Skirt
 3082	Dirty Mind	noart.gif	037763ef9580c3b743173bc1c546a08c	neutral	none
+3083	Mouthwashed	pork_mouthwash.gif	b6fd65a03e54dbc6c16aea7cf66c3489	neutral	none	use 1 Pork Elf mouthwash
+3084	Porky Fresh	pork_deodorant.gif	5c496058c981445c480edbdf5c2790c5	neutral	none	use 1 Pork Elf deodorant
+3085	Antediluvian Smile	pork_toothpaste.gif	9c951ebf749ebea79889e008a2cda3fb	neutral	none	use 1 Pork Elf toothpaste
+3086
+3087	Pork Elf Brain Amoeba	amoeba.gif	06a65020207801bd29b4f8ceb539cb74	neutral	none
+3088
+3089
+3090
+3091
+3092
+3093	Pork Elf Medicine	pork_cabinet.gif	2ea8891b95d949f27a2648bc176b7888	neutral	none
+3094	Extremely Clean Hands	pork_sink.gif	d83b834aef27a5804a94acfb9b50919b	neutral	none

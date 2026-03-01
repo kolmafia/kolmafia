@@ -184,6 +184,7 @@ Item	depleted Grimacite ninja mask	Moxie Percent: [5*G], PvP Fights: [G], Last A
 Item	devilbone helmet	Monster Level: +13, Combat Rate: +5, Last Available: "2026-12"
 Item	dice-print do-rag	Random Monster Modifiers: +1
 Item	dilapidated wizard hat	Hot Damage: +10, Hot Spell Damage: +15, Familiar Effect: "cap 31"
+Item	dinosaur skull helmet	Muscle Percent: +25, Maximum HP: +25, Last Available: "2026-03"
 # Dinsey mascot mask: Changes Your Avatar
 Item	Dinsey mascot mask	Item Drop: -50, Initiative: -100, Last Available: "2015-04"
 Item	Dinsey's brain	Stench Spell Damage: +30, Mysticality Percent: +30, Last Available: "2015-04"
@@ -989,6 +990,7 @@ Item	BGE 'cuddly critter' shirt	Item Drop: +7, Meat Drop: +7, Last Available: "2
 Item	BGE 'ferocious fruit' shirt	Moxie: +10, Maximum HP: +10, Last Available: "2010-12"
 Item	birdbone corset	Maximum Hooch: +2
 Item	blessed rustproof +2 gray dragon scale mail	Muscle: +2, Mysticality: +2, Moxie: +2, Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, HP Regen Min: 2, HP Regen Max: 22, MP Regen Min: 2, MP Regen Max: 22, Last Available: "2023-09"
+Item	blue and black dress	Booze Drop: +75, Maximum MP: +25, Last Available: "2026-03"
 Item	bod-ice	Monster Level: +25, Sleaze Damage: +25, Sleaze Spell Damage: +25, Lasts Until Rollover, Last Available: "2014-01"
 Item	Brogre brolo shirt	PvP Fights: +3, Last Available: "2014-05"
 Item	bronze breastplate	Damage Absorption: +20, Damage Reduction: 4
@@ -1015,6 +1017,7 @@ Item	demonskin jacket	Mysticality: +5, Hot Spell Damage: +5
 Item	denim jacket	Mysticality: +10, MP Regen Min: 4, MP Regen Max: 8, Last Available: "2018-09"
 # devilbone corset: Adds Hot Damage to your Attacks
 Item	devilbone corset	Monster Level: +13, Stomach Capacity: +1, Last Available: "2026-12"
+Item	dinosaur bone corset	Muscle Percent: +25, Weapon Damage Percent: +25, HP Regen Min: 5, HP Regen Max: 10, Last Available: "2026-03"
 Item	Dragonscale breastplate	Muscle: +15, Muscle Percent: +25, Spooky Resistance: +3, Stench Resistance: +3, Hot Resistance: +3, Cold Resistance: +3, Sleaze Resistance: +3, Last Available: "2018-04"
 Item	dreadful sweater	HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 10, MP Regen Max: 20, Kruegerand Drop: 5
 Item	duct tape shirt	Moxie: +9, Meat Drop: +20
@@ -1131,6 +1134,7 @@ Item	tuxedo shirt	Moxie: +7
 Item	Ultracolor&trade; shirt	Spooky Damage: [E], Stench Damage: [E], Hot Damage: [E], Cold Damage: [E], Sleaze Damage: [E], Last Available: "2011-05"
 Item	Unkillable Skeleton's breastplate	Experience (familiar): +1, Familiar Weight: +5, Familiar Damage: +10, Class: "Turtle Tamer"
 Item	unrequired jacket	Initiative: +20
+Item	white and gold dress	Food Drop: +75, Maximum HP: +50, Last Available: "2026-03"
 Item	white hat hacker T-shirt	Critical Hit Percent: +3, Muscle: +2, Mysticality: +2, Moxie: +2
 Item	white snakeskin duster	Muscle: +2, Maximum HP: +10
 # witch's bra: All Spells Cast Are Cold
@@ -1398,6 +1402,7 @@ Item	devilbone flute	Monster Level: +13, Mana Cost (combat): -2, Last Available:
 Item	diabolical crossbow	Spooky Damage: +30, Critical Hit Percent: +10, Slime Hates It: +1
 Item	diamond-studded cane	Moxie: +5, Class: "Disco Bandit"
 Item	didgeridooka	Moxie: +9
+Item	dinosaur bone club	Muscle Percent: +25, Last Available: "2026-03"
 # Dinsey's pizza cutter: Motorized Blade is Good for Twisting
 Item	Dinsey's pizza cutter	Spell Damage Percent: +50, Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Last Available: "2015-04"
 # disco ball
@@ -2456,6 +2461,7 @@ Item	Kramco Sausage-o-Matic&trade;	Item Drop: +10, Food Drop: +10, Maximum HP: +
 Item	LARP carp	Muscle: +10, Mysticality: +10, Moxie: +10
 Item	latte lovers member's mug	Conditional Skill (Equipped): "Throw Latte on Opponent", Conditional Skill (Equipped): "Offer Latte to Opponent", Conditional Skill (Equipped): "Gulp Latte"
 Item	left bear arm	Muscle Percent: +10, Maximum HP: +30, Damage Reduction: 10, Softcore Only: [1-path(Zombie Slayer)], Last Available: "2012-09", Conditional Skill (Equipped): "Bear-Backrub", Conditional Skill (Equipped): "Bear-ly Legal"
+Item	left shark fin	Experience Percent (Muscle): +10, Experience Percent (Mysticality): +10, Experience Percent (Moxie): +10, Last Available: "2026-03"
 Item	Left-Hand Man action figure	Familiar Weight: +7, Last Available: "2020-04"
 Item	left-handed melodica	Ranged Damage: +25, Class: "Accordion Thief"
 Item	lemonade marble	Cold Spell Damage: +45
@@ -3169,6 +3175,7 @@ Item	fishbone facemask	Monster Level: [-30*path(Heavy Rains)]
 Item	fishbone fins	Single Equip
 # fishbone kneepads: (Heavy Rains only)
 Item	fishbone kneepads	Initiative: [60*path(Heavy Rains)], Single Equip
+Item	fitness tracking bracelet	PvP Fights: +1, Single Equip, Last Available: "2026-03"
 Item	flagstone flip-flops	Experience (Mysticality): +3, Initiative: +40, Single Equip, Last Available: "2022-12", Conditional Skill (Equipped): "Flagstone Flap Flip"
 Item	flagstone fringe	Moxie Percent: +20, PvP Fights: +4, Single Equip, Last Available: "2022-12", Conditional Skill (Equipped): "Flagstone Foxtrot"
 Item	flapper floppers	Mysticality Percent: +25, Experience (Mysticality): +2, Single Equip
@@ -3305,6 +3312,8 @@ Item	hockey stick of furious angry rage	Monster Level: +30, Muscle Percent: +5
 Item	Hodgman's bow tie	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20, Hobo Power: +25, Single Equip
 Item	Hodgman's lucky sock	Hobo Power: +50, Single Equip
 Item	hopping socks	Slime Resistance: +1, Accessory Drop: +20, Maximum HP: +200, Maximum MP: +200, Single Equip
+# hoverboard: Explodes if you use it for more than 50 Adventures in a day
+Item	hoverboard	Moxie Percent: +25, Initiative: +25, Item Drop: +25, Single Equip, Last Available: "2026-03"
 Item	ice key	Cold Resistance: +3, Cold Damage: +15, Cold Spell Damage: +30, Last Available: "2020-08"
 Item	ice skates	Initiative: +15, Meat Drop: +15, Single Equip, Softcore Only, Last Available: "2006-02"
 Item	ice wrap	Muscle: +10, Mysticality: +10, Moxie: +10, Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Experience: +3, Single Equip, Lasts Until Rollover, Last Available: "2021-12"
@@ -5639,6 +5648,7 @@ Effect	Animal Lover	Experience (familiar): +2
 Effect	Annoyed by Threats	Monster Level: +25
 # Antarctic Memories: Recover HP and MP after battle
 Effect	Antarctic Memories	HP Regen Min: 40, HP Regen Max: 40, MP Regen Min: 40, MP Regen Max: 40
+Effect	Antediluvian Smile	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 Effect	Anti-Burning	Hot Resistance: +2, Cold Damage: +20, Cold Spell Damage: +20, Spooky Damage: +20, Spooky Spell Damage: +20
 Effect	Anti-Creeped	Sleaze Resistance: +2, Hot Damage: +20, Hot Spell Damage: +20, Stench Damage: +20, Stench Spell Damage: +20
 Effect	Anti-Freezing	Cold Resistance: +2, Stench Damage: +20, Stench Spell Damage: +20, Sleaze Damage: +20, Sleaze Spell Damage: +20
@@ -6426,6 +6436,7 @@ Effect	Extra-Sharp Weapon	Weapon Damage Percent: +30
 Effect	Extra-Thick Blood	HP Regen Min: 5, HP Regen Max: 10
 Effect	Extra-Wet	Hot Resistance: +3
 Effect	Extreme Muscle Relaxation	Initiative: -50, Muscle Percent: +25
+Effect	Extremely Clean Hands	Experience: +10
 Effect	Extremely Poor Taste	Monster Level: +10
 Effect	Eye of Cold	Cold Damage: +11
 Effect	Eye of Fear	Spooky Damage: +11
@@ -7257,6 +7268,7 @@ Effect	Mortarfied	Damage Absorption: +100
 Effect	Motherly Loved	Muscle: +5, Muscle Percent: +50, Cold Resistance: +5
 Effect	Motion	Initiative: +100
 Effect	Motorhair	Avatar: "motorhead"
+Effect	Mouthwashed	Meat Drop: +50
 Effect	Moxious Intentions	Experience (Moxie): +3
 # Mr. Skullhead's Birthday Happiness: Puts a birthday smile on your face.
 Effect	Mrs. Frozen	Avatar: "Mrs. Freeze"
@@ -7514,9 +7526,13 @@ Effect	Pop-eyed	Weapon Damage: +30
 # Popping Stomach: Tee-hee!
 Effect	Poppy Performance	Initiative: +100, Moxie Percent: +50
 Effect	Pork Barrel	Item Drop: +90
+# Pork Elf Brain Amoeba: Always find Pork Elf items when engaging in Archaeology
+Effect	Pork Elf Brain Amoeba	Mysticality: +25
+Effect	Pork Elf Medicine	HP Regen Min: 25, HP Regen Max: 50
 Effect	Pork Power	Muscle: +10
 Effect	Porked Up	Hot Resistance: +3, Cold Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3, Sleaze Resistance: +3
 Effect	Porkpocketed	Avatar: "Porkpocket"
+Effect	Porky Fresh	Combat Rate: -5
 Effect	Possessive Pressure	Item Drop: [30*env(underwater)]
 Effect	Potpourri Committed	Stench Resistance: +5
 Effect	Pounded by the Actual Stars	Maximum MP Percent: +100
@@ -9223,6 +9239,7 @@ Outfit	Cursed Zombie Pirate Costume	Spooky Damage: +30
 Outfit	Dark Bro's Vestments	Spooky Spell Damage: +40
 Outfit	Dental Drip	Candy Drop: +25
 Outfit	Devilbone Prison	Monster Level: +25
+Outfit	Dino Drip	Muscle Percent: +25
 Outfit	Dinsey's Exoskeleton	Muscle: +100, Mysticality: +100, Moxie: +100
 Outfit	Dire Drifter Duds	Familiar Weight: +5, Conditional Skill (Equipped): "Zombo's Visage"
 Outfit	Dreadful Bugbear Suit	Hot Damage: +50, Hot Spell Damage: +50
@@ -11600,6 +11617,9 @@ Item	polyeaster egg	Effect: "Roly Poly", Effect Duration: 5
 Item	Polysniff Perfume	Effect: "Neutered Nostrils", Effect Duration: 10
 Item	poppy	Effect: "It's Soporiffic!", Effect Duration: 10
 Item	porcelain candy dish	Effect: "Red in Tooth", Effect Duration: 5
+Item	Pork Elf deodorant	Effect: "Porky Fresh", Effect Duration: 25, Last Available: "2026-03"
+Item	Pork Elf mouthwash	Effect: "Mouthwashed", Effect Duration: 25, Last Available: "2026-03"
+Item	Pork Elf toothpaste	Effect: "Antediluvian Smile", Effect Duration: 25, Last Available: "2026-03"
 Item	portable wall	Effect: "Wallflowering", Effect Duration: 20, Last Available: "2014-12"
 Item	possibility potion	Effect: "Always In Motion", Effect Duration: 10
 Item	post-holiday sale coupon	Effect: "Black Day", Effect Duration: 1, Last Available: "2013-11"
@@ -12443,6 +12463,7 @@ Item	Bodacious MechaElf Hunter Saga:Relay Wolf	Last Available: "2012-12"
 # Bohemian rhapsody: Deals Physical Damage based on your Level
 Item	Bohemian rhapsody	Last Available: "2007-06"
 Item	bolder boulder	Last Available: "2023-01"
+Item	bolt of striped fabric	Last Available: "2026-03"
 Item	bomb of unknown origin	Last Available: "2016-11"
 Item	bone chips	Last Available: "2011-12"
 Item	bone pacifier	Familiar Weight: +5
@@ -13347,6 +13368,7 @@ Item	giant amorphous blob	Last Available: "2017-11"
 Item	Giant black monolith	Last Available: "2023-06"
 # giant eraser: Lets you escape from combat without spending an Adventure
 Item	giant free-range mushroom	Last Available: "2020-03"
+Item	giant gnawing bone	Last Available: "2026-03"
 Item	giant green gummi ingot	Last Available: "2011-11"
 Item	giant O	Last Available: "2017-11"
 Item	giant red gummi ingot	Last Available: "2011-11"
@@ -13661,6 +13683,7 @@ Item	insignificant bit	Last Available: "2025-12"
 Item	insulated gold wire	Last Available: "2015-08"
 # intact anemone spike: Deal 100 damage (Underwater only)
 Item	intact anemone spike	Last Available: "2019-12"
+Item	intact dinosaur egg	Last Available: "2026-03"
 # interesting clod of dirt: Absorb it for a useful skill!
 Item	interesting-looking twig	Last Available: "2008-06"
 # internet point: Give yourself +1
@@ -14455,6 +14478,10 @@ Item	pool of liquid metal	Last Available: "2009-06"
 # pool torpedo: (has a chance to not go away when used)
 Item	pool torpedo	Last Available: "2012-05"
 Item	Pop Art: a Guide	Skill: "Fifteen Minutes of Flame", Last Available: "2016-12"
+Item	Pork Elf medicine cabinet	Last Available: "2026-03"
+Item	Pork Elf neti pot	Last Available: "2026-03"
+Item	Pork Elf sink	Last Available: "2026-03"
+Item	Pork Elf toilet	Last Available: "2026-03"
 # portable Mayo Clinic: Installs a mayonnaise-centered medical clinic in your workshed
 Item	portable Mayo Clinic	Last Available: "2015-05"
 Item	portable pantogram	Last Available: "2017-11"
@@ -15362,6 +15389,7 @@ Item	unoccupied sheep suit	Free Pull, Last Available: "2023-12"
 Item	unopened Bird-a-Day calendar	Free Pull, Last Available: "2020-01"
 Item	unopened diabolic pizza cube box	Free Pull, Last Available: "2019-11"
 Item	Unopened Eight Days a Week Pill Keeper	Free Pull, Last Available: "2019-10"
+Item	unopened Pork Elf toiletries kit	Last Available: "2026-03"
 Item	unopened tiny stillsuit	Free Pull, Last Available: "2022-08"
 Item	Unpeeled Peridot of Peril	Free Pull, Last Available: "2025-06"
 Item	unpowered Robortender	Free Pull, Last Available: "2017-03"

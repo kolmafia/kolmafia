@@ -362,3 +362,4 @@
 325	Baby Skeleton	babyskel.gif	combat0,block	orphaned baby skeleton	bone pacifier	1	2	1	3	sentient,undead,hasbones,hard,cute,hashands,bite
 326	Skeleton of Crimbo Past	skeletonocp.gif	item0,drop	stocking full of bones	small peppermint-flavored sugar walking crook	0	0	0	0	sentient,organic,humanoid,person,undead,hasbones,hashands,haslegs,wearsclothes,spooky
 327	Tiny Plastic Santa Claus Skeleton	santaskel.gif	passive	assembled tiny plastic Santa skeleton	miniature sleigh	0	0	0	0	sentient,humanoid,person,undead,object,hasbones,hashands,haslegs,hot,evil
+328	Cute Skeletal Dinosaur	bonedino.gif	combat1,block	intact dinosaur egg	fossilized cow femur	0	0	0	0

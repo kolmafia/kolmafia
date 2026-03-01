@@ -12215,5 +12215,28 @@
 12186	dinosaur bone fragment	340995100	dinoshard.gif	none	t,d	11
 12187	ancient Pork Elf pottery shard	442853146	porkelfpot.gif	none	t,d	11
 12188	2015 landfill detritus	574158181	2015junk.gif	none	t,d	11
-12189
+12189	intact dinosaur egg	833010684	dinoegg.gif	grow	t	0
 12190	fossilized cow femur	778779356	dinobone.gif	familiar	t,d	75
+12191	unopened Pork Elf toiletries kit	892256018	toiletrieskit1.gif	usable	t	0
+12192
+12193	Pork Elf mouthwash	414584800	pork_mouthwash.gif	potion, usable	t,d	23
+12194	Pork Elf deodorant	298225267	pork_deodorant.gif	potion, usable	t,d	23
+12195	Pork Elf toothpaste	564589445	pork_toothpaste.gif	potion, usable	t,d	23
+12196	bolt of striped fabric	443095431	stripefabric.gif	usable	t	0
+12197	white and gold dress	640906560	stripedressgw.gif	shirt		0
+12198	blue and black dress	784545984	stripedressbb.gif	shirt		0
+12199
+12200	giant gnawing bone	819286836	gnawbone.gif	usable	d	20
+12201	dinosaur bone club	195750786	clubbone.gif	weapon	d	50
+12202	dinosaur skull helmet	406366063	dinohelmet.gif	hat	d	100
+12203	dinosaur bone corset	440025531	dinocorset.gif	shirt	d	200
+12204
+12205	Pork Elf neti pot	164352055	pork_neti.gif	usable	d	20
+12206	Pork Elf medicine cabinet	784227709	pork_cabinet.gif	usable	d	50
+12207	Pork Elf sink	505264807	pork_sink.gif	usable	d	100
+12208	Pork Elf toilet	568128576	pork_toilet.gif	usable	d	200
+12209
+12210
+12211	hoverboard	501769867	hoverboard.gif	accessory	d	50
+12212	left shark fin	565452460	leftsharkfin.gif	offhand	d	100
+12213	fitness tracking bracelet	999375998	itbit.gif	accessory	d	200

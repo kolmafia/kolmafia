@@ -192,3 +192,5 @@
 185
 186
 187	Scorched Skeleton Suit	sskeltat.gif	scorched skeleton mask, scorched skeleton shirt, scorched skeleton pants	gummi fingerbone
+188
+189	Dino Drip	dinotat.gif	dinosaur skull helmet, dinosaur bone club, dinosaur bone corset
