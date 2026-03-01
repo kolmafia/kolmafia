@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -23,6 +24,7 @@ import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
+import net.sourceforge.kolmafia.persistence.HeartstoneDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
@@ -920,7 +922,7 @@ public class AreaCombatData {
     if (monster.getPoison() < Integer.MAX_VALUE) {
       buffer.append("☠ ");
     }
-    String name = monster.getName();
+    String name = getMonsterName(monster);
     buffer.append(name);
     buffer.append("</b></font> (");
 
@@ -984,6 +986,46 @@ public class AreaCombatData {
     }
 
     return buffer.toString();
+  }
+
+  private String getMonsterName(MonsterData monster) {
+    var heartstone = ItemPool.get(ItemPool.HEARTSTONE);
+    // without heartstone, just return name
+    if (!InventoryManager.equippedOrInInventory(heartstone) && !KoLCharacter.inCodpiece(heartstone)) {
+      return monster.getName();
+    }
+    // with heartstone, we want to highlight the middle letter
+    var name = monster.getName();
+    var middleLetter = HeartstoneDatabase.middleLetter(name);
+    if (middleLetter == null) {
+      return name;
+    }
+
+    int targetByteIndex = middleLetter.byteIndex();
+    int byteIndex = 0;
+    boolean highlighted = false;
+    StringBuilder buffer = new StringBuilder();
+    for (int i = 0; i < name.length(); ) {
+      int codePoint = name.codePointAt(i);
+      String piece = new String(Character.toChars(codePoint));
+      if (codePoint == ' ') {
+        buffer.append(piece);
+      } else {
+        int pieceBytes = piece.getBytes(StandardCharsets.UTF_8).length;
+        if (!highlighted && byteIndex == targetByteIndex && pieceBytes == 1) {
+          buffer.append("<span style=\"background-color: #ffff99\">");
+          buffer.append(piece);
+          buffer.append("</span>");
+          highlighted = true;
+        } else {
+          buffer.append(piece);
+        }
+        byteIndex += pieceBytes;
+      }
+      i += Character.charCount(codePoint);
+    }
+
+    return highlighted ? buffer.toString() : name;
   }
 
   private void appendMeatDrop(final StringBuffer buffer, final MonsterData monster) {
