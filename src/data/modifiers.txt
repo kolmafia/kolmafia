@@ -6451,6 +6451,8 @@ Effect	Eye of Sleaze	Sleaze Damage: +11
 Effect	Eye of Stench	Stench Damage: +11
 Effect	Eye of the Lihc	Spooky Resistance: +1
 Effect	Eye of the Seal	Item Drop: +10
+# Eyebrows On Fleek: Always find 2015 items when engaging in Archaeology
+Effect	Eyebrows On Fleek	Moxie: +25
 Effect	Eyes All Black	Spooky Damage: +100, Spooky Spell Damage: +100
 Effect	Eyes for Miles	Meat Drop: +50, Item Drop: +25
 # Eyes of the Dragon: +100% Item drops from monsters
