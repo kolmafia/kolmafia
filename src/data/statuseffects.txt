@@ -3086,8 +3086,8 @@
 3083	Mouthwashed	pork_mouthwash.gif	b6fd65a03e54dbc6c16aea7cf66c3489	neutral	none	use 1 Pork Elf mouthwash
 3084	Porky Fresh	pork_deodorant.gif	5c496058c981445c480edbdf5c2790c5	neutral	none	use 1 Pork Elf deodorant
 3085	Antediluvian Smile	pork_toothpaste.gif	9c951ebf749ebea79889e008a2cda3fb	neutral	none	use 1 Pork Elf toothpaste
-3086
-3087	Pork Elf Brain Amoeba	amoeba.gif	06a65020207801bd29b4f8ceb539cb74	neutral	none
+3086	Me Gnaw Bone	gnawbone.gif	ad9e5ed1a9bcf074bb0bf99bd04de38f	neutral	none	use 1 giant gnawing bone
+3087	Pork Elf Brain Amoeba	amoeba.gif	06a65020207801bd29b4f8ceb539cb74	neutral	none	use 1 Pork Elf neti pot
 3088
 3089
 3090	Definitely Not Coughing	pork_syrup.gif	b09f4d573951e67d1ddcdc5696ab7bf2	neutral	none	drink 1 Pork Elf cough syrup

@@ -7187,6 +7187,8 @@ Effect	Material Witness	Meat Drop: +10
 Effect	Materiel Intel	Item Drop: +100
 Effect	Mathematically Precise	Combat Item Damage Percent: 50
 Effect	Mayeaugh	Damage Aura: 1
+# Me Gnaw Bone: Always find dinosaur items when engaging in Archaeology
+Effect	Me Gnaw Bone	Muscle: +25
 Effect	Meadulla Oblongota	Experience: +5, Maximum MP Percent: +50
 Effect	Meat Puppet	Familiar Weight: +5
 # Meat Shielded
@@ -13285,6 +13287,7 @@ Item	Flan	Last Available: "2018-03"
 # flaregun: Deals Various Kinds of Naval Damage
 Item	flask of holy water	Lasts Until Rollover, Last Available: "2018-04"
 Item	flavored foot massage oil	Last Available: "2008-04"
+Item	Fleek&trade; mascara	Last Available: "2026-03"
 Item	flickering pixel	Last Available: "2013-12"
 Item	flimsy hardwood scraps	Last Available: "2020-08"
 # flirtatious feather: Deals 80-120 <font color=blueviolet>Sleaze Damage</font>
