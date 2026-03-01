@@ -5860,6 +5860,7 @@ Effect	Bloody Hand	Muscle: -1
 Effect	Bloody Potato Bits	HP Regen Min: 3, HP Regen Max: 5
 Effect	Bloody-minded	Damage vs. Vampires: +50
 Effect	Blooper Inked	Combat Rate: -10
+Effect	Blown-Up Feet	Moxie: -50, Maximum HP: -50, Initiative: -100
 Effect	Blubbered Up	Moxie: +5
 Effect	Blue Eyed Devil	Experience Percent (Mysticality): +50
 Effect	Blue Swayed	Experience (familiar): [ceil(min(T,50)/5)], Familiar Weight: [ceil(min(T,50)/10)]
