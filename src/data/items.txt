@@ -12230,7 +12230,7 @@
 12201	dinosaur bone club	195750786	clubbone.gif	weapon	d	50
 12202	dinosaur skull helmet	406366063	dinohelmet.gif	hat	d	100
 12203	dinosaur bone corset	440025531	dinocorset.gif	shirt	d	200
-12204
+12204	Pork Elf cough syrup	331878125	pork_syrup.gif	drink	d	10	bottles of Pork Elf cough syrup
 12205	Pork Elf neti pot	164352055	pork_neti.gif	usable	d	20
 12206	Pork Elf medicine cabinet	784227709	pork_cabinet.gif	usable	d	50
 12207	Pork Elf sink	505264807	pork_sink.gif	usable	d	100

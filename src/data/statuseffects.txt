@@ -3090,7 +3090,7 @@
 3087	Pork Elf Brain Amoeba	amoeba.gif	06a65020207801bd29b4f8ceb539cb74	neutral	none
 3088
 3089
-3090
+3090	Definitely Not Coughing	pork_syrup.gif	b09f4d573951e67d1ddcdc5696ab7bf2	neutral	none	drink 1 Pork Elf cough syrup
 3091
 3092
 3093	Pork Elf Medicine	pork_cabinet.gif	2ea8891b95d949f27a2648bc176b7888	neutral	none

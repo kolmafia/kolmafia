@@ -6236,6 +6236,7 @@ Effect	Deep-Fried	Hot Resistance: +2, Stench Vulnerability, Sleaze Vulnerability
 Effect	Deep-Seated Rage	Damage vs. Mer-kin: 100
 Effect	Deep-Tainted Mind	Mysticality Percent: -50
 Effect	Deeply Ironic	Damage Reduction: 5, HP Regen Min: 5, HP Regen Max: 8
+Effect	Definitely Not Coughing	Maximum MP: +20, Initiative: +40, MP Regen Min: 5, MP Regen Max: 10
 Effect	Delayed Gratification	Mysticality: +25
 Effect	Delighted by Autumn	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 Effect	Demon in Combat	Spooky Damage: +100, Never Fumble, Damage Reduction: 50, HP Regen Min: 40, HP Regen Max: 50
@@ -10455,6 +10456,7 @@ Item	pixel whiskey	Effect: "Wall Rage", Effect Duration: 5
 Item	Plague of Locusts	Effect: "Cockroach Scurry", Effect Duration: 15, Last Available: "2012-03"
 # plastic cup of beer: Deals 30-40 <font color=blueviolet>Sleaze Damage</font>
 Item	plastic cup of beer	Last Available: "2010-06"
+Item	Pork Elf cough syrup	Effect: "Definitely Not Coughing", Effect Duration: 50, Last Available: "2026-03"
 # primitive alien booze: Extends the duration of up to 10 of your effects by 5 Adventures
 Item	primitive alien booze	Last Available: "2017-04"
 Item	prussian cathouse sidecar	Last Available: "2025-03"
