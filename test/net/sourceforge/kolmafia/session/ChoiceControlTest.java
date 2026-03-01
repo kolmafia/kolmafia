@@ -1789,4 +1789,16 @@ class ChoiceControlTest {
       assertThat(stream, containsString("Note: bottom text"));
     }
   }
+
+  @Test
+  void canParseArchSpadeUses() {
+    var cleanups = new Cleanups(withPostChoice1(0, 0), withProperty("_archSpadeDigs", 0));
+    try (cleanups) {
+      var req = new GenericRequest("choice.php?whichchoice=1596");
+      req.responseText = html("request/test_choice_arch_spade.html");
+
+      ChoiceManager.visitChoice(req);
+      assertThat("_archSpadeDigs", isSetTo(1));
+    }
+  }
 }

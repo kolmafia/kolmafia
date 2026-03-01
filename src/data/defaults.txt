@@ -1892,6 +1892,7 @@ user	_aprilBandTomUses	0
 user	_aprilBandTubaUses	0
 user	_aprilBandStaffUses	0
 user	_aprilBandPiccoloUses	0
+user	_archSpadeDigs	0
 user	_armyToddlerCast	false
 user	_astralDrops	0
 user	_aug1Cast	false

@@ -4713,6 +4713,13 @@ public abstract class ChoiceControl {
           break;
         }
       }
+
+      case 1596 -> {
+        // Dig at Zone
+        if (ChoiceManager.lastDecision != 4) {
+          Preferences.increment("_archSpadeDigs", 1, 11);
+        }
+      }
     }
   }
 
@@ -4799,6 +4806,8 @@ public abstract class ChoiceControl {
   private static final Pattern DIGGING_GIFT_PATTERN =
       Pattern.compile(
           "Looks like they left a note: <div style=\"padding: 1em; margin: 1em; border: 1px solid black\">(.*?)</div>");
+  private static final Pattern ARCH_SPADE_PATTERN =
+      Pattern.compile("wherewithal to dig <b>(\\d+)</b> more");
 
   private static final Pattern MAYAM_SYMBOLS =
       Pattern.compile("<img data-pos=\"\\d\" class=\"(used)?\"? alt=\"([^\\s]+)\\s");
@@ -8736,6 +8745,17 @@ public abstract class ChoiceControl {
         // Visiting the Skeleton of Crimbo Past
         SkeletonOfCrimboPastRequest.visit(text);
       }
+
+      case 1596 -> {
+        {
+          // Dig at Zone
+          Matcher matcher = ARCH_SPADE_PATTERN.matcher(text);
+          if (matcher.find()) {
+            Preferences.setInteger(
+                "_archSpadeDigs", 11 - StringUtilities.parseInt(matcher.group(1)));
+          }
+        }
+      }
     }
   }
 
@@ -9960,7 +9980,7 @@ public abstract class ChoiceControl {
       case 1588: // Decorate Your Eternity Codpiece
       case 1592: // Flesh Workbench
       case 1593: // Amino Sac
-      case 1596: // Dig at Location
+      case 1596: // Dig at Zone
         return true;
 
       default:
