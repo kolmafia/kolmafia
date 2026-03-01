@@ -38,11 +38,11 @@ public class ShopRowDatabase {
   public record ShopRowData(int row, String shopId, AdventureResult item, AdventureResult[] costs) {
     public String dataString() {
       StringBuilder buf = new StringBuilder();
-      buf.append(String.valueOf(row));
+      buf.append(row);
       buf.append("\t");
       buf.append(shopId);
       buf.append("\t");
-      buf.append(item == null ? "unknown" : item.toString());
+      buf.append(item);
       for (AdventureResult cost : costs) {
         buf.append("\t");
         buf.append(cost.toString());
