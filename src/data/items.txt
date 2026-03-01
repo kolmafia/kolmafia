@@ -12225,7 +12225,7 @@
 12196	bolt of striped fabric	443095431	stripefabric.gif	usable	t	0
 12197	white and gold dress	640906560	stripedressgw.gif	shirt		0
 12198	blue and black dress	784545984	stripedressbb.gif	shirt		0
-12199
+12199	dinosaur bone broth	508811427	dinobroth.gif	potion, usable	d	10
 12200	giant gnawing bone	819286836	gnawbone.gif	reusable	d	20
 12201	dinosaur bone club	195750786	clubbone.gif	weapon	d	50
 12202	dinosaur skull helmet	406366063	dinohelmet.gif	hat	d	100
