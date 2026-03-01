@@ -42,7 +42,7 @@ public class ShopRowDatabase {
       buf.append("\t");
       buf.append(shopId);
       buf.append("\t");
-      buf.append(item.toString());
+      buf.append(item == null ? "unknown" : item.toString());
       for (AdventureResult cost : costs) {
         buf.append("\t");
         buf.append(cost.toString());

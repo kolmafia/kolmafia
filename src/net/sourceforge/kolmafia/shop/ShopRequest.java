@@ -303,7 +303,7 @@ public class ShopRequest extends GenericRequest {
       }
 
       // Shops can sell skills. Assume all such are new-style coinmasters
-      if (item.isSkill()) {
+      if (item != null && item.isSkill()) {
         newCoinmasterRows.add(shopRow);
         continue;
       }

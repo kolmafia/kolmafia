@@ -335,5 +335,33 @@ public class ShopRequestTest {
 
       assertThat(text, containsString(expected));
     }
+
+    @Test
+    void canParseNewShopWithMysteryBuyables() {
+      String shopId = "dinobone";
+      String responseText = html("request/test_shop_dinobone_mystery.html");
+
+      SessionLoggerOutput.startStream();
+      var shopRows = ShopRequest.parseShopInventory(shopId, responseText, true);
+      var text = SessionLoggerOutput.stopStream();
+
+      var expected =
+          """
+        --------------------
+        1713	dinobone	unknown	dinosaur bone fragment (5)
+        1714	dinobone	unknown	dinosaur bone fragment (10)
+        1715	dinobone	unknown	dinosaur bone fragment (25)
+        1716	dinobone	unknown	dinosaur bone fragment (50)
+        1717	dinobone	unknown	dinosaur bone fragment (100)
+        --------------------
+        Dino Bone Fragment Assembly	ROW1713	null	dinosaur bone fragment (5)
+        Dino Bone Fragment Assembly	ROW1714	null	dinosaur bone fragment (10)
+        Dino Bone Fragment Assembly	ROW1715	null	dinosaur bone fragment (25)
+        Dino Bone Fragment Assembly	ROW1716	null	dinosaur bone fragment (50)
+        Dino Bone Fragment Assembly	ROW1717	null	dinosaur bone fragment (100)
+        --------------------""";
+
+      assertThat(text, containsString(expected));
+    }
   }
 }
