@@ -5,7 +5,7 @@
 3	Confused	confused.gif	d335051a5afb4fa12036998ac13f167b	bad	none	use either 1 Now and Earlier, 1 Senior Mints, 1 shingle|eat 1 herb brownies
 4	Embarrassed	blush.gif	c489e39537ea426cd1b8fae88ed5032c	bad	none	use 1 patchouli incense stick
 5	Far Out	farout.gif	5ad503e9df2df73bfbbb5377b622c8c4	good	none	use 1 patchouli incense stick
-6	Wings	wings.gif	8cdb75aeb628bb9b9594908b7d0bfa74	neutral	none	drink 1 can of Red Minotaur
+6	Wings	wings.gif	8cdb75aeb628bb9b9594908b7d0bfa74	neutral	none	chew 1 can of Red Minotaur
 7	Beaten Up	beatenup.gif	acf143c704afaf7504ac07375084f79e	bad	none	use 1 explosion-flavored chewing gum|eat 1 foie gras|# reducing HP to zero, Roderick
 8	Hardly Poisoned at All	poison.gif	13e148b2f71301e54e27001d6e603584	bad	none	use 1 marzipan skull
 9	Knob Goblin Perfume	spraycan.gif	12f74ff515842399be4b67bbc3550f79	neutral	none	use 1 Knob Goblin perfume|cargo effect Knob Goblin Perfume
@@ -613,7 +613,7 @@
 610	Withered Heart	heart.gif	7721eaaa3f6b3dd257f38045cddc24ed	good	nohookah	use 1 love song of disturbing obsession
 611	Lustful Heart	heart.gif	35a0e93898e18f500d1d0c7eec8e8ef1	good	nohookah	use 1 love song of naughty innuendo
 612	Clumsy	sad.gif	63fa9abd19f2d77636e52d591b54f589	neutral	none	use 1 concoction of clumsiness|cargo effect Clumsy
-613	Spectral	specjelly.gif	810bbc77f3ef220d9d77ed395b9cc70c	neutral	none	use either 1 spectral jelly, 1 ghost protocol
+613	Spectral	specjelly.gif	810bbc77f3ef220d9d77ed395b9cc70c	neutral	none	# use either 1 spectral jelly, 1 ghost protocol in combat
 614	Donho's Bubbly Ballad	bubblyballad.gif	3337ba138b0e4d48f070bca9711139b5	good	song	cast 1 Donho's Bubbly Ballad|use either 1 recording of Donho's Bubbly Ballad, 1 single of Donho's Bubbly Ballad
 615	Antihangover	martini.gif	eadafbbe6d035eb5a36408dfbb1c85cc	neutral	none	use 1 hair of the fish
 616
@@ -697,7 +697,7 @@
 694	Belch the Rainbow&trade;	rrainbow.gif	edd8a8dfb261f4a1f07e327c6e43ef0b	good	none	use 1 Piddles
 695	Full of Wist	happy.gif	aaf1fc3bc50d02ec5c0bc6742f2a2100	good	none	use 1 BitterSweetTarts
 696	Polka Face	accordion.gif	273149593cef0f682ac9ca7d2483d977	good	none	use 1 Polka Pop
-697	Bruised Jaw	jawbruise.gif	f4959778ae2895efb4c53a2b82a7fe01	neutral	none	eat 1 jawbruiser|cargo effect Bruised Jaw
+697	Bruised Jaw	jawbruise.gif	f4959778ae2895efb4c53a2b82a7fe01	neutral	none	cargo effect Bruised Jaw
 698	A Few Extra Pounds	bathroomscale.gif	210aca072eee884be7fe49b03f5098b6	good	none	cast 1 Holiday Weight Gain
 699	Jingle Jangle Jingle	jinglebells.gif	a32acc4a5de83386ae3417140d09bf43	good	none	cast 1 Jingle Bells
 700	Cringle's Curative Carol	curative.gif	943d3ca45c939d9bcd9a92ababb7db08	good	song	cast 1 Cringle's Curative Carol
@@ -2522,7 +2522,7 @@
 2519	Hulkien	getbig.gif	52ce8577fb2af0bbb477d8ccda02794e	good	none	pillkeeper stat
 2520	Fidoxene	pill5.gif	fda85b95057d6eda312515fb0394e1b9	neutral	none	pillkeeper familiar
 2521	Funday!	calendar.gif	3d0ca8a1b066b7767469f733dddaadaa	neutral	none	pillkeeper random
-2522	Festively Brined	flan2.gif	fdfdb06b66794900575f6e192c6c2247	neutral	none	eat 1 flan del mar
+2522	Festively Brined	flan2.gif	fdfdb06b66794900575f6e192c6c2247	neutral	none
 2523	Baja, Humbug	sopapilla.gif	28b561f29c7cbcf8ca361184a859ff6e	neutral	none
 2524	Mana-Blasted	snowflakes.gif	0eea810738136755db9016d1a3b9dab5	good	nohookah	eat either 1 mana-coated yams, 1 mana-basted tofurkey leg, 1 mana-fortified cranberry sauce, 1 mana-stuffed herbal stuffing
 2525	Furrier Than Thou	spacefur.gif	32e5886efc29d83ed915e979ac4ad7f8	good	none	use 1 patch of extra-warm fur
@@ -2542,8 +2542,8 @@
 2539	Molasses Flooded	molasses.gif	c1fa35608c6bd1a96b001ccc862f0772	good	nohookah	use 1 glob of salty molasses
 2540	PING...  PING...  PING...	echo.gif	056ebeb2b7ed8d897c083abd88cf99ad	neutral	none	use 1 liquid SONAR
 2541	The Spirit of Taking	sack1.gif	010bdf32849b82f3693cbc805095c417	good	nohookah	cast 1 The Spirit of Taking
-2542	Sea Guts	batgut.gif	bd9ea297968de5763128351293d2b612	good	nohookah	eat 1 bowl of mernudo
-2543	Fish-Eye View	bigeyes.gif	0eded3f9cb2ff88cb88c80f89edd5e5b	good	nohookah	eat 1 ojo de pez burrito
+2542	Sea Guts	batgut.gif	bd9ea297968de5763128351293d2b612	good	nohookah
+2543	Fish-Eye View	bigeyes.gif	0eded3f9cb2ff88cb88c80f89edd5e5b	good	nohookah
 2544	Salt Rush	saltdrop.gif	ee744539761afc35f335929227c50810	good	nohookah	use 1 salty gumdrop
 2545	Possessive Pressure	potion10.gif	085cb05447143fccde1399447f0581c3	good	nohookah	use 1 pressurized potion of possessiveness
 2546	Dreaming of a Wet Crimbo	waves.gif	6a973ad9f1e20d1c0edd618e9bf96938	good	nohookah
