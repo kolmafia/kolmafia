@@ -3089,7 +3089,7 @@
 3086	Me Gnaw Bone	gnawbone.gif	ad9e5ed1a9bcf074bb0bf99bd04de38f	neutral	none	use 1 giant gnawing bone
 3087	Pork Elf Brain Amoeba	amoeba.gif	06a65020207801bd29b4f8ceb539cb74	neutral	none	use 1 Pork Elf neti pot
 3088	Eyebrows On Fleek	fleek.gif	936ac57a9afd94ebdc7d4380f096a3e5	neutral	none	use 1 Fleek&trade; mascara
-3089
+3089	Bone Brotherhood	dinobroth.gif	74199ade2b6759c1a5de09df8ee0a319	neutral	none	use 1 dinosaur bone broth
 3090	Definitely Not Coughing	pork_syrup.gif	b09f4d573951e67d1ddcdc5696ab7bf2	neutral	none	drink 1 Pork Elf cough syrup
 3091	Ratabunga, Dude!	ratpizza.gif	7d78c561a6be9f639a11fa310a717390	neutral	none	eat 1 rat pizza
 3092	Blown-Up Feet	splodefeet.gif	c58a03b945da0a1cc63c103ea56d811e	neutral	none	# wear a hoverboard for 50 adventures and have it blow up

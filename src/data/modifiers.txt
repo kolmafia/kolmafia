@@ -5870,6 +5870,7 @@ Effect	Boilermade	Cold Resistance: +5, Spooky Resistance: +5
 Effect	Boisterous Oysterous	Sleaze Resistance: +1
 Effect	Boletus Swoletus	Muscle: +40
 Effect	Bolts about Candy	Maximum MP: +50
+Effect	Bone Brotherhood	Maximum HP: +50, Monster Level: +20, HP Regen Min: 10, HP Regen Max: 25
 Effect	Bone Chilling	Cold Damage: +40, Cold Spell Damage: +40
 Effect	Bone Homie	Damage Aura: 1
 Effect	Bone Springs	Initiative: +20
@@ -11132,6 +11133,7 @@ Item	digital honeypot	Effect: "Honeypotted", Effect Duration: 90, Last Available
 Item	digital underground potion	Effect: "Digitally Converted", Effect Duration: 20, Last Available: "2008-06"
 Item	diluted makeup	Effect: "Made Up, Watered Down", Effect Duration: 10
 Item	Dino DNAde&trade;	Effect: "Prehistoric Potential", Effect Duration: 30
+Item	dinosaur bone broth	Effect: "Bone Brotherhood", Effect Duration: 25, Last Available: "2026-03"
 Item	Dinsey face paint	Effect: "The Dinsey Look", Effect Duration: 20, Last Available: "2015-04"
 Item	disco horoscope (Aquarius)	Effect: "Aquarius Rising", Effect Duration: 10
 Item	disco horoscope (Aries)	Effect: "Aries Rising", Effect Duration: 10
