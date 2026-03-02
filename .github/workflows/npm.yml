@@ -1,4 +1,3 @@
-
 name: Publish Typescript definitions to NPM
 on:
   push:
