@@ -12240,3 +12240,4 @@
 12211	hoverboard	501769867	hoverboard.gif	accessory	d	50
 12212	left shark fin	565452460	leftsharkfin.gif	offhand	d	100
 12213	fitness tracking bracelet	999375998	itbit.gif	accessory	d	200
+12214	candy bone	216972209	candybone.gif	spleen, usable	t,d	5
