@@ -89,6 +89,7 @@ public class CampgroundRequest extends GenericRequest {
           // Bedding
           ItemPool.BEANBAG_CHAIR,
           ItemPool.COLD_BEDDING,
+          ItemPool.FOREST_CANOPY_BED,
           ItemPool.GAUZE_HAMMOCK,
           ItemPool.HOT_BEDDING,
           ItemPool.LAZYBONES_RECLINER,
@@ -117,6 +118,7 @@ public class CampgroundRequest extends GenericRequest {
           ItemPool.PICTURE_OF_YOU,
           ItemPool.TIN_ROOF,
           ItemPool.CRIMBO_CANDLE,
+          ItemPool.WET_BLANKET,
 
           // Inside dwelling: "Tasteful" items
           ItemPool.BLACK_BLUE_LIGHT,
@@ -164,37 +166,6 @@ public class CampgroundRequest extends GenericRequest {
 
           // Special item that aids resting
           ItemPool.COMFY_BLANKET);
-
-  public static final int[] transientFurnishings = {
-    // Bedding
-    ItemPool.BEANBAG_CHAIR,
-    ItemPool.COLD_BEDDING,
-    ItemPool.FOREST_CANOPY_BED,
-    ItemPool.GAUZE_HAMMOCK,
-    ItemPool.HOT_BEDDING,
-    ItemPool.LAZYBONES_RECLINER,
-    ItemPool.SALTWATERBED,
-    ItemPool.SLEAZE_BEDDING,
-    ItemPool.SLEEPING_STOCKING,
-    ItemPool.SPIRIT_BED,
-    ItemPool.SPOOKY_BEDDING,
-    ItemPool.STENCH_BEDDING,
-
-    // Inside dwelling: miscellaneous
-    ItemPool.BONSAI_TREE,
-    ItemPool.CUCKOO_CLOCK,
-    ItemPool.FENG_SHUI,
-    ItemPool.LED_CLOCK,
-    ItemPool.LUCKY_CAT_STATUE,
-    ItemPool.MEAT_GLOBE,
-    ItemPool.TIN_ROOF,
-    ItemPool.CRIMBO_CANDLE,
-
-    // Inside dwelling: "Tasteful" items
-    ItemPool.BLACK_BLUE_LIGHT,
-    ItemPool.LOUDMOUTH_LARRY,
-    ItemPool.PLASMA_BALL,
-  };
 
   public static class TallGrass extends AdventureResult {
     public TallGrass(int count) {
@@ -1834,13 +1805,6 @@ public class CampgroundRequest extends GenericRequest {
   public static void setCurrentDwelling(int itemId) {
     CampgroundRequest.currentDwelling = ItemPool.get(itemId, 1);
     CampgroundRequest.currentDwellingLevel = CampgroundRequest.dwellingLevel(itemId);
-  }
-
-  public static void destroyFurnishings() {
-    CampgroundRequest.setCurrentBed(null);
-    for (int itemId : CampgroundRequest.transientFurnishings) {
-      CampgroundRequest.removeCampgroundItem(ItemPool.get(itemId, 1));
-    }
   }
 
   public static AdventureResult getCurrentBed() {
