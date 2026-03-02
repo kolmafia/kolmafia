@@ -52,7 +52,9 @@ cyber_dedigitizer	The Dedigitizer	COIN
 cyber_hackmarket	Hack Market	NPC
 damachine	Vending Machine	COIN
 detective	Precinct Materiel Division	COIN
+detritus2015	Landfill Detritus from 2015 Assembly	COIN
 dino	Dino World Gift Shop (The Dinostaur)	COIN
+dinobone	Dino Bone Fragment Assembly	COIN
 doc	Doc Galaktik's Medicine Show	NPC
 driparmory	Drip Institute Armory	NPCCOIN
 dripcafeteria	Drip Institute Cafeteria	NPC
@@ -106,6 +108,7 @@ nina	Ni&ntilde;a Store	COIN
 olivers	Fancy Dan the Cocktail Man	COIN
 piraterealm	PirateRealm Fun-a-Log	COIN
 pokefam	The Pok&eacute;mporium	COIN
+potsherd	Pork Elf Pottery Shard Assembly	COIN
 rumple	Rumplestiltskin's Workshop	COIN
 sbb_brogurt	The Frozen Brogurt Stand	COIN
 sbb_jimmy	Buff Jimmy's Souvenir Shop	COIN

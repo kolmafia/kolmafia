@@ -185,6 +185,9 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     addPanel(new DedigitizerPanel());
     addPanel(new ShowerThoughtsPanel());
     addPanel(new SkeletonOfCrimboPastPanel());
+    addPanel(new DinoBoneFragmentPanel());
+    addPanel(new LandfillDetritus2015Panel());
+    addPanel(new PorkElfPotteryShardPanel());
 
     // Twitch coinmasters
     this.selectorPanel.addSeparator();
@@ -1549,6 +1552,24 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
   private class SkeletonOfCrimboPastPanel extends CoinmasterPanel {
     public SkeletonOfCrimboPastPanel() {
       super(SkeletonOfCrimboPastRequest.SKELETON_OF_CRIMBO_PAST);
+    }
+  }
+
+  private class DinoBoneFragmentPanel extends CoinmasterPanel {
+    public DinoBoneFragmentPanel() {
+      super(DinoBoneFragmentRequest.DATA);
+    }
+  }
+
+  private class LandfillDetritus2015Panel extends CoinmasterPanel {
+    public LandfillDetritus2015Panel() {
+      super(LandfillDetritus2015Request.DATA);
+    }
+  }
+
+  private class PorkElfPotteryShardPanel extends CoinmasterPanel {
+    public PorkElfPotteryShardPanel() {
+      super(PorkElfPotteryShardRequest.DATA);
     }
   }
 

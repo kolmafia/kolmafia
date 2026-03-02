@@ -1711,3 +1711,18 @@
 1710
 1711
 1712	armory	adobe adze	petrified wood waste parts
+1713	dinobone	dinosaur bone broth	dinosaur bone fragment (5)
+1714	dinobone	giant gnawing bone	dinosaur bone fragment (10)
+1715	dinobone	dinosaur bone club	dinosaur bone fragment (25)
+1716	dinobone	dinosaur skull helmet	dinosaur bone fragment (50)
+1717	dinobone	dinosaur bone corset	dinosaur bone fragment (100)
+1718	potsherd	Pork Elf cough syrup	ancient Pork Elf pottery shard (5)
+1719	potsherd	Pork Elf neti pot	ancient Pork Elf pottery shard (10)
+1720	potsherd	Pork Elf medicine cabinet	ancient Pork Elf pottery shard (25)
+1721	potsherd	Pork Elf sink	ancient Pork Elf pottery shard (50)
+1722	potsherd	Pork Elf toilet	ancient Pork Elf pottery shard (100)
+1723	detritus2015	rat pizza	2015 landfill detritus (5)
+1724	detritus2015	Fleek&trade; mascara	2015 landfill detritus (10)
+1725	detritus2015	hoverboard	2015 landfill detritus (25)
+1726	detritus2015	left shark fin	2015 landfill detritus (50)
+1727	detritus2015	fitness tracking bracelet	2015 landfill detritus (100)
