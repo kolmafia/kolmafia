@@ -4059,7 +4059,9 @@ public class RelayRequest extends PasswordHashRequest {
 
     super.run();
 
-    if (this.responseCode == 302) {
+    if (this.responseCode == 302 || (this.responseCode == 200 && this.redirectLocation != null)) {
+      // KoL can redirect via HTTP 302 or via a JavaScript redirect in a 200 response.
+      // Either way, pass the redirect through to the browser.
       this.pseudoResponse("HTTP/1.1 302 Found", this.redirectLocation);
     } else if (this.responseCode == 304) {
       this.pseudoResponse("HTTP/1.1 304 Not Modified", null);

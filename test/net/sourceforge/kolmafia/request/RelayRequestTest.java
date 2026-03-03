@@ -6,6 +6,7 @@ import static internal.helpers.Player.withAdventuresSpent;
 import static internal.helpers.Player.withChatChannel;
 import static internal.helpers.Player.withContinuationState;
 import static internal.helpers.Player.withEquipped;
+import static internal.helpers.Player.withHandlingChoice;
 import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withMeat;
@@ -34,6 +35,8 @@ import java.io.IOException;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
+import java.util.Map;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -801,6 +804,82 @@ public class RelayRequestTest {
       assertThat(rr.statusLine, is("HTTP/1.1 400 Bad Request"));
       assertThat(rr.responseCode, is(400));
       assertThat(JSON.parse(rr.responseText), is(expected));
+    }
+  }
+
+  @Nested
+  class ChoiceToFightRedirect {
+    @Test
+    public void choiceLeadingToFightReturns302ViaPost() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups = new Cleanups(withHttpClientBuilder(builder));
+
+      client.addResponse(302, Map.of("location", List.of("fight.php")), "");
+
+      try (cleanups) {
+        var req = new RelayRequest(false);
+        req.constructURLString("choice.php", true);
+        req.addFormField("whichchoice", "123");
+        req.addFormField("option", "1");
+        req.run();
+
+        assertThat(req.responseCode, is(302));
+        assertThat(req.statusLine, is("HTTP/1.1 302 Found"));
+        assertThat(req.getRedirectLocation(), is("fight.php"));
+      }
+    }
+
+    @Test
+    public void choiceLeadingToFightReturns302ViaGet() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups = new Cleanups(withHttpClientBuilder(builder), withHandlingChoice(123));
+
+      // 302 from choice.php → fight.php, followed by 200 fight response
+      // (in case redirect is followed internally)
+      client.addResponse(302, Map.of("location", List.of("fight.php")), "");
+      client.addResponse(200, "<html><body>fight!</body></html>");
+
+      try (cleanups) {
+        var req = new RelayRequest(false);
+        // Simulate GET request: params in URL, not POST body
+        req.constructURLString("choice.php?whichchoice=123&pwd=test&option=1", false);
+        req.run();
+
+        // Should only have made one request (the choice.php), not followed the redirect
+        var requests = client.getRequests();
+        assertThat(
+            "Should only make one HTTP request (not follow redirect)", requests.size(), is(1));
+
+        assertThat(req.responseCode, is(302));
+        assertThat(req.statusLine, is("HTTP/1.1 302 Found"));
+        assertThat(req.getRedirectLocation(), is("fight.php"));
+      }
+    }
+
+    @Test
+    public void choiceLeadingToFightViaJsRedirectReturns302() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups = new Cleanups(withHttpClientBuilder(builder), withHandlingChoice(123));
+
+      // KoL sometimes sends a 200 with a JS redirect instead of a 302
+      String jsRedirect =
+          "<html><script>top.mainpane.document.location = \"fight.php?ireallymeanit=123\";</script></html>";
+      client.addResponse(200, jsRedirect);
+      client.addResponse(200, "<html><body>fight!</body></html>");
+
+      try (cleanups) {
+        var req = new RelayRequest(false);
+        req.constructURLString("choice.php?whichchoice=123&pwd=test&option=1", false);
+        req.run();
+
+        // The JS redirect should be converted to a 302 for the browser
+        assertThat(req.responseCode, is(302));
+        assertThat(req.statusLine, is("HTTP/1.1 302 Found"));
+        assertThat(req.getRedirectLocation(), is("fight.php?ireallymeanit=123"));
+      }
     }
   }
 
