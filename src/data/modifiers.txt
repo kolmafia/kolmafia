@@ -412,7 +412,7 @@ Item	orange peel hat	Spooky Resistance: +3, Stench Resistance: +3, Hot Resistanc
 Item	orange traffic cone	Moxie: +3, Spooky Resistance: +2, Last Available: "2005-03", Familiar Effect: "cap 15"
 Item	Orcish baseball cap	Muscle: +3, Mysticality: -3, Familiar Effect: "1xVolley, 1xBarrr, cap 15"
 Item	oriole-feather headdress	Maximum HP: +1, Maximum MP: +1, Familiar Effect: "atk, 3xVolley, cap 3"
-Item	outrageous sombrero	Muscle: +5, Mysticality: +5, Moxie: +5, Initiative: -20, Last Available: "2007-05", Familiar Effect: "1.5xLep, 1.5xFairy, cap 25"
+Item	outrageous sombrero	Muscle: +5, Mysticality: +5, Moxie: +5, Initiative: -20, Last Available: "2007-05", Familiar Effect: "1.5xLep, 1.5xFairy, cap 25", Effect: "La Bamba", Effect Duration: 5
 Item	oversized skullcap	Muscle: +2, Damage Reduction: 3, Familiar Effect: "1xVolley,cap 5"
 Item	oxygenated eggnog helmet	Item Drop: -100, Initiative: -100, Adventure Underwater, Last Available: "2019-12"
 Item	pail	Damage Absorption: +10, Familiar Effect: "2xFairy, cap 7"
@@ -10047,7 +10047,7 @@ Item	transparent nog	Effect: "Holiday Disappointment", Effect Duration: 10, Last
 Item	treasure chestnut	Last Available: "2025-12"
 Item	tree-shaped Crimbo cookie	Effect: "Yuletide Sappiness", Effect Duration: 10, Last Available: "2023-06"
 Item	triangular CRIMBCOOKIE	Effect: "Triangle, Man", Effect Duration: 10, Last Available: "2010-12"
-Item	turtle soup	Effect: "[598]A Little Bit Evil", Effect Duration: 10
+Item	turtle soup	Effect: "[598]A Little Bit Evil", Effect Duration: 10, Effect: "Souper Vengeful", Effect Duration: 10
 Item	ultrafondue	Effect: "Fondid", Effect Duration: 30, Last Available: "2011-09"
 Item	unappetizing mayolus	Last Available: "2015-05"
 Item	unfortunate dumplings	Effect: "Really Quite Poisoned", Effect Duration: 20
@@ -10663,6 +10663,7 @@ Item	bottle of ultravitamins	Effect: "Vitamin-Maxed", Effect Duration: 10
 Item	Breathitin&trade;	Last Available: "2021-12"
 Item	brilliant oyster egg	Effect: "Eggstraordinary Brilliance", Effect Duration: 20
 Item	bug paste	Effect: "Buggy Flavor", Effect Duration: 10, Last Available: "2011-08"
+Item	can of Red Minotaur	Effect: "Wings", Effect Duration: 10
 Item	can-can-in-a-can	Last Available: "2007-06"
 Item	carrot juice	Effect: "Pla-see-bo", Effect Duration: 10, Last Available: "2013-01"
 Item	ceramic scree	Last Available: "2023-12"
@@ -11195,7 +11196,7 @@ Item	evil philter of phorce	Effect: "Phorcefullness", Effect Duration: [R+5], Ef
 Item	evil potion of potency	Effect: "Pronounced Potency", Effect Duration: [R+5], Effect: "[600]A Little Bit Evil", Effect Duration: 10
 Item	evil serum of sarcasm	Effect: "Superhuman Sarcasm", Effect Duration: [R+5], Effect: "[600]A Little Bit Evil", Effect Duration: 10
 Item	evil tomato juice of powerful power	Effect: "Tomato Power", Effect Duration: [R+5], Effect: "[600]A Little Bit Evil", Effect Duration: 10
-Item	evil vihuela	Effect: "El Tango de la Maldita Suegra", Effect Duration: 10
+Item	evil vihuela	Effect: "[602]A Little Bit Evil", Effect Duration: 10, Effect: "El Tango de la Maldita Suegra", Effect Duration: 10
 Item	exotic travel brochure	Effect: "Expert Vacationer", Effect Duration: 20, Last Available: "2015-11"
 Item	experimental serum G-9	Effect: "Experimental Effect G-9", Effect Duration: 40, Last Available: "2014-10"
 Item	experimental serum P-00	Effect: "Schroedinger's Butt", Effect Duration: 20, Last Available: "2014-10"
@@ -11268,6 +11269,7 @@ Item	Gabarbar	Effect: "Gabarding", Effect Duration: 25
 Item	gaffer's tape	Effect: "Gaffe Free", Effect Duration: 20, Last Available: "2022-05"
 Item	garbage-juice-flavored Hob-O	Effect: "Refuse Reflux", Effect Duration: 1
 Item	gazely stare	Effect: "The Eyes Have It", Effect Duration: 100
+Item	Gehenna tattoo	Effect: "Temporarily Damned", Effect Duration: 20
 Item	Gene Tonic: Beast	Effect: "Human-Beast Hybrid", Effect Duration: 30, Last Available: "2014-04"
 Item	Gene Tonic: Constellation	Effect: "Human-Constellation Hybrid", Effect Duration: 30, Last Available: "2014-04"
 Item	Gene Tonic: Construct	Effect: "Human-Machine Hybrid", Effect Duration: 30, Last Available: "2014-04"
@@ -11452,7 +11454,7 @@ Item	lotion of stench	Effect: "Stinky Hands", Effect Duration: [R+5]
 Item	LOV Elixir #3	Effect: "The Power of LOV", Effect Duration: 40, Last Available: "2017-02"
 Item	LOV Elixir #6	Effect: "The Magic of LOV", Effect Duration: 40, Last Available: "2017-02"
 Item	LOV Elixir #9	Effect: "The Moxie of LOV", Effect Duration: 40, Last Available: "2017-02"
-Item	Love Potion #0	Effect: "Tainted Love Potion", Effect Duration: 20
+Item	Love Potion #XYZ	Effect: "Tainted Love Potion", Effect Duration: 20
 # love song of disturbing obsession: Deals <font color=gray>Spooky Damage</font> based on your Mysticality
 Item	love song of disturbing obsession	Effect: "Withered Heart", Effect Duration: 5, Last Available: "2009-02"
 # love song of icy revenge: Deals <font color=blue>Cold Damage</font> based on your Moxie
@@ -11518,7 +11520,7 @@ Item	murderbot shield unit	Effect: "Shielded Unit", Effect Duration: 20, Last Av
 Item	murderbot spring injector	Effect: "Spring Training", Effect Duration: 20, Last Available: "2017-04"
 Item	musk turtle	Effect: "High Colognic", Effect Duration: 15
 Item	mutated candy lump	Effect: "Slightly Mutated", Effect Duration: 20
-Item	myrrh-soaked, chocolate-covered bacon bath ball	Effect: "Incensed", Effect Duration: 10, Last Available: "2011-01"
+Item	myrrh-soaked, chocolate-covered bacon bath ball	Effect: "Pork Power", Effect Duration: 10, Effect: "[800]Chocolate Reign", Effect Duration: 10, Effect: "Incensed", Effect Duration: 10, Last Available: "2011-01"
 Item	mysterious chemical residue	Effect Duration: 5
 Item	mystery lollipop	Effect: "Your Favorite Flavor", Effect Duration: 5
 Item	nail file	Effect: "Extra-Sharp Weapon", Effect Duration: 20, Last Available: "2013-11"
@@ -11756,7 +11758,7 @@ Item	scroll of sea smarts	Effect: "Sea Smarts", Effect Duration: 50
 Item	scroll of sea strength	Effect: "Sea Strength", Effect Duration: 50
 Item	sea grease	Effect: "Greased-Up Familiar", Effect Duration: 40
 Item	sea salt crystal	Effect: "Salty Dogs", Effect Duration: 5
-Item	seal eyeball	Effect: "Eye of the Seal", Effect Duration: 10
+Item	seal eyeball	Effect: "[597]A Little Bit Evil", Effect Duration: 10, Effect: "Eye of the Seal", Effect Duration: 10
 Item	seal lube	Effect: "Lubed", Effect Duration: 10
 Item	seal-brain elixir	Effect: "Sealed Brain", Effect Duration: 20
 Item	sealhide seal doll	Effect: "Red Misty-Eyed", Effect Duration: 10
@@ -12337,7 +12339,7 @@ Item	avarice stone	Last Available: "2012-12"
 Item	avatar of the Unconscious Collective	Free Pull, Last Available: "2013-12"
 # aviator goggles: Makes your mini kiwi lay mini kiwis more often
 # Axis codebook: Increases the effective duration of Axis HQ codes
-# Axis HQ Code: Allows temporary access to Axis HQ
+Item	Axis HQ Code	Effect: "Current Axis Codes", Effect Duration: 10
 Item	Azurite	Last Available: "2023-06"
 Item	baby camelCalf	Free Pull, Last Available: "2020-07"
 Item	baby chest mimic	Free Pull
@@ -12408,7 +12410,7 @@ Item	beet	Last Available: "2005-12"
 Item	belemnite candy mold	Last Available: "2011-11"
 Item	belemnite fossil	Last Available: "2011-11"
 Item	Benetton's Medley of Diversity	Skill: "Benetton's Medley of Diversity"
-Item	best joke ever	Last Available: "2011-04"
+Item	best joke ever	Last Available: "2011-04", Effect: "Best effect ever", Effect Duration: 69
 Item	Better Shrooms and Gardens catalog	Free Pull, Last Available: "2020-03"
 Item	BGE merchandise order form	Last Available: "2010-12"
 Item	BGE shotglass	Last Available: "2010-12"
@@ -12526,7 +12528,7 @@ Item	box of Gratitude chocolates	Last Available: "2016-02"
 Item	box of hammers	Last Available: "2011-09"
 # box of old Crimbo decorations: Lets you give your Crimbo Shrub new decorations each day
 Item	box of Pok&euml;mann band-aids	Last Available: "2011-05"
-Item	box of sunshine	Free Pull
+Item	box of sunshine	Free Pull, Effect: "The Smile of Mr. A.", Effect Duration: 40
 Item	boxed Apriling band helmet	Free Pull, Last Available: "2024-04"
 Item	boxed Archaeologist's Spade	Free Pull, Last Available: "2026-03"
 Item	boxed august scepter	Free Pull
@@ -12707,8 +12709,7 @@ Item	chunk of depleted Grimacite	Last Available: "2011-12"
 # cinnamon troll doll: Deals 3-5 <font color=red>Hot Damage</font>
 # cinnamon troll doll: (doesn't go away when used)
 Item	cinnamon troll doll	Last Available: "2011-11"
-# circle drum: Lets you form and/or join a drum circle!  Yay!
-Item	circle drum	Last Available: "2015-12"
+Item	circle drum	Last Available: "2015-12", Effect: "Feelin' the Rhythm!", Effect Duration: 10
 Item	Clan Carnival Game	Free Pull, Last Available: "2018-02"
 Item	Clan Floundry	Free Pull, Last Available: "2016-04"
 Item	Clan hot dog stand	Free Pull, Last Available: "2013-07"
@@ -13292,7 +13293,7 @@ Item	Flan	Last Available: "2018-03"
 # flaregun: Deals Various Kinds of Naval Damage
 Item	flask of holy water	Lasts Until Rollover, Last Available: "2018-04"
 Item	flavored foot massage oil	Last Available: "2008-04"
-Item	Fleek&trade; mascara	Last Available: "2026-03"
+Item	Fleek&trade; mascara	Last Available: "2026-03", Effect: "Eyebrows on Fleek", Effect Duration: 50
 Item	flickering pixel	Last Available: "2013-12"
 Item	flimsy hardwood scraps	Last Available: "2020-08"
 # flirtatious feather: Deals 80-120 <font color=blueviolet>Sleaze Damage</font>
@@ -13381,7 +13382,7 @@ Item	giant amorphous blob	Last Available: "2017-11"
 Item	Giant black monolith	Last Available: "2023-06"
 # giant eraser: Lets you escape from combat without spending an Adventure
 Item	giant free-range mushroom	Last Available: "2020-03"
-Item	giant gnawing bone	Last Available: "2026-03"
+Item	giant gnawing bone	Last Available: "2026-03", Effect: "Me Gnaw Bone", Effect Duration: 50
 Item	giant green gummi ingot	Last Available: "2011-11"
 Item	giant O	Last Available: "2017-11"
 Item	giant red gummi ingot	Last Available: "2011-11"
@@ -14353,7 +14354,7 @@ Item	peppermint sprig	Last Available: "2017-03"
 Item	peppermint sprout	Last Available: "2011-11"
 Item	peppermint tailings	Last Available: "2014-12"
 Item	perfect ice cube	Last Available: "2015-11"
-Item	perfectly fair coin	Last Available: "2017-11"
+Item	perfectly fair coin	Last Available: "2017-11", Effect: "What Are The Odds!?", Effect Duration: 1
 Item	perfectly ordinary frog	Free Pull, Last Available: "2010-10"
 Item	personal graffiti kit	Last Available: "2018-02"
 Item	personal massager	Last Available: "2008-04"
@@ -14492,7 +14493,7 @@ Item	pool of liquid metal	Last Available: "2009-06"
 Item	pool torpedo	Last Available: "2012-05"
 Item	Pop Art: a Guide	Skill: "Fifteen Minutes of Flame", Last Available: "2016-12"
 Item	Pork Elf medicine cabinet	Last Available: "2026-03"
-Item	Pork Elf neti pot	Last Available: "2026-03"
+Item	Pork Elf neti pot	Last Available: "2026-03", Effect: "Pork Elf Brain Amoeba", Effect Duration: 50
 Item	Pork Elf sink	Last Available: "2026-03"
 Item	Pork Elf toilet	Last Available: "2026-03"
 Item	Pork Elf toiletries kit	Last Available: "2026-03"
@@ -14503,8 +14504,7 @@ Item	portable pantogram	Last Available: "2017-11"
 Item	portable photocopier	Last Available: "2011-01"
 # portable Spacegate: Provides one day's access to a random Spacegate planet
 Item	portable Spacegate	Last Available: "2017-04"
-# portable steam unit: Clears Your Sinuses (once per day)
-Item	portable steam unit	Last Available: "2022-12"
+Item	portable steam unit	Last Available: "2022-12", Effect: "Steamed Sinuses", Effect Duration: 30
 # portable table: You can hide behind it
 Item	possessed sugar cube	Last Available: "2014-05"
 # possessed tomato: Deals 6-8 <font color=gray>Spooky Damage</font> per round for the rest of the fight
@@ -15341,10 +15341,10 @@ Item	trick coin	Last Available: "2023-12"
 Item	trilobite candy mold	Last Available: "2011-11"
 Item	trilobite fossil	Last Available: "2011-11"
 Item	Trivial Avocations board game	Last Available: "2011-11"
-Item	Trivial Avocations Card: What?	Last Available: "2011-11"
-Item	Trivial Avocations Card: When?	Last Available: "2011-11"
-Item	Trivial Avocations Card: Where?	Last Available: "2011-11"
-Item	Trivial Avocations Card: Who?	Last Available: "2011-11"
+Item	Trivial Avocations Card: What?	Last Available: "2011-11", Effect: "You Know What's Up", Effect Duration: 1
+Item	Trivial Avocations Card: When?	Last Available: "2011-11", Effect: "You Know When to Walk Away", Effect Duration: 1
+Item	Trivial Avocations Card: Where?	Last Available: "2011-11", Effect: "You Know Where to Go", Effect Duration: 1
+Item	Trivial Avocations Card: Who?	Last Available: "2011-11", Effect: "You Know Who to Call", Effect Duration: 1
 Item	tropical Crimbo pressie	Last Available: "2006-12"
 # tropical orchid: Weakens enemies a little bit
 Item	tropical wrapping paper	Last Available: "2006-12"
