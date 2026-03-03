@@ -6,6 +6,10 @@ on:
   pull_request:
   workflow_dispatch:
 
+permissions:
+  contents: read
+  checks: write
+
 jobs:
   check:
     runs-on: ${{ matrix.os }}
@@ -72,4 +76,3 @@ jobs:
           name: coverage-${{ matrix.os }}-java-${{ matrix.java }}
           files: ./build/reports/jacoco/test/jacocoTestReport.xml
           token: ${{secrets.CODECOV_TOKEN}}
-
