@@ -3746,7 +3746,6 @@ public class UseItemRequest extends GenericRequest {
           return;
         }
 
-        CampgroundRequest.destroyFurnishings();
         CampgroundRequest.setCurrentDwelling(itemId);
         break;
 
