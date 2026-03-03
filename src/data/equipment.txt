@@ -2771,7 +2771,7 @@ fishbone bracers	20	none
 fishbone facemask	20	none
 fishbone fins	20	none
 fishbone kneepads	20	none
-fitness tracking bracelet	0	none
+fitness tracking bracelet	50	none
 flagstone flip-flops	120	Mys: 40
 flagstone fringe	120	Mox: 40
 flapper floppers	100	Mys: 35
