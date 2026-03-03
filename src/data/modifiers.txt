@@ -14495,6 +14495,7 @@ Item	Pork Elf medicine cabinet	Last Available: "2026-03"
 Item	Pork Elf neti pot	Last Available: "2026-03"
 Item	Pork Elf sink	Last Available: "2026-03"
 Item	Pork Elf toilet	Last Available: "2026-03"
+Item	Pork Elf toiletries kit	Last Available: "2026-03"
 # portable Mayo Clinic: Installs a mayonnaise-centered medical clinic in your workshed
 Item	portable Mayo Clinic	Last Available: "2015-05"
 Item	portable pantogram	Last Available: "2017-11"
