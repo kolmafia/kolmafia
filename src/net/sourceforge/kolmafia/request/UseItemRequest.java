@@ -2914,7 +2914,8 @@ public class UseItemRequest extends GenericRequest {
               && !responseText.contains("reread the tale and really remember")
               && !responseText.contains("spirit of Kokomo to sink")
               && !responseText.contains("Beleven")
-              && !responseText.contains("absorb the residual paste into your soul")) {
+              && !responseText.contains("absorb the residual paste into your soul")
+              && !responseText.contains("Don't you think?")) {
             UseItemRequest.lastUpdate = "You can't learn that skill.";
             KoLmafia.updateDisplay(MafiaState.ERROR, UseItemRequest.lastUpdate);
             return;
