@@ -12223,7 +12223,7 @@
 12194	Pork Elf deodorant	298225267	pork_deodorant.gif	potion, usable	t,d	23	sticks of Pork Elf deodorant
 12195	Pork Elf toothpaste	564589445	pork_toothpaste.gif	potion, usable	t,d	23	tubes of Pork Elf toothpaste
 12196	bolt of striped fabric	443095431	stripefabric.gif	usable	t	0	bolts of striped fabric
-12197	white and gold dress	640906560	stripedressgw.gif	shirt		0
+12197	white and gold dress	640906560	stripedressgw.gif	shirt		0	white and gold dresses
 12198	blue and black dress	784545984	stripedressbb.gif	shirt		0	blue and black dresses
 12199	dinosaur bone broth	508811427	dinobroth.gif	potion	d	10	bowls of dinosaur bone broth
 12200	giant gnawing bone	819286836	gnawbone.gif	reusable	d	20
