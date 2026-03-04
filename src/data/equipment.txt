@@ -2149,7 +2149,7 @@ LARP carp	0	none
 latte lovers member's mug	0	none
 lead umbrella	0	none
 left bear arm	0	none
-left shark fin	0	none
+left shark fin	50	none
 Left-Hand Man action figure	50	none
 left-handed melodica	160	Mox: 150
 lemonade marble	204	Mys: 85
@@ -2889,7 +2889,7 @@ hockey stick of furious angry rage	100	Mys: 35
 Hodgman's bow tie	200	Mys: 200
 Hodgman's lucky sock	200	Mys: 200
 hopping socks	200	Mys: 200
-hoverboard	0	none
+hoverboard	100	none
 ice key	10	none
 ice skates	0	none
 ice wrap	100	none
