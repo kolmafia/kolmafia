@@ -1025,6 +1025,22 @@ public class CampgroundRequest extends GenericRequest {
       CampgroundRequest.removeCampgroundItem(LED_CLOCK);
       Preferences.setBoolean("_confusingLEDClockUsed", true);
     }
+
+    // Sleeping near the medicine cabinet is making you healthy.
+    if (responseText.contains("Sleeping near the medicine cabinet")) {
+      Preferences.setBoolean("_porkElfMedicineCabinetUsed", true);
+    }
+
+    // You wash your hands after resting.
+    if (responseText.contains("You wash your hands")) {
+      Preferences.setBoolean("_porkElfSinkUsed", true);
+    }
+
+    // Your Pork Elf toilet allows you to digest super quickly.
+    if (responseText.contains("digest super quickly")) {
+      KoLCharacter.setFullness(KoLCharacter.getFullness() - 1);
+      Preferences.setBoolean("_porkElfToiletUsed", true);
+    }
   }
 
   public static void parseResponse(final String urlString, final String responseText) {
