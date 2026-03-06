@@ -930,6 +930,103 @@ public class CampgroundRequest extends GenericRequest {
     }
   }
 
+  private static void handleDwellingRest(final String responseText) {
+    var dwellingId = getCurrentDwelling().getItemId();
+
+    // Pyramid
+    if (dwellingId == ItemPool.BRICKO_PYRAMID
+        && responseText.contains("Spending time in your pyramid")) {
+      // Limit of 3 per day
+      Preferences.increment("_pyramidRestEffectsGained", 1, 3);
+    }
+
+    // Ginormous Pumpkin
+    if (dwellingId == ItemPool.GINORMOUS_PUMPKIN
+        && responseText.contains("You are suffused with pumpkinliness")) {
+      Preferences.setBoolean("_pumpkinRestEffectGained", true);
+    }
+
+    // Giant Faraday Cage
+    if (dwellingId == ItemPool.GIANT_FARADAY_CAGE
+        && responseText.contains("All of the static electricity")) {
+      Preferences.setBoolean("_faradayCageRestEffectGained", true);
+    }
+
+    // Snow Fort
+    if (dwellingId == ItemPool.SNOW_FORT
+        && responseText.contains("Your snow fort makes you feel safe")) {
+      Preferences.setBoolean("_snowFortRestEffectGained", true);
+    }
+
+    // Elevent
+    if (dwellingId == ItemPool.ELEVENT
+        && responseText.contains("You get some sleep that is, like, 10% better")) {
+      Preferences.setBoolean("_eleventRestEffectGained", true);
+    }
+
+    // Tipi
+    // It looks like another mini kiwi has sprung up next to your tiny kiwi tipi!
+    if (dwellingId == ItemPool.MINI_KIWI_TIPI
+        && responseText.contains("next to your tiny kiwi tipi")) {
+      Preferences.setBoolean("_miniKiwiTipiDrop", true);
+    }
+
+    // Gingerbread House
+    // Your festively-decorated dwelling brings a smile to your face as you drift off.
+    if (dwellingId == ItemPool.GINGERBREAD_HOUSE
+        && responseText.contains("festively-decorated dwelling brings a smile to your face")) {
+      Preferences.setBoolean("_gingerbreadHouseRestEffectGained", true);
+    }
+
+    // Hobo Fortress
+    if (dwellingId == ItemPool.HOBO_FORTRESS
+        && responseText.contains("You stare up at the vaulted ceiling of your hobo fortress")) {
+      // No limit
+      Preferences.increment("_hoboFortRestEffectsGained");
+    }
+
+    // Residence-Cube
+    if (dwellingId == ItemPool.RESIDENCE_CUBE
+        && responseText.contains("the spinning would make it harder to relax")) {
+      Preferences.setBoolean("_residenceCubeRestEffectGained", true);
+    }
+
+    // Mushroom House
+    if (dwellingId == ItemPool.HOUSE_SIZED_MUSHROOM) {
+      // Mushroom house does not have an effect-specific message
+      Preferences.setBoolean("_mushroomHouseRestEffectGained", true);
+    }
+  }
+
+  private static void handleFurnishingRest(final String responseText) {
+    // Your black-and-blue light cycles wildly between
+    // black and blue, then emits a shower of sparks as it
+    // goes permanently black.
+    if (responseText.contains("goes permanently black")) {
+      CampgroundRequest.removeCampgroundItem(BLACK_BLUE_LIGHT);
+    }
+
+    // Your blue plasma ball crackles weakly, emits a whine
+    // that sounds like "pika...pika...pika..." and goes
+    // dark.
+    if (responseText.contains("crackles weakly")) {
+      CampgroundRequest.removeCampgroundItem(PLASMA_BALL);
+    }
+
+    // Your Loudmouth Larry Lamprey twitches and flops
+    // wildly, singing "Daisy, Daisy, tell me your answer
+    // true," in ever-slower, distorted loops. Looks like
+    // it's ready to go to its eternal fishy reward.
+    if (responseText.contains("eternal fishy reward")) {
+      CampgroundRequest.removeCampgroundItem(LOUDMOUTH_LARRY);
+    }
+
+    if (responseText.contains("lunge toward the clock")) {
+      CampgroundRequest.removeCampgroundItem(LED_CLOCK);
+      Preferences.setBoolean("_confusingLEDClockUsed", true);
+    }
+  }
+
   public static void parseResponse(final String urlString, final String responseText) {
     // Workshed may redirect to shop.php
     if (urlString.startsWith("shop.php")) {
@@ -1002,28 +1099,6 @@ public class CampgroundRequest extends GenericRequest {
         Preferences.increment("timesRested", 1);
       }
 
-      // Your black-and-blue light cycles wildly between
-      // black and blue, then emits a shower of sparks as it
-      // goes permanently black.
-      if (responseText.contains("goes permanently black")) {
-        CampgroundRequest.removeCampgroundItem(BLACK_BLUE_LIGHT);
-      }
-
-      // Your blue plasma ball crackles weakly, emits a whine
-      // that sounds like "pika...pika...pika..." and goes
-      // dark.
-      if (responseText.contains("crackles weakly")) {
-        CampgroundRequest.removeCampgroundItem(PLASMA_BALL);
-      }
-
-      // Your Loudmouth Larry Lamprey twitches and flops
-      // wildly, singing "Daisy, Daisy, tell me your answer
-      // true," in ever-slower, distorted loops. Looks like
-      // it's ready to go to its eternal fishy reward.
-      if (responseText.contains("eternal fishy reward")) {
-        CampgroundRequest.removeCampgroundItem(LOUDMOUTH_LARRY);
-      }
-
       // You dream that your teeth fall out, and you put them
       // in your pocket for safe keeping. Fortunately, when
       // you wake up, you appear to have grown a new set.
@@ -1035,11 +1110,6 @@ public class CampgroundRequest extends GenericRequest {
       // youse goes."
       if (responseText.contains("youse got some teeth")) {
         ResultProcessor.processItem(ItemPool.LOOSE_TEETH, -1);
-      }
-
-      if (responseText.contains("lunge toward the clock")) {
-        CampgroundRequest.removeCampgroundItem(LED_CLOCK);
-        Preferences.setBoolean("_confusingLEDClockUsed", true);
       }
 
       if (responseText.contains("razor-sharp-claw-tipped arms")
@@ -1054,71 +1124,8 @@ public class CampgroundRequest extends GenericRequest {
         Preferences.increment("_knuckleboneDrops", 1, 100);
       }
 
-      var dwellingId = getCurrentDwelling().getItemId();
-
-      // Pyramid
-      if (dwellingId == ItemPool.BRICKO_PYRAMID
-          && responseText.contains("Spending time in your pyramid")) {
-        // Limit of 3 per day
-        Preferences.increment("_pyramidRestEffectsGained", 1, 3);
-      }
-
-      // Ginormous Pumpkin
-      if (dwellingId == ItemPool.GINORMOUS_PUMPKIN
-          && responseText.contains("You are suffused with pumpkinliness")) {
-        Preferences.setBoolean("_pumpkinRestEffectGained", true);
-      }
-
-      // Giant Faraday Cage
-      if (dwellingId == ItemPool.GIANT_FARADAY_CAGE
-          && responseText.contains("All of the static electricity")) {
-        Preferences.setBoolean("_faradayCageRestEffectGained", true);
-      }
-
-      // Snow Fort
-      if (dwellingId == ItemPool.SNOW_FORT
-          && responseText.contains("Your snow fort makes you feel safe")) {
-        Preferences.setBoolean("_snowFortRestEffectGained", true);
-      }
-
-      // Elevent
-      if (dwellingId == ItemPool.ELEVENT
-          && responseText.contains("You get some sleep that is, like, 10% better")) {
-        Preferences.setBoolean("_eleventRestEffectGained", true);
-      }
-
-      // Tipi
-      // It looks like another mini kiwi has sprung up next to your tiny kiwi tipi!
-      if (dwellingId == ItemPool.MINI_KIWI_TIPI
-          && responseText.contains("next to your tiny kiwi tipi")) {
-        Preferences.setBoolean("_miniKiwiTipiDrop", true);
-      }
-
-      // Gingerbread House
-      // Your festively-decorated dwelling brings a smile to your face as you drift off.
-      if (dwellingId == ItemPool.GINGERBREAD_HOUSE
-          && responseText.contains("festively-decorated dwelling brings a smile to your face")) {
-        Preferences.setBoolean("_gingerbreadHouseRestEffectGained", true);
-      }
-
-      // Hobo Fortress
-      if (dwellingId == ItemPool.HOBO_FORTRESS
-          && responseText.contains("You stare up at the vaulted ceiling of your hobo fortress")) {
-        // No limit
-        Preferences.increment("_hoboFortRestEffectsGained");
-      }
-
-      // Residence-Cube
-      if (dwellingId == ItemPool.RESIDENCE_CUBE
-          && responseText.contains("the spinning would make it harder to relax")) {
-        Preferences.setBoolean("_residenceCubeRestEffectGained", true);
-      }
-
-      // Mushroom House
-      if (dwellingId == ItemPool.HOUSE_SIZED_MUSHROOM) {
-        // Mushroom house does not have an effect-specific message
-        Preferences.setBoolean("_mushroomHouseRestEffectGained", true);
-      }
+      handleDwellingRest(responseText);
+      handleFurnishingRest(responseText);
 
       handleCinchoRest(responseText);
 
