@@ -2177,6 +2177,7 @@ public class ItemPool {
   public static final int OPTIMAL_SPREADSHEET = 6592;
   public static final int DEFECTIVE_TOKEN = 6593;
   public static final int HOT_DREADSYLVANIAN_COCOA = 6594;
+  public static final int INTRICATE_CLOCKWORK_EGG = 6596;
   public static final int CUCKOO_CLOCK = 6614;
   public static final int SPAGHETTI_BREAKFAST = 6616;
   public static final int FOLDER_HOLDER = 6617;

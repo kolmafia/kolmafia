@@ -3965,6 +3965,8 @@ public class FightRequest extends GenericRequest {
           Preferences.setInteger("_nanorhinoCharge", newCharge);
         }
         case FamiliarPool.CUBELING -> Preferences.increment("cubelingProgress");
+        case FamiliarPool.MECHANICAL_SONGBIRD ->
+            Preferences.increment("mechanicalSongbirdProgress");
         case FamiliarPool.REANIMATOR -> {
           if (responseText.contains("injects an arm")
               || responseText.contains("reanimates an arm")
