@@ -2226,6 +2226,7 @@ user	_fireworksShopEquipmentBought	false
 user	_fireworkUsed	false
 user	_fishyPipeUsed	false
 user	_flagellateFlagonUsed	false
+user	_fleekMascaraUsed	false
 user	_floristPlantsUsed
 user	_floundryItemCreated	false
 user	_floundryItemUsed	false
@@ -2257,6 +2258,7 @@ user	_garbageItemChanged	false
 user	_generateIronyUsed	0
 user	_genieFightsUsed	0
 user	_genieWishesUsed	0
+user	_giantGnawingBoneUsed	false
 user	_gibbererAdv	0
 user	_gibbererCharge	0
 user	_gingerBiggerAlligators	false
@@ -2587,6 +2589,8 @@ user	_pocketProfessorLectures	0
 user	_poisonArrows	0
 user	_pokeGrowFertilizerDrops	0
 user	_poolGames	0
+user	_porkElfNetiPotUsed	false
+user	_porkElfToiletriesKitUsed	false
 user	_portableSteamUnitUsed	false
 user	_pottedPowerPlant
 user	_pottedTeaTreeUsed	false

@@ -4017,6 +4017,10 @@ public class ItemPool {
   public static final int ANGELBONE_TOTEM = 12069;
   public static final int LEGENDARY_SEAL_CLUBBING_CLUB = 12134;
   public static final int HEARTSTONE = 12181;
+  public static final int PORK_ELF_TOILETRIES_KIT = 12192;
+  public static final int GIANT_GNAWING_BONE = 12200;
+  public static final int PORK_ELF_NETI_POT = 12205;
+  public static final int FLEEK_MASCARA = 12210;
 
   private ItemPool() {}
 

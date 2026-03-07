@@ -360,7 +360,9 @@ Use	festive warbear bank	_warbearBankUsed
 Use	fish hatchet	_floundryItemUsed
 Use	fishy pipe	_fishyPipeUsed
 Use	flagellate flagon	_flagellateFlagonUsed
+Use	Fleek&trade; mascara	_fleekMascaraUsed
 Use	fudge spork	_fudgeSporkUsed
+Use	giant gnawing bone	_giantGnawingBoneUsed
 Use	glass gnoll eye	_gnollEyeUsed
 Use	green rocket	_fireworkUsed
 Use	handmade hobby horse	_hobbyHorseUsed
@@ -390,6 +392,8 @@ Use	perfectly fair coin	_perfectlyFairCoinUsed
 Use	picky tweezers	_pickyTweezersUsed
 Use	pirate dinghy	_pirateDinghyUsed
 Use	pixel orb	_pixelOrbUsed
+Use	Pork Elf neti pot	_porkElfNetiPotUsed
+Use	Pork Elf toiletries kit	_porkElfToiletriesKitUsed
 Use	portable ping-pong table	_pingPongGame
 Use	portable steam unit	_portableSteamUnitUsed
 Use	pressurized potion of pneumaticity	_pneumaticityPotionUsed
