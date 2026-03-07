@@ -2589,8 +2589,11 @@ user	_pocketProfessorLectures	0
 user	_poisonArrows	0
 user	_pokeGrowFertilizerDrops	0
 user	_poolGames	0
+user	_porkElfMedicineCabinetUsed	false
 user	_porkElfNetiPotUsed	false
+user	_porkElfSinkUsed	false
 user	_porkElfToiletriesKitUsed	false
+user	_porkElfToiletUsed	false
 user	_portableSteamUnitUsed	false
 user	_pottedPowerPlant
 user	_pottedTeaTreeUsed	false
