@@ -5348,6 +5348,10 @@ public class UseItemRequest extends GenericRequest {
         Preferences.setBoolean("_punchingMirrorUsed", true);
         break;
 
+      case ItemPool.ELF_GUARD_HANGOVER_CURE:
+        Preferences.setBoolean("_elfGuardHangoverCureUsed", true);
+        break;
+
       case ItemPool.SOURCE_TERMINAL_PRAM_CHIP:
       case ItemPool.SOURCE_TERMINAL_GRAM_CHIP:
       case ItemPool.SOURCE_TERMINAL_SPAM_CHIP:

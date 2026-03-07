@@ -3854,6 +3854,7 @@ public class ItemPool {
   public static final int ELF_GUARD_COMMANDEERING_GLOVES = 11410;
   public static final int ELF_GUARD_HONOR_PRESENT = 11413;
   public static final int ELF_GUARD_OFFICERS_SIDEARM = 11414;
+  public static final int ELF_GUARD_HANGOVER_CURE = 11421;
   public static final int PEPPERMINT_BOMB = 11426;
   public static final int ELF_GUARD_FIELD_MANUAL_CULINARY_ARTS = 11429;
   public static final int COCKTAILS_OF_THE_AGE_OF_SAIL = 11432;
