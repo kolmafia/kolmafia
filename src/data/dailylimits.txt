@@ -272,6 +272,7 @@ Use	Clara's bell	_claraBellUsed
 Use	Crimbo training manual	_crimboTraining
 Use	Cuppa Sobrie tea	_sobrieTeaUsed
 Use	Cuppa Voraci tea	_voraciTeaUsed
+Use	Elf Guard hangover cure	_elfGuardHangoverCureUsed
 Use	Emblem of Ak'gyxoth	_akgyxothUsed
 Use	Frosty's frosty mug	_frostyMugUsed
 Use	Glenn's golden dice	_glennGoldenDiceUsed
