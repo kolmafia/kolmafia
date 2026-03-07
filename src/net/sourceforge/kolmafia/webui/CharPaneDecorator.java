@@ -593,6 +593,11 @@ public class CharPaneDecorator {
         buffer.append("/3 drops");
         return buffer;
       }
+      case FamiliarPool.MECHANICAL_SONGBIRD -> {
+        buffer.append(Preferences.getString("mechanicalSongbirdProgress"));
+        buffer.append("/~150 progress");
+        return buffer;
+      }
       case FamiliarPool.GRIMSTONE_GOLEM -> {
         String gDrops = Preferences.getString("_grimstoneMaskDrops");
         buffer.append(gDrops);

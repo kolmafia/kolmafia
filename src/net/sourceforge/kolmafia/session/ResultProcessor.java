@@ -2684,6 +2684,14 @@ public class ResultProcessor {
           ItemPool.CONFIDENCE_BUILDING_HUG ->
           BatManager.gainItem(result);
       case ItemPool.COWBOY_BOOTS -> EquipmentRequest.checkCowboyBoots();
+      case ItemPool.INTRICATE_CLOCKWORK_EGG -> {
+        if (adventureResults) {
+          if (KoLCharacter.currentFamiliar.getId() == FamiliarPool.MECHANICAL_SONGBIRD) {
+            // This will be updated to 0 in FightRequest later
+            Preferences.setInteger("mechanicalSongbirdProgress", -1);
+          }
+        }
+      }
       case ItemPool.ROBIN_EGG -> {
         if (adventureResults) {
           if (KoLCharacter.currentFamiliar.getId() == FamiliarPool.ROCKIN_ROBIN) {

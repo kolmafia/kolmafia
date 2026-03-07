@@ -1197,6 +1197,7 @@ user	mayoInMouth		roa
 user	mayoLevel	0	roa
 user	mayoMinderSetting		roa
 user	meansuckerPrice	400	roa
+user	mechanicalSongbirdProgress	0	roa
 user	merkinCatalogChoices		roa
 user	merkinElementaryBathroomUnlock	false	roa
 user	merkinElementaryJanitorUnlock	false	roa
