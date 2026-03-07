@@ -5348,6 +5348,10 @@ public class UseItemRequest extends GenericRequest {
         Preferences.setBoolean("_punchingMirrorUsed", true);
         break;
 
+      case ItemPool.ELF_GUARD_HANGOVER_CURE:
+        Preferences.setBoolean("_elfGuardHangoverCureUsed", true);
+        break;
+
       case ItemPool.SOURCE_TERMINAL_PRAM_CHIP:
       case ItemPool.SOURCE_TERMINAL_GRAM_CHIP:
       case ItemPool.SOURCE_TERMINAL_SPAM_CHIP:
@@ -6355,6 +6359,22 @@ public class UseItemRequest extends GenericRequest {
           Preferences.setString("stockCertificateTurns", turnsPlayed.substring(commaIndex + 1));
         }
         break;
+
+      case ItemPool.PORK_ELF_TOILETRIES_KIT:
+        Preferences.setBoolean("_porkElfToiletriesKitUsed", true);
+        return;
+
+      case ItemPool.GIANT_GNAWING_BONE:
+        Preferences.setBoolean("_giantGnawingBoneUsed", true);
+        return;
+
+      case ItemPool.PORK_ELF_NETI_POT:
+        Preferences.setBoolean("_porkElfNetiPotUsed", true);
+        return;
+
+      case ItemPool.FLEEK_MASCARA:
+        Preferences.setBoolean("_fleekMascaraUsed", true);
+        return;
     }
 
     if (CampgroundRequest.isWorkshedItem(itemId)) {

@@ -272,6 +272,7 @@ Use	Clara's bell	_claraBellUsed
 Use	Crimbo training manual	_crimboTraining
 Use	Cuppa Sobrie tea	_sobrieTeaUsed
 Use	Cuppa Voraci tea	_voraciTeaUsed
+Use	Elf Guard hangover cure	_elfGuardHangoverCureUsed
 Use	Emblem of Ak'gyxoth	_akgyxothUsed
 Use	Frosty's frosty mug	_frostyMugUsed
 Use	Glenn's golden dice	_glennGoldenDiceUsed
@@ -359,7 +360,9 @@ Use	festive warbear bank	_warbearBankUsed
 Use	fish hatchet	_floundryItemUsed
 Use	fishy pipe	_fishyPipeUsed
 Use	flagellate flagon	_flagellateFlagonUsed
+Use	Fleek&trade; mascara	_fleekMascaraUsed
 Use	fudge spork	_fudgeSporkUsed
+Use	giant gnawing bone	_giantGnawingBoneUsed
 Use	glass gnoll eye	_gnollEyeUsed
 Use	green rocket	_fireworkUsed
 Use	handmade hobby horse	_hobbyHorseUsed
@@ -389,6 +392,8 @@ Use	perfectly fair coin	_perfectlyFairCoinUsed
 Use	picky tweezers	_pickyTweezersUsed
 Use	pirate dinghy	_pirateDinghyUsed
 Use	pixel orb	_pixelOrbUsed
+Use	Pork Elf neti pot	_porkElfNetiPotUsed
+Use	Pork Elf toiletries kit	_porkElfToiletriesKitUsed
 Use	portable ping-pong table	_pingPongGame
 Use	portable steam unit	_portableSteamUnitUsed
 Use	pressurized potion of pneumaticity	_pneumaticityPotionUsed

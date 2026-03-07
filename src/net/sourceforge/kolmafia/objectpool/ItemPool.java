@@ -2177,6 +2177,7 @@ public class ItemPool {
   public static final int OPTIMAL_SPREADSHEET = 6592;
   public static final int DEFECTIVE_TOKEN = 6593;
   public static final int HOT_DREADSYLVANIAN_COCOA = 6594;
+  public static final int INTRICATE_CLOCKWORK_EGG = 6596;
   public static final int CUCKOO_CLOCK = 6614;
   public static final int SPAGHETTI_BREAKFAST = 6616;
   public static final int FOLDER_HOLDER = 6617;
@@ -3854,6 +3855,7 @@ public class ItemPool {
   public static final int ELF_GUARD_COMMANDEERING_GLOVES = 11410;
   public static final int ELF_GUARD_HONOR_PRESENT = 11413;
   public static final int ELF_GUARD_OFFICERS_SIDEARM = 11414;
+  public static final int ELF_GUARD_HANGOVER_CURE = 11421;
   public static final int PEPPERMINT_BOMB = 11426;
   public static final int ELF_GUARD_FIELD_MANUAL_CULINARY_ARTS = 11429;
   public static final int COCKTAILS_OF_THE_AGE_OF_SAIL = 11432;
@@ -4015,6 +4017,10 @@ public class ItemPool {
   public static final int ANGELBONE_TOTEM = 12069;
   public static final int LEGENDARY_SEAL_CLUBBING_CLUB = 12134;
   public static final int HEARTSTONE = 12181;
+  public static final int PORK_ELF_TOILETRIES_KIT = 12192;
+  public static final int GIANT_GNAWING_BONE = 12200;
+  public static final int PORK_ELF_NETI_POT = 12205;
+  public static final int FLEEK_MASCARA = 12210;
 
   private ItemPool() {}
 

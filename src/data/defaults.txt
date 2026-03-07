@@ -1197,6 +1197,7 @@ user	mayoInMouth		roa
 user	mayoLevel	0	roa
 user	mayoMinderSetting		roa
 user	meansuckerPrice	400	roa
+user	mechanicalSongbirdProgress	0	roa
 user	merkinCatalogChoices		roa
 user	merkinElementaryBathroomUnlock	false	roa
 user	merkinElementaryJanitorUnlock	false	roa
@@ -2177,6 +2178,7 @@ user	_eldritchTentacleFought	false
 user	_eldritchTentaclesFoughtToday	0
 user	_eleventRestEffectGained	false
 user	_elfGuardCookingUsed	0
+user	_elfGuardHangoverCureUsed	false
 user	_elronsCasts	0
 user	_emberingHulkFought	false
 user	_enamorangs	0
@@ -2224,6 +2226,7 @@ user	_fireworksShopEquipmentBought	false
 user	_fireworkUsed	false
 user	_fishyPipeUsed	false
 user	_flagellateFlagonUsed	false
+user	_fleekMascaraUsed	false
 user	_floristPlantsUsed
 user	_floundryItemCreated	false
 user	_floundryItemUsed	false
@@ -2255,6 +2258,7 @@ user	_garbageItemChanged	false
 user	_generateIronyUsed	0
 user	_genieFightsUsed	0
 user	_genieWishesUsed	0
+user	_giantGnawingBoneUsed	false
 user	_gibbererAdv	0
 user	_gibbererCharge	0
 user	_gingerBiggerAlligators	false
@@ -2586,7 +2590,9 @@ user	_poisonArrows	0
 user	_pokeGrowFertilizerDrops	0
 user	_poolGames	0
 user	_porkElfMedicineCabinetUsed	false
+user	_porkElfNetiPotUsed	false
 user	_porkElfSinkUsed	false
+user	_porkElfToiletriesKitUsed	false
 user	_porkElfToiletUsed	false
 user	_portableSteamUnitUsed	false
 user	_pottedPowerPlant
