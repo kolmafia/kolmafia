@@ -2762,6 +2762,7 @@ Item	teflon shield	Muscle Percent: +10, Damage Reduction: 24, Damage Absorption:
 Item	Temporal Tempera Tube	Muscle Percent: [5*G], Mysticality Percent: [5*G], Moxie Percent: [5*G]
 Item	terra cotta tambourine	Moxie Percent: +20, Monster Level: +10, Last Available: "2020-12", Conditional Skill (Equipped): "Unleash Terra Cotta Army"
 Item	Tesla's Electroplated Beans	Maximum MP: [15*(1+skill(Beanweaver))], Spell Damage: [10*(1+skill(Beanweaver))], MP Regen Min: [4*(1+skill(Beanweaver))], MP Regen Max: [5*(1+skill(Beanweaver))], Last Available: "2016-02"
+Item	testy toolbox	Rollover Effect: "Knob Goblin Perfume", Rollover Effect Duration: 11
 # The Lot's engagement ring: Allows Noxious Proposals
 Item	The Lot's engagement ring	Stench Damage: +3, Conditional Skill (Equipped): "Propose To Your Opponent"
 # The Necbromancer's Stein: All Spells Cast Are Spooky
@@ -2830,6 +2831,7 @@ Item	zoological sample kit	Lasts Until Rollover, Last Available: "2017-04"
 
 # Accessories section of modifiers.txt
 
+Item	[spelunking test kit]	Maximum HP: +100, Muscle: +100, Mysticality: +100, Moxie: +100
 Item	&quot;I survived Y2K&quot; T-Shirt	Maximum HP: +2, Maximum MP: +2, Adventures: +2, Experience (Muscle): +2, Experience (Mysticality): +2, Experience (Moxie): +2, Single Equip, Last Available: "2023-06"
 Item	&quot;I Voted!&quot; sticker	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Lasts Until Rollover, Last Available: "2018-11"
 Item	acid-squirting flower	Single Equip, Thorns: 1
@@ -14554,6 +14556,7 @@ Item	pumpkin spice whorl	Last Available: "2024-12"
 # punching mirror: Punch it for 5 PvP fights per day
 Item	punching mirror	Last Available: "2023-12"
 Item	puppet strings	Free Pull
+# purification tablet: Makes food/booze items give 100% more Adventures
 Item	purple prose pen	Last Available: "2012-12"
 Item	purpleheart logs	Last Available: "2020-08"
 # pygmy blowgun: Poisons enemies, dealing damage over multiple rounds
