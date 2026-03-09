@@ -1674,6 +1674,10 @@ public class CampgroundRequest extends GenericRequest {
 
         if (name.equals("Really Good Feng Shui")) {
           name = "Feng Shui for Big Dumb Idiots";
+        } else if (name.equals("Crimbo lights")) {
+          name = "string of Crimbo lights";
+        } else if (name.equals("Crimbo reindeer")) {
+          name = "plastic Crimbo reindeer";
         }
 
         AdventureResult ar = ItemPool.get(name, 1);
