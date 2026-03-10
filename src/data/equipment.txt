@@ -2420,6 +2420,7 @@ teflon shield	220	Mus: 85	shield
 Temporal Tempera Tube	10	none
 terra cotta tambourine	120	Mox: 40
 Tesla's Electroplated Beans	40	Mys: 5	can of beans
+testy toolbox	0	none
 The Joke Book of the Dead	0	none
 The Lot's engagement ring	0	none
 The Necbromancer's Stein	200	Mys: 200
@@ -2479,6 +2480,7 @@ zoological sample kit	10	none
 
 # Accessories section of equipment.txt
 
+[spelunking test kit]	0	none
 &quot;I survived Y2K&quot; T-Shirt	100	none
 &quot;I Voted!&quot; sticker	10	none
 acid-squirting flower	50	Mys: 10
