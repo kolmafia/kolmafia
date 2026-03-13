@@ -2183,6 +2183,10 @@ public abstract class KoLCharacter {
     return (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.FAMILIAR_WEIGHT_PCT);
   }
 
+  public static final int getFamiliarExperienceAdjustment() {
+    return (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.FAMILIAR_EXP);
+  }
+
   public static final int getManaCostAdjustment() {
     return KoLCharacter.getManaCostAdjustment(false);
   }
@@ -3449,6 +3453,20 @@ public abstract class KoLCharacter {
 
   public static final boolean noExperience() {
     return inZootomist();
+  }
+
+  public static final boolean noFamiliars() {
+    switch (KoLCharacter.ascensionPath) {
+      case Path.DARK_GYFFTE:
+      case Path.POKEFAM:
+      case Path.LICENSE_TO_ADVENTURE:
+      case Path.ACTUALLY_ED_THE_UNDYING:
+      case Path.AVATAR_OF_SNEAKY_PETE:
+      case Path.AVATAR_OF_JARLSBERG:
+      case Path.AVATAR_OF_BORIS:
+        return true;
+    }
+    return false;
   }
 
   public static final boolean isUnarmed() {
