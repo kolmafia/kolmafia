@@ -103,11 +103,11 @@ public class ClanRumpusRequest extends GenericRequest {
 
     GIRL_CALENDAR("Girls of Loathing Calendar", 1, 1, 1),
     BOY_CALENDAR("Boys of Loathing Calendar", 1, 2, 1),
-    PAINTING("Infuriating Painting", 1, 3, 1),
+    PAINTING("Infuriating Painting", 1, 3, 1, true),
     MEAT_ORCHID("Exotic Hanging Meat Orchid", 1, 4, 1),
 
     ARCANE_TOMES("Collection of Arcane Tomes and Whatnot", 2, 1, 0),
-    SPORTS_MEMORABILIA("Collection of Sports Memorabilia", 2, 2, 1),
+    SPORTS_MEMORABILIA("Collection of Sports Memorabilia", 2, 2, 1, true),
     SELF_HELP_BOOKS("Collection of Self-Help Books", 2, 3, 1),
 
     SODA_MACHINE("Soda Machine", 3, 1, 3),
@@ -118,7 +118,7 @@ public class ClanRumpusRequest extends GenericRequest {
     POTTED_MEAT_BUSH("Potted Meat Bush", 4, 2, 1),
     DESK_CALENDAR("Inspirational Desk Calendar", 4, 3, 1),
 
-    WRESTLING_MAT("Wrestling Mat", 5, 1, 1),
+    WRESTLING_MAT("Wrestling Mat", 5, 1, 1, true),
     TANNING_BED("Tan-U-Lots Tanning Bed", 5, 2, 0),
     COMFY_SOFA("Comfy Sofa", 5, 3, 0),
 
@@ -133,12 +133,18 @@ public class ClanRumpusRequest extends GenericRequest {
     public final int slot;
     public final int furni;
     public final int maxUses;
+    public final boolean isPvp;
 
     Equipment(String name, int slot, int furni, int maxUses) {
+      this(name, slot, furni, maxUses, false);
+    }
+
+    Equipment(String name, int slot, int furni, int maxUses, boolean isPvp) {
       this.name = name;
       this.slot = slot;
       this.furni = furni;
       this.maxUses = maxUses;
+      this.isPvp = isPvp;
     }
 
     public static String equipmentName(int slot, int furni) {
@@ -528,6 +534,11 @@ public class ClanRumpusRequest extends GenericRequest {
       Equipment equipment = Equipment.toEquip(equip);
       // Skip the Mr. Klaw game, since we ran it above
       if (equipment == Equipment.KLAW_GAME) {
+        continue;
+      }
+
+      if (equipment.isPvp && !KoLCharacter.getHippyStoneBroken()) {
+        // don't get PvP fights without broken stone
         continue;
       }
 
