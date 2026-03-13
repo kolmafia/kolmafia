@@ -713,9 +713,8 @@ public class CampgroundRequest extends GenericRequest {
     } else {
       // Pick your crop
       CampgroundRequest request = new CampgroundRequest("garden");
-      while (count-- > 0) {
-        RequestThread.postRequest(request);
-      }
+      // the whole crop is picked at once
+      RequestThread.postRequest(request);
     }
   }
 
