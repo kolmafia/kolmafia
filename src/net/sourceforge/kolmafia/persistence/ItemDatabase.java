@@ -1533,6 +1533,9 @@ public class ItemDatabase {
    * @return The price associated with the item
    */
   public static final int getPriceById(final int itemId) {
+    if (!isDiscardable(itemId)) {
+      return 0;
+    }
     return ItemDatabase.priceById.getOrDefault(itemId, 0);
   }
 

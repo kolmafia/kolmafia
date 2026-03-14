@@ -2728,9 +2728,7 @@ public class DebugDatabase {
         mismatch.compare("gift", mGift, gift);
         var autosell = entry.getIntValue("autosell");
         var mAutosell = ItemDatabase.getPriceById(id);
-        if (discard || mDiscard) {
-          mismatch.compare("autosell", mAutosell, autosell);
-        }
+        mismatch.compare("autosell", mAutosell, autosell);
       }
     }
   }
