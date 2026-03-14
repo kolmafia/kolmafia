@@ -2183,6 +2183,10 @@ public abstract class KoLCharacter {
     return (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.FAMILIAR_WEIGHT_PCT);
   }
 
+  public static final int getFamiliarExperienceAdjustment() {
+    return (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.FAMILIAR_EXP);
+  }
+
   public static final int getManaCostAdjustment() {
     return KoLCharacter.getManaCostAdjustment(false);
   }
