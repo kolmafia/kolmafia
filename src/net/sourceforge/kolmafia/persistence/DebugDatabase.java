@@ -2727,10 +2727,8 @@ public class DebugDatabase {
         mismatch.compare("quest", mQuest, quest);
         mismatch.compare("gift", mGift, gift);
         var autosell = entry.getIntValue("autosell");
-        var mAutosell = ItemDatabase.getPriceById(id);
-        if (discard || mDiscard) {
-          mismatch.compare("autosell", mAutosell, autosell);
-        }
+        var mAutosell = ItemDatabase.getRawPriceById(id);
+        mismatch.compare("autosell", mAutosell, autosell);
       }
     }
   }
