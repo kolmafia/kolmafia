@@ -645,7 +645,7 @@ public class Evaluator {
         } else if (keyword.startsWith("spell crit")) {
           index = DoubleModifier.SPELL_CRITICAL_PCT;
         } else if (keyword.startsWith("sprinkle")) {
-          index = DoubleModifier.SPELL_CRITICAL_PCT;
+          index = DoubleModifier.SPRINKLES;
         } else if (keyword.startsWith("stomach")) {
           index = DoubleModifier.STOMACH_CAPACITY;
         } else if (keyword.startsWith("liver")) {
