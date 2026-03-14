@@ -523,6 +523,8 @@ public class Evaluator {
           keyword = keyword.substring(0, keyword.length() - 11) + "damage percent";
         } else if (keyword.endsWith(" exp")) {
           keyword = keyword.substring(0, keyword.length() - 3) + "experience";
+        } else if (keyword.startsWith("organ")) {
+          keyword = "organ capacity";
         }
         index = DoubleModifier.byCaselessName(keyword);
       }
@@ -570,6 +572,12 @@ public class Evaluator {
           case "passive damage" -> {
             this.weight.set(DoubleModifier.DAMAGE_AURA, weight);
             this.weight.set(DoubleModifier.THORNS, weight);
+            continue;
+          }
+          case "organ capacity" -> {
+            this.weight.set(DoubleModifier.STOMACH_CAPACITY, weight);
+            this.weight.set(DoubleModifier.LIVER_CAPACITY, weight);
+            this.weight.set(DoubleModifier.SPLEEN_CAPACITY, weight);
             continue;
           }
         }
@@ -637,7 +645,13 @@ public class Evaluator {
         } else if (keyword.startsWith("spell crit")) {
           index = DoubleModifier.SPELL_CRITICAL_PCT;
         } else if (keyword.startsWith("sprinkle")) {
-          index = DoubleModifier.SPRINKLES;
+          index = DoubleModifier.SPELL_CRITICAL_PCT;
+        } else if (keyword.startsWith("stomach")) {
+          index = DoubleModifier.STOMACH_CAPACITY;
+        } else if (keyword.startsWith("liver")) {
+          index = DoubleModifier.LIVER_CAPACITY;
+        } else if (keyword.startsWith("spleen")) {
+          index = DoubleModifier.SPLEEN_CAPACITY;
         } else if (keyword.equals("ocrs")) {
           this.noTiebreaker = true;
           this.beeosity = 999;
