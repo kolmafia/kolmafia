@@ -1528,11 +1528,23 @@ public class ItemDatabase {
   }
 
   /**
-   * Returns the price for the item with the given Id.
+   * Returns the raw price for the item with the given Id.
+   *
+   * @return The price associated with the item
+   */
+  public static final int getRawPriceById(final int itemId) {
+    return ItemDatabase.priceById.getOrDefault(itemId, 0);
+  }
+
+  /**
+   * Returns the price for the item with the given Id, returning 0 if undiscardable.
    *
    * @return The price associated with the item
    */
   public static final int getPriceById(final int itemId) {
+    if (!isDiscardable(itemId)) {
+      return 0;
+    }
     return ItemDatabase.priceById.getOrDefault(itemId, 0);
   }
 
