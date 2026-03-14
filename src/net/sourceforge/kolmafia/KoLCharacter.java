@@ -3455,20 +3455,6 @@ public abstract class KoLCharacter {
     return inZootomist();
   }
 
-  public static final boolean noFamiliars() {
-    switch (KoLCharacter.ascensionPath) {
-      case Path.DARK_GYFFTE:
-      case Path.POKEFAM:
-      case Path.LICENSE_TO_ADVENTURE:
-      case Path.ACTUALLY_ED_THE_UNDYING:
-      case Path.AVATAR_OF_SNEAKY_PETE:
-      case Path.AVATAR_OF_JARLSBERG:
-      case Path.AVATAR_OF_BORIS:
-        return true;
-    }
-    return false;
-  }
-
   public static final boolean isUnarmed() {
     AdventureResult weapon = EquipmentManager.getEquipment(Slot.WEAPON);
     AdventureResult offhand = EquipmentManager.getEquipment(Slot.OFFHAND);
