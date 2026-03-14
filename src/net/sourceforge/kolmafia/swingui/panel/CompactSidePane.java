@@ -979,7 +979,7 @@ public class CompactSidePane extends JPanel implements Runnable {
           KoLConstants.ROUNDED_MODIFIER_FORMAT.format(KoLCharacter.getItemDropPercentAdjustment())
               + "%");
       count++;
-      boolean familiars = !KoLCharacter.noFamiliars();
+      boolean familiars = KoLCharacter.getPath().canUseFamiliars() && !KoLCharacter.inPokefam();
       if (familiars && count < this.BONUS_LABELS) {
         this.bonusLabel[count].setText("   Fam Exp: ");
         this.bonusValueLabel[count].setText(
