@@ -147,6 +147,15 @@ public class ClanRumpusRequest extends GenericRequest {
       this.isPvp = isPvp;
     }
 
+    public static Equipment equipment(int slot, int furni) {
+      for (Equipment equipment : Equipment.values()) {
+        if (slot == equipment.slot && furni == equipment.furni) {
+          return equipment;
+        }
+      }
+      return Equipment.NONE;
+    }
+
     public static String equipmentName(int slot, int furni) {
       if (furni == 0) {
         return "";
@@ -455,8 +464,7 @@ public class ClanRumpusRequest extends GenericRequest {
         if (spotMatcher.find() && furniMatcher.find()) {
           var spot = StringUtilities.parseInt(spotMatcher.group(1));
           var furni = StringUtilities.parseInt(furniMatcher.group(1));
-          var equipName = ClanRumpusRequest.Equipment.equipmentName(spot, furni);
-          var equipment = ClanRumpusRequest.Equipment.toEquip(equipName);
+          var equipment = ClanRumpusRequest.Equipment.equipment(spot, furni);
           if (equipment != Equipment.NONE) {
             Preferences.setBoolean(equipment.visitedPreference(), true);
           }
