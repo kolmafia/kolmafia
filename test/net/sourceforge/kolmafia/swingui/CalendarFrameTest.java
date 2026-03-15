@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 import javax.swing.JRootPane;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
@@ -20,9 +22,13 @@ import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLWriter;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.api.Test;
 
 class CalendarFrameTest {
@@ -282,5 +288,70 @@ class CalendarFrameTest {
     Component aTab = testFrame.tabs.getComponentAt(0);
     String x = getDataFromTab(aTab);
     assertEquals(whiteWednesday, x);
+  }
+
+  private static Stream<Arguments> moonCycleImageCases() {
+    int basePhaseStep = 1;
+    int baseHamburglarPosition = 0;
+
+    return IntStream.range(0, 16)
+        .mapToObj(
+            offset -> {
+              int phaseStep = (basePhaseStep + offset) % 16;
+              int ronaldPhase = phaseStep % 8;
+              int grimacePhase = phaseStep / 2;
+              int hamburglarPosition = (baseHamburglarPosition + offset * 2) % 11;
+
+              String ronaldSuffix =
+                  hamburglarPosition == 8 ? "a" : (hamburglarPosition == 9 ? "b" : "");
+              String grimaceSuffix =
+                  hamburglarPosition == 0 ? "a" : (hamburglarPosition == 1 ? "b" : "");
+
+              String ronaldImage = "itemimages/smoon" + (ronaldPhase + 1) + ronaldSuffix + ".gif";
+              String grimaceImage = "itemimages/smoon" + (grimacePhase + 1) + grimaceSuffix + ".gif";
+
+              boolean hamburglarVisible =
+                  hamburglarPosition == 2
+                      || hamburglarPosition == 4
+                      || hamburglarPosition == 5
+                      || hamburglarPosition == 7
+                      || hamburglarPosition == 10;
+
+              String hamburglarImage = null;
+              if (hamburglarVisible) {
+                int hamburglarLight =
+                    HolidayDatabase.getHamburglarLight(
+                        ronaldPhase, grimacePhase, hamburglarPosition);
+                hamburglarImage =
+                    "itemimages/minimoon" + (hamburglarLight == 0 ? "2" : "") + ".gif";
+              }
+
+              return Arguments.of(offset, ronaldImage, grimaceImage, hamburglarImage);
+            });
+  }
+
+  @ParameterizedTest
+  @MethodSource("moonCycleImageCases")
+  public void itShouldRenderMoonImagesAcrossCycle(
+      int dayOffset, String ronaldImage, String grimaceImage, String hamburglarImage) {
+    Calendar useTime = new GregorianCalendar(KoLmafia.KOL_TIME_ZONE);
+    useTime.set(2010, Calendar.SEPTEMBER, 1 + dayOffset, 0, 0);
+    CalendarFrame testFrame = new CalendarFrame(useTime);
+    assertNotEquals(null, testFrame, "CalendarFrame expected to exist when constructed.");
+    testFrame.updateTabs();
+    CalendarFrame.updateDailyPage(1);
+    assertEquals(2, testFrame.tabs.getTabCount());
+    Component aTab = testFrame.tabs.getComponentAt(0);
+    String x = getDataFromTab(aTab);
+
+    assertTrue(x.contains(ronaldImage), "Expected Ronald image: " + ronaldImage);
+    assertTrue(x.contains(grimaceImage), "Expected Grimace image: " + grimaceImage);
+    if (hamburglarImage != null) {
+      assertTrue(x.contains(hamburglarImage), "Expected Hamburglar image: " + hamburglarImage);
+    } else {
+      assertTrue(
+          !x.contains("itemimages/minimoon"),
+          "Expected no Hamburglar image for day offset " + dayOffset);
+    }
   }
 }
