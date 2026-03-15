@@ -2070,6 +2070,13 @@ user	_citizenZone
 user	_citizenZoneMods
 user	_clanFortuneBuffUsed	false
 user	_clanFortuneConsultUses	0
+user	_clanRumpusSpot1Visited	false
+user	_clanRumpusSpot2Visited	false
+user	_clanRumpusSpot3Visited	false
+user	_clanRumpusSpot4Visited	false
+user	_clanRumpusSpot5Visited	false
+user	_clanRumpusSpot7Visited	false
+user	_clanRumpusSpot9Visited	false
 user	_claraBellUsed	false
 user	_clipartSummons	0
 user	_clocksUsed	0

@@ -175,6 +175,10 @@ public class ClanRumpusRequest extends GenericRequest {
       }
       return NONE;
     }
+
+    public String visitedPreference() {
+      return "_clanRumpusSpot" + slot + "Visited";
+    }
   }
 
   private final RequestType action;
@@ -445,6 +449,20 @@ public class ClanRumpusRequest extends GenericRequest {
         }
       }
 
+      if (urlString.contains("action=click")) {
+        Matcher spotMatcher = SPOT_PATTERN.matcher(urlString);
+        Matcher furniMatcher = FURNI_PATTERN.matcher(urlString);
+        if (spotMatcher.find() && furniMatcher.find()) {
+          var spot = StringUtilities.parseInt(spotMatcher.group(1));
+          var furni = StringUtilities.parseInt(furniMatcher.group(1));
+          var equipName = ClanRumpusRequest.Equipment.equipmentName(spot, furni);
+          var equipment = ClanRumpusRequest.Equipment.toEquip(equipName);
+          if (equipment != Equipment.NONE) {
+            Preferences.setBoolean(equipment.visitedPreference(), true);
+          }
+        }
+      }
+
       return;
     }
 
@@ -542,9 +560,10 @@ public class ClanRumpusRequest extends GenericRequest {
         continue;
       }
 
-      // Things that can be used only once a day should have
-      // daily preferences to track that and we should check
-      // that rather than making a server hit
+      // If we have visited already, skip
+      if (Preferences.getBoolean(equipment.visitedPreference())) {
+        continue;
+      }
 
       request.visitEquipment(equipment.slot, equipment.furni);
       for (int i = 0; i < equipment.maxUses; i++) {
