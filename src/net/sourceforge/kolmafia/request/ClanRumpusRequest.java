@@ -416,7 +416,7 @@ public class ClanRumpusRequest extends GenericRequest {
     while (matcher.find()) {
       int spot = StringUtilities.parseInt(matcher.group(1));
       int furni = StringUtilities.parseInt(matcher.group(2));
-      String equipmentName = ClanRumpusRequest.Equipment.equipmentName(spot, furni);
+      String equipmentName = Equipment.equipmentName(spot, furni);
       if (!equipmentName.isEmpty()) {
         ClanManager.addToRumpus(equipmentName);
       }
@@ -464,7 +464,7 @@ public class ClanRumpusRequest extends GenericRequest {
         if (spotMatcher.find() && furniMatcher.find()) {
           var spot = StringUtilities.parseInt(spotMatcher.group(1));
           var furni = StringUtilities.parseInt(furniMatcher.group(1));
-          var equipment = ClanRumpusRequest.Equipment.equipment(spot, furni);
+          var equipment = Equipment.equipment(spot, furni);
           if (equipment != Equipment.NONE) {
             Preferences.setBoolean(equipment.visitedPreference(), true);
           }
@@ -666,7 +666,7 @@ public class ClanRumpusRequest extends GenericRequest {
 
     int furniture = StringUtilities.parseInt(matcher.group(1));
 
-    String equipment = ClanRumpusRequest.Equipment.equipmentName(spot, furniture);
+    String equipment = Equipment.equipmentName(spot, furniture);
 
     if (equipment == null) {
       return false;
