@@ -750,22 +750,10 @@ public class Player {
    * @return Resets to previous value
    */
   public static Cleanups withClanFurniture(final String... furniture) {
-    var cleanups = new Cleanups();
     var rumpus = ClanManager.getClanRumpus();
 
-    for (var f : furniture) {
-      var old = rumpus.contains(f);
-      ClanManager.addToRumpus(f);
-
-      cleanups.add(
-          () -> {
-            if (!old) {
-              ClanManager.removeFromRumpus(f);
-            }
-          });
-    }
-
-    return cleanups;
+    ClanManager.setClanRumpus(new ArrayList<>(List.of(furniture)));
+    return new Cleanups(() -> ClanManager.setClanRumpus(rumpus));
   }
 
   /**
