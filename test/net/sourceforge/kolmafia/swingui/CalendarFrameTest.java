@@ -1,7 +1,11 @@
 package net.sourceforge.kolmafia.swingui;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -26,10 +30,10 @@ import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 class CalendarFrameTest {
 
@@ -308,7 +312,8 @@ class CalendarFrameTest {
                   hamburglarPosition == 0 ? "a" : (hamburglarPosition == 1 ? "b" : "");
 
               String ronaldImage = "itemimages/smoon" + (ronaldPhase + 1) + ronaldSuffix + ".gif";
-              String grimaceImage = "itemimages/smoon" + (grimacePhase + 1) + grimaceSuffix + ".gif";
+              String grimaceImage =
+                  "itemimages/smoon" + (grimacePhase + 1) + grimaceSuffix + ".gif";
 
               boolean hamburglarVisible =
                   hamburglarPosition == 2
@@ -337,21 +342,19 @@ class CalendarFrameTest {
     Calendar useTime = new GregorianCalendar(KoLmafia.KOL_TIME_ZONE);
     useTime.set(2010, Calendar.SEPTEMBER, 1 + dayOffset, 0, 0);
     CalendarFrame testFrame = new CalendarFrame(useTime);
-    assertNotEquals(null, testFrame, "CalendarFrame expected to exist when constructed.");
+    assertThat(testFrame, notNullValue());
     testFrame.updateTabs();
     CalendarFrame.updateDailyPage(1);
-    assertEquals(2, testFrame.tabs.getTabCount());
+    assertThat(testFrame.tabs.getTabCount(), equalTo(2));
     Component aTab = testFrame.tabs.getComponentAt(0);
     String x = getDataFromTab(aTab);
 
-    assertTrue(x.contains(ronaldImage), "Expected Ronald image: " + ronaldImage);
-    assertTrue(x.contains(grimaceImage), "Expected Grimace image: " + grimaceImage);
+    assertThat(x, containsString(ronaldImage));
+    assertThat(x, containsString(grimaceImage));
     if (hamburglarImage != null) {
-      assertTrue(x.contains(hamburglarImage), "Expected Hamburglar image: " + hamburglarImage);
+      assertThat(x, containsString(hamburglarImage));
     } else {
-      assertTrue(
-          !x.contains("itemimages/minimoon"),
-          "Expected no Hamburglar image for day offset " + dayOffset);
+      assertThat(x, not(containsString("itemimages/minimoon")));
     }
   }
 }
