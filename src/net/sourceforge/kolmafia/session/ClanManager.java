@@ -728,6 +728,10 @@ public abstract class ClanManager {
     return list == null ? new ArrayList<>() : list;
   }
 
+  public static final void setClanRumpus(List<String> rumpus) {
+    ClanManager.clanRumpus.put(ClanManager.clanId, rumpus);
+  }
+
   public static void addToRumpus(final String it) {
     ClanManager.clanRumpus.computeIfAbsent(ClanManager.clanId, (id) -> new ArrayList<>()).add(it);
   }
