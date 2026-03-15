@@ -1,7 +1,11 @@
 package net.sourceforge.kolmafia.swingui;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -13,6 +17,8 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 import javax.swing.JRootPane;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
@@ -20,10 +26,14 @@ import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLWriter;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 class CalendarFrameTest {
 
@@ -282,5 +292,69 @@ class CalendarFrameTest {
     Component aTab = testFrame.tabs.getComponentAt(0);
     String x = getDataFromTab(aTab);
     assertEquals(whiteWednesday, x);
+  }
+
+  private static Stream<Arguments> moonCycleImageCases() {
+    int basePhaseStep = 1;
+    int baseHamburglarPosition = 0;
+
+    return IntStream.range(0, 16)
+        .mapToObj(
+            offset -> {
+              int phaseStep = (basePhaseStep + offset) % 16;
+              int ronaldPhase = phaseStep % 8;
+              int grimacePhase = phaseStep / 2;
+              int hamburglarPosition = (baseHamburglarPosition + offset * 2) % 11;
+
+              String ronaldSuffix =
+                  hamburglarPosition == 8 ? "a" : (hamburglarPosition == 9 ? "b" : "");
+              String grimaceSuffix =
+                  hamburglarPosition == 0 ? "a" : (hamburglarPosition == 1 ? "b" : "");
+
+              String ronaldImage = "itemimages/smoon" + (ronaldPhase + 1) + ronaldSuffix + ".gif";
+              String grimaceImage =
+                  "itemimages/smoon" + (grimacePhase + 1) + grimaceSuffix + ".gif";
+
+              boolean hamburglarVisible =
+                  hamburglarPosition == 2
+                      || hamburglarPosition == 4
+                      || hamburglarPosition == 5
+                      || hamburglarPosition == 7
+                      || hamburglarPosition == 10;
+
+              String hamburglarImage = null;
+              if (hamburglarVisible) {
+                int hamburglarLight =
+                    HolidayDatabase.getHamburglarLight(
+                        ronaldPhase, grimacePhase, hamburglarPosition);
+                hamburglarImage =
+                    "itemimages/minimoon" + (hamburglarLight == 0 ? "2" : "") + ".gif";
+              }
+
+              return Arguments.of(offset, ronaldImage, grimaceImage, hamburglarImage);
+            });
+  }
+
+  @ParameterizedTest
+  @MethodSource("moonCycleImageCases")
+  public void itShouldRenderMoonImagesAcrossCycle(
+      int dayOffset, String ronaldImage, String grimaceImage, String hamburglarImage) {
+    Calendar useTime = new GregorianCalendar(KoLmafia.KOL_TIME_ZONE);
+    useTime.set(2010, Calendar.SEPTEMBER, 1 + dayOffset, 0, 0);
+    CalendarFrame testFrame = new CalendarFrame(useTime);
+    assertThat(testFrame, notNullValue());
+    testFrame.updateTabs();
+    CalendarFrame.updateDailyPage(1);
+    assertThat(testFrame.tabs.getTabCount(), equalTo(2));
+    Component aTab = testFrame.tabs.getComponentAt(0);
+    String x = getDataFromTab(aTab);
+
+    assertThat(x, containsString(ronaldImage));
+    assertThat(x, containsString(grimaceImage));
+    if (hamburglarImage != null) {
+      assertThat(x, containsString(hamburglarImage));
+    } else {
+      assertThat(x, not(containsString("itemimages/minimoon")));
+    }
   }
 }
