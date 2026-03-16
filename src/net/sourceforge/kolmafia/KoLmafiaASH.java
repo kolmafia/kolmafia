@@ -153,7 +153,7 @@ public abstract class KoLmafiaASH {
       int written = serverReplyBuffer.length();
       if (written != 0) {
         String response = serverReplyBuffer.toString();
-        request.pseudoResponse("HTTP/1.1 200 OK", response);
+        request.pseudoResponse(relayRequest.statusLine, response);
       }
 
       relayScript.finishRelayScript();
