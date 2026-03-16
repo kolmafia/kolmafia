@@ -574,7 +574,7 @@ public class RelayRequest extends PasswordHashRequest {
     if (this.responseCode == 302) {
       this.headers.add("Location: " + responseText);
       this.responseText = "";
-    } else if (this.responseCode == 200) {
+    } else {
       if (responseText == null || responseText.length() == 0) {
         this.responseText = " ";
       } else {
@@ -582,22 +582,22 @@ public class RelayRequest extends PasswordHashRequest {
         this.responseText = responseText;
       }
 
-      if (this.contentType.equals("text/html")) {
-        this.headers.add("Content-Type: text/html; charset=UTF-8");
-        this.headers.add("Cache-Control: no-cache, must-revalidate");
-        this.headers.add("Pragma: no-cache");
-      } else {
-        this.headers.add("Content-Type: " + this.contentType);
-      }
+      if (this.responseCode == 200) {
+        if (this.contentType.equals("text/html")) {
+          this.headers.add("Content-Type: text/html; charset=UTF-8");
+          this.headers.add("Cache-Control: no-cache, must-revalidate");
+          this.headers.add("Pragma: no-cache");
+        } else {
+          this.headers.add("Content-Type: " + this.contentType);
+        }
 
-      if (this.lastModified > 0) {
-        String lastModified = StringUtilities.formatDate(this.lastModified);
-        if (!lastModified.equals("")) {
-          this.headers.add("Last-Modified: " + lastModified);
+        if (this.lastModified > 0) {
+          String lastModified = StringUtilities.formatDate(this.lastModified);
+          if (!lastModified.equals("")) {
+            this.headers.add("Last-Modified: " + lastModified);
+          }
         }
       }
-    } else {
-      this.responseText = " ";
     }
   }
 
@@ -4071,7 +4071,7 @@ public class RelayRequest extends PasswordHashRequest {
     } else if (this.responseCode == 304) {
       this.pseudoResponse("HTTP/1.1 304 Not Modified", null);
     } else if (this.responseCode != 200) {
-      this.sendNotFound();
+      this.pseudoResponse("HTTP/1.1 " + this.responseCode, this.responseText);
     } else if (wasAdventure) {
       RelayRequest.executeAfterAdventureScript();
     }
