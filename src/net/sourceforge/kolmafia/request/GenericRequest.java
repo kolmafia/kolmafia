@@ -1756,6 +1756,7 @@ public class GenericRequest implements Runnable {
             && (this.formURLString.contains("action=pullall")
                 || this.getFormField("action") != null)) {
           // Likely a pullall request that timed out
+          this.retrieveServerReply(istream);
           PauseObject pauser = new PauseObject();
           KoLmafia.updateDisplay("Waiting 40 seconds for KoL to finish processing...");
           pauser.pause(40 * 1000);
@@ -1770,8 +1771,12 @@ public class GenericRequest implements Runnable {
           KoLmafia.updateDisplay(MafiaState.ERROR, message);
         }
 
+        if (this.redirectLocation == null) {
+          // there may be a response we would like to see
+          this.retrieveServerReply(istream);
+        }
+
         if (this.processOnFailure()) {
-          this.responseText = "";
           this.processResponse();
         }
 
