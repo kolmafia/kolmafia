@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.function.Function;
@@ -43,6 +44,7 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LeprecondoManager;
 import net.sourceforge.kolmafia.session.TrackManager;
+import net.sourceforge.kolmafia.utilities.CharacterEntities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class AreaCombatData {
@@ -996,37 +998,74 @@ public class AreaCombatData {
       return monster.getName();
     }
     // with heartstone, we want to highlight the middle letter
-    var name = monster.getName();
-    var middleLetter = HeartstoneDatabase.middleLetter(name);
+    var displayName = monster.getName();
+    var middleLetter = HeartstoneDatabase.middleLetter(monster.getManuelName());
     if (middleLetter == null) {
-      return name;
+      return displayName;
     }
 
     int targetByteIndex = middleLetter.byteIndex();
+    String target = middleLetter.letter();
     int byteIndex = 0;
-    boolean highlighted = false;
-    StringBuilder buffer = new StringBuilder();
-    for (int i = 0; i < name.length(); ) {
-      int codePoint = name.codePointAt(i);
-      String piece = new String(Character.toChars(codePoint));
-      if (codePoint == ' ') {
-        buffer.append(piece);
-      } else {
-        int pieceBytes = piece.getBytes(StandardCharsets.UTF_8).length;
-        if (!highlighted && byteIndex == targetByteIndex && pieceBytes == 1) {
-          buffer.append("<span style=\"text-decoration: underline;\">");
-          buffer.append(piece);
-          buffer.append("</span>");
-          highlighted = true;
-        } else {
-          buffer.append(piece);
-        }
-        byteIndex += pieceBytes;
+    int highlightStart = -1;
+    int highlightEnd = -1;
+
+    for (int i = 0; i < displayName.length() && highlightStart == -1; ) {
+      char ch = displayName.charAt(i);
+      if (ch == ' ') {
+        i++;
+        continue;
       }
+
+      if (ch == '&') {
+        int end = displayName.indexOf(';', i + 1);
+        if (end != -1) {
+          String entity = displayName.substring(i, end + 1);
+          String decoded = CharacterEntities.unescape(entity);
+          int decodedCodePoints = decoded.codePointCount(0, decoded.length());
+          for (int j = 0; j < decoded.length(); ) {
+            int codePoint = decoded.codePointAt(j);
+            String piece = new String(Character.toChars(codePoint));
+            if (byteIndex == targetByteIndex
+                && decodedCodePoints == 1
+                && piece.length() == 1
+                && piece.toUpperCase(Locale.ENGLISH).equals(target)) {
+              highlightStart = i;
+              highlightEnd = end + 1;
+              break;
+            }
+            byteIndex += piece.getBytes(StandardCharsets.UTF_8).length;
+            j += Character.charCount(codePoint);
+          }
+          i = end + 1;
+          continue;
+        }
+      }
+
+      int codePoint = displayName.codePointAt(i);
+      String piece = new String(Character.toChars(codePoint));
+      if (byteIndex == targetByteIndex
+          && piece.length() == 1
+          && piece.toUpperCase(Locale.ENGLISH).equals(target)) {
+        highlightStart = i;
+        highlightEnd = i + Character.charCount(codePoint);
+        break;
+      }
+      byteIndex += piece.getBytes(StandardCharsets.UTF_8).length;
       i += Character.charCount(codePoint);
     }
 
-    return highlighted ? buffer.toString() : name;
+    if (highlightStart == -1) {
+      return displayName;
+    }
+
+    StringBuilder buffer = new StringBuilder();
+    buffer.append(displayName, 0, highlightStart);
+    buffer.append("<span style=\"text-decoration: underline;\">");
+    buffer.append(displayName, highlightStart, highlightEnd);
+    buffer.append("</span>");
+    buffer.append(displayName.substring(highlightEnd));
+    return buffer.toString();
   }
 
   private void appendMeatDrop(final StringBuffer buffer, final MonsterData monster) {
