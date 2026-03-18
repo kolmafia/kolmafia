@@ -1227,5 +1227,15 @@ public class AreaCombatDataTest {
                 "Elp&iacute;zo & <span style=\"text-decoration: underline;\">C</span>rosybdis"));
       }
     }
+
+    @Test
+    void monsterNameDoesNotStartWithManuelName() {
+      var cleanups = withHeartstone();
+
+      try (cleanups) {
+        var data = monsterDataFor("The Outer Compound");
+        assertThat(data, containsString("french guard turtle"));
+      }
+    }
   }
 }

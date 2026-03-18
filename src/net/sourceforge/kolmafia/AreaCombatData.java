@@ -998,7 +998,14 @@ public class AreaCombatData {
     }
     // with heartstone, we want to highlight the middle letter
     var displayName = monster.getName();
-    var middleLetter = HeartstoneDatabase.middleLetter(monster.getManuelName());
+    var manuelName = monster.getManuelName();
+
+    if (!CharacterEntities.unescape(displayName).startsWith(manuelName)) {
+      // our count will be off
+      return displayName;
+    }
+
+    var middleLetter = HeartstoneDatabase.middleLetter(manuelName);
     if (middleLetter == null) {
       return displayName;
     }
@@ -1047,10 +1054,10 @@ public class AreaCombatData {
     }
 
     return displayName.substring(0, highlightStart)
-      + "<span style=\"text-decoration: underline;\">"
-      + displayName.substring(highlightStart, highlightEnd)
-      + "</span>"
-      + displayName.substring(highlightEnd);
+        + "<span style=\"text-decoration: underline;\">"
+        + displayName.substring(highlightStart, highlightEnd)
+        + "</span>"
+        + displayName.substring(highlightEnd);
   }
 
   private void appendMeatDrop(final StringBuffer buffer, final MonsterData monster) {
