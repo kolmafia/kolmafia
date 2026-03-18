@@ -1177,7 +1177,7 @@ public class AreaCombatDataTest {
         assertThat(
             data,
             containsString(
-                "Legstrong&trade; st<span style=\"text-decoration: underline;\">a</span>tionary bicycle"));
+                "Legstrong™ st<span style=\"text-decoration: underline;\">a</span>tionary bicycle"));
       }
     }
 
@@ -1224,7 +1224,7 @@ public class AreaCombatDataTest {
         assertThat(
             data,
             containsString(
-                "Elp&iacute;zo &amp; <span style=\"text-decoration: underline;\">C</span>rosybdis"));
+                "Elpízo & <span style=\"text-decoration: underline;\">C</span>rosybdis"));
       }
     }
 

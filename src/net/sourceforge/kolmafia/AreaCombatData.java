@@ -1035,14 +1035,11 @@ public class AreaCombatData {
       return displayName;
     }
 
-    String prefix = decodedDisplayName.substring(0, highlightStart);
-    String highlight = decodedDisplayName.substring(highlightStart, highlightEnd);
-    String suffix = decodedDisplayName.substring(highlightEnd);
-    return CharacterEntities.escape(prefix)
+    return decodedDisplayName.substring(0, highlightStart)
         + "<span style=\"text-decoration: underline;\">"
-        + CharacterEntities.escape(highlight)
+        + decodedDisplayName.substring(highlightStart, highlightEnd)
         + "</span>"
-        + CharacterEntities.escape(suffix);
+        + decodedDisplayName.substring(highlightEnd);
   }
 
   private void appendMeatDrop(final StringBuffer buffer, final MonsterData monster) {
