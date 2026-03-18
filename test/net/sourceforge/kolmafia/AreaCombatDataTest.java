@@ -24,6 +24,7 @@ import static org.hamcrest.Matchers.hasEntry;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notANumber;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.core.Every.everyItem;
 
 import internal.helpers.Cleanups;
@@ -1138,6 +1139,79 @@ public class AreaCombatDataTest {
             AdventureDatabase.getAreaCombatData("The Wreck of the Edgar Fitzsimmons")
                 .getMonsterData(true);
         assertThat(appearanceRates.get(MonsterDatabase.findMonster("unholy diver")), is(0.0));
+      }
+    }
+  }
+
+  @Nested
+  class HeartstoneMonsterNames {
+    private Cleanups withHeartstone() {
+      return new Cleanups(withEquipped(Slot.ACCESSORY1, ItemPool.HEARTSTONE));
+    }
+
+    private String monsterDataFor(String zone) {
+      var area = AdventureDatabase.getAreaCombatData(zone);
+      assertThat(area, notNullValue());
+      StringBuffer buffer = new StringBuffer();
+      area.appendMonsterData(buffer, false, false);
+      return buffer.toString();
+    }
+
+    @Test
+    void crateHighlightsMiddleLetter() {
+      var cleanups = withHeartstone();
+
+      try (cleanups) {
+        var data = monsterDataFor("Noob Cave");
+        assertThat(
+            data, containsString("cr<span style=\"text-decoration: underline;\">a</span>te"));
+      }
+    }
+
+    @Test
+    void legstrongUsesBytes() {
+      var cleanups = withHeartstone();
+
+      try (cleanups) {
+        var data = monsterDataFor("The Inner Wolf Gym");
+        assertThat(
+            data,
+            containsString(
+                "Legstrong&trade; st<span style=\"text-decoration: underline;\">a</span>tionary bicycle"));
+      }
+    }
+
+    @Test
+    void warFratCaptainPassesNameThrough() {
+      var cleanups = withHeartstone();
+
+      try (cleanups) {
+        var data = monsterDataFor("The Battlefield (Hippy Uniform)");
+        assertThat(data, containsString("War Frat 151st Captain"));
+      }
+    }
+
+    @Test
+    void paddlerHighlightsOnManuelName() {
+      var cleanups = withHeartstone();
+
+      try (cleanups) {
+        var data = monsterDataFor("The Orcish Frat House");
+        assertThat(
+            data,
+            containsString(
+                "Orcish <span style=\"text-decoration: underline;\">F</span>rat Boy (Paddler)"));
+      }
+    }
+
+    @Test
+    void picksCorrectLetterToHighlight() {
+      var cleanups = withHeartstone();
+
+      try (cleanups) {
+        var data = monsterDataFor("The Castle in the Clouds in the Sky (Top Floor)");
+        assertThat(
+            data, containsString("Goth <span style=\"text-decoration: underline;\">G</span>iant"));
       }
     }
   }
