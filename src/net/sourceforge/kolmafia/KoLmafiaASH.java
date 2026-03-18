@@ -153,7 +153,8 @@ public abstract class KoLmafiaASH {
       int written = serverReplyBuffer.length();
       if (written != 0) {
         String response = serverReplyBuffer.toString();
-        if (relayRequest.responseCode == 302) {
+        if (relayRequest.responseCode == 302
+            || relayRequest.statusLine.startsWith("HTTP/1.1 302")) {
           // something has gone tremendously wrong (all redirects should have been followed)
           // as pseudoResponse will put the contents into the Location: header, manually
           // make this a 200
