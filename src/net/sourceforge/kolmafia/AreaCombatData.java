@@ -23,8 +23,8 @@ import net.sourceforge.kolmafia.persistence.AdventureDatabase.Environment;
 import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
-import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.HeartstoneDatabase;
+import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
@@ -991,7 +991,8 @@ public class AreaCombatData {
   private String getMonsterName(MonsterData monster) {
     var heartstone = ItemPool.get(ItemPool.HEARTSTONE);
     // without heartstone, just return name
-    if (!InventoryManager.equippedOrInInventory(heartstone) && !KoLCharacter.inCodpiece(heartstone)) {
+    if (!InventoryManager.equippedOrInInventory(heartstone)
+        && !KoLCharacter.inCodpiece(heartstone)) {
       return monster.getName();
     }
     // with heartstone, we want to highlight the middle letter
