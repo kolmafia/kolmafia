@@ -1224,7 +1224,7 @@ public class AreaCombatDataTest {
         assertThat(
             data,
             containsString(
-                "Elp&iacute;zo & <span style=\"text-decoration: underline;\">C</span>rosybdis"));
+                "Elp&iacute;zo &amp; <span style=\"text-decoration: underline;\">C</span>rosybdis"));
       }
     }
 

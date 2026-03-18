@@ -998,9 +998,10 @@ public class AreaCombatData {
     }
     // with heartstone, we want to highlight the middle letter
     var displayName = monster.getName();
+    var decodedDisplayName = CharacterEntities.unescape(displayName);
     var manuelName = monster.getManuelName();
 
-    if (!CharacterEntities.unescape(displayName).startsWith(manuelName)) {
+    if (!decodedDisplayName.startsWith(manuelName)) {
       // our count will be off
       return displayName;
     }
@@ -1015,49 +1016,33 @@ public class AreaCombatData {
     int highlightStart = -1;
     int highlightEnd = -1;
 
-    for (int i = 0; i < displayName.length(); ) {
-      int start = i;
-      String decodedChunk = null;
-
-      if (displayName.charAt(i) == '&') {
-        int end = displayName.indexOf(';', i + 1);
-        if (end != -1) {
-          String entity = displayName.substring(i, end + 1);
-          String decoded = CharacterEntities.unescape(entity);
-          if (!decoded.equals(entity)) {
-            decodedChunk = decoded;
-            i = end + 1;
-          }
+    for (int i = 0; i < decodedDisplayName.length(); ) {
+      int codePoint = decodedDisplayName.codePointAt(i);
+      int charCount = Character.charCount(codePoint);
+      if (!Character.isWhitespace(codePoint)) {
+        if (byteIndex == targetByteIndex) {
+          highlightStart = i;
+          highlightEnd = i + charCount;
+          break;
         }
+        String piece = new String(Character.toChars(codePoint));
+        byteIndex += piece.getBytes(StandardCharsets.UTF_8).length;
       }
-
-      if (decodedChunk == null) {
-        int codePoint = displayName.codePointAt(i);
-        decodedChunk = new String(Character.toChars(codePoint));
-        i += Character.charCount(codePoint);
-      }
-
-      String compactChunk = decodedChunk.replaceAll("\\s+", "");
-      if (compactChunk.isEmpty()) {
-        continue;
-      }
-      if (byteIndex == targetByteIndex) {
-        highlightStart = start;
-        highlightEnd = i;
-        break;
-      }
-      byteIndex += compactChunk.getBytes(StandardCharsets.UTF_8).length;
+      i += charCount;
     }
 
     if (highlightStart == -1) {
       return displayName;
     }
 
-    return displayName.substring(0, highlightStart)
+    String prefix = decodedDisplayName.substring(0, highlightStart);
+    String highlight = decodedDisplayName.substring(highlightStart, highlightEnd);
+    String suffix = decodedDisplayName.substring(highlightEnd);
+    return CharacterEntities.escape(prefix)
         + "<span style=\"text-decoration: underline;\">"
-        + displayName.substring(highlightStart, highlightEnd)
+        + CharacterEntities.escape(highlight)
         + "</span>"
-        + displayName.substring(highlightEnd);
+        + CharacterEntities.escape(suffix);
   }
 
   private void appendMeatDrop(final StringBuffer buffer, final MonsterData monster) {
