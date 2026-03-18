@@ -1284,8 +1284,13 @@ public class SkillDatabase {
       case SkillPool.STEW -> 3;
       case SkillPool.MEAT_CLEAVER, SkillPool.ACT_JERKY, SkillPool.CHEW_THE_FAT -> 5;
       case SkillPool.MEAT_LOCKER, SkillPool.WET_RUB -> 8;
-      case SkillPool.STEAK_THROUGH_THE_HEART, SkillPool.SELF_TENDERIZE, SkillPool.BEEF_GOGGLES,
-           SkillPool.MEAT_PUPPET, SkillPool.HAM_IT_UP, SkillPool.STEAK_SKIRT -> 10;
+      case SkillPool.STEAK_THROUGH_THE_HEART,
+          SkillPool.SELF_TENDERIZE,
+          SkillPool.BEEF_GOGGLES,
+          SkillPool.MEAT_PUPPET,
+          SkillPool.HAM_IT_UP,
+          SkillPool.STEAK_SKIRT ->
+          10;
       case SkillPool.MEAT_CUTE, SkillPool.MEAT_LOAF, SkillPool.DARK_MEAT -> 20;
       default -> 0;
     };
