@@ -1014,7 +1014,7 @@ public class AreaCombatData {
       } else {
         int pieceBytes = piece.getBytes(StandardCharsets.UTF_8).length;
         if (!highlighted && byteIndex == targetByteIndex && pieceBytes == 1) {
-          buffer.append("<span style=\"background-color: #ffff99\">");
+          buffer.append("<span style=\"text-decoration: underline;\">");
           buffer.append(piece);
           buffer.append("</span>");
           highlighted = true;
