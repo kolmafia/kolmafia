@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.function.Function;
@@ -1005,54 +1004,42 @@ public class AreaCombatData {
     }
 
     int targetByteIndex = middleLetter.byteIndex();
-    String target = middleLetter.letter();
     int byteIndex = 0;
     int highlightStart = -1;
     int highlightEnd = -1;
 
-    for (int i = 0; i < displayName.length() && highlightStart == -1; ) {
-      char ch = displayName.charAt(i);
-      if (ch == ' ') {
-        i++;
-        continue;
-      }
+    for (int i = 0; i < displayName.length(); ) {
+      int start = i;
+      String decodedChunk = null;
 
-      if (ch == '&') {
+      if (displayName.charAt(i) == '&') {
         int end = displayName.indexOf(';', i + 1);
         if (end != -1) {
           String entity = displayName.substring(i, end + 1);
           String decoded = CharacterEntities.unescape(entity);
-          int decodedCodePoints = decoded.codePointCount(0, decoded.length());
-          for (int j = 0; j < decoded.length(); ) {
-            int codePoint = decoded.codePointAt(j);
-            String piece = new String(Character.toChars(codePoint));
-            if (byteIndex == targetByteIndex
-                && decodedCodePoints == 1
-                && piece.length() == 1
-                && piece.toUpperCase(Locale.ENGLISH).equals(target)) {
-              highlightStart = i;
-              highlightEnd = end + 1;
-              break;
-            }
-            byteIndex += piece.getBytes(StandardCharsets.UTF_8).length;
-            j += Character.charCount(codePoint);
+          if (!decoded.equals(entity)) {
+            decodedChunk = decoded;
+            i = end + 1;
           }
-          i = end + 1;
-          continue;
         }
       }
 
-      int codePoint = displayName.codePointAt(i);
-      String piece = new String(Character.toChars(codePoint));
-      if (byteIndex == targetByteIndex
-          && piece.length() == 1
-          && piece.toUpperCase(Locale.ENGLISH).equals(target)) {
-        highlightStart = i;
-        highlightEnd = i + Character.charCount(codePoint);
+      if (decodedChunk == null) {
+        int codePoint = displayName.codePointAt(i);
+        decodedChunk = new String(Character.toChars(codePoint));
+        i += Character.charCount(codePoint);
+      }
+
+      String compactChunk = decodedChunk.replaceAll("\\s+", "");
+      if (compactChunk.isEmpty()) {
+        continue;
+      }
+      if (byteIndex == targetByteIndex) {
+        highlightStart = start;
+        highlightEnd = i;
         break;
       }
-      byteIndex += piece.getBytes(StandardCharsets.UTF_8).length;
-      i += Character.charCount(codePoint);
+      byteIndex += compactChunk.getBytes(StandardCharsets.UTF_8).length;
     }
 
     if (highlightStart == -1) {

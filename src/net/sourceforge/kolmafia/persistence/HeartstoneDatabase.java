@@ -12,19 +12,18 @@ public class HeartstoneDatabase {
     if (monsterName.isEmpty()) {
       return null;
     }
-    var noSpaces = monsterName.replaceAll(" ", "");
-    var bytes = noSpaces.getBytes(StandardCharsets.UTF_8);
+    var compact = monsterName.replaceAll("\\s+", "");
+    var bytes = compact.getBytes(StandardCharsets.UTF_8);
     var length = bytes.length;
     // even length has no middle
     if (length % 2 == 0) {
       return null;
     }
-    var middle =
-        new String(new byte[] {bytes[length / 2]}, StandardCharsets.UTF_8)
-            .toUpperCase(Locale.ENGLISH);
-    if (!middle.matches("[A-Z]")) {
+    int mid = length / 2;
+    var middle = new String(new byte[] {bytes[mid]}, StandardCharsets.UTF_8);
+    if (!middle.matches("^[A-Za-z]$")) {
       return null;
     }
-    return new MiddleLetter(middle, length / 2);
+    return new MiddleLetter(middle.toUpperCase(Locale.ENGLISH), mid);
   }
 }

@@ -1214,5 +1214,18 @@ public class AreaCombatDataTest {
             data, containsString("Goth <span style=\"text-decoration: underline;\">G</span>iant"));
       }
     }
+
+    @Test
+    void handlesDumbAmpersandMonster() {
+      var cleanups = withHeartstone();
+
+      try (cleanups) {
+        var data = monsterDataFor("The Road to the White Citadel");
+        assertThat(
+            data,
+            containsString(
+                "Elp&iacute;zo & <span style=\"text-decoration: underline;\">C</span>rosybdis"));
+      }
+    }
   }
 }
