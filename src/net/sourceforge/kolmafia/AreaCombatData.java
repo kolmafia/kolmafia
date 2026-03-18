@@ -1046,13 +1046,11 @@ public class AreaCombatData {
       return displayName;
     }
 
-    StringBuilder buffer = new StringBuilder();
-    buffer.append(displayName, 0, highlightStart);
-    buffer.append("<span style=\"text-decoration: underline;\">");
-    buffer.append(displayName, highlightStart, highlightEnd);
-    buffer.append("</span>");
-    buffer.append(displayName.substring(highlightEnd));
-    return buffer.toString();
+    return displayName.substring(0, highlightStart)
+      + "<span style=\"text-decoration: underline;\">"
+      + displayName.substring(highlightStart, highlightEnd)
+      + "</span>"
+      + displayName.substring(highlightEnd);
   }
 
   private void appendMeatDrop(final StringBuffer buffer, final MonsterData monster) {
