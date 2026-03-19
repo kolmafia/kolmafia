@@ -1908,6 +1908,9 @@ public abstract class RuntimeLibrary {
     functions.add(new LibraryFunction("hp_cost", DataTypes.INT_TYPE, params));
 
     params = List.of(namedParam("skill", DataTypes.SKILL_TYPE));
+    functions.add(new LibraryFunction("meat_cost", DataTypes.INT_TYPE, params));
+
+    params = List.of(namedParam("skill", DataTypes.SKILL_TYPE));
     functions.add(new LibraryFunction("turns_per_cast", DataTypes.INT_TYPE, params));
 
     params = List.of(namedParam("effect", DataTypes.EFFECT_TYPE));
@@ -7599,6 +7602,10 @@ public abstract class RuntimeLibrary {
 
   public static Value hp_cost(ScriptRuntime controller, final Value skill) {
     return new Value(SkillDatabase.getHPCost((int) skill.intValue()));
+  }
+
+  public static Value meat_cost(ScriptRuntime controller, final Value skill) {
+    return new Value(SkillDatabase.getMeatCost((int) skill.intValue()));
   }
 
   public static Value turns_per_cast(ScriptRuntime controller, final Value skill) {
