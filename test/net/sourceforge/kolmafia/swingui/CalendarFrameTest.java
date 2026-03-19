@@ -17,8 +17,6 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
 import javax.swing.JRootPane;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
@@ -26,14 +24,12 @@ import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLWriter;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.CsvSource;
 
 class CalendarFrameTest {
 
@@ -294,49 +290,25 @@ class CalendarFrameTest {
     assertEquals(whiteWednesday, x);
   }
 
-  private static Stream<Arguments> moonCycleImageCases() {
-    int basePhaseStep = 1;
-    int baseHamburglarPosition = 0;
-
-    return IntStream.range(0, 16)
-        .mapToObj(
-            offset -> {
-              int phaseStep = (basePhaseStep + offset) % 16;
-              int ronaldPhase = phaseStep % 8;
-              int grimacePhase = phaseStep / 2;
-              int hamburglarPosition = (baseHamburglarPosition + offset * 2) % 11;
-
-              String ronaldSuffix =
-                  hamburglarPosition == 8 ? "a" : (hamburglarPosition == 9 ? "b" : "");
-              String grimaceSuffix =
-                  hamburglarPosition == 0 ? "a" : (hamburglarPosition == 1 ? "b" : "");
-
-              String ronaldImage = "itemimages/smoon" + (ronaldPhase + 1) + ronaldSuffix + ".gif";
-              String grimaceImage =
-                  "itemimages/smoon" + (grimacePhase + 1) + grimaceSuffix + ".gif";
-
-              boolean hamburglarVisible =
-                  hamburglarPosition == 2
-                      || hamburglarPosition == 4
-                      || hamburglarPosition == 5
-                      || hamburglarPosition == 7
-                      || hamburglarPosition == 10;
-
-              String hamburglarImage = null;
-              if (hamburglarVisible) {
-                int hamburglarLight =
-                    HolidayDatabase.getHamburglarLight(
-                        ronaldPhase, grimacePhase, hamburglarPosition);
-                hamburglarImage =
-                    "itemimages/minimoon" + (hamburglarLight == 0 ? "2" : "") + ".gif";
-              }
-
-              return Arguments.of(offset, ronaldImage, grimaceImage, hamburglarImage);
-            });
-  }
-
   @ParameterizedTest
-  @MethodSource("moonCycleImageCases")
+  @CsvSource({
+    "0, itemimages/smoon2.gif, itemimages/smoon1a.gif,",
+    "1, itemimages/smoon3.gif, itemimages/smoon2.gif, itemimages/minimoon2.gif",
+    "2, itemimages/smoon4.gif, itemimages/smoon2.gif, itemimages/minimoon.gif",
+    "3, itemimages/smoon5.gif, itemimages/smoon3.gif,",
+    "4, itemimages/smoon6a.gif, itemimages/smoon3.gif,",
+    "5, itemimages/smoon7.gif, itemimages/smoon4.gif, itemimages/minimoon.gif",
+    "6, itemimages/smoon8.gif, itemimages/smoon4b.gif,",
+    "7, itemimages/smoon1.gif, itemimages/smoon5.gif,",
+    "8, itemimages/smoon2.gif, itemimages/smoon5.gif, itemimages/minimoon2.gif",
+    "9, itemimages/smoon3.gif, itemimages/smoon6.gif, itemimages/minimoon.gif",
+    "10, itemimages/smoon4b.gif, itemimages/smoon6.gif,",
+    "11, itemimages/smoon5.gif, itemimages/smoon7a.gif,",
+    "12, itemimages/smoon6.gif, itemimages/smoon7.gif, itemimages/minimoon.gif",
+    "13, itemimages/smoon7.gif, itemimages/smoon8.gif, itemimages/minimoon2.gif",
+    "14, itemimages/smoon8.gif, itemimages/smoon8.gif,",
+    "15, itemimages/smoon1a.gif, itemimages/smoon1.gif,",
+  })
   public void itShouldRenderMoonImagesAcrossCycle(
       int dayOffset, String ronaldImage, String grimaceImage, String hamburglarImage) {
     Calendar useTime = new GregorianCalendar(KoLmafia.KOL_TIME_ZONE);
