@@ -32,6 +32,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -1373,6 +1374,74 @@ class UseItemRequestTest {
       UseItemRequest.getInstance(ItemPool.STOCK_CERTIFICATE).run();
 
       assertThat("stockCertificateTurns", isSetTo("222,333,444"));
+    }
+  }
+
+  @Nested
+  class HewnMoonRuneSpoon {
+    @Test
+    void zoneChangeWipesDailySpecials() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              // Start in Canadia (Chez Snootée zone)
+              withSign(ZodiacSign.OPOSSUM),
+              withItem(ItemPool.HEWN_MOON_RUNE_SPOON),
+              withProperty("_dailySpecial", "bat wing stir-fry"),
+              withProperty("_dailySpecialPrice", 207));
+
+      try (cleanups) {
+        client.addResponse(200, html("request/test_use_hewn_moon_rune_spoon.html"));
+        client.addResponse(200, ""); // api.php
+
+        // Tune to Wombat (can no longer access Canadia)
+        // This is a Gnomad zone, finding the new daily special is for elsewhere
+        var request =
+            new GenericRequest(
+                "inv_use.php?whichitem="
+                    + ItemPool.HEWN_MOON_RUNE_SPOON
+                    + "&doit=96&whichsign="
+                    + ZodiacSign.WOMBAT.getId());
+        request.run();
+
+        assertThat(KoLCharacter.getSign(), is(ZodiacSign.WOMBAT));
+        assertThat("_dailySpecial", isSetTo(""));
+        assertThat("_dailySpecialPrice", isSetTo(0));
+      }
+    }
+
+    @Test
+    void sameZoneDoesNotWipeDailySpecials() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              // Start in Canadia (Marmot)
+              withSign(ZodiacSign.MARMOT),
+              withItem(ItemPool.HEWN_MOON_RUNE_SPOON),
+              withProperty("_dailySpecial", "bat wing stir-fry"),
+              withProperty("_dailySpecialPrice", 207));
+
+      try (cleanups) {
+        client.addResponse(200, html("request/test_use_hewn_moon_rune_spoon.html"));
+        client.addResponse(200, ""); // api.php
+
+        // Tune to Opossum — can still access Canadia
+        var request =
+            new GenericRequest(
+                "inv_use.php?whichitem="
+                    + ItemPool.HEWN_MOON_RUNE_SPOON
+                    + "&doit=96&whichsign="
+                    + ZodiacSign.OPOSSUM.getId());
+        request.run();
+
+        assertThat(KoLCharacter.getSign(), is(ZodiacSign.OPOSSUM));
+        assertThat("_dailySpecial", isSetTo("bat wing stir-fry"));
+        assertThat("_dailySpecialPrice", isSetTo(207));
+      }
     }
   }
 }
