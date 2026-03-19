@@ -950,7 +950,8 @@ public class StationaryButtonDecorator {
           SkillPool.LEFT_PUNCH,
           SkillPool.RIGHT_PUNCH,
           SkillPool.LEFT_KICK,
-          SkillPool.RIGHT_KICK -> {
+          SkillPool.RIGHT_KICK,
+          SkillPool.STEAL_HEART -> {
         name = SkillDatabase.getPrettySkillName(skillId).toLowerCase();
       }
     }

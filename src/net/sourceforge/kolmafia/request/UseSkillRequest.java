@@ -355,6 +355,8 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
       maxPossible = KoLCharacter.getLightning() / SkillDatabase.getLightningCost(skillId);
     } else if (SkillDatabase.isVampyreSkill(skillId)) {
       maxPossible = KoLCharacter.getCurrentHP() / SkillDatabase.getHPCost(skillId);
+    } else if (SkillDatabase.isMeatSkill(skillId)) {
+      maxPossible = KoLCharacter.getAvailableMeat() / SkillDatabase.getMeatCost(skillId);
     } else {
       long mpCost = SkillDatabase.getMPConsumptionById(this.skillId);
       long availableMP = KoLCharacter.getCurrentMP();
@@ -1571,6 +1573,8 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
       currentCast = KoLCharacter.getLightning() / SkillDatabase.getLightningCost(this.skillId);
     } else if (SkillDatabase.isVampyreSkill(this.skillId)) {
       currentCast = KoLCharacter.getCurrentHP() / SkillDatabase.getHPCost(this.skillId);
+    } else if (SkillDatabase.isMeatSkill(this.skillId)) {
+      currentCast = KoLCharacter.getAvailableMeat() / SkillDatabase.getMeatCost(this.skillId);
     } else {
       currentCast = availableMP / mpPerCast;
       currentCast = Math.min(this.getMaximumCast(), currentCast);
@@ -2188,6 +2192,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
           new AdventureLongCountResult(
               AdventureResult.HP, (long) -SkillDatabase.getHPCost(skillId) * count));
     }
+    // meat skills tell us "You lose X Meat" which should be parsed automatically
 
     if (mpCost > 0) {
       ResultProcessor.processResult(new AdventureLongCountResult(AdventureResult.MP, -mpCost));
@@ -2311,6 +2316,8 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
       maxcasts = KoLCharacter.getLightning() / SkillDatabase.getLightningCost(skillId);
     } else if (SkillDatabase.isVampyreSkill(skillId)) {
       maxcasts = KoLCharacter.getCurrentHP() / SkillDatabase.getHPCost(skillId);
+    } else if (SkillDatabase.isMeatSkill(skillId)) {
+      maxcasts = KoLCharacter.getAvailableMeat() / SkillDatabase.getMeatCost(skillId);
     } else {
       long MP = SkillDatabase.getMPConsumptionById(skillId);
       maxcasts = SkillDatabase.getMaxCasts(skillId);
