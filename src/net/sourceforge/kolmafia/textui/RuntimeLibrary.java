@@ -113,6 +113,7 @@ import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.FaxBotDatabase;
 import net.sourceforge.kolmafia.persistence.FaxBotDatabase.FaxBot;
 import net.sourceforge.kolmafia.persistence.FaxBotDatabase.Monster;
+import net.sourceforge.kolmafia.persistence.HeartstoneDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase.Attribute;
@@ -12149,23 +12150,11 @@ public abstract class RuntimeLibrary {
   }
 
   private static Value heartstone_middle_letter(String monsterName) {
-    if (monsterName.isEmpty()) {
+    var middleLetter = HeartstoneDatabase.middleLetter(monsterName);
+    if (middleLetter == null) {
       return DataTypes.STRING_INIT;
     }
-    var noSpaces = monsterName.replaceAll(" ", "");
-    var bytes = noSpaces.getBytes(StandardCharsets.UTF_8);
-    var length = bytes.length;
-    // even length has no middle
-    if (length % 2 == 0) {
-      return DataTypes.STRING_INIT;
-    }
-    var middle =
-        new String(new byte[] {bytes[length / 2]}, StandardCharsets.UTF_8)
-            .toUpperCase(Locale.ENGLISH);
-    if (!middle.matches("[A-Z]")) {
-      return DataTypes.STRING_INIT;
-    }
-    return DataTypes.makeStringValue(middle);
+    return DataTypes.makeStringValue(middleLetter.letter());
   }
 
   public static Value turns_until_mobius_noncombat_available(ScriptRuntime controller) {

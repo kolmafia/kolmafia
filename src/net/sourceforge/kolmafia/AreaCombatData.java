@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -22,6 +23,7 @@ import net.sourceforge.kolmafia.persistence.AdventureDatabase.Environment;
 import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
+import net.sourceforge.kolmafia.persistence.HeartstoneDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
@@ -41,6 +43,7 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LeprecondoManager;
 import net.sourceforge.kolmafia.session.TrackManager;
+import net.sourceforge.kolmafia.utilities.CharacterEntities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class AreaCombatData {
@@ -920,7 +923,7 @@ public class AreaCombatData {
     if (monster.getPoison() < Integer.MAX_VALUE) {
       buffer.append("☠ ");
     }
-    String name = monster.getName();
+    String name = getMonsterName(monster);
     buffer.append(name);
     buffer.append("</b></font> (");
 
@@ -984,6 +987,59 @@ public class AreaCombatData {
     }
 
     return buffer.toString();
+  }
+
+  private String getMonsterName(MonsterData monster) {
+    var heartstone = ItemPool.get(ItemPool.HEARTSTONE);
+    // without heartstone, just return name
+    if (!InventoryManager.equippedOrInInventory(heartstone)
+        && !KoLCharacter.inCodpiece(heartstone)) {
+      return monster.getName();
+    }
+    // with heartstone, we want to highlight the middle letter
+    var displayName = monster.getName();
+    var decodedDisplayName = CharacterEntities.unescape(displayName);
+    var manuelName = monster.getManuelName();
+
+    if (!decodedDisplayName.startsWith(manuelName)) {
+      // our count will be off
+      return displayName;
+    }
+
+    var middleLetter = HeartstoneDatabase.middleLetter(manuelName);
+    if (middleLetter == null) {
+      return displayName;
+    }
+
+    int targetByteIndex = middleLetter.byteIndex();
+    int byteIndex = 0;
+    int highlightStart = -1;
+    int highlightEnd = -1;
+
+    for (int i = 0; i < decodedDisplayName.length(); ) {
+      int codePoint = decodedDisplayName.codePointAt(i);
+      int charCount = Character.charCount(codePoint);
+      if (!Character.isWhitespace(codePoint)) {
+        if (byteIndex == targetByteIndex) {
+          highlightStart = i;
+          highlightEnd = i + charCount;
+          break;
+        }
+        String piece = new String(Character.toChars(codePoint));
+        byteIndex += piece.getBytes(StandardCharsets.UTF_8).length;
+      }
+      i += charCount;
+    }
+
+    if (highlightStart == -1) {
+      return displayName;
+    }
+
+    return decodedDisplayName.substring(0, highlightStart)
+        + "<span style=\"text-decoration: underline;\">"
+        + decodedDisplayName.substring(highlightStart, highlightEnd)
+        + "</span>"
+        + decodedDisplayName.substring(highlightEnd);
   }
 
   private void appendMeatDrop(final StringBuffer buffer, final MonsterData monster) {
