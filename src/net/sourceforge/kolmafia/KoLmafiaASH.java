@@ -132,8 +132,8 @@ public abstract class KoLmafiaASH {
         return false;
       }
 
-      KoLmafiaASH.logScriptExecution(
-          "Starting relay script: ", toExecute.getName(), "", relayScript);
+      String scriptName = toExecute.getName();
+      KoLmafiaASH.logScriptExecution("Starting relay script: ", scriptName, "", relayScript);
 
       RelayRequest relayRequest = new RelayRequest(false);
       relayRequest.cloneURLString(request);
@@ -153,13 +153,25 @@ public abstract class KoLmafiaASH {
       int written = serverReplyBuffer.length();
       if (written != 0) {
         String response = serverReplyBuffer.toString();
-        request.pseudoResponse("HTTP/1.1 200 OK", response);
+        if (relayRequest.responseCode == 302
+            || relayRequest.statusLine.startsWith("HTTP/1.1 302")) {
+          // something has gone tremendously wrong (all redirects should have been followed)
+          // as pseudoResponse will put the contents into the Location: header, manually
+          // make this a 200
+          String message =
+              "Relay script " + scriptName + " unexpectedly returned 302 response code";
+          RequestLogger.printLine(message);
+          RequestLogger.updateSessionLog(message);
+          request.pseudoResponse("HTTP/1.1 200 OK", response);
+        } else {
+          request.pseudoResponse(relayRequest.statusLine, response);
+        }
       }
 
       relayScript.finishRelayScript();
 
       KoLmafiaASH.logScriptExecution(
-          "Finished relay script: ", toExecute.getName(), " (" + written + " bytes)", relayScript);
+          "Finished relay script: ", scriptName, " (" + written + " bytes)", relayScript);
 
       return written != 0;
     }

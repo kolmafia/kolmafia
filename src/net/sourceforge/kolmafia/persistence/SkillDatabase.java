@@ -21,6 +21,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.PastaThrallData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -372,6 +373,22 @@ public class SkillDatabase {
       }
       case SkillPool.RIGHT_KICK -> {
         return zootCombatSkillName(name, "zootGraftedFootRightFamiliar");
+      }
+      case SkillPool.STEAL_HEART -> {
+        var lastMonster = MonsterStatusTracker.getLastMonster();
+        if (lastMonster == null) {
+          return name;
+        }
+        var currentHearts = Preferences.getString("heartstoneLetters").toUpperCase();
+        var newHeart = HeartstoneDatabase.middleLetter(lastMonster.getManuelName());
+        if (newHeart == null) {
+          return name;
+        }
+        return "Steal Monster's Heart: "
+            + currentHearts
+            + " -> "
+            + currentHearts
+            + newHeart.letter();
       }
     }
     return name;
@@ -1269,6 +1286,29 @@ public class SkillDatabase {
       // Vampyre Book Skills
       case SkillPool.BLOOD_FRENZY, SkillPool.BLOOD_BOND, SkillPool.BLOOD_BUBBLE -> 30;
       case SkillPool.BLOOD_BLADE, SkillPool.BRAMS_BLOODY_BAGATELLE -> 50;
+      default -> 0;
+    };
+  }
+
+  public static final boolean isMeatSkill(final int skillId) {
+    return SkillDatabase.getMeatCost(skillId) > 0;
+  }
+
+  public static final int getMeatCost(final int skillId) {
+    return switch (skillId) {
+      case SkillPool.BACON_RAY -> 1;
+      case SkillPool.BEEF_SHANK, SkillPool.SPICY_MEATBALL -> 2;
+      case SkillPool.STEW -> 3;
+      case SkillPool.MEAT_CLEAVER, SkillPool.ACT_JERKY, SkillPool.CHEW_THE_FAT -> 5;
+      case SkillPool.MEAT_LOCKER, SkillPool.WET_RUB -> 8;
+      case SkillPool.STEAK_THROUGH_THE_HEART,
+          SkillPool.SELF_TENDERIZE,
+          SkillPool.BEEF_GOGGLES,
+          SkillPool.MEAT_PUPPET,
+          SkillPool.HAM_IT_UP,
+          SkillPool.STEAK_SKIRT ->
+          10;
+      case SkillPool.MEAT_CUTE, SkillPool.MEAT_LOAF, SkillPool.DARK_MEAT -> 20;
       default -> 0;
     };
   }

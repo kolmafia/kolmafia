@@ -926,7 +926,24 @@ public class SkillPool {
   public static final int VENOMOUS_RIFF = 30015;
   public static final int DRUM_ROLL = 30016;
   public static final int MOTIF = 30021;
+  public static final int BEEF_SHANK = 33001;
+  public static final int MEAT_CLEAVER = 33002;
+  public static final int STEAK_THROUGH_THE_HEART = 33003;
+  public static final int ACT_JERKY = 33004;
+  public static final int STEW = 33005;
+  public static final int SELF_TENDERIZE = 33006;
+  public static final int SPICY_MEATBALL = 33012;
   public static final int MEAT_CUTE = 33013;
+  public static final int CHEW_THE_FAT = 33014;
+  public static final int BEEF_GOGGLES = 33015;
+  public static final int MEAT_LOAF = 33016;
+  public static final int MEAT_PUPPET = 33017;
+  public static final int BACON_RAY = 33023;
+  public static final int MEAT_LOCKER = 33024;
+  public static final int WET_RUB = 33025;
+  public static final int DARK_MEAT = 33026;
+  public static final int HAM_IT_UP = 33027;
+  public static final int STEAK_SKIRT = 33028;
   public static final int CHICKEN_FINGERS = 33032;
 
   private SkillPool() {}

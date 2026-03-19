@@ -447,7 +447,7 @@ The Old Man's Bathtime Adventures	100	fearsome giant squid	ferocious roc	giant m
 The Old Rubee Mine	100	mining grobold
 The Orcish Frat House	100	Orcish Frat Boy (Music Lover)	Orcish Frat Boy (Paddler)	Orcish Frat Boy (Pledge)
 The Orcish Frat House (Bombed Back to the Stone Age)	100	caveman frat boy	caveman frat pledge	caveman sorority girl
-The Outer Compound	100	guard turtle
+The Outer Compound	100	guard turtle	french guard turtle
 The Outskirts of Cobb's Knob	80	Knob Goblin Assistant Chef	sleeping Knob Goblin Guard	Sub-Assistant Knob Mad Scientist	Knob Goblin Barbecue Team
 The Overgrown Lot	100	cooler wino	dire pigeon	malt liquor golem	sewer snake with a sewer snake in it	Lot's Wife: 0	the ghost of Oily McBindle: 0
 The Penultimate Fantasy Airship	80	Burly Sidekick	Irritating Series of Random Encounters: 2	MagiMechTech MechaMech	Protagonist	Quiet Healer	Spunky Princess

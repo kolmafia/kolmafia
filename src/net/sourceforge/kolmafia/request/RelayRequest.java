@@ -234,12 +234,19 @@ public class RelayRequest extends PasswordHashRequest {
     String path = this.getBasePath();
     String relayField = this.getFormField("relay");
 
+    // ash scripts should always return 200 if they don't visit_url...
+    if (path.endsWith(".ash")) {
+      this.statusLine = "HTTP/1.1 200 OK";
+    }
+
     if (path.endsWith(".css")) {
       this.contentType = "text/css";
     } else if (path.endsWith(".js")) {
       // Support JS-driven relay scripts
       if (relayField != null && relayField.equals("true")) {
         this.contentType = "text/html";
+        // ...and relay js scripts should be treated the same as ASH
+        this.statusLine = "HTTP/1.1 200 OK";
       } else {
         this.contentType = "text/javascript";
       }
