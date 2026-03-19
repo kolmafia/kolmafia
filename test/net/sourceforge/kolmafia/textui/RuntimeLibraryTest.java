@@ -668,6 +668,17 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
         assertThat(output, endsWith("Returned: 10102\n"));
       }
     }
+
+    @Test
+    public void getConcoctionMallUnavailable() {
+      var cleanups =
+          new Cleanups(withMallPrice(ItemPool.HOPS, -1), withMallPrice(ItemPool.BARLEY, 9500));
+
+      try (cleanups) {
+        String output = execute("concoction_price($item[can of Impetuous Scofflaw])");
+        assertThat(output.trim(), endsWith("Returned: " + Integer.MAX_VALUE));
+      }
+    }
   }
 
   @Nested
