@@ -4992,6 +4992,10 @@ public abstract class KoLCharacter {
     };
   }
 
+  public static final boolean inCodpiece(final AdventureResult item) {
+    return equipmentSlotFromSubset(item, SlotSet.CODPIECE_SLOTS) != Slot.NONE;
+  }
+
   public static final void updateStatus() {
     CharacterListenerRegistry.updateStatus();
 

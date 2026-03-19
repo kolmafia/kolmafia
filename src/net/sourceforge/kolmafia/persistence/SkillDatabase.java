@@ -21,6 +21,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.PastaThrallData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -372,6 +373,22 @@ public class SkillDatabase {
       }
       case SkillPool.RIGHT_KICK -> {
         return zootCombatSkillName(name, "zootGraftedFootRightFamiliar");
+      }
+      case SkillPool.STEAL_HEART -> {
+        var lastMonster = MonsterStatusTracker.getLastMonster();
+        if (lastMonster == null) {
+          return name;
+        }
+        var currentHearts = Preferences.getString("heartstoneLetters").toUpperCase();
+        var newHeart = HeartstoneDatabase.middleLetter(lastMonster.getManuelName());
+        if (newHeart == null) {
+          return name;
+        }
+        return "Steal Monster's Heart: "
+            + currentHearts
+            + " -> "
+            + currentHearts
+            + newHeart.letter();
       }
     }
     return name;

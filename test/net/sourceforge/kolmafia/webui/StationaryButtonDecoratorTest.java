@@ -1,6 +1,8 @@
 package net.sourceforge.kolmafia.webui;
 
 import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withFight;
+import static internal.helpers.Player.withNextMonster;
 import static internal.helpers.Player.withProperty;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -110,6 +112,21 @@ class StationaryButtonDecoratorTest {
         assertEquals(
             "Right Significant Bit Kick", SkillDatabase.getPrettySkillName(SkillPool.RIGHT_KICK));
         assertEquals("right significant bit kick", StationaryButtonDecorator.getActionName("7560"));
+      }
+    }
+
+    @Test
+    void stealHeartIncludesCurrentHearts() {
+      var cleanups =
+          new Cleanups(
+              withProperty("heartstoneLetters", "t"), withFight(), withNextMonster("oil cartel"));
+
+      try (cleanups) {
+        assertEquals(
+            "Steal Monster's Heart: T -> TA",
+            SkillDatabase.getPrettySkillName(SkillPool.STEAL_HEART));
+        assertEquals(
+            "steal monster's heart: t -> ta", StationaryButtonDecorator.getActionName("7585"));
       }
     }
   }
