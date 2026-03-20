@@ -5722,8 +5722,15 @@ public class UseItemRequest extends GenericRequest {
           // Need to extract the sign from the original URL.
           ZodiacSign sign = UseItemRequest.parseAscensionSign(UseItemRequest.lastUrlString);
           if (sign != null) {
+            var oldSign = KoLCharacter.getSign();
             // Set the new sign.
             KoLCharacter.setSign(sign);
+
+            // If the new sign changes our zone access, the daily specials no longer apply
+            if (oldSign.getZone() != sign.getZone()) {
+              Preferences.resetToDefault("_dailySpecial", "_dailySpecialPrice");
+            }
+
             // If we are in TCRS, need to reload everything
             if (KoLCharacter.isCrazyRandomTwo()) {
               TCRSDatabase.resetModifiers();
