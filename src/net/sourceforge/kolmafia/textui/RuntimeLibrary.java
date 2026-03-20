@@ -6761,9 +6761,16 @@ public abstract class RuntimeLibrary {
     }
 
     long cost =
-        Arrays.stream(concoction.getIngredients()).mapToLong(MallPriceManager::getMallPrice).sum();
+        Arrays.stream(concoction.getIngredients())
+            .mapToLong(MallPriceManager::getMallPrice)
+            .map(x -> x == -1 ? Integer.MAX_VALUE : x)
+            .sum();
     long creationCost = ConcoctionDatabase.getCreationCost(concoction.getMixingMethod());
-    return new Value(cost + creationCost);
+    long sum = cost + creationCost;
+    if (sum > Integer.MAX_VALUE) {
+      sum = Integer.MAX_VALUE;
+    }
+    return new Value(sum);
   }
 
   public static Value mall_price(ScriptRuntime controller, final Value item, final Value maxAge) {
