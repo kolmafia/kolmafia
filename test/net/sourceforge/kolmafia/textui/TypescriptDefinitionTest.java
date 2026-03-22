@@ -49,7 +49,12 @@ public class TypescriptDefinitionTest {
         Arguments.of("adv1(location)", "export function adv1(locationValue: Location): boolean;"),
         Arguments.of(
             "adv1(location, int, string)",
-            "export function adv1(locationValue: Location, adventuresUsedValue: number, filterFunction: string | ((round: number, monster: Monster, text: string) => string)): boolean;"),
+"""
+/**
+ * Adventures once at a location, spending at most the specified number of adventures.
+ * @param filterFunction Name of a combat filter function to call each round
+ */
+export function adv1(locationValue: Location, adventuresUsedValue: number, filterFunction: string | ((round: number, monster: Monster, text: string) => string)): boolean;"""),
         Arguments.of(
             "run_combat(string)",
             "export function runCombat(filterFunction: string | ((round: number, monster: Monster, text: string) => string)): string;"),
@@ -74,13 +79,13 @@ export function getItemsHash(itemsSource: "inventory" | "closet" | "storage" | "
         Arguments.of(
             "adv1(location",
             List.of(
-                "export function adv1(locationValue: Location, adventuresUsedValue?: number): boolean;",
-                "export function adv1(locationValue: Location, adventuresUsedValue: number, filterFunction?: string | ((round: number, monster: Monster, text: string) => string)): boolean;")),
+                "/** Adventures once at a location, spending at most the specified number of adventures. */\nexport function adv1(locationValue: Location, adventuresUsedValue?: number): boolean;",
+                "/**\n * Adventures once at a location, spending at most the specified number of adventures.\n * @param filterFunction Name of a combat filter function to call each round\n */\nexport function adv1(locationValue: Location, adventuresUsedValue: number, filterFunction?: string | ((round: number, monster: Monster, text: string) => string)): boolean;")),
         Arguments.of(
             "buy(item",
             List.of(
-                "export function buy(item: Item, quantity?: number): boolean;",
-                "export function buy(item: Item, quantity: number, price: number): number;")));
+                "/**\n * Purchases items from the mall or NPC stores. Returns the number of items bought when a price limit is specified.\n * @param item The item to purchase\n * @param quantity Number of items to buy\n */\nexport function buy(item: Item, quantity?: number): boolean;",
+                "/**\n * Purchases items from the mall or NPC stores. Returns the number of items bought when a price limit is specified.\n * @param item The item to purchase\n * @param quantity Number of items to buy\n * @param price Maximum price to pay per item\n */\nexport function buy(item: Item, quantity: number, price: number): number;")));
   }
 
   @ParameterizedTest
@@ -108,6 +113,38 @@ export function getItemsHash(itemsSource: "inventory" | "closet" | "storage" | "
     var firstLine = contents.substring(0, contents.indexOf("\n"));
     var version = firstLine.substring(4);
     assertThat(version, matchesPattern("^\\d+\\.\\d+\\.\\d+$"));
+  }
+
+  @Test
+  void documentedFunctionIncludesJsdocDescription() {
+    var fn = findFunction("print()");
+    var formatted = TypescriptDefinition.formatFunction(fn);
+    assertThat(formatted, containsString("Prints a message to the CLI and session log."));
+    assertThat(formatted, startsWith("/** "));
+  }
+
+  @Test
+  void undocumentedFunctionHasNoJsdoc() {
+    var fn = findFunction("is_adventuring()");
+    var formatted = TypescriptDefinition.formatFunction(fn);
+    assertThat(formatted, is("export function isAdventuring(): boolean;"));
+  }
+
+  @Test
+  void paramDescriptionsAppearInJsdoc() {
+    var fn = findFunction("contains_text(string, string)");
+    var formatted = TypescriptDefinition.formatFunction(fn);
+    assertThat(formatted, containsString("@param source The string to search in"));
+    assertThat(formatted, containsString("@param search The substring to search for"));
+  }
+
+  @Test
+  void overloadsShareDescription() {
+    var fns = findFunctionOverloads("visit_url(");
+    var lines = TypescriptDefinition.formatFunction(fns);
+    for (var line : lines) {
+      assertThat(line, containsString("Fetches a URL from the KoL server"));
+    }
   }
 
   @Test

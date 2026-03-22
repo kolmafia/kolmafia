@@ -7,6 +7,7 @@ import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.javascript.JavascriptRuntime;
 import net.sourceforge.kolmafia.textui.parsetree.AggregateType;
 import net.sourceforge.kolmafia.textui.parsetree.Function;
+import net.sourceforge.kolmafia.textui.parsetree.LibraryFunction;
 import net.sourceforge.kolmafia.textui.parsetree.PluralValueType;
 import net.sourceforge.kolmafia.textui.parsetree.RecordType;
 import net.sourceforge.kolmafia.textui.parsetree.Type;
@@ -139,6 +140,14 @@ public class JsRefCommand extends AbstractCommand {
       }
 
       description.append(")");
+
+      if (func instanceof LibraryFunction lf) {
+        var funcDescription = lf.getDescription();
+        if (funcDescription != null && !funcDescription.isEmpty()) {
+          description.append(" // ");
+          description.append(funcDescription);
+        }
+      }
 
       RequestLogger.printHtml(description.toString());
     }

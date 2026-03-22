@@ -30,6 +30,53 @@ class LibraryFunctionTest {
   }
 
   @Test
+  void withDescriptionStoresAndReturnsDescription() {
+    var fn = allFunctions.findFunctions("total_turns_played")[0];
+    assertThat(fn, is(org.hamcrest.Matchers.instanceOf(LibraryFunction.class)));
+    var lf = (LibraryFunction) fn;
+    assertThat(lf.getDescription(), nullValue());
+
+    var result = lf.withDescription("test description");
+    assertThat(result, is(lf)); // returns this for chaining
+    assertThat(lf.getDescription(), is("test description"));
+
+    // clean up
+    lf.withDescription(null);
+  }
+
+  @Test
+  void seededDescriptionsExist() {
+    var printFn = allFunctions.findFunctions("print")[0];
+    assertThat(
+        ((LibraryFunction) printFn).getDescription(),
+        is("Prints a message to the CLI and session log."));
+
+    var adventureFn = allFunctions.findFunctions("adventure")[0];
+    assertThat(
+        ((LibraryFunction) adventureFn).getDescription(),
+        is(
+            "Spends the specified number of adventures at a location. Returns true if all adventures were used."));
+
+    var getPropertyFn = allFunctions.findFunctions("get_property")[0];
+    assertThat(
+        ((LibraryFunction) getPropertyFn).getDescription(),
+        is("Returns the value of a KoLmafia property."));
+  }
+
+  @Test
+  void seededParamDescriptionsExist() {
+    var fns = allFunctions.findFunctions("visit_url");
+    // Find the 4-param overload (string, usePostMethod, encoded)
+    for (var fn : fns) {
+      if (fn.getVariableReferences().size() == 3) {
+        var encodedParam = fn.getVariableReferences().get(2);
+        assertThat(encodedParam.getDescription(), is("If true, the URL is already URL-encoded"));
+        break;
+      }
+    }
+  }
+
+  @Test
   void execute() {
     var cleanups = withTurnsPlayed(22);
     try (cleanups) {

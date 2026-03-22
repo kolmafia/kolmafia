@@ -16,6 +16,7 @@ import net.sourceforge.kolmafia.textui.ScriptRuntime;
 import net.sourceforge.kolmafia.textui.javascript.JavascriptRuntime;
 import net.sourceforge.kolmafia.textui.parsetree.Function;
 import net.sourceforge.kolmafia.textui.parsetree.FunctionList;
+import net.sourceforge.kolmafia.textui.parsetree.LibraryFunction;
 import net.sourceforge.kolmafia.textui.parsetree.VariableReference;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 
@@ -305,6 +306,14 @@ public abstract class KoLmafiaASH {
       }
 
       description.append(" )");
+
+      if (func instanceof LibraryFunction lf) {
+        var funcDescription = lf.getDescription();
+        if (funcDescription != null && !funcDescription.isEmpty()) {
+          description.append(" // ");
+          description.append(funcDescription);
+        }
+      }
 
       RequestLogger.printHtml(description.toString());
     }

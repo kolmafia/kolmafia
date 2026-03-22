@@ -16,6 +16,7 @@ import net.sourceforge.kolmafia.textui.ScriptRuntime;
 public class LibraryFunction extends Function {
   private final Method method;
   public final String[] deprecationWarning;
+  private String description;
 
   public LibraryFunction(
       final String name,
@@ -120,6 +121,15 @@ public class LibraryFunction extends Function {
       // This is not expected, but is an internal error in ASH
       throw new ScriptException(e);
     }
+  }
+
+  public LibraryFunction withDescription(String description) {
+    this.description = description;
+    return this;
+  }
+
+  public String getDescription() {
+    return this.description;
   }
 
   public List<String> getParameterNames() {

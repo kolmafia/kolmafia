@@ -78,6 +78,7 @@ public class TypescriptDefinition {
       String name,
       String returnType,
       TypescriptFunctionParameter[] params,
+      String description,
       String[] deprecationWarning) {
 
     public static TypescriptFunction fromFunction(LibraryFunction f) {
@@ -86,7 +87,9 @@ public class TypescriptDefinition {
       var params = getParamTypes(f);
 
       var deprecationWarning = f.deprecationWarning;
-      return new TypescriptFunction(functionName, returnType, params, deprecationWarning);
+      var description = f.getDescription();
+      return new TypescriptFunction(
+          functionName, returnType, params, description, deprecationWarning);
     }
 
     private static String getReturnType(Function f) {
@@ -133,25 +136,48 @@ public class TypescriptDefinition {
           Arrays.stream(this.params)
               .map(TypescriptFunctionParameter::format)
               .collect(Collectors.joining(", "));
-      var deprecationWarning =
-          (this.deprecationWarning.length > 0)
-              ? "/** @deprecated " + String.join("<br>", this.deprecationWarning) + " */\n"
-              : "";
+      var jsdoc = formatJsdoc();
       return String.format(
-          "%sexport function %s(%s): %s;", deprecationWarning, this.name, params, this.returnType);
+          "%sexport function %s(%s): %s;", jsdoc, this.name, params, this.returnType);
+    }
+
+    private String formatJsdoc() {
+      var lines = new ArrayList<String>();
+      if (this.description != null && !this.description.isEmpty()) {
+        lines.add(this.description);
+      }
+      for (var param : this.params) {
+        if (param.description != null && !param.description.isEmpty()) {
+          lines.add("@param " + param.name + " " + param.description);
+        }
+      }
+      if (this.deprecationWarning.length > 0) {
+        lines.add("@deprecated " + String.join("<br>", this.deprecationWarning));
+      }
+      if (lines.isEmpty()) {
+        return "";
+      }
+      if (lines.size() == 1) {
+        return "/** " + lines.get(0) + " */\n";
+      }
+      var body = lines.stream().map(l -> " * " + l).collect(Collectors.joining("\n"));
+      return "/**\n" + body + "\n */\n";
     }
   }
 
   private static class TypescriptFunctionParameter {
     public String name;
     public String type;
+    public String description;
     public boolean isVariadic;
     public boolean isOptional = false;
 
-    public TypescriptFunctionParameter(String name, String type, boolean isVariadic) {
+    public TypescriptFunctionParameter(
+        String name, String type, boolean isVariadic, String description) {
       this.name = name;
       this.type = type;
       this.isVariadic = isVariadic;
+      this.description = description;
     }
 
     static TypescriptFunctionParameter fromFunctionParam(LibraryFunction f, int paramIndex) {
@@ -161,6 +187,7 @@ public class TypescriptDefinition {
       var paramName = ref.getName();
       var isVariadic = type instanceof VarArgType;
       var tsType = getType(type);
+      var description = ref.getDescription();
 
       switch (f.getName()) {
         case "adv1", "adventure" -> {
@@ -180,7 +207,7 @@ public class TypescriptDefinition {
         }
       }
 
-      return new TypescriptFunctionParameter(paramName, tsType, isVariadic);
+      return new TypescriptFunctionParameter(paramName, tsType, isVariadic, description);
     }
 
     public String format() {
@@ -206,9 +233,31 @@ public class TypescriptDefinition {
    * @return a list of formatted TypeScript function signatures
    */
   public static List<String> formatFunction(List<LibraryFunction> functionOverloads) {
+    // Find the first non-null description across all overloads
+    var sharedDescription =
+        functionOverloads.stream()
+            .map(LibraryFunction::getDescription)
+            .filter(d -> d != null && !d.isEmpty())
+            .findFirst()
+            .orElse(null);
+
     var overloads =
         functionOverloads.stream()
-            .map(TypescriptFunction::fromFunction)
+            .map(
+                f -> {
+                  var ts = TypescriptFunction.fromFunction(f);
+                  // Propagate the shared description to all overloads
+                  if (ts.description == null && sharedDescription != null) {
+                    ts =
+                        new TypescriptFunction(
+                            ts.name,
+                            ts.returnType,
+                            ts.params,
+                            sharedDescription,
+                            ts.deprecationWarning);
+                  }
+                  return ts;
+                })
             // sort overloads by shortest param count first, so we can find optional params
             .sorted(Comparator.comparingInt(a -> a.params.length))
             .collect(Collectors.toCollection(ArrayList::new));

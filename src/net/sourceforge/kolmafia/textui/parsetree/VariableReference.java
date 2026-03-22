@@ -7,6 +7,7 @@ import org.eclipse.lsp4j.Location;
 
 public class VariableReference extends Evaluable implements Comparable<VariableReference> {
   public final Variable target;
+  private String description;
 
   public VariableReference(final Location location, final Variable target) {
     super(location);
@@ -25,6 +26,15 @@ public class VariableReference extends Evaluable implements Comparable<VariableR
 
   public String getName() {
     return this.target.getName();
+  }
+
+  public VariableReference withDescription(String description) {
+    this.description = description;
+    return this;
+  }
+
+  public String getDescription() {
+    return this.description;
   }
 
   public List<Evaluable> getIndices() {
