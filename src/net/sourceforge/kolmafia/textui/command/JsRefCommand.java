@@ -112,7 +112,7 @@ public class JsRefCommand extends AbstractCommand {
       }
 
       if (func instanceof LibraryFunction lf) {
-        var docBlock = RefCommand.formatDocBlock(lf);
+        var docBlock = AshRefCommand.Formatting.formatDocBlock(lf);
         if (docBlock != null) {
           RequestLogger.printHtml(docBlock);
         }
@@ -123,7 +123,7 @@ public class JsRefCommand extends AbstractCommand {
       signature.append("function ");
 
       if (addLinks) {
-        String linkColor = RefCommand.linkColor();
+        String linkColor = AshRefCommand.Formatting.linkColor();
         signature.append("<a href='https://wiki.kolmafia.us/index.php?title=");
         signature.append(funcName);
         signature.append("'");

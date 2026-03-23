@@ -13,7 +13,7 @@ import net.sourceforge.kolmafia.textui.NamespaceInterpreter;
 import net.sourceforge.kolmafia.textui.Parser;
 import net.sourceforge.kolmafia.textui.RuntimeLibrary;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
-import net.sourceforge.kolmafia.textui.command.RefCommand;
+import net.sourceforge.kolmafia.textui.command.AshRefCommand;
 import net.sourceforge.kolmafia.textui.javascript.JavascriptRuntime;
 import net.sourceforge.kolmafia.textui.parsetree.Function;
 import net.sourceforge.kolmafia.textui.parsetree.FunctionList;
@@ -279,7 +279,7 @@ public abstract class KoLmafiaASH {
       }
 
       if (func instanceof LibraryFunction lf) {
-        var docBlock = RefCommand.formatDocBlock(lf);
+        var docBlock = AshRefCommand.Formatting.formatDocBlock(lf);
         if (docBlock != null) {
           RequestLogger.printHtml(docBlock);
         }
@@ -290,7 +290,7 @@ public abstract class KoLmafiaASH {
       signature.append(func.getType());
       signature.append(" ");
       if (addLinks) {
-        String linkColor = RefCommand.linkColor();
+        String linkColor = AshRefCommand.Formatting.linkColor();
         signature.append("<a href='https://wiki.kolmafia.us/index.php?title=");
         signature.append(func.getName());
         signature.append("'");
