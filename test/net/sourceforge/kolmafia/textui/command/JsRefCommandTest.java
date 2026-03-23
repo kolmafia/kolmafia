@@ -49,6 +49,7 @@ public class JsRefCommandTest extends AbstractCommandTestBase {
   @Test
   void usesTypescriptStyleSignature() {
     String output = execute("contains_text");
-    assertThat(output, containsString("function containsText(source: string, search: string): boolean;"));
+    assertThat(
+        output, containsString("function containsText(source: string, search: string): boolean;"));
   }
 }
