@@ -120,6 +120,8 @@ public class JsRefCommand extends AbstractCommand {
 
       StringBuilder signature = new StringBuilder();
 
+      signature.append("function ");
+
       if (addLinks) {
         String linkColor = RefCommand.linkColor();
         signature.append("<a href='https://wiki.kolmafia.us/index.php?title=");
