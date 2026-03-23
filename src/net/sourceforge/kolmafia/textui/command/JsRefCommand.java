@@ -87,7 +87,7 @@ public class JsRefCommand extends AbstractCommand {
     filter = filter.toLowerCase();
 
     for (Function func : functions) {
-      boolean matches = filter.equals("");
+      boolean matches = filter.isEmpty();
 
       String funcName = func.getName();
       String jsFuncName = JavascriptRuntime.toCamelCase(funcName);
@@ -120,8 +120,6 @@ public class JsRefCommand extends AbstractCommand {
 
       StringBuilder signature = new StringBuilder();
 
-      signature.append(toJavascriptTypeName(func.getType()));
-      signature.append(" ");
       if (addLinks) {
         String linkColor = RefCommand.linkColor();
         signature.append("<a href='https://wiki.kolmafia.us/index.php?title=");
@@ -143,15 +141,16 @@ public class JsRefCommand extends AbstractCommand {
         signature.append(sep);
         sep = ", ";
 
-        signature.append(toJavascriptTypeName(var.getRawType()));
-
         if (var.getName() != null) {
-          signature.append(" ");
           signature.append(var.getName());
+          signature.append(": ");
+          signature.append(toJavascriptTypeName(var.getRawType()));
         }
       }
 
-      signature.append(")");
+      signature.append("): ");
+      signature.append(toJavascriptTypeName(func.getType()));
+      signature.append(";");
 
       RequestLogger.printHtml(signature.toString());
     }

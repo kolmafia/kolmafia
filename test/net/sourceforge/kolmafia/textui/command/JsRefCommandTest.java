@@ -45,4 +45,10 @@ public class JsRefCommandTest extends AbstractCommandTestBase {
     int sigPos = output.indexOf("containsText(");
     assertThat("doc block should appear before signature", docPos < sigPos);
   }
+
+  @Test
+  void usesTypescriptStyleSignature() {
+    String output = execute("contains_text");
+    assertThat(output, containsString("containsText(source: string, search: string): boolean;"));
+  }
 }
