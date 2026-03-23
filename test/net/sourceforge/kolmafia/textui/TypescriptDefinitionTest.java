@@ -46,7 +46,9 @@ public class TypescriptDefinitionTest {
   private static Stream<Arguments> provideStringsForFormatFunction() {
     return Stream.of(
         Arguments.of("abort()", "export function abort(): never;"),
-        Arguments.of("adv1(location)", "export function adv1(locationValue: Location): boolean;"),
+        Arguments.of(
+            "adv1(location)",
+            "/** Adventures once at a location, spending at most the specified number of adventures. */\nexport function adv1(locationValue: Location): boolean;"),
         Arguments.of(
             "adv1(location, int, string)",
 """
@@ -139,7 +141,7 @@ export function getItemsHash(itemsSource: "inventory" | "closet" | "storage" | "
   }
 
   @Test
-  void overloadsShareDescription() {
+  void allOverloadsHaveDescription() {
     var fns = findFunctionOverloads("visit_url(");
     var lines = TypescriptDefinition.formatFunction(fns);
     for (var line : lines) {

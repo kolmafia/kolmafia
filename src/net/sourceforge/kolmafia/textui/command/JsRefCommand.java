@@ -111,45 +111,49 @@ public class JsRefCommand extends AbstractCommand {
         continue;
       }
 
-      StringBuilder description = new StringBuilder();
+      if (func instanceof LibraryFunction lf) {
+        var docBlock = RefCommand.formatDocBlock(lf);
+        if (docBlock != null) {
+          RequestLogger.printHtml(docBlock);
+        }
+      }
 
-      description.append(toJavascriptTypeName(func.getType()));
-      description.append(" ");
+      StringBuilder signature = new StringBuilder();
+
+      signature.append(toJavascriptTypeName(func.getType()));
+      signature.append(" ");
       if (addLinks) {
-        description.append("<a href='https://wiki.kolmafia.us/index.php?title=");
-        description.append(funcName);
-        description.append("'>");
+        String linkColor = RefCommand.linkColor();
+        signature.append("<a href='https://wiki.kolmafia.us/index.php?title=");
+        signature.append(funcName);
+        signature.append("'");
+        if (linkColor != null) {
+          signature.append(" style='color: ").append(linkColor).append(";'");
+        }
+        signature.append(">");
       }
-      description.append(jsFuncName);
+      signature.append(jsFuncName);
       if (addLinks) {
-        description.append("</a>");
+        signature.append("</a>");
       }
-      description.append("(");
+      signature.append("(");
 
       String sep = "";
       for (VariableReference var : func.getVariableReferences()) {
-        description.append(sep);
+        signature.append(sep);
         sep = ", ";
 
-        description.append(toJavascriptTypeName(var.getRawType()));
+        signature.append(toJavascriptTypeName(var.getRawType()));
 
         if (var.getName() != null) {
-          description.append(" ");
-          description.append(var.getName());
+          signature.append(" ");
+          signature.append(var.getName());
         }
       }
 
-      description.append(")");
+      signature.append(")");
 
-      if (func instanceof LibraryFunction lf) {
-        var funcDescription = lf.getDescription();
-        if (funcDescription != null && !funcDescription.isEmpty()) {
-          description.append(" // ");
-          description.append(funcDescription);
-        }
-      }
-
-      RequestLogger.printHtml(description.toString());
+      RequestLogger.printHtml(signature.toString());
     }
   }
 }

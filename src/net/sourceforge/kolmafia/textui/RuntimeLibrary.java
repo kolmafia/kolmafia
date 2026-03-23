@@ -589,27 +589,33 @@ public abstract class RuntimeLibrary {
 
     params =
         List.of(
-            namedParam("string", DataTypes.STRING_TYPE)
+            namedParam("url", DataTypes.STRING_TYPE)
                 .withDescription("The URL path to fetch, relative to the KoL server"));
-    functions.add(new LibraryFunction("visit_url", DataTypes.BUFFER_TYPE, params));
+    functions.add(
+        new LibraryFunction("visit_url", DataTypes.BUFFER_TYPE, params)
+            .withDescription("Fetches a URL from the KoL server and returns the response body."));
 
     params =
         List.of(
-            namedParam("string", DataTypes.STRING_TYPE)
+            namedParam("url", DataTypes.STRING_TYPE)
                 .withDescription("The URL path to fetch, relative to the KoL server"),
             namedParam("usePostMethod", DataTypes.BOOLEAN_TYPE)
                 .withDescription("If true, sends a POST request instead of GET"));
-    functions.add(new LibraryFunction("visit_url", DataTypes.BUFFER_TYPE, params));
+    functions.add(
+        new LibraryFunction("visit_url", DataTypes.BUFFER_TYPE, params)
+            .withDescription("Fetches a URL from the KoL server and returns the response body."));
 
     params =
         List.of(
-            namedParam("string", DataTypes.STRING_TYPE)
+            namedParam("url", DataTypes.STRING_TYPE)
                 .withDescription("The URL path to fetch, relative to the KoL server"),
             namedParam("usePostMethod", DataTypes.BOOLEAN_TYPE)
                 .withDescription("If true, sends a POST request instead of GET"),
             namedParam("encoded", DataTypes.BOOLEAN_TYPE)
                 .withDescription("If true, the URL is already URL-encoded"));
-    functions.add(new LibraryFunction("visit_url", DataTypes.BUFFER_TYPE, params));
+    functions.add(
+        new LibraryFunction("visit_url", DataTypes.BUFFER_TYPE, params)
+            .withDescription("Fetches a URL from the KoL server and returns the response body."));
 
     params =
         List.of(
@@ -989,10 +995,16 @@ public abstract class RuntimeLibrary {
         List.of(
             namedParam("locationValue", DataTypes.LOCATION_TYPE),
             namedParam("adventuresUsedValue", DataTypes.INT_TYPE));
-    functions.add(new LibraryFunction("adv1", DataTypes.BOOLEAN_TYPE, params));
+    functions.add(
+        new LibraryFunction("adv1", DataTypes.BOOLEAN_TYPE, params)
+            .withDescription(
+                "Adventures once at a location, spending at most the specified number of adventures."));
 
     params = List.of(namedParam("locationValue", DataTypes.LOCATION_TYPE));
-    functions.add(new LibraryFunction("adv1", DataTypes.BOOLEAN_TYPE, params));
+    functions.add(
+        new LibraryFunction("adv1", DataTypes.BOOLEAN_TYPE, params)
+            .withDescription(
+                "Adventures once at a location, spending at most the specified number of adventures."));
 
     params = List.of(namedParam("locationValue", DataTypes.LOCATION_TYPE));
     functions.add(new LibraryFunction("eight_bit_points", DataTypes.INT_TYPE, params));
@@ -1055,7 +1067,10 @@ public abstract class RuntimeLibrary {
         List.of(
             namedParam("item", DataTypes.ITEM_TYPE).withDescription("The item to purchase"),
             namedParam("quantity", DataTypes.INT_TYPE).withDescription("Number of items to buy"));
-    functions.add(new LibraryFunction("buy", DataTypes.BOOLEAN_TYPE, params));
+    functions.add(
+        new LibraryFunction("buy", DataTypes.BOOLEAN_TYPE, params)
+            .withDescription(
+                "Purchases items from the mall or NPC stores. Returns the number of items bought when a price limit is specified."));
 
     params =
         List.of(
@@ -1063,7 +1078,10 @@ public abstract class RuntimeLibrary {
             namedParam("quantity", DataTypes.INT_TYPE).withDescription("Number of items to buy"),
             namedParam("price", DataTypes.INT_TYPE)
                 .withDescription("Maximum price to pay per item"));
-    functions.add(new LibraryFunction("buy", DataTypes.INT_TYPE, params));
+    functions.add(
+        new LibraryFunction("buy", DataTypes.INT_TYPE, params)
+            .withDescription(
+                "Purchases items from the mall or NPC stores. Returns the number of items bought when a price limit is specified."));
 
     params =
         List.of(

@@ -13,6 +13,7 @@ import net.sourceforge.kolmafia.textui.NamespaceInterpreter;
 import net.sourceforge.kolmafia.textui.Parser;
 import net.sourceforge.kolmafia.textui.RuntimeLibrary;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
+import net.sourceforge.kolmafia.textui.command.RefCommand;
 import net.sourceforge.kolmafia.textui.javascript.JavascriptRuntime;
 import net.sourceforge.kolmafia.textui.parsetree.Function;
 import net.sourceforge.kolmafia.textui.parsetree.FunctionList;
@@ -277,45 +278,49 @@ public abstract class KoLmafiaASH {
         continue;
       }
 
-      StringBuilder description = new StringBuilder();
+      if (func instanceof LibraryFunction lf) {
+        var docBlock = RefCommand.formatDocBlock(lf);
+        if (docBlock != null) {
+          RequestLogger.printHtml(docBlock);
+        }
+      }
 
-      description.append(func.getType());
-      description.append(" ");
+      StringBuilder signature = new StringBuilder();
+
+      signature.append(func.getType());
+      signature.append(" ");
       if (addLinks) {
-        description.append("<a href='https://wiki.kolmafia.us/index.php?title=");
-        description.append(func.getName());
-        description.append("'>");
+        String linkColor = RefCommand.linkColor();
+        signature.append("<a href='https://wiki.kolmafia.us/index.php?title=");
+        signature.append(func.getName());
+        signature.append("'");
+        if (linkColor != null) {
+          signature.append(" style='color: ").append(linkColor).append(";'");
+        }
+        signature.append(">");
       }
-      description.append(func.getName());
+      signature.append(func.getName());
       if (addLinks) {
-        description.append("</a>");
+        signature.append("</a>");
       }
-      description.append("( ");
+      signature.append("( ");
 
       String sep = "";
       for (VariableReference var : func.getVariableReferences()) {
-        description.append(sep);
+        signature.append(sep);
         sep = ", ";
 
-        description.append(var.getRawType());
+        signature.append(var.getRawType());
 
         if (var.getName() != null) {
-          description.append(" ");
-          description.append(var.getName());
+          signature.append(" ");
+          signature.append(var.getName());
         }
       }
 
-      description.append(" )");
+      signature.append(" )");
 
-      if (func instanceof LibraryFunction lf) {
-        var funcDescription = lf.getDescription();
-        if (funcDescription != null && !funcDescription.isEmpty()) {
-          description.append(" // ");
-          description.append(funcDescription);
-        }
-      }
-
-      RequestLogger.printHtml(description.toString());
+      RequestLogger.printHtml(signature.toString());
     }
   }
 

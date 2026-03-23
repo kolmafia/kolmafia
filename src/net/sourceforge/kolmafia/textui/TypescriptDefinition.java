@@ -233,31 +233,9 @@ public class TypescriptDefinition {
    * @return a list of formatted TypeScript function signatures
    */
   public static List<String> formatFunction(List<LibraryFunction> functionOverloads) {
-    // Find the first non-null description across all overloads
-    var sharedDescription =
-        functionOverloads.stream()
-            .map(LibraryFunction::getDescription)
-            .filter(d -> d != null && !d.isEmpty())
-            .findFirst()
-            .orElse(null);
-
     var overloads =
         functionOverloads.stream()
-            .map(
-                f -> {
-                  var ts = TypescriptFunction.fromFunction(f);
-                  // Propagate the shared description to all overloads
-                  if (ts.description == null && sharedDescription != null) {
-                    ts =
-                        new TypescriptFunction(
-                            ts.name,
-                            ts.returnType,
-                            ts.params,
-                            sharedDescription,
-                            ts.deprecationWarning);
-                  }
-                  return ts;
-                })
+            .map(TypescriptFunction::fromFunction)
             // sort overloads by shortest param count first, so we can find optional params
             .sorted(Comparator.comparingInt(a -> a.params.length))
             .collect(Collectors.toCollection(ArrayList::new));
