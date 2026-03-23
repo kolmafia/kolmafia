@@ -23,10 +23,6 @@ public class AshRefCommand extends AbstractCommand {
       return KoLmafiaGUI.isDarkTheme() ? "#888888" : "#666666";
     }
 
-    public static String linkColor() {
-      return KoLmafiaGUI.isDarkTheme() ? "#6ba5e1" : null;
-    }
-
     public static String formatDocBlock(LibraryFunction func) {
       var description = func.getDescription();
       var params = func.getVariableReferences();

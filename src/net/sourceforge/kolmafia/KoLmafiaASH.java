@@ -290,14 +290,9 @@ public abstract class KoLmafiaASH {
       signature.append(func.getType());
       signature.append(" ");
       if (addLinks) {
-        String linkColor = AshRefCommand.Formatting.linkColor();
         signature.append("<a href='https://wiki.kolmafia.us/index.php?title=");
         signature.append(func.getName());
-        signature.append("'");
-        if (linkColor != null) {
-          signature.append(" style='color: ").append(linkColor).append(";'");
-        }
-        signature.append(">");
+        signature.append("'>");
       }
       signature.append(func.getName());
       if (addLinks) {

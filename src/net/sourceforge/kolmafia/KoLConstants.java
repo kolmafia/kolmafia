@@ -662,7 +662,7 @@ public interface KoLConstants extends UtilityConstants {
   // Locations where session information is displayed for the user.
   // Include just the event history buffer and the command line buffer.
 
-  StyledChatBuffer commandBuffer = new StyledChatBuffer("", "blue", false);
+  StyledChatBuffer commandBuffer = new StyledChatBuffer("", "blue", "#6ba5e1", false);
 
   Comparator<String> ignoreCaseComparator =
       new Comparator<>() {

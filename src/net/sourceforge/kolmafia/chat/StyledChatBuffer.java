@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import net.java.dev.spellcast.utilities.ChatBuffer;
 import net.java.dev.spellcast.utilities.DataUtilities;
+import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 public class StyledChatBuffer extends ChatBuffer {
@@ -13,13 +14,23 @@ public class StyledChatBuffer extends ChatBuffer {
   public static final List<String> searchStrings = new ArrayList<>();
   public static final List<String> colorStrings = new ArrayList<>();
 
-  private final String linkColor;
+  private final String lightLinkColor;
+  private final String darkLinkColor;
 
   public StyledChatBuffer(
       final String title, final String linkColor, final boolean affectsHighlightBuffer) {
+    this(title, linkColor, linkColor, affectsHighlightBuffer);
+  }
+
+  public StyledChatBuffer(
+      final String title,
+      final String lightLinkColor,
+      final String darkLinkColor,
+      final boolean affectsHighlightBuffer) {
     super(title);
 
-    this.linkColor = linkColor;
+    this.lightLinkColor = lightLinkColor;
+    this.darkLinkColor = darkLinkColor;
   }
 
   public static final boolean initializeHighlights() {
@@ -87,6 +98,7 @@ public class StyledChatBuffer extends ChatBuffer {
 
   @Override
   public String getStyle() {
+    var linkColor = KoLmafiaGUI.isDarkTheme() ? darkLinkColor : lightLinkColor;
     return "body { font-family: sans-serif; font-size: "
         + Preferences.getString("chatFontSize")
         + "; } a { color: "
