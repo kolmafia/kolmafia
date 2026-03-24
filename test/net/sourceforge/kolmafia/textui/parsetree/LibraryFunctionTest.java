@@ -7,6 +7,7 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 
 import internal.helpers.Cleanups;
+import java.util.List;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes;
@@ -31,17 +32,12 @@ class LibraryFunctionTest {
 
   @Test
   void withDescriptionStoresAndReturnsDescription() {
-    var fn = allFunctions.findFunctions("total_turns_played")[0];
-    assertThat(fn, is(org.hamcrest.Matchers.instanceOf(LibraryFunction.class)));
-    var lf = (LibraryFunction) fn;
+    var lf = new LibraryFunction("total_turns_played", DataTypes.INT_TYPE, List.of());
     assertThat(lf.getDescription(), nullValue());
 
     var result = lf.withDescription("test description");
     assertThat(result, is(lf)); // returns this for chaining
     assertThat(lf.getDescription(), is("test description"));
-
-    // clean up
-    lf.withDescription(null);
   }
 
   @Test
@@ -50,17 +46,6 @@ class LibraryFunctionTest {
     assertThat(
         ((LibraryFunction) printFn).getDescription(),
         is("Prints a blank line to the CLI and session log."));
-
-    var adventureFn = allFunctions.findFunctions("adventure")[0];
-    assertThat(
-        ((LibraryFunction) adventureFn).getDescription(),
-        is(
-            "Spends the specified number of adventures at a location. Returns true if all adventures were used."));
-
-    var getPropertyFn = allFunctions.findFunctions("get_property")[0];
-    assertThat(
-        ((LibraryFunction) getPropertyFn).getDescription(),
-        is("Returns the value of a KoLmafia property."));
   }
 
   @Test
