@@ -49,7 +49,7 @@ class LibraryFunctionTest {
     var printFn = allFunctions.findFunctions("print")[0];
     assertThat(
         ((LibraryFunction) printFn).getDescription(),
-        is("Prints a message to the CLI and session log."));
+        is("Prints a blank line to the CLI and session log."));
 
     var adventureFn = allFunctions.findFunctions("adventure")[0];
     assertThat(

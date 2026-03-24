@@ -14,7 +14,7 @@ public class AshRefCommandTest extends AbstractCommandTestBase {
   @Test
   void documentedFunctionShowsDescription() {
     String output = execute("print");
-    assertThat(output, containsString("Prints a message to the CLI and session log."));
+    assertThat(output, containsString("Prints a blank line to the CLI and session log."));
   }
 
   @Test

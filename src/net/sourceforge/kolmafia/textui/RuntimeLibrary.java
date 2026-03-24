@@ -501,7 +501,7 @@ public abstract class RuntimeLibrary {
     params = List.of();
     functions.add(
         new LibraryFunction("print", DataTypes.VOID_TYPE, params)
-            .withDescription("Prints a message to the CLI and session log."));
+            .withDescription("Prints a blank line to the CLI and session log."));
 
     params = List.of(namedParam("string", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("print", DataTypes.VOID_TYPE, params));
@@ -1003,8 +1003,7 @@ public abstract class RuntimeLibrary {
     params = List.of(namedParam("locationValue", DataTypes.LOCATION_TYPE));
     functions.add(
         new LibraryFunction("adv1", DataTypes.BOOLEAN_TYPE, params)
-            .withDescription(
-                "Adventures once at a location, spending at most the specified number of adventures."));
+            .withDescription("Adventures once at a location."));
 
     params = List.of(namedParam("locationValue", DataTypes.LOCATION_TYPE));
     functions.add(new LibraryFunction("eight_bit_points", DataTypes.INT_TYPE, params));
@@ -1061,7 +1060,7 @@ public abstract class RuntimeLibrary {
     functions.add(
         new LibraryFunction("buy", DataTypes.BOOLEAN_TYPE, params)
             .withDescription(
-                "Purchases items from the mall or NPC stores. Returns the number of items bought when a price limit is specified."));
+                "Purchases one of an item from the mall or NPC stores. Returns whether the purchase succeeded."));
 
     params =
         List.of(
@@ -1070,7 +1069,7 @@ public abstract class RuntimeLibrary {
     functions.add(
         new LibraryFunction("buy", DataTypes.BOOLEAN_TYPE, params)
             .withDescription(
-                "Purchases items from the mall or NPC stores. Returns the number of items bought when a price limit is specified."));
+                "Purchases items from the mall or NPC stores. Returns whether requested quantity of the item was bought."));
 
     params =
         List.of(
@@ -1081,7 +1080,7 @@ public abstract class RuntimeLibrary {
     functions.add(
         new LibraryFunction("buy", DataTypes.INT_TYPE, params)
             .withDescription(
-                "Purchases items from the mall or NPC stores. Returns the number of items bought when a price limit is specified."));
+                "Purchases items from the mall or NPC stores up to a price limit. Returns the number of items bought."));
 
     params =
         List.of(
@@ -1416,7 +1415,7 @@ public abstract class RuntimeLibrary {
     functions.add(
         new LibraryFunction("retrieve_item", DataTypes.BOOLEAN_TYPE, params)
             .withDescription(
-                "Ensures the specified quantity of an item is in inventory, acquiring it by any means necessary."));
+                "Ensures one of the specified item is in inventory, acquiring it by any means necessary."));
 
     params =
         List.of(
@@ -2173,8 +2172,7 @@ public abstract class RuntimeLibrary {
     params = List.of();
     functions.add(
         new LibraryFunction("run_combat", DataTypes.BUFFER_TYPE, params)
-            .withDescription(
-                "Continues combat using the current CCS or a custom combat filter function."));
+            .withDescription("Continues combat using the current CCS."));
 
     params = List.of(namedParam("filterFunction", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("run_combat", DataTypes.BUFFER_TYPE, params));
@@ -2674,7 +2672,7 @@ public abstract class RuntimeLibrary {
     functions.add(
         new LibraryFunction("split_string", new AggregateType(DataTypes.STRING_TYPE, 0), params)
             .withDescription(
-                "Splits a string into an array of substrings using a regex delimiter."));
+                "Splits a string into an array of substrings on line breaks (\\s*[\\r\\n]+\\s*)."));
 
     params =
         List.of(

@@ -48,7 +48,7 @@ public class TypescriptDefinitionTest {
         Arguments.of("abort()", "export function abort(): never;"),
         Arguments.of(
             "adv1(location)",
-            "/** Adventures once at a location, spending at most the specified number of adventures. */\nexport function adv1(locationValue: Location): boolean;"),
+            "/** Adventures once at a location. */\nexport function adv1(locationValue: Location): boolean;"),
         Arguments.of(
             "adv1(location, int, string)",
 """
@@ -86,8 +86,8 @@ export function getItemsHash(itemsSource: "inventory" | "closet" | "storage" | "
         Arguments.of(
             "buy(item",
             List.of(
-                "/**\n * Purchases items from the mall or NPC stores. Returns the number of items bought when a price limit is specified.\n * @param item The item to purchase\n * @param quantity Number of items to buy\n */\nexport function buy(item: Item, quantity?: number): boolean;",
-                "/**\n * Purchases items from the mall or NPC stores. Returns the number of items bought when a price limit is specified.\n * @param item The item to purchase\n * @param quantity Number of items to buy\n * @param price Maximum price to pay per item\n */\nexport function buy(item: Item, quantity: number, price: number): number;")));
+                "/**\n * Purchases items from the mall or NPC stores. Returns whether requested quantity of the item was bought.\n * @param item The item to purchase\n * @param quantity Number of items to buy\n */\nexport function buy(item: Item, quantity?: number): boolean;",
+                "/**\n * Purchases items from the mall or NPC stores up to a price limit. Returns the number of items bought.\n * @param item The item to purchase\n * @param quantity Number of items to buy\n * @param price Maximum price to pay per item\n */\nexport function buy(item: Item, quantity: number, price: number): number;")));
   }
 
   @ParameterizedTest
@@ -121,7 +121,7 @@ export function getItemsHash(itemsSource: "inventory" | "closet" | "storage" | "
   void documentedFunctionIncludesJsdocDescription() {
     var fn = findFunction("print()");
     var formatted = TypescriptDefinition.formatFunction(fn);
-    assertThat(formatted, containsString("Prints a message to the CLI and session log."));
+    assertThat(formatted, containsString("Prints a blank line to the CLI and session log."));
     assertThat(formatted, startsWith("/** "));
   }
 
