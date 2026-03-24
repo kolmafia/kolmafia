@@ -1,8 +1,12 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import java.util.ArrayList;
-import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.KoLmafiaGUI;
+import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.textui.RuntimeLibrary;
+import net.sourceforge.kolmafia.textui.parsetree.Function;
+import net.sourceforge.kolmafia.textui.parsetree.FunctionList;
 import net.sourceforge.kolmafia.textui.parsetree.LibraryFunction;
 import net.sourceforge.kolmafia.textui.parsetree.VariableReference;
 
@@ -13,7 +17,7 @@ public class AshRefCommand extends AbstractCommand {
 
   @Override
   public void run(final String cmd, final String parameters) {
-    KoLmafiaASH.showExistingFunctions(parameters);
+    Formatting.showFunctions(RuntimeLibrary.getFunctions(), parameters.toLowerCase(), true);
   }
 
   public static class Formatting {
@@ -60,6 +64,74 @@ public class AshRefCommand extends AbstractCommand {
 
       sb.append("</font>");
       return sb.toString();
+    }
+
+    public static void showFunctions(
+        final FunctionList functions, final String filter, boolean addLinks) {
+      addLinks = addLinks && StaticEntity.isGUIRequired();
+
+      if (functions.isEmpty()) {
+        RequestLogger.printLine("No functions in your current namespace.");
+        return;
+      }
+
+      for (Function func : functions) {
+        boolean matches = filter.isEmpty();
+
+        if (!matches) {
+          matches = func.getName().toLowerCase().contains(filter);
+        }
+
+        if (!matches) {
+          for (VariableReference ref : func.getVariableReferences()) {
+            String refType = ref.getType().toString();
+            matches |= refType != null && refType.contains(filter);
+          }
+        }
+
+        if (!matches) {
+          continue;
+        }
+
+        if (func instanceof LibraryFunction lf) {
+          var docBlock = formatDocBlock(lf);
+          if (docBlock != null) {
+            RequestLogger.printHtml(docBlock);
+          }
+        }
+
+        StringBuilder signature = new StringBuilder();
+
+        signature.append(func.getType());
+        signature.append(" ");
+        if (addLinks) {
+          signature.append("<a href='https://wiki.kolmafia.us/index.php?title=");
+          signature.append(func.getName());
+          signature.append("'>");
+        }
+        signature.append(func.getName());
+        if (addLinks) {
+          signature.append("</a>");
+        }
+        signature.append("( ");
+
+        String sep = "";
+        for (VariableReference var : func.getVariableReferences()) {
+          signature.append(sep);
+          sep = ", ";
+
+          signature.append(var.getRawType());
+
+          if (var.getName() != null) {
+            signature.append(" ");
+            signature.append(var.getName());
+          }
+        }
+
+        signature.append(" )");
+
+        RequestLogger.printHtml(signature.toString());
+      }
     }
   }
 }
