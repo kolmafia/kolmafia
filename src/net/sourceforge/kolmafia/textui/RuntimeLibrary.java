@@ -841,10 +841,11 @@ public abstract class RuntimeLibrary {
     params = List.of(namedParam("value", DataTypes.STRING_TYPE));
     functions.add(
         new LibraryFunction(
-            "path_name_to_id",
-            DataTypes.INT_TYPE,
-            params,
-            "Changing 'path_name_to_id(xxx)' to 'to_path(xxx).id' will remove this warning"));
+                "path_name_to_id",
+                DataTypes.INT_TYPE,
+                params,
+                "Changing 'path_name_to_id(xxx)' to 'to_path(xxx).id' will remove this warning")
+            .withDescription("Converts a path name to its numeric id."));
 
     params = List.of(namedParam("value", DataTypes.INT_TYPE));
     functions.add(

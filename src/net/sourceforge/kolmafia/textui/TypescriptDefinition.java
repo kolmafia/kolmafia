@@ -12,6 +12,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -79,7 +80,7 @@ public class TypescriptDefinition {
       String returnType,
       TypescriptFunctionParameter[] params,
       String description,
-      String[] deprecationWarning) {
+      String deprecationWarning) {
 
     public static TypescriptFunction fromFunction(LibraryFunction f) {
       var functionName = JavascriptRuntime.toCamelCase(f.getName());
@@ -122,7 +123,7 @@ public class TypescriptDefinition {
 
       if (!this.name.equals(other.name)) return false;
       if (!this.returnType.equals(other.returnType)) return false;
-      if (!Arrays.equals(this.deprecationWarning, other.deprecationWarning)) return false;
+      if (!Objects.equals(this.deprecationWarning, other.deprecationWarning)) return false;
       for (int i = 0; i < this.params.length; i++) {
         if (!this.params[i].type.equals(other.params[i].type)) return false;
         if (!this.params[i].name.equals(other.params[i].name)) return false;
@@ -151,8 +152,8 @@ public class TypescriptDefinition {
           lines.add("@param " + param.name + " " + param.description);
         }
       }
-      if (this.deprecationWarning.length > 0) {
-        lines.add("@deprecated " + String.join("<br>", this.deprecationWarning));
+      if (this.deprecationWarning != null) {
+        lines.add("@deprecated " + this.deprecationWarning);
       }
       if (lines.isEmpty()) {
         return "";

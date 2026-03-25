@@ -108,6 +108,14 @@ export function getItemsHash(itemsSource: "inventory" | "closet" | "storage" | "
   }
 
   @Test
+  void showsDescriptionWithParamsAndDeprecation() {
+    var fn = findFunction("path_name_to_id(string)");
+    var formatted = TypescriptDefinition.formatFunction(fn);
+    assertThat(formatted, containsString("Converts a path name to its numeric id."));
+    assertThat(formatted, containsString("@deprecated"));
+  }
+
+  @Test
   void firstLineContainsValidVersionNumber() {
     // We get the version number with `PACKAGE_VERSION=$(head -n 1 index.d.ts | cut -c 5-)`
     // As such, here we test that this produces a valid version number

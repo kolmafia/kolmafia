@@ -3344,7 +3344,7 @@ public class Parser {
 
     if (target instanceof LibraryFunction) {
       var deprecationWarning = ((LibraryFunction) target).deprecationWarning;
-      if (deprecationWarning.length > 0) {
+      if (deprecationWarning != null) {
         var location = this.makeLocation(nameStart, this.getCurrentPosition());
         this.warning(location, "Function \"" + name + "\" is deprecated", deprecationWarning);
       }

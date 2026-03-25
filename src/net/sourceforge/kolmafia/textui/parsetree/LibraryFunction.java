@@ -15,14 +15,19 @@ import net.sourceforge.kolmafia.textui.ScriptRuntime;
 
 public class LibraryFunction extends Function {
   private final Method method;
-  public final String[] deprecationWarning;
+  public final String deprecationWarning;
   private String description;
+
+  public LibraryFunction(
+      final String name, final Type type, final List<VariableReference> variableReferences) {
+    this(name, type, variableReferences, null);
+  }
 
   public LibraryFunction(
       final String name,
       final Type type,
       final List<VariableReference> variableReferences,
-      final String... deprecationWarning) {
+      final String deprecationWarning) {
     super(name.toLowerCase(), type, variableReferences, null);
 
     this.deprecationWarning = deprecationWarning;
