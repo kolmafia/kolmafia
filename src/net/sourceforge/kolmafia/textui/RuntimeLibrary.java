@@ -838,7 +838,10 @@ public abstract class RuntimeLibrary {
     functions.add(new LibraryFunction("desc_to_item", DataTypes.ITEM_TYPE, params));
 
     // Experimental
-    params = List.of(namedParam("value", DataTypes.STRING_TYPE));
+    params =
+        List.of(
+            namedParam("value", DataTypes.STRING_TYPE)
+                .withDescription("The name of the path to look up"));
     functions.add(
         new LibraryFunction(
                 "path_name_to_id",

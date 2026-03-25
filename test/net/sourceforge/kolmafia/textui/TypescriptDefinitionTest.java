@@ -112,6 +112,7 @@ export function getItemsHash(itemsSource: "inventory" | "closet" | "storage" | "
     var fn = findFunction("path_name_to_id(string)");
     var formatted = TypescriptDefinition.formatFunction(fn);
     assertThat(formatted, containsString("Converts a path name to its numeric id."));
+    assertThat(formatted, containsString("@param value The name of the path to look up"));
     assertThat(formatted, containsString("@deprecated"));
   }
 
