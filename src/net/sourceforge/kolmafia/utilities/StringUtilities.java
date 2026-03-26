@@ -676,6 +676,14 @@ public class StringUtilities {
       return 0L;
     }
 
+    if (string.chars().noneMatch(Character::isDigit)) {
+      return 0L;
+    }
+
+    if (!StringUtilities.isNumeric(string)) {
+      return 0L;
+    }
+
     try {
       return Long.parseLong(string);
     } catch (NumberFormatException e) {

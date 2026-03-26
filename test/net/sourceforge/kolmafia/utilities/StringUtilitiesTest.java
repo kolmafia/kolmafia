@@ -6,6 +6,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
 
+import internal.helpers.RequestLoggerOutput;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -306,6 +307,8 @@ class StringUtilitiesTest {
     "' + 12,345', 12345",
     "'',0",
     "'+', 0",
+    "'900-', 0",
+    "'-', 0",
     "'12345', 12345",
     "'-12345', -12345",
     "'9,223,372,036,854,775,807', 9223372036854775807",
@@ -316,6 +319,23 @@ class StringUtilitiesTest {
   })
   public void itShouldExerciseSomeLaxLongParsing(String input, long expected) {
     assertEquals(expected, StringUtilities.parseLongInternal2(input), input);
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+    // single-hyphen name: used to produce "- is out of range, returning 0"
+    "'zero-trust tanktop'",
+    // multi-hyphen name: used to produce "--- is out of range, returning 0"
+    "'familiar-in-the-middle wrapper'",
+    // digits followed by hyphen: used to produce "900- is out of range, returning 0"
+    "'bottle of Fishhead 900-Day IPA'",
+  })
+  public void itShouldNotLogErrorForHyphenatedNonNumericStrings(String input) {
+    RequestLoggerOutput.startStream();
+    long result = StringUtilities.parseLongInternal2(input);
+    String logged = RequestLoggerOutput.stopStream();
+    assertEquals(0L, result, input);
+    assertEquals("", logged, "expected no log output for: " + input);
   }
 
   @ParameterizedTest
