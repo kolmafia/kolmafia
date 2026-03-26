@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import java.util.List;
+import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.textui.DataTypes;
@@ -112,7 +113,7 @@ public class JsRefCommand extends AbstractCommand {
       }
 
       if (func instanceof LibraryFunction lf) {
-        var docBlock = AshRefCommand.Formatting.formatDocBlock(lf);
+        var docBlock = KoLmafiaASH.Formatting.formatDocBlock(lf);
         if (docBlock != null) {
           RequestLogger.printHtml(docBlock);
         }
