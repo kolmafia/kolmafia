@@ -2199,6 +2199,9 @@ Item	balloon shield	Damage Reduction: 3, Thorns: 1
 Item	barrel lid	Muscle Percent: +25, Monster Level: +50, Maximum HP: +100, Damage Reduction: 9, Lasts Until Rollover, Last Available: "2015-09"
 Item	barskin buckler	Muscle: +2, Damage Reduction: 1
 Item	basaltamander buckler	Experience Percent (Mysticality): +25, Damage Absorption: +50, Hat Drop: +75, Damage Reduction: 15, Last Available: "2015-08"
+# Baseball Diamond: Collect Players for a Quick Inning
+# Baseball Diamond: Play baseball to improve your diamond for the day
+Item	Baseball Diamond	Weapon Damage: +20, Last Available: "2026-04"
 Item	basic meat foon	Mysticality: +3, Spell Damage: +3
 Item	battered hubcap	Muscle: +15, Maximum HP: +100, Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Damage Reduction: 14
 Item	beach ball marble	Spell Damage: +35, Hot Spell Damage: +35, Cold Spell Damage: +35
@@ -9666,6 +9669,7 @@ Item	diabolic pizza	Lasts Until Rollover
 # dinner roll: Selling Price: <b>1 Meat.</b><p><center><b><font color=blue>Deals Physical Damage based on your Muscle when used as a combat item
 Item	dinner roll	Last Available: "2013-11"
 Item	Dinsey food-cone	Effect: "The Dinsey Way", Effect Duration: 30, Last Available: "2015-04"
+Item	discarded hot dog	Last Available: "2026-04"
 Item	disco biscuit	Effect: "Buttermilk Boogie", Effect Duration: 100, Last Available: "2015-08"
 Item	double-candied yams	Effect: "Grateful, But Spelled With a Dollar Sign", Effect Duration: 20, Last Available: "2024-12"
 Item	dragon snaps	Effect: "Oh Snap", Effect Duration: 5, Last Available: "2010-03"
@@ -10414,6 +10418,7 @@ Item	moreltini	Effect: "Truffle Tango", Effect Duration: 40, Last Available: "20
 Item	Morlock's Mark Bourbon	Last Available: "2008-06"
 Item	morning dew	Effect: "Granolarrrgh", Effect Duration: 40, Last Available: "2017-03"
 Item	Morto Moreto	Effect: "Majorly Poisoned", Effect Duration: 100, Last Available: "2011-09"
+Item	most of a beer	Last Available: "2026-04"
 Item	mourning wine	Last Available: "2018-04"
 Item	mulled berry wine	Effect: "Sweet Nostalgia", Effect Duration: 30, Last Available: "2014-12"
 Item	mulled butter rum	Last Available: "2025-12"
@@ -15553,6 +15558,7 @@ Item	Wolfman Nardz	Last Available: "2009-10"
 Item	Workytime Tea	Last Available: "2011-01"
 # world's most dangerous birdhouse: Instantly defeats most monsters
 Item	wormwood stick	Last Available: "2020-08"
+Item	wrapped Baseball Diamond	Free Pull, Last Available: "2026-04"
 Item	wrapped candy cane sword cane	Free Pull
 Item	wrapping paper	Last Available: "2003-12"
 Item	wrench handle	Last Available: "2009-12"
@@ -15864,6 +15870,7 @@ EternityCodpiece	Azurite	Sleaze Damage: +10
 EternityCodpiece	baconstone	Mysticality Percent: +11
 EternityCodpiece	bananagate	Stench Spell Damage: +10
 EternityCodpiece	barrel beryl	Booze Drop: +20
+EternityCodpiece	Baseball Diamond	Weapon Damage: +10
 EternityCodpiece	beach ball marble	Initiative: +9
 EternityCodpiece	beige clambroth marble	Initiative: +7
 EternityCodpiece	big bumboozer marble	Initiative: +11

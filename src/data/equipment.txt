@@ -1927,6 +1927,7 @@ balloon shield	50	Mus: 10	shield
 barrel lid	150	none	shield
 barskin buckler	25	none	shield
 basaltamander buckler	240	Mus: 40	shield
+Baseball Diamond	100	none
 basic meat foon	50	Mys: 10
 battered hubcap	220	Mus: 65	shield
 beach ball marble	209	Mys: 85

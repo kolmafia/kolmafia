@@ -3121,7 +3121,7 @@
 3092	handmade hobby horse	958481582	hobbyhorse.gif	offhand, reusable	t	0
 3093	ball-in-a-cup	965687443	ballncup.gif	offhand, reusable	t	0	balls-in-cups
 3094	set of jacks	552797832	jacks.gif	offhand, reusable	t	0	sets of jacks
-3095	laser-broiled pear	308511017	pear.gif	food	t	155
+3095	laser-broiled pear	308511017	pear.gif	food	t	0
 3096	polyalloy shield	627545996	mechshield.gif	offhand	t	0
 3097	oversized fish scaler	861354964	fishscaler.gif	familiar	t	0
 3098	killing feather	899776576	metalfeather.gif	none, combat	t	200
@@ -12241,3 +12241,7 @@
 12212	left shark fin	565452460	leftsharkfin.gif	offhand	d	100
 12213	fitness tracking bracelet	999375998	itbit.gif	accessory	d	200
 12214	candy bone	216972209	candybone.gif	spleen, candy, usable	t,d	5
+12215	wrapped Baseball Diamond	844091703	bdiamond_box.gif	usable	t	0
+12216	Baseball Diamond	229573660	bdiamond.gif	offhand		0
+12217	discarded hot dog	885102347	hotdog_stench.gif	food	t,d	5
+12218	most of a beer	461813597	plasticcup.gif	drink	t,d	5	mosts of beers
