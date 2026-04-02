@@ -114,6 +114,9 @@ public class SkillDatabase {
     PIG_SKINNER("Pig Skinner"), // 28xxx
     CHEESE_WIZARD("Cheese Wizard"), // 29xxx
     JAZZ_AGENT("Jazz Agent"), // 30xxx
+    THIRTY_ONE("31XXX"), // 31xxx
+    THIRTY_TWO("32XXX"), // 32xxx
+    MEAT_GOLEM("Meat Golem"), // 33xxx
     // The following are convenience categories, not implied by skill id
     GNOME_SKILLS("gnome trainer"),
     BAD_MOON("bad moon");
