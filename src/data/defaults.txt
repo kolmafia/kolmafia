@@ -323,6 +323,7 @@ user	banishingShoutMonsters		roa
 user	bankedKarma	0
 user	barrelShrineUnlocked	false
 user	bartenderTurnsUsed	0
+user	baseballTeam		roa
 user	basementMallPrices	1
 user	basementSafetyMargin	1.08
 user	batmanFundsAvailable	0
