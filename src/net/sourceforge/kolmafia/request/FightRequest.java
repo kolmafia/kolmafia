@@ -7151,6 +7151,26 @@ public class FightRequest extends GenericRequest {
       return true;
     }
 
+    if (image.equals("bdiamond.gif")) {
+      if (str.contains("to play baseball.")) {
+        var monId = status.monsterId;
+        var teamPref = "baseballTeam";
+        var players = Preferences.getString(teamPref);
+        if (players.isEmpty()) {
+          Preferences.setString(teamPref, String.valueOf(monId));
+        } else {
+          var roster = new ArrayList<>(Arrays.asList(StringUtilities.splitByComma(players)));
+          roster.add(String.valueOf(monId));
+          while (roster.size() > 9) {
+            roster.remove(0);
+          }
+          Preferences.setString(teamPref, String.join(",", roster));
+        }
+      }
+      FightRequest.logText(str, status);
+      return false;
+    }
+
     // Combat item usage: process the children of this node
     // to pick up damage to the monster and stat gains
     return true;
