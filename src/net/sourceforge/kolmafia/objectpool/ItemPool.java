@@ -4021,6 +4021,7 @@ public class ItemPool {
   public static final int GIANT_GNAWING_BONE = 12200;
   public static final int PORK_ELF_NETI_POT = 12205;
   public static final int FLEEK_MASCARA = 12210;
+  public static final int BASEBALL_DIAMOND = 12216;
 
   private ItemPool() {}
 

@@ -163,4 +163,35 @@ public class ItemDatabaseTest {
       }
     }
   }
+
+  @Nested
+  class BaseballDiamond {
+    @BeforeEach
+    public void beforeEach() {
+      KoLCharacter.reset("BaseballDiamond");
+      Preferences.reset("BaseballDiamond");
+    }
+
+    @Test
+    public void parsesNoTeam() {
+      var cleanups = withProperty("baseballTeam", "1,2,3");
+
+      try (cleanups) {
+        var response = html("request/test_desc_item_baseball_diamond_empty.html");
+        ItemDatabase.parseBaseballDiamond(response);
+        assertThat("baseballTeam", hasStringValue(equalTo("")));
+      }
+    }
+
+    @Test
+    public void parsesTeam() {
+      var cleanups = withProperty("baseballTeam", "");
+
+      try (cleanups) {
+        var response = html("request/test_desc_item_baseball_diamond.html");
+        ItemDatabase.parseBaseballDiamond(response);
+        assertThat("baseballTeam", hasStringValue(equalTo("1533,1639")));
+      }
+    }
+  }
 }

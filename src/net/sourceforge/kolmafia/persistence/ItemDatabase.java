@@ -2450,6 +2450,27 @@ public class ItemDatabase {
     Preferences.setString("mimicEggMonsters", pref);
   }
 
+  public static void parseBaseballDiamond(final String desc) {
+    if (!desc.contains("Current Baseball Team")) {
+      Preferences.setString("baseballTeam", "");
+    } else {
+      HtmlCleaner cleaner = HTMLParserUtils.configureDefaultParser();
+      TagNode doc = cleaner.clean(desc);
+      String xpath = "//ul/li/@data-monster-id";
+
+      Object[] result;
+      try {
+        result = doc.evaluateXPath(xpath);
+      } catch (XPatherException ex) {
+        // do nothing
+        return;
+      }
+
+      var perks = Arrays.stream(result).map(Object::toString).collect(Collectors.joining(","));
+      Preferences.setString("baseballTeam", perks);
+    }
+  }
+
   public static boolean unusableInBeecore(final int itemId) {
     return switch (itemId) {
       case
