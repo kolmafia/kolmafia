@@ -59,6 +59,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 import org.htmlcleaner.HtmlCleaner;
 import org.htmlcleaner.TagNode;
 import org.htmlcleaner.XPatherException;
+import org.jsoup.Jsoup;
 
 public class ItemDatabase {
   private static int maxItemId = 0;
@@ -2448,6 +2449,17 @@ public class ItemDatabase {
             .map(m -> m.group(1) + ":" + m.group(2))
             .collect(Collectors.joining(","));
     Preferences.setString("mimicEggMonsters", pref);
+  }
+
+  public static void parseBaseballDiamond(final String desc) {
+    if (!desc.contains("Current Baseball Team")) {
+      Preferences.setString("baseballTeam", "");
+    } else {
+      var parsed = Jsoup.parse(desc);
+      var els = parsed.select("li[data-monster-id]");
+      String perks = String.join(",", els.eachAttr("data-monster-id"));
+      Preferences.setString("baseballTeam", perks);
+    }
   }
 
   public static boolean unusableInBeecore(final int itemId) {

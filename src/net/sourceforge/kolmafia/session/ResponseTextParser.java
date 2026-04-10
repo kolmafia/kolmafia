@@ -416,6 +416,7 @@ public class ResponseTextParser {
               case ItemPool.LATTE_MUG -> LatteRequest.parseDescription(responseText);
               case ItemPool.EVERFULL_DART_HOLSTER -> ItemDatabase.parseDartPerks(responseText);
               case ItemPool.MIMIC_EGG -> ItemDatabase.parseMimicEgg(responseText);
+              case ItemPool.BASEBALL_DIAMOND -> ItemDatabase.parseBaseballDiamond(responseText);
               default -> changesFromTimeToTime = hasConsequence;
             }
 
