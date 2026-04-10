@@ -59,6 +59,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 import org.htmlcleaner.HtmlCleaner;
 import org.htmlcleaner.TagNode;
 import org.htmlcleaner.XPatherException;
+import org.jsoup.Jsoup;
 
 public class ItemDatabase {
   private static int maxItemId = 0;
@@ -2454,19 +2455,9 @@ public class ItemDatabase {
     if (!desc.contains("Current Baseball Team")) {
       Preferences.setString("baseballTeam", "");
     } else {
-      HtmlCleaner cleaner = HTMLParserUtils.configureDefaultParser();
-      TagNode doc = cleaner.clean(desc);
-      String xpath = "//ul/li/@data-monster-id";
-
-      Object[] result;
-      try {
-        result = doc.evaluateXPath(xpath);
-      } catch (XPatherException ex) {
-        // do nothing
-        return;
-      }
-
-      var perks = Arrays.stream(result).map(Object::toString).collect(Collectors.joining(","));
+      var parsed = Jsoup.parse(desc);
+      var els = parsed.select("li[data-monster-id]");
+      String perks = String.join(",", els.eachAttr("data-monster-id"));
       Preferences.setString("baseballTeam", perks);
     }
   }
