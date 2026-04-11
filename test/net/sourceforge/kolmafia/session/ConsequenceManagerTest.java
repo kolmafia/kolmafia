@@ -255,4 +255,20 @@ public class ConsequenceManagerTest {
             StringModifier.CONDITIONAL_SKILL_EQUIPPED),
         equalTo("KGB tranquilizer dart"));
   }
+
+  @Test
+  void parsesBaseballDiamond() {
+    var descid = ItemDatabase.getDescriptionId(ItemPool.BASEBALL_DIAMOND);
+    var responseText = html("request/test_desc_item_baseball_diamond_mods.html");
+
+    assertThat(ConsequenceManager.parseItemDesc(descid, responseText), is(true));
+    assertThat(
+        ModifierDatabase.getNumericModifier(
+            ModifierType.ITEM, ItemPool.BASEBALL_DIAMOND, DoubleModifier.WEAPON_DAMAGE),
+        equalTo(20.0));
+    assertThat(
+        ModifierDatabase.getNumericModifier(
+            ModifierType.ITEM, ItemPool.BASEBALL_DIAMOND, DoubleModifier.HOT_DAMAGE),
+        equalTo(10.0));
+  }
 }

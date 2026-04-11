@@ -885,6 +885,7 @@ public abstract class KoLmafia {
 
     // Items that need to be checked every time
     InventoryManager.checkKGB();
+    InventoryManager.checkBaseballDiamond();
     InventoryManager.checkVampireVintnerWine();
     InventoryManager.checkBirdOfTheDay();
     InventoryManager.checkDartPerks();
