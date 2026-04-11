@@ -1949,6 +1949,7 @@ user	_ballInACupUsed	false
 user	_ballpit	false
 user	_banderRunaways	0
 user	_barrelPrayer	false
+user	_baseballInnings	0
 user	_bastilleBoosts
 user	_bastilleCheese	0
 user	_bastilleChoice1
@@ -1982,6 +1983,7 @@ user	_beachHeadsUsed
 user	_beachLayout
 user	_beachMinutes
 user	_beanCannonUses	0
+user	_beanballMonster
 user	_bearHugs	0
 user	_beerLensDrops	0
 user	_bellydancerPickpockets	0
@@ -2126,6 +2128,8 @@ user	_cupidBowFamiliars
 user	_currentDartboard
 user	_cursedKegUsed	false
 user	_cursedMicrowaveUsed	false
+user	_curveballMonster
+user	_curveballFightsLeft
 user	_cyberFreeFights	0
 user	_cyberTrashCollected	false
 user	_cyberZone1Defense
@@ -2661,6 +2665,7 @@ user	_sausageFights	0
 user	_sausagesEaten	0
 user	_sausagesMade	0
 user	_savageBeastMods
+user	_screwballMonster
 user	_seadentLightningUsed	0
 user	_seadentWaveUsed	false
 user	_seadentWaveZone
@@ -2687,6 +2692,7 @@ user	_skateBuff2	false
 user	_skateBuff3	false
 user	_skateBuff4	false
 user	_skateBuff5	false
+user	_skullballMonster
 user	_slimeVialsHarvested	0
 user	_sleazeAirportToday	false
 user	_sloppyDinerBeachBucks	0
