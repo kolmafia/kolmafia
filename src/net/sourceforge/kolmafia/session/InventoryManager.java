@@ -1928,19 +1928,23 @@ public abstract class InventoryManager {
   }
 
   public static void checkDartPerks() {
-    if (!InventoryManager.equippedOrInInventory(ItemPool.get(ItemPool.EVERFULL_DART_HOLSTER, 1))) {
-      return;
-    }
-
-    checkItemDescription(ItemPool.EVERFULL_DART_HOLSTER);
+    checkIfOwned(ItemPool.EVERFULL_DART_HOLSTER);
   }
 
   public static void checkMimicEgg() {
-    if (!InventoryManager.equippedOrInInventory(ItemPool.get(ItemPool.MIMIC_EGG, 1))) {
+    checkIfOwned(ItemPool.MIMIC_EGG);
+  }
+
+  public static void checkBaseballDiamond() {
+    checkIfOwned(ItemPool.BASEBALL_DIAMOND);
+  }
+
+  private static void checkIfOwned(int itemId) {
+    if (!InventoryManager.equippedOrInInventory(itemId)) {
       return;
     }
 
-    checkItemDescription(ItemPool.MIMIC_EGG);
+    checkItemDescription(itemId);
   }
 
   private static final AdventureResult GOLDEN_MR_ACCESSORY =
