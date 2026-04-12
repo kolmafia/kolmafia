@@ -383,6 +383,7 @@ public class RequestEditorKit extends HTMLEditorKit {
       RequestEditorKit.addBlackForestProgress(buffer);
       RequestEditorKit.addPartyFairProgress(buffer);
       RequestEditorKit.addChaostheticianLink(buffer);
+      RequestEditorKit.addPlayBallLink(buffer);
 
       // Do any monster-specific decoration
       FightDecorator.decorateMonster(buffer);
@@ -2431,6 +2432,22 @@ public class RequestEditorKit extends HTMLEditorKit {
         buffer,
         "Chaosthetician at Dino World",
         "<a href=\"place.php?whichplace=dinorf&action=dinorf_chaos\">Chaosthetician at Dino World</a>");
+  }
+
+  private static void addPlayBallLink(final StringBuffer buffer) {
+    String test = "You are ready to play ball!";
+    int index = buffer.indexOf(test);
+
+    if (index == -1) {
+      return;
+    }
+
+    StringUtilities.singleStringReplace(
+        buffer,
+        "play ball!",
+        "<a href=\"inventory.php?action=pball&pwd="
+            + GenericRequest.passwordHash
+            + "\">play ball!</a>");
   }
 
   private static class KoLSubmitView extends FormView {
