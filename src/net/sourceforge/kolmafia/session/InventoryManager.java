@@ -1462,8 +1462,6 @@ public abstract class InventoryManager {
     // We always bulk purchase certain specific items.
 
     switch (itemId) {
-      case ItemPool.REMEDY: // soft green echo eyedrop antidote
-      case ItemPool.TINY_HOUSE:
       case ItemPool.DRASTIC_HEALING:
       case ItemPool.ANTIDOTE:
         return true;
