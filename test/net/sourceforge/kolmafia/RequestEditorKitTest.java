@@ -636,4 +636,18 @@ public class RequestEditorKitTest {
       }
     }
   }
+
+  @Test
+  void decoratesPlayBallMessage() {
+    var cleanups = withPasswordHash("BALL");
+
+    try (cleanups) {
+      var html = html("request/test_combat_play_ball.html");
+      var buffer = new StringBuffer(html);
+      RequestEditorKit.getFeatureRichHTML("fight.php?action=attack", buffer, false);
+      assertThat(
+          buffer.toString(),
+          containsString("<a href=\"inventory.php?action=pball&pwd=BALL\">play ball!</a>"));
+    }
+  }
 }

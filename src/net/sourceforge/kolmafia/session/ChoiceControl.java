@@ -25,6 +25,7 @@ import net.sourceforge.kolmafia.KoLCharacter.Gender;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.VYKEACompanionData;
@@ -95,6 +96,8 @@ import net.sourceforge.kolmafia.textui.command.JurassicParkaCommand;
 import net.sourceforge.kolmafia.textui.command.SnowsuitCommand;
 import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 public abstract class ChoiceControl {
 
@@ -6854,6 +6857,9 @@ public abstract class ChoiceControl {
 
       case 1595 -> // Meat, meat. Meat?
           handleAfterAvatar(ChoiceManager.lastDecision);
+
+      case 1598 -> // Play Ball!
+          postChoiceBaseball(text, ChoiceManager.lastDecision);
     }
   }
 
@@ -8747,13 +8753,20 @@ public abstract class ChoiceControl {
       }
 
       case 1596 -> {
-        {
-          // Dig at Zone
-          Matcher matcher = ARCH_SPADE_PATTERN.matcher(text);
-          if (matcher.find()) {
-            Preferences.setInteger(
-                "_archSpadeDigs", 11 - StringUtilities.parseInt(matcher.group(1)));
-          }
+        // Dig at Zone
+        Matcher matcher = ARCH_SPADE_PATTERN.matcher(text);
+        if (matcher.find()) {
+          Preferences.setInteger("_archSpadeDigs", 11 - StringUtilities.parseInt(matcher.group(1)));
+        }
+      }
+
+      case 1598 -> {
+        // Play Ball!
+        // increment the inning count if we have not pitched any balls yet
+        // do this at the start instead of the end of the choice because that's how it works ingame
+        // e.g. you can enter the choice day 1, rollover hits, day 2 you still have all your innings
+        if (!text.contains("<s>")) {
+          Preferences.increment("_baseballInnings", 1, 3);
         }
       }
     }
@@ -9824,6 +9837,58 @@ public abstract class ChoiceControl {
             .sorted()
             .collect(Collectors.joining(","));
     Preferences.setString("merkinCatalogChoices", value);
+  }
+
+  private static void postChoiceBaseball(String text, int decision) {
+    if (decision == 6) {
+      // we just finished the inning
+      // check the diamond for updated modifiers
+      InventoryManager.checkItemDescription(ItemPool.BASEBALL_DIAMOND);
+      return;
+    }
+    // the last <s> tag contains the monster we just beat
+    var parsed = Jsoup.parse(text);
+    var output = parsed.getElementById("output");
+    var out = output == null ? "" : output.text();
+    if (out.contains("Instead of a baseball, you throw a big handful of ice")) {
+      var monster = getBaseballMonster(parsed);
+      if (monster != null) {
+        BanishManager.banishMonster(monster, BanishManager.Banisher.BASEBALL_DIAMOND, false);
+      }
+    } else if (out.contains("You draw a skull on the ball")) {
+      var monster = getBaseballMonster(parsed);
+      if (monster != null) {
+        Preferences.setString("_skullballMonster", monster.getName());
+      }
+    } else if (out.contains("You throw the baseball using a Forbidden Ratio")) {
+      var monster = getBaseballMonster(parsed);
+      if (monster != null) {
+        Preferences.setString("_curveballMonster", monster.getName());
+        Preferences.setInteger("_curveballFightsLeft", 3);
+      }
+    } else if (out.contains("You dip a baseball in a big can of expired")) {
+      var monster = getBaseballMonster(parsed);
+      if (monster != null) {
+        Preferences.setString("_beanballMonster", monster.getName());
+      }
+    } else if (out.contains("You coat the ball in some melted cheddar cheese")) {
+      var monster = getBaseballMonster(parsed);
+      if (monster != null) {
+        TrackManager.trackMonster(monster, TrackManager.Tracker.BASEBALL_DIAMOND);
+      }
+    } else if (out.contains("You throw a screwball")) {
+      var monster = getBaseballMonster(parsed);
+      if (monster != null) {
+        Preferences.setString("_screwballMonster", monster.getName());
+      }
+    }
+  }
+
+  private static MonsterData getBaseballMonster(Document parsed) {
+    var struck = parsed.select("s").last();
+    if (struck == null) return null;
+    var name = struck.text().substring(3);
+    return MonsterDatabase.findMonster(name, false, false);
   }
 
   public static boolean canWalkFromChoice(int choice) {

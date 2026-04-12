@@ -7295,6 +7295,11 @@ public class FightRequest extends GenericRequest {
       FightRequest.logText(str, status);
     }
 
+    if (str.contains("Having bent physics with your non-Euclidean curveball")) {
+      Preferences.decrement("_curveballFightsLeft", 1, 0);
+      FightRequest.logText(str, status);
+    }
+
     if ( // KoL Con 13 Snowglobe
     str.contains("KoL Con")
         || str.contains("You notice some extra Meat")

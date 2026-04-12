@@ -4,6 +4,7 @@ import static internal.helpers.Networking.assertGetRequest;
 import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withAscensions;
+import static internal.helpers.Player.withBanishedMonsters;
 import static internal.helpers.Player.withChoice;
 import static internal.helpers.Player.withContinuationState;
 import static internal.helpers.Player.withEquipped;
@@ -20,7 +21,9 @@ import static internal.helpers.Player.withPostChoice1;
 import static internal.helpers.Player.withPostChoice2;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withQuestProgress;
+import static internal.helpers.Player.withTrackedMonsters;
 import static internal.helpers.Player.withTurnsPlayed;
+import static internal.matchers.Preference.hasStringValue;
 import static internal.matchers.Preference.isSetTo;
 import static internal.matchers.Quest.isStep;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -29,6 +32,7 @@ import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.startsWith;
 import static org.hamcrest.core.StringContains.containsString;
 
 import internal.helpers.Cleanups;
@@ -1799,6 +1803,108 @@ class ChoiceControlTest {
 
       ChoiceManager.visitChoice(req);
       assertThat("_archSpadeDigs", isSetTo(1));
+    }
+  }
+
+  @Nested
+  class BaseballDiamond {
+    @Test
+    void visitingIncrementsInnings() {
+      var cleanups =
+          new Cleanups(
+              withProperty("_baseballInnings", 1),
+              withChoice(1598, html("request/test_choice_baseball_no_bats.html")));
+
+      try (cleanups) {
+        assertThat("_baseballInnings", isSetTo(2));
+      }
+    }
+
+    @Test
+    void visitingMidPitchDoesNotIncrementInnings() {
+      var cleanups =
+          new Cleanups(
+              withProperty("_baseballInnings", 1),
+              withChoice(1598, html("request/test_choice_baseball_ice.html")));
+
+      try (cleanups) {
+        assertThat("_baseballInnings", isSetTo(1));
+      }
+    }
+
+    @Test
+    void iceHitBanishes() {
+      var cleanups =
+          new Cleanups(
+              withBanishedMonsters(""),
+              withPostChoice2(1598, 2, html("request/test_choice_baseball_ice.html")));
+
+      try (cleanups) {
+        assertThat(
+            "banishedMonsters", hasStringValue(startsWith("chalkdust wraith:Baseball Diamond:")));
+      }
+    }
+
+    @Test
+    void skullBallPref() {
+      var cleanups =
+          new Cleanups(
+              withProperty("_skullballMonster"),
+              withPostChoice2(1598, 3, html("request/test_choice_baseball_skull.html")));
+
+      try (cleanups) {
+        assertThat("_skullballMonster", isSetTo("skullery maid"));
+      }
+    }
+
+    @Test
+    void curveBallPrefs() {
+      var cleanups =
+          new Cleanups(
+              withProperty("_curveballMonster"),
+              withProperty("_curveballFightsLeft"),
+              withPostChoice2(1598, 3, html("request/test_choice_baseball_curve.html")));
+
+      try (cleanups) {
+        assertThat("_curveballMonster", isSetTo("modern zmobie"));
+        assertThat("_curveballFightsLeft", isSetTo(3));
+      }
+    }
+
+    @Test
+    void beanBallPref() {
+      var cleanups =
+          new Cleanups(
+              withProperty("_beanballMonster"),
+              withPostChoice2(1598, 4, html("request/test_choice_baseball_bean.html")));
+
+      try (cleanups) {
+        assertThat("_beanballMonster", isSetTo("Hellion"));
+      }
+    }
+
+    @Test
+    void cheddarTracks() {
+      var cleanups =
+          new Cleanups(
+              withTrackedMonsters(""),
+              withPostChoice2(1598, 4, html("request/test_choice_baseball_cheddar.html")));
+
+      try (cleanups) {
+        assertThat("trackedMonsters", hasStringValue(startsWith("P imp:Baseball Diamond:")));
+      }
+    }
+
+    @Test
+    void screwBallPref() {
+      var cleanups =
+          new Cleanups(
+              withProperty("_screwballMonster"),
+              withPostChoice2(1598, 5, html("request/test_choice_baseball_screw.html")));
+
+      try (cleanups) {
+        assertThat("_screwballMonster", isSetTo("MagiMechTech MechaMech"));
+      }
     }
   }
 }
