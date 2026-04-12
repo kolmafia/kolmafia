@@ -2379,6 +2379,7 @@ public class ItemPool {
   public static final int ZEPPELIN_TICKET = 7185;
   public static final int COPPERHEAD_CHARM_RAMPANT = 7186;
   public static final int UNNAMED_COCKTAIL = 7187;
+  public static final int HANDFUL_OF_TIPS = 7188;
   public static final int TOMMY_GUN = 7190;
   public static final int TOMMY_AMMO = 7191;
   public static final int BUDDY_BJORN = 7200;
