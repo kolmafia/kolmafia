@@ -1444,4 +1444,37 @@ class UseItemRequestTest {
       }
     }
   }
+
+  @Nested
+  class HandfulOfTips {
+    @Test
+    void handfulOfTipsTracksMeat() {
+      var cleanups =
+          new Cleanups(
+              withProperty("handfulOfTipsMeat", 111),
+              withItem(ItemPool.HANDFUL_OF_TIPS),
+              withNextResponse(200, html("request/test_use_handful_of_tips.html")));
+
+      try (cleanups) {
+        UseItemRequest.getInstance(ItemPool.HANDFUL_OF_TIPS).run();
+
+        assertThat("handfulOfTipsMeat", isSetTo(415));
+      }
+    }
+
+    @Test
+    void handfulOfTipsTracksIrs() {
+      var cleanups =
+          new Cleanups(
+              withProperty("handfulOfTipsMeat", 111),
+              withItem(ItemPool.HANDFUL_OF_TIPS),
+              withNextResponse(200, html("request/test_use_handful_of_tips_irs.html")));
+
+      try (cleanups) {
+        UseItemRequest.getInstance(ItemPool.HANDFUL_OF_TIPS).run();
+
+        assertThat("handfulOfTipsMeat", isSetTo(0));
+      }
+    }
+  }
 }

@@ -1676,6 +1676,8 @@ public class UseItemRequest extends GenericRequest {
     return ZodiacSign.NONE;
   }
 
+  private static final Pattern MEAT_PATTERN = Pattern.compile("You gain ([\\d,]+) Meat");
+
   public static final void parseConsumption(final String responseText, final boolean showHTML) {
     if (UseItemRequest.lastItemUsed == null) {
       return;
@@ -5682,6 +5684,18 @@ public class UseItemRequest extends GenericRequest {
 
       case ItemPool.ETCHED_HOURGLASS:
         Preferences.setBoolean("_etchedHourglassUsed", true);
+        break;
+
+      case ItemPool.HANDFUL_OF_TIPS:
+        if (responseText.contains("a goon from the IRS")) {
+          Preferences.setInteger("handfulOfTipsMeat", 0);
+        } else {
+          Matcher meatMatcher = MEAT_PATTERN.matcher(responseText);
+          if (meatMatcher.find()) {
+            Preferences.increment(
+                "handfulOfTipsMeat", StringUtilities.parseInt(meatMatcher.group(1)));
+          }
+        }
         break;
 
       case ItemPool.PR_MEMBER:

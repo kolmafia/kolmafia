@@ -850,6 +850,7 @@ user	hallowienerSkeletonStore	false	roa
 user	hallowienerSmutOrcs	false	roa
 user	hallowienerSonofaBeach	false	roa
 user	hallowienerVolcoino	false	roa
+user	handfulOfTipsMeat	0	roa
 user	hardcorePVPWarning	false
 user	hareMillisecondsSaved	0	roa
 user	hareTurnsUsed	0	roa
