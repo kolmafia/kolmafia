@@ -7414,6 +7414,9 @@ public abstract class ChoiceAdventures {
       case 1549 ->
           // CyberRealm Zone 3 Half-Way
           dynamicChoiceSpoilers(choice, "CyberRealm Zone 3 Half-Way");
+      case 1598 ->
+          // Play Ball!
+          dynamicChoiceSpoilers(choice, "Play Ball!");
       default -> null;
     };
   }
@@ -9342,6 +9345,51 @@ public abstract class ChoiceAdventures {
         result = new ChoiceOption[2];
         result[0] = new ChoiceOption(message);
         result[1] = new ChoiceOption("no reward, no damage");
+        return result;
+      }
+      case 1598 -> {
+        // Play Ball!
+        result = new ChoiceOption[6];
+        var responseText = ChoiceManager.lastResponseText;
+        Map<Integer, String> choices = ChoiceUtilities.parseChoices(responseText);
+        // choices 1-5 are the elemental balls, 6 finishes the inning
+        for (int i = 0; i < 5; ++i) {
+          var text = choices.get(i + 1);
+          String message = "unknown";
+          if (text.contains("Some Smoke")) {
+            message = "add +5 Mus, Mys, Mox to Baseball Diamond enchants";
+          } else if (text.contains("Bring the Heat")) {
+            message = "add +5 Hot Damage to Baseball Diamond enchants";
+          } else if (text.contains("Schenectady")) {
+            message = "get all of batter's item drops";
+          } else if (text.contains("Deep Freeze")) {
+            message = "add +3 Damage Reduction to Baseball Diamond enchants";
+          } else if (text.contains("Snow Ball")) {
+            message = "add +2-4 MP Regeneration to Baseball Diamond enchants";
+          } else if (text.contains("Ice")) {
+            message = "banish batter until rollover";
+          } else if (text.contains("Ghost")) {
+            message = "add +3-5 HP Regeneration to Baseball Diamond enchants";
+          } else if (text.contains("Skull")) {
+            message = "batter attack / defense reduced by 50% at combat start";
+          } else if (text.contains("Curveball")) {
+            message = "next 3 fights with batter are free";
+          } else if (text.contains("Garbage")) {
+            message = "gain either discard hot dog or most of a beer (awesome food / booze)";
+          } else if (text.contains("Bean")) {
+            message = "batter takes passive stench damage each round";
+          } else if (text.contains("Cheddar")) {
+            message = "track batter with +3 copies and ignore queue rejection";
+          } else if (text.contains("Slurve")) {
+            message = "add +1 Sleaze Resistance to Baseball Diamond enchants";
+          } else if (text.contains("Slider")) {
+            message = "add +5 Combat Initiative to Baseball Diamond enchants";
+          } else if (text.contains("Screwball")) {
+            message = "increase batter ML by 3*player level";
+          }
+          result[i] = new ChoiceOption(message);
+        }
+        result[5] = new ChoiceOption("finish the inning");
         return result;
       }
     }
