@@ -41,8 +41,8 @@ public class PartialMRUList extends ScriptMRUList implements Listener {
           new ComboSeparatorsRenderer(new DefaultListCellRenderer()) {
             @Override
             protected boolean addSeparatorAfter(JList<?> list, Object value, int index) {
-              if (PartialMRUList.this.maxMRU < 0) return false;
-              return index == PartialMRUList.this.maxMRU - 1;
+              int mruEntries = Math.min(mruList.size(), PartialMRUList.this.maxMRU);
+              return index == mruEntries - 1;
             }
           };
     } else {
@@ -52,6 +52,9 @@ public class PartialMRUList extends ScriptMRUList implements Listener {
 
   @Override
   public void update() {
+    // Ensure we update the properties in ScriptMRUList
+    super.update();
+
     String[] newlist = Preferences.getString(this.pDefaultList).split(" \\| ");
     this.defaultList.clear();
     Collections.addAll(this.defaultList, newlist);
@@ -73,11 +76,12 @@ public class PartialMRUList extends ScriptMRUList implements Listener {
     }
     jcb.removeAllItems();
 
-    int count = mruList.size();
-    if (count >= 1) {
-      for (String ob : mruList) {
-        jcb.addItem(ob);
-      }
+    int mruEntries = Math.min(mruList.size(), PartialMRUList.this.maxMRU);
+    int entriesAdded = 0;
+    for (String ob : mruList) {
+      if(entriesAdded >= mruEntries) { break; }
+      jcb.addItem(ob);
+      entriesAdded++;
     }
 
     for (String str : defaultList) {
