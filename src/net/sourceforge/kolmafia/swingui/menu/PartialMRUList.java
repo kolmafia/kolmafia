@@ -79,7 +79,9 @@ public class PartialMRUList extends ScriptMRUList implements Listener {
     int mruEntries = Math.min(mruList.size(), PartialMRUList.this.maxMRU);
     int entriesAdded = 0;
     for (String ob : mruList) {
-      if(entriesAdded >= mruEntries) { break; }
+      if (entriesAdded >= mruEntries) {
+        break;
+      }
       jcb.addItem(ob);
       entriesAdded++;
     }
