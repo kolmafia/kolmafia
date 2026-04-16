@@ -49,6 +49,7 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ApiRequest;
+import net.sourceforge.kolmafia.request.CampAwayRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -1370,6 +1371,9 @@ public class Maximizer {
           duration = 50;
           usesRemaining = 3 - Preferences.getInteger("_photoBoothEffects");
         } else if (cmd.equals("campaway cloud")) {
+          if (!CampAwayRequest.campAwayTentAvailable()) {
+            continue;
+          }
           var used = Preferences.getInteger("_campAwayCloudBuffs");
           if (used > 0) {
             cmd = "";

@@ -2413,6 +2413,49 @@ public class MaximizerTest {
         assertThat(getBoosts(), not(hasItem(hasProperty("cmd", is("campaway cloud")))));
       }
     }
+
+    @Test
+    public void doesNotRecommendCampAwayCloudIfNotOwned() {
+      var cleanups =
+          new Cleanups(
+              withProperty("getawayCampsiteUnlocked", false),
+              withProperty("_campAwayCloudBuffs", 0),
+              withProperty("_campAwaySmileBuffs", 0));
+      try (cleanups) {
+        maximize("Muscle Experience Percent");
+        assertThat(getBoosts(), not(hasItem(hasProperty("cmd", is("campaway cloud")))));
+      }
+    }
+
+    @Test
+    public void recommendsCampAwayCloudInOldPath() {
+      var cleanups =
+          new Cleanups(
+              withRestricted(false),
+              withNotAllowedInStandard(RestrictedItemType.ITEMS, "Distant Woods Getaway Brochure"),
+              withProperty("getawayCampsiteUnlocked", true),
+              withProperty("_campAwayCloudBuffs", 0),
+              withProperty("_campAwaySmileBuffs", 0));
+      try (cleanups) {
+        maximize("Muscle Experience Percent");
+        assertThat(getBoosts(), hasItem(hasProperty("cmd", is("campaway cloud"))));
+      }
+    }
+
+    @Test
+    public void doesNotRecommendCampAwayCloudIfUnderStandardRestriction() {
+      var cleanups =
+          new Cleanups(
+              withRestricted(true),
+              withNotAllowedInStandard(RestrictedItemType.ITEMS, "Distant Woods Getaway Brochure"),
+              withProperty("getawayCampsiteUnlocked", true),
+              withProperty("_campAwayCloudBuffs", 0),
+              withProperty("_campAwaySmileBuffs", 0));
+      try (cleanups) {
+        maximize("Muscle Experience Percent");
+        assertThat(getBoosts(), not(hasItem(hasProperty("cmd", is("campaway cloud")))));
+      }
+    }
   }
 
   @Nested
