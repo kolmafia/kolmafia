@@ -95,6 +95,7 @@ import net.sourceforge.kolmafia.webui.UseItemDecorator;
 import net.sourceforge.kolmafia.webui.UseLinkDecorator;
 import net.sourceforge.kolmafia.webui.UseLinkDecorator.UseLink;
 import net.sourceforge.kolmafia.webui.ValhallaDecorator;
+import org.jsoup.Jsoup;
 
 public class RequestEditorKit extends HTMLEditorKit {
   private static final Pattern FORM_PATTERN = Pattern.compile("name=choiceform(\\d+)");
@@ -1857,10 +1858,6 @@ public class RequestEditorKit extends HTMLEditorKit {
     ChoiceAdventures.decorateChoice(choice, buffer, addComplexFeatures);
 
     String text = buffer.toString();
-    Matcher matcher = FORM_PATTERN.matcher(text);
-    if (!matcher.find()) {
-      return;
-    }
 
     // Find the options for the choice we've encountered
     Spoilers spoilers = ChoiceAdventures.choiceSpoilers(choice, buffer);
@@ -1875,8 +1872,46 @@ public class RequestEditorKit extends HTMLEditorKit {
       spoilers = new Spoilers(choice, "", new ChoiceOption[0]);
     }
 
-    int index1 = matcher.start();
     int decision = ChoiceManager.getDecision(choice, text);
+
+    // for each form:
+    // * find the option within the form
+    // * if it matches the chosen decision, add &rarr; to the start
+    // * add spoiler text afterwards
+    // * if there's an associated item spoiler, add that
+
+    Matcher matcher = FORM_PATTERN.matcher(text);
+    if (!matcher.find()) {
+      var doc = Jsoup.parse(text);
+      var forms = doc.select("form");
+
+      for (var form : forms) {
+        var option = form.selectFirst("input[name=option]");
+        if (option != null) {
+          var submit = form.selectFirst("input[type=submit]");
+          if (submit != null) {
+            var opt = StringUtilities.parseInt(option.attr("value"));
+            if (opt == decision) {
+              // prefix arrow
+              submit.attr("value", "→ " + submit.attr("value"));
+            }
+            var spoiler = ChoiceAdventures.choiceSpoiler(choice, opt, spoilers.getOptions());
+
+            if (spoiler != null) {
+              // insert spoiler after submit
+              submit.after("<br><font size=-1>(" + spoiler + ")</font>");
+              // annotating with items skipped as not needed for baseball
+            }
+          }
+        }
+      }
+
+      buffer.setLength(0);
+      buffer.append(doc.outerHtml());
+      return;
+    }
+
+    int index1 = matcher.start();
 
     buffer.setLength(0);
     buffer.append(text, 0, index1);
