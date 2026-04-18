@@ -1,6 +1,8 @@
 package net.sourceforge.kolmafia;
 
 import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withChoice;
+import static internal.helpers.Player.withClass;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withNextMonster;
@@ -648,6 +650,34 @@ public class RequestEditorKitTest {
       assertThat(
           buffer.toString(),
           containsString("<a href=\"inventory.php?action=pball&pwd=BALL\">play ball!</a>"));
+    }
+  }
+
+  @Test
+  void decoratesStandardChoice() {
+    var html = html("request/test_choice_manager_unknown_tomb_1.html");
+    var cleanups =
+        new Cleanups(
+            withProperty("relayShowSpoilers", true),
+            withClass(AscensionClass.ACCORDION_THIEF),
+            withChoice(1049, html));
+
+    try (cleanups) {
+      var buffer = new StringBuffer(html);
+      RequestEditorKit.getFeatureRichHTML("choice.php?whichchoice=1049", buffer, false);
+      var str = buffer.toString();
+      assertThat(
+          str,
+          containsString(
+              """
+          value="&rarr; &quot;Music.&quot;">
+          <br><font size=-1>(right answer)</font>"""));
+      assertThat(
+          str,
+          containsString(
+              """
+          value="&quot;Stealth.&quot;">
+          <br><font size=-1>(wrong answer)</font>"""));
     }
   }
 }
