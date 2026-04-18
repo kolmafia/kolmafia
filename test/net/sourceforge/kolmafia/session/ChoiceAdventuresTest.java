@@ -290,4 +290,21 @@ class ChoiceAdventuresTest {
               "<input disabled class=\"button disabled\" type=submit value=\"Go back and take a 20-year-long nap\">"));
     }
   }
+
+  @Test
+  void decoratesBaseballChoices() {
+    var req = new GenericRequest("choice.php?whichchoice=" + 1598);
+    req.responseText = html("request/test_choice_baseball_no_bats.html");
+
+    ChoiceManager.visitChoice(req);
+
+    var options = ChoiceAdventures.dynamicChoiceOptions(1598);
+    assert options != null;
+    assertThat(options[0].getName(), is("add +5 Mus, Mys, Mox to Baseball Diamond enchants"));
+    assertThat(options[1].getName(), is("add +3 Damage Reduction to Baseball Diamond enchants"));
+    assertThat(options[2].getName(), is("batter attack / defense reduced by 50% at combat start"));
+    assertThat(options[3].getName(), is("batter takes passive stench damage each round"));
+    assertThat(options[4].getName(), is("add +5 Combat Initiative to Baseball Diamond enchants"));
+    assertThat(options[5].getName(), is("finish the inning"));
+  }
 }

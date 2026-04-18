@@ -2183,17 +2183,20 @@ public class Player {
   public static Cleanups withChoice(final int choice, final String responseText) {
     var oldChoice = ChoiceManager.lastChoice;
     var oldDecision = ChoiceManager.lastDecision;
+    var oldResponseText = ChoiceManager.lastResponseText;
 
     var req = new GenericRequest("choice.php?whichchoice=" + choice);
     req.responseText = responseText;
 
     ChoiceManager.preChoice(req);
+    ChoiceManager.lastResponseText = responseText;
     ChoiceControl.visitChoice(req);
 
     return new Cleanups(
         () -> {
           ChoiceManager.lastChoice = oldChoice;
           ChoiceManager.lastDecision = oldDecision;
+          ChoiceManager.lastResponseText = oldResponseText;
         });
   }
 

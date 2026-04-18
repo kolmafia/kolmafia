@@ -13,14 +13,13 @@ import net.sourceforge.kolmafia.session.ChoiceAdventures;
 import net.sourceforge.kolmafia.session.ChoiceAdventures.Spoilers;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ChoiceOption;
+import org.jsoup.Jsoup;
 
 /** Utilities for extracting data from a choice.php response */
 public class ChoiceUtilities {
   private static final Pattern FORM_PATTERN = Pattern.compile("<form.*?</form>", Pattern.DOTALL);
   private static final Pattern OPTION_PATTERN1 =
       Pattern.compile("name=[\"']?option[\"']? value=[\"']?(\\d+)[\"']?");
-  private static final Pattern TEXT_PATTERN1 =
-      Pattern.compile("class=[\"']?button[\"']?.*?value=(?:\"([^\"]*)\"|'([^']*)'|([^ >]*))");
 
   private static final Pattern LINK_PATTERN = Pattern.compile("<[aA] .*?</[aA]>", Pattern.DOTALL);
   private static final Pattern OPTION_PATTERN2 = Pattern.compile("&option=(\\d+)");
@@ -141,23 +140,19 @@ public class ChoiceUtilities {
     while (m.find()) {
       String form = m.group();
       if (isNonChoiceForm(form)) continue;
-      Matcher optMatcher = OPTION_PATTERN1.matcher(form);
-      if (!optMatcher.find()) {
+      var parsed = Jsoup.parseBodyFragment(form);
+      var optionVal = parsed.select("input[name=option]").attr("value");
+      if (optionVal.isEmpty()) {
         continue;
       }
-      var decision = Integer.parseInt(optMatcher.group(1));
+      var decision = Integer.parseInt(optionVal);
       if (rv.get(decision) != null) {
         continue;
       }
-      Matcher textMatcher = TEXT_PATTERN1.matcher(form);
-      String text =
-          !textMatcher.find()
-              ? "(secret choice)"
-              : textMatcher.group(1) != null
-                  ? textMatcher.group(1)
-                  : textMatcher.group(2) != null
-                      ? textMatcher.group(2)
-                      : textMatcher.group(3) != null ? textMatcher.group(3) : "(secret choice)";
+      var text = parsed.select("input.button").attr("value");
+      if (text.isEmpty()) {
+        text = "(secret choice)";
+      }
       rv.put(decision, text);
     }
 

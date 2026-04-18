@@ -1,6 +1,8 @@
 package net.sourceforge.kolmafia;
 
 import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withChoice;
+import static internal.helpers.Player.withClass;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withNextMonster;
@@ -23,6 +25,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.CryptManager;
 import net.sourceforge.kolmafia.session.EventManager;
 import net.sourceforge.kolmafia.session.VioletFogManager;
+import org.jsoup.Jsoup;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -648,6 +651,59 @@ public class RequestEditorKitTest {
       assertThat(
           buffer.toString(),
           containsString("<a href=\"inventory.php?action=pball&pwd=BALL\">play ball!</a>"));
+    }
+  }
+
+  @Test
+  void decoratesStandardChoice() {
+    var html = html("request/test_choice_manager_unknown_tomb_1.html");
+    var cleanups =
+        new Cleanups(
+            withProperty("relayShowSpoilers", true),
+            withClass(AscensionClass.ACCORDION_THIEF),
+            withChoice(1049, html));
+
+    try (cleanups) {
+      var buffer = new StringBuffer(html);
+      RequestEditorKit.getFeatureRichHTML("choice.php?whichchoice=1049", buffer, false);
+      var str = buffer.toString();
+      assertThat(
+          str,
+          containsString(
+              """
+          value="&rarr; &quot;Music.&quot;">
+          <br><font size=-1>(right answer)</font>"""));
+      assertThat(
+          str,
+          containsString(
+              """
+          value="&quot;Stealth.&quot;">
+          <br><font size=-1>(wrong answer)</font>"""));
+    }
+  }
+
+  @Test
+  void decoratesBaseballChoice() {
+    var html = html("request/test_choice_baseball_no_bats.html");
+    var cleanups = new Cleanups(withProperty("relayShowSpoilers", true), withChoice(1598, html));
+
+    try (cleanups) {
+      var buffer = new StringBuffer(html);
+      RequestEditorKit.getFeatureRichHTML("choice.php?whichchoice=1598", buffer, false);
+      var str = buffer.toString();
+      // check parsed HTML to avoid thinking about newlines and spaces
+      var parsed = Jsoup.parse(str);
+      var checkButton =
+          parsed.expectFirst("input[type=submit][value=Throw One in the Deep Freeze]");
+
+      var br = checkButton.nextElementSibling();
+      assertNotNull(br);
+      assertEquals("br", br.tagName());
+
+      var font = br.nextElementSibling();
+      assertNotNull(font);
+      assertEquals("font", font.tagName());
+      assertEquals("(add +3 Damage Reduction to Baseball Diamond enchants)", font.text());
     }
   }
 }
