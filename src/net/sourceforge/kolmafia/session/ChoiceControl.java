@@ -348,6 +348,14 @@ public abstract class ChoiceControl {
           Preferences.setInteger("lastShadowForgeUnlockAdventure", KoLCharacter.getCurrentRun());
         }
       }
+
+      case 1596 -> { // Dig up a skeleton
+        if (ChoiceManager.lastDecision == 3) {
+          String message = "[" + KoLAdventure.getAdventureCount() + "] Dig up a skeleton";
+          RequestLogger.printLine(message);
+          RequestLogger.updateSessionLog(message);
+        }
+      }
     }
   }
 
