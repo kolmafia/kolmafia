@@ -654,56 +654,72 @@ public class RequestEditorKitTest {
     }
   }
 
-  @Test
-  void decoratesStandardChoice() {
-    var html = html("request/test_choice_manager_unknown_tomb_1.html");
-    var cleanups =
-        new Cleanups(
-            withProperty("relayShowSpoilers", true),
-            withClass(AscensionClass.ACCORDION_THIEF),
-            withChoice(1049, html));
+  @Nested
+  class ChoiceDecoration {
 
-    try (cleanups) {
-      var buffer = new StringBuffer(html);
-      RequestEditorKit.getFeatureRichHTML("choice.php?whichchoice=1049", buffer, false);
-      var str = buffer.toString();
-      assertThat(
-          str,
-          containsString(
-              """
-          value="&rarr; &quot;Music.&quot;">
-          <br><font size=-1>(right answer)</font>"""));
-      assertThat(
-          str,
-          containsString(
-              """
-          value="&quot;Stealth.&quot;">
-          <br><font size=-1>(wrong answer)</font>"""));
+    @Test
+    void decoratesStandardChoice() {
+      var html = html("request/test_choice_manager_unknown_tomb_1.html");
+      var cleanups =
+          new Cleanups(
+              withProperty("relayShowSpoilers", true),
+              withClass(AscensionClass.ACCORDION_THIEF),
+              withChoice(1049, html));
+
+      try (cleanups) {
+        var buffer = new StringBuffer(html);
+        RequestEditorKit.getFeatureRichHTML("choice.php?whichchoice=1049", buffer, false);
+        var str = buffer.toString();
+        assertThat(
+            str,
+            containsString(
+                """
+              value="&rarr; &quot;Music.&quot;">
+              <br><font size=-1>(right answer)</font>"""));
+        assertThat(
+            str,
+            containsString(
+                """
+              value="&quot;Stealth.&quot;">
+              <br><font size=-1>(wrong answer)</font>"""));
+      }
     }
-  }
 
-  @Test
-  void decoratesBaseballChoice() {
-    var html = html("request/test_choice_baseball_no_bats.html");
-    var cleanups = new Cleanups(withProperty("relayShowSpoilers", true), withChoice(1598, html));
+    @Test
+    void decoratesBaseballChoice() {
+      var html = html("request/test_choice_baseball_no_bats.html");
+      var cleanups = new Cleanups(withProperty("relayShowSpoilers", true), withChoice(1598, html));
 
-    try (cleanups) {
-      var buffer = new StringBuffer(html);
-      RequestEditorKit.getFeatureRichHTML("choice.php?whichchoice=1598", buffer, false);
-      var str = buffer.toString();
-      // check parsed HTML to avoid thinking about newlines and spaces
-      var parsed = Jsoup.parse(str);
-      var checkButton =
-          parsed.expectFirst("input[type=submit][value=Throw One in the Deep Freeze]");
+      try (cleanups) {
+        var buffer = new StringBuffer(html);
+        RequestEditorKit.getFeatureRichHTML("choice.php?whichchoice=1598", buffer, false);
+        var str = buffer.toString();
+        // check parsed HTML to avoid thinking about newlines and spaces
+        var parsed = Jsoup.parse(str);
+        var checkButton =
+            parsed.expectFirst("input[type=submit][value=Throw One in the Deep Freeze]");
 
-      var br = checkButton.nextElementSibling();
-      assertNotNull(br);
-      assertEquals("br", br.tagName());
+        var br = checkButton.nextElementSibling();
+        assertNotNull(br);
+        assertEquals("br", br.tagName());
 
-      var font = br.nextElementSibling();
-      assertNotNull(font);
-      assertEquals("font", font.tagName());
-      assertEquals("(add +3 Damage Reduction to Baseball Diamond enchants)", font.text());
+        var font = br.nextElementSibling();
+        assertNotNull(font);
+        assertEquals("font", font.tagName());
+        assertEquals("(add +3 Damage Reduction to Baseball Diamond enchants)", font.text());
+      }
+    }
+
+    @Test
+    void doesNotDecorateChoiceWithoutSpoilers() {
+      var html = html("request/test_bastille_game1_0.html");
+      var cleanups = new Cleanups(withProperty("relayShowSpoilers", true), withChoice(1313, html));
+      try (cleanups) {
+        var buffer = new StringBuffer(html);
+        RequestEditorKit.getFeatureRichHTML("choice.php?whichchoice=1313", buffer, false);
+        var str = buffer.toString();
+        assertThat(str, not(containsString("<tbody>")));
+      }
     }
   }
 }
