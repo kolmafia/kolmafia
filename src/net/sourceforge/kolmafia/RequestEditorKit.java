@@ -1882,6 +1882,7 @@ public class RequestEditorKit extends HTMLEditorKit {
 
     Matcher matcher = FORM_PATTERN.matcher(text);
     if (!matcher.find()) {
+      var changed = false;
       var doc = Jsoup.parse(text);
       var forms = doc.select("form");
 
@@ -1893,12 +1894,14 @@ public class RequestEditorKit extends HTMLEditorKit {
             var opt = StringUtilities.parseInt(option.attr("value"));
             if (opt == decision) {
               // prefix arrow
+              changed = true;
               submit.attr("value", "→ " + submit.attr("value"));
             }
             var spoiler = ChoiceAdventures.choiceSpoiler(choice, opt, spoilers.getOptions());
 
             if (spoiler != null) {
               // insert spoiler after submit
+              changed = true;
               submit.after("<br><font size=-1>(" + spoiler + ")</font>");
               // annotating with items skipped as not needed for baseball
             }
@@ -1906,10 +1909,12 @@ public class RequestEditorKit extends HTMLEditorKit {
         }
       }
 
-      buffer.setLength(0);
-      // ensure whitespace is collapsed
-      doc.outputSettings().prettyPrint(false);
-      buffer.append(doc.outerHtml());
+      if (changed) {
+        buffer.setLength(0);
+        // ensure whitespace is collapsed
+        doc.outputSettings().prettyPrint(false);
+        buffer.append(doc.outerHtml());
+      }
       return;
     }
 
