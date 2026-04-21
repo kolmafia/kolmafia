@@ -1907,6 +1907,8 @@ public class RequestEditorKit extends HTMLEditorKit {
       }
 
       buffer.setLength(0);
+      // ensure whitespace is collapsed
+      doc.outputSettings().prettyPrint(false);
       buffer.append(doc.outerHtml());
       return;
     }
