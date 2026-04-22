@@ -92,7 +92,7 @@ public class AscensionPath {
         "meat",
         "an",
         "adventurerMeatsWorldPoints",
-        37,
+        10,
         false,
         0,
         0,
