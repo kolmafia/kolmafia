@@ -203,6 +203,7 @@ user	8BitBonusTurns	0	roa
 user	8BitScore	0	roa
 user	8BitColor		roa
 user	addingScrolls	1
+user	adventurerMeatsWorldPoints	0
 user	affirmationCookiesEaten	0	roa
 user	afterAdventureScript
 user	aminoAcidsUsed	0	roa
