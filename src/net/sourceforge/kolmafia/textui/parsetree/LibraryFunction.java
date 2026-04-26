@@ -15,13 +15,19 @@ import net.sourceforge.kolmafia.textui.ScriptRuntime;
 
 public class LibraryFunction extends Function {
   private final Method method;
-  public final String[] deprecationWarning;
+  public final String deprecationWarning;
+  private String description;
+
+  public LibraryFunction(
+      final String name, final Type type, final List<VariableReference> variableReferences) {
+    this(name, type, variableReferences, null);
+  }
 
   public LibraryFunction(
       final String name,
       final Type type,
       final List<VariableReference> variableReferences,
-      final String... deprecationWarning) {
+      final String deprecationWarning) {
     super(name.toLowerCase(), type, variableReferences, null);
 
     this.deprecationWarning = deprecationWarning;
@@ -120,6 +126,15 @@ public class LibraryFunction extends Function {
       // This is not expected, but is an internal error in ASH
       throw new ScriptException(e);
     }
+  }
+
+  public LibraryFunction withDescription(String description) {
+    this.description = description;
+    return this;
+  }
+
+  public String getDescription() {
+    return this.description;
   }
 
   public List<String> getParameterNames() {

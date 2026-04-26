@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -11,11 +12,11 @@ import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.NamespaceInterpreter;
 import net.sourceforge.kolmafia.textui.Parser;
-import net.sourceforge.kolmafia.textui.RuntimeLibrary;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
 import net.sourceforge.kolmafia.textui.javascript.JavascriptRuntime;
 import net.sourceforge.kolmafia.textui.parsetree.Function;
 import net.sourceforge.kolmafia.textui.parsetree.FunctionList;
+import net.sourceforge.kolmafia.textui.parsetree.LibraryFunction;
 import net.sourceforge.kolmafia.textui.parsetree.VariableReference;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 
@@ -242,71 +243,124 @@ public abstract class KoLmafiaASH {
   }
 
   public static void showUserFunctions(final AshRuntime interpreter, final String filter) {
-    KoLmafiaASH.showFunctions(interpreter.getFunctions(), filter.toLowerCase(), false);
+    Formatting.showFunctions(interpreter.getFunctions(), filter.toLowerCase(), false);
   }
 
-  public static void showExistingFunctions(final String filter) {
-    KoLmafiaASH.showFunctions(RuntimeLibrary.getFunctions(), filter.toLowerCase(), true);
-  }
+  public static class Formatting {
+    private static final String DOC_COLOR_LIGHT = "#666666";
+    private static final String DOC_COLOR_DARK = "#888888";
 
-  private static void showFunctions(
-      final FunctionList functions, final String filter, boolean addLinks) {
-    addLinks = addLinks && StaticEntity.isGUIRequired();
+    private Formatting() {}
 
-    if (functions.isEmpty()) {
-      RequestLogger.printLine("No functions in your current namespace.");
-      return;
+    private static String docColor() {
+      return KoLmafiaGUI.isDarkTheme() ? DOC_COLOR_DARK : DOC_COLOR_LIGHT;
     }
 
-    for (Function func : functions) {
-      boolean matches = filter.isEmpty();
+    public static String formatDocBlock(LibraryFunction func) {
+      var description = func.getDescription();
+      var params = func.getVariableReferences();
 
-      if (!matches) {
-        matches = func.getName().toLowerCase().contains(filter);
+      var lines = new ArrayList<String>();
+
+      if (description != null && !description.isEmpty()) {
+        lines.add(description);
       }
 
-      if (!matches) {
-        for (VariableReference ref : func.getVariableReferences()) {
-          String refType = ref.getType().toString();
-          matches |= refType != null && refType.contains(filter);
+      for (VariableReference var : params) {
+        var paramDescription = var.getDescription();
+        if (paramDescription != null && !paramDescription.isEmpty()) {
+          lines.add("@param " + var.getName() + " " + paramDescription);
         }
       }
 
-      if (!matches) {
-        continue;
+      if (lines.isEmpty()) {
+        return null;
       }
 
-      StringBuilder description = new StringBuilder();
+      var color = docColor();
+      var sb = new StringBuilder();
+      sb.append("<font color='").append(color).append("'>");
 
-      description.append(func.getType());
-      description.append(" ");
-      if (addLinks) {
-        description.append("<a href='https://wiki.kolmafia.us/index.php?title=");
-        description.append(func.getName());
-        description.append("'>");
-      }
-      description.append(func.getName());
-      if (addLinks) {
-        description.append("</a>");
-      }
-      description.append("( ");
-
-      String sep = "";
-      for (VariableReference var : func.getVariableReferences()) {
-        description.append(sep);
-        sep = ", ";
-
-        description.append(var.getRawType());
-
-        if (var.getName() != null) {
-          description.append(" ");
-          description.append(var.getName());
+      if (lines.size() == 1) {
+        sb.append("/** ").append(lines.get(0)).append(" */");
+      } else {
+        sb.append("/**");
+        for (var line : lines) {
+          sb.append("<br>&nbsp;* ").append(line);
         }
+        sb.append("<br>&nbsp;*/");
       }
 
-      description.append(" )");
+      sb.append("</font>");
+      return sb.toString();
+    }
 
-      RequestLogger.printHtml(description.toString());
+    public static void showFunctions(
+        final FunctionList functions, final String filter, boolean addLinks) {
+      addLinks = addLinks && StaticEntity.isGUIRequired();
+
+      if (functions.isEmpty()) {
+        RequestLogger.printLine("No functions in your current namespace.");
+        return;
+      }
+
+      for (Function func : functions) {
+        boolean matches = filter.isEmpty();
+
+        if (!matches) {
+          matches = func.getName().toLowerCase().contains(filter);
+        }
+
+        if (!matches) {
+          for (VariableReference ref : func.getVariableReferences()) {
+            String refType = ref.getType().toString();
+            matches |= refType != null && refType.contains(filter);
+          }
+        }
+
+        if (!matches) {
+          continue;
+        }
+
+        if (func instanceof LibraryFunction lf) {
+          var docBlock = formatDocBlock(lf);
+          if (docBlock != null) {
+            RequestLogger.printHtml(docBlock);
+          }
+        }
+
+        StringBuilder signature = new StringBuilder();
+
+        signature.append(func.getType());
+        signature.append(" ");
+        if (addLinks) {
+          signature.append("<a href='https://wiki.kolmafia.us/index.php?title=");
+          signature.append(func.getName());
+          signature.append("'>");
+        }
+        signature.append(func.getName());
+        if (addLinks) {
+          signature.append("</a>");
+        }
+        signature.append("( ");
+
+        String sep = "";
+        for (VariableReference var : func.getVariableReferences()) {
+          signature.append(sep);
+          sep = ", ";
+
+          signature.append(var.getRawType());
+
+          if (var.getName() != null) {
+            signature.append(" ");
+            signature.append(var.getName());
+          }
+        }
+
+        signature.append(" )");
+
+        RequestLogger.printHtml(signature.toString());
+      }
     }
   }
 
