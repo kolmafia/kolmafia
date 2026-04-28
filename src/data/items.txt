@@ -12245,3 +12245,19 @@
 12216	Baseball Diamond	229573660	bdiamond.gif	offhand		0
 12217	discarded hot dog	885102347	hotdog_stench.gif	food	t,d	5
 12218	most of a beer	461813597	plasticcup.gif	drink	t,d	5	mosts of beers
+12219
+12220
+12221
+12222
+12223
+12224
+12225
+12226	can of tuna	851920686	tunacan.gif	food, cook	t,d	10
+12227	alien salad	782881201	salad.gif	food, cook	t,d	10
+12228	ratbatatouille	347713106	crimbodinner.gif	food, cook	t,d	10
+12229	spicy onigiri	613992468	onigiri.gif	food, cook	t,d	20
+12230	haunted crudit&eacute;s	133293187	partytray.gif	food, cook	t,d	20
+12231	sauced mutton	230589150	saltmutton.gif	food, cook	t,d	20
+12232	hot honey ant	520263496	honeyant.gif	food, cook	t,d	40
+12233	tomb aspic	373938439	aspic.gif	food, cook	t,d	40
+12234	later tots	739131540	tots.gif	food, cook	t,d	40
