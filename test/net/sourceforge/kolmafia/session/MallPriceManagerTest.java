@@ -768,6 +768,10 @@ public class MallPriceManagerTest {
       // It will then update prices and return how many
       int count = MallPriceManager.getMallPrices("unlockers", "");
       assertEquals(32, count);
+      // coinmaster ticket
+      assertEquals(168500, MallPriceManager.getMallPrice(ItemPool.DINSEY_TICKET));
+      // last item
+      assertEquals(4400, MallPriceManager.getMallPrice(ItemPool.TRANSPORTER_TRANSPONDER));
     }
   }
 
