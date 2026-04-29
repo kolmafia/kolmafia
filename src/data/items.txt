@@ -12252,12 +12252,12 @@
 12223
 12224
 12225
-12226	can of tuna	851920686	tunacan.gif	food, cook	t,d	10
-12227	alien salad	782881201	salad.gif	food, cook	t,d	10
-12228	ratbatatouille	347713106	crimbodinner.gif	food, cook	t,d	10
-12229	spicy onigiri	613992468	onigiri.gif	food, cook	t,d	20
-12230	haunted crudit&eacute;s	133293187	partytray.gif	food, cook	t,d	20
-12231	sauced mutton	230589150	saltmutton.gif	food, cook	t,d	20
+12226	can of tuna	851920686	tunacan.gif	food, cook	t,d	10	cans of tuna
+12227	alien salad	782881201	salad.gif	food, cook	t,d	10	bowls of alien salad
+12228	ratbatatouille	347713106	crimbodinner.gif	food, cook	t,d	10	dishes of ratbatatouille
+12229	spicy onigiri	613992468	onigiri.gif	food, cook	t,d	20	spicy onigiri
+12230	haunted crudit&eacute;s	133293187	partytray.gif	food, cook	t,d	20	trays of haunted crudit&eacute;s
+12231	sauced mutton	230589150	saltmutton.gif	food, cook	t,d	20	haunches of sauced mutton
 12232	hot honey ant	520263496	honeyant.gif	food, cook	t,d	40
-12233	tomb aspic	373938439	aspic.gif	food, cook	t,d	40
-12234	later tots	739131540	tots.gif	food, cook	t,d	40
+12233	tomb aspic	373938439	aspic.gif	food, cook	t,d	40	quivering cubes of tomb aspic
+12234	later tots	739131540	tots.gif	food, cook	t,d	40	handfuls of later tots
