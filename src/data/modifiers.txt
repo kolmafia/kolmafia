@@ -13821,6 +13821,7 @@ Item	lecherous stone	Last Available: "2012-12"
 Item	LED block	Last Available: "2007-12"
 Item	leftover Crimbo rations	Last Available: "2009-12"
 # leftovers of indeterminate origin: Deals 8-10 <font color=green>Stench Damage</font>
+Item	legendary noodles	Last Available: "2026-05"
 Item	lemony scales	Last Available: "2014-12"
 Item	Lepardner	Last Available: "2018-03"
 Item	Leprecondo	Last Available: "2025-03"
