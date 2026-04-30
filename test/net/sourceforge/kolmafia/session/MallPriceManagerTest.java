@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.session;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withMeat;
+import static internal.helpers.Player.withNextResponse;
 import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -17,6 +18,7 @@ import static org.mockito.Mockito.mockStatic;
 
 import internal.helpers.Cleanups;
 import internal.network.FakeHttpClientBuilder;
+import internal.network.FakeHttpResponse;
 import java.time.Clock;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -628,12 +630,9 @@ public class MallPriceManagerTest {
     // Test with Hell ramen.
     AdventureResult item = ItemPool.get(ItemPool.HELL_RAMEN);
 
-    // Make a mocked MallSearchResponse with the responseText preloaded
-
-    MallSearchRequest request = new MockMallSearchRequest("Hell ramen", 0);
-    request.responseText = html("request/test_mall_search_hell_ramen.html");
-
-    try (var cleanups = mockMallSearchRequest(request)) {
+    try (var cleanups =
+        new Cleanups(
+            mockClock(), withNextResponse(200, html("request/test_mall_search_hell_ramen.html")))) {
       long timestamp = 1_000_000;
       Mockito.when(clock.millis()).thenReturn(timestamp);
 
@@ -685,12 +684,11 @@ public class MallPriceManagerTest {
       // Forbid half the stores
       String setting = getForbiddenStores(shopIds);
 
-      // Make a mocked MallSearchResponse with the responseText preloaded
-      MallSearchRequest request = new MockMallSearchRequest("Hell ramen", 0);
-      request.responseText = responseText;
-
       var cleanups =
-          new Cleanups(mockMallSearchRequest(request), withProperty("forbiddenStores", setting));
+          new Cleanups(
+              mockClock(),
+              withNextResponse(200, html("request/test_mall_search_hell_ramen.html")),
+              withProperty("forbiddenStores", setting));
       try (cleanups) {
         long timestamp = 1_000_000;
         Mockito.when(clock.millis()).thenReturn(timestamp);
@@ -755,12 +753,13 @@ public class MallPriceManagerTest {
   @Test
   public void canGetMallPricesByCategory() {
     // Test with category = "unlockers" since that only has two pages of results
-    MallSearchRequest request = new MockMallSearchRequest("unlockers", "");
-    request.setResponseTexts(
-        html("request/test_mall_search_unlockers_page_1.html"),
-        html("request/test_mall_search_unlockers_page_2.html"));
-
-    try (var cleanups = mockMallSearchRequest(request)) {
+    try (var cleanups =
+        new Cleanups(
+            mockClock(),
+            withNextResponse(
+                new FakeHttpResponse<>(200, html("request/test_mall_search_unlockers_page_1.html")),
+                new FakeHttpResponse<>(
+                    200, html("request/test_mall_search_unlockers_page_2.html"))))) {
       long timestamp = 1_000_000;
       Mockito.when(clock.millis()).thenReturn(timestamp);
 
@@ -769,6 +768,10 @@ public class MallPriceManagerTest {
       // It will then update prices and return how many
       int count = MallPriceManager.getMallPrices("unlockers", "");
       assertEquals(32, count);
+      // coinmaster ticket
+      assertEquals(168500, MallPriceManager.getMallPrice(ItemPool.DINSEY_TICKET));
+      // last item
+      assertEquals(4400, MallPriceManager.getMallPrice(ItemPool.TRANSPORTER_TRANSPONDER));
     }
   }
 
@@ -777,15 +780,14 @@ public class MallPriceManagerTest {
     // Not actually used in MallPriceManager, but may as well test the fourth
     // (last) form of a MallSearchRequest
 
-    // This is Clerk's - one of the bigger stores. :)
-    MallSearchRequest request = new MockMallSearchRequest(1053259);
-    request.setResponseTexts(html("request/test_mall_search_store.html"));
-
-    try (var cleanups = mockMallSearchRequest(request)) {
+    try (var cleanups =
+        new Cleanups(
+            mockClock(), withNextResponse(200, html("request/test_mall_search_store.html")))) {
       long timestamp = 1_000_000;
       Mockito.when(clock.millis()).thenReturn(timestamp);
 
-      // Process the response text into PurchaseRequests
+      // This is Clerk's - one of the bigger stores. :)
+      MallSearchRequest request = new MallSearchRequest(1053259);
       request.run();
 
       List<PurchaseRequest> results = request.getResults();
