@@ -688,40 +688,24 @@ public abstract class MallPriceManager {
     int count = 0;
 
     try {
-      // Iterate over results and handle by item
-      int itemId = -1;
-      List<PurchaseRequest> itemResults = null;
+      Map<Integer, List<PurchaseRequest>> itemResults = new HashMap<>();
 
       for (PurchaseRequest pr : results) {
         if (pr instanceof CoinMasterPurchaseRequest) {
           continue;
         }
 
-        int newItemId = pr.getItemId();
-        if (itemId != newItemId) {
-          // Handle previous item, if any
-          if (itemResults != null) {
-            MallPriceManager.flushCache(itemId);
-            Collections.sort(itemResults, PurchaseRequest.priceComparator);
-            MallPriceManager.updateMallPrice(itemId, itemResults, true);
-            MallPriceManager.mallSearches.put(itemId, itemResults);
-            ++count;
-          }
-
-          // Setup for new item
-          itemId = newItemId;
-          itemResults = new ArrayList<>();
-        }
-
-        itemResults.add(pr);
+        int itemId = pr.getItemId();
+        itemResults.computeIfAbsent(itemId, k -> new ArrayList<>()).add(pr);
       }
 
-      // Handle final item
-      if (itemResults != null) {
+      for (var entry : itemResults.entrySet()) {
+        var itemId = entry.getKey();
+        var prs = entry.getValue();
         MallPriceManager.flushCache(itemId);
-        Collections.sort(itemResults, PurchaseRequest.priceComparator);
-        MallPriceManager.updateMallPrice(itemId, itemResults, true);
-        MallPriceManager.mallSearches.put(itemId, itemResults);
+        Collections.sort(prs, PurchaseRequest.priceComparator);
+        MallPriceManager.updateMallPrice(itemId, prs, true);
+        MallPriceManager.mallSearches.put(itemId, prs);
         ++count;
       }
     } finally {
