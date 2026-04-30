@@ -1151,12 +1151,6 @@ Item	zero-trust tanktop	Last Available: "2025-12"
 # Weapons section of modifiers.txt
 
 Item	&quot;honey&quot; dipper	Stench Damage: +20, Stench Spell Damage: +25, Spell Damage Percent: +30, Last Available: "2014-12"
-# legendary pasta wand: Very Accurate!
-# legendary pasta wand: Summon Legendary Noodles
-# legendary pasta wand: Cook up to 5 items per day without using an Adventure
-# legendary pasta wand: +1 Pasta Thrall Experience (Pastamancer Only)
-# legendary pasta wand: Pasta Thralls Go Up to 11 (Pastamancer Only)
-Item	legendary pasta wand	Spooky Damage: +5, Stench Damage: +5, Hot Damage: +5, Cold Damage: +5, Sleaze Damage: +5, Spell Damage: +10, Spell Damage Percent: +50, Spell Critical Percent: +15, Single Equip, Last Available: "2026-05"
 Item	4-dimensional guitar	Ranged Damage: +5, Critical Hit Percent: +10
 Item	5-Alarm Saucepan	Mysticality: +7, Class: "Sauceror"
 Item	7-Foot Dwarven mattock	Weakens Monster
@@ -1654,6 +1648,12 @@ Item	lawnmower blade	Weapon Damage: +15, Last Available: "2010-04"
 Item	lead pipe	Maximum HP: +50, Muscle Percent: +100, Lasts Until Rollover, Last Available: "2015-07"
 # lead yo-yo
 Item	leechknife	Maximum HP: +10, Maximum MP: +5, HP Regen Min: 4, HP Regen Max: 6, MP Regen Min: 4, MP Regen Max: 6
+# legendary pasta wand: Very Accurate!
+# legendary pasta wand: Summon Legendary Noodles
+# legendary pasta wand: Cook up to 5 items per day without using an Adventure
+# legendary pasta wand: +1 Pasta Thrall Experience (Pastamancer Only)
+# legendary pasta wand: Pasta Thralls Go Up to 11 (Pastamancer Only)
+Item	legendary pasta wand	Spooky Damage: +5, Stench Damage: +5, Hot Damage: +5, Cold Damage: +5, Sleaze Damage: +5, Spell Damage: +10, Spell Damage Percent: +50, Spell Critical Percent: +15, Single Equip, Last Available: "2026-05"
 # legendary seal-clubbing club: Increase Fury Capacity and Generation (Seal Clubbers Only)
 Item	legendary seal-clubbing club	Muscle Percent: +50, Weapon Damage: [10*L], Initiative: +50, Attacks Can't Miss, Last Available: "2026-01", Conditional Skill (Equipped): "Club 'Em Across the Battlefield", Conditional Skill (Equipped): "Club 'Em Into Next Week", Conditional Skill (Equipped): "Club 'Em Back in Time"
 # licorice whip: Candiful Crits
