@@ -688,22 +688,17 @@ public abstract class MallPriceManager {
     int count = 0;
 
     try {
-      Map<Integer, List<PurchaseRequest>> itemResults = new HashMap<>();
-
-      for (PurchaseRequest pr : results) {
-        if (pr instanceof CoinMasterPurchaseRequest) {
-          continue;
-        }
-
-        int itemId = pr.getItemId();
-        itemResults.computeIfAbsent(itemId, k -> new ArrayList<>()).add(pr);
-      }
+      Map<Integer, List<PurchaseRequest>> itemResults =
+          results.stream().collect(Collectors.groupingBy(PurchaseRequest::getItemId));
 
       for (var entry : itemResults.entrySet()) {
         var itemId = entry.getKey();
-        var prs = entry.getValue();
+        var prs =
+            entry.getValue().stream()
+                .filter(x -> !(x instanceof CoinMasterPurchaseRequest))
+                .sorted(PurchaseRequest.priceComparator)
+                .toList();
         MallPriceManager.flushCache(itemId);
-        Collections.sort(prs, PurchaseRequest.priceComparator);
         MallPriceManager.updateMallPrice(itemId, prs, true);
         MallPriceManager.mallSearches.put(itemId, prs);
         ++count;
