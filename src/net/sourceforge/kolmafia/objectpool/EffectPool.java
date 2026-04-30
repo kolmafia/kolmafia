@@ -437,6 +437,13 @@ public class EffectPool {
   public static final int YOUR_OWN_PARENTS = 3027;
   public static final int MET_CUTE = 3028;
   public static final int HEARTSTONE_ATTUNEMENT = 3071;
+  public static final int LEGENDARY_BLOODY_POTATO_BITS = 3095;
+  public static final int LEGENDARY_SLINKING_NOODLE_GLOB = 3096;
+  public static final int LEGENDARY_WHISPERING_STRANDS = 3097;
+  public static final int LEGENDARY_MACARONI_COATING = 3098;
+  public static final int LEGENDARY_PENNE_FEDORA = 3099;
+  public static final int LEGENDARY_PASTA_EYEBALL = 3100;
+  public static final int LEGENDARY_SPICE_HAZE = 3101;
 
   public static final AdventureResult CURSE1_EFFECT = EffectPool.get(EffectPool.ONCE_CURSED);
   public static final AdventureResult CURSE2_EFFECT = EffectPool.get(EffectPool.TWICE_CURSED);

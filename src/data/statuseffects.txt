@@ -3095,10 +3095,10 @@
 3092	Blown-Up Feet	splodefeet.gif	c58a03b945da0a1cc63c103ea56d811e	neutral	none	# wear a hoverboard for 50 adventures and have it blow up
 3093	Pork Elf Medicine	pork_cabinet.gif	2ea8891b95d949f27a2648bc176b7888	neutral	none
 3094	Extremely Clean Hands	pork_sink.gif	d83b834aef27a5804a94acfb9b50919b	neutral	none
-3095	Legendary Bloody Potato Bits	bloodpotatoes.gif	6d0568f8148422ecee7072407877fdc2	neutral	none
-3096	Legendary Slinking Noodle Glob	noodlemass.gif	fe4a1b106ad57d052c50dd166f6018ad	neutral	none
-3097	Legendary Whispering Strands	wispbits.gif	a457a9d336d50358d5c6309ad4a1c607	neutral	none
-3098	Legendary Macaroni Coating	macaronibits.gif	c9678cf12dd6a14d45d159a08a5ab2e6	neutral	none
-3099	Legendary Penne Fedora	pennehat.gif	b13615e198a0a1fe883cf2c0982738bd	neutral	none
-3100	Legendary Pasta Eyeball	eyeball.gif	c74e515c4bc83f9037d005b37e4b490d	neutral	none
-3101	Legendary Spice Haze	disease.gif	fa78b3de0f428f72636083709d2d01ae	neutral	none
+3095	Legendary Bloody Potato Bits	bloodpotatoes.gif	6d0568f8148422ecee7072407877fdc2	neutral	none	cast 1 Bind Vampieroghi ^ Legendary Bloody Potato Bits
+3096	Legendary Slinking Noodle Glob	noodlemass.gif	fe4a1b106ad57d052c50dd166f6018ad	neutral	none	cast 1 Bind Vermincelli ^ Legendary Slinking Noodle Glob
+3097	Legendary Whispering Strands	wispbits.gif	a457a9d336d50358d5c6309ad4a1c607	neutral	none	cast 1 Bind Angel Hair Wisp ^ Legendary Whispering Strands
+3098	Legendary Macaroni Coating	macaronibits.gif	c9678cf12dd6a14d45d159a08a5ab2e6	neutral	none	cast 1 Bind Undead Elbow Macaroni ^ Legendary Macaroni Coating
+3099	Legendary Penne Fedora	pennehat.gif	b13615e198a0a1fe883cf2c0982738bd	neutral	none	cast 1 Bind Penne Dreadful ^ Legendary Penne Fedora
+3100	Legendary Pasta Eyeball	eyeball.gif	c74e515c4bc83f9037d005b37e4b490d	neutral	none	cast 1 Bind Lasagmbie ^ Legendary Pasta Eyeball
+3101	Legendary Spice Haze	disease.gif	fa78b3de0f428f72636083709d2d01ae	neutral	none	cast 1 Bind Spice Ghost ^ Legendary Spice Haze

@@ -1046,7 +1046,14 @@ public class Evaluator {
           EffectPool.MACARONI_COATING,
           EffectPool.PENNE_FEDORA,
           EffectPool.PASTA_EYEBALL,
-          EffectPool.SPICE_HAZE ->
+          EffectPool.SPICE_HAZE,
+          EffectPool.LEGENDARY_BLOODY_POTATO_BITS,
+          EffectPool.LEGENDARY_SLINKING_NOODLE_GLOB,
+          EffectPool.LEGENDARY_WHISPERING_STRANDS,
+          EffectPool.LEGENDARY_MACARONI_COATING,
+          EffectPool.LEGENDARY_PENNE_FEDORA,
+          EffectPool.LEGENDARY_PASTA_EYEBALL,
+          EffectPool.LEGENDARY_SPICE_HAZE ->
           KoLCharacter.isPastamancer();
       case EffectPool.SHIELD_OF_THE_PASTALORD, EffectPool.PORK_BARREL ->
           !KoLCharacter.isPastamancer();

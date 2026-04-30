@@ -371,6 +371,48 @@ public class UneffectRequest extends GenericRequest {
                 ? EffectPool.MARIACHI_MOISTURE
                 : EffectPool.MARIACHI_MOOD);
       }
+      case SkillPool.BIND_VAMPIEROGHI -> {
+        return EffectDatabase.getEffectName(
+            KoLCharacter.hasEquipped(ItemPool.LEGENDARY_PASTA_WAND)
+                ? EffectPool.LEGENDARY_BLOODY_POTATO_BITS
+                : EffectPool.BLOODY_POTATO_BITS);
+      }
+      case SkillPool.BIND_VERMINCELLI -> {
+        return EffectDatabase.getEffectName(
+            KoLCharacter.hasEquipped(ItemPool.LEGENDARY_PASTA_WAND)
+                ? EffectPool.LEGENDARY_SLINKING_NOODLE_GLOB
+                : EffectPool.SLINKING_NOODLE_GLOB);
+      }
+      case SkillPool.BIND_ANGEL_HAIR_WISP -> {
+        return EffectDatabase.getEffectName(
+            KoLCharacter.hasEquipped(ItemPool.LEGENDARY_PASTA_WAND)
+                ? EffectPool.LEGENDARY_WHISPERING_STRANDS
+                : EffectPool.WHISPERING_STRANDS);
+      }
+      case SkillPool.BIND_UNDEAD_ELBOW_MACARONI -> {
+        return EffectDatabase.getEffectName(
+            KoLCharacter.hasEquipped(ItemPool.LEGENDARY_PASTA_WAND)
+                ? EffectPool.LEGENDARY_MACARONI_COATING
+                : EffectPool.MACARONI_COATING);
+      }
+      case SkillPool.BIND_PENNE_DREADFUL -> {
+        return EffectDatabase.getEffectName(
+            KoLCharacter.hasEquipped(ItemPool.LEGENDARY_PASTA_WAND)
+                ? EffectPool.LEGENDARY_PENNE_FEDORA
+                : EffectPool.PENNE_FEDORA);
+      }
+      case SkillPool.BIND_LASAGMBIE -> {
+        return EffectDatabase.getEffectName(
+            KoLCharacter.hasEquipped(ItemPool.LEGENDARY_PASTA_WAND)
+                ? EffectPool.LEGENDARY_PASTA_EYEBALL
+                : EffectPool.PASTA_EYEBALL);
+      }
+      case SkillPool.BIND_SPICE_GHOST -> {
+        return EffectDatabase.getEffectName(
+            KoLCharacter.hasEquipped(ItemPool.LEGENDARY_PASTA_WAND)
+                ? EffectPool.LEGENDARY_SPICE_HAZE
+                : EffectPool.SPICE_HAZE);
+      }
     }
 
     // Handle remaining skills with a lookup

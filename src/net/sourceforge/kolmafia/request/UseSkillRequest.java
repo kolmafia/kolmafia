@@ -403,7 +403,42 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
               SkillPool.EMPATHY_OF_THE_NEWT,
               ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD,
               EffectPool.EMPATHY,
-              EffectPool.THOUGHTFUL_EMPATHY));
+              EffectPool.THOUGHTFUL_EMPATHY),
+          new ReplaceEffect(
+              SkillPool.BIND_VAMPIEROGHI,
+              ItemPool.LEGENDARY_PASTA_WAND,
+              EffectPool.BLOODY_POTATO_BITS,
+              EffectPool.LEGENDARY_BLOODY_POTATO_BITS),
+          new ReplaceEffect(
+              SkillPool.BIND_VERMINCELLI,
+              ItemPool.LEGENDARY_PASTA_WAND,
+              EffectPool.SLINKING_NOODLE_GLOB,
+              EffectPool.LEGENDARY_SLINKING_NOODLE_GLOB),
+          new ReplaceEffect(
+              SkillPool.BIND_ANGEL_HAIR_WISP,
+              ItemPool.LEGENDARY_PASTA_WAND,
+              EffectPool.WHISPERING_STRANDS,
+              EffectPool.LEGENDARY_WHISPERING_STRANDS),
+          new ReplaceEffect(
+              SkillPool.BIND_UNDEAD_ELBOW_MACARONI,
+              ItemPool.LEGENDARY_PASTA_WAND,
+              EffectPool.MACARONI_COATING,
+              EffectPool.LEGENDARY_MACARONI_COATING),
+          new ReplaceEffect(
+              SkillPool.BIND_PENNE_DREADFUL,
+              ItemPool.LEGENDARY_PASTA_WAND,
+              EffectPool.PENNE_FEDORA,
+              EffectPool.LEGENDARY_PENNE_FEDORA),
+          new ReplaceEffect(
+              SkillPool.BIND_LASAGMBIE,
+              ItemPool.LEGENDARY_PASTA_WAND,
+              EffectPool.PASTA_EYEBALL,
+              EffectPool.LEGENDARY_PASTA_EYEBALL),
+          new ReplaceEffect(
+              SkillPool.BIND_SPICE_GHOST,
+              ItemPool.LEGENDARY_PASTA_WAND,
+              EffectPool.SPICE_HAZE,
+              EffectPool.LEGENDARY_SPICE_HAZE));
 
   private record AdditionalEffect(int skill, int item, int newEffect) {}
 
