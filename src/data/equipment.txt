@@ -984,6 +984,7 @@ zero-trust tanktop	100	none
 # Weapons section of equipment.txt
 
 &quot;honey&quot; dipper	150	Mys: 60	1-handed utensil
+legendary pasta wand	100	Mus: 0	1-handed wand
 4-dimensional guitar	80	Mox: 25	2-handed guitar
 5-Alarm Saucepan	50	Mys: 10	1-handed saucepan
 7-Foot Dwarven mattock	80	Mus: 25	2-handed axe

@@ -12248,8 +12248,8 @@
 12219
 12220
 12221
-12222
-12223
+12222	pasta wand loot box	282584720	legpastabox.gif	usable	t	0
+12223	legendary pasta wand	501983838	legpastaspoon.gif	weapon		0
 12224
 12225
 12226	can of tuna	851920686	tunacan.gif	food, cook	t,d	10	cans of tuna

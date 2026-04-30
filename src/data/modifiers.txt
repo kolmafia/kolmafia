@@ -1151,6 +1151,12 @@ Item	zero-trust tanktop	Last Available: "2025-12"
 # Weapons section of modifiers.txt
 
 Item	&quot;honey&quot; dipper	Stench Damage: +20, Stench Spell Damage: +25, Spell Damage Percent: +30, Last Available: "2014-12"
+# legendary pasta wand: Very Accurate!
+# legendary pasta wand: Summon Legendary Noodles
+# legendary pasta wand: Cook up to 5 items per day without using an Adventure
+# legendary pasta wand: +1 Pasta Thrall Experience (Pastamancer Only)
+# legendary pasta wand: Pasta Thralls Go Up to 11 (Pastamancer Only)
+Item	legendary pasta wand	Spooky Damage: +5, Stench Damage: +5, Hot Damage: +5, Cold Damage: +5, Sleaze Damage: +5, Spell Damage: +10, Spell Damage Percent: +50, Spell Critical Percent: +15, Single Equip, Last Available: "2026-05"
 Item	4-dimensional guitar	Ranged Damage: +5, Critical Hit Percent: +10
 Item	5-Alarm Saucepan	Mysticality: +7, Class: "Sauceror"
 Item	7-Foot Dwarven mattock	Weakens Monster
@@ -7092,6 +7098,13 @@ Effect	Latency	Muscle: [-3*pref(sourceAgentsDefeated)], Mysticality: [-3*pref(so
 Effect	Latently Energized	MP Regen Min: 20, MP Regen Max: 30
 Effect	Leash of Linguini	Familiar Weight: +5
 Effect	Leaving Nothing to the Imagination	Avoid Attack: 1
+Effect	Legendary Bloody Potato Bits	HP Regen Min: 9, HP Regen Max: 15
+Effect	Legendary Macaroni Coating	Muscle: +30
+Effect	Legendary Pasta Eyeball	Meat Drop: +30
+Effect	Legendary Penne Fedora	Moxie: +30
+Effect	Legendary Slinking Noodle Glob	Maximum MP: +45
+Effect	Legendary Spice Haze	Item Drop: +15
+Effect	Legendary Whispering Strands	Initiative: +30
 Effect	Leisurely Amblin'	Meat Drop: +100
 Effect	Lemon Enlightenment	Mysticality Percent: +10, Spell Damage Percent: +15
 Effect	Lemony Goodness	Muscle: +10, Mysticality: +10, Moxie: +10
@@ -14332,6 +14345,7 @@ Item	Party Planning on a Budget	Skill: "Budget Conscious", Last Available: "2018
 Item	party pup	Last Available: "2018-09"
 Item	Party Tattoo&trade; gift certificate	Last Available: "2018-09"
 Item	passed-out psychedelic bear	Free Pull, Last Available: "2009-10"
+Item	pasta wand loot box	Free Pull, Last Available: "2026-05"
 Item	Pastaco shell	Last Available: "2014-05"
 # patchouli incense stick: Weakens enemies a little bit
 Item	patchouli incense stick	Effect: "Far Out", Effect Duration: 5, Effect: "Embarrassed", Effect Duration: 5

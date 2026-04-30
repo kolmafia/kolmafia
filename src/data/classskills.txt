@@ -1166,6 +1166,7 @@
 7589	Heartstone: %luck	heartgem.gif	nc,effect,self	0	0
 7590	Heartstone: %pals	heartgem.gif	nc,effect,self	0	25
 7591	Heartstone: %buff	heartgem.gif	nc,effect,self	0	25
+7592	Wave your Pasta Wand	legpastaspoon.gif	nc,item	25	0
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.
