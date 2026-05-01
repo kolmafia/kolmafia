@@ -9,7 +9,7 @@ public final class EffectData {
   public String descriptionId;
   public int quality;
   public List<String> attributes;
-  public String defaultAction;
+  public String actions;
 
   public void setQuality(final String quality) {
     this.quality = parseQuality(quality);
@@ -48,8 +48,8 @@ public final class EffectData {
     String effectString =
       effectId + "\t" + name + "\t" + image + "\t" + descriptionId + "\t" + getQualityDescription() + "\t" + attrs;
 
-    if (defaultAction != null) {
-      effectString += "\t" + defaultAction;
+    if (actions != null) {
+      effectString += "\t" + actions;
     }
 
     return effectString;

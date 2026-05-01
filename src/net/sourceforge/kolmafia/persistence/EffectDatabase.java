@@ -133,7 +133,7 @@ public class EffectDatabase {
     effectData.attributes = attrs;
 
     if (defaultAction != null) {
-      effectData.defaultAction = defaultAction;
+      effectData.actions = defaultAction;
     }
   }
 
@@ -241,7 +241,7 @@ public class EffectDatabase {
 
   public static final String getActions(final Integer effectId) {
     EffectData effectData = EffectDatabase.effectDataById.get(effectId);
-    return effectData == null ? null : effectData.defaultAction;
+    return effectData == null ? null : effectData.actions;
   }
 
   public static final void setActions(final int effectId, final String actions) {
@@ -250,13 +250,13 @@ public class EffectDatabase {
 
   public static final void setActions(final Integer effectId, final String actions) {
     EffectData effectData = EffectDatabase.effectDataById.computeIfAbsent(effectId, id -> new EffectData());
-    effectData.defaultAction = actions;
+    effectData.actions = actions;
   }
 
   public static final Set<Entry<Integer, String>> actionEntrySet() {
     return EffectDatabase.effectDataById.entrySet().stream()
-        .filter(entry -> entry.getValue().defaultAction != null)
-        .collect(Collectors.toMap(Entry::getKey, entry -> entry.getValue().defaultAction))
+        .filter(entry -> entry.getValue().actions != null)
+        .collect(Collectors.toMap(Entry::getKey, entry -> entry.getValue().actions))
         .entrySet();
   }
 
@@ -523,7 +523,7 @@ public class EffectDatabase {
     effectData.quality = EffectDatabase.NEUTRAL;
     effectData.attributes = new LinkedList<>();
     if (defaultAction != null) {
-      effectData.defaultAction = defaultAction;
+      effectData.actions = defaultAction;
     }
 
     String printMe;
