@@ -9502,7 +9502,6 @@ MutexI	work boots/fancy boots	none
 MutexI	booze drive button/candy drive button/food drive button	none
 MutexI	baywatch/Counterclockwise Watch/Crimbolex watch/dead guy's memento/dead guy's watch/glow-in-the-dark wristwatch/grandfather watch/imitation nice watch/Sasq&trade; watch/wristwatch of the white knight	none
 
-
 # Mutually exclusive effects section of modifiers.txt
 # Same as above
 MutexE	Shrieking Weasel/Power, Man/Lucky Struck/Ministrations in the Dark/Superdrifting	none
@@ -9511,12 +9510,14 @@ MutexE	Purple Tongue/Green Tongue/Orange Tongue/Red Tongue/Blue Tongue/Black Ton
 MutexE	Broken Heart/Fiery Heart/Cold Hearted/Sweet Heart/Withered Heart/Lustful Heart	none
 
 # While the groups below are mutex, replacing one effect with another is easy enough that other effects should be suggested anyway
-# MutexE	Snarl of the Timberwolf/Scowl of the Auk/Stiff Upper Lip/Patient Smile/Arched Eyebrow of the Archmage/Wizard Squint/Icy Glare/Wry Smile/Disco Leer/Disco Smirk/Suspicious Gaze/Knowing Smile	none
-# MutexE	Cautious Prowl/Prideful Strut/Leisurely Amblin'	none
-# MutexE	Pompadour/Cowlick/Fauxhawk/[1553]Slicked-Back Do	none
-# MutexE	Coffeesphere/Oilsphere/Chocolatesphere/Gristlesphere	none
-# MutexE	Song of Accompaniment/Song of Cockiness/Song of Fortune	none
-# MutexE	Spirit of Bacon Grease/Spirit of Cayenne/Spirit of Garlic/Spirit of Peppermint/Spirit of Wormwood	none
+MutexER	Snarl of the Timberwolf/Scowl of the Auk/Stiff Upper Lip/Patient Smile/Quiet Determination/Arched Eyebrow of the Archmage/Wizard Squint/Quiet Judgement/Icy Glare/Wry Smile/Disco Leer/Disco Smirk/Suspicious Gaze/Knowing Smile/Quiet Desperation/Inscrutable Gaze	none
+MutexER	Cautious Prowl/Prideful Strut/Leisurely Amblin'	none
+MutexER	Pompadour/Cowlick/Fauxhawk/[1553]Slicked-Back Do	none
+MutexER	Coffeesphere/Oilsphere/Chocolatesphere/Gristlesphere	none
+MutexER	Song of Accompaniment/Song of Cockiness/Song of Fortune/Song of Solitude/Song of Battle	none
+MutexER	Spirit of Bacon Grease/Spirit of Cayenne/Spirit of Garlic/Spirit of Peppermint/Spirit of Wormwood	none
+MutexER	Song of the North/Song of Slowness/Song of Starch/Song of Sauce/Song of Bravado	none
+MutexER	Let's Beat Up This Drunken Sailor/I'm Smarter Than a Drunken Sailor/Look At That Drunken Sailor Dance/Who's Going to Pay This Drunken Sailor?/Only Dogs Love a Drunken Sailor	none
 
 # Maximization categories section of modifiers.txt
 # These pseudo-items list the indirect benefits of certain classes of

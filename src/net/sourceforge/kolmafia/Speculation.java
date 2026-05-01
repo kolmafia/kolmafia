@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -132,6 +133,12 @@ public class Speculation {
 
   public void addEffect(AdventureResult effect) {
     if (!this.effects.contains(effect)) {
+      Collection<AdventureResult> replaceableMutex =
+          ModifierDatabase.getReplaceableMutexFor(effect);
+      if (!replaceableMutex.isEmpty()) {
+        this.effects.removeAll(replaceableMutex);
+      }
+
       this.effects.add(effect);
     }
   }

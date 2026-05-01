@@ -44,6 +44,7 @@ import net.sourceforge.kolmafia.modifiers.Modifier;
 import net.sourceforge.kolmafia.modifiers.ModifierList;
 import net.sourceforge.kolmafia.modifiers.ModifierList.ModifierValue;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
@@ -71,6 +72,10 @@ public class ModifierDatabase {
 
   /** List of slash-separated members of a mutex */
   private static final List<String> mutexes = new ArrayList<>();
+
+  /** Cache for which effects are automatically replaced when gaining another effect. */
+  private static final Map<AdventureResult, Collection<AdventureResult>> replaceableMutexEffects =
+      new HashMap<>();
 
   private static final HashSet<String> numericModifiers = new HashSet<>();
 
@@ -287,6 +292,19 @@ public class ModifierDatabase {
   // Returned set yields bitmaps keyed by names
   public static Set<Entry<String, Integer>> getSynergies() {
     return Collections.unmodifiableSet(synergies.entrySet());
+  }
+
+  public static Collection<AdventureResult> getReplaceableMutexFor(AdventureResult effect) {
+    if (!effect.isStatusEffect()) {
+      return Collections.emptyList();
+    }
+
+    Collection<AdventureResult> rv = replaceableMutexEffects.get(effect);
+    if (rv == null) {
+      return Collections.emptyList();
+    } else {
+      return rv;
+    }
   }
 
   // region: utility functions
@@ -1735,6 +1753,31 @@ public class ModifierDatabase {
     }
   }
 
+  private static void computeReplaceableEffectMutex(String name) {
+    String[] pieces = name.split("/");
+    if (pieces.length < 2) {
+      KoLmafia.updateDisplay(name + " contain less than 2 elements.");
+      return;
+    }
+    Set<AdventureResult> effects =
+        Arrays.stream(pieces)
+            .map(EffectDatabase::getEffectId)
+            .map(EffectPool::get)
+            .collect(Collectors.toUnmodifiableSet());
+    for (AdventureResult effect : effects) {
+      replaceableMutexEffects.put(effect, effects);
+    }
+  }
+
+  private static void computeReplaceableEffectMutexes() {
+    replaceableMutexEffects.clear();
+    for (IntOrString key : modifierStringsByName.getAll(ModifierType.MUTEX_ER).keySet()) {
+      if (!key.isString()) continue;
+      String name = key.getStringValue();
+      computeReplaceableEffectMutex(name);
+    }
+  }
+
   public static void resetModifiers() {
     // Don't reset any variables that are set up by loadAllModifiers, as subsequent calls to
     // resetModifiers then won't set them back up due to the if() guarding loadAllModifiers.
@@ -1750,5 +1793,6 @@ public class ModifierDatabase {
 
     computeSynergies();
     computeMutexes();
+    computeReplaceableEffectMutexes();
   }
 }
