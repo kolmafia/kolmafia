@@ -148,10 +148,10 @@ public class MoodOptionsPanel extends JPanel {
 
       this.typeSelect = new TypeComboBox();
 
-      Object[] names = EffectDatabase.values().toArray();
+      var effects = EffectDatabase.values();
 
-      for (int i = 0; i < names.length; ++i) {
-        this.EFFECT_MODEL.add(names[i].toString());
+      for (var effect : effects) {
+        this.EFFECT_MODEL.add(effect.name);
       }
 
       this.EFFECT_MODEL.sort();

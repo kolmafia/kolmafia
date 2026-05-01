@@ -34,7 +34,6 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class EffectDatabase {
   private static String[] canonicalNames = new String[0];
-  private static final Map<Integer, String> nameById = new TreeMap<>();
   private static final Map<String, int[]> effectIdSetByName = new TreeMap<>();
   private static final Map<Integer, EffectData> effectDataById = new HashMap<>();
   private static final Map<String, Integer> effectIdByDescription = new HashMap<>();
@@ -113,7 +112,6 @@ public class EffectDatabase {
       final String attributes,
       final String defaultAction) {
     String canonicalName = StringUtilities.getCanonicalName(name);
-    EffectDatabase.nameById.put(effectId, name);
     EffectDatabase.addIdToName(canonicalName, effectId);
     EffectData effectData = EffectDatabase.effectDataById.computeIfAbsent(effectId, id -> new EffectData());
     effectData.effectId = effectId;
@@ -278,7 +276,11 @@ public class EffectDatabase {
    * @return The name of the corresponding effect
    */
   public static final String getEffectName(final int effectId) {
-    return effectId == -1 ? null : EffectDatabase.nameById.get(effectId);
+    if (effectId == -1) {
+      return null;
+    }
+    var effect = EffectDatabase.effectDataById.get(effectId);
+    return effect == null ? null : effect.name;
   }
 
   public static final String getEffectName(final String descriptionId) {
@@ -305,10 +307,6 @@ public class EffectDatabase {
   public static final String getDescriptionId(final int effectId) {
     EffectData effectData = EffectDatabase.effectDataById.get(effectId);
     return effectData == null ? null : effectData.descriptionId;
-  }
-
-  static final Set<Entry<Integer, EffectData>> allEffects() {
-    return EffectDatabase.effectDataById.entrySet();
   }
 
   /**
@@ -431,16 +429,16 @@ public class EffectDatabase {
    *
    * @return The set of status effects keyed by Id
    */
-  public static final Set<Entry<Integer, String>> entrySet() {
-    return EffectDatabase.nameById.entrySet();
+  public static final Set<Entry<Integer, EffectData>> allEffects() {
+    return EffectDatabase.effectDataById.entrySet();
   }
 
-  public static final Collection<String> values() {
-    return EffectDatabase.nameById.values();
+  public static final Collection<EffectData> values() {
+    return EffectDatabase.effectDataById.values();
   }
 
   public static final Set<Integer> keys() {
-    return EffectDatabase.nameById.keySet();
+    return EffectDatabase.effectDataById.keySet();
   }
 
   /**
@@ -461,7 +459,7 @@ public class EffectDatabase {
     if (effectId == -1) {
       return false;
     }
-    return EffectDatabase.nameById.get(effectId) != null;
+    return EffectDatabase.effectDataById.get(effectId) != null;
   }
 
   /**
@@ -512,7 +510,6 @@ public class EffectDatabase {
     String canonicalName = StringUtilities.getCanonicalName(name);
     Integer id = effectId;
 
-    EffectDatabase.nameById.put(id, name);
     EffectDatabase.addIdToName(canonicalName, id);
     EffectData effectData = EffectDatabase.effectDataById.computeIfAbsent(id, key -> new EffectData());
     effectData.effectId = id;
@@ -693,7 +690,8 @@ public class EffectDatabase {
       return "poisoned";
     }
     int effectId = POISON_ID[level];
-    return EffectDatabase.nameById.get(effectId);
+    var effect = EffectDatabase.effectDataById.get(effectId);
+    return effect == null ? null : effect.name;
   }
 
   public static void parseVampireVintnerWineEffect(final String edesc, final int effectId) {
