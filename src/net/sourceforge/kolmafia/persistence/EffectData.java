@@ -1,35 +1,48 @@
 package net.sourceforge.kolmafia.persistence;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public final class EffectData {
+  public enum Quality {
+    UNKNOWN(""),
+    GOOD("good"),
+    NEUTRAL("neutral"),
+    BAD("bad");
+
+    private final String description;
+
+    Quality(final String description) {
+      this.description = description;
+    }
+
+    public String description() {
+      return this.description;
+    }
+
+    public static Quality fromDescription(final String description) {
+      return switch (description) {
+        case "good" -> GOOD;
+        case "bad" -> BAD;
+        default -> NEUTRAL;
+      };
+    }
+  }
+
   public int effectId;
   public String name;
   public String image;
   public String descriptionId;
-  public int quality;
-  public List<String> attributes;
+  public Quality quality = Quality.NEUTRAL;
+  public List<String> attributes = new LinkedList<>();
   public String actions;
 
   public void setQuality(final String quality) {
-    this.quality = parseQuality(quality);
-  }
-
-  private int parseQuality(final String quality) {
-    return switch (quality) {
-      case "good" -> EffectDatabase.GOOD;
-      case "bad" -> EffectDatabase.BAD;
-      default -> EffectDatabase.NEUTRAL;
-    };
+    this.quality = Quality.fromDescription(quality);
   }
 
   public String getQualityDescription() {
-    return switch (quality) {
-      case EffectDatabase.GOOD -> "good";
-      case EffectDatabase.BAD -> "bad";
-      case EffectDatabase.NEUTRAL -> "neutral";
-      default -> "";
-    };
+    return this.quality.description();
   }
 
   public String toString() {

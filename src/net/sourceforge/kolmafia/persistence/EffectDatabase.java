@@ -40,10 +40,6 @@ public class EffectDatabase {
 
   public static boolean newEffects = false;
 
-  public static final int GOOD = 0;
-  public static final int NEUTRAL = 1;
-  public static final int BAD = 2;
-
   static {
     EffectDatabase.reset();
   }
@@ -136,12 +132,12 @@ public class EffectDatabase {
     }
   }
 
-  public static final int getQuality(final int effectId) {
+  public static final EffectData.Quality getQuality(final int effectId) {
     if (effectId == -1) {
-      return -1;
+      return EffectData.Quality.UNKNOWN;
     }
     EffectData effectData = EffectDatabase.effectDataById.get(effectId);
-    return effectData == null ? -1 : effectData.quality;
+    return effectData == null ? EffectData.Quality.UNKNOWN : effectData.quality;
   }
 
   public static final String getQualityDescription(final int effectId) {
@@ -520,8 +516,6 @@ public class EffectDatabase {
     effectData.image = image;
     effectData.descriptionId = descId;
     EffectDatabase.effectIdByDescription.put(descId, id);
-    effectData.quality = EffectDatabase.NEUTRAL;
-    effectData.attributes = new LinkedList<>();
     if (defaultAction != null) {
       effectData.actions = defaultAction;
     }
