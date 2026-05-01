@@ -1648,6 +1648,12 @@ Item	lawnmower blade	Weapon Damage: +15, Last Available: "2010-04"
 Item	lead pipe	Maximum HP: +50, Muscle Percent: +100, Lasts Until Rollover, Last Available: "2015-07"
 # lead yo-yo
 Item	leechknife	Maximum HP: +10, Maximum MP: +5, HP Regen Min: 4, HP Regen Max: 6, MP Regen Min: 4, MP Regen Max: 6
+# legendary pasta wand: Very Accurate!
+# legendary pasta wand: Summon Legendary Noodles
+# legendary pasta wand: Cook up to 5 items per day without using an Adventure
+# legendary pasta wand: +1 Pasta Thrall Experience (Pastamancer Only)
+# legendary pasta wand: Pasta Thralls Go Up to 11 (Pastamancer Only)
+Item	legendary pasta wand	Spooky Damage: +5, Stench Damage: +5, Hot Damage: +5, Cold Damage: +5, Sleaze Damage: +5, Spell Damage: +10, Spell Damage Percent: +50, Spell Critical Percent: +15, Single Equip, Last Available: "2026-05"
 # legendary seal-clubbing club: Increase Fury Capacity and Generation (Seal Clubbers Only)
 Item	legendary seal-clubbing club	Muscle Percent: +50, Weapon Damage: [10*L], Initiative: +50, Attacks Can't Miss, Last Available: "2026-01", Conditional Skill (Equipped): "Club 'Em Across the Battlefield", Conditional Skill (Equipped): "Club 'Em Into Next Week", Conditional Skill (Equipped): "Club 'Em Back in Time"
 # licorice whip: Candiful Crits
@@ -7092,6 +7098,13 @@ Effect	Latency	Muscle: [-3*pref(sourceAgentsDefeated)], Mysticality: [-3*pref(so
 Effect	Latently Energized	MP Regen Min: 20, MP Regen Max: 30
 Effect	Leash of Linguini	Familiar Weight: +5
 Effect	Leaving Nothing to the Imagination	Avoid Attack: 1
+Effect	Legendary Bloody Potato Bits	HP Regen Min: 9, HP Regen Max: 15
+Effect	Legendary Macaroni Coating	Muscle: +30
+Effect	Legendary Pasta Eyeball	Meat Drop: +30
+Effect	Legendary Penne Fedora	Moxie: +30
+Effect	Legendary Slinking Noodle Glob	Maximum MP: +45
+Effect	Legendary Spice Haze	Item Drop: +15
+Effect	Legendary Whispering Strands	Initiative: +30
 Effect	Leisurely Amblin'	Meat Drop: +100
 Effect	Lemon Enlightenment	Mysticality Percent: +10, Spell Damage Percent: +15
 Effect	Lemony Goodness	Muscle: +10, Mysticality: +10, Moxie: +10
@@ -13808,6 +13821,7 @@ Item	lecherous stone	Last Available: "2012-12"
 Item	LED block	Last Available: "2007-12"
 Item	leftover Crimbo rations	Last Available: "2009-12"
 # leftovers of indeterminate origin: Deals 8-10 <font color=green>Stench Damage</font>
+Item	legendary noodles	Last Available: "2026-05"
 Item	lemony scales	Last Available: "2014-12"
 Item	Lepardner	Last Available: "2018-03"
 Item	Leprecondo	Last Available: "2025-03"
@@ -14332,6 +14346,7 @@ Item	Party Planning on a Budget	Skill: "Budget Conscious", Last Available: "2018
 Item	party pup	Last Available: "2018-09"
 Item	Party Tattoo&trade; gift certificate	Last Available: "2018-09"
 Item	passed-out psychedelic bear	Free Pull, Last Available: "2009-10"
+Item	pasta wand loot box	Free Pull, Last Available: "2026-05"
 Item	Pastaco shell	Last Available: "2014-05"
 # patchouli incense stick: Weakens enemies a little bit
 Item	patchouli incense stick	Effect: "Far Out", Effect Duration: 5, Effect: "Embarrassed", Effect Duration: 5
