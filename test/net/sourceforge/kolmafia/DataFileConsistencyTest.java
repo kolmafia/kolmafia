@@ -501,7 +501,7 @@ public class DataFileConsistencyTest {
                 }
               }
             }
-            case "MutexE" -> {
+            case "MutexE", "MutexER" -> {
               assertThat(name, containsString("/"));
               for (var effect : name.split("/")) {
                 var id = EffectDatabase.getEffectId(effect, true);

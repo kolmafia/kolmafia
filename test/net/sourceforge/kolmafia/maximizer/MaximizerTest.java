@@ -20,6 +20,7 @@ import static internal.helpers.Player.withItemInStorage;
 import static internal.helpers.Player.withLocation;
 import static internal.helpers.Player.withMCD;
 import static internal.helpers.Player.withMeat;
+import static internal.helpers.Player.withMoxie;
 import static internal.helpers.Player.withMuscle;
 import static internal.helpers.Player.withNotAllowedInStandard;
 import static internal.helpers.Player.withOverrideModifiers;
@@ -30,6 +31,7 @@ import static internal.helpers.Player.withSign;
 import static internal.helpers.Player.withSkill;
 import static internal.helpers.Player.withStats;
 import static internal.matchers.Maximizer.recommends;
+import static internal.matchers.Maximizer.recommendsEffect;
 import static internal.matchers.Maximizer.recommendsSlot;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
@@ -1161,6 +1163,74 @@ public class MaximizerTest {
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.ACCESSORY1, "time halo")));
         assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.ACCESSORY2))));
         assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.ACCESSORY3))));
+      }
+    }
+  }
+
+  @Nested
+  class ReplaceableMutex {
+    @Test
+    public void suggestBetterFacialExpression() {
+      var cleanups =
+          new Cleanups(
+              withMoxie(100),
+              withEffect("Disco Smirk"),
+              withSkill("Disco Smirk"),
+              withSkill("Quiet Desperation"));
+
+      try (cleanups) {
+        assertTrue(maximize("moxie"));
+
+        assertThat(getBoosts(), hasItem(recommendsEffect("Quiet Desperation")));
+      }
+    }
+
+    @Test
+    public void doNotSuggestWorseFacialExpression() {
+      var cleanups =
+          new Cleanups(
+              withMoxie(100),
+              withEffect("Quiet Desperation"),
+              withSkill("Disco Smirk"),
+              withSkill("Quiet Desperation"));
+
+      try (cleanups) {
+        assertTrue(maximize("moxie"));
+
+        assertThat(getBoosts(), not(hasItem(recommendsEffect("Disco Smirk"))));
+      }
+    }
+
+    @Test
+    public void suggestBetterShanty() {
+      var cleanups =
+          new Cleanups(
+              withFamiliar(FamiliarPool.BABY_GRAVY_FAIRY, 400),
+              withEffect("Only Dogs Love a Drunken Sailor"),
+              withSkill("Only Dogs Love a Drunken Sailor"),
+              withSkill("Who's Going to Pay This Drunken Sailor?"));
+
+      try (cleanups) {
+        assertTrue(maximize("item"));
+
+        assertThat(
+            getBoosts(), hasItem(recommendsEffect("Who's Going to Pay This Drunken Sailor?")));
+      }
+    }
+
+    @Test
+    public void doNotSuggestWorseShanty() {
+      var cleanups =
+          new Cleanups(
+              withFamiliar(FamiliarPool.BABY_GRAVY_FAIRY, 400),
+              withEffect("Who's Going to Pay This Drunken Sailor?"),
+              withSkill("Only Dogs Love a Drunken Sailor"),
+              withSkill("Who's Going to Pay This Drunken Sailor?"));
+
+      try (cleanups) {
+        assertTrue(maximize("item"));
+
+        assertThat(getBoosts(), not(hasItem(recommendsEffect("Only Dogs Love a Drunken Sailor"))));
       }
     }
   }
