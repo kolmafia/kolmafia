@@ -14,7 +14,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
@@ -248,13 +247,6 @@ public class EffectDatabase {
     EffectData effectData =
         EffectDatabase.effectDataById.computeIfAbsent(effectId, id -> new EffectData());
     effectData.setActions(actions);
-  }
-
-  public static final Set<Entry<Integer, String>> actionEntrySet() {
-    return EffectDatabase.effectDataById.entrySet().stream()
-        .filter(entry -> entry.getValue().getActions() != null)
-        .collect(Collectors.toMap(Entry::getKey, entry -> entry.getValue().getActions()))
-        .entrySet();
   }
 
   public static final String getActionNote(final int effectId) {

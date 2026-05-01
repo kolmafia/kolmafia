@@ -21,6 +21,7 @@ import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.EffectData;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
@@ -48,10 +49,12 @@ public class UneffectRequest extends GenericRequest {
   public static final Map<String, String> EFFECT_SKILL = new HashMap<>();
 
   static {
-    for (Entry<Integer, String> entry : EffectDatabase.actionEntrySet()) {
-      if (entry.getValue().startsWith("cast 1")) {
-        String effectName = EffectDatabase.getEffectName(entry.getKey());
-        String skillName = entry.getValue().substring(7);
+    for (Entry<Integer, EffectData> effect : EffectDatabase.allEffects()) {
+      var action = effect.getValue().getActions();
+      if (action == null) continue;
+      if (action.startsWith("cast 1")) {
+        String effectName = EffectDatabase.getEffectName(effect.getKey());
+        String skillName = action.substring(7);
         if (skillName.contains("|")) {
           skillName = skillName.substring(0, skillName.indexOf("|"));
         }
