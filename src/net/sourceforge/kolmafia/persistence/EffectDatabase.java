@@ -487,8 +487,20 @@ public class EffectDatabase {
     Integer id = effectId;
 
     EffectDatabase.addIdToName(canonicalName, id);
+    // if defaultAction is null, we want to keep the existing action
+    var existing = EffectDatabase.getEffectData(id);
+    if (existing == null) {
+      existing = new EffectData();
+    }
     EffectData effectData =
-        new EffectData(id, name, image, descId, Quality.NEUTRAL, new LinkedList<>(), defaultAction);
+        new EffectData(
+            id,
+            name,
+            image,
+            descId,
+            Quality.NEUTRAL,
+            existing.getAttributes(),
+            defaultAction == null ? existing.getActions() : defaultAction);
     EffectDatabase.effectDataById.put(id, effectData);
     EffectDatabase.effectIdByDescription.put(descId, id);
 
