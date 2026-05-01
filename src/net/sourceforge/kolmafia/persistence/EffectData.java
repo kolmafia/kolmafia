@@ -36,44 +36,61 @@ public final class EffectData {
   private List<String> attributes = new LinkedList<>();
   private String actions;
 
-  public int getEffectId() {
-    return this.effectId;
+  public EffectData() {}
+
+  public EffectData(
+      final int effectId,
+      final String name,
+      final String image,
+      final String descriptionId,
+      final String quality,
+      final List<String> attributes,
+      final String actions) {
+    this(
+        effectId,
+        name,
+        image,
+        descriptionId,
+        Quality.fromDescription(quality),
+        attributes,
+        actions);
   }
 
-  public void setEffectId(final int effectId) {
+  public EffectData(
+      final int effectId,
+      final String name,
+      final String image,
+      final String descriptionId,
+      final Quality quality,
+      final List<String> attributes,
+      final String actions) {
     this.effectId = effectId;
+    this.name = name;
+    this.image = image;
+    this.descriptionId = descriptionId;
+    this.quality = quality;
+    this.attributes = attributes;
+    this.actions = actions;
+  }
+
+  public int getEffectId() {
+    return this.effectId;
   }
 
   public String getName() {
     return this.name;
   }
 
-  public void setName(final String name) {
-    this.name = name;
-  }
-
   public String getImage() {
     return this.image;
-  }
-
-  public void setImage(final String image) {
-    this.image = image;
   }
 
   public String getDescriptionId() {
     return this.descriptionId;
   }
 
-  public void setDescriptionId(final String descriptionId) {
-    this.descriptionId = descriptionId;
-  }
-
   public Quality getQuality() {
     return this.quality;
-  }
-
-  public void setQuality(final Quality quality) {
-    this.quality = quality;
   }
 
   public List<String> getAttributes() {
@@ -90,10 +107,6 @@ public final class EffectData {
 
   public void setActions(final String actions) {
     this.actions = actions;
-  }
-
-  public void setQuality(final String quality) {
-    this.quality = Quality.fromDescription(quality);
   }
 
   public String getQualityDescription() {

@@ -109,27 +109,18 @@ public class EffectDatabase {
       final String defaultAction) {
     String canonicalName = StringUtilities.getCanonicalName(name);
     EffectDatabase.addIdToName(canonicalName, effectId);
-    EffectData effectData =
-        EffectDatabase.effectDataById.computeIfAbsent(effectId, id -> new EffectData());
-    effectData.setEffectId(effectId);
-    effectData.setName(name);
-    effectData.setImage(image);
-
+    String knownDescriptionId = null;
     if (descriptionId != null && !descriptionId.equals("")) {
-      effectData.setDescriptionId(descriptionId);
+      knownDescriptionId = descriptionId;
       EffectDatabase.effectIdByDescription.put(descriptionId, effectId);
     }
-
-    effectData.setQuality(quality);
 
     String[] list = StringUtilities.splitByComma(attributes);
     List<String> attrs = new LinkedList<>(Arrays.asList(list));
     attrs.remove("none");
-    effectData.setAttributes(attrs);
-
-    if (defaultAction != null) {
-      effectData.setActions(defaultAction);
-    }
+    EffectData effectData =
+        new EffectData(effectId, name, image, knownDescriptionId, quality, attrs, defaultAction);
+    EffectDatabase.effectDataById.put(effectId, effectData);
   }
 
   public static final EffectData getEffectData(final int effectId) {
@@ -497,15 +488,9 @@ public class EffectDatabase {
 
     EffectDatabase.addIdToName(canonicalName, id);
     EffectData effectData =
-        EffectDatabase.effectDataById.computeIfAbsent(id, key -> new EffectData());
-    effectData.setEffectId(id);
-    effectData.setName(name);
-    effectData.setImage(image);
-    effectData.setDescriptionId(descId);
+        new EffectData(id, name, image, descId, Quality.NEUTRAL, new LinkedList<>(), defaultAction);
+    EffectDatabase.effectDataById.put(id, effectData);
     EffectDatabase.effectIdByDescription.put(descId, id);
-    if (defaultAction != null) {
-      effectData.setActions(defaultAction);
-    }
 
     String printMe;
 
