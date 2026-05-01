@@ -119,7 +119,7 @@ public final class EffectData {
     String image = this.image == null ? "" : this.image;
     String descriptionId = this.descriptionId == null ? "" : this.descriptionId;
 
-    String attrs = (attributes == null) ? "none" : String.join(",", attributes);
+    String attrs = (attributes == null || attributes.isEmpty()) ? "none" : String.join(",", attributes);
 
     String effectString =
         effectId
