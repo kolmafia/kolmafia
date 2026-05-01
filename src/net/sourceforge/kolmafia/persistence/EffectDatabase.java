@@ -51,14 +51,6 @@ public class EffectDatabase {
 
   private EffectDatabase() {}
 
-  private static class EffectData {
-    private String image;
-    private String descriptionId;
-    private int quality;
-    private List<String> attributes;
-    private String defaultAction;
-  }
-
   public static void reset() {
     EffectDatabase.newEffects = false;
 
@@ -331,11 +323,8 @@ public class EffectDatabase {
     return effectData == null ? null : effectData.descriptionId;
   }
 
-  static final Set<Integer> descriptionIdKeySet() {
-    return EffectDatabase.effectDataById.entrySet().stream()
-        .filter(entry -> entry.getValue().descriptionId != null)
-        .map(Entry::getKey)
-        .collect(Collectors.toSet());
+  static final Set<Entry<Integer, EffectData>> allEffects() {
+    return EffectDatabase.effectDataById.entrySet();
   }
 
   /**

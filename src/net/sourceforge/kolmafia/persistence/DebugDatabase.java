@@ -1772,7 +1772,10 @@ public class DebugDatabase {
   }
 
   private static void checkEffects(final PrintStream report) {
-    Set<Integer> keys = EffectDatabase.descriptionIdKeySet();
+    Set<Integer> keys = EffectDatabase.allEffects().stream()
+      .filter(entry -> entry.getValue().descriptionId != null)
+      .map(Entry::getKey)
+      .collect(Collectors.toSet());
 
     for (Integer key : keys) {
       int id = key;
