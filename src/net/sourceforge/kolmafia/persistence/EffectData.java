@@ -5,9 +5,8 @@ import java.util.List;
 
 public final class EffectData {
   public enum Quality {
-    UNKNOWN(""),
-    GOOD("good"),
     NEUTRAL("neutral"),
+    GOOD("good"),
     BAD("bad");
 
     private final String description;

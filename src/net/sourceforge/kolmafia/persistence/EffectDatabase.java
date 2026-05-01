@@ -25,6 +25,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.persistence.EffectData.Quality;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.textui.command.UseItemCommand;
 import net.sourceforge.kolmafia.textui.command.UseSkillCommand;
@@ -132,12 +133,12 @@ public class EffectDatabase {
     }
   }
 
-  public static final EffectData.Quality getQuality(final int effectId) {
+  public static final Quality getQuality(final int effectId) {
     if (effectId == -1) {
-      return EffectData.Quality.UNKNOWN;
+      return Quality.NEUTRAL;
     }
     EffectData effectData = EffectDatabase.effectDataById.get(effectId);
-    return effectData == null ? EffectData.Quality.UNKNOWN : effectData.quality;
+    return effectData == null ? Quality.NEUTRAL : effectData.quality;
   }
 
   public static final String getQualityDescription(final int effectId) {
