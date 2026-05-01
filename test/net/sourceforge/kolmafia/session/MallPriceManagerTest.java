@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.session;
 
 import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withDay;
 import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withMeat;
 import static internal.helpers.Player.withNextResponse;
@@ -20,6 +21,9 @@ import internal.helpers.Cleanups;
 import internal.network.FakeHttpClientBuilder;
 import internal.network.FakeHttpResponse;
 import java.time.Clock;
+import java.time.LocalDateTime;
+import java.time.Month;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -30,6 +34,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
+import net.sourceforge.kolmafia.persistence.DateTimeManager;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -845,5 +850,29 @@ public class MallPriceManagerTest {
     assertEquals("Badly Stocked", results.get(3).getShopName());
     // This store has the most stock, but is the most expensive
     assertEquals("High Prices", results.get(4).getShopName());
+  }
+
+  @Test
+  public void canUseHydratedSameDayHistoricalPrice() {
+    var builder = new FakeHttpClientBuilder();
+    var client = builder.client;
+
+    int itemId = ItemPool.SEAL_CLUB;
+    // setup timestamps
+    // now is 2025-02-02T18:00:00
+    // then is 2025-02-02T05:00:00
+    var then = LocalDateTime.of(2025, Month.FEBRUARY, 2, 5, 0);
+    var zdt = ZonedDateTime.of(then, DateTimeManager.ROLLOVER);
+
+    try (var cleanups =
+        new Cleanups(
+            mockClock(), withHttpClientBuilder(builder), withDay(2025, Month.FEBRUARY, 2, 18, 0))) {
+      MallPriceManager.reset();
+      MallPriceManager.cachePriceIfFromCurrentRolloverDay(itemId, 1234, zdt.toEpochSecond());
+
+      long price = MallPriceManager.getMallPrice(itemId);
+      assertEquals(1234, price);
+      assertEquals(0, client.getRequests().size());
+    }
   }
 }
