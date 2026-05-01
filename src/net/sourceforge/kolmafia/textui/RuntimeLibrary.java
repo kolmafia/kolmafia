@@ -106,6 +106,7 @@ import net.sourceforge.kolmafia.persistence.CandyDatabase;
 import net.sourceforge.kolmafia.persistence.CandyDatabase.Candy;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.EffectData;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FactDatabase;
@@ -11419,7 +11420,7 @@ public abstract class RuntimeLibrary {
         new ArrayList<>(
             IntStream.range(1, 2991)
                 .filter(i -> EffectDatabase.getEffectName(i) != null)
-                .filter(i -> EffectDatabase.getQuality(i) == EffectDatabase.GOOD)
+                .filter(i -> EffectDatabase.getQuality(i) == EffectData.Quality.GOOD)
                 .filter(i -> !EffectDatabase.hasAttribute(i, "nohookah") || i == EffectPool.FISHY)
                 .filter(i -> !EffectDatabase.hasAttribute(i, "notcrs"))
                 .boxed()

@@ -8,6 +8,7 @@ import javax.swing.ListSelectionModel;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.persistence.EffectData;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
@@ -23,8 +24,8 @@ import net.sourceforge.kolmafia.utilities.LowerCaseEntry;
 public class DatabaseFrame extends GenericFrame {
   public static final LockableListModel<LowerCaseEntry<Integer, String>> allItems =
       LowerCaseEntry.createListModel(ItemDatabase.entrySet());
-  public static final LockableListModel<LowerCaseEntry<Integer, String>> allEffects =
-      LowerCaseEntry.createListModel(EffectDatabase.entrySet());
+  public static final LockableListModel<LowerCaseEntry<Integer, EffectData>> allEffects =
+      LowerCaseEntry.createListModel(EffectDatabase.allEffects());
   public static final LockableListModel<LowerCaseEntry<Integer, String>> allSkills =
       LowerCaseEntry.createListModel(SkillDatabase.entrySet());
   public static final LockableListModel<LowerCaseEntry<Integer, String>> allFamiliars =
@@ -147,13 +148,13 @@ public class DatabaseFrame extends GenericFrame {
     }
   }
 
-  private static class ExamineEffectsPanel extends ItemLookupPanel<String> {
+  private static class ExamineEffectsPanel extends ItemLookupPanel<EffectData> {
     public ExamineEffectsPanel() {
       super(DatabaseFrame.allEffects, "effect", "whicheffect");
     }
 
     @Override
-    public String getId(final Entry<Integer, String> e) {
+    public String getId(final Entry<Integer, EffectData> e) {
       return EffectDatabase.getDescriptionId(e.getKey().intValue());
     }
   }
