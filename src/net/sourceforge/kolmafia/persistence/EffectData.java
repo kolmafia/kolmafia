@@ -47,13 +47,8 @@ public final class EffectData {
   public String toString() {
     // The effect file can have 3, 4, or 5 fields. "image" must be
     // present, even if we don't have the actual file name.
-    if (image == null) {
-      image = "";
-    }
-
-    if (descriptionId == null) {
-      descriptionId = "";
-    }
+    String image = this.image == null ? "" : this.image;
+    String descriptionId = this.descriptionId == null ? "" : this.descriptionId;
 
     String attrs = (attributes == null) ? "none" : String.join(",", attributes);
 
