@@ -151,7 +151,7 @@ public class MoodOptionsPanel extends JPanel {
       var effects = EffectDatabase.values();
 
       for (var effect : effects) {
-        this.EFFECT_MODEL.add(effect.name);
+        this.EFFECT_MODEL.add(effect.getName());
       }
 
       this.EFFECT_MODEL.sort();

@@ -1356,7 +1356,7 @@ public class ModifierDatabase {
     Set<String> effects = new TreeSet<>();
 
     for (Entry<Integer, EffectData> entry : EffectDatabase.allEffects()) {
-      String name = entry.getValue().name;
+      String name = entry.getValue().getName();
       // Skip effect which is also an item
       effects.add(name);
     }

@@ -1774,7 +1774,7 @@ public class DebugDatabase {
   private static void checkEffects(final PrintStream report) {
     Set<Integer> keys =
         EffectDatabase.allEffects().stream()
-            .filter(entry -> entry.getValue().descriptionId != null)
+            .filter(entry -> entry.getValue().getDescriptionId() != null)
             .map(Entry::getKey)
             .collect(Collectors.toSet());
 

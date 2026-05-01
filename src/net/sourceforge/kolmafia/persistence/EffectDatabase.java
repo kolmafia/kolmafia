@@ -112,12 +112,12 @@ public class EffectDatabase {
     EffectDatabase.addIdToName(canonicalName, effectId);
     EffectData effectData =
         EffectDatabase.effectDataById.computeIfAbsent(effectId, id -> new EffectData());
-    effectData.effectId = effectId;
-    effectData.name = name;
-    effectData.image = image;
+    effectData.setEffectId(effectId);
+    effectData.setName(name);
+    effectData.setImage(image);
 
     if (descriptionId != null && !descriptionId.equals("")) {
-      effectData.descriptionId = descriptionId;
+      effectData.setDescriptionId(descriptionId);
       EffectDatabase.effectIdByDescription.put(descriptionId, effectId);
     }
 
@@ -126,10 +126,10 @@ public class EffectDatabase {
     String[] list = StringUtilities.splitByComma(attributes);
     List<String> attrs = new LinkedList<>(Arrays.asList(list));
     attrs.remove("none");
-    effectData.attributes = attrs;
+    effectData.setAttributes(attrs);
 
     if (defaultAction != null) {
-      effectData.actions = defaultAction;
+      effectData.setActions(defaultAction);
     }
   }
 
@@ -138,7 +138,7 @@ public class EffectDatabase {
       return Quality.NEUTRAL;
     }
     EffectData effectData = EffectDatabase.effectDataById.get(effectId);
-    return effectData == null ? Quality.NEUTRAL : effectData.quality;
+    return effectData == null ? Quality.NEUTRAL : effectData.getQuality();
   }
 
   public static final String getQualityDescription(final int effectId) {
@@ -148,7 +148,7 @@ public class EffectDatabase {
 
   public static final List<String> getEffectAttributes(final int effectId) {
     EffectData effectData = EffectDatabase.effectDataById.get(effectId);
-    return effectData == null ? null : effectData.attributes;
+    return effectData == null ? null : effectData.getAttributes();
   }
 
   public static final boolean hasAttribute(final String name, final String attribute) {
@@ -237,7 +237,7 @@ public class EffectDatabase {
 
   public static final String getActions(final Integer effectId) {
     EffectData effectData = EffectDatabase.effectDataById.get(effectId);
-    return effectData == null ? null : effectData.actions;
+    return effectData == null ? null : effectData.getActions();
   }
 
   public static final void setActions(final int effectId, final String actions) {
@@ -247,13 +247,13 @@ public class EffectDatabase {
   public static final void setActions(final Integer effectId, final String actions) {
     EffectData effectData =
         EffectDatabase.effectDataById.computeIfAbsent(effectId, id -> new EffectData());
-    effectData.actions = actions;
+    effectData.setActions(actions);
   }
 
   public static final Set<Entry<Integer, String>> actionEntrySet() {
     return EffectDatabase.effectDataById.entrySet().stream()
-        .filter(entry -> entry.getValue().actions != null)
-        .collect(Collectors.toMap(Entry::getKey, entry -> entry.getValue().actions))
+        .filter(entry -> entry.getValue().getActions() != null)
+        .collect(Collectors.toMap(Entry::getKey, entry -> entry.getValue().getActions()))
         .entrySet();
   }
 
@@ -279,7 +279,7 @@ public class EffectDatabase {
       return null;
     }
     var effect = EffectDatabase.effectDataById.get(effectId);
-    return effect == null ? null : effect.name;
+    return effect == null ? null : effect.getName();
   }
 
   public static final String getEffectName(final String descriptionId) {
@@ -305,7 +305,7 @@ public class EffectDatabase {
 
   public static final String getDescriptionId(final int effectId) {
     EffectData effectData = EffectDatabase.effectDataById.get(effectId);
-    return effectData == null ? null : effectData.descriptionId;
+    return effectData == null ? null : effectData.getDescriptionId();
   }
 
   /**
@@ -412,7 +412,7 @@ public class EffectDatabase {
    */
   public static final String getImageName(final int effectId) {
     EffectData effectData = effectId == -1 ? null : EffectDatabase.effectDataById.get(effectId);
-    String imageName = effectData == null ? null : effectData.image;
+    String imageName = effectData == null ? null : effectData.getImage();
     return imageName == null ? "" : imageName;
   }
 
@@ -512,13 +512,13 @@ public class EffectDatabase {
     EffectDatabase.addIdToName(canonicalName, id);
     EffectData effectData =
         EffectDatabase.effectDataById.computeIfAbsent(id, key -> new EffectData());
-    effectData.effectId = id;
-    effectData.name = name;
-    effectData.image = image;
-    effectData.descriptionId = descId;
+    effectData.setEffectId(id);
+    effectData.setName(name);
+    effectData.setImage(image);
+    effectData.setDescriptionId(descId);
     EffectDatabase.effectIdByDescription.put(descId, id);
     if (defaultAction != null) {
-      effectData.actions = defaultAction;
+      effectData.setActions(defaultAction);
     }
 
     String printMe;
@@ -687,7 +687,7 @@ public class EffectDatabase {
     }
     int effectId = POISON_ID[level];
     var effect = EffectDatabase.effectDataById.get(effectId);
-    return effect == null ? null : effect.name;
+    return effect == null ? null : effect.getName();
   }
 
   public static void parseVampireVintnerWineEffect(final String edesc, final int effectId) {
