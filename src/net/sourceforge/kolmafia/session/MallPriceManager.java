@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.session;
 
 import java.time.Clock;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -19,6 +20,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.DateTimeManager;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
@@ -28,6 +30,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.MallPurchaseRequest;
 import net.sourceforge.kolmafia.request.MallSearchRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
+import net.sourceforge.kolmafia.utilities.Statics;
 
 public abstract class MallPriceManager {
 
@@ -512,6 +515,22 @@ public abstract class MallPriceManager {
     return price;
   }
 
+  private static boolean isFromCurrentRolloverDay(long timestamp) {
+    if (timestamp <= 0) {
+      return false;
+    }
+
+    var now = Statics.DateTimeManager.getRolloverDateTime().toLocalDate();
+    var then = Instant.ofEpochSecond(timestamp).atZone(DateTimeManager.ROLLOVER).toLocalDate();
+    return then.equals(now);
+  }
+
+  public static void cachePriceIfFromCurrentRolloverDay(int itemId, long price, long timestamp) {
+    if (price > 0 && isFromCurrentRolloverDay(timestamp)) {
+      MallPriceManager.mallPrices.putIfAbsent(itemId, price);
+    }
+  }
+
   // Get the up-to-date "nth cheapest" mall price from cached local mall searches.
   //
   // The "count" field of the AdventureResult is meaningful; if it is no greater than
@@ -688,40 +707,19 @@ public abstract class MallPriceManager {
     int count = 0;
 
     try {
-      // Iterate over results and handle by item
-      int itemId = -1;
-      List<PurchaseRequest> itemResults = null;
+      Map<Integer, List<PurchaseRequest>> itemResults =
+          results.stream().collect(Collectors.groupingBy(PurchaseRequest::getItemId));
 
-      for (PurchaseRequest pr : results) {
-        if (pr instanceof CoinMasterPurchaseRequest) {
-          continue;
-        }
-
-        int newItemId = pr.getItemId();
-        if (itemId != newItemId) {
-          // Handle previous item, if any
-          if (itemResults != null) {
-            MallPriceManager.flushCache(itemId);
-            Collections.sort(itemResults, PurchaseRequest.priceComparator);
-            MallPriceManager.updateMallPrice(itemId, itemResults, true);
-            MallPriceManager.mallSearches.put(itemId, itemResults);
-            ++count;
-          }
-
-          // Setup for new item
-          itemId = newItemId;
-          itemResults = new ArrayList<>();
-        }
-
-        itemResults.add(pr);
-      }
-
-      // Handle final item
-      if (itemResults != null) {
+      for (var entry : itemResults.entrySet()) {
+        var itemId = entry.getKey();
+        var prs =
+            entry.getValue().stream()
+                .filter(x -> !(x instanceof CoinMasterPurchaseRequest))
+                .sorted(PurchaseRequest.priceComparator)
+                .toList();
         MallPriceManager.flushCache(itemId);
-        Collections.sort(itemResults, PurchaseRequest.priceComparator);
-        MallPriceManager.updateMallPrice(itemId, itemResults, true);
-        MallPriceManager.mallSearches.put(itemId, itemResults);
+        MallPriceManager.updateMallPrice(itemId, prs, true);
+        MallPriceManager.mallSearches.put(itemId, prs);
         ++count;
       }
     } finally {

@@ -535,8 +535,8 @@ public class TCRSDatabase {
   public static boolean applyModifiers() {
     // Remove food/booze/spleen/potion sources for effects
     StringBuilder buffer = new StringBuilder();
-    for (Integer id : EffectDatabase.keys()) {
-      String actions = EffectDatabase.getActions(id);
+    for (var effect : EffectDatabase.values()) {
+      String actions = effect.getActions();
       if (actions == null || actions.startsWith("#")) {
         continue;
       }
@@ -559,7 +559,7 @@ public class TCRSDatabase {
           }
           buffer.append(action);
         }
-        EffectDatabase.setActions(id, buffer.isEmpty() ? null : buffer.toString());
+        effect.setActions(buffer.isEmpty() ? null : buffer.toString());
       }
     }
 
@@ -669,6 +669,7 @@ public class TCRSDatabase {
     if (effectId == -1) {
       return;
     }
+    var effect = EffectDatabase.getEffectData(effectId);
     String verb =
         switch (usage) {
           case EAT -> "eat ";
@@ -676,7 +677,7 @@ public class TCRSDatabase {
           case SPLEEN -> "chew ";
           default -> "use ";
         };
-    String actions = EffectDatabase.getActions(effectId);
+    String actions = effect.getActions();
     boolean added = false;
     StringBuilder buffer = new StringBuilder();
     if (actions != null) {
@@ -716,7 +717,7 @@ public class TCRSDatabase {
       buffer.append("1 ");
       buffer.append(itemName);
     }
-    EffectDatabase.setActions(effectId, buffer.toString());
+    effect.setActions(buffer.toString());
   }
 
   private static void applyConsumableModifiers(

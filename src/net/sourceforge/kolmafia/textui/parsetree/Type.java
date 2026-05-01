@@ -392,7 +392,7 @@ public class Type extends Symbol {
       case CLASS -> this.addValues(list, AscensionClass.allClasses());
       case STAT -> this.addValues(list, DataTypes.STAT_ARRAY, 0, 3);
       case SKILL -> this.addValues(list, SkillDatabase.entrySet());
-      case EFFECT -> this.addValues(list, EffectDatabase.entrySet());
+      case EFFECT -> this.addValues(list, EffectDatabase.allEffects());
       case FAMILIAR -> this.addValues(list, FamiliarDatabase.entrySet());
       case SLOT -> this.addValues(list, SlotSet.NAMES);
       case MONSTER -> this.addValues(list, MonsterDatabase.valueSet());

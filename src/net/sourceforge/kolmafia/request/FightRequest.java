@@ -58,6 +58,7 @@ import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.DailyLimitDatabase.DailyLimitType;
+import net.sourceforge.kolmafia.persistence.EffectData;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FactDatabase;
@@ -6867,12 +6868,12 @@ public class FightRequest extends GenericRequest {
 
         if (status.hookah) {
           String message = null;
-          int quality = EffectDatabase.getQuality(effectId);
+          var quality = EffectDatabase.getQuality(effectId);
 
           if (EffectDatabase.hasAttribute(effectId, "nohookah")) {
             message =
                 result.getName() + " is available from the hookah, but KoLmafia thought it was not";
-          } else if (quality != EffectDatabase.GOOD) {
+          } else if (quality != EffectData.Quality.GOOD) {
             message =
                 result.getName()
                     + " is good quality, but KoLmafia thought it was "

@@ -1373,8 +1373,8 @@ public class ModifierDatabase {
     // Make a map of status effects
     Set<String> effects = new TreeSet<>();
 
-    for (Entry<Integer, String> entry : EffectDatabase.entrySet()) {
-      String name = entry.getValue();
+    for (Entry<Integer, EffectData> entry : EffectDatabase.allEffects()) {
+      String name = entry.getValue().getName();
       // Skip effect which is also an item
       effects.add(name);
     }
