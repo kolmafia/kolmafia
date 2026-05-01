@@ -133,6 +133,8 @@ public class EffectDatabase {
     EffectDatabase.nameById.put(effectId, name);
     EffectDatabase.addIdToName(canonicalName, effectId);
     EffectData effectData = EffectDatabase.effectDataById.computeIfAbsent(effectId, id -> new EffectData());
+    effectData.itemId = effectId;
+    effectData.name = name;
     effectData.image = image;
     effectData.descriptionId = null;
     effectData.defaultAction = null;
@@ -531,6 +533,8 @@ public class EffectDatabase {
     EffectDatabase.nameById.put(id, name);
     EffectDatabase.addIdToName(canonicalName, id);
     EffectData effectData = EffectDatabase.effectDataById.computeIfAbsent(id, key -> new EffectData());
+    effectData.itemId = id;
+    effectData.name = name;
     effectData.image = image;
     effectData.descriptionId = descId;
     effectData.quality = EffectDatabase.NEUTRAL;
