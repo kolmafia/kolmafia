@@ -132,6 +132,10 @@ public class EffectDatabase {
     }
   }
 
+  public static final EffectData getEffectData(final int effectId) {
+    return EffectDatabase.effectDataById.get(effectId);
+  }
+
   public static final Quality getQuality(final int effectId) {
     if (effectId == -1) {
       return Quality.NEUTRAL;
@@ -237,16 +241,6 @@ public class EffectDatabase {
   public static final String getActions(final Integer effectId) {
     EffectData effectData = EffectDatabase.effectDataById.get(effectId);
     return effectData == null ? null : effectData.getActions();
-  }
-
-  public static final void setActions(final int effectId, final String actions) {
-    EffectDatabase.setActions((Integer) effectId, actions);
-  }
-
-  public static final void setActions(final Integer effectId, final String actions) {
-    EffectData effectData =
-        EffectDatabase.effectDataById.computeIfAbsent(effectId, id -> new EffectData());
-    effectData.setActions(actions);
   }
 
   public static final String getActionNote(final int effectId) {
