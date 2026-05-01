@@ -48,7 +48,7 @@ public class UneffectRequest extends GenericRequest {
   public static final Map<String, String> EFFECT_SKILL = new HashMap<>();
 
   static {
-    for (Entry<Integer, String> entry : EffectDatabase.defaultActions.entrySet()) {
+    for (Entry<Integer, String> entry : EffectDatabase.actionEntrySet()) {
       if (entry.getValue().startsWith("cast 1")) {
         String effectName = EffectDatabase.getEffectName(entry.getKey());
         String skillName = entry.getValue().substring(7);
