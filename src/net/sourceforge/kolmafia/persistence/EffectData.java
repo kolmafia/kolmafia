@@ -46,7 +46,17 @@ public final class EffectData {
     String attrs = (attributes == null) ? "none" : String.join(",", attributes);
 
     String effectString =
-      effectId + "\t" + name + "\t" + image + "\t" + descriptionId + "\t" + getQualityDescription() + "\t" + attrs;
+        effectId
+            + "\t"
+            + name
+            + "\t"
+            + image
+            + "\t"
+            + descriptionId
+            + "\t"
+            + getQualityDescription()
+            + "\t"
+            + attrs;
 
     if (actions != null) {
       effectString += "\t" + actions;

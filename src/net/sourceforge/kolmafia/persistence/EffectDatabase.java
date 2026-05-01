@@ -113,7 +113,8 @@ public class EffectDatabase {
       final String defaultAction) {
     String canonicalName = StringUtilities.getCanonicalName(name);
     EffectDatabase.addIdToName(canonicalName, effectId);
-    EffectData effectData = EffectDatabase.effectDataById.computeIfAbsent(effectId, id -> new EffectData());
+    EffectData effectData =
+        EffectDatabase.effectDataById.computeIfAbsent(effectId, id -> new EffectData());
     effectData.effectId = effectId;
     effectData.name = name;
     effectData.image = image;
@@ -247,7 +248,8 @@ public class EffectDatabase {
   }
 
   public static final void setActions(final Integer effectId, final String actions) {
-    EffectData effectData = EffectDatabase.effectDataById.computeIfAbsent(effectId, id -> new EffectData());
+    EffectData effectData =
+        EffectDatabase.effectDataById.computeIfAbsent(effectId, id -> new EffectData());
     effectData.actions = actions;
   }
 
@@ -511,7 +513,8 @@ public class EffectDatabase {
     Integer id = effectId;
 
     EffectDatabase.addIdToName(canonicalName, id);
-    EffectData effectData = EffectDatabase.effectDataById.computeIfAbsent(id, key -> new EffectData());
+    EffectData effectData =
+        EffectDatabase.effectDataById.computeIfAbsent(id, key -> new EffectData());
     effectData.effectId = id;
     effectData.name = name;
     effectData.image = image;
@@ -575,9 +578,7 @@ public class EffectDatabase {
     writer.close();
   }
 
-  private static void writeEffect(
-      final PrintStream writer,
-      final EffectData data) {
+  private static void writeEffect(final PrintStream writer, final EffectData data) {
     writer.println(data.toString());
   }
 
