@@ -20,7 +20,8 @@ public class EffectDatabaseTest {
     int effectId = EffectPool.LEASH_OF_LINGUINI;
 
     assertThat(EffectDatabase.getEffectName(effectId), is("Leash of Linguini"));
-    assertThat(EffectDatabase.getImage(effectId), endsWith("/string.gif"));
+    assertThat(EffectDatabase.getImageName(effectId), is("string.gif"));
+    assertThat(EffectDatabase.getImage(effectId), endsWith("/itemimages/string.gif"));
     assertThat(EffectDatabase.getDescriptionId(effectId), is("2d6d3ab04b40e1523aa9c716a04b3aab"));
     assertThat(EffectDatabase.getQualityDescription(effectId), is("good"));
     assertThat(EffectDatabase.getEffectAttributes(effectId), empty());

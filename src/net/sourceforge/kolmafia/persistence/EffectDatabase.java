@@ -7,6 +7,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -142,7 +143,7 @@ public class EffectDatabase {
 
   public static final List<String> getEffectAttributes(final int effectId) {
     EffectData effectData = EffectDatabase.effectDataById.get(effectId);
-    return effectData == null ? null : effectData.getAttributes();
+    return effectData == null ? Collections.emptyList() : effectData.getAttributes();
   }
 
   public static final boolean hasAttribute(final String name, final String attribute) {
@@ -152,7 +153,7 @@ public class EffectDatabase {
 
   public static final boolean hasAttribute(final int effectId, final String attribute) {
     List<String> attrs = EffectDatabase.getEffectAttributes(effectId);
-    return (attrs == null) ? false : attrs.contains(attribute);
+    return attrs.contains(attribute);
   }
 
   public static final boolean isSong(final int effectId) {

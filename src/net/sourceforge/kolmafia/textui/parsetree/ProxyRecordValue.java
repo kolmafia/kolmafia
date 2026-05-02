@@ -34,6 +34,7 @@ import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.CandyDatabase;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.DailyLimitDatabase.DailyLimitType;
+import net.sourceforge.kolmafia.persistence.EffectData;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.FactDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
@@ -1362,7 +1363,7 @@ public class ProxyRecordValue extends RecordValue {
     }
 
     public String get_name() {
-      return EffectDatabase.getEffectName((int) this.contentLong);
+      return this.content == null ? null : ((EffectData) this.content).getName();
     }
 
     public String get_default() {
@@ -1370,12 +1371,11 @@ public class ProxyRecordValue extends RecordValue {
     }
 
     public String get_quality() {
-      return EffectDatabase.getQualityDescription((int) this.contentLong);
+      return this.content == null ? "" : ((EffectData) this.content).getQualityDescription();
     }
 
     public String get_attributes() {
-      List<String> attrs = EffectDatabase.getEffectAttributes((int) this.contentLong);
-      return (attrs == null) ? "" : String.join(",", attrs);
+      return this.content == null ? "" : ((EffectData) this.content).getCombinedAttributes();
     }
 
     public String get_note() {
@@ -1392,11 +1392,11 @@ public class ProxyRecordValue extends RecordValue {
     }
 
     public String get_image() {
-      return EffectDatabase.getImageName((int) this.contentLong);
+      return this.content == null ? "" : ((EffectData) this.content).getImage();
     }
 
     public String get_descid() {
-      return EffectDatabase.getDescriptionId((int) this.contentLong);
+      return this.content == null ? null : ((EffectData) this.content).getDescriptionId();
     }
 
     public int get_candy_tier() {
@@ -1404,7 +1404,7 @@ public class ProxyRecordValue extends RecordValue {
     }
 
     public boolean get_song() {
-      return EffectDatabase.isSong((int) this.contentLong);
+      return this.content == null ? false : ((EffectData) this.content).isSong();
     }
   }
 
