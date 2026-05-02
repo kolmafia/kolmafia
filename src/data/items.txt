@@ -12248,10 +12248,10 @@
 12219
 12220
 12221
-12222	pasta wand loot box	282584720	legpastabox.gif	usable	t	0
+12222	pasta wand loot box	282584720	legpastabox.gif	usable	t	0	pasta wand loot boxes
 12223	legendary pasta wand	501983838	legpastaspoon.gif	weapon		0
 12224
-12225	legendary noodles	516541039	legnoodles.gif	none, cook	t,d	10
+12225	legendary noodles	516541039	legnoodles.gif	none, cook	t,d	10	bunches of legendary noodles
 12226	can of tuna	851920686	tunacan.gif	food, cook	t,d	10	cans of tuna
 12227	alien salad	782881201	salad.gif	food, cook	t,d	10	bowls of alien salad
 12228	ratbatatouille	347713106	crimbodinner.gif	food, cook	t,d	10	dishes of ratbatatouille
@@ -12261,12 +12261,12 @@
 12232	hot honey ant	520263496	honeyant.gif	food, cook	t,d	40
 12233	tomb aspic	373938439	aspic.gif	food, cook	t,d	40	quivering cubes of tomb aspic
 12234	later tots	739131540	tots.gif	food, cook	t,d	40	handfuls of later tots
-12235	Frutti di Scatoletta	172041101	legpasta2.gif	food	t,d	25
-12236	Pesto alla Marziano	885071960	legpasta3.gif	food	t,d	25
-12237	Arrattabbattabiata	776453259	legpasta4.gif	food	t,d	25
-12238	Orzo di Riso	199788247	legpasta5.gif	food	t,d	50
-12239	Pasta Grimavera	179046466	legpasta6.gif	food	t,d	50
-12240	Linguini Ubriacapa	190949095	legpasta7.gif	food	t,d	50
-12241	Formica e Pepe	318780008	legpasta8.gif	food	t,d	75
-12242	Tubetto Gelatto	902397143	aspic.gif	food	t,d	75
-12243	Gnocci Domani	185171822	legpasta1.gif	food	t,d	75
+12235	Frutti di Scatoletta	172041101	legpasta2.gif	food	t,d	25	bowls of Frutti di Scatoletta
+12236	Pesto alla Marziano	885071960	legpasta3.gif	food	t,d	25	plates of Pesto alla Marziano
+12237	Arrattabbattabiata	776453259	legpasta4.gif	food	t,d	25	plates of Arrattabbattabiata
+12238	Orzo di Riso	199788247	legpasta5.gif	food	t,d	50	bowls of Orzo di Riso
+12239	Pasta Grimavera	179046466	legpasta6.gif	food	t,d	50	plates of Pasta Grimavera
+12240	Linguini Ubriacapa	190949095	legpasta7.gif	food	t,d	50	plates of Linguini Ubriacapa
+12241	Formica e Pepe	318780008	legpasta8.gif	food	t,d	75	plates of Formica e Pepe
+12242	Tubetto Gelatto	902397143	aspic.gif	food	t,d	75	tubes of Tubetto Gelatto
+12243	Gnocci Domani	185171822	legpasta1.gif	food	t,d	75	plates of Gnocci Domani
