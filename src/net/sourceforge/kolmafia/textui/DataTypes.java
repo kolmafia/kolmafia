@@ -733,7 +733,9 @@ public class DataTypes {
 
     String canonical = bounties.get(0);
 
-    return new Value(DataTypes.BOUNTY_TYPE, BountyDatabase.canonicalToName(canonical));
+    var fullName = BountyDatabase.canonicalToName(canonical);
+    var bountyData = BountyDatabase.getBountyData(fullName);
+    return new Value(DataTypes.BOUNTY_TYPE, fullName, bountyData);
   }
 
   public static final Value parseCoinmasterValue(String name, final boolean returnDefault) {

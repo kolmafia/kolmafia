@@ -15,8 +15,14 @@ import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class BountyDatabase {
-  private record BountyData(
-      String plural, String type, String image, String number, String monster, String location) {
+  public record BountyData(
+      String plural, String type, String image, int number, String monster, String location) {
+    public String getKoLInternalType() {
+      return type.equals("easy")
+          ? "low"
+          : type.equals("hard") ? "high" : type.equals("special") ? "special" : null;
+    }
+
     String toDataLine(final String name) {
       String outputLocation = location != null ? location : "unknown";
       return name
@@ -70,13 +76,19 @@ public class BountyDatabase {
 
         String name = data[0];
         BountyDatabase.bountyByName.put(
-            name, new BountyData(data[1], data[2], data[3], data[4], data[5], data[6]));
+            name,
+            new BountyData(
+                data[1], data[2], data[3], StringUtilities.parseInt(data[4]), data[5], data[6]));
         BountyDatabase.bountyByPlural.put(data[1], name);
         BountyDatabase.nameByMonster.put(data[5], name);
       }
     } catch (IOException e) {
       StaticEntity.printStackTrace(e);
     }
+  }
+
+  public static final BountyData getBountyData(final String name) {
+    return BountyDatabase.bountyByName.get(name);
   }
 
   private static void buildCanonicalNames() {
@@ -112,7 +124,7 @@ public class BountyDatabase {
     String newLocation =
         location != null ? location : existing != null ? existing.location() : null;
     BountyDatabase.bountyByName.put(
-        name, new BountyData(plural, type, image, Integer.toString(number), monster, newLocation));
+        name, new BountyData(plural, type, image, number, monster, newLocation));
     BountyDatabase.bountyByPlural.put(plural, name);
     BountyDatabase.nameByMonster.put(monster, name);
     BountyDatabase.buildCanonicalNames();
@@ -184,8 +196,7 @@ public class BountyDatabase {
     }
 
     BountyData data = BountyDatabase.bountyByName.get(name);
-    String numberString = data == null ? null : data.number();
-    return numberString == null ? 0 : StringUtilities.parseInt(numberString);
+    return data == null ? 0 : data.number();
   }
 
   public static final String getMonster(String name) {
