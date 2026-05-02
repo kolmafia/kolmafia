@@ -12261,3 +12261,12 @@
 12232	hot honey ant	520263496	honeyant.gif	food, cook	t,d	40
 12233	tomb aspic	373938439	aspic.gif	food, cook	t,d	40	quivering cubes of tomb aspic
 12234	later tots	739131540	tots.gif	food, cook	t,d	40	handfuls of later tots
+12235	Frutti di Scatoletta	172041101	legpasta2.gif	food	t,d	25
+12236	Pesto alla Marziano	885071960	legpasta3.gif	food	t,d	25
+12237	Arrattabbattabiata	776453259	legpasta4.gif	food	t,d	25
+12238	Orzo di Riso	199788247	legpasta5.gif	food	t,d	50
+12239	Pasta Grimavera	179046466	legpasta6.gif	food	t,d	50
+12240	Linguini Ubriacapa	190949095	legpasta7.gif	food	t,d	50
+12241	Formica e Pepe	318780008	legpasta8.gif	food	t,d	75
+12242	Tubetto Gelatto	902397143	aspic.gif	food	t,d	75
+12243	Gnocci Domani	185171822	legpasta1.gif	food	t,d	75

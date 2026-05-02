@@ -9549,6 +9549,7 @@ Item	alien sandwich	Last Available: "2017-04"
 Item	amok pudding	Effect: "Puddingface", Effect Duration: 20
 Item	ancient unspeakable fruitcake	Last Available: "2006-12"
 Item	animal part cracker	Effect: "Sprinkle in Your Eye", Effect Duration: 30, Last Available: "2016-12"
+Item	Arrattabbattabiata	Last Available: "2026-05"
 Item	autumn-spice donut	Effect: "Whet Appetite", Effect Duration: 30, Last Available: "2022-10"
 Item	bacteria bisque	Effect: "Infected with Chronerism", Effect Duration: 50
 Item	badass pie	Effect: "Pie in the Sky", Effect Duration: 20, Last Available: "2010-10"
@@ -9743,10 +9744,12 @@ Item	flour cookie	Last Available: "2021-12"
 Item	flower petal pie	Effect: "Flower Power", Effect Duration: 3
 Item	foie gras	Effect: "Beaten Up", Effect Duration: 1
 Item	forbidden danish	Effect: "Danish Cunning", Effect Duration: 30, Last Available: "2011-09"
+Item	Formica e Pepe	Last Available: "2026-05"
 Item	freightcake	Last Available: "2022-12"
 Item	frozen danish	Effect: "Danish Cunning", Effect Duration: 30, Last Available: "2011-09"
 Item	frozen tofu pop	Last Available: "2021-12"
 Item	fruit-stuffed rumcake	Effect: "Fruit-Based Animosity", Effect Duration: 100, Last Available: "2023-12"
+Item	Frutti di Scatoletta	Last Available: "2026-05"
 Item	fudge bunny	Last Available: "2011-11"
 Item	fudgesicle	Effect: "Fudge Headache", Effect Duration: 30, Last Available: "2011-11"
 Item	full-sized pumpkin pie	Effect: "Halloweeny", Effect Duration: 5, Last Available: "2025-11"
@@ -9765,6 +9768,7 @@ Item	gingerbread robot	Effect: "Gingerbread Robust", Effect Duration: 20, Last A
 Item	glass of baboon milk	Last Available: "2009-06"
 Item	glass of raw eggs	Effect: "Boxing Day Breakfast", Effect Duration: 50, Last Available: "2018-12"
 Item	glistening fish meat	Effect: "Fishy", Effect Duration: 5
+Item	Gnocci Domani	Last Available: "2026-05"
 Item	gooey lava globs	Last Available: "2015-08"
 Item	government cheese	Last Available: "2014-05"
 Item	greedy ghostling	Free Pull, Last Available: "2020-12"
@@ -9841,6 +9845,7 @@ Item	leftovers sandwich	Last Available: "2016-11"
 Item	licorice garrote	Effect: "Sugar Rush", Effect Duration: 5, Last Available: "2009-12"
 Item	lihc eye pie	Effect: "Eye of the Lihc", Effect Duration: 5
 Item	limp broccoli	Effect: "Nutrient-Rich", Effect Duration: 100, Last Available: "2014-10"
+Item	Linguini Ubriacapa	Last Available: "2026-05"
 Item	liquid bread	Effect: "Comprehensively Nourished", Effect Duration: 20, Last Available: "2013-09"
 Item	liver and let pie	Last Available: "2010-10"
 Item	loaf of alien bread	Last Available: "2014-05"
@@ -9888,8 +9893,10 @@ Item	ojo de pez burrito	Last Available: "2019-12"
 Item	old chum	Effect: "Fishy", Effect Duration: 5, Last Available: "2013-12"
 Item	oldcake	Last Available: "2018-12"
 Item	one with everything	Effect: "Inner Dog", Effect Duration: 50
+Item	Orzo di Riso	Last Available: "2026-05"
 Item	packet of beer nuts	Effect: "Salty Mouth", Effect Duration: 1
 Item	party platter for one	Last Available: "2018-09"
+Item	Pasta Grimavera	Last Available: "2026-05"
 Item	pat of butter	Last Available: "2013-11"
 Item	pawn cookie	Effect: "Pwnd", Effect Duration: 30, Last Available: "2010-06"
 Item	PB&J with the crusts cut off	Last Available: "2018-09"
@@ -9899,6 +9906,7 @@ Item	penguin focaccia bread	Last Available: "2009-12"
 Item	peppermint donut	Effect: "Peppermint Rush", Effect Duration: 10
 Item	peppermint patty	Last Available: "2011-11"
 Item	peppermint tack	Last Available: "2023-12"
+Item	Pesto alla Marziano	Last Available: "2026-05"
 Item	Pete's rich ricotta	Effect: "Rippin' Ricotta", Effect Duration: 30, Last Available: "2022-11"
 Item	Pete's wiley whey bar	Effect: "Awfully Wily", Effect Duration: 30, Last Available: "2022-11"
 Item	petit 4.1	Effect: "Petit Force", Effect Duration: 20, Last Available: "2013-12"
@@ -10067,6 +10075,7 @@ Item	transparent nog	Effect: "Holiday Disappointment", Effect Duration: 10, Last
 Item	treasure chestnut	Last Available: "2025-12"
 Item	tree-shaped Crimbo cookie	Effect: "Yuletide Sappiness", Effect Duration: 10, Last Available: "2023-06"
 Item	triangular CRIMBCOOKIE	Effect: "Triangle, Man", Effect Duration: 10, Last Available: "2010-12"
+Item	Tubetto Gelatto	Last Available: "2026-05"
 Item	turtle soup	Effect: "[598]A Little Bit Evil", Effect Duration: 10, Effect: "Souper Vengeful", Effect Duration: 10
 Item	ultrafondue	Effect: "Fondid", Effect Duration: 30, Last Available: "2011-09"
 Item	unappetizing mayolus	Last Available: "2015-05"

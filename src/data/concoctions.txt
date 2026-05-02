@@ -3074,3 +3074,14 @@ gnomish athlete's foot	GNOME_PART
 
 # Mobius ring
 toast with mixed berry jelly	COOK	mixed berry jelly	toast
+
+# legendary pasta wand
+Frutti di Scatoletta	COOK	legendary noodles	can of tuna
+Pesto alla Marziano	COOK	legendary noodles	alien salad
+Arrattabbattabiata	COOK	legendary noodles	ratbatatouille
+Orzo di Riso	COOK	legendary noodles	spicy onigiri
+Pasta Grimavera	COOK	legendary noodles	haunted crudit&eacute;s
+Linguini Ubriacapa	COOK	legendary noodles	sauced mutton
+Formica e Pepe	COOK	legendary noodles	hot honey ant
+Tubetto Gelatto	COOK	legendary noodles	tomb aspic
+Gnocci Domani	COOK	legendary noodles	later tots
