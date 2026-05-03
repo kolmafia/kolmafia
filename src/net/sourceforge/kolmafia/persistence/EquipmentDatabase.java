@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -252,6 +251,14 @@ public class EquipmentDatabase {
   public static void writeEquipment(final File output) {
     RequestLogger.printLine("Writing data override: " + output);
 
+    // Open the output file
+    PrintStream writer = LogStream.openStream(output, true);
+    try (writer) {
+      writeEquipment(writer);
+    }
+  }
+
+  static void writeEquipment(final PrintStream writer) {
     // One map per equipment category
     Map<String, Integer> hats = new TreeMap<>();
     Map<String, Integer> weapons = new TreeMap<>();
@@ -262,9 +269,7 @@ public class EquipmentDatabase {
     Map<String, Integer> containers = new TreeMap<>();
 
     // Iterate over all items and assign item id to category
-    Iterator<Entry<Integer, String>> it = ItemDatabase.dataNameEntrySet().iterator();
-    while (it.hasNext()) {
-      Entry<Integer, String> entry = it.next();
+    for (Entry<Integer, String> entry : ItemDatabase.dataNameEntrySet()) {
       Integer key = entry.getKey();
       String name = entry.getValue();
       ConsumptionType type = ItemDatabase.getConsumptionType(key.intValue());
@@ -280,8 +285,6 @@ public class EquipmentDatabase {
       }
     }
 
-    // Open the output file
-    PrintStream writer = LogStream.openStream(output, true);
     writer.println(KoLConstants.EQUIPMENT_VERSION);
 
     // For each equipment category, write the map entries
@@ -298,8 +301,6 @@ public class EquipmentDatabase {
     EquipmentDatabase.writeEquipmentCategory(writer, accessories, "Accessories");
     writer.println();
     EquipmentDatabase.writeEquipmentCategory(writer, containers, "Containers");
-
-    writer.close();
   }
 
   private static void writeEquipmentCategory(

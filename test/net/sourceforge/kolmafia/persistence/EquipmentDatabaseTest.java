@@ -2,12 +2,14 @@ package net.sourceforge.kolmafia.persistence;
 
 import static internal.helpers.Player.withItem;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
 
 import internal.helpers.Cleanups;
-import java.io.File;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -33,17 +35,16 @@ public class EquipmentDatabaseTest {
 
   @Test
   public void itShouldWriteEquipment() {
-    // This is an awkward test because it generates a lot of coverage but verifying that file is
-    // correct
-    // depends upon the dynamic state of the equipment file.  The attempts to read the version in
-    // the source
-    // tree or jar have failed so far.  Revisit when the test environment is better understood?
-    File equip = new File("testeqf.txt");
+    ByteArrayOutputStream os = new ByteArrayOutputStream();
+    PrintStream ps = new PrintStream(os);
     EquipmentDatabase.reset();
-    EquipmentDatabase.writeEquipment(equip);
-    assertTrue(true);
-    // delete which is probably not helpful if test fails but...
-    equip.delete();
+    EquipmentDatabase.writeEquipment(ps);
+    String data = os.toString();
+
+    // the order isn't right, because equipment pieces are sorted case-sensitively
+    // but should be sorted case-insensitively
+    // despite that, the entries seem present. Assert one is.
+    assertThat(data, containsString("4-dimensional fez\t50\tnone"));
   }
 
   @Test
