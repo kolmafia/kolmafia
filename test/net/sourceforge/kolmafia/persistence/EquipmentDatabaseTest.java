@@ -56,8 +56,10 @@ public class EquipmentDatabaseTest {
 
     // the order isn't right, because equipment pieces are sorted case-sensitively
     // but should be sorted case-insensitively
-    // despite that, the entries seem present. Assert one is.
-    assertThat(data, containsString("4-dimensional fez\t50\tnone"));
+    // despite that, the entries seem present. Assert a spread.
+    assertThat(data, containsString("4-dimensional fez\t50\tnone\n"));
+    assertThat(data, containsString("antique candy bucket\t10\tnone\n"));
+    assertThat(data, containsString("antique shield\t180\tMus: 60\tshield\n"));
   }
 
   @Test
