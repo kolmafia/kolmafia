@@ -97,6 +97,10 @@ public final class EffectData {
     return this.attributes;
   }
 
+  public String getCombinedAttributes() {
+    return String.join(",", attributes);
+  }
+
   public void setAttributes(final List<String> attributes) {
     this.attributes = attributes;
   }
@@ -113,14 +117,17 @@ public final class EffectData {
     return this.quality.description();
   }
 
+  public boolean isSong() {
+    return this.attributes.contains("song");
+  }
+
   public String toString() {
     // The effect file can have 3, 4, or 5 fields. "image" must be
     // present, even if we don't have the actual file name.
     String image = this.image == null ? "" : this.image;
     String descriptionId = this.descriptionId == null ? "" : this.descriptionId;
 
-    String attrs =
-        (attributes == null || attributes.isEmpty()) ? "none" : String.join(",", attributes);
+    String attrs = attributes.isEmpty() ? "none" : getCombinedAttributes();
 
     String effectString =
         effectId

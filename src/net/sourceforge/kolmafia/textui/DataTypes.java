@@ -22,6 +22,7 @@ import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.modifiers.Modifier;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
+import net.sourceforge.kolmafia.persistence.EffectData;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -210,7 +211,7 @@ public class DataTypes {
   public static final Value CLASS_INIT = new Value(DataTypes.CLASS_TYPE, -1, "none", null);
   public static final Value STAT_INIT = new Value(DataTypes.STAT_TYPE, -1, "none");
   public static final Value SKILL_INIT = new Value(DataTypes.SKILL_TYPE, -1, "none");
-  public static final Value EFFECT_INIT = new Value(DataTypes.EFFECT_TYPE, -1, "none");
+  public static final Value EFFECT_INIT = new Value(DataTypes.EFFECT_TYPE, -1, "none", null);
   public static final Value FAMILIAR_INIT = new Value(DataTypes.FAMILIAR_TYPE, -1, "none");
   public static final Value SLOT_INIT = new Value(DataTypes.SLOT_TYPE, 0, "none");
   public static final Value MONSTER_INIT = new Value(DataTypes.MONSTER_TYPE, 0, "none", null);
@@ -732,7 +733,9 @@ public class DataTypes {
 
     String canonical = bounties.get(0);
 
-    return new Value(DataTypes.BOUNTY_TYPE, BountyDatabase.canonicalToName(canonical));
+    var fullName = BountyDatabase.canonicalToName(canonical);
+    var bountyData = BountyDatabase.getBountyData(fullName);
+    return new Value(DataTypes.BOUNTY_TYPE, fullName, bountyData);
   }
 
   public static final Value parseCoinmasterValue(String name, final boolean returnDefault) {
@@ -910,7 +913,8 @@ public class DataTypes {
     if (effectIds != null && effectIds.length > 1) {
       name = "[" + num + "]" + name;
     }
-    return new Value(DataTypes.EFFECT_TYPE, num, name);
+    EffectData effectData = EffectDatabase.getEffectData(num);
+    return new Value(DataTypes.EFFECT_TYPE, num, name, effectData);
   }
 
   public static final Value makeEffectValue(final int num, final boolean returnDefault) {

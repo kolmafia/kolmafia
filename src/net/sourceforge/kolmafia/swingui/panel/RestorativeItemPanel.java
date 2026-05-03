@@ -9,6 +9,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.RestoresDatabase;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
+import net.sourceforge.kolmafia.utilities.WikiUtilities;
 import net.sourceforge.kolmafia.webui.RelayLoader;
 
 public class RestorativeItemPanel extends ItemTableManagePanel<AdventureResult> {
@@ -43,11 +44,7 @@ public class RestorativeItemPanel extends ItemTableManagePanel<AdventureResult> 
     String name;
 
     for (final AdventureResult value : this.getSelectedValues()) {
-      name = value.getName();
-      if (name != null) {
-        RelayLoader.openSystemBrowser(
-            "https://wiki.kingdomofloathing.com/Special:Search?search=" + name);
-      }
+      RelayLoader.openSystemBrowser(WikiUtilities.getWikiLocation(value));
     }
   }
 
