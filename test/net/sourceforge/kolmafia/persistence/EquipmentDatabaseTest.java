@@ -34,6 +34,19 @@ public class EquipmentDatabaseTest {
   }
 
   @Test
+  public void itShouldReturnExpectedFieldsForNonShieldOffhand() {
+    int itemId = ItemPool.SEVENTEEN_BALL;
+
+    assertThat(EquipmentDatabase.contains(itemId), is(true));
+    assertThat(EquipmentDatabase.getPower(itemId), is(200));
+    assertThat(EquipmentDatabase.getEquipRequirement(itemId), is("none"));
+    assertThat(EquipmentDatabase.getHands(itemId), is(0));
+    assertThat(EquipmentDatabase.getItemType(itemId), is("offhand"));
+    assertThat(EquipmentDatabase.getWeaponStat(itemId), is(KoLConstants.Stat.NONE));
+    assertThat(EquipmentDatabase.getWeaponType(itemId), is(KoLConstants.WeaponType.NONE));
+  }
+
+  @Test
   public void itShouldWriteEquipment() {
     ByteArrayOutputStream os = new ByteArrayOutputStream();
     PrintStream ps = new PrintStream(os);
