@@ -2696,4 +2696,16 @@ public class MaximizerTest {
       assertThat(getBoosts(), hasItem(recommends(ItemPool.SILENT_NIGHTLIGHT)));
     }
   }
+
+  @Test
+  void shouldSuggestHolsteringIfAvailable() {
+    var cleanups =
+        new Cleanups(
+            withClass(AscensionClass.COW_PUNCHER), withEquippableItem(ItemPool.CUSTOM_SIXGUN));
+
+    try (cleanups) {
+      maximize("muscle");
+      assertThat(getBoosts(), hasItem(recommends(ItemPool.CUSTOM_SIXGUN)));
+    }
+  }
 }

@@ -2969,6 +2969,7 @@ public class ItemPool {
   public static final int STRANGE_DISC_GREEN = 8926;
   public static final int STRANGE_DISC_BLUE = 8927;
   public static final int STRANGE_DISC_YELLOW = 8928;
+  public static final int CUSTOM_SIXGUN = 8933;
   public static final int MOUNTAIN_SKIN = 8937;
   public static final int GRIZZLED_SKIN = 8938;
   public static final int DIAMONDBACK_SKIN = 8939;
