@@ -35,10 +35,9 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 @SuppressWarnings("incomplete-switch")
 public class EquipmentDatabase {
-  private static final Map<Integer, Integer> power = new HashMap<>();
-  private static final Map<Integer, Integer> hands = new HashMap<>();
-  private static final Map<Integer, String> itemTypes = new HashMap<>();
-  private static final Map<Integer, String> statRequirements = new HashMap<>();
+  private record EquipmentData(int power, String statRequirement, int hands, String itemType) {}
+
+  private static final Map<Integer, EquipmentData> equipmentById = new HashMap<>();
 
   private static final Map<Integer, Integer> outfitPieces = new HashMap<>();
   public static final Map<Integer, SpecialOutfit> normalOutfits = new HashMap<>();
@@ -119,10 +118,8 @@ public class EquipmentDatabase {
           continue;
         }
 
-        EquipmentDatabase.power.put(itemId, StringUtilities.parseInt(data[1]));
-
-        String reqs = data[2];
-        EquipmentDatabase.statRequirements.put(itemId, reqs);
+        var power = StringUtilities.parseInt(data[1]);
+        var statRequirement = data[2];
 
         int hval = 0;
         String tval = null;
@@ -139,8 +136,8 @@ public class EquipmentDatabase {
           }
         }
 
-        EquipmentDatabase.hands.put(itemId, hval);
-        EquipmentDatabase.itemTypes.put(itemId, tval);
+        EquipmentDatabase.equipmentById.put(
+            itemId, new EquipmentData(power, statRequirement, hval, tval));
       }
     } catch (IOException e) {
       StaticEntity.printStackTrace(e);
@@ -317,7 +314,8 @@ public class EquipmentDatabase {
       String req = EquipmentDatabase.getEquipRequirement(itemId);
       ConsumptionType usage = ItemDatabase.getConsumptionType(itemId);
       boolean isWeapon = usage == ConsumptionType.WEAPON;
-      String type = EquipmentDatabase.itemTypes.get(itemId);
+      EquipmentData equipmentData = EquipmentDatabase.equipmentById.get(itemId);
+      String type = equipmentData == null ? null : equipmentData.itemType;
       boolean isShield = type != null && type.equals("shield");
       String weaponType = "";
       if (isWeapon) {
@@ -369,15 +367,13 @@ public class EquipmentDatabase {
     String type = DebugDatabase.parseType(text);
     String req = DebugDatabase.parseReq(text, type);
 
-    EquipmentDatabase.power.put(itemId, power);
-    EquipmentDatabase.statRequirements.put(itemId, req);
-
     boolean isWeapon = false, isShield = false;
+    int hval = 0;
+    String itemType = null;
     String weaponType = "";
 
     if (type.indexOf("weapon") != -1) {
       Matcher matcher = WEAPON_TYPE_PATTERN.matcher(type);
-      int hval;
       String tval;
       if (matcher.find()) {
         weaponType = matcher.group(1);
@@ -388,14 +384,16 @@ public class EquipmentDatabase {
         hval = 0;
         tval = type;
       }
-      EquipmentDatabase.hands.put(itemId, hval);
-      EquipmentDatabase.itemTypes.put(itemId, tval);
+      itemType = tval;
       isWeapon = true;
     } else if (type.contains("shield")) {
       isShield = true;
       weaponType = "shield";
-      EquipmentDatabase.itemTypes.put(itemId, weaponType);
+      itemType = weaponType;
     }
+
+    var data = new EquipmentData(power, req, hval, itemType);
+    EquipmentDatabase.equipmentById.put(itemId, data);
 
     String printMe =
         EquipmentDatabase.equipmentString(itemName, power, req, weaponType, isWeapon, isShield);
@@ -470,8 +468,8 @@ public class EquipmentDatabase {
   public static final int nextEquipmentItemId(int prevId) {
     int limit = ItemDatabase.maxItemId();
     while (++prevId <= limit) {
-      String req = EquipmentDatabase.statRequirements.get(prevId);
-      if ((req != null && req.length() > 0)
+      EquipmentData equipmentData = EquipmentDatabase.equipmentById.get(prevId);
+      if (equipmentData != null
           || ItemDatabase.getConsumptionType(prevId) == ConsumptionType.FAMILIAR_EQUIPMENT
           || ItemDatabase.getConsumptionType(prevId) == ConsumptionType.SIXGUN) {
         return prevId;
@@ -514,23 +512,22 @@ public class EquipmentDatabase {
   }
 
   public static final boolean contains(final int itemId) {
-    return itemId > 0 && EquipmentDatabase.statRequirements.get(itemId) != null;
+    return itemId > 0 && EquipmentDatabase.equipmentById.get(itemId) != null;
   }
 
   public static final int getPower(final int itemId) {
-    return EquipmentDatabase.power.getOrDefault(itemId, 0);
-  }
-
-  public static final void setPower(final int itemId, final int power) {
-    EquipmentDatabase.power.put(itemId, power);
+    EquipmentData equipmentData = EquipmentDatabase.equipmentById.get(itemId);
+    return equipmentData == null ? 0 : equipmentData.power;
   }
 
   public static final int getHands(final int itemId) {
-    return EquipmentDatabase.hands.getOrDefault(itemId, 0);
+    EquipmentData equipmentData = EquipmentDatabase.equipmentById.get(itemId);
+    return equipmentData == null ? 0 : equipmentData.hands;
   }
 
   public static final String getEquipRequirement(final int itemId) {
-    return EquipmentDatabase.statRequirements.getOrDefault(itemId, "none");
+    EquipmentData equipmentData = EquipmentDatabase.equipmentById.get(itemId);
+    return equipmentData == null ? "none" : equipmentData.statRequirement;
   }
 
   public static final String getItemType(final int itemId) {
@@ -577,12 +574,14 @@ public class EquipmentDatabase {
         return "shirt";
       case WEAPON:
         {
-          String type = EquipmentDatabase.itemTypes.get(itemId);
+          EquipmentData equipmentData = EquipmentDatabase.equipmentById.get(itemId);
+          String type = equipmentData == null ? null : equipmentData.itemType;
           return type != null ? type : "weapon";
         }
       case OFFHAND:
         {
-          String type = EquipmentDatabase.itemTypes.get(itemId);
+          EquipmentData equipmentData = EquipmentDatabase.equipmentById.get(itemId);
+          String type = equipmentData == null ? null : equipmentData.itemType;
           return type != null ? type : "offhand";
         }
       case CONTAINER:
