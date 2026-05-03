@@ -54,9 +54,9 @@ public class EquipmentDatabaseTest {
     EquipmentDatabase.writeEquipment(ps);
     String data = os.toString();
 
-    // the order isn't right, because equipment pieces are sorted case-sensitively
-    // but should be sorted case-insensitively
-    // despite that, the entries seem present. Assert a spread.
+    // Assert a spread
+    // currently, this lacks the [itemid] differentiators for items with identical names
+    // and the "can of beans" type for bean cans
     assertThat(data, containsString("4-dimensional fez\t50\tnone\n"));
     assertThat(data, containsString("antique candy bucket\t10\tnone\n"));
     assertThat(data, containsString("antique shield\t180\tMus: 60\tshield\n"));

@@ -257,13 +257,13 @@ public class EquipmentDatabase {
 
   static void writeEquipment(final PrintStream writer) {
     // One map per equipment category
-    Map<String, Integer> hats = new TreeMap<>();
-    Map<String, Integer> weapons = new TreeMap<>();
-    Map<String, Integer> offhands = new TreeMap<>();
-    Map<String, Integer> shirts = new TreeMap<>();
-    Map<String, Integer> pants = new TreeMap<>();
-    Map<String, Integer> accessories = new TreeMap<>();
-    Map<String, Integer> containers = new TreeMap<>();
+    Map<String, Integer> hats = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+    Map<String, Integer> weapons = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+    Map<String, Integer> offhands = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+    Map<String, Integer> shirts = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+    Map<String, Integer> pants = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+    Map<String, Integer> accessories = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+    Map<String, Integer> containers = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 
     // Iterate over all items and assign item id to category
     for (Entry<Integer, String> entry : ItemDatabase.dataNameEntrySet()) {
@@ -293,7 +293,7 @@ public class EquipmentDatabase {
     writer.println();
     EquipmentDatabase.writeEquipmentCategory(writer, weapons, "Weapons");
     writer.println();
-    EquipmentDatabase.writeEquipmentCategory(writer, offhands, "Off-hand");
+    EquipmentDatabase.writeEquipmentCategory(writer, offhands, "Off-hand Items");
     writer.println();
     EquipmentDatabase.writeEquipmentCategory(writer, accessories, "Accessories");
     writer.println();
