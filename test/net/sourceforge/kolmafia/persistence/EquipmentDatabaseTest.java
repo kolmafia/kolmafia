@@ -19,6 +19,19 @@ import org.junit.jupiter.params.provider.ValueSource;
 public class EquipmentDatabaseTest {
 
   @Test
+  public void itShouldReturnExpectedFieldsForKnownEquipmentRow() {
+    int itemId = ItemPool.ASPARAGUS_KNIFE;
+
+    assertThat(EquipmentDatabase.contains(itemId), is(true));
+    assertThat(EquipmentDatabase.getPower(itemId), is(15));
+    assertThat(EquipmentDatabase.getEquipRequirement(itemId), is("Mus: 0"));
+    assertThat(EquipmentDatabase.getHands(itemId), is(1));
+    assertThat(EquipmentDatabase.getItemType(itemId), is("knife"));
+    assertThat(EquipmentDatabase.getWeaponStat(itemId), is(KoLConstants.Stat.MUSCLE));
+    assertThat(EquipmentDatabase.getWeaponType(itemId), is(KoLConstants.WeaponType.MELEE));
+  }
+
+  @Test
   public void itShouldWriteEquipment() {
     // This is an awkward test because it generates a lot of coverage but verifying that file is
     // correct
