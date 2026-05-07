@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -268,28 +269,28 @@ public class EquipmentDatabase {
 
   static void writeEquipment(final PrintStream writer) {
     // One map per equipment category
-    Map<String, Integer> hats = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
-    Map<String, Integer> weapons = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
-    Map<String, Integer> offhands = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
-    Map<String, Integer> shirts = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
-    Map<String, Integer> pants = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
-    Map<String, Integer> accessories = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
-    Map<String, Integer> containers = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+    Map<String, List<Integer>> hats = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+    Map<String, List<Integer>> weapons = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+    Map<String, List<Integer>> offhands = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+    Map<String, List<Integer>> shirts = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+    Map<String, List<Integer>> pants = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+    Map<String, List<Integer>> accessories = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+    Map<String, List<Integer>> containers = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 
     // Iterate over all items and assign item id to category
     for (Entry<Integer, String> entry : ItemDatabase.dataNameEntrySet()) {
       Integer key = entry.getKey();
       String name = entry.getValue();
-      ConsumptionType type = ItemDatabase.getConsumptionType(key.intValue());
+      ConsumptionType type = ItemDatabase.getConsumptionType(key);
 
       switch (type) {
-        case HAT -> hats.put(name, key);
-        case PANTS -> pants.put(name, key);
-        case SHIRT -> shirts.put(name, key);
-        case WEAPON -> weapons.put(name, key);
-        case OFFHAND -> offhands.put(name, key);
-        case ACCESSORY -> accessories.put(name, key);
-        case CONTAINER -> containers.put(name, key);
+        case HAT -> hats.computeIfAbsent(name, k -> new ArrayList<>()).add(key);
+        case PANTS -> pants.computeIfAbsent(name, k -> new ArrayList<>()).add(key);
+        case SHIRT -> shirts.computeIfAbsent(name, k -> new ArrayList<>()).add(key);
+        case WEAPON -> weapons.computeIfAbsent(name, k -> new ArrayList<>()).add(key);
+        case OFFHAND -> offhands.computeIfAbsent(name, k -> new ArrayList<>()).add(key);
+        case ACCESSORY -> accessories.computeIfAbsent(name, k -> new ArrayList<>()).add(key);
+        case CONTAINER -> containers.computeIfAbsent(name, k -> new ArrayList<>()).add(key);
       }
     }
 
@@ -312,15 +313,17 @@ public class EquipmentDatabase {
   }
 
   private static void writeEquipmentCategory(
-      final PrintStream writer, final Map<String, Integer> map, final String tag) {
+      final PrintStream writer, final Map<String, List<Integer>> map, final String tag) {
     writer.println("# " + tag + " section of equipment.txt");
     writer.println();
 
-    var entries = map.entrySet();
-    for (var entry : entries) {
-      int itemId = entry.getValue();
-      EquipmentData equipmentData = EquipmentDatabase.equipmentById.get(itemId);
-      writer.println(equipmentData.toDataLine(itemId));
+    for (var entry : map.entrySet()) {
+      var itemIds = entry.getValue();
+      itemIds.sort(Comparator.naturalOrder());
+      for (var itemId : itemIds) {
+        EquipmentData equipmentData = EquipmentDatabase.equipmentById.get(itemId);
+        writer.println(equipmentData.toDataLine(itemId));
+      }
     }
   }
 

@@ -60,6 +60,13 @@ public class EquipmentDatabaseTest {
     assertThat(data, containsString("antique shield\t180\tMus: 60\tshield\n"));
     assertThat(data, containsString("[10462]fire flower\t0\tMus: 0\t1-handed flower\n"));
     assertThat(data, containsString("World's Blackest-Eyed Peas\t30\tnone\tcan of beans\n"));
+    assertThat(
+        data,
+        containsString(
+            """
+      [2268]Staff of Fats\t100\tMys: 35\t2-handed staff
+      [7964]Staff of Fats\t100\tMys: 35\t2-handed staff
+      """));
   }
 
   @Test
