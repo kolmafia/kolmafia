@@ -1816,10 +1816,6 @@ public class DebugDatabase {
     }
 
     String descriptionName = DebugDatabase.parseName(text);
-    // Kludge to adjust known defective effect descriptions
-    if (effectId == 1659) {
-      descriptionName = StringUtilities.globalStringReplace(descriptionName, "  ", " ");
-    }
     if (!name.equals(descriptionName) && !decodedNamesEqual(name, descriptionName)) {
       report.println(
           "# *** " + name + " (" + effectId + ") has description of " + descriptionName + ".");
