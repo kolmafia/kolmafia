@@ -35,7 +35,18 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 @SuppressWarnings("incomplete-switch")
 public class EquipmentDatabase {
-  private record EquipmentData(int power, String statRequirement, int hands, String itemType) {}
+  private record EquipmentData(int power, String statRequirement, int hands, String itemType) {
+    String toDataLine(final int itemId) {
+      var name = ItemPool.get(itemId).getDisambiguatedName();
+      String output = name + "\t" + power + "\t" + statRequirement;
+      if (hands != 0) {
+        output += "\t" + hands + "-handed " + itemType;
+      } else if (itemType != null) {
+        output += "\t" + itemType;
+      }
+      return output;
+    }
+  }
 
   private static final Map<Integer, EquipmentData> equipmentById = new HashMap<>();
 
@@ -305,25 +316,11 @@ public class EquipmentDatabase {
     writer.println("# " + tag + " section of equipment.txt");
     writer.println();
 
-    String[] keys = map.keySet().toArray(new String[0]);
-    for (int i = 0; i < keys.length; ++i) {
-      String name = keys[i];
-      Integer val = map.get(name);
-      int itemId = val.intValue();
-      int power = EquipmentDatabase.getPower(itemId);
-      String req = EquipmentDatabase.getEquipRequirement(itemId);
-      ConsumptionType usage = ItemDatabase.getConsumptionType(itemId);
-      boolean isWeapon = usage == ConsumptionType.WEAPON;
+    var entries = map.entrySet();
+    for (var entry : entries) {
+      int itemId = entry.getValue();
       EquipmentData equipmentData = EquipmentDatabase.equipmentById.get(itemId);
-      String type = equipmentData == null ? null : equipmentData.itemType;
-      boolean isShield = type != null && type.equals("shield");
-      String weaponType = "";
-      if (isWeapon) {
-        int hands = getHands(itemId);
-        weaponType = hands + "-handed " + type;
-      }
-      EquipmentDatabase.writeEquipmentItem(
-          writer, name, power, req, weaponType, isWeapon, isShield);
+      writer.println(equipmentData.toDataLine(itemId));
     }
   }
 
@@ -367,36 +364,25 @@ public class EquipmentDatabase {
     String type = DebugDatabase.parseType(text);
     String req = DebugDatabase.parseReq(text, type);
 
-    boolean isWeapon = false, isShield = false;
-    int hval = 0;
+    int hands = 0;
     String itemType = null;
-    String weaponType = "";
 
-    if (type.indexOf("weapon") != -1) {
+    if (type.contains("weapon")) {
       Matcher matcher = WEAPON_TYPE_PATTERN.matcher(type);
-      String tval;
       if (matcher.find()) {
-        weaponType = matcher.group(1);
-        hval = StringUtilities.parseInt(matcher.group(2));
-        tval = matcher.group(3);
+        hands = StringUtilities.parseInt(matcher.group(2));
+        itemType = matcher.group(3);
       } else {
-        weaponType = type;
-        hval = 0;
-        tval = type;
+        itemType = type;
       }
-      itemType = tval;
-      isWeapon = true;
     } else if (type.contains("shield")) {
-      isShield = true;
-      weaponType = "shield";
-      itemType = weaponType;
+      itemType = "shield";
     }
 
-    var data = new EquipmentData(power, req, hval, itemType);
+    var data = new EquipmentData(power, req, hands, itemType);
     EquipmentDatabase.equipmentById.put(itemId, data);
 
-    String printMe =
-        EquipmentDatabase.equipmentString(itemName, power, req, weaponType, isWeapon, isShield);
+    String printMe = data.toDataLine(itemId);
     RequestLogger.printLine(printMe);
     RequestLogger.updateSessionLog(printMe);
   }

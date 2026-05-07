@@ -1697,7 +1697,7 @@ spork	30	Mys: 0	1-handed utensil
 squeaky staff	75	Mus: 22	2-handed staff
 Squeezebox of the Ages	90	Mox: 15	2-handed accordion
 Staff of Blood and Pudding	10	Mys: 15	1-handed chefstaff
-Staff of Ed	100	Mus: 0	1-handed staff
+[7961]Staff of Ed	100	Mus: 0	1-handed staff
 [2268]Staff of Fats	100	Mys: 35	2-handed staff
 [7964]Staff of Fats	100	Mys: 35	2-handed staff
 Staff of Frozen Lard	10	Mys: 200	1-handed chefstaff
@@ -2296,7 +2296,7 @@ replica Kramco Sausage-o-Matic&trade;	100	none
 replica Operation Patriot Shield	240	none	shield
 reusable shopping bag	10	none
 rice bowl	30	none
-rock	0	none
+[8042]rock	0	none
 Roman Candelabra	0	none
 Royal scepter	100	none
 rubber baby doll	100	none

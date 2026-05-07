@@ -55,11 +55,11 @@ public class EquipmentDatabaseTest {
     String data = os.toString();
 
     // Assert a spread
-    // currently, this lacks the [itemid] differentiators for items with identical names
-    // and the "can of beans" type for bean cans
     assertThat(data, containsString("4-dimensional fez\t50\tnone\n"));
     assertThat(data, containsString("antique candy bucket\t10\tnone\n"));
     assertThat(data, containsString("antique shield\t180\tMus: 60\tshield\n"));
+    assertThat(data, containsString("[10462]fire flower\t0\tMus: 0\t1-handed flower\n"));
+    assertThat(data, containsString("World's Blackest-Eyed Peas\t30\tnone\tcan of beans\n"));
   }
 
   @Test
