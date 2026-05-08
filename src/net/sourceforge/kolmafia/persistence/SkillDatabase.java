@@ -67,38 +67,16 @@ public class SkillDatabase {
     }
   }
 
-  public static class SkillData {
-    private String name;
-    private String image;
-    private long mpConsumption;
-    private EnumSet<SkillTag> tags;
-    private int duration;
-    private int level;
-    private Boolean permable;
-    private int maxLevel;
-    private Category category;
-
-    private SkillData(
-        final String name,
-        final String image,
-        final long mpConsumption,
-        final EnumSet<SkillTag> tags,
-        final int duration,
-        final int level,
-        final Boolean permable,
-        final int maxLevel,
-        final Category category) {
-      this.name = name;
-      this.image = image;
-      this.mpConsumption = mpConsumption;
-      this.tags = tags;
-      this.duration = duration;
-      this.level = level;
-      this.permable = permable;
-      this.maxLevel = maxLevel;
-      this.category = category;
-    }
-  }
+  public record SkillData(
+      String name,
+      String image,
+      long mpConsumption,
+      EnumSet<SkillTag> tags,
+      int duration,
+      int level,
+      Boolean permable,
+      int maxLevel,
+      Category category) {}
 
   private static final Map<Integer, SkillData> skillDataById = new TreeMap<>();
   private static final Map<String, int[]> skillIdSetByName = new TreeMap<>();
@@ -340,7 +318,7 @@ public class SkillDatabase {
    */
   public static final String getSkillName(final int skillId) {
     SkillData skillData = SkillDatabase.skillDataById.get(skillId);
-    return skillData == null ? null : skillData.name;
+    return skillData == null ? null : skillData.name();
   }
 
   public static final String getSkillDisplayName(final String skillName) {
@@ -554,7 +532,7 @@ public class SkillDatabase {
    */
   public static final int getSkillLevel(final int skillId) {
     SkillData skillData = SkillDatabase.skillDataById.get(skillId);
-    return skillData == null ? -1 : skillData.level;
+    return skillData == null ? -1 : skillData.level();
   }
 
   public static final int getSkillPurchaseCost(final int skillId) {
@@ -595,13 +573,13 @@ public class SkillDatabase {
    */
   public static final EnumSet<SkillTag> getSkillTags(final int skillId) {
     var skillData = SkillDatabase.skillDataById.get(skillId);
-    var skillTags = skillData == null ? null : skillData.tags;
+    var skillTags = skillData == null ? null : skillData.tags();
     return skillTags == null ? EnumSet.noneOf(SkillTag.class) : skillTags;
   }
 
   public static final String getSkillTypeName(final int skillId) {
     var skillData = SkillDatabase.skillDataById.get(skillId);
-    var tags = skillData == null ? null : skillData.tags;
+    var tags = skillData == null ? null : skillData.tags();
     if (tags == null) {
       return "unknown";
     }
@@ -653,7 +631,7 @@ public class SkillDatabase {
 
   public static final Category getSkillCategory(final int skillId) {
     SkillData skillData = SkillDatabase.skillDataById.get(skillId);
-    Category cat = skillData == null ? null : skillData.category;
+    Category cat = skillData == null ? null : skillData.category();
     return cat == null ? Category.UNKNOWN : cat;
   }
 
@@ -665,7 +643,7 @@ public class SkillDatabase {
    */
   public static final String getSkillImage(final int skillId) {
     SkillData skillData = SkillDatabase.skillDataById.get(skillId);
-    return skillData == null ? null : skillData.image;
+    return skillData == null ? null : skillData.image();
   }
 
   /**
@@ -760,7 +738,7 @@ public class SkillDatabase {
     }
 
     SkillData skillData = SkillDatabase.skillDataById.get(skillId);
-    Long mpConsumption = skillData == null ? null : skillData.mpConsumption;
+    Long mpConsumption = skillData == null ? null : skillData.mpConsumption();
 
     if (mpConsumption == null) {
       return 0;
@@ -987,7 +965,7 @@ public class SkillDatabase {
    */
   public static final int getEffectDuration(final int skillId) {
     SkillData skillData = SkillDatabase.skillDataById.get(skillId);
-    Integer duration = skillData == null ? null : skillData.duration;
+    Integer duration = skillData == null ? null : skillData.duration();
     if (duration == null) {
       return 0;
     }
@@ -1200,7 +1178,7 @@ public class SkillDatabase {
   /** Utility method used to determine if the given skill is of the appropriate type. */
   private static boolean isType(final int skillId, final SkillTag type) {
     SkillData skillData = SkillDatabase.skillDataById.get(skillId);
-    var tags = skillData == null ? null : skillData.tags;
+    var tags = skillData == null ? null : skillData.tags();
     if (tags == null) {
       return false;
     }
@@ -1392,13 +1370,13 @@ public class SkillDatabase {
 
   public static int getMaxLevel(final int skillId) {
     SkillData skillData = SkillDatabase.skillDataById.get(skillId);
-    return skillData == null ? 0 : skillData.maxLevel;
+    return skillData == null ? 0 : skillData.maxLevel();
   }
 
   /** Utility method used to determine if the given skill can be made permanent */
   public static boolean isPermable(final int skillId) {
     SkillData skillData = SkillDatabase.skillDataById.get(skillId);
-    return skillData == null || skillData.permable == null ? skillId < 7000 : skillData.permable;
+    return skillData == null || skillData.permable() == null ? skillId < 7000 : skillData.permable();
   }
 
   public static final boolean isBookshelfSkill(final int skillId) {
@@ -1462,7 +1440,7 @@ public class SkillDatabase {
     for (var skill : SkillDatabase.skillDataById.entrySet()) {
       var skillId = skill.getKey();
       var skillData = skill.getValue();
-      var skillTags = skillData == null ? null : skillData.tags;
+      var skillTags = skillData == null ? null : skillData.tags();
       if (skillTags == null) continue;
 
       boolean shouldAdd = skillTags.stream().anyMatch(types::contains);
@@ -1500,7 +1478,7 @@ public class SkillDatabase {
    */
   public static final Set<Entry<Integer, String>> entrySet() {
     return SkillDatabase.skillDataById.entrySet().stream()
-        .collect(Collectors.toMap(Entry::getKey, entry -> entry.getValue().name))
+        .collect(Collectors.toMap(Entry::getKey, entry -> entry.getValue().name()))
         .entrySet();
   }
 
