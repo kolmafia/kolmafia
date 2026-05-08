@@ -2,12 +2,14 @@ package net.sourceforge.kolmafia.persistence;
 
 import static internal.helpers.Player.withItem;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
 
 import internal.helpers.Cleanups;
-import java.io.File;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -19,18 +21,52 @@ import org.junit.jupiter.params.provider.ValueSource;
 public class EquipmentDatabaseTest {
 
   @Test
+  public void itShouldReturnExpectedFieldsForKnownEquipmentRow() {
+    int itemId = ItemPool.ASPARAGUS_KNIFE;
+
+    assertThat(EquipmentDatabase.contains(itemId), is(true));
+    assertThat(EquipmentDatabase.getPower(itemId), is(15));
+    assertThat(EquipmentDatabase.getEquipRequirement(itemId), is("Mus: 0"));
+    assertThat(EquipmentDatabase.getHands(itemId), is(1));
+    assertThat(EquipmentDatabase.getItemType(itemId), is("knife"));
+    assertThat(EquipmentDatabase.getWeaponStat(itemId), is(KoLConstants.Stat.MUSCLE));
+    assertThat(EquipmentDatabase.getWeaponType(itemId), is(KoLConstants.WeaponType.MELEE));
+  }
+
+  @Test
+  public void itShouldReturnExpectedFieldsForNonShieldOffhand() {
+    int itemId = ItemPool.SEVENTEEN_BALL;
+
+    assertThat(EquipmentDatabase.contains(itemId), is(true));
+    assertThat(EquipmentDatabase.getPower(itemId), is(200));
+    assertThat(EquipmentDatabase.getEquipRequirement(itemId), is("none"));
+    assertThat(EquipmentDatabase.getHands(itemId), is(0));
+    assertThat(EquipmentDatabase.getItemType(itemId), is("offhand"));
+    assertThat(EquipmentDatabase.getWeaponStat(itemId), is(KoLConstants.Stat.NONE));
+    assertThat(EquipmentDatabase.getWeaponType(itemId), is(KoLConstants.WeaponType.NONE));
+  }
+
+  @Test
   public void itShouldWriteEquipment() {
-    // This is an awkward test because it generates a lot of coverage but verifying that file is
-    // correct
-    // depends upon the dynamic state of the equipment file.  The attempts to read the version in
-    // the source
-    // tree or jar have failed so far.  Revisit when the test environment is better understood?
-    File equip = new File("testeqf.txt");
+    ByteArrayOutputStream os = new ByteArrayOutputStream();
+    PrintStream ps = new PrintStream(os);
     EquipmentDatabase.reset();
-    EquipmentDatabase.writeEquipment(equip);
-    assertTrue(true);
-    // delete which is probably not helpful if test fails but...
-    equip.delete();
+    EquipmentDatabase.writeEquipment(ps);
+    String data = os.toString();
+
+    // Assert a spread
+    assertThat(data, containsString("4-dimensional fez\t50\tnone\n"));
+    assertThat(data, containsString("antique candy bucket\t10\tnone\n"));
+    assertThat(data, containsString("antique shield\t180\tMus: 60\tshield\n"));
+    assertThat(data, containsString("[10462]fire flower\t0\tMus: 0\t1-handed flower\n"));
+    assertThat(data, containsString("World's Blackest-Eyed Peas\t30\tnone\tcan of beans\n"));
+    assertThat(
+        data,
+        containsString(
+            """
+      [2268]Staff of Fats\t100\tMys: 35\t2-handed staff
+      [7964]Staff of Fats\t100\tMys: 35\t2-handed staff
+      """));
   }
 
   @Test

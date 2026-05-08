@@ -5,8 +5,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -36,10 +36,20 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 @SuppressWarnings("incomplete-switch")
 public class EquipmentDatabase {
-  private static final Map<Integer, Integer> power = new HashMap<>();
-  private static final Map<Integer, Integer> hands = new HashMap<>();
-  private static final Map<Integer, String> itemTypes = new HashMap<>();
-  private static final Map<Integer, String> statRequirements = new HashMap<>();
+  private record EquipmentData(int power, String statRequirement, int hands, String itemType) {
+    String toDataLine(final int itemId) {
+      var name = ItemPool.get(itemId).getDisambiguatedName();
+      String output = name + "\t" + power + "\t" + statRequirement;
+      if (hands != 0) {
+        output += "\t" + hands + "-handed " + itemType;
+      } else if (itemType != null) {
+        output += "\t" + itemType;
+      }
+      return output;
+    }
+  }
+
+  private static final Map<Integer, EquipmentData> equipmentById = new HashMap<>();
 
   private static final Map<Integer, Integer> outfitPieces = new HashMap<>();
   public static final Map<Integer, SpecialOutfit> normalOutfits = new HashMap<>();
@@ -120,10 +130,8 @@ public class EquipmentDatabase {
           continue;
         }
 
-        EquipmentDatabase.power.put(itemId, StringUtilities.parseInt(data[1]));
-
-        String reqs = data[2];
-        EquipmentDatabase.statRequirements.put(itemId, reqs);
+        var power = StringUtilities.parseInt(data[1]);
+        var statRequirement = data[2];
 
         int hval = 0;
         String tval = null;
@@ -140,8 +148,8 @@ public class EquipmentDatabase {
           }
         }
 
-        EquipmentDatabase.hands.put(itemId, hval);
-        EquipmentDatabase.itemTypes.put(itemId, tval);
+        EquipmentDatabase.equipmentById.put(
+            itemId, new EquipmentData(power, statRequirement, hval, tval));
       }
     } catch (IOException e) {
       StaticEntity.printStackTrace(e);
@@ -252,36 +260,40 @@ public class EquipmentDatabase {
   public static void writeEquipment(final File output) {
     RequestLogger.printLine("Writing data override: " + output);
 
+    // Open the output file
+    PrintStream writer = LogStream.openStream(output, true);
+    try (writer) {
+      writeEquipment(writer);
+    }
+  }
+
+  static void writeEquipment(final PrintStream writer) {
     // One map per equipment category
-    Map<String, Integer> hats = new TreeMap<>();
-    Map<String, Integer> weapons = new TreeMap<>();
-    Map<String, Integer> offhands = new TreeMap<>();
-    Map<String, Integer> shirts = new TreeMap<>();
-    Map<String, Integer> pants = new TreeMap<>();
-    Map<String, Integer> accessories = new TreeMap<>();
-    Map<String, Integer> containers = new TreeMap<>();
+    Map<String, List<Integer>> hats = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+    Map<String, List<Integer>> weapons = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+    Map<String, List<Integer>> offhands = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+    Map<String, List<Integer>> shirts = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+    Map<String, List<Integer>> pants = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+    Map<String, List<Integer>> accessories = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+    Map<String, List<Integer>> containers = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 
     // Iterate over all items and assign item id to category
-    Iterator<Entry<Integer, String>> it = ItemDatabase.dataNameEntrySet().iterator();
-    while (it.hasNext()) {
-      Entry<Integer, String> entry = it.next();
+    for (Entry<Integer, String> entry : ItemDatabase.dataNameEntrySet()) {
       Integer key = entry.getKey();
       String name = entry.getValue();
-      ConsumptionType type = ItemDatabase.getConsumptionType(key.intValue());
+      ConsumptionType type = ItemDatabase.getConsumptionType(key);
 
       switch (type) {
-        case HAT -> hats.put(name, key);
-        case PANTS -> pants.put(name, key);
-        case SHIRT -> shirts.put(name, key);
-        case WEAPON -> weapons.put(name, key);
-        case OFFHAND -> offhands.put(name, key);
-        case ACCESSORY -> accessories.put(name, key);
-        case CONTAINER -> containers.put(name, key);
+        case HAT -> hats.computeIfAbsent(name, k -> new ArrayList<>()).add(key);
+        case PANTS -> pants.computeIfAbsent(name, k -> new ArrayList<>()).add(key);
+        case SHIRT -> shirts.computeIfAbsent(name, k -> new ArrayList<>()).add(key);
+        case WEAPON -> weapons.computeIfAbsent(name, k -> new ArrayList<>()).add(key);
+        case OFFHAND -> offhands.computeIfAbsent(name, k -> new ArrayList<>()).add(key);
+        case ACCESSORY -> accessories.computeIfAbsent(name, k -> new ArrayList<>()).add(key);
+        case CONTAINER -> containers.computeIfAbsent(name, k -> new ArrayList<>()).add(key);
       }
     }
 
-    // Open the output file
-    PrintStream writer = LogStream.openStream(output, true);
     writer.println(KoLConstants.EQUIPMENT_VERSION);
 
     // For each equipment category, write the map entries
@@ -293,38 +305,25 @@ public class EquipmentDatabase {
     writer.println();
     EquipmentDatabase.writeEquipmentCategory(writer, weapons, "Weapons");
     writer.println();
-    EquipmentDatabase.writeEquipmentCategory(writer, offhands, "Off-hand");
+    EquipmentDatabase.writeEquipmentCategory(writer, offhands, "Off-hand Items");
     writer.println();
     EquipmentDatabase.writeEquipmentCategory(writer, accessories, "Accessories");
     writer.println();
     EquipmentDatabase.writeEquipmentCategory(writer, containers, "Containers");
-
-    writer.close();
   }
 
   private static void writeEquipmentCategory(
-      final PrintStream writer, final Map<String, Integer> map, final String tag) {
+      final PrintStream writer, final Map<String, List<Integer>> map, final String tag) {
     writer.println("# " + tag + " section of equipment.txt");
     writer.println();
 
-    String[] keys = map.keySet().toArray(new String[0]);
-    for (int i = 0; i < keys.length; ++i) {
-      String name = keys[i];
-      Integer val = map.get(name);
-      int itemId = val.intValue();
-      int power = EquipmentDatabase.getPower(itemId);
-      String req = EquipmentDatabase.getEquipRequirement(itemId);
-      ConsumptionType usage = ItemDatabase.getConsumptionType(itemId);
-      boolean isWeapon = usage == ConsumptionType.WEAPON;
-      String type = EquipmentDatabase.itemTypes.get(itemId);
-      boolean isShield = type != null && type.equals("shield");
-      String weaponType = "";
-      if (isWeapon) {
-        int hands = getHands(itemId);
-        weaponType = hands + "-handed " + type;
+    for (var entry : map.entrySet()) {
+      var itemIds = entry.getValue();
+      itemIds.sort(Comparator.naturalOrder());
+      for (var itemId : itemIds) {
+        EquipmentData equipmentData = EquipmentDatabase.equipmentById.get(itemId);
+        writer.println(equipmentData.toDataLine(itemId));
       }
-      EquipmentDatabase.writeEquipmentItem(
-          writer, name, power, req, weaponType, isWeapon, isShield);
     }
   }
 
@@ -368,36 +367,25 @@ public class EquipmentDatabase {
     String type = DebugDatabase.parseType(text);
     String req = DebugDatabase.parseReq(text, type);
 
-    EquipmentDatabase.power.put(itemId, power);
-    EquipmentDatabase.statRequirements.put(itemId, req);
+    int hands = 0;
+    String itemType = null;
 
-    boolean isWeapon = false, isShield = false;
-    String weaponType = "";
-
-    if (type.indexOf("weapon") != -1) {
+    if (type.contains("weapon")) {
       Matcher matcher = WEAPON_TYPE_PATTERN.matcher(type);
-      int hval;
-      String tval;
       if (matcher.find()) {
-        weaponType = matcher.group(1);
-        hval = StringUtilities.parseInt(matcher.group(2));
-        tval = matcher.group(3);
+        hands = StringUtilities.parseInt(matcher.group(2));
+        itemType = matcher.group(3);
       } else {
-        weaponType = type;
-        hval = 0;
-        tval = type;
+        itemType = type;
       }
-      EquipmentDatabase.hands.put(itemId, hval);
-      EquipmentDatabase.itemTypes.put(itemId, tval);
-      isWeapon = true;
     } else if (type.contains("shield")) {
-      isShield = true;
-      weaponType = "shield";
-      EquipmentDatabase.itemTypes.put(itemId, weaponType);
+      itemType = "shield";
     }
 
-    String printMe =
-        EquipmentDatabase.equipmentString(itemName, power, req, weaponType, isWeapon, isShield);
+    var data = new EquipmentData(power, req, hands, itemType);
+    EquipmentDatabase.equipmentById.put(itemId, data);
+
+    String printMe = data.toDataLine(itemId);
     RequestLogger.printLine(printMe);
     RequestLogger.updateSessionLog(printMe);
   }
@@ -469,8 +457,8 @@ public class EquipmentDatabase {
   public static final int nextEquipmentItemId(int prevId) {
     int limit = ItemDatabase.maxItemId();
     while (++prevId <= limit) {
-      String req = EquipmentDatabase.statRequirements.get(prevId);
-      if ((req != null && req.length() > 0)
+      EquipmentData equipmentData = EquipmentDatabase.equipmentById.get(prevId);
+      if (equipmentData != null
           || ItemDatabase.getConsumptionType(prevId) == ConsumptionType.FAMILIAR_EQUIPMENT
           || ItemDatabase.getConsumptionType(prevId) == ConsumptionType.SIXGUN) {
         return prevId;
@@ -513,23 +501,22 @@ public class EquipmentDatabase {
   }
 
   public static final boolean contains(final int itemId) {
-    return itemId > 0 && EquipmentDatabase.statRequirements.get(itemId) != null;
+    return itemId > 0 && EquipmentDatabase.equipmentById.get(itemId) != null;
   }
 
   public static final int getPower(final int itemId) {
-    return EquipmentDatabase.power.getOrDefault(itemId, 0);
-  }
-
-  public static final void setPower(final int itemId, final int power) {
-    EquipmentDatabase.power.put(itemId, power);
+    EquipmentData equipmentData = EquipmentDatabase.equipmentById.get(itemId);
+    return equipmentData == null ? 0 : equipmentData.power;
   }
 
   public static final int getHands(final int itemId) {
-    return EquipmentDatabase.hands.getOrDefault(itemId, 0);
+    EquipmentData equipmentData = EquipmentDatabase.equipmentById.get(itemId);
+    return equipmentData == null ? 0 : equipmentData.hands;
   }
 
   public static final String getEquipRequirement(final int itemId) {
-    return EquipmentDatabase.statRequirements.getOrDefault(itemId, "none");
+    EquipmentData equipmentData = EquipmentDatabase.equipmentById.get(itemId);
+    return equipmentData == null ? "none" : equipmentData.statRequirement;
   }
 
   public static final String getItemType(final int itemId) {
@@ -576,12 +563,14 @@ public class EquipmentDatabase {
         return "shirt";
       case WEAPON:
         {
-          String type = EquipmentDatabase.itemTypes.get(itemId);
+          EquipmentData equipmentData = EquipmentDatabase.equipmentById.get(itemId);
+          String type = equipmentData == null ? null : equipmentData.itemType;
           return type != null ? type : "weapon";
         }
       case OFFHAND:
         {
-          String type = EquipmentDatabase.itemTypes.get(itemId);
+          EquipmentData equipmentData = EquipmentDatabase.equipmentById.get(itemId);
+          String type = equipmentData == null ? null : equipmentData.itemType;
           return type != null ? type : "offhand";
         }
       case CONTAINER:

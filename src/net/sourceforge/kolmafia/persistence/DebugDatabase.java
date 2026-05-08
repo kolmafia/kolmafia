@@ -244,23 +244,23 @@ public class DebugDatabase {
 
     PrintStream report = DebugDatabase.openReport(ITEM_DATA);
 
-    Arrays.stream(DebugDatabase.ITEM_MAPS).forEach(ItemMap::clear);
+    try (report) {
+      Arrays.stream(DebugDatabase.ITEM_MAPS).forEach(ItemMap::clear);
 
-    // Check item names, desc ID, consumption type
+      // Check item names, desc ID, consumption type
 
-    if (itemId == 0) {
-      DebugDatabase.checkItems(report);
-    } else {
-      DebugDatabase.checkItem(itemId, report);
+      if (itemId == 0) {
+        DebugDatabase.checkItems(report);
+      } else {
+        DebugDatabase.checkItem(itemId, report);
+      }
+
+      // Check level limits, equipment, modifiers
+
+      DebugDatabase.checkConsumableItems(report);
+      DebugDatabase.checkEquipment(report);
+      DebugDatabase.checkItemModifiers(report);
     }
-
-    // Check level limits, equipment, modifiers
-
-    DebugDatabase.checkConsumableItems(report);
-    DebugDatabase.checkEquipment(report);
-    DebugDatabase.checkItemModifiers(report);
-
-    report.close();
   }
 
   private static void checkItems(final PrintStream report) {
@@ -1582,11 +1582,11 @@ public class DebugDatabase {
 
     PrintStream report = DebugDatabase.openReport(OUTFIT_DATA);
 
-    DebugDatabase.outfits.clear();
-    DebugDatabase.checkOutfits(report);
-    DebugDatabase.checkOutfitModifierMap(report);
-
-    report.close();
+    try (report) {
+      DebugDatabase.outfits.clear();
+      DebugDatabase.checkOutfits(report);
+      DebugDatabase.checkOutfitModifierMap(report);
+    }
   }
 
   private static void checkOutfits(final PrintStream report) {
@@ -1758,17 +1758,17 @@ public class DebugDatabase {
 
     PrintStream report = DebugDatabase.openReport(EFFECT_DATA);
 
-    DebugDatabase.effects.clear();
+    try (report) {
+      DebugDatabase.effects.clear();
 
-    if (effectId == 0) {
-      DebugDatabase.checkEffects(report);
-    } else {
-      DebugDatabase.checkEffect(effectId, report);
+      if (effectId == 0) {
+        DebugDatabase.checkEffects(report);
+      } else {
+        DebugDatabase.checkEffect(effectId, report);
+      }
+
+      DebugDatabase.checkEffectModifiers(report);
     }
-
-    DebugDatabase.checkEffectModifiers(report);
-
-    report.close();
   }
 
   private static void checkEffects(final PrintStream report) {
@@ -1816,10 +1816,6 @@ public class DebugDatabase {
     }
 
     String descriptionName = DebugDatabase.parseName(text);
-    // Kludge to adjust known defective effect descriptions
-    if (effectId == 1659) {
-      descriptionName = StringUtilities.globalStringReplace(descriptionName, "  ", " ");
-    }
     if (!name.equals(descriptionName) && !decodedNamesEqual(name, descriptionName)) {
       report.println(
           "# *** " + name + " (" + effectId + ") has description of " + descriptionName + ".");
@@ -2003,17 +1999,17 @@ public class DebugDatabase {
 
     PrintStream report = DebugDatabase.openReport(SKILL_DATA);
 
-    DebugDatabase.passiveSkills.clear();
+    try (report) {
+      DebugDatabase.passiveSkills.clear();
 
-    if (skillId == 0) {
-      DebugDatabase.checkSkills(report);
-    } else {
-      DebugDatabase.checkSkill(skillId, report);
+      if (skillId == 0) {
+        DebugDatabase.checkSkills(report);
+      } else {
+        DebugDatabase.checkSkill(skillId, report);
+      }
+
+      DebugDatabase.checkSkillModifiers(report);
     }
-
-    DebugDatabase.checkSkillModifiers(report);
-
-    report.close();
   }
 
   private static void checkSkills(final PrintStream report) {
@@ -2319,36 +2315,37 @@ public class DebugDatabase {
     RequestLogger.printLine("Checking plurals...");
     PrintStream report =
         LogStream.openStream(new File(KoLConstants.DATA_LOCATION, "plurals.txt"), true);
-    if (!parameters.contains("-")) {
-      int itemId = StringUtilities.parseInt(parameters);
-      if (itemId == 0) {
-        for (Integer id : ItemDatabase.descriptionIdKeySet()) {
-          if (!KoLmafia.permitsContinue()) {
-            break;
+    try (report) {
+      if (!parameters.contains("-")) {
+        int itemId = StringUtilities.parseInt(parameters);
+        if (itemId == 0) {
+          for (Integer id : ItemDatabase.descriptionIdKeySet()) {
+            if (!KoLmafia.permitsContinue()) {
+              break;
+            }
+            if (id < 0) {
+              continue;
+            }
+            while (++itemId < id) {
+              report.println(itemId);
+            }
+            DebugDatabase.checkPlural(id, client, report);
           }
-          if (id < 0) {
-            continue;
-          }
-          while (++itemId < id) {
-            report.println(itemId);
-          }
-          DebugDatabase.checkPlural(id, client, report);
+        } else {
+          DebugDatabase.checkPlural(itemId, client, report);
         }
       } else {
-        DebugDatabase.checkPlural(itemId, client, report);
-      }
-    } else {
-      String[] points = parameters.split("-");
-      // parseInt will return 0 for null input so bother to check split for validity
-      int start = StringUtilities.parseInt(points[0]);
-      int end = StringUtilities.parseInt(points[1]);
-      start = Math.max(0, start);
-      end = Math.min(end, ItemDatabase.maxItemId());
-      for (int i = start; i < end; i++) {
-        DebugDatabase.checkPlural(i, client, report);
+        String[] points = parameters.split("-");
+        // parseInt will return 0 for null input so bother to check split for validity
+        int start = StringUtilities.parseInt(points[0]);
+        int end = StringUtilities.parseInt(points[1]);
+        start = Math.max(0, start);
+        end = Math.min(end, ItemDatabase.maxItemId());
+        for (int i = start; i < end; i++) {
+          DebugDatabase.checkPlural(i, client, report);
+        }
       }
     }
-    report.close();
   }
 
   private static void checkPlural(
@@ -3061,8 +3058,9 @@ public class DebugDatabase {
     DebugDatabase.loadScrapeData(rawItems, ITEM_HTML);
     RequestLogger.printLine("Checking internal data...");
     PrintStream report = DebugDatabase.openReport(CONSUMABLE_DATA);
-    DebugDatabase.checkConsumables(report);
-    report.close();
+    try (report) {
+      DebugDatabase.checkConsumables(report);
+    }
   }
 
   private static void checkConsumables(final PrintStream report) {
@@ -3970,24 +3968,25 @@ public class DebugDatabase {
     PrintStream report =
         LogStream.openStream(new File(KoLConstants.DATA_LOCATION, "zapreport.txt"), true);
 
-    String[] groups =
-        DebugDatabase.ZAPGROUP_PATTERN.split(DebugDatabase.readWikiItemData("Zapping", client));
-    for (int i = 1; i < groups.length; ++i) {
-      String group = groups[i];
-      int pos = group.indexOf("</td>");
-      if (pos != -1) {
-        group = group.substring(0, pos);
-      }
-      Matcher m = DebugDatabase.ZAPITEM_PATTERN.matcher(group);
-      ArrayList<String> items = new ArrayList<>();
-      while (m.find()) {
-        items.add(m.group(1));
-      }
-      if (items.size() > 1) {
-        DebugDatabase.checkZapGroup(items, report);
+    try (report) {
+      String[] groups =
+          DebugDatabase.ZAPGROUP_PATTERN.split(DebugDatabase.readWikiItemData("Zapping", client));
+      for (int i = 1; i < groups.length; ++i) {
+        String group = groups[i];
+        int pos = group.indexOf("</td>");
+        if (pos != -1) {
+          group = group.substring(0, pos);
+        }
+        Matcher m = DebugDatabase.ZAPITEM_PATTERN.matcher(group);
+        ArrayList<String> items = new ArrayList<>();
+        while (m.find()) {
+          items.add(m.group(1));
+        }
+        if (items.size() > 1) {
+          DebugDatabase.checkZapGroup(items, report);
+        }
       }
     }
-    report.close();
   }
 
   private static void checkZapGroup(ArrayList<String> items, PrintStream report) {

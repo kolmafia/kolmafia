@@ -154,6 +154,7 @@ fishin' hat	10	none
 five-gallon hat	100	none
 flagstone fez	120	Mys: 40
 flaming leaf crown	150	none
+flatusaur gasmask	100	none
 floaty rock helmet	100	Mox: 35
 foam commodore's hat	200	Mox: 85
 foolscap fool's cap	40	Mox: 5
@@ -348,6 +349,7 @@ raspberry beret	50	Mox: 10
 ratty knitted cap	50	none
 rave visor	150	Mox: 60
 ravioli hat	10	none
+real cowboy hat	50	none
 red traffic cone	60	Mox: 15
 reinforced beaded headband	170	Mox: 70
 replica jewel-eyed wizard hat	10	none
@@ -361,6 +363,7 @@ sea cowboy hat	200	Mox: 85
 seal-skull helmet	10	none
 sealhide hood	160	Mox: 65
 Seasonal Beret	100	Mys: 35
+senate fly thorax	10	none
 sequined fez	80	Mox: 25
 seven-gallon hat	140	none
 shadow chef's hat	100	none
@@ -611,6 +614,7 @@ Greatest American Pants	100	none
 Greaves of the Murk Lord	120	none
 Grimacite gaiters	150	Mox: 40
 Grimacite greaves	125	Mox: 47
+grubby wool trousers	50	none
 Guzzlr pants	100	none
 gym shorts	100	Mox: 35
 hardened slime pants	200	Mox: 200
@@ -862,7 +866,6 @@ dinosaur bone corset	100	none
 Dragonscale breastplate	200	Mus: 40
 dreadful sweater	200	Mys: 200
 duct tape shirt	195	Mus: 82
-elf army poncho	10	none
 embers-only jacket	100	none
 extra-see-thru nightie	200	Mus: 200
 extra-thick Crimbo sweater	100	none
@@ -872,9 +875,7 @@ famous blue raincoat	100	none
 filthy hippy poncho	40	Mus: 5
 First Post shirt - Cir Senam	100	none
 fishbone corset	20	none
-flagstone fleece	120	Mox: 40
 flaming pink shirt	100	none
-flatusaur gasmask	100	none
 floral print shirt	100	Mus: 35
 flyest of shirts	80	Mus: 25
 fresh coat of paint	100	none
@@ -894,7 +895,6 @@ Grateful Undead T-shirt	70	Mus: 20
 Gregarious Gregorian Smock	100	none
 Grimacite gown	150	Mus: 40
 Grimacite guayabera	125	Mus: 47
-grubby wool trousers	50	none
 grungy flannel shirt	150	Mox: 60
 hairshirt	150	Mus: 40
 harem girl t-shirt	25	none
@@ -933,11 +933,11 @@ psycho sweater	100	Mus: 35
 punk rock jacket	145	Mus: 57
 Quartet of Flare Masters Jacket	50	Mox: 11
 Radio Free Jersey	0	none
-real cowboy hat	50	none
 red coat	160	Mus: 65
 red shirt	150	Mus: 60
 red-and-green sweater	50	Mox: 35
 reflective vest	50	none
+replica Jurassic Parka	100	none
 rhinestone cowboy shirt	100	Mus: 35
 safety vest	70	Mus: 20
 scorched skeleton shirt	150	Mys: 60
@@ -984,12 +984,12 @@ zero-trust tanktop	100	none
 # Weapons section of equipment.txt
 
 &quot;honey&quot; dipper	150	Mys: 60	1-handed utensil
+17-alarm Saucepan	90	Mys: 15	1-handed saucepan
+25-meat staff	70	Mus: 20	2-handed staff
 4-dimensional guitar	80	Mox: 25	2-handed guitar
 5-Alarm Saucepan	50	Mys: 10	1-handed saucepan
 7-Foot Dwarven mattock	80	Mus: 25	2-handed axe
 7-inch discus	200	Mox: 85	1-handed boomerang
-17-alarm Saucepan	90	Mys: 15	1-handed saucepan
-25-meat staff	70	Mus: 20	2-handed staff
 a butt tuba	145	Mox: 57	2-handed horn
 accord ion	70	Mox: 20	1-handed accordion
 accordion file	60	Mox: 15	2-handed accordion
@@ -1486,7 +1486,6 @@ Monodent of the Sea	200	Mus: 0	1-handed spear
 Moonthril Flamberge	100	Mus: 40	2-handed sword
 Moonthril Longbow	100	Mox: 40	2-handed bow
 moss mace	50	Mus: 0	1-handed club
-mother's necklace	100	none
 muculent machete	60	Mus: 15	1-handed sword
 murderbot plasma rifle	150	Mox: 30	2-handed rifle
 murderbot whip	10	Mus: 30	1-handed whip
@@ -1599,7 +1598,6 @@ replica bottle-rocket crossbow	100	Mox: 0	1-handed crossbow
 replica Fourth of May Cosplay Saber	100	Mus: 0	1-handed saber
 replica haiku katana	100	Mus: 0	1-handed sword
 replica industrial fire extinguisher	100	Mus: 0	1-handed extinguisher
-replica Jurassic Parka	100	none
 revolver	100	Mox: 0	1-handed pistol
 rib of the Bonerdagon	80	Mus: 25	2-handed staff
 ridiculously huge sword	140	Mus: 55	3-handed sword
@@ -1699,7 +1697,7 @@ spork	30	Mys: 0	1-handed utensil
 squeaky staff	75	Mus: 22	2-handed staff
 Squeezebox of the Ages	90	Mox: 15	2-handed accordion
 Staff of Blood and Pudding	10	Mys: 15	1-handed chefstaff
-Staff of Ed	100	Mus: 0	1-handed staff
+[7961]Staff of Ed	100	Mus: 0	1-handed staff
 [2268]Staff of Fats	100	Mys: 35	2-handed staff
 [7964]Staff of Fats	100	Mys: 35	2-handed staff
 Staff of Frozen Lard	10	Mys: 200	1-handed chefstaff
@@ -1782,7 +1780,6 @@ swordzall	80	Mus: 25	1-handed sword
 tail o' nine cats	30	Mus: 0	1-handed whip
 Tales of the Word Realms	0	Mus: 0	2-handed book
 tambourine	50	Mox: 10	1-handed drum
-teacher's pen	100	none
 teflon spatula	200	Mys: 85	1-handed utensil
 terra cotta tongs	120	Mys: 40	1-handed utensil
 the gun	100	Mox: 0	1-handed pistol
@@ -1880,9 +1877,10 @@ Zombo's shoulder blade	200	Mus: 200	2-handed sword
 
 # Off-hand Items section of equipment.txt
 
-'WILL WORK FOR BOOZE' sign	150	Mus: 175
 &quot;reusable&quot; grocery bag	10	none
+'WILL WORK FOR BOOZE' sign	150	Mus: 175
 1-ball	60	Mys: 15
+17-ball	200	none
 2-ball	60	Mys: 15
 3-ball	60	Mys: 15
 4-ball	60	Mys: 15
@@ -1890,7 +1888,6 @@ Zombo's shoulder blade	200	Mus: 200	2-handed sword
 6-ball	60	Mys: 15
 7-ball	60	Mys: 15
 9-ball	60	Mys: 15
-17-ball	200	none
 A Light that Never Goes Out	100	none
 Abracandalabra	100	none
 Abuela Crimbo's special magnet	10	none
@@ -2171,7 +2168,6 @@ Loathing Legion tape measure	0	none
 loose purse strings	10	none
 LOV Elephant	100	Mus: 25	shield
 low-budget shield	60	none	shield
-lube-shoes	0	none
 lucky lighter	35	Mys: 2
 mad scientist's sock monkey	110	Mys: 40
 magic lamp	30	none
@@ -2296,10 +2292,11 @@ Red Roger's red left hand	120	none
 red wagon	200	Mys: 200
 Red X Shield	180	Mus: 70	shield
 replica august scepter	0	none
+replica Kramco Sausage-o-Matic&trade;	100	none
 replica Operation Patriot Shield	240	none	shield
 reusable shopping bag	10	none
 rice bowl	30	none
-rock	0	none
+[8042]rock	0	none
 Roman Candelabra	0	none
 Royal scepter	100	none
 rubber baby doll	100	none
@@ -2482,9 +2479,9 @@ zoological sample kit	10	none
 
 # Accessories section of equipment.txt
 
-[spelunking test kit]	0	none
 &quot;I survived Y2K&quot; T-Shirt	100	none
 &quot;I Voted!&quot; sticker	10	none
+[spelunking test kit]	0	none
 acid-squirting flower	50	Mys: 10
 actual reality goggles	10	none
 actual skeleton key	10	none
@@ -2954,6 +2951,7 @@ Lord Spookyraven's ear trumpet	150	Mys: 20
 Lord Spookyraven's spectacles	10	none
 LOV Earrings	100	none
 low-pressure oxygen tank	0	none
+lube-shoes	0	none
 lucky bottlecap	200	Mys: 200
 lucky cat collar	60	Mys: 15
 lucky Crimbo tiki necklace	10	none
@@ -3020,6 +3018,7 @@ mood ring	10	none
 moon-amber necklace	250	Mys: 200
 moss marlinspike	50	none
 moss medal	50	none
+mother's necklace	100	none
 motion sensor	0	none
 moustache sock	100	Mus: 10
 Mr. Accessaturday	0	none
@@ -3193,7 +3192,6 @@ replica Elf Guard medal	50	none
 replica Elvish sunglasses	0	none
 replica hewn moon-rune spoon	200	none
 replica Juju Mojo Mask	100	none
-replica Kramco Sausage-o-Matic&trade;	100	none
 replica navel ring of navel gazing	0	none
 replica over-the-shoulder Folder Holder	100	none
 replica plastic vampire fangs	0	none
@@ -3251,7 +3249,6 @@ sealhide gloves	160	Mys: 65
 sealhide moccasins	160	Mys: 65
 second-hand knockoff engagement ring	0	none
 self-repairing earmuffs	50	none
-senate fly thorax	10	none
 Senior LAAAAME merit badge	20	none
 severed rocking horse head	50	Mys: 10
 shadow monocle	0	none
@@ -3356,6 +3353,7 @@ Talisman of Bakula	200	none
 tap shoes	70	Mys: 20
 tarnished tastevin	150	Mys: 40
 tarrrnished charrrm bracelet	150	Mys: 60
+teacher's pen	100	none
 teflon swim fins	200	Mus: 85
 terra cotta tie tack	120	Mox: 40
 terra cotta truss	120	Mus: 40
@@ -3405,8 +3403,8 @@ tiny die-cast Uncle Hobo	50	none
 tiny die-cast Unionize the Elves Sign	10	none
 tiny die-cast Zeppo the Reindeer	10	none
 tiny plastic &quot;Santa Claus&quot;	10	none
-tiny plastic 7-foot dwarf	10	none
 tiny plastic 11 Dealer	0	none
+tiny plastic 7-foot dwarf	10	none
 tiny plastic abominable fudgeman	0	none
 tiny plastic Abuela Crimbo	25	none
 tiny plastic Abuela's cottage	10	none
@@ -3780,9 +3778,11 @@ Drapes-You-Regally	300	Mox: 250
 Drip harness	0	Mus: 100
 Drunkula's cape	300	Mys: 250
 Duke Vampire's regal cloak	200	Mox: 40
+elf army poncho	10	none
 Elf Guard fuel tank	100	none
 Elf Guard SCUBA tank	100	none
 fiberglass frock	120	Mus: 40
+flagstone fleece	120	Mox: 40
 frozen turtle shell	100	Mus: 50
 gabardine gunnysack	50	none
 ghost shawl	250	Mys: 200
