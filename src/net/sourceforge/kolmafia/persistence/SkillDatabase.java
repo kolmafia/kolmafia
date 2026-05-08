@@ -312,20 +312,6 @@ public class SkillDatabase {
     SkillDatabase.castsById.put(skillId, 0);
   }
 
-  public static final List<String> getSkillsByCategory(Category category) {
-    if (category == null) {
-      return new ArrayList<>();
-    }
-
-    List<String> skills = SkillDatabase.skillsByCategory.get(category);
-
-    if (skills == null) {
-      return new ArrayList<>();
-    }
-
-    return skills;
-  }
-
   /**
    * Returns the name for an skill, given its Id.
    *

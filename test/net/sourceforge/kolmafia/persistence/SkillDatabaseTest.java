@@ -6,14 +6,47 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.EnumSet;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.SkillDatabase.Category;
+import net.sourceforge.kolmafia.persistence.SkillDatabase.SkillTag;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 public class SkillDatabaseTest {
+
+  @Test
+  public void itShouldReturnExpectedFieldsForKnownSkillRow() {
+    var skillId = SkillPool.MANAGERIAL_MANIPULATION;
+    var name = "Managerial Manipulation";
+
+    assertThat(SkillDatabase.getSkillName(skillId), is(name));
+    assertThat(SkillDatabase.getSkillId(name), is(skillId));
+    assertThat(SkillDatabase.getSkillImage(skillId), is("necktie.gif"));
+    assertThat(
+        SkillDatabase.getSkillTags(skillId),
+        is(EnumSet.of(SkillTag.NONCOMBAT, SkillTag.EFFECT, SkillTag.OTHER)));
+    assertThat(SkillDatabase.getMPConsumptionById(skillId), is(5L));
+    assertThat(SkillDatabase.getEffectDuration(skillId), is(20));
+    assertThat(SkillDatabase.getSkillLevel(skillId), is(-1));
+    assertThat(SkillDatabase.getSkillCategory(skillId), is(Category.UNCATEGORIZED));
+    assertThat(SkillDatabase.isPermable(skillId), is(true));
+    assertThat(SkillDatabase.getSkillLevel(skillId), is(-1));
+    assertThat(SkillDatabase.getMaxLevel(skillId), is(0));
+  }
+
+  @Test
+  public void shouldReturnMaxLevelForKnownRow() {
+    assertThat(SkillDatabase.getMaxLevel(SkillPool.SLIMY_SINEWS), is(10));
+  }
+
+  @Test
+  public void shouldReturnLevelForKnownRow() {
+    assertThat(SkillDatabase.getSkillLevel(SkillPool.MOTIF), is(11));
+  }
+
   // This is just one simple test to verify before and after behavior for an implicit narrowing cast
   // that was replaced by an alternative calculation.
 
