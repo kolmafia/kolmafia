@@ -67,7 +67,7 @@ public class SkillDatabase {
     }
   }
 
-  private static class SkillData {
+  public static class SkillData {
     private String name;
     private String image;
     private long mpConsumption;
@@ -77,6 +77,27 @@ public class SkillDatabase {
     private Boolean permable;
     private int maxLevel;
     private Category category;
+
+    private SkillData(
+        final String name,
+        final String image,
+        final long mpConsumption,
+        final EnumSet<SkillTag> tags,
+        final int duration,
+        final int level,
+        final Boolean permable,
+        final int maxLevel,
+        final Category category) {
+      this.name = name;
+      this.image = image;
+      this.mpConsumption = mpConsumption;
+      this.tags = tags;
+      this.duration = duration;
+      this.level = level;
+      this.permable = permable;
+      this.maxLevel = maxLevel;
+      this.category = category;
+    }
   }
 
   private static final Map<Integer, SkillData> skillDataById = new TreeMap<>();
@@ -284,37 +305,28 @@ public class SkillDatabase {
       final long mpConsumption,
       final int duration,
       final Map<String, String> attributes) {
-
+    SkillData existing = SkillDatabase.skillDataById.get(skillId);
     String canonicalName = StringUtilities.getCanonicalName(name);
     SkillDatabase.addIdToName(canonicalName, skillId);
-    SkillData skillData =
-        SkillDatabase.skillDataById.computeIfAbsent(skillId, id -> new SkillData());
-    skillData.level = -1;
-    skillData.maxLevel = 0;
-    skillData.permable = null;
-    skillData.name = name;
-    if (image != null) {
-      skillData.image = image;
-    }
-    skillData.tags = tags;
-    skillData.mpConsumption = mpConsumption;
-    skillData.duration = duration;
+    int level = existing != null ? existing.level : -1;
+    int maxLevel = existing != null ? existing.maxLevel : 0;
+    Boolean permable = existing != null ? existing.permable : null;
 
     for (var attr : attributes.entrySet()) {
       var value = attr.getValue();
       switch (attr.getKey()) {
-        case "level" -> skillData.level = Integer.parseInt(value);
-        case "permable" -> skillData.permable = Boolean.parseBoolean(value);
-        case "max level" -> skillData.maxLevel = Integer.parseInt(value);
+        case "level" -> level = Integer.parseInt(value);
+        case "permable" -> permable = Boolean.valueOf(value);
+        case "max level" -> maxLevel = Integer.parseInt(value);
       }
     }
 
     Category category = Category.bySkillId(skillId);
-    if (category == Category.UNKNOWN) {
-      return;
-    }
+    SkillData skillData =
+        new SkillData(
+            name, image, mpConsumption, tags, duration, level, permable, maxLevel, category);
+    SkillDatabase.skillDataById.put(skillId, skillData);
 
-    skillData.category = category;
     SkillDatabase.skillsByCategory.get(category).add(name);
 
     SkillDatabase.castsById.put(skillId, 0);
@@ -1811,5 +1823,10 @@ public class SkillDatabase {
       case SkillPool.RAIN_MAN, SkillPool.EVOKE_ELDRITCH_HORROR -> true;
       default -> false;
     };
+  }
+
+  // used for data test only: should be no unknown skills
+  static List<String> unknownSkills() {
+    return SkillDatabase.skillsByCategory.get(Category.UNKNOWN);
   }
 }

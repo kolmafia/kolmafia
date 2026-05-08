@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.persistence;
 import static internal.helpers.Player.withClass;
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.is;
@@ -242,5 +243,11 @@ public class SkillDatabaseTest {
       assertThat(
           SkillDatabase.getSkillTypeName(SkillPool.DISCO_NAP), equalTo("noncombat remedy/passive"));
     }
+  }
+
+  @Test
+  public void shouldBeNoUnknownSkills() {
+    var unknownSkills = SkillDatabase.unknownSkills();
+    assertThat(unknownSkills, empty());
   }
 }
