@@ -67,17 +67,21 @@ public class SkillDatabase {
     }
   }
 
-  private static final Map<Integer, String> nameById = new TreeMap<>();
+  private static class SkillData {
+    private String name;
+    private String image;
+    private Long mpConsumption;
+    private EnumSet<SkillTag> tags;
+    private Integer duration;
+    private Integer level;
+    private Boolean permable;
+    private Integer maxLevel;
+    private Category category;
+  }
+
+  private static final Map<Integer, SkillData> skillDataById = new TreeMap<>();
   private static final Map<String, int[]> skillIdSetByName = new TreeMap<>();
-  private static final Map<Integer, String> imageById = new TreeMap<>();
-  private static final Map<Integer, Long> mpConsumptionById = new HashMap<>();
-  private static final Map<Integer, EnumSet<SkillTag>> skillTagsById = new TreeMap<>();
-  private static final Map<Integer, Integer> durationById = new HashMap<>();
-  private static final Map<Integer, Integer> levelById = new HashMap<>();
-  private static final Map<Integer, Boolean> permableById = new HashMap<>();
-  private static final Map<Integer, Integer> maxLevelById = new HashMap<>();
   private static final Map<Category, List<String>> skillsByCategory = new EnumMap<>(Category.class);
-  private static final Map<Integer, Category> skillCategoryById = new HashMap<>();
   // Per-user data. Needs to be reset when log in as a new user.
   private static final Map<Integer, Integer> castsById = new HashMap<>();
 
@@ -281,23 +285,23 @@ public class SkillDatabase {
       final Integer duration,
       final Map<String, String> attributes) {
     String canonicalName = StringUtilities.getCanonicalName(name);
-    SkillDatabase.nameById.put(skillId, name);
     SkillDatabase.addIdToName(canonicalName, skillId);
-
+    SkillData skillData =
+        SkillDatabase.skillDataById.computeIfAbsent(skillId, id -> new SkillData());
+    skillData.name = name;
     if (image != null) {
-      SkillDatabase.imageById.put(skillId, image);
+      skillData.image = image;
     }
-    SkillDatabase.skillTagsById.put(skillId, tags);
-
-    SkillDatabase.mpConsumptionById.put(skillId, mpConsumption);
-    SkillDatabase.durationById.put(skillId, duration);
+    skillData.tags = tags;
+    skillData.mpConsumption = mpConsumption;
+    skillData.duration = duration;
 
     for (var attr : attributes.entrySet()) {
       var value = attr.getValue();
       switch (attr.getKey()) {
-        case "level" -> SkillDatabase.levelById.put(skillId, Integer.valueOf(value));
-        case "permable" -> SkillDatabase.permableById.put(skillId, Boolean.valueOf(value));
-        case "max level" -> SkillDatabase.maxLevelById.put(skillId, Integer.valueOf(value));
+        case "level" -> skillData.level = Integer.valueOf(value);
+        case "permable" -> skillData.permable = Boolean.valueOf(value);
+        case "max level" -> skillData.maxLevel = Integer.valueOf(value);
       }
     }
 
@@ -306,7 +310,7 @@ public class SkillDatabase {
       return;
     }
 
-    SkillDatabase.skillCategoryById.put(skillId, category);
+    skillData.category = category;
     SkillDatabase.skillsByCategory.get(category).add(name);
 
     SkillDatabase.castsById.put(skillId, 0);
@@ -319,7 +323,8 @@ public class SkillDatabase {
    * @return The name of the corresponding skill
    */
   public static final String getSkillName(final int skillId) {
-    return SkillDatabase.nameById.get(skillId);
+    SkillData skillData = SkillDatabase.skillDataById.get(skillId);
+    return skillData == null ? null : skillData.name;
   }
 
   public static final String getSkillDisplayName(final String skillName) {
@@ -334,7 +339,7 @@ public class SkillDatabase {
   }
 
   public static final String getPrettySkillName(final int skillId) {
-    String name = SkillDatabase.nameById.get(skillId);
+    String name = SkillDatabase.getSkillName(skillId);
     switch (skillId) {
       case SkillPool.DART_PART1,
           SkillPool.DART_PART2,
@@ -396,7 +401,7 @@ public class SkillDatabase {
   }
 
   static final Set<Integer> idKeySet() {
-    return SkillDatabase.nameById.keySet();
+    return SkillDatabase.skillDataById.keySet();
   }
 
   /**
@@ -532,7 +537,8 @@ public class SkillDatabase {
    * @return The level of the corresponding skill
    */
   public static final int getSkillLevel(final int skillId) {
-    Integer level = SkillDatabase.levelById.get(skillId);
+    SkillData skillData = SkillDatabase.skillDataById.get(skillId);
+    Integer level = skillData == null ? null : skillData.level;
     return level == null ? -1 : level;
   }
 
@@ -573,12 +579,14 @@ public class SkillDatabase {
    * @return The type of the corresponding skill
    */
   public static final EnumSet<SkillTag> getSkillTags(final int skillId) {
-    var skillTags = SkillDatabase.skillTagsById.get(skillId);
+    var skillData = SkillDatabase.skillDataById.get(skillId);
+    var skillTags = skillData == null ? null : skillData.tags;
     return skillTags == null ? EnumSet.noneOf(SkillTag.class) : skillTags;
   }
 
   public static final String getSkillTypeName(final int skillId) {
-    var tags = SkillDatabase.skillTagsById.get(skillId);
+    var skillData = SkillDatabase.skillDataById.get(skillId);
+    var tags = skillData == null ? null : skillData.tags;
     if (tags == null) {
       return "unknown";
     }
@@ -629,7 +637,8 @@ public class SkillDatabase {
   }
 
   public static final Category getSkillCategory(final int skillId) {
-    Category cat = SkillDatabase.skillCategoryById.get(skillId);
+    SkillData skillData = SkillDatabase.skillDataById.get(skillId);
+    Category cat = skillData == null ? null : skillData.category;
     return cat == null ? Category.UNKNOWN : cat;
   }
 
@@ -640,7 +649,8 @@ public class SkillDatabase {
    * @return The type of the corresponding skill
    */
   public static final String getSkillImage(final int skillId) {
-    return SkillDatabase.imageById.get(skillId);
+    SkillData skillData = SkillDatabase.skillDataById.get(skillId);
+    return skillData == null ? null : skillData.image;
   }
 
   /**
@@ -734,7 +744,8 @@ public class SkillDatabase {
       return 0;
     }
 
-    Long mpConsumption = SkillDatabase.mpConsumptionById.get(skillId);
+    SkillData skillData = SkillDatabase.skillDataById.get(skillId);
+    Long mpConsumption = skillData == null ? null : skillData.mpConsumption;
 
     if (mpConsumption == null) {
       return 0;
@@ -960,7 +971,8 @@ public class SkillDatabase {
    * @return The duration of effect the cast gives
    */
   public static final int getEffectDuration(final int skillId) {
-    Integer duration = SkillDatabase.durationById.get(skillId);
+    SkillData skillData = SkillDatabase.skillDataById.get(skillId);
+    Integer duration = skillData == null ? null : skillData.duration;
     if (duration == null) {
       return 0;
     }
@@ -1172,7 +1184,8 @@ public class SkillDatabase {
 
   /** Utility method used to determine if the given skill is of the appropriate type. */
   private static boolean isType(final int skillId, final SkillTag type) {
-    var tags = SkillDatabase.skillTagsById.get(skillId);
+    SkillData skillData = SkillDatabase.skillDataById.get(skillId);
+    var tags = skillData == null ? null : skillData.tags;
     if (tags == null) {
       return false;
     }
@@ -1363,12 +1376,14 @@ public class SkillDatabase {
   }
 
   public static int getMaxLevel(final int skillId) {
-    return SkillDatabase.maxLevelById.getOrDefault(skillId, 0);
+    SkillData skillData = SkillDatabase.skillDataById.get(skillId);
+    return skillData == null || skillData.maxLevel == null ? 0 : skillData.maxLevel;
   }
 
   /** Utility method used to determine if the given skill can be made permanent */
   public static boolean isPermable(final int skillId) {
-    return SkillDatabase.permableById.getOrDefault(skillId, skillId < 7000);
+    SkillData skillData = SkillDatabase.skillDataById.get(skillId);
+    return skillData == null || skillData.permable == null ? skillId < 7000 : skillData.permable;
   }
 
   public static final boolean isBookshelfSkill(final int skillId) {
@@ -1427,13 +1442,12 @@ public class SkillDatabase {
 
   private static final List<UseSkillRequest> getSkillsByType(
       final EnumSet<SkillTag> types, final boolean onlyKnown) {
-    Integer[] keys = new Integer[SkillDatabase.skillTagsById.size()];
-    SkillDatabase.skillTagsById.keySet().toArray(keys);
-
     ArrayList<UseSkillRequest> list = new ArrayList<>();
 
-    for (Integer skillId : keys) {
-      var skillTags = SkillDatabase.skillTagsById.get(skillId);
+    for (var skill : SkillDatabase.skillDataById.entrySet()) {
+      var skillId = skill.getKey();
+      var skillData = skill.getValue();
+      var skillTags = skillData == null ? null : skillData.tags;
       if (skillTags == null) continue;
 
       boolean shouldAdd = skillTags.stream().anyMatch(types::contains);
@@ -1470,7 +1484,9 @@ public class SkillDatabase {
    * @return The set of skills keyed by name
    */
   public static final Set<Entry<Integer, String>> entrySet() {
-    return SkillDatabase.nameById.entrySet();
+    return SkillDatabase.skillDataById.entrySet().stream()
+        .collect(Collectors.toMap(Entry::getKey, entry -> entry.getValue().name))
+        .entrySet();
   }
 
   public static final void generateSkillList(final StringBuffer buffer, final boolean appendHTML) {

@@ -1,8 +1,10 @@
 package net.sourceforge.kolmafia.persistence;
 
 import static internal.helpers.Player.withClass;
+import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -35,6 +37,9 @@ public class SkillDatabaseTest {
     assertThat(SkillDatabase.isPermable(skillId), is(true));
     assertThat(SkillDatabase.getSkillLevel(skillId), is(-1));
     assertThat(SkillDatabase.getMaxLevel(skillId), is(0));
+
+    assertThat(
+        SkillDatabase.getCastableSkills(false), hasItem(hasProperty("skillId", is(skillId))));
   }
 
   @Test
