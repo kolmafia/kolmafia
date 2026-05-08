@@ -70,12 +70,12 @@ public class SkillDatabase {
   private static class SkillData {
     private String name;
     private String image;
-    private Long mpConsumption;
+    private long mpConsumption;
     private EnumSet<SkillTag> tags;
-    private Integer duration;
-    private Integer level;
+    private int duration;
+    private int level;
     private Boolean permable;
-    private Integer maxLevel;
+    private int maxLevel;
     private Category category;
   }
 
@@ -210,12 +210,12 @@ public class SkillDatabase {
           continue;
         }
 
-        Integer skillId = Integer.valueOf(data[0]);
+        int skillId = Integer.parseInt(data[0]);
         String name = data[1];
         String image = data[2];
         EnumSet<SkillTag> tags = parseTags(data[3]);
-        Long mp = Long.valueOf(data[4]);
-        Integer duration = Integer.valueOf(data[5]);
+        long mp = Long.parseLong(data[4]);
+        int duration = Integer.parseInt(data[5]);
         Map<String, String> attributes = attributesToMap(data.length > 6 ? data[6] : null);
         SkillDatabase.addSkill(skillId, name, image, tags, mp, duration, attributes);
       }
@@ -277,17 +277,21 @@ public class SkillDatabase {
   }
 
   private static void addSkill(
-      final Integer skillId,
+      final int skillId,
       final String name,
       final String image,
       final EnumSet<SkillTag> tags,
-      final Long mpConsumption,
-      final Integer duration,
+      final long mpConsumption,
+      final int duration,
       final Map<String, String> attributes) {
+
     String canonicalName = StringUtilities.getCanonicalName(name);
     SkillDatabase.addIdToName(canonicalName, skillId);
     SkillData skillData =
         SkillDatabase.skillDataById.computeIfAbsent(skillId, id -> new SkillData());
+    skillData.level = -1;
+    skillData.maxLevel = 0;
+    skillData.permable = null;
     skillData.name = name;
     if (image != null) {
       skillData.image = image;
@@ -299,9 +303,9 @@ public class SkillDatabase {
     for (var attr : attributes.entrySet()) {
       var value = attr.getValue();
       switch (attr.getKey()) {
-        case "level" -> skillData.level = Integer.valueOf(value);
-        case "permable" -> skillData.permable = Boolean.valueOf(value);
-        case "max level" -> skillData.maxLevel = Integer.valueOf(value);
+        case "level" -> skillData.level = Integer.parseInt(value);
+        case "permable" -> skillData.permable = Boolean.parseBoolean(value);
+        case "max level" -> skillData.maxLevel = Integer.parseInt(value);
       }
     }
 
@@ -538,8 +542,7 @@ public class SkillDatabase {
    */
   public static final int getSkillLevel(final int skillId) {
     SkillData skillData = SkillDatabase.skillDataById.get(skillId);
-    Integer level = skillData == null ? null : skillData.level;
-    return level == null ? -1 : level;
+    return skillData == null ? -1 : skillData.level;
   }
 
   public static final int getSkillPurchaseCost(final int skillId) {
@@ -1377,7 +1380,7 @@ public class SkillDatabase {
 
   public static int getMaxLevel(final int skillId) {
     SkillData skillData = SkillDatabase.skillDataById.get(skillId);
-    return skillData == null || skillData.maxLevel == null ? 0 : skillData.maxLevel;
+    return skillData == null ? 0 : skillData.maxLevel;
   }
 
   /** Utility method used to determine if the given skill can be made permanent */
