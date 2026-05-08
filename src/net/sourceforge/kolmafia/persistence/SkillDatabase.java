@@ -310,6 +310,10 @@ public class SkillDatabase {
     SkillDatabase.castsById.put(skillId, 0);
   }
 
+  public static final SkillData getSkillData(final int skillId) {
+    return SkillDatabase.skillDataById.get(skillId);
+  }
+
   /**
    * Returns the name for an skill, given its Id.
    *
@@ -1376,7 +1380,9 @@ public class SkillDatabase {
   /** Utility method used to determine if the given skill can be made permanent */
   public static boolean isPermable(final int skillId) {
     SkillData skillData = SkillDatabase.skillDataById.get(skillId);
-    return skillData == null || skillData.permable() == null ? skillId < 7000 : skillData.permable();
+    return skillData == null || skillData.permable() == null
+        ? skillId < 7000
+        : skillData.permable();
   }
 
   public static final boolean isBookshelfSkill(final int skillId) {
@@ -1476,10 +1482,8 @@ public class SkillDatabase {
    *
    * @return The set of skills keyed by name
    */
-  public static final Set<Entry<Integer, String>> entrySet() {
-    return SkillDatabase.skillDataById.entrySet().stream()
-        .collect(Collectors.toMap(Entry::getKey, entry -> entry.getValue().name()))
-        .entrySet();
+  public static final Set<Entry<Integer, SkillData>> entrySet() {
+    return SkillDatabase.skillDataById.entrySet();
   }
 
   public static final void generateSkillList(final StringBuffer buffer, final boolean appendHTML) {

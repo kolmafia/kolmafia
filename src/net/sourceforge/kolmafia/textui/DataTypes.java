@@ -31,6 +31,7 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.persistence.SkillDatabase.SkillData;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
@@ -890,7 +891,8 @@ public class DataTypes {
     if (skillIds != null && skillIds.length > 1) {
       name = "[" + num + "]" + name;
     }
-    return new Value(DataTypes.SKILL_TYPE, num, name);
+    SkillData skillData = SkillDatabase.getSkillData(num);
+    return new Value(DataTypes.SKILL_TYPE, num, name, skillData);
   }
 
   public static final Value makeSkillValue(final int num, final boolean returnDefault) {

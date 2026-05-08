@@ -46,6 +46,7 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
 import net.sourceforge.kolmafia.persistence.RestoresDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.persistence.SkillDatabase.SkillData;
 import net.sourceforge.kolmafia.persistence.TCRSDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.FightRequest;
@@ -1248,7 +1249,7 @@ public class ProxyRecordValue extends RecordValue {
     }
 
     public String get_name() {
-      return SkillDatabase.getSkillName((int) this.contentLong);
+      return this.content == null ? null : ((SkillData) this.content).name();
     }
 
     public String get_type() {
@@ -1256,11 +1257,11 @@ public class ProxyRecordValue extends RecordValue {
     }
 
     public int get_level() {
-      return SkillDatabase.getSkillLevel((int) this.contentLong);
+      return this.content == null ? -1 : ((SkillData) this.content).level();
     }
 
     public String get_image() {
-      return SkillDatabase.getSkillImage((int) this.contentLong);
+      return this.content == null ? null : ((SkillData) this.content).image();
     }
 
     public int get_traincost() {
