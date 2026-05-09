@@ -909,12 +909,9 @@ public class ProxyRecordValue extends RecordValue {
 
     public String get_attributes() {
       List<String> attrs = FamiliarDatabase.getFamiliarAttributes((int) this.contentLong);
-      if (attrs == null) {
-        return "";
-      }
       StringBuilder builder = new StringBuilder();
       for (String attr : attrs) {
-        if (builder.length() != 0) {
+        if (!builder.isEmpty()) {
           builder.append("; ");
         }
         builder.append(attr);

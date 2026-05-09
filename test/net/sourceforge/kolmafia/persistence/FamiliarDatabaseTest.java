@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.persistence;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 
@@ -44,6 +45,7 @@ public class FamiliarDatabaseTest {
     assertThat(
         FamiliarDatabase.getFamiliarAttributes(familiarId),
         contains("mineral", "object", "haseyes", "hovers", "orb", "spooky"));
+    assertThat(FamiliarDatabase.hasAttribute(familiarId, "orb"), is(true));
   }
 
   @Test
@@ -58,12 +60,14 @@ public class FamiliarDatabaseTest {
     assertThat(FamiliarDatabase.getFamiliarItemId(familiarId), is(-1));
 
     assertThat(FamiliarDatabase.getFamiliarSkills(familiarId), is(new int[] {0, 0, 0, 0}));
+
+    assertThat(FamiliarDatabase.getFamiliarAttributes(familiarId), empty());
+    assertThat(FamiliarDatabase.hasAttribute(familiarId, "sentient"), is(false));
   }
 
   @Test
   void returnsDefaultsForMissingFamiliar() {
     int familiarId = 13;
-    String name = "Familiar 13";
 
     assertThat(FamiliarDatabase.getFamiliarType(familiarId), is("none"));
     assertThat(FamiliarDatabase.getFamiliarImageLocation(familiarId), is("debug.gif"));
@@ -73,11 +77,14 @@ public class FamiliarDatabaseTest {
     assertThat(FamiliarDatabase.getFamiliarItem(familiarId), nullValue());
     assertThat(FamiliarDatabase.getFamiliarItemId(familiarId), is(-1));
 
-    // assertThat(FamiliarDatabase.getFamiliarSkills(familiarId), is(new int[] {0, 0, 0, 0}));
+    assertThat(FamiliarDatabase.getFamiliarSkills(familiarId), is(new int[] {0, 0, 0, 0}));
     assertThat(FamiliarDatabase.getFamiliarSkill(familiarId, 1), nullValue());
     assertThat(FamiliarDatabase.getFamiliarSkill(familiarId, 2), nullValue());
     assertThat(FamiliarDatabase.getFamiliarSkill(familiarId, 3), nullValue());
     assertThat(FamiliarDatabase.getFamiliarSkill(familiarId, 4), nullValue());
+
+    assertThat(FamiliarDatabase.getFamiliarAttributes(familiarId), empty());
+    assertThat(FamiliarDatabase.hasAttribute(familiarId, "sentient"), is(false));
   }
 
   @Test
@@ -88,7 +95,6 @@ public class FamiliarDatabaseTest {
   @Test
   void settingSkillsShouldOverride() {
     int familiarId = FamiliarPool.LEPRECHAUN;
-    String name = "Leprechaun";
     FamiliarDatabase.setFamiliarSkills(familiarId, new int[] {0, 1, 2, 3});
 
     assertThat(FamiliarDatabase.getFamiliarSkills(familiarId), is(new int[] {0, 1, 2, 3}));
@@ -104,7 +110,7 @@ public class FamiliarDatabaseTest {
     FamiliarDatabase.setFamiliarImageLocation(familiarId, "leprechaun.gif");
 
     assertThat(FamiliarDatabase.getFamiliarImageLocation(familiarId), is("leprechaun.gif"));
-    // assertThat(FamiliarDatabase.getFamiliarByImageLocation("leprechaun.gif"), is(familiarId));
+    assertThat(FamiliarDatabase.getFamiliarByImageLocation("leprechaun.gif"), is(familiarId));
   }
 
   @Test

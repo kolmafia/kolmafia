@@ -167,8 +167,8 @@ public class FamiliarDatabase {
         for (int i = 0; i < 4; ++i) {
           skills[i] = Integer.parseInt(data[i + 6]);
         }
-        List<String> attrs = null;
-        if (data.length == 11) {
+        List<String> attrs = List.of();
+        if (data.length == 11 && !data[10].isEmpty()) {
           String[] list = StringUtilities.splitByComma(data[10]);
           attrs = Arrays.asList(list);
         }
@@ -338,7 +338,8 @@ public class FamiliarDatabase {
     FamiliarDatabase.familiarByImage.put(image, id);
     FamiliarDatabase.familiarByLarva.put(larvaId, id);
     FamiliarDatabase.familiarDataById.put(
-        id, new FamiliarRaceData(familiarName, image, larvaId, "", new int[] {0, 0, 0, 0}, null));
+        id,
+        new FamiliarRaceData(familiarName, image, larvaId, "", new int[] {0, 0, 0, 0}, List.of()));
     FamiliarDatabase.newFamiliars = true;
     FamiliarDatabase.saveCanonicalNames();
   }
@@ -799,7 +800,7 @@ public class FamiliarDatabase {
 
   public static final List<String> getFamiliarAttributes(final int familiarId) {
     FamiliarRaceData data = FamiliarDatabase.familiarDataById.get(familiarId);
-    return data == null ? null : data.attributes;
+    return data == null ? List.of() : data.attributes;
   }
 
   public static final boolean hasAttribute(final String name, final String attribute) {
@@ -812,9 +813,6 @@ public class FamiliarDatabase {
 
   public static final boolean hasAttribute(final int familiarId, final String attribute) {
     List<String> attrs = FamiliarDatabase.getFamiliarAttributes(familiarId);
-    if (attrs == null) {
-      return false;
-    }
     return attrs.contains(attribute);
   }
 
@@ -893,7 +891,7 @@ public class FamiliarDatabase {
       List<String> attributesList) {
     String larva = larvaId == -1 ? "" : ItemDatabase.getItemDataName(larvaId);
     String item = itemId == -1 ? "" : ItemDatabase.getItemDataName(itemId);
-    String attributes = attributesList == null ? "" : String.join(",", attributesList);
+    String attributes = String.join(",", attributesList);
     return familiarId
         + "\t"
         + name
@@ -1095,7 +1093,7 @@ public class FamiliarDatabase {
 
   private static double zootomistIntensity(int id, Set<String> skillAttrs) {
     List<String> attrs = FamiliarDatabase.getFamiliarAttributes(id);
-    if (attrs == null) {
+    if (attrs.isEmpty()) {
       return 0;
     }
     var relevantAttrs = attrs.stream().filter(skillAttrs::contains).count();
