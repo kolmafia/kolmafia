@@ -542,7 +542,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
                         + FamiliarTrainingPanel.this.familiar.getRace()
                         + "?")) {
               FamiliarDatabase.setFamiliarSkills(
-                  FamiliarTrainingPanel.this.familiar.getRace(), skills);
+                  FamiliarTrainingPanel.this.familiar.getId(), skills);
             }
 
             KoLmafia.updateDisplay(

@@ -772,12 +772,11 @@ public class FamiliarDatabase {
     return FamiliarDatabase.familiarByName.containsKey(familiarName);
   }
 
-  public static final Integer getFamiliarSkill(final String name, final int event) {
+  public static final Integer getFamiliarSkill(final Integer familiarId, final int event) {
     if (event < 1 || event > 4) {
       return null;
     }
-    int familiarId = FamiliarDatabase.getFamiliarId(name, false);
-    if (familiarId == -1) {
+    if (!FamiliarDatabase.familiarDataById.containsKey(familiarId)) {
       return null;
     }
     return FamiliarDatabase.getFamiliarSkills(familiarId)[event - 1];
@@ -788,8 +787,7 @@ public class FamiliarDatabase {
     return data == null ? new int[] {0, 0, 0, 0} : data.skills.clone();
   }
 
-  public static final void setFamiliarSkills(final String name, final int[] skills) {
-    int familiarId = FamiliarDatabase.getFamiliarId(name, false);
+  public static final void setFamiliarSkills(final Integer familiarId, final int[] skills) {
     FamiliarRaceData current = FamiliarDatabase.familiarDataById.get(familiarId);
     if (current == null) {
       return;
