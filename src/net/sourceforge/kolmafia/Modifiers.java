@@ -32,6 +32,7 @@ import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
+import net.sourceforge.kolmafia.persistence.FamiliarDatabase.FamiliarRaceData;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
@@ -1199,12 +1200,17 @@ public class Modifiers {
 
     int cap = (int) this.getDouble(DoubleModifier.FAMILIAR_WEIGHT_CAP);
     int cappedWeight = (cap == 0) ? weight : Math.min(weight, cap);
+    FamiliarRaceData raceData = FamiliarDatabase.getFamiliarRaceData(familiarId);
+    if (raceData == null) {
+      // no familiar
+      return;
+    }
 
     double volleyFactor = 0.0;
     double sombreroFactor = 0.0;
 
     double effective = cappedWeight * this.getDouble(DoubleModifier.VOLLEYBALL_WEIGHT);
-    if (effective == 0.0 && FamiliarDatabase.isVolleyType(familiarId)) {
+    if (effective == 0.0 && raceData.isVolleyType()) {
       effective = weight;
     }
     if (effective != 0.0) {
@@ -1273,7 +1279,7 @@ public class Modifiers {
     }
 
     effective = cappedWeight * this.getDouble(DoubleModifier.SOMBRERO_WEIGHT);
-    if (effective == 0.0 && FamiliarDatabase.isSombreroType(familiarId)) {
+    if (effective == 0.0 && raceData.isSombreroType()) {
       effective = weight;
     }
     effective += this.getDouble(DoubleModifier.SOMBRERO_BONUS);
@@ -1304,7 +1310,7 @@ public class Modifiers {
     }
 
     effective = cappedWeight * this.getDouble(DoubleModifier.LEPRECHAUN_WEIGHT);
-    if (effective == 0.0 && FamiliarDatabase.isMeatDropType(familiarId)) {
+    if (effective == 0.0 && raceData.isMeatDropType()) {
       effective = weight;
     }
     if (effective != 0.0) {
@@ -1319,6 +1325,7 @@ public class Modifiers {
 
     this.addFairyEffect(
         familiar,
+        raceData,
         weight,
         cappedWeight,
         DoubleModifier.FAIRY_WEIGHT,
@@ -1326,6 +1333,7 @@ public class Modifiers {
         DoubleModifier.ITEMDROP);
     this.addFairyEffect(
         familiar,
+        raceData,
         weight,
         cappedWeight,
         DoubleModifier.FOOD_FAIRY_WEIGHT,
@@ -1333,6 +1341,7 @@ public class Modifiers {
         DoubleModifier.FOODDROP);
     this.addFairyEffect(
         familiar,
+        raceData,
         weight,
         cappedWeight,
         DoubleModifier.BOOZE_FAIRY_WEIGHT,
@@ -1340,13 +1349,14 @@ public class Modifiers {
         DoubleModifier.BOOZEDROP);
     this.addFairyEffect(
         familiar,
+        raceData,
         weight,
         cappedWeight,
         DoubleModifier.CANDY_FAIRY_WEIGHT,
         DoubleModifier.CANDY_FAIRY_EFFECTIVENESS,
         DoubleModifier.CANDYDROP);
 
-    if (FamiliarDatabase.isUnderwaterType(familiarId)) {
+    if (raceData.isUnderwaterType()) {
       this.setBoolean(BooleanModifier.UNDERWATER_FAMILIAR, true);
     }
 
@@ -1370,6 +1380,7 @@ public class Modifiers {
 
   private void addFairyEffect(
       final FamiliarData familiar,
+      final FamiliarRaceData raceData,
       final int weight,
       final int cappedWeight,
       final DoubleModifier fairyModifier,
@@ -1378,7 +1389,7 @@ public class Modifiers {
     var effective = cappedWeight * this.getDouble(fairyModifier);
 
     // If it has no explicit modifier but is the right familiar type, add effect regardless
-    if (effective == 0.0 && FamiliarDatabase.isFairyType(familiar.getId(), fairyModifier)) {
+    if (effective == 0.0 && raceData.isFairyType(fairyModifier)) {
       effective = weight;
     }
 

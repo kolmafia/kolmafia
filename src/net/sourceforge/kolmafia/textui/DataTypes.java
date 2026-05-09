@@ -25,6 +25,7 @@ import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.EffectData;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
+import net.sourceforge.kolmafia.persistence.FamiliarDatabase.FamiliarRaceData;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
@@ -213,7 +214,7 @@ public class DataTypes {
   public static final Value STAT_INIT = new Value(DataTypes.STAT_TYPE, -1, "none");
   public static final Value SKILL_INIT = new Value(DataTypes.SKILL_TYPE, -1, "none");
   public static final Value EFFECT_INIT = new Value(DataTypes.EFFECT_TYPE, -1, "none", null);
-  public static final Value FAMILIAR_INIT = new Value(DataTypes.FAMILIAR_TYPE, -1, "none");
+  public static final Value FAMILIAR_INIT = new Value(DataTypes.FAMILIAR_TYPE, -1, "none", null);
   public static final Value SLOT_INIT = new Value(DataTypes.SLOT_TYPE, 0, "none");
   public static final Value MONSTER_INIT = new Value(DataTypes.MONSTER_TYPE, 0, "none", null);
   public static final Value ELEMENT_INIT = new Value(DataTypes.ELEMENT_TYPE, "none", Element.NONE);
@@ -544,7 +545,8 @@ public class DataTypes {
     }
 
     name = FamiliarDatabase.getFamiliarName(num);
-    return new Value(DataTypes.FAMILIAR_TYPE, num, name);
+    FamiliarRaceData data = FamiliarDatabase.getFamiliarRaceData(num);
+    return new Value(DataTypes.FAMILIAR_TYPE, num, name, data);
   }
 
   public static final Value parseSlotValue(String name, final boolean returnDefault) {
@@ -932,7 +934,8 @@ public class DataTypes {
     if (name == null) {
       return returnDefault ? DataTypes.FAMILIAR_INIT : null;
     }
-    return new Value(DataTypes.FAMILIAR_TYPE, num, name);
+    FamiliarRaceData data = FamiliarDatabase.getFamiliarRaceData(num);
+    return new Value(DataTypes.FAMILIAR_TYPE, num, name, data);
   }
 
   public static final Value makeMonsterValue(final int num, final boolean returnDefault) {
