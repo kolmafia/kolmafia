@@ -16,9 +16,11 @@ public class FamiliarPool {
   public static final int STARFISH = 17;
   public static final int SOMBRERO = 18;
   public static final int KILLER_BEE = 20;
+  public static final int COFFEE_PIXIE = 22;
   public static final int JILL_O_LANTERN = 24;
   public static final int HAND_TURKEY = 25;
   public static final int CRIMBO_ELF = 26;
+  public static final int HANUKKIMBO_DREIDL = 27;
   public static final int EMO_SQUID = 30;
   public static final int CLOCKWORK_GRAPEFRUIT = 32;
   public static final int MAGIMECHTECH_MICROMECHAMECH = 33;

@@ -9,6 +9,7 @@ import static org.hamcrest.Matchers.nullValue;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import org.junit.jupiter.api.Test;
@@ -111,6 +112,29 @@ public class FamiliarDatabaseTest {
 
     assertThat(FamiliarDatabase.getFamiliarImageLocation(familiarId), is("leprechaun.gif"));
     assertThat(FamiliarDatabase.getFamiliarByImageLocation("leprechaun.gif"), is(familiarId));
+  }
+
+  @Test
+  void returnsExpectedTypeOrderAndFlagsForMultiTypeFamiliar() {
+    int familiarId = FamiliarPool.HANUKKIMBO_DREIDL;
+    assertThat(FamiliarDatabase.getFamiliarType(familiarId), is("combat0,block,mp0,meat1"));
+    assertThat(FamiliarDatabase.isCombat0Type(familiarId), is(true));
+    assertThat(FamiliarDatabase.isCombatType(familiarId), is(true));
+    assertThat(FamiliarDatabase.isBlockType(familiarId), is(true));
+    assertThat(FamiliarDatabase.isMp0Type(familiarId), is(true));
+    assertThat(FamiliarDatabase.isMeat1Type(familiarId), is(true));
+  }
+
+  @Test
+  void returnsExpectedTypeOrderAndFlagsForFairyType() {
+    int familiarId = FamiliarPool.COFFEE_PIXIE;
+    assertThat(FamiliarDatabase.getFamiliarType(familiarId), is("meat0,item0"));
+    assertThat(FamiliarDatabase.isCombatType(familiarId), is(false));
+    assertThat(FamiliarDatabase.isMeatDropType(familiarId), is(true));
+    assertThat(FamiliarDatabase.isFairyType(familiarId), is(true));
+    assertThat(FamiliarDatabase.isFairyType(familiarId, DoubleModifier.FAIRY_WEIGHT), is(true));
+    assertThat(
+        FamiliarDatabase.isFairyType(familiarId, DoubleModifier.FOOD_FAIRY_WEIGHT), is(false));
   }
 
   @Test
