@@ -1510,7 +1510,8 @@ public class Evaluator {
             || (this.raveosity > 0 && mods.getRawBitmap(BitmapModifier.RAVEOSITY) != 0)
             || (this.surgeonosity > 0 && mods.getRawBitmap(BitmapModifier.SURGEONOSITY) != 0)
             || (this.stinkycheese > 0 && mods.getRawBitmap(BitmapModifier.STINKYCHEESE) != 0)
-            || ((mods.getRawBitmap(BitmapModifier.SYNERGETIC) & usefulSynergies) != 0)) {
+            || ((mods.getRawBitmap(BitmapModifier.SYNERGETIC) & usefulSynergies) != 0)
+            || mods.toString().contains("unarmed")) {
           item.automaticFlag = true;
           break gotItem;
         }

@@ -2679,6 +2679,22 @@ public class MaximizerTest {
     }
   }
 
+  @Nested
+  class Unarmed {
+    @Test
+    public void recommendBetterUnarmed() {
+      var cleanups =
+          new Cleanups(withEquipped(ItemPool.TIME_SWORD), withEquippableItem(ItemPool.TIME_HALO));
+
+      try (cleanups) {
+        maximize("adv");
+        var boosts = getBoosts();
+        assertThat(boosts, hasItem(hasProperty("cmd", startsWith("unequip weapon"))));
+        assertThat(boosts, hasItem(recommends(ItemPool.TIME_HALO)));
+      }
+    }
+  }
+
   @Test
   void canMaximizeRolloverEffectDuration() {
     var cleanups =
