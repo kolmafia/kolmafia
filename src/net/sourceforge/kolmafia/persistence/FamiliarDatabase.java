@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -15,6 +14,7 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import javax.swing.ImageIcon;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.FamiliarData;
@@ -33,17 +33,35 @@ import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class FamiliarDatabase {
-  private static final Map<Integer, String> familiarById = new TreeMap<>();
+  public static class FamiliarRaceData {
+    private final String name;
+    private String image;
+    private final int larvaId;
+    private final String item;
+    private int[] skills;
+    private final List<String> attributes;
+
+    public FamiliarRaceData(
+        final String name,
+        final String image,
+        final int larvaId,
+        final String item,
+        final int[] skills,
+        final List<String> attributes) {
+      this.name = name;
+      this.image = image;
+      this.larvaId = larvaId;
+      this.item = item;
+      this.skills = skills;
+      this.attributes = attributes;
+    }
+  }
+
   private static final Map<String, Integer> familiarByName = new TreeMap<>();
   private static final Map<String, String> canonicalNameMap = new HashMap<>();
-
-  private static final Map<Integer, String> familiarItemById = new HashMap<>();
-  private static final Map<String, Integer> familiarByItem = new HashMap<>();
-
-  private static final Map<Integer, Integer> familiarLarvaById = new HashMap<>();
+  private static final Map<Integer, FamiliarRaceData> familiarDataById = new TreeMap<>();
   private static final Map<Integer, Integer> familiarByLarva = new HashMap<>();
-
-  private static final Map<Integer, String> familiarImageById = new HashMap<>();
+  private static final Map<String, Integer> familiarByItem = new HashMap<>();
   private static final Map<String, Integer> familiarByImage = new HashMap<>();
 
   private static final Set<Integer> volleyById = new HashSet<>();
@@ -78,9 +96,6 @@ public class FamiliarDatabase {
   private static final Set<Integer> noneById = new HashSet<>();
   private static final Set<Integer> variableById = new HashSet<>();
 
-  private static List<Map<String, Integer>> eventSkillByName;
-  private static final Map<Integer, List<String>> attributesById = new HashMap<>();
-
   public static boolean newFamiliars = false;
   public static int maxFamiliarId = 0;
   private static String[] canonicalNames = new String[0];
@@ -97,11 +112,6 @@ public class FamiliarDatabase {
   public static void reset() {
     FamiliarDatabase.newFamiliars = false;
 
-    FamiliarDatabase.eventSkillByName = new ArrayList<>(4);
-
-    for (int i = 0; i < 4; ++i) {
-      FamiliarDatabase.eventSkillByName.add(new HashMap<>());
-    }
     FamiliarDatabase.readFamiliars();
     FamiliarDatabase.saveCanonicalNames();
   }
@@ -126,12 +136,10 @@ public class FamiliarDatabase {
         String canonical = StringUtilities.getCanonicalName(name);
         String display = StringUtilities.getDisplayName(name);
 
-        FamiliarDatabase.familiarById.put(id, display);
         FamiliarDatabase.familiarByName.put(name, id);
         FamiliarDatabase.canonicalNameMap.put(canonical, name);
 
         String image = data[2];
-        FamiliarDatabase.familiarImageById.put(id, image);
         FamiliarDatabase.familiarByImage.put(image, id);
         // Kludge: Happy Medium has 4 different images
         if (id == FamiliarPool.HAPPY_MEDIUM) {
@@ -149,24 +157,23 @@ public class FamiliarDatabase {
         String type = data[3];
         FamiliarDatabase.updateType(type, id);
 
-        String larvaName = data[4];
-        Integer larva = Integer.valueOf(ItemDatabase.getItemId(larvaName));
-        FamiliarDatabase.familiarLarvaById.put(id, larva);
-        FamiliarDatabase.familiarByLarva.put(larva, id);
+        int larvaId = ItemDatabase.getItemId(data[4]);
+        FamiliarDatabase.familiarByLarva.put(larvaId, id);
 
         String itemName = data[5];
-        FamiliarDatabase.familiarItemById.put(id, itemName);
         FamiliarDatabase.familiarByItem.put(itemName, id);
 
+        int[] skills = new int[4];
         for (int i = 0; i < 4; ++i) {
-          FamiliarDatabase.eventSkillByName.get(i).put(name, Integer.valueOf(data[i + 6]));
+          skills[i] = Integer.parseInt(data[i + 6]);
         }
-
+        List<String> attrs = null;
         if (data.length == 11) {
           String[] list = StringUtilities.splitByComma(data[10]);
-          List<String> attrs = Arrays.asList(list);
-          FamiliarDatabase.attributesById.put(id, attrs);
+          attrs = Arrays.asList(list);
         }
+        FamiliarDatabase.familiarDataById.put(
+            id, new FamiliarRaceData(display, image, larvaId, itemName, skills, attrs));
       }
     } catch (IOException e) {
       StaticEntity.printStackTrace(e);
@@ -326,17 +333,12 @@ public class FamiliarDatabase {
     Integer id = familiarId;
     String canonical = StringUtilities.getCanonicalName(familiarName);
 
-    FamiliarDatabase.familiarById.put(id, familiarName);
     FamiliarDatabase.familiarByName.put(familiarName, id);
     FamiliarDatabase.canonicalNameMap.put(canonical, familiarName);
-    FamiliarDatabase.familiarImageById.put(id, image);
     FamiliarDatabase.familiarByImage.put(image, id);
-    FamiliarDatabase.familiarLarvaById.put(id, larvaId);
     FamiliarDatabase.familiarByLarva.put(larvaId, id);
-    FamiliarDatabase.familiarItemById.put(id, "");
-    for (int i = 0; i < 4; ++i) {
-      FamiliarDatabase.eventSkillByName.get(i).put(familiarName, FamiliarDatabase.ZERO);
-    }
+    FamiliarDatabase.familiarDataById.put(
+        id, new FamiliarRaceData(familiarName, image, larvaId, "", new int[] {0, 0, 0, 0}, null));
     FamiliarDatabase.newFamiliars = true;
     FamiliarDatabase.saveCanonicalNames();
   }
@@ -348,7 +350,8 @@ public class FamiliarDatabase {
    * @return The name of the corresponding familiar
    */
   public static final String getFamiliarName(final Integer familiarId) {
-    return FamiliarDatabase.familiarById.get(familiarId);
+    FamiliarRaceData data = FamiliarDatabase.familiarDataById.get(familiarId);
+    return data == null ? null : data.name;
   }
 
   /**
@@ -553,7 +556,8 @@ public class FamiliarDatabase {
   }
 
   public static final String getFamiliarItem(final Integer familiarId) {
-    return FamiliarDatabase.familiarItemById.get(familiarId);
+    FamiliarRaceData data = FamiliarDatabase.familiarDataById.get(familiarId);
+    return data == null ? null : data.item;
   }
 
   public static final int getFamiliarItemId(final Integer familiarId) {
@@ -567,8 +571,8 @@ public class FamiliarDatabase {
   }
 
   public static int getFamiliarLarva(final Integer familiarId) {
-    Integer id = FamiliarDatabase.familiarLarvaById.get(familiarId);
-    return id == null ? 0 : id;
+    FamiliarRaceData data = FamiliarDatabase.familiarDataById.get(familiarId);
+    return data == null ? 0 : data.larvaId;
   }
 
   public static final String getFamiliarType(final int familiarId) {
@@ -701,11 +705,17 @@ public class FamiliarDatabase {
   }
 
   public static final void setFamiliarImageLocation(final int familiarId, final String location) {
-    FamiliarDatabase.familiarImageById.put(familiarId, location);
+    FamiliarRaceData current = FamiliarDatabase.familiarDataById.get(familiarId);
+    if (current == null) {
+      return;
+    }
+    current.image = location;
+    FamiliarDatabase.familiarByImage.put(location, familiarId);
   }
 
   public static final String getFamiliarImageLocation(final int familiarId) {
-    String location = FamiliarDatabase.familiarImageById.get(familiarId);
+    FamiliarRaceData data = FamiliarDatabase.familiarDataById.get(familiarId);
+    String location = data == null ? null : data.image;
     return (location != null) ? location : "debug.gif";
   }
 
@@ -763,28 +773,35 @@ public class FamiliarDatabase {
   }
 
   public static final Integer getFamiliarSkill(final String name, final int event) {
-    return FamiliarDatabase.eventSkillByName.get(event - 1).get(name);
+    if (event < 1 || event > 4) {
+      return null;
+    }
+    int familiarId = FamiliarDatabase.getFamiliarId(name, false);
+    if (familiarId == -1) {
+      return null;
+    }
+    return FamiliarDatabase.getFamiliarSkills(familiarId)[event - 1];
   }
 
   public static final int[] getFamiliarSkills(final Integer id) {
-    String name = FamiliarDatabase.getFamiliarName(id);
-    int[] skills = new int[4];
-    for (int i = 0; i < 4; ++i) {
-      skills[i] = FamiliarDatabase.eventSkillByName.get(i).get(name).intValue();
-    }
-    return skills;
+    FamiliarRaceData data = FamiliarDatabase.familiarDataById.get(id);
+    return data == null ? new int[] {0, 0, 0, 0} : data.skills.clone();
   }
 
   public static final void setFamiliarSkills(final String name, final int[] skills) {
-    for (int i = 0; i < 4; ++i) {
-      FamiliarDatabase.eventSkillByName.get(i).put(name, skills[i]);
+    int familiarId = FamiliarDatabase.getFamiliarId(name, false);
+    FamiliarRaceData current = FamiliarDatabase.familiarDataById.get(familiarId);
+    if (current == null) {
+      return;
     }
+    current.skills = skills.clone();
     FamiliarDatabase.newFamiliars = true;
     FamiliarDatabase.saveDataOverride();
   }
 
   public static final List<String> getFamiliarAttributes(final int familiarId) {
-    return FamiliarDatabase.attributesById.get(familiarId);
+    FamiliarRaceData data = FamiliarDatabase.familiarDataById.get(familiarId);
+    return data == null ? null : data.attributes;
   }
 
   public static final boolean hasAttribute(final String name, final String attribute) {
@@ -817,7 +834,9 @@ public class FamiliarDatabase {
    * @return The set of familiars keyed by name
    */
   public static final Set<Entry<Integer, String>> entrySet() {
-    return FamiliarDatabase.familiarById.entrySet();
+    return FamiliarDatabase.familiarDataById.entrySet().stream()
+        .map(x -> Map.entry(x.getKey(), x.getValue().name))
+        .collect(Collectors.toSet());
   }
 
   public static final void saveDataOverride() {
@@ -842,13 +861,8 @@ public class FamiliarDatabase {
     writer.println("# no.	name	image	type	larva	item	CM	SH	OC	H&S");
     writer.println();
 
-    Integer[] familiarIds = new Integer[FamiliarDatabase.familiarById.size()];
-    FamiliarDatabase.familiarById.keySet().toArray(familiarIds);
-
     int lastInteger = 1;
-    for (int i = 0; i < familiarIds.length; ++i) {
-      Integer nextInteger = familiarIds[i];
-      int familiarId = nextInteger.intValue();
+    for (int familiarId : FamiliarDatabase.familiarDataById.keySet()) {
 
       for (int j = lastInteger; j < familiarId; ++j) {
         writer.println(j);
@@ -856,12 +870,12 @@ public class FamiliarDatabase {
 
       lastInteger = familiarId + 1;
 
-      String name = FamiliarDatabase.getFamiliarName(nextInteger);
+      String name = FamiliarDatabase.getFamiliarName(familiarId);
       String image = FamiliarDatabase.getFamiliarImageLocation(familiarId);
       String type = FamiliarDatabase.getFamiliarType(familiarId);
-      int larvaId = FamiliarDatabase.getFamiliarLarva(nextInteger);
-      int itemId = FamiliarDatabase.getFamiliarItemId(nextInteger);
-      int[] skills = FamiliarDatabase.getFamiliarSkills(nextInteger);
+      int larvaId = FamiliarDatabase.getFamiliarLarva(familiarId);
+      int itemId = FamiliarDatabase.getFamiliarItemId(familiarId);
+      int[] skills = FamiliarDatabase.getFamiliarSkills(familiarId);
       var attributes = FamiliarDatabase.getFamiliarAttributes(familiarId);
 
       writer.println(

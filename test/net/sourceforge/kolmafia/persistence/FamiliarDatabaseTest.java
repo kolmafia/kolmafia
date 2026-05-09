@@ -66,6 +66,7 @@ public class FamiliarDatabaseTest {
     String name = "Familiar 13";
 
     assertThat(FamiliarDatabase.getFamiliarType(familiarId), is("none"));
+    assertThat(FamiliarDatabase.getFamiliarImageLocation(familiarId), is("debug.gif"));
 
     assertThat(FamiliarDatabase.getFamiliarLarva(familiarId), is(0));
 
@@ -118,5 +119,6 @@ public class FamiliarDatabaseTest {
         data,
         containsString(
             "1\tMosquito\tfamiliar1.gif\tcombat0,hp0\tmosquito larva\thypodermic needle\t2\t1\t3\t0\tsentient,organic,insect,animal,haseyes,bite,haswings,flies,fast\n"));
+    assertThat(data, containsString("13\n"));
   }
 }
