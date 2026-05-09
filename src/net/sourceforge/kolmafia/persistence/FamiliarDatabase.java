@@ -578,133 +578,16 @@ public class FamiliarDatabase {
     return data == null ? 0 : data.larvaId;
   }
 
-  public static final String getFamiliarType(final int familiarId) {
-    StringBuilder buffer = new StringBuilder();
-    String sep = "";
-
-    // Base types: Leprechaun, Fairy, Volleyball, Sombrero
-    if (hasType(familiarId, FamiliarType.MEAT0)) {
-      buffer.append(sep);
-      sep = ",";
-      buffer.append("meat0");
+  static final String getFamiliarType(final int familiarId) {
+    FamiliarRaceData data = FamiliarDatabase.familiarDataById.get(familiarId);
+    if (data == null) {
+      return "none";
     }
-    if (hasType(familiarId, FamiliarType.ITEM0)) {
-      buffer.append(sep);
-      sep = ",";
-      buffer.append("item0");
+    String types = data.types.stream().map(x -> x.name).collect(Collectors.joining(","));
+    if (types.isEmpty()) {
+      return "none";
     }
-    if (hasType(familiarId, FamiliarType.STAT0)) {
-      buffer.append(sep);
-      sep = ",";
-      buffer.append("stat0");
-    }
-    if (hasType(familiarId, FamiliarType.STAT1)) {
-      buffer.append(sep);
-      sep = ",";
-      buffer.append("stat1");
-    }
-
-    // Combat abilities
-    if (hasType(familiarId, FamiliarType.COMBAT0)) {
-      buffer.append(sep);
-      sep = ",";
-      buffer.append("combat0");
-    }
-    if (hasType(familiarId, FamiliarType.COMBAT1)) {
-      buffer.append(sep);
-      sep = ",";
-      buffer.append("combat1");
-    }
-    if (hasType(familiarId, FamiliarType.BLOCK)) {
-      buffer.append(sep);
-      sep = ",";
-      buffer.append("block");
-    }
-    if (hasType(familiarId, FamiliarType.DELEVEL0)) {
-      buffer.append(sep);
-      sep = ",";
-      buffer.append("delevel0");
-    }
-    if (hasType(familiarId, FamiliarType.DELEVEL1)) {
-      buffer.append(sep);
-      sep = ",";
-      buffer.append("delevel1");
-    }
-    if (hasType(familiarId, FamiliarType.HP0)) {
-      buffer.append(sep);
-      sep = ",";
-      buffer.append("hp0");
-    }
-    if (hasType(familiarId, FamiliarType.MP0)) {
-      buffer.append(sep);
-      sep = ",";
-      buffer.append("mp0");
-    }
-    if (hasType(familiarId, FamiliarType.OTHER0)) {
-      buffer.append(sep);
-      sep = ",";
-      buffer.append("other0");
-    }
-    if (hasType(familiarId, FamiliarType.MEAT1)) {
-      buffer.append(sep);
-      sep = ",";
-      buffer.append("meat1");
-    }
-    if (hasType(familiarId, FamiliarType.STAT2)) {
-      buffer.append(sep);
-      sep = ",";
-      buffer.append("stat2");
-    }
-
-    // After Combat abilities
-    if (hasType(familiarId, FamiliarType.HP1)) {
-      buffer.append(sep);
-      sep = ",";
-      buffer.append("hp1");
-    }
-    if (hasType(familiarId, FamiliarType.MP1)) {
-      buffer.append(sep);
-      sep = ",";
-      buffer.append("mp1");
-    }
-    if (hasType(familiarId, FamiliarType.OTHER1)) {
-      buffer.append(sep);
-      sep = ",";
-      buffer.append("other1");
-    }
-
-    if (hasType(familiarId, FamiliarType.PASSIVE)) {
-      buffer.append(sep);
-      sep = ",";
-      buffer.append("passive");
-    }
-    if (hasType(familiarId, FamiliarType.UNDERWATER)) {
-      buffer.append(sep);
-      sep = ",";
-      buffer.append("underwater");
-    }
-    if (hasType(familiarId, FamiliarType.POKEFAM)) {
-      buffer.append(sep);
-      sep = ",";
-      buffer.append("pokefam");
-    }
-
-    if (hasType(familiarId, FamiliarType.VARIABLE)) {
-      buffer.append(sep);
-      sep = ",";
-      buffer.append("variable");
-    }
-
-    // Special items
-    if (hasType(familiarId, FamiliarType.DROP)) {
-      buffer.append(sep);
-      sep = ",";
-      buffer.append("drop");
-    }
-    if (sep.equals("")) {
-      buffer.append("none");
-    }
-    return buffer.toString();
+    return types;
   }
 
   public static final void setFamiliarImageLocation(final int familiarId, final String location) {

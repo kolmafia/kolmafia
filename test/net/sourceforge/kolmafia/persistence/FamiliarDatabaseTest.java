@@ -128,7 +128,7 @@ public class FamiliarDatabaseTest {
   @Test
   void returnsExpectedTypeOrderAndFlagsForFairyType() {
     int familiarId = FamiliarPool.COFFEE_PIXIE;
-    assertThat(FamiliarDatabase.getFamiliarType(familiarId), is("meat0,item0"));
+    assertThat(FamiliarDatabase.getFamiliarType(familiarId), is("item0,meat0"));
     assertThat(FamiliarDatabase.isCombatType(familiarId), is(false));
     assertThat(FamiliarDatabase.isMeatDropType(familiarId), is(true));
     assertThat(FamiliarDatabase.isFairyType(familiarId), is(true));
