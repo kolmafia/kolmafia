@@ -32,6 +32,7 @@ import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
+import net.sourceforge.kolmafia.persistence.FamiliarDatabase.FamiliarRaceData;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
@@ -1199,12 +1200,17 @@ public class Modifiers {
 
     int cap = (int) this.getDouble(DoubleModifier.FAMILIAR_WEIGHT_CAP);
     int cappedWeight = (cap == 0) ? weight : Math.min(weight, cap);
+    FamiliarRaceData raceData = FamiliarDatabase.getFamiliarRaceData(familiarId);
+    if (raceData == null) {
+      // should not be possible
+      return;
+    }
 
     double volleyFactor = 0.0;
     double sombreroFactor = 0.0;
 
     double effective = cappedWeight * this.getDouble(DoubleModifier.VOLLEYBALL_WEIGHT);
-    if (effective == 0.0 && FamiliarDatabase.isVolleyType(familiarId)) {
+    if (effective == 0.0 && raceData.isVolleyType()) {
       effective = weight;
     }
     if (effective != 0.0) {
@@ -1273,7 +1279,7 @@ public class Modifiers {
     }
 
     effective = cappedWeight * this.getDouble(DoubleModifier.SOMBRERO_WEIGHT);
-    if (effective == 0.0 && FamiliarDatabase.isSombreroType(familiarId)) {
+    if (effective == 0.0 && raceData.isSombreroType()) {
       effective = weight;
     }
     effective += this.getDouble(DoubleModifier.SOMBRERO_BONUS);
@@ -1304,7 +1310,7 @@ public class Modifiers {
     }
 
     effective = cappedWeight * this.getDouble(DoubleModifier.LEPRECHAUN_WEIGHT);
-    if (effective == 0.0 && FamiliarDatabase.isMeatDropType(familiarId)) {
+    if (effective == 0.0 && raceData.isMeatDropType()) {
       effective = weight;
     }
     if (effective != 0.0) {
@@ -1346,7 +1352,7 @@ public class Modifiers {
         DoubleModifier.CANDY_FAIRY_EFFECTIVENESS,
         DoubleModifier.CANDYDROP);
 
-    if (FamiliarDatabase.isUnderwaterType(familiarId)) {
+    if (raceData.isUnderwaterType()) {
       this.setBoolean(BooleanModifier.UNDERWATER_FAMILIAR, true);
     }
 

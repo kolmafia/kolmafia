@@ -94,6 +94,146 @@ public class FamiliarDatabase {
       this.skills = skills;
       this.attributes = attributes;
     }
+
+    public boolean isType(final FamiliarType type) {
+      return this.types.contains(type);
+    }
+
+    public boolean isAnyType(final EnumSet<FamiliarType> types) {
+      for (FamiliarType type : types) {
+        if (this.types.contains(type)) {
+          return true;
+        }
+      }
+      return false;
+    }
+
+    public boolean isVolleyType() {
+      return isType(FamiliarType.STAT0);
+    }
+
+    public boolean isSombreroType() {
+      return isType(FamiliarType.STAT1);
+    }
+
+    public boolean isFairyType() {
+      return isType(FamiliarType.ITEM0);
+    }
+
+    public boolean isFoodFairyType() {
+      return isType(FamiliarType.ITEM1);
+    }
+
+    public boolean isBoozeFairyType() {
+      return isType(FamiliarType.ITEM2);
+    }
+
+    public boolean isCandyFairyType() {
+      return isType(FamiliarType.ITEM3);
+    }
+
+    public boolean isMeatDropType() {
+      return isType(FamiliarType.MEAT0);
+    }
+
+    public boolean isFairyType(final DoubleModifier fairyModifier) {
+      return switch (fairyModifier) {
+        case FAIRY_WEIGHT -> isFairyType();
+        case BOOZE_FAIRY_WEIGHT -> isBoozeFairyType();
+        case CANDY_FAIRY_WEIGHT -> isCandyFairyType();
+        case FOOD_FAIRY_WEIGHT -> isFoodFairyType();
+        default -> false;
+      };
+    }
+
+    public boolean isCombatType() {
+      return isAnyType(
+          EnumSet.of(
+              FamiliarType.COMBAT0,
+              FamiliarType.COMBAT1,
+              FamiliarType.BLOCK,
+              FamiliarType.DELEVEL0,
+              FamiliarType.DELEVEL1,
+              FamiliarType.HP0,
+              FamiliarType.MP0,
+              FamiliarType.OTHER0));
+    }
+
+    public boolean isCombat0Type() {
+      return isType(FamiliarType.COMBAT0);
+    }
+
+    public boolean isCombat1Type() {
+      return isType(FamiliarType.COMBAT1);
+    }
+
+    public boolean isDropType() {
+      return isType(FamiliarType.DROP);
+    }
+
+    public boolean isBlockType() {
+      return isType(FamiliarType.BLOCK);
+    }
+
+    public boolean isDelevelType() {
+      return isAnyType(EnumSet.of(FamiliarType.DELEVEL0, FamiliarType.DELEVEL1));
+    }
+
+    public boolean isHp0Type() {
+      return isType(FamiliarType.HP0);
+    }
+
+    public boolean isMp0Type() {
+      return isType(FamiliarType.MP0);
+    }
+
+    public boolean isMeat1Type() {
+      return isType(FamiliarType.MEAT1);
+    }
+
+    public boolean isStat2Type() {
+      return isType(FamiliarType.STAT2);
+    }
+
+    public boolean isOther0Type() {
+      return isType(FamiliarType.OTHER0);
+    }
+
+    public boolean isHp1Type() {
+      return isType(FamiliarType.HP1);
+    }
+
+    public boolean isMp1Type() {
+      return isType(FamiliarType.MP1);
+    }
+
+    public boolean isStat3Type() {
+      return isType(FamiliarType.STAT3);
+    }
+
+    public boolean isNoneType() {
+      return isType(FamiliarType.NONE);
+    }
+
+    public boolean isOther1Type() {
+      return isType(FamiliarType.OTHER1);
+    }
+
+    public boolean isPassiveType() {
+      return isType(FamiliarType.PASSIVE);
+    }
+
+    public boolean isUnderwaterType() {
+      return isType(FamiliarType.UNDERWATER);
+    }
+
+    public boolean isPokefamType() {
+      return isType(FamiliarType.POKEFAM);
+    }
+
+    public boolean isVariableType() {
+      return isType(FamiliarType.VARIABLE);
+    }
   }
 
   private static final Map<String, Integer> familiarByName = new TreeMap<>();
@@ -207,12 +347,12 @@ public class FamiliarDatabase {
   }
 
   private static boolean hasType(final Integer familiarId, final FamiliarType type) {
-    FamiliarRaceData data = FamiliarDatabase.familiarDataById.get(familiarId);
+    FamiliarRaceData data = getFamiliarRaceData(familiarId);
     return data != null && data.types.contains(type);
   }
 
   private static boolean hasAnyType(final Integer familiarId, final EnumSet<FamiliarType> types) {
-    FamiliarRaceData data = FamiliarDatabase.familiarDataById.get(familiarId);
+    FamiliarRaceData data = getFamiliarRaceData(familiarId);
     if (data == null) {
       return false;
     }
@@ -351,8 +491,12 @@ public class FamiliarDatabase {
    * @return The name of the corresponding familiar
    */
   public static final String getFamiliarName(final Integer familiarId) {
-    FamiliarRaceData data = FamiliarDatabase.familiarDataById.get(familiarId);
+    FamiliarRaceData data = getFamiliarRaceData(familiarId);
     return data == null ? null : data.name;
+  }
+
+  public static FamiliarRaceData getFamiliarRaceData(final Integer familiarId) {
+    return FamiliarDatabase.familiarDataById.get(familiarId);
   }
 
   /**
@@ -450,13 +594,8 @@ public class FamiliarDatabase {
   }
 
   public static boolean isFairyType(final int id, final DoubleModifier fairyModifier) {
-    return switch (fairyModifier) {
-      case FAIRY_WEIGHT -> isFairyType(id);
-      case BOOZE_FAIRY_WEIGHT -> isBoozeFairyType(id);
-      case CANDY_FAIRY_WEIGHT -> isCandyFairyType(id);
-      case FOOD_FAIRY_WEIGHT -> isFoodFairyType(id);
-      default -> false;
-    };
+    FamiliarRaceData data = getFamiliarRaceData(id);
+    return data != null && data.isFairyType(fairyModifier);
   }
 
   public static final boolean isMeatDropType(final Integer familiarId) {
@@ -559,7 +698,7 @@ public class FamiliarDatabase {
   }
 
   public static final String getFamiliarItem(final Integer familiarId) {
-    FamiliarRaceData data = FamiliarDatabase.familiarDataById.get(familiarId);
+    FamiliarRaceData data = getFamiliarRaceData(familiarId);
     return data == null ? null : data.item;
   }
 
@@ -574,12 +713,12 @@ public class FamiliarDatabase {
   }
 
   public static int getFamiliarLarva(final Integer familiarId) {
-    FamiliarRaceData data = FamiliarDatabase.familiarDataById.get(familiarId);
+    FamiliarRaceData data = getFamiliarRaceData(familiarId);
     return data == null ? 0 : data.larvaId;
   }
 
   static final String getFamiliarType(final int familiarId) {
-    FamiliarRaceData data = FamiliarDatabase.familiarDataById.get(familiarId);
+    FamiliarRaceData data = getFamiliarRaceData(familiarId);
     if (data == null) {
       return "none";
     }
@@ -591,7 +730,7 @@ public class FamiliarDatabase {
   }
 
   public static final void setFamiliarImageLocation(final int familiarId, final String location) {
-    FamiliarRaceData current = FamiliarDatabase.familiarDataById.get(familiarId);
+    FamiliarRaceData current = getFamiliarRaceData(familiarId);
     if (current == null) {
       return;
     }
@@ -600,7 +739,7 @@ public class FamiliarDatabase {
   }
 
   public static final String getFamiliarImageLocation(final int familiarId) {
-    FamiliarRaceData data = FamiliarDatabase.familiarDataById.get(familiarId);
+    FamiliarRaceData data = getFamiliarRaceData(familiarId);
     String location = data == null ? null : data.image;
     return (location != null) ? location : "debug.gif";
   }
@@ -669,12 +808,12 @@ public class FamiliarDatabase {
   }
 
   public static final int[] getFamiliarSkills(final Integer id) {
-    FamiliarRaceData data = FamiliarDatabase.familiarDataById.get(id);
+    FamiliarRaceData data = getFamiliarRaceData(id);
     return data == null ? new int[] {0, 0, 0, 0} : data.skills.clone();
   }
 
   public static final void setFamiliarSkills(final Integer familiarId, final int[] skills) {
-    FamiliarRaceData current = FamiliarDatabase.familiarDataById.get(familiarId);
+    FamiliarRaceData current = getFamiliarRaceData(familiarId);
     if (current == null) {
       return;
     }
@@ -684,7 +823,7 @@ public class FamiliarDatabase {
   }
 
   public static final List<String> getFamiliarAttributes(final int familiarId) {
-    FamiliarRaceData data = FamiliarDatabase.familiarDataById.get(familiarId);
+    FamiliarRaceData data = getFamiliarRaceData(familiarId);
     return data == null ? List.of() : data.attributes;
   }
 

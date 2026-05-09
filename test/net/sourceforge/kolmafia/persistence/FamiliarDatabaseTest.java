@@ -138,6 +138,24 @@ public class FamiliarDatabaseTest {
   }
 
   @Test
+  void returnsExpectedSubtypeFairyFlags() {
+    assertThat(
+        FamiliarDatabase.getFamiliarType(FamiliarPool.VAMPIRE_VINTNER),
+        is("item2,combat0,hp0,drop"));
+    assertThat(
+        FamiliarDatabase.isFairyType(
+            FamiliarPool.VAMPIRE_VINTNER, DoubleModifier.BOOZE_FAIRY_WEIGHT),
+        is(true));
+    assertThat(
+        FamiliarDatabase.isFairyType(
+            FamiliarPool.PEPPERMINT_RHINO, DoubleModifier.CANDY_FAIRY_WEIGHT),
+        is(true));
+    assertThat(
+        FamiliarDatabase.isFairyType(FamiliarPool.COOKBOOKBAT, DoubleModifier.FOOD_FAIRY_WEIGHT),
+        is(true));
+  }
+
+  @Test
   public void itShouldWriteFamiliars() {
     ByteArrayOutputStream os = new ByteArrayOutputStream();
     PrintStream ps = new PrintStream(os);
