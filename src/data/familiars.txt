@@ -12,7 +12,6 @@
 # meat0 - Meat Drop
 # combat0 - Physical Attack
 # combat1 - Elemental Attack
-# drop - special drop
 # block - potato-like
 # delevel0 - barrrnacle-like, delevels at start of combat
 # delevel1 - ghost pickle-like, delevels during combat
@@ -26,6 +25,7 @@
 # stat3 - grants stats after combat
 # other1 - does other things after combat
 # passive - passive effect
+# drop - special drop
 # underwater - breaths underwater
 # pokefam - is a pokefam-only familiar
 # variable - varies according to equipment or other factors.

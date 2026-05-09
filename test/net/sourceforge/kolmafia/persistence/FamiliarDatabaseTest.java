@@ -150,5 +150,9 @@ public class FamiliarDatabaseTest {
         containsString(
             "1\tMosquito\tfamiliar1.gif\tcombat0,hp0\tmosquito larva\thypodermic needle\t2\t1\t3\t0\tsentient,organic,insect,animal,haseyes,bite,haswings,flies,fast\n"));
     assertThat(data, containsString("13\n"));
+    assertThat(
+        data,
+        containsString(
+            "286\tSynthetic Rock\tsynthrock.gif\tnone\tsynthetic rock\t\t0\t0\t0\t0\tmineral,object,hard\n"));
   }
 }
