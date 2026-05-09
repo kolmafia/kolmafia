@@ -2684,7 +2684,12 @@ public class MaximizerTest {
     @Test
     public void recommendBetterUnarmed() {
       var cleanups =
-          new Cleanups(withEquipped(ItemPool.TIME_SWORD), withEquippableItem(ItemPool.TIME_HALO));
+          new Cleanups(
+              withEquipped(ItemPool.TIME_SWORD),
+              withEquipped(Slot.ACCESSORY1, ItemPool.EXTREME_AMULET),
+              withEquipped(Slot.ACCESSORY2, ItemPool.EXTREME_AMULET),
+              withEquipped(Slot.ACCESSORY3, ItemPool.EXTREME_AMULET),
+              withEquippableItem(ItemPool.TIME_HALO));
 
       try (cleanups) {
         maximize("adv");
