@@ -76,6 +76,7 @@ public class FamiliarPool {
   public static final int STOCKING_MIMIC = 120;
   public static final int JACK_IN_THE_BOX = 122;
   public static final int BUGBEAR = 124;
+  public static final int PLASTIC_GROCERY_BAG = 133;
   public static final int TRON = 135;
   public static final int HIPSTER = 136;
   public static final int GRINDER = 139;
