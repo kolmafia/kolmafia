@@ -1202,7 +1202,7 @@ public class Modifiers {
     int cappedWeight = (cap == 0) ? weight : Math.min(weight, cap);
     FamiliarRaceData raceData = FamiliarDatabase.getFamiliarRaceData(familiarId);
     if (raceData == null) {
-      // should not be possible
+      // no familiar
       return;
     }
 

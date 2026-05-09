@@ -411,7 +411,7 @@ public class CompactSidePane extends JPanel implements Runnable {
 
         FamiliarRaceData raceData = FamiliarDatabase.getFamiliarRaceData(id);
         if (raceData == null) {
-          // should be impossible
+          // no familiar
           return;
         }
 
