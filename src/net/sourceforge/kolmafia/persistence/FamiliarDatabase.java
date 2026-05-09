@@ -70,6 +70,7 @@ public class FamiliarDatabase {
   }
 
   public static class FamiliarRaceData {
+    private final int id;
     private final String name;
     private String image;
     private final EnumSet<FamiliarType> types;
@@ -79,6 +80,7 @@ public class FamiliarDatabase {
     private final List<String> attributes;
 
     public FamiliarRaceData(
+        final int id,
         final String name,
         final String image,
         final EnumSet<FamiliarType> types,
@@ -86,6 +88,7 @@ public class FamiliarDatabase {
         final String item,
         final int[] skills,
         final List<String> attributes) {
+      this.id = id;
       this.name = name;
       this.image = image;
       this.types = types;
@@ -224,6 +227,11 @@ public class FamiliarDatabase {
     }
 
     public boolean isUnderwaterType() {
+      if (id == FamiliarPool.ROBORTENDER) {
+        String drinks = Preferences.getString("_roboDrinks");
+        return drinks.contains("low tide martini") || drinks.contains("Bloody Nora");
+      }
+
       return isType(FamiliarType.UNDERWATER);
     }
 
@@ -319,7 +327,7 @@ public class FamiliarDatabase {
           attrs = Arrays.asList(list);
         }
         FamiliarDatabase.familiarDataById.put(
-            id, new FamiliarRaceData(display, image, types, larvaId, itemName, skills, attrs));
+            id, new FamiliarRaceData(id, display, image, types, larvaId, itemName, skills, attrs));
       }
     } catch (IOException e) {
       StaticEntity.printStackTrace(e);
@@ -349,19 +357,6 @@ public class FamiliarDatabase {
   private static boolean hasType(final Integer familiarId, final FamiliarType type) {
     FamiliarRaceData data = getFamiliarRaceData(familiarId);
     return data != null && data.types.contains(type);
-  }
-
-  private static boolean hasAnyType(final Integer familiarId, final EnumSet<FamiliarType> types) {
-    FamiliarRaceData data = getFamiliarRaceData(familiarId);
-    if (data == null) {
-      return false;
-    }
-    for (FamiliarType type : types) {
-      if (data.types.contains(type)) {
-        return true;
-      }
-    }
-    return false;
   }
 
   static {
@@ -473,6 +468,7 @@ public class FamiliarDatabase {
     FamiliarDatabase.familiarDataById.put(
         id,
         new FamiliarRaceData(
+            id,
             familiarName,
             image,
             EnumSet.of(FamiliarType.NONE),
@@ -569,132 +565,8 @@ public class FamiliarDatabase {
     return -1;
   }
 
-  public static final boolean isVolleyType(final Integer familiarId) {
-    return hasType(familiarId, FamiliarType.STAT0);
-  }
-
-  public static final boolean isSombreroType(final Integer familiarId) {
-    return hasType(familiarId, FamiliarType.STAT1);
-  }
-
-  public static boolean isFairyType(final int id) {
-    return hasType(id, FamiliarType.ITEM0);
-  }
-
-  public static boolean isBoozeFairyType(final int id) {
-    return hasType(id, FamiliarType.ITEM2);
-  }
-
-  public static boolean isCandyFairyType(final int id) {
-    return hasType(id, FamiliarType.ITEM3);
-  }
-
-  public static boolean isFoodFairyType(final int id) {
-    return hasType(id, FamiliarType.ITEM1);
-  }
-
-  public static boolean isFairyType(final int id, final DoubleModifier fairyModifier) {
-    FamiliarRaceData data = getFamiliarRaceData(id);
-    return data != null && data.isFairyType(fairyModifier);
-  }
-
-  public static final boolean isMeatDropType(final Integer familiarId) {
-    return hasType(familiarId, FamiliarType.MEAT0);
-  }
-
-  public static final boolean isCombatType(final Integer familiarId) {
-    return hasAnyType(
-        familiarId,
-        EnumSet.of(
-            FamiliarType.COMBAT0,
-            FamiliarType.COMBAT1,
-            FamiliarType.BLOCK,
-            FamiliarType.DELEVEL0,
-            FamiliarType.DELEVEL1,
-            FamiliarType.HP0,
-            FamiliarType.MP0,
-            FamiliarType.OTHER0));
-  }
-
-  public static final boolean isCombat0Type(final Integer familiarId) {
-    return hasType(familiarId, FamiliarType.COMBAT0);
-  }
-
-  public static final boolean isCombat1Type(final Integer familiarId) {
-    return hasType(familiarId, FamiliarType.COMBAT1);
-  }
-
-  public static final boolean isDropType(final Integer familiarId) {
-    return hasType(familiarId, FamiliarType.DROP);
-  }
-
-  public static final boolean isBlockType(final Integer familiarId) {
-    return hasType(familiarId, FamiliarType.BLOCK);
-  }
-
-  public static final boolean isDelevelType(final Integer familiarId) {
-    return hasAnyType(familiarId, EnumSet.of(FamiliarType.DELEVEL0, FamiliarType.DELEVEL1));
-  }
-
-  public static final boolean isHp0Type(final Integer familiarId) {
-    return hasType(familiarId, FamiliarType.HP0);
-  }
-
-  public static final boolean isMp0Type(final Integer familiarId) {
-    return hasType(familiarId, FamiliarType.MP0);
-  }
-
-  public static final boolean isMeat1Type(final Integer familiarId) {
-    return hasType(familiarId, FamiliarType.MEAT1);
-  }
-
-  public static final boolean isStat2Type(final Integer familiarId) {
-    return hasType(familiarId, FamiliarType.STAT2);
-  }
-
-  public static final boolean isOther0Type(final Integer familiarId) {
-    return hasType(familiarId, FamiliarType.OTHER0);
-  }
-
-  public static final boolean isHp1Type(final Integer familiarId) {
-    return hasType(familiarId, FamiliarType.HP1);
-  }
-
-  public static final boolean isMp1Type(final Integer familiarId) {
-    return hasType(familiarId, FamiliarType.MP1);
-  }
-
-  public static final boolean isStat3Type(final Integer familiarId) {
-    return hasType(familiarId, FamiliarType.STAT3);
-  }
-
-  public static final boolean isNoneType(final Integer familiarId) {
-    return hasType(familiarId, FamiliarType.NONE);
-  }
-
-  public static final boolean isOther1Type(final Integer familiarId) {
-    return hasType(familiarId, FamiliarType.OTHER1);
-  }
-
-  public static final boolean isPassiveType(final Integer familiarId) {
-    return hasType(familiarId, FamiliarType.PASSIVE);
-  }
-
-  public static final boolean isUnderwaterType(final Integer familiarId) {
-    if (familiarId == FamiliarPool.ROBORTENDER) {
-      String drinks = Preferences.getString("_roboDrinks");
-      return drinks.contains("low tide martini") || drinks.contains("Bloody Nora");
-    }
-
-    return hasType(familiarId, FamiliarType.UNDERWATER);
-  }
-
   public static final boolean isPokefamType(final Integer familiarId) {
     return hasType(familiarId, FamiliarType.POKEFAM);
-  }
-
-  public static final boolean isVariableType(final Integer familiarId) {
-    return hasType(familiarId, FamiliarType.VARIABLE);
   }
 
   public static final String getFamiliarItem(final Integer familiarId) {

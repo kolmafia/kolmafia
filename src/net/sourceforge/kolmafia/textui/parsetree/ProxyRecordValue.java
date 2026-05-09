@@ -38,6 +38,7 @@ import net.sourceforge.kolmafia.persistence.EffectData;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.FactDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
+import net.sourceforge.kolmafia.persistence.FamiliarDatabase.FamiliarRaceData;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase.Attribute;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
@@ -847,59 +848,59 @@ public class ProxyRecordValue extends RecordValue {
     }
 
     public boolean get_combat() {
-      return FamiliarDatabase.isCombatType((int) this.contentLong);
+      return this.content != null && ((FamiliarRaceData) this.content).isCombatType();
     }
 
     public boolean get_physical_damage() {
-      return FamiliarDatabase.isCombat0Type((int) this.contentLong);
+      return this.content != null && ((FamiliarRaceData) this.content).isCombat0Type();
     }
 
     public boolean get_elemental_damage() {
-      return FamiliarDatabase.isCombat1Type((int) this.contentLong);
+      return this.content != null && ((FamiliarRaceData) this.content).isCombat1Type();
     }
 
     public boolean get_block() {
-      return FamiliarDatabase.isBlockType((int) this.contentLong);
+      return this.content != null && ((FamiliarRaceData) this.content).isBlockType();
     }
 
     public boolean get_delevel() {
-      return FamiliarDatabase.isDelevelType((int) this.contentLong);
+      return this.content != null && ((FamiliarRaceData) this.content).isDelevelType();
     }
 
     public boolean get_hp_during_combat() {
-      return FamiliarDatabase.isHp0Type((int) this.contentLong);
+      return this.content != null && ((FamiliarRaceData) this.content).isHp0Type();
     }
 
     public boolean get_mp_during_combat() {
-      return FamiliarDatabase.isMp0Type((int) this.contentLong);
+      return this.content != null && ((FamiliarRaceData) this.content).isMp0Type();
     }
 
     public boolean get_other_action_during_combat() {
-      return FamiliarDatabase.isOther0Type((int) this.contentLong);
+      return this.content != null && ((FamiliarRaceData) this.content).isOther0Type();
     }
 
     public boolean get_hp_after_combat() {
-      return FamiliarDatabase.isHp1Type((int) this.contentLong);
+      return this.content != null && ((FamiliarRaceData) this.content).isHp1Type();
     }
 
     public boolean get_mp_after_combat() {
-      return FamiliarDatabase.isMp1Type((int) this.contentLong);
+      return this.content != null && ((FamiliarRaceData) this.content).isMp1Type();
     }
 
     public boolean get_other_action_after_combat() {
-      return FamiliarDatabase.isOther1Type((int) this.contentLong);
+      return this.content != null && ((FamiliarRaceData) this.content).isOther1Type();
     }
 
     public boolean get_passive() {
-      return FamiliarDatabase.isPassiveType((int) this.contentLong);
+      return this.content != null && ((FamiliarRaceData) this.content).isPassiveType();
     }
 
     public boolean get_underwater() {
-      return FamiliarDatabase.isUnderwaterType((int) this.contentLong);
+      return this.content != null && ((FamiliarRaceData) this.content).isUnderwaterType();
     }
 
     public boolean get_variable() {
-      return FamiliarDatabase.isVariableType((int) this.contentLong);
+      return this.content != null && ((FamiliarRaceData) this.content).isVariableType();
     }
 
     public boolean get_feasted() {

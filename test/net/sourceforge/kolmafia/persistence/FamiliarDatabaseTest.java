@@ -23,10 +23,12 @@ public class FamiliarDatabaseTest {
     int larva = ItemPool.BLOOD_FACED_VOLLEYBALL;
     String item = "palm-frond toupee";
 
+    var data = FamiliarDatabase.getFamiliarRaceData(familiarId);
+
     assertThat(FamiliarDatabase.getFamiliarName(familiarId), is(name));
     assertThat(FamiliarDatabase.getFamiliarId(name), is(familiarId));
     assertThat(FamiliarDatabase.getFamiliarType(familiarId), is("stat0"));
-    assertThat(FamiliarDatabase.isVolleyType(familiarId), is(true));
+    assertThat(data.isVolleyType(), is(true));
 
     assertThat(FamiliarDatabase.getFamiliarImageLocation(familiarId), is(image));
     assertThat(FamiliarDatabase.getFamiliarByImageLocation(image), is(familiarId));
@@ -117,24 +119,29 @@ public class FamiliarDatabaseTest {
   @Test
   void returnsExpectedTypeOrderAndFlagsForMultiTypeFamiliar() {
     int familiarId = FamiliarPool.HANUKKIMBO_DREIDL;
+
+    var data = FamiliarDatabase.getFamiliarRaceData(familiarId);
+
     assertThat(FamiliarDatabase.getFamiliarType(familiarId), is("combat0,block,mp0,meat1"));
-    assertThat(FamiliarDatabase.isCombat0Type(familiarId), is(true));
-    assertThat(FamiliarDatabase.isCombatType(familiarId), is(true));
-    assertThat(FamiliarDatabase.isBlockType(familiarId), is(true));
-    assertThat(FamiliarDatabase.isMp0Type(familiarId), is(true));
-    assertThat(FamiliarDatabase.isMeat1Type(familiarId), is(true));
+    assertThat(data.isCombat0Type(), is(true));
+    assertThat(data.isCombatType(), is(true));
+    assertThat(data.isBlockType(), is(true));
+    assertThat(data.isMp0Type(), is(true));
+    assertThat(data.isMeat1Type(), is(true));
   }
 
   @Test
   void returnsExpectedTypeOrderAndFlagsForFairyType() {
     int familiarId = FamiliarPool.COFFEE_PIXIE;
+
+    var data = FamiliarDatabase.getFamiliarRaceData(familiarId);
+
     assertThat(FamiliarDatabase.getFamiliarType(familiarId), is("item0,meat0"));
-    assertThat(FamiliarDatabase.isCombatType(familiarId), is(false));
-    assertThat(FamiliarDatabase.isMeatDropType(familiarId), is(true));
-    assertThat(FamiliarDatabase.isFairyType(familiarId), is(true));
-    assertThat(FamiliarDatabase.isFairyType(familiarId, DoubleModifier.FAIRY_WEIGHT), is(true));
-    assertThat(
-        FamiliarDatabase.isFairyType(familiarId, DoubleModifier.FOOD_FAIRY_WEIGHT), is(false));
+    assertThat(data.isCombatType(), is(false));
+    assertThat(data.isMeatDropType(), is(true));
+    assertThat(data.isFairyType(), is(true));
+    assertThat(data.isFairyType(DoubleModifier.FAIRY_WEIGHT), is(true));
+    assertThat(data.isFairyType(DoubleModifier.FOOD_FAIRY_WEIGHT), is(false));
   }
 
   @Test
@@ -143,15 +150,16 @@ public class FamiliarDatabaseTest {
         FamiliarDatabase.getFamiliarType(FamiliarPool.VAMPIRE_VINTNER),
         is("item2,combat0,hp0,drop"));
     assertThat(
-        FamiliarDatabase.isFairyType(
-            FamiliarPool.VAMPIRE_VINTNER, DoubleModifier.BOOZE_FAIRY_WEIGHT),
+        FamiliarDatabase.getFamiliarRaceData(FamiliarPool.VAMPIRE_VINTNER)
+            .isFairyType(DoubleModifier.BOOZE_FAIRY_WEIGHT),
         is(true));
     assertThat(
-        FamiliarDatabase.isFairyType(
-            FamiliarPool.PEPPERMINT_RHINO, DoubleModifier.CANDY_FAIRY_WEIGHT),
+        FamiliarDatabase.getFamiliarRaceData(FamiliarPool.PEPPERMINT_RHINO)
+            .isFairyType(DoubleModifier.CANDY_FAIRY_WEIGHT),
         is(true));
     assertThat(
-        FamiliarDatabase.isFairyType(FamiliarPool.COOKBOOKBAT, DoubleModifier.FOOD_FAIRY_WEIGHT),
+        FamiliarDatabase.getFamiliarRaceData(FamiliarPool.COOKBOOKBAT)
+            .isFairyType(DoubleModifier.FOOD_FAIRY_WEIGHT),
         is(true));
   }
 

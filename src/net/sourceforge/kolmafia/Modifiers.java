@@ -1325,6 +1325,7 @@ public class Modifiers {
 
     this.addFairyEffect(
         familiar,
+        raceData,
         weight,
         cappedWeight,
         DoubleModifier.FAIRY_WEIGHT,
@@ -1332,6 +1333,7 @@ public class Modifiers {
         DoubleModifier.ITEMDROP);
     this.addFairyEffect(
         familiar,
+        raceData,
         weight,
         cappedWeight,
         DoubleModifier.FOOD_FAIRY_WEIGHT,
@@ -1339,6 +1341,7 @@ public class Modifiers {
         DoubleModifier.FOODDROP);
     this.addFairyEffect(
         familiar,
+        raceData,
         weight,
         cappedWeight,
         DoubleModifier.BOOZE_FAIRY_WEIGHT,
@@ -1346,6 +1349,7 @@ public class Modifiers {
         DoubleModifier.BOOZEDROP);
     this.addFairyEffect(
         familiar,
+        raceData,
         weight,
         cappedWeight,
         DoubleModifier.CANDY_FAIRY_WEIGHT,
@@ -1376,6 +1380,7 @@ public class Modifiers {
 
   private void addFairyEffect(
       final FamiliarData familiar,
+      final FamiliarRaceData raceData,
       final int weight,
       final int cappedWeight,
       final DoubleModifier fairyModifier,
@@ -1384,7 +1389,7 @@ public class Modifiers {
     var effective = cappedWeight * this.getDouble(fairyModifier);
 
     // If it has no explicit modifier but is the right familiar type, add effect regardless
-    if (effective == 0.0 && FamiliarDatabase.isFairyType(familiar.getId(), fairyModifier)) {
+    if (effective == 0.0 && raceData.isFairyType(fairyModifier)) {
       effective = weight;
     }
 
