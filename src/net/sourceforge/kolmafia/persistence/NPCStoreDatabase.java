@@ -510,6 +510,7 @@ public class NPCStoreDatabase {
         return KoLCharacter.inBadMoon();
       }
       case "sandpenny" -> {
+        // Wet Crap For Sale
         return KoLCharacter.inSeaPath();
       }
       case "town_giftshop.php" -> {
