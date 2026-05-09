@@ -48,6 +48,7 @@ import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
+import net.sourceforge.kolmafia.persistence.SkillDatabase.SkillData;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.Indexed;
@@ -1382,9 +1383,9 @@ public class ModifierDatabase {
     // Make a map of passive skills
     Set<String> passives = new TreeSet<>();
 
-    for (Entry<Integer, String> entry : SkillDatabase.entrySet()) {
+    for (Entry<Integer, SkillData> entry : SkillDatabase.entrySet()) {
       Integer key = entry.getKey();
-      String name = entry.getValue();
+      String name = entry.getValue().name();
       if (SkillDatabase.isPassive(key)) {
         passives.add(name);
       }

@@ -15,6 +15,7 @@ import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.persistence.SkillDatabase.SkillData;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.menu.ThreadedMenuItem;
 import net.sourceforge.kolmafia.swingui.panel.ItemTableManagePanel;
@@ -26,7 +27,7 @@ public class DatabaseFrame extends GenericFrame {
       LowerCaseEntry.createListModel(ItemDatabase.entrySet());
   public static final LockableListModel<LowerCaseEntry<Integer, EffectData>> allEffects =
       LowerCaseEntry.createListModel(EffectDatabase.allEffects());
-  public static final LockableListModel<LowerCaseEntry<Integer, String>> allSkills =
+  public static final LockableListModel<LowerCaseEntry<Integer, SkillData>> allSkills =
       LowerCaseEntry.createListModel(SkillDatabase.entrySet());
   public static final LockableListModel<LowerCaseEntry<Integer, String>> allFamiliars =
       LowerCaseEntry.createListModel(FamiliarDatabase.entrySet());
