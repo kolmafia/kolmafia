@@ -509,6 +509,9 @@ public class NPCStoreDatabase {
         // Nervewrecker's Store
         return KoLCharacter.inBadMoon();
       }
+      case "sandpenny" -> {
+        return KoLCharacter.inSeaPath();
+      }
       case "town_giftshop.php" -> {
         // Gift Shop
         if (KoLCharacter.inBadMoon() || KoLCharacter.isKingdomOfExploathing()) {
