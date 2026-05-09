@@ -211,6 +211,19 @@ public class FamiliarDatabase {
     return data != null && data.types.contains(type);
   }
 
+  private static boolean hasAnyType(final Integer familiarId, final EnumSet<FamiliarType> types) {
+    FamiliarRaceData data = FamiliarDatabase.familiarDataById.get(familiarId);
+    if (data == null) {
+      return false;
+    }
+    for (FamiliarType type : types) {
+      if (data.types.contains(type)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   static {
     // Do the same thing for PokefamData from fambattle.txt
 
@@ -451,14 +464,17 @@ public class FamiliarDatabase {
   }
 
   public static final boolean isCombatType(final Integer familiarId) {
-    return hasType(familiarId, FamiliarType.COMBAT0)
-        || hasType(familiarId, FamiliarType.COMBAT1)
-        || hasType(familiarId, FamiliarType.BLOCK)
-        || hasType(familiarId, FamiliarType.DELEVEL0)
-        || hasType(familiarId, FamiliarType.DELEVEL1)
-        || hasType(familiarId, FamiliarType.HP0)
-        || hasType(familiarId, FamiliarType.MP0)
-        || hasType(familiarId, FamiliarType.OTHER0);
+    return hasAnyType(
+        familiarId,
+        EnumSet.of(
+            FamiliarType.COMBAT0,
+            FamiliarType.COMBAT1,
+            FamiliarType.BLOCK,
+            FamiliarType.DELEVEL0,
+            FamiliarType.DELEVEL1,
+            FamiliarType.HP0,
+            FamiliarType.MP0,
+            FamiliarType.OTHER0));
   }
 
   public static final boolean isCombat0Type(final Integer familiarId) {
@@ -478,7 +494,7 @@ public class FamiliarDatabase {
   }
 
   public static final boolean isDelevelType(final Integer familiarId) {
-    return hasType(familiarId, FamiliarType.DELEVEL0) || hasType(familiarId, FamiliarType.DELEVEL1);
+    return hasAnyType(familiarId, EnumSet.of(FamiliarType.DELEVEL0, FamiliarType.DELEVEL1));
   }
 
   public static final boolean isHp0Type(final Integer familiarId) {
