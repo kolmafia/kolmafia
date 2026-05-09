@@ -2,9 +2,12 @@ package net.sourceforge.kolmafia.persistence;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import org.junit.jupiter.api.Test;
@@ -69,5 +72,19 @@ public class FamiliarDatabaseTest {
   @Test
   void invalidItemDefaultsToMinusOne() {
     assertThat(FamiliarDatabase.getFamiliarByItem("stuffed club"), is(-1));
+  }
+
+  @Test
+  public void itShouldWriteFamiliars() {
+    ByteArrayOutputStream os = new ByteArrayOutputStream();
+    PrintStream ps = new PrintStream(os);
+    FamiliarDatabase.reset();
+    FamiliarDatabase.writeFamiliars(ps);
+    String data = os.toString();
+
+    assertThat(
+        data,
+        containsString(
+            "1\tMosquito\tfamiliar1.gif\tcombat0,hp0\tmosquito larva\thypodermic needle\t2\t1\t3\t0\tsentient,organic,insect,animal,haseyes,bite,haswings,flies,fast\n"));
   }
 }

@@ -828,6 +828,12 @@ public class FamiliarDatabase {
   public static void writeFamiliars(final File output) {
     RequestLogger.printLine("Writing data override: " + output);
     PrintStream writer = LogStream.openStream(output, true);
+    try (writer) {
+      writeFamiliars(writer);
+    }
+  }
+
+  static void writeFamiliars(final PrintStream writer) {
     writer.println(KoLConstants.FAMILIARS_VERSION);
 
     writer.println("# Original familiar arena stats from Vladjimir's arena data");
@@ -856,23 +862,12 @@ public class FamiliarDatabase {
       int larvaId = FamiliarDatabase.getFamiliarLarva(nextInteger);
       int itemId = FamiliarDatabase.getFamiliarItemId(nextInteger);
       int[] skills = FamiliarDatabase.getFamiliarSkills(nextInteger);
+      var attributes = FamiliarDatabase.getFamiliarAttributes(familiarId);
 
-      FamiliarDatabase.writeFamiliar(
-          writer, familiarId, name, image, type, larvaId, itemId, skills);
+      writer.println(
+          FamiliarDatabase.familiarString(
+              familiarId, name, image, type, larvaId, itemId, skills, attributes));
     }
-  }
-
-  public static void writeFamiliar(
-      final PrintStream writer,
-      final int familiarId,
-      final String name,
-      final String image,
-      final String type,
-      final int larvaId,
-      final int itemId,
-      final int[] skills) {
-    writer.println(
-        FamiliarDatabase.familiarString(familiarId, name, image, type, larvaId, itemId, skills));
   }
 
   public static String familiarString(
@@ -882,9 +877,11 @@ public class FamiliarDatabase {
       final String type,
       final int larvaId,
       final int itemId,
-      final int[] skills) {
+      final int[] skills,
+      List<String> attributesList) {
     String larva = larvaId == -1 ? "" : ItemDatabase.getItemDataName(larvaId);
     String item = itemId == -1 ? "" : ItemDatabase.getItemDataName(itemId);
+    String attributes = attributesList == null ? "" : String.join(",", attributesList);
     return familiarId
         + "\t"
         + name
@@ -903,7 +900,9 @@ public class FamiliarDatabase {
         + "\t"
         + skills[2]
         + "\t"
-        + skills[3];
+        + skills[3]
+        + "\t"
+        + attributes;
   }
 
   // ****** PokefamData support
