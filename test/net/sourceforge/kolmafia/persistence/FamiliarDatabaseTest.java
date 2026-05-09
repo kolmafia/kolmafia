@@ -36,6 +36,11 @@ public class FamiliarDatabaseTest {
     assertThat(FamiliarDatabase.getFamiliarByItem(item), is(familiarId));
 
     assertThat(FamiliarDatabase.getFamiliarSkills(familiarId), is(new int[] {0, 1, 3, 2}));
+    assertThat(FamiliarDatabase.getFamiliarSkill(name, 1), is(0));
+    assertThat(FamiliarDatabase.getFamiliarSkill(name, 2), is(1));
+    assertThat(FamiliarDatabase.getFamiliarSkill(name, 3), is(3));
+    assertThat(FamiliarDatabase.getFamiliarSkill(name, 4), is(2));
+
     assertThat(
         FamiliarDatabase.getFamiliarAttributes(familiarId),
         contains("mineral", "object", "haseyes", "hovers", "orb", "spooky"));
@@ -58,6 +63,7 @@ public class FamiliarDatabaseTest {
   @Test
   void returnsDefaultsForMissingFamiliar() {
     int familiarId = 13;
+    String name = "Familiar 13";
 
     assertThat(FamiliarDatabase.getFamiliarType(familiarId), is("none"));
 
@@ -67,11 +73,37 @@ public class FamiliarDatabaseTest {
     assertThat(FamiliarDatabase.getFamiliarItemId(familiarId), is(-1));
 
     // assertThat(FamiliarDatabase.getFamiliarSkills(familiarId), is(new int[] {0, 0, 0, 0}));
+    assertThat(FamiliarDatabase.getFamiliarSkill(name, 1), nullValue());
+    assertThat(FamiliarDatabase.getFamiliarSkill(name, 2), nullValue());
+    assertThat(FamiliarDatabase.getFamiliarSkill(name, 3), nullValue());
+    assertThat(FamiliarDatabase.getFamiliarSkill(name, 4), nullValue());
   }
 
   @Test
   void invalidItemDefaultsToMinusOne() {
     assertThat(FamiliarDatabase.getFamiliarByItem("stuffed club"), is(-1));
+  }
+
+  @Test
+  void settingSkillsShouldOverride() {
+    int familiarId = FamiliarPool.LEPRECHAUN;
+    String name = "Leprechaun";
+    FamiliarDatabase.setFamiliarSkills(name, new int[] {0, 1, 2, 3});
+
+    assertThat(FamiliarDatabase.getFamiliarSkills(familiarId), is(new int[] {0, 1, 2, 3}));
+    assertThat(FamiliarDatabase.getFamiliarSkill(name, 1), is(0));
+    assertThat(FamiliarDatabase.getFamiliarSkill(name, 2), is(1));
+    assertThat(FamiliarDatabase.getFamiliarSkill(name, 3), is(2));
+    assertThat(FamiliarDatabase.getFamiliarSkill(name, 4), is(3));
+  }
+
+  @Test
+  void settingImageShouldOverride() {
+    int familiarId = FamiliarPool.LEPRECHAUN;
+    FamiliarDatabase.setFamiliarImageLocation(familiarId, "leprechaun.gif");
+
+    assertThat(FamiliarDatabase.getFamiliarImageLocation(familiarId), is("leprechaun.gif"));
+    // assertThat(FamiliarDatabase.getFamiliarByImageLocation("leprechaun.gif"), is(familiarId));
   }
 
   @Test
