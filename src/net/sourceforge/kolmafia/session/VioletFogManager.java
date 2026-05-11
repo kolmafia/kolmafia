@@ -613,7 +613,7 @@ public abstract class VioletFogManager {
         new StringBuilder()
             .append("<div id=\"violetFogGraph\" style=\"max-width: 95%\">Loading graph...</div>")
             .append(
-                "<script src=\"https://cdn.jsdelivr.net/npm/@hpcc-js/wasm/dist/index.min.js\"></script>")
+                "<script src=\"https://cdn.jsdelivr.net/npm/@hpcc-js/wasm@1.20.1/dist/index.min.js\"></script>")
             .append("<script>")
             .append("var hpccWasm = window[\"@hpcc-js/wasm\"];")
             .append("const dot=`")
