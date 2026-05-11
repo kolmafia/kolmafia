@@ -2698,6 +2698,27 @@ public class MaximizerTest {
         assertThat(boosts, hasItem(recommends(ItemPool.TIME_HALO)));
       }
     }
+
+    @Test
+    public void dontRecommendWorseUnarmed() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(Slot.ACCESSORY1, ItemPool.GOLD_WEDDING_RING),
+              withEquipped(Slot.ACCESSORY2, ItemPool.TINY_PLASTIC_GOLDEN_GUNDAM),
+              withEquipped(Slot.ACCESSORY3, ItemPool.TIME_HALO),
+              withEquippableItem(ItemPool.TIME_SWORD),
+              withEquippableItem(ItemPool.NOVELTY_MONORAIL_TICKET),
+              withEquippableItem(ItemPool.TINY_PLASTIC_CRIMBO_REINDEER));
+
+      try (cleanups) {
+        maximize("adv");
+        var boosts = getBoosts();
+        assertThat(boosts, hasItem(recommends(ItemPool.TIME_SWORD)));
+        assertThat(boosts, hasItem(recommends(ItemPool.NOVELTY_MONORAIL_TICKET)));
+        assertThat(boosts, hasItem(recommends(ItemPool.TINY_PLASTIC_CRIMBO_REINDEER)));
+        assertThat(boosts, not(hasItem(recommends(ItemPool.TIME_HALO))));
+      }
+    }
   }
 
   @Test

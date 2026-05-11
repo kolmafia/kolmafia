@@ -1510,8 +1510,13 @@ public class Evaluator {
             || (this.raveosity > 0 && mods.getRawBitmap(BitmapModifier.RAVEOSITY) != 0)
             || (this.surgeonosity > 0 && mods.getRawBitmap(BitmapModifier.SURGEONOSITY) != 0)
             || (this.stinkycheese > 0 && mods.getRawBitmap(BitmapModifier.STINKYCHEESE) != 0)
-            || ((mods.getRawBitmap(BitmapModifier.SYNERGETIC) & usefulSynergies) != 0)
-            || mods.toString().contains("unarmed")) {
+            || ((mods.getRawBitmap(BitmapModifier.SYNERGETIC) & usefulSynergies) != 0)) {
+          item.automaticFlag = true;
+          break gotItem;
+        } else if (mods.toString().contains("unarmed")) {
+          // Items with an unarmed bonus need to always be considered, but they should not consume a
+          // slot in the shortlist.
+          item.conditionalFlag = true;
           item.automaticFlag = true;
           break gotItem;
         }

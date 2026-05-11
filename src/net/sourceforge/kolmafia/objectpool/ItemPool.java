@@ -469,6 +469,7 @@ public class ItemPool {
   public static final int CLOACA_HELMET = 1331;
   public static final int CLOACA_COLA = 1334;
   public static final int GIANT_PINKY_RING = 1351;
+  public static final int TINY_PLASTIC_CRIMBO_REINDEER = 1379;
   public static final int FANCY_CHOCOLATE = 1382;
   public static final int TOY_SOLDIER = 1397;
   public static final int SNOWCONE_BOOK = 1411;
@@ -1934,6 +1935,7 @@ public class ItemPool {
   public static final int MEATSMITH_JAR = 5903;
   public static final int JICK_JAR = 5905;
   public static final int CHIBIBUDDY_ON = 5908;
+  public static final int GOLD_WEDDING_RING = 5909;
   public static final int NANORHINO_CREDIT_CARD = 5911;
   public static final int BEET_MEDIOCREBAR = 5915;
   public static final int CORN_MEDIOCREBAR = 5916;
@@ -3201,6 +3203,7 @@ public class ItemPool {
   public static final int VICTOR_SPOILS = 9489;
   public static final int KREMLIN_BRIEFCASE = 9493;
   public static final int CAN_OF_MINIONS_BE_GONE = 9498;
+  public static final int TINY_PLASTIC_GOLDEN_GUNDAM = 9502;
   public static final int LICENSE_TO_CHILL = 9503;
   public static final int CELSIUS_233 = 9504;
   public static final int CELSIUS_233_SINGED = 9505;
@@ -3271,6 +3274,7 @@ public class ItemPool {
   public static final int WAD_OF_TAPE = 9694;
   public static final int SILENT_NIGHTLIGHT = 9695;
   public static final int MAKESHIFT_GARBAGE_SHIRT = 9699;
+  public static final int NOVELTY_MONORAIL_TICKET = 9700;
   public static final int DIETING_PILL = 9707;
   public static final int CLAN_CARNIVAL_GAME = 9712;
   public static final int GET_BIG_BOOK = 9713;
