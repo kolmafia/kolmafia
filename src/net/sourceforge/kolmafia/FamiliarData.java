@@ -28,6 +28,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
+import net.sourceforge.kolmafia.persistence.FamiliarDatabase.FamiliarRaceData;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -1054,7 +1055,8 @@ public class FamiliarData implements Comparable<FamiliarData> {
 
   public boolean waterBreathing() {
     // Water breathing is inherited by Comma Chameleon imitating
-    return FamiliarDatabase.isUnderwaterType(this.getEffectiveId());
+    FamiliarRaceData data = FamiliarDatabase.getFamiliarRaceData(this.getEffectiveId());
+    return data != null && data.isUnderwaterType();
   }
 
   public boolean canCarry() {
@@ -1490,7 +1492,8 @@ public class FamiliarData implements Comparable<FamiliarData> {
   }
 
   public boolean isCombatFamiliar() {
-    if (FamiliarDatabase.isCombatType(this.id)) {
+    FamiliarRaceData data = FamiliarDatabase.getFamiliarRaceData(this.id);
+    if (data != null && data.isCombatType()) {
       return true;
     }
 

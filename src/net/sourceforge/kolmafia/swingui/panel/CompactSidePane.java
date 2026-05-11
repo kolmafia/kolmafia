@@ -45,6 +45,7 @@ import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
+import net.sourceforge.kolmafia.persistence.FamiliarDatabase.FamiliarRaceData;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
@@ -408,35 +409,41 @@ public class CompactSidePane extends JPanel implements Runnable {
         Modifiers mods = ModifierDatabase.getModifiers(ModifierType.FAMILIAR, fam.getRace());
         boolean added = false;
 
+        FamiliarRaceData raceData = FamiliarDatabase.getFamiliarRaceData(id);
+        if (raceData == null) {
+          // no familiar
+          return;
+        }
+
         // Stat Gain
-        if (FamiliarDatabase.isVolleyType(id)
-            || FamiliarDatabase.isSombreroType(id)
+        if (raceData.isVolleyType()
+            || raceData.isSombreroType()
             || (mods != null && mods.getDouble(DoubleModifier.VOLLEYBALL_WEIGHT) != 0.0)) {
           stat.add(new FamiliarMenuItem(fam));
           added = true;
         }
 
         // Item Drop
-        if (FamiliarDatabase.isFairyType(id)) {
+        if (raceData.isFairyType()) {
           item.add(new FamiliarMenuItem(fam));
           added = true;
         }
 
         // Meat Drop
-        if (FamiliarDatabase.isMeatDropType(id)) {
+        if (raceData.isMeatDropType()) {
           meat.add(new FamiliarMenuItem(fam));
           added = true;
         }
 
         // Special drops
-        if (FamiliarDatabase.isDropType(id)) {
+        if (raceData.isDropType()) {
           drops.add(new FamiliarMenuItem(fam));
           added = true;
         }
 
         // Combat submenus
-        boolean is0 = FamiliarDatabase.isCombat0Type(id);
-        boolean is1 = FamiliarDatabase.isCombat1Type(id);
+        boolean is0 = raceData.isCombat0Type();
+        boolean is1 = raceData.isCombat1Type();
 
         if (is0 && !is1) {
           combat0.add(new FamiliarMenuItem(fam));
@@ -450,59 +457,59 @@ public class CompactSidePane extends JPanel implements Runnable {
           combat01.add(new FamiliarMenuItem(fam));
           added = true;
         }
-        if (FamiliarDatabase.isBlockType(id)) {
+        if (raceData.isBlockType()) {
           block.add(new FamiliarMenuItem(fam));
           added = true;
         }
-        if (FamiliarDatabase.isDelevelType(id)) {
+        if (raceData.isDelevelType()) {
           delevel.add(new FamiliarMenuItem(fam));
           added = true;
         }
-        if (FamiliarDatabase.isHp0Type(id)) {
+        if (raceData.isHp0Type()) {
           hp0.add(new FamiliarMenuItem(fam));
           added = true;
         }
-        if (FamiliarDatabase.isMp0Type(id)) {
+        if (raceData.isMp0Type()) {
           mp0.add(new FamiliarMenuItem(fam));
           added = true;
         }
-        if (FamiliarDatabase.isStat2Type(id)) {
+        if (raceData.isStat2Type()) {
           stat2.add(new FamiliarMenuItem(fam));
           added = true;
         }
-        if (FamiliarDatabase.isMeat1Type(id)) {
+        if (raceData.isMeat1Type()) {
           meat1.add(new FamiliarMenuItem(fam));
           added = true;
         }
-        if (FamiliarDatabase.isOther0Type(id)) {
+        if (raceData.isOther0Type()) {
           other0.add(new FamiliarMenuItem(fam));
           added = true;
         }
-        if (FamiliarDatabase.isHp1Type(id)) {
+        if (raceData.isHp1Type()) {
           hp1.add(new FamiliarMenuItem(fam));
           added = true;
         }
-        if (FamiliarDatabase.isMp1Type(id)) {
+        if (raceData.isMp1Type()) {
           mp1.add(new FamiliarMenuItem(fam));
           added = true;
         }
-        if (FamiliarDatabase.isStat3Type(id)) {
+        if (raceData.isStat3Type()) {
           stat3.add(new FamiliarMenuItem(fam));
           added = true;
         }
-        if (FamiliarDatabase.isOther1Type(id)) {
+        if (raceData.isOther1Type()) {
           other1.add(new FamiliarMenuItem(fam));
           added = true;
         }
-        if (FamiliarDatabase.isPassiveType(id)) {
+        if (raceData.isPassiveType()) {
           passive.add(new FamiliarMenuItem(fam));
           added = true;
         }
-        if (FamiliarDatabase.isUnderwaterType(id)) {
+        if (raceData.isUnderwaterType()) {
           underwater.add(new FamiliarMenuItem(fam));
           added = true;
         }
-        if (FamiliarDatabase.isVariableType(id)) {
+        if (raceData.isVariableType()) {
           variable.add(new FamiliarMenuItem(fam));
           added = true;
         }
