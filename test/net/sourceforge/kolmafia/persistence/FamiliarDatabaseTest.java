@@ -189,6 +189,7 @@ public class FamiliarDatabaseTest {
         containsString(
             "1\tMosquito\tfamiliar1.gif\tcombat0,hp0\tmosquito larva\thypodermic needle\t2\t1\t3\t0\tsentient,organic,insect,animal,haseyes,bite,haswings,flies,fast\n"));
     assertThat(data, containsString("13\n"));
+    assertThat(data, containsString("132\tSnowhitman\tsnowhitman.gif\tnone\t\t\t0\t0\t0\t0\n"));
     assertThat(
         data,
         containsString(
