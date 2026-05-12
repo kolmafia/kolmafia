@@ -645,7 +645,7 @@ public class DataFileConsistencyTest {
               .filter(fam -> !fam.isPokefamType())
               // Ignore familiars with no hatchling (currently April Fools familiars, but may also
               // catch future weirdos
-              .filter(fam -> fam.getFamiliarLarva() > 0)
+              .filter(fam -> fam.larvaId() > 0)
               .collect(Collectors.toSet());
       String file = "modifiers.txt";
       int version = 3;
@@ -667,7 +667,7 @@ public class DataFileConsistencyTest {
         fail(
             "No throne data for "
                 + allFamiliars.stream()
-                    .map(FamiliarRaceData::getFamiliarName)
+                    .map(FamiliarRaceData::name)
                     .collect(Collectors.joining(", "))
                 + " found");
       }

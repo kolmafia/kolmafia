@@ -98,16 +98,11 @@ public class FamiliarDatabase {
       this.attributes = attributes;
     }
 
-    /**
-     * Returns the name for an familiar, given its Id.
-     *
-     * @return The name of the corresponding familiar
-     */
-    public String getFamiliarName() {
+    public String name() {
       return name;
     }
 
-    String getFamiliarType() {
+    String types() {
       String typeString = types.stream().map(x -> x.name).collect(Collectors.joining(","));
       if (typeString.isEmpty()) {
         return "none";
@@ -260,7 +255,7 @@ public class FamiliarDatabase {
       return isType(FamiliarType.VARIABLE);
     }
 
-    public int getFamiliarLarva() {
+    public int larvaId() {
       return larvaId;
     }
 
@@ -269,25 +264,8 @@ public class FamiliarDatabase {
       String larva = larvaId == -1 ? "" : ItemDatabase.getItemDataName(larvaId);
 
       var base =
-          id
-              + "\t"
-              + name
-              + "\t"
-              + image
-              + "\t"
-              + getFamiliarType()
-              + "\t"
-              + larva
-              + "\t"
-              + item
-              + "\t"
-              + skills[0]
-              + "\t"
-              + skills[1]
-              + "\t"
-              + skills[2]
-              + "\t"
-              + skills[3];
+          id + "\t" + name + "\t" + image + "\t" + types() + "\t" + larva + "\t" + item + "\t"
+              + skills[0] + "\t" + skills[1] + "\t" + skills[2] + "\t" + skills[3];
       if (!attributes.isEmpty()) {
         base += "\t" + String.join(",", attributes);
       }
@@ -629,18 +607,6 @@ public class FamiliarDatabase {
   public static int getFamiliarLarva(final Integer familiarId) {
     FamiliarRaceData data = getFamiliarRaceData(familiarId);
     return data == null ? 0 : data.larvaId;
-  }
-
-  static final String getFamiliarType(final int familiarId) {
-    FamiliarRaceData data = getFamiliarRaceData(familiarId);
-    if (data == null) {
-      return "none";
-    }
-    String types = data.types.stream().map(x -> x.name).collect(Collectors.joining(","));
-    if (types.isEmpty()) {
-      return "none";
-    }
-    return types;
   }
 
   public static final void setFamiliarImageLocation(final int familiarId, final String location) {

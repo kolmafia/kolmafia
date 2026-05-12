@@ -1345,7 +1345,7 @@ public class ModifierDatabase {
     familiars.add("Familiar:(none)");
 
     for (Entry<Integer, FamiliarRaceData> entry : FamiliarDatabase.entrySet()) {
-      String name = entry.getValue().getFamiliarName();
+      String name = entry.getValue().name();
       if (getModifiers(ModifierType.FAMILIAR, name) != null) {
         familiars.add(name);
       }
