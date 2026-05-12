@@ -39,6 +39,7 @@ import net.sourceforge.kolmafia.persistence.CafeDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
+import net.sourceforge.kolmafia.persistence.FamiliarDatabase.FamiliarRaceData;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase.Attribute;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
@@ -639,12 +640,12 @@ public class DataFileConsistencyTest {
     public void everyFamiliarHasAThroneModifier() {
       var allFamiliars =
           FamiliarDatabase.entrySet().stream()
-              .map(Map.Entry::getKey)
+              .map(Map.Entry::getValue)
               // Ignore Pokefam-exclusive familiars
-              .filter(id -> !FamiliarDatabase.isPokefamType(id))
+              .filter(fam -> !fam.isPokefamType())
               // Ignore familiars with no hatchling (currently April Fools familiars, but may also
               // catch future weirdos
-              .filter(id -> FamiliarDatabase.getFamiliarLarva(id) > 0)
+              .filter(fam -> fam.getFamiliarLarva() > 0)
               .collect(Collectors.toSet());
       String file = "modifiers.txt";
       int version = 3;
@@ -655,7 +656,8 @@ public class DataFileConsistencyTest {
           if (!identifier.equals("Throne")) continue;
           var name = fields[1];
           var id = FamiliarDatabase.getFamiliarId(name, false);
-          allFamiliars.remove(id);
+          var data = FamiliarDatabase.getFamiliarRaceData(id);
+          allFamiliars.remove(data);
         }
       } catch (IOException e) {
         fail("Couldn't read from " + file);
@@ -665,7 +667,7 @@ public class DataFileConsistencyTest {
         fail(
             "No throne data for "
                 + allFamiliars.stream()
-                    .map(FamiliarDatabase::getFamiliarName)
+                    .map(FamiliarRaceData::getFamiliarName)
                     .collect(Collectors.joining(", "))
                 + " found");
       }

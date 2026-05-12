@@ -98,6 +98,15 @@ public class FamiliarDatabase {
       this.attributes = attributes;
     }
 
+    /**
+     * Returns the name for an familiar, given its Id.
+     *
+     * @return The name of the corresponding familiar
+     */
+    public String getFamiliarName() {
+      return name;
+    }
+
     String getFamiliarType() {
       String typeString = types.stream().map(x -> x.name).collect(Collectors.joining(","));
       if (typeString.isEmpty()) {
@@ -251,6 +260,10 @@ public class FamiliarDatabase {
       return isType(FamiliarType.VARIABLE);
     }
 
+    public int getFamiliarLarva() {
+      return larvaId;
+    }
+
     @Override
     public String toString() {
       String larva = larvaId == -1 ? "" : ItemDatabase.getItemDataName(larvaId);
@@ -390,11 +403,6 @@ public class FamiliarDatabase {
       types.add(FamiliarType.NONE);
     }
     return types;
-  }
-
-  private static boolean hasType(final Integer familiarId, final FamiliarType type) {
-    FamiliarRaceData data = getFamiliarRaceData(familiarId);
-    return data != null && data.types.contains(type);
   }
 
   static {
@@ -603,10 +611,6 @@ public class FamiliarDatabase {
     return -1;
   }
 
-  public static final boolean isPokefamType(final Integer familiarId) {
-    return hasType(familiarId, FamiliarType.POKEFAM);
-  }
-
   public static final String getFamiliarItem(final Integer familiarId) {
     FamiliarRaceData data = getFamiliarRaceData(familiarId);
     return data == null ? null : data.item;
@@ -763,10 +767,8 @@ public class FamiliarDatabase {
    *
    * @return The set of familiars keyed by name
    */
-  public static final Set<Entry<Integer, String>> entrySet() {
-    return FamiliarDatabase.familiarDataById.entrySet().stream()
-        .map(x -> Map.entry(x.getKey(), x.getValue().name))
-        .collect(Collectors.toSet());
+  public static final Set<Entry<Integer, FamiliarRaceData>> entrySet() {
+    return FamiliarDatabase.familiarDataById.entrySet();
   }
 
   public static final void saveDataOverride() {
@@ -792,7 +794,8 @@ public class FamiliarDatabase {
     writer.println();
 
     int lastInteger = 1;
-    for (int familiarId : FamiliarDatabase.familiarDataById.keySet()) {
+    for (var familiar : FamiliarDatabase.entrySet()) {
+      int familiarId = familiar.getKey();
 
       for (int j = lastInteger; j < familiarId; ++j) {
         writer.println(j);
