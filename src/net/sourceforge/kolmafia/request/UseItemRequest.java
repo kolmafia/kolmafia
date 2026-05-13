@@ -1416,7 +1416,8 @@ public class UseItemRequest extends GenericRequest {
       // which GenericRequest automates in FightRequest.INSTANCE, we
       // automate this ourself in runOneIteration. Item consumption
       // was handled in GenericRequest.checkItemRedirection, so punt.
-      return;
+      if (!this.responseText.contains("How do you want to digest the legendary noodles?"))
+        return;
     }
 
     switch (this.consumptionType) {
