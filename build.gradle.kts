@@ -110,6 +110,7 @@ dependencies {
   implementation("com.jgoodies:jgoodies-binding:2.13.0")
   implementation("org.eclipse.jgit:org.eclipse.jgit:7.4.0.202509020913-r")
   implementation("org.eclipse.jgit:org.eclipse.jgit.ssh.apache:7.4.0.202509020913-r")
+  implementation("org.jline:jline:4.1.0")
 
   checkstyle("com.puppycrawl.tools:checkstyle:${checkstyle.toolVersion}")
 }
