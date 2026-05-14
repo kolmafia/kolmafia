@@ -320,14 +320,6 @@ public class ResponseTextParser {
           SummoningChamberRequest.parseResponse(location, responseText);
         } else if (location.contains("whichchoice=1278")) {
           ClanFortuneRequest.parseResponse(location, responseText);
-        } else if (responseText.contains("How do you want to digest the legendary noodles?")) {
-          AdventureResult item = ChoiceManager.lastItemUsed;
-          if (item != null) {
-            UseItemRequest.setLastItemUsed(item);
-            UseItemRequest.parseConsumption(responseText, false);
-            SpadingManager.processConsumeItem(item, responseText);
-            UseItemRequest.clearLastItemUsed();
-          }
         }
       }
       case "clan_hall.php" -> {

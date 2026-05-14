@@ -86,6 +86,7 @@ import net.sourceforge.kolmafia.request.SpelunkyRequest;
 import net.sourceforge.kolmafia.request.SweetSynthesisRequest;
 import net.sourceforge.kolmafia.request.TavernRequest;
 import net.sourceforge.kolmafia.request.UmbrellaRequest;
+import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.WildfireCampRequest;
 import net.sourceforge.kolmafia.request.coinmaster.SkeletonOfCrimboPastRequest;
 import net.sourceforge.kolmafia.request.concoction.BurningLeavesRequest;
@@ -471,6 +472,13 @@ public abstract class ChoiceControl {
       }
       case 1523 -> // Research Bench
           ResearchBenchRequest.postChoice0(urlString, text);
+      case 1599 -> {
+        if (text.contains("How do you want to digest the legendary noodles?")) {
+            AdventureResult item = UseItemRequest.getLastItemUsed();
+            UseItemRequest.parseConsumption(text, false);
+            SpadingManager.processConsumeItem(item, text);
+        }
+      }
     }
   }
 
