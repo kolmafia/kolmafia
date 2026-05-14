@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.request.coinmaster.shop;
 
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.CoinmasterData;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -42,9 +43,12 @@ public abstract class SeptEmberCenserRequest extends CoinMasterShopRequest {
   }
 
   public static String accessible() {
-    if (InventoryManager.hasItem(ItemPool.SEPTEMBER_CENSER)) {
-      return null;
+    if (!InventoryManager.hasItem(ItemPool.SEPTEMBER_CENSER)) {
+      return "You need a Sept-Ember Censer in order to shop here.";
     }
-    return "You need a Sept-Ember Censer in order to shop here.";
+    if (KoLCharacter.isKingdomOfExploathing()) {
+      return "Your Censer has exploaded.";
+    }
+    return null;
   }
 }
