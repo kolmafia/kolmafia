@@ -181,6 +181,7 @@ import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.StorageRequest.StorageRequestType;
 import net.sourceforge.kolmafia.request.SweetSynthesisRequest;
+import net.sourceforge.kolmafia.request.ThriftyRequest;
 import net.sourceforge.kolmafia.request.TrendyRequest;
 import net.sourceforge.kolmafia.request.UneffectRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
@@ -3558,6 +3559,18 @@ public abstract class RuntimeLibrary {
     functions.add(new LibraryFunction("florist_available", DataTypes.BOOLEAN_TYPE, params));
 
     // Path Support
+
+    params = List.of(namedParam("thing", DataTypes.ITEM_TYPE));
+    functions.add(new LibraryFunction("is_thrifty", DataTypes.BOOLEAN_TYPE, params));
+
+    params = List.of(namedParam("thing", DataTypes.SKILL_TYPE));
+    functions.add(new LibraryFunction("is_thrifty", DataTypes.BOOLEAN_TYPE, params));
+
+    params = List.of(namedParam("thing", DataTypes.FAMILIAR_TYPE));
+    functions.add(new LibraryFunction("is_thrifty", DataTypes.BOOLEAN_TYPE, params));
+
+    params = List.of(namedParam("thing", DataTypes.STRING_TYPE));
+    functions.add(new LibraryFunction("is_thrifty", DataTypes.BOOLEAN_TYPE, params));
 
     params = List.of(namedParam("thing", DataTypes.ITEM_TYPE));
     functions.add(new LibraryFunction("is_trendy", DataTypes.BOOLEAN_TYPE, params));
@@ -11058,6 +11071,31 @@ public abstract class RuntimeLibrary {
       FloristRequest.checkFloristAvailable();
     }
     return DataTypes.makeBooleanValue(FloristRequest.haveFlorist());
+  }
+
+  public static Value is_thrifty(ScriptRuntime controller, final Value thing) {
+    // Types: "Items", "Familiars", "Skills"
+    String key = thing.toString();
+    Type type = thing.getType();
+    boolean result;
+
+    if (type.equals(TypeSpec.STRING)) {
+
+      result =
+          ThriftyRequest.isAllowed(RestrictedItemType.ITEMS, key)
+              && ThriftyRequest.isAllowed(RestrictedItemType.FAMILIARS, key)
+              && ThriftyRequest.isAllowed(RestrictedItemType.SKILLS, key);
+    } else if (type.equals(TypeSpec.ITEM)) {
+      result = ThriftyRequest.isAllowed(RestrictedItemType.ITEMS, key);
+    } else if (type.equals(TypeSpec.FAMILIAR)) {
+      result = ThriftyRequest.isAllowed(RestrictedItemType.FAMILIARS, key);
+    } else if (type.equals(TypeSpec.SKILL)) {
+      result = ThriftyRequest.isAllowed(RestrictedItemType.SKILLS, key);
+    } else {
+      result = false;
+    }
+
+    return DataTypes.makeBooleanValue(result);
   }
 
   public static Value is_trendy(ScriptRuntime controller, final Value thing) {
