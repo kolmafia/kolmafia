@@ -5,11 +5,11 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.RestrictedItemType;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Element;
 
 public class ThriftyRequest extends GenericRequest {
   // Types: "Items", "Skills", "Familiars"
@@ -76,26 +76,25 @@ public class ThriftyRequest extends GenericRequest {
     KoLmafia.updateDisplay("Done checking allowed items.");
   }
 
-  private static final Pattern THRIFTY_PATTERN =
-      Pattern.compile("<b>(.*?)</b><p>(.*?)(?:<p|</td>|</table>|</body>|</html>)");
-  private static final Pattern OBJECT_PATTERN =
-      Pattern.compile("<span class=\"i\">(.*?)(, )?</span>");
-
   public static final void parseResponse(final String location, final String responseText) {
     ThriftyRequest.reset();
 
-    Matcher matcher = ThriftyRequest.THRIFTY_PATTERN.matcher(responseText);
-    while (matcher.find()) {
-      String type = matcher.group(1);
+    var document = Jsoup.parse(responseText);
+    for (Element header : document.select("p > b")) {
+      String type = header.text().trim();
       RestrictedItemType itemType = RestrictedItemType.fromString(type);
       if (itemType == null) {
         continue;
       }
 
-      Matcher objectMatcher = ThriftyRequest.OBJECT_PATTERN.matcher(matcher.group(2));
-      while (objectMatcher.find()) {
-        String object = objectMatcher.group(1).trim().toLowerCase();
-        if (object.length() > 0) {
+      Element data = header.parent().nextElementSibling();
+      if (data == null || !"p".equals(data.tagName())) {
+        continue;
+      }
+
+      for (Element objectElement : data.select("span.i")) {
+        String object = objectElement.text().replaceFirst(",\\s*$", "").trim().toLowerCase();
+        if (!object.isEmpty()) {
           map.computeIfAbsent(itemType, k -> new HashSet<>()).add(object);
         }
       }
