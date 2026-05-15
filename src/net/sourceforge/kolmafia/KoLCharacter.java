@@ -3451,6 +3451,10 @@ public abstract class KoLCharacter {
     return KoLCharacter.ascensionPath == Path.ADVENTURER_MEATS_WORLD;
   }
 
+  public static final boolean isThrifty() {
+    return KoLCharacter.ascensionPath == Path.THRIFTY;
+  }
+
   public static final boolean noExperience() {
     return inZootomist();
   }
