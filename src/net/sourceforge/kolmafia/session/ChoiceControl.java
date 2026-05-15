@@ -474,9 +474,9 @@ public abstract class ChoiceControl {
           ResearchBenchRequest.postChoice0(urlString, text);
       case 1599 -> {
         if (text.contains("How do you want to digest the legendary noodles?")) {
-            AdventureResult item = UseItemRequest.getLastItemUsed();
-            UseItemRequest.parseConsumption(text, false);
-            SpadingManager.processConsumeItem(item, text);
+          AdventureResult item = UseItemRequest.getLastItemUsed();
+          UseItemRequest.parseConsumption(text, false);
+          SpadingManager.processConsumeItem(item, text);
         }
       }
     }
