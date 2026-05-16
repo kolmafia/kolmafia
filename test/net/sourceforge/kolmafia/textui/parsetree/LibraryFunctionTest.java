@@ -7,6 +7,7 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 
 import internal.helpers.Cleanups;
+import java.util.List;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes;
@@ -27,6 +28,40 @@ class LibraryFunctionTest {
   @BeforeEach
   void beforeEach() {
     this.runtime = new AshRuntime();
+  }
+
+  @Test
+  void withDescriptionStoresAndReturnsDescription() {
+    var lf = new LibraryFunction("total_turns_played", DataTypes.INT_TYPE, List.of());
+    assertThat(lf.getDescription(), nullValue());
+
+    var result = lf.withDescription("test description");
+    assertThat(result, is(lf)); // returns this for chaining
+    assertThat(lf.getDescription(), is("test description"));
+  }
+
+  @Test
+  void seededDescriptionsExist() {
+    var printFn = allFunctions.findFunctions("print")[0];
+    assertThat(
+        ((LibraryFunction) printFn).getDescription(),
+        is("Prints a blank line to the CLI and session log."));
+  }
+
+  @Test
+  void seededParamDescriptionsExist() {
+    var fns = allFunctions.findFunctions("visit_url");
+    // Find the 3-param overload (url, usePostMethod, encoded)
+    var found = false;
+    for (var fn : fns) {
+      if (fn.getVariableReferences().size() == 3) {
+        var encodedParam = fn.getVariableReferences().get(2);
+        assertThat(encodedParam.getDescription(), is("If true, the URL is already URL-encoded"));
+        found = true;
+        break;
+      }
+    }
+    assertThat("Expected a visit_url overload with 3 params", found);
   }
 
   @Test

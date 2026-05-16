@@ -12,6 +12,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -78,7 +79,8 @@ public class TypescriptDefinition {
       String name,
       String returnType,
       TypescriptFunctionParameter[] params,
-      String[] deprecationWarning) {
+      String description,
+      String deprecationWarning) {
 
     public static TypescriptFunction fromFunction(LibraryFunction f) {
       var functionName = JavascriptRuntime.toCamelCase(f.getName());
@@ -86,7 +88,9 @@ public class TypescriptDefinition {
       var params = getParamTypes(f);
 
       var deprecationWarning = f.deprecationWarning;
-      return new TypescriptFunction(functionName, returnType, params, deprecationWarning);
+      var description = f.getDescription();
+      return new TypescriptFunction(
+          functionName, returnType, params, description, deprecationWarning);
     }
 
     private static String getReturnType(Function f) {
@@ -119,7 +123,7 @@ public class TypescriptDefinition {
 
       if (!this.name.equals(other.name)) return false;
       if (!this.returnType.equals(other.returnType)) return false;
-      if (!Arrays.equals(this.deprecationWarning, other.deprecationWarning)) return false;
+      if (!Objects.equals(this.deprecationWarning, other.deprecationWarning)) return false;
       for (int i = 0; i < this.params.length; i++) {
         if (!this.params[i].type.equals(other.params[i].type)) return false;
         if (!this.params[i].name.equals(other.params[i].name)) return false;
@@ -133,25 +137,48 @@ public class TypescriptDefinition {
           Arrays.stream(this.params)
               .map(TypescriptFunctionParameter::format)
               .collect(Collectors.joining(", "));
-      var deprecationWarning =
-          (this.deprecationWarning.length > 0)
-              ? "/** @deprecated " + String.join("<br>", this.deprecationWarning) + " */\n"
-              : "";
+      var jsdoc = formatJsdoc();
       return String.format(
-          "%sexport function %s(%s): %s;", deprecationWarning, this.name, params, this.returnType);
+          "%sexport function %s(%s): %s;", jsdoc, this.name, params, this.returnType);
+    }
+
+    private String formatJsdoc() {
+      var lines = new ArrayList<String>();
+      if (this.description != null && !this.description.isEmpty()) {
+        lines.add(this.description);
+      }
+      for (var param : this.params) {
+        if (param.description != null && !param.description.isEmpty()) {
+          lines.add("@param " + param.name + " " + param.description);
+        }
+      }
+      if (this.deprecationWarning != null) {
+        lines.add("@deprecated " + this.deprecationWarning);
+      }
+      if (lines.isEmpty()) {
+        return "";
+      }
+      if (lines.size() == 1) {
+        return "/** " + lines.get(0) + " */\n";
+      }
+      var body = lines.stream().map(l -> " * " + l).collect(Collectors.joining("\n"));
+      return "/**\n" + body + "\n */\n";
     }
   }
 
   private static class TypescriptFunctionParameter {
     public String name;
     public String type;
+    public String description;
     public boolean isVariadic;
     public boolean isOptional = false;
 
-    public TypescriptFunctionParameter(String name, String type, boolean isVariadic) {
+    public TypescriptFunctionParameter(
+        String name, String type, boolean isVariadic, String description) {
       this.name = name;
       this.type = type;
       this.isVariadic = isVariadic;
+      this.description = description;
     }
 
     static TypescriptFunctionParameter fromFunctionParam(LibraryFunction f, int paramIndex) {
@@ -161,6 +188,7 @@ public class TypescriptDefinition {
       var paramName = ref.getName();
       var isVariadic = type instanceof VarArgType;
       var tsType = getType(type);
+      var description = ref.getDescription();
 
       switch (f.getName()) {
         case "adv1", "adventure" -> {
@@ -180,7 +208,7 @@ public class TypescriptDefinition {
         }
       }
 
-      return new TypescriptFunctionParameter(paramName, tsType, isVariadic);
+      return new TypescriptFunctionParameter(paramName, tsType, isVariadic, description);
     }
 
     public String format() {

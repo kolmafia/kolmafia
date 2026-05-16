@@ -437,18 +437,31 @@ public abstract class RuntimeLibrary {
     params = List.of(namedParam("name", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("disable", DataTypes.VOID_TYPE, params));
 
-    params = List.of(namedParam("message", DataTypes.STRING_TYPE));
-    functions.add(new LibraryFunction("user_confirm", DataTypes.BOOLEAN_TYPE, params));
+    params =
+        List.of(
+            namedParam("message", DataTypes.STRING_TYPE)
+                .withDescription("The message to display in the dialog"));
+    functions.add(
+        new LibraryFunction("user_confirm", DataTypes.BOOLEAN_TYPE, params)
+            .withDescription(
+                "Prompts the user with a yes/no confirmation dialog. Returns true if the user clicks Yes."));
 
     params =
         List.of(
             namedParam("message", DataTypes.STRING_TYPE),
-            namedParam("timeOut", DataTypes.INT_TYPE),
-            namedParam("defaultBoolean", DataTypes.BOOLEAN_TYPE));
+            namedParam("timeOut", DataTypes.INT_TYPE)
+                .withDescription("Milliseconds before the dialog auto-closes"),
+            namedParam("defaultBoolean", DataTypes.BOOLEAN_TYPE)
+                .withDescription("Value returned if the dialog times out"));
     functions.add(new LibraryFunction("user_confirm", DataTypes.BOOLEAN_TYPE, params));
 
-    params = List.of(namedParam("message", DataTypes.STRING_TYPE));
-    functions.add(new LibraryFunction("user_prompt", DataTypes.STRING_TYPE, params));
+    params =
+        List.of(
+            namedParam("message", DataTypes.STRING_TYPE)
+                .withDescription("The message to display in the dialog"));
+    functions.add(
+        new LibraryFunction("user_prompt", DataTypes.STRING_TYPE, params)
+            .withDescription("Prompts the user for text input and returns the entered string."));
 
     params =
         List.of(
@@ -463,8 +476,13 @@ public abstract class RuntimeLibrary {
             namedParam("defaultString", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("user_prompt", DataTypes.STRING_TYPE, params));
 
-    params = List.of(namedParam("message", DataTypes.STRING_TYPE));
-    functions.add(new LibraryFunction("user_notify", DataTypes.VOID_TYPE, params));
+    params =
+        List.of(
+            namedParam("message", DataTypes.STRING_TYPE)
+                .withDescription("The notification message to display"));
+    functions.add(
+        new LibraryFunction("user_notify", DataTypes.VOID_TYPE, params)
+            .withDescription("Displays a notification message to the user."));
 
     params =
         List.of(
@@ -482,7 +500,9 @@ public abstract class RuntimeLibrary {
     functions.add(new LibraryFunction("traceprint", DataTypes.VOID_TYPE, params));
 
     params = List.of();
-    functions.add(new LibraryFunction("print", DataTypes.VOID_TYPE, params));
+    functions.add(
+        new LibraryFunction("print", DataTypes.VOID_TYPE, params)
+            .withDescription("Prints a blank line to the CLI and session log."));
 
     params = List.of(namedParam("string", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("print", DataTypes.VOID_TYPE, params));
@@ -509,8 +529,13 @@ public abstract class RuntimeLibrary {
         List.of(namedParam("arg", DataTypes.ANY_TYPE), namedParam("color", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("dump", DataTypes.VOID_TYPE, params));
 
-    params = List.of(namedParam("string", DataTypes.STRING_TYPE));
-    functions.add(new LibraryFunction("abort", DataTypes.VOID_TYPE, params));
+    params =
+        List.of(
+            namedParam("string", DataTypes.STRING_TYPE)
+                .withDescription("Error message to display"));
+    functions.add(
+        new LibraryFunction("abort", DataTypes.VOID_TYPE, params)
+            .withDescription("Immediately halts script execution with an optional error message."));
 
     params = List.of();
     functions.add(new LibraryFunction("abort", DataTypes.VOID_TYPE, params));
@@ -521,11 +546,23 @@ public abstract class RuntimeLibrary {
     params = List.of();
     functions.add(new LibraryFunction("has_queued_commands", DataTypes.BOOLEAN_TYPE, params));
 
-    params = List.of(namedParam("string", DataTypes.STRING_TYPE));
-    functions.add(new LibraryFunction("cli_execute", DataTypes.BOOLEAN_TYPE, params));
+    params =
+        List.of(
+            namedParam("string", DataTypes.STRING_TYPE)
+                .withDescription("The CLI command to execute"));
+    functions.add(
+        new LibraryFunction("cli_execute", DataTypes.BOOLEAN_TYPE, params)
+            .withDescription(
+                "Executes a KoLmafia CLI command. Returns true if the command succeeded."));
 
-    params = List.of(namedParam("string", DataTypes.STRING_TYPE));
-    functions.add(new LibraryFunction("cli_execute_output", DataTypes.STRING_TYPE, params));
+    params =
+        List.of(
+            namedParam("string", DataTypes.STRING_TYPE)
+                .withDescription("The CLI command to execute"));
+    functions.add(
+        new LibraryFunction("cli_execute_output", DataTypes.STRING_TYPE, params)
+            .withDescription(
+                "Executes a KoLmafia CLI command and returns its output as a string."));
 
     params = List.of(namedParam("string", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("load_html", DataTypes.BUFFER_TYPE, params));
@@ -547,23 +584,39 @@ public abstract class RuntimeLibrary {
             params));
 
     params = List.of();
-    functions.add(new LibraryFunction("visit_url", DataTypes.BUFFER_TYPE, params));
-
-    params = List.of(namedParam("string", DataTypes.STRING_TYPE));
-    functions.add(new LibraryFunction("visit_url", DataTypes.BUFFER_TYPE, params));
-
-    params =
-        List.of(
-            namedParam("string", DataTypes.STRING_TYPE),
-            namedParam("usePostMethod", DataTypes.BOOLEAN_TYPE));
-    functions.add(new LibraryFunction("visit_url", DataTypes.BUFFER_TYPE, params));
+    functions.add(
+        new LibraryFunction("visit_url", DataTypes.BUFFER_TYPE, params)
+            .withDescription("Fetches a URL from the KoL server and returns the response body."));
 
     params =
         List.of(
-            namedParam("string", DataTypes.STRING_TYPE),
-            namedParam("usePostMethod", DataTypes.BOOLEAN_TYPE),
-            namedParam("encoded", DataTypes.BOOLEAN_TYPE));
-    functions.add(new LibraryFunction("visit_url", DataTypes.BUFFER_TYPE, params));
+            namedParam("url", DataTypes.STRING_TYPE)
+                .withDescription("The URL path to fetch, relative to the KoL server"));
+    functions.add(
+        new LibraryFunction("visit_url", DataTypes.BUFFER_TYPE, params)
+            .withDescription("Fetches a URL from the KoL server and returns the response body."));
+
+    params =
+        List.of(
+            namedParam("url", DataTypes.STRING_TYPE)
+                .withDescription("The URL path to fetch, relative to the KoL server"),
+            namedParam("usePostMethod", DataTypes.BOOLEAN_TYPE)
+                .withDescription("If true, sends a POST request instead of GET"));
+    functions.add(
+        new LibraryFunction("visit_url", DataTypes.BUFFER_TYPE, params)
+            .withDescription("Fetches a URL from the KoL server and returns the response body."));
+
+    params =
+        List.of(
+            namedParam("url", DataTypes.STRING_TYPE)
+                .withDescription("The URL path to fetch, relative to the KoL server"),
+            namedParam("usePostMethod", DataTypes.BOOLEAN_TYPE)
+                .withDescription("If true, sends a POST request instead of GET"),
+            namedParam("encoded", DataTypes.BOOLEAN_TYPE)
+                .withDescription("If true, the URL is already URL-encoded"));
+    functions.add(
+        new LibraryFunction("visit_url", DataTypes.BUFFER_TYPE, params)
+            .withDescription("Fetches a URL from the KoL server and returns the response body."));
 
     params =
         List.of(
@@ -588,10 +641,14 @@ public abstract class RuntimeLibrary {
     // of one data format to another.
 
     params = List.of(namedParam("val", DataTypes.ANY_TYPE));
-    functions.add(new LibraryFunction("to_json", DataTypes.STRING_TYPE, params));
+    functions.add(
+        new LibraryFunction("to_json", DataTypes.STRING_TYPE, params)
+            .withDescription("Serializes a value to a JSON string representation."));
 
     params = List.of(namedParam("val", DataTypes.STRING_TYPE));
-    functions.add(new LibraryFunction("to_string", DataTypes.STRING_TYPE, params));
+    functions.add(
+        new LibraryFunction("to_string", DataTypes.STRING_TYPE, params)
+            .withDescription("Converts a value to its string representation."));
     params =
         List.of(namedParam("val", DataTypes.INT_TYPE), namedParam("fmt", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("to_string", DataTypes.STRING_TYPE, params));
@@ -600,14 +657,19 @@ public abstract class RuntimeLibrary {
     functions.add(new LibraryFunction("to_string", DataTypes.STRING_TYPE, params));
 
     params = List.of(namedParam("value", DataTypes.STRICT_STRING_TYPE));
-    functions.add(new LibraryFunction("to_boolean", DataTypes.BOOLEAN_TYPE, params));
+    functions.add(
+        new LibraryFunction("to_boolean", DataTypes.BOOLEAN_TYPE, params)
+            .withDescription("Converts a value to a boolean."));
     params = List.of(namedParam("value", DataTypes.BOOLEAN_TYPE));
     functions.add(new LibraryFunction("to_boolean", DataTypes.BOOLEAN_TYPE, params));
     params = List.of(namedParam("value", DataTypes.INT_TYPE));
     functions.add(new LibraryFunction("to_boolean", DataTypes.BOOLEAN_TYPE, params));
 
     params = List.of(namedParam("value", DataTypes.STRICT_STRING_TYPE));
-    functions.add(new LibraryFunction("to_int", DataTypes.INT_TYPE, params));
+    functions.add(
+        new LibraryFunction("to_int", DataTypes.INT_TYPE, params)
+            .withDescription(
+                "Converts a value to an integer. For enumerated types, returns their ID."));
     params = List.of(namedParam("value", DataTypes.BOOLEAN_TYPE));
     functions.add(new LibraryFunction("to_int", DataTypes.INT_TYPE, params));
     params = List.of(namedParam("value", DataTypes.INT_TYPE));
@@ -652,7 +714,9 @@ public abstract class RuntimeLibrary {
     functions.add(new LibraryFunction("to_buffer", DataTypes.BUFFER_TYPE, params));
 
     params = List.of(namedParam("value", DataTypes.STRICT_STRING_TYPE));
-    functions.add(new LibraryFunction("to_item", DataTypes.ITEM_TYPE, params));
+    functions.add(
+        new LibraryFunction("to_item", DataTypes.ITEM_TYPE, params)
+            .withDescription("Converts a string or integer to an item by name or ID."));
     params = List.of(namedParam("value", DataTypes.INT_TYPE));
     functions.add(new LibraryFunction("to_item", DataTypes.ITEM_TYPE, params));
     params =
@@ -775,13 +839,17 @@ public abstract class RuntimeLibrary {
     functions.add(new LibraryFunction("desc_to_item", DataTypes.ITEM_TYPE, params));
 
     // Experimental
-    params = List.of(namedParam("value", DataTypes.STRING_TYPE));
+    params =
+        List.of(
+            namedParam("value", DataTypes.STRING_TYPE)
+                .withDescription("The name of the path to look up"));
     functions.add(
         new LibraryFunction(
-            "path_name_to_id",
-            DataTypes.INT_TYPE,
-            params,
-            "Changing 'path_name_to_id(xxx)' to 'to_path(xxx).id' will remove this warning"));
+                "path_name_to_id",
+                DataTypes.INT_TYPE,
+                params,
+                "Changing 'path_name_to_id(xxx)' to 'to_path(xxx).id' will remove this warning")
+            .withDescription("Converts a path name to its numeric id."));
 
     params = List.of(namedParam("value", DataTypes.INT_TYPE));
     functions.add(
@@ -887,15 +955,21 @@ public abstract class RuntimeLibrary {
 
     params =
         List.of(
-            namedParam("location", DataTypes.LOCATION_TYPE),
-            namedParam("count", DataTypes.INT_TYPE));
-    functions.add(new LibraryFunction("adventure", DataTypes.BOOLEAN_TYPE, params));
+            namedParam("location", DataTypes.LOCATION_TYPE)
+                .withDescription("The location to adventure in"),
+            namedParam("count", DataTypes.INT_TYPE)
+                .withDescription("Number of adventures to spend"));
+    functions.add(
+        new LibraryFunction("adventure", DataTypes.BOOLEAN_TYPE, params)
+            .withDescription(
+                "Spends the specified number of adventures at a location. Returns true if all adventures were used."));
 
     params =
         List.of(
             namedParam("location", DataTypes.LOCATION_TYPE),
             namedParam("count", DataTypes.INT_TYPE),
-            namedParam("filterFunction", DataTypes.STRING_TYPE));
+            namedParam("filterFunction", DataTypes.STRING_TYPE)
+                .withDescription("Name of a combat filter function to call each round"));
     functions.add(new LibraryFunction("adventure", DataTypes.BOOLEAN_TYPE, params));
 
     params =
@@ -915,17 +989,26 @@ public abstract class RuntimeLibrary {
         List.of(
             namedParam("locationValue", DataTypes.LOCATION_TYPE),
             namedParam("adventuresUsedValue", DataTypes.INT_TYPE),
-            namedParam("filterFunction", DataTypes.STRING_TYPE));
-    functions.add(new LibraryFunction("adv1", DataTypes.BOOLEAN_TYPE, params));
+            namedParam("filterFunction", DataTypes.STRING_TYPE)
+                .withDescription("Name of a combat filter function to call each round"));
+    functions.add(
+        new LibraryFunction("adv1", DataTypes.BOOLEAN_TYPE, params)
+            .withDescription(
+                "Adventures once at a location, spending at most the specified number of adventures."));
 
     params =
         List.of(
             namedParam("locationValue", DataTypes.LOCATION_TYPE),
             namedParam("adventuresUsedValue", DataTypes.INT_TYPE));
-    functions.add(new LibraryFunction("adv1", DataTypes.BOOLEAN_TYPE, params));
+    functions.add(
+        new LibraryFunction("adv1", DataTypes.BOOLEAN_TYPE, params)
+            .withDescription(
+                "Adventures once at a location, spending at most the specified number of adventures."));
 
     params = List.of(namedParam("locationValue", DataTypes.LOCATION_TYPE));
-    functions.add(new LibraryFunction("adv1", DataTypes.BOOLEAN_TYPE, params));
+    functions.add(
+        new LibraryFunction("adv1", DataTypes.BOOLEAN_TYPE, params)
+            .withDescription("Adventures once at a location."));
 
     params = List.of(namedParam("locationValue", DataTypes.LOCATION_TYPE));
     functions.add(new LibraryFunction("eight_bit_points", DataTypes.INT_TYPE, params));
@@ -977,20 +1060,32 @@ public abstract class RuntimeLibrary {
     functions.add(
         new LibraryFunction("mood_list", new AggregateType(DataTypes.STRING_TYPE, 0), params));
 
-    params = List.of(namedParam("item", DataTypes.ITEM_TYPE));
-    functions.add(new LibraryFunction("buy", DataTypes.BOOLEAN_TYPE, params));
+    params =
+        List.of(namedParam("item", DataTypes.ITEM_TYPE).withDescription("The item to purchase"));
+    functions.add(
+        new LibraryFunction("buy", DataTypes.BOOLEAN_TYPE, params)
+            .withDescription(
+                "Purchases one of an item from the mall or NPC stores. Returns whether the purchase succeeded."));
 
     params =
         List.of(
-            namedParam("item", DataTypes.ITEM_TYPE), namedParam("quantity", DataTypes.INT_TYPE));
-    functions.add(new LibraryFunction("buy", DataTypes.BOOLEAN_TYPE, params));
+            namedParam("item", DataTypes.ITEM_TYPE).withDescription("The item to purchase"),
+            namedParam("quantity", DataTypes.INT_TYPE).withDescription("Number of items to buy"));
+    functions.add(
+        new LibraryFunction("buy", DataTypes.BOOLEAN_TYPE, params)
+            .withDescription(
+                "Purchases items from the mall or NPC stores. Returns whether requested quantity of the item was bought."));
 
     params =
         List.of(
-            namedParam("item", DataTypes.ITEM_TYPE),
-            namedParam("quantity", DataTypes.INT_TYPE),
-            namedParam("price", DataTypes.INT_TYPE));
-    functions.add(new LibraryFunction("buy", DataTypes.INT_TYPE, params));
+            namedParam("item", DataTypes.ITEM_TYPE).withDescription("The item to purchase"),
+            namedParam("quantity", DataTypes.INT_TYPE).withDescription("Number of items to buy"),
+            namedParam("price", DataTypes.INT_TYPE)
+                .withDescription("Maximum price to pay per item"));
+    functions.add(
+        new LibraryFunction("buy", DataTypes.INT_TYPE, params)
+            .withDescription(
+                "Purchases items from the mall or NPC stores up to a price limit. Returns the number of items bought."));
 
     params =
         List.of(
@@ -1073,11 +1168,15 @@ public abstract class RuntimeLibrary {
         List.of(namedParam("count", DataTypes.INT_TYPE), namedParam("item", DataTypes.ITEM_TYPE));
     functions.add(new LibraryFunction("create", DataTypes.BOOLEAN_TYPE, params));
 
-    params = List.of(namedParam("item", DataTypes.ITEM_TYPE));
-    functions.add(new LibraryFunction("use", DataTypes.BOOLEAN_TYPE, params));
+    params = List.of(namedParam("item", DataTypes.ITEM_TYPE).withDescription("The item to use"));
+    functions.add(
+        new LibraryFunction("use", DataTypes.BOOLEAN_TYPE, params)
+            .withDescription("Uses an item from inventory."));
 
     params =
-        List.of(namedParam("item", DataTypes.ITEM_TYPE), namedParam("count", DataTypes.INT_TYPE));
+        List.of(
+            namedParam("item", DataTypes.ITEM_TYPE).withDescription("The item to use"),
+            namedParam("count", DataTypes.INT_TYPE).withDescription("Number of items to use"));
     functions.add(new LibraryFunction("use", DataTypes.BOOLEAN_TYPE, params));
 
     params =
@@ -1316,11 +1415,18 @@ public abstract class RuntimeLibrary {
         List.of(namedParam("count", DataTypes.INT_TYPE), namedParam("item", DataTypes.ITEM_TYPE));
     functions.add(new LibraryFunction("hermit", DataTypes.BOOLEAN_TYPE, params));
 
-    params = List.of(namedParam("item", DataTypes.ITEM_TYPE));
-    functions.add(new LibraryFunction("retrieve_item", DataTypes.BOOLEAN_TYPE, params));
+    params =
+        List.of(namedParam("item", DataTypes.ITEM_TYPE).withDescription("The item to retrieve"));
+    functions.add(
+        new LibraryFunction("retrieve_item", DataTypes.BOOLEAN_TYPE, params)
+            .withDescription(
+                "Ensures one of the specified item is in inventory, acquiring it by any means necessary."));
 
     params =
-        List.of(namedParam("item", DataTypes.ITEM_TYPE), namedParam("count", DataTypes.INT_TYPE));
+        List.of(
+            namedParam("item", DataTypes.ITEM_TYPE).withDescription("The item to retrieve"),
+            namedParam("count", DataTypes.INT_TYPE)
+                .withDescription("Number of items to ensure are in inventory"));
     functions.add(new LibraryFunction("retrieve_item", DataTypes.BOOLEAN_TYPE, params));
 
     params =
@@ -1565,14 +1671,21 @@ public abstract class RuntimeLibrary {
     params = List.of();
     functions.add(new LibraryFunction("refresh_stash", DataTypes.BOOLEAN_TYPE, params));
 
-    params = List.of(namedParam("item", DataTypes.ITEM_TYPE));
-    functions.add(new LibraryFunction("available_amount", DataTypes.INT_TYPE, params));
+    params = List.of(namedParam("item", DataTypes.ITEM_TYPE).withDescription("The item to check"));
+    functions.add(
+        new LibraryFunction("available_amount", DataTypes.INT_TYPE, params)
+            .withDescription(
+                "Returns the total number of an item available, including inventory, closet, and equipped."));
 
-    params = List.of(namedParam("item", DataTypes.ITEM_TYPE));
-    functions.add(new LibraryFunction("item_amount", DataTypes.INT_TYPE, params));
+    params = List.of(namedParam("item", DataTypes.ITEM_TYPE).withDescription("The item to check"));
+    functions.add(
+        new LibraryFunction("item_amount", DataTypes.INT_TYPE, params)
+            .withDescription("Returns the number of an item in inventory."));
 
-    params = List.of(namedParam("item", DataTypes.ITEM_TYPE));
-    functions.add(new LibraryFunction("closet_amount", DataTypes.INT_TYPE, params));
+    params = List.of(namedParam("item", DataTypes.ITEM_TYPE).withDescription("The item to check"));
+    functions.add(
+        new LibraryFunction("closet_amount", DataTypes.INT_TYPE, params)
+            .withDescription("Returns the number of an item in the closet."));
 
     params = List.of(namedParam("item", DataTypes.ITEM_TYPE));
     functions.add(new LibraryFunction("equipped_amount", DataTypes.INT_TYPE, params));
@@ -1646,7 +1759,9 @@ public abstract class RuntimeLibrary {
     functions.add(new LibraryFunction("mood_execute", DataTypes.VOID_TYPE, params));
 
     params = List.of();
-    functions.add(new LibraryFunction("my_name", DataTypes.STRING_TYPE, params));
+    functions.add(
+        new LibraryFunction("my_name", DataTypes.STRING_TYPE, params)
+            .withDescription("Returns the name of the currently logged-in player."));
 
     params = List.of();
     functions.add(new LibraryFunction("my_id", DataTypes.STRING_TYPE, params));
@@ -1681,19 +1796,27 @@ public abstract class RuntimeLibrary {
     functions.add(new LibraryFunction("in_bad_moon", DataTypes.BOOLEAN_TYPE, params));
 
     params = List.of();
-    functions.add(new LibraryFunction("my_class", DataTypes.CLASS_TYPE, params));
+    functions.add(
+        new LibraryFunction("my_class", DataTypes.CLASS_TYPE, params)
+            .withDescription("Returns the player's current class."));
 
     params = List.of();
-    functions.add(new LibraryFunction("my_level", DataTypes.INT_TYPE, params));
+    functions.add(
+        new LibraryFunction("my_level", DataTypes.INT_TYPE, params)
+            .withDescription("Returns the player's current level."));
 
     params = List.of();
-    functions.add(new LibraryFunction("my_hp", DataTypes.INT_TYPE, params));
+    functions.add(
+        new LibraryFunction("my_hp", DataTypes.INT_TYPE, params)
+            .withDescription("Returns the player's current hit points."));
 
     params = List.of();
     functions.add(new LibraryFunction("my_maxhp", DataTypes.INT_TYPE, params));
 
     params = List.of();
-    functions.add(new LibraryFunction("my_mp", DataTypes.INT_TYPE, params));
+    functions.add(
+        new LibraryFunction("my_mp", DataTypes.INT_TYPE, params)
+            .withDescription("Returns the player's current mana points."));
 
     params = List.of();
     functions.add(new LibraryFunction("my_maxmp", DataTypes.INT_TYPE, params));
@@ -1753,7 +1876,9 @@ public abstract class RuntimeLibrary {
     functions.add(new LibraryFunction("my_maxfury", DataTypes.INT_TYPE, params));
 
     params = List.of();
-    functions.add(new LibraryFunction("my_meat", DataTypes.INT_TYPE, params));
+    functions.add(
+        new LibraryFunction("my_meat", DataTypes.INT_TYPE, params)
+            .withDescription("Returns the amount of meat in the player's inventory."));
 
     params = List.of();
     functions.add(new LibraryFunction("my_closet_meat", DataTypes.INT_TYPE, params));
@@ -1765,7 +1890,9 @@ public abstract class RuntimeLibrary {
     functions.add(new LibraryFunction("my_session_meat", DataTypes.INT_TYPE, params));
 
     params = List.of();
-    functions.add(new LibraryFunction("my_adventures", DataTypes.INT_TYPE, params));
+    functions.add(
+        new LibraryFunction("my_adventures", DataTypes.INT_TYPE, params)
+            .withDescription("Returns the number of adventures the player has remaining."));
 
     params = List.of();
     functions.add(new LibraryFunction("my_session_adv", DataTypes.INT_TYPE, params));
@@ -1984,8 +2111,14 @@ public abstract class RuntimeLibrary {
         List.of(namedParam("item1", DataTypes.ITEM_TYPE), namedParam("item2", DataTypes.ITEM_TYPE));
     functions.add(new LibraryFunction("throw_items", DataTypes.BUFFER_TYPE, params));
 
-    params = List.of(namedParam("decision", DataTypes.INT_TYPE));
-    functions.add(new LibraryFunction("run_choice", DataTypes.BUFFER_TYPE, params));
+    params =
+        List.of(
+            namedParam("decision", DataTypes.INT_TYPE)
+                .withDescription("The choice option number to select"));
+    functions.add(
+        new LibraryFunction("run_choice", DataTypes.BUFFER_TYPE, params)
+            .withDescription(
+                "Selects an option in the current choice adventure and returns the response."));
 
     params =
         List.of(
@@ -2042,7 +2175,9 @@ public abstract class RuntimeLibrary {
     functions.add(new LibraryFunction("handling_choice", DataTypes.BOOLEAN_TYPE, params));
 
     params = List.of();
-    functions.add(new LibraryFunction("run_combat", DataTypes.BUFFER_TYPE, params));
+    functions.add(
+        new LibraryFunction("run_combat", DataTypes.BUFFER_TYPE, params)
+            .withDescription("Continues combat using the current CCS."));
 
     params = List.of(namedParam("filterFunction", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("run_combat", DataTypes.BUFFER_TYPE, params));
@@ -2312,9 +2447,12 @@ public abstract class RuntimeLibrary {
 
     params =
         List.of(
-            namedParam("source", DataTypes.STRING_TYPE),
-            namedParam("search", DataTypes.STRING_TYPE));
-    functions.add(new LibraryFunction("contains_text", DataTypes.BOOLEAN_TYPE, params));
+            namedParam("source", DataTypes.STRING_TYPE).withDescription("The string to search in"),
+            namedParam("search", DataTypes.STRING_TYPE)
+                .withDescription("The substring to search for"));
+    functions.add(
+        new LibraryFunction("contains_text", DataTypes.BOOLEAN_TYPE, params)
+            .withDescription("Returns true if the source string contains the search string."));
 
     params =
         List.of(
@@ -2370,14 +2508,21 @@ public abstract class RuntimeLibrary {
 
     params =
         List.of(
-            namedParam("source", DataTypes.STRING_TYPE), namedParam("start", DataTypes.INT_TYPE));
-    functions.add(new LibraryFunction("substring", DataTypes.STRING_TYPE, params));
+            namedParam("source", DataTypes.STRING_TYPE)
+                .withDescription("The string to extract from"),
+            namedParam("start", DataTypes.INT_TYPE)
+                .withDescription("Starting index (0-based, inclusive)"));
+    functions.add(
+        new LibraryFunction("substring", DataTypes.STRING_TYPE, params)
+            .withDescription("Returns a substring starting from the given index."));
 
     params =
         List.of(
-            namedParam("source", DataTypes.STRING_TYPE),
-            namedParam("start", DataTypes.INT_TYPE),
-            namedParam("finish", DataTypes.INT_TYPE));
+            namedParam("source", DataTypes.STRING_TYPE)
+                .withDescription("The string to extract from"),
+            namedParam("start", DataTypes.INT_TYPE)
+                .withDescription("Starting index (0-based, inclusive)"),
+            namedParam("finish", DataTypes.INT_TYPE).withDescription("Ending index (exclusive)"));
     functions.add(new LibraryFunction("substring", DataTypes.STRING_TYPE, params));
 
     params = List.of(namedParam("string", DataTypes.STRING_TYPE));
@@ -2509,10 +2654,16 @@ public abstract class RuntimeLibrary {
 
     params =
         List.of(
-            namedParam("source", DataTypes.BUFFER_TYPE),
-            namedParam("searchValue", DataTypes.STRING_TYPE),
-            namedParam("replaceValue", DataTypes.STRING_TYPE));
-    functions.add(new LibraryFunction("replace_string", DataTypes.BUFFER_TYPE, params));
+            namedParam("source", DataTypes.BUFFER_TYPE)
+                .withDescription("The source string to modify"),
+            namedParam("searchValue", DataTypes.STRING_TYPE)
+                .withDescription("The substring to find"),
+            namedParam("replaceValue", DataTypes.STRING_TYPE)
+                .withDescription("The replacement string"));
+    functions.add(
+        new LibraryFunction("replace_string", DataTypes.BUFFER_TYPE, params)
+            .withDescription(
+                "Replaces all occurrences of a substring in the source with a replacement string."));
 
     params =
         List.of(
@@ -2521,14 +2672,18 @@ public abstract class RuntimeLibrary {
             namedParam("replaceValue", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("replace_string", DataTypes.BUFFER_TYPE, params));
 
-    params = List.of(namedParam("string", DataTypes.STRING_TYPE));
+    params =
+        List.of(namedParam("string", DataTypes.STRING_TYPE).withDescription("The string to split"));
     functions.add(
-        new LibraryFunction("split_string", new AggregateType(DataTypes.STRING_TYPE, 0), params));
+        new LibraryFunction("split_string", new AggregateType(DataTypes.STRING_TYPE, 0), params)
+            .withDescription(
+                "Splits a string into an array of substrings on line breaks (\\s*[\\r\\n]+\\s*)."));
 
     params =
         List.of(
-            namedParam("string", DataTypes.STRING_TYPE),
-            namedParam("regex", DataTypes.STRING_TYPE));
+            namedParam("string", DataTypes.STRING_TYPE).withDescription("The string to split"),
+            namedParam("regex", DataTypes.STRING_TYPE)
+                .withDescription("Regular expression delimiter"));
     functions.add(
         new LibraryFunction("split_string", new AggregateType(DataTypes.STRING_TYPE, 0), params));
 
@@ -2753,20 +2908,30 @@ public abstract class RuntimeLibrary {
     params = List.of(namedParam("nameValue", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("property_default_value", DataTypes.STRING_TYPE, params));
 
-    params = List.of(namedParam("name", DataTypes.STRING_TYPE));
+    params =
+        List.of(
+            namedParam("name", DataTypes.STRING_TYPE)
+                .withDescription("The property name to look up"));
+    functions.add(
+        new LibraryFunction("get_property", DataTypes.STRING_TYPE, params)
+            .withDescription("Returns the value of a KoLmafia property."));
+
+    params =
+        List.of(
+            namedParam("name", DataTypes.STRING_TYPE)
+                .withDescription("The property name to look up"),
+            namedParam("globalValue", DataTypes.BOOLEAN_TYPE)
+                .withDescription("If true, reads the global property instead of the per-user one"));
     functions.add(new LibraryFunction("get_property", DataTypes.STRING_TYPE, params));
 
     params =
         List.of(
-            namedParam("name", DataTypes.STRING_TYPE),
-            namedParam("globalValue", DataTypes.BOOLEAN_TYPE));
-    functions.add(new LibraryFunction("get_property", DataTypes.STRING_TYPE, params));
-
-    params =
-        List.of(
-            namedParam("nameValue", DataTypes.STRING_TYPE),
-            namedParam("value", DataTypes.STRING_TYPE));
-    functions.add(new LibraryFunction("set_property", DataTypes.VOID_TYPE, params));
+            namedParam("nameValue", DataTypes.STRING_TYPE)
+                .withDescription("The property name to set"),
+            namedParam("value", DataTypes.STRING_TYPE).withDescription("The value to assign"));
+    functions.add(
+        new LibraryFunction("set_property", DataTypes.VOID_TYPE, params)
+            .withDescription("Sets the value of a KoLmafia property."));
 
     params = List.of(namedParam("nameValue", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("remove_property", DataTypes.STRING_TYPE, params));

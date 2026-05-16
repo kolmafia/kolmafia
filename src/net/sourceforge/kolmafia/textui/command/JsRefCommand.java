@@ -1,12 +1,14 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import java.util.List;
+import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.javascript.JavascriptRuntime;
 import net.sourceforge.kolmafia.textui.parsetree.AggregateType;
 import net.sourceforge.kolmafia.textui.parsetree.Function;
+import net.sourceforge.kolmafia.textui.parsetree.LibraryFunction;
 import net.sourceforge.kolmafia.textui.parsetree.PluralValueType;
 import net.sourceforge.kolmafia.textui.parsetree.RecordType;
 import net.sourceforge.kolmafia.textui.parsetree.Type;
@@ -86,7 +88,7 @@ public class JsRefCommand extends AbstractCommand {
     filter = filter.toLowerCase();
 
     for (Function func : functions) {
-      boolean matches = filter.equals("");
+      boolean matches = filter.isEmpty();
 
       String funcName = func.getName();
       String jsFuncName = JavascriptRuntime.toCamelCase(funcName);
@@ -110,37 +112,45 @@ public class JsRefCommand extends AbstractCommand {
         continue;
       }
 
-      StringBuilder description = new StringBuilder();
-
-      description.append(toJavascriptTypeName(func.getType()));
-      description.append(" ");
-      if (addLinks) {
-        description.append("<a href='https://wiki.kolmafia.us/index.php?title=");
-        description.append(funcName);
-        description.append("'>");
-      }
-      description.append(jsFuncName);
-      if (addLinks) {
-        description.append("</a>");
-      }
-      description.append("(");
-
-      String sep = "";
-      for (VariableReference var : func.getVariableReferences()) {
-        description.append(sep);
-        sep = ", ";
-
-        description.append(toJavascriptTypeName(var.getRawType()));
-
-        if (var.getName() != null) {
-          description.append(" ");
-          description.append(var.getName());
+      if (func instanceof LibraryFunction lf) {
+        var docBlock = KoLmafiaASH.Formatting.formatDocBlock(lf);
+        if (docBlock != null) {
+          RequestLogger.printHtml(docBlock);
         }
       }
 
-      description.append(")");
+      StringBuilder signature = new StringBuilder();
 
-      RequestLogger.printHtml(description.toString());
+      signature.append("function ");
+
+      if (addLinks) {
+        signature.append("<a href='https://wiki.kolmafia.us/index.php?title=");
+        signature.append(funcName);
+        signature.append("'>");
+      }
+      signature.append(jsFuncName);
+      if (addLinks) {
+        signature.append("</a>");
+      }
+      signature.append("(");
+
+      String sep = "";
+      for (VariableReference var : func.getVariableReferences()) {
+        signature.append(sep);
+        sep = ", ";
+
+        if (var.getName() != null) {
+          signature.append(var.getName());
+          signature.append(": ");
+          signature.append(toJavascriptTypeName(var.getRawType()));
+        }
+      }
+
+      signature.append("): ");
+      signature.append(toJavascriptTypeName(func.getType()));
+      signature.append(";");
+
+      RequestLogger.printHtml(signature.toString());
     }
   }
 }
