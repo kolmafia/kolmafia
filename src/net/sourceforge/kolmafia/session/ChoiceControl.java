@@ -472,13 +472,6 @@ public abstract class ChoiceControl {
       }
       case 1523 -> // Research Bench
           ResearchBenchRequest.postChoice0(urlString, text);
-      case 1599 -> {
-        if (text.contains("How do you want to digest the legendary noodles?")) {
-          AdventureResult item = UseItemRequest.getLastItemUsed();
-          UseItemRequest.parseConsumption(text, false);
-          SpadingManager.processConsumeItem(item, text);
-        }
-      }
     }
   }
 
@@ -8783,6 +8776,18 @@ public abstract class ChoiceControl {
         // e.g. you can enter the choice day 1, rollover hits, day 2 you still have all your innings
         if (!text.contains("<s>")) {
           Preferences.increment("_baseballInnings", 1, 3);
+        }
+      }
+      case 1599 -> {
+        if (text.contains("How do you want to digest the legendary noodles?")) {
+          AdventureResult item = ChoiceManager.lastItemUsed;
+          ChoiceManager.lastItemUsed = null;
+          if (item != null) {
+            UseItemRequest.setLastItemUsed(item);
+            UseItemRequest.parseConsumption(text, false);
+            SpadingManager.processConsumeItem(item, text);
+            UseItemRequest.clearLastItemUsed();
+          }
         }
       }
     }
