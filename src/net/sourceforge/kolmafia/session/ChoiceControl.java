@@ -86,6 +86,7 @@ import net.sourceforge.kolmafia.request.SpelunkyRequest;
 import net.sourceforge.kolmafia.request.SweetSynthesisRequest;
 import net.sourceforge.kolmafia.request.TavernRequest;
 import net.sourceforge.kolmafia.request.UmbrellaRequest;
+import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.WildfireCampRequest;
 import net.sourceforge.kolmafia.request.coinmaster.SkeletonOfCrimboPastRequest;
 import net.sourceforge.kolmafia.request.concoction.BurningLeavesRequest;
@@ -8775,6 +8776,18 @@ public abstract class ChoiceControl {
         // e.g. you can enter the choice day 1, rollover hits, day 2 you still have all your innings
         if (!text.contains("<s>")) {
           Preferences.increment("_baseballInnings", 1, 3);
+        }
+      }
+      case 1599 -> {
+        if (text.contains("How do you want to digest the legendary noodles?")) {
+          AdventureResult item = ChoiceManager.lastItemUsed;
+          ChoiceManager.lastItemUsed = null;
+          if (item != null) {
+            UseItemRequest.setLastItemUsed(item);
+            UseItemRequest.parseConsumption(text, false);
+            SpadingManager.processConsumeItem(item, text);
+            UseItemRequest.clearLastItemUsed();
+          }
         }
       }
     }
