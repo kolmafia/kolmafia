@@ -93,11 +93,11 @@ public abstract class CombatActionManager {
     File file = getStrategyLookupFile(name);
 
     if (!file.exists()) {
-      PrintStream ostream = LogStream.openStream(file, true);
-      ostream.println("[ default ]");
-      ostream.println("special action");
-      ostream.println("attack with weapon");
-      ostream.close();
+      try (PrintStream ostream = LogStream.openStream(file, true)) {
+        ostream.println("[ default ]");
+        ostream.println("special action");
+        ostream.println("attack with weapon");
+      }
     }
 
     try (BufferedReader reader = FileUtilities.getReader(file)) {
@@ -128,11 +128,9 @@ public abstract class CombatActionManager {
   }
 
   public static final void saveStrategyLookup(String name) {
-    PrintStream writer = LogStream.openStream(getStrategyLookupFile(name), true);
-
-    CombatActionManager.strategyLookup.store(writer);
-
-    writer.close();
+    try (PrintStream writer = LogStream.openStream(getStrategyLookupFile(name), true)) {
+      CombatActionManager.strategyLookup.store(writer);
+    }
   }
 
   public static final CustomCombatLookup getStrategyLookup() {

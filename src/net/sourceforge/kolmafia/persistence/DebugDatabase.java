@@ -2290,22 +2290,20 @@ public class DebugDatabase {
   private static void saveScrapeData(
       final Iterator<Integer> it, final Map<Integer, String> stringMap, final String fileName) {
     File file = new File(KoLConstants.DATA_LOCATION, fileName);
-    PrintStream livedata = LogStream.openStream(file, true);
+    try (PrintStream livedata = LogStream.openStream(file, true)) {
+      while (it.hasNext()) {
+        int id = it.next();
+        if (id < 1) {
+          continue;
+        }
 
-    while (it.hasNext()) {
-      int id = it.next();
-      if (id < 1) {
-        continue;
-      }
-
-      String description = stringMap.get(id);
-      if (description != null && !description.isEmpty()) {
-        livedata.println(id);
-        livedata.println(description);
+        String description = stringMap.get(id);
+        if (description != null && !description.isEmpty()) {
+          livedata.println(id);
+          livedata.println(description);
+        }
       }
     }
-
-    livedata.close();
   }
 
   // **********************************************************
@@ -3539,13 +3537,11 @@ public class DebugDatabase {
   public static void checkConsumptionData() {
     RequestLogger.printLine("Checking consumption data...");
 
-    PrintStream writer =
-        LogStream.openStream(new File(KoLConstants.DATA_LOCATION, "consumption.txt"), true);
-
-    DebugDatabase.checkEpicure(writer);
-    DebugDatabase.checkMixologist(writer);
-
-    writer.close();
+    try (PrintStream writer =
+        LogStream.openStream(new File(KoLConstants.DATA_LOCATION, "consumption.txt"), true)) {
+      DebugDatabase.checkEpicure(writer);
+      DebugDatabase.checkMixologist(writer);
+    }
   }
 
   private static final String EPICURE = "http://kol.coldfront.net/tools/epicure/export_data.php";
@@ -3748,12 +3744,10 @@ public class DebugDatabase {
   public static void checkPulverizationData() {
     RequestLogger.printLine("Checking pulverization data...");
 
-    PrintStream writer =
-        LogStream.openStream(new File(KoLConstants.DATA_LOCATION, "pulvereport.txt"), true);
-
-    DebugDatabase.checkAnvil(writer);
-
-    writer.close();
+    try (PrintStream writer =
+        LogStream.openStream(new File(KoLConstants.DATA_LOCATION, "pulvereport.txt"), true)) {
+      DebugDatabase.checkAnvil(writer);
+    }
   }
 
   private static final String ANVIL = "http://kol.coldfront.net/tools/anvil/export_data.php";

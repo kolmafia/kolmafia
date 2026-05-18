@@ -5067,12 +5067,13 @@ public abstract class RuntimeLibrary {
       return value;
     }
 
-    Calendar timestamp = Calendar.getInstance(KoLmafia.KOL_TIME_ZONE);
+    var timestamp = DateTimeManager.getRolloverDateTime();
 
     for (int i = 0; i < dayCount; ++i) {
       String logContents =
-          getContentsOfSessionLog(name, KoLConstants.DAILY_FORMAT.format(timestamp.getTime()));
-      timestamp.add(Calendar.DATE, -1);
+          getContentsOfSessionLog(
+              name, KoLConstants.DAILY_FORMAT.format(Date.from(timestamp.toInstant())));
+      timestamp = timestamp.minusDays(1);
       value.aset(new Value(i), new Value(logContents));
     }
     return value;
@@ -5119,21 +5120,16 @@ public abstract class RuntimeLibrary {
     }
 
     if (reader != null) {
-      try {
+      final BufferedReader finalReader = reader;
+      try (finalReader) {
         contents.setLength(0);
         String line;
-        while ((line = reader.readLine()) != null) {
+        while ((line = finalReader.readLine()) != null) {
           contents.append(line);
           contents.append(KoLConstants.LINE_BREAK);
         }
       } catch (Exception e) {
         StaticEntity.printStackTrace(e);
-      } finally {
-        try {
-          reader.close();
-        } catch (IOException e) {
-          StaticEntity.printStackTrace(e);
-        }
       }
     }
     return contents.toString();
@@ -9835,9 +9831,9 @@ public abstract class RuntimeLibrary {
 
     ByteArrayOutputStream cacheStream = new ByteArrayOutputStream();
 
-    PrintStream writer = LogStream.openStream(cacheStream, StandardCharsets.UTF_8);
-    map_variable.dump(writer, "", compact);
-    writer.close();
+    try (PrintStream writer = LogStream.openStream(cacheStream, StandardCharsets.UTF_8)) {
+      map_variable.dump(writer, "", compact);
+    }
 
     byte[] data = cacheStream.toByteArray();
     return DataFileCache.printBytes(filename, data);

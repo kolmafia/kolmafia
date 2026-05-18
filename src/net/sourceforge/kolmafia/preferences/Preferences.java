@@ -333,19 +333,11 @@ public class Preferences {
   }
 
   private static Properties loadPreferences(File file) {
-    InputStream istream = DataUtilities.getInputStream(file);
-
     Properties p = new Properties();
-    try {
+    try (InputStream istream = DataUtilities.getInputStream(file)) {
       p.load(istream);
     } catch (IOException e) {
       System.out.println(e.getMessage() + " trying to load preferences from file.");
-    }
-
-    try {
-      istream.close();
-    } catch (IOException e) {
-      System.out.println(e.getMessage() + " trying to close preferences file.");
     }
 
     return p;
@@ -909,9 +901,7 @@ public class Preferences {
       // Determine the contents of the file by
       // actually printing them.
 
-      OutputStream fstream = new BufferedOutputStream(DataUtilities.getOutputStream(file));
-
-      try {
+      try (OutputStream fstream = new BufferedOutputStream(DataUtilities.getOutputStream(file))) {
         synchronized (encodedData) {
           for (Entry<String, byte[]> current : encodedData.entrySet()) {
             fstream.write(current.getValue());
@@ -919,12 +909,6 @@ public class Preferences {
         }
       } catch (IOException e) {
         System.out.println(e.getMessage() + " trying to write preferences as byte array.");
-      }
-
-      try {
-        fstream.close();
-      } catch (IOException e) {
-        System.out.println(e.getMessage() + " trying to close preferences stream.");
       }
     }
   }

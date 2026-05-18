@@ -181,19 +181,10 @@ public class FileUtilities {
       }
     }
 
-    InputStream istream = DataUtilities.getInputStream(directory, filename);
-
-    byte[] data = ByteBufferUtilities.read(istream);
-    OutputStream output = DataUtilities.getOutputStream(library);
-
-    try {
+    try (InputStream istream = DataUtilities.getInputStream(directory, filename);
+        OutputStream output = DataUtilities.getOutputStream(library)) {
+      byte[] data = ByteBufferUtilities.read(istream);
       output.write(data);
-    } catch (IOException e) {
-      StaticEntity.printStackTrace(e);
-    }
-
-    try {
-      output.close();
     } catch (IOException e) {
       StaticEntity.printStackTrace(e);
     }

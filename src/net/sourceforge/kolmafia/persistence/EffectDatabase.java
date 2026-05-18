@@ -530,31 +530,30 @@ public class EffectDatabase {
 
   public static final void writeEffects(final File output) {
     RequestLogger.printLine("Writing data override: " + output);
-    PrintStream writer = LogStream.openStream(output, true);
-    writer.println(KoLConstants.STATUSEFFECTS_VERSION);
+    try (PrintStream writer = LogStream.openStream(output, true)) {
+      writer.println(KoLConstants.STATUSEFFECTS_VERSION);
 
-    int lastInteger = 1;
+      int lastInteger = 1;
 
-    for (Entry<Integer, EffectData> entry : EffectDatabase.allEffects()) {
-      Integer nextInteger = entry.getKey();
-      int effectId = nextInteger.intValue();
+      for (Entry<Integer, EffectData> entry : EffectDatabase.allEffects()) {
+        Integer nextInteger = entry.getKey();
+        int effectId = nextInteger.intValue();
 
-      // Skip pseudo effects
-      if (effectId < 1) {
-        continue;
+        // Skip pseudo effects
+        if (effectId < 1) {
+          continue;
+        }
+
+        for (int i = lastInteger; i < nextInteger.intValue(); ++i) {
+          writer.println(i);
+        }
+
+        lastInteger = effectId + 1;
+
+        EffectData effectData = entry.getValue();
+        EffectDatabase.writeEffect(writer, effectData);
       }
-
-      for (int i = lastInteger; i < nextInteger.intValue(); ++i) {
-        writer.println(i);
-      }
-
-      lastInteger = effectId + 1;
-
-      EffectData effectData = entry.getValue();
-      EffectDatabase.writeEffect(writer, effectData);
     }
-
-    writer.close();
   }
 
   private static void writeEffect(final PrintStream writer, final EffectData data) {

@@ -158,11 +158,9 @@ public class AdventureSpentDatabase implements Serializable {
         new File(KoLConstants.DATA_LOCATION, KoLCharacter.baseUserName() + "_" + "turns.ser");
 
     try {
-      FileOutputStream fileOut = new FileOutputStream(file);
-      ObjectOutputStream out = new ObjectOutputStream(fileOut);
-
-      out.writeObject(AdventureSpentDatabase.TURNS);
-      out.close();
+      try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file))) {
+        out.writeObject(AdventureSpentDatabase.TURNS);
+      }
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -180,12 +178,9 @@ public class AdventureSpentDatabase implements Serializable {
       return;
     }
     try {
-      FileInputStream fileIn = new FileInputStream(file);
-      ObjectInputStream in = new ObjectInputStream(fileIn);
-
-      AdventureSpentDatabase.TURNS = (TreeMap<String, Integer>) in.readObject();
-
-      in.close();
+      try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(file))) {
+        AdventureSpentDatabase.TURNS = (TreeMap<String, Integer>) in.readObject();
+      }
 
       // after successfully loading, check if there were new zones added that aren't yet in the
       // TreeMap.

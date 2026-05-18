@@ -528,11 +528,9 @@ public class CustomCombatPanel extends JPanel {
       String saveText = CustomCombatPanel.this.combatEditor.getText();
 
       File location = CombatActionManager.getStrategyLookupFile(script);
-      PrintStream writer = LogStream.openStream(location, true);
-
-      writer.print(saveText);
-      writer.close();
-      writer = null;
+      try (PrintStream writer = LogStream.openStream(location, true)) {
+        writer.print(saveText);
+      }
 
       KoLCharacter.battleSkillNames.setSelectedItem("custom combat script");
       Preferences.setString("battleAction", "custom combat script");
