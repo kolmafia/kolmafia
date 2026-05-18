@@ -23,6 +23,33 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 public class ItemDatabaseTest {
+  @Test
+  public void returnsExpectedFieldsForKnownItemRow() {
+    int itemId = ItemPool.SEAL_CLUB;
+
+    assertThat(ItemDatabase.getItemName(itemId), is("seal-clubbing club"));
+    assertThat(ItemDatabase.getDescriptionId(itemId), is("868780591"));
+    assertThat(ItemDatabase.getImage(itemId), is("club.gif"));
+    assertThat(ItemDatabase.getConsumptionType(itemId), is(ConsumptionType.WEAPON));
+    assertThat(ItemDatabase.getAccessById(itemId), is("t,d"));
+    assertThat(ItemDatabase.getPriceById(itemId), is(1));
+    assertThat(ItemDatabase.getPluralById(itemId), is(""));
+    assertThat(ItemDatabase.getPluralName(itemId), is("seal-clubbing clubs"));
+
+    assertThat(ItemDatabase.isTradeable(itemId), is(true));
+    assertThat(ItemDatabase.isGiftItem(itemId), is(false));
+    assertThat(ItemDatabase.isQuestItem(itemId), is(false));
+    assertThat(ItemDatabase.isDiscardable(itemId), is(true));
+    assertThat(ItemDatabase.isPasteable(itemId), is(true));
+    assertThat(ItemDatabase.isSmithable(itemId), is(true));
+    assertThat(ItemDatabase.isCookable(itemId), is(false));
+    assertThat(ItemDatabase.isMixable(itemId), is(false));
+    assertThat(ItemDatabase.isFancyItem(itemId), is(false));
+    assertThat(ItemDatabase.isCandyItem(itemId), is(false));
+    assertThat(ItemDatabase.isUsable(itemId), is(false));
+    assertThat(ItemDatabase.isMultiUsable(itemId), is(false));
+  }
+
   @Nested
   class AttrsToSecondary {
     @Test
