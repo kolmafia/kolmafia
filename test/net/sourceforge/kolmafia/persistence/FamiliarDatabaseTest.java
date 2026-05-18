@@ -24,7 +24,7 @@ public class FamiliarDatabaseTest {
   private static final String famFile = KoLConstants.ROOT_LOCATION + "/data/" + "familiars.txt";
 
   @AfterAll
-  public static void beforeAll() {
+  public static void afterAll() {
     verboseDelete(famFile);
   }
 
