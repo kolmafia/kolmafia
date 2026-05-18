@@ -5,11 +5,14 @@ import static internal.helpers.Player.withProperty;
 import static internal.matchers.Preference.hasStringValue;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.emptyString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
 import internal.helpers.Cleanups;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.EnumSet;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
@@ -48,6 +51,24 @@ public class ItemDatabaseTest {
     assertThat(ItemDatabase.isCandyItem(itemId), is(false));
     assertThat(ItemDatabase.isUsable(itemId), is(false));
     assertThat(ItemDatabase.isMultiUsable(itemId), is(false));
+  }
+
+  @Test
+  public void itShouldWriteItems() {
+    ByteArrayOutputStream os = new ByteArrayOutputStream();
+    PrintStream ps = new PrintStream(os);
+    ItemDatabase.reset();
+    ItemDatabase.writeItems(ps);
+    String data = os.toString();
+
+    assertThat(
+        data,
+        containsString(
+            "1\tseal-clubbing club\t868780591\tclub.gif\tweapon, paste, smith\tt,d\t1\n"));
+    assertThat(
+        data,
+        containsString(
+            "16\tmagicalness-in-a-can\t204936339\tspraycan.gif\tspleen, paste, cook\tt,d\t100\tmagicalnesses-in-a-can\n"));
   }
 
   @Nested
