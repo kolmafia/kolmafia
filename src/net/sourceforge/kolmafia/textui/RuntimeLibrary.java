@@ -5067,12 +5067,13 @@ public abstract class RuntimeLibrary {
       return value;
     }
 
-    Calendar timestamp = Calendar.getInstance(KoLmafia.KOL_TIME_ZONE);
+    var timestamp = DateTimeManager.getRolloverDateTime();
 
     for (int i = 0; i < dayCount; ++i) {
       String logContents =
-          getContentsOfSessionLog(name, KoLConstants.DAILY_FORMAT.format(timestamp.getTime()));
-      timestamp.add(Calendar.DATE, -1);
+          getContentsOfSessionLog(
+              name, KoLConstants.DAILY_FORMAT.format(Date.from(timestamp.toInstant())));
+      timestamp = timestamp.minusDays(1);
       value.aset(new Value(i), new Value(logContents));
     }
     return value;

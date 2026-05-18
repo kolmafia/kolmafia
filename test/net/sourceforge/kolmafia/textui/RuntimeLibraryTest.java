@@ -71,14 +71,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.time.Month;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.ZodiacSign;
@@ -2780,10 +2777,10 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
     @Test
     void countOneReturnsCurrentDaysLog() {
-      Calendar timestamp = Calendar.getInstance(KoLmafia.KOL_TIME_ZONE);
-      String date = KoLConstants.DAILY_FORMAT.format(timestamp.getTime());
-      String filename = TESTUSER + "_" + date + ".txt";
-      var cleanups = withSessionFile(filename, "today's session line\n");
+      var cleanups =
+          new Cleanups(
+              withDay(2025, Month.JANUARY, 2),
+              withSessionFile(TESTUSER + "_20250102.txt", "today's session line\n"));
       try (cleanups) {
         String output = execute("session_logs(1)");
 
@@ -2815,10 +2812,10 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
     @Test
     void returnsSpecificPlayer() {
-      Calendar timestamp = Calendar.getInstance(KoLmafia.KOL_TIME_ZONE);
-      String date = KoLConstants.DAILY_FORMAT.format(timestamp.getTime());
-      String filename = TESTUSER + "_" + date + ".txt";
-      var cleanups = withSessionFile(filename, "today's session line\n");
+      var cleanups =
+          new Cleanups(
+              withDay(2025, Month.JANUARY, 2),
+              withSessionFile(TESTUSER + "_20250102.txt", "today's session line\n"));
       try (cleanups) {
         String output = execute("session_logs(\"" + TESTUSER + "\", 1)");
 
