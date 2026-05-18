@@ -97,7 +97,7 @@ public class AscensionPath {
         0,
         0,
         0),
-    THRIFTY("Thrifty", 57, false, "thrifty", "a"),
+    THRIFTY("Thrifty", 57, false, "0dollars", "a"),
     // A "sign" rather than a "path" for some reason
     BAD_MOON("Bad Moon", 999, false, "badmoon", null),
     ;
