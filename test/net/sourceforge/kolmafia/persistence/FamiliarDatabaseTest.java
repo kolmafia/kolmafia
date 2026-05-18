@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.persistence;
 
+import static internal.helpers.Utilities.verboseDelete;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.containsString;
@@ -9,12 +10,24 @@ import static org.hamcrest.Matchers.nullValue;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 
 public class FamiliarDatabaseTest {
+
+  // writing familiars.txt is a side effect of one or more of these tests but it is never cleaned up
+  // elsewhere.
+  private static final String famFile = KoLConstants.ROOT_LOCATION + "/data/" + "familiars.txt";
+
+  @AfterAll
+  public static void beforeAll() {
+    verboseDelete(famFile);
+  }
+
   @Test
   void returnsExpectedFieldsForKnownRow() {
     int familiarId = FamiliarPool.BLOOD_FACED_VOLLEYBALL;
