@@ -5119,21 +5119,16 @@ public abstract class RuntimeLibrary {
     }
 
     if (reader != null) {
-      try {
+      final BufferedReader finalReader = reader;
+      try (finalReader) {
         contents.setLength(0);
         String line;
-        while ((line = reader.readLine()) != null) {
+        while ((line = finalReader.readLine()) != null) {
           contents.append(line);
           contents.append(KoLConstants.LINE_BREAK);
         }
       } catch (Exception e) {
         StaticEntity.printStackTrace(e);
-      } finally {
-        try {
-          reader.close();
-        } catch (IOException e) {
-          StaticEntity.printStackTrace(e);
-        }
       }
     }
     return contents.toString();
