@@ -178,8 +178,7 @@ public class ShopRowDatabase {
   public static void writeShopRowDataFile() {
     File output = new File(KoLConstants.DATA_LOCATION, "shoprows.txt");
     RequestLogger.printLine("Writing data override: " + output);
-    PrintStream writer = LogStream.openStream(output, true);
-    try {
+    try (PrintStream writer = LogStream.openStream(output, true)) {
       writer.println(KoLConstants.SHOPROWS_VERSION);
 
       Iterator<Entry<Integer, ShopRowData>> it = shopRowData.entrySet().iterator();
@@ -197,8 +196,6 @@ public class ShopRowDatabase {
 
         writer.println(value.dataString());
       }
-    } finally {
-      writer.close();
     }
   }
 }

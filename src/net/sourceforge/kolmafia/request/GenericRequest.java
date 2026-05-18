@@ -2997,9 +2997,7 @@ public class GenericRequest implements Runnable {
   }
 
   public final void loadResponseFromFile(final File f) {
-    BufferedReader buf = FileUtilities.getReader(f);
-
-    try {
+    try (BufferedReader buf = FileUtilities.getReader(f)) {
       String line;
       StringBuilder response = new StringBuilder();
 
@@ -3013,11 +3011,6 @@ public class GenericRequest implements Runnable {
       // This means simply that there was no file from which
       // to load the data.  Given that this is run during debug
       // tests, only, we can ignore the error.
-    }
-
-    try {
-      buf.close();
-    } catch (IOException e) {
     }
   }
 

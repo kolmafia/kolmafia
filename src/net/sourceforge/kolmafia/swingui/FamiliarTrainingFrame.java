@@ -475,12 +475,12 @@ public class FamiliarTrainingFrame extends GenericFrame {
           }
 
           try {
-            PrintStream ostream = LogStream.openStream(output, false);
-            ostream.println(
-                FamiliarTrainingFrame.results
-                    .getHTMLContent()
-                    .replaceAll("<br>", KoLConstants.LINE_BREAK));
-            ostream.close();
+            try (PrintStream ostream = LogStream.openStream(output, false)) {
+              ostream.println(
+                  FamiliarTrainingFrame.results
+                      .getHTMLContent()
+                      .replaceAll("<br>", KoLConstants.LINE_BREAK));
+            }
           } catch (Exception ex) {
             // This should not happen.  Therefore, print
             // a stack trace for debug purposes.

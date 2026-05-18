@@ -9835,9 +9835,9 @@ public abstract class RuntimeLibrary {
 
     ByteArrayOutputStream cacheStream = new ByteArrayOutputStream();
 
-    PrintStream writer = LogStream.openStream(cacheStream, StandardCharsets.UTF_8);
-    map_variable.dump(writer, "", compact);
-    writer.close();
+    try (PrintStream writer = LogStream.openStream(cacheStream, StandardCharsets.UTF_8)) {
+      map_variable.dump(writer, "", compact);
+    }
 
     byte[] data = cacheStream.toByteArray();
     return DataFileCache.printBytes(filename, data);

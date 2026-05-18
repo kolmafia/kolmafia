@@ -422,41 +422,41 @@ public class ItemDatabase {
 
   public static void writeItems(final File output) {
     RequestLogger.printLine("Writing data override: " + output);
-    PrintStream writer = LogStream.openStream(output, true);
-    writer.println(KoLConstants.ITEMS_VERSION);
+    try (PrintStream writer = LogStream.openStream(output, true)) {
+      writer.println(KoLConstants.ITEMS_VERSION);
 
-    Iterator<Entry<Integer, String>> it = ItemDatabase.descriptionIdEntrySet().iterator();
-    int lastInteger = 1;
+      Iterator<Entry<Integer, String>> it = ItemDatabase.descriptionIdEntrySet().iterator();
+      int lastInteger = 1;
 
-    while (it.hasNext()) {
-      Entry<Integer, String> entry = it.next();
-      Integer nextInteger = entry.getKey();
-      int itemId = nextInteger.intValue();
+      while (it.hasNext()) {
+        Entry<Integer, String> entry = it.next();
+        Integer nextInteger = entry.getKey();
+        int itemId = nextInteger.intValue();
 
-      // Skip pseudo items
-      if (itemId == 13 || itemId < 1) {
-        continue;
+        // Skip pseudo items
+        if (itemId == 13 || itemId < 1) {
+          continue;
+        }
+
+        for (int i = lastInteger; i < itemId; ++i) {
+          writer.println(i);
+        }
+
+        lastInteger = itemId + 1;
+        String descId = entry.getValue();
+        String name = ItemDatabase.getItemDataName(nextInteger);
+        String image = ItemDatabase.getImage(itemId);
+        // Intentionally get a null if there is not an explicit plural in the database
+        String plural = ItemDatabase.getPluralById(itemId);
+        ConsumptionType type = ItemDatabase.getConsumptionType(itemId);
+        EnumSet<Attribute> attrs = ItemDatabase.getAttributes(itemId);
+        String access = ItemDatabase.getAccessById(nextInteger);
+        int price = ItemDatabase.getPriceById(itemId);
+        writer.println(
+            ItemDatabase.itemString(
+                itemId, name, descId, image, type, attrs, access, price, plural));
       }
-
-      for (int i = lastInteger; i < itemId; ++i) {
-        writer.println(i);
-      }
-
-      lastInteger = itemId + 1;
-      String descId = entry.getValue();
-      String name = ItemDatabase.getItemDataName(nextInteger);
-      String image = ItemDatabase.getImage(itemId);
-      // Intentionally get a null if there is not an explicit plural in the database
-      String plural = ItemDatabase.getPluralById(itemId);
-      ConsumptionType type = ItemDatabase.getConsumptionType(itemId);
-      EnumSet<Attribute> attrs = ItemDatabase.getAttributes(itemId);
-      String access = ItemDatabase.getAccessById(nextInteger);
-      int price = ItemDatabase.getPriceById(itemId);
-      writer.println(
-          ItemDatabase.itemString(itemId, name, descId, image, type, attrs, access, price, plural));
     }
-
-    writer.close();
   }
 
   public static void writeItem() {}
