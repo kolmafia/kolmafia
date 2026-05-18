@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.time.LocalDateTime;
@@ -21,6 +22,7 @@ import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.zip.GZIPOutputStream;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
@@ -2946,6 +2948,39 @@ public class Player {
    */
   public static Cleanups withDataFile(String sourceName) {
     return withDataFile(sourceName, sourceName);
+  }
+
+  public static Cleanups withSessionFile(String fileName, String contents) {
+    File sessionFile = new File(KoLConstants.SESSIONS_LOCATION, fileName);
+    File parent = sessionFile.getParentFile();
+    if (parent != null) {
+      parent.mkdirs();
+    }
+
+    try {
+      Files.writeString(sessionFile.toPath(), contents);
+    } catch (IOException e) {
+      throw new RuntimeException("Unable to create session file " + sessionFile, e);
+    }
+
+    return new Cleanups(sessionFile::delete);
+  }
+
+  public static Cleanups withGzippedSessionFile(String fileName, String contents) {
+    File sessionFile = new File(KoLConstants.SESSIONS_LOCATION, fileName);
+    File parent = sessionFile.getParentFile();
+    if (parent != null) {
+      parent.mkdirs();
+    }
+
+    try (var stream = Files.newOutputStream(sessionFile.toPath());
+        var gzip = new GZIPOutputStream(stream)) {
+      gzip.write(contents.getBytes(StandardCharsets.UTF_8));
+    } catch (IOException e) {
+      throw new RuntimeException("Unable to create gzipped session file " + sessionFile, e);
+    }
+
+    return new Cleanups(sessionFile::delete);
   }
 
   /**

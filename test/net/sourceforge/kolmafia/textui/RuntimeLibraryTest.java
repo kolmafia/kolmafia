@@ -21,6 +21,7 @@ import static internal.helpers.Player.withFamiliarInTerrarium;
 import static internal.helpers.Player.withFamiliarInTerrariumWithItem;
 import static internal.helpers.Player.withFight;
 import static internal.helpers.Player.withGlobalDay;
+import static internal.helpers.Player.withGzippedSessionFile;
 import static internal.helpers.Player.withHandlingChoice;
 import static internal.helpers.Player.withHardcore;
 import static internal.helpers.Player.withHttpClientBuilder;
@@ -39,6 +40,7 @@ import static internal.helpers.Player.withNpcPrice;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withRonin;
+import static internal.helpers.Player.withSessionFile;
 import static internal.helpers.Player.withSign;
 import static internal.helpers.Player.withSkill;
 import static internal.helpers.Player.withStats;
@@ -69,11 +71,14 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.time.Month;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.ZodiacSign;
@@ -2759,6 +2764,119 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
         assertThat(
             execute("turns_until_mobius_noncombat_available()").trim(),
             is("Returned: " + expected));
+      }
+    }
+  }
+
+  @Nested
+  class SessionLogs {
+    @Test
+    void countZeroReturnsEmptyArray() {
+      String output = execute("session_logs(0)");
+
+      assertContinueState();
+      assertThat(output.trim(), is("Returned: aggregate string [0]"));
+    }
+
+    @Test
+    void countOneReturnsCurrentDaysLog() {
+      Calendar timestamp = Calendar.getInstance(KoLmafia.KOL_TIME_ZONE);
+      String date = KoLConstants.DAILY_FORMAT.format(timestamp.getTime());
+      String filename = TESTUSER + "_" + date + ".txt";
+      var cleanups = withSessionFile(filename, "today's session line\n");
+      try (cleanups) {
+        String output = execute("session_logs(1)");
+
+        assertContinueState();
+        assertThat(
+            output,
+            equalTo(
+                """
+            Returned: aggregate string [1]
+            0 => today's session line
+            """));
+      }
+    }
+
+    @Test
+    void missingFilesReturnBlank() {
+      String output = execute("session_logs(2)");
+
+      assertContinueState();
+      assertThat(
+          output,
+          equalTo(
+              """
+          Returned: aggregate string [2]
+          0 =>
+          1 =>
+          """));
+    }
+
+    @Test
+    void returnsSpecificPlayer() {
+      Calendar timestamp = Calendar.getInstance(KoLmafia.KOL_TIME_ZONE);
+      String date = KoLConstants.DAILY_FORMAT.format(timestamp.getTime());
+      String filename = TESTUSER + "_" + date + ".txt";
+      var cleanups = withSessionFile(filename, "today's session line\n");
+      try (cleanups) {
+        String output = execute("session_logs(\"" + TESTUSER + "\", 1)");
+
+        assertContinueState();
+        assertThat(
+            output,
+            equalTo(
+                """
+            Returned: aggregate string [1]
+            0 => today's session line
+            """));
+
+        output = execute("session_logs(\"SOMEBODY_ELSE\", 1)");
+
+        assertContinueState();
+        assertThat(
+            output,
+            equalTo(
+                """
+            Returned: aggregate string [1]
+            0 =>
+            """));
+      }
+    }
+
+    @Test
+    void returnsSpecificDate() {
+      String filename = TESTUSER + "_20250101.txt";
+      var cleanups = withSessionFile(filename, "old session line\n");
+      try (cleanups) {
+        String output = execute("session_logs(\"" + TESTUSER + "\", \"20250101\", 0)");
+
+        assertContinueState();
+        assertThat(
+            output,
+            equalTo(
+                """
+            Returned: aggregate string [1]
+            0 => old session line
+            """));
+      }
+    }
+
+    @Test
+    void returnsGzippedDataIfPresent() {
+      String filename = TESTUSER + "_20250101.txt.gz";
+      var cleanups = withGzippedSessionFile(filename, "old session line\n");
+      try (cleanups) {
+        String output = execute("session_logs(\"" + TESTUSER + "\", \"20250101\", 0)");
+
+        assertContinueState();
+        assertThat(
+            output,
+            equalTo(
+                """
+            Returned: aggregate string [1]
+            0 => old session line
+            """));
       }
     }
   }
