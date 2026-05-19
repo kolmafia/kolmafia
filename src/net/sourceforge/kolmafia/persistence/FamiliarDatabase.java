@@ -98,6 +98,18 @@ public class FamiliarDatabase {
       this.attributes = attributes;
     }
 
+    public String name() {
+      return name;
+    }
+
+    String types() {
+      String typeString = types.stream().map(x -> x.name).collect(Collectors.joining(","));
+      if (typeString.isEmpty()) {
+        return "none";
+      }
+      return typeString;
+    }
+
     public boolean isType(final FamiliarType type) {
       return this.types.contains(type);
     }
@@ -242,6 +254,27 @@ public class FamiliarDatabase {
     public boolean isVariableType() {
       return isType(FamiliarType.VARIABLE);
     }
+
+    public int larvaId() {
+      return larvaId;
+    }
+
+    public String toDataLine() {
+      String larva = larvaId == -1 ? "" : ItemDatabase.getItemDataName(larvaId);
+
+      var base =
+          id + "\t" + name + "\t" + image + "\t" + types() + "\t" + larva + "\t" + item + "\t"
+              + skills[0] + "\t" + skills[1] + "\t" + skills[2] + "\t" + skills[3];
+      if (!attributes.isEmpty()) {
+        base += "\t" + String.join(",", attributes);
+      }
+      return base;
+    }
+
+    @Override
+    public String toString() {
+      return name;
+    }
   }
 
   private static final Map<String, Integer> familiarByName = new TreeMap<>();
@@ -352,11 +385,6 @@ public class FamiliarDatabase {
       types.add(FamiliarType.NONE);
     }
     return types;
-  }
-
-  private static boolean hasType(final Integer familiarId, final FamiliarType type) {
-    FamiliarRaceData data = getFamiliarRaceData(familiarId);
-    return data != null && data.types.contains(type);
   }
 
   static {
@@ -565,10 +593,6 @@ public class FamiliarDatabase {
     return -1;
   }
 
-  public static final boolean isPokefamType(final Integer familiarId) {
-    return hasType(familiarId, FamiliarType.POKEFAM);
-  }
-
   public static final String getFamiliarItem(final Integer familiarId) {
     FamiliarRaceData data = getFamiliarRaceData(familiarId);
     return data == null ? null : data.item;
@@ -587,18 +611,6 @@ public class FamiliarDatabase {
   public static int getFamiliarLarva(final Integer familiarId) {
     FamiliarRaceData data = getFamiliarRaceData(familiarId);
     return data == null ? 0 : data.larvaId;
-  }
-
-  static final String getFamiliarType(final int familiarId) {
-    FamiliarRaceData data = getFamiliarRaceData(familiarId);
-    if (data == null) {
-      return "none";
-    }
-    String types = data.types.stream().map(x -> x.name).collect(Collectors.joining(","));
-    if (types.isEmpty()) {
-      return "none";
-    }
-    return types;
   }
 
   public static final void setFamiliarImageLocation(final int familiarId, final String location) {
@@ -725,10 +737,8 @@ public class FamiliarDatabase {
    *
    * @return The set of familiars keyed by name
    */
-  public static final Set<Entry<Integer, String>> entrySet() {
-    return FamiliarDatabase.familiarDataById.entrySet().stream()
-        .map(x -> Map.entry(x.getKey(), x.getValue().name))
-        .collect(Collectors.toSet());
+  public static final Set<Entry<Integer, FamiliarRaceData>> entrySet() {
+    return FamiliarDatabase.familiarDataById.entrySet();
   }
 
   public static final void saveDataOverride() {
@@ -754,7 +764,8 @@ public class FamiliarDatabase {
     writer.println();
 
     int lastInteger = 1;
-    for (int familiarId : FamiliarDatabase.familiarDataById.keySet()) {
+    for (var familiar : FamiliarDatabase.entrySet()) {
+      int familiarId = familiar.getKey();
 
       for (int j = lastInteger; j < familiarId; ++j) {
         writer.println(j);
@@ -762,53 +773,9 @@ public class FamiliarDatabase {
 
       lastInteger = familiarId + 1;
 
-      String name = FamiliarDatabase.getFamiliarName(familiarId);
-      String image = FamiliarDatabase.getFamiliarImageLocation(familiarId);
-      String type = FamiliarDatabase.getFamiliarType(familiarId);
-      int larvaId = FamiliarDatabase.getFamiliarLarva(familiarId);
-      int itemId = FamiliarDatabase.getFamiliarItemId(familiarId);
-      int[] skills = FamiliarDatabase.getFamiliarSkills(familiarId);
-      var attributes = FamiliarDatabase.getFamiliarAttributes(familiarId);
-
-      writer.println(
-          FamiliarDatabase.familiarString(
-              familiarId, name, image, type, larvaId, itemId, skills, attributes));
+      FamiliarRaceData data = getFamiliarRaceData(familiarId);
+      writer.println(data.toDataLine());
     }
-  }
-
-  public static String familiarString(
-      final int familiarId,
-      final String name,
-      final String image,
-      final String type,
-      final int larvaId,
-      final int itemId,
-      final int[] skills,
-      List<String> attributesList) {
-    String larva = larvaId == -1 ? "" : ItemDatabase.getItemDataName(larvaId);
-    String item = itemId == -1 ? "" : ItemDatabase.getItemDataName(itemId);
-    String attributes = String.join(",", attributesList);
-    return familiarId
-        + "\t"
-        + name
-        + "\t"
-        + image
-        + "\t"
-        + type
-        + "\t"
-        + larva
-        + "\t"
-        + item
-        + "\t"
-        + skills[0]
-        + "\t"
-        + skills[1]
-        + "\t"
-        + skills[2]
-        + "\t"
-        + skills[3]
-        + "\t"
-        + attributes;
   }
 
   // ****** PokefamData support
