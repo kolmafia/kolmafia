@@ -12,6 +12,7 @@ import net.sourceforge.kolmafia.persistence.EffectData;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
+import net.sourceforge.kolmafia.persistence.FamiliarDatabase.FamiliarRaceData;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
@@ -29,7 +30,7 @@ public class DatabaseFrame extends GenericFrame {
       LowerCaseEntry.createListModel(EffectDatabase.allEffects());
   public static final LockableListModel<LowerCaseEntry<Integer, SkillData>> allSkills =
       LowerCaseEntry.createListModel(SkillDatabase.entrySet());
-  public static final LockableListModel<LowerCaseEntry<Integer, String>> allFamiliars =
+  public static final LockableListModel<LowerCaseEntry<Integer, FamiliarRaceData>> allFamiliars =
       LowerCaseEntry.createListModel(FamiliarDatabase.entrySet());
   public static final LockableListModel<LowerCaseEntry<Integer, String>> allOutfits =
       LowerCaseEntry.createListModel(EquipmentDatabase.outfitEntrySet());

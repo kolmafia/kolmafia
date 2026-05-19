@@ -47,6 +47,7 @@ import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.FamiliarDatabase.FamiliarRaceData;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.SkillDatabase.SkillData;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
@@ -1343,8 +1344,8 @@ public class ModifierDatabase {
     Set<String> familiars = new TreeSet<>();
     familiars.add("Familiar:(none)");
 
-    for (Entry<Integer, String> entry : FamiliarDatabase.entrySet()) {
-      String name = entry.getValue();
+    for (Entry<Integer, FamiliarRaceData> entry : FamiliarDatabase.entrySet()) {
+      String name = entry.getValue().name();
       if (getModifiers(ModifierType.FAMILIAR, name) != null) {
         familiars.add(name);
       }
