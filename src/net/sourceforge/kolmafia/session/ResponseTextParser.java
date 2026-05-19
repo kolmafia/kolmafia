@@ -85,6 +85,7 @@ import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.SuburbanDisRequest;
 import net.sourceforge.kolmafia.request.SummoningChamberRequest;
 import net.sourceforge.kolmafia.request.TavernRequest;
+import net.sourceforge.kolmafia.request.ThriftyRequest;
 import net.sourceforge.kolmafia.request.TrendyRequest;
 import net.sourceforge.kolmafia.request.TrophyHutRequest;
 import net.sourceforge.kolmafia.request.TutorialRequest;
@@ -683,6 +684,9 @@ public class ResponseTextParser {
       }
       case "tavern.php" -> {
         TavernRequest.parseResponse(location, responseText);
+      }
+      case "thrifty.php" -> {
+        ThriftyRequest.parseResponse(location, responseText);
       }
       case "tiles.php" -> {
         if (responseText.contains("charpane.php")) {
