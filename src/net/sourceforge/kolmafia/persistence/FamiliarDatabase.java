@@ -259,8 +259,7 @@ public class FamiliarDatabase {
       return larvaId;
     }
 
-    @Override
-    public String toString() {
+    public String toDataLine() {
       String larva = larvaId == -1 ? "" : ItemDatabase.getItemDataName(larvaId);
 
       var base =
@@ -270,6 +269,11 @@ public class FamiliarDatabase {
         base += "\t" + String.join(",", attributes);
       }
       return base;
+    }
+
+    @Override
+    public String toString() {
+      return name;
     }
   }
 
@@ -770,7 +774,7 @@ public class FamiliarDatabase {
       lastInteger = familiarId + 1;
 
       FamiliarRaceData data = getFamiliarRaceData(familiarId);
-      writer.println(data.toString());
+      writer.println(data.toDataLine());
     }
   }
 
