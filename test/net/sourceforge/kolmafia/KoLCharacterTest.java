@@ -322,6 +322,20 @@ public class KoLCharacterTest {
     }
   }
 
+  @Test
+  public void restrictedFamiliarsDoNotExistInThrifty() {
+    var cleanups =
+        new Cleanups(
+            withFamiliarInTerrarium(FamiliarPool.MOSQUITO),
+            withFamiliarInTerrarium(FamiliarPool.BADGER),
+            withPath(Path.THRIFTY));
+
+    try (cleanups) {
+      var fam = KoLCharacter.usableFamiliar("astral badger");
+      assertNull(fam);
+    }
+  }
+
   @Nested
   class StomachCapacity {
     @Test
