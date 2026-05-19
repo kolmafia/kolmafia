@@ -7,6 +7,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -28,6 +29,7 @@ import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
+import net.sourceforge.kolmafia.persistence.ItemDatabase.ItemData;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
@@ -36,7 +38,8 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 @SuppressWarnings("incomplete-switch")
 public class EquipmentDatabase {
-  private record EquipmentData(int power, String statRequirement, int hands, String itemType) {
+  private record EquipmentData(
+      String name, int power, String statRequirement, int hands, String itemType) {
     String toDataLine(final int itemId) {
       var name = ItemPool.get(itemId).getDisambiguatedName();
       String output = name + "\t" + power + "\t" + statRequirement;
@@ -47,9 +50,14 @@ public class EquipmentDatabase {
       }
       return output;
     }
+
+    @Override
+    public String toString() {
+      return name;
+    }
   }
 
-  private static final Map<Integer, EquipmentData> equipmentById = new HashMap<>();
+  private static final Map<Integer, EquipmentData> equipmentById = new LinkedHashMap<>();
 
   private static final Map<Integer, Integer> outfitPieces = new HashMap<>();
   public static final Map<Integer, SpecialOutfit> normalOutfits = new HashMap<>();
@@ -149,7 +157,7 @@ public class EquipmentDatabase {
         }
 
         EquipmentDatabase.equipmentById.put(
-            itemId, new EquipmentData(power, statRequirement, hval, tval));
+            itemId, new EquipmentData(data[0], power, statRequirement, hval, tval));
       }
     } catch (IOException e) {
       StaticEntity.printStackTrace(e);
@@ -278,9 +286,9 @@ public class EquipmentDatabase {
     Map<String, List<Integer>> containers = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 
     // Iterate over all items and assign item id to category
-    for (Entry<Integer, String> entry : ItemDatabase.dataNameEntrySet()) {
+    for (Entry<Integer, ItemData> entry : ItemDatabase.entrySet()) {
       Integer key = entry.getKey();
-      String name = entry.getValue();
+      String name = entry.getValue().dataName();
       ConsumptionType type = ItemDatabase.getConsumptionType(key);
 
       switch (type) {
@@ -382,7 +390,7 @@ public class EquipmentDatabase {
       itemType = "shield";
     }
 
-    var data = new EquipmentData(power, req, hands, itemType);
+    var data = new EquipmentData(itemName, power, req, hands, itemType);
     EquipmentDatabase.equipmentById.put(itemId, data);
 
     String printMe = data.toDataLine(itemId);

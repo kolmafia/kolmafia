@@ -36,7 +36,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class EffectDatabase {
   private static String[] canonicalNames = new String[0];
   private static final Map<String, int[]> effectIdSetByName = new TreeMap<>();
-  private static final Map<Integer, EffectData> effectDataById = new HashMap<>();
+  private static final Map<Integer, EffectData> effectDataById = new TreeMap<>();
   private static final Map<String, Integer> effectIdByDescription = new HashMap<>();
 
   public static boolean newEffects = false;
@@ -511,7 +511,7 @@ public class EffectDatabase {
     RequestLogger.printLine(printMe);
     RequestLogger.updateSessionLog(printMe);
 
-    printMe = effectData.toString();
+    printMe = effectData.toDataLine();
     RequestLogger.printLine(printMe);
     RequestLogger.updateSessionLog(printMe);
 
@@ -557,7 +557,7 @@ public class EffectDatabase {
   }
 
   private static void writeEffect(final PrintStream writer, final EffectData data) {
-    writer.println(data.toString());
+    writer.println(data.toDataLine());
   }
 
   /**

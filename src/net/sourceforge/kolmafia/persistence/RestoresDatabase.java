@@ -22,6 +22,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class RestoresDatabase {
   private static class RestoreData {
+    private String name;
     private String type;
     private String hpMin;
     private String hpMax;
@@ -30,6 +31,11 @@ public class RestoresDatabase {
     private int advCost;
     private String usesLeft;
     private String notes;
+
+    @Override
+    public String toString() {
+      return name;
+    }
   }
 
   private static final Map<String, RestoreData> restoreByName = new LinkedHashMap<>();
@@ -58,6 +64,7 @@ public class RestoresDatabase {
 
         String name = data[0];
         RestoreData restoreData = new RestoreData();
+        restoreData.name = data[0];
         restoreData.type = data[1];
         restoreData.hpMin = data[2];
         restoreData.hpMax = data[3];
@@ -85,6 +92,7 @@ public class RestoresDatabase {
       final String notes) {
     RestoreData restoreData =
         RestoresDatabase.restoreByName.computeIfAbsent(name, key -> new RestoreData());
+    restoreData.name = name;
     restoreData.type = type;
     restoreData.hpMin = hpMin;
     restoreData.hpMax = hpMax;
