@@ -362,11 +362,10 @@ public class OceanManager {
 
       if (start != -1 && end != -1) {
         File output = new File(KoLConstants.DATA_LOCATION, "ocean.html");
-        PrintStream writer = LogStream.openStream(output, false);
-
-        String text = request.responseText.substring(start + 6, end);
-        writer.println(text);
-        writer.close();
+        try (PrintStream writer = LogStream.openStream(output, false)) {
+          String text = request.responseText.substring(start + 6, end);
+          writer.println(text);
+        }
       }
     }
 

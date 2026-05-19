@@ -16,14 +16,20 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class BountyDatabase {
   public record BountyData(
-      String plural, String type, String image, int number, String monster, String location) {
+      String name,
+      String plural,
+      String type,
+      String image,
+      int number,
+      String monster,
+      String location) {
     public String getKoLInternalType() {
       return type.equals("easy")
           ? "low"
           : type.equals("hard") ? "high" : type.equals("special") ? "special" : null;
     }
 
-    String toDataLine(final String name) {
+    String toDataLine() {
       String outputLocation = location != null ? location : "unknown";
       return name
           + "\t"
@@ -38,6 +44,11 @@ public class BountyDatabase {
           + monster
           + "\t"
           + outputLocation;
+    }
+
+    @Override
+    public String toString() {
+      return name;
     }
   }
 
@@ -78,7 +89,13 @@ public class BountyDatabase {
         BountyDatabase.bountyByName.put(
             name,
             new BountyData(
-                data[1], data[2], data[3], StringUtilities.parseInt(data[4]), data[5], data[6]));
+                data[0],
+                data[1],
+                data[2],
+                data[3],
+                StringUtilities.parseInt(data[4]),
+                data[5],
+                data[6]));
         BountyDatabase.bountyByPlural.put(data[1], name);
         BountyDatabase.nameByMonster.put(data[5], name);
       }
@@ -124,7 +141,7 @@ public class BountyDatabase {
     String newLocation =
         location != null ? location : existing != null ? existing.location() : null;
     BountyDatabase.bountyByName.put(
-        name, new BountyData(plural, type, image, number, monster, newLocation));
+        name, new BountyData(name, plural, type, image, number, monster, newLocation));
     BountyDatabase.bountyByPlural.put(plural, name);
     BountyDatabase.nameByMonster.put(monster, name);
     BountyDatabase.buildCanonicalNames();
@@ -135,7 +152,7 @@ public class BountyDatabase {
     printMe = "--------------------";
     RequestLogger.printLine(printMe);
     RequestLogger.updateSessionLog(printMe);
-    printMe = BountyDatabase.bountyByName.get(name).toDataLine(name);
+    printMe = BountyDatabase.bountyByName.get(name).toDataLine();
     RequestLogger.printLine(printMe);
     RequestLogger.updateSessionLog(printMe);
     printMe = "--------------------";

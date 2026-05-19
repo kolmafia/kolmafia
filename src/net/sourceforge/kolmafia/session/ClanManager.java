@@ -403,17 +403,16 @@ public abstract class ClanManager {
 
     if (profile.exists()) {
       try {
-        BufferedReader istream = FileUtilities.getReader(profile);
         StringBuilder profileString = new StringBuilder();
         String currentLine;
-
-        while ((currentLine = istream.readLine()) != null) {
-          profileString.append(currentLine);
-          profileString.append(KoLConstants.LINE_BREAK);
+        try (BufferedReader istream = FileUtilities.getReader(profile)) {
+          while ((currentLine = istream.readLine()) != null) {
+            profileString.append(currentLine);
+            profileString.append(KoLConstants.LINE_BREAK);
+          }
         }
 
         ClanManager.profileMap.put(name.toLowerCase(), profileString.toString());
-        istream.close();
       } catch (Exception e) {
         // This should not happen.  Therefore, print
         // a stack trace for debug purposes.
@@ -450,9 +449,9 @@ public abstract class ClanManager {
       // To avoid retrieving the file again, store the intermediate
       // result in a local file.
 
-      PrintStream ostream = LogStream.openStream(profile, true);
-      ostream.println(data);
-      ostream.close();
+      try (PrintStream ostream = LogStream.openStream(profile, true)) {
+        ostream.println(data);
+      }
     }
   }
 
@@ -464,13 +463,13 @@ public abstract class ClanManager {
 
     if (ascension.exists()) {
       try {
-        BufferedReader istream = FileUtilities.getReader(ascension);
         StringBuilder ascensionString = new StringBuilder();
         String currentLine;
-
-        while ((currentLine = istream.readLine()) != null) {
-          ascensionString.append(currentLine);
-          ascensionString.append(KoLConstants.LINE_BREAK);
+        try (BufferedReader istream = FileUtilities.getReader(ascension)) {
+          while ((currentLine = istream.readLine()) != null) {
+            ascensionString.append(currentLine);
+            ascensionString.append(KoLConstants.LINE_BREAK);
+          }
         }
 
         ClanManager.ascensionMap.put(name, ascensionString.toString());
@@ -511,9 +510,9 @@ public abstract class ClanManager {
       // To avoid retrieving the file again, store the intermediate
       // result in a local file.
 
-      PrintStream ostream = LogStream.openStream(ascension, true);
-      ostream.println(data);
-      ostream.close();
+      try (PrintStream ostream = LogStream.openStream(ascension, true)) {
+        ostream.println(data);
+      }
     }
   }
 
@@ -589,57 +588,56 @@ public abstract class ClanManager {
     KoLmafia.updateDisplay("Storing clan snapshot...");
 
     try {
-      PrintStream ostream = LogStream.openStream(standardFile, true);
-      ostream.println(ProfileSnapshot.getStandardData(localProfileLink));
-      ostream.close();
+      try (PrintStream ostream = LogStream.openStream(standardFile, true)) {
+        ostream.println(ProfileSnapshot.getStandardData(localProfileLink));
+      }
 
       String line;
       BufferedReader script = DataUtilities.getReader("relay", KoLConstants.SORTTABLE_JS);
 
-      ostream = LogStream.openStream(sortingScript, true);
-      while ((line = script.readLine()) != null) {
-        ostream.println(line);
+      try (PrintStream ostream = LogStream.openStream(sortingScript, true)) {
+        while ((line = script.readLine()) != null) {
+          ostream.println(line);
+        }
       }
-
-      ostream.close();
 
       KoLmafia.updateDisplay("Storing ascension snapshot...");
 
-      ostream = LogStream.openStream(softcoreFile, true);
-      ostream.println(
-          AscensionSnapshot.getAscensionData(
-              AscensionFilter.NORMAL,
-              mostAscensionsBoardSize,
-              mainBoardSize,
-              classBoardSize,
-              maxAge,
-              playerMoreThanOnce,
-              localProfileLink));
-      ostream.close();
+      try (PrintStream ostream = LogStream.openStream(softcoreFile, true)) {
+        ostream.println(
+            AscensionSnapshot.getAscensionData(
+                AscensionFilter.NORMAL,
+                mostAscensionsBoardSize,
+                mainBoardSize,
+                classBoardSize,
+                maxAge,
+                playerMoreThanOnce,
+                localProfileLink));
+      }
 
-      ostream = LogStream.openStream(hardcoreFile, true);
-      ostream.println(
-          AscensionSnapshot.getAscensionData(
-              AscensionFilter.HARDCORE,
-              mostAscensionsBoardSize,
-              mainBoardSize,
-              classBoardSize,
-              maxAge,
-              playerMoreThanOnce,
-              localProfileLink));
-      ostream.close();
+      try (PrintStream ostream = LogStream.openStream(hardcoreFile, true)) {
+        ostream.println(
+            AscensionSnapshot.getAscensionData(
+                AscensionFilter.HARDCORE,
+                mostAscensionsBoardSize,
+                mainBoardSize,
+                classBoardSize,
+                maxAge,
+                playerMoreThanOnce,
+                localProfileLink));
+      }
 
-      ostream = LogStream.openStream(casualFile, true);
-      ostream.println(
-          AscensionSnapshot.getAscensionData(
-              AscensionFilter.CASUAL,
-              mostAscensionsBoardSize,
-              mainBoardSize,
-              classBoardSize,
-              maxAge,
-              playerMoreThanOnce,
-              localProfileLink));
-      ostream.close();
+      try (PrintStream ostream = LogStream.openStream(casualFile, true)) {
+        ostream.println(
+            AscensionSnapshot.getAscensionData(
+                AscensionFilter.CASUAL,
+                mostAscensionsBoardSize,
+                mainBoardSize,
+                classBoardSize,
+                maxAge,
+                playerMoreThanOnce,
+                localProfileLink));
+      }
     } catch (Exception e) {
       StaticEntity.printStackTrace(e);
     }

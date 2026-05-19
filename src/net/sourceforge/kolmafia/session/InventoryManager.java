@@ -26,6 +26,7 @@ import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.equipment.SlotSet;
@@ -62,6 +63,7 @@ import net.sourceforge.kolmafia.request.ManageStoreRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.StorageRequest.StorageRequestType;
+import net.sourceforge.kolmafia.request.ThriftyRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.coinmaster.HermitRequest;
 import net.sourceforge.kolmafia.request.concoction.CombineMeatRequest;
@@ -217,7 +219,10 @@ public abstract class InventoryManager {
     }
 
     if ((!KoLCharacter.inLegacyOfLoathing() || pullableInLoL(itemId))
-        && (!KoLCharacter.inSeaPath() || pullableInSeaPath(itemId))) {
+        && (!KoLCharacter.inSeaPath() || pullableInSeaPath(itemId))
+        && (!KoLCharacter.isThrifty()
+            || ThriftyRequest.isAllowed(
+                RestrictedItemType.ITEMS, ItemDatabase.getItemName(itemId)))) {
       // Free Pulls from Hagnk's are always accessible
       count += item.getCount(KoLConstants.freepulls);
 

@@ -4,6 +4,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -12,6 +13,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase.FoldGroup;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.ThriftyRequest;
 import net.sourceforge.kolmafia.request.coinmaster.MrStoreRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.MallPriceManager;
@@ -122,7 +124,10 @@ public class CheckedItem extends AdventureResult {
       }
     } else if (!KoLCharacter.isHardcore()
         && (!KoLCharacter.inLegacyOfLoathing() || InventoryManager.pullableInLoL(itemId))
-        && (!KoLCharacter.inSeaPath() || InventoryManager.pullableInSeaPath(itemId))) {
+        && (!KoLCharacter.inSeaPath() || InventoryManager.pullableInSeaPath(itemId))
+        && (!KoLCharacter.isThrifty()
+            || ThriftyRequest.isAllowed(
+                RestrictedItemType.ITEMS, ItemDatabase.getItemName(itemId)))) {
       // consider pulling
       this.pullable = this.getCount(KoLConstants.storage);
 

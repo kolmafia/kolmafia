@@ -57,17 +57,15 @@ public class Aliases {
   }
 
   public static void save() {
-    PrintStream aliasStream = LogStream.openStream(Aliases.ALIAS_FILE, true);
-
-    Iterator<Entry<String, String>> it = Aliases.aliasSet.iterator();
-    while (it.hasNext()) {
-      Entry<String, String> current = it.next();
-      String aliasString = current.getKey();
-      String aliasCommand = current.getValue();
-      aliasStream.println(aliasString.trim() + "\t" + aliasCommand.trim());
+    try (PrintStream aliasStream = LogStream.openStream(Aliases.ALIAS_FILE, true)) {
+      Iterator<Entry<String, String>> it = Aliases.aliasSet.iterator();
+      while (it.hasNext()) {
+        Entry<String, String> current = it.next();
+        String aliasString = current.getKey();
+        String aliasCommand = current.getValue();
+        aliasStream.println(aliasString.trim() + "\t" + aliasCommand.trim());
+      }
     }
-
-    aliasStream.close();
   }
 
   public static String apply(String line) {

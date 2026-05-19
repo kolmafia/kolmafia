@@ -51,6 +51,7 @@ import net.sourceforge.kolmafia.persistence.DailyLimitDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
+import net.sourceforge.kolmafia.persistence.FamiliarDatabase.FamiliarRaceData;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
@@ -3451,6 +3452,10 @@ public abstract class KoLCharacter {
     return KoLCharacter.ascensionPath == Path.ADVENTURER_MEATS_WORLD;
   }
 
+  public static final boolean isThrifty() {
+    return KoLCharacter.ascensionPath == Path.THRIFTY;
+  }
+
   public static final boolean noExperience() {
     return inZootomist();
   }
@@ -4542,9 +4547,11 @@ public abstract class KoLCharacter {
   private static boolean isUsable(FamiliarData f) {
     if (f == FamiliarData.NO_FAMILIAR) return !KoLCharacter.inQuantum();
 
+    FamiliarRaceData data = FamiliarDatabase.getFamiliarRaceData(f.getId());
+
     if (KoLCharacter.inPokefam()) {
       // pokefam-only familiars are usable
-      if (FamiliarDatabase.isPokefamType(f.getId())) {
+      if (data.isPokefamType()) {
         return true;
       }
     }

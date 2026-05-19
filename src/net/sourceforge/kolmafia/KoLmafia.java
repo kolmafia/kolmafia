@@ -201,9 +201,9 @@ public abstract class KoLmafia {
         return KoLmafia.SESSION_HOLDER != null;
       }
 
-      PrintStream ostream = LogStream.openStream(KoLmafia.SESSION_FILE, true);
-      ostream.println(StaticEntity.getVersion());
-      ostream.close();
+      try (PrintStream ostream = LogStream.openStream(KoLmafia.SESSION_FILE, true)) {
+        ostream.println(StaticEntity.getVersion());
+      }
 
       KoLmafia.SESSION_CHANNEL = new RandomAccessFile(KoLmafia.SESSION_FILE, "rw").getChannel();
       KoLmafia.SESSION_HOLDER = KoLmafia.SESSION_CHANNEL.lock();

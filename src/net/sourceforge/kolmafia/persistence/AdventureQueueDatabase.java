@@ -192,15 +192,13 @@ public class AdventureQueueDatabase implements Serializable {
         new File(KoLConstants.DATA_LOCATION, KoLCharacter.baseUserName() + "_" + "queue.ser");
 
     try {
-      FileOutputStream fileOut = new FileOutputStream(file);
-      ObjectOutputStream out = new ObjectOutputStream(fileOut);
-
-      // make a collection with combat queue first
-      List<TreeMap<String, RollingLinkedList<String>>> queues = new ArrayList<>();
-      queues.add(COMBAT_QUEUE);
-      queues.add(NONCOMBAT_QUEUE);
-      out.writeObject(queues);
-      out.close();
+      try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file))) {
+        // make a collection with combat queue first
+        List<TreeMap<String, RollingLinkedList<String>>> queues = new ArrayList<>();
+        queues.add(COMBAT_QUEUE);
+        queues.add(NONCOMBAT_QUEUE);
+        out.writeObject(queues);
+      }
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -219,17 +217,14 @@ public class AdventureQueueDatabase implements Serializable {
       return;
     }
     try {
-      FileInputStream fileIn = new FileInputStream(file);
-      ObjectInputStream in = new ObjectInputStream(fileIn);
+      try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(file))) {
+        List<TreeMap<String, RollingLinkedList<String>>> queues =
+            (List<TreeMap<String, RollingLinkedList<String>>>) in.readObject();
 
-      List<TreeMap<String, RollingLinkedList<String>>> queues =
-          (List<TreeMap<String, RollingLinkedList<String>>>) in.readObject();
-
-      // Combat queue is first
-      COMBAT_QUEUE = queues.get(0);
-      NONCOMBAT_QUEUE = queues.get(1);
-
-      in.close();
+        // Combat queue is first
+        COMBAT_QUEUE = queues.get(0);
+        NONCOMBAT_QUEUE = queues.get(1);
+      }
 
       // after successfully loading, check if there were new zones added that aren't yet in the
       // TreeMap.

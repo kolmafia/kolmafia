@@ -76,7 +76,12 @@ public class SkillDatabase {
       int level,
       Boolean permable,
       int maxLevel,
-      Category category) {}
+      Category category) {
+    @Override
+    public String toString() {
+      return name;
+    }
+  }
 
   private static final Map<Integer, SkillData> skillDataById = new TreeMap<>();
   private static final Map<String, int[]> skillIdSetByName = new TreeMap<>();

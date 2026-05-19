@@ -235,18 +235,18 @@ public class TCRSDatabase {
       return false;
     }
 
-    for (Entry<Integer, TCRS> entry : map.entrySet()) {
-      TCRS tcrs = entry.getValue();
-      Integer itemId = entry.getKey();
-      String name = tcrs.name;
-      Integer size = tcrs.size;
-      var quality = tcrs.quality;
-      String modifiers = tcrs.modifiers;
-      String line = itemId + "\t" + name + "\t" + size + "\t" + quality + "\t" + modifiers;
-      writer.println(line);
+    try (writer) {
+      for (Entry<Integer, TCRS> entry : map.entrySet()) {
+        TCRS tcrs = entry.getValue();
+        Integer itemId = entry.getKey();
+        String name = tcrs.name;
+        Integer size = tcrs.size;
+        var quality = tcrs.quality;
+        String modifiers = tcrs.modifiers;
+        String line = itemId + "\t" + name + "\t" + size + "\t" + quality + "\t" + modifiers;
+        writer.println(line);
+      }
     }
-
-    writer.close();
 
     if (verbose) {
       RequestLogger.printLine("Wrote file " + fileName);

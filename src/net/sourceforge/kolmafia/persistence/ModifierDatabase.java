@@ -47,6 +47,8 @@ import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.FamiliarDatabase.FamiliarRaceData;
+import net.sourceforge.kolmafia.persistence.ItemDatabase.ItemData;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.SkillDatabase.SkillData;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
@@ -1305,9 +1307,9 @@ public class ModifierDatabase {
     Set<String> wikiname = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
 
     // Iterate over all items and assign item id to category
-    for (Entry<Integer, String> entry : ItemDatabase.dataNameEntrySet()) {
+    for (Entry<Integer, ItemData> entry : ItemDatabase.entrySet()) {
       Integer key = entry.getKey();
-      String name = entry.getValue();
+      String name = entry.getValue().dataName();
       ConsumptionType type = ItemDatabase.getConsumptionType(key);
 
       switch (type) {
@@ -1343,8 +1345,8 @@ public class ModifierDatabase {
     Set<String> familiars = new TreeSet<>();
     familiars.add("Familiar:(none)");
 
-    for (Entry<Integer, String> entry : FamiliarDatabase.entrySet()) {
-      String name = entry.getValue();
+    for (Entry<Integer, FamiliarRaceData> entry : FamiliarDatabase.entrySet()) {
+      String name = entry.getValue().name();
       if (getModifiers(ModifierType.FAMILIAR, name) != null) {
         familiars.add(name);
       }

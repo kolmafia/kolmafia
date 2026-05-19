@@ -181,6 +181,7 @@ import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.StorageRequest.StorageRequestType;
 import net.sourceforge.kolmafia.request.SweetSynthesisRequest;
+import net.sourceforge.kolmafia.request.ThriftyRequest;
 import net.sourceforge.kolmafia.request.TrendyRequest;
 import net.sourceforge.kolmafia.request.UneffectRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
@@ -3560,6 +3561,18 @@ public abstract class RuntimeLibrary {
     // Path Support
 
     params = List.of(namedParam("thing", DataTypes.ITEM_TYPE));
+    functions.add(new LibraryFunction("is_thrifty", DataTypes.BOOLEAN_TYPE, params));
+
+    params = List.of(namedParam("thing", DataTypes.SKILL_TYPE));
+    functions.add(new LibraryFunction("is_thrifty", DataTypes.BOOLEAN_TYPE, params));
+
+    params = List.of(namedParam("thing", DataTypes.FAMILIAR_TYPE));
+    functions.add(new LibraryFunction("is_thrifty", DataTypes.BOOLEAN_TYPE, params));
+
+    params = List.of(namedParam("thing", DataTypes.STRING_TYPE));
+    functions.add(new LibraryFunction("is_thrifty", DataTypes.BOOLEAN_TYPE, params));
+
+    params = List.of(namedParam("thing", DataTypes.ITEM_TYPE));
     functions.add(new LibraryFunction("is_trendy", DataTypes.BOOLEAN_TYPE, params));
 
     params = List.of(namedParam("thing", DataTypes.SKILL_TYPE));
@@ -5054,12 +5067,13 @@ public abstract class RuntimeLibrary {
       return value;
     }
 
-    Calendar timestamp = Calendar.getInstance(KoLmafia.KOL_TIME_ZONE);
+    var timestamp = DateTimeManager.getRolloverDateTime();
 
     for (int i = 0; i < dayCount; ++i) {
       String logContents =
-          getContentsOfSessionLog(name, KoLConstants.DAILY_FORMAT.format(timestamp.getTime()));
-      timestamp.add(Calendar.DATE, -1);
+          getContentsOfSessionLog(
+              name, KoLConstants.DAILY_FORMAT.format(Date.from(timestamp.toInstant())));
+      timestamp = timestamp.minusDays(1);
       value.aset(new Value(i), new Value(logContents));
     }
     return value;
@@ -5106,21 +5120,16 @@ public abstract class RuntimeLibrary {
     }
 
     if (reader != null) {
-      try {
+      final BufferedReader finalReader = reader;
+      try (finalReader) {
         contents.setLength(0);
         String line;
-        while ((line = reader.readLine()) != null) {
+        while ((line = finalReader.readLine()) != null) {
           contents.append(line);
           contents.append(KoLConstants.LINE_BREAK);
         }
       } catch (Exception e) {
         StaticEntity.printStackTrace(e);
-      } finally {
-        try {
-          reader.close();
-        } catch (IOException e) {
-          StaticEntity.printStackTrace(e);
-        }
       }
     }
     return contents.toString();
@@ -9822,9 +9831,9 @@ public abstract class RuntimeLibrary {
 
     ByteArrayOutputStream cacheStream = new ByteArrayOutputStream();
 
-    PrintStream writer = LogStream.openStream(cacheStream, StandardCharsets.UTF_8);
-    map_variable.dump(writer, "", compact);
-    writer.close();
+    try (PrintStream writer = LogStream.openStream(cacheStream, StandardCharsets.UTF_8)) {
+      map_variable.dump(writer, "", compact);
+    }
 
     byte[] data = cacheStream.toByteArray();
     return DataFileCache.printBytes(filename, data);
@@ -11058,6 +11067,31 @@ public abstract class RuntimeLibrary {
       FloristRequest.checkFloristAvailable();
     }
     return DataTypes.makeBooleanValue(FloristRequest.haveFlorist());
+  }
+
+  public static Value is_thrifty(ScriptRuntime controller, final Value thing) {
+    // Types: "Items", "Familiars", "Skills"
+    String key = thing.toString();
+    Type type = thing.getType();
+    boolean result;
+
+    if (type.equals(TypeSpec.STRING)) {
+
+      result =
+          ThriftyRequest.isAllowed(RestrictedItemType.ITEMS, key)
+              && ThriftyRequest.isAllowed(RestrictedItemType.FAMILIARS, key)
+              && ThriftyRequest.isAllowed(RestrictedItemType.SKILLS, key);
+    } else if (type.equals(TypeSpec.ITEM)) {
+      result = ThriftyRequest.isAllowed(RestrictedItemType.ITEMS, key);
+    } else if (type.equals(TypeSpec.FAMILIAR)) {
+      result = ThriftyRequest.isAllowed(RestrictedItemType.FAMILIARS, key);
+    } else if (type.equals(TypeSpec.SKILL)) {
+      result = ThriftyRequest.isAllowed(RestrictedItemType.SKILLS, key);
+    } else {
+      result = false;
+    }
+
+    return DataTypes.makeBooleanValue(result);
   }
 
   public static Value is_trendy(ScriptRuntime controller, final Value thing) {

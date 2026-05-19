@@ -12,7 +12,9 @@ import net.sourceforge.kolmafia.persistence.EffectData;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
+import net.sourceforge.kolmafia.persistence.FamiliarDatabase.FamiliarRaceData;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase.ItemData;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase.SkillData;
@@ -23,13 +25,13 @@ import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
 import net.sourceforge.kolmafia.utilities.LowerCaseEntry;
 
 public class DatabaseFrame extends GenericFrame {
-  public static final LockableListModel<LowerCaseEntry<Integer, String>> allItems =
+  public static final LockableListModel<LowerCaseEntry<Integer, ItemData>> allItems =
       LowerCaseEntry.createListModel(ItemDatabase.entrySet());
   public static final LockableListModel<LowerCaseEntry<Integer, EffectData>> allEffects =
       LowerCaseEntry.createListModel(EffectDatabase.allEffects());
   public static final LockableListModel<LowerCaseEntry<Integer, SkillData>> allSkills =
       LowerCaseEntry.createListModel(SkillDatabase.entrySet());
-  public static final LockableListModel<LowerCaseEntry<Integer, String>> allFamiliars =
+  public static final LockableListModel<LowerCaseEntry<Integer, FamiliarRaceData>> allFamiliars =
       LowerCaseEntry.createListModel(FamiliarDatabase.entrySet());
   public static final LockableListModel<LowerCaseEntry<Integer, String>> allOutfits =
       LowerCaseEntry.createListModel(EquipmentDatabase.outfitEntrySet());
@@ -138,13 +140,13 @@ public class DatabaseFrame extends GenericFrame {
     }
   }
 
-  private static class ExamineItemsPanel extends ItemLookupPanel<String> {
+  private static class ExamineItemsPanel extends ItemLookupPanel<ItemData> {
     public ExamineItemsPanel() {
       super(DatabaseFrame.allItems, "item", "whichitem");
     }
 
     @Override
-    public String getId(final Entry<Integer, String> e) {
+    public String getId(final Entry<Integer, ItemData> e) {
       return ItemDatabase.getDescriptionId(e.getKey().intValue());
     }
   }

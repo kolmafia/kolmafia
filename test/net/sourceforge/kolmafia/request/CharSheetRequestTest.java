@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.request;
 import static internal.helpers.Networking.html;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
@@ -384,6 +385,7 @@ public class CharSheetRequestTest {
 
     assertThat(KoLCharacter.getAscensions(), equalTo(0));
     assertThat(KoLCharacter.getSign(), equalTo(ZodiacSign.NONE));
+    assertThat(KoLCharacter.getRestricted(), is(false));
   }
 
   @Test
@@ -394,16 +396,22 @@ public class CharSheetRequestTest {
     assertThat(KoLCharacter.getInebriety(), equalTo(3));
   }
 
-  @Nested
-  class Zootomist {
-    @Test
-    public void parsesZootomistStats() {
-      String html = html("request/test_charsheet_zootomist.html");
-      CharSheetRequest.parseStatus(html);
+  @Test
+  public void parsesZootomistStats() {
+    String html = html("request/test_charsheet_zootomist.html");
+    CharSheetRequest.parseStatus(html);
 
-      assertThat(KoLCharacter.getAdjustedMuscle(), equalTo(82));
-      assertThat(KoLCharacter.getAdjustedMysticality(), equalTo(67));
-      assertThat(KoLCharacter.getAdjustedMoxie(), equalTo(70));
-    }
+    assertThat(KoLCharacter.getAdjustedMuscle(), equalTo(82));
+    assertThat(KoLCharacter.getAdjustedMysticality(), equalTo(67));
+    assertThat(KoLCharacter.getAdjustedMoxie(), equalTo(70));
+    assertThat(KoLCharacter.getRestricted(), is(true));
+  }
+
+  @Test
+  public void thriftyIsRestricted() {
+    String html = html("request/test_charsheet_thrifty.html");
+    CharSheetRequest.parseStatus(html);
+
+    assertThat(KoLCharacter.getRestricted(), is(true));
   }
 }

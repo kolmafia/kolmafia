@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -62,20 +63,67 @@ import org.htmlcleaner.XPatherException;
 import org.jsoup.Jsoup;
 
 public class ItemDatabase {
+  public static class ItemData {
+    private String dataName;
+    private String displayName;
+    private String descriptionId;
+    private String image;
+    private ConsumptionType useType;
+    private EnumSet<Attribute> attributes;
+    private String access;
+    private int price;
+    private String plural;
+
+    public ItemData() {
+      this(null);
+    }
+
+    public ItemData(String name) {
+      this(
+          name, name, null, "", ConsumptionType.NONE, EnumSet.noneOf(Attribute.class), "", 0, null);
+    }
+
+    public ItemData(
+        final String dataName,
+        final String displayName,
+        final String descriptionId,
+        final String image,
+        final ConsumptionType useType,
+        final EnumSet<Attribute> attributes,
+        final String access,
+        final int price,
+        final String plural) {
+      this.dataName = dataName;
+      this.displayName = displayName;
+      this.descriptionId = descriptionId;
+      this.image = image;
+      this.useType = useType;
+      this.attributes = attributes;
+      this.access = access;
+      this.price = price;
+      this.plural = plural;
+    }
+
+    public String name() {
+      return this.displayName;
+    }
+
+    public String dataName() {
+      return this.dataName;
+    }
+
+    @Override
+    public String toString() {
+      return this.displayName;
+    }
+  }
+
   private static int maxItemId = 0;
 
   private static String[] canonicalNames = new String[0];
   private static final Map<String, String> uniqueInitialisms = new HashMap<>();
-  private static final Map<Integer, ConsumptionType> useTypeById = new HashMap<>();
-  private static final Map<Integer, EnumSet<Attribute>> attributesById = new HashMap<>();
-  private static final Map<Integer, Integer> priceById = new HashMap<>();
+  private static final Map<Integer, ItemData> itemDataById = new TreeMap<>();
   private static final Map<Integer, Integer> nameLength = new HashMap<>();
-  private static final Map<Integer, String> pluralById = new HashMap<>();
-  private static final Map<Integer, String> imageById = new HashMap<>();
-
-  private static final Map<Integer, String> nameById = new TreeMap<>();
-  private static final Map<Integer, String> dataNameById = new HashMap<>();
-  private static final Map<Integer, String> descriptionById = new TreeMap<>();
   private static final Map<String, int[]> itemIdSetByName = new HashMap<>();
   private static final ArrayList<String> itemAliases = new ArrayList<>();
   private static final ArrayList<String> pluralAliases = new ArrayList<>();
@@ -157,8 +205,6 @@ public class ItemDatabase {
     return data;
   }
 
-  private static final Map<Integer, String> accessById = new HashMap<>();
-
   public enum Attribute {
     QUEST("q"),
     GIFT("g"),
@@ -217,6 +263,14 @@ public class ItemDatabase {
   }
 
   public static boolean newItems = false;
+
+  private static ItemData getItemData(final int itemId) {
+    return ItemDatabase.itemDataById.get(itemId);
+  }
+
+  private static ItemData getOrCreateItemData(final int itemId) {
+    return ItemDatabase.itemDataById.computeIfAbsent(itemId, id -> new ItemData());
+  }
 
   static {
     ItemDatabase.reset();
@@ -336,12 +390,10 @@ public class ItemDatabase {
 
         String descId = data[2];
         if (StringUtilities.isNumeric(descId)) {
-          ItemDatabase.descriptionById.put(id, descId);
           ItemDatabase.itemIdByDescription.put(descId, id);
         }
 
         String image = data[3];
-        ItemDatabase.imageById.put(itemId, image);
 
         String[] usages = StringUtilities.splitByComma(data[4]);
         String access = ItemDatabase.parseAccess(data[5]);
@@ -351,8 +403,7 @@ public class ItemDatabase {
         ConsumptionType useType = ConsumptionType.byDescription(usage);
         if (useType == null) {
           RequestLogger.printLine("Unknown primary usage for " + name + ": " + usage);
-        } else {
-          ItemDatabase.useTypeById.put(itemId, useType);
+          useType = ConsumptionType.NONE;
         }
 
         EnumSet<Attribute> attrs = EnumSet.noneOf(Attribute.class);
@@ -366,17 +417,18 @@ public class ItemDatabase {
             CandyDatabase.registerCandy(id, secUse);
           }
         }
-
-        ItemDatabase.priceById.put(itemId, price);
-        ItemDatabase.dataNameById.put(id, name);
-        ItemDatabase.nameById.put(id, displayName);
-
-        ItemDatabase.accessById.put(id, access);
         for (Attribute a : ACCESS) {
           if (access.contains(a.description)) attrs.add(a);
         }
 
-        ItemDatabase.attributesById.put(itemId, attrs);
+        String plural = null;
+        if (data.length == 8) {
+          plural = data[7];
+          ItemDatabase.itemIdByPlural.put(StringUtilities.getCanonicalName(plural), id);
+        }
+        ItemDatabase.itemDataById.put(
+            id,
+            new ItemData(name, displayName, descId, image, useType, attrs, access, price, plural));
 
         if (itemId > ItemDatabase.maxItemId) {
           ItemDatabase.maxItemId = itemId;
@@ -386,11 +438,6 @@ public class ItemDatabase {
 
         ItemDatabase.nameLength.put(itemId, displayName.length());
 
-        if (data.length == 8) {
-          String plural = data[7];
-          ItemDatabase.pluralById.put(itemId, plural);
-          ItemDatabase.itemIdByPlural.put(StringUtilities.getCanonicalName(plural), id);
-        }
         // Build Noobcore skill source list
         if ((!ItemDatabase.isEquipment(itemId) || ItemDatabase.isFamiliarEquipment(itemId))
             && ItemDatabase.isDiscardable(itemId)
@@ -423,13 +470,17 @@ public class ItemDatabase {
   public static void writeItems(final File output) {
     RequestLogger.printLine("Writing data override: " + output);
     PrintStream writer = LogStream.openStream(output, true);
+    try (writer) {
+      writeItems(writer);
+    }
+  }
+
+  static void writeItems(final PrintStream writer) {
     writer.println(KoLConstants.ITEMS_VERSION);
 
-    Iterator<Entry<Integer, String>> it = ItemDatabase.descriptionIdEntrySet().iterator();
     int lastInteger = 1;
 
-    while (it.hasNext()) {
-      Entry<Integer, String> entry = it.next();
+    for (var entry : ItemDatabase.entrySet()) {
       Integer nextInteger = entry.getKey();
       int itemId = nextInteger.intValue();
 
@@ -443,7 +494,10 @@ public class ItemDatabase {
       }
 
       lastInteger = itemId + 1;
-      String descId = entry.getValue();
+      ItemData item = entry.getValue();
+      if (item == null) continue;
+      String descId = item.descriptionId;
+      if (descId == null) continue;
       String name = ItemDatabase.getItemDataName(nextInteger);
       String image = ItemDatabase.getImage(itemId);
       // Intentionally get a null if there is not an explicit plural in the database
@@ -455,11 +509,7 @@ public class ItemDatabase {
       writer.println(
           ItemDatabase.itemString(itemId, name, descId, image, type, attrs, access, price, plural));
     }
-
-    writer.close();
   }
-
-  public static void writeItem() {}
 
   public static String itemString(
       final int itemId,
@@ -528,10 +578,9 @@ public class ItemDatabase {
   }
 
   private static void addPseudoItems() {
-    Integer id = 13;
+    int id = 13;
 
-    ItemDatabase.dataNameById.put(id, "worthless item");
-    ItemDatabase.nameById.put(id, "worthless item");
+    ItemDatabase.itemDataById.put(id, new ItemData("worthless item"));
     ItemDatabase.addIdToName("worthless item", id);
 
     // Set aliases for the dusty bottles
@@ -750,7 +799,8 @@ public class ItemDatabase {
 
     // Link this itemId and descId
     Integer id = itemId;
-    ItemDatabase.descriptionById.put(id, descId);
+    ItemData itemData = ItemDatabase.getOrCreateItemData(itemId);
+    itemData.descriptionId = descId;
     ItemDatabase.itemIdByDescription.put(descId, id);
 
     String itemName = DebugDatabase.parseName(text);
@@ -828,9 +878,10 @@ public class ItemDatabase {
 
     Integer id = itemId;
 
-    ItemDatabase.nameById.put(id, StringUtilities.getDisplayName(itemName));
-    ItemDatabase.dataNameById.put(id, itemName);
-    ItemDatabase.descriptionById.put(id, descId);
+    ItemData itemData = ItemDatabase.getOrCreateItemData(itemId);
+    itemData.displayName = StringUtilities.getDisplayName(itemName);
+    itemData.dataName = itemName;
+    itemData.descriptionId = descId;
     ItemDatabase.itemIdByDescription.put(descId, id);
 
     ItemDatabase.addIdToName(StringUtilities.getCanonicalName(itemName), id);
@@ -867,29 +918,30 @@ public class ItemDatabase {
   }
 
   public static final void registerPlural(final int itemId, final String plural) {
-    ItemDatabase.pluralById.put(itemId, plural);
+    ItemDatabase.getOrCreateItemData(itemId).plural = plural;
     ItemDatabase.itemIdByPlural.put(StringUtilities.getCanonicalName(plural), itemId);
   }
 
   public static final void registerMultiUsability(final int itemId, final boolean multi) {
-    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
+    ItemData itemData = ItemDatabase.getOrCreateItemData(itemId);
+    ConsumptionType useType = itemData.useType;
     EnumSet<Attribute> attributes = ItemDatabase.getAttributes(itemId);
 
     if (multi) {
       // We think the item is single usable but it really is multiusable
       if (useType == ConsumptionType.USE) {
-        ItemDatabase.useTypeById.put(itemId, ConsumptionType.USE_MULTIPLE);
+        itemData.useType = ConsumptionType.USE_MULTIPLE;
       } else {
         attributes.add(Attribute.MULTIPLE);
-        ItemDatabase.attributesById.put(itemId, attributes);
+        itemData.attributes = attributes;
       }
     } else {
       // We think the item is multi usable but it really is single usable
       if (useType == ConsumptionType.USE_MULTIPLE) {
-        ItemDatabase.useTypeById.put(itemId, ConsumptionType.USE);
+        itemData.useType = ConsumptionType.USE;
       } else {
         attributes.add(Attribute.USABLE);
-        ItemDatabase.attributesById.put(itemId, attributes);
+        itemData.attributes = attributes;
       }
     }
   }
@@ -902,17 +954,19 @@ public class ItemDatabase {
     String text = DebugDatabase.itemDescriptionText(rawText);
     if (text == null) {
       // Assume defaults
-      ItemDatabase.useTypeById.put(itemId, ConsumptionType.NONE);
-      ItemDatabase.attributesById.put(itemId, EnumSet.noneOf(Attribute.class));
-      ItemDatabase.accessById.put(id, Attribute.TRADEABLE + "," + Attribute.DISCARDABLE);
-      ItemDatabase.priceById.put(itemId, 0);
+      ItemData itemData = ItemDatabase.getOrCreateItemData(itemId);
+      itemData.useType = ConsumptionType.NONE;
+      itemData.attributes = EnumSet.noneOf(Attribute.class);
+      itemData.access = Attribute.TRADEABLE + "," + Attribute.DISCARDABLE;
+      itemData.price = 0;
       return;
     }
 
     String itemName = DebugDatabase.parseName(text);
 
     String image = DebugDatabase.parseImage(rawText);
-    ItemDatabase.imageById.put(itemId, image);
+    ItemData itemData = ItemDatabase.getOrCreateItemData(itemId);
+    itemData.image = image;
 
     // Parse use type, access, and price from description
     String type = DebugDatabase.parseType(text);
@@ -920,10 +974,10 @@ public class ItemDatabase {
         (text.contains("blue\">Makes you look like"))
             ? ConsumptionType.AVATAR_POTION
             : DebugDatabase.typeToPrimary(type, multi);
-    ItemDatabase.useTypeById.put(itemId, usage);
+    itemData.useType = usage;
 
     String access = DebugDatabase.parseAccess(text);
-    ItemDatabase.accessById.put(id, access);
+    itemData.access = access;
 
     EnumSet<Attribute> attrs = DebugDatabase.typeToSecondary(type, usage, text, multi);
     for (Attribute a : ACCESS) {
@@ -935,10 +989,10 @@ public class ItemDatabase {
     if (text.contains("<b>NOTE:</b> This item is perishable")) {
       attrs.add(Attribute.PERISHABLE);
     }
-    ItemDatabase.attributesById.put(itemId, attrs);
+    itemData.attributes = attrs;
 
     int price = DebugDatabase.parsePrice(text);
-    ItemDatabase.priceById.put(itemId, price);
+    itemData.price = price;
     // Intentionally get a null if there is not an explicit plural in the database
     String plural = ItemDatabase.getPluralById(itemId);
 
@@ -1142,15 +1196,17 @@ public class ItemDatabase {
   }
 
   public static String getDataName(final Integer itemId) {
-    return ItemDatabase.dataNameById.get(itemId);
+    ItemData data = ItemDatabase.getItemData(itemId);
+    return data == null ? null : data.dataName;
   }
 
   public static String getDisplayName(final Integer itemId) {
-    return ItemDatabase.nameById.get(itemId);
+    ItemData data = ItemDatabase.getItemData(itemId);
+    return data == null ? null : data.displayName;
   }
 
   public static String getCanonicalName(final Integer itemId) {
-    return StringUtilities.getCanonicalName(ItemDatabase.nameById.get(itemId));
+    return StringUtilities.getCanonicalName(ItemDatabase.getDisplayName(itemId));
   }
 
   public static final String getCanonicalName(final String itemName) {
@@ -1442,7 +1498,8 @@ public class ItemDatabase {
     if (itemId == -1) {
       return "";
     }
-    String plural = pluralById.get(itemId);
+    ItemData data = ItemDatabase.getItemData(itemId);
+    String plural = data == null ? null : data.plural;
     if (plural == null || plural.equals("")) {
       plural = ItemDatabase.getItemDataName(itemId) + "s";
       // We could put() the generated plural back in the
@@ -1452,11 +1509,13 @@ public class ItemDatabase {
   }
 
   public static final String getPluralById(final int itemId) {
-    return pluralById.getOrDefault(itemId, "");
+    ItemData data = ItemDatabase.getItemData(itemId);
+    return data == null ? "" : (data.plural == null ? "" : data.plural);
   }
 
   public static final String getImage(final int itemId) {
-    return imageById.getOrDefault(itemId, "");
+    ItemData data = ItemDatabase.getItemData(itemId);
+    return data == null ? "" : (data.image == null ? "" : data.image);
   }
 
   public static final String getSmallImage(final int itemId) {
@@ -1491,7 +1550,7 @@ public class ItemDatabase {
           ItemPool.FOLDER_27,
           ItemPool.FOLDER_28 ->
           "folder1.gif";
-      default -> imageById.getOrDefault(itemId, "");
+      default -> ItemDatabase.getImage(itemId);
     };
   }
 
@@ -1534,7 +1593,8 @@ public class ItemDatabase {
    * @return The price associated with the item
    */
   public static final int getRawPriceById(final int itemId) {
-    return ItemDatabase.priceById.getOrDefault(itemId, 0);
+    ItemData data = ItemDatabase.getItemData(itemId);
+    return data == null ? 0 : data.price;
   }
 
   /**
@@ -1546,7 +1606,7 @@ public class ItemDatabase {
     if (!isDiscardable(itemId)) {
       return 0;
     }
-    return ItemDatabase.priceById.getOrDefault(itemId, 0);
+    return ItemDatabase.getRawPriceById(itemId);
   }
 
   /**
@@ -1555,12 +1615,13 @@ public class ItemDatabase {
    * @return The access associated with the item
    */
   public static final String getAccessById(final Integer itemId) {
-    return ItemDatabase.accessById.get(itemId);
+    ItemData data = ItemDatabase.getItemData(itemId);
+    return data == null ? null : data.access;
   }
 
   public static final EnumSet<Attribute> getAttributes(int itemId) {
-    return EnumSet.copyOf(
-        ItemDatabase.attributesById.getOrDefault(itemId, EnumSet.noneOf(Attribute.class)));
+    ItemData data = ItemDatabase.getItemData(itemId);
+    return data == null ? EnumSet.noneOf(Attribute.class) : EnumSet.copyOf(data.attributes);
   }
 
   public static final String attrsToSecondaryUsage(EnumSet<Attribute> attrs) {
@@ -1583,12 +1644,12 @@ public class ItemDatabase {
   }
 
   public static boolean getAttribute(int itemId, Attribute mask) {
-    var attrs = ItemDatabase.attributesById.getOrDefault(itemId, EnumSet.noneOf(Attribute.class));
+    var attrs = ItemDatabase.getAttributes(itemId);
     return attrs.contains(mask);
   }
 
   public static boolean getAttribute(int itemId, EnumSet<Attribute> mask) {
-    var attrs = ItemDatabase.attributesById.getOrDefault(itemId, EnumSet.noneOf(Attribute.class));
+    var attrs = ItemDatabase.getAttributes(itemId);
     for (var attr : mask) {
       if (attrs.contains(attr)) return true;
     }
@@ -1775,19 +1836,17 @@ public class ItemDatabase {
    * @return The name of the corresponding item
    */
   public static final String getItemName(final int itemId) {
-    return ItemDatabase.nameById.get(itemId);
+    ItemData data = ItemDatabase.getItemData(itemId);
+    return data == null ? null : data.displayName;
   }
 
   public static final String getItemDataName(final int itemId) {
-    return ItemDatabase.dataNameById.get(itemId);
+    ItemData data = ItemDatabase.getItemData(itemId);
+    return data == null ? null : data.dataName;
   }
 
   public static final String getItemDataName(final Integer itemId) {
-    return ItemDatabase.dataNameById.get(itemId);
-  }
-
-  public static final Set<Entry<Integer, String>> dataNameEntrySet() {
-    return ItemDatabase.dataNameById.entrySet();
+    return ItemDatabase.getItemDataName(itemId.intValue());
   }
 
   public static final String getItemDisplayName(final String itemName) {
@@ -1872,7 +1931,7 @@ public class ItemDatabase {
   public static boolean isUsable(final int itemId) {
     // Anything that you can manipulate with inv_use.php
 
-    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
+    ConsumptionType useType = ItemDatabase.getConsumptionType(itemId);
     EnumSet<Attribute> attributes = ItemDatabase.getAttributes(itemId);
 
     return switch (useType) {
@@ -1904,12 +1963,12 @@ public class ItemDatabase {
   }
 
   public static final boolean isPotion(final int itemId) {
-    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
+    ConsumptionType useType = ItemDatabase.getConsumptionType(itemId);
     return (useType == ConsumptionType.POTION || useType == ConsumptionType.AVATAR_POTION);
   }
 
   public static final boolean isEquipment(final int itemId) {
-    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
+    ConsumptionType useType = ItemDatabase.getConsumptionType(itemId);
     return KoLConstants.isEquipmentType(useType, true);
   }
 
@@ -1962,14 +2021,14 @@ public class ItemDatabase {
   }
 
   private static boolean useTypeIs(ConsumptionType ct, final int itemId) {
-    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
+    ConsumptionType useType = ItemDatabase.getConsumptionType(itemId);
     return useType == ct;
   }
 
   public static final boolean isMultiUsable(final int itemId) {
     // Anything that you can manipulate with multiuse.php
 
-    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
+    ConsumptionType useType = ItemDatabase.getConsumptionType(itemId);
     EnumSet<Attribute> attributes = ItemDatabase.getAttributes(itemId);
 
     return switch (useType) {
@@ -1980,7 +2039,7 @@ public class ItemDatabase {
   }
 
   public static final boolean isReusable(final int itemId) {
-    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
+    ConsumptionType useType = ItemDatabase.getConsumptionType(itemId);
     if (useType == ConsumptionType.USE_INFINITE) return true;
     EnumSet<Attribute> attributes = ItemDatabase.getAttributes(itemId);
     return attributes.contains(Attribute.REUSABLE);
@@ -2078,9 +2137,11 @@ public class ItemDatabase {
    * @return The consumption associated with the item
    */
   public static final ConsumptionType getConsumptionType(final int itemId) {
-    return itemId <= 0
-        ? ConsumptionType.NONE
-        : ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
+    if (itemId <= 0) {
+      return ConsumptionType.NONE;
+    }
+    ItemData data = ItemDatabase.getItemData(itemId);
+    return data == null ? ConsumptionType.NONE : data.useType;
   }
 
   public static final ConsumptionType getConsumptionType(final AdventureResult item) {
@@ -2097,19 +2158,15 @@ public class ItemDatabase {
    * @return The description Id associated with the item
    */
   public static final String getDescriptionId(final Integer itemId) {
-    return ItemDatabase.descriptionById.get(itemId);
-  }
-
-  public static final Set<Integer> nameByIdKeySet() {
-    return ItemDatabase.nameById.keySet();
+    ItemData data = ItemDatabase.getItemData(itemId);
+    return data == null ? null : data.descriptionId;
   }
 
   public static final Set<Integer> descriptionIdKeySet() {
-    return ItemDatabase.descriptionById.keySet();
-  }
-
-  public static final Set<Entry<Integer, String>> descriptionIdEntrySet() {
-    return ItemDatabase.descriptionById.entrySet();
+    return ItemDatabase.itemDataById.entrySet().stream()
+        .filter(e -> e.getValue().descriptionId != null)
+        .map(Entry::getKey)
+        .collect(Collectors.toCollection(LinkedHashSet::new));
   }
 
   /**
@@ -2117,8 +2174,8 @@ public class ItemDatabase {
    *
    * @return The set of item names keyed by id
    */
-  public static final Set<Entry<Integer, String>> entrySet() {
-    return ItemDatabase.nameById.entrySet();
+  public static final Set<Entry<Integer, ItemData>> entrySet() {
+    return ItemDatabase.itemDataById.entrySet();
   }
 
   /**

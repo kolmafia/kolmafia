@@ -581,13 +581,11 @@ public abstract class MoodManager {
    * retrieval.
    */
   public static void saveSettings() {
-    PrintStream writer = LogStream.openStream(getFile(), true);
-
-    for (Mood mood : MoodManager.availableMoods) {
-      writer.println(mood.toSettingString());
+    try (PrintStream writer = LogStream.openStream(getFile(), true)) {
+      for (Mood mood : MoodManager.availableMoods) {
+        writer.println(mood.toSettingString());
+      }
     }
-
-    writer.close();
   }
 
   /**
