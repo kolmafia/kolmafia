@@ -252,7 +252,8 @@ public class CharSheetRequest extends GenericRequest {
     }
 
     // This is where Path: optionally appears
-    KoLCharacter.setRestricted(responseText.contains("standard.php"));
+    KoLCharacter.setRestricted(
+        responseText.contains("standard.php") || responseText.contains("thrifty.php"));
 
     // Consumption restrictions have special messages.
     if (responseText.contains("You may not eat or drink anything.")) {
