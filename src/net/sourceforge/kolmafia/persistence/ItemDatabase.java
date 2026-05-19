@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -62,7 +63,7 @@ import org.htmlcleaner.XPatherException;
 import org.jsoup.Jsoup;
 
 public class ItemDatabase {
-  private static class ItemData {
+  public static class ItemData {
     private String dataName;
     private String displayName;
     private String descriptionId;
@@ -101,6 +102,19 @@ public class ItemDatabase {
       this.access = access;
       this.price = price;
       this.plural = plural;
+    }
+
+    public String name() {
+      return this.displayName;
+    }
+
+    public String dataName() {
+      return this.dataName;
+    }
+
+    @Override
+    public String toString() {
+      return this.displayName;
     }
   }
 
@@ -466,7 +480,7 @@ public class ItemDatabase {
 
     int lastInteger = 1;
 
-    for (var entry : ItemDatabase.descriptionIdEntrySet()) {
+    for (var entry : ItemDatabase.entrySet()) {
       Integer nextInteger = entry.getKey();
       int itemId = nextInteger.intValue();
 
@@ -480,7 +494,10 @@ public class ItemDatabase {
       }
 
       lastInteger = itemId + 1;
-      String descId = entry.getValue();
+      ItemData item = entry.getValue();
+      if (item == null) continue;
+      String descId = item.descriptionId;
+      if (descId == null) continue;
       String name = ItemDatabase.getItemDataName(nextInteger);
       String image = ItemDatabase.getImage(itemId);
       // Intentionally get a null if there is not an explicit plural in the database
@@ -1832,12 +1849,6 @@ public class ItemDatabase {
     return ItemDatabase.getItemDataName(itemId.intValue());
   }
 
-  public static final Set<Entry<Integer, String>> dataNameEntrySet() {
-    return ItemDatabase.itemDataById.entrySet().stream()
-        .map(entry -> Map.entry(entry.getKey(), entry.getValue().dataName))
-        .collect(Collectors.toSet());
-  }
-
   public static final String getItemDisplayName(final String itemName) {
     if (itemName.startsWith("[")) {
       int itemId = ItemDatabase.getBracketedItemId(itemName);
@@ -2151,22 +2162,11 @@ public class ItemDatabase {
     return data == null ? null : data.descriptionId;
   }
 
-  public static final Set<Integer> nameByIdKeySet() {
-    return ItemDatabase.itemDataById.keySet();
-  }
-
   public static final Set<Integer> descriptionIdKeySet() {
     return ItemDatabase.itemDataById.entrySet().stream()
         .filter(e -> e.getValue().descriptionId != null)
         .map(Entry::getKey)
-        .collect(Collectors.toSet());
-  }
-
-  public static final Set<Entry<Integer, String>> descriptionIdEntrySet() {
-    return ItemDatabase.itemDataById.entrySet().stream()
-        .filter(e -> e.getValue().descriptionId != null)
-        .map(entry -> Map.entry(entry.getKey(), entry.getValue().descriptionId))
-        .collect(Collectors.toSet());
+        .collect(Collectors.toCollection(LinkedHashSet::new));
   }
 
   /**
@@ -2174,10 +2174,8 @@ public class ItemDatabase {
    *
    * @return The set of item names keyed by id
    */
-  public static final Set<Entry<Integer, String>> entrySet() {
-    return ItemDatabase.itemDataById.entrySet().stream()
-        .map(entry -> Map.entry(entry.getKey(), entry.getValue().displayName))
-        .collect(Collectors.toSet());
+  public static final Set<Entry<Integer, ItemData>> entrySet() {
+    return ItemDatabase.itemDataById.entrySet();
   }
 
   /**

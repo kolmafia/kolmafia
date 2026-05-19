@@ -23,6 +23,7 @@ import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -1777,7 +1778,7 @@ public class DebugDatabase {
         EffectDatabase.allEffects().stream()
             .filter(entry -> entry.getValue().getDescriptionId() != null)
             .map(Entry::getKey)
-            .collect(Collectors.toSet());
+            .collect(Collectors.toCollection(LinkedHashSet::new));
 
     for (Integer key : keys) {
       int id = key;

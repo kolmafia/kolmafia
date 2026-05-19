@@ -121,7 +121,7 @@ public final class EffectData {
     return this.attributes.contains("song");
   }
 
-  public String toString() {
+  public String toDataLine() {
     // The effect file can have 3, 4, or 5 fields. "image" must be
     // present, even if we don't have the actual file name.
     String image = this.image == null ? "" : this.image;
@@ -147,5 +147,10 @@ public final class EffectData {
     }
 
     return effectString;
+  }
+
+  @Override
+  public String toString() {
+    return name;
   }
 }

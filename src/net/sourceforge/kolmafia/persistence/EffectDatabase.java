@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -36,7 +37,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class EffectDatabase {
   private static String[] canonicalNames = new String[0];
   private static final Map<String, int[]> effectIdSetByName = new TreeMap<>();
-  private static final Map<Integer, EffectData> effectDataById = new HashMap<>();
+  private static final Map<Integer, EffectData> effectDataById = new LinkedHashMap<>();
   private static final Map<String, Integer> effectIdByDescription = new HashMap<>();
 
   public static boolean newEffects = false;
@@ -511,7 +512,7 @@ public class EffectDatabase {
     RequestLogger.printLine(printMe);
     RequestLogger.updateSessionLog(printMe);
 
-    printMe = effectData.toString();
+    printMe = effectData.toDataLine();
     RequestLogger.printLine(printMe);
     RequestLogger.updateSessionLog(printMe);
 
@@ -557,7 +558,7 @@ public class EffectDatabase {
   }
 
   private static void writeEffect(final PrintStream writer, final EffectData data) {
-    writer.println(data.toString());
+    writer.println(data.toDataLine());
   }
 
   /**

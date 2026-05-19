@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase.ItemData;
 import org.junit.jupiter.api.Test;
 
 public class LowerCaseEntryTest {
@@ -32,13 +33,13 @@ public class LowerCaseEntryTest {
 
   @Test
   public void itShouldBuildAlist() {
-    LockableListModel<LowerCaseEntry<Integer, String>> llm =
+    LockableListModel<LowerCaseEntry<Integer, ItemData>> llm =
         LowerCaseEntry.createListModel(ItemDatabase.entrySet());
     assertNotNull(llm);
-    LowerCaseEntry<Integer, String> lce = llm.get(50);
+    LowerCaseEntry<Integer, ItemData> lce = llm.get(50);
     assertEquals("knob goblin uberpants", lce.getLowerCase());
-    String z = lce.setValue("Knob Goblin Panties");
-    assertEquals("Knob Goblin Uberpants", z);
+    ItemData z = lce.setValue(new ItemData("Knob Goblin Panties"));
+    assertEquals("Knob Goblin Uberpants", z.toString());
     assertEquals("knob goblin panties", lce.getLowerCase());
   }
 }
