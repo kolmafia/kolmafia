@@ -84,6 +84,7 @@ import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.TelescopeRequest;
+import net.sourceforge.kolmafia.request.ThriftyRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.request.coinmaster.HermitRequest;
@@ -4561,7 +4562,8 @@ public abstract class KoLCharacter {
         && (!KoLCharacter.inBeecore() || !KoLCharacter.hasBeeosity(f.getRace()))
         && (!KoLCharacter.inGLover() || KoLCharacter.hasGs(f.getRace()))
         && (!KoLCharacter.inZootomist()
-            || !KoLCharacter.graftedFamiliars().anyMatch(id -> id == f.getId()));
+            || !KoLCharacter.graftedFamiliars().anyMatch(id -> id == f.getId()))
+        && (!KoLCharacter.isThrifty() || ThriftyRequest.isAllowed(f));
   }
 
   /**
