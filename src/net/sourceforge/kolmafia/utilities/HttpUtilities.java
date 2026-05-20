@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.utilities;
 
 import java.net.http.HttpClient;
 import java.net.http.HttpClient.Redirect;
+import java.time.Duration;
 
 public class HttpUtilities {
   private HttpUtilities() {}
@@ -12,7 +13,10 @@ public class HttpUtilities {
   }
 
   private static ClientFactory clientFactory =
-      () -> HttpClient.newBuilder().followRedirects(Redirect.ALWAYS);
+      () ->
+          HttpClient.newBuilder()
+              .followRedirects(Redirect.ALWAYS)
+              .connectTimeout(Duration.ofSeconds(30L));
 
   // Injects custom URL handling logic, especially in tests.
   public static void setClientBuilder(ClientFactory function) {
