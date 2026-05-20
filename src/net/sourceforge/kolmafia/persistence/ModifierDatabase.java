@@ -735,6 +735,9 @@ public class ModifierDatabase {
         } else {
           newMods.addExpression(
               new Indexed<>(mod, ModifierExpression.getInstance(matcher.group(2), lookup)));
+          if (matcher.group(2).contains("unarmed")) {
+            newMods.setBoolean(BooleanModifier.HAS_UNARMED_BONUS, true);
+          }
         }
         continue modLoop;
       }
