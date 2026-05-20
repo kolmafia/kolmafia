@@ -36,6 +36,7 @@ import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.LoginRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
+import net.sourceforge.kolmafia.request.ThriftyRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.YouRobotManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -306,6 +307,11 @@ public class FamiliarData implements Comparable<FamiliarData> {
 
     // Familiars are only allowed with the right hat in You, Robot
     if (KoLCharacter.inRobocore() && !YouRobotManager.canUseFamiliars()) {
+      return false;
+    }
+
+    // In Thrifty, only Thrifty familiars can be used
+    if (KoLCharacter.isThrifty() && !ThriftyRequest.isAllowed(this)) {
       return false;
     }
 
