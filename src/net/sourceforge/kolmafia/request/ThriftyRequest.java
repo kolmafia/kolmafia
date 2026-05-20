@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.RestrictedItemType;
@@ -35,6 +36,10 @@ public class ThriftyRequest extends GenericRequest {
   public static boolean isAllowed(final RestrictedItemType type, final String key) {
     ThriftyRequest.initialize();
     return map.getOrDefault(type, Collections.emptySet()).contains(key.toLowerCase());
+  }
+
+  public static boolean isAllowed(final FamiliarData familiar) {
+    return isAllowed(RestrictedItemType.FAMILIARS, familiar.getRace());
   }
 
   public ThriftyRequest() {
