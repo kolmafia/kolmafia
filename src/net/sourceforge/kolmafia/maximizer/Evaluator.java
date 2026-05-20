@@ -1513,12 +1513,24 @@ public class Evaluator {
             || ((mods.getRawBitmap(BitmapModifier.SYNERGETIC) & usefulSynergies) != 0)) {
           item.automaticFlag = true;
           break gotItem;
-        } else if (mods.toString().contains("unarmed")) {
-          // Items with an unarmed bonus need to always be considered, but they should not consume a
-          // slot in the shortlist.
-          item.conditionalFlag = true;
-          item.automaticFlag = true;
-          break gotItem;
+        } else if (mods.getBoolean(BooleanModifier.HAS_UNARMED_BONUS)) {
+          // Temporarily trick the expression evaluator into thinking we're unarmed so we can see if
+          // this item would have a relevant bonus.
+          boolean savedUnarmed = Modifiers.unarmed;
+          try {
+            Modifiers.unarmed = true;
+            Modifiers unarmedMods = ModifierDatabase.getItemModifiers(id);
+            double score = this.getScore(unarmedMods, Map.of(Slot.NONE, item));
+            if (score > nullScore) {
+              // The item has an unarmed bonus that is relevant. Ensure that it is always
+              // considered, but it should not take up a spot on the shortlist.
+              item.conditionalFlag = true;
+              item.automaticFlag = true;
+              break gotItem;
+            }
+          } finally {
+            Modifiers.unarmed = savedUnarmed;
+          }
         }
 
         // Always carry through items with changeable contents to speculation, but don't force them
