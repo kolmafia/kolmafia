@@ -83,7 +83,8 @@ public enum BooleanModifier implements Modifier {
       "Weakens Monster on Critical Hit",
       Pattern.compile("Weakens Monster on Critical Hit"),
       Pattern.compile("Weakens Monster on Critical Hit")),
-  // This modifier is automatically filled in during data file parsing if an expression with "unarmed" is present.
+  // This modifier is automatically filled in during data file parsing if an expression with
+  // "unarmed" is present.
   HAS_UNARMED_BONUS("Has Unarmed Bonus", Pattern.compile("Has Unarmed Bonus"));
 
   private final String name;
