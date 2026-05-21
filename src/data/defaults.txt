@@ -17,6 +17,7 @@ global	allowNonMoodBurning	true
 global	allowSummonBurning	true
 global	autoLogin
 global	autoHighlightOnFocus	true
+global	brightenDarkCLIColors	true
 global	broadcastEvents	true
 global	browserBookmarks
 global	cacheMallSearches	false
@@ -53,6 +54,7 @@ global	defaultDropdown2	1
 global	defaultDropdownSplit	0
 global	defaultLimit	5
 global	displayName
+global	enableJLine	true
 global	externalEditor
 global	fixedThreadPoolSize	0
 global	gapProtection	false

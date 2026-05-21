@@ -5,6 +5,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import net.sourceforge.kolmafia.preferences.Preferences;
 
 public class ColorParser {
 
@@ -30,6 +31,21 @@ public class ColorParser {
   }
 
   public static int rgb(int r, int g, int b) {
+    // True colors can be quite dark!
+    if (Preferences.getBoolean("brightenDarkCLIColors")) {
+      float[] hsb = ColorConverter.rgbToHsl(r, g, b);
+
+      if (hsb[2] < .7f) {
+        hsb[2] = hsb[2] + .20f;
+
+        int[] rgb = ColorConverter.hslToRgb(hsb[0], hsb[1], hsb[2]);
+
+        r = rgb[0];
+        g = rgb[1];
+        b = rgb[2];
+      }
+    }
+
     return ((r & 255) << 16) + ((g & 255) << 8) + (b & 255);
   }
 

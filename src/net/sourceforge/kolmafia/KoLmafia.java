@@ -279,6 +279,11 @@ public abstract class KoLmafia {
       }
     }
 
+    // Request terminal to be taken over, now that the desired state is known
+    if (!StaticEntity.isGUIRequired()) {
+      KoLmafiaTUI.initialize();
+    }
+
     // Start background process to detect and report deadlocks.
     DeadlockDetector.registerDeadlockDetector();
 
@@ -329,8 +334,6 @@ public abstract class KoLmafia {
 
     if (StaticEntity.isGUIRequired()) {
       KoLmafiaGUI.initialize();
-    } else {
-      KoLmafiaTUI.initialize();
     }
 
     // Now, maybe the person wishes to run something
@@ -360,7 +363,17 @@ public abstract class KoLmafia {
         actualScript = actualScript.substring(7);
       }
 
-      KoLmafiaCLI.DEFAULT_SHELL.executeLine("call " + actualScript);
+      String commandToRun = "call " + actualScript;
+      // Saves in jline history if needed
+      KoLMafiaJLine.addCommandToHistory(commandToRun);
+
+      if (!StaticEntity.isGUIRequired()) {
+        // Queue the command to run
+        KoLmafiaCLI.DEFAULT_SHELL.addQueuedLine(commandToRun);
+      } else {
+        // With a GUI, commands must be run directly
+        KoLmafiaCLI.DEFAULT_SHELL.executeLine(commandToRun);
+      }
     } else if (!StaticEntity.isGUIRequired()) {
       KoLmafiaCLI.DEFAULT_SHELL.attemptLogin("");
     }

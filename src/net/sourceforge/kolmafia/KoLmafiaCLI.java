@@ -84,8 +84,12 @@ public class KoLmafiaCLI {
     try {
       if (username == null || username.length() == 0) {
         System.out.println();
-        System.out.print("username: ");
-        username = this.commandStream.readLine();
+        if (KoLMafiaJLine.isJLineEnabled() && this == DEFAULT_SHELL) {
+          username = KoLMafiaJLine.readLine("username: ");
+        } else {
+          System.out.print("username: ");
+          username = this.commandStream.readLine();
+        }
       }
 
       if (username == null || username.length() == 0) {
@@ -100,8 +104,13 @@ public class KoLmafiaCLI {
       String password = KoLmafia.getSaveState(username);
 
       if (password == null) {
-        System.out.print("password: ");
-        password = this.commandStream.readLine();
+        if (KoLMafiaJLine.isJLineEnabled() && this == DEFAULT_SHELL) {
+          // Masks password with asterisks
+          password = KoLMafiaJLine.readLine("password: ", '*');
+        } else {
+          System.out.print("password: ");
+          password = this.commandStream.readLine();
+        }
       }
 
       if (password == null || password.length() == 0) {
@@ -126,8 +135,18 @@ public class KoLmafiaCLI {
       String line;
 
       try {
-        while ((line = KoLmafiaCLI.this.commandStream.readLine()) != null) {
-          if (line.equals("--")) {
+        while (true) {
+          if (KoLMafiaJLine.isJLineEnabled() && KoLmafiaCLI.this == KoLmafiaCLI.DEFAULT_SHELL) {
+            line = KoLMafiaJLine.readLine(" > ");
+          } else {
+            line = KoLmafiaCLI.this.commandStream.readLine();
+          }
+
+          if (line == null) {
+            break;
+          }
+
+          if (line.equals("--") || line.trim().equalsIgnoreCase("abort")) {
             RequestThread.declareWorldPeace();
 
             synchronized (KoLmafiaCLI.this.queuedLines) {
@@ -137,13 +156,13 @@ public class KoLmafiaCLI {
               || line.startsWith("#")
               || line.startsWith("//")
               || line.startsWith("'")) {
-            synchronized (KoLmafiaCLI.this.queuedLines) {
-              KoLmafiaCLI.this.queuedLines.addLast(null);
-            }
+            addQueuedLine(null);
           } else {
-            synchronized (KoLmafiaCLI.this.queuedLines) {
-              KoLmafiaCLI.this.queuedLines.addLast(line);
+            if (KoLmafiaCLI.this == KoLmafiaCLI.DEFAULT_SHELL) {
+              KoLMafiaJLine.addCommandToHistory(line);
             }
+
+            addQueuedLine(line);
           }
         }
 
@@ -171,9 +190,18 @@ public class KoLmafiaCLI {
         }
 
         if (line != null) {
-          KoLmafiaCLI.this.isGUI = false;
-          KoLmafiaCLI.this.executeLine(line);
-          KoLmafiaCLI.this.isGUI = true;
+          try {
+            KoLmafiaCLI.this.isGUI = false;
+            KoLmafiaCLI.this.executeLine(line);
+            KoLmafiaCLI.this.isGUI = true;
+          } catch (Throwable t) {
+            // If an error is thrown then there's a major issue, clear pending commands
+            synchronized (KoLmafiaCLI.this.queuedLines) {
+              KoLmafiaCLI.this.queuedLines.clear();
+            }
+
+            StaticEntity.printStackTrace(t, "Error in command processor thread");
+          }
         }
 
         if (KoLmafiaCLI.DEFAULT_SHELL == KoLmafiaCLI.this) {
@@ -190,6 +218,7 @@ public class KoLmafiaCLI {
       if (message != null
           && KoLmafiaCLI.this.queuedLines.isEmpty()
           && KoLmafiaCLI.DEFAULT_SHELL == KoLmafiaCLI.this
+          && !KoLMafiaJLine.isJLineEnabled()
           && KoLmafiaCLI.this.retriever.isAlive()) {
         RequestLogger.printLine();
 
@@ -208,7 +237,7 @@ public class KoLmafiaCLI {
         return null;
       }
 
-      if (KoLmafiaCLI.DEFAULT_SHELL == KoLmafiaCLI.this) {
+      if (KoLmafiaCLI.DEFAULT_SHELL == KoLmafiaCLI.this && !KoLMafiaJLine.isJLineEnabled()) {
         RequestLogger.printLine();
       }
 
@@ -233,6 +262,12 @@ public class KoLmafiaCLI {
     } else {
       this.retriever.run();
       this.processor.run();
+    }
+  }
+
+  public void addQueuedLine(String line) {
+    synchronized (KoLmafiaCLI.this.queuedLines) {
+      this.queuedLines.addLast(line);
     }
   }
 
