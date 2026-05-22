@@ -1553,7 +1553,7 @@ public abstract class ChoiceAdventures {
         "Hobopolis",
         "The Ancient Hobo Burial Ground",
         // Option...
-        new ChoiceOption("increase spooky hobos & decrease stench"),
+        new ChoiceOption("increase spooky hobo ML & decrease stench"),
         SKIP_ADVENTURE);
 
     // Choice 209 is Timbarrrr!
