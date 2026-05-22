@@ -589,11 +589,11 @@ public class ModifierExpressionTest {
       try (cleanups) {
         var exp = new ModifierExpression("10*unarmed", "unarmed test");
         ExpressionOverrides overrides = new ExpressionOverrides();
-        overrides.setUnarmedOverride(true);
+        overrides.setUnarmed(true);
         assertThat(exp.eval(), is(0.0));
         assertThat(exp.eval(overrides), is(10.0));
 
-        overrides.setUnarmedOverride(null);
+        overrides.setUnarmed(null);
         assertThat(exp.eval(), is(0.0));
         assertThat(exp.eval(overrides), is(0.0));
       }
@@ -606,11 +606,11 @@ public class ModifierExpressionTest {
       try (cleanups) {
         var exp = new ModifierExpression("10*unarmed", "unarmed test");
         ExpressionOverrides overrides = new ExpressionOverrides();
-        overrides.setUnarmedOverride(false);
+        overrides.setUnarmed(false);
         assertThat(exp.eval(), is(10.0));
         assertThat(exp.eval(overrides), is(0.0));
 
-        overrides.setUnarmedOverride(null);
+        overrides.setUnarmed(null);
         assertThat(exp.eval(), is(10.0));
         assertThat(exp.eval(overrides), is(10.0));
       }

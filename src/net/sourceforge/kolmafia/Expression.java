@@ -189,7 +189,7 @@ public class Expression {
           }
           final String prefName = first;
           String prefString =
-              overrides.overridePref(prefName).orElseGet(() -> Preferences.getString(prefName));
+              overrides.pref(prefName).orElseGet(() -> Preferences.getString(prefName));
           if (second != null) {
             v = prefString.contains(second) ? 1 : 0;
           } else {
@@ -413,7 +413,7 @@ public class Expression {
         // Valid with Modifier Expression:
         case '\u008c' -> v = KoLCharacter.getTurnsPlayed();
         case '\u008d' -> v = KoLCharacter.getParadoxicity();
-        case '\u008e' -> v = overrides.overrideUnarmed().orElse(Modifiers.unarmed) ? 1 : 0;
+        case '\u008e' -> v = overrides.unarmed().orElse(Modifiers.unarmed) ? 1 : 0;
         // Valid with Modifier Expression:
         case '\u0097' -> v = KoLCharacter.getBaseMuscle();
 

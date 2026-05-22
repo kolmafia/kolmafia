@@ -171,7 +171,7 @@ public class ExpressionTest {
       try (cleanups) {
         ExpressionOverrides overrides = new ExpressionOverrides();
 
-        overrides.setPrefOverride("testOverride", "overridden");
+        overrides.setPref("testOverride", "overridden");
         var exp = new Expression("pref(test,abc)", "pref test");
         assertThat(exp.eval(), is(1.0));
         assertThat(exp.eval(overrides), is(1.0));
@@ -184,7 +184,7 @@ public class ExpressionTest {
         assertThat(exp.eval(), is(0.0));
         assertThat(exp.eval(overrides), is(1.0));
 
-        overrides.setPrefOverride("testOverride", null);
+        overrides.setPref("testOverride", null);
         exp = new Expression("pref(testOverride,xyz)", "pref testOverride");
         assertThat(exp.eval(overrides), is(1.0));
       }
