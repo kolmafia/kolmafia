@@ -117,22 +117,22 @@ public abstract class NemesisManager {
       return;
     }
 
-    if (location.indexOf("action=door1") != -1) {
+    if (location.contains("action=door1")) {
       NemesisManager.selectDoorItem(1, buffer);
       return;
     }
 
-    if (location.indexOf("action=door2") != -1) {
+    if (location.contains("action=door2")) {
       NemesisManager.selectDoorItem(2, buffer);
       return;
     }
 
-    if (location.indexOf("action=door3") != -1) {
+    if (location.contains("action=door3")) {
       NemesisManager.selectDoorItem(3, buffer);
       return;
     }
 
-    if (location.indexOf("action=door4") != -1) {
+    if (location.contains("action=door4")) {
       String password = NemesisManager.getPassword();
       if (password != null) {
         int index = buffer.indexOf("name=\"say\"");

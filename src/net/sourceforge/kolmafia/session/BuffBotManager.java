@@ -252,7 +252,7 @@ public abstract class BuffBotManager {
     String restoreItems = Preferences.getString("mpAutoRecoveryItems");
 
     PauseObject pauser = new PauseObject();
-    boolean usingAdventures = restoreItems.indexOf("rest") != -1;
+    boolean usingAdventures = restoreItems.contains("rest");
 
     // The outer loop goes until user cancels, or
     // for however many iterations are needed.
@@ -426,7 +426,7 @@ public abstract class BuffBotManager {
    * @return <code>true</code> if there is a donation
    */
   private static boolean containsDonation(final KoLMailMessage message) {
-    return message.getMessageHTML().indexOf("You acquire") != -1;
+    return message.getMessageHTML().contains("You acquire");
   }
 
   /** Sends a thank you message to the given user, with the given message HTML quoted. */
