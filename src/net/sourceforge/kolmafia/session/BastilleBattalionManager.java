@@ -953,7 +953,7 @@ public abstract class BastilleBattalionManager {
     while (matcher.find()) {
       Stat stat = enumNameToStat.get(matcher.group(1));
       if (stat != null) {
-        int value = Integer.valueOf(matcher.group(2));
+        int value = Integer.parseInt(matcher.group(2));
         currentStats.set(stat, value);
       }
     }

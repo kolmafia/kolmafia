@@ -1337,7 +1337,7 @@ public abstract class VolcanoMazeManager {
       if (row >= 0 && row < NROWS && col >= 0 && col < NCOLS) {
         int square = pos(row, col);
         if (map == null || map.inMap(square)) {
-          list.add(Integer.valueOf(square));
+          list.add(square);
         }
       }
     }

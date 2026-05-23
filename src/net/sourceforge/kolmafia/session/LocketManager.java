@@ -184,7 +184,7 @@ public class LocketManager {
     // Disambiguate certain monsters
     Matcher matcher = MONSTER_PATTERN.matcher(buffer);
     while (matcher.find()) {
-      int monsterId = Integer.valueOf(matcher.group(1));
+      int monsterId = Integer.parseInt(matcher.group(1));
       String name = matcher.group(2);
       MonsterData monster = MonsterDatabase.findMonsterById(monsterId);
       if (monster != null) {
