@@ -1552,9 +1552,9 @@ public class EquipmentManager {
     }
 
     AdventureResult[] pieces = EquipmentDatabase.normalOutfits.get(outfitId).getPieces();
-    for (int i = 0; i < pieces.length; ++i) {
-      if (!KoLCharacter.hasEquipped(pieces[i])) {
-        ConditionsCommand.update("set", pieces[i].getName());
+    for (AdventureResult piece : pieces) {
+      if (!KoLCharacter.hasEquipped(piece)) {
+        ConditionsCommand.update("set", piece.getName());
       }
     }
   }

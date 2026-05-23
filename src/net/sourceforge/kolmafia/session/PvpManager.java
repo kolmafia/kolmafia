@@ -92,7 +92,7 @@ public class PvpManager {
 
     String name = matchingNames.get(0);
     Integer stance = PvpManager.canonicalStanceToOption.get(name);
-    return stance == null ? -1 : stance.intValue();
+    return stance == null ? -1 : stance;
   }
 
   public static final String findStance(final int stance) {

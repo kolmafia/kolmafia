@@ -216,9 +216,9 @@ public class ContactManager {
     if (uniqueListSize != targets.length) {
       int addedCount = 0;
       String[] uniqueList = new String[uniqueListSize];
-      for (int i = 0; i < targets.length; ++i) {
-        if (targets[i] != null) {
-          uniqueList[addedCount++] = targets[i];
+      for (String target : targets) {
+        if (target != null) {
+          uniqueList[addedCount++] = target;
         }
       }
 

@@ -2185,7 +2185,7 @@ public abstract class ChoiceManager {
     }
 
     // Build a "Goal" button
-    StringBuffer button = new StringBuffer();
+    StringBuilder button = new StringBuilder();
     String url = "/KoLmafia/specialCommand?cmd=choice-goal&pwd=" + GenericRequest.passwordHash;
     button.append("<form name=goalform action='").append(url).append("' method=post>");
     button.append("<input class=button type=submit value=\"Go To Goal\">");

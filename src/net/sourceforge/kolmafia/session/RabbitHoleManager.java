@@ -1142,10 +1142,10 @@ public abstract class RabbitHoleManager {
 
     index += 7;
 
-    StringBuffer span = new StringBuffer();
+    StringBuilder span = new StringBuilder();
     span.append("<center><table cols=2><tr>");
 
-    StringBuffer stepButton = new StringBuffer();
+    StringBuilder stepButton = new StringBuilder();
     String url = "/KoLmafia/redirectedCommand?cmd=chess+step&pwd=" + GenericRequest.passwordHash;
     stepButton.append("<td>");
     stepButton.append("<form name=stepform action='").append(url).append("' method=post>");
@@ -1157,7 +1157,7 @@ public abstract class RabbitHoleManager {
     stepButton.append("</td>");
     span.append(stepButton);
 
-    StringBuffer solveButton = new StringBuffer();
+    StringBuilder solveButton = new StringBuilder();
     url = "/KoLmafia/specialCommand?cmd=chess+solve&pwd=" + GenericRequest.passwordHash;
     solveButton.append("<td>");
     solveButton.append("<form name=solveform action='").append(url).append("' method=post>");
