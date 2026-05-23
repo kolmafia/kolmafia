@@ -840,7 +840,7 @@ public abstract class WumpusManager {
   // ::P:BCW:CEF::B:CEF
 
   public static final String getWumpinatorCode() {
-    StringBuffer buffer = new StringBuffer();
+    StringBuilder buffer = new StringBuilder();
 
     // Since we use a TreeMap, rooms are in alphabetical order
     for (Room room : WumpusManager.rooms.values()) {
@@ -1042,7 +1042,7 @@ public abstract class WumpusManager {
     WumpusManager.addRoom(0, room);
 
     // Generate layout string
-    StringBuffer buffer = new StringBuffer();
+    StringBuilder buffer = new StringBuilder();
     for (Room node : layout) {
       buffer.append(node == null ? "0" : node.getCode());
     }
