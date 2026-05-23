@@ -161,4 +161,33 @@ public class ExpressionTest {
       assertThat(exp.eval(), is(2.0));
     }
   }
+
+  @Nested
+  class Overrides {
+    @Test
+    void overridePref() {
+      var cleanups = new Cleanups(withProperty("test", "abc"), withProperty("testOverride", "xyz"));
+
+      try (cleanups) {
+        ExpressionOverrides overrides = new ExpressionOverrides();
+
+        overrides.setPref("testOverride", "overridden");
+        var exp = new Expression("pref(test,abc)", "pref test");
+        assertThat(exp.eval(), is(1.0));
+        assertThat(exp.eval(overrides), is(1.0));
+
+        exp = new Expression("pref(testOverride,xyz)", "pref testOverride");
+        assertThat(exp.eval(), is(1.0));
+        assertThat(exp.eval(overrides), is(0.0));
+
+        exp = new Expression("pref(testOverride,overridden)", "pref testOverride");
+        assertThat(exp.eval(), is(0.0));
+        assertThat(exp.eval(overrides), is(1.0));
+
+        overrides.setPref("testOverride", null);
+        exp = new Expression("pref(testOverride,xyz)", "pref testOverride");
+        assertThat(exp.eval(overrides), is(1.0));
+      }
+    }
+  }
 }

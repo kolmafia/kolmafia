@@ -538,6 +538,28 @@ public class Modifiers {
       }
     }
 
+    if (mods.expressions != null && !mods.expressions.isEmpty()) {
+      for (Indexed<Modifier, ModifierExpression> expression : mods.expressions) {
+        boolean expressionUpdated = false;
+        if (this.expressions != null) {
+          for (int i = 0; i < this.expressions.size(); i++) {
+            Indexed<Modifier, ModifierExpression> existingExpression = this.expressions.get(i);
+            if (existingExpression.index.equals(expression.index)) {
+              // We want to overwrite the existing expression for this index rather than combine it
+              // to avoid stacking up multiple copies of the same expression. This isn't technically
+              // quite right, but it's probably close enough to right.
+              this.expressions.set(i, expression);
+              expressionUpdated = true;
+            }
+          }
+        }
+        if (!expressionUpdated) {
+          this.addExpression(expression);
+        }
+      }
+      changed = true;
+    }
+
     return changed;
   }
 
@@ -873,8 +895,16 @@ public class Modifiers {
     return false;
   }
 
-  // expressions are the numeric override [] strings, such as [R]
-  public boolean override(final Lookup lookup) {
+  // Update any modifiers that are based on expressions. Expressions are the [] strings, such as
+  // [R], which indicate a variable in place of a number.
+  public void recalculateExpressions() {
+    recalculateExpressions(ExpressionOverrides.NONE);
+  }
+
+  // Update any modifiers that are based on expressions. Expressions are the [] strings, such as
+  // [R], which indicate a variable in place of a number. Any overrides specified will be used
+  // instead of the current character state when calculating the value of an expression.
+  public void recalculateExpressions(ExpressionOverrides overrides) {
     if (this.expressions != null) {
       for (Indexed<Modifier, ModifierExpression> entry : this.expressions) {
         if (entry.index instanceof DoubleModifier m) {
@@ -882,15 +912,19 @@ public class Modifiers {
             // technically here we want to know which entry the previous expression corresponds to
             // the previous implementation overwrote the whole thing with a list containing only
             // the expression, which is definitely wrong, but this is also wrong. Leaving it as TODO
-            this.setDouble(m, entry.value.eval());
+            this.setDouble(m, entry.value.eval(overrides));
           } else {
-            this.setDouble(m, entry.value.eval());
+            this.setDouble(m, entry.value.eval(overrides));
           }
         } else if (entry.index instanceof BooleanModifier m) {
-          this.setBoolean(m, entry.value.eval() != 0.0);
+          this.setBoolean(m, entry.value.eval(overrides) != 0.0);
         }
       }
     }
+  }
+
+  public boolean override(final Lookup lookup) {
+    this.recalculateExpressions();
 
     // If the object does not require hard-coding, we're done
     if (!this.getBoolean(BooleanModifier.VARIABLE)) {
