@@ -445,7 +445,6 @@ public class TurnCounter implements Comparable<TurnCounter> {
 
   public static final void addWarning(final String label) {
     synchronized (TurnCounter.relayCounters) {
-
       for (TurnCounter counter : TurnCounter.relayCounters) {
         if (counter.parsedLabel.equals(label) && counter.exemptions == TurnCounter.ALL_LOCATIONS) {
           counter.label = counter.label.replace(" loc=*", "");
@@ -462,7 +461,6 @@ public class TurnCounter implements Comparable<TurnCounter> {
 
   public static final void removeWarning(final String label) {
     synchronized (TurnCounter.relayCounters) {
-
       for (TurnCounter counter : TurnCounter.relayCounters) {
         if (counter.parsedLabel.equals(label) && counter.exemptions != TurnCounter.ALL_LOCATIONS) {
           counter.exemptions = TurnCounter.ALL_LOCATIONS;

@@ -192,13 +192,11 @@ public abstract class LeafletManager {
 
     LeafletManager.leaflet = response.contains("A junk mail leaflet");
     LeafletManager.sword =
-      response.contains("An ornate sword")
-            && !response.contains("hangs above the mantel");
+        response.contains("An ornate sword") && !response.contains("hangs above the mantel");
     LeafletManager.torch = response.contains("A burning torch");
     LeafletManager.stick =
         LeafletManager.torch
-            || response.contains("A hefty stick")
-                && !response.contains("lies on the ground");
+            || response.contains("A hefty stick") && !response.contains("lies on the ground");
     LeafletManager.boots = response.contains("A pair of large rubber wading boots");
     LeafletManager.wornboots = LeafletManager.boots && response.contains("boots (equipped)");
     LeafletManager.parchment = response.contains("A piece of parchment");
@@ -369,10 +367,10 @@ public abstract class LeafletManager {
     if (response.contains("That only works once.")
         ||
         // The player already invoked the correct word
-      response.contains("send the plover over")
+        response.contains("send the plover over")
         ||
         // "Red rover, red rover, send the plover over"
-      response.contains("nothing happens")) {
+        response.contains("nothing happens")) {
       // "You chant the magic word, and nothing happens. You
       // hear thunder rumbling in the distance..."
       LeafletManager.magic = null;

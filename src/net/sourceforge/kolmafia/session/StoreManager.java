@@ -565,8 +565,8 @@ public abstract class StoreManager {
     for (AdventureResult item : items) {
       int itemId = item.getItemId();
       if (itemId == ItemPool.MEAT_PASTE
-        || itemId == ItemPool.MEAT_STACK
-        || itemId == ItemPool.DENSE_STACK) {
+          || itemId == ItemPool.MEAT_STACK
+          || itemId == ItemPool.DENSE_STACK) {
         continue;
       }
 

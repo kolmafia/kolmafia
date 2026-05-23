@@ -422,7 +422,7 @@ public abstract class MallPriceManager {
       if (currentQuantity == null) {
         prices.put(currentPrice, result.getLimit());
       } else {
-        prices.put(currentPrice, currentQuantity.intValue() + result.getLimit());
+        prices.put(currentPrice, currentQuantity + result.getLimit());
       }
     }
 
@@ -431,11 +431,11 @@ public abstract class MallPriceManager {
 
     for (Long aLong : priceArray) {
       resultSummary.add(
-        "  "
-          + KoLConstants.COMMA_FORMAT.format(prices.get(aLong).intValue())
-          + " @ "
-          + KoLConstants.COMMA_FORMAT.format(aLong)
-          + " meat");
+          "  "
+              + KoLConstants.COMMA_FORMAT.format(prices.get(aLong).intValue())
+              + " @ "
+              + KoLConstants.COMMA_FORMAT.format(aLong)
+              + " meat");
     }
   }
 
