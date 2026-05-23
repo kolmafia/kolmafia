@@ -1427,8 +1427,7 @@ public abstract class InventoryManager {
     AdventureResult[] ingredients = ConcoctionDatabase.getStandardIngredients(itemId);
     boolean shouldUseCloset = InventoryManager.canUseCloset();
 
-    for (int i = 0; i < ingredients.length; ++i) {
-      AdventureResult ingredient = ingredients[i];
+    for (AdventureResult ingredient : ingredients) {
       // An item is immediately available if it is in your
       // inventory, or in your closet.
 
@@ -1451,11 +1450,11 @@ public abstract class InventoryManager {
 
     seen.add(key);
 
-    for (int i = 0; i < ingredients.length; ++i) {
+    for (AdventureResult ingredient : ingredients) {
       // An item is immediately available if you have the
       // ingredients for a substep.
 
-      if (InventoryManager.hasAnyIngredient(ingredients[i].getItemId(), seen)) {
+      if (InventoryManager.hasAnyIngredient(ingredient.getItemId(), seen)) {
         return true;
       }
     }

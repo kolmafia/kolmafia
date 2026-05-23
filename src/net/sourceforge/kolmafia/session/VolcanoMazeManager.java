@@ -268,8 +268,7 @@ public abstract class VolcanoMazeManager {
     }
 
     String[] platforms = StringUtilities.splitByComma(coordinates);
-    for (int i = 0; i < platforms.length; ++i) {
-      String coord = platforms[i];
+    for (String coord : platforms) {
       if (!StringUtilities.isNumeric(coord)) {
         return false;
       }
@@ -580,8 +579,7 @@ public abstract class VolcanoMazeManager {
     int ofound = found;
     int pcount = platforms.length;
     RequestLogger.printLine("Map #" + seq + " has " + pcount + " platforms");
-    for (int i = 0; i < pcount; ++i) {
-      int square = platforms[i];
+    for (int square : platforms) {
       int old = squares[square];
       if (old == 0) {
         squares[square] = seq;
@@ -1086,9 +1084,9 @@ public abstract class VolcanoMazeManager {
 
     // Make a path for each root and add it to the queue.
     Integer[] starts = roots.getPlatforms();
-    for (int i = 0; i < starts.length; ++i) {
+    for (Integer integer : starts) {
       ++pathsMade;
-      Integer square = starts[i];
+      Integer square = integer;
       queue.addLast(new Path(square));
       // We (will) have visited each root
       visited[square] = true;
@@ -1103,8 +1101,7 @@ public abstract class VolcanoMazeManager {
       Integer[] platforms = neighbors[last].getPlatforms();
 
       // Examine each neighbor
-      for (int i = 0; i < platforms.length; ++i) {
-        Integer platform = platforms[i];
+      for (Integer platform : platforms) {
         // If this is a goal, we have the solution
         if (platform == goal) {
           ++pathsMade;
@@ -1158,8 +1155,7 @@ public abstract class VolcanoMazeManager {
       // Make an array of all the platforms
       String[] squares = StringUtilities.splitByComma(coordinates);
       List<Integer> list = new ArrayList<>();
-      for (int i = 0; i < squares.length; ++i) {
-        String coord = squares[i];
+      for (String coord : squares) {
         if (!StringUtilities.isNumeric(coord)) {
           continue;
         }

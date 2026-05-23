@@ -767,8 +767,8 @@ public class IslandManager {
   };
 
   private static boolean findBattlefieldMessage(final String responseText, final String[] table) {
-    for (int i = 0; i < table.length; ++i) {
-      if (responseText.contains(table[i])) {
+    for (String s : table) {
+      if (responseText.contains(s)) {
         return true;
       }
     }
@@ -961,8 +961,8 @@ public class IslandManager {
     int delta = 1;
     int test = 2;
 
-    for (int i = 0; i < table.length; ++i) {
-      if (IslandManager.findBattlefieldMessage(responseText, table[i])) {
+    for (String[] strings : table) {
+      if (IslandManager.findBattlefieldMessage(responseText, strings)) {
         delta = test;
         break;
       }

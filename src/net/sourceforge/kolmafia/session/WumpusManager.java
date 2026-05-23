@@ -556,8 +556,7 @@ public abstract class WumpusManager {
     // heard something from and see if we can deduce
     // anything more.
     Room[] exits = room.getExits();
-    for (int i = 0; i < exits.length; ++i) {
-      Room neighbor = exits[i];
+    for (Room neighbor : exits) {
       if (neighbor != null && neighbor.visited && neighbor.getListen() != WARN_INDEFINITE) {
         WumpusManager.deduce(neighbor);
       }
@@ -1044,8 +1043,7 @@ public abstract class WumpusManager {
 
     // Generate layout string
     StringBuffer buffer = new StringBuffer();
-    for (int i = 0; i < layout.length; ++i) {
-      Room node = layout[i];
+    for (Room node : layout) {
       buffer.append(node == null ? "0" : node.getCode());
     }
 
@@ -1061,8 +1059,8 @@ public abstract class WumpusManager {
     }
 
     // If room is already present elsewhere, error
-    for (int i = 0; i < layout.length; ++i) {
-      if (layout[i] == room) {
+    for (Room value : layout) {
+      if (value == room) {
         return false;
       }
     }
@@ -1074,11 +1072,11 @@ public abstract class WumpusManager {
     Room[] exits = room.getExits();
 
     int[][] permutations = WumpusManager.NODE_PERMUTATIONS[node];
-    for (int i = 0; i < permutations.length; ++i) {
+    for (int[] permutation : permutations) {
       // Save a copy of the layout so we can easily unwind
       Room[] copy = WumpusManager.layout.clone();
 
-      int[] links = permutations[i];
+      int[] links = permutation;
       boolean success = true;
       for (int j = 0; j < 3; ++j) {
         if (exits[j] == null) {

@@ -411,8 +411,7 @@ public abstract class MallPriceManager {
     PurchaseRequest[] resultsArray = results.toArray(new PurchaseRequest[0]);
     TreeMap<Long, Integer> prices = new TreeMap<>();
 
-    for (int i = 0; i < resultsArray.length; ++i) {
-      PurchaseRequest result = resultsArray[i];
+    for (PurchaseRequest result : resultsArray) {
       if (result instanceof CoinMasterPurchaseRequest) {
         continue;
       }
@@ -421,22 +420,22 @@ public abstract class MallPriceManager {
       Integer currentQuantity = prices.get(currentPrice);
 
       if (currentQuantity == null) {
-        prices.put(currentPrice, resultsArray[i].getLimit());
+        prices.put(currentPrice, result.getLimit());
       } else {
-        prices.put(currentPrice, currentQuantity.intValue() + resultsArray[i].getLimit());
+        prices.put(currentPrice, currentQuantity.intValue() + result.getLimit());
       }
     }
 
     Long[] priceArray = new Long[prices.size()];
     prices.keySet().toArray(priceArray);
 
-    for (int i = 0; i < priceArray.length; ++i) {
+    for (Long aLong : priceArray) {
       resultSummary.add(
-          "  "
-              + KoLConstants.COMMA_FORMAT.format(prices.get(priceArray[i]).intValue())
-              + " @ "
-              + KoLConstants.COMMA_FORMAT.format(priceArray[i])
-              + " meat");
+        "  "
+          + KoLConstants.COMMA_FORMAT.format(prices.get(aLong).intValue())
+          + " @ "
+          + KoLConstants.COMMA_FORMAT.format(aLong)
+          + " meat");
     }
   }
 
