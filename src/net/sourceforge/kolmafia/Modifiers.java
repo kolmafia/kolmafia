@@ -895,12 +895,15 @@ public class Modifiers {
     return false;
   }
 
+  // Update any modifiers that are based on expressions. Expressions are the [] strings, such as
+  // [R], which indicate a variable in place of a number.
   public void recalculateExpressions() {
     recalculateExpressions(ExpressionOverrides.NONE);
   }
 
-  // Update any modifiers that are based on expressions. Expressions are the numeric override []
-  // strings, such as [R],
+  // Update any modifiers that are based on expressions. Expressions are the [] strings, such as
+  // [R], which indicate a variable in place of a number. Any overrides specified will be used
+  // instead of the current character state when calculating the value of an expression.
   public void recalculateExpressions(ExpressionOverrides overrides) {
     if (this.expressions != null) {
       for (Indexed<Modifier, ModifierExpression> entry : this.expressions) {
