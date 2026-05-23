@@ -246,9 +246,7 @@ public abstract class NemesisManager {
     PaperStrip[] array = new PaperStrip[PAPER_STRIPS.length];
 
     // Find leftmost paper strip
-    Iterator<PaperStrip> it = left.values().iterator();
-    while (it.hasNext()) {
-      PaperStrip strip = it.next();
+    for (PaperStrip strip : left.values()) {
       if (!right.containsKey(strip.left)) {
         array[0] = strip;
         break;
