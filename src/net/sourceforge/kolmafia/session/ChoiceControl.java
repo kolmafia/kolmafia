@@ -3231,7 +3231,7 @@ public abstract class ChoiceControl {
         // Welcome to FantasyRealm
         if (ChoiceManager.lastDecision != 6) {
           Preferences.setInteger("_frHoursLeft", 5);
-          StringBuffer unlocks = new StringBuffer();
+          StringBuilder unlocks = new StringBuilder();
           unlocks.append("The Bandit Crossroads,");
           if (Preferences.getBoolean("frMountainsUnlocked")) {
             unlocks.append("The Towering Mountains,");
