@@ -104,8 +104,12 @@ public class Expression {
   protected void initialize() {}
 
   public double eval() {
+    return this.eval(ExpressionOverrides.NONE);
+  }
+
+  public double eval(ExpressionOverrides overrides) {
     try {
-      return this.evalInternal();
+      return this.evalInternal(overrides);
     } catch (ArrayIndexOutOfBoundsException e) {
       KoLmafia.updateDisplay("Unreasonably complex expression for " + this.name + ": " + e);
     } catch (RuntimeException e) {
@@ -117,6 +121,10 @@ public class Expression {
   }
 
   public double evalInternal() {
+    return this.evalInternal(ExpressionOverrides.NONE);
+  }
+
+  public double evalInternal(ExpressionOverrides overrides) {
     double[] s = stackFactory(null);
     int sp = 0;
     int pc = 0;
@@ -179,7 +187,9 @@ public class Expression {
             second = first.substring(commaIndex + 1);
             first = first.substring(0, commaIndex);
           }
-          String prefString = Preferences.getString(first);
+          final String prefName = first;
+          String prefString =
+              overrides.pref(prefName).orElseGet(() -> Preferences.getString(prefName));
           if (second != null) {
             v = prefString.contains(second) ? 1 : 0;
           } else {
@@ -403,7 +413,7 @@ public class Expression {
         // Valid with Modifier Expression:
         case '\u008c' -> v = KoLCharacter.getTurnsPlayed();
         case '\u008d' -> v = KoLCharacter.getParadoxicity();
-        case '\u008e' -> v = Modifiers.unarmed ? 1 : 0;
+        case '\u008e' -> v = overrides.unarmed().orElse(Modifiers.unarmed) ? 1 : 0;
         // Valid with Modifier Expression:
         case '\u0097' -> v = KoLCharacter.getBaseMuscle();
 

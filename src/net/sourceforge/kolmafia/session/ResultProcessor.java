@@ -110,7 +110,7 @@ public class ResultProcessor {
     // width=30 height=30></td><td valign=center><b>hardboiled egg</b>
     // (44)</td></tr></table></span></td></tr></table>
 
-    StringBuffer buffer = new StringBuffer();
+    StringBuilder buffer = new StringBuilder();
     boolean changed = false;
 
     // Item names have a lot of extra adjectives in Two Crazy Random Summer

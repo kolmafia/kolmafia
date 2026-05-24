@@ -253,9 +253,9 @@ public abstract class LouvreManager {
     int[] choices = LouvreManager.choiceTuple(destination);
     int nextHops = Integer.MAX_VALUE;
 
-    for (int i = 0; i < choices.length; ++i) {
+    for (int choice : choices) {
       // Determine how far destination is from goal
-      int dist = LouvreManager.hopsTo(hops + 1, destination, choices[i], goal);
+      int dist = LouvreManager.hopsTo(hops + 1, destination, choice, goal);
       if (dist < nextHops) {
         nextHops = dist;
       }

@@ -1809,4 +1809,19 @@ public class ModifiersTest {
       assertThat(current.getDouble(DoubleModifier.SLEAZE_DAMAGE), equalTo(40.0));
     }
   }
+
+  @Test
+  public void copyConstructorKeepsExpressions() {
+    var cleanups = new Cleanups(withEquipped(Slot.WEAPON, ItemPool.SEAL_CLUB));
+
+    Modifiers mods;
+    try (cleanups) {
+      mods = new Modifiers(ModifierDatabase.getItemModifiers(ItemPool.TIME_HALO));
+      mods.recalculateExpressions();
+      assertThat(mods.getDouble(DoubleModifier.ADVENTURES), equalTo(0.0));
+    }
+
+    mods.recalculateExpressions();
+    assertThat(mods.getDouble(DoubleModifier.ADVENTURES), equalTo(5.0));
+  }
 }

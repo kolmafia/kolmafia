@@ -268,8 +268,7 @@ public abstract class VolcanoMazeManager {
     }
 
     String[] platforms = StringUtilities.splitByComma(coordinates);
-    for (int i = 0; i < platforms.length; ++i) {
-      String coord = platforms[i];
+    for (String coord : platforms) {
       if (!StringUtilities.isNumeric(coord)) {
         return false;
       }
@@ -422,10 +421,10 @@ public abstract class VolcanoMazeManager {
 
     boolean disabled = atGoal();
 
-    StringBuffer span = new StringBuffer();
+    StringBuilder span = new StringBuilder();
     span.append("<center><table cols=2><tr>");
 
-    StringBuffer stepButton = new StringBuffer();
+    StringBuilder stepButton = new StringBuilder();
     String url = "?autostep";
     stepButton.append("<td>").append("<div id=\"step\">");
     stepButton.append("<form name=stepform action='").append(url).append("' method=get>");
@@ -434,7 +433,7 @@ public abstract class VolcanoMazeManager {
     stepButton.append("</div>").append("</td>");
     span.append(stepButton);
 
-    StringBuffer solveButton = new StringBuffer();
+    StringBuilder solveButton = new StringBuilder();
     url = "/KoLmafia/polledredirectedCommand?cmd=volcano+solve&pwd=" + GenericRequest.passwordHash;
     solveButton.append("<td>");
     solveButton.append("<form name=solveform action='").append(url).append("' method=post>");
@@ -580,8 +579,7 @@ public abstract class VolcanoMazeManager {
     int ofound = found;
     int pcount = platforms.length;
     RequestLogger.printLine("Map #" + seq + " has " + pcount + " platforms");
-    for (int i = 0; i < pcount; ++i) {
-      int square = platforms[i];
+    for (int square : platforms) {
       int old = squares[square];
       if (old == 0) {
         squares[square] = seq;
@@ -611,7 +609,7 @@ public abstract class VolcanoMazeManager {
 
   private static String parseHTMLCoords(final String responseText) {
     Matcher matcher = SQUARE_PATTERN.matcher(responseText);
-    StringBuffer buffer = new StringBuffer();
+    StringBuilder buffer = new StringBuilder();
     boolean first = true;
     while (matcher.find()) {
       String square = matcher.group(1);
@@ -652,7 +650,7 @@ public abstract class VolcanoMazeManager {
   private static final Pattern POS_PATTERN = Pattern.compile("(\\d+),(\\d+)");
 
   private static String parseJSONCoords(final String responseText) {
-    StringBuffer buffer = new StringBuffer();
+    StringBuilder buffer = new StringBuilder();
     JSONObject json;
 
     // Parse the string into a JSON object
@@ -856,7 +854,7 @@ public abstract class VolcanoMazeManager {
     }
 
     // Make an HTML table to display platform map
-    StringBuffer buffer = new StringBuffer();
+    StringBuilder buffer = new StringBuilder();
 
     buffer.append("<table border cols=14>");
     buffer.append("<tr><td></td>");
@@ -1011,7 +1009,7 @@ public abstract class VolcanoMazeManager {
   }
 
   private static void printStatistics(final Path solution) {
-    StringBuffer buffer = new StringBuffer();
+    StringBuilder buffer = new StringBuilder();
     buffer.append("Paths examined/made ");
     buffer.append(KoLConstants.COMMA_FORMAT.format(pathsExamined));
     buffer.append("/");
@@ -1086,9 +1084,9 @@ public abstract class VolcanoMazeManager {
 
     // Make a path for each root and add it to the queue.
     Integer[] starts = roots.getPlatforms();
-    for (int i = 0; i < starts.length; ++i) {
+    for (Integer integer : starts) {
       ++pathsMade;
-      Integer square = starts[i];
+      Integer square = integer;
       queue.addLast(new Path(square));
       // We (will) have visited each root
       visited[square] = true;
@@ -1103,8 +1101,7 @@ public abstract class VolcanoMazeManager {
       Integer[] platforms = neighbors[last].getPlatforms();
 
       // Examine each neighbor
-      for (int i = 0; i < platforms.length; ++i) {
-        Integer platform = platforms[i];
+      for (Integer platform : platforms) {
         // If this is a goal, we have the solution
         if (platform == goal) {
           ++pathsMade;
@@ -1158,8 +1155,7 @@ public abstract class VolcanoMazeManager {
       // Make an array of all the platforms
       String[] squares = StringUtilities.splitByComma(coordinates);
       List<Integer> list = new ArrayList<>();
-      for (int i = 0; i < squares.length; ++i) {
-        String coord = squares[i];
+      for (String coord : squares) {
         if (!StringUtilities.isNumeric(coord)) {
           continue;
         }
@@ -1243,7 +1239,7 @@ public abstract class VolcanoMazeManager {
     public void print(final int player) {
       int prow = row(player);
       int pcol = col(player);
-      StringBuffer buffer = new StringBuffer();
+      StringBuilder buffer = new StringBuilder();
       for (int row = 0; row < NROWS; ++row) {
         if (row < 9) {
           buffer.append(" ");
@@ -1270,7 +1266,7 @@ public abstract class VolcanoMazeManager {
     public void displayHTMLMap(final int player) {
       int prow = row(player);
       int pcol = col(player);
-      StringBuffer buffer = new StringBuffer();
+      StringBuilder buffer = new StringBuilder();
 
       buffer.append("<table cellpadding=0 cellspacing=0 cols=14>");
       buffer.append("<tr><td></td>");
@@ -1341,7 +1337,7 @@ public abstract class VolcanoMazeManager {
       if (row >= 0 && row < NROWS && col >= 0 && col < NCOLS) {
         int square = pos(row, col);
         if (map == null || map.inMap(square)) {
-          list.add(Integer.valueOf(square));
+          list.add(square);
         }
       }
     }
@@ -1383,7 +1379,7 @@ public abstract class VolcanoMazeManager {
 
     @Override
     public String toString() {
-      StringBuffer buffer = new StringBuffer();
+      StringBuilder buffer = new StringBuilder();
       int count = list.size();
       boolean first = true;
       buffer.append("[");

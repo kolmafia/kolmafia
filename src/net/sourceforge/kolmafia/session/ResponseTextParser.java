@@ -992,8 +992,7 @@ public class ResponseTextParser {
   };
 
   public static final void learnCombatMove(final String skillName) {
-    for (int type = 0; type < COMBAT_MOVE_DATA.length; ++type) {
-      String[] moves = COMBAT_MOVE_DATA[type];
+    for (String[] moves : COMBAT_MOVE_DATA) {
       for (int index = 1; index < moves.length; ++index) {
         if (skillName.equals(moves[index])) {
           String setting = moves[0];
