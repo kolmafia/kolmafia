@@ -17,6 +17,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.ExpressionOverrides;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLCharacter.TurtleBlessing;
@@ -1513,6 +1514,20 @@ public class Evaluator {
             || ((mods.getRawBitmap(BitmapModifier.SYNERGETIC) & usefulSynergies) != 0)) {
           item.automaticFlag = true;
           break gotItem;
+        } else if (mods.hasUnarmedBonus()) {
+          // Figure out what modifiers this item would have if unarmed
+          Modifiers unarmedMods = new Modifiers(ModifierDatabase.getItemModifiers(id));
+          ExpressionOverrides overrides = new ExpressionOverrides();
+          overrides.setUnarmed(true);
+          unarmedMods.recalculateExpressions(overrides);
+          double score = this.getScore(unarmedMods, Map.of(Slot.NONE, item));
+          if (score > nullScore) {
+            // The item has an unarmed bonus that is relevant. Ensure that it is always considered,
+            // but it should not take up a spot on the shortlist.
+            item.conditionalFlag = true;
+            item.automaticFlag = true;
+            break gotItem;
+          }
         }
 
         // Always carry through items with changeable contents to speculation, but don't force them
