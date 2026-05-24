@@ -197,20 +197,15 @@ public class Concoction implements Comparable<Concoction> {
 
   public ConcoctionType computeType() {
     int itemId = this.getItemId();
-    if (ConsumablesDatabase.getRawFullness(name) != null) {
+    if (forceFood.contains(itemId)) {
       return ConcoctionType.FOOD;
-    } else if (ConsumablesDatabase.getRawInebriety(name) != null) {
+    } else if (forceBooze.contains(itemId)) {
       return ConcoctionType.BOOZE;
-    } else if (ConsumablesDatabase.getRawSpleenHit(name) != null) {
-      return ConcoctionType.SPLEEN;
     } else
       return switch (ItemDatabase.getConsumptionType(itemId)) {
-        case FOOD_HELPER -> ConcoctionType.FOOD;
-        case DRINK_HELPER -> ConcoctionType.BOOZE;
-        case USE, USE_MULTIPLE ->
-            forceFood.contains(itemId)
-                ? ConcoctionType.FOOD
-                : forceBooze.contains(itemId) ? ConcoctionType.BOOZE : ConcoctionType.NONE;
+        case EAT, FOOD_HELPER -> ConcoctionType.FOOD;
+        case DRINK, DRINK_HELPER -> ConcoctionType.BOOZE;
+        case SPLEEN -> ConcoctionType.SPLEEN;
         case POTION, AVATAR_POTION -> ConcoctionType.POTION;
         default -> ConcoctionType.NONE;
       };
