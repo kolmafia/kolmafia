@@ -53,7 +53,6 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.SkillDatabase.SkillData;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
-import net.sourceforge.kolmafia.utilities.Indexed;
 import net.sourceforge.kolmafia.utilities.IntOrString;
 import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -733,11 +732,7 @@ public class ModifierDatabase {
         if (matcher.group(1) != null) {
           newMods.setDouble(mod, Double.parseDouble(matcher.group(1)));
         } else {
-          newMods.addExpression(
-              new Indexed<>(mod, ModifierExpression.getInstance(matcher.group(2), lookup)));
-          if (matcher.group(2).contains("unarmed")) {
-            newMods.setBoolean(BooleanModifier.HAS_UNARMED_BONUS, true);
-          }
+          newMods.addExpression(mod, ModifierExpression.getInstance(matcher.group(2), lookup));
         }
         continue modLoop;
       }
@@ -791,8 +786,7 @@ public class ModifierDatabase {
         if (matcher.groupCount() == 0 || matcher.group(1) == null) {
           newMods.setBoolean(mod, true);
         } else {
-          newMods.addExpression(
-              new Indexed<>(mod, ModifierExpression.getInstance(matcher.group(1), lookup)));
+          newMods.addExpression(mod, ModifierExpression.getInstance(matcher.group(1), lookup));
         }
         continue modLoop;
       }

@@ -3,9 +3,9 @@ package net.sourceforge.kolmafia;
 import static net.sourceforge.kolmafia.utilities.Statics.DateTimeManager;
 
 import java.time.DayOfWeek;
-import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.EnumSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -45,7 +45,6 @@ import net.sourceforge.kolmafia.request.FloristRequest.Florist;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.session.AutumnatonManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.utilities.Indexed;
 import net.sourceforge.kolmafia.utilities.IntOrString;
 
 @SuppressWarnings("incomplete-switch")
@@ -78,7 +77,7 @@ public class Modifiers {
   private final BooleanModifierCollection booleans = new BooleanModifierCollection();
   private final BitmapModifierCollection bitmaps = new BitmapModifierCollection();
   private final StringModifierCollection strings = new StringModifierCollection();
-  private ArrayList<Indexed<Modifier, ModifierExpression>> expressions = null;
+  private Map<Modifier, ModifierExpression> expressions = null;
   // These are used for Steely-Eyed Squint and so on
   private final DoubleModifierCollection accumulators = new DoubleModifierCollection();
 
@@ -539,24 +538,14 @@ public class Modifiers {
     }
 
     if (mods.expressions != null && !mods.expressions.isEmpty()) {
-      for (Indexed<Modifier, ModifierExpression> expression : mods.expressions) {
-        boolean expressionUpdated = false;
-        if (this.expressions != null) {
-          for (int i = 0; i < this.expressions.size(); i++) {
-            Indexed<Modifier, ModifierExpression> existingExpression = this.expressions.get(i);
-            if (existingExpression.index.equals(expression.index)) {
-              // We want to overwrite the existing expression for this index rather than combine it
-              // to avoid stacking up multiple copies of the same expression. This isn't technically
-              // quite right, but it's probably close enough to right.
-              this.expressions.set(i, expression);
-              expressionUpdated = true;
-            }
-          }
-        }
-        if (!expressionUpdated) {
-          this.addExpression(expression);
-        }
+      if (this.expressions == null) {
+        this.expressions = new LinkedHashMap<>();
       }
+
+      // We want to overwrite any conflicting expressions that already exist rather than combine
+      // them to avoid stacking up multiple copies of the same expression. This isn't technically
+      // quite right, but it's probably close enough to right.
+      this.expressions.putAll(mods.expressions);
       changed = true;
     }
 
@@ -906,18 +895,18 @@ public class Modifiers {
   // instead of the current character state when calculating the value of an expression.
   public void recalculateExpressions(ExpressionOverrides overrides) {
     if (this.expressions != null) {
-      for (Indexed<Modifier, ModifierExpression> entry : this.expressions) {
-        if (entry.index instanceof DoubleModifier m) {
+      for (Entry<Modifier, ModifierExpression> entry : this.expressions.entrySet()) {
+        if (entry.getKey() instanceof DoubleModifier m) {
           if (m.isMultiple()) {
             // technically here we want to know which entry the previous expression corresponds to
             // the previous implementation overwrote the whole thing with a list containing only
             // the expression, which is definitely wrong, but this is also wrong. Leaving it as TODO
-            this.setDouble(m, entry.value.eval(overrides));
+            this.setDouble(m, entry.getValue().eval(overrides));
           } else {
-            this.setDouble(m, entry.value.eval(overrides));
+            this.setDouble(m, entry.getValue().eval(overrides));
           }
-        } else if (entry.index instanceof BooleanModifier m) {
-          this.setBoolean(m, entry.value.eval(overrides) != 0.0);
+        } else if (entry.getKey() instanceof BooleanModifier m) {
+          this.setBoolean(m, entry.getValue().eval(overrides) != 0.0);
         }
       }
     }
@@ -943,25 +932,16 @@ public class Modifiers {
     availableSkillsChanged = true;
   }
 
-  public void addExpression(Indexed<Modifier, ModifierExpression> entry) {
-    int index = -1;
-
+  public void addExpression(Modifier modifier, ModifierExpression expression) {
     if (this.expressions == null) {
-      this.expressions = new ArrayList<>();
-    } else {
-      for (int i = 0; i < this.expressions.size(); i++) {
-        Indexed<Modifier, ModifierExpression> e = this.expressions.get(i);
-        if (e != null && e.index == entry.index) {
-          index = i;
-          break;
-        }
-      }
+      this.expressions = new LinkedHashMap<>();
     }
 
-    if (index < 0) {
-      this.expressions.add(entry);
+    ModifierExpression existingExpression = this.expressions.get(modifier);
+    if (existingExpression == null) {
+      this.expressions.put(modifier, expression);
     } else {
-      this.expressions.get(index).value.combine(entry.value, '+');
+      existingExpression.combine(expression, '+');
     }
   }
 
@@ -1686,11 +1666,10 @@ public class Modifiers {
 
       if (this.variable) {
         this.addExpression(
-            new Indexed<>(
-                DoubleModifier.EFFECT_DURATION,
-                ModifierExpression.getInstance(
-                    delta + "*path(" + AscensionPath.Path.ELEVEN_THINGS.name + ')',
-                    AscensionPath.Path.ELEVEN_THINGS.name)));
+            DoubleModifier.EFFECT_DURATION,
+            ModifierExpression.getInstance(
+                delta + "*path(" + AscensionPath.Path.ELEVEN_THINGS.name + ')',
+                AscensionPath.Path.ELEVEN_THINGS.name));
       } else {
         this.addDouble(
             DoubleModifier.EFFECT_DURATION,
@@ -1722,6 +1701,20 @@ public class Modifiers {
 
   public static void setFamiliar(FamiliarData fam) {
     Modifiers.currentFamiliar = fam == null ? "" : fam.getRace();
+  }
+
+  public boolean hasUnarmedBonus() {
+    if (this.expressions == null) {
+      return false;
+    }
+
+    for (ModifierExpression expression : this.expressions.values()) {
+      if (expression.usesUnarmed()) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   @Override

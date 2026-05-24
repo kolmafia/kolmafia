@@ -4,8 +4,11 @@ import net.sourceforge.kolmafia.modifiers.Lookup;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 
 public class ModifierExpression extends Expression {
+  private boolean usesUnarmed;
+
   public ModifierExpression(String text, String lookupString) {
     super(text, lookupString);
+    this.usesUnarmed = text.contains("unarmed");
   }
 
   public ModifierExpression(String text, Lookup lookup) {
@@ -139,5 +142,18 @@ public class ModifierExpression extends Expression {
     }
 
     return null;
+  }
+
+  @Override
+  protected void combine(Expression other, char combiner) {
+    if (other instanceof ModifierExpression e && e.usesUnarmed) {
+      this.usesUnarmed = true;
+    }
+
+    super.combine(other, combiner);
+  }
+
+  public boolean usesUnarmed() {
+    return usesUnarmed;
   }
 }
