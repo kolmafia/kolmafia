@@ -6871,6 +6871,7 @@ public abstract class ChoiceControl {
           postChoiceBaseball(text, ChoiceManager.lastDecision);
 
       case 1599 -> {
+        // Legendary Digestion
         switch (ChoiceManager.lastDecision) {
           case 1 -> {
             Preferences.setBoolean("_legendaryNoodlesSpleen", true);
@@ -8790,6 +8791,7 @@ public abstract class ChoiceControl {
         }
       }
       case 1599 -> {
+        // Legendary Digestion
         if (text.contains("How do you want to digest the legendary noodles?")) {
           AdventureResult item = ChoiceManager.lastItemUsed;
           ChoiceManager.lastItemUsed = null;
