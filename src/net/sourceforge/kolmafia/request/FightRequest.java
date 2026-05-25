@@ -4449,6 +4449,10 @@ public class FightRequest extends GenericRequest {
     // Handle autumnaton checking (this happens whether the fight is won or lost)
     AutumnatonManager.parseFight(responseText);
 
+    // No messages for either of these
+    Preferences.decrement("legendaryNoodlesAmygdala");
+    Preferences.decrement("legendaryNoodlesSkin");
+
     FightRequest.checkForMultiFight(won, responseText);
     FightRequest.checkForChoiceFollowsFight(responseText);
 

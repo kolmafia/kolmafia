@@ -6878,7 +6878,10 @@ public abstract class ChoiceControl {
             KoLCharacter.setFullness(KoLCharacter.getFullness() - 1);
             KoLCharacter.setSpleenUse(KoLCharacter.getSpleenUse() + 1);
           }
+          case 2 -> Preferences.increment("legendaryNoodlesAmygdala", 5);
+          case 3 -> Preferences.increment("legendaryNoodlesSkin", 5);
           case 4 -> KoLCharacter.getFamiliar().addNonCombatExperience(50);
+          case 5 -> Preferences.increment("legendaryNoodlesStomach", 3);
         }
       }
     }
