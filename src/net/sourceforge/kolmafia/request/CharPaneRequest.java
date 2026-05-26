@@ -275,6 +275,7 @@ public class CharPaneRequest extends GenericRequest {
     CharPaneRequest.check8BitScore(responseText);
 
     CharPaneRequest.checkNoncombatForcers(responseText);
+    CharPaneRequest.checkOtherModifiers(responseText);
 
     CharPaneRequest.checkWereProfessor(responseText);
 
@@ -318,6 +319,35 @@ public class CharPaneRequest extends GenericRequest {
               .collect(Collectors.joining("|")));
     } else {
       Preferences.setString("noncombatForcers", "");
+    }
+  }
+
+  private static final Pattern LEGENDARY_AMYGDALA_PATTERN =
+      Pattern.compile(
+          "Your amygdala full of legendary noodles will lead you into (\\d+) more fight");
+  private static final Pattern LEGENDARY_SKIN_PATTERN =
+      Pattern.compile("Your skin will be really tough for (\\d+) more fight");
+  private static final Pattern LEGENDARY_STOMACH_PATTERN =
+      Pattern.compile("Your stomach will be more efficient for (\\d+) more meal");
+
+  public static void checkOtherModifiers(final String responseText) {
+    var result = LEGENDARY_AMYGDALA_PATTERN.matcher(responseText);
+    if (result.find()) {
+      Preferences.setInteger("legendaryNoodlesAmygdala", Integer.parseInt(result.group(1)));
+    } else {
+      Preferences.setInteger("legendaryNoodlesAmygdala", 0);
+    }
+    result = LEGENDARY_SKIN_PATTERN.matcher(responseText);
+    if (result.find()) {
+      Preferences.setInteger("legendaryNoodlesSkin", Integer.parseInt(result.group(1)));
+    } else {
+      Preferences.setInteger("legendaryNoodlesSkin", 0);
+    }
+    result = LEGENDARY_STOMACH_PATTERN.matcher(responseText);
+    if (result.find()) {
+      Preferences.setInteger("legendaryNoodlesStomach", Integer.parseInt(result.group(1)));
+    } else {
+      Preferences.setInteger("legendaryNoodlesStomach", 0);
     }
   }
 

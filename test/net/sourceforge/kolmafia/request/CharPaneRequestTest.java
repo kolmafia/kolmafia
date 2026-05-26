@@ -218,7 +218,7 @@ class CharPaneRequestTest {
               withProperty("noncombatForcers", "stench jelly"));
 
       try (cleanups) {
-        // This one doesn't hav eany noncombat modifiers
+        // This one doesn't have any noncombat modifiers
         CharPaneRequest.processResults(html("request/test_charpane_comma_as_homemade_robot.html"));
         assertThat("noncombatForcerActive", isSetTo(false));
         assertThat("noncombatForcers", isSetTo(""));
@@ -524,6 +524,30 @@ class CharPaneRequestTest {
             isSetTo(
                 "Item Drop Bonus (29%), Physical Attack (23%), Hot Attack (22%), Cold Attack (26%)"));
         assertThat("shrunkenHeadZombieHP", isSetTo("400"));
+      }
+    }
+  }
+
+  @Nested
+  class LegendaryNoodles {
+    @Test
+    void canParseLegendaryAmygdalaCharpane() {
+      var cleanups = withProperty("legendaryNoodlesAmygdala");
+
+      try (cleanups) {
+        CharPaneRequest.processResults(html("request/test_charpane_legendary_amygdala.html"));
+        assertThat("legendaryNoodlesAmygdala", isSetTo(5));
+      }
+    }
+
+    @Test
+    void canParseAbsenceOfNoodlyModifiersInCharpane() {
+      var cleanups = withProperty("legendaryNoodlesAmygdala", 3);
+
+      try (cleanups) {
+        // This one doesn't have any modifiers
+        CharPaneRequest.processResults(html("request/test_charpane_comma_as_homemade_robot.html"));
+        assertThat("legendaryNoodlesAmygdala", isSetTo(0));
       }
     }
   }
