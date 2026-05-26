@@ -426,6 +426,8 @@ public class DataFileConsistencyTest {
     public void modifiersShouldApplyToValidItems() {
       String file = "modifiers.txt";
       int version = 3;
+      // El Vibrato punchcards intentionally use verb aliases (e.g. DRONE) rather than hole counts
+      var elVibraPunchcard = Pattern.compile("El Vibrato punchcard \\([A-Z]+\\)");
       String[] fields;
       try (BufferedReader reader = FileUtilities.getVersionedReader(file, version)) {
         while ((fields = FileUtilities.readData(reader)) != null) {
@@ -437,6 +439,12 @@ public class DataFileConsistencyTest {
               if (id == -1) {
                 if (!CafeDatabase.isCafeConsumable(name)) {
                   fail("unrecognised item " + name);
+                }
+              } else if (name.equals(ItemDatabase.getItemDisplayName(name))
+                  && !elVibraPunchcard.matcher(name).matches()) {
+                var canonical = ItemDatabase.getItemDataName(id);
+                if (canonical != null && !name.equals(canonical)) {
+                  fail("item name \"" + name + "\" should be \"" + canonical + "\"");
                 }
               }
             }
