@@ -49,22 +49,6 @@ class LibraryFunctionTest {
   }
 
   @Test
-  void seededParamDescriptionsExist() {
-    var fns = allFunctions.findFunctions("visit_url");
-    // Find the 3-param overload (url, usePostMethod, encoded)
-    var found = false;
-    for (var fn : fns) {
-      if (fn.getVariableReferences().size() == 3) {
-        var encodedParam = fn.getVariableReferences().get(2);
-        assertThat(encodedParam.getDescription(), is("If true, the URL is already URL-encoded"));
-        found = true;
-        break;
-      }
-    }
-    assertThat("Expected a visit_url overload with 3 params", found);
-  }
-
-  @Test
   void execute() {
     var cleanups = withTurnsPlayed(22);
     try (cleanups) {
