@@ -6869,6 +6869,21 @@ public abstract class ChoiceControl {
 
       case 1598 -> // Play Ball!
           postChoiceBaseball(text, ChoiceManager.lastDecision);
+
+      case 1599 -> {
+        // Legendary Digestion
+        switch (ChoiceManager.lastDecision) {
+          case 1 -> {
+            Preferences.setBoolean("_legendaryNoodlesSpleen", true);
+            KoLCharacter.setFullness(KoLCharacter.getFullness() - 1);
+            KoLCharacter.setSpleenUse(KoLCharacter.getSpleenUse() + 1);
+          }
+          case 2 -> Preferences.increment("legendaryNoodlesAmygdala", 5);
+          case 3 -> Preferences.increment("legendaryNoodlesSkin", 5);
+          case 4 -> KoLCharacter.getFamiliar().addNonCombatExperience(50);
+          case 5 -> Preferences.increment("legendaryNoodlesStomach", 3);
+        }
+      }
     }
   }
 
@@ -8779,6 +8794,7 @@ public abstract class ChoiceControl {
         }
       }
       case 1599 -> {
+        // Legendary Digestion
         if (text.contains("How do you want to digest the legendary noodles?")) {
           AdventureResult item = ChoiceManager.lastItemUsed;
           ChoiceManager.lastItemUsed = null;

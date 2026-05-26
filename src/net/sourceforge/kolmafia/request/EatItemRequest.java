@@ -1122,6 +1122,7 @@ public class EatItemRequest extends UseItemRequest {
     }
 
     Preferences.decrement("munchiesPillsUsed", count);
+    Preferences.decrement("legendaryNoodlesStomach", count);
   }
 
   public static final void updateTimeSpinner(final int itemId, final boolean timeSpinnerUsed) {
