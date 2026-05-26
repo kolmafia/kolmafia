@@ -8787,7 +8787,13 @@ public abstract class ChoiceControl {
             UseItemRequest.parseConsumption(text, false);
             SpadingManager.processConsumeItem(item, text);
             UseItemRequest.clearLastItemUsed();
+            String stripped = text.replace("Legendary Digestion", "");
+            ResultProcessor.processResults(false, stripped, null);
           }
+        }
+        else if (text.contains("They exit your stomach completely and land heavily in your spleen.")) {
+          KoLCharacter.setFullness(KoLCharacter.getFullness() - 1);
+          KoLCharacter.setSpleenUse(KoLCharacter.getSpleenUse() + 1);
         }
       }
     }
