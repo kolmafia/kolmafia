@@ -440,7 +440,8 @@ public class DataFileConsistencyTest {
                 if (!CafeDatabase.isCafeConsumable(name)) {
                   fail("unrecognised item " + name);
                 }
-              } else if (name.equals(ItemDatabase.getItemDisplayName(name)) && !elVibraPunchcard.matcher(name).matches()) {
+              } else if (name.equals(ItemDatabase.getItemDisplayName(name))
+                  && !elVibraPunchcard.matcher(name).matches()) {
                 var canonical = ItemDatabase.getItemDataName(id);
                 if (canonical != null && !name.equals(canonical)) {
                   fail("item name \"" + name + "\" should be \"" + canonical + "\"");
@@ -685,7 +686,6 @@ public class DataFileConsistencyTest {
       var issues = ModifierDatabase.checkModifiers();
       assertThat(issues, hasSize(0));
     }
-
   }
 
   @Test
