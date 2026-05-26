@@ -12270,3 +12270,4 @@
 12241	Formica e Pepe	318780008	legpasta8.gif	food	t,d	75	plates of Formica e Pepe
 12242	Tubetto Gelatto	902397143	aspic.gif	food	t,d	75	tubes of Tubetto Gelatto
 12243	Gnocci Domani	185171822	legpasta1.gif	food	t,d	75	plates of Gnocci Domani
+12244	Thwaitgold wallet moth statuette	945327997	thwaitmoth2.gif	none		0
