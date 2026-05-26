@@ -32,7 +32,7 @@ class LibraryFunctionTest {
 
   @Test
   void withDescriptionStoresAndReturnsDescription() {
-    var lf = new LibraryFunction("total_turns_played", DataTypes.INT_TYPE, List.of());
+    var lf = new LibraryFunction("test_function", DataTypes.INT_TYPE, List.of());
     assertThat(lf.getDescription(), nullValue());
 
     var result = lf.withDescription("test description");
