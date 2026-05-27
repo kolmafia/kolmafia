@@ -81,7 +81,7 @@ DESC_ITEM	Staff of the Standalone Cheese	(\d+) charge	_jiggleCheese=[5-$1]
 DESC_ITEM	Staff of the Standalone Cheese	No charges	_jiggleCheese=5
 DESC_ITEM	Staff of the Standalone Cheese	currently banished:<br>&nbsp;&nbsp;([^<]+)<br>&nbsp;&nbsp;(?:([^<]+)<br>&nbsp;&nbsp;(?:<br>&nbsp;&nbsp;([^<]+)<br>&nbsp;&nbsp;(?:([^<]+)<br>&nbsp;&nbsp;(?:<br>&nbsp;&nbsp;([^<]+)<br>&nbsp;&nbsp;))))	_jiggleCheesedMonsters=$1|$2|$3|$4|$5
 DESC_ITEM	The Landscaper's leafblower	\+(\d+) Monster Level	_leafblowerML=$1
-DESC_ITEM	Yearbook Club Camera	asked you to photograph.*?<b>(.*?)</b>	_yearbookCameraTarget=$1
+DESC_ITEM	Yearbook Club Camera	asked you to photograph.*?<b>(.*?)</b>	yearbookCameraTarget=$1
 DESC_ITEM	familiar scrapbook	Scraps Collected: <b>([\d,]+)</b>	scrapbookCharges=[stripcommas($1)]
 DESC_ITEM	industrial fire extinguisher	The extinguisher's tank is currently <b>([\d]+)% full</b>	_fireExtinguisherCharge=$1
 DESC_ITEM	designer sweatpants	Your sweatpants are currently (\d+)% sweat-logged.	sweat=$1
@@ -124,7 +124,7 @@ DESC_SKILL	Visit your Favorite Bird	your favorite bird, the (.*?), and get	yourF
 
 DESC_EFFECT	Antihangover	Moxie \+(\d+)	_antihangoverBonus=$1
 DESC_EFFECT	Blood Porter	HP \+(\d+)	bloodweiserDrunk=[$1/10]
-DESC_EFFECT	Chilled to the Bone	\+(\d+) MP	_chilledToTheBone=$1
+DESC_EFFECT	Chilled to the Bone	\+(\d+) MP	chilledToTheBone=$1
 DESC_EFFECT	Disavowed	Muscle -(\d+)	_disavowed=$1
 DESC_EFFECT	Electric, Kool	MP \+(\d+)	electricKoolAidEaten=[$1/5]
 DESC_EFFECT	Entauntauned	Cold Resistance \(\+(\d+)\)	entauntaunedColdRes=$1
