@@ -15,14 +15,19 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import internal.helpers.Cleanups;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.TreeMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.utilities.FileUtilities;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -825,6 +830,71 @@ class PreferencesTest {
       try (cleanups) {
         Preferences.setLong("example", v -> v / 5L);
         assertThat("example", isSetTo(2L));
+      }
+    }
+  }
+
+  @Nested
+  class TestPropertiesExists {
+    @Test
+    void consequencesPrefsExist() throws IOException {
+      try (BufferedReader reader =
+          FileUtilities.getVersionedReader("consequences.txt", KoLConstants.CONSEQUENCES_VERSION)) {
+        String[] data;
+        int pos;
+
+        while ((data = FileUtilities.readData(reader)) != null) {
+          if (data.length < 4 || (pos = data[3].indexOf("=")) == -1) continue;
+
+          String key = data[3].substring(0, pos);
+
+          if (Preferences.containsDefault(key)) continue;
+
+          assertTrue(
+              Preferences.containsDefault(key),
+              "Unknown preference '" + key + "' in consequences.txt");
+        }
+      }
+    }
+
+    @Test
+    void dailyLimitsPrefsExist() throws IOException {
+      try (BufferedReader reader =
+          FileUtilities.getVersionedReader("dailylimits.txt", KoLConstants.DAILYLIMITS_VERSION)) {
+        String[] data;
+        int pos;
+
+        while ((data = FileUtilities.readData(reader)) != null) {
+          if (data.length < 3) continue;
+
+          assertTrue(
+              Preferences.containsDefault(data[2]),
+              "Unknown preference '" + data[2] + "' in dailylimits.txt");
+        }
+      }
+    }
+
+    @Test
+    void allPrefModifiersExist() throws IOException {
+      // Finds all occurances of pref() in data files and tests the first parameter as a property
+      Pattern pattern = Pattern.compile("pref\\(([^),]+)(?:,[^),]+)?\\)");
+
+      for (String file : KoLConstants.OVERRIDE_DATA) {
+        try (BufferedReader reader = FileUtilities.getReader(file)) {
+          String line;
+
+          while ((line = reader.readLine()) != null) {
+            if (line.startsWith("#")) continue;
+            Matcher match = pattern.matcher(line);
+
+            while (match.find()) {
+              String key = match.group(1);
+
+              assertTrue(
+                  Preferences.containsDefault(key), "Unknown preference '" + key + "' in " + file);
+            }
+          }
+        }
       }
     }
   }
