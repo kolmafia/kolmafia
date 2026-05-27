@@ -8803,6 +8803,8 @@ public abstract class ChoiceControl {
             UseItemRequest.parseConsumption(text, false);
             SpadingManager.processConsumeItem(item, text);
             UseItemRequest.clearLastItemUsed();
+            String stripped = text.replace("Legendary Digestion", "");
+            ResultProcessor.processResults(false, stripped, null);
           }
         }
       }

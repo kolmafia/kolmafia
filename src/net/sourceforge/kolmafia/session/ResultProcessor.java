@@ -540,6 +540,11 @@ public class ResultProcessor {
       return false;
     }
 
+    if (lastToken.startsWith("Legendary Digestion")) {
+      parsedResults.clear();
+      return false;
+    }
+
     if (lastToken.startsWith("You gain")
         || (lastToken.startsWith("You lose ") && !lastToken.startsWith("You lose an item"))
         || lastToken.startsWith("You spent ")) {
