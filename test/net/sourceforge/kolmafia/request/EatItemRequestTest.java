@@ -344,7 +344,8 @@ class EatItemRequestTest {
       var req = new EatItemRequest(ItemPool.get(ItemPool.TUBETTO_GELATTO));
       req.run();
       assertThat(KoLCharacter.getFullness(), is(2));
-      // force refresh the choice.php, to make sure it doesn't double-count the fullness on page refresh
+      // force refresh the choice.php, to make sure it doesn't double-count the fullness on page
+      // refresh
       RequestThread.postRequest(new GenericRequest("choice.php?forcechoice=0"));
       assertThat(KoLCharacter.getFullness(), is(2));
       RequestThread.postRequest(new GenericRequest("choice.php?whichchoice=1599&option=1"));
