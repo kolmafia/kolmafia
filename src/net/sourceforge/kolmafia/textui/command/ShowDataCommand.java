@@ -439,7 +439,7 @@ public class ShowDataCommand extends AbstractCommand {
   }
 
   private static String getStatString(final int base, final int adjusted, final int tnp) {
-    StringBuffer statString = new StringBuffer();
+    StringBuilder statString = new StringBuilder();
     statString.append(KoLConstants.COMMA_FORMAT.format(adjusted));
 
     if (base != adjusted) {

@@ -33,7 +33,7 @@ public class OlfactionCommand extends AbstractCommand {
       } else if (parameters.equals("goals")) {
         isGoals = true;
       }
-      StringBuffer result = new StringBuffer();
+      StringBuilder result = new StringBuilder();
       if (isGoals) {
         result.append("goals");
       }
