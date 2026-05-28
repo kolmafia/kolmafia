@@ -234,7 +234,7 @@ public class ConditionsCommand extends AbstractCommand {
 
       int points = StringUtilities.parseInt(splitCondition[0]);
       int statIndex =
-          conditionString.indexOf("mus") != -1 ? 0 : conditionString.indexOf("mys") != -1 ? 1 : 2;
+        conditionString.contains("mus") ? 0 : conditionString.contains("mys") ? 1 : 2;
 
       GoalManager.GOAL_SUBSTATS_COUNTS[statIndex] =
           (int) KoLCharacter.calculateSubpoints(points, 0);
@@ -243,9 +243,9 @@ public class ConditionsCommand extends AbstractCommand {
               0,
               GoalManager.GOAL_SUBSTATS_COUNTS[statIndex]
                   - (int)
-                      (conditionString.indexOf("mus") != -1
+                      (conditionString.contains("mus")
                           ? KoLCharacter.getTotalMuscle()
-                          : conditionString.indexOf("mys") != -1
+                          : conditionString.contains("mys")
                               ? KoLCharacter.getTotalMysticality()
                               : KoLCharacter.getTotalMoxie()));
 

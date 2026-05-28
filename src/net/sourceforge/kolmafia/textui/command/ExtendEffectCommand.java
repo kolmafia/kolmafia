@@ -16,7 +16,7 @@ public class ExtendEffectCommand extends AbstractCommand {
 
   @Override
   public void run(final String cmd, final String parameters) {
-    if (parameters.indexOf(",") != -1) {
+    if (parameters.contains(",")) {
       String[] effects = StringUtilities.splitByComma(parameters);
       for (String effect : effects) {
         KoLmafiaCLI.DEFAULT_SHELL.executeCommand(cmd, effect);

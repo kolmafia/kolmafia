@@ -65,7 +65,7 @@ public class AutoAttackCommand extends AbstractCommand {
 
     // Check to see if it's a known skill / attack
 
-    if (attackName.equals("none") || attackName.indexOf("disable") != -1) {
+    if (attackName.equals("none") || attackName.contains("disable")) {
       skillId = 0;
     } else if (attackName.equals("attack") || attackName.startsWith("attack ")) {
       skillId = 1;

@@ -152,7 +152,7 @@ public abstract class AbstractCommand {
       nameString = parameters.substring(1, parameters.length() - 1);
       countString = null;
     } else if (parameters.startsWith("*")
-        || parameters.indexOf(" ") != -1 && Character.isDigit(parameters.charAt(0))) {
+        || parameters.contains(" ") && Character.isDigit(parameters.charAt(0))) {
       countString = parameters.split(" ")[0];
       String rest = parameters.substring(countString.length()).trim();
 

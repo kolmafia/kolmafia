@@ -34,7 +34,7 @@ public class EnthroneCommand extends AbstractCommand {
 
       RequestThread.postRequest(FamiliarRequest.enthroneRequest(FamiliarData.NO_FAMILIAR));
       return;
-    } else if (parameters.indexOf("(no change)") != -1) {
+    } else if (parameters.contains("(no change)")) {
       return;
     }
 

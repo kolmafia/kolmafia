@@ -88,7 +88,7 @@ public class CliRefCommand extends AbstractCommand {
       }
       String usage = handler.getUsage(name);
       if (usage == null
-          || name.indexOf(filter) == -1 && usage.toLowerCase().indexOf(filter) == -1) {
+          || !name.contains(filter) && !usage.toLowerCase().contains(filter)) {
         continue;
       }
       if (type == KeyType.PREFIX_KEY) {
