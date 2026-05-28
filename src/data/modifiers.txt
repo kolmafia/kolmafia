@@ -3186,7 +3186,7 @@ Item	fishbone facemask	Monster Level: [-30*path(Heavy Rains)]
 Item	fishbone fins	Single Equip
 # fishbone kneepads: (Heavy Rains only)
 Item	fishbone kneepads	Initiative: [60*path(Heavy Rains)], Single Equip
-Item	fitness tracking bracelet	PvP Fights: +1, Single Equip, Last Available: "2026-03"
+Item	fitness tracking bracelet	PvP Fights: [min(10, 1+floor(pref(_fitnessTrackingSteps)/100))], Single Equip, Last Available: "2026-03"
 Item	flagstone flip-flops	Experience (Mysticality): +3, Initiative: +40, Single Equip, Last Available: "2022-12", Conditional Skill (Equipped): "Flagstone Flap Flip"
 Item	flagstone fringe	Moxie Percent: +20, PvP Fights: +4, Single Equip, Last Available: "2022-12", Conditional Skill (Equipped): "Flagstone Foxtrot"
 Item	flapper floppers	Mysticality Percent: +25, Experience (Mysticality): +2, Single Equip
