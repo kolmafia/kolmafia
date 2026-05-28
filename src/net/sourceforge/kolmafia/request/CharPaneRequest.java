@@ -272,6 +272,8 @@ public class CharPaneRequest extends GenericRequest {
 
     CharPaneRequest.checkSweatiness(responseText);
 
+    CharPaneRequest.checkFitnessTrackingSteps(responseText);
+
     CharPaneRequest.check8BitScore(responseText);
 
     CharPaneRequest.checkNoncombatForcers(responseText);
@@ -1631,6 +1633,22 @@ public class CharPaneRequest extends GenericRequest {
     // If we don't find the matcher but we're wearing the pants we have zero sweatiness
     int sweatiness = (matcher.find()) ? StringUtilities.parseInt(matcher.group(1)) : 0;
     Preferences.setInteger("sweat", sweatiness);
+  }
+
+  // <td align=right>Steps:</td><td align=left><b>101</b></td>
+  private static final Pattern FITNESS_TRACKING_STEPS =
+      Pattern.compile("Steps:</td><td[^>]*><b>([\\d,]+)</b>");
+
+  public static void checkFitnessTrackingSteps(final String responseText) {
+    if (!KoLCharacter.hasEquipped(ItemPool.FITNESS_TRACKING_BRACELET)) {
+      return;
+    }
+
+    Matcher matcher = FITNESS_TRACKING_STEPS.matcher(responseText);
+
+    if (matcher.find()) {
+      Preferences.setInteger("_fitnessTrackingSteps", StringUtilities.parseInt(matcher.group(1)));
+    }
   }
 
   // <td align=right><span class='nes' style='line-height: 14px; font-size:

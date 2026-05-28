@@ -551,4 +551,20 @@ class CharPaneRequestTest {
       }
     }
   }
+
+  @Test
+  void canParseFitnessTrackingSteps() {
+    var cleanups =
+        new Cleanups(
+            withEquipped(ItemPool.FITNESS_TRACKING_BRACELET),
+            withProperty("_fitnessTrackingSteps", 0));
+
+    try (cleanups) {
+      var result =
+          CharPaneRequest.processResults(
+              html("request/test_charpane_fitness_tracking_bracelet.html"));
+      assertThat(result, equalTo(true));
+      assertThat("_fitnessTrackingSteps", isSetTo(101));
+    }
+  }
 }
