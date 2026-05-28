@@ -58,7 +58,7 @@ public class HermitCommand extends AbstractCommand {
         itemId = ItemPool.ELEVEN_LEAF_CLOVER;
       }
     } else {
-      Set<String> names = new HashSet(ItemDatabase.getMatchingNames(parameters));
+      Set<String> names = new HashSet<>(ItemDatabase.getMatchingNames(parameters));
       for (var item : KoLConstants.hermitItems) {
         if (names.contains(item.getName())) {
           if (KoLmafiaCLI.isExecutingCheckOnlyCommand) {
