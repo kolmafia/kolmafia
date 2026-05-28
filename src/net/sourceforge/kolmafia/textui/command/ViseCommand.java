@@ -43,7 +43,7 @@ public class ViseCommand extends AbstractCommand {
         return;
       }
 
-      int count = (matcher.group(1) != null) ? Integer.valueOf(matcher.group(2)) : 1;
+      int count = (matcher.group(1) != null) ? Integer.parseInt(matcher.group(2)) : 1;
       String substring = matcher.group(3);
       List<String> matches = HashingViseRequest.getMatchingNames(substring);
       if (matches.size() == 0) {
