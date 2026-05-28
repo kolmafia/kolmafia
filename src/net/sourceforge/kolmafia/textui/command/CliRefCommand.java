@@ -74,9 +74,7 @@ public class CliRefCommand extends AbstractCommand {
     boolean anymatches = false;
     HashMap<String, String> alreadySeen =
         new HashMap<>(); // usage => name of cmd already printed out
-    Iterator<Map.Entry<String, AbstractCommand>> i = AbstractCommand.lookup.entrySet().iterator();
-    while (i.hasNext()) {
-      Map.Entry<String, AbstractCommand> e = i.next();
+    for (Map.Entry<String, AbstractCommand> e : AbstractCommand.lookup.entrySet()) {
       String name = e.getKey();
       KeyType type = AbstractCommand.lookup.getKeyType(name);
       if (type == KeyType.NOT_A_KEY) {
@@ -88,7 +86,7 @@ public class CliRefCommand extends AbstractCommand {
       }
       String usage = handler.getUsage(name);
       if (usage == null
-          || !name.contains(filter) && !usage.toLowerCase().contains(filter)) {
+        || !name.contains(filter) && !usage.toLowerCase().contains(filter)) {
         continue;
       }
       if (type == KeyType.PREFIX_KEY) {
@@ -96,7 +94,7 @@ public class CliRefCommand extends AbstractCommand {
       }
       if (KoLmafiaCLI.isExecutingCheckOnlyCommand) {
         RequestLogger.printHtml(
-            DataUtilities.convertToHTML(name) + " @ " + handler.getClass().getName());
+          DataUtilities.convertToHTML(name) + " @ " + handler.getClass().getName());
         anymatches = true;
         continue;
       }
@@ -111,9 +109,9 @@ public class CliRefCommand extends AbstractCommand {
       Matcher m = CliRefCommand.PLACEHOLDER.matcher(usage);
       while (m.find()) {
         usage =
-            Pattern.compile("<?(\\Q" + m.group(1) + "\\E)>?")
-                .matcher(usage)
-                .replaceAll("<i>$1</i>");
+          Pattern.compile("<?(\\Q" + m.group(1) + "\\E)>?")
+            .matcher(usage)
+            .replaceAll("<i>$1</i>");
       }
       RequestLogger.printHtml(DataUtilities.convertToHTML(name) + usage);
     }

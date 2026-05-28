@@ -34,11 +34,7 @@ public class InternalRequestCommand extends AbstractCommand {
 
     this.isRunning = true;
 
-    Iterator<GenericRequest> requestIterator = this.requests.iterator();
-
-    while (requestIterator.hasNext()) {
-      GenericRequest request = requestIterator.next();
-
+    for (GenericRequest request : this.requests) {
       request.run();
     }
   }
