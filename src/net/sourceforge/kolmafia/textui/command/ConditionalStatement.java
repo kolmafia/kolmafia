@@ -82,7 +82,7 @@ public abstract class ConditionalStatement extends AbstractCommand {
     // involving left and right values.
 
     String operator =
-      parameters.contains("==")
+        parameters.contains("==")
             ? "=="
             : parameters.contains("!=")
                 ? "!="

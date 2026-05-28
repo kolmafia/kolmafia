@@ -429,8 +429,7 @@ public class ShowDataCommand extends AbstractCommand {
 
     for (Object item : items) {
       currentItem = StringUtilities.getCanonicalName(item.toString());
-      if (currentItem.contains(filter)
-        || m.reset(currentItem).replaceAll("").contains(filter)) {
+      if (currentItem.contains(filter) || m.reset(currentItem).replaceAll("").contains(filter)) {
         resultList.add(item);
       }
     }

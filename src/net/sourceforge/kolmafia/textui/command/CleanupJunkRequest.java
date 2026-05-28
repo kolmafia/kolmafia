@@ -76,7 +76,7 @@ public class CleanupJunkRequest extends AbstractCommand {
         }
 
         if (canUntinker
-          && ConcoctionDatabase.getMixingMethod(currentItem) == CraftingType.COMBINE) {
+            && ConcoctionDatabase.getMixingMethod(currentItem) == CraftingType.COMBINE) {
           RequestThread.postRequest(new UntinkerRequest(currentItem.getItemId()));
           madeUntinkerRequest = true;
           continue;
@@ -100,7 +100,7 @@ public class CleanupJunkRequest extends AbstractCommand {
           case 2536: // canopic jar
           case 2612: // ancient vinyl coin purse
             RequestThread.postRequest(
-              UseItemRequest.getInstance(currentItem.getInstance(itemCount)));
+                UseItemRequest.getInstance(currentItem.getInstance(itemCount)));
             break;
         }
       }
@@ -137,7 +137,7 @@ public class CleanupJunkRequest extends AbstractCommand {
             case WEAPON:
             case OFFHAND:
               if (InventoryManager.hasItem(ItemPool.TENDER_HAMMER) && itemPower >= 100
-                || hasMalusAccess && itemPower > 10) {
+                  || hasMalusAccess && itemPower > 10) {
                 RequestThread.postRequest(new PulverizeRequest(currentItem.getInstance(itemCount)));
               }
 
@@ -153,7 +153,7 @@ public class CleanupJunkRequest extends AbstractCommand {
 
             default:
               if (currentItem.getName().endsWith("powder")
-                || currentItem.getName().endsWith("nuggets")) {
+                  || currentItem.getName().endsWith("nuggets")) {
                 RequestThread.postRequest(new PulverizeRequest(currentItem.getInstance(itemCount)));
               }
 

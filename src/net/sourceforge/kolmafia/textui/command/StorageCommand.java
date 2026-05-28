@@ -66,7 +66,7 @@ public class StorageCommand extends AbstractCommand {
 
         // Count of item in storage
         int storageCount =
-          piece.getCount(KoLConstants.storage) + piece.getCount(KoLConstants.freepulls);
+            piece.getCount(KoLConstants.storage) + piece.getCount(KoLConstants.freepulls);
 
         if (InventoryManager.canUseStorage()) {
           // Don't double-count items in storage

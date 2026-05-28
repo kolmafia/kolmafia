@@ -1,7 +1,6 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -85,8 +84,7 @@ public class CliRefCommand extends AbstractCommand {
         continue;
       }
       String usage = handler.getUsage(name);
-      if (usage == null
-        || !name.contains(filter) && !usage.toLowerCase().contains(filter)) {
+      if (usage == null || !name.contains(filter) && !usage.toLowerCase().contains(filter)) {
         continue;
       }
       if (type == KeyType.PREFIX_KEY) {
@@ -94,7 +92,7 @@ public class CliRefCommand extends AbstractCommand {
       }
       if (KoLmafiaCLI.isExecutingCheckOnlyCommand) {
         RequestLogger.printHtml(
-          DataUtilities.convertToHTML(name) + " @ " + handler.getClass().getName());
+            DataUtilities.convertToHTML(name) + " @ " + handler.getClass().getName());
         anymatches = true;
         continue;
       }
@@ -109,9 +107,9 @@ public class CliRefCommand extends AbstractCommand {
       Matcher m = CliRefCommand.PLACEHOLDER.matcher(usage);
       while (m.find()) {
         usage =
-          Pattern.compile("<?(\\Q" + m.group(1) + "\\E)>?")
-            .matcher(usage)
-            .replaceAll("<i>$1</i>");
+            Pattern.compile("<?(\\Q" + m.group(1) + "\\E)>?")
+                .matcher(usage)
+                .replaceAll("<i>$1</i>");
       }
       RequestLogger.printHtml(DataUtilities.convertToHTML(name) + usage);
     }

@@ -38,8 +38,8 @@ public class AutoMallCommand extends AbstractCommand {
       }
 
       if (currentItem.getItemId() == ItemPool.MEAT_PASTE
-        || currentItem.getItemId() == ItemPool.MEAT_STACK
-        || currentItem.getItemId() == ItemPool.DENSE_STACK) {
+          || currentItem.getItemId() == ItemPool.MEAT_STACK
+          || currentItem.getItemId() == ItemPool.DENSE_STACK) {
         continue;
       }
 

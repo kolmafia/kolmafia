@@ -233,8 +233,7 @@ public class ConditionsCommand extends AbstractCommand {
       String[] splitCondition = conditionString.split("\\s+");
 
       int points = StringUtilities.parseInt(splitCondition[0]);
-      int statIndex =
-        conditionString.contains("mus") ? 0 : conditionString.contains("mys") ? 1 : 2;
+      int statIndex = conditionString.contains("mus") ? 0 : conditionString.contains("mys") ? 1 : 2;
 
       GoalManager.GOAL_SUBSTATS_COUNTS[statIndex] =
           (int) KoLCharacter.calculateSubpoints(points, 0);
