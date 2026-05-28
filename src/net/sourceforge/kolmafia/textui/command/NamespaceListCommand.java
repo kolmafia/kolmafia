@@ -17,9 +17,9 @@ public class NamespaceListCommand extends AbstractCommand {
   @Override
   public void run(final String cmd, final String parameters) {
     String[] scripts = Preferences.getString("commandLineNamespace").split(",");
-    for (int i = 0; i < scripts.length; ++i) {
-      RequestLogger.printLine(scripts[i]);
-      List<File> matches = KoLmafiaCLI.findScriptFile(scripts[i]);
+    for (String script : scripts) {
+      RequestLogger.printLine(script);
+      List<File> matches = KoLmafiaCLI.findScriptFile(script);
 
       File f = matches.size() == 1 ? matches.get(0) : null;
       if (f == null) {

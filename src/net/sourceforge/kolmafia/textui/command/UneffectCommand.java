@@ -27,8 +27,8 @@ public class UneffectCommand extends AbstractCommand {
         // Nope. It is a list of effects. Assume that
         // none contain a comma.
         String[] effects = StringUtilities.splitByComma(parameters);
-        for (int i = 0; i < effects.length; ++i) {
-          this.run("uneffect", effects[i]);
+        for (String effect : effects) {
+          this.run("uneffect", effect);
         }
 
         return;
@@ -50,8 +50,8 @@ public class UneffectCommand extends AbstractCommand {
       String buffToCheck;
       AdventureResult buffToRemove = null;
 
-      for (int i = 0; i < matchingEffects.size(); ++i) {
-        buffToCheck = matchingEffects.get(i);
+      for (String matchingEffect : matchingEffects) {
+        buffToCheck = matchingEffect;
         int effectId = EffectDatabase.getEffectId(buffToCheck);
         if (UneffectRequest.isShruggable(effectId)) {
           ++shruggableCount;

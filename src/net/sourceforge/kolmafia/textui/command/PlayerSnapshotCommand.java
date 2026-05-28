@@ -41,11 +41,11 @@ public class PlayerSnapshotCommand extends AbstractCommand {
 
     String[] options = StringUtilities.splitByComma(parameters);
 
-    for (int i = 0; i < options.length; ++i) {
+    for (String option : options) {
       RequestLogger.updateSessionLog();
-      RequestLogger.updateSessionLog(" > " + options[i]);
+      RequestLogger.updateSessionLog(" > " + option);
 
-      ShowDataCommand.show(options[i], true);
+      ShowDataCommand.show(option, true);
     }
 
     RequestLogger.updateSessionLog();

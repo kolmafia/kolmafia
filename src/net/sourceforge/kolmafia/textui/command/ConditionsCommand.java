@@ -75,8 +75,8 @@ public class ConditionsCommand extends AbstractCommand {
 
     boolean hasUpdate = false;
 
-    for (int i = 0; i < conditionList.length; ++i) {
-      AdventureResult condition = ConditionsCommand.extractCondition(conditionList[i]);
+    for (String s : conditionList) {
+      AdventureResult condition = ConditionsCommand.extractCondition(s);
 
       if (condition != null) {
         if (option.equals("set")) {

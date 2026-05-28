@@ -30,16 +30,16 @@ public class AutoMallCommand extends AbstractCommand {
 
     List<AdventureResult> sellList = new ArrayList<>();
 
-    for (int i = 0; i < items.length; ++i) {
-      currentItem = items[i];
+    for (AdventureResult item : items) {
+      currentItem = item;
 
       if (KoLConstants.mementoList.contains(currentItem)) {
         continue;
       }
 
       if (currentItem.getItemId() == ItemPool.MEAT_PASTE
-          || currentItem.getItemId() == ItemPool.MEAT_STACK
-          || currentItem.getItemId() == ItemPool.DENSE_STACK) {
+        || currentItem.getItemId() == ItemPool.MEAT_STACK
+        || currentItem.getItemId() == ItemPool.DENSE_STACK) {
         continue;
       }
 

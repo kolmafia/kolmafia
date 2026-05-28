@@ -18,8 +18,8 @@ public class ExtendEffectCommand extends AbstractCommand {
   public void run(final String cmd, final String parameters) {
     if (parameters.indexOf(",") != -1) {
       String[] effects = StringUtilities.splitByComma(parameters);
-      for (int i = 0; i < effects.length; ++i) {
-        KoLmafiaCLI.DEFAULT_SHELL.executeCommand(cmd, effects[i]);
+      for (String effect : effects) {
+        KoLmafiaCLI.DEFAULT_SHELL.executeCommand(cmd, effect);
       }
 
       return;

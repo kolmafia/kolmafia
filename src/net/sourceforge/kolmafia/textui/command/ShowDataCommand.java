@@ -341,8 +341,8 @@ public class ShowDataCommand extends AbstractCommand {
 
       int nBuffs = 0;
 
-      for (int i = 0; i < effects.length; ++i) {
-        String skillName = UneffectRequest.effectToSkill(effects[i].getName());
+      for (AdventureResult effect : effects) {
+        String skillName = UneffectRequest.effectToSkill(effect.getName());
         if (SkillDatabase.contains(skillName)) {
           int skillId = SkillDatabase.getSkillId(skillName);
           if (SkillDatabase.isAccordionThiefSong(skillId)) {
@@ -427,11 +427,11 @@ public class ShowDataCommand extends AbstractCommand {
     mainList.toArray(items);
     Matcher m = Pattern.compile("&lt;.*?&gt;").matcher("");
 
-    for (int i = 0; i < items.length; ++i) {
-      currentItem = StringUtilities.getCanonicalName(items[i].toString());
+    for (Object item : items) {
+      currentItem = StringUtilities.getCanonicalName(item.toString());
       if (currentItem.indexOf(filter) != -1
-          || m.reset(currentItem).replaceAll("").indexOf(filter) != -1) {
-        resultList.add(items[i]);
+        || m.reset(currentItem).replaceAll("").indexOf(filter) != -1) {
+        resultList.add(item);
       }
     }
 
