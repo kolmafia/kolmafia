@@ -75,8 +75,8 @@ public class ConditionsCommand extends AbstractCommand {
 
     boolean hasUpdate = false;
 
-    for (int i = 0; i < conditionList.length; ++i) {
-      AdventureResult condition = ConditionsCommand.extractCondition(conditionList[i]);
+    for (String s : conditionList) {
+      AdventureResult condition = ConditionsCommand.extractCondition(s);
 
       if (condition != null) {
         if (option.equals("set")) {
@@ -233,8 +233,7 @@ public class ConditionsCommand extends AbstractCommand {
       String[] splitCondition = conditionString.split("\\s+");
 
       int points = StringUtilities.parseInt(splitCondition[0]);
-      int statIndex =
-          conditionString.indexOf("mus") != -1 ? 0 : conditionString.indexOf("mys") != -1 ? 1 : 2;
+      int statIndex = conditionString.contains("mus") ? 0 : conditionString.contains("mys") ? 1 : 2;
 
       GoalManager.GOAL_SUBSTATS_COUNTS[statIndex] =
           (int) KoLCharacter.calculateSubpoints(points, 0);
@@ -243,9 +242,9 @@ public class ConditionsCommand extends AbstractCommand {
               0,
               GoalManager.GOAL_SUBSTATS_COUNTS[statIndex]
                   - (int)
-                      (conditionString.indexOf("mus") != -1
+                      (conditionString.contains("mus")
                           ? KoLCharacter.getTotalMuscle()
-                          : conditionString.indexOf("mys") != -1
+                          : conditionString.contains("mys")
                               ? KoLCharacter.getTotalMysticality()
                               : KoLCharacter.getTotalMoxie()));
 

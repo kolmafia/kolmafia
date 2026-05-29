@@ -36,8 +36,8 @@ public class PoolCommand extends AbstractCommand {
       }
     }
 
-    for (int i = 0; i < option.length; ++i) {
-      RequestThread.postRequest(new ClanLoungeRequest(Action.POOL_TABLE, option[i]));
+    for (int j : option) {
+      RequestThread.postRequest(new ClanLoungeRequest(Action.POOL_TABLE, j));
     }
   }
 }

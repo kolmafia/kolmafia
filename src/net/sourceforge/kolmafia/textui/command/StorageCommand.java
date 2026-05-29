@@ -60,9 +60,7 @@ public class StorageCommand extends AbstractCommand {
       List<AdventureResult> needed = new ArrayList<>();
 
       AdventureResult[] pieces = outfit.getPieces();
-      for (int i = 0; i < pieces.length; ++i) {
-        AdventureResult piece = pieces[i];
-
+      for (AdventureResult piece : pieces) {
         // Count of item from all "autoSatisfy" source
         int availableCount = InventoryManager.getAccessibleCount(piece);
 

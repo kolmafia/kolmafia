@@ -30,8 +30,8 @@ public class AutoMallCommand extends AbstractCommand {
 
     List<AdventureResult> sellList = new ArrayList<>();
 
-    for (int i = 0; i < items.length; ++i) {
-      currentItem = items[i];
+    for (AdventureResult item : items) {
+      currentItem = item;
 
       if (KoLConstants.mementoList.contains(currentItem)) {
         continue;

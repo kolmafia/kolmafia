@@ -38,8 +38,7 @@ public class ComparisonShopCommand extends AbstractCommand implements Comparator
     }
     String[] pieces = StringUtilities.splitByComma(parameters);
     TreeSet<String> names = new TreeSet<>();
-    for (int i = 0; i < pieces.length; ++i) {
-      String piece = pieces[i];
+    for (String piece : pieces) {
       if (piece.startsWith("+")) {
         AdventureResult item = ItemFinder.getFirstMatchingItem(piece.substring(1).trim());
         if (item == null) {

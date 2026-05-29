@@ -16,10 +16,10 @@ public class ExtendEffectCommand extends AbstractCommand {
 
   @Override
   public void run(final String cmd, final String parameters) {
-    if (parameters.indexOf(",") != -1) {
+    if (parameters.contains(",")) {
       String[] effects = StringUtilities.splitByComma(parameters);
-      for (int i = 0; i < effects.length; ++i) {
-        KoLmafiaCLI.DEFAULT_SHELL.executeCommand(cmd, effects[i]);
+      for (String effect : effects) {
+        KoLmafiaCLI.DEFAULT_SHELL.executeCommand(cmd, effect);
       }
 
       return;
