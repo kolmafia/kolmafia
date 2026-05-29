@@ -375,4 +375,17 @@ public class ConcoctionTest {
       }
     }
   }
+
+  @ParameterizedTest
+  @ValueSource(
+      ints = {
+        ItemPool.QUANTUM_TACO,
+        ItemPool.MAGICAL_SAUSAGE,
+        ItemPool.GLITCH_ITEM,
+        ItemPool.RED_DRUNKI_BEAR
+      })
+  public void unusualConcoctionTypesComputedAsFood(int itemId) {
+    var con = ConcoctionPool.get(itemId);
+    assertThat(con.computeType(), is(ConcoctionType.FOOD));
+  }
 }

@@ -93,10 +93,8 @@ public class Concoction implements Comparable<Concoction> {
       Set.of("steel margarita", "steel lasagna", "steel-scented air freshener");
   private static final Set<Integer> forceFood =
       Set.of(
-          ItemPool.QUANTUM_TACO,
           ItemPool.MUNCHIES_PILL,
           ItemPool.WHETSTONE,
-          ItemPool.MAGICAL_SAUSAGE,
           ItemPool.MAYONEX,
           ItemPool.MAYODIOL,
           ItemPool.MAYOSTAT,
