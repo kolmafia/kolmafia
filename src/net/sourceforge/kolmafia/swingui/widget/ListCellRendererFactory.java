@@ -406,6 +406,7 @@ public class ListCellRendererFactory {
         case ItemPool.MAYOSTAT -> stringForm.append("return some of next food");
         case ItemPool.MAYOZAPINE -> stringForm.append("x2 stat gain from next food");
         case ItemPool.MAYOFLEX -> stringForm.append("+1 adv from next food");
+        case ItemPool.ASTRAL_ENERGY_DRINK -> stringForm.append("Lucky!");
         default -> {
           Integer fullness = ConsumablesDatabase.getRawFullness(name);
           Integer inebriety = ConsumablesDatabase.getRawInebriety(name);
