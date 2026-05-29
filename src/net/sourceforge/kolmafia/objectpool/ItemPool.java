@@ -1711,7 +1711,6 @@ public class ItemPool {
   public static final int EMU_ROCKET = 5136;
   public static final int EMU_HELMET = 5137;
   public static final int EMU_HARNESS = 5138;
-  public static final int ASTRAL_ENERGY_DRINK = 5140;
   public static final int EMU_UNIT = 5143;
   public static final int HONEYPOT = 5145;
   public static final int SPOOKY_LITTLE_GIRL = 5165;
@@ -3617,6 +3616,7 @@ public class ItemPool {
   public static final int MEATBALL_MACHINE = 10878;
   public static final int REFURBISHED_AIR_FRYER = 10879;
   public static final int ELEVEN_LEAF_CLOVER = 10881;
+  public static final int ASTRAL_ENERGY_DRINK = 10883;
   public static final int CURSED_MAGNIFYING_GLASS = 10885;
   public static final int COSMIC_BOWLING_BALL = 10891;
   public static final int COMBAT_LOVERS_LOCKET = 10893;

@@ -709,6 +709,10 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
         }
       }
 
+      if (creation.getItemId() > 0) {
+        name = ItemPool.get(creation.getItemId()).getDisambiguatedName();
+      }
+
       if (ConsumablesDatabase.getRawFullness(name) == null
           && ConsumablesDatabase.getRawInebriety(name) == null
           && ConsumablesDatabase.getRawSpleenHit(name) == null) {

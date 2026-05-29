@@ -598,9 +598,9 @@ public class ConsumablesDatabase {
     Consumable existing = ConsumablesDatabase.consumableByName.get(itemName);
     ConsumablesDatabase.setConsumptionData(
         itemName,
-        existing.getRawFullness() != null ? size : null,
-        existing.getRawInebriety() != null ? size : null,
-        existing.getRawSpleenHit() != null ? size : null,
+        (existing != null && existing.getRawFullness() != null) ? size : null,
+        (existing != null && existing.getRawInebriety() != null) ? size : null,
+        (existing != null && existing.getRawSpleenHit() != null) ? size : null,
         level,
         quality,
         advs,
@@ -1138,7 +1138,7 @@ public class ConsumablesDatabase {
     // (probably) capped at level 11 giving 29-35 adventures, and levels 1-3
     // are (probably) lumped together giving 13-19 adventures.
 
-    name = "astral energy drink";
+    name = "[5140]astral energy drink";
     size = ConsumablesDatabase.getSpleenHit(name);
     int a = 10 + level * 2;
     adventures = (a - 3) + "-" + (a + 3);
