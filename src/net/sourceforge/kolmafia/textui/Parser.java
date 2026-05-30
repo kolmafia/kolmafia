@@ -4989,7 +4989,7 @@ public class Parser {
       return line.content.substring(start.getCharacter(), end.getCharacter());
     }
 
-    StringBuffer buf = new StringBuffer(line.substring(start.getCharacter()));
+    StringBuilder buf = new StringBuilder(line.substring(start.getCharacter()));
     buf.append(" ... ");
     while (line.lineNumber - 1 < end.getLine()) {
       // Bad Location -- end.getLine() fell off the end of the script.

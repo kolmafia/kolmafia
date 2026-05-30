@@ -3,7 +3,6 @@ package net.sourceforge.kolmafia.textui;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import net.sourceforge.kolmafia.KoLConstants;
 
@@ -83,9 +82,7 @@ public class Profiler {
     buff.append("<td>Net</td><td>Name ");
     buff.append(title);
     buff.append("</td></tr>");
-    Iterator<Profiler> i = list.iterator();
-    while (i.hasNext()) {
-      Profiler p = i.next();
+    for (Profiler p : list) {
       buff.append("<tr><td>");
       buff.append(p.count);
       buff.append("</td><td>");

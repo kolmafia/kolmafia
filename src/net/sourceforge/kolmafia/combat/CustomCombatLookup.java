@@ -3,7 +3,6 @@ package net.sourceforge.kolmafia.combat;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -90,11 +89,8 @@ public class CustomCombatLookup extends DefaultMutableTreeNode {
   }
 
   public void clearEncounterKey(final String encounterKey) {
-    Iterator<CustomCombatStrategy> strategyIterator = childLookup.values().iterator();
 
-    while (strategyIterator.hasNext()) {
-      CustomCombatStrategy strategy = strategyIterator.next();
-
+    for (CustomCombatStrategy strategy : childLookup.values()) {
       if (strategy.getName().equals(encounterKey)) {
         strategy.removeAllChildren();
       } else {
@@ -151,7 +147,7 @@ public class CustomCombatLookup extends DefaultMutableTreeNode {
   }
 
   public void load(BufferedReader reader) throws IOException {
-    StringBuffer indent = new StringBuffer();
+    StringBuilder indent = new StringBuilder();
     String line = null;
     int lineNumber = 0;
 
@@ -256,11 +252,8 @@ public class CustomCombatLookup extends DefaultMutableTreeNode {
   }
 
   public void store(PrintStream writer) {
-    Iterator<CustomCombatStrategy> strategyIterator = childLookup.values().iterator();
 
-    while (strategyIterator.hasNext()) {
-      CustomCombatStrategy strategy = strategyIterator.next();
-
+    for (CustomCombatStrategy strategy : childLookup.values()) {
       strategy.store(writer);
     }
   }

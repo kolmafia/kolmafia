@@ -1,7 +1,6 @@
 package net.sourceforge.kolmafia.request;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -124,9 +123,7 @@ public class QuestLogRequest extends GenericRequest {
       }
     }
 
-    Iterator<Integer> it = map.keySet().iterator();
-    while (it.hasNext()) {
-      Integer key = it.next();
+    for (Integer key : map.keySet()) {
       String header = map.get(key);
       String cut = responseText.substring(key.intValue()).split("</blockquote>")[0];
 
