@@ -338,7 +338,7 @@ public abstract class CombatActionManager {
     }
 
     if (action.startsWith("abort")) {
-      if (action.indexOf("after") != -1) {
+      if (action.contains("after")) {
         return "abort after this combat";
       }
       return "abort";
@@ -360,7 +360,7 @@ public abstract class CombatActionManager {
       return "twiddle your thumbs";
     }
 
-    if (action.indexOf("run") != -1 && action.indexOf("away") != -1) {
+    if (action.contains("run") && action.contains("away")) {
       Matcher runAwayMatcher = CombatActionManager.TRY_TO_RUN_AWAY_PATTERN.matcher(action);
 
       int runaway = 0;
@@ -480,7 +480,7 @@ public abstract class CombatActionManager {
     }
 
     if (action.startsWith("abort")) {
-      if (action.indexOf("after") != -1) {
+      if (action.contains("after")) {
         return "abort after";
       }
       return "abort";
@@ -523,7 +523,7 @@ public abstract class CombatActionManager {
       return "twiddle";
     }
 
-    if (action.indexOf("run") != -1 && action.indexOf("away") != -1) {
+    if (action.contains("run") && action.contains("away")) {
       Matcher runAwayMatcher = CombatActionManager.TRY_TO_RUN_AWAY_PATTERN.matcher(action);
       int runaway = runAwayMatcher.find() ? StringUtilities.parseInt(runAwayMatcher.group(1)) : 0;
       return runaway <= 0 ? "runaway" : ("runaway" + runaway);
