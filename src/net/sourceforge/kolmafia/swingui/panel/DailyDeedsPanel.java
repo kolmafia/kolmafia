@@ -1341,7 +1341,6 @@ public class DailyDeedsPanel extends Box implements Listener {
 
     /**
      * @param command the command to execute. This will also be the displayed button text.
-     * @param sCount the order in simple daily deeds
      */
     public SimpleDaily(String command, int sCount) {
       this.preference = "_simpleDeed" + sCount;
