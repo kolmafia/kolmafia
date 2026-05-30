@@ -118,7 +118,7 @@ public class CustomCombatPanel extends JPanel {
           return;
         }
 
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         String line;
 
         while ((line = reader.readLine()) != null) {

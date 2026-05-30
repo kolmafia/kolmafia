@@ -87,7 +87,7 @@ public class PhineasRequest extends CreateItemRequest {
       }
     }
 
-    StringBuffer sealString = new StringBuffer();
+    StringBuilder sealString = new StringBuilder();
     sealString.append("Trade ");
 
     AdventureResult[] ingredients = ConcoctionDatabase.getIngredients(itemId);

@@ -8,7 +8,6 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.StringJoiner;
 import javax.swing.Box;
@@ -1048,11 +1047,8 @@ public class DailyDeedsPanel extends Box implements Listener {
     @Override
     public void setEnabled(boolean enabled) {
       if (this.buttons != null) {
-        Iterator<JButton> i = this.buttons.iterator();
 
-        while (i.hasNext()) {
-          JButton button = i.next();
-
+        for (JButton button : this.buttons) {
           button.setEnabled(enabled);
         }
       }

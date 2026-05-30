@@ -135,7 +135,7 @@ public class SpaaaceRequest extends GenericRequest {
   private static final Pattern PEG_PATTERN = Pattern.compile("title=\"peg style ([123])\"");
 
   public static final String parseGameBoard(final String responseText) {
-    StringBuffer buffer = new StringBuffer();
+    StringBuilder buffer = new StringBuilder();
     Matcher matcher = PEG_PATTERN.matcher(responseText);
     while (matcher.find()) {
       buffer.append(matcher.group(1));
@@ -149,7 +149,7 @@ public class SpaaaceRequest extends GenericRequest {
       Pattern.compile("<div class=\"blank\">x(\\d)</div>");
 
   public static final String parseGamePayouts(final String responseText) {
-    StringBuffer buffer = new StringBuffer();
+    StringBuilder buffer = new StringBuilder();
     Matcher matcher = PAYOUT_PATTERN.matcher(responseText);
     while (matcher.find()) {
       buffer.append(matcher.group(1));
@@ -239,7 +239,7 @@ public class SpaaaceRequest extends GenericRequest {
       }
     }
 
-    StringBuffer buffer = new StringBuffer();
+    StringBuilder buffer = new StringBuilder();
     buffer.append("<div class=\"blank\" title=\"");
     if (min == max) {
       buffer.append(min);
@@ -468,7 +468,7 @@ public class SpaaaceRequest extends GenericRequest {
     }
 
     // Save the expected value for each slot in the top row
-    StringBuffer buffer = new StringBuffer();
+    StringBuilder buffer = new StringBuilder();
     for (int col = 0; col < 17; col += 2) {
       int minVal = min[col];
       int maxVal = max[col];
@@ -560,7 +560,7 @@ public class SpaaaceRequest extends GenericRequest {
       Pattern.compile("<div.*?class=\"(.*?)\".*?</div>", Pattern.DOTALL);
 
   private static String decoratePorkoBoard(final String board) {
-    StringBuffer buffer = new StringBuffer();
+    StringBuilder buffer = new StringBuilder();
 
     // Calculate the best expected yield
     float best = 0.0f;

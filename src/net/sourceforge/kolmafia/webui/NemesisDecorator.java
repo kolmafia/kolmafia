@@ -120,7 +120,7 @@ public class NemesisDecorator {
     NemesisManager.ensureUpdatedNemesisStatus();
     String[] moves = NemesisDecorator.findRaver(monster);
     if (moves != null) {
-      StringBuffer buffer = new StringBuffer();
+      StringBuilder buffer = new StringBuilder();
       String skill = moves[1];
       buffer.append(skill);
       if (KoLCharacter.hasSkill(skill)) {

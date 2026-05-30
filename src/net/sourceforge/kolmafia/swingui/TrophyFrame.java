@@ -27,7 +27,6 @@ import java.awt.image.FilteredImageSource;
 import java.awt.image.PixelGrabber;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -88,9 +87,7 @@ public class TrophyFrame extends GenericFrame {
       TrophyRequest req = new TrophyRequest();
       RequestThread.postRequest(req);
       ArrayList<Trophy> trophies = req.getTrophies();
-      Iterator<Trophy> i = trophies.iterator();
-      while (i.hasNext()) {
-        Trophy t = i.next();
+      for (Trophy t : trophies) {
         FileUtilities.downloadImage(KoLmafia.imageServerPath() + t.filename);
         (t.visible ? this.shownList : this.hiddenList).add(new DraggableTrophy(t));
       }
