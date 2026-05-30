@@ -278,7 +278,7 @@ public class ShopRow implements Comparable<ShopRow> {
     List<ShopRow> result = new ArrayList<>();
     Matcher m = ROW_PATTERN.matcher(html);
     while (m.find()) {
-      int itemId = Integer.valueOf(m.group(1));
+      int itemId = Integer.parseInt(m.group(1));
       int tds = 0;
 
       int row = 0;
@@ -346,7 +346,7 @@ public class ShopRow implements Comparable<ShopRow> {
 
             Matcher m3 = TD3_PATTERN.matcher(text);
             name = m3.find() ? m3.group(1) : "";
-            count = m3.find() ? Integer.valueOf(m3.group(1)) : 1;
+            count = m3.find() ? Integer.parseInt(m3.group(1)) : 1;
 
             // We have found the item. Do we know what it is?
             int iid = ItemDatabase.getItemIdFromDescription(descid);
@@ -364,7 +364,7 @@ public class ShopRow implements Comparable<ShopRow> {
           // rel string with whichrow
           Matcher m6 = IROW_PATTERN.matcher(text);
           if (m6.find()) {
-            row = Integer.valueOf(m6.group(1));
+            row = Integer.parseInt(m6.group(1));
           }
           continue;
         }
@@ -544,7 +544,7 @@ public class ShopRow implements Comparable<ShopRow> {
     }
 
     String master = data[0];
-    int row = Integer.valueOf(data[1].substring(3));
+    int row = Integer.parseInt(data[1].substring(3));
     AdventureResult item = ShopRowDatabase.parseItemOrMeatOrSkill(data[2]);
     List<AdventureResult> costs = new ArrayList<>();
     for (int index = 3; index < data.length; ++index) {

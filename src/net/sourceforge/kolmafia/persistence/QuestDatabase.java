@@ -492,7 +492,7 @@ public class QuestDatabase {
     } else if (details.contains("go to Oil Peak and investigate")) {
       Preferences.setFloat("oilPeakProgress", 310.66f);
     } else if (oil.find()) {
-      Preferences.setFloat("oilPeakProgress", Float.valueOf(oil.group(1)));
+      Preferences.setFloat("oilPeakProgress", Float.parseFloat(oil.group(1)));
     }
 
     if (Preferences.getBoolean("booPeakLit")

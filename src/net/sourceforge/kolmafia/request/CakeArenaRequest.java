@@ -90,16 +90,16 @@ public class CakeArenaRequest extends GenericRequest {
 
   @Override
   public void processResults() {
-    if (this.responseText.indexOf("You can't") != -1
-        || this.responseText.indexOf("You shouldn't") != -1
-        || this.responseText.indexOf("You don't") != -1
-        || this.responseText.indexOf("You need") != -1) {
+    if (this.responseText.contains("You can't")
+        || this.responseText.contains("You shouldn't")
+        || this.responseText.contains("You don't")
+        || this.responseText.contains("You need")) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "Arena battles aborted!");
       return;
-    } else if (this.responseText.indexOf("You're way too beaten") != -1) {
+    } else if (this.responseText.contains("You're way too beaten")) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "You're way too beaten up, Arena battles aborted!");
       return;
-    } else if (this.responseText.indexOf("You're too drunk") != -1) {
+    } else if (this.responseText.contains("You're too drunk")) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "You're too drunk, Arena battles aborted!");
       return;
     }
@@ -122,7 +122,7 @@ public class CakeArenaRequest extends GenericRequest {
 
     FamiliarData familiar = KoLCharacter.getFamiliar();
     if (familiar.getId() == FamiliarPool.BUGBEAR
-        && responseText.indexOf("Congratulations on your %arenawins arena win") != -1) {
+        && responseText.contains("Congratulations on your %arenawins arena win")) {
       return ResultProcessor.processItem(ItemPool.BUGGED_BEANIE, 1);
     }
 
@@ -135,8 +135,8 @@ public class CakeArenaRequest extends GenericRequest {
           "<tr><td valign=center><input type=radio .*? name=whichopp value=(\\d+)>.*?<b>(.*?)</b> the (.*?)<br/?>(\\d*).*?</tr>");
 
   public static final void parseResponse(final String urlString, final String responseText) {
-    if (urlString.indexOf("action=go") != -1) {
-      if (responseText.indexOf("You don't have enough Meat") != -1) {
+    if (urlString.contains("action=go")) {
+      if (responseText.contains("You don't have enough Meat")) {
         return;
       }
 
@@ -340,7 +340,7 @@ public class CakeArenaRequest extends GenericRequest {
     int xp = CakeArenaRequest.earnedXP(responseText);
 
     if (xp > 0) {
-      boolean gain = responseText.indexOf("gains a pound") != -1;
+      boolean gain = responseText.contains("gains a pound");
       familiar.addNonCombatExperience(xp);
       return familiar.getName() + " gains " + xp + " experience" + (gain ? " and a pound." : ".");
     } else {
