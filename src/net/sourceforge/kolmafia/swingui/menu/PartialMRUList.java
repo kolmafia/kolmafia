@@ -28,8 +28,8 @@ public class PartialMRUList extends ScriptMRUList implements Listener {
   private final Object renderer;
 
   /**
-   * @param pList - partial MRU list as a delimited string
-   * @param pLen - length of teh partial MRU list
+   * @param pList partial MRU list as a delimited string
+   * @param pLen length of the partial MRU list
    */
   public PartialMRUList(String pList, String pLen, String pDefaultList) {
     super(pList, pLen);
