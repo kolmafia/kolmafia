@@ -2727,6 +2727,10 @@ public class FightRequest extends GenericRequest {
       EquipmentManager.breakEquipment(ItemPool.ANTIQUE_GREAVES, "Your antique greaves broke.");
     }
 
+    if (responseText.contains("Your hoverboard explodes")) {
+      EquipmentManager.breakEquipment(ItemPool.HOVERBOARD, "Your hoverboard broke.");
+    }
+
     // You try to unlock your cyber-mattock, but the battery's
     // dead.  Since the charger won't be invented for several
     // hundred years, you chuck the useless hunk of plastic as far
