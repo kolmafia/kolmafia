@@ -651,7 +651,7 @@ public class UneffectRequest extends GenericRequest {
   }
 
   public static String getUneffectSkill(final int effectId) {
-    Integer effect = Integer.valueOf(effectId);
+    Integer effect = effectId;
 
     for (Entry<String, Set<Integer>> removable : UneffectRequest.REMOVABLE_BY_SKILL) {
       Set<Integer> removables = removable.getValue();

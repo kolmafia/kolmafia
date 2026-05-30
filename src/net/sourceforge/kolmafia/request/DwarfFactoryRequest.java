@@ -1095,7 +1095,7 @@ public class DwarfFactoryRequest extends GenericRequest {
     }
 
     private void mapCharacter(final char c, final int i) {
-      Character code = Character.valueOf(Character.toUpperCase(c));
+      Character code = Character.toUpperCase(c);
       Integer val = i;
       this.mapCharacter(code, val);
     }
@@ -1129,7 +1129,7 @@ public class DwarfFactoryRequest extends GenericRequest {
     public int parseNumber(final String string) {
       int number = 0;
       for (int i = 0; i < string.length(); ++i) {
-        Integer val = this.digitMap.get(Character.valueOf(string.charAt(i)));
+        Integer val = this.digitMap.get(string.charAt(i));
         if (val == null) {
           return -1;
         }
@@ -1144,7 +1144,7 @@ public class DwarfFactoryRequest extends GenericRequest {
     private final ArrayList<Character> digits = new ArrayList<>();
 
     private void addNewDigit(final char ch) {
-      Character digit = Character.valueOf(ch);
+      Character digit = ch;
       if (!this.digits.contains(digit)) {
         this.digits.add(digit);
       }
@@ -1876,7 +1876,7 @@ public class DwarfFactoryRequest extends GenericRequest {
         String setting = "lastDwarfFactoryItem" + itemId;
         String value = Preferences.getString(setting);
         if (value.length() == 1) {
-          Character rune = Character.valueOf(value.charAt(0));
+          Character rune = value.charAt(0);
           Integer id = itemId;
           this.itemMap.put(rune, id);
           this.runeMap.put(id, rune);
@@ -1982,7 +1982,7 @@ public class DwarfFactoryRequest extends GenericRequest {
     }
 
     private int findItem(final char rune) {
-      Integer val = this.itemMap.get(Character.valueOf(rune));
+      Integer val = this.itemMap.get(rune);
       return val == null ? -1 : val.intValue();
     }
 
