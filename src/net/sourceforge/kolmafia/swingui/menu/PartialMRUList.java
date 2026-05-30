@@ -15,7 +15,9 @@ import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.SwinglessUIUtils;
 
+@SuppressWarnings("ALL")
 /** Like an MRUList, but maintains a list of "default" settings at the bottom under a JSeparator. */
+
 public class PartialMRUList extends ScriptMRUList implements Listener {
   private final LinkedList<String> defaultList = new LinkedList<>();
   private final String pDefaultList;
@@ -93,8 +95,8 @@ public class PartialMRUList extends ScriptMRUList implements Listener {
   }
 
   /**
-   * Adapted from <a
-   * href="http://www.jroller.com/santhosh/entry/jcombobox_items_with_separators">.</a> Last Access:
+   * Adapted from
+   * "http://www.jroller.com/santhosh/entry/jcombobox_items_with_separators" Last Access:
    * 5/11/13 Distributed under GNU Lesser GPL. Copyright (C) 2005 Santhosh Kumar T
    *
    * <p>This program is free software: you can redistribute it and/or modify it under the terms of
@@ -103,7 +105,7 @@ public class PartialMRUList extends ScriptMRUList implements Listener {
    * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
    * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
    * more details. You should have received a copy of the GNU General Public License along with this
-   * program. If not, see <<a href="http://www.gnu.org/licenses/"></a>>.
+   * program. If not, see "href="http://www.gnu.org/licenses/".
    *
    * @author Santhosh Kumar T {@code @email} santhosh.tekuri@gmail.com
    */
