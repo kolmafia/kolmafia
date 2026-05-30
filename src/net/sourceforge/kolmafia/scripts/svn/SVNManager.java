@@ -966,7 +966,7 @@ public class SVNManager extends ScriptManager {
   /**
    * Accessory method to queue up a local file copy event.
    *
-   * @param event - SVN event to be queued
+   * @param event SVN event to be queued
    */
   public static void queueFileEvent(SVNFileEvent event) {
     SVNManager.eventStack.add(event);
