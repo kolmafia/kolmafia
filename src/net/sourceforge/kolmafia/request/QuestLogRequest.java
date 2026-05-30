@@ -124,9 +124,7 @@ public class QuestLogRequest extends GenericRequest {
       }
     }
 
-    Iterator<Integer> it = map.keySet().iterator();
-    while (it.hasNext()) {
-      Integer key = it.next();
+    for (Integer key : map.keySet()) {
       String header = map.get(key);
       String cut = responseText.substring(key.intValue()).split("</blockquote>")[0];
 
@@ -137,8 +135,9 @@ public class QuestLogRequest extends GenericRequest {
         // First time I opened this today it said Miscellaneous quests, now says Other quests, so
         // check for both
         case "Other Quests:", "Miscellaneous Quests:" -> handleQuestText(cut);
-        default -> {}
-          // encountered a section in questlog we don't know how to handle.
+        default -> {
+        }
+        // encountered a section in questlog we don't know how to handle.
       }
     }
 

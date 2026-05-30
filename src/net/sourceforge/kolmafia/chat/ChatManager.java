@@ -558,14 +558,11 @@ public abstract class ChatManager {
 
       StringBuilder mailContent = new StringBuilder();
 
-      Iterator<ChatMessage> clanMessageIterator = ChatManager.clanMessages.iterator();
-
-      while (clanMessageIterator.hasNext()) {
-        ChatMessage message = clanMessageIterator.next();
+      for (ChatMessage message : ChatManager.clanMessages) {
         String cleanMessage =
-            KoLConstants.ANYTAG_PATTERN
-                .matcher(ChatFormatter.formatChatMessage(message))
-                .replaceAll("");
+          KoLConstants.ANYTAG_PATTERN
+            .matcher(ChatFormatter.formatChatMessage(message))
+            .replaceAll("");
 
         mailContent.append(cleanMessage);
         mailContent.append("\n");

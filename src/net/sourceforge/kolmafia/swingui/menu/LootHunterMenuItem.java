@@ -111,12 +111,9 @@ public class LootHunterMenuItem extends ThreadedMenuItem {
 
     ButtonGroup buttonGroup = new ButtonGroup();
 
-    Iterator<PossibleSelection> it = choices.iterator();
-    while (it.hasNext()) {
-      PossibleSelection c = it.next();
-
+    for (PossibleSelection c : choices) {
       JRadioButton radio =
-          new JRadioButton("<html>" + c.getLabel() + "<br>" + c.getDescription() + "</html>");
+        new JRadioButton("<html>" + c.getLabel() + "<br>" + c.getDescription() + "</html>");
       radio.addActionListener(c);
 
       if (choicePanel.getComponentCount() < 2) radio.doClick();

@@ -142,14 +142,12 @@ public class MoodTrigger implements Comparable<MoodTrigger> {
 
     StringBuilder buffer = new StringBuilder();
 
-    Iterator<String> actionIterator = existingActions.iterator();
-
-    while (actionIterator.hasNext()) {
+    for (String existingAction : existingActions) {
       if (buffer.length() > 0) {
         buffer.append("|");
       }
 
-      String action = actionIterator.next();
+      String action = existingAction;
       buffer.append(action);
     }
 

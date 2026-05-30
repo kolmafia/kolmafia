@@ -159,9 +159,7 @@ public class ListenerRegistry {
         entries = this.listenerMap.entrySet();
       }
 
-      Iterator<Entry<Object, ArrayList<WeakReference<Listener>>>> i1 = entries.iterator();
-      while (i1.hasNext()) {
-        Entry<Object, ArrayList<WeakReference<Listener>>> entry = i1.next();
+      for (Entry<Object, ArrayList<WeakReference<Listener>>> entry : entries) {
         Object key = entry.getKey();
         ArrayList<WeakReference<Listener>> listenerList = entry.getValue();
         int count = listenerList == null ? 0 : listenerList.size();

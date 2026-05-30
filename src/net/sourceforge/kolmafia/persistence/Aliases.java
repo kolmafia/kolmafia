@@ -58,9 +58,7 @@ public class Aliases {
 
   public static void save() {
     try (PrintStream aliasStream = LogStream.openStream(Aliases.ALIAS_FILE, true)) {
-      Iterator<Entry<String, String>> it = Aliases.aliasSet.iterator();
-      while (it.hasNext()) {
-        Entry<String, String> current = it.next();
+      for (Entry<String, String> current : Aliases.aliasSet) {
         String aliasString = current.getKey();
         String aliasCommand = current.getValue();
         aliasStream.println(aliasString.trim() + "\t" + aliasCommand.trim());
@@ -81,9 +79,7 @@ public class Aliases {
 
     line = " " + line + " ";
 
-    Iterator<Entry<String, String>> it = Aliases.aliasSet.iterator();
-    while (it.hasNext()) {
-      Entry<String, String> current = it.next();
+    for (Entry<String, String> current : Aliases.aliasSet) {
       String aliasString = current.getKey();
       String aliasCommand = current.getValue();
 
