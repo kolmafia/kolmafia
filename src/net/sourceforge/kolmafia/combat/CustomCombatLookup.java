@@ -90,11 +90,8 @@ public class CustomCombatLookup extends DefaultMutableTreeNode {
   }
 
   public void clearEncounterKey(final String encounterKey) {
-    Iterator<CustomCombatStrategy> strategyIterator = childLookup.values().iterator();
 
-    while (strategyIterator.hasNext()) {
-      CustomCombatStrategy strategy = strategyIterator.next();
-
+    for (CustomCombatStrategy strategy : childLookup.values()) {
       if (strategy.getName().equals(encounterKey)) {
         strategy.removeAllChildren();
       } else {
@@ -256,11 +253,8 @@ public class CustomCombatLookup extends DefaultMutableTreeNode {
   }
 
   public void store(PrintStream writer) {
-    Iterator<CustomCombatStrategy> strategyIterator = childLookup.values().iterator();
 
-    while (strategyIterator.hasNext()) {
-      CustomCombatStrategy strategy = strategyIterator.next();
-
+    for (CustomCombatStrategy strategy : childLookup.values()) {
       strategy.store(writer);
     }
   }

@@ -1048,11 +1048,8 @@ public class DailyDeedsPanel extends Box implements Listener {
     @Override
     public void setEnabled(boolean enabled) {
       if (this.buttons != null) {
-        Iterator<JButton> i = this.buttons.iterator();
 
-        while (i.hasNext()) {
-          JButton button = i.next();
-
+        for (JButton button : this.buttons) {
           button.setEnabled(enabled);
         }
       }
