@@ -917,8 +917,8 @@ public class SVNManager extends ScriptManager {
    * <p>We hardcode a regex to handle sourceforge (in future, possibly other) URLS. We want to turn
    * "https://svn.code.sf.net/p/mafiasvntest/code/myvalidproject1/" into
    * "mafiasvntest-myvalidproject1". Likewise
-   * "https://svn.code.sf.net/p/mafiasvntest/code/trunk/branchA/myvalidproject1/"
-   * becomes "mafiasvntest-trunk-branchA-myvalidproject1".
+   * "https://svn.code.sf.net/p/mafiasvntest/code/trunk/branchA/myvalidproject1/" becomes
+   * "mafiasvntest-trunk-branchA-myvalidproject1".
    *
    * <p>If the regex fails to match, we fall back and get the SVN repo UUID. This means that
    * checking out multiple projects will fail (since we can't put multiple working copies in one
