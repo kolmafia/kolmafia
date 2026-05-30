@@ -10,7 +10,6 @@ import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 // CHECKSTYLE.SUPPRESS: AvoidStarImport
 import net.sourceforge.kolmafia.request.*;
-import net.sourceforge.kolmafia.request.GrandpaRequest;
 import net.sourceforge.kolmafia.request.coinmaster.AWOLQuartermasterRequest;
 import net.sourceforge.kolmafia.request.coinmaster.AltarOfBonesRequest;
 import net.sourceforge.kolmafia.request.coinmaster.BURTRequest;

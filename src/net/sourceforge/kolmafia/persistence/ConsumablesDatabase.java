@@ -522,7 +522,7 @@ public class ConsumablesDatabase {
         | (gainEffect1 ? 1 : 0) << 3
         | (gainEffect2 ? 1 : 0) << 2
         | (gainEffect3 ? 1 : 0) << 1
-        | (gainEffect4 ? 1 : 0) << 0;
+        | (gainEffect4 ? 1 : 0);
   }
 
   private static String extractStatRange(
