@@ -4081,9 +4081,9 @@ public class RelayRequest extends PasswordHashRequest {
    * Centralized method for sending warnings before executing a relay request. Call individual
    * warnings from here.
    *
-   * @param adventure
-   * @param adventureName
-   * @param nextAdventure
+   * @param adventure - adventure that may need warnings sent
+   * @param adventureName - name of adventure that may need warnings sent
+   * @param nextAdventure - name or next adventure
    * @return <b>true</b> if a pseudoresponse was displayed and the RelayRequest should stop before
    *     run()-ing.
    */

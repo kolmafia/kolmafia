@@ -5,7 +5,8 @@ package net.sourceforge.kolmafia.textui.javascript;
 public class JavascriptNumbers {
 
   /**
-   * @see https://www.ecma-international.org/ecma-262/6.0/#sec-number.max_safe_integer
+   * @see <a
+   *     href="https://www.ecma-international.org/ecma-262/6.0/#sec-number.max_safe_integer">...</a>
    */
   private static final double MAX_SAFE_INTEGER = 9007199254740991.0; // Math.pow(2, 53) - 1
 

@@ -915,10 +915,10 @@ public class SVNManager extends ScriptManager {
    * projects for a given repo.
    *
    * <p>We hardcode a regex to handle sourceforge (in future, possibly other) URLS. We want to turn
-   * https://svn.code.sf.net/p/mafiasvntest/code/myvalidproject1/ into
-   * "mafiasvntest-myvalidproject1". Likewise
-   * https://svn.code.sf.net/p/mafiasvntest/code/trunk/branchA/myvalidproject1/ becomes
-   * "mafiasvntest-trunk-branchA-myvalidproject1".
+   * <a href="https://svn.code.sf.net/p/mafiasvntest/code/myvalidproject1/">...</a> into
+   * "mafiasvntest-myvalidproject1". Likewise <a
+   * href="https://svn.code.sf.net/p/mafiasvntest/code/trunk/branchA/myvalidproject1/">...</a>
+   * becomes "mafiasvntest-trunk-branchA-myvalidproject1".
    *
    * <p>If the regex fails to match, we fall back and get the SVN repo UUID. This means that
    * checking out multiple projects will fail (since we can't put multiple working copies in one
@@ -966,7 +966,7 @@ public class SVNManager extends ScriptManager {
   /**
    * Accessory method to queue up a local file copy event.
    *
-   * @param event
+   * @param event - SVN event to be queued
    */
   public static void queueFileEvent(SVNFileEvent event) {
     SVNManager.eventStack.add(event);
