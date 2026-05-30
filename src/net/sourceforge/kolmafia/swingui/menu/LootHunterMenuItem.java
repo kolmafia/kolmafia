@@ -139,8 +139,8 @@ public class LootHunterMenuItem extends ThreadedMenuItem {
   }
 
   private static String[] buildInformation(String type, String item, int number) {
-    StringBuffer label = new StringBuffer();
-    StringBuffer description = new StringBuffer();
+    StringBuilder label = new StringBuilder();
+    StringBuilder description = new StringBuilder();
 
     if (item == null || item.equals("")) {
       label.setLength(0);

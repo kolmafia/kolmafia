@@ -148,7 +148,7 @@ public class CustomCombatLookup extends DefaultMutableTreeNode {
   }
 
   public void load(BufferedReader reader) throws IOException {
-    StringBuffer indent = new StringBuffer();
+    StringBuilder indent = new StringBuilder();
     String line = null;
     int lineNumber = 0;
 
