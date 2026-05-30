@@ -28,7 +28,7 @@ public class PartialMRUList extends ScriptMRUList implements Listener {
   private final Object renderer;
 
   /**
-   * @param pList partial MRU list as a delimited string
+   * @param pList partial MRU list as a semi-colon delimited string
    * @param pLen length of the partial MRU list
    */
   public PartialMRUList(String pList, String pLen, String pDefaultList) {
@@ -94,16 +94,16 @@ public class PartialMRUList extends ScriptMRUList implements Listener {
 
   /**
    * Adapted from <a
-   * href="http://www.jroller.com/santhosh/entry/jcombobox_items_with_separators">...</a> Last
+   * href="http://www.jroller.com/santhosh/entry/jcombobox_items_with_separators">.</a> Last
    * Access: 5/11/13 Distributed under GNU Lesser GPL. Copyright (C) 2005 Santhosh Kumar T
    *
-   * <p>This program is free software: you can redistribute it and/or modify it under the terms of
+   * This program is free software: you can redistribute it and/or modify it under the terms of
    * the GNU General Public License as published by the Free Software Foundation, either version 2.1
    * of the License, or (at your option) any later version. This program is distributed in the hope
    * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
    * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
    * more details. You should have received a copy of the GNU General Public License along with this
-   * program. If not, see <<a href="http://www.gnu.org/licenses/">...</a>>.
+   * program. If not, see <<a href="http://www.gnu.org/licenses/"></a>>.
    *
    * @author Santhosh Kumar T {@code @email} santhosh.tekuri@gmail.com
    */
