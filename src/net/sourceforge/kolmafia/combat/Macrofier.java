@@ -160,7 +160,7 @@ public class Macrofier {
         String result = returnValue.toString();
         if (result.length() > 0) {
           if (result.startsWith("\"") && result.charAt(result.length() - 1) == '\"') {
-            StringBuffer macro = new StringBuffer();
+            StringBuilder macro = new StringBuilder();
             macro.append("#macro action\n");
             macro.append(result, 1, result.length() - 1);
             macro.append('\n');

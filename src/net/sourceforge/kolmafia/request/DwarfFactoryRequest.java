@@ -450,7 +450,7 @@ public class DwarfFactoryRequest extends GenericRequest {
 
   public static String getRunes(final String responseText) {
     Matcher matcher = DwarfFactoryRequest.getRuneMatcher(responseText);
-    StringBuffer resultBuilder = new StringBuffer();
+    StringBuilder resultBuilder = new StringBuilder();
     while (matcher.find()) {
       resultBuilder.append(matcher.group(2));
     }
@@ -497,7 +497,7 @@ public class DwarfFactoryRequest extends GenericRequest {
 
   public static void useUnlaminatedItem(final int itemId, final String responseText) {
     Matcher matcher = DwarfFactoryRequest.getRuneMatcher(responseText);
-    StringBuffer runesBuilder = new StringBuffer();
+    StringBuilder runesBuilder = new StringBuilder();
     int count = 0;
 
     while (matcher.find()) {
@@ -521,7 +521,7 @@ public class DwarfFactoryRequest extends GenericRequest {
 
   public static void useLaminatedItem(final int itemId, final String responseText) {
     Matcher matcher = DwarfFactoryRequest.getRuneMatcher(responseText);
-    StringBuffer runesBuilder = new StringBuffer();
+    StringBuilder runesBuilder = new StringBuilder();
     int count = 0;
 
     while (matcher.find()) {
@@ -1114,7 +1114,7 @@ public class DwarfFactoryRequest extends GenericRequest {
     }
 
     public String digitString() {
-      StringBuffer valueBuilder = new StringBuffer();
+      StringBuilder valueBuilder = new StringBuilder();
       for (int i = 0; i < 7; ++i) {
         Character code = this.charMap.get(i);
         valueBuilder.append(code == null ? '-' : code.charValue());

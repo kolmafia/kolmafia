@@ -1,7 +1,6 @@
 package net.sourceforge.kolmafia.moods;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
@@ -142,14 +141,12 @@ public class MoodTrigger implements Comparable<MoodTrigger> {
 
     StringBuilder buffer = new StringBuilder();
 
-    Iterator<String> actionIterator = existingActions.iterator();
-
-    while (actionIterator.hasNext()) {
+    for (String existingAction : existingActions) {
       if (buffer.length() > 0) {
         buffer.append("|");
       }
 
-      String action = actionIterator.next();
+      String action = existingAction;
       buffer.append(action);
     }
 

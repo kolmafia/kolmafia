@@ -5,7 +5,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map.Entry;
@@ -558,10 +557,7 @@ public abstract class ChatManager {
 
       StringBuilder mailContent = new StringBuilder();
 
-      Iterator<ChatMessage> clanMessageIterator = ChatManager.clanMessages.iterator();
-
-      while (clanMessageIterator.hasNext()) {
-        ChatMessage message = clanMessageIterator.next();
+      for (ChatMessage message : ChatManager.clanMessages) {
         String cleanMessage =
             KoLConstants.ANYTAG_PATTERN
                 .matcher(ChatFormatter.formatChatMessage(message))

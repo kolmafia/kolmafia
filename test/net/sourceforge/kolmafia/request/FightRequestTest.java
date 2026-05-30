@@ -1324,6 +1324,23 @@ public class FightRequestTest {
   }
 
   @Test
+  public void canDetectHoverboardExploding() {
+    RequestLoggerOutput.startStream();
+    var cleanups =
+        new Cleanups(
+            withFight(),
+            withEquipped(Slot.ACCESSORY1, ItemPool.HOVERBOARD),
+            withProperty("breakableHandling", 1));
+    try (cleanups) {
+      parseCombatData("request/test_fight_hoverboard_explodes.html");
+      var text = RequestLoggerOutput.stopStream();
+
+      assertThat(text, containsString("Your hoverboard broke."));
+      assertThat(EquipmentManager.getEquipment(Slot.ACCESSORY1).getItemId(), equalTo(-1));
+    }
+  }
+
+  @Test
   public void canDetectCartography() {
     RequestLoggerOutput.startStream();
     var cleanups = new Cleanups(withSkill(SkillPool.COMPREHENSIVE_CARTOGRAPHY));
