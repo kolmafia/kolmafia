@@ -400,7 +400,7 @@ public class CharPaneRequest extends GenericRequest {
   public static void parseLevel(final String responseText) {
     Matcher levelMatcher = CharPaneRequest.LEVEL_PATTERN.matcher(responseText);
     if (levelMatcher.find()) {
-      KoLCharacter.setLevel(Integer.valueOf(levelMatcher.group(1)));
+      KoLCharacter.setLevel(Integer.parseInt(levelMatcher.group(1)));
     }
   }
 
