@@ -1,7 +1,6 @@
 package net.sourceforge.kolmafia.swingui.menu;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
@@ -113,7 +112,7 @@ public class LootHunterMenuItem extends ThreadedMenuItem {
 
     for (PossibleSelection c : choices) {
       JRadioButton radio =
-        new JRadioButton("<html>" + c.getLabel() + "<br>" + c.getDescription() + "</html>");
+          new JRadioButton("<html>" + c.getLabel() + "<br>" + c.getDescription() + "</html>");
       radio.addActionListener(c);
 
       if (choicePanel.getComponentCount() < 2) radio.doClick();
