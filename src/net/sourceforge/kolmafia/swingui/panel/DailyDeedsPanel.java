@@ -1354,7 +1354,6 @@ public class DailyDeedsPanel extends Box implements Listener {
     /**
      * @param displayText the text that will be displayed on the button
      * @param command the command to execute.
-     * @param sCount the order in simple daily deeds
      */
     public SimpleDaily(String displayText, String command, int sCount) {
       this.preference = "_simpleDeed" + sCount;
@@ -1368,7 +1367,6 @@ public class DailyDeedsPanel extends Box implements Listener {
      * @param displayText the text that will be displayed on the button
      * @param command the command to execute.
      * @param maxPref the integer at which to disable the button.
-     * @param sCount the order in simple daily deeds
      */
     public SimpleDaily(String displayText, String command, int maxPref, int sCount) {
       this.preference = "_simpleDeed" + sCount;
@@ -1383,7 +1381,6 @@ public class DailyDeedsPanel extends Box implements Listener {
      * @param displayText the text that will be displayed on the button
      * @param command the command to execute.
      * @param maxPref the integer at which to disable the button.
-     * @param sCount the order in simple daily deeds
      */
     public SimpleDaily(
         String displayText,
