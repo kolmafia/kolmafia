@@ -16,7 +16,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.SwinglessUIUtils;
 
 @SuppressWarnings("JavadocLinkAsPlainText")
-/** Like an MRUList, but maintains a list of "default" settings at the bottom under a JSeparator. */
+/* Like an MRUList, but maintains a list of "default" settings at the bottom under a JSeparator. */
 public class PartialMRUList extends ScriptMRUList implements Listener {
   private final LinkedList<String> defaultList = new LinkedList<>();
   private final String pDefaultList;
@@ -94,8 +94,9 @@ public class PartialMRUList extends ScriptMRUList implements Listener {
   }
 
   /**
-   * Adapted from <a href="http://www.jroller.com/santhosh/entry/jcombobox_items_with_separators">http://www.jroller.com/santhosh/entry/jcombobox_items_with_separators</a> Last
-   * Access: 5/11/13 Distributed under GNU Lesser GPL. Copyright (C) 2005 Santhosh Kumar T
+   * Adapted from <a
+   * href="http://www.jroller.com/santhosh/entry/jcombobox_items_with_separators">http://www.jroller.com/santhosh/entry/jcombobox_items_with_separators</a>
+   * Last Access: 5/11/13 Distributed under GNU Lesser GPL. Copyright (C) 2005 Santhosh Kumar T
    *
    * <p>This program is free software: you can redistribute it and/or modify it under the terms of
    * the GNU General Public License as published by the Free Software Foundation, either version 2.1
