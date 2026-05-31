@@ -94,9 +94,8 @@ public class PartialMRUList extends ScriptMRUList implements Listener {
   }
 
   /**
-   * Adapted from "http://www.jroller.com/santhosh/entry/jcombobox_items_with_separators"
-   * Last Access: 5/11/13  Distributed under GNU Lesser GPL.
-   * Copyright (C) 2005 Santhosh Kumar T
+   * Adapted from <a href="http://www.jroller.com/santhosh/entry/jcombobox_items_with_separators">http://www.jroller.com/santhosh/entry/jcombobox_items_with_separators</a> Last
+   * Access: 5/11/13 Distributed under GNU Lesser GPL. Copyright (C) 2005 Santhosh Kumar T
    *
    * <p>This program is free software: you can redistribute it and/or modify it under the terms of
    * the GNU General Public License as published by the Free Software Foundation, either version 2.1
