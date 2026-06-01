@@ -12,7 +12,6 @@ import net.java.dev.spellcast.utilities.SortedListModel;
  *
  * @author ajoshi
  */
-@SuppressWarnings("JavadocLinkAsPlainText")
 public class LockableListFactory {
   private LockableListFactory() {}
 
