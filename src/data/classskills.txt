@@ -1167,6 +1167,8 @@
 7590	Heartstone: %pals	heartgem.gif	nc,effect,self	0	25
 7591	Heartstone: %buff	heartgem.gif	nc,effect,self	0	25
 7592	Wave your Pasta Wand	legpastaspoon.gif	nc,item	25	0
+7593	%fn, kill a lot of these guys	swordsword1.gif	combat	0	0
+7594	%fn, stop killing those guys	swordsword2.gif	combat	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.
