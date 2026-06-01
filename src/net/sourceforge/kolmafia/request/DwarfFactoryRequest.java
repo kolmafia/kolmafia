@@ -229,8 +229,7 @@ public class DwarfFactoryRequest extends GenericRequest {
     }
 
     // Eliminate any runes which definitively belong to another item.
-    for (int i = 0; i < ITEMS.length; ++i) {
-      int id = ITEMS[i];
+    for (int id : ITEMS) {
       if (id == itemId) {
         continue;
       }
@@ -252,8 +251,7 @@ public class DwarfFactoryRequest extends GenericRequest {
 
     int candidate = 0;
 
-    for (int i = 0; i < items.length; ++i) {
-      int itemId = items[i];
+    for (int itemId : items) {
       String setting = "lastDwarfFactoryItem" + itemId;
       String value = Preferences.getString(setting);
 
@@ -317,8 +315,7 @@ public class DwarfFactoryRequest extends GenericRequest {
   }
 
   private static void pruneItemRunes(final int id, final String rune) {
-    for (int i = 0; i < ITEMS.length; ++i) {
-      int itemId = ITEMS[i];
+    for (int itemId : ITEMS) {
       if (id == itemId) {
         continue;
       }
@@ -393,9 +390,7 @@ public class DwarfFactoryRequest extends GenericRequest {
     }
 
     // Prune this rune from any non-ores
-    for (int i = 0; i < ITEMS.length; ++i) {
-      int itemId = ITEMS[i];
-
+    for (int itemId : ITEMS) {
       switch (itemId) {
         case ItemPool.LINOLEUM_ORE:
         case ItemPool.ASBESTOS_ORE:
@@ -425,9 +420,7 @@ public class DwarfFactoryRequest extends GenericRequest {
     }
 
     // Prune this rune from any non-equipment
-    for (int i = 0; i < ITEMS.length; ++i) {
-      int itemId = ITEMS[i];
-
+    for (int itemId : ITEMS) {
       switch (itemId) {
         case ItemPool.MINERS_HELMET:
         case ItemPool.MINERS_PANTS:
@@ -804,21 +797,21 @@ public class DwarfFactoryRequest extends GenericRequest {
 
     // Step 0: get the unlaminated numbers
     String[] unlaminated = getUnlaminatedNumbers();
-    for (int i = 0; i < unlaminated.length; ++i) {
-      DwarfFactoryRequest.digits.addNumber(unlaminated[i]);
+    for (String s : unlaminated) {
+      DwarfFactoryRequest.digits.addNumber(s);
     }
 
     // Step 1: try to deduce what we can from the laminated items
     String[] laminated = getLaminatedNumbers();
-    for (int i = 0; i < laminated.length; ++i) {
-      DwarfFactoryRequest.digits.addNumber(laminated[i]);
+    for (String s : laminated) {
+      DwarfFactoryRequest.digits.addNumber(s);
     }
     DwarfFactoryRequest.digits.analyzeNumbers();
 
     // Step 2: iterate over saved dice rules, deducing what we can
     String[] rolls = DwarfFactoryRequest.getDiceRolls();
-    for (int i = 0; i < rolls.length; ++i) {
-      DwarfFactoryRequest.digits.addRoll(rolls[i]);
+    for (String roll : rolls) {
+      DwarfFactoryRequest.digits.addRoll(roll);
     }
     DwarfFactoryRequest.digits.analyzeRolls();
 
@@ -1152,8 +1145,7 @@ public class DwarfFactoryRequest extends GenericRequest {
 
     public void addNumber(final String number) {
       // See if it's a new number
-      for (int i = 0; i < this.numbers.size(); ++i) {
-        String old = this.numbers.get(i);
+      for (String old : this.numbers) {
         if (old.equals(number)) {
           return;
         }
@@ -1201,9 +1193,7 @@ public class DwarfFactoryRequest extends GenericRequest {
       char[][] matches = new char[2][8];
       int[] counts = new int[2];
 
-      for (int i = 0; i < this.numbers.size(); ++i) {
-        String val = this.numbers.get(i);
-
+      for (String val : this.numbers) {
         // We only deduce digits from 3-digit numbers.
         if (val.length() < 3) {
           continue;
@@ -1289,8 +1279,7 @@ public class DwarfFactoryRequest extends GenericRequest {
       }
 
       // See if it's a new roll
-      for (int i = 0; i < this.rolls.size(); ++i) {
-        String old = this.rolls.get(i);
+      for (String old : this.rolls) {
         if (old.equals(roll)) {
           return;
         }

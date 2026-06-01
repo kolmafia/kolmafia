@@ -32,8 +32,8 @@ public class MailboxRequest extends GenericRequest {
     this.action = action;
     this.boxname = boxname;
     this.beginIndex = 1;
-    for (int i = 0; i < messages.length; ++i) {
-      this.addFormField(((KoLMailMessage) messages[i]).getMessageId(), "on");
+    for (Object message : messages) {
+      this.addFormField(((KoLMailMessage) message).getMessageId(), "on");
     }
   }
 

@@ -589,8 +589,8 @@ public class ClanLoungeRequest extends GenericRequest {
   }
 
   public static final boolean isFloundryItem(AdventureResult item) {
-    for (int i = 0; i < FLOUNDRY_DATA.length; ++i) {
-      if (item.equals(FLOUNDRY_DATA[i].item)) {
+    for (FloundryData floundryDatum : FLOUNDRY_DATA) {
+      if (item.equals(floundryDatum.item)) {
         return true;
       }
     }
@@ -606,8 +606,7 @@ public class ClanLoungeRequest extends GenericRequest {
     }
 
     tag = tag.toLowerCase();
-    for (int i = 0; i < POOL_GAMES.length; ++i) {
-      var game = POOL_GAMES[i];
+    for (PoolGame game : POOL_GAMES) {
       int index = game.index;
       String stance = game.stance;
       if (stance.startsWith(tag)) {
@@ -628,8 +627,7 @@ public class ClanLoungeRequest extends GenericRequest {
 
   public static final int findFaxOption(String tag) {
     tag = tag.toLowerCase();
-    for (int i = 0; i < FAX_OPTIONS.length; ++i) {
-      var faxOption = FAX_OPTIONS[i];
+    for (FaxOption faxOption : FAX_OPTIONS) {
       int index = faxOption.index;
       String faxCommand0 = faxOption.action;
       if (faxCommand0.startsWith(tag)) {
@@ -646,8 +644,7 @@ public class ClanLoungeRequest extends GenericRequest {
 
   public static final int findShowerOption(String tag) {
     tag = tag.toLowerCase();
-    for (int i = 0; i < SHOWER_OPTIONS.length; ++i) {
-      var showerOption = SHOWER_OPTIONS[i];
+    for (ShowerOption showerOption : SHOWER_OPTIONS) {
       int index = showerOption.index;
       String temp = showerOption.temp;
       if (temp.startsWith(tag)) {
@@ -664,8 +661,7 @@ public class ClanLoungeRequest extends GenericRequest {
 
   public static final int findSwimmingOption(String tag) {
     tag = tag.toLowerCase();
-    for (int i = 0; i < SWIMMING_OPTIONS.length; ++i) {
-      var swimmingOption = SWIMMING_OPTIONS[i];
+    for (SwimmingOption swimmingOption : SWIMMING_OPTIONS) {
       int index = swimmingOption.index;
       String action = swimmingOption.action;
       if (action.startsWith(tag)) {

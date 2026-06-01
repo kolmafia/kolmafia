@@ -57,8 +57,7 @@ public class ChefStaffRequest extends CreateItemRequest {
       return false;
     }
 
-    for (int i = 0; i < ingredients.length; ++i) {
-      AdventureResult ingredient = ingredients[i];
+    for (AdventureResult ingredient : ingredients) {
       ResultProcessor.processResult(ingredient.getInstance(-1 * ingredient.getCount()));
     }
 

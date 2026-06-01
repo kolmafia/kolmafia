@@ -31,8 +31,7 @@ public class PandamoniumRequest extends GenericRequest {
       };
 
   public static String getComedyType(final String type) {
-    for (int i = 0; i < COMEDY_TYPES.length; ++i) {
-      String test = COMEDY_TYPES[i];
+    for (String test : COMEDY_TYPES) {
       if (type.equalsIgnoreCase(test)) {
         return test;
       }
@@ -57,8 +56,7 @@ public class PandamoniumRequest extends GenericRequest {
       };
 
   public static String getBandMember(final String test) {
-    for (int i = 0; i < BAND_MEMBERS.length; ++i) {
-      String[] member = BAND_MEMBERS[i];
+    for (String[] member : BAND_MEMBERS) {
       String name = member[0];
       String role = member[1];
       if (test.equalsIgnoreCase(name) || test.equalsIgnoreCase(role)) {

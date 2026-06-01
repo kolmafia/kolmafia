@@ -60,8 +60,8 @@ public abstract class TicketCounterRequest extends CoinMasterShopRequest {
     Matcher matcher = ITEM_PATTERN.matcher(responseText);
     while (matcher.find()) {
       int id = StringUtilities.parseInt(matcher.group(1));
-      for (int i = 0; i < unlockables.length; i++) {
-        if (id == unlockables[i]) {
+      for (int unlockable : unlockables) {
+        if (id == unlockable) {
           Preferences.setBoolean("lockedItem" + id, false);
         }
       }

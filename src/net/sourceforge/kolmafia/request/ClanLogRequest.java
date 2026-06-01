@@ -179,16 +179,16 @@ public class ClanLogRequest extends GenericRequest {
       ostream.println();
       ostream.println("<!-- Begin Stash Log: Do Not Modify Beyond This Point -->");
 
-      for (int i = 0; i < members.length; ++i) {
-        ostream.println(" " + members[i] + ":");
+      for (String member : members) {
+        ostream.println(" " + member + ":");
 
-        entryList = this.stashMap.get(members[i]);
+        entryList = this.stashMap.get(member);
         Collections.sort(entryList);
         entries = entryList.toArray();
 
         ostream.println("<ul>");
-        for (int j = 0; j < entries.length; ++j) {
-          ostream.println(entries[j].toString());
+        for (Object entry : entries) {
+          ostream.println(entry.toString());
         }
         ostream.println("</ul>");
 

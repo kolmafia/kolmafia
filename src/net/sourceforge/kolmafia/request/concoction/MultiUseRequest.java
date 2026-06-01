@@ -129,8 +129,7 @@ public class MultiUseRequest extends CreateItemRequest {
 
     AdventureResult[] ingredients = concoction.getIngredients();
 
-    for (int i = 0; i < ingredients.length; ++i) {
-      AdventureResult ingredient = ingredients[i];
+    for (AdventureResult ingredient : ingredients) {
       ResultProcessor.processResult(ingredient.getInstance(-1 * ingredient.getCount()));
     }
   }
@@ -173,8 +172,7 @@ public class MultiUseRequest extends CreateItemRequest {
     AdventureResult[] ingredients = concoction.getIngredients();
 
     // Punt if don't have enough of any ingredient.
-    for (int i = 0; i < ingredients.length; ++i) {
-      AdventureResult ingredient = ingredients[i];
+    for (AdventureResult ingredient : ingredients) {
       int have = ingredient.getCount(KoLConstants.inventory);
       int need = ingredient.getCount();
       if (have < need) {
