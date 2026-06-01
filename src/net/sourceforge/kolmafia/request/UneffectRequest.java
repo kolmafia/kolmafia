@@ -761,7 +761,7 @@ public class UneffectRequest extends GenericRequest {
         continue;
       }
 
-      int itemId = removable.getKey().intValue();
+      int itemId = removable.getKey();
       String itemName = ItemDatabase.getItemName(itemId);
 
       if (InventoryManager.hasItem(itemId)

@@ -125,7 +125,7 @@ public class QuestLogRequest extends GenericRequest {
 
     for (Integer key : map.keySet()) {
       String header = map.get(key);
-      String cut = responseText.substring(key.intValue()).split("</blockquote>")[0];
+      String cut = responseText.substring(key).split("</blockquote>")[0];
 
       switch (header) {
         case "Council Quests:" -> handleQuestText(cut);

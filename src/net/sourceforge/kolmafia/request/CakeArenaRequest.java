@@ -200,7 +200,7 @@ public class CakeArenaRequest extends GenericRequest {
 
   private static int earnedXP(final String responseText) {
     Matcher matcher = CakeArenaRequest.WIN_PATTERN.matcher(responseText);
-    return matcher.find() ? Integer.valueOf(matcher.group(1)).intValue() : 0;
+    return matcher.find() ? Integer.valueOf(matcher.group(1)) : 0;
   }
 
   // You enter Gorg against Pork Soda in an Ultimate Cage Match.

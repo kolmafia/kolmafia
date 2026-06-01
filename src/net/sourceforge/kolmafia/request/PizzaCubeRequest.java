@@ -88,7 +88,7 @@ public class PizzaCubeRequest extends GenericRequest {
     Map<AdventureResult, Integer> imap = new HashMap<>();
     for (AdventureResult ingredient : this.ingredients) {
       Integer count = imap.get(ingredient);
-      imap.put(ingredient, count == null ? 1 : count.intValue() + 1);
+      imap.put(ingredient, count == null ? 1 : count + 1);
     }
 
     // Retrieve needed ingredients
