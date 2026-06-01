@@ -1588,8 +1588,6 @@ public abstract class KoLmafia {
   /**
    * Forces a continue state. This should only be called when there is no doubt that a continue
    * should occur.
-   *
-   * @return <code>true</code> if requests are allowed to continue
    */
   public static final void forceContinue() {
     StaticEntity.setContinuationState(MafiaState.CONTINUE);

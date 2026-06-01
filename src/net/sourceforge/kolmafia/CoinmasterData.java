@@ -616,7 +616,6 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
    * call this with <code>false</code>. (<code>true
    * </code> is the default.)
    *
-   * @param needsPasswordHash - "false" if full page load desired after purchase
    * @return this - Allows fluid chaining of fields
    */
   public CoinmasterData withAjax(boolean useAjax) {

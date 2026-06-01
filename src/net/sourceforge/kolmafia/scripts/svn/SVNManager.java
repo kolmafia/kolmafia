@@ -915,9 +915,9 @@ public class SVNManager extends ScriptManager {
    * projects for a given repo.
    *
    * <p>We hardcode a regex to handle sourceforge (in future, possibly other) URLS. We want to turn
-   * https://svn.code.sf.net/p/mafiasvntest/code/myvalidproject1/ into
+   * "https://svn.code.sf.net/p/mafiasvntest/code/myvalidproject1/" into
    * "mafiasvntest-myvalidproject1". Likewise
-   * https://svn.code.sf.net/p/mafiasvntest/code/trunk/branchA/myvalidproject1/ becomes
+   * "https://svn.code.sf.net/p/mafiasvntest/code/trunk/branchA/myvalidproject1/" becomes
    * "mafiasvntest-trunk-branchA-myvalidproject1".
    *
    * <p>If the regex fails to match, we fall back and get the SVN repo UUID. This means that
@@ -927,6 +927,7 @@ public class SVNManager extends ScriptManager {
    * @param repo the repo to get a unique folder name for
    * @return a unique folder ID for a given repo URL
    */
+  @SuppressWarnings("JavadocLinkAsPlainText")
   public static String getFolderUUID(SVNURL repo) {
     String local = getFolderUUIDNoRemote(repo);
     if (local != null) return local;
@@ -966,7 +967,7 @@ public class SVNManager extends ScriptManager {
   /**
    * Accessory method to queue up a local file copy event.
    *
-   * @param event
+   * @param event SVN event to be queued
    */
   public static void queueFileEvent(SVNFileEvent event) {
     SVNManager.eventStack.add(event);
