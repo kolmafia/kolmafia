@@ -14768,6 +14768,7 @@ Item	Saturday Night thermometer	Last Available: "2015-08"
 Item	sausage golem	Last Available: "2019-01"
 # sawblade fragment: Deals 100-150 Physical Damage and causes additional Bleeding over time
 Item	sawblade fragment	Last Available: "2007-12"
+Item	scabbarded Sword of S Words	Free Pull, Last Available: "2026-06"
 # scented massage oil: Restores all HP
 Item	Schmalz's First Prize Beer	Free Pull, Last Available: "2011-12"
 # School of Hard Knocks Diploma: Brings up Enraging Memories
@@ -14787,6 +14788,7 @@ Item	seal-blubber candle	Class: "Seal Clubber"
 Item	seal-clubbing club loot box	Free Pull, Last Available: "2026-01"
 Item	Sealed TakerSpace letter of Marque	Free Pull, Last Available: "2024-12"
 # sealhide snare: Stuns your opponent for a few rounds
+Item	second-hand synthetic sloth skin scabbard	Familiar Weight: +5
 Item	secret from the future	Last Available: "2009-06"
 Item	Secrets of the Master Egg Hunters	Last Available: "2024-12", Skill: "Master Egg Hunter"
 Item	Secrets of the Master Egg Hunters (used)	Last Available: "2024-12", Skill: "Master Egg Hunter"
