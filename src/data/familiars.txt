@@ -364,4 +364,4 @@
 327	Tiny Plastic Santa Claus Skeleton	santaskel.gif	passive	assembled tiny plastic Santa skeleton	miniature sleigh	0	0	0	0	sentient,humanoid,person,undead,object,hasbones,hashands,haslegs,hot,evil
 328	Cute Skeletal Dinosaur	bonedino.gif	combat1,block	intact dinosaur egg	fossilized cow femur	0	0	0	0	sentient,organic,undead,hasbones,hashands,haslegs,bite,hard,cute,spooky
 329
-330	Sword of S Words	swordsword.gif	item0,combat0,passive	scabbarded Sword of S Words	second-hand synthetic sloth skin scabbard	0	0	0	0
+330	Sword of S Words	swordsword.gif	item0,combat0,passive	scabbarded Sword of S Words	second-hand synthetic sloth skin scabbard	0	0	0	0	hard,hovers,object,phallic
