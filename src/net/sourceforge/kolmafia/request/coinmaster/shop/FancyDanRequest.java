@@ -24,8 +24,8 @@ public abstract class FancyDanRequest extends CoinMasterShopRequest {
 
   static {
     for (Entry<Integer, Integer> entry : CoinmastersDatabase.getBuyPrices(master).entrySet()) {
-      int itemId = entry.getKey().intValue();
-      int price = entry.getValue().intValue();
+      int itemId = entry.getKey();
+      int price = entry.getValue();
       AdventureResult cost =
           switch (itemId) {
             case ItemPool.STRONG_SILENT_TYPE,

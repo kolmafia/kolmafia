@@ -53,8 +53,8 @@ public abstract class MerchTableRequest extends CoinMasterShopRequest {
   // Manually set up the map and change the currency, as need
   static {
     for (Entry<Integer, Integer> entry : CoinmastersDatabase.getBuyPrices(master).entrySet()) {
-      int itemId = entry.getKey().intValue();
-      int price = entry.getValue().intValue();
+      int itemId = entry.getKey();
+      int price = entry.getValue();
       AdventureResult cost =
           switch (itemId) {
             default -> MR_A.getInstance(price);

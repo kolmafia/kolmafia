@@ -1110,7 +1110,7 @@ public class DwarfFactoryRequest extends GenericRequest {
       StringBuilder valueBuilder = new StringBuilder();
       for (int i = 0; i < 7; ++i) {
         Character code = this.charMap.get(i);
-        valueBuilder.append(code == null ? '-' : code.charValue());
+        valueBuilder.append(code == null ? '-' : code);
       }
       return valueBuilder.toString();
     }
@@ -1126,7 +1126,7 @@ public class DwarfFactoryRequest extends GenericRequest {
         if (val == null) {
           return -1;
         }
-        number = (number * 7) + val.intValue();
+        number = (number * 7) + val;
       }
       return number;
     }
@@ -1375,7 +1375,7 @@ public class DwarfFactoryRequest extends GenericRequest {
       // character in that position.
       Character val = this.charMap.get(index);
       if (val != null) {
-        this.generatePermutations(prefix + val.charValue());
+        this.generatePermutations(prefix + val);
         return;
       }
 
@@ -1383,7 +1383,7 @@ public class DwarfFactoryRequest extends GenericRequest {
         Character rune = this.digits.get(i);
 
         // If we're already using this character, skip
-        char ch = rune.charValue();
+        char ch = rune;
         if (prefix.indexOf(ch) != -1) {
           continue;
         }
@@ -1391,7 +1391,7 @@ public class DwarfFactoryRequest extends GenericRequest {
         // If we know this rune, only use it in the
         // correct position.
         Integer j = this.digitMap.get(rune);
-        if (j != null && j.intValue() != index) {
+        if (j != null && j != index) {
           continue;
         }
 
@@ -1972,12 +1972,12 @@ public class DwarfFactoryRequest extends GenericRequest {
 
     private int findItem(final char rune) {
       Integer val = this.itemMap.get(rune);
-      return val == null ? -1 : val.intValue();
+      return val == null ? -1 : val;
     }
 
     private char findRune(final int itemId) {
       Character val = this.runeMap.get(itemId);
-      return val == null ? 0 : val.charValue();
+      return val == null ? 0 : val;
     }
 
     private int findHopper(final char rune) {
