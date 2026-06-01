@@ -370,6 +370,7 @@ Item	Mayor Ghost's toupee	Mysticality: +250, Maximum MP: +125, MP Regen Min: 25,
 Item	meat cowboy hat	Muscle: +3, Familiar Effect: "1xBarrr, 3xLep, cap 10"
 Item	meatloaf helmet	Muscle: +3, Weapon Damage: +1, Familiar Effect: "1xBarrr, 1.5xFairy, cap 13"
 Item	meaty helmet turtle	Muscle: +3, Familiar Effect: "sleaze atk, 1xFairy, cap 17"
+# mega helmet: GET EQUIPPED WITH IT
 Item	Mer-kin bunwig	Spell Damage: +20, Spell Critical Percent: +10, Familiar Effect: "1xVolley"
 Item	Mer-kin facecowl	Mysticality Percent: +10, Spell Damage Percent: +30, MP Regen Min: 8, MP Regen Max: 12
 Item	Mer-kin gladiator mask	Stench Resistance: +3, Item Drop: -25, Initiative: -50, Adventure Underwater, Familiar Effect: "3xBarrr"

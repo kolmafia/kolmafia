@@ -268,6 +268,7 @@ Mayor Ghost's toupee	300	Mys: 250
 meat cowboy hat	40	Mox: 5
 meatloaf helmet	55	Mox: 12
 meaty helmet turtle	70	Mox: 20
+mega helmet	200	none
 Mer-kin bunwig	200	Mox: 85
 Mer-kin facecowl	200	Mox: 85
 Mer-kin gladiator mask	200	Mus: 85
