@@ -2571,15 +2571,15 @@ public class QuestManager {
     }
   }
 
+  private static final Pattern CYRUS_PATTERN =
+      Pattern.compile("you remember him getting ([^.]*?)\\.");
+
   /**
    * After we lose a fight, some quests may need to be updated. Centralize handling for it here.
    *
    * @param responseText The text from (at least) the losing round of the fight
    * @param monster The monster which beat us up.
    */
-  private static final Pattern CYRUS_PATTERN =
-      Pattern.compile("you remember him getting ([^.]*?)\\.");
-
   public static void updateQuestFightLost(String responseText, MonsterData monster) {
     if (monster == null) {
       return;
