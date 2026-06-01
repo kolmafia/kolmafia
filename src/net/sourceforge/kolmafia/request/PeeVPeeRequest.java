@@ -255,11 +255,11 @@ public class PeeVPeeRequest extends GenericRequest {
 
   private static void parseStatLoss(final String responseText) {
     String[] blocks = responseText.split("<td>");
-    for (int i = 0; i < blocks.length; ++i) {
-      if (blocks[i].toLowerCase().indexOf(STAT_STRING) != 0) {
+    for (String block : blocks) {
+      if (block.toLowerCase().indexOf(STAT_STRING) != 0) {
         continue;
       }
-      String printedStatMessage = blocks[i].substring(0, blocks[i].indexOf(".</td>"));
+      String printedStatMessage = block.substring(0, block.indexOf(".</td>"));
       int index = printedStatMessage.lastIndexOf(" lost ");
       String statMessage = printedStatMessage.substring(index + 6);
       String[] stats = statMessage.split(" ");

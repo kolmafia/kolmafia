@@ -68,8 +68,8 @@ public class DisplayCaseRequest extends TransferItemRequest {
     this.addFormField("action", "arrange");
 
     String shelfString = String.valueOf(shelf);
-    for (int i = 0; i < items.length; ++i) {
-      this.addFormField("whichshelf" + items[i].getItemId(), shelfString);
+    for (AdventureResult item : items) {
+      this.addFormField("whichshelf" + item.getItemId(), shelfString);
     }
 
     this.isDeposit = false;
@@ -167,8 +167,7 @@ public class DisplayCaseRequest extends TransferItemRequest {
 
       TransferItemRequest.transferItems(itemList, KoLConstants.collection, KoLConstants.inventory);
 
-      for (int i = 0; i < itemList.size(); ++i) {
-        AdventureResult item = itemList.get(i);
+      for (AdventureResult item : itemList) {
         KoLmafia.updateDisplay("You acquire " + item);
       }
 

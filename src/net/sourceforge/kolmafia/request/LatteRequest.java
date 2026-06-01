@@ -788,14 +788,13 @@ public class LatteRequest extends GenericRequest {
         int button = StringUtilities.parseInt(lineMatcher.group(1));
         String value = lineMatcher.group(2);
         String description = lineMatcher.group(3).trim();
-        for (int i = 0; i < LATTE.length; ++i) {
-          Latte latte = LATTE[i];
+        for (Latte latte : LATTE) {
           boolean matched =
-              button == 1
-                  ? description.equals(latte.first)
-                  : button == 2
-                      ? description.equals(latte.second)
-                      : button == 3 ? description.equals(latte.third) : false;
+            button == 1
+              ? description.equals(latte.first)
+              : button == 2
+              ? description.equals(latte.second)
+              : button == 3 ? description.equals(latte.third) : false;
           if (matched) {
             String[] buttons = radio.get(latte);
             if (buttons == null) {

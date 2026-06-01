@@ -750,8 +750,7 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
     AdventureResult[] ingredients = CreateItemRequest.findIngredients(urlString);
     int quantity = CreateItemRequest.getQuantity(urlString, ingredients, multiplier);
 
-    for (int i = 0; i < ingredients.length; ++i) {
-      AdventureResult item = ingredients[i];
+    for (AdventureResult item : ingredients) {
       ResultProcessor.processItem(item.getItemId(), -quantity);
     }
 
@@ -951,9 +950,9 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
       // intermediate ingredients and getting an error.
 
       int multiplier = 0;
-      for (int j = 0; j < ingredients.length; ++j) {
-        if (ingredient.getItemId() == ingredients[j].getItemId()) {
-          multiplier += ingredients[j].getCount();
+      for (AdventureResult adventureResult : ingredients) {
+        if (ingredient.getItemId() == adventureResult.getItemId()) {
+          multiplier += adventureResult.getCount();
         }
       }
 
@@ -1369,8 +1368,7 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
 
     int quantity = Integer.MAX_VALUE;
 
-    for (int i = 0; i < ingredients.length; ++i) {
-      AdventureResult item = ingredients[i];
+    for (AdventureResult item : ingredients) {
       quantity = Math.min(item.getCount(KoLConstants.inventory) / multiplier, quantity);
     }
 
@@ -1395,8 +1393,7 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
       return;
     }
 
-    for (int i = 0; i < ingredients.length; ++i) {
-      AdventureResult item = ingredients[i];
+    for (AdventureResult item : ingredients) {
       ResultProcessor.processItem(item.getItemId(), 0 - quantity);
     }
 

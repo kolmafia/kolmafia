@@ -990,9 +990,9 @@ public class AdventureRequest extends GenericRequest {
           break;
 
         case AdventurePool.LIMERICK_DUNGEON:
-          for (int i = 0; i < LIMERICKS.length; ++i) {
-            if (responseText.contains(LIMERICKS[i][1])) {
-              return LIMERICKS[i][0];
+          for (String[] limerick : LIMERICKS) {
+            if (responseText.contains(limerick[1])) {
+              return limerick[0];
             }
           }
           return "Unrecognized Limerick";
