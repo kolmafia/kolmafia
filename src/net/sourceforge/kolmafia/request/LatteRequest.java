@@ -790,11 +790,11 @@ public class LatteRequest extends GenericRequest {
         String description = lineMatcher.group(3).trim();
         for (Latte latte : LATTE) {
           boolean matched =
-            button == 1
-              ? description.equals(latte.first)
-              : button == 2
-              ? description.equals(latte.second)
-              : button == 3 ? description.equals(latte.third) : false;
+              button == 1
+                  ? description.equals(latte.first)
+                  : button == 2
+                      ? description.equals(latte.second)
+                      : button == 3 ? description.equals(latte.third) : false;
           if (matched) {
             String[] buttons = radio.get(latte);
             if (buttons == null) {
