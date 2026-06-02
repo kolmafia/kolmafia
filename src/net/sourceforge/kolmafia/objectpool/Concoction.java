@@ -194,6 +194,14 @@ public class Concoction implements Comparable<Concoction> {
   }
 
   public ConcoctionType computeType() {
+    // pseudo-items
+    if (mixingMethod == CraftingType.SUSHI) {
+      return ConcoctionType.FOOD;
+    } else if (mixingMethod == CraftingType.STILLSUIT) {
+      return ConcoctionType.BOOZE;
+    }
+
+    // real items
     int itemId = this.getItemId();
     if (forceFood.contains(itemId)) {
       return ConcoctionType.FOOD;
