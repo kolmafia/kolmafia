@@ -107,6 +107,9 @@ public class GenericRequest implements Runnable {
 
   private int timeoutCount = 0;
   private static final int TIMEOUT_LIMIT = 3;
+  private int retryCodeFailureCount = 0;
+  private static final int RETRY_CODE_FAILURE_LIMIT = 5;
+  private static final int RETRY_CODE_BASE_DELAY = 1000;
 
   private boolean redirectHandled = false;
   private int redirectCount = 0;
@@ -1140,6 +1143,7 @@ public class GenericRequest implements Runnable {
     GenericRequest.ignoreChatRequest = false;
 
     this.timeoutCount = 0;
+    this.retryCodeFailureCount = 0;
     this.redirectHandled = false;
     this.redirectCount = 0;
     this.allowRedirect = null;
@@ -1750,6 +1754,13 @@ public class GenericRequest implements Runnable {
         shouldStop = this.retrieveServerReply(istream);
         istream.close();
       } else {
+        if (this.shouldRetryResponseCode()) {
+          KoLmafia.updateDisplay("Received 502, retrying...");
+          istream.close();
+          this.pauseBeforeResponseCodeRetry(this.responseCodeRetryDelay());
+          return false;
+        }
+
         if (this.responseCode == 504
             && (this.baseURLString.equals("storage.php")
                 || this.baseURLString.equals("inventory.php"))
@@ -1798,6 +1809,19 @@ public class GenericRequest implements Runnable {
   protected boolean retryOnTimeout() {
     return this.formURLString.endsWith(".php")
         && (this.data.isEmpty() || this.getClass() == GenericRequest.class);
+  }
+
+  protected boolean shouldRetryResponseCode() {
+    return this.responseCode == 502 && ++this.retryCodeFailureCount < RETRY_CODE_FAILURE_LIMIT;
+  }
+
+  protected long responseCodeRetryDelay() {
+    return (long) RETRY_CODE_BASE_DELAY << (this.retryCodeFailureCount - 1);
+  }
+
+  protected void pauseBeforeResponseCodeRetry(long milliseconds) {
+    PauseObject pauser = new PauseObject();
+    pauser.pause(milliseconds);
   }
 
   protected boolean processOnFailure() {
