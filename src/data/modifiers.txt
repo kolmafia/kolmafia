@@ -4825,14 +4825,15 @@ Clancy	Clancy's lute	Fairy: [5*C]
 # Pasta Thrall section of modifiers.txt
 # level 5 ability: min(floor(P/5),1)*X
 # level 10 ability: floor(P/10)*X
+# level 11 ability: floor(P/11)*X
 
-Thrall	Angel Hair Wisp	Initiative: [5*P]
+Thrall	Angel Hair Wisp	Initiative: [5*P], Mysticality: [floor(P/11)*20]
 Thrall	Lasagmbie	Meat Drop: [20+(2*P)], Spooky Spell Damage: [floor(P/10)*10]
-Thrall	Penne Dreadful	Equalize Moxie: "Mysticality", Damage Reduction: [floor(P/10)*10]
-Thrall	Spaghetti Elemental	Spell Damage: [floor(P/10)*5], Experience: [(1+ceil(P/3))/2]
+Thrall	Penne Dreadful	Equalize Moxie: "Mysticality", Damage Reduction: [floor(P/10)*10], Moxie: [floor(P/11)*20]
+Thrall	Spaghetti Elemental	Spell Damage: [floor(P/10)*5], Experience: [(1+ceil(P/3))/2], Spooky Damage: [floor(P/11)*10]
 Thrall	Spice Ghost	Item Drop: [10+P]
-Thrall	Elbow Macaroni	Equalize Muscle: "Mysticality", Weapon Damage: [min(floor(P/5),1)*2*P], Critical Hit Percent: [floor(P/10)*10]
-Thrall	Vampieroghi	Maximum HP: [floor(P/10)*60]
+Thrall	Elbow Macaroni	Equalize Muscle: "Mysticality", Weapon Damage: [min(floor(P/5),1)*2*P], Critical Hit Percent: [floor(P/10)*10], Muscle: [floor(P/11)*20]
+Thrall	Vampieroghi	Maximum HP: [floor(P/10)*60], Spooky Resistance: [floor(P/11)*1]
 Thrall	Vermincelli	Maximum MP: [floor(P/10)*30]
 
 # Familiars section of modifiers.txt
