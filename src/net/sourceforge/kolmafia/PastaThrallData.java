@@ -329,6 +329,7 @@ public class PastaThrallData implements Comparable<PastaThrallData> {
   private final int id;
   private final String type;
   private int level;
+  private int experience;
   private String name;
   private String mods;
   private Lookup modsLookup;
@@ -338,6 +339,7 @@ public class PastaThrallData implements Comparable<PastaThrallData> {
     this.id = PastaThrallData.dataToId(data);
     this.type = PastaThrallData.dataToType(data);
     this.level = 0;
+    this.experience = 0;
     this.name = "";
 
     if (this.id != 0) {
@@ -397,6 +399,10 @@ public class PastaThrallData implements Comparable<PastaThrallData> {
     return this.level;
   }
 
+  public int getExperience() {
+    return this.experience;
+  }
+
   public String getName() {
     return this.name;
   }
@@ -428,9 +434,17 @@ public class PastaThrallData implements Comparable<PastaThrallData> {
   }
 
   public void update(final int level, final String name) {
+    this.update(level, name, 0);
+  }
+
+  public void update(final int level, final String name, final int experience) {
     boolean change = false;
     if (level != 0 && level != this.level) {
       this.level = level;
+      change = true;
+    }
+    if (experience != 0 && experience != this.experience) {
+      this.experience = experience;
       change = true;
     }
     if (name != null && !name.equals(this.name)) {

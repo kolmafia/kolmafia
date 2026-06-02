@@ -1338,7 +1338,7 @@ public class CharPaneRequest extends GenericRequest {
 
   private static final Pattern pastaThrallPattern =
       Pattern.compile(
-          "desc_guardian.php.*?itemimages/(.*?.gif).*?<b>(.*?)</b>.*?the Lvl. (\\d+) (.*?)</font>",
+          "desc_guardian.php.*?itemimages/(.*?.gif)(?:.*?(?:alt|title)=\"[^\"]*?\\(([\\d,]+) XP\\)\")?.*?<b>(.*?)</b>.*?the Lvl. (\\d+) (.*?)</font>",
           Pattern.DOTALL);
 
   private static void checkPastaThrall(final String responseText) {
@@ -1348,13 +1348,15 @@ public class CharPaneRequest extends GenericRequest {
     Matcher matcher = CharPaneRequest.pastaThrallPattern.matcher(responseText);
     if (matcher.find()) {
       // String image = matcher.group( 1 );
-      String name = matcher.group(2);
-      String levelString = matcher.group(3);
-      String type = matcher.group(4);
+      String experienceString = matcher.group(2);
+      String name = matcher.group(3);
+      String levelString = matcher.group(4);
+      String type = matcher.group(5);
       PastaThrallData thrall = KoLCharacter.findPastaThrall(type);
       if (thrall != null && thrall != PastaThrallData.NO_THRALL) {
         KoLCharacter.setPastaThrall(thrall);
-        thrall.update(StringUtilities.parseInt(levelString), name);
+        int experience = experienceString == null ? 0 : StringUtilities.parseInt(experienceString);
+        thrall.update(StringUtilities.parseInt(levelString), name, experience);
       }
     } else {
       KoLCharacter.setPastaThrall(PastaThrallData.NO_THRALL);

@@ -1041,6 +1041,7 @@ public class ProxyRecordValue extends RecordValue {
             .add("id", DataTypes.INT_TYPE)
             .add("name", DataTypes.STRING_TYPE)
             .add("level", DataTypes.INT_TYPE)
+            .add("experience", DataTypes.INT_TYPE)
             .add("image", DataTypes.STRING_TYPE)
             .add("tinyimage", DataTypes.STRING_TYPE)
             .add("skill", DataTypes.SKILL_TYPE)
@@ -1064,6 +1065,11 @@ public class ProxyRecordValue extends RecordValue {
     public int get_level() {
       PastaThrallData thrall = KoLCharacter.findPastaThrall(this.contentString);
       return thrall == null ? 0 : thrall.getLevel();
+    }
+
+    public int get_experience() {
+      PastaThrallData thrall = KoLCharacter.findPastaThrall(this.contentString);
+      return thrall == null ? 0 : thrall.getExperience();
     }
 
     public String get_image() {
