@@ -600,7 +600,11 @@ public enum DoubleModifier implements Modifier {
       Pattern.compile("Damage vs. Seals: " + EXPR)),
   RAM("RAM", Pattern.compile("([+-]\\d+) RAM"), Pattern.compile("RAM: " + EXPR)),
   LANTERN("Lantern", Pattern.compile("Lantern: " + EXPR)),
-  RAW_COMBAT_RATE("Raw Combat Rate", null);
+  RAW_COMBAT_RATE("Raw Combat Rate", null),
+  PASTA_THRALL_EXPERIENCE(
+      "Pasta Thrall Experience",
+      Pattern.compile("([+-]\\d+) Pasta Thrall Experience"),
+      Pattern.compile("Pasta Thrall Experience: " + EXPR));
 
   private final String name;
   private final Pattern[] descPatterns;
