@@ -27,6 +27,7 @@ import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.ModifierType;
+import net.sourceforge.kolmafia.PastaThrallData;
 import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
@@ -565,6 +566,22 @@ class CharPaneRequestTest {
               html("request/test_charpane_fitness_tracking_bracelet.html"));
       assertThat(result, equalTo(true));
       assertThat("_fitnessTrackingSteps", isSetTo(101));
+    }
+  }
+
+  @Test
+  void canParsePastaThrallExperience() {
+    PastaThrallData.initialize();
+    var cleanups = new Cleanups(withClass(AscensionClass.PASTAMANCER));
+
+    try (cleanups) {
+      CharPaneRequest.processResults(html("request/test_charpane_pasta_thrall_experience.html"));
+
+      var thrall = KoLCharacter.currentPastaThrall();
+      assertThat(thrall.getType(), is("Spice Ghost"));
+      assertThat(thrall.getName(), is("Zotzit"));
+      assertThat(thrall.getLevel(), is(4));
+      assertThat(thrall.getExperience(), is(1));
     }
   }
 }

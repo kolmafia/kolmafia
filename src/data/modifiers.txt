@@ -1652,9 +1652,8 @@ Item	leechknife	Maximum HP: +10, Maximum MP: +5, HP Regen Min: 4, HP Regen Max: 
 # legendary pasta wand: Very Accurate!
 # legendary pasta wand: Summon Legendary Noodles
 # legendary pasta wand: Cook up to 5 items per day without using an Adventure
-# legendary pasta wand: +1 Pasta Thrall Experience (Pastamancer Only)
 # legendary pasta wand: Pasta Thralls Go Up to 11 (Pastamancer Only)
-Item	legendary pasta wand	Spooky Damage: +5, Stench Damage: +5, Hot Damage: +5, Cold Damage: +5, Sleaze Damage: +5, Spell Damage: +10, Spell Damage Percent: +50, Spell Critical Percent: +15, Single Equip, Last Available: "2026-05"
+Item	legendary pasta wand	Spooky Damage: +5, Stench Damage: +5, Hot Damage: +5, Cold Damage: +5, Sleaze Damage: +5, Spell Damage: +10, Spell Damage Percent: +50, Spell Critical Percent: +15, Single Equip, Last Available: "2026-05", Pasta Thrall Experience: 1
 # legendary seal-clubbing club: Increase Fury Capacity and Generation (Seal Clubbers Only)
 Item	legendary seal-clubbing club	Muscle Percent: +50, Weapon Damage: [10*L], Initiative: +50, Attacks Can't Miss, Last Available: "2026-01", Conditional Skill (Equipped): "Club 'Em Across the Battlefield", Conditional Skill (Equipped): "Club 'Em Into Next Week", Conditional Skill (Equipped): "Club 'Em Back in Time"
 # licorice whip: Candiful Crits
@@ -4825,17 +4824,15 @@ Clancy	Clancy's crumhorn	Volleyball: [5*C]
 Clancy	Clancy's lute	Fairy: [5*C]
 
 # Pasta Thrall section of modifiers.txt
-# level 5 ability: min(floor(P/5),1)*X
-# level 10 ability: floor(P/10)*X
 
-Thrall	Angel Hair Wisp	Initiative: [5*P]
-Thrall	Lasagmbie	Meat Drop: [20+(2*P)], Spooky Spell Damage: [floor(P/10)*10]
-Thrall	Penne Dreadful	Equalize Moxie: "Mysticality", Damage Reduction: [floor(P/10)*10]
-Thrall	Spaghetti Elemental	Spell Damage: [floor(P/10)*5], Experience: [(1+ceil(P/3))/2]
+Thrall	Angel Hair Wisp	Initiative: [5*P], Mysticality: [gte(P,11)*20]
+Thrall	Lasagmbie	Meat Drop: [20+(2*P)], Spooky Spell Damage: [gte(P,10)*10]
+Thrall	Penne Dreadful	Equalize Moxie: "Mysticality", Damage Reduction: [gte(P,10)*10], Moxie: [gte(P,11)*20]
+Thrall	Spaghetti Elemental	Spell Damage: [gte(P,10)*5], Experience: [(1+ceil(P/3))/2], Spooky Damage: [gte(P,11)*10]
 Thrall	Spice Ghost	Item Drop: [10+P]
-Thrall	Elbow Macaroni	Equalize Muscle: "Mysticality", Weapon Damage: [min(floor(P/5),1)*2*P], Critical Hit Percent: [floor(P/10)*10]
-Thrall	Vampieroghi	Maximum HP: [floor(P/10)*60]
-Thrall	Vermincelli	Maximum MP: [floor(P/10)*30]
+Thrall	Elbow Macaroni	Equalize Muscle: "Mysticality", Weapon Damage: [gte(P,5)*2*P], Critical Hit Percent: [gte(P,10)*10], Muscle: [gte(P,11)*20]
+Thrall	Vampieroghi	Maximum HP: [gte(P,10)*60], Spooky Resistance: [gte(P,11)*1]
+Thrall	Vermincelli	Maximum MP: [gte(P,10)*30]
 
 # Familiars section of modifiers.txt
 
@@ -6938,7 +6935,7 @@ Effect	Impeccable Coiffure	Moxie Percent: +50
 Effect	Imported Strength	Weapon Damage Percent: +50, Spell Damage Percent: +50
 Effect	Impregnabili Tea	Damage Reduction: 30
 Effect	Impregnably Delicious	Damage Reduction: 30
-# Impressed Pasta Thralls: +1 Pasta Thrall Experience
+Effect	Impressed Pasta Thralls	Pasta Thrall Experience: 1
 Effect	Improprie Tea	Sleaze Damage: +30
 Effect	Improved Candy Vision	Candy Drop: +25
 Effect	In a Lather	Hot Damage: +20, Cold Damage: +20, Stench Damage: +20, Spooky Damage: +20, Sleaze Damage: +20, Hot Spell Damage: +40, Cold Spell Damage: +40, Stench Spell Damage: +40, Spooky Spell Damage: +40, Sleaze Spell Damage: +40, Ranged Damage: +20, Weapon Damage: +20, Weapon Damage Percent: +50, Spell Damage: +40, Spell Damage Percent: +50

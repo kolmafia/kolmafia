@@ -24,8 +24,12 @@ public class PastaThrallCommand extends AbstractCommand {
     output.append("<th>Ability at Level 5</th>");
     output.append("</tr>");
     output.append("<tr>");
-    output.append("<th>Current Modifiers</th>");
+    output.append("<th>Experience</th>");
     output.append("<th>Ability at Level 10</th>");
+    output.append("</tr>");
+    output.append("<tr>");
+    output.append("<th>Current Modifiers</th>");
+    output.append("<th>Ability at Level 11</th>");
     output.append("</tr>");
 
     for (PastaThrallData thrall : KoLCharacter.pastaThralls) {
@@ -56,10 +60,19 @@ public class PastaThrallCommand extends AbstractCommand {
 
       output.append("<tr>");
       output.append("<td align=center><p>");
-      output.append(thrall.getCurrentModifiers());
+      output.append(thrall.getExperience());
       output.append("</p></td>");
       output.append("<td><p>");
       output.append(thrall.getLevel10Ability());
+      output.append("</p></td>");
+      output.append("</tr>");
+
+      output.append("<tr>");
+      output.append("<td align=center><p>");
+      output.append(thrall.getCurrentModifiers());
+      output.append("</p></td>");
+      output.append("<td><p>");
+      output.append(thrall.getLevel11Ability());
       output.append("</p></td>");
       output.append("</tr>");
     }
