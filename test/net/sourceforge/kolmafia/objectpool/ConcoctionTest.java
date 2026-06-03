@@ -388,4 +388,10 @@ public class ConcoctionTest {
     var con = ConcoctionPool.get(itemId);
     assertThat(con.computeType(), is(ConcoctionType.FOOD));
   }
+
+  @Test
+  public void stillSuitIsBooze() {
+    var con = ConcoctionPool.get(-1, "stillsuit distillate");
+    assertThat(con.computeType(), is(ConcoctionType.BOOZE));
+  }
 }
