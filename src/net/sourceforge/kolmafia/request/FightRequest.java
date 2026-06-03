@@ -3566,6 +3566,10 @@ public class FightRequest extends GenericRequest {
     }
 
     if (free) {
+      if (responseText.contains("Inspired by your Vermincelli companion")) {
+        // this is logged as it's tagged "familiarmessage"
+        Preferences.increment("_legendaryVermincelliFreeRats", 1, 11);
+      }
       String updateMessage = "This combat did not cost a turn";
       RequestLogger.updateSessionLog(updateMessage);
       KoLmafia.updateDisplay(updateMessage);
