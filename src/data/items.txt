@@ -12273,3 +12273,5 @@
 12244	Thwaitgold wallet moth statuette	945327997	thwaitmoth2.gif	none		0
 12245	scabbarded Sword of S Words	922416509	swordswordbox.gif	grow	t	0
 12246	second-hand synthetic sloth skin scabbard	204729991	swordswordgear.gif	familiar	t,d	75
+12247
+12248	mega helmet	249022203	megahelmet.gif	hat		0
