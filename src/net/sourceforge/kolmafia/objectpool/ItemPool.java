@@ -2995,6 +2995,7 @@ public class ItemPool {
   public static final int WITCHESS_SET = 8989;
   public static final int BRAIN_TRAINER_GAME = 8990;
   public static final int LASER_EYE_SURGERY_KIT = 8991;
+  public static final int JUMPING_HORSERADISH = 8993;
   public static final int SACRAMENTO_WINE = 8994;
   public static final int CLAN_FLOUNDRY = 9000;
   public static final int CARPE = 9001;
