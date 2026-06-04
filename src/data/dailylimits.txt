@@ -199,6 +199,7 @@ Cast	Transcendent Olfaction	_olfactionsUsed	3
 Cast	Turtle Power	_turtlePowerCast
 Cast	Vent Rage Gland	rageGlandVented
 Cast	Visit Your Favorite Bird	_favoriteBirdVisited
+Cast	Wave your Pasta Wand	_legendaryPastaWaveCast
 Cast	Wink at	_badlyRomanticArrows	1
 Cast	deliver your thesis!	_thesisDelivered
 Cast	lecture on mass	_pocketProfessorLectures	[fam(Pocket Professor)*ceil(sqrt(W))+(equipped(Pocket Professor Memory Chip)*2)]
