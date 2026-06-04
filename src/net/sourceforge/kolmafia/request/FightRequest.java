@@ -3566,10 +3566,6 @@ public class FightRequest extends GenericRequest {
     }
 
     if (free) {
-      if (responseText.contains("Inspired by your Vermincelli companion")) {
-        // this is logged as it's tagged "familiarmessage"
-        Preferences.increment("_legendaryVermincelliFreeRats", 1, 11);
-      }
       String updateMessage = "This combat did not cost a turn";
       RequestLogger.updateSessionLog(updateMessage);
       KoLmafia.updateDisplay(updateMessage);
@@ -8058,6 +8054,10 @@ public class FightRequest extends GenericRequest {
       return;
     }
 
+    if (FightRequest.handleVermincelliFreeRat(str)) {
+      return;
+    }
+
     if (str.contains("takes a pull on the hookah")) {
       status.hookah = true;
     }
@@ -8972,6 +8972,14 @@ public class FightRequest extends GenericRequest {
       }
     }
 
+    return false;
+  }
+
+  private static boolean handleVermincelliFreeRat(String text) {
+    if (text.contains("Inspired by your Vermincelli companion")) {
+      Preferences.increment("_legendaryVermincelliFreeRats", 1, 11);
+      return true;
+    }
     return false;
   }
 
