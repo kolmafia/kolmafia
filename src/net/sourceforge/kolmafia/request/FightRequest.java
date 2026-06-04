@@ -8058,6 +8058,10 @@ public class FightRequest extends GenericRequest {
       return;
     }
 
+    if (FightRequest.handleLasagmbieMana(str)) {
+      return;
+    }
+
     if (str.contains("takes a pull on the hookah")) {
       status.hookah = true;
     }
@@ -8978,6 +8982,14 @@ public class FightRequest extends GenericRequest {
   private static boolean handleVermincelliFreeRat(String text) {
     if (text.contains("Inspired by your Vermincelli companion")) {
       Preferences.increment("_legendaryVermincelliFreeRats", 1, 11);
+      return true;
+    }
+    return false;
+  }
+
+  private static boolean handleLasagmbieMana(String text) {
+    if (text.contains("peels off and flies into your mouth")) {
+      Preferences.increment("_legendaryLasagmbieMana", 1, 11);
       return true;
     }
     return false;

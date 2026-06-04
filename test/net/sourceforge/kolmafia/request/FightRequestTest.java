@@ -4447,4 +4447,13 @@ public class FightRequestTest {
       assertThat("_legendaryVermincelliFreeRats", isSetTo(3));
     }
   }
+
+  @Test
+  public void tracksLasagmbieMana() {
+    var cleanups = withProperty("_legendaryLasagmbieMana", 2);
+    try (cleanups) {
+      parseCombatData("request/test_fight_lasagmbie_mana.html");
+      assertThat("_legendaryLasagmbieMana", isSetTo(3));
+    }
+  }
 }
