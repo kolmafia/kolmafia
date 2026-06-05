@@ -1680,10 +1680,10 @@ public class MaximizerTest {
               withFamiliar(FamiliarPool.LEFT_HAND));
 
       try (cleanups) {
-        //        assertTrue(maximize("-equip big stick, equip bread basket"));
-        //        assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.WEAPON))));
-        //        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.OFFHAND, "bread basket")));
-        //        assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.FAMILIAR))));
+        assertTrue(maximize("equip bread basket -familiar"));
+        assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.WEAPON))));
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.OFFHAND, "bread basket")));
+        assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.FAMILIAR))));
 
         assertTrue(maximize("equip big stick, equip bread basket"));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.WEAPON, "big stick")));
