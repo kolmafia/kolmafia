@@ -354,4 +354,17 @@ class EatItemRequestTest {
       assertThat("_legendaryNoodlesSpleen", isSetTo(true));
     }
   }
+
+  @Test
+  public void setsPreferenceForSpiceGhostConsumption() {
+    var cleanups =
+        new Cleanups(
+            withClass(AscensionClass.PASTAMANCER), withProperty("_legendarySpiceGhostFood"));
+    try (cleanups) {
+      var req = new EatItemRequest(ItemPool.get(ItemPool.JUMPING_HORSERADISH));
+      req.responseText = html("request/test_eat_spice_ghost.html");
+      req.processResults();
+      assertThat("_legendarySpiceGhostFood", isSetTo(true));
+    }
+  }
 }

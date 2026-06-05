@@ -2449,8 +2449,11 @@ user	_leafMonstersFought	0
 user	_leavesBurned	0
 user	_leavesJumped	false
 user	_legendaryBeat	false
+user	_legendaryLasagmbieMana	0
 user	_legendaryNoodlesSpleen	false
 user	_legendaryPastaWaveCast	false
+user	_legendarySpiceGhostFood	false
+user	_legendaryVermincelliFreeRats	0
 user	_legionJackhammerCrafting	0
 user	_leprecondoRearrangements	0
 user	_leprecondoFurniture	0

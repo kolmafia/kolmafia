@@ -4436,4 +4436,24 @@ public class FightRequestTest {
       }
     }
   }
+
+  @Test
+  public void tracksVermincelliFreeRats() {
+    var cleanups =
+        new Cleanups(
+            withProperty("lastTavernSquare", 23), withProperty("_legendaryVermincelliFreeRats", 2));
+    try (cleanups) {
+      parseCombatData("request/test_fight_vermincelli_free.html");
+      assertThat("_legendaryVermincelliFreeRats", isSetTo(3));
+    }
+  }
+
+  @Test
+  public void tracksLasagmbieMana() {
+    var cleanups = withProperty("_legendaryLasagmbieMana", 2);
+    try (cleanups) {
+      parseCombatData("request/test_fight_lasagmbie_mana.html");
+      assertThat("_legendaryLasagmbieMana", isSetTo(3));
+    }
+  }
 }
