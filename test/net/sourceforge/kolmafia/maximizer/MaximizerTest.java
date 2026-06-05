@@ -1672,6 +1672,32 @@ public class MaximizerTest {
     }
 
     @Test
+    public void leftHandManConsidersRequestedItems() {
+      final var cleanups =
+          new Cleanups(
+              withEquippableItem("big stick"), // 2-handed weapon
+              withEquippableItem("bread basket"),
+              withFamiliar(FamiliarPool.LEFT_HAND));
+
+      try (cleanups) {
+//        assertTrue(maximize("-equip big stick, equip bread basket"));
+//        assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.WEAPON))));
+//        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.OFFHAND, "bread basket")));
+//        assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.FAMILIAR))));
+
+        assertTrue(maximize("equip big stick, equip bread basket"));
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.WEAPON, "big stick")));
+        assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.OFFHAND))));
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.FAMILIAR, "bread basket")));
+
+        assertTrue(maximize("1000 bonus bread basket -offhand -tie"));
+        assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.WEAPON))));
+        assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.OFFHAND))));
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.FAMILIAR, "bread basket")));
+      }
+    }
+
+    @Test
     public void switchFamiliarConsidersGenericItems() {
       var cleanups =
           new Cleanups(
