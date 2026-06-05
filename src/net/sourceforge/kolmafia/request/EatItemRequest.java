@@ -1051,10 +1051,17 @@ public class EatItemRequest extends UseItemRequest {
       Preferences.setBoolean("milkOfMagnesiumActive", false);
     }
 
-    // You feel the canticle take hold, and feel suddenly bloated
-    // as the pasta expands in your belly.
-    if (KoLCharacter.isPastamancer() && responseText.contains("feel suddenly bloated")) {
-      Preferences.setInteger("carboLoading", 0);
+    if (KoLCharacter.isPastamancer()) {
+      // You feel the canticle take hold, and feel suddenly bloated
+      // as the pasta expands in your belly.
+      if (responseText.contains("feel suddenly bloated")) {
+        Preferences.setInteger("carboLoading", 0);
+      }
+
+      // Mmm, this tastes a little bit spicier than normal.
+      if (responseText.contains("Mmm, this tastes a little bit spicier")) {
+        Preferences.setBoolean("_legendarySpiceGhostFood", true);
+      }
     }
 
     // If you have Mayo Minder running, you don't need to use the mayo helpers, but they are still
