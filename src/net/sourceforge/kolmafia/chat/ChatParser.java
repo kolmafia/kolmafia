@@ -63,7 +63,7 @@ public class ChatParser {
 
       boolean isCurrentChannel = false;
 
-      if (channel.indexOf("<b") != -1) {
+      if (channel.contains("<b")) {
         isCurrentChannel = true;
       }
 
@@ -121,7 +121,7 @@ public class ChatParser {
 
     channel = "/" + KoLConstants.ANYTAG_PATTERN.matcher(channel).replaceAll("");
 
-    if (content.indexOf("You are now talking in channel: ") != -1) {
+    if (content.contains("You are now talking in channel: ")) {
       String currentChannel = ChatManager.getCurrentChannel();
 
       chatMessages.add(new EnableMessage(channel, true));
@@ -137,7 +137,7 @@ public class ChatParser {
 
     channel = "/" + KoLConstants.ANYTAG_PATTERN.matcher(channel).replaceAll("");
 
-    if (content.indexOf("You are now talking in channel: ") != -1) {
+    if (content.contains("You are now talking in channel: ")) {
       chatMessages.add(new EnableMessage(channel, true));
     }
   }
@@ -152,9 +152,9 @@ public class ChatParser {
 
     ChatMessage message = null;
 
-    if (content.indexOf("Now listening to channel: ") != -1) {
+    if (content.contains("Now listening to channel: ")) {
       message = new EnableMessage(channel, false);
-    } else if (content.indexOf("No longer listening to channel: ") != -1) {
+    } else if (content.contains("No longer listening to channel: ")) {
       message = new DisableMessage(channel, false);
     }
 

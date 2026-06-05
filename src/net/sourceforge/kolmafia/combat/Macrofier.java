@@ -472,8 +472,8 @@ public class Macrofier {
     String indent = "";
     String element = debug ? "\t" : "\u00A0\u00A0\u00A0\u00A0";
     String[] pieces = macro.split("\n");
-    for (int i = 0; i < pieces.length; ++i) {
-      String line = pieces[i].trim();
+    for (String piece : pieces) {
+      String line = piece.trim();
       if (line.startsWith("end") && indent.length() > 0) {
         indent = indent.substring(element.length());
       }
@@ -518,8 +518,8 @@ public class Macrofier {
 
   public static void macroCombo(StringBuffer macro, int[] combo) {
     long cost = 0;
-    for (int i = 0; i < combo.length; ++i) {
-      cost += SkillDatabase.getMPConsumptionById(combo[i]);
+    for (int j : combo) {
+      cost += SkillDatabase.getMPConsumptionById(j);
     }
 
     if (cost > KoLCharacter.getMaximumMP()) {
@@ -538,9 +538,9 @@ public class Macrofier {
       macro.append("\n");
     }
     macro.append("call mafiaround; ");
-    for (int i = 0; i < combo.length; ++i) {
+    for (int j : combo) {
       macro.append("skill ");
-      macro.append(combo[i]);
+      macro.append(j);
       macro.append("; ");
     }
     macro.append("\n");
