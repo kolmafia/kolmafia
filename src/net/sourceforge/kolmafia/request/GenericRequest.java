@@ -107,9 +107,9 @@ public class GenericRequest implements Runnable {
 
   private int timeoutCount = 0;
   private static final int TIMEOUT_LIMIT = 3;
-  private int retryCodeFailureCount = 0;
-  private static final int RETRY_CODE_FAILURE_LIMIT = 5;
-  private static final int RETRY_CODE_BASE_DELAY = 1000;
+  private int retryFailureCount = 0;
+  private static final int RETRY_FAILURE_LIMIT = 5;
+  private static final int RETRY_BASE_DELAY = 1000;
 
   private boolean redirectHandled = false;
   private int redirectCount = 0;
@@ -1143,7 +1143,7 @@ public class GenericRequest implements Runnable {
     GenericRequest.ignoreChatRequest = false;
 
     this.timeoutCount = 0;
-    this.retryCodeFailureCount = 0;
+    this.retryFailureCount = 0;
     this.redirectHandled = false;
     this.redirectCount = 0;
     this.allowRedirect = null;
@@ -1812,11 +1812,11 @@ public class GenericRequest implements Runnable {
   }
 
   protected boolean shouldRetryResponseCode() {
-    return this.responseCode == 502 && ++this.retryCodeFailureCount < RETRY_CODE_FAILURE_LIMIT;
+    return this.responseCode == 502 && ++this.retryFailureCount < RETRY_FAILURE_LIMIT;
   }
 
   protected long responseCodeRetryDelay() {
-    return (long) RETRY_CODE_BASE_DELAY << (this.retryCodeFailureCount - 1);
+    return (long) RETRY_BASE_DELAY << (this.retryFailureCount - 1);
   }
 
   protected void pauseBeforeResponseCodeRetry(long milliseconds) {
