@@ -890,9 +890,9 @@ Lumpy, the Demonic Sauceblob	891	4_4a.gif	BOSS NOCOPY Atk: 200 Def: 180 HP: 500 
 
 flock of seagulls	699	seagulls.gif	NOCOPY WANDERER Atk: 95 Def: 85 HP: 120 Init: 50 Group: 2 P: beast Article: a
 Jocko Homo	705	jockohomo.gif	BOSS NOCOPY WANDERER Atk: 115 Def: 103 HP: 150 Init: 60 P: beast	secret tropical island volcano lair map (100)	Jocko Homo's head (100)	unusual disco ball (100)
-breakdancing raver	855	breakdancer.gif	NOBANISH Atk: 140 Def: 126 HP: 150 Init: 10000 P: dude Article: a	candy necklace (c0)	rave visor (c0)	teddybear backpack (c0)
-pop-and-lock raver	856	popnlocker.gif	NOBANISH Atk: 140 Def: 126 HP: 150 Init: 10000 P: dude Article: a	baggy rave pants (c0)	glowstick on a string (c0)	teddybear backpack (c0)
-running man	857	runningman.gif	NOBANISH Atk: 140 Def: 126 HP: 150 Init: 10000 P: dude EA: sleaze EA: none Article: a	candy necklace (c0)	glowstick on a string (c0)	pacifier necklace (c0)
+breakdancing raver	855	breakdancer.gif	NOBANISH Atk: 140 Def: 126 HP: 150 Init: 10000 P: dude Article: a	candy necklace (c100)	rave visor (c100)	teddybear backpack (c100)
+pop-and-lock raver	856	popnlocker.gif	NOBANISH Atk: 140 Def: 126 HP: 150 Init: 10000 P: dude Article: a	baggy rave pants (c100)	glowstick on a string (c100)	teddybear backpack (c100)
+running man	857	runningman.gif	NOBANISH Atk: 140 Def: 126 HP: 150 Init: 10000 P: dude EA: sleaze EA: none Article: a	candy necklace (c100)	glowstick on a string (c100)	pacifier necklace (c100)
 daft punk	870	daftpunk.gif	Atk: 160 Def: 144 HP: 210 Init: 75 P: dude EA: hot EA: none Article: a
 Spirit of New Wave (Inner Sanctum)	25	5_1.gif	BOSS NOCOPY Atk: 27 Def: 24 HP: 30 Init: 60 Meat: 35 P: undead GHOST Article: the Manuel: "Spirit of New Wave"	Disco 'Fro Pick (100)
 Spirit of New Wave (The Nemesis' Lair)	876	5_2.gif	BOSS NOCOPY Atk: 170 Def: 153 HP: 220 Init: 80 P: undead GHOST Article: the Manuel: "Spirit of New Wave"	Volartta's bellbottoms (100)
