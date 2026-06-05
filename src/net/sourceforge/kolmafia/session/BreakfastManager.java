@@ -479,7 +479,8 @@ public class BreakfastManager {
       if (pathedSummons) {
         if ((skill.equals("Pastamastery")
                 || skill.equals("Lunch Break")
-                || skill.equals("Spaghetti Breakfast"))
+                || skill.equals("Spaghetti Breakfast")
+                || skill.equals("Wave your Pasta Wand"))
             && !KoLCharacter.canEat()) {
           continue;
         }
