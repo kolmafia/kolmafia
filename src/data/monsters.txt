@@ -117,7 +117,7 @@ Bush	537	bush.gif	Atk: 156 Def: 140 HP: 150 Init: 70 P: constellation ED: sleaze
 business hippy	335	bushippy.gif	Atk: 35 Def: 34 HP: 25 Init: -10000 Meat: 50 P: hippy E: stench Article: a	filthy corduroys (10)	filthy knitted dread sack (10)	herbs (20)	reodorant (10)
 Buzzy Beetle	273	buzzy.gif	Atk: 20 Def: 18 HP: 15 Init: 60 Meat: 10 P: bug Article: a	black pixel (50)	white pixel (50)	red pixel (65)
 C.A.R.N.I.V.O.R.E. Operative	514	carnivore.gif	BOSS NOCOPY Atk: 210 Def: 189 HP: 320 Init: 80 Meat: 300 P: hippy ED: stench EA: sleaze EA: none	C.A.R.N.I.V.O.R.E. button (100)	green clay bead (30)	Lockenstock&trade; sandals (0)
-cabinet of Dr. Limpieza	1561	laundrycabinet.gif	Atk: 142 Def: 148 HP: 150 Init: 25 P: undead Article: the	fabric softener (15)	bottle of laundry sherry (15)	bloodstain stick (20)	fabric hardener (15)	blasting soda (c0)
+cabinet of Dr. Limpieza	1561	laundrycabinet.gif	Atk: 142 Def: 148 HP: 150 Init: 25 P: undead Article: the	fabric softener (15)	bottle of laundry sherry (15)	bloodstain stick (20)	fabric hardener (15)	blasting soda (c5)
 cactuary	465	cactuary.gif	Atk: 137 Def: 126 HP: 139 Init: 10 Meat: 100 P: plant Article: a	bit-o-cactus (27)	giant cactus quill (5)	cactus fruit (20)	handful of sand (20)
 Cake Lord	1756	cakelord.gif	BOSS NOCOPY Atk: 5 Def: 5 HP: 10 Init: -10000 P: construct EA: hot EA: none Article: the
 Camel's Toe	541	cameltoe.gif	Atk: 158 Def: 142 HP: 150 Init: 70 P: constellation ED: sleaze EA: hot EA: none Article: The	line (30)	line (30)	star (30)	star (30)
@@ -517,7 +517,7 @@ possessed can of tomatoes	145	tomatosoup.gif	Atk: 1 Def: 0 HP: 1 Init: 50 Meat: 
 possessed laundry press	1562	mangler.gif	Atk: 158 Def: 129 HP: 145 Init: -10000 P: construct EA: hot EA: none Article: a	extra-flat panini (15)	industrial strength starch (15)	mangled finger (5)
 possessed silverware drawer	372	silverware.gif	Atk: 22 Def: 18 HP: 22 Init: 50 P: undead Article: a	antique packet of ketchup (30)	corn holder (15)	eggbeater (5)
 possessed toy chest	1550	toybox.gif	Atk: 76 Def: 84 HP: 85 Init: -10000 P: weird EA: sleaze EA: none Article: a	haunted paddle-ball (5)	spooky sound effects record (15)	spooky alphabet block (20)
-possessed wine rack	713	winerack.gif	Atk: 158 Def: 146 HP: 165 Init: 40 P: construct ED: spooky Article: a	actual tapas (15)	bottle of Chateau de Vinegar (c0)
+possessed wine rack	713	winerack.gif	Atk: 158 Def: 146 HP: 165 Init: 40 P: construct ED: spooky Article: a	actual tapas (15)	bottle of Chateau de Vinegar (c5)
 Possibility Giant	171	question.gif	Atk: 130 Def: 117 HP: 150 Init: 40 Meat: 150 P: humanoid Article: a	chaos butterfly (20)	plot hole (15)	probability potion (25)
 poutine ooze	225	pouooze.gif	Atk: 3 Def: 1 HP: 3 Init: 30 P: slime Article: a	poutine (40)
 Pr Imp	979	primp.gif	Atk: 60 Def: 54 HP: 60 Init: 50 Meat: 50 P: demon ED: hot Article: a	imp air (15)
