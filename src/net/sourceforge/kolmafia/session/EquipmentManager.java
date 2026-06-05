@@ -11,7 +11,6 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
-import java.util.function.Predicate;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
@@ -464,9 +463,8 @@ public class EquipmentManager {
     }
     mods.getStrings(StringModifier.CONDITIONAL_SKILL_EQUIPPED).stream()
         .map(SkillDatabase::getSkillId)
-        .filter(Predicate.not(SkillDatabase::isNonCombat))
-        // always remove skills, or add skills available sometimes
-        .filter(x -> !add || EquipmentManager.shouldApplySkill(x))
+        // always remove non-noncombat skills, or add skills available sometimes
+        .filter(x -> add ? EquipmentManager.shouldApplySkill(x) : !SkillDatabase.isNonCombat(x))
         .forEach(cb);
   }
 

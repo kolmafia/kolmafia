@@ -90,7 +90,8 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
     "Prevent Scurvy and Sobriety",
     "Bowl Full of Jelly",
     "Eye and a Twist",
-    "Chubby and Plump"
+    "Chubby and Plump",
+    "Wave your Pasta Wand"
   };
 
   // These are skills where someone would not care if they are in-run,

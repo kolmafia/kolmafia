@@ -2003,6 +2003,12 @@ public abstract class InventoryManager {
       skills = Stream.concat(skills, codpieceSkills);
     }
 
+    if ((itemId == null || ItemPool.LEGENDARY_PASTA_WAND == itemId)
+        && InventoryManager.equippedOrInInventory(ItemPool.LEGENDARY_PASTA_WAND)
+        && !KoLCharacter.hasSkill(SkillPool.PASTAMASTERY)) {
+      skills = Stream.concat(skills, Stream.of(Map.entry(true, "Wave your Pasta Wand ")));
+    }
+
     skills
         .map(e -> Map.entry(e.getKey(), SkillDatabase.getSkillId(e.getValue())))
         .filter(
