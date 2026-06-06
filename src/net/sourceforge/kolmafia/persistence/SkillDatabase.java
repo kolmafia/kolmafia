@@ -979,7 +979,7 @@ public class SkillDatabase {
       return 0;
     }
 
-    int actualDuration = duration.intValue();
+    int actualDuration = duration;
 
     if (SkillDatabase.isSong(skillId)) {
       int multiplier = KoLCharacter.hasSkill(SkillPool.GOOD_SINGING_VOICE) ? 2 : 1;
@@ -1667,7 +1667,7 @@ public class SkillDatabase {
     if (oldCasts == null) {
       oldCasts = 0;
     }
-    int newCasts = oldCasts.intValue() + count;
+    int newCasts = oldCasts + count;
     SkillDatabase.castsById.put(skillId, newCasts);
   }
 
@@ -1781,7 +1781,7 @@ public class SkillDatabase {
     if (casts == null) {
       return 0;
     }
-    return casts.intValue();
+    return casts;
   }
 
   public static boolean sourceAgentSkill(int skillId) {

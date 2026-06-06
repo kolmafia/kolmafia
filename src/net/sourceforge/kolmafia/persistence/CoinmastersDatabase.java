@@ -257,7 +257,7 @@ public class CoinmastersDatabase {
       return 0;
     }
     Integer price = prices.get(itemId);
-    return (price == null) ? 0 : price.intValue();
+    return (price == null) ? 0 : price;
   }
 
   public static final void clearPurchaseRequests(CoinmasterData data) {
