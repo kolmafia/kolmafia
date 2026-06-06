@@ -134,10 +134,10 @@ public class DisplayCaseRequest extends TransferItemRequest {
 
   public static final boolean parseDisplayTransfer(
       final String urlString, final String responseText) {
-    if (urlString.indexOf("put") != -1) {
+    if (urlString.contains("put")) {
       // You haven't got any of that item in your inventory.
       // <b>club necklace (5)</b> moved from inventory to case.
-      if (responseText.indexOf("moved from inventory to case") == -1) {
+      if (!responseText.contains("moved from inventory to case")) {
         return false;
       }
 
@@ -150,10 +150,10 @@ public class DisplayCaseRequest extends TransferItemRequest {
       return true;
     }
 
-    if (urlString.indexOf("take") != -1) {
+    if (urlString.contains("take")) {
       // You haven't got any of that item in your case.
       // <b>club necklace (5)</b> moved from case to inventory.
-      if (responseText.indexOf("moved from case to inventory") == -1) {
+      if (!responseText.contains("moved from case to inventory")) {
         return false;
       }
 
@@ -179,7 +179,7 @@ public class DisplayCaseRequest extends TransferItemRequest {
 
   public static final boolean parseDisplayArrangement(
       final String urlString, final String responseText) {
-    if (urlString.indexOf("action=arrange") == -1) {
+    if (!urlString.contains("action=arrange")) {
       DisplayCaseManager.update(responseText);
     }
 
@@ -243,7 +243,7 @@ public class DisplayCaseRequest extends TransferItemRequest {
       return false;
     }
 
-    if (urlString.indexOf("action=take") != -1) {
+    if (urlString.contains("action=take")) {
       return TransferItemRequest.registerRequest(
           "remove from display case",
           urlString,
@@ -253,7 +253,7 @@ public class DisplayCaseRequest extends TransferItemRequest {
           0);
     }
 
-    if (urlString.indexOf("action=put") != -1) {
+    if (urlString.contains("action=put")) {
       return TransferItemRequest.registerRequest(
           "put in display case",
           urlString,

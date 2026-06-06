@@ -29,7 +29,7 @@ public class TrophyHutRequest extends GenericRequest {
 
     // You can't afford to have a trophy installed.
     // Your trophy has been installed at your campsite.
-    if (responseText.indexOf("Your trophy has been installed at your campsite") != -1) {
+    if (responseText.contains("Your trophy has been installed at your campsite")) {
       RequestLogger.updateSessionLog("You spent 10,000 Meat");
       ResultProcessor.processMeat(-10000);
     }

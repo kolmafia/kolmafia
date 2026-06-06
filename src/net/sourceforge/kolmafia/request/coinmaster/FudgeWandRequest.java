@@ -87,7 +87,7 @@ public class FudgeWandRequest extends CoinMasterRequest {
   public static void parseResponse(final String location, final String responseText) {
     CoinmasterData data = FUDGEWAND;
 
-    if (location.indexOf("option=6") != -1) {
+    if (location.contains("option=6")) {
       // We exited the choice adventure.
       return;
     }
