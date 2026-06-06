@@ -1754,9 +1754,10 @@ public class GenericRequest implements Runnable {
         shouldStop = this.retrieveServerReply(istream);
         istream.close();
       } else {
-        if (this.shouldRetryResponseCode()) {
-          KoLmafia.updateDisplay("Received 502, retrying...");
+        if (this.shouldRetryResponseCode()
+            && Preferences.getBoolean("retryFailedNetworkRequests")) {
           istream.close();
+          KoLmafia.updateDisplay("Received 502, retrying...");
           this.pauseBeforeResponseCodeRetry(this.responseCodeRetryDelay());
           return false;
         }

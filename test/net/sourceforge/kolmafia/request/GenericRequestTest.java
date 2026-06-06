@@ -5,6 +5,7 @@ import static internal.helpers.Networking.html;
 import static internal.helpers.Player.*;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.hasSize;
@@ -407,6 +408,29 @@ public class GenericRequestTest {
 
   @Nested
   class Retry502 {
+    @Test
+    public void doesNotRetryRequestsIfPreferenceFalse() {
+      var builder = new FakeHttpClientBuilder();
+      builder.client.addResponse(502, "");
+      builder.client.addResponse(200, "<html><body>ok</body></html>");
+
+      var cleanup =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withProperty("retryFailedNetworkRequests", false),
+              withContinuationState());
+
+      try (cleanup) {
+        var request = new RetryTrackingRequest("choice.php?whichchoice=1&option=1");
+        request.run();
+
+        assertThat(StaticEntity.getContinuationState(), equalTo(MafiaState.ERROR));
+        assertThat(request.responseCode, equalTo(502));
+        assertThat(builder.client.getRequests(), hasSize(1));
+        assertThat(request.retryDelays, empty());
+      }
+    }
+
     @Test
     public void retries502WithExponentialBackoff() {
       var builder = new FakeHttpClientBuilder();

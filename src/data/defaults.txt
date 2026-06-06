@@ -157,6 +157,7 @@ global	relayUsesInlineLinks	true
 global	relayUsesIntegratedChat	false
 global	relayWarnOnRecoverFailure	true
 global	removeMalignantEffects	false
+global	retryFailedNetworkRequests	true
 global	saveSettingsOnSet	true
 global	saveState
 global	saveStateActive
