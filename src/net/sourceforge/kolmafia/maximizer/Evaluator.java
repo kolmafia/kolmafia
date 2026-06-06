@@ -1188,7 +1188,9 @@ public class Evaluator {
         }
 
         if (item.getCount() != 0
-            && (this.getScore(familiarMods) - nullScore > 0.0 || item.automaticFlag)) {
+            && (item.automaticFlag
+                || this.posEquip.contains(item)
+                || this.getScore(familiarMods, Map.of(Slot.FAMILIAR, item)) - nullScore > 0.0)) {
           ranked.get(Slot.FAMILIAR).add(item);
         }
       }
@@ -1224,7 +1226,9 @@ public class Evaluator {
         }
 
         if (item.getCount() != 0
-            && (this.getScore(familiarMods) - nullScore > 0.0 || item.automaticFlag)) {
+            && (item.automaticFlag
+                || this.posEquip.contains(item)
+                || this.getScore(familiarMods, Map.of(Slot.FAMILIAR, item)) - nullScore > 0.0)) {
           ranked.getFamiliar(f).add(item);
         }
       }

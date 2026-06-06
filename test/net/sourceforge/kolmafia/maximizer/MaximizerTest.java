@@ -1672,6 +1672,74 @@ public class MaximizerTest {
     }
 
     @Test
+    public void leftHandManConsidersRequestedItems() {
+      final var cleanups =
+          new Cleanups(
+              withEquippableItem("big stick"), // 2-handed weapon
+              withEquippableItem("bread basket"),
+              withEquippableItem("cyborg doll"),
+              withFamiliar(FamiliarPool.LEFT_HAND));
+
+      try (cleanups) {
+        assertTrue(maximize("equip bread basket -familiar"));
+        assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.WEAPON))));
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.OFFHAND, "bread basket")));
+        assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.FAMILIAR))));
+
+        assertTrue(maximize("equip big stick, equip bread basket"));
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.WEAPON, "big stick")));
+        assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.OFFHAND))));
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.FAMILIAR, "bread basket")));
+
+        assertTrue(maximize("1000 bonus bread basket -offhand -tie"));
+        assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.WEAPON))));
+        assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.OFFHAND))));
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.FAMILIAR, "bread basket")));
+
+        assertTrue(maximize("equip bread basket +equip cyborg doll"));
+        assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.WEAPON))));
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.OFFHAND)));
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.FAMILIAR)));
+        assertThat(getBoosts(), hasItem(recommends("cyborg doll")));
+        assertThat(getBoosts(), hasItem(recommends("bread basket")));
+      }
+    }
+
+    @Test
+    public void switchLeftHandManConsidersRequestedItems() {
+      final var cleanups =
+          new Cleanups(
+              withEquippableItem("big stick"), // 2-handed weapon
+              withEquippableItem("bread basket"),
+              withEquippableItem("cyborg doll"),
+              withFamiliarInTerrarium(FamiliarPool.LEFT_HAND));
+
+      try (cleanups) {
+        assertTrue(maximize("equip bread basket -familiar +switch left-hand man"));
+        assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.WEAPON))));
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.OFFHAND, "bread basket")));
+        assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.FAMILIAR))));
+
+        assertTrue(maximize("equip big stick, equip bread basket +switch left-hand man"));
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.WEAPON, "big stick")));
+        assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.OFFHAND))));
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.FAMILIAR, "bread basket")));
+
+        assertTrue(maximize("1000 bonus bread basket -offhand -tie +switch left-hand man"));
+        assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.WEAPON))));
+        assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.OFFHAND))));
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.FAMILIAR, "bread basket")));
+
+        assertTrue(maximize("equip bread basket +equip cyborg doll +switch left-hand man"));
+        assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.WEAPON))));
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.OFFHAND)));
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.FAMILIAR)));
+        assertThat(getBoosts(), hasItem(recommends("cyborg doll")));
+        assertThat(getBoosts(), hasItem(recommends("bread basket")));
+      }
+    }
+
+    @Test
     public void switchFamiliarConsidersGenericItems() {
       var cleanups =
           new Cleanups(
