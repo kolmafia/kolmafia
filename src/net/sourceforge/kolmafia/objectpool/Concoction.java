@@ -201,8 +201,20 @@ public class Concoction implements Comparable<Concoction> {
       return ConcoctionType.BOOZE;
     }
 
-    // real items
     int itemId = this.getItemId();
+
+    // Handle fake versions of consumables, such as Chez/Microbrewery
+    if (itemId < 0) {
+      if (ConsumablesDatabase.getRawFullness(this.name) != null) {
+        return ConcoctionType.FOOD;
+      } else if (ConsumablesDatabase.getRawInebriety(this.name) != null) {
+        return ConcoctionType.BOOZE;
+      } else if (ConsumablesDatabase.getRawSpleenHit(this.name) != null) {
+        return ConcoctionType.SPLEEN;
+      }
+    }
+
+    // real items
     if (forceFood.contains(itemId)) {
       return ConcoctionType.FOOD;
     } else if (forceBooze.contains(itemId)) {
