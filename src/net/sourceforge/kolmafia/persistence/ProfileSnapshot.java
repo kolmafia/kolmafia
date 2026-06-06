@@ -116,9 +116,9 @@ public class ProfileSnapshot {
       // If the comparison value matches the type desired,
       // add the element to the list.
 
-      for (int i = 0; i < names.length; ++i) {
-        if (ProfileSnapshot.compare(filterType, names[i], filter) == matchType) {
-          interimList.add(ProfileSnapshot.getProfile(names[i]));
+      for (String name : names) {
+        if (ProfileSnapshot.compare(filterType, name, filter) == matchType) {
+          interimList.add(ProfileSnapshot.getProfile(name));
         }
       }
     } catch (Exception e) {
@@ -150,13 +150,10 @@ public class ProfileSnapshot {
     try {
       switch (filterType) {
         case NAME -> compareValue = request.getPlayerName().compareToIgnoreCase(filter);
-        case LEVEL ->
-            compareValue = request.getPlayerLevel().intValue() - StringUtilities.parseInt(filter);
-        case PVP ->
-            compareValue = request.getPvpRank().intValue() - StringUtilities.parseInt(filter);
+        case LEVEL -> compareValue = request.getPlayerLevel() - StringUtilities.parseInt(filter);
+        case PVP -> compareValue = request.getPvpRank() - StringUtilities.parseInt(filter);
         case CLASS -> compareValue = request.getClassType().compareToIgnoreCase(filter);
-        case KARMA ->
-            compareValue = request.getKarma().intValue() - StringUtilities.parseInt(filter);
+        case KARMA -> compareValue = request.getKarma() - StringUtilities.parseInt(filter);
         case LOGIN -> {
           int daysIdle = StringUtilities.parseInt(filter);
           long millisecondsIdle = 86400000L * daysIdle;
@@ -224,8 +221,8 @@ public class ProfileSnapshot {
     ArrayList<String> rankList = new ArrayList<>();
 
     ProfileRequest memberLookup;
-    for (int i = 0; i < members.length; ++i) {
-      memberLookup = ProfileSnapshot.getProfile(members[i]);
+    for (String value : members) {
+      memberLookup = ProfileSnapshot.getProfile(value);
       rankList.add(memberLookup.getRank());
     }
 
@@ -240,8 +237,8 @@ public class ProfileSnapshot {
     strbuf.append(ProfileSnapshot.getOverviewHeader());
     strbuf.append(KoLConstants.LINE_BREAK);
 
-    for (int i = 0; i < members.length; ++i) {
-      strbuf.append(ProfileSnapshot.getOverviewDetail(members[i], localProfileLink));
+    for (String string : members) {
+      strbuf.append(ProfileSnapshot.getOverviewDetail(string, localProfileLink));
       strbuf.append(KoLConstants.LINE_BREAK);
     }
 
@@ -260,8 +257,8 @@ public class ProfileSnapshot {
     strbuf.append(ProfileSnapshot.getStatsHeader());
     strbuf.append(KoLConstants.LINE_BREAK);
 
-    for (int i = 0; i < members.length; ++i) {
-      strbuf.append(ProfileSnapshot.getStatsDetail(members[i], localProfileLink));
+    for (String s : members) {
+      strbuf.append(ProfileSnapshot.getStatsDetail(s, localProfileLink));
       strbuf.append(KoLConstants.LINE_BREAK);
     }
 
@@ -280,8 +277,8 @@ public class ProfileSnapshot {
     strbuf.append(ProfileSnapshot.getSocialHeader());
     strbuf.append(KoLConstants.LINE_BREAK);
 
-    for (int i = 0; i < members.length; ++i) {
-      strbuf.append(ProfileSnapshot.getSocialDetail(members[i], localProfileLink));
+    for (String member : members) {
+      strbuf.append(ProfileSnapshot.getSocialDetail(member, localProfileLink));
       strbuf.append(KoLConstants.LINE_BREAK);
     }
 
@@ -340,7 +337,7 @@ public class ProfileSnapshot {
     strbuf.append("</td><td align=center>");
     strbuf.append(
         KoLConstants.COMMA_FORMAT.format(
-            memberLookup.getCurrentRun() == null ? 0 : memberLookup.getCurrentRun().intValue()));
+            memberLookup.getCurrentRun() == null ? 0 : memberLookup.getCurrentRun()));
 
     AscensionHistoryRequest request =
         AscensionHistoryRequest.getInstance(
@@ -389,8 +386,8 @@ public class ProfileSnapshot {
 
     ProfileRequest memberLookup;
 
-    for (int i = 0; i < members.length; ++i) {
-      memberLookup = ProfileSnapshot.getProfile(members[i]);
+    for (String member : members) {
+      memberLookup = ProfileSnapshot.getProfile(member);
 
       classList.add(memberLookup.getClassType());
       // meatList.add( memberLookup.getCurrentMeat() );
@@ -582,9 +579,7 @@ public class ProfileSnapshot {
     strbuf.append("</td><td align=center>");
     strbuf.append(
         KoLConstants.COMMA_FORMAT.format(
-            memberLookup.getAscensionCount() == null
-                ? 0
-                : memberLookup.getAscensionCount().intValue()));
+            memberLookup.getAscensionCount() == null ? 0 : memberLookup.getAscensionCount()));
 
     strbuf.append("</td></tr>");
     return strbuf.toString();
@@ -602,8 +597,8 @@ public class ProfileSnapshot {
 
     ProfileRequest memberLookup;
 
-    for (int i = 0; i < members.length; ++i) {
-      memberLookup = ProfileSnapshot.getProfile(members[i]);
+    for (String member : members) {
+      memberLookup = ProfileSnapshot.getProfile(member);
 
       foodList.add(memberLookup.getFood());
       drinkList.add(memberLookup.getDrink());

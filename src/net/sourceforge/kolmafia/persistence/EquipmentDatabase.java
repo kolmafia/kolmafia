@@ -481,7 +481,7 @@ public class EquipmentDatabase {
     }
 
     Integer result = EquipmentDatabase.outfitPieces.get(itemId);
-    return result == null ? -1 : result.intValue();
+    return result == null ? -1 : result;
   }
 
   public static final String outfitString(

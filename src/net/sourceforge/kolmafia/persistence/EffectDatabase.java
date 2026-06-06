@@ -57,7 +57,7 @@ public class EffectDatabase {
       while ((data = FileUtilities.readData(reader)) != null) {
         if (data.length >= 3) {
           Integer effectId = Integer.valueOf(data[0]);
-          if (effectId.intValue() < 0) {
+          if (effectId < 0) {
             continue;
           }
 
@@ -207,16 +207,15 @@ public class EffectDatabase {
     }
     ArrayList<String> rv = new ArrayList<>();
     String[] pieces = actions.split("\\|");
-    for (int i = 0; i < pieces.length; ++i) {
-      String action = pieces[i];
+    for (String action : pieces) {
       String[] either = action.split(" ", 3);
       if (either.length == 3
           && either[1].equals(
               "either")) { // Split commands like "use either X, Y" into "use X", "use Y"
         String cmd = either[0];
         either = StringUtilities.splitByComma(either[2]);
-        for (int j = 0; j < either.length; ++j) {
-          rv.add(cmd + " " + either[j]);
+        for (String s : either) {
+          rv.add(cmd + " " + s);
         }
       } else {
         rv.add(action);
@@ -262,7 +261,7 @@ public class EffectDatabase {
 
   public static final String getEffectName(final String descriptionId) {
     Integer effectId = EffectDatabase.effectIdByDescription.get(descriptionId);
-    return effectId == null ? null : EffectDatabase.getEffectName(effectId.intValue());
+    return effectId == null ? null : EffectDatabase.getEffectName(effectId);
   }
 
   public static final String getEffectDisplayName(final String effectName) {
@@ -278,7 +277,7 @@ public class EffectDatabase {
 
   public static final int getEffectIdFromDescription(final String descriptionId) {
     Integer effectId = EffectDatabase.effectIdByDescription.get(descriptionId);
-    return effectId == null ? -1 : effectId.intValue();
+    return effectId == null ? -1 : effectId;
   }
 
   public static final String getDescriptionId(final int effectId) {
@@ -537,14 +536,14 @@ public class EffectDatabase {
 
       for (Entry<Integer, EffectData> entry : EffectDatabase.allEffects()) {
         Integer nextInteger = entry.getKey();
-        int effectId = nextInteger.intValue();
+        int effectId = nextInteger;
 
         // Skip pseudo effects
         if (effectId < 1) {
           continue;
         }
 
-        for (int i = lastInteger; i < nextInteger.intValue(); ++i) {
+        for (int i = lastInteger; i < nextInteger; ++i) {
           writer.println(i);
         }
 

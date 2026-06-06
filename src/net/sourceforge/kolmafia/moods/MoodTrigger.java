@@ -44,7 +44,7 @@ public class MoodTrigger implements Comparable<MoodTrigger> {
     this.effect = effect;
     this.name = effect == null ? null : effect.getName();
 
-    if ((action.startsWith("use ") || action.startsWith("cast ")) && action.indexOf(";") == -1) {
+    if ((action.startsWith("use ") || action.startsWith("cast ")) && !action.contains(";")) {
       // Determine the command, the count amount,
       // and the parameter's unambiguous form.
 

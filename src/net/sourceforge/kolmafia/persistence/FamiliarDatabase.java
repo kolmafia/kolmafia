@@ -555,7 +555,7 @@ public class FamiliarDatabase {
         case ItemPool.REPLICA_PATRIOTIC_EAGLE -> familiarId = FamiliarPool.PATRIOTIC_EAGLE;
       }
     }
-    return familiarId == null ? null : new FamiliarData(familiarId.intValue());
+    return familiarId == null ? null : new FamiliarData(familiarId);
   }
 
   /**
@@ -572,7 +572,7 @@ public class FamiliarDatabase {
     // Look for an exact match first
     Integer familiarId = FamiliarDatabase.familiarByName.get(name);
     if (familiarId != null) {
-      return familiarId.intValue();
+      return familiarId;
     }
 
     if (!substringMatch) {
@@ -605,7 +605,7 @@ public class FamiliarDatabase {
 
   public static final int getFamiliarByItem(final String item) {
     Integer familiarId = FamiliarDatabase.familiarByItem.get(item);
-    return familiarId == null ? -1 : familiarId.intValue();
+    return familiarId == null ? -1 : familiarId;
   }
 
   public static int getFamiliarLarva(final Integer familiarId) {
@@ -637,7 +637,7 @@ public class FamiliarDatabase {
 
   public static final int getFamiliarByImageLocation(final String image) {
     Integer familiarId = FamiliarDatabase.familiarByImage.get(image);
-    return familiarId == null ? -1 : familiarId.intValue();
+    return familiarId == null ? -1 : familiarId;
   }
 
   private static ImageIcon getFamiliarIcon(final String location) {

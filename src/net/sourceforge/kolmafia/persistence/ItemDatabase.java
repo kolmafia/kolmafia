@@ -482,7 +482,7 @@ public class ItemDatabase {
 
     for (var entry : ItemDatabase.entrySet()) {
       Integer nextInteger = entry.getKey();
-      int itemId = nextInteger.intValue();
+      int itemId = nextInteger;
 
       // Skip pseudo items
       if (itemId == 13 || itemId < 1) {
@@ -948,7 +948,7 @@ public class ItemDatabase {
 
   private static void parseItemDescription(
       final Integer id, final String descId, int power, boolean multi) {
-    int itemId = id.intValue();
+    int itemId = id;
 
     String rawText = DebugDatabase.rawItemDescriptionText(itemId);
     String text = DebugDatabase.itemDescriptionText(rawText);
@@ -1867,7 +1867,7 @@ public class ItemDatabase {
    */
   public static final String getItemName(final String descriptionId) {
     Integer itemId = ItemDatabase.itemIdByDescription.get(descriptionId);
-    return itemId == null ? null : ItemDatabase.getItemName(itemId.intValue());
+    return itemId == null ? null : ItemDatabase.getItemName(itemId);
   }
 
   /**
@@ -1878,7 +1878,7 @@ public class ItemDatabase {
    */
   public static final int getItemIdFromDescription(final String descriptionId) {
     Integer itemId = ItemDatabase.itemIdByDescription.get(descriptionId);
-    return itemId == null ? -1 : itemId.intValue();
+    return itemId == null ? -1 : itemId;
   }
 
   /**
