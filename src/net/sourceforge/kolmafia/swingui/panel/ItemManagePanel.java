@@ -567,9 +567,9 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
 
         switch (usageType) {
           case FAMILIAR_EQUIPMENT, ACCESSORY, HAT, PANTS, CONTAINER, SHIRT, WEAPON, OFFHAND ->
-            RequestThread.postRequest(
-              new EquipmentRequest(
-                item, EquipmentManager.consumeFilterToEquipmentType(usageType)));
+              RequestThread.postRequest(
+                  new EquipmentRequest(
+                      item, EquipmentManager.consumeFilterToEquipmentType(usageType)));
         }
       }
     }

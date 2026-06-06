@@ -201,7 +201,7 @@ public class SendMessageFrame extends GenericFrame implements ListElementFilter 
 
     for (String recipient : recipients) {
       SendMessageCommand.send(
-        recipient, this.messageEntry.getText(), attachmentsArray, this.isStorage, false);
+          recipient, this.messageEntry.getText(), attachmentsArray, this.isStorage, false);
     }
   }
 

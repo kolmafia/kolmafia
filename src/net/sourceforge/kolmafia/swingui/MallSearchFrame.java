@@ -218,9 +218,9 @@ public class MallSearchFrame extends GenericPanelFrame {
       int defaultPurchases = 0;
       for (PurchaseRequest purchase : purchases) {
         defaultPurchases +=
-          purchase.getQuantity() == PurchaseRequest.MAX_QUANTITY
-            ? PurchaseRequest.MAX_QUANTITY
-            : purchase.getLimit();
+            purchase.getQuantity() == PurchaseRequest.MAX_QUANTITY
+                ? PurchaseRequest.MAX_QUANTITY
+                : purchase.getLimit();
       }
 
       int count = defaultPurchases;

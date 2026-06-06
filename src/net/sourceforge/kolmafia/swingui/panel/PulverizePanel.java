@@ -240,7 +240,7 @@ public class PulverizePanel extends ItemListManagePanel<AdventureResult> {
           KoLConstants.pulverizeQueue.remove(item);
           KoLConstants.pulverizeQueue.add(item);
           LockableListModel<AdventureResult> inv =
-            (LockableListModel<AdventureResult>) PulverizePanel.this.getElementList().getModel();
+              (LockableListModel<AdventureResult>) PulverizePanel.this.getElementList().getModel();
           int index = inv.indexOf(item);
           inv.fireContentsChanged(inv, index, index);
         }
@@ -269,7 +269,7 @@ public class PulverizePanel extends ItemListManagePanel<AdventureResult> {
         if (item.getCount() > 0) {
           KoLConstants.pulverizeQueue.remove(item);
           LockableListModel<AdventureResult> inv =
-            (LockableListModel<AdventureResult>) PulverizePanel.this.getElementList().getModel();
+              (LockableListModel<AdventureResult>) PulverizePanel.this.getElementList().getModel();
           int index = inv.indexOf(item);
           inv.fireContentsChanged(inv, index, index);
         }
