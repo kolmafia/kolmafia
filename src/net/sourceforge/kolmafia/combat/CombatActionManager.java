@@ -45,9 +45,9 @@ public abstract class CombatActionManager {
   public static final LockableListModel<String> getAvailableLookups() {
     String[] list = DataUtilities.list(KoLConstants.CCS_LOCATION);
 
-    for (int i = 0; i < list.length; ++i) {
-      if (list[i].endsWith(".ccs")) {
-        String name = list[i].substring(0, list[i].length() - 4);
+    for (String s : list) {
+      if (s.endsWith(".ccs")) {
+        String name = s.substring(0, s.length() - 4);
 
         if (!CombatActionManager.availableLookups.contains(name)) {
           CombatActionManager.availableLookups.add(name);
@@ -625,8 +625,7 @@ public abstract class CombatActionManager {
     List<String> matchingNames = ItemDatabase.getMatchingNames(action);
     int count = matchingNames.size();
 
-    for (int i = 0; i < count; ++i) {
-      String name = matchingNames.get(i);
+    for (String name : matchingNames) {
       int id = ItemDatabase.getItemId(name);
       if (ItemDatabase.getAttribute(id, EnumSet.of(Attribute.COMBAT, Attribute.COMBAT_REUSABLE))) {
         return id;
