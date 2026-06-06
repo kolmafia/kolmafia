@@ -47,7 +47,8 @@ public class ChefStaffRequest extends CreateItemRequest {
   }
 
   public static final boolean parseCreation(final String urlString, final String responseText) {
-    if (responseText.contains("You don't have all of the items I'll need to make that Chefstaff.")) {
+    if (responseText.contains(
+        "You don't have all of the items I'll need to make that Chefstaff.")) {
       return true;
     }
 

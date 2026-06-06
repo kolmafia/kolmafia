@@ -277,8 +277,7 @@ public class HermitRequest extends CoinMasterRequest {
     // If the item is unavailable, assume he was asking for clover
     // If asked for too many, you get no items
 
-    if (responseText.contains("doesn't have that item.")
-        || !responseText.contains("You acquire")) {
+    if (responseText.contains("doesn't have that item.") || !responseText.contains("You acquire")) {
       parseHermitStock(responseText);
       return true;
     }
