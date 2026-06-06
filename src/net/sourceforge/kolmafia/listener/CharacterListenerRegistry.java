@@ -39,8 +39,8 @@ public class CharacterListenerRegistry {
         new CharacterListener[CharacterListenerRegistry.listenerList.size()];
     CharacterListenerRegistry.listenerList.toArray(listenerArray);
 
-    for (int i = 0; i < listenerArray.length; ++i) {
-      listenerArray[i].update();
+    for (CharacterListener characterListener : listenerArray) {
+      characterListener.update();
     }
   }
 }

@@ -4156,8 +4156,8 @@ public class ItemPool {
     }
 
     HashSet<String> possibilities = new HashSet<>();
-    for (int i = 0; i < strings.length; ++i) {
-      possibilities.add(strings[i][0]);
+    for (String[] string : strings) {
+      possibilities.add(string[0]);
     }
 
     int missing = 0;

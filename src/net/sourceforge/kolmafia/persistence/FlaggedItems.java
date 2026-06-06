@@ -221,8 +221,8 @@ public class FlaggedItems {
     model.clear();
     AdventureResult item;
 
-    for (int i = 0; i < defaults.length; ++i) {
-      int itemId = ItemDatabase.getItemId(defaults[i]);
+    for (String aDefault : defaults) {
+      int itemId = ItemDatabase.getItemId(aDefault);
       if (itemId == -1) {
         continue;
       }
