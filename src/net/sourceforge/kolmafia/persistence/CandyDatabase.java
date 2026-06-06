@@ -62,7 +62,7 @@ public class CandyDatabase {
     List<AdventureResult> others = new ArrayList<>();
 
     for (Integer itemId : CandyDatabase.tier2Candy) {
-      AdventureResult item = ItemPool.get(itemId.intValue());
+      AdventureResult item = ItemPool.get(itemId);
       if (ConsumablesDatabase.getFullness(item.getName()) > 0) {
         foods.add(item);
       } else if (ItemDatabase.isPotion(item)) {

@@ -2158,7 +2158,7 @@ public class ConcoctionDatabase {
 
   public static int getAdventureUsage(CraftingType method) {
     Integer advs = ConcoctionDatabase.ADVENTURE_USAGE.get(method);
-    return advs == null ? 0 : advs.intValue();
+    return advs == null ? 0 : advs;
   }
 
   public static long getCreationCost(CraftingType method) {
