@@ -371,7 +371,7 @@ public class ClanManageFrame extends GenericFrame {
           Integer value =
               InputFieldUtilities.getQuantity(
                   "Maximum number of each item allowed in the stash?", Integer.MAX_VALUE, 100);
-          int quantity = (value == null) ? 0 : value.intValue();
+          int quantity = (value == null) ? 0 : value;
 
           if (quantity == 0) {
             return;
@@ -449,7 +449,7 @@ public class ClanManageFrame extends GenericFrame {
       ArrayList<String> boots = new ArrayList<>();
 
       for (int i = 0; i < ClanManageFrame.this.members.getRowCount(); ++i) {
-        if (((Boolean) ClanManageFrame.this.members.getValueAt(i, 4)).booleanValue()) {
+        if ((Boolean) ClanManageFrame.this.members.getValueAt(i, 4)) {
           boots.add((String) ClanManageFrame.this.members.getValueAt(i, 1));
         }
 

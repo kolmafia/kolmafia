@@ -65,10 +65,10 @@ public class OverlapPanel extends ItemListManagePanel<AdventureResult> {
           OverlapPanel.this.getSelectedValues().toArray(new AdventureResult[0]);
       OverlapPanel.this.getElementList().clearSelection();
 
-      for (int i = 0; i < items.length; ++i) {
-        OverlapPanel.this.overlapModel.remove(items[i]);
+      for (AdventureResult item : items) {
+        OverlapPanel.this.overlapModel.remove(item);
         if (OverlapPanel.this.overlapModel == KoLConstants.singletonList) {
-          KoLConstants.junkList.remove(items[i]);
+          KoLConstants.junkList.remove(item);
         }
       }
 
