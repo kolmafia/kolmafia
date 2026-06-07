@@ -130,15 +130,13 @@ public class CakeArenaFrame extends GenericFrame {
     public OpponentListener(final int row, final int column, final Integer skill) {
       this.row = row;
       this.column = column;
-      this.opponentSkill =
-          skill.intValue() == 1 ? "1 star (opponent)" : skill + " stars (opponent)";
+      this.opponentSkill = skill == 1 ? "1 star (opponent)" : skill + " stars (opponent)";
     }
 
     @Override
     protected void execute() {
       int yourSkillValue =
-          FamiliarDatabase.getFamiliarSkill(KoLCharacter.getFamiliar().getId(), this.column)
-              .intValue();
+          FamiliarDatabase.getFamiliarSkill(KoLCharacter.getFamiliar().getId(), this.column);
       String yourSkill = yourSkillValue == 1 ? "1 star (yours)" : yourSkillValue + " stars (yours)";
 
       int battleCount =

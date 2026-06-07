@@ -1798,8 +1798,8 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
           balances.put(currency, value);
         }
 
-        int originalBalance = value.intValue();
-        int balance = balances.get(currency).intValue();
+        int originalBalance = value;
+        int balance = balances.get(currency);
 
         if (price > originalBalance) {
           // This was grayed out.
@@ -1849,9 +1849,9 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
       AdventureResult[] desiredItems = new AdventureResult[neededSize];
       neededSize = 0;
 
-      for (int i = 0; i < items.length; ++i) {
-        if (items[i] != null) {
-          desiredItems[neededSize++] = items[i];
+      for (AdventureResult item : items) {
+        if (item != null) {
+          desiredItems[neededSize++] = item;
         }
       }
 

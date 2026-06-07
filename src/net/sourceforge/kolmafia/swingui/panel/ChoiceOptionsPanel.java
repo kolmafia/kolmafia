@@ -107,8 +107,8 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
       this.optionSelects.add(new JComboBox<>());
       this.optionSelects.get(i).addItem("show in browser");
       ChoiceOption[] options = ChoiceAdventures.CHOICE_ADVS[i].getOptions();
-      for (int j = 0; j < options.length; ++j) {
-        this.optionSelects.get(i).addItem(options[j]);
+      for (ChoiceOption option : options) {
+        this.optionSelects.get(i).addItem(option);
       }
     }
 
@@ -426,13 +426,13 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
     ArrayList<String> optionsList;
     String[] keys = this.choiceMap.keySet().toArray(new String[0]);
 
-    for (int i = 0; i < keys.length; ++i) {
-      optionsList = this.choiceMap.get(keys[i]);
-      if (keys[i].equals("Item-Driven")) {
+    for (String key : keys) {
+      optionsList = this.choiceMap.get(key);
+      if (key.equals("Item-Driven")) {
         this.addTab("Item", new GenericScrollPane(new ChoicePanel(optionsList)));
         this.setToolTipTextAt(1, "Choices related to the use of an item");
       } else {
-        this.choicePanel.add(new ChoicePanel(optionsList), keys[i]);
+        this.choicePanel.add(new ChoicePanel(optionsList), key);
       }
     }
   }
@@ -475,8 +475,7 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
 
       ArrayList<VerifiableElement> elementList = new ArrayList<>();
 
-      for (int i = 0; i < options.size(); ++i) {
-        String key = options.get(i);
+      for (String key : options) {
         ArrayList<JComponent> value = ChoiceOptionsPanel.this.selectMap.get(key);
 
         if (value.size() == 1) {
@@ -561,7 +560,7 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
       this.addItem("El Vibrato power sphere");
       this.addItem("the plinth");
       this.addItem("random choice");
-      if (dest.indexOf(",") != -1) {
+      if (dest.contains(",")) {
         this.addItem("go to " + dest);
       }
       this.addItem("choose destination...");
@@ -598,7 +597,7 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
         index = 8;
       } else if (dest.equals("random")) {
         index = 9;
-      } else if (dest.indexOf(",") != -1) {
+      } else if (dest.contains(",")) {
         index = 10;
       }
 

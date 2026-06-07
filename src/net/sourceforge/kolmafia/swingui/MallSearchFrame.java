@@ -216,11 +216,11 @@ public class MallSearchFrame extends GenericPanelFrame {
       }
 
       int defaultPurchases = 0;
-      for (int i = 0; i < purchases.length; ++i) {
+      for (PurchaseRequest purchase : purchases) {
         defaultPurchases +=
-            purchases[i].getQuantity() == PurchaseRequest.MAX_QUANTITY
+            purchase.getQuantity() == PurchaseRequest.MAX_QUANTITY
                 ? PurchaseRequest.MAX_QUANTITY
-                : purchases[i].getLimit();
+                : purchase.getLimit();
       }
 
       int count = defaultPurchases;
@@ -229,7 +229,7 @@ public class MallSearchFrame extends GenericPanelFrame {
         Integer value =
             InputFieldUtilities.getQuantity(
                 "Maximum number of items to purchase?", defaultPurchases, 1);
-        count = (value == null) ? 0 : value.intValue();
+        count = (value == null) ? 0 : value;
       }
 
       if (count == 0) {
@@ -308,8 +308,8 @@ public class MallSearchFrame extends GenericPanelFrame {
     } else {
       // With multiple shops selected, what to do if one is a coinmaster
       // and the rest sell for Meat?
-      for (int i = 0; i < purchases.length; ++i) {
-        currentPurchase = purchases[i];
+      for (PurchaseRequest purchase : purchases) {
+        currentPurchase = purchase;
         totalPurchases += currentPurchase.getLimit();
         totalPrice += (long) currentPurchase.getLimit() * (long) currentPurchase.getPrice();
       }
