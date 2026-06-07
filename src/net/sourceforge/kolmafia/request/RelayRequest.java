@@ -974,6 +974,39 @@ public class RelayRequest extends PasswordHashRequest {
       return true;
     }
 
+    // In Adventurer Meats World, your organs will be set to 15/15/15 and your adventures capped at
+    // 40
+    // If you have less than 40 adventures, you may want to spend meat on this
+    if (KoLCharacter.isMeat()) {
+      // If user has already confirmed he wants to go there, accept it
+      if (this.getFormField(Confirm.RALPH) != null) {
+        return false;
+      }
+
+      int advs = KoLCharacter.getAdventuresLeft();
+      if (advs >= 40) {
+        return false;
+      }
+
+      StringBuilder buf = new StringBuilder();
+      buf.append("You are about to free King Ralph and stop being a Meat Golem. ");
+      buf.append(
+          "When you do so, all your organs will be filled, and your adventures capped at 40. ");
+      buf.append("You may wish to spend meat on ensuring you have at least 40 adventures.");
+      buf.append(" If you are ready to break the prism, click on the icon on the left.");
+      buf.append(" If you wish to visit your Meat cocoon, click on icon on the right.");
+
+      this.sendOptionalWarning(
+          Confirm.RALPH,
+          buf.toString(),
+          "hand.gif",
+          "meat.gif",
+          "\"place.php?whichplace=meatground&action=meatground_turns\"",
+          null,
+          null);
+      return true;
+    }
+
     return false;
   }
 
