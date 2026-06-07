@@ -974,8 +974,8 @@ public class RelayRequest extends PasswordHashRequest {
       return true;
     }
 
-    // In Adventurer Meats World, your organs will be set to 15/15/15 and your adventures capped at
-    // 40
+    // In Adventurer Meats World, your organs will be set to 15/15/15
+    // and your adventures capped at 40.
     // If you have less than 40 adventures, you may want to spend meat on this
     if (KoLCharacter.isMeat()) {
       // If user has already confirmed he wants to go there, accept it
