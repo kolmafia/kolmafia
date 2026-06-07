@@ -28,8 +28,8 @@ public class UseItemPanel extends InventoryPanel<AdventureResult> {
       return;
     }
 
-    for (int i = 0; i < items.length; ++i) {
-      RequestThread.postRequest(UseItemRequest.getInstance(items[i]));
+    for (AdventureResult item : items) {
+      RequestThread.postRequest(UseItemRequest.getInstance(item));
     }
   }
 

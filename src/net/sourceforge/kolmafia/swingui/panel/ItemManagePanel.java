@@ -212,8 +212,8 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
   }
 
   public void addButtons(final JButton[] buttons, final boolean save) {
-    for (int i = 0; i < buttons.length; ++i) {
-      this.buttonPanel.add(buttons[i]);
+    for (JButton button : buttons) {
+      this.buttonPanel.add(button);
     }
 
     if (!save) {
@@ -271,8 +271,8 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
     }
 
     this.scrollComponent.setEnabled(isEnabled);
-    for (int i = 0; i < this.buttons.length; ++i) {
-      this.buttons[i].setEnabled(isEnabled);
+    for (JButton button : this.buttons) {
+      button.setEnabled(isEnabled);
     }
   }
 
@@ -357,9 +357,9 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
     AdventureResult[] desiredItems = new AdventureResult[neededSize];
     neededSize = 0;
 
-    for (int i = 0; i < items.length; ++i) {
-      if (items[i] != null) {
-        desiredItems[neededSize++] = (AdventureResult) items[i];
+    for (Object item : items) {
+      if (item != null) {
+        desiredItems[neededSize++] = (AdventureResult) item;
       }
     }
 
@@ -383,7 +383,7 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
           return Integer.MIN_VALUE;
         }
 
-        quantity = value.intValue();
+        quantity = value;
       }
       case USE_MULTIPLE -> {
         int standard = itemCount;
@@ -439,7 +439,7 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
           if (value == null) {
             return Integer.MIN_VALUE;
           }
-          quantity = value.intValue();
+          quantity = value;
         }
       }
       default -> quantity = 1;
@@ -539,8 +539,8 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
         return;
       }
 
-      for (int i = 0; i < items.length; ++i) {
-        RequestThread.postRequest(UseItemRequest.getInstance(items[i]));
+      for (AdventureResult item : items) {
+        RequestThread.postRequest(UseItemRequest.getInstance(item));
       }
     }
 
@@ -562,8 +562,7 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
         return;
       }
 
-      for (int i = 0; i < items.length; ++i) {
-        AdventureResult item = items[i];
+      for (AdventureResult item : items) {
         ConsumptionType usageType = ItemDatabase.getConsumptionType(item.getItemId());
 
         switch (usageType) {
@@ -740,8 +739,8 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
         return;
       }
 
-      for (int i = 0; i < items.length; ++i) {
-        RequestThread.postRequest(new PulverizeRequest(items[i]));
+      for (AdventureResult item : items) {
+        RequestThread.postRequest(new PulverizeRequest(item));
       }
     }
 

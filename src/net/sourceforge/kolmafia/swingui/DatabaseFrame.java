@@ -147,7 +147,7 @@ public class DatabaseFrame extends GenericFrame {
 
     @Override
     public String getId(final Entry<Integer, ItemData> e) {
-      return ItemDatabase.getDescriptionId(e.getKey().intValue());
+      return ItemDatabase.getDescriptionId(e.getKey());
     }
   }
 
@@ -158,7 +158,7 @@ public class DatabaseFrame extends GenericFrame {
 
     @Override
     public String getId(final Entry<Integer, EffectData> e) {
-      return EffectDatabase.getDescriptionId(e.getKey().intValue());
+      return EffectDatabase.getDescriptionId(e.getKey());
     }
   }
 

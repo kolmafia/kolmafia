@@ -138,8 +138,8 @@ public class ScriptMenu extends JMenu implements Listener {
       return false;
     }
 
-    for (int i = 0; i < scriptList.length; ++i) {
-      if (ScriptMenu.shouldAddScript(scriptList[i])) {
+    for (File file : scriptList) {
+      if (ScriptMenu.shouldAddScript(file)) {
         return true;
       }
     }

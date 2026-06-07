@@ -62,8 +62,7 @@ public class MuseumFrame extends GenericFrame {
 
       List<AdventureResult> items = new ArrayList<>();
 
-      for (int i = 0; i < display.length; ++i) {
-        AdventureResult item = display[i];
+      for (AdventureResult item : display) {
         int itemCount = item.getCount(KoLConstants.inventory);
         if (itemCount > 0 && item.getCount() > 1) {
           items.add(item.getInstance(itemCount));
@@ -122,7 +121,7 @@ public class MuseumFrame extends GenericFrame {
           Integer value =
               InputFieldUtilities.getQuantity(
                   "Moving " + item.getName() + "...", item.getCount(), 1);
-          int count = (value == null) ? 0 : value.intValue();
+          int count = (value == null) ? 0 : value;
           selection[i] = item.getInstance(count);
         }
       }
