@@ -111,7 +111,7 @@ public class ClanMembersRequest extends GenericRequest {
       this.constructURLString("showclan.php?whichclan=" + clanId + "&page=" + (page++), false);
 
       super.run();
-    } while (this.responseText != null && this.responseText.indexOf("next page &gt;&gt;") != -1);
+    } while (this.responseText != null && this.responseText.contains("next page &gt;&gt;"));
   }
 
   @Override

@@ -435,7 +435,7 @@ public class MallSearchRequest extends GenericRequest {
         Matcher limitMatcher = MallSearchRequest.LISTLIMIT_PATTERN.matcher(linkText);
         if (limitMatcher.find()) {
           limit = StringUtilities.parseInt(limitMatcher.group(1));
-          canPurchase = linkText.indexOf("graybelow limited") == -1;
+          canPurchase = !linkText.contains("graybelow limited");
         }
 
         // The next token contains data which identifies the shop
