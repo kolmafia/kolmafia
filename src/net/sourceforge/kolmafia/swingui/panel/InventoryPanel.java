@@ -194,9 +194,7 @@ public class InventoryPanel<E> extends ItemTableManagePanel<E> {
         return;
       }
 
-      for (int i = 0; i < items.length; ++i) {
-        AdventureResult item = items[i];
-
+      for (AdventureResult item : items) {
         RequestThread.postRequest(UseItemRequest.getInstance(ConsumptionType.SLIMELING, item));
       }
     }

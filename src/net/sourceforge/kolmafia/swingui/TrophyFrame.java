@@ -356,7 +356,7 @@ public class TrophyFrame extends GenericFrame {
       int i1 = id1 < id2 ? (id1 << 16) | id2 : (id2 << 16) | id1;
       key = i1;
       rv = this.similarities.get(key);
-      if (rv != null) return rv.intValue();
+      if (rv != null) return rv;
       int[] img1 = this.grab();
       int[] img2 = other.grab();
       int score = 0;

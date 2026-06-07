@@ -1074,13 +1074,13 @@ public class ShowDescriptionTable<E> extends JXTable {
 
     StringBuilder buffer = new StringBuilder();
     List<TableColumn> cols = this.getColumns(true);
-    for (int i = 0; i < cols.size(); ++i) {
+    for (TableColumn col : cols) {
       if (buffer.length() > 0) {
         buffer.append("|");
       }
-      buffer.append(cols.get(i).getHeaderValue());
+      buffer.append(col.getHeaderValue());
       buffer.append(":");
-      buffer.append(convertColumnIndexToView(cols.get(i).getModelIndex()));
+      buffer.append(convertColumnIndexToView(col.getModelIndex()));
     }
     buffer.append(";");
     return buffer.toString();

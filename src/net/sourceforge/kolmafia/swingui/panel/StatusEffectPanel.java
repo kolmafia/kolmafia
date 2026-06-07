@@ -26,8 +26,8 @@ public class StatusEffectPanel extends ScrollablePanel<ShowDescriptionList<Adven
   public void actionConfirmed() {
     AdventureResult[] effects =
         this.elementList.getSelectedValuesList().toArray(new AdventureResult[0]);
-    for (int i = 0; i < effects.length; ++i) {
-      RequestThread.postRequest(new UneffectRequest(effects[i]));
+    for (AdventureResult effect : effects) {
+      RequestThread.postRequest(new UneffectRequest(effect));
     }
   }
 
@@ -43,8 +43,8 @@ public class StatusEffectPanel extends ScrollablePanel<ShowDescriptionList<Adven
 
     int count = 0;
 
-    for (int i = 0; i < effects.length; ++i) {
-      String name = effects[i].getName();
+    for (AdventureResult effect : effects) {
+      String name = effect.getName();
       String action = MoodManager.getDefaultAction("lose_effect", name);
       if (!action.equals("")) {
         MoodManager.addTrigger("lose_effect", name, action);
