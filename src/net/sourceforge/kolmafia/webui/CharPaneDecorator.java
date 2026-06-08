@@ -1031,8 +1031,8 @@ public class CharPaneDecorator {
 
       AdventureResult currentEffect;
 
-      for (int i = 0; i < missingEffects.size(); ++i) {
-        currentEffect = missingEffects.get(i);
+      for (AdventureResult missingEffect : missingEffects) {
+        currentEffect = missingEffect;
 
         String effectName = currentEffect.getName();
         int effectId = currentEffect.getEffectId();
@@ -1048,7 +1048,7 @@ public class CharPaneDecorator {
         buffer.append("<tr>");
 
         if (!CharPaneRequest.compactCharacterPane
-            || !Preferences.getBoolean("relayTextualizesEffects")) {
+          || !Preferences.getBoolean("relayTextualizesEffects")) {
           // The extra <td></td> fixes alignment with KoL up-arrows enabled
           // and doesn't break anything with them disabled
           buffer.append("<td></td><td><img src=\"");
@@ -1063,7 +1063,7 @@ public class CharPaneDecorator {
         }
 
         if (!CharPaneRequest.compactCharacterPane
-            || Preferences.getBoolean("relayTextualizesEffects")) {
+          || Preferences.getBoolean("relayTextualizesEffects")) {
           buffer.append("<td><font size=2>");
           buffer.append(escapedEffectName);
         } else {
@@ -1073,7 +1073,7 @@ public class CharPaneDecorator {
         buffer.append(" (0)</font>&nbsp;<a href=\"/KoLmafia/sideCommand?cmd=");
 
         buffer.append(
-            StringUtilities.getURLEncode(MoodManager.getDefaultAction("lose_effect", effectName)));
+          StringUtilities.getURLEncode(MoodManager.getDefaultAction("lose_effect", effectName)));
 
         buffer.append("&pwd=");
         buffer.append(GenericRequest.passwordHash);
@@ -1189,12 +1189,12 @@ public class CharPaneDecorator {
         buffer.append(level);
         buffer.append(", ");
       } else if (effectName.equalsIgnoreCase("Form of...Bird!")) {
-        for (int i = 0; i < BIRDFORM_STRINGS.length; ++i) {
-          int count = Preferences.getInteger(BIRDFORM_STRINGS[i][0]);
+        for (String[] birdformString : BIRDFORM_STRINGS) {
+          int count = Preferences.getInteger(birdformString[0]);
           if (count != 0) {
-            buffer.append(BIRDFORM_STRINGS[i][1]);
+            buffer.append(birdformString[1]);
             buffer.append(count);
-            buffer.append(BIRDFORM_STRINGS[i][2]);
+            buffer.append(birdformString[2]);
           }
         }
       }
@@ -1226,7 +1226,7 @@ public class CharPaneDecorator {
 
         buffer.append("\"");
 
-        if (effectName.indexOf("Poisoned") != -1 || effectName.equals("Beaten Up")) {
+        if (effectName.contains("Poisoned") || effectName.equals("Beaten Up")) {
           buffer.append(" style=\"color:red\"");
         }
 
