@@ -91,9 +91,9 @@ public class RecordValue extends CompositeValue {
   public int hashCode() {
     int hash = this.getRecordType().hashCode();
     Value[] fields = this.getRecordFields();
-      for (Value field : fields) {
-          hash += 31 * field.hashCode();
-      }
+    for (Value field : fields) {
+      hash += 31 * field.hashCode();
+    }
     return hash;
   }
 
