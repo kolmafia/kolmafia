@@ -341,7 +341,7 @@ public class MaximizerSpeculation extends Speculation
           for (var slot : SlotSet.SLOTS) {
             if (slot != Slot.FAMILIAR && this.equipment.get(slot) != null) {
               FoldGroup groupEquipped =
-                ItemDatabase.getFoldGroup(this.equipment.get(slot).getName());
+                  ItemDatabase.getFoldGroup(this.equipment.get(slot).getName());
               if (groupEquipped != null && groupName.equals(groupEquipped.names.get(0))) {
                 --count;
               }
@@ -351,7 +351,7 @@ public class MaximizerSpeculation extends Speculation
         if (count <= 0) continue;
         this.equipment.put(Slot.FAMILIAR, item);
         this.tryContainers(
-          enthronedFamiliars, possibles, bestCard, useCrownFamiliar, useBjornFamiliar);
+            enthronedFamiliars, possibles, bestCard, useCrownFamiliar, useBjornFamiliar);
         any = true;
         this.restore(mark);
       }
@@ -383,7 +383,7 @@ public class MaximizerSpeculation extends Speculation
           for (var slot : SlotSet.SLOTS) {
             if (slot != Slot.CONTAINER && this.equipment.get(slot) != null) {
               FoldGroup groupEquipped =
-                ItemDatabase.getFoldGroup(this.equipment.get(slot).getName());
+                  ItemDatabase.getFoldGroup(this.equipment.get(slot).getName());
               if (groupEquipped != null && groupName.equals(groupEquipped.names.get(0))) {
                 --count;
               }
@@ -522,7 +522,7 @@ public class MaximizerSpeculation extends Speculation
           for (var slot : SlotSet.SLOTS) {
             if (slot != Slot.HAT && this.equipment.get(slot) != null) {
               FoldGroup groupEquipped =
-                ItemDatabase.getFoldGroup(this.equipment.get(slot).getName());
+                  ItemDatabase.getFoldGroup(this.equipment.get(slot).getName());
               if (groupEquipped != null && groupName.equals(groupEquipped.names.get(0))) {
                 --count;
               }
@@ -581,7 +581,7 @@ public class MaximizerSpeculation extends Speculation
             for (var slot : SlotSet.SLOTS) {
               if (slot != Slot.SHIRT && this.equipment.get(slot) != null) {
                 FoldGroup groupEquipped =
-                  ItemDatabase.getFoldGroup(this.equipment.get(slot).getName());
+                    ItemDatabase.getFoldGroup(this.equipment.get(slot).getName());
                 if (groupEquipped != null && groupName.equals(groupEquipped.names.get(0))) {
                   --count;
                 }
@@ -621,7 +621,7 @@ public class MaximizerSpeculation extends Speculation
           for (var slot : SlotSet.SLOTS) {
             if (slot != Slot.PANTS && this.equipment.get(slot) != null) {
               FoldGroup groupEquipped =
-                ItemDatabase.getFoldGroup(this.equipment.get(slot).getName());
+                  ItemDatabase.getFoldGroup(this.equipment.get(slot).getName());
               if (groupEquipped != null && groupName.equals(groupEquipped.names.get(0))) {
                 --count;
               }
@@ -697,7 +697,7 @@ public class MaximizerSpeculation extends Speculation
           for (var slot : SlotSet.SLOTS) {
             if (slot != Slot.WEAPON && this.equipment.get(slot) != null) {
               FoldGroup groupEquipped =
-                ItemDatabase.getFoldGroup(this.equipment.get(slot).getName());
+                  ItemDatabase.getFoldGroup(this.equipment.get(slot).getName());
               if (groupEquipped != null && groupName.equals(groupEquipped.names.get(0))) {
                 --count;
               }
@@ -748,36 +748,36 @@ public class MaximizerSpeculation extends Speculation
           };
       boolean any = false;
 
-        for (AdventureResult item : possible) {
-            int count = item.getCount();
-            if (item.equals(this.equipment.get(Slot.WEAPON))) {
-                --count;
-            }
-            if (item.equals(this.equipment.get(Slot.FAMILIAR))) {
-                --count;
-            }
-            FoldGroup group = ItemDatabase.getFoldGroup(item.getName());
-            if (group != null && this.foldables) {
-                String groupName = group.names.get(0);
-                for (var slot : SlotSet.SLOTS) {
-                    if (slot != Slot.OFFHAND && this.equipment.get(slot) != null) {
-                        FoldGroup groupEquipped =
-                                ItemDatabase.getFoldGroup(this.equipment.get(slot).getName());
-                        if (groupEquipped != null && groupName.equals(groupEquipped.names.get(0))) {
-                            --count;
-                        }
-                    }
-                }
-            }
-            if (count <= 0) continue;
-            if (item.getItemId() == ItemPool.CARD_SLEEVE) {
-                this.equipment.put(Slot.CARDSLEEVE, bestCard);
-            }
-            this.equipment.put(Slot.OFFHAND, item);
-            this.tryOffhands(possibles, bestCard);
-            any = true;
-            this.restore(mark);
+      for (AdventureResult item : possible) {
+        int count = item.getCount();
+        if (item.equals(this.equipment.get(Slot.WEAPON))) {
+          --count;
         }
+        if (item.equals(this.equipment.get(Slot.FAMILIAR))) {
+          --count;
+        }
+        FoldGroup group = ItemDatabase.getFoldGroup(item.getName());
+        if (group != null && this.foldables) {
+          String groupName = group.names.get(0);
+          for (var slot : SlotSet.SLOTS) {
+            if (slot != Slot.OFFHAND && this.equipment.get(slot) != null) {
+              FoldGroup groupEquipped =
+                  ItemDatabase.getFoldGroup(this.equipment.get(slot).getName());
+              if (groupEquipped != null && groupName.equals(groupEquipped.names.get(0))) {
+                --count;
+              }
+            }
+          }
+        }
+        if (count <= 0) continue;
+        if (item.getItemId() == ItemPool.CARD_SLEEVE) {
+          this.equipment.put(Slot.CARDSLEEVE, bestCard);
+        }
+        this.equipment.put(Slot.OFFHAND, item);
+        this.tryOffhands(possibles, bestCard);
+        any = true;
+        this.restore(mark);
+      }
 
       if (any && weapon > 0) return;
       this.equipment.put(Slot.OFFHAND, EquipmentRequest.UNEQUIP);

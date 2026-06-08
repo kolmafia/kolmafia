@@ -58,11 +58,11 @@ public abstract class CompositeValue extends Value {
       return;
     }
 
-      for (Value key : keys) {
-          Value value = this.aref(key);
-          String first = prefix + key.dumpValue() + "\t";
-          value.dump(writer, first, compact);
-      }
+    for (Value key : keys) {
+      Value value = this.aref(key);
+      String first = prefix + key.dumpValue() + "\t";
+      value.dump(writer, first, compact);
+    }
   }
 
   @Override
