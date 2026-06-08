@@ -96,7 +96,7 @@ public class HeyDezeRequest extends GenericRequest {
     }
 
     // "You already got a buff today"
-    if (this.responseText.indexOf("already got a buff today") != -1) {
+    if (this.responseText.contains("already got a buff today")) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "You can only visit the Styx Pixie once a day.");
       return;
     }
@@ -108,7 +108,7 @@ public class HeyDezeRequest extends GenericRequest {
   private static final Pattern COST_PATTERN = Pattern.compile("\\(cost: ([\\d,]*) Meat\\)");
 
   public static void parseResponse(final String urlString, final String responseText) {
-    if (urlString.indexOf("place=meansucker") != -1) {
+    if (urlString.contains("place=meansucker")) {
       Matcher m = COST_PATTERN.matcher(responseText);
       if (m.find()) {
         int price = StringUtilities.parseInt(m.group(1));
@@ -117,8 +117,8 @@ public class HeyDezeRequest extends GenericRequest {
       return;
     }
 
-    if (urlString.indexOf("action=skillGET") != -1) {
-      if (responseText.indexOf("You have learned a new skill") != -1) {
+    if (urlString.contains("action=skillGET")) {
+      if (responseText.contains("You have learned a new skill")) {
         int price = Preferences.getInteger("meansuckerPrice");
         ResultProcessor.processMeat(-price);
         Preferences.setInteger("meansuckerPrice", price * 2);
@@ -128,13 +128,13 @@ public class HeyDezeRequest extends GenericRequest {
   }
 
   public static String locationName(final String urlString) {
-    if (urlString.indexOf("place=styx") != -1) {
+    if (urlString.contains("place=styx")) {
       return "The Styx Pixie";
     }
-    if (urlString.indexOf("place=heartbreaker") != -1) {
+    if (urlString.contains("place=heartbreaker")) {
       return "Heartbreaker's Hotel";
     }
-    if (urlString.indexOf("place=meansucker") != -1) {
+    if (urlString.contains("place=meansucker")) {
       return "Meansucker's House";
     }
     return null;

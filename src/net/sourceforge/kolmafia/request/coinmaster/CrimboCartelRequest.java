@@ -59,7 +59,7 @@ public class CrimboCartelRequest extends CoinMasterRequest {
     CoinmasterData data = CRIMBO_CARTEL;
     String action = GenericRequest.getAction(location);
     if (action == null) {
-      if (location.indexOf("place=store") != -1) {
+      if (location.contains("place=store")) {
         // Parse current coin balances
         CoinMasterRequest.parseBalance(data, responseText);
       }

@@ -58,8 +58,7 @@ public abstract class CompositeValue extends Value {
       return;
     }
 
-    for (int i = 0; i < keys.length; ++i) {
-      Value key = keys[i];
+    for (Value key : keys) {
       Value value = this.aref(key);
       String first = prefix + key.dumpValue() + "\t";
       value.dump(writer, first, compact);

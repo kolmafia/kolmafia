@@ -91,10 +91,10 @@ public class Crimbo09Request extends GenericRequest {
   }
 
   public static String locationName(final String urlString) {
-    if (urlString.indexOf("place=don") != -1) {
+    if (urlString.contains("place=don")) {
       return "Don Crimbo";
     }
-    if (urlString.indexOf("place=store") != -1) {
+    if (urlString.contains("place=store")) {
       return "the Crimbo Cartel";
     }
     return null;

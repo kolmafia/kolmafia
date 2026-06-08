@@ -68,7 +68,7 @@ public class MrStoreRequest extends CoinMasterRequest {
     if (this.action != null
         && (this.action.equals("pullmras") || this.action.equals("pullunclebs"))) {
       // You can't pull any more items out of storage today.
-      if (responseText.indexOf("You can't pull any more items out of storage today") != -1) {
+      if (responseText.contains("You can't pull any more items out of storage today")) {
         KoLmafia.updateDisplay(
             MafiaState.ERROR, "You can't pull any more items out of storage today.");
       }

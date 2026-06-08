@@ -64,7 +64,7 @@ public class QuartersmasterRequest extends CoinMasterRequest {
   }
 
   public static final boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("bigisland.php") || urlString.indexOf("whichcamp=2") == -1) {
+    if (!urlString.startsWith("bigisland.php") || !urlString.contains("whichcamp=2")) {
       return false;
     }
 

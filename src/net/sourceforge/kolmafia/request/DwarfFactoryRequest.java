@@ -210,20 +210,20 @@ public class DwarfFactoryRequest extends GenericRequest {
     String oldRunes = Preferences.getString(setting);
     String newRunes = "";
 
-    if (typeRunes.equals("") || typeRunes.indexOf(rune1) != -1) {
-      if (oldRunes.equals("") || oldRunes.indexOf(rune1) != -1) {
+    if (typeRunes.equals("") || typeRunes.contains(rune1)) {
+      if (oldRunes.equals("") || oldRunes.contains(rune1)) {
         newRunes += rune1;
       }
     }
 
-    if (typeRunes.equals("") || typeRunes.indexOf(rune2) != -1) {
-      if (oldRunes.equals("") || oldRunes.indexOf(rune2) != -1) {
+    if (typeRunes.equals("") || typeRunes.contains(rune2)) {
+      if (oldRunes.equals("") || oldRunes.contains(rune2)) {
         newRunes += rune2;
       }
     }
 
-    if (typeRunes.equals("") || typeRunes.indexOf(rune3) != -1) {
-      if (oldRunes.equals("") || oldRunes.indexOf(rune3) != -1) {
+    if (typeRunes.equals("") || typeRunes.contains(rune3)) {
+      if (oldRunes.equals("") || oldRunes.contains(rune3)) {
         newRunes += rune3;
       }
     }
@@ -236,7 +236,7 @@ public class DwarfFactoryRequest extends GenericRequest {
 
       String value = Preferences.getString("lastDwarfFactoryItem" + id);
 
-      if (value.length() == 1 && newRunes.indexOf(value) != -1) {
+      if (value.length() == 1 && newRunes.contains(value)) {
         newRunes = StringUtilities.globalStringDelete(newRunes, value);
       }
     }
@@ -332,7 +332,7 @@ public class DwarfFactoryRequest extends GenericRequest {
       return;
     }
 
-    if (value.indexOf(rune) == -1) {
+    if (!value.contains(rune)) {
       return;
     }
 
@@ -360,7 +360,7 @@ public class DwarfFactoryRequest extends GenericRequest {
     DwarfFactoryRequest.setOreRune(rune);
 
     // See how much ore is currently in the hopper
-    if (responseText.indexOf("It is currently empty") != -1) {
+    if (responseText.contains("It is currently empty")) {
       hopperCount[hopper - 1] = 0;
       return;
     }
@@ -376,7 +376,7 @@ public class DwarfFactoryRequest extends GenericRequest {
 
   public static void setOreRune(final String rune) {
     String runes = Preferences.getString("lastDwarfOreRunes");
-    if (runes.indexOf(rune) != -1) {
+    if (runes.contains(rune)) {
       return;
     }
 
@@ -405,7 +405,7 @@ public class DwarfFactoryRequest extends GenericRequest {
 
   private static void setEquipmentRune(final String rune) {
     String runes = Preferences.getString("lastDwarfEquipmentRunes");
-    if (runes.indexOf(rune) != -1) {
+    if (runes.contains(rune)) {
       return;
     }
 
@@ -668,7 +668,7 @@ public class DwarfFactoryRequest extends GenericRequest {
       Pattern.compile("(red|orange|yellow|green|blue|indigo|violet)");
 
   public static int deduceDefense(final Matcher kiltMatcher) {
-    if (kiltMatcher.group(0).indexOf("rave on your crotch") != -1) {
+    if (kiltMatcher.group(0).contains("rave on your crotch")) {
       return 99999;
     }
 

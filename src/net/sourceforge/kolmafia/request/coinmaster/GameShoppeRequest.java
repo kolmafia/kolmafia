@@ -72,7 +72,7 @@ public class GameShoppeRequest extends CoinMasterRequest {
       return;
     }
 
-    if (urlString.indexOf("place=cashier") != -1) {
+    if (urlString.contains("place=cashier")) {
       // Learn new trade items by simply visiting GameShoppe
       Matcher matcher = ITEM_PATTERN.matcher(responseText);
       while (matcher.find()) {
@@ -93,18 +93,18 @@ public class GameShoppeRequest extends CoinMasterRequest {
   public static void parseGameShoppeVisit(final String location, final String responseText) {
     String action = GenericRequest.getAction(location);
     if (action == null) {
-      if (location.indexOf("place=cashier") == -1) {
+      if (!location.contains("place=cashier")) {
         return;
       }
     } else if (action.equals("redeem")) {
       CoinmasterData data = GAMESHOPPE;
-      if (responseText.indexOf("You don't have enough") == -1) {
+      if (!responseText.contains("You don't have enough")) {
         CoinMasterRequest.completePurchase(data, location);
       }
     } else if (action.equals("tradein")) {
       CoinmasterData data = GAMESHOPPE;
       // The teenager scowls. "You can't trade in cards you don't have."
-      if (responseText.indexOf("You can't trade in cards you don't have") == -1) {
+      if (!responseText.contains("You can't trade in cards you don't have")) {
         CoinMasterRequest.completeSale(data, location);
       }
     } else if (action.equals("buysnack")) {
@@ -133,7 +133,7 @@ public class GameShoppeRequest extends CoinMasterRequest {
 
     String message = null;
 
-    if (urlString.indexOf("action") == -1 && urlString.indexOf("place=cashier") != -1) {
+    if (!urlString.contains("action") && urlString.contains("place=cashier")) {
       message = "Visiting Game Shoppe Cashier";
       RequestLogger.updateSessionLog();
       RequestLogger.updateSessionLog(message);
