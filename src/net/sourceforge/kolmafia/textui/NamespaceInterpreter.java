@@ -49,9 +49,9 @@ public class NamespaceInterpreter extends AshRuntime {
     if (importString.length() > 0) {
       String[] importList = importString.split(",");
 
-      for (int i = 0; i < importList.length; ++i) {
+      for (String s : importList) {
         try {
-          this.parser.importFile(importList[i], this.scope);
+          this.parser.importFile(s, this.scope);
         } catch (ScriptException e) {
           // The user changed the script since it was validated
           KoLmafia.updateDisplay(MafiaState.ERROR, e.getMessage());

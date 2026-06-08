@@ -241,9 +241,7 @@ public class InputFieldUtilities {
       RequestLogger.printLine(message);
       List<T> visibleInputs = new ArrayList<>();
 
-      for (int i = 0; i < inputs.size(); ++i) {
-        T o = inputs.get(i);
-
+      for (T o : inputs) {
         if (filter.isVisible(o)) {
           visibleInputs.add(o);
           RequestLogger.printLine("  " + (visibleInputs.size()) + ": " + o);
@@ -328,7 +326,7 @@ public class InputFieldUtilities {
 
   public static final int getValue(final JSpinner field, final int defaultValue) {
     if (field.getValue() instanceof Integer) {
-      return ((Integer) field.getValue()).intValue();
+      return (Integer) field.getValue();
     }
 
     return defaultValue;
