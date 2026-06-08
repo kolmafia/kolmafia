@@ -1048,7 +1048,7 @@ public class CharPaneDecorator {
         buffer.append("<tr>");
 
         if (!CharPaneRequest.compactCharacterPane
-          || !Preferences.getBoolean("relayTextualizesEffects")) {
+            || !Preferences.getBoolean("relayTextualizesEffects")) {
           // The extra <td></td> fixes alignment with KoL up-arrows enabled
           // and doesn't break anything with them disabled
           buffer.append("<td></td><td><img src=\"");
@@ -1063,7 +1063,7 @@ public class CharPaneDecorator {
         }
 
         if (!CharPaneRequest.compactCharacterPane
-          || Preferences.getBoolean("relayTextualizesEffects")) {
+            || Preferences.getBoolean("relayTextualizesEffects")) {
           buffer.append("<td><font size=2>");
           buffer.append(escapedEffectName);
         } else {
@@ -1073,7 +1073,7 @@ public class CharPaneDecorator {
         buffer.append(" (0)</font>&nbsp;<a href=\"/KoLmafia/sideCommand?cmd=");
 
         buffer.append(
-          StringUtilities.getURLEncode(MoodManager.getDefaultAction("lose_effect", effectName)));
+            StringUtilities.getURLEncode(MoodManager.getDefaultAction("lose_effect", effectName)));
 
         buffer.append("&pwd=");
         buffer.append(GenericRequest.passwordHash);
