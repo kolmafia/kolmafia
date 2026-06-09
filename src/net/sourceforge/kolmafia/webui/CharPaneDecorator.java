@@ -722,6 +722,11 @@ public class CharPaneDecorator {
 
         return buffer;
       }
+      case FamiliarPool.SWORD_OF_SWORDS -> {
+        buffer.append(Preferences.getInteger("_swordOfSWordsKills"));
+        buffer.append("/100 kills");
+        return buffer;
+      }
     }
 
     if (familiar.hasDrop()) {
