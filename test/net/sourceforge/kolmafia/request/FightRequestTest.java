@@ -4456,4 +4456,24 @@ public class FightRequestTest {
       assertThat("_legendaryLasagmbieMana", isSetTo(3));
     }
   }
+
+  @Test
+  public void tracksSwordOfSwordsKills() {
+    var cleanups =
+        new Cleanups(
+            withFight(),
+            withProperty("_swordOfSWordsKills"),
+            withProperty("_swordOfSWordsMonsterChanged"),
+            withProperty("swordOfSWordsMonster"),
+            withFamiliar(FamiliarPool.SWORD_OF_SWORDS));
+
+    try (cleanups) {
+      parseCombatData(
+          "request/test_fight_sword_drop_table.html", "fight.php?action=skill&whichskill=7593");
+
+      assertThat("swordOfSWordsMonster", isSetTo(1163));
+      assertThat("_swordOfSWordsMonsterChanged", isSetTo(1));
+      assertThat("_swordOfSWordsKills", isSetTo(1));
+    }
+  }
 }
