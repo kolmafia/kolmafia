@@ -161,6 +161,7 @@ public class FamiliarPool {
   public static final int DIRE_CASSAVA = 317;
   public static final int OBSERVER = 318;
   public static final int SKELETON_OF_CRIMBO_PAST = 326;
+  public static final int SWORD_OF_SWORDS = 330;
 
   private FamiliarPool() {}
 }

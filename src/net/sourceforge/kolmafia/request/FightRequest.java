@@ -8034,6 +8034,11 @@ public class FightRequest extends GenericRequest {
       return;
     }
 
+    if (status.familiarId == FamiliarPool.SWORD_OF_SWORDS
+        && FightRequest.handleSwordOfSwords(str, status)) {
+      return;
+    }
+
     if (FightRequest.handleGooseDrones(str, status)) {
       return;
     }
@@ -8972,6 +8977,32 @@ public class FightRequest extends GenericRequest {
       if (matcher.find()) {
         Preferences.setString("_cookbookbatQuestMonster", "");
         Preferences.setString("_cookbookbatQuestIngredient", "");
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  private static final Pattern[] SWORD_OF_SWORDS_KILLS = {
+    Pattern.compile("kills +(?:an?|the|some)? (.*?) and returns with"),
+    Pattern.compile("hauling back a bunch of (.*?) loot"),
+    Pattern.compile("kills a (.*?), and brings you back"),
+    Pattern.compile("senses a (.*?) nearby"),
+    Pattern.compile("one less (.*?) in the world"),
+    Pattern.compile("a slain (.*?)\\. "),
+  };
+
+  private static boolean handleSwordOfSwords(String text, TagStatus status) {
+    if (!status.familiar.equals("swordsword.gif")) {
+      return false;
+    }
+
+    // could be an attack message, the item drop message, or the replacement we're looking for
+    for (Pattern p : SWORD_OF_SWORDS_KILLS) {
+      Matcher matcher = p.matcher(text);
+      if (matcher.find()) {
+        Preferences.increment("_swordOfSWordsKills", 1, 100);
         return true;
       }
     }
@@ -11210,6 +11241,17 @@ public class FightRequest extends GenericRequest {
         if (responseText.contains("flex and ripple") || skillSuccess) {
           TrackManager.trackMonster(monster, Tracker.MEAT_CUTE);
           skillSuccess = true;
+        }
+      }
+      case SkillPool.KILL_A_LOT -> {
+        if (responseText.contains("kill") || skillSuccess) {
+          Preferences.setInteger("swordOfSWordsMonster", monster.getId());
+          skillSuccess = true;
+        }
+      }
+      case SkillPool.STOP_KILLING -> {
+        if (responseText.contains("kill") || skillSuccess) {
+          Preferences.setInteger("swordOfSWordsMonster", -1);
         }
       }
     }

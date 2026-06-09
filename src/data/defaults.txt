@@ -1725,6 +1725,7 @@ user	suppressPowerPixellation	false
 user	suppressMallPriceCacheMessages	true
 user	sweat	0	roa
 user	sweetSynthesisBlacklist	chocolate cigar,fudge bunny,gummi ammonite,gummi belemnite,gummi trilobite,powdered candy sushi set,radio button candy,Ultra Mega Sour Ball,vitachoconutriment capsule
+user	swordOfSWordsMonster	-1	roa
 user	tacoDanCocktailSauce	0
 user	tacoDanFishMeat	0
 user	takerSpaceAnchor	0	roa
@@ -2784,6 +2785,8 @@ user	_surprisinglySweetSlashUsed	0
 user	_surprisinglySweetStabUsed	0
 user	_sweatOutSomeBoozeUsed	0
 user	_sweetToothUsed	false
+user	_swordOfSWordsKills	0
+user	_swordOfSWordsMonsterChanged	0
 user	_syntheticDogHairPillUsed	false
 user	_tacoFlierUsed	false
 user	_taffyRareSummons	0
