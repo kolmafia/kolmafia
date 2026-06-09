@@ -984,23 +984,30 @@ public class RelayRequest extends PasswordHashRequest {
       }
 
       int advs = KoLCharacter.getAdventuresLeft();
-      if (advs >= 40) {
+      if (advs == 40) {
         return false;
       }
+      boolean tooFewAdventures = advs < 40;
 
       StringBuilder buf = new StringBuilder();
       buf.append("You are about to free King Ralph and stop being a Meat Golem. ");
       buf.append(
           "When you do so, all your organs will be filled, and your adventures capped at 40. ");
-      buf.append("You may wish to spend meat on ensuring you have at least 40 adventures.");
+      if (tooFewAdventures) {
+        buf.append("You may wish to spend meat on ensuring you have at least 40 adventures.");
+      } else {
+        buf.append("You may wish to spend your adventures now.");
+      }
       buf.append(" If you are ready to break the prism, click on the icon on the left.");
-      buf.append(" If you wish to visit your Meat cocoon, click on icon on the right.");
+      if (tooFewAdventures) {
+        buf.append(" If you wish to visit your Meat cocoon, click on icon on the right.");
+      }
 
       this.sendOptionalWarning(
           Confirm.RALPH,
           buf.toString(),
           "hand.gif",
-          "meat.gif",
+          tooFewAdventures ? "meat.gif" : null,
           "\"place.php?whichplace=meatground&action=meatground_turns\"",
           null,
           null);
