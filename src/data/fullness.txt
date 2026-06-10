@@ -503,7 +503,7 @@ honey-drenched ham slice	1	1	decent	1-2	1-5	1-5	1-5
 hot buttered roll	1	1	crappy	1	0	0	0
 hot date	2	7	good	4-5	0	0	20-30
 hot hi mein	5	12	EPIC	24-27	70-75	15-20	30-35	5 Hot Breath (combat skill), SAUCY
-hot honey ant	1	1	awesome	0	0	0	0	Unspaded
+hot honey ant	1	1	awesome	3-4	20-22	0	0
 hot wing	1	1	crappy	1	0	2-5	0
 huge Crimbo cookie	30	11	good	72-74	100-200	100-200	100-200
 humble pie	4	4	good	9-11	20-30	20-30	20-30
