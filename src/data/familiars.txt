@@ -351,8 +351,8 @@
 314	Shame Spiral	shamespiral.gif	combat1,delevel1	shame coil	stomach churner	0	0	0	0	sleaze
 315	Phantom Limb	phantomlimb.gif	combat1,hp1	phantom digit	phantom brace	0	0	0	0	spooky
 316	Foul Ball	foulball.gif	combat1,passive	foul line	foul cozy	0	0	0	0	stench
-317	Dire Cassava	direcasanim.gif	passive	dark manioc	grim cellophane	0	0	0	0	vegetable,hard,spooky,animatedart
-318	Observer	observer.gif	item0,delevel0	Observer source code	rift oculus	0	0	0	0	sentient,humanoid,software,haseyes,orb
+317	Dire Cassava	direcasanim.gif	passive	dark manioc	grim cellophane	2	1	2	1	vegetable,hard,spooky,animatedart
+318	Observer	observer.gif	item0,delevel0	Observer source code	rift oculus	1	3	1	3	sentient,humanoid,software,haseyes,orb
 319	Cool Cucumber	coolcuke.gif	hp1	chill gherkin	sweaty egg	0	0	0	0	organic,phallic,edible,good,cold
 320	Defective Childrens' Stapler	kidstaplerbad.gif	block,combat0	childrens' stapler	carton of extra-sharp, rusty staples	0	0	0	0	object,bite,cute,reallyevil,hasstinger
 321	Glover	glover.gif	combat0,delevel1	plover's egg	glover liners	0	0	0	0	hashands,hasclaws,wearsclothes,isclothes,hasbeak
