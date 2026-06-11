@@ -980,6 +980,18 @@ public class Evaluator {
     return !this.noTiebreaker;
   }
 
+  boolean isWeaponTypeRequired() {
+    return this.requireClub
+        || this.requireUtensil
+        || this.requireSword
+        || this.requireKnife
+        || this.requireAccordion;
+  }
+
+  boolean isShieldRequired() {
+    return this.requireShield;
+  }
+
   enum Constraint {
     /** Item violates a constraint, don't use it */
     VIOLATES,
