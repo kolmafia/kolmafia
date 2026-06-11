@@ -544,6 +544,11 @@ public class MallPurchaseRequest extends PurchaseRequest {
       return;
     }
 
+    if (MallPurchaseRequest.YIELD_PATTERN.matcher(responseText).find()) {
+      // Per-day store limit; processResults() handles repurchase logic via YIELD_PATTERN.
+      return;
+    }
+
     // Mall stores themselves can only contain processable results
     // when actually buying an item, and then only at the very top
     // of the page.
