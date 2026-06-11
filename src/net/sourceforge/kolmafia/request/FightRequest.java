@@ -446,6 +446,19 @@ public class FightRequest extends GenericRequest {
           "vacuums your front yard",
           "waxes your drapes");
 
+  private static final String[] OLFACTION_ZONE_FAIL_MESSAGES = {
+    "dank air down here messes",
+    "only picking up sulphur from the nearby volcano",
+    "weird foreign pollen in the air here screws up your sense of smell",
+    "smells in this village are too exotic",
+    "castle is so stuffy from years of disuse",
+    "this planet smells too weird",
+    "just smells like gingerbread",
+    "quarters are too tight for that",
+    "smells here are too weird to remember",
+    "hard to smell anything in this crowd"
+  };
+
   private static final String[][] EVIL_ZONES = {
     {
       "The Defiled Alcove", "cyrptAlcoveEvilness",
@@ -1429,8 +1442,6 @@ public class FightRequest extends GenericRequest {
 
     switch (skillName) {
       case "Transcendent Olfaction" -> {
-        // You can't sniff if you are already on the trail.
-
         // You can't sniff in Bad Moon, even though the skill
         // shows up on the char sheet, unless you've recalled
         // your skills.
@@ -10009,6 +10020,14 @@ public class FightRequest extends GenericRequest {
           TrackManager.trackMonster(monster, Tracker.OLFACTION);
           Preferences.setString("autoOlfact", "");
           singleCastsThisFight.add(skillId);
+        } else {
+          // Zone-related failure consumes a charge and does not prevent re-use this combat
+          for (String failMessage : OLFACTION_ZONE_FAIL_MESSAGES) {
+            if (responseText.contains(failMessage)) {
+              skillSuccess = true;
+              break;
+            }
+          }
         }
       }
       case SkillPool.LONG_CON -> {
@@ -10631,6 +10650,9 @@ public class FightRequest extends GenericRequest {
             || skillRunawaySuccess) {
           BanishManager.banishMonster(monster, Banisher.FEEL_HATRED);
           skillRunawaySuccess = true;
+        } else if (responseText.contains("You can't bring yourself to hate this creature.")) {
+          // Failed use consumes a charge but is not a runaway
+          skillSuccess = true;
         }
       }
       case SkillPool.FEEL_PRIDE -> {
@@ -11021,7 +11043,10 @@ public class FightRequest extends GenericRequest {
         }
       }
       case SkillPool.ASSERT_YOUR_AUTHORITY -> {
-        if (responseText.contains("You flash your sheriff badge") || skillSuccess) {
+        if (responseText.contains("You flash your sheriff badge")
+            // Failed use consumes a charge
+            || responseText.contains("This foe is not going to respect your authority.")
+            || skillSuccess) {
           skillSuccess = true;
         }
       }
@@ -11229,6 +11254,9 @@ public class FightRequest extends GenericRequest {
       case SkillPool.HEARTSTONE_BANISH -> {
         if (responseText.contains("A ray blasts out of the stone") || skillSuccess) {
           BanishManager.banishMonster(monster, Banisher.HEARTSTONE_BANISH);
+          skillSuccess = true;
+        } else if (responseText.contains("This enemy can't be banished.")) {
+          // Failed use consumes a charge
           skillSuccess = true;
         }
       }
