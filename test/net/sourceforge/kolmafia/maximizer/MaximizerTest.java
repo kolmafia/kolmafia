@@ -804,6 +804,26 @@ public class MaximizerTest {
     }
 
     @Test
+    public void clubModifierWorksWithoutTieBreaker() {
+      final var cleanups = new Cleanups(withEquippableItem("lawn dart"));
+
+      try (cleanups) {
+        assertTrue(maximize("-tie, club"));
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.WEAPON, "lawn dart")));
+      }
+    }
+
+    @Test
+    public void shieldModifierWorksWithoutTieBreaker() {
+      final var cleanups = new Cleanups(withEquippableItem("vinyl shield"));
+
+      try (cleanups) {
+        assertTrue(maximize("-tie, shield"));
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.OFFHAND, "vinyl shield")));
+      }
+    }
+
+    @Test
     public void swordModifierFavorsSword() {
       final var cleanups =
           new Cleanups(withEquippableItem("sweet ninja sword"), withEquippableItem("spiked femur"));

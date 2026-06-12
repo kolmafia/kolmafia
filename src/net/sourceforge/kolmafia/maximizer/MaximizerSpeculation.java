@@ -99,6 +99,20 @@ public class MaximizerSpeculation extends Speculation
         this.simplicity += slot == Slot.WEAPON ? -1 : 1;
       }
     }
+    // When an equipment-type keyword (club, sword, shield, etc.) is active, prefer any
+    // qualifying item over leaving the slot empty: give it a nudge above UNEQUIP's +2.
+    if (Maximizer.eval.isWeaponTypeRequired()) {
+      AdventureResult weapon = this.equipment.get(Slot.WEAPON);
+      if (weapon != null && !weapon.equals(EquipmentRequest.UNEQUIP)) {
+        this.simplicity += 3;
+      }
+    }
+    if (Maximizer.eval.isShieldRequired()) {
+      AdventureResult offhand = this.equipment.get(Slot.OFFHAND);
+      if (offhand != null && !offhand.equals(EquipmentRequest.UNEQUIP)) {
+        this.simplicity += 3;
+      }
+    }
     return this.tiebreaker;
   }
 
