@@ -188,7 +188,7 @@ chocolate-frosted king cake	3	1	crappy	3	0	0	0	red plastic baby
 chocomotive	5	1	good	15	35	0	0	15-20 HP
 chorizo brownies	3	2	decent	3-9	0	0	0
 chorizo taco	1	1	decent	2	3-5	0	0	TACO
-Christmas ham	3	1	awesome	0	0	0	0	Unspaded
+Christmas ham	3	1	awesome	10-16	20-40	0	0	20 Eyesies on the Pressies (+15% item)
 ciliophora chowder	1	1	awesome	3-4	0	80-90	0	50 Twitching Senses (+50 Item Drops in the Twitching Tower)
 cinnamon cannoli	1	4	awesome	4-5	15-25	15-25	15-25
 Cinnamon Nutrition Block	5	1	good	10-15	0	0	0	30 Forbear, Warbears! (+40 WarBear Armor Penetration)
@@ -292,7 +292,7 @@ Disc-Shaped Nutrition Unit	4	5	decent	6-9	0	0	0
 discarded hot dog	1	1	awesome	4-5	20-25	20-25	20-25
 disco biscuit	1	6	EPIC	6-7	0	0	20-30	100 Buttermilk Boogie (+50% mox, +50 init, +20-40 HP regen)
 Double Bacon Beelzeburger	3	1	decent	4-6	15-20	-15-20	0
-double-candied yams	3	1	awesome	0	0	0	0	Unspaded
+double-candied yams	3	1	awesome	10-12	0	0	20-40	20 Grateful, But Spelled With a Dollar Sign (+30% meat)
 dragon snaps	1	1	crappy	1	0	0	5-10	5 Oh Snap (+10 mox exp)
 Dreadsylvanian cold pocket	4	26	super ultra mega EPIC	36-40	30-50	30-50	30-50	200 Dreadful Chill (+5 Sleaze/Stench Res)
 Dreadsylvanian hot pocket	4	26	super ultra mega EPIC	36-40	30-50	30-50	30-50	200 Dreadful Heat (+5 Cold/Spooky Res)
