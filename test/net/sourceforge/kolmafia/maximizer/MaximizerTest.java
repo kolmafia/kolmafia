@@ -1962,6 +1962,16 @@ public class MaximizerTest {
         assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.FAMILIAR))));
       }
     }
+
+    @Test
+    public void singleFoldSourceProducesRequestedForm() {
+      var cleanups = new Cleanups(withItem(ItemPool.MAKESHIFT_CRANE), withStats(0, 75, 35));
+
+      try (cleanups) {
+        assertTrue(maximize("+equip makeshift cape"));
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.CONTAINER, "makeshift cape")));
+      }
+    }
   }
 
   @Nested
