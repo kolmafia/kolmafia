@@ -1,17 +1,22 @@
 package net.sourceforge.kolmafia.webui;
 
 import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withChoice;
 import static internal.helpers.Player.withFight;
 import static internal.helpers.Player.withNextMonster;
 import static internal.helpers.Player.withProperty;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.FightRequest;
+import org.jsoup.Jsoup;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -127,6 +132,30 @@ class StationaryButtonDecoratorTest {
             SkillDatabase.getPrettySkillName(SkillPool.STEAL_HEART));
         assertEquals(
             "steal monster's heart: t -> ta", StationaryButtonDecorator.getActionName("7585"));
+      }
+    }
+  }
+
+  @Nested
+  class ChoiceButtons {
+    @Test
+    void useTheForceButtonsHaveQuoteMarks() {
+      var html = html("request/test_choice_use_the_force.html");
+      var cleanups = new Cleanups(withChoice(1387, html));
+
+      try (cleanups) {
+        var buffer = new StringBuffer(html);
+        RequestEditorKit.getFeatureRichHTML("choice.php?whichchoice=1387", buffer, false);
+        var doc = Jsoup.parse(buffer.toString());
+        var buttons = doc.select("#mafiabuttons input[type=button]");
+        assertThat(buttons.size(), is(4));
+        assertThat(buttons.get(0).attr("value"), is("auto"));
+        assertThat(
+            buttons.get(1).attr("value"), is("\"I am not the adventurer you are looking for.\""));
+        assertThat(
+            buttons.get(2).attr("value"), is("\"You will go find two friends and meet me here.\""));
+        assertThat(
+            buttons.get(3).attr("value"), is("\"You will drop your things and walk away.\""));
       }
     }
   }

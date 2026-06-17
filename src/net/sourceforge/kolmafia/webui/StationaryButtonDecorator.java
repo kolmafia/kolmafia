@@ -23,6 +23,7 @@ import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LimitMode;
+import net.sourceforge.kolmafia.utilities.CharacterEntities;
 import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -762,7 +763,7 @@ public class StationaryButtonDecorator {
     buffer.append("<input type=\"button\" onClick=\"document.location.href='");
     buffer.append(action);
     buffer.append("';void(0);\" value=\"");
-    buffer.append(name);
+    buffer.append(CharacterEntities.escape(name));
     buffer.append("\"");
 
     if (forceFocus) {
