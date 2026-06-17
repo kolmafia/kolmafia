@@ -10072,6 +10072,7 @@ public abstract class ChoiceControl {
       case 1535: // Clan Photo Booth - Borrow a prop
       case 1536: // Clan Photo Booth - Take a group photo
       case 1537: // TakerSpace
+      case 1543: // Parachute into a Fight
       case 1544: // Devil some Candy
       case 1551: // Hashing with your vice
       case 1553: // Hybridization Chamber
