@@ -6,7 +6,8 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.session.ContactManager;
 
 public class ContactListRequest extends GenericRequest {
-  private static final Pattern LIST_PATTERN = Pattern.compile("<b>Contact List</b>.*?</table>");
+  private static final Pattern LIST_PATTERN =
+      Pattern.compile("<b[^>]*>Contact List</b>.*?</table>");
   private static final Pattern ENTRY_PATTERN =
       Pattern.compile("<a href=\"showplayer.php\\?who=(\\d+)\".*?<b>(.*?)</b>");
 
