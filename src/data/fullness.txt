@@ -21,7 +21,7 @@ Affirmation Cookie	1	1	good	3	30	30	30
 agnolotti arboli	5	9	awesome	18-22	0	25-30	0
 Aldebaran sardines	2	4	awesome	9-10	10-20	10-20	10-20	60 Fishy
 alien meat	1	1	good	3	0	0	0	gain 5 turns of a random positive effect
-alien salad	1	1	good	0	0	0	0	Unspaded, SALAD
+alien salad	1	1	good	2-3	0	10-12	0	SALAD
 alien sandwich	2	4	awesome	10	5-10	5-10	5-10	gain 10 turns of a random positive effect
 amok pudding	2	4	decent	3-5	5-10	5-10	5-10	20 Puddingface (+20 Sleaze Damage)
 ancient frozen dinner	4	1	decent	4-8	0	8-10	0
@@ -843,7 +843,7 @@ salty white rabbit roll	3	1	pseudoitem	9-14	0	28-46	0	45/55 Fishy, 10 Salty Dogs
 salty wise dragon roll	3	1	pseudoitem	9-14	20-30	8-16	0	45/55 Fishy, 10 Salty Dogs
 salty wizened master roll	3	1	pseudoitem	9-14	20-30	28-46	20-30	45/55 Fishy, 10 Salty Dogs
 sandwich of the gods	5	13	super EPIC	32-38	50-100	50-100	50-100
-sauced mutton	1	1	good	0	0	0	0	Unspaded
+sauced mutton	1	1	good	2-4	0	0	15-18
 sausage pizza	3	2	good	3-10	15-18	0	0	PIZZA
 sausage without a cause	10	1	awesome	40	0	0	0	1 East of Eaten (+200% Weapon Damage, +4 Hot res)
 sausage wonton	3	12	EPIC	12-18	50-80	20-30	20-30

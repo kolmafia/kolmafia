@@ -262,7 +262,7 @@ eighth plague	1	3	awesome	4-6	0	0	30-60	40 Wings of the Dragonfly (100 Init)
 eldritch distillate	3	12	awesome	9-11	333	333	333	30 Eldritch Concentration (+5 stats/fight, +5 spooky damage, 5-10 MP regen)
 eldritch elixir	3	12	awesome	9-11	666	666	666	30 Eldritch Concentration (+5 stats/fight, +5 spooky damage, 5-10 MP regen), 5 Eldritch Attunement
 eldritch extract	3	11	awesome	9-11	111	111	111	10 Eldritch Concentration (+5 stats/fight, +5 spooky damage, 5-10 MP regen)
-Electric Punch	5	4	awesome	0	0	0	0	Unspaded 30 Tiki Thoughtfulness (+100% Mysticality, +10% Mysticality Gains)
+Electric Punch	5	4	awesome	16-19	0	30-60	0	30 Tiki Thoughtfulness (+100% Mysticality, +10% Mysticality Gains)
 electric snakebite	2	5	good	4-6	0	15-30	0	20 Once Bitten Twice Fried (+25 MP, +2-5 MP regen), BEER
 elemental caipiroska	1	3	EPIC	5-7	0	40-80	0	40 Magically Delicious (+40 Myst)
 elven cellocello	1	1	good	1-5	5-7	5-7	5-7	20 Sugar Rush
@@ -656,7 +656,7 @@ single entendre	1	3	awesome	4-6	0	30-60	0	40 Pounded by the Actual Stars (+100% 
 single swig of vodka	2	9	good	5-6	6-8	6-8	6-8	KOLHS
 Sizzling Sinner	2	8	awesome	8-9	30-40	0	0	15 Heart Aflame (+50 Hot Dam)
 skeleton war fuel can	1	6	EPIC	5-7	0	0	20-40
-Skull Punch	5	4	awesome	0	0	0	0	Unspaded 30 Tiki Toughness (+100% Muscle, +10% Muscle Gains)
+Skull Punch	5	4	awesome	16-19	30-60	0	0	30 Tiki Toughness (+100% Muscle, +10% Muscle Gains)
 slap and slap again	3	1	decent	0	0	0	0	+3 PvP fights
 slap and tickle	4	4	good	10-14	0	8-10	25-27
 slap and tickle with a fly in it	0	1	crappy	0	0	0	0	Undrinkable
@@ -673,7 +673,7 @@ slug of shochu	3	2	crappy	3	0	0	0	10 Brined Liver
 slug of vodka	3	2	crappy	3	0	0	0	10 Brined Liver
 Smoking Pope	2	1	EPIC	10-12	20-30	20-30	20-30	50 Ordained (+50% skeleton damage, +50% item)
 smooth mushroom wine	4	3	EPIC	22-24	0	0	100-150	80 Gyromitra Gymnastics (+40 Mox), WINE
-Smuggler's Punch	5	4	awesome	0	0	0	0	Unspaded 30 Tiki Temerity (+100% Moxie, +10% Moxie Gains)
+Smuggler's Punch	5	4	awesome	16-19	0	0	30-60	30 Tiki Temerity (+100% Moxie, +10% Moxie Gains)
 snakebite	1	4	crappy	1	-1	-1	-1	30 Sweet Tooth (+40% Candy Drops), BEER
 snifter of thoroughly aged brandy	2	1	decent	2-6	0	8-10	0
 Sockdollager	2	1	awesome	6-8	0	0	0	25 In a Lather (+20 Prismatic Dam, +40 Prismatic Spell Dam, +20 Ranged/Weapon Dam, +50% Weapon Dam, +40 Spell Dam, +50% Spell Dam)
