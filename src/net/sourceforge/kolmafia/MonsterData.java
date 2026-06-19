@@ -83,6 +83,7 @@ public class MonsterData extends AdventureResult {
     VAMPIRE("VAMPIRE"),
     WEREWOLF("WEREWOLF"),
     ZOMBIE("ZOMBIE"),
+    RAT("RAT"),
     SEAL("SEAL"),
     SNAKE("SNAKE"),
     DRIPPY("DRIPPY"),
@@ -288,6 +289,7 @@ public class MonsterData extends AdventureResult {
               VAMPIRE,
               WEREWOLF,
               ZOMBIE,
+              RAT,
               SEAL,
               SNAKE,
               DRIPPY ->
@@ -425,6 +427,7 @@ public class MonsterData extends AdventureResult {
     saveKeywordAttribute(Attribute.VAMPIRE, attributeMap, buf);
     saveKeywordAttribute(Attribute.WEREWOLF, attributeMap, buf);
     saveKeywordAttribute(Attribute.ZOMBIE, attributeMap, buf);
+    saveKeywordAttribute(Attribute.RAT, attributeMap, buf);
     saveKeywordAttribute(Attribute.SEAL, attributeMap, buf);
     saveKeywordAttribute(Attribute.SNAKE, attributeMap, buf);
     saveKeywordAttribute(Attribute.DRIPPY, attributeMap, buf);
@@ -622,6 +625,9 @@ public class MonsterData extends AdventureResult {
     }
     if (attributeMap.containsKey(Attribute.ZOMBIE)) {
       subTypes.add("zombie");
+    }
+    if (attributeMap.containsKey(Attribute.RAT)) {
+      subTypes.add("rat");
     }
     if (attributeMap.containsKey(Attribute.SEAL)) {
       subTypes.add("seal");
