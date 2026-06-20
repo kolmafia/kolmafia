@@ -4,7 +4,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AscensionPath;
 import net.sourceforge.kolmafia.AscensionPath.Path;
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.ZodiacSign;
@@ -37,11 +37,10 @@ public class AfterLifeRequest extends GenericRequest {
     }
 
     if (responseText.isBlank()) {
-      KoLmafia.updateDisplay(
-          KoLConstants.MafiaState.ERROR,
-          "Received an empty response from afterlife.php. You are probably not in Valhalla.");
-      RequestLogger.updateSessionLog(
-          "Received an empty response from afterlife.php. You are probably not in Valhalla.");
+      String errorMsg =
+          "Received an empty response from afterlife.php. You are probably not in Valhalla.";
+      KoLmafia.updateDisplay(MafiaState.ERROR, errorMsg);
+      RequestLogger.updateSessionLog(errorMsg);
       return false;
     }
 

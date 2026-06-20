@@ -2439,8 +2439,9 @@ public class GenericRequest implements Runnable {
         // Unlike most ascension failures, this one happens as a redirect to main.php?nope=asc
         String gashMessage = "You may not enter the Astral Gash again until tomorrow.";
         if (this.responseText.contains(gashMessage)) {
-          KoLmafia.updateDisplay(KoLConstants.MafiaState.ERROR, "Failed to ascend: " + gashMessage);
-          RequestLogger.updateSessionLog("Failed to ascend: " + gashMessage);
+          String errorMsg = "Failed to ascend: " + gashMessage;
+          KoLmafia.updateDisplay(MafiaState.ERROR, errorMsg);
+          RequestLogger.updateSessionLog(errorMsg);
         }
         return;
       }
@@ -2465,9 +2466,9 @@ public class GenericRequest implements Runnable {
                   "<b style=\"color: white\">Results:</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid blue;\"><center><table><tr><td>(.*?)</td>");
           Matcher m = FAILED_ASCENSION.matcher(responseText);
           if (m.find()) {
-            KoLmafia.updateDisplay(
-                KoLConstants.MafiaState.ERROR, "Failed to ascend: " + m.group(1));
-            RequestLogger.updateSessionLog("Failed to ascend: " + m.group(1));
+            String errorMsg = "Failed to ascend: " + m.group(1);
+            KoLmafia.updateDisplay(MafiaState.ERROR, errorMsg);
+            RequestLogger.updateSessionLog(errorMsg);
           }
         }
         // Fall-through and allow other processing regardless
