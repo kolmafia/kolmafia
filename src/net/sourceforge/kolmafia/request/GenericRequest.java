@@ -2437,10 +2437,10 @@ public class GenericRequest implements Runnable {
           Preferences.setInteger("_godLobsterFights", 3);
         }
         // Unlike most ascension failures, this one happens as a redirect to main.php?nope=asc
-        if (this.responseText.contains("You may not enter the Astral Gash again until tomorrow.")) {
-          KoLmafia.updateDisplay(
-              KoLConstants.MafiaState.ERROR,
-              "Failed to ascend: You may not enter the Astral Gash again until tomorrow.");
+        String gashMessage = "You may not enter the Astral Gash again until tomorrow.";
+        if (this.responseText.contains(gashMessage)) {
+          KoLmafia.updateDisplay(KoLConstants.MafiaState.ERROR, "Failed to ascend: " + gashMessage);
+          RequestLogger.updateSessionLog("Failed to ascend: " + gashMessage);
         }
         return;
       }
@@ -2467,6 +2467,7 @@ public class GenericRequest implements Runnable {
           if (m.find()) {
             KoLmafia.updateDisplay(
                 KoLConstants.MafiaState.ERROR, "Failed to ascend: " + m.group(1));
+            RequestLogger.updateSessionLog("Failed to ascend: " + m.group(1));
           }
         }
         // Fall-through and allow other processing regardless

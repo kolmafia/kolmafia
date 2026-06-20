@@ -40,6 +40,8 @@ public class AfterLifeRequest extends GenericRequest {
       KoLmafia.updateDisplay(
           KoLConstants.MafiaState.ERROR,
           "Received an empty response from afterlife.php. You are probably not in Valhalla.");
+      RequestLogger.updateSessionLog(
+          "Received an empty response from afterlife.php. You are probably not in Valhalla.");
       return false;
     }
 
