@@ -1400,10 +1400,6 @@ public class GenericRequest implements Runnable {
       Preferences.setInteger("lastBreakfast", 0);
     }
 
-    if (urlString.startsWith("afterlife.php") && Preferences.getInteger("lastBreakfast") != -1) {
-      ValhallaManager.onAscension();
-    }
-
     this.externalExecute();
 
     if (!LoginRequest.isInstanceRunning() && !this.isChatRequest) {
@@ -2440,6 +2436,13 @@ public class GenericRequest implements Runnable {
             && this.responseText.contains("can't challenge your God Lobster anymore")) {
           Preferences.setInteger("_godLobsterFights", 3);
         }
+        // Unlike most ascension failures, this one happens as a redirect to main.php?nope=asc
+        String gashMessage = "You may not enter the Astral Gash again until tomorrow.";
+        if (this.responseText.contains(gashMessage)) {
+          String errorMsg = "Failed to ascend: " + gashMessage;
+          KoLmafia.updateDisplay(MafiaState.ERROR, errorMsg);
+          RequestLogger.updateSessionLog(errorMsg);
+        }
         return;
       }
       case "campground.php" -> {
@@ -2452,6 +2455,23 @@ public class GenericRequest implements Runnable {
       case "inv_use.php" -> {
         UseItemRequest.parseGiftPackage(responseText);
         // Fallthrough; ResultProcessor will log "You acquire <stuff>."
+      }
+      case "ascend.php" -> {
+        // If we try to ascend and actually get a response back rather than being redirected to
+        // afterlife.php, there was probably something that stopped the ascension from happening.
+        // Make an attempt at figuring out what it was.
+        if (urlString.contains("confirm=on") && urlString.contains("confirm2=on")) {
+          Pattern FAILED_ASCENSION =
+              Pattern.compile(
+                  "<b style=\"color: white\">Results:</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid blue;\"><center><table><tr><td>(.*?)</td>");
+          Matcher m = FAILED_ASCENSION.matcher(responseText);
+          if (m.find()) {
+            String errorMsg = "Failed to ascend: " + m.group(1);
+            KoLmafia.updateDisplay(MafiaState.ERROR, errorMsg);
+            RequestLogger.updateSessionLog(errorMsg);
+          }
+        }
+        // Fall-through and allow other processing regardless
       }
     }
 
