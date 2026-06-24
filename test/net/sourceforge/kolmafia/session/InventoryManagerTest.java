@@ -30,6 +30,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
@@ -425,6 +426,63 @@ public class InventoryManagerTest {
 
       assertThat(InventoryManager.getCount(ItemPool.WORTHLESS_TRINKET), is(25252));
       assertThat(InventoryManager.getCount(ItemPool.WORTHLESS_GEWGAW), is(10622));
+    }
+  }
+
+  @Nested
+  class NoncombatConditionalSkillGrant {
+    // Live repro: an item with a NONCOMBAT Conditional Skill (Equipped) whose own
+    // unlock gate is false, merely possessed (not equipped), must NOT grant the
+    // skill. Before the fix, checkSkillGrantingEquipment granted it on possession.
+    @Test
+    public void lockedHeartstoneSkillNotGrantedByPossession() {
+      KoLCharacter.resetSkills();
+      var cleanups =
+          new Cleanups(
+              withProperty("heartstonePalsUnlocked", false), withItem(ItemPool.HEARTSTONE));
+      try (cleanups) {
+        InventoryManager.checkSkillGrantingEquipment();
+        assertFalse(KoLCharacter.hasSkill(SkillPool.HEARTSTONE_PALS));
+      }
+    }
+
+    // Positive control: when the gate is unlocked, possession still grants
+    // (preserves the deliberate auto-equip-on-cast behaviour).
+    @Test
+    public void unlockedHeartstoneSkillGrantedByPossession() {
+      KoLCharacter.resetSkills();
+      var cleanups =
+          new Cleanups(withProperty("heartstonePalsUnlocked", true), withItem(ItemPool.HEARTSTONE));
+      try (cleanups) {
+        InventoryManager.checkSkillGrantingEquipment();
+        assertTrue(KoLCharacter.hasSkill(SkillPool.HEARTSTONE_PALS));
+      }
+    }
+
+    // Combat-tagged conditional skill is never granted by possession (NONCOMBAT
+    // branch short-circuits before shouldApplySkill) — unchanged by the fix.
+    @Test
+    public void combatHeartstoneSkillNotGrantedByPossession() {
+      KoLCharacter.resetSkills();
+      var cleanups =
+          new Cleanups(withProperty("heartstoneKillUnlocked", true), withItem(ItemPool.HEARTSTONE));
+      try (cleanups) {
+        InventoryManager.checkSkillGrantingEquipment();
+        assertFalse(KoLCharacter.hasSkill(SkillPool.HEARTSTONE_KILL));
+      }
+    }
+
+    // Covers the e.getKey()==true branch (CONDITIONAL_SKILL_INVENTORY): designer
+    // sweatpants grant "Sweat Out Some Booze" on mere possession, ungated.
+    @Test
+    public void inventoryConditionalSkillGrantedByPossession() {
+      KoLCharacter.resetSkills();
+      var cleanups = new Cleanups(withItem(ItemPool.DESIGNER_SWEATPANTS));
+      try (cleanups) {
+        assertFalse(KoLCharacter.hasSkill(SkillPool.SWEAT_OUT_BOOZE));
+        InventoryManager.checkSkillGrantingEquipment();
+        assertTrue(KoLCharacter.hasSkill(SkillPool.SWEAT_OUT_BOOZE));
+      }
     }
   }
 }

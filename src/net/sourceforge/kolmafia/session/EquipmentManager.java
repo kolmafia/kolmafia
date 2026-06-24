@@ -534,7 +534,7 @@ public class EquipmentManager {
     }
   }
 
-  private static boolean shouldApplySkill(Integer id) {
+  static boolean shouldApplySkill(Integer id) {
     return switch (id) {
       case SkillPool.BALL_BUST -> Preferences.getInteger("gladiatorBallMovesKnown") > 0;
       case SkillPool.BALL_SWEAT -> Preferences.getInteger("gladiatorBallMovesKnown") > 1;
