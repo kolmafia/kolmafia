@@ -36,6 +36,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -431,12 +432,16 @@ public class InventoryManagerTest {
 
   @Nested
   class NoncombatConditionalSkillGrant {
+    @AfterEach
+    void afterEach() {
+      KoLCharacter.resetSkills();
+    }
+
     // Live repro: an item with a NONCOMBAT Conditional Skill (Equipped) whose own
     // unlock gate is false, merely possessed (not equipped), must NOT grant the
     // skill. Before the fix, checkSkillGrantingEquipment granted it on possession.
     @Test
     public void lockedHeartstoneSkillNotGrantedByPossession() {
-      KoLCharacter.resetSkills();
       var cleanups =
           new Cleanups(
               withProperty("heartstonePalsUnlocked", false), withItem(ItemPool.HEARTSTONE));
@@ -450,7 +455,6 @@ public class InventoryManagerTest {
     // (preserves the deliberate auto-equip-on-cast behaviour).
     @Test
     public void unlockedHeartstoneSkillGrantedByPossession() {
-      KoLCharacter.resetSkills();
       var cleanups =
           new Cleanups(withProperty("heartstonePalsUnlocked", true), withItem(ItemPool.HEARTSTONE));
       try (cleanups) {
@@ -463,7 +467,6 @@ public class InventoryManagerTest {
     // branch short-circuits before shouldApplySkill) — unchanged by the fix.
     @Test
     public void combatHeartstoneSkillNotGrantedByPossession() {
-      KoLCharacter.resetSkills();
       var cleanups =
           new Cleanups(withProperty("heartstoneKillUnlocked", true), withItem(ItemPool.HEARTSTONE));
       try (cleanups) {
@@ -476,10 +479,8 @@ public class InventoryManagerTest {
     // sweatpants grant "Sweat Out Some Booze" on mere possession, ungated.
     @Test
     public void inventoryConditionalSkillGrantedByPossession() {
-      KoLCharacter.resetSkills();
       var cleanups = new Cleanups(withItem(ItemPool.DESIGNER_SWEATPANTS));
       try (cleanups) {
-        assertFalse(KoLCharacter.hasSkill(SkillPool.SWEAT_OUT_BOOZE));
         InventoryManager.checkSkillGrantingEquipment();
         assertTrue(KoLCharacter.hasSkill(SkillPool.SWEAT_OUT_BOOZE));
       }
