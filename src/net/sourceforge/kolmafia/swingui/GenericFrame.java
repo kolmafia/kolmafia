@@ -105,6 +105,7 @@ public abstract class GenericFrame extends JFrame implements Runnable, FocusList
    */
   public GenericFrame(final String title) {
     this.setTitle(title);
+    KoLmafiaGUI.applyFlatLafMenuBarSettings(this.getRootPane());
     this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
     List<Image> images =
