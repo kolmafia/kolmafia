@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia;
 import java.awt.Color;
 import java.awt.Frame;
 import java.util.ArrayList;
+import javax.swing.JRootPane;
 import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
@@ -44,6 +45,9 @@ import net.sourceforge.kolmafia.webui.RelayServer;
 
 public class KoLmafiaGUI {
   private KoLmafiaGUI() {}
+
+  private static final String FLATLAF_TITLE_PANE_MENU_BAR_EMBEDDED = "TitlePane.menuBarEmbedded";
+  private static final String FLATLAF_ROOT_PANE_MENU_BAR_EMBEDDED = "JRootPane.menuBarEmbedded";
 
   /**
    * The main method. Currently, it instantiates a single instance of the <code>KoLmafia</code>after
@@ -268,6 +272,16 @@ public class KoLmafiaGUI {
     }
 
     (new CreateFrameRunnable(frameClass)).run();
+  }
+
+  public static void applyFlatLafMenuBarSettings() {
+    UIManager.put(
+        FLATLAF_TITLE_PANE_MENU_BAR_EMBEDDED, !Preferences.getBoolean("separateTitleAndMenuBar"));
+  }
+
+  public static void applyFlatLafMenuBarSettings(final JRootPane rootPane) {
+    rootPane.putClientProperty(
+        FLATLAF_ROOT_PANE_MENU_BAR_EMBEDDED, !Preferences.getBoolean("separateTitleAndMenuBar"));
   }
 
   public static JTabbedPane getTabbedPane() {
