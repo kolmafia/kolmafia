@@ -431,6 +431,7 @@ public abstract class KoLmafia {
 
     try {
       UIManager.setLookAndFeel(lookAndFeel);
+      KoLmafiaGUI.applyFlatLafMenuBarSettings();
       JFrame.setDefaultLookAndFeelDecorated(System.getProperty("os.name").startsWith("Mac"));
     } catch (Exception e) {
       // Should not happen, as we checked to see if
