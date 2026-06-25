@@ -8,7 +8,6 @@ Main class: `net.sourceforge.kolmafia.KoLmafia`.
 ```sh
 ./gradlew spotlessApply    # format (Google Java Style, enforced on PRs)
 ./gradlew :test --tests "fully.qualified.TestName"   # single test
-./gradlew check            # format check + tests + checkstyle
 ./gradlew shadowJar        # build fat jar in dist/
 ./gradlew runShadow        # build and run
 ```
