@@ -2014,8 +2014,9 @@ public abstract class InventoryManager {
         .filter(
             e ->
                 e.getKey()
-                    || SkillDatabase.getSkillTags(e.getValue())
-                        .contains(SkillDatabase.SkillTag.NONCOMBAT))
+                    || (SkillDatabase.getSkillTags(e.getValue())
+                            .contains(SkillDatabase.SkillTag.NONCOMBAT)
+                        && EquipmentManager.shouldApplySkill(e.getValue())))
         .map(Map.Entry::getValue)
         .forEach(KoLCharacter::addAvailableSkill);
   }
