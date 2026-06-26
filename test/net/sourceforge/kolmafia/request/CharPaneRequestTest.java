@@ -545,6 +545,24 @@ class CharPaneRequestTest {
     }
 
     @Test
+    void canParseAllLegendaryCharpane() {
+      var cleanups =
+          new Cleanups(
+              withProperty("legendaryNoodlesAmygdala"),
+              withProperty("legendaryNoodlesSkin"),
+              withProperty("legendaryNoodlesStomach"),
+              withProperty("noncombatForcerActive"));
+
+      try (cleanups) {
+        CharPaneRequest.processResults(html("request/test_charpane_legendary_all.html"));
+        assertThat("legendaryNoodlesAmygdala", isSetTo(5));
+        assertThat("legendaryNoodlesSkin", isSetTo(5));
+        assertThat("legendaryNoodlesStomach", isSetTo(2));
+        assertThat("noncombatForcerActive", isSetTo(false));
+      }
+    }
+
+    @Test
     void canParseAbsenceOfNoodlyModifiersInCharpane() {
       var cleanups = withProperty("legendaryNoodlesAmygdala", 3);
 
