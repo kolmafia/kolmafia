@@ -533,11 +533,14 @@ class CharPaneRequestTest {
   class LegendaryNoodles {
     @Test
     void canParseLegendaryAmygdalaCharpane() {
-      var cleanups = withProperty("legendaryNoodlesAmygdala");
+      var cleanups =
+          new Cleanups(
+              withProperty("legendaryNoodlesAmygdala"), withProperty("noncombatForcerActive"));
 
       try (cleanups) {
         CharPaneRequest.processResults(html("request/test_charpane_legendary_amygdala.html"));
         assertThat("legendaryNoodlesAmygdala", isSetTo(5));
+        assertThat("noncombatForcerActive", isSetTo(false));
       }
     }
 
