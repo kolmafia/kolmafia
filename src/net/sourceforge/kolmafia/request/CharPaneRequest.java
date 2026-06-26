@@ -309,19 +309,18 @@ public class CharPaneRequest extends GenericRequest {
 
   public static void checkNoncombatForcers(final String responseText) {
     var result = NONCOMBAT_FORCER_PATTERN.matcher(responseText);
-    boolean noncombatForcerActive = result.find();
-    Preferences.setBoolean("noncombatForcerActive", noncombatForcerActive);
-    if (noncombatForcerActive) {
+    boolean hasModifiers = result.find();
+    String noncombatForcers = "";
+    if (hasModifiers) {
       var descriptions = result.group(1).split("<br>");
-      Preferences.setString(
-          "noncombatForcers",
+      noncombatForcers =
           Arrays.stream(descriptions)
               .map(desc -> NONCOMBAT_FORCERS.get(desc.trim()))
               .filter(Objects::nonNull)
-              .collect(Collectors.joining("|")));
-    } else {
-      Preferences.setString("noncombatForcers", "");
+              .collect(Collectors.joining("|"));
     }
+    Preferences.setString("noncombatForcers", noncombatForcers);
+    Preferences.setBoolean("noncombatForcerActive", !noncombatForcers.isEmpty());
   }
 
   private static final Pattern LEGENDARY_AMYGDALA_PATTERN =
