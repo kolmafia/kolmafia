@@ -1986,6 +1986,7 @@ user	_bczSweatEquityCasts	0
 user	_bczBloodThinnerCasts	0
 user	_bczSpinalTapasCasts	0
 user	_bczPheromoneCocktailCasts	0
+user	_brandishMossMedalCast	false
 user	_beachCombing	false
 user	_beachHeadsUsed
 user	_beachLayout

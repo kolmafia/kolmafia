@@ -2877,4 +2877,16 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       }
     }
   }
+
+  @Test
+  void haveSkillReturnsTrueEvenWhenDailyLimitExhausted() {
+    var cleanups =
+        new Cleanups(withSkill(SkillPool.PASTAMASTERY), withProperty("noodleSummons", 1));
+    try (cleanups) {
+      String output = execute("have_skill($skill[Pastamastery])");
+
+      assertContinueState();
+      assertThat(output, containsString("Returned: true"));
+    }
+  }
 }

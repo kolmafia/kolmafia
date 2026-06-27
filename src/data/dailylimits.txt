@@ -54,6 +54,7 @@ Cast	Beret Boast	_beretBoastUses	11
 Cast	Beret Busking	_beretBuskingUses	5
 Cast	Bow-Legged Swagger	_bowleggedSwaggerUsed
 Cast	Bowl Full of Jelly	_bowlFullOfJellyUsed
+Cast	Brandish Moss Medal	_brandishMossMedalCast
 Cast	CHEAT CODE: Invisible Avatar	_powerfulGloveBatteryPowerUsed	100
 Cast	CHEAT CODE: Replace Enemy	_powerfulGloveBatteryPowerUsed	100
 Cast	CHEAT CODE: Shrink Enemy	_powerfulGloveBatteryPowerUsed	100
