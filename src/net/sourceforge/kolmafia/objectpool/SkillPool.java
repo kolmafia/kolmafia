@@ -619,6 +619,7 @@ public class SkillPool {
   public static final int SURPRISINGLY_SWEET_SLASH = 7488;
   public static final int SURPRISINGLY_SWEET_STAB = 7489;
   public static final int LAY_AN_EGG = 7494;
+  public static final int BRANDISH_MOSS_MEDAL = 7499;
   public static final int SPRING_KICK = 7501;
   public static final int HUNT = 7509;
   public static final int PUNT_WEREPROF = 7510;
