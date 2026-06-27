@@ -7,6 +7,7 @@ import java.io.StringWriter;
 import java.util.Enumeration;
 import javax.swing.JEditorPane;
 import javax.swing.ToolTipManager;
+import javax.swing.UIManager;
 import javax.swing.text.Element;
 import javax.swing.text.LabelView;
 import javax.swing.text.SimpleAttributeSet;
@@ -114,6 +115,9 @@ public class RequestPane extends JEditorPane {
     this.setEditorKit(new WrappedHtmlEditorKit());
     this.setContentType("text/html");
     this.setEditable(false);
+    // FlatLaf sets the background to disabled if the pane isn't editable. I think we prefer the
+    // standard background.
+    this.setBackground(UIManager.getColor("EditorPane.background"));
     this.addFocusListener(
         new FocusListener() {
           @Override
