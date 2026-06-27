@@ -80,9 +80,9 @@ dependencies {
   }
   testImplementation("org.junit-pioneer:junit-pioneer:2.3.0")
 
-  implementation("com.formdev:flatlaf:1.6.5")
-  implementation("com.formdev:flatlaf-intellij-themes:1.6.5")
-  implementation("com.formdev:flatlaf-swingx:1.6.5")
+  implementation("com.formdev:flatlaf:3.7.1")
+  implementation("com.formdev:flatlaf-intellij-themes:3.7.1")
+  implementation("com.formdev:flatlaf-swingx:3.7.1")
   // Optional runtime deps for svnkit
   runtimeOnly("com.trilead:trilead-ssh2:1.0.0-build222")
   runtimeOnly("net.java.dev.jna:jna:5.18.1")
