@@ -473,6 +473,7 @@ public abstract class KoLmafia {
         // try to load the class to confirm it exists
         Class.forName(value);
       } catch (ClassNotFoundException e) {
+        RequestLogger.printLine("Failed to load class " + value + " for Theme " + key);
         continue;
       }
       UIManager.installLookAndFeel(key, value);
