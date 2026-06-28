@@ -5,7 +5,6 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
-import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.utilities.CharacterEntities;
 
 public class SendMailRequest extends TransferItemRequest {
@@ -17,22 +16,6 @@ public class SendMailRequest extends TransferItemRequest {
 
     this.recipient = recipient;
     this.message = message;
-
-    this.addFormField("action", "send");
-    this.addFormField("towho", ContactManager.getPlayerId(this.recipient));
-    this.addFormField("message", this.message);
-
-    this.isInternal = true;
-  }
-
-  public SendMailRequest(final String recipient, final AshRuntime script) {
-    super("sendmessage.php");
-
-    this.recipient = recipient;
-    this.message =
-        "I have opted to let you know that I have chosen to run <"
-            + script.getParser().getScriptName()
-            + ">.  Thanks for writing this script!";
 
     this.addFormField("action", "send");
     this.addFormField("towho", ContactManager.getPlayerId(this.recipient));

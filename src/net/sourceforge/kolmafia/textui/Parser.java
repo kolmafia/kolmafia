@@ -5567,14 +5567,6 @@ public class Parser {
     return this.error(f.getLocation(), buffer);
   }
 
-  private AshDiagnostic sinceError(
-      final String current, final String target, final Range directiveRange) {
-    String template =
-        "'%s' requires revision r%s of kolmafia or higher (current: r%s).  Up-to-date builds can be found at https://github.com/kolmafia/kolmafia/releases/.";
-
-    return this.error(directiveRange, String.format(template, this.shortFileName, target, current));
-  }
-
   public static String undefinedFunctionMessage(
       final String name, final List<? extends TypedNode> params) {
     StringBuilder buffer = new StringBuilder();
@@ -5587,36 +5579,12 @@ public class Parser {
 
   private void enforceSince(String revision, final Range directiveRange) {
     final ErrorManager sinceErrors = new ErrorManager();
-
-    try {
-      if (revision.startsWith("r")) { // revision
-        revision = revision.substring(1);
-        int targetRevision = Integer.parseInt(revision);
-        int currentRevision = StaticEntity.getRevision();
-        // A revision of zero means you're probably running in a debugger, in which
-        // case you should be able to run anything.
-        if (currentRevision != 0 && currentRevision < targetRevision) {
-          sinceErrors.submitError(
-              this.sinceError(String.valueOf(currentRevision), revision, directiveRange));
-        }
-      } else { // version (or syntax error)
-        String[] target = revision.split("\\.");
-        if (target.length != 2) {
-          sinceErrors.submitSyntaxError(this.error(directiveRange, "invalid 'since' format"));
-          return;
-        }
-
-        int targetMajor = Integer.parseInt(target[0]);
-        int targetMinor = Integer.parseInt(target[1]);
-
-        if (targetMajor > 21 || targetMajor == 21 && targetMinor > 9) {
-          sinceErrors.submitError(
-              this.error(
-                  directiveRange, "invalid 'since' format (21.09 was the final point release)"));
-        }
-      }
-    } catch (NumberFormatException e) {
-      sinceErrors.submitSyntaxError(this.error(directiveRange, "invalid 'since' format"));
+    AbstractRuntime.SinceStatus response =
+        AbstractRuntime.handleSince(revision, this.getShortFileName());
+    if (response.status().equals("SINCE")) {
+      sinceErrors.submitError(this.error(directiveRange, response.message()));
+    } else if (response.status().equals("SYNTAX")) {
+      sinceErrors.submitSyntaxError(this.error(directiveRange, response.message()));
     }
   }
 

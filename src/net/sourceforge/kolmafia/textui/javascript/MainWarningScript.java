@@ -1,14 +1,19 @@
 package net.sourceforge.kolmafia.textui.javascript;
 
+import java.util.Map;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.textui.AbstractRuntime;
+import net.sourceforge.kolmafia.textui.ScriptException;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Script;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
+import org.mozilla.javascript.commonjs.module.ModuleScope;
 
 public class MainWarningScript implements Script {
-  // This is a slight hack to warn folks who have failed to export main().
+  // This is a slight hack to perform checks after loading a JS file. At this time, we warn folks
+  // who have failed to export main() and check for script/notify/since directives.
   @Override
   public Object exec(Context cx, Scriptable scope, Scriptable thisObj) {
     Object requireObject = ScriptableObject.getProperty(scope, "require");
@@ -23,6 +28,9 @@ public class MainWarningScript implements Script {
     if (!(moduleExports instanceof Scriptable)) {
       return null;
     }
+
+    // Handle any metadata that is present.
+    handleMetadata((Scriptable) moduleExports, scope);
 
     if (JavascriptRuntime.getValidDefaultExport(moduleExports) != Scriptable.NOT_FOUND) {
       return null;
@@ -39,5 +47,38 @@ public class MainWarningScript implements Script {
               + "You may want to set module.exports.main = main in order for it to run.");
     }
     return null;
+  }
+
+  private void handleMetadata(Scriptable exports, Scriptable scope) {
+    try {
+      Object metadataObj = exports.get("__metadata", exports);
+      if (metadataObj instanceof Map metadata && scope instanceof ModuleScope moduleScope) {
+        String scriptFilename = moduleScope.getUri().getPath().substring(1);
+        String scriptShortFilename = scriptFilename.substring(scriptFilename.lastIndexOf("/") + 1);
+        String scriptName = scriptShortFilename;
+
+        if (metadata.get("script") instanceof String _scriptName) {
+          scriptName = _scriptName;
+        }
+
+        if (metadata.get("since") instanceof String since) {
+          AbstractRuntime.SinceStatus response =
+              AbstractRuntime.handleSince(since, scriptShortFilename);
+          if (!response.status().equals("OK")) {
+            throw new ScriptException(response.message());
+          }
+        }
+
+        if (metadata.get("notify") instanceof String notify) {
+          AbstractRuntime.handleNotify(scriptFilename, scriptName, notify);
+        }
+      }
+    } catch (ScriptException e) {
+      throw e;
+    } catch (Exception e) {
+      // Apart from the ScriptException we intend to throw, never ever let this handling propagate
+      // an unexpected exception.
+      KoLmafia.updateDisplay("Unexpected error while handling metadata: " + e.getMessage());
+    }
   }
 }

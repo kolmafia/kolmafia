@@ -3,7 +3,11 @@ package net.sourceforge.kolmafia.textui;
 import java.io.PrintStream;
 import java.util.LinkedHashMap;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.RelayRequest;
+import net.sourceforge.kolmafia.request.SendMailRequest;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
 import net.sourceforge.kolmafia.utilities.NullStream;
 
@@ -131,5 +135,58 @@ public abstract class AbstractRuntime implements ScriptRuntime {
       this.indentLine(this.traceIndentation);
       traceStream.println(string);
     }
+  }
+
+  public static void handleNotify(
+      String scriptFilename, String scriptName, String notifyRecipient) {
+    String notifyList = Preferences.getString("previousNotifyList");
+    String notifyKey = (scriptFilename == null) ? "<>" : "<" + scriptFilename + ">";
+    if (notifyRecipient != null && !notifyRecipient.isBlank() && !notifyList.contains(notifyKey)) {
+      Preferences.setString("previousNotifyList", notifyList + notifyKey);
+
+      String message =
+          "I have opted to let you know that I have chosen to run <"
+              + scriptName
+              + ">.  Thanks for writing this script!";
+      SendMailRequest notifier = new SendMailRequest(notifyRecipient, message);
+      RequestThread.postRequest(notifier);
+    }
+  }
+
+  public record SinceStatus(String status, String message) {}
+
+  public static SinceStatus handleSince(String revision, String filename) {
+    try {
+      if (revision.startsWith("r")) { // revision
+        revision = revision.substring(1);
+        int targetRevision = Integer.parseInt(revision);
+        int currentRevision = StaticEntity.getRevision();
+        // A revision of zero means you're probably running in a debugger, in which
+        // case you should be able to run anything.
+        if (currentRevision != 0 && currentRevision < targetRevision) {
+          String template =
+              "'%s' requires revision r%s of kolmafia or higher (current: r%s). Up-to-date builds can be found at https://github.com/kolmafia/kolmafia/releases/.";
+          return new SinceStatus(
+              "SINCE", String.format(template, filename, targetRevision, currentRevision));
+        }
+      } else { // version (or syntax error)
+        String[] target = revision.split("\\.");
+        if (target.length != 2) {
+          return new SinceStatus("SYNTAX", "invalid 'since' format");
+        }
+
+        int targetMajor = Integer.parseInt(target[0]);
+        int targetMinor = Integer.parseInt(target[1]);
+
+        if (targetMajor > 21 || targetMajor == 21 && targetMinor > 9) {
+          return new SinceStatus(
+              "SYNTAX", "invalid 'since' format (21.09 was the final point release)");
+        }
+      }
+    } catch (NumberFormatException e) {
+      return new SinceStatus("SYNTAX", "invalid 'since' format");
+    }
+
+    return new SinceStatus("OK", null);
   }
 }
