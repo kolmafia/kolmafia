@@ -165,7 +165,7 @@ public abstract class AbstractRuntime implements ScriptRuntime {
         // case you should be able to run anything.
         if (currentRevision != 0 && currentRevision < targetRevision) {
           String template =
-              "'%s' requires revision r%s of kolmafia or higher (current: r%s). Up-to-date builds can be found at https://github.com/kolmafia/kolmafia/releases/.";
+              "'%s' requires revision r%s of kolmafia or higher (current: r%s).  Up-to-date builds can be found at https://github.com/kolmafia/kolmafia/releases/.";
           return new SinceStatus(
               "SINCE", String.format(template, filename, targetRevision, currentRevision));
         }

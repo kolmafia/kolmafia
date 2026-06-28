@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.textui.javascript;
 import java.util.Map;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.textui.AbstractRuntime;
 import net.sourceforge.kolmafia.textui.ScriptException;
 import org.mozilla.javascript.Context;
@@ -65,7 +66,8 @@ public class JsPostLoadScript implements Script {
           AbstractRuntime.SinceStatus response =
               AbstractRuntime.handleSince(since, scriptShortFilename);
           if (!response.status().equals("OK")) {
-            throw new ScriptException(response.message());
+            throw new ScriptException(
+                String.format("In <%s>: %s", scriptShortFilename, response.message()));
           }
         }
 
@@ -78,7 +80,9 @@ public class JsPostLoadScript implements Script {
     } catch (Exception e) {
       // Apart from the ScriptException we intend to throw, never ever let this handling propagate
       // an unexpected exception.
-      KoLmafia.updateDisplay("Unexpected error while handling metadata: " + e.getMessage());
+      String errMsg = "Unexpected error while handling metadata: " + e.getMessage();
+      KoLmafia.updateDisplay(errMsg);
+      RequestLogger.updateSessionLog(errMsg);
     }
   }
 }
