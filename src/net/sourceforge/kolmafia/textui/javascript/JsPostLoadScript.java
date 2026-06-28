@@ -11,7 +11,7 @@ import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 import org.mozilla.javascript.commonjs.module.ModuleScope;
 
-public class MainWarningScript implements Script {
+public class JsPostLoadScript implements Script {
   // This is a slight hack to perform checks after loading a JS file. At this time, we warn folks
   // who have failed to export main() and check for script/notify/since directives.
   @Override
