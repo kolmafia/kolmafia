@@ -16,6 +16,8 @@ import java.nio.channels.FileLock;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TimeZone;
 import javax.swing.JEditorPane;
@@ -397,8 +399,8 @@ public abstract class KoLmafia {
     String defaultLookAndFeel;
 
     // Tell UIManager about Look and Feel files in external jars ( defined in KoLGUIConstants)
-    FLATMAP_LIGHT_LOOKS.forEach(UIManager::installLookAndFeel);
-    FLATMAP_DARK_LOOKS.forEach(UIManager::installLookAndFeel);
+    installLookAndFeel(FLATMAP_LIGHT_LOOKS);
+    installLookAndFeel(FLATMAP_DARK_LOOKS);
 
     if (System.getProperty("os.name").startsWith("Mac")
         || System.getProperty("os.name").startsWith("Win")) {
@@ -460,6 +462,21 @@ public abstract class KoLmafia {
 
       UIManager.put("ProgressBar.background", Color.lightGray);
       UIManager.put("ProgressBar.selectionBackground", Color.black);
+    }
+  }
+
+  private static void installLookAndFeel(Map<String, String> looks) {
+    for (Entry<String, String> entry : looks.entrySet()) {
+      String key = entry.getKey();
+      String value = entry.getValue();
+      try {
+        // try to load the class to confirm it exists
+        Class.forName(value);
+      } catch (ClassNotFoundException e) {
+        RequestLogger.printLine("Failed to load class " + value + " for Theme " + key);
+        continue;
+      }
+      UIManager.installLookAndFeel(key, value);
     }
   }
 
