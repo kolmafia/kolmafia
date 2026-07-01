@@ -1878,10 +1878,9 @@ Zombo's shoulder blade	200	Mus: 200	2-handed sword
 
 # Off-hand Items section of equipment.txt
 
-&quot;reusable&quot; grocery bag	10	none
 'WILL WORK FOR BOOZE' sign	150	Mus: 175
+&quot;reusable&quot; grocery bag	10	none
 1-ball	60	Mys: 15
-17-ball	200	none
 2-ball	60	Mys: 15
 3-ball	60	Mys: 15
 4-ball	60	Mys: 15
@@ -1889,6 +1888,7 @@ Zombo's shoulder blade	200	Mus: 200	2-handed sword
 6-ball	60	Mys: 15
 7-ball	60	Mys: 15
 9-ball	60	Mys: 15
+17-ball	200	none
 A Light that Never Goes Out	100	none
 Abracandalabra	100	none
 Abuela Crimbo's special magnet	10	none
@@ -2001,6 +2001,7 @@ Crimbuccaneer war standard	50	none
 crumbling rabbit's foot	50	none
 crumbling skull	0	none
 cuddly teddy bear	125	Mys: 47
+Cup of 13s	0	none
 cup of infinite pencils	150	Mus: 175
 cursed arcane orb	0	none
 cursed coffee cup	0	none

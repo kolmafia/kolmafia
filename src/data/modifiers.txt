@@ -2293,6 +2293,9 @@ Item	Crimbuccaneer lantern	Hat Drop: +50, Weapon Drop: +50, Accessory Drop: +50,
 Item	Crimbuccaneer war standard	Pirate Warfare Effectiveness: +50, Initiative: +25, Last Available: "2023-12"
 Item	crumbling rabbit's foot	Meat Drop: +30, Last Available: "2020-04"
 Item	cuddly teddy bear	Monster Level: +10, Last Available: "2014-10", Conditional Skill (Equipped): "Overload Teddy Bear"
+# Cup of 13s: Find random booze lying around after fights
+# Cup of 13s: Mix your own drinks, out of almost anything
+Item	Cup of 13s	Booze Drop: +60, MP Regen Min: 4, MP Regen Max: 8, HP Regen Min: 8, HP Regen Max: 13, Last Available: "2026-07"
 Item	cup of infinite pencils	Meat Drop: +15, Damage Aura: 1
 Item	cursed arcane orb	Spooky Damage: +13, Stench Damage: +13, Hot Damage: +13, Cold Damage: +13, Sleaze Damage: +13, Item Drop: -50
 Item	cursed compass	Lasts Until Rollover, Last Available: "2019-04", Item Drop: [100*zone(PirateRealm)]
@@ -7717,6 +7720,13 @@ Effect	Ruby-ous	Initiative: +150, Weapon Damage: +10
 Effect	Rum of Darkness	Elf Warfare Effectiveness: +5
 Effect	Rummy	Booze Drop: +30
 Effect	Rumpel-pumped	Muscle Percent: +400, Mysticality Percent: +400, Moxie Percent: +400
+Effect	Runneth a Fever	Hot Resistance: +5
+Effect	Runneth Cold	Cold Resistance: +5
+Effect	Runneth Into Thine Ex	Sleaze Resistance: +5
+Effect	Runneth On Empty	Meat Drop: +100
+Effect	Runneth On Fumes	Stench Resistance: +5
+Effect	Runneth Over	Item Drop: +50
+Effect	Runneth Wild	Initiative: +100
 Effect	Rushin' Hands	Weapon Damage: +3
 Effect	Rushtacean'	Initiative: +50
 # Ruthlessly Efficient: Deleveling is 50% more effective
@@ -14847,6 +14857,7 @@ Item	shot of Sneaky Pete's Mojo	Free Pull
 Item	shrine to the Barrel god	Free Pull, Last Available: "2015-09"
 Item	shrink-wrapped 2002 Mr. Store Catalog	Free Pull, Last Available: "2023-06"
 Item	shrink-wrapped Cincho de Mayo	Free Pull, Last Available: "2023-05"
+Item	shrink-wrapped Cup of 13s	Free Pull, Last Available: "2026-07"
 # shrinking powder: Reduce an enemy's size (Hit Points) by 35-50%
 Item	shrunken head in a duffel bag	Free Pull, Last Available: "2025-11"
 Item	Shudder	Last Available: "2018-03"
