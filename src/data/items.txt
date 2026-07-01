@@ -12275,3 +12275,14 @@
 12246	second-hand synthetic sloth skin scabbard	204729991	swordswordgear.gif	familiar	t,d	75
 12247
 12248	mega helmet	249022203	megahelmet.gif	hat		0
+12249
+12250
+12251
+12252
+12253
+12254
+12255
+12256
+12257
+12258	shrink-wrapped Cup of 13s	832590849	13cup_box.gif	usable	t	0
+12259	Cup of 13s	840617830	13cup.gif	offhand		0
