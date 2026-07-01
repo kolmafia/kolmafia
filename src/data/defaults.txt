@@ -1305,6 +1305,7 @@ user	pathedSummonsHardcore	true
 user	pathedSummonsSoftcore	false
 user	peaceTurkeyIndex	0	roa
 user	pendingMapReflections	0	roa
+user	permitScriptNotify	true
 user	peteMotorbikeTires
 user	peteMotorbikeGasTank
 user	peteMotorbikeHeadlight
