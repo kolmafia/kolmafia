@@ -10086,6 +10086,7 @@ public abstract class ChoiceControl {
       case 1592: // Flesh Workbench
       case 1593: // Amino Sac
       case 1596: // Dig at Zone
+      case 1601: // Cup of 13s
         return true;
 
       default:

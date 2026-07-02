@@ -463,6 +463,7 @@ public class OptionsFrame extends GenericFrame {
         {},
         {"useZoneComboBox", "Use zone selection instead of adventure name filter"},
         {"cacheMallSearches", "Cache mall search terms in mall search interface"},
+        {"permitScriptNotify", "Allow scripts to send a one-time thank you message to the author"},
         {"saveSettingsOnSet", "Save options to disk whenever they change"},
         {},
         {"removeMalignantEffects", "Auto-remove malignant status effects"},

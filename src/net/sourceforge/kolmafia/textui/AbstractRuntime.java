@@ -139,6 +139,10 @@ public abstract class AbstractRuntime implements ScriptRuntime {
 
   public static void handleNotify(
       String scriptFilename, String scriptName, String notifyRecipient) {
+    if (!Preferences.getBoolean("permitScriptNotify")) {
+      return;
+    }
+
     String notifyList = Preferences.getString("previousNotifyList");
     String notifyKey = (scriptFilename == null) ? "<>" : "<" + scriptFilename + ">";
     if (notifyRecipient != null && !notifyRecipient.isBlank() && !notifyList.contains(notifyKey)) {
