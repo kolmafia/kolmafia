@@ -2,13 +2,18 @@ package net.sourceforge.kolmafia.textui.parsetree;
 
 import static net.sourceforge.kolmafia.textui.ScriptData.invalid;
 import static net.sourceforge.kolmafia.textui.ScriptData.valid;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
+import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.ParserTest;
 import net.sourceforge.kolmafia.textui.ScriptData;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
@@ -139,5 +144,23 @@ public class VariableReferenceTest {
   @MethodSource("data")
   public void testScriptValidity(ScriptData script) {
     ParserTest.testScriptValidity(script);
+  }
+
+  @Test
+  void withDescriptionStoresAndReturnsDescription() {
+    var variable = new Variable("test", DataTypes.STRING_TYPE, null);
+    var ref = new VariableReference(null, variable);
+    assertThat(ref.getDescription(), nullValue());
+
+    var result = ref.withDescription("a test param");
+    assertThat(result, is(ref)); // returns this for chaining
+    assertThat(ref.getDescription(), is("a test param"));
+  }
+
+  @Test
+  void descriptionDefaultsToNull() {
+    var variable = new Variable("test", DataTypes.INT_TYPE, null);
+    var ref = new VariableReference(null, variable);
+    assertThat(ref.getDescription(), nullValue());
   }
 }
