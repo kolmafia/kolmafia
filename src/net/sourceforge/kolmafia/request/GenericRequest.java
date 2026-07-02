@@ -2440,7 +2440,14 @@ public class GenericRequest implements Runnable {
         String gashMessage = "You may not enter the Astral Gash again until tomorrow.";
         if (this.responseText.contains(gashMessage)) {
           String errorMsg = "Failed to ascend: " + gashMessage;
-          KoLmafia.updateDisplay(MafiaState.ERROR, errorMsg);
+          if (KoLCharacter.isCommunityService() && !KoLCharacter.kingLiberated()) {
+            // If we're only reaching this point because we're donation-cancelling on the first day
+            // of a CS run, suppress the error.
+            errorMsg += " (expected)";
+            KoLmafia.updateDisplay(errorMsg);
+          } else {
+            KoLmafia.updateDisplay(MafiaState.ERROR, errorMsg);
+          }
           RequestLogger.updateSessionLog(errorMsg);
         }
         return;
