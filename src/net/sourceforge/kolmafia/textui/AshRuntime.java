@@ -13,10 +13,8 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.SendMailRequest;
 import net.sourceforge.kolmafia.textui.parsetree.ArrayValue;
 import net.sourceforge.kolmafia.textui.parsetree.Evaluable;
 import net.sourceforge.kolmafia.textui.parsetree.Function;
@@ -169,18 +167,8 @@ public class AshRuntime extends AbstractRuntime {
 
   @Override
   public Value execute(final String functionName, final Object[] parameters) {
-    if (Preferences.getBoolean("permitScriptNotify")) {
-      String currentScript = this.getFileName() == null ? "<>" : "<" + this.getFileName() + ">";
-      String notifyList = Preferences.getString("previousNotifyList");
-      String notifyRecipient = this.parser.getNotifyRecipient();
-
-      if (notifyRecipient != null && !notifyList.contains(currentScript)) {
-        Preferences.setString("previousNotifyList", notifyList + currentScript);
-
-        SendMailRequest notifier = new SendMailRequest(notifyRecipient, this);
-        RequestThread.postRequest(notifier);
-      }
-    }
+    AbstractRuntime.handleNotify(
+        this.getFileName(), this.parser.getScriptName(), this.parser.getNotifyRecipient());
 
     return this.execute(functionName, parameters, true);
   }
