@@ -3111,10 +3111,10 @@
 3108	Runneth Over	runnethover.gif	ba42c8a9a68f634e565a9f6b77493fff	neutral	none
 3109	Runneth On Empty	runnethempty.gif	119e01484cc298986ace7ad2fe77ef1e	neutral	none
 3110	Runneth Wild	runnethwild.gif	402bf078e9cd20d81b3c246a8a9293d2	neutral	none
-3111
-3112
+3111	Runneth With The Pack	runnethpack.gif	1ff8291a7c6eb7fb434f7651466e7054	neutral	none
+3112	Runneth a Tight Ship	runnethtight.gif	420b8a95b57b643e2c005b3c946c8fca	neutral	none
 3113	Runneth a Fever	runnethhot.gif	27463adc735b70ead26a18e7909cc919	neutral	none
 3114	Runneth Cold	runnethcold.gif	8f5e044de767af3014fdaa8658daef4b	neutral	none
 3115	Runneth On Fumes	runnethstench.gif	35b96e0c5637de5b95b6f8a05e186415	neutral	none
-3116
+3116	Runneth For Thy Life	runnethspooky.gif	a4c0d14bbc0c8af84aa96e4ace820c11	neutral	none
 3117	Runneth Into Thine Ex	runnethsleaze.gif	c6e701695a81c397abedc9c881f4f3f4	neutral	none
