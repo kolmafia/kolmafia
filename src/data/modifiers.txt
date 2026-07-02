@@ -7721,12 +7721,15 @@ Effect	Rum of Darkness	Elf Warfare Effectiveness: +5
 Effect	Rummy	Booze Drop: +30
 Effect	Rumpel-pumped	Muscle Percent: +400, Mysticality Percent: +400, Moxie Percent: +400
 Effect	Runneth a Fever	Hot Resistance: +5
+Effect	Runneth a Tight Ship	Experience (familiar): +5
 Effect	Runneth Cold	Cold Resistance: +5
+Effect	Runneth For Thy Life	Spooky Resistance: +5
 Effect	Runneth Into Thine Ex	Sleaze Resistance: +5
 Effect	Runneth On Empty	Meat Drop: +100
 Effect	Runneth On Fumes	Stench Resistance: +5
 Effect	Runneth Over	Item Drop: +50
 Effect	Runneth Wild	Initiative: +100
+Effect	Runneth With The Pack	Familiar Weight: +5
 Effect	Rushin' Hands	Weapon Damage: +3
 Effect	Rushtacean'	Initiative: +50
 # Ruthlessly Efficient: Deleveling is 50% more effective
