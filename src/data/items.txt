@@ -12284,5 +12284,5 @@
 12255
 12256
 12257
-12258	shrink-wrapped Cup of 13s	832590849	13cup_box.gif	usable	t	0
-12259	Cup of 13s	840617830	13cup.gif	offhand		0
+12258	shrink-wrapped Cup of 13s	832590849	13cup_box.gif	usable	t	0	shrink-wrapped Cups of 13
+12259	Cup of 13s	840617830	13cup.gif	offhand		0	Cups of 13
