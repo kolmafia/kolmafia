@@ -1262,18 +1262,17 @@ public abstract class ChoiceControl {
         // The Final Reward
         if (text.contains("claim your rightful reward")) {
           // Daily Dungeon Complete
-          Preferences.setBoolean("dailyDungeonDone", true);
-          Preferences.setInteger("_lastDailyDungeonRoom", 15);
+          DailyDungeonManager.handleRoomCompletion(15, DailyDungeonManager.RoomType.TREASURE);
         }
       }
 
       case 690, 691 -> {
         // The First Chest Isn't the Deepest and Second Chest
+        DailyDungeonManager.handleCurrentRoomCompletion(DailyDungeonManager.RoomType.TREASURE);
         if (ChoiceManager.lastDecision == 2) {
-          Preferences.increment("_lastDailyDungeonRoom", 3);
-        } else {
-          Preferences.increment("_lastDailyDungeonRoom", 1);
+          Preferences.increment("_lastDailyDungeonRoom", 2);
         }
+
         // Second Chest only
         if (ChoiceManager.lastChoice == 691 && ChoiceManager.lastDecision == 4) {
           Preferences.setBoolean("candyCaneSwordDailyDungeon", true);
@@ -1287,16 +1286,14 @@ public abstract class ChoiceControl {
           ResultProcessor.processItem(ItemPool.SKELETON_KEY, -1);
         }
         if (ChoiceManager.lastDecision != 8) {
-          int chamber = Preferences.increment("_lastDailyDungeonRoom", 1);
-          DailyDungeonManager.updateDailyDungeonRoom(chamber, DailyDungeonManager.RoomType.DOOR);
+          DailyDungeonManager.handleCurrentRoomCompletion(DailyDungeonManager.RoomType.DOOR);
         }
       }
 
       case 693 -> {
         // It's Almost Certainly a Trap
         if (ChoiceManager.lastDecision != 3) {
-          int chamber = Preferences.increment("_lastDailyDungeonRoom", 1);
-          DailyDungeonManager.updateDailyDungeonRoom(chamber, DailyDungeonManager.RoomType.TRAP);
+          DailyDungeonManager.handleCurrentRoomCompletion(DailyDungeonManager.RoomType.TRAP);
         }
       }
 
@@ -7233,31 +7230,27 @@ public abstract class ChoiceControl {
           ResultProcessor.processItem(ItemPool.GOLD_PIECE, -30);
 
       case 689 -> // The Final Reward
-          Preferences.setInteger("_lastDailyDungeonRoom", 14);
+          DailyDungeonManager.handleRoomEntrance(15, DailyDungeonManager.RoomType.TREASURE);
 
       case 690 -> // The First Chest Isn't the Deepest
-          Preferences.setInteger("_lastDailyDungeonRoom", 4);
+          DailyDungeonManager.handleRoomEntrance(5, DailyDungeonManager.RoomType.TREASURE);
 
       case 691 -> {
         // Second Chest
-        Preferences.setInteger("_lastDailyDungeonRoom", 9);
+        DailyDungeonManager.handleRoomEntrance(10, DailyDungeonManager.RoomType.TREASURE);
         if (KoLCharacter.hasEquipped(CANDY_CANE_SWORD) && !text.contains("candy cane sword")) {
           Preferences.setBoolean("candyCaneSwordDailyDungeon", true);
         }
       }
 
-      case 692, 693 -> {
-        // I Wanna Be a Door and It's Almost Certainly a Trap
-        Matcher chamberMatcher = CHAMBER_PATTERN.matcher(text);
-        if (chamberMatcher.find()) {
-          int round = StringUtilities.parseInt(chamberMatcher.group(1));
-          Preferences.setInteger("_lastDailyDungeonRoom", round - 1);
-          var roomType =
-              ChoiceManager.lastChoice == 692
-                  ? DailyDungeonManager.RoomType.DOOR
-                  : DailyDungeonManager.RoomType.TRAP;
-          DailyDungeonManager.updateDailyDungeonRoom(round, roomType);
-        }
+      case 692 -> {
+        // I Wanna Be a Door
+        DailyDungeonManager.handleRoomEntrance(text, DailyDungeonManager.RoomType.DOOR);
+      }
+
+      case 693 -> {
+        // It's Almost Certainly a Trap
+        DailyDungeonManager.handleRoomEntrance(text, DailyDungeonManager.RoomType.TRAP);
       }
 
       case 704 -> // Playing the Catalog Card

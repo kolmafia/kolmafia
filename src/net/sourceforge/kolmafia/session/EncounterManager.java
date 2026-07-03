@@ -534,8 +534,7 @@ public abstract class EncounterManager {
       }
       case "daily done, john." -> {
         // Daily Dungeon Complete
-        Preferences.setBoolean("dailyDungeonDone", true);
-        Preferences.setInteger("_lastDailyDungeonRoom", 15);
+        DailyDungeonManager.handleRoomCompletion(15, DailyDungeonManager.RoomType.TREASURE);
         return;
       }
       case "a hidden surprise!" -> {

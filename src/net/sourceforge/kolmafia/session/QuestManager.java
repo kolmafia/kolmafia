@@ -2373,8 +2373,7 @@ public class QuestManager {
         break;
 
       case AdventurePool.THE_DAILY_DUNGEON:
-        int chamber = Preferences.increment("_lastDailyDungeonRoom", 1);
-        DailyDungeonManager.updateDailyDungeonRoom(chamber, DailyDungeonManager.RoomType.MONSTER);
+        DailyDungeonManager.handleCurrentRoomCompletion(DailyDungeonManager.RoomType.MONSTER);
         break;
 
       case AdventurePool.ARID_DESERT:
