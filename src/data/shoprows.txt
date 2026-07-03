@@ -1680,12 +1680,12 @@
 1679	armory	crepe paper puzzle cube	angelbone fragments
 1680	armory	crepe paper plunge camisole	angelbone fragments
 1681	armory	crepe paper polka charm	angelbone fragments
-1682
-1683
-1684
-1685
-1686
-1687
+1682	armory	petrified wood war pike	devilbone chunks
+1683	armory	petrified wood waist protector	devilbone chunks
+1684	armory	petrified wood wizard's pouch	devilbone chunks
+1685	armory	petrified wood water purifier	devilbone chunks
+1686	armory	petrified wood whoopie panama	devilbone chunks
+1687	armory	petrified wood walking pants	devilbone chunks
 1688
 1689
 1690
