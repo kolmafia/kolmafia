@@ -1288,7 +1288,7 @@ public abstract class ChoiceControl {
         }
         if (ChoiceManager.lastDecision != 8) {
           int chamber = Preferences.increment("_lastDailyDungeonRoom", 1);
-          QuestManager.updateDailyDungeonRoom(chamber, 'D');
+          DailyDungeonManager.updateDailyDungeonRoom(chamber, DailyDungeonManager.RoomType.DOOR);
         }
       }
 
@@ -1296,7 +1296,7 @@ public abstract class ChoiceControl {
         // It's Almost Certainly a Trap
         if (ChoiceManager.lastDecision != 3) {
           int chamber = Preferences.increment("_lastDailyDungeonRoom", 1);
-          QuestManager.updateDailyDungeonRoom(chamber, 'T');
+          DailyDungeonManager.updateDailyDungeonRoom(chamber, DailyDungeonManager.RoomType.TRAP);
         }
       }
 
@@ -7252,7 +7252,11 @@ public abstract class ChoiceControl {
         if (chamberMatcher.find()) {
           int round = StringUtilities.parseInt(chamberMatcher.group(1));
           Preferences.setInteger("_lastDailyDungeonRoom", round - 1);
-          QuestManager.updateDailyDungeonRoom(round, ChoiceManager.lastChoice == 692 ? 'D' : 'T');
+          var roomType =
+              ChoiceManager.lastChoice == 692
+                  ? DailyDungeonManager.RoomType.DOOR
+                  : DailyDungeonManager.RoomType.TRAP;
+          DailyDungeonManager.updateDailyDungeonRoom(round, roomType);
         }
       }
 

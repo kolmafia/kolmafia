@@ -88,6 +88,7 @@ import net.sourceforge.kolmafia.session.CryptManager;
 import net.sourceforge.kolmafia.session.CrystalBallManager;
 import net.sourceforge.kolmafia.session.CursedMagnifyingGlassManager;
 import net.sourceforge.kolmafia.session.DadManager;
+import net.sourceforge.kolmafia.session.DailyDungeonManager;
 import net.sourceforge.kolmafia.session.DaylightShavingsHelmetManager;
 import net.sourceforge.kolmafia.session.DreadScrollManager;
 import net.sourceforge.kolmafia.session.EncounterManager;
@@ -2208,7 +2209,7 @@ public class FightRequest extends GenericRequest {
           if (chamberMatcher.find()) {
             int round = StringUtilities.parseInt(chamberMatcher.group(1));
             Preferences.setInteger("_lastDailyDungeonRoom", round - 1);
-            QuestManager.updateDailyDungeonRoom(round, 'M');
+            DailyDungeonManager.updateDailyDungeonRoom(round, DailyDungeonManager.RoomType.MONSTER);
           }
         }
         case AdventurePool.WARBEAR_FORTRESS_LEVEL_THREE ->
