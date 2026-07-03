@@ -593,6 +593,7 @@ user	cyrptNookEvilness	0
 user	cyrptTotalEvilness	0
 user	cyrusAdjectives		roa
 user	dailyDungeonDone	false	ld
+user	dailyDungeonRooms	????_????_????	roa
 user	dampOldBootPurchased	false	roa
 user	darkGyfftePoints	0
 user	dartsThrown	0	roa

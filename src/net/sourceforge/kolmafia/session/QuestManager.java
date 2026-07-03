@@ -2373,7 +2373,8 @@ public class QuestManager {
         break;
 
       case AdventurePool.THE_DAILY_DUNGEON:
-        Preferences.increment("_lastDailyDungeonRoom", 1);
+        int chamber = Preferences.increment("_lastDailyDungeonRoom", 1);
+        QuestManager.updateDailyDungeonRoom(chamber, 'M');
         break;
 
       case AdventurePool.ARID_DESERT:
@@ -2951,5 +2952,16 @@ public class QuestManager {
       return true;
     }
     return false;
+  }
+
+  public static void updateDailyDungeonRoom(int chamber, char roomType) {
+    String ddData = Preferences.getString("dailyDungeonRooms");
+    if (ddData.length() < 14) {
+      // This shouldn't ever happen unless the user manually updates the preference to something
+      // broken, but oh well.
+      ddData = ddData + "????_????_????".substring(ddData.length());
+    }
+    ddData = ddData.substring(0, chamber - 1) + roomType + ddData.substring(chamber);
+    Preferences.setString("dailyDungeonRooms", ddData);
   }
 }

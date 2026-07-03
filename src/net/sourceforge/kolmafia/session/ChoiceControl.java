@@ -1287,14 +1287,16 @@ public abstract class ChoiceControl {
           ResultProcessor.processItem(ItemPool.SKELETON_KEY, -1);
         }
         if (ChoiceManager.lastDecision != 8) {
-          Preferences.increment("_lastDailyDungeonRoom", 1);
+          int chamber = Preferences.increment("_lastDailyDungeonRoom", 1);
+          QuestManager.updateDailyDungeonRoom(chamber, 'D');
         }
       }
 
       case 693 -> {
         // It's Almost Certainly a Trap
         if (ChoiceManager.lastDecision != 3) {
-          Preferences.increment("_lastDailyDungeonRoom", 1);
+          int chamber = Preferences.increment("_lastDailyDungeonRoom", 1);
+          QuestManager.updateDailyDungeonRoom(chamber, 'T');
         }
       }
 
@@ -7250,6 +7252,7 @@ public abstract class ChoiceControl {
         if (chamberMatcher.find()) {
           int round = StringUtilities.parseInt(chamberMatcher.group(1));
           Preferences.setInteger("_lastDailyDungeonRoom", round - 1);
+          QuestManager.updateDailyDungeonRoom(round, ChoiceManager.lastChoice == 692 ? 'D' : 'T');
         }
       }
 

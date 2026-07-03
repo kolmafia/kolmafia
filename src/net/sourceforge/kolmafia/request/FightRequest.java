@@ -2208,6 +2208,7 @@ public class FightRequest extends GenericRequest {
           if (chamberMatcher.find()) {
             int round = StringUtilities.parseInt(chamberMatcher.group(1));
             Preferences.setInteger("_lastDailyDungeonRoom", round - 1);
+            QuestManager.updateDailyDungeonRoom(round, 'M');
           }
         }
         case AdventurePool.WARBEAR_FORTRESS_LEVEL_THREE ->
