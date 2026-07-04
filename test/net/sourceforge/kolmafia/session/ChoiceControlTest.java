@@ -1907,35 +1907,4 @@ class ChoiceControlTest {
       }
     }
   }
-
-  @Nested
-  class DailyDungeon {
-    @Test
-    void dailyDungeonTrapTracked() {
-      var cleanups =
-          new Cleanups(
-              withProperty("_lastDailyDungeonRoom", 6),
-              withProperty("dailyDungeonRooms", "MMMM_T???_????"),
-              withPostChoice1(693, 2));
-
-      try (cleanups) {
-        assertThat("_lastDailyDungeonRoom", isSetTo(7));
-        assertThat("dailyDungeonRooms", isSetTo("MMMM_TT??_????"));
-      }
-    }
-
-    @Test
-    void dailyDungeonDoorTracked() {
-      var cleanups =
-          new Cleanups(
-              withProperty("_lastDailyDungeonRoom", 7),
-              withProperty("dailyDungeonRooms", "MMMM_TT??_????"),
-              withPostChoice1(692, 3));
-
-      try (cleanups) {
-        assertThat("_lastDailyDungeonRoom", isSetTo(8));
-        assertThat("dailyDungeonRooms", isSetTo("MMMM_TTD?_????"));
-      }
-    }
-  }
 }

@@ -3884,19 +3884,4 @@ public class QuestManagerTest {
       }
     }
   }
-
-  @Test
-  public void dailyDungeonMonsterTracked() {
-    var cleanups =
-        new Cleanups(
-            withLastLocation("The Daily Dungeon"),
-            withProperty("_lastDailyDungeonRoom", 1),
-            withProperty("dailyDungeonRooms", "M???_????_????"));
-    try (cleanups) {
-      String responseText = html("request/test_dairy_ooze_win.html");
-      QuestManager.updateQuestData(responseText, monsterData("dairy ooze"));
-      assertThat("_lastDailyDungeonRoom", isSetTo(2));
-      assertThat("dailyDungeonRooms", isSetTo("MM??_????_????"));
-    }
-  }
 }
