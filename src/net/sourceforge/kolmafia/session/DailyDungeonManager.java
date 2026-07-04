@@ -57,63 +57,18 @@ public class DailyDungeonManager {
   }
 
   private static boolean notGood(int i, char c) {
-    boolean retVal = false;
-    switch (i) {
-      case 0:
-        retVal = enumMatch(c);
-        break;
-      case 1:
-        retVal = enumMatch(c);
-        break;
-      case 2:
-        retVal = enumMatch(c);
-        break;
-      case 3:
-        retVal = enumMatch(c);
-        break;
-      case 4:
-        retVal = (c == RoomType.TREASURE.code);
-        break;
-      case 5:
-        retVal = enumMatch(c);
-        break;
-      case 6:
-        retVal = enumMatch(c);
-        break;
-      case 7:
-        retVal = enumMatch(c);
-        break;
-      case 8:
-        retVal = ( c == RoomType.TREASURE.code);
-        break;
-      case 9:
-        retVal = enumMatch(c);
-        break;
-      case 10:
-        retVal = enumMatch(c);
-        break;
-      case 11:
-        retVal = enumMatch(c);
-        break;
-      case 12:
-        retVal = enumMatch(c);
-        break;
-      case 13:
-        retVal = enumMatch(c);
-        break;
-      default:
-        retVal =  false;
-        break;
-    }
-    return retVal;
+    return switch (i) {
+      case 0, 1, 2, 3, 5, 6, 7, 9, 10, 11, 12, 13 -> enumMatch(c);
+      case 4, 8 -> (c == RoomType.TREASURE.code);
+      default -> false;
+    };
   }
 
   private static boolean enumMatch(char c) {
     if (c == '?') return true;
     if (c == RoomType.MONSTER.code) return true;
     if (c == RoomType.DOOR.code) return true;
-    if (c == RoomType.TRAP.code) return true;
-    return false;
+    return c == RoomType.TRAP.code;
   }
 
   public enum RoomType {
