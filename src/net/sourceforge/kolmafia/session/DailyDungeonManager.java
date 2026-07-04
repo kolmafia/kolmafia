@@ -51,12 +51,12 @@ public class DailyDungeonManager {
   public static boolean validPref(String ddData) {
     if (ddData.length() != 14) return false;
     for (int i = 0; i < ddData.length(); i++) {
-      if (notGood(i, ddData.charAt(i))) return false;
+      if (!isGood(i, ddData.charAt(i))) return false;
     }
     return true;
   }
 
-  private static boolean notGood(int i, char c) {
+  private static boolean isGood(int i, char c) {
     return switch (i) {
       case 0, 1, 2, 3, 5, 6, 7, 9, 10, 11, 12, 13 -> enumMatch(c);
       case 4, 8 -> (c == RoomType.TREASURE.code);
@@ -66,9 +66,9 @@ public class DailyDungeonManager {
 
   private static boolean enumMatch(char c) {
     if (c == '?') return true;
-    if (c == RoomType.MONSTER.code) return true;
-    if (c == RoomType.DOOR.code) return true;
-    return c == RoomType.TRAP.code;
+    if (c == DailyDungeonManager.RoomType.MONSTER.code) return true;
+    if (c == DailyDungeonManager.RoomType.DOOR.code) return true;
+    return c == DailyDungeonManager.RoomType.TRAP.code;
   }
 
   public enum RoomType {

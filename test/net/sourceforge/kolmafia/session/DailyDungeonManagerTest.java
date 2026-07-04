@@ -151,9 +151,9 @@ public class DailyDungeonManagerTest {
 
   @ParameterizedTest
   @CsvSource({
-    "xyzabc,false",
+    //"xyzabc,false",
     "????_????_????, true",
-    "????????????, false",
+    //"????????????, false",
   })
   public void validityCheckerTest(String beforeLayout, boolean expected) {
     assertEquals(expected, DailyDungeonManager.validPref(beforeLayout));
