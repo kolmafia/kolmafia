@@ -57,49 +57,58 @@ public class DailyDungeonManager {
   }
 
   private static boolean notGood(int i, char c) {
+    boolean retVal = false;
     switch (i) {
       case 0:
-        return ematch(c);
+        retVal = enumMatch(c);
+        break;
       case 1:
-        return ematch(c);
+        retVal = enumMatch(c);
+        break;
       case 2:
-        return ematch(c);
+        retVal = enumMatch(c);
+        break;
       case 3:
-        return ematch(c);
+        retVal = enumMatch(c);
+        break;
       case 4:
-        return c == RoomType.TREASURE.code;
+        retVal = (c == RoomType.TREASURE.code);
+        break;
       case 5:
-        return ematch(c);
+        retVal = enumMatch(c);
+        break;
       case 6:
-        return ematch(c);
+        retVal = enumMatch(c);
+        break;
       case 7:
-        return ematch(c);
+        retVal = enumMatch(c);
+        break;
       case 8:
-        return c == RoomType.TREASURE.code;
+        retVal = ( c == RoomType.TREASURE.code);
+        break;
       case 9:
-        return ematch(c);
+        retVal = enumMatch(c);
+        break;
       case 10:
-        return ematch(c);
+        retVal = enumMatch(c);
+        break;
       case 11:
-        return ematch(c);
+        retVal = enumMatch(c);
+        break;
       case 12:
-        return ematch(c);
+        retVal = enumMatch(c);
+        break;
       case 13:
-        return ematch(c);
+        retVal = enumMatch(c);
+        break;
       default:
-        return false;
+        retVal =  false;
+        break;
     }
-    /*if ((i == 4) && (c == RoomType.TREASURE.code)) {return true; } else { return false;}
-    if ((i == 8) && (c == RoomType.TREASURE.code)) {return true; } else { return false;}
-    if (c == '?') return true;
-    if (c == RoomType.DOOR.code) return true;
-    if (c == RoomType.TRAP.code) return true;
-    return c == RoomType.MONSTER.code;
-
-     */
+    return retVal;
   }
 
-  private static boolean ematch(char c) {
+  private static boolean enumMatch(char c) {
     if (c == '?') return true;
     if (c == RoomType.MONSTER.code) return true;
     if (c == RoomType.DOOR.code) return true;
