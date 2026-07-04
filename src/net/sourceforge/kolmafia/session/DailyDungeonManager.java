@@ -58,8 +58,8 @@ public class DailyDungeonManager {
 
   private static boolean isGood(int i, char c) {
     return switch (i) {
-      case 0, 1, 2, 3, 5, 6, 7, 9, 10, 11, 12, 13 -> enumMatch(c);
-      case 4, 8 -> (c == RoomType.TREASURE.code);
+      case 0, 1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13 -> enumMatch(c);
+      case 4, 9 -> (c == RoomType.TREASURE.code);
       default -> false;
     };
   }
