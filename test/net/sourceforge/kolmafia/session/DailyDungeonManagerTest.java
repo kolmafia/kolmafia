@@ -147,4 +147,23 @@ public class DailyDungeonManagerTest {
       assertThat("dailyDungeonRooms", isSetTo("xyzabc??T_????"));
     }
   }
+
+  @ParameterizedTest
+  @CsvSource({
+    "8,9,xyzabc,xyzabc??T_????",
+    "8,9,abcdefghijklmnopq, ????_????_????",
+    "8,9,????????????, ????_????_????",
+  })
+  public void roomAndBrokenPref(int lastRoom, int thisRoom, String beforeLayout, String expected) {
+    var cleanups =
+        new Cleanups(
+            withProperty("dailyDungeonRooms", beforeLayout),
+            withProperty("_lastDailyDungeonRoom", lastRoom));
+
+    try (cleanups) {
+      DailyDungeonManager.handleRoomCompletion(thisRoom, DailyDungeonManager.RoomType.TRAP);
+      assertThat("_lastDailyDungeonRoom", isSetTo(thisRoom));
+      assertThat("dailyDungeonRooms", isSetTo(expected));
+    }
+  }
 }
