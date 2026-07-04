@@ -40,7 +40,7 @@ public class DailyDungeonManager {
       return;
     }
     String ddData = Preferences.getString("dailyDungeonRooms");
-    if (ddData.length() < 15) {
+    if (ddData.length() < 14) {
       // This shouldn't ever happen unless the user manually updates the preference to something
       // broken, but oh well.
       ddData = ddData + "????_????_????".substring(ddData.length());

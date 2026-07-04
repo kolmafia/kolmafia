@@ -134,4 +134,17 @@ public class DailyDungeonManagerTest {
       }
     }
   }
+
+  @Test
+  public void roomUpdateSurvivesBrokenPref() {
+    var cleanups =
+        new Cleanups(
+            withProperty("dailyDungeonRooms", "xyzabc"), withProperty("_lastDailyDungeonRoom", 8));
+
+    try (cleanups) {
+      DailyDungeonManager.handleRoomCompletion(9, DailyDungeonManager.RoomType.TRAP);
+      assertThat("_lastDailyDungeonRoom", isSetTo(9));
+      assertThat("dailyDungeonRooms", isSetTo("xyzabc??T_????"));
+    }
+  }
 }
