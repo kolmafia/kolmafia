@@ -40,13 +40,71 @@ public class DailyDungeonManager {
       return;
     }
     String ddData = Preferences.getString("dailyDungeonRooms");
-    if (ddData.length() < 14) {
-      // This shouldn't ever happen unless the user manually updates the preference to something
-      // broken, but oh well.
-      ddData = ddData + "????_????_????".substring(ddData.length());
+    if (!validPref(ddData)) {
+      ddData = Preferences.getDefault("dailyDungeonRooms");
     }
     ddData = ddData.substring(0, chamber - 1) + roomType.code + ddData.substring(chamber);
     Preferences.setString("dailyDungeonRooms", ddData);
+  }
+
+  // Visible for testing
+  public static boolean validPref(String ddData) {
+    if (ddData.length() != 14) return false;
+    for (int i = 0; i < ddData.length(); i++) {
+      if (notGood(i, ddData.charAt(i))) return false;
+    }
+    return true;
+  }
+
+  private static boolean notGood(int i, char c) {
+    switch (i) {
+      case 0:
+        return ematch(c);
+      case 1:
+        return ematch(c);
+      case 2:
+        return ematch(c);
+      case 3:
+        return ematch(c);
+      case 4:
+        return c == RoomType.TREASURE.code;
+      case 5:
+        return ematch(c);
+      case 6:
+        return ematch(c);
+      case 7:
+        return ematch(c);
+      case 8:
+        return c == RoomType.TREASURE.code;
+      case 9:
+        return ematch(c);
+      case 10:
+        return ematch(c);
+      case 11:
+        return ematch(c);
+      case 12:
+        return ematch(c);
+      case 13:
+        return ematch(c);
+      default:
+        return false;
+    }
+    /*if ((i == 4) && (c == RoomType.TREASURE.code)) {return true; } else { return false;}
+    if ((i == 8) && (c == RoomType.TREASURE.code)) {return true; } else { return false;}
+    if (c == '?') return true;
+    if (c == RoomType.DOOR.code) return true;
+    if (c == RoomType.TRAP.code) return true;
+    return c == RoomType.MONSTER.code;
+
+     */
+  }
+
+  private static boolean ematch(char c) {
+    if (c == '?') return true;
+    if (c == RoomType.MONSTER.code) return true;
+    if (c == RoomType.DOOR.code) return true;
+    if (c == RoomType.TRAP.code) return true;
+    return false;
   }
 
   public enum RoomType {

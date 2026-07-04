@@ -8,6 +8,7 @@ import static internal.helpers.Player.withPostChoice1;
 import static internal.helpers.Player.withProperty;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -150,20 +151,11 @@ public class DailyDungeonManagerTest {
 
   @ParameterizedTest
   @CsvSource({
-    "8,9,xyzabc,xyzabc??T_????",
-    "8,9,abcdefghijklmnopq, ????_????_????",
-    "8,9,????????????, ????_????_????",
+    "xyzabc,false",
+    "????_????_????, true",
+    "????????????, false",
   })
-  public void roomAndBrokenPref(int lastRoom, int thisRoom, String beforeLayout, String expected) {
-    var cleanups =
-        new Cleanups(
-            withProperty("dailyDungeonRooms", beforeLayout),
-            withProperty("_lastDailyDungeonRoom", lastRoom));
-
-    try (cleanups) {
-      DailyDungeonManager.handleRoomCompletion(thisRoom, DailyDungeonManager.RoomType.TRAP);
-      assertThat("_lastDailyDungeonRoom", isSetTo(thisRoom));
-      assertThat("dailyDungeonRooms", isSetTo(expected));
-    }
+  public void validityCheckerTest(String beforeLayout, boolean expected) {
+    assertEquals(expected, DailyDungeonManager.validPref(beforeLayout));
   }
 }
