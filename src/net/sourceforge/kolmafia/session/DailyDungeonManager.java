@@ -35,7 +35,8 @@ public class DailyDungeonManager {
     }
   }
 
-  private static void updateDailyDungeonRoom(int chamber, RoomType roomType) {
+  // Visible for testing
+  public static void updateDailyDungeonRoom(int chamber, RoomType roomType) {
     if (chamber < 1 || chamber > 14) {
       return;
     }
@@ -56,7 +57,8 @@ public class DailyDungeonManager {
     return true;
   }
 
-  private static boolean isGood(int i, char c) {
+  // Visible for testing
+  public static boolean isGood(int i, char c) {
     return switch (i) {
       case 0, 1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13 -> enumMatch(c);
       case 4, 9 -> (c == RoomType.TREASURE.code);
