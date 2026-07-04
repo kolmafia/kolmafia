@@ -1,9 +1,44 @@
 package net.sourceforge.kolmafia.session;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class DailyDungeonManager {
-  public static void updateDailyDungeonRoom(int chamber, RoomType roomType) {
+  private static final Pattern CHAMBER_PATTERN = Pattern.compile("[Cc]hamber <b>#(\\d+)</b>");
+
+  public static void handleRoomEntrance(String text, RoomType roomType) {
+    Matcher chamberMatcher = CHAMBER_PATTERN.matcher(text);
+    if (chamberMatcher.find()) {
+      int chamber = StringUtilities.parseInt(chamberMatcher.group(1));
+      handleRoomEntrance(chamber, roomType);
+    }
+  }
+
+  public static void handleRoomEntrance(int chamber, RoomType roomType) {
+    Preferences.setInteger("_lastDailyDungeonRoom", chamber - 1);
+    updateDailyDungeonRoom(chamber, roomType);
+  }
+
+  public static void handleCurrentRoomCompletion(RoomType roomType) {
+    int chamber = Preferences.getInteger("_lastDailyDungeonRoom") + 1;
+    handleRoomCompletion(chamber, roomType);
+  }
+
+  public static void handleRoomCompletion(int chamber, RoomType roomType) {
+    Preferences.setInteger("_lastDailyDungeonRoom", chamber);
+    updateDailyDungeonRoom(chamber, roomType);
+
+    if (chamber >= 15) {
+      Preferences.setBoolean("dailyDungeonDone", true);
+    }
+  }
+
+  private static void updateDailyDungeonRoom(int chamber, RoomType roomType) {
+    if (chamber < 1 || chamber > 14) {
+      return;
+    }
     String ddData = Preferences.getString("dailyDungeonRooms");
     if (ddData.length() < 14) {
       // This shouldn't ever happen unless the user manually updates the preference to something
@@ -20,7 +55,7 @@ public class DailyDungeonManager {
     MONSTER('M'),
     TREASURE('_');
 
-    private final char code;
+    public final char code;
 
     RoomType(char code) {
       this.code = code;

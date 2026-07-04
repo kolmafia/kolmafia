@@ -2205,12 +2205,8 @@ public class FightRequest extends GenericRequest {
           }
         }
         case AdventurePool.THE_DAILY_DUNGEON -> {
-          Matcher chamberMatcher = FightRequest.CHAMBER_PATTERN.matcher(responseText);
-          if (chamberMatcher.find()) {
-            int round = StringUtilities.parseInt(chamberMatcher.group(1));
-            Preferences.setInteger("_lastDailyDungeonRoom", round - 1);
-            DailyDungeonManager.updateDailyDungeonRoom(round, DailyDungeonManager.RoomType.MONSTER);
-          }
+          DailyDungeonManager.handleRoomEntrance(
+              responseText, DailyDungeonManager.RoomType.MONSTER);
         }
         case AdventurePool.WARBEAR_FORTRESS_LEVEL_THREE ->
             ResultProcessor.processItem(ItemPool.WARBEAR_BADGE, -1);
