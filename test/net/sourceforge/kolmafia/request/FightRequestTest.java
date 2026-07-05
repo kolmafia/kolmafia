@@ -4459,6 +4459,7 @@ public class FightRequestTest {
 
   @Test
   public void tracksSwordOfSwordsKills() {
+    RequestLoggerOutput.startStream();
     var cleanups =
         new Cleanups(
             withFight(),
@@ -4470,7 +4471,9 @@ public class FightRequestTest {
     try (cleanups) {
       parseCombatData(
           "request/test_fight_sword_drop_table.html", "fight.php?action=skill&whichskill=7593");
+      String text = RequestLoggerOutput.stopStream();
 
+      assertThat(text, containsString("comes back with a hiltful of blood-covered items"));
       assertThat("swordOfSWordsMonster", isSetTo(1163));
       assertThat("_swordOfSWordsMonsterChanged", isSetTo(1));
       assertThat("_swordOfSWordsKills", isSetTo(1));
