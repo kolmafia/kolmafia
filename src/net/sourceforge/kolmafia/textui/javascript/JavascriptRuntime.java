@@ -351,20 +351,23 @@ public class JavascriptRuntime extends AbstractRuntime {
     throw new JavaScriptException("Promise did not resolve or reject", null, 0);
   }
 
+  public static Object[] wrapMonsterArguments(Scriptable scope, Object[] arguments) {
+    return Arrays.stream(arguments)
+        .map(
+            o ->
+                o instanceof MonsterData monster
+                    ? EnumeratedWrapper.wrap(
+                        scope, MonsterProxy.class, DataTypes.makeMonsterValue(monster))
+                    : o)
+        .toArray();
+  }
+
   private Value executeRun(
       final String functionName, final Object[] arguments, final boolean executeTopLevel) {
     Context cx = Context.getCurrentContext();
     Scriptable scope = currentTopScope;
     Object[] argumentsNonNull = arguments != null ? arguments : new Object[] {};
-    Object[] runArguments =
-        Arrays.stream(argumentsNonNull)
-            .map(
-                o ->
-                    o instanceof MonsterData
-                        ? EnumeratedWrapper.wrap(
-                            scope, MonsterProxy.class, DataTypes.makeMonsterValue((MonsterData) o))
-                        : o)
-            .toArray();
+    Object[] runArguments = wrapMonsterArguments(scope, argumentsNonNull);
 
     return executeFunction(
         scope,
