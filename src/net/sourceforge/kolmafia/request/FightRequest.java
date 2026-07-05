@@ -9011,6 +9011,7 @@ public class FightRequest extends GenericRequest {
     for (Pattern p : SWORD_OF_SWORDS_KILLS) {
       Matcher matcher = p.matcher(text);
       if (matcher.find()) {
+        logText(text, status);
         Preferences.increment("_swordOfSWordsKills", 1, 100);
         return true;
       }
