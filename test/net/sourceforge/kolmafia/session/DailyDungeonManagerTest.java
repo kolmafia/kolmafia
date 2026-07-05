@@ -164,12 +164,6 @@ public class DailyDungeonManagerTest {
     assertEquals(expected, DailyDungeonManager.validPref(beforeLayout));
   }
 
-  @ParameterizedTest
-  @CsvSource({"-1, T, false", "0, T, true", "17, T, false", "4, T, false", "4, _, true"})
-  public void checkSomeValidationEdgCases(int chamber, char z, boolean good) {
-    assertEquals(good, isGood(chamber, z));
-  }
-
   @Test
   public void noChamberNoAction() {
     var cleanups =

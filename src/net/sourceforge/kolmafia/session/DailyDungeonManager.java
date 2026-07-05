@@ -36,7 +36,7 @@ public class DailyDungeonManager {
   }
 
   // Visible for testing
-  public static void updateDailyDungeonRoom(int chamber, RoomType roomType) {
+  static void updateDailyDungeonRoom(int chamber, RoomType roomType) {
     if (chamber < 1 || chamber > 14) {
       return;
     }
@@ -48,29 +48,13 @@ public class DailyDungeonManager {
     Preferences.setString("dailyDungeonRooms", ddData);
   }
 
-  // Visible for testing
+  // A valid value for the dailyDungeonRooms preference is of the form "XXXX_XXXX_XXXX",
+  // where each X is one of 'M', 'D', 'T', or '?'.
+  private static final Pattern VALID_PREF_PATTERN =
+      Pattern.compile("[MDT?]{4}_[MDT?]{4}_[MDT?]{4}");
+
   static boolean validPref(String ddData) {
-    if (ddData.length() != 14) return false;
-    for (int i = 0; i < ddData.length(); i++) {
-      if (!isGood(i, ddData.charAt(i))) return false;
-    }
-    return true;
-  }
-
-  // Visible for testing
-  static boolean isGood(int i, char c) {
-    return switch (i) {
-      case 0, 1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13 -> enumMatch(c);
-      case 4, 9 -> (c == RoomType.TREASURE.code);
-      default -> false;
-    };
-  }
-
-  private static boolean enumMatch(char c) {
-    if (c == '?') return true;
-    if (c == DailyDungeonManager.RoomType.MONSTER.code) return true;
-    if (c == DailyDungeonManager.RoomType.DOOR.code) return true;
-    return c == DailyDungeonManager.RoomType.TRAP.code;
+    return VALID_PREF_PATTERN.matcher(ddData).matches();
   }
 
   public enum RoomType {
