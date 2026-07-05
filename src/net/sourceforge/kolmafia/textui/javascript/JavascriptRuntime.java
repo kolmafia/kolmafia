@@ -310,7 +310,10 @@ public class JavascriptRuntime extends AbstractRuntime {
       String escapedMessage = escapeHtmlInMessage("Script exception: " + e.getMessage());
       KoLmafia.updateDisplay(KoLConstants.MafiaState.ERROR, escapedMessage);
     } finally {
-      setState(State.EXIT);
+      // Reentrant (Macrofier calls back in mid-script), so only exit if KoLmafia says to abort.
+      if (!KoLmafia.permitsContinue()) {
+        setState(State.EXIT);
+      }
     }
 
     cx.getUnhandledPromiseTracker()
