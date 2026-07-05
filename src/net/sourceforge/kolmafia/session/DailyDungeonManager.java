@@ -49,7 +49,7 @@ public class DailyDungeonManager {
   }
 
   // Visible for testing
-  public static boolean validPref(String ddData) {
+  static boolean validPref(String ddData) {
     if (ddData.length() != 14) return false;
     for (int i = 0; i < ddData.length(); i++) {
       if (!isGood(i, ddData.charAt(i))) return false;
@@ -58,7 +58,7 @@ public class DailyDungeonManager {
   }
 
   // Visible for testing
-  public static boolean isGood(int i, char c) {
+  static boolean isGood(int i, char c) {
     return switch (i) {
       case 0, 1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13 -> enumMatch(c);
       case 4, 9 -> (c == RoomType.TREASURE.code);
