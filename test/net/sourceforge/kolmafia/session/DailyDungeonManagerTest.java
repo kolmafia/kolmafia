@@ -10,7 +10,6 @@ import static internal.matchers.Preference.isSetTo;
 import static net.sourceforge.kolmafia.session.DailyDungeonManager.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -165,11 +164,33 @@ public class DailyDungeonManagerTest {
     assertEquals(expected, DailyDungeonManager.validPref(beforeLayout));
   }
 
+  @ParameterizedTest
+  @CsvSource({"-1, T, false", "0, T, true", "17, T, false", "4, T, false", "4, _, true"})
+  public void checkSomeValidationEdgCases(int chamber, char z, boolean good) {
+    assertEquals(good, isGood(chamber, z));
+  }
+
   @Test
-  public void goForTotalCoverage() {
-    handleRoomEntrance("Not real text", DailyDungeonManager.RoomType.DOOR);
-    updateDailyDungeonRoom(0, DailyDungeonManager.RoomType.TRAP);
-    updateDailyDungeonRoom(15, DailyDungeonManager.RoomType.TRAP);
-    assertFalse(isGood(99, 'Z'));
+  public void noChamberNoAction() {
+    var cleanups =
+        new Cleanups(
+            withProperty("dailyDungeonRooms", "????_????_????"),
+            withProperty("_lastDailyDungeonRoom", 8));
+    try (cleanups) {
+      handleRoomEntrance("Not real text", DailyDungeonManager.RoomType.DOOR);
+      assertThat("_lastDailyDungeonRoom", isSetTo(8));
+      assertThat("dailyDungeonRooms", isSetTo("????_????_????"));
+    }
+  }
+
+  @ParameterizedTest
+  @CsvSource({"0, NotReal, NotReal", "1, NotReal, T???_????_????", "15, NotReal, NotReal"})
+  public void badChamberNoAction(int chamber, String before, String later) {
+
+    var cleanups = new Cleanups(withProperty("dailyDungeonRooms", before));
+    try (cleanups) {
+      updateDailyDungeonRoom(chamber, DailyDungeonManager.RoomType.TRAP);
+      assertThat("dailyDungeonRooms", isSetTo(later));
+    }
   }
 }
