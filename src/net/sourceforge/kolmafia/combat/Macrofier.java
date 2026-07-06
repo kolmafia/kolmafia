@@ -133,13 +133,14 @@ public class Macrofier {
         var macroScope = macroOverrideRec.macroScope;
         var macroFunction = macroOverrideRec.macroFunction;
         var macroThisArg = macroOverrideRec.macroThisArg;
+        Object[] jsParameters = JavascriptRuntime.wrapMonsterArguments(macroScope, parameters);
         // Execute a function from the JavaScript runtime maintaining the scope, thisObj etc
         returnValue =
             interpreter.executeFunction(
                 macroScope,
                 () -> {
                   Context cx = Context.getCurrentContext();
-                  return macroFunction.call(cx, macroScope, macroThisArg, parameters);
+                  return macroFunction.call(cx, macroScope, macroThisArg, jsParameters);
                 });
       } else {
         // Execute a single function in the scope of the
