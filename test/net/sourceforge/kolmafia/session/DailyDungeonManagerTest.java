@@ -7,7 +7,9 @@ import static internal.helpers.Player.withNextMonster;
 import static internal.helpers.Player.withPostChoice1;
 import static internal.helpers.Player.withProperty;
 import static internal.matchers.Preference.isSetTo;
+import static net.sourceforge.kolmafia.session.DailyDungeonManager.*;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -136,7 +138,7 @@ public class DailyDungeonManagerTest {
   }
 
   @Test
-  public void roomUpdateSurvivesBrokenPref() {
+  public void roomUpdateGeneratesValidPref() {
     var cleanups =
         new Cleanups(
             withProperty("dailyDungeonRooms", "xyzabc"), withProperty("_lastDailyDungeonRoom", 8));
@@ -144,7 +146,45 @@ public class DailyDungeonManagerTest {
     try (cleanups) {
       DailyDungeonManager.handleRoomCompletion(9, DailyDungeonManager.RoomType.TRAP);
       assertThat("_lastDailyDungeonRoom", isSetTo(9));
-      assertThat("dailyDungeonRooms", isSetTo("xyzabc??T_????"));
+      assertThat("dailyDungeonRooms", isSetTo("????_???T_????"));
+    }
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+    "xyzabc,false",
+    "????_????_????, true",
+    "????????????, false",
+    "123456789012345, false",
+    "????_??m?_????, false",
+    "????M_???_????, false",
+    "????_??M?_????, true",
+  })
+  public void validityCheckerTest(String beforeLayout, boolean expected) {
+    assertEquals(expected, DailyDungeonManager.validPref(beforeLayout));
+  }
+
+  @Test
+  public void noChamberNoAction() {
+    var cleanups =
+        new Cleanups(
+            withProperty("dailyDungeonRooms", "????_????_????"),
+            withProperty("_lastDailyDungeonRoom", 8));
+    try (cleanups) {
+      handleRoomEntrance("Not real text", DailyDungeonManager.RoomType.DOOR);
+      assertThat("_lastDailyDungeonRoom", isSetTo(8));
+      assertThat("dailyDungeonRooms", isSetTo("????_????_????"));
+    }
+  }
+
+  @ParameterizedTest
+  @CsvSource({"0, NotReal, NotReal", "1, NotReal, T???_????_????", "15, NotReal, NotReal"})
+  public void badChamberNoAction(int chamber, String before, String later) {
+
+    var cleanups = new Cleanups(withProperty("dailyDungeonRooms", before));
+    try (cleanups) {
+      updateDailyDungeonRoom(chamber, DailyDungeonManager.RoomType.TRAP);
+      assertThat("dailyDungeonRooms", isSetTo(later));
     }
   }
 }

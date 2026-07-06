@@ -35,18 +35,26 @@ public class DailyDungeonManager {
     }
   }
 
-  private static void updateDailyDungeonRoom(int chamber, RoomType roomType) {
+  // Visible for testing
+  static void updateDailyDungeonRoom(int chamber, RoomType roomType) {
     if (chamber < 1 || chamber > 14) {
       return;
     }
     String ddData = Preferences.getString("dailyDungeonRooms");
-    if (ddData.length() < 14) {
-      // This shouldn't ever happen unless the user manually updates the preference to something
-      // broken, but oh well.
-      ddData = ddData + "????_????_????".substring(ddData.length());
+    if (!validPref(ddData)) {
+      ddData = Preferences.getDefault("dailyDungeonRooms");
     }
     ddData = ddData.substring(0, chamber - 1) + roomType.code + ddData.substring(chamber);
     Preferences.setString("dailyDungeonRooms", ddData);
+  }
+
+  // A valid value for the dailyDungeonRooms preference is of the form "XXXX_XXXX_XXXX",
+  // where each X is one of 'M', 'D', 'T', or '?'.
+  private static final Pattern VALID_PREF_PATTERN =
+      Pattern.compile("[MDT?]{4}_[MDT?]{4}_[MDT?]{4}");
+
+  static boolean validPref(String ddData) {
+    return VALID_PREF_PATTERN.matcher(ddData).matches();
   }
 
   public enum RoomType {
