@@ -6883,6 +6883,22 @@ public abstract class ChoiceControl {
           case 5 -> Preferences.increment("legendaryNoodlesStomach", 3);
         }
       }
+
+      case 1601 -> {
+        // Cup of 13s
+        // remove jewels
+        Matcher m = ADVENTURE_GAIN_PATTERN.matcher(text);
+        if (m.find()) {
+          Preferences.decrement("_cupOf13sJewels", Integer.parseInt(m.group(1)), 0);
+        }
+        // remove items
+        String whichitem1 = request.getFormField("whichitem1");
+        String whichitem2 = request.getFormField("whichitem2");
+        String whichitem3 = request.getFormField("whichitem3");
+        ResultProcessor.removeItem(Integer.parseInt(whichitem1));
+        ResultProcessor.removeItem(Integer.parseInt(whichitem2));
+        ResultProcessor.removeItem(Integer.parseInt(whichitem3));
+      }
     }
   }
 
@@ -7002,6 +7018,9 @@ public abstract class ChoiceControl {
           "<form action=choice.php>.*?<b>(.*?)</b>.*?descitem\\((.*?)\\).*?>(.*?)<.*?name=option value=([\\d]*).*?</form>",
           Pattern.DOTALL);
   private static final Pattern WLF_COUNT_PATTERN = Pattern.compile(".*? \\(([\\d]+)\\)$");
+  private static final Pattern CUP_OF_13S_PATTERN = Pattern.compile("cup with (\\d+) shining gem");
+  private static final Pattern ADVENTURE_GAIN_PATTERN =
+      Pattern.compile("You gain (\\d+) Adventures");
 
   public static final Map<Quest, String> conspiracyQuestMessages = new HashMap<>();
 
@@ -8806,6 +8825,14 @@ public abstract class ChoiceControl {
             String stripped = text.replace("Legendary Digestion", "");
             ResultProcessor.processResults(false, stripped, null);
           }
+        }
+      }
+
+      case 1601 -> {
+        // Cup of 13s
+        Matcher matcher = CUP_OF_13S_PATTERN.matcher(text);
+        if (matcher.find()) {
+          Preferences.setInteger("_cupOf13sJewels", Integer.parseInt(matcher.group(1)));
         }
       }
     }
