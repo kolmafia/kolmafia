@@ -1907,4 +1907,37 @@ class ChoiceControlTest {
       }
     }
   }
+
+  @Nested
+  class CupOf13s {
+    @Test
+    void setsJewelsOnVisit() {
+      var cleanups =
+          new Cleanups(
+              withProperty("_cupOf13sJewels"),
+              withChoice(1601, html("request/test_cup_of_13s_start.html")));
+
+      try (cleanups) {
+        assertThat("_cupOf13sJewels", isSetTo(7));
+      }
+    }
+
+    @Test
+    void decrementsItemsAndJewelsOnDrink() {
+      var cleanups =
+          new Cleanups(
+              withProperty("_cupOf13sJewels", 7),
+              withItem(ItemPool.LOOSE_PURSE_STRINGS, 10),
+              withPostChoice2(
+                  1601,
+                  1,
+                  "whichitem1=7031&whichitem2=7031&whichitem3=7031",
+                  html("request/test_cup_of_13s_drink.html")));
+
+      try (cleanups) {
+        assertThat("_cupOf13sJewels", isSetTo(1));
+        assertThat(InventoryManager.getCount(ItemPool.LOOSE_PURSE_STRINGS), equalTo(7));
+      }
+    }
+  }
 }

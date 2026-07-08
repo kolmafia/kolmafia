@@ -2210,7 +2210,7 @@ public class Player {
       final String responseText) {
     ChoiceManager.lastChoice = choice;
     ChoiceManager.lastDecision = decision;
-    var url = "choice.php?choice=" + choice + "&option=" + decision;
+    var url = "choice.php?whichchoice=" + choice + "&option=" + decision;
     if (extra != null) url = url + "&" + extra;
     var req = new GenericRequest(url);
     req.responseText = responseText;
