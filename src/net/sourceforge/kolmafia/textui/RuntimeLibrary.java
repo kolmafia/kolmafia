@@ -106,6 +106,7 @@ import net.sourceforge.kolmafia.persistence.CandyDatabase;
 import net.sourceforge.kolmafia.persistence.CandyDatabase.Candy;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.CupOf13sDatabase;
 import net.sourceforge.kolmafia.persistence.EffectData;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
@@ -4006,12 +4007,18 @@ public abstract class RuntimeLibrary {
     params = List.of(namedParam("monster", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("heartstone_middle_letter", DataTypes.STRING_TYPE, params));
 
+    params = List.of(namedParam("string", DataTypes.STRING_TYPE));
+    functions.add(new LibraryFunction("heartstone_string_length", DataTypes.INT_TYPE, params));
+
     params = List.of();
     functions.add(
         new LibraryFunction("turns_until_mobius_noncombat_available", DataTypes.INT_TYPE, params));
 
     params = List.of();
     functions.add(new LibraryFunction("have_campground", DataTypes.BOOLEAN_TYPE, params));
+
+    params = List.of(namedParam("item", DataTypes.ITEM_TYPE));
+    functions.add(new LibraryFunction("cup_of_13s_tier", DataTypes.INT_TYPE, params));
   }
 
   public static Method findMethod(final String name, final Class<?>[] args)
@@ -12199,6 +12206,12 @@ public abstract class RuntimeLibrary {
     return DataTypes.makeStringValue(middleLetter.letter());
   }
 
+  public static Value heartstone_string_length(ScriptRuntime controller, final Value value) {
+    var str = value.contentString;
+    var length = HeartstoneDatabase.spaceStrippedStringLength(str);
+    return DataTypes.makeIntValue(length);
+  }
+
   public static Value turns_until_mobius_noncombat_available(ScriptRuntime controller) {
     // if ring is not primed, cannot get NC
     if (!Preferences.getBoolean("_mobiusRingPrimed")) {
@@ -12234,5 +12247,11 @@ public abstract class RuntimeLibrary {
 
   public static Value have_campground(ScriptRuntime controller) {
     return DataTypes.makeBooleanValue(CampgroundRequest.haveCampground());
+  }
+
+  public static Value cup_of_13s_tier(ScriptRuntime controller, final Value value) {
+    int itemId = (int) value.contentLong;
+    var tier = CupOf13sDatabase.getTier(itemId);
+    return DataTypes.makeIntValue(tier);
   }
 }

@@ -8,6 +8,12 @@ public class HeartstoneDatabase {
 
   public record MiddleLetter(String letter, int byteIndex) {}
 
+  public static int spaceStrippedStringLength(String str) {
+    var compact = str.replaceAll("\\s+", "");
+    var bytes = compact.getBytes(StandardCharsets.UTF_8);
+    return bytes.length;
+  }
+
   public static MiddleLetter middleLetter(String monsterName) {
     if (monsterName.isEmpty()) {
       return null;

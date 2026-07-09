@@ -200,6 +200,7 @@ public interface KoLConstants extends UtilityConstants {
   int CONCOCTIONS_VERSION = 3;
   int CONSEQUENCES_VERSION = 1;
   int CULTSHORTS_VERSION = 1;
+  int CUP_OF_13S_VERSION = 1;
   int DAILYLIMITS_VERSION = 1;
   int DEFAULTS_VERSION = 2;
   int ENCOUNTERS_VERSION = 1;
