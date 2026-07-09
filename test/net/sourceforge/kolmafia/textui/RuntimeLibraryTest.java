@@ -2710,6 +2710,20 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
   }
 
   @Nested
+  class HeartstoneStringLength {
+    @Test
+    void returnsSpaceStrippedLength() {
+      assertThat(
+          execute("heartstone_string_length(\"spaces are stripped\")").trim(), is("Returned: 17"));
+    }
+
+    @Test
+    void countsUtf8Length() {
+      assertThat(execute("heartstone_string_length(\"Homebodyl™\")").trim(), is("Returned: 12"));
+    }
+  }
+
+  @Nested
   class MobiusRingNoncombat {
     @Test
     void withoutPrimingTakesInfinity() {
@@ -2888,5 +2902,11 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       assertContinueState();
       assertThat(output, containsString("Returned: true"));
     }
+  }
+
+  @ParameterizedTest
+  @CsvSource({"moxie weed,1", "spooky scarecrow,4", "cottage,3"})
+  public void cupOf13sTiers(String item, int tier) {
+    assertThat(execute("cup_of_13s_tier($item[" + item + "])").trim(), is("Returned: " + tier));
   }
 }

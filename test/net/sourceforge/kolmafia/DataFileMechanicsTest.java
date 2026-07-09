@@ -38,6 +38,7 @@ public class DataFileMechanicsTest {
         // concoctions.txt too complex
         Arguments.of("consequences.txt", 1, 2, 5),
         Arguments.of("cultshorts.txt", 1, 2, 8),
+        Arguments.of("cup_of_13s.txt", 1, 3, 3),
         Arguments.of("dailylimits.txt", 1, 3, 4),
         Arguments.of("defaults.txt", 2, 2, 4),
         Arguments.of("encounters.txt", 1, 3, 3),
