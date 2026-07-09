@@ -492,7 +492,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
     return -1;
   }
 
-  private void setDesiredEffect(int effId) {
+  public void setDesiredEffect(int effId) {
     if (effId == -1) return;
 
     for (var replace : replaceEffects) {
