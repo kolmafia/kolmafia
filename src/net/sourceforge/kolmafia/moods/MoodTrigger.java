@@ -282,6 +282,9 @@ public class MoodTrigger implements Comparable<MoodTrigger> {
       int casts = Math.max(this.count, this.count * multiplicity);
       this.skill.setBuffCount(casts);
       this.skill.setTarget(KoLCharacter.getUserName());
+      if (this.effect != null) {
+        this.skill.setDesiredEffect(this.effect.getEffectId());
+      }
       RequestThread.postRequest(this.skill);
 
       if (!UseSkillRequest.lastUpdate.equals("")) {
