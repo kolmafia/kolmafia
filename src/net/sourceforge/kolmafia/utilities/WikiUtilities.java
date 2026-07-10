@@ -9,6 +9,7 @@ import net.sourceforge.kolmafia.maximizer.Boost;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase.QueuedConcoction;
+import net.sourceforge.kolmafia.persistence.EffectData;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -190,8 +191,14 @@ public class WikiUtilities {
     } else if (item instanceof ItemDatabase.ItemData id) {
       name = id.name();
       type = WikiType.ITEM;
-    } else if (item instanceof FamiliarDatabase fd) {
-      name = "xx";
+    } else if (item instanceof FamiliarDatabase.FamiliarRaceData fr) {
+      name = fr.name();
+    } else if (item instanceof SkillDatabase.SkillData sk) {
+      name = sk.name();
+      type = WikiType.SKILL;
+    } else if (item instanceof EffectData ed) {
+      name = ed.getName();
+      type = WikiType.EFFECT;
     } else if (item instanceof String s) {
       name = s;
     }
