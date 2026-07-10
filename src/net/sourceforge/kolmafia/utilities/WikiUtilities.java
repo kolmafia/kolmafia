@@ -10,6 +10,7 @@ import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase.QueuedConcoction;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
+import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
@@ -49,7 +50,7 @@ public class WikiUtilities {
       Modifiers mods = ModifierDatabase.getModifiers(modType, name);
       if (mods != null) {
         String wikiname = mods.getString(StringModifier.WIKI_NAME);
-        if (wikiname != null && wikiname.length() > 0) {
+        if (wikiname != null && !wikiname.isEmpty()) {
           name = wikiname;
           checkOtherTables = false;
         }
@@ -186,6 +187,11 @@ public class WikiUtilities {
     } else if (item instanceof SoldItem si) {
       name = si.getItemName();
       type = WikiType.ITEM;
+    } else if (item instanceof ItemDatabase.ItemData id) {
+      name = id.name();
+      type = WikiType.ITEM;
+    } else if (item instanceof FamiliarDatabase fd) {
+      name = "xx";
     } else if (item instanceof String s) {
       name = s;
     }
