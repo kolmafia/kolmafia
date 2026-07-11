@@ -29,212 +29,189 @@ public class CheckDataCommand extends AbstractCommand {
 
   @Override
   public void run(final String command, final String parameters) {
-    if (command.equals("newdata")) {
-      // EquipmentRequest registers new items with
-      // ItemDatabase when it looks at the closet or at
-      // inventory.
-      RequestThread.postRequest(new EquipmentRequest(EquipmentRequestType.REFRESH));
+    switch (command) {
+      case "newdata" -> {
+        // EquipmentRequest registers new items with
+        // ItemDatabase when it looks at the closet or at
+        // inventory.
+        RequestThread.postRequest(new EquipmentRequest(EquipmentRequestType.REFRESH));
 
-      // The api registers new status effects
-      ApiRequest.updateStatus();
+        // The api registers new status effects
+        ApiRequest.updateStatus();
 
-      // Write override files, if necessary
-      KoLmafia.saveDataOverride();
+        // Write override files, if necessary
+        KoLmafia.saveDataOverride();
 
-      RequestLogger.printLine("Data tables updated.");
-      return;
-    }
-
-    if (command.equals("checkcandy")) {
-      String candy = parameters.trim();
-      if (candy.isEmpty()) {
-        Set<Integer> candies = CandyDatabase.candyForTier(0);
-        for (Integer itemId : candies) {
-          RequestLogger.printLine("***Unspaded candy: " + ItemDatabase.getDataName(itemId));
-        }
-      } else {
-        Match filter = Match.CANDY;
-        AdventureResult[] itemList = ItemFinder.getMatchingItemList(parameters, true, null, filter);
-        for (AdventureResult item : itemList) {
-          CandyType type = CandyDatabase.getCandyType(item.getItemId());
-          RequestLogger.printLine(item.getName() + ": " + type);
-        }
+        RequestLogger.printLine("Data tables updated.");
+        return;
       }
-      return;
-    }
-
-    if (command.equals("checkconcoctions")) {
-      DebugDatabase.checkConcoctions();
-      RequestLogger.printLine("Concoctions checked.");
-      return;
-    }
-
-    if (command.equals("checkconsumables")) {
-      DebugDatabase.checkConsumables();
-      RequestLogger.printLine("Consumables checked.");
-      return;
-    }
-
-    if (command.equals("checkconsumption")) {
-      DebugDatabase.checkConsumptionData();
-      RequestLogger.printLine("Consumption data checked.");
-      return;
-    }
-
-    if (command.equals("checkeffects")) {
-      int effectId = StringUtilities.parseInt(parameters);
-      DebugDatabase.checkEffects(effectId);
-      RequestLogger.printLine("Internal status effect data checked.");
-      return;
-    }
-
-    if (command.equals("checkfamiliars")) {
-      boolean showVariable = parameters.equals("true");
-      RequestLogger.printLine("Checking familiar powers from terrarium.");
-      DebugDatabase.checkFamiliarsInTerrarium(showVariable);
-      RequestLogger.printLine("Checking familiar images.");
-      DebugDatabase.checkFamiliars();
-      RequestLogger.printLine("Familiars checked.");
-      return;
-    }
-
-    if (command.equals("checkitems")) {
-      int itemId = StringUtilities.parseInt(parameters);
-      DebugDatabase.checkItems(itemId);
-      RequestLogger.printLine("Internal item data checked.");
-      return;
-    }
-
-    if (command.equals("checkmanuel")) {
-      DebugDatabase.checkManuel();
-      RequestLogger.printLine("Monster Manuel checked.");
-      return;
-    }
-
-    if (command.equals("checkmeat")) {
-      DebugDatabase.checkMeat();
-      RequestLogger.printLine("Monster Meat checked.");
-      return;
-    }
-
-    if (command.equals("checkmodifiers")) {
-      ModifierDatabase.checkModifiers();
-      RequestLogger.printLine("Modifiers checked.");
-      return;
-    }
-
-    if (command.equals("checkoutfits")) {
-      DebugDatabase.checkOutfits();
-      RequestLogger.printLine("Internal outfit data checked.");
-      return;
-    }
-
-    if (command.equals("checkplurals")) {
-      DebugDatabase.checkPlurals(parameters);
-      RequestLogger.printLine("Plurals checked.");
-      return;
-    }
-
-    if (command.equals("checkmuseumplurals")) {
-      DebugDatabase.checkMuseumPlurals();
-      RequestLogger.printLine("Plurals checked.");
-      return;
-    }
-
-    if (command.equals("checkmuseumitems")) {
-      DebugDatabase.checkMuseumItems();
-      RequestLogger.printLine("Items checked.");
-      return;
-    }
-
-    if (command.equals("checkpotions")) {
-      DebugDatabase.checkPotions();
-      RequestLogger.printLine("Potions checked.");
-      return;
-    }
-
-    if (command.equals("checkpowers")) {
-      DebugDatabase.checkPowers(parameters.trim());
-      RequestLogger.printLine("Equipment power checked.");
-      return;
-    }
-
-    if (command.equals("checkprofile")) {
-      String playerId = ContactManager.getPlayerId(parameters);
-      if (playerId.equals(parameters)) {
-        String text = KoLmafia.whoisPlayer(playerId);
-        Matcher idMatcher = Pattern.compile("\\(#(\\d+)\\)").matcher(text);
-
-        if (idMatcher.find()) {
-          ContactManager.registerPlayerId(parameters, idMatcher.group(1));
+      case "checkcandy" -> {
+        String candy = parameters.trim();
+        if (candy.isEmpty()) {
+          Set<Integer> candies = CandyDatabase.candyForTier(0);
+          for (Integer itemId : candies) {
+            RequestLogger.printLine("***Unspaded candy: " + ItemDatabase.getDataName(itemId));
+          }
         } else {
-          RequestLogger.printLine("no such player");
-          return;
+          Match filter = Match.CANDY;
+          AdventureResult[] itemList = ItemFinder.getMatchingItemList(parameters, true, null, filter);
+          for (AdventureResult item : itemList) {
+            CandyType type = CandyDatabase.getCandyType(item.getItemId());
+            RequestLogger.printLine(item.getName() + ": " + type);
+          }
         }
+        return;
       }
-      ProfileRequest prof = new ProfileRequest(parameters);
-      prof.run();
-      RequestLogger.printLine("name [" + prof.getPlayerName() + "]");
-      RequestLogger.printLine("id [" + prof.getPlayerId() + "]");
-      RequestLogger.printLine("level [" + prof.getPlayerLevel() + "]");
-      RequestLogger.printLine("class [" + prof.getClassType() + "]");
-      RequestLogger.printLine("clan [" + prof.getClanName() + "]");
-      RequestLogger.printLine("restrict [" + prof.getRestriction() + "]");
-      return;
+      case "checkconcoctions" -> {
+        DebugDatabase.checkConcoctions();
+        RequestLogger.printLine("Concoctions checked.");
+        return;
+      }
+      case "checkconsumables" -> {
+        DebugDatabase.checkConsumables();
+        RequestLogger.printLine("Consumables checked.");
+        return;
+      }
+      case "checkconsumption" -> {
+        DebugDatabase.checkConsumptionData();
+        RequestLogger.printLine("Consumption data checked.");
+        return;
+      }
+      case "checkeffects" -> {
+        int effectId = StringUtilities.parseInt(parameters);
+        DebugDatabase.checkEffects(effectId);
+        RequestLogger.printLine("Internal status effect data checked.");
+        return;
+      }
+      case "checkfamiliars" -> {
+        boolean showVariable = parameters.equals("true");
+        RequestLogger.printLine("Checking familiar powers from terrarium.");
+        DebugDatabase.checkFamiliarsInTerrarium(showVariable);
+        RequestLogger.printLine("Checking familiar images.");
+        DebugDatabase.checkFamiliars();
+        RequestLogger.printLine("Familiars checked.");
+        return;
+      }
+      case "checkitems" -> {
+        int itemId = StringUtilities.parseInt(parameters);
+        DebugDatabase.checkItems(itemId);
+        RequestLogger.printLine("Internal item data checked.");
+        return;
+      }
+      case "checkmanuel" -> {
+        DebugDatabase.checkManuel();
+        RequestLogger.printLine("Monster Manuel checked.");
+        return;
+      }
+      case "checkmeat" -> {
+        DebugDatabase.checkMeat();
+        RequestLogger.printLine("Monster Meat checked.");
+        return;
+      }
+      case "checkmodifiers" -> {
+        ModifierDatabase.checkModifiers();
+        RequestLogger.printLine("Modifiers checked.");
+        return;
+      }
+      case "checkoutfits" -> {
+        DebugDatabase.checkOutfits();
+        RequestLogger.printLine("Internal outfit data checked.");
+        return;
+      }
+      case "checkplurals" -> {
+        DebugDatabase.checkPlurals(parameters);
+        RequestLogger.printLine("Plurals checked.");
+        return;
+      }
+      case "checkmuseumplurals" -> {
+        DebugDatabase.checkMuseumPlurals();
+        RequestLogger.printLine("Plurals checked.");
+        return;
+      }
+      case "checkmuseumitems" -> {
+        DebugDatabase.checkMuseumItems();
+        RequestLogger.printLine("Items checked.");
+        return;
+      }
+      case "checkpotions" -> {
+        DebugDatabase.checkPotions();
+        RequestLogger.printLine("Potions checked.");
+        return;
+      }
+      case "checkpowers" -> {
+        DebugDatabase.checkPowers(parameters.trim());
+        RequestLogger.printLine("Equipment power checked.");
+        return;
+      }
+      case "checkprofile" -> {
+        String playerId = ContactManager.getPlayerId(parameters);
+        if (playerId.equals(parameters)) {
+          String text = KoLmafia.whoisPlayer(playerId);
+          Matcher idMatcher = Pattern.compile("\\(#(\\d+)\\)").matcher(text);
+
+          if (idMatcher.find()) {
+            ContactManager.registerPlayerId(parameters, idMatcher.group(1));
+          } else {
+            RequestLogger.printLine("no such player");
+            return;
+          }
+        }
+        ProfileRequest prof = new ProfileRequest(parameters);
+        prof.run();
+        RequestLogger.printLine("name [" + prof.getPlayerName() + "]");
+        RequestLogger.printLine("id [" + prof.getPlayerId() + "]");
+        RequestLogger.printLine("level [" + prof.getPlayerLevel() + "]");
+        RequestLogger.printLine("class [" + prof.getClassType() + "]");
+        RequestLogger.printLine("clan [" + prof.getClanName() + "]");
+        RequestLogger.printLine("restrict [" + prof.getRestriction() + "]");
+        return;
+      }
+      case "checkpulverization" -> {
+        DebugDatabase.checkPulverizationData();
+        RequestLogger.printLine("Pulverization data checked.");
+        return;
+      }
+      case "checkrepo" -> {
+        DebugDatabase.checkLocalSVNRepository(KoLConstants.SVN_LOCATION);
+        RequestLogger.printLine("Local SVN repos scanned for possible duplicates.");
+        return;
+      }
+      case "checkshields" -> {
+        DebugDatabase.checkShields();
+        RequestLogger.printLine("Shield power checked.");
+        return;
+      }
+      case "checkskills" -> {
+        int itemId = StringUtilities.parseInt(parameters);
+        DebugDatabase.checkSkills(itemId);
+        RequestLogger.printLine("Internal skill data checked.");
+        return;
+      }
+      case "checksvngit" -> {
+        DebugDatabase.checkLocalSVNRepositoryForGitHub(KoLConstants.SVN_LOCATION);
+        RequestLogger.printLine("Local SVN repos scanned for possible GitHub access via SVN.");
+        return;
+      }
+      case "checkwikimonsterelementalattacks" -> {
+        DebugDatabase.checkWikiMonsterElementalAttacks();
+        RequestLogger.printLine("Wiki monster elemental attacks checked.");
+        return;
+      }
+      case "checkwikimonsters" -> {
+        DebugDatabase.checkWikiMonsters();
+        RequestLogger.printLine("Wiki monsters checked.");
+        return;
+      }
+      case "checkambiguous" -> {
+        DebugDatabase.checkForAmbiguous();
+        RequestLogger.printLine("Ambigiuous names looked for.");
+        return;
+      }
+      case "checkzapgroups" -> {
+        DebugDatabase.checkZapGroups();
+        RequestLogger.printLine("Zap groups checked.");
+      }
     }
 
-    if (command.equals("checkpulverization")) {
-      DebugDatabase.checkPulverizationData();
-      RequestLogger.printLine("Pulverization data checked.");
-      return;
-    }
-
-    if (command.equals("checkrepo")) {
-      DebugDatabase.checkLocalSVNRepository(KoLConstants.SVN_LOCATION);
-      RequestLogger.printLine("Local SVN repos scanned for possible duplicates.");
-      return;
-    }
-
-    if (command.equals("checkshields")) {
-      DebugDatabase.checkShields();
-      RequestLogger.printLine("Shield power checked.");
-      return;
-    }
-
-    if (command.equals("checkskills")) {
-      int itemId = StringUtilities.parseInt(parameters);
-      DebugDatabase.checkSkills(itemId);
-      RequestLogger.printLine("Internal skill data checked.");
-      return;
-    }
-
-    if (command.equals("checksvngit")) {
-      DebugDatabase.checkLocalSVNRepositoryForGitHub(KoLConstants.SVN_LOCATION);
-      RequestLogger.printLine("Local SVN repos scanned for possible GitHub access via SVN.");
-      return;
-    }
-
-    if (command.equals("checkwikimonsterelementalattacks")) {
-      DebugDatabase.checkWikiMonsterElementalAttacks();
-      RequestLogger.printLine("Wiki monster elemental attacks checked.");
-      return;
-    }
-
-    if (command.equals("checkwikimonsters")) {
-      DebugDatabase.checkWikiMonsters();
-      RequestLogger.printLine("Wiki monsters checked.");
-      return;
-    }
-
-    if (command.equals("checkambiguous")) {
-      DebugDatabase.checkForAmbiguous();
-      RequestLogger.printLine("Ambigiuous names looked for.");
-      return;
-    }
-
-    if (command.equals("checkzapgroups")) {
-      DebugDatabase.checkZapGroups();
-      RequestLogger.printLine("Zap groups checked.");
-    }
   }
 }
