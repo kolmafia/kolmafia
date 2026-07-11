@@ -47,7 +47,7 @@ public class CheckDataCommand extends AbstractCommand {
 
     if (command.equals("checkcandy")) {
       String candy = parameters.trim();
-      if (candy.equals("")) {
+      if (candy.isEmpty()) {
         Set<Integer> candies = CandyDatabase.candyForTier(0);
         for (Integer itemId : candies) {
           RequestLogger.printLine("***Unspaded candy: " + ItemDatabase.getDataName(itemId));
@@ -223,6 +223,12 @@ public class CheckDataCommand extends AbstractCommand {
     if (command.equals("checkwikimonsters")) {
       DebugDatabase.checkWikiMonsters();
       RequestLogger.printLine("Wiki monsters checked.");
+      return;
+    }
+
+    if (command.equals("checkambiguous")) {
+      DebugDatabase.checkForAmbiguous();
+      RequestLogger.printLine("Ambigiuous names looked for.");
       return;
     }
 

@@ -174,6 +174,9 @@ public class DebugDatabase {
   private static final String ITEM_DATA = "itemdata.txt";
   private static final Map<Integer, String> rawItems = new HashMap<>();
 
+  public static void checkForAmbiguous() {
+  }
+
   private static class ItemMap {
     private final String tag;
     private final ConsumptionType type;
