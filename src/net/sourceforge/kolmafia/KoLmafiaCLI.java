@@ -563,6 +563,7 @@ public class KoLmafiaCLI {
     new CargoCultCommand().register("cargo");
     new CheckDataCommand()
         .register("newdata")
+        .register("checkambiguous")
         .register("checkcandy")
         .register("checkconcoctions")
         .register("checkconsumables")

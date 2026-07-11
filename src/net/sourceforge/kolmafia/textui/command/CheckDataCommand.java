@@ -54,7 +54,8 @@ public class CheckDataCommand extends AbstractCommand {
           }
         } else {
           Match filter = Match.CANDY;
-          AdventureResult[] itemList = ItemFinder.getMatchingItemList(parameters, true, null, filter);
+          AdventureResult[] itemList =
+              ItemFinder.getMatchingItemList(parameters, true, null, filter);
           for (AdventureResult item : itemList) {
             CandyType type = CandyDatabase.getCandyType(item.getItemId());
             RequestLogger.printLine(item.getName() + ": " + type);
@@ -212,6 +213,5 @@ public class CheckDataCommand extends AbstractCommand {
         RequestLogger.printLine("Zap groups checked.");
       }
     }
-
   }
 }

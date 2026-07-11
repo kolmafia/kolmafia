@@ -74,6 +74,7 @@ import net.sourceforge.kolmafia.scripts.svn.SVNManager;
 import net.sourceforge.kolmafia.session.DisplayCaseManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.swingui.DatabaseFrame;
 import net.sourceforge.kolmafia.utilities.CharacterEntities;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.HttpUtilities;
@@ -173,9 +174,6 @@ public class DebugDatabase {
 
   private static final String ITEM_DATA = "itemdata.txt";
   private static final Map<Integer, String> rawItems = new HashMap<>();
-
-  public static void checkForAmbiguous() {
-  }
 
   private static class ItemMap {
     private final String tag;
@@ -4239,6 +4237,71 @@ public class DebugDatabase {
             StaticEntity.printStackTrace(e);
           }
         }
+      }
+    }
+  }
+
+  public static void checkForAmbiguous() {
+    // Get list of things from DatabaseFrame to keep this aligned with Encyclopedia
+    HashMap<Object, WikiType> lazySet = new HashMap<>();
+    for (var thing : DatabaseFrame.allItems) {
+      var check = thing.getValue();
+      if (lazySet.containsKey(check)) {
+        var oldType = lazySet.get(check);
+        String message = "Item " + check + " (item) ambiguous " + oldType;
+        RequestLogger.printLine(message);
+      } else {
+        lazySet.put(check, WikiType.ITEM);
+      }
+    }
+    for (var thing : DatabaseFrame.allEffects) {
+      var check = thing.getValue();
+      if (lazySet.containsKey(check)) {
+        var oldType = lazySet.get(check);
+        String message = "Item " + check + " (effect) ambiguous " + oldType;
+        RequestLogger.printLine(message);
+      } else {
+        lazySet.put(check, WikiType.EFFECT);
+      }
+    }
+    for (var thing : DatabaseFrame.allSkills) {
+      var check = thing.getValue();
+      if (lazySet.containsKey(check)) {
+        var oldType = lazySet.get(check);
+        String message = "Item " + check + " (skill) ambiguous " + oldType;
+        RequestLogger.printLine(message);
+      } else {
+        lazySet.put(check, WikiType.SKILL);
+      }
+    }
+    for (var thing : DatabaseFrame.allFamiliars) {
+      var check = thing.getValue();
+      if (lazySet.containsKey(check)) {
+        var oldType = lazySet.get(check);
+        String message = "Item " + check + " (familiar) ambiguous " + oldType;
+        RequestLogger.printLine(message);
+      } else {
+        lazySet.put(check, WikiType.ANY);
+      }
+    }
+    for (var thing : DatabaseFrame.allOutfits) {
+      var check = thing.getValue();
+      if (lazySet.containsKey(check)) {
+        var oldType = lazySet.get(check);
+        String message = "Item " + check + " (outfit) ambiguous " + oldType;
+        RequestLogger.printLine(message);
+      } else {
+        lazySet.put(check, WikiType.ANY);
+      }
+    }
+    for (var thing : DatabaseFrame.allMonsters) {
+      var check = thing.getValue();
+      if (lazySet.containsKey(check)) {
+        var oldType = lazySet.get(check);
+        String message = "Item " + check + " (monster) ambiguous " + oldType;
+        RequestLogger.printLine(message);
+      } else {
+        lazySet.put(check, WikiType.MONSTER);
       }
     }
   }
