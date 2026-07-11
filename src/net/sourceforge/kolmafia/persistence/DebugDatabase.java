@@ -976,14 +976,16 @@ public class DebugDatabase {
     Matcher matcher = DebugDatabase.REQ_PATTERN.matcher(text);
     if (matcher.find()) {
       String stat = matcher.group(1);
-      if (stat.equals("Muscle")) {
-        return "Mus: " + matcher.group(2);
-      }
-      if (stat.equals("Mysticality")) {
-        return "Mys: " + matcher.group(2);
-      }
-      if (stat.equals("Moxie")) {
-        return "Mox: " + matcher.group(2);
+      switch (stat) {
+        case "Muscle" -> {
+          return "Mus: " + matcher.group(2);
+        }
+        case "Mysticality" -> {
+          return "Mys: " + matcher.group(2);
+        }
+        case "Moxie" -> {
+          return "Mox: " + matcher.group(2);
+        }
       }
     }
 
@@ -3988,7 +3990,7 @@ public class DebugDatabase {
   }
 
   private static void checkZapGroup(ArrayList<String> items, PrintStream report) {
-    String firstItem = items.get(0);
+    String firstItem = items.getFirst();
     int itemId = ItemDatabase.getItemId(firstItem);
 
     if (itemId == -1) {
