@@ -4247,7 +4247,7 @@ public class DebugDatabase {
     // Get list of things from DatabaseFrame to keep this aligned with Encyclopedia
     HashMap<Object, WikiType> lazySet = new HashMap<>();
     for (var thing : DatabaseFrame.allItems) {
-      var check = thing.getValue();
+      var check = getNameFromData(thing);
       if (lazySet.containsKey(check)) {
         var oldType = lazySet.get(check);
         String message = "Item " + check + " (item) ambiguous " + oldType;
@@ -4257,7 +4257,7 @@ public class DebugDatabase {
       }
     }
     for (var thing : DatabaseFrame.allEffects) {
-      var check = thing.getValue();
+      var check = getNameFromData(thing);
       if (lazySet.containsKey(check)) {
         var oldType = lazySet.get(check);
         String message = "Item " + check + " (effect) ambiguous " + oldType;
@@ -4267,7 +4267,7 @@ public class DebugDatabase {
       }
     }
     for (var thing : DatabaseFrame.allSkills) {
-      var check = thing.getValue();
+      var check = getNameFromData(thing);
       if (lazySet.containsKey(check)) {
         var oldType = lazySet.get(check);
         String message = "Item " + check + " (skill) ambiguous " + oldType;
@@ -4277,7 +4277,7 @@ public class DebugDatabase {
       }
     }
     for (var thing : DatabaseFrame.allFamiliars) {
-      var check = thing.getValue();
+      var check = getNameFromData(thing);
       if (lazySet.containsKey(check)) {
         var oldType = lazySet.get(check);
         String message = "Item " + check + " (familiar) ambiguous " + oldType;
@@ -4287,7 +4287,7 @@ public class DebugDatabase {
       }
     }
     for (var thing : DatabaseFrame.allOutfits) {
-      var check = thing.getValue();
+      var check = getNameFromData(thing);
       if (lazySet.containsKey(check)) {
         var oldType = lazySet.get(check);
         String message = "Item " + check + " (outfit) ambiguous " + oldType;
@@ -4297,13 +4297,41 @@ public class DebugDatabase {
       }
     }
     for (var thing : DatabaseFrame.allMonsters) {
-      var check = thing.getValue();
+      var check = getNameFromData(thing);
       if (lazySet.containsKey(check)) {
         var oldType = lazySet.get(check);
         String message = "Item " + check + " (monster) ambiguous " + oldType;
         RequestLogger.printLine(message);
       } else {
         lazySet.put(check, WikiType.MONSTER);
+      }
+    }
+  }
+
+  private static String getNameFromData(Object thing) {
+    if (thing instanceof ItemDatabase.ItemData) {
+      return ((ItemDatabase.ItemData) thing).name();
+    } else {
+      if (thing instanceof EffectData) {
+        return ((EffectData) thing).getName();
+      } else {
+        if (thing instanceof SkillDatabase.SkillData) {
+          return ((SkillDatabase.SkillData) thing).toString();
+        } else {
+          if (thing instanceof FamiliarRaceData) {
+            return ((FamiliarRaceData) thing).name();
+          } else {
+            if (thing instanceof MonsterData) {
+              return ((MonsterData) thing).getName();
+            } else {
+              if (thing instanceof String) {
+                return (String) thing;
+              } else {
+                return thing.toString();
+              }
+            }
+          }
+        }
       }
     }
   }
