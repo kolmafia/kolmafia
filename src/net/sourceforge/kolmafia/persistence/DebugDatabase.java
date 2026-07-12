@@ -4250,7 +4250,7 @@ public class DebugDatabase {
       String check = getNameFromData(thing.getValue());
       if (lazySet.containsKey(check)) {
         WikiType oldType = lazySet.get(check);
-        String message = "Item " + check + " (item) ambiguous " + oldType;
+        String message = ambgMsg("Item", check, oldType.name());
         RequestLogger.printLine(message);
       } else {
         lazySet.put(check, WikiType.ITEM);
@@ -4260,7 +4260,7 @@ public class DebugDatabase {
       var check = getNameFromData(thing.getValue());
       if (lazySet.containsKey(check)) {
         var oldType = lazySet.get(check);
-        String message = "Effect " + check + " (effect) ambiguous " + oldType;
+        String message = ambgMsg("Effect", check, oldType.name());
         RequestLogger.printLine(message);
       } else {
         lazySet.put(check, WikiType.EFFECT);
@@ -4270,7 +4270,7 @@ public class DebugDatabase {
       var check = getNameFromData(thing.getValue());
       if (lazySet.containsKey(check)) {
         var oldType = lazySet.get(check);
-        String message = "Skill " + check + " (skill) ambiguous " + oldType;
+        String message = ambgMsg("Skill", check, oldType.name());
         RequestLogger.printLine(message);
       } else {
         lazySet.put(check, WikiType.SKILL);
@@ -4280,7 +4280,7 @@ public class DebugDatabase {
       var check = getNameFromData(thing.getValue());
       if (lazySet.containsKey(check)) {
         var oldType = lazySet.get(check);
-        String message = "Familar " + check + " (familiar) ambiguous " + oldType;
+        String message = ambgMsg("Familiar", check, oldType.name());
         RequestLogger.printLine(message);
       } else {
         lazySet.put(check, WikiType.ANY);
@@ -4290,7 +4290,7 @@ public class DebugDatabase {
       var check = getNameFromData(thing.getValue());
       if (lazySet.containsKey(check)) {
         var oldType = lazySet.get(check);
-        String message = "Outfit " + check + " (outfit) ambiguous " + oldType;
+        String message = ambgMsg("Outfit", check, oldType.name());
         RequestLogger.printLine(message);
       } else {
         lazySet.put(check, WikiType.ANY);
@@ -4300,7 +4300,7 @@ public class DebugDatabase {
       var check = getNameFromData(thing);
       if (lazySet.containsKey(check)) {
         var oldType = lazySet.get(check);
-        String message = "Monster " + check + " (monster) ambiguous " + oldType;
+        String message = ambgMsg("Monster", check, oldType.name());
         RequestLogger.printLine(message);
       } else {
         lazySet.put(check, WikiType.MONSTER);
@@ -4334,5 +4334,9 @@ public class DebugDatabase {
         }
       }
     }
+  }
+
+  private static String ambgMsg(String thisType, String name, String oldType) {
+    return name + " of type " + thisType + " is ambiguous with " + oldType;
   }
 }
