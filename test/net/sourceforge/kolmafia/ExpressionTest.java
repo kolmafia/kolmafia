@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia;
 
 import static internal.helpers.Player.withAdventuresLeft;
+import static internal.helpers.Player.withInteractivity;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withItemInCloset;
 import static internal.helpers.Player.withItemInStorage;
@@ -159,6 +160,17 @@ public class ExpressionTest {
     try (cleanups) {
       var exp = new Expression("haveitem(2528)", "have filet of tangy gnat");
       assertThat(exp.eval(), is(2.0));
+    }
+  }
+
+  @ParameterizedTest
+  @CsvSource({"true,7", "false,3"})
+  void interactExpressions(boolean canInteract, double expectedOutput) {
+    var cleanups = new Cleanups(withInteractivity(canInteract));
+
+    try (cleanups) {
+      var exp = new ModifierExpression("interact()*7+(1-interact())*3", "Test expression");
+      assertThat(exp.eval(), equalTo(expectedOutput));
     }
   }
 
