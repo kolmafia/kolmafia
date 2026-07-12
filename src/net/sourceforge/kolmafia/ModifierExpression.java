@@ -101,9 +101,6 @@ public class ModifierExpression extends Expression {
     if (this.optional("mod(")) {
       return this.literal(this.until(")"), '\u0093');
     }
-    if (this.optional("interact(")) {
-      return this.literal(this.until(")"), '\u0094');
-    }
     if (this.optional("stripcommas(")) {
       return this.literal(this.until(")"), '\u0096');
     }
@@ -130,6 +127,9 @@ public class ModifierExpression extends Expression {
     }
     if (this.optional("mox")) {
       return "\u0082";
+    }
+    if (this.optional("interact()")) {
+      return "\u0094";
     }
     if (this.optional("basemus")) {
       return "\u0097";
