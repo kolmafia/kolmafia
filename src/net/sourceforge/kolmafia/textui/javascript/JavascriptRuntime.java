@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.MonsterData;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.textui.AbstractRuntime;
@@ -274,6 +275,13 @@ public class JavascriptRuntime extends AbstractRuntime {
         returnValue = null;
         returnValue = resolvePromise(cx, promise);
       }
+    } catch (AbortException e) {
+      if (stackOnAbort) {
+        RequestLogger.printLine(
+            KoLConstants.MafiaState.ERROR, escapeHtmlInMessage(e.getScriptStackTrace()));
+      }
+      // The script has unwound; re-arm the abort for whatever ran this script.
+      e.restore();
     } catch (WrappedException e) {
       Throwable unwrapped = e.getWrappedException();
       if (unwrapped instanceof ScriptException) {
@@ -427,6 +435,10 @@ public class JavascriptRuntime extends AbstractRuntime {
       throw new JavaScriptException("Script interrupted.", null, 0);
     }
     if (!KoLmafia.permitsContinue()) {
+      if (KoLmafia.refusesContinue()) {
+        // An abort, it halts every script on the stack, and nothing may catch it.
+        throw AbortException.suspend();
+      }
       KoLmafia.forceContinue();
       throw new JavaScriptException("KoLmafia error: " + KoLmafia.getLastMessage(), null, 0);
     }
