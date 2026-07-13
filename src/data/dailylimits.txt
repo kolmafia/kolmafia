@@ -60,6 +60,7 @@ Cast	CHEAT CODE: Invisible Avatar	_powerfulGloveBatteryPowerUsed	100
 Cast	CHEAT CODE: Replace Enemy	_powerfulGloveBatteryPowerUsed	100
 Cast	CHEAT CODE: Shrink Enemy	_powerfulGloveBatteryPowerUsed	100
 Cast	CHEAT CODE: Triple Size	_powerfulGloveBatteryPowerUsed	100
+Cast	Calculate the Universe	_universeCalculated	[interact()*pref(skillLevel144)+(1-interact())*min(pref(skillLevel144),3)]
 Cast	Canticle of Carboloading	_carboLoaded
 Cast	Ceci N'Est Pas Un Chapeau	_ceciHatUsed
 Cast	Chest X-Ray	_chestXRayUsed	3
