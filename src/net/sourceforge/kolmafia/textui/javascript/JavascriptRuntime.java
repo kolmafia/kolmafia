@@ -59,7 +59,6 @@ public class JavascriptRuntime extends AbstractRuntime {
   private File scriptFile = null;
   private String scriptString = null;
 
-  private Scriptable currentTopScope = null;
   private Scriptable currentStdLib = null;
 
   public static void clearSessionStorage() {
@@ -209,11 +208,7 @@ public class JavascriptRuntime extends AbstractRuntime {
   public Value execute(
       final String functionName, final Object[] arguments, final boolean executeTopLevel) {
     if (!executeTopLevel) {
-      if (currentTopScope == null) {
-        throw new ScriptException(
-            "Cannot run with executeTopLevel = false without running once first.");
-      }
-      return executeRun(functionName, arguments, false);
+      throw new ScriptException("Cannot run with executeTopLevel = false");
     }
 
     // TODO: Support for requesting user arguments if missing.
@@ -227,7 +222,6 @@ public class JavascriptRuntime extends AbstractRuntime {
     // TODO: Use a shared parent scope and initialize this with that as a prototype.
     // But be careful. May mess up our EnumeratedWrapper registries.
     Scriptable scope = cx.initSafeStandardObjects();
-    currentTopScope = scope;
 
     try {
       // If executing from GCLI (and not file), add std lib to top scope.
@@ -236,11 +230,11 @@ public class JavascriptRuntime extends AbstractRuntime {
 
       setState(State.NORMAL);
       if (ScriptRuntime.hasTopCall(cx)) {
-        return executeRun(functionName, arguments, true);
+        return executeRun(functionName, arguments, scope, true);
       } else {
         return (Value)
             ScriptRuntime.doTopCall(
-                (cx1, scope1, thisObj, args) -> executeRun(functionName, arguments, true),
+                (cx1, scope1, thisObj, args) -> executeRun(functionName, arguments, scope, true),
                 cx,
                 scope,
                 null,
@@ -255,7 +249,6 @@ public class JavascriptRuntime extends AbstractRuntime {
       return null;
     } finally {
       EnumeratedWrapper.cleanup(scope);
-      currentTopScope = null;
       runningRuntimes.remove(this);
       Context.exit();
     }
@@ -366,9 +359,11 @@ public class JavascriptRuntime extends AbstractRuntime {
   }
 
   private Value executeRun(
-      final String functionName, final Object[] arguments, final boolean executeTopLevel) {
+      final String functionName,
+      final Object[] arguments,
+      Scriptable scope,
+      final boolean executeTopLevel) {
     Context cx = Context.getCurrentContext();
-    Scriptable scope = currentTopScope;
     Object[] argumentsNonNull = arguments != null ? arguments : new Object[] {};
     Object[] runArguments = wrapMonsterArguments(scope, argumentsNonNull);
 
@@ -394,8 +389,7 @@ public class JavascriptRuntime extends AbstractRuntime {
                     : ScriptableObject.getProperty(exports, functionName);
 
             if (mainFunction instanceof Function) {
-              return ((Function) mainFunction)
-                  .call(cx, scope, cx.newObject(currentTopScope), runArguments);
+              return ((Function) mainFunction).call(cx, scope, cx.newObject(scope), runArguments);
             }
           }
 
