@@ -440,6 +440,7 @@ public class SkillPool {
   public static final int BAT_BEARING = 7263;
   public static final int USE_BAT_AID = 7264;
   public static final int FIRE_JOKESTER_GUN = 7265;
+  public static final int ADJUST_JOKESTER_WIG = 7266;
   public static final int ABSORB_COWRRUPTION = 7268;
   public static final int EXTRACT = 7273;
   public static final int DIGITIZE = 7274;
