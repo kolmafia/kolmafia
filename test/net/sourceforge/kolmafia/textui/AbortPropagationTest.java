@@ -17,6 +17,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.textui.javascript.AbortException;
 import net.sourceforge.kolmafia.textui.javascript.AshStub;
 import net.sourceforge.kolmafia.textui.javascript.JavascriptRuntime;
 import net.sourceforge.kolmafia.textui.parsetree.Try;
@@ -519,15 +520,14 @@ public class AbortPropagationTest {
      */
     @Test
     void javascriptCheckpointSuspendsAnAbortIntoTheException() {
-      //      KoLmafia.updateDisplay(MafiaState.ABORT, "Hard abort, situation 3");
-      //
-      //      var exception = assertThrows(AbortException.class,
-      // JavascriptRuntime::checkInterrupted);
-      //      assertThat(exception.getMessage(), is("Hard abort, situation 3"));
-      //      assertThat(StaticEntity.getContinuationState(), is(MafiaState.CONTINUE));
-      //
-      //      exception.restore();
-      //      assertThat(StaticEntity.getContinuationState(), is(MafiaState.ABORT));
+      KoLmafia.updateDisplay(MafiaState.ABORT, "Hard abort, situation 3");
+
+      var exception = assertThrows(AbortException.class, JavascriptRuntime::checkInterrupted);
+      assertThat(exception.getMessage(), is("Hard abort, situation 3"));
+      assertThat(StaticEntity.getContinuationState(), is(MafiaState.CONTINUE));
+
+      exception.restore();
+      assertThat(StaticEntity.getContinuationState(), is(MafiaState.ABORT));
     }
 
     @Test
