@@ -56,6 +56,10 @@ public class JavascriptRuntime extends AbstractRuntime {
 
   static final Set<JavascriptRuntime> runningRuntimes = ConcurrentHashMap.newKeySet();
   static final ContextFactory contextFactory = new ObservingContextFactory();
+
+  /** Set while an abort that's already printed, unwinds on this thread. */
+  private static final ThreadLocal<Boolean> abortUnwinding = ThreadLocal.withInitial(() -> false);
+
   static final Map<String, Storage> storedSessions = new HashMap<>();
   private File scriptFile = null;
   private String scriptString = null;
@@ -252,6 +256,10 @@ public class JavascriptRuntime extends AbstractRuntime {
       EnumeratedWrapper.cleanup(scope);
       runningRuntimes.remove(this);
       Context.exit();
+      if (Context.getCurrentContext() == null) {
+        // Outermost script on this thread has exited; any unwinding abort is over.
+        abortUnwinding.remove();
+      }
     }
   }
 
@@ -269,10 +277,15 @@ public class JavascriptRuntime extends AbstractRuntime {
         returnValue = resolvePromise(cx, promise);
       }
     } catch (AbortException e) {
-      if (stackOnAbort) {
+      if (stackOnAbort && !abortUnwinding.get()) {
         RequestLogger.printLine(
-            KoLConstants.MafiaState.ERROR, escapeHtmlInMessage(e.getScriptStackTrace()));
+            KoLConstants.MafiaState.ERROR,
+            escapeHtmlInMessage(
+                "Script aborted: " + e.getMessage() + "\n" + e.getScriptStackTrace()));
       }
+      // The stacktrace already contains the frames of the parent contexts (unless it's a large
+      // trace), we unwind them silently.
+      abortUnwinding.set(true);
       // The script has unwound; re-arm the abort for whatever ran this script.
       e.restore();
     } catch (WrappedException e) {

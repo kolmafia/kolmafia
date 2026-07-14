@@ -438,15 +438,16 @@ public class AbortPropagationTest {
 
     /**
      * As in ASH, an abort prints its message once (from {@link RuntimeLibrary#abort(ScriptRuntime)}
-     * itself) and unwinds quietly. With 'printStackOnAbort', each script it unwinds also prints its
-     * stack trace, the Javascript version of {@link AshRuntime#setState(ScriptRuntime.State)}'s
-     * stack printing. Two scripts unwind here, the nested one and the caller, so two traces print,
-     * each a single "at command line" frame. Plus one for the test framework.
+     * itself) and unwinds quietly. With 'printStackOnAbort', the script the abort originated in
+     * also prints its stack trace, the Javascript version of {@link
+     * AshRuntime#setState(ScriptRuntime.State)}'s stack printing. Nested scripts share the context,
+     * so only the first trace gets printed, the remaining traces are suppressed for the current
+     * thread.
      *
      * <p>Note that the preference does not control if non-abort error stacks are printed.
      */
     @Test
-    void abortPrintsAStackTracePerUnwoundScriptWhenPreferenceSet() {
+    void abortPrintsOneStackTraceWhenPreferenceSet() {
       try (var cleanups = withProperty("printStackOnAbort", true)) {
         var run =
             runJs(
@@ -455,8 +456,27 @@ public class AbortPropagationTest {
                     print("After abort");
                     """);
 
-        assertThat(run.output().split("Nested abort", -1).length - 1, is(1));
-        assertThat(run.output().split("at command line", -1).length - 1, is(3));
+        // We expect only one "Script aborted: Nested abort\n<trace>"
+        assertThat(run.output().split("Script aborted", -1).length - 1, is(1));
+        assertThat(run.output().split("Nested abort", -1).length - 1, is(2));
+        assertThat(
+            run.output().split("Nested abort\nScript aborted: Nested abort\n", -1).length - 1,
+            is(1));
+        assertThat(run.output().split("at command line", -1).length - 1, is(2));
+      }
+    }
+
+    @Test
+    void abortTraceUnwindingCleanlyCloses() {
+      try (var cleanups = withProperty("printStackOnAbort", true)) {
+        var first = runJs("cliExecute(\"jsq abort('Nested abort')\");");
+        KoLmafia.forceContinue();
+        var second = runJs("cliExecute(\"jsq abort('Nested abort')\");");
+
+        assertThat(first.output().split("Script aborted: Nested abort", -1).length - 1, is(1));
+        assertThat(first.output().split("at command line", -1).length - 1, is(2));
+        assertThat(second.output().split("Script aborted: Nested abort", -1).length - 1, is(1));
+        assertThat(second.output().split("at command line", -1).length - 1, is(2));
       }
     }
 
