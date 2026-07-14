@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.textui;
 
 import static internal.helpers.Player.withProperty;
+import static internal.matchers.StringMatcher.containsStringTimes;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
@@ -457,12 +458,11 @@ public class AbortPropagationTest {
                     """);
 
         // We expect only one "Script aborted: Nested abort\n<trace>"
-        assertThat(run.output().split("Script aborted", -1).length - 1, is(1));
-        assertThat(run.output().split("Nested abort", -1).length - 1, is(2));
+        assertThat(run.output(), containsStringTimes("Script aborted", 1));
+        assertThat(run.output(), containsStringTimes("Nested abort", 2));
         assertThat(
-            run.output().split("Nested abort\nScript aborted: Nested abort\n", -1).length - 1,
-            is(1));
-        assertThat(run.output().split("at command line", -1).length - 1, is(2));
+            run.output(), containsStringTimes("Nested abort\nScript aborted: Nested abort\n", 1));
+        assertThat(run.output(), containsStringTimes("at command line", 2));
       }
     }
 
@@ -473,10 +473,10 @@ public class AbortPropagationTest {
         KoLmafia.forceContinue();
         var second = runJs("cliExecute(\"jsq abort('Nested abort')\");");
 
-        assertThat(first.output().split("Script aborted: Nested abort", -1).length - 1, is(1));
-        assertThat(first.output().split("at command line", -1).length - 1, is(2));
-        assertThat(second.output().split("Script aborted: Nested abort", -1).length - 1, is(1));
-        assertThat(second.output().split("at command line", -1).length - 1, is(2));
+        assertThat(first.output(), containsStringTimes("Script aborted: Nested abort", 1));
+        assertThat(first.output(), containsStringTimes("at command line", 2));
+        assertThat(second.output(), containsStringTimes("Script aborted: Nested abort", 1));
+        assertThat(second.output(), containsStringTimes("at command line", 2));
       }
     }
 
@@ -494,7 +494,7 @@ public class AbortPropagationTest {
                 print("After abort");
                 """);
 
-        assertThat(run.output().split("Nested abort", -1).length - 1, is(1));
+        assertThat(run.output(), containsStringTimes("Nested abort", 1));
         assertThat(run.output(), not(containsString("at command line")));
       }
     }
