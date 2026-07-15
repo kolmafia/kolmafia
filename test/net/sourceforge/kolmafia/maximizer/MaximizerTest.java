@@ -1638,6 +1638,16 @@ public class MaximizerTest {
     }
 
     @Test
+    public void equipStillMatchesItemNamesEndingInMode2() {
+      final var cleanups = new Cleanups(withEquippableItem("Boris's Helm (askew)"));
+
+      try (cleanups) {
+        assertTrue(maximize("ml, equip Boris's Helm (askew)"));
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "Boris's Helm (askew)")));
+      }
+    }
+
+    @Test
     public void equipWithUnknownModeErrors() {
       final var cleanups =
           new Cleanups(withEquippableItem(ItemPool.JURASSIC_PARKA), withSkill(SkillPool.TORSO));
