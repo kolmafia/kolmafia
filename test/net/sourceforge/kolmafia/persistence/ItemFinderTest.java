@@ -884,11 +884,16 @@ public class ItemFinderTest {
     }
   }
 
-  @Test
-  public void itShouldErrorOnUnknownMode() {
+  @ParameterizedTest
+  @CsvSource({
+    "''", // Empty string
+    "mode",
+    "magical mode"
+  })
+  public void itShouldErrorOnUnknownMode(String modeName) {
     try (var cleanups = withItem(ItemPool.JURASSIC_PARKA)) {
       var match =
-          ItemFinder.getFirstMatchingItemWithMode("jurassic parka (dinosaur mode)", Match.EQUIP);
+          ItemFinder.getFirstMatchingItemWithMode("jurassic parka (" + modeName + ")", Match.EQUIP);
       assertEquals(MafiaState.ERROR, StaticEntity.getContinuationState());
       assertNull(match);
     }
@@ -901,6 +906,32 @@ public class ItemFinderTest {
           ItemFinder.getFirstMatchingItemWithMode("Mr. Accessory (dinosaur mode)", Match.EQUIP);
       assertEquals(MafiaState.ERROR, StaticEntity.getContinuationState());
       assertNull(match);
+    }
+  }
+
+  @Test
+  public void itShouldParseItemWithoutSayingMode() {
+    try (var cleanups = withItem(ItemPool.SNOW_SUIT)) {
+      var match = ItemFinder.getFirstMatchingItemWithMode("Snow Suit (nose)", Match.EQUIP);
+      assertEquals(MafiaState.CONTINUE, StaticEntity.getContinuationState());
+      assertNotNull(match);
+      assertEquals("Snow Suit", match.item().getName());
+      assertEquals(Modeable.SNOWSUIT, match.modeable());
+      assertEquals("nose", match.mode());
+    }
+  }
+
+  @ParameterizedTest
+  @CsvSource({"nOsE", "nOSe mode", "NOse MOdE"})
+  public void itShouldParseItemWithWeirdCapitalization(String modeName) {
+    try (var cleanups = withItem(ItemPool.SNOW_SUIT)) {
+      var match =
+          ItemFinder.getFirstMatchingItemWithMode("SNOw suiT (" + modeName + ")", Match.EQUIP);
+      assertEquals(MafiaState.CONTINUE, StaticEntity.getContinuationState());
+      assertNotNull(match);
+      assertEquals("Snow Suit", match.item().getName());
+      assertEquals(Modeable.SNOWSUIT, match.modeable());
+      assertEquals("nose", match.mode());
     }
   }
 
