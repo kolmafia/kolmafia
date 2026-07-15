@@ -2332,7 +2332,14 @@ public class Evaluator {
             backupSlots.add(Slot.FAMILIAR);
           }
 
-          if (backupSlots.stream().anyMatch(s -> spec.equipment.get(s) == null)) {
+          // Slots we're ignoring are not considered, they keep their modes
+          // A slot is considered ignored if not null
+          boolean itemInIgnoredSlot =
+              spec.equipment.values().stream()
+                  .anyMatch(i -> i != null && i.getItemId() == modeable.getItemId());
+
+          if (!itemInIgnoredSlot
+              && backupSlots.stream().anyMatch(s -> spec.equipment.get(s) == null)) {
             spec.setModeable(modeable, mode);
           }
         });
