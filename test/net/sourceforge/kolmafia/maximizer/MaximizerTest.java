@@ -1580,6 +1580,37 @@ public class MaximizerTest {
         assertThat(getBoosts(), not(hasItem(hasProperty("cmd", startsWith("umbrella")))));
       }
     }
+
+    @Test
+    public void doesChangeModeOfUmbrellaInNonExcludedSlot() {
+      final var cleanups =
+          new Cleanups(
+              withEquipped(Slot.OFFHAND, "unbreakable umbrella"),
+              withFamiliarInTerrarium(FamiliarPool.LEFT_HAND),
+              withProperty("umbrellaState", "cocoon"));
+
+      try (cleanups) {
+        assertTrue(maximize("ml"));
+        assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("umbrella"))));
+      }
+    }
+
+    @Test
+    public void doesChangeModeOfUmbrellaInNonExcludedSlot2() {
+      final var cleanups =
+          new Cleanups(
+              withEquipped(Slot.OFFHAND, "unbreakable umbrella"),
+              withEquipped(Slot.ACCESSORY1, "backup camera"),
+              withFamiliarInTerrarium(FamiliarPool.LEFT_HAND),
+              withProperty("umbrellaState", "cocoon"),
+              withProperty("backupCameraMode", "meat"));
+
+      try (cleanups) {
+        assertTrue(maximize("ml, -offhand"));
+        assertThat(getBoosts(), not(hasItem(hasProperty("cmd", startsWith("umbrella")))));
+        assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("backupcamera"))));
+      }
+    }
   }
 
   @Nested
