@@ -1602,7 +1602,7 @@ public class Evaluator {
           newMods.add(ModifierDatabase.getModifiers(ModifierType.EFFECT, intrinsic));
           mods = newMods;
         }
-        double delta = this.getScore(mods, Map.of(Slot.HAT, item)) - nullScore;
+        double delta = this.getScore(mods, Map.of(Slot.NONE, item)) - nullScore;
         if (delta < 0.0) continue;
         if (delta == 0.0) {
           if (KoLCharacter.hasEquipped(item) && this.current) break gotItem;
