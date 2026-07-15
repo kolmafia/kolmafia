@@ -51,9 +51,12 @@ import java.time.Month;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RestrictedItemType;
+import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.modifiers.BitmapModifier;
@@ -1551,6 +1554,169 @@ public class MaximizerTest {
       try (cleanups) {
         assertTrue(maximize("item"));
         assertThat(getBoosts(), not(hasItem(hasProperty("cmd", startsWith("ledcandle disco")))));
+      }
+    }
+
+    @Test
+    public void equipWithModeForcesThatMode() {
+      final var cleanups =
+          new Cleanups(withEquippableItem(ItemPool.JURASSIC_PARKA), withSkill(SkillPool.TORSO));
+
+      try (cleanups) {
+        // If not asked for, "ml" would pick spikolodon
+        assertTrue(maximize("ml, equip Jurassic Parka (ghostasaurus mode)"));
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.SHIRT, "Jurassic Parka")));
+        assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("parka ghostasaurus"))));
+      }
+    }
+
+    @Test
+    public void equipWithModeAcceptsAliases() {
+      final var cleanups =
+          new Cleanups(withEquippableItem(ItemPool.JURASSIC_PARKA), withSkill(SkillPool.TORSO));
+
+      try (cleanups) {
+        assertTrue(maximize("ml, equip Jurassic Parka (spooky mode)"));
+        assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("parka ghostasaurus"))));
+      }
+    }
+
+    @Test
+    public void equipWithModeAcceptsBareParenthetical() {
+      final var cleanups =
+          new Cleanups(
+              withEquippableItem("unbreakable umbrella"),
+              withEquipped(Slot.PANTS, "old sweatpants"), // Get some ML on
+              withProperty("umbrellaState", "broken"));
+
+      try (cleanups) {
+        // If not asked for, "ml" would keep the umbrella broken
+        assertTrue(maximize("ml, equip unbreakable umbrella (cocoon)"));
+        assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("umbrella cocoon"))));
+      }
+    }
+
+    @Test
+    public void equipWithModeAcceptsMultiWordModes() {
+      final var cleanups =
+          new Cleanups(
+              withEquippableItem("unwrapped knock-off retro superhero cape"),
+              withProperty("retroCapeSuperhero", "vampire"),
+              withProperty("retroCapeWashingInstructions", "thrill"));
+
+      try (cleanups) {
+        // If not asked for, "hot res" would pick vampire hold
+        assertTrue(
+            maximize("hot res, equip unwrapped knock-off retro superhero cape (robot kill mode)"));
+        assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("retrocape robot kill"))));
+      }
+    }
+
+    @Test
+    public void equipWithModeAppliesToReplicaParka() {
+      final var cleanups =
+          new Cleanups(
+              withEquippableItem(ItemPool.REPLICA_JURASSIC_PARKA), withSkill(SkillPool.TORSO));
+
+      try (cleanups) {
+        assertTrue(maximize("ml, equip replica Jurassic Parka (kachungasaur mode)"));
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.SHIRT, "replica Jurassic Parka")));
+        assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("parka kachungasaur"))));
+      }
+    }
+
+    @Test
+    public void equipStillMatchesItemNamesEndingInMode() {
+      final var cleanups = new Cleanups(withEquippableItem("Jarlsberg's pan (Cosmic portal mode)"));
+
+      try (cleanups) {
+        assertTrue(maximize("spell dmg, equip Jarlsberg's pan (Cosmic portal mode)"));
+        assertThat(
+            getBoosts(),
+            hasItem(recommendsSlot(Slot.OFFHAND, "Jarlsberg's pan (Cosmic portal mode)")));
+      }
+    }
+
+    @Test
+    public void equipWithUnknownModeErrors() {
+      final var cleanups =
+          new Cleanups(withEquippableItem(ItemPool.JURASSIC_PARKA), withSkill(SkillPool.TORSO));
+
+      try (cleanups) {
+        assertFalse(maximize("ml, equip Jurassic Parka (magical mode)"));
+      }
+    }
+
+    @Test
+    public void bonusWithModeForcesThatMode() {
+      final var cleanups =
+          new Cleanups(withEquippableItem(ItemPool.JURASSIC_PARKA), withSkill(SkillPool.TORSO));
+
+      try (cleanups) {
+        assertTrue(maximize("ml, 100 bonus Jurassic Parka (ghostasaurus mode)"));
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.SHIRT, "Jurassic Parka")));
+        assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("parka ghostasaurus"))));
+      }
+    }
+
+    @Test
+    public void shouldErrorWhenModesConflict() {
+      final var cleanups =
+          new Cleanups(withEquippableItem(ItemPool.JURASSIC_PARKA), withSkill(SkillPool.TORSO));
+
+      try (cleanups) {
+        assertFalse(
+            maximize(
+                "equip Jurassic Parka (ghostasaurus mode), equip Jurassic Parka (kachungasaur mode)"));
+      }
+    }
+
+    @Test
+    public void shouldErrorWhenIndirectConflict() {
+      final var cleanups = new Cleanups(withEquippableItem(ItemPool.CROWN_OF_ED));
+
+      try (cleanups) {
+        // We currently do not differnate between modes explicitly asked for or not.
+        // 'sea' will give way when it's declared after, but not if it's handled first.
+        assertFalse(maximize("sea, equip Crown of Ed the Undying (hyena mode)"));
+        assertEquals(KoLConstants.MafiaState.ERROR, StaticEntity.getContinuationState());
+        assertEquals(
+            "Conflicting modes requested for The Crown of Ed the Undying: fish vs hyena",
+            KoLmafia.lastMessage);
+      }
+    }
+
+    @Test
+    public void shouldErrorWhenIndirectConflict2() {
+      final var cleanups =
+          new Cleanups(
+              withEquippableItem(ItemPool.CROWN_OF_ED),
+              withEquippableItem(ItemPool.OLD_SCUBA_TANK));
+
+      try (cleanups) {
+        // We currently do not differnate between modes explicitly asked for or not.
+        // 'sea' will give way when it's declared after, but not if it's handled first.
+        // As such, this will still fail, even if we can breathe underwater
+        assertFalse(maximize("sea, equip Crown of Ed the Undying (hyena mode)"));
+        assertEquals(KoLConstants.MafiaState.ERROR, StaticEntity.getContinuationState());
+        assertEquals(
+            "Conflicting modes requested for The Crown of Ed the Undying: fish vs hyena",
+            KoLmafia.lastMessage);
+      }
+    }
+
+    @Test
+    public void softRequestShouldGiveWayWhenIndirectConflict() {
+      final var cleanups =
+          new Cleanups(
+              withEquippableItem(ItemPool.CROWN_OF_ED),
+              withEquippableItem(ItemPool.OLD_SCUBA_TANK));
+
+      try (cleanups) {
+        // 'sea' cannot override an explict mode. We equip a scuba tank to sastify 'sea'
+        assertTrue(maximize("equip Crown of Ed the Undying (hyena mode), sea"));
+        assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("edpiece hyena"))));
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "The Crown of Ed the Undying")));
       }
     }
   }

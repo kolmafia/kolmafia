@@ -10,8 +10,13 @@ public interface ModeCommand {
    * @param parameters Parameters as a string
    * @return Whether command is valid
    */
-  public boolean validate(final String command, final String parameters);
+  boolean validate(final String command, final String parameters);
 
   /** List of possible modes */
-  public abstract Set<String> getModes();
+  Set<String> getModes();
+
+  /** Mode name for the given parameters, resolving aliases if needed */
+  default String normalize(final String parameters) {
+    return parameters.trim().toLowerCase();
+  }
 }

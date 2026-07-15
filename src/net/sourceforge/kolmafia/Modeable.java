@@ -134,6 +134,10 @@ public enum Modeable {
     return this.commandInstance.getModes();
   }
 
+  public String normalizeMode(final String mode) {
+    return this.commandInstance.normalize(mode);
+  }
+
   public String getState() {
     if (this == RETROCAPE) {
       return (Preferences.getString("retroCapeSuperhero")

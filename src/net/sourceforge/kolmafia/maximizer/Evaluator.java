@@ -218,6 +218,24 @@ public class Evaluator {
     this.parse(expr);
   }
 
+  @SuppressWarnings("BooleanMethodIsAlwaysInverted")
+  private boolean forceModeable(ItemFinder.ItemWithMode modeable, String mode) {
+    String existing = forcedModeables.get(modeable.modeable());
+    if (!existing.isEmpty() && !existing.equals(mode)) {
+      KoLmafia.updateDisplay(
+          MafiaState.ERROR,
+          "Conflicting modes requested for "
+              + modeable.item().getName()
+              + ": "
+              + existing
+              + " vs "
+              + mode);
+      return false;
+    }
+    forcedModeables.put(modeable.modeable(), mode);
+    return true;
+  }
+
   private void parse(String expr) {
     expr = expr.trim().toLowerCase();
     Matcher m = KEYWORD_PATTERN.matcher(expr);
@@ -297,7 +315,10 @@ public class Evaluator {
 
       if (keyword.equals("shield")) {
         this.requireShield = weight > 0.0;
-        forcedModeables.put(Modeable.UMBRELLA, "forward-facing");
+        // If a mode was not specified
+        if (forcedModeables.get(Modeable.UMBRELLA).isEmpty()) {
+          forcedModeables.put(Modeable.UMBRELLA, "forward-facing");
+        }
         this.hands = 1;
         continue;
       }
@@ -376,33 +397,41 @@ public class Evaluator {
         this.booleanMask.addAll(adventureUnderwater);
         this.booleanValue.addAll(adventureUnderwater);
         index = null;
-        // Force Crown of Ed to Fish
-        forcedModeables.put(Modeable.EDPIECE, "fish");
+        if (forcedModeables.get(Modeable.EDPIECE).isEmpty()) {
+          // Force Crown of Ed to Fish
+          forcedModeables.put(Modeable.EDPIECE, "fish");
+        }
         continue;
       }
 
       if (keyword.startsWith("equip ")) {
-        AdventureResult match =
-            ItemFinder.getFirstMatchingItem(keyword.substring(6).trim(), Match.EQUIP);
+        var match =
+            ItemFinder.getFirstMatchingItemWithMode(keyword.substring(6).trim(), Match.EQUIP);
         if (match == null) {
           return;
         }
+        if (match.modeable() != null && !forceModeable(match, match.mode())) {
+          return;
+        }
         if (weight > 0.0) {
-          this.posEquip.add(match);
-          equipBeeosity += KoLCharacter.getBeeosity(match.getName());
+          this.posEquip.add(match.item());
+          equipBeeosity += KoLCharacter.getBeeosity(match.item().getName());
         } else {
-          this.negEquip.add(match);
+          this.negEquip.add(match.item());
         }
         continue;
       }
 
       if (keyword.startsWith("bonus ")) {
-        AdventureResult match =
-            ItemFinder.getFirstMatchingItem(keyword.substring(6).trim(), Match.EQUIP);
+        var match =
+            ItemFinder.getFirstMatchingItemWithMode(keyword.substring(6).trim(), Match.EQUIP);
         if (match == null) {
           return;
         }
-        this.bonuses.put(match, weight);
+        if (match.modeable() != null && !forceModeable(match, match.mode())) {
+          return;
+        }
+        this.bonuses.put(match.item(), weight);
         continue;
       }
 

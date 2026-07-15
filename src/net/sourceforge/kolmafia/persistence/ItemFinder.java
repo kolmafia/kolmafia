@@ -8,6 +8,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
@@ -18,6 +20,7 @@ import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
+import net.sourceforge.kolmafia.Modeable;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase.Attribute;
@@ -577,6 +580,40 @@ public class ItemFinder {
     }
 
     return itemCount <= 0 ? null : firstMatch;
+  }
+
+  private static final Pattern ITEM_MODE_PATTERN =
+      Pattern.compile("\\(([^)]+?)(?:\\s+mode)?\\)$", Pattern.CASE_INSENSITIVE);
+
+  public record ItemWithMode(AdventureResult item, Modeable modeable, String mode) {}
+
+  public static ItemWithMode getFirstMatchingItemWithMode(String parameters, Match filterType) {
+    parameters = parameters.trim();
+
+    // Modeable items can be given a mode in parentheses
+    // "unbreakable umbrella (cocoon)", "Jurassic Parka (spikolodon mode)"
+    Matcher modeMatcher = ITEM_MODE_PATTERN.matcher(parameters);
+    if (modeMatcher.find()) {
+      AdventureResult item =
+          getFirstMatchingItem(
+              parameters.substring(0, modeMatcher.start()).trim(), false, filterType);
+      Modeable modeable = item == null ? null : Modeable.find(item);
+      if (modeable != null) {
+        String mode = modeable.normalizeMode(modeMatcher.group(1));
+        if (!modeable.getModes().contains(mode)) {
+          KoLmafia.updateDisplay(
+              MafiaState.ERROR,
+              "Unrecognized mode for " + item.getName() + ": " + modeMatcher.group(1));
+          return null;
+        }
+        return new ItemWithMode(item, modeable, mode);
+      }
+      // Not a modeable item, the parentheses may be part of the name itself
+      // "Jarlsberg's pan (Cosmic portal mode)"
+    }
+
+    AdventureResult item = getFirstMatchingItem(parameters, filterType);
+    return item == null ? null : new ItemWithMode(item, null, null);
   }
 
   public static AdventureResult[] getMatchingItemList(String itemList) {
