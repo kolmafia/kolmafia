@@ -33,7 +33,7 @@ public class UmbrellaCommand extends AbstractCommand implements ModeCommand {
 
   @Override
   public boolean validate(final String command, final String parameter) {
-    return getMode(parameter) != null;
+    return getMode(normalize(parameter)) != null;
   }
 
   public Set<String> getModes() {
@@ -59,7 +59,7 @@ public class UmbrellaCommand extends AbstractCommand implements ModeCommand {
               }
             });
 
-    parameter = parameter.trim();
+    parameter = normalize(parameter);
 
     if (parameter.equals("")) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "What state do you want to fold your umbrella to?");

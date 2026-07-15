@@ -30,7 +30,7 @@ public class SnowsuitCommand extends AbstractCommand implements ModeCommand {
 
   private int findDecision(final String parameters) {
     return MODES.entrySet().stream()
-        .filter(e -> e.getValue().equalsIgnoreCase(parameters))
+        .filter(e -> e.getValue().equals(parameters))
         .map(Map.Entry::getKey)
         .findFirst()
         .orElse(0);
@@ -38,7 +38,7 @@ public class SnowsuitCommand extends AbstractCommand implements ModeCommand {
 
   @Override
   public boolean validate(final String command, final String parameters) {
-    return findDecision(parameters) != 0;
+    return findDecision(normalize(parameters)) != 0;
   }
 
   @Override
@@ -80,6 +80,7 @@ public class SnowsuitCommand extends AbstractCommand implements ModeCommand {
   @Override
   public void run(final String cmd, String parameters) {
     String currentDecoration = Preferences.getString("snowsuit");
+    parameters = normalize(parameters);
 
     if (parameters.length() == 0) {
       KoLmafia.updateDisplay("Current decoration on Snowsuit is " + currentDecoration);

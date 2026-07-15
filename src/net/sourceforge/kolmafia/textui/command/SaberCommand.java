@@ -28,7 +28,7 @@ public class SaberCommand extends AbstractCommand {
       return;
     }
 
-    parameter = parameter.trim();
+    parameter = parameter.trim().toLowerCase();
 
     if (parameter.isEmpty()) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "Which upgrade do you want to make?");

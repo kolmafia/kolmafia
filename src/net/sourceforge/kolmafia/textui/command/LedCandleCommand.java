@@ -16,7 +16,7 @@ public class LedCandleCommand extends AbstractCommand implements ModeCommand {
 
   @Override
   public boolean validate(String command, String parameters) {
-    return parseInput(parameters) > 0;
+    return parseInput(normalize(parameters)) > 0;
   }
 
   @Override
@@ -44,7 +44,7 @@ public class LedCandleCommand extends AbstractCommand implements ModeCommand {
       return;
     }
 
-    parameter = parameter.trim();
+    parameter = normalize(parameter);
 
     if (parameter.isEmpty()) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "Which tweak do you want to make?");

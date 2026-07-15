@@ -112,4 +112,16 @@ public class SaberCommandTest extends AbstractCommandTestBase {
       assertThat(output, containsString("Upgrading saber"));
     }
   }
+
+  @Test
+  void worksWithCapitalizedParam() {
+    var cleanups = withEquipped(Slot.WEAPON, ItemPool.FOURTH_SABER);
+
+    try (cleanups) {
+      String output = execute("Ml");
+
+      assertContinueState();
+      assertThat(output, containsString("Upgrading saber"));
+    }
+  }
 }

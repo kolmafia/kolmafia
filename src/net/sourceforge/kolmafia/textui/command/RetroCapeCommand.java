@@ -25,7 +25,7 @@ public class RetroCapeCommand extends AbstractCommand implements ModeCommand {
 
   @Override
   public boolean validate(final String command, final String parameters) {
-    String[] parts = parameters.split(" ");
+    String[] parts = normalize(parameters).split(" ");
     return Arrays.asList(SUPERHEROS).contains(parts[0])
         && Arrays.asList(WASHING_INSTRUCTIONS).contains(parts[1]);
   }
@@ -44,7 +44,7 @@ public class RetroCapeCommand extends AbstractCommand implements ModeCommand {
       return;
     }
 
-    parameters = parameters.trim();
+    parameters = normalize(parameters);
 
     String[] params = parameters.split(" ");
 
