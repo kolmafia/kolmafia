@@ -81,10 +81,6 @@ public class EdPieceCommand extends AbstractCommand implements ModeCommand {
     return Arrays.stream(Animal.values()).anyMatch(a -> parameters.equalsIgnoreCase(a.getName()));
   }
 
-  public String normalize(String parameters) {
-    return parameters;
-  }
-
   @Override
   public Set<String> getModes() {
     return Arrays.stream(Animal.values()).map(Animal::getName).collect(Collectors.toSet());

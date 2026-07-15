@@ -30,10 +30,6 @@ public class RetroCapeCommand extends AbstractCommand implements ModeCommand {
         && Arrays.asList(WASHING_INSTRUCTIONS).contains(parts[1]);
   }
 
-  public String normalize(String parameters) {
-    return parameters;
-  }
-
   @Override
   public Set<String> getModes() {
     return Arrays.stream(SUPERHEROS)

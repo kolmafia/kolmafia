@@ -41,10 +41,6 @@ public class SnowsuitCommand extends AbstractCommand implements ModeCommand {
     return findDecision(parameters) != 0;
   }
 
-  public String normalize(String parameters) {
-    return parameters;
-  }
-
   @Override
   public HashSet<String> getModes() {
     return new HashSet<>(MODES.values());

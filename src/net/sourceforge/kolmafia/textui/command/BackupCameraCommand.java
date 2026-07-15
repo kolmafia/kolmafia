@@ -22,10 +22,6 @@ public class BackupCameraCommand extends AbstractCommand implements ModeCommand 
     return getChoiceForParameters(parameters) > 0;
   }
 
-  public String normalize(String parameters) {
-    return parameters;
-  }
-
   public int getChoiceForParameters(final String parameters) {
     return MODES.entrySet().stream()
         .filter(e -> parameters.contains(e.getKey()))
