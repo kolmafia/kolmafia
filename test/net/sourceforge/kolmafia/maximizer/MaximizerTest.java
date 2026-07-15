@@ -1658,18 +1658,6 @@ public class MaximizerTest {
     }
 
     @Test
-    public void bonusWithModeForcesThatMode() {
-      final var cleanups =
-          new Cleanups(withEquippableItem(ItemPool.JURASSIC_PARKA), withSkill(SkillPool.TORSO));
-
-      try (cleanups) {
-        assertTrue(maximize("ml, 100 bonus Jurassic Parka (ghostasaurus mode)"));
-        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.SHIRT, "Jurassic Parka")));
-        assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("parka ghostasaurus"))));
-      }
-    }
-
-    @Test
     public void shouldErrorWhenModesConflict() {
       final var cleanups =
           new Cleanups(withEquippableItem(ItemPool.JURASSIC_PARKA), withSkill(SkillPool.TORSO));
@@ -1785,6 +1773,220 @@ public class MaximizerTest {
         assertTrue(maximize("ml, -offhand"));
         assertThat(getBoosts(), not(hasItem(hasProperty("cmd", startsWith("umbrella")))));
         assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("backupcamera"))));
+      }
+    }
+
+    @Test
+    public void doesNotEquipExcludedMode() {
+      final var cleanups =
+          new Cleanups(
+              withEquippableItem("backup camera"), withProperty("backupCameraMode", "init"));
+
+      try (cleanups) {
+        assertTrue(maximize("meat, -tie, -equip backup camera (meat)"));
+        assertThat(getBoosts(), not(hasItem(recommends(ItemPool.BACKUP_CAMERA))));
+        assertThat(getBoosts(), not(hasItem(hasProperty("cmd", startsWith("backupcamera")))));
+      }
+    }
+
+    @Test
+    public void bonusModeWinsOverNaturalValue() {
+      final var cleanups =
+          new Cleanups(withEquippableItem("Backup camera"), withProperty("backupCameraMode", "ml"));
+
+      try (cleanups) {
+        assertTrue(maximize("init, 150 bonus Backup camera (meat)"));
+        assertThat(getBoosts(), hasItem(recommends(ItemPool.BACKUP_CAMERA)));
+        assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("backupcamera meat"))));
+      }
+    }
+
+    @Test
+    public void bonusWithModeAcceptsAliases() {
+      final var cleanups =
+          new Cleanups(withEquippableItem(ItemPool.JURASSIC_PARKA), withSkill(SkillPool.TORSO));
+
+      try (cleanups) {
+        assertTrue(maximize("ml, 100 bonus Jurassic Parka (spooky mode)"));
+        assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("parka ghostasaurus"))));
+      }
+    }
+
+    @Test
+    public void bonusWithModeAcceptsModeWithoutTheWordMode() {
+      final var cleanups =
+          new Cleanups(
+              withEquippableItem("unbreakable umbrella"),
+              withEquipped(Slot.PANTS, "old sweatpants"),
+              withProperty("umbrellaState", "broken"));
+
+      try (cleanups) {
+        assertTrue(maximize("ml, 100 bonus unbreakable umbrella (cocoon)"));
+        assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("umbrella cocoon"))));
+      }
+    }
+
+    @Test
+    public void bonusWithModeAcceptsMultiWordModes() {
+      final var cleanups =
+          new Cleanups(
+              withEquippableItem("unwrapped knock-off retro superhero cape"),
+              withProperty("retroCapeSuperhero", "vampire"),
+              withProperty("retroCapeWashingInstructions", "thrill"));
+
+      try (cleanups) {
+        assertTrue(
+            maximize(
+                "hot res, 100 bonus unwrapped knock-off retro superhero cape (robot kill mode)"));
+        assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("retrocape robot kill"))));
+      }
+    }
+
+    @Test
+    public void bonusStillMatchesItemNamesEndingInMode() {
+      final var cleanups = new Cleanups(withEquippableItem("Jarlsberg's pan (Cosmic portal mode)"));
+
+      try (cleanups) {
+        assertTrue(maximize("spell dmg, 100 bonus Jarlsberg's pan (Cosmic portal mode)"));
+        assertThat(
+            getBoosts(),
+            hasItem(recommendsSlot(Slot.OFFHAND, "Jarlsberg's pan (Cosmic portal mode)")));
+      }
+    }
+
+    @Test
+    public void bonusStillMatchesItemNamesEndingInMode2() {
+      final var cleanups = new Cleanups(withEquippableItem("Boris's Helm (askew)"));
+
+      try (cleanups) {
+        assertTrue(maximize("ml, 100 bonus Boris's Helm (askew)"));
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "Boris's Helm (askew)")));
+      }
+    }
+
+    @Test
+    public void bonusWithUnknownModeErrors() {
+      final var cleanups =
+          new Cleanups(withEquippableItem(ItemPool.JURASSIC_PARKA), withSkill(SkillPool.TORSO));
+
+      try (cleanups) {
+        assertFalse(maximize("ml, 100 bonus Jurassic Parka (magical mode)"));
+      }
+    }
+
+    @Test
+    public void higherBonusModeWins() {
+      final var cleanups =
+          new Cleanups(withEquippableItem("backup camera"), withProperty("backupCameraMode", "ml"));
+
+      try (cleanups) {
+        // 120 vs 110
+        assertTrue(maximize("70 bonus backup camera (meat), 10 bonus backup camera (init)"));
+        assertThat(getBoosts(), hasItem(recommends(ItemPool.BACKUP_CAMERA)));
+        assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("backupcamera meat"))));
+      }
+    }
+
+    @Test
+    public void equipModeWinsOverBonusMode() {
+      final var cleanups =
+          new Cleanups(withEquippableItem(ItemPool.JURASSIC_PARKA), withSkill(SkillPool.TORSO));
+
+      try (cleanups) {
+        assertTrue(
+            maximize(
+                "equip Jurassic Parka (ghostasaurus mode), 100 bonus Jurassic Parka (kachungasaur mode)"));
+        assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("parka ghostasaurus"))));
+      }
+    }
+
+    @Test
+    public void bonusModeNeverOverridesEquipModeRegardlessOfOrder() {
+      final var cleanups =
+          new Cleanups(withEquippableItem(ItemPool.JURASSIC_PARKA), withSkill(SkillPool.TORSO));
+
+      try (cleanups) {
+        assertTrue(
+            maximize(
+                "100 bonus Jurassic Parka (kachungasaur mode), equip Jurassic Parka (ghostasaurus mode)"));
+        assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("parka ghostasaurus"))));
+      }
+    }
+
+    @Test
+    public void bonusModeNeverOverridesImplicitForce() {
+      final var cleanups =
+          new Cleanups(
+              withEquippableItem(ItemPool.CROWN_OF_ED),
+              withEquippableItem(ItemPool.OLD_SCUBA_TANK));
+
+      try (cleanups) {
+        // 'sea' still forces fish mode
+        assertTrue(maximize("sea, 100 bonus Crown of Ed the Undying (hyena mode)"));
+        assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("edpiece fish"))));
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "The Crown of Ed the Undying")));
+      }
+    }
+
+    @Test
+    public void bonusScoreAndModeableScoreAddsTogether() {
+      final var cleanups =
+          new Cleanups(
+              withEquippableItem("backup camera"),
+              withEquippableItem("incredibly dense meat gem"),
+              withProperty("backupCameraMode", "init"));
+
+      try (cleanups) {
+        // The camera's 50 - 10 + 25 = 65 beats the gem's 60
+        assertTrue(
+            maximize("meat -acc1 -acc2, -10 bonus backup camera, 25 bonus backup camera (meat)"));
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.ACCESSORY3, "backup camera")));
+        assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("backupcamera meat"))));
+        assertThat(getBoosts(), not(hasItem(recommends("incredibly dense meat gem"))));
+        assertEquals(165, Maximizer.best.getScore());
+      }
+    }
+
+    @Test
+    public void secondBonusForSameItemOverwritesFirst() {
+      final var cleanups =
+          new Cleanups(
+              withEquippableItem("backup camera"), withEquippableItem("incredibly dense meat gem"));
+
+      try (cleanups) {
+        // The later bonus replaces the earlier one
+        assertTrue(
+            maximize(
+                "meat -acc1 -acc2, 15 bonus backup camera (meat), 5 bonus backup camera (meat)"));
+        assertThat(
+            getBoosts(), hasItem(recommendsSlot(Slot.ACCESSORY3, "incredibly dense meat gem")));
+        assertThat(getBoosts(), not(hasItem(recommends(ItemPool.BACKUP_CAMERA))));
+      }
+    }
+
+    @Test
+    public void bonusModeWinsOverNaturalModeSelection() {
+      final var cleanups =
+          new Cleanups(withEquippableItem("backup camera"), withProperty("backupCameraMode", "ml"));
+
+      try (cleanups) {
+        assertTrue(maximize("ml, 100 bonus backup camera (meat)"));
+        assertThat(getBoosts(), hasItem(recommends(ItemPool.BACKUP_CAMERA)));
+        assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("backupcamera meat"))));
+      }
+    }
+
+    @Test
+    public void doesSwitchAwayFromBadBonusForMode() {
+      final var cleanups =
+          new Cleanups(
+              withEquippableItem("backup camera"), withProperty("backupCameraMode", "init"));
+
+      try (cleanups) {
+        assertTrue(maximize("+equip backup camera, -150 bonus backup camera (init)"));
+        assertThat(getBoosts(), hasItem(recommends(ItemPool.BACKUP_CAMERA)));
+        assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("backupcamera"))));
+        assertThat(getBoosts(), not(hasItem(hasProperty("cmd", startsWith("backupcamera init")))));
       }
     }
   }
