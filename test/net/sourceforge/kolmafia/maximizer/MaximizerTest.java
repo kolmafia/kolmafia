@@ -1553,6 +1553,33 @@ public class MaximizerTest {
         assertThat(getBoosts(), not(hasItem(hasProperty("cmd", startsWith("ledcandle disco")))));
       }
     }
+
+    @Test
+    public void doesNotChangeModeOfItemInExcludedSlot() {
+      final var cleanups =
+          new Cleanups(
+              withEquipped(Slot.ACCESSORY1, "backup camera"),
+              withProperty("backupCameraMode", "init"));
+
+      try (cleanups) {
+        assertTrue(maximize("meat, -acc1"));
+        assertThat(getBoosts(), not(hasItem(hasProperty("cmd", startsWith("backupcamera")))));
+      }
+    }
+
+    @Test
+    public void doesNotChangeModeOfUmbrellaInExcludedSlot() {
+      final var cleanups =
+          new Cleanups(
+              withEquipped(Slot.OFFHAND, "unbreakable umbrella"),
+              withFamiliarInTerrarium(FamiliarPool.LEFT_HAND),
+              withProperty("umbrellaState", "cocoon"));
+
+      try (cleanups) {
+        assertTrue(maximize("ml, -offhand, switch left-hand man"));
+        assertThat(getBoosts(), not(hasItem(hasProperty("cmd", startsWith("umbrella")))));
+      }
+    }
   }
 
   @Nested
