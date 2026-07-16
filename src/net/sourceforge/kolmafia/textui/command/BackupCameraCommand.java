@@ -19,11 +19,7 @@ public class BackupCameraCommand extends AbstractCommand implements ModeCommand 
 
   @Override
   public boolean validate(final String command, final String parameters) {
-    return getChoiceForParameters(parameters) > 0;
-  }
-
-  public String normalize(String parameters) {
-    return parameters;
+    return getChoiceForParameters(normalize(parameters)) > 0;
   }
 
   public int getChoiceForParameters(final String parameters) {
@@ -42,12 +38,13 @@ public class BackupCameraCommand extends AbstractCommand implements ModeCommand 
   }
 
   @Override
-  public void run(final String cmd, final String parameters) {
+  public void run(final String cmd, String parameters) {
     if (!InventoryManager.hasItem(ItemPool.BACKUP_CAMERA)) {
       KoLmafia.updateDisplay("You need a backup camera first.");
       return;
     }
 
+    parameters = normalize(parameters);
     int choice = getChoiceForParameters(parameters);
 
     if (choice == 0) {

@@ -19,6 +19,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.session.ChoiceManager;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -95,13 +96,19 @@ public class SnowsuitCommandTest extends AbstractCommandTestBase {
   }
 
   private static Stream<Arguments> provideModes() {
+    // We inject capitalization
     return SnowsuitCommand.MODES.entrySet().stream()
-        .map(e -> Arguments.of(e.getKey(), e.getValue()));
+        .flatMap(
+            e ->
+                Stream.of(
+                    Arguments.of(e.getKey(), e.getValue(), e.getValue()),
+                    Arguments.of(
+                        e.getKey(), e.getValue(), StringUtilities.capitalize(e.getValue()))));
   }
 
   @ParameterizedTest
   @MethodSource("provideModes")
-  void successFullyhangesDecoration(int decision, String decoration) {
+  void successFullyhangesDecoration(int decision, String decoration, String testedName) {
     var cleanups =
         new Cleanups(
             withEquippableItem("Snow Suit"),
@@ -110,7 +117,7 @@ public class SnowsuitCommandTest extends AbstractCommandTestBase {
             withProperty("snowsuit", ""));
 
     try (cleanups) {
-      String output = execute(decoration);
+      String output = execute(testedName);
       var requests = getRequests();
 
       assertThat(requests, hasSize(2));

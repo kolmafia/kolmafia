@@ -161,7 +161,9 @@ public class Maximizer {
     KoLCharacter.recalculateAdjustments();
     double current =
         Maximizer.eval.getScore(
-            KoLCharacter.getCurrentModifiers(), EquipmentManager.currentEquipment());
+            KoLCharacter.getCurrentModifiers(),
+            EquipmentManager.currentEquipment(),
+            Modeable.getStateMap());
 
     if (maxPrice <= 0) {
       maxPrice = Preferences.getInteger("autoBuyPriceLimit");
@@ -225,7 +227,9 @@ public class Maximizer {
 
     current =
         Maximizer.eval.getScore(
-            KoLCharacter.getCurrentModifiers(), EquipmentManager.currentEquipment());
+            KoLCharacter.getCurrentModifiers(),
+            EquipmentManager.currentEquipment(),
+            Modeable.getStateMap());
 
     // Show only equipment
     if (filter.contains(filterType.EQUIP) && filterCount == 1) {

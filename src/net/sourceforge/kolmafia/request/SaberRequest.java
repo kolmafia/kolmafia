@@ -2,6 +2,8 @@ package net.sourceforge.kolmafia.request;
 
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
+import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.BanishManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
@@ -53,13 +55,13 @@ public class SaberRequest extends GenericRequest {
 
     if (urlString.contains("option=1")) {
       BanishManager.banishCurrentMonster(BanishManager.Banisher.SABER_FORCE);
-      Preferences.increment("_saberForceUses");
+      registerCast();
     } else if (urlString.contains("option=2")) {
       Preferences.setString("_saberForceMonster", MonsterStatusTracker.getLastMonsterName());
       Preferences.setInteger("_saberForceMonsterCount", 3);
-      Preferences.increment("_saberForceUses");
+      registerCast();
     } else if (urlString.contains("option=3")) {
-      Preferences.increment("_saberForceUses");
+      registerCast();
     } else {
       return;
     }
@@ -70,6 +72,13 @@ public class SaberRequest extends GenericRequest {
     // Eventually try to reduce delay in the last adventured area, and remove the
     // last monster from the queue.  Not reducing delay when the fight didn't come
     // from a location will likely be non-trivial.
+  }
+
+  private static void registerCast() {
+    // Because we get shunted to the choice without processing the fight round data, we need to do
+    // the bookkeeping for the skill being cast now.
+    SkillDatabase.registerCasts(SkillPool.USE_THE_FORCE, 1);
+    Preferences.increment("_saberForceUses");
   }
 
   public static final void postForce(final String urlString, final String responseText) {

@@ -59,6 +59,8 @@ class RetroCapeCommandTest extends AbstractCommandTestBase {
   @CsvSource({
     "robot, 3",
     "mus, 1",
+    "ROBot, 3",
+    "MUS, 1",
   })
   void configuresJustSuperhero(String superhero, int decision) {
     var cleanups =
@@ -79,6 +81,7 @@ class RetroCapeCommandTest extends AbstractCommandTestBase {
   @CsvSource({
     "thrill, 3",
     "kill, 5",
+    "KILL, 5",
   })
   void configuresJustWashingInstruction(String instruction, int decision) {
     var cleanups =
@@ -99,6 +102,8 @@ class RetroCapeCommandTest extends AbstractCommandTestBase {
   @CsvSource({
     "vampire hold, 1, 2",
     "mys kiss, 2, 4",
+    "VampiRE HOld, 1, 2",
+    "MYS KiSS, 2, 4",
   })
   void configuresBothModes(String mode, int decision1, int decision2) {
     var cleanups =

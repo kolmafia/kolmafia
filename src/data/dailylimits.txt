@@ -4,6 +4,7 @@
 Cast	%fn, kill a lot of these guys	_swordOfSWordsMonsterChanged	3
 Cast	%fn, lay an egg	_mimicEggsObtained	11
 Cast	Acquire Rhinestones	_rhinestonesAcquired
+Cast	Adjust the Jokester's Wig	_adjustedJokestersWig
 Cast	Advanced Cocktailcrafting	cocktailSummons
 Cast	Advanced Saucecrafting	reagentSummons
 Cast	Ancestral Recall	_ancestralRecallCasts	10
@@ -59,6 +60,7 @@ Cast	CHEAT CODE: Invisible Avatar	_powerfulGloveBatteryPowerUsed	100
 Cast	CHEAT CODE: Replace Enemy	_powerfulGloveBatteryPowerUsed	100
 Cast	CHEAT CODE: Shrink Enemy	_powerfulGloveBatteryPowerUsed	100
 Cast	CHEAT CODE: Triple Size	_powerfulGloveBatteryPowerUsed	100
+Cast	Calculate the Universe	_universeCalculated	[interact()*pref(skillLevel144)+(1-interact())*min(pref(skillLevel144),3)]
 Cast	Canticle of Carboloading	_carboLoaded
 Cast	Ceci N'Est Pas Un Chapeau	_ceciHatUsed
 Cast	Chest X-Ray	_chestXRayUsed	3
@@ -83,6 +85,7 @@ Cast	Conjure Meat Product	_jarlsMeatSummoned
 Cast	Conjure Potato	_jarlsPotatoSummoned
 Cast	Conjure Vegetables	_jarlsVeggiesSummoned
 Cast	Creepy Grin	_vmaskBanisherUsed	1
+Cast	Curse of Vacation	_curseOfVacationUsed	5
 Cast	Demand Sandwich	_demandSandwich	3
 Cast	Digitize	_sourceTerminalDigitizeUses	[1+pref(sourceTerminalChips,TRAM)+pref(sourceTerminalChips,TRIGRAM)]
 Cast	Do an epic McTwist!	_epicMcTwistUsed
@@ -90,7 +93,9 @@ Cast	Donho's Bubbly Ballad	_donhosCasts	50
 Cast	Douse Foe	_douseFoeUses	3
 Cast	Duplicate	_sourceTerminalDuplicateUses	[1+(4*path(The Source))]
 Cast	Elron's Explosive Etude	_elronsCasts	10
+Cast	Ensorcel	_ensorcelUsed	3
 Cast	Evoke Eldritch Horror	_eldritchHorrorEvoked
+Cast	Experience Safari	_experienceSafariUsed	[pref(skillLevel180)]
 Cast	Extract Oil	_oilExtracted	15
 Cast	Eye and a Twist	_eyeAndATwistUsed
 Cast	Feel Disappointed	_feelDisappointedUsed	3
@@ -122,6 +127,7 @@ Cast	Heartstone: %luck	_heartstoneLuckUsed
 Cast	Heartstone: %pals	_heartstonePalsUsed	5
 Cast	Heartstone: %buff	_heartstoneBuffUsed	5
 Cast	Hugs and Kisses!	_xoHugsUsed	11
+Cast	I Can Bearly Hear You Over The Applause	_bearlyHeard
 Cast	Implode Universe	_universeImploded	[pref(skillLevel188)]
 Cast	Incite Riot	_peteRiotIncited
 Cast	Incredible Self-Esteem	_incredibleSelfEsteemCast
@@ -199,6 +205,7 @@ Cast	Throw Latte on Opponent	_latteBanishUsed
 Cast	Throw Party	_petePartyThrown
 Cast	Transcendent Olfaction	_olfactionsUsed	3
 Cast	Turtle Power	_turtlePowerCast
+Cast	Use the Force	_saberForceUses	5
 Cast	Vent Rage Gland	rageGlandVented
 Cast	Visit Your Favorite Bird	_favoriteBirdVisited
 Cast	Wave your Pasta Wand	_legendaryPastaWaveCast

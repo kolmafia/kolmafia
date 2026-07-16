@@ -29,7 +29,7 @@ public class Speculation {
   private String custom, horsery, boomBox;
   protected boolean calculated = false;
   protected Modifiers mods;
-  private final Map<Modeable, String> modeables;
+  private Map<Modeable, String> modeables;
 
   public Speculation() {
     this.MCD = KoLCharacter.getMindControlLevel();
@@ -117,6 +117,10 @@ public class Speculation {
 
   public Map<Modeable, String> getModeables() {
     return this.modeables;
+  }
+
+  protected void setModeables(Map<Modeable, String> modeables) {
+    this.modeables = modeables;
   }
 
   public void equip(Slot slot, AdventureResult item) {

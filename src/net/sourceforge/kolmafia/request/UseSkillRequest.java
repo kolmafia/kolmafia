@@ -2132,6 +2132,10 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
           // If the skill is being cast, then the limit must be at least 1
           Preferences.setInteger("skillLevel144", 1);
         }
+
+        // Using the skill just sends us to the Doing the Maths choice adventure, and the skill is
+        // only actually used as a result of the choice, so skip handling it here.
+        return SkillStatus.WARNING;
       }
       case SkillPool.SEEK_OUT_A_BIRD -> Preferences.increment("_birdsSoughtToday");
       case SkillPool.MAP_THE_MONSTERS -> Preferences.setBoolean("mappingMonsters", true);

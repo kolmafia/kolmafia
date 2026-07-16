@@ -66,18 +66,22 @@ class UseSkillRequestTest {
     ContactManager.registerPlayerId("targetPlayer", "123");
     KoLCharacter.setMP(1000, 1000, 1000);
     KoLCharacter.addAvailableSkill(EXPERIENCE_SAFARI);
-    int startingCasts = SkillDatabase.getCasts(EXPERIENCE_SAFARI);
 
-    UseSkillRequest req = UseSkillRequest.getInstance(EXPERIENCE_SAFARI, "targetPlayer", 1);
-
-    var cleanups = withNextResponse(200, "You don't have enough mana to cast that skill.");
+    var cleanups =
+        new Cleanups(
+            withProperty("_experienceSafariUsed", 0),
+            withProperty("skillLevel180", 2),
+            withNextResponse(200, "You don't have enough mana to cast that skill."));
 
     try (cleanups) {
+      int startingCasts = SkillDatabase.getCasts(EXPERIENCE_SAFARI);
+      UseSkillRequest req = UseSkillRequest.getInstance(EXPERIENCE_SAFARI, "targetPlayer", 1);
       req.run();
-    }
 
-    assertEquals("Not enough mana to cast Experience Safari.", UseSkillRequest.lastUpdate);
-    assertEquals(startingCasts, SkillDatabase.getCasts(EXPERIENCE_SAFARI));
+      assertEquals("Not enough mana to cast Experience Safari.", UseSkillRequest.lastUpdate);
+      assertEquals(startingCasts, SkillDatabase.getCasts(EXPERIENCE_SAFARI));
+      assertThat("_experienceSafariUsed", isSetTo(0));
+    }
 
     KoLmafia.forceContinue();
   }
@@ -87,21 +91,24 @@ class UseSkillRequestTest {
     ContactManager.registerPlayerId("targetPlayer", "123");
     KoLCharacter.setMP(1000, 1000, 1000);
     KoLCharacter.addAvailableSkill(EXPERIENCE_SAFARI);
-    int startingCasts = SkillDatabase.getCasts(EXPERIENCE_SAFARI);
-
-    UseSkillRequest req = UseSkillRequest.getInstance(EXPERIENCE_SAFARI, "targetPlayer", 1);
 
     var cleanups =
-        withNextResponse(
-            200,
-            "You bless your friend, targetPlayer, with the ability to experience a safari adventure.");
+        new Cleanups(
+            withProperty("_experienceSafariUsed", 0),
+            withProperty("skillLevel180", 2),
+            withNextResponse(
+                200,
+                "You bless your friend, targetPlayer, with the ability to experience a safari adventure."));
 
     try (cleanups) {
+      int startingCasts = SkillDatabase.getCasts(EXPERIENCE_SAFARI);
+      UseSkillRequest req = UseSkillRequest.getInstance(EXPERIENCE_SAFARI, "targetPlayer", 1);
       req.run();
-    }
 
-    assertEquals("", UseSkillRequest.lastUpdate);
-    assertEquals(startingCasts + 1, SkillDatabase.getCasts(EXPERIENCE_SAFARI));
+      assertEquals("", UseSkillRequest.lastUpdate);
+      assertEquals(startingCasts + 1, SkillDatabase.getCasts(EXPERIENCE_SAFARI));
+      assertThat("_experienceSafariUsed", isSetTo(1));
+    }
   }
 
   @Test

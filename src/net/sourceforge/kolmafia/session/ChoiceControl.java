@@ -44,6 +44,8 @@ import net.sourceforge.kolmafia.objectpool.OutfitPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.DailyLimitDatabase.DailyLimit;
+import net.sourceforge.kolmafia.persistence.DailyLimitDatabase.DailyLimitType;
 import net.sourceforge.kolmafia.persistence.DebugDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
@@ -5944,7 +5946,17 @@ public abstract class ChoiceControl {
       case 1103 -> {
         // Doing the Maths
         if (!text.contains("Try again")) {
-          Preferences.increment("_universeCalculated");
+          DailyLimit limit = DailyLimitType.CAST.getDailyLimit(SkillPool.CALCULATE_THE_UNIVERSE);
+          if (limit != null) {
+            limit.increment();
+            SkillDatabase.registerCasts(SkillPool.CALCULATE_THE_UNIVERSE, 1);
+            if (!KoLCharacter.canInteract() && limit.getUses() >= 3) {
+              // If the skill is used 3 times in-run, the skill can't be used more today even after
+              // breaking the prism.
+              Preferences.setInteger(
+                  "_universeCalculated", Preferences.getInteger("skillLevel144"));
+            }
+          }
         }
       }
 

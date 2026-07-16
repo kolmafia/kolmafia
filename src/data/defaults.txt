@@ -1878,6 +1878,7 @@ user	zootomistPoints	0
 user	_2002MrStoreCreditsCollected	false
 user	_absintheDrops	0
 user	_abstractionDropsCrown	0
+user	_adjustedJokestersWig	false
 user	_affirmationCookieEaten	false
 user	_affirmationHateUsed	false
 user	_afterimageMonster	false
@@ -1996,6 +1997,7 @@ user	_beachMinutes
 user	_beanCannonUses	0
 user	_beanballMonster
 user	_bearHugs	0
+user	_bearlyHeard	false
 user	_beerLensDrops	0
 user	_bellydancerPickpockets	0
 user	_bendHellUsed	false
@@ -2138,6 +2140,7 @@ user	_crToday	false
 user	_cupidBowFamiliars
 user	_cupOf13sJewels	13
 user	_currentDartboard
+user	_curseOfVacationUsed	0
 user	_cursedKegUsed	false
 user	_cursedMicrowaveUsed	false
 user	_curveballMonster
@@ -2208,6 +2211,7 @@ user	_elronsCasts	0
 user	_emberingHulkFought	false
 user	_enamorangs	0
 user	_energyCollected	0
+user	_ensorcelUsed	0
 user	_entauntaunedToday	false
 user	_envyfishEggUsed	false
 user	_epicMcTwistUsed	false
@@ -2216,6 +2220,7 @@ user	_etchedHourglassUsed	false
 user	_eternalCarBatteryUsed	false
 user	_everfullGlassUsed	false
 user	_expertCornerCutterUsed	0
+user	_experienceSafariUsed	0
 user	_extraTimeUsed	0
 user	_extraGreasySliderEaten	false
 user	_eyeAndATwistUsed	false

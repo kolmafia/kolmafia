@@ -9977,6 +9977,12 @@ public class FightRequest extends GenericRequest {
         FamiliarData familiar = KoLCharacter.getEffectiveFamiliar();
         familiar.setCharges(0);
       }
+      case SkillPool.I_CAN_BEARLY_HEAR_YOU_OVER_THE_APPLAUSE -> {
+        if (responseText.contains("You raise both bear arms over your head in a victory pose.")
+            || skillSuccess) {
+          skillSuccess = true;
+        }
+      }
       case SkillPool.SHRAP -> ResultProcessor.removeItem(ItemPool.WARBEAR_WHOSIT);
       case SkillPool.GET_A_GOOD_WHIFF -> {
         if (responseText.contains("floats over your opponent") || familiarSkillSuccess) {
@@ -10359,6 +10365,7 @@ public class FightRequest extends GenericRequest {
       case SkillPool.CURSE_OF_VACATION -> {
         if (responseText.contains("as the vortex disappears") || skillSuccess) {
           BanishManager.banishMonster(monster, Banisher.CURSE_OF_VACATION);
+          skillSuccess = true;
         }
       }
       case SkillPool.CURSE_OF_STENCH -> {
@@ -10412,6 +10419,12 @@ public class FightRequest extends GenericRequest {
       case SkillPool.USE_BAT_AID -> ResultProcessor.removeItem(ItemPool.BAT_AID_BANDAGE);
       case SkillPool.FIRE_JOKESTER_GUN -> {
         if (responseText.contains("little flag reading BANG pops out the end of the barrel")
+            || skillSuccess) {
+          skillSuccess = true;
+        }
+      }
+      case SkillPool.ADJUST_JOKESTER_WIG -> {
+        if (responseText.contains("You make a big show of creepily adjusting your hair.")
             || skillSuccess) {
           skillSuccess = true;
         }
@@ -10542,6 +10555,7 @@ public class FightRequest extends GenericRequest {
         if (responseText.contains("You gaze into your foe's eyes...") || skillSuccess) {
           Preferences.setString("ensorcelee", monster.toString());
           Preferences.setInteger("ensorceleeLevel", FightRequest.startingAttack);
+          skillSuccess = true;
         }
       }
       case SkillPool.BECOME_WOLF -> {

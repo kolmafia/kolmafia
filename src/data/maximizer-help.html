@@ -44,8 +44,8 @@ Slot names can be used as keywords:
 <br><b>knife</b> - With positive weight, only knives will be considered for your main-hand.
 <br><b>accordion</b> - With positive weight, only accordions will be considered for your main-hand.
 <br><b>current</b> - By default Maximizer considers your current equipment in Hardcore and Ronin. With -current keyword it does not, with +current keyword in aftercore it forces it to be considered. Not considering current equipment will reduce the number of combinations considered, but will sometimes mean changes of equipment are suggested even though they don't improve what you are wearing.
-<br><b>equip <i>item</i></b> - The specified item is required (positive weight) or forbidden (negative weight).  Multiple uses of <b>+equip</b> require all of the items to be equipped.
-<br><b>bonus <i>item</i></b> - The specified item is given a bonus to its score equivalent to weight.
+<br><b>equip <i>item</i></b> - The specified item is required (positive weight) or forbidden (negative weight).  Multiple uses of <b>+equip</b> require all of the items to be equipped. Modeable items such as <i>backup camera</i> can specify a mode <b>+equip backup camera (ml)</b> in parentheses. If a mode was already specified, maximizer will fail. Some attributes such as <b>sea</b> and <b>shield</b> have defined default modes for items, if you are experiencing issues, try moving the <b>equip</b> attribute before these attributes.
+<br><b>bonus <i>item</i></b> - The specified item is given a bonus to its score equivalent to weight. Modeable items such as <i>backup camera</i> can specify a mode <b>+10 bonus backup camera (ml)</b> in parentheses.
 <br><b>outfit <i>name</i></b> - The specified standard outfit is required or forbidden.  If the name is omitted, the currently equipped outfit is used.  Multiple uses of <b>+outfit</b> are satisfied by any one of the outfits (since you can't be wearing more than one at a time).
 <br><b>pirate</b> - With positive weight, wear either Swashbuckling outfit or Pirate Fledges.
 <br><b>plumber</b> - If a plumber, require a plumber-specific weapon to be equipped (required to adventure).

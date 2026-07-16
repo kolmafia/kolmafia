@@ -55,9 +55,11 @@ class JurassicParkaCommandTest extends AbstractCommandTestBase {
   public void validate() {
     var command = new JurassicParkaCommand();
     assertThat(command.validate("parka", "spikolodon"), equalTo(true));
+    assertThat(command.validate("parka", "SPIKoloDON"), equalTo(true));
     assertThat(command.validate("parka", "pterodactyl"), equalTo(true));
     assertThat(command.validate("parka", "cold"), equalTo(true));
     assertThat(command.validate("parka", "hot"), equalTo(true));
+    assertThat(command.validate("parka", "HOT"), equalTo(true));
     assertThat(command.validate("parka", "weenus"), equalTo(false));
   }
 
