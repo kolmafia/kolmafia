@@ -51,6 +51,7 @@ class EdPieceCommandTest extends AbstractCommandTestBase {
   public void validate() {
     var command = new EdPieceCommand();
     assertThat(command.validate("edpiece", "puma"), equalTo(true));
+    assertThat(command.validate("edpiece", "PUMA"), equalTo(true));
     assertThat(command.validate("edpiece", "rat"), equalTo(false));
   }
 

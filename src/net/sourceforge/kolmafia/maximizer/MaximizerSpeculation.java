@@ -45,6 +45,7 @@ public class MaximizerSpeculation extends Speculation
     try {
       MaximizerSpeculation copy = (MaximizerSpeculation) super.clone();
       copy.equipment = this.equipment.clone();
+      copy.setModeables(new EnumMap<>(this.getModeables()));
       return copy;
     } catch (CloneNotSupportedException e) {
       return null;
@@ -67,7 +68,7 @@ public class MaximizerSpeculation extends Speculation
   public double getScore() {
     if (this.scored) return this.score;
     if (!this.calculated) this.calculate();
-    this.score = Maximizer.eval.getScore(this.mods, this.equipment);
+    this.score = Maximizer.eval.getScore(this.mods, this.equipment, this.getModeables());
     if (KoLCharacter.inBeecore()) {
       this.beeosity = KoLCharacter.getBeeosity(this.equipment);
     }

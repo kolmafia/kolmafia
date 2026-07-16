@@ -22,6 +22,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.Modeable;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
@@ -853,6 +854,96 @@ public class ItemFinderTest {
       assertNotNull(item);
       assertEquals(ItemPool.AZURITE, item.getItemId());
       assertEquals(1, item.getCount());
+    }
+  }
+
+  @Test
+  public void itShouldParseModeSuffixOnModeableItem() {
+    try (var cleanups = withItem(ItemPool.JURASSIC_PARKA)) {
+      var match =
+          ItemFinder.getFirstMatchingItemWithMode("jurassic parka (spooky mode)", Match.EQUIP);
+      assertEquals(MafiaState.CONTINUE, StaticEntity.getContinuationState());
+      assertNotNull(match);
+      assertEquals(ItemPool.JURASSIC_PARKA, match.item().getItemId());
+      assertEquals(Modeable.PARKA, match.modeable());
+      assertEquals("ghostasaurus", match.mode());
+    }
+  }
+
+  @Test
+  public void itShouldNotTreatRealItemNameEndingInModeAsMode() {
+    try (var cleanups = withItem("Jarlsberg's pan (Cosmic portal mode)")) {
+      var match =
+          ItemFinder.getFirstMatchingItemWithMode(
+              "jarlsberg's pan (cosmic portal mode)", Match.EQUIP);
+      assertEquals(MafiaState.CONTINUE, StaticEntity.getContinuationState());
+      assertNotNull(match);
+      assertEquals("Jarlsberg's pan (Cosmic portal mode)", match.item().getName());
+      assertNull(match.modeable());
+      assertNull(match.mode());
+    }
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+    "''", // Empty string
+    "mode",
+    "magical mode"
+  })
+  public void itShouldErrorOnUnknownMode(String modeName) {
+    try (var cleanups = withItem(ItemPool.JURASSIC_PARKA)) {
+      var match =
+          ItemFinder.getFirstMatchingItemWithMode("jurassic parka (" + modeName + ")", Match.EQUIP);
+      assertEquals(MafiaState.ERROR, StaticEntity.getContinuationState());
+      assertNull(match);
+    }
+  }
+
+  @Test
+  public void itShouldErrorOnItemWithoutModes() {
+    try (var cleanups = withItem(ItemPool.MR_ACCESSORY)) {
+      var match =
+          ItemFinder.getFirstMatchingItemWithMode("Mr. Accessory (dinosaur mode)", Match.EQUIP);
+      assertEquals(MafiaState.ERROR, StaticEntity.getContinuationState());
+      assertNull(match);
+    }
+  }
+
+  @Test
+  public void itShouldParseItemWithoutSayingMode() {
+    try (var cleanups = withItem(ItemPool.SNOW_SUIT)) {
+      var match = ItemFinder.getFirstMatchingItemWithMode("Snow Suit (nose)", Match.EQUIP);
+      assertEquals(MafiaState.CONTINUE, StaticEntity.getContinuationState());
+      assertNotNull(match);
+      assertEquals("Snow Suit", match.item().getName());
+      assertEquals(Modeable.SNOWSUIT, match.modeable());
+      assertEquals("nose", match.mode());
+    }
+  }
+
+  @ParameterizedTest
+  @CsvSource({"nOsE", "nOSe mode", "NOse MOdE"})
+  public void itShouldParseItemWithWeirdCapitalization(String modeName) {
+    try (var cleanups = withItem(ItemPool.SNOW_SUIT)) {
+      var match =
+          ItemFinder.getFirstMatchingItemWithMode("SNOw suiT (" + modeName + ")", Match.EQUIP);
+      assertEquals(MafiaState.CONTINUE, StaticEntity.getContinuationState());
+      assertNotNull(match);
+      assertEquals("Snow Suit", match.item().getName());
+      assertEquals(Modeable.SNOWSUIT, match.modeable());
+      assertEquals("nose", match.mode());
+    }
+  }
+
+  @Test
+  public void itShouldReturnNoModeWithoutSuffix() {
+    try (var cleanups = withItem(ItemPool.JURASSIC_PARKA)) {
+      var match = ItemFinder.getFirstMatchingItemWithMode("jurassic parka", Match.EQUIP);
+      assertEquals(MafiaState.CONTINUE, StaticEntity.getContinuationState());
+      assertNotNull(match);
+      assertEquals(ItemPool.JURASSIC_PARKA, match.item().getItemId());
+      assertNull(match.modeable());
+      assertNull(match.mode());
     }
   }
 }

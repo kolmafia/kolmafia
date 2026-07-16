@@ -108,10 +108,12 @@ public class Evaluator {
   private final Set<String> negOutfits = new HashSet<>();
   private final Set<AdventureResult> posEquip = new HashSet<>();
   private final Set<AdventureResult> negEquip = new HashSet<>();
-  private final Map<AdventureResult, Double> bonuses = new HashMap<>();
+  private final Map<AdventureResult, ItemBonus> bonuses = new HashMap<>();
   private final List<BonusFunction> bonusFunc = new ArrayList<>();
 
   record BonusFunction(Function<AdventureResult, Double> bonusFunction, Double weight) {}
+
+  record ItemBonus(double base, Map<String, Double> modes) {}
 
   private static final Pattern MUS_EXP_PERC_PATTERN =
       Pattern.compile("^mus(cle)? exp(erience)? perc(ent(age)?)?");
@@ -218,6 +220,24 @@ public class Evaluator {
     this.parse(expr);
   }
 
+  @SuppressWarnings("BooleanMethodIsAlwaysInverted")
+  private boolean forceModeable(ItemFinder.ItemWithMode modeable, String mode) {
+    String existing = forcedModeables.get(modeable.modeable());
+    if (!existing.isEmpty() && !existing.equals(mode)) {
+      KoLmafia.updateDisplay(
+          MafiaState.ERROR,
+          "Conflicting modes requested for "
+              + modeable.item().getName()
+              + ": "
+              + existing
+              + " vs "
+              + mode);
+      return false;
+    }
+    forcedModeables.put(modeable.modeable(), mode);
+    return true;
+  }
+
   private void parse(String expr) {
     expr = expr.trim().toLowerCase();
     Matcher m = KEYWORD_PATTERN.matcher(expr);
@@ -297,7 +317,10 @@ public class Evaluator {
 
       if (keyword.equals("shield")) {
         this.requireShield = weight > 0.0;
-        forcedModeables.put(Modeable.UMBRELLA, "forward-facing");
+        // If a mode was not specified
+        if (forcedModeables.get(Modeable.UMBRELLA).isEmpty()) {
+          forcedModeables.put(Modeable.UMBRELLA, "forward-facing");
+        }
         this.hands = 1;
         continue;
       }
@@ -376,33 +399,49 @@ public class Evaluator {
         this.booleanMask.addAll(adventureUnderwater);
         this.booleanValue.addAll(adventureUnderwater);
         index = null;
-        // Force Crown of Ed to Fish
-        forcedModeables.put(Modeable.EDPIECE, "fish");
+        if (forcedModeables.get(Modeable.EDPIECE).isEmpty()) {
+          // Force Crown of Ed to Fish
+          forcedModeables.put(Modeable.EDPIECE, "fish");
+        }
         continue;
       }
 
       if (keyword.startsWith("equip ")) {
-        AdventureResult match =
-            ItemFinder.getFirstMatchingItem(keyword.substring(6).trim(), Match.EQUIP);
+        var match =
+            ItemFinder.getFirstMatchingItemWithMode(keyword.substring(6).trim(), Match.EQUIP);
         if (match == null) {
           return;
         }
+        if (match.modeable() != null && !forceModeable(match, match.mode())) {
+          return;
+        }
         if (weight > 0.0) {
-          this.posEquip.add(match);
-          equipBeeosity += KoLCharacter.getBeeosity(match.getName());
+          this.posEquip.add(match.item());
+          equipBeeosity += KoLCharacter.getBeeosity(match.item().getName());
         } else {
-          this.negEquip.add(match);
+          this.negEquip.add(match.item());
         }
         continue;
       }
 
       if (keyword.startsWith("bonus ")) {
-        AdventureResult match =
-            ItemFinder.getFirstMatchingItem(keyword.substring(6).trim(), Match.EQUIP);
+        var match =
+            ItemFinder.getFirstMatchingItemWithMode(keyword.substring(6).trim(), Match.EQUIP);
         if (match == null) {
           return;
         }
-        this.bonuses.put(match, weight);
+        // If this item does not require a mode
+        if (match.mode() == null) {
+          var existing = this.bonuses.get(match.item());
+          var modes = existing == null ? new HashMap<String, Double>() : existing.modes();
+          // We override the existing base weight as per old behavior, but inherit the modes.
+          this.bonuses.put(match.item(), new ItemBonus(weight, modes));
+        } else {
+          this.bonuses
+              .computeIfAbsent(match.item(), k -> new ItemBonus(0.0, new HashMap<>()))
+              .modes()
+              .put(match.mode(), weight);
+        }
         continue;
       }
 
@@ -766,7 +805,8 @@ public class Evaluator {
     };
   }
 
-  public double getScore(Modifiers mods, Map<Slot, AdventureResult> equipment) {
+  public double getScore(
+      Modifiers mods, Map<Slot, AdventureResult> equipment, Map<Modeable, String> modeables) {
     this.failed = false;
     this.exceeded = false;
     var predicted = mods.predict();
@@ -892,9 +932,17 @@ public class Evaluator {
     }
     if (!this.bonuses.isEmpty()) {
       for (AdventureResult item : equipment.values()) {
-        if (this.bonuses.containsKey(item)) {
-          score += this.bonuses.get(item);
-        }
+        ItemBonus itemBonus = this.bonuses.get(item);
+        // Add the base bonus
+        if (itemBonus == null) continue;
+        score += itemBonus.base();
+        // If it's a modeable and has a bonus for it
+        var modeable = Modeable.find(item);
+        if (modeable == null) continue;
+        var mode = modeables.get(modeable);
+        if (mode == null) continue;
+        Double bonus = itemBonus.modes().get(mode);
+        if (bonus != null) score += bonus;
       }
     }
     if (!this.bonusFunc.isEmpty()) {
@@ -938,7 +986,7 @@ public class Evaluator {
   }
 
   public double getScore(Modifiers mods) {
-    return this.getScore(mods, Map.of());
+    return this.getScore(mods, Map.of(), Map.of());
   }
 
   void checkEquipment(Modifiers mods, Map<Slot, AdventureResult> equipment, int beeosity) {
@@ -1202,7 +1250,9 @@ public class Evaluator {
         if (item.getCount() != 0
             && (item.automaticFlag
                 || this.posEquip.contains(item)
-                || this.getScore(familiarMods, Map.of(Slot.FAMILIAR, item)) - nullScore > 0.0)) {
+                // Modeable items are already automaticFlag, avoids a needless lookup
+                || this.getScore(familiarMods, Map.of(Slot.FAMILIAR, item), Map.of()) - nullScore
+                    > 0.0)) {
           ranked.get(Slot.FAMILIAR).add(item);
         }
       }
@@ -1240,7 +1290,9 @@ public class Evaluator {
         if (item.getCount() != 0
             && (item.automaticFlag
                 || this.posEquip.contains(item)
-                || this.getScore(familiarMods, Map.of(Slot.FAMILIAR, item)) - nullScore > 0.0)) {
+                // Modeable items are already automaticFlag, avoids a needless lookup
+                || this.getScore(familiarMods, Map.of(Slot.FAMILIAR, item), Map.of()) - nullScore
+                    > 0.0)) {
           ranked.getFamiliar(f).add(item);
         }
       }
@@ -1536,7 +1588,9 @@ public class Evaluator {
           ExpressionOverrides overrides = new ExpressionOverrides();
           overrides.setUnarmed(true);
           unarmedMods.recalculateExpressions(overrides);
-          double score = this.getScore(unarmedMods, Map.of(Slot.NONE, item));
+          // Unlike below, modeables can reach here, so score mode bonuses at their current state
+          double score =
+              this.getScore(unarmedMods, Map.of(Slot.NONE, item), Modeable.getStateMap());
           if (score > nullScore) {
             // The item has an unarmed bonus that is relevant. Ensure that it is always considered,
             // but it should not take up a spot on the shortlist.
@@ -1573,7 +1627,8 @@ public class Evaluator {
           newMods.add(ModifierDatabase.getModifiers(ModifierType.EFFECT, intrinsic));
           mods = newMods;
         }
-        double delta = this.getScore(mods, Map.of(Slot.HAT, item)) - nullScore;
+        // Modeable items never reach here (they break gotItem above), so we leave out modes
+        double delta = this.getScore(mods, Map.of(Slot.NONE, item), Map.of()) - nullScore;
         if (delta < 0.0) continue;
         if (delta == 0.0) {
           if (KoLCharacter.hasEquipped(item) && this.current) break gotItem;
