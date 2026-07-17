@@ -2556,7 +2556,21 @@ public abstract class RuntimeLibrary {
     params = List.of(namedParam("rng", DataTypes.RNG_TYPE));
     functions.add(new LibraryFunction("php_rand", DataTypes.INT_TYPE, params));
 
+    params =
+        List.of(
+            namedParam("rng", DataTypes.RNG_TYPE),
+            namedParam("min", DataTypes.INT_TYPE),
+            namedParam("max", DataTypes.INT_TYPE));
+    functions.add(new LibraryFunction("php_rand", DataTypes.INT_TYPE, params));
+
     params = List.of(namedParam("rng", DataTypes.RNG_TYPE));
+    functions.add(new LibraryFunction("php_mt_rand", DataTypes.INT_TYPE, params));
+
+    params =
+        List.of(
+            namedParam("rng", DataTypes.RNG_TYPE),
+            namedParam("min", DataTypes.INT_TYPE),
+            namedParam("max", DataTypes.INT_TYPE));
     functions.add(new LibraryFunction("php_mt_rand", DataTypes.INT_TYPE, params));
 
     // Assorted functions
@@ -9064,9 +9078,25 @@ public abstract class RuntimeLibrary {
     return new Value(r.nextRandInt());
   }
 
+  public static Value php_rand(
+      ScriptRuntime controller, final Value rng, final Value minValue, final Value maxValue) {
+    Rng r = (Rng) rng.rawValue();
+    int min = (int) minValue.intValue();
+    int max = (int) maxValue.intValue();
+    return new Value(r.nextRandInt(min, max));
+  }
+
   public static Value php_mt_rand(ScriptRuntime controller, final Value rng) {
     Rng r = (Rng) rng.rawValue();
     return new Value(r.nextMtRandInt());
+  }
+
+  public static Value php_mt_rand(
+      ScriptRuntime controller, final Value rng, final Value minValue, final Value maxValue) {
+    Rng r = (Rng) rng.rawValue();
+    int min = (int) minValue.intValue();
+    int max = (int) maxValue.intValue();
+    return new Value(r.nextMtRandInt(min, max));
   }
 
   public static Value expression_eval(ScriptRuntime controller, final Value expr) {
