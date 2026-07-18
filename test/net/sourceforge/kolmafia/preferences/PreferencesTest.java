@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -59,8 +60,10 @@ class PreferencesTest {
     KoLCharacter.setUserId(0);
     File userFile = new File("settings/" + EMPTY_USER.toLowerCase() + "_prefs.txt");
     File backupUserFile = new File("settings/" + EMPTY_USER.toLowerCase() + "_prefs.bak");
+    File tempFile = new File(userFile.getPath() + ".tmp");
     verboseDelete(userFile);
     verboseDelete(backupUserFile);
+    verboseDelete(tempFile);
     Preferences.reset(EMPTY_USER);
     var cleanups =
         new Cleanups(
@@ -72,8 +75,140 @@ class PreferencesTest {
       Preferences.reset(EMPTY_USER);
       assertThat("userFile Not Found: " + userFile, userFile.exists());
       assertThat("backupUserFile not found: " + backupUserFile, backupUserFile.exists());
+      assertFalse(tempFile.exists(), "temp prefs file should not remain after save");
     }
     deleteSerFiles(EMPTY_USER);
+  }
+
+  @Nested
+  class DurablePreferences {
+    private final String DURABLE_USER = "DurablePrefsUser";
+
+    private File userFile() {
+      return new File("settings/" + DURABLE_USER.toLowerCase() + "_prefs.txt");
+    }
+
+    private File backupFile() {
+      return new File("settings/" + DURABLE_USER.toLowerCase() + "_prefs.bak");
+    }
+
+    private File tempFile() {
+      return new File(userFile().getPath() + ".tmp");
+    }
+
+    @BeforeEach
+    void setUp() {
+      verboseDelete(userFile());
+      verboseDelete(backupFile());
+      verboseDelete(tempFile());
+      KoLCharacter.reset(DURABLE_USER);
+    }
+
+    @AfterEach
+    void tearDown() {
+      verboseDelete(userFile());
+      verboseDelete(backupFile());
+      verboseDelete(tempFile());
+      deleteSerFiles(DURABLE_USER);
+      KoLCharacter.reset("");
+    }
+
+    @Test
+    void saveIsAtomicAndRefreshesBackup() throws IOException {
+      var cleanups =
+          new Cleanups(
+              withSavePreferencesToFile(),
+              withProperty("saveSettingsOnSet", true),
+              withProperty("durableMarker", "first"));
+      try (cleanups) {
+        assertTrue(userFile().exists());
+        assertFalse(tempFile().exists());
+        String firstContents = Files.readString(userFile().toPath(), StandardCharsets.UTF_8);
+        assertThat(firstContents, containsString("durableMarker=first"));
+
+        // Second save copies the previous durable file to .bak, then replaces prefs.
+        Preferences.setString("durableMarker", "second");
+        assertTrue(backupFile().exists());
+        assertFalse(tempFile().exists());
+
+        String backupContents = Files.readString(backupFile().toPath(), StandardCharsets.UTF_8);
+        String prefsContents = Files.readString(userFile().toPath(), StandardCharsets.UTF_8);
+        assertThat(backupContents, containsString("durableMarker=first"));
+        assertThat(prefsContents, containsString("durableMarker=second"));
+        assertThat(prefsContents, not(containsString("durableMarker=first")));
+      }
+    }
+
+    @Test
+    void partialPrefsRestoresFromBackupWithoutClobberingIt() throws IOException {
+      var cleanups =
+          new Cleanups(
+              withSavePreferencesToFile(),
+              withProperty("saveSettingsOnSet", true),
+              withProperty("keepMe", "precious"));
+      try (cleanups) {
+        // A second distinct save refreshes .bak from the previous durable prefs file.
+        Preferences.setString("otherMarker", "ensure-backup");
+        assertTrue(backupFile().exists());
+
+        String backupBefore = Files.readString(backupFile().toPath(), StandardCharsets.UTF_8);
+        assertThat(backupBefore, containsString("keepMe=precious"));
+
+        // Simulate catastrophic truncation: a small but non-empty prefs file.
+        Files.writeString(userFile().toPath(), "keepMe=corrupted\n", StandardCharsets.UTF_8);
+        assertTrue(userFile().length() < backupFile().length() / 2);
+
+        Preferences.reset(DURABLE_USER);
+
+        assertEquals("precious", Preferences.getString("keepMe"));
+        String backupAfter = Files.readString(backupFile().toPath(), StandardCharsets.UTF_8);
+        assertEquals(backupBefore, backupAfter, "backup must not be overwritten by partial prefs");
+        String restoredPrefs = Files.readString(userFile().toPath(), StandardCharsets.UTF_8);
+        assertThat(restoredPrefs, containsString("keepMe=precious"));
+      }
+    }
+
+    @Test
+    void nonAtomicCommitUsesBackupSafeReplace() throws IOException {
+      File target = userFile();
+      File temp = tempFile();
+      File backup = backupFile();
+
+      Files.writeString(target.toPath(), "keepMe=previous\n", StandardCharsets.UTF_8);
+      Files.writeString(backup.toPath(), "keepMe=previous\n", StandardCharsets.UTF_8);
+      Files.writeString(temp.toPath(), "keepMe=next\n", StandardCharsets.UTF_8);
+
+      Preferences.commitPrefsTempFileNonAtomic(
+          temp,
+          target,
+          new java.nio.file.AtomicMoveNotSupportedException(
+              temp.getPath(), target.getPath(), "test"));
+
+      assertFalse(temp.exists());
+      assertEquals("keepMe=next\n", Files.readString(target.toPath(), StandardCharsets.UTF_8));
+      assertEquals("keepMe=previous\n", Files.readString(backup.toPath(), StandardCharsets.UTF_8));
+    }
+
+    @Test
+    void nonAtomicCommitCreatesBackupIfMissing() throws IOException {
+      File target = userFile();
+      File temp = tempFile();
+      File backup = backupFile();
+
+      Files.writeString(target.toPath(), "keepMe=only-live\n", StandardCharsets.UTF_8);
+      verboseDelete(backup);
+      Files.writeString(temp.toPath(), "keepMe=next\n", StandardCharsets.UTF_8);
+
+      Preferences.commitPrefsTempFileNonAtomic(
+          temp,
+          target,
+          new java.nio.file.AtomicMoveNotSupportedException(
+              temp.getPath(), target.getPath(), "test"));
+
+      assertTrue(backup.exists());
+      assertEquals("keepMe=only-live\n", Files.readString(backup.toPath(), StandardCharsets.UTF_8));
+      assertEquals("keepMe=next\n", Files.readString(target.toPath(), StandardCharsets.UTF_8));
+    }
   }
 
   @Test

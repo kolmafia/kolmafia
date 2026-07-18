@@ -3,10 +3,11 @@ package net.sourceforge.kolmafia.preferences;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.AtomicMoveNotSupportedException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.Collections;
@@ -233,20 +234,19 @@ public class Preferences {
   private static void loadUserPreferences(String username) {
     File userPrefsFile =
         new File(KoLConstants.SETTINGS_LOCATION, Preferences.baseUserName(username) + "_prefs.txt");
-    File backupFile =
-        new File(KoLConstants.SETTINGS_LOCATION, Preferences.baseUserName(username) + "_prefs.bak");
+    File backupFile = Preferences.prefsBackupFileFor(userPrefsFile);
 
     synchronized (lock) {
       Properties p = Preferences.loadPreferences(userPrefsFile);
 
-      if (p.isEmpty()) {
-        // Something went wrong reading the preferences.
-        if (backupFile.exists()) {
+      // Only empty or drastically truncated prefs are treated as corrupt. Never promote
+      // prefs.txt into the backup here — backups are refreshed only after a durable save.
+      if (Preferences.prefsFileSuspect(userPrefsFile, backupFile, p)) {
+        if (backupFile != null && backupFile.exists()) {
           KoLmafia.updateDisplay(
               userPrefsFile
                   + " could not be read, loading backup. "
-                  + "This will restore the last successfully opened preferences");
-          // also tell system out, in case things are really fubar
+                  + "This will restore the last successfully saved preferences");
           System.out.println("Prefs could not be read and backup exists, trying backup. ");
 
           p = Preferences.loadPreferences(backupFile);
@@ -255,9 +255,7 @@ public class Preferences {
             try {
               Files.copy(
                   backupFile.toPath(), userPrefsFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-
             } catch (IOException ex) {
-
               KoLmafia.updateDisplay(
                   "Error when restoring preferences from backup,  see session log for details");
               RequestLogger.updateSessionLog(
@@ -275,22 +273,9 @@ public class Preferences {
           KoLmafia.updateDisplay("Preferences could not be read and no backup exists.");
           RequestLogger.updateSessionLog(
               userPrefsFile
-                  + " could not be read and backup there is no backup file found. "
+                  + " could not be read and there is no backup file found. "
                   + "If this is unexpected, please manually inspect "
                   + "your preferences file and repair any problems.  If you have a damaged preferences file, "
-                  + "please consider creating a bug report on the forum, noting any special circumstances around "
-                  + "the failure, and attaching the preferences.");
-        }
-      } else {
-        try {
-          Files.copy(
-              userPrefsFile.toPath(), backupFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException ex) {
-          System.out.println("I/O Error when creating backup preferences file: " + ex.getMessage());
-          RequestLogger.updateSessionLog(
-              userPrefsFile
-                  + " backup creation failed. Please manually inspect "
-                  + "your preferences and backup files and repair any problems.  If you have a damaged preferences file, "
                   + "please consider creating a bug report on the forum, noting any special circumstances around "
                   + "the failure, and attaching the preferences.");
         }
@@ -330,6 +315,36 @@ public class Preferences {
 
       Preferences.userPropertiesFile = userPrefsFile;
     }
+  }
+
+  /** Backup path for a prefs file (`*_prefs.txt` → `*_prefs.bak`), or null if not a prefs file. */
+  private static File prefsBackupFileFor(File prefsFile) {
+    if (prefsFile == null) {
+      return null;
+    }
+    String name = prefsFile.getName();
+    if (!name.endsWith("_prefs.txt")) {
+      return null;
+    }
+    String bakName = name.substring(0, name.length() - ".txt".length()) + ".bak";
+    File parent = prefsFile.getParentFile();
+    return parent == null ? new File(bakName) : new File(parent, bakName);
+  }
+
+  /**
+   * True when prefs are empty or drastically smaller than an existing backup (typical of a
+   * truncated mid-write file that still parses as non-empty Properties).
+   */
+  private static boolean prefsFileSuspect(File prefsFile, File backupFile, Properties loaded) {
+    if (loaded.isEmpty()) {
+      return true;
+    }
+    if (backupFile == null || !backupFile.exists()) {
+      return false;
+    }
+    long bakLen = backupFile.length();
+    long prefsLen = prefsFile.length();
+    return bakLen > 0 && prefsLen < bakLen / 2;
   }
 
   private static Properties loadPreferences(File file) {
@@ -898,19 +913,94 @@ public class Preferences {
     // the file in synch atomically
 
     synchronized (lock) {
-      // Determine the contents of the file by
-      // actually printing them.
+      File tempFile = new File(file.getPath() + ".tmp");
+      try {
+        try (FileOutputStream fos = new FileOutputStream(tempFile);
+            BufferedOutputStream bos = new BufferedOutputStream(fos)) {
+          synchronized (encodedData) {
+            for (Entry<String, byte[]> current : encodedData.entrySet()) {
+              bos.write(current.getValue());
+            }
+          }
+          bos.flush();
+          fos.getFD().sync();
+        }
 
-      try (OutputStream fstream = new BufferedOutputStream(DataUtilities.getOutputStream(file))) {
-        synchronized (encodedData) {
-          for (Entry<String, byte[]> current : encodedData.entrySet()) {
-            fstream.write(current.getValue());
+        // Refresh backup from the previous durable prefs before replace, so a crash
+        // during the upcoming commit cannot leave both files damaged.
+        File backupFile = Preferences.prefsBackupFileFor(file);
+        if (backupFile != null && file.exists() && file.length() > 0) {
+          try {
+            Files.copy(file.toPath(), backupFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+          } catch (IOException ex) {
+            System.out.println(
+                "I/O Error when creating backup preferences file: " + ex.getMessage());
+            RequestLogger.updateSessionLog(
+                file
+                    + " backup creation failed. Please manually inspect "
+                    + "your preferences and backup files and repair any problems.  If you have a damaged preferences file, "
+                    + "please consider creating a bug report on the forum, noting any special circumstances around "
+                    + "the failure, and attaching the preferences.");
           }
         }
+
+        Preferences.commitPrefsTempFile(tempFile, file);
       } catch (IOException e) {
         System.out.println(e.getMessage() + " trying to write preferences as byte array.");
+        try {
+          Files.deleteIfExists(tempFile.toPath());
+        } catch (IOException ignored) {
+        }
       }
     }
+  }
+
+  /**
+   * Replace the live prefs file with a fully written temp file. Prefers an atomic rename; when the
+   * OS/filesystem cannot do that, uses a backup-safe delete-then-rename so the live file is never
+   * truncated in place. Caller must already have refreshed {@code *.bak} when applicable.
+   */
+  static void commitPrefsTempFile(File tempFile, File targetFile) throws IOException {
+    try {
+      Files.move(
+          tempFile.toPath(),
+          targetFile.toPath(),
+          StandardCopyOption.ATOMIC_MOVE,
+          StandardCopyOption.REPLACE_EXISTING);
+    } catch (AtomicMoveNotSupportedException e) {
+      Preferences.commitPrefsTempFileNonAtomic(tempFile, targetFile, e);
+    }
+  }
+
+  /**
+   * Portable commit when {@link StandardCopyOption#ATOMIC_MOVE} is unavailable. Relies on {@code
+   * *.bak} holding the previous good contents (refreshed by the caller). Removes the live file,
+   * then renames the complete temp into place — never opens/truncates the live path for writing.
+   */
+  static void commitPrefsTempFileNonAtomic(
+      File tempFile, File targetFile, AtomicMoveNotSupportedException cause) throws IOException {
+    String message =
+        "Atomic move not supported when saving "
+            + targetFile
+            + "; using backup-safe replace"
+            + (cause.getMessage() != null ? " (" + cause.getMessage() + ")" : "")
+            + ". Prior contents are in "
+            + Preferences.prefsBackupFileFor(targetFile)
+            + " if recovery is needed.";
+    System.out.println(message);
+    RequestLogger.updateSessionLog(message);
+
+    // If backup refresh failed or this isn't a normal prefs path, make a last-chance sibling copy
+    // before deleting the live file.
+    File backupFile = Preferences.prefsBackupFileFor(targetFile);
+    if (backupFile != null && targetFile.exists() && targetFile.length() > 0) {
+      if (!backupFile.exists() || backupFile.length() == 0) {
+        Files.copy(targetFile.toPath(), backupFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+      }
+    }
+
+    Files.deleteIfExists(targetFile.toPath());
+    Files.move(tempFile.toPath(), targetFile.toPath());
   }
 
   public static void resetToDefault(String... names) {
