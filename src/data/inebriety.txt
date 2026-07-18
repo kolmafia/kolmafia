@@ -382,7 +382,7 @@ high-end ginger wine	2	1	EPIC	12-14	10-30	10-30	10-30	30 High-Falutin' (+50% Mea
 Highest Bitter	3	6	awesome	12-15	0	10-25	0	60 Mercenary (+40% Item Drop), BEER
 hipster cocktail	4	4	good	11-13	10-15	10-15	10-15	10 Artisanal Satiaton (+3 exp/fight)
 Hodgman's blanket	2	15	super ultra EPIC	14-18	300-800	300-800	300-800
-holiday trip around the world	6	5	awesome	0	0	0	0	Unspaded
+holiday trip around the world	6	5	awesome	26-28	20-40	20-40	20-40	20 Resurrection of the Flesh (+25 HP, 10-30 HP Regen), 20 Green-Blooded (+25 MP, 5-15 MP regen), 20 Toured of Duty (5 DR, +20 weapon / spell / ranged dmg), 20 Grateful, But Spelled With a Dollar Sign (+30% meat), 20 Eyesies on the Pressies (+15% item)
 honey mead	2	1	decent	4-6	2-4	2-4	2-4	5 Sugar Rush, WINE
 horizontal tango	4	4	good	10-14	0	34-36	0
 Horseradish-infused Vodka	5	1	decent	12-13	0	0	0	15 Rad-ish (+25% Mox)
