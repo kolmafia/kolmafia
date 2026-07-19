@@ -2,7 +2,9 @@ package net.sourceforge.kolmafia.preferences;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -239,7 +241,7 @@ public class Preferences {
     synchronized (lock) {
       Properties p = Preferences.loadPreferences(userPrefsFile);
 
-      if (p.isEmpty()) {
+      if (!Preferences.isValidPreferencesFile(userPrefsFile, p)) {
         // Something went wrong reading the preferences.
         if (backupFile.exists()) {
           KoLmafia.updateDisplay(
@@ -251,7 +253,7 @@ public class Preferences {
 
           p = Preferences.loadPreferences(backupFile);
 
-          if (!p.isEmpty()) {
+          if (Preferences.isValidPreferencesFile(backupFile, p)) {
             try {
               Files.copy(
                   backupFile.toPath(), userPrefsFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
@@ -272,7 +274,23 @@ public class Preferences {
             }
           }
         } else {
-          KoLmafia.updateDisplay("Preferences could not be read and no backup exists.");
+          // No backup to fall back on, recover whatever complete lines were written before the
+          // corruption point instead of loading a malformed line.
+          try {
+            byte[] safeBytes =
+                FileUtilities.truncateToLastGoodLineBeforeNullByte(
+                    Files.readAllBytes(userPrefsFile.toPath()));
+            Properties recovered = new Properties();
+            try (InputStream istream = new ByteArrayInputStream(safeBytes)) {
+              recovered.load(istream);
+            }
+            p = recovered;
+            KoLmafia.updateDisplay(
+                "Preferences was partially recovered from corruption, no backup exists.");
+          } catch (IOException e) {
+            p = new Properties();
+            KoLmafia.updateDisplay("Preferences could not be read and no backup exists.");
+          }
           RequestLogger.updateSessionLog(
               userPrefsFile
                   + " could not be read and backup there is no backup file found. "
@@ -341,6 +359,18 @@ public class Preferences {
     }
 
     return p;
+  }
+
+  /** A file is currently considered as invalid if it contains null bytes, or is empty */
+  private static boolean isValidPreferencesFile(File file, Properties p) {
+    if (p.isEmpty()) {
+      return false;
+    }
+    try {
+      return !FileUtilities.containsNullBytes(file);
+    } catch (IOException e) {
+      return false;
+    }
   }
 
   private static String encodeProperty(String name, String value) {
