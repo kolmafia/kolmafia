@@ -582,7 +582,7 @@ public class FileUtilities {
       // We start scanning backwards for the first newline that indicates a complete line
       while (--i >= 0 && bytes[i] != '\n') {}
 
-      return Arrays.copyOf(bytes, i >= 0 ? i + 1 : 0);
+      return Arrays.copyOf(bytes, i + 1);
     }
 
     return bytes;
