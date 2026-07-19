@@ -126,6 +126,17 @@ public class RelayRequestTest {
       assertThat(rr.responseCode, is(404));
     }
 
+    @Test
+    public void rootRedirectsToGame() {
+      var rr = new RelayRequest(true);
+      rr.constructURLString("", false);
+      rr.run();
+
+      assertThat(rr.statusLine, is("HTTP/1.1 302 Found"));
+      assertThat(rr.responseCode, is(302));
+      assertThat(rr.getHeaderField("Location"), is("/game.php"));
+    }
+
     @ParameterizedTest
     @ValueSource(
         strings = {
