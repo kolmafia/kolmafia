@@ -11,11 +11,9 @@ import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.NamespaceInterpreter;
 import net.sourceforge.kolmafia.textui.Parser;
-import net.sourceforge.kolmafia.textui.RuntimeLibrary;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
 import net.sourceforge.kolmafia.textui.javascript.JavascriptRuntime;
 import net.sourceforge.kolmafia.textui.parsetree.Function;
-import net.sourceforge.kolmafia.textui.parsetree.FunctionList;
 import net.sourceforge.kolmafia.textui.parsetree.VariableReference;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 
@@ -242,16 +240,8 @@ public abstract class KoLmafiaASH {
   }
 
   public static void showUserFunctions(final AshRuntime interpreter, final String filter) {
-    KoLmafiaASH.showFunctions(interpreter.getFunctions(), filter.toLowerCase(), false);
-  }
-
-  public static void showExistingFunctions(final String filter) {
-    KoLmafiaASH.showFunctions(RuntimeLibrary.getFunctions(), filter.toLowerCase(), true);
-  }
-
-  private static void showFunctions(
-      final FunctionList functions, final String filter, boolean addLinks) {
-    addLinks = addLinks && StaticEntity.isGUIRequired();
+    var functions = interpreter.getFunctions();
+    var lowerFilter = filter.toLowerCase();
 
     if (functions.isEmpty()) {
       RequestLogger.printLine("No functions in your current namespace.");
@@ -259,54 +249,29 @@ public abstract class KoLmafiaASH {
     }
 
     for (Function func : functions) {
-      boolean matches = filter.isEmpty();
-
-      if (!matches) {
-        matches = func.getName().toLowerCase().contains(filter);
-      }
-
+      boolean matches = lowerFilter.isEmpty();
+      if (!matches) matches = func.getName().toLowerCase().contains(lowerFilter);
       if (!matches) {
         for (VariableReference ref : func.getVariableReferences()) {
           String refType = ref.getType().toString();
-          matches |= refType != null && refType.contains(filter);
+          matches |= refType != null && refType.contains(lowerFilter);
         }
       }
+      if (!matches) continue;
 
-      if (!matches) {
-        continue;
-      }
-
-      StringBuilder description = new StringBuilder();
-
-      description.append(func.getType());
-      description.append(" ");
-      if (addLinks) {
-        description.append("<a href='https://wiki.kolmafia.us/index.php?title=");
-        description.append(func.getName());
-        description.append("'>");
-      }
-      description.append(func.getName());
-      if (addLinks) {
-        description.append("</a>");
-      }
-      description.append("( ");
-
+      var signature = new StringBuilder();
+      signature.append(func.getType()).append(" ").append(func.getName()).append("( ");
       String sep = "";
       for (VariableReference var : func.getVariableReferences()) {
-        description.append(sep);
+        signature.append(sep);
         sep = ", ";
-
-        description.append(var.getRawType());
-
+        signature.append(var.getRawType());
         if (var.getName() != null) {
-          description.append(" ");
-          description.append(var.getName());
+          signature.append(" ").append(var.getName());
         }
       }
-
-      description.append(" )");
-
-      RequestLogger.printHtml(description.toString());
+      signature.append(" )");
+      RequestLogger.printHtml(signature.toString());
     }
   }
 
