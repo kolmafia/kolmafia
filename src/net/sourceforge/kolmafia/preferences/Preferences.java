@@ -358,6 +358,18 @@ public class Preferences {
     return p;
   }
 
+  /** A file is currently considered as invalid if it contains null bytes, or is empty */
+  private static boolean isValidPreferencesFile(File file, Properties p) {
+    if (p.isEmpty()) {
+      return false;
+    }
+    try {
+      return !FileUtilities.containsNullBytes(file);
+    } catch (IOException e) {
+      return false;
+    }
+  }
+
   private static String encodeProperty(String name, String value) {
     StringBuffer buffer = new StringBuffer();
 
