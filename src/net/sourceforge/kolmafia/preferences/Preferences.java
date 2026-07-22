@@ -32,8 +32,6 @@ public class Preferences {
   // If false, blocks saving of all preferences. Do not modify outside of tests.
   public static boolean saveSettingsToFile = true;
 
-  private static final Object lock = new Object(); // used to synch io
-
   private static final HashMap<String, String> globalNames = new HashMap<>();
   private static final Map<String, Object> globalValues = new ConcurrentHashMap<>();
   // user/globalEncodedValues cache the byte sequence corresponding to the on-disk representation
@@ -150,31 +148,32 @@ public class Preferences {
   }
 
   /** Resets all settings so that the given user is represented whenever settings are modified. */
-  public static synchronized void reset(String username) {
+  public static void reset(String username) {
     boolean loggingOut = username == null || username.isEmpty();
-    // We might not have been tracking encoded values here before this save. Fix that.
-    Preferences.reinitializeEncodedValues();
-    // Only tear down the shared global journal on a logout, not a character switch.
-    Preferences.saveToFile(Preferences.globalFile, loggingOut);
-    // Save the logged in user. reset() is itself synchronized and is the only place userFile is
-    // ever reassigned, so this doesn't need the userValues lock below, which only guards the maps.
-    if (Preferences.userFile != null) {
-      Preferences.saveToFile(Preferences.userFile, true);
-    }
-    // Prevent anybody from manipulating the user map until we are
-    // done bulk-loading it.
-    synchronized (Preferences.userValues) {
-      if (loggingOut) {
+    // Global as outer lock, user as inner, everywhere both locks are needed.
+    synchronized (globalEncodedValues) {
+      synchronized (userEncodedValues) {
+        // We might not have been tracking encoded values here before this save. Fix that.
+        Preferences.reinitializeEncodedValues();
+        // Only tear down the shared global journal on a logout, not a character switch.
+        Preferences.saveToFile(Preferences.globalFile, loggingOut);
+        // Save the logged in user.
         if (Preferences.userFile != null) {
-          Preferences.userFile = null;
-          Preferences.userValues.clear();
-          Preferences.userEncodedValues.clear();
+          Preferences.saveToFile(Preferences.userFile, true);
         }
 
-        return;
-      }
+        if (loggingOut) {
+          if (Preferences.userFile != null) {
+            Preferences.userFile = null;
+            Preferences.userValues.clear();
+            Preferences.userEncodedValues.clear();
+          }
 
-      Preferences.loadUserPreferences(username);
+          return;
+        }
+
+        Preferences.loadUserPreferences(username);
+      }
     }
 
     AdventureFrame.updateFromPreferences();
@@ -234,47 +233,45 @@ public class Preferences {
     PreferencesFile newUserFile =
         new PreferencesFile(Preferences.baseUserName(username), userEncodedValues);
 
-    synchronized (lock) {
-      Properties p = newUserFile.loadWithBackup();
-      boolean hadJournal = newUserFile.applyJournal(p);
+    Properties p = newUserFile.loadWithBackup();
+    boolean hadJournal = newUserFile.applyJournal(p);
 
-      Preferences.userFile = null;
-      Preferences.userValues.clear();
-      Preferences.userEncodedValues.clear();
+    Preferences.userFile = null;
+    Preferences.userValues.clear();
+    Preferences.userEncodedValues.clear();
 
-      for (Entry<Object, Object> currentEntry : p.entrySet()) {
-        String key = (String) currentEntry.getKey();
-        String value = (String) currentEntry.getValue();
+    for (Entry<Object, Object> currentEntry : p.entrySet()) {
+      String key = (String) currentEntry.getKey();
+      String value = (String) currentEntry.getValue();
 
-        Preferences.putUser(key, value, true);
+      Preferences.putUser(key, value, true);
+    }
+
+    for (Entry<String, String> entry : Preferences.userNames.entrySet()) {
+      String key = entry.getKey();
+      if (Preferences.userValues.containsKey(key)) {
+        continue;
       }
 
-      for (Entry<String, String> entry : Preferences.userNames.entrySet()) {
-        String key = entry.getKey();
-        if (Preferences.userValues.containsKey(key)) {
-          continue;
-        }
+      // If a user property in defaults.txt was not in
+      // NAME_prefs.txt, add to user map with default value
+      // (this is how we add a new user property)
+      //
+      // If it had a value in the GLOBAL map, use that (this
+      // is how we migrate a preference from GLOBAL to user)
+      String value =
+          Preferences.globalValues.containsKey(key)
+              ? (String) Preferences.globalValues.get(key)
+              : entry.getValue();
 
-        // If a user property in defaults.txt was not in
-        // NAME_prefs.txt, add to user map with default value
-        // (this is how we add a new user property)
-        //
-        // If it had a value in the GLOBAL map, use that (this
-        // is how we migrate a preference from GLOBAL to user)
-        String value =
-            Preferences.globalValues.containsKey(key)
-                ? (String) Preferences.globalValues.get(key)
-                : entry.getValue();
+      // System.out.println( "Adding new built-in user setting: " + key );
+      Preferences.putUser(key, value, true);
+    }
 
-        // System.out.println( "Adding new built-in user setting: " + key );
-        Preferences.putUser(key, value, true);
-      }
+    Preferences.userFile = newUserFile;
 
-      Preferences.userFile = newUserFile;
-
-      if (hadJournal || Preferences.userFile.prefsDoesNotExist()) {
-        Preferences.saveToFile(Preferences.userFile, false);
-      }
+    if (hadJournal || Preferences.userFile.prefsDoesNotExist()) {
+      Preferences.saveToFile(Preferences.userFile, false);
     }
   }
 
@@ -284,13 +281,11 @@ public class Preferences {
 
   private static void reinitializeEncodedValuesOn(
       Map<String, Object> valuesMap, Map<String, byte[]> encodedMap) {
-    synchronized (valuesMap) {
-      for (Entry<String, Object> entry : valuesMap.entrySet()) {
-        encodedMap.put(
-            entry.getKey(),
-            PreferencesFile.encodeProperty(entry.getKey(), entry.getValue().toString())
-                .getBytes(StandardCharsets.UTF_8));
-      }
+    for (Entry<String, Object> entry : valuesMap.entrySet()) {
+      encodedMap.put(
+          entry.getKey(),
+          PreferencesFile.encodeProperty(entry.getKey(), entry.getValue().toString())
+              .getBytes(StandardCharsets.UTF_8));
     }
   }
 
@@ -348,28 +343,30 @@ public class Preferences {
   }
 
   public static void removeProperty(final String name, final boolean global) {
-    boolean trackEncoded = Preferences.mustTrackEncodedValues();
-    // Remove only properties which do not have defaults
-    if (global) {
-      if (!Preferences.globalNames.containsKey(name)) {
-        // We are changing the structure of the map.
-        // globalValues is a synchronized map.
+    synchronized (global ? globalEncodedValues : userEncodedValues) {
+      boolean trackEncoded = Preferences.mustTrackEncodedValues();
+      // Remove only properties which do not have defaults
+      if (global) {
+        if (!Preferences.globalNames.containsKey(name)) {
+          // We are changing the structure of the map.
+          // globalValues is a synchronized map.
 
-        Preferences.globalValues.remove(name);
-        if (trackEncoded) Preferences.globalEncodedValues.remove(name);
-      }
-    } else {
-      if (!Preferences.userNames.containsKey(name)) {
-        // We are changing the structure of the map.
-        // userValues is a synchronized map.
+          Preferences.globalValues.remove(name);
+          if (trackEncoded) Preferences.globalEncodedValues.remove(name);
+        }
+      } else {
+        if (!Preferences.userNames.containsKey(name)) {
+          // We are changing the structure of the map.
+          // userValues is a synchronized map.
 
-        Preferences.userValues.remove(name);
-        if (trackEncoded) Preferences.userEncodedValues.remove(name);
+          Preferences.userValues.remove(name);
+          if (trackEncoded) Preferences.userEncodedValues.remove(name);
+        }
       }
+      // A no-default property isn't in globalNames, so isGlobalProperty(name) can't classify it,
+      // only the `global` flag can.
+      Preferences.maybeSaveToFileAfterUpdating(trackEncoded, global, name);
     }
-    // A no-default property isn't in globalNames, so isGlobalProperty(name) can't classify it,
-    // only the `global` flag can.
-    Preferences.maybeSaveToFileAfterUpdating(trackEncoded, global, name);
     PreferenceListenerRegistry.firePreferenceChanged(name);
   }
 
@@ -700,16 +697,22 @@ public class Preferences {
     // many encoded values will be out of date, and we don't know which ones, so we have to
     // recompute all of them.
     if (name.equals("saveSettingsOnSet") && (boolean) object) {
-      Preferences.reinitializeEncodedValues();
-      trackEncoded |= Preferences.saveSettingsToFile;
-      // The changes above bypassed the journal, so save to get all prefs onto disk.
-      Preferences.saveToFile(Preferences.globalFile, false);
-      if (Preferences.userFile != null) {
-        Preferences.saveToFile(Preferences.userFile, false);
+      // Touches both scopes, same order as reset().
+      synchronized (globalEncodedValues) {
+        synchronized (userEncodedValues) {
+          Preferences.reinitializeEncodedValues();
+          trackEncoded |= Preferences.saveSettingsToFile;
+          // The changes above bypassed the journal, so save to get all prefs onto disk.
+          Preferences.saveToFile(Preferences.globalFile, false);
+          if (Preferences.userFile != null) {
+            Preferences.saveToFile(Preferences.userFile, false);
+          }
+          Preferences.put(user, name, object, trackEncoded);
+        }
       }
+    } else {
+      Preferences.put(user, name, object, trackEncoded);
     }
-
-    Preferences.put(user, name, object, trackEncoded);
 
     PreferenceListenerRegistry.firePreferenceChanged(name);
 
@@ -744,26 +747,31 @@ public class Preferences {
       final String user, final String name, final Object value, boolean updateEncoded) {
     if (Preferences.isGlobalProperty(name)) {
       String actualName = Preferences.propertyName(user, name);
-      Preferences.putGlobal(actualName, value, updateEncoded);
-      Preferences.maybeSaveToFileAfterUpdating(updateEncoded, true, actualName);
-    } else if (Preferences.userFile != null) {
-      putUser(name, value, updateEncoded);
-      Preferences.maybeSaveToFileAfterUpdating(updateEncoded, false, name);
+      synchronized (globalEncodedValues) {
+        Preferences.putGlobal(actualName, value, updateEncoded);
+        Preferences.maybeSaveToFileAfterUpdating(updateEncoded, true, actualName);
+      }
+    } else {
+      synchronized (userEncodedValues) {
+        if (Preferences.userFile != null) {
+          putUser(name, value, updateEncoded);
+          Preferences.maybeSaveToFileAfterUpdating(updateEncoded, false, name);
+        }
+      }
     }
   }
 
+  /** Callers must already hold the matching scope's lock */
   private static void maybeSaveToFileAfterUpdating(
       boolean enable, boolean global, String updatedProperty) {
     if (!enable) {
       return;
     }
 
-    synchronized (lock) {
-      if (global) {
-        Preferences.globalFile.appendChange(updatedProperty);
-      } else if (Preferences.userFile != null) {
-        Preferences.userFile.appendChange(updatedProperty);
-      }
+    if (global) {
+      Preferences.globalFile.appendChange(updatedProperty);
+    } else if (Preferences.userFile != null) {
+      Preferences.userFile.appendChange(updatedProperty);
     }
   }
 
@@ -776,9 +784,7 @@ public class Preferences {
       return;
     }
 
-    synchronized (lock) {
-      file.savePrefsFile(loggingOut);
-    }
+    file.savePrefsFile(loggingOut);
   }
 
   public static void resetToDefault(String... names) {
@@ -843,36 +849,32 @@ public class Preferences {
   }
 
   public static void resetDailies() {
-    // Copy the keys out first; removeProperty/setString below can hit the journal, and that
-    // shouldn't happen while holding this lock.
-    List<String> names;
-    synchronized (Preferences.userValues) {
-      names = new ArrayList<>(Preferences.userValues.keySet());
-    }
-
-    for (String name : names) {
-      if (!isDaily(name)) {
-        continue;
+    // Also takes globalEncodedValues to avoid misclassified globals
+    // Copy the keys out first since setString/removeProperty below mutate the map we'd
+    // otherwise be iterating over.
+    synchronized (globalEncodedValues) {
+      synchronized (userEncodedValues) {
+        for (String name : new ArrayList<>(Preferences.userValues.keySet())) {
+          if (!isDaily(name)) {
+            continue;
+          }
+          if (!Preferences.containsDefault(name)) {
+            // fully delete preferences that start with _ and aren't in defaults.txt
+            Preferences.removeProperty(name, false);
+            continue;
+          }
+          String val = Preferences.userNames.get(name);
+          if (val == null) val = "";
+          Preferences.setString(name, val);
+        }
       }
-      if (!Preferences.containsDefault(name)) {
-        // fully delete preferences that start with _ and aren't in defaults.txt
-        Preferences.removeProperty(name, false);
-        continue;
-      }
-      String val = Preferences.userNames.get(name);
-      if (val == null) val = "";
-      Preferences.setString(name, val);
     }
   }
 
   public static void resetGlobalDailies() {
-    // See Collections.synchronizedSortedMap
-    //
-    // globalValues is a synchronized map, but we are doing a mass
-    // change to it. Copy the keys out first since setString below mutates the map we'd otherwise
-    // be iterating over.
-
-    synchronized (Preferences.globalValues) {
+    // Copy the keys out first since setString/setLong below mutate the map we'd otherwise be
+    // iterating over.
+    synchronized (globalEncodedValues) {
       for (String name : new ArrayList<>(Preferences.globalValues.keySet())) {
         if (isDaily(name)) {
           String val = Preferences.globalNames.get(name);

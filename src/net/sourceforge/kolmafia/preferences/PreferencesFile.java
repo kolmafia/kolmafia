@@ -36,6 +36,7 @@ class PreferencesFile {
   private final File propertiesFile;
   private final File backupFile;
   private final File journalFile;
+  // Also doubles as this instance's lock, per Collections.synchronizedSortedMap's contract.
   private final Map<String, byte[]> encodedData;
 
   // Exposed for tests
@@ -56,85 +57,89 @@ class PreferencesFile {
   }
 
   Properties loadWithBackup() {
-    if (!propertiesFile.exists() && !backupFile.exists()) {
-      return new Properties();
-    }
+    synchronized (encodedData) {
+      if (!propertiesFile.exists() && !backupFile.exists()) {
+        return new Properties();
+      }
 
-    Properties p = PreferencesFile.loadProperties(propertiesFile);
+      Properties p = PreferencesFile.loadProperties(propertiesFile);
 
-    if (!PreferencesFile.isValidPreferencesFile(propertiesFile, p)) {
-      // Something went wrong reading the preferences.
-      if (backupFile.exists()) {
-        KoLmafia.updateDisplay(
-            propertiesFile
-                + " could not be read, loading backup. "
-                + "This will restore the last successfully opened preferences");
-        // also tell system out, in case things are really fubar
-        System.out.println("Prefs could not be read and backup exists, trying backup. ");
+      if (!PreferencesFile.isValidPreferencesFile(propertiesFile, p)) {
+        // Something went wrong reading the preferences.
+        if (backupFile.exists()) {
+          KoLmafia.updateDisplay(
+              propertiesFile
+                  + " could not be read, loading backup. "
+                  + "This will restore the last successfully opened preferences");
+          // also tell system out, in case things are really fubar
+          System.out.println("Prefs could not be read and backup exists, trying backup. ");
 
-        p = PreferencesFile.loadProperties(backupFile);
+          p = PreferencesFile.loadProperties(backupFile);
 
-        if (PreferencesFile.isValidPreferencesFile(backupFile, p)) {
-          try {
-            Files.copy(
-                backupFile.toPath(), propertiesFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-          } catch (IOException ex) {
+          if (PreferencesFile.isValidPreferencesFile(backupFile, p)) {
+            try {
+              Files.copy(
+                  backupFile.toPath(),
+                  propertiesFile.toPath(),
+                  StandardCopyOption.REPLACE_EXISTING);
+            } catch (IOException ex) {
 
-            KoLmafia.updateDisplay(
-                "Error when restoring preferences from backup,  see session log for details");
-            RequestLogger.updateSessionLog(
-                propertiesFile
-                    + " could not be read and backup was used. KoLmafia was unable to copy your backup file to "
-                    + "your preferences file and received error message:"
-                    + ex.getMessage()
-                    + "\nIf this is unexpected, please manually review your preferences and backup and repair any problems."
-                    + " If you have a damaged preferences file, "
-                    + "please consider creating a bug report on the forum, noting any special circumstances around "
-                    + "the failure, and attaching the preferences.");
+              KoLmafia.updateDisplay(
+                  "Error when restoring preferences from backup,  see session log for details");
+              RequestLogger.updateSessionLog(
+                  propertiesFile
+                      + " could not be read and backup was used. KoLmafia was unable to copy your backup file to "
+                      + "your preferences file and received error message:"
+                      + ex.getMessage()
+                      + "\nIf this is unexpected, please manually review your preferences and backup and repair any problems."
+                      + " If you have a damaged preferences file, "
+                      + "please consider creating a bug report on the forum, noting any special circumstances around "
+                      + "the failure, and attaching the preferences.");
+            }
           }
+        } else {
+          // No backup to fall back on, recover whatever complete lines were written before the
+          // corruption point instead of loading a malformed line.
+          try {
+            byte[] safeBytes =
+                FileUtilities.truncateToLastGoodLineBeforeNullByte(
+                    Files.readAllBytes(propertiesFile.toPath()));
+            Properties recovered = new Properties();
+            try (InputStream istream = new ByteArrayInputStream(safeBytes)) {
+              recovered.load(istream);
+            }
+            p = recovered;
+            KoLmafia.updateDisplay(
+                "Preferences was partially recovered from corruption, no backup exists.");
+          } catch (IOException e) {
+            p = new Properties();
+            KoLmafia.updateDisplay("Preferences could not be read and no backup exists.");
+          }
+          RequestLogger.updateSessionLog(
+              propertiesFile
+                  + " could not be read and backup there is no backup file found. "
+                  + "If this is unexpected, please manually inspect "
+                  + "your preferences file and repair any problems.  If you have a damaged preferences file, "
+                  + "please consider creating a bug report on the forum, noting any special circumstances around "
+                  + "the failure, and attaching the preferences.");
         }
       } else {
-        // No backup to fall back on, recover whatever complete lines were written before the
-        // corruption point instead of loading a malformed line.
         try {
-          byte[] safeBytes =
-              FileUtilities.truncateToLastGoodLineBeforeNullByte(
-                  Files.readAllBytes(propertiesFile.toPath()));
-          Properties recovered = new Properties();
-          try (InputStream istream = new ByteArrayInputStream(safeBytes)) {
-            recovered.load(istream);
-          }
-          p = recovered;
-          KoLmafia.updateDisplay(
-              "Preferences was partially recovered from corruption, no backup exists.");
-        } catch (IOException e) {
-          p = new Properties();
-          KoLmafia.updateDisplay("Preferences could not be read and no backup exists.");
+          Files.copy(
+              propertiesFile.toPath(), backupFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException ex) {
+          System.out.println("I/O Error when creating backup preferences file: " + ex.getMessage());
+          RequestLogger.updateSessionLog(
+              propertiesFile
+                  + " backup creation failed. Please manually inspect "
+                  + "your preferences and backup files and repair any problems.  If you have a damaged preferences file, "
+                  + "please consider creating a bug report on the forum, noting any special circumstances around "
+                  + "the failure, and attaching the preferences.");
         }
-        RequestLogger.updateSessionLog(
-            propertiesFile
-                + " could not be read and backup there is no backup file found. "
-                + "If this is unexpected, please manually inspect "
-                + "your preferences file and repair any problems.  If you have a damaged preferences file, "
-                + "please consider creating a bug report on the forum, noting any special circumstances around "
-                + "the failure, and attaching the preferences.");
       }
-    } else {
-      try {
-        Files.copy(
-            propertiesFile.toPath(), backupFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-      } catch (IOException ex) {
-        System.out.println("I/O Error when creating backup preferences file: " + ex.getMessage());
-        RequestLogger.updateSessionLog(
-            propertiesFile
-                + " backup creation failed. Please manually inspect "
-                + "your preferences and backup files and repair any problems.  If you have a damaged preferences file, "
-                + "please consider creating a bug report on the forum, noting any special circumstances around "
-                + "the failure, and attaching the preferences.");
-      }
-    }
 
-    return p;
+      return p;
+    }
   }
 
   private static Properties loadProperties(File file) {
@@ -169,35 +174,37 @@ class PreferencesFile {
    * @return true if a journal file existed and was fully applied
    */
   boolean applyJournal(Properties properties) {
-    if (journalFile.length() == 0) {
-      return false;
-    }
+    synchronized (encodedData) {
+      if (journalFile.length() == 0) {
+        return false;
+      }
 
-    try {
-      byte[] bytes = Files.readAllBytes(journalFile.toPath());
-      byte[] safeBytes =
-          FileUtilities.truncateTrailingPartialLine(
-              FileUtilities.truncateToLastGoodLineBeforeNullByte(bytes));
-      if (safeBytes.length != bytes.length) {
-        System.out.println(journalFile + " was truncated after a corrupt trailing entry.");
-      }
-      try (BufferedReader reader =
-          new BufferedReader(
-              new InputStreamReader(
-                  new ByteArrayInputStream(safeBytes), StandardCharsets.ISO_8859_1))) {
-        // We can't really define a line as "deleted", without it being possibly a real key
-        // So we load each line one by one
-        Properties scratch = new Properties();
-        String line;
-        while ((line = reader.readLine()) != null) {
-          PreferencesFile.applyJournalLine(properties, scratch, line);
+      try {
+        byte[] bytes = Files.readAllBytes(journalFile.toPath());
+        byte[] safeBytes =
+            FileUtilities.truncateTrailingPartialLine(
+                FileUtilities.truncateToLastGoodLineBeforeNullByte(bytes));
+        if (safeBytes.length != bytes.length) {
+          System.out.println(journalFile + " was truncated after a corrupt trailing entry.");
         }
+        try (BufferedReader reader =
+            new BufferedReader(
+                new InputStreamReader(
+                    new ByteArrayInputStream(safeBytes), StandardCharsets.ISO_8859_1))) {
+          // We can't really define a line as "deleted", without it being possibly a real key
+          // So we load each line one by one
+          Properties scratch = new Properties();
+          String line;
+          while ((line = reader.readLine()) != null) {
+            PreferencesFile.applyJournalLine(properties, scratch, line);
+          }
+        }
+      } catch (IOException e) {
+        System.out.println(e.getMessage() + " trying to load preferences journal.");
+        return false;
       }
-    } catch (IOException e) {
-      System.out.println(e.getMessage() + " trying to load preferences journal.");
-      return false;
+      return true;
     }
-    return true;
   }
 
   /**
@@ -237,14 +244,18 @@ class PreferencesFile {
       lineBytes = ("#" + encodeProperty(propertyName, null)).getBytes(StandardCharsets.UTF_8);
     }
 
-    try (OutputStream fstream = DataUtilities.getOutputStream(journalFile, true)) {
-      fstream.write(lineBytes);
-      journalBytes += lineBytes.length;
-    } catch (IOException e) {
-      System.out.println(e.getMessage() + " trying to append to preferences journal.");
+    boolean shouldTrim;
+    synchronized (encodedData) {
+      try (OutputStream fstream = DataUtilities.getOutputStream(journalFile, true)) {
+        fstream.write(lineBytes);
+        journalBytes += lineBytes.length;
+      } catch (IOException e) {
+        System.out.println(e.getMessage() + " trying to append to preferences journal.");
+      }
+      shouldTrim = shouldTrimJournal();
     }
 
-    if (shouldTrimJournal()) {
+    if (shouldTrim) {
       savePrefsFile(false);
     }
   }
@@ -257,52 +268,47 @@ class PreferencesFile {
 
   /** Saves the current prefs to file */
   void savePrefsFile(boolean loggingOut) {
-    // See Collections.synchronizedSortedMap
-    //
-    // We are essentially iterating over the map. Not exactly - we
-    // are iterating over the entrySet - but let's keep the map and
-    // the file in synch atomically
-
-    try (OutputStream fstream =
-        new BufferedOutputStream(DataUtilities.getOutputStream(propertiesFile))) {
-      synchronized (encodedData) {
+    synchronized (encodedData) {
+      try (OutputStream fstream =
+          new BufferedOutputStream(DataUtilities.getOutputStream(propertiesFile))) {
         for (Entry<String, byte[]> current : encodedData.entrySet()) {
           fstream.write(current.getValue());
         }
+      } catch (IOException e) {
+        System.out.println(e.getMessage() + " trying to write preferences as byte array.");
+        // We early exit as saving filed
+        return;
       }
-    } catch (IOException e) {
-      System.out.println(e.getMessage() + " trying to write preferences as byte array.");
-      // We early exit as saving filed
-      return;
-    }
 
-    if (!writeLooksValid(propertiesFile)) {
-      // Bad write - leave the journal alone, it's the only record of the unsaved changes.
-      System.out.println(propertiesFile + " failed validation after saving, backup left as-is.");
-      return;
-    }
+      if (!writeLooksValid(propertiesFile)) {
+        // Bad write - leave the journal alone, it's the only record of the unsaved changes.
+        System.out.println(propertiesFile + " failed validation after saving, backup left as-is.");
+        return;
+      }
 
-    try {
-      Files.copy(propertiesFile.toPath(), backupFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-    } catch (IOException e) {
-      System.out.println(e.getMessage() + " trying to refresh preferences backup.");
-    }
+      try {
+        Files.copy(
+            propertiesFile.toPath(), backupFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+      } catch (IOException e) {
+        System.out.println(e.getMessage() + " trying to refresh preferences backup.");
+      }
 
-    try {
-      if (loggingOut) {
-        Files.deleteIfExists(journalFile.toPath());
-      } else if (journalFile.exists()) {
-        try (OutputStream fstream = DataUtilities.getOutputStream(journalFile)) {
-          // Truncate the file to zero length.
-          fstream.write(new byte[0]);
+      try {
+        if (loggingOut) {
+          Files.deleteIfExists(journalFile.toPath());
+        } else if (journalFile.exists()) {
+          try (OutputStream fstream = DataUtilities.getOutputStream(journalFile)) {
+            // Truncate the file to zero length.
+            fstream.write(new byte[0]);
+          }
         }
+        journalBytes = 0;
+      } catch (IOException e) {
+        System.out.println(e.getMessage() + " trying to clear preferences journal.");
       }
-      journalBytes = 0;
-    } catch (IOException e) {
-      System.out.println(e.getMessage() + " trying to clear preferences journal.");
+      // We still update this, because why fail rapidly?
+      prefsFileLastSave = System.currentTimeMillis();
     }
-    // We still update this, because why fail rapidly?
-    prefsFileLastSave = System.currentTimeMillis();
   }
 
   /** Same corruption check as {@link #isValidPreferencesFile}, without reparsing what we wrote. */
