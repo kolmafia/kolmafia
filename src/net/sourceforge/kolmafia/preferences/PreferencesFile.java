@@ -255,7 +255,7 @@ class PreferencesFile {
         || (System.currentTimeMillis() - prefsFileLastSave) >= PreferencesFile.JOURNAL_MAX_AGE;
   }
 
-  /** Saves the current prefs to file; global callers should {@link #applyJournal} first. */
+  /** Saves the current prefs to file */
   void savePrefsFile(boolean loggingOut) {
     // See Collections.synchronizedSortedMap
     //
