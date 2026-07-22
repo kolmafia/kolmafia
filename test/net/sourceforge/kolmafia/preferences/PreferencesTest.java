@@ -711,17 +711,25 @@ class PreferencesTest {
   @Nested
   class SaveTogglePreferencesTest {
     private final String USER_NAME = "PreferencesTestAlsoFakeUser".toLowerCase();
+    private final File userFile = new File("settings/" + USER_NAME + "_prefs.txt");
+    private final File backupFile = new File("settings/" + USER_NAME + "_prefs.bak");
+    private final File journalFile = new File("settings/" + USER_NAME + "_prefs.journal");
 
-    private String streamReadHelper(File userFile) {
+    private String streamReadHelper(File file) {
       String contents = "";
       final InputStream inputStream;
-      inputStream = DataUtilities.getInputStream(userFile);
+      inputStream = DataUtilities.getInputStream(file);
       try (inputStream) {
         contents = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
       } catch (IOException e) {
-        fail("Stream read for " + userFile + " failed with exception " + e.getMessage());
+        fail("Stream read for " + file + " failed with exception " + e.getMessage());
       }
       return contents;
+    }
+
+    // A change may be in the prefs or the journal, combine both so tests pass
+    private String combinedContents() {
+      return "\n" + streamReadHelper(userFile) + streamReadHelper(journalFile);
     }
 
     @BeforeEach
@@ -731,33 +739,25 @@ class PreferencesTest {
 
     @AfterEach
     public void resetCharAndPreferences() {
-      File userFile = new File("settings/" + USER_NAME + "_prefs.txt");
       verboseDelete(userFile);
-      File backupFile = new File("settings/" + USER_NAME + "_prefs.bak");
       verboseDelete(backupFile);
+      verboseDelete(journalFile);
     }
 
     @Test
     public void savesSettingsIfOn() {
-      String contents;
       var cleanups =
           new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true));
       try (cleanups) {
-        File userFile = new File("settings/" + USER_NAME + "_prefs.txt");
-        contents = streamReadHelper(userFile);
-        assertThat(contents, not(containsString("\nxyz=abc\n")));
+        assertThat(combinedContents(), not(containsString("\nxyz=abc\n")));
         Preferences.setString("xyz", "abc");
-        contents = streamReadHelper(userFile);
-        assertThat(contents, containsString("\nxyz=abc\n"));
+        assertThat(combinedContents(), containsString("\nxyz=abc\n"));
       }
     }
 
     @Test
     public void canToggle() {
-      String contents;
-      File userFile = new File("settings/" + USER_NAME + "_prefs.txt");
-      contents = streamReadHelper(userFile);
-      assertThat(contents, not(containsString("\nxyz=abc\n")));
+      assertThat(combinedContents(), not(containsString("\nxyz=abc\n")));
 
       var cleanups =
           new Cleanups(
@@ -765,17 +765,27 @@ class PreferencesTest {
               withProperty("saveSettingsOnSet", false),
               withProperty("xyz", "abc"));
       try (cleanups) {
-        contents = streamReadHelper(userFile);
-        assertThat(contents, not(containsString("\nxyz=abc\n")));
+        assertThat(combinedContents(), not(containsString("\nxyz=abc\n")));
         var cleanups2 =
             new Cleanups(withProperty("saveSettingsOnSet", true), withProperty("wxy", "def"));
         try (cleanups2) {
-          contents = streamReadHelper(userFile);
-          assertThat(contents, containsString("\nxyz=abc\n"));
-          assertThat(contents, containsString("\nwxy=def\n"));
+          assertThat(combinedContents(), containsString("\nxyz=abc\n"));
+          assertThat(combinedContents(), containsString("\nwxy=def\n"));
         }
       }
     }
+  }
+
+  /** Writes out parsable text, then \nul or \0 bytes to mimic a corrupted file */
+  private void corrupt(File file, String parsablePrefix) throws IOException {
+    // Turns the text into bytes
+    byte[] prefix = parsablePrefix.getBytes(StandardCharsets.UTF_8);
+    // The remaining bytes are null bytes
+    byte[] bytes = new byte[prefix.length + 64];
+    // Writes prefix into the bytes array
+    System.arraycopy(prefix, 0, bytes, 0, prefix.length);
+    // Writes to disk
+    Files.write(file.toPath(), bytes);
   }
 
   @Nested
@@ -784,12 +794,14 @@ class PreferencesTest {
     private final String USER_NAME = "PreferencesTestBackupUser".toLowerCase();
     private final File userFile = new File("settings/" + USER_NAME + "_prefs.txt");
     private final File backupFile = new File("settings/" + USER_NAME + "_prefs.bak");
+    private final File journalFile = new File("settings/" + USER_NAME + "_prefs.journal");
     private final String PREF_NAME = "somePreference";
 
     @BeforeEach
     public void deleteUserPrefs() {
       verboseDelete(userFile);
       verboseDelete(backupFile);
+      verboseDelete(journalFile);
     }
 
     @AfterEach
@@ -804,18 +816,6 @@ class PreferencesTest {
 
     private void logout() {
       Preferences.reset("");
-    }
-
-    /** Writes out parsable text, then \nul or \0 bytes to mimic a corrupted file */
-    private void corrupt(File file, String parsablePrefix) throws IOException {
-      // Turns the text into bytes
-      byte[] prefix = parsablePrefix.getBytes(StandardCharsets.UTF_8);
-      // The remaining bytes are null bytes
-      byte[] bytes = new byte[prefix.length + 64];
-      // Writes prefix into the bytes array
-      System.arraycopy(prefix, 0, bytes, 0, prefix.length);
-      // Writes to disk
-      Files.write(file.toPath(), bytes);
     }
 
     private void savePreference() {
@@ -919,6 +919,290 @@ class PreferencesTest {
         assertEquals("someValue", Preferences.getString(PREF_NAME));
         // Confirm problematic lines were not included
         assertFalse(Preferences.propertyExists("skippedKey"));
+      }
+    }
+  }
+
+  @Nested
+  class JournaledPreferenceWrites {
+    // Lowercase because of filenames
+    private final String USER_NAME = "PreferencesTestJournalUser".toLowerCase();
+    private final File userFile = new File("settings/" + USER_NAME + "_prefs.txt");
+    private final File backupFile = new File("settings/" + USER_NAME + "_prefs.bak");
+    private final File journalFile = new File("settings/" + USER_NAME + "_prefs.journal");
+    private final String PREF_NAME = "JournalTestPref";
+
+    @BeforeEach
+    public void deleteUserPrefs() {
+      verboseDelete(userFile);
+      verboseDelete(backupFile);
+      verboseDelete(journalFile);
+    }
+
+    @AfterEach
+    public void resetCharAndPreferences() {
+      deleteSerFiles(USER_NAME);
+      KoLCharacter.reset("");
+    }
+
+    private void login() {
+      Preferences.reset(USER_NAME);
+    }
+
+    private void logout() {
+      Preferences.reset("");
+    }
+
+    private void writeJournal(String string) throws IOException {
+      Files.writeString(journalFile.toPath(), string, StandardCharsets.UTF_8);
+    }
+
+    @Test
+    public void appendsToJournalLeavingPrefsUntouched() throws IOException {
+      var cleanups =
+          new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true));
+      try (cleanups) {
+        login();
+        Preferences.setString(PREF_NAME, "initial");
+        Preferences.userFile.savePrefsFile(false);
+        String prefsBefore = Files.readString(userFile.toPath(), StandardCharsets.UTF_8);
+
+        Preferences.setString(PREF_NAME, "value");
+
+        // The prefs should not have changed
+        assertEquals(prefsBefore, Files.readString(userFile.toPath(), StandardCharsets.UTF_8));
+        // The journal contains this line
+        assertThat(
+            Files.readString(journalFile.toPath(), StandardCharsets.UTF_8),
+            containsString(PREF_NAME + "=value\n"));
+      }
+    }
+
+    @Test
+    public void loginReplaysJournalOntoPrefsAndEmptiesIt() throws IOException {
+      var cleanups =
+          new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true));
+      try (cleanups) {
+        login();
+        Preferences.setString(PREF_NAME, "oldValue");
+        logout();
+        writeJournal(PREF_NAME + "=newValue" + KoLConstants.LINE_BREAK);
+        login();
+
+        // Relogging without logging out will remove your journal file, but that's minor
+        assertTrue(journalFile.exists(), "Journal should still exist as we are logged in");
+        assertEquals(0, journalFile.length(), "Journal should be an empty file");
+        assertEquals("newValue", Preferences.getString(PREF_NAME));
+        assertThat(
+            Files.readString(userFile.toPath(), StandardCharsets.UTF_8),
+            containsString(PREF_NAME + "=newValue\n"));
+      }
+    }
+
+    @Test
+    public void logoutDeletesJournalAndHasEverything() throws IOException {
+      var cleanups =
+          new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true));
+      try (cleanups) {
+        login();
+        Preferences.setString(PREF_NAME, "oldValue");
+        // Save
+        Preferences.userFile.savePrefsFile(false);
+        Preferences.setString(PREF_NAME, "newValue");
+        // The prefs file is currently set to oldValue
+        assertThat(
+            Files.readString(userFile.toPath(), StandardCharsets.UTF_8),
+            containsString(PREF_NAME + "=oldValue\n"));
+        assertThat(
+            Files.readString(userFile.toPath(), StandardCharsets.UTF_8),
+            not(containsString(PREF_NAME + "=newValue\n")));
+        logout();
+
+        assertFalse(journalFile.exists(), "Journal should not exist");
+        assertThat(
+            Files.readString(userFile.toPath(), StandardCharsets.UTF_8),
+            containsString(PREF_NAME + "=newValue\n"));
+      }
+    }
+
+    @Test
+    public void reachingMaxAgeTriggersCompactionAndClearsJournal() throws IOException {
+      var cleanups =
+          new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true));
+      try (cleanups) {
+        login();
+        Preferences.setString(PREF_NAME, "oldValue");
+        Preferences.userFile.savePrefsFile(false);
+        Preferences.setString(PREF_NAME, "pending");
+        assertNotEquals(0, journalFile.length());
+
+        // Claim a day passed since the last compaction.
+        Preferences.userFile.prefsFileLastSave =
+            System.currentTimeMillis() - PreferencesFile.JOURNAL_MAX_AGE - 1;
+
+        Preferences.setString(PREF_NAME, "afterADay");
+
+        assertEquals(0, journalFile.length(), "max age should have triggered a compaction");
+        assertThat(
+            Files.readString(userFile.toPath(), StandardCharsets.UTF_8),
+            containsString(PREF_NAME + "=afterADay\n"));
+      }
+    }
+
+    @Test
+    public void corruptedJournalIsSalvagedUpToLastCompleteLine() throws IOException {
+      var cleanups =
+          new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true));
+      try (cleanups) {
+        corrupt(journalFile, PREF_NAME + "=someValue\nskippedKey=skippedValue");
+
+        login();
+
+        assertEquals("someValue", Preferences.getString(PREF_NAME));
+        assertFalse(Preferences.propertyExists("skippedKey"));
+      }
+    }
+
+    @Test
+    public void removePropertyAppendsRemovalLineToJournal() throws IOException {
+      var cleanups =
+          new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true));
+      try (cleanups) {
+        login();
+        Preferences.setString(PREF_NAME, "value");
+        assertTrue(journalFile.exists());
+
+        Preferences.removeProperty(PREF_NAME, false);
+
+        assertThat(
+            Files.readString(journalFile.toPath(), StandardCharsets.UTF_8),
+            containsString("#" + PREF_NAME + "\n"));
+        assertFalse(Preferences.propertyExists(PREF_NAME, false));
+      }
+    }
+
+    @Test
+    public void journalRemovalLineIsAppliedOnReplay() throws IOException {
+      var cleanups =
+          new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true));
+      try (cleanups) {
+        login();
+        Preferences.setString(PREF_NAME, "value");
+        logout();
+        writeJournal("#" + PREF_NAME + KoLConstants.LINE_BREAK);
+
+        login();
+
+        assertFalse(Preferences.propertyExists(PREF_NAME, false));
+      }
+    }
+
+    @Test
+    public void journalCanSetAndRemoveAndSetProperly() throws IOException {
+      var cleanups =
+          new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true));
+      try (cleanups) {
+        String line1 = PREF_NAME + "=first";
+        String line2 = "#" + PREF_NAME;
+        String line3 = PREF_NAME + "=second";
+        writeJournal(
+            line1
+                + KoLConstants.LINE_BREAK
+                + line2
+                + KoLConstants.LINE_BREAK
+                + line3
+                + KoLConstants.LINE_BREAK);
+
+        login();
+
+        assertEquals("second", Preferences.getString(PREF_NAME));
+      }
+    }
+
+    @Test
+    public void journalHandlesSpecialCharacters() throws IOException {
+      var cleanups =
+          new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true));
+      try (cleanups) {
+        login();
+
+        // Covers the characters encodeCharacter treats differently
+        String trickyName = "Journal#Test!Pref=With:Special\\Chars";
+        String trickyValue =
+            "back\\slash=equals:colon#hash!bang\ttab\nnewline\rcr\fff" + "café中😀emoji";
+
+        Preferences.setString(trickyName, trickyValue);
+        Preferences.setString(PREF_NAME, "toBeRemoved");
+        Preferences.removeProperty(PREF_NAME, false);
+
+        assertThat(
+            Files.readString(journalFile.toPath(), StandardCharsets.UTF_8),
+            containsString(PreferencesFile.encodeProperty(trickyName, trickyValue)));
+
+        login();
+
+        assertEquals(trickyValue, Preferences.getString(trickyName));
+        assertFalse(Preferences.propertyExists(PREF_NAME, false));
+
+        Preferences.removeProperty(trickyName, false);
+        login();
+
+        assertFalse(Preferences.propertyExists(trickyName, false));
+      }
+    }
+
+    @Test
+    public void removingDefaultPreferenceIsJournaledProperly() throws IOException {
+      var cleanups =
+          new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true));
+      try (cleanups) {
+        login();
+
+        // "addingScrolls" has a default, so removing it is a no-op journal append, not a
+        // compaction.
+        Preferences.removeProperty("addingScrolls", false);
+
+        assertTrue(Preferences.propertyExists("addingScrolls", false));
+        assertThat(
+            Files.readString(journalFile.toPath(), StandardCharsets.UTF_8),
+            containsString("addingScrolls=1\n"));
+      }
+    }
+
+    @Test
+    public void resetDailiesWorksWithJournal() throws IOException {
+      var cleanups =
+          new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true));
+      try (cleanups) {
+        login();
+        Preferences.setString("_journalTestDaily", "value");
+        assertTrue(journalFile.exists());
+
+        Preferences.resetDailies();
+
+        assertThat(
+            Files.readString(journalFile.toPath(), StandardCharsets.UTF_8),
+            containsString("#_journalTestDaily\n"));
+        assertFalse(Preferences.propertyExists("_journalTestDaily"));
+      }
+    }
+
+    @Test
+    public void globalPreferencesAreJournaledTheSameWay() throws IOException {
+      String key = "lastUsername";
+      String originalValue = Preferences.getString(key, true);
+      File globalJournalFile = new File("settings/GLOBAL_prefs.journal");
+      var cleanups =
+          new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true));
+      try (cleanups) {
+        Preferences.setString(key, "journalTestValue");
+
+        assertThat(
+            Files.readString(globalJournalFile.toPath(), StandardCharsets.UTF_8),
+            containsString(key + "=journalTestValue\n"));
+
+        // Restore while saving is still enabled, so this is actually persisted.
+        Preferences.setString(key, originalValue);
       }
     }
   }

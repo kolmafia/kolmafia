@@ -1,19 +1,11 @@
 package net.sourceforge.kolmafia.preferences;
 
-import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -24,10 +16,8 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.UnaryOperator;
-import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.combat.CombatActionManager;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
@@ -44,8 +34,6 @@ public class Preferences {
 
   private static final Object lock = new Object(); // used to synch io
 
-  private static final String[] characterMap = new String[65536];
-
   private static final HashMap<String, String> globalNames = new HashMap<>();
   private static final Map<String, Object> globalValues = new ConcurrentHashMap<>();
   // user/globalEncodedValues cache the byte sequence corresponding to the on-disk representation
@@ -53,13 +41,13 @@ public class Preferences {
   // concatenating all the cached values.
   private static final SortedMap<String, byte[]> globalEncodedValues =
       Collections.synchronizedSortedMap(new TreeMap<>());
-  private static File globalPropertiesFile = null;
+  private static PreferencesFile globalFile;
 
   private static final HashMap<String, String> userNames = new HashMap<>();
   private static final Map<String, Object> userValues = new ConcurrentHashMap<>();
   private static final SortedMap<String, byte[]> userEncodedValues =
       Collections.synchronizedSortedMap(new TreeMap<>());
-  private static File userPropertiesFile = null;
+  static PreferencesFile userFile; // Exposed for tests
 
   private static final Set<String> defaultsSet = new HashSet<>();
   private static final Set<String> perUserGlobalSet = new HashSet<>();
@@ -163,16 +151,22 @@ public class Preferences {
 
   /** Resets all settings so that the given user is represented whenever settings are modified. */
   public static synchronized void reset(String username) {
+    boolean loggingOut = username == null || username.isEmpty();
     // We might not have been tracking encoded values here before this save. Fix that.
     Preferences.reinitializeEncodedValues();
-    Preferences.saveToFile(Preferences.globalPropertiesFile, Preferences.globalEncodedValues);
+    // Only tear down the shared global journal on a logout, not a character switch.
+    Preferences.saveToFile(Preferences.globalFile, loggingOut);
+    // Save the logged in user. reset() is itself synchronized and is the only place userFile is
+    // ever reassigned, so this doesn't need the userValues lock below, which only guards the maps.
+    if (Preferences.userFile != null) {
+      Preferences.saveToFile(Preferences.userFile, true);
+    }
     // Prevent anybody from manipulating the user map until we are
     // done bulk-loading it.
     synchronized (Preferences.userValues) {
-      if (username == null || username.isEmpty()) {
-        if (Preferences.userPropertiesFile != null) {
-          Preferences.saveToFile(Preferences.userPropertiesFile, Preferences.userEncodedValues);
-          Preferences.userPropertiesFile = null;
+      if (loggingOut) {
+        if (Preferences.userFile != null) {
+          Preferences.userFile = null;
           Preferences.userValues.clear();
           Preferences.userEncodedValues.clear();
         }
@@ -197,13 +191,12 @@ public class Preferences {
   }
 
   private static void loadGlobalPreferences() {
-    File file =
-        new File(KoLConstants.SETTINGS_LOCATION, Preferences.baseUserName("") + "_prefs.txt");
-    File backupFile =
-        new File(KoLConstants.SETTINGS_LOCATION, Preferences.baseUserName("") + "_prefs.bak");
-    Preferences.globalPropertiesFile = file;
+    // Unfortunately, global prefs remain an issue and will continue to overwrite each other for the
+    // forseeable future.
+    Preferences.globalFile = new PreferencesFile(Preferences.baseUserName(""), globalEncodedValues);
 
-    Properties p = Preferences.loadPreferencesWithBackup(file, backupFile);
+    Properties p = Preferences.globalFile.loadWithBackup();
+    boolean hadJournal = Preferences.globalFile.applyJournal(p);
     Preferences.globalValues.clear();
     Preferences.globalEncodedValues.clear();
 
@@ -231,18 +224,21 @@ public class Preferences {
         Preferences.putGlobal(key, value);
       }
     }
+
+    if (hadJournal || Preferences.globalFile.prefsDoesNotExist()) {
+      Preferences.saveToFile(Preferences.globalFile, false);
+    }
   }
 
   private static void loadUserPreferences(String username) {
-    File userPrefsFile =
-        new File(KoLConstants.SETTINGS_LOCATION, Preferences.baseUserName(username) + "_prefs.txt");
-    File backupFile =
-        new File(KoLConstants.SETTINGS_LOCATION, Preferences.baseUserName(username) + "_prefs.bak");
+    PreferencesFile newUserFile =
+        new PreferencesFile(Preferences.baseUserName(username), userEncodedValues);
 
     synchronized (lock) {
-      Properties p = Preferences.loadPreferencesWithBackup(userPrefsFile, backupFile);
+      Properties p = newUserFile.loadWithBackup();
+      boolean hadJournal = newUserFile.applyJournal(p);
 
-      Preferences.userPropertiesFile = null;
+      Preferences.userFile = null;
       Preferences.userValues.clear();
       Preferences.userEncodedValues.clear();
 
@@ -250,7 +246,7 @@ public class Preferences {
         String key = (String) currentEntry.getKey();
         String value = (String) currentEntry.getValue();
 
-        Preferences.putUser(key, value);
+        Preferences.putUser(key, value, true);
       }
 
       for (Entry<String, String> entry : Preferences.userNames.entrySet()) {
@@ -271,130 +267,15 @@ public class Preferences {
                 : entry.getValue();
 
         // System.out.println( "Adding new built-in user setting: " + key );
-        Preferences.putUser(key, value);
+        Preferences.putUser(key, value, true);
       }
 
-      Preferences.userPropertiesFile = userPrefsFile;
-    }
-  }
+      Preferences.userFile = newUserFile;
 
-  private static Properties loadPreferencesWithBackup(File prefsFile, File backupFile) {
-    if (!prefsFile.exists() && !backupFile.exists()) {
-      return new Properties();
-    }
-
-    Properties p = Preferences.loadPreferences(prefsFile);
-
-    if (!Preferences.isValidPreferencesFile(prefsFile, p)) {
-      // Something went wrong reading the preferences.
-      if (backupFile.exists()) {
-        KoLmafia.updateDisplay(
-            prefsFile
-                + " could not be read, loading backup. "
-                + "This will restore the last successfully opened preferences");
-        // also tell system out, in case things are really fubar
-        System.out.println("Prefs could not be read and backup exists, trying backup. ");
-
-        p = Preferences.loadPreferences(backupFile);
-
-        if (Preferences.isValidPreferencesFile(backupFile, p)) {
-          try {
-            Files.copy(
-                backupFile.toPath(), prefsFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-
-          } catch (IOException ex) {
-
-            KoLmafia.updateDisplay(
-                "Error when restoring preferences from backup,  see session log for details");
-            RequestLogger.updateSessionLog(
-                prefsFile
-                    + " could not be read and backup was used. KoLmafia was unable to copy your backup file to "
-                    + "your preferences file and received error message:"
-                    + ex.getMessage()
-                    + "\nIf this is unexpected, please manually review your preferences and backup and repair any problems."
-                    + " If you have a damaged preferences file, "
-                    + "please consider creating a bug report on the forum, noting any special circumstances around "
-                    + "the failure, and attaching the preferences.");
-          }
-        }
-      } else {
-        // No backup to fall back on, recover whatever complete lines were written before the
-        // corruption point instead of loading a malformed line.
-        try {
-          byte[] safeBytes =
-              FileUtilities.truncateToLastGoodLineBeforeNullByte(
-                  Files.readAllBytes(prefsFile.toPath()));
-          Properties recovered = new Properties();
-          try (InputStream istream = new ByteArrayInputStream(safeBytes)) {
-            recovered.load(istream);
-          }
-          p = recovered;
-          KoLmafia.updateDisplay(
-              "Preferences was partially recovered from corruption, no backup exists.");
-        } catch (IOException e) {
-          p = new Properties();
-          KoLmafia.updateDisplay("Preferences could not be read and no backup exists.");
-        }
-        RequestLogger.updateSessionLog(
-            prefsFile
-                + " could not be read and backup there is no backup file found. "
-                + "If this is unexpected, please manually inspect "
-                + "your preferences file and repair any problems.  If you have a damaged preferences file, "
-                + "please consider creating a bug report on the forum, noting any special circumstances around "
-                + "the failure, and attaching the preferences.");
-      }
-    } else {
-      try {
-        Files.copy(prefsFile.toPath(), backupFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-      } catch (IOException ex) {
-        System.out.println("I/O Error when creating backup preferences file: " + ex.getMessage());
-        RequestLogger.updateSessionLog(
-            prefsFile
-                + " backup creation failed. Please manually inspect "
-                + "your preferences and backup files and repair any problems.  If you have a damaged preferences file, "
-                + "please consider creating a bug report on the forum, noting any special circumstances around "
-                + "the failure, and attaching the preferences.");
+      if (hadJournal || Preferences.userFile.prefsDoesNotExist()) {
+        Preferences.saveToFile(Preferences.userFile, false);
       }
     }
-
-    return p;
-  }
-
-  private static Properties loadPreferences(File file) {
-    Properties p = new Properties();
-    try (InputStream istream = DataUtilities.getInputStream(file)) {
-      p.load(istream);
-    } catch (IOException e) {
-      System.out.println(e.getMessage() + " trying to load preferences from file.");
-    }
-
-    return p;
-  }
-
-  /** A file is currently considered as invalid if it contains null bytes, or is empty */
-  private static boolean isValidPreferencesFile(File file, Properties p) {
-    if (p.isEmpty()) {
-      return false;
-    }
-    try {
-      return !FileUtilities.containsNullBytes(file);
-    } catch (IOException e) {
-      return false;
-    }
-  }
-
-  private static String encodeProperty(String name, String value) {
-    StringBuffer buffer = new StringBuffer();
-
-    Preferences.encodeString(buffer, name);
-
-    if (value != null && !value.isEmpty()) {
-      buffer.append("=");
-      Preferences.encodeString(buffer, value);
-    }
-    buffer.append(KoLConstants.LINE_BREAK);
-
-    return buffer.toString();
   }
 
   private static boolean mustTrackEncodedValues() {
@@ -407,7 +288,7 @@ public class Preferences {
       for (Entry<String, Object> entry : valuesMap.entrySet()) {
         encodedMap.put(
             entry.getKey(),
-            encodeProperty(entry.getKey(), entry.getValue().toString())
+            PreferencesFile.encodeProperty(entry.getKey(), entry.getValue().toString())
                 .getBytes(StandardCharsets.UTF_8));
       }
     }
@@ -422,57 +303,10 @@ public class Preferences {
 
     Preferences.reinitializeEncodedValuesOn(
         Preferences.globalValues, Preferences.globalEncodedValues);
-    Preferences.reinitializeEncodedValuesOn(Preferences.userValues, Preferences.userEncodedValues);
-  }
-
-  private static void encodeString(StringBuffer buffer, String string) {
-    int length = string.length();
-
-    for (int i = 0; i < length; ++i) {
-      char ch = string.charAt(i);
-      encodeCharacter(ch);
-      buffer.append(characterMap[ch]);
+    if (Preferences.userFile != null) {
+      Preferences.reinitializeEncodedValuesOn(
+          Preferences.userValues, Preferences.userEncodedValues);
     }
-  }
-
-  private static void encodeCharacter(char ch) {
-    if (characterMap[ch] != null) {
-      return;
-    }
-
-    switch (ch) {
-      case '\t' -> {
-        characterMap[ch] = "\\t";
-        return;
-      }
-      case '\n' -> {
-        characterMap[ch] = "\\n";
-        return;
-      }
-      case '\f' -> {
-        characterMap[ch] = "\\f";
-        return;
-      }
-      case '\r' -> {
-        characterMap[ch] = "\\r";
-        return;
-      }
-      case '\\', '=', ':', '#', '!' -> {
-        characterMap[ch] = "\\" + ch;
-        return;
-      }
-    }
-
-    characterMap[ch] =
-        (ch > 0x0019 && ch < 0x007f)
-            ? String.valueOf(ch)
-            : (ch < 0x0010)
-                ? "\\u000" + Integer.toHexString(ch)
-                : (ch < 0x0100)
-                    ? "\\u00" + Integer.toHexString(ch)
-                    : (ch < 0x1000)
-                        ? "\\u0" + Integer.toHexString(ch)
-                        : "\\u" + Integer.toHexString(ch);
   }
 
   public static boolean propertyExists(final String name) {
@@ -533,7 +367,9 @@ public class Preferences {
         if (trackEncoded) Preferences.userEncodedValues.remove(name);
       }
     }
-    Preferences.maybeSaveToFileAfterUpdating(trackEncoded, name);
+    // A no-default property isn't in globalNames, so isGlobalProperty(name) can't classify it,
+    // only the `global` flag can.
+    Preferences.maybeSaveToFileAfterUpdating(trackEncoded, global, name);
     PreferenceListenerRegistry.firePreferenceChanged(name);
   }
 
@@ -812,7 +648,7 @@ public class Preferences {
   public static void setBoolean(final String user, final String name, final boolean value) {
     boolean old = Preferences.getBoolean(user, name);
     if (old != value) {
-      Preferences.setObject(user, name, value ? "true" : "false", value);
+      Preferences.setObject(user, name, String.valueOf(value), value);
     }
   }
 
@@ -866,10 +702,14 @@ public class Preferences {
     if (name.equals("saveSettingsOnSet") && (boolean) object) {
       Preferences.reinitializeEncodedValues();
       trackEncoded |= Preferences.saveSettingsToFile;
+      // The changes above bypassed the journal, so save to get all prefs onto disk.
+      Preferences.saveToFile(Preferences.globalFile, false);
+      if (Preferences.userFile != null) {
+        Preferences.saveToFile(Preferences.userFile, false);
+      }
     }
 
     Preferences.put(user, name, object, trackEncoded);
-    Preferences.maybeSaveToFileAfterUpdating(trackEncoded, name);
 
     PreferenceListenerRegistry.firePreferenceChanged(name);
 
@@ -886,19 +726,17 @@ public class Preferences {
     Preferences.globalValues.put(name, value);
     if (updateEncoded) {
       Preferences.globalEncodedValues.put(
-          name, encodeProperty(name, value.toString()).getBytes(StandardCharsets.UTF_8));
+          name,
+          PreferencesFile.encodeProperty(name, value.toString()).getBytes(StandardCharsets.UTF_8));
     }
-  }
-
-  private static void putUser(final String name, final Object value) {
-    Preferences.putUser(name, value, true);
   }
 
   private static void putUser(final String name, final Object value, boolean updateEncoded) {
     Preferences.userValues.put(name, value);
     if (updateEncoded) {
       Preferences.userEncodedValues.put(
-          name, encodeProperty(name, value.toString()).getBytes(StandardCharsets.UTF_8));
+          name,
+          PreferencesFile.encodeProperty(name, value.toString()).getBytes(StandardCharsets.UTF_8));
     }
   }
 
@@ -907,17 +745,24 @@ public class Preferences {
     if (Preferences.isGlobalProperty(name)) {
       String actualName = Preferences.propertyName(user, name);
       Preferences.putGlobal(actualName, value, updateEncoded);
-    } else if (Preferences.userPropertiesFile != null) {
+      Preferences.maybeSaveToFileAfterUpdating(updateEncoded, true, actualName);
+    } else if (Preferences.userFile != null) {
       putUser(name, value, updateEncoded);
+      Preferences.maybeSaveToFileAfterUpdating(updateEncoded, false, name);
     }
   }
 
-  private static void maybeSaveToFileAfterUpdating(boolean enable, String updatedProperty) {
-    if (enable) {
-      if (Preferences.isGlobalProperty(updatedProperty)) {
-        Preferences.saveToFile(Preferences.globalPropertiesFile, Preferences.globalEncodedValues);
-      } else if (Preferences.userPropertiesFile != null) {
-        Preferences.saveToFile(Preferences.userPropertiesFile, Preferences.userEncodedValues);
+  private static void maybeSaveToFileAfterUpdating(
+      boolean enable, boolean global, String updatedProperty) {
+    if (!enable) {
+      return;
+    }
+
+    synchronized (lock) {
+      if (global) {
+        Preferences.globalFile.appendChange(updatedProperty);
+      } else if (Preferences.userFile != null) {
+        Preferences.userFile.appendChange(updatedProperty);
       }
     }
   }
@@ -926,30 +771,13 @@ public class Preferences {
     return user == null ? name : name + "." + Preferences.baseUserName(user);
   }
 
-  private static void saveToFile(File file, Map<String, byte[]> encodedData) {
+  private static void saveToFile(PreferencesFile file, boolean loggingOut) {
     if (!Preferences.saveSettingsToFile) {
       return;
     }
 
-    // See Collections.synchronizedSortedMap
-    //
-    // We are essentially iterating over the map. Not exactly - we
-    // are iterating over the entrySet - but let's keep the map and
-    // the file in synch atomically
-
     synchronized (lock) {
-      // Determine the contents of the file by
-      // actually printing them.
-
-      try (OutputStream fstream = new BufferedOutputStream(DataUtilities.getOutputStream(file))) {
-        synchronized (encodedData) {
-          for (Entry<String, byte[]> current : encodedData.entrySet()) {
-            fstream.write(current.getValue());
-          }
-        }
-      } catch (IOException e) {
-        System.out.println(e.getMessage() + " trying to write preferences as byte array.");
-      }
+      file.savePrefsFile(loggingOut);
     }
   }
 
@@ -1015,27 +843,25 @@ public class Preferences {
   }
 
   public static void resetDailies() {
-    // See Collections.synchronizedSortedMap
-    //
-    // userValues is a synchronized map, but we are doing a mass
-    // change to it.
-
+    // Copy the keys out first; removeProperty/setString below can hit the journal, and that
+    // shouldn't happen while holding this lock.
+    List<String> names;
     synchronized (Preferences.userValues) {
-      Iterator<String> it = Preferences.userValues.keySet().iterator();
-      while (it.hasNext()) {
-        String name = it.next();
-        if (isDaily(name)) {
-          if (!Preferences.containsDefault(name)) {
-            // fully delete preferences that start with _ and aren't in defaults.txt
-            it.remove();
-            userEncodedValues.remove(name);
-            continue;
-          }
-          String val = Preferences.userNames.get(name);
-          if (val == null) val = "";
-          Preferences.setString(name, val);
-        }
+      names = new ArrayList<>(Preferences.userValues.keySet());
+    }
+
+    for (String name : names) {
+      if (!isDaily(name)) {
+        continue;
       }
+      if (!Preferences.containsDefault(name)) {
+        // fully delete preferences that start with _ and aren't in defaults.txt
+        Preferences.removeProperty(name, false);
+        continue;
+      }
+      String val = Preferences.userNames.get(name);
+      if (val == null) val = "";
+      Preferences.setString(name, val);
     }
   }
 
@@ -1043,10 +869,11 @@ public class Preferences {
     // See Collections.synchronizedSortedMap
     //
     // globalValues is a synchronized map, but we are doing a mass
-    // change to it.
+    // change to it. Copy the keys out first since setString below mutates the map we'd otherwise
+    // be iterating over.
 
     synchronized (Preferences.globalValues) {
-      for (String name : Preferences.globalValues.keySet()) {
+      for (String name : new ArrayList<>(Preferences.globalValues.keySet())) {
         if (isDaily(name)) {
           String val = Preferences.globalNames.get(name);
           if (val == null) val = "";
