@@ -1208,6 +1208,99 @@ class PreferencesTest {
   }
 
   @Nested
+  class _transientPreferences {
+    // Lowercase because of filenames
+    private final String USER_NAME = "PreferencesTestTransientUser".toLowerCase();
+    private final File userFile = new File("settings/" + USER_NAME + "_prefs.txt");
+    private final File backupFile = new File("settings/" + USER_NAME + "_prefs.bak");
+    private final File journalFile = new File("settings/" + USER_NAME + "_prefs.journal");
+    private final String PREF_NAME = "transientTestPref";
+
+    @BeforeEach
+    public void deleteUserPrefs() {
+      verboseDelete(userFile);
+      verboseDelete(backupFile);
+      verboseDelete(journalFile);
+    }
+
+    @AfterEach
+    public void resetCharAndPreferences() {
+      deleteSerFiles(USER_NAME);
+      KoLCharacter.reset("");
+    }
+
+    private void login() {
+      Preferences.reset(USER_NAME);
+    }
+
+    @Test
+    void isTransientSeesDifferences() {
+      var cleanups = withProperty("_transientPreferences", "cat,dog");
+      try (cleanups) {
+        assertTrue(Preferences.isTransient("cat"));
+        assertTrue(Preferences.isTransient("dog"));
+        assertFalse(Preferences.isTransient("catfish"));
+        assertFalse(Preferences.isTransient("mouse"));
+      }
+    }
+
+    @Test
+    void transientPreferencesStillWorksInMemory() {
+      var cleanups =
+          new Cleanups(
+              withSavePreferencesToFile(),
+              withProperty("saveSettingsOnSet", true),
+              withProperty("_transientPreferences", PREF_NAME));
+      try (cleanups) {
+        login();
+        Preferences.setString(PREF_NAME, "value");
+        assertEquals("value", Preferences.getString(PREF_NAME));
+      }
+    }
+
+    @Test
+    void transientPreferenceIsNotJournaled() {
+      var cleanups =
+          new Cleanups(
+              withSavePreferencesToFile(),
+              withProperty("saveSettingsOnSet", true),
+              withProperty("_transientPreferences", PREF_NAME));
+      try (cleanups) {
+        login();
+        Preferences.setString(PREF_NAME, "value");
+        // No entry was ever appended, file was never made
+        assertFalse(journalFile.exists());
+      }
+    }
+
+    @Test
+    void fullRewriteKeepsOriginalValueForTransientPreference() throws IOException {
+      var cleanups =
+          new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true));
+      try (cleanups) {
+        login();
+        // Written while not yet transient
+        Preferences.setString(PREF_NAME, "original");
+        Preferences.userFile.savePrefsFile(false);
+
+        Preferences.setString("_transientPreferences", PREF_NAME);
+        Preferences.setString(PREF_NAME, "changed");
+        assertEquals("changed", Preferences.getString(PREF_NAME));
+
+        // Force a write of the prefs file.
+        Preferences.userFile.savePrefsFile(false);
+
+        assertThat(
+            Files.readString(userFile.toPath(), StandardCharsets.UTF_8),
+            containsString(PREF_NAME + "=original\n"));
+        assertThat(
+            Files.readString(userFile.toPath(), StandardCharsets.UTF_8),
+            not(containsString(PREF_NAME + "=changed\n")));
+      }
+    }
+  }
+
+  @Nested
   class SetterFunctions {
     @Test
     void canSetStringWithFunction() {

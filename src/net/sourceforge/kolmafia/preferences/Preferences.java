@@ -279,9 +279,31 @@ public class Preferences {
     return Preferences.getBoolean("saveSettingsOnSet") && Preferences.saveSettingsToFile;
   }
 
+  /**
+   * A preference in "_transientPreferences" behaves normally in memory, but is never written to
+   * disk.
+   */
+  public static boolean isTransient(final String name) {
+    String transientPrefs = Preferences.getString("_transientPreferences");
+    if (transientPrefs.isEmpty()) {
+      return false;
+    }
+    for (String key : transientPrefs.split(",")) {
+      if (key.equals(name)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   private static void reinitializeEncodedValuesOn(
       Map<String, Object> valuesMap, Map<String, byte[]> encodedMap) {
     for (Entry<String, Object> entry : valuesMap.entrySet()) {
+      // Transient preferences never get an encoded entry, so the file write keeps whatever was
+      // already on disk for them.
+      if (Preferences.isTransient(entry.getKey())) {
+        continue;
+      }
       encodedMap.put(
           entry.getKey(),
           PreferencesFile.encodeProperty(entry.getKey(), entry.getValue().toString())
@@ -344,7 +366,7 @@ public class Preferences {
 
   public static void removeProperty(final String name, final boolean global) {
     synchronized (global ? globalEncodedValues : userEncodedValues) {
-      boolean trackEncoded = Preferences.mustTrackEncodedValues();
+      boolean trackEncoded = Preferences.mustTrackEncodedValues() && !Preferences.isTransient(name);
       // Remove only properties which do not have defaults
       if (global) {
         if (!Preferences.globalNames.containsKey(name)) {
@@ -691,7 +713,7 @@ public class Preferences {
       }
     }
 
-    boolean trackEncoded = Preferences.mustTrackEncodedValues();
+    boolean trackEncoded = Preferences.mustTrackEncodedValues() && !Preferences.isTransient(name);
 
     // We stop tracking encoded values when saveSettingsOnSet is off. When it is turned back on,
     // many encoded values will be out of date, and we don't know which ones, so we have to

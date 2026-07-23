@@ -201,6 +201,7 @@ global	_g9Effect	0
 global	_gitUpdated	false
 global	_svnRepoFileFetched	false
 global	_svnUpdated	false
+global	_transientPreferences
 user	8BitBonusTurns	0	roa
 user	8BitScore	0	roa
 user	8BitColor		roa
