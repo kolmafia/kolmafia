@@ -1208,7 +1208,7 @@ class PreferencesTest {
   }
 
   @Nested
-  class _transientPreferences {
+  class transientPreferences {
     // Lowercase because of filenames
     private final String USER_NAME = "PreferencesTestTransientUser".toLowerCase();
     private final File userFile = new File("settings/" + USER_NAME + "_prefs.txt");
@@ -1235,7 +1235,7 @@ class PreferencesTest {
 
     @Test
     void isTransientSeesDifferences() {
-      var cleanups = withProperty("_transientPreferences", "cat,dog");
+      var cleanups = withProperty("transientPreferences", "cat,dog");
       try (cleanups) {
         assertTrue(Preferences.isTransient("cat"));
         assertTrue(Preferences.isTransient("dog"));
@@ -1250,7 +1250,7 @@ class PreferencesTest {
           new Cleanups(
               withSavePreferencesToFile(),
               withProperty("saveSettingsOnSet", true),
-              withProperty("_transientPreferences", PREF_NAME));
+              withProperty("transientPreferences", PREF_NAME));
       try (cleanups) {
         login();
         Preferences.setString(PREF_NAME, "value");
@@ -1264,7 +1264,7 @@ class PreferencesTest {
           new Cleanups(
               withSavePreferencesToFile(),
               withProperty("saveSettingsOnSet", true),
-              withProperty("_transientPreferences", PREF_NAME));
+              withProperty("transientPreferences", PREF_NAME));
       try (cleanups) {
         login();
         Preferences.setString(PREF_NAME, "value");
@@ -1283,7 +1283,7 @@ class PreferencesTest {
         Preferences.setString(PREF_NAME, "original");
         Preferences.userFile.savePrefsFile(false);
 
-        Preferences.setString("_transientPreferences", PREF_NAME);
+        Preferences.setString("transientPreferences", PREF_NAME);
         Preferences.setString(PREF_NAME, "changed");
         assertEquals("changed", Preferences.getString(PREF_NAME));
 

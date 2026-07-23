@@ -280,11 +280,14 @@ public class Preferences {
   }
 
   /**
-   * A preference in "_transientPreferences" behaves normally in memory, but is never written to
+   * A preference in "transientPreferences" behaves normally in memory, but is never written to
    * disk.
    */
   public static boolean isTransient(final String name) {
-    String transientPrefs = Preferences.getString("_transientPreferences");
+    if (name.equals("transientPreferences")) {
+      return true;
+    }
+    String transientPrefs = Preferences.getString("transientPreferences");
     if (transientPrefs.isEmpty()) {
       return false;
     }
@@ -299,15 +302,18 @@ public class Preferences {
   private static void reinitializeEncodedValuesOn(
       Map<String, Object> valuesMap, Map<String, byte[]> encodedMap) {
     for (Entry<String, Object> entry : valuesMap.entrySet()) {
-      // Transient preferences never get an encoded entry, so the file write keeps whatever was
-      // already on disk for them.
-      if (Preferences.isTransient(entry.getKey())) {
+      String value = entry.getValue().toString();
+      if (entry.getKey().equals("transientPreferences")) {
+        // We always store it on disk as an empty string
+        value = "";
+      } else if (Preferences.isTransient(entry.getKey())) {
+        // Transient preferences never get an encoded entry, so the file write keeps whatever was
+        // already on disk for them.
         continue;
       }
       encodedMap.put(
           entry.getKey(),
-          PreferencesFile.encodeProperty(entry.getKey(), entry.getValue().toString())
-              .getBytes(StandardCharsets.UTF_8));
+          PreferencesFile.encodeProperty(entry.getKey(), value).getBytes(StandardCharsets.UTF_8));
     }
   }
 
