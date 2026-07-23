@@ -579,13 +579,25 @@ public class FileUtilities {
       }
 
       // We started at a null, we cannot trust that this line is complete
-      // We start scanning backwards for the first newline that indicates a complete line
-      while (--i >= 0 && bytes[i] != '\n') {}
-
-      return Arrays.copyOf(bytes, i + 1);
+      return truncateBackToLastNewline(bytes, i);
     }
 
     return bytes;
+  }
+
+  /** Drops a trailing line with no terminator, left behind by a write cut off mid-line. */
+  public static byte[] truncateTrailingPartialLine(byte[] bytes) {
+    if (bytes.length == 0 || bytes[bytes.length - 1] == '\n') {
+      return bytes;
+    }
+    return truncateBackToLastNewline(bytes, bytes.length);
+  }
+
+  /** Scans backwards from {@code from} (exclusive) for the last newline and truncates after it. */
+  private static byte[] truncateBackToLastNewline(byte[] bytes, int from) {
+    int i = from;
+    while (--i >= 0 && bytes[i] != '\n') {}
+    return Arrays.copyOf(bytes, i + 1);
   }
 
   public static boolean isEmptyDirectory(Path path) throws IOException {
