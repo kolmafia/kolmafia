@@ -69,6 +69,7 @@ import internal.helpers.HttpClientWrapper;
 import internal.network.FakeHttpClientBuilder;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.file.Files;
 import java.time.Month;
@@ -2914,7 +2915,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
   }
 
   @Test
-  void appendBufferToFileKeepsExistingContent() throws Exception {
+  void appendBufferToFileKeepsExistingContent() throws IOException {
     String filename = "RuntimeLibraryTest_append.txt";
     File file = new File(KoLConstants.DATA_LOCATION, filename);
     try {
