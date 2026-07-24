@@ -2044,6 +2044,9 @@ public abstract class RuntimeLibrary {
     functions.add(new LibraryFunction("handling_choice", DataTypes.BOOLEAN_TYPE, params));
 
     params = List.of();
+    functions.add(new LibraryFunction("can_walk_from_choice", DataTypes.BOOLEAN_TYPE, params));
+
+    params = List.of();
     functions.add(new LibraryFunction("run_combat", DataTypes.BUFFER_TYPE, params));
 
     params = List.of(namedParam("filterFunction", DataTypes.STRING_TYPE));
@@ -8000,6 +8003,10 @@ public abstract class RuntimeLibrary {
 
   public static Value handling_choice(ScriptRuntime controller) {
     return DataTypes.makeBooleanValue(ChoiceManager.handlingChoice);
+  }
+
+  public static Value can_walk_from_choice(ScriptRuntime controller) {
+    return DataTypes.makeBooleanValue(ChoiceManager.canWalkAway());
   }
 
   public static Value run_combat(ScriptRuntime controller) {
