@@ -92,6 +92,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.GreyYouManager;
 import net.sourceforge.kolmafia.textui.command.AbstractCommandTestBase;
 import net.sourceforge.kolmafia.utilities.NullStream;
@@ -2908,5 +2909,17 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
   @CsvSource({"moxie weed,1", "spooky scarecrow,4", "cottage,3"})
   public void cupOf13sTiers(String item, int tier) {
     assertThat(execute("cup_of_13s_tier($item[" + item + "])").trim(), is("Returned: " + tier));
+  }
+
+  @ParameterizedTest
+  // 570: GameInformPowerDailyPro Walkthru is walkawayable
+  @CsvSource({"570, true", "1, false"})
+  void canWalkFromChoice(int choice, boolean expected) {
+    var request = new GenericRequest("choice.php?whichchoice=" + choice);
+    request.responseText = "whichchoice=" + choice;
+    ChoiceManager.visitChoice(request);
+
+    String output = execute("can_walk_from_choice()");
+    assertThat(output, containsString("Returned: " + expected));
   }
 }
