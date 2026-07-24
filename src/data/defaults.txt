@@ -179,6 +179,7 @@ global	swingLookAndFeel
 global	switchEquipmentForBuffs	false
 global	syncAfterSvnUpdate	false
 global	toolbarPosition	1
+global	transientPreferences
 global	useChatToolbar	true
 global	useContactsFrame	true
 global	useDevServer	false
