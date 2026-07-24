@@ -2845,6 +2845,12 @@ public abstract class RuntimeLibrary {
             namedParam("filename", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("buffer_to_file", DataTypes.BOOLEAN_TYPE, params));
 
+    params =
+        List.of(
+            namedParam("buffer", DataTypes.BUFFER_TYPE),
+            namedParam("filename", DataTypes.STRING_TYPE));
+    functions.add(new LibraryFunction("append_buffer_to_file", DataTypes.BOOLEAN_TYPE, params));
+
     params = List.of(namedParam("name", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("set_ccs", DataTypes.BOOLEAN_TYPE, params));
 
@@ -9916,6 +9922,15 @@ public abstract class RuntimeLibrary {
     byte[] bytes = string.getBytes(StandardCharsets.UTF_8);
     String location = var2.toString();
     return DataFileCache.printBytes(location, bytes);
+  }
+
+  public static Value append_buffer_to_file(
+      ScriptRuntime controller, final Value var1, final Value var2) {
+    StringBuffer buffer = (StringBuffer) var1.rawValue();
+    String string = buffer.toString();
+    byte[] bytes = string.getBytes(StandardCharsets.UTF_8);
+    String location = var2.toString();
+    return DataFileCache.printBytes(location, bytes, true);
   }
 
   public static Value set_ccs(ScriptRuntime controller, final Value name) {

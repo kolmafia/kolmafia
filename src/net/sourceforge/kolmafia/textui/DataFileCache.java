@@ -191,6 +191,10 @@ public class DataFileCache {
   }
 
   public static Value printBytes(final String filename, final byte[] data) {
+    return printBytes(filename, data, false);
+  }
+
+  public static Value printBytes(final String filename, final byte[] data, final boolean append) {
     File output = DataFileCache.getFile(filename, false);
 
     if (output == null) {
@@ -210,7 +214,7 @@ public class DataFileCache {
       }
     }
 
-    try (FileOutputStream ostream = new FileOutputStream(output, false)) {
+    try (FileOutputStream ostream = new FileOutputStream(output, append)) {
       ostream.write(data);
     } catch (Exception e) {
       return DataTypes.FALSE_VALUE;
