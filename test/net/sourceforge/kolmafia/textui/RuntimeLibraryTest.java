@@ -2912,8 +2912,10 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
   }
 
   @ParameterizedTest
-  // 570: GameInformPowerDailyPro Walkthru is walkawayable
-  @CsvSource({"570, true", "1, false"})
+  @CsvSource({
+    "570, true", // GameInformPowerDailyPro Walkthru - can walkaway
+    "1, false"
+  })
   void canWalkFromChoice(int choice, boolean expected) {
     var request = new GenericRequest("choice.php?whichchoice=" + choice);
     request.responseText = "whichchoice=" + choice;
