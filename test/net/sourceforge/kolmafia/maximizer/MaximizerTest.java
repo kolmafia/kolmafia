@@ -1875,6 +1875,20 @@ public class MaximizerTest {
     }
 
     @Test
+    public void dontSwitchModeForZeroScoreWithoutTiebreaker() {
+      final var cleanups =
+          new Cleanups(
+              withEquipped(Slot.SHIRT, ItemPool.JURASSIC_PARKA),
+              withSkill(SkillPool.TORSO),
+              withProperty("parkaMode", "kachungasaur"));
+
+      try (cleanups) {
+        assertTrue(maximize("+adv, -tie"));
+        assertThat(getBoosts(), not(hasItem(hasProperty("cmd", startsWith("parka")))));
+      }
+    }
+
+    @Test
     public void higherBonusModeWins() {
       final var cleanups =
           new Cleanups(withEquippableItem("backup camera"), withProperty("backupCameraMode", "ml"));
