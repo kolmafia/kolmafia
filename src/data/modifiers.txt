@@ -6436,7 +6436,6 @@ Effect	Ermahgerd, Burke	Avatar: "Special Agent Wallace Burke Corrigan"
 Effect	Ermine Eyes	Item Drop: +5
 Effect	Erudite	Mysticality Percent: +10, Spell Damage: +15, Damage Reduction: -10
 # Eso S&iacute; Que Es
-3118	Essentially Bananafied	potion29.gif	82e86749d782ef9375a9799a163c6302	neutral	none	use 1 essential banana decoction
 Effect	Essentially Bananafied	Moxie Percent: +200, Experience Percent (Moxie): +25
 Effect	Everybody Calls Him Gorgon	Experience (Mysticality): +5, Mysticality Percent: +100, Maximum MP Percent: +50
 # Everything Is Bananas: Monsters will often fail to hit you because of all the banana oil everywhere

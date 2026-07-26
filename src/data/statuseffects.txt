@@ -1,6 +1,5 @@
 4
 # effect id	name	image	descid	quality	attributes	default action
---------------------
 1	Light!	light.gif	29e5ac45852cffc2c37ad392eb87bab7	neutral	none	use 1 birthday candle
 2	Sleepy	sleepy.gif	35b38533640fed03c12460b1dca98e81	bad	none	use 1 decorative fountain|eat 1 hippy herbal tea
 3	Confused	confused.gif	d335051a5afb4fa12036998ac13f167b	bad	none	use either 1 Now and Earlier, 1 Senior Mints, 1 shingle|eat 1 herb brownies
@@ -3119,7 +3118,7 @@
 3115	Runneth On Fumes	runnethstench.gif	35b96e0c5637de5b95b6f8a05e186415	neutral	none
 3116	Runneth For Thy Life	runnethspooky.gif	a4c0d14bbc0c8af84aa96e4ace820c11	neutral	none
 3117	Runneth Into Thine Ex	runnethsleaze.gif	c6e701695a81c397abedc9c881f4f3f4	neutral	none
-3118
+3118	Essentially Bananafied	potion29.gif	82e86749d782ef9375a9799a163c6302	neutral	none	use 1 essential banana decoction
 3119	Quintessentially Bananafied	potion30.gif	ee62f1f950f98f2aecd9e00715b55aff	neutral	none	use 1 banana quintessence
 3120	Watermelon On The Brain	potion25.gif	5ff6e5e99f564a06465844720d8d9f3e	neutral	none	use 1 concentrated watermelon juice
 3121	Watermelon Seeds of Eternity	potion26.gif	faa21098b311fec1872c0c9bc097282f	neutral	none	use 1 Aqua Citrulanatae

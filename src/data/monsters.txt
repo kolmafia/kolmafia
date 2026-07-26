@@ -2417,9 +2417,9 @@ soused tosspot	2534	tosspot.gif		bottle of tequila (0)	boxed wine (0)	bottle of 
 knight in lightweight armor	2533	lightknight.gif		single-use sword (0)	flimsy plastic breastplate (0)	flimsy plastic helmet (0)	flimsy plastic greaves (0)	flimsy plastic shield (0)
 neckbearded wizard	2531	neckbeardwizard.gif		flash paperwad (0)	The Wizard's Android (0)
 performative peasant	2532	juggler.gif		wooden juggling ball (0)	tactical jester's cap (0)
-Open Mic Knight	2536	openmicknight.gif
-Poker Knight	2537	pokerknight.gif
-Wedding Knight	2538	weddingknight.gif
+Open Mic Knight	2536	openmicknight.gif	
+Poker Knight	2537	pokerknight.gif	
+Wedding Knight	2538	weddingknight.gif	
 
 # Old Events
 
