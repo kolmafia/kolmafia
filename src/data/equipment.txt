@@ -155,6 +155,7 @@ five-gallon hat	100	none
 flagstone fez	120	Mys: 40
 flaming leaf crown	150	none
 flatusaur gasmask	100	none
+flimsy plastic helmet	25	none
 floaty rock helmet	100	Mox: 35
 foam commodore's hat	200	Mox: 85
 foolscap fool's cap	40	Mox: 5
@@ -410,6 +411,7 @@ sugar chapeau	100	none
 superhero mask	10	none
 suspicious-looking fedora	60	Mox: 15
 sweatband	100	Mox: 35
+tactical jester's cap	120	Mox: 45
 tattered paper crown	60	Mus: 15
 Team Avarice cap	0	none
 Team Sloth cap	0	none
@@ -585,6 +587,7 @@ fancy tuxedo pants	100	Mox: 35
 filthy corduroys	60	Mox: 15
 fire hose	150	Mox: 60
 flaming fig leaf	100	none
+flimsy plastic greaves	25	none
 floaty rock pants	100	Mox: 35
 floral-print skirt	150	Mox: 50
 flowing hippy skirt	180	Mox: 75
@@ -877,6 +880,7 @@ filthy hippy poncho	40	Mus: 5
 First Post shirt - Cir Senam	100	none
 fishbone corset	20	none
 flaming pink shirt	100	none
+flimsy plastic breastplate	25	none
 floral print shirt	100	Mus: 35
 flyest of shirts	80	Mus: 25
 fresh coat of paint	100	none
@@ -985,12 +989,12 @@ zero-trust tanktop	100	none
 # Weapons section of equipment.txt
 
 &quot;honey&quot; dipper	150	Mys: 60	1-handed utensil
-17-alarm Saucepan	90	Mys: 15	1-handed saucepan
-25-meat staff	70	Mus: 20	2-handed staff
 4-dimensional guitar	80	Mox: 25	2-handed guitar
 5-Alarm Saucepan	50	Mys: 10	1-handed saucepan
 7-Foot Dwarven mattock	80	Mus: 25	2-handed axe
 7-inch discus	200	Mox: 85	1-handed boomerang
+17-alarm Saucepan	90	Mys: 15	1-handed saucepan
+25-meat staff	70	Mus: 20	2-handed staff
 a butt tuba	145	Mox: 57	2-handed horn
 accord ion	70	Mox: 20	1-handed accordion
 accordion file	60	Mox: 15	2-handed accordion
@@ -1858,8 +1862,11 @@ Windsor Pan of the Source	200	Mys: 60	1-handed saucepan
 witty rapier	150	Mus: 60	1-handed sword
 wolf whistle	200	Mox: 85	1-handed whistle
 wooden axe	60	Mus: 15	2-handed axe
+wooden lute	80	Mox: 25	1-handed guitar
 wooden spoon	50	Mys: 10	1-handed utensil
+wooden staff	80	Mys: 25	1-handed staff
 wooden stakes	25	Mus: 0	2-handed knife
+wooden sword	80	Mus: 25	1-handed sword
 Work is a Four Letter Sword	100	Mus: 0	1-handed sword
 world's smallest violin	150	Mox: 60	1-handed violin
 worm-riding hooks	50	Mus: 0	2-handed club
@@ -2062,6 +2069,7 @@ flaming talons	90	Mys: 30
 fleshy lump	50	none	shield
 flickering flashlight	50	none
 flimsy clipboard	50	Mus: 10	shield
+flimsy plastic shield	0	none	shield
 flimsy ski pole	50	none
 foon	30	none
 foon of fearfulness	50	Mys: 10
@@ -2426,6 +2434,7 @@ The Joke Book of the Dead	0	none
 The Lot's engagement ring	0	none
 The Necbromancer's Stein	200	Mys: 200
 The Spirit of Crimbo	0	none
+The Wizard's Android	0	Mys: 40
 third-hand lantern	10	none
 thought balloon	10	none
 Tiki lighter	20	none
@@ -2481,9 +2490,9 @@ zoological sample kit	10	none
 
 # Accessories section of equipment.txt
 
+[spelunking test kit]	0	none
 &quot;I survived Y2K&quot; T-Shirt	100	none
 &quot;I Voted!&quot; sticker	10	none
-[spelunking test kit]	0	none
 acid-squirting flower	50	Mys: 10
 actual reality goggles	10	none
 actual skeleton key	10	none
@@ -3144,6 +3153,7 @@ porquoise eyebrow ring	50	Mys: 10
 porquoise necklace	50	Mys: 10
 porquoise ring	50	Mys: 10
 portable cassette player	20	none
+Portable Laughing Stock	0	none
 power sock	100	Mys: 10
 Powerful Glove	100	none
 primitive alien necklace	50	Mys: 10
@@ -3405,8 +3415,8 @@ tiny die-cast Uncle Hobo	50	none
 tiny die-cast Unionize the Elves Sign	10	none
 tiny die-cast Zeppo the Reindeer	10	none
 tiny plastic &quot;Santa Claus&quot;	10	none
-tiny plastic 11 Dealer	0	none
 tiny plastic 7-foot dwarf	10	none
+tiny plastic 11 Dealer	0	none
 tiny plastic abominable fudgeman	0	none
 tiny plastic Abuela Crimbo	25	none
 tiny plastic Abuela's cottage	10	none
