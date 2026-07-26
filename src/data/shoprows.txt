@@ -1726,3 +1726,8 @@
 1725	detritus2015	hoverboard	2015 landfill detritus (25)
 1726	detritus2015	left shark fin	2015 landfill detritus (50)
 1727	detritus2015	fitness tracking bracelet	2015 landfill detritus (100)
+1732	twitch_jousting	premium turkey leg	Chroner (5)
+1733	twitch_jousting	styrofoam cup of mead	Chroner (5)
+1734	twitch_jousting	wooden sword	Chroner (100)
+1735	twitch_jousting	wooden staff	Chroner (100)
+1736	twitch_jousting	wooden lute	Chroner (100)
