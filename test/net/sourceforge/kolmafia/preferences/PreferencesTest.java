@@ -159,7 +159,6 @@ class PreferencesTest {
         assertTrue(userFile().length() < backupFile().length() / 2);
 
         Preferences.reset(DURABLE_USER);
-
         assertEquals("precious", Preferences.getString("keepMe"));
         String backupAfter = Files.readString(backupFile().toPath(), StandardCharsets.UTF_8);
         assertEquals(backupBefore, backupAfter, "backup must not be overwritten by partial prefs");
