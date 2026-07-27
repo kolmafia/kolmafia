@@ -136,6 +136,7 @@ trapper	The Trapper	COIN
 tweedle	The Tweedleporium	NPC
 twitchsoup	The Primordial Soup Kitchen	COIN
 twitch_alliedhq	Allied HQ	COIN
+twitch_jousting	Renaissance Gift Shop	COIN
 unclep	Uncle P's Antiques	NPC
 vault1	Fallout Shelter Medical Supply	NPC
 vault2	Fallout Shelter Electronics Supply	NPC
