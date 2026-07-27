@@ -119,6 +119,7 @@ public abstract class CoinmasterRegistry {
         PrecinctRequest.PRECINCT,
         PrimordialSoupKitchenRequest.DATA,
         QuartersmasterRequest.FRATBOY,
+        RenaissanceGiftShopRequest.DATA,
         ReplicaMrStoreRequest.REPLICA_MR_STORE,
         RubeeRequest.RUBEE,
         RumpleRequest.DATA,

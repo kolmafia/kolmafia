@@ -1425,16 +1425,17 @@ Dino World Gift Shop (The Dinostaur)	buy	500	stuffed dinosaur	ROW1288
 
 # KoL Con 13 Merch Table
 
-KoL Con 13 Merch Table	buy	1	Allied Radio Backpack Pack	ROW1602
-KoL Con 13 Merch Table	buy	2	unevolved organism	ROW1509
-KoL Con 13 Merch Table	buy	3	crated wardrobe-o-matic	ROW1397
-KoL Con 13 Merch Table	buy	4	KoL Con 13 snowglobe	ROW883
-KoL Con 13 Merch Table	buy	5	potted tea tree	ROW884
-KoL Con 13 Merch Table	buy	6	Xi Receiver Unit	ROW885
-KoL Con 13 Merch Table	buy	7	Gordon Beer's Beer Garden Catalog	ROW886
-KoL Con 13 Merch Table	buy	8	Tome of Rad Libs	ROW887
-KoL Con 13 Merch Table	buy	9	Gygaxian Libram	ROW888
-KoL Con 13 Merch Table	buy	10	hippo tutu	ROW889
+KoL Con 13 Merch Table	buy	1	packaged Portable Laughing Stock	ROW1737
+KoL Con 13 Merch Table	buy	2	Allied Radio Backpack Pack	ROW1602
+KoL Con 13 Merch Table	buy	3	unevolved organism	ROW1509
+KoL Con 13 Merch Table	buy	4	crated wardrobe-o-matic	ROW1397
+KoL Con 13 Merch Table	buy	5	KoL Con 13 snowglobe	ROW883
+KoL Con 13 Merch Table	buy	6	potted tea tree	ROW884
+KoL Con 13 Merch Table	buy	7	Xi Receiver Unit	ROW885
+KoL Con 13 Merch Table	buy	8	Gordon Beer's Beer Garden Catalog	ROW886
+KoL Con 13 Merch Table	buy	9	Tome of Rad Libs	ROW887
+KoL Con 13 Merch Table	buy	10	Gygaxian Libram	ROW888
+KoL Con 13 Merch Table	buy	11	hippo tutu	ROW889
 KoL Con 13 Merch Table	buy	1111	Twitching Television Tattoo	ROW895
 
 # Fancy Dan the Cocktail Man
@@ -1728,6 +1729,14 @@ Allied HQ	ROW1601	Axis codebook	nice nylon stockings (50)
 Allied HQ	ROW1596	Chroner (10)	stolen artifact
 Allied HQ	ROW1597	Chroner (20)	really expensive stolen artifact
 Allied HQ	ROW1598	Chroner (30)	priceless stolen artifact
+
+# Renaissance Times
+
+Renaissance Gift Shop	ROW1732	premium turkey leg	Chroner (5)
+Renaissance Gift Shop	ROW1733	styrofoam cup of mead	Chroner (5)
+Renaissance Gift Shop	ROW1734	wooden sword	Chroner (100)
+Renaissance Gift Shop	ROW1735	wooden staff	Chroner (100)
+Renaissance Gift Shop	ROW1736	wooden lute	Chroner (100)
 
 # Sea Path
 
