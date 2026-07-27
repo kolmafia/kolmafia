@@ -234,6 +234,7 @@ public class Preferences {
       }
     }
   }
+
   private static void loadUserPreferences(String username) {
     File userPrefsFile =
       new File(KoLConstants.SETTINGS_LOCATION, Preferences.baseUserName(username) + "_prefs.txt");
@@ -320,6 +321,7 @@ public class Preferences {
       Preferences.userPropertiesFile = userPrefsFile;
     }
   }
+
   private static Properties loadPreferencesWithBackup(File prefsFile, File backupFile) {
     if (!prefsFile.exists() && !backupFile.exists()) {
       return new Properties();
