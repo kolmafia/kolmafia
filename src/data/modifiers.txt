@@ -499,6 +499,7 @@ Item	soft cap of diminishing returns	Experience (Muscle): [-1*floor(basemus/100)
 Item	Sombrero De Vida	Four Songs, Familiar Effect: "1xVolley, 1xPotato, 1xLep, cap 12"
 Item	sombrero-mounted sparkler	Combat Rate: +5, Hot Damage: +10, Hot Spell Damage: +20, Lasts Until Rollover, Last Available: "2021-07"
 Item	space beast fur hat	Damage Reduction: 5, Last Available: "2014-05", Familiar Effect: "1xVolley"
+Item	Space Soldier Helmet	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25, Experience: +25
 Item	space trooper helmet	Muscle: +5, Mysticality: +5, Moxie: +5, Softcore Only, Familiar Effect: "1xVolley, 1xLep, cap 2"
 Item	spaghetti cult mask	Spell Damage Percent: +15, Familiar Effect: "1xBarrr, 1xGhuol, cap 38"
 Item	spangly sombrero	Experience (Moxie): +3, Familiar Effect: "2xFairy, 2xPotato, cap 37"
@@ -7646,6 +7647,8 @@ Effect	Quiet Desperation	Moxie Percent: +25
 Effect	Quiet Determination	Muscle Percent: +25
 Effect	Quiet Judgement	Mysticality Percent: +25
 Effect	Quiet Night's Sleep	Initiative: +50, MP Regen Min: 5, MP Regen Max: 10
+Effect	Quinced, Quickened	Mysticality Percent: +400, Experience Percent (Mysticality): +50
+Effect	Quincy	Mysticality Percent: +200, Experience Percent (Mysticality): +25
 Effect	Quintessentially Bananafied	Moxie Percent: +400, Experience Percent (Moxie): +50
 Effect	Quivering with Rage	Muscle Percent: -10, Damage Aura: 1
 Effect	QWOPped Up	Initiative: -100, Always Fumble
@@ -9583,6 +9586,7 @@ Item	amok pudding	Effect: "Puddingface", Effect Duration: 20
 Item	ancient unspeakable fruitcake	Last Available: "2006-12"
 Item	animal part cracker	Effect: "Sprinkle in Your Eye", Effect Duration: 30, Last Available: "2016-12"
 Item	antique watermelon	Effect: "Still Watermelons Run Deep", Effect Duration: 10, Last Available: "2026-07"
+Item	antique watermelon pie	Effect: "Still Watermelons Run Deep", Effect Duration: 50, Last Available: "2026-07"
 Item	Arrattabbattabiata	Last Available: "2026-05"
 Item	autumn-spice donut	Effect: "Whet Appetite", Effect Duration: 30, Last Available: "2022-10"
 Item	bacteria bisque	Effect: "Infected with Chronerism", Effect Duration: 50
@@ -9984,6 +9988,7 @@ Item	pumpkin pie	Last Available: "2010-11"
 Item	quantum taco	Last Available: "2010-10"
 Item	queen cookie	Effect: "Towering Strength", Effect Duration: 30, Effect: "Mitre Cut", Effect Duration: 30, Effect: "Knightlife", Effect Duration: 30, Effect: "The Royal We", Effect Duration: 30, Last Available: "2010-03"
 Item	quince	Effect: "Exotically Fruity", Effect Duration: 10, Last Available: "2026-07"
+Item	quince pie	Effect: "Exotically Fruity", Effect Duration: 50, Last Available: "2026-07"
 Item	rack of dinosaur ribs	Effect: "Meat the Flintstones", Effect Duration: 30
 Item	raisin	Last Available: "2010-04"
 Item	rat pizza	Effect: "Ratabunga, Dude!", Effect Duration: 50, Last Available: "2026-03"
@@ -10461,6 +10466,8 @@ Item	McLeod's Hard Haggis-Ade	Effect: "Hagg-ard", Effect Duration: 20, Last Avai
 Item	meadeorite	Effect: "Meadulla Oblongota", Effect Duration: 40, Last Available: "2017-08"
 Item	mechanically-mulled cider	Effect: "Eyesies on the Pressies", Effect Duration: 20, Last Available: "2024-12"
 Item	melon-infused sake	Effect: "Warm Belly", Effect Duration: 1
+Item	Melonade Spritz	Effect: "Still Watermelons Run Deep", Effect Duration: 40, Last Available: "2026-07"
+Item	Melonegroni	Effect: "Still Watermelons Run Deep", Effect Duration: 20, Last Available: "2026-07"
 Item	mentholated wine	Effect: "Christmessy", Effect Duration: 20, Last Available: "2017-03"
 Item	mid-level medieval mead	Last Available: "2014-12"
 Item	Middle of the Road&trade; brand whiskey	Last Available: "2018-09"
@@ -10472,6 +10479,7 @@ Item	Miss Graves' vermouth	Last Available: "2016-12"
 Item	missing wine	Last Available: "2010-03"
 Item	Mohobo	Effect: "Mo' Hobo", Effect Duration: 5, Last Available: "2012-03"
 Item	Mon Tiki sidecar	Last Available: "2025-03"
+Item	Monkey Congress	Effect: "Bananapalooza", Effect Duration: 40, Last Available: "2026-07"
 Item	Moonshine Mohobo	Effect: "Mo' Hobo", Effect Duration: 10, Last Available: "2012-03"
 Item	Moonthril Schnapps	Last Available: "2011-06"
 Item	More Humanitini than Humanitini	Last Available: "2012-03"
@@ -10540,6 +10548,7 @@ Item	pumpkin beer	Last Available: "2010-11"
 Item	punch-drunk punch	Effect: "Boxing Day Drinking", Effect Duration: 50, Last Available: "2018-12"
 Item	Punchplanter	Effect: "Fishy", Effect Duration: 5, Last Available: "2012-03"
 Item	Quaatorade&trade;	Effect: "Quaaaaaaa", Effect Duration: 100, Last Available: "2015-08"
+Item	Quincea&ntilde;era Cooler	Effect: "Exotically Fruity", Effect Duration: 40, Last Available: "2026-07"
 Item	Quiskey Sour	Effect: "Exotically Fruity", Effect Duration: 20, Last Available: "2026-07"
 Item	R'lyeh	Effect: "The Effect Man Was Not Meant to Have", Effect Duration: 40, Last Available: "2017-03"
 Item	Racisto Ruidoso	Last Available: "2017-11"
@@ -11258,6 +11267,7 @@ Item	Elvish delight	Effect: "Cuts Like a Lightly-Buttered Knife", Effect Duratio
 Item	EMD holo-record	Effect: "Ministrations in the Dark", Effect Duration: 10
 Item	emergency glowstick	Effect: "Glowing Hands", Effect Duration: 20, Last Available: "2022-05"
 Item	ennui-flavored potato chips	Effect: "Also Schmeckt Zarathustra", Effect Duration: 10
+Item	essential banana decoction	Effect: "Essentially Bananafied", Effect Duration: 5, Last Available: "2026-07"
 Item	essential cameraderie	Effect: "2 Hearts, 1 Mind", Effect Duration: 50, Last Available: "2010-08"
 Item	essential soy	Effect: "Electrolyte Fantastic", Effect Duration: 50, Last Available: "2010-08"
 Item	Everlasting Deckswabber	Effect: "Sugar Rush", Effect Duration: 10, Effect: "Chain Chain Chains", Effect Duration: 10
@@ -11769,6 +11779,8 @@ Item	purple snowcone	Effect: "Purple Tongue", Effect Duration: 20, Last Availabl
 Item	purple-frosted astral cupcake	Last Available: "2006-06", Effect: "Tiny Bubbles in the Cupcake", Effect Duration: 20
 Item	pygmy phone number	Effect: "Pygmy Drinking Buddy", Effect Duration: 15
 Item	pygmy pygment	Effect: "Woad Warrior", Effect Duration: 10
+Item	Quickquince	Effect: "Quinced, Quickened", Effect Duration: 5, Last Available: "2026-07"
+Item	quince quaff	Effect: "Quincy", Effect Duration: 5, Last Available: "2026-07"
 Item	R&uuml;mpelstiltz	Effect: "Rumpel-pumped", Effect Duration: 5, Last Available: "2014-12"
 Item	Rad-Pro (1 oz.)	Effect: "Rad-Pro Tected", Effect Duration: 20
 Item	radium-flavored potato chips	Effect: "Radium Radicality", Effect Duration: 10

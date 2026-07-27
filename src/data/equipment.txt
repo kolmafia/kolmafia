@@ -390,6 +390,7 @@ soft cap of diminishing returns	100	none
 Sombrero De Vida	50	Mox: 10
 sombrero-mounted sparkler	50	none
 space beast fur hat	100	Mox: 35
+Space Soldier Helmet	200	Mox: 20
 space trooper helmet	10	none
 spaghetti cult mask	155	Mox: 62
 spangly sombrero	150	Mox: 60
