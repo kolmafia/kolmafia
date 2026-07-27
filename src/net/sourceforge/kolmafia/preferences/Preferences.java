@@ -2,10 +2,12 @@ package net.sourceforge.kolmafia.preferences;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.AtomicMoveNotSupportedException;
 import java.nio.file.Files;
@@ -199,9 +201,11 @@ public class Preferences {
   private static void loadGlobalPreferences() {
     File file =
         new File(KoLConstants.SETTINGS_LOCATION, Preferences.baseUserName("") + "_prefs.txt");
+    File backupFile =
+        new File(KoLConstants.SETTINGS_LOCATION, Preferences.baseUserName("") + "_prefs.bak");
     Preferences.globalPropertiesFile = file;
 
-    Properties p = Preferences.loadPreferences(file);
+    Properties p = Preferences.loadPreferencesWithBackup(file, backupFile);
     Preferences.globalValues.clear();
     Preferences.globalEncodedValues.clear();
 
@@ -356,6 +360,18 @@ public class Preferences {
     }
 
     return p;
+  }
+
+  /** A file is currently considered as invalid if it contains null bytes, or is empty */
+  private static boolean isValidPreferencesFile(File file, Properties p) {
+    if (p.isEmpty()) {
+      return false;
+    }
+    try {
+      return !FileUtilities.containsNullBytes(file);
+    } catch (IOException e) {
+      return false;
+    }
   }
 
   private static String encodeProperty(String name, String value) {
