@@ -234,14 +234,95 @@ public class Preferences {
       }
     }
   }
+  private static Properties loadPreferencesWithBackup(File prefsFile, File backupFile) {
+    if (!prefsFile.exists() && !backupFile.exists()) {
+      return new Properties();
+    }
 
+    Properties p = Preferences.loadPreferences(prefsFile);
+
+    if (!Preferences.isValidPreferencesFile(prefsFile, p)) {
+      // Something went wrong reading the preferences.
+      if (backupFile.exists()) {
+        KoLmafia.updateDisplay(
+          prefsFile
+            + " could not be read, loading backup. "
+            + "This will restore the last successfully opened preferences");
+        // also tell system out, in case things are really fubar
+        System.out.println("Prefs could not be read and backup exists, trying backup. ");
+
+        p = Preferences.loadPreferences(backupFile);
+
+        if (Preferences.isValidPreferencesFile(backupFile, p)) {
+          try {
+            Files.copy(
+              backupFile.toPath(), prefsFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+
+          } catch (IOException ex) {
+
+            KoLmafia.updateDisplay(
+              "Error when restoring preferences from backup,  see session log for details");
+            RequestLogger.updateSessionLog(
+              prefsFile
+                + " could not be read and backup was used. KoLmafia was unable to copy your backup file to "
+                + "your preferences file and received error message:"
+                + ex.getMessage()
+                + "\nIf this is unexpected, please manually review your preferences and backup and repair any problems."
+                + " If you have a damaged preferences file, "
+                + "please consider creating a bug report on the forum, noting any special circumstances around "
+                + "the failure, and attaching the preferences.");
+          }
+        }
+      } else {
+        // No backup to fall back on, recover whatever complete lines were written before the
+        // corruption point instead of loading a malformed line.
+        try {
+          byte[] safeBytes =
+            FileUtilities.truncateToLastGoodLineBeforeNullByte(
+              Files.readAllBytes(prefsFile.toPath()));
+          Properties recovered = new Properties();
+          try (InputStream istream = new ByteArrayInputStream(safeBytes)) {
+            recovered.load(istream);
+          }
+          p = recovered;
+          KoLmafia.updateDisplay(
+            "Preferences was partially recovered from corruption, no backup exists.");
+        } catch (IOException e) {
+          p = new Properties();
+          KoLmafia.updateDisplay("Preferences could not be read and no backup exists.");
+        }
+        RequestLogger.updateSessionLog(
+          prefsFile
+            + " could not be read and backup there is no backup file found. "
+            + "If this is unexpected, please manually inspect "
+            + "your preferences file and repair any problems.  If you have a damaged preferences file, "
+            + "please consider creating a bug report on the forum, noting any special circumstances around "
+            + "the failure, and attaching the preferences.");
+      }
+    } else {
+      try {
+        Files.copy(prefsFile.toPath(), backupFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+      } catch (IOException ex) {
+        System.out.println("I/O Error when creating backup preferences file: " + ex.getMessage());
+        RequestLogger.updateSessionLog(
+          prefsFile
+            + " backup creation failed. Please manually inspect "
+            + "your preferences and backup files and repair any problems.  If you have a damaged preferences file, "
+            + "please consider creating a bug report on the forum, noting any special circumstances around "
+            + "the failure, and attaching the preferences.");
+      }
+    }
+
+    return p;
+  }
   private static void loadUserPreferences(String username) {
     File userPrefsFile =
         new File(KoLConstants.SETTINGS_LOCATION, Preferences.baseUserName(username) + "_prefs.txt");
-    File backupFile = Preferences.prefsBackupFileFor(userPrefsFile);
+    File backupFile =
+      new File(KoLConstants.SETTINGS_LOCATION, Preferences.baseUserName(username) + "_prefs.bak");
 
     synchronized (lock) {
-      Properties p = Preferences.loadPreferences(userPrefsFile);
+      Properties p = Preferences.loadPreferencesWithBackup(userPrefsFile, backupFile);
 
       // Only empty or drastically truncated prefs are treated as corrupt. Never promote
       // prefs.txt into the backup here — backups are refreshed only after a durable save.
