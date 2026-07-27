@@ -7,7 +7,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.AtomicMoveNotSupportedException;
 import java.nio.file.Files;
@@ -237,9 +236,9 @@ public class Preferences {
 
   private static void loadUserPreferences(String username) {
     File userPrefsFile =
-      new File(KoLConstants.SETTINGS_LOCATION, Preferences.baseUserName(username) + "_prefs.txt");
+        new File(KoLConstants.SETTINGS_LOCATION, Preferences.baseUserName(username) + "_prefs.txt");
     File backupFile =
-      new File(KoLConstants.SETTINGS_LOCATION, Preferences.baseUserName(username) + "_prefs.bak");
+        new File(KoLConstants.SETTINGS_LOCATION, Preferences.baseUserName(username) + "_prefs.bak");
 
     synchronized (lock) {
       Properties p = Preferences.loadPreferencesWithBackup(userPrefsFile, backupFile);
@@ -249,9 +248,9 @@ public class Preferences {
       if (Preferences.prefsFileSuspect(userPrefsFile, backupFile, p)) {
         if (backupFile != null && backupFile.exists()) {
           KoLmafia.updateDisplay(
-            userPrefsFile
-              + " could not be read, loading backup. "
-              + "This will restore the last successfully saved preferences");
+              userPrefsFile
+                  + " could not be read, loading backup. "
+                  + "This will restore the last successfully saved preferences");
           System.out.println("Prefs could not be read and backup exists, trying backup. ");
 
           p = Preferences.loadPreferences(backupFile);
@@ -259,30 +258,30 @@ public class Preferences {
           if (!p.isEmpty()) {
             try {
               Files.copy(
-                backupFile.toPath(), userPrefsFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                  backupFile.toPath(), userPrefsFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
             } catch (IOException ex) {
               KoLmafia.updateDisplay(
-                "Error when restoring preferences from backup,  see session log for details");
+                  "Error when restoring preferences from backup,  see session log for details");
               RequestLogger.updateSessionLog(
-                userPrefsFile
-                  + " could not be read and backup was used. KoLmafia was unable to copy your backup file to "
-                  + "your preferences file and received error message:"
-                  + ex.getMessage()
-                  + "\nIf this is unexpected, please manually review your preferences and backup and repair any problems."
-                  + " If you have a damaged preferences file, "
-                  + "please consider creating a bug report on the forum, noting any special circumstances around "
-                  + "the failure, and attaching the preferences.");
+                  userPrefsFile
+                      + " could not be read and backup was used. KoLmafia was unable to copy your backup file to "
+                      + "your preferences file and received error message:"
+                      + ex.getMessage()
+                      + "\nIf this is unexpected, please manually review your preferences and backup and repair any problems."
+                      + " If you have a damaged preferences file, "
+                      + "please consider creating a bug report on the forum, noting any special circumstances around "
+                      + "the failure, and attaching the preferences.");
             }
           }
         } else {
           KoLmafia.updateDisplay("Preferences could not be read and no backup exists.");
           RequestLogger.updateSessionLog(
-            userPrefsFile
-              + " could not be read and there is no backup file found. "
-              + "If this is unexpected, please manually inspect "
-              + "your preferences file and repair any problems.  If you have a damaged preferences file, "
-              + "please consider creating a bug report on the forum, noting any special circumstances around "
-              + "the failure, and attaching the preferences.");
+              userPrefsFile
+                  + " could not be read and there is no backup file found. "
+                  + "If this is unexpected, please manually inspect "
+                  + "your preferences file and repair any problems.  If you have a damaged preferences file, "
+                  + "please consider creating a bug report on the forum, noting any special circumstances around "
+                  + "the failure, and attaching the preferences.");
         }
       }
 
@@ -310,9 +309,9 @@ public class Preferences {
         // If it had a value in the GLOBAL map, use that (this
         // is how we migrate a preference from GLOBAL to user)
         String value =
-          Preferences.globalValues.containsKey(key)
-            ? (String) Preferences.globalValues.get(key)
-            : entry.getValue();
+            Preferences.globalValues.containsKey(key)
+                ? (String) Preferences.globalValues.get(key)
+                : entry.getValue();
 
         // System.out.println( "Adding new built-in user setting: " + key );
         Preferences.putUser(key, value);
@@ -333,9 +332,9 @@ public class Preferences {
       // Something went wrong reading the preferences.
       if (backupFile.exists()) {
         KoLmafia.updateDisplay(
-          prefsFile
-            + " could not be read, loading backup. "
-            + "This will restore the last successfully opened preferences");
+            prefsFile
+                + " could not be read, loading backup. "
+                + "This will restore the last successfully opened preferences");
         // also tell system out, in case things are really fubar
         System.out.println("Prefs could not be read and backup exists, trying backup. ");
 
@@ -344,21 +343,21 @@ public class Preferences {
         if (Preferences.isValidPreferencesFile(backupFile, p)) {
           try {
             Files.copy(
-              backupFile.toPath(), prefsFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                backupFile.toPath(), prefsFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
           } catch (IOException ex) {
 
             KoLmafia.updateDisplay(
-              "Error when restoring preferences from backup,  see session log for details");
+                "Error when restoring preferences from backup,  see session log for details");
             RequestLogger.updateSessionLog(
-              prefsFile
-                + " could not be read and backup was used. KoLmafia was unable to copy your backup file to "
-                + "your preferences file and received error message:"
-                + ex.getMessage()
-                + "\nIf this is unexpected, please manually review your preferences and backup and repair any problems."
-                + " If you have a damaged preferences file, "
-                + "please consider creating a bug report on the forum, noting any special circumstances around "
-                + "the failure, and attaching the preferences.");
+                prefsFile
+                    + " could not be read and backup was used. KoLmafia was unable to copy your backup file to "
+                    + "your preferences file and received error message:"
+                    + ex.getMessage()
+                    + "\nIf this is unexpected, please manually review your preferences and backup and repair any problems."
+                    + " If you have a damaged preferences file, "
+                    + "please consider creating a bug report on the forum, noting any special circumstances around "
+                    + "the failure, and attaching the preferences.");
           }
         }
       } else {
@@ -366,26 +365,26 @@ public class Preferences {
         // corruption point instead of loading a malformed line.
         try {
           byte[] safeBytes =
-            FileUtilities.truncateToLastGoodLineBeforeNullByte(
-              Files.readAllBytes(prefsFile.toPath()));
+              FileUtilities.truncateToLastGoodLineBeforeNullByte(
+                  Files.readAllBytes(prefsFile.toPath()));
           Properties recovered = new Properties();
           try (InputStream istream = new ByteArrayInputStream(safeBytes)) {
             recovered.load(istream);
           }
           p = recovered;
           KoLmafia.updateDisplay(
-            "Preferences was partially recovered from corruption, no backup exists.");
+              "Preferences was partially recovered from corruption, no backup exists.");
         } catch (IOException e) {
           p = new Properties();
           KoLmafia.updateDisplay("Preferences could not be read and no backup exists.");
         }
         RequestLogger.updateSessionLog(
-          prefsFile
-            + " could not be read and backup there is no backup file found. "
-            + "If this is unexpected, please manually inspect "
-            + "your preferences file and repair any problems.  If you have a damaged preferences file, "
-            + "please consider creating a bug report on the forum, noting any special circumstances around "
-            + "the failure, and attaching the preferences.");
+            prefsFile
+                + " could not be read and backup there is no backup file found. "
+                + "If this is unexpected, please manually inspect "
+                + "your preferences file and repair any problems.  If you have a damaged preferences file, "
+                + "please consider creating a bug report on the forum, noting any special circumstances around "
+                + "the failure, and attaching the preferences.");
       }
     } else {
       try {
@@ -393,17 +392,16 @@ public class Preferences {
       } catch (IOException ex) {
         System.out.println("I/O Error when creating backup preferences file: " + ex.getMessage());
         RequestLogger.updateSessionLog(
-          prefsFile
-            + " backup creation failed. Please manually inspect "
-            + "your preferences and backup files and repair any problems.  If you have a damaged preferences file, "
-            + "please consider creating a bug report on the forum, noting any special circumstances around "
-            + "the failure, and attaching the preferences.");
+            prefsFile
+                + " backup creation failed. Please manually inspect "
+                + "your preferences and backup files and repair any problems.  If you have a damaged preferences file, "
+                + "please consider creating a bug report on the forum, noting any special circumstances around "
+                + "the failure, and attaching the preferences.");
       }
     }
 
     return p;
   }
-
 
   /** Backup path for a prefs file (`*_prefs.txt` → `*_prefs.bak`), or null if not a prefs file. */
   private static File prefsBackupFileFor(File prefsFile) {
