@@ -462,6 +462,8 @@ meadeorite	1	1	EPIC	6-7	0	0	0	40 Meadulla Oblongota (+5 stats/fight, +50% MP)
 mechanically-mulled cider	3	1	awesome	10-12	0	20-40	0	20 Eyesies on the Pressies (+15% item)
 mediocre lager	2	1	crappy	2	0	10-20	5-10
 melon-infused sake	4	7	awesome	14-17	0	75-120	0	1 Warm Belly (+hot dmg, +10 Fishy), WINE
+Melonade Spritz	3	1	awesome	0	0	0	0	Unspaded
+Melonegroni	2	1	awesome	0	0	0	0	Unspaded
 melted Jell-o shot	1	10	good	2-4	0-40	0-40	0-40
 mentholated wine	1	1	good	2-4	0	0	0	20 Christmessy (+5 Familiar Weight)
 mid-level medieval mead	1	7	awesome	4-6	20-30	20-30	20-30	20-30 MP, WINE
@@ -478,6 +480,7 @@ moai toai	1	5	good	2-3	0	10-20	0
 Mohobo	2	1	good	4-5	5-10	5-10	5-10	5 Mo' Hobo (+10 Hobo Power)
 Mon Tiki	4	6	awesome	14-18	40-47	0	0
 Mon Tiki sidecar	1	4	awesome	4-5	41-47	0	0
+Monkey Congress	3	1	awesome	0	0	0	0	Unspaded
 monkey wrench	3	1	decent	5-6	0	8-10	0
 moonberry wine cooler	3	3	decent	4-6	0	5-10	0	WINE
 moons-shine	4	1	decent	6-10	7-8	7-8	7-8
@@ -580,6 +583,7 @@ punch-drunk punch	1	1	EPIC	6-7	1-25	1-25	1-25	50 Boxing Day Drinking (+25 pickpo
 Punchplanter	2	1	good	4-5	5-10	5-10	5-10	5 Fishy
 purple corpsel	3	1	good	5-10	29-34	0	0
 Quaatorade&trade;	1	6	EPIC	6-7	0	30-40	0	100 Quaaaaaaa (+50% mys, +50 MP, +10-20 MP regen)
+Quincea&ntilde;era Cooler	3	1	awesome	0	0	0	0	Unspaded
 Quiskey Sour	2	1	awesome	0	0	0	0	Unspaded
 R'lyeh	1	3	EPIC	5-7	10-30	10-30	10-30	40 The Effect Man Was Not Meant to Have (+40 Spooky Damage & Spooky Spell Damage)
 rabbit punch	3	3	good	5-10	0	0	16-20

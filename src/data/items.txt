@@ -12278,7 +12278,7 @@
 12249
 12250
 12251
-12252
+12252	Space Soldier Helmet	527999935	stormhelmet2.gif	hat	t	0
 12253	premium turkey leg	569904659	turkeyleg2.gif	food	t,d	11
 12254	styrofoam cup of mead	834589962	meadcup.gif	drink	t,d	9
 12255	wooden sword	330222181	rensword.gif	weapon	t,d	20
@@ -12304,20 +12304,20 @@
 12275
 12276
 12277	classic banana pie	933694313	creampie.gif	food	t,d	44
-12278
+12278	essential banana decoction	923029751	potion29.gif	potion, usable	t,d	22
 12279	banana quintessence	710732122	potion30.gif	potion, usable	t,d	33
 12280	Aesop Daiquiri	856344942	cocktail5.gif	drink	t,d	23
-12281
-12282
+12281	Monkey Congress	749015129	cocktail6.gif	drink	t,d	37
+12282	antique watermelon pie	762477816	0hpie.gif	food	t,d	44
 12283	concentrated watermelon juice	530172845	potion25.gif	potion, usable	t,d	22
 12284	Aqua Citrulanatae	950577649	potion26.gif	potion, usable	t,d	33
-12285
-12286
-12287
-12288
-12289
+12285	Melonegroni	501354910	cocktail1.gif	drink	t,d	23
+12286	Melonade Spritz	383063057	cocktail7.gif	drink	t,d	37
+12287	quince pie	109534789	pecanpie.gif	food	t,d	44
+12288	quince quaff	498988823	potion27.gif	potion, usable	t,d	22
+12289	Quickquince	558875359	potion28.gif	potion, usable	t,d	33
 12290	Quiskey Sour	689712147	cocktail3.gif	drink	t,d	23
-12291
+12291	Quincea&ntilde;era Cooler	735241911	cocktail4.gif	drink	t,d	37
 12292
 12293
 12294

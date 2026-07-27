@@ -3122,8 +3122,8 @@
 3119	Quintessentially Bananafied	potion30.gif	ee62f1f950f98f2aecd9e00715b55aff	neutral	none	use 1 banana quintessence
 3120	Watermelon On The Brain	potion25.gif	5ff6e5e99f564a06465844720d8d9f3e	neutral	none	use 1 concentrated watermelon juice
 3121	Watermelon Seeds of Eternity	potion26.gif	faa21098b311fec1872c0c9bc097282f	neutral	none	use 1 Aqua Citrulanatae
-3122
-3123
+3122	Quincy	potion27.gif	e425ba397f9e3d5aab13649454bf2dc1	neutral	none	use 1 quince quaff
+3123	Quinced, Quickened	potion28.gif	8ebc563fcadf034ead3db7cd4bfd9c42	neutral	none	use 1 Quickquince
 3124
 3125
 3126	Bananapalooza	origbanana.gif	015b0698db6c9fc324c4b2e4a38e4cd4	neutral	none	drink 1 Aesop Daiquiri
