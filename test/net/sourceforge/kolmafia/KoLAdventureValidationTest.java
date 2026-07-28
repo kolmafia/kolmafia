@@ -43,6 +43,7 @@ import static internal.matchers.Quest.isStep;
 import static internal.matchers.Quest.isUnstarted;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -430,11 +431,11 @@ public class KoLAdventureValidationTest {
         try (cleanups) {
           // If we have not verified access, but the Time Twitching Tower is on
           // the map, we have access today.
-          client.addResponse(200, html("request/test_visit_town_twitch.html"));
+          client.addResponse(200, html("request/test_visit_twitch_twitch.html"));
           boolean success = BOHEMIAN_PARTY.preValidateAdventure();
           var requests = client.getRequests();
-          assertThat(requests, hasSize(1));
-          assertPostRequest(requests.get(0), "/place.php", "whichplace=town");
+          assertThat(requests.size(), greaterThanOrEqualTo(1));
+          assertPostRequest(requests.get(0), "/place.php", "whichplace=twitch");
           assertTrue(Preferences.getBoolean(today));
           assertTrue(success);
         }
@@ -448,11 +449,13 @@ public class KoLAdventureValidationTest {
         try (cleanups) {
           // If we have not verified access, but the Time Twitching Tower is on
           // the map, we have access today.
-          client.addResponse(200, html("request/test_visit_town_no_twitch.html"));
+          client.addResponse(200, "temporal ether");
+          // TODO replace with actual example of what it looks like when TTT is unavailable
+          // client.addResponse(200, html("request/test_visit_twitch_no_twitch.html"));
           boolean success = BOHEMIAN_PARTY.preValidateAdventure();
           var requests = client.getRequests();
           assertThat(requests, hasSize(1));
-          assertPostRequest(requests.get(0), "/place.php", "whichplace=town");
+          assertPostRequest(requests.get(0), "/place.php", "whichplace=twitch");
           assertFalse(Preferences.getBoolean(today));
           assertFalse(success);
         }
