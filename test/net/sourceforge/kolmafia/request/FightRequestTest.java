@@ -4479,4 +4479,45 @@ public class FightRequestTest {
       assertThat("_swordOfSWordsKills", isSetTo(1));
     }
   }
+
+  @Nested
+  class LaughingStock {
+    @Test
+    void laughingStockCharges() {
+      var cleanups =
+          new Cleanups(
+              withFight(),
+              withProperty("_laughingStockCharges", 20),
+              withProperty("_laughingStockFruitDropped", 11),
+              withEquipped(Slot.ACCESSORY1, ItemPool.PORTABLE_LAUGHING_STOCK));
+
+      try (cleanups) {
+        // Any end-of-fight will do
+        parseCombatData("request/test_fight_sword_drop_table.html");
+
+        assertThat("_laughingStockCharges", isSetTo(21));
+        assertThat("_laughingStockFruitDropped", isSetTo(11));
+      }
+    }
+
+    @Test
+    void laughingStockDropHandled() {
+      RequestLoggerOutput.startStream();
+      var cleanups =
+          new Cleanups(
+              withFight(),
+              withProperty("_laughingStockCharges", 20),
+              withProperty("_laughingStockFruitDropped", 11),
+              withEquipped(Slot.ACCESSORY1, ItemPool.PORTABLE_LAUGHING_STOCK));
+
+      try (cleanups) {
+        parseCombatData("request/test_fight_laughing_stock_drop.html");
+        String text = RequestLoggerOutput.stopStream();
+
+        assertThat(text, containsString("pelted with fruit"));
+        assertThat("_laughingStockCharges", isSetTo(1));
+        assertThat("_laughingStockFruitDropped", isSetTo(12));
+      }
+    }
+  }
 }
