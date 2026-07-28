@@ -4409,6 +4409,10 @@ public class FightRequest extends GenericRequest {
         Preferences.increment("boneAbacusVictories", 1);
       }
 
+      if (KoLCharacter.hasEquipped(ItemPool.PORTABLE_LAUGHING_STOCK)) {
+        Preferences.increment("_laughingStockCharges", 1);
+      }
+
       if (KoLCharacter.getAscensionClass() == AscensionClass.SNAKE_OILER) {
         if (responseText.contains("+1 Venom")) {
           Preferences.increment("awolVenom");
@@ -7332,6 +7336,18 @@ public class FightRequest extends GenericRequest {
         // Can of mixed everything
         str.contains("Something falls out of your can of mixed everything.")) {
       FightRequest.logText(str, status);
+    }
+
+    // Portable Laughing Stock
+    if (str.contains("You get smacked in the face with a piece of fruit from somewhere")
+        || str.contains(
+            "The crowd's derision takes a physical form as a piece of fruit sails toward your head")
+        || str.contains("A jeering onlooker chucks something soft and squishy your way")
+        || str.contains("Someone in the crowd hurls a piece of fruit at you")
+        || str.contains("Someone lobs a piece of fruit at you from the crowd")) {
+      FightRequest.logText("You were pelted with fruit.", status);
+      Preferences.setInteger("_laughingStockCharges", 0);
+      Preferences.increment("_laughingStockFruitDropped", 1);
     }
 
     FightRequest.handleLuckyGoldRing(str, status);
