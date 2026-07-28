@@ -279,7 +279,9 @@ public class QuestManager {
         BURTRequest.parseResponse(responseText);
       }
     } else if (location.startsWith("main")) {
-      QuestManager.handleTimeTower(responseText.contains("twitchtower"));
+      if (location.equals("main.php")) {
+        QuestManager.handleTimeTower(responseText.contains("twitchtower"));
+      }
 
       if (Preferences.getInteger("lastIslandUnlock") != KoLCharacter.getAscensions()
           && responseText.contains("island.php")) {
