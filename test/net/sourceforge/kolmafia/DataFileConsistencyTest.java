@@ -772,7 +772,11 @@ public class DataFileConsistencyTest {
               var canonical = ItemDatabase.getItemDataName(id);
               if (canonical != null && !item.equals(canonical)) {
                 fail(
-                    "item name \"" + item + "\" in concoctions.txt should be \"" + canonical + "\".");
+                    "item name \""
+                        + item
+                        + "\" in concoctions.txt should be \""
+                        + canonical
+                        + "\".");
               }
             }
           }
