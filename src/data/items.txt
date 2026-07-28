@@ -12297,7 +12297,7 @@
 12268	flimsy plastic shield	471831030	flimshield.gif	offhand	t,d	11
 12269	packaged Portable Laughing Stock	747690797	stocks_box.gif	usable	t	0
 12270	Portable Laughing Stock	678311056	stocks.gif	accessory		0
-12271
+12271	Staff of Anachronistic Churning	670488187	churnstaff.gif	weapon		0
 12272	classic banana	413818048	origbanana.gif	food, cook, mix	t,d	11
 12273	antique watermelon	338610731	origwatermelon.gif	food, cook, mix	t,d	11
 12274	quince	788170970	quince.gif	food, cook, mix	t,d	11
