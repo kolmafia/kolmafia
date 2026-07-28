@@ -3094,7 +3094,7 @@ Melonegroni	MIX	antique watermelon	bottle of gin
 Quiskey Sour	MIX	quince	bottle of whiskey
 Aesop Daiquiri	MIX	classic banana	bottle of vodka
 Melonade Spritz	SCOCK	antique watermelon	boxed champagne
-Quinceañera Cooler	SCOCK	quince	bottle of Jorge Sinsonte
+Quincea&ntilde;era Cooler	SCOCK	quince	bottle of Jorge Sinsonte
 Monkey Congress	SCOCK	classic banana	bottle of Lieutenant Freeman
 concentrated watermelon juice	SAUCE	antique watermelon	scrumptious reagent
 quince quaff	SAUCE	quince	scrumptious reagent
