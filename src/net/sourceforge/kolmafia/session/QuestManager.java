@@ -279,6 +279,8 @@ public class QuestManager {
         BURTRequest.parseResponse(responseText);
       }
     } else if (location.startsWith("main")) {
+      QuestManager.handleTimeTower(responseText.contains("twitchtower"));
+
       if (Preferences.getInteger("lastIslandUnlock") != KoLCharacter.getAscensions()
           && responseText.contains("island.php")) {
         Preferences.setInteger("lastIslandUnlock", KoLCharacter.getAscensions());
@@ -459,7 +461,6 @@ public class QuestManager {
   }
 
   private static void handleTownChange(final String location, String responseText) {
-    QuestManager.handleTimeTower(responseText.contains("town_tower"));
     QuestManager.handleEldritchFissure(responseText.contains("town_eincursion"));
     QuestManager.handleEldritchHorror(responseText.contains("town_eicfight2"));
   }

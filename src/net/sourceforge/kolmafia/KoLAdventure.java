@@ -643,7 +643,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       case "Twitch":
         // There is no permanent access to the Time Twitching Tower; it's
         // always day by day.
-        return checkZone(null, "timeTowerAvailable", "town");
+        return checkZone(null, "timeTowerAvailable", "twitch");
       case "Speakeasy":
         // It's in the Wrong Side of the Tracks.
         // You can get a quest item from an NPC in it.
