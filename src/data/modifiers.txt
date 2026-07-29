@@ -1958,6 +1958,7 @@ Item	spooky stick	Spooky Damage: +2
 Item	spork	Muscle: +2
 Item	squeaky staff	Mysticality: +3, Monster Level: +6
 Item	Squeezebox of the Ages	Moxie: [11*(1+skill(Accordion Appreciation))], Ranged Damage: [15*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 15
+Item	Staff of Anachronistic Churning	Spell Damage Percent: +25, Mysticality Percent: +15, MP Regen Min: 2, MP Regen Max: 4
 Item	Staff of Blood and Pudding	Spell Damage Percent: +25, Maximum HP: +15, MP Regen Min: 2, MP Regen Max: 3
 Item	[7961]Staff of Ed	Mysticality Percent: +25, Spell Damage Percent: +25, MP Regen Min: 2, MP Regen Max: 6, Pool Skill: +5
 Item	[2268]Staff of Fats	Pool Skill: +5

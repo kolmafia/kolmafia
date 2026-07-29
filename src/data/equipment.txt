@@ -1702,6 +1702,7 @@ spooky stick	30	Mus: 0	2-handed staff
 spork	30	Mys: 0	1-handed utensil
 squeaky staff	75	Mus: 22	2-handed staff
 Squeezebox of the Ages	90	Mox: 15	2-handed accordion
+Staff of Anachronistic Churning	10	Mys: 30	1-handed chefstaff
 Staff of Blood and Pudding	10	Mys: 15	1-handed chefstaff
 [7961]Staff of Ed	100	Mus: 0	1-handed staff
 [2268]Staff of Fats	100	Mys: 35	2-handed staff
@@ -2009,7 +2010,7 @@ Crimbuccaneer war standard	50	none
 crumbling rabbit's foot	50	none
 crumbling skull	0	none
 cuddly teddy bear	125	Mys: 47
-Cup of 13s	0	none
+Cup of 13s	100	none
 cup of infinite pencils	150	Mus: 175
 cursed arcane orb	0	none
 cursed coffee cup	0	none
@@ -2070,7 +2071,7 @@ flaming talons	90	Mys: 30
 fleshy lump	50	none	shield
 flickering flashlight	50	none
 flimsy clipboard	50	Mus: 10	shield
-flimsy plastic shield	0	none	shield
+flimsy plastic shield	50	none	shield
 flimsy ski pole	50	none
 foon	30	none
 foon of fearfulness	50	Mys: 10
@@ -2435,7 +2436,7 @@ The Joke Book of the Dead	0	none
 The Lot's engagement ring	0	none
 The Necbromancer's Stein	200	Mys: 200
 The Spirit of Crimbo	0	none
-The Wizard's Android	0	Mys: 40
+The Wizard's Android	110	Mys: 40
 third-hand lantern	10	none
 thought balloon	10	none
 Tiki lighter	20	none
@@ -3154,7 +3155,7 @@ porquoise eyebrow ring	50	Mys: 10
 porquoise necklace	50	Mys: 10
 porquoise ring	50	Mys: 10
 portable cassette player	20	none
-Portable Laughing Stock	0	none
+Portable Laughing Stock	100	none
 power sock	100	Mys: 10
 Powerful Glove	100	none
 primitive alien necklace	50	Mys: 10
