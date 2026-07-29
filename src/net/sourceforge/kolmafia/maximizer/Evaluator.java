@@ -1774,10 +1774,13 @@ public class Evaluator {
                         return forcedModeables.get(modeable);
                       }
 
-                      MaximizerSpeculation best = null;
                       CheckedItem item =
                           new CheckedItem(modeable.getItemId(), equipScope, maxPrice, priceLevel);
                       var bestMode = modeable.getState();
+                      MaximizerSpeculation best = new MaximizerSpeculation();
+                      best.attachment = item;
+                      best.equipment.put(modeable.getSlot(), item);
+                      best.setModeable(modeable, bestMode);
 
                       // Check each mode in modeable to determine the best
                       for (String mode : modeable.getModes()) {
