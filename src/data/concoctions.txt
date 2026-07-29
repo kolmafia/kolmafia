@@ -2393,6 +2393,7 @@ sentient meat mass	WSMITH	gelatinous meat mass	simple AI
 dove DNA	COMBINE	unused soap	viral DNA
 corrupted bird DNA	COMBINE	dove DNA	99.44% pure math
 zombie dinosaur egg	WSMITH	corrupted bird DNA	sentient meat mass
+Staff of Anachronistic Churning	STAFF	wooden staff	premium turkey leg (3)	styrofoam cup of mead (3)	flash paperwad (3)	wooden juggling ball (3)
 
 # Galloping Grill
 ash soda	COOK	hot ashes	soda water

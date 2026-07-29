@@ -1702,6 +1702,7 @@ spooky stick	30	Mus: 0	2-handed staff
 spork	30	Mys: 0	1-handed utensil
 squeaky staff	75	Mus: 22	2-handed staff
 Squeezebox of the Ages	90	Mox: 15	2-handed accordion
+Staff of Anachronistic Churning	10	Mys: 30	1-handed chefstaff
 Staff of Blood and Pudding	10	Mys: 15	1-handed chefstaff
 [7961]Staff of Ed	100	Mus: 0	1-handed staff
 [2268]Staff of Fats	100	Mys: 35	2-handed staff
