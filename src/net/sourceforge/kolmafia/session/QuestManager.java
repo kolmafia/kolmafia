@@ -278,10 +278,10 @@ public class QuestManager {
       } else if (location.contains("whichitem=" + ItemPool.BURT)) {
         BURTRequest.parseResponse(responseText);
       }
-    } else if (location.startsWith("main")) {
-      if (location.equals("main.php")) {
-        QuestManager.handleTimeTower(responseText.contains("twitchtower"));
-      }
+    } else if (location.equals("main.php")) {
+      // Need to be strict about only accepting the version with no query parameters, since main.php
+      // may not always display the main map in those cases.
+      QuestManager.handleTimeTower(responseText.contains("twitchtower"));
 
       if (Preferences.getInteger("lastIslandUnlock") != KoLCharacter.getAscensions()
           && responseText.contains("island.php")) {
