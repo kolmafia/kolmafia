@@ -12323,4 +12323,4 @@
 12294
 12295
 12296
-12297	Pixie-Swordz	693184026	pixiesword.gif	potion, usable	t,d	5
+12297	Pixie-Swordz	693184026	pixiesword.gif	potion	t,d	5
