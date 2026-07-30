@@ -711,7 +711,7 @@ strawberry daiquiri	3	1	decent	5-6	0	0	8-10
 strawberry wine	3	1	decent	5-6	0	0	8-10	WINE
 Strikes Again Bigmouth	2	1	awesome	7-9	0	0	7-9	50 Smithsness Cheer (Smithsness: +10)
 Strong, Silent Type	3	1	awesome	12	75	0	0	30 Speakin' Even Easier (+30 Mus / Mys / Mox)
-styrofoam cup of mead	3	4	awesome	0	0	0	0	Unspaded, BEER
+styrofoam cup of mead	3	4	awesome	10-12	0	0	20-40	BEER
 Suffering Sinner	2	1	good	4-5	10-20	0	0	5 Heart Aflame (+50 Hot Dam)
 super-size brogurt	3	8	awesome	12-13	50-100	0	50-100
 Supernova Champagne	3	8	good	7-11	8-12	8-12	8-12	15-20 MP, WINE
