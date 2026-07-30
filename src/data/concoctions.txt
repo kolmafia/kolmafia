@@ -3085,3 +3085,20 @@ Linguini Ubriacapa	COOK	legendary noodles	sauced mutton
 Formica e Pepe	COOK	legendary noodles	hot honey ant
 Tubetto Gelatto	COOK	legendary noodles	tomb aspic
 Gnocci Domani	COOK	legendary noodles	later tots
+
+# Portable Laughing Stock
+antique watermelon pie	COOK	antique watermelon	pie crust
+quince pie	COOK	quince	pie crust
+classic banana pie	COOK	classic banana	pie crust
+Melonegroni	MIX	antique watermelon	bottle of gin
+Quiskey Sour	MIX	quince	bottle of whiskey
+Aesop Daiquiri	MIX	classic banana	bottle of vodka
+Melonade Spritz	SCOCK	antique watermelon	boxed champagne
+Quincea&ntilde;era Cooler	SCOCK	quince	bottle of Jorge Sinsonte
+Monkey Congress	SCOCK	classic banana	bottle of Lieutenant Freeman
+concentrated watermelon juice	SAUCE	antique watermelon	scrumptious reagent
+quince quaff	SAUCE	quince	scrumptious reagent
+essential banana decoction	SAUCE	classic banana	scrumptious reagent
+Aqua Citrulanatae	SSAUCE	antique watermelon	scrumdiddlyumptious solution
+Quickquince	SSAUCE	quince	scrumdiddlyumptious solution
+banana quintessence	SSAUCE	classic banana	scrumdiddlyumptious solution

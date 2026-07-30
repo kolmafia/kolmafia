@@ -2412,6 +2412,15 @@ Axis grenadier skeleton	2495	otherimages/skeletonwar/spine+rib1+head4+arms2+legs
 Axis infantry skeleton	2493	otherimages/skeletonwar/spine+rib1+rib2+rib4+head1+arms1+legs2	NOCOPY Scale: 15 Cap: 10000 Floor: ? Init: 200 P: undead SKELETON Phys: 75 ElemHot: 50 ElemCold: 50 ElemStench: 90 ElemSpooky: 90 ElemSleaze: 25 Article: an	Axis helmet (1)	Axis fatigues (1)	Axis suspenders (5)	orphaned baby skeleton (f0.1)
 Axis officer skeleton	2496	otherimages/skeletonwar/spine+rib1+rib3+rib5+rib6+head2+arms1+legs1	NOCOPY Scale: 20 Cap: 10000 Floor: ? Init: 250 P: undead SKELETON Phys: 50 ElemHot: 90 ElemCold: 90 ElemStench: 50 ElemSpooky: 90 ElemSleaze: 90 Article: an	Axis helmet (10)	Axis fatigues (10)	Axis suspenders (10)	stolen artifact (4)	really expensive stolen artifact (2)	priceless stolen artifact (1)	Chroner (100)
 
+# Twitch 12 - Renaissance Times (July 2026)
+soused tosspot	2534	tosspot.gif		bottle of tequila (0)	boxed wine (0)	bottle of gin (0)	bottle of whiskey (0)	bottle of rum (0)	bottle of vodka (0)	ice-cold six-pack (0)
+knight in lightweight armor	2533	lightknight.gif		single-use sword (0)	flimsy plastic breastplate (0)	flimsy plastic helmet (0)	flimsy plastic greaves (0)	flimsy plastic shield (0)
+neckbearded wizard	2531	neckbeardwizard.gif		flash paperwad (0)	The Wizard's Android (0)
+performative peasant	2532	juggler.gif		wooden juggling ball (0)	tactical jester's cap (0)
+Open Mic Knight	2536	openmicknight.gif	
+Poker Knight	2537	pokerknight.gif	
+Wedding Knight	2538	weddingknight.gif	
+
 # Old Events
 
 # White Wednesday (October 26, 2005)
@@ -2948,3 +2957,4 @@ eXtreme Sports Orcs	336	wcorcs.gif	Atk: 39 Def: 34 HP: 30 Init: 60 Meat: 30 Grou
 giant pair of tweezers	38	tweezers.gif	Atk: 16 Def: 14 HP: 8 Init: 60 P: construct Article: a
 Gnollish Sorceress	17	gnollmage.gif	Atk: 11 Def: 9 HP: 5 Init: 60 Meat: 22 P: humanoid EA: cold EA: hot EA: none Article: a	gnoll teeth (5)	gnoll lips (5)
 Knob Goblin Elite Guardsman	79	kg_guardcaptain.gif	Atk: 30 Def: 25 HP: 30 Init: 90 Meat: 50 P: goblin Article: a	Knob Goblin elite helm (5)	Knob Goblin elite pants (5)	Knob Goblin elite polearm (5)	knob bugle (5)	Knob Goblin elite shirt (c5)
+

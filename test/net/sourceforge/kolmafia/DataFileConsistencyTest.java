@@ -765,6 +765,20 @@ public class DataFileConsistencyTest {
             if (id == -1) {
               fail("unrecognised item " + item + ".");
             }
+            // A leading [id] pins the item explicitly; the rest of the string is only a
+            // label and need not match. Otherwise the name must match items.txt exactly
+            // (e.g. HTML entities like &ntilde;).
+            if (!item.startsWith("[")) {
+              var canonical = ItemDatabase.getItemDataName(id);
+              if (canonical != null && !item.equals(canonical)) {
+                fail(
+                    "item name \""
+                        + item
+                        + "\" in concoctions.txt should be \""
+                        + canonical
+                        + "\".");
+              }
+            }
           }
         }
       }
@@ -800,6 +814,22 @@ public class DataFileConsistencyTest {
               var id = ItemDatabase.getExactItemId(ingredient);
               if (id == -1) {
                 fail("unrecognised item " + ingredient + " for item " + item + ".");
+              }
+              // A leading [id] pins the item explicitly; the rest of the string is only a
+              // label and need not match. Otherwise the name must match items.txt exactly
+              // (e.g. HTML entities like &ntilde;).
+              if (!ingredient.startsWith("[")) {
+                var canonical = ItemDatabase.getItemDataName(id);
+                if (canonical != null && !ingredient.equals(canonical)) {
+                  fail(
+                      "ingredient \""
+                          + ingredient
+                          + "\" for item "
+                          + item
+                          + " in concoctions.txt should be \""
+                          + canonical
+                          + "\".");
+                }
               }
             }
           }
