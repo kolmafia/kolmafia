@@ -2413,13 +2413,14 @@ Axis infantry skeleton	2493	otherimages/skeletonwar/spine+rib1+rib2+rib4+head1+a
 Axis officer skeleton	2496	otherimages/skeletonwar/spine+rib1+rib3+rib5+rib6+head2+arms1+legs1	NOCOPY Scale: 20 Cap: 10000 Floor: ? Init: 250 P: undead SKELETON Phys: 50 ElemHot: 90 ElemCold: 90 ElemStench: 50 ElemSpooky: 90 ElemSleaze: 90 Article: an	Axis helmet (10)	Axis fatigues (10)	Axis suspenders (10)	stolen artifact (4)	really expensive stolen artifact (2)	priceless stolen artifact (1)	Chroner (100)
 
 # Twitch 12 - Renaissance Times (July 2026)
-soused tosspot	2534	tosspot.gif		bottle of tequila (0)	boxed wine (0)	bottle of gin (0)	bottle of whiskey (0)	bottle of rum (0)	bottle of vodka (0)	ice-cold six-pack (0)
-knight in lightweight armor	2533	lightknight.gif		single-use sword (0)	flimsy plastic breastplate (0)	flimsy plastic helmet (0)	flimsy plastic greaves (0)	flimsy plastic shield (0)
-neckbearded wizard	2531	neckbeardwizard.gif		flash paperwad (0)	The Wizard's Android (0)
-performative peasant	2532	juggler.gif		wooden juggling ball (0)	tactical jester's cap (0)
-Open Mic Knight	2536	openmicknight.gif	
-Poker Knight	2537	pokerknight.gif	
-Wedding Knight	2538	weddingknight.gif	
+soused tosspot	2534	tosspot.gif	Scale: 5 Cap: 1000 Floor: ? Init: 0 P: dude Article: a	bottle of vodka (10)	bottle of whiskey (10)	bottle of gin (10)	bottle of rum (10)	boxed wine (10)	bottle of tequila (10)	ice-cold six-pack (10)
+knight in lightweight armor	2533	lightknight.gif	Scale: 10 Cap: 1000 Floor: ? Init: 0 P: dude Article: a	flimsy plastic breastplate (c3)	flimsy plastic helmet (c3)	flimsy plastic greaves (c3)	flimsy plastic shield (c3)	single-use sword (10)
+neckbearded wizard	2531	neckbeardwizard.gif	Scale: 20 Cap: 1000 Floor: ? Init: 0 P: dude Article: a	flash paperwad (10)	The Wizard's Android (c0.03)
+performative peasant	2532	juggler.gif	Scale: 1 Cap: 1000 Floor: ? Init: 0 P: dude Article: a	wooden juggling ball (10)	tactical jester's cap (f0.1)
+Open Mic Knight	2536	openmicknight.gif	Scale: 15 Cap: 1000 Floor: ? Init: 0 P: dude Article: the
+Poker Knight	2537	pokerknight.gif	Scale: 30 Cap: 1000 Floor: ? Init: 0 P: dude Article: the
+Wedding Knight	2538	weddingknight.gif	Scale: 30 Cap: 1000 Floor: ? Init: 0 P: dude Article: the
+visiting space soldier	2535	stormtrooper.gif	NOCOPY NOMANUEL ULTRARARE Atk: 1000 Def: 1000 Init: 0 Phys: 100	Space Soldier Helmet (n100)
 
 # Old Events
 

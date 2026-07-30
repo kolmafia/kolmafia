@@ -170,7 +170,7 @@ Haert of the Cyrpt	100	Bonerdagon
 Hamburglaris Shield Generator	100	alien hamsterpus	mutated alielephant	mutated alielf
 Hell	100	devil	magma man	vampire
 Hero's Field	100	Keese	Octorok	Tektite	Zol
-Historically-Accurate Hamlet	100	knight in lightweight armor	neckbearded wizard	performative peasant	soused tosspot
+Historically-Accurate Hamlet	100	knight in lightweight armor	neckbearded wizard	performative peasant	soused tosspot	visiting space soldier: -1
 Hobopolis Town Square	95	Normal hobo	Hodgman, The Hoboverlord: 0
 Hottest Adventurer Contest	100	Fire Fighter	Cereal Arsonist	Burnglar	The Lavalier: 0
 Infernal Rackets Backstage	70	inkubus	serialbus	suckubus

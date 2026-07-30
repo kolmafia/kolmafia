@@ -12280,9 +12280,9 @@
 12251
 12252	Space Soldier Helmet	527999935	stormhelmet2.gif	hat	t	0
 12253	premium turkey leg	569904659	turkeyleg2.gif	food	t,d	11
-12254	styrofoam cup of mead	834589962	meadcup.gif	drink	t,d	9
+12254	styrofoam cup of mead	834589962	meadcup.gif	drink	t,d	9	styrofoam cups of mead
 12255	wooden sword	330222181	rensword.gif	weapon	t,d	20
-12256	wooden staff	485535819	renstaff.gif	weapon	t,d	25
+12256	wooden staff	485535819	renstaff.gif	weapon	t,d	25	wooden staves
 12257	wooden lute	956889070	renlute.gif	weapon	t,d	20
 12258	shrink-wrapped Cup of 13s	832590849	13cup_box.gif	usable	t	0	shrink-wrapped Cups of 13
 12259	Cup of 13s	840617830	13cup.gif	offhand		0	Cups of 13
@@ -12292,12 +12292,12 @@
 12263	tactical jester's cap	432619122	jestercap.gif	hat	t	0
 12264	single-use sword	767107751	flimsword.gif	none, combat	t,d	15
 12265	flimsy plastic helmet	789050953	flimhelmet.gif	hat	t,d	22
-12266	flimsy plastic greaves	326865614	flimgreaves.gif	pants	t,d	22
+12266	flimsy plastic greaves	326865614	flimgreaves.gif	pants	t,d	22	pairs of flimsy plastic greaves
 12267	flimsy plastic breastplate	414917286	flimbreast.gif	shirt	t,d	22
 12268	flimsy plastic shield	471831030	flimshield.gif	offhand	t,d	11
 12269	packaged Portable Laughing Stock	747690797	stocks_box.gif	usable	t	0
 12270	Portable Laughing Stock	678311056	stocks.gif	accessory		0
-12271
+12271	Staff of Anachronistic Churning	670488187	churnstaff.gif	weapon		0	Staves of Anachronistic Churning
 12272	classic banana	413818048	origbanana.gif	food, cook, mix	t,d	11
 12273	antique watermelon	338610731	origwatermelon.gif	food, cook, mix	t,d	11
 12274	quince	788170970	quince.gif	food, cook, mix	t,d	11
@@ -12307,12 +12307,12 @@
 12278	essential banana decoction	923029751	potion29.gif	potion, usable	t,d	22
 12279	banana quintessence	710732122	potion30.gif	potion, usable	t,d	33
 12280	Aesop Daiquiri	856344942	cocktail5.gif	drink	t,d	23
-12281	Monkey Congress	749015129	cocktail6.gif	drink	t,d	37
+12281	Monkey Congress	749015129	cocktail6.gif	drink	t,d	37	Monkey Congressmen
 12282	antique watermelon pie	762477816	0hpie.gif	food	t,d	44
 12283	concentrated watermelon juice	530172845	potion25.gif	potion, usable	t,d	22
 12284	Aqua Citrulanatae	950577649	potion26.gif	potion, usable	t,d	33
 12285	Melonegroni	501354910	cocktail1.gif	drink	t,d	23
-12286	Melonade Spritz	383063057	cocktail7.gif	drink	t,d	37
+12286	Melonade Spritz	383063057	cocktail7.gif	drink	t,d	37	Melonade Spritzes
 12287	quince pie	109534789	pecanpie.gif	food	t,d	44
 12288	quince quaff	498988823	potion27.gif	potion, usable	t,d	22
 12289	Quickquince	558875359	potion28.gif	potion, usable	t,d	33
@@ -12323,4 +12323,4 @@
 12294
 12295
 12296
-12297	Pixie-Swordz	693184026	pixiesword.gif	potion, usable	t,d	5
+12297	Pixie-Swordz	693184026	pixiesword.gif	potion	t,d	5
