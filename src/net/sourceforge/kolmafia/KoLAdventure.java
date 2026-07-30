@@ -5,6 +5,7 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -563,6 +564,11 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
   // Validation part 0:
   private boolean checkZone(String alwaysPref, String todayPref, String place) {
+    return checkZone(alwaysPref, todayPref, place, () -> new PlaceRequest(place));
+  }
+
+  private boolean checkZone(
+      String alwaysPref, String todayPref, String place, Supplier<GenericRequest> request) {
     // Kingdom of Exploathing does not have any the top-level container
     // zones available. Certain lower level containers - town_wrong,
     // town_right, monorail - do exist and can be checked.
@@ -578,16 +584,14 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     // If there is no day pass, looking at map might induce QuestManager to
     // detect permanent access
     if (todayPref == null) {
-      var request = new PlaceRequest(place);
-      RequestThread.postRequest(request);
+      RequestThread.postRequest(request.get());
       return Preferences.getBoolean(alwaysPref);
     }
 
     // If we don't know we have daily access, looking at the map
     // will induce QuestManager to detect it.
     if (!Preferences.getBoolean(todayPref)) {
-      var request = new PlaceRequest(place);
-      RequestThread.postRequest(request);
+      RequestThread.postRequest(request.get());
     }
 
     return Preferences.getBoolean(todayPref);
@@ -641,9 +645,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       case "Tunnel of L.O.V.E.":
         return checkZone("loveTunnelAvailable", "_loveTunnelToday", "town_wrong");
       case "Twitch":
-        // There is no permanent access to the Time Twitching Tower; it's
-        // always day by day.
-        return checkZone(null, "timeTowerAvailable", "town");
+        return checkZone(
+            null, "timeTowerAvailable", "twitch", () -> new GenericRequest("main.php"));
       case "Speakeasy":
         // It's in the Wrong Side of the Tracks.
         // You can get a quest item from an NPC in it.

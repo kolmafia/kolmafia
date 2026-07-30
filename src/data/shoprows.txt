@@ -1731,3 +1731,4 @@
 1734	twitch_jousting	wooden sword	Chroner (100)
 1735	twitch_jousting	wooden staff	Chroner (100)
 1736	twitch_jousting	wooden lute	Chroner (100)
+1737	conmerch	packaged Portable Laughing Stock	Mr. Accessory
