@@ -2370,7 +2370,7 @@ Pendant of Gargalesis	EJEWEL	heavy necklace chain	mangled finger
 doll-eye amulet	EJEWEL	heavy necklace chain	droopy doll eye
 picture of you	COMBINE	ancient oil painting of yourself	ornate picture frame
 
-# Twitch Events
+# Time-Twitching Tower
 government	ACOMBINE	anticheese	government cheese
 stealth bomber	MIX	government	rocket fuel
 buffed alien drugs	COMBINE	alien drugs	alien protein powder
