@@ -68,7 +68,10 @@ import internal.helpers.Cleanups;
 import internal.helpers.HttpClientWrapper;
 import internal.network.FakeHttpClientBuilder;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.io.PrintStream;
+import java.nio.file.Files;
 import java.time.Month;
 import java.util.Arrays;
 import java.util.List;
@@ -76,6 +79,7 @@ import java.util.Map;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.ZodiacSign;
@@ -2923,5 +2927,25 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
     String output = execute("can_walk_from_choice()");
     assertThat(output, containsString("Returned: " + expected));
+  }
+
+  @Test
+  void appendBufferToFileKeepsExistingContent() throws IOException {
+    String filename = "RuntimeLibraryTest_append.txt";
+    File file = new File(KoLConstants.DATA_LOCATION, filename);
+    try {
+      execute("buffer_to_file(\"first line\".to_buffer(), \"" + filename + "\");");
+      // Prove the second line does not exist in the file
+      String contents = Files.readString(file.toPath());
+      assertThat(contents, not(containsString("second line")));
+
+      execute("append_buffer_to_file(\"second line\".to_buffer(), \"" + filename + "\");");
+
+      contents = Files.readString(file.toPath());
+      assertThat(contents, containsString("first line"));
+      assertThat(contents, containsString("second line"));
+    } finally {
+      Files.deleteIfExists(file.toPath());
+    }
   }
 }
