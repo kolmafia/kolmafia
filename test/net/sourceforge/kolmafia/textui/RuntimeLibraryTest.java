@@ -918,6 +918,24 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
   }
 
   @Test
+  void toUrlReflectsCurrentPyramidBombState() {
+    var cleanups =
+        new Cleanups(withProperty("pyramidPosition", 1), withProperty("pyramidBombUsed", false));
+
+    try (cleanups) {
+      String output = execute("to_url($location[The Lower Chambers])");
+      assertThat(
+          output, endsWith("Returned: place.php?whichplace=pyramid&action=pyramid_state1\n"));
+
+      Preferences.setBoolean("pyramidBombUsed", true);
+
+      output = execute("to_url($location[The Lower Chambers])");
+      assertThat(
+          output, endsWith("Returned: place.php?whichplace=pyramid&action=pyramid_state1a\n"));
+    }
+  }
+
+  @Test
   void numericModifierHandlesCrimboTrainingSkills() {
     String output = execute("numeric_modifier($skill[Crimbo Training: Bartender], \"booze drop\")");
     assertThat(output, containsString("15.0"));
