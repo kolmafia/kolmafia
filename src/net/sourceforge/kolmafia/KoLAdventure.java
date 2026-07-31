@@ -371,6 +371,17 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     return this.request;
   }
 
+  public String getURLString() {
+    // 'this.request' is cached at startup, a request that depends on preferences can be stale.
+    // Builds a request to ensure a non-stale string.
+    if (this.request instanceof AdventureRequest) {
+      return new AdventureRequest(this.adventureName, this.formSource, this.adventureId)
+          .getURLString();
+    }
+
+    return this.request.getURLString();
+  }
+
   public void overrideAdventuresUsed(int used) {
     if (this.request instanceof AdventureRequest) {
       ((AdventureRequest) this.request).overrideAdventuresUsed(used);
