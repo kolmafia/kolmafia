@@ -520,8 +520,7 @@ Item	sugar chapeau	Spell Damage Percent: +50, Spell Critical Percent: +10, MP Re
 Item	superhero mask	Muscle: +5, Mysticality: +5, Moxie: +5, Softcore Only, Familiar Effect: "1xLep, 1xFairy, cap 2"
 Item	suspicious-looking fedora	Moxie: +6, Weapon Damage: +6, Last Available: "2013-12", Familiar Effect: "atk, 1xFairy, cap 15"
 Item	sweatband	PvP Fights: +2, Damage Reduction: 5, Last Available: "2014-12", Familiar Effect: "sleaze atk, 1xFairy, cap 25"
-# tactical jester's cap: Combat items deal 50% more damage
-Item	tactical jester's cap	Moxie Percent: +25, Initiative: -25
+Item	tactical jester's cap	Moxie Percent: +25, Initiative: -25, Combat Item Damage Percent: 50
 Item	tattered paper crown	Muscle: +3, Familiar Effect: "1xSombrero, cap 15"
 Item	Team Avarice cap	Item Drop: +100
 Item	Team Sloth cap	Combat Rate: -15

@@ -3126,7 +3126,7 @@
 3123	Quinced, Quickened	potion28.gif	8ebc563fcadf034ead3db7cd4bfd9c42	neutral	none	use 1 Quickquince
 3124
 3125
-3126	Bananapalooza	origbanana.gif	015b0698db6c9fc324c4b2e4a38e4cd4	neutral	none	eat 1 classic banana
-3127	Still Watermelons Run Deep	origwatermelon.gif	fe350d77a126ba68b799dbc8b7207012	neutral	none	eat 1 antique watermelon
-3128	Exotically Fruity	quince.gif	33adbae4116cc790cca00a5b1b31d65c	neutral	none	eat 1 quince
+3126	Bananapalooza	origbanana.gif	015b0698db6c9fc324c4b2e4a38e4cd4	neutral	none	eat either 1 classic banana pie, 1 classic banana|drink either 1 Monkey Congress, 1 Aesop Daiquiri
+3127	Still Watermelons Run Deep	origwatermelon.gif	fe350d77a126ba68b799dbc8b7207012	neutral	none	eat either 1 antique watermelon pie, 1 antique watermelon|drink either 1 Melonade Spritz, 1 Melonegroni
+3128	Exotically Fruity	quince.gif	33adbae4116cc790cca00a5b1b31d65c	neutral	none	eat either 1 quince pie, 1 quince|drink either 1 Quincea&ntilde;era Cooler, 1 Quiskey Sour
 3129	Sugar-Stabbed	pixiesword.gif	f8351d29e844c978cdec90c468fe9007	neutral	none	use 1 Pixie-Swordz
