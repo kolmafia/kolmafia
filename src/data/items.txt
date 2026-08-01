@@ -12340,3 +12340,4 @@
 12311	intangible asset	843065975	asset2.gif	spleen, usable	t,d	2
 12312	liquid asset	980372728	asset3.gif	spleen, usable	t,d	2
 12313	gross prophet chrysalis	752490296	prophetegg.gif	grow	t	0
+12314	cast entrails	874376801	prophetguts.gif	familiar	t,d	75

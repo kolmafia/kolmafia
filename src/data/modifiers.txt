@@ -12779,6 +12779,7 @@ Item	cartoon harpoon	Last Available: "2019-06"
 Item	cartoon heart	Last Available: "2013-02", Effect: "Healthy Red Glow", Effect Duration: 10
 Item	cashew	Last Available: "2016-11"
 # cast: Restores 25-35 HP in combat, and 15-20 out of combat
+Item	cast entrails	Familiar Weight: +5
 Item	Celsius 233	Skill: "Eternal Flame", Last Available: "2017-06"
 Item	Celsius 233 (singed)	Skill: "Eternal Flame", Last Available: "2017-06"
 Item	CEO office card	Last Available: "2013-12"
