@@ -727,6 +727,7 @@ scale-mail underwear	200	Mox: 85
 scorched skeleton pants	150	Mox: 60
 sea chaps	200	Mox: 85
 sealhide leggings	160	Mox: 65
+selling shorts	10	none
 servo-assisted exo-pants	50	none
 shadow trousers	100	none
 silky pirate drawers	10	none
@@ -785,6 +786,7 @@ turtle wax greaves	40	Mox: 5
 turtlemail breeches	80	Mox: 25
 ultra-high-tension exoskeleton	100	none
 Uncle Hobo's gift baggy pants	200	Mox: 200
+underdraft protection	50	none
 union scalemail pants	50	Mox: 10
 Unkillable Skeleton's shinguards	300	Mus: 250
 velour vaqueros	50	none
@@ -1266,6 +1268,7 @@ fear condenser	85	Mox: 30	1-handed forearm replacement
 fetus-smashing club	200	Mus: 85	2-handed club
 fiberglass foil	120	Mus: 40	1-handed sword
 filthy pestle	60	Mys: 15	1-handed utensil
+financial instrument	50	Mox: 0	2-handed horn
 finger cymbals	65	Mox: 17	1-handed cymbals
 fire axe	200	Mus: 85	2-handed axe
 [10462]fire flower	0	Mus: 0	1-handed flower
@@ -1381,6 +1384,7 @@ heat-resistant harpoon pistol	120	Mox: 20	1-handed pistol
 heavy hammer	0	Mus: 0	1-handed hammer
 heavy leather-bound tome	150	Mus: 60	1-handed club
 heavy metal thunderrr guitarrr	160	Mox: 65	2-handed axe
+hedge fund clippers	50	Mus: 0	2-handed sword
 heteroerotic frat-paddle	150	Mus: 60	1-handed club
 high-energy mining laser	50	Mox: 0	2-handed rifle
 high-temperature mining drill	50	Mus: 0	2-handed drill
@@ -2495,6 +2499,7 @@ zoological sample kit	10	none
 [spelunking test kit]	0	none
 &quot;I survived Y2K&quot; T-Shirt	100	none
 &quot;I Voted!&quot; sticker	10	none
+401k gold ring	0	none
 acid-squirting flower	50	Mys: 10
 actual reality goggles	10	none
 actual skeleton key	10	none
