@@ -234,4 +234,42 @@ class ValhallaDecoratorTest {
       }
     }
   }
+
+  @Nested
+  class InterestingCoin {
+    @Test
+    public void decoratesWithCoins() {
+      var cleanups =
+          new Cleanups(
+              // trophy check
+              withNextResponse(200, ""), withItem(ItemPool.INTERESTING_COIN, 11));
+
+      try (cleanups) {
+        var buffer =
+            new StringBuffer(
+                "<input type=submit class=button value=\"Ascend\"> <input type=checkbox name=confirm> (confirm) <input type=checkbox name=confirm2> (seriously)");
+        ValhallaDecorator.decorateGashJump("ascend.php", buffer);
+        assertThat(
+            buffer.toString(),
+            containsString(
+                "<a href=\"shop.php?whichshop=interesting\">Spend remaining Interesting Coins (11)</a>"));
+      }
+    }
+
+    @Test
+    public void doesNotDecorateWithoutCoins() {
+      var cleanups =
+          new Cleanups(
+              // trophy check
+              withNextResponse(200, ""));
+
+      try (cleanups) {
+        var buffer =
+            new StringBuffer(
+                "<input type=submit class=button value=\"Ascend\"> <input type=checkbox name=confirm> (confirm) <input type=checkbox name=confirm2> (seriously)");
+        ValhallaDecorator.decorateGashJump("ascend.php", buffer);
+        assertThat(buffer.toString(), not(containsString("shop.php?whichshop=interesting")));
+      }
+    }
+  }
 }

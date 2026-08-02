@@ -2346,7 +2346,7 @@
 2532	performative peasant	arm	head	leg	torso
 2533	knight in lightweight armor	arm	head	leg	torso
 2534	soused tosspot	arm	head	leg	torso
-2535	visiting space soldier	
+2535	visiting space soldier	arm	helmet	torso	leg
 2536	Open Mic Knight	arm	head	leg	microphone	torso
 2537	Poker Knight	arm	head	leg	torso
 2538	Wedding Knight	arm	head	leg	torso
