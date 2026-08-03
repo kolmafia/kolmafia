@@ -2,11 +2,14 @@ package net.sourceforge.kolmafia.persistence;
 
 import static internal.helpers.HttpClientWrapper.getRequests;
 import static internal.helpers.HttpClientWrapper.setupFakeClient;
+import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withItem;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ResultProcessor;
@@ -36,6 +39,16 @@ public class ConcoctionDatabaseTest {
       var requests = getRequests();
       // Assert that mafia thinks we're good to craft and has made http requests
       assertFalse(requests.isEmpty());
+    }
+  }
+
+  @Test
+  public void savingSomeBondoGivesFreeCrafts() {
+    var cleanups = new Cleanups(withEffect(EffectPool.SAVING_SOME_BONDO, 20));
+
+    try (cleanups) {
+      // Like Inigo's, Saving Some Bondo grants one free craft per 5 turns of effect.
+      assertEquals(4, ConcoctionDatabase.getFreeCraftingTurns());
     }
   }
 }
