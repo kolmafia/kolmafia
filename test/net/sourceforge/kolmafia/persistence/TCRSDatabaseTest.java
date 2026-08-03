@@ -6,14 +6,16 @@ import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withSign;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
-import static org.junit.jupiter.api.Assertions.assertAll;
 
 import internal.helpers.Cleanups;
 import internal.network.FakeHttpClientBuilder;
+import java.util.ArrayList;
+import java.util.Objects;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
@@ -159,6 +161,7 @@ class TCRSDatabaseTest {
 
   @Test
   void guessAll() {
+    var mismatches = new ArrayList<String>();
     for (var ascensionClass : AscensionClass.standardClasses) {
       for (var sign : ZodiacSign.standardZodiacSigns) {
         var cleanups =
@@ -184,44 +187,63 @@ class TCRSDatabaseTest {
                       default -> true;
                     };
 
-            assertAll(
-                String.format("[%s]%s in %s / %s", itemId, i.getValue(), ascensionClass, sign),
-                () ->
-                    assertThat(
-                        "Name",
-                        weGuessed.name,
-                        equalTo(StringUtilities.getEntityDecode(dataSays.name))),
-                () -> assertThat("Size", weGuessed.size, equalTo(dataSays.size)),
-                () -> {
-                  if (dataSays.quality.getValue() > 0)
-                    assertThat("Quality", weGuessed.quality, equalTo(dataSays.quality));
-                },
-                () -> {
-                  if (checkMods) {
-                    var dataSaysMods = ModifierDatabase.splitModifiers(dataSays.modifiers);
-                    var weGuessedMods = ModifierDatabase.splitModifiers(weGuessed.modifiers);
+            var prefix =
+                String.format("[%s]%s in %s / %s", itemId, i.getValue(), ascensionClass, sign);
 
-                    assertAll(
-                        () ->
-                            assertThat(
-                                "Effect",
-                                weGuessedMods.getModifierValue("Effect"),
-                                equalTo(dataSaysMods.getModifierValue("Effect"))),
-                        () -> {
-                          // @TODO Queen cookie sometimes has no effect duration. Is this right?
-                          if (dataSaysMods.containsModifier("Effect Duration")) {
-                            assertThat(
-                                "Effect Duration",
-                                weGuessedMods.getModifierValue("Effect Duration"),
-                                equalTo(dataSaysMods.getModifierValue("Effect Duration")));
-                          }
-                        });
-                  }
-                });
+            var expectedName = StringUtilities.getEntityDecode(dataSays.name);
+            if (!weGuessed.name.equals(expectedName)) {
+              mismatches.add(mismatch(prefix, "Name", expectedName, weGuessed.name));
+            }
+            if (weGuessed.size != dataSays.size) {
+              mismatches.add(mismatch(prefix, "Size", dataSays.size, weGuessed.size));
+            }
+            if (dataSays.quality.getValue() > 0 && weGuessed.quality != dataSays.quality) {
+              mismatches.add(mismatch(prefix, "Quality", dataSays.quality, weGuessed.quality));
+            }
+
+            if (checkMods) {
+              var dataSaysMods = ModifierDatabase.splitModifiers(dataSays.modifiers);
+              var weGuessedMods = ModifierDatabase.splitModifiers(weGuessed.modifiers);
+
+              var expectedEffect = dataSaysMods.getModifierValue("Effect");
+              var actualEffect = weGuessedMods.getModifierValue("Effect");
+              if (!Objects.equals(expectedEffect, actualEffect)) {
+                mismatches.add(mismatch(prefix, "Effect", expectedEffect, actualEffect));
+              }
+
+              // @TODO Queen cookie sometimes has no effect duration. Is this right?
+              if (dataSaysMods.containsModifier("Effect Duration")) {
+                var expectedDuration = dataSaysMods.getModifierValue("Effect Duration");
+                var actualDuration = weGuessedMods.getModifierValue("Effect Duration");
+                if (!Objects.equals(expectedDuration, actualDuration)) {
+                  mismatches.add(
+                      mismatch(prefix, "Effect Duration", expectedDuration, actualDuration));
+                }
+              }
+            }
           }
+        } finally {
+          // Each combo applies its overrides to the shared databases; tear them down so the next
+          // combo (and the guesser's view of the base item) starts clean.
+          TCRSDatabase.resetModifiers();
         }
       }
     }
+
+    var report = String.join("\n", mismatches.subList(0, Math.min(100, mismatches.size())));
+    assertThat(
+        mismatches.size() + " mismatches (showing up to 100):\n" + report,
+        mismatches,
+        is(empty()));
+  }
+
+  /**
+   * Formats one guessAll mismatch. Kept as a helper so guessAll can collect every mismatch across
+   * all class/sign combos and report them together, rather than aborting on the first.
+   */
+  private static String mismatch(
+      final String prefix, final String field, final Object expected, final Object actual) {
+    return String.format("%s - %s: expected <%s> but was <%s>", prefix, field, expected, actual);
   }
 
   @Test
