@@ -7360,7 +7360,6 @@ public class FightRequest extends GenericRequest {
         || str.contains("Someone in the crowd hurls a piece of fruit at you")
         || str.contains("Someone lobs a piece of fruit at you from the crowd")) {
       FightRequest.logText("You were pelted with fruit.", status);
-      Preferences.setInteger("_laughingStockCharges", 0);
       Preferences.increment("_laughingStockFruitDropped", 1);
     }
 
