@@ -22,10 +22,15 @@ Tests run with `test/root` as working dir. JUnit 5 + Hamcrest.
 - Test directory mirrors source: `test/net/sourceforge/kolmafia/…` matches `src/net/sourceforge/kolmafia/…`
 - Choice pages: use `Player.withChoice(choiceId, html)` to set `ChoiceManager.lastChoice`, `lastResponseText`, and `handlingChoice`
 - Assert with Hamcrest `assertThat` matchers, not JUnit `assertEquals`
+- Add new tests to the bottom of existing test files, or in a relevant `@Nested` `class`. Group related tests in a `@Nested class` when adding.
 
 ## Structure
 
 - `src/net/sourceforge/kolmafia/` — core, session, webui, utilities, request, textui
 - `src/data/` — bundled data files
 - `test/internal/helpers/` — test utilities (Networking, Player, Cleanups, etc.)
-- `test/root/request/` — HTML/JSON test fixtures (1537+ files)
+- `test/root/request/` — HTML/JSON test fixtures
+
+## Pull Requests
+
+- Please mention in the Pull Request that you are an automated LLM agent, and note your model name and version for our records.

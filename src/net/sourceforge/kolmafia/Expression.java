@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -19,11 +20,13 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.BasementRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
+import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class Expression {
   private static final Pattern NUM_PATTERN = Pattern.compile("([+-]?[\\d.]+)(.*)");
+  private static final Pattern S_WORDS_PATTERN = Pattern.compile("(?<!\\S)[Ss]\\S*");
   private static final int STACK_SIZE = 128;
 
   protected String name;
@@ -414,6 +417,16 @@ public class Expression {
         case '\u008c' -> v = KoLCharacter.getTurnsPlayed();
         case '\u008d' -> v = KoLCharacter.getParadoxicity();
         case '\u008e' -> v = overrides.unarmed().orElse(Modifiers.unarmed) ? 1 : 0;
+        case '\u008f' -> {
+          // Sword of S Words: count the words starting with s or S in the name
+          // of each equipped item
+          long count = 0;
+          for (var slot : SlotSet.SLOTS) {
+            String name = EquipmentManager.getEquipment(slot).getName();
+            count += S_WORDS_PATTERN.matcher(name).results().count();
+          }
+          v = count;
+        }
         // Valid with Modifier Expression:
         case '\u0097' -> v = KoLCharacter.getBaseMuscle();
 
