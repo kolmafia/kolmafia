@@ -12238,7 +12238,7 @@ Item	Redeye&trade; Eyedrops	Effect: "Dazed, Confused", Effect Duration: 50
 Item	Rogue Windmill Rouge	Effect: "Mister Master", Effect Duration: 30
 Item	salt water taffy	Effect: "Bedraggled Dragoon", Effect Duration: 30
 Item	savings bond	Effect: "Earning Interest", Effect Duration: 30, Last Available: "2022-06"
-Item	savings bondo	Effect: "Saving Some Bondo", Effect Duration: 20
+Item	savings bondo	Effect: "Saving Some Bondo", Effect Duration: 20, Last Available: "2026-08"
 Item	scrunchie tourniquet	Effect: "First, Like, Do No Harm?", Effect Duration: 50
 Item	Scuba Snack	Effect: "Jinkies!", Effect Duration: 100
 Item	secret mummy herbs and spices	Effect: "Like an Egyptian", Effect Duration: 30
@@ -14859,7 +14859,6 @@ Item	Saturday Night thermometer	Last Available: "2015-08"
 # sausage bomb: Deals 100-120 <font color=blueviolet>Sleaze Damage</font>
 # sausage bomb: Weakens Enemies Somewhat
 Item	sausage golem	Last Available: "2019-01"
-Item	savings bondo	Last Available: "2026-08"
 # sawblade fragment: Deals 100-150 Physical Damage and causes additional Bleeding over time
 Item	sawblade fragment	Last Available: "2007-12"
 Item	scabbarded Sword of S Words	Free Pull, Last Available: "2026-06"
