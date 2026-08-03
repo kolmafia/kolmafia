@@ -350,6 +350,16 @@ public class AdventureRequest extends GenericRequest {
   }
 
   public void updateFields() {
+    this.updateFields(true);
+  }
+
+  /**
+   * Updates the form fields to submit from current preferences and state.
+   *
+   * @param mutate Whether preferences may be written as a side effect. Pass false when you only
+   *     want the up-to-date URL (for example to_url) without persisting any state.
+   */
+  public void updateFields(final boolean mutate) {
     switch (this.formSource) {
       case "cellar.php" -> {
         if (TavernManager.shouldAutoFaucet()) {
@@ -394,7 +404,9 @@ public class AdventureRequest extends GenericRequest {
                 this.constructURLString("place.php");
                 this.addFormField("whichplace", rift.getPlace());
                 this.addFormField("action", rift.getCurrentAction());
-                Preferences.setString("shadowRiftIngress", desired);
+                if (mutate) {
+                  Preferences.setString("shadowRiftIngress", desired);
+                }
               }
             }
           }
