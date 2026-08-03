@@ -3133,3 +3133,4 @@
 3130	Invisible Hand	blank.gif	5fc64c649c9913a04a198006a18da514	neutral	none	use 1 invisible hand
 3131	Overdraft Protected	protscroll.gif	c887af6cb7b0f96df8c5d7023a1a25e6	neutral	none	use 1 circle of overdraft protection scroll
 3132	Freshly Minted	mintleaf2.gif	56eb22b41bfb6d4c971d2ecc2f8596df	neutral	none	use 1 mint
+3133	Saving Some Bondo	bondo.gif	40b3f7dc010d298d22a4ed55ffeece6f	neutral	none	use 1 savings bondo

@@ -7791,6 +7791,7 @@ Effect	Sausage Festive	HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Re
 # Savage Beast: You cannot run away from combat
 Effect	Savage Beast	Combat Rate: +25, HP Regen Min: 1, HP Regen Max: 1
 Effect	Savage Beast Inside	Muscle: +20
+# Saving Some Bondo: Lets you craft things more quickly
 # Scared Stiff: Extra-Vulnerable to Cold and Spooky
 Effect	Scared Stiff	Sleaze Resistance: +2, Cold Vulnerability, Spooky Vulnerability
 Effect	Scaredy Dog	Spooky Damage: +30, Cold Resistance: +3, Sleaze Resistance: +3, Combat Rate: -5
@@ -12237,6 +12238,7 @@ Item	Redeye&trade; Eyedrops	Effect: "Dazed, Confused", Effect Duration: 50
 Item	Rogue Windmill Rouge	Effect: "Mister Master", Effect Duration: 30
 Item	salt water taffy	Effect: "Bedraggled Dragoon", Effect Duration: 30
 Item	savings bond	Effect: "Earning Interest", Effect Duration: 30, Last Available: "2022-06"
+Item	savings bondo	Effect: "Saving Some Bondo", Effect Duration: 20
 Item	scrunchie tourniquet	Effect: "First, Like, Do No Harm?", Effect Duration: 50
 Item	Scuba Snack	Effect: "Jinkies!", Effect Duration: 100
 Item	secret mummy herbs and spices	Effect: "Like an Egyptian", Effect Duration: 30
