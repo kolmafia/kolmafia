@@ -4520,4 +4520,23 @@ public class FightRequestTest {
       }
     }
   }
+
+  @Test
+  void canTrackHeadsFromInterestingCoin() {
+    SessionLoggerOutput.startStream();
+    var cleanups =
+        new Cleanups(
+            withProperty("_interestingCoinHeads", false), withItem(ItemPool.INTERESTING_COIN));
+
+    try (cleanups) {
+      parseCombatData(
+          "request/test_fight_interesting_coin.html",
+          "fight.php?action=useitem&whichitem=0&whichitem2=12275");
+      var text = SessionLoggerOutput.stopStream();
+      assertThat("_interestingCoinHeads", isSetTo(true));
+      assertThat(ItemPool.INTERESTING_COIN, isInInventory(1));
+      assertThat(
+          text, containsString("Heads, you win! Your foe wanders off, leaving you victorious."));
+    }
+  }
 }

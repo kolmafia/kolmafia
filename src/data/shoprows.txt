@@ -1726,9 +1726,35 @@
 1725	detritus2015	hoverboard	2015 landfill detritus (25)
 1726	detritus2015	left shark fin	2015 landfill detritus (50)
 1727	detritus2015	fitness tracking bracelet	2015 landfill detritus (100)
+1728
+1729
+1730
+1731
 1732	twitch_jousting	premium turkey leg	Chroner (5)
 1733	twitch_jousting	styrofoam cup of mead	Chroner (5)
 1734	twitch_jousting	wooden sword	Chroner (100)
 1735	twitch_jousting	wooden staff	Chroner (100)
 1736	twitch_jousting	wooden lute	Chroner (100)
 1737	conmerch	packaged Portable Laughing Stock	Mr. Accessory
+1738
+1739	interesting	bull tattoo	Interesting Coin (16,777,215)
+1740	interesting	bear tattoo	Interesting Coin (1,111)
+1741	interesting	Roth IPA	Interesting Coin (4)
+1742	interesting	underdraft protection	Interesting Coin (7)
+1743	interesting	solvent	Interesting Coin (3)
+1744	interesting	soybean futures	Interesting Coin (7)
+1745	interesting	housing bubble	Interesting Coin (5)
+1746	interesting	financial instrument	Interesting Coin (69)
+1747	interesting	hedge fund clippers	Interesting Coin (69)
+1748	interesting	selling shorts	Interesting Coin (111)
+1749	interesting	401k gold ring	Interesting Coin (11)
+1750	interesting	balance sheet	Interesting Coin (23)
+1751	interesting	invisible hand	Interesting Coin (2)
+1752	interesting	circle of overdraft protection scroll	Interesting Coin (2)
+1753	interesting	mint	Interesting Coin (2)
+1755	interesting	savings bondo	Interesting Coin (4)
+1756	interesting	homeowner's loam	Interesting Coin (3)
+1757	interesting	toxic asset	Interesting Coin
+1758	interesting	liquid asset	Interesting Coin
+1759	interesting	intangible asset	Interesting Coin
+1760	interesting	gross prophet chrysalis	Interesting Coin (10,000,000)

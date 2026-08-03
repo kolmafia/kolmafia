@@ -4035,6 +4035,7 @@ public class ItemPool {
   public static final int LEGENDARY_PASTA_WAND = 12223;
   public static final int TUBETTO_GELATTO = 12242;
   public static final int PORTABLE_LAUGHING_STOCK = 12270;
+  public static final int INTERESTING_COIN = 12275;
 
   private ItemPool() {}
 
