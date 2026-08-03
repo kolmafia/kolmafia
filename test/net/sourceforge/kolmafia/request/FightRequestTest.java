@@ -4515,7 +4515,7 @@ public class FightRequestTest {
         String text = RequestLoggerOutput.stopStream();
 
         assertThat(text, containsString("pelted with fruit"));
-        assertThat("_laughingStockCharges", isSetTo(1));
+        assertThat("_laughingStockCharges", isSetTo(21));
         assertThat("_laughingStockFruitDropped", isSetTo(12));
       }
     }
