@@ -70,8 +70,7 @@ public class GnomeTinkerRequest extends CreateItemRequest {
     AdventureResult[] ingredients = CreateItemRequest.findIngredients(urlString);
     int quantity = CreateItemRequest.getQuantity(urlString, ingredients, 1);
 
-    for (int i = 0; i < ingredients.length; ++i) {
-      AdventureResult item = ingredients[i];
+    for (AdventureResult item : ingredients) {
       ResultProcessor.processItem(item.getItemId(), -quantity);
     }
 

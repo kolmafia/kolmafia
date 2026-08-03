@@ -36,7 +36,7 @@ public class FleaMarketSellRequest extends GenericRequest {
 
     // You place your item for sale in the Flea Market.  It will be returned to you if it does not
     // sell within 48 hours.
-    if (responseText.indexOf("You place your item for sale in the Flea Market.") == -1) {
+    if (!responseText.contains("You place your item for sale in the Flea Market.")) {
       return;
     }
 

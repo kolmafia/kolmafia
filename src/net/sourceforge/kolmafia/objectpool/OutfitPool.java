@@ -18,7 +18,11 @@ public class OutfitPool {
   public static final int HODGMANS_REGAL_FRIPPERY = 47;
   public static final int MUTANT_COUTURE = 49;
   public static final int DWARVISH_UNIFORM = 50;
+  public static final int CRAPPY_MER_KIN_DISGUISE = 59;
+  public static final int MER_KIN_GLADIATORIAL_GEAR = 60;
+  public static final int MER_KIN_SCHOLARS_VESTMENTS = 61;
   public static final int LEGENDARY_PASTA_REGALIA = 66;
+  public static final int CLOTHING_OF_LOATHING = 94;
 
   private OutfitPool() {}
 }

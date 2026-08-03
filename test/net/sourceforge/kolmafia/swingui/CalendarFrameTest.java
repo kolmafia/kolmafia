@@ -1,7 +1,11 @@
 package net.sourceforge.kolmafia.swingui;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -24,6 +28,8 @@ import net.sourceforge.kolmafia.swingui.widget.RequestPane;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 class CalendarFrameTest {
 
@@ -282,5 +288,45 @@ class CalendarFrameTest {
     Component aTab = testFrame.tabs.getComponentAt(0);
     String x = getDataFromTab(aTab);
     assertEquals(whiteWednesday, x);
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+    "0, itemimages/smoon2.gif, itemimages/smoon1a.gif,",
+    "1, itemimages/smoon3.gif, itemimages/smoon2.gif, itemimages/minimoon2.gif",
+    "2, itemimages/smoon4.gif, itemimages/smoon2.gif, itemimages/minimoon.gif",
+    "3, itemimages/smoon5.gif, itemimages/smoon3.gif,",
+    "4, itemimages/smoon6a.gif, itemimages/smoon3.gif,",
+    "5, itemimages/smoon7.gif, itemimages/smoon4.gif, itemimages/minimoon.gif",
+    "6, itemimages/smoon8.gif, itemimages/smoon4b.gif,",
+    "7, itemimages/smoon1.gif, itemimages/smoon5.gif,",
+    "8, itemimages/smoon2.gif, itemimages/smoon5.gif, itemimages/minimoon2.gif",
+    "9, itemimages/smoon3.gif, itemimages/smoon6.gif, itemimages/minimoon.gif",
+    "10, itemimages/smoon4b.gif, itemimages/smoon6.gif,",
+    "11, itemimages/smoon5.gif, itemimages/smoon7a.gif,",
+    "12, itemimages/smoon6.gif, itemimages/smoon7.gif, itemimages/minimoon.gif",
+    "13, itemimages/smoon7.gif, itemimages/smoon8.gif, itemimages/minimoon2.gif",
+    "14, itemimages/smoon8.gif, itemimages/smoon8.gif,",
+    "15, itemimages/smoon1a.gif, itemimages/smoon1.gif,",
+  })
+  public void itShouldRenderMoonImagesAcrossCycle(
+      int dayOffset, String ronaldImage, String grimaceImage, String hamburglarImage) {
+    Calendar useTime = new GregorianCalendar(KoLmafia.KOL_TIME_ZONE);
+    useTime.set(2010, Calendar.SEPTEMBER, 1 + dayOffset, 0, 0);
+    CalendarFrame testFrame = new CalendarFrame(useTime);
+    assertThat(testFrame, notNullValue());
+    testFrame.updateTabs();
+    CalendarFrame.updateDailyPage(1);
+    assertThat(testFrame.tabs.getTabCount(), equalTo(2));
+    Component aTab = testFrame.tabs.getComponentAt(0);
+    String x = getDataFromTab(aTab);
+
+    assertThat(x, containsString(ronaldImage));
+    assertThat(x, containsString(grimaceImage));
+    if (hamburglarImage != null) {
+      assertThat(x, containsString(hamburglarImage));
+    } else {
+      assertThat(x, not(containsString("itemimages/minimoon")));
+    }
   }
 }

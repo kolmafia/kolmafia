@@ -23,9 +23,6 @@ public class CliCaller {
     PrintStream out = new PrintStream(ostream, true);
 
     RequestLogger.openCustom(out);
-    return new Cleanups(
-        () -> {
-          RequestLogger.closeCustom();
-        });
+    return new Cleanups(RequestLogger::closeCustom);
   }
 }

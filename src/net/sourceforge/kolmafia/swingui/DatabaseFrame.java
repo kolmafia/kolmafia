@@ -8,12 +8,16 @@ import javax.swing.ListSelectionModel;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.persistence.EffectData;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
+import net.sourceforge.kolmafia.persistence.FamiliarDatabase.FamiliarRaceData;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase.ItemData;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.persistence.SkillDatabase.SkillData;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.menu.ThreadedMenuItem;
 import net.sourceforge.kolmafia.swingui.panel.ItemTableManagePanel;
@@ -21,13 +25,13 @@ import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
 import net.sourceforge.kolmafia.utilities.LowerCaseEntry;
 
 public class DatabaseFrame extends GenericFrame {
-  public static final LockableListModel<LowerCaseEntry<Integer, String>> allItems =
+  public static final LockableListModel<LowerCaseEntry<Integer, ItemData>> allItems =
       LowerCaseEntry.createListModel(ItemDatabase.entrySet());
-  public static final LockableListModel<LowerCaseEntry<Integer, String>> allEffects =
-      LowerCaseEntry.createListModel(EffectDatabase.entrySet());
-  public static final LockableListModel<LowerCaseEntry<Integer, String>> allSkills =
+  public static final LockableListModel<LowerCaseEntry<Integer, EffectData>> allEffects =
+      LowerCaseEntry.createListModel(EffectDatabase.allEffects());
+  public static final LockableListModel<LowerCaseEntry<Integer, SkillData>> allSkills =
       LowerCaseEntry.createListModel(SkillDatabase.entrySet());
-  public static final LockableListModel<LowerCaseEntry<Integer, String>> allFamiliars =
+  public static final LockableListModel<LowerCaseEntry<Integer, FamiliarRaceData>> allFamiliars =
       LowerCaseEntry.createListModel(FamiliarDatabase.entrySet());
   public static final LockableListModel<LowerCaseEntry<Integer, String>> allOutfits =
       LowerCaseEntry.createListModel(EquipmentDatabase.outfitEntrySet());
@@ -136,25 +140,25 @@ public class DatabaseFrame extends GenericFrame {
     }
   }
 
-  private static class ExamineItemsPanel extends ItemLookupPanel<String> {
+  private static class ExamineItemsPanel extends ItemLookupPanel<ItemData> {
     public ExamineItemsPanel() {
       super(DatabaseFrame.allItems, "item", "whichitem");
     }
 
     @Override
-    public String getId(final Entry<Integer, String> e) {
-      return ItemDatabase.getDescriptionId(e.getKey().intValue());
+    public String getId(final Entry<Integer, ItemData> e) {
+      return ItemDatabase.getDescriptionId(e.getKey());
     }
   }
 
-  private static class ExamineEffectsPanel extends ItemLookupPanel<String> {
+  private static class ExamineEffectsPanel extends ItemLookupPanel<EffectData> {
     public ExamineEffectsPanel() {
       super(DatabaseFrame.allEffects, "effect", "whicheffect");
     }
 
     @Override
-    public String getId(final Entry<Integer, String> e) {
-      return EffectDatabase.getDescriptionId(e.getKey().intValue());
+    public String getId(final Entry<Integer, EffectData> e) {
+      return EffectDatabase.getDescriptionId(e.getKey());
     }
   }
 

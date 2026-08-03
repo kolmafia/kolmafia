@@ -42,7 +42,7 @@ public class ChangeCombatScriptCommand extends AbstractCommand {
       while (iterator.hasNext() && !foundScript) {
         String script = iterator.next();
 
-        if (script.toLowerCase().indexOf(parameters) != -1) {
+        if (script.toLowerCase().contains(parameters)) {
           foundScript = true;
           CombatActionManager.loadStrategyLookup(script);
           KoLmafia.updateDisplay("CCS set to " + CombatActionManager.getStrategyLookupName());

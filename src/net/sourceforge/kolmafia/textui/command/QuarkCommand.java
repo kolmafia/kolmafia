@@ -3,7 +3,6 @@ package net.sourceforge.kolmafia.textui.command;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.List;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -50,9 +49,7 @@ public class QuarkCommand extends AbstractCommand implements Comparator<Adventur
     }
 
     ArrayList<AdventureResult> usables = new ArrayList<>();
-    Iterator<AdventureResult> i = items.iterator();
-    while (i.hasNext()) {
-      AdventureResult item = i.next();
+    for (AdventureResult item : items) {
       if (item.getCount(KoLConstants.inventory)
           < (KoLConstants.singletonList.contains(item) ? 2 : 1)) {
         continue;

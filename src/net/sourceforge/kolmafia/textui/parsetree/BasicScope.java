@@ -288,11 +288,11 @@ public abstract class BasicScope extends Command {
     int minParamCount = Integer.MAX_VALUE;
     Function bestMatch = null;
 
-    for (int i = 0; i < functions.length; ++i) {
+    for (Function function : functions) {
       int paramCount = 0;
       boolean isSingleString = false;
 
-      Iterator<VariableReference> refIterator = functions[i].getVariableReferences().iterator();
+      Iterator<VariableReference> refIterator = function.getVariableReferences().iterator();
 
       if (refIterator.hasNext()) {
         VariableReference reference = refIterator.next();
@@ -310,22 +310,22 @@ public abstract class BasicScope extends Command {
 
       if (paramCount == 0) {
         if (!hasParameters) {
-          return functions[i];
+          return function;
         }
       } else if (hasParameters && paramCount == 1) {
         if (isSingleString) {
-          return functions[i];
+          return function;
         }
 
         if (minParamCount == 1) {
           isAmbiguous = true;
         }
 
-        bestMatch = functions[i];
+        bestMatch = function;
         minParamCount = 1;
       } else {
         if (paramCount < minParamCount) {
-          bestMatch = functions[i];
+          bestMatch = function;
           minParamCount = paramCount;
           isAmbiguous = false;
         } else if (minParamCount == paramCount) {

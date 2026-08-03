@@ -26,7 +26,7 @@ public class PingRequest extends GenericRequest {
     return switch (pingURL) {
       case "api", "council", "main" -> pingURL + ".php";
       case "(status)", "(events)" -> "api.php";
-        // What is this?
+      // What is this?
       default -> "(none)";
     };
   }

@@ -12,10 +12,15 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.EnumSet;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -24,6 +29,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
+import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.filterType;
@@ -39,12 +45,14 @@ import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.swingui.panel.ScrollableFilteredPanel;
+import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
 import net.sourceforge.kolmafia.swingui.widget.SmartButtonGroup;
 import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MaximizerFrame extends GenericFrame implements ListSelectionListener {
   public static final JComboBox<String> expressionSelect = new JComboBox<>();
@@ -198,6 +206,7 @@ public class MaximizerFrame extends GenericFrame implements ListSelectionListene
           new KoLConstants.filterType[] {
             KoLConstants.filterType.EQUIP,
             KoLConstants.filterType.CAST,
+            KoLConstants.filterType.WISH,
             KoLConstants.filterType.OTHER,
           };
       // JPanel filterPanel= new JPanel( new FlowLayout( FlowLayout.LEADING, 0, 0 ) );
@@ -220,21 +229,32 @@ public class MaximizerFrame extends GenericFrame implements ListSelectionListene
       }
       boolean usageUnderLimit;
       for (KoLConstants.filterType fType : KoLConstants.filterType.values()) {
+        String filterString = fType.toString().toLowerCase();
+
+        boolean isLastUsedFilter = true;
+        if (Preferences.getBoolean("maximizerSingleFilter")) {
+          isLastUsedFilter =
+              Preferences.getString("maximizerLastSingleFilter").equals(filterString);
+        }
+
+        String lastFilters = Preferences.getString("maximizerLastFilters");
+        boolean isPersistedFilter =
+            Set.of(lastFilters.split(",")).contains(filterString) || lastFilters.equals("");
+
         usageUnderLimit =
             switch (fType) {
-              case BOOZE -> (KoLCharacter.canDrink()
-                  && KoLCharacter.getInebriety() < KoLCharacter.getLiverCapacity());
-              case FOOD -> (KoLCharacter.canEat()
-                  && KoLCharacter.getFullness() < KoLCharacter.getStomachCapacity());
+              case BOOZE ->
+                  (KoLCharacter.canDrink()
+                      && KoLCharacter.getInebriety() < KoLCharacter.getLiverCapacity());
+              case FOOD ->
+                  (KoLCharacter.canEat()
+                      && KoLCharacter.getFullness() < KoLCharacter.getStomachCapacity());
               case SPLEEN -> (KoLCharacter.getSpleenUse() < KoLCharacter.getSpleenLimit());
               default -> true;
             };
-        boolean isLastUsedFilter =
-            Preferences.getString("maximizerLastSingleFilter").equalsIgnoreCase(fType.name());
-        if (Preferences.getBoolean("maximizerSingleFilter")) {
-          usageUnderLimit = isLastUsedFilter;
-        }
-        filterButtons.put(fType, new JCheckBox(fType.toString().toLowerCase(), usageUnderLimit));
+        boolean isEnabled = isLastUsedFilter && isPersistedFilter && usageUnderLimit;
+
+        filterButtons.put(fType, new JCheckBox(filterString, isEnabled));
         filterButtons.get(fType).addItemListener(this);
 
         if (Arrays.asList(TopRowFilters).contains(fType)) {
@@ -242,7 +262,7 @@ public class MaximizerFrame extends GenericFrame implements ListSelectionListene
         } else {
           filterCheckboxBottomPanel.add(filterButtons.get(fType));
         }
-        updateFilter(fType, usageUnderLimit);
+        updateFilter(fType, isEnabled);
       }
       filterPanelTopRow.add(filterCheckboxTopPanel, BorderLayout.CENTER);
       filterPanelBottomRow.add(filterCheckboxBottomPanel, BorderLayout.CENTER);
@@ -329,14 +349,33 @@ public class MaximizerFrame extends GenericFrame implements ListSelectionListene
 
   protected void updateFilter(KoLConstants.filterType f, boolean value) {
     try {
+      String lastFilters = Preferences.getString("maximizerLastFilters");
+
+      Set<String> newFilters;
+      if (lastFilters.equals("")) {
+        newFilters = new HashSet();
+        for (KoLConstants.filterType filter : KoLConstants.filterType.values()) {
+          newFilters.add(filter.toString().toLowerCase());
+        }
+      } else {
+        newFilters = new HashSet(Arrays.asList(lastFilters.split(",")));
+      }
+
       if (value) {
         activeFilters.add(f);
+        newFilters.add(f.toString().toLowerCase());
       } else {
         activeFilters.remove(f);
+        newFilters.remove(f.toString().toLowerCase());
       }
+      Preferences.setString("maximizerLastFilters", String.join(",", newFilters));
     } catch (Exception Ex) {
       // This should probably log the error...
     }
+  }
+
+  protected EnumSet<filterType> getActiveFilters() {
+    return this.activeFilters;
   }
 
   private static class PullableRadioButton extends JRadioButton implements Listener {
@@ -368,13 +407,101 @@ public class MaximizerFrame extends GenericFrame implements ListSelectionListene
     }
   }
 
-  private class BoostsPanel extends ScrollableFilteredPanel<Boost> {
-    private final ShowDescriptionList<Boost> elementList;
+  static class FilterBoosts extends AutoFilterTextField<Boost> {
+    private List<Filter> parsedText;
 
+    public FilterBoosts(JList<Boost> list) {
+      super(list);
+    }
+
+    LockableListModel<Boost> getModel() {
+      return this.model;
+    }
+
+    private record Filter(String txt, boolean strict, boolean not) {}
+
+    private LinkedList<Filter> parseFilter(String text) {
+      var lst = new LinkedList<Filter>();
+      var split = text.split("\\s+");
+
+      for (var spl : split) {
+        if (spl.length() > 2 && spl.startsWith("!'")) {
+          lst.add(new Filter(spl.substring(2), true, true));
+          // backwards compat: accept '-' for not
+        } else if (spl.length() > 1 && (spl.startsWith("!") || spl.startsWith("-"))) {
+          lst.add(new Filter(spl.substring(1), false, true));
+        } else if (spl.length() > 1 && spl.startsWith("'")) {
+          lst.add(new Filter(spl.substring(1), true, false));
+        } else {
+          lst.add(new Filter(spl, false, false));
+        }
+      }
+
+      return lst;
+    }
+
+    @Override
+    public void update() {
+      try {
+        var text = this.getText().toLowerCase();
+        this.text = text;
+        this.parsedText = parseFilter(text);
+
+        if (parsedText.size() == 1 && !parsedText.get(0).strict) {
+          // use the old strict / non-strict behaviour: strict first, else non-strict if no matches
+          var filter = parsedText.get(0);
+          parsedText = List.of(new Filter(filter.txt, true, filter.not));
+          this.model.updateFilter(false);
+          if (this.model.getSize() == 0) {
+            parsedText = List.of(filter);
+            this.model.updateFilter(false);
+          }
+        } else {
+          this.model.updateFilter(false);
+        }
+        updateList();
+      } finally {
+        fireContentsChanged();
+      }
+    }
+
+    @Override
+    public boolean isVisible(final Object element) {
+      if (this.text == null || this.text.isEmpty()) {
+        return true;
+      }
+
+      var cmd = element.toString().toLowerCase();
+
+      for (var elt : parsedText) {
+        var matches = matchedFilter(cmd, elt);
+        if (!matches) {
+          return false;
+        }
+      }
+
+      return true;
+    }
+
+    private boolean matchedFilter(String cmd, Filter filter) {
+      var matches =
+          filter.strict ? cmd.contains(filter.txt) : StringUtilities.fuzzyMatches(cmd, filter.txt);
+      if (filter.not) {
+        matches = !matches;
+      }
+      return matches;
+    }
+  }
+
+  private class BoostsPanel extends ScrollableFilteredPanel<Boost> {
     public BoostsPanel(final ShowDescriptionList<Boost> list) {
       super("Current score: --- \u25CA Predicted: ---", "equip all", "exec selected", list);
-      this.elementList = this.scrollComponent;
       MaximizerFrame.this.listTitle = this.titleComponent;
+    }
+
+    @Override
+    protected AutoFilterTextField<Boost> createFilterField() {
+      return new FilterBoosts(this.elementList);
     }
 
     @Override

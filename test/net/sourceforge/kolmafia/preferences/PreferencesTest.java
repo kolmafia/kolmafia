@@ -15,14 +15,20 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import internal.helpers.Cleanups;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.TreeMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.utilities.FileUtilities;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -132,12 +138,12 @@ class PreferencesTest {
     Preferences.setString(PrefName, "");
 
     String checkPref = Preferences.getString(PrefName);
-    assertEquals(checkPref, "", "Pref not cleared");
+    assertEquals("", checkPref, "Pref not cleared");
 
     String PrefValue = "ANewValue";
     Preferences.setString(PrefName, PrefValue);
     checkPref = Preferences.getString(PrefName);
-    assertEquals(checkPref, PrefValue, "String not stored in Prefs");
+    assertEquals(PrefValue, checkPref, "String not stored in Prefs");
   }
 
   @Test
@@ -437,23 +443,23 @@ class PreferencesTest {
     Preferences.setInteger(newStyleDaily, newStyleValue);
     Preferences.setInteger(notADaily, notADailyValue);
     Preferences.setInteger(notARealDaily, notARealDailyValue);
-    assertEquals(Preferences.getInteger(legacyDaily), legacyValue, legacyDaily + "value not set");
+    assertEquals(legacyValue, Preferences.getInteger(legacyDaily), legacyDaily + "value not set");
     assertEquals(
-        Preferences.getInteger(newStyleDaily), newStyleValue, newStyleDaily + "value not set");
-    assertEquals(Preferences.getInteger(notADaily), notADailyValue, notADaily + "value not set");
+        newStyleValue, Preferences.getInteger(newStyleDaily), newStyleDaily + "value not set");
+    assertEquals(notADailyValue, Preferences.getInteger(notADaily), notADaily + "value not set");
     assertEquals(
-        Preferences.getInteger(notARealDaily), notARealDailyValue, notADaily + "value not set");
+        notARealDailyValue, Preferences.getInteger(notARealDaily), notADaily + "value not set");
 
     Preferences.resetDailies();
     assertNotEquals(
-        Preferences.getInteger(legacyDaily), legacyValue, legacyDaily + "value not reset");
+        legacyValue, Preferences.getInteger(legacyDaily), legacyDaily + "value not reset");
     assertNotEquals(
-        Preferences.getInteger(newStyleDaily), newStyleValue, newStyleDaily + "value not reset");
+        newStyleValue, Preferences.getInteger(newStyleDaily), newStyleDaily + "value not reset");
     assertEquals(
-        Preferences.getInteger(notADaily), notADailyValue, notADaily + "value unexpectedly reset");
+        notADailyValue, Preferences.getInteger(notADaily), notADaily + "value unexpectedly reset");
     assertEquals(
-        Preferences.getInteger(notARealDaily),
         notARealDailyValue,
+        Preferences.getInteger(notARealDaily),
         notARealDaily + "value unexpectedly reset");
   }
 
@@ -495,7 +501,7 @@ class PreferencesTest {
     "nonExistentPref, false"
   })
   void isResetOnAscension(String name, boolean expected) {
-    assertEquals(Preferences.isResetOnAscension(name), expected);
+    assertEquals(expected, Preferences.isResetOnAscension(name));
   }
 
   @Test
@@ -773,6 +779,151 @@ class PreferencesTest {
   }
 
   @Nested
+  class AvoidsPartialSaveCorruption {
+    // Lowercase because of filenames
+    private final String USER_NAME = "PreferencesTestBackupUser".toLowerCase();
+    private final File userFile = new File("settings/" + USER_NAME + "_prefs.txt");
+    private final File backupFile = new File("settings/" + USER_NAME + "_prefs.bak");
+    private final String PREF_NAME = "somePreference";
+
+    @BeforeEach
+    public void deleteUserPrefs() {
+      verboseDelete(userFile);
+      verboseDelete(backupFile);
+    }
+
+    @AfterEach
+    public void resetCharAndPreferences() {
+      deleteSerFiles(USER_NAME);
+      KoLCharacter.reset("");
+    }
+
+    private void login() {
+      Preferences.reset(USER_NAME);
+    }
+
+    private void logout() {
+      Preferences.reset("");
+    }
+
+    /** Writes out parsable text, then \nul or \0 bytes to mimic a corrupted file */
+    private void corrupt(File file, String parsablePrefix) throws IOException {
+      // Turns the text into bytes
+      byte[] prefix = parsablePrefix.getBytes(StandardCharsets.UTF_8);
+      // The remaining bytes are null bytes
+      byte[] bytes = new byte[prefix.length + 64];
+      // Writes prefix into the bytes array
+      System.arraycopy(prefix, 0, bytes, 0, prefix.length);
+      // Writes to disk
+      Files.write(file.toPath(), bytes);
+    }
+
+    private void savePreference() {
+      Preferences.setString(PREF_NAME, "someValue");
+    }
+
+    /** Logs in, saves a preference, and logs back out, leaving a valid file & backup on disk. */
+    private void setupNonCorruptedState() {
+      login(); // Ensure we're logged in
+      savePreference();
+      login(); // reload the saved file, triggers backup creation
+      assertTrue(userFile.exists(), "Prefs was not written");
+      assertTrue(backupFile.exists(), "Backup was not written");
+      assertEquals("someValue", Preferences.getString(PREF_NAME));
+      logout(); // Proves we're not reading from the logged in user
+    }
+
+    @Test
+    public void normalSaveContainsNoNullBytes() throws IOException {
+      // This test proves that null bytes are not something that can be replicated by a user
+      var cleanups =
+          new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true));
+      // octal escape, unicode escape, char literal, char valueOf, char array
+      var stringWithNulChars =
+          "unicode é" + "\0" + "\u0000" + '\0' + (char) 0 + new String(new char[] {0}) + "string.";
+
+      try (cleanups) {
+        login();
+        Preferences.setString(PREF_NAME, stringWithNulChars);
+        logout();
+        // Prove it didn't persist
+        assertEquals("", Preferences.getString(PREF_NAME));
+        // Prove no nulls in the file
+        assertFalse(FileUtilities.containsNullBytes(userFile));
+        login();
+        // Prove string is identical
+        assertEquals(stringWithNulChars, Preferences.getString(PREF_NAME));
+      }
+    }
+
+    @Test
+    public void backupIsRestoredOnCorruption() throws IOException {
+      var cleanups =
+          new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true));
+      try (cleanups) {
+        // Sets up the backup file
+        setupNonCorruptedState();
+        // Corrupt the user's file
+        corrupt(userFile, "");
+        // The file is corrupt
+        assertTrue(FileUtilities.containsNullBytes(userFile));
+        assertThat(
+            Files.readString(userFile.toPath(), StandardCharsets.UTF_8),
+            not(containsString(PREF_NAME + "=someValue")));
+        // It's not in memory
+        assertEquals("", Preferences.getString(PREF_NAME));
+        login();
+        // It was loaded from backup
+        assertEquals("someValue", Preferences.getString(PREF_NAME));
+        // Both files are valid
+        assertFalse(FileUtilities.containsNullBytes(userFile));
+        assertFalse(FileUtilities.containsNullBytes(backupFile));
+      }
+    }
+
+    @Test
+    public void backupIsPreferedOverPartial() throws IOException {
+      var cleanups =
+          new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true));
+      try (cleanups) {
+        setupNonCorruptedState();
+        // Write the corrupt file, but partially parsable with a different value
+        corrupt(userFile, PREF_NAME + "=oldValue\n");
+        login();
+        // The partially parsable file was not loaded, we restored from backup
+        assertEquals("someValue", Preferences.getString(PREF_NAME));
+      }
+    }
+
+    @Test
+    public void emptyIsRestoredFromBackup() throws IOException {
+      var cleanups =
+          new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true));
+      try (cleanups) {
+        setupNonCorruptedState();
+        Files.write(userFile.toPath(), new byte[0]);
+        login();
+        assertEquals("someValue", Preferences.getString(PREF_NAME));
+      }
+    }
+
+    @Test
+    public void partialRecoveryDoesntIncludeProblematicLines() throws IOException {
+      var cleanups =
+          new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true));
+      try (cleanups) {
+        // Corrupt the file, along with a partially written value that didn't end with a newline
+        corrupt(userFile, PREF_NAME + "=someValue\nskippedKey=skippedValue");
+        login();
+        // Confirm partial recovery worked
+        assertEquals("someValue", Preferences.getString(PREF_NAME));
+        // Confirm problematic lines were not included
+        assertFalse(Preferences.propertyExists("skippedKey"));
+      }
+    }
+  }
+
+  @Nested
   class SetterFunctions {
     @Test
     void canSetStringWithFunction() {
@@ -825,6 +976,71 @@ class PreferencesTest {
       try (cleanups) {
         Preferences.setLong("example", v -> v / 5L);
         assertThat("example", isSetTo(2L));
+      }
+    }
+  }
+
+  @Nested
+  class TestPropertiesExists {
+    @Test
+    void consequencesPrefsExist() throws IOException {
+      try (BufferedReader reader =
+          FileUtilities.getVersionedReader("consequences.txt", KoLConstants.CONSEQUENCES_VERSION)) {
+        String[] data;
+        int pos;
+
+        while ((data = FileUtilities.readData(reader)) != null) {
+          if (data.length < 4 || (pos = data[3].indexOf("=")) == -1) continue;
+
+          String key = data[3].substring(0, pos);
+
+          if (Preferences.containsDefault(key)) continue;
+
+          assertTrue(
+              Preferences.containsDefault(key),
+              "Unknown preference '" + key + "' in consequences.txt");
+        }
+      }
+    }
+
+    @Test
+    void dailyLimitsPrefsExist() throws IOException {
+      try (BufferedReader reader =
+          FileUtilities.getVersionedReader("dailylimits.txt", KoLConstants.DAILYLIMITS_VERSION)) {
+        String[] data;
+        int pos;
+
+        while ((data = FileUtilities.readData(reader)) != null) {
+          if (data.length < 3) continue;
+
+          assertTrue(
+              Preferences.containsDefault(data[2]),
+              "Unknown preference '" + data[2] + "' in dailylimits.txt");
+        }
+      }
+    }
+
+    @Test
+    void allPrefModifiersExist() throws IOException {
+      // Finds all occurances of pref() in data files and tests the first parameter as a property
+      Pattern pattern = Pattern.compile("pref\\(([^),]+)(?:,[^),]+)?\\)");
+
+      for (String file : KoLConstants.OVERRIDE_DATA) {
+        try (BufferedReader reader = FileUtilities.getReader(file)) {
+          String line;
+
+          while ((line = reader.readLine()) != null) {
+            if (line.startsWith("#")) continue;
+            Matcher match = pattern.matcher(line);
+
+            while (match.find()) {
+              String key = match.group(1);
+
+              assertTrue(
+                  Preferences.containsDefault(key), "Unknown preference '" + key + "' in " + file);
+            }
+          }
+        }
       }
     }
   }

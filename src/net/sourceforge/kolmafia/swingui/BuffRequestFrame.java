@@ -121,14 +121,14 @@ public class BuffRequestFrame extends GenericFrame {
 
       String[] list = BuffBotDatabase.getCompleteBotList();
 
-      for (int i = 0; i < list.length; ++i) {
-        if (list[i] == null || list[i].equals("")) {
+      for (String s : list) {
+        if (s == null || s.equals("")) {
           continue;
         }
 
-        RequestPanel panel = new RequestPanel(list[i]);
-        BuffRequestFrame.this.panelMap.put(list[i], panel);
-        BuffRequestFrame.this.nameContainer.add(panel, list[i]);
+        RequestPanel panel = new RequestPanel(s);
+        BuffRequestFrame.this.panelMap.put(s, panel);
+        BuffRequestFrame.this.nameContainer.add(panel, s);
       }
 
       VerifiableElement[] elements = new VerifiableElement[2];
@@ -329,9 +329,9 @@ public class BuffRequestFrame extends GenericFrame {
     if (this.lastPanel != null && this.lastPanel != panel) {
       JCheckBox[] checkboxes = this.lastPanel.checkboxes;
 
-      for (int i = 0; i < checkboxes.length; ++i) {
-        if (checkboxes[i] != null) {
-          checkboxes[i].setSelected(false);
+      for (JCheckBox checkbox : checkboxes) {
+        if (checkbox != null) {
+          checkbox.setSelected(false);
         }
       }
     }

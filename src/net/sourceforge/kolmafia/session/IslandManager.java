@@ -201,18 +201,20 @@ public class IslandManager {
 
   public static final String sideSummary(final String side) {
     return switch (side) {
-      case "frat boys" -> IslandManager.sideSummary(
-          side,
-          Preferences.getInteger("fratboysDefeated"),
-          IslandManager.fratboyImage,
-          IslandManager.fratboyMin,
-          IslandManager.fratboyMax);
-      case "hippies" -> IslandManager.sideSummary(
-          side,
-          Preferences.getInteger("hippiesDefeated"),
-          IslandManager.hippyImage,
-          IslandManager.hippyMin,
-          IslandManager.hippyMax);
+      case "frat boys" ->
+          IslandManager.sideSummary(
+              side,
+              Preferences.getInteger("fratboysDefeated"),
+              IslandManager.fratboyImage,
+              IslandManager.fratboyMin,
+              IslandManager.fratboyMax);
+      case "hippies" ->
+          IslandManager.sideSummary(
+              side,
+              Preferences.getInteger("hippiesDefeated"),
+              IslandManager.hippyImage,
+              IslandManager.hippyMin,
+              IslandManager.hippyMax);
       default -> "";
     };
   }
@@ -765,8 +767,8 @@ public class IslandManager {
   };
 
   private static boolean findBattlefieldMessage(final String responseText, final String[] table) {
-    for (int i = 0; i < table.length; ++i) {
-      if (responseText.contains(table[i])) {
+    for (String s : table) {
+      if (responseText.contains(s)) {
         return true;
       }
     }
@@ -871,15 +873,18 @@ public class IslandManager {
       return;
     }
 
-    String monsterName = monster.getName();
-    if (monsterName.equals("The Big Wisniewski") || monsterName.equals("Big Wisnaqua")) {
-      IslandManager.handleEndOfWar("hippies");
-      return;
-    }
-
-    if (monsterName.equals("The Man") || monsterName.equals("The Aquaman")) {
-      IslandManager.handleEndOfWar("fratboys");
-      return;
+    MonsterData boss = MonsterDatabase.getQuestBoss(monster);
+    if (boss != null) {
+      switch (boss.getName()) {
+        case "The Big Wisniewski" -> {
+          IslandManager.handleEndOfWar("hippies");
+          return;
+        }
+        case "The Man" -> {
+          IslandManager.handleEndOfWar("fratboys");
+          return;
+        }
+      }
     }
   }
 
@@ -956,8 +961,8 @@ public class IslandManager {
     int delta = 1;
     int test = 2;
 
-    for (int i = 0; i < table.length; ++i) {
-      if (IslandManager.findBattlefieldMessage(responseText, table[i])) {
+    for (String[] strings : table) {
+      if (IslandManager.findBattlefieldMessage(responseText, strings)) {
         delta = test;
         break;
       }

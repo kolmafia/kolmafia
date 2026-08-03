@@ -32,8 +32,8 @@ public class MailboxRequest extends GenericRequest {
     this.action = action;
     this.boxname = boxname;
     this.beginIndex = 1;
-    for (int i = 0; i < messages.length; ++i) {
-      this.addFormField(((KoLMailMessage) messages[i]).getMessageId(), "on");
+    for (Object message : messages) {
+      this.addFormField(((KoLMailMessage) message).getMessageId(), "on");
     }
   }
 
@@ -81,7 +81,7 @@ public class MailboxRequest extends GenericRequest {
     // testing the mail manager to see if it thinks all the new
     // messages have been retrieved.
 
-    if (this.responseText.indexOf("There are no messages in this mailbox.") != -1) {
+    if (this.responseText.contains("There are no messages in this mailbox.")) {
       KoLmafia.updateDisplay("Your mailbox is empty.");
       return;
     }
@@ -110,7 +110,7 @@ public class MailboxRequest extends GenericRequest {
       return;
     }
 
-    if (this.responseText.indexOf("<td valign=top>") == -1) {
+    if (!this.responseText.contains("<td valign=top>")) {
       KoLmafia.updateDisplay("Your mailbox is empty.");
       return;
     }

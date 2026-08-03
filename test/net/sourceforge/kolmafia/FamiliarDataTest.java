@@ -343,7 +343,7 @@ public class FamiliarDataTest {
 
       // Here are the attributes relevant to familiars
       int famId = jsonObject.getIntValue("familiar");
-      assertEquals(famId, FamiliarPool.GHOST_CHEER);
+      assertEquals(FamiliarPool.GHOST_CHEER, famId);
       int famExp = jsonObject.getIntValue("familiarexp");
       String famPic = jsonObject.getString("familiarpic");
       int famLevel = jsonObject.getIntValue("famlevel");
@@ -390,7 +390,7 @@ public class FamiliarDataTest {
 
       // Here are the attributes relevant to familiars
       int famId = jsonObject.getIntValue("familiar");
-      assertEquals(famId, FamiliarPool.GHOST_CHEER);
+      assertEquals(FamiliarPool.GHOST_CHEER, famId);
       int famExp = jsonObject.getIntValue("familiarexp");
       String famPic = jsonObject.getString("familiarpic");
       int famLevel = jsonObject.getIntValue("famlevel");

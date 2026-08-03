@@ -99,8 +99,8 @@ public class StyledChatBuffer extends ChatBuffer {
 
     this.clear();
 
-    for (int i = 0; i < lines.length; ++i) {
-      this.append(lines[i] + "<br>");
+    for (String line : lines) {
+      this.append(line + "<br>");
     }
   }
 

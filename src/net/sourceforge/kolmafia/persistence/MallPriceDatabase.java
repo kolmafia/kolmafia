@@ -91,13 +91,12 @@ public class MallPriceDatabase {
         Price p = MallPriceDatabase.prices.get(id);
         if (p == null) {
           MallPriceDatabase.prices.put(id, new Price(id, price, timestamp));
-          ++count;
-          ++MallPriceDatabase.modCount;
         } else if (timestamp > p.timestamp) {
           p.update(price, timestamp);
-          ++count;
-          ++MallPriceDatabase.modCount;
         }
+        MallPriceManager.cachePriceIfFromCurrentRolloverDay(id, price, timestamp);
+        ++count;
+        ++MallPriceDatabase.modCount;
       }
     } catch (IOException e) {
       StaticEntity.printStackTrace(e);

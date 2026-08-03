@@ -706,8 +706,7 @@ public class RecoveryManager {
     String mpRestoreSetting = Preferences.getString("mpAutoRecoveryItems");
 
     for (int i = 0; i < MPRestoreItemList.CONFIGURES.length; ++i) {
-      if (mpRestoreSetting.indexOf(MPRestoreItemList.CONFIGURES[i].toString().toLowerCase())
-          != -1) {
+      if (mpRestoreSetting.contains(MPRestoreItemList.CONFIGURES[i].toString().toLowerCase())) {
         AdventureResult item = MPRestoreItemList.CONFIGURES[i].getItem();
         if (item != null) {
           restoreCount += item.getCount(KoLConstants.inventory);

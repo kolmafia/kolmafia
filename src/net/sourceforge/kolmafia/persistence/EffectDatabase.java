@@ -9,7 +9,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +25,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.persistence.EffectData.Quality;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.textui.command.UseItemCommand;
 import net.sourceforge.kolmafia.textui.command.UseSkillCommand;
@@ -35,21 +35,11 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class EffectDatabase {
   private static String[] canonicalNames = new String[0];
-  private static final Map<Integer, String> nameById = new TreeMap<>();
   private static final Map<String, int[]> effectIdSetByName = new TreeMap<>();
-  public static final HashMap<Integer, String> defaultActions = new HashMap<>();
-
-  private static final Map<Integer, String> imageById = new HashMap<>();
-  private static final Map<Integer, String> descriptionById = new TreeMap<>();
+  private static final Map<Integer, EffectData> effectDataById = new TreeMap<>();
   private static final Map<String, Integer> effectIdByDescription = new HashMap<>();
-  private static final Map<Integer, Integer> qualityById = new HashMap<>();
-  private static final Map<Integer, List<String>> attributesById = new HashMap<>();
 
   public static boolean newEffects = false;
-
-  public static final int GOOD = 0;
-  public static final int NEUTRAL = 1;
-  public static final int BAD = 2;
 
   static {
     EffectDatabase.reset();
@@ -67,7 +57,7 @@ public class EffectDatabase {
       while ((data = FileUtilities.readData(reader)) != null) {
         if (data.length >= 3) {
           Integer effectId = Integer.valueOf(data[0]);
-          if (effectId.intValue() < 0) {
+          if (effectId < 0) {
             continue;
           }
 
@@ -110,23 +100,6 @@ public class EffectDatabase {
     EffectDatabase.effectIdSetByName.put(canonicalName, newSet);
   }
 
-  private static int parseQuality(final String quality) {
-    return switch (quality) {
-      case "good" -> EffectDatabase.GOOD;
-      case "bad" -> EffectDatabase.BAD;
-      default -> EffectDatabase.NEUTRAL;
-    };
-  }
-
-  private static String describeQuality(final Integer quality) {
-    return switch (quality) {
-      case EffectDatabase.GOOD -> "good";
-      case EffectDatabase.BAD -> "bad";
-      case EffectDatabase.NEUTRAL -> "neutral";
-      default -> "";
-    };
-  }
-
   private static void addToDatabase(
       final Integer effectId,
       final String name,
@@ -136,38 +109,41 @@ public class EffectDatabase {
       final String attributes,
       final String defaultAction) {
     String canonicalName = StringUtilities.getCanonicalName(name);
-    EffectDatabase.nameById.put(effectId, name);
     EffectDatabase.addIdToName(canonicalName, effectId);
-    EffectDatabase.imageById.put(effectId, image);
-
+    String knownDescriptionId = null;
     if (descriptionId != null && !descriptionId.equals("")) {
-      EffectDatabase.descriptionById.put(effectId, descriptionId);
+      knownDescriptionId = descriptionId;
       EffectDatabase.effectIdByDescription.put(descriptionId, effectId);
     }
 
-    EffectDatabase.qualityById.put(effectId, EffectDatabase.parseQuality(quality));
-
-    String[] list = attributes.split("\\s*,\\s*");
+    String[] list = StringUtilities.splitByComma(attributes);
     List<String> attrs = new LinkedList<>(Arrays.asList(list));
     attrs.remove("none");
-    EffectDatabase.attributesById.put(effectId, attrs);
-
-    if (defaultAction != null) {
-      EffectDatabase.defaultActions.put(effectId, defaultAction);
-    }
+    EffectData effectData =
+        new EffectData(effectId, name, image, knownDescriptionId, quality, attrs, defaultAction);
+    EffectDatabase.effectDataById.put(effectId, effectData);
   }
 
-  public static final int getQuality(final int effectId) {
-    Integer quality = (effectId == -1) ? -1 : EffectDatabase.qualityById.get(effectId);
-    return quality == null ? -1 : quality;
+  public static final EffectData getEffectData(final int effectId) {
+    return EffectDatabase.effectDataById.get(effectId);
+  }
+
+  public static final Quality getQuality(final int effectId) {
+    if (effectId == -1) {
+      return Quality.NEUTRAL;
+    }
+    EffectData effectData = EffectDatabase.effectDataById.get(effectId);
+    return effectData == null ? Quality.NEUTRAL : effectData.getQuality();
   }
 
   public static final String getQualityDescription(final int effectId) {
-    return EffectDatabase.describeQuality(EffectDatabase.getQuality(effectId));
+    EffectData effectData = EffectDatabase.effectDataById.get(effectId);
+    return effectData == null ? "" : effectData.getQualityDescription();
   }
 
   public static final List<String> getEffectAttributes(final int effectId) {
-    return EffectDatabase.attributesById.get(effectId);
+    EffectData effectData = EffectDatabase.effectDataById.get(effectId);
+    return effectData == null ? Collections.emptyList() : effectData.getAttributes();
   }
 
   public static final boolean hasAttribute(final String name, final String attribute) {
@@ -177,7 +153,7 @@ public class EffectDatabase {
 
   public static final boolean hasAttribute(final int effectId, final String attribute) {
     List<String> attrs = EffectDatabase.getEffectAttributes(effectId);
-    return (attrs == null) ? false : attrs.contains(attribute);
+    return attrs.contains(attribute);
   }
 
   public static final boolean isSong(final int effectId) {
@@ -192,7 +168,7 @@ public class EffectDatabase {
     if (effectId == -1) {
       return null;
     }
-    String rv = StringUtilities.getDisplayName(EffectDatabase.defaultActions.get(effectId));
+    String rv = StringUtilities.getDisplayName(EffectDatabase.getActions(effectId));
     if (rv == null) {
       return null;
     }
@@ -221,33 +197,32 @@ public class EffectDatabase {
     return rv.split("\\|")[0];
   }
 
-  public static final Iterator<String> getAllActions(final int effectId) {
+  public static final ArrayList<String> getAllActions(final int effectId) {
     if (effectId == -1) {
-      return Collections.emptyIterator();
+      return new ArrayList<>();
     }
-    String actions = StringUtilities.getDisplayName(EffectDatabase.defaultActions.get(effectId));
+    String actions = StringUtilities.getDisplayName(EffectDatabase.getActions(effectId));
     if (actions == null) {
-      return Collections.emptyIterator();
+      return new ArrayList<>();
     }
     ArrayList<String> rv = new ArrayList<>();
     String[] pieces = actions.split("\\|");
-    for (int i = 0; i < pieces.length; ++i) {
-      String action = pieces[i];
+    for (String action : pieces) {
       String[] either = action.split(" ", 3);
       if (either.length == 3
           && either[1].equals(
               "either")) { // Split commands like "use either X, Y" into "use X", "use Y"
         String cmd = either[0];
-        either = either[2].split("\\s*,\\s*");
-        for (int j = 0; j < either.length; ++j) {
-          rv.add(cmd + " " + either[j]);
+        either = StringUtilities.splitByComma(either[2]);
+        for (String s : either) {
+          rv.add(cmd + " " + s);
         }
       } else {
         rv.add(action);
       }
     }
 
-    return rv.iterator();
+    return rv;
   }
 
   public static final String getActions(final int effectId) {
@@ -255,22 +230,15 @@ public class EffectDatabase {
   }
 
   public static final String getActions(final Integer effectId) {
-    return EffectDatabase.defaultActions.get(effectId);
-  }
-
-  public static final void setActions(final int effectId, final String actions) {
-    EffectDatabase.setActions((Integer) effectId, actions);
-  }
-
-  public static final void setActions(final Integer effectId, final String actions) {
-    EffectDatabase.defaultActions.put(effectId, actions);
+    EffectData effectData = EffectDatabase.effectDataById.get(effectId);
+    return effectData == null ? null : effectData.getActions();
   }
 
   public static final String getActionNote(final int effectId) {
     if (effectId == -1) {
       return null;
     }
-    String rv = StringUtilities.getDisplayName(EffectDatabase.defaultActions.get(effectId));
+    String rv = StringUtilities.getDisplayName(EffectDatabase.getActions(effectId));
     if (rv != null && rv.startsWith("#")) {
       return rv.substring(1).trim();
     }
@@ -284,12 +252,16 @@ public class EffectDatabase {
    * @return The name of the corresponding effect
    */
   public static final String getEffectName(final int effectId) {
-    return effectId == -1 ? null : EffectDatabase.nameById.get(effectId);
+    if (effectId == -1) {
+      return null;
+    }
+    var effect = EffectDatabase.effectDataById.get(effectId);
+    return effect == null ? null : effect.getName();
   }
 
   public static final String getEffectName(final String descriptionId) {
     Integer effectId = EffectDatabase.effectIdByDescription.get(descriptionId);
-    return effectId == null ? null : EffectDatabase.getEffectName(effectId.intValue());
+    return effectId == null ? null : EffectDatabase.getEffectName(effectId);
   }
 
   public static final String getEffectDisplayName(final String effectName) {
@@ -305,15 +277,12 @@ public class EffectDatabase {
 
   public static final int getEffectIdFromDescription(final String descriptionId) {
     Integer effectId = EffectDatabase.effectIdByDescription.get(descriptionId);
-    return effectId == null ? -1 : effectId.intValue();
+    return effectId == null ? -1 : effectId;
   }
 
   public static final String getDescriptionId(final int effectId) {
-    return EffectDatabase.descriptionById.get(effectId);
-  }
-
-  static final Set<Integer> descriptionIdKeySet() {
-    return EffectDatabase.descriptionById.keySet();
+    EffectData effectData = EffectDatabase.effectDataById.get(effectId);
+    return effectData == null ? null : effectData.getDescriptionId();
   }
 
   /**
@@ -419,7 +388,8 @@ public class EffectDatabase {
    * @return The name of the corresponding effect
    */
   public static final String getImageName(final int effectId) {
-    String imageName = effectId == -1 ? null : EffectDatabase.imageById.get(effectId);
+    EffectData effectData = effectId == -1 ? null : EffectDatabase.effectDataById.get(effectId);
+    String imageName = effectData == null ? null : effectData.getImage();
     return imageName == null ? "" : imageName;
   }
 
@@ -435,16 +405,16 @@ public class EffectDatabase {
    *
    * @return The set of status effects keyed by Id
    */
-  public static final Set<Entry<Integer, String>> entrySet() {
-    return EffectDatabase.nameById.entrySet();
+  public static final Set<Entry<Integer, EffectData>> allEffects() {
+    return EffectDatabase.effectDataById.entrySet();
   }
 
-  public static final Collection<String> values() {
-    return EffectDatabase.nameById.values();
+  public static final Collection<EffectData> values() {
+    return EffectDatabase.effectDataById.values();
   }
 
   public static final Set<Integer> keys() {
-    return EffectDatabase.nameById.keySet();
+    return EffectDatabase.effectDataById.keySet();
   }
 
   /**
@@ -465,7 +435,7 @@ public class EffectDatabase {
     if (effectId == -1) {
       return false;
     }
-    return EffectDatabase.nameById.get(effectId) != null;
+    return EffectDatabase.effectDataById.get(effectId) != null;
   }
 
   /**
@@ -516,15 +486,23 @@ public class EffectDatabase {
     String canonicalName = StringUtilities.getCanonicalName(name);
     Integer id = effectId;
 
-    EffectDatabase.nameById.put(id, name);
     EffectDatabase.addIdToName(canonicalName, id);
-    EffectDatabase.imageById.put(id, image);
-    EffectDatabase.descriptionById.put(id, descId);
-    EffectDatabase.qualityById.put(id, EffectDatabase.NEUTRAL);
-    EffectDatabase.effectIdByDescription.put(descId, id);
-    if (defaultAction != null) {
-      EffectDatabase.defaultActions.put(id, defaultAction);
+    // if defaultAction is null, we want to keep the existing action
+    var existing = EffectDatabase.getEffectData(id);
+    if (existing == null) {
+      existing = new EffectData();
     }
+    EffectData effectData =
+        new EffectData(
+            id,
+            name,
+            image,
+            descId,
+            Quality.NEUTRAL,
+            existing.getAttributes(),
+            defaultAction == null ? existing.getActions() : defaultAction);
+    EffectDatabase.effectDataById.put(id, effectData);
+    EffectDatabase.effectIdByDescription.put(descId, id);
 
     String printMe;
 
@@ -532,15 +510,7 @@ public class EffectDatabase {
     RequestLogger.printLine(printMe);
     RequestLogger.updateSessionLog(printMe);
 
-    printMe =
-        EffectDatabase.effectString(
-            effectId,
-            name,
-            image,
-            descId,
-            EffectDatabase.describeQuality(EffectDatabase.NEUTRAL),
-            "none",
-            defaultAction);
+    printMe = effectData.toDataLine();
     RequestLogger.printLine(printMe);
     RequestLogger.updateSessionLog(printMe);
 
@@ -559,82 +529,34 @@ public class EffectDatabase {
 
   public static final void writeEffects(final File output) {
     RequestLogger.printLine("Writing data override: " + output);
-    PrintStream writer = LogStream.openStream(output, true);
-    writer.println(KoLConstants.STATUSEFFECTS_VERSION);
+    try (PrintStream writer = LogStream.openStream(output, true)) {
+      writer.println(KoLConstants.STATUSEFFECTS_VERSION);
 
-    int lastInteger = 1;
+      int lastInteger = 1;
 
-    for (Entry<Integer, String> entry : EffectDatabase.nameById.entrySet()) {
-      Integer nextInteger = entry.getKey();
-      int effectId = nextInteger.intValue();
+      for (Entry<Integer, EffectData> entry : EffectDatabase.allEffects()) {
+        Integer nextInteger = entry.getKey();
+        int effectId = nextInteger;
 
-      // Skip pseudo effects
-      if (effectId < 1) {
-        continue;
+        // Skip pseudo effects
+        if (effectId < 1) {
+          continue;
+        }
+
+        for (int i = lastInteger; i < nextInteger; ++i) {
+          writer.println(i);
+        }
+
+        lastInteger = effectId + 1;
+
+        EffectData effectData = entry.getValue();
+        EffectDatabase.writeEffect(writer, effectData);
       }
-
-      for (int i = lastInteger; i < nextInteger.intValue(); ++i) {
-        writer.println(i);
-      }
-
-      lastInteger = effectId + 1;
-
-      List<String> attributes = EffectDatabase.getEffectAttributes(nextInteger);
-
-      String name = entry.getValue();
-      String image = EffectDatabase.imageById.get(nextInteger);
-      String descId = EffectDatabase.descriptionById.get(nextInteger);
-      String quality = EffectDatabase.describeQuality(EffectDatabase.qualityById.get(nextInteger));
-      String attributesString = (attributes == null) ? "none" : String.join(",", attributes);
-
-      String defaultAction = EffectDatabase.defaultActions.get(nextInteger);
-      EffectDatabase.writeEffect(
-          writer, effectId, name, image, descId, quality, attributesString, defaultAction);
     }
-
-    writer.close();
   }
 
-  private static void writeEffect(
-      final PrintStream writer,
-      final int effectId,
-      final String name,
-      final String image,
-      final String descId,
-      final String quality,
-      final String attributes,
-      final String defaultAction) {
-    writer.println(
-        EffectDatabase.effectString(
-            effectId, name, image, descId, quality, attributes, defaultAction));
-  }
-
-  private static String effectString(
-      final int effectId,
-      final String name,
-      String image,
-      String descId,
-      final String quality,
-      final String attributes,
-      final String defaultAction) {
-    // The effect file can have 3, 4, or 5 fields. "image" must be
-    // present, even if we don't have the actual file name.
-    if (image == null) {
-      image = "";
-    }
-
-    if (descId == null) {
-      descId = "";
-    }
-
-    String effectString =
-        effectId + "\t" + name + "\t" + image + "\t" + descId + "\t" + quality + "\t" + attributes;
-
-    if (defaultAction != null) {
-      effectString += "\t" + defaultAction;
-    }
-
-    return effectString;
+  private static void writeEffect(final PrintStream writer, final EffectData data) {
+    writer.println(data.toDataLine());
   }
 
   /**
@@ -746,7 +668,8 @@ public class EffectDatabase {
       return "poisoned";
     }
     int effectId = POISON_ID[level];
-    return EffectDatabase.nameById.get(effectId);
+    var effect = EffectDatabase.effectDataById.get(effectId);
+    return effect == null ? null : effect.getName();
   }
 
   public static void parseVampireVintnerWineEffect(final String edesc, final int effectId) {
@@ -761,8 +684,8 @@ public class EffectDatabase {
           case EffectPool.WINE_DARK -> (int) emods.getDouble(DoubleModifier.SPOOKY_DAMAGE) / 4;
           case EffectPool.WINE_BEFOULED -> (int) emods.getDouble(DoubleModifier.STENCH_DAMAGE) / 3;
           case EffectPool.WINE_FRISKY -> (int) emods.getDouble(DoubleModifier.SLEAZE_DAMAGE) / 3;
-          case EffectPool.WINE_FRIENDLY -> (int) emods.getDouble(DoubleModifier.FAMILIAR_DAMAGE)
-              / 3;
+          case EffectPool.WINE_FRIENDLY ->
+              (int) emods.getDouble(DoubleModifier.FAMILIAR_DAMAGE) / 3;
           default -> -1;
         };
 

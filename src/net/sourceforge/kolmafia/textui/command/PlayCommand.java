@@ -30,7 +30,7 @@ public class PlayCommand extends AbstractCommand {
     PlayCommand.addStat(Stat.MUSCLE, stats);
     PlayCommand.addStat(Stat.MYSTICALITY, stats);
     PlayCommand.addStat(Stat.MOXIE, stats);
-    PlayCommand.CANONICAL_STAT_ARRAY = stats.toArray(new String[stats.size()]);
+    PlayCommand.CANONICAL_STAT_ARRAY = stats.toArray(new String[0]);
     Arrays.sort(PlayCommand.CANONICAL_STAT_ARRAY);
   }
 
@@ -66,7 +66,7 @@ public class PlayCommand extends AbstractCommand {
     PlayCommand.addBuff("initiative", DeckOfEveryCardRequest.RACING, buffs);
     PlayCommand.addBuff(
         DeckOfEveryCardRequest.RACING.getName(), DeckOfEveryCardRequest.RACING, buffs);
-    PlayCommand.CANONICAL_BUFF_ARRAY = buffs.toArray(new String[buffs.size()]);
+    PlayCommand.CANONICAL_BUFF_ARRAY = buffs.toArray(new String[0]);
     Arrays.sort(PlayCommand.CANONICAL_BUFF_ARRAY);
   }
 
@@ -77,11 +77,11 @@ public class PlayCommand extends AbstractCommand {
 
   @Override
   public void run(final String cmd, String parameter) {
-    EveryCard card = null;
+    EveryCard card;
 
     parameter = parameter.trim();
 
-    if (parameter.equals("")) {
+    if (parameter.isEmpty()) {
       KoLmafia.updateDisplay("Play what?");
       return;
     }
@@ -91,7 +91,7 @@ public class PlayCommand extends AbstractCommand {
     } else if (parameter.startsWith("phylum")) {
       parameter = parameter.substring(6).trim();
 
-      if (parameter.equals("")) {
+      if (parameter.isEmpty()) {
         KoLmafia.updateDisplay(MafiaState.ERROR, "Which monster phylum do you want?");
         return;
       }
@@ -112,18 +112,18 @@ public class PlayCommand extends AbstractCommand {
     } else if (parameter.startsWith("stat")) {
       parameter = parameter.substring(4).trim();
 
-      if (parameter.equals("")) {
+      if (parameter.isEmpty()) {
         KoLmafia.updateDisplay(MafiaState.ERROR, "Which stat do you want?");
         return;
       }
 
-      Stat stat = null;
+      Stat stat;
       if (parameter.startsWith("main")) {
         stat = KoLCharacter.mainStat();
       } else {
         List<String> matchingNames =
             StringUtilities.getMatchingNames(PlayCommand.CANONICAL_STAT_ARRAY, parameter);
-        if (matchingNames.size() == 0) {
+        if (matchingNames.isEmpty()) {
           KoLmafia.updateDisplay(MafiaState.ERROR, "Which stat is " + parameter + "?");
           return;
         }
@@ -133,7 +133,7 @@ public class PlayCommand extends AbstractCommand {
           return;
         }
 
-        stat = PlayCommand.canonicalNameToStat.get(matchingNames.get(0));
+        stat = PlayCommand.canonicalNameToStat.get(matchingNames.getFirst());
       }
 
       card = DeckOfEveryCardRequest.statToCard(stat);
@@ -145,14 +145,14 @@ public class PlayCommand extends AbstractCommand {
     } else if (parameter.startsWith("buff")) {
       parameter = parameter.substring(4).trim();
 
-      if (parameter.equals("")) {
+      if (parameter.isEmpty()) {
         KoLmafia.updateDisplay(MafiaState.ERROR, "Which buff do you want?");
         return;
       }
 
       List<String> matchingNames =
           StringUtilities.getMatchingNames(PlayCommand.CANONICAL_BUFF_ARRAY, parameter);
-      if (matchingNames.size() == 0) {
+      if (matchingNames.isEmpty()) {
         KoLmafia.updateDisplay(MafiaState.ERROR, "Which buff is " + parameter + "?");
         return;
       }
@@ -162,7 +162,7 @@ public class PlayCommand extends AbstractCommand {
         return;
       }
 
-      AdventureResult buff = PlayCommand.canonicalNameToBuff.get(matchingNames.get(0));
+      AdventureResult buff = PlayCommand.canonicalNameToBuff.get(matchingNames.getFirst());
       card = DeckOfEveryCardRequest.buffToCard(buff);
       if (card == null) {
         KoLmafia.updateDisplay(
@@ -171,7 +171,7 @@ public class PlayCommand extends AbstractCommand {
       }
     } else {
       List<String> matchingNames = DeckOfEveryCardRequest.getMatchingNames(parameter);
-      if (matchingNames.size() == 0) {
+      if (matchingNames.isEmpty()) {
         KoLmafia.updateDisplay(MafiaState.ERROR, "I don't know how to play " + parameter);
         return;
       }
@@ -181,7 +181,7 @@ public class PlayCommand extends AbstractCommand {
         return;
       }
 
-      String name = matchingNames.get(0);
+      String name = matchingNames.getFirst();
 
       card = DeckOfEveryCardRequest.canonicalNameToCard(name);
       if (card == null) {

@@ -41,7 +41,7 @@ public class ChoiceCommand extends AbstractCommand {
     StringBuilder buf = new StringBuilder();
     for (int i = 1; i < fields.length; ++i) {
       String field = fields[i];
-      if (field.indexOf("=") == -1) {
+      if (!field.contains("=")) {
         RequestLogger.printLine("Field '" + field + "' must have a value; ignoring.");
         continue;
       }

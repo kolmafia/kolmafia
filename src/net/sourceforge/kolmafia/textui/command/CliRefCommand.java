@@ -1,7 +1,6 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -74,9 +73,7 @@ public class CliRefCommand extends AbstractCommand {
     boolean anymatches = false;
     HashMap<String, String> alreadySeen =
         new HashMap<>(); // usage => name of cmd already printed out
-    Iterator<Map.Entry<String, AbstractCommand>> i = AbstractCommand.lookup.entrySet().iterator();
-    while (i.hasNext()) {
-      Map.Entry<String, AbstractCommand> e = i.next();
+    for (Map.Entry<String, AbstractCommand> e : AbstractCommand.lookup.entrySet()) {
       String name = e.getKey();
       KeyType type = AbstractCommand.lookup.getKeyType(name);
       if (type == KeyType.NOT_A_KEY) {
@@ -87,8 +84,7 @@ public class CliRefCommand extends AbstractCommand {
         continue;
       }
       String usage = handler.getUsage(name);
-      if (usage == null
-          || name.indexOf(filter) == -1 && usage.toLowerCase().indexOf(filter) == -1) {
+      if (usage == null || !name.contains(filter) && !usage.toLowerCase().contains(filter)) {
         continue;
       }
       if (type == KeyType.PREFIX_KEY) {

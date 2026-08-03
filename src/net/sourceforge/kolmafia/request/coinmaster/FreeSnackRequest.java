@@ -46,7 +46,7 @@ public class FreeSnackRequest extends CoinMasterRequest {
   }
 
   public static void parseFreeSnackVisit(final String location, final String responseText) {
-    if (responseText.indexOf("You acquire") != -1) {
+    if (responseText.contains("You acquire")) {
       CoinmasterData data = FREESNACKS;
       CoinMasterRequest.completePurchase(data, location);
     }

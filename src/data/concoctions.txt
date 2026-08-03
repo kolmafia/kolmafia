@@ -37,12 +37,6 @@
 # EJEWEL (skilled jewelrymaking)
 # TIKI (Tiki mixing)
 
-# JARLS for Avatar of Jarlsberg crafting
-# Combination of Jarlsberg crafting and the required skill
-# JARLSBOIL, JARLSFRY, JARLSCHOP, JARLSSLICE
-# JARLSBAKE, JARLSGRILL, JARLSFREEZE, JARLSBLEND
-
-
 # Items which can be obtained by simply using another item.  There are
 # lots more of these, but this appears to be the only one that
 # guarantees that each item drops exactly once.
@@ -968,7 +962,7 @@ demon-horned hat	SMITH	basic meat helmet	demon skin
 eelskin hat	ASMITH	basic meat helmet	eel skin
 lynyrdskin cap	ASMITH	helmet recipe	lynyrd skin
 nasty rat mask	ASMITH	basic meat helmet	leathery rat skin
-sea cowboy hat	ASMITH	helmet recipe	sea leather
+sea cowboy hat	SMITH	helmet recipe	sea leather
 sponge helmet	ASMITH	basic meat helmet	slab of sponge
 yak toupee	ASMITH	basic meat helmet	yak skin
 
@@ -988,7 +982,7 @@ sticky meat pants	SMITH	really really sticky spider web	basic meat pants
 tighty whiteys	SMITH	white snake skin	pants kit
 yakskin pants	ASMITH	yak skin	pants kit
 gnauga hide chaps	ASMITH	gnauga hide	pants kit
-sea chaps	ASMITH	sea leather	pants kit
+sea chaps	SMITH	sea leather	pants kit
 
 
 # Skirts made of hides of various sorts.
@@ -1078,7 +1072,7 @@ rusty old lantern	COMBINE	brittle plastic handle	foggy glass globe
 non-stick pugil stick	WSMITH	decaying wooden pole	teflon ore
 teflon spatula	WSMITH	tarnished metal rod	teflon ore
 teflon shield	ASMITH	rusty valve wheel	teflon ore
-teflon swim fins	ASMITH	waterlogged bootstraps	teflon ore
+teflon swim fins	SMITH	waterlogged bootstraps	teflon ore
 
 velcro broadsword	WSMITH	brittle plastic handle	velcro ore
 velcro paddle ball	WSMITH	decaying wooden paddle	velcro ore
@@ -1523,64 +1517,6 @@ tempura cauliflower	TEMPURA	bubbling tempura batter	sea cauliflower
 tempura cucumber	TEMPURA	bubbling tempura batter	sea cucumber
 tempura radish	TEMPURA	bubbling tempura batter	sea radish
 tempura air	TEMPURA	bubbling tempura batter	[0]
-
-# Star Chart items
-
-star boomerang	STAR, ROW144	star chart	star (4)	line (5)
-star buckler	STAR, ROW138	star chart	star (4)	line (6)
-star crossbow	STAR, ROW134	star chart	star (5)	line (6)
-star hat	STAR, ROW137	star chart	star (5)	line (3)
-star pants	STAR, ROW136	star chart	star (7)	line (7)
-star spatula	STAR, ROW145	star chart	star (5)	line (5)
-star staff	STAR, ROW135	star chart	star (6)	line (5)
-star starfish	STAR, ROW140	star chart	star (6)	line (4)
-star stiletto	STAR, ROW143	star chart	star (5)	line (4)
-star sword	STAR, ROW133	star chart	star (7)	line (4)
-star throwing star	STAR, ROW139	star chart	star (4)	line (2)
-Richard's star key	STAR, ROW141	star chart	star (8)	line (7)
-star shirt	STAR, TORSO, ROW142	star chart	star (15)	line (15)
-
-
-# Pixel items.  These are items which are created at the Crackpot
-# mystic after collecting enough pixels.
-
-monster bait	PIXEL, ROW31	red pixel (20)	white pixel (15)
-# digital key	PIXEL, ROW36	white pixel (30)
-
-white pixel	PIXEL, ROW26	red pixel	green pixel	blue pixel
-red pixel potion	PIXEL, ROW27	black pixel (3)	red pixel (2)
-blue pixel potion	PIXEL, ROW28	black pixel (3)	blue pixel (2)
-green pixel potion	PIXEL, ROW29	black pixel (4)	green pixel (3)
-purple pixel pie	PIXEL, ROW30	white pixel (5)	red pixel (2)	blue pixel (2)
-
-# 8-Bit Finery
-pixel hat	PIXEL, ROW33	white pixel (10)	green pixel (15)
-pixel sword	PIXEL, ROW35	white pixel (20)	black pixel (10)	blue pixel (10)
-pixel pants	PIXEL, ROW34	black pixel (10)	red pixel (20)
-
-pixel shield	PIXEL, ROW32	red pixel (20)	black pixel (10)	white pixel (10)
-pixel boomerang	PIXEL, ROW37	black pixel (10)	white pixel (10)	blue pixel (20)
-
-# Uses brown pixels from Vanya's Castle
-pixel whip	PIXEL, ROW38	brown pixel (10)
-pixel bread	PIXEL, ROW1307	white pixel (5)	brown pixel (5)
-pixel whiskey	PIXEL, ROW1308	white pixel (5)	brown pixel (5)
-
-# Uses yellow pixels from Puck Man or Ms. Puck Man
-pixel coin	PIXEL, ROW726	yellow pixel (10)
-miniature power pill	PIXEL, ROW734	yellow pixel (15)
-pixel star	PIXEL, ROW728	yellow pixel (15)	black pixel (2)
-yellow pixel potion	PIXEL, ROW735	yellow pixel (10)
-pixel lemon	PIXEL, ROW732	yellow pixel (10)
-pixel banana	PIXEL, ROW729	yellow pixel (10)	black pixel
-pixel daiquiri	PIXEL, ROW733	yellow pixel (10)
-pixel beer	PIXEL, ROW730	yellow pixel (10)	white pixel (5)
-yellow submarine	PIXEL, ROW731	yellow pixel (50)	red pixel (5)	green pixel (5)	blue pixel (5)
-
-# Unlockable after defeating Crackpot Mystic's Psychoses
-pixel pill	PIXEL, ROW39	red pixel (20)	white pixel (20)
-pixel energy tank	PIXEL, ROW40	blue pixel (40)	white pixel (10)
-pixel grappling hook	PIXEL, ROW41	white pixel (50)	black pixel (50)
 
 
 # Sealhide items.  These are items which are created at Phineas
@@ -2030,17 +1966,6 @@ traffic jam toast	SUSE	traffic jam	toast
 space jam toast	SUSE	space jam	toast
 
 
-# Items created by folding sugar sheets
-
-sugar shotgun	SUGAR, ROW327	sugar sheet
-sugar shillelagh	SUGAR, ROW328	sugar sheet
-sugar shank	SUGAR, ROW329	sugar sheet
-sugar chapeau	SUGAR, ROW330	sugar sheet
-sugar shorts	SUGAR, ROW331	sugar sheet
-sugar shield	SUGAR, ROW332	sugar sheet
-sugar shirt	SUGAR, ROW333, TORSO	sugar sheet
-
-
 # Legendary Beat quest items
 squirmy violent party snack	COOK	a dance upon the palate	tiny frozen prehistoric meteorite jawbreaker
 world's most unappetizing beverage	MIX	hair of the calf	can of depilatory cream
@@ -2327,111 +2252,7 @@ Mark IV Steam-Hat	COMBINE	Mark III Steam-Hat	brass gear
 Mark V Steam-Hat	COMBINE	Mark IV Steam-Hat	brass gear
 
 # Avatar of Jarlsberg ingredients
-consummate hard-boiled egg	JARLSBOIL, ROW42	cosmic egg
-consummate bagel	JARLSBOIL, ROW45	cosmic dough
-consummate soup	JARLSBOIL, ROW51	cosmic vegetable
-consummate fried egg	JARLSFRY, ROW43	cosmic egg
-consummate bacon	JARLSFRY, ROW58	cosmic potted meat product
-consummate french fries	JARLSFRY, ROW63	cosmic potato
-consummate hot dog bun	JARLSCHOP, ROW47	cosmic dough
-consummate salad	JARLSCHOP, ROW53	cosmic vegetable
-consummate sliced bread	JARLSSLICE, ROW46	cosmic dough
-consummate corn chips	JARLSSLICE, ROW52	cosmic vegetable
-consummate cheese slice	JARLSSLICE, ROW56	cosmic cheese
-consummate strawberries	JARLSSLICE, ROW69	cosmic fruit
-consummate brownie	JARLSBAKE, ROW48	cosmic dough
-consummate melted cheese	JARLSBAKE, ROW57	cosmic cheese
-consummate meatloaf	JARLSBAKE, ROW59	cosmic potted meat product
-consummate baked potato	JARLSBAKE, ROW64	cosmic potato
-consummate toast	JARLSGRILL, ROW49	cosmic dough
-consummate steak	JARLSGRILL, ROW60	cosmic potted meat product
-consummate cold cuts	JARLSFREEZE, ROW61	cosmic potted meat product
-consummate ice cream	JARLSFREEZE, ROW66	cosmic cream
-consummate sorbet	JARLSFREEZE, ROW70	cosmic fruit
-consummate egg salad	JARLSBLEND, ROW44	cosmic egg
-consummate salsa	JARLSBLEND, ROW54	cosmic vegetable
-consummate frankfurter	JARLSBLEND, ROW62	cosmic potted meat product
-consummate whipped cream	JARLSBLEND, ROW67	cosmic cream
-passable stout	JARLSCURDLE, ROW50	cosmic dough
-consummate sauerkraut	JARLSCURDLE, ROW55	cosmic vegetable
-acceptable vodka	JARLSCURDLE, ROW65	cosmic potato
-consummate sour cream	JARLSCURDLE, ROW68	cosmic cream
-adequate rum	JARLSCURDLE, ROW71	cosmic fruit
-cosmic six-pack	JARLS, ROW112
 mediocre lager (6)	SUSE	cosmic six-pack
-
-# Avatar of Jarlsberg dishes
-immaculate grilled cheese	JARLS, ROW72	consummate toast	consummate cheese slice
-immaculate ice cream sandwich	JARLS, ROW73	consummate ice cream	consummate brownie
-immaculate hot dog	JARLS, ROW74	consummate hot dog bun	consummate frankfurter
-immaculate egg salad sandwich	JARLS, ROW75	consummate egg salad	consummate sliced bread
-perfect sandwich	JARLS, ROW76	consummate sliced bread	consummate cheese slice	consummate cold cuts
-perfect chef salad	JARLS, ROW77	consummate salad	consummate hard-boiled egg	consummate cold cuts
-perfect breakfast	JARLS, ROW78	consummate fried egg	consummate bacon	consummate toast
-sublime deluxe hot dog	JARLS, ROW79	consummate hot dog bun	consummate frankfurter	consummate sauerkraut
-sublime stew	JARLS, ROW80	consummate soup	consummate steak	consummate baked potato
-sublime nachos	JARLS, ROW81	consummate corn chips	consummate salsa	consummate melted cheese	consummate sour cream
-Ultimate Breakfast Sandwich	JARLS, ROW82	consummate fried egg	consummate bagel	consummate cheese slice	consummate bacon
-Loaded Baked Potato	JARLS, ROW83	consummate baked potato	consummate bacon	consummate melted cheese	consummate sour cream
-Omega Sundae	JARLS, ROW84	consummate ice cream	consummate whipped cream	consummate strawberries	consummate brownie
-Das Sauerlager	JARLS, ROW85	mediocre lager	consummate sauerkraut
-Bologna Lambic	JARLS, ROW86	passable stout	consummate cold cuts
-Vodka Dog	JARLS, ROW87	acceptable vodka	consummate hot dog bun
-Disappointed Russian	JARLS, ROW88	acceptable vodka	consummate sour cream
-Chunky Mary	JARLS, ROW89	acceptable vodka	consummate salsa
-Nachojito	JARLS, ROW90	adequate rum	consummate melted cheese
-Le Roi	JARLS, ROW91	adequate rum	consummate french fries
-Over Easy Rider	JARLS, ROW92	adequate rum	consummate fried egg
-
-# Avatar of Jarlsberg chefstaves
-Staff of Fruit Salad	JARLS, ROW110	cosmic fruit
-Staff of the All-Steak	JARLS, ROW109	cosmic potted meat product
-Staff of the Cream of the Cream	JARLS, ROW111	cosmic cream
-Staff of the Healthy Breakfast	JARLS, ROW104	cosmic egg
-Staff of the Hearty Dinner	JARLS, ROW108	cosmic potato
-Staff of the Light Lunch	JARLS, ROW106	cosmic vegetable
-Staff of the Staff of Life	JARLS, ROW105	cosmic dough
-Staff of the Standalone Cheese	JARLS, ROW107	cosmic cheese
-
-# Grandma's Sea Shop
-crappy Mer-kin mask	MANUAL, GRANDMA, ROW128	Mer-kin gladiator mask
-crappy Mer-kin mask	MANUAL, GRANDMA, ROW131	Mer-kin scholar mask
-crappy Mer-kin mask	GRANDMA, ROW124	aerated diving helmet	pristine fish scale (3)
-crappy Mer-kin tailpiece	GRANDMA, ROW125	sea chaps	teflon swim fins	pristine fish scale (3)
-Mer-kin gladiator mask	GRANDMA, ROW126	crappy Mer-kin mask	Mer-kin headguard
-Mer-kin gladiator tailpiece	GRANDMA, ROW127	crappy Mer-kin tailpiece	Mer-kin thighguard
-Mer-kin scholar mask	GRANDMA, ROW129	crappy Mer-kin mask	Mer-kin facecowl
-Mer-kin scholar tailpiece	GRANDMA, ROW130	crappy Mer-kin tailpiece	Mer-kin waistrope
-sushi doily	GRANDMA, ROW116	sea lace
-scimitar cozy	GRANDMA, ROW117	sea lace (3)	pristine fish scale
-fish stick cozy	GRANDMA, ROW118	sea lace (3)	pristine fish scale
-bazooka cozy	GRANDMA, ROW119	sea lace (3)	pristine fish scale
-scale-mail underwear	GRANDMA, ROW132	dull fish scale (25)	pristine fish scale
-sea mantle	GRANDMA, ROW120	pristine fish scale (5)
-sea shawl	GRANDMA, ROW121	pristine fish scale (5)
-sea cape	GRANDMA, ROW122	pristine fish scale (5)
-saltwaterbed	GRANDMA, ROW123	sea leather (15)
-
-# KOL High School Art Class
-giant eraser	ARTCLASS, ROW163	eraser nubbin (4)
-giant Faraday cage	ARTCLASS, ROW165	twisted piece of wire (8)	angry inch (2)	eraser nubbin (2)	Mountain Stream Code Black Alert (1)
-modeling claymore	ARTCLASS, ROW166	lump of clay (6)	twisted piece of wire (2)	angry inch (4)	eraser nubbin (2)	illegal firecracker (2)
-quasireligious sculpture	ARTCLASS, ROW164	lump of clay (2)	twisted piece of wire (6)	angry inch (4)	Mountain Stream Code Black Alert (1)
-sticky clay homunculus	ARTCLASS, ROW167	lump of clay (4)	twisted piece of wire (2)	angry inch (2)	Mountain Stream Code Black Alert (1)
-
-# KOL High School Chemistry Class
-dirty stinkbomb	CHEMCLASS, ROW171	chlorine crystal (2)	ph balancer (2)	nugget of sodium (4)	surgical tape (1)	illegal firecracker (1)
-grains of salt	CHEMCLASS, ROW169	chlorine crystal (2)	nugget of sodium (2)
-sodium pentasomething	CHEMCLASS, ROW168	nugget of sodium (2)	mysterious chemical residue (4)	Mountain Stream Code Black Alert (1)
-superwater	CHEMCLASS, ROW172	ph balancer (6)	mysterious chemical residue (2)	Mountain Stream Code Black Alert (1)
-yellowcake bomb	CHEMCLASS, ROW170	chlorine crystal (4)	ph balancer (4)	mysterious chemical residue (4)	surgical tape (1)	illegal firecracker (1)
-
-# KOL High School Shop Class
-deathchucks	SHOPCLASS, ROW162	jigsaw blade (4)	wood screw (2)	balsa plank (2)	scrap metal (1)
-miniature suspension bridge	SHOPCLASS, ROW158	wood screw (4)	balsa plank (4)	blob of wood glue (2)	surgical tape (1)
-Staff of the Lunch Lady	SHOPCLASS, ROW159	jigsaw blade (2)	balsa plank (6)	blob of wood glue (4)
-universal key	SHOPCLASS, ROW160	jigsaw blade (4)	wood screw (4)	blob of wood glue (8)	surgical tape (1)	scrap metal (1)
-world's most dangerous birdhouse	SHOPCLASS, ROW161	jigsaw blade (4)	wood screw (4)	balsa plank (2)	blob of wood glue (2)	illegal firecracker (2)
 
 # Beer Can
 tin cup	MUSE	fancy tin beer can (1)
@@ -2441,28 +2262,6 @@ tin tam	MUSE	fancy tin beer can (8)
 tin foil	MUSE	fancy tin beer can (11)
 tin drum	MUSE	fancy tin beer can (16)
 tin roof (rusted)	MUSE	fancy tin beer can (32)
-
-# Beer Garden
-can of Br&uuml;talbr&auml;u	BEER, ROW214	handful of barley	cluster of hops
-can of Drooling Monk	BEER, ROW215	handful of barley	cluster of hops
-can of Impetuous Scofflaw	BEER, ROW216	handful of barley	cluster of hops
-liquid bread	BEER, ROW291	handful of barley	cluster of hops
-bottle of Old Pugilist	BEER, ROW217	handful of barley	cluster of hops	fancy beer bottle	fancy beer label
-bottle of Professor Beer	BEER, ROW218	handful of barley	cluster of hops	fancy beer bottle	fancy beer label
-bottle of Rapier Witbier	BEER, ROW219	handful of barley	cluster of hops	fancy beer bottle	fancy beer label
-bottle of Fishhead 900-Day IPA	BEER, ROW816	handful of barley	cluster of hops	fancy beer bottle	fancy beer label
-artisanal homebrew gift package	BEER, ROW220	handful of barley (3)	cluster of hops (3)	fancy beer bottle (3)	fancy beer label (3)
-
-# Junk Magazine
-junk junk	JUNK, ROW184	old claw-foot bathtub	old clothesline pole	antique cigar sign
-junk food	JUNK, ROW188	jagged scrap metal	bent scrap metal	molten scrap metal
-junk yard	JUNK, ROW189	jagged scrap metal	bent scrap metal	molten scrap metal
-junk band	JUNK, ROW185	bent scrap metal	molten scrap metal (2)	tangle of copper wire	Junk-Bond
-junk trunks	JUNK, ROW186	jagged scrap metal (2)	bent scrap metal	tangle of copper wire
-junk-mail shirt	JUNK, ROW187	jagged scrap metal	bent scrap metal (2)	Junk-Bond
-arm buzzer	JUNK, ROW191	bent scrap metal (2)	tangle of copper wire	Junk-Bond	eternal car battery
-boilgun	JUNK, ROW192	molten scrap metal (2)	tangle of copper wire	Junk-Bond	eternal car battery
-swordzall	JUNK, ROW190	jagged scrap metal (2)	tangle of copper wire	Junk-Bond	eternal car battery
 
 # Smith Tome
 Every Day is Like This Sundae	COOK	handful of Smithereens	cool whip
@@ -2523,23 +2322,6 @@ warbear warscarf	MUSE	warbear accoutrements chunk (9)
 warbear fleece-lined warscarf	MUSE	warbear accoutrements chunk (21)
 warbear electric warscarf	MUSE	warbear accoutrements chunk (35)
 
-# Winter Garden
-snow cleats	WINTER, ROW227	snow berries
-liquid ice pack	WINTER, ROW228	ice harvest
-snow crab	WINTER, ROW230	snow berries (2)
-Ice Island Long Tea	WINTER, ROW231	snow berries	ice harvest (3)
-snow boards	WINTER, ROW229	snow berries (2)
-unfinished ice sculpture	WINTER, ROW232	snow berries (3)	ice harvest (3)
-snow mobile	WINTER, ROW235	snow berries (3)	ice harvest (2)
-ice bucket	WINTER, ROW236	ice harvest (3)
-snow shovel	WINTER, ROW237	snow berries (4)	ice harvest
-bod-ice	WINTER, ROW238	snow berries	ice harvest (4)
-snow belt	WINTER, ROW239	snow berries (7)	ice harvest
-ice nine	WINTER, ROW240	ice harvest (9)
-ice house	WINTER, ROW233	ice harvest (8)
-snow fort	WINTER, ROW241	snow berries (9)
-snow machine	WINTER, ROW234	snow berries (30)	ice harvest (30)
-
 # Grimstone Mask content
 
 lemon drop trousers	MUSE	lemony scales (6)
@@ -2551,15 +2333,6 @@ snakebite	MIX	cream stout	anise-flavored venom
 pecan pie	COOK	candied pecan	pie crust
 chocotini	MIX_FANCY	vodka martini	candy mountain oyster
 mulled berry wine	MIX	mulberry	boxed wine
-smudge stick	RUMPLE, ROW251	straw	leather
-portable wall	RUMPLE, ROW252	straw	clay
-jug of &quot;wine&quot;	RUMPLE, ROW255	straw	glass
-scroll case	RUMPLE, ROW254	straw	parchment
-humble pie	RUMPLE, ROW258	clay	filling
-small golem	RUMPLE, ROW259	clay	parchment
-crappy camera	RUMPLE, ROW257	leather	glass
-large tankard of ale	RUMPLE, ROW253	leather	clay
-juggling ball	RUMPLE, ROW256	leather	filling
 
 # can of V-11
 elevenderizing hammer	SMITH, MANUAL	can of V-11	tenderizing hammer
@@ -2597,7 +2370,7 @@ Pendant of Gargalesis	EJEWEL	heavy necklace chain	mangled finger
 doll-eye amulet	EJEWEL	heavy necklace chain	droopy doll eye
 picture of you	COMBINE	ancient oil painting of yourself	ornate picture frame
 
-# Twitch Events
+# Time-Twitching Tower
 government	ACOMBINE	anticheese	government cheese
 stealth bomber	MIX	government	rocket fuel
 buffed alien drugs	COMBINE	alien drugs	alien protein powder
@@ -2620,21 +2393,13 @@ sentient meat mass	WSMITH	gelatinous meat mass	simple AI
 dove DNA	COMBINE	unused soap	viral DNA
 corrupted bird DNA	COMBINE	dove DNA	99.44% pure math
 zombie dinosaur egg	WSMITH	corrupted bird DNA	sentient meat mass
+Staff of Anachronistic Churning	STAFF	wooden staff	premium turkey leg (3)	styrofoam cup of mead (3)	flash paperwad (3)	wooden juggling ball (3)
 
 # Galloping Grill
 ash soda	COOK	hot ashes	soda water
 
 # The Confiscator's Grimoire
 rubber cape	MUSE	rubber nubbin (11)
-
-# Xiblaxian 5D Printer
-Xiblaxian xeno-detection goggles	5D, ROW337	Xiblaxian polymer (4)	Xiblaxian crystal (2)
-Xiblaxian stealth cowl	5D, ROW334	Xiblaxian circuitry (4)	Xiblaxian polymer (9)	Xiblaxian alloy (5)
-Xiblaxian stealth vest	5D, ROW336	Xiblaxian circuitry (5)	Xiblaxian polymer (4)	Xiblaxian alloy (9)
-Xiblaxian stealth trousers	5D, ROW335	Xiblaxian circuitry (9)	Xiblaxian polymer (4)	Xiblaxian alloy (5)
-Xiblaxian ultraburrito	5D, ROW339	Xiblaxian circuitry	Xiblaxian polymer	Xiblaxian alloy (3)
-Xiblaxian space-whiskey	5D, ROW338	Xiblaxian circuitry (3)	Xiblaxian polymer	Xiblaxian alloy
-Xiblaxian residence-cube	5D, ROW340	Xiblaxian circuitry (11)	Xiblaxian polymer (11)	Xiblaxian alloy (11)	Xiblaxian crystal (3)
 
 # Crimbo 2014
 Crimbonium fuel rod	SMITH	cylindrical mold	nugget of Crimbonium
@@ -2807,8 +2572,8 @@ pine cone necklace	COMBINE	pine cone	iron chain
 
 # Rockin' Robin
 
-robin nog	MIX	Robin's egg	fermenting powder
-robin flan	COOK	Robin's egg	Gnollish pie tin
+robin nog	MIX	robin's egg	fermenting powder
+robin flan	COOK	robin's egg	Gnollish pie tin
 
 # LT&T Telegraph office
 
@@ -2827,15 +2592,6 @@ patent aggression tonic	COOK, PATENT	unusual oil	snake oil
 patent sallowness tonic	COOK, PATENT	eldritch oil	skin oil
 patent avarice tonic	COOK, PATENT	unusual oil	skin oil
 patent alacrity tonic	COOK, PATENT	eldritch oil	unusual oil
-
-# Elemental International Airport Duty Free Shop
-
-That 70s Cologne	DUTYFREE, ROW776	Volcoino (5)
-Puffstone cigar	DUTYFREE, ROW778	FunFunds&trade; (20)
-Wal-Mart &quot;diamond&quot; ring	DUTYFREE, ROW777	Wal-Mart gift certificate (50)
-Conspiracy&trade; mascara	DUTYFREE, ROW779	Coinspiracy (75)
-Spring Break Beach &quot;swimsuit&quot;	DUTYFREE, ROW780	Beach Buck (125)
-airplane tattoo	DUTYFREE, ROW781	Volcoino (20)	FunFunds&trade; (80)	Wal-Mart gift certificate (200)	Coinspiracy (300)	Beach Buck (500)
 
 # Source Terminal
 
@@ -2880,23 +2636,6 @@ mashed potatoes	COOK	raw potato	potato masher
 mince pie	COOK	raw mincemeat	glass pie plate
 thanksgiving turkey	COOK	raw turkey	turkey blaster
 warm gravy	COOK	raw gravy	gravy boat
-
-# Crimbo 16
-
-hambrosier	CRIMBO16, ROW911	negative lump (10)
-chakra-mental wine	CRIMBO16, ROW912	negative lump (10)
-chakra malt	CRIMBO16, ROW913	negative lump (10)
-Black Angus blackburger	CRIMBO16, ROW914	negative lump (20)	chakra sludge
-black brandy	CRIMBO16, ROW915	negative lump (20)	chakra sludge
-potion of spiritual gunkifying	CRIMBO16, ROW916	negative lump (20)	chakra sludge
-bad vibroknife	CRIMBO16, ROW917	negative lump (100)	chakra sludge (10)
-crystal belt buckle	CRIMBO16, ROW918	negative lump (100)	chakra sludge (10)
-saffron antaravasaka	CRIMBO16, ROW919	negative lump (200)	chakra sludge (20)
-saffron uttarasanga	CRIMBO16, ROW920	negative lump (200)	chakra sludge (20)
-Lump-Stacking for Beginners	CRIMBO16, ROW921	negative lump (1000)	chakra sludge (30)
-pet bad vibe	CRIMBO16, ROW922	negative lump (2000)	chakra sludge (50)
-Rethinking Candy	CRIMBO16, ROW923	negative lump (4000)	chakra sludge (75)
-eternal knot tattoo	CRIMBO16, ROW924	negative lump (8000)	chakra sludge (100)
 
 # Space Jellyfish
 
@@ -2961,10 +2700,6 @@ murderbot mask	COMBINE	murderbot component casing	murderbot component casing
 murderbot shield unit	COMBINE	murderbot power cell	murderbot power cell
 murderbot spring injector	COMBINE	murderbot component casing	murderbot monofilament
 murderbot whip	COMBINE	murderbot monofilament	murderbot monofilament
-spant backplate	SPANT, ROW942	spant chitin (4)	spant tendon (6)
-spant shield	SPANT, ROW940	spant chitin (6)	spant tendon (4)
-spant shoulderpads	SPANT, ROW941	spant chitin (3)	spant tendon (7)
-spants	SPANT, ROW939	spant chitin (7)	spant tendon (3)
 filter helmet	SPACEGATE
 exo-servo leg braces	SPACEGATE
 rad cloak	SPACEGATE
@@ -2973,19 +2708,6 @@ high-friction boots	SPACEGATE
 geological sample kit	SPACEGATE
 botanical sample kit	SPACEGATE
 zoological sample kit	SPACEGATE
-
-# XO Shop
-pair of candy glasses	XOSHOP,ROW953	O (2)
-temporary X tattoos	XOSHOP,ROW957	X (2)
-Hide-rox&trade; cookie	XOSHOP,ROW956	O (3)
-jug of booze	XOSHOP,ROW955	X (3)
-glyph of athleticism	XOSHOP,ROW958	O (5)
-pair of scissors	XOSHOP,ROW959	O (2)	X (1)
-new habit	XOSHOP,ROW960	X (31)
-bridge truss	XOSHOP,ROW961	X (23)
-pearl necklace	XOSHOP,ROW962	O (37)
-amorphous blob	XOSHOP,ROW963	X (111)	O (111)
-giant amorphous blob	XOSHOP,ROW964	giant X (11)	giant O (11)
 
 # Crimbo 2017
 half double fruitcake	COOK	fruitcake	unfinished fruitcake
@@ -3020,9 +2742,6 @@ FantasyRealm Rogue's Mask	FANTASY_REALM
 glued A-Boo clue	SUSE	A-Boo glue	A-Boo clue
 
 # Voter Registation Form
-slime fedora	SLIEMCE,ROW1025	black slime glob (1)	orange slime glob (100)	green slime glob (10)
-slime knuckles	SLIEMCE,ROW1026	black slime glob (1)	orange slime glob (50)	green slime glob (20)
-slime waders	SLIEMCE,ROW1027	black slime glob (1)	orange slime glob (10)	green slime glob (30)
 haunted orange	COOK	ghostly ectoplasm	orange
 haunted pizza	COOK	ghostly ectoplasm	plain pizza
 haunted cherry pie	COOK	ghostly ectoplasm	cherry pie
@@ -3095,17 +2814,6 @@ bottle of sea wine	SUSE	bunch of sea grapes
 stick of firewood (10)	SUSE	bundle of firewood
 
 # Crimbo 2019
-antique nutcracker hat	KRINGLE, ROW1105	waterlogged cloth (3)	waterlogged stuffing (3)
-antique nutcracker beard	KRINGLE, ROW1110	waterlogged stuffing (3)
-antique nutcracker epaulets	KRINGLE, ROW1111	waterlogged wood (3)	waterlogged metal (3)
-antique nutcracker cape	KRINGLE, ROW1106	waterlogged cloth (3)
-antique nutcracker waistcoat	KRINGLE, ROW1107	waterlogged cloth (3)	waterlogged stuffing (3)	waterlogged leather (3)
-antique nutcracker sword	KRINGLE, ROW1109	waterlogged wood (3)	waterlogged metal (3)
-antique nutcracker drumstick	KRINGLE, ROW1112	waterlogged wood (3)	waterlogged stuffing (3)	waterlogged leather (3)
-antique nutcracker pants	KRINGLE, ROW1114	waterlogged cloth (3)	waterlogged leather (3)	waterlogged metal (3)
-antique nutcracker boots	KRINGLE, ROW1108	waterlogged leather (3)	waterlogged metal (3)
-antique nutcracker figurine	KRINGLE, ROW1113	waterlogged wood (3)
-
 tempura green and red bean	TEMPURA	bubbling tempura batter	green and red bean
 salt plum sake	SCOCK	bottle of Pete's Sake	salt plum
 pressurized potion of possessiveness	DSAUCE	globe of Deep Sauce	salt plum
@@ -3263,22 +2971,6 @@ grubby woolball (3)	WOOL	grubby wool
 
 nice warm beer	MIX	ice-cold Sir Schlitz	grubby wool beerwarmer
 
-# The Shadow Forge
-shadow chef's hat	SHADOW_FORGE, ROW1309	shadow skin (3)	shadow bread (2)
-shadow trousers	SHADOW_FORGE, ROW1310	shadow skin (3)	shadow sinew (2)
-shadow hammer	SHADOW_FORGE, ROW1311	shadow brick (3)	shadow stick (3)
-shadow monocle	SHADOW_FORGE, ROW1312	shadow brick	shadow glass (3)	shadow ice (2)
-shadow candle	SHADOW_FORGE, ROW1313	shadow sausage (3)	shadow sinew (2)	shadow flame
-shadow hot dog	SHADOW_FORGE, ROW1315	shadow sausage	shadow bread	shadow venom
-shadow martini	SHADOW_FORGE, ROW1316	shadow glass	shadow ice	shadow nectar
-shadow pill	SHADOW_FORGE, ROW1317	shadow fluid	shadow flame
-shadow needle	SHADOW_FORGE, ROW1318	shadow stick (13)	shadow fluid (13)	shadow venom (13)	shadow nectar (13)
-
-# Fixodent (Craft with Teeth)
-tooth cap	FIXODENT, ROW1395	fixodent (1)	loose teeth (3)
-toothy trousers	FIXODENT, ROW1394	fixodent (1)	loose teeth (6)
-cat o' nine teeth	FIXODENT, ROW1393	fixodent (1)	loose teeth (9)
-
 # Short
 chitin powder paste	COOK	chitin powder	haemolymphnode
 
@@ -3304,19 +2996,6 @@ whalecake	COOK	military-grade peppermint oil	whalesteak
 yule grog	MIX	military-grade peppermint oil	old-school pirate grog
 red white and blue claret	MIX	Crimbuccaneer whale oil	red and white claret
 Crimbow Rainbo	MIX	yule grog	red white and blue claret
-
-# WereProfessor - Tinkering Bench
-
-biphasic molecular oculus	TINKERING_BENCH, ROW1467	smashed scientific equipment
-triphasic molecular oculus	TINKERING_BENCH, ROW1468	biphasic molecular oculus	smashed scientific equipment
-focused magnetron pistol	TINKERING_BENCH, ROW1476	smashed scientific equipment
-motion sensor	TINKERING_BENCH, ROW1475	smashed scientific equipment
-quick-release belt pouch	TINKERING_BENCH, ROW1472	smashed scientific equipment
-quick-release fannypack	TINKERING_BENCH, ROW1473	quick-release belt pouch	smashed scientific equipment
-quick-release utility belt	TINKERING_BENCH, ROW1474	quick-release fannypack	smashed scientific equipment
-high-tension exoskeleton	TINKERING_BENCH, ROW1469	smashed scientific equipment
-ultra-high-tension exoskeleton	TINKERING_BENCH, ROW1470	high-tension exoskeleton	smashed scientific equipment
-irresponsible-tension exoskeleton	TINKERING_BENCH, ROW1471	ultra-high-tension exoskeleton	smashed scientific equipment
 
 # Yams
 
@@ -3393,3 +3072,34 @@ gnomish coal miner's lung	GNOME_PART
 gnomish tennis elbow	GNOME_PART
 gnomish housemaid's kgnee	GNOME_PART
 gnomish athlete's foot	GNOME_PART
+
+# Mobius ring
+toast with mixed berry jelly	COOK	mixed berry jelly	toast
+
+# legendary pasta wand
+Frutti di Scatoletta	COOK	legendary noodles	can of tuna
+Pesto alla Marziano	COOK	legendary noodles	alien salad
+Arrattabbattabiata	COOK	legendary noodles	ratbatatouille
+Orzo di Riso	COOK	legendary noodles	spicy onigiri
+Pasta Grimavera	COOK	legendary noodles	haunted crudit&eacute;s
+Linguini Ubriacapa	COOK	legendary noodles	sauced mutton
+Formica e Pepe	COOK	legendary noodles	hot honey ant
+Tubetto Gelatto	COOK	legendary noodles	tomb aspic
+Gnocci Domani	COOK	legendary noodles	later tots
+
+# Portable Laughing Stock
+antique watermelon pie	COOK	antique watermelon	pie crust
+quince pie	COOK	quince	pie crust
+classic banana pie	COOK	classic banana	pie crust
+Melonegroni	MIX	antique watermelon	bottle of gin
+Quiskey Sour	MIX	quince	bottle of whiskey
+Aesop Daiquiri	MIX	classic banana	bottle of vodka
+Melonade Spritz	SCOCK	antique watermelon	boxed champagne
+Quincea&ntilde;era Cooler	SCOCK	quince	bottle of Jorge Sinsonte
+Monkey Congress	SCOCK	classic banana	bottle of Lieutenant Freeman
+concentrated watermelon juice	SAUCE	antique watermelon	scrumptious reagent
+quince quaff	SAUCE	quince	scrumptious reagent
+essential banana decoction	SAUCE	classic banana	scrumptious reagent
+Aqua Citrulanatae	SSAUCE	antique watermelon	scrumdiddlyumptious solution
+Quickquince	SSAUCE	quince	scrumdiddlyumptious solution
+banana quintessence	SSAUCE	classic banana	scrumdiddlyumptious solution

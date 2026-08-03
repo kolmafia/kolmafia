@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia;
 
+import static internal.helpers.Player.withAdventuresLeft;
+import static internal.helpers.Player.withInteractivity;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withItemInCloset;
 import static internal.helpers.Player.withItemInStorage;
@@ -33,6 +35,15 @@ public class ExpressionTest {
     assertEquals(Double.parseDouble(expected), exp.eval());
   }
 
+  @Test
+  public void canParseSmallNumericLiterals() {
+    for (int i = -32768; i < 32768; ++i) {
+      String s = String.valueOf(i);
+      var exp = new Expression(s, s);
+      assertEquals(i, exp.eval());
+    }
+  }
+
   @ParameterizedTest
   @ValueSource(strings = {"1/0", "-4^0.5", "999^999", "sqrt(-1)"})
   public void invalidArithmeticReturnsZero(String invalidExpr) {
@@ -44,6 +55,15 @@ public class ExpressionTest {
   public void invalidExpressionReturnsZero() {
     var exp = new Expression("@", "Invalid bytecode");
     assertEquals(0.0, exp.eval());
+  }
+
+  @Test
+  public void canReadAdventuresLeftBytecode() {
+    var cleanups = withAdventuresLeft(69);
+    try (cleanups) {
+      var exp = new Expression("advsleft", "Adventures left");
+      assertThat(exp.eval(), is(69.0));
+    }
   }
 
   @ParameterizedTest
@@ -66,10 +86,14 @@ public class ExpressionTest {
     "'lte(5,5)', 1",
     "'lte(5,4)', 0",
     "sqrt(25), 5",
+    "'eq(4,4)', 1",
+    "'eq(4,5)', 0",
+    "'neq(4,4)', 0",
+    "'neq(4,5)', 1",
   })
-  public void canDoSupportedMathFunctions(String input, String expected) {
+  public void canDoSupportedMathFunctions(String input, Double expected) {
     var exp = new Expression(input, input);
-    assertEquals(Double.parseDouble(expected), exp.eval());
+    assertEquals(expected, exp.eval());
   }
 
   @Nested
@@ -136,6 +160,46 @@ public class ExpressionTest {
     try (cleanups) {
       var exp = new Expression("haveitem(2528)", "have filet of tangy gnat");
       assertThat(exp.eval(), is(2.0));
+    }
+  }
+
+  @ParameterizedTest
+  @CsvSource({"true,7", "false,3"})
+  void interactExpressions(boolean canInteract, double expectedOutput) {
+    var cleanups = new Cleanups(withInteractivity(canInteract));
+
+    try (cleanups) {
+      var exp = new ModifierExpression("interact()*7+(1-interact())*3", "Test expression");
+      assertThat(exp.eval(), equalTo(expectedOutput));
+    }
+  }
+
+  @Nested
+  class Overrides {
+    @Test
+    void overridePref() {
+      var cleanups = new Cleanups(withProperty("test", "abc"), withProperty("testOverride", "xyz"));
+
+      try (cleanups) {
+        ExpressionOverrides overrides = new ExpressionOverrides();
+
+        overrides.setPref("testOverride", "overridden");
+        var exp = new Expression("pref(test,abc)", "pref test");
+        assertThat(exp.eval(), is(1.0));
+        assertThat(exp.eval(overrides), is(1.0));
+
+        exp = new Expression("pref(testOverride,xyz)", "pref testOverride");
+        assertThat(exp.eval(), is(1.0));
+        assertThat(exp.eval(overrides), is(0.0));
+
+        exp = new Expression("pref(testOverride,overridden)", "pref testOverride");
+        assertThat(exp.eval(), is(0.0));
+        assertThat(exp.eval(overrides), is(1.0));
+
+        overrides.setPref("testOverride", null);
+        exp = new Expression("pref(testOverride,xyz)", "pref testOverride");
+        assertThat(exp.eval(overrides), is(1.0));
+      }
     }
   }
 }

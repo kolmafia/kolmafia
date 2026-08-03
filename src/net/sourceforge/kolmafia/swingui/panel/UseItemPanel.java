@@ -28,8 +28,8 @@ public class UseItemPanel extends InventoryPanel<AdventureResult> {
       return;
     }
 
-    for (int i = 0; i < items.length; ++i) {
-      RequestThread.postRequest(UseItemRequest.getInstance(items[i]));
+    for (AdventureResult item : items) {
+      RequestThread.postRequest(UseItemRequest.getInstance(item));
     }
   }
 
@@ -41,7 +41,7 @@ public class UseItemPanel extends InventoryPanel<AdventureResult> {
       name = value.getName();
       if (name != null) {
         RelayLoader.openSystemBrowser(
-            "http://kol.coldfront.net/thekolwiki/index.php/Special:Search?search=" + name);
+            "https://wiki.kingdomofloathing.com/Special:Search?search=" + name);
       }
     }
   }
@@ -67,20 +67,19 @@ public class UseItemPanel extends InventoryPanel<AdventureResult> {
                 USE_MULTIPLE,
                 AVATAR_POTION,
                 FAMILIAR_HATCHLING,
-                ZAP -> UsableItemFilterField.this.other;
-            case FAMILIAR_EQUIPMENT,
-                ACCESSORY,
-                HAT,
-                PANTS,
-                CONTAINER,
-                SHIRT,
-                WEAPON,
-                OFFHAND -> UsableItemFilterField.this.equip;
-            default -> UsableItemFilterField.this.other
-                && ItemDatabase.getAttribute(
-                    itemId,
-                    EnumSet.of(
-                        Attribute.USABLE, Attribute.MULTIPLE, Attribute.REUSABLE, Attribute.CURSE));
+                ZAP ->
+                UsableItemFilterField.this.other;
+            case FAMILIAR_EQUIPMENT, ACCESSORY, HAT, PANTS, CONTAINER, SHIRT, WEAPON, OFFHAND ->
+                UsableItemFilterField.this.equip;
+            default ->
+                UsableItemFilterField.this.other
+                    && ItemDatabase.getAttribute(
+                        itemId,
+                        EnumSet.of(
+                            Attribute.USABLE,
+                            Attribute.MULTIPLE,
+                            Attribute.REUSABLE,
+                            Attribute.CURSE));
           };
 
       return filter && super.isVisible(element);

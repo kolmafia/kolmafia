@@ -48,7 +48,7 @@ public class BuyCommand extends AbstractCommand {
       return;
     }
 
-    String[] itemNames = parameters.split("\\s*,\\s*");
+    String[] itemNames = StringUtilities.splitByComma(parameters);
 
     for (String itemName : itemNames) {
       if (itemName.startsWith("0 ")) {

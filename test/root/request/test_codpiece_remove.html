@@ -1,0 +1,195 @@
+
+<html><head>
+  <script language=Javascript>
+    <!--
+    if (parent.frames.length == -1) location.href="game.php";
+    //-->
+  </script>
+  <script language=Javascript src="/images/scripts/jquery-1.5.1.js"></script>
+  <script language=Javascript src="/images/scripts/keybinds.min.2.js"></script>
+  <script language=Javascript src="/images/scripts/window.20111231.js"></script>
+  <script language="javascript">function chatFocus(){if(top.chatpane.document.chatform.graf) top.chatpane.document.chatform.graf.focus();}
+  if (typeof defaultBind != 'undefined') { defaultBind(47, 2, chatFocus); defaultBind(190, 2, chatFocus);defaultBind(191, 2, chatFocus); defaultBind(47, 8, chatFocus);defaultBind(190, 8, chatFocus); defaultBind(191, 8, chatFocus); }</script><script>
+  function switchFocus()
+  {
+    if (top.chatpane.document.chatform.graf.focus)
+      top.chatpane.document.chatform.graf.focus();
+    return false;
+  }
+  function repeat()
+  {
+    var linx = document.getElementsByTagName("A");
+    for (var i = 0; i < linx.length; i++)
+    {
+      if (typeof timersfunc != 'undefined') {
+        if (!timersfunc()) {
+          return;
+        }
+        timersfunc = null;
+      }
+      var link = linx[i];
+      if (link.innerHTML.match(/Adventure Again/) || link.innerHTML.match(/Do it again/) || (link.getAttribute && link.getAttribute('id')=='againlink'))
+        location.href = link.href;
+    }
+  }
+
+  defaultBind(47, CTRL, switchFocus);
+  defaultBind(191, CTRL, switchFocus);
+  defaultBind(47, META, switchFocus);
+  defaultBind(191, META, switchFocus);
+  defaultBind(192, NONE, repeat);
+  defaultBind(220, NONE, repeat);
+</script><script language="javascript">
+  function updateParseItem(iid, field, info) {
+    var tbl = $('#ic'+iid);
+    var data = parseItem(tbl);
+    if (!data) return;
+    data[field] = info;
+    var out = [];
+    for (i in data) {
+      if (!data.hasOwnProperty(i)) continue;
+      out.push(i+'='+data[i]);
+    }
+    tbl.attr('rel', out.join('&'));
+  }
+  function parseItem(tbl) {
+    tbl = $(tbl);
+    var rel = tbl.attr('rel');
+    var data = {};
+    if (!rel) return data;
+    var parts = rel.split('&');
+    for (i in parts) {
+      if (!parts.hasOwnProperty(i)) continue;
+      var kv = parts[i].split('=');
+      tbl.data(kv[0], kv[1]);
+      data[kv[0]] = kv[1];
+    }
+    return data;
+  }
+</script><script type="text/javascript" src="/images/scripts/pop_query.20230713.js"></script>
+  <script type="text/javascript" src="/images/scripts/ircm.20230626.js"></script>
+  <script type="text/javascript">
+    var tp = top;
+    function pop_ircm_contents(i, some) {
+      var contents = '',
+        shown = 0,
+        da = '&nbsp;<a href="#" rel="?" class="small dojaxy">[some]</a>&nbsp;<a href="#" rel="',
+        db = '" class="small dojaxy">[all]</a>',
+        dc = '<div style="width:100%; padding-bottom: 3px;" rel="',
+        dd = '<a href="#" rel="1" class="small dojaxy">[';
+      one = 'one'; ss=some;
+      if (i.d==1 && i.s>0) { shown++;
+        contents += dc + 'sellstuff.php?action=sell&ajax=1&type=quant&whichitem%5B%5D=IID&howmany=NUM&pwd=25c18413535360885d9b06ed647aaecf" id="pircm_'+i.id+'"><b>Auto-Sell ('+i.s+' meat):</b> '+dd+one+']</a>';
+        if (ss) { contents += da + i.n + db;}
+        contents += '</div>';
+      }
+      one = 'one'; ss=some;
+      if (i.q==0) { shown++;
+        contents += dc + 'inventory.php?action=closetpush&ajax=1&whichitem=IID&qty=NUM&pwd=25c18413535360885d9b06ed647aaecf" id="pircm_'+i.id+'"><b>Closet:</b> '+dd+one+']</a>';
+        if (ss) { contents += da + i.n + db;}
+        contents += '</div>';
+      }
+      one = 'one'; ss=some;
+      if (i.q==0 && i.g==0 && i.t==1) { shown++;
+        contents += dc + 'managestore.php?action=additem&qty1=NUM&item1=IID&price1=&limit1=&ajax=1&pwd=25c18413535360885d9b06ed647aaecf" id="pircm_'+i.id+'"><b>Stock in Mall:</b> '+dd+one+']</a>';
+        if (ss) { contents += da + i.n + db;}
+        contents += '</div>';
+      }
+      one = 'one'; ss=some;
+      if (i.q==0) { shown++;
+        contents += dc + 'managecollection.php?action=put&ajax=1&whichitem1=IID&howmany1=NUM&pwd=25c18413535360885d9b06ed647aaecf" id="pircm_'+i.id+'"><b>Add to Display Case:</b> '+dd+one+']</a>';
+        if (ss) { contents += da + i.n + db;}
+        contents += '</div>';
+      }
+      one = 'one'; ss=some;
+      if (i.q==0 && i.t==1) { shown++;
+        contents += dc + 'clan_stash.php?action=addgoodies&ajax=1&item1=IID&qty1=NUM&pwd=25c18413535360885d9b06ed647aaecf" id="pircm_'+i.id+'"><b>Contribute to Clan:</b> '+dd+one+']</a>';
+        if (ss) { contents += da + i.n + db;}
+        contents += '</div>';
+      }
+      one = 'one'; ss=some;
+      if (i.q==0 && i.p==0 && i.u=="q" && i.d==1 && i.t==1) { shown++;
+        contents += dc + 'craft.php?action=pulverize&ajax=1&smashitem=IID&qty=NUM&pwd=25c18413535360885d9b06ed647aaecf" id="pircm_'+i.id+'"><b>Pulverize:</b> '+dd+one+']</a>';
+        if (ss) { contents += da + i.n + db;}
+        contents += '</div>';
+      }
+
+      return [contents, shown];
+    }
+    tp=top
+    var todo = [];
+    function nextAction() {
+      var next_todo = todo.shift();
+      if (next_todo) {
+        eval(next_todo);
+      }
+    }
+    function dojax(dourl, afterFunc, hoverCaller, failureFunc, method, params) {
+      $.ajax({
+        type: method || 'GET', url: dourl, cache: false,
+        data: params || null,
+        global: false,
+        success: function (out) {
+          nextAction();
+          if (out.match(/no\|/)) {
+            var parts = out.split(/\|/);
+            if (failureFunc) failureFunc(parts[1]);
+            else if (window.dojaxFailure) window.dojaxFailure(parts[1]);
+            else if (tp.chatpane.handleMessage) tp.chatpane.handleMessage({type: 'event', msg: 'Oops!  Sorry, Dave, you appear to be ' + parts[1]});
+            else  $('#ChatWindow').append('<font color="green">Oops!  Sorry, Dave, you appear to be ' + parts[1] + '.</font><br />' + "\n");
+            return;
+          }
+
+          if (hoverCaller)  {
+            float_results(hoverCaller, out);
+            if (afterFunc) { afterFunc(out); }
+            return;
+          }
+          $(tp.mainpane.document).find("#effdiv").remove(); if(!window.dontscroll || (window.dontscroll && dontscroll==0)) { window.scroll(0,0);}
+          var $eff = $(tp.mainpane.document).find('#effdiv');
+          if ($eff.length == 0) {
+            var d = tp.mainpane.document.createElement('DIV');
+            d.id = 'effdiv';
+            var b = tp.mainpane.document.body;
+            if ($('#content_').length > 0) {
+              b = $('#content_ div:first')[0];
+            }
+            b.insertBefore(d, b.firstChild);
+            $eff = $(d);
+          }
+          $eff.find('a[name="effdivtop"]').remove().end()
+            .prepend('<a name="effdivtop"></a><center>' + out + '</center>').css('display','block');
+          if (!window.dontscroll || (window.dontscroll && dontscroll==0)) {
+            tp.mainpane.document.location = tp.mainpane.document.location + "#effdivtop";
+          }
+          if (afterFunc) { afterFunc(out); }
+        }
+      });
+    }
+  </script><script>
+
+  var currentkey = 49;
+  $(document).ready(function () {
+    $('form').each(function () {
+      var form = this;
+      defaultBind(currentkey++, NONE, function () { form.submit(); });
+      return currentkey < 58;
+    });
+  });
+
+</script>	<link rel="stylesheet" type="text/css" href="/images/styles.20230117d.css">
+  <style type='text/css'>
+    .faded {
+      zoom: 1;
+      filter: alpha(opacity=35);
+      opacity: 0.35;
+      -khtml-opacity: 0.35;
+      -moz-opacity: 0.35;
+    }
+  </style>
+
+  <script src="/stationarybuttons.2.js"></script><link rel="stylesheet" type="text/css" href="/stationarybuttons.2.css"><script language="Javascript" src="/basics.js"></script><link rel="stylesheet" href="/basics.1.css" /></head>
+
+<body><div id="page"><div id="mafiabuttons"><center><table width="95%"><tr><td align=left><div id="btnwrap"><input type="button" onClick="document.location.href='choice.php?action=auto';void(0);" value="auto">&nbsp;<input type="button" onClick="document.location.href='choice.php?whichchoice=1588&option=1&pwd=25c18413535360885d9b06ed647aaecf';void(0);" value="(secret choice)">&nbsp;</div></td></tr></table></center></div><div class='content' id='content_'><div id='effdiv' style='display: none;'></div><div>
+  <Center><div id="results"><!--faaaaaaart--><table  width=95%  cellspacing=0 cellpadding=0><tr><td style="background-color: blue" align=center ><b style="color: white">Results:</b></td></tr><tr><td style="padding: 5px; border: 1px solid blue;"><center><table><tr><td><span class='guts'>You pry the gem out of your codpiece.<center><table class="item" style="float: none" rel="id=11905&s=0&q=0&d=0&g=0&t=0&n=1&m=0&p=1&ac=1&u=a&ou=foresee+peril"><tr><td><img src="/images/itemimages/peridot.gif" alt="Peridot of Peril" title="Peridot of Peril" class=hand onClick='descitem(519151496)' ></td><td valign=center class=effect>You acquire an item: <b>Peridot of Peril</b> <font size=1>[<a href="javascript:singleUse('inv_equip.php','which=2&action=equip&slot=1&whichitem=11905&pwd=25c18413535360885d9b06ed647aaecf&ajax=1');void(0);"><span style='position: relative;' onMouseOver="document.getElementById('whatif44').style.visibility='visible';" onMouseOut="document.getElementById('whatif44').style.visibility='hidden';"><table border=2 id='whatif44' style='background-color: white; visibility: hidden; position: absolute; z-index: 1; right: 0px; top: 1.2em;'><tr><td>Item Drop</td><td>145.00 (+15.00)</td></tr><tr><td>Mysticality</td><td>15.00 (-10.00)</td></tr><tr><td>Maximum HP</td><td>69.00 (+30.00)</td></tr><tr><td>Maximum MP</td><td>49.00 (+30.00)</td></tr><tr><td>Hot Damage</td><td>140.00 (-10.00)</td></tr><tr><td>Hot Spell Damage</td><td>71.00 (-10.00)</td></tr><tr><td>HP Regen Min</td><td>17.00 (+12.00)</td></tr><tr><td>HP Regen Max</td><td>25.00 (+15.00)</td></tr><tr><td>MP Regen Min</td><td>45.00 (+12.00)</td></tr><tr><td>MP Regen Max</td><td>79.00 (+15.00)</td></tr><tr><td>Buffed Mysticality</td><td>230.00 (-10.00)</td></tr><tr><td>Buffed HP Maximum</td><td>209.00 (+30.00)</td></tr><tr><td>Buffed MP Maximum</td><td>624.00 (+5.00)</td></tr></table>acc1</span></a>]</font>&nbsp;<font size=1>[<a href="javascript:singleUse('inv_equip.php','which=2&action=equip&slot=2&whichitem=11905&pwd=25c18413535360885d9b06ed647aaecf&ajax=1');void(0);"><span style='position: relative;' onMouseOver="document.getElementById('whatif45').style.visibility='visible';" onMouseOut="document.getElementById('whatif45').style.visibility='hidden';"><table border=2 id='whatif45' style='background-color: white; visibility: hidden; position: absolute; z-index: 1; right: 0px; top: 1.2em;'><tr><td>Item Drop</td><td>145.00 (+15.00)</td></tr><tr><td>Maximum HP</td><td>69.00 (+30.00)</td></tr><tr><td>Maximum MP</td><td>49.00 (+30.00)</td></tr><tr><td>Cold Damage</td><td>10.00 (-15.00)</td></tr><tr><td>Hot Damage</td><td>135.00 (-15.00)</td></tr><tr><td>Sleaze Damage</td><td>10.00 (-15.00)</td></tr><tr><td>Spooky Damage</td><td>10.00 (-15.00)</td></tr><tr><td>Stench Damage</td><td>10.00 (-15.00)</td></tr><tr><td>HP Regen Min</td><td>17.00 (+12.00)</td></tr><tr><td>HP Regen Max</td><td>25.00 (+15.00)</td></tr><tr><td>MP Regen Min</td><td>25.00 (-8.00)</td></tr><tr><td>MP Regen Max</td><td>49.00 (-15.00)</td></tr><tr><td>Prismatic Damage</td><td>10.00 (-15.00)</td></tr><tr><td>Buffed HP Maximum</td><td>209.00 (+30.00)</td></tr><tr><td>Buffed MP Maximum</td><td>649.00 (+30.00)</td></tr></table>acc2</span></a>]</font>&nbsp;<font size=1>[<a href="javascript:singleUse('inv_equip.php','which=2&action=equip&slot=3&whichitem=11905&pwd=25c18413535360885d9b06ed647aaecf&ajax=1');void(0);"><span style='position: relative;' onMouseOver="document.getElementById('whatif46').style.visibility='visible';" onMouseOut="document.getElementById('whatif46').style.visibility='hidden';"><table border=2 id='whatif46' style='background-color: white; visibility: hidden; position: absolute; z-index: 1; right: 0px; top: 1.2em;'><tr><td>Item Drop</td><td>145.00 (+15.00)</td></tr><tr><td>Maximum HP</td><td>69.00 (+30.00)</td></tr><tr><td>Maximum MP</td><td>49.00 (+30.00)</td></tr><tr><td>Cold Damage</td><td>15.00 (-10.00)</td></tr><tr><td>Hot Damage</td><td>140.00 (-10.00)</td></tr><tr><td>Sleaze Damage</td><td>15.00 (-10.00)</td></tr><tr><td>Spooky Damage</td><td>15.00 (-10.00)</td></tr><tr><td>Stench Damage</td><td>15.00 (-10.00)</td></tr><tr><td>HP Regen Min</td><td>17.00 (+12.00)</td></tr><tr><td>HP Regen Max</td><td>25.00 (+15.00)</td></tr><tr><td>MP Regen Min</td><td>35.00 (+2.00)</td></tr><tr><td>MP Regen Max</td><td>49.00 (-15.00)</td></tr><tr><td>Slime Hates It</td><td>0.00 (-1.00)</td></tr><tr><td>Prismatic Damage</td><td>15.00 (-10.00)</td></tr><tr><td>Buffed HP Maximum</td><td>209.00 (+30.00)</td></tr><tr><td>Buffed MP Maximum</td><td>649.00 (+30.00)</td></tr></table>acc3</span></a>]</font></td></tr></table></center></span></td></tr></table></center></td></tr><tr><td height=4></td></tr></table></div><table  width=95%  cellspacing=0 cellpadding=0><tr><td style="background-color: blue" align=center ><b style="color: white">Decorate Your Eternity Codpiece</b></td></tr><tr><td style="padding: 5px; border: 1px solid blue;"><center><table><tr><td><center><div style="position: relative; width: 359px; height: 180px; margin-top: 100px; margin-bottom: 100px;"><div style="position: absolute; left: -142px; top: 35px; height: 150px; width: 200px; display: flex; flex-direction: row-reverse; gap: 30px"><div style="height:  30px; width: 30px;"><img src="/images/itemimages/blank.gif" title="Empty slot #1" alt="Empty slot #1" style="height: 30px; width: 30px;"/></div><div><form method="post" action="choice.php" style="display: inline" ><input type="hidden" name="whichchoice" value="1588" /><input type="hidden" name="pwd" value="25c18413535360885d9b06ed647aaecf" /><input type="hidden" name="option" value="1" /><input type="hidden" name="which" value="1" /><select name="iid" style="width: 180px; display: block; "><option  value="11133">angry agate (185) - +1 PvP Fight(s) per day</option><option  value="10963">autumn years wisdom (1) - +1 Mysticality Stats Per Fight</option><option  value="11274">Azurite (113) - +10 <font color=blueviolet>Sleaze Damage</font></option><option  value="705">baconstone (167) - Mysticality +11%</option><option  value="4104">black catseye marble (1) - +10% Combat Initiative</option><option  value="11987">blood cubic zirconia (1) - Serious Spooky Resistance (+3), +5 <font color=gray>Spooky Damage</font></option><option  value="9625">crystalline cheer (728) - +5 <font color=blueviolet>Sleaze Damage</font>, +5 Damage to <font color=blueviolet>Sleaze Spells</font></option><option  value="2775">effluvious emerald (5) - So-So Stench  Resistance (+2)</option><option  value="11273">Eye Agate (118) - +25% Damage vs. Zombies</option><option  value="6321">giant pearl (1) - +1 Pool Skill</option><option  value="2773">glacial sapphire (7) - So-So Cold Resistance (+2)</option><option  value="704">hamethyst (24) - Muscle +11%</option><option  value="4504">heart of the volcano (1) - +5 <font color=red>Hot Damage</font>, +5 Damage to <font color=red>Hot Spells</font></option><option  value="11272">Lapis Lazuli (116) - +10 <font color=green>Stench Damage</font></option><option  value="3200">lump of diamond (69) - Damage Reduction: 5</option><option  value="5134">lunar isotope (4525) - +10% Pickpocket Chance</option><option  value="3702">marine aquamarine (4) - +5 Fishing Skill</option><option  value="5995">massive gemstone (1) - +10% Item Drops from Monsters</option><option  value="8425">New Age healing crystal (852) - Regenerate 10-20 HP per Adventure</option><option  value="8489">New Age hurting crystal (316) - Familiar Damage +10</option><option  value="11905">Peridot of Peril (1) - Maximum HP +20, Maximum MP +20</option><option  value="706">porquoise (10) - Moxie +11%</option><option  value="7221">priceless diamond (5) - Damage Absorption +10</option><option  value="9746">rhinestone (10081) - +1 Moxie Stats Per Fight</option><option  value="9838">Rubee&trade; (198) - +10 <font color=red>Hot Damage</font></option><option  value="11141">shadow glass (20) - +10 <font color=gray>Spooky Damage</font></option><option  value="5048">shard of double-ice (1330) - +10 <font color=blue>Cold Damage</font></option><option  value="2772">steamy ruby (10) - So-So Hot Resistance (+2)</option><option  value="144">stone of eXtreme power (46) - Muscle +3, Mysticality +3, Moxie +3</option><option  value="2776">tawdry amethyst (10) - So-So Sleaze Resistance (+2)</option><option  value="2604">Tuesday's ruby (4) - +5 to Monster Level</option><option  value="2774">unearthly onyx (10) - So-So Spooky Resistance (+2)</option></select><input type="submit" style="margin-top: 6px" value="Mount" class="button"/></form></div></div><div style="position: absolute; left: 19px; top:-62px; height: 150px; width: 200px; display: flex; flex-direction: column-reverse; gap: 55px;"><div style="height:  30px; width: 30px;align-self: center"><img src="/images/itemimages/blank.gif" title="Empty slot #2" alt="Empty slot #2" style="height: 30px; width: 30px;"/></div><div><form method="post" action="choice.php" style="display: inline" ><input type="hidden" name="whichchoice" value="1588" /><input type="hidden" name="pwd" value="25c18413535360885d9b06ed647aaecf" /><input type="hidden" name="option" value="1" /><input type="hidden" name="which" value="2" /><select name="iid" style="width: 180px; display: block; margin-left: -75px;"><option  value="11133">angry agate (185) - +1 PvP Fight(s) per day</option><option  value="10963">autumn years wisdom (1) - +1 Mysticality Stats Per Fight</option><option  value="11274">Azurite (113) - +10 <font color=blueviolet>Sleaze Damage</font></option><option  value="705">baconstone (167) - Mysticality +11%</option><option  value="4104">black catseye marble (1) - +10% Combat Initiative</option><option  value="11987">blood cubic zirconia (1) - Serious Spooky Resistance (+3), +5 <font color=gray>Spooky Damage</font></option><option  value="9625">crystalline cheer (728) - +5 <font color=blueviolet>Sleaze Damage</font>, +5 Damage to <font color=blueviolet>Sleaze Spells</font></option><option  value="2775">effluvious emerald (5) - So-So Stench  Resistance (+2)</option><option  value="11273">Eye Agate (118) - +25% Damage vs. Zombies</option><option  value="6321">giant pearl (1) - +1 Pool Skill</option><option  value="2773">glacial sapphire (7) - So-So Cold Resistance (+2)</option><option  value="704">hamethyst (24) - Muscle +11%</option><option  value="4504">heart of the volcano (1) - +5 <font color=red>Hot Damage</font>, +5 Damage to <font color=red>Hot Spells</font></option><option  value="11272">Lapis Lazuli (116) - +10 <font color=green>Stench Damage</font></option><option  value="3200">lump of diamond (69) - Damage Reduction: 5</option><option  value="5134">lunar isotope (4525) - +10% Pickpocket Chance</option><option  value="3702">marine aquamarine (4) - +5 Fishing Skill</option><option  value="5995">massive gemstone (1) - +10% Item Drops from Monsters</option><option  value="8425">New Age healing crystal (852) - Regenerate 10-20 HP per Adventure</option><option  value="8489">New Age hurting crystal (316) - Familiar Damage +10</option><option  value="11905">Peridot of Peril (1) - Maximum HP +20, Maximum MP +20</option><option  value="706">porquoise (10) - Moxie +11%</option><option  value="7221">priceless diamond (5) - Damage Absorption +10</option><option  value="9746">rhinestone (10081) - +1 Moxie Stats Per Fight</option><option  value="9838">Rubee&trade; (198) - +10 <font color=red>Hot Damage</font></option><option  value="11141">shadow glass (20) - +10 <font color=gray>Spooky Damage</font></option><option  value="5048">shard of double-ice (1330) - +10 <font color=blue>Cold Damage</font></option><option  value="2772">steamy ruby (10) - So-So Hot Resistance (+2)</option><option  value="144">stone of eXtreme power (46) - Muscle +3, Mysticality +3, Moxie +3</option><option  value="2776">tawdry amethyst (10) - So-So Sleaze Resistance (+2)</option><option  value="2604">Tuesday's ruby (4) - +5 to Monster Level</option><option  value="2774">unearthly onyx (10) - So-So Spooky Resistance (+2)</option></select><input type="submit" style="margin-top: 6px" value="Mount" class="button"/></form></div></div><div style="position: absolute; left: 78px; top: 112px; height: 150px; width: 200px;display: flex; flex-direction: column; gap: 40px"><div style="height:  30px; width: 30px;align-self: center"><img src="/images/itemimages/blank.gif" title="Empty slot #3" alt="Empty slot #3" style="height: 30px; width: 30px;"/></div><div><form method="post" action="choice.php" style="display: inline" ><input type="hidden" name="whichchoice" value="1588" /><input type="hidden" name="pwd" value="25c18413535360885d9b06ed647aaecf" /><input type="hidden" name="option" value="1" /><input type="hidden" name="which" value="3" /><select name="iid" style="width: 180px; display: block; "><option  value="11133">angry agate (185) - +1 PvP Fight(s) per day</option><option  value="10963">autumn years wisdom (1) - +1 Mysticality Stats Per Fight</option><option  value="11274">Azurite (113) - +10 <font color=blueviolet>Sleaze Damage</font></option><option  value="705">baconstone (167) - Mysticality +11%</option><option  value="4104">black catseye marble (1) - +10% Combat Initiative</option><option  value="11987">blood cubic zirconia (1) - Serious Spooky Resistance (+3), +5 <font color=gray>Spooky Damage</font></option><option  value="9625">crystalline cheer (728) - +5 <font color=blueviolet>Sleaze Damage</font>, +5 Damage to <font color=blueviolet>Sleaze Spells</font></option><option  value="2775">effluvious emerald (5) - So-So Stench  Resistance (+2)</option><option  value="11273">Eye Agate (118) - +25% Damage vs. Zombies</option><option  value="6321">giant pearl (1) - +1 Pool Skill</option><option  value="2773">glacial sapphire (7) - So-So Cold Resistance (+2)</option><option  value="704">hamethyst (24) - Muscle +11%</option><option  value="4504">heart of the volcano (1) - +5 <font color=red>Hot Damage</font>, +5 Damage to <font color=red>Hot Spells</font></option><option  value="11272">Lapis Lazuli (116) - +10 <font color=green>Stench Damage</font></option><option  value="3200">lump of diamond (69) - Damage Reduction: 5</option><option  value="5134">lunar isotope (4525) - +10% Pickpocket Chance</option><option  value="3702">marine aquamarine (4) - +5 Fishing Skill</option><option  value="5995">massive gemstone (1) - +10% Item Drops from Monsters</option><option  value="8425">New Age healing crystal (852) - Regenerate 10-20 HP per Adventure</option><option  value="8489">New Age hurting crystal (316) - Familiar Damage +10</option><option  value="11905">Peridot of Peril (1) - Maximum HP +20, Maximum MP +20</option><option  value="706">porquoise (10) - Moxie +11%</option><option  value="7221">priceless diamond (5) - Damage Absorption +10</option><option  value="9746">rhinestone (10081) - +1 Moxie Stats Per Fight</option><option  value="9838">Rubee&trade; (198) - +10 <font color=red>Hot Damage</font></option><option  value="11141">shadow glass (20) - +10 <font color=gray>Spooky Damage</font></option><option  value="5048">shard of double-ice (1330) - +10 <font color=blue>Cold Damage</font></option><option  value="2772">steamy ruby (10) - So-So Hot Resistance (+2)</option><option  value="144">stone of eXtreme power (46) - Muscle +3, Mysticality +3, Moxie +3</option><option  value="2776">tawdry amethyst (10) - So-So Sleaze Resistance (+2)</option><option  value="2604">Tuesday's ruby (4) - +5 to Monster Level</option><option  value="2774">unearthly onyx (10) - So-So Spooky Resistance (+2)</option></select><input type="submit" style="margin-top: 6px" value="Mount" class="button"/></form></div></div><div style="position: absolute; left: 140px; top: -62px; height: 150px; width: 200px;display: flex; flex-direction: column-reverse; gap: 55px "><div style="height:  30px; width: 30px;align-self: center"><img src="/images/itemimages/blank.gif" title="Empty slot #4" alt="Empty slot #4" style="height: 30px; width: 30px;"/></div><div><form method="post" action="choice.php" style="display: inline" ><input type="hidden" name="whichchoice" value="1588" /><input type="hidden" name="pwd" value="25c18413535360885d9b06ed647aaecf" /><input type="hidden" name="option" value="1" /><input type="hidden" name="which" value="4" /><select name="iid" style="width: 180px; display: block; margin-left: 50px;"><option  value="11133">angry agate (185) - +1 PvP Fight(s) per day</option><option  value="10963">autumn years wisdom (1) - +1 Mysticality Stats Per Fight</option><option  value="11274">Azurite (113) - +10 <font color=blueviolet>Sleaze Damage</font></option><option  value="705">baconstone (167) - Mysticality +11%</option><option  value="4104">black catseye marble (1) - +10% Combat Initiative</option><option  value="11987">blood cubic zirconia (1) - Serious Spooky Resistance (+3), +5 <font color=gray>Spooky Damage</font></option><option  value="9625">crystalline cheer (728) - +5 <font color=blueviolet>Sleaze Damage</font>, +5 Damage to <font color=blueviolet>Sleaze Spells</font></option><option  value="2775">effluvious emerald (5) - So-So Stench  Resistance (+2)</option><option  value="11273">Eye Agate (118) - +25% Damage vs. Zombies</option><option  value="6321">giant pearl (1) - +1 Pool Skill</option><option  value="2773">glacial sapphire (7) - So-So Cold Resistance (+2)</option><option  value="704">hamethyst (24) - Muscle +11%</option><option  value="4504">heart of the volcano (1) - +5 <font color=red>Hot Damage</font>, +5 Damage to <font color=red>Hot Spells</font></option><option  value="11272">Lapis Lazuli (116) - +10 <font color=green>Stench Damage</font></option><option  value="3200">lump of diamond (69) - Damage Reduction: 5</option><option  value="5134">lunar isotope (4525) - +10% Pickpocket Chance</option><option  value="3702">marine aquamarine (4) - +5 Fishing Skill</option><option  value="5995">massive gemstone (1) - +10% Item Drops from Monsters</option><option  value="8425">New Age healing crystal (852) - Regenerate 10-20 HP per Adventure</option><option  value="8489">New Age hurting crystal (316) - Familiar Damage +10</option><option  value="11905">Peridot of Peril (1) - Maximum HP +20, Maximum MP +20</option><option  value="706">porquoise (10) - Moxie +11%</option><option  value="7221">priceless diamond (5) - Damage Absorption +10</option><option  value="9746">rhinestone (10081) - +1 Moxie Stats Per Fight</option><option  value="9838">Rubee&trade; (198) - +10 <font color=red>Hot Damage</font></option><option  value="11141">shadow glass (20) - +10 <font color=gray>Spooky Damage</font></option><option  value="5048">shard of double-ice (1330) - +10 <font color=blue>Cold Damage</font></option><option  value="2772">steamy ruby (10) - So-So Hot Resistance (+2)</option><option  value="144">stone of eXtreme power (46) - Muscle +3, Mysticality +3, Moxie +3</option><option  value="2776">tawdry amethyst (10) - So-So Sleaze Resistance (+2)</option><option  value="2604">Tuesday's ruby (4) - +5 to Monster Level</option><option  value="2774">unearthly onyx (10) - So-So Spooky Resistance (+2)</option></select><input type="submit" style="margin-top: 6px" value="Mount" class="button"/></form></div></div><div style="position: absolute; left: 300px; top: 35px; height: 150px; width: 200px;display: flex; flex-direction: row; gap: 30px;"><div style="height:  30px; width: 30px;"><img src="/images/itemimages/blank.gif" title="Empty slot #5" alt="Empty slot #5" style="height: 30px; width: 30px;"/></div><div><form method="post" action="choice.php" style="display: inline" ><input type="hidden" name="whichchoice" value="1588" /><input type="hidden" name="pwd" value="25c18413535360885d9b06ed647aaecf" /><input type="hidden" name="option" value="1" /><input type="hidden" name="which" value="5" /><select name="iid" style="width: 180px; display: block; "><option  value="11133">angry agate (185) - +1 PvP Fight(s) per day</option><option  value="10963">autumn years wisdom (1) - +1 Mysticality Stats Per Fight</option><option  value="11274">Azurite (113) - +10 <font color=blueviolet>Sleaze Damage</font></option><option  value="705">baconstone (167) - Mysticality +11%</option><option  value="4104">black catseye marble (1) - +10% Combat Initiative</option><option  value="11987">blood cubic zirconia (1) - Serious Spooky Resistance (+3), +5 <font color=gray>Spooky Damage</font></option><option  value="9625">crystalline cheer (728) - +5 <font color=blueviolet>Sleaze Damage</font>, +5 Damage to <font color=blueviolet>Sleaze Spells</font></option><option  value="2775">effluvious emerald (5) - So-So Stench  Resistance (+2)</option><option  value="11273">Eye Agate (118) - +25% Damage vs. Zombies</option><option  value="6321">giant pearl (1) - +1 Pool Skill</option><option  value="2773">glacial sapphire (7) - So-So Cold Resistance (+2)</option><option  value="704">hamethyst (24) - Muscle +11%</option><option  value="4504">heart of the volcano (1) - +5 <font color=red>Hot Damage</font>, +5 Damage to <font color=red>Hot Spells</font></option><option  value="11272">Lapis Lazuli (116) - +10 <font color=green>Stench Damage</font></option><option  value="3200">lump of diamond (69) - Damage Reduction: 5</option><option  value="5134">lunar isotope (4525) - +10% Pickpocket Chance</option><option  value="3702">marine aquamarine (4) - +5 Fishing Skill</option><option  value="5995">massive gemstone (1) - +10% Item Drops from Monsters</option><option  value="8425">New Age healing crystal (852) - Regenerate 10-20 HP per Adventure</option><option  value="8489">New Age hurting crystal (316) - Familiar Damage +10</option><option  value="11905">Peridot of Peril (1) - Maximum HP +20, Maximum MP +20</option><option  value="706">porquoise (10) - Moxie +11%</option><option  value="7221">priceless diamond (5) - Damage Absorption +10</option><option  value="9746">rhinestone (10081) - +1 Moxie Stats Per Fight</option><option  value="9838">Rubee&trade; (198) - +10 <font color=red>Hot Damage</font></option><option  value="11141">shadow glass (20) - +10 <font color=gray>Spooky Damage</font></option><option  value="5048">shard of double-ice (1330) - +10 <font color=blue>Cold Damage</font></option><option  value="2772">steamy ruby (10) - So-So Hot Resistance (+2)</option><option  value="144">stone of eXtreme power (46) - Muscle +3, Mysticality +3, Moxie +3</option><option  value="2776">tawdry amethyst (10) - So-So Sleaze Resistance (+2)</option><option  value="2604">Tuesday's ruby (4) - +5 to Monster Level</option><option  value="2774">unearthly onyx (10) - So-So Spooky Resistance (+2)</option></select><input type="submit" style="margin-top: 6px" value="Mount" class="button"/></form></div></div><img src="/images/otherimages/codblops.png" style="position: absolute; top: 0; left: 0; pointer-events: none" /></div><p><a href="/inventory.php">Back to Inventory</a></center></td></tr></table></center></td></tr><tr><td height=4></td></tr></table><!--faaaaaaart--><script>top.charpane.location.href="charpane.php";</script>
+</div></div></div></body><script src="/ircm_extend.4.js"></script><script src="/onfocus.1.js"></script></html>

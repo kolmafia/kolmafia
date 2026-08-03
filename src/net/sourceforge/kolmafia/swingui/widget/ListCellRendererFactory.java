@@ -19,6 +19,7 @@ import net.sourceforge.kolmafia.KoLGUIConstants;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
@@ -385,25 +386,27 @@ public class ListCellRendererFactory {
       switch (item.getItemId()) {
         case ItemPool.MUNCHIES_PILL -> stringForm.append("+1-3 adv from next food");
         case ItemPool.WHETSTONE -> stringForm.append("+1 adv from next food");
-        case ItemPool.SUSHI_DOILY -> stringForm.append(
-            "+3 adv from next sushi (automatically used from inventory)");
-        case ItemPool.GRAINS_OF_SALT -> stringForm.append(
-            "+3 adv from next food (automatically used from inventory)");
-        case ItemPool.SCRATCHS_FORK -> stringForm.append(
-            "+30% adv/mus/mys/mox from next food, +50% from salad");
+        case ItemPool.SUSHI_DOILY ->
+            stringForm.append("+3 adv from next sushi (automatically used from inventory)");
+        case ItemPool.GRAINS_OF_SALT ->
+            stringForm.append("+3 adv from next food (automatically used from inventory)");
+        case ItemPool.SCRATCHS_FORK ->
+            stringForm.append("+30% adv/mus/mys/mox from next food, +50% from salad");
         case ItemPool.DIVINE_FLUTE -> stringForm.append("+(7*adv)+(0-15) MP from next drink");
-        case ItemPool.FROSTYS_MUG -> stringForm.append(
-            "+30% adv/mus/mys/mox from next drink, +50% from beer");
+        case ItemPool.FROSTYS_MUG ->
+            stringForm.append("+30% adv/mus/mys/mox from next drink, +50% from beer");
         case ItemPool.CRIMBCO_MUG -> stringForm.append("does something to next drink");
         case ItemPool.BGE_SHOTGLASS -> stringForm.append("+3 adv from next drink");
         case ItemPool.FUDGE_SPORK -> stringForm.append("+3 adv from next food, 10 sugar rush");
-        case ItemPool.JAR_OF_SWAMP_HONEY -> stringForm.append(
-            "+10-15 mus/mys/mox from next food (automatically used from inventory)");
+        case ItemPool.JAR_OF_SWAMP_HONEY ->
+            stringForm.append(
+                "+10-15 mus/mys/mox from next food (automatically used from inventory)");
         case ItemPool.MAYONEX -> stringForm.append("adv from next food converted to BMC");
         case ItemPool.MAYODIOL -> stringForm.append("1 full from next food converted to drunk");
         case ItemPool.MAYOSTAT -> stringForm.append("return some of next food");
         case ItemPool.MAYOZAPINE -> stringForm.append("x2 stat gain from next food");
         case ItemPool.MAYOFLEX -> stringForm.append("+1 adv from next food");
+        case ItemPool.ASTRAL_ENERGY_DRINK -> stringForm.append("Lucky!");
         default -> {
           Integer fullness = ConsumablesDatabase.getRawFullness(name);
           Integer inebriety = ConsumablesDatabase.getRawInebriety(name);
@@ -795,7 +798,10 @@ public class ListCellRendererFactory {
       } else if (ar.equals(EquipmentRequest.UNEQUIP)) {
         stringForm = ar.getName();
       } else {
-        if (equipmentType == ConsumptionType.ACCESSORY) {
+        // Show "(X max)" for accessories, but not for codpiece slots
+        // since single-equip constraints don't apply there
+        if (equipmentType == ConsumptionType.ACCESSORY
+            && !SlotSet.CODPIECE_SLOTS.contains(this.slot)) {
           int count;
           Modifiers mods = ModifierDatabase.getItemModifiers(ar.getItemId());
           if (mods != null && mods.getBoolean(BooleanModifier.SINGLE)) {

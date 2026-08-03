@@ -44,9 +44,7 @@ public class RefreshStatusCommand extends AbstractCommand {
       InventoryManager.refresh();
       return;
     } else if (parameters.startsWith("camp")) {
-      if (!KoLCharacter.getLimitMode().limitCampground()
-          && !KoLCharacter.isEd()
-          && !KoLCharacter.inNuclearAutumn()) {
+      if (CampgroundRequest.haveCampground() || KoLCharacter.inSmallcore()) {
         RequestThread.postRequest(new CampgroundRequest());
       }
       return;

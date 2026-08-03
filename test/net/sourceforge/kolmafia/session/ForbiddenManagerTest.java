@@ -57,7 +57,7 @@ public class ForbiddenManagerTest {
       assertEquals(0, forbidden.size());
       assertFalse(MallPurchaseRequest.isForbidden(123));
       MallPurchaseRequest.addForbiddenStore(123);
-      assertEquals(Preferences.getString("forbiddenStores"), "123");
+      assertEquals("123", Preferences.getString("forbiddenStores"));
       forbidden = MallPurchaseRequest.getForbiddenStores();
       assertEquals(1, forbidden.size());
       assertTrue(MallPurchaseRequest.isForbidden(123));
@@ -72,7 +72,7 @@ public class ForbiddenManagerTest {
       assertEquals(1, forbidden.size());
       assertTrue(MallPurchaseRequest.isForbidden(123));
       MallPurchaseRequest.removeForbiddenStore(123);
-      assertEquals(Preferences.getString("forbiddenStores"), "");
+      assertEquals("", Preferences.getString("forbiddenStores"));
       forbidden = MallPurchaseRequest.getForbiddenStores();
       assertEquals(0, forbidden.size());
       assertFalse(MallPurchaseRequest.isForbidden(123));
@@ -87,12 +87,12 @@ public class ForbiddenManagerTest {
       assertEquals(0, forbidden.size());
       assertFalse(MallPurchaseRequest.isForbidden(123));
       MallPurchaseRequest.toggleForbiddenStore(123);
-      assertEquals(Preferences.getString("forbiddenStores"), "123");
+      assertEquals("123", Preferences.getString("forbiddenStores"));
       forbidden = MallPurchaseRequest.getForbiddenStores();
       assertEquals(1, forbidden.size());
       assertTrue(MallPurchaseRequest.isForbidden(123));
       MallPurchaseRequest.toggleForbiddenStore(123);
-      assertEquals(Preferences.getString("forbiddenStores"), "");
+      assertEquals("", Preferences.getString("forbiddenStores"));
       forbidden = MallPurchaseRequest.getForbiddenStores();
       assertEquals(0, forbidden.size());
       assertFalse(MallPurchaseRequest.isForbidden(123));

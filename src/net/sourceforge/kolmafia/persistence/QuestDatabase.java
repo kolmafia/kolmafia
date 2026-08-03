@@ -229,10 +229,10 @@ public class QuestDatabase {
       // deal with.
       return "questG02Whitecastle";
     }
-    for (int i = 0; i < questLogData.length; ++i) {
+    for (String[] questLogDatum : questLogData) {
       // The title may contain other text, so check if quest title is contained in it
-      if (title.toLowerCase().contains(questLogData[i][1].toLowerCase())) {
-        return questLogData[i][0];
+      if (title.toLowerCase().contains(questLogDatum[1].toLowerCase())) {
+        return questLogDatum[0];
       }
     }
 
@@ -254,9 +254,9 @@ public class QuestDatabase {
   }
 
   public static String prefToTitle(final String pref) {
-    for (int i = 0; i < questLogData.length; ++i) {
-      if (questLogData[i][0].toLowerCase().contains(pref.toLowerCase())) {
-        return questLogData[i][1];
+    for (String[] questLogDatum : questLogData) {
+      if (questLogDatum[0].toLowerCase().contains(pref.toLowerCase())) {
+        return questLogDatum[1];
       }
     }
 
@@ -492,7 +492,7 @@ public class QuestDatabase {
     } else if (details.contains("go to Oil Peak and investigate")) {
       Preferences.setFloat("oilPeakProgress", 310.66f);
     } else if (oil.find()) {
-      Preferences.setFloat("oilPeakProgress", Float.valueOf(oil.group(1)));
+      Preferences.setFloat("oilPeakProgress", Float.parseFloat(oil.group(1)));
     }
 
     if (Preferences.getBoolean("booPeakLit")
@@ -953,13 +953,13 @@ public class QuestDatabase {
   }
 
   public static void resetQuests() {
-    for (int i = 0; i < questLogData.length; ++i) {
+    for (String[] questLogDatum : questLogData) {
       // Don't reset Spring Beach Break quests
       // Don't reset Conspiracy Island quests if finished
-      if (!questLogData[i][0].startsWith("questESl")
-          && !(questLogData[i][0].startsWith("questESp")
-              && QuestDatabase.isQuestFinished(questLogData[i][0]))) {
-        QuestDatabase.setQuestProgress(questLogData[i][0], QuestDatabase.UNSTARTED);
+      if (!questLogDatum[0].startsWith("questESl")
+          && !(questLogDatum[0].startsWith("questESp")
+              && QuestDatabase.isQuestFinished(questLogDatum[0]))) {
+        QuestDatabase.setQuestProgress(questLogDatum[0], QuestDatabase.UNSTARTED);
       }
     }
     Preferences.resetToDefault(
@@ -1059,20 +1059,20 @@ public class QuestDatabase {
     for (String responseToken : responseTokens) {
       cleanedResponseToken =
           QuestDatabase.HTML_WHITESPACE.matcher(responseToken).replaceAll("").toLowerCase();
-      for (int i = 0; i < councilData.length; ++i) {
-        for (int j = 2; j < councilData[i].length; ++j) {
+      for (String[] councilDatum : councilData) {
+        for (int j = 2; j < councilDatum.length; ++j) {
           // Now, we have to split the councilData entry by <p> tags too.
           // Assume that no two paragraphs are identical, otherwise more loop termination logic is
           // needed.
 
-          String[] councilTokens = councilData[i][j].split("<[pP]>");
+          String[] councilTokens = councilDatum[j].split("<[pP]>");
 
           for (String councilToken : councilTokens) {
             cleanedQuestToken =
                 QuestDatabase.HTML_WHITESPACE.matcher(councilToken).replaceAll("").toLowerCase();
 
             if (cleanedResponseToken.contains(cleanedQuestToken)) {
-              setQuestIfBetter(councilData[i][0], councilData[i][1]);
+              setQuestIfBetter(councilDatum[0], councilDatum[1]);
               break;
             }
           }

@@ -135,7 +135,7 @@ public class SpaaaceRequest extends GenericRequest {
   private static final Pattern PEG_PATTERN = Pattern.compile("title=\"peg style ([123])\"");
 
   public static final String parseGameBoard(final String responseText) {
-    StringBuffer buffer = new StringBuffer();
+    StringBuilder buffer = new StringBuilder();
     Matcher matcher = PEG_PATTERN.matcher(responseText);
     while (matcher.find()) {
       buffer.append(matcher.group(1));
@@ -149,7 +149,7 @@ public class SpaaaceRequest extends GenericRequest {
       Pattern.compile("<div class=\"blank\">x(\\d)</div>");
 
   public static final String parseGamePayouts(final String responseText) {
-    StringBuffer buffer = new StringBuffer();
+    StringBuilder buffer = new StringBuilder();
     Matcher matcher = PAYOUT_PATTERN.matcher(responseText);
     while (matcher.find()) {
       buffer.append(matcher.group(1));
@@ -239,7 +239,7 @@ public class SpaaaceRequest extends GenericRequest {
       }
     }
 
-    StringBuffer buffer = new StringBuffer();
+    StringBuilder buffer = new StringBuilder();
     buffer.append("<div class=\"blank\" title=\"");
     if (min == max) {
       buffer.append(min);
@@ -257,8 +257,8 @@ public class SpaaaceRequest extends GenericRequest {
       case RIGHT -> buffer.append("&#8600;");
       case RANDOM -> buffer.append(".");
       default ->
-      // Should not come here
-      buffer.append(" ");
+          // Should not come here
+          buffer.append(" ");
     }
     buffer.append("</div>");
     return buffer.toString();
@@ -468,7 +468,7 @@ public class SpaaaceRequest extends GenericRequest {
     }
 
     // Save the expected value for each slot in the top row
-    StringBuffer buffer = new StringBuffer();
+    StringBuilder buffer = new StringBuilder();
     for (int col = 0; col < 17; col += 2) {
       int minVal = min[col];
       int maxVal = max[col];
@@ -489,7 +489,7 @@ public class SpaaaceRequest extends GenericRequest {
 
     // You hand Juliedriel your isotope. She takes it with
     // a pair of tongs, and hands you three Porko chips
-    if (responseText.indexOf("You hand Juliedriel your isotope") != -1) {
+    if (responseText.contains("You hand Juliedriel your isotope")) {
       ResultProcessor.processItem(ItemPool.LUNAR_ISOTOPE, -1);
     }
 
@@ -560,7 +560,7 @@ public class SpaaaceRequest extends GenericRequest {
       Pattern.compile("<div.*?class=\"(.*?)\".*?</div>", Pattern.DOTALL);
 
   private static String decoratePorkoBoard(final String board) {
-    StringBuffer buffer = new StringBuffer();
+    StringBuilder buffer = new StringBuilder();
 
     // Calculate the best expected yield
     float best = 0.0f;
@@ -643,7 +643,7 @@ public class SpaaaceRequest extends GenericRequest {
       return false;
     }
 
-    if (urlString.indexOf("place=shop") != -1) {
+    if (urlString.contains("place=shop")) {
       // Let appropriate Coin Master claim this
       return false;
     }
@@ -652,11 +652,11 @@ public class SpaaaceRequest extends GenericRequest {
     String message = null;
 
     if (action == null) {
-      if (urlString.indexOf("place=porko") != -1) {
+      if (urlString.contains("place=porko")) {
         message = "Visiting The Porko Palace";
-      } else if (urlString.indexOf("place=grimace") != -1) {
+      } else if (urlString.contains("place=grimace")) {
         return true;
-      } else if (urlString.indexOf("arrive=1") != -1) {
+      } else if (urlString.contains("arrive=1")) {
         return true;
       }
     } else if (action.equals("playporko")) {

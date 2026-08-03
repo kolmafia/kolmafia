@@ -14,10 +14,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
-import net.sourceforge.kolmafia.request.concoction.shop.FiveDPrinterRequest;
-import net.sourceforge.kolmafia.request.concoction.shop.JunkMagazineRequest;
 import net.sourceforge.kolmafia.request.concoction.shop.StillRequest;
-import net.sourceforge.kolmafia.request.concoction.shop.SugarSheetRequest;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.shop.ShopDatabase.SHOP;
 import net.sourceforge.kolmafia.shop.ShopRowDatabase.ShopRowData;
@@ -198,26 +195,9 @@ public class ShopRequest extends GenericRequest {
     // Certain shops want to handle Preferences and Quests.  Give them a
     // chance to do so and finish removing ingredients when they return.
     switch (shopId) {
-      case "starchart" -> {
-        quantity = 1;
-        break;
-      }
-      case "junkmagazine" -> {
-        JunkMagazineRequest.parseResponse(urlString, responseText);
-        break;
-      }
       case "still" -> {
         StillRequest.parseResponse(urlString, responseText);
         break;
-      }
-      case "5dprinter" -> {
-        FiveDPrinterRequest.parseResponse(urlString, responseText);
-        break;
-      }
-      case "sugarsheets" -> {
-        // Sugar Sheet folding always removes exactly one.
-        SugarSheetRequest.parseResponse(urlString, responseText);
-        return;
       }
     }
 
@@ -323,7 +303,7 @@ public class ShopRequest extends GenericRequest {
       }
 
       // Shops can sell skills. Assume all such are new-style coinmasters
-      if (item.isSkill()) {
+      if (item != null && item.isSkill()) {
         newCoinmasterRows.add(shopRow);
         continue;
       }

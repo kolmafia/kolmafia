@@ -41,6 +41,14 @@ public enum Slot {
   BOOTSKIN("bootskin"),
   BOOTSPUR("bootspur"),
 
+  CODPIECE1("codpiece1"),
+  CODPIECE2("codpiece2"),
+  CODPIECE3("codpiece3"),
+  CODPIECE4("codpiece4"),
+  CODPIECE5("codpiece5"),
+
+  // ALL_SLOTS ends
+
   FAKEHAND("fakehand"),
   HATS("hats"); // Hat slot in Hat Trick
 

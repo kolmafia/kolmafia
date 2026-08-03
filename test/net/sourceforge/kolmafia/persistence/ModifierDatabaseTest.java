@@ -1,25 +1,22 @@
 package net.sourceforge.kolmafia.persistence;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.stream.Collectors;
-import net.java.dev.spellcast.utilities.DataUtilities;
-import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.modifiers.BitmapModifier;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.Lookup;
-import net.sourceforge.kolmafia.modifiers.MultiStringModifier;
-import org.junit.jupiter.api.Disabled;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -69,46 +66,43 @@ public class ModifierDatabaseTest {
   }
 
   @Test
-  @Disabled("modifiers.txt would need to be modified")
   public void writeModifiersSubsetOfModifiersTxt() throws IOException {
     ByteArrayOutputStream ostream = new ByteArrayOutputStream();
     PrintStream writer = new PrintStream(ostream);
 
     ModifierDatabase.writeModifiers(writer);
     writer.close();
-    List<String> writeModifiersLines = ostream.toString().lines().collect(Collectors.toList());
+    List<String> writeModifiersLines = ostream.toString().lines().toList();
 
-    BufferedReader reader =
-        DataUtilities.getReader(KoLConstants.DATA_DIRECTORY, "modifiers.txt", true);
-
-    String line;
-    Iterator<String> writeModifiersIterator = writeModifiersLines.iterator();
-    String writeModifiersLine = writeModifiersIterator.next();
-    while ((line = reader.readLine()) != null) {
-      if (writeModifiersLine.startsWith("# ")
-          ? line.startsWith(writeModifiersLine)
-          : line.equals(writeModifiersLine)) {
-        writeModifiersLine =
-            writeModifiersIterator.hasNext() ? writeModifiersIterator.next() : null;
-      }
-    }
-
-    StringBuilder message = new StringBuilder();
-    if (writeModifiersLine != null) {
-      int index = writeModifiersLines.indexOf(writeModifiersLine);
-      for (int i = Math.min(3, index); i >= 0; i--) {
-        message.append("previous line: [" + writeModifiersLines.get(index - i) + "]\n");
-      }
-    }
-    message.append("unmatched line: [" + writeModifiersLine + "]");
-    assertThat(message.toString(), writeModifiersIterator.hasNext(), is(false));
+    assertThat(
+        writeModifiersLines,
+        hasItem(equalTo("Item\tAxis helmet\tMuscle Percent: +5, Weapon Damage Percent: +10")));
+    assertThat(
+        writeModifiersLines,
+        hasItem(equalTo("Item\tAxis fatigues\tMoxie Percent: +5, Ranged Damage Percent: +10")));
+    assertThat(writeModifiersLines, hasItem(equalTo("Item\tchamoisole\tSlime Resistance: +3")));
+    assertThat(writeModifiersLines, hasItem(equalTo("Familiar\tDire Cassava\tThorns: 1")));
+    assertThat(writeModifiersLines, hasItem(equalTo("Effect\t20/20 Vision\tItem Drop: +10")));
+    assertThat(writeModifiersLines, hasItem(equalTo("Skill\t20/20 Vision\tItem Drop: +10")));
+    assertThat(writeModifiersLines, hasItem(equalTo("Outfit\tWax Wardrobe\tMoxie: +7")));
+    assertThat(
+        writeModifiersLines,
+        hasItem(
+            equalTo(
+                "Sign\tVole\tExperience Percent (Moxie): +10, Initiative: +20, Maximum HP: +20, Maximum MP: +20")));
   }
 
   @Test
   void canParseMultiStringModifier() {
     String enchantment = "Rollover Effect: \"Sleepy\", Rollover Effect: \"Light!\"";
     var mods = ModifierDatabase.parseModifiers(new Lookup(ModifierType.ITEM, "1"), enchantment);
-    assertThat(
-        mods.getStrings(MultiStringModifier.ROLLOVER_EFFECT), is(List.of("Sleepy", "Light!")));
+    assertThat(mods.getStrings(StringModifier.ROLLOVER_EFFECT), is(List.of("Sleepy", "Light!")));
+  }
+
+  @Test
+  void canParseMultiDoubleModifier() {
+    String enchantment = "Effect Duration: 5, Effect Duration: 10";
+    var mods = ModifierDatabase.parseModifiers(new Lookup(ModifierType.ITEM, "1"), enchantment);
+    assertThat(mods.getDoubles(DoubleModifier.EFFECT_DURATION), is(List.of(5.0, 10.0)));
   }
 }

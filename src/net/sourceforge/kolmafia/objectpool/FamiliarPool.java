@@ -16,9 +16,11 @@ public class FamiliarPool {
   public static final int STARFISH = 17;
   public static final int SOMBRERO = 18;
   public static final int KILLER_BEE = 20;
+  public static final int COFFEE_PIXIE = 22;
   public static final int JILL_O_LANTERN = 24;
   public static final int HAND_TURKEY = 25;
   public static final int CRIMBO_ELF = 26;
+  public static final int HANUKKIMBO_DREIDL = 27;
   public static final int EMO_SQUID = 30;
   public static final int CLOCKWORK_GRAPEFRUIT = 32;
   public static final int MAGIMECHTECH_MICROMECHAMECH = 33;
@@ -30,6 +32,7 @@ public class FamiliarPool {
   public static final int SWEET_NUTCRACKER = 44;
   public static final int PET_ROCK = 45;
   public static final int NINJA_PIRATE_ZOMBIE_ROBOT = 48;
+  public static final int SLEAZY_GRAVY_FAIRY = 49;
   public static final int HARE = 50;
   public static final int WIND_UP_CHATTERING_TEETH = 51;
   public static final int HOBO = 52;
@@ -75,6 +78,7 @@ public class FamiliarPool {
   public static final int STOCKING_MIMIC = 120;
   public static final int JACK_IN_THE_BOX = 122;
   public static final int BUGBEAR = 124;
+  public static final int PLASTIC_GROCERY_BAG = 133;
   public static final int TRON = 135;
   public static final int HIPSTER = 136;
   public static final int GRINDER = 139;
@@ -124,6 +128,7 @@ public class FamiliarPool {
   public static final int ROBORTENDER = 211;
   public static final int XO_SKELETON = 213;
   public static final int GARBAGE_FIRE = 214;
+  public static final int SLOTTER = 257;
   public static final int UNSPEAKACHU = 260;
   public static final int STOOPER = 261;
   public static final int DISGEIST = 262;
@@ -155,6 +160,8 @@ public class FamiliarPool {
   public static final int PHANTOM_LIMB = 315;
   public static final int DIRE_CASSAVA = 317;
   public static final int OBSERVER = 318;
+  public static final int SKELETON_OF_CRIMBO_PAST = 326;
+  public static final int SWORD_OF_SWORDS = 330;
 
   private FamiliarPool() {}
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
+import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.modifiers.ModifierList;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -24,21 +25,23 @@ public class StillSuitManager {
       return;
     }
 
-    var familiar =
-        KoLCharacter.ownedFamiliars().stream()
-            .filter(f -> f.getItem() != null && f.getItem().getItemId() == ItemPool.STILLSUIT)
-            .findFirst()
-            .orElse(null);
-
     int drams = 0;
-    if (familiar == KoLCharacter.getFamiliar()) {
+    if (hasStillSuit(KoLCharacter.getFamiliar())) {
       drams = 3;
-    } else if (familiar != null) {
+    } else if (KoLCharacter.ownedFamiliars().stream().anyMatch(StillSuitManager::hasStillSuit)) {
       drams = 1;
     }
 
     Preferences.increment("familiarSweat", drams);
     ConsumablesDatabase.setDistillateData();
+  }
+
+  private static boolean hasStillSuit(FamiliarData familiar) {
+    if (familiar == null || familiar.getItem() == null) {
+      return false;
+    }
+
+    return familiar.getItem().getItemId() == ItemPool.STILLSUIT;
   }
 
   private static final Pattern DRAMS =

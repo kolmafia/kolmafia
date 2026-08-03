@@ -204,16 +204,16 @@ public abstract class RumpleManager {
     Preferences.setString("grimstoneMaskPath", "gnome");
     switch (ChoiceManager.lastChoice) {
       case 848 ->
-      // Where the Magic Happens
-      updateMaterials(text);
+          // Where the Magic Happens
+          updateMaterials(text);
       case 849 -> {
         // The Practice
         updateMaterials(text);
         updateMastery(text, 0);
       }
       case 850 ->
-      // World of Bartercraft
-      updateMaterials(text);
+          // World of Bartercraft
+          updateMaterials(text);
     }
   }
 
@@ -589,8 +589,8 @@ public abstract class RumpleManager {
       case 5 -> RumpleManager.sin = RumpleManager.LUSTFULNESS;
       case 6 -> RumpleManager.sin = RumpleManager.VIOLENCE;
       default ->
-      // There should be no other choice options
-      RumpleManager.sin = RumpleManager.NONE;
+          // There should be no other choice options
+          RumpleManager.sin = RumpleManager.NONE;
     }
   }
 

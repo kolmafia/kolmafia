@@ -30,28 +30,8 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.PulverizeRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
-import net.sourceforge.kolmafia.request.concoction.shop.AirportRequest;
-import net.sourceforge.kolmafia.request.concoction.shop.BeerGardenRequest;
 import net.sourceforge.kolmafia.request.concoction.shop.Crimbo12Request;
-import net.sourceforge.kolmafia.request.concoction.shop.Crimbo16Request;
-import net.sourceforge.kolmafia.request.concoction.shop.FiveDPrinterRequest;
-import net.sourceforge.kolmafia.request.concoction.shop.FixodentRequest;
-import net.sourceforge.kolmafia.request.concoction.shop.GrandmaRequest;
-import net.sourceforge.kolmafia.request.concoction.shop.JarlsbergRequest;
-import net.sourceforge.kolmafia.request.concoction.shop.JunkMagazineRequest;
-import net.sourceforge.kolmafia.request.concoction.shop.KOLHSRequest;
-import net.sourceforge.kolmafia.request.concoction.shop.KringleRequest;
-import net.sourceforge.kolmafia.request.concoction.shop.PixelRequest;
-import net.sourceforge.kolmafia.request.concoction.shop.RumpleRequest;
-import net.sourceforge.kolmafia.request.concoction.shop.ShadowForgeRequest;
-import net.sourceforge.kolmafia.request.concoction.shop.SliemceRequest;
-import net.sourceforge.kolmafia.request.concoction.shop.SpantRequest;
-import net.sourceforge.kolmafia.request.concoction.shop.StarChartRequest;
 import net.sourceforge.kolmafia.request.concoction.shop.StillRequest;
-import net.sourceforge.kolmafia.request.concoction.shop.SugarSheetRequest;
-import net.sourceforge.kolmafia.request.concoction.shop.TinkeringBenchRequest;
-import net.sourceforge.kolmafia.request.concoction.shop.WinterGardenRequest;
-import net.sourceforge.kolmafia.request.concoction.shop.XOShopRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.MallPriceManager;
@@ -232,9 +212,6 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
     return switch (conc.getMixingMethod()) {
       case NOCREATE -> null;
       case STILL -> new StillRequest(conc);
-      case STARCHART -> new StarChartRequest(conc);
-      case SUGAR_FOLDING -> new SugarSheetRequest(conc);
-      case PIXEL -> new PixelRequest(conc);
       case GNOME_TINKER -> new GnomeTinkerRequest(conc);
       case STAFF -> new ChefStaffRequest(conc);
       case SUSHI -> new SushiRequest(conc);
@@ -245,27 +222,13 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
       case CRIMBO06 -> new Crimbo06Request(conc);
       case CRIMBO07 -> new Crimbo07Request(conc);
       case CRIMBO12 -> new Crimbo12Request(conc);
-      case CRIMBO16 -> new Crimbo16Request(conc);
       case PHINEAS -> new PhineasRequest(conc);
       case CLIPART -> new ClipArtRequest(conc);
-      case JARLS -> new JarlsbergRequest(conc);
-      case GRANDMA -> new GrandmaRequest(conc);
-      case KRINGLE -> new KringleRequest(conc);
-      case CHEMCLASS, ARTCLASS, SHOPCLASS -> new KOLHSRequest(conc);
-      case BEER -> new BeerGardenRequest(conc);
-      case JUNK -> new JunkMagazineRequest(conc);
-      case WINTER -> new WinterGardenRequest(conc);
-      case RUMPLE -> new RumpleRequest(conc);
-      case FIVE_D -> new FiveDPrinterRequest(conc);
       case VYKEA -> new VYKEARequest(conc);
-      case DUTYFREE -> new AirportRequest(conc);
       case FLOUNDRY -> new FloundryRequest(conc);
       case TERMINAL -> new TerminalExtrudeRequest(conc);
       case BARREL -> new BarrelShrineRequest(conc);
       case WAX -> new WaxGlobRequest(conc);
-      case SPANT -> new SpantRequest(conc);
-      case XO -> new XOShopRequest(conc);
-      case SLIEMCE -> new SliemceRequest(conc);
       case NEWSPAPER -> new BurningNewspaperRequest(conc);
       case METEOROID -> new MeteoroidRequest(conc);
       case SAUSAGE_O_MATIC -> new SausageOMaticRequest(conc);
@@ -273,10 +236,7 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
       case FANTASY_REALM -> new FantasyRealmRequest(conc);
       case STILLSUIT -> new StillSuitRequest();
       case WOOL -> new GrubbyWoolRequest(conc);
-      case SHADOW_FORGE -> new ShadowForgeRequest(conc);
-      case FIXODENT -> new FixodentRequest(conc);
       case BURNING_LEAVES -> new BurningLeavesRequest(conc);
-      case TINKERING_BENCH -> new TinkeringBenchRequest(conc);
       case MAYAM -> new MayamRequest(conc);
       case PHOTO_BOOTH -> new PhotoBoothRequest(conc);
       case TAKERSPACE -> new TakerSpaceRequest(conc);
@@ -790,8 +750,7 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
     AdventureResult[] ingredients = CreateItemRequest.findIngredients(urlString);
     int quantity = CreateItemRequest.getQuantity(urlString, ingredients, multiplier);
 
-    for (int i = 0; i < ingredients.length; ++i) {
-      AdventureResult item = ingredients[i];
+    for (AdventureResult item : ingredients) {
       ResultProcessor.processItem(item.getItemId(), -quantity);
     }
 
@@ -883,10 +842,10 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
 
     boolean autoRepairSuccessful =
         switch (mixingMethod) {
-          case COOK_FANCY -> CreateItemRequest.useBoxServant(
-              ItemPool.CHEF, ItemPool.CLOCKWORK_CHEF);
-          case MIX_FANCY -> CreateItemRequest.useBoxServant(
-              ItemPool.BARTENDER, ItemPool.CLOCKWORK_BARTENDER);
+          case COOK_FANCY ->
+              CreateItemRequest.useBoxServant(ItemPool.CHEF, ItemPool.CLOCKWORK_CHEF);
+          case MIX_FANCY ->
+              CreateItemRequest.useBoxServant(ItemPool.BARTENDER, ItemPool.CLOCKWORK_BARTENDER);
           default -> false;
 
             // If they want to auto-repair, make sure that the appropriate
@@ -991,9 +950,9 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
       // intermediate ingredients and getting an error.
 
       int multiplier = 0;
-      for (int j = 0; j < ingredients.length; ++j) {
-        if (ingredient.getItemId() == ingredients[j].getItemId()) {
-          multiplier += ingredients[j].getCount();
+      for (AdventureResult adventureResult : ingredients) {
+        if (ingredient.getItemId() == adventureResult.getItemId()) {
+          multiplier += adventureResult.getCount();
         }
       }
 
@@ -1166,21 +1125,24 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
 
   private static int getAdventuresUsed(final CraftingType mixingMethod, final int quantityNeeded) {
     return switch (mixingMethod) {
-      case SMITH, SSMITH -> Math.max(
-          0,
-          (quantityNeeded
-              - ConcoctionDatabase.getFreeCraftingTurns()
-              - ConcoctionDatabase.getFreeSmithingTurns()));
-      case COOK_FANCY -> Math.max(
-          0,
-          (quantityNeeded
-              - ConcoctionDatabase.getFreeCraftingTurns()
-              - ConcoctionDatabase.getFreeCookingTurns()));
-      case MIX_FANCY -> Math.max(
-          0,
-          (quantityNeeded
-              - ConcoctionDatabase.getFreeCraftingTurns()
-              - ConcoctionDatabase.getFreeCocktailcraftingTurns()));
+      case SMITH, SSMITH ->
+          Math.max(
+              0,
+              (quantityNeeded
+                  - ConcoctionDatabase.getFreeCraftingTurns()
+                  - ConcoctionDatabase.getFreeSmithingTurns()));
+      case COOK_FANCY ->
+          Math.max(
+              0,
+              (quantityNeeded
+                  - ConcoctionDatabase.getFreeCraftingTurns()
+                  - ConcoctionDatabase.getFreeCookingTurns()));
+      case MIX_FANCY ->
+          Math.max(
+              0,
+              (quantityNeeded
+                  - ConcoctionDatabase.getFreeCraftingTurns()
+                  - ConcoctionDatabase.getFreeCocktailcraftingTurns()));
       default -> 0;
     };
   }
@@ -1406,8 +1368,7 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
 
     int quantity = Integer.MAX_VALUE;
 
-    for (int i = 0; i < ingredients.length; ++i) {
-      AdventureResult item = ingredients[i];
+    for (AdventureResult item : ingredients) {
       quantity = Math.min(item.getCount(KoLConstants.inventory) / multiplier, quantity);
     }
 
@@ -1432,8 +1393,7 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
       return;
     }
 
-    for (int i = 0; i < ingredients.length; ++i) {
-      AdventureResult item = ingredients[i];
+    for (AdventureResult item : ingredients) {
       ResultProcessor.processItem(item.getItemId(), 0 - quantity);
     }
 

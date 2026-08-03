@@ -280,7 +280,7 @@ class ValueTest {
       var ed =
           Objects.requireNonNull(
               DataTypes.makeMonsterValue(MonsterDatabase.findMonster("Ed the Undying (1)")));
-      assertEquals(ed.dumpValue(), "Ed the Undying (1)");
+      assertEquals("Ed the Undying (1)", ed.dumpValue());
     }
 
     @Test

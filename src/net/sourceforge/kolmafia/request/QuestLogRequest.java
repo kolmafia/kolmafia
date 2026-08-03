@@ -1,7 +1,6 @@
 package net.sourceforge.kolmafia.request;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -124,18 +123,16 @@ public class QuestLogRequest extends GenericRequest {
       }
     }
 
-    Iterator<Integer> it = map.keySet().iterator();
-    while (it.hasNext()) {
-      Integer key = it.next();
+    for (Integer key : map.keySet()) {
       String header = map.get(key);
-      String cut = responseText.substring(key.intValue()).split("</blockquote>")[0];
+      String cut = responseText.substring(key).split("</blockquote>")[0];
 
       switch (header) {
         case "Council Quests:" -> handleQuestText(cut);
         case "Guild Quests:" -> handleQuestText(cut);
 
-          // First time I opened this today it said Miscellaneous quests, now says Other quests, so
-          // check for both
+        // First time I opened this today it said Miscellaneous quests, now says Other quests, so
+        // check for both
         case "Other Quests:", "Miscellaneous Quests:" -> handleQuestText(cut);
         default -> {}
           // encountered a section in questlog we don't know how to handle.

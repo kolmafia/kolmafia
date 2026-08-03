@@ -111,7 +111,7 @@ public class WikiLookupCommand extends AbstractCommand {
     }
 
     RelayLoader.openSystemBrowser(
-        "http://kol.coldfront.net/thekolwiki/index.php/Special:Search?search="
+        "https://wiki.kingdomofloathing.com/Special:Search?search="
             + StringUtilities.getURLEncode(target)
             + "&go=Go");
   }

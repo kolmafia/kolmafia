@@ -11,7 +11,6 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
-import java.util.function.Predicate;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
@@ -32,7 +31,7 @@ import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.modifiers.BitmapModifier;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
-import net.sourceforge.kolmafia.modifiers.MultiStringModifier;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -89,6 +88,8 @@ public class EquipmentManager {
   public static final AdventureResult REPLICA_FOLDER_HOLDER =
       ItemPool.get(ItemPool.REPLICA_FOLDER_HOLDER, 1);
   public static final AdventureResult COWBOY_BOOTS = ItemPool.get(ItemPool.COWBOY_BOOTS, 1);
+  public static final AdventureResult ETERNITY_CODPIECE =
+      ItemPool.get(ItemPool.THE_ETERNITY_CODPIECE, 1);
 
   static {
     for (var slot : SlotSet.ALL_SLOTS) {
@@ -96,10 +97,12 @@ public class EquipmentManager {
       EquipmentManager.historyLists.put(slot, new ArrayList<>());
 
       switch (slot) {
-        case ACCESSORY1, ACCESSORY2, ACCESSORY3 -> EquipmentManager.equipmentLists.put(
-            slot, LockableListFactory.getMirror(EquipmentManager.accessories));
-        default -> EquipmentManager.equipmentLists.put(
-            slot, LockableListFactory.getSortedInstance(AdventureResult.class));
+        case ACCESSORY1, ACCESSORY2, ACCESSORY3 ->
+            EquipmentManager.equipmentLists.put(
+                slot, LockableListFactory.getMirror(EquipmentManager.accessories));
+        default ->
+            EquipmentManager.equipmentLists.put(
+                slot, LockableListFactory.getSortedInstance(AdventureResult.class));
       }
     }
   }
@@ -218,7 +221,21 @@ public class EquipmentManager {
           EquipmentManager.equipmentLists.get(slot).add(current);
         }
       }
-    } else if (itemId == ItemPool.HATSEAT) {
+    }
+
+    // Codpiece gems can also have other consumption types (e.g. accessories),
+    // so check for ETERNITY_CODPIECE modifiers separately
+    if (EquipmentRequest.isCodpieceGem(itemId)) {
+      for (Slot slot : SlotSet.CODPIECE_SLOTS) {
+        AdventureResult current = EquipmentManager.getEquipment(slot);
+        AdventureResult.addResultToList(EquipmentManager.equipmentLists.get(slot), item);
+        if (!EquipmentManager.equipmentLists.get(slot).contains(current)) {
+          EquipmentManager.equipmentLists.get(slot).add(current);
+        }
+      }
+    }
+
+    if (itemId == ItemPool.HATSEAT) {
       AdventureResult.addResultToList(EquipmentManager.equipmentLists.get(Slot.HAT), item);
     } else if (itemId == ItemPool.BUDDY_BJORN) {
       AdventureResult.addResultToList(EquipmentManager.equipmentLists.get(Slot.CONTAINER), item);
@@ -369,8 +386,8 @@ public class EquipmentManager {
           removed =
               switch (consumption) {
                 case HAT -> hat.getItemId() != old.getItemId();
-                case WEAPON, OFFHAND -> weapon.getItemId() != old.getItemId()
-                    && offhand.getItemId() != old.getItemId();
+                case WEAPON, OFFHAND ->
+                    weapon.getItemId() != old.getItemId() && offhand.getItemId() != old.getItemId();
                 case PANTS -> pants.getItemId() != old.getItemId();
                 default -> removed;
               };
@@ -435,8 +452,19 @@ public class EquipmentManager {
 
     if (add && !outfit.isWearing()) return;
 
-    outfitMods.getStrings(MultiStringModifier.CONDITIONAL_SKILL_EQUIPPED).stream()
+    outfitMods.getStrings(StringModifier.CONDITIONAL_SKILL_EQUIPPED).stream()
         .map(SkillDatabase::getSkillId)
+        .forEach(cb);
+  }
+
+  private static void applyNoncombatSkills(Modifiers mods, boolean add, Consumer<Integer> cb) {
+    if (mods == null) {
+      return;
+    }
+    mods.getStrings(StringModifier.CONDITIONAL_SKILL_EQUIPPED).stream()
+        .map(SkillDatabase::getSkillId)
+        // always remove non-noncombat skills, or add skills available sometimes
+        .filter(x -> add ? EquipmentManager.shouldApplySkill(x) : !SkillDatabase.isNonCombat(x))
         .forEach(cb);
   }
 
@@ -465,11 +493,24 @@ public class EquipmentManager {
     }
 
     var mods = ModifierDatabase.getItemModifiers(id);
-    if (mods != null) {
-      mods.getStrings(MultiStringModifier.CONDITIONAL_SKILL_EQUIPPED).stream()
-          .map(SkillDatabase::getSkillId)
-          .filter(Predicate.not(SkillDatabase::isNonCombat))
-          .forEach(cb);
+    applyNoncombatSkills(mods, add, cb);
+
+    // if it was a codpiece slot, add or remove the conditional skills
+    if (SlotSet.CODPIECE_SLOTS.contains(slot)) {
+      var gemMods = ModifierDatabase.getModifiers(ModifierType.ETERNITY_CODPIECE, id);
+      applyNoncombatSkills(gemMods, add, cb);
+    }
+
+    // if we are equipping the codpiece itself, add or remove all conditional skills
+    if (id == ItemPool.THE_ETERNITY_CODPIECE) {
+      SlotSet.CODPIECE_SLOTS.stream()
+          .map(EquipmentManager::getEquipment)
+          .map(AdventureResult::getItemId)
+          .forEach(
+              gemId -> {
+                var gemMods = ModifierDatabase.getModifiers(ModifierType.ETERNITY_CODPIECE, gemId);
+                applyNoncombatSkills(gemMods, add, cb);
+              });
     }
 
     manageConditionalSkillsFromOutfit(add, id, cb);
@@ -482,20 +523,6 @@ public class EquipmentManager {
           cb.accept(SkillPool.I_CAN_BEARLY_HEAR_YOU_OVER_THE_APPLAUSE);
         }
       }
-      case ItemPool.WARBEAR_OIL_PAN -> {
-        if (KoLCharacter.isSauceror()) {
-          cb.accept(SkillPool.SPRAY_HOT_GREASE);
-        }
-      }
-      case ItemPool.HEWN_MOON_RUNE_SPOON, ItemPool.REPLICA_HEWN_MOON_RUNE_SPOON -> {
-        if (KoLCharacter.isMuscleClass()) {
-          cb.accept(SkillPool.DRAGOON_PLATOON);
-        } else if (KoLCharacter.isMysticalityClass()) {
-          cb.accept(SkillPool.SPITTOON_MONSOON);
-        } else if (KoLCharacter.isMoxieClass()) {
-          cb.accept(SkillPool.FESTOON_BUFFOON);
-        }
-      }
       case ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE -> ItemDatabase.setCapeSkills();
       case ItemPool.SHERIFF_BADGE, ItemPool.SHERIFF_PISTOL, ItemPool.SHERIFF_MOUSTACHE -> {
         if (KoLCharacter.hasEquipped(ItemPool.SHERIFF_PISTOL)
@@ -505,6 +532,35 @@ public class EquipmentManager {
         }
       }
     }
+  }
+
+  static boolean shouldApplySkill(Integer id) {
+    return switch (id) {
+      case SkillPool.BALL_BUST -> Preferences.getInteger("gladiatorBallMovesKnown") > 0;
+      case SkillPool.BALL_SWEAT -> Preferences.getInteger("gladiatorBallMovesKnown") > 1;
+      case SkillPool.BALL_SACK -> Preferences.getInteger("gladiatorBallMovesKnown") > 2;
+      case SkillPool.NET_GAIN -> Preferences.getInteger("gladiatorNetMovesKnown") > 0;
+      case SkillPool.NET_LOSS -> Preferences.getInteger("gladiatorNetMovesKnown") > 1;
+      case SkillPool.NET_NEUTRALITY -> Preferences.getInteger("gladiatorNetMovesKnown") > 2;
+      case SkillPool.BLADE_SLING -> Preferences.getInteger("gladiatorBladeMovesKnown") > 0;
+      case SkillPool.BLADE_RUNNER -> Preferences.getInteger("gladiatorBladeMovesKnown") > 1;
+      case SkillPool.BLADE_ROLLER -> Preferences.getInteger("gladiatorBladeMovesKnown") > 2;
+      case SkillPool.BLINDING_FLASH -> Preferences.getInteger("yearbookCameraUpgrades") >= 21;
+      case SkillPool.SPRAY_HOT_GREASE -> KoLCharacter.isSauceror();
+      case SkillPool.BECOME_WOLF, SkillPool.BECOME_MIST, SkillPool.BECOME_BAT ->
+          !KoLCharacter.inDarkGyffte();
+      case SkillPool.DRAGOON_PLATOON -> KoLCharacter.isMuscleClass();
+      case SkillPool.SPITTOON_MONSOON -> KoLCharacter.isMysticalityClass();
+      case SkillPool.FESTOON_BUFFOON -> KoLCharacter.isMoxieClass();
+      case SkillPool.ENGAGE_ULTRA_ATTRACTIVE_PARKA_MODE -> KoLCharacter.inDinocore();
+      case SkillPool.HEARTSTONE_KILL -> Preferences.getBoolean("heartstoneKillUnlocked");
+      case SkillPool.HEARTSTONE_BANISH -> Preferences.getBoolean("heartstoneBanishUnlocked");
+      case SkillPool.HEARTSTONE_STUN -> Preferences.getBoolean("heartstoneStunUnlocked");
+      case SkillPool.HEARTSTONE_LUCK -> Preferences.getBoolean("heartstoneLuckUnlocked");
+      case SkillPool.HEARTSTONE_PALS -> Preferences.getBoolean("heartstonePalsUnlocked");
+      case SkillPool.HEARTSTONE_BUFF -> Preferences.getBoolean("heartstoneBuffUnlocked");
+      default -> true;
+    };
   }
 
   public static final void transformEquipment(AdventureResult before, AdventureResult after) {
@@ -618,18 +674,19 @@ public class EquipmentManager {
 
   public static final void breakEquipment(int itemId, String msg) {
     switch (itemId) {
-        // Breaking sugar equipment resets sugar counter
+      // Breaking sugar equipment resets sugar counter
       case ItemPool.SUGAR_CHAPEAU,
           ItemPool.SUGAR_SHANK,
           ItemPool.SUGAR_SHIELD,
           ItemPool.SUGAR_SHILLELAGH,
           ItemPool.SUGAR_SHIRT,
           ItemPool.SUGAR_SHOTGUN,
-          ItemPool.SUGAR_SHORTS -> Preferences.setInteger("sugarCounter" + itemId, 0);
+          ItemPool.SUGAR_SHORTS ->
+          Preferences.setInteger("sugarCounter" + itemId, 0);
 
-        // Breaking cozy equipment resets cozy counter
-      case ItemPool.COZY_SCIMITAR, ItemPool.COZY_STAFF, ItemPool.COZY_BAZOOKA -> Preferences
-          .setInteger("cozyCounter" + itemId, 0);
+      // Breaking cozy equipment resets cozy counter
+      case ItemPool.COZY_SCIMITAR, ItemPool.COZY_STAFF, ItemPool.COZY_BAZOOKA ->
+          Preferences.setInteger("cozyCounter" + itemId, 0);
     }
 
     // Discard the item, but do not clear it from outfit checkpoints yet.
@@ -891,9 +948,10 @@ public class EquipmentManager {
           ItemPool.SUGAR_SHILLELAGH,
           ItemPool.SUGAR_SHIRT,
           ItemPool.SUGAR_SHOTGUN,
-          ItemPool.SUGAR_SHORTS -> Preferences.increment("sugarCounter" + itemId, 1);
-      case ItemPool.COZY_SCIMITAR, ItemPool.COZY_STAFF, ItemPool.COZY_BAZOOKA -> Preferences
-          .increment("cozyCounter" + itemId, 1);
+          ItemPool.SUGAR_SHORTS ->
+          Preferences.increment("sugarCounter" + itemId, 1);
+      case ItemPool.COZY_SCIMITAR, ItemPool.COZY_STAFF, ItemPool.COZY_BAZOOKA ->
+          Preferences.increment("cozyCounter" + itemId, 1);
     }
   }
 
@@ -934,7 +992,8 @@ public class EquipmentManager {
 
   public static final void updateEquipmentList(final Slot listIndex) {
     ConsumptionType consumeFilter = EquipmentManager.equipmentTypeToConsumeFilter(listIndex);
-    if (consumeFilter == ConsumptionType.UNKNOWN) {
+    // Codpiece slots don't have a ConsumptionType, handle them specially
+    if (consumeFilter == ConsumptionType.UNKNOWN && !SlotSet.CODPIECE_SLOTS.contains(listIndex)) {
       return;
     }
 
@@ -944,7 +1003,6 @@ public class EquipmentManager {
       case ACCESSORY1:
       case ACCESSORY2:
         return; // do all the work when updating ACC3
-
       case ACCESSORY3:
         EquipmentManager.updateEquipmentList(consumeFilter, EquipmentManager.accessories);
         AdventureResult accessory = EquipmentManager.getEquipment(Slot.ACCESSORY1);
@@ -982,6 +1040,15 @@ public class EquipmentManager {
           }
         }
 
+        break;
+
+      case CODPIECE1:
+      case CODPIECE2:
+      case CODPIECE3:
+      case CODPIECE4:
+        return; // do all the work when updating CODPIECE5
+      case CODPIECE5:
+        EquipmentManager.updateCodpieceList();
         break;
 
       default:
@@ -1056,6 +1123,37 @@ public class EquipmentManager {
     currentList.retainAll(temporary);
     temporary.removeAll(currentList);
     currentList.addAll(temporary);
+  }
+
+  private static void updateCodpieceList() {
+    // Codpiece gems are identified by having ETERNITY_CODPIECE modifiers
+    ArrayList<AdventureResult> temporary = new ArrayList<>();
+    temporary.add(EquipmentRequest.UNEQUIP);
+
+    for (AdventureResult currentItem : KoLConstants.inventory) {
+      int itemId = currentItem.getItemId();
+      if (EquipmentRequest.isCodpieceGem(itemId)) {
+        temporary.add(currentItem);
+      }
+    }
+
+    // Update all codpiece slot lists
+    for (Slot slot : SlotSet.CODPIECE_SLOTS) {
+      List<AdventureResult> currentList = EquipmentManager.equipmentLists.get(slot);
+      AdventureResult equippedItem = EquipmentManager.getEquipment(slot);
+
+      currentList.retainAll(temporary);
+      ArrayList<AdventureResult> toAdd = new ArrayList<>(temporary);
+      toAdd.removeAll(currentList);
+      currentList.addAll(toAdd);
+
+      // Make sure currently equipped item is in the list
+      if (equippedItem != EquipmentRequest.UNEQUIP && !currentList.contains(equippedItem)) {
+        currentList.add(equippedItem);
+      }
+
+      LockableListFactory.setSelectedItem(currentList, equippedItem);
+    }
   }
 
   /**
@@ -1353,7 +1451,8 @@ public class EquipmentManager {
       default:
       case MUSCLE:
         hitStat = KoLCharacter.getAdjustedMuscle();
-        if (Modifiers.unarmed && KoLCharacter.hasSkill(SkillPool.MASTER_OF_THE_SURPRISING_FIST)) {
+        if (KoLCharacter.isUnarmed()
+            && KoLCharacter.hasSkill(SkillPool.MASTER_OF_THE_SURPRISING_FIST)) {
           hitStat += 20;
         }
         return hitStat;
@@ -1451,9 +1550,9 @@ public class EquipmentManager {
     }
 
     AdventureResult[] pieces = EquipmentDatabase.normalOutfits.get(outfitId).getPieces();
-    for (int i = 0; i < pieces.length; ++i) {
-      if (!KoLCharacter.hasEquipped(pieces[i])) {
-        ConditionsCommand.update("set", pieces[i].getName());
+    for (AdventureResult piece : pieces) {
+      if (!KoLCharacter.hasEquipped(piece)) {
+        ConditionsCommand.update("set", piece.getName());
       }
     }
   }
@@ -1695,6 +1794,7 @@ public class EquipmentManager {
     // "hats":["11565","2283"]
     // "stickers":[0,0,0],
     // "folder_holder":["01","22","12","00","00"]
+    // "eternitycod":[10963,11274,0,0,11273]
 
     EnumMap<Slot, AdventureResult> current = EquipmentManager.allEquipment();
     EnumMap<Slot, AdventureResult> equipment = EquipmentManager.emptyEquipmentArray(true);
@@ -1740,6 +1840,16 @@ public class EquipmentManager {
       equipment.put(slot, item);
     }
 
+    // Read gems
+    JSONArray eternitycod = json.getJSONArray("eternitycod");
+    if (eternitycod != null) {
+      i = 0;
+      for (var slot : SlotSet.CODPIECE_SLOTS) {
+        AdventureResult item = EquipmentManager.equippedItem(eternitycod.getIntValue(i++));
+        equipment.put(slot, item);
+      }
+    }
+
     // We can't read these from api.php (yet?)
     equipment.put(Slot.CROWNOFTHRONES, current.get(Slot.CROWNOFTHRONES));
     equipment.put(Slot.BUDDYBJORN, current.get(Slot.BUDDYBJORN));
@@ -1755,6 +1865,10 @@ public class EquipmentManager {
         // Quantum Terrarium will have a familiar item in api.php even
         // if the particular familiar can't equip it. Ignore that.
         if (slot == Slot.FAMILIAR && KoLCharacter.inQuantum()) {
+          continue;
+        }
+        // we use api.php to update our knowledge of codpiece slots
+        if (SlotSet.CODPIECE_SLOTS.contains(slot)) {
           continue;
         }
         if (!current.get(slot).equals(equipment.get(slot))) {

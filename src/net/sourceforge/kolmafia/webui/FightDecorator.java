@@ -151,12 +151,15 @@ public class FightDecorator {
   public static final void decorateMachineTunnelFight(
       final String monster, final StringBuffer buffer) {
     switch (monster) {
-      case "thinker of thoughts" -> RequestEditorKit.selectOption(
-          buffer, "whichitem", String.valueOf(ItemPool.ABSTRACTION_ACTION));
-      case "performer of actions" -> RequestEditorKit.selectOption(
-          buffer, "whichitem", String.valueOf(ItemPool.ABSTRACTION_SENSATION));
-      case "perceiver of sensations" -> RequestEditorKit.selectOption(
-          buffer, "whichitem", String.valueOf(ItemPool.ABSTRACTION_THOUGHT));
+      case "thinker of thoughts" ->
+          RequestEditorKit.selectOption(
+              buffer, "whichitem", String.valueOf(ItemPool.ABSTRACTION_ACTION));
+      case "performer of actions" ->
+          RequestEditorKit.selectOption(
+              buffer, "whichitem", String.valueOf(ItemPool.ABSTRACTION_SENSATION));
+      case "perceiver of sensations" ->
+          RequestEditorKit.selectOption(
+              buffer, "whichitem", String.valueOf(ItemPool.ABSTRACTION_THOUGHT));
     }
   }
 

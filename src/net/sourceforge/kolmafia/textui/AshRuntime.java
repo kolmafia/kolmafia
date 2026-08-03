@@ -169,15 +169,17 @@ public class AshRuntime extends AbstractRuntime {
 
   @Override
   public Value execute(final String functionName, final Object[] parameters) {
-    String currentScript = this.getFileName() == null ? "<>" : "<" + this.getFileName() + ">";
-    String notifyList = Preferences.getString("previousNotifyList");
-    String notifyRecipient = this.parser.getNotifyRecipient();
+    if (Preferences.getBoolean("permitScriptNotify")) {
+      String currentScript = this.getFileName() == null ? "<>" : "<" + this.getFileName() + ">";
+      String notifyList = Preferences.getString("previousNotifyList");
+      String notifyRecipient = this.parser.getNotifyRecipient();
 
-    if (notifyRecipient != null && !notifyList.contains(currentScript)) {
-      Preferences.setString("previousNotifyList", notifyList + currentScript);
+      if (notifyRecipient != null && !notifyList.contains(currentScript)) {
+        Preferences.setString("previousNotifyList", notifyList + currentScript);
 
-      SendMailRequest notifier = new SendMailRequest(notifyRecipient, this);
-      RequestThread.postRequest(notifier);
+        SendMailRequest notifier = new SendMailRequest(notifyRecipient, this);
+        RequestThread.postRequest(notifier);
+      }
     }
 
     return this.execute(functionName, parameters, true);

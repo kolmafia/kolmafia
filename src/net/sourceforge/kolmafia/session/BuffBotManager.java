@@ -185,45 +185,44 @@ public abstract class BuffBotManager {
     File datafile = new File(KoLConstants.BUFFBOT_LOCATION, KoLCharacter.baseUserName() + ".txt");
     File xmlfile = new File(KoLConstants.BUFFBOT_LOCATION, KoLCharacter.baseUserName() + ".xml");
 
-    PrintStream settings = LogStream.openStream(datafile, true, StandardCharsets.ISO_8859_1);
-    PrintStream document = LogStream.openStream(xmlfile, true, StandardCharsets.ISO_8859_1);
+    try (PrintStream settings = LogStream.openStream(datafile, true, StandardCharsets.ISO_8859_1);
+        PrintStream document = LogStream.openStream(xmlfile, true, StandardCharsets.ISO_8859_1)) {
+      document.println("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>");
+      document.println("<?xml-stylesheet type=\"text/xsl\" href=\"buffbot.xsl\"?>");
+      document.println();
 
-    document.println("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>");
-    document.println("<?xml-stylesheet type=\"text/xsl\" href=\"buffbot.xsl\"?>");
-    document.println();
+      document.println("<botdata>");
+      document.println("<name>" + KoLCharacter.getUserName() + "</name>");
+      document.println("<playerid>" + KoLCharacter.getUserId() + "</playerid>");
 
-    document.println("<botdata>");
-    document.println("<name>" + KoLCharacter.getUserName() + "</name>");
-    document.println("<playerid>" + KoLCharacter.getUserId() + "</playerid>");
+      document.println("<free-list>");
+      Offering currentCast;
 
-    document.println("<free-list>");
-    Offering currentCast;
+      for (int i = 0; i < BuffBotManager.buffCostTable.size(); ++i) {
+        // First, append the buff to the setting string, then
+        // print the buff to the XML tree.
 
-    for (int i = 0; i < BuffBotManager.buffCostTable.size(); ++i) {
-      // First, append the buff to the setting string, then
-      // print the buff to the XML tree.
+        currentCast = BuffBotManager.buffCostTable.get(i);
+        settings.println(currentCast.toSettingString());
 
-      currentCast = BuffBotManager.buffCostTable.get(i);
-      settings.println(currentCast.toSettingString());
-
-      for (int j = 0; j < currentCast.buffs.length; ++j) {
-        document.println("\t<buffdata>");
-        document.println("\t\t<name>" + currentCast.buffs[j] + "</name>");
-        document.println(
-            "\t\t<skillid>" + SkillDatabase.getSkillId(currentCast.buffs[j]) + "</skillid>");
-        document.println(
-            "\t\t<price>" + KoLConstants.COMMA_FORMAT.format(currentCast.price) + "</price>");
-        document.println(
-            "\t\t<turns>" + KoLConstants.COMMA_FORMAT.format(currentCast.turns[j]) + "</turns>");
-        document.println("\t\t<philanthropic>" + currentCast.free + "</philanthropic>");
-        document.println("\t</buffdata>");
+        for (int j = 0; j < currentCast.buffs.length; ++j) {
+          document.println("\t<buffdata>");
+          document.println("\t\t<name>" + currentCast.buffs[j] + "</name>");
+          document.println(
+              "\t\t<skillid>" + SkillDatabase.getSkillId(currentCast.buffs[j]) + "</skillid>");
+          document.println(
+              "\t\t<price>" + KoLConstants.COMMA_FORMAT.format(currentCast.price) + "</price>");
+          document.println(
+              "\t\t<turns>" + KoLConstants.COMMA_FORMAT.format(currentCast.turns[j]) + "</turns>");
+          document.println("\t\t<philanthropic>" + currentCast.free + "</philanthropic>");
+          document.println("\t</buffdata>");
+        }
       }
-    }
 
-    document.println("</free-list>");
-    document.println("<normal-list></normal-list>");
-    document.println("</botdata>");
-    document.close();
+      document.println("</free-list>");
+      document.println("<normal-list></normal-list>");
+      document.println("</botdata>");
+    }
   }
 
   /**
@@ -253,7 +252,7 @@ public abstract class BuffBotManager {
     String restoreItems = Preferences.getString("mpAutoRecoveryItems");
 
     PauseObject pauser = new PauseObject();
-    boolean usingAdventures = restoreItems.indexOf("rest") != -1;
+    boolean usingAdventures = restoreItems.contains("rest");
 
     // The outer loop goes until user cancels, or
     // for however many iterations are needed.
@@ -427,7 +426,7 @@ public abstract class BuffBotManager {
    * @return <code>true</code> if there is a donation
    */
   private static boolean containsDonation(final KoLMailMessage message) {
-    return message.getMessageHTML().indexOf("You acquire") != -1;
+    return message.getMessageHTML().contains("You acquire");
   }
 
   /** Sends a thank you message to the given user, with the given message HTML quoted. */

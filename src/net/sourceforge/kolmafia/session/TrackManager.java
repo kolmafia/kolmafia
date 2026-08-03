@@ -88,9 +88,12 @@ public class TrackManager {
     TRICK_COIN("trick coin", 3, true, 100, Reset.TURN_ROLLOVER_RESET),
     HUNT("Hunt", 3, true, -1, Reset.AVATAR_RESET),
     MCHUGELARGE_SLASH("McHugeLarge Slash", 3, true, -1, Reset.ROLLOVER_RESET),
+    MEAT_CUTE("Meat Cute", 3, true, -1, Reset.ROLLOVER_RESET),
     // copies depends on the familiar attributes, but is at most 6
     LEFT_ZOOT_KICK("Left %n Kick", 6, true, -1, Reset.ASCENSION_RESET),
     RIGHT_ZOOT_KICK("Right %n Kick", 6, true, -1, Reset.ASCENSION_RESET),
+    TRY_TO_REMEMBER("Try to Remember", 2, false, -1, Reset.ROLLOVER_RESET),
+    BASEBALL_DIAMOND("Baseball Diamond", 3, true, -1, Reset.ROLLOVER_RESET),
     RED_SNAPPER("Red-Nosed Snapper", 2, false, -1, Reset.ASCENSION_RESET, TrackType.PHYLUM),
     A_BEASTLY_ODOR("A Beastly Odor", 2, false, -1, Reset.EFFECT_RESET, TrackType.PHYLUM),
     EW_THE_HUMANITY("Ew, The Humanity", 2, false, -1, Reset.EFFECT_RESET, TrackType.PHYLUM),

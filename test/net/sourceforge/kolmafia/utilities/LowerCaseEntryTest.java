@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase.ItemData;
 import org.junit.jupiter.api.Test;
 
 public class LowerCaseEntryTest {
@@ -11,13 +12,13 @@ public class LowerCaseEntryTest {
   @Test
   public void itShouldCreateWhatWasAskedFor() {
     LowerCaseEntry<String, String> lca = new LowerCaseEntry<>("Key", "Value");
-    assertEquals(lca.getKey(), "Key");
-    assertEquals(lca.getValue(), "Value");
-    assertEquals(lca.toString(), "Value (Key)");
+    assertEquals("Key", lca.getKey());
+    assertEquals("Value", lca.getValue());
+    assertEquals("Value (Key)", lca.toString());
     LowerCaseEntry<String, String> lcb = new LowerCaseEntry<>("kEY", "vALUE");
     assertNotEquals(lca, lcb);
     assertEquals(lca.getLowerCase(), lcb.getLowerCase());
-    assertNotEquals(lcb.getValue(), "value");
+    assertNotEquals("value", lcb.getValue());
   }
 
   @Test
@@ -26,19 +27,19 @@ public class LowerCaseEntryTest {
     LowerCaseEntry<String, String> lcb = new LowerCaseEntry<>("Key", "Value");
     assertEquals(lca, lcb);
     String sv = lcb.setValue("NotValue");
-    assertEquals(sv, "Value");
+    assertEquals("Value", sv);
     assertNotEquals(lca, lcb);
   }
 
   @Test
   public void itShouldBuildAlist() {
-    LockableListModel<LowerCaseEntry<Integer, String>> llm =
+    LockableListModel<LowerCaseEntry<Integer, ItemData>> llm =
         LowerCaseEntry.createListModel(ItemDatabase.entrySet());
     assertNotNull(llm);
-    LowerCaseEntry<Integer, String> lce = llm.get(50);
-    assertEquals(lce.getLowerCase(), "knob goblin uberpants");
-    String z = lce.setValue("Knob Goblin Panties");
-    assertEquals(z, "Knob Goblin Uberpants");
-    assertEquals(lce.getLowerCase(), "knob goblin panties");
+    LowerCaseEntry<Integer, ItemData> lce = llm.get(50);
+    assertEquals("knob goblin uberpants", lce.getLowerCase());
+    ItemData z = lce.setValue(new ItemData("Knob Goblin Panties"));
+    assertEquals("Knob Goblin Uberpants", z.toString());
+    assertEquals("knob goblin panties", lce.getLowerCase());
   }
 }

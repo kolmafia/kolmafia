@@ -46,7 +46,7 @@ public class LootHermitMenuItem extends ThreadedMenuItem {
       Integer value =
           InputFieldUtilities.getQuantity(
               "How many " + selectedValue.getName() + " to get?\n" + message, maximumValue, 1);
-      int tradeCount = (value == null) ? 0 : value.intValue();
+      int tradeCount = (value == null) ? 0 : value;
 
       if (tradeCount == 0) {
         return;

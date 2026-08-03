@@ -284,7 +284,7 @@ public class RequestFrame extends GenericFrame {
     // which requires that the form for the table be
     // on the outside of the table.
 
-    if (displayHTML.indexOf("action=account_manageoutfits.php") != -1) {
+    if (displayHTML.contains("action=account_manageoutfits.php")) {
       // turn:  <center><table><form>...</center></td></tr></form></table>
       // into:  <form><center><table>...</td></tr></table></center></form>
 
@@ -298,7 +298,7 @@ public class RequestFrame extends GenericFrame {
     // totally mixed up -- in addition to basic modifications,
     // also resort the combat item list.
 
-    if (displayHTML.indexOf("action=fight.php") != -1) {
+    if (displayHTML.contains("action=fight.php")) {
       displayHTML = displayHTML.replaceAll("<form(.*?)<tr><td([^>]*)>", "<tr><td$2><form$1");
       displayHTML = displayHTML.replaceAll("</td></tr></form>", "</form></td></tr>");
 
@@ -430,7 +430,7 @@ public class RequestFrame extends GenericFrame {
   }
 
   public boolean containsText(final String search) {
-    return this.mainDisplay.getText().indexOf(search) != -1;
+    return this.mainDisplay.getText().contains(search);
   }
 
   @Override

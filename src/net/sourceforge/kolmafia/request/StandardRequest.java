@@ -12,8 +12,11 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.RestrictedItemType;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.session.LimitMode;
 
 public class StandardRequest extends GenericRequest {
@@ -60,6 +63,24 @@ public class StandardRequest extends GenericRequest {
   public static boolean isAllowed(RestrictedItemType type, final String key) {
     if (KoLCharacter.isTrendy() && !TrendyRequest.isTrendy(type, key)) {
       return false;
+    }
+
+    if (KoLCharacter.isThrifty()) {
+      // familiars only usable if thrifty
+      if (type == RestrictedItemType.FAMILIARS && !ThriftyRequest.isAllowed(type, key)) {
+        return false;
+      }
+      // skills only usable if thrifty
+      if (type == RestrictedItemType.SKILLS && !ThriftyRequest.isAllowed(type, key)) {
+        return false;
+      }
+      // items only usable if evergreen (and only pullable if thrifty)
+      if (type == RestrictedItemType.ITEMS
+          && !ModifierDatabase.getStringModifier(
+                  ModifierType.ITEM, key, StringModifier.LAST_AVAILABLE_DATE)
+              .isBlank()) {
+        return false;
+      }
     }
 
     if (KoLCharacter.inQuantum() && type == RestrictedItemType.FAMILIARS) {

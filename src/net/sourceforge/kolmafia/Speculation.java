@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +29,7 @@ public class Speculation {
   private String custom, horsery, boomBox;
   protected boolean calculated = false;
   protected Modifiers mods;
-  private final Map<Modeable, String> modeables;
+  private Map<Modeable, String> modeables;
 
   public Speculation() {
     this.MCD = KoLCharacter.getMindControlLevel();
@@ -118,6 +119,10 @@ public class Speculation {
     return this.modeables;
   }
 
+  protected void setModeables(Map<Modeable, String> modeables) {
+    this.modeables = modeables;
+  }
+
   public void equip(Slot slot, AdventureResult item) {
     if (slot == Slot.NONE) return;
     this.equipment.put(slot, item);
@@ -132,6 +137,12 @@ public class Speculation {
 
   public void addEffect(AdventureResult effect) {
     if (!this.effects.contains(effect)) {
+      Collection<AdventureResult> replaceableMutex =
+          ModifierDatabase.getReplaceableMutexFor(effect);
+      if (!replaceableMutex.isEmpty()) {
+        this.effects.removeAll(replaceableMutex);
+      }
+
       this.effects.add(effect);
     }
   }

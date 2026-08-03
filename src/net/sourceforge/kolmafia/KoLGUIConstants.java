@@ -37,38 +37,25 @@ public class KoLGUIConstants {
           put("Arc - Orange", "com.formdev.flatlaf.intellijthemes.FlatArcOrangeIJTheme");
           put("Arc", "com.formdev.flatlaf.intellijthemes.FlatArcIJTheme");
           put(
-              "Atom One Light Contrast",
-              "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatAtomOneLightContrastIJTheme");
-          put(
               "Atom One Light",
-              "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatAtomOneLightIJTheme");
+              "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMTAtomOneLightIJTheme");
           put("Cyan light", "com.formdev.flatlaf.intellijthemes.FlatCyanLightIJTheme");
-          put("FlatMap Light", "com.formdev.flatlaf.FlatLightLaf");
+          put("FlatLaf Light", "com.formdev.flatlaf.FlatLightLaf");
           put(
-              "GitHub Contrast",
-              "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatGitHubContrastIJTheme");
-          put("GitHub", "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatGitHubIJTheme");
+              "GitHub",
+              "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMTGitHubIJTheme");
           put("Gray", "com.formdev.flatlaf.intellijthemes.FlatGrayIJTheme");
           put("Light Flat", "com.formdev.flatlaf.intellijthemes.FlatLightFlatIJTheme");
           put(
-              "Light Owl Contrast",
-              "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatLightOwlContrastIJTheme");
-          put(
               "Light Owl",
-              "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatLightOwlIJTheme");
-          put(
-              "Material Lighter Contrast",
-              "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialLighterContrastIJTheme");
+              "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMTLightOwlIJTheme");
           put(
               "Material Lighter",
-              "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialLighterIJTheme");
-          put(
-              "Solarized Light Contrast",
-              "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatSolarizedLightContrastIJTheme");
+              "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMTMaterialLighterIJTheme");
           put("Solarized Light", "com.formdev.flatlaf.intellijthemes.FlatSolarizedLightIJTheme");
           put(
               "Material Solarized Light",
-              "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatSolarizedLightIJTheme");
+              "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMTSolarizedLightIJTheme");
         }
       };
 
@@ -76,32 +63,23 @@ public class KoLGUIConstants {
       new TreeMap<>() {
         {
           put("Arc Dark - Orange", "com.formdev.flatlaf.intellijthemes.FlatArcDarkOrangeIJTheme");
-          put(
-              "Arc Dark Contrast",
-              "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatArcDarkContrastIJTheme");
           put("Arc Dark", "com.formdev.flatlaf.intellijthemes.FlatArcDarkIJTheme");
           put(
               "Material Arc Dark",
-              "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatArcDarkIJTheme");
-          put(
-              "Atom One Dark Contrast",
-              "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatAtomOneDarkContrastIJTheme");
+              "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMTArcDarkIJTheme");
           put(
               "Atom One Dark",
-              "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatAtomOneDarkIJTheme");
+              "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMTAtomOneDarkIJTheme");
           put("Carbon", "com.formdev.flatlaf.intellijthemes.FlatCarbonIJTheme");
           put("Cobalt 2", "com.formdev.flatlaf.intellijthemes.FlatCobalt2IJTheme");
-          put("Flatmap Darcula", "com.formdev.flatlaf.FlatDarculaLaf");
+          put("FlatLaf Darcula", "com.formdev.flatlaf.FlatDarculaLaf");
           put("Dark Flat", "com.formdev.flatlaf.intellijthemes.FlatDarkFlatIJTheme");
           put("Dark Purple", "com.formdev.flatlaf.intellijthemes.FlatDarkPurpleIJTheme");
-          put(
-              "Dracula Contrast",
-              "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatDraculaContrastIJTheme");
           put("Dracula", "com.formdev.flatlaf.intellijthemes.FlatDraculaIJTheme");
           put(
               "Dracula Theme",
-              "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatDraculaIJTheme");
-          put("FlatMap Dark", "com.formdev.flatlaf.FlatDarkLaf");
+              "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMTDraculaIJTheme");
+          put("FlatLaf Dark", "com.formdev.flatlaf.FlatDarkLaf");
           put(
               "Gradianto Dark Fuchsia",
               "com.formdev.flatlaf.intellijthemes.FlatGradiantoDarkFuchsiaIJTheme");
@@ -111,64 +89,41 @@ public class KoLGUIConstants {
           put(
               "Gradianto Midnight Blue",
               "com.formdev.flatlaf.intellijthemes.FlatGradiantoMidnightBlueIJTheme");
-          put("Gruvbox Dark Hard", "com.formdev.flatlaf.intellijthemes.FlatGruvboxDarkHardIJTheme");
           put(
-              "Gruvbox Dark Medium",
-              "com.formdev.flatlaf.intellijthemes.FlatGruvboxDarkMediumIJTheme");
-          put("Gruvbox Dark Soft", "com.formdev.flatlaf.intellijthemes.FlatGruvboxDarkSoftIJTheme");
+              "Gradianto Nature Green",
+              "com.formdev.flatlaf.intellijthemes.FlatGradiantoNatureGreenIJTheme");
+          put("Gruvbox Dark Hard", "com.formdev.flatlaf.intellijthemes.FlatGruvboxDarkHardIJTheme");
           put("Hiberbee Dark", "com.formdev.flatlaf.intellijthemes.FlatHiberbeeDarkIJTheme");
           put("High contrast", "com.formdev.flatlaf.intellijthemes.FlatHighContrastIJTheme");
           put(
-              "Material Darker Contrast",
-              "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialDarkerContrastIJTheme");
-          put(
               "Material Darker",
-              "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialDarkerIJTheme");
-          put(
-              "Material Deep Ocean Contrast",
-              "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialDeepOceanContrastIJTheme");
+              "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMTMaterialDarkerIJTheme");
           put(
               "Material Deep Ocean",
-              "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialDeepOceanIJTheme");
+              "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMTMaterialDeepOceanIJTheme");
           put(
               "Material Design Dark",
               "com.formdev.flatlaf.intellijthemes.FlatMaterialDesignDarkIJTheme");
           put(
-              "Material Oceanic Contrast",
-              "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialOceanicContrastIJTheme");
-          put(
               "Material Oceanic",
-              "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialOceanicIJTheme");
-          put(
-              "Material Palenight Contrast",
-              "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialPalenightContrastIJTheme");
+              "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMTMaterialOceanicIJTheme");
           put(
               "Material Palenight",
-              "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialPalenightIJTheme");
+              "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMTMaterialPalenightIJTheme");
           put("Monocai", "com.formdev.flatlaf.intellijthemes.FlatMonocaiIJTheme");
-          put(
-              "Monokai Pro Contrast",
-              "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMonokaiProContrastIJTheme");
-          put(
-              "Monokai Pro",
-              "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMonokaiProIJTheme");
-          put(
-              "Night Owl Contrast",
-              "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatNightOwlContrastIJTheme");
+          put("Monokai Pro", "com.formdev.flatlaf.intellijthemes.FlatMonokaiProIJTheme");
           put(
               "Night Owl",
-              "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatNightOwlIJTheme");
+              "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMTNightOwlIJTheme");
           put("Nord", "com.formdev.flatlaf.intellijthemes.FlatNordIJTheme");
           put("One Dark", "com.formdev.flatlaf.intellijthemes.FlatOneDarkIJTheme");
-          put(
-              "Solarized Dark Contrast",
-              "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatSolarizedDarkContrastIJTheme");
           put("Solarized Dark", "com.formdev.flatlaf.intellijthemes.FlatSolarizedDarkIJTheme");
           put(
               "Material Solarized Dark",
-              "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatSolarizedDarkIJTheme");
+              "com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMTSolarizedDarkIJTheme");
           put("Spacegray", "com.formdev.flatlaf.intellijthemes.FlatSpacegrayIJTheme");
           put("Vuesion", "com.formdev.flatlaf.intellijthemes.FlatVuesionIJTheme");
+          put("Xcode-Dark", "com.formdev.flatlaf.intellijthemes.FlatXcodeDarkIJTheme");
         }
       };
 

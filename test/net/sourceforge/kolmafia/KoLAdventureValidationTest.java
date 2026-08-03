@@ -12,6 +12,7 @@ import static internal.helpers.Player.withDay;
 import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withEmptyCampground;
 import static internal.helpers.Player.withEquippableItem;
+import static internal.helpers.Player.withEquippableOutfit;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withFamiliarInTerrarium;
@@ -27,6 +28,7 @@ import static internal.helpers.Player.withLevel;
 import static internal.helpers.Player.withLimitMode;
 import static internal.helpers.Player.withMeat;
 import static internal.helpers.Player.withNoEffects;
+import static internal.helpers.Player.withOutfit;
 import static internal.helpers.Player.withPasswordHash;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
@@ -34,6 +36,7 @@ import static internal.helpers.Player.withQuestProgress;
 import static internal.helpers.Player.withRange;
 import static internal.helpers.Player.withRestricted;
 import static internal.helpers.Player.withSign;
+import static internal.helpers.Player.withUnequipped;
 import static internal.matchers.Preference.isSetTo;
 import static internal.matchers.Quest.isStarted;
 import static internal.matchers.Quest.isStep;
@@ -208,7 +211,7 @@ public class KoLAdventureValidationTest {
           // returns true with no requests
           assertTrue(success);
           assertThat(requests, hasSize(0));
-        } else if (html.equals("")) {
+        } else if (html.isEmpty()) {
           // If we have neither permanent nor daily access and none is visible
           // on the map, pre-validation returns false with one request
           assertFalse(success);
@@ -427,11 +430,11 @@ public class KoLAdventureValidationTest {
         try (cleanups) {
           // If we have not verified access, but the Time Twitching Tower is on
           // the map, we have access today.
-          client.addResponse(200, html("request/test_visit_town_twitch.html"));
+          client.addResponse(200, html("request/test_main_twitch.html"));
           boolean success = BOHEMIAN_PARTY.preValidateAdventure();
           var requests = client.getRequests();
           assertThat(requests, hasSize(1));
-          assertPostRequest(requests.get(0), "/place.php", "whichplace=town");
+          assertGetRequest(requests.get(0), "/main.php");
           assertTrue(Preferences.getBoolean(today));
           assertTrue(success);
         }
@@ -443,13 +446,13 @@ public class KoLAdventureValidationTest {
         var client = builder.client;
         var cleanups = new Cleanups(withHttpClientBuilder(builder), withProperty(today, false));
         try (cleanups) {
-          // If we have not verified access, but the Time Twitching Tower is on
-          // the map, we have access today.
-          client.addResponse(200, html("request/test_visit_town_no_twitch.html"));
+          // If we have not verified access and the Time Twitching Tower is not
+          // on the map, we do not have access today.
+          client.addResponse(200, html("request/test_main_no_twitch.html"));
           boolean success = BOHEMIAN_PARTY.preValidateAdventure();
           var requests = client.getRequests();
           assertThat(requests, hasSize(1));
-          assertPostRequest(requests.get(0), "/place.php", "whichplace=town");
+          assertGetRequest(requests.get(0), "/main.php");
           assertFalse(Preferences.getBoolean(today));
           assertFalse(success);
         }
@@ -482,6 +485,35 @@ public class KoLAdventureValidationTest {
   }
 
   @Nested
+  class BeachAccess {
+    @Test
+    public void thatExploathingHasBeachAccess() {
+      var cleanups =
+          new Cleanups(
+              withAscensions(2),
+              withProperty("lastDesertUnlock"),
+              withPath(Path.KINGDOM_OF_EXPLOATHING));
+      try (cleanups) {
+        assertThat("lastDesertUnlock", isSetTo(2));
+        assertTrue(KoLCharacter.desertBeachAccessible());
+      }
+    }
+
+    @Test
+    public void thatEdHasBeachAccess() {
+      var cleanups =
+          new Cleanups(
+              withAscensions(2),
+              withProperty("lastDesertUnlock"),
+              withPath(Path.ACTUALLY_ED_THE_UNDYING));
+      try (cleanups) {
+        assertThat("lastDesertUnlock", isSetTo(2));
+        assertTrue(KoLCharacter.desertBeachAccessible());
+      }
+    }
+  }
+
+  @Nested
   class Exploathing {
     public static Cleanups withTempleUnlocked() {
       var cleanups =
@@ -497,8 +529,8 @@ public class KoLAdventureValidationTest {
     public Cleanups withKingdomOfExploathing() {
       // Set up this test to have all quests appropriately started
       return new Cleanups(
-          withPath(Path.KINGDOM_OF_EXPLOATHING),
           withAscensions(1),
+          withPath(Path.KINGDOM_OF_EXPLOATHING),
           // This is not currently true; we don't actually set the property
           // indicating you unlocked it this ascension. Should we?
           // withTempleUnlocked()
@@ -852,6 +884,12 @@ public class KoLAdventureValidationTest {
               // This is a Canadia sign and therefore has a hostile Knoll.
               withSign(ZodiacSign.OPOSSUM));
       try (cleanups) {
+        // This marks desert available
+        KoLCharacter.setPath(Path.KINGDOM_OF_EXPLOATHING);
+        // This clears the path but retains desert access
+        // You could get here by dropping the path OR freeing the king
+        KoLCharacter.setPath(Path.NONE);
+
         // Paco gave us the quest and opened the Knoll.
         var area = AdventureDatabase.getAdventureByName("The Degrassi Knoll Garage");
         assertTrue(area.canAdventure());
@@ -1318,7 +1356,7 @@ public class KoLAdventureValidationTest {
   class Memories {
     private static final KoLAdventure PRIMORDIAL_SOUP =
         AdventureDatabase.getAdventureByName("The Primordial Soup");
-    private static AdventureResult EMPTY_AGUA_DE_VIDA_BOTTLE =
+    private static final AdventureResult EMPTY_AGUA_DE_VIDA_BOTTLE =
         ItemPool.get(ItemPool.EMPTY_AGUA_DE_VIDA_BOTTLE);
 
     @Test
@@ -1411,8 +1449,9 @@ public class KoLAdventureValidationTest {
         AdventureDatabase.getAdventureByName("An Incredibly Strange Place (Mediocre Trip)");
     private static final KoLAdventure GREAT_TRIP =
         AdventureDatabase.getAdventureByName("An Incredibly Strange Place (Great Trip)");
-    private static AdventureResult ASTRAL_MUSHROOM = ItemPool.get(ItemPool.ASTRAL_MUSHROOM, 1);
-    private static AdventureResult HALF_ASTRAL = EffectPool.get(EffectPool.HALF_ASTRAL);
+    private static final AdventureResult ASTRAL_MUSHROOM =
+        ItemPool.get(ItemPool.ASTRAL_MUSHROOM, 1);
+    private static final AdventureResult HALF_ASTRAL = EffectPool.get(EffectPool.HALF_ASTRAL);
 
     @Test
     public void mustHaveAstralMushroomOrHalfAstral() {
@@ -1510,7 +1549,7 @@ public class KoLAdventureValidationTest {
 
         assertEquals(5, HALF_ASTRAL.getCount(KoLConstants.activeEffects));
         assertThat(Preferences.getString("currentAstralTrip"), is("Great Trip"));
-        assertEquals(KoLCharacter.getLimitMode(), LimitMode.ASTRAL);
+        assertEquals(LimitMode.ASTRAL, KoLCharacter.getLimitMode());
 
         var requests = client.getRequests();
         assertThat(requests, hasSize(7));
@@ -1533,8 +1572,8 @@ public class KoLAdventureValidationTest {
   class Mole {
     private static final KoLAdventure MT_MOLEHILL =
         AdventureDatabase.getAdventureByName("Mt. Molehill");
-    private static AdventureResult GONG = ItemPool.get(ItemPool.GONG, 1);
-    private static AdventureResult SHAPE_OF_MOLE = EffectPool.get(EffectPool.SHAPE_OF_MOLE);
+    private static final AdventureResult GONG = ItemPool.get(ItemPool.GONG, 1);
+    private static final AdventureResult SHAPE_OF_MOLE = EffectPool.get(EffectPool.SHAPE_OF_MOLE);
 
     @Test
     public void mustHaveGongOrShapeOfMole() {
@@ -1588,7 +1627,7 @@ public class KoLAdventureValidationTest {
 
         assertEquals(12, SHAPE_OF_MOLE.getCount(KoLConstants.activeEffects));
         assertThat(Preferences.getString("currentLlamaForm"), is("Mole"));
-        assertEquals(KoLCharacter.getLimitMode(), LimitMode.MOLE);
+        assertEquals(LimitMode.MOLE, KoLCharacter.getLimitMode());
 
         var requests = client.getRequests();
         assertThat(requests, hasSize(4));
@@ -2045,10 +2084,10 @@ public class KoLAdventureValidationTest {
       try (cleanups) {
         client.addResponse(200, html("request/test_spookyraven_telegram.html"));
         client.addResponse(200, ""); // api.php
-        assertEquals(QuestDatabase.getQuest(Quest.SPOOKYRAVEN_NECKLACE), QuestDatabase.UNSTARTED);
+        assertEquals(QuestDatabase.UNSTARTED, QuestDatabase.getQuest(Quest.SPOOKYRAVEN_NECKLACE));
         assertTrue(HAUNTED_KITCHEN.canAdventure());
         assertTrue(HAUNTED_KITCHEN.prepareForAdventure());
-        assertEquals(QuestDatabase.getQuest(Quest.SPOOKYRAVEN_NECKLACE), QuestDatabase.STARTED);
+        assertEquals(QuestDatabase.STARTED, QuestDatabase.getQuest(Quest.SPOOKYRAVEN_NECKLACE));
 
         var requests = client.getRequests();
         assertThat(requests, hasSize(2));
@@ -2086,10 +2125,10 @@ public class KoLAdventureValidationTest {
       try (cleanups) {
         client.addResponse(200, html("request/test_spookyraven_telegram.json"));
         client.addResponse(200, "");
-        assertEquals(QuestDatabase.getQuest(Quest.SPOOKYRAVEN_NECKLACE), QuestDatabase.UNSTARTED);
+        assertEquals(QuestDatabase.UNSTARTED, QuestDatabase.getQuest(Quest.SPOOKYRAVEN_NECKLACE));
         assertTrue(HAUNTED_KITCHEN.canAdventure());
         assertTrue(HAUNTED_KITCHEN.prepareForAdventure());
-        assertEquals(QuestDatabase.getQuest(Quest.SPOOKYRAVEN_NECKLACE), QuestDatabase.STARTED);
+        assertEquals(QuestDatabase.STARTED, QuestDatabase.getQuest(Quest.SPOOKYRAVEN_NECKLACE));
 
         var requests = client.getRequests();
         assertThat(requests, hasSize(2));
@@ -2177,12 +2216,12 @@ public class KoLAdventureValidationTest {
         client.addResponse(
             200, html("request/test_lady_spookyraven_2A.html")); // Unlock second floor
         client.addResponse(200, ""); // api.php
-        assertEquals(QuestDatabase.getQuest(Quest.SPOOKYRAVEN_NECKLACE), QuestDatabase.UNSTARTED);
-        assertEquals(QuestDatabase.getQuest(Quest.SPOOKYRAVEN_DANCE), QuestDatabase.UNSTARTED);
+        assertEquals(QuestDatabase.UNSTARTED, QuestDatabase.getQuest(Quest.SPOOKYRAVEN_NECKLACE));
+        assertEquals(QuestDatabase.UNSTARTED, QuestDatabase.getQuest(Quest.SPOOKYRAVEN_DANCE));
         assertTrue(HAUNTED_GALLERY.canAdventure());
         assertTrue(HAUNTED_GALLERY.prepareForAdventure());
-        assertEquals(QuestDatabase.getQuest(Quest.SPOOKYRAVEN_NECKLACE), QuestDatabase.FINISHED);
-        assertEquals(QuestDatabase.getQuest(Quest.SPOOKYRAVEN_DANCE), "step1");
+        assertEquals(QuestDatabase.FINISHED, QuestDatabase.getQuest(Quest.SPOOKYRAVEN_NECKLACE));
+        assertEquals("step1", QuestDatabase.getQuest(Quest.SPOOKYRAVEN_DANCE));
 
         var requests = client.getRequests();
         assertThat(requests, hasSize(3));
@@ -2253,12 +2292,12 @@ public class KoLAdventureValidationTest {
         client.addResponse(200, ""); // api.php
         client.addResponse(200, html("request/test_lady_spookyraven_2A.html"));
         client.addResponse(200, ""); // api.php
-        assertEquals(QuestDatabase.getQuest(Quest.SPOOKYRAVEN_NECKLACE), QuestDatabase.UNSTARTED);
-        assertEquals(QuestDatabase.getQuest(Quest.SPOOKYRAVEN_DANCE), QuestDatabase.UNSTARTED);
+        assertEquals(QuestDatabase.UNSTARTED, QuestDatabase.getQuest(Quest.SPOOKYRAVEN_NECKLACE));
+        assertEquals(QuestDatabase.UNSTARTED, QuestDatabase.getQuest(Quest.SPOOKYRAVEN_DANCE));
         assertTrue(HAUNTED_GALLERY.canAdventure());
         assertTrue(HAUNTED_GALLERY.prepareForAdventure());
-        assertEquals(QuestDatabase.getQuest(Quest.SPOOKYRAVEN_NECKLACE), QuestDatabase.FINISHED);
-        assertEquals(QuestDatabase.getQuest(Quest.SPOOKYRAVEN_DANCE), "step1");
+        assertEquals(QuestDatabase.FINISHED, QuestDatabase.getQuest(Quest.SPOOKYRAVEN_NECKLACE));
+        assertEquals("step1", QuestDatabase.getQuest(Quest.SPOOKYRAVEN_DANCE));
 
         var requests = client.getRequests();
         assertThat(requests, hasSize(4));
@@ -2303,10 +2342,10 @@ public class KoLAdventureValidationTest {
       try (cleanups) {
         client.addResponse(200, html("request/test_lady_spookyraven_2B.html"));
         client.addResponse(200, ""); // api.php
-        assertEquals(QuestDatabase.getQuest(Quest.SPOOKYRAVEN_DANCE), QuestDatabase.UNSTARTED);
+        assertEquals(QuestDatabase.UNSTARTED, QuestDatabase.getQuest(Quest.SPOOKYRAVEN_DANCE));
         assertTrue(HAUNTED_BALLROOM.canAdventure());
         assertTrue(HAUNTED_BALLROOM.prepareForAdventure());
-        assertEquals(QuestDatabase.getQuest(Quest.SPOOKYRAVEN_DANCE), "step3");
+        assertEquals("step3", QuestDatabase.getQuest(Quest.SPOOKYRAVEN_DANCE));
 
         var requests = client.getRequests();
         assertThat(requests, hasSize(2));
@@ -2330,7 +2369,7 @@ public class KoLAdventureValidationTest {
         client.addResponse(200, html("request/test_spookyraven_after_dance.html"));
         var request = new GenericRequest("adventure.php?snarfblat=395");
         request.run();
-        assertEquals(QuestDatabase.getQuest(Quest.SPOOKYRAVEN_DANCE), QuestDatabase.FINISHED);
+        assertEquals(QuestDatabase.FINISHED, QuestDatabase.getQuest(Quest.SPOOKYRAVEN_DANCE));
         assertTrue(HAUNTED_LABORATORY.canAdventure());
 
         var requests = client.getRequests();
@@ -3590,7 +3629,7 @@ public class KoLAdventureValidationTest {
         client.addResponse(200, ""); // api.php
         assertTrue(PANDAMONIUM_SLUMS.canAdventure());
         assertTrue(PANDAMONIUM_SLUMS.prepareForAdventure());
-        assertEquals(QuestDatabase.getQuest(Quest.AZAZEL), QuestDatabase.STARTED);
+        assertEquals(QuestDatabase.STARTED, QuestDatabase.getQuest(Quest.AZAZEL));
 
         var requests = client.getRequests();
         assertThat(requests, hasSize(2));
@@ -3622,11 +3661,11 @@ public class KoLAdventureValidationTest {
 
         assertTrue(PANDAMONIUM_SLUMS.canAdventure());
         assertTrue(PANDAMONIUM_SLUMS.prepareForAdventure());
-        assertEquals(QuestDatabase.getQuest(Quest.FRIAR), QuestDatabase.FINISHED);
+        assertEquals(QuestDatabase.FINISHED, QuestDatabase.getQuest(Quest.FRIAR));
         assertEquals(0, InventoryManager.getCount(ItemPool.DODECAGRAM));
         assertEquals(0, InventoryManager.getCount(ItemPool.CANDLES));
         assertEquals(0, InventoryManager.getCount(ItemPool.BUTTERKNIFE));
-        assertEquals(QuestDatabase.getQuest(Quest.AZAZEL), QuestDatabase.STARTED);
+        assertEquals(QuestDatabase.STARTED, QuestDatabase.getQuest(Quest.AZAZEL));
 
         var requests = client.getRequests();
         assertThat(requests, hasSize(4));
@@ -3851,7 +3890,7 @@ public class KoLAdventureValidationTest {
         client.addResponse(200, ""); // api.php
         assertTrue(GOATLET.canAdventure());
         assertTrue(GOATLET.prepareForAdventure());
-        assertEquals(QuestDatabase.getQuest(Quest.TRAPPER), "step1");
+        assertEquals("step1", QuestDatabase.getQuest(Quest.TRAPPER));
 
         var requests = client.getRequests();
         assertThat(requests, hasSize(2));
@@ -4755,8 +4794,8 @@ public class KoLAdventureValidationTest {
           new Cleanups(
               withItem("dingy dinghy"), withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.STARTED));
       try (cleanups) {
-        // KoL does not require going directly to verge-of-war zones
-        assertTrue(HIPPY_CAMP.canAdventure());
+        // With war started, only the verge of war zones are available
+        assertFalse(HIPPY_CAMP.canAdventure());
         assertFalse(HIPPY_CAMP_DISGUISED.canAdventure());
         assertTrue(WARTIME_HIPPY_CAMP.canAdventure());
         assertFalse(WARTIME_HIPPY_CAMP_DISGUISED.canAdventure());
@@ -4774,10 +4813,9 @@ public class KoLAdventureValidationTest {
               withEquipped(Slot.PANTS, "Orcish cargo shorts"),
               withEquipped(Slot.WEAPON, "Orcish frat-paddle"));
       try (cleanups) {
-        // KoL does not require going directly to verge-of-war zones
-        assertTrue(HIPPY_CAMP.canAdventure());
-        assertTrue(HIPPY_CAMP_DISGUISED.canAdventure());
-        // ... but it allows it.
+        // With war started, only the verge of war zones are available
+        assertFalse(HIPPY_CAMP.canAdventure());
+        assertFalse(HIPPY_CAMP_DISGUISED.canAdventure());
         assertTrue(WARTIME_HIPPY_CAMP.canAdventure());
         assertTrue(WARTIME_HIPPY_CAMP_DISGUISED.canAdventure());
         assertFalse(BOMBED_HIPPY_CAMP.canAdventure());
@@ -5142,10 +5180,9 @@ public class KoLAdventureValidationTest {
           new Cleanups(
               withItem("dingy dinghy"), withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.STARTED));
       try (cleanups) {
-        // KoL does not require going directly to verge-of-war zones
-        assertTrue(FRAT_HOUSE.canAdventure());
+        // With war started, only the verge of war zones are available
+        assertFalse(FRAT_HOUSE.canAdventure());
         assertFalse(FRAT_HOUSE_DISGUISED.canAdventure());
-        // ... but it allows it.
         assertTrue(WARTIME_FRAT_HOUSE.canAdventure());
         assertFalse(WARTIME_FRAT_HOUSE_DISGUISED.canAdventure());
         assertFalse(BOMBED_FRAT_HOUSE.canAdventure());
@@ -5161,10 +5198,9 @@ public class KoLAdventureValidationTest {
               withEquipped(Slot.HAT, "filthy knitted dread sack"),
               withEquipped(Slot.PANTS, "filthy corduroys"));
       try (cleanups) {
-        // KoL does not require going directly to verge-of-war zones
-        assertTrue(FRAT_HOUSE.canAdventure());
-        assertTrue(FRAT_HOUSE_DISGUISED.canAdventure());
-        // ... but it allows it.
+        // With war started, only the verge of war zones are available
+        assertFalse(FRAT_HOUSE.canAdventure());
+        assertFalse(FRAT_HOUSE_DISGUISED.canAdventure());
         assertTrue(WARTIME_FRAT_HOUSE.canAdventure());
         assertTrue(WARTIME_FRAT_HOUSE_DISGUISED.canAdventure());
         assertFalse(BOMBED_FRAT_HOUSE.canAdventure());
@@ -6647,18 +6683,259 @@ public class KoLAdventureValidationTest {
         }
       }
 
-      @Test
-      public void accessWithSeahorse() {
-        var cleanups =
-            new Cleanups(
-                withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
-                withProperty("seahorseName", "Shimmerwings"));
-        try (cleanups) {
-          assertTrue(SCHOOL.canAdventure());
-          assertTrue(LIBRARY.canAdventure());
-          assertTrue(GYMNASIUM.canAdventure());
-          assertTrue(COLOSSEUM.canAdventure());
-          assertTrue(TEMPLE.canAdventure());
+      @Nested
+      class ElementarySchool {
+        @CartesianTest
+        public void canAdventureInSchoolWithOutfit(
+            @Values(
+                    ints = {
+                      OutfitPool.CRAPPY_MER_KIN_DISGUISE,
+                      OutfitPool.MER_KIN_GLADIATORIAL_GEAR,
+                      OutfitPool.MER_KIN_SCHOLARS_VESTMENTS
+                    })
+                final int outfitId) {
+          setupFakeClient();
+
+          var cleanups =
+              new Cleanups(
+                  withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
+                  withProperty("seahorseName", "Shimmerwings"),
+                  withOutfit(outfitId));
+          try (cleanups) {
+            assertTrue(EquipmentManager.hasOutfit(outfitId));
+            assertTrue(SCHOOL.canAdventure());
+            assertTrue(SCHOOL.prepareForAdventure());
+
+            var requests = getRequests();
+            assertThat(requests, hasSize(0));
+          }
+        }
+
+        @CartesianTest
+        public void canAdventureInSchoolWithEquippableOutfit(
+            @Values(
+                    ints = {
+                      OutfitPool.CRAPPY_MER_KIN_DISGUISE,
+                      OutfitPool.MER_KIN_GLADIATORIAL_GEAR,
+                      OutfitPool.MER_KIN_SCHOLARS_VESTMENTS
+                    })
+                final int outfitId) {
+          setupFakeClient();
+
+          var cleanups =
+              new Cleanups(
+                  withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
+                  withProperty("seahorseName", "Shimmerwings"),
+                  withEquippableOutfit(outfitId),
+                  withUnequipped(Slot.HAT),
+                  withUnequipped(Slot.PANTS));
+          try (cleanups) {
+            assertTrue(EquipmentManager.hasOutfit(outfitId));
+            assertTrue(SCHOOL.canAdventure());
+            assertTrue(SCHOOL.prepareForAdventure());
+
+            var requests = getRequests();
+            assertThat(requests, hasSize(1));
+            assertPostRequest(
+                requests.get(0),
+                "/inv_equip.php",
+                "which=2&action=outfit&whichoutfit=" + outfitId + "&ajax=1");
+          }
+        }
+      }
+
+      @Nested
+      class Gymnasium {
+        @CartesianTest
+        public void canAdventureInGymnasiumWithOutfit(
+            @Values(
+                    ints = {
+                      OutfitPool.CRAPPY_MER_KIN_DISGUISE,
+                      OutfitPool.MER_KIN_GLADIATORIAL_GEAR,
+                      OutfitPool.MER_KIN_SCHOLARS_VESTMENTS
+                    })
+                final int outfitId) {
+          setupFakeClient();
+
+          var cleanups =
+              new Cleanups(
+                  withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
+                  withProperty("seahorseName", "Shimmerwings"),
+                  withOutfit(outfitId));
+          try (cleanups) {
+            assertTrue(EquipmentManager.hasOutfit(outfitId));
+            assertTrue(GYMNASIUM.canAdventure());
+            assertTrue(SCHOOL.prepareForAdventure());
+
+            var requests = getRequests();
+            assertThat(requests, hasSize(0));
+          }
+        }
+
+        @CartesianTest
+        public void canAdventureInGymnasiumWithEquippableOutfit(
+            @Values(
+                    ints = {
+                      OutfitPool.CRAPPY_MER_KIN_DISGUISE,
+                      OutfitPool.MER_KIN_GLADIATORIAL_GEAR,
+                      OutfitPool.MER_KIN_SCHOLARS_VESTMENTS
+                    })
+                final int outfitId) {
+          setupFakeClient();
+
+          var cleanups =
+              new Cleanups(
+                  withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
+                  withProperty("seahorseName", "Shimmerwings"),
+                  withEquippableOutfit(outfitId),
+                  withUnequipped(Slot.HAT),
+                  withUnequipped(Slot.PANTS));
+          try (cleanups) {
+            assertTrue(EquipmentManager.hasOutfit(outfitId));
+            assertTrue(GYMNASIUM.canAdventure());
+            assertTrue(GYMNASIUM.prepareForAdventure());
+
+            var requests = getRequests();
+            assertThat(requests, hasSize(1));
+            assertPostRequest(
+                requests.get(0),
+                "/inv_equip.php",
+                "which=2&action=outfit&whichoutfit=" + outfitId + "&ajax=1");
+          }
+        }
+      }
+
+      @Nested
+      class Library {
+        @CartesianTest
+        public void canAdventureInLibraryWithScholarOutfit(
+            @Values(
+                    ints = {
+                      OutfitPool.CRAPPY_MER_KIN_DISGUISE,
+                      OutfitPool.MER_KIN_GLADIATORIAL_GEAR,
+                      OutfitPool.MER_KIN_SCHOLARS_VESTMENTS
+                    })
+                final int outfitId) {
+          setupFakeClient();
+
+          var cleanups =
+              new Cleanups(
+                  withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
+                  withProperty("seahorseName", "Shimmerwings"),
+                  withOutfit(outfitId));
+          try (cleanups) {
+            assertTrue(EquipmentManager.hasOutfit(outfitId));
+            boolean valid = outfitId == OutfitPool.MER_KIN_SCHOLARS_VESTMENTS;
+            assertEquals(valid, LIBRARY.canAdventure());
+
+            if (valid) {
+              assertTrue(LIBRARY.prepareForAdventure());
+              var requests = getRequests();
+              assertThat(requests, hasSize(0));
+            }
+          }
+        }
+
+        @CartesianTest
+        public void canAdventureInLibraryWithEquippableOutfit(
+            @Values(
+                    ints = {
+                      OutfitPool.CRAPPY_MER_KIN_DISGUISE,
+                      OutfitPool.MER_KIN_GLADIATORIAL_GEAR,
+                      OutfitPool.MER_KIN_SCHOLARS_VESTMENTS
+                    })
+                final int outfitId) {
+          setupFakeClient();
+
+          var cleanups =
+              new Cleanups(
+                  withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
+                  withProperty("seahorseName", "Shimmerwings"),
+                  withEquippableOutfit(outfitId),
+                  withUnequipped(Slot.HAT),
+                  withUnequipped(Slot.PANTS));
+          try (cleanups) {
+            assertTrue(EquipmentManager.hasOutfit(outfitId));
+            boolean valid = outfitId == OutfitPool.MER_KIN_SCHOLARS_VESTMENTS;
+            assertEquals(valid, LIBRARY.canAdventure());
+
+            if (valid) {
+              assertTrue(LIBRARY.prepareForAdventure());
+              var requests = getRequests();
+              assertThat(requests, hasSize(1));
+              assertPostRequest(
+                  requests.get(0),
+                  "/inv_equip.php",
+                  "which=2&action=outfit&whichoutfit=" + outfitId + "&ajax=1");
+            }
+          }
+        }
+      }
+
+      @Nested
+      class Colosseum {
+        @CartesianTest
+        public void canAdventureInColosseumWithGladiatorOutfit(
+            @Values(
+                    ints = {
+                      OutfitPool.CRAPPY_MER_KIN_DISGUISE,
+                      OutfitPool.MER_KIN_GLADIATORIAL_GEAR,
+                      OutfitPool.MER_KIN_SCHOLARS_VESTMENTS
+                    })
+                final int outfitId) {
+          setupFakeClient();
+
+          var cleanups =
+              new Cleanups(
+                  withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
+                  withProperty("seahorseName", "Shimmerwings"),
+                  withOutfit(outfitId));
+          try (cleanups) {
+            assertTrue(EquipmentManager.hasOutfit(outfitId));
+            boolean valid = outfitId == OutfitPool.MER_KIN_GLADIATORIAL_GEAR;
+            assertEquals(valid, COLOSSEUM.canAdventure());
+
+            if (valid) {
+              assertTrue(COLOSSEUM.prepareForAdventure());
+              var requests = getRequests();
+              assertThat(requests, hasSize(0));
+            }
+          }
+        }
+
+        @CartesianTest
+        public void canAdventureInColosseumWithEquippableOutfit(
+            @Values(
+                    ints = {
+                      OutfitPool.CRAPPY_MER_KIN_DISGUISE,
+                      OutfitPool.MER_KIN_GLADIATORIAL_GEAR,
+                      OutfitPool.MER_KIN_SCHOLARS_VESTMENTS
+                    })
+                final int outfitId) {
+          setupFakeClient();
+
+          var cleanups =
+              new Cleanups(
+                  withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
+                  withProperty("seahorseName", "Shimmerwings"),
+                  withEquippableOutfit(outfitId),
+                  withUnequipped(Slot.HAT),
+                  withUnequipped(Slot.PANTS));
+          try (cleanups) {
+            assertTrue(EquipmentManager.hasOutfit(outfitId));
+            boolean valid = outfitId == OutfitPool.MER_KIN_GLADIATORIAL_GEAR;
+            assertEquals(valid, COLOSSEUM.canAdventure());
+
+            if (valid) {
+              assertTrue(COLOSSEUM.prepareForAdventure());
+              var requests = getRequests();
+              assertThat(requests, hasSize(1));
+              assertPostRequest(
+                  requests.get(0),
+                  "/inv_equip.php",
+                  "which=2&action=outfit&whichoutfit=" + outfitId + "&ajax=1");
+            }
+          }
         }
       }
     }

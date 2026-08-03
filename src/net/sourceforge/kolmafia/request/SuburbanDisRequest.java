@@ -117,11 +117,11 @@ public class SuburbanDisRequest extends GenericRequest {
     QuestDatabase.setQuest(
         quest,
         switch (current) {
-            // If the quest was finished its now like you've defeated one boss
+          // If the quest was finished its now like you've defeated one boss
           case QuestDatabase.FINISHED -> "step2";
-            // If you'd just queued your second boss its like you'd picked your first
+          // If you'd just queued your second boss its like you'd picked your first
           case "step3" -> "step1";
-            // If you'd only defeated one boss its like you'd done nothing
+          // If you'd only defeated one boss its like you'd done nothing
           case "step2" -> QuestDatabase.UNSTARTED;
           default -> current;
         });

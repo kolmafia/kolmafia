@@ -213,7 +213,7 @@ public class ShopRowTest {
       var shopName = ShopRequest.parseShopNameInResponse(html);
       assertEquals("The Primordial Soup Kitchen", shopName);
 
-      var shopId = ShopRequest.parseShopId(html);
+      var shopId = ShopRequest.parseShopIdInResponse(html);
       assertEquals("twitchsoup", shopId);
 
       var shopRows = ShopRow.parseShop(html, true);
@@ -234,6 +234,114 @@ public class ShopRowTest {
       assertTrue(derivedCurrencies.contains(lips));
       assertTrue(derivedCurrencies.contains(muscle));
       assertTrue(derivedCurrencies.contains(synapse));
+
+      assertEquals(derivedCurrencies, parsedCurrencies);
+    }
+  }
+
+  @Nested
+  class FlowerTradein {
+    static AdventureResult chroner = new AdventureResult("Chroner", 1, false);
+    static AdventureResult rose = new AdventureResult("rose", 2);
+    static AdventureResult redTulip = new AdventureResult("red tulip", 1);
+    static AdventureResult whiteTulip = new AdventureResult("white tulip", 1);
+    static AdventureResult blueTulip = new AdventureResult("blue tulip", 1);
+
+    @Test
+    public void canParseFlowerTradein() {
+      String html = html("request/test_shop_flowertradein.html");
+      var shopName = ShopRequest.parseShopNameInResponse(html);
+      assertEquals("The Central Loathing Floral Mercantile Exchange", shopName);
+
+      var shopId = ShopRequest.parseShopIdInResponse(html);
+      assertEquals("flowertradein", shopId);
+
+      var shopRows = ShopRow.parseShop(html, false);
+      assertEquals(4, shopRows.size());
+
+      for (ShopRow shopRow : shopRows) {
+        switch (shopRow.getRow()) {
+          case 759 -> {
+            assertEquals(chroner.getItemId(), shopRow.getItem().getItemId());
+            assertEquals(1, shopRow.getItem().getCount());
+            assertEquals(1, shopRow.getCosts().length);
+            assertEquals(rose, shopRow.getCosts()[0]);
+            assertEquals(2, shopRow.getCosts()[0].getCount());
+          }
+          case 760 -> {
+            assertEquals(chroner.getItemId(), shopRow.getItem().getItemId());
+            assertEquals(16, shopRow.getItem().getCount());
+            assertEquals(1, shopRow.getCosts().length);
+            assertEquals(redTulip, shopRow.getCosts()[0]);
+            assertEquals(1, shopRow.getCosts()[0].getCount());
+          }
+          case 761 -> {
+            assertEquals(chroner.getItemId(), shopRow.getItem().getItemId());
+            assertEquals(13, shopRow.getItem().getCount());
+            assertEquals(1, shopRow.getCosts().length);
+            assertEquals(whiteTulip, shopRow.getCosts()[0]);
+            assertEquals(1, shopRow.getCosts()[0].getCount());
+          }
+          case 762 -> {
+            assertEquals(chroner.getItemId(), shopRow.getItem().getItemId());
+            assertEquals(9, shopRow.getItem().getCount());
+            assertEquals(1, shopRow.getCosts().length);
+            assertEquals(blueTulip, shopRow.getCosts()[0]);
+            assertEquals(1, shopRow.getCosts()[0].getCount());
+          }
+        }
+      }
+
+      var parsedCurrencies = ShopRow.parseCurrencies(html);
+      assertEquals(4, parsedCurrencies.size());
+
+      var derivedCurrencies = ShopRow.deriveCurrencies(shopRows);
+      assertEquals(4, derivedCurrencies.size());
+
+      assertTrue(derivedCurrencies.contains(rose));
+      assertTrue(derivedCurrencies.contains(whiteTulip));
+      assertTrue(derivedCurrencies.contains(redTulip));
+      assertTrue(derivedCurrencies.contains(blueTulip));
+
+      assertEquals(derivedCurrencies, parsedCurrencies);
+    }
+  }
+
+  @Nested
+  class Mystic {
+    static AdventureResult whitePixel = new AdventureResult("white pixel", 1);
+    static AdventureResult blackPixel = new AdventureResult("black pixel", 1);
+    static AdventureResult redPixel = new AdventureResult("red pixel", 1);
+    static AdventureResult greenPixel = new AdventureResult("green pixel", 1);
+    static AdventureResult bluePixel = new AdventureResult("blue pixel", 1);
+    static AdventureResult brownPixel = new AdventureResult("brown pixel", 1);
+    static AdventureResult yellowPixel = new AdventureResult("yellow pixel", 1);
+
+    @Test
+    public void canParseMystic() {
+      String html = html("request/test_shop_mystic.html");
+      var shopName = ShopRequest.parseShopNameInResponse(html);
+      assertEquals("The Crackpot Mystic's Shed", shopName);
+
+      var shopId = ShopRequest.parseShopIdInResponse(html);
+      assertEquals("mystic", shopId);
+
+      var shopRows = ShopRow.parseShop(html, false);
+      assertEquals(22, shopRows.size());
+
+      var parsedCurrencies = ShopRow.parseCurrencies(html);
+      assertEquals(7, parsedCurrencies.size());
+
+      var derivedCurrencies = ShopRow.deriveCurrencies(shopRows);
+      assertEquals(7, derivedCurrencies.size());
+
+      assertTrue(derivedCurrencies.contains(whitePixel));
+      assertTrue(derivedCurrencies.contains(blackPixel));
+      assertTrue(derivedCurrencies.contains(redPixel));
+      assertTrue(derivedCurrencies.contains(greenPixel));
+      assertTrue(derivedCurrencies.contains(bluePixel));
+      assertTrue(derivedCurrencies.contains(brownPixel));
+      assertTrue(derivedCurrencies.contains(yellowPixel));
 
       assertEquals(derivedCurrencies, parsedCurrencies);
     }

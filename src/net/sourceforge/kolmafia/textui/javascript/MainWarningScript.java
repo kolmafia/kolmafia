@@ -10,7 +10,7 @@ import org.mozilla.javascript.ScriptableObject;
 public class MainWarningScript implements Script {
   // This is a slight hack to warn folks who have failed to export main().
   @Override
-  public Object exec(Context cx, Scriptable scope) {
+  public Object exec(Context cx, Scriptable scope, Scriptable thisObj) {
     Object requireObject = ScriptableObject.getProperty(scope, "require");
     Object moduleObject = ScriptableObject.getProperty(scope, "module");
     if (!(requireObject instanceof Scriptable) || !(moduleObject instanceof Scriptable)) {

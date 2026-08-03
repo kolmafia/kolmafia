@@ -351,7 +351,15 @@ public class FoldItemCommand extends AbstractCommand {
         RecoveryManager.recoverHP(damage);
       }
 
-      RequestThread.postRequest(UseItemRequest.getInstance(item));
+      if (UseItemRequest.getConsumptionType(item)
+          == KoLConstants.ConsumptionType.FAMILIAR_HATCHLING) {
+        GenericRequest foldRequest = new GenericRequest("inv_use.php");
+        foldRequest.addFormField("which", "3");
+        foldRequest.addFormField("whichitem", String.valueOf(item.getItemId()));
+        RequestThread.postRequest(foldRequest);
+      } else {
+        RequestThread.postRequest(UseItemRequest.getInstance(item));
+      }
     }
   }
 }

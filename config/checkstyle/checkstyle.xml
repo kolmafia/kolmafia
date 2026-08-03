@@ -31,7 +31,9 @@
     <module name="FallThrough">
       <property name="reliefPattern" value="(?i)falls?[ -]?thr(u|ough)"/>
     </module>
-
+    <module name="AvoidStarImport">
+      <property name="allowStaticMemberImports" value="true"/>
+    </module>
     <module name="SuppressWarningsHolder" />
     <module name="SuppressionCommentFilter">
       <property name="offCommentFormat" value="CHECKSTYLE.OFF\: ([\w\|]+)" />

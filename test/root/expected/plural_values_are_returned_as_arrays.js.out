@@ -26,7 +26,9 @@
     "werewolf.gif"
   ],
   "randomModifiers": [],
-  "subTypes": []
+  "subTypes": [
+    "werewolf"
+  ]
 }
 {
   "name": "lihc",
@@ -56,9 +58,9 @@
   ]
 }
 {
-  "name": "Beaten up",
+  "name": "Red Neck",
   "all": [
-    "# losing in combat"
+    "# wearing mesh cap"
   ]
 }
 {

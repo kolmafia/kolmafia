@@ -131,22 +131,21 @@ public class MushroomPlotPanel extends JPanel {
     }
 
     try {
-      PrintStream ostream = LogStream.openStream(output, true);
-      ostream.println("field harvest");
+      try (PrintStream ostream = LogStream.openStream(output, true)) {
+        ostream.println("field harvest");
 
-      for (int i = 0; i < 16; ++i) {
-        int mushroomType = MushroomManager.getMushroomType(this.layoutData[i]);
-        switch (mushroomType) {
-          case MushroomManager.SPOOKY, MushroomManager.KNOB, MushroomManager.KNOLL -> {
-            ostream.println("field pick " + (i + 1));
-            ostream.println(
-                "field plant " + (i + 1) + " " + ItemDatabase.getItemName(mushroomType));
+        for (int i = 0; i < 16; ++i) {
+          int mushroomType = MushroomManager.getMushroomType(this.layoutData[i]);
+          switch (mushroomType) {
+            case MushroomManager.SPOOKY, MushroomManager.KNOB, MushroomManager.KNOLL -> {
+              ostream.println("field pick " + (i + 1));
+              ostream.println(
+                  "field plant " + (i + 1) + " " + ItemDatabase.getItemName(mushroomType));
+            }
+            case MushroomManager.EMPTY -> ostream.println("field pick " + (i + 1));
           }
-          case MushroomManager.EMPTY -> ostream.println("field pick " + (i + 1));
         }
       }
-
-      ostream.close();
     } catch (Exception e) {
       // This should not happen.  Therefore, print
       // a stack trace for debug purposes.

@@ -75,7 +75,7 @@ public class Switch extends Command {
     if (labels != null) {
       Integer mapped = labels.get(value);
       if (mapped != null) {
-        offset = mapped.intValue();
+        offset = mapped;
       }
     } else {
       for (int index = 0; index < tests.length; ++index) {
@@ -97,7 +97,7 @@ public class Switch extends Command {
         }
 
         if (result.equals(value)) {
-          offset = offsets[index].intValue();
+          offset = offsets[index];
           break;
         }
       }

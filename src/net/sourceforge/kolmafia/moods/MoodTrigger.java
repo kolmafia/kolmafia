@@ -1,7 +1,6 @@
 package net.sourceforge.kolmafia.moods;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
@@ -45,7 +44,7 @@ public class MoodTrigger implements Comparable<MoodTrigger> {
     this.effect = effect;
     this.name = effect == null ? null : effect.getName();
 
-    if ((action.startsWith("use ") || action.startsWith("cast ")) && action.indexOf(";") == -1) {
+    if ((action.startsWith("use ") || action.startsWith("cast ")) && !action.contains(";")) {
       // Determine the command, the count amount,
       // and the parameter's unambiguous form.
 
@@ -142,14 +141,12 @@ public class MoodTrigger implements Comparable<MoodTrigger> {
 
     StringBuilder buffer = new StringBuilder();
 
-    Iterator<String> actionIterator = existingActions.iterator();
-
-    while (actionIterator.hasNext()) {
+    for (String existingAction : existingActions) {
       if (buffer.length() > 0) {
         buffer.append("|");
       }
 
-      String action = actionIterator.next();
+      String action = existingAction;
       buffer.append(action);
     }
 
@@ -285,6 +282,9 @@ public class MoodTrigger implements Comparable<MoodTrigger> {
       int casts = Math.max(this.count, this.count * multiplicity);
       this.skill.setBuffCount(casts);
       this.skill.setTarget(KoLCharacter.getUserName());
+      if (this.effect != null) {
+        this.skill.setDesiredEffect(this.effect.getEffectId());
+      }
       RequestThread.postRequest(this.skill);
 
       if (!UseSkillRequest.lastUpdate.equals("")) {

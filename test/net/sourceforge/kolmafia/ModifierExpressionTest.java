@@ -17,6 +17,7 @@ import static internal.helpers.Player.withMuscle;
 import static internal.helpers.Player.withMysticality;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withSkill;
+import static internal.helpers.Player.withTurnsPlayed;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
@@ -30,11 +31,13 @@ import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -542,6 +545,15 @@ public class ModifierExpressionTest {
   }
 
   @Test
+  public void canDetectTotalTurnsPlayed() {
+    var cleanups = withTurnsPlayed(665);
+    try (cleanups) {
+      var exp = new ModifierExpression("totalturnsplayed", "Total Turns Played");
+      assertThat(exp.eval(), is(665.0));
+    }
+  }
+
+  @Test
   public void canDetectBaseMuscle() {
     var cleanups = new Cleanups(withMuscle(4, 60));
     try (cleanups) {
@@ -565,6 +577,43 @@ public class ModifierExpressionTest {
     try (cleanups) {
       var exp = new ModifierExpression("basemox", "Base moxie");
       assertThat(exp.eval(), is(2.0));
+    }
+  }
+
+  @Nested
+  class Overrides {
+    @Test
+    void overrideUnarmedTrue() {
+      var cleanups = new Cleanups(withEquipped(Slot.WEAPON, ItemPool.SEAL_CLUB));
+
+      try (cleanups) {
+        var exp = new ModifierExpression("10*unarmed", "unarmed test");
+        ExpressionOverrides overrides = new ExpressionOverrides();
+        overrides.setUnarmed(true);
+        assertThat(exp.eval(), is(0.0));
+        assertThat(exp.eval(overrides), is(10.0));
+
+        overrides.setUnarmed(null);
+        assertThat(exp.eval(), is(0.0));
+        assertThat(exp.eval(overrides), is(0.0));
+      }
+    }
+
+    @Test
+    void overrideUnarmedFalse() {
+      var cleanups = new Cleanups();
+
+      try (cleanups) {
+        var exp = new ModifierExpression("10*unarmed", "unarmed test");
+        ExpressionOverrides overrides = new ExpressionOverrides();
+        overrides.setUnarmed(false);
+        assertThat(exp.eval(), is(10.0));
+        assertThat(exp.eval(overrides), is(0.0));
+
+        overrides.setUnarmed(null);
+        assertThat(exp.eval(), is(10.0));
+        assertThat(exp.eval(overrides), is(10.0));
+      }
     }
   }
 }

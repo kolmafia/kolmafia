@@ -143,7 +143,7 @@ public class VolcanoIslandRequest extends GenericRequest {
       return false;
     }
 
-    if (urlString.indexOf("subaction=make") != -1) {
+    if (urlString.contains("subaction=make")) {
       return PhineasRequest.registerRequest(urlString);
     }
 

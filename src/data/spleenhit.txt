@@ -1,6 +1,6 @@
 3
 # Spleen hit values taken from the KoL Wiki
-# http://kol.coldfront.net/thekolwiki/index.php/Spleen
+# https://wiki.kingdomofloathing.com/Spleen
 
 # Item	Spleenhit	Level Req	Quality	Adv	Musc	Myst	Moxie
 
@@ -26,6 +26,7 @@ ancient meat	1	1		0	0	0	0	Gain some meat
 ancient medicinal herbs	1	1	awesome	0	0	0	0	50 Ancient Fortitude (+100% HP, +90-100 HP Regen, Impervious to negative effects)
 ancient pills	1	2	crappy	0	8-10	18-20	8-10	Restore 30-40 MP
 ancient protein powder	1	1	good	0	12-14	0	0
+angelbone fragments	2	12		0	0	0	0	Unspaded
 antimatter wad	2	3	awesome	5-7	-20-30	-20-30	-20-30
 antique bottle of cough syrup	1	6	awesome	0	0	18-20	0	10 The Q Is Talking To You (+10% mys)
 armored prawn	1	1	EPIC	0	30-50	30-50	30-50	50 Rushtacean' (+50 Init)
@@ -33,6 +34,7 @@ armored prawn	1	1	EPIC	0	30-50	30-50	30-50	50 Rushtacean' (+50 Init)
 [5140]astral energy drink	8	1	awesome	29-35	0	0	0
 astronaut ice-cream	1	7	EPIC	8-10	0	0	0
 autumn breeze	1	1		0	30-50	30-50	30-50	50 Delighted by Autumn (+100% all stats)
+baked bone meal	1	15		0	10-45	10-45	10-45
 bakelite bits	3	12	awesome	0	1000-2000	1000-2000	1000-2000
 beastly paste	4	4	good	5-10	18-22	18-22	18-22	10 Beastly Flavor (+3 fam weight)
 beefy pill	1	4	decent	0	22-24	12-14	12-14	30 Beefy (+10 DR, +1 all res)
@@ -41,6 +43,7 @@ bit-o-cactus	1	1	good	0	0	10-12	0
 black paisley oyster egg	1	1	awesome	0	0	11-15	0	20 Egg-stortionary Tactics (+50% meat drop)
 black polka-dot oyster egg	1	1	awesome	0	0	0	11-15	20 Egg-stortionary Tactics (+50% meat drop)
 black striped oyster egg	1	1	awesome	0	11-15	0	0	20 Egg-stortionary Tactics (+50% meat drop)
+blood thinner	1	1		0	0	0	0	50 Really Thin Blood (+100 HP, +1000% HP)
 blood-drive sticker	10	13	awesome	40	250-300	250-300	250-300
 blue paisley oyster egg	1	1	good	0	0	11-15	0	31-35 MP
 blue polka-dot oyster egg	1	1	good	0	0	0	11-15	31-35 MP
@@ -56,6 +59,7 @@ brilliant oyster egg	1	5	EPIC	0	0	50-60	0	20 Eggstraordinary Brilliance (+5 mys 
 bug paste	4	4	good	5-10	18-22	18-22	18-22	10 Buggy Flavor (25% chance of poisoning opponent)
 can of Red Minotaur	3	1	crappy	0	0	0	0	+1 PvP fight, 5 Wings
 can-can-in-a-can	1	1	good	0	0	0	10-12
+candy bone	1	1		0	40-60	20-30	20-30
 carrot juice	3	1	good	4-5	0	0	0	10 Pla-see-bo (+10% item drop)
 ceramic scree	3	12		0	0	0	0	Unspaded
 chalk chunks	2	1	good	0	0	0	0	Unspaded
@@ -75,6 +79,7 @@ cuppa Activi tea	2	1	decent	3-5	8-10	8-10	8-10
 cuppa Cruel tea	4	1	crappy	0	0	0	0	+5 PvP fights
 cute mushroom	4	6	decent	7-9	5-10	5-10	5-10	50 Cute Vision (+5 familiar weight)
 demonic paste	4	4	good	5-10	18-22	18-22	18-22	10 Demonic Flavor (hot dmg/res)
+devilbone chunks	3	12		0	0	0	0	Unspaded
 dieting pill	3	7	good	0	0	0	0	2x fullness, stats and adventures for next food
 drenchrome 2.0	1	1		0	0	0	0	30 Cyber Slicer (+dmg to Cyber attacks)
 ectoplasmic paste	4	4	good	5-10	18-22	18-22	18-22	10 Spooky Flavor (spooky dmg/res)
@@ -155,9 +160,11 @@ Mariner's Friend cough drops	1	1	good	0	10-12	0	0
 mauve paisley oyster egg	1	1	awesome	0	0	22-30	0
 mauve polka-dot oyster egg	1	1	awesome	0	0	11-15	11-15
 mauve striped oyster egg	1	1	awesome	0	11-15	11-15	0
+medicinal gruel	1	1		0	0	0	0	100 Grueling Gravitas (+200 HP, +200% HP, +5 fam weight, 50-200 HP regen)
 Medicinal Herb's medicinal herbs	1	3	good	0	0	0	0	full heal
 Mer-kin paste	4	4	good	5-10	18-22	18-22	18-22	10 Mer-kinny Flavor (breathe underwater)
 mime army superserum	1	15	good	0	0	0	0	50 I'll Have the Soup (+300% HP, 20 DR, +100 DA)
+mixed berry jelly	1	1		0	0	0	0	next monster defeated drops all items
 molotov soda	3	2	good	8-10	0	0	0
 moomy dust	1	1	decent	0	15-20	15-20	15-20	30 Cowrruption (+200% weapon dmg, +200% spell dmg, muscle limited to 30, moxie limited to 30)
 moss mulch	3	12		0	0	0	0	Unspaded
@@ -246,6 +253,7 @@ vial of humanoid growth hormone	1	1	awesome	0	0	0	0	30 HGH-charged (+50% mus exp
 vibrating mushroom	2	4	decent	3-4	0	0	0	30 Weird Vibrations (+25 init)
 vitamin G pill	1	6	good	0	20-25	20-25	20-25	5 Riboflavin' (Pickin' Pockets like a G)
 voodoo snuff	3	13	good	8-10	0	100-150	0
+water-logged pill	2	1		0	0	100-110	0	50 Briney Brains (+10% mys, +100% underwater)
 watered-down Red Minotaur	2	1	crappy	0	0	0	0	+1 PvP fight, 5 Water Wings
 wickerbits	2	12	good	0	0	0	0	Unspaded
 wrought-iron flakes	3	12	awesome	0	1000-2000	1000-2000	1000-2000

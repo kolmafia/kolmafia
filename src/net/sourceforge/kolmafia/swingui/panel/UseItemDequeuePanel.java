@@ -200,12 +200,15 @@ public class UseItemDequeuePanel extends ItemListManagePanel<QueuedConcoction> i
       ConcoctionDatabase.refreshConcoctions();
 
       switch (type) {
-        case FOOD -> UseItemDequeuePanel.this.queueTabs.setTitleAt(
-            0, ConcoctionDatabase.getQueuedFullness() + " Full Queued");
-        case BOOZE -> UseItemDequeuePanel.this.queueTabs.setTitleAt(
-            0, ConcoctionDatabase.getQueuedInebriety() + " Drunk Queued");
-        case SPLEEN -> UseItemDequeuePanel.this.queueTabs.setTitleAt(
-            0, ConcoctionDatabase.getQueuedSpleenHit() + " Spleen Queued");
+        case FOOD ->
+            UseItemDequeuePanel.this.queueTabs.setTitleAt(
+                0, ConcoctionDatabase.getQueuedFullness() + " Full Queued");
+        case BOOZE ->
+            UseItemDequeuePanel.this.queueTabs.setTitleAt(
+                0, ConcoctionDatabase.getQueuedInebriety() + " Drunk Queued");
+        case SPLEEN ->
+            UseItemDequeuePanel.this.queueTabs.setTitleAt(
+                0, ConcoctionDatabase.getQueuedSpleenHit() + " Spleen Queued");
       }
       ConcoctionDatabase.getUsables().sort();
     }

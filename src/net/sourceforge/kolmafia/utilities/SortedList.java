@@ -69,9 +69,9 @@ public class SortedList<E extends Comparable<E>> extends ArrayList<E> {
     Object[] a = toArray();
     Arrays.sort(a);
     ListIterator<E> i = listIterator();
-    for (int j = 0; j < a.length; j++) {
+    for (Object o : a) {
       i.next();
-      i.set((E) a[j]);
+      i.set((E) o);
     }
   }
 

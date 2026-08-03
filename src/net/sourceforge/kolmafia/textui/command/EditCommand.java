@@ -36,9 +36,8 @@ public class EditCommand extends AbstractCommand {
     if (scriptFile == null) {
       scriptFile = new File(KoLConstants.DATA_LOCATION, parameters);
       if (!scriptFile.exists()) {
-        if (parameters.indexOf("/") != -1
-            || parameters.indexOf("\\")
-                != -1) { // Let user explicitly give the top-level directory,
+        if (parameters.contains("/")
+            || parameters.contains("\\")) { // Let user explicitly give the top-level directory,
           // as in "edit data/mymap.txt".
           scriptFile = new File(KoLConstants.ROOT_LOCATION, parameters);
         } else { // Assume scripts folder for bare filename

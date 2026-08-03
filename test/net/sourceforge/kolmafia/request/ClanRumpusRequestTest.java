@@ -4,6 +4,7 @@ import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withClanFurniture;
 import static internal.helpers.Player.withHttpClientBuilder;
+import static internal.helpers.Player.withInteractivity;
 import static internal.helpers.Player.withNextResponse;
 import static internal.helpers.Player.withProperty;
 import static internal.matchers.Preference.isSetTo;
@@ -81,6 +82,25 @@ public class ClanRumpusRequestTest {
       req.visitEquipment(3, 3);
       req.run();
       assertThat("_klawSummons", isSetTo(3));
+    }
+  }
+
+  @Test
+  void breakfastSkipsVisitedEquipment() {
+    var builder = new FakeHttpClientBuilder();
+
+    var cleanups =
+        new Cleanups(
+            withHttpClientBuilder(builder),
+            withInteractivity(true),
+            withClanFurniture("Girls of Loathing Calendar"),
+            withProperty("_clanRumpusSpot1Visited", true));
+
+    try (cleanups) {
+      ClanRumpusRequest.getBreakfast();
+      var requests = builder.client.getRequests();
+
+      assertThat(requests, hasSize(0));
     }
   }
 }

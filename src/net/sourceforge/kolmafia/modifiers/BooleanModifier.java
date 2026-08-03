@@ -52,10 +52,6 @@ public enum BooleanModifier implements Modifier {
       Pattern.compile("Lets your Familiar Breathe Underwater"),
       Pattern.compile("Underwater Familiar")),
   GENERIC("Generic", Pattern.compile("Generic")),
-  UNARMED(
-      "Unarmed",
-      Pattern.compile("Bonus&nbsp;for&nbsp;Unarmed&nbsp;Characters&nbsp;only"),
-      Pattern.compile("Unarmed")),
   NOPULL("No Pull", Pattern.compile("No Pull")),
   LASTS_ONE_DAY(
       "Lasts Until Rollover",
@@ -82,7 +78,11 @@ public enum BooleanModifier implements Modifier {
   NEGATIVE_STATUS_RESIST(
       "Negative Status Resist",
       Pattern.compile("75% Chance of Preventing Negative Status Attacks"),
-      Pattern.compile("Negative Status Resist"));
+      Pattern.compile("Negative Status Resist")),
+  WEAKENS_MONSTER_ON_CRITICAL_HIT(
+      "Weakens Monster on Critical Hit",
+      Pattern.compile("Weakens Monster on Critical Hit"),
+      Pattern.compile("Weakens Monster on Critical Hit"));
 
   private final String name;
   private final Pattern[] descPatterns;

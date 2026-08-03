@@ -26,6 +26,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.AlliedRadioRequest;
 import net.sourceforge.kolmafia.request.ArcadeRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest.CropType;
@@ -87,6 +88,7 @@ public class BreakfastManager {
         ItemPool.get(ItemPool.REFURBISHED_AIR_FRYER, 1),
         ItemPool.get(ItemPool.PUNCHING_MIRROR, 1),
         ItemPool.get(ItemPool.LIL_SNOWBALL_FACTORY, 1),
+        ItemPool.get(ItemPool.PORK_ELF_TOILETRIES_KIT, 1),
       };
 
   private static final AdventureResult VIP_LOUNGE_KEY = ItemPool.get(ItemPool.VIP_LOUNGE_KEY, 1);
@@ -113,7 +115,8 @@ public class BreakfastManager {
           BreakfastManager::collectSeaJelly,
           BreakfastManager::harvestBatteries,
           BreakfastManager::useBookOfEverySkill,
-          BreakfastManager::useReplicaBooks);
+          BreakfastManager::useReplicaBooks,
+          BreakfastManager::makeHandheldRadios);
 
   private BreakfastManager() {}
 
@@ -363,9 +366,7 @@ public class BreakfastManager {
   }
 
   public static void harvestGarden() {
-    if (KoLCharacter.isEd()
-        || KoLCharacter.inNuclearAutumn()
-        || KoLCharacter.getLimitMode().limitCampground()) {
+    if (!CampgroundRequest.haveCampground()) {
       return;
     }
 
@@ -432,9 +433,7 @@ public class BreakfastManager {
   }
 
   public static void useSpinningWheel() {
-    if (KoLCharacter.isEd()
-        || KoLCharacter.inNuclearAutumn()
-        || KoLCharacter.getLimitMode().limitCampground()) {
+    if (!CampgroundRequest.haveWorkshed()) {
       return;
     }
 
@@ -480,7 +479,8 @@ public class BreakfastManager {
       if (pathedSummons) {
         if ((skill.equals("Pastamastery")
                 || skill.equals("Lunch Break")
-                || skill.equals("Spaghetti Breakfast"))
+                || skill.equals("Spaghetti Breakfast")
+                || skill.equals("Wave your Pasta Wand"))
             && !KoLCharacter.canEat()) {
           continue;
         }
@@ -577,9 +577,7 @@ public class BreakfastManager {
     boolean castAll = name.equals("all");
 
     // Determine how many skills we will cast from this list
-    for (int i = 0; i < skills.length; ++i) {
-      String skillName = skills[i];
-
+    for (String skillName : skills) {
       if (!castAll && !name.equals(skillName)) {
         continue;
       }
@@ -612,19 +610,19 @@ public class BreakfastManager {
     long totalCasts =
         switch (type) {
           case TOME ->
-          // In Ronin or Hardcore, Tomes can be used three times a day,
-          // spread among all available tomes.
-          // In other cases, all available tomes can be cast three times a day.
-          KoLCharacter.canInteract() ? skillCount * 3L : 3;
+              // In Ronin or Hardcore, Tomes can be used three times a day,
+              // spread among all available tomes.
+              // In other cases, all available tomes can be cast three times a day.
+              KoLCharacter.canInteract() ? skillCount * 3L : 3;
           case GRIMOIRE ->
-          // Grimoires can be used once a day, each.
-          skillCount;
+              // Grimoires can be used once a day, each.
+              skillCount;
           case LIBRAM ->
-          // Librams can be used as many times per day as you
-          // have mana available.
-          // Note that if we allow MP to be restored, we could
-          // potentially summon a lot more. Maybe someday...
-          SkillDatabase.libramSkillCasts(KoLCharacter.getCurrentMP() - manaRemaining);
+              // Librams can be used as many times per day as you
+              // have mana available.
+              // Note that if we allow MP to be restored, we could
+              // potentially summon a lot more. Maybe someday...
+              SkillDatabase.libramSkillCasts(KoLCharacter.getCurrentMP() - manaRemaining);
         };
 
     if (skillCount == 1) {
@@ -979,6 +977,25 @@ public class BreakfastManager {
     if (InventoryManager.hasItem(book) && !Preferences.getBoolean("_replicaSmithsTomeUsed")) {
       KoLmafia.updateDisplay("Summoning smithables...");
       RequestThread.postRequest(UseItemRequest.getInstance(book));
+    }
+  }
+
+  private static void makeHandheldRadios() {
+    if (!InventoryManager.equippedOrInInventory(ItemPool.ALLIED_RADIO_BACKPACK)) {
+      return;
+    }
+
+    // Can't use the produced radio in G-Lover
+    if (KoLCharacter.inGLover()) {
+      return;
+    }
+
+    if (Preferences.getBoolean(
+        "makeHandheldRadios" + (KoLCharacter.canInteract() ? "Softcore" : "Hardcore"))) {
+      int num = 3 - Preferences.getInteger("_alliedRadioDropsUsed");
+      for (int i = 0; i < num; i++) {
+        RequestThread.postRequest(new AlliedRadioRequest("radio"));
+      }
     }
   }
 }

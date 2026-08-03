@@ -65,8 +65,8 @@ public class ClanMembersRequest extends GenericRequest {
       }
     }
 
-    for (int i = 0; i < boots.length; ++i) {
-      currentId = ContactManager.getPlayerId(boots[i]);
+    for (String boot : boots) {
+      currentId = ContactManager.getPlayerId(boot);
       ClanManager.unregisterMember(currentId);
       this.addFormField("boot" + currentId, "on");
 
@@ -78,8 +78,8 @@ public class ClanMembersRequest extends GenericRequest {
     String[] changedIds = new String[fields.size()];
     fields.toArray(changedIds);
 
-    for (int i = 0; i < changedIds.length; ++i) {
-      this.addFormField("pids[]", changedIds[i], true);
+    for (String changedId : changedIds) {
+      this.addFormField("pids[]", changedId, true);
     }
   }
 
@@ -111,7 +111,7 @@ public class ClanMembersRequest extends GenericRequest {
       this.constructURLString("showclan.php?whichclan=" + clanId + "&page=" + (page++), false);
 
       super.run();
-    } while (this.responseText != null && this.responseText.indexOf("next page &gt;&gt;") != -1);
+    } while (this.responseText != null && this.responseText.contains("next page &gt;&gt;"));
   }
 
   @Override

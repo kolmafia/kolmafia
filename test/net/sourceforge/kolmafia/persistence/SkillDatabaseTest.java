@@ -1,41 +1,80 @@
 package net.sourceforge.kolmafia.persistence;
 
 import static internal.helpers.Player.withClass;
+import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.EnumSet;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.SkillDatabase.Category;
+import net.sourceforge.kolmafia.persistence.SkillDatabase.SkillTag;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 public class SkillDatabaseTest {
+
+  @Test
+  public void itShouldReturnExpectedFieldsForKnownSkillRow() {
+    var skillId = SkillPool.MANAGERIAL_MANIPULATION;
+    var name = "Managerial Manipulation";
+
+    assertThat(SkillDatabase.getSkillName(skillId), is(name));
+    assertThat(SkillDatabase.getSkillId(name), is(skillId));
+    assertThat(SkillDatabase.getSkillImage(skillId), is("necktie.gif"));
+    assertThat(
+        SkillDatabase.getSkillTags(skillId),
+        is(EnumSet.of(SkillTag.NONCOMBAT, SkillTag.EFFECT, SkillTag.OTHER)));
+    assertThat(SkillDatabase.getMPConsumptionById(skillId), is(5L));
+    assertThat(SkillDatabase.getEffectDuration(skillId), is(20));
+    assertThat(SkillDatabase.getSkillLevel(skillId), is(-1));
+    assertThat(SkillDatabase.getSkillCategory(skillId), is(Category.UNCATEGORIZED));
+    assertThat(SkillDatabase.isPermable(skillId), is(true));
+    assertThat(SkillDatabase.getSkillLevel(skillId), is(-1));
+    assertThat(SkillDatabase.getMaxLevel(skillId), is(0));
+
+    assertThat(
+        SkillDatabase.getCastableSkills(false), hasItem(hasProperty("skillId", is(skillId))));
+  }
+
+  @Test
+  public void shouldReturnMaxLevelForKnownRow() {
+    assertThat(SkillDatabase.getMaxLevel(SkillPool.SLIMY_SINEWS), is(10));
+  }
+
+  @Test
+  public void shouldReturnLevelForKnownRow() {
+    assertThat(SkillDatabase.getSkillLevel(SkillPool.MOTIF), is(11));
+  }
+
   // This is just one simple test to verify before and after behavior for an implicit narrowing cast
   // that was replaced by an alternative calculation.
 
   @Test
   public void itShouldCalculateCostCorrectlyAsAFunctionOfCasts() {
-    assertEquals(SkillDatabase.stackLumpsCost(-10), 1);
-    assertEquals(SkillDatabase.stackLumpsCost(0), 11);
-    assertEquals(SkillDatabase.stackLumpsCost(1), 111);
-    assertEquals(SkillDatabase.stackLumpsCost(2), 1111);
-    assertEquals(SkillDatabase.stackLumpsCost(14), 1111111111111111L);
+    assertEquals(1, SkillDatabase.stackLumpsCost(-10));
+    assertEquals(11, SkillDatabase.stackLumpsCost(0));
+    assertEquals(111, SkillDatabase.stackLumpsCost(1));
+    assertEquals(1111, SkillDatabase.stackLumpsCost(2));
+    assertEquals(1111111111111111L, SkillDatabase.stackLumpsCost(14));
     // The previous calculation using Pow actually gives incorrect results for more than 14 casts
     // More than 17 casts overflows a long
-    assertEquals(SkillDatabase.stackLumpsCost(15), 11111111111111111L);
-    assertEquals(SkillDatabase.stackLumpsCost(17), 1111111111111111111L);
-    assertEquals(SkillDatabase.stackLumpsCost(18), Long.MAX_VALUE);
+    assertEquals(11111111111111111L, SkillDatabase.stackLumpsCost(15));
+    assertEquals(1111111111111111111L, SkillDatabase.stackLumpsCost(17));
+    assertEquals(Long.MAX_VALUE, SkillDatabase.stackLumpsCost(18));
   }
 
   @Test
   public void thrallsLastTenTurnsWhenNotPasta() {
     var cleanups = withClass(AscensionClass.ACCORDION_THIEF);
     try (cleanups) {
-      assertEquals(SkillDatabase.getEffectDuration(SkillPool.BIND_LASAGMBIE), 10);
+      assertEquals(10, SkillDatabase.getEffectDuration(SkillPool.BIND_LASAGMBIE));
     }
   }
 
@@ -43,7 +82,7 @@ public class SkillDatabaseTest {
   public void thrallsLastZeroTurnsWhenPasta() {
     var cleanups = withClass(AscensionClass.PASTAMANCER);
     try (cleanups) {
-      assertEquals(SkillDatabase.getEffectDuration(SkillPool.BIND_LASAGMBIE), 0);
+      assertEquals(0, SkillDatabase.getEffectDuration(SkillPool.BIND_LASAGMBIE));
     }
   }
 
@@ -51,47 +90,47 @@ public class SkillDatabaseTest {
   class Categories {
     @Test
     public void identifiesAccordionThiefSkill() {
-      assertEquals(SkillDatabase.getSkillCategory(SkillPool.ANTIPHON), Category.ACCORDION_THIEF);
+      assertEquals(Category.ACCORDION_THIEF, SkillDatabase.getSkillCategory(SkillPool.ANTIPHON));
     }
 
     @Test
     public void identifiesVampyreSkill() {
-      assertEquals(SkillDatabase.getSkillCategory(SkillPool.BLOOD_CLOAK), Category.VAMPYRE);
+      assertEquals(Category.VAMPYRE, SkillDatabase.getSkillCategory(SkillPool.BLOOD_CLOAK));
     }
 
     @Test
     public void identifiesGreyYouSkill() {
-      assertEquals(SkillDatabase.getSkillCategory(SkillPool.HARRIED), Category.GREY_YOU);
+      assertEquals(Category.GREY_YOU, SkillDatabase.getSkillCategory(SkillPool.HARRIED));
     }
 
     @Test
     public void identifiesPigSkinnerSkill() {
-      assertEquals(SkillDatabase.getSkillCategory(SkillPool.HOT_FOOT), Category.PIG_SKINNER);
+      assertEquals(Category.PIG_SKINNER, SkillDatabase.getSkillCategory(SkillPool.HOT_FOOT));
     }
 
     @Test
     public void identifiesCheeseWizardSkill() {
-      assertEquals(SkillDatabase.getSkillCategory(SkillPool.FONDELUGE), Category.CHEESE_WIZARD);
+      assertEquals(Category.CHEESE_WIZARD, SkillDatabase.getSkillCategory(SkillPool.FONDELUGE));
     }
 
     @Test
     public void identifiesJazzAgentSkill() {
-      assertEquals(SkillDatabase.getSkillCategory(SkillPool.DRUM_ROLL), Category.JAZZ_AGENT);
+      assertEquals(Category.JAZZ_AGENT, SkillDatabase.getSkillCategory(SkillPool.DRUM_ROLL));
     }
 
     @Test
     public void identifiesConditionalSkill() {
-      assertEquals(SkillDatabase.getSkillCategory(SkillPool.CREEPY_GRIN), Category.CONDITIONAL);
+      assertEquals(Category.CONDITIONAL, SkillDatabase.getSkillCategory(SkillPool.CREEPY_GRIN));
     }
 
     @Test
     public void identifiesGnomeSkill() {
-      assertEquals(SkillDatabase.getSkillCategory(SkillPool.TORSO), Category.GNOME_SKILLS);
+      assertEquals(Category.GNOME_SKILLS, SkillDatabase.getSkillCategory(SkillPool.TORSO));
     }
 
     @Test
     public void identifiesBadMoonSkill() {
-      assertEquals(SkillDatabase.getSkillCategory(SkillPool.LUST), Category.BAD_MOON);
+      assertEquals(Category.BAD_MOON, SkillDatabase.getSkillCategory(SkillPool.LUST));
     }
 
     @Test
@@ -100,7 +139,7 @@ public class SkillDatabaseTest {
           SkillDatabase.getAllSkills().stream().mapToInt(UseSkillRequest::getSkillId).max();
       assertTrue(maxSkillOpt.isPresent());
       var maxSkill = maxSkillOpt.getAsInt();
-      assertEquals(SkillDatabase.getSkillCategory(maxSkill + 1000), Category.UNKNOWN);
+      assertEquals(Category.UNKNOWN, SkillDatabase.getSkillCategory(maxSkill + 1000));
     }
   }
 
@@ -193,9 +232,22 @@ public class SkillDatabaseTest {
     }
 
     @Test
+    void shanty() {
+      assertThat(
+          SkillDatabase.getSkillTypeName(SkillPool.ONLY_DOGS_LOVE_A_DRUNKEN_SAILOR),
+          equalTo("shanty"));
+    }
+
+    @Test
     void remedyPassive() {
       assertThat(
           SkillDatabase.getSkillTypeName(SkillPool.DISCO_NAP), equalTo("noncombat remedy/passive"));
     }
+  }
+
+  @Test
+  public void shouldBeNoUnknownSkills() {
+    var unknownSkills = SkillDatabase.unknownSkills();
+    assertThat(unknownSkills, empty());
   }
 }

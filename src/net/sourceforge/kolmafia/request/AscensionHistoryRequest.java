@@ -266,8 +266,7 @@ public class AscensionHistoryRequest extends GenericRequest
       return "";
     }
 
-    try {
-      BufferedReader istream = FileUtilities.getReader(backupFile);
+    try (BufferedReader istream = FileUtilities.getReader(backupFile)) {
       StringBuilder ascensionBuffer = new StringBuilder();
       String currentLine;
 

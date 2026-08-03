@@ -26,6 +26,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -462,6 +463,7 @@ public class OptionsFrame extends GenericFrame {
         {},
         {"useZoneComboBox", "Use zone selection instead of adventure name filter"},
         {"cacheMallSearches", "Cache mall search terms in mall search interface"},
+        {"permitScriptNotify", "Allow scripts to send a one-time thank you message to the author"},
         {"saveSettingsOnSet", "Save options to disk whenever they change"},
         {},
         {"removeMalignantEffects", "Auto-remove malignant status effects"},
@@ -849,7 +851,6 @@ public class OptionsFrame extends GenericFrame {
               "Show all, effects with no direct source, skills you don't have, etc."));
       this.queue(
           new PreferenceIntegerTextField("maximizerMRUSize", 4, "Recent maximizer string buffer"));
-
       this.queue(
               new PreferenceCheckBox(
                   "maximizerSingleFilter",
@@ -1677,6 +1678,7 @@ public class OptionsFrame extends GenericFrame {
               {"addCreationQueue", "Add creation queueing interface to item manager"},
               {"addStatusBarToFrames", "Add a status line to independent windows"},
               {"autoHighlightOnFocus", "Highlight text fields when selected"},
+              {"separateTitleAndMenuBar", "Keep window title above menu bar in FlatLaf themes"},
               {},
               {"allowCloseableDesktopTabs", "Allow tabs on main window to be closed"},
             }
@@ -1691,6 +1693,7 @@ public class OptionsFrame extends GenericFrame {
                   {"addCreationQueue", "Add creation queueing interface to item manager"},
                   {"addStatusBarToFrames", "Add a status line to independent windows"},
                   {"autoHighlightOnFocus", "Highlight text fields when selected"},
+                  {"separateTitleAndMenuBar", "Keep window title above menu bar in FlatLaf themes"},
                   {},
                   {"allowCloseableDesktopTabs", "Allow tabs on main window to be closed"},
                   // { "darkThemeToolIconOverride", "Always use dark toolbar icons with dark Look
@@ -1705,6 +1708,7 @@ public class OptionsFrame extends GenericFrame {
                   {"addCreationQueue", "Add creation queueing interface to item manager"},
                   {"addStatusBarToFrames", "Add a status line to independent windows"},
                   {"autoHighlightOnFocus", "Highlight text fields when selected"},
+                  {"separateTitleAndMenuBar", "Keep window title above menu bar in FlatLaf themes"},
                   {},
                   {"allowCloseableDesktopTabs", "Allow tabs on main window to be closed"},
                 };
@@ -1714,6 +1718,7 @@ public class OptionsFrame extends GenericFrame {
     public UserInterfacePanel() {
       super(new Dimension(80, 22), new Dimension(280, 22));
       PreferenceListenerRegistry.registerPreferenceListener("swingLookAndFeel", this);
+      PreferenceListenerRegistry.registerPreferenceListener("separateTitleAndMenuBar", this);
 
       UIManager.LookAndFeelInfo[] installed = UIManager.getInstalledLookAndFeels();
       String[] installedLooks = new String[installed.length + 1];
@@ -1817,11 +1822,15 @@ public class OptionsFrame extends GenericFrame {
       }
       try {
         UIManager.setLookAndFeel(lookAndFeel);
+        KoLmafiaGUI.applyFlatLafMenuBarSettings();
         // This is where we invalidate the UI and re-draw it because we switched Lafs..."
         Frame[] frames = Frame.getFrames();
         for (Frame f : frames) {
           SwingUtilities.invokeLater(
               () -> {
+                if (f instanceof JFrame frame) {
+                  KoLmafiaGUI.applyFlatLafMenuBarSettings(frame.getRootPane());
+                }
                 SwingUtilities.updateComponentTreeUI(f); // update components
                 f.pack(); // adapt container size if required
               });
@@ -2180,6 +2189,7 @@ public class OptionsFrame extends GenericFrame {
     private final JCheckBox haveBoxingDaydream;
     private final JCheckBox harvestBatteries;
     private final JCheckBox useBookOfEverySkill;
+    private final JCheckBox makeHandheldRadios;
 
     private final SkillMenu tomeSkills;
     private final SkillMenu libramSkills;
@@ -2256,6 +2266,10 @@ public class OptionsFrame extends GenericFrame {
       this.useBookOfEverySkill = new JCheckBox("use Book of Every Skill");
       this.useBookOfEverySkill.addActionListener(this);
       centerPanel.add(this.useBookOfEverySkill);
+
+      this.makeHandheldRadios = new JCheckBox("make handheld radios");
+      this.makeHandheldRadios.addActionListener(this);
+      centerPanel.add(this.makeHandheldRadios);
 
       centerContainer.add(centerPanel);
       centerContainer.add(Box.createVerticalStrut(10));
@@ -2337,6 +2351,8 @@ public class OptionsFrame extends GenericFrame {
           "harvestBatteries" + this.breakfastType, this.harvestBatteries.isSelected());
       Preferences.setBoolean(
           "useBookOfEverySkill" + this.breakfastType, this.useBookOfEverySkill.isSelected());
+      Preferences.setBoolean(
+          "makeHandheldRadios" + this.breakfastType, this.makeHandheldRadios.isSelected());
 
       this.tomeSkills.setPreference();
       this.libramSkills.setPreference();
@@ -2367,6 +2383,8 @@ public class OptionsFrame extends GenericFrame {
           Preferences.getBoolean("harvestBatteries" + this.breakfastType));
       this.useBookOfEverySkill.setSelected(
           Preferences.getBoolean("useBookOfEverySkill" + this.breakfastType));
+      this.makeHandheldRadios.setSelected(
+          Preferences.getBoolean("makeHandheldRadios" + this.breakfastType));
     }
 
     @Override

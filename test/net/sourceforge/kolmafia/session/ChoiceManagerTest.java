@@ -75,7 +75,7 @@ public class ChoiceManagerTest {
     assertEquals(1049, choice);
     Map<Integer, String> choices = ChoiceUtilities.parseChoices(responseText);
     assertEquals(3, choices.size());
-    assertEquals("&quot;Music.&quot;", choices.get(1));
+    assertEquals("\"Music.\"", choices.get(1));
     // specialChoiceDecision1(int choice, String decision, int stepCount, String responseText)
     String option = ChoiceManager.specialChoiceDecision1(choice, "", 0, responseText);
     assertEquals("1", option);
@@ -85,7 +85,7 @@ public class ChoiceManagerTest {
     assertEquals(1049, choice);
     choices = ChoiceUtilities.parseChoices(responseText);
     assertEquals(3, choices.size());
-    assertEquals("&quot;Music.&quot;", choices.get(2));
+    assertEquals("\"Music.\"", choices.get(2));
     // specialChoiceDecision1(int choice, String decision, int stepCount, String responseText)
     option = ChoiceManager.specialChoiceDecision1(choice, "", 0, responseText);
     assertEquals("2", option);
@@ -95,7 +95,7 @@ public class ChoiceManagerTest {
     assertEquals(1049, choice);
     choices = ChoiceUtilities.parseChoices(responseText);
     assertEquals(3, choices.size());
-    assertEquals("&quot;Music.&quot;", choices.get(3));
+    assertEquals("\"Music.\"", choices.get(3));
     // specialChoiceDecision1(int choice, String decision, int stepCount, String responseText)
     option = ChoiceManager.specialChoiceDecision1(choice, "", 0, responseText);
     assertEquals("3", option);

@@ -61,7 +61,7 @@ public class CakeArenaFrame extends GenericFrame {
       super(new BorderLayout(0, 10));
       CakeArenaFrame.this.opponents = CakeArenaManager.getOpponentList();
 
-      String opponentRace;
+      int opponentId;
       String[] columnNames = {
         "Familiar", "Cage Match", "Scavenger Hunt", "Obstacle Course", "Hide and Seek"
       };
@@ -92,11 +92,11 @@ public class CakeArenaFrame extends GenericFrame {
       // your own familiar's data.
 
       for (int i = 0; i < CakeArenaFrame.this.opponents.size(); ++i) {
-        opponentRace = CakeArenaFrame.this.opponents.get(i).getRace();
+        opponentId = CakeArenaFrame.this.opponents.get(i).getId();
         opponentData[i][0] = CakeArenaFrame.this.opponents.get(i).toString();
 
         for (int j = 1; j <= 4; ++j) {
-          Integer skill = FamiliarDatabase.getFamiliarSkill(opponentRace, j);
+          Integer skill = FamiliarDatabase.getFamiliarSkill(opponentId, j);
           if (skill == null) skill = 0;
           JButton opponentButton =
               new JButton(JComponentUtilities.getImage(skill.toString() + "star.gif"));
@@ -130,15 +130,13 @@ public class CakeArenaFrame extends GenericFrame {
     public OpponentListener(final int row, final int column, final Integer skill) {
       this.row = row;
       this.column = column;
-      this.opponentSkill =
-          skill.intValue() == 1 ? "1 star (opponent)" : skill + " stars (opponent)";
+      this.opponentSkill = skill == 1 ? "1 star (opponent)" : skill + " stars (opponent)";
     }
 
     @Override
     protected void execute() {
       int yourSkillValue =
-          FamiliarDatabase.getFamiliarSkill(KoLCharacter.getFamiliar().getRace(), this.column)
-              .intValue();
+          FamiliarDatabase.getFamiliarSkill(KoLCharacter.getFamiliar().getId(), this.column);
       String yourSkill = yourSkillValue == 1 ? "1 star (yours)" : yourSkillValue + " stars (yours)";
 
       int battleCount =
@@ -186,7 +184,7 @@ public class CakeArenaFrame extends GenericFrame {
           ? new JLabel(JComponentUtilities.getImage("0star.gif"))
           : new JLabel(
               JComponentUtilities.getImage(
-                  FamiliarDatabase.getFamiliarSkill(currentFamiliar.getRace(), column).toString()
+                  FamiliarDatabase.getFamiliarSkill(currentFamiliar.getId(), column).toString()
                       + "star.gif"));
     }
 

@@ -8,7 +8,6 @@ import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
-import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -24,6 +23,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase.Attribute;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.coinmaster.shop.JarlsbergRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.ResultProcessor;
@@ -93,8 +93,7 @@ public class EatItemRequest extends UseItemRequest {
       return 1;
     }
 
-    if (KoLCharacter.isJarlsberg()
-        && ConcoctionDatabase.getMixingMethod(itemId) != CraftingType.JARLS) {
+    if (KoLCharacter.isJarlsberg() && !JarlsbergRequest.isJarlsbergian(itemId)) {
       UseItemRequest.limiter = "its non-Jarlsbergian nature";
       return 0;
     }
@@ -149,10 +148,10 @@ public class EatItemRequest extends UseItemRequest {
       UseItemRequest.limiter = dailyLimit.getLimitReason();
       var usesRemaining = dailyLimit.getUsesRemaining();
       return switch (itemId) {
-        case ItemPool.SPAGHETTI_BREAKFAST -> usesRemaining
-            - ConcoctionDatabase.queuedSpaghettiBreakfast;
-        case ItemPool.AFFIRMATION_COOKIE -> usesRemaining
-            - ConcoctionDatabase.queuedAffirmationCookies;
+        case ItemPool.SPAGHETTI_BREAKFAST ->
+            usesRemaining - ConcoctionDatabase.queuedSpaghettiBreakfast;
+        case ItemPool.AFFIRMATION_COOKIE ->
+            usesRemaining - ConcoctionDatabase.queuedAffirmationCookies;
         default -> usesRemaining;
       };
     }
@@ -310,7 +309,7 @@ public class EatItemRequest extends UseItemRequest {
             EatItemRequest.queuedFoodHelper = null;
             return;
           }
-          // deliberate fallthrough
+        // deliberate fallthrough
         case ItemPool.FUDGE_SPORK:
           // Items submitted with utensil
           this.addFormField("utensil", String.valueOf(helperItemId));
@@ -337,20 +336,21 @@ public class EatItemRequest extends UseItemRequest {
     }
 
     return switch (itemId) {
-        // Multi-eating s'mores doesn't update the smoresEaten
-        // preference correctly.
+      // Multi-eating s'mores doesn't update the smoresEaten
+      // preference correctly.
       case ItemPool.SMORE,
           // Eating a black pudding can lead to a combat with no
           // feedback about how many were successfully eaten
           // before the combat.
-          ItemPool.BLACK_PUDDING -> true;
+          ItemPool.BLACK_PUDDING ->
+          true;
       default -> false;
     };
   }
 
   private static boolean sequentialConsume(final int itemId) {
     return switch (itemId) {
-        // Allow multiple pies to be made and eaten with only one key.
+      // Allow multiple pies to be made and eaten with only one key.
       case ItemPool.BORIS_PIE, ItemPool.JARLSBERG_PIE, ItemPool.SNEAKY_PETE_PIE -> true;
       default -> false;
     };
@@ -937,13 +937,13 @@ public class EatItemRequest extends UseItemRequest {
         ConsumablesDatabase.calculateAllAverageAdventures();
       }
       case ItemPool.KUDZU_SALAD -> Preferences.setBoolean("_kudzuSaladEaten", true);
-      case ItemPool.PLUMBERS_MUSHROOM_STEW -> Preferences.setBoolean(
-          "_plumbersMushroomStewEaten", true);
+      case ItemPool.PLUMBERS_MUSHROOM_STEW ->
+          Preferences.setBoolean("_plumbersMushroomStewEaten", true);
       case ItemPool.MR_BURNSGER -> Preferences.setBoolean("_mrBurnsgerEaten", true);
-      case ItemPool.MAGICAL_SAUSAGE -> Preferences.increment(
-          "_sausagesEaten", item.getCount(), 23, false);
-      case ItemPool.ELECTRIC_KOOL_AID -> Preferences.increment(
-          "electricKoolAidEaten", item.getCount());
+      case ItemPool.MAGICAL_SAUSAGE ->
+          Preferences.increment("_sausagesEaten", item.getCount(), 23, false);
+      case ItemPool.ELECTRIC_KOOL_AID ->
+          Preferences.increment("electricKoolAidEaten", item.getCount());
       case ItemPool.PIRATE_FORK -> {
         // You reach over and grab some <food> off of a random passerby's plate. Yum!
         if (responseText.contains("You reach over and grab")) {
@@ -1051,10 +1051,17 @@ public class EatItemRequest extends UseItemRequest {
       Preferences.setBoolean("milkOfMagnesiumActive", false);
     }
 
-    // You feel the canticle take hold, and feel suddenly bloated
-    // as the pasta expands in your belly.
-    if (KoLCharacter.isPastamancer() && responseText.contains("feel suddenly bloated")) {
-      Preferences.setInteger("carboLoading", 0);
+    if (KoLCharacter.isPastamancer()) {
+      // You feel the canticle take hold, and feel suddenly bloated
+      // as the pasta expands in your belly.
+      if (responseText.contains("feel suddenly bloated")) {
+        Preferences.setInteger("carboLoading", 0);
+      }
+
+      // Mmm, this tastes a little bit spicier than normal.
+      if (responseText.contains("Mmm, this tastes a little bit spicier")) {
+        Preferences.setBoolean("_legendarySpiceGhostFood", true);
+      }
     }
 
     // If you have Mayo Minder running, you don't need to use the mayo helpers, but they are still
@@ -1122,6 +1129,7 @@ public class EatItemRequest extends UseItemRequest {
     }
 
     Preferences.decrement("munchiesPillsUsed", count);
+    Preferences.decrement("legendaryNoodlesStomach", count);
   }
 
   public static final void updateTimeSpinner(final int itemId, final boolean timeSpinnerUsed) {

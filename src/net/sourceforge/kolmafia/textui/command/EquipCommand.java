@@ -57,8 +57,8 @@ public class EquipCommand extends AbstractCommand {
 
     switch (itemId) {
       case ItemPool.SPELUNKY_SPRING_BOOTS, ItemPool.SPELUNKY_SPIKED_BOOTS ->
-      // Spelunky only has one "accessory" slot
-      slot = Slot.ACCESSORY1;
+          // Spelunky only has one "accessory" slot
+          slot = Slot.ACCESSORY1;
     }
 
     // If he didn't specify slot name, decide where this item goes.

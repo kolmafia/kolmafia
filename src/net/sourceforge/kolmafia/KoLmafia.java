@@ -16,6 +16,8 @@ import java.nio.channels.FileLock;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TimeZone;
 import javax.swing.JEditorPane;
@@ -86,6 +88,7 @@ import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.WildfireCampRequest;
 import net.sourceforge.kolmafia.request.coinmaster.BountyHunterHunterRequest;
 import net.sourceforge.kolmafia.request.coinmaster.HermitRequest;
+import net.sourceforge.kolmafia.request.coinmaster.SkeletonOfCrimboPastRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.SeptEmberCenserRequest;
 import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
 import net.sourceforge.kolmafia.session.BanishManager;
@@ -200,9 +203,9 @@ public abstract class KoLmafia {
         return KoLmafia.SESSION_HOLDER != null;
       }
 
-      PrintStream ostream = LogStream.openStream(KoLmafia.SESSION_FILE, true);
-      ostream.println(StaticEntity.getVersion());
-      ostream.close();
+      try (PrintStream ostream = LogStream.openStream(KoLmafia.SESSION_FILE, true)) {
+        ostream.println(StaticEntity.getVersion());
+      }
 
       KoLmafia.SESSION_CHANNEL = new RandomAccessFile(KoLmafia.SESSION_FILE, "rw").getChannel();
       KoLmafia.SESSION_HOLDER = KoLmafia.SESSION_CHANNEL.lock();
@@ -396,8 +399,8 @@ public abstract class KoLmafia {
     String defaultLookAndFeel;
 
     // Tell UIManager about Look and Feel files in external jars ( defined in KoLGUIConstants)
-    FLATMAP_LIGHT_LOOKS.forEach(UIManager::installLookAndFeel);
-    FLATMAP_DARK_LOOKS.forEach(UIManager::installLookAndFeel);
+    installLookAndFeel(FLATMAP_LIGHT_LOOKS);
+    installLookAndFeel(FLATMAP_DARK_LOOKS);
 
     if (System.getProperty("os.name").startsWith("Mac")
         || System.getProperty("os.name").startsWith("Win")) {
@@ -430,6 +433,7 @@ public abstract class KoLmafia {
 
     try {
       UIManager.setLookAndFeel(lookAndFeel);
+      KoLmafiaGUI.applyFlatLafMenuBarSettings();
       JFrame.setDefaultLookAndFeelDecorated(System.getProperty("os.name").startsWith("Mac"));
     } catch (Exception e) {
       // Should not happen, as we checked to see if
@@ -458,6 +462,21 @@ public abstract class KoLmafia {
 
       UIManager.put("ProgressBar.background", Color.lightGray);
       UIManager.put("ProgressBar.selectionBackground", Color.black);
+    }
+  }
+
+  private static void installLookAndFeel(Map<String, String> looks) {
+    for (Entry<String, String> entry : looks.entrySet()) {
+      String key = entry.getKey();
+      String value = entry.getValue();
+      try {
+        // try to load the class to confirm it exists
+        Class.forName(value);
+      } catch (ClassNotFoundException e) {
+        RequestLogger.printLine("Failed to load class " + value + " for Theme " + key);
+        continue;
+      }
+      UIManager.installLookAndFeel(key, value);
     }
   }
 
@@ -833,18 +852,23 @@ public abstract class KoLmafia {
 
     // If the path allows, retrieve campground data to see if the user has box
     // servants or a bookshelf
-    if (!KoLCharacter.getLimitMode().limitCampground()
-        && !KoLCharacter.isEd()
-        && !KoLCharacter.inNuclearAutumn()
-        && !KoLCharacter.inRobocore()
-        && !KoLCharacter.inWereProfessor()) {
+    if (CampgroundRequest.haveCampground()) {
       KoLmafia.updateDisplay("Retrieving campground data...");
       if (!KoLCharacter.isVampyre()) {
         RequestThread.postRequest(new CampgroundRequest("inspectdwelling"));
       }
       RequestThread.postRequest(new CampgroundRequest("inspectkitchen"));
-      RequestThread.postRequest(new CampgroundRequest("workshed"));
       KoLCharacter.checkTelescope();
+    }
+
+    if (KoLCharacter.inSmallcore()) {
+      KoLmafia.updateDisplay("Retrieving campground data...");
+      RequestThread.postRequest(new CampgroundRequest("inspectkitchen"));
+      RequestThread.postRequest(new CampgroundRequest("terminal"));
+    }
+
+    if (CampgroundRequest.haveWorkshed()) {
+      RequestThread.postRequest(new CampgroundRequest("workshed"));
     }
 
     // Retrieve current Cafe menus if we haven't done so today
@@ -879,6 +903,7 @@ public abstract class KoLmafia {
 
     // Items that need to be checked every time
     InventoryManager.checkKGB();
+    InventoryManager.checkBaseballDiamond();
     InventoryManager.checkVampireVintnerWine();
     InventoryManager.checkBirdOfTheDay();
     InventoryManager.checkDartPerks();
@@ -886,10 +911,8 @@ public abstract class KoLmafia {
     ResultProcessor.updateEntauntauned();
     ResultProcessor.updateSavageBeast();
     CargoCultistShortsRequest.loadPockets();
-    if (SeptEmberCenserRequest.accessible() == null
-        && !Preferences.getBoolean("_septEmberBalanceChecked")) {
-      RequestThread.postRequest(SeptEmberCenserRequest.getRequest());
-    }
+    SeptEmberCenserRequest.checkBalance();
+    SkeletonOfCrimboPastRequest.checkSpecial();
 
     // This needs to be checked once, to set the property.
     // Once it is set, no further requests will be issued.
@@ -1583,8 +1606,6 @@ public abstract class KoLmafia {
   /**
    * Forces a continue state. This should only be called when there is no doubt that a continue
    * should occur.
-   *
-   * @return <code>true</code> if requests are allowed to continue
    */
   public static final void forceContinue() {
     StaticEntity.setContinuationState(MafiaState.CONTINUE);

@@ -62,8 +62,8 @@ public class MeatTransferPanel extends LabeledPanel {
     return switch (transferType) {
       case MEAT_TO_CLOSET -> new ClosetRequest(ClosetRequestType.MEAT_TO_CLOSET, amount);
       case MEAT_TO_INVENTORY -> new ClosetRequest(ClosetRequestType.MEAT_TO_INVENTORY, amount);
-      case PULL_MEAT_FROM_STORAGE -> new StorageRequest(
-          StorageRequestType.PULL_MEAT_FROM_STORAGE, amount);
+      case PULL_MEAT_FROM_STORAGE ->
+          new StorageRequest(StorageRequestType.PULL_MEAT_FROM_STORAGE, amount);
       default -> null;
     };
   }

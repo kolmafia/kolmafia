@@ -98,7 +98,7 @@ public class CreateSpecialPanel extends InventoryPanel<CreateItemRequest> {
                   + " possible",
               selection.getQuantityPossible() + selection.getQuantityPullable(),
               1);
-      int quantityDesired = (value == null) ? 0 : value.intValue();
+      int quantityDesired = (value == null) ? 0 : value;
       if (quantityDesired < 1) {
         continue;
       }
@@ -135,7 +135,7 @@ public class CreateSpecialPanel extends InventoryPanel<CreateItemRequest> {
                 "Creating " + selection.getName() + " for immediate use...",
                 Math.min(
                     maximum, selection.getQuantityPossible() + selection.getQuantityPullable()));
-        quantityDesired = (value == null) ? 0 : value.intValue();
+        quantityDesired = (value == null) ? 0 : value;
       }
 
       if (quantityDesired < 1) {

@@ -20,7 +20,7 @@ public class NamespaceAddCommand extends AbstractCommand {
     String namespace = Preferences.getString("commandLineNamespace");
     if (namespace.startsWith(parameters + ",")
         || namespace.endsWith("," + parameters)
-        || namespace.indexOf("," + parameters + ",") != -1) {
+        || namespace.contains("," + parameters + ",")) {
       return;
     }
 

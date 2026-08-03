@@ -15,8 +15,23 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -37,11 +52,11 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.modifiers.Lookup;
 import net.sourceforge.kolmafia.modifiers.ModifierList;
 import net.sourceforge.kolmafia.modifiers.ModifierList.ModifierValue;
-import net.sourceforge.kolmafia.modifiers.MultiStringModifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase.ConsumableQuality;
+import net.sourceforge.kolmafia.persistence.FamiliarDatabase.FamiliarRaceData;
 import net.sourceforge.kolmafia.persistence.ItemDatabase.Attribute;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.SkillDatabase.Category;
@@ -231,23 +246,23 @@ public class DebugDatabase {
 
     PrintStream report = DebugDatabase.openReport(ITEM_DATA);
 
-    Arrays.stream(DebugDatabase.ITEM_MAPS).forEach(ItemMap::clear);
+    try (report) {
+      Arrays.stream(DebugDatabase.ITEM_MAPS).forEach(ItemMap::clear);
 
-    // Check item names, desc ID, consumption type
+      // Check item names, desc ID, consumption type
 
-    if (itemId == 0) {
-      DebugDatabase.checkItems(report);
-    } else {
-      DebugDatabase.checkItem(itemId, report);
+      if (itemId == 0) {
+        DebugDatabase.checkItems(report);
+      } else {
+        DebugDatabase.checkItem(itemId, report);
+      }
+
+      // Check level limits, equipment, modifiers
+
+      DebugDatabase.checkConsumableItems(report);
+      DebugDatabase.checkEquipment(report);
+      DebugDatabase.checkItemModifiers(report);
     }
-
-    // Check level limits, equipment, modifiers
-
-    DebugDatabase.checkConsumableItems(report);
-    DebugDatabase.checkEquipment(report);
-    DebugDatabase.checkItemModifiers(report);
-
-    report.close();
   }
 
   private static void checkItems(final PrintStream report) {
@@ -674,9 +689,9 @@ public class DebugDatabase {
   private static boolean typesMatch(final ConsumptionType type, final ConsumptionType descType) {
     return switch (type) {
       case NONE, FOOD_HELPER, DRINK_HELPER, STICKER, FOLDER, POKEPILL ->
-      // We intentionally disallow certain items from being
-      // "used" through the GUI.
-      descType == ConsumptionType.NONE || descType == ConsumptionType.USE;
+          // We intentionally disallow certain items from being
+          // "used" through the GUI.
+          descType == ConsumptionType.NONE || descType == ConsumptionType.USE;
       case EAT,
           DRINK,
           SPLEEN,
@@ -688,13 +703,15 @@ public class DebugDatabase {
           PANTS,
           SHIRT,
           WEAPON,
-          OFFHAND -> descType == type;
-      case USE_MESSAGE_DISPLAY, USE, USE_MULTIPLE, USE_INFINITE -> descType == ConsumptionType.USE
-          || descType == ConsumptionType.USE_MULTIPLE
-          || descType == ConsumptionType.EAT
-          || descType == ConsumptionType.DRINK
-          || descType == ConsumptionType.AVATAR_POTION
-          || descType == ConsumptionType.NONE;
+          OFFHAND ->
+          descType == type;
+      case USE_MESSAGE_DISPLAY, USE, USE_MULTIPLE, USE_INFINITE ->
+          descType == ConsumptionType.USE
+              || descType == ConsumptionType.USE_MULTIPLE
+              || descType == ConsumptionType.EAT
+              || descType == ConsumptionType.DRINK
+              || descType == ConsumptionType.AVATAR_POTION
+              || descType == ConsumptionType.NONE;
       case POTION, AVATAR_POTION -> descType == ConsumptionType.POTION;
       case CARD, EL_VIBRATO_SPHERE, ZAP -> descType == ConsumptionType.NONE;
       default -> true;
@@ -1276,6 +1293,7 @@ public class DebugDatabase {
     DebugDatabase.appendModifier(known, ModifierDatabase.parseSoftcoreOnly(text));
     DebugDatabase.appendModifier(known, ModifierDatabase.parseLastsOneDay(text));
     DebugDatabase.appendModifier(known, ModifierDatabase.parseFreePull(text));
+    DebugDatabase.appendModifier(known, ModifierDatabase.parseNoPull(text));
     DebugDatabase.appendModifier(known, ModifierDatabase.parseEffect(text));
     DebugDatabase.appendModifier(known, ModifierDatabase.parseEffectDuration(text));
     DebugDatabase.appendModifier(known, ModifierDatabase.parseSongDuration(text));
@@ -1353,13 +1371,6 @@ public class DebugDatabase {
   public static String parseItemEnchantments(
       final String text, final ArrayList<String> unknown, final ConsumptionType type) {
     ModifierList known = new ModifierList();
-    DebugDatabase.parseItemEnchantments(text, known, unknown, type);
-    return known.toString();
-  }
-
-  public static String parseItemEnchantments(final String text, final ConsumptionType type) {
-    ModifierList known = new ModifierList();
-    ArrayList<String> unknown = new ArrayList<>();
     DebugDatabase.parseItemEnchantments(text, known, unknown, type);
     return known.toString();
   }
@@ -1442,6 +1453,7 @@ public class DebugDatabase {
     String[] mods = enchantments.toString().split("\n+");
     String BLUE_START = "<font color=\"blue\">";
     String BLUE_END = "</font>";
+    String DAGGER_FOOTNOTE = " <sup>&dagger;</sup>";
 
     boolean decemberEvent = false;
 
@@ -1449,6 +1461,11 @@ public class DebugDatabase {
       String enchantment = s.trim();
       if (enchantment.isEmpty()) {
         continue;
+      }
+
+      // <sup>&dagger;</sup> This enchantment scales with your level.
+      if (enchantment.endsWith(DAGGER_FOOTNOTE)) {
+        enchantment = enchantment.substring(0, enchantment.length() - DAGGER_FOOTNOTE.length());
       }
 
       // Unfortunately, since KoL has removed any indication
@@ -1567,11 +1584,11 @@ public class DebugDatabase {
 
     PrintStream report = DebugDatabase.openReport(OUTFIT_DATA);
 
-    DebugDatabase.outfits.clear();
-    DebugDatabase.checkOutfits(report);
-    DebugDatabase.checkOutfitModifierMap(report);
-
-    report.close();
+    try (report) {
+      DebugDatabase.outfits.clear();
+      DebugDatabase.checkOutfits(report);
+      DebugDatabase.checkOutfitModifierMap(report);
+    }
   }
 
   private static void checkOutfits(final PrintStream report) {
@@ -1743,21 +1760,25 @@ public class DebugDatabase {
 
     PrintStream report = DebugDatabase.openReport(EFFECT_DATA);
 
-    DebugDatabase.effects.clear();
+    try (report) {
+      DebugDatabase.effects.clear();
 
-    if (effectId == 0) {
-      DebugDatabase.checkEffects(report);
-    } else {
-      DebugDatabase.checkEffect(effectId, report);
+      if (effectId == 0) {
+        DebugDatabase.checkEffects(report);
+      } else {
+        DebugDatabase.checkEffect(effectId, report);
+      }
+
+      DebugDatabase.checkEffectModifiers(report);
     }
-
-    DebugDatabase.checkEffectModifiers(report);
-
-    report.close();
   }
 
   private static void checkEffects(final PrintStream report) {
-    Set<Integer> keys = EffectDatabase.descriptionIdKeySet();
+    Set<Integer> keys =
+        EffectDatabase.allEffects().stream()
+            .filter(entry -> entry.getValue().getDescriptionId() != null)
+            .map(Entry::getKey)
+            .collect(Collectors.toCollection(LinkedHashSet::new));
 
     for (Integer key : keys) {
       int id = key;
@@ -1797,10 +1818,6 @@ public class DebugDatabase {
     }
 
     String descriptionName = DebugDatabase.parseName(text);
-    // Kludge to adjust known defective effect descriptions
-    if (effectId == 1659) {
-      descriptionName = StringUtilities.globalStringReplace(descriptionName, "  ", " ");
-    }
     if (!name.equals(descriptionName) && !decodedNamesEqual(name, descriptionName)) {
       report.println(
           "# *** " + name + " (" + effectId + ") has description of " + descriptionName + ".");
@@ -1984,17 +2001,17 @@ public class DebugDatabase {
 
     PrintStream report = DebugDatabase.openReport(SKILL_DATA);
 
-    DebugDatabase.passiveSkills.clear();
+    try (report) {
+      DebugDatabase.passiveSkills.clear();
 
-    if (skillId == 0) {
-      DebugDatabase.checkSkills(report);
-    } else {
-      DebugDatabase.checkSkill(skillId, report);
+      if (skillId == 0) {
+        DebugDatabase.checkSkills(report);
+      } else {
+        DebugDatabase.checkSkill(skillId, report);
+      }
+
+      DebugDatabase.checkSkillModifiers(report);
     }
-
-    DebugDatabase.checkSkillModifiers(report);
-
-    report.close();
   }
 
   private static void checkSkills(final PrintStream report) {
@@ -2274,22 +2291,20 @@ public class DebugDatabase {
   private static void saveScrapeData(
       final Iterator<Integer> it, final Map<Integer, String> stringMap, final String fileName) {
     File file = new File(KoLConstants.DATA_LOCATION, fileName);
-    PrintStream livedata = LogStream.openStream(file, true);
+    try (PrintStream livedata = LogStream.openStream(file, true)) {
+      while (it.hasNext()) {
+        int id = it.next();
+        if (id < 1) {
+          continue;
+        }
 
-    while (it.hasNext()) {
-      int id = it.next();
-      if (id < 1) {
-        continue;
-      }
-
-      String description = stringMap.get(id);
-      if (description != null && !description.isEmpty()) {
-        livedata.println(id);
-        livedata.println(description);
+        String description = stringMap.get(id);
+        if (description != null && !description.isEmpty()) {
+          livedata.println(id);
+          livedata.println(description);
+        }
       }
     }
-
-    livedata.close();
   }
 
   // **********************************************************
@@ -2300,36 +2315,37 @@ public class DebugDatabase {
     RequestLogger.printLine("Checking plurals...");
     PrintStream report =
         LogStream.openStream(new File(KoLConstants.DATA_LOCATION, "plurals.txt"), true);
-    if (!parameters.contains("-")) {
-      int itemId = StringUtilities.parseInt(parameters);
-      if (itemId == 0) {
-        for (Integer id : ItemDatabase.descriptionIdKeySet()) {
-          if (!KoLmafia.permitsContinue()) {
-            break;
+    try (report) {
+      if (!parameters.contains("-")) {
+        int itemId = StringUtilities.parseInt(parameters);
+        if (itemId == 0) {
+          for (Integer id : ItemDatabase.descriptionIdKeySet()) {
+            if (!KoLmafia.permitsContinue()) {
+              break;
+            }
+            if (id < 0) {
+              continue;
+            }
+            while (++itemId < id) {
+              report.println(itemId);
+            }
+            DebugDatabase.checkPlural(id, client, report);
           }
-          if (id < 0) {
-            continue;
-          }
-          while (++itemId < id) {
-            report.println(itemId);
-          }
-          DebugDatabase.checkPlural(id, client, report);
+        } else {
+          DebugDatabase.checkPlural(itemId, client, report);
         }
       } else {
-        DebugDatabase.checkPlural(itemId, client, report);
-      }
-    } else {
-      String[] points = parameters.split("-");
-      // parseInt will return 0 for null input so bother to check split for validity
-      int start = StringUtilities.parseInt(points[0]);
-      int end = StringUtilities.parseInt(points[1]);
-      start = Math.max(0, start);
-      end = Math.min(end, ItemDatabase.maxItemId());
-      for (int i = start; i < end; i++) {
-        DebugDatabase.checkPlural(i, client, report);
+        String[] points = parameters.split("-");
+        // parseInt will return 0 for null input so bother to check split for validity
+        int start = StringUtilities.parseInt(points[0]);
+        int end = StringUtilities.parseInt(points[1]);
+        start = Math.max(0, start);
+        end = Math.min(end, ItemDatabase.maxItemId());
+        for (int i = start; i < end; i++) {
+          DebugDatabase.checkPlural(i, client, report);
+        }
       }
     }
-    report.close();
   }
 
   private static void checkPlural(
@@ -2615,7 +2631,8 @@ public class DebugDatabase {
                   BOOTSPUR,
                   FOOD_HELPER,
                   DRINK_HELPER,
-                  PASTA_GUARDIAN -> true;
+                  PASTA_GUARDIAN ->
+                  true;
               default -> id == ItemPool.GLITCH_ITEM;
             };
         if (!skipUsableCheck.contains(id)) {
@@ -2711,10 +2728,8 @@ public class DebugDatabase {
         mismatch.compare("quest", mQuest, quest);
         mismatch.compare("gift", mGift, gift);
         var autosell = entry.getIntValue("autosell");
-        var mAutosell = ItemDatabase.getPriceById(id);
-        if (discard || mDiscard) {
-          mismatch.compare("autosell", mAutosell, autosell);
-        }
+        var mAutosell = ItemDatabase.getRawPriceById(id);
+        mismatch.compare("autosell", mAutosell, autosell);
       }
     }
   }
@@ -3025,7 +3040,7 @@ public class DebugDatabase {
       // Potions grant an effect. Check for a new effect.
       String itemName = ItemDatabase.getItemDataName(id);
       String effectName =
-          ModifierDatabase.getStringModifier(ModifierType.ITEM, itemId, MultiStringModifier.EFFECT);
+          ModifierDatabase.getStringModifier(ModifierType.ITEM, itemId, StringModifier.EFFECT);
       if (!effectName.isEmpty() && EffectDatabase.getEffectId(effectName, true) == -1) {
         String rawText = DebugDatabase.rawItemDescriptionText(itemId);
         String effectDescid = DebugDatabase.parseEffectDescid(rawText);
@@ -3043,8 +3058,9 @@ public class DebugDatabase {
     DebugDatabase.loadScrapeData(rawItems, ITEM_HTML);
     RequestLogger.printLine("Checking internal data...");
     PrintStream report = DebugDatabase.openReport(CONSUMABLE_DATA);
-    DebugDatabase.checkConsumables(report);
-    report.close();
+    try (report) {
+      DebugDatabase.checkConsumables(report);
+    }
   }
 
   private static void checkConsumables(final PrintStream report) {
@@ -3158,28 +3174,29 @@ public class DebugDatabase {
     boolean dataUnderwater = powers.contains("data-underwater");
 
     // KoLmafia familiar categories
-    boolean block = FamiliarDatabase.isBlockType(id);
-    boolean combat0 = FamiliarDatabase.isCombat0Type(id);
-    boolean combat1 = FamiliarDatabase.isCombat1Type(id);
-    boolean delevel = FamiliarDatabase.isDelevelType(id);
-    boolean drop = FamiliarDatabase.isDropType(id);
-    boolean hp0 = FamiliarDatabase.isHp0Type(id);
-    boolean hp1 = FamiliarDatabase.isHp1Type(id);
-    boolean item0 = FamiliarDatabase.isFairyType(id);
-    boolean meat0 = FamiliarDatabase.isMeatDropType(id);
-    boolean meat1 = FamiliarDatabase.isMeat1Type(id);
-    boolean mp0 = FamiliarDatabase.isMp0Type(id);
-    boolean mp1 = FamiliarDatabase.isMp1Type(id);
-    boolean none = FamiliarDatabase.isNoneType(id);
-    boolean other0 = FamiliarDatabase.isOther0Type(id);
-    boolean other1 = FamiliarDatabase.isOther1Type(id);
-    boolean passive = FamiliarDatabase.isPassiveType(id);
-    boolean stat0 = FamiliarDatabase.isVolleyType(id);
-    boolean stat1 = FamiliarDatabase.isSombreroType(id);
-    boolean stat2 = FamiliarDatabase.isStat2Type(id);
-    boolean stat3 = FamiliarDatabase.isStat3Type(id);
-    boolean underwater = FamiliarDatabase.isUnderwaterType(id);
-    boolean variable = FamiliarDatabase.isVariableType(id);
+    FamiliarRaceData data = FamiliarDatabase.getFamiliarRaceData(id);
+    boolean block = data.isBlockType();
+    boolean combat0 = data.isCombat0Type();
+    boolean combat1 = data.isCombat1Type();
+    boolean delevel = data.isDelevelType();
+    boolean drop = data.isDropType();
+    boolean hp0 = data.isHp0Type();
+    boolean hp1 = data.isHp1Type();
+    boolean item0 = data.isFairyType();
+    boolean meat0 = data.isMeatDropType();
+    boolean meat1 = data.isMeat1Type();
+    boolean mp0 = data.isMp0Type();
+    boolean mp1 = data.isMp1Type();
+    boolean none = data.isNoneType();
+    boolean other0 = data.isOther0Type();
+    boolean other1 = data.isOther1Type();
+    boolean passive = data.isPassiveType();
+    boolean stat0 = data.isVolleyType();
+    boolean stat1 = data.isSombreroType();
+    boolean stat2 = data.isStat2Type();
+    boolean stat3 = data.isStat3Type();
+    boolean underwater = data.isUnderwaterType();
+    boolean variable = data.isVariableType();
 
     String name = FamiliarDatabase.getFamiliarName(id);
     String prefix = "*** familiar #" + id + " (" + name + "): KoL says ";
@@ -3521,13 +3538,11 @@ public class DebugDatabase {
   public static void checkConsumptionData() {
     RequestLogger.printLine("Checking consumption data...");
 
-    PrintStream writer =
-        LogStream.openStream(new File(KoLConstants.DATA_LOCATION, "consumption.txt"), true);
-
-    DebugDatabase.checkEpicure(writer);
-    DebugDatabase.checkMixologist(writer);
-
-    writer.close();
+    try (PrintStream writer =
+        LogStream.openStream(new File(KoLConstants.DATA_LOCATION, "consumption.txt"), true)) {
+      DebugDatabase.checkEpicure(writer);
+      DebugDatabase.checkMixologist(writer);
+    }
   }
 
   private static final String EPICURE = "http://kol.coldfront.net/tools/epicure/export_data.php";
@@ -3730,12 +3745,10 @@ public class DebugDatabase {
   public static void checkPulverizationData() {
     RequestLogger.printLine("Checking pulverization data...");
 
-    PrintStream writer =
-        LogStream.openStream(new File(KoLConstants.DATA_LOCATION, "pulvereport.txt"), true);
-
-    DebugDatabase.checkAnvil(writer);
-
-    writer.close();
+    try (PrintStream writer =
+        LogStream.openStream(new File(KoLConstants.DATA_LOCATION, "pulvereport.txt"), true)) {
+      DebugDatabase.checkAnvil(writer);
+    }
   }
 
   private static final String ANVIL = "http://kol.coldfront.net/tools/anvil/export_data.php";
@@ -3952,24 +3965,25 @@ public class DebugDatabase {
     PrintStream report =
         LogStream.openStream(new File(KoLConstants.DATA_LOCATION, "zapreport.txt"), true);
 
-    String[] groups =
-        DebugDatabase.ZAPGROUP_PATTERN.split(DebugDatabase.readWikiItemData("Zapping", client));
-    for (int i = 1; i < groups.length; ++i) {
-      String group = groups[i];
-      int pos = group.indexOf("</td>");
-      if (pos != -1) {
-        group = group.substring(0, pos);
-      }
-      Matcher m = DebugDatabase.ZAPITEM_PATTERN.matcher(group);
-      ArrayList<String> items = new ArrayList<>();
-      while (m.find()) {
-        items.add(m.group(1));
-      }
-      if (items.size() > 1) {
-        DebugDatabase.checkZapGroup(items, report);
+    try (report) {
+      String[] groups =
+          DebugDatabase.ZAPGROUP_PATTERN.split(DebugDatabase.readWikiItemData("Zapping", client));
+      for (int i = 1; i < groups.length; ++i) {
+        String group = groups[i];
+        int pos = group.indexOf("</td>");
+        if (pos != -1) {
+          group = group.substring(0, pos);
+        }
+        Matcher m = DebugDatabase.ZAPITEM_PATTERN.matcher(group);
+        ArrayList<String> items = new ArrayList<>();
+        while (m.find()) {
+          items.add(m.group(1));
+        }
+        if (items.size() > 1) {
+          DebugDatabase.checkZapGroup(items, report);
+        }
       }
     }
-    report.close();
   }
 
   private static void checkZapGroup(ArrayList<String> items, PrintStream report) {

@@ -44,16 +44,16 @@ public abstract class TopMenuDecorator {
 
     switch (GenericRequest.topMenuStyle) {
       case NORMAL ->
-      // "normal" (links) style of topmenu.php
-      TopMenuDecorator.addScriptMenus(buffer, location);
+          // "normal" (links) style of topmenu.php
+          TopMenuDecorator.addScriptMenus(buffer, location);
       case COMPACT -> {
         // "compact" (dropdowns) style of topmenu.php
         TopMenuDecorator.adjustCompactMenu(buffer);
         TopMenuDecorator.addScriptMenus(buffer, location);
       }
       case FANCY ->
-      // "fancy" (icons) style of topmenu.php
-      TopMenuDecorator.addFancyScriptMenus(buffer, location);
+          // "fancy" (icons) style of topmenu.php
+          TopMenuDecorator.addFancyScriptMenus(buffer, location);
     }
 
     // Send any logout link through KoLmafia's logout command so we clean up the GUI

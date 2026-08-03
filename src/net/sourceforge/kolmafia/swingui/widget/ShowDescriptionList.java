@@ -557,8 +557,8 @@ public class ShowDescriptionList<E> extends JList<E> {
     @Override
     public void executeAction() {
       AdventureResult[] items = ShowDescriptionList.this.getSelectedItems();
-      for (int i = 0; i < items.length; ++i) {
-        AdventureResult.addResultToList(KoLConstants.tally, items[i].getNegation());
+      for (AdventureResult adventureResult : items) {
+        AdventureResult.addResultToList(KoLConstants.tally, adventureResult.getNegation());
       }
     }
   }
@@ -596,8 +596,8 @@ public class ShowDescriptionList<E> extends JList<E> {
       }
 
       AdventureResult[] items = ShowDescriptionList.this.getSelectedItems();
-      for (int i = 0; i < items.length; ++i) {
-        RequestThread.postRequest(UseItemRequest.getInstance(items[i]));
+      for (AdventureResult adventureResult : items) {
+        RequestThread.postRequest(UseItemRequest.getInstance(adventureResult));
       }
     }
   }
@@ -611,8 +611,8 @@ public class ShowDescriptionList<E> extends JList<E> {
       }
 
       AdventureResult[] items = ShowDescriptionList.this.getSelectedItems();
-      for (int i = 0; i < items.length; ++i) {
-        RequestThread.postRequest(new PulverizeRequest(items[i]));
+      for (AdventureResult adventureResult : items) {
+        RequestThread.postRequest(new PulverizeRequest(adventureResult));
       }
     }
   }

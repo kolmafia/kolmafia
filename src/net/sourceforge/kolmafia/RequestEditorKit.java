@@ -95,6 +95,7 @@ import net.sourceforge.kolmafia.webui.UseItemDecorator;
 import net.sourceforge.kolmafia.webui.UseLinkDecorator;
 import net.sourceforge.kolmafia.webui.UseLinkDecorator.UseLink;
 import net.sourceforge.kolmafia.webui.ValhallaDecorator;
+import org.jsoup.Jsoup;
 
 public class RequestEditorKit extends HTMLEditorKit {
   private static final Pattern FORM_PATTERN = Pattern.compile("name=choiceform(\\d+)");
@@ -383,6 +384,7 @@ public class RequestEditorKit extends HTMLEditorKit {
       RequestEditorKit.addBlackForestProgress(buffer);
       RequestEditorKit.addPartyFairProgress(buffer);
       RequestEditorKit.addChaostheticianLink(buffer);
+      RequestEditorKit.addPlayBallLink(buffer);
 
       // Do any monster-specific decoration
       FightDecorator.decorateMonster(buffer);
@@ -1220,8 +1222,8 @@ public class RequestEditorKit extends HTMLEditorKit {
       switch (group) {
         case "Normal Outfits" -> addOutfitGroup(obuffer, "outfit", "Outfits", "an", options);
         case "Custom Outfits" -> addOutfitGroup(obuffer, "outfit2", "Custom", "a custom", options);
-        case "Automatic Outfits" -> addOutfitGroup(
-            obuffer, "outfit3", "Automatic", "an automatic", options);
+        case "Automatic Outfits" ->
+            addOutfitGroup(obuffer, "outfit3", "Automatic", "an automatic", options);
       }
     }
 
@@ -1533,6 +1535,8 @@ public class RequestEditorKit extends HTMLEditorKit {
 
     monster.appendFact(monsterData);
 
+    monster.appendShrunkenHeadZombie(monsterData, true);
+
     monster.appendMeat(monsterData, true);
 
     monster.appendSprinkles(monsterData, true);
@@ -1791,7 +1795,7 @@ public class RequestEditorKit extends HTMLEditorKit {
         }
       }
 
-        // No special text, just append to You win the fight if on clear the party quest
+      // No special text, just append to You win the fight if on clear the party quest
       case "partiers" -> {
         Matcher m = RequestEditorKit.PARTIERS_PATTERN.matcher(buffer);
         if (m.find()) {
@@ -1854,10 +1858,6 @@ public class RequestEditorKit extends HTMLEditorKit {
     ChoiceAdventures.decorateChoice(choice, buffer, addComplexFeatures);
 
     String text = buffer.toString();
-    Matcher matcher = FORM_PATTERN.matcher(text);
-    if (!matcher.find()) {
-      return;
-    }
 
     // Find the options for the choice we've encountered
     Spoilers spoilers = ChoiceAdventures.choiceSpoilers(choice, buffer);
@@ -1872,8 +1872,53 @@ public class RequestEditorKit extends HTMLEditorKit {
       spoilers = new Spoilers(choice, "", new ChoiceOption[0]);
     }
 
-    int index1 = matcher.start();
     int decision = ChoiceManager.getDecision(choice, text);
+
+    // for each form:
+    // * find the option within the form
+    // * if it matches the chosen decision, add &rarr; to the start
+    // * add spoiler text afterwards
+    // * if there's an associated item spoiler, add that
+
+    Matcher matcher = FORM_PATTERN.matcher(text);
+    if (!matcher.find()) {
+      var changed = false;
+      var doc = Jsoup.parse(text);
+      var forms = doc.select("form");
+
+      for (var form : forms) {
+        var option = form.selectFirst("input[name=option]");
+        if (option != null) {
+          var submit = form.selectFirst("input[type=submit]");
+          if (submit != null) {
+            var opt = StringUtilities.parseInt(option.attr("value"));
+            if (opt == decision) {
+              // prefix arrow
+              changed = true;
+              submit.attr("value", "→ " + submit.attr("value"));
+            }
+            var spoiler = ChoiceAdventures.choiceSpoiler(choice, opt, spoilers.getOptions());
+
+            if (spoiler != null) {
+              // insert spoiler after submit
+              changed = true;
+              submit.after("<br><font size=-1>(" + spoiler + ")</font>");
+              // annotating with items skipped as not needed for baseball
+            }
+          }
+        }
+      }
+
+      if (changed) {
+        buffer.setLength(0);
+        // ensure whitespace is collapsed
+        doc.outputSettings().prettyPrint(false);
+        buffer.append(doc.outerHtml());
+      }
+      return;
+    }
+
+    int index1 = matcher.start();
 
     buffer.setLength(0);
     buffer.append(text, 0, index1);
@@ -1978,7 +2023,7 @@ public class RequestEditorKit extends HTMLEditorKit {
     int option = ChoiceUtilities.extractOptionFromURL(location);
 
     switch (choice) {
-        // The Oracle Will See You Now
+      // The Oracle Will See You Now
       case 3:
         StringUtilities.singleStringReplace(
             buffer,
@@ -2006,7 +2051,7 @@ public class RequestEditorKit extends HTMLEditorKit {
             "rat problem. <font size=1>[<a href=\"tavern.php?place=barkeep\">Visit Bart</a>]</font>");
         break;
       case 537:
-        // Play Porko!
+      // Play Porko!
       case 540:
         // Big-Time Generator
         SpaaaceRequest.decoratePorko(buffer);
@@ -2429,6 +2474,22 @@ public class RequestEditorKit extends HTMLEditorKit {
         buffer,
         "Chaosthetician at Dino World",
         "<a href=\"place.php?whichplace=dinorf&action=dinorf_chaos\">Chaosthetician at Dino World</a>");
+  }
+
+  private static void addPlayBallLink(final StringBuffer buffer) {
+    String test = "You are ready to play ball!";
+    int index = buffer.indexOf(test);
+
+    if (index == -1) {
+      return;
+    }
+
+    StringUtilities.singleStringReplace(
+        buffer,
+        "play ball!",
+        "<a href=\"inventory.php?action=pball&pwd="
+            + GenericRequest.passwordHash
+            + "\">play ball!</a>");
   }
 
   private static class KoLSubmitView extends FormView {

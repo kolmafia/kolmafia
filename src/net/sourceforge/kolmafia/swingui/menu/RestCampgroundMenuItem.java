@@ -17,24 +17,25 @@ public class RestCampgroundMenuItem extends ThreadedMenuItem {
     @Override
     protected void execute() {
       String turnCount = InputFieldUtilities.input("Rest for how many turns?", "1");
-      if (turnCount == null
-          || KoLCharacter.getLimitMode().limitCampground()
-          || KoLCharacter.isEd()
-          || KoLCharacter.inNuclearAutumn()) {
+      if (turnCount == null) {
         return;
       }
-
-      if (!KoLCharacter.inNuclearAutumn()) {
-        CampgroundRequest request = new CampgroundRequest("rest");
-        int turnCountValue = StringUtilities.parseInt(turnCount);
-
-        KoLmafia.makeRequest(request, turnCountValue);
-      } else {
+      if (KoLCharacter.inNuclearAutumn()) {
         FalloutShelterRequest request = new FalloutShelterRequest("vault1");
         int turnCountValue = StringUtilities.parseInt(turnCount);
 
         KoLmafia.makeRequest(request, turnCountValue);
+        return;
       }
+
+      if (!CampgroundRequest.haveCampground()) {
+        return;
+      }
+
+      CampgroundRequest request = new CampgroundRequest("rest");
+      int turnCountValue = StringUtilities.parseInt(turnCount);
+
+      KoLmafia.makeRequest(request, turnCountValue);
     }
   }
 }

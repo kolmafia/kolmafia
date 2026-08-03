@@ -2,10 +2,26 @@ package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.EnumMap;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
-import net.sourceforge.kolmafia.*;
+import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.AscensionClass;
+import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.PastaThrallData;
+import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -32,7 +48,8 @@ public class SkillDatabase {
     SONG("song"),
     EXPRESSION("expression"),
     WALK("walk"),
-    SPELL("spell");
+    SPELL("spell"),
+    SHANTY("shanty");
 
     public final String name;
     private static final Map<String, SkillTag> skillTagByName = new HashMap<>();
@@ -50,17 +67,25 @@ public class SkillDatabase {
     }
   }
 
-  private static final Map<Integer, String> nameById = new TreeMap<>();
+  public record SkillData(
+      String name,
+      String image,
+      long mpConsumption,
+      EnumSet<SkillTag> tags,
+      int duration,
+      int level,
+      Boolean permable,
+      int maxLevel,
+      Category category) {
+    @Override
+    public String toString() {
+      return name;
+    }
+  }
+
+  private static final Map<Integer, SkillData> skillDataById = new TreeMap<>();
   private static final Map<String, int[]> skillIdSetByName = new TreeMap<>();
-  private static final Map<Integer, String> imageById = new TreeMap<>();
-  private static final Map<Integer, Long> mpConsumptionById = new HashMap<>();
-  private static final Map<Integer, EnumSet<SkillTag>> skillTagsById = new TreeMap<>();
-  private static final Map<Integer, Integer> durationById = new HashMap<>();
-  private static final Map<Integer, Integer> levelById = new HashMap<>();
-  private static final Map<Integer, Boolean> permableById = new HashMap<>();
-  private static final Map<Integer, Integer> maxLevelById = new HashMap<>();
   private static final Map<Category, List<String>> skillsByCategory = new EnumMap<>(Category.class);
-  private static final Map<Integer, Category> skillCategoryById = new HashMap<>();
   // Per-user data. Needs to be reset when log in as a new user.
   private static final Map<Integer, Integer> castsById = new HashMap<>();
 
@@ -97,6 +122,9 @@ public class SkillDatabase {
     PIG_SKINNER("Pig Skinner"), // 28xxx
     CHEESE_WIZARD("Cheese Wizard"), // 29xxx
     JAZZ_AGENT("Jazz Agent"), // 30xxx
+    THIRTY_ONE("31XXX"), // 31xxx
+    THIRTY_TWO("32XXX"), // 32xxx
+    MEAT_GOLEM("Meat Golem"), // 33xxx
     // The following are convenience categories, not implied by skill id
     GNOME_SKILLS("gnome trainer"),
     BAD_MOON("bad moon");
@@ -134,26 +162,29 @@ public class SkillDatabase {
             SkillPool.TASTEFUL,
             SkillPool.CARDS,
             SkillPool.GEEKY,
-            SkillPool.CONFISCATOR -> Category.MR_SKILLS;
+            SkillPool.CONFISCATOR ->
+            Category.MR_SKILLS;
         case SkillPool.OBSERVATIOGN,
             SkillPool.GNEFARIOUS_PICKPOCKETING,
             SkillPool.TORSO,
             SkillPool.GNOMISH_HARDINESS,
-            SkillPool.COSMIC_UNDERSTANDING -> Category.GNOME_SKILLS;
+            SkillPool.COSMIC_UNDERSTANDING ->
+            Category.GNOME_SKILLS;
         case SkillPool.LUST,
             SkillPool.GLUTTONY,
             SkillPool.GREED,
             SkillPool.SLOTH,
             SkillPool.WRATH,
             SkillPool.ENVY,
-            SkillPool.PRIDE -> Category.BAD_MOON;
+            SkillPool.PRIDE ->
+            Category.BAD_MOON;
         case SkillPool.MUG_FOR_THE_AUDIENCE -> Category.AVATAR_OF_SNEAKY_PETE;
         default ->
 
-        // Moxious maneuver has a 7000 id, but
-        // it's not gained by equipment.
+            // Moxious maneuver has a 7000 id, but
+            // it's not gained by equipment.
 
-        Category.VALUES[categoryId];
+            Category.VALUES[categoryId];
       };
     }
   }
@@ -183,12 +214,12 @@ public class SkillDatabase {
           continue;
         }
 
-        Integer skillId = Integer.valueOf(data[0]);
+        int skillId = Integer.parseInt(data[0]);
         String name = data[1];
         String image = data[2];
         EnumSet<SkillTag> tags = parseTags(data[3]);
-        Long mp = Long.valueOf(data[4]);
-        Integer duration = Integer.valueOf(data[5]);
+        long mp = Long.parseLong(data[4]);
+        int duration = Integer.parseInt(data[5]);
         Map<String, String> attributes = attributesToMap(data.length > 6 ? data[6] : null);
         SkillDatabase.addSkill(skillId, name, image, tags, mp, duration, attributes);
       }
@@ -250,57 +281,42 @@ public class SkillDatabase {
   }
 
   private static void addSkill(
-      final Integer skillId,
+      final int skillId,
       final String name,
       final String image,
       final EnumSet<SkillTag> tags,
-      final Long mpConsumption,
-      final Integer duration,
+      final long mpConsumption,
+      final int duration,
       final Map<String, String> attributes) {
+    SkillData existing = SkillDatabase.skillDataById.get(skillId);
     String canonicalName = StringUtilities.getCanonicalName(name);
-    SkillDatabase.nameById.put(skillId, name);
     SkillDatabase.addIdToName(canonicalName, skillId);
-
-    if (image != null) {
-      SkillDatabase.imageById.put(skillId, image);
-    }
-    SkillDatabase.skillTagsById.put(skillId, tags);
-
-    SkillDatabase.mpConsumptionById.put(skillId, mpConsumption);
-    SkillDatabase.durationById.put(skillId, duration);
+    int level = existing != null ? existing.level : -1;
+    int maxLevel = existing != null ? existing.maxLevel : 0;
+    Boolean permable = existing != null ? existing.permable : null;
 
     for (var attr : attributes.entrySet()) {
       var value = attr.getValue();
       switch (attr.getKey()) {
-        case "level" -> SkillDatabase.levelById.put(skillId, Integer.valueOf(value));
-        case "permable" -> SkillDatabase.permableById.put(skillId, Boolean.valueOf(value));
-        case "max level" -> SkillDatabase.maxLevelById.put(skillId, Integer.valueOf(value));
+        case "level" -> level = Integer.parseInt(value);
+        case "permable" -> permable = Boolean.valueOf(value);
+        case "max level" -> maxLevel = Integer.parseInt(value);
       }
     }
 
     Category category = Category.bySkillId(skillId);
-    if (category == Category.UNKNOWN) {
-      return;
-    }
+    SkillData skillData =
+        new SkillData(
+            name, image, mpConsumption, tags, duration, level, permable, maxLevel, category);
+    SkillDatabase.skillDataById.put(skillId, skillData);
 
-    SkillDatabase.skillCategoryById.put(skillId, category);
     SkillDatabase.skillsByCategory.get(category).add(name);
 
     SkillDatabase.castsById.put(skillId, 0);
   }
 
-  public static final List<String> getSkillsByCategory(Category category) {
-    if (category == null) {
-      return new ArrayList<>();
-    }
-
-    List<String> skills = SkillDatabase.skillsByCategory.get(category);
-
-    if (skills == null) {
-      return new ArrayList<>();
-    }
-
-    return skills;
+  public static final SkillData getSkillData(final int skillId) {
+    return SkillDatabase.skillDataById.get(skillId);
   }
 
   /**
@@ -310,7 +326,8 @@ public class SkillDatabase {
    * @return The name of the corresponding skill
    */
   public static final String getSkillName(final int skillId) {
-    return SkillDatabase.nameById.get(skillId);
+    SkillData skillData = SkillDatabase.skillDataById.get(skillId);
+    return skillData == null ? null : skillData.name();
   }
 
   public static final String getSkillDisplayName(final String skillName) {
@@ -325,7 +342,7 @@ public class SkillDatabase {
   }
 
   public static final String getPrettySkillName(final int skillId) {
-    String name = SkillDatabase.nameById.get(skillId);
+    String name = SkillDatabase.getSkillName(skillId);
     switch (skillId) {
       case SkillPool.DART_PART1,
           SkillPool.DART_PART2,
@@ -354,6 +371,22 @@ public class SkillDatabase {
       case SkillPool.RIGHT_KICK -> {
         return zootCombatSkillName(name, "zootGraftedFootRightFamiliar");
       }
+      case SkillPool.STEAL_HEART -> {
+        var lastMonster = MonsterStatusTracker.getLastMonster();
+        if (lastMonster == null) {
+          return name;
+        }
+        var currentHearts = Preferences.getString("heartstoneLetters").toUpperCase();
+        var newHeart = HeartstoneDatabase.middleLetter(lastMonster.getManuelName());
+        if (newHeart == null) {
+          return name;
+        }
+        return "Steal Monster's Heart: "
+            + currentHearts
+            + " -> "
+            + currentHearts
+            + newHeart.letter();
+      }
     }
     return name;
   }
@@ -371,7 +404,7 @@ public class SkillDatabase {
   }
 
   static final Set<Integer> idKeySet() {
-    return SkillDatabase.nameById.keySet();
+    return SkillDatabase.skillDataById.keySet();
   }
 
   /**
@@ -507,8 +540,8 @@ public class SkillDatabase {
    * @return The level of the corresponding skill
    */
   public static final int getSkillLevel(final int skillId) {
-    Integer level = SkillDatabase.levelById.get(skillId);
-    return level == null ? -1 : level;
+    SkillData skillData = SkillDatabase.skillDataById.get(skillId);
+    return skillData == null ? -1 : skillData.level();
   }
 
   public static final int getSkillPurchaseCost(final int skillId) {
@@ -548,12 +581,14 @@ public class SkillDatabase {
    * @return The type of the corresponding skill
    */
   public static final EnumSet<SkillTag> getSkillTags(final int skillId) {
-    var skillTags = SkillDatabase.skillTagsById.get(skillId);
+    var skillData = SkillDatabase.skillDataById.get(skillId);
+    var skillTags = skillData == null ? null : skillData.tags();
     return skillTags == null ? EnumSet.noneOf(SkillTag.class) : skillTags;
   }
 
   public static final String getSkillTypeName(final int skillId) {
-    var tags = SkillDatabase.skillTagsById.get(skillId);
+    var skillData = SkillDatabase.skillDataById.get(skillId);
+    var tags = skillData == null ? null : skillData.tags();
     if (tags == null) {
       return "unknown";
     }
@@ -582,6 +617,9 @@ public class SkillDatabase {
       return "remedy";
     }
     // noncombat buffs
+    if (tags.contains(SkillTag.SHANTY)) {
+      return "shanty";
+    }
     if (tags.contains(SkillTag.WALK)) {
       return "walk";
     }
@@ -601,7 +639,8 @@ public class SkillDatabase {
   }
 
   public static final Category getSkillCategory(final int skillId) {
-    Category cat = SkillDatabase.skillCategoryById.get(skillId);
+    SkillData skillData = SkillDatabase.skillDataById.get(skillId);
+    Category cat = skillData == null ? null : skillData.category();
     return cat == null ? Category.UNKNOWN : cat;
   }
 
@@ -612,7 +651,8 @@ public class SkillDatabase {
    * @return The type of the corresponding skill
    */
   public static final String getSkillImage(final int skillId) {
-    return SkillDatabase.imageById.get(skillId);
+    SkillData skillData = SkillDatabase.skillDataById.get(skillId);
+    return skillData == null ? null : skillData.image();
   }
 
   /**
@@ -706,7 +746,8 @@ public class SkillDatabase {
       return 0;
     }
 
-    Long mpConsumption = SkillDatabase.mpConsumptionById.get(skillId);
+    SkillData skillData = SkillDatabase.skillDataById.get(skillId);
+    Long mpConsumption = skillData == null ? null : skillData.mpConsumption();
 
     if (mpConsumption == null) {
       return 0;
@@ -750,7 +791,8 @@ public class SkillDatabase {
           SkillPool.BRICKOS,
           SkillPool.DICE,
           SkillPool.RESOLUTIONS,
-          SkillPool.TAFFY -> true;
+          SkillPool.TAFFY ->
+          true;
       default -> false;
     };
   }
@@ -765,7 +807,8 @@ public class SkillDatabase {
           SkillPool.DART_PART6,
           SkillPool.DART_PART7,
           SkillPool.DART_PART8,
-          SkillPool.DART_BULLSEYE -> true;
+          SkillPool.DART_BULLSEYE ->
+          true;
       default -> false;
     };
   }
@@ -930,12 +973,13 @@ public class SkillDatabase {
    * @return The duration of effect the cast gives
    */
   public static final int getEffectDuration(final int skillId) {
-    Integer duration = SkillDatabase.durationById.get(skillId);
+    SkillData skillData = SkillDatabase.skillDataById.get(skillId);
+    Integer duration = skillData == null ? null : skillData.duration();
     if (duration == null) {
       return 0;
     }
 
-    int actualDuration = duration.intValue();
+    int actualDuration = duration;
 
     if (SkillDatabase.isSong(skillId)) {
       int multiplier = KoLCharacter.hasSkill(SkillPool.GOOD_SINGING_VOICE) ? 2 : 1;
@@ -1095,6 +1139,15 @@ public class SkillDatabase {
   }
 
   /**
+   * Returns whether or not the skill is a shanty
+   *
+   * @return <code>true</code> if the skill is a shanty
+   */
+  public static final boolean isShanty(final int skillId) {
+    return SkillDatabase.isType(skillId, SkillTag.SHANTY);
+  }
+
+  /**
    * Returns whether or not the skill is a summon
    *
    * @return <code>true</code> if the skill is a summon
@@ -1133,7 +1186,8 @@ public class SkillDatabase {
 
   /** Utility method used to determine if the given skill is of the appropriate type. */
   private static boolean isType(final int skillId, final SkillTag type) {
-    var tags = SkillDatabase.skillTagsById.get(skillId);
+    SkillData skillData = SkillDatabase.skillDataById.get(skillId);
+    var tags = skillData == null ? null : skillData.tags();
     if (tags == null) {
       return false;
     }
@@ -1228,13 +1282,37 @@ public class SkillDatabase {
           SkillPool.MIST_FORM,
           SkillPool.SPECTRAL_AWARENESS,
           SkillPool.WOLF_FORM,
-          SkillPool.BLOOD_BUCATINI -> 10;
+          SkillPool.BLOOD_BUCATINI ->
+          10;
       case SkillPool.PERCEIVE_SOUL -> 15;
       case SkillPool.BALEFUL_HOWL, SkillPool.ENSORCEL -> 30;
 
-        // Vampyre Book Skills
+      // Vampyre Book Skills
       case SkillPool.BLOOD_FRENZY, SkillPool.BLOOD_BOND, SkillPool.BLOOD_BUBBLE -> 30;
       case SkillPool.BLOOD_BLADE, SkillPool.BRAMS_BLOODY_BAGATELLE -> 50;
+      default -> 0;
+    };
+  }
+
+  public static final boolean isMeatSkill(final int skillId) {
+    return SkillDatabase.getMeatCost(skillId) > 0;
+  }
+
+  public static final int getMeatCost(final int skillId) {
+    return switch (skillId) {
+      case SkillPool.BACON_RAY -> 1;
+      case SkillPool.BEEF_SHANK, SkillPool.SPICY_MEATBALL -> 2;
+      case SkillPool.STEW -> 3;
+      case SkillPool.MEAT_CLEAVER, SkillPool.ACT_JERKY, SkillPool.CHEW_THE_FAT -> 5;
+      case SkillPool.MEAT_LOCKER, SkillPool.WET_RUB -> 8;
+      case SkillPool.STEAK_THROUGH_THE_HEART,
+          SkillPool.SELF_TENDERIZE,
+          SkillPool.BEEF_GOGGLES,
+          SkillPool.MEAT_PUPPET,
+          SkillPool.HAM_IT_UP,
+          SkillPool.STEAK_SKIRT ->
+          10;
+      case SkillPool.MEAT_CUTE, SkillPool.MEAT_LOAF, SkillPool.DARK_MEAT -> 20;
       default -> 0;
     };
   }
@@ -1243,10 +1321,12 @@ public class SkillDatabase {
     return switch (skillId) {
       case SkillPool.HAMMER_THROW_COMBAT,
           SkillPool.JUGGLE_FIREBALLS_COMBAT,
-          SkillPool.SPIN_JUMP_COMBAT -> 1;
+          SkillPool.SPIN_JUMP_COMBAT ->
+          1;
       case SkillPool.ULTRA_SMASH_COMBAT,
           SkillPool.FIREBALL_BARRAGE_COMBAT,
-          SkillPool.MULTI_BOUNCE_COMBAT -> 2;
+          SkillPool.MULTI_BOUNCE_COMBAT ->
+          2;
       default -> 0;
     };
   }
@@ -1291,18 +1371,23 @@ public class SkillDatabase {
           SkillPool.RECRUIT_ZOMBIE,
           SkillPool.CHECK_MIRROR,
           SkillPool.RAIN_MAN,
-          SkillPool.EVOKE_ELDRITCH_HORROR -> 1;
+          SkillPool.EVOKE_ELDRITCH_HORROR ->
+          1;
       default -> 0;
     };
   }
 
   public static int getMaxLevel(final int skillId) {
-    return SkillDatabase.maxLevelById.getOrDefault(skillId, 0);
+    SkillData skillData = SkillDatabase.skillDataById.get(skillId);
+    return skillData == null ? 0 : skillData.maxLevel();
   }
 
   /** Utility method used to determine if the given skill can be made permanent */
   public static boolean isPermable(final int skillId) {
-    return SkillDatabase.permableById.getOrDefault(skillId, skillId < 7000);
+    SkillData skillData = SkillDatabase.skillDataById.get(skillId);
+    return skillData == null || skillData.permable() == null
+        ? skillId < 7000
+        : skillData.permable();
   }
 
   public static final boolean isBookshelfSkill(final int skillId) {
@@ -1361,13 +1446,12 @@ public class SkillDatabase {
 
   private static final List<UseSkillRequest> getSkillsByType(
       final EnumSet<SkillTag> types, final boolean onlyKnown) {
-    Integer[] keys = new Integer[SkillDatabase.skillTagsById.size()];
-    SkillDatabase.skillTagsById.keySet().toArray(keys);
-
     ArrayList<UseSkillRequest> list = new ArrayList<>();
 
-    for (Integer skillId : keys) {
-      var skillTags = SkillDatabase.skillTagsById.get(skillId);
+    for (var skill : SkillDatabase.skillDataById.entrySet()) {
+      var skillId = skill.getKey();
+      var skillData = skill.getValue();
+      var skillTags = skillData == null ? null : skillData.tags();
       if (skillTags == null) continue;
 
       boolean shouldAdd = skillTags.stream().anyMatch(types::contains);
@@ -1403,8 +1487,8 @@ public class SkillDatabase {
    *
    * @return The set of skills keyed by name
    */
-  public static final Set<Entry<Integer, String>> entrySet() {
-    return SkillDatabase.nameById.entrySet();
+  public static final Set<Entry<Integer, SkillData>> entrySet() {
+    return SkillDatabase.skillDataById.entrySet();
   }
 
   public static final void generateSkillList(final StringBuffer buffer, final boolean appendHTML) {
@@ -1583,7 +1667,7 @@ public class SkillDatabase {
     if (oldCasts == null) {
       oldCasts = 0;
     }
-    int newCasts = oldCasts.intValue() + count;
+    int newCasts = oldCasts + count;
     SkillDatabase.castsById.put(skillId, newCasts);
   }
 
@@ -1697,7 +1781,7 @@ public class SkillDatabase {
     if (casts == null) {
       return 0;
     }
-    return casts.intValue();
+    return casts;
   }
 
   public static boolean sourceAgentSkill(int skillId) {
@@ -1715,7 +1799,8 @@ public class SkillDatabase {
           SkillPool.COMPRESS,
           SkillPool.DUPLICATE,
           SkillPool.PORTSCAN,
-          SkillPool.TURBO -> true;
+          SkillPool.TURBO ->
+          true;
       default -> false;
     };
   }
@@ -1725,5 +1810,10 @@ public class SkillDatabase {
       case SkillPool.RAIN_MAN, SkillPool.EVOKE_ELDRITCH_HORROR -> true;
       default -> false;
     };
+  }
+
+  // used for data test only: should be no unknown skills
+  static List<String> unknownSkills() {
+    return SkillDatabase.skillsByCategory.get(Category.UNKNOWN);
   }
 }

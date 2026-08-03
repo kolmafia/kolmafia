@@ -69,6 +69,7 @@ public class BanishManager {
     ANCHOR_BOMB("anchor bomb", 30, 1, true, Reset.TURN_ROLLOVER_RESET),
     BALEFUL_HOWL("baleful howl", -1, 1, true, Reset.ROLLOVER_RESET),
     BANISHING_SHOUT("banishing shout", -1, 3, false, Reset.AVATAR_RESET),
+    BASEBALL_DIAMOND("Baseball Diamond", -1, 1, true, Reset.ROLLOVER_RESET),
     BATTER_UP("batter up!", -1, 1, false, Reset.ROLLOVER_RESET),
     BEANCANNON("beancannon", -1, 5, false, Reset.ROLLOVER_RESET),
     BE_A_MIND_MASTER("Be a Mind Master", 80, 1, true, Reset.TURN_RESET),
@@ -92,6 +93,7 @@ public class BanishManager {
         "gingerbread restraining order", -1, 1, false, Reset.ROLLOVER_RESET),
     GLITCHED_MALWARE("Deploy Glitched Malware", -1, 1, false, Reset.ROLLOVER_RESET),
     HAROLDS_BELL("harold's bell", 20, 1, false, Reset.TURN_RESET),
+    HEARTSTONE_BANISH("Heartstone %banish", 50, 1, false, Reset.TURN_RESET),
     HOWL_OF_THE_ALPHA("howl of the alpha", -1, 3, false, Reset.AVATAR_RESET),
     HUMAN_MUSK("human musk", -1, 1, true, Reset.ROLLOVER_RESET),
     ICE_HOTEL_BELL("ice hotel bell", -1, 1, true, Reset.ROLLOVER_RESET),
@@ -99,6 +101,7 @@ public class BanishManager {
     KGB_TRANQUILIZER_DART("KGB tranquilizer dart", 20, 1, true, Reset.TURN_ROLLOVER_RESET),
     LICORICE_ROPE("licorice rope", -1, 1, false, Reset.ROLLOVER_RESET),
     LOUDER_THAN_BOMB("louder than bomb", 20, 1, true, Reset.TURN_ROLLOVER_RESET),
+    MARK_YOUR_TERRITORY("Mark Your Territory", -1, 1, false, Reset.ROLLOVER_RESET),
     MAFIA_MIDDLEFINGER_RING("mafia middle finger ring", 60, 1, true, Reset.TURN_ROLLOVER_RESET),
     MONKEY_SLAP("Monkey Slap", -1, 1, false, Reset.ROLLOVER_RESET),
     NANORHINO("nanorhino", -1, 1, false, Reset.ROLLOVER_RESET),
@@ -111,6 +114,7 @@ public class BanishManager {
     PUNT_WEREPROF("[7510]Punt", 40, 1, false, Reset.TURN_RESET),
     REFLEX_HAMMER("Reflex Hammer", 30, 1, true, Reset.TURN_ROLLOVER_RESET),
     ROAR_LIKE_A_LION("Roar like a Lion", -1, 1, false, Reset.EFFECT_RESET),
+    SEADENT_LIGHTNING("Sea *dent", -1, 1, false, Reset.ROLLOVER_RESET),
     SPLIT_PEA_SOUP("handful of split pea soup", 30, 1, true, Reset.TURN_ROLLOVER_RESET),
     STUFFED_YAM_STINKBOMB("stuffed yam stinkbomb", 15, 1, true, Reset.TURN_ROLLOVER_RESET),
     PATRIOTIC_SCREECH("Patriotic Screech", 100, 1, false, Reset.TURN_RESET, BanishType.PHYLUM),
@@ -227,10 +231,10 @@ public class BanishManager {
     public boolean isValid() {
       return switch (banisher.getResetType()) {
         case TURN_RESET, TURN_ROLLOVER_RESET -> turnsLeft() > 0;
-        case COSMIC_BOWLING_BALL_RESET -> Preferences.getInteger("cosmicBowlingBallReturnCombats")
-            > 0;
-        case EFFECT_RESET -> KoLConstants.activeEffects.contains(
-            EffectPool.get(EffectPool.HEAR_ME_ROAR));
+        case COSMIC_BOWLING_BALL_RESET ->
+            Preferences.getInteger("cosmicBowlingBallReturnCombats") > 0;
+        case EFFECT_RESET ->
+            KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.HEAR_ME_ROAR));
         default -> true;
       };
     }
@@ -243,9 +247,10 @@ public class BanishManager {
         case EFFECT_RESET -> "Until Hear Me Roar expires";
         case AVATAR_RESET -> "Until Prism Break";
         case NEVER_RESET -> "Until Ice House opened";
-        case COSMIC_BOWLING_BALL_RESET -> "Until Ball returns ("
-            + Preferences.getInteger("cosmicBowlingBallReturnCombats")
-            + " combats) or Until Rollover";
+        case COSMIC_BOWLING_BALL_RESET ->
+            "Until Ball returns ("
+                + Preferences.getInteger("cosmicBowlingBallReturnCombats")
+                + " combats) or Until Rollover";
       };
     }
   }
@@ -431,21 +436,23 @@ public class BanishManager {
     // Legacy support
     switch (banisher) {
       case NANORHINO -> Preferences.setString("_nanorhinoBanishedMonster", banished);
-      case BANISHING_SHOUT, HOWL_OF_THE_ALPHA -> Preferences.setString(
-          "banishingShoutMonsters",
-          Stream.concat(
-                  Stream.of(banished),
-                  Arrays.stream(Preferences.getString("banishingShoutMonsters").split("\\|"))
-                      .limit(2)
-                      .filter(Predicate.not(String::isEmpty)))
-              .collect(Collectors.joining("|")));
-      case STAFF_OF_THE_STANDALONE_CHEESE -> Preferences.setString(
-          "_jiggleCheesedMonsters",
-          Stream.concat(
-                  Stream.of(banished),
-                  Arrays.stream(Preferences.getString("_jiggleCheesedMonsters").split("\\|"))
-                      .filter(Predicate.not(String::isEmpty)))
-              .collect(Collectors.joining("|")));
+      case BANISHING_SHOUT, HOWL_OF_THE_ALPHA ->
+          Preferences.setString(
+              "banishingShoutMonsters",
+              Stream.concat(
+                      Stream.of(banished),
+                      Arrays.stream(Preferences.getString("banishingShoutMonsters").split("\\|"))
+                          .limit(2)
+                          .filter(Predicate.not(String::isEmpty)))
+                  .collect(Collectors.joining("|")));
+      case STAFF_OF_THE_STANDALONE_CHEESE ->
+          Preferences.setString(
+              "_jiggleCheesedMonsters",
+              Stream.concat(
+                      Stream.of(banished),
+                      Arrays.stream(Preferences.getString("_jiggleCheesedMonsters").split("\\|"))
+                          .filter(Predicate.not(String::isEmpty)))
+                  .collect(Collectors.joining("|")));
     }
   }
 

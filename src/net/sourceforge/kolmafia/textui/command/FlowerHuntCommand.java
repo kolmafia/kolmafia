@@ -9,6 +9,6 @@ public class FlowerHuntCommand extends AbstractCommand {
 
   @Override
   public void run(final String cmd, final String parameters) {
-    PvpManager.executePvpRequest(0, "flowers", 0);
+    PvpManager.executePvpRequest(0, "flowers", 0, false);
   }
 }

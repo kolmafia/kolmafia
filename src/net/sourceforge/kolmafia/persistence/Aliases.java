@@ -57,17 +57,13 @@ public class Aliases {
   }
 
   public static void save() {
-    PrintStream aliasStream = LogStream.openStream(Aliases.ALIAS_FILE, true);
-
-    Iterator<Entry<String, String>> it = Aliases.aliasSet.iterator();
-    while (it.hasNext()) {
-      Entry<String, String> current = it.next();
-      String aliasString = current.getKey();
-      String aliasCommand = current.getValue();
-      aliasStream.println(aliasString.trim() + "\t" + aliasCommand.trim());
+    try (PrintStream aliasStream = LogStream.openStream(Aliases.ALIAS_FILE, true)) {
+      for (Entry<String, String> current : Aliases.aliasSet) {
+        String aliasString = current.getKey();
+        String aliasCommand = current.getValue();
+        aliasStream.println(aliasString.trim() + "\t" + aliasCommand.trim());
+      }
     }
-
-    aliasStream.close();
   }
 
   public static String apply(String line) {
@@ -83,9 +79,7 @@ public class Aliases {
 
     line = " " + line + " ";
 
-    Iterator<Entry<String, String>> it = Aliases.aliasSet.iterator();
-    while (it.hasNext()) {
-      Entry<String, String> current = it.next();
+    for (Entry<String, String> current : Aliases.aliasSet) {
       String aliasString = current.getKey();
       String aliasCommand = current.getValue();
 
@@ -93,7 +87,7 @@ public class Aliases {
       // aliasing scheme where only the first word can be considered a
       // part of the alias.
 
-      if (aliasCommand.indexOf("%%") != -1) {
+      if (aliasCommand.contains("%%")) {
         if (line.startsWith(aliasString)) {
           String parameters = line.substring(aliasString.length());
           line = StringUtilities.globalStringReplace(aliasCommand, "%%", parameters);
@@ -124,7 +118,7 @@ public class Aliases {
   }
 
   public static void print(final String filter) {
-    StringBuffer buffer = new StringBuffer();
+    StringBuilder buffer = new StringBuilder();
     Iterator<Entry<String, String>> it = Aliases.aliasSet.iterator();
     boolean first = true;
     while (it.hasNext()) {
@@ -136,8 +130,8 @@ public class Aliases {
 
       if (!matches) {
         matches =
-            (aliasString.toLowerCase().indexOf(filter) != -1
-                || aliasCommand.toLowerCase().indexOf(filter) != -1);
+            (aliasString.toLowerCase().contains(filter)
+                || aliasCommand.toLowerCase().contains(filter));
       }
 
       if (!matches) {

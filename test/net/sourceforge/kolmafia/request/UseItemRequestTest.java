@@ -32,6 +32,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -316,7 +317,6 @@ class UseItemRequestTest {
       try (cleanups) {
         assertThat(ConsumablesDatabase.getRawSpleenHit("[5140]astral energy drink"), is(8));
         assertThat(ConsumablesDatabase.getRawSpleenHit("[10883]astral energy drink"), is(5));
-        assertThat(ConsumablesDatabase.getRawSpleenHit("astral energy drink"), is(0));
         assertThat(UseItemRequest.maximumUses("[5140]astral energy drink"), is(1));
         assertThat(UseItemRequest.maximumUses(5140), is(1));
         assertThat(UseItemRequest.maximumUses("[10883]astral energy drink"), is(3));
@@ -1117,28 +1117,28 @@ class UseItemRequestTest {
     @Test
     void potionsAreMultiusable() {
       assertEquals(
-          UseItemRequest.getConsumptionType(ItemPool.get(ItemPool.VIAL_OF_PURPLE_SLIME)),
-          ConsumptionType.USE_MULTIPLE);
+          ConsumptionType.USE_MULTIPLE,
+          UseItemRequest.getConsumptionType(ItemPool.get(ItemPool.VIAL_OF_PURPLE_SLIME)));
     }
 
     @Test
     void reusablePotionsAreReusable() {
       assertEquals(
-          UseItemRequest.getConsumptionType(ItemPool.get(ItemPool.BRASS_DREAD_FLASK)),
-          ConsumptionType.USE_INFINITE);
+          ConsumptionType.USE_INFINITE,
+          UseItemRequest.getConsumptionType(ItemPool.get(ItemPool.BRASS_DREAD_FLASK)));
     }
 
     @Test
     void singleUsePotionsAreUsable() {
       assertEquals(
-          UseItemRequest.getConsumptionType(ItemPool.get(ItemPool.GOOFBALLS)), ConsumptionType.USE);
+          ConsumptionType.USE, UseItemRequest.getConsumptionType(ItemPool.get(ItemPool.GOOFBALLS)));
     }
 
     @Test
     void familiarHatchlingsAreTheirOwnType() {
       assertEquals(
-          UseItemRequest.getConsumptionType(ItemPool.get(ItemPool.MOSQUITO_LARVA)),
-          ConsumptionType.FAMILIAR_HATCHLING);
+          ConsumptionType.FAMILIAR_HATCHLING,
+          UseItemRequest.getConsumptionType(ItemPool.get(ItemPool.MOSQUITO_LARVA)));
     }
   }
 
@@ -1319,6 +1319,160 @@ class UseItemRequestTest {
         // Verify that the correct item increments the quest
         UseItemRequest.getInstance(ItemPool.LAW_OF_AVERAGES).run();
         assertThat("_lawOfAveragesUsed", isSetTo(expectedValue));
+      }
+    }
+  }
+
+  @Nested
+  class Clock {
+    @ParameterizedTest
+    @ValueSource(ints = {1, 2})
+    void incrementsCounterOnSuccess(int uses) {
+      var cleanups =
+          new Cleanups(
+              withProperty("_clocksUsed", uses - 1),
+              withItem(ItemPool.CLOCK),
+              withNextResponse(200, html("request/test_use_clock_" + uses + ".html")));
+
+      try (cleanups) {
+        var req = UseItemRequest.getInstance(ItemPool.CLOCK);
+        req.run();
+
+        assertThat("_clocksUsed", isSetTo(uses));
+        assertThat(InventoryManager.getCount(ItemPool.CLOCK), is(0));
+      }
+    }
+
+    @Test
+    void maxesCounterOnFailure() {
+      var cleanups =
+          new Cleanups(
+              withProperty("_clocksUsed", 1),
+              withItem(ItemPool.CLOCK),
+              withNextResponse(200, html("request/test_use_clock_failure.html")));
+
+      try (cleanups) {
+        var req = UseItemRequest.getInstance(ItemPool.CLOCK);
+        req.run();
+
+        assertThat("_clocksUsed", isSetTo(2));
+        assertThat(InventoryManager.getCount(ItemPool.CLOCK), is(1));
+      }
+    }
+  }
+
+  @Test
+  void stockCertificateClearsOldestValue() {
+    var cleanups =
+        new Cleanups(
+            withProperty("stockCertificateTurns", "111,222,333,444"),
+            withItem(ItemPool.STOCK_CERTIFICATE),
+            withNextResponse(200, "unused"));
+
+    try (cleanups) {
+      UseItemRequest.getInstance(ItemPool.STOCK_CERTIFICATE).run();
+
+      assertThat("stockCertificateTurns", isSetTo("222,333,444"));
+    }
+  }
+
+  @Nested
+  class HewnMoonRuneSpoon {
+    @Test
+    void zoneChangeWipesDailySpecials() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              // Start in Canadia (Chez Snootée zone)
+              withSign(ZodiacSign.OPOSSUM),
+              withItem(ItemPool.HEWN_MOON_RUNE_SPOON),
+              withProperty("_dailySpecial", "bat wing stir-fry"),
+              withProperty("_dailySpecialPrice", 207));
+
+      try (cleanups) {
+        client.addResponse(200, html("request/test_use_hewn_moon_rune_spoon.html"));
+        client.addResponse(200, ""); // api.php
+
+        // Tune to Wombat (can no longer access Canadia)
+        // This is a Gnomad zone, finding the new daily special is for elsewhere
+        var request =
+            new GenericRequest(
+                "inv_use.php?whichitem="
+                    + ItemPool.HEWN_MOON_RUNE_SPOON
+                    + "&doit=96&whichsign="
+                    + ZodiacSign.WOMBAT.getId());
+        request.run();
+
+        assertThat(KoLCharacter.getSign(), is(ZodiacSign.WOMBAT));
+        assertThat("_dailySpecial", isSetTo(""));
+        assertThat("_dailySpecialPrice", isSetTo(0));
+      }
+    }
+
+    @Test
+    void sameZoneDoesNotWipeDailySpecials() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              // Start in Canadia (Marmot)
+              withSign(ZodiacSign.MARMOT),
+              withItem(ItemPool.HEWN_MOON_RUNE_SPOON),
+              withProperty("_dailySpecial", "bat wing stir-fry"),
+              withProperty("_dailySpecialPrice", 207));
+
+      try (cleanups) {
+        client.addResponse(200, html("request/test_use_hewn_moon_rune_spoon.html"));
+        client.addResponse(200, ""); // api.php
+
+        // Tune to Opossum — can still access Canadia
+        var request =
+            new GenericRequest(
+                "inv_use.php?whichitem="
+                    + ItemPool.HEWN_MOON_RUNE_SPOON
+                    + "&doit=96&whichsign="
+                    + ZodiacSign.OPOSSUM.getId());
+        request.run();
+
+        assertThat(KoLCharacter.getSign(), is(ZodiacSign.OPOSSUM));
+        assertThat("_dailySpecial", isSetTo("bat wing stir-fry"));
+        assertThat("_dailySpecialPrice", isSetTo(207));
+      }
+    }
+  }
+
+  @Nested
+  class HandfulOfTips {
+    @Test
+    void handfulOfTipsTracksMeat() {
+      var cleanups =
+          new Cleanups(
+              withProperty("handfulOfTipsMeat", 111),
+              withItem(ItemPool.HANDFUL_OF_TIPS),
+              withNextResponse(200, html("request/test_use_handful_of_tips.html")));
+
+      try (cleanups) {
+        UseItemRequest.getInstance(ItemPool.HANDFUL_OF_TIPS).run();
+
+        assertThat("handfulOfTipsMeat", isSetTo(415));
+      }
+    }
+
+    @Test
+    void handfulOfTipsTracksIrs() {
+      var cleanups =
+          new Cleanups(
+              withProperty("handfulOfTipsMeat", 111),
+              withItem(ItemPool.HANDFUL_OF_TIPS),
+              withNextResponse(200, html("request/test_use_handful_of_tips_irs.html")));
+
+      try (cleanups) {
+        UseItemRequest.getInstance(ItemPool.HANDFUL_OF_TIPS).run();
+
+        assertThat("handfulOfTipsMeat", isSetTo(0));
       }
     }
   }

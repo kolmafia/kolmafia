@@ -11,6 +11,7 @@ import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withTrackedMonsters;
 import static internal.helpers.Player.withTrackedPhyla;
+import static internal.helpers.Player.withTurnsPlayed;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.aMapWithSize;
 import static org.hamcrest.Matchers.allOf;
@@ -23,6 +24,7 @@ import static org.hamcrest.Matchers.hasEntry;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notANumber;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.core.Every.everyItem;
 
 import internal.helpers.Cleanups;
@@ -1082,6 +1084,157 @@ public class AreaCombatDataTest {
         var combat =
             AdventureDatabase.getAreaCombatData("The SMOOCH Army HQ").areaCombatPercent(true);
         assertThat(combat, is(0.0));
+      }
+    }
+  }
+
+  @Nested
+  class TheSea {
+    static final MonsterData TROPHYFISH = MonsterDatabase.findMonster("trophyfish");
+
+    @ParameterizedTest
+    @ValueSource(booleans = {true, false})
+    void trophyFishNeedsUnlocked(final boolean unlocked) {
+      var cleanups = withProperty("grandpaUnlockedTrophyFish", unlocked);
+
+      try (cleanups) {
+        var appearanceRates =
+            AdventureDatabase.getAreaCombatData("The Brinier Deepers").getMonsterData(true);
+        assertThat(appearanceRates.get(TROPHYFISH), unlocked ? greaterThan(0.0) : is(0.0));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "cargo crab, 15, false",
+      "cargo crab, 20, true",
+      "mine crab, 19, true",
+      "unholy diver, 21, false",
+      "Mer-kin scavenger, 19, true",
+      "Mer-kin scavenger, 20, true",
+    })
+    void hatchAffectsFitzsimmonsMonsters(
+        final String monster, final int turnsAgo, final boolean expected) {
+      var turns = 30;
+      var cleanups =
+          new Cleanups(
+              withTurnsPlayed(turns), withProperty("_lastFitzsimmonsHatch", turns - turnsAgo));
+
+      try (cleanups) {
+        var appearanceRates =
+            AdventureDatabase.getAreaCombatData("The Wreck of the Edgar Fitzsimmons")
+                .getMonsterData(true);
+        assertThat(
+            appearanceRates.get(MonsterDatabase.findMonster(monster)),
+            expected ? closeTo(100.0 / 3, 0.001) : is(0.0));
+      }
+    }
+
+    @Test
+    void hatchNotOpenInFirstFewTurns() {
+      var cleanups = new Cleanups(withTurnsPlayed(4), withProperty("_lastFitzsimmonsHatch", -1));
+
+      try (cleanups) {
+        var appearanceRates =
+            AdventureDatabase.getAreaCombatData("The Wreck of the Edgar Fitzsimmons")
+                .getMonsterData(true);
+        assertThat(appearanceRates.get(MonsterDatabase.findMonster("unholy diver")), is(0.0));
+      }
+    }
+  }
+
+  @Nested
+  class HeartstoneMonsterNames {
+    private Cleanups withHeartstone() {
+      return new Cleanups(withEquipped(Slot.ACCESSORY1, ItemPool.HEARTSTONE));
+    }
+
+    private String monsterDataFor(String zone) {
+      var area = AdventureDatabase.getAreaCombatData(zone);
+      assertThat(area, notNullValue());
+      StringBuffer buffer = new StringBuffer();
+      area.appendMonsterData(buffer, false, false);
+      return buffer.toString();
+    }
+
+    @Test
+    void crateHighlightsMiddleLetter() {
+      var cleanups = withHeartstone();
+
+      try (cleanups) {
+        var data = monsterDataFor("Noob Cave");
+        assertThat(
+            data, containsString("cr<span style=\"text-decoration: underline;\">a</span>te"));
+      }
+    }
+
+    @Test
+    void legstrongUsesBytes() {
+      var cleanups = withHeartstone();
+
+      try (cleanups) {
+        var data = monsterDataFor("The Inner Wolf Gym");
+        assertThat(
+            data,
+            containsString(
+                "Legstrong™ st<span style=\"text-decoration: underline;\">a</span>tionary bicycle"));
+      }
+    }
+
+    @Test
+    void warFratCaptainPassesNameThrough() {
+      var cleanups = withHeartstone();
+
+      try (cleanups) {
+        var data = monsterDataFor("The Battlefield (Hippy Uniform)");
+        assertThat(data, containsString("War Frat 151st Captain"));
+      }
+    }
+
+    @Test
+    void paddlerHighlightsOnManuelName() {
+      var cleanups = withHeartstone();
+
+      try (cleanups) {
+        var data = monsterDataFor("The Orcish Frat House");
+        assertThat(
+            data,
+            containsString(
+                "Orcish <span style=\"text-decoration: underline;\">F</span>rat Boy (Paddler)"));
+      }
+    }
+
+    @Test
+    void picksCorrectLetterToHighlight() {
+      var cleanups = withHeartstone();
+
+      try (cleanups) {
+        var data = monsterDataFor("The Castle in the Clouds in the Sky (Top Floor)");
+        assertThat(
+            data, containsString("Goth <span style=\"text-decoration: underline;\">G</span>iant"));
+      }
+    }
+
+    @Test
+    void handlesDumbAmpersandMonster() {
+      var cleanups = withHeartstone();
+
+      try (cleanups) {
+        var data = monsterDataFor("The Road to the White Citadel");
+        assertThat(
+            data,
+            containsString(
+                "Elpízo & <span style=\"text-decoration: underline;\">C</span>rosybdis"));
+      }
+    }
+
+    @Test
+    void monsterNameDoesNotStartWithManuelName() {
+      var cleanups = withHeartstone();
+
+      try (cleanups) {
+        var data = monsterDataFor("The Outer Compound");
+        assertThat(data, containsString("french guard turtle"));
       }
     }
   }

@@ -228,6 +228,7 @@ public class CreateFrameRunnable implements Runnable {
         // Set a menu bar for anything that doesn't
         // extend the KoLmafia frame classes.
 
+        KoLmafiaGUI.applyFlatLafMenuBarSettings(frame.getRootPane());
         frame.setJMenuBar(new GlobalMenuBar());
       }
 

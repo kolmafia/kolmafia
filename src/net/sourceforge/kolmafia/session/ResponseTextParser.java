@@ -85,6 +85,7 @@ import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.SuburbanDisRequest;
 import net.sourceforge.kolmafia.request.SummoningChamberRequest;
 import net.sourceforge.kolmafia.request.TavernRequest;
+import net.sourceforge.kolmafia.request.ThriftyRequest;
 import net.sourceforge.kolmafia.request.TrendyRequest;
 import net.sourceforge.kolmafia.request.TrophyHutRequest;
 import net.sourceforge.kolmafia.request.TutorialRequest;
@@ -397,26 +398,26 @@ public class ResponseTextParser {
 
             switch (itemId) {
               case ItemPool.YEARBOOK_CAMERA -> ItemDatabase.parseYearbookCamera(responseText);
-              case ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE -> ItemDatabase.parseRetroCape(
-                  responseText);
+              case ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE ->
+                  ItemDatabase.parseRetroCape(responseText);
               case ItemPool.HATSEAT -> ItemDatabase.parseCrownOfThrones(responseText);
               case ItemPool.BUDDY_BJORN -> ItemDatabase.parseBuddyBjorn(responseText);
-              case ItemPool.FOURTH_SABER, ItemPool.REPLICA_FOURTH_SABER -> ItemDatabase.parseSaber(
-                  responseText);
-              case ItemPool.VAMPIRE_VINTNER_WINE -> ItemDatabase.parseVampireVintnerWine(
-                  responseText);
+              case ItemPool.FOURTH_SABER, ItemPool.REPLICA_FOURTH_SABER ->
+                  ItemDatabase.parseSaber(responseText);
+              case ItemPool.VAMPIRE_VINTNER_WINE ->
+                  ItemDatabase.parseVampireVintnerWine(responseText);
               case ItemPool.COMBAT_LOVERS_LOCKET -> LocketManager.parseLocket(responseText);
               case ItemPool.UNBREAKABLE_UMBRELLA -> ItemDatabase.parseUmbrella(responseText);
               case ItemPool.JUNE_CLEAVER -> ItemDatabase.parseCleaver(responseText);
-              case ItemPool.DESIGNER_SWEATPANTS,
-                  ItemPool.REPLICA_DESIGNER_SWEATPANTS -> ItemDatabase.parseDesignerSweatpants(
-                  responseText);
-              case ItemPool.POWERFUL_GLOVE, ItemPool.REPLICA_POWERFUL_GLOVE -> ItemDatabase
-                  .parsePowerfulGlove(responseText);
+              case ItemPool.DESIGNER_SWEATPANTS, ItemPool.REPLICA_DESIGNER_SWEATPANTS ->
+                  ItemDatabase.parseDesignerSweatpants(responseText);
+              case ItemPool.POWERFUL_GLOVE, ItemPool.REPLICA_POWERFUL_GLOVE ->
+                  ItemDatabase.parsePowerfulGlove(responseText);
               case ItemPool.RING -> ItemDatabase.parseRing(responseText);
               case ItemPool.LATTE_MUG -> LatteRequest.parseDescription(responseText);
               case ItemPool.EVERFULL_DART_HOLSTER -> ItemDatabase.parseDartPerks(responseText);
               case ItemPool.MIMIC_EGG -> ItemDatabase.parseMimicEgg(responseText);
+              case ItemPool.BASEBALL_DIAMOND -> ItemDatabase.parseBaseballDiamond(responseText);
               default -> changesFromTimeToTime = hasConsequence;
             }
 
@@ -439,8 +440,8 @@ public class ResponseTextParser {
                 EffectPool.WINE_COLD,
                 EffectPool.WINE_DARK,
                 EffectPool.WINE_BEFOULED,
-                EffectPool.WINE_FRIENDLY -> EffectDatabase.parseVampireVintnerWineEffect(
-                responseText, effectId);
+                EffectPool.WINE_FRIENDLY ->
+                EffectDatabase.parseVampireVintnerWineEffect(responseText, effectId);
           }
         }
       }
@@ -547,6 +548,19 @@ public class ResponseTextParser {
               case "shower" -> {
                 // We have April Showered today
                 Preferences.setBoolean("_aprilShowerGlobsCollected", true);
+              }
+              case "requestdrop" -> {
+                // if we have charges, it instead redirects to a choice
+                if (responseText.contains("Seems like your radio needs some time to recharge.")) {
+                  Preferences.setInteger("_alliedRadioDropsUsed", 3);
+                }
+              }
+              case "timepose" -> {
+                if (responseText.contains("The timeline won't support")) {
+                  Preferences.setInteger("timeposedTopHats", 49);
+                } else if (responseText.contains("You superimpose your extra time cop hat")) {
+                  Preferences.increment("timeposedTopHats", 1, 49);
+                }
               }
             }
           }
@@ -670,6 +684,9 @@ public class ResponseTextParser {
       }
       case "tavern.php" -> {
         TavernRequest.parseResponse(location, responseText);
+      }
+      case "thrifty.php" -> {
+        ThriftyRequest.parseResponse(location, responseText);
       }
       case "tiles.php" -> {
         if (responseText.contains("charpane.php")) {
@@ -914,9 +931,9 @@ public class ResponseTextParser {
           ResultProcessor.processItem(ItemPool.BIZARRE_ILLEGIBLE_SHEET_MUSIC, -1);
         }
       }
-        // These skills are separate as we expect their max level to change from time to time
-        // We don't want to avoid incrementing the pref if they are increased before that maximum
-        // is reflected in KoLmafia data
+      // These skills are separate as we expect their max level to change from time to time
+      // We don't want to avoid incrementing the pref if they are increased before that maximum
+      // is reflected in KoLmafia data
       case SkillPool.TOGGLE_OPTIMALITY,
           SkillPool.PIRATE_BELLOW,
           SkillPool.HOLIDAY_FUN,
@@ -925,7 +942,8 @@ public class ResponseTextParser {
           SkillPool.CALCULATE_THE_UNIVERSE,
           SkillPool.EXPERIENCE_SAFARI,
           SkillPool.SUMMON_KOKOMO_RESORT_PASS,
-          SkillPool.GENERATE_IRONY -> Preferences.increment(levelPref);
+          SkillPool.GENERATE_IRONY ->
+          Preferences.increment(levelPref);
       default -> {
         var maxLevel = SkillDatabase.getMaxLevel(skillId);
         if (maxLevel > 0) {
@@ -974,8 +992,7 @@ public class ResponseTextParser {
   };
 
   public static final void learnCombatMove(final String skillName) {
-    for (int type = 0; type < COMBAT_MOVE_DATA.length; ++type) {
-      String[] moves = COMBAT_MOVE_DATA[type];
+    for (String[] moves : COMBAT_MOVE_DATA) {
       for (int index = 1; index < moves.length; ++index) {
         if (skillName.equals(moves[index])) {
           String setting = moves[0];

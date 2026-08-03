@@ -28,6 +28,7 @@ public enum StringModifier implements Modifier {
   MODIFIERS("Modifiers", Pattern.compile("^(none)$")),
   OUTFIT("Outfit", null),
   STAT_TUNING("Stat Tuning", Pattern.compile("Stat Tuning: \"(.*?)\"")),
+  EFFECT("Effect", Pattern.compile("Effect: \"(.*?)\""), true),
   EQUIPS_ON("Equips On", Pattern.compile("Equips On: \"(.*?)\"")),
   FAMILIAR_EFFECT("Familiar Effect", Pattern.compile("Familiar Effect: \"(.*?)\"")),
   JIGGLE("Jiggle", Pattern.compile("Jiggle: *(.*?)$"), Pattern.compile("Jiggle: \"(.*?)\"")),
@@ -41,6 +42,11 @@ public enum StringModifier implements Modifier {
         Pattern.compile("Te hace ver como un (.++)"),
       },
       Pattern.compile("Avatar: \"(.*?)\"")),
+  ROLLOVER_EFFECT(
+      "Rollover Effect",
+      Pattern.compile("Adventures of <b><a.*?>(.*)</a></b> at Rollover"),
+      Pattern.compile("Rollover Effect: \"(.*?)\""),
+      true),
   SKILL(
       "Skill",
       Pattern.compile("Grants Skill:.*?<b>(.*?)</b>"),
@@ -52,10 +58,21 @@ public enum StringModifier implements Modifier {
   PLUMBER_STAT("Plumber Stat", Pattern.compile("Plumber Stat: \"(.*?)\"")),
   RECIPE("Recipe", Pattern.compile("Recipe: \"(.*?)\"")),
   EVALUATED_MODIFIERS("Evaluated Modifiers"),
-  LAST_AVAILABLE_DATE("Last Available", Pattern.compile("Last Available: \"(.*?)\""));
+  LAST_AVAILABLE_DATE("Last Available", Pattern.compile("Last Available: \"(.*?)\"")),
+  CONDITIONAL_SKILL_EQUIPPED(
+      "Conditional Skill (Equipped)",
+      new Pattern[] {Pattern.compile("Grants \"(.*?)\" Combat Skill")},
+      Pattern.compile("Conditional Skill \\(Equipped\\): \"(.*?)\""),
+      true),
+  CONDITIONAL_SKILL_INVENTORY(
+      "Conditional Skill (Inventory)",
+      Pattern.compile("Conditional Skill \\(Inventory\\): \"(.*?)\""),
+      true),
+  LANTERN_ELEMENT("Lantern Element", Pattern.compile("Lantern Element: \"(.*?)\""), true);
   private final String name;
   private final Pattern[] descPatterns;
   private final Pattern tagPattern;
+  private final boolean multiple;
 
   StringModifier(String name) {
     this(name, null);
@@ -65,14 +82,27 @@ public enum StringModifier implements Modifier {
     this(name, (Pattern[]) null, tagPattern);
   }
 
+  StringModifier(String name, Pattern tagPattern, boolean multiple) {
+    this(name, (Pattern[]) null, tagPattern, multiple);
+  }
+
   StringModifier(String name, Pattern descPattern, Pattern tagPattern) {
     this(name, new Pattern[] {descPattern}, tagPattern);
   }
 
+  StringModifier(String name, Pattern descPattern, Pattern tagPattern, boolean multiple) {
+    this(name, new Pattern[] {descPattern}, tagPattern, multiple);
+  }
+
   StringModifier(String name, Pattern[] descPatterns, Pattern tagPattern) {
+    this(name, descPatterns, tagPattern, false);
+  }
+
+  StringModifier(String name, Pattern[] descPatterns, Pattern tagPattern, boolean multiple) {
     this.name = name;
     this.descPatterns = descPatterns;
     this.tagPattern = tagPattern;
+    this.multiple = multiple;
   }
 
   @Override
@@ -95,9 +125,13 @@ public enum StringModifier implements Modifier {
     return name;
   }
 
+  public boolean isMultiple() {
+    return multiple;
+  }
+
   @Override
   public ModifierValueType getType() {
-    return ModifierValueType.STRING;
+    return multiple ? ModifierValueType.MULTISTRING : ModifierValueType.STRING;
   }
 
   @Override

@@ -1,8 +1,8 @@
 package net.sourceforge.kolmafia.maximizer;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -26,6 +26,7 @@ import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.modifiers.BitmapModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -48,6 +49,7 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ApiRequest;
+import net.sourceforge.kolmafia.request.CampAwayRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -66,6 +68,7 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.MallPriceManager;
 import net.sourceforge.kolmafia.session.RabbitHoleManager;
 import net.sourceforge.kolmafia.swingui.MaximizerFrame;
+import net.sourceforge.kolmafia.textui.command.AlliedRadioCommand;
 import net.sourceforge.kolmafia.textui.command.LoathingIdolCommand;
 import net.sourceforge.kolmafia.utilities.IntOrString;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -95,10 +98,12 @@ public class Maximizer {
   private Maximizer() {}
 
   public static boolean maximize(
-      String maximizerString, int maxPrice, PriceLevel priceLevel, boolean isSpeculationOnly) {
+      String maximizerString,
+      int maxPrice,
+      PriceLevel priceLevel,
+      EquipScope equipScope,
+      Set<filterType> filter) {
     MaximizerFrame.expressionSelect.setSelectedItem(maximizerString);
-    EquipScope equipScope =
-        isSpeculationOnly ? EquipScope.SPECULATE_INVENTORY : EquipScope.EQUIP_NOW;
 
     // iECOC has to be turned off before actually maximizing as
     // it would cause all item lookups during the process to just
@@ -106,7 +111,7 @@ public class Maximizer {
 
     KoLmafiaCLI.isExecutingCheckOnlyCommand = false;
 
-    Maximizer.maximize(equipScope, maxPrice, priceLevel, false, EnumSet.allOf(filterType.class));
+    Maximizer.maximize(equipScope, maxPrice, priceLevel, false, filter);
 
     if (!KoLmafia.permitsContinue()) {
       return false;
@@ -116,6 +121,14 @@ public class Maximizer {
     ModifierDatabase.overrideModifier(ModifierType.GENERATED, "_spec", mods);
 
     return !Maximizer.best.failed;
+  }
+
+  public static boolean maximize(
+      String maximizerString, int maxPrice, PriceLevel priceLevel, boolean isSpeculationOnly) {
+    EquipScope equipScope =
+        isSpeculationOnly ? EquipScope.SPECULATE_INVENTORY : EquipScope.EQUIP_NOW;
+    return maximize(
+        maximizerString, maxPrice, priceLevel, equipScope, EnumSet.allOf(filterType.class));
   }
 
   public static void maximize(
@@ -148,7 +161,9 @@ public class Maximizer {
     KoLCharacter.recalculateAdjustments();
     double current =
         Maximizer.eval.getScore(
-            KoLCharacter.getCurrentModifiers(), EquipmentManager.currentEquipment());
+            KoLCharacter.getCurrentModifiers(),
+            EquipmentManager.currentEquipment(),
+            Modeable.getStateMap());
 
     if (maxPrice <= 0) {
       maxPrice = Preferences.getInteger("autoBuyPriceLimit");
@@ -212,7 +227,9 @@ public class Maximizer {
 
     current =
         Maximizer.eval.getScore(
-            KoLCharacter.getCurrentModifiers(), EquipmentManager.currentEquipment());
+            KoLCharacter.getCurrentModifiers(),
+            EquipmentManager.currentEquipment(),
+            Modeable.getStateMap());
 
     // Show only equipment
     if (filter.contains(filterType.EQUIP) && filterCount == 1) {
@@ -443,7 +460,7 @@ public class Maximizer {
       AdventureResult effect = EffectPool.get(effectId);
       String name = effect.getName();
       boolean hasEffect = KoLConstants.activeEffects.contains(effect);
-      Iterator<String> sources;
+      List<String> sources;
 
       if (!hasEffect) {
         spec.addEffect(effect);
@@ -464,13 +481,20 @@ public class Maximizer {
           case MEETS:
             isSpecial = true;
         }
-        if (Evaluator.cannotGainEffect(effectId)) {
-          continue;
-        }
         sources = EffectDatabase.getAllActions(effectId);
-        if (!sources.hasNext()) {
+        if (Evaluator.cannotGainEffect(effectId)) {
+          // sources do not apply
+          sources = new ArrayList<>();
+        }
+        if (filter.contains(KoLConstants.filterType.WISH)
+            && !EffectDatabase.hasAttribute(effectId, "nohookah")) {
+          // effect is wishable
+          sources.add("monkeypaw effect " + name);
+          sources.add("genie effect " + name);
+        }
+        if (sources.isEmpty()) {
           if (includeAll) {
-            sources = Collections.singletonList("(no known source of " + name + ")").iterator();
+            sources = Collections.singletonList("(no known source of " + name + ")");
           } else continue;
         }
       } else {
@@ -491,12 +515,12 @@ public class Maximizer {
             cmd = "(find some way to remove " + name + ")";
           } else continue;
         }
-        sources = Collections.singletonList(cmd).iterator();
+        sources = Collections.singletonList(cmd);
       }
 
       boolean haveVipKey = InventoryManager.getCount(ItemPool.VIP_LOUNGE_KEY) > 0;
       boolean orFlag = false;
-      while (sources.hasNext()) {
+      for (var source : sources) {
         if (!KoLmafia.permitsContinue()) {
           return;
         }
@@ -520,7 +544,7 @@ public class Maximizer {
         int itemsRemaining = 0;
         int itemsCreatable = 0;
 
-        cmd = text = sources.next();
+        cmd = text = source;
         AdventureResult item = null;
 
         // Check filters
@@ -543,6 +567,10 @@ public class Maximizer {
             break;
           case "use":
             if (!filter.contains(KoLConstants.filterType.USABLE)) continue;
+            break;
+          case "genie":
+          case "monkeypaw":
+            if (!filter.contains(KoLConstants.filterType.WISH)) continue;
             break;
           default:
             if (!filter.contains(KoLConstants.filterType.OTHER)) continue;
@@ -637,7 +665,16 @@ public class Maximizer {
 
             Modifiers effMod = ModifierDatabase.getItemModifiers(item.getItemId());
             if (effMod != null) {
-              duration = (int) effMod.getDouble(DoubleModifier.EFFECT_DURATION);
+              var effects = effMod.getStrings(StringModifier.EFFECT);
+              var effectIndex = effects.indexOf(effect.getName());
+              if (effectIndex != -1) {
+                var effectDurations = effMod.getDoubles(DoubleModifier.EFFECT_DURATION);
+                if (effectIndex >= effectDurations.size()) {
+                  duration = 0;
+                } else {
+                  duration = effectDurations.get(effectIndex).intValue();
+                }
+              }
             }
           }
           // Hot Dogs don't have items
@@ -860,10 +897,10 @@ public class Maximizer {
           } else {
             try {
               int num = Integer.parseInt(cmd.split(" ")[1]);
-              if (Preferences.getString("demonName" + num).equals("")) {
+              if (Preferences.getString("demonName" + num).isEmpty()) {
                 cmd = "";
               }
-            } catch (Exception e) {
+            } catch (Exception ignored) {
             }
           }
           // Existential Torment is 20 turns, but won't appear here as the effects are unknown
@@ -894,14 +931,14 @@ public class Maximizer {
           duration = 20;
           usesRemaining = Preferences.getBoolean("concertVisited") ? 0 : 1;
         } else if (cmd.startsWith("telescope ")) {
-          if (limitMode.limitCampground()) {
+          if (!CampgroundRequest.haveCampground()) {
             continue;
           } else if (Preferences.getInteger("telescopeUpgrades") == 0) {
             if (includeAll) {
               text = "( get a telescope )";
               cmd = "";
             } else continue;
-          } else if (KoLCharacter.inBadMoon() || KoLCharacter.inNuclearAutumn()) {
+          } else if (KoLCharacter.inBadMoon()) {
             continue;
           } else if (Preferences.getBoolean("telescopeLookedHigh")) {
             cmd = "";
@@ -1338,12 +1375,76 @@ public class Maximizer {
           duration = 50;
           usesRemaining = 3 - Preferences.getInteger("_photoBoothEffects");
         } else if (cmd.equals("campaway cloud")) {
+          if (!CampAwayRequest.campAwayTentAvailable()) {
+            continue;
+          }
           var used = Preferences.getInteger("_campAwayCloudBuffs");
           if (used > 0) {
             cmd = "";
           }
           duration = 100;
           usesRemaining = 1 - used;
+        } else if (cmd.startsWith("alliedradio effect ")) {
+          if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Allied Radio Backpack")) {
+            continue;
+          }
+          if (InventoryManager.equippedOrInInventory(ItemPool.ALLIED_RADIO_BACKPACK)
+              && Preferences.getInteger("_alliedRadioDropsUsed") < 3) {
+            // use the backpack, no item change because it can be used in beecore
+          } else {
+            item = ItemPool.get(ItemPool.HANDHELD_ALLIED_RADIO, 1);
+          }
+          if (effectId == EffectPool.WILDSUN_BOON) {
+            if (Preferences.getBoolean("_alliedRadioWildsunBoon")) {
+              cmd = "";
+            }
+            duration = 100;
+          } else if (effectId == EffectPool.ELLIPSOIDTINED) {
+            duration = 30;
+          } else if (effectId == EffectPool.MATERIEL_INTEL) {
+            if (Preferences.getBoolean("_alliedRadioMaterielIntel")) {
+              cmd = "";
+            }
+            duration = 10;
+          }
+          usesRemaining = AlliedRadioCommand.usesRemaining();
+        } else if (cmd.startsWith("monkeypaw effect ")) {
+          if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, "cursed monkey's paw")) {
+            continue;
+          }
+          if (!InventoryManager.equippedOrInInventory(ItemPool.CURSED_MONKEY_PAW)) {
+            if (includeAll) {
+              text = "( acquire a cursed monkey's paw )";
+              cmd = "";
+            } else continue;
+          }
+          var used = Preferences.getInteger("_monkeyPawWishesUsed");
+          if (used >= 5) {
+            cmd = "";
+          }
+          duration = 30;
+          usesRemaining = 5 - used;
+        } else if (cmd.startsWith("genie effect ")) {
+          if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, "pocket wish")) {
+            continue;
+          }
+          if (InventoryManager.getCount(ItemPool.GENIE_BOTTLE) > 0
+              && Preferences.getInteger("_genieWishesUsed") < 3) {
+            item = ItemPool.get(ItemPool.GENIE_BOTTLE);
+          } else if (KoLCharacter.inLegacyOfLoathing()
+              && InventoryManager.getCount(ItemPool.REPLICA_GENIE_BOTTLE) > 0
+              && Preferences.getInteger("_genieWishesUsed") < 3) {
+            item = ItemPool.get(ItemPool.REPLICA_GENIE_BOTTLE, 1);
+          } else {
+            item = ItemPool.get(ItemPool.POCKET_WISH, 1);
+          }
+          duration = 20;
+          usesRemaining =
+              (InventoryManager.getCount(ItemPool.GENIE_BOTTLE) > 0
+                          || InventoryManager.getCount(ItemPool.REPLICA_GENIE_BOTTLE) > 0
+                      ? 3 - Preferences.getInteger("_genieWishesUsed")
+                      : 0)
+                  + InventoryManager.getCount(ItemPool.POCKET_WISH);
         }
 
         if (item != null) {
@@ -1783,7 +1884,7 @@ public class Maximizer {
             switch (method) {
               case "uncloset" -> "closet take 1 \u00B6" + item.getItemId() + ";" + cmd;
               case "unstash" -> "stash take 1 \u00B6" + item.getItemId() + ";" + cmd;
-                // Should be only hitting this after Ronin I think
+              // Should be only hitting this after Ronin I think
               case "pull" -> "pull 1 \u00B6" + item.getItemId() + ";" + cmd;
               default -> cmd;
             };
@@ -1862,9 +1963,9 @@ public class Maximizer {
   private static boolean excludedTCRSItem(int itemId) {
     return switch (itemId) {
       case ItemPool.DIETING_PILL ->
-      // Doubles adventures and stats from next food.  Also
-      // doubles fullness - which can be a surprise.
-      true;
+          // Doubles adventures and stats from next food.  Also
+          // doubles fullness - which can be a surprise.
+          true;
       default -> false;
     };
   }

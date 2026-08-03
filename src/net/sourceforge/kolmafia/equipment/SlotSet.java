@@ -13,8 +13,8 @@ public class SlotSet {
   /** Player slots visible on equipment page: HAT to ACCESSORY3. SLOTS without FAMILIAR. */
   public static final EnumSet<Slot> CORE_EQUIP_SLOTS = EnumSet.range(Slot.HAT, Slot.ACCESSORY3);
 
-  /** All slots except NONE and FAKEHAND. HAT to BOOTSPUR. */
-  public static final EnumSet<Slot> ALL_SLOTS = EnumSet.range(Slot.HAT, Slot.BOOTSPUR);
+  /** All slots except NONE and FAKEHAND. HAT to CODPIECE5. */
+  public static final EnumSet<Slot> ALL_SLOTS = EnumSet.range(Slot.HAT, Slot.CODPIECE5);
 
   /** All folder slots: 1 to 5. */
   public static final EnumSet<Slot> FOLDER_SLOTS =
@@ -23,6 +23,10 @@ public class SlotSet {
   /** All folder slots available in aftercore (i.e. not KoLHS): 1 to 3. */
   public static final Set<Slot> FOLDER_SLOTS_AFTERCORE =
       EnumSet.of(Slot.FOLDER1, Slot.FOLDER2, Slot.FOLDER3);
+
+  /** All codpiece slots: 1 to 5. */
+  public static final EnumSet<Slot> CODPIECE_SLOTS =
+      EnumSet.of(Slot.CODPIECE1, Slot.CODPIECE2, Slot.CODPIECE3, Slot.CODPIECE4, Slot.CODPIECE5);
 
   /** All accessory slots: 1 to 3. */
   public static final EnumSet<Slot> ACCESSORY_SLOTS =

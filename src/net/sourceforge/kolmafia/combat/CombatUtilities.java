@@ -8,7 +8,7 @@ public class CombatUtilities {
     // The +d10-d10 in the Hit Chance formula means the distribution is not linear.
     //
     // According to the Wiki
-    //    http://kol.coldfront.net/thekolwiki/index.php/Monsters#Monster_Hit_Chance
+    //    https://wiki.kingdomofloathing.com/Monsters#Monster_Hit_Chance
     // it is the Cumulative Distribution Function of a triangular distribution
     //    https://en.wikipedia.org/wiki/Triangular_distribution
 

@@ -5,7 +5,9 @@ import static internal.helpers.Networking.html;
 import static internal.helpers.Player.*;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -14,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import internal.helpers.Cleanups;
 import internal.network.FakeHttpClientBuilder;
 import internal.network.FakeHttpResponse;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import net.sourceforge.kolmafia.KoLAdventure;
@@ -399,6 +402,87 @@ public class GenericRequestTest {
         assertThat(KoLAdventure.lastLocationURL, nullValue());
         assertThat("lastAdventure", isSetTo("None"));
         assertThat("nextAdventure", isSetTo("None"));
+      }
+    }
+  }
+
+  @Nested
+  class Retry502 {
+    @Test
+    public void doesNotRetryRequestsIfPreferenceFalse() {
+      var builder = new FakeHttpClientBuilder();
+      builder.client.addResponse(502, "");
+      builder.client.addResponse(200, "<html><body>ok</body></html>");
+
+      var cleanup =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withProperty("retryFailedNetworkRequests", false),
+              withContinuationState());
+
+      try (cleanup) {
+        var request = new RetryTrackingRequest("choice.php?whichchoice=1&option=1");
+        request.run();
+
+        assertThat(StaticEntity.getContinuationState(), equalTo(MafiaState.ERROR));
+        assertThat(request.responseCode, equalTo(502));
+        assertThat(builder.client.getRequests(), hasSize(1));
+        assertThat(request.retryDelays, empty());
+      }
+    }
+
+    @Test
+    public void retries502WithExponentialBackoff() {
+      var builder = new FakeHttpClientBuilder();
+      builder.client.addResponse(502, "");
+      builder.client.addResponse(502, "");
+      builder.client.addResponse(200, "<html><body>ok</body></html>");
+
+      var cleanup = new Cleanups(withHttpClientBuilder(builder), withContinuationState());
+
+      try (cleanup) {
+        var request = new RetryTrackingRequest("choice.php?whichchoice=1&option=1");
+        request.run();
+
+        assertThat(StaticEntity.getContinuationState(), equalTo(MafiaState.CONTINUE));
+        assertThat(request.responseCode, equalTo(200));
+        assertThat(builder.client.getRequests(), hasSize(3));
+        assertThat(request.retryDelays, hasItems(1000L, 2000L));
+      }
+    }
+
+    @Test
+    public void aborts502AfterFiveFailures() {
+      var builder = new FakeHttpClientBuilder();
+      builder.client.addResponse(502, "");
+      builder.client.addResponse(502, "");
+      builder.client.addResponse(502, "");
+      builder.client.addResponse(502, "");
+      builder.client.addResponse(502, "");
+
+      var cleanup = new Cleanups(withHttpClientBuilder(builder), withContinuationState());
+
+      try (cleanup) {
+        var request = new RetryTrackingRequest("choice.php?whichchoice=1&option=1");
+        request.run();
+
+        assertThat(StaticEntity.getContinuationState(), equalTo(MafiaState.ERROR));
+        assertThat(request.responseCode, equalTo(502));
+        assertThat(builder.client.getRequests(), hasSize(5));
+        assertThat(request.retryDelays, hasItems(1000L, 2000L, 4000L, 8000L));
+      }
+    }
+
+    private static class RetryTrackingRequest extends GenericRequest {
+      private final List<Long> retryDelays = new ArrayList<>();
+
+      public RetryTrackingRequest(String urlString) {
+        super(urlString);
+      }
+
+      @Override
+      protected void pauseBeforeResponseCodeRetry(long milliseconds) {
+        this.retryDelays.add(milliseconds);
       }
     }
   }

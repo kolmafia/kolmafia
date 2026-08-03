@@ -14,7 +14,7 @@ import javax.net.ssl.SSLParameters;
 
 public class FakeHttpClientBuilder implements Builder {
 
-  public FakeHttpClient client = new FakeHttpClient();
+  public final FakeHttpClient client = new FakeHttpClient();
 
   @Override
   public Builder cookieHandler(CookieHandler cookieHandler) {

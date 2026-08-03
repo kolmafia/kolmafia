@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class Mood implements Comparable<Mood> {
   private String name;
@@ -21,7 +22,7 @@ public class Mood implements Comparable<Mood> {
     if (extendsIndex != -1) {
       String parentString = this.name.substring(extendsIndex + 9);
 
-      String[] parentNameArray = parentString.split("\\s*,\\s*");
+      String[] parentNameArray = StringUtilities.splitByComma(parentString);
 
       for (String parentName : parentNameArray) {
         this.parentNames.add(this.getName(parentName));
@@ -31,7 +32,7 @@ public class Mood implements Comparable<Mood> {
     } else if (this.name.contains(",")) {
       this.name = "";
 
-      String[] parentNameArray = name.split("\\s*,\\s*");
+      String[] parentNameArray = StringUtilities.splitByComma(name);
 
       for (String parentName : parentNameArray) {
         this.parentNames.add(this.getName(parentName));

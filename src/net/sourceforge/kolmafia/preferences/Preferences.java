@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.preferences;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -76,6 +77,9 @@ public class Preferences {
         "shadowRiftLastNC", "shadowRiftTotalTurns",
       };
 
+  // Map to store deprecation notices for preferences
+  public static final Map<String, String> deprecationNotices = new HashMap<>();
+
   static {
     // Initialize perUserGlobalSet and read defaults.txt into
     // defaultsSet, globalNames, and userNames
@@ -122,17 +126,20 @@ public class Preferences {
         }
 
         desiredMap.put(name, defaultValue);
-
-        // Maintain a set of prefs that exist in defaults.txt
         defaultsSet.add(name);
 
         // Parse attributes string to learn more about the pref
         var attributes = attributeString.split(",");
         for (var attr : attributes) {
-          switch (attr) {
-            case "roa" -> resetOnAscension.add(name);
-            case "ld" -> legacyDailies.add(name);
-            case "rof" -> resetOnFight.add(name);
+          String trimmed = attr.trim();
+          if (trimmed.equals("roa")) resetOnAscension.add(name);
+          else if (trimmed.equals("ld")) legacyDailies.add(name);
+          else if (trimmed.equals("rof")) resetOnFight.add(name);
+          else if (trimmed.startsWith("deprecated")) {
+            // Format: deprecated[:optional notice]
+            String[] parts = trimmed.split(":", 2);
+            String notice = parts.length > 1 ? parts[1].trim() : "";
+            deprecationNotices.put(name, notice);
           }
         }
       }
@@ -162,7 +169,7 @@ public class Preferences {
     // Prevent anybody from manipulating the user map until we are
     // done bulk-loading it.
     synchronized (Preferences.userValues) {
-      if (username == null || username.equals("")) {
+      if (username == null || username.isEmpty()) {
         if (Preferences.userPropertiesFile != null) {
           Preferences.saveToFile(Preferences.userPropertiesFile, Preferences.userEncodedValues);
           Preferences.userPropertiesFile = null;
@@ -184,7 +191,7 @@ public class Preferences {
   }
 
   public static String baseUserName(final String name) {
-    return name == null || name.equals("")
+    return name == null || name.isEmpty()
         ? "GLOBAL"
         : StringUtilities.globalStringReplace(name.trim(), " ", "_").toLowerCase();
   }
@@ -192,9 +199,11 @@ public class Preferences {
   private static void loadGlobalPreferences() {
     File file =
         new File(KoLConstants.SETTINGS_LOCATION, Preferences.baseUserName("") + "_prefs.txt");
+    File backupFile =
+        new File(KoLConstants.SETTINGS_LOCATION, Preferences.baseUserName("") + "_prefs.bak");
     Preferences.globalPropertiesFile = file;
 
-    Properties p = Preferences.loadPreferences(file);
+    Properties p = Preferences.loadPreferencesWithBackup(file, backupFile);
     Preferences.globalValues.clear();
     Preferences.globalEncodedValues.clear();
 
@@ -231,64 +240,7 @@ public class Preferences {
         new File(KoLConstants.SETTINGS_LOCATION, Preferences.baseUserName(username) + "_prefs.bak");
 
     synchronized (lock) {
-      Properties p = Preferences.loadPreferences(userPrefsFile);
-
-      if (p.size() == 0) {
-        // Something went wrong reading the preferences.
-        if (backupFile.exists()) {
-          KoLmafia.updateDisplay(
-              userPrefsFile
-                  + " could not be read, loading backup. "
-                  + "This will restore the last successfully opened preferences");
-          // also tell system out, in case things are really fubar
-          System.out.println("Prefs could not be read and backup exists, trying backup. ");
-
-          p = Preferences.loadPreferences(backupFile);
-
-          if (p.size() > 0) {
-            try {
-              Files.copy(
-                  backupFile.toPath(), userPrefsFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-
-            } catch (IOException ex) {
-
-              KoLmafia.updateDisplay(
-                  "Error when restoring preferences from backup,  see session log for details");
-              RequestLogger.updateSessionLog(
-                  userPrefsFile
-                      + " could not be read and backup was used. KoLmafia was unable to copy your backup file to "
-                      + "your preferences file and received error message:"
-                      + ex.getMessage()
-                      + "\nIf this is unexpected, please manually review your preferences and backup and repair any problems."
-                      + " If you have a damaged preferences file, "
-                      + "please consider creating a bug report on the forum, noting any special circumstances around "
-                      + "the failure, and attaching the preferences.");
-            }
-          }
-        } else {
-          KoLmafia.updateDisplay("Preferences could not be read and no backup exists.");
-          RequestLogger.updateSessionLog(
-              userPrefsFile
-                  + " could not be read and backup there is no backup file found. "
-                  + "If this is unexpected, please manually inspect "
-                  + "your preferences file and repair any problems.  If you have a damaged preferences file, "
-                  + "please consider creating a bug report on the forum, noting any special circumstances around "
-                  + "the failure, and attaching the preferences.");
-        }
-      } else {
-        try {
-          Files.copy(
-              userPrefsFile.toPath(), backupFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException ex) {
-          System.out.println("I/O Error when creating backup preferences file: " + ex.getMessage());
-          RequestLogger.updateSessionLog(
-              userPrefsFile
-                  + " backup creation failed. Please manually inspect "
-                  + "your preferences and backup files and repair any problems.  If you have a damaged preferences file, "
-                  + "please consider creating a bug report on the forum, noting any special circumstances around "
-                  + "the failure, and attaching the preferences.");
-        }
-      }
+      Properties p = Preferences.loadPreferencesWithBackup(userPrefsFile, backupFile);
 
       Preferences.userPropertiesFile = null;
       Preferences.userValues.clear();
@@ -326,23 +278,109 @@ public class Preferences {
     }
   }
 
-  private static Properties loadPreferences(File file) {
-    InputStream istream = DataUtilities.getInputStream(file);
+  private static Properties loadPreferencesWithBackup(File prefsFile, File backupFile) {
+    if (!prefsFile.exists() && !backupFile.exists()) {
+      return new Properties();
+    }
 
+    Properties p = Preferences.loadPreferences(prefsFile);
+
+    if (!Preferences.isValidPreferencesFile(prefsFile, p)) {
+      // Something went wrong reading the preferences.
+      if (backupFile.exists()) {
+        KoLmafia.updateDisplay(
+            prefsFile
+                + " could not be read, loading backup. "
+                + "This will restore the last successfully opened preferences");
+        // also tell system out, in case things are really fubar
+        System.out.println("Prefs could not be read and backup exists, trying backup. ");
+
+        p = Preferences.loadPreferences(backupFile);
+
+        if (Preferences.isValidPreferencesFile(backupFile, p)) {
+          try {
+            Files.copy(
+                backupFile.toPath(), prefsFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+
+          } catch (IOException ex) {
+
+            KoLmafia.updateDisplay(
+                "Error when restoring preferences from backup,  see session log for details");
+            RequestLogger.updateSessionLog(
+                prefsFile
+                    + " could not be read and backup was used. KoLmafia was unable to copy your backup file to "
+                    + "your preferences file and received error message:"
+                    + ex.getMessage()
+                    + "\nIf this is unexpected, please manually review your preferences and backup and repair any problems."
+                    + " If you have a damaged preferences file, "
+                    + "please consider creating a bug report on the forum, noting any special circumstances around "
+                    + "the failure, and attaching the preferences.");
+          }
+        }
+      } else {
+        // No backup to fall back on, recover whatever complete lines were written before the
+        // corruption point instead of loading a malformed line.
+        try {
+          byte[] safeBytes =
+              FileUtilities.truncateToLastGoodLineBeforeNullByte(
+                  Files.readAllBytes(prefsFile.toPath()));
+          Properties recovered = new Properties();
+          try (InputStream istream = new ByteArrayInputStream(safeBytes)) {
+            recovered.load(istream);
+          }
+          p = recovered;
+          KoLmafia.updateDisplay(
+              "Preferences was partially recovered from corruption, no backup exists.");
+        } catch (IOException e) {
+          p = new Properties();
+          KoLmafia.updateDisplay("Preferences could not be read and no backup exists.");
+        }
+        RequestLogger.updateSessionLog(
+            prefsFile
+                + " could not be read and backup there is no backup file found. "
+                + "If this is unexpected, please manually inspect "
+                + "your preferences file and repair any problems.  If you have a damaged preferences file, "
+                + "please consider creating a bug report on the forum, noting any special circumstances around "
+                + "the failure, and attaching the preferences.");
+      }
+    } else {
+      try {
+        Files.copy(prefsFile.toPath(), backupFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+      } catch (IOException ex) {
+        System.out.println("I/O Error when creating backup preferences file: " + ex.getMessage());
+        RequestLogger.updateSessionLog(
+            prefsFile
+                + " backup creation failed. Please manually inspect "
+                + "your preferences and backup files and repair any problems.  If you have a damaged preferences file, "
+                + "please consider creating a bug report on the forum, noting any special circumstances around "
+                + "the failure, and attaching the preferences.");
+      }
+    }
+
+    return p;
+  }
+
+  private static Properties loadPreferences(File file) {
     Properties p = new Properties();
-    try {
+    try (InputStream istream = DataUtilities.getInputStream(file)) {
       p.load(istream);
     } catch (IOException e) {
       System.out.println(e.getMessage() + " trying to load preferences from file.");
     }
 
-    try {
-      istream.close();
-    } catch (IOException e) {
-      System.out.println(e.getMessage() + " trying to close preferences file.");
-    }
-
     return p;
+  }
+
+  /** A file is currently considered as invalid if it contains null bytes, or is empty */
+  private static boolean isValidPreferencesFile(File file, Properties p) {
+    if (p.isEmpty()) {
+      return false;
+    }
+    try {
+      return !FileUtilities.containsNullBytes(file);
+    } catch (IOException e) {
+      return false;
+    }
   }
 
   private static String encodeProperty(String name, String value) {
@@ -350,7 +388,7 @@ public class Preferences {
 
     Preferences.encodeString(buffer, name);
 
-    if (value != null && value.length() > 0) {
+    if (value != null && !value.isEmpty()) {
       buffer.append("=");
       Preferences.encodeString(buffer, value);
     }
@@ -598,6 +636,10 @@ public class Preferences {
     return Preferences.increment(name, delta, 0, false);
   }
 
+  public static int increment(final String name, final int delta, final int max) {
+    return Preferences.increment(name, delta, max, false);
+  }
+
   public static int increment(
       final String name, final int delta, final int max, final boolean mod) {
     int current = Preferences.getInteger(name);
@@ -821,7 +863,7 @@ public class Preferences {
     // We stop tracking encoded values when saveSettingsOnSet is off. When it is turned back on,
     // many encoded values will be out of date, and we don't know which ones, so we have to
     // recompute all of them.
-    if (name == "saveSettingsOnSet" && (boolean) object) {
+    if (name.equals("saveSettingsOnSet") && (boolean) object) {
       Preferences.reinitializeEncodedValues();
       trackEncoded |= Preferences.saveSettingsToFile;
     }
@@ -899,9 +941,7 @@ public class Preferences {
       // Determine the contents of the file by
       // actually printing them.
 
-      OutputStream fstream = new BufferedOutputStream(DataUtilities.getOutputStream(file));
-
-      try {
+      try (OutputStream fstream = new BufferedOutputStream(DataUtilities.getOutputStream(file))) {
         synchronized (encodedData) {
           for (Entry<String, byte[]> current : encodedData.entrySet()) {
             fstream.write(current.getValue());
@@ -909,12 +949,6 @@ public class Preferences {
         }
       } catch (IOException e) {
         System.out.println(e.getMessage() + " trying to write preferences as byte array.");
-      }
-
-      try {
-        fstream.close();
-      } catch (IOException e) {
-        System.out.println(e.getMessage() + " trying to close preferences stream.");
       }
     }
   }
@@ -1032,5 +1066,12 @@ public class Preferences {
 
   public static boolean containsDefault(String key) {
     return defaultsSet.contains(key);
+  }
+
+  public static void warnIfDeprecated(String name) {
+    String notice = deprecationNotices.get(name);
+    if (notice == null) return;
+    if (notice.isBlank()) notice = "This preference is deprecated.";
+    RequestLogger.printLine("Warning: Preference '" + name + "' is deprecated. " + notice);
   }
 }

@@ -107,8 +107,8 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
       this.optionSelects.add(new JComboBox<>());
       this.optionSelects.get(i).addItem("show in browser");
       ChoiceOption[] options = ChoiceAdventures.CHOICE_ADVS[i].getOptions();
-      for (int j = 0; j < options.length; ++j) {
-        this.optionSelects.get(i).addItem(options[j]);
+      for (ChoiceOption option : options) {
+        this.optionSelects.get(i).addItem(option);
       }
     }
 
@@ -426,13 +426,13 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
     ArrayList<String> optionsList;
     String[] keys = this.choiceMap.keySet().toArray(new String[0]);
 
-    for (int i = 0; i < keys.length; ++i) {
-      optionsList = this.choiceMap.get(keys[i]);
-      if (keys[i].equals("Item-Driven")) {
+    for (String key : keys) {
+      optionsList = this.choiceMap.get(key);
+      if (key.equals("Item-Driven")) {
         this.addTab("Item", new GenericScrollPane(new ChoicePanel(optionsList)));
         this.setToolTipTextAt(1, "Choices related to the use of an item");
       } else {
-        this.choicePanel.add(new ChoicePanel(optionsList), keys[i]);
+        this.choicePanel.add(new ChoicePanel(optionsList), key);
       }
     }
   }
@@ -475,8 +475,7 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
 
       ArrayList<VerifiableElement> elementList = new ArrayList<>();
 
-      for (int i = 0; i < options.size(); ++i) {
-        String key = options.get(i);
+      for (String key : options) {
         ArrayList<JComponent> value = ChoiceOptionsPanel.this.selectMap.get(key);
 
         if (value.size() == 1) {
@@ -561,7 +560,7 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
       this.addItem("El Vibrato power sphere");
       this.addItem("the plinth");
       this.addItem("random choice");
-      if (dest.indexOf(",") != -1) {
+      if (dest.contains(",")) {
         this.addItem("go to " + dest);
       }
       this.addItem("choose destination...");
@@ -598,7 +597,7 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
         index = 8;
       } else if (dest.equals("random")) {
         index = 9;
-      } else if (dest.indexOf(",") != -1) {
+      } else if (dest.contains(",")) {
         index = 10;
       }
 
@@ -851,7 +850,7 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
           case 5 -> "maxHP";
           case 6 -> "maxMP";
           case 7 -> "resistance";
-            // Not possible
+          // Not possible
           default -> "browser";
         });
 
@@ -878,7 +877,7 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
 
     switch (this.spookyForestSelect.getSelectedIndex()) {
       case 0 -> // Manual Control
-      Preferences.setString("choiceAdventure502", "0");
+          Preferences.setString("choiceAdventure502", "0");
       case 1 -> { // Mosquito Larva or Spooky Mushrooms
         Preferences.setString("choiceAdventure502", "2");
         Preferences.setString("choiceAdventure505", "1");
@@ -958,7 +957,7 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
 
     switch (this.riseSelect.getSelectedIndex()) {
       case 0 -> // Ignore this adventure
-      Preferences.setString("choiceAdventure888", "5");
+          Preferences.setString("choiceAdventure888", "5");
       case 1 -> { // Mysticality
         Preferences.setString("choiceAdventure888", "3");
         Preferences.setString("choiceAdventure88", "1");
@@ -975,9 +974,9 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
 
     switch (this.fallSelect.getSelectedIndex()) {
       case 0 -> // Ignore this adventure
-      Preferences.setString("choiceAdventure889", "5");
+          Preferences.setString("choiceAdventure889", "5");
       case 1 -> // Muscle
-      Preferences.setString("choiceAdventure889", "3");
+          Preferences.setString("choiceAdventure889", "3");
     }
 
     // necessary for backwards-compatibility
@@ -1108,11 +1107,11 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
       case 0 -> this.dailyDungeonDoorSelect.setSelectedIndex(0);
       case 1 -> this.dailyDungeonDoorSelect.setSelectedIndex(1);
       case 2, 3, 7, 11 ->
-      // unlock door
-      this.dailyDungeonDoorSelect.setSelectedIndex(2);
+          // unlock door
+          this.dailyDungeonDoorSelect.setSelectedIndex(2);
       case 4, 5, 6, 12 ->
-      // stat test
-      this.dailyDungeonDoorSelect.setSelectedIndex(3);
+          // stat test
+          this.dailyDungeonDoorSelect.setSelectedIndex(3);
     }
 
     int paranormalLabIndex = Preferences.getInteger("choiceAdventure989");
@@ -1194,11 +1193,11 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
         index =
             switch (Preferences.getInteger("choiceAdventure503")) {
               case 1 -> // Get Meat
-              7;
+                  7;
               case 2 -> // Meet Vampire Hunter
-              5;
+                  5;
               case 3 -> // Spooky Sapling & Sell Bar Skins
-              3;
+                  3;
               default -> index;
             };
         break;
@@ -1206,11 +1205,11 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
         index =
             switch (Preferences.getInteger("choiceAdventure505")) {
               case 1 -> // Mosquito Larva or Spooky Mushrooms
-              1;
+                  1;
               case 2 -> // Tree-holed coin -> Spooky Temple Map
-              4;
+                  4;
               case 3 -> // Meet Vampire
-              6;
+                  6;
               default -> index;
             };
         break;
@@ -1222,9 +1221,9 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
             index += 8;
           }
           case 2 -> // Spooky-Gro Fertilizer
-          index = 2;
+              index = 2;
           case 3 -> // Spooky Temple Map
-          index = 4;
+              index = 4;
         }
         break;
     }

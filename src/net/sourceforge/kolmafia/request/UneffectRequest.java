@@ -21,6 +21,7 @@ import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.EffectData;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
@@ -48,10 +49,12 @@ public class UneffectRequest extends GenericRequest {
   public static final Map<String, String> EFFECT_SKILL = new HashMap<>();
 
   static {
-    for (Entry<Integer, String> entry : EffectDatabase.defaultActions.entrySet()) {
-      if (entry.getValue().startsWith("cast 1")) {
-        String effectName = EffectDatabase.getEffectName(entry.getKey());
-        String skillName = entry.getValue().substring(7);
+    for (Entry<Integer, EffectData> effect : EffectDatabase.allEffects()) {
+      var action = effect.getValue().getActions();
+      if (action == null) continue;
+      if (action.startsWith("cast 1")) {
+        String effectName = EffectDatabase.getEffectName(effect.getKey());
+        String skillName = action.substring(7);
         if (skillName.contains("|")) {
           skillName = skillName.substring(0, skillName.indexOf("|"));
         }
@@ -133,7 +136,8 @@ public class UneffectRequest extends GenericRequest {
           EffectPool.DEEP_TAINTED_MIND,
           EffectPool.SPIRIT_PARIAH,
           EffectPool.BORED_WITH_EXPLOSIONS,
-          EffectPool.FEELING_QUEASY -> false;
+          EffectPool.FEELING_QUEASY ->
+          false;
       default -> true;
     };
   }
@@ -177,8 +181,21 @@ public class UneffectRequest extends GenericRequest {
     if (name == null) {
       return false;
     }
-    int id = SkillDatabase.getSkillId(UneffectRequest.effectToSkill(name));
-    return id != -1 && SkillDatabase.isBuff(id);
+    int skillId = SkillDatabase.getSkillId(UneffectRequest.effectToSkill(name));
+
+    // If there was no skill associated with the effect (and was not caught above), not shruggable.
+    if (skillId == -1) return false;
+
+    // If it's not a buff it isn't shruggable.
+    if (!SkillDatabase.isBuff(skillId)) return false;
+
+    // If it is acquired through a buff-like skill but achieved with a casting aid, it isn't
+    // shruggable.
+    var aid = UseSkillRequest.requiredItemForSkillEffect(skillId, effectId);
+    if (aid != -1) return false;
+
+    // Otherwise we have found a normal buff and it should indeed be shruggable.
+    return true;
   }
 
   public static final boolean isShruggable(final String effectName) {
@@ -209,7 +226,8 @@ public class UneffectRequest extends GenericRequest {
           EffectPool.CURSE_OF_WEAKNESS,
           EffectPool.TOUCHED_BY_A_GHOST,
           EffectPool.CHILLED_TO_THE_BONE,
-          EffectPool.NAUSEATED -> true;
+          EffectPool.NAUSEATED ->
+          true;
       default -> false;
     };
   }
@@ -320,6 +338,84 @@ public class UneffectRequest extends GenericRequest {
                 ? EffectPool.THOUGHTFUL_EMPATHY
                 : EffectPool.EMPATHY);
       }
+      case SkillPool.SEAL_CLUBBING_FRENZY -> {
+        return EffectDatabase.getEffectName(
+            KoLCharacter.hasEquipped(ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD)
+                ? EffectPool.SLIPPERY_AS_A_SEAL
+                : EffectPool.SEAL_CLUBBING_FRENZY);
+      }
+      case SkillPool.PATIENCE_OF_THE_TORTOISE -> {
+        return EffectDatabase.getEffectName(
+            KoLCharacter.hasEquipped(ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD)
+                ? EffectPool.STRENGTH_OF_THE_TORTOISE
+                : EffectPool.PATIENCE_OF_THE_TORTOISE);
+      }
+      case SkillPool.MANICOTTI_MEDITATION -> {
+        return EffectDatabase.getEffectName(
+            KoLCharacter.hasEquipped(ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD)
+                ? EffectPool.TUBES_OF_UNIVERSAL_MEAT
+                : EffectPool.PASTA_ONENESS);
+      }
+      case SkillPool.SAUCE_CONTEMPLATION -> {
+        return EffectDatabase.getEffectName(
+            KoLCharacter.hasEquipped(ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD)
+                ? EffectPool.LUBRICATING_SAUCE
+                : EffectPool.SAUCEMASTERY);
+      }
+      case SkillPool.DISCO_AEROBICS -> {
+        return EffectDatabase.getEffectName(
+            KoLCharacter.hasEquipped(ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD)
+                ? EffectPool.DISCO_OVER_MATTER
+                : EffectPool.DISCO_STATE_OF_MIND);
+      }
+      case SkillPool.MOXIE_OF_THE_MARIACHI -> {
+        return EffectDatabase.getEffectName(
+            KoLCharacter.hasEquipped(ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD)
+                ? EffectPool.MARIACHI_MOISTURE
+                : EffectPool.MARIACHI_MOOD);
+      }
+      case SkillPool.BIND_VAMPIEROGHI -> {
+        return EffectDatabase.getEffectName(
+            KoLCharacter.hasEquipped(ItemPool.LEGENDARY_PASTA_WAND)
+                ? EffectPool.LEGENDARY_BLOODY_POTATO_BITS
+                : EffectPool.BLOODY_POTATO_BITS);
+      }
+      case SkillPool.BIND_VERMINCELLI -> {
+        return EffectDatabase.getEffectName(
+            KoLCharacter.hasEquipped(ItemPool.LEGENDARY_PASTA_WAND)
+                ? EffectPool.LEGENDARY_SLINKING_NOODLE_GLOB
+                : EffectPool.SLINKING_NOODLE_GLOB);
+      }
+      case SkillPool.BIND_ANGEL_HAIR_WISP -> {
+        return EffectDatabase.getEffectName(
+            KoLCharacter.hasEquipped(ItemPool.LEGENDARY_PASTA_WAND)
+                ? EffectPool.LEGENDARY_WHISPERING_STRANDS
+                : EffectPool.WHISPERING_STRANDS);
+      }
+      case SkillPool.BIND_UNDEAD_ELBOW_MACARONI -> {
+        return EffectDatabase.getEffectName(
+            KoLCharacter.hasEquipped(ItemPool.LEGENDARY_PASTA_WAND)
+                ? EffectPool.LEGENDARY_MACARONI_COATING
+                : EffectPool.MACARONI_COATING);
+      }
+      case SkillPool.BIND_PENNE_DREADFUL -> {
+        return EffectDatabase.getEffectName(
+            KoLCharacter.hasEquipped(ItemPool.LEGENDARY_PASTA_WAND)
+                ? EffectPool.LEGENDARY_PENNE_FEDORA
+                : EffectPool.PENNE_FEDORA);
+      }
+      case SkillPool.BIND_LASAGMBIE -> {
+        return EffectDatabase.getEffectName(
+            KoLCharacter.hasEquipped(ItemPool.LEGENDARY_PASTA_WAND)
+                ? EffectPool.LEGENDARY_PASTA_EYEBALL
+                : EffectPool.PASTA_EYEBALL);
+      }
+      case SkillPool.BIND_SPICE_GHOST -> {
+        return EffectDatabase.getEffectName(
+            KoLCharacter.hasEquipped(ItemPool.LEGENDARY_PASTA_WAND)
+                ? EffectPool.LEGENDARY_SPICE_HAZE
+                : EffectPool.SPICE_HAZE);
+      }
     }
 
     // Handle remaining skills with a lookup
@@ -331,6 +427,18 @@ public class UneffectRequest extends GenericRequest {
     }
 
     return null;
+  }
+
+  public static final String[] skillToEffects(final String skillName) {
+    Set<String> effectSet = new HashSet<String>();
+
+    for (Entry<String, String> entry : UneffectRequest.EFFECT_SKILL.entrySet()) {
+      if (entry.getValue().equalsIgnoreCase(skillName)) {
+        effectSet.add(entry.getKey());
+      }
+    }
+
+    return effectSet.toArray(new String[0]);
   }
 
   private static Set<Entry<String, Set<Integer>>> REMOVABLE_BY_SKILL;
@@ -543,7 +651,7 @@ public class UneffectRequest extends GenericRequest {
   }
 
   public static String getUneffectSkill(final int effectId) {
-    Integer effect = Integer.valueOf(effectId);
+    Integer effect = effectId;
 
     for (Entry<String, Set<Integer>> removable : UneffectRequest.REMOVABLE_BY_SKILL) {
       Set<Integer> removables = removable.getValue();
@@ -653,7 +761,7 @@ public class UneffectRequest extends GenericRequest {
         continue;
       }
 
-      int itemId = removable.getKey().intValue();
+      int itemId = removable.getKey();
       String itemName = ItemDatabase.getItemName(itemId);
 
       if (InventoryManager.hasItem(itemId)

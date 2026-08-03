@@ -115,18 +115,19 @@ public enum LimitMode {
       case SPELUNKY -> itemId < 8040 || itemId > 8062;
       case BATMAN -> itemId < 8797 || itemId > 8815 || itemId == 8800;
       case ED -> true;
-      case BIRD, ROACH, MOLE, ASTRAL -> itemId == ItemPool.GONG
-          || itemId == ItemPool.ASTRAL_MUSHROOM;
+      case BIRD, ROACH, MOLE, ASTRAL ->
+          itemId == ItemPool.GONG || itemId == ItemPool.ASTRAL_MUSHROOM;
     };
   }
 
   public boolean limitSlot(final Slot slot) {
     return switch (this) {
       case UNKNOWN, NONE -> false;
-      case SPELUNKY -> switch (slot) {
-        case HAT, WEAPON, OFFHAND, CONTAINER, ACCESSORY1 -> false;
-        default -> true;
-      };
+      case SPELUNKY ->
+          switch (slot) {
+            case HAT, WEAPON, OFFHAND, CONTAINER, ACCESSORY1 -> false;
+            default -> true;
+          };
       case ED, BATMAN -> true;
       case BIRD, ROACH, MOLE, ASTRAL -> false;
     };
@@ -191,13 +192,13 @@ public enum LimitMode {
       case SPELUNKY -> !rootZone.equals("Spelunky Area");
       case BATMAN -> !rootZone.equals("Batfellow Area");
       case ED -> true;
-        // Mutually exclusive pseudo Limit Modes
+      // Mutually exclusive pseudo Limit Modes
       case BIRD -> zoneName.equals("Shape of Mole") || rootZone.equals("Astral");
       case ROACH -> false;
       case MOLE -> !zoneName.equals("Shape of Mole");
-        // Astral travelers are actually limited to a specific adventure areas in
-        // the "Astral" zone, but given just the zone, we cannot enforce that.
-        // limitAdventure() will do that.
+      // Astral travelers are actually limited to a specific adventure areas in
+      // the "Astral" zone, but given just the zone, we cannot enforce that.
+      // limitAdventure() will do that.
       case ASTRAL -> !zoneName.equals("Astral");
     };
   }

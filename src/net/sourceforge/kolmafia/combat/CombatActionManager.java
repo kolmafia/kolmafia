@@ -45,9 +45,9 @@ public abstract class CombatActionManager {
   public static final LockableListModel<String> getAvailableLookups() {
     String[] list = DataUtilities.list(KoLConstants.CCS_LOCATION);
 
-    for (int i = 0; i < list.length; ++i) {
-      if (list[i].endsWith(".ccs")) {
-        String name = list[i].substring(0, list[i].length() - 4);
+    for (String s : list) {
+      if (s.endsWith(".ccs")) {
+        String name = s.substring(0, s.length() - 4);
 
         if (!CombatActionManager.availableLookups.contains(name)) {
           CombatActionManager.availableLookups.add(name);
@@ -93,11 +93,11 @@ public abstract class CombatActionManager {
     File file = getStrategyLookupFile(name);
 
     if (!file.exists()) {
-      PrintStream ostream = LogStream.openStream(file, true);
-      ostream.println("[ default ]");
-      ostream.println("special action");
-      ostream.println("attack with weapon");
-      ostream.close();
+      try (PrintStream ostream = LogStream.openStream(file, true)) {
+        ostream.println("[ default ]");
+        ostream.println("special action");
+        ostream.println("attack with weapon");
+      }
     }
 
     try (BufferedReader reader = FileUtilities.getReader(file)) {
@@ -128,11 +128,9 @@ public abstract class CombatActionManager {
   }
 
   public static final void saveStrategyLookup(String name) {
-    PrintStream writer = LogStream.openStream(getStrategyLookupFile(name), true);
-
-    CombatActionManager.strategyLookup.store(writer);
-
-    writer.close();
+    try (PrintStream writer = LogStream.openStream(getStrategyLookupFile(name), true)) {
+      CombatActionManager.strategyLookup.store(writer);
+    }
   }
 
   public static final CustomCombatLookup getStrategyLookup() {
@@ -306,7 +304,8 @@ public abstract class CombatActionManager {
         || (action.contains("steal")
             && !action.contains("stealth")
             && !action.contains("combo")
-            && !action.contains("accordion"))) {
+            && !action.contains("accordion")
+            && !action.contains("heart"))) {
       return "try to steal an item";
     }
 
@@ -339,7 +338,7 @@ public abstract class CombatActionManager {
     }
 
     if (action.startsWith("abort")) {
-      if (action.indexOf("after") != -1) {
+      if (action.contains("after")) {
         return "abort after this combat";
       }
       return "abort";
@@ -361,7 +360,7 @@ public abstract class CombatActionManager {
       return "twiddle your thumbs";
     }
 
-    if (action.indexOf("run") != -1 && action.indexOf("away") != -1) {
+    if (action.contains("run") && action.contains("away")) {
       Matcher runAwayMatcher = CombatActionManager.TRY_TO_RUN_AWAY_PATTERN.matcher(action);
 
       int runaway = 0;
@@ -481,7 +480,7 @@ public abstract class CombatActionManager {
     }
 
     if (action.startsWith("abort")) {
-      if (action.indexOf("after") != -1) {
+      if (action.contains("after")) {
         return "abort after";
       }
       return "abort";
@@ -491,7 +490,8 @@ public abstract class CombatActionManager {
         || (action.contains("steal")
             && !action.contains("stealth")
             && !action.contains("combo")
-            && !action.contains("accordion"))) {
+            && !action.contains("accordion")
+            && !action.contains("heart"))) {
       return "steal";
     }
 
@@ -523,7 +523,7 @@ public abstract class CombatActionManager {
       return "twiddle";
     }
 
-    if (action.indexOf("run") != -1 && action.indexOf("away") != -1) {
+    if (action.contains("run") && action.contains("away")) {
       Matcher runAwayMatcher = CombatActionManager.TRY_TO_RUN_AWAY_PATTERN.matcher(action);
       int runaway = runAwayMatcher.find() ? StringUtilities.parseInt(runAwayMatcher.group(1)) : 0;
       return runaway <= 0 ? "runaway" : ("runaway" + runaway);
@@ -625,8 +625,7 @@ public abstract class CombatActionManager {
     List<String> matchingNames = ItemDatabase.getMatchingNames(action);
     int count = matchingNames.size();
 
-    for (int i = 0; i < count; ++i) {
-      String name = matchingNames.get(i);
+    for (String name : matchingNames) {
       int id = ItemDatabase.getItemId(name);
       if (ItemDatabase.getAttribute(id, EnumSet.of(Attribute.COMBAT, Attribute.COMBAT_REUSABLE))) {
         return id;

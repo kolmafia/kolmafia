@@ -5,6 +5,7 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -76,6 +77,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     {"Battlefield", "Infernal Thirst"},
     {null, "Jacked In"},
     {null, "Yeg's Power"},
+    {null, "Demon in Combat"}
   };
 
   public static final AdventureResult BEATEN_UP = EffectPool.get(EffectPool.BEATEN_UP, 4);
@@ -147,8 +149,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     this.request =
         switch (formSource) {
           case "dwarffactory.php" -> new DwarfFactoryRequest("ware");
-          case "clan_gym.php" -> new ClanRumpusRequest(
-              ClanRumpusRequest.RequestType.fromString(adventureId));
+          case "clan_gym.php" ->
+              new ClanRumpusRequest(ClanRumpusRequest.RequestType.fromString(adventureId));
           case "clan_hobopolis.php" -> new RichardRequest(StringUtilities.parseInt(adventureId));
           case "basement.php" -> new BasementRequest(adventureName);
           default -> new AdventureRequest(adventureName, formSource, adventureId);
@@ -562,6 +564,11 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
   // Validation part 0:
   private boolean checkZone(String alwaysPref, String todayPref, String place) {
+    return checkZone(alwaysPref, todayPref, place, () -> new PlaceRequest(place));
+  }
+
+  private boolean checkZone(
+      String alwaysPref, String todayPref, String place, Supplier<GenericRequest> request) {
     // Kingdom of Exploathing does not have any the top-level container
     // zones available. Certain lower level containers - town_wrong,
     // town_right, monorail - do exist and can be checked.
@@ -577,16 +584,14 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     // If there is no day pass, looking at map might induce QuestManager to
     // detect permanent access
     if (todayPref == null) {
-      var request = new PlaceRequest(place);
-      RequestThread.postRequest(request);
+      RequestThread.postRequest(request.get());
       return Preferences.getBoolean(alwaysPref);
     }
 
     // If we don't know we have daily access, looking at the map
     // will induce QuestManager to detect it.
     if (!Preferences.getBoolean(todayPref)) {
-      var request = new PlaceRequest(place);
-      RequestThread.postRequest(request);
+      RequestThread.postRequest(request.get());
     }
 
     return Preferences.getBoolean(todayPref);
@@ -640,9 +645,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       case "Tunnel of L.O.V.E.":
         return checkZone("loveTunnelAvailable", "_loveTunnelToday", "town_wrong");
       case "Twitch":
-        // There is no permanent access to the Time Twitching Tower; it's
-        // always day by day.
-        return checkZone(null, "timeTowerAvailable", "town");
+        return checkZone(
+            null, "timeTowerAvailable", "twitch", () -> new GenericRequest("main.php"));
       case "Speakeasy":
         // It's in the Wrong Side of the Tracks.
         // You can get a quest item from an NPC in it.
@@ -822,13 +826,14 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     if (this.adventureId.equals(AdventurePool.SUMMONING_CHAMBER_ID)) {
       return switch (QuestDatabase.getQuest(Quest.MANOR)) {
         case "step3" -> true;
-        default -> InventoryManager.hasItem(WINE_BOMB)
-            || (InventoryManager.hasItem(LOOSENING_POWDER)
-                && InventoryManager.hasItem(POWDERED_CASTOREUM)
-                && InventoryManager.hasItem(DRAIN_DISSOLVER)
-                && InventoryManager.hasItem(TRIPLE_DISTILLED_TURPENTINE)
-                && InventoryManager.hasItem(DETARTRATED_ANHYDROUS_SUBLICALC)
-                && InventoryManager.hasItem(TRIATOMACEOUS_DUST));
+        default ->
+            InventoryManager.hasItem(WINE_BOMB)
+                || (InventoryManager.hasItem(LOOSENING_POWDER)
+                    && InventoryManager.hasItem(POWDERED_CASTOREUM)
+                    && InventoryManager.hasItem(DRAIN_DISSOLVER)
+                    && InventoryManager.hasItem(TRIPLE_DISTILLED_TURPENTINE)
+                    && InventoryManager.hasItem(DETARTRATED_ANHYDROUS_SUBLICALC)
+                    && InventoryManager.hasItem(TRIATOMACEOUS_DUST));
       };
     }
 
@@ -846,7 +851,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     if (this.formSource.equals("sea_merkin.php")) {
       // If you have a seahorse, you can get to the Mer-Kin Deepcity.
       // Whether or not you can enter the temple is a separate question.
-      return !Preferences.getString("seahorseName").equals("");
+      return this.deepCityZoneAvailable();
     }
 
     // Dwarven Factory Warehouse
@@ -921,31 +926,33 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       // Otherwise, we want to adventure through a specific rift.
       // Ensure that we can reach it.
       return switch (rift) {
-          // Right Side of the Tracks and The Nearby Plains
+        // Right Side of the Tracks and The Nearby Plains
         case TOWN, PLAINS -> true;
-          // The Distant Woods, Forest Village, The 8-Bit Realm
+        // The Distant Woods, Forest Village, The 8-Bit Realm
         case WOODS, VILLAGE, REALM -> KoLAdventure.woodsOpen();
-          // Spookyraven Manor Third Floor
+        // Spookyraven Manor Third Floor
         case MANOR -> QuestDatabase.isQuestLaterThan(Quest.SPOOKYRAVEN_DANCE, "step3");
-          // The Misspelled Cemetary
+        // The Misspelled Cemetary
         case CEMETARY -> KoLAdventure.cemetaryOpen();
-          // Desert Beach
+        // Desert Beach
         case BEACH -> KoLCharacter.desertBeachAccessible();
-          // Mt. McLargeHuge
+        // Mt. McLargeHuge
         case MCLARGEHUGE -> QuestDatabase.isQuestStarted(Quest.TRAPPER);
-          // Somewhere Over the Beanstalk
-        case BEANSTALK -> !KoLCharacter.isKingdomOfExploathing()
-            && (QuestDatabase.isQuestLaterThan(Quest.GARBAGE, QuestDatabase.STARTED)
-                || (QuestDatabase.isQuestStarted(Quest.GARBAGE)
-                    && InventoryManager.hasItem(ENCHANTED_BEAN)));
-          // The Castle in the Clouds in the Sky
-        case CASTLE -> KoLCharacter.isKingdomOfExploathing()
-            // Kingdom of Exploathing aftercore retains access. Check quest
-            || QuestDatabase.isQuestFinished(Quest.GARBAGE)
-            || InventoryManager.hasItem(ItemPool.get(ItemPool.SOCK, 1));
-          // The Hidden City
+        // Somewhere Over the Beanstalk
+        case BEANSTALK ->
+            !KoLCharacter.isKingdomOfExploathing()
+                && (QuestDatabase.isQuestLaterThan(Quest.GARBAGE, QuestDatabase.STARTED)
+                    || (QuestDatabase.isQuestStarted(Quest.GARBAGE)
+                        && InventoryManager.hasItem(ENCHANTED_BEAN)));
+        // The Castle in the Clouds in the Sky
+        case CASTLE ->
+            KoLCharacter.isKingdomOfExploathing()
+                // Kingdom of Exploathing aftercore retains access. Check quest
+                || QuestDatabase.isQuestFinished(Quest.GARBAGE)
+                || InventoryManager.hasItem(ItemPool.get(ItemPool.SOCK, 1));
+        // The Hidden City
         case CITY -> QuestDatabase.isQuestLaterThan(Quest.WORSHIP, "step2");
-          // The Ancient Buried Pyramid
+        // The Ancient Buried Pyramid
         case PYRAMID -> QuestDatabase.isQuestStarted(Quest.PYRAMID);
       };
     }
@@ -960,24 +967,27 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     // Open at level one, with a subset of eventual zones
     if (this.zone.equals("Town")) {
       return switch (this.adventureNumber) {
-          // We can start the three market quests, if necessary
+        // We can start the three market quests, if necessary
         case AdventurePool.SLEAZY_BACK_ALLEY -> true;
-        case AdventurePool.OVERGROWN_LOT -> Preferences.getBoolean("overgrownLotAvailable")
-            || InventoryManager.hasItem(BOOZE_MAP)
-            || !KoLCharacter.isKingdomOfExploathing();
-        case AdventurePool.MADNESS_BAKERY -> Preferences.getBoolean("madnessBakeryAvailable")
-            || InventoryManager.hasItem(HYPNOTIC_BREADCRUMBS)
-            || !KoLCharacter.isKingdomOfExploathing();
-        case AdventurePool.SKELETON_STORE -> Preferences.getBoolean("skeletonStoreAvailable")
-            || InventoryManager.hasItem(BONE_WITH_A_PRICE_TAG)
-            || !KoLCharacter.isKingdomOfExploathing();
-          // Shen is available once you've read the diary and been told to talk to him.
+        case AdventurePool.OVERGROWN_LOT ->
+            Preferences.getBoolean("overgrownLotAvailable")
+                || InventoryManager.hasItem(BOOZE_MAP)
+                || !KoLCharacter.isKingdomOfExploathing();
+        case AdventurePool.MADNESS_BAKERY ->
+            Preferences.getBoolean("madnessBakeryAvailable")
+                || InventoryManager.hasItem(HYPNOTIC_BREADCRUMBS)
+                || !KoLCharacter.isKingdomOfExploathing();
+        case AdventurePool.SKELETON_STORE ->
+            Preferences.getBoolean("skeletonStoreAvailable")
+                || InventoryManager.hasItem(BONE_WITH_A_PRICE_TAG)
+                || !KoLCharacter.isKingdomOfExploathing();
+        // Shen is available once you've read the diary and been told to talk to him.
         case AdventurePool.COPPERHEAD_CLUB -> QuestDatabase.isQuestStarted(Quest.SHEN);
-          // Only one of the four Lair locations is in Town; two are in the
-          // Mountains and one is in the Plains. But, we sorted it into Town...
-        case AdventurePool.SUPER_VILLAIN_LAIR -> KoLCharacter.getPath()
-            == Path.LICENSE_TO_ADVENTURE;
-          // Allow future "Town" zones
+        // Only one of the four Lair locations is in Town; two are in the
+        // Mountains and one is in the Plains. But, we sorted it into Town...
+        case AdventurePool.SUPER_VILLAIN_LAIR ->
+            KoLCharacter.getPath() == Path.LICENSE_TO_ADVENTURE;
+        // Allow future "Town" zones
         default -> true;
       };
     }
@@ -1010,10 +1020,10 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         int neededLevel = KoLCharacter.getAscensions() > 0 ? 0 : 5;
         return switch (this.adventureNumber) {
           case AdventurePool.HAUNTED_PANTRY -> true;
-          case AdventurePool.HAUNTED_KITCHEN, AdventurePool.HAUNTED_CONSERVATORY -> QuestDatabase
-                  .isQuestStarted(Quest.SPOOKYRAVEN_NECKLACE)
-              || InventoryManager.hasItem(SPOOKYRAVEN_TELEGRAM)
-              || KoLCharacter.getLevel() >= neededLevel;
+          case AdventurePool.HAUNTED_KITCHEN, AdventurePool.HAUNTED_CONSERVATORY ->
+              QuestDatabase.isQuestStarted(Quest.SPOOKYRAVEN_NECKLACE)
+                  || InventoryManager.hasItem(SPOOKYRAVEN_TELEGRAM)
+                  || KoLCharacter.getLevel() >= neededLevel;
           case AdventurePool.HAUNTED_LIBRARY -> InventoryManager.hasItem(LIBRARY_KEY);
           case AdventurePool.HAUNTED_BILLIARDS_ROOM -> InventoryManager.hasItem(BILLIARDS_KEY);
           default -> true;
@@ -1034,20 +1044,20 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
           case AdventurePool.HAUNTED_BATHROOM,
               AdventurePool.HAUNTED_BEDROOM,
               AdventurePool.HAUNTED_GALLERY ->
-          // Already started this quest
-          QuestDatabase.isQuestLaterThan(Quest.SPOOKYRAVEN_DANCE, QuestDatabase.STARTED)
-              || (KoLCharacter.getLevel() >= neededLevel
-                  && (
-                  // Not finished the last quest, but you can (so prepareForAdventure will)
-                  InventoryManager.hasItem(SPOOKYRAVEN_NECKLACE)
-                      ||
-                      // Finished the last quest, prepareForAdventure will start this one
-                      QuestDatabase.isQuestFinished(Quest.SPOOKYRAVEN_NECKLACE)));
-          case AdventurePool.HAUNTED_BALLROOM -> QuestDatabase.isQuestLaterThan(
-                  Quest.SPOOKYRAVEN_DANCE, "step2")
-              || (InventoryManager.hasItem(POWDER_PUFF)
-                  && InventoryManager.hasItem(FINEST_GOWN)
-                  && InventoryManager.hasItem(DANCING_SHOES));
+              // Already started this quest
+              QuestDatabase.isQuestLaterThan(Quest.SPOOKYRAVEN_DANCE, QuestDatabase.STARTED)
+                  || (KoLCharacter.getLevel() >= neededLevel
+                      && (
+                      // Not finished the last quest, but you can (so prepareForAdventure will)
+                      InventoryManager.hasItem(SPOOKYRAVEN_NECKLACE)
+                          ||
+                          // Finished the last quest, prepareForAdventure will start this one
+                          QuestDatabase.isQuestFinished(Quest.SPOOKYRAVEN_NECKLACE)));
+          case AdventurePool.HAUNTED_BALLROOM ->
+              QuestDatabase.isQuestLaterThan(Quest.SPOOKYRAVEN_DANCE, "step2")
+                  || (InventoryManager.hasItem(POWDER_PUFF)
+                      && InventoryManager.hasItem(FINEST_GOWN)
+                      && InventoryManager.hasItem(DANCING_SHOES));
           default -> true;
         };
       }
@@ -1062,9 +1072,9 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         return switch (this.adventureNumber) {
           case AdventurePool.HAUNTED_LABORATORY,
               AdventurePool.HAUNTED_NURSERY,
-              AdventurePool.HAUNTED_STORAGE_ROOM -> QuestDatabase.isQuestLaterThan(
-                  Quest.SPOOKYRAVEN_DANCE, "step3")
-              && (KoLCharacter.getLevel() >= neededLevel);
+              AdventurePool.HAUNTED_STORAGE_ROOM ->
+              QuestDatabase.isQuestLaterThan(Quest.SPOOKYRAVEN_DANCE, "step3")
+                  && (KoLCharacter.getLevel() >= neededLevel);
           default -> true;
         };
       }
@@ -1083,16 +1093,16 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
       return switch (this.adventureNumber) {
         case AdventurePool.NOOB_CAVE, AdventurePool.DIRE_WARREN -> true;
-          // The Smut Orc Logging Camp is available if you have started the Highlands quest
+        // The Smut Orc Logging Camp is available if you have started the Highlands quest
         case AdventurePool.SMUT_ORC_LOGGING_CAMP -> QuestDatabase.isQuestStarted(Quest.TOPPING);
-          // The Valley of Rof L'm Fao is available if you have completed the Highlands quest
+        // The Valley of Rof L'm Fao is available if you have completed the Highlands quest
         case AdventurePool.VALLEY_OF_ROF_LM_FAO -> QuestDatabase.isQuestFinished(Quest.TOPPING);
-          // The Thinknerd Warehouse: Unlocks when reading (receiving?) Letter for Melvign the Gnome
+        // The Thinknerd Warehouse: Unlocks when reading (receiving?) Letter for Melvign the Gnome
         case AdventurePool.THINKNERD_WAREHOUSE -> QuestDatabase.isQuestStarted(Quest.SHIRT);
-          // The Secret Council Warehouse is near the end of an Ed the Undying run
-        case AdventurePool.SECRET_COUNCIL_WAREHOUSE -> KoLCharacter.isEd()
-            && KoLCharacter.getLevel() >= 13;
-          // Allow future "Mountain" zones
+        // The Secret Council Warehouse is near the end of an Ed the Undying run
+        case AdventurePool.SECRET_COUNCIL_WAREHOUSE ->
+            KoLCharacter.isEd() && KoLCharacter.getLevel() >= 13;
+        // Allow future "Mountain" zones
         default -> true;
       };
     }
@@ -1118,7 +1128,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         case AdventurePool.FUN_HOUSE -> QuestDatabase.isQuestLaterThan(Quest.NEMESIS, "step4");
         case AdventurePool.UNQUIET_GARVES -> KoLAdventure.cemetaryOpen();
         case AdventurePool.VERY_UNQUIET_GARVES -> QuestDatabase.isQuestFinished(Quest.CYRPT);
-          // Allow future "Plains" zones
+        // Allow future "Plains" zones
         default -> true;
       };
     }
@@ -1130,7 +1140,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
           case AdventurePool.SPOOKY_FOREST,
               AdventurePool.BARROOM_BRAWL,
               AdventurePool.HIDDEN_TEMPLE,
-              AdventurePool.BLACK_FOREST -> true;
+              AdventurePool.BLACK_FOREST ->
+              true;
           default -> false;
         };
       }
@@ -1142,20 +1153,22 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       // This logic is handled in KoLAdventure.woodsOpen()
       return switch (this.adventureNumber) {
         case AdventurePool.BARROOM_BRAWL -> QuestDatabase.isQuestStarted(Quest.RAT);
-          // prepareForAdventure will visit the Crackpot Mystic to get one, if needed
-        case AdventurePool.PIXEL_REALM -> KoLAdventure.woodsOpen()
-            || InventoryManager.hasItem(TRANSFUNCTIONER);
-        case AdventurePool.HIDDEN_TEMPLE -> KoLCharacter.getTempleUnlocked()
-            // Kingdom of Exploathing aftercore retains access. Check quest
-            || QuestDatabase.isQuestFinished(Quest.WORSHIP);
-        case AdventurePool.WHITEYS_GROVE -> KoLCharacter.isEd()
-            || QuestDatabase.isQuestStarted(Quest.CITADEL)
-            || QuestDatabase.isQuestLaterThan(Quest.PALINDOME, "step2");
+        // prepareForAdventure will visit the Crackpot Mystic to get one, if needed
+        case AdventurePool.PIXEL_REALM ->
+            KoLAdventure.woodsOpen() || InventoryManager.hasItem(TRANSFUNCTIONER);
+        case AdventurePool.HIDDEN_TEMPLE ->
+            KoLCharacter.getTempleUnlocked()
+                // Kingdom of Exploathing aftercore retains access. Check quest
+                || QuestDatabase.isQuestFinished(Quest.WORSHIP);
+        case AdventurePool.WHITEYS_GROVE ->
+            KoLCharacter.isEd()
+                || QuestDatabase.isQuestStarted(Quest.CITADEL)
+                || QuestDatabase.isQuestLaterThan(Quest.PALINDOME, "step2");
         case AdventurePool.BLACK_FOREST -> QuestDatabase.isQuestStarted(Quest.MACGUFFIN);
-        case AdventurePool.ROAD_TO_WHITE_CITADEL -> QuestDatabase.isQuestLaterThan(
-            Quest.CITADEL, QuestDatabase.STARTED);
+        case AdventurePool.ROAD_TO_WHITE_CITADEL ->
+            QuestDatabase.isQuestLaterThan(Quest.CITADEL, QuestDatabase.STARTED);
         case AdventurePool.OLD_LANDFILL -> QuestDatabase.isQuestStarted(Quest.HIPPY);
-          // Allow future "Woods" zones
+        // Allow future "Woods" zones
         default -> KoLAdventure.woodsOpen();
       };
     }
@@ -1165,8 +1178,9 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       if (KoLCharacter.isKingdomOfExploathing()) {
         return switch (this.adventureNumber) {
           case AdventurePool.ARID_DESERT -> QuestDatabase.isQuestStarted(Quest.DESERT);
-          case AdventurePool.OASIS -> Preferences.getBoolean("oasisAvailable")
-              || QuestDatabase.isQuestFinished(Quest.DESERT);
+          case AdventurePool.OASIS ->
+              Preferences.getBoolean("oasisAvailable")
+                  || QuestDatabase.isQuestFinished(Quest.DESERT);
           default -> false;
         };
       }
@@ -1177,15 +1191,15 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
       return switch (this.adventureNumber) {
         case AdventurePool.THE_SHORE, AdventurePool.SOUTH_OF_THE_BORDER -> true;
-          // Open after diary read
+        // Open after diary read
         case AdventurePool.ARID_DESERT -> QuestDatabase.isQuestStarted(Quest.DESERT);
-          // Opens after 1st desert exploration or - legacy - desert quest is finished
-        case AdventurePool.OASIS -> Preferences.getBoolean("oasisAvailable")
-            || QuestDatabase.isQuestFinished(Quest.DESERT);
-          // Open with "Tropical Contact High"
-        case AdventurePool.KOKOMO_RESORT -> KoLConstants.activeEffects.contains(
-            TROPICAL_CONTACT_HIGH);
-          // Allow future "Beach" zones
+        // Opens after 1st desert exploration or - legacy - desert quest is finished
+        case AdventurePool.OASIS ->
+            Preferences.getBoolean("oasisAvailable") || QuestDatabase.isQuestFinished(Quest.DESERT);
+        // Open with "Tropical Contact High"
+        case AdventurePool.KOKOMO_RESORT ->
+            KoLConstants.activeEffects.contains(TROPICAL_CONTACT_HIGH);
+        // Allow future "Beach" zones
         default -> true;
       };
     }
@@ -1218,6 +1232,10 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
           return true;
 
         case AdventurePool.HIPPY_CAMP:
+          // on the verge of war, only the wartime camps are available
+          if (QuestDatabase.isQuestStep(Quest.ISLAND_WAR, QuestDatabase.STARTED)) {
+            return false;
+          }
           // You can visit the hippy camp before or after the war, unless it
           // has been bombed into the stone age.
           if (QuestDatabase.isQuestFinished(Quest.ISLAND_WAR)) {
@@ -1226,6 +1244,10 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
           return true;
 
         case AdventurePool.FRAT_HOUSE:
+          // on the verge of war, only the wartime camps are available
+          if (QuestDatabase.isQuestStep(Quest.ISLAND_WAR, QuestDatabase.STARTED)) {
+            return false;
+          }
           // You can visit the frat house before or after the war, unless it
           // has been bombed into the stone age.
           if (QuestDatabase.isQuestFinished(Quest.ISLAND_WAR)) {
@@ -1234,6 +1256,10 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
           return true;
 
         case AdventurePool.HIPPY_CAMP_DISGUISED:
+          // on the verge of war, only the wartime camps are available
+          if (QuestDatabase.isQuestStep(Quest.ISLAND_WAR, QuestDatabase.STARTED)) {
+            return false;
+          }
           // No disguises in bombed Hippy Camp
           if (QuestDatabase.isQuestFinished(Quest.ISLAND_WAR)
               && (loser.equals("hippies") || loser.equals("both"))) {
@@ -1242,6 +1268,10 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
           return hasRequiredOutfit();
 
         case AdventurePool.FRAT_HOUSE_DISGUISED:
+          // on the verge of war, only the wartime camps are available
+          if (QuestDatabase.isQuestStep(Quest.ISLAND_WAR, QuestDatabase.STARTED)) {
+            return false;
+          }
           // No disguises in bombed Frat Camp
           if (QuestDatabase.isQuestFinished(Quest.ISLAND_WAR)
               && (loser.equals("fratboys") || loser.equals("both"))) {
@@ -1257,8 +1287,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
           return QuestDatabase.isQuestFinished(Quest.ISLAND_WAR)
               && (loser.equals("fratboys") || loser.equals("both"));
 
-          // The Junkyard and the Farm are sidequest zones during the war, but
-          // are available as single adventuring areas after the war is done.
+        // The Junkyard and the Farm are sidequest zones during the war, but
+        // are available as single adventuring areas after the war is done.
         case AdventurePool.THE_JUNKYARD:
         case AdventurePool.MCMILLICANCUDDYS_FARM:
           return QuestDatabase.isQuestFinished(Quest.ISLAND_WAR);
@@ -1324,10 +1354,10 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         case AdventurePool.COBB_BARRACKS,
             AdventurePool.COBB_KITCHEN,
             AdventurePool.COBB_HAREM,
-            AdventurePool.COBB_TREASURY -> QuestDatabase.isQuestLaterThan(
-                Quest.GOBLIN, QuestDatabase.STARTED)
-            || (InventoryManager.hasItem(ENCRYPTION_KEY)
-                && InventoryManager.hasItem(COBBS_KNOB_MAP));
+            AdventurePool.COBB_TREASURY ->
+            QuestDatabase.isQuestLaterThan(Quest.GOBLIN, QuestDatabase.STARTED)
+                || (InventoryManager.hasItem(ENCRYPTION_KEY)
+                    && InventoryManager.hasItem(COBBS_KNOB_MAP));
         default -> false;
       };
     }
@@ -1347,12 +1377,13 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     // Level 6 quest
     if (this.zone.equals("Friars")) {
       return switch (this.adventureNumber) {
-          // Quest.FRIAR started but not finished
+        // Quest.FRIAR started but not finished
         case AdventurePool.DARK_ELBOW_OF_THE_WOODS,
             AdventurePool.DARK_HEART_OF_THE_WOODS,
-            AdventurePool.DARK_NECK_OF_THE_WOODS -> QuestDatabase.isQuestStarted(Quest.FRIAR)
-            && !QuestDatabase.isQuestFinished(Quest.FRIAR);
-          // Ed the Undying only
+            AdventurePool.DARK_NECK_OF_THE_WOODS ->
+            QuestDatabase.isQuestStarted(Quest.FRIAR)
+                && !QuestDatabase.isQuestFinished(Quest.FRIAR);
+        // Ed the Undying only
         case AdventurePool.PANDAMONIUM -> KoLCharacter.isEd();
         default -> false;
       };
@@ -1379,14 +1410,15 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     // Level 8 quest
     if (this.zone.equals("McLarge")) {
       return switch (this.adventureNumber) {
-        case AdventurePool.ITZNOTYERZITZ_MINE, AdventurePool.GOATLET -> QuestDatabase
-            .isQuestStarted(Quest.TRAPPER);
-        case AdventurePool.NINJA_SNOWMEN, AdventurePool.EXTREME_SLOPE -> QuestDatabase
-            .isQuestLaterThan(Quest.TRAPPER, "step1");
-        case AdventurePool.ICY_PEAK -> QuestDatabase.isQuestLaterThan(Quest.TRAPPER, "step4")
-            && KoLCharacter.getElementalResistanceLevels(Element.COLD) >= 1;
-        case AdventurePool.MINE_OFFICE -> QuestDatabase.isQuestStarted(Quest.FACTORY)
-            && hasRequiredOutfit();
+        case AdventurePool.ITZNOTYERZITZ_MINE, AdventurePool.GOATLET ->
+            QuestDatabase.isQuestStarted(Quest.TRAPPER);
+        case AdventurePool.NINJA_SNOWMEN, AdventurePool.EXTREME_SLOPE ->
+            QuestDatabase.isQuestLaterThan(Quest.TRAPPER, "step1");
+        case AdventurePool.ICY_PEAK ->
+            QuestDatabase.isQuestLaterThan(Quest.TRAPPER, "step4")
+                && KoLCharacter.getElementalResistanceLevels(Element.COLD) >= 1;
+        case AdventurePool.MINE_OFFICE ->
+            QuestDatabase.isQuestStarted(Quest.FACTORY) && hasRequiredOutfit();
         default -> false;
       };
     }
@@ -1399,33 +1431,36 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     // Level 10 quest
     if (this.zone.equals("Beanstalk")) {
       return switch (this.adventureNumber) {
-          // The beanstalk is unlocked when the player has planted a
-          // beanstalk -- but, the bean needs to be planted first.
-          // prepareForAdventure will plant an enchanted bean, if necessary.
-        case AdventurePool.AIRSHIP -> !KoLCharacter.isKingdomOfExploathing()
-            && (QuestDatabase.isQuestLaterThan(Quest.GARBAGE, QuestDatabase.STARTED)
-                || (QuestDatabase.isQuestStarted(Quest.GARBAGE)
-                    && InventoryManager.hasItem(ENCHANTED_BEAN)));
-          // The Castle Basement is unlocked provided the player has the S.O.C.K
-          // (legacy: rowboats give access but are no longer creatable)
-        case AdventurePool.CASTLE_BASEMENT -> KoLCharacter.isKingdomOfExploathing()
-            // Kingdom of Exploathing aftercore retains access. Check quest
-            || QuestDatabase.isQuestFinished(Quest.GARBAGE)
-            || InventoryManager.hasItem(ItemPool.get(ItemPool.SOCK, 1))
-            || InventoryManager.hasItem(ItemPool.get(ItemPool.ROWBOAT, 1));
-        case AdventurePool.CASTLE_GROUND -> Preferences.getInteger("lastCastleGroundUnlock")
-                == KoLCharacter.getAscensions()
-            // Kingdom of Exploathing aftercore retains access. Check quest
-            || QuestDatabase.isQuestFinished(Quest.GARBAGE);
-        case AdventurePool.CASTLE_TOP -> Preferences.getInteger("lastCastleTopUnlock")
-                == KoLCharacter.getAscensions()
-            // Kingdom of Exploathing aftercore retains access. Check quest
-            || QuestDatabase.isQuestFinished(Quest.GARBAGE);
-          // The Hole in the Sky is unlocked provided the player has a steam-powered rocketship
-          // (legacy: rowboats give access but are no longer creatable)
-        case AdventurePool.HOLE_IN_THE_SKY -> KoLCharacter.isKingdomOfExploathing()
-            || InventoryManager.hasItem(ItemPool.get(ItemPool.ROCKETSHIP, 1))
-            || InventoryManager.hasItem(ItemPool.get(ItemPool.ROWBOAT, 1));
+        // The beanstalk is unlocked when the player has planted a
+        // beanstalk -- but, the bean needs to be planted first.
+        // prepareForAdventure will plant an enchanted bean, if necessary.
+        case AdventurePool.AIRSHIP ->
+            !KoLCharacter.isKingdomOfExploathing()
+                && (QuestDatabase.isQuestLaterThan(Quest.GARBAGE, QuestDatabase.STARTED)
+                    || (QuestDatabase.isQuestStarted(Quest.GARBAGE)
+                        && InventoryManager.hasItem(ENCHANTED_BEAN)));
+        // The Castle Basement is unlocked provided the player has the S.O.C.K
+        // (legacy: rowboats give access but are no longer creatable)
+        case AdventurePool.CASTLE_BASEMENT ->
+            KoLCharacter.isKingdomOfExploathing()
+                // Kingdom of Exploathing aftercore retains access. Check quest
+                || QuestDatabase.isQuestFinished(Quest.GARBAGE)
+                || InventoryManager.hasItem(ItemPool.get(ItemPool.SOCK, 1))
+                || InventoryManager.hasItem(ItemPool.get(ItemPool.ROWBOAT, 1));
+        case AdventurePool.CASTLE_GROUND ->
+            Preferences.getInteger("lastCastleGroundUnlock") == KoLCharacter.getAscensions()
+                // Kingdom of Exploathing aftercore retains access. Check quest
+                || QuestDatabase.isQuestFinished(Quest.GARBAGE);
+        case AdventurePool.CASTLE_TOP ->
+            Preferences.getInteger("lastCastleTopUnlock") == KoLCharacter.getAscensions()
+                // Kingdom of Exploathing aftercore retains access. Check quest
+                || QuestDatabase.isQuestFinished(Quest.GARBAGE);
+        // The Hole in the Sky is unlocked provided the player has a steam-powered rocketship
+        // (legacy: rowboats give access but are no longer creatable)
+        case AdventurePool.HOLE_IN_THE_SKY ->
+            KoLCharacter.isKingdomOfExploathing()
+                || InventoryManager.hasItem(ItemPool.get(ItemPool.ROCKETSHIP, 1))
+                || InventoryManager.hasItem(ItemPool.get(ItemPool.ROWBOAT, 1));
         default -> false;
       };
     }
@@ -1454,7 +1489,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
             AdventurePool.SW_SHRINE,
             AdventurePool.NE_SHRINE,
             AdventurePool.SE_SHRINE,
-            AdventurePool.ZIGGURAT -> true;
+            AdventurePool.ZIGGURAT ->
+            true;
         case AdventurePool.HIDDEN_APARTMENT -> QuestDatabase.isQuestStarted(Quest.CURSES);
         case AdventurePool.HIDDEN_HOSPITAL -> QuestDatabase.isQuestStarted(Quest.DOCTOR);
         case AdventurePool.HIDDEN_OFFICE -> QuestDatabase.isQuestStarted(Quest.BUSINESS);
@@ -1580,17 +1616,17 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       }
 
       return switch (this.adventureNumber) {
-          // prepareForAdventure will use the appropriate filthworm gland, if necessary
+        // prepareForAdventure will use the appropriate filthworm gland, if necessary
         case AdventurePool.FILTHWORM_HATCHING_CHAMBER -> true;
-        case AdventurePool.FILTHWORM_FEEDING_CHAMBER -> KoLConstants.activeEffects.contains(
-                FILTHWORM_LARVA_STENCH)
-            || InventoryManager.hasItem(ItemPool.FILTHWORM_HATCHLING_GLAND);
-        case AdventurePool.FILTHWORM_GUARDS_CHAMBER -> KoLConstants.activeEffects.contains(
-                FILTHWORM_DRONE_STENCH)
-            || InventoryManager.hasItem(ItemPool.FILTHWORM_DRONE_GLAND);
-        case AdventurePool.FILTHWORM_QUEENS_CHAMBER -> KoLConstants.activeEffects.contains(
-                FILTHWORM_GUARD_STENCH)
-            || InventoryManager.hasItem(ItemPool.FILTHWORM_GUARD_GLAND);
+        case AdventurePool.FILTHWORM_FEEDING_CHAMBER ->
+            KoLConstants.activeEffects.contains(FILTHWORM_LARVA_STENCH)
+                || InventoryManager.hasItem(ItemPool.FILTHWORM_HATCHLING_GLAND);
+        case AdventurePool.FILTHWORM_GUARDS_CHAMBER ->
+            KoLConstants.activeEffects.contains(FILTHWORM_DRONE_STENCH)
+                || InventoryManager.hasItem(ItemPool.FILTHWORM_DRONE_GLAND);
+        case AdventurePool.FILTHWORM_QUEENS_CHAMBER ->
+            KoLConstants.activeEffects.contains(FILTHWORM_GUARD_STENCH)
+                || InventoryManager.hasItem(ItemPool.FILTHWORM_GUARD_GLAND);
         default -> false;
       };
     }
@@ -1610,8 +1646,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     if (this.zone.equals("Nemesis Cave")) {
       return switch (this.adventureNumber) {
-        case AdventurePool.FUNGAL_NETHERS -> QuestDatabase.isQuestLaterThan(
-            Quest.NEMESIS, "step11");
+        case AdventurePool.FUNGAL_NETHERS ->
+            QuestDatabase.isQuestLaterThan(Quest.NEMESIS, "step11");
         default -> true;
       };
     }
@@ -1628,7 +1664,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         case AdventurePool.CONVENTION_HALL_LOBBY -> KoLCharacter.isSauceror();
         case AdventurePool.OUTSIDE_THE_CLUB -> KoLCharacter.isDiscoBandit();
         case AdventurePool.ISLAND_BARRACKS -> KoLCharacter.isAccordionThief();
-          // You can always try to get in, but will be rebuffed if not ready
+        // You can always try to get in, but will be rebuffed if not ready
         case AdventurePool.NEMESIS_LAIR -> true;
         default -> true;
       };
@@ -1644,8 +1680,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       }
 
       return switch (this.adventureNumber) {
-        case AdventurePool.CLOACA_BATTLEFIELD,
-            AdventurePool.DYSPEPSI_BATTLEFIELD -> hasRequiredOutfit();
+        case AdventurePool.CLOACA_BATTLEFIELD, AdventurePool.DYSPEPSI_BATTLEFIELD ->
+            hasRequiredOutfit();
         default -> true;
       };
     }
@@ -1671,10 +1707,11 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       }
 
       return switch (this.adventureNumber) {
-        case AdventurePool.BUGBEAR_PEN -> QuestDatabase.isQuestStarted(Quest.BUGBEAR)
-            && !QuestDatabase.isQuestFinished(Quest.BUGBEAR);
-        case AdventurePool.SPOOKY_GRAVY_BURROW -> QuestDatabase.isQuestLaterThan(
-            Quest.BUGBEAR, "step1");
+        case AdventurePool.BUGBEAR_PEN ->
+            QuestDatabase.isQuestStarted(Quest.BUGBEAR)
+                && !QuestDatabase.isQuestFinished(Quest.BUGBEAR);
+        case AdventurePool.SPOOKY_GRAVY_BURROW ->
+            QuestDatabase.isQuestLaterThan(Quest.BUGBEAR, "step1");
         case AdventurePool.POST_QUEST_BUGBEAR_PEN -> QuestDatabase.isQuestFinished(Quest.BUGBEAR);
         default -> true;
       };
@@ -1696,8 +1733,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         case AdventurePool.DARK_AND_SPOOKY_SWAMP -> Preferences.getBoolean("maraisDarkUnlock");
         case AdventurePool.CORPSE_BOG -> Preferences.getBoolean("maraisCorpseUnlock");
         case AdventurePool.RUINED_WIZARDS_TOWER -> Preferences.getBoolean("maraisWizardUnlock");
-        case AdventurePool.WILDLIFE_SANCTUARRRRRGH -> Preferences.getBoolean(
-            "maraisWildlifeUnlock");
+        case AdventurePool.WILDLIFE_SANCTUARRRRRGH ->
+            Preferences.getBoolean("maraisWildlifeUnlock");
         case AdventurePool.WEIRD_SWAMP_VILLAGE -> Preferences.getBoolean("maraisVillageUnlock");
         case AdventurePool.SWAMP_BEAVER_TERRITORY -> Preferences.getBoolean("maraisBeaverUnlock");
         default -> true;
@@ -1743,12 +1780,12 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       }
       return switch (this.adventureNumber) {
         case AdventurePool.LIMERICK_DUNGEON -> KoLCharacter.getBaseMainstat() >= 19;
-          // The Enormous Greater-Than Sign is available if your base
-          // mainstate is at least 45 and you have not yet unlocked
-          // the Dungeon of Doom
-        case AdventurePool.GREATER_THAN_SIGN -> (KoLCharacter.getBaseMainstat() >= 45)
-            && !QuestLogRequest.isDungeonOfDoomAvailable();
-          // The Dungeons of Doom are only available if you've finished the quest
+        // The Enormous Greater-Than Sign is available if your base
+        // mainstate is at least 45 and you have not yet unlocked
+        // the Dungeon of Doom
+        case AdventurePool.GREATER_THAN_SIGN ->
+            (KoLCharacter.getBaseMainstat() >= 45) && !QuestLogRequest.isDungeonOfDoomAvailable();
+        // The Dungeons of Doom are only available if you've finished the quest
         case AdventurePool.DUNGEON_OF_DOOM -> QuestLogRequest.isDungeonOfDoomAvailable();
         default -> true;
       };
@@ -1787,22 +1824,14 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         return false;
       }
 
-      if (this.zone.equals("The Sea")) {
+      return switch (this.zone) {
         // The Briny Deeps, The Brinier Deepers, The Briniest Deepests
-        return true;
-      }
-
-      if (this.zone.equals("The Sea Floor")) {
-        return this.seaFloorZoneAvailable();
-      }
-
-      if (this.zone.equals("The Mer-Kin Deepcity")) {
-        // Open when you have a seahorse
-        return !Preferences.getString("seahorseName").equals("");
-      }
-
-      // There are currently no more adventuring areas in The Sea
-      return true;
+        case "The Sea" -> true;
+        case "The Sea Floor" -> this.seaFloorZoneAvailable();
+        case "The Mer-Kin Deepcity" -> this.deepCityZoneAvailable();
+        // There are currently no more adventuring areas in The Sea
+        default -> false;
+      };
     }
 
     // The following zones depend on your clan, your permissions, and the
@@ -2185,8 +2214,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
       return switch (this.adventureNumber) {
         case AdventurePool.GINGERBREAD_SEWERS -> Preferences.getBoolean("gingerSewersUnlocked");
-        case AdventurePool.GINGERBREAD_RETAIL_DISTRICT -> Preferences.getBoolean(
-            "gingerRetailUnlocked");
+        case AdventurePool.GINGERBREAD_RETAIL_DISTRICT ->
+            Preferences.getBoolean("gingerRetailUnlocked");
         default -> true;
       };
     }
@@ -2236,33 +2265,129 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   private boolean seaFloorZoneAvailable() {
     // We track individual aspects of the various quests.
     return switch (this.adventureNumber) {
-        // Initially open: Little Brother
+      // Initially open: Little Brother
       case AdventurePool.AN_OCTOPUS_GARDEN -> true;
-        // Big Brother
-      case AdventurePool.THE_WRECK_OF_THE_EDGAR_FITZSIMMONS -> QuestDatabase.isQuestLaterThan(
-          Quest.SEA_MONKEES, QuestDatabase.STARTED);
-        // Grandpa
-        // Free for Muscle classes. Otherwise, must buy map.
-      case AdventurePool.ANEMONE_MINE -> ItemDatabase.haveVirtualItem(ItemPool.ANEMONE_MINE_MAP);
-        // Free for Mysticality classes Otherwise, must buy map.
-      case AdventurePool.MARINARA_TRENCH -> ItemDatabase.haveVirtualItem(
-          ItemPool.MARINARA_TRENCH_MAP);
-        // Free for Moxie classes Otherwise, must buy map.
-      case AdventurePool.DIVE_BAR -> ItemDatabase.haveVirtualItem(ItemPool.DIVE_BAR_MAP);
-        // Grandma. Open when ask grandpa about Grandma.
-      case AdventurePool.MERKIN_OUTPOST -> QuestDatabase.isQuestLaterThan(
-          Quest.SEA_MONKEES, "step5");
-        // Currents (seahorse). Open when ask Grandpa about currents.
+      // Big Brother
+      case AdventurePool.THE_WRECK_OF_THE_EDGAR_FITZSIMMONS ->
+          QuestDatabase.isQuestLaterThan(Quest.SEA_MONKEES, QuestDatabase.STARTED);
+      // Grandpa
+      // Free for Muscle classes. Otherwise, must buy map.
+      case AdventurePool.ANEMONE_MINE ->
+          (QuestDatabase.isQuestLaterThan(Quest.SEA_MONKEES, "step3")
+                  && KoLCharacter.isMuscleClass())
+              || ItemDatabase.haveVirtualItem(ItemPool.ANEMONE_MINE_MAP);
+      // Free for Mysticality classes Otherwise, must buy map.
+      case AdventurePool.MARINARA_TRENCH ->
+          (QuestDatabase.isQuestLaterThan(Quest.SEA_MONKEES, "step3")
+                  && KoLCharacter.isMysticalityClass())
+              || ItemDatabase.haveVirtualItem(ItemPool.MARINARA_TRENCH_MAP);
+      // Free for Moxie classes Otherwise, must buy map.
+      case AdventurePool.DIVE_BAR ->
+          (QuestDatabase.isQuestLaterThan(Quest.SEA_MONKEES, "step3")
+                  && KoLCharacter.isMoxieClass())
+              || ItemDatabase.haveVirtualItem(ItemPool.DIVE_BAR_MAP);
+      // Grandma. Open when ask grandpa about Grandma.
+      case AdventurePool.MERKIN_OUTPOST ->
+          QuestDatabase.isQuestLaterThan(Quest.SEA_MONKEES, "step5");
+      // Currents (seahorse). Open when ask Grandpa about currents.
       case AdventurePool.THE_CORAL_CORRAL -> Preferences.getBoolean("corralUnlocked");
-        // Mom. Open when you have black glass - which you must equip
+      // Mom. Open when you have black glass - which you must equip
       case AdventurePool.CALIGINOUS_ABYSS -> InventoryManager.hasItem(BLACK_GLASS);
-        // Optional maps you can purchase from Big Brother.
+      // Optional maps you can purchase from Big Brother.
       case AdventurePool.MADNESS_REEF -> ItemDatabase.haveVirtualItem(ItemPool.MADNESS_REEF_MAP);
-      case AdventurePool.THE_SKATE_PARK -> ItemDatabase.haveVirtualItem(ItemPool.SKATE_PARK_MAP)
-          && !Preferences.getString("skateParkStatus").equals("peace");
-        // That's all. If a new zone appears, assume you can get to it.
+      case AdventurePool.THE_SKATE_PARK ->
+          ItemDatabase.haveVirtualItem(ItemPool.SKATE_PARK_MAP)
+              && !Preferences.getString("skateParkStatus").equals("peace");
+      // That's all. If a new zone appears, assume you can get to it.
       default -> true;
     };
+  }
+
+  private boolean deepCityZoneAvailable() {
+    if (Preferences.getString("seahorseName").isEmpty()) {
+      return false;
+    }
+
+    switch (this.adventureName) {
+      case "Mer-kin Elementary School", "Mer-kin Gymnasium" -> {
+        // Requires any Mer-kin disguise
+        return hasRequiredOutfit();
+      }
+      case "Mer-kin Library" -> {
+        // Requires Mer-kin Scholar's Vestments
+        return hasRequiredOutfit();
+      }
+      case "Mer-kin Colosseum" -> {
+        // Requires Mer-kin Gladiatorial Gear
+        return hasRequiredOutfit();
+      }
+      case "Mer-kin Temple" -> {
+        if (KoLCharacter.inSeaPath()) {
+          return false;
+        }
+        switch (Preferences.getString("merkinQuestPath")) {
+          case "none" -> {
+            // You can fight Dad Sea Monkee wearing Clothing of Loathing
+            return availableOutfitId(OutfitPool.CLOTHING_OF_LOATHING) != 0;
+          }
+          case "gladiator", "scholar" -> {
+            // If you are Gladiator Champion or High Priest, must still have outfit
+            return hasRequiredOutfit();
+          }
+          case "done" -> {
+            // If you have defeated the boss, nothing more to do.
+            return false;
+          }
+        }
+        return false;
+      }
+      case "Mer-kin Temple (Left Door)" -> {
+        if (!KoLCharacter.inSeaPath()) {
+          return false;
+        }
+        // Must be Gladiator Champion
+        if (!Preferences.getBoolean("isMerkinGladiatorChampion")) {
+          return false;
+        }
+        // Must not have defeated Shub-Jigguwatt
+        if (Preferences.getBoolean("shubJigguwattDefeated")) {
+          return false;
+        }
+        // Requires Mer-kin Gladiatorial Gear
+        // You needed it to adventure in the Colosseum, but you can disassemble it...
+        return hasRequiredOutfit();
+      }
+      case "Mer-kin Temple (Right Door)" -> {
+        if (!KoLCharacter.inSeaPath()) {
+          return false;
+        }
+        // Must be High Priest
+        if (!Preferences.getBoolean("isMerkinHighPriest")) {
+          return false;
+        }
+        // Must not have defeated Yog-Urt
+        if (Preferences.getBoolean("yogUrtDefeated")) {
+          return false;
+        }
+        // Requires Mer-kin Scholar's Vestments
+        // You needed it to adventure in the Library, but you can disassemble it...
+        return hasRequiredOutfit();
+      }
+      case "Mer-kin Temple (Center Door)" -> {
+        if (!KoLCharacter.inSeaPath()) {
+          return false;
+        }
+        // Must have defeated Yog-Urt and Shub-Jugguwatt
+        if (!Preferences.getBoolean("shubJigguwattDefeated")
+            || !Preferences.getBoolean("yogUrtDefeated")) {
+          return false;
+        }
+        // Otherwise, no specific outfit required
+        return true;
+      }
+    }
+    // No more adventuring zones in the Deepcity
+    return false;
   }
 
   private boolean hasRequiredOutfit() {
@@ -2721,7 +2846,12 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     if (this.rootZone.equals("The Sea")) {
-      if (!KoLCharacter.currentBooleanModifier(BooleanModifier.ADVENTURE_UNDERWATER)) {
+      // If the zone requires an outfit, assume it allows water breathing.
+      int outfitId = getOutfitId();
+
+      if (outfitId != 0) {
+        wearOutfit(outfitId);
+      } else if (!KoLCharacter.currentBooleanModifier(BooleanModifier.ADVENTURE_UNDERWATER)) {
         // In theory, we could choose equipment or effects.
         // It's complicated. Let the user do that.
         KoLmafia.updateDisplay(MafiaState.ERROR, "You can't breathe underwater.");
@@ -3023,18 +3153,18 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     if (this.zone.equals("Orchard")) {
       var item =
           switch (this.adventureNumber) {
-            case AdventurePool.FILTHWORM_FEEDING_CHAMBER -> KoLConstants.activeEffects.contains(
-                    FILTHWORM_LARVA_STENCH)
-                ? null
-                : ItemPool.FILTHWORM_HATCHLING_GLAND;
-            case AdventurePool.FILTHWORM_GUARDS_CHAMBER -> KoLConstants.activeEffects.contains(
-                    FILTHWORM_DRONE_STENCH)
-                ? null
-                : ItemPool.FILTHWORM_DRONE_GLAND;
-            case AdventurePool.FILTHWORM_QUEENS_CHAMBER -> KoLConstants.activeEffects.contains(
-                    FILTHWORM_GUARD_STENCH)
-                ? null
-                : ItemPool.FILTHWORM_GUARD_GLAND;
+            case AdventurePool.FILTHWORM_FEEDING_CHAMBER ->
+                KoLConstants.activeEffects.contains(FILTHWORM_LARVA_STENCH)
+                    ? null
+                    : ItemPool.FILTHWORM_HATCHLING_GLAND;
+            case AdventurePool.FILTHWORM_GUARDS_CHAMBER ->
+                KoLConstants.activeEffects.contains(FILTHWORM_DRONE_STENCH)
+                    ? null
+                    : ItemPool.FILTHWORM_DRONE_GLAND;
+            case AdventurePool.FILTHWORM_QUEENS_CHAMBER ->
+                KoLConstants.activeEffects.contains(FILTHWORM_GUARD_STENCH)
+                    ? null
+                    : ItemPool.FILTHWORM_GUARD_GLAND;
             default -> null;
           };
 
@@ -3138,36 +3268,73 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return firstAvailableOutfitId(OutfitPool.DWARVISH_UNIFORM, OutfitPool.MINING_OUTFIT);
     }
 
+    if (this.formSource.equals("sea_merkin.php")) {
+      switch (this.adventureName) {
+        case "Mer-kin Temple" -> {
+          // What about Dad Sea Monkee?
+          // - Requires Clothing of Loathing
+          // - Cannot have defeated Yog-Urt or Shub-Jugguwatt
+          return switch (Preferences.getString("merkinQuestPath")) {
+            case "gladiator" -> OutfitPool.MER_KIN_GLADIATORIAL_GEAR;
+            case "scholar" -> OutfitPool.MER_KIN_SCHOLARS_VESTMENTS;
+            default -> 0;
+          };
+        }
+        case "Mer-kin Temple (Left Door)" -> {
+          return OutfitPool.MER_KIN_GLADIATORIAL_GEAR;
+        }
+        case "Mer-kin Temple (Right Door)" -> {
+          return OutfitPool.MER_KIN_SCHOLARS_VESTMENTS;
+        }
+        case "Mer-kin Temple (Center Door)" -> {
+          // Must have defeated Yog-Urt and Shub-Jugguwatt
+          // No special outfit needed for Her Naughtiness
+          return 0;
+        }
+      }
+      return 0;
+    }
+
     return switch (this.adventureNumber) {
-      case AdventurePool.FRAT_HOUSE_DISGUISED -> QuestDatabase.isQuestStep(
-              Quest.ISLAND_WAR, QuestDatabase.STARTED)
-          ?
-          // Verge of War
-          firstAvailableOutfitId(OutfitPool.WAR_HIPPY_OUTFIT, OutfitPool.HIPPY_OUTFIT)
-          :
-          // Before or after war
-          firstAvailableOutfitId(OutfitPool.WAR_FRAT_OUTFIT, OutfitPool.FRAT_OUTFIT);
+      case AdventurePool.FRAT_HOUSE_DISGUISED ->
+          QuestDatabase.isQuestStep(Quest.ISLAND_WAR, QuestDatabase.STARTED)
+              ?
+              // Verge of War
+              firstAvailableOutfitId(OutfitPool.WAR_HIPPY_OUTFIT, OutfitPool.HIPPY_OUTFIT)
+              :
+              // Before or after war
+              firstAvailableOutfitId(OutfitPool.WAR_FRAT_OUTFIT, OutfitPool.FRAT_OUTFIT);
 
-      case AdventurePool.WARTIME_FRAT_HOUSE_DISGUISED -> firstAvailableOutfitId(
-          OutfitPool.WAR_HIPPY_OUTFIT, OutfitPool.HIPPY_OUTFIT);
-
-      case AdventurePool.HIPPY_CAMP_DISGUISED -> QuestDatabase.isQuestStep(
-              Quest.ISLAND_WAR, QuestDatabase.STARTED)
-          ?
-          // Verge of War
-          firstAvailableOutfitId(OutfitPool.WAR_FRAT_OUTFIT, OutfitPool.FRAT_OUTFIT)
-          :
-          // Before or after war
+      case AdventurePool.WARTIME_FRAT_HOUSE_DISGUISED ->
           firstAvailableOutfitId(OutfitPool.WAR_HIPPY_OUTFIT, OutfitPool.HIPPY_OUTFIT);
 
-      case AdventurePool.WARTIME_HIPPY_CAMP_DISGUISED -> firstAvailableOutfitId(
-          OutfitPool.WAR_FRAT_OUTFIT, OutfitPool.FRAT_OUTFIT);
+      case AdventurePool.HIPPY_CAMP_DISGUISED ->
+          QuestDatabase.isQuestStep(Quest.ISLAND_WAR, QuestDatabase.STARTED)
+              ?
+              // Verge of War
+              firstAvailableOutfitId(OutfitPool.WAR_FRAT_OUTFIT, OutfitPool.FRAT_OUTFIT)
+              :
+              // Before or after war
+              firstAvailableOutfitId(OutfitPool.WAR_HIPPY_OUTFIT, OutfitPool.HIPPY_OUTFIT);
+
+      case AdventurePool.WARTIME_HIPPY_CAMP_DISGUISED ->
+          firstAvailableOutfitId(OutfitPool.WAR_FRAT_OUTFIT, OutfitPool.FRAT_OUTFIT);
 
       case AdventurePool.CLOACA_BATTLEFIELD -> availableOutfitId(OutfitPool.CLOACA_UNIFORM);
       case AdventurePool.DYSPEPSI_BATTLEFIELD -> availableOutfitId(OutfitPool.DYSPEPSI_UNIFORM);
       case AdventurePool.FRAT_UNIFORM_BATTLEFIELD -> availableOutfitId(OutfitPool.WAR_FRAT_OUTFIT);
-      case AdventurePool.HIPPY_UNIFORM_BATTLEFIELD -> availableOutfitId(
-          OutfitPool.WAR_HIPPY_OUTFIT);
+      case AdventurePool.HIPPY_UNIFORM_BATTLEFIELD ->
+          availableOutfitId(OutfitPool.WAR_HIPPY_OUTFIT);
+
+      case AdventurePool.MERKIN_ELEMENTARY_SCHOOL, AdventurePool.MERKIN_GYMNASIUM ->
+          firstAvailableOutfitId(
+              OutfitPool.CRAPPY_MER_KIN_DISGUISE,
+              OutfitPool.MER_KIN_SCHOLARS_VESTMENTS,
+              OutfitPool.MER_KIN_GLADIATORIAL_GEAR);
+      case AdventurePool.MERKIN_LIBRARY -> availableOutfitId(OutfitPool.MER_KIN_SCHOLARS_VESTMENTS);
+      case AdventurePool.MERKIN_COLOSSEUM ->
+          availableOutfitId(OutfitPool.MER_KIN_GLADIATORIAL_GEAR);
+
       default -> 0;
     };
   }
@@ -4199,6 +4366,20 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         "they're not gonna let you in dressed like this", "You're not dressed appropriately."),
     new AdventureFailure("The temple is empty", "Nothing more to do here.", MafiaState.PENDING),
 
+    // Looks like you've gotta be especially gladitorial to get in there.
+    // The guards at the temple main door point their spears at you and gesture pointedly with their
+    // eyefins at the doors to your left and right.
+    // Looks like you've gotta be somebody especially pious to get in there.
+    new AdventureFailure(
+        "you've gotta be especially gladitorial",
+        "You need to wear the Mer-kin Gladiatorial Gear."),
+    new AdventureFailure(
+        "you've gotta be somebody especially pious",
+        "You need to wear the Mer-kin Scholar's Vestments."),
+    new AdventureFailure(
+        "gesture pointedly with their eyefins at the doors to your left and right",
+        "You must defeat the Elder Gods of Hatred and Violence first."),
+
     // You've already defeated the Trainbot boss.
     new AdventureFailure(
         "You've already defeated the Trainbot boss.",
@@ -4212,6 +4393,13 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     // CyberRealm zones
     new AdventureFailure(
         "You've already hacked this system.", "Nothing more to do here.", MafiaState.PENDING),
+
+    // Axis HQ
+    //
+    // If you want Axis HQ access codes, they are the exclusive province of the ladies in the crypto
+    // pool. Good luck.
+    new AdventureFailure(
+        "If you want Axis HQ access codes", "You do not have the Current Axis Codes."),
   };
 
   private static final Pattern CRIMBO21_COLD_RES =
@@ -4397,6 +4585,10 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     return Preferences.getBoolean("logReverseOrder")
         ? KoLCharacter.getAdventuresLeft()
         : KoLCharacter.getCurrentRun() + 1;
+  }
+
+  public boolean isUnderwater() {
+    return AdventureDatabase.isUnderwater(adventureName);
   }
 
   @Override

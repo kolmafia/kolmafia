@@ -138,8 +138,8 @@ public class BuffBotDatabase {
     // Search for the best match, which is defined as the
     // buff which provides the closest number of turns.
 
-    for (int i = 0; i < alternatives.size(); ++i) {
-      current = alternatives.get(i);
+    for (Offering alternative : alternatives) {
+      current = alternative;
 
       if (current.buffs.length > 1) {
         continue;
@@ -315,8 +315,8 @@ public class BuffBotDatabase {
           Offering priceMatch = null;
           Offering currentTest = null;
 
-          for (int i = 0; i < tester.size(); ++i) {
-            currentTest = tester.get(i);
+          for (Offering offering : tester) {
+            currentTest = offering;
             if (currentTest.getPrice() == price) {
               priceMatch = currentTest;
             }

@@ -210,7 +210,7 @@
 229	crazy bastard
 230	infinite meat bug
 231	Baiowulf	arm	head	leg	torso
-232	Hypnotist of Hey Deze
+232	Hypnotist of Hey Deze	arm	head	leg	torso
 233	decent lumberjack	arm	head	leg	torso
 234	lumberjill	arm	head	leg	torso
 235	lumberjuan	arm	head	leg	torso
@@ -2313,3 +2313,40 @@
 2490	Christmas treant	bough	branch	limb	trunk
 2491	self-driving sleigh	chassis	floorboards	rails	seat
 2492	some underbrush	branch	trunk
+2493	Axis infantry skeleton	femur	skull	spine	rib
+2494	Axis artillery skeleton	femur	skull	spine	rib
+2495	Axis grenadier skeleton	femur	skull	spine	rib
+2496	Axis officer skeleton	femur	skull	spine	rib
+2497	time cop	arm	head	leg	torso
+2498	Nautical Seaceress	arm	head	tail	torso
+2499	some fish	fin	head	tail
+2500	tiny charred skeleton	armbone	horn	legbone	rib	skull	spine
+2501	pillar of charred skulls	horn	skull	skull	skull
+2502	fire-breathing charred skull	horn	skull
+2503	sneaky smoldering skeleton	armbone	knife	legbone	other knife	rib	skull	spine
+2504	stout smoldering skeleton	armbone	legbone	pelvis	rib cage	skull
+2505	sorcerous smoldering skeleton	armbone	ribs	skull	spine
+2506	half-buried singed skeleton	armbone	rib cage	skull
+2507	winged singed skeleton	armbone	legbone	pelvis	rib cage	skull	wingbone
+2508	venomous singed skeleton	armbone	legbone	pelvis	rib cage	skull	stinger	tailbone
+2509	smoldering skeletal monstrosity	armbone	footbone	handbone	legbone	pelvis	rib	skull
+2510	The Unquiet Bones of Claus	giant bone	giant claw	giant rib	giant skull
+2511	beef bodyguard bat	steak	vein	wing
+2512	Basted Boss Bat	head	torso	wing
+2513	Gabogooblin King	arm	head	leg	torso
+2514	The Maety Bonerdagon	bone	flesh chunk	skull
+2515	Feeble Dr. Awkward, El Beef	arm	head	leg	torso
+2516	Lard Spookyraven	lard
+2517	Protector Speck-ter	head	tendril
+2518	Groarst	roast	wing
+2519	The Big Mac Wisniewski	arm	cheeseburger	leg	torso
+2520	The Manwich	arm	leg	sandwich	torso
+2521	Naughty Sorceress, all sausage	head	sausage
+2531	neckbearded wizard	arm	head	leg	torso
+2532	performative peasant	arm	head	leg	torso
+2533	knight in lightweight armor	arm	head	leg	torso
+2534	soused tosspot	arm	head	leg	torso
+2535	visiting space soldier	
+2536	Open Mic Knight	arm	head	leg	microphone	torso
+2537	Poker Knight	arm	head	leg	torso
+2538	Wedding Knight	arm	head	leg	torso

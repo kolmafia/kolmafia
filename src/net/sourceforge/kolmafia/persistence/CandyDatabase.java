@@ -17,6 +17,7 @@ import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.MallPriceManager;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 @SuppressWarnings("incomplete-switch")
 public class CandyDatabase {
@@ -61,7 +62,7 @@ public class CandyDatabase {
     List<AdventureResult> others = new ArrayList<>();
 
     for (Integer itemId : CandyDatabase.tier2Candy) {
-      AdventureResult item = ItemPool.get(itemId.intValue());
+      AdventureResult item = ItemPool.get(itemId);
       if (ConsumablesDatabase.getFullness(item.getName()) > 0) {
         foods.add(item);
       } else if (ItemDatabase.isPotion(item)) {
@@ -135,7 +136,7 @@ public class CandyDatabase {
       return;
     }
 
-    String[] candies = blacklisted.split("\\s*,\\s*");
+    String[] candies = StringUtilities.splitByComma(blacklisted);
     for (String candy : candies) {
       AdventureResult[] itemList = ItemFinder.getMatchingItemList(candy, false, null, Match.CANDY);
 
@@ -185,17 +186,20 @@ public class CandyDatabase {
           EffectPool.SYNTHESIS_COLD,
           EffectPool.SYNTHESIS_PUNGENT,
           EffectPool.SYNTHESIS_SCARY,
-          EffectPool.SYNTHESIS_GREASY -> 1;
+          EffectPool.SYNTHESIS_GREASY ->
+          1;
       case EffectPool.SYNTHESIS_STRONG,
           EffectPool.SYNTHESIS_SMART,
           EffectPool.SYNTHESIS_COOL,
           EffectPool.SYNTHESIS_HARDY,
-          EffectPool.SYNTHESIS_ENERGY -> 2;
+          EffectPool.SYNTHESIS_ENERGY ->
+          2;
       case EffectPool.SYNTHESIS_GREED,
           EffectPool.SYNTHESIS_COLLECTION,
           EffectPool.SYNTHESIS_MOVEMENT,
           EffectPool.SYNTHESIS_LEARNING,
-          EffectPool.SYNTHESIS_STYLE -> 3;
+          EffectPool.SYNTHESIS_STYLE ->
+          3;
       default -> 0;
     };
   }
@@ -203,18 +207,14 @@ public class CandyDatabase {
   public static final int getEffectModulus(final int effectId) {
     return switch (effectId) {
       case EffectPool.SYNTHESIS_HOT, EffectPool.SYNTHESIS_STRONG, EffectPool.SYNTHESIS_GREED -> 0;
-      case EffectPool.SYNTHESIS_COLD,
-          EffectPool.SYNTHESIS_SMART,
-          EffectPool.SYNTHESIS_COLLECTION -> 1;
-      case EffectPool.SYNTHESIS_PUNGENT,
-          EffectPool.SYNTHESIS_COOL,
-          EffectPool.SYNTHESIS_MOVEMENT -> 2;
-      case EffectPool.SYNTHESIS_SCARY,
-          EffectPool.SYNTHESIS_HARDY,
-          EffectPool.SYNTHESIS_LEARNING -> 3;
-      case EffectPool.SYNTHESIS_GREASY,
-          EffectPool.SYNTHESIS_ENERGY,
-          EffectPool.SYNTHESIS_STYLE -> 4;
+      case EffectPool.SYNTHESIS_COLD, EffectPool.SYNTHESIS_SMART, EffectPool.SYNTHESIS_COLLECTION ->
+          1;
+      case EffectPool.SYNTHESIS_PUNGENT, EffectPool.SYNTHESIS_COOL, EffectPool.SYNTHESIS_MOVEMENT ->
+          2;
+      case EffectPool.SYNTHESIS_SCARY, EffectPool.SYNTHESIS_HARDY, EffectPool.SYNTHESIS_LEARNING ->
+          3;
+      case EffectPool.SYNTHESIS_GREASY, EffectPool.SYNTHESIS_ENERGY, EffectPool.SYNTHESIS_STYLE ->
+          4;
       default -> -1;
     };
   }
@@ -332,15 +332,12 @@ public class CandyDatabase {
 
     Set<Integer> candidates =
         switch (tier) {
-          case 1 -> (candyType == CandyType.SIMPLE)
-              ? CandyDatabase.tier1Candy
-              : CandyDatabase.NO_CANDY;
-          case 2 -> (candyType == CandyType.SIMPLE)
-              ? CandyDatabase.tier3Candy
-              : CandyDatabase.tier1Candy;
-          case 3 -> (candyType == CandyType.COMPLEX)
-              ? CandyDatabase.tier3Candy
-              : CandyDatabase.NO_CANDY;
+          case 1 ->
+              (candyType == CandyType.SIMPLE) ? CandyDatabase.tier1Candy : CandyDatabase.NO_CANDY;
+          case 2 ->
+              (candyType == CandyType.SIMPLE) ? CandyDatabase.tier3Candy : CandyDatabase.tier1Candy;
+          case 3 ->
+              (candyType == CandyType.COMPLEX) ? CandyDatabase.tier3Candy : CandyDatabase.NO_CANDY;
           default -> CandyDatabase.NO_CANDY;
         };
 

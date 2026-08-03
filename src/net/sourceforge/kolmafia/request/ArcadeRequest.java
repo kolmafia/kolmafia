@@ -211,7 +211,8 @@ public class ArcadeRequest extends GenericRequest {
           488,
           489,
           490,
-          491 -> true;
+          491 ->
+          true;
       default -> false;
     };
   }
@@ -251,7 +252,7 @@ public class ArcadeRequest extends GenericRequest {
   private static String findChoiceName(final int index) {
     if (indices != null && choices != null) {
       for (int i = 0; i < indices.length; ++i) {
-        if (indices[i].intValue() == index) {
+        if (indices[i] == index) {
           return choices[i];
         }
       }

@@ -17,7 +17,8 @@ public class MPRestoreItemListTest {
       MPRestoreItemList.updateManaRestored();
       for (var entry : ItemDatabase.entrySet()) {
         var itemId = entry.getKey();
-        var name = entry.getValue();
+        var item = entry.getValue();
+        var name = item.name();
 
         if (!RestoresDatabase.isRestore(itemId)
             || !MPRestoreItemList.contains(ItemPool.get(itemId, 1))) continue;

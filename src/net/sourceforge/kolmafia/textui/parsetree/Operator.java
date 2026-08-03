@@ -116,7 +116,8 @@ public class Operator extends Command {
           Parser.PRE_INCREMENT,
           Parser.PRE_DECREMENT,
           Parser.POST_INCREMENT,
-          Parser.POST_DECREMENT -> true;
+          Parser.POST_DECREMENT ->
+          true;
       default -> false;
     };
   }

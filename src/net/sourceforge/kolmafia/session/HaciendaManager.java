@@ -54,7 +54,7 @@ public class HaciendaManager {
 
   public static void parseRoom(final int lastChoice, final int lastDecision, final String text) {
     String haciendaLayout = Preferences.getString("haciendaLayout");
-    StringBuffer newLayout = new StringBuffer(haciendaLayout);
+    StringBuilder newLayout = new StringBuilder(haciendaLayout);
 
     int currentSearch = lastChoice * 3 + lastDecision - 1240;
 
@@ -97,7 +97,7 @@ public class HaciendaManager {
       if (HaciendaManager.countString(haciendaLayout.toLowerCase(), "f") > 0) {
         HaciendaManager.questCompleted();
         haciendaLayout = Preferences.getString("haciendaLayout");
-        newLayout = new StringBuffer(haciendaLayout);
+        newLayout = new StringBuilder(haciendaLayout);
       }
     }
 
@@ -163,7 +163,7 @@ public class HaciendaManager {
 
   public static void questCompleted() {
     String haciendaLayout = Preferences.getString("haciendaLayout");
-    StringBuffer newLayout = new StringBuffer(haciendaLayout);
+    StringBuilder newLayout = new StringBuilder(haciendaLayout);
 
     for (int i = 0; i < 6; i++) {
       String room = haciendaLayout.substring(i * 3, i * 3 + 3);

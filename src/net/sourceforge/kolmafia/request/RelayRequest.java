@@ -183,7 +183,6 @@ public class RelayRequest extends PasswordHashRequest {
   public static boolean ignoreMacheteWarning = false;
   public static boolean ignoreMohawkWigWarning = false;
   private static boolean ignorePoolSkillWarning = false;
-  private static boolean ignoreFullnessWarning = false;
 
   // For testing
   public String lastWarning = "";
@@ -200,7 +199,6 @@ public class RelayRequest extends PasswordHashRequest {
     RelayRequest.ignoreMacheteWarning = false;
     RelayRequest.ignoreMohawkWigWarning = false;
     RelayRequest.ignorePoolSkillWarning = false;
-    RelayRequest.ignoreFullnessWarning = false;
   }
 
   public RelayRequest(final boolean allowOverride) {
@@ -234,12 +232,19 @@ public class RelayRequest extends PasswordHashRequest {
     String path = this.getBasePath();
     String relayField = this.getFormField("relay");
 
+    // ash scripts should always return 200 if they don't visit_url...
+    if (path.endsWith(".ash")) {
+      this.statusLine = "HTTP/1.1 200 OK";
+    }
+
     if (path.endsWith(".css")) {
       this.contentType = "text/css";
     } else if (path.endsWith(".js")) {
       // Support JS-driven relay scripts
       if (relayField != null && relayField.equals("true")) {
         this.contentType = "text/html";
+        // ...and relay js scripts should be treated the same as ASH
+        this.statusLine = "HTTP/1.1 200 OK";
       } else {
         this.contentType = "text/javascript";
       }
@@ -845,9 +850,9 @@ public class RelayRequest extends PasswordHashRequest {
     int outfitId = outfit.getOutfitId();
     return switch (outfitId) {
       case 32, 33 ->
-      // War Hippy Fatigues
-      // Frat Warrior Fatigues
-      checkBattle(outfitId);
+          // War Hippy Fatigues
+          // Frat Warrior Fatigues
+          checkBattle(outfitId);
       default -> false;
     };
   }
@@ -890,55 +895,6 @@ public class RelayRequest extends PasswordHashRequest {
           null,
           null);
       return true;
-    }
-
-    if (KoLCharacter.isPlumber()) {
-      // If you are already stuffed, you can't eat more.
-      if (KoLCharacter.getFullness() < KoLCharacter.getStomachCapacity()
-          && !RelayRequest.ignoreFullnessWarning) {
-        // If it's already confirmed, then track that for the session
-        if (this.getFormField(Confirm.RALPH1) == null) {
-          String warning =
-              "When you stop being a plumber, you will lose five maximum fullness."
-                  + " Since you are not yet full, perhaps you would like to eat more now?"
-                  + " (It is not harmful to be over-full.)"
-                  + " If you are sure you don't want to eat more at this time, click the icon. ";
-          this.sendGeneralWarning("knifefork.gif", warning, Confirm.RALPH1);
-          return true;
-        }
-        RelayRequest.ignoreFullnessWarning = true;
-      }
-
-      // *** coins are quest items, but, rather than persisting until ascension, they disappear when
-      // *** you free Princess Ralph - as do all items you can spend coins on.
-      // *** If this changes, uncomment the following code.
-
-      /*
-      // If you don't have any coins, nothing to spend
-      if ( InventoryManager.getCount( ItemPool.COIN ) > 0 )
-      {
-        if ( this.getFormField( Confirm.RALPH2 ) == null )
-        {
-          StringBuilder warning = new StringBuilder();
-          warning.append( "When you stop being a plumber, you will lose access to the Mushroom District." );
-          warning.append( " Since you have unspent coins, perhaps you would like to visit some shops?" );
-          warning.append( " If you are sure you don't want to spend your coins, click the icon on the left. " );
-          warning.append( " If you wish to visit the Mushroom District, click on icon on the right." );
-          this.sendOptionalWarning(
-            Confirm.RALPH2,
-            warning.toString(),
-            "mario_coin.gif",
-            "mario_mushroom1.gif",
-            "place.php?whichplace=mario",
-            null,
-            null
-            );
-          return true;
-        }
-      }
-      */
-
-      return false;
     }
 
     // In You, Robot, you will lose access to the Scrapheap.
@@ -1013,6 +969,46 @@ public class RelayRequest extends PasswordHashRequest {
           "hand.gif",
           "dinobuck.gif",
           "\"shop.php?whichshop=dino\"",
+          null,
+          null);
+      return true;
+    }
+
+    // In Adventurer Meats World, your organs will be set to 15/15/15
+    // and your adventures capped at 40.
+    // If you have less than 40 adventures, you may want to spend meat on this
+    if (KoLCharacter.isMeat()) {
+      // If user has already confirmed he wants to go there, accept it
+      if (this.getFormField(Confirm.RALPH) != null) {
+        return false;
+      }
+
+      int advs = KoLCharacter.getAdventuresLeft();
+      if (advs == 40) {
+        return false;
+      }
+      boolean tooFewAdventures = advs < 40;
+
+      StringBuilder buf = new StringBuilder();
+      buf.append("You are about to free King Ralph and stop being a Meat Golem. ");
+      buf.append(
+          "When you do so, all your organs will be filled, and your adventures capped at 40. ");
+      if (tooFewAdventures) {
+        buf.append("You may wish to spend meat on ensuring you have at least 40 adventures.");
+      } else {
+        buf.append("You may wish to spend your adventures now.");
+      }
+      buf.append(" If you are ready to break the prism, click on the icon on the left.");
+      if (tooFewAdventures) {
+        buf.append(" If you wish to visit your Meat cocoon, click on icon on the right.");
+      }
+
+      this.sendOptionalWarning(
+          Confirm.RALPH,
+          buf.toString(),
+          "hand.gif",
+          tooFewAdventures ? "meat.gif" : null,
+          "\"place.php?whichplace=meatground&action=meatground_turns\"",
           null,
           null);
       return true;
@@ -2953,7 +2949,8 @@ public class RelayRequest extends PasswordHashRequest {
         || KoLCharacter.inFirecore()
         || KoLCharacter.inDinocore()
         || KoLCharacter.inShadowsOverLoathing()
-        || KoLCharacter.inWereProfessor()) {
+        || KoLCharacter.inWereProfessor()
+        || KoLCharacter.isMeat()) {
       return false;
     }
 
@@ -3767,7 +3764,9 @@ public class RelayRequest extends PasswordHashRequest {
         ChatPoller.handleNewChat(chatText, this.getFormField("graf"), ChatPoller.localLastSeen);
       }
 
-      chatText = decorateJsCommands(chatText);
+      if (Preferences.getBoolean("relayDecorateJsCommands")) {
+        chatText = decorateJsCommands(chatText);
+      }
     }
 
     if (Preferences.getBoolean("relayFormatsChatText")) {
@@ -3929,6 +3928,13 @@ public class RelayRequest extends PasswordHashRequest {
       return;
     }
 
+    // Redirect empty path to game.php
+
+    if (path.isEmpty() || path.equals("/")) {
+      this.pseudoResponse("HTTP/1.1 302 Found", "/game.php");
+      return;
+    }
+
     // Local files never have form fields.	Remove them, because
     // they're probably just used for data tracking purposes
     // client-side.
@@ -4071,9 +4077,6 @@ public class RelayRequest extends PasswordHashRequest {
    * Centralized method for sending warnings before executing a relay request. Call individual
    * warnings from here.
    *
-   * @param adventure
-   * @param adventureName
-   * @param nextAdventure
    * @return <b>true</b> if a pseudoresponse was displayed and the RelayRequest should stop before
    *     run()-ing.
    */
@@ -4300,8 +4303,9 @@ public class RelayRequest extends PasswordHashRequest {
             msg.append(", so you may wish to adventure somewhere else at this time.");
           }
         }
-        case 1 -> msg.append(
-            " counter will expire after 1 more turn, so you may wish to adventure somewhere else that takes 1 turn.");
+        case 1 ->
+            msg.append(
+                " counter will expire after 1 more turn, so you may wish to adventure somewhere else that takes 1 turn.");
         default -> {
           msg.append(" counter will expire after ");
           msg.append(remain);

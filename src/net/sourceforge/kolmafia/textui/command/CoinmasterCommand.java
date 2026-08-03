@@ -59,14 +59,7 @@ public class CoinmasterCommand extends AbstractCommand {
     String action;
 
     if (isBuy) {
-      action = data.getBuyAction();
-      if (action == null) {
-        KoLmafia.updateDisplay(MafiaState.ERROR, "You can't buy from " + data.getMaster());
-        return;
-      }
-
-      for (int i = 0; i < itemList.length; ++i) {
-        AdventureResult item = itemList[i];
+      for (AdventureResult item : itemList) {
         if (!data.canBuyItem(item.getItemId())) {
           KoLmafia.updateDisplay(
               MafiaState.ERROR, "You can't buy " + item.getName() + " from " + data.getMaster());
@@ -80,14 +73,13 @@ public class CoinmasterCommand extends AbstractCommand {
         return;
       }
     } else {
-      action = data.getSellAction();
-      if (action == null) {
+      List<AdventureResult> selllist = data.getSellItems();
+      if (selllist == null) {
         KoLmafia.updateDisplay(MafiaState.ERROR, "You can't sell to " + data.getMaster());
         return;
       }
 
-      for (int i = 0; i < itemList.length; ++i) {
-        AdventureResult item = itemList[i];
+      for (AdventureResult item : itemList) {
         if (!data.canSellItem(item.getItemId())) {
           KoLmafia.updateDisplay(
               MafiaState.ERROR, "You can't sell " + item.getName() + " to " + data.getMaster());

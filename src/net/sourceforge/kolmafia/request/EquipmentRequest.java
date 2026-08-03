@@ -16,6 +16,7 @@ import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
@@ -27,6 +28,7 @@ import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.DebugDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.QuestManager;
@@ -145,21 +147,19 @@ public class EquipmentRequest extends PasswordHashRequest {
     // of the inventory you want to request
 
     switch (requestType) {
-      case EQUIPMENT:
-        this.addFormField("which", "2");
-        break;
-      case BEDAZZLEMENTS:
+      case EQUIPMENT -> this.addFormField("which", "2");
+      case BEDAZZLEMENTS -> {
         // no fields necessary
-        break;
-      case SAVE_OUTFIT:
+      }
+      case SAVE_OUTFIT -> {
         this.addFormField("ajax", "1");
         this.addFormField("which", "2");
-        break;
-      case UNEQUIP_ALL:
+      }
+      case UNEQUIP_ALL -> {
         this.addFormField("ajax", "1");
         this.addFormField("which", "2");
         this.addFormField("action", "unequipall");
-        break;
+      }
     }
   }
 
@@ -189,37 +189,21 @@ public class EquipmentRequest extends PasswordHashRequest {
     this.error = null;
 
     switch (equipmentSlot) {
-      case CROWNOFTHRONES:
-        this.error = "Cannot change enthronement using equip command; use enthrone command instead";
-        break;
-      case BUDDYBJORN:
-        this.error =
-            "Cannot change bjorned familiar using equip command; use bjornify command instead";
-        break;
-      case STICKER1:
-      case STICKER2:
-      case STICKER3:
-        this.initializeStickerData(changeItem, equipmentSlot);
-        break;
-      case CARDSLEEVE:
-        this.initializeCardSleeveData(changeItem);
-        break;
-      case FOLDER1:
-      case FOLDER2:
-      case FOLDER3:
-      case FOLDER4:
-      case FOLDER5:
-        this.initializeFolderData(changeItem, equipmentSlot);
-        break;
-      case BOOTSKIN:
-      case BOOTSPUR:
-        this.initializeBootData(changeItem, equipmentSlot);
-        break;
-      case HOLSTER:
-        this.initializeSixgunData(changeItem, equipmentSlot);
-        break;
-      default:
-        this.initializeChangeData(changeItem, equipmentSlot);
+      case CROWNOFTHRONES ->
+          this.error =
+              "Cannot change enthronement using equip command; use enthrone command instead";
+      case BUDDYBJORN ->
+          this.error =
+              "Cannot change bjorned familiar using equip command; use bjornify command instead";
+      case STICKER1, STICKER2, STICKER3 -> this.initializeStickerData(changeItem, equipmentSlot);
+      case CARDSLEEVE -> this.initializeCardSleeveData(changeItem);
+      case FOLDER1, FOLDER2, FOLDER3, FOLDER4, FOLDER5 ->
+          this.initializeFolderData(changeItem, equipmentSlot);
+      case BOOTSKIN, BOOTSPUR -> this.initializeBootData(changeItem, equipmentSlot);
+      case HOLSTER -> this.initializeSixgunData(changeItem, equipmentSlot);
+      case CODPIECE1, CODPIECE2, CODPIECE3, CODPIECE4, CODPIECE5 ->
+          this.initializeCodpieceData(changeItem, equipmentSlot);
+      default -> this.initializeChangeData(changeItem, equipmentSlot);
     }
   }
 
@@ -239,23 +223,34 @@ public class EquipmentRequest extends PasswordHashRequest {
   }
 
   private static String chooseEquipmentLocation(final Slot slot) {
-    return slot == Slot.HOLSTER
-        ? "inventory.php"
-        : SlotSet.SLOTS.contains(slot) || slot == Slot.HATS
-            ? "inv_equip.php"
-            : slot == Slot.CROWNOFTHRONES || slot == Slot.BUDDYBJORN
-                ? "bogus.php"
-                : SlotSet.STICKER_SLOTS.contains(slot)
-                    ? "bedazzle.php"
-                    : slot == Slot.CARDSLEEVE
-                        ? "inv_use.php"
-                        : slot == Slot.FAKEHAND
-                            ? "inv_equip.php"
-                            : SlotSet.FOLDER_SLOTS.contains(slot)
-                                ? "choice.php"
-                                : (slot == Slot.BOOTSKIN || slot == Slot.BOOTSPUR)
-                                    ? "inv_use.php"
-                                    : "bogus.php";
+    if (slot == Slot.HOLSTER) {
+      return "inventory.php";
+    }
+    if (SlotSet.SLOTS.contains(slot) || slot == Slot.HATS) {
+      return "inv_equip.php";
+    }
+    if (slot == Slot.CROWNOFTHRONES || slot == Slot.BUDDYBJORN) {
+      return "bogus.php";
+    }
+    if (SlotSet.STICKER_SLOTS.contains(slot)) {
+      return "bedazzle.php";
+    }
+    if (slot == Slot.CARDSLEEVE) {
+      return "inv_use.php";
+    }
+    if (slot == Slot.FAKEHAND) {
+      return "inv_equip.php";
+    }
+    if (SlotSet.FOLDER_SLOTS.contains(slot)) {
+      return "choice.php";
+    }
+    if (slot == Slot.BOOTSKIN || slot == Slot.BOOTSPUR) {
+      return "inv_use.php";
+    }
+    if (SlotSet.CODPIECE_SLOTS.contains(slot)) {
+      return "choice.php";
+    }
+    return "bogus.php";
   }
 
   public static boolean isEquipmentChange(final String path) {
@@ -500,6 +495,36 @@ public class EquipmentRequest extends PasswordHashRequest {
     this.addFormField("ajax", "1");
   }
 
+  private void initializeCodpieceData(final AdventureResult gem, final Slot slot) {
+    this.equipmentSlot = slot;
+    this.addFormField("whichchoice", "1588");
+    var slotOpt =
+        switch (equipmentSlot) {
+          case CODPIECE1 -> "1";
+          case CODPIECE2 -> "2";
+          case CODPIECE3 -> "3";
+          case CODPIECE4 -> "4";
+          case CODPIECE5 -> "5";
+          default -> throw new IllegalStateException("Unexpected value: " + equipmentSlot);
+        };
+
+    if (gem.equals(EquipmentRequest.UNEQUIP)) {
+      this.requestType = EquipmentRequestType.REMOVE_ITEM;
+      this.addFormField("option", "2");
+      this.addFormField("which", slotOpt);
+      return;
+    }
+
+    // only gems can be equipped -- however, TPTB may add more in the future
+    this.itemId = gem.getItemId();
+
+    this.requestType = EquipmentRequestType.CHANGE_ITEM;
+    this.changeItem = gem.getCount() == 1 ? gem : gem.getInstance(1);
+    this.addFormField("option", "1");
+    this.addFormField("which", slotOpt);
+    this.addFormField("iid", String.valueOf(this.itemId));
+  }
+
   private String getAction() {
     switch (this.equipmentSlot) {
       case HAT, HATS -> {
@@ -619,7 +644,13 @@ public class EquipmentRequest extends PasswordHashRequest {
       case CARD -> Slot.CARDSLEEVE;
       case FOLDER -> EquipmentRequest.availableFolder();
       case SIXGUN -> Slot.HOLSTER;
-      default -> Slot.NONE;
+      default -> {
+        // if it's a gem not equippable elsewhere, assume codpiece
+        if (isCodpieceGem(itemId)) {
+          yield EquipmentRequest.availableCodpiece();
+        }
+        yield Slot.NONE;
+      }
     };
   }
 
@@ -662,6 +693,10 @@ public class EquipmentRequest extends PasswordHashRequest {
   public static Slot availableFolder() {
     return EquipmentRequest.availableSlot(
         KoLCharacter.inHighschool() ? SlotSet.FOLDER_SLOTS : SlotSet.FOLDER_SLOTS_AFTERCORE);
+  }
+
+  public static Slot availableCodpiece() {
+    return EquipmentRequest.availableSlot(SlotSet.CODPIECE_SLOTS);
   }
 
   /**
@@ -827,30 +862,35 @@ public class EquipmentRequest extends PasswordHashRequest {
     if (SlotSet.FOLDER_SLOTS.contains(this.equipmentSlot)) {
       (new GenericRequest("inventory.php?action=useholder")).run();
     }
+    if (SlotSet.CODPIECE_SLOTS.contains(this.equipmentSlot)) {
+      (new GenericRequest("inventory.php?action=docodpiece")).run();
+    }
 
     switch (this.requestType) {
       case EQUIPMENT -> KoLmafia.updateDisplay("Retrieving equipment...");
       case BEDAZZLEMENTS -> KoLmafia.updateDisplay("Refreshing stickers...");
       case SAVE_OUTFIT -> KoLmafia.updateDisplay("Saving outfit: " + this.outfitName);
       case CHANGE_OUTFIT -> KoLmafia.updateDisplay("Putting on outfit: " + this.outfit);
-      case CHANGE_ITEM -> KoLmafia.updateDisplay(
-          (this.equipmentSlot == Slot.WEAPON
-                  ? "Wielding "
-                  : this.equipmentSlot == Slot.OFFHAND
-                      ? "Holding "
-                      : this.equipmentSlot == Slot.CARDSLEEVE
-                          ? "Sliding in "
-                          : this.equipmentSlot == Slot.HOLSTER ? "Holstering " : "Putting on ")
-              + ItemDatabase.getItemName(this.itemId)
-              + "...");
-      case REMOVE_ITEM -> KoLmafia.updateDisplay(
-          (this.equipmentSlot == Slot.CARDSLEEVE
-                  ? "Sliding out "
-                  : this.equipmentSlot == Slot.HOLSTER ? "Unholstering " : "Taking off ")
-              + (this.equipmentSlot == Slot.FAKEHAND
-                  ? "fake hands"
-                  : EquipmentManager.getEquipment(this.equipmentSlot).getName())
-              + "...");
+      case CHANGE_ITEM ->
+          KoLmafia.updateDisplay(
+              (this.equipmentSlot == Slot.WEAPON
+                      ? "Wielding "
+                      : this.equipmentSlot == Slot.OFFHAND
+                          ? "Holding "
+                          : this.equipmentSlot == Slot.CARDSLEEVE
+                              ? "Sliding in "
+                              : this.equipmentSlot == Slot.HOLSTER ? "Holstering " : "Putting on ")
+                  + ItemDatabase.getItemName(this.itemId)
+                  + "...");
+      case REMOVE_ITEM ->
+          KoLmafia.updateDisplay(
+              (this.equipmentSlot == Slot.CARDSLEEVE
+                      ? "Sliding out "
+                      : this.equipmentSlot == Slot.HOLSTER ? "Unholstering " : "Taking off ")
+                  + (this.equipmentSlot == Slot.FAKEHAND
+                      ? "fake hands"
+                      : EquipmentManager.getEquipment(this.equipmentSlot).getName())
+                  + "...");
       case UNEQUIP_ALL -> KoLmafia.updateDisplay("Taking off everything...");
     }
 
@@ -898,6 +938,11 @@ public class EquipmentRequest extends PasswordHashRequest {
 
     if (urlString.startsWith("choice.php") && urlString.contains("whichchoice=774")) {
       EquipmentRequest.parseFolders(responseText);
+      return;
+    }
+
+    if (urlString.startsWith("choice.php") && urlString.contains("whichchoice=1588")) {
+      parseCodpiece(responseText);
       return;
     }
 
@@ -1146,6 +1191,32 @@ public class EquipmentRequest extends PasswordHashRequest {
         EquipmentManager.setEquipment(slot, EquipmentRequest.UNEQUIP);
       }
     }
+  }
+
+  private static final Pattern LOSE_PATTERN = Pattern.compile("You lose an item:.*?<b>(.*?)</b>");
+
+  public static void parseCodpiece(final String responseText) {
+    Matcher lostMatcher = EquipmentRequest.LOSE_PATTERN.matcher(responseText);
+    String lost = lostMatcher.find() ? lostMatcher.group(1) : null;
+    int lostId = ItemDatabase.getItemId(lost);
+
+    Matcher acquiredMatcher = EquipmentRequest.ACQUIRE_PATTERN.matcher(responseText);
+    String acquired = acquiredMatcher.find() ? acquiredMatcher.group(1) : null;
+    int acquiredId = ItemDatabase.getItemId(acquired);
+
+    AdventureResult newItem = lost != null ? ItemPool.get(lostId) : EquipmentRequest.UNEQUIP;
+    AdventureResult oldItem =
+        acquired != null ? ItemPool.get(acquiredId) : EquipmentRequest.UNEQUIP;
+
+    if (newItem != EquipmentRequest.UNEQUIP) {
+      AdventureResult remove = oldItem.getInstance(-1);
+      AdventureResult.addResultToList(KoLConstants.tally, remove);
+      AdventureResult.addResultToList(KoLConstants.inventory, remove);
+    }
+    EquipmentRequest.switchItem(oldItem, newItem);
+
+    // instead of parsing the page, get our updated gems from api.php
+    ApiRequest.updateStatus();
   }
 
   public static void parseEquipment(final String location, final String responseText) {
@@ -1407,7 +1478,7 @@ public class EquipmentRequest extends PasswordHashRequest {
             || (newItem.equals(EquipmentRequest.UNEQUIP) && EquipmentManager.isDualWielding())) {
           refresh |= EquipmentRequest.switchItem(Slot.OFFHAND, EquipmentRequest.UNEQUIP);
         }
-        // fall through
+      // fall through
       default:
         AdventureResult oldItem = EquipmentManager.getEquipment(type);
         refresh |= EquipmentRequest.switchItem(oldItem, newItem);
@@ -1891,7 +1962,7 @@ public class EquipmentRequest extends PasswordHashRequest {
       case 1 -> Slot.ACCESSORY1;
       case 2 -> Slot.ACCESSORY2;
       case 3 -> Slot.ACCESSORY3;
-        // Otherwise, KoL picks the first empty accessory slot.
+      // Otherwise, KoL picks the first empty accessory slot.
       default -> EquipmentRequest.availableAccessory();
     };
   }
@@ -2099,5 +2170,10 @@ public class EquipmentRequest extends PasswordHashRequest {
 
     // Have to get it from the Equipment page of the Inventory
     RequestThread.postRequest(new EquipmentRequest(EquipmentRequestType.EQUIPMENT));
+  }
+
+  public static boolean isCodpieceGem(int itemId) {
+    var codpieceMods = ModifierDatabase.getModifiers(ModifierType.ETERNITY_CODPIECE, itemId);
+    return codpieceMods != null;
   }
 }

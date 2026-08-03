@@ -18,13 +18,13 @@ public class ChatMessageTest {
     assertNotNull(testMessage.getDate());
     assertNotNull(testMessage.getTimestamp());
     testMessage.setSender("Bozo");
-    assertEquals(testMessage.getSender(), "Bozo");
+    assertEquals("Bozo", testMessage.getSender());
     testMessage.setRecipient("Clown School");
-    assertEquals(testMessage.getRecipient(), "Clown School");
+    assertEquals("Clown School", testMessage.getRecipient());
     testMessage.setContent("No fluff");
-    assertEquals(testMessage.getContent(), "No fluff");
+    assertEquals("No fluff", testMessage.getContent());
     testMessage.setContent("   No fluff    ");
-    assertEquals(testMessage.getContent(), "No fluff");
+    assertEquals("No fluff", testMessage.getContent());
   }
 
   @Test
@@ -33,14 +33,14 @@ public class ChatMessageTest {
     assertNotNull(testMessage.getDate());
     assertNotNull(testMessage.getTimestamp());
     assertTrue(testMessage.isAction());
-    assertEquals(testMessage.getSender(), "sender");
-    assertEquals(testMessage.getRecipient(), "recipient");
-    assertEquals(testMessage.getContent(), "content");
+    assertEquals("sender", testMessage.getSender());
+    assertEquals("recipient", testMessage.getRecipient());
+    assertEquals("content", testMessage.getContent());
     JSONObject jso = testMessage.toJSON();
     assertNotNull(jso);
     JSONObject expected =
         JSON.parseObject(
-            """
+"""
 {
   "type": "private",
   "who": {

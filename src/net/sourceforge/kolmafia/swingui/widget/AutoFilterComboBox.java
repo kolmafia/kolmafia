@@ -110,7 +110,7 @@ public class AutoFilterComboBox<E> extends DisabledItemsComboBox<E> implements L
 
     String elementName = element.toString().toLowerCase();
     return this.strict
-        ? elementName.indexOf(this.matchString) != -1
+        ? elementName.contains(this.matchString)
         : StringUtilities.fuzzyMatches(elementName, this.matchString);
   }
 

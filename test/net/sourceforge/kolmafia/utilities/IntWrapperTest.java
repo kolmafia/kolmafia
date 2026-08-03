@@ -13,8 +13,8 @@ public class IntWrapperTest {
   public void itShouldReturnWhatIsThere() {
     int testVal = 314;
     iw = new IntWrapper();
-    assertNotEquals(iw.getChoice(), testVal);
+    assertNotEquals(testVal, iw.getChoice());
     iw.setChoice(testVal);
-    assertEquals(iw.getChoice(), testVal);
+    assertEquals(testVal, iw.getChoice());
   }
 }

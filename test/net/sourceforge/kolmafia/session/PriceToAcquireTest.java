@@ -725,7 +725,7 @@ public class PriceToAcquireTest {
       // Put enough of the item into inventory.
       AdventureResult.addResultToList(KoLConstants.inventory, item);
       long price = InventoryManager.priceToAcquire(item.getInstance(2), false);
-      assertEquals(price, 0);
+      assertEquals(0, price);
 
       // Move the items to the closet.
       AdventureResult.addResultToList(KoLConstants.inventory, item.getNegation());

@@ -593,6 +593,11 @@ public class CharPaneDecorator {
         buffer.append("/3 drops");
         return buffer;
       }
+      case FamiliarPool.MECHANICAL_SONGBIRD -> {
+        buffer.append(Preferences.getString("mechanicalSongbirdProgress"));
+        buffer.append("/~150 progress");
+        return buffer;
+      }
       case FamiliarPool.GRIMSTONE_GOLEM -> {
         String gDrops = Preferences.getString("_grimstoneMaskDrops");
         buffer.append(gDrops);
@@ -715,6 +720,16 @@ public class CharPaneDecorator {
               .append(")");
         }
 
+        return buffer;
+      }
+      case FamiliarPool.BURLY_BODYGUARD -> {
+        buffer.append(Preferences.getInteger("bodyguardCharge"));
+        buffer.append("/50 charges");
+        return buffer;
+      }
+      case FamiliarPool.SWORD_OF_SWORDS -> {
+        buffer.append(Preferences.getInteger("_swordOfSWordsKills"));
+        buffer.append("/100 kills");
         return buffer;
       }
     }
@@ -1026,8 +1041,8 @@ public class CharPaneDecorator {
 
       AdventureResult currentEffect;
 
-      for (int i = 0; i < missingEffects.size(); ++i) {
-        currentEffect = missingEffects.get(i);
+      for (AdventureResult missingEffect : missingEffects) {
+        currentEffect = missingEffect;
 
         String effectName = currentEffect.getName();
         int effectId = currentEffect.getEffectId();
@@ -1184,12 +1199,12 @@ public class CharPaneDecorator {
         buffer.append(level);
         buffer.append(", ");
       } else if (effectName.equalsIgnoreCase("Form of...Bird!")) {
-        for (int i = 0; i < BIRDFORM_STRINGS.length; ++i) {
-          int count = Preferences.getInteger(BIRDFORM_STRINGS[i][0]);
+        for (String[] birdformString : BIRDFORM_STRINGS) {
+          int count = Preferences.getInteger(birdformString[0]);
           if (count != 0) {
-            buffer.append(BIRDFORM_STRINGS[i][1]);
+            buffer.append(birdformString[1]);
             buffer.append(count);
-            buffer.append(BIRDFORM_STRINGS[i][2]);
+            buffer.append(birdformString[2]);
           }
         }
       }
@@ -1221,7 +1236,7 @@ public class CharPaneDecorator {
 
         buffer.append("\"");
 
-        if (effectName.indexOf("Poisoned") != -1 || effectName.equals("Beaten Up")) {
+        if (effectName.contains("Poisoned") || effectName.equals("Beaten Up")) {
           buffer.append(" style=\"color:red\"");
         }
 

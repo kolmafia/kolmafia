@@ -44,9 +44,8 @@ public class DimemasterRequest extends CoinMasterRequest {
 
   private static Boolean canBuyItem(final Integer itemId) {
     return switch (itemId) {
-      case ItemPool.PATCHOULI_OIL_BOMB, ItemPool.EXPLODING_HACKY_SACK -> Preferences.getString(
-              "sidequestLighthouseCompleted")
-          .equals("hippy");
+      case ItemPool.PATCHOULI_OIL_BOMB, ItemPool.EXPLODING_HACKY_SACK ->
+          Preferences.getString("sidequestLighthouseCompleted").equals("hippy");
       default -> ItemPool.get(itemId).getCount(HIPPY.getBuyItems()) > 0;
     };
   }
@@ -65,7 +64,7 @@ public class DimemasterRequest extends CoinMasterRequest {
   }
 
   public static final boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("bigisland.php") || urlString.indexOf("whichcamp=1") == -1) {
+    if (!urlString.startsWith("bigisland.php") || !urlString.contains("whichcamp=1")) {
       return false;
     }
 

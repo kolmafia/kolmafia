@@ -23,3 +23,5 @@
 11518	2024	hard	adobe assortment
 11526	2025	norm	crepe paper pared cuttings
 11534	2025	hard	petrified wood waste parts
+12074	2026	norm	angelbone fragments
+12082	2026	hard	devilbone chunks

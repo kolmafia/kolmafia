@@ -1,0 +1,96 @@
+<html><head>
+<script language=Javascript>
+<!--
+if (parent.frames.length == 0) location.href="game.php";
+top.charpane.location.href="charpane.php";
+//-->
+</script>
+<script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/jquery-1.5.1.js"></script>
+<script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/keybinds.min.2.js"></script>
+<script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/window.20111231.js"></script>
+<script language="javascript">function chatFocus(){if(top.chatpane.document.chatform.graf) top.chatpane.document.chatform.graf.focus();}
+if (typeof defaultBind != 'undefined') { defaultBind(47, 2, chatFocus); defaultBind(190, 2, chatFocus);defaultBind(191, 2, chatFocus); defaultBind(47, 8, chatFocus);defaultBind(190, 8, chatFocus); defaultBind(191, 8, chatFocus); }</script><script>
+function switchFocus()
+{
+	if (top.chatpane.document.chatform.graf.focus) 
+		top.chatpane.document.chatform.graf.focus(); 
+	return false;
+}
+function repeat()
+{
+	var linx = document.getElementsByTagName("A");
+	for (var i = 0; i < linx.length; i++)
+	{
+		if (typeof timersfunc != 'undefined') {
+			if (!timersfunc()) { 
+				return; 
+			}
+			timersfunc = null;
+		}
+		var link = linx[i];
+		if (link.innerHTML.match(/Adventure Again/) || link.innerHTML.match(/Do it again/) || (link.getAttribute && link.getAttribute('id')=='againlink'))
+			location.href = link.href;
+	}
+}
+
+defaultBind(47, CTRL, switchFocus);
+defaultBind(191, CTRL, switchFocus);
+defaultBind(47, META, switchFocus);
+defaultBind(191, META, switchFocus);
+defaultBind(192, NONE, repeat);
+defaultBind(220, NONE, repeat);
+</script><script language="javascript">
+	function updateParseItem(iid, field, info) {
+		var tbl = $('#ic'+iid);
+		var data = parseItem(tbl);
+		if (!data) return;
+		data[field] = info;
+		var out = [];
+		for (i in data) {
+			if (!data.hasOwnProperty(i)) continue;
+			out.push(i+'='+data[i]);
+		}
+		tbl.attr('rel', out.join('&'));
+	}
+	function parseItem(tbl) {
+		tbl = $(tbl);
+		var rel = tbl.attr('rel');
+		var data = {};
+		if (!rel) return data;
+		var parts = rel.split('&');
+		for (i in parts) {
+			if (!parts.hasOwnProperty(i)) continue;
+			var kv = parts[i].split('=');
+			tbl.data(kv[0], kv[1]);
+			data[kv[0]] = kv[1];
+		}
+		return data;
+	}
+</script><script type="text/javascript" src="https://d2uyhvukfffg5a.cloudfront.net/scripts/pop_query.20230713.js"></script>
+<script type="text/javascript"> function pop_ircm(clicked) { return false; } </script><script>
+
+var currentkey = 49;
+$(document).ready(function () {
+	$('form').each(function () {
+		var form = this;
+		defaultBind(currentkey++, NONE, function () { form.submit(); });
+		return currentkey < 58;
+	});
+});
+
+</script>	<link rel="stylesheet" type="text/css" href="https://d2uyhvukfffg5a.cloudfront.net/styles.20230117d.css">
+<style type='text/css'>
+.faded {
+	zoom: 1;
+	filter: alpha(opacity=35);
+	opacity: 0.35;
+	-khtml-opacity: 0.35; 
+    -moz-opacity: 0.35;
+}
+</style>
+
+</head>
+
+<body>
+<Center><div id="results"><table  width=95%  cellspacing=0 cellpadding=0><tr><td style="background-color: blue" align=center ><b style="color: white">Results:</b></td></tr><tr><td style="padding: 5px; border: 1px solid blue;"><center><table><tr><td><span class='guts'><center><div style="position: relative; width: 500px; height: 320px;"><img style="position: absolute; left: 10px" src="https://d2uyhvukfffg5a.cloudfront.net/cardback.gif" /><div style="position: absolute; left: 290px; text-align:center;vertical-align:middle;height: 300px; width: 200px; background-image:url(https://d2uyhvukfffg5a.cloudfront.net/cardfront.gif); padding-top: 23px; background-repeat: no-repeat;"><center><table width=140><tr><td align=center height=25 width=140>Ancestral Recall&nbsp;&nbsp;(L)</td></tr><tr><td class=small height=190 width=140 align=left><Center><img src=https://d2uyhvukfffg5a.cloudfront.net/adventureimages/river.gif></center><br>Instant<p>Draw 3 cards.</td></tr><tr><td align=center height=25 width=140></td></tr></table></center></div></div><div>You draw a card: <b>Ancestral Recall</b><p>This card looks like it contains a magic spell of some kind.</div><center>You already know this spell, so you just tear off the top right corner of the card and shove it in your pocket.<center><table class="item" style="float: none" rel="id=8391&s=0&q=0&d=0&g=0&t=1&n=1&m=0&p=0&u=."><tr><td><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/goldcoin.gif" alt="blue mana" title="blue mana" class=hand onClick='descitem(521152123)' ></td><td valign=center class=effect>You acquire an item: <b>blue mana</b></td></tr></table></center></center></center><center><p><form method='get' action='inv_use.php'><input type='hidden' name='whichitem' value='8382' /><input type='hidden' name='pwd' value='babe' /><input type='submit' value='Draw Again' class='button' /></form></center><center><p><form method='get' action='inv_use.php'><input type='hidden' name='whichitem' value='8382' /><input type='hidden' name='pwd' value='babe' /><input type='hidden' name='cheat' value='1' /><input type='submit' value='Cheat Again' class='button' /></form></center><center><p>[<a href="#" id="fptog">disable fast play mode</a>]<script>jQuery(function ($) { $("#fptog").click(function (e) { e.preventDefault(); if ($(this).text().match(/enable/)) { $.get("/account.php", {ajax:1, pwd:"babe", value:1, action:"flag_fastdecking"}); $(this).text("disable fast play"); }  else { $.get("/account.php", {ajax:1, pwd:"babe", value:0, action:"flag_fastdecking"}); $(this).text("enable fast play"); }  }) });</script></center></span></td></tr></table></center></td></tr><tr><td height=4></td></tr></table></div><table  width=95%  cellspacing=0 cellpadding=0><tr><td style="background-color: blue" align=center ><b style="color: white">Adventure Again:</b></td></tr><tr><td style="padding: 5px; border: 1px solid blue;"><center><table><tr><td><center><p><a href="inventory.php">Back to Inventory</a></center></td></tr></table></center></td></tr><tr><td height=4></td></tr></table></center><script>top.charpane.location.href="charpane.php";</script>
+</body></html>

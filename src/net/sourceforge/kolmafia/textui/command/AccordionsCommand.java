@@ -53,8 +53,8 @@ public class AccordionsCommand extends AbstractCommand {
   public void run(final String cmd, final String parameters) {
     List<AdventureResult> found = new ArrayList<>();
     String[] itemIds = Preferences.getString("_stolenAccordions").split(",");
-    for (int i = 0; i < itemIds.length; ++i) {
-      found.add(ItemPool.get(StringUtilities.parseInt(itemIds[i]), 1));
+    for (String itemId : itemIds) {
+      found.add(ItemPool.get(StringUtilities.parseInt(itemId), 1));
     }
 
     StringBuilder output = new StringBuilder();
@@ -71,8 +71,7 @@ public class AccordionsCommand extends AbstractCommand {
     output.append("<th colspan=4>Enchantments</th>");
     output.append("</tr>");
 
-    for (int i = 0; i < ACCORDIONS.length; ++i) {
-      Accordion accordion = ACCORDIONS[i];
+    for (Accordion accordion : ACCORDIONS) {
       AdventureResult item = accordion.getItem();
 
       output.append("<tr>");

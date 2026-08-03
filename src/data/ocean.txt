@@ -116,7 +116,7 @@
 63	29	Plinth
 
 # Mainland coordinates from:
-# https://kol.coldfront.net/thekolwiki/index.php/File:BootyMap.gif
+# https://wiki.kingdomofloathing.com/File:BootyMap.gif
 
 # 11	11	mainland
 11	12	mainland

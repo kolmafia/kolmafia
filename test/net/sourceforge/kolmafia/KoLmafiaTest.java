@@ -2,7 +2,7 @@ package net.sourceforge.kolmafia;
 
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withItem;
-import static internal.helpers.Player.withResponseMap;
+import static internal.helpers.Player.withResponses;
 import static internal.helpers.Player.withSkill;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
@@ -67,7 +67,7 @@ public class KoLmafiaTest {
     var cleanups =
         new Cleanups(
             withSkill(SkillPool.MARIACHI_MEMORY),
-            withResponseMap(
+            withResponses(
                 Map.of(
                     "https://www.kingdomofloathing.com:443/charsheet.php",
                     new FakeHttpResponse<>(200, html("request/test_charsheet_normal.html")))));

@@ -164,8 +164,8 @@ public abstract class GenericPanel extends ActionVerifyPanel {
     }
 
     ActionConfirmListener listener = new ActionConfirmListener();
-    for (int i = 0; i < this.elements.length; ++i) {
-      this.addListener(this.elements[i].getInputField(), listener);
+    for (VerifiableElement element : this.elements) {
+      this.addListener(element.getInputField(), listener);
     }
   }
 
@@ -201,8 +201,8 @@ public abstract class GenericPanel extends ActionVerifyPanel {
     }
 
     JTextComponent[] keys = this.listenerMap.keySet().toArray(new JTextComponent[0]);
-    for (int i = 0; i < keys.length; ++i) {
-      WeakReference<ActionConfirmListener> ref = this.listenerMap.get(keys[i]);
+    for (JTextComponent key : keys) {
+      WeakReference<ActionConfirmListener> ref = this.listenerMap.get(key);
       if (ref == null) {
         continue;
       }
@@ -212,7 +212,7 @@ public abstract class GenericPanel extends ActionVerifyPanel {
         continue;
       }
 
-      this.removeListener(keys[i], listener);
+      this.removeListener(key, listener);
     }
 
     this.listenerMap.clear();
@@ -249,12 +249,12 @@ public abstract class GenericPanel extends ActionVerifyPanel {
       return;
     }
 
-    for (int i = 0; i < this.elements.length; ++i) {
-      if (this.elements[i] == null) {
+    for (VerifiableElement element : this.elements) {
+      if (element == null) {
         continue;
       }
 
-      JComponent inputField = this.elements[i].getInputField();
+      JComponent inputField = element.getInputField();
 
       if (inputField == null) {
         continue;

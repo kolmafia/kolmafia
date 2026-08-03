@@ -97,6 +97,7 @@ public class GenericRequest implements Runnable {
   // Used in many requests. Here for convenience and non-duplication
   public static final Pattern PREACTION_PATTERN = Pattern.compile("preaction=([^&]*)");
   public static final Pattern ACTION_PATTERN = Pattern.compile("(?<!pre|sub)action=([^&]*)");
+  public static final Pattern SUBACTION_PATTERN = Pattern.compile("subaction=([^&]*)");
   public static final Pattern PLACE_PATTERN = Pattern.compile("place=([^&]*)");
   public static final Pattern WHICHITEM_PATTERN = Pattern.compile("whichitem=(\\d+)");
   public static final Pattern HOWMANY_PATTERN = Pattern.compile("howmany=(\\d+)");
@@ -106,6 +107,9 @@ public class GenericRequest implements Runnable {
 
   private int timeoutCount = 0;
   private static final int TIMEOUT_LIMIT = 3;
+  private int retryFailureCount = 0;
+  private static final int RETRY_FAILURE_LIMIT = 5;
+  private static final int RETRY_BASE_DELAY = 1000;
 
   private boolean redirectHandled = false;
   private int redirectCount = 0;
@@ -1029,6 +1033,11 @@ public class GenericRequest implements Runnable {
     return matcher.find() ? GenericRequest.decodeField(matcher.group(1)) : null;
   }
 
+  public static String getSubAction(final String urlString) {
+    Matcher matcher = GenericRequest.SUBACTION_PATTERN.matcher(urlString);
+    return matcher.find() ? GenericRequest.decodeField(matcher.group(1)) : null;
+  }
+
   public static String getPreaction(final String urlString) {
     Matcher matcher = GenericRequest.PREACTION_PATTERN.matcher(urlString);
     return matcher.find() ? GenericRequest.decodeField(matcher.group(1)) : null;
@@ -1134,6 +1143,7 @@ public class GenericRequest implements Runnable {
     GenericRequest.ignoreChatRequest = false;
 
     this.timeoutCount = 0;
+    this.retryFailureCount = 0;
     this.redirectHandled = false;
     this.redirectCount = 0;
     this.allowRedirect = null;
@@ -1388,10 +1398,6 @@ public class GenericRequest implements Runnable {
       // Set preference so we call ValhallaManager.onAscension()
       // when we reach the afterlife.
       Preferences.setInteger("lastBreakfast", 0);
-    }
-
-    if (urlString.startsWith("afterlife.php") && Preferences.getInteger("lastBreakfast") != -1) {
-      ValhallaManager.onAscension();
     }
 
     this.externalExecute();
@@ -1677,7 +1683,7 @@ public class GenericRequest implements Runnable {
         case 302: // Treat 302 as a 303, like all modern browsers.
         case 303:
           this.redirectMethod = "GET";
-          // FALL THROUGH!
+        // FALL THROUGH!
         case 301:
         case 307:
         case 308:
@@ -1744,6 +1750,14 @@ public class GenericRequest implements Runnable {
         shouldStop = this.retrieveServerReply(istream);
         istream.close();
       } else {
+        if (this.shouldRetryResponseCode()
+            && Preferences.getBoolean("retryFailedNetworkRequests")) {
+          istream.close();
+          KoLmafia.updateDisplay("Received 502, retrying...");
+          this.pauseBeforeResponseCodeRetry(this.responseCodeRetryDelay());
+          return false;
+        }
+
         if (this.responseCode == 504
             && (this.baseURLString.equals("storage.php")
                 || this.baseURLString.equals("inventory.php"))
@@ -1792,6 +1806,19 @@ public class GenericRequest implements Runnable {
   protected boolean retryOnTimeout() {
     return this.formURLString.endsWith(".php")
         && (this.data.isEmpty() || this.getClass() == GenericRequest.class);
+  }
+
+  protected boolean shouldRetryResponseCode() {
+    return this.responseCode == 502 && ++this.retryFailureCount < RETRY_FAILURE_LIMIT;
+  }
+
+  protected long responseCodeRetryDelay() {
+    return (long) RETRY_BASE_DELAY << (this.retryFailureCount - 1);
+  }
+
+  protected void pauseBeforeResponseCodeRetry(long milliseconds) {
+    PauseObject pauser = new PauseObject();
+    pauser.pause(milliseconds);
   }
 
   protected boolean processOnFailure() {
@@ -2200,6 +2227,9 @@ public class GenericRequest implements Runnable {
     } else if (urlString.startsWith("api.php")) {
       ApiRequest.parseResponse(urlString, this.responseText);
       return;
+    } else if (urlString.startsWith("adventure.php")) {
+      // A non-combat
+      this.itemMonster = null;
     }
 
     EventManager.checkForNewEvents(this.responseText);
@@ -2296,8 +2326,8 @@ public class GenericRequest implements Runnable {
     String urlString = this.getURLString();
 
     return switch (this.baseURLString) {
-      case "adventure.php", "basement.php", "cellar.php", "mining.php" -> AdventureRequest
-          .getAdventuresUsed(urlString);
+      case "adventure.php", "basement.php", "cellar.php", "mining.php" ->
+          AdventureRequest.getAdventuresUsed(urlString);
       case "choice.php" -> ChoiceManager.getAdventuresUsed(urlString);
       case "place.php" -> PlaceRequest.getAdventuresUsed(urlString);
       case "campground.php" -> CampgroundRequest.getAdventuresUsed(urlString);
@@ -2406,6 +2436,20 @@ public class GenericRequest implements Runnable {
             && this.responseText.contains("can't challenge your God Lobster anymore")) {
           Preferences.setInteger("_godLobsterFights", 3);
         }
+        // Unlike most ascension failures, this one happens as a redirect to main.php?nope=asc
+        String gashMessage = "You may not enter the Astral Gash again until tomorrow.";
+        if (this.responseText.contains(gashMessage)) {
+          String errorMsg = "Failed to ascend: " + gashMessage;
+          if (KoLCharacter.isCommunityService() && !KoLCharacter.kingLiberated()) {
+            // If we're only reaching this point because we're donation-cancelling on the first day
+            // of a CS run, suppress the error.
+            errorMsg += " (expected)";
+            KoLmafia.updateDisplay(errorMsg);
+          } else {
+            KoLmafia.updateDisplay(MafiaState.ERROR, errorMsg);
+          }
+          RequestLogger.updateSessionLog(errorMsg);
+        }
         return;
       }
       case "campground.php" -> {
@@ -2418,6 +2462,23 @@ public class GenericRequest implements Runnable {
       case "inv_use.php" -> {
         UseItemRequest.parseGiftPackage(responseText);
         // Fallthrough; ResultProcessor will log "You acquire <stuff>."
+      }
+      case "ascend.php" -> {
+        // If we try to ascend and actually get a response back rather than being redirected to
+        // afterlife.php, there was probably something that stopped the ascension from happening.
+        // Make an attempt at figuring out what it was.
+        if (urlString.contains("confirm=on") && urlString.contains("confirm2=on")) {
+          Pattern FAILED_ASCENSION =
+              Pattern.compile(
+                  "<b style=\"color: white\">Results:</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid blue;\"><center><table><tr><td>(.*?)</td>");
+          Matcher m = FAILED_ASCENSION.matcher(responseText);
+          if (m.find()) {
+            String errorMsg = "Failed to ascend: " + m.group(1);
+            KoLmafia.updateDisplay(MafiaState.ERROR, errorMsg);
+            RequestLogger.updateSessionLog(errorMsg);
+          }
+        }
+        // Fall-through and allow other processing regardless
       }
     }
 
@@ -2498,9 +2559,9 @@ public class GenericRequest implements Runnable {
         itemName = "Drum Machine";
         consumed = true;
       }
-      case ItemPool.DOLPHIN_WHISTLE -> {
-        itemName = "Dolphin Whistle";
-        consumed = true;
+      case ItemPool.DOLPHIN_WHISTLE, ItemPool.DURABLE_DOLPHIN_WHISTLE -> {
+        itemName = item.getName();
+        consumed = itemId == ItemPool.DOLPHIN_WHISTLE;
         MonsterData m = MonsterDatabase.findMonster("rotten dolphin thief");
         if (m != null) {
           m.clearItems();
@@ -2511,6 +2572,9 @@ public class GenericRequest implements Runnable {
           m.doneWithItems();
         }
         Preferences.setString("dolphinItem", "");
+        if (itemId == ItemPool.DURABLE_DOLPHIN_WHISTLE) {
+          Preferences.increment("_durableDolphinWhistleUsed");
+        }
       }
       case ItemPool.CARONCH_MAP -> {
         itemName = "Cap'm Caronch's Map";
@@ -2872,9 +2936,9 @@ public class GenericRequest implements Runnable {
         Preferences.setBoolean("_eldritchTentacleFought", true);
         break;
 
-        // NB: Pocket / genie wishes aren't handled via a redirect, so this code path should not be
-        // triggered.
-        // Instead, postChoice2 calls GenieRequest.postChoice.
+      // NB: Pocket / genie wishes aren't handled via a redirect, so this code path should not be
+      // triggered.
+      // Instead, postChoice2 calls GenieRequest.postChoice.
       case 1267:
         name = "Genie Wish";
         break;
@@ -2897,6 +2961,7 @@ public class GenericRequest implements Runnable {
         name = "mimic egg";
         ChoiceControl.updateMimicMonsters(location, -1);
         ResultProcessor.processResult(ItemPool.get(ItemPool.MIMIC_EGG, -1));
+        EncounterManager.ignoreSpecialMonsters();
         break;
 
       default:
@@ -2973,7 +3038,8 @@ public class GenericRequest implements Runnable {
           ItemPool.CHARRED_SEAL,
           ItemPool.COLD_SEAL,
           ItemPool.SLIPPERY_SEAL,
-          ItemPool.DEPLETED_URANIUM_SEAL -> ItemPool.get(ItemPool.IMBUED_SEAL_BLUBBER_CANDLE, -1);
+          ItemPool.DEPLETED_URANIUM_SEAL ->
+          ItemPool.get(ItemPool.IMBUED_SEAL_BLUBBER_CANDLE, -1);
       default -> null;
     };
   }
@@ -2983,9 +3049,7 @@ public class GenericRequest implements Runnable {
   }
 
   public final void loadResponseFromFile(final File f) {
-    BufferedReader buf = FileUtilities.getReader(f);
-
-    try {
+    try (BufferedReader buf = FileUtilities.getReader(f)) {
       String line;
       StringBuilder response = new StringBuilder();
 
@@ -2999,11 +3063,6 @@ public class GenericRequest implements Runnable {
       // This means simply that there was no file from which
       // to load the data.  Given that this is run during debug
       // tests, only, we can ignore the error.
-    }
-
-    try {
-      buf.close();
-    } catch (IOException e) {
     }
   }
 

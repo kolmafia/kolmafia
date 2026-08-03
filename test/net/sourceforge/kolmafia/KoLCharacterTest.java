@@ -322,6 +322,20 @@ public class KoLCharacterTest {
     }
   }
 
+  @Test
+  public void restrictedFamiliarsDoNotExistInThrifty() {
+    var cleanups =
+        new Cleanups(
+            withFamiliarInTerrarium(FamiliarPool.MOSQUITO),
+            withFamiliarInTerrarium(FamiliarPool.BADGER),
+            withPath(Path.THRIFTY));
+
+    try (cleanups) {
+      var fam = KoLCharacter.usableFamiliar("astral badger");
+      assertNull(fam);
+    }
+  }
+
   @Nested
   class StomachCapacity {
     @Test
@@ -729,6 +743,66 @@ public class KoLCharacterTest {
               withEquipped(Slot.HATS, ItemPool.FUTURISTIC_HAT));
       try (cleanups) {
         assertThat(KoLCharacter.getTotalPower(), is(260));
+      }
+    }
+  }
+
+  @Nested
+  class Fury {
+
+    private static Cleanups withWrathfulSealClubber() {
+      return new Cleanups(
+          withClass(AscensionClass.SEAL_CLUBBER), withSkill(SkillPool.WRATH_OF_THE_WOLVERINE));
+    }
+
+    @Test
+    void nonSealClubbersHaveNoFury() {
+      var cleanups =
+          new Cleanups(
+              withClass(AscensionClass.TURTLE_TAMER), withSkill(SkillPool.WRATH_OF_THE_WOLVERINE));
+
+      try (cleanups) {
+        assertThat(KoLCharacter.getFuryLimit(), is(0));
+      }
+    }
+
+    @Test
+    void wrathlessSealClubbersHaveNoFury() {
+      var cleanups =
+          new Cleanups(
+              withClass(AscensionClass.SEAL_CLUBBER), withSkill(SkillPool.IRE_OF_THE_ORCA));
+
+      try (cleanups) {
+        assertThat(KoLCharacter.getFuryLimit(), is(0));
+      }
+    }
+
+    @Test
+    void wrathfulSealClubbersHaveThreeFury() {
+      var cleanups = new Cleanups(withWrathfulSealClubber());
+
+      try (cleanups) {
+        assertThat(KoLCharacter.getFuryLimit(), is(3));
+      }
+    }
+
+    @Test
+    void iredSealClubbersHaveFiveFury() {
+      var cleanups = new Cleanups(withWrathfulSealClubber(), withSkill(SkillPool.IRE_OF_THE_ORCA));
+
+      try (cleanups) {
+        assertThat(KoLCharacter.getFuryLimit(), is(5));
+      }
+    }
+
+    @Test
+    void legendarySealClubbingClubAddsOneFury() {
+      var cleanups =
+          new Cleanups(
+              withWrathfulSealClubber(), withEquipped(ItemPool.LEGENDARY_SEAL_CLUBBING_CLUB));
+
+      try (cleanups) {
+        assertThat(KoLCharacter.getFuryLimit(), is(4));
       }
     }
   }

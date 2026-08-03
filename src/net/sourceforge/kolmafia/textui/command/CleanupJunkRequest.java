@@ -48,8 +48,7 @@ public class CleanupJunkRequest extends AbstractCommand {
 
     List<AdventureResult> closetList = new ArrayList<>();
 
-    for (int i = 0; i < items.length; ++i) {
-      AdventureResult item = items[i];
+    for (AdventureResult item : items) {
       if (!KoLConstants.singletonList.contains(item) || KoLConstants.closet.contains(item)) {
         continue;
       }
@@ -68,8 +67,8 @@ public class CleanupJunkRequest extends AbstractCommand {
     do {
       madeUntinkerRequest = false;
 
-      for (int i = 0; i < items.length; ++i) {
-        currentItem = items[i];
+      for (AdventureResult item : items) {
+        currentItem = item;
         itemCount = currentItem.getCount(KoLConstants.inventory);
 
         if (itemCount == 0) {
@@ -115,8 +114,8 @@ public class CleanupJunkRequest extends AbstractCommand {
     if (KoLCharacter.hasSkill(SkillPool.PULVERIZE)) {
       boolean hasMalusAccess = KoLCharacter.isMuscleClass() && !KoLCharacter.isAvatarOfBoris();
 
-      for (int i = 0; i < items.length; ++i) {
-        currentItem = items[i];
+      for (AdventureResult item : items) {
+        currentItem = item;
 
         if (KoLConstants.mementoList.contains(currentItem)) {
           continue;
@@ -169,8 +168,8 @@ public class CleanupJunkRequest extends AbstractCommand {
 
     List<AdventureResult> sellList = new ArrayList<>();
 
-    for (int i = 0; i < items.length; ++i) {
-      currentItem = items[i];
+    for (AdventureResult item : items) {
+      currentItem = item;
 
       if (KoLConstants.mementoList.contains(currentItem)) {
         continue;
@@ -192,8 +191,8 @@ public class CleanupJunkRequest extends AbstractCommand {
     }
 
     if (!KoLCharacter.canInteract()) {
-      for (int i = 0; i < items.length; ++i) {
-        currentItem = items[i];
+      for (AdventureResult item : items) {
+        currentItem = item;
 
         if (KoLConstants.mementoList.contains(currentItem)) {
           continue;

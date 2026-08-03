@@ -271,6 +271,12 @@
 243	OVERCLOCK(10)	ss_overclocked.gif	passive	0	0
 244	STATS+++	ss_codeblock.gif	passive	0	0
 245	Generate Irony	book5.gif	nc,item	10	0
+246	Holiday Burial Knowledge	tombstone.gif	passive	0	0
+247	Let's Beat Up This Drunken Sailor	shanty1.gif	nc,effect,self,shanty	11	10
+248	I'm Smarter Than a Drunken Sailor	shanty2.gif	nc,effect,self,shanty	11	10
+249	Look At That Drunken Sailor Dance	shanty3.gif	nc,effect,self,shanty	11	10
+250	Who's Going to Pay This Drunken Sailor?	shanty4.gif	nc,effect,self,shanty	22	10
+251	Only Dogs Love a Drunken Sailor	shanty5.gif	nc,effect,self,shanty	22	10
 
 # Skills available to Clubbers
 
@@ -672,7 +678,7 @@
 7095	Give Your Opponent the Stinkeye	sc_eye.gif	combat	0	0
 7096	Bashing Slam Smash	sledge.gif	combat	15	0
 7097	Turtle of Seven Tails	7aspects.gif	combat	15	0
-7098	Noodles of Fire	capspoon.gif	combat	15	0
+7098	Noodles of Fire	capspoon.gif	combat,spell	15	0
 7099	Saucemageddon	windsorpan.gif	combat,spell	24	0
 7100	Funk Bluegrass Fusion	seegerbanjo.gif	combat	10	0
 7101	Extreme High Note	trikitixa.gif	combat	15	0
@@ -708,7 +714,7 @@
 7131	Kodiak Moment	bearpic.gif	combat	0	0
 7132	Grizzly Scene	slashes.gif	combat	0	0
 7133	Bear-Backrub	bear_backrub.gif	combat	0	0
-7134	Bear-ly Legal	beararm_left.gif	combat	0	0
+7134	Bear-ly Legal	origamimag.gif	combat	0	0
 7135	Bear Hug	bear_hug.gif	combat	0	0
 7136	I Can Bearly Hear You Over the Applause	bear_applause.gif	combat	0	0
 7137	Unleash Nanites	unleashnanites.gif	combat	0	0
@@ -895,7 +901,7 @@
 7318	lecture on mass	mass.gif	combat	0	0
 7319	lecture on relativity	relativity.gif	combat	0	0
 7320	Detect Weakness	retrospecs.gif	combat	0	0
-7321	Unleash Terra Cotta Army	tc_soldier,gif	combat	20	0
+7321	Unleash Terra Cotta Army	tc_soldier.gif	combat	20	0
 7322	Paraffin Prism	paraffinprism.gif	combat	30	0
 7323	Seek out a Bird	findbird.gif	nc,effect,self	5	10
 7324	CHEAT CODE: Invisible Avatar	missingavatar.gif	nc,effect,self	0	10
@@ -1134,6 +1140,36 @@
 7563	Beret Blast	prisberet_blast.gif	combat	0	0
 7564	Beret Boast	prisberet_boast.gif	combat	0	0
 7565	Beret Busking	prisberet_busk.gif	nc,self	0	0
+7566	Call in an Airstrike	missile.gif	combat	0	0
+7567	Try to Remember	realbrain.gif	combat	0	0
+7568	Sea *dent: Throw a Lightning Bolt	lightningrod.gif	combat	0	0
+7569	Sea *dent: Summon a Wave	wave.gif	nc,self	0	0
+7570	Sea *dent: Talk to Some Fish	somefish.gif	combat	1	0
+7571	BCZ: Blood Geyser	cbz_bloodgeyser.gif	combat	0	0
+7572	BCZ: Refracted Gaze	cbz_reflect.gif	combat	0	0
+7573	BCZ: Sweat Bullets	cbz_sweatbullets.gif	combat	0	0
+7574	BCZ: Blood Bath	cbz_bloodbath.gif	nc,effect,self	0	30
+7575	BCZ: Dial it up to 11	cbz_11knob.gif	nc,effect,self	0	30
+7576	BCZ: Sweat Equity	cbz_sweatequity.gif	nc,effect,self	0	30
+7577	BCZ: Create Blood Thinner	cbz_vial.gif	nc,item	0	0
+7578	BCZ: Prepare Spinal Tapas	cbz_tapasplate.gif	nc,item	0	0
+7579	BCZ: Craft a Pheromone Cocktail	cbz_booze.gif	nc,item	0	0
+7580	Mark Your Territory	hydrant.gif	combat	0	0
+7581	Prepare to reanimate your Foe	shrunkenhead.gif	combat	0	0
+7582	Club 'Em Across the Battlefield	leg_club3.gif	combat	0	0
+7583	Club 'Em Into Next Week	leg_club2.gif	combat	0	0
+7584	Club 'Em Back in Time	leg_club1.gif	combat	0	0
+7585	Steal Monster's Heart	heartstonex.gif	combat	0	0
+7586	Heartstone: %kill	heartgem.gif	combat	0	0
+7587	Heartstone: %banish	heartgem.gif	combat	0	0
+7588	Heartstone: %stun	heartgem.gif	combat	0	0
+7589	Heartstone: %luck	heartgem.gif	nc,effect,self	0	0
+7590	Heartstone: %pals	heartgem.gif	nc,effect,self	0	25
+7591	Heartstone: %buff	heartgem.gif	nc,effect,self	0	25
+7592	Wave your Pasta Wand	legpastaspoon.gif	nc,item	25	0
+7593	%fn, kill a lot of these guys	swordsword1.gif	combat	0	0
+7594	%fn, stop killing those guys	swordsword2.gif	combat	0	0
+7595	Taunt Your Foe	stocks.gif	combat	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.
@@ -1862,3 +1898,39 @@
 30019	Grit Teeth	gritteeth.gif	combat	5	0	Level: 9
 30020	Soothing Flute	flute.gif	nc,effect,self	15	10	Level: 10
 30021	Motif	motif.gif	combat	50	0	Level: 11
+
+# Meat Golem
+
+33001	Beef Shank	beefshank.gif	combat	0	0
+33002	Meat Cleaver	meatycleaver.gif	combat	0	0
+33003	Steak Through the Heart	heartstake.gif	combat	0	0
+33004	Act Jerky	jerky.gif	nc,effect,self	0	10
+33005	Stew	soupbowl.gif	nc,effect,self	0	50
+33006	Self-Tenderize	selftenderize.gif	nc,effect,self	0	100
+33007	Steak Flanks	steakflank.gif	passive	0	0
+33008	Nicely Marbled	marbled.gif	passive	0	0
+33009	Dry-Aged	dryaged.gif	passive	0	0
+33010	Pork Belly	porkbelly.gif	passive	0	0
+33011	Roastmaster	roastmaster.gif	passive	0	0
+33012	Spicy Meatball	meatball.gif	combat	0	0
+33013	Meat Cute	meatcute.gif	combat	0	0
+33014	Chew the Fat	chewthefat.gif	combat	0	0
+33015	Beef Goggles	beefgoggles.gif	nc,effect,self	0	20
+33016	Meat Loaf	jarl_meatloaf.gif	nc,effect,self	0	0
+33017	Meat Puppet	meatpuppet.gif	nc,effect,self	0	30
+33018	Perfectly Seared	grilledsteak.gif	passive	0	0
+33019	Maillard Reaction	molecule2.gif	passive	0	0
+33020	Umami	tonguewalrus.gif	passive	0	0
+33021	Rib Eyes	ribeyes.gif	passive	0	0
+33022	Tender Loins	tenderloins.gif	passive	0	0
+33023	Bacon Ray	bacon.gif	combat	0	0
+33024	Meat Locker	meatlocker2.gif	combat	0	0
+33025	Wet Rub	wetrub.gif	combat	0	0
+33026	Dark Meat	bigturkeyleg.gif	nc,effect,self	0	10
+33027	Ham It Up	ham.gif	nc,effect,self	0	10
+33028	Steak Skirt	steakskirt.gif	nc,effect,self	0	50
+33029	It's All Gravy	allgravy.gif	passive	0	0
+33030	Well-Rested	sleepy.gif	passive	0	0
+33031	Caramelized Fat	caramelfat.gif	passive	0	0
+33032	Chicken Fingers	chickenfingers.gif	passive	0	0
+33033	Grass-Fed	grassfed.gif	passive	0	0

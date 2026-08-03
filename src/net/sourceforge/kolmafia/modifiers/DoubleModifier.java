@@ -295,7 +295,7 @@ public enum DoubleModifier implements Modifier {
       Pattern.compile("([+-]\\d+) Moxie Stat.*Per Fight"),
       Pattern.compile("Experience \\(Moxie\\): " + EXPR),
       "Experience (Moxie)"),
-  EFFECT_DURATION("Effect Duration", Pattern.compile("Effect Duration: " + EXPR)),
+  EFFECT_DURATION("Effect Duration", Pattern.compile("Effect Duration: " + EXPR), true),
   CANDYDROP(
       "Candy Drop",
       Pattern.compile("([+-]\\d+)% Candy Drops? [Ff]rom Monsters$"),
@@ -434,7 +434,8 @@ public enum DoubleModifier implements Modifier {
   ROLLOVER_EFFECT_DURATION(
       "Rollover Effect Duration",
       Pattern.compile("Grants (\\d+) Adventures of <b>.*?</b> at Rollover"),
-      Pattern.compile("Rollover Effect Duration: " + EXPR)),
+      Pattern.compile("Rollover Effect Duration: " + EXPR),
+      true),
   SIXGUN_DAMAGE("Sixgun Damage", Pattern.compile("Sixgun Damage: " + EXPR)),
   FISHING_SKILL(
       "Fishing Skill",
@@ -549,7 +550,7 @@ public enum DoubleModifier implements Modifier {
   PIECE_OF_TWELVE_DROP("Piece of Twelve Drop", Pattern.compile("Piece of Twelve Drop: " + EXPR)),
   COMBAT_ITEM_DAMAGE_PCT(
       "Combat Item Damage Percent",
-      Pattern.compile("Combat items deal ([+-]\\d+)% more damage"),
+      Pattern.compile("Combat items deal ([+-]?\\d+)% more damage"),
       Pattern.compile("Combat Item Damage Percent: " + EXPR)),
   AVOID_ATTACK(
       "Avoid Attack",
@@ -585,17 +586,38 @@ public enum DoubleModifier implements Modifier {
       "Damage vs. Undead",
       Pattern.compile("([+-]\\d+) Damage vs. Undead"),
       Pattern.compile("Damage vs. Undead: " + EXPR)),
+  MERKIN_DAMAGE(
+      "Damage vs. Mer-kin",
+      Pattern.compile("([+-]\\d+)% Damage vs. Mer-kin"),
+      Pattern.compile("Damage vs. Mer-kin: " + EXPR)),
+  ORC_DAMAGE(
+      "Damage vs. Orcs",
+      Pattern.compile("([+-]\\d+) Damage vs. Orcs"),
+      Pattern.compile("Damage vs. Orcs: " + EXPR)),
+  SEAL_DAMAGE(
+      "Damage vs. Seals",
+      Pattern.compile("([+-]\\d+)% Damage vs. Seals"),
+      Pattern.compile("Damage vs. Seals: " + EXPR)),
   RAM("RAM", Pattern.compile("([+-]\\d+) RAM"), Pattern.compile("RAM: " + EXPR)),
   LANTERN("Lantern", Pattern.compile("Lantern: " + EXPR)),
-  RAW_COMBAT_RATE("Raw Combat Rate", null);
+  RAW_COMBAT_RATE("Raw Combat Rate", null),
+  PASTA_THRALL_EXPERIENCE(
+      "Pasta Thrall Experience",
+      Pattern.compile("([+-]\\d+) Pasta Thrall Experience"),
+      Pattern.compile("Pasta Thrall Experience: " + EXPR));
 
   private final String name;
   private final Pattern[] descPatterns;
   private final Pattern tagPattern;
   private final String tag;
+  private final boolean multiple;
 
   DoubleModifier(String name, Pattern tagPattern) {
     this(name, (Pattern[]) null, tagPattern, name);
+  }
+
+  DoubleModifier(String name, Pattern tagPattern, boolean multiple) {
+    this(name, (Pattern[]) null, tagPattern, name, multiple);
   }
 
   DoubleModifier(String name, Pattern tagPattern, String tag) {
@@ -604,6 +626,10 @@ public enum DoubleModifier implements Modifier {
 
   DoubleModifier(String name, Pattern descPattern, Pattern tagPattern) {
     this(name, new Pattern[] {descPattern}, tagPattern, name);
+  }
+
+  DoubleModifier(String name, Pattern descPattern, Pattern tagPattern, boolean multiple) {
+    this(name, new Pattern[] {descPattern}, tagPattern, name, multiple);
   }
 
   DoubleModifier(String name, Pattern descPattern, Pattern tagPattern, String tag) {
@@ -615,10 +641,16 @@ public enum DoubleModifier implements Modifier {
   }
 
   DoubleModifier(String name, Pattern[] descPatterns, Pattern tagPattern, String tag) {
+    this(name, descPatterns, tagPattern, tag, false);
+  }
+
+  DoubleModifier(
+      String name, Pattern[] descPatterns, Pattern tagPattern, String tag, boolean multiple) {
     this.name = name;
     this.descPatterns = descPatterns;
     this.tagPattern = tagPattern;
     this.tag = tag;
+    this.multiple = multiple;
   }
 
   @Override
@@ -641,9 +673,13 @@ public enum DoubleModifier implements Modifier {
     return tag;
   }
 
+  public boolean isMultiple() {
+    return multiple;
+  }
+
   @Override
   public ModifierValueType getType() {
-    return ModifierValueType.NUMERIC;
+    return multiple ? ModifierValueType.MULTINUMERIC : ModifierValueType.NUMERIC;
   }
 
   @Override

@@ -1074,13 +1074,13 @@ public class ShowDescriptionTable<E> extends JXTable {
 
     StringBuilder buffer = new StringBuilder();
     List<TableColumn> cols = this.getColumns(true);
-    for (int i = 0; i < cols.size(); ++i) {
+    for (TableColumn col : cols) {
       if (buffer.length() > 0) {
         buffer.append("|");
       }
-      buffer.append(cols.get(i).getHeaderValue());
+      buffer.append(col.getHeaderValue());
       buffer.append(":");
-      buffer.append(convertColumnIndexToView(cols.get(i).getModelIndex()));
+      buffer.append(convertColumnIndexToView(col.getModelIndex()));
     }
     buffer.append(";");
     return buffer.toString();
@@ -1118,7 +1118,7 @@ public class ShowDescriptionTable<E> extends JXTable {
         // find the column that matches the name
         if (t.getHeaderValue().toString().equals(it[0])) {
           // set it visible if its index isn't -1
-          this.getColumnExt(t.getHeaderValue()).setVisible(Integer.valueOf(it[1]) >= 0);
+          this.getColumnExt(t.getHeaderValue()).setVisible(Integer.parseInt(it[1]) >= 0);
           break;
         }
       }
@@ -1131,13 +1131,13 @@ public class ShowDescriptionTable<E> extends JXTable {
         // malformed, no idea how that happened. punt
         return;
       }
-      if (Integer.valueOf(it[1]) < 0) {
+      if (Integer.parseInt(it[1]) < 0) {
         // Once we hit the negative ones, they're all negative after that. We're done.
         break;
       }
       for (TableColumn t : cols) {
         if (t.getHeaderValue().toString().equals(it[0])) {
-          this.moveColumn(convertColumnIndexToView(t.getModelIndex()), Integer.valueOf(it[1]));
+          this.moveColumn(convertColumnIndexToView(t.getModelIndex()), Integer.parseInt(it[1]));
           break;
         }
       }

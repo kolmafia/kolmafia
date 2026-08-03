@@ -194,7 +194,7 @@ public class TimeSpinnerCommand extends AbstractCommand {
       String[] spinnerFoods = Preferences.getString("_timeSpinnerFoodAvailable").split(",");
       RequestLogger.printLine("Available food:");
       for (String food : spinnerFoods) {
-        AdventureResult item = ItemPool.get(Integer.valueOf(food));
+        AdventureResult item = ItemPool.get(Integer.parseInt(food));
         RequestLogger.printLine(item.getName());
       }
       return;

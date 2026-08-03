@@ -2,12 +2,14 @@ package net.sourceforge.kolmafia.persistence;
 
 import static internal.helpers.Player.withItem;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
 
 import internal.helpers.Cleanups;
-import java.io.File;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -19,18 +21,52 @@ import org.junit.jupiter.params.provider.ValueSource;
 public class EquipmentDatabaseTest {
 
   @Test
+  public void itShouldReturnExpectedFieldsForKnownEquipmentRow() {
+    int itemId = ItemPool.ASPARAGUS_KNIFE;
+
+    assertThat(EquipmentDatabase.contains(itemId), is(true));
+    assertThat(EquipmentDatabase.getPower(itemId), is(15));
+    assertThat(EquipmentDatabase.getEquipRequirement(itemId), is("Mus: 0"));
+    assertThat(EquipmentDatabase.getHands(itemId), is(1));
+    assertThat(EquipmentDatabase.getItemType(itemId), is("knife"));
+    assertThat(EquipmentDatabase.getWeaponStat(itemId), is(KoLConstants.Stat.MUSCLE));
+    assertThat(EquipmentDatabase.getWeaponType(itemId), is(KoLConstants.WeaponType.MELEE));
+  }
+
+  @Test
+  public void itShouldReturnExpectedFieldsForNonShieldOffhand() {
+    int itemId = ItemPool.SEVENTEEN_BALL;
+
+    assertThat(EquipmentDatabase.contains(itemId), is(true));
+    assertThat(EquipmentDatabase.getPower(itemId), is(200));
+    assertThat(EquipmentDatabase.getEquipRequirement(itemId), is("none"));
+    assertThat(EquipmentDatabase.getHands(itemId), is(0));
+    assertThat(EquipmentDatabase.getItemType(itemId), is("offhand"));
+    assertThat(EquipmentDatabase.getWeaponStat(itemId), is(KoLConstants.Stat.NONE));
+    assertThat(EquipmentDatabase.getWeaponType(itemId), is(KoLConstants.WeaponType.NONE));
+  }
+
+  @Test
   public void itShouldWriteEquipment() {
-    // This is an awkward test because it generates a lot of coverage but verifying that file is
-    // correct
-    // depends upon the dynamic state of the equipment file.  The attempts to read the version in
-    // the source
-    // tree or jar have failed so far.  Revisit when the test environment is better understood?
-    File equip = new File("testeqf.txt");
+    ByteArrayOutputStream os = new ByteArrayOutputStream();
+    PrintStream ps = new PrintStream(os);
     EquipmentDatabase.reset();
-    EquipmentDatabase.writeEquipment(equip);
-    assertTrue(true);
-    // delete which is probably not helpful if test fails but...
-    equip.delete();
+    EquipmentDatabase.writeEquipment(ps);
+    String data = os.toString();
+
+    // Assert a spread
+    assertThat(data, containsString("4-dimensional fez\t50\tnone\n"));
+    assertThat(data, containsString("antique candy bucket\t10\tnone\n"));
+    assertThat(data, containsString("antique shield\t180\tMus: 60\tshield\n"));
+    assertThat(data, containsString("[10462]fire flower\t0\tMus: 0\t1-handed flower\n"));
+    assertThat(data, containsString("World's Blackest-Eyed Peas\t30\tnone\tcan of beans\n"));
+    assertThat(
+        data,
+        containsString(
+            """
+      [2268]Staff of Fats\t100\tMys: 35\t2-handed staff
+      [7964]Staff of Fats\t100\tMys: 35\t2-handed staff
+      """));
   }
 
   @Test
@@ -51,15 +87,50 @@ public class EquipmentDatabaseTest {
   public void itShouldGetAnOutfitAsString() {
     String bbo = EquipmentDatabase.outfitString(1, "Bugbear Costume", "bugbear.gif");
     String expected = "1\tBugbear Costume\tbugbear.gif\tbugbear beanie, bugbear bungguard";
-    assertEquals(bbo, expected);
+    assertEquals(expected, bbo);
   }
 
-  @Test
-  public void itShouldKnowSomeThingsAboutPulverization() {
-    EquipmentDatabase.initializePulverization();
-    assertFalse(EquipmentDatabase.isPulverizable(-1)); // not an item
-    assertTrue(EquipmentDatabase.isPulverizable(1)); // seal club
-    assertFalse(EquipmentDatabase.isPulverizable(26)); // quest item Dolphin Map
+  @Nested
+  class Pulverization {
+    @Test
+    public void itShouldKnowSomeThingsAboutPulverization() {
+      EquipmentDatabase.initializePulverization();
+      assertThat(EquipmentDatabase.isPulverizable(-1), is(false)); // not an item
+      assertThat(EquipmentDatabase.isPulverizable(ItemPool.SEAL_CLUB), is(true)); // seal club
+      assertThat(
+          EquipmentDatabase.isPulverizable(ItemPool.DOLPHIN_KING_MAP),
+          is(false)); // quest item Dolphin Map
+    }
+
+    @Test
+    public void pulverizationStorageShouldBehave() {
+      // negative indices - pulverization is special and -1 is trapped
+      // by code and not storage access.  -1 is returned for not-pulverizable
+      assertEquals(-1, EquipmentDatabase.getPulverization(-1));
+      assertEquals(-1, EquipmentDatabase.getPulverization(-999));
+      // there is no item 13 but it should return -1 and not an access violation
+      assertEquals(-1, EquipmentDatabase.getPulverization(13));
+      // an index past the end of the array
+      assertEquals(-1, EquipmentDatabase.getPulverization(ItemDatabase.maxItemId() + 5));
+    }
+
+    @Test
+    void trustItemsAtZeroPower() {
+      var yield = EquipmentDatabase.getPulverization(ItemPool.SHADOW_SKIN);
+      assertThat(yield, is(0x8001B002));
+    }
+
+    @Test
+    void beerGogglesTwinkly() {
+      var yield = EquipmentDatabase.getPulverization(ItemPool.BEER_GOGGLES);
+      assertThat(yield, is(0x80001002));
+    }
+
+    @Test
+    void unenchantedUseless() {
+      var yield = EquipmentDatabase.getPulverization(ItemPool.CHISEL);
+      assertThat(yield, is(ItemPool.USELESS_POWDER));
+    }
   }
 
   // This is a canary test.  There are homebrew array implementations that are used in
@@ -71,35 +142,23 @@ public class EquipmentDatabaseTest {
   @Test
   public void powerStorageShouldBehave() {
     // negative indices
-    assertEquals(EquipmentDatabase.getPower(-1), 0);
-    assertEquals(EquipmentDatabase.getPower(-999), 0);
+    assertEquals(0, EquipmentDatabase.getPower(-1));
+    assertEquals(0, EquipmentDatabase.getPower(-999));
     // there is no item 13 but it should return zero and not an access violation
-    assertEquals(EquipmentDatabase.getPower(13), 0);
+    assertEquals(0, EquipmentDatabase.getPower(13));
     // an index past the end of the array
-    assertEquals(EquipmentDatabase.getPower(ItemDatabase.maxItemId() + 5), 0);
+    assertEquals(0, EquipmentDatabase.getPower(ItemDatabase.maxItemId() + 5));
   }
 
   @Test
   public void handsStorageShouldBehave() {
     // negative indices
-    assertEquals(EquipmentDatabase.getHands(-1), 0);
-    assertEquals(EquipmentDatabase.getHands(-999), 0);
+    assertEquals(0, EquipmentDatabase.getHands(-1));
+    assertEquals(0, EquipmentDatabase.getHands(-999));
     // there is no item 13 but it should return zero and not an access violation
-    assertEquals(EquipmentDatabase.getHands(13), 0);
+    assertEquals(0, EquipmentDatabase.getHands(13));
     // an index past the end of the array
-    assertEquals(EquipmentDatabase.getHands(ItemDatabase.maxItemId() + 5), 0);
-  }
-
-  @Test
-  public void pulverizationStorageShouldBehave() {
-    // negative indices - pulverization is special and -1 is trapped
-    // by code and not storage access.  -1 is returned for not-pulverizable
-    assertEquals(EquipmentDatabase.getPulverization(-1), -1);
-    assertEquals(EquipmentDatabase.getPulverization(-999), -1);
-    // there is no item 13 but it should return -1 and not an access violation
-    assertEquals(EquipmentDatabase.getPulverization(13), -1);
-    // an index past the end of the array
-    assertEquals(EquipmentDatabase.getPulverization(ItemDatabase.maxItemId() + 5), -1);
+    assertEquals(0, EquipmentDatabase.getHands(ItemDatabase.maxItemId() + 5));
   }
 
   @Nested
@@ -131,8 +190,8 @@ public class EquipmentDatabaseTest {
         assertThat(treats, hasSize(hasRussianIce ? 1 : 0));
 
         if (hasRussianIce) {
-          assertThat(treats.get(0).treat().getName(), is("double-ice gum"));
-          assertThat(treats.get(0).chance(), is(1.0));
+          assertThat(treats.getFirst().treat().getName(), is("double-ice gum"));
+          assertThat(treats.getFirst().chance(), is(1.0));
         }
       }
     }

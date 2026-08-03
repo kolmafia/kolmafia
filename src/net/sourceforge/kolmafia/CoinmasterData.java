@@ -92,6 +92,7 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   private String storageAction = null;
   private String tradeAllAction = null;
   private boolean needsPasswordHash = false;
+  private boolean useAjax = true;
 
   // False if the coinmaster doesn't sell anything that goes into
   // inventory. I.e., whether we need to construct PurchaseRequests.
@@ -117,6 +118,7 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   private Supplier<String> accessible = this::accessibleInternal;
   private Supplier<Boolean> equip = this::equipInternal;
   private Supplier<Boolean> unequip = this::unequipInternal;
+  private Function<ShopRow, Boolean> useCountField = this::useCountFieldInternal;
 
   // Constructor for CoinmasterData with only mandatory fields.
   // Optional fields can be added fluidly.
@@ -608,6 +610,20 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   }
 
   /**
+   * Specifies whether transactions with this coinmaster should use ajax.
+   *
+   * <p>For some coinmasters, we want to load the whole page after purchasing. If this is the case,
+   * call this with <code>false</code>. (<code>true
+   * </code> is the default.)
+   *
+   * @return this - Allows fluid chaining of fields
+   */
+  public CoinmasterData withAjax(boolean useAjax) {
+    this.useAjax = useAjax;
+    return this;
+  }
+
+  /**
    * Specifies that at least some transactions with this coinmaster deal with actual items from
    * inventory.
    *
@@ -785,6 +801,19 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
    */
   public CoinmasterData withUnequip(Supplier<Boolean> supplier) {
     this.unequip = supplier;
+    return this;
+  }
+
+  /**
+   * Specifies a method that determines for which shop rows the count field will be used
+   *
+   * <p>The other shop rows will visit the shop, buying items one at a time.
+   *
+   * @param function - a Function object determining shop rows that should buy all at once
+   * @return this - Allows fluid chaining of fields
+   */
+  public CoinmasterData withUseCountField(Function<ShopRow, Boolean> function) {
+    this.useCountField = function;
     return this;
   }
 
@@ -1044,6 +1073,10 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
     return this.needsPasswordHash;
   }
 
+  public final boolean useAjax() {
+    return this.useAjax;
+  }
+
   public final boolean getCanPurchase() {
     return this.canPurchase;
   }
@@ -1210,10 +1243,20 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   }
 
   private AdventureResult itemBuyPriceInternal(final Integer itemId) {
-    int price = this.getBuyPrice(itemId);
-    return this.item != null
-        ? this.item.getInstance(price)
-        : this.token != null ? this.getTokenItem().getInstance(price) : null;
+    if (this.shopRows == null) {
+      int price = this.getBuyPrice(itemId);
+      return this.item != null
+          ? this.item.getInstance(price)
+          : this.token != null ? this.getTokenItem().getInstance(price) : null;
+    }
+    for (ShopRow shopRow : this.shopRows) {
+      AdventureResult item = shopRow.getItem();
+      if (item.isItem() && item.getItemId() == itemId) {
+        AdventureResult[] costs = shopRow.getCosts();
+        return (costs.length == 1) ? costs[0] : null;
+      }
+    }
+    return null;
   }
 
   public AdventureResult skillBuyPrice(final Integer skillId) {
@@ -1529,6 +1572,14 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   }
 
   public Boolean unequipInternal() {
+    return true;
+  }
+
+  public Boolean useCountField(ShopRow s) {
+    return this.useCountField.apply(s);
+  }
+
+  public Boolean useCountFieldInternal(ShopRow s) {
     return true;
   }
 

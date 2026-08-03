@@ -27,6 +27,7 @@ import net.sourceforge.kolmafia.swingui.button.InvocationButton;
 import net.sourceforge.kolmafia.swingui.button.RelayBrowserButton;
 import net.sourceforge.kolmafia.swingui.listener.TabFocusingListener;
 import net.sourceforge.kolmafia.utilities.PauseObject;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.RelayLoader;
 
 public class KoLDesktop extends GenericFrame {
@@ -89,7 +90,7 @@ public class KoLDesktop extends GenericFrame {
     KoLmafiaGUI.checkFrameSettings();
 
     String interfaceSetting = Preferences.getString("initialDesktop");
-    for (String frameName : interfaceSetting.split("\\s*,\\s*")) {
+    for (String frameName : StringUtilities.splitByComma(interfaceSetting)) {
       if (frameName.equals("LocalRelayServer")) {
         RelayLoader.startRelayServer();
         continue;

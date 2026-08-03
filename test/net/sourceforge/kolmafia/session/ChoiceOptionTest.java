@@ -20,7 +20,7 @@ public class ChoiceOptionTest {
 
     // Force ChoiceManager to be loaded first
     String result = ChoiceManager.specialChoiceDecision1(546, "13", 0, "");
-    assertEquals(result, "0");
+    assertEquals("0", result);
     // Now load ChoiceAdventures
     var adventure = ChoiceAdventures.choiceToChoiceAdventure.get(546);
     assertNotNull(adventure);

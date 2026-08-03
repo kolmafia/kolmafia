@@ -6,6 +6,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
 
+import internal.helpers.RequestLoggerOutput;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -306,6 +307,8 @@ class StringUtilitiesTest {
     "' + 12,345', 12345",
     "'',0",
     "'+', 0",
+    "'900-', 0",
+    "'-', 0",
     "'12345', 12345",
     "'-12345', -12345",
     "'9,223,372,036,854,775,807', 9223372036854775807",
@@ -316,6 +319,23 @@ class StringUtilitiesTest {
   })
   public void itShouldExerciseSomeLaxLongParsing(String input, long expected) {
     assertEquals(expected, StringUtilities.parseLongInternal2(input), input);
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+    // single-hyphen name: used to produce "- is out of range, returning 0"
+    "'zero-trust tanktop'",
+    // multi-hyphen name: used to produce "--- is out of range, returning 0"
+    "'familiar-in-the-middle wrapper'",
+    // digits followed by hyphen: used to produce "900- is out of range, returning 0"
+    "'bottle of Fishhead 900-Day IPA'",
+  })
+  public void itShouldNotLogErrorForHyphenatedNonNumericStrings(String input) {
+    RequestLoggerOutput.startStream();
+    long result = StringUtilities.parseLongInternal2(input);
+    String logged = RequestLoggerOutput.stopStream();
+    assertEquals(0L, result, input);
+    assertEquals("", logged, "expected no log output for: " + input);
   }
 
   @ParameterizedTest
@@ -477,7 +497,7 @@ class StringUtilitiesTest {
     StringBuffer input = new StringBuffer();
     input.append("Substitute in me.");
     StringUtilities.globalStringReplace(input, "e", 3);
-    assertEquals(input.toString(), "Substitut3 in m3.");
+    assertEquals("Substitut3 in m3.", input.toString());
   }
 
   @ParameterizedTest
@@ -797,5 +817,38 @@ class StringUtilitiesTest {
   })
   void parseRomanNumerals(final String roman, final Integer value) {
     assertThat(StringUtilities.parseRomanNumerals(roman), is(value));
+  }
+
+  @Nested
+  class SplitByComma {
+    @Test
+    void splitsSimpleCommaDelimited() {
+      assertArrayEquals(new String[] {"a", "b", "c"}, StringUtilities.splitByComma("a,b,c"));
+    }
+
+    @Test
+    void trimsWhitespaceAroundCommas() {
+      assertArrayEquals(new String[] {"a", "b", "c"}, StringUtilities.splitByComma("a , b , c"));
+    }
+
+    @Test
+    void handlesSingleValue() {
+      assertArrayEquals(new String[] {"hello"}, StringUtilities.splitByComma("hello"));
+    }
+
+    @Test
+    void handlesEmptyString() {
+      assertArrayEquals(new String[] {""}, StringUtilities.splitByComma(""));
+    }
+
+    @Test
+    void discardsTrailingEmptyStrings() {
+      assertArrayEquals(new String[] {"a", "b"}, StringUtilities.splitByComma("a,b,"));
+    }
+
+    @Test
+    void preservesEmptyMiddleElements() {
+      assertArrayEquals(new String[] {"a", "", "c"}, StringUtilities.splitByComma("a,,c"));
+    }
   }
 }

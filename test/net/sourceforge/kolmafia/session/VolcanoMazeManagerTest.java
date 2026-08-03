@@ -258,10 +258,10 @@ public class VolcanoMazeManagerTest {
         request.run();
 
         assertEquals(Preferences.getString("volcanoMaze1"), properties.get("volcanoMaze1"));
-        assertEquals(Preferences.getString("volcanoMaze2"), "");
-        assertEquals(Preferences.getString("volcanoMaze3"), "");
-        assertEquals(Preferences.getString("volcanoMaze4"), "");
-        assertEquals(Preferences.getString("volcanoMaze5"), "");
+        assertEquals("", Preferences.getString("volcanoMaze2"));
+        assertEquals("", Preferences.getString("volcanoMaze3"));
+        assertEquals("", Preferences.getString("volcanoMaze4"));
+        assertEquals("", Preferences.getString("volcanoMaze5"));
       }
     }
 

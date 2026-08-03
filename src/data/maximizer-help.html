@@ -44,8 +44,8 @@ Slot names can be used as keywords:
 <br><b>knife</b> - With positive weight, only knives will be considered for your main-hand.
 <br><b>accordion</b> - With positive weight, only accordions will be considered for your main-hand.
 <br><b>current</b> - By default Maximizer considers your current equipment in Hardcore and Ronin. With -current keyword it does not, with +current keyword in aftercore it forces it to be considered. Not considering current equipment will reduce the number of combinations considered, but will sometimes mean changes of equipment are suggested even though they don't improve what you are wearing.
-<br><b>equip <i>item</i></b> - The specified item is required (positive weight) or forbidden (negative weight).  Multiple uses of <b>+equip</b> require all of the items to be equipped.
-<br><b>bonus <i>item</i></b> - The specified item is given a bonus to its score equivalent to weight.
+<br><b>equip <i>item</i></b> - The specified item is required (positive weight) or forbidden (negative weight).  Multiple uses of <b>+equip</b> require all of the items to be equipped. Modeable items such as <i>backup camera</i> can specify a mode <b>+equip backup camera (ml)</b> in parentheses. If a mode was already specified, maximizer will fail. Some attributes such as <b>sea</b> and <b>shield</b> have defined default modes for items, if you are experiencing issues, try moving the <b>equip</b> attribute before these attributes.
+<br><b>bonus <i>item</i></b> - The specified item is given a bonus to its score equivalent to weight. Modeable items such as <i>backup camera</i> can specify a mode <b>+10 bonus backup camera (ml)</b> in parentheses.
 <br><b>outfit <i>name</i></b> - The specified standard outfit is required or forbidden.  If the name is omitted, the currently equipped outfit is used.  Multiple uses of <b>+outfit</b> are satisfied by any one of the outfits (since you can't be wearing more than one at a time).
 <br><b>pirate</b> - With positive weight, wear either Swashbuckling outfit or Pirate Fledges.
 <br><b>plumber</b> - If a plumber, require a plumber-specific weapon to be equipped (required to adventure).
@@ -64,6 +64,8 @@ If the Max Price field is zero or blank, the limit will be the smaller of your a
 Prices are based on the mall price database, so if the price has been looked up in the last 7 days that value is used, otherwise the current mall price is queried. If preference <b>maximizerCurrentMallPrices</b> is set to <b>true</b> the current mall price is always queried, this will be much slower and cause many more server hits.
 <p>
 You can select multiple boosts, and the title of the list will indicate the net effect of applying them all - note that this isn't always just the sum of their individual effects.
+<p>
+Filtering checks that all the space separated words are present in the text displayed. You can use flags for custom behaviour: <b>'</b> starting a word will use literal substrings instead of Mafia's fuzzy matching. <b>!</b> starting a word will check for the absence of that word. For example, you could search <i>!monkeypaw !genie !cargo</i> to exclude effects that require wishes.
 <h3>CLI Use</h3>
 The Modifier Maximizer can be invoked from the gCLI or a script via <b>maximize <i>expression</i></b>, and will behave as if you'd selected Equipment: on-hand only, Max Price: don't check, and turned off the Include option.  The best equipment will automatically be equipped (unless you invoked the command as <b>maximize? <i>expression</i></b>), but you'll still need to visit the GUI to apply effect boosts - there are too many factors in choosing between the available boosts for that to be safely automated.  An error will be generated if the equipment changes weren't sufficient to fulfill all <b>min</b> keywords in the expression.
 <h3>Limitations &amp; Bugs</h3>

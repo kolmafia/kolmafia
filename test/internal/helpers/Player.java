@@ -6,6 +6,8 @@ import internal.network.FakeHttpResponse;
 import java.io.File;
 import java.io.IOException;
 import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.time.LocalDateTime;
@@ -18,7 +20,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.BiConsumer;
+import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.zip.GZIPOutputStream;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
@@ -44,7 +48,20 @@ import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.persistence.*;
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
+import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.EffectDatabase;
+import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.persistence.HolidayDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase;
+import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase;
+import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.BasementRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
@@ -221,6 +238,21 @@ public class Player {
   }
 
   /**
+   * Have the given outfit in inventory
+   *
+   * @param outfitId Outfit to have in inventory
+   * @return Restores previous equipment
+   */
+  public static Cleanups withEquippableOutfit(final int outfitId) {
+    var cleanups = new Cleanups();
+    cleanups.addCleanups(
+        Arrays.stream(EquipmentDatabase.getOutfit(outfitId).getPieces())
+            .map(piece -> withEquippableItem(piece.getItemId()))
+            .collect(Collectors.toList()));
+    return cleanups;
+  }
+
+  /**
    * Equip the given number of fake hands
    *
    * @param fakeHands Number of fake hands to equip
@@ -280,6 +312,16 @@ public class Player {
   public static Cleanups withNoItems() {
     KoLConstants.inventory.clear();
     return new Cleanups(KoLConstants.inventory::clear);
+  }
+
+  /**
+   * Clears Closet
+   *
+   * @return Clears closet
+   */
+  public static Cleanups withNoItemsInCloset() {
+    KoLConstants.closet.clear();
+    return new Cleanups(KoLConstants.closet::clear);
   }
 
   /**
@@ -710,22 +752,10 @@ public class Player {
    * @return Resets to previous value
    */
   public static Cleanups withClanFurniture(final String... furniture) {
-    var cleanups = new Cleanups();
     var rumpus = ClanManager.getClanRumpus();
 
-    for (var f : furniture) {
-      var old = rumpus.contains(f);
-      ClanManager.addToRumpus(f);
-
-      cleanups.add(
-          () -> {
-            if (!old) {
-              ClanManager.removeFromRumpus(f);
-            }
-          });
-    }
-
-    return cleanups;
+    ClanManager.setClanRumpus(new ArrayList<>(List.of(furniture)));
+    return new Cleanups(() -> ClanManager.setClanRumpus(rumpus));
   }
 
   /**
@@ -834,6 +864,18 @@ public class Player {
   public static Cleanups withFamiliarInTerrarium(final int familiarId, final int experience) {
     var familiar = FamiliarData.registerFamiliar(familiarId, experience);
     KoLCharacter.addFamiliar(familiar);
+    return new Cleanups(() -> KoLCharacter.removeFamiliar(familiar));
+  }
+
+  /**
+   * Removes familiar from player's terrarium
+   *
+   * @param familiarId Familiar to remove
+   * @return Removes familiar removed if it was added by test
+   */
+  public static Cleanups withoutFamiliarInTerrarium(final int familiarId) {
+    var familiar = FamiliarData.registerFamiliar(familiarId, 0);
+    KoLCharacter.removeFamiliar(familiar);
     return new Cleanups(() -> KoLCharacter.removeFamiliar(familiar));
   }
 
@@ -1171,7 +1213,8 @@ public class Player {
    * @return Resets stats to zero
    */
   public static Cleanups withStats(final int muscle, final int mysticality, final int moxie) {
-    return withSubStats(muscle * muscle, mysticality * mysticality, moxie * moxie);
+    return withSubStats(
+        (long) muscle * muscle, (long) mysticality * mysticality, (long) moxie * moxie);
   }
 
   /**
@@ -1405,8 +1448,8 @@ public class Player {
   /**
    * Sets the player's pvp attacks left
    *
-   * @param fullness Desired fullness
-   * @return Resets fullness to previous value
+   * @param attacks Desired attacks
+   * @return Resets attacks to previous value
    */
   public static Cleanups withAttacksLeft(final int attacks) {
     var old = KoLCharacter.getAttacksLeft();
@@ -2023,10 +2066,7 @@ public class Player {
   public static Cleanups withPasswordHash(String passwordHash) {
     var old = GenericRequest.passwordHash;
     GenericRequest.setPasswordHash(passwordHash);
-    return new Cleanups(
-        () -> {
-          GenericRequest.setPasswordHash(old);
-        });
+    return new Cleanups(() -> GenericRequest.setPasswordHash(old));
   }
 
   /**
@@ -2093,16 +2133,39 @@ public class Player {
    * @param responseMap Map of responses, keyed by request.
    * @return Cleans up so this response is not given afterwards.
    */
-  public static Cleanups withResponseMap(final Map<String, FakeHttpResponse<String>> responseMap) {
+  public static Cleanups withResponses(final Map<String, FakeHttpResponse<String>> responseMap) {
     var old = HttpUtilities.getClientBuilder();
     var builder = new FakeHttpClientBuilder();
     HttpUtilities.setClientBuilder(() -> builder);
     GenericRequest.resetClient();
     GenericRequest.sessionId = "TEST"; // we fake the client, so "run" the requests
 
-    for (var entry : responseMap.entrySet()) {
-      builder.client.addResponse(entry.getKey(), entry.getValue());
-    }
+    builder.client.setResponseFunc(r -> responseMap.get(r.uri().toString()));
+
+    return new Cleanups(
+        () -> {
+          GenericRequest.sessionId = null;
+          HttpUtilities.setClientBuilder(() -> old);
+          GenericRequest.resetClient();
+        });
+  }
+
+  /**
+   * Sets next response to a GenericRequest Note that this uses its own FakeHttpClientBuilder so
+   * getRequests() will not work on one set separately
+   *
+   * @param responseFunc Function returning responses, keyed by request.
+   * @return Cleans up so this response is not given afterwards.
+   */
+  public static Cleanups withResponses(
+      final Function<HttpRequest, FakeHttpResponse<String>> responseFunc) {
+    var old = HttpUtilities.getClientBuilder();
+    var builder = new FakeHttpClientBuilder();
+    HttpUtilities.setClientBuilder(() -> builder);
+    GenericRequest.resetClient();
+    GenericRequest.sessionId = "TEST"; // we fake the client, so "run" the requests
+
+    builder.client.setResponseFunc(responseFunc);
 
     return new Cleanups(
         () -> {
@@ -2122,17 +2185,20 @@ public class Player {
   public static Cleanups withChoice(final int choice, final String responseText) {
     var oldChoice = ChoiceManager.lastChoice;
     var oldDecision = ChoiceManager.lastDecision;
+    var oldResponseText = ChoiceManager.lastResponseText;
 
     var req = new GenericRequest("choice.php?whichchoice=" + choice);
     req.responseText = responseText;
 
     ChoiceManager.preChoice(req);
+    ChoiceManager.lastResponseText = responseText;
     ChoiceControl.visitChoice(req);
 
     return new Cleanups(
         () -> {
           ChoiceManager.lastChoice = oldChoice;
           ChoiceManager.lastDecision = oldDecision;
+          ChoiceManager.lastResponseText = oldResponseText;
         });
   }
 
@@ -2144,7 +2210,7 @@ public class Player {
       final String responseText) {
     ChoiceManager.lastChoice = choice;
     ChoiceManager.lastDecision = decision;
-    var url = "choice.php?choice=" + choice + "&option=" + decision;
+    var url = "choice.php?whichchoice=" + choice + "&option=" + decision;
     if (extra != null) url = url + "&" + extra;
     var req = new GenericRequest(url);
     req.responseText = responseText;
@@ -2716,10 +2782,7 @@ public class Player {
   public static Cleanups withTopMenuStyle(final TopMenuStyle style) {
     var oldStyle = GenericRequest.topMenuStyle;
     GenericRequest.topMenuStyle = style;
-    return new Cleanups(
-        () -> {
-          GenericRequest.topMenuStyle = oldStyle;
-        });
+    return new Cleanups(() -> GenericRequest.topMenuStyle = oldStyle);
   }
 
   /**
@@ -2731,10 +2794,7 @@ public class Player {
   public static Cleanups withUserId(final int id) {
     var oldId = KoLCharacter.getUserId();
     KoLCharacter.setUserId(id);
-    return new Cleanups(
-        () -> {
-          KoLCharacter.setUserId(oldId);
-        });
+    return new Cleanups(() -> KoLCharacter.setUserId(oldId));
   }
 
   /**
@@ -2875,10 +2935,7 @@ public class Player {
     } catch (IOException e) {
       System.out.println(e + " while copying " + sourceName + " to " + destinationName + ".");
     }
-    return new Cleanups(
-        () -> {
-          destinationFile.delete();
-        });
+    return new Cleanups(destinationFile::delete);
   }
 
   /**
@@ -2891,6 +2948,39 @@ public class Player {
    */
   public static Cleanups withDataFile(String sourceName) {
     return withDataFile(sourceName, sourceName);
+  }
+
+  public static Cleanups withSessionFile(String fileName, String contents) {
+    File sessionFile = new File(KoLConstants.SESSIONS_LOCATION, fileName);
+    File parent = sessionFile.getParentFile();
+    if (parent != null) {
+      parent.mkdirs();
+    }
+
+    try {
+      Files.writeString(sessionFile.toPath(), contents);
+    } catch (IOException e) {
+      throw new RuntimeException("Unable to create session file " + sessionFile, e);
+    }
+
+    return new Cleanups(sessionFile::delete);
+  }
+
+  public static Cleanups withGzippedSessionFile(String fileName, String contents) {
+    File sessionFile = new File(KoLConstants.SESSIONS_LOCATION, fileName);
+    File parent = sessionFile.getParentFile();
+    if (parent != null) {
+      parent.mkdirs();
+    }
+
+    try (var stream = Files.newOutputStream(sessionFile.toPath());
+        var gzip = new GZIPOutputStream(stream)) {
+      gzip.write(contents.getBytes(StandardCharsets.UTF_8));
+    } catch (IOException e) {
+      throw new RuntimeException("Unable to create gzipped session file " + sessionFile, e);
+    }
+
+    return new Cleanups(sessionFile::delete);
   }
 
   /**
@@ -2931,10 +3021,7 @@ public class Player {
   public static Cleanups withGoal(final AdventureResult goal) {
     var goals = GoalManager.getGoals();
     GoalManager.addGoal(goal);
-    return new Cleanups(
-        () -> {
-          GoalManager.addGoal(goal.getNegation());
-        });
+    return new Cleanups(() -> GoalManager.addGoal(goal.getNegation()));
   }
 
   private static void updateMallResults(int itemId, List<PurchaseRequest> results) {
@@ -2990,5 +3077,41 @@ public class Player {
     boolean oldKnown = KoLCharacter.getGuildStoreOpen();
     KoLCharacter.setGuildStoreOpen(storeOpen);
     return new Cleanups(() -> KoLCharacter.setGuildStoreOpen(oldKnown));
+  }
+
+  /**
+   * Set Paradoxicity.
+   *
+   * @param paradoxicity paradoxicity count
+   * @return restores previous state of paradoxicity
+   */
+  public static Cleanups withParadoxicity(final int paradoxicity) {
+    int old = KoLCharacter.getParadoxicity();
+    KoLCharacter.setParadoxicity(paradoxicity);
+    return new Cleanups(() -> KoLCharacter.setParadoxicity(old));
+  }
+
+  /**
+   * Sets the current global day
+   *
+   * @param globalDay The current global day to use
+   * @return Returns value to previous value
+   */
+  public static Cleanups withGlobalDay(final int globalDay) {
+    var oldDays = KoLCharacter.getGlobalDays();
+    KoLCharacter.setGlobalDays(globalDay);
+    return new Cleanups(() -> KoLCharacter.setGlobalDays(oldDays));
+  }
+
+  /**
+   * Sets the FightRequest current encounter string
+   *
+   * @param currentEncounter Current encounter name
+   * @return Resets to previous value
+   */
+  public static Cleanups withCurrentEncounter(final String currentEncounter) {
+    var old = FightRequest.currentEncounter;
+    FightRequest.currentEncounter = currentEncounter;
+    return new Cleanups(() -> FightRequest.setCurrentEncounter(old));
   }
 }

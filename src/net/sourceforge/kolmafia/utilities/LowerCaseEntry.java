@@ -1,6 +1,5 @@
 package net.sourceforge.kolmafia.utilities;
 
-import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.Set;
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -83,9 +82,8 @@ public class LowerCaseEntry<K, V> implements Entry<K, V> {
       final Set<Entry<K, V>> entries) {
     LockableListModel<LowerCaseEntry<K, V>> model = new LockableListModel<>();
 
-    Iterator<Entry<K, V>> it = entries.iterator();
-    while (it.hasNext()) {
-      model.add(new LowerCaseEntry<>(it.next()));
+    for (Entry<K, V> entry : entries) {
+      model.add(new LowerCaseEntry<>(entry));
     }
 
     return model;

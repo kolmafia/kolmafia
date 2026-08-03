@@ -24,9 +24,7 @@ public class IntegerRenderer extends DefaultTableCellRenderer {
     }
 
     int intValue =
-        value instanceof Integer
-            ? ((Integer) value).intValue()
-            : StringUtilities.parseInt(value.toString());
+        value instanceof Integer ? (Integer) value : StringUtilities.parseInt(value.toString());
 
     String stringValue = KoLConstants.COMMA_FORMAT.format(intValue);
     label.setText(stringValue);

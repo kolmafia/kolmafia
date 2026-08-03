@@ -16,7 +16,7 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.Speculation;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
-import net.sourceforge.kolmafia.modifiers.MultiStringModifier;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
@@ -378,40 +378,40 @@ public abstract class UseLinkDecorator {
     }
 
     switch (itemId) {
-        // If you find the wooden stakes, you want to equip them
+      // If you find the wooden stakes, you want to equip them
       case ItemPool.WOODEN_STAKES -> {
         return CraftingType.NOCREATE;
       }
 
-        // If you find goat cheese, let the trapper link handle it.
+      // If you find goat cheese, let the trapper link handle it.
       case ItemPool.GOAT_CHEESE -> {
         return CraftingType.NOCREATE;
       }
 
-        // If you find ore, let the trapper link handle it.
+      // If you find ore, let the trapper link handle it.
       case ItemPool.LINOLEUM_ORE, ItemPool.ASBESTOS_ORE, ItemPool.CHROME_ORE -> {
         return CraftingType.NOCREATE;
       }
 
-        // Dictionaries and bridges should link to the chasm quest.
+      // Dictionaries and bridges should link to the chasm quest.
       case ItemPool.DICTIONARY, ItemPool.BRIDGE -> {
         return CraftingType.NOCREATE;
       }
 
-        // The eyepatch can be combined, but is usually an outfit piece
-        // The dreadsack can be combined, but is usually an outfit piece
-        // The frilly skirt is usually used for the frathouse blueprints
+      // The eyepatch can be combined, but is usually an outfit piece
+      // The dreadsack can be combined, but is usually an outfit piece
+      // The frilly skirt is usually used for the frathouse blueprints
       case ItemPool.EYEPATCH, ItemPool.DREADSACK, ItemPool.FRILLY_SKIRT -> {
         return CraftingType.NOCREATE;
       }
 
-        // Spooky Fertilizer CAN be cooked, but almost always is used
-        // for with the spooky temple map.
+      // Spooky Fertilizer CAN be cooked, but almost always is used
+      // for with the spooky temple map.
       case ItemPool.SPOOKY_FERTILIZER -> {
         return CraftingType.NOCREATE;
       }
 
-        // Enchanted beans are primarily used for the beanstalk quest.
+      // Enchanted beans are primarily used for the beanstalk quest.
       case ItemPool.ENCHANTED_BEAN -> {
         if (KoLCharacter.getLevel() >= 10 && !InventoryManager.hasItem(ItemPool.SOCK)) {
           return CraftingType.NOCREATE;
@@ -469,19 +469,19 @@ public abstract class UseLinkDecorator {
     UseLink link = null;
 
     switch (effect.getEffectId()) {
-      case EffectPool.FILTHWORM_LARVA_STENCH -> link =
-          new UseLink(0, "feeding chamber", "adventure.php?snarfblat=128");
-      case EffectPool.FILTHWORM_DRONE_STENCH -> link =
-          new UseLink(0, "guards' chamber", "adventure.php?snarfblat=129");
-      case EffectPool.FILTHWORM_GUARD_STENCH -> link =
-          new UseLink(0, "queen's chamber", "adventure.php?snarfblat=130");
-      case EffectPool.KNOB_GOBLIN_PERFUME -> link =
-          new UseLink(0, "throne room", "cobbsknob.php?action=throneroom");
-      case EffectPool.DOWN_THE_RABBIT_HOLE -> link =
-          new UseLink(0, "rabbit hole", "place.php?whichplace=rabbithole");
+      case EffectPool.FILTHWORM_LARVA_STENCH ->
+          link = new UseLink(0, "feeding chamber", "adventure.php?snarfblat=128");
+      case EffectPool.FILTHWORM_DRONE_STENCH ->
+          link = new UseLink(0, "guards' chamber", "adventure.php?snarfblat=129");
+      case EffectPool.FILTHWORM_GUARD_STENCH ->
+          link = new UseLink(0, "queen's chamber", "adventure.php?snarfblat=130");
+      case EffectPool.KNOB_GOBLIN_PERFUME ->
+          link = new UseLink(0, "throne room", "cobbsknob.php?action=throneroom");
+      case EffectPool.DOWN_THE_RABBIT_HOLE ->
+          link = new UseLink(0, "rabbit hole", "place.php?whichplace=rabbithole");
       case EffectPool.TRANSPONDENT -> link = new UseLink(0, "spaaace", "spaaace.php?arrive=1");
-      case EffectPool.STONE_FACED -> link =
-          new UseLink(0, "hidden temple", "adventure.php?snarfblat=280");
+      case EffectPool.STONE_FACED ->
+          link = new UseLink(0, "hidden temple", "adventure.php?snarfblat=280");
       case EffectPool.DIS_ABLED -> link = new UseLink(0, "portal to dis", "suburbandis.php");
       default -> {
         // There are several effect names which are also items.
@@ -572,8 +572,8 @@ public abstract class UseLinkDecorator {
   private static UseLink getCreateLink(
       final int itemId, final int itemCount, final CraftingType mixingMethod) {
     return switch (mixingMethod) {
-      case COMBINE, ACOMBINE, JEWELRY -> new UseLink(
-          itemId, itemCount, "combine", "craft.php?mode=combine&a=");
+      case COMBINE, ACOMBINE, JEWELRY ->
+          new UseLink(itemId, itemCount, "combine", "craft.php?mode=combine&a=");
       case MIX, MIX_FANCY -> new UseLink(itemId, itemCount, "mix", "craft.php?mode=cocktail&a=");
       case COOK, COOK_FANCY -> new UseLink(itemId, itemCount, "cook", "craft.php?mode=cook&a=");
       default -> null;
@@ -921,7 +921,7 @@ public abstract class UseLinkDecorator {
             return new UseLink(ItemPool.SPOOKY_MAP, 1, "map", "inv_use.php?which=3&whichitem=");
           }
 
-            // Soft green echo eyedrop antidote gets an uneffect link
+          // Soft green echo eyedrop antidote gets an uneffect link
 
           case ItemPool.REMEDY, ItemPool.ANCIENT_CURE_ALL -> {
             return new UseLink(itemId, 1, "use", "uneffect.php");
@@ -981,6 +981,7 @@ public abstract class UseLinkDecorator {
               ItemPool.AUTUMNATON,
               ItemPool.BLACK_AND_WHITE_APRON_MEAL_KIT,
               ItemPool.MAYAM_CALENDAR,
+              ItemPool.HANDHELD_ALLIED_RADIO,
 
               // Not inline, since the redirection to a choice
               // doesn't work ajaxified.
@@ -1010,6 +1011,7 @@ public abstract class UseLinkDecorator {
               ItemPool.AMORPHOUS_BLOB,
               ItemPool.GIANT_AMORPHOUS_BLOB,
               ItemPool.MINIATURE_EMBERING_HULK,
+              ItemPool.DURABLE_DOLPHIN_WHISTLE,
 
               // Not inline, since the redirection to a fight
               // doesn't work ajaxified.
@@ -1494,10 +1496,10 @@ public abstract class UseLinkDecorator {
               ItemPool.LOATHING_LEGION_ABACUS,
               ItemPool.LOATHING_LEGION_HELICOPTER,
               ItemPool.LOATHING_LEGION_PIZZA_STONE,
-              ItemPool.LOATHING_LEGION_HAMMER -> uses.add(
-              new UseLink(itemId, 1, "switch", "inv_use.php?which=3&switch=1&whichitem="));
-          case ItemPool.INSULT_PUPPET, ItemPool.OBSERVATIONAL_GLASSES, ItemPool.COMEDY_PROP -> uses
-              .add(
+              ItemPool.LOATHING_LEGION_HAMMER ->
+              uses.add(new UseLink(itemId, 1, "switch", "inv_use.php?which=3&switch=1&whichitem="));
+          case ItemPool.INSULT_PUPPET, ItemPool.OBSERVATIONAL_GLASSES, ItemPool.COMEDY_PROP ->
+              uses.add(
                   new UseLink(
                       itemId, itemCount, "visit mourn", "pandamonium.php?action=mourn&whichitem="));
           case ItemPool.GUZZLR_TABLET -> {
@@ -1515,6 +1517,13 @@ public abstract class UseLinkDecorator {
           }
           case ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD -> {
             uses.add(new UseLink(itemId, 1, "shower", "inventory.php?action=shower"));
+          }
+          case ItemPool.ALLIED_RADIO_BACKPACK -> {
+            uses.add(
+                new UseLink(itemId, 1, "request drop", "inventory.php?action=requestdrop", false));
+          }
+          case ItemPool.THE_ETERNITY_CODPIECE -> {
+            uses.add(new UseLink(itemId, 1, "decorate", "inventory.php?action=docodpiece", false));
           }
         }
 
@@ -1566,14 +1575,14 @@ public abstract class UseLinkDecorator {
   private static String getPotionSpeculation(String label, int itemId) {
     Modifiers mods = ModifierDatabase.getItemModifiers(itemId);
     if (mods == null) return label;
-    String effect = mods.getString(MultiStringModifier.EFFECT);
+    String effect = mods.getString(StringModifier.EFFECT);
     if (effect.equals("")) return label;
     int duration = (int) mods.getDouble(DoubleModifier.EFFECT_DURATION);
     int effectId = EffectDatabase.getEffectId(effect);
     Speculation spec = new Speculation();
     spec.addEffect(EffectPool.get(effectId, Math.max(1, duration)));
     mods = spec.calculate();
-    mods.setString(MultiStringModifier.EFFECT, effect);
+    mods.setString(StringModifier.EFFECT, effect);
     if (duration > 0) {
       mods.setDouble(DoubleModifier.EFFECT_DURATION, (float) duration);
     }
@@ -1608,7 +1617,7 @@ public abstract class UseLinkDecorator {
     boolean adventureResults = location.startsWith("fight.php");
 
     switch (itemId) {
-        // Shops
+      // Shops
       case ItemPool.FRESHWATER_FISHBONE -> {
         useType = "assemble";
         useLocation = "shop.php?whichshop=fishbones";
@@ -1625,13 +1634,13 @@ public abstract class UseLinkDecorator {
         useLocation = "shop.php?whichshop=mrreplica";
       }
 
-        // Subject 37 File goes to Cell #37
+      // Subject 37 File goes to Cell #37
       case ItemPool.SUBJECT_37_FILE -> {
         useType = "cell #37";
         useLocation = "cobbsknob.php?level=3&action=cell37";
       }
 
-        // Guild quest items go to guild chief
+      // Guild quest items go to guild chief
       case ItemPool.BIG_KNOB_SAUSAGE, ItemPool.EXORCISED_SANDWICH -> {
         useType = "guild";
         useLocation = "guild.php?place=challenge";
@@ -1641,46 +1650,46 @@ public abstract class UseLinkDecorator {
         useLocation = "inv_use.php?which=3&switch=1&whichitem=";
       }
 
-        // Game Grid tokens get a link to the arcade.
+      // Game Grid tokens get a link to the arcade.
 
       case ItemPool.GG_TOKEN -> {
         useType = "arcade";
         useLocation = "place.php?whichplace=arcade";
       }
 
-        // Game Grid tickets get a link to the arcade redemption counter.
+      // Game Grid tickets get a link to the arcade redemption counter.
 
       case ItemPool.GG_TICKET -> {
         useType = "redeem";
         useLocation = "shop.php?whichshop=arcade";
       }
 
-        // Strange leaflet gets a quick 'read' link which sends you
-        // to the leaflet completion page.
+      // Strange leaflet gets a quick 'read' link which sends you
+      // to the leaflet completion page.
 
       case ItemPool.STRANGE_LEAFLET -> {
         useType = "read";
         useLocation = "leaflet.php?action=auto";
       }
 
-        // You want to give the rusty screwdriver to the Untinker, so
-        // make it easy.
+      // You want to give the rusty screwdriver to the Untinker, so
+      // make it easy.
 
       case ItemPool.RUSTY_SCREWDRIVER -> {
         useType = "visit untinker";
         useLocation = "place.php?whichplace=forestvillage&action=fv_untinker";
       }
 
-        // Hedge maze puzzle and hedge maze key have a link to the maze
-        // for easy access.
+      // Hedge maze puzzle and hedge maze key have a link to the maze
+      // for easy access.
 
       case ItemPool.HEDGE_KEY, ItemPool.PUZZLE_PIECE -> {
         useType = "maze";
         useLocation = "hedgepuzzle.php";
       }
 
-        // Pixels have handy links indicating how many white pixels are
-        // present in the player's inventory.
+      // Pixels have handy links indicating how many white pixels are
+      // present in the player's inventory.
 
       case ItemPool.WHITE_PIXEL -> {
         if (KoLCharacter.isKingdomOfExploathing()) {
@@ -1691,8 +1700,8 @@ public abstract class UseLinkDecorator {
         return null;
       }
 
-        // Special handling for star charts, lines, and stars, where
-        // KoLmafia shows you how many of each you have.
+      // Special handling for star charts, lines, and stars, where
+      // KoLmafia shows you how many of each you have.
 
       case ItemPool.STAR_CHART, ItemPool.STAR, ItemPool.LINE -> {
         useType =
@@ -1704,7 +1713,7 @@ public abstract class UseLinkDecorator {
         useLocation = "shop.php?whichshop=starchart";
       }
 
-        // Worthless items and the hermit permit get a link to the hermit.
+      // Worthless items and the hermit permit get a link to the hermit.
 
       case ItemPool.WORTHLESS_TRINKET,
           ItemPool.WORTHLESS_GEWGAW,
@@ -1714,8 +1723,8 @@ public abstract class UseLinkDecorator {
         useLocation = "hermit.php";
       }
 
-        // The different kinds of ores will only have a link if they're
-        // the ones applicable to the trapper quest.
+      // The different kinds of ores will only have a link if they're
+      // the ones applicable to the trapper quest.
 
       case ItemPool.LINOLEUM_ORE,
           ItemPool.ASBESTOS_ORE,
@@ -1749,8 +1758,8 @@ public abstract class UseLinkDecorator {
         useLocation = "shop.php?whichshop=doc";
       }
 
-        // Disintegrating sheet music gets a link which lets you sing it
-        // to yourself. We'll call it "sing" for now.
+      // Disintegrating sheet music gets a link which lets you sing it
+      // to yourself. We'll call it "sing" for now.
 
       case ItemPool.SHEET_MUSIC -> {
         useType = "sing";
@@ -1758,7 +1767,7 @@ public abstract class UseLinkDecorator {
             "curse.php?action=use&targetplayer=" + KoLCharacter.getPlayerId() + "&whichitem=";
       }
 
-        // Link which uses the plans when you acquire the planks.
+      // Link which uses the plans when you acquire the planks.
 
       case ItemPool.DINGY_PLANKS -> {
         if (!InventoryManager.hasItem(ItemPool.DINGHY_PLANS)) {
@@ -1770,7 +1779,7 @@ public abstract class UseLinkDecorator {
         itemId = ItemPool.DINGHY_PLANS;
       }
 
-        // Link which uses the Knob map when you get the encryption key.
+      // Link which uses the Knob map when you get the encryption key.
 
       case ItemPool.ENCRYPTION_KEY -> {
         if (!InventoryManager.hasItem(ItemPool.COBBS_KNOB_MAP)) {
@@ -1782,14 +1791,14 @@ public abstract class UseLinkDecorator {
         itemId = ItemPool.COBBS_KNOB_MAP;
       }
 
-        // Link to the guild upon completion of the Citadel quest.
+      // Link to the guild upon completion of the Citadel quest.
 
       case ItemPool.CITADEL_SATCHEL, ItemPool.THICK_PADDED_ENVELOPE -> {
         useType = "guild";
         useLocation = "guild.php?place=paco";
       }
 
-        // Link to the guild when receiving guild quest items.
+      // Link to the guild when receiving guild quest items.
 
       case ItemPool.FERNSWARTHYS_KEY -> {
         // ...except that the guild gives you the key again
@@ -1806,7 +1815,7 @@ public abstract class UseLinkDecorator {
         useLocation = "guild.php?place=ocg";
       }
 
-        // Link to the impassable rubble when you have 6 fizzing spore pods
+      // Link to the impassable rubble when you have 6 fizzing spore pods
       case ItemPool.FIZZING_SPORE_POD -> {
         if (InventoryManager.getCount(ItemPool.FIZZING_SPORE_POD) >= 6
             && QuestDatabase.isQuestBefore(Quest.NEMESIS, "step15")) {
@@ -1815,14 +1824,14 @@ public abstract class UseLinkDecorator {
         }
       }
 
-        // Link to the untinker if you find an abridged dictionary.
+      // Link to the untinker if you find an abridged dictionary.
 
       case ItemPool.ABRIDGED -> {
         useType = "untinker";
         useLocation = "place.php?whichplace=forestvillage&action=fv_untinker";
       }
 
-        // Link to the chasm if you just untinkered a dictionary.
+      // Link to the chasm if you just untinkered a dictionary.
 
       case ItemPool.BRIDGE,
           ItemPool.MORNINGWOOD_PLANK,
@@ -1843,21 +1852,21 @@ public abstract class UseLinkDecorator {
         useLocation = "place.php?whichplace=orc_chasm&action=bridge" + urlEnd;
       }
 
-        // Link to the frat house if you acquired a Spanish Fly
+      // Link to the frat house if you acquired a Spanish Fly
 
       case ItemPool.SPANISH_FLY -> {
         useType = String.valueOf(InventoryManager.getCount(itemId));
         useLocation = "adventure.php?snarfblat=27";
       }
 
-        // Link to Big Brother if you pick up a sand dollar
+      // Link to Big Brother if you pick up a sand dollar
 
       case ItemPool.SAND_DOLLAR -> {
         useType = String.valueOf(InventoryManager.getCount(itemId));
         useLocation = "monkeycastle.php?who=2";
       }
 
-        // Link to the Old Man if you buy the damp old boot
+      // Link to the Old Man if you buy the damp old boot
 
       case ItemPool.DAMP_OLD_BOOT -> {
         useType = "old man";
@@ -1881,7 +1890,7 @@ public abstract class UseLinkDecorator {
         return getCouncilLink(itemId);
       }
 
-        // Link to the Pretentious Artist when you find his last tool
+      // Link to the Pretentious Artist when you find his last tool
 
       case ItemPool.PRETENTIOUS_PAINTBRUSH,
           ItemPool.PRETENTIOUS_PALETTE,
@@ -1912,8 +1921,8 @@ public abstract class UseLinkDecorator {
         useLocation = "shop.php?whichshop=sugarsheets";
       }
 
-        // Link to the kegger if you acquired a phone number. That's
-        // not useful, but having the item count in the link is
+      // Link to the kegger if you acquired a phone number. That's
+      // not useful, but having the item count in the link is
 
       case ItemPool.ORQUETTES_PHONE_NUMBER -> {
         useType = String.valueOf(InventoryManager.getCount(itemId));

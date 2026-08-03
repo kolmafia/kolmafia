@@ -36,26 +36,26 @@ public class PantogramRequest extends GenericRequest {
       // the URL in a different order.  For now at least, that is not handled.
       String stat = matcher.group(1);
       switch (stat) {
-        case "1" -> modList.addModifier("Muscle", "10");
-        case "2" -> modList.addModifier("Mysticality", "10");
-        case "3" -> modList.addModifier("Moxie", "10");
+        case "1" -> modList.addModifier("Muscle", "+10");
+        case "2" -> modList.addModifier("Mysticality", "+10");
+        case "3" -> modList.addModifier("Moxie", "+10");
       }
 
       String element = matcher.group(2);
       switch (element) {
-        case "1" -> modList.addModifier("Hot Resistance", "2");
-        case "2" -> modList.addModifier("Cold Resistance", "2");
-        case "3" -> modList.addModifier("Spooky Resistance", "2");
-        case "4" -> modList.addModifier("Sleaze Resistance", "2");
-        case "5" -> modList.addModifier("Stench Resistance", "2");
+        case "1" -> modList.addModifier("Hot Resistance", "+2");
+        case "2" -> modList.addModifier("Cold Resistance", "+2");
+        case "3" -> modList.addModifier("Spooky Resistance", "+2");
+        case "4" -> modList.addModifier("Sleaze Resistance", "+2");
+        case "5" -> modList.addModifier("Stench Resistance", "+2");
       }
 
       // Bottom left
       String slot1 = matcher.group(3);
       if (slot1.startsWith("-1")) {
-        modList.addModifier("Maximum HP", "40");
+        modList.addModifier("Maximum HP", "+40");
       } else if (slot1.startsWith("-2")) {
-        modList.addModifier("Maximum MP", "20");
+        modList.addModifier("Maximum MP", "+20");
       } else if (slot1.startsWith("464")) {
         modList.addModifier("HP Regen Min", "5");
         modList.addModifier("HP Regen Max", "10");
@@ -88,38 +88,38 @@ public class PantogramRequest extends GenericRequest {
       // Bottom right
       String slot2 = matcher.group(4);
       if (slot2.startsWith("-1")) {
-        modList.addModifier("Weapon Damage", "20");
+        modList.addModifier("Weapon Damage", "+20");
       } else if (slot2.startsWith("-2")) {
-        modList.addModifier("Spell Damage Percent", "20");
+        modList.addModifier("Spell Damage Percent", "+20");
       } else if (slot2.startsWith("173")) {
-        modList.addModifier("Meat Drop", "30");
+        modList.addModifier("Meat Drop", "+30");
         ResultProcessor.processResult(ItemPool.get(ItemPool.TACO_SHELL, -1));
       } else if (slot2.startsWith("706")) {
-        modList.addModifier("Meat Drop", "60");
+        modList.addModifier("Meat Drop", "+60");
         ResultProcessor.processResult(ItemPool.get(ItemPool.PORQUOISE, -1));
       } else if (slot2.startsWith("80")) {
-        modList.addModifier("Item Drop", "15");
+        modList.addModifier("Item Drop", "+15");
         ResultProcessor.processResult(ItemPool.get(ItemPool.GRAVY_BOAT, -1));
       } else if (slot2.startsWith("7338")) {
-        modList.addModifier("Item Drop", "30");
+        modList.addModifier("Item Drop", "+30");
         ResultProcessor.processResult(ItemPool.get(ItemPool.TINY_DANCER, -1));
       } else if (slot2.startsWith("747")) {
-        modList.addModifier("Experience (Muscle)", "3");
+        modList.addModifier("Experience (Muscle)", "+3");
         ResultProcessor.processResult(ItemPool.get(ItemPool.KNOB_FIRECRACKER, -3));
       } else if (slot2.startsWith("559")) {
-        modList.addModifier("Experience (Mysticality)", "3");
+        modList.addModifier("Experience (Mysticality)", "+3");
         ResultProcessor.processResult(ItemPool.get(ItemPool.CAN_LID, -3));
       } else if (slot2.startsWith("27")) {
-        modList.addModifier("Experience (Moxie)", "3");
+        modList.addModifier("Experience (Moxie)", "+3");
         ResultProcessor.processResult(ItemPool.get(ItemPool.SPIDER_WEB, -3));
       } else if (slot2.startsWith("7327")) {
-        modList.addModifier("Experience Percent (Muscle)", "25");
+        modList.addModifier("Experience Percent (Muscle)", "+25");
         ResultProcessor.processResult(ItemPool.get(ItemPool.SYNTHETIC_MARROW, -5));
       } else if (slot2.startsWith("7324")) {
-        modList.addModifier("Experience Percent (Mysticality)", "25");
+        modList.addModifier("Experience Percent (Mysticality)", "+25");
         ResultProcessor.processResult(ItemPool.get(ItemPool.HAUNTED_BATTERY, -5));
       } else if (slot2.startsWith("7330")) {
-        modList.addModifier("Experience Percent (Moxie)", "25");
+        modList.addModifier("Experience Percent (Moxie)", "+25");
         ResultProcessor.processResult(ItemPool.get(ItemPool.FUNK, -5));
       }
 
@@ -128,39 +128,42 @@ public class PantogramRequest extends GenericRequest {
       if (slot3.startsWith("-1")) {
         modList.addModifier("Combat Rate", "-5");
       } else if (slot3.startsWith("-2")) {
-        modList.addModifier("Combat Rate", "5");
+        modList.addModifier("Combat Rate", "+5");
       } else if (slot3.startsWith("70%")) {
-        modList.addModifier("Initiative", "50");
+        modList.addModifier("Initiative", "+50");
         ResultProcessor.processResult(ItemPool.get(ItemPool.BAR_SKIN, -1));
       } else if (slot3.startsWith("704")) {
-        modList.addModifier("Critical Hit Percent", "10");
+        modList.addModifier("Critical Hit Percent", "+10");
         ResultProcessor.processResult(ItemPool.get(ItemPool.HAMETHYST, -1));
       } else if (slot3.startsWith("865")) {
-        modList.addModifier("Familiar Weight", "10");
+        modList.addModifier("Familiar Weight", "+10");
         ResultProcessor.processResult(ItemPool.get(ItemPool.LEAD_NECKLACE, -11));
       } else if (slot3.startsWith("6851")) {
-        modList.addModifier("Candy Drop", "100");
+        modList.addModifier("Candy Drop", "+100");
         ResultProcessor.processResult(ItemPool.get(ItemPool.HUGE_BOWL_OF_CANDY, -1));
       } else if (slot3.startsWith("3495")) {
-        // Makes you a better diver... not handled yet
-        // list.addModifier( "", "" );
+        // Makes you a better diver by 20%
+        modList.addModifier("Initiative Penalty", "[20*env(underwater)]");
+        modList.addModifier("Item Drop Penalty", "[20*env(underwater)]");
+        modList.addModifier("Meat Drop Penalty", "[20*env(underwater)]");
         ResultProcessor.processResult(ItemPool.get(ItemPool.SEA_SALT_CRYSTAL, -11));
       } else if (slot3.startsWith("9008")) {
-        modList.addModifier("Fishing Skill", "5");
+        modList.addModifier("Fishing Skill", "+5");
         ResultProcessor.processResult(ItemPool.get(ItemPool.WRIGGLING_WORM, -1));
       } else if (slot3.startsWith("1907")) {
-        modList.addModifier("Pool Skill", "5");
+        modList.addModifier("Pool Skill", "+5");
         ResultProcessor.processResult(ItemPool.get(ItemPool.EIGHT_BALL, -15));
       } else if (slot3.startsWith("14")) {
         // Purple Avatar
         ResultProcessor.processResult(ItemPool.get(ItemPool.MOXIE_WEED, -99));
       } else if (slot3.startsWith("24")) {
         // Occasional Hilarity
-        modList.addModifier("Drops Items", "true");
+        modList.addModifier("Drops Items", null);
         ResultProcessor.processResult(ItemPool.get(ItemPool.TEN_LEAF_CLOVER, -1));
       }
 
-      modList.addModifier("Lasts Until Rollover", "true");
+      modList.addModifier("Lasts Until Rollover", null);
+      modList.addModifier("Last Available", "\"2017-11\"");
 
       Preferences.setString("_pantogramModifier", modList.toString());
       ModifierDatabase.overrideModifier(

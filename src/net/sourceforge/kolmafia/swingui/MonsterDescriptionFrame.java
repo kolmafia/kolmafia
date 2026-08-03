@@ -31,6 +31,11 @@ public class MonsterDescriptionFrame extends DescriptionFrame {
     this.getFramePanel().add(southPanel, BorderLayout.SOUTH);
   }
 
+  @Override
+  protected String getDisplayHTML(final String responseText) {
+    return responseText;
+  }
+
   public JToolBar createMonsterToolbar() {
     JToolBar toolbarPanel = null;
 

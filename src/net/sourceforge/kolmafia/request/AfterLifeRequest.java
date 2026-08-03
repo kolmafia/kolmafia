@@ -4,12 +4,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AscensionPath;
 import net.sourceforge.kolmafia.AscensionPath.Path;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.session.ValhallaManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class AfterLifeRequest extends GenericRequest {
@@ -32,6 +34,20 @@ public class AfterLifeRequest extends GenericRequest {
   public static boolean parseResponse(final String urlString, final String responseText) {
     if (!urlString.startsWith("afterlife.php")) {
       return false;
+    }
+
+    if (responseText.isBlank()) {
+      String errorMsg =
+          "Received an empty response from afterlife.php. You are probably not in Valhalla.";
+      KoLmafia.updateDisplay(MafiaState.ERROR, errorMsg);
+      RequestLogger.updateSessionLog(errorMsg);
+      return false;
+    }
+
+    // If the response isn't empty, we're actually in Valhalla.
+    // If this is not set to -1 then we haven't yet processed the ascension.
+    if (Preferences.getInteger("lastBreakfast") != -1) {
+      ValhallaManager.onAscension();
     }
 
     // If this is our first visit to the afterlife - we are outside
@@ -177,9 +193,9 @@ public class AfterLifeRequest extends GenericRequest {
     switch (action) {
       case "pearlygates" -> message = "Welcome to Valhalla!";
 
-        // Perming a skill
-        // afterlife.php?action=scperm&whichskill=6027
-        // afterlife.php?action=hcperm&whichskill=6027
+      // Perming a skill
+      // afterlife.php?action=scperm&whichskill=6027
+      // afterlife.php?action=hcperm&whichskill=6027
       case "scperm", "hcperm" -> {
         Matcher m = SKILL_PATTERN.matcher(urlString);
         if (!m.find()) {
@@ -204,8 +220,8 @@ public class AfterLifeRequest extends GenericRequest {
                 + ")";
       }
 
-        // Returning a skill
-        // afterlife.php?action=returnskill&classid=6&skillid=27&hc=1
+      // Returning a skill
+      // afterlife.php?action=returnskill&classid=6&skillid=27&hc=1
       case "returnskill" -> {
         Matcher m = CLASSID_PATTERN.matcher(urlString);
         if (!m.find()) {
@@ -243,10 +259,10 @@ public class AfterLifeRequest extends GenericRequest {
                 + ")";
       }
 
-        // Buying from the Deli
-        // afterlife.php?action=buydeli&whichitem=5045
-        // Buying an item
-        // afterlife.php?action=buyarmory&whichitem=5041
+      // Buying from the Deli
+      // afterlife.php?action=buydeli&whichitem=5045
+      // Buying an item
+      // afterlife.php?action=buyarmory&whichitem=5041
       case "buydeli", "buyarmory" -> {
         Matcher m = GenericRequest.WHICHITEM_PATTERN.matcher(urlString);
         if (!m.find()) {
@@ -258,10 +274,10 @@ public class AfterLifeRequest extends GenericRequest {
         message = "Buy " + itemName + " for " + cost + " Karma (initial balance = " + karma + ")";
       }
 
-        // Returning an item to the Deli
-        // afterlife.php?action=delireturn&whichitem=5045
-        // Returning an item
-        // afterlife.php?action=armoryreturn&whichitem=5041
+      // Returning an item to the Deli
+      // afterlife.php?action=delireturn&whichitem=5045
+      // Returning an item
+      // afterlife.php?action=armoryreturn&whichitem=5041
       case "delireturn", "armoryreturn" -> {
         Matcher m = GenericRequest.WHICHITEM_PATTERN.matcher(urlString);
         if (!m.find()) {
@@ -274,10 +290,10 @@ public class AfterLifeRequest extends GenericRequest {
             "Return " + itemName + " for " + cost + " Karma (initial balance = " + karma + ")";
       }
 
-        // Ascending
-        // afterlife.php?action=ascend&asctype=3&whichclass=4&gender=2&whichpath=4&whichsign=2
-        // Confirming Ascension
-        // afterlife.php?action=ascend&confirmascend=1&whichsign=2&gender=2&whichclass=4&whichpath=4&asctype=3
+      // Ascending
+      // afterlife.php?action=ascend&asctype=3&whichclass=4&gender=2&whichpath=4&whichsign=2
+      // Confirming Ascension
+      // afterlife.php?action=ascend&confirmascend=1&whichsign=2&gender=2&whichclass=4&whichpath=4&asctype=3
       case "ascend" -> {
         if (!urlString.contains("confirmascend=1")) {
           return true;

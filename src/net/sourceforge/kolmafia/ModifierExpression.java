@@ -4,8 +4,11 @@ import net.sourceforge.kolmafia.modifiers.Lookup;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 
 public class ModifierExpression extends Expression {
+  private boolean usesUnarmed;
+
   public ModifierExpression(String text, String lookupString) {
     super(text, lookupString);
+    this.usesUnarmed = text.contains("unarmed");
   }
 
   public ModifierExpression(String text, Lookup lookup) {
@@ -98,9 +101,6 @@ public class ModifierExpression extends Expression {
     if (this.optional("mod(")) {
       return this.literal(this.until(")"), '\u0093');
     }
-    if (this.optional("interact(")) {
-      return this.literal(this.until(")"), '\u0094');
-    }
     if (this.optional("stripcommas(")) {
       return this.literal(this.until(")"), '\u0096');
     }
@@ -110,6 +110,15 @@ public class ModifierExpression extends Expression {
     if (this.optional("warbearfoilhat")) {
       return "\u008b";
     }
+    if (this.optional("totalturnsplayed")) {
+      return "\u008c";
+    }
+    if (this.optional("paradoxicity")) {
+      return "\u008d";
+    }
+    if (this.optional("unarmed")) {
+      return "\u008e";
+    }
     if (this.optional("mus")) {
       return "\u0080";
     }
@@ -118,6 +127,9 @@ public class ModifierExpression extends Expression {
     }
     if (this.optional("mox")) {
       return "\u0082";
+    }
+    if (this.optional("interact()")) {
+      return "\u0094";
     }
     if (this.optional("basemus")) {
       return "\u0097";
@@ -130,5 +142,18 @@ public class ModifierExpression extends Expression {
     }
 
     return null;
+  }
+
+  @Override
+  protected void combine(Expression other, char combiner) {
+    if (other instanceof ModifierExpression e && e.usesUnarmed) {
+      this.usesUnarmed = true;
+    }
+
+    super.combine(other, combiner);
+  }
+
+  public boolean usesUnarmed() {
+    return usesUnarmed;
   }
 }

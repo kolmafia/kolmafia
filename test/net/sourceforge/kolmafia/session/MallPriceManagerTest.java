@@ -1,8 +1,10 @@
 package net.sourceforge.kolmafia.session;
 
 import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withDay;
 import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withMeat;
+import static internal.helpers.Player.withNextResponse;
 import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -17,7 +19,11 @@ import static org.mockito.Mockito.mockStatic;
 
 import internal.helpers.Cleanups;
 import internal.network.FakeHttpClientBuilder;
+import internal.network.FakeHttpResponse;
 import java.time.Clock;
+import java.time.LocalDateTime;
+import java.time.Month;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -28,6 +34,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
+import net.sourceforge.kolmafia.persistence.DateTimeManager;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -628,12 +635,9 @@ public class MallPriceManagerTest {
     // Test with Hell ramen.
     AdventureResult item = ItemPool.get(ItemPool.HELL_RAMEN);
 
-    // Make a mocked MallSearchResponse with the responseText preloaded
-
-    MallSearchRequest request = new MockMallSearchRequest("Hell ramen", 0);
-    request.responseText = html("request/test_mall_search_hell_ramen.html");
-
-    try (var cleanups = mockMallSearchRequest(request)) {
+    try (var cleanups =
+        new Cleanups(
+            mockClock(), withNextResponse(200, html("request/test_mall_search_hell_ramen.html")))) {
       long timestamp = 1_000_000;
       Mockito.when(clock.millis()).thenReturn(timestamp);
 
@@ -685,12 +689,11 @@ public class MallPriceManagerTest {
       // Forbid half the stores
       String setting = getForbiddenStores(shopIds);
 
-      // Make a mocked MallSearchResponse with the responseText preloaded
-      MallSearchRequest request = new MockMallSearchRequest("Hell ramen", 0);
-      request.responseText = responseText;
-
       var cleanups =
-          new Cleanups(mockMallSearchRequest(request), withProperty("forbiddenStores", setting));
+          new Cleanups(
+              mockClock(),
+              withNextResponse(200, html("request/test_mall_search_hell_ramen.html")),
+              withProperty("forbiddenStores", setting));
       try (cleanups) {
         long timestamp = 1_000_000;
         Mockito.when(clock.millis()).thenReturn(timestamp);
@@ -755,12 +758,13 @@ public class MallPriceManagerTest {
   @Test
   public void canGetMallPricesByCategory() {
     // Test with category = "unlockers" since that only has two pages of results
-    MallSearchRequest request = new MockMallSearchRequest("unlockers", "");
-    request.setResponseTexts(
-        html("request/test_mall_search_unlockers_page_1.html"),
-        html("request/test_mall_search_unlockers_page_2.html"));
-
-    try (var cleanups = mockMallSearchRequest(request)) {
+    try (var cleanups =
+        new Cleanups(
+            mockClock(),
+            withNextResponse(
+                new FakeHttpResponse<>(200, html("request/test_mall_search_unlockers_page_1.html")),
+                new FakeHttpResponse<>(
+                    200, html("request/test_mall_search_unlockers_page_2.html"))))) {
       long timestamp = 1_000_000;
       Mockito.when(clock.millis()).thenReturn(timestamp);
 
@@ -769,6 +773,10 @@ public class MallPriceManagerTest {
       // It will then update prices and return how many
       int count = MallPriceManager.getMallPrices("unlockers", "");
       assertEquals(32, count);
+      // coinmaster ticket
+      assertEquals(168500, MallPriceManager.getMallPrice(ItemPool.DINSEY_TICKET));
+      // last item
+      assertEquals(4400, MallPriceManager.getMallPrice(ItemPool.TRANSPORTER_TRANSPONDER));
     }
   }
 
@@ -777,15 +785,14 @@ public class MallPriceManagerTest {
     // Not actually used in MallPriceManager, but may as well test the fourth
     // (last) form of a MallSearchRequest
 
-    // This is Clerk's - one of the bigger stores. :)
-    MallSearchRequest request = new MockMallSearchRequest(1053259);
-    request.setResponseTexts(html("request/test_mall_search_store.html"));
-
-    try (var cleanups = mockMallSearchRequest(request)) {
+    try (var cleanups =
+        new Cleanups(
+            mockClock(), withNextResponse(200, html("request/test_mall_search_store.html")))) {
       long timestamp = 1_000_000;
       Mockito.when(clock.millis()).thenReturn(timestamp);
 
-      // Process the response text into PurchaseRequests
+      // This is Clerk's - one of the bigger stores. :)
+      MallSearchRequest request = new MallSearchRequest(1053259);
       request.run();
 
       List<PurchaseRequest> results = request.getResults();
@@ -843,5 +850,29 @@ public class MallPriceManagerTest {
     assertEquals("Badly Stocked", results.get(3).getShopName());
     // This store has the most stock, but is the most expensive
     assertEquals("High Prices", results.get(4).getShopName());
+  }
+
+  @Test
+  public void canUseHydratedSameDayHistoricalPrice() {
+    var builder = new FakeHttpClientBuilder();
+    var client = builder.client;
+
+    int itemId = ItemPool.SEAL_CLUB;
+    // setup timestamps
+    // now is 2025-02-02T18:00:00
+    // then is 2025-02-02T05:00:00
+    var then = LocalDateTime.of(2025, Month.FEBRUARY, 2, 5, 0);
+    var zdt = ZonedDateTime.of(then, DateTimeManager.ROLLOVER);
+
+    try (var cleanups =
+        new Cleanups(
+            mockClock(), withHttpClientBuilder(builder), withDay(2025, Month.FEBRUARY, 2, 18, 0))) {
+      MallPriceManager.reset();
+      MallPriceManager.cachePriceIfFromCurrentRolloverDay(itemId, 1234, zdt.toEpochSecond());
+
+      long price = MallPriceManager.getMallPrice(itemId);
+      assertEquals(1234, price);
+      assertEquals(0, client.getRequests().size());
+    }
   }
 }

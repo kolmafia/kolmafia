@@ -281,6 +281,16 @@ public class AdventureRequest extends GenericRequest {
       }
       case "sea_merkin.php" -> {
         this.addFormField("action", "temple");
+        String subaction =
+            switch (adventureName) {
+              case "Mer-kin Temple (Left Door)" -> "left";
+              case "Mer-kin Temple (Center Door)" -> "center";
+              case "Mer-kin Temple (Right Door)" -> "right";
+              default -> null;
+            };
+        if (subaction != null) {
+          this.addFormField("subaction", subaction);
+        }
       }
       case "basement.php", "cellar.php" -> {}
       default -> {
@@ -533,11 +543,11 @@ public class AdventureRequest extends GenericRequest {
 
     if (isFight) {
       type = "Combat";
-      encounter = AdventureRequest.parseCombatEncounter(responseText);
+      encounter = parseCombatEncounter(responseText);
     } else if (isChoice) {
       int choice = ChoiceUtilities.extractChoice(responseText);
       type = choiceType(choice);
-      encounter = AdventureRequest.parseChoiceEncounter(urlString, choice, responseText);
+      encounter = parseChoiceEncounter(urlString, choice, responseText);
       ChoiceManager.registerDeferredChoice(choice, encounter);
     } else {
       type = "Noncombat";
@@ -758,7 +768,7 @@ public class AdventureRequest extends GenericRequest {
     Matcher m = MONSTERID_PATTERN.matcher(responseText);
 
     if (!m.find()) {
-      // It does not do this if and only if you are blind.
+      // It does not do this if and only if you are blind, or in pokefam
       if (responseText.contains("darkness.gif")) {
         // Adventuring in the Wumpus cave while temporarily blind is
         // foolish, but since we won't clear the cave after defeating
@@ -766,12 +776,14 @@ public class AdventureRequest extends GenericRequest {
         return WumpusManager.isWumpus() ? WUMPUS : THE_DARKNESS;
       }
 
-      // As of 16-June-2020, KoL will provide MONSTERID with
-      // every round of combat. If it fails to do so when you
-      // are not blind, That would be a bug. Log it and
-      // attempt to identify the monster by name.
+      if (!KoLCharacter.inPokefam()) {
+        // As of 16-June-2020, KoL will provide MONSTERID with
+        // every round of combat. If it fails to do so when you
+        // are not blind, That would be a bug. Log it and
+        // attempt to identify the monster by name.
 
-      StaticEntity.printDebugText("MONSTERID not found", responseText);
+        StaticEntity.printDebugText("MONSTERID not found", responseText);
+      }
 
       encounter = ConsequenceManager.disambiguateMonster(encounter, responseText);
       MonsterData monster = MonsterDatabase.findMonster(encounter);
@@ -978,9 +990,9 @@ public class AdventureRequest extends GenericRequest {
           break;
 
         case AdventurePool.LIMERICK_DUNGEON:
-          for (int i = 0; i < LIMERICKS.length; ++i) {
-            if (responseText.contains(LIMERICKS[i][1])) {
-              return LIMERICKS[i][0];
+          for (String[] limerick : LIMERICKS) {
+            if (responseText.contains(limerick[1])) {
+              return limerick[0];
             }
           }
           return "Unrecognized Limerick";
@@ -1272,7 +1284,7 @@ public class AdventureRequest extends GenericRequest {
     if (this.adventureName.equals("The Typical Tavern Cellar")) {
       return this.getURLString().contains("action=explore") ? 1 : 0;
     }
-    if (AdventureDatabase.getEnvironment(this.adventureName).isUnderwater()) {
+    if (AdventureDatabase.isUnderwater(this.adventureName)) {
       return KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.FISHY)) ? 1 : 2;
     }
     return 1;

@@ -24,14 +24,16 @@ public class UmbrellaCommand extends AbstractCommand implements ModeCommand {
     return UmbrellaMode.find(normalize(parameter));
   }
 
-  public String normalize(final String parameter) {
+  @Override
+  public String normalize(String parameter) {
+    parameter = parameter.trim().toLowerCase();
     var mode = UmbrellaMode.findByShortHand(parameter);
     return mode == null ? parameter : mode.getName();
   }
 
   @Override
   public boolean validate(final String command, final String parameter) {
-    return getMode(parameter) != null;
+    return getMode(normalize(parameter)) != null;
   }
 
   public Set<String> getModes() {
@@ -57,7 +59,7 @@ public class UmbrellaCommand extends AbstractCommand implements ModeCommand {
               }
             });
 
-    parameter = parameter.trim();
+    parameter = normalize(parameter);
 
     if (parameter.equals("")) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "What state do you want to fold your umbrella to?");

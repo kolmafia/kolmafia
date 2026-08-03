@@ -246,7 +246,7 @@
    "longDesc": "The purpose of this script is to automatically go to the Bounty Hunter Hunter, accept bounties, hunt them and turn in the completed bounties for lucre."
  },
  {
-   "repo": "https://github.com/Loathing-Associates-Scripting-Society/autoscend",
+   "repo": "https://github.com/loathers/autoscend",
    "type": "git",
    "author": "Loathing Associates Scripting Society",
    "name": "autoscend",
@@ -257,7 +257,7 @@
  },
  {
    "type": "git",
-   "repo": "https://github.com/Loathing-Associates-Scripting-Society/combo",
+   "repo": "https://github.com/loathers/combo",
    "branch": "release",
    "author": "Loathing Associates Scripting Society",
    "name": "combo",
@@ -925,7 +925,7 @@
    "longDesc": "On your charsheet it will sort your skills by character class."
  },
  {
-   "repo": "https://github.com/Loathing-Associates-Scripting-Society/ChIT",
+   "repo": "https://github.com/loathers/ChIT",
    "type": "git",
    "author": "Bale, Chez, Soolar",
    "name": "ChIT",
@@ -1216,7 +1216,7 @@
    "longDesc": "Show commonly used / recommended pockets in the Cargo Shorts in the Relay Browser"
  },
  {
-   "repo": "https://github.com/Loathing-Associates-Scripting-Society/locket-ui",
+   "repo": "https://github.com/loathers/locket-ui",
    "type": "git",
    "author": "BurningBman",
    "name": "Combat Lover's Locket GUI",

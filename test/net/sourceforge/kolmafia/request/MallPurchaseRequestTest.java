@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia.request;
 
+import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withContinuationState;
 import static internal.helpers.Player.withInteractivity;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withItemInFreepulls;
@@ -12,6 +14,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
+import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import org.junit.jupiter.api.BeforeAll;
@@ -145,6 +149,20 @@ public class MallPurchaseRequestTest {
     })
     public void canParsePrice(long price, String whichitem) {
       assertEquals(price, MallPurchaseRequest.priceFromStoreString(whichitem));
+    }
+  }
+
+  @Nested
+  class ParseResponse {
+    @Test
+    public void perDayLimitDoesNotSetError() {
+      var cleanups = withContinuationState();
+      try (cleanups) {
+        String urlString =
+            "mallstore.php?whichstore=12345&buying=1&ajax=1&whichitem=123.100&quantity=5";
+        MallPurchaseRequest.parseResponse(urlString, html("request/test_mall_per_day_limit.html"));
+        assertEquals(MafiaState.CONTINUE, StaticEntity.getContinuationState());
+      }
     }
   }
 }

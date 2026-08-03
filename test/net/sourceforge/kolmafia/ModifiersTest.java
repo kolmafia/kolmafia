@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia;
 
+import static internal.helpers.Player.withAdjustmentsRecalculated;
+import static internal.helpers.Player.withAdventuresLeft;
 import static internal.helpers.Player.withClass;
 import static internal.helpers.Player.withDay;
 import static internal.helpers.Player.withEffect;
@@ -12,10 +14,12 @@ import static internal.helpers.Player.withLevel;
 import static internal.helpers.Player.withLocation;
 import static internal.helpers.Player.withMP;
 import static internal.helpers.Player.withOverrideModifiers;
+import static internal.helpers.Player.withParadoxicity;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withSkill;
 import static internal.helpers.Player.withStats;
+import static internal.helpers.Player.withThrall;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -34,9 +38,11 @@ import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.DerivedModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.Lookup;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.OutfitPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -1221,6 +1227,39 @@ public class ModifiersTest {
         assertThat(current.getDouble(DoubleModifier.COLD_RESISTANCE), equalTo(18.0));
       }
     }
+
+    @Test
+    public void doesNotDoubleHoboPowerConversion() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(Slot.OFFHAND, ItemPool.HODGMANS_GARBAGE_STICKER),
+              withEquipped(Slot.ACCESSORY1, ItemPool.HODGMANS_BOW_TIE),
+              withEffect(EffectPool.OFFHAND_REMARKABLE));
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments(false);
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+
+        assertThat(current.getDouble(DoubleModifier.MEATDROP), equalTo(25.0));
+      }
+    }
+
+    @Test
+    public void doublesHamsterStatsOnly() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(Slot.OFFHAND, ItemPool.HODGMANS_HAMSTER),
+              withEquipped(Slot.ACCESSORY1, ItemPool.HODGMANS_BOW_TIE),
+              withEffect(EffectPool.OFFHAND_REMARKABLE));
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments(false);
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+
+        assertThat(current.getDouble(DoubleModifier.MUS_PCT), equalTo(60.0));
+        assertThat(current.getDouble(DoubleModifier.MEATDROP), equalTo(25.0));
+      }
+    }
   }
 
   @Nested
@@ -1646,6 +1685,169 @@ public class ModifiersTest {
       assertThat(current.getDouble(DoubleModifier.DAMAGE_ABSORPTION), closeTo(200, 0.001));
       assertThat(current.getDouble(DoubleModifier.STENCH_DAMAGE), closeTo(20, 0.001));
       assertThat(current.getDouble(DoubleModifier.WEAPON_DAMAGE), closeTo(1, 0.001));
+    }
+  }
+
+  @Test
+  public void prismaticBeretRespectsSoftCap() {
+    Modifiers mods = new Modifiers();
+    mods.applyPrismaticBeretModifiers(1370);
+    assertThat(mods.getDouble(DoubleModifier.DAMAGE_ABSORPTION), closeTo(237, 0.001));
+  }
+
+  @ParameterizedTest
+  @ValueSource(ints = {0, 100, 200})
+  public void unironicKnife(final int advs) {
+    var cleanup = withAdventuresLeft(advs);
+
+    try (cleanup) {
+      var mods = ModifierDatabase.getModifiers(ModifierType.ITEM, "unironic knife");
+
+      assertThat(mods.getDouble(DoubleModifier.ITEMDROP), equalTo(advs > 0 ? 0.0 : 100.0));
+      assertThat(mods.getDouble(DoubleModifier.ADVENTURES), equalTo(advs < 200 ? 0.0 : 10.0));
+    }
+  }
+
+  @Test
+  public void mobiusRing() {
+    var cleanup = withParadoxicity(6);
+
+    try (cleanup) {
+      var mods = ModifierDatabase.getModifiers(ModifierType.ITEM, "M&ouml;bius ring");
+
+      assertThat(mods.getDouble(DoubleModifier.WEAPON_DAMAGE), equalTo(0.0));
+      assertThat(mods.getDouble(DoubleModifier.HOT_RESISTANCE), equalTo(2.0));
+      assertThat(mods.getDouble(DoubleModifier.GEARDROP), equalTo(100.0));
+      assertThat(mods.getDouble(DoubleModifier.DAMAGE_REDUCTION), equalTo(6.0));
+      assertThat(mods.getDouble(DoubleModifier.INITIATIVE), equalTo(50.0));
+      assertThat(mods.getDouble(DoubleModifier.FAMILIAR_WEIGHT), equalTo(5.0));
+    }
+  }
+
+  @Nested
+  class Monodent {
+    @Test
+    public void noWaveZoneDoesNotAddItemForNoZone() {
+      var cleanups = new Cleanups(withProperty("_seadentWaveZone", ""), withLocation(""));
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments(false);
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+
+        assertThat(current.getDouble(DoubleModifier.ITEMDROP), equalTo(0.0));
+      }
+    }
+
+    @Test
+    public void waveZoneDoesNotAddItemForOtherZone() {
+      var cleanups =
+          new Cleanups(withProperty("_seadentWaveZone", "Noob Cave"), withLocation("Dire Warren"));
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments(false);
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+
+        assertThat(current.getDouble(DoubleModifier.ITEMDROP), equalTo(0.0));
+      }
+    }
+
+    @Test
+    public void waveZoneAddsItemForZone() {
+      var cleanups =
+          new Cleanups(withProperty("_seadentWaveZone", "Noob Cave"), withLocation("Noob Cave"));
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments(false);
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+
+        assertThat(current.getDouble(DoubleModifier.ITEMDROP), equalTo(30.0));
+      }
+    }
+  }
+
+  @Test
+  public void addsItemsAndMeatFromShrunkenHead() {
+    var cleanups =
+        new Cleanups(
+            withProperty("shrunkenHeadZombieHP", 3),
+            withProperty(
+                "shrunkenHeadZombieAbilities",
+                "Item Drop Bonus (38%), Meat Drop Bonus (31%), Stench Attack (31%)"),
+            withAdjustmentsRecalculated());
+
+    try (cleanups) {
+      Modifiers current = KoLCharacter.getCurrentModifiers();
+
+      assertThat(current.getDouble(DoubleModifier.ITEMDROP), equalTo(38.0));
+      assertThat(current.getDouble(DoubleModifier.MEATDROP), equalTo(31.0));
+    }
+  }
+
+  @Test
+  void outfitModifierStoresCurrentOutfit() {
+    var cleanups = Player.withOutfit(OutfitPool.CLOTHING_OF_LOATHING);
+
+    try (cleanups) {
+      Modifiers current = KoLCharacter.getCurrentModifiers();
+      assertThat(current.getString(StringModifier.OUTFIT), is("Clothing of Loathing"));
+    }
+  }
+
+  @Test
+  public void addsGemsFromEternityCodpiece() {
+    var cleanups =
+        new Cleanups(
+            withEquipped(Slot.ACCESSORY1, ItemPool.THE_ETERNITY_CODPIECE),
+            withEquipped(Slot.CODPIECE1, ItemPool.AZURITE),
+            withEquipped(Slot.CODPIECE2, ItemPool.AZURITE),
+            withEquipped(Slot.CODPIECE4, ItemPool.AZURITE),
+            withEquipped(Slot.CODPIECE5, ItemPool.AZURITE),
+            withAdjustmentsRecalculated());
+
+    try (cleanups) {
+      Modifiers current = KoLCharacter.getCurrentModifiers();
+
+      assertThat(current.getDouble(DoubleModifier.SLEAZE_DAMAGE), equalTo(40.0));
+    }
+  }
+
+  @Test
+  public void copyConstructorKeepsExpressions() {
+    var cleanups = new Cleanups(withEquipped(Slot.WEAPON, ItemPool.SEAL_CLUB));
+
+    Modifiers mods;
+    try (cleanups) {
+      mods = new Modifiers(ModifierDatabase.getItemModifiers(ItemPool.TIME_HALO));
+      mods.recalculateExpressions();
+      assertThat(mods.getDouble(DoubleModifier.ADVENTURES), equalTo(0.0));
+    }
+
+    mods.recalculateExpressions();
+    assertThat(mods.getDouble(DoubleModifier.ADVENTURES), equalTo(5.0));
+  }
+
+  @Nested
+  class PastaThrall {
+    @Test
+    public void correctThrallModifier() {
+      var cleanups = withThrall(SkillPool.BIND_VAMPIEROGHI, 10);
+
+      try (cleanups) {
+        Modifiers mods = ModifierDatabase.getModifiers(ModifierType.THRALL, "Vampieroghi");
+        assertThat(mods.getDouble(DoubleModifier.HP), equalTo(60.0));
+        assertThat(mods.getDouble(DoubleModifier.SPOOKY_RESISTANCE), equalTo(0.0));
+      }
+    }
+
+    @Test
+    public void correctMaxLevelThrallModifier() {
+      var cleanups = withThrall(SkillPool.BIND_VAMPIEROGHI, 11);
+
+      try (cleanups) {
+        Modifiers mods = ModifierDatabase.getModifiers(ModifierType.THRALL, "Vampieroghi");
+        assertThat(mods.getDouble(DoubleModifier.HP), equalTo(60.0));
+        assertThat(mods.getDouble(DoubleModifier.SPOOKY_RESISTANCE), equalTo(1.0));
+      }
     }
   }
 }

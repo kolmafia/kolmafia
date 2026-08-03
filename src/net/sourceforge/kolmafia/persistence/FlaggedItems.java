@@ -221,8 +221,8 @@ public class FlaggedItems {
     model.clear();
     AdventureResult item;
 
-    for (int i = 0; i < defaults.length; ++i) {
-      int itemId = ItemDatabase.getItemId(defaults[i]);
+    for (String aDefault : defaults) {
+      int itemId = ItemDatabase.getItemId(aDefault);
       if (itemId == -1) {
         continue;
       }
@@ -290,41 +290,39 @@ public class FlaggedItems {
   }
 
   public static final void saveFlaggedItemList() {
-    PrintStream ostream = LogStream.openStream(FlaggedItems.itemFlagsFile, true);
+    try (PrintStream ostream = LogStream.openStream(FlaggedItems.itemFlagsFile, true)) {
+      ostream.println(" > junk");
+      ostream.println();
 
-    ostream.println(" > junk");
-    ostream.println();
+      for (AdventureResult item : KoLConstants.junkList) {
+        if (!KoLConstants.singletonList.contains(item)) {
+          ostream.println(item.getName());
+        }
+      }
 
-    for (AdventureResult item : KoLConstants.junkList) {
-      if (!KoLConstants.singletonList.contains(item)) {
+      ostream.println();
+      ostream.println(" > singleton");
+      ostream.println();
+
+      for (AdventureResult item : KoLConstants.singletonList) {
         ostream.println(item.getName());
       }
+
+      ostream.println();
+      ostream.println(" > mementos");
+      ostream.println();
+
+      for (AdventureResult item : KoLConstants.mementoList) {
+        ostream.println(item.getName());
+      }
+
+      ostream.println();
+      ostream.println(" > profitable");
+      ostream.println();
+
+      for (AdventureResult item : KoLConstants.profitableList) {
+        ostream.println(item.getCount() + " " + item.getName());
+      }
     }
-
-    ostream.println();
-    ostream.println(" > singleton");
-    ostream.println();
-
-    for (AdventureResult item : KoLConstants.singletonList) {
-      ostream.println(item.getName());
-    }
-
-    ostream.println();
-    ostream.println(" > mementos");
-    ostream.println();
-
-    for (AdventureResult item : KoLConstants.mementoList) {
-      ostream.println(item.getName());
-    }
-
-    ostream.println();
-    ostream.println(" > profitable");
-    ostream.println();
-
-    for (AdventureResult item : KoLConstants.profitableList) {
-      ostream.println(item.getCount() + " " + item.getName());
-    }
-
-    ostream.close();
   }
 }

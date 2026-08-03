@@ -122,4 +122,12 @@ public class UmbrellaCommandTest extends AbstractCommandTestBase {
       assertChoseState("twirling", UmbrellaMode.TWIRL);
     }
   }
+
+  @Test
+  void canChooseStateWithCapitalizedTwirling() {
+    var cleanups = new Cleanups(withEquippableItem("unbreakable umbrella"));
+    try (cleanups) {
+      assertChoseState("Twirling", UmbrellaMode.TWIRL);
+    }
+  }
 }

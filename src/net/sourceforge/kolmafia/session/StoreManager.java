@@ -562,8 +562,8 @@ public abstract class StoreManager {
     List<AdventureResult> autosell = new ArrayList<>();
     List<AdventureResult> automall = new ArrayList<>();
 
-    for (int i = 0; i < items.length; ++i) {
-      int itemId = items[i].getItemId();
+    for (AdventureResult item : items) {
+      int itemId = item.getItemId();
       if (itemId == ItemPool.MEAT_PASTE
           || itemId == ItemPool.MEAT_STACK
           || itemId == ItemPool.DENSE_STACK) {
@@ -579,9 +579,9 @@ public abstract class StoreManager {
       }
 
       if (NPCStoreDatabase.contains(itemId, false)) {
-        autosell.add(items[i]);
+        autosell.add(item);
       } else {
-        automall.add(items[i]);
+        automall.add(item);
       }
     }
 

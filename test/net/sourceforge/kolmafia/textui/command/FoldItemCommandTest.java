@@ -266,6 +266,24 @@ public class FoldItemCommandTest extends AbstractCommandTestBase {
   }
 
   @Nested
+  class FamiliarHatchlingFold {
+    @Test
+    public void foldMakeshiftFromFamiliarHatchling() {
+      HttpClientWrapper.setupFakeClient();
+      var cleanups = new Cleanups(withItem(ItemPool.MAKESHIFT_CRANE));
+
+      try (cleanups) {
+        execute("makeshift turban");
+        assertContinueState();
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(1));
+        assertPostRequest(requests.get(0), "/inv_use.php", "which=3&whichitem=2083");
+      }
+    }
+  }
+
+  @Nested
   class AmbiguousFold {
     @Test
     public void errorOnAmbiguousFold() {

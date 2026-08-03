@@ -200,6 +200,7 @@ public interface KoLConstants extends UtilityConstants {
   int CONCOCTIONS_VERSION = 3;
   int CONSEQUENCES_VERSION = 1;
   int CULTSHORTS_VERSION = 1;
+  int CUP_OF_13S_VERSION = 1;
   int DAILYLIMITS_VERSION = 1;
   int DEFAULTS_VERSION = 2;
   int ENCOUNTERS_VERSION = 1;
@@ -248,7 +249,7 @@ public interface KoLConstants extends UtilityConstants {
   String CLI_HTML = "cli.html";
   String COMBATFILTER_JS = "combatfilter.1.js";
   String HOTKEYS_JS = "hotkeys.js";
-  String IRCM_JS = "ircm_extend.3.js";
+  String IRCM_JS = "ircm_extend.4.js";
   String MACROHELPER_JS = "macrohelper.6.js";
   String ONFOCUS_JS = "onfocus.1.js";
   String SORTTABLE_JS = "sorttable.2.js";
@@ -359,6 +360,7 @@ public interface KoLConstants extends UtilityConstants {
   enum filterType {
     EQUIP,
     CAST,
+    WISH,
     USABLE,
     BOOZE,
     FOOD,
@@ -467,8 +469,6 @@ public interface KoLConstants extends UtilityConstants {
     STILL, // Items requiring access to Nash Crosby's Still
     MALUS, // Items requiring access to the Malus of Forethought
     JEWELRY, // Items created with jewelry-making pliers
-    STARCHART, // Items anybody can create with starcharts, stars, and lines
-    PIXEL, // Items anybody can create with pixels
     ROLLING_PIN, // Items created with a rolling pin or and an unrolling pin
     GNOME_TINKER, // Items requiring access to the Gnome supertinker
     STAFF, // Items requiring access to Roderic the Staffcrafter
@@ -486,45 +486,25 @@ public interface KoLConstants extends UtilityConstants {
     CRIMBO06, // Items formerly creatable in Crimbo Town during Crimbo 2006
     CRIMBO07, // Items formerly creatable in Crimbo Town during Crimbo 2007
     CRIMBO12, // Items creatable in Crimbo Town during Crimbo 2012
-    CRIMBO16, // Items creatable in Crimbo Town during Crimbo 2016
-    SUGAR_FOLDING, // Items anybody can create by folding a sugar sheet
     PHINEAS, // Items requiring access to Phineas
     COOK_FANCY, // Items created with an Dramatic Range
     MIX_FANCY, // Items created with a Cocktailcrafting Kit
     ACOMBINE, // Un-untinkerable Ideas
     COINMASTER, // Coinmaster purchase
     CLIPART, // Tome of Clip Art summons
-    JARLS, // Items that can only be made by an Avatar of Jarlsberg
-    GRANDMA, // Items made by Grandma Sea Monkee
-    CHEMCLASS, // Items made in Chemistry Class at KOLHS
-    ARTCLASS, // Items made in Art Class at KOLHS
-    SHOPCLASS, // Items made in Shop Class at KOLHS
-    BEER, // Items made with ingredients from A Beer Garden
-    JUNK, // Items made from using a Worse Homes and Gardens
-    WINTER, // Items made with ingredients from A Winter Garden
-    RUMPLE, // Items made at Rumpelstiltskin's Workshop
-    FIVE_D, // Xiblaxian 5d Printer
     VYKEA, // Items made with VYKEA instructions
-    DUTYFREE, // Elemental International Airport Duty Free Shop
     FLOUNDRY, // Items made in Clan Floundry
     TERMINAL, // Items extruded from Source Terminal
     BARREL, // Items granted at the Barrel Shrine
     WAX, // Items made from globs of melted wax
-    SPANT, // Items made from spant chitin/tendons
     SPACEGATE, // Items granted at Spacegate Equipment Requisition
-    XO, // Items made using Xes and Os
-    SLIEMCE, // Items made using slime blobs
     NEWSPAPER, // Items made from burning newspaper
     METEOROID, // Items made from metal meteoroid
     FANTASY_REALM, // Items made by visiting FantasyRealm welcome center
     SAUSAGE_O_MATIC, // Items made by Kramco Sausage-o-Matic
-    KRINGLE, // Items made from waterlogged items
     STILLSUIT, // Distillate from the stillsuit
     WOOL, // Items made from grubby wool
-    SHADOW_FORGE, // Items made at The Shadow Forge
-    FIXODENT, // Items made from fixodent
     BURNING_LEAVES, // Items made at the Pile of Burning Leaves
-    TINKERING_BENCH, // Items made at the Tinkering Bench
     MAYAM, // Items made at the Mayam Calendar
     PHOTO_BOOTH, // Items made at the Clan Photo Booth
     TAKERSPACE, // Items made at the TakerSpace
@@ -554,15 +534,6 @@ public interface KoLConstants extends UtilityConstants {
     SALACIOUS, // Requires Salacious Cocktailcrafting
     TIKI, // Requires Tiki Mixology
     NOBEE, // Not on Bees Hate You path
-    BAKE, // Requires Avatar of Jarlsberg skill Bake
-    BLEND, // Requires Avatar of Jarlsberg skill Blend
-    BOIL, // Requires Avatar of Jarlsberg skill Boil
-    CHOP, // Requires Avatar of Jarlsberg skill Chop
-    CURDLE, // Requires Avatar of Jarlsberg skill Curdle
-    FREEZE, // Requires Avatar of Jarlsberg skill Freeze
-    FRY, // Requires Avatar of Jarlsberg skill Fry
-    GRILL, // Requires Avatar of Jarlsberg skill Grill
-    SLICE, // Requires Avatar of Jarlsberg skill Slice
   }
 
   enum CraftingMisc {
@@ -664,6 +635,7 @@ public interface KoLConstants extends UtilityConstants {
   List<UseSkillRequest> songSkills = LockableListFactory.getInstance(UseSkillRequest.class);
   List<UseSkillRequest> expressionSkills = LockableListFactory.getInstance(UseSkillRequest.class);
   List<UseSkillRequest> walkSkills = LockableListFactory.getInstance(UseSkillRequest.class);
+  List<UseSkillRequest> shantySkills = LockableListFactory.getInstance(UseSkillRequest.class);
   List<UseSkillRequest> availableSkills = LockableListFactory.getInstance(UseSkillRequest.class);
   Set<Integer> availableSkillsSet = new HashSet<>();
   // The list of combat skills displayed in skills dropdown from the current (last) fight.php

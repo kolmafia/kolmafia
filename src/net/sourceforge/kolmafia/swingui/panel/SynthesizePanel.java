@@ -855,7 +855,7 @@ public class SynthesizePanel extends JPanel implements ActionListener, Listener 
         if (value == null) {
           return;
         }
-        casts = value.intValue();
+        casts = value;
       }
 
       KoLmafia.updateDisplay(

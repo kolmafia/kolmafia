@@ -5,11 +5,14 @@ import static internal.helpers.Player.withProperty;
 import static internal.matchers.Preference.hasStringValue;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.emptyString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
 import internal.helpers.Cleanups;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.EnumSet;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
@@ -23,6 +26,51 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 public class ItemDatabaseTest {
+  @Test
+  public void returnsExpectedFieldsForKnownItemRow() {
+    int itemId = ItemPool.SEAL_CLUB;
+
+    assertThat(ItemDatabase.getItemName(itemId), is("seal-clubbing club"));
+    assertThat(ItemDatabase.getDescriptionId(itemId), is("868780591"));
+    assertThat(ItemDatabase.getImage(itemId), is("club.gif"));
+    assertThat(ItemDatabase.getConsumptionType(itemId), is(ConsumptionType.WEAPON));
+    assertThat(ItemDatabase.getAccessById(itemId), is("t,d"));
+    assertThat(ItemDatabase.getPriceById(itemId), is(1));
+    assertThat(ItemDatabase.getPluralById(itemId), is(""));
+    assertThat(ItemDatabase.getPluralName(itemId), is("seal-clubbing clubs"));
+
+    assertThat(ItemDatabase.isTradeable(itemId), is(true));
+    assertThat(ItemDatabase.isGiftItem(itemId), is(false));
+    assertThat(ItemDatabase.isQuestItem(itemId), is(false));
+    assertThat(ItemDatabase.isDiscardable(itemId), is(true));
+    assertThat(ItemDatabase.isPasteable(itemId), is(true));
+    assertThat(ItemDatabase.isSmithable(itemId), is(true));
+    assertThat(ItemDatabase.isCookable(itemId), is(false));
+    assertThat(ItemDatabase.isMixable(itemId), is(false));
+    assertThat(ItemDatabase.isFancyItem(itemId), is(false));
+    assertThat(ItemDatabase.isCandyItem(itemId), is(false));
+    assertThat(ItemDatabase.isUsable(itemId), is(false));
+    assertThat(ItemDatabase.isMultiUsable(itemId), is(false));
+  }
+
+  @Test
+  public void itShouldWriteItems() {
+    ByteArrayOutputStream os = new ByteArrayOutputStream();
+    PrintStream ps = new PrintStream(os);
+    ItemDatabase.reset();
+    ItemDatabase.writeItems(ps);
+    String data = os.toString();
+
+    assertThat(
+        data,
+        containsString(
+            "1\tseal-clubbing club\t868780591\tclub.gif\tweapon, paste, smith\tt,d\t1\n"));
+    assertThat(
+        data,
+        containsString(
+            "16\tmagicalness-in-a-can\t204936339\tspraycan.gif\tspleen, paste, cook\tt,d\t100\tmagicalnesses-in-a-can\n"));
+  }
+
   @Nested
   class AttrsToSecondary {
     @Test
@@ -72,7 +120,7 @@ public class ItemDatabaseTest {
       assertThat(
           none,
           is(
-              ", combat, combat reusable, usable, multiple, reusable, message, single, solo, craft, curse, bounty, package, candy, candy1, candy2, matchable, fancy, chocolate, paste, smith, cook, mix"));
+              ", combat, combat reusable, usable, multiple, reusable, message, single, solo, craft, curse, bounty, package, candy, candy1, candy2, matchable, perishable, fancy, chocolate, paste, smith, cook, mix"));
     }
   }
 
@@ -160,6 +208,37 @@ public class ItemDatabaseTest {
         var response = html("request/test_desc_item_mimic_egg_" + file + ".html");
         ItemDatabase.parseMimicEgg(response);
         assertThat("mimicEggMonsters", isSetTo(expected));
+      }
+    }
+  }
+
+  @Nested
+  class BaseballDiamond {
+    @BeforeEach
+    public void beforeEach() {
+      KoLCharacter.reset("BaseballDiamond");
+      Preferences.reset("BaseballDiamond");
+    }
+
+    @Test
+    public void parsesNoTeam() {
+      var cleanups = withProperty("baseballTeam", "1,2,3");
+
+      try (cleanups) {
+        var response = html("request/test_desc_item_baseball_diamond_empty.html");
+        ItemDatabase.parseBaseballDiamond(response);
+        assertThat("baseballTeam", hasStringValue(equalTo("")));
+      }
+    }
+
+    @Test
+    public void parsesTeam() {
+      var cleanups = withProperty("baseballTeam", "");
+
+      try (cleanups) {
+        var response = html("request/test_desc_item_baseball_diamond.html");
+        ItemDatabase.parseBaseballDiamond(response);
+        assertThat("baseballTeam", hasStringValue(equalTo("1533,1639")));
       }
     }
   }

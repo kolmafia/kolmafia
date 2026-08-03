@@ -1,11 +1,8 @@
 package net.sourceforge.kolmafia.request;
 
+import static internal.helpers.Networking.getPostRequestBody;
 import static internal.helpers.Networking.html;
-import static internal.helpers.Player.withClass;
-import static internal.helpers.Player.withFullness;
-import static internal.helpers.Player.withItem;
-import static internal.helpers.Player.withPath;
-import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.*;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
@@ -17,9 +14,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
 import internal.helpers.RequestLoggerOutput;
+import internal.network.FakeHttpResponse;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -312,6 +311,60 @@ class EatItemRequestTest {
         assertThat(EatItemRequest.maximumUses(ItemPool.DEEP_DISH_OF_LEGEND), is(0));
         assertThat(EatItemRequest.limiter, is("lifetime limit"));
       }
+    }
+  }
+
+  @Test
+  void consumesLegendaryNoodles() {
+    try (var cleanups =
+        new Cleanups(
+            withItem(ItemPool.TUBETTO_GELATTO),
+            withFullness(1),
+            withSpleenUse(0),
+            withResponses(
+                r -> {
+                  var path = r.uri().getPath();
+                  if (path.startsWith("/inv_eat.php")) {
+                    return new FakeHttpResponse<>(
+                        "<script type=\"text/javascript\">top.mainpane.document.location = \"choice.php?forceoption=0\";</script>");
+                  }
+                  if (path.startsWith("/choice.php")) {
+                    if ("POST".equals(r.method())) {
+                      var body = getPostRequestBody(r);
+                      if (body.contains("option=1")) {
+                        return new FakeHttpResponse<>(
+                            html("request/test_choice_legendary_noodles_spleen.html"));
+                      }
+                    }
+                    return new FakeHttpResponse<>(
+                        html("request/test_choice_legendary_noodles.html"));
+                  }
+                  return null;
+                }))) {
+      var req = new EatItemRequest(ItemPool.get(ItemPool.TUBETTO_GELATTO));
+      req.run();
+      assertThat(KoLCharacter.getFullness(), is(2));
+      // force refresh the choice.php, to make sure it doesn't double-count the fullness on page
+      // refresh
+      RequestThread.postRequest(new GenericRequest("choice.php?forcechoice=0"));
+      assertThat(KoLCharacter.getFullness(), is(2));
+      RequestThread.postRequest(new GenericRequest("choice.php?whichchoice=1599&option=1"));
+      assertThat(KoLCharacter.getFullness(), is(1));
+      assertThat(KoLCharacter.getSpleenUse(), is(1));
+      assertThat("_legendaryNoodlesSpleen", isSetTo(true));
+    }
+  }
+
+  @Test
+  public void setsPreferenceForSpiceGhostConsumption() {
+    var cleanups =
+        new Cleanups(
+            withClass(AscensionClass.PASTAMANCER), withProperty("_legendarySpiceGhostFood"));
+    try (cleanups) {
+      var req = new EatItemRequest(ItemPool.get(ItemPool.JUMPING_HORSERADISH));
+      req.responseText = html("request/test_eat_spice_ghost.html");
+      req.processResults();
+      assertThat("_legendarySpiceGhostFood", isSetTo(true));
     }
   }
 }

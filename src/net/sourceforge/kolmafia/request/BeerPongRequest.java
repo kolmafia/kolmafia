@@ -195,7 +195,7 @@ public class BeerPongRequest extends GenericRequest {
     }
 
     // winwinwin
-    if (responseText.indexOf("After a few victory laps atop the ocean of revelers") != -1) {
+    if (responseText.contains("After a few victory laps atop the ocean of revelers")) {
       QuestDatabase.setQuestIfBetter(Quest.PIRATE, "step5");
     }
 

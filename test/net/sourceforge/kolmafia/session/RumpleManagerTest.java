@@ -119,9 +119,9 @@ public class RumpleManagerTest {
         assertTrue(ChoiceManager.handlingChoice);
 
         // We have detected mastery of leather crafting
-        assertEquals(Preferences.getInteger("craftingClay"), -1);
-        assertEquals(Preferences.getInteger("craftingLeather"), 0);
-        assertEquals(Preferences.getInteger("craftingStraw"), -1);
+        assertEquals(-1, Preferences.getInteger("craftingClay"));
+        assertEquals(0, Preferences.getInteger("craftingLeather"));
+        assertEquals(-1, Preferences.getInteger("craftingStraw"));
 
         var requests = client.getRequests();
         assertThat(requests, hasSize(2));
@@ -154,7 +154,7 @@ public class RumpleManagerTest {
           client.addResponse(200, ""); // api.php
 
           // We have unknown mastery
-          assertEquals(Preferences.getInteger("craftingLeather"), -1);
+          assertEquals(-1, Preferences.getInteger("craftingLeather"));
 
           var URL = "choice.php?pwd=gnome&whichchoice=849&option=2";
           var request = new GenericRequest(URL);

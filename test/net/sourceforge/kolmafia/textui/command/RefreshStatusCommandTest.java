@@ -54,4 +54,13 @@ public class RefreshStatusCommandTest extends AbstractCommandTestBase {
     assertThat(requests, not(empty()));
     assertPostRequest(getLastRequest(), "/api.php", "what=closet&for=KoLmafia");
   }
+
+  @Test
+  public void shouldRefreshInventory() {
+    execute("inventory");
+
+    var requests = getRequests();
+    assertThat(requests, not(empty()));
+    assertPostRequest(getLastRequest(), "/api.php", "what=inventory&for=KoLmafia");
+  }
 }

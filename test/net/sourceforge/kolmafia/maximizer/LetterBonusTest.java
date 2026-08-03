@@ -23,9 +23,10 @@ public class LetterBonusTest {
   @Test
   public void letterBonusDoesNotCountMode() {
     var cleanups = withProperty("backupCameraMode", "meat");
-
-    AdventureResult item = AdventureResult.tallyItem("backup camera");
-    assertEquals(13, LetterBonus.letterBonus(item));
+    try (cleanups) {
+      AdventureResult item = AdventureResult.tallyItem("backup camera");
+      assertEquals(13, LetterBonus.letterBonus(item));
+    }
   }
 
   @Test

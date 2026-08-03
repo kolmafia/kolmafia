@@ -8,12 +8,14 @@ import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
-import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.equipment.SlotSet;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
@@ -23,9 +25,11 @@ import net.sourceforge.kolmafia.persistence.DailyLimitDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase.Attribute;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.coinmaster.shop.JarlsbergRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResponseTextParser;
@@ -80,9 +84,8 @@ public class DrinkItemRequest extends UseItemRequest {
     }
 
     if (KoLCharacter.isJarlsberg()
-        && ConcoctionDatabase.getMixingMethod(itemId) != CraftingType.JARLS
-        && itemId != ItemPool.STEEL_LIVER
-        && itemId != ItemPool.MEDIOCRE_LAGER) {
+        && !JarlsbergRequest.isJarlsbergian(itemId)
+        && itemId != ItemPool.STEEL_LIVER) {
       UseItemRequest.limiter = "its non-Jarlsbergian nature";
       return 0;
     }
@@ -338,7 +341,7 @@ public class DrinkItemRequest extends UseItemRequest {
             DrinkItemRequest.queuedDrinkHelper = null;
             return;
           }
-          // deliberate fallthrough
+        // deliberate fallthrough
         case ItemPool.DIVINE_FLUTE:
         case ItemPool.CRIMBCO_MUG:
         case ItemPool.BGE_SHOTGLASS:
@@ -375,9 +378,9 @@ public class DrinkItemRequest extends UseItemRequest {
           ItemPool.VESPER,
           ItemPool.BODYSLAM,
           ItemPool.SANGRIA_DEL_DIABLO ->
-      // Allow player who owns a single tiny plastic sword to
-      // make and drink multiple drinks in succession.
-      true;
+          // Allow player who owns a single tiny plastic sword to
+          // make and drink multiple drinks in succession.
+          true;
       default -> false;
     };
   }
@@ -638,9 +641,26 @@ public class DrinkItemRequest extends UseItemRequest {
         // get Mafia Pinky Ring
         InventoryManager.retrieveItem(ItemPool.MAFIA_PINKY_RING);
       }
-      RequestThread.postRequest(
-          new EquipmentRequest(ItemPool.get(ItemPool.MAFIA_PINKY_RING, 1), Slot.ACCESSORY3));
-      if (EquipmentManager.getEquipment(Slot.ACCESSORY3).getItemId() != ItemPool.MAFIA_PINKY_RING) {
+      EnumSet<Slot> accessorySlots = SlotSet.ACCESSORY_SLOTS;
+      Slot pinkyRingSlot = null;
+      for (Slot slot : accessorySlots) {
+        int itemId = EquipmentManager.getEquipment(slot).getItemId();
+        Modifiers mods = ModifierDatabase.getItemModifiers(itemId);
+
+        // Check if the currently equipped item provides Liver Capacity
+        boolean hasLiverModifier =
+            mods != null && mods.getNumeric(DoubleModifier.LIVER_CAPACITY) > 0;
+        if (!hasLiverModifier) {
+          // Equip the Mafia Pinky Ring in this slot
+          pinkyRingSlot = slot;
+          RequestThread.postRequest(
+              new EquipmentRequest(ItemPool.get(ItemPool.MAFIA_PINKY_RING, 1), slot));
+          break; // Stop after equipping it in the first available non-liver slot
+        }
+      }
+      if (pinkyRingSlot == null
+          || EquipmentManager.getEquipment(pinkyRingSlot).getItemId()
+              != ItemPool.MAFIA_PINKY_RING) {
         KoLmafia.updateDisplay(MafiaState.ERROR, "Failed to equip mafia pinky ring.");
         return false;
       } else {
@@ -700,6 +720,10 @@ public class DrinkItemRequest extends UseItemRequest {
 
     if (responseText.contains("You pour your drink into your mime army shotglass.")) {
       Preferences.setBoolean("_mimeArmyShotglassUsed", true);
+    }
+
+    if (responseText.contains("You pour your drink into your flagellate flagon.")) {
+      Preferences.decrement("flagellateFlagonsActive");
     }
 
     // Check for consumption helpers, which will need to be removed
@@ -809,6 +833,10 @@ public class DrinkItemRequest extends UseItemRequest {
       ResultProcessor.processResult(item.getNegation());
     }
 
+    if (!Preferences.getString("coolerYetiMode").isEmpty()) {
+      Preferences.setString("coolerYetiMode", "");
+    }
+
     // Swizzlers and twists of lime are consumed when you drink booze
     int swizzlerCount = InventoryManager.getCount(ItemPool.SWIZZLER);
     if (swizzlerCount > 0) {
@@ -868,8 +896,8 @@ public class DrinkItemRequest extends UseItemRequest {
         Preferences.setBoolean("_missGravesVermouthDrunk", true);
       }
       case ItemPool.MAD_LIQUOR -> Preferences.setBoolean("_madLiquorDrunk", true);
-      case ItemPool.DOC_CLOCKS_THYME_COCKTAIL -> Preferences.setBoolean(
-          "_docClocksThymeCocktailDrunk", true);
+      case ItemPool.DOC_CLOCKS_THYME_COCKTAIL ->
+          Preferences.setBoolean("_docClocksThymeCocktailDrunk", true);
       case ItemPool.DRIPPY_PILSNER -> {
         Preferences.setBoolean("_drippyPilsnerUsed", true);
         Preferences.increment("drippyJuice", 5);
@@ -896,6 +924,8 @@ public class DrinkItemRequest extends UseItemRequest {
         Preferences.setInteger("vintnerCharge", 0);
         KoLCharacter.usableFamiliar(FamiliarPool.VAMPIRE_VINTNER).setCharges(0);
       }
+      case ItemPool.PHEROMONE_COCKTAIL ->
+          Preferences.increment("markYourTerritoryCharges", item.getCount());
     }
   }
 

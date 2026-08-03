@@ -39,20 +39,20 @@ public class MushroomRequest extends GenericRequest {
       return;
     }
 
-    if (urlString.indexOf("action=plant") != -1) {
+    if (urlString.contains("action=plant")) {
       // We are planting. If we succeeded, pay for it
       int sporeIndex = MushroomRequest.getSpore(urlString);
       int[] data = MushroomManager.getSporeDataByIndex(sporeIndex);
-      if (data != null && responseText.indexOf("You plant the spore") != -1) {
+      if (data != null && responseText.contains("You plant the spore")) {
         int price = MushroomManager.getSporePrice(data);
         ResultProcessor.processMeat(-price);
       }
-    } else if (urlString.indexOf("action=buyplot") != -1) {
+    } else if (urlString.contains("action=buyplot")) {
       // Thanks!  It's all yours.  You can buy spores from us
       // to get your mushroom garden started.  Click a spot
       // in your plot to buy a spore there.
 
-      if (responseText.indexOf("It's all yours.") != -1) {
+      if (responseText.contains("It's all yours.")) {
         ResultProcessor.processMeat(-5000);
       }
     }
@@ -88,13 +88,13 @@ public class MushroomRequest extends GenericRequest {
     }
 
     String message;
-    if (urlString.indexOf("action=click") != -1) {
+    if (urlString.contains("action=click")) {
       int square = MushroomRequest.getSquare(urlString);
       if (square == 0) {
         return true;
       }
       message = "pick " + square;
-    } else if (urlString.indexOf("action=plant") != -1) {
+    } else if (urlString.contains("action=plant")) {
       int square = MushroomRequest.getSquare(urlString);
       int sporeIndex = MushroomRequest.getSpore(urlString);
       int[] data = MushroomManager.getSporeDataByIndex(sporeIndex);
@@ -109,7 +109,7 @@ public class MushroomRequest extends GenericRequest {
 
       String name = MushroomManager.getSporeName(data);
       message = "plant " + square + " " + name;
-    } else if (urlString.indexOf("action=buyplot") != -1) {
+    } else if (urlString.contains("action=buyplot")) {
       if (KoLCharacter.getAvailableMeat() < 5000) {
         return true;
       }

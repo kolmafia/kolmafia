@@ -89,8 +89,8 @@ public abstract class MailManager {
 
     int messageIndex;
     SortedListModel<KoLMailMessage> mailbox = MailManager.mailboxes.get(boxname);
-    for (int i = 0; i < messages.length; ++i) {
-      messageIndex = mailbox.indexOf(messages[i]);
+    for (Object message : messages) {
+      messageIndex = mailbox.indexOf(message);
       if (messageIndex != -1) {
         mailbox.remove(messageIndex);
       }
@@ -120,8 +120,8 @@ public abstract class MailManager {
 
     int messageIndex;
     SortedListModel<KoLMailMessage> mailbox = MailManager.mailboxes.get(boxname);
-    for (int i = 0; i < messages.length; ++i) {
-      messageIndex = mailbox.indexOf(messages[i]);
+    for (Object message : messages) {
+      messageIndex = mailbox.indexOf(message);
       if (messageIndex != -1) {
         mailbox.remove(messageIndex);
       }

@@ -86,7 +86,7 @@ public class AdventureSpentDatabaseTest {
     AdventureSpentDatabase.setLastTurnUpdated(1332325);
 
     // In fight, about to administer killing blow. charpane.php
-    String urlString = "charpane.php";
+    String urlString;
     String responseText = html("request/test_adventures_spent_fight_1_0.html");
     CharPaneRequest.processResults(responseText);
     assertEquals(1332325, KoLCharacter.getTurnsPlayed());
@@ -120,8 +120,8 @@ public class AdventureSpentDatabaseTest {
     request.responseText = responseText;
     ChoiceManager.preChoice(request);
     request.processResponse();
-    assertEquals(ChoiceManager.lastChoice, 879);
-    assertEquals(ChoiceManager.lastDecision, 0);
+    assertEquals(879, ChoiceManager.lastChoice);
+    assertEquals(0, ChoiceManager.lastDecision);
 
     // In choice adventure. charpane.php
     urlString = "charpane.php";
@@ -183,7 +183,7 @@ public class AdventureSpentDatabaseTest {
     AdventureSpentDatabase.setLastTurnUpdated(1332327);
 
     // In fight, about to administer killing blow. charpane.php
-    String urlString = "charpane.php";
+    String urlString;
     String responseText = html("request/test_adventures_spent_fight_2_0.html");
     CharPaneRequest.processResults(responseText);
     assertEquals(1332327, KoLCharacter.getTurnsPlayed());
@@ -218,8 +218,8 @@ public class AdventureSpentDatabaseTest {
     ChoiceManager.preChoice(request);
     request.processResponse();
     assertTrue(ChoiceManager.handlingChoice);
-    assertEquals(ChoiceManager.lastChoice, 879);
-    assertEquals(ChoiceManager.lastDecision, 0);
+    assertEquals(879, ChoiceManager.lastChoice);
+    assertEquals(0, ChoiceManager.lastDecision);
 
     // In choice adventure. charpane.php
     urlString = "charpane.php";
@@ -286,8 +286,8 @@ public class AdventureSpentDatabaseTest {
     ChoiceManager.preChoice(request);
     request.processResponse();
     assertTrue(ChoiceManager.handlingChoice);
-    assertEquals(ChoiceManager.lastChoice, 786);
-    assertEquals(ChoiceManager.lastDecision, 0);
+    assertEquals(786, ChoiceManager.lastChoice);
+    assertEquals(0, ChoiceManager.lastDecision);
 
     urlString = "api.php?what=status&for=KoLmafia";
     responseText = html("request/test_adventures_spent_binder_clip_2.json");
@@ -312,7 +312,7 @@ public class AdventureSpentDatabaseTest {
     // Simulate Auto crafting
     CreateItemRequest creator = CreateItemRequest.getInstance(ItemPool.MCCLUSKY_FILE);
     creator.setQuantityNeeded(1);
-    assertTrue(creator instanceof SingleUseRequest);
+    assertInstanceOf(SingleUseRequest.class, creator);
     creator.reconstructFields();
     urlString = "inv_use.php?which=3&whichitem=6694&ajax=1";
     assertEquals(urlString, creator.getURLString());
@@ -355,7 +355,7 @@ public class AdventureSpentDatabaseTest {
     AdventureResult BEEHIVE = ItemPool.get(ItemPool.BEEHIVE, 1);
 
     // About to adventure in The Black Forest
-    String urlString = "charpane.php";
+    String urlString;
     String responseText = html("request/test_adventures_spent_beehive_0.html");
     CharPaneRequest.processResults(responseText);
     assertEquals(988140, KoLCharacter.getTurnsPlayed());
@@ -372,8 +372,8 @@ public class AdventureSpentDatabaseTest {
     ChoiceManager.preChoice(request);
     request.processResponse();
     assertTrue(ChoiceManager.handlingChoice);
-    assertEquals(ChoiceManager.lastChoice, 923);
-    assertEquals(ChoiceManager.lastDecision, 0);
+    assertEquals(923, ChoiceManager.lastChoice);
+    assertEquals(0, ChoiceManager.lastDecision);
 
     urlString = "charpane.php";
     responseText = html("request/test_adventures_spent_beehive_2.html");
@@ -476,8 +476,8 @@ public class AdventureSpentDatabaseTest {
     ChoiceManager.preChoice(request);
     request.processResponse();
     assertTrue(ChoiceManager.handlingChoice);
-    assertEquals(ChoiceManager.lastChoice, 502);
-    assertEquals(ChoiceManager.lastDecision, 0);
+    assertEquals(502, ChoiceManager.lastChoice);
+    assertEquals(0, ChoiceManager.lastDecision);
 
     // Explore the Stream
     urlString = "choice.php?whichchoice=502&option=2&pwd";
@@ -523,8 +523,8 @@ public class AdventureSpentDatabaseTest {
     ChoiceManager.preChoice(request);
     request.processResponse();
     assertTrue(ChoiceManager.handlingChoice);
-    assertEquals(ChoiceManager.lastChoice, 502);
-    assertEquals(ChoiceManager.lastDecision, 0);
+    assertEquals(502, ChoiceManager.lastChoice);
+    assertEquals(0, ChoiceManager.lastDecision);
     // charpane.php requested - after a visit?
     assertTrue(AdventureSpentDatabase.getNoncombatEncountered());
     assertEquals(988527, AdventureSpentDatabase.getLastTurnUpdated());
@@ -620,8 +620,8 @@ public class AdventureSpentDatabaseTest {
     ChoiceManager.preChoice(request);
     request.processResponse();
     assertTrue(ChoiceManager.handlingChoice);
-    assertEquals(ChoiceManager.lastChoice, 582);
-    assertEquals(ChoiceManager.lastDecision, 0);
+    assertEquals(582, ChoiceManager.lastChoice);
+    assertEquals(0, ChoiceManager.lastDecision);
 
     urlString = "api.php?what=status&for=KoLmafia";
     responseText = html("request/test_adventures_spent_hidden_temple_2.json");
@@ -637,8 +637,8 @@ public class AdventureSpentDatabaseTest {
     request = new GenericRequest(urlString);
     request.responseText = responseText;
     ChoiceManager.preChoice(request);
-    assertEquals(ChoiceManager.lastChoice, 582);
-    assertEquals(ChoiceManager.lastDecision, 2);
+    assertEquals(582, ChoiceManager.lastChoice);
+    assertEquals(2, ChoiceManager.lastDecision);
     request.processResponse();
     assertTrue(ChoiceManager.handlingChoice);
     // NO charpane.php requested
@@ -651,8 +651,8 @@ public class AdventureSpentDatabaseTest {
     request = new GenericRequest(urlString);
     request.responseText = responseText;
     ChoiceManager.preChoice(request);
-    assertEquals(ChoiceManager.lastChoice, 580);
-    assertEquals(ChoiceManager.lastDecision, 2);
+    assertEquals(580, ChoiceManager.lastChoice);
+    assertEquals(2, ChoiceManager.lastDecision);
     request.processResponse();
     assertTrue(ChoiceManager.handlingChoice);
     // charpane.php requested
@@ -675,8 +675,8 @@ public class AdventureSpentDatabaseTest {
     request.responseText = responseText;
     request.setHasResult(true);
     ChoiceManager.preChoice(request);
-    assertEquals(ChoiceManager.lastChoice, 584);
-    assertEquals(ChoiceManager.lastDecision, 4);
+    assertEquals(584, ChoiceManager.lastChoice);
+    assertEquals(4, ChoiceManager.lastDecision);
     assertEquals(1, InventoryManager.getCount(NOSTRIL_OF_THE_SERPENT));
     request.processResponse();
     assertEquals(0, InventoryManager.getCount(NOSTRIL_OF_THE_SERPENT));
@@ -699,8 +699,8 @@ public class AdventureSpentDatabaseTest {
     request = new GenericRequest(urlString);
     request.responseText = responseText;
     ChoiceManager.preChoice(request);
-    assertEquals(ChoiceManager.lastChoice, 580);
-    assertEquals(ChoiceManager.lastDecision, 1);
+    assertEquals(580, ChoiceManager.lastChoice);
+    assertEquals(1, ChoiceManager.lastDecision);
     request.processResponse();
     assertTrue(ChoiceManager.handlingChoice);
     // NO charpane.php requested
@@ -713,8 +713,8 @@ public class AdventureSpentDatabaseTest {
     request = new GenericRequest(urlString);
     request.responseText = responseText;
     ChoiceManager.preChoice(request);
-    assertEquals(ChoiceManager.lastChoice, 123);
-    assertEquals(ChoiceManager.lastDecision, 2);
+    assertEquals(123, ChoiceManager.lastChoice);
+    assertEquals(2, ChoiceManager.lastDecision);
     request.processResponse();
     assertTrue(ChoiceManager.handlingChoice);
     // charpane.php requested
@@ -877,8 +877,8 @@ public class AdventureSpentDatabaseTest {
     request.setHasResult(true);
     request.processResponse();
     assertTrue(ChoiceManager.handlingChoice);
-    assertEquals(ChoiceManager.lastChoice, 125);
-    assertEquals(ChoiceManager.lastDecision, 0);
+    assertEquals(125, ChoiceManager.lastChoice);
+    assertEquals(0, ChoiceManager.lastDecision);
 
     urlString = "api.php?what=status&for=KoLmafia";
     responseText = html("request/test_adventures_spent_hidden_temple_26.json");
@@ -894,8 +894,8 @@ public class AdventureSpentDatabaseTest {
     request = new GenericRequest(urlString);
     request.responseText = responseText;
     ChoiceManager.preChoice(request);
-    assertEquals(ChoiceManager.lastChoice, 125);
-    assertEquals(ChoiceManager.lastDecision, 3);
+    assertEquals(125, ChoiceManager.lastChoice);
+    assertEquals(3, ChoiceManager.lastDecision);
     request.processResponse();
     assertFalse(ChoiceManager.handlingChoice);
     // charpane.php requested
@@ -972,8 +972,8 @@ public class AdventureSpentDatabaseTest {
     ChoiceManager.preChoice(choice);
     choice.processResponse();
     assertTrue(ChoiceManager.handlingChoice);
-    assertEquals(ChoiceManager.lastChoice, 182);
-    assertEquals(ChoiceManager.lastDecision, 0);
+    assertEquals(182, ChoiceManager.lastChoice);
+    assertEquals(0, ChoiceManager.lastDecision);
 
     urlString = "api.php?what=status&for=KoLmafia";
     responseText = html("request/test_adventures_spent_airship_6.json");
@@ -1038,8 +1038,8 @@ public class AdventureSpentDatabaseTest {
     ChoiceManager.preChoice(choice);
     choice.processResponse();
     assertTrue(ChoiceManager.handlingChoice);
-    assertEquals(ChoiceManager.lastChoice, 182);
-    assertEquals(ChoiceManager.lastDecision, 0);
+    assertEquals(182, ChoiceManager.lastChoice);
+    assertEquals(0, ChoiceManager.lastDecision);
 
     urlString = "api.php?what=status&for=KoLmafia";
     responseText = html("request/test_adventures_spent_airship_12.json");
@@ -1148,8 +1148,8 @@ public class AdventureSpentDatabaseTest {
     ChoiceManager.preChoice(choice);
     choice.processResponse();
     assertTrue(ChoiceManager.handlingChoice);
-    assertEquals(ChoiceManager.lastChoice, 786);
-    assertEquals(ChoiceManager.lastDecision, 0);
+    assertEquals(786, ChoiceManager.lastChoice);
+    assertEquals(0, ChoiceManager.lastDecision);
 
     urlString = "api.php?what=status&for=KoLmafia";
     responseText = html("request/test_adventures_spent_office_6.json");

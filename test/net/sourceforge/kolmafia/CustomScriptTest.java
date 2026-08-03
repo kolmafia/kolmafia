@@ -9,10 +9,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.io.UncheckedIOException;
 import java.nio.file.Files;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ContactManager;
@@ -60,14 +61,31 @@ class CustomScriptTest {
     private static final File EXPECTED_LOCATION = new File(KoLConstants.ROOT_LOCATION, "expected/");
 
     private static Stream<Arguments> data() {
-      var files =
-          KoLConstants.SCRIPT_LOCATION.list(
-              (dir, name) ->
+      File dir = KoLConstants.SCRIPT_LOCATION;
+      Set<String> fileNames = Set.of(dir.list());
+
+      return fileNames.stream()
+          .filter(
+              name ->
                   name.endsWith(".ash")
                       || name.endsWith(".txt")
                       || name.endsWith(".cli")
-                      || name.endsWith(".js"));
-      return Arrays.stream(files).map(Arguments::of);
+                      || name.endsWith(".js"))
+          .map(
+              script -> {
+                String paramsFile = script + ".params";
+                String params = "";
+
+                if (fileNames.contains(paramsFile)) {
+                  try {
+                    params = " " + Files.readString(dir.toPath().resolve(paramsFile));
+                  } catch (IOException e) {
+                    throw new UncheckedIOException(e);
+                  }
+                }
+
+                return Arguments.of(script, params);
+              });
     }
 
     // Looks for the file "test/root/expected/" + script + ".out".
@@ -77,7 +95,8 @@ class CustomScriptTest {
 
     @ParameterizedTest
     @MethodSource("data")
-    void testScript(String script) throws IOException {
+    void testScript(String script, String parameters) throws IOException {
+      // parameters can be provided by adding '.params' to the file name in the same folder.
       String expectedOutput = getExpectedOutput(script).trim();
       ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
       try (PrintStream out = new PrintStream(outputStream, true)) {
@@ -85,7 +104,7 @@ class CustomScriptTest {
         RequestLogger.openCustom(out);
 
         CallScriptCommand command = new CallScriptCommand();
-        command.run("call", script);
+        command.run("call", script + parameters);
 
         RequestLogger.closeCustom();
       }

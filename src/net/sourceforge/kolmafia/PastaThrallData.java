@@ -25,6 +25,7 @@ public class PastaThrallData implements Comparable<PastaThrallData> {
     public String level1Power;
     public String level5Power;
     public String level10Power;
+    public String level11Power;
     public String canonicalName;
 
     public PastaThrallType(
@@ -39,6 +40,7 @@ public class PastaThrallData implements Comparable<PastaThrallData> {
         final String level1Power,
         final String level5Power,
         final String level10Power,
+        final String level11Power,
         final String canonicalName) {
       this.name = name;
       this.id = id;
@@ -51,6 +53,7 @@ public class PastaThrallData implements Comparable<PastaThrallData> {
       this.level1Power = level1Power;
       this.level5Power = level5Power;
       this.level10Power = level10Power;
+      this.level11Power = level11Power;
       this.canonicalName = canonicalName;
     }
   }
@@ -72,6 +75,7 @@ public class PastaThrallData implements Comparable<PastaThrallData> {
         "Damage and restore HP during combat",
         "Dispel negative effects after combat",
         "Maximum HP: +60",
+        "Spooky Resistance: +1",
         StringUtilities.getCanonicalName("Vampieroghi")),
     new PastaThrallType(
         "Vermincelli",
@@ -89,6 +93,7 @@ public class PastaThrallData implements Comparable<PastaThrallData> {
         "Damage and restore MP during combat",
         "Attack and poison foe during combat",
         "Maximum MP: +30",
+        "Rats are sometimes free fights",
         StringUtilities.getCanonicalName("Vermincelli")),
     new PastaThrallType(
         "Angel Hair Wisp",
@@ -107,6 +112,7 @@ public class PastaThrallData implements Comparable<PastaThrallData> {
         "Initiative: +5 per level",
         "Prevent enemy critical hits",
         "Blocks enemy attacks",
+        "Mysticality: +20",
         StringUtilities.getCanonicalName("Angel Hair Wisp")),
     new PastaThrallType(
         "Elbow Macaroni",
@@ -124,6 +130,7 @@ public class PastaThrallData implements Comparable<PastaThrallData> {
         "Muscle can't be lower than Mysticality",
         "Weapon Damage: +2 per level",
         "Critical Hit Percentage: +10",
+        "Muscle: +20",
         StringUtilities.getCanonicalName("Elbow Macaroni")),
     new PastaThrallType(
         "Penne Dreadful",
@@ -144,6 +151,7 @@ public class PastaThrallData implements Comparable<PastaThrallData> {
         "Moxie can't be lower than Mysticality",
         "Delevel at start of combat",
         "Damage Reduction: +10",
+        "Moxie: +20",
         StringUtilities.getCanonicalName("Penne Dreadful")),
     new PastaThrallType(
         "Lasagmbie",
@@ -160,6 +168,7 @@ public class PastaThrallData implements Comparable<PastaThrallData> {
         "Meat Drop: +20 + 2 per level",
         "Attacks for Spooky Damage",
         "Spooky Spell Damage: +10",
+        "10k MP restore (11 times / day)",
         StringUtilities.getCanonicalName("Lasagmbie")),
     new PastaThrallType(
         "Spice Ghost",
@@ -177,6 +186,7 @@ public class PastaThrallData implements Comparable<PastaThrallData> {
         "Item Drop: +10 + 1 per level",
         "spice drop 10/day",
         "Increases duration of Entangling Noodles",
+        "First food of the day gives +2 adventures",
         StringUtilities.getCanonicalName("Spice Ghost")),
     new PastaThrallType(
         "Spaghetti Elemental",
@@ -196,6 +206,7 @@ public class PastaThrallData implements Comparable<PastaThrallData> {
         "Experience: 1-ceil(level/3)",
         "Prevents first attack",
         "Spell Damage: +5",
+        "Spooky Damage: +10",
         StringUtilities.getCanonicalName("Spaghetti Elemental")),
   };
 
@@ -242,18 +253,6 @@ public class PastaThrallData implements Comparable<PastaThrallData> {
 
   public static String dataToTinyImage(PastaThrallType data) {
     return data == null ? null : data.tinyImage;
-  }
-
-  public static String dataToLevel1Ability(PastaThrallType data) {
-    return data == null ? null : data.level1Power;
-  }
-
-  public static String dataToLevel5Ability(PastaThrallType data) {
-    return data == null ? null : data.level5Power;
-  }
-
-  public static String dataToLevel10Ability(PastaThrallType data) {
-    return data == null ? null : data.level10Power;
   }
 
   public static String dataToCanonicalType(PastaThrallType data) {
@@ -329,6 +328,7 @@ public class PastaThrallData implements Comparable<PastaThrallData> {
   private final int id;
   private final String type;
   private int level;
+  private int experience;
   private String name;
   private String mods;
   private Lookup modsLookup;
@@ -338,6 +338,7 @@ public class PastaThrallData implements Comparable<PastaThrallData> {
     this.id = PastaThrallData.dataToId(data);
     this.type = PastaThrallData.dataToType(data);
     this.level = 0;
+    this.experience = 0;
     this.name = "";
 
     if (this.id != 0) {
@@ -397,20 +398,28 @@ public class PastaThrallData implements Comparable<PastaThrallData> {
     return this.level;
   }
 
+  public int getExperience() {
+    return this.experience;
+  }
+
   public String getName() {
     return this.name;
   }
 
   public String getLevel1Ability() {
-    return this.data == null ? "" : PastaThrallData.dataToLevel1Ability(this.data);
+    return this.data == null ? "" : this.data.level1Power;
   }
 
   public String getLevel5Ability() {
-    return this.data == null ? "" : PastaThrallData.dataToLevel5Ability(this.data);
+    return this.data == null ? "" : this.data.level5Power;
   }
 
   public String getLevel10Ability() {
-    return this.data == null ? "" : PastaThrallData.dataToLevel10Ability(this.data);
+    return this.data == null ? "" : this.data.level10Power;
+  }
+
+  public String getLevel11Ability() {
+    return this.data == null ? "" : this.data.level11Power;
   }
 
   public String getCurrentModifiers() {
@@ -428,9 +437,17 @@ public class PastaThrallData implements Comparable<PastaThrallData> {
   }
 
   public void update(final int level, final String name) {
+    this.update(level, name, 0);
+  }
+
+  public void update(final int level, final String name, final int experience) {
     boolean change = false;
     if (level != 0 && level != this.level) {
       this.level = level;
+      change = true;
+    }
+    if (experience != 0 && experience != this.experience) {
+      this.experience = experience;
       change = true;
     }
     if (name != null && !name.equals(this.name)) {

@@ -466,12 +466,12 @@ public class BeachCombRequest extends GenericRequest {
     // Only want to log "Encounter:" in interesting cases
     BeachCombCommand command = extractCommandFromURL(urlString);
     return switch (command) {
-        // Picking up or putting down the comb are uninteresting
+      // Picking up or putting down the comb are uninteresting
       case VISIT, EXIT -> false;
-        // These are the result of combing a square. Not interesting encounter
+      // These are the result of combing a square. Not interesting encounter
       case COMMON, HEAD, COMB -> false;
-        // These bring us to a particular section of beach. The
-        // encounter tells us which section.
+      // These bring us to a particular section of beach. The
+      // encounter tells us which section.
       case WANDER, RANDOM -> true;
     };
   }

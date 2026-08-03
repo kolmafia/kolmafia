@@ -133,7 +133,7 @@ public class MallSearchRequestTest {
         MallSearchRequest request = new MallSearchRequest("sprocket", 100, results);
         request.responseText = html("request/test_mall_search_sprocket.html");
         request.processResults();
-        assertEquals(results.size(), 60);
+        assertEquals(60, results.size());
       }
     }
 
@@ -145,7 +145,7 @@ public class MallSearchRequestTest {
         MallSearchRequest request = new MallSearchRequest("sprocket", 100, results);
         request.responseText = html("request/test_mall_search_sprocket.html");
         request.processResults();
-        assertEquals(results.size(), 61);
+        assertEquals(61, results.size());
       }
     }
   }

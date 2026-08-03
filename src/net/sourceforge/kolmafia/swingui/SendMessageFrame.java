@@ -199,9 +199,9 @@ public class SendMessageFrame extends GenericFrame implements ListElementFilter 
     String[] recipients =
         ContactManager.extractTargets((String) this.recipientEntry.getSelectedItem());
 
-    for (int i = 0; i < recipients.length; ++i) {
+    for (String recipient : recipients) {
       SendMessageCommand.send(
-          recipients[i], this.messageEntry.getText(), attachmentsArray, this.isStorage, false);
+          recipient, this.messageEntry.getText(), attachmentsArray, this.isStorage, false);
     }
   }
 
@@ -241,7 +241,7 @@ public class SendMessageFrame extends GenericFrame implements ListElementFilter 
         Integer value =
             InputFieldUtilities.getQuantity(
                 "How many " + current.getName() + " to send?", current.getCount());
-        int amount = (value == null) ? 0 : value.intValue();
+        int amount = (value == null) ? 0 : value;
 
         if (amount <= 0) {
           values.set(i, null);

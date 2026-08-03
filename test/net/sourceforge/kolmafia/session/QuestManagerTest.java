@@ -13,11 +13,15 @@ import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withFight;
 import static internal.helpers.Player.withGender;
 import static internal.helpers.Player.withHandlingChoice;
+import static internal.helpers.Player.withHardcore;
 import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withLastLocation;
 import static internal.helpers.Player.withNextResponse;
+import static internal.helpers.Player.withNoEffects;
+import static internal.helpers.Player.withNoItems;
 import static internal.helpers.Player.withPasswordHash;
+import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withQuestProgress;
 import static internal.matchers.Item.isInInventory;
@@ -45,10 +49,12 @@ import java.util.Set;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionClass;
+import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLCharacter.Gender;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -57,6 +63,7 @@ import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -84,6 +91,10 @@ public class QuestManagerTest {
     Preferences.reset("QuestManager");
     KoLConstants.inventory.clear();
     AdventureSpentDatabase.resetTurns(false);
+  }
+
+  private static MonsterData monsterData(String monsterName) {
+    return MonsterDatabase.findMonster(monsterName, false, true);
   }
 
   /*
@@ -196,7 +207,7 @@ public class QuestManagerTest {
 
     @Test
     public void canDetectTrapperStep4InIcyPeak() {
-      QuestManager.updateQuestData("anything", "panicking Knott Yeti");
+      QuestManager.updateQuestData("anything", monsterData("panicking Knott Yeti"));
       assertThat(Quest.TRAPPER, isStep(4));
     }
 
@@ -274,7 +285,7 @@ public class QuestManagerTest {
       public void canTrackOIlPeakProgress(String monsterName, String html, float progress) {
         String path = "request/test_fight_" + html + ".html";
         String responseText = html(path);
-        QuestManager.updateQuestData(responseText, monsterName);
+        QuestManager.updateQuestData(responseText, monsterData(monsterName));
         assertThat("oilPeakProgress", isSetTo(progress));
       }
 
@@ -282,14 +293,14 @@ public class QuestManagerTest {
       public void canTrackOilPeakProgressWearingDressPants() {
         withEquipped(Slot.PANTS, "dress pants");
         String responseText = html("request/test_fight_oil_tycoon.html");
-        QuestManager.updateQuestData(responseText, "oil tycoon");
+        QuestManager.updateQuestData(responseText, monsterData("oil tycoon"));
         assertThat("oilPeakProgress", isSetTo(285.3f));
       }
 
       @Test
       public void canTrackOilPeakProgressWithLoveOilBeetle() {
         String responseText = html("request/test_fight_oil_slick_love_oil_beetle_proc.html");
-        QuestManager.updateQuestData(responseText, "oil slick");
+        QuestManager.updateQuestData(responseText, monsterData("oil slick"));
         assertThat("oilPeakProgress", isSetTo(297.98f));
       }
 
@@ -326,7 +337,7 @@ public class QuestManagerTest {
             "Whatsian Commando Ghost"
           })
       public void canTrackBooPeakProgress(String monsterName) {
-        QuestManager.updateQuestData("anything", monsterName);
+        QuestManager.updateQuestData("anything", monsterData(monsterName));
         assertThat("booPeakProgress", isSetTo(98));
       }
 
@@ -458,7 +469,7 @@ public class QuestManagerTest {
               withProperty("gooseDronesRemaining", 1));
       try (cleanups) {
         KoLAdventure.setLastAdventure("The Batrat and Ratbat Burrow");
-        assertEquals(KoLAdventure.lastAdventureId(), AdventurePool.BATRAT);
+        assertEquals(AdventurePool.BATRAT, KoLAdventure.lastAdventureId());
         FightRequest.registerRequest(true, "fight.php?action=attack");
         FightRequest.currentRound = 1;
         FightRequest.updateCombatData(null, null, html);
@@ -532,7 +543,7 @@ public class QuestManagerTest {
         var request = new GenericRequest("fight.php");
         request.responseText = html("request/" + htmlFile);
         String encounter = AdventureRequest.registerEncounter(request);
-        QuestManager.updateQuestData(request.responseText, encounter);
+        QuestManager.updateQuestData(request.responseText, monsterData(encounter));
         assertThat("zeppelinProgress", isSetTo(expectedProgress));
         if (expectedProgress == 6) {
           assertThat(Quest.RON, isStep(4));
@@ -585,10 +596,10 @@ public class QuestManagerTest {
       var cleanups = new Cleanups(withProperty("desertExploration", 20));
       try (cleanups) {
         KoLAdventure.setLastAdventure("The Arid, Extra-Dry Desert");
-        assertEquals(KoLAdventure.lastAdventureId(), AdventurePool.ARID_DESERT);
-        QuestManager.updateQuestData(responseText, "giant giant giant centipede");
+        assertEquals(AdventurePool.ARID_DESERT, KoLAdventure.lastAdventureId());
+        QuestManager.updateQuestData(responseText, monsterData("giant giant giant centipede"));
         assertTrue(responseText.contains("Desert exploration <b>+1%</b>"));
-        assertEquals(Preferences.getInteger("desertExploration"), 21);
+        assertEquals(21, Preferences.getInteger("desertExploration"));
       }
     }
 
@@ -601,10 +612,10 @@ public class QuestManagerTest {
               withEquipped(Slot.OFFHAND, "UV-resistant compass"));
       try (cleanups) {
         KoLAdventure.setLastAdventure("The Arid, Extra-Dry Desert");
-        assertEquals(KoLAdventure.lastAdventureId(), AdventurePool.ARID_DESERT);
-        QuestManager.updateQuestData(responseText, "plaque of locusts");
+        assertEquals(AdventurePool.ARID_DESERT, KoLAdventure.lastAdventureId());
+        QuestManager.updateQuestData(responseText, monsterData("plaque of locusts"));
         assertTrue(responseText.contains("Desert exploration <b>+2%</b>"));
-        assertEquals(Preferences.getInteger("desertExploration"), 22);
+        assertEquals(22, Preferences.getInteger("desertExploration"));
       }
     }
 
@@ -618,10 +629,10 @@ public class QuestManagerTest {
               withEffect("Ultrahydrated"));
       try (cleanups) {
         KoLAdventure.setLastAdventure("The Arid, Extra-Dry Desert");
-        assertEquals(KoLAdventure.lastAdventureId(), AdventurePool.ARID_DESERT);
-        QuestManager.updateQuestData(responseText, "rock scorpion");
+        assertEquals(AdventurePool.ARID_DESERT, KoLAdventure.lastAdventureId());
+        QuestManager.updateQuestData(responseText, monsterData("rock scorpion"));
         assertTrue(responseText.contains("Desert exploration <b>+3%</b>"));
-        assertEquals(Preferences.getInteger("desertExploration"), 23);
+        assertEquals(23, Preferences.getInteger("desertExploration"));
       }
     }
 
@@ -636,10 +647,10 @@ public class QuestManagerTest {
               withEffect("Ultrahydrated"));
       try (cleanups) {
         KoLAdventure.setLastAdventure("The Arid, Extra-Dry Desert");
-        assertEquals(KoLAdventure.lastAdventureId(), AdventurePool.ARID_DESERT);
-        QuestManager.updateQuestData(responseText, "giant giant giant centipede");
+        assertEquals(AdventurePool.ARID_DESERT, KoLAdventure.lastAdventureId());
+        QuestManager.updateQuestData(responseText, monsterData("giant giant giant centipede"));
         assertTrue(responseText.contains("Desert exploration <b>+4%</b>"));
-        assertEquals(Preferences.getInteger("desertExploration"), 24);
+        assertEquals(24, Preferences.getInteger("desertExploration"));
       }
     }
 
@@ -654,10 +665,10 @@ public class QuestManagerTest {
               withEffect("Ultrahydrated"));
       try (cleanups) {
         KoLAdventure.setLastAdventure("The Arid, Extra-Dry Desert");
-        assertEquals(KoLAdventure.lastAdventureId(), AdventurePool.ARID_DESERT);
-        QuestManager.updateQuestData(responseText, "giant giant giant centipede");
+        assertEquals(AdventurePool.ARID_DESERT, KoLAdventure.lastAdventureId());
+        QuestManager.updateQuestData(responseText, monsterData("giant giant giant centipede"));
         assertTrue(responseText.contains("Desert exploration <b>+2%</b>"));
-        assertEquals(Preferences.getInteger("desertExploration"), 7);
+        assertEquals(7, Preferences.getInteger("desertExploration"));
       }
     }
 
@@ -669,10 +680,10 @@ public class QuestManagerTest {
               withProperty("desertExploration", 20), withFamiliar(FamiliarPool.MELODRAMEDARY));
       try (cleanups) {
         KoLAdventure.setLastAdventure("The Arid, Extra-Dry Desert");
-        assertEquals(KoLAdventure.lastAdventureId(), AdventurePool.ARID_DESERT);
-        QuestManager.updateQuestData(responseText, "giant giant giant centipede");
+        assertEquals(AdventurePool.ARID_DESERT, KoLAdventure.lastAdventureId());
+        QuestManager.updateQuestData(responseText, monsterData("giant giant giant centipede"));
         assertTrue(responseText.contains("Desert exploration <b>+2%</b>"));
-        assertEquals(Preferences.getInteger("desertExploration"), 22);
+        assertEquals(22, Preferences.getInteger("desertExploration"));
       }
     }
 
@@ -686,10 +697,10 @@ public class QuestManagerTest {
               withEquipped(Slot.OFFHAND, "UV-resistant compass"));
       try (cleanups) {
         KoLAdventure.setLastAdventure("The Arid, Extra-Dry Desert");
-        assertEquals(KoLAdventure.lastAdventureId(), AdventurePool.ARID_DESERT);
-        QuestManager.updateQuestData(responseText, "rock scorpion");
+        assertEquals(AdventurePool.ARID_DESERT, KoLAdventure.lastAdventureId());
+        QuestManager.updateQuestData(responseText, monsterData("rock scorpion"));
         assertTrue(responseText.contains("Desert exploration <b>+3%</b>"));
-        assertEquals(Preferences.getInteger("desertExploration"), 23);
+        assertEquals(23, Preferences.getInteger("desertExploration"));
       }
     }
 
@@ -704,10 +715,10 @@ public class QuestManagerTest {
               withEffect("Ultrahydrated"));
       try (cleanups) {
         KoLAdventure.setLastAdventure("The Arid, Extra-Dry Desert");
-        assertEquals(KoLAdventure.lastAdventureId(), AdventurePool.ARID_DESERT);
-        QuestManager.updateQuestData(responseText, "giant giant giant centipede");
+        assertEquals(AdventurePool.ARID_DESERT, KoLAdventure.lastAdventureId());
+        QuestManager.updateQuestData(responseText, monsterData("giant giant giant centipede"));
         assertTrue(responseText.contains("Desert exploration <b>+4%</b>"));
-        assertEquals(Preferences.getInteger("desertExploration"), 24);
+        assertEquals(24, Preferences.getInteger("desertExploration"));
       }
     }
 
@@ -723,10 +734,10 @@ public class QuestManagerTest {
               withEffect("Ultrahydrated"));
       try (cleanups) {
         KoLAdventure.setLastAdventure("The Arid, Extra-Dry Desert");
-        assertEquals(KoLAdventure.lastAdventureId(), AdventurePool.ARID_DESERT);
-        QuestManager.updateQuestData(responseText, "rock scorpion");
+        assertEquals(AdventurePool.ARID_DESERT, KoLAdventure.lastAdventureId());
+        QuestManager.updateQuestData(responseText, monsterData("rock scorpion"));
         assertTrue(responseText.contains("Desert exploration <b>+5%</b>"));
-        assertEquals(Preferences.getInteger("desertExploration"), 25);
+        assertEquals(25, Preferences.getInteger("desertExploration"));
       }
     }
 
@@ -740,10 +751,10 @@ public class QuestManagerTest {
               withEquipped(Slot.WEAPON, "survival knife"));
       try (cleanups) {
         KoLAdventure.setLastAdventure("The Arid, Extra-Dry Desert");
-        assertEquals(KoLAdventure.lastAdventureId(), AdventurePool.ARID_DESERT);
-        QuestManager.updateQuestData(responseText, "cactuary");
+        assertEquals(AdventurePool.ARID_DESERT, KoLAdventure.lastAdventureId());
+        QuestManager.updateQuestData(responseText, monsterData("cactuary"));
         assertTrue(responseText.contains("Desert exploration <b>+2%</b>"));
-        assertEquals(Preferences.getInteger("desertExploration"), 22);
+        assertEquals(22, Preferences.getInteger("desertExploration"));
       }
     }
   }
@@ -1193,21 +1204,21 @@ public class QuestManagerTest {
     @Test
     public void canTrackWritingDesksFought() {
       QuestDatabase.setQuest(Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.STARTED);
-      QuestManager.updateQuestData("anything", "writing desk");
+      QuestManager.updateQuestData("anything", monsterData("writing desk"));
       assertThat("writingDesksDefeated", isSetTo(1));
     }
 
     @Test
     public void doesNotTrackWritingDesksFoughtBeforeQuest() {
       QuestDatabase.setQuest(Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.UNSTARTED);
-      QuestManager.updateQuestData("anything", "writing desk");
+      QuestManager.updateQuestData("anything", monsterData("writing desk"));
       assertThat("writingDesksDefeated", isSetTo(0));
     }
 
     @Test
     public void doesNotTrackWritingDesksFoughtAfterQuest() {
       QuestDatabase.setQuest(Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.FINISHED);
-      QuestManager.updateQuestData("anything", "writing desk");
+      QuestManager.updateQuestData("anything", monsterData("writing desk"));
       assertThat("writingDesksDefeated", isSetTo(0));
     }
 
@@ -1216,7 +1227,7 @@ public class QuestManagerTest {
       var cleanups = withItem(ItemPool.SPOOKYRAVEN_NECKLACE);
 
       try (cleanups) {
-        QuestManager.updateQuestData("anything", "writing desk");
+        QuestManager.updateQuestData("anything", monsterData("writing desk"));
         assertThat("writingDesksDefeated", isSetTo(0));
       }
     }
@@ -1589,6 +1600,72 @@ public class QuestManagerTest {
   }
 
   /*
+   * Z is for Zootomist
+   */
+  @Nested
+  class Zootomist {
+    @Test
+    public void canParseLevel1CouncilPage() {
+      var request = new GenericRequest("council.php");
+      request.responseText = html("request/test_visit_level1_zootomist_council.html");
+      QuestManager.handleQuestChange(request);
+
+      assertThat("Status of Larva quest", Quest.LARVA, isUnstarted());
+    }
+  }
+
+  /*
+   * 11,037 Leagues Under the Sea
+   */
+  @Nested
+  class UnderTheSea {
+    @ParameterizedTest
+    @CsvSource({
+      // We improved our dolphin whistling experience
+      "true, false, true, 9, 11",
+      "true, false, false, 9, 10",
+      "true, false, true, 10, 11",
+      "true, false, false, 10, 11",
+      // We acquired a dolphin whistle
+      "false, true, true, 0, 2",
+      "false, true, false, 0, 1",
+      // We neither improved our dolphin whistling experience nor obtained a whistle
+      "false, false, true, 0, 11",
+      "false, false, false, 0, 11",
+    })
+    public void defeatingNauticalSeaceressIncrementsSeaPoints(
+        boolean message, boolean whistle, boolean isHardcore, int before, int after) {
+      var cleanups =
+          new Cleanups(
+              withPath(Path.UNDER_THE_SEA),
+              withFight(12),
+              // Defeating a monster can give effects (from Book of Facts)
+              withNoEffects(),
+              // Ditto for items
+              withNoItems(),
+              withHardcore(isHardcore),
+              withProperty("seaPoints", before),
+              withQuestProgress(Quest.FINAL, QuestDatabase.UNSTARTED));
+      try (cleanups) {
+        String html =
+            message
+                ? html("request/test_fight_nautical_seaceress_won.html")
+                : whistle
+                    ? html("request/test_fight_nautical_seaceress_won_whistle.html")
+                    : html("request/test_fight_nautical_seaceress_won_no_whistle.html");
+        String location = "Mer-kin Temple (Center Door)";
+        String encounter = "The Nautical Seaceress";
+
+        FightRequest.registerRequest(true, location);
+        FightRequest.updateCombatData(location, encounter, html);
+
+        assertThat(Quest.FINAL, isFinished());
+        assertThat("seaPoints", isSetTo(after));
+      }
+    }
+  }
+
+  /*
    * *** Zodiac Quests
    */
 
@@ -1895,6 +1972,27 @@ public class QuestManagerTest {
         request.responseText = html("request/test_quest_sea_monkee_unstarted.html");
         QuestManager.handleQuestChange(request);
         assertThat(Quest.SEA_MONKEES, isUnstarted());
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({"4, PASTAMANCER, false", "4, SEAL_CLUBBER, true", "2, PASTAMANCER, true"})
+    public void seeingTrenchOnSeaFloor(
+        final int step, AscensionClass ascensionClass, boolean unlocked) {
+      var builder = new FakeHttpClientBuilder();
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withClass(ascensionClass),
+              withQuestProgress(Quest.SEA_MONKEES, step));
+      try (cleanups) {
+        builder.client.addResponse(200, html("request/test_quest_sea_monkee_step_4_2.html"));
+        builder.client.addResponse(200, ""); // api.php
+
+        var request = new GenericRequest("seafloor.php", false);
+        request.run();
+
+        assertThat("mapToTheMarinaraTrenchPurchased", isSetTo(unlocked));
       }
     }
 
@@ -2319,30 +2417,6 @@ public class QuestManagerTest {
           var requests = builder.client.getRequests();
           assertThat(requests, hasSize(1));
           assertGetRequest(requests.get(0), "/monkeycastle.php", "who=1");
-        }
-      }
-
-      @Test
-      public void seeingTrenchOnSeaFloorAdvancesQuest() {
-        var builder = new FakeHttpClientBuilder();
-        var cleanups =
-            new Cleanups(
-                withHttpClientBuilder(builder),
-                withClass(AscensionClass.PASTAMANCER),
-                withQuestProgress(Quest.SEA_MONKEES, QuestDatabase.UNSTARTED));
-        try (cleanups) {
-          builder.client.addResponse(200, html("request/test_quest_sea_monkee_step_4_2.html"));
-          builder.client.addResponse(200, ""); // api.php
-
-          var request = new GenericRequest("seafloor.php", false);
-          request.run();
-
-          assertThat(Quest.SEA_MONKEES, isStep(4));
-
-          var requests = builder.client.getRequests();
-          assertThat(requests, hasSize(2));
-          assertGetRequest(requests.get(0), "/seafloor.php", null);
-          assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
         }
       }
 
@@ -3315,7 +3389,7 @@ public class QuestManagerTest {
         request.run();
 
         assertThat(Quest.TEMPLE, isFinished());
-        assertEquals(Preferences.getInteger("lastTempleUnlock"), ascension);
+        assertEquals(ascension, Preferences.getInteger("lastTempleUnlock"));
         assertTrue(KoLCharacter.getTempleUnlocked());
 
         var requests = builder.client.getRequests();
@@ -3376,7 +3450,7 @@ public class QuestManagerTest {
         request.run();
 
         assertThat(Quest.TEMPLE, isFinished());
-        assertEquals(Preferences.getInteger("lastTempleUnlock"), ascension);
+        assertEquals(ascension, Preferences.getInteger("lastTempleUnlock"));
         assertTrue(KoLCharacter.getTempleUnlocked());
       }
     }
@@ -3479,7 +3553,7 @@ public class QuestManagerTest {
         new Cleanups(withAdventuresSpent(locationName, 11), withProperty(propertyName, -1));
     try (cleanup) {
       QuestManager.handleQuestChange(request);
-      assertEquals(Preferences.getInteger(propertyName), 11);
+      assertEquals(11, Preferences.getInteger(propertyName));
     }
   }
 
@@ -3503,7 +3577,7 @@ public class QuestManagerTest {
       var request = new GenericRequest("place.php?whichplace=speakeasy");
       request.responseText = html("request/test_speakeasy_brawl_(1).html");
       QuestManager.handleQuestChange(request);
-      assertEquals(Preferences.getInteger("_speakeasyFreeFights"), 3);
+      assertEquals(3, Preferences.getInteger("_speakeasyFreeFights"));
     }
 
     @Test
@@ -3511,7 +3585,7 @@ public class QuestManagerTest {
       var request = new GenericRequest("place.php?whichplace=speakeasy");
       request.responseText = html("request/test_speakeasy_brawl_(0).html");
       QuestManager.handleQuestChange(request);
-      assertEquals(Preferences.getInteger("_speakeasyFreeFights"), 0);
+      assertEquals(0, Preferences.getInteger("_speakeasyFreeFights"));
     }
   }
 
@@ -3746,8 +3820,8 @@ public class QuestManagerTest {
               withLastLocation("The Barrow Mounds"), withProperty("_frMonstersKilled", ""));
       try (cleanups) {
         String responseText = html("request/test_barrow_wraith_win.html");
-        QuestManager.updateQuestData(responseText, "barrow wraith?");
-        assertEquals(Preferences.getString("_frMonstersKilled"), "barrow wraith?:1,");
+        QuestManager.updateQuestData(responseText, monsterData("barrow wraith?"));
+        assertEquals("barrow wraith?:1,", Preferences.getString("_frMonstersKilled"));
       }
     }
   }

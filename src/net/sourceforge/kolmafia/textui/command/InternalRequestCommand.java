@@ -1,7 +1,6 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -34,11 +33,7 @@ public class InternalRequestCommand extends AbstractCommand {
 
     this.isRunning = true;
 
-    Iterator<GenericRequest> requestIterator = this.requests.iterator();
-
-    while (requestIterator.hasNext()) {
-      GenericRequest request = requestIterator.next();
-
+    for (GenericRequest request : this.requests) {
       request.run();
     }
   }

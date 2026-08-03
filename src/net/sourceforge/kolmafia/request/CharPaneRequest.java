@@ -164,10 +164,6 @@ public class CharPaneRequest extends GenericRequest {
       return true;
     }
 
-    if (KoLCharacter.getLimitMode() == LimitMode.SPELUNKY) {
-      KoLCharacter.setLimitMode(LimitMode.NONE);
-    }
-
     // We can deduce whether we are in compact charpane mode
 
     CharPaneRequest.compactCharacterPane = responseText.contains("<br>Lvl. ");
@@ -217,6 +213,10 @@ public class CharPaneRequest extends GenericRequest {
 
     if (KoLCharacter.inDisguise()) {
       CharPaneRequest.checkMask(responseText);
+    }
+
+    if (KoLCharacter.hasEquipped(ItemPool.MOBIUS_RING)) {
+      CharPaneRequest.checkParadoxicity(responseText);
     }
 
     CharPaneRequest.setLastAdventure(responseText);
@@ -272,11 +272,16 @@ public class CharPaneRequest extends GenericRequest {
 
     CharPaneRequest.checkSweatiness(responseText);
 
+    CharPaneRequest.checkFitnessTrackingSteps(responseText);
+
     CharPaneRequest.check8BitScore(responseText);
 
     CharPaneRequest.checkNoncombatForcers(responseText);
+    CharPaneRequest.checkOtherModifiers(responseText);
 
     CharPaneRequest.checkWereProfessor(responseText);
+
+    CharPaneRequest.checkShrunkenHead(responseText);
 
     // Mana cost adjustment may have changed
 
@@ -296,25 +301,54 @@ public class CharPaneRequest extends GenericRequest {
           "You've engaged exit mode on your cincho and will avoid most combats.", "cincho exit",
           "You are avoiding fights until something cool happens.", "sneakisol",
           "Your tuba playing has scared away most monsters.", "band tuba",
-          "You triggered an avalanche clearing the area of monsters.", "ski avalanche");
+          "You triggered an avalanche clearing the area of monsters.", "ski avalanche",
+          "A sniper is guiding you out of trouble.", "sniper support");
   private static final Pattern NONCOMBAT_FORCER_PATTERN =
       Pattern.compile(
           "<b><font size=2>Adventure Modifiers:</font></b><br><div style='text-align: left'><small>(.*?)</small>");
 
   public static void checkNoncombatForcers(final String responseText) {
     var result = NONCOMBAT_FORCER_PATTERN.matcher(responseText);
-    boolean noncombatForcerActive = result.find();
-    Preferences.setBoolean("noncombatForcerActive", noncombatForcerActive);
-    if (noncombatForcerActive) {
+    boolean hasModifiers = result.find();
+    String noncombatForcers = "";
+    if (hasModifiers) {
       var descriptions = result.group(1).split("<br>");
-      Preferences.setString(
-          "noncombatForcers",
+      noncombatForcers =
           Arrays.stream(descriptions)
               .map(desc -> NONCOMBAT_FORCERS.get(desc.trim()))
               .filter(Objects::nonNull)
-              .collect(Collectors.joining("|")));
+              .collect(Collectors.joining("|"));
+    }
+    Preferences.setString("noncombatForcers", noncombatForcers);
+    Preferences.setBoolean("noncombatForcerActive", !noncombatForcers.isEmpty());
+  }
+
+  private static final Pattern LEGENDARY_AMYGDALA_PATTERN =
+      Pattern.compile(
+          "Your amygdala full of legendary noodles will lead you into (\\d+) more fight");
+  private static final Pattern LEGENDARY_SKIN_PATTERN =
+      Pattern.compile("Your skin will be really tough for (\\d+) more fight");
+  private static final Pattern LEGENDARY_STOMACH_PATTERN =
+      Pattern.compile("Your stomach will be more efficient for (\\d+) more meal");
+
+  public static void checkOtherModifiers(final String responseText) {
+    var result = LEGENDARY_AMYGDALA_PATTERN.matcher(responseText);
+    if (result.find()) {
+      Preferences.setInteger("legendaryNoodlesAmygdala", Integer.parseInt(result.group(1)));
     } else {
-      Preferences.setString("noncombatForcers", "");
+      Preferences.setInteger("legendaryNoodlesAmygdala", 0);
+    }
+    result = LEGENDARY_SKIN_PATTERN.matcher(responseText);
+    if (result.find()) {
+      Preferences.setInteger("legendaryNoodlesSkin", Integer.parseInt(result.group(1)));
+    } else {
+      Preferences.setInteger("legendaryNoodlesSkin", 0);
+    }
+    result = LEGENDARY_STOMACH_PATTERN.matcher(responseText);
+    if (result.find()) {
+      Preferences.setInteger("legendaryNoodlesStomach", Integer.parseInt(result.group(1)));
+    } else {
+      Preferences.setInteger("legendaryNoodlesStomach", 0);
     }
   }
 
@@ -365,7 +399,20 @@ public class CharPaneRequest extends GenericRequest {
   public static void parseLevel(final String responseText) {
     Matcher levelMatcher = CharPaneRequest.LEVEL_PATTERN.matcher(responseText);
     if (levelMatcher.find()) {
-      KoLCharacter.setLevel(Integer.valueOf(levelMatcher.group(1)));
+      KoLCharacter.setLevel(Integer.parseInt(levelMatcher.group(1)));
+    }
+  }
+
+  // <tr><td align=right>Paradoxicity:</td><td align=left><b><font color=black><span alt=""
+  // title="">2</span></font></td></tr>
+  // <tr><td align=right>Pardoxicity:</td><td align=left><b><font color=black><span alt=""
+  // title="">2</span></font></td></tr>
+  public static final Pattern PARADOXICITY_PATTERN = Pattern.compile("Para?doxicity.*?(\\d+)");
+
+  public static void checkParadoxicity(final String responseText) {
+    Matcher paradoxMatcher = CharPaneRequest.PARADOXICITY_PATTERN.matcher(responseText);
+    if (paradoxMatcher.find()) {
+      KoLCharacter.setParadoxicity(Integer.parseInt(paradoxMatcher.group(1)));
     }
   }
 
@@ -937,10 +984,11 @@ public class CharPaneRequest extends GenericRequest {
     }
 
     switch (effectId) {
-      case EffectPool.BLESSING_OF_THE_BIRD -> ResultProcessor.updateBird(
-          EffectPool.BLESSING_OF_THE_BIRD, effectName, "_birdOfTheDay");
-      case EffectPool.BLESSING_OF_YOUR_FAVORITE_BIRD -> ResultProcessor.updateBird(
-          EffectPool.BLESSING_OF_YOUR_FAVORITE_BIRD, effectName, "yourFavoriteBird");
+      case EffectPool.BLESSING_OF_THE_BIRD ->
+          ResultProcessor.updateBird(EffectPool.BLESSING_OF_THE_BIRD, effectName, "_birdOfTheDay");
+      case EffectPool.BLESSING_OF_YOUR_FAVORITE_BIRD ->
+          ResultProcessor.updateBird(
+              EffectPool.BLESSING_OF_YOUR_FAVORITE_BIRD, effectName, "yourFavoriteBird");
     }
 
     return EffectPool.get(effectId, duration);
@@ -1205,7 +1253,7 @@ public class CharPaneRequest extends GenericRequest {
 
   private static final Pattern PokeFamPattern =
       Pattern.compile(
-          "img align=\"absmiddle\" src=(?:cloudfront.net|images.kingdomofloathing.com)/itemimages/(.*?)>&nbsp;(.*?) \\(Lvl (\\d+)\\)",
+          "img align=\"absmiddle\" src=[^>]*?(?:cloudfront.net|images.kingdomofloathing.com)/itemimages/(.*?)>&nbsp;(.*?) \\(Lvl (\\d+)\\)",
           Pattern.DOTALL);
 
   private static void checkPokeFam(final String responseText) {
@@ -1219,7 +1267,6 @@ public class CharPaneRequest extends GenericRequest {
         if (familiar == null) {
           // Add new familiar to list
           familiar = new FamiliarData(id, name, level);
-          KoLCharacter.addFamiliar(familiar);
         } else {
           // Update existing familiar
           familiar.update(name, level);
@@ -1290,7 +1337,7 @@ public class CharPaneRequest extends GenericRequest {
 
   private static final Pattern pastaThrallPattern =
       Pattern.compile(
-          "desc_guardian.php.*?itemimages/(.*?.gif).*?<b>(.*?)</b>.*?the Lvl. (\\d+) (.*?)</font>",
+          "desc_guardian.php.*?itemimages/(.*?.gif)(?:.*?(?:alt|title)=\"[^\"]*?\\(([\\d,]+) XP\\)\")?.*?<b>(.*?)</b>.*?the Lvl. (\\d+) (.*?)</font>",
           Pattern.DOTALL);
 
   private static void checkPastaThrall(final String responseText) {
@@ -1300,13 +1347,15 @@ public class CharPaneRequest extends GenericRequest {
     Matcher matcher = CharPaneRequest.pastaThrallPattern.matcher(responseText);
     if (matcher.find()) {
       // String image = matcher.group( 1 );
-      String name = matcher.group(2);
-      String levelString = matcher.group(3);
-      String type = matcher.group(4);
+      String experienceString = matcher.group(2);
+      String name = matcher.group(3);
+      String levelString = matcher.group(4);
+      String type = matcher.group(5);
       PastaThrallData thrall = KoLCharacter.findPastaThrall(type);
       if (thrall != null && thrall != PastaThrallData.NO_THRALL) {
         KoLCharacter.setPastaThrall(thrall);
-        thrall.update(StringUtilities.parseInt(levelString), name);
+        int experience = experienceString == null ? 0 : StringUtilities.parseInt(experienceString);
+        thrall.update(StringUtilities.parseInt(levelString), name, experience);
       }
     } else {
       KoLCharacter.setPastaThrall(PastaThrallData.NO_THRALL);
@@ -1587,6 +1636,22 @@ public class CharPaneRequest extends GenericRequest {
     Preferences.setInteger("sweat", sweatiness);
   }
 
+  // <td align=right>Steps:</td><td align=left><b>101</b></td>
+  private static final Pattern FITNESS_TRACKING_STEPS =
+      Pattern.compile("Steps:</td><td[^>]*><b>([\\d,]+)</b>");
+
+  public static void checkFitnessTrackingSteps(final String responseText) {
+    if (!KoLCharacter.hasEquipped(ItemPool.FITNESS_TRACKING_BRACELET)) {
+      return;
+    }
+
+    Matcher matcher = FITNESS_TRACKING_STEPS.matcher(responseText);
+
+    if (matcher.find()) {
+      Preferences.setInteger("_fitnessTrackingSteps", StringUtilities.parseInt(matcher.group(1)));
+    }
+  }
+
   // <td align=right><span class='nes' style='line-height: 14px; font-size:
   // 12px;'>Score:</span></td><td align=left><font color=black><span class='nes' style='line-height:
   // 14px; font-size: 12px;'>0</span></font></td>
@@ -1639,6 +1704,27 @@ public class CharPaneRequest extends GenericRequest {
     if (tmatcher.find()) {
       Preferences.setInteger(
           "wereProfessorTransformTurns", StringUtilities.parseInt(tmatcher.group(1)));
+    }
+  }
+
+  private static final Pattern shrunkenHeadPattern =
+      Pattern.compile(
+          "Animating ([^<]+)</small><table border=0><tr><td><img alt=\"Abilities: ([^\"]+)\" [^>]+></td><td class=\"small\">HP: <b>(\\d+)</b>",
+          Pattern.DOTALL);
+
+  private static void checkShrunkenHead(final String responseText) {
+    Matcher matcher = shrunkenHeadPattern.matcher(responseText);
+    if (matcher.find()) {
+      String monster = matcher.group(1);
+      String abilities = matcher.group(2);
+      int hp = Integer.parseInt(matcher.group(3));
+      Preferences.setString("shrunkenHeadZombieMonster", monster);
+      Preferences.setString("shrunkenHeadZombieAbilities", abilities);
+      Preferences.setInteger("shrunkenHeadZombieHP", hp);
+    } else {
+      Preferences.setString("shrunkenHeadZombieMonster", "");
+      Preferences.setString("shrunkenHeadZombieAbilities", "");
+      Preferences.setInteger("shrunkenHeadZombieHP", 0);
     }
   }
 
@@ -1778,6 +1864,9 @@ public class CharPaneRequest extends GenericRequest {
         KoLCharacter.setRadSickness(0);
       }
     }
+
+    int paradoxicity = json.getIntValue("paradoxicity");
+    KoLCharacter.setParadoxicity(paradoxicity);
   }
 
   private static void parseFamiliarStatus(final JSONObject json) {

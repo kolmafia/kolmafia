@@ -9,7 +9,7 @@ public enum PriceLevel {
     return switch (index) {
       case 2 -> ALL;
       case 1 -> BUYABLE_ONLY;
-        // backwards compat
+      // backwards compat
       default -> DONT_CHECK;
     };
   }

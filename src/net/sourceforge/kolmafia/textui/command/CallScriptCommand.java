@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.textui.command;
 
 import java.io.File;
 import java.util.List;
+import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -75,9 +76,17 @@ public class CallScriptCommand extends AbstractCommand {
           if (argumentString.startsWith("(") && argumentString.endsWith(")")) {
             // Split (arg, arg, ...) into a list of arguments
             argumentString = argumentString.substring(1, argumentString.length() - 1);
-            arguments = argumentString.split(",");
+            // Split on commas that are not preceded by an odd number of backslashes
+            arguments =
+                Pattern.compile("(?:[^,\\\\]|\\\\.)+")
+                    .matcher(argumentString)
+                    .results()
+                    .map(MatchResult::group)
+                    .toArray(String[]::new);
+
             for (int i = 0; i < arguments.length; i++) {
-              arguments[i] = arguments[i].trim();
+              // Unescape escaped commas and backslashes
+              arguments[i] = arguments[i].replaceAll("\\\\([\\\\,])", "$1").trim();
             }
           } else {
             // Without parentheses, the parameters are a single string

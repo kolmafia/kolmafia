@@ -103,11 +103,11 @@ public class ClanRumpusRequest extends GenericRequest {
 
     GIRL_CALENDAR("Girls of Loathing Calendar", 1, 1, 1),
     BOY_CALENDAR("Boys of Loathing Calendar", 1, 2, 1),
-    PAINTING("Infuriating Painting", 1, 3, 1),
+    PAINTING("Infuriating Painting", 1, 3, 1, true),
     MEAT_ORCHID("Exotic Hanging Meat Orchid", 1, 4, 1),
 
     ARCANE_TOMES("Collection of Arcane Tomes and Whatnot", 2, 1, 0),
-    SPORTS_MEMORABILIA("Collection of Sports Memorabilia", 2, 2, 1),
+    SPORTS_MEMORABILIA("Collection of Sports Memorabilia", 2, 2, 1, true),
     SELF_HELP_BOOKS("Collection of Self-Help Books", 2, 3, 1),
 
     SODA_MACHINE("Soda Machine", 3, 1, 3),
@@ -118,7 +118,7 @@ public class ClanRumpusRequest extends GenericRequest {
     POTTED_MEAT_BUSH("Potted Meat Bush", 4, 2, 1),
     DESK_CALENDAR("Inspirational Desk Calendar", 4, 3, 1),
 
-    WRESTLING_MAT("Wrestling Mat", 5, 1, 1),
+    WRESTLING_MAT("Wrestling Mat", 5, 1, 1, true),
     TANNING_BED("Tan-U-Lots Tanning Bed", 5, 2, 0),
     COMFY_SOFA("Comfy Sofa", 5, 3, 0),
 
@@ -133,12 +133,27 @@ public class ClanRumpusRequest extends GenericRequest {
     public final int slot;
     public final int furni;
     public final int maxUses;
+    public final boolean isPvp;
 
     Equipment(String name, int slot, int furni, int maxUses) {
+      this(name, slot, furni, maxUses, false);
+    }
+
+    Equipment(String name, int slot, int furni, int maxUses, boolean isPvp) {
       this.name = name;
       this.slot = slot;
       this.furni = furni;
       this.maxUses = maxUses;
+      this.isPvp = isPvp;
+    }
+
+    public static Equipment equipment(int slot, int furni) {
+      for (Equipment equipment : Equipment.values()) {
+        if (slot == equipment.slot && furni == equipment.furni) {
+          return equipment;
+        }
+      }
+      return Equipment.NONE;
     }
 
     public static String equipmentName(int slot, int furni) {
@@ -168,6 +183,10 @@ public class ClanRumpusRequest extends GenericRequest {
         }
       }
       return NONE;
+    }
+
+    public String visitedPreference() {
+      return "_clanRumpusSpot" + slot + "Visited";
     }
   }
 
@@ -397,7 +416,7 @@ public class ClanRumpusRequest extends GenericRequest {
     while (matcher.find()) {
       int spot = StringUtilities.parseInt(matcher.group(1));
       int furni = StringUtilities.parseInt(matcher.group(2));
-      String equipmentName = ClanRumpusRequest.Equipment.equipmentName(spot, furni);
+      String equipmentName = Equipment.equipmentName(spot, furni);
       if (!equipmentName.isEmpty()) {
         ClanManager.addToRumpus(equipmentName);
       }
@@ -436,6 +455,19 @@ public class ClanRumpusRequest extends GenericRequest {
         // well. Maybe they'll fix it by tomorrow.
         else if (responseText.contains("seems to be broken down")) {
           Preferences.setInteger("_klawSummons", 3);
+        }
+      }
+
+      if (urlString.contains("action=click")) {
+        Matcher spotMatcher = SPOT_PATTERN.matcher(urlString);
+        Matcher furniMatcher = FURNI_PATTERN.matcher(urlString);
+        if (spotMatcher.find() && furniMatcher.find()) {
+          var spot = StringUtilities.parseInt(spotMatcher.group(1));
+          var furni = StringUtilities.parseInt(furniMatcher.group(1));
+          var equipment = Equipment.equipment(spot, furni);
+          if (equipment != Equipment.NONE) {
+            Preferences.setBoolean(equipment.visitedPreference(), true);
+          }
         }
       }
 
@@ -483,10 +515,10 @@ public class ClanRumpusRequest extends GenericRequest {
         }
       }
       case "jukebox" ->
-      // Whether we get a song or not, we are done for the
-      // day with the Jukebox, unless we ascend, which will
-      // reset the preference.
-      Preferences.setBoolean("_jukebox", true);
+          // Whether we get a song or not, we are done for the
+          // day with the Jukebox, unless we ascend, which will
+          // reset the preference.
+          Preferences.setBoolean("_jukebox", true);
     }
   }
 
@@ -531,9 +563,15 @@ public class ClanRumpusRequest extends GenericRequest {
         continue;
       }
 
-      // Things that can be used only once a day should have
-      // daily preferences to track that and we should check
-      // that rather than making a server hit
+      if (equipment.isPvp && !KoLCharacter.getHippyStoneBroken()) {
+        // don't get PvP fights without broken stone
+        continue;
+      }
+
+      // If we have visited already, skip
+      if (Preferences.getBoolean(equipment.visitedPreference())) {
+        continue;
+      }
 
       request.visitEquipment(equipment.slot, equipment.furni);
       for (int i = 0; i < equipment.maxUses; i++) {
@@ -628,7 +666,7 @@ public class ClanRumpusRequest extends GenericRequest {
 
     int furniture = StringUtilities.parseInt(matcher.group(1));
 
-    String equipment = ClanRumpusRequest.Equipment.equipmentName(spot, furniture);
+    String equipment = Equipment.equipmentName(spot, furniture);
 
     if (equipment == null) {
       return false;

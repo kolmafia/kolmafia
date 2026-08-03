@@ -8,6 +8,7 @@ import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -22,15 +23,17 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.ModifierType;
+import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.listener.ItemListenerRegistry;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.modifiers.Lookup;
-import net.sourceforge.kolmafia.modifiers.MultiStringModifier;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -60,6 +63,7 @@ import net.sourceforge.kolmafia.request.ManageStoreRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.StorageRequest.StorageRequestType;
+import net.sourceforge.kolmafia.request.ThriftyRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.coinmaster.HermitRequest;
 import net.sourceforge.kolmafia.request.concoction.CombineMeatRequest;
@@ -214,7 +218,11 @@ public abstract class InventoryManager {
       count += item.getCount(KoLConstants.closet);
     }
 
-    if (!KoLCharacter.inLegacyOfLoathing() || pullableInLoL(itemId)) {
+    if ((!KoLCharacter.inLegacyOfLoathing() || pullableInLoL(itemId))
+        && (!KoLCharacter.inSeaPath() || pullableInSeaPath(itemId))
+        && (!KoLCharacter.isThrifty()
+            || ThriftyRequest.isAllowed(
+                RestrictedItemType.ITEMS, ItemDatabase.getItemName(itemId)))) {
       // Free Pulls from Hagnk's are always accessible
       count += item.getCount(KoLConstants.freepulls);
 
@@ -1419,8 +1427,7 @@ public abstract class InventoryManager {
     AdventureResult[] ingredients = ConcoctionDatabase.getStandardIngredients(itemId);
     boolean shouldUseCloset = InventoryManager.canUseCloset();
 
-    for (int i = 0; i < ingredients.length; ++i) {
-      AdventureResult ingredient = ingredients[i];
+    for (AdventureResult ingredient : ingredients) {
       // An item is immediately available if it is in your
       // inventory, or in your closet.
 
@@ -1443,11 +1450,11 @@ public abstract class InventoryManager {
 
     seen.add(key);
 
-    for (int i = 0; i < ingredients.length; ++i) {
+    for (AdventureResult ingredient : ingredients) {
       // An item is immediately available if you have the
       // ingredients for a substep.
 
-      if (InventoryManager.hasAnyIngredient(ingredients[i].getItemId(), seen)) {
+      if (InventoryManager.hasAnyIngredient(ingredient.getItemId(), seen)) {
         return true;
       }
     }
@@ -1459,8 +1466,6 @@ public abstract class InventoryManager {
     // We always bulk purchase certain specific items.
 
     switch (itemId) {
-      case ItemPool.REMEDY: // soft green echo eyedrop antidote
-      case ItemPool.TINY_HOUSE:
       case ItemPool.DRASTIC_HEALING:
       case ItemPool.ANTIDOTE:
         return true;
@@ -1716,7 +1721,10 @@ public abstract class InventoryManager {
     checkCrimboTrainingManual();
     checkRing();
     checkFuturistic();
+
+    checkExperimentalEffectG9();
     checkZootomistMods();
+    checkHeartstoneAttunement();
   }
 
   public static void checkNoHat() {
@@ -1886,6 +1894,10 @@ public abstract class InventoryManager {
     checkItem(ItemPool.FUTURISTIC_COLLAR, "_futuristicCollarModifier");
   }
 
+  public static void checkExperimentalEffectG9() {
+    checkEffectDescription(EffectPool.EXPERIMENTAL_EFFECT_G9);
+  }
+
   public static void checkZootomistMods() {
     if (!KoLCharacter.inZootomist()) {
       // don't bother checking
@@ -1894,6 +1906,13 @@ public abstract class InventoryManager {
     checkEffectDescription(EffectPool.GRAFTED);
     checkEffectDescription(EffectPool.MILK_OF_FAMILIAR_KINDNESS);
     checkEffectDescription(EffectPool.MILK_OF_FAMILIAR_CRUELTY);
+  }
+
+  public static void checkHeartstoneAttunement() {
+    if (!KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.HEARTSTONE_ATTUNEMENT))) {
+      return;
+    }
+    checkEffectDescription(EffectPool.HEARTSTONE_ATTUNEMENT);
   }
 
   private static void checkItem(int id, String preference) {
@@ -1911,19 +1930,23 @@ public abstract class InventoryManager {
   }
 
   public static void checkDartPerks() {
-    if (!InventoryManager.equippedOrInInventory(ItemPool.get(ItemPool.EVERFULL_DART_HOLSTER, 1))) {
-      return;
-    }
-
-    checkItemDescription(ItemPool.EVERFULL_DART_HOLSTER);
+    checkIfOwned(ItemPool.EVERFULL_DART_HOLSTER);
   }
 
   public static void checkMimicEgg() {
-    if (!InventoryManager.equippedOrInInventory(ItemPool.get(ItemPool.MIMIC_EGG, 1))) {
+    checkIfOwned(ItemPool.MIMIC_EGG);
+  }
+
+  public static void checkBaseballDiamond() {
+    checkIfOwned(ItemPool.BASEBALL_DIAMOND);
+  }
+
+  private static void checkIfOwned(int itemId) {
+    if (!InventoryManager.equippedOrInInventory(itemId)) {
       return;
     }
 
-    checkItemDescription(ItemPool.MIMIC_EGG);
+    checkItemDescription(itemId);
   }
 
   private static final AdventureResult GOLDEN_MR_ACCESSORY =
@@ -1954,29 +1977,57 @@ public abstract class InventoryManager {
   }
 
   public static void checkSkillGrantingEquipment(final Integer itemId) {
-    ModifierDatabase.getInventorySkillProviders().stream()
-        .filter(l -> l.getType() == ModifierType.ITEM)
-        .map(Lookup::getIntKey)
-        .filter(i -> itemId == null || i.equals(itemId))
-        .filter(id -> KoLCharacter.hasEquipped(id) || InventoryManager.hasItem(id))
-        .flatMap(
-            id -> {
-              var mods = ModifierDatabase.getItemModifiers(id);
-              if (mods == null) return Stream.empty();
-              return Stream.concat(
-                  mods.getStrings(MultiStringModifier.CONDITIONAL_SKILL_INVENTORY).stream()
-                      .map(s -> Map.entry(true, s)),
-                  mods.getStrings(MultiStringModifier.CONDITIONAL_SKILL_EQUIPPED).stream()
-                      .map(s -> Map.entry(false, s)));
-            })
+    var skills =
+        ModifierDatabase.getInventorySkillProviders().stream()
+            .filter(l -> l.getType() == ModifierType.ITEM)
+            .map(Lookup::getIntKey)
+            .filter(i -> itemId == null || i.equals(itemId))
+            .filter(id -> KoLCharacter.hasEquipped(id) || InventoryManager.hasItem(id))
+            .flatMap(
+                id -> {
+                  var mods = ModifierDatabase.getItemModifiers(id);
+                  return conditionalSkillsFromMods(mods);
+                });
+
+    if ((itemId == null || ItemPool.THE_ETERNITY_CODPIECE == itemId)
+        && InventoryManager.equippedOrInInventory(ItemPool.THE_ETERNITY_CODPIECE)) {
+      var codpieceSkills =
+          SlotSet.CODPIECE_SLOTS.stream()
+              .map(EquipmentManager::getEquipment)
+              .map(AdventureResult::getItemId)
+              .flatMap(
+                  id -> {
+                    var mods = ModifierDatabase.getModifiers(ModifierType.ETERNITY_CODPIECE, id);
+                    return conditionalSkillsFromMods(mods);
+                  });
+      skills = Stream.concat(skills, codpieceSkills);
+    }
+
+    if ((itemId == null || ItemPool.LEGENDARY_PASTA_WAND == itemId)
+        && InventoryManager.equippedOrInInventory(ItemPool.LEGENDARY_PASTA_WAND)
+        && !KoLCharacter.hasSkill(SkillPool.PASTAMASTERY)) {
+      skills = Stream.concat(skills, Stream.of(Map.entry(true, "Wave your Pasta Wand ")));
+    }
+
+    skills
         .map(e -> Map.entry(e.getKey(), SkillDatabase.getSkillId(e.getValue())))
         .filter(
             e ->
                 e.getKey()
-                    || SkillDatabase.getSkillTags(e.getValue())
-                        .contains(SkillDatabase.SkillTag.NONCOMBAT))
+                    || (SkillDatabase.getSkillTags(e.getValue())
+                            .contains(SkillDatabase.SkillTag.NONCOMBAT)
+                        && EquipmentManager.shouldApplySkill(e.getValue())))
         .map(Map.Entry::getValue)
         .forEach(KoLCharacter::addAvailableSkill);
+  }
+
+  private static Stream<Entry<Boolean, String>> conditionalSkillsFromMods(Modifiers mods) {
+    if (mods == null) return Stream.empty();
+    return Stream.concat(
+        mods.getStrings(StringModifier.CONDITIONAL_SKILL_INVENTORY).stream()
+            .map(s -> Map.entry(true, s)),
+        mods.getStrings(StringModifier.CONDITIONAL_SKILL_EQUIPPED).stream()
+            .map(s -> Map.entry(false, s)));
   }
 
   public static void checkRing() {
@@ -2082,11 +2133,44 @@ public abstract class InventoryManager {
           CARD,
           FOLDER,
           BOOTSKIN,
-          BOOTSPUR -> true;
-        // combat
-      case NONE -> ItemDatabase.getAttribute(
-          itemId, EnumSet.of(Attribute.COMBAT, Attribute.COMBAT_REUSABLE));
+          BOOTSPUR ->
+          true;
+      // combat
+      case NONE ->
+          ItemDatabase.getAttribute(
+              itemId, EnumSet.of(Attribute.COMBAT, Attribute.COMBAT_REUSABLE));
       default -> false;
+    };
+  }
+
+  public static boolean pullableInSeaPath(int itemId) {
+    return switch (itemId) {
+      case ItemPool.ROUGH_FISH_SCALE,
+          ItemPool.PRISTINE_FISH_SCALE,
+          ItemPool.RUSTY_BROKEN_DIVING_HELMET,
+          ItemPool.AERATED_DIVING_HELMET,
+          ItemPool.TEFLON_ORE,
+          ItemPool.TEFLON_SWIM_FINS,
+          ItemPool.SEA_LEATHER,
+          ItemPool.SEA_COWBOY_HAT,
+          ItemPool.MERKIN_BUNWIG,
+          ItemPool.CRAPPY_MASK,
+          ItemPool.CRAPPY_TAILPIECE,
+          ItemPool.GLADIATOR_MASK,
+          ItemPool.SCHOLAR_MASK,
+          ItemPool.GLADIATOR_TAILPIECE,
+          ItemPool.SCHOLAR_TAILPIECE,
+          ItemPool.MERKIN_HEADGUARD,
+          ItemPool.MERKIN_WAISTROPE,
+          ItemPool.MERKIN_FACECOWL,
+          ItemPool.MERKIN_THIGHGUARD,
+          ItemPool.MERKIN_DODGEBALL,
+          ItemPool.MERKIN_DRAGNET,
+          ItemPool.MERKIN_SWITCHBLADE,
+          ItemPool.SEA_CHAPS,
+          ItemPool.UNBLEMISHED_PEARL ->
+          false;
+      default -> true;
     };
   }
 }

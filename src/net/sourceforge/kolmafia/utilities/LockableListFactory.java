@@ -6,10 +6,9 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
 /**
- * {@link net.java.dev.spellcast.utilities.LockableListModel} is used to hold data, but it depends
- * on Swing. For VMs without access to Swing, a List or {@link
- * net.sourceforge.kolmafia.utilities.SortedList} is used Based on forum post by xKiv:
- * http://tiny.cc/b6kw8x
+ * {@link LockableListModel} is used to hold data, but it depends on Swing. For VMs without access
+ * to Swing, a List or {@link SortedList} is used Based on forum post by xKiv: <a
+ * href="http://tiny.cc/b6kw8x">http://tiny.cc/b6kw8x</a>
  *
  * @author ajoshi
  */

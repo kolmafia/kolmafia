@@ -83,6 +83,21 @@ public class AscensionPath {
     Z_IS_FOR_ZOOTOMIST(
         "Z is for Zootomist", 53, true, "zootomist", "a", "zootomistPoints", 10, false),
     HAT_TRICK("Hat Trick", 54, false, "hat_bycocket", "a"),
+    UNDER_THE_SEA(
+        "11,037 Leagues Under the Sea", 55, false, "fishy5", "an", "seaPoints", 11, false),
+    ADVENTURER_MEATS_WORLD(
+        "Adventurer Meats World",
+        56,
+        true,
+        "meat",
+        "an",
+        "adventurerMeatsWorldPoints",
+        10,
+        false,
+        0,
+        0,
+        0),
+    THRIFTY("Thrifty", 57, false, "0dollars", "a"),
     // A "sign" rather than a "path" for some reason
     BAD_MOON("Bad Moon", 999, false, "badmoon", null),
     ;
@@ -193,7 +208,8 @@ public class AscensionPath {
             AVATAR_OF_SNEAKY_PETE,
             ACTUALLY_ED_THE_UNDYING,
             LICENSE_TO_ADVENTURE,
-            DARK_GYFFTE -> false;
+            DARK_GYFFTE ->
+            false;
         default -> true;
       };
     }

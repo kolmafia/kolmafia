@@ -21,6 +21,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
 import net.sourceforge.kolmafia.AreaCombatData;
 import net.sourceforge.kolmafia.AscensionClass;
+import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.EdServantData;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
@@ -57,6 +58,7 @@ import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.DailyLimitDatabase.DailyLimitType;
+import net.sourceforge.kolmafia.persistence.EffectData;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FactDatabase;
@@ -73,7 +75,6 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.FamTeamRequest.PokeBoost;
 import net.sourceforge.kolmafia.request.coinmaster.BountyHunterHunterRequest;
-import net.sourceforge.kolmafia.request.concoction.shop.KOLHSRequest;
 import net.sourceforge.kolmafia.session.AutumnatonManager;
 import net.sourceforge.kolmafia.session.BanishManager;
 import net.sourceforge.kolmafia.session.BanishManager.Banisher;
@@ -87,6 +88,7 @@ import net.sourceforge.kolmafia.session.CryptManager;
 import net.sourceforge.kolmafia.session.CrystalBallManager;
 import net.sourceforge.kolmafia.session.CursedMagnifyingGlassManager;
 import net.sourceforge.kolmafia.session.DadManager;
+import net.sourceforge.kolmafia.session.DailyDungeonManager;
 import net.sourceforge.kolmafia.session.DaylightShavingsHelmetManager;
 import net.sourceforge.kolmafia.session.DreadScrollManager;
 import net.sourceforge.kolmafia.session.EncounterManager;
@@ -444,6 +446,19 @@ public class FightRequest extends GenericRequest {
           "teaches you how to power-nap instead of sleeping all day",
           "vacuums your front yard",
           "waxes your drapes");
+
+  private static final String[] OLFACTION_ZONE_FAIL_MESSAGES = {
+    "dank air down here messes",
+    "only picking up sulphur from the nearby volcano",
+    "weird foreign pollen in the air here screws up your sense of smell",
+    "smells in this village are too exotic",
+    "castle is so stuffy from years of disuse",
+    "this planet smells too weird",
+    "just smells like gingerbread",
+    "quarters are too tight for that",
+    "smells here are too weird to remember",
+    "hard to smell anything in this crowd"
+  };
 
   private static final String[][] EVIL_ZONES = {
     {
@@ -1220,7 +1235,8 @@ public class FightRequest extends GenericRequest {
 
     if (FightRequest.nextAction.contains("steal")
         && !FightRequest.nextAction.contains("stealth")
-        && !FightRequest.nextAction.contains("accordion")) {
+        && !FightRequest.nextAction.contains("accordion")
+        && !FightRequest.nextAction.contains("heart")) {
       if (FightRequest.canStillSteal() && MonsterStatusTracker.shouldSteal()) {
         FightRequest.nextAction = "steal";
         this.addFormField("action", "steal");
@@ -1427,8 +1443,6 @@ public class FightRequest extends GenericRequest {
 
     switch (skillName) {
       case "Transcendent Olfaction" -> {
-        // You can't sniff if you are already on the trail.
-
         // You can't sniff in Bad Moon, even though the skill
         // shows up on the char sheet, unless you've recalled
         // your skills.
@@ -1678,7 +1692,7 @@ public class FightRequest extends GenericRequest {
     KoLAdventure location = KoLAdventure.lastVisitedLocation();
     Environment environment = location != null ? location.getEnvironment() : null;
 
-    if (environment != null && !environment.isUnderwater()) {
+    if (environment != null && !location.isUnderwater()) {
       KoLmafia.updateDisplay(MafiaState.ABORT, "This skill is useless out of water.");
       return true;
     }
@@ -1822,6 +1836,9 @@ public class FightRequest extends GenericRequest {
     FightRequest.updateCombatData(urlString, encounter, responseText);
     FightRequest.parseCombatItems(responseText);
     FightRequest.parseAvailableCombatSkills(responseText);
+
+    // Report combat round to spading manager
+    SpadingManager.processCombatRound(MonsterStatusTracker.getLastMonsterName(), responseText);
 
     // Now that we have processed the page, generated the decorated HTML
     FightRequest.lastDecoratedResponseText =
@@ -2188,14 +2205,11 @@ public class FightRequest extends GenericRequest {
           }
         }
         case AdventurePool.THE_DAILY_DUNGEON -> {
-          Matcher chamberMatcher = FightRequest.CHAMBER_PATTERN.matcher(responseText);
-          if (chamberMatcher.find()) {
-            int round = StringUtilities.parseInt(chamberMatcher.group(1));
-            Preferences.setInteger("_lastDailyDungeonRoom", round - 1);
-          }
+          DailyDungeonManager.handleRoomEntrance(
+              responseText, DailyDungeonManager.RoomType.MONSTER);
         }
-        case AdventurePool.WARBEAR_FORTRESS_LEVEL_THREE -> ResultProcessor.processItem(
-            ItemPool.WARBEAR_BADGE, -1);
+        case AdventurePool.WARBEAR_FORTRESS_LEVEL_THREE ->
+            ResultProcessor.processItem(ItemPool.WARBEAR_BADGE, -1);
         case AdventurePool.SHADOW_RIFT -> {
           Preferences.increment("_shadowRiftCombats");
           MonsterStatusTracker.recalculateOriginalStats();
@@ -2244,10 +2258,7 @@ public class FightRequest extends GenericRequest {
 
       QuestManager.updateQuestFightStarted(responseText, monsterName);
 
-      LocketManager.parseFight(monster, responseText);
-
-      // http://kol.coldfront.net/thekolwiki/index.php/Encounter#Encounter_Flowchart (image link
-      // there
+      // https://wiki.kingdomofloathing.com/Encounter#Encounter_Flowchart (image link there
       // is regularly updated) shows the order is Digitize, Arrow, Enamorang, so check in that order
       // Bodyguard chats are entirely separate, so those come before everything else.
       if (EncounterManager.isBodyguardEncounter(responseText)) {
@@ -2312,8 +2323,16 @@ public class FightRequest extends GenericRequest {
         TurnCounter.stopCounting("Spooky VHS Tape unknown monster window begin");
         TurnCounter.stopCounting("Spooky VHS Tape unknown monster window end");
         Preferences.setString("spookyVHSTapeMonster", "");
+      } else if (EncounterManager.isClubEmNextWeekMonster(responseText, true)) {
+        EncounterManager.ignoreSpecialMonsters();
+        TurnCounter.stopCounting("Club 'Em Into Next Week Monster");
+        TurnCounter.stopCounting("Club 'Em Into Next Week unknown monster window begin");
+        TurnCounter.stopCounting("Club 'Em Into Next Week unknown monster window end");
+        Preferences.setString("clubEmNextWeekMonster", "");
       } else if (EncounterManager.isMimeographEncounter(responseText)) {
         EncounterManager.ignoreSpecialMonsters();
+      } else if (LocketManager.isLocketFight(responseText)) {
+        LocketManager.parseFight(monster);
       }
 
       // Increment Turtle Blessing counter
@@ -2394,11 +2413,11 @@ public class FightRequest extends GenericRequest {
             }
           }
           case FAMILY_OF_KOBOLDS ->
-          // Remove 100 D4's from inventory
-          ResultProcessor.processItem(ItemPool.D4, -100);
+              // Remove 100 D4's from inventory
+              ResultProcessor.processItem(ItemPool.D4, -100);
           case GLITCH_MONSTER ->
-          // This appears to be NOCOPY.
-          Preferences.increment("_glitchMonsterFights", 1);
+              // This appears to be NOCOPY.
+              Preferences.increment("_glitchMonsterFights", 1);
           case SAUSAGE_GOBLIN -> {
             if (!EncounterManager.ignoreSpecialMonsters) {
               Preferences.increment("_sausageFights");
@@ -2566,9 +2585,6 @@ public class FightRequest extends GenericRequest {
     // Perform other processing for the final round
     FightRequest.updateRoundData(macroMatcher);
 
-    // Report combat round to spading manager
-    SpadingManager.processCombatRound(MonsterStatusTracker.getLastMonsterName(), responseText);
-
     if (responseText.contains("Macro Abort")
         || responseText.contains("Macro abort")
         || responseText.contains("macro abort")
@@ -2718,6 +2734,10 @@ public class FightRequest extends GenericRequest {
 
     if (responseText.contains("Your antique greaves, weakened")) {
       EquipmentManager.breakEquipment(ItemPool.ANTIQUE_GREAVES, "Your antique greaves broke.");
+    }
+
+    if (responseText.contains("Your hoverboard explodes")) {
+      EquipmentManager.breakEquipment(ItemPool.HOVERBOARD, "Your hoverboard broke.");
     }
 
     // You try to unlock your cyber-mattock, but the battery's
@@ -3021,7 +3041,8 @@ public class FightRequest extends GenericRequest {
     switch (KoLAdventure.lastAdventureId()) {
       case AdventurePool.FRAT_UNIFORM_BATTLEFIELD,
           AdventurePool.HIPPY_UNIFORM_BATTLEFIELD,
-          AdventurePool.EXPLOADED_BATTLEFIELD -> IslandManager.handleBattlefield(responseText);
+          AdventurePool.EXPLOADED_BATTLEFIELD ->
+          IslandManager.handleBattlefield(responseText);
       case AdventurePool.HOBOPOLIS_TOWN_SQUARE -> HobopolisDecorator.handleTownSquare(responseText);
     }
 
@@ -3093,7 +3114,7 @@ public class FightRequest extends GenericRequest {
     if (responseText.contains("The mulled wine you drank") && KoLCharacter.getCurrentHP() > 0) {
       Preferences.decrement("getsYouDrunkTurnsLeft", 1, 1);
     } else if (garbledCombat) {
-      Preferences.decrement("ghostPepperTurnsLeft", 1, 0);
+      Preferences.decrement("getsYouDrunkTurnsLeft", 1, 0);
     } else {
       Preferences.setInteger("getsYouDrunkTurnsLeft", 0);
     }
@@ -3439,7 +3460,7 @@ public class FightRequest extends GenericRequest {
 
     int adventure = KoLAdventure.lastAdventureId();
 
-    if (KOLHSRequest.isKOLHSLocation(adventure)) {
+    if (isKOLHSLocation(adventure)) {
       Preferences.increment("_kolhsAdventures", 1);
     }
 
@@ -3545,6 +3566,14 @@ public class FightRequest extends GenericRequest {
       }
     }
 
+    if (!Preferences.getBoolean("_mobiusRingPrimed")) {
+      // ring is primed on completion of any combat, win or lose
+      if (KoLCharacter.hasEquipped(ItemPool.MOBIUS_RING)) {
+        Preferences.setBoolean("_mobiusRingPrimed", true);
+        Preferences.setInteger("_mobiusRingPrimedTurn", KoLCharacter.getTurnsPlayed());
+      }
+    }
+
     if (free) {
       String updateMessage = "This combat did not cost a turn";
       RequestLogger.updateSessionLog(updateMessage);
@@ -3557,7 +3586,7 @@ public class FightRequest extends GenericRequest {
     Preferences.setBoolean("_lastCombatLost", lost);
 
     if (!won) {
-      QuestManager.updateQuestFightLost(responseText, monsterName);
+      QuestManager.updateQuestFightLost(responseText, monster);
     } else {
       if (responseText.contains("monstermanuel.gif")) {
         GoalManager.updateProgress(GoalManager.GOAL_FACTOID);
@@ -3596,7 +3625,7 @@ public class FightRequest extends GenericRequest {
           // <name> mutters dark secrets under his breath, and
           // you feel time slow down.
           KoLAdventure lastLocation = KoLAdventure.lastVisitedLocation();
-          boolean underwater = lastLocation != null && lastLocation.getEnvironment().isUnderwater();
+          boolean underwater = lastLocation != null && lastLocation.isUnderwater();
           Preferences.increment("_gibbererCharge", underwater ? 2 : 1, 15, true);
           if (responseText.contains("you feel time slow down")) {
             Preferences.increment("_gibbererAdv", 1);
@@ -3950,6 +3979,8 @@ public class FightRequest extends GenericRequest {
           Preferences.setInteger("_nanorhinoCharge", newCharge);
         }
         case FamiliarPool.CUBELING -> Preferences.increment("cubelingProgress");
+        case FamiliarPool.MECHANICAL_SONGBIRD ->
+            Preferences.increment("mechanicalSongbirdProgress");
         case FamiliarPool.REANIMATOR -> {
           if (responseText.contains("injects an arm")
               || responseText.contains("reanimates an arm")
@@ -4003,8 +4034,8 @@ public class FightRequest extends GenericRequest {
         case FamiliarPool.ROCKIN_ROBIN -> Preferences.increment("rockinRobinProgress");
         case FamiliarPool.CANDLE -> Preferences.increment("optimisticCandleProgress");
         case FamiliarPool.GARBAGE_FIRE -> Preferences.increment("garbageFireProgress");
-        case FamiliarPool.PUCK_MAN, FamiliarPool.MS_PUCK_MAN -> Preferences.increment(
-            "powerPillProgress");
+        case FamiliarPool.PUCK_MAN, FamiliarPool.MS_PUCK_MAN ->
+            Preferences.increment("powerPillProgress");
         case FamiliarPool.ROBORTENDER -> {
           for (String s : ROBORTENDER_DROP_MESSAGES) {
             if (!responseText.contains(s)) continue;
@@ -4201,6 +4232,13 @@ public class FightRequest extends GenericRequest {
         Preferences.decrement("_spookyJellyUses");
       }
 
+      // With your mixed berry jelly-coated hands, you are able to grab everything your foe was
+      // carrying!
+      if (Preferences.getInteger("mixedBerryJellyUses") > 0
+          && responseText.contains("With your mixed berry jelly-coated hands")) {
+        Preferences.decrement("mixedBerryJellyUses");
+      }
+
       if (KoLCharacter.hasEquipped(ItemPool.SNOW_SUIT, Slot.FAMILIAR)) {
         if (Preferences.getInteger("_snowSuitCount") < 75
             && Preferences.increment("_snowSuitCount") % 5 == 0) {
@@ -4286,8 +4324,8 @@ public class FightRequest extends GenericRequest {
       switch (monsterName) {
         case "black pudding" -> Preferences.increment("blackPuddingsDefeated", 1);
         case "general seal" -> ResultProcessor.removeItem(ItemPool.ABYSSAL_BATTLE_PLANS);
-        case "Frank &quot;Skipper&quot; Dan, the Accordion Lord" -> ResultProcessor.removeItem(
-            ItemPool.SUSPICIOUS_ADDRESS);
+        case "Frank &quot;Skipper&quot; Dan, the Accordion Lord" ->
+            ResultProcessor.removeItem(ItemPool.SUSPICIOUS_ADDRESS);
         case "Chef Boy, R&amp;D" -> ResultProcessor.removeItem(ItemPool.CHEF_BOY_BUSINESS_CARD);
         case "drunk pygmy" -> {
           if (responseText.contains("notices the Bowl of Scorpions")) {
@@ -4319,17 +4357,60 @@ public class FightRequest extends GenericRequest {
           Preferences.setBoolean("pirateRealmUnlockedBreastplate", true);
           QuestDatabase.setQuestIfBetter(Quest.PIRATEREALM, 11);
         }
-        case "plastic pirate" -> Preferences.increment(
-            "pirateRealmPlasticPiratesDefeated", 1, 50, false);
+        case "plastic pirate" ->
+            Preferences.increment("pirateRealmPlasticPiratesDefeated", 1, 50, false);
         case "pirate radio" -> {
           Preferences.setBoolean("pirateRealmUnlockedRadioRing", true);
           QuestDatabase.setQuestIfBetter(Quest.PIRATEREALM, 16);
         }
+        case "time cop" -> {
+          Preferences.increment("_timeCopsFoughtToday", 1);
+        }
+        case "eye in the darkness", "Peanut", "school of many", "slithering thing" -> {
+          int momCount = 1;
+          if (KoLCharacter.hasEquipped(ItemPool.SHARK_JUMPER)) {
+            momCount++;
+          }
+          if (KoLCharacter.hasEquipped(ItemPool.SCALE_MAIL_UNDERWEAR)) {
+            momCount++;
+          }
+          if (KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.JELLY_COMBED))) {
+            momCount++;
+          }
+          Preferences.increment("momSeaMonkeeProgress", momCount, 40, false);
+        }
+        case "Nautical Seaceress" -> {
+          QuestDatabase.setQuestProgress(Quest.FINAL, QuestDatabase.FINISHED);
+          // You feel your dolphin whistling endurance improve.
+          Path path = Path.UNDER_THE_SEA;
+          int points = KoLCharacter.isHardcore() ? 2 : 1;
+          if (responseText.contains("dolphin whistling endurance")) {
+            path.incrementPoints(points);
+          } else if (responseText.contains("durable dolphin whistle")) {
+            // If you don't have a dolphin whistle, the message is
+            // omitted and you receive one.
+            path.setPoints(points);
+          } else {
+            // I don't know if the message is omitted if you are at max points,
+            // but it seems logical
+            path.setPoints(11);
+          }
+        }
+        // When fighting a Ewe, all prior ewe item drops become unavailable
+        case "ewe" -> {
+          Preferences.setString("eweItem", "");
+        }
+        case "smoldering skeletal monstrosity" ->
+            Preferences.increment("_smolderingSkeletonsDefeated");
       }
 
       if (KoLCharacter.hasEquipped(ItemPool.BONE_ABACUS, Slot.OFFHAND)
           && responseText.contains("You move a bone on the abacus to record your victory")) {
         Preferences.increment("boneAbacusVictories", 1);
+      }
+
+      if (KoLCharacter.hasEquipped(ItemPool.PORTABLE_LAUGHING_STOCK)) {
+        Preferences.increment("_laughingStockCharges", 1);
       }
 
       if (KoLCharacter.getAscensionClass() == AscensionClass.SNAKE_OILER) {
@@ -4346,7 +4427,7 @@ public class FightRequest extends GenericRequest {
         }
       }
 
-      QuestManager.updateQuestData(FightRequest.lastResponseText, monsterName);
+      QuestManager.updateQuestData(FightRequest.lastResponseText, monster);
     }
 
     if (KoLCharacter.isEd()) {
@@ -4385,6 +4466,10 @@ public class FightRequest extends GenericRequest {
     // Handle autumnaton checking (this happens whether the fight is won or lost)
     AutumnatonManager.parseFight(responseText);
 
+    // No messages for either of these
+    Preferences.decrement("legendaryNoodlesAmygdala");
+    Preferences.decrement("legendaryNoodlesSkin");
+
     FightRequest.checkForMultiFight(won, responseText);
     FightRequest.checkForChoiceFollowsFight(responseText);
 
@@ -4397,6 +4482,17 @@ public class FightRequest extends GenericRequest {
     if (FightRequest.inMultiFight && responseText.contains("The barrier between world")) {
       KoLAdventure.lastLocationName = "Eldritch Attunement";
     }
+  }
+
+  private static final boolean isKOLHSLocation(final int adventureId) {
+    return switch (adventureId) {
+      case AdventurePool.THE_HALLOWED_HALLS,
+          AdventurePool.SHOP_CLASS,
+          AdventurePool.CHEMISTRY_CLASS,
+          AdventurePool.ART_CLASS ->
+          true;
+      default -> false;
+    };
   }
 
   // <p>You see a strange cartouche painted on a nearby wall.<div style='position: relative;
@@ -4660,6 +4756,15 @@ public class FightRequest extends GenericRequest {
     Matcher matcher = LASSO_PATTERN.matcher(responseText);
     if (matcher.find()) {
       Preferences.setString("lassoTraining", matcher.group(1));
+
+      int trainingCount = 1;
+      if (KoLCharacter.hasEquipped(ItemPool.SEA_COWBOY_HAT, Slot.HAT)) {
+        trainingCount++;
+      }
+      if (KoLCharacter.hasEquipped(ItemPool.SEA_CHAPS, Slot.PANTS)) {
+        trainingCount++;
+      }
+      Preferences.increment("lassoTrainingCount", trainingCount, 20, false);
     }
   }
 
@@ -4816,6 +4921,13 @@ public class FightRequest extends GenericRequest {
             && Preferences.getInteger("gladiatorBladeMovesKnown") + 7090 < skillId) {
           Preferences.setInteger("gladiatorBallMovesKnown", skillId - 7090);
         }
+      }
+      // If Heartstone skills present, they've been unlocked
+      switch (skillId) {
+        case SkillPool.HEARTSTONE_KILL -> Preferences.setBoolean("heartstoneKillUnlocked", true);
+        case SkillPool.HEARTSTONE_BANISH ->
+            Preferences.setBoolean("heartstoneBanishUnlocked", true);
+        case SkillPool.HEARTSTONE_STUN -> Preferences.setBoolean("heartstoneStunUnlocked", true);
       }
     }
   }
@@ -5908,7 +6020,6 @@ public class FightRequest extends GenericRequest {
     // allow regular node processing to glean whatever it wants
     // from what remains.
 
-    boolean done = false;
     int pokindex = 0;
     // Each familiar is in a table
     for (var child : node.select("table")) {
@@ -6066,7 +6177,7 @@ public class FightRequest extends GenericRequest {
         }
         case 2 -> {
           // Familiar name
-          name = tdnode.wholeText();
+          name = tdnode.text();
         }
         case 3 -> {
           // Familiar power: one image (blacksword.gif) per
@@ -6096,10 +6207,17 @@ public class FightRequest extends GenericRequest {
     String race = "";
 
     Elements row2Tags = rows.get(1).children();
-    if (row2Tags.size() > 0) {
+    if (!row2Tags.isEmpty()) {
       String famtype = row2Tags.get(0).wholeText();
       level = StringUtilities.parseInt(famtype.substring(4, 5));
       race = famtype.substring(6);
+    }
+
+    if (!myFamiliar) {
+      // log the enemy team
+      var message = name + ", Lv. " + level + " " + race;
+      RequestLogger.printLine(message);
+      RequestLogger.updateSessionLog(message);
     }
 
     // If this is your familiar, it might have been boosted with a pokepill
@@ -6382,7 +6500,7 @@ public class FightRequest extends GenericRequest {
 
     /// node-specific processing
     if (name.equals("script")) {
-      Matcher m = CLEESH_PATTERN.matcher(node.wholeText());
+      Matcher m = CLEESH_PATTERN.matcher(node.data());
       if (!m.find()) {
         return;
       }
@@ -6460,7 +6578,6 @@ public class FightRequest extends GenericRequest {
   }
 
   private static void processChildren(final Element node, final TagStatus status) {
-    StringBuffer action = status.action;
     for (Node child : node.childNodes()) {
       if (child instanceof Comment object) {
         FightRequest.processComment(object, status);
@@ -6540,7 +6657,14 @@ public class FightRequest extends GenericRequest {
 
         if (str.startsWith("You notice a button on your doctor bag that you hadn't seen before")) {
           Preferences.setBoolean("_bloodBagDoctorBag", true);
-          FightRequest.logText(str);
+          FightRequest.logText(str, status);
+          continue;
+        }
+
+        if (str.startsWith("Your zombie has taken too much damage, and falls to pieces")) {
+          FightRequest.logText(str, status);
+          // refresh the charpane to get zombie details
+          RequestThread.postRequest(new CharPaneRequest());
           continue;
         }
 
@@ -6689,6 +6813,21 @@ public class FightRequest extends GenericRequest {
         int itemId = ItemDatabase.getItemIdFromDescription(m.group());
         AdventureResult result = ItemPool.get(itemId);
 
+        if (str.contains("A hated ewe appears")) {
+          FightRequest.logText("A hated ewe stole an item: " + result.getName(), status);
+          String newItem = String.valueOf(itemId);
+          String existing = Preferences.getString("eweItem");
+
+          if (existing == null || existing.isBlank()) {
+            // First item
+            Preferences.setString("eweItem", newItem);
+          } else {
+            // Append
+            Preferences.setString("eweItem", existing + "," + newItem);
+          }
+          return false;
+        }
+
         boolean autoEquip = str.contains("automatically equipped");
         String acquisition = autoEquip ? "You acquire and equip an item:" : "You acquire an item:";
         ResultProcessor.processItem(true, acquisition, result, null);
@@ -6750,12 +6889,12 @@ public class FightRequest extends GenericRequest {
 
         if (status.hookah) {
           String message = null;
-          int quality = EffectDatabase.getQuality(effectId);
+          var quality = EffectDatabase.getQuality(effectId);
 
           if (EffectDatabase.hasAttribute(effectId, "nohookah")) {
             message =
                 result.getName() + " is available from the hookah, but KoLmafia thought it was not";
-          } else if (quality != EffectDatabase.GOOD) {
+          } else if (quality != EffectData.Quality.GOOD) {
             message =
                 result.getName()
                     + " is good quality, but KoLmafia thought it was "
@@ -7034,6 +7173,26 @@ public class FightRequest extends GenericRequest {
       return true;
     }
 
+    if (image.equals("bdiamond.gif")) {
+      if (str.contains("to play baseball.")) {
+        var monId = status.monsterId;
+        var teamPref = "baseballTeam";
+        var players = Preferences.getString(teamPref);
+        if (players.isEmpty()) {
+          Preferences.setString(teamPref, String.valueOf(monId));
+        } else {
+          var roster = new ArrayList<>(Arrays.asList(StringUtilities.splitByComma(players)));
+          roster.add(String.valueOf(monId));
+          while (roster.size() > 9) {
+            roster.remove(0);
+          }
+          Preferences.setString(teamPref, String.join(",", roster));
+        }
+      }
+      FightRequest.logText(str, status);
+      return false;
+    }
+
     // Combat item usage: process the children of this node
     // to pick up damage to the monster and stat gains
     return true;
@@ -7048,6 +7207,14 @@ public class FightRequest extends GenericRequest {
     FightRequest.handleCrimboPresent(node, status);
 
     if (FightRequest.handleChakra(node, status)) {
+      return;
+    }
+
+    if (FightRequest.handleUnblemishedPearlProgress(node, status)) {
+      return;
+    }
+
+    if (FightRequest.handleShrunkenHeadZombieCreation(node, status)) {
       return;
     }
 
@@ -7121,6 +7288,10 @@ public class FightRequest extends GenericRequest {
 
     if (handleCosmicBowlingBall(str)) return;
 
+    if (FightRequest.handleUnblemishedPearl(str, status)) {
+      return;
+    }
+
     // As empty track does not have an image, it is specially handled to pass it to the appropiate
     // handler
     if (str.equals("Your toy train moves ahead to some empty track.")) {
@@ -7146,6 +7317,11 @@ public class FightRequest extends GenericRequest {
       FightRequest.logText(str, status);
     }
 
+    if (str.contains("Having bent physics with your non-Euclidean curveball")) {
+      Preferences.decrement("_curveballFightsLeft", 1, 0);
+      FightRequest.logText(str, status);
+    }
+
     if ( // KoL Con 13 Snowglobe
     str.contains("KoL Con")
         || str.contains("You notice some extra Meat")
@@ -7160,6 +7336,18 @@ public class FightRequest extends GenericRequest {
         // Can of mixed everything
         str.contains("Something falls out of your can of mixed everything.")) {
       FightRequest.logText(str, status);
+    }
+
+    // Portable Laughing Stock
+    if (str.contains("You get smacked in the face with a piece of fruit from somewhere")
+        || str.contains(
+            "The crowd's derision takes a physical form as a piece of fruit sails toward your head")
+        || str.contains("A jeering onlooker chucks something soft and squishy your way")
+        || str.contains("Someone in the crowd hurls a piece of fruit at you")
+        || str.contains("Someone lobs a piece of fruit at you from the crowd")) {
+      FightRequest.logText("You were pelted with fruit.", status);
+      Preferences.setInteger("_laughingStockCharges", 0);
+      Preferences.increment("_laughingStockFruitDropped", 1);
     }
 
     FightRequest.handleLuckyGoldRing(str, status);
@@ -7182,6 +7370,8 @@ public class FightRequest extends GenericRequest {
     if (str.contains("notice an item you missed earlier")) {
       FightRequest.logText(str, status);
     }
+
+    FightRequest.handleSeadent(str, status);
 
     boolean VYKEAaction = status.VYKEACompanion != null && str.contains(status.VYKEACompanion);
     if (VYKEAaction && status.logFamiliar) {
@@ -7553,6 +7743,105 @@ public class FightRequest extends GenericRequest {
     return true;
   }
 
+  public static final Pattern UNBLEMISHED_PEARL_PATTERN =
+      Pattern.compile("\\(([\\d.]+)% progress made towards shiny thing\\)");
+
+  private static boolean handleUnblemishedPearlProgress(Element node, TagStatus status) {
+    Element small = node.selectFirst("* small");
+    if (small == null) {
+      return false;
+    }
+
+    Matcher matcher = FightRequest.UNBLEMISHED_PEARL_PATTERN.matcher(small.text());
+    if (!matcher.find()) {
+      return false;
+    }
+
+    String nodeText = node.ownText();
+    String progressPref;
+
+    if (nodeText.contains("You see a glint of something")) {
+      progressPref = "_unblemishedPearlAnemoneMineProgress";
+    } else if (nodeText.contains("You stop in the bathroom")) {
+      progressPref = "_unblemishedPearlDiveBarProgress";
+    } else if (nodeText.contains("You see something shiny")) {
+      progressPref = "_unblemishedPearlMadnessReefProgress";
+    } else if (nodeText.contains("You spot something shiny")) {
+      progressPref = "_unblemishedPearlMarinaraTrenchProgress";
+    } else if (nodeText.contains("You catch a glint of something shiny")) {
+      progressPref = "_unblemishedPearlTheBriniestDeepestsProgress";
+    } else {
+      return false;
+    }
+
+    var progress = StringUtilities.parseDouble(matcher.group(1));
+    var curProgress = Preferences.getDouble(progressPref);
+    Preferences.setDouble(progressPref, curProgress + progress);
+
+    FightRequest.logText(node.text(), status);
+
+    return true;
+  }
+
+  private static boolean handleUnblemishedPearl(String text, TagStatus status) {
+    String pref;
+
+    if (text.startsWith(
+        "You finally screw your courage to the sticking point and dive into the deeps.")) {
+      pref = "_unblemishedPearlAnemoneMine";
+    } else if (text.startsWith(
+        "You finally overcome your inhibitions enough to grab the urinal treasure.")) {
+      pref = "_unblemishedPearlDiveBar";
+    } else if (text.startsWith(
+        "You finally manage to fight through the stench and grab the shiny thing.")) {
+      pref = "_unblemishedPearlMadnessReef";
+    } else if (text.startsWith(
+        "You finally manage to power through the boiling water and grab the shiny object.")) {
+      pref = "_unblemishedPearlMarinaraTrench";
+    } else if (text.startsWith(
+        "You finally manage to brave the frigid current and retrieve the precious shiny object,")) {
+      pref = "_unblemishedPearlTheBriniestDeepests";
+    } else {
+      return false;
+    }
+
+    var progressPref = pref + "Progress";
+
+    Preferences.setDouble(progressPref, 0.0);
+    Preferences.setBoolean(pref, true);
+
+    FightRequest.logText(text, status);
+
+    return true;
+  }
+
+  private static final Pattern OFFHAND_SWAP_PATTERN =
+      Pattern.compile("You pick up your (.+) in your off-hand again");
+
+  private static boolean handleShrunkenHeadZombieCreation(Element node, TagStatus status) {
+    var text = node.wholeText();
+    if (text.startsWith("You toss your shrunken head at your foe")) {
+      FightRequest.logText(text, status);
+      var slot = EquipmentManager.discardEquipment(ItemPool.SHRUNKEN_HEAD);
+
+      if (slot == Slot.OFFHAND) {
+        var nextPara = node.nextElementSibling();
+        if (nextPara != null) {
+          Matcher matcher = OFFHAND_SWAP_PATTERN.matcher(nextPara.text());
+          if (matcher.find()) {
+            String itemName = matcher.group(1);
+            EquipmentManager.setEquipment(Slot.OFFHAND, ItemPool.get(itemName));
+          }
+        }
+      }
+
+      // refresh the charpane to get zombie details
+      RequestThread.postRequest(new CharPaneRequest());
+      return true;
+    }
+    return false;
+  }
+
   private static void handleVillainLairRadio(Element node, TagStatus status) {
     if (!KoLCharacter.inBondcore()) {
       return;
@@ -7571,7 +7860,7 @@ public class FightRequest extends GenericRequest {
   private static Set<Integer> getAdvancedResearchedMonsters() {
     String value = Preferences.getString("wereProfessorAdvancedResearch");
     Set<Integer> monsterIds =
-        Arrays.stream(value.split("\\s*,\\s*"))
+        Arrays.stream(StringUtilities.splitByComma(value))
             .filter(s -> !s.isEmpty())
             .map(Integer::valueOf)
             .filter(i -> i != 0)
@@ -7627,6 +7916,18 @@ public class FightRequest extends GenericRequest {
     FightRequest.logText(str, status);
     if (str.contains("You look down and find a Volcoino!")) {
       Preferences.setBoolean("_luckyGoldRingVolcoino", true);
+    }
+  }
+
+  private static void handleSeadent(String str, TagStatus status) {
+    if (!str.contains(
+        "tiny bits of their constituent construct parts are attracted to the magic of your spear")) {
+      return;
+    }
+    Preferences.increment("seadentConstructKills");
+    FightRequest.logText(str, status);
+    if (str.contains("Whoa, they formed a whole new tine!")) {
+      Preferences.increment("seadentLevel");
     }
   }
 
@@ -7758,6 +8059,11 @@ public class FightRequest extends GenericRequest {
       return;
     }
 
+    if (status.familiarId == FamiliarPool.SWORD_OF_SWORDS
+        && FightRequest.handleSwordOfSwords(str, status)) {
+      return;
+    }
+
     if (FightRequest.handleGooseDrones(str, status)) {
       return;
     }
@@ -7775,6 +8081,14 @@ public class FightRequest extends GenericRequest {
     }
 
     if (FightRequest.handleBellydancerPickpocket(str)) {
+      return;
+    }
+
+    if (FightRequest.handleVermincelliFreeRat(str)) {
+      return;
+    }
+
+    if (FightRequest.handleLasagmbieMana(str)) {
       return;
     }
 
@@ -8695,6 +9009,49 @@ public class FightRequest extends GenericRequest {
     return false;
   }
 
+  private static final Pattern[] SWORD_OF_SWORDS_KILLS = {
+    Pattern.compile("kills +(?:an?|the|some)? (.*?) and returns with"),
+    Pattern.compile("hauling back a bunch of (.*?) loot"),
+    Pattern.compile("kills a (.*?), and brings you back"),
+    Pattern.compile("senses a (.*?) nearby"),
+    Pattern.compile("one less (.*?) in the world"),
+    Pattern.compile("a slain (.*?)\\. "),
+  };
+
+  private static boolean handleSwordOfSwords(String text, TagStatus status) {
+    if (!status.familiar.equals("swordsword.gif")) {
+      return false;
+    }
+
+    // could be an attack message, the item drop message, or the replacement we're looking for
+    for (Pattern p : SWORD_OF_SWORDS_KILLS) {
+      Matcher matcher = p.matcher(text);
+      if (matcher.find()) {
+        logText(text, status);
+        Preferences.increment("_swordOfSWordsKills", 1, 100);
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  private static boolean handleVermincelliFreeRat(String text) {
+    if (text.contains("Inspired by your Vermincelli companion")) {
+      Preferences.increment("_legendaryVermincelliFreeRats", 1, 11);
+      return true;
+    }
+    return false;
+  }
+
+  private static boolean handleLasagmbieMana(String text) {
+    if (text.contains("peels off and flies into your mouth")) {
+      Preferences.increment("_legendaryLasagmbieMana", 1, 11);
+      return true;
+    }
+    return false;
+  }
+
   private static void logSkillAcquisition(String skillName, final TagStatus status) {
     FightRequest.logText("You acquire a skill: " + skillName, status);
   }
@@ -9348,6 +9705,9 @@ public class FightRequest extends GenericRequest {
   private static final AdventureResult METEOR_SHOWERED =
       EffectPool.get(EffectPool.METEOR_SHOWERED, 1);
 
+  private static final Pattern STEAL_LETTER_PATTERN =
+      Pattern.compile("You rip the heart \\(([A-Z])\\) right out of your foe");
+
   private static void payActionCost(final String responseText) {
     // If we don't know what we tried, punt now.
     if (FightRequest.nextAction == null || FightRequest.nextAction.isEmpty()) {
@@ -9544,12 +9904,23 @@ public class FightRequest extends GenericRequest {
     // Number to increment daily limit prop (almost always 1)
     int increment = 1;
 
+    // skills in dailylimits.txt need to set skillSuccess = true in here to increment preferences
     switch (skillId) {
       case SkillPool.GOTHY_HANDWAVE -> NemesisDecorator.useGothyHandwave(monsterName, responseText);
       case SkillPool.VOLCANOMETEOR -> ResultProcessor.processItem(ItemPool.VOLCANIC_ASH, -1);
       case SkillPool.ENTANGLING_NOODLES, SkillPool.SHADOW_NOODLES -> {
         singleCastsThisFight.add(SkillPool.ENTANGLING_NOODLES);
         return;
+      }
+      case SkillPool.LUNGING_THRUST_SMACK -> {
+        if (KoLCharacter.hasEquipped(ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD)) {
+          Preferences.setBoolean("_aprilShowerLungingThrustSmack", true);
+        }
+      }
+      case SkillPool.NORTHERN_EXPLOSION -> {
+        if (KoLCharacter.hasEquipped(ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD)) {
+          Preferences.setBoolean("_aprilShowerNorthernExplosion", true);
+        }
       }
       case SkillPool.CLUBFOOT,
           SkillPool.SHELL_UP,
@@ -9592,8 +9963,8 @@ public class FightRequest extends GenericRequest {
           skillSuccess = true;
         }
       }
-      case SkillPool.VICIOUS_TALON_SLASH, SkillPool.WING_BUFFET -> Preferences.increment(
-          "birdformRoc", 1);
+      case SkillPool.VICIOUS_TALON_SLASH, SkillPool.WING_BUFFET ->
+          Preferences.increment("birdformRoc", 1);
       case SkillPool.TUNNEL_UP -> Preferences.increment("moleTunnelLevel", 1);
       case SkillPool.TUNNEL_DOWN -> Preferences.increment("moleTunnelLevel", -1);
       case SkillPool.RISE_FROM_YOUR_ASHES -> Preferences.increment("birdformHot", 1);
@@ -9601,13 +9972,12 @@ public class FightRequest extends GenericRequest {
       case SkillPool.STATUE_TREATMENT -> Preferences.increment("birdformStench", 1);
       case SkillPool.FEAST_ON_CARRION -> Preferences.increment("birdformSpooky", 1);
       case SkillPool.GIVE_OPPONENT_THE_BIRD -> Preferences.increment("birdformSleaze", 1);
-      case SkillPool.HOBO_JOKE -> addFightModifiers(
-          "Ask the hobo to tell you a joke", DoubleModifier.MEATDROP, 100);
-      case SkillPool.HOBO_DANCE -> addFightModifiers(
-          "Ask the hobo to dance for you", DoubleModifier.ITEMDROP, 100);
-      case SkillPool.BOXING_GLOVE_ARROW,
-          SkillPool.POISON_ARROW,
-          SkillPool.FINGERTRAP_ARROW -> skillSuccess = true;
+      case SkillPool.HOBO_JOKE ->
+          addFightModifiers("Ask the hobo to tell you a joke", DoubleModifier.MEATDROP, 100);
+      case SkillPool.HOBO_DANCE ->
+          addFightModifiers("Ask the hobo to dance for you", DoubleModifier.ITEMDROP, 100);
+      case SkillPool.BOXING_GLOVE_ARROW, SkillPool.POISON_ARROW, SkillPool.FINGERTRAP_ARROW ->
+          skillSuccess = true;
       case SkillPool.SQUEEZE_STRESS_BALL -> {
         singleCastsThisFight.add(skillId);
         skillSuccess = true;
@@ -9622,6 +9992,12 @@ public class FightRequest extends GenericRequest {
         KoLCharacter.setFamiliarImage("medium_0.gif");
         FamiliarData familiar = KoLCharacter.getEffectiveFamiliar();
         familiar.setCharges(0);
+      }
+      case SkillPool.I_CAN_BEARLY_HEAR_YOU_OVER_THE_APPLAUSE -> {
+        if (responseText.contains("You raise both bear arms over your head in a victory pose.")
+            || skillSuccess) {
+          skillSuccess = true;
+        }
       }
       case SkillPool.SHRAP -> ResultProcessor.removeItem(ItemPool.WARBEAR_WHOSIT);
       case SkillPool.GET_A_GOOD_WHIFF -> {
@@ -9665,6 +10041,14 @@ public class FightRequest extends GenericRequest {
           TrackManager.trackMonster(monster, Tracker.OLFACTION);
           Preferences.setString("autoOlfact", "");
           singleCastsThisFight.add(skillId);
+        } else {
+          // Zone-related failure consumes a charge and does not prevent re-use this combat
+          for (String failMessage : OLFACTION_ZONE_FAIL_MESSAGES) {
+            if (responseText.contains(failMessage)) {
+              skillSuccess = true;
+              break;
+            }
+          }
         }
       }
       case SkillPool.LONG_CON -> {
@@ -9710,7 +10094,7 @@ public class FightRequest extends GenericRequest {
         }
       }
 
-        // Banishing Shout has lots of success messages.  Check for the failure message instead
+      // Banishing Shout has lots of success messages.  Check for the failure message instead
       case SkillPool.BANISHING_SHOUT -> {
         if (!responseText.contains("but this foe refuses")) {
           BanishManager.banishMonster(monster, Banisher.BANISHING_SHOUT);
@@ -9804,6 +10188,19 @@ public class FightRequest extends GenericRequest {
         if (responseText.contains("You punt your opponent over the horizon")
             || skillRunawaySuccess) {
           BanishManager.banishMonster(monster, Banisher.PUNT_WEREPROF);
+        }
+      }
+      case SkillPool.SEADENT_LIGHTNING -> {
+        if (responseText.contains("A bolt of lightning arcs out and burns your foe")
+            || skillSuccess) {
+          skillSuccess = true;
+          BanishManager.banishMonster(monster, Banisher.SEADENT_LIGHTNING);
+        }
+      }
+      case SkillPool.MARK_YOUR_TERRITORY -> {
+        if (responseText.contains("spew a heaping helping of your pheromones") || skillSuccess) {
+          BanishManager.banishMonster(monster, Banisher.MARK_YOUR_TERRITORY);
+          Preferences.decrement("markYourTerritoryCharges");
         }
       }
       case SkillPool.POCKET_CRUMBS -> {
@@ -9906,28 +10303,28 @@ public class FightRequest extends GenericRequest {
         }
       }
 
-        // Casting Carbohydrate Cudgel uses Dry Noodles
+      // Casting Carbohydrate Cudgel uses Dry Noodles
       case SkillPool.CARBOHYDRATE_CUDGEL -> {
         if (responseText.contains("You toss a bundle") || skillSuccess) {
           ResultProcessor.processItem(ItemPool.DRY_NOODLES, -1);
         }
       }
 
-        // Casting Unload Tommy Gun uses Tommy Ammo
+      // Casting Unload Tommy Gun uses Tommy Ammo
       case SkillPool.UNLOAD_TOMMY_GUN -> {
         if (responseText.contains("firing the tommy gun") || skillSuccess) {
           ResultProcessor.processItem(ItemPool.TOMMY_AMMO, -1);
         }
       }
 
-        // Casting Shovel Hot Coal uses Hot Coal
+      // Casting Shovel Hot Coal uses Hot Coal
       case SkillPool.SHOVEL_HOT_COAL -> {
         if (responseText.contains("hot coal into the shovel") || skillSuccess) {
           ResultProcessor.processItem(ItemPool.HOT_COAL, -1);
         }
       }
 
-        // Casting Crackpot Mystic item spells uses a Pixel Power Cell
+      // Casting Crackpot Mystic item spells uses a Pixel Power Cell
       case SkillPool.RAGE_FLAME -> {
         if (responseText.contains("resulting torrent of flame") || skillSuccess) {
           ResultProcessor.processItem(ItemPool.PIXEL_POWER_CELL, -1);
@@ -9957,15 +10354,15 @@ public class FightRequest extends GenericRequest {
           skillSuccess = true;
         }
       }
-      case SkillPool.OVERLOAD_TEDDY_BEAR -> EquipmentManager.discardEquipment(
-          ItemPool.CUDDLY_TEDDY_BEAR);
-      case SkillPool.THROW_SKULL -> EquipmentManager.discardSpelunkyEquipment(
-          ItemPool.SPELUNKY_SKULL);
-      case SkillPool.THROW_ROCK -> EquipmentManager.discardSpelunkyEquipment(
-          ItemPool.SPELUNKY_ROCK);
+      case SkillPool.OVERLOAD_TEDDY_BEAR ->
+          EquipmentManager.discardEquipment(ItemPool.CUDDLY_TEDDY_BEAR);
+      case SkillPool.THROW_SKULL ->
+          EquipmentManager.discardSpelunkyEquipment(ItemPool.SPELUNKY_SKULL);
+      case SkillPool.THROW_ROCK ->
+          EquipmentManager.discardSpelunkyEquipment(ItemPool.SPELUNKY_ROCK);
       case SkillPool.THROW_POT -> EquipmentManager.discardSpelunkyEquipment(ItemPool.SPELUNKY_POT);
-      case SkillPool.THROW_TORCH -> EquipmentManager.discardSpelunkyEquipment(
-          ItemPool.SPELUNKY_TORCH);
+      case SkillPool.THROW_TORCH ->
+          EquipmentManager.discardSpelunkyEquipment(ItemPool.SPELUNKY_TORCH);
       case SkillPool.LASH_OF_COBRA -> {
         Preferences.setBoolean("edUsedLash", true);
         if (responseText.contains("You acquire an item") || skillSuccess) {
@@ -9973,7 +10370,7 @@ public class FightRequest extends GenericRequest {
         }
       }
 
-        // Casting Curse of Fortune uses Ka Coin
+      // Casting Curse of Fortune uses Ka Coin
       case SkillPool.CURSE_OF_FORTUNE -> {
         if (responseText.contains("Jackal demon shrugs and produces a large wad of meat")
             || skillSuccess) {
@@ -9984,6 +10381,7 @@ public class FightRequest extends GenericRequest {
       case SkillPool.CURSE_OF_VACATION -> {
         if (responseText.contains("as the vortex disappears") || skillSuccess) {
           BanishManager.banishMonster(monster, Banisher.CURSE_OF_VACATION);
+          skillSuccess = true;
         }
       }
       case SkillPool.CURSE_OF_STENCH -> {
@@ -10041,6 +10439,12 @@ public class FightRequest extends GenericRequest {
           skillSuccess = true;
         }
       }
+      case SkillPool.ADJUST_JOKESTER_WIG -> {
+        if (responseText.contains("You make a big show of creepily adjusting your hair.")
+            || skillSuccess) {
+          skillSuccess = true;
+        }
+      }
       case SkillPool.DIGITIZE -> {
         if (responseText.contains("quickly copy the monster") || skillSuccess) {
           skillSuccess = true;
@@ -10088,9 +10492,10 @@ public class FightRequest extends GenericRequest {
         }
       }
       case SkillPool.MICROMETEOR ->
-      // Delevels by 25% initially, but decreases by 1% per use until reaching its minimum delevel
-      // of 10%.
-      Preferences.increment("_micrometeoriteUses");
+          // Delevels by 25% initially, but decreases by 1% per use until reaching its minimum
+          // delevel
+          // of 10%.
+          Preferences.increment("_micrometeoriteUses");
       case SkillPool.MACROMETEOR -> {
         if (responseText.contains("You quickly step") || skillSuccess) {
           skillSuccess = true;
@@ -10166,6 +10571,7 @@ public class FightRequest extends GenericRequest {
         if (responseText.contains("You gaze into your foe's eyes...") || skillSuccess) {
           Preferences.setString("ensorcelee", monster.toString());
           Preferences.setInteger("ensorceleeLevel", FightRequest.startingAttack);
+          skillSuccess = true;
         }
       }
       case SkillPool.BECOME_WOLF -> {
@@ -10253,15 +10659,16 @@ public class FightRequest extends GenericRequest {
       }
       case SkillPool.HAMMER_THROW_COMBAT,
           SkillPool.JUGGLE_FIREBALLS_COMBAT,
-          SkillPool.SPIN_JUMP_COMBAT -> KoLCharacter.spendPP(1);
+          SkillPool.SPIN_JUMP_COMBAT ->
+          KoLCharacter.spendPP(1);
       case SkillPool.ULTRA_SMASH_COMBAT -> {
         if (responseText.contains("knock your opponent into tomorrow") || skillRunawaySuccess) {
           BanishManager.banishMonster(monster, Banisher.ULTRA_HAMMER);
         }
         KoLCharacter.spendPP(2);
       }
-      case SkillPool.FIREBALL_BARRAGE_COMBAT, SkillPool.MULTI_BOUNCE_COMBAT -> KoLCharacter.spendPP(
-          2);
+      case SkillPool.FIREBALL_BARRAGE_COMBAT, SkillPool.MULTI_BOUNCE_COMBAT ->
+          KoLCharacter.spendPP(2);
       case SkillPool.FEEL_NOSTALGIC -> {
         if (responseText.contains("really feeling nostalgic") || skillSuccess) {
           skillSuccess = true;
@@ -10272,6 +10679,9 @@ public class FightRequest extends GenericRequest {
             || skillRunawaySuccess) {
           BanishManager.banishMonster(monster, Banisher.FEEL_HATRED);
           skillRunawaySuccess = true;
+        } else if (responseText.contains("You can't bring yourself to hate this creature.")) {
+          // Failed use consumes a charge but is not a runaway
+          skillSuccess = true;
         }
       }
       case SkillPool.FEEL_PRIDE -> {
@@ -10486,16 +10896,16 @@ public class FightRequest extends GenericRequest {
         }
       }
       case SkillPool.JUNK_BLAST, SkillPool.SNIPE, SkillPool.JUNK_MACE_SMASH ->
-      // These skills consume 1 scrap per use
-      KoLCharacter.setYouRobotScraps(KoLCharacter.getYouRobotScraps() - 1);
+          // These skills consume 1 scrap per use
+          KoLCharacter.setYouRobotScraps(KoLCharacter.getYouRobotScraps() - 1);
       case SkillPool.TESLA_BLAST,
           SkillPool.BLOW_SNOW,
           SkillPool.SHOOT_GREASE,
           SkillPool.PROD,
           SkillPool.SOLENOID_SLAM,
           SkillPool.THROW_FLAME ->
-      // These skills consume 1 energy per use
-      KoLCharacter.setYouRobotEnergy(KoLCharacter.getYouRobotEnergy() - 1);
+          // These skills consume 1 energy per use
+          KoLCharacter.setYouRobotEnergy(KoLCharacter.getYouRobotEnergy() - 1);
       case SkillPool.LAUNCH_SPIKOLODON_SPIKES -> {
         if (responseText.contains("The spikolodon spikes both")) {
           Preferences.setBoolean("noncombatForcerActive", true);
@@ -10662,7 +11072,10 @@ public class FightRequest extends GenericRequest {
         }
       }
       case SkillPool.ASSERT_YOUR_AUTHORITY -> {
-        if (responseText.contains("You flash your sheriff badge") || skillSuccess) {
+        if (responseText.contains("You flash your sheriff badge")
+            // Failed use consumes a charge
+            || responseText.contains("This foe is not going to respect your authority.")
+            || skillSuccess) {
           skillSuccess = true;
         }
       }
@@ -10699,8 +11112,49 @@ public class FightRequest extends GenericRequest {
           Preferences.setString("_chainedAfterimageMonster", monsterName);
         }
       }
+      case SkillPool.BERET_BLAST -> {
+        if (responseText.contains("You focus your decades") || skillSuccess) {
+          skillSuccess = true;
+        }
+      }
+      case SkillPool.BERET_BOAST -> {
+        if (responseText.contains("You brag about your beret until") || skillSuccess) {
+          skillSuccess = true;
+        }
+      }
+      case SkillPool.TRY_TO_REMEMBER -> {
+        if (responseText.contains("You close your eyes and try") || skillSuccess) {
+          TrackManager.trackMonster(monster, Tracker.TRY_TO_REMEMBER);
+          Preferences.decrement("tryToRememberCharges");
+          skillSuccess = true;
+        }
+      }
+      case SkillPool.BCZ__BLOOD_GEYSER -> {
+        if (responseText.contains("shoot blood out of your fingers")
+            || responseText.contains("flow of blood geysers")
+            || responseText.contains("shoot a stream of blood")
+            || skillSuccess) {
+          Preferences.increment("_bczBloodGeyserCasts");
+        }
+      }
+      case SkillPool.BCZ__REFRACTED_GAZE -> {
+        if (responseText.contains("give yourself a spinal tap")
+            || responseText.contains("stab yourself in the spine")
+            || responseText.contains("tap your spinal fluid")
+            || skillSuccess) {
+          Preferences.increment("_bczRefractedGazeCasts");
+        }
+      }
+      case SkillPool.BCZ__SWEAT_BULLETS -> {
+        if (responseText.contains("sweat literal bullets")
+            || responseText.contains("fire off some sweat bullets")
+            || responseText.contains("fire sweat bullets")
+            || skillSuccess) {
+          Preferences.increment("_bczSweatBulletsCasts");
+        }
+      }
 
-        // CyberRealm skills
+      // CyberRealm skills
       case SkillPool.THROW_CYBER_ROCK -> {
         // RAM Cost: 0
         // You envision some 1s in a clump and throw it at your foe for <b>10</b> damage.
@@ -10783,6 +11237,80 @@ public class FightRequest extends GenericRequest {
           currentRAM -= 7;
         }
       }
+      case SkillPool.CLUB_EM_ACROSS_THE_BATTLEFIELD -> {
+        if (responseText.contains("across the battlefield") || skillSuccess) {
+          skillSuccess = true;
+        }
+      }
+      case SkillPool.CLUB_EM_INTO_NEXT_WEEK -> {
+        if (responseText.contains("save some leftovers") || skillSuccess) {
+          skillSuccess = true;
+          TurnCounter.stopCounting("Club 'Em Into Next Week Monster");
+          if (Preferences.getBoolean("stopForFixedWanderer")) {
+            TurnCounter.startCounting(
+                8, "Club 'Em Into Next Week Monster type=wander", "watch.gif");
+          } else {
+            TurnCounter.startCounting(
+                8, "Club 'Em Into Next Week Monster loc=* type=wander", "watch.gif");
+          }
+          Preferences.setString("clubEmNextWeekMonster", monsterName);
+          Preferences.setInteger("clubEmNextWeekMonsterTurn", KoLCharacter.getTurnsPlayed());
+        }
+      }
+      case SkillPool.CLUB_EM_BACK_IN_TIME -> {
+        if (responseText.contains("you've already defeated")
+            || responseText.contains("about fifteen seconds")
+            || skillSuccess) {
+          skillSuccess = true;
+        }
+      }
+      case SkillPool.STEAL_HEART -> {
+        Matcher heartMatcher = STEAL_LETTER_PATTERN.matcher(responseText);
+        if (heartMatcher.find()) {
+          var letter = heartMatcher.group(1);
+          var curLetters = Preferences.getString("heartstoneLetters");
+          if (curLetters.length() > 3) {
+            curLetters = "";
+          }
+          Preferences.setString("heartstoneLetters", curLetters + letter);
+        }
+      }
+      case SkillPool.HEARTSTONE_KILL -> {
+        if (responseText.contains("You focus your attention on your Heartstone") || skillSuccess) {
+          skillSuccess = true;
+        }
+      }
+      case SkillPool.HEARTSTONE_BANISH -> {
+        if (responseText.contains("A ray blasts out of the stone") || skillSuccess) {
+          BanishManager.banishMonster(monster, Banisher.HEARTSTONE_BANISH);
+          skillSuccess = true;
+        } else if (responseText.contains("This enemy can't be banished.")) {
+          // Failed use consumes a charge
+          skillSuccess = true;
+        }
+      }
+      case SkillPool.HEARTSTONE_STUN -> {
+        if (responseText.contains("You touch your Heartstone and think the word") || skillSuccess) {
+          skillSuccess = true;
+        }
+      }
+      case SkillPool.MEAT_CUTE -> {
+        if (responseText.contains("flex and ripple") || skillSuccess) {
+          TrackManager.trackMonster(monster, Tracker.MEAT_CUTE);
+          skillSuccess = true;
+        }
+      }
+      case SkillPool.KILL_A_LOT -> {
+        if (responseText.contains("kill") || skillSuccess) {
+          Preferences.setInteger("swordOfSWordsMonster", monster.getId());
+          skillSuccess = true;
+        }
+      }
+      case SkillPool.STOP_KILLING -> {
+        if (responseText.contains("kill") || skillSuccess) {
+          Preferences.setInteger("swordOfSWordsMonster", -1);
+        }
+      }
     }
 
     if (skillSuccess || skillRunawaySuccess || familiarSkillSuccess) {
@@ -10834,7 +11362,7 @@ public class FightRequest extends GenericRequest {
         }
       }
 
-        // Handle item banishers
+      // Handle item banishers
       case ItemPool.CRYSTAL_SKULL -> {
         if (responseText.contains("skull explodes into a million worthless shards of glass")
             || itemRunawaySuccess) {
@@ -10929,6 +11457,11 @@ public class FightRequest extends GenericRequest {
         if (responseText.contains("pull a nuclear bomb out of the stockpile")
             || itemRunawaySuccess) {
           Preferences.increment("_nuclearStockpileUsed", 1, 10, false);
+        }
+      }
+      case ItemPool.WAND_OF_PIGIFICATION -> {
+        if (responseText.contains("a hot pink beam") || itemSuccess) {
+          Preferences.increment("_wandOfPigificationUsed");
         }
       }
       case ItemPool.AFFIRMATION_SUPERFICIALLY_INTERESTED -> {

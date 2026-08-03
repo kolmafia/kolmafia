@@ -71,4 +71,14 @@ class ChoiceUtilitiesTest {
       assertThat(errors, is(nullValue()));
     }
   }
+
+  @Test
+  void parsesChoiceFromBarrelFullOfBarrels() {
+    var page = html("request/test_choice_barrel_full_of_barrels.html");
+    var choices = ChoiceUtilities.parseChoices(page);
+    assertThat(choices, aMapWithSize(3));
+    assertThat(choices, hasEntry(1, "A barrel"));
+    assertThat(choices, hasEntry(2, "Turn Crank (1)"));
+    assertThat(choices, hasEntry(3, "Exit"));
+  }
 }

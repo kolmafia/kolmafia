@@ -66,9 +66,13 @@ public enum ModifierType {
   MUTEX_GENERIC,
   MUTEX_I,
   MUTEX_E,
+  MUTEX_ER,
   PASSIVES,
   GENERATED,
   TERRARIUM_FAMILIAR,
+  SEAHORSE,
+  SHRUNKEN_HEAD,
+  ETERNITY_CODPIECE,
   NONE;
 
   private static Map<String, ModifierType> stringToType =

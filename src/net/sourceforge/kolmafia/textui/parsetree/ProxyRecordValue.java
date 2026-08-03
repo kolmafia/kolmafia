@@ -3,7 +3,6 @@ package net.sourceforge.kolmafia.textui.parsetree;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.EnumSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -31,13 +30,15 @@ import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase.Environment;
 import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
-import net.sourceforge.kolmafia.persistence.BountyDatabase;
+import net.sourceforge.kolmafia.persistence.BountyDatabase.BountyData;
 import net.sourceforge.kolmafia.persistence.CandyDatabase;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.DailyLimitDatabase.DailyLimitType;
+import net.sourceforge.kolmafia.persistence.EffectData;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.FactDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
+import net.sourceforge.kolmafia.persistence.FamiliarDatabase.FamiliarRaceData;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase.Attribute;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
@@ -46,6 +47,7 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
 import net.sourceforge.kolmafia.persistence.RestoresDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.persistence.SkillDatabase.SkillData;
 import net.sourceforge.kolmafia.persistence.TCRSDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.FightRequest;
@@ -846,59 +848,59 @@ public class ProxyRecordValue extends RecordValue {
     }
 
     public boolean get_combat() {
-      return FamiliarDatabase.isCombatType((int) this.contentLong);
+      return this.content != null && ((FamiliarRaceData) this.content).isCombatType();
     }
 
     public boolean get_physical_damage() {
-      return FamiliarDatabase.isCombat0Type((int) this.contentLong);
+      return this.content != null && ((FamiliarRaceData) this.content).isCombat0Type();
     }
 
     public boolean get_elemental_damage() {
-      return FamiliarDatabase.isCombat1Type((int) this.contentLong);
+      return this.content != null && ((FamiliarRaceData) this.content).isCombat1Type();
     }
 
     public boolean get_block() {
-      return FamiliarDatabase.isBlockType((int) this.contentLong);
+      return this.content != null && ((FamiliarRaceData) this.content).isBlockType();
     }
 
     public boolean get_delevel() {
-      return FamiliarDatabase.isDelevelType((int) this.contentLong);
+      return this.content != null && ((FamiliarRaceData) this.content).isDelevelType();
     }
 
     public boolean get_hp_during_combat() {
-      return FamiliarDatabase.isHp0Type((int) this.contentLong);
+      return this.content != null && ((FamiliarRaceData) this.content).isHp0Type();
     }
 
     public boolean get_mp_during_combat() {
-      return FamiliarDatabase.isMp0Type((int) this.contentLong);
+      return this.content != null && ((FamiliarRaceData) this.content).isMp0Type();
     }
 
     public boolean get_other_action_during_combat() {
-      return FamiliarDatabase.isOther0Type((int) this.contentLong);
+      return this.content != null && ((FamiliarRaceData) this.content).isOther0Type();
     }
 
     public boolean get_hp_after_combat() {
-      return FamiliarDatabase.isHp1Type((int) this.contentLong);
+      return this.content != null && ((FamiliarRaceData) this.content).isHp1Type();
     }
 
     public boolean get_mp_after_combat() {
-      return FamiliarDatabase.isMp1Type((int) this.contentLong);
+      return this.content != null && ((FamiliarRaceData) this.content).isMp1Type();
     }
 
     public boolean get_other_action_after_combat() {
-      return FamiliarDatabase.isOther1Type((int) this.contentLong);
+      return this.content != null && ((FamiliarRaceData) this.content).isOther1Type();
     }
 
     public boolean get_passive() {
-      return FamiliarDatabase.isPassiveType((int) this.contentLong);
+      return this.content != null && ((FamiliarRaceData) this.content).isPassiveType();
     }
 
     public boolean get_underwater() {
-      return FamiliarDatabase.isUnderwaterType((int) this.contentLong);
+      return this.content != null && ((FamiliarRaceData) this.content).isUnderwaterType();
     }
 
     public boolean get_variable() {
-      return FamiliarDatabase.isVariableType((int) this.contentLong);
+      return this.content != null && ((FamiliarRaceData) this.content).isVariableType();
     }
 
     public boolean get_feasted() {
@@ -908,12 +910,9 @@ public class ProxyRecordValue extends RecordValue {
 
     public String get_attributes() {
       List<String> attrs = FamiliarDatabase.getFamiliarAttributes((int) this.contentLong);
-      if (attrs == null) {
-        return "";
-      }
       StringBuilder builder = new StringBuilder();
       for (String attr : attrs) {
-        if (builder.length() != 0) {
+        if (!builder.isEmpty()) {
           builder.append("; ");
         }
         builder.append(attr);
@@ -1006,40 +1005,32 @@ public class ProxyRecordValue extends RecordValue {
     }
 
     public String get_plural() {
-      String plural = BountyDatabase.getPlural(this.contentString);
-      return plural == null ? "" : plural;
+      return this.content == null ? "" : ((BountyData) this.content).plural();
     }
 
     public String get_type() {
-      String type = BountyDatabase.getType(this.contentString);
-      return type == null ? "" : type;
+      return this.content == null ? "" : ((BountyData) this.content).type();
     }
 
     public String get_kol_internal_type() {
-      String type = BountyDatabase.getType(this.contentString);
-      return type == null
-          ? ""
-          : type.equals("easy")
-              ? "low"
-              : type.equals("hard") ? "high" : type.equals("special") ? "special" : null;
+      return this.content == null ? "" : ((BountyData) this.content).getKoLInternalType();
     }
 
     public int get_number() {
-      return BountyDatabase.getNumber(this.contentString);
+      return this.content == null ? 0 : ((BountyData) this.content).number();
     }
 
     public String get_image() {
-      String image = BountyDatabase.getImage(this.contentString);
-      return image == null ? "" : image;
+      return this.content == null ? "" : ((BountyData) this.content).image();
     }
 
     public Value get_monster() {
-      String monster = BountyDatabase.getMonster(this.contentString);
+      String monster = this.content == null ? null : ((BountyData) this.content).monster();
       return DataTypes.parseMonsterValue(monster == null ? "" : monster, true);
     }
 
     public Value get_location() {
-      String location = BountyDatabase.getLocation(this.contentString);
+      String location = this.content == null ? null : ((BountyData) this.content).location();
       return DataTypes.parseLocationValue(location == null ? "" : location, true);
     }
   }
@@ -1050,6 +1041,7 @@ public class ProxyRecordValue extends RecordValue {
             .add("id", DataTypes.INT_TYPE)
             .add("name", DataTypes.STRING_TYPE)
             .add("level", DataTypes.INT_TYPE)
+            .add("experience", DataTypes.INT_TYPE)
             .add("image", DataTypes.STRING_TYPE)
             .add("tinyimage", DataTypes.STRING_TYPE)
             .add("skill", DataTypes.SKILL_TYPE)
@@ -1073,6 +1065,11 @@ public class ProxyRecordValue extends RecordValue {
     public int get_level() {
       PastaThrallData thrall = KoLCharacter.findPastaThrall(this.contentString);
       return thrall == null ? 0 : thrall.getLevel();
+    }
+
+    public int get_experience() {
+      PastaThrallData thrall = KoLCharacter.findPastaThrall(this.contentString);
+      return thrall == null ? 0 : thrall.getExperience();
     }
 
     public String get_image() {
@@ -1239,6 +1236,7 @@ public class ProxyRecordValue extends RecordValue {
             .add("song", DataTypes.BOOLEAN_TYPE)
             .add("expression", DataTypes.BOOLEAN_TYPE)
             .add("walk", DataTypes.BOOLEAN_TYPE)
+            .add("shanty", DataTypes.BOOLEAN_TYPE)
             .add("summon", DataTypes.BOOLEAN_TYPE)
             .add("permable", DataTypes.BOOLEAN_TYPE)
             .add("dailylimit", DataTypes.INT_TYPE)
@@ -1255,7 +1253,7 @@ public class ProxyRecordValue extends RecordValue {
     }
 
     public String get_name() {
-      return SkillDatabase.getSkillName((int) this.contentLong);
+      return this.content == null ? null : ((SkillData) this.content).name();
     }
 
     public String get_type() {
@@ -1263,11 +1261,11 @@ public class ProxyRecordValue extends RecordValue {
     }
 
     public int get_level() {
-      return SkillDatabase.getSkillLevel((int) this.contentLong);
+      return this.content == null ? -1 : ((SkillData) this.content).level();
     }
 
     public String get_image() {
-      return SkillDatabase.getSkillImage((int) this.contentLong);
+      return this.content == null ? null : ((SkillData) this.content).image();
     }
 
     public int get_traincost() {
@@ -1309,6 +1307,10 @@ public class ProxyRecordValue extends RecordValue {
 
     public boolean get_walk() {
       return SkillDatabase.isWalk((int) this.contentLong);
+    }
+
+    public boolean get_shanty() {
+      return SkillDatabase.isShanty((int) this.contentLong);
     }
 
     public boolean get_summon() {
@@ -1358,7 +1360,7 @@ public class ProxyRecordValue extends RecordValue {
     }
 
     public String get_name() {
-      return EffectDatabase.getEffectName((int) this.contentLong);
+      return this.content == null ? null : ((EffectData) this.content).getName();
     }
 
     public String get_default() {
@@ -1366,12 +1368,11 @@ public class ProxyRecordValue extends RecordValue {
     }
 
     public String get_quality() {
-      return EffectDatabase.getQualityDescription((int) this.contentLong);
+      return this.content == null ? "" : ((EffectData) this.content).getQualityDescription();
     }
 
     public String get_attributes() {
-      List<String> attrs = EffectDatabase.getEffectAttributes((int) this.contentLong);
-      return (attrs == null) ? "" : String.join(",", attrs);
+      return this.content == null ? "" : ((EffectData) this.content).getCombinedAttributes();
     }
 
     public String get_note() {
@@ -1380,19 +1381,19 @@ public class ProxyRecordValue extends RecordValue {
 
     public Value get_all() {
       ArrayList<Value> rv = new ArrayList<>();
-      Iterator<String> i = EffectDatabase.getAllActions((int) this.contentLong);
-      while (i.hasNext()) {
-        rv.add(new Value(i.next()));
+      List<String> i = EffectDatabase.getAllActions((int) this.contentLong);
+      for (var v : i) {
+        rv.add(new Value(v));
       }
       return new PluralValue(DataTypes.STRING_TYPE, rv);
     }
 
     public String get_image() {
-      return EffectDatabase.getImageName((int) this.contentLong);
+      return this.content == null ? "" : ((EffectData) this.content).getImage();
     }
 
     public String get_descid() {
-      return EffectDatabase.getDescriptionId((int) this.contentLong);
+      return this.content == null ? null : ((EffectData) this.content).getDescriptionId();
     }
 
     public int get_candy_tier() {
@@ -1400,7 +1401,7 @@ public class ProxyRecordValue extends RecordValue {
     }
 
     public boolean get_song() {
-      return EffectDatabase.isSong((int) this.contentLong);
+      return this.content == null ? false : ((EffectData) this.content).isSong();
     }
   }
 
@@ -1608,14 +1609,16 @@ public class ProxyRecordValue extends RecordValue {
             case 0 -> "Item Drop: 30, Spooky Damage: 10, Spooky Spell Damage: 10";
             case 1 -> "Item Drop: 15, Meat Drop: 25, Stench Damage: 10, Stench Spell Damage: 10";
             case 2 -> "Meat Drop: 50, Hot Damage: 10, Hot Spell Damage: 10";
-            case 3 -> "Meat Drop: 25, "
-                + all_resistance(2)
-                + ", Cold Damage: 10, Cold Spell Damage: 10";
+            case 3 ->
+                "Meat Drop: 25, " + all_resistance(2) + ", Cold Damage: 10, Cold Spell Damage: 10";
             case 4 -> all_resistance(4) + ", Sleaze Damage: 10, Sleaze Spell Damage: 10";
-            case 5 -> all_resistance(2)
-                + ", Spooky Damage: 10, Spooky Spell Damage: 10, MP Regen Min: 10, MP Regen Max: 15";
-            case 6 -> "Stench Damage: 10, Stench Spell Damage: 10, MP Regen Min: 20, MP Regen Max: 30";
-            case 7 -> "Initiative: 50, Hot Damage: 10, Hot Spell Damage: 10, MP Regen Min: 10, MP Regen Max: 15";
+            case 5 ->
+                all_resistance(2)
+                    + ", Spooky Damage: 10, Spooky Spell Damage: 10, MP Regen Min: 10, MP Regen Max: 15";
+            case 6 ->
+                "Stench Damage: 10, Stench Spell Damage: 10, MP Regen Min: 20, MP Regen Max: 30";
+            case 7 ->
+                "Initiative: 50, Hot Damage: 10, Hot Spell Damage: 10, MP Regen Min: 10, MP Regen Max: 15";
             case 8 -> "Initiative: 100, Cold Damage: 10, Cold Spell Damage: 10";
             case 9 -> "Item Drop: 15, Initiative: 50, Sleaze Damage: 10, Sleaze Spell Damage: 10";
             default -> throw new IllegalStateException("Unexpected value: " + mod);
@@ -1667,6 +1670,11 @@ public class ProxyRecordValue extends RecordValue {
             .add("defense_element", DataTypes.ELEMENT_TYPE)
             .add("physical_resistance", DataTypes.INT_TYPE)
             .add("elemental_resistance", DataTypes.INT_TYPE)
+            .add("hot_resistance", DataTypes.INT_TYPE)
+            .add("cold_resistance", DataTypes.INT_TYPE)
+            .add("stench_resistance", DataTypes.INT_TYPE)
+            .add("spooky_resistance", DataTypes.INT_TYPE)
+            .add("sleaze_resistance", DataTypes.INT_TYPE)
             .add("min_meat", DataTypes.INT_TYPE)
             .add("max_meat", DataTypes.INT_TYPE)
             .add("min_sprinkles", DataTypes.INT_TYPE)
@@ -1770,6 +1778,26 @@ public class ProxyRecordValue extends RecordValue {
 
     public int get_elemental_resistance() {
       return this.content != null ? ((MonsterData) this.content).getElementalResistance() : 0;
+    }
+
+    public int get_hot_resistance() {
+      return this.content != null ? ((MonsterData) this.content).getHotResistance() : 0;
+    }
+
+    public int get_cold_resistance() {
+      return this.content != null ? ((MonsterData) this.content).getColdResistance() : 0;
+    }
+
+    public int get_stench_resistance() {
+      return this.content != null ? ((MonsterData) this.content).getStenchResistance() : 0;
+    }
+
+    public int get_spooky_resistance() {
+      return this.content != null ? ((MonsterData) this.content).getSpookyResistance() : 0;
+    }
+
+    public int get_sleaze_resistance() {
+      return this.content != null ? ((MonsterData) this.content).getSleazeResistance() : 0;
     }
 
     public int get_min_meat() {
@@ -1937,11 +1965,11 @@ public class ProxyRecordValue extends RecordValue {
     }
 
     public boolean get_buys() {
-      return this.content != null && ((CoinmasterData) this.content).getSellAction() != null;
+      return this.content != null && ((CoinmasterData) this.content).getSellItems() != null;
     }
 
     public boolean get_sells() {
-      return this.content != null && ((CoinmasterData) this.content).getBuyAction() != null;
+      return this.content != null && ((CoinmasterData) this.content).getBuyItems() != null;
     }
 
     public String get_nickname() {
@@ -1963,7 +1991,7 @@ public class ProxyRecordValue extends RecordValue {
 
     public String get_image() {
       return switch ((Element) this.content) {
-          // No image for Slime or Supercold in Manuel
+        // No image for Slime or Supercold in Manuel
         case NONE, SLIME, SUPERCOLD -> "circle.gif";
         case COLD -> "snowflake.gif";
         case HOT -> "fire.gif";

@@ -42,17 +42,17 @@ public class CharacterEntitiesTest {
     String a = null;
     String ea = CharacterEntities.escape(a);
     String ua = CharacterEntities.unescape(a);
-    assertEquals(ea, "");
-    assertEquals(ua, "");
+    assertEquals("", ea);
+    assertEquals("", ua);
     a = "This & that";
     ea = CharacterEntities.escape(a);
     ua = CharacterEntities.unescape(a);
-    assertEquals(ea, "This &amp; that");
+    assertEquals("This &amp; that", ea);
     assertEquals(a, ua);
     a = "&xyzzy;";
     ea = CharacterEntities.escape(a);
     ua = CharacterEntities.unescape(a);
-    assertEquals(ea, "&amp;xyzzy;");
+    assertEquals("&amp;xyzzy;", ea);
     assertEquals(a, ua);
   }
 }

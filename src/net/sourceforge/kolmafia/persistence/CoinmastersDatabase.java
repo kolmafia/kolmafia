@@ -243,7 +243,11 @@ public class CoinmastersDatabase {
           ItemPool.TALES_OF_DREAD,
           ItemPool.BRASS_DREAD_FLASK,
           ItemPool.SILVER_DREAD_FLASK,
-          ItemPool.MINI_KIWI_INTOXICATING_SPIRITS -> 1;
+          ItemPool.MINI_KIWI_INTOXICATING_SPIRITS,
+          ItemPool.SMOKING_POPE,
+          ItemPool.PRIZE_TURKEY,
+          ItemPool.MEDICAL_GRUEL ->
+          1;
       default -> PurchaseRequest.MAX_QUANTITY;
     };
   }
@@ -253,7 +257,7 @@ public class CoinmastersDatabase {
       return 0;
     }
     Integer price = prices.get(itemId);
-    return (price == null) ? 0 : price.intValue();
+    return (price == null) ? 0 : price;
   }
 
   public static final void clearPurchaseRequests(CoinmasterData data) {

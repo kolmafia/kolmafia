@@ -166,12 +166,21 @@ public class DebugModifiersTest {
   }
 
   @Test
-  void listsZoneLoc() {
+  void listsLoc() {
     try (var cleanups = withLocation("The Briniest Deepests")) {
       evaluateDebugModifiers(DoubleModifier.ITEMDROP);
     }
-    assertThat(output(), containsDebugRow("Loc", "The Briniest Deepests", 25.0, 25.0));
-    assertThat(output(), containsDebugRow("Zone", "The Sea", -100.0, -75.0));
+    assertThat(output(), containsDebugRow("Loc", "The Briniest Deepests", -75.0, -75.0));
+  }
+
+  @Test
+  void listsZone() {
+    try (var cleanups =
+        new Cleanups(
+            withLocation("Shadow Rift (Desert Beach)"), withEffect(EffectPool.SPIRIT_OF_TAKING))) {
+      evaluateDebugModifiers(DoubleModifier.ITEMDROP);
+    }
+    assertThat(output(), containsDebugRow("Zone", "Shadow Rift", -8.0, 2.0));
   }
 
   @Test

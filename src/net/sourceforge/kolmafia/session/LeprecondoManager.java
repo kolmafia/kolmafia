@@ -292,6 +292,15 @@ public class LeprecondoManager {
     }
   }
 
+  private static final Pattern INSTALLED_FURNITURE_PATTERN =
+      Pattern.compile("<img id=\"i(\\d)\" alt=\"(.*?) in (?:top|bottom) (?:left|right)\"");
+  private static final Pattern REARRANGEMENTS_PATTERN =
+      Pattern.compile("You can rearrange the furnishings (\\d) more");
+  private static final Pattern DISCOVERY_SELECT_PATTERN =
+      Pattern.compile("<select id=\"r1\" name=\"r1\">(.*?)</select>");
+  private static final Pattern DISCOVERY_OPTION_PATTERN =
+      Pattern.compile("<option (?:selected)? value='(\\d+)'");
+
   static final Pattern UNMET_NEED_PATTERN =
       Pattern.compile("is upset that his (.*?) need wasn't met");
 
@@ -365,7 +374,7 @@ public class LeprecondoManager {
 
   public static void visit(final String text) {
     var installed =
-        Pattern.compile("<img id=\"i(\\d)\" alt=\"(.*?) in (?:top|bottom) (?:left|right)\"")
+        INSTALLED_FURNITURE_PATTERN
             .matcher(text)
             .results()
             .map(
@@ -381,8 +390,7 @@ public class LeprecondoManager {
 
     Preferences.setString("leprecondoInstalled", installed);
 
-    var rearrangementsMatcher =
-        Pattern.compile("You can rearrange the furnishings (\\d) more").matcher(text);
+    var rearrangementsMatcher = REARRANGEMENTS_PATTERN.matcher(text);
 
     int rearrangements = 0;
     if (rearrangementsMatcher.find()) {
@@ -392,11 +400,10 @@ public class LeprecondoManager {
 
     // We can only learn/validate our discoveries if we have rearrangements left
     if (rearrangements > 0) {
-      var discoveryOptions =
-          Pattern.compile("<select id=\"r1\" name=\"r1\">(.*?)</select>").matcher(text);
+      var discoveryOptions = DISCOVERY_SELECT_PATTERN.matcher(text);
       if (discoveryOptions.find()) {
         var discoveries =
-            Pattern.compile("<option (?:selected)? value='(\\d+)'")
+            DISCOVERY_OPTION_PATTERN
                 .matcher(discoveryOptions.group(1))
                 .results()
                 .map(r -> r.group(1))

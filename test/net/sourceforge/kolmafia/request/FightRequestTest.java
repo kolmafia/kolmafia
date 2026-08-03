@@ -114,7 +114,7 @@ public class FightRequestTest {
   @Test
   public void itShouldHaveAName() {
     String name = fr.toString();
-    assertEquals(name, "fight.php");
+    assertEquals("fight.php", name);
   }
 
   @Test
@@ -128,10 +128,10 @@ public class FightRequestTest {
   @Test
   public void itShouldReportDreadKisses() {
     FightRequest.resetKisses();
-    assertEquals(FightRequest.dreadKisses("Woods"), 1);
-    assertEquals(FightRequest.dreadKisses("Village"), 1);
-    assertEquals(FightRequest.dreadKisses("Castle"), 1);
-    assertEquals(FightRequest.dreadKisses("None of the above"), 0);
+    assertEquals(1, FightRequest.dreadKisses("Woods"));
+    assertEquals(1, FightRequest.dreadKisses("Village"));
+    assertEquals(1, FightRequest.dreadKisses("Castle"));
+    assertEquals(0, FightRequest.dreadKisses("None of the above"));
   }
 
   @Test
@@ -623,7 +623,7 @@ public class FightRequestTest {
       try (cleanups) {
         parseCombatData("request/test_fight_witchess_with_locket.html");
 
-        assertEquals(Preferences.getInteger("_witchessFights"), 0);
+        assertEquals(0, Preferences.getInteger("_witchessFights"));
       }
     }
   }
@@ -1218,8 +1218,8 @@ public class FightRequestTest {
 
     try (cleanups) {
       parseCombatData("request/test_" + file + ".html");
-      assertEquals(Preferences.getInteger("_juneCleaver" + element), 2);
-      assertEquals(Preferences.getInteger("_juneCleaverFightsLeft"), 0);
+      assertEquals(2, Preferences.getInteger("_juneCleaver" + element));
+      assertEquals(0, Preferences.getInteger("_juneCleaverFightsLeft"));
     }
   }
 
@@ -1320,6 +1320,23 @@ public class FightRequestTest {
           text,
           containsString(
               "Something falls out of your can of mixed everything.\nYou acquire an item: ice-cold Willer"));
+    }
+  }
+
+  @Test
+  public void canDetectHoverboardExploding() {
+    RequestLoggerOutput.startStream();
+    var cleanups =
+        new Cleanups(
+            withFight(),
+            withEquipped(Slot.ACCESSORY1, ItemPool.HOVERBOARD),
+            withProperty("breakableHandling", 1));
+    try (cleanups) {
+      parseCombatData("request/test_fight_hoverboard_explodes.html");
+      var text = RequestLoggerOutput.stopStream();
+
+      assertThat(text, containsString("Your hoverboard broke."));
+      assertThat(EquipmentManager.getEquipment(Slot.ACCESSORY1).getItemId(), equalTo(-1));
     }
   }
 
@@ -2156,7 +2173,7 @@ public class FightRequestTest {
       var cleanups = withLastLocation("An Unusually Quiet Barroom Brawl");
       try (cleanups) {
         parseCombatData("request/test_oliver_free.html");
-        assertEquals(Preferences.getInteger("_speakeasyFreeFights"), 1);
+        assertEquals(1, Preferences.getInteger("_speakeasyFreeFights"));
       }
     }
 
@@ -2165,7 +2182,7 @@ public class FightRequestTest {
       var cleanups = withLastLocation("An Unusually Quiet Barroom Brawl");
       try (cleanups) {
         parseCombatData("request/test_oliver_heating_up.html");
-        assertEquals(Preferences.getInteger("_speakeasyFreeFights"), 3);
+        assertEquals(3, Preferences.getInteger("_speakeasyFreeFights"));
       }
     }
 
@@ -2174,7 +2191,7 @@ public class FightRequestTest {
       var cleanups = withLastLocation("An Unusually Quiet Barroom Brawl");
       try (cleanups) {
         parseCombatData("request/test_oliver_not_free.html");
-        assertEquals(Preferences.getInteger("_speakeasyFreeFights"), 0);
+        assertEquals(0, Preferences.getInteger("_speakeasyFreeFights"));
       }
     }
   }
@@ -3224,6 +3241,7 @@ public class FightRequestTest {
       try (cleanups) {
         parseCombatData("request/test_fight_pokefam_start.html", "fambattle.php");
         var text = RequestLoggerOutput.stopStream();
+        assertThat(text, containsString("Horlotte, Lv. 1 Trick-or-Treating Tot"));
         assertThat(
             text,
             containsString("Pokefam move2 'Hug' -> 'hug': Heal the frontmost ally by [power]."));
@@ -4138,6 +4156,368 @@ public class FightRequestTest {
       var text = RequestLoggerOutput.stopStream();
       assertThat(text, containsString("photographed for Yearbook Club"));
       assertThat("yearbookCameraPending", isSetTo(true));
+    }
+  }
+
+  @Test
+  public void tracksLassoTraining() {
+    var cleanups =
+        new Cleanups(
+            withFight(),
+            withProperty("lassoTraining"),
+            withProperty("lassoTrainingCount", 1),
+            withEquipped(ItemPool.SEA_COWBOY_HAT),
+            withEquipped(ItemPool.SEA_CHAPS));
+
+    try (cleanups) {
+      var page = "request/test_fight_sea_lasso.html";
+      parseCombatData(page, "fight.php?action=useitem&whichitem=4198&whichitem2=0");
+      assertThat("lassoTraining", isSetTo("clumsily"));
+      assertThat("lassoTrainingCount", isSetTo(4));
+    }
+  }
+
+  @Test
+  public void tracksMomSeaMonkeeProgress() {
+    var cleanups =
+        new Cleanups(
+            withFight(),
+            withNextMonster("school of many"),
+            withProperty("momSeaMonkeeProgress", 3),
+            withEquipped(ItemPool.SHARK_JUMPER),
+            withEquipped(ItemPool.SCALE_MAIL_UNDERWEAR));
+
+    try (cleanups) {
+      FightRequest.updateFinalRoundData("", true, false);
+      assertThat("momSeaMonkeeProgress", isSetTo(6));
+    }
+  }
+
+  @Nested
+  class Seadent {
+    @Test
+    public void seadentIncrementsConstructKill() {
+      var cleanups =
+          new Cleanups(withProperty("seadentConstructKills"), withProperty("seadentLevel"));
+
+      try (cleanups) {
+        parseCombatData("request/test_fight_seadent_nubbin.html");
+        assertThat("seadentConstructKills", isSetTo(1));
+        assertThat("seadentLevel", isSetTo(1));
+      }
+    }
+
+    @Test
+    public void seadentIncrementsLevel() {
+      var cleanups =
+          new Cleanups(withProperty("seadentConstructKills"), withProperty("seadentLevel"));
+
+      try (cleanups) {
+        parseCombatData("request/test_fight_seadent_tine.html");
+        assertThat("seadentConstructKills", isSetTo(1));
+        assertThat("seadentLevel", isSetTo(2));
+      }
+    }
+
+    @Test
+    public void canDetectSeadentLightning() {
+      var cleanups = new Cleanups(withFight(), withBanishedMonsters(""));
+
+      try (cleanups) {
+        parseCombatData(
+            "request/test_fight_seadent_lightning_banish.html",
+            "fight.php?action=skill&whichskill=7568");
+
+        assertThat("banishedMonsters", hasStringValue(startsWith("Raver Giant:Sea *dent:")));
+      }
+    }
+
+    @Test
+    public void canDetectSeadentFishReplace() {
+      RequestLoggerOutput.startStream();
+      var cleanups = new Cleanups(withFight());
+
+      try (cleanups) {
+        parseCombatData(
+            "request/test_fight_replace_some_fish.html", "fight.php?action=skill&whichskill=7570");
+
+        var stream = RequestLoggerOutput.stopStream();
+        assertThat(stream, containsString("your opponent becomes some fish!"));
+      }
+    }
+  }
+
+  @Nested
+  class UnblemishedPearl {
+    @Test
+    public void canDetectUnblemishedPearlDiveBarProgress() {
+      RequestLoggerOutput.startStream();
+      var cleanups =
+          new Cleanups(withFight(), withProperty("_unblemishedPearlDiveBarProgress", 3.7));
+
+      try (cleanups) {
+        parseCombatData("request/test_fight_pearl_dive_bar_progress.html");
+
+        var stream = RequestLoggerOutput.stopStream();
+        assertThat("_unblemishedPearlDiveBarProgress", isSetTo(13.7));
+        assertThat(stream, containsString("(10.0% progress made towards shiny thing)"));
+      }
+    }
+
+    @Test
+    public void canDetectUnblemishedPearlDiveBar() {
+      RequestLoggerOutput.startStream();
+      var cleanups =
+          new Cleanups(
+              withFight(),
+              withProperty("_unblemishedPearlDiveBar"),
+              withProperty("_unblemishedPearlDiveBarProgress", 90.0));
+
+      try (cleanups) {
+        parseCombatData("request/test_fight_pearl_dive_bar.html");
+
+        var stream = RequestLoggerOutput.stopStream();
+        assertThat("_unblemishedPearlDiveBarProgress", isSetTo(0.0));
+        assertThat("_unblemishedPearlDiveBar", isSetTo(true));
+        assertThat(
+            stream,
+            containsString(
+                "You finally overcome your inhibitions enough to grab the urinal treasure."));
+      }
+    }
+  }
+
+  @Nested
+  class ShrunkenHead {
+    @Test
+    public void canDetectShrunkenHeadZombieCreation() {
+      RequestLoggerOutput.startStream();
+      var cleanups =
+          new Cleanups(
+              withFight(),
+              withFamiliar(FamiliarPool.LEFT_HAND),
+              withEquipped(Slot.FAMILIAR, ItemPool.SHRUNKEN_HEAD));
+
+      try (cleanups) {
+        parseCombatData("request/test_fight_shrunken_head_reanimate_skill_win.html");
+
+        var stream = RequestLoggerOutput.stopStream();
+        assertThat(EquipmentManager.getEquipment(Slot.FAMILIAR), equalTo(EquipmentRequest.UNEQUIP));
+        assertThat(stream, containsString("You toss your shrunken head at your foe."));
+      }
+    }
+
+    @Test
+    public void swapsToPreviousEquipmentOnZombieCreation() {
+      var cleanups = new Cleanups(withFight(), withEquipped(Slot.OFFHAND, ItemPool.SHRUNKEN_HEAD));
+
+      try (cleanups) {
+        parseCombatData("request/test_fight_shrunken_head_reanimate_skill_win_swap.html");
+
+        assertThat(
+            EquipmentManager.getEquipment(Slot.OFFHAND).getItemId(),
+            equalTo(ItemPool.CARNIVOROUS_POTTED_PLANT));
+      }
+    }
+
+    @Test
+    public void canDetectShrunkenHeadZombieCollapse() {
+      RequestLoggerOutput.startStream();
+      var cleanups = withFight();
+
+      try (cleanups) {
+        parseCombatData("request/test_fight_shrunken_head_zombie_collapse.html");
+
+        var stream = RequestLoggerOutput.stopStream();
+        assertThat(
+            stream, containsString("Your zombie has taken too much damage, and falls to pieces."));
+      }
+    }
+  }
+
+  @Test
+  public void shouldNotAcquireItemsStolenByEwes() {
+    RequestLoggerOutput.startStream();
+    var cleanups = new Cleanups(withFight(), withNoItems());
+
+    try (cleanups) {
+      parseCombatData("request/test_fight_ewe_theft.html");
+
+      var stream = RequestLoggerOutput.stopStream();
+      assertThat(InventoryManager.getCount(ItemPool.LION_OIL), equalTo(0));
+      assertThat(stream, not(containsString("You acquire an item: lion oil")));
+      assertThat(stream, containsString("A hated ewe stole an item: lion oil"));
+      assertThat(
+          Preferences.getString("eweItem"), containsString(String.valueOf(ItemPool.LION_OIL)));
+    }
+  }
+
+  @Test
+  public void shouldClearEweItemsWhenNoItemsStolen() {
+    RequestLoggerOutput.startStream();
+    var cleanups =
+        new Cleanups(
+            withFight(0), withProperty("eweItem", String.valueOf(ItemPool.SNIFTER_BRANDY)));
+    try (cleanups) {
+      parseCombatData("request/test_ewe_fight_drops.html");
+      var stream = RequestLoggerOutput.stopStream();
+      assertThat(Preferences.getString("eweItem"), equalTo(""));
+    }
+  }
+
+  @Test
+  public void canDetectHeartstoneBanish() {
+    var cleanups = new Cleanups(withFight(), withBanishedMonsters(""));
+
+    try (cleanups) {
+      parseCombatData(
+          "request/test_fight_heartstone_banish.html", "fight.php?action=skill&whichskill=7587");
+
+      assertThat(
+          "banishedMonsters", hasStringValue(startsWith("pygmy bowler:Heartstone %banish:")));
+    }
+  }
+
+  @Test
+  public void canUpdateStolenLetters() {
+    var cleanups = new Cleanups(withFight(), withProperty("heartstoneLetters", "GO"));
+
+    try (cleanups) {
+      parseCombatData(
+          "request/test_fight_steal_letter.html", "fight.php?action=skill&whichskill=7585");
+
+      assertThat("heartstoneLetters", isSetTo("GON"));
+    }
+  }
+
+  @Nested
+  class BaseballDiamond {
+    @Test
+    public void canInitializeBaseballTeamPreferenceWhenEmpty() {
+      var cleanups = new Cleanups(withProperty("baseballTeam", ""), withFight());
+
+      try (cleanups) {
+        parseCombatData("request/test_fight_baseball_diamond.html");
+        assertThat("baseballTeam", isSetTo("977"));
+      }
+    }
+
+    @Test
+    public void baseballTeamPreferenceBehavesAsFifoQueue() {
+      var cleanups = new Cleanups(withProperty("baseballTeam", "1,2,3,4,5,6,7,8,9"), withFight());
+
+      try (cleanups) {
+        parseCombatData("request/test_fight_baseball_diamond.html");
+        assertThat("baseballTeam", isSetTo("2,3,4,5,6,7,8,9,977"));
+      }
+    }
+
+    @Test
+    public void logsRecruitmentMessage() {
+      RequestLoggerOutput.startStream();
+      var cleanups = new Cleanups(withProperty("baseballTeam", ""), withFight());
+
+      try (cleanups) {
+        parseCombatData("request/test_fight_baseball_diamond.html");
+        var stream = RequestLoggerOutput.stopStream();
+        assertThat(stream, containsString("You recruit a suckubus to play baseball."));
+      }
+    }
+
+    @Test
+    public void tracksCurveballWins() {
+      RequestLoggerOutput.startStream();
+      var cleanups = new Cleanups(withProperty("_curveballFightsLeft", 2));
+      try (cleanups) {
+        parseCombatData("request/test_fight_baseball_curveball_free.html");
+        var text = RequestLoggerOutput.stopStream();
+        assertThat(text, containsString("Having bent physics with your non-Euclidean curveball"));
+        assertThat("_curveballFightsLeft", isSetTo(1));
+      }
+    }
+  }
+
+  @Test
+  public void tracksVermincelliFreeRats() {
+    var cleanups =
+        new Cleanups(
+            withProperty("lastTavernSquare", 23), withProperty("_legendaryVermincelliFreeRats", 2));
+    try (cleanups) {
+      parseCombatData("request/test_fight_vermincelli_free.html");
+      assertThat("_legendaryVermincelliFreeRats", isSetTo(3));
+    }
+  }
+
+  @Test
+  public void tracksLasagmbieMana() {
+    var cleanups = withProperty("_legendaryLasagmbieMana", 2);
+    try (cleanups) {
+      parseCombatData("request/test_fight_lasagmbie_mana.html");
+      assertThat("_legendaryLasagmbieMana", isSetTo(3));
+    }
+  }
+
+  @Test
+  public void tracksSwordOfSwordsKills() {
+    RequestLoggerOutput.startStream();
+    var cleanups =
+        new Cleanups(
+            withFight(),
+            withProperty("_swordOfSWordsKills"),
+            withProperty("_swordOfSWordsMonsterChanged"),
+            withProperty("swordOfSWordsMonster"),
+            withFamiliar(FamiliarPool.SWORD_OF_SWORDS));
+
+    try (cleanups) {
+      parseCombatData(
+          "request/test_fight_sword_drop_table.html", "fight.php?action=skill&whichskill=7593");
+      String text = RequestLoggerOutput.stopStream();
+
+      assertThat(text, containsString("comes back with a hiltful of blood-covered items"));
+      assertThat("swordOfSWordsMonster", isSetTo(1163));
+      assertThat("_swordOfSWordsMonsterChanged", isSetTo(1));
+      assertThat("_swordOfSWordsKills", isSetTo(1));
+    }
+  }
+
+  @Nested
+  class LaughingStock {
+    @Test
+    void laughingStockCharges() {
+      var cleanups =
+          new Cleanups(
+              withFight(),
+              withProperty("_laughingStockCharges", 20),
+              withProperty("_laughingStockFruitDropped", 11),
+              withEquipped(Slot.ACCESSORY1, ItemPool.PORTABLE_LAUGHING_STOCK));
+
+      try (cleanups) {
+        // Any end-of-fight will do
+        parseCombatData("request/test_fight_sword_drop_table.html");
+
+        assertThat("_laughingStockCharges", isSetTo(21));
+        assertThat("_laughingStockFruitDropped", isSetTo(11));
+      }
+    }
+
+    @Test
+    void laughingStockDropHandled() {
+      RequestLoggerOutput.startStream();
+      var cleanups =
+          new Cleanups(
+              withFight(),
+              withProperty("_laughingStockCharges", 20),
+              withProperty("_laughingStockFruitDropped", 11),
+              withEquipped(Slot.ACCESSORY1, ItemPool.PORTABLE_LAUGHING_STOCK));
+
+      try (cleanups) {
+        parseCombatData("request/test_fight_laughing_stock_drop.html");
+        String text = RequestLoggerOutput.stopStream();
+
+        assertThat(text, containsString("pelted with fruit"));
+        assertThat("_laughingStockCharges", isSetTo(1));
+        assertThat("_laughingStockFruitDropped", isSetTo(12));
+      }
     }
   }
 }

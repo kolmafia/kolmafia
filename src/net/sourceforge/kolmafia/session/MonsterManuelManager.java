@@ -61,7 +61,7 @@ public class MonsterManuelManager {
       Entry<Integer, Integer> entry = entryIterator.next();
       Integer key = entry.getKey();
       Integer value = entry.getValue();
-      if (value.intValue() < 3) {
+      if (value < 3) {
         MonsterManuelManager.manuelEntries.remove(key);
         entryIterator.remove();
       }
@@ -567,6 +567,6 @@ public class MonsterManuelManager {
       factoids = MonsterManuelManager.manuelFactoidCounts.get(id);
     }
 
-    return factoids == null ? 0 : factoids.intValue();
+    return factoids == null ? 0 : factoids;
   }
 }

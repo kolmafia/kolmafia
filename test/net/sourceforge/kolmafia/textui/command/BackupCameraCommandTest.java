@@ -101,6 +101,21 @@ class BackupCameraCommandTest extends AbstractCommandTestBase {
   }
 
   @Test
+  public void canChangeModeWithCapitalization() {
+    var cleanups = new Cleanups(withItem("backup camera"));
+
+    try (cleanups) {
+      execute("InIt");
+
+      var requests = getRequests();
+
+      assertThat(requests, hasSize(greaterThanOrEqualTo(2)));
+      assertPostRequest(requests.get(0), "/inventory.php", "action=bcmode");
+      assertPostRequest(requests.get(1), "/choice.php", "whichchoice=1449&option=3");
+    }
+  }
+
+  @Test
   public void canHandleAlreadySelectedOption() {
     // The same page is returned when an invalid option is selected
     var cleanups =

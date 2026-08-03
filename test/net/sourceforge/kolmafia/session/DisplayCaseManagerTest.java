@@ -15,8 +15,8 @@ class DisplayCaseManagerTest {
   @Test
   public void clearingCacheShouldLeaveThingsEmpty() {
     assertFalse(DisplayCaseManager.collectionRetrieved, "Collection retrieved?");
-    assertEquals(DisplayCaseManager.getHeaders().size(), 0, "Number of headers");
-    assertEquals(DisplayCaseManager.getShelves().size(), 0, "Number of shelves");
+    assertEquals(0, DisplayCaseManager.getHeaders().size(), "Number of headers");
+    assertEquals(0, DisplayCaseManager.getShelves().size(), "Number of shelves");
   }
 
   @Test

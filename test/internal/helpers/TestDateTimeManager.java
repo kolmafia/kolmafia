@@ -5,7 +5,7 @@ import java.time.ZonedDateTime;
 import net.sourceforge.kolmafia.persistence.DateTimeManager;
 
 public class TestDateTimeManager extends DateTimeManager {
-  private LocalDateTime time;
+  private final LocalDateTime time;
 
   public ZonedDateTime getArizonaDateTime() {
     return ZonedDateTime.of(time, ARIZONA);

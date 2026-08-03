@@ -1,6 +1,5 @@
 package net.sourceforge.kolmafia.session;
 
-import java.util.Iterator;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -72,8 +71,7 @@ public abstract class NemesisManager {
 
   private static void selectDoorItem(final int door, final StringBuffer buffer) {
     AscensionClass myClass = KoLCharacter.getAscensionClass();
-    for (int i = 0; i < DOOR_DATA.length; ++i) {
-      String[] data = DOOR_DATA[i];
+    for (String[] data : DOOR_DATA) {
       if (myClass.getName().equals(data[0])) {
         if (data.length <= door) {
           return;
@@ -118,22 +116,22 @@ public abstract class NemesisManager {
       return;
     }
 
-    if (location.indexOf("action=door1") != -1) {
+    if (location.contains("action=door1")) {
       NemesisManager.selectDoorItem(1, buffer);
       return;
     }
 
-    if (location.indexOf("action=door2") != -1) {
+    if (location.contains("action=door2")) {
       NemesisManager.selectDoorItem(2, buffer);
       return;
     }
 
-    if (location.indexOf("action=door3") != -1) {
+    if (location.contains("action=door3")) {
       NemesisManager.selectDoorItem(3, buffer);
       return;
     }
 
-    if (location.indexOf("action=door4") != -1) {
+    if (location.contains("action=door4")) {
       String password = NemesisManager.getPassword();
       if (password != null) {
         int index = buffer.indexOf("name=\"say\"");
@@ -164,8 +162,7 @@ public abstract class NemesisManager {
     int current = KoLCharacter.getAscensions();
     if (lastAscension < current) {
       // If we have all the paper strips, identify them
-      for (int i = 0; i < PAPER_STRIPS.length; ++i) {
-        AdventureResult it = PAPER_STRIPS[i];
+      for (AdventureResult it : PAPER_STRIPS) {
         if (!KoLConstants.inventory.contains(it)) {
           return;
         }
@@ -175,8 +172,8 @@ public abstract class NemesisManager {
       return;
     }
 
-    for (int i = 0; i < PAPER_STRIPS.length; ++i) {
-      int itemId = PAPER_STRIPS[i].getItemId();
+    for (AdventureResult paperStrip : PAPER_STRIPS) {
+      int itemId = paperStrip.getItemId();
       Preferences.setString("lastPaperStrip" + itemId, "");
     }
   }
@@ -192,8 +189,7 @@ public abstract class NemesisManager {
     // Identify the eight paper strips
 
     boolean success = true;
-    for (int i = 0; i < PAPER_STRIPS.length; ++i) {
-      AdventureResult it = PAPER_STRIPS[i];
+    for (AdventureResult it : PAPER_STRIPS) {
       if (!identifyPaperStrip(it.getItemId())) {
         KoLmafia.updateDisplay(MafiaState.ERROR, "Could not identify " + it.getName());
         success = false;
@@ -240,8 +236,8 @@ public abstract class NemesisManager {
 
     TreeMap<String, PaperStrip> left = new TreeMap<>();
     TreeMap<String, PaperStrip> right = new TreeMap<>();
-    for (int i = 0; i < PAPER_STRIPS.length; ++i) {
-      PaperStrip strip = new PaperStrip(PAPER_STRIPS[i]);
+    for (AdventureResult adventureResult : PAPER_STRIPS) {
+      PaperStrip strip = new PaperStrip(adventureResult);
       left.put(strip.left, strip);
       right.put(strip.right, strip);
     }
@@ -249,9 +245,7 @@ public abstract class NemesisManager {
     PaperStrip[] array = new PaperStrip[PAPER_STRIPS.length];
 
     // Find leftmost paper strip
-    Iterator<PaperStrip> it = left.values().iterator();
-    while (it.hasNext()) {
-      PaperStrip strip = it.next();
+    for (PaperStrip strip : left.values()) {
       if (!right.containsKey(strip.left)) {
         array[0] = strip;
         break;
@@ -266,8 +260,8 @@ public abstract class NemesisManager {
     }
 
     String password = "";
-    for (int i = 0; i < array.length; ++i) {
-      password += array[i].code;
+    for (PaperStrip paperStrip : array) {
+      password += paperStrip.code;
     }
 
     return password;

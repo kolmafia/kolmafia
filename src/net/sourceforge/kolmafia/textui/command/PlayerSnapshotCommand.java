@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class PlayerSnapshotCommand extends AbstractCommand {
   public PlayerSnapshotCommand() {
@@ -25,7 +26,7 @@ public class PlayerSnapshotCommand extends AbstractCommand {
     RequestLogger.getDebugStream().println();
     RequestLogger.getDebugStream().println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
 
-    StringBuffer title = new StringBuffer("Player Snapshot");
+    StringBuilder title = new StringBuilder("Player Snapshot");
 
     int leftIndent = (46 - title.length()) / 2;
     for (int i = 0; i < leftIndent; ++i) {
@@ -38,13 +39,13 @@ public class PlayerSnapshotCommand extends AbstractCommand {
     RequestLogger.getDebugStream().println(title.toString());
     RequestLogger.getDebugStream().println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
 
-    String[] options = parameters.split("\\s*,\\s*");
+    String[] options = StringUtilities.splitByComma(parameters);
 
-    for (int i = 0; i < options.length; ++i) {
+    for (String option : options) {
       RequestLogger.updateSessionLog();
-      RequestLogger.updateSessionLog(" > " + options[i]);
+      RequestLogger.updateSessionLog(" > " + option);
 
-      ShowDataCommand.show(options[i], true);
+      ShowDataCommand.show(option, true);
     }
 
     RequestLogger.updateSessionLog();

@@ -374,13 +374,13 @@ public class FaxBotDatabase {
 
       Matcher idMatcher = MONSTER_ID_PATTERN.matcher(command);
       if (idMatcher.find()) {
-        int monsterId = Integer.valueOf(idMatcher.group(1));
+        int monsterId = Integer.parseInt(idMatcher.group(1));
         return MonsterDatabase.findMonsterById(monsterId);
       }
 
       Matcher commentMatcher = MONSTER_COMMENT_PATTERN.matcher(CharacterEntities.unescape(command));
       if (commentMatcher.find()) {
-        int monsterId = Integer.valueOf(commentMatcher.group(1));
+        int monsterId = Integer.parseInt(commentMatcher.group(1));
         return MonsterDatabase.findMonsterById(monsterId);
       }
 

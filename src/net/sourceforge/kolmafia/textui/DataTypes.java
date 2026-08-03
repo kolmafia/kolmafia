@@ -22,14 +22,17 @@ import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.modifiers.Modifier;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
+import net.sourceforge.kolmafia.persistence.EffectData;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
+import net.sourceforge.kolmafia.persistence.FamiliarDatabase.FamiliarRaceData;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.persistence.SkillDatabase.SkillData;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
@@ -210,8 +213,8 @@ public class DataTypes {
   public static final Value CLASS_INIT = new Value(DataTypes.CLASS_TYPE, -1, "none", null);
   public static final Value STAT_INIT = new Value(DataTypes.STAT_TYPE, -1, "none");
   public static final Value SKILL_INIT = new Value(DataTypes.SKILL_TYPE, -1, "none");
-  public static final Value EFFECT_INIT = new Value(DataTypes.EFFECT_TYPE, -1, "none");
-  public static final Value FAMILIAR_INIT = new Value(DataTypes.FAMILIAR_TYPE, -1, "none");
+  public static final Value EFFECT_INIT = new Value(DataTypes.EFFECT_TYPE, -1, "none", null);
+  public static final Value FAMILIAR_INIT = new Value(DataTypes.FAMILIAR_TYPE, -1, "none", null);
   public static final Value SLOT_INIT = new Value(DataTypes.SLOT_TYPE, 0, "none");
   public static final Value MONSTER_INIT = new Value(DataTypes.MONSTER_TYPE, 0, "none", null);
   public static final Value ELEMENT_INIT = new Value(DataTypes.ELEMENT_TYPE, "none", Element.NONE);
@@ -542,7 +545,8 @@ public class DataTypes {
     }
 
     name = FamiliarDatabase.getFamiliarName(num);
-    return new Value(DataTypes.FAMILIAR_TYPE, num, name);
+    FamiliarRaceData data = FamiliarDatabase.getFamiliarRaceData(num);
+    return new Value(DataTypes.FAMILIAR_TYPE, num, name, data);
   }
 
   public static final Value parseSlotValue(String name, final boolean returnDefault) {
@@ -732,7 +736,9 @@ public class DataTypes {
 
     String canonical = bounties.get(0);
 
-    return new Value(DataTypes.BOUNTY_TYPE, BountyDatabase.canonicalToName(canonical));
+    var fullName = BountyDatabase.canonicalToName(canonical);
+    var bountyData = BountyDatabase.getBountyData(fullName);
+    return new Value(DataTypes.BOUNTY_TYPE, fullName, bountyData);
   }
 
   public static final Value parseCoinmasterValue(String name, final boolean returnDefault) {
@@ -887,7 +893,8 @@ public class DataTypes {
     if (skillIds != null && skillIds.length > 1) {
       name = "[" + num + "]" + name;
     }
-    return new Value(DataTypes.SKILL_TYPE, num, name);
+    SkillData skillData = SkillDatabase.getSkillData(num);
+    return new Value(DataTypes.SKILL_TYPE, num, name, skillData);
   }
 
   public static final Value makeSkillValue(final int num, final boolean returnDefault) {
@@ -910,7 +917,8 @@ public class DataTypes {
     if (effectIds != null && effectIds.length > 1) {
       name = "[" + num + "]" + name;
     }
-    return new Value(DataTypes.EFFECT_TYPE, num, name);
+    EffectData effectData = EffectDatabase.getEffectData(num);
+    return new Value(DataTypes.EFFECT_TYPE, num, name, effectData);
   }
 
   public static final Value makeEffectValue(final int num, final boolean returnDefault) {
@@ -926,7 +934,8 @@ public class DataTypes {
     if (name == null) {
       return returnDefault ? DataTypes.FAMILIAR_INIT : null;
     }
-    return new Value(DataTypes.FAMILIAR_TYPE, num, name);
+    FamiliarRaceData data = FamiliarDatabase.getFamiliarRaceData(num);
+    return new Value(DataTypes.FAMILIAR_TYPE, num, name, data);
   }
 
   public static final Value makeMonsterValue(final int num, final boolean returnDefault) {

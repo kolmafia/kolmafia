@@ -3,6 +3,7 @@ none
 id => 0
 name =>
 level => 0
+experience => 0
 image =>
 tinyimage =>
 skill => none
@@ -13,6 +14,7 @@ Vampieroghi
 id => 1
 name =>
 level => 0
+experience => 0
 image => vampieroghi.gif
 tinyimage => t_vampieroghi.gif
 skill => Bind Vampieroghi
@@ -23,6 +25,7 @@ Angel Hair Wisp
 id => 3
 name =>
 level => 0
+experience => 0
 image => angelwisp.gif
 tinyimage => t_wisp.gif
 skill => Bind Angel Hair Wisp
@@ -33,6 +36,7 @@ Vermincelli
 id => 2
 name =>
 level => 0
+experience => 0
 image => vermincelli.gif
 tinyimage => t_vermincelli.gif
 skill => Bind Vermincelli

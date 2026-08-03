@@ -34,7 +34,7 @@ public class FamTeamRequestTest {
     assertThat(team[1].getId(), is(FamiliarPool.BARRRNACLE));
     assertThat(team[2].getId(), is(FamiliarPool.KILLER_BEE));
     // check bullpen
-    var available = KoLCharacter.usableFamiliars();
+    var available = KoLCharacter.ownedFamiliars();
     assertThat(available, hasSize(7));
     assertThat(available, hasItem(hasProperty("id", is(FamiliarPool.BURLY_BODYGUARD))));
     // should have registered the Burly Bodyguard's moves

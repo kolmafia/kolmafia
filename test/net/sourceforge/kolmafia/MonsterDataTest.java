@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia;
 
 import static internal.helpers.Player.withEffect;
+import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withMoxie;
 import static internal.helpers.Player.withNotAllowedInStandard;
 import static internal.helpers.Player.withProperty;
@@ -27,6 +28,7 @@ import java.util.Map;
 import java.util.Set;
 import net.sourceforge.kolmafia.MonsterData.Attribute;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
@@ -322,6 +324,26 @@ public class MonsterDataTest {
     }
 
     @Test
+    public void canHandleCopyFlags() {
+      String name = "scary monster";
+      int id = 13;
+      String[] images = {"scary.gif"};
+      String attributes = "BOSS";
+      MonsterData monster = new MonsterData(name, id, images, attributes);
+      // BOSS blocks all current copy mechanics
+      assertTrue(monster.isNoCopy());
+      // BOSS blocks instakills
+
+      attributes = "NOCOPY";
+      monster = new MonsterData(name, id, images, attributes);
+      assertTrue(monster.isNoCopy());
+
+      attributes = "";
+      monster = new MonsterData(name, id, images, attributes);
+      assertFalse(monster.isNoCopy());
+    }
+
+    @Test
     public void canMakeElementalAttackMonsters() {
       String name = "scary monster";
       int id = 13;
@@ -480,6 +502,75 @@ public class MonsterDataTest {
   }
 
   @Nested
+  class ShrunkenHead {
+    @Test
+    void shrunkenHeadZombieNotRenderedWithoutZombie() {
+      var monster = MonsterDatabase.findMonster("fluffy bunny");
+
+      var cleanups = withProperty("hasShrunkenHead", false);
+
+      try (cleanups) {
+        var builder = new StringBuilder();
+        monster.appendShrunkenHeadZombie(builder, false);
+        assertThat(builder.toString(), not(containsString("Shrunken Head Zombie: ")));
+      }
+    }
+
+    @Test
+    void shrunkenHeadZombieRenderedWithHead() {
+      var monster = MonsterDatabase.findMonster("fluffy bunny");
+
+      var cleanups = withProperty("hasShrunkenHead", true);
+
+      try (cleanups) {
+        var builder = new StringBuilder();
+        monster.appendShrunkenHeadZombie(builder, false);
+        assertThat(builder.toString(), containsString("Shrunken Head Zombie: "));
+      }
+    }
+
+    @Test
+    void shrunkenHeadZombieNotRenderedForUncopyable() {
+      var monster = MonsterDatabase.findMonster("giant skeelton");
+
+      var cleanups = withProperty("hasShrunkenHead", true);
+
+      try (cleanups) {
+        var builder = new StringBuilder();
+        monster.appendShrunkenHeadZombie(builder, false);
+        assertThat(builder.toString(), not(containsString("Shrunken Head Zombie: ")));
+      }
+    }
+
+    @Test
+    void shrunkenHeadZombieRenderedWithHeadEquippedIfSpecified() {
+      var monster = MonsterDatabase.findMonster("fluffy bunny");
+
+      var cleanups =
+          new Cleanups(withProperty("hasShrunkenHead", true), withEquipped(ItemPool.SHRUNKEN_HEAD));
+
+      try (cleanups) {
+        var builder = new StringBuilder();
+        monster.appendShrunkenHeadZombie(builder, true);
+        assertThat(builder.toString(), containsString("Shrunken Head Zombie: "));
+      }
+    }
+
+    @Test
+    void shrunkenHeadZombieNotRenderedWithoutHeadEquippedIfSpecified() {
+      var monster = MonsterDatabase.findMonster("fluffy bunny");
+
+      var cleanups = new Cleanups(withProperty("hasShrunkenHead", true));
+
+      try (cleanups) {
+        var builder = new StringBuilder();
+        monster.appendShrunkenHeadZombie(builder, true);
+        assertThat(builder.toString(), not(containsString("Shrunken Head Zombie: ")));
+      }
+    }
+  }
+
+  @Nested
   class MeatDrops {
     @Test
     void monsterWithoutMeatDisplaysNothing() {
@@ -603,6 +694,31 @@ public class MonsterDataTest {
         var monster = MonsterDatabase.findMonster("scary clown");
         assertThat(monster.shouldSteal(), is(shouldSteal));
       }
+    }
+  }
+
+  @Nested
+  class ElementalResistance {
+    @Test
+    public void shouldDisplayElementalResistancesForGeneralMonster() {
+      var monster = MonsterDatabase.findMonster("Section 11");
+      assertEquals(100, monster.getElementalResistance());
+      assertEquals(100, monster.getHotResistance());
+      assertEquals(100, monster.getColdResistance());
+      assertEquals(100, monster.getStenchResistance());
+      assertEquals(100, monster.getSpookyResistance());
+      assertEquals(100, monster.getSleazeResistance());
+    }
+
+    @Test
+    public void shouldDisplayElementalResistancesForSpecificMonster() {
+      var monster = MonsterDatabase.findMonster("Axis officer skeleton");
+      assertEquals(0, monster.getElementalResistance());
+      assertEquals(90, monster.getHotResistance());
+      assertEquals(90, monster.getColdResistance());
+      assertEquals(50, monster.getStenchResistance());
+      assertEquals(90, monster.getSpookyResistance());
+      assertEquals(90, monster.getSleazeResistance());
     }
   }
 }

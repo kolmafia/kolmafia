@@ -1,20 +1,24 @@
 package net.sourceforge.kolmafia.session;
 
+import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.GenericRequest;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -114,7 +118,7 @@ class ChoiceAdventuresTest {
       try (cleanups) {
         var options = ChoiceAdventures.dynamicChoiceOptions(choice);
         assertNotNull(options);
-        assertEquals(options.length, 2);
+        assertEquals(2, options.length);
         String expected = "Get 0 (" + bits + ") and suffer " + damage + " " + element + " damage";
         assertThat(options[0].getName(), is(expected));
         assertThat(options[1].getName(), is("no reward, no damage"));
@@ -130,7 +134,7 @@ class ChoiceAdventuresTest {
       try (cleanups) {
         var options = ChoiceAdventures.dynamicChoiceOptions(choice);
         assertNotNull(options);
-        assertEquals(options.length, 2);
+        assertEquals(2, options.length);
         String expected = "Get 0 (" + bits + ") and suffer " + damage + " " + element + " damage";
         assertThat(options[0].getName(), is(expected));
         assertThat(options[1].getName(), is("no reward, no damage"));
@@ -185,5 +189,122 @@ class ChoiceAdventuresTest {
       checkEncounterChoiceSpoilers(level, "The Skeleton Dance", "spooky");
       checkEncounterChoiceSpoilers(level, "Unknown Encounter", "elemental");
     }
+  }
+
+  @Test
+  public void decoratesMapMonstersChoice() {
+    var original = html("request/test_choice_map_monsters.html");
+    var buffer = new StringBuffer(original);
+
+    ChoiceAdventures.decorateChoice(1435, buffer, true);
+
+    var output = buffer.toString();
+    output = KoLConstants.LINE_BREAK_PATTERN.matcher(output).replaceAll("");
+
+    assertThat(
+        output,
+        containsString(
+            "<input type=\"hidden\" name=\"heyscriptswhatsupwinkwink\" value=\"100\" /><input type=\"submit\" class=\"button\" value=\"Ninja Snowman (Mask)\" />"));
+  }
+
+  @Test
+  public void decoratesPeridotChoice() {
+    var original = html("request/test_choice_peridot.html");
+    var buffer = new StringBuffer(original);
+
+    ChoiceAdventures.decorateChoice(1557, buffer, true);
+
+    var output = buffer.toString();
+    output = KoLConstants.LINE_BREAK_PATTERN.matcher(output).replaceAll("");
+
+    assertThat(
+        output,
+        containsString(
+            "<input type=\"hidden\" name=\"bandersnatch\" value=\"100\" /><input type=\"submit\" class=\"button\" value=\"Ninja Snowman (Mask)\" />"));
+  }
+
+  @Test
+  public void decoratesMimicDnaChoice() {
+    var original = html("request/test_choice_mimic_dna_bank.html");
+    var buffer = new StringBuffer(original);
+
+    ChoiceAdventures.decorateChoice(1517, buffer, true);
+
+    var output = buffer.toString();
+
+    assertThat(
+        output,
+        containsString(
+            "<option value=\"354\" disabled>Astronomer (obsolete) (90 samples required)</option>"));
+    assertThat(output, containsString("<option value=\"1163\" >Baa'baa'bu'ran </option>"));
+  }
+
+  @Test
+  void catalogCardSpoilers() {
+    var cleanups =
+        new Cleanups(withProperty("merkinCatalogChoices", "AF531.55:1:stats,AW393.55:2:clue"));
+
+    try (cleanups) {
+      var req = new GenericRequest("choice.php?whichchoice=" + 704);
+      req.responseText = html("request/test_choice_catalog_0.html");
+
+      ChoiceManager.visitChoice(req);
+
+      var options = ChoiceAdventures.dynamicChoiceOptions(704);
+      assert options != null;
+      assertThat(options[0].getName(), is("stats"));
+      assertThat(options[1].getName(), is("clue"));
+      assertThat(options[2].getName(), is("unknown"));
+    }
+  }
+
+  @Nested
+  class MobiusRing {
+    @Test
+    void decoratesMobiusChoice() {
+      var original = html("request/test_choice_mobius_0.html");
+      var buffer = new StringBuffer(original);
+
+      ChoiceAdventures.decorateChoice(1562, buffer, true);
+
+      var output = buffer.toString();
+
+      assertThat(
+          output,
+          containsString(
+              "value=\"Draw a goatee on yourself\"><br><font size=-1>(30 turns of +5 stats per fight"));
+    }
+
+    @Test
+    void disablesAbsentChoices() {
+      var original = html("request/test_choice_mobius_1.html");
+      var buffer = new StringBuffer(original);
+
+      ChoiceAdventures.decorateChoice(1562, buffer, true);
+
+      var output = buffer.toString();
+
+      assertThat(
+          output,
+          containsString(
+              "<input disabled class=\"button disabled\" type=submit value=\"Go back and take a 20-year-long nap\">"));
+    }
+  }
+
+  @Test
+  void decoratesBaseballChoices() {
+    var req = new GenericRequest("choice.php?whichchoice=" + 1598);
+    req.responseText = html("request/test_choice_baseball_no_bats.html");
+
+    ChoiceManager.visitChoice(req);
+
+    var options = ChoiceAdventures.dynamicChoiceOptions(1598);
+    assert options != null;
+    assertThat(options[0].getName(), is("add +5 Mus, Mys, Mox to Baseball Diamond enchants"));
+    assertThat(options[1].getName(), is("add +3 Damage Reduction to Baseball Diamond enchants"));
+    assertThat(options[2].getName(), is("batter attack / defense reduced by 50% at combat start"));
+    assertThat(options[3].getName(), is("batter takes passive stench damage each round"));
+    assertThat(options[4].getName(), is("add +5 Combat Initiative to Baseball Diamond enchants"));
+    assertThat(options[5].getName(), is("finish the inning"));
   }
 }

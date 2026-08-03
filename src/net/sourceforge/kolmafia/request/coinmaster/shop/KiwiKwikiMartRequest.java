@@ -18,8 +18,8 @@ public abstract class KiwiKwikiMartRequest extends CoinMasterShopRequest {
 
   private static Boolean canBuyItem(final Integer itemId) {
     return switch (itemId) {
-      case ItemPool.MINI_KIWI_INTOXICATING_SPIRITS -> !Preferences.getBoolean(
-          "_miniKiwiIntoxicatingSpiritsBought");
+      case ItemPool.MINI_KIWI_INTOXICATING_SPIRITS ->
+          !Preferences.getBoolean("_miniKiwiIntoxicatingSpiritsBought");
       default -> DATA.availableItem(itemId);
     };
   }

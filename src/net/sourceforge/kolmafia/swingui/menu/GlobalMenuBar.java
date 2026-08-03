@@ -216,9 +216,7 @@ public class GlobalMenuBar extends JMenuBar {
 
     helperMenu.add(new JSeparator());
 
-    helperMenu.add(
-        new RelayBrowserMenuItem(
-            "The KoL Wiki", "https://kol.coldfront.net/thekolwiki/index.php/Main_Page"));
+    helperMenu.add(new RelayBrowserMenuItem("The KoL Wiki", "https://wiki.kingdomofloathing.com"));
     helperMenu.add(new InvocationMenuItem("Wumpinator", WumpusManager.class, "invokeWumpinator"));
   }
 

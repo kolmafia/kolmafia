@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia.persistence;
 
+import static net.sourceforge.kolmafia.persistence.ModifierDatabase.CARRIED_OVER;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.sql.Array;
@@ -26,19 +28,17 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.ZodiacSign;
-import net.sourceforge.kolmafia.modifiers.BitmapModifier;
-import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.Lookup;
 import net.sourceforge.kolmafia.modifiers.Modifier;
 import net.sourceforge.kolmafia.modifiers.ModifierList;
-import net.sourceforge.kolmafia.modifiers.MultiStringModifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase.ConsumableQuality;
+import net.sourceforge.kolmafia.persistence.EffectData.Quality;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.ChateauRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -383,36 +383,6 @@ public class TCRSDatabase {
     }
   }
 
-  private static final Set<Modifier> CARRIED_OVER =
-      Set.of(
-          MultiStringModifier.CONDITIONAL_SKILL_EQUIPPED,
-          MultiStringModifier.CONDITIONAL_SKILL_INVENTORY,
-          StringModifier.WIKI_NAME,
-          StringModifier.LAST_AVAILABLE_DATE,
-          StringModifier.RECIPE,
-          StringModifier.CLASS,
-          StringModifier.SKILL,
-          StringModifier.EQUIPS_ON,
-          BitmapModifier.BRIMSTONE,
-          BitmapModifier.CLOATHING,
-          BitmapModifier.SYNERGETIC,
-          BitmapModifier.RAVEOSITY,
-          BitmapModifier.MCHUGELARGE,
-          BitmapModifier.STINKYCHEESE,
-          BooleanModifier.NONSTACKABLE_WATCH,
-          BooleanModifier.NOPULL,
-          BooleanModifier.ALTERS_PAGE_TEXT,
-          BooleanModifier.BLIND,
-          BooleanModifier.BREAKABLE,
-          BooleanModifier.DROPS_ITEMS,
-          BooleanModifier.DROPS_MEAT,
-          DoubleModifier.THORNS,
-          DoubleModifier.SPORADIC_THORNS,
-          DoubleModifier.DAMAGE_AURA,
-          DoubleModifier.SPORADIC_DAMAGE_AURA,
-          DoubleModifier.LEAVES,
-          DoubleModifier.LANTERN);
-
   private static List<String> carriedOverModifiers(final int itemId) {
     var modifiers = ModifierDatabase.getItemModifiers(itemId);
     if (modifiers == null) {
@@ -423,16 +393,17 @@ public class TCRSDatabase {
         .map(
             mod -> {
               var name = mod.getName();
-              if (mod instanceof MultiStringModifier m) {
-                var value = modifiers.getStrings(m);
-                if (!value.isEmpty())
-                  return value.stream()
-                      .map(s -> name + ": \"" + s + "\"")
-                      .collect(Collectors.joining(", "));
-              }
-              if (mod instanceof StringModifier s) {
-                var value = modifiers.getString(s);
-                if (!value.isBlank()) return name + ": \"" + value + "\"";
+              if (mod instanceof StringModifier m) {
+                if (m.isMultiple()) {
+                  var value = modifiers.getStrings(m);
+                  if (!value.isEmpty())
+                    return value.stream()
+                        .map(s -> name + ": \"" + s + "\"")
+                        .collect(Collectors.joining(", "));
+                } else {
+                  var value = modifiers.getString(m);
+                  if (!value.isBlank()) return name + ": \"" + value + "\"";
+                }
               }
               return "";
             })
@@ -636,10 +607,9 @@ public class TCRSDatabase {
               "yellow"));
 
   public static void getEffectPool() {
-    EffectDatabase.entrySet().stream()
-        .map(Map.Entry::getKey)
+    EffectDatabase.keys().stream()
         // Effects must be marked as good
-        .filter(id -> EffectDatabase.getQuality(id) == EffectDatabase.GOOD)
+        .filter(id -> EffectDatabase.getQuality(id) == Quality.GOOD)
         // Effects must be hookah/wish-able
         .filter(id -> !EffectDatabase.hasAttribute(id, "nohookah"))
         // Some effects seem to be unavailable without any obvious reason, and so are tagged thusly
@@ -719,7 +689,7 @@ public class TCRSDatabase {
         (roll != TCRSEffectPool.size())
             ? EffectPool.get(TCRSEffectPool.get(roll)).getDisambiguatedName()
             : ModifierDatabase.getStringModifier(
-                ModifierType.ITEM, itemId, MultiStringModifier.EFFECT);
+                ModifierType.ITEM, itemId, StringModifier.EFFECT);
     var duration = 5 * mtRng.nextInt(1, 10);
 
     return new Enchantment(effectName, duration);
@@ -767,7 +737,7 @@ public class TCRSDatabase {
             ?
             //   If we picked an overflow size, the item retains its original effect
             ModifierDatabase.getStringModifier(
-                ModifierType.ITEM, item.getDisambiguatedName(), MultiStringModifier.EFFECT)
+                ModifierType.ITEM, item.getDisambiguatedName(), StringModifier.EFFECT)
             :
             //   Otherwise use the roll we got
             EffectPool.get(TCRSEffectPool.get(roll)).getDisambiguatedName();
@@ -973,7 +943,7 @@ public class TCRSDatabase {
     if (HARDCODED_EFFECT.contains(id)) {
       enchanted = true;
       enchantment.effect =
-          ModifierDatabase.getStringModifier(ModifierType.ITEM, id, MultiStringModifier.EFFECT);
+          ModifierDatabase.getStringModifier(ModifierType.ITEM, id, StringModifier.EFFECT);
 
       if (!HARDCODED_EFFECT_DYNAMIC_DURATION.contains(id)) {
         enchantment.duration =
@@ -1437,8 +1407,8 @@ public class TCRSDatabase {
   public static boolean applyModifiers() {
     // Remove food/booze/spleen/potion sources for effects
     StringBuilder buffer = new StringBuilder();
-    for (Integer id : EffectDatabase.keys()) {
-      String actions = EffectDatabase.getActions(id);
+    for (var effect : EffectDatabase.values()) {
+      String actions = effect.getActions();
       if (actions == null || actions.startsWith("#")) {
         continue;
       }
@@ -1461,7 +1431,7 @@ public class TCRSDatabase {
           }
           buffer.append(action);
         }
-        EffectDatabase.setActions(id, buffer.isEmpty() ? null : buffer.toString());
+        effect.setActions(buffer.isEmpty() ? null : buffer.toString());
       }
     }
 
@@ -1547,7 +1517,7 @@ public class TCRSDatabase {
 
     // Add as effect source, if appropriate
     String effectName =
-        ModifierDatabase.getStringModifier(ModifierType.ITEM, itemName, MultiStringModifier.EFFECT);
+        ModifierDatabase.getStringModifier(ModifierType.ITEM, itemName, StringModifier.EFFECT);
     if (effectName != null && !effectName.isEmpty()) {
       addEffectSource(itemName, usage, effectName);
     }
@@ -1571,6 +1541,7 @@ public class TCRSDatabase {
     if (effectId == -1) {
       return;
     }
+    var effect = EffectDatabase.getEffectData(effectId);
     String verb =
         switch (usage) {
           case EAT -> "eat ";
@@ -1578,7 +1549,7 @@ public class TCRSDatabase {
           case SPLEEN -> "chew ";
           default -> "use ";
         };
-    String actions = EffectDatabase.getActions(effectId);
+    String actions = effect.getActions();
     boolean added = false;
     StringBuilder buffer = new StringBuilder();
     if (actions != null) {
@@ -1618,7 +1589,7 @@ public class TCRSDatabase {
       buffer.append("1 ");
       buffer.append(itemName);
     }
-    EffectDatabase.setActions(effectId, buffer.toString());
+    effect.setActions(buffer.toString());
   }
 
   private static void applyConsumableModifiers(
@@ -1638,7 +1609,7 @@ public class TCRSDatabase {
     ConsumablesDatabase.getAttributes(consumable).stream().map(Enum::name).forEach(comment::add);
 
     String effectName =
-        ModifierDatabase.getStringModifier(ModifierType.ITEM, itemName, MultiStringModifier.EFFECT);
+        ModifierDatabase.getStringModifier(ModifierType.ITEM, itemName, StringModifier.EFFECT);
     if (effectName != null && !effectName.isEmpty()) {
       int duration =
           (int)

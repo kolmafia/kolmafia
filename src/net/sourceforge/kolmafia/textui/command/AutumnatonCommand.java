@@ -213,24 +213,30 @@ public class AutumnatonCommand extends AbstractCommand {
     var title = level.toTitle();
     var desc =
         switch (env) {
-          case OUTDOOR -> switch (level) {
-            case LOW -> "gives autumn leaf (potion, +25% item, +5% combat chance)";
-            case MID -> "gives autumn debris shield (shield, +10 DR, +30% init, +20 all hot)";
-            case HIGH -> "gives autumn leaf pendant (accessory, +5 fam weight, +10 fam damage, +1 fam exp)";
-            default -> "";
-          };
-          case INDOOR -> switch (level) {
-            case LOW -> "gives AutumnFest Ale (booze, 1 drunk, 4-6 advs)";
-            case MID -> "gives autumn-spice donut (food, 1 full, 4-6 advs)";
-            case HIGH -> "gives autumn breeze (spleen, 1 toxicity, +100% all stats)";
-            default -> "";
-          };
-          case UNDERGROUND -> switch (level) {
-            case LOW -> "gives autumn sweater-weather sweater (shirt, +3 cold res, +50 HP, +8-12 HP Regen)";
-            case MID -> "gives autumn dollar (potion, +50% meat)";
-            case HIGH -> "gives autumn years wisdom (potion, +20% spell dmg, +100 MP, +15-20 MP Regen)";
-            default -> "";
-          };
+          case OUTDOOR ->
+              switch (level) {
+                case LOW -> "gives autumn leaf (potion, +25% item, +5% combat chance)";
+                case MID -> "gives autumn debris shield (shield, +10 DR, +30% init, +20 all hot)";
+                case HIGH ->
+                    "gives autumn leaf pendant (accessory, +5 fam weight, +10 fam damage, +1 fam exp)";
+                default -> "";
+              };
+          case INDOOR ->
+              switch (level) {
+                case LOW -> "gives AutumnFest Ale (booze, 1 drunk, 4-6 advs)";
+                case MID -> "gives autumn-spice donut (food, 1 full, 4-6 advs)";
+                case HIGH -> "gives autumn breeze (spleen, 1 toxicity, +100% all stats)";
+                default -> "";
+              };
+          case UNDERGROUND ->
+              switch (level) {
+                case LOW ->
+                    "gives autumn sweater-weather sweater (shirt, +3 cold res, +50 HP, +8-12 HP Regen)";
+                case MID -> "gives autumn dollar (potion, +50% meat)";
+                case HIGH ->
+                    "gives autumn years wisdom (potion, +20% spell dmg, +100 MP, +15-20 MP Regen)";
+                default -> "";
+              };
           default -> "";
         };
     return title + ": " + desc + upgradeDescription(env, level);
@@ -240,24 +246,27 @@ public class AutumnatonCommand extends AbstractCommand {
 
   private Optional<Upgrade> upgrade(Environment env, DifficultyLevel level) {
     return switch (env) {
-      case OUTDOOR -> switch (level) {
-        case LOW -> Optional.of(new Upgrade("energy-absorptive hat", "+2 base exp gain"));
-        case MID -> Optional.of(new Upgrade("high performance right arm", "+1 zone item"));
-        case HIGH -> Optional.of(new Upgrade("vision extender", "+1 visual acuity"));
-        default -> Optional.empty();
-      };
-      case INDOOR -> switch (level) {
-        case LOW -> Optional.of(new Upgrade("enhanced left arm", "+1 zone item"));
-        case MID -> Optional.of(new Upgrade("high speed right leg", "-11 expedition turns"));
-        case HIGH -> Optional.of(new Upgrade("radar dish", "+1 visual acuity"));
-        default -> Optional.empty();
-      };
-      case UNDERGROUND -> switch (level) {
-        case LOW -> Optional.of(new Upgrade("upgraded left leg", "-11 expedition turns"));
-        case MID -> Optional.of(new Upgrade("collection prow", "+1 autumn item"));
-        case HIGH -> Optional.of(new Upgrade("dual exhaust", "+2 base exp gain"));
-        default -> Optional.empty();
-      };
+      case OUTDOOR ->
+          switch (level) {
+            case LOW -> Optional.of(new Upgrade("energy-absorptive hat", "+2 base exp gain"));
+            case MID -> Optional.of(new Upgrade("high performance right arm", "+1 zone item"));
+            case HIGH -> Optional.of(new Upgrade("vision extender", "+1 visual acuity"));
+            default -> Optional.empty();
+          };
+      case INDOOR ->
+          switch (level) {
+            case LOW -> Optional.of(new Upgrade("enhanced left arm", "+1 zone item"));
+            case MID -> Optional.of(new Upgrade("high speed right leg", "-11 expedition turns"));
+            case HIGH -> Optional.of(new Upgrade("radar dish", "+1 visual acuity"));
+            default -> Optional.empty();
+          };
+      case UNDERGROUND ->
+          switch (level) {
+            case LOW -> Optional.of(new Upgrade("upgraded left leg", "-11 expedition turns"));
+            case MID -> Optional.of(new Upgrade("collection prow", "+1 autumn item"));
+            case HIGH -> Optional.of(new Upgrade("dual exhaust", "+2 base exp gain"));
+            default -> Optional.empty();
+          };
       default -> Optional.empty();
     };
   }

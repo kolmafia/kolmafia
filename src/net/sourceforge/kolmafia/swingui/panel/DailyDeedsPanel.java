@@ -8,7 +8,6 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.StringJoiner;
 import javax.swing.Box;
@@ -41,6 +40,7 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.ChateauRequest;
 import net.sourceforge.kolmafia.request.MomRequest;
 import net.sourceforge.kolmafia.request.PottedTeaTreeRequest;
@@ -150,12 +150,13 @@ public class DailyDeedsPanel extends Box implements Listener {
         case "April Shower" -> List.of(new ShowerCombo());
         case "Friars" -> List.of(new FriarsDaily());
         case "Mom" -> List.of(new MomCombo());
-        case "Skate Park" -> List.of(
-            new SkateDaily("lutz", "ice", "_skateBuff1", "Fishy"),
-            new SkateDaily("comet", "roller", "_skateBuff2", "-30% to Sea penalties"),
-            new SkateDaily("band shell", "peace", "_skateBuff3", "+sand dollars"),
-            new SkateDaily("eels", "peace", "_skateBuff4", "+10 lbs. underwater"),
-            new SkateDaily("merry-go-round", "peace", "_skateBuff5", "+25% items underwater"));
+        case "Skate Park" ->
+            List.of(
+                new SkateDaily("lutz", "ice", "_skateBuff1", "Fishy"),
+                new SkateDaily("comet", "roller", "_skateBuff2", "-30% to Sea penalties"),
+                new SkateDaily("band shell", "peace", "_skateBuff3", "+sand dollars"),
+                new SkateDaily("eels", "peace", "_skateBuff4", "+10 lbs. underwater"),
+                new SkateDaily("merry-go-round", "peace", "_skateBuff5", "+25% items underwater"));
         case "Concert" -> List.of(new ConcertDaily());
         case "Demon Summoning" -> List.of(new DemonCombo());
         case "Free Rests" -> List.of(new RestsDaily());
@@ -360,7 +361,8 @@ public class DailyDeedsPanel extends Box implements Listener {
           "Terminal Summary",
           "Terminal Enhance",
           "Terminal Enquiry",
-          "Terminal Extrude" -> 13;
+          "Terminal Extrude" ->
+          13;
       case "Potted Tea Tree" -> 12;
       case "Shrine to the Barrel god" -> 11;
       case "Deck of Every Card" -> 10;
@@ -1004,8 +1006,8 @@ public class DailyDeedsPanel extends Box implements Listener {
       comboBox.setMaximumSize(new Dimension(Math.round(len + 100), (int) Math.round(ht * 1.5)));
       comboBox.setPrototypeDisplayValue(lengthString);
 
-      for (int i = 0; i < choice.length; ++i) {
-        comboBox.addItem(choice[i]);
+      for (String s : choice) {
+        comboBox.addItem(s);
       }
 
       comboBox.setTooltips(tooltips);
@@ -1045,11 +1047,8 @@ public class DailyDeedsPanel extends Box implements Listener {
     @Override
     public void setEnabled(boolean enabled) {
       if (this.buttons != null) {
-        Iterator<JButton> i = this.buttons.iterator();
 
-        while (i.hasNext()) {
-          JButton button = i.next();
-
+        for (JButton button : this.buttons) {
           button.setEnabled(enabled);
         }
       }
@@ -1172,7 +1171,9 @@ public class DailyDeedsPanel extends Box implements Listener {
         "Why ARE you here?",
         "+80-100 hot damage, 30 turns",
         "Stat boost, 30 turns",
-        "+200% booze drop, 30 turns"
+        "+200% booze drop, 30 turns",
+        "+10% item, +20% meat, +30 spell dmg, +40 weapon dmg, +50% init, 30 turns",
+        "+100 spooky dmg, never fumble, +50 dr, 40-50 hp regen, 30 turns"
       };
 
       for (int i = 1; i <= len; ++i) {
@@ -1340,7 +1341,6 @@ public class DailyDeedsPanel extends Box implements Listener {
 
     /**
      * @param command the command to execute. This will also be the displayed button text.
-     * @param sCount
      */
     public SimpleDaily(String command, int sCount) {
       this.preference = "_simpleDeed" + sCount;
@@ -1353,7 +1353,6 @@ public class DailyDeedsPanel extends Box implements Listener {
     /**
      * @param displayText the text that will be displayed on the button
      * @param command the command to execute.
-     * @param sCount
      */
     public SimpleDaily(String displayText, String command, int sCount) {
       this.preference = "_simpleDeed" + sCount;
@@ -1367,7 +1366,6 @@ public class DailyDeedsPanel extends Box implements Listener {
      * @param displayText the text that will be displayed on the button
      * @param command the command to execute.
      * @param maxPref the integer at which to disable the button.
-     * @param sCount
      */
     public SimpleDaily(String displayText, String command, int maxPref, int sCount) {
       this.preference = "_simpleDeed" + sCount;
@@ -1382,7 +1380,6 @@ public class DailyDeedsPanel extends Box implements Listener {
      * @param displayText the text that will be displayed on the button
      * @param command the command to execute.
      * @param maxPref the integer at which to disable the button.
-     * @param sCount
      */
     public SimpleDaily(
         String displayText,
@@ -1993,11 +1990,10 @@ public class DailyDeedsPanel extends Box implements Listener {
     @Override
     public void update() {
       boolean bm = KoLCharacter.inBadMoon();
-      boolean na = KoLCharacter.inNuclearAutumn();
       boolean kf = KoLCharacter.kingLiberated();
-      boolean limited = KoLCharacter.getLimitMode().limitCampground();
+      boolean camp = CampgroundRequest.haveCampground();
       int nu = Preferences.getInteger("telescopeUpgrades");
-      this.setShown((!bm || kf) && (nu > 0) && !limited && !na);
+      this.setShown((!bm || kf) && (nu > 0) && camp);
       this.setEnabled(nu > 0);
       if (Preferences.getBoolean("telescopeLookedHigh")) {
         this.setText("You have stared into space today");
@@ -3911,8 +3907,8 @@ public class DailyDeedsPanel extends Box implements Listener {
           case PASTAMANCER -> buffText = "+90% Item Drops from Monsters";
           case SAUCEROR -> buffText = "Spell Damage +150%";
           case DISCO_BANDIT -> buffText = "Ranged Damage +150%";
-          case ACCORDION_THIEF -> buffText =
-              "+45% Booze Drops from Monsters, Makes booze more effective!";
+          case ACCORDION_THIEF ->
+              buffText = "+45% Booze Drops from Monsters, Makes booze more effective!";
         }
       }
 

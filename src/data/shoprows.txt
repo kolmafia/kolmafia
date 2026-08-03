@@ -757,10 +757,10 @@
 756	shakeshop	rotten tomato	Chroner (25)
 757	shakeshop	Twelve Night Energy	Chroner (250)
 758	shakeshop	Yorick	Chroner (1,000)
-759
-760
-761
-762
+759	flowertradein	Chroner	rose (2)
+760	flowertradein	Chroner (16)	red tulip
+761	flowertradein	Chroner (21)	white tulip
+762	flowertradein	Chroner (11)	blue tulip
 763	glaciest	shoulder-warming lotion	Wal-Mart gift certificate (5)
 764	glaciest	iceberg lettuce	Wal-Mart gift certificate (15)
 765	glaciest	ice wine	Wal-Mart gift certificate (15)
@@ -1459,7 +1459,7 @@
 1458	armory	moss mantle	crepe paper pared cuttings
 1459	armory	moss marlinspike	crepe paper pared cuttings
 1460	armory	adobe arsecover	petrified wood waste parts
-1461	armory	adobe adze	petrified wood waste parts
+1461	armory	crepe paper phrygian cap	angelbone fragments
 1462	armory	adobe abacus	petrified wood waste parts
 1463	armory	adobe ayam	petrified wood waste parts
 1464	armory	adobe ascot	petrified wood waste parts
@@ -1594,3 +1594,141 @@
 1593	showerthoughts	wet paperback	glob of wet paper (2)
 1594	showerthoughts	wet shower stamp	glob of wet paper (1,000)
 1595	showerthoughts	wet shower radio	glob of wet paper
+1596	twitch_alliedhq	Chroner (10)	stolen artifact
+1597	twitch_alliedhq	Chroner (20)	really expensive stolen artifact
+1598	twitch_alliedhq	Chroner (30)	priceless stolen artifact
+1599	twitch_alliedhq	flak shield	Chroner (20)
+1600	twitch_alliedhq	Axis HQ Code	chocolate rations
+1601	twitch_alliedhq	Axis codebook	nice nylon stockings (50)
+1602	conmerch	Allied Radio Backpack Pack	Mr. Accessory
+1603	twitch_alliedhq	chocolate and nylons detector	Chroner (100)
+1604	twitch_alliedhq	Allied Forces insignia	Chroner (500)
+1605	twitch_alliedhq	Allied Tattoo Kit	Chroner (2,500)
+1606
+1607	generalstore	white rice	250 Meat
+1608	sandpenny	sand dollar	sand penny (100)
+1609	sandpenny	undersea surveying goggles	sand penny (100)
+1610	sandpenny	Ocean-Touched Rum	sand penny (30)
+1611	sandpenny	water-logged pill	sand penny (30)
+1612	sandpenny	kelp puck	sand penny (30)
+1613	sandpenny	scroll of sea strength	1,000 Meat
+1614	sandpenny	scroll of sea smarts	1,000 Meat
+1615	sandpenny	scroll of sea smarm	1,000 Meat
+1616	sandpenny	waterlogged scroll of healing	sand penny (10)
+1617	sandpenny	sea gel	sand penny (10)
+1618	grandma	crappy Mer-kin tailpiece	Mer-kin gladiator tailpiece
+1619	grandma	crappy Mer-kin tailpiece	Mer-kin scholar tailpiece
+1620	fixodent	dentadent	fixodent	loose teeth
+1621
+1622
+1623
+1624
+1625
+1626
+1627
+1628
+1629
+1630
+1631
+1632
+1633
+1634
+1635
+1636
+1637
+1638
+1639
+1640
+1641
+1642
+1643	crimbo25_sammy	Crymbocurrency	burnt incisor
+1644	crimbo25_sammy	Crymbocurrency (5)	burnt phalange
+1645	crimbo25_sammy	Crymbocurrency (20)	burnt rib
+1646	crimbo25_sammy	Crymbocurrency (10)	burnt radius
+1647	crimbo25_sammy	Crymbocurrency (50)	burnt skull
+1648
+1649	crimbo25_sammy	Crymbocurrency (5)	cold wad
+1650	crimbo25_sammy	Crymbocurrency (5)	twinkly wad (3)
+1651	crimbo25_sammy	Santa-Slayer medal	Skull of Claus
+1652	crimbo25_sammy	volatile bone bomb	smoldering bone dust	100 Meat
+1653	crimbo25_sammy	fireproof bonesaw	Crymbocurrency (50)
+1654	crimbo25_sammy	vermiculite shield	Crymbocurrency (50)
+1655	crimbo25_sammy	cursed ship's lantern	Crymbocurrency (50)
+1656	crimbo25_sammy	heat-resistant harpoon pistol	Crymbocurrency (50)
+1657	crimbo25_sammy	counterskeleton elixir	Crymbocurrency (10)
+1658	crimbo25_sammy	tiny plastic skeleton skull	Crymbocurrency (1,500)
+1659	crimbo25_sammy	tiny plastic skeleton rib cage	Crymbocurrency (1,500)
+1660	crimbo25_sammy	tiny plastic skeleton Crimbo hat	Crymbocurrency (1,500)
+1661	crimbo25_sammy	messenger parrot egg	Crymbocurrency (200)
+1662	crimbo25_sammy	buryable chest	Crymbocurrency (300)
+1663	crimbo25_sammy	scorched skeleton mask	Crymbocurrency (1,000)
+1664	crimbo25_sammy	scorched skeleton shirt	Crymbocurrency (1,000)
+1665	crimbo25_sammy	scorched skeleton pants	Crymbocurrency (1,000)
+1666	crimbo25_sammy	Shanty: Let's Beat Up This Drunken Sailor	Crymbocurrency (5,000)
+1667	crimbo25_sammy	Shanty: I'm Smarter Than a Drunken Sailor	Crymbocurrency (5,000)
+1668	crimbo25_sammy	Shanty: Look At That Drunken Sailor Dance	Crymbocurrency (5,000)
+1669	crimbo25_sammy	Shanty: Who's Going to Pay This Drunken Sailor?	Crymbocurrency (5,000)
+1670	crimbo25_sammy	Shanty: Only Dogs Love a Drunken Sailor	Crymbocurrency (5,000)
+1671	crimbo25_sammy	Crymbocurrency tattoo	Crymbocurrency (10,000)
+1672	crimbo25_sammy	&quot;salvaged&quot; wine	Crymbocurrency (3,000)
+1673	crimbo25_sammy	undertakers' forceps	Crymbocurrency (1,500)
+1674	crimbo25_sammy	bone-polishing rag	Crymbocurrency (4,000)
+1675	crimbo25_cafe	traditional gingerloaf	300 Meat
+1676	crimbo25_cafe	Scotch and eggnog	300 Meat
+1677	armory	crepe paper parachute cape	angelbone fragments
+1678	armory	crepe paper pie clip	angelbone fragments
+1679	armory	crepe paper puzzle cube	angelbone fragments
+1680	armory	crepe paper plunge camisole	angelbone fragments
+1681	armory	crepe paper polka charm	angelbone fragments
+1682	armory	petrified wood war pike	devilbone chunks
+1683	armory	petrified wood waist protector	devilbone chunks
+1684	armory	petrified wood wizard's pouch	devilbone chunks
+1685	armory	petrified wood water purifier	devilbone chunks
+1686	armory	petrified wood whoopie panama	devilbone chunks
+1687	armory	petrified wood walking pants	devilbone chunks
+1688
+1689
+1690
+1691
+1692
+1693
+1694
+1695
+1696
+1697
+1698
+1699
+1700
+1701
+1702
+1703
+1704
+1705
+1706
+1707
+1708
+1709
+1710
+1711
+1712	armory	adobe adze	petrified wood waste parts
+1713	dinobone	dinosaur bone broth	dinosaur bone fragment (5)
+1714	dinobone	giant gnawing bone	dinosaur bone fragment (10)
+1715	dinobone	dinosaur bone club	dinosaur bone fragment (25)
+1716	dinobone	dinosaur skull helmet	dinosaur bone fragment (50)
+1717	dinobone	dinosaur bone corset	dinosaur bone fragment (100)
+1718	potsherd	Pork Elf cough syrup	ancient Pork Elf pottery shard (5)
+1719	potsherd	Pork Elf neti pot	ancient Pork Elf pottery shard (10)
+1720	potsherd	Pork Elf medicine cabinet	ancient Pork Elf pottery shard (25)
+1721	potsherd	Pork Elf sink	ancient Pork Elf pottery shard (50)
+1722	potsherd	Pork Elf toilet	ancient Pork Elf pottery shard (100)
+1723	detritus2015	rat pizza	2015 landfill detritus (5)
+1724	detritus2015	Fleek&trade; mascara	2015 landfill detritus (10)
+1725	detritus2015	hoverboard	2015 landfill detritus (25)
+1726	detritus2015	left shark fin	2015 landfill detritus (50)
+1727	detritus2015	fitness tracking bracelet	2015 landfill detritus (100)
+1732	twitch_jousting	premium turkey leg	Chroner (5)
+1733	twitch_jousting	styrofoam cup of mead	Chroner (5)
+1734	twitch_jousting	wooden sword	Chroner (100)
+1735	twitch_jousting	wooden staff	Chroner (100)
+1736	twitch_jousting	wooden lute	Chroner (100)
+1737	conmerch	packaged Portable Laughing Stock	Mr. Accessory

@@ -480,9 +480,9 @@ public abstract class SorceressLairManager {
 
       message =
           action.equals("ns_01_contestbooth")
-              ? "Tower: Contest Booth"
+              ? ("[" + KoLAdventure.getAdventureCount() + "] Tower: Contest Booth")
               : action.equals("ns_02_coronation")
-                  ? "Tower: Closing Ceremony"
+                  ? ("[" + KoLAdventure.getAdventureCount() + "] Tower: Closing Ceremony")
                   : action.equals("ns_11_prism")
                       ? ("[" + KoLAdventure.getAdventureCount() + "] Freeing King Ralph")
                       : null;

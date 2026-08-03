@@ -10,7 +10,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class PvpStealCommand extends AbstractCommand {
   public PvpStealCommand() {
     this.usage =
-        " [attacks] ( flowers | loot | fame) <stance> - commit random acts of PvP using the specified stance.";
+        " [attacks] [random | tougher] ( flowers | loot | fame) <stance> - commit random acts of PvP using the specified stance.";
   }
 
   @Override
@@ -30,6 +30,7 @@ public class PvpStealCommand extends AbstractCommand {
     }
 
     int attacks = 0;
+    boolean tougher = false;
     String mission = null;
     int stance = 0;
 
@@ -45,6 +46,19 @@ public class PvpStealCommand extends AbstractCommand {
 
     if (StringUtilities.isNumeric(param)) {
       attacks = StringUtilities.parseInt(param);
+
+      spaceIndex = parameters.indexOf(" ");
+      if (spaceIndex == -1) {
+        KoLmafia.updateDisplay(MafiaState.ERROR, "Must specify both mission and stance");
+        return;
+      }
+
+      param = parameters.substring(0, spaceIndex);
+      parameters = parameters.substring(spaceIndex).trim();
+    }
+
+    if (param.equals("random") || param.equals("tougher")) {
+      tougher = param.equals("tougher");
 
       spaceIndex = parameters.indexOf(" ");
       if (spaceIndex == -1) {
@@ -100,6 +114,6 @@ public class PvpStealCommand extends AbstractCommand {
             + " via "
             + stanceString);
 
-    PvpManager.executePvpRequest(attacks, mission, stance);
+    PvpManager.executePvpRequest(attacks, mission, stance, tougher);
   }
 }

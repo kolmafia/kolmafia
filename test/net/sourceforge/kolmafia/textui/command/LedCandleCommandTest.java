@@ -83,6 +83,8 @@ public class LedCandleCommandTest extends AbstractCommandTestBase {
   @CsvSource({
     "disco, 1",
     "item, 1",
+    "DISCO, 1",
+    "ITEm, 1",
     "ultra, 2",
     "meat, 2",
     "reading, 3",

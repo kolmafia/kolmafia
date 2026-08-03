@@ -44,9 +44,8 @@ public class QuartersmasterRequest extends CoinMasterRequest {
 
   private static Boolean canBuyItem(final Integer itemId) {
     return switch (itemId) {
-      case ItemPool.TEQUILA_GRENADE, ItemPool.MOLOTOV_COCKTAIL_COCKTAIL -> Preferences.getString(
-              "sidequestLighthouseCompleted")
-          .equals("fratboy");
+      case ItemPool.TEQUILA_GRENADE, ItemPool.MOLOTOV_COCKTAIL_COCKTAIL ->
+          Preferences.getString("sidequestLighthouseCompleted").equals("fratboy");
       default -> ItemPool.get(itemId).getCount(FRATBOY.getBuyItems()) > 0;
     };
   }
@@ -65,7 +64,7 @@ public class QuartersmasterRequest extends CoinMasterRequest {
   }
 
   public static final boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("bigisland.php") || urlString.indexOf("whichcamp=2") == -1) {
+    if (!urlString.startsWith("bigisland.php") || !urlString.contains("whichcamp=2")) {
       return false;
     }
 

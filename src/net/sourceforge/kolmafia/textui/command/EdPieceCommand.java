@@ -78,11 +78,7 @@ public class EdPieceCommand extends AbstractCommand implements ModeCommand {
 
   @Override
   public boolean validate(final String command, final String parameters) {
-    return Arrays.stream(Animal.values()).anyMatch(a -> parameters.equalsIgnoreCase(a.getName()));
-  }
-
-  public String normalize(String parameters) {
-    return parameters;
+    return Arrays.stream(Animal.values()).anyMatch(a -> normalize(parameters).equals(a.getName()));
   }
 
   @Override
@@ -92,6 +88,7 @@ public class EdPieceCommand extends AbstractCommand implements ModeCommand {
 
   @Override
   public void run(final String cmd, String parameters) {
+    parameters = normalize(parameters);
     boolean checking = KoLmafiaCLI.isExecutingCheckOnlyCommand;
 
     if (checking) {

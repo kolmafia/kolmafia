@@ -7,6 +7,7 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
@@ -105,7 +106,7 @@ public class AdventureDatabaseTest {
       var cleanups = new Cleanups(withProperty("shadowRiftIngress", ""));
       try (cleanups) {
         var adventure = AdventureDatabase.getAdventureByURL(SHADOW_RIFT_URL);
-        assertFalse(adventure == null);
+        assertNotNull(adventure);
         assertThat(adventure.getAdventureName(), is("Shadow Rift"));
       }
     }
@@ -130,7 +131,7 @@ public class AdventureDatabaseTest {
       var cleanups = new Cleanups(withProperty("shadowRiftIngress", property));
       try (cleanups) {
         var adventure = AdventureDatabase.getAdventureByURL(SHADOW_RIFT_URL);
-        assertFalse(adventure == null);
+        assertNotNull(adventure);
         assertThat(adventure.getAdventureName(), is(adventureName));
       }
     }
@@ -143,10 +144,10 @@ public class AdventureDatabaseTest {
 
       String adventureName = rift.getAdventureName();
       var adventure = AdventureDatabase.getAdventure(adventureName);
-      assertFalse(adventure == null);
+      assertNotNull(adventure);
       assertThat(adventure.getAdventureName(), is(adventureName));
       var request = (AdventureRequest) adventure.getRequest();
-      assertFalse(request == null);
+      assertNotNull(request);
 
       // We have a request ready to go. Rather than actually running it,
       // we'll call updateFields(), which chooses the URL in run(), just

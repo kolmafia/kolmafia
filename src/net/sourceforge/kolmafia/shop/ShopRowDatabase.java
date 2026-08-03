@@ -38,11 +38,11 @@ public class ShopRowDatabase {
   public record ShopRowData(int row, String shopId, AdventureResult item, AdventureResult[] costs) {
     public String dataString() {
       StringBuilder buf = new StringBuilder();
-      buf.append(String.valueOf(row));
+      buf.append(row);
       buf.append("\t");
       buf.append(shopId);
       buf.append("\t");
-      buf.append(item.toString());
+      buf.append(item);
       for (AdventureResult cost : costs) {
         buf.append("\t");
         buf.append(cost.toString());
@@ -178,8 +178,7 @@ public class ShopRowDatabase {
   public static void writeShopRowDataFile() {
     File output = new File(KoLConstants.DATA_LOCATION, "shoprows.txt");
     RequestLogger.printLine("Writing data override: " + output);
-    PrintStream writer = LogStream.openStream(output, true);
-    try {
+    try (PrintStream writer = LogStream.openStream(output, true)) {
       writer.println(KoLConstants.SHOPROWS_VERSION);
 
       Iterator<Entry<Integer, ShopRowData>> it = shopRowData.entrySet().iterator();
@@ -197,8 +196,6 @@ public class ShopRowDatabase {
 
         writer.println(value.dataString());
       }
-    } finally {
-      writer.close();
     }
   }
 }

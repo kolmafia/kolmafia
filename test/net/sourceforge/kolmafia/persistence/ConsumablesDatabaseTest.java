@@ -354,7 +354,7 @@ class ConsumablesDatabaseTest {
 
   @Nested
   class TCRS {
-    static Cleanups CLEANUPS = new Cleanups();
+    static final Cleanups CLEANUPS = new Cleanups();
 
     @BeforeAll
     static void beforeAll() {

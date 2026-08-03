@@ -52,17 +52,17 @@ public class HyperlinkAdapter implements HyperlinkListener {
 
     @Override
     public void run() {
-      if (location.indexOf("pics.communityofloathing.com") != -1) {
+      if (location.contains("pics.communityofloathing.com")) {
         HyperlinkAdapter.this.handleInternalLink(location);
         return;
       } else if (location.startsWith("http://") || location.startsWith("https://")) {
         RelayLoader.openSystemBrowser(location);
         return;
       } else if (location.startsWith("javascript:")
-          && (location.indexOf("submit()") == -1 || location.indexOf("messageform") != -1)) {
+          && (!location.contains("submit()") || location.contains("messageform"))) {
         InputFieldUtilities.alert("Ironically, Java does not support Javascript.");
         return;
-      } else if (location.indexOf("submit()") == -1) {
+      } else if (!location.contains("submit()")) {
         HyperlinkAdapter.this.handleInternalLink(location);
         return;
       }
@@ -87,7 +87,7 @@ public class HyperlinkAdapter implements HyperlinkListener {
       String lastInput;
       int patternIndex;
       Matcher actionMatcher, nameMatcher, valueMatcher;
-      StringBuffer inputString = new StringBuffer();
+      StringBuilder inputString = new StringBuilder();
 
       // Determine the action associated with the
       // form -- this is used for the URL.

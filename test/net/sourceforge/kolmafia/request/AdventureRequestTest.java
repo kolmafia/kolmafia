@@ -1,25 +1,38 @@
 package net.sourceforge.kolmafia.request;
 
+import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withAdventuresLeft;
 import static internal.helpers.Player.withAdventuresSpent;
+import static internal.helpers.Player.withCurrentRun;
 import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withFight;
+import static internal.helpers.Player.withHP;
+import static internal.helpers.Player.withHttpClientBuilder;
+import static internal.helpers.Player.withItemMonster;
 import static internal.helpers.Player.withLastLocation;
 import static internal.helpers.Player.withNextMonster;
+import static internal.helpers.Player.withOutfit;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withQuestProgress;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.arrayContainingInAnyOrder;
 import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
+import internal.helpers.RequestLoggerOutput;
+import internal.network.FakeHttpClientBuilder;
 import java.util.Set;
 import net.sourceforge.kolmafia.AscensionPath;
 import net.sourceforge.kolmafia.AscensionPath.Path;
@@ -28,10 +41,13 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
+import net.sourceforge.kolmafia.objectpool.OutfitPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.JuneCleaverManager;
 import org.junit.jupiter.api.AfterAll;
@@ -353,46 +369,46 @@ public class AdventureRequestTest {
   public void juneCleaverTrackingTest() {
     // regular encounter
     JuneCleaverManager.parseChoice("choice.php?whichchoice=1467&option=1");
-    assertEquals(Preferences.getString("juneCleaverQueue"), "1467");
-    assertEquals(Preferences.getInteger("_juneCleaverEncounters"), 1);
-    assertEquals(Preferences.getInteger("_juneCleaverFightsLeft"), 6);
-    assertEquals(Preferences.getInteger("_juneCleaverSkips"), 0);
+    assertEquals("1467", Preferences.getString("juneCleaverQueue"));
+    assertEquals(1, Preferences.getInteger("_juneCleaverEncounters"));
+    assertEquals(6, Preferences.getInteger("_juneCleaverFightsLeft"));
+    assertEquals(0, Preferences.getInteger("_juneCleaverSkips"));
 
     // Skip
     JuneCleaverManager.parseChoice("choice.php?whichchoice=1468&option=4");
-    assertEquals(Preferences.getString("juneCleaverQueue"), "1467,1468");
-    assertEquals(Preferences.getInteger("_juneCleaverEncounters"), 1);
-    assertEquals(Preferences.getInteger("_juneCleaverFightsLeft"), 2);
-    assertEquals(Preferences.getInteger("_juneCleaverSkips"), 1);
+    assertEquals("1467,1468", Preferences.getString("juneCleaverQueue"));
+    assertEquals(1, Preferences.getInteger("_juneCleaverEncounters"));
+    assertEquals(2, Preferences.getInteger("_juneCleaverFightsLeft"));
+    assertEquals(1, Preferences.getInteger("_juneCleaverSkips"));
 
     // Wrong choice
     JuneCleaverManager.parseChoice("choice.php?whichchoice=7000&option=4");
-    assertEquals(Preferences.getString("juneCleaverQueue"), "1467,1468");
-    assertEquals(Preferences.getInteger("_juneCleaverEncounters"), 1);
-    assertEquals(Preferences.getInteger("_juneCleaverFightsLeft"), 2);
-    assertEquals(Preferences.getInteger("_juneCleaverSkips"), 1);
+    assertEquals("1467,1468", Preferences.getString("juneCleaverQueue"));
+    assertEquals(1, Preferences.getInteger("_juneCleaverEncounters"));
+    assertEquals(2, Preferences.getInteger("_juneCleaverFightsLeft"));
+    assertEquals(1, Preferences.getInteger("_juneCleaverSkips"));
 
     // No option
     JuneCleaverManager.parseChoice("choice.php?whichchoice=1469");
-    assertEquals(Preferences.getString("juneCleaverQueue"), "1467,1468");
-    assertEquals(Preferences.getInteger("_juneCleaverEncounters"), 1);
-    assertEquals(Preferences.getInteger("_juneCleaverFightsLeft"), 2);
-    assertEquals(Preferences.getInteger("_juneCleaverSkips"), 1);
+    assertEquals("1467,1468", Preferences.getString("juneCleaverQueue"));
+    assertEquals(1, Preferences.getInteger("_juneCleaverEncounters"));
+    assertEquals(2, Preferences.getInteger("_juneCleaverFightsLeft"));
+    assertEquals(1, Preferences.getInteger("_juneCleaverSkips"));
 
     // Can load queue
     Preferences.setString("juneCleaverQueue", "1467,1468,1469,1470,1471");
     JuneCleaverManager.parseChoice("choice.php?whichchoice=1472&option=3");
-    assertEquals(Preferences.getString("juneCleaverQueue"), "1467,1468,1469,1470,1471,1472");
-    assertEquals(Preferences.getInteger("_juneCleaverEncounters"), 2);
-    assertEquals(Preferences.getInteger("_juneCleaverFightsLeft"), 10);
-    assertEquals(Preferences.getInteger("_juneCleaverSkips"), 1);
+    assertEquals("1467,1468,1469,1470,1471,1472", Preferences.getString("juneCleaverQueue"));
+    assertEquals(2, Preferences.getInteger("_juneCleaverEncounters"));
+    assertEquals(10, Preferences.getInteger("_juneCleaverFightsLeft"));
+    assertEquals(1, Preferences.getInteger("_juneCleaverSkips"));
 
     // Queue has max length of 6
     JuneCleaverManager.parseChoice("choice.php?whichchoice=1473&option=1");
-    assertEquals(Preferences.getString("juneCleaverQueue"), "1468,1469,1470,1471,1472,1473");
-    assertEquals(Preferences.getInteger("_juneCleaverEncounters"), 3);
-    assertEquals(Preferences.getInteger("_juneCleaverFightsLeft"), 12);
-    assertEquals(Preferences.getInteger("_juneCleaverSkips"), 1);
+    assertEquals("1468,1469,1470,1471,1472,1473", Preferences.getString("juneCleaverQueue"));
+    assertEquals(3, Preferences.getInteger("_juneCleaverEncounters"));
+    assertEquals(12, Preferences.getInteger("_juneCleaverFightsLeft"));
+    assertEquals(1, Preferences.getInteger("_juneCleaverSkips"));
   }
 
   @Test
@@ -571,6 +587,329 @@ public class AdventureRequestTest {
               "sturdy pith helmet",
               "construction hardhat",
               "imposing pilgrim's hat"));
+    }
+  }
+
+  @Nested
+  class SeaMerkinLogging {
+    @Test
+    void canAdventureInMerkinTemple() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
+              withProperty("seahorseName", "Shimmerwings"),
+              withProperty("merkinQuestPath", "gladiator"),
+              withOutfit(OutfitPool.MER_KIN_GLADIATORIAL_GEAR),
+              withProperty("battleAction", "custom combat script"),
+              withHP(1000, 1000, 1000),
+              withCurrentRun(200),
+              withAdventuresLeft(10));
+      try (cleanups) {
+        client.addResponse(200, "Success!");
+        // String html = html("request/test_merkin_temple_left.html");
+
+        var adventure = AdventureDatabase.getAdventure("Mer-kin Temple");
+        assertTrue(adventure.canAdventure());
+
+        RequestLoggerOutput.startStream();
+        adventure.run();
+        var text = RequestLoggerOutput.stopStream();
+        assertThat(text, containsString("[201] Mer-kin Temple"));
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(1));
+        assertPostRequest(requests.get(0), "/sea_merkin.php", "action=temple");
+      }
+    }
+
+    @Nested
+    class SeaPath {
+      @Test
+      void successAtTempleLeftDoor() {
+        var builder = new FakeHttpClientBuilder();
+        var client = builder.client;
+        var cleanups =
+            new Cleanups(
+                withHttpClientBuilder(builder),
+                withPath(Path.UNDER_THE_SEA),
+                withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
+                withProperty("seahorseName", "Shimmerwings"),
+                withProperty("isMerkinGladiatorChampion", true),
+                withOutfit(OutfitPool.MER_KIN_GLADIATORIAL_GEAR),
+                withProperty("battleAction", "custom combat script"),
+                withHP(1000, 1000, 1000),
+                withCurrentRun(200),
+                withAdventuresLeft(10));
+        try (cleanups) {
+          client.addResponse(200, "Success!");
+
+          var adventure = AdventureDatabase.getAdventure("Mer-kin Temple (Left Door)");
+          assertTrue(adventure.canAdventure());
+
+          RequestLoggerOutput.startStream();
+          adventure.run();
+          var text = RequestLoggerOutput.stopStream();
+          assertThat(text, containsString("[201] Mer-kin Temple (Left Door)"));
+
+          var requests = client.getRequests();
+          assertThat(requests, hasSize(1));
+          assertPostRequest(requests.get(0), "/sea_merkin.php", "action=temple&subaction=left");
+        }
+      }
+
+      @Test
+      void failureAtTempleLeftDoor() {
+        var builder = new FakeHttpClientBuilder();
+        var client = builder.client;
+        var cleanups =
+            new Cleanups(
+                withHttpClientBuilder(builder),
+                withPath(Path.UNDER_THE_SEA),
+                withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
+                withProperty("seahorseName", "Shimmerwings"),
+                withProperty("isMerkinGladiatorChampion", false),
+                withOutfit(OutfitPool.CRAPPY_MER_KIN_DISGUISE),
+                withProperty("battleAction", "custom combat script"),
+                withHP(1000, 1000, 1000),
+                withCurrentRun(200),
+                withAdventuresLeft(10));
+        try (cleanups) {
+          client.addResponse(200, html("request/test_merkin_temple_left.html"));
+
+          var adventure = AdventureDatabase.getAdventure("Mer-kin Temple (Left Door)");
+          // As a KoLAdventure, we will not attempt to run this.
+          assertFalse(adventure.canAdventure());
+
+          RequestLoggerOutput.startStream();
+          // Run the AdventureRequest directly
+          adventure.getRequest().run();
+          var text = RequestLoggerOutput.stopStream();
+          assertThat(text, containsString("You need to wear the Mer-kin Gladiatorial Gear."));
+
+          var requests = client.getRequests();
+          assertThat(requests, hasSize(1));
+          assertPostRequest(requests.get(0), "/sea_merkin.php", "action=temple&subaction=left");
+        }
+      }
+
+      @Test
+      void successAtTempleRightDoor() {
+        var builder = new FakeHttpClientBuilder();
+        var client = builder.client;
+        var cleanups =
+            new Cleanups(
+                withHttpClientBuilder(builder),
+                withPath(Path.UNDER_THE_SEA),
+                withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
+                withProperty("seahorseName", "Shimmerwings"),
+                withProperty("isMerkinHighPriest", true),
+                withOutfit(OutfitPool.MER_KIN_SCHOLARS_VESTMENTS),
+                withProperty("battleAction", "custom combat script"),
+                withHP(1000, 1000, 1000),
+                withCurrentRun(200),
+                withAdventuresLeft(10));
+        try (cleanups) {
+          client.addResponse(200, "Success!");
+
+          var adventure = AdventureDatabase.getAdventure("Mer-kin Temple (Right Door)");
+          assertTrue(adventure.canAdventure());
+
+          RequestLoggerOutput.startStream();
+          adventure.run();
+          var text = RequestLoggerOutput.stopStream();
+          assertThat(text, containsString("[201] Mer-kin Temple (Right Door)"));
+
+          var requests = client.getRequests();
+          assertThat(requests, hasSize(1));
+          assertPostRequest(requests.get(0), "/sea_merkin.php", "action=temple&subaction=right");
+        }
+      }
+
+      @Test
+      void failureAtTempleRightDoor() {
+        var builder = new FakeHttpClientBuilder();
+        var client = builder.client;
+        var cleanups =
+            new Cleanups(
+                withHttpClientBuilder(builder),
+                withPath(Path.UNDER_THE_SEA),
+                withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
+                withProperty("seahorseName", "Shimmerwings"),
+                withProperty("isMerkinHighPriest", false),
+                withOutfit(OutfitPool.CRAPPY_MER_KIN_DISGUISE),
+                withProperty("battleAction", "custom combat script"),
+                withHP(1000, 1000, 1000),
+                withCurrentRun(200),
+                withAdventuresLeft(10));
+        try (cleanups) {
+          client.addResponse(200, html("request/test_merkin_temple_right.html"));
+
+          var adventure = AdventureDatabase.getAdventure("Mer-kin Temple (Right Door)");
+          // As a KoLAdventure, we will not attempt to run this.
+          assertFalse(adventure.canAdventure());
+
+          RequestLoggerOutput.startStream();
+          // Run the AdventureRequest directly
+          adventure.getRequest().run();
+          var text = RequestLoggerOutput.stopStream();
+          assertThat(text, containsString("You need to wear the Mer-kin Scholar's Vestments."));
+
+          var requests = client.getRequests();
+          assertThat(requests, hasSize(1));
+          assertPostRequest(requests.get(0), "/sea_merkin.php", "action=temple&subaction=right");
+        }
+      }
+
+      @Test
+      void successAtTempleCenterDoor() {
+        var builder = new FakeHttpClientBuilder();
+        var client = builder.client;
+        var cleanups =
+            new Cleanups(
+                withHttpClientBuilder(builder),
+                withPath(Path.UNDER_THE_SEA),
+                withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
+                withProperty("seahorseName", "Shimmerwings"),
+                withProperty("shubJigguwattDefeated", true),
+                withProperty("yogUrtDefeated", true),
+                withOutfit(OutfitPool.CRAPPY_MER_KIN_DISGUISE),
+                withProperty("battleAction", "custom combat script"),
+                withHP(1000, 1000, 1000),
+                withCurrentRun(200),
+                withAdventuresLeft(10));
+        try (cleanups) {
+          client.addResponse(200, "Success!");
+
+          var adventure = AdventureDatabase.getAdventure("Mer-kin Temple (Center Door)");
+          assertTrue(adventure.canAdventure());
+
+          RequestLoggerOutput.startStream();
+          adventure.run();
+          var text = RequestLoggerOutput.stopStream();
+          assertThat(text, containsString("[201] Mer-kin Temple (Center Door)"));
+
+          var requests = client.getRequests();
+          assertThat(requests, hasSize(1));
+          assertPostRequest(requests.get(0), "/sea_merkin.php", "action=temple&subaction=center");
+        }
+      }
+
+      @Test
+      void failureAtTempleCenterDoor() {
+        var builder = new FakeHttpClientBuilder();
+        var client = builder.client;
+        var cleanups =
+            new Cleanups(
+                withHttpClientBuilder(builder),
+                withPath(Path.UNDER_THE_SEA),
+                withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
+                withProperty("seahorseName", "Shimmerwings"),
+                withProperty("isMerkinHighPriest", false),
+                withOutfit(OutfitPool.CRAPPY_MER_KIN_DISGUISE),
+                withProperty("battleAction", "custom combat script"),
+                withHP(1000, 1000, 1000),
+                withCurrentRun(200),
+                withAdventuresLeft(10));
+        try (cleanups) {
+          client.addResponse(200, html("request/test_merkin_temple_center.html"));
+
+          var adventure = AdventureDatabase.getAdventure("Mer-kin Temple (Center Door)");
+          // As a KoLAdventure, we will not attempt to run this.
+          assertFalse(adventure.canAdventure());
+
+          RequestLoggerOutput.startStream();
+          // Run the AdventureRequest directly
+          adventure.getRequest().run();
+          var text = RequestLoggerOutput.stopStream();
+          assertThat(
+              text, containsString("You must defeat the Elder Gods of Hatred and Violence first."));
+
+          var requests = client.getRequests();
+          assertThat(requests, hasSize(1));
+          assertPostRequest(requests.get(0), "/sea_merkin.php", "action=temple&subaction=center");
+        }
+      }
+    }
+  }
+
+  @Nested
+  class NonCombatLogging {
+    @Test
+    public void logsNonCombatNormally() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withLastLocation("None"),
+              withCurrentRun(200),
+              withAdventuresLeft(10));
+      try (cleanups) {
+        // Rescuing Grandma
+        client.addResponse(200, html("request/test_quest_sea_monkee_step_9_1.html"));
+        var request = new GenericRequest("adventure.php?snarfblat=" + AdventurePool.MERKIN_OUTPOST);
+
+        RequestLoggerOutput.startStream();
+        // Run the AdventureRequest directly
+        request.run();
+        var text = RequestLoggerOutput.stopStream();
+
+        var lastLocation = Preferences.getString("lastAdventure");
+        assertEquals("The Mer-Kin Outpost", lastLocation);
+
+        var expected =
+            """
+            [201] The Mer-Kin Outpost
+            Encounter: Granny, Does Your Dogfish Bite?""";
+        assertThat(text, containsString(expected));
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(2));
+        assertPostRequest(
+            requests.get(0), "/adventure.php", "snarfblat=" + AdventurePool.MERKIN_OUTPOST);
+        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+      }
+    }
+
+    @Test
+    public void logsNonCombatAfterItemMonster() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withLastLocation("None"),
+              withItemMonster("rotten dolphin thief"),
+              withCurrentRun(200),
+              withAdventuresLeft(10));
+      try (cleanups) {
+        // Rescuing Grandma
+        client.addResponse(200, html("request/test_quest_sea_monkee_step_9_1.html"));
+        var request = new GenericRequest("adventure.php?snarfblat=" + AdventurePool.MERKIN_OUTPOST);
+
+        RequestLoggerOutput.startStream();
+        // Run the AdventureRequest directly
+        request.run();
+        var text = RequestLoggerOutput.stopStream();
+
+        var lastLocation = Preferences.getString("lastAdventure");
+        assertEquals("The Mer-Kin Outpost", lastLocation);
+
+        var expected =
+            """
+            [201] The Mer-Kin Outpost
+            Encounter: Granny, Does Your Dogfish Bite?""";
+        assertThat(text, containsString(expected));
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(2));
+        assertPostRequest(
+            requests.get(0), "/adventure.php", "snarfblat=" + AdventurePool.MERKIN_OUTPOST);
+        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+      }
     }
   }
 }

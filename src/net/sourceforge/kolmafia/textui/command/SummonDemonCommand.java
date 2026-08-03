@@ -17,7 +17,7 @@ public class SummonDemonCommand extends AbstractCommand {
 
   @Override
   public void run(final String cmd, final String parameters) {
-    if (parameters.length() == 0) {
+    if (parameters.isEmpty()) {
       return;
     }
 
@@ -41,15 +41,17 @@ public class SummonDemonCommand extends AbstractCommand {
       demonNumber = StringUtilities.parseInt(parameters);
     } else {
       for (int i = 0; i < KoLAdventure.DEMON_TYPES.length; ++i) {
-        String location = KoLAdventure.DEMON_TYPES[i][0];
-        if (location != null && parameters.equalsIgnoreCase(location)) {
+        var demonType = KoLAdventure.DEMON_TYPES[i];
+        String location = demonType[0];
+
+        if (parameters.equalsIgnoreCase(location)) {
           demon = Preferences.getString("demonName" + (i + 1));
           demonNumber = i + 1;
           break;
         }
 
-        String effect = KoLAdventure.DEMON_TYPES[i][1];
-        if (effect != null && parameters.equalsIgnoreCase(effect)) {
+        String effect = demonType[1];
+        if (parameters.equalsIgnoreCase(effect)) {
           demon = Preferences.getString("demonName" + (i + 1));
           demonNumber = i + 1;
           break;
@@ -64,7 +66,7 @@ public class SummonDemonCommand extends AbstractCommand {
       }
     }
 
-    if (demon.equals("")) {
+    if (demon.isEmpty()) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "You don't know the name of that demon.");
       return;
     }

@@ -161,11 +161,11 @@ public class SendGiftRequest extends TransferItemRequest {
   }
 
   private static boolean getSuccessMessage(final String responseText) {
-    return responseText.indexOf("<td>Package sent.</td>") != -1;
+    return responseText.contains("<td>Package sent.</td>");
   }
 
   private static List<AdventureResult> source(final String urlString) {
-    return urlString.indexOf("fromwhere=1") != -1 ? KoLConstants.storage : KoLConstants.inventory;
+    return urlString.contains("fromwhere=1") ? KoLConstants.storage : KoLConstants.inventory;
   }
 
   private static int getMaterialCost(final String urlString) {

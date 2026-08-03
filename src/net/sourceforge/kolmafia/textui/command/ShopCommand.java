@@ -54,7 +54,7 @@ public class ShopCommand extends AbstractCommand {
     List<Long> prices = new ArrayList<>();
     List<Integer> limits = new ArrayList<>();
 
-    for (String itemName : parameters.split("\\s*,\\s*")) {
+    for (String itemName : StringUtilities.splitByComma(parameters)) {
       long price = 0;
       int limit = 0;
 
@@ -149,7 +149,7 @@ public class ShopCommand extends AbstractCommand {
 
     List<SoldItem> list = StoreManager.getSoldItemList();
 
-    for (String itemName : parameters.split("\\s*,\\s*")) {
+    for (String itemName : StringUtilities.splitByComma(parameters)) {
       AdventureResult item = ItemFinder.getFirstMatchingItem(itemName, true);
 
       if (item == null) {
@@ -185,7 +185,7 @@ public class ShopCommand extends AbstractCommand {
     List<Long> prices = new ArrayList<>();
     List<Integer> limits = new ArrayList<>();
 
-    String[] x = parameters.split("\\s*,\\s*");
+    String[] x = StringUtilities.splitByComma(parameters);
     // reprice itemName @ 1,337 limit 2 would previously reprice the item with a price of 1 and a
     // limit of 1. This is an attempt to preemptively prevent that.
     for (String content : x) {
@@ -196,7 +196,7 @@ public class ShopCommand extends AbstractCommand {
       }
     }
 
-    for (String itemName : parameters.split("\\s*,\\s*")) {
+    for (String itemName : StringUtilities.splitByComma(parameters)) {
       AdventureResult item;
       long price;
       Integer limit = null;

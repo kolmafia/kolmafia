@@ -3,11 +3,15 @@ package net.sourceforge.kolmafia.request;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withNextResponse;
 import static internal.helpers.Player.withPasswordHash;
+import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withRestricted;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
+import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -37,6 +41,19 @@ public class StandardRequestTest {
 
       assertFalse(
           StandardRequest.isAllowed(new FamiliarData(FamiliarPool.DANDY_LION, "Patrick", 0)));
+    }
+  }
+
+  @Test
+  public void onlyEvergreenItemsAllowedInThrifty() {
+    var cleanups = new Cleanups(withPath(Path.THRIFTY));
+
+    try (cleanups) {
+      assertThat(StandardRequest.isAllowed(RestrictedItemType.ITEMS, "datastick"), equalTo(false));
+      assertThat(
+          StandardRequest.isAllowed(
+              RestrictedItemType.ITEMS, "General Sage's Lonely Diamonds Club Jacket"),
+          equalTo(true));
     }
   }
 }

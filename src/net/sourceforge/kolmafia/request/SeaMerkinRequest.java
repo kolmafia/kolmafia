@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.request;
 
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -28,8 +29,15 @@ public class SeaMerkinRequest extends GenericRequest {
       // Normally, this redirects to choice.php?forceoption=0
       // If you have already won, you will come here.
 
-      if (responseText.contains("The temple is empty")) {
-        Preferences.setString("merkinQuestPath", "done");
+      if (KoLCharacter.inSeaPath()
+          && responseText.contains("This part of the temple is now empty")) {
+        if (urlString.contains("subaction=left"))
+          Preferences.setBoolean("shubJigguwattDefeated", true);
+        if (urlString.contains("subaction=right")) Preferences.setBoolean("yogUrtDefeated", true);
+      } else {
+        if (responseText.contains("The temple is empty")) {
+          Preferences.setString("merkinQuestPath", "done");
+        }
       }
     }
   }
@@ -53,6 +61,8 @@ public class SeaMerkinRequest extends GenericRequest {
     // totally hate you,) has gone home.
 
     if (responseText.contains("your crowd of Mer-kin admirers")) {
+      Preferences.setBoolean("isMerkinGladiatorChampion", true);
+      // The following is not applicable in the Sea path
       Preferences.setString("merkinQuestPath", "gladiator");
       Preferences.setInteger("lastColosseumRoundWon", 15);
     }
@@ -64,6 +74,8 @@ public class SeaMerkinRequest extends GenericRequest {
     // entrance, and you can't get in.
 
     else if (responseText.contains("Praise be to the High Priest")) {
+      Preferences.setBoolean("isMerkinHighPriest", true);
+      // The following is not applicable in the Sea path
       Preferences.setString("merkinQuestPath", "scholar");
     }
   }

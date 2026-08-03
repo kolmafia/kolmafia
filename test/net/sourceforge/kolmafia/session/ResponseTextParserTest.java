@@ -320,4 +320,15 @@ class ResponseTextParserTest {
       }
     }
   }
+
+  @Test
+  void canParseAlliedRadioComplete() {
+    var cleanups = new Cleanups(withProperty("_alliedRadioDropsUsed", 0));
+    try (cleanups) {
+      var request = new GenericRequest("inventory.php?action=requestdrop");
+      request.responseText = html("request/test_allied_radio_empty.html");
+      ResponseTextParser.externalUpdate(request);
+      assertThat("_alliedRadioDropsUsed", isSetTo(3));
+    }
+  }
 }

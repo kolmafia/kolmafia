@@ -7,13 +7,12 @@ import java.util.Set;
 import java.util.TreeSet;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.CraftingMisc;
 import net.sourceforge.kolmafia.KoLConstants.CraftingRequirements;
 import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.modifiers.MultiStringModifier;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.Consumable;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
@@ -32,7 +31,6 @@ import net.sourceforge.kolmafia.request.concoction.MayamRequest;
 import net.sourceforge.kolmafia.request.concoction.PhotoBoothRequest;
 import net.sourceforge.kolmafia.request.concoction.StillSuitRequest;
 import net.sourceforge.kolmafia.request.concoction.TakerSpaceRequest;
-import net.sourceforge.kolmafia.request.concoction.shop.TinkeringBenchRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -95,10 +93,8 @@ public class Concoction implements Comparable<Concoction> {
       Set.of("steel margarita", "steel lasagna", "steel-scented air freshener");
   private static final Set<Integer> forceFood =
       Set.of(
-          ItemPool.QUANTUM_TACO,
           ItemPool.MUNCHIES_PILL,
           ItemPool.WHETSTONE,
-          ItemPool.MAGICAL_SAUSAGE,
           ItemPool.MAYONEX,
           ItemPool.MAYODIOL,
           ItemPool.MAYOSTAT,
@@ -198,20 +194,36 @@ public class Concoction implements Comparable<Concoction> {
   }
 
   public ConcoctionType computeType() {
-    int itemId = this.getItemId();
-    if (ConsumablesDatabase.getRawFullness(name) != null) {
+    // pseudo-items
+    if (mixingMethod == CraftingType.SUSHI) {
       return ConcoctionType.FOOD;
-    } else if (ConsumablesDatabase.getRawInebriety(name) != null) {
+    } else if (mixingMethod == CraftingType.STILLSUIT) {
       return ConcoctionType.BOOZE;
-    } else if (ConsumablesDatabase.getRawSpleenHit(name) != null) {
-      return ConcoctionType.SPLEEN;
+    }
+
+    int itemId = this.getItemId();
+
+    // Handle fake versions of consumables, such as Chez/Microbrewery
+    if (itemId < 0) {
+      if (ConsumablesDatabase.getRawFullness(this.name) != null) {
+        return ConcoctionType.FOOD;
+      } else if (ConsumablesDatabase.getRawInebriety(this.name) != null) {
+        return ConcoctionType.BOOZE;
+      } else if (ConsumablesDatabase.getRawSpleenHit(this.name) != null) {
+        return ConcoctionType.SPLEEN;
+      }
+    }
+
+    // real items
+    if (forceFood.contains(itemId)) {
+      return ConcoctionType.FOOD;
+    } else if (forceBooze.contains(itemId)) {
+      return ConcoctionType.BOOZE;
     } else
       return switch (ItemDatabase.getConsumptionType(itemId)) {
-        case FOOD_HELPER -> ConcoctionType.FOOD;
-        case DRINK_HELPER -> ConcoctionType.BOOZE;
-        case USE, USE_MULTIPLE -> forceFood.contains(itemId)
-            ? ConcoctionType.FOOD
-            : forceBooze.contains(itemId) ? ConcoctionType.BOOZE : ConcoctionType.NONE;
+        case EAT, FOOD_HELPER -> ConcoctionType.FOOD;
+        case DRINK, DRINK_HELPER -> ConcoctionType.BOOZE;
+        case SPLEEN -> ConcoctionType.SPLEEN;
         case POTION, AVATAR_POTION -> ConcoctionType.POTION;
         default -> ConcoctionType.NONE;
       };
@@ -231,16 +243,15 @@ public class Concoction implements Comparable<Concoction> {
 
   public void setEffectName() {
     this.effectName =
-        ModifierDatabase.getStringModifier(
-            ModifierType.ITEM, this.name, MultiStringModifier.EFFECT);
+        ModifierDatabase.getStringModifier(ModifierType.ITEM, this.name, StringModifier.EFFECT);
   }
 
   public void setStatGain() {
     final String range =
         switch (KoLCharacter.mainStat()) {
           case MUSCLE -> ConsumablesDatabase.getStatRange(Consumable.MUSCLE, this.consumable);
-          case MYSTICALITY -> ConsumablesDatabase.getStatRange(
-              Consumable.MYSTICALITY, this.consumable);
+          case MYSTICALITY ->
+              ConsumablesDatabase.getStatRange(Consumable.MYSTICALITY, this.consumable);
           case MOXIE -> ConsumablesDatabase.getStatRange(Consumable.MOXIE, this.consumable);
           default -> "+0.0";
         };
@@ -1014,10 +1025,6 @@ public class Concoction implements Comparable<Concoction> {
       this.visited = true;
     }
 
-    if (this.mixingMethod == CraftingType.TINKERING_BENCH && TinkeringBenchRequest.haveItem(this)) {
-      this.initial = 1;
-    }
-
     int alreadyHave = this.initial - this.allocated;
     if (alreadyHave < 0
         || requested <= 0) { // Already overspent this ingredient - either due to it being
@@ -1268,6 +1275,7 @@ public class Concoction implements Comparable<Concoction> {
         }
         case CLIPART -> {
           // Tome summons are also considered an ingredient.
+          if (KoLCharacter.inGLover()) return alreadyHave;
           Concoction c = ConcoctionDatabase.clipArtLimit;
           minMake = Math.min(minMake, c.canMake(needToMake, visited, turnFreeOnly));
           if (Concoction.debug) {
@@ -1290,35 +1298,6 @@ public class Concoction implements Comparable<Concoction> {
                     + (lastMinMake == minMake ? " not limited" : " limited to " + minMake)
                     + " by terminal extrudes");
           }
-        }
-        case JARLS -> {
-          if (this.name.contains("Staff")) {
-            if (KoLConstants.inventory.contains(this.concoction)
-                || KoLCharacter.hasEquipped(this.concoction)) {
-              return alreadyHave;
-            }
-            return 1;
-          }
-
-          if (this.concoction.equals(ItemPool.get(ItemPool.COSMIC_SIX_PACK, 1))) {
-            if (Preferences.getBoolean("_cosmicSixPackConjured")) {
-              return alreadyHave;
-            }
-            return alreadyHave + 1;
-          }
-        }
-        case TINKERING_BENCH -> {
-          // If we currently have the item, 1 is available
-          if (KoLConstants.inventory.contains(this.concoction)
-              || KoLCharacter.hasEquipped(this.concoction)) {
-            return 1;
-          }
-          // If already used to make something, can't make another.
-          if (!TinkeringBenchRequest.canMake(this)) {
-            return 0;
-          }
-          // Otherwise, regardless of ingredients, can only make 1
-          return 1;
         }
       }
     }

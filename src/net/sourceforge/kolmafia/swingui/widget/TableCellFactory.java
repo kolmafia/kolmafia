@@ -107,11 +107,12 @@ public class TableCellFactory {
       case 1 -> result.getKey();
       case 2 -> ItemDatabase.getPriceById(result.getKey());
       case 3 -> MallPriceDatabase.getPrice(result.getKey());
-      case 4 -> ConsumablesDatabase.getFullness(result.getValue())
-          + ConsumablesDatabase.getInebriety(result.getValue())
-          + ConsumablesDatabase.getSpleenHit(result.getValue());
-      case 5 -> ConsumablesDatabase.getBaseAdventureRange(
-          ItemDatabase.getCanonicalName(result.getKey()));
+      case 4 ->
+          ConsumablesDatabase.getFullness(result.getValue())
+              + ConsumablesDatabase.getInebriety(result.getValue())
+              + ConsumablesDatabase.getSpleenHit(result.getValue());
+      case 5 ->
+          ConsumablesDatabase.getBaseAdventureRange(ItemDatabase.getCanonicalName(result.getKey()));
       case 6 -> ConsumablesDatabase.getLevelReqByName(result.getValue());
       default -> null;
     };

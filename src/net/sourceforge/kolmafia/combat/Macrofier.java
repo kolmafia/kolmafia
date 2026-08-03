@@ -133,13 +133,14 @@ public class Macrofier {
         var macroScope = macroOverrideRec.macroScope;
         var macroFunction = macroOverrideRec.macroFunction;
         var macroThisArg = macroOverrideRec.macroThisArg;
+        Object[] jsParameters = JavascriptRuntime.wrapMonsterArguments(macroScope, parameters);
         // Execute a function from the JavaScript runtime maintaining the scope, thisObj etc
         returnValue =
             interpreter.executeFunction(
                 macroScope,
                 () -> {
                   Context cx = Context.getCurrentContext();
-                  return macroFunction.call(cx, macroScope, macroThisArg, parameters);
+                  return macroFunction.call(cx, macroScope, macroThisArg, jsParameters);
                 });
       } else {
         // Execute a single function in the scope of the
@@ -160,7 +161,7 @@ public class Macrofier {
         String result = returnValue.toString();
         if (result.length() > 0) {
           if (result.startsWith("\"") && result.charAt(result.length() - 1) == '\"') {
-            StringBuffer macro = new StringBuffer();
+            StringBuilder macro = new StringBuilder();
             macro.append("#macro action\n");
             macro.append(result, 1, result.length() - 1);
             macro.append('\n');
@@ -472,8 +473,8 @@ public class Macrofier {
     String indent = "";
     String element = debug ? "\t" : "\u00A0\u00A0\u00A0\u00A0";
     String[] pieces = macro.split("\n");
-    for (int i = 0; i < pieces.length; ++i) {
-      String line = pieces[i].trim();
+    for (String piece : pieces) {
+      String line = piece.trim();
       if (line.startsWith("end") && indent.length() > 0) {
         indent = indent.substring(element.length());
       }
@@ -518,8 +519,8 @@ public class Macrofier {
 
   public static void macroCombo(StringBuffer macro, int[] combo) {
     long cost = 0;
-    for (int i = 0; i < combo.length; ++i) {
-      cost += SkillDatabase.getMPConsumptionById(combo[i]);
+    for (int j : combo) {
+      cost += SkillDatabase.getMPConsumptionById(j);
     }
 
     if (cost > KoLCharacter.getMaximumMP()) {
@@ -538,9 +539,9 @@ public class Macrofier {
       macro.append("\n");
     }
     macro.append("call mafiaround; ");
-    for (int i = 0; i < combo.length; ++i) {
+    for (int j : combo) {
       macro.append("skill ");
-      macro.append(combo[i]);
+      macro.append(j);
       macro.append("; ");
     }
     macro.append("\n");

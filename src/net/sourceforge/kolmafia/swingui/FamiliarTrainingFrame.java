@@ -392,7 +392,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
         protected void execute() {
           // Prompt for goal
           Integer value = InputFieldUtilities.getQuantity("Train up to what base weight?", 20, 20);
-          int goal = (value == null) ? 0 : value.intValue();
+          int goal = (value == null) ? 0 : value;
 
           // Quit if canceled
           if (goal == 0) {
@@ -411,7 +411,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
           // Prompt for goal
           Integer value =
               InputFieldUtilities.getQuantity("Train up to what buffed weight?", 48, 20);
-          int goal = (value == null) ? 0 : value.intValue();
+          int goal = (value == null) ? 0 : value;
 
           // Quit if canceled
           if (goal == 0) {
@@ -430,7 +430,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
           // Prompt for goal
           Integer value =
               InputFieldUtilities.getQuantity("Train for how many turns?", Integer.MAX_VALUE, 1);
-          int goal = (value == null) ? 0 : value.intValue();
+          int goal = (value == null) ? 0 : value;
 
           // Quit if canceled
           if (goal == 0) {
@@ -475,12 +475,12 @@ public class FamiliarTrainingFrame extends GenericFrame {
           }
 
           try {
-            PrintStream ostream = LogStream.openStream(output, false);
-            ostream.println(
-                FamiliarTrainingFrame.results
-                    .getHTMLContent()
-                    .replaceAll("<br>", KoLConstants.LINE_BREAK));
-            ostream.close();
+            try (PrintStream ostream = LogStream.openStream(output, false)) {
+              ostream.println(
+                  FamiliarTrainingFrame.results
+                      .getHTMLContent()
+                      .replaceAll("<br>", KoLConstants.LINE_BREAK));
+            }
           } catch (Exception ex) {
             // This should not happen.  Therefore, print
             // a stack trace for debug purposes.
@@ -500,7 +500,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
           // Prompt for trials
           Integer value =
               InputFieldUtilities.getQuantity("How many trials per event per rank?", 20, 10);
-          int trials = (value == null) ? 0 : value.intValue();
+          int trials = (value == null) ? 0 : value;
 
           // Quit if canceled
           if (trials == 0) {
@@ -542,7 +542,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
                         + FamiliarTrainingPanel.this.familiar.getRace()
                         + "?")) {
               FamiliarDatabase.setFamiliarSkills(
-                  FamiliarTrainingPanel.this.familiar.getRace(), skills);
+                  FamiliarTrainingPanel.this.familiar.getId(), skills);
             }
 
             KoLmafia.updateDisplay(
@@ -1107,9 +1107,9 @@ public class FamiliarTrainingFrame extends GenericFrame {
   private static void statusMessage(final MafiaState state, final String message) {
     if (state == MafiaState.ERROR || message.endsWith("lost.")) {
       FamiliarTrainingFrame.results.append("<font color=red>" + message + "</font><br>");
-    } else if (message.indexOf("experience") != -1) {
+    } else if (message.contains("experience")) {
       FamiliarTrainingFrame.results.append("<font color=green>" + message + "</font><br>");
-    } else if (message.indexOf("prize") != -1) {
+    } else if (message.contains("prize")) {
       FamiliarTrainingFrame.results.append("<font color=blue>" + message + "</font><br>");
     } else {
       FamiliarTrainingFrame.results.append(message + "<br>");
@@ -1139,8 +1139,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
   private static void printOpponents(final LockableListModel<ArenaOpponent> opponents) {
     FamiliarTrainingFrame.results.append("Opponents:<br>");
     int opponentCount = opponents.size();
-    for (int i = 0; i < opponentCount; ++i) {
-      ArenaOpponent opponent = opponents.get(i);
+    for (ArenaOpponent opponent : opponents) {
       String name = opponent.getName();
       String race = opponent.getRace();
       int weight = opponent.getWeight();
@@ -1689,7 +1688,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
 
       // Read Integers from the set and store ints
       for (int i = 0; i < vals.length; ++i) {
-        value[i] = vals[i].intValue();
+        value[i] = vals[i];
       }
 
       return value;
@@ -2189,7 +2188,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
       String response = request.responseText;
 
       // If the contest did not take place, bail now
-      if (response.indexOf("You enter") == -1) {
+      if (!response.contains("You enter")) {
         return;
       }
 
@@ -2201,7 +2200,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
                 + " gains "
                 + xp
                 + " experience"
-                + (response.indexOf("gains a pound") != -1 ? " and a pound." : ".");
+                + (response.contains("gains a pound") ? " and a pound." : ".");
       } else {
         message = this.familiar.getName() + " lost.";
       }

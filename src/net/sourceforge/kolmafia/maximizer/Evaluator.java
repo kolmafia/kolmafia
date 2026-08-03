@@ -17,6 +17,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.ExpressionOverrides;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLCharacter.TurtleBlessing;
@@ -37,7 +38,6 @@ import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.DerivedModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifierCollection;
-import net.sourceforge.kolmafia.modifiers.MultiStringModifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -108,10 +108,12 @@ public class Evaluator {
   private final Set<String> negOutfits = new HashSet<>();
   private final Set<AdventureResult> posEquip = new HashSet<>();
   private final Set<AdventureResult> negEquip = new HashSet<>();
-  private final Map<AdventureResult, Double> bonuses = new HashMap<>();
+  private final Map<AdventureResult, ItemBonus> bonuses = new HashMap<>();
   private final List<BonusFunction> bonusFunc = new ArrayList<>();
 
   record BonusFunction(Function<AdventureResult, Double> bonusFunction, Double weight) {}
+
+  record ItemBonus(double base, Map<String, Double> modes) {}
 
   private static final Pattern MUS_EXP_PERC_PATTERN =
       Pattern.compile("^mus(cle)? exp(erience)? perc(ent(age)?)?");
@@ -168,26 +170,28 @@ public class Evaluator {
 
   private int maxUseful(Slot slot) {
     return switch (slot) {
-      case /* Evaluator.WEAPON_1H */ STICKER3 -> 1
-          + relevantSkill(SkillPool.DOUBLE_FISTED_SKULL_SMASHING)
-          + this.relevantFamiliar(FamiliarPool.HAND);
+      case /* Evaluator.WEAPON_1H */ STICKER3 ->
+          1
+              + relevantSkill(SkillPool.DOUBLE_FISTED_SKULL_SMASHING)
+              + this.relevantFamiliar(FamiliarPool.HAND);
       case OFFHAND -> 1 + this.relevantFamiliar(FamiliarPool.LEFT_HAND);
       case ACCESSORY1 -> 3;
       case FAMILIAR ->
-      // Familiar items include weapons, hats and pants, make sure we have enough to consider for
-      // other slots
-      1
-          + this.relevantFamiliar(FamiliarPool.SCARECROW)
-          + this.relevantFamiliar(FamiliarPool.HAND)
-          + this.relevantFamiliar(FamiliarPool.HATRACK);
+          // Familiar items include weapons, hats and pants, make sure we have enough to consider
+          // for
+          // other slots
+          1
+              + this.relevantFamiliar(FamiliarPool.SCARECROW)
+              + this.relevantFamiliar(FamiliarPool.HAND)
+              + this.relevantFamiliar(FamiliarPool.HATRACK);
       default -> 1;
     };
   }
 
   private static Slot toUseSlot(Slot slot) {
     return switch (slot) {
-      case /* Evaluator.OFFHAND_MELEE */ ACCESSORY2, /* Evaluator.OFFHAND_RANGED */
-          ACCESSORY3 -> Slot.OFFHAND;
+      case /* Evaluator.OFFHAND_MELEE */ ACCESSORY2, /* Evaluator.OFFHAND_RANGED */ ACCESSORY3 ->
+          Slot.OFFHAND;
       case /* Evaluator.WEAPON_1H */ STICKER3 -> Slot.WEAPON;
       default -> slot;
     };
@@ -198,7 +202,7 @@ public class Evaluator {
     this.totalMax = Double.POSITIVE_INFINITY;
   }
 
-  Evaluator(String expr) {
+  public Evaluator(String expr) {
     this();
 
     Evaluator tiebreaker = new Evaluator();
@@ -214,6 +218,24 @@ public class Evaluator {
     this.min = new EnumMap<>(tiebreaker.min);
     this.max = new EnumMap<>(tiebreaker.max);
     this.parse(expr);
+  }
+
+  @SuppressWarnings("BooleanMethodIsAlwaysInverted")
+  private boolean forceModeable(ItemFinder.ItemWithMode modeable, String mode) {
+    String existing = forcedModeables.get(modeable.modeable());
+    if (!existing.isEmpty() && !existing.equals(mode)) {
+      KoLmafia.updateDisplay(
+          MafiaState.ERROR,
+          "Conflicting modes requested for "
+              + modeable.item().getName()
+              + ": "
+              + existing
+              + " vs "
+              + mode);
+      return false;
+    }
+    forcedModeables.put(modeable.modeable(), mode);
+    return true;
   }
 
   private void parse(String expr) {
@@ -295,7 +317,10 @@ public class Evaluator {
 
       if (keyword.equals("shield")) {
         this.requireShield = weight > 0.0;
-        forcedModeables.put(Modeable.UMBRELLA, "forward-facing");
+        // If a mode was not specified
+        if (forcedModeables.get(Modeable.UMBRELLA).isEmpty()) {
+          forcedModeables.put(Modeable.UMBRELLA, "forward-facing");
+        }
         this.hands = 1;
         continue;
       }
@@ -374,33 +399,49 @@ public class Evaluator {
         this.booleanMask.addAll(adventureUnderwater);
         this.booleanValue.addAll(adventureUnderwater);
         index = null;
-        // Force Crown of Ed to Fish
-        forcedModeables.put(Modeable.EDPIECE, "fish");
+        if (forcedModeables.get(Modeable.EDPIECE).isEmpty()) {
+          // Force Crown of Ed to Fish
+          forcedModeables.put(Modeable.EDPIECE, "fish");
+        }
         continue;
       }
 
       if (keyword.startsWith("equip ")) {
-        AdventureResult match =
-            ItemFinder.getFirstMatchingItem(keyword.substring(6).trim(), Match.EQUIP);
+        var match =
+            ItemFinder.getFirstMatchingItemWithMode(keyword.substring(6).trim(), Match.EQUIP);
         if (match == null) {
           return;
         }
+        if (match.modeable() != null && !forceModeable(match, match.mode())) {
+          return;
+        }
         if (weight > 0.0) {
-          this.posEquip.add(match);
-          equipBeeosity += KoLCharacter.getBeeosity(match.getName());
+          this.posEquip.add(match.item());
+          equipBeeosity += KoLCharacter.getBeeosity(match.item().getName());
         } else {
-          this.negEquip.add(match);
+          this.negEquip.add(match.item());
         }
         continue;
       }
 
       if (keyword.startsWith("bonus ")) {
-        AdventureResult match =
-            ItemFinder.getFirstMatchingItem(keyword.substring(6).trim(), Match.EQUIP);
+        var match =
+            ItemFinder.getFirstMatchingItemWithMode(keyword.substring(6).trim(), Match.EQUIP);
         if (match == null) {
           return;
         }
-        this.bonuses.put(match, weight);
+        // If this item does not require a mode
+        if (match.mode() == null) {
+          var existing = this.bonuses.get(match.item());
+          var modes = existing == null ? new HashMap<String, Double>() : existing.modes();
+          // We override the existing base weight as per old behavior, but inherit the modes.
+          this.bonuses.put(match.item(), new ItemBonus(weight, modes));
+        } else {
+          this.bonuses
+              .computeIfAbsent(match.item(), k -> new ItemBonus(0.0, new HashMap<>()))
+              .modes()
+              .put(match.mode(), weight);
+        }
         continue;
       }
 
@@ -522,6 +563,8 @@ public class Evaluator {
           keyword = keyword.substring(0, keyword.length() - 11) + "damage percent";
         } else if (keyword.endsWith(" exp")) {
           keyword = keyword.substring(0, keyword.length() - 3) + "experience";
+        } else if (keyword.startsWith("organ")) {
+          keyword = "organ capacity";
         }
         index = DoubleModifier.byCaselessName(keyword);
       }
@@ -571,6 +614,12 @@ public class Evaluator {
             this.weight.set(DoubleModifier.THORNS, weight);
             continue;
           }
+          case "organ capacity" -> {
+            this.weight.set(DoubleModifier.STOMACH_CAPACITY, weight);
+            this.weight.set(DoubleModifier.LIVER_CAPACITY, weight);
+            this.weight.set(DoubleModifier.SPLEEN_CAPACITY, weight);
+            continue;
+          }
         }
       }
 
@@ -616,7 +665,7 @@ public class Evaluator {
           index = DoubleModifier.primeStat();
         } else if (keyword.startsWith("com")) {
           index = DoubleModifier.COMBAT_RATE;
-          if (AdventureDatabase.getEnvironment(Modifiers.currentLocation).isUnderwater()) {
+          if (AdventureDatabase.isUnderwater(Modifiers.currentLocation)) {
             this.weight.set(DoubleModifier.UNDERWATER_COMBAT_RATE, weight);
           }
         } else if (keyword.startsWith("item")) {
@@ -637,6 +686,12 @@ public class Evaluator {
           index = DoubleModifier.SPELL_CRITICAL_PCT;
         } else if (keyword.startsWith("sprinkle")) {
           index = DoubleModifier.SPRINKLES;
+        } else if (keyword.startsWith("stomach")) {
+          index = DoubleModifier.STOMACH_CAPACITY;
+        } else if (keyword.startsWith("liver")) {
+          index = DoubleModifier.LIVER_CAPACITY;
+        } else if (keyword.startsWith("spleen")) {
+          index = DoubleModifier.SPLEEN_CAPACITY;
         } else if (keyword.equals("ocrs")) {
           this.noTiebreaker = true;
           this.beeosity = 999;
@@ -708,10 +763,10 @@ public class Evaluator {
   }
 
   private void addFudge(DoubleModifier source, DoubleModifier... extras) {
-    final double fudge = this.weight.get(source) * 0.0001f;
+    final double fudge = this.weight.getDouble(source) * 0.0001f;
     if (fudge > 0) {
       for (var extra : extras) {
-        this.weight.add(extra, fudge);
+        this.weight.increment(extra, fudge);
       }
     }
   }
@@ -733,31 +788,32 @@ public class Evaluator {
     // Find the best plumber tool
     return switch (primeIndex) {
       case 0 -> // Muscle
-      haveHeavyHammer ? heavyHammer : haveHammer ? hammer : null;
+          haveHeavyHammer ? heavyHammer : haveHammer ? hammer : null;
       case 1 -> // Mysticality
-      haveBonfireFlower ? bonfireFlower : haveFireFlower ? fireFlower : null;
+          haveBonfireFlower ? bonfireFlower : haveFireFlower ? fireFlower : null;
       case 2 -> // Moxie
-      haveFancyBoots ? fancyBoots : haveWorkBoots ? workBoots : null;
+          haveFancyBoots ? fancyBoots : haveWorkBoots ? workBoots : null;
       default ->
-      // If you don't care about stat, pick the best item you own.
-      haveHeavyHammer
-          ? heavyHammer
-          : haveBonfireFlower
-              ? bonfireFlower
-              : haveFancyBoots
-                  ? fancyBoots
-                  : haveHammer ? hammer : haveFireFlower ? fireFlower : workBoots;
+          // If you don't care about stat, pick the best item you own.
+          haveHeavyHammer
+              ? heavyHammer
+              : haveBonfireFlower
+                  ? bonfireFlower
+                  : haveFancyBoots
+                      ? fancyBoots
+                      : haveHammer ? hammer : haveFireFlower ? fireFlower : workBoots;
     };
   }
 
-  public double getScore(Modifiers mods, Map<Slot, AdventureResult> equipment) {
+  public double getScore(
+      Modifiers mods, Map<Slot, AdventureResult> equipment, Map<Modeable, String> modeables) {
     this.failed = false;
     this.exceeded = false;
     var predicted = mods.predict();
 
     double score = 0.0;
     for (var mod : DoubleModifier.DOUBLE_MODIFIERS) {
-      double weight = this.weight.get(mod);
+      double weight = this.weight.getDouble(mod);
       double min = this.min.get(mod);
       if (weight == 0.0 && min == Double.NEGATIVE_INFINITY) continue;
       double val = mods.getDouble(mod);
@@ -876,9 +932,17 @@ public class Evaluator {
     }
     if (!this.bonuses.isEmpty()) {
       for (AdventureResult item : equipment.values()) {
-        if (this.bonuses.containsKey(item)) {
-          score += this.bonuses.get(item);
-        }
+        ItemBonus itemBonus = this.bonuses.get(item);
+        // Add the base bonus
+        if (itemBonus == null) continue;
+        score += itemBonus.base();
+        // If it's a modeable and has a bonus for it
+        var modeable = Modeable.find(item);
+        if (modeable == null) continue;
+        var mode = modeables.get(modeable);
+        if (mode == null) continue;
+        Double bonus = itemBonus.modes().get(mode);
+        if (bonus != null) score += bonus;
       }
     }
     if (!this.bonusFunc.isEmpty()) {
@@ -889,7 +953,7 @@ public class Evaluator {
       }
     }
     // Add fudge factor for Rollover Effect
-    if (!mods.getStrings(MultiStringModifier.ROLLOVER_EFFECT).isEmpty()) {
+    if (!mods.getStrings(StringModifier.ROLLOVER_EFFECT).isEmpty()) {
       score += 0.01f;
     }
     if (score < this.totalMin) this.failed = true;
@@ -922,7 +986,7 @@ public class Evaluator {
   }
 
   public double getScore(Modifiers mods) {
-    return this.getScore(mods, Map.of());
+    return this.getScore(mods, Map.of(), Map.of());
   }
 
   void checkEquipment(Modifiers mods, Map<Slot, AdventureResult> equipment, int beeosity) {
@@ -964,6 +1028,18 @@ public class Evaluator {
     return !this.noTiebreaker;
   }
 
+  boolean isWeaponTypeRequired() {
+    return this.requireClub
+        || this.requireUtensil
+        || this.requireSword
+        || this.requireKnife
+        || this.requireAccordion;
+  }
+
+  boolean isShieldRequired() {
+    return this.requireShield;
+  }
+
   enum Constraint {
     /** Item violates a constraint, don't use it */
     VIOLATES,
@@ -986,39 +1062,43 @@ public class Evaluator {
     return switch (effectId) {
       case EffectPool.NEARLY_SILENT_HUNTING -> KoLCharacter.isSealClubber();
       case EffectPool.SILENT_HUNTING, EffectPool.BARREL_CHESTED -> !KoLCharacter.isSealClubber();
-      case EffectPool.BOON_OF_SHE_WHO_WAS -> KoLCharacter.getBlessingType()
-              != TurtleBlessing.SHE_WHO_WAS
-          || KoLCharacter.getBlessingLevel() == TurtleBlessingLevel.AVATAR;
-      case EffectPool.BOON_OF_THE_STORM_TORTOISE -> KoLCharacter.getBlessingType()
-              != TurtleBlessing.STORM
-          || KoLCharacter.getBlessingLevel() == TurtleBlessingLevel.AVATAR;
-      case EffectPool.BOON_OF_THE_WAR_SNAPPER -> KoLCharacter.getBlessingType()
-              != TurtleBlessing.WAR
-          || KoLCharacter.getBlessingLevel() == TurtleBlessingLevel.AVATAR;
-      case EffectPool.AVATAR_OF_SHE_WHO_WAS -> KoLCharacter.getBlessingType()
-              != TurtleBlessing.SHE_WHO_WAS
-          || KoLCharacter.getBlessingLevel() != TurtleBlessingLevel.GLORIOUS_BLESSING;
-      case EffectPool.AVATAR_OF_THE_STORM_TORTOISE -> KoLCharacter.getBlessingType()
-              != TurtleBlessing.STORM
-          || KoLCharacter.getBlessingLevel() != TurtleBlessingLevel.GLORIOUS_BLESSING;
-      case EffectPool.AVATAR_OF_THE_WAR_SNAPPER -> KoLCharacter.getBlessingType()
-              != TurtleBlessing.WAR
-          || KoLCharacter.getBlessingLevel() != TurtleBlessingLevel.GLORIOUS_BLESSING;
-      case EffectPool.BLESSING_OF_SHE_WHO_WAS -> !KoLCharacter.isTurtleTamer()
-          || KoLCharacter.getBlessingType() == TurtleBlessing.SHE_WHO_WAS
-          || KoLCharacter.getBlessingLevel() == TurtleBlessingLevel.PARIAH
-          || KoLCharacter.getBlessingLevel() == TurtleBlessingLevel.AVATAR;
-      case EffectPool.BLESSING_OF_THE_STORM_TORTOISE -> !KoLCharacter.isTurtleTamer()
-          || KoLCharacter.getBlessingType() == TurtleBlessing.STORM
-          || KoLCharacter.getBlessingLevel() == TurtleBlessingLevel.PARIAH
-          || KoLCharacter.getBlessingLevel() == TurtleBlessingLevel.AVATAR;
-      case EffectPool.BLESSING_OF_THE_WAR_SNAPPER -> !KoLCharacter.isTurtleTamer()
-          || KoLCharacter.getBlessingType() == TurtleBlessing.WAR
-          || KoLCharacter.getBlessingLevel() == TurtleBlessingLevel.PARIAH
-          || KoLCharacter.getBlessingLevel() == TurtleBlessingLevel.AVATAR;
+      case EffectPool.BOON_OF_SHE_WHO_WAS ->
+          KoLCharacter.getBlessingType() != TurtleBlessing.SHE_WHO_WAS
+              || KoLCharacter.getBlessingLevel() == TurtleBlessingLevel.AVATAR;
+      case EffectPool.BOON_OF_THE_STORM_TORTOISE ->
+          KoLCharacter.getBlessingType() != TurtleBlessing.STORM
+              || KoLCharacter.getBlessingLevel() == TurtleBlessingLevel.AVATAR;
+      case EffectPool.BOON_OF_THE_WAR_SNAPPER ->
+          KoLCharacter.getBlessingType() != TurtleBlessing.WAR
+              || KoLCharacter.getBlessingLevel() == TurtleBlessingLevel.AVATAR;
+      case EffectPool.AVATAR_OF_SHE_WHO_WAS ->
+          KoLCharacter.getBlessingType() != TurtleBlessing.SHE_WHO_WAS
+              || KoLCharacter.getBlessingLevel() != TurtleBlessingLevel.GLORIOUS_BLESSING;
+      case EffectPool.AVATAR_OF_THE_STORM_TORTOISE ->
+          KoLCharacter.getBlessingType() != TurtleBlessing.STORM
+              || KoLCharacter.getBlessingLevel() != TurtleBlessingLevel.GLORIOUS_BLESSING;
+      case EffectPool.AVATAR_OF_THE_WAR_SNAPPER ->
+          KoLCharacter.getBlessingType() != TurtleBlessing.WAR
+              || KoLCharacter.getBlessingLevel() != TurtleBlessingLevel.GLORIOUS_BLESSING;
+      case EffectPool.BLESSING_OF_SHE_WHO_WAS ->
+          !KoLCharacter.isTurtleTamer()
+              || KoLCharacter.getBlessingType() == TurtleBlessing.SHE_WHO_WAS
+              || KoLCharacter.getBlessingLevel() == TurtleBlessingLevel.PARIAH
+              || KoLCharacter.getBlessingLevel() == TurtleBlessingLevel.AVATAR;
+      case EffectPool.BLESSING_OF_THE_STORM_TORTOISE ->
+          !KoLCharacter.isTurtleTamer()
+              || KoLCharacter.getBlessingType() == TurtleBlessing.STORM
+              || KoLCharacter.getBlessingLevel() == TurtleBlessingLevel.PARIAH
+              || KoLCharacter.getBlessingLevel() == TurtleBlessingLevel.AVATAR;
+      case EffectPool.BLESSING_OF_THE_WAR_SNAPPER ->
+          !KoLCharacter.isTurtleTamer()
+              || KoLCharacter.getBlessingType() == TurtleBlessing.WAR
+              || KoLCharacter.getBlessingLevel() == TurtleBlessingLevel.PARIAH
+              || KoLCharacter.getBlessingLevel() == TurtleBlessingLevel.AVATAR;
       case EffectPool.DISDAIN_OF_SHE_WHO_WAS,
           EffectPool.DISDAIN_OF_THE_STORM_TORTOISE,
-          EffectPool.DISDAIN_OF_THE_WAR_SNAPPER -> KoLCharacter.isTurtleTamer();
+          EffectPool.DISDAIN_OF_THE_WAR_SNAPPER ->
+          KoLCharacter.isTurtleTamer();
       case EffectPool.BARREL_OF_LAUGHS -> !KoLCharacter.isTurtleTamer();
       case EffectPool.FLIMSY_SHIELD_OF_THE_PASTALORD,
           EffectPool.BLOODY_POTATO_BITS,
@@ -1027,19 +1107,28 @@ public class Evaluator {
           EffectPool.MACARONI_COATING,
           EffectPool.PENNE_FEDORA,
           EffectPool.PASTA_EYEBALL,
-          EffectPool.SPICE_HAZE -> KoLCharacter.isPastamancer();
-      case EffectPool.SHIELD_OF_THE_PASTALORD, EffectPool.PORK_BARREL -> !KoLCharacter
-          .isPastamancer();
+          EffectPool.SPICE_HAZE,
+          EffectPool.LEGENDARY_BLOODY_POTATO_BITS,
+          EffectPool.LEGENDARY_SLINKING_NOODLE_GLOB,
+          EffectPool.LEGENDARY_WHISPERING_STRANDS,
+          EffectPool.LEGENDARY_MACARONI_COATING,
+          EffectPool.LEGENDARY_PENNE_FEDORA,
+          EffectPool.LEGENDARY_PASTA_EYEBALL,
+          EffectPool.LEGENDARY_SPICE_HAZE ->
+          KoLCharacter.isPastamancer();
+      case EffectPool.SHIELD_OF_THE_PASTALORD, EffectPool.PORK_BARREL ->
+          !KoLCharacter.isPastamancer();
       case EffectPool.BLOOD_SUGAR_SAUCE_MAGIC,
           EffectPool.SOULERSKATES,
-          EffectPool.WARLOCK_WARSTOCK_WARBARREL -> !KoLCharacter.isSauceror();
+          EffectPool.WARLOCK_WARSTOCK_WARBARREL ->
+          !KoLCharacter.isSauceror();
       case EffectPool.BLOOD_SUGAR_SAUCE_MAGIC_LITE -> KoLCharacter.isSauceror();
       case EffectPool.DOUBLE_BARRELED -> !KoLCharacter.isDiscoBandit();
       case EffectPool.BEER_BARREL_POLKA -> !KoLCharacter.isAccordionThief();
-      case EffectPool.UNMUFFLED -> !Preferences.getString("peteMotorbikeMuffler")
-          .equals("Extra-Loud Muffler");
-      case EffectPool.MUFFLED -> !Preferences.getString("peteMotorbikeMuffler")
-          .equals("Extra-Quiet Muffler");
+      case EffectPool.UNMUFFLED ->
+          !Preferences.getString("peteMotorbikeMuffler").equals("Extra-Loud Muffler");
+      case EffectPool.MUFFLED ->
+          !Preferences.getString("peteMotorbikeMuffler").equals("Extra-Quiet Muffler");
       default -> false;
     };
   }
@@ -1159,7 +1248,11 @@ public class Evaluator {
         }
 
         if (item.getCount() != 0
-            && (this.getScore(familiarMods) - nullScore > 0.0 || item.automaticFlag)) {
+            && (item.automaticFlag
+                || this.posEquip.contains(item)
+                // Modeable items are already automaticFlag, avoids a needless lookup
+                || this.getScore(familiarMods, Map.of(Slot.FAMILIAR, item), Map.of()) - nullScore
+                    > 0.0)) {
           ranked.get(Slot.FAMILIAR).add(item);
         }
       }
@@ -1195,7 +1288,11 @@ public class Evaluator {
         }
 
         if (item.getCount() != 0
-            && (this.getScore(familiarMods) - nullScore > 0.0 || item.automaticFlag)) {
+            && (item.automaticFlag
+                || this.posEquip.contains(item)
+                // Modeable items are already automaticFlag, avoids a needless lookup
+                || this.getScore(familiarMods, Map.of(Slot.FAMILIAR, item), Map.of()) - nullScore
+                    > 0.0)) {
           ranked.getFamiliar(f).add(item);
         }
       }
@@ -1273,7 +1370,8 @@ public class Evaluator {
             if (this.effective) {
               if (id != ItemPool.FOURTH_SABER
                   && id != ItemPool.REPLICA_FOURTH_SABER
-                  && id != ItemPool.JUNE_CLEAVER) {
+                  && !ModifierDatabase.getBooleanModifier(
+                      ModifierType.ITEM, id, BooleanModifier.ATTACKS_CANT_MISS)) {
                 // Always uses best stat, so always considered effective
                 if (KoLCharacter.getAdjustedMoxie() >= KoLCharacter.getAdjustedMuscle()
                     && weaponType != WeaponType.RANGED
@@ -1288,7 +1386,7 @@ public class Evaluator {
               }
             }
             if (id == ItemPool.BROKEN_CHAMPAGNE
-                && this.weight.get(DoubleModifier.ITEMDROP) > 0
+                && this.weight.getDouble(DoubleModifier.ITEMDROP) > 0
                 && (Preferences.getInteger("garbageChampagneCharge") > 0
                     || !Preferences.getBoolean("_garbageItemChanged"))) {
               // This is always going to be worth including if useful
@@ -1327,10 +1425,10 @@ public class Evaluator {
             break;
           case SHIRT:
             if (id == ItemPool.MAKESHIFT_GARBAGE_SHIRT
-                && (this.weight.get(DoubleModifier.EXPERIENCE) > 0
-                    || this.weight.get(DoubleModifier.MUS_EXPERIENCE) > 0
-                    || this.weight.get(DoubleModifier.MYS_EXPERIENCE) > 0
-                    || this.weight.get(DoubleModifier.MOX_EXPERIENCE) > 0)
+                && (this.weight.getDouble(DoubleModifier.EXPERIENCE) > 0
+                    || this.weight.getDouble(DoubleModifier.MUS_EXPERIENCE) > 0
+                    || this.weight.getDouble(DoubleModifier.MYS_EXPERIENCE) > 0
+                    || this.weight.getDouble(DoubleModifier.MOX_EXPERIENCE) > 0)
                 && Preferences.getInteger("garbageShirtCharge") > 0) {
               // This is always going to be worth including if useful
               item.requiredFlag = true;
@@ -1443,13 +1541,15 @@ public class Evaluator {
         if (modeable != null) {
           var slotWeightings =
               switch (modeable.getSlot()) {
-                case ACCESSORY1 -> List.of(
-                    this.slots.getOrDefault(Slot.ACCESSORY1, 0),
-                    this.slots.getOrDefault(Slot.ACCESSORY2, 0),
-                    this.slots.getOrDefault(Slot.ACCESSORY3, 0));
-                case OFFHAND -> List.of(
-                    this.slots.getOrDefault(Slot.OFFHAND, 0),
-                    this.slots.getOrDefault(Slot.FAMILIAR, 0));
+                case ACCESSORY1 ->
+                    List.of(
+                        this.slots.getOrDefault(Slot.ACCESSORY1, 0),
+                        this.slots.getOrDefault(Slot.ACCESSORY2, 0),
+                        this.slots.getOrDefault(Slot.ACCESSORY3, 0));
+                case OFFHAND ->
+                    List.of(
+                        this.slots.getOrDefault(Slot.OFFHAND, 0),
+                        this.slots.getOrDefault(Slot.FAMILIAR, 0));
                 default -> List.of(this.slots.getOrDefault(modeable.getSlot(), 0));
               };
           modeablesNeeded.put(modeable, slotWeightings.stream().anyMatch(s -> s >= 0));
@@ -1482,6 +1582,22 @@ public class Evaluator {
             || ((mods.getRawBitmap(BitmapModifier.SYNERGETIC) & usefulSynergies) != 0)) {
           item.automaticFlag = true;
           break gotItem;
+        } else if (mods.hasUnarmedBonus()) {
+          // Figure out what modifiers this item would have if unarmed
+          Modifiers unarmedMods = new Modifiers(ModifierDatabase.getItemModifiers(id));
+          ExpressionOverrides overrides = new ExpressionOverrides();
+          overrides.setUnarmed(true);
+          unarmedMods.recalculateExpressions(overrides);
+          // Unlike below, modeables can reach here, so score mode bonuses at their current state
+          double score =
+              this.getScore(unarmedMods, Map.of(Slot.NONE, item), Modeable.getStateMap());
+          if (score > nullScore) {
+            // The item has an unarmed bonus that is relevant. Ensure that it is always considered,
+            // but it should not take up a spot on the shortlist.
+            item.conditionalFlag = true;
+            item.automaticFlag = true;
+            break gotItem;
+          }
         }
 
         // Always carry through items with changeable contents to speculation, but don't force them
@@ -1511,7 +1627,8 @@ public class Evaluator {
           newMods.add(ModifierDatabase.getModifiers(ModifierType.EFFECT, intrinsic));
           mods = newMods;
         }
-        double delta = this.getScore(mods, Map.of(Slot.HAT, item)) - nullScore;
+        // Modeable items never reach here (they break gotItem above), so we leave out modes
+        double delta = this.getScore(mods, Map.of(Slot.NONE, item), Map.of()) - nullScore;
         if (delta < 0.0) continue;
         if (delta == 0.0) {
           if (KoLCharacter.hasEquipped(item) && this.current) break gotItem;
@@ -1519,9 +1636,8 @@ public class Evaluator {
           if (item.automaticFlag) continue;
         }
 
-        if (mods.getBoolean(BooleanModifier.UNARMED)
-            || mods.getRawBitmap(BitmapModifier.MUTEX)
-                != 0) { // This item may turn out to be unequippable, so don't
+        if (mods.getRawBitmap(BitmapModifier.MUTEX) != 0) {
+          // This item may turn out to be unequippable, so don't
           // count it towards the shortlist length.
           item.conditionalFlag = true;
         }
@@ -1658,10 +1774,13 @@ public class Evaluator {
                         return forcedModeables.get(modeable);
                       }
 
-                      MaximizerSpeculation best = null;
                       CheckedItem item =
                           new CheckedItem(modeable.getItemId(), equipScope, maxPrice, priceLevel);
                       var bestMode = modeable.getState();
+                      MaximizerSpeculation best = new MaximizerSpeculation();
+                      best.attachment = item;
+                      best.equipment.put(modeable.getSlot(), item);
+                      best.setModeable(modeable, bestMode);
 
                       // Check each mode in modeable to determine the best
                       for (String mode : modeable.getModes()) {
@@ -2271,7 +2390,14 @@ public class Evaluator {
             backupSlots.add(Slot.FAMILIAR);
           }
 
-          if (backupSlots.stream().anyMatch(s -> spec.equipment.get(s) == null)) {
+          // Slots we're ignoring are not considered, they keep their modes
+          // A slot is considered ignored if not null
+          boolean itemInIgnoredSlot =
+              spec.equipment.values().stream()
+                  .anyMatch(i -> i != null && i.getItemId() == modeable.getItemId());
+
+          if (!itemInIgnoredSlot
+              && backupSlots.stream().anyMatch(s -> spec.equipment.get(s) == null)) {
             spec.setModeable(modeable, mode);
           }
         });

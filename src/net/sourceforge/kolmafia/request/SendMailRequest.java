@@ -126,7 +126,7 @@ public class SendMailRequest extends TransferItemRequest {
   }
 
   public static boolean parseTransfer(final String urlString, final String responseText) {
-    if (responseText.indexOf("<center>Message ") == -1) {
+    if (!responseText.contains("<center>Message ")) {
       return false;
     }
     return SendMailRequest.parseTransfer(urlString);
@@ -144,7 +144,7 @@ public class SendMailRequest extends TransferItemRequest {
   }
 
   public static final boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("sendmessage.php") || urlString.indexOf("action=send") == -1) {
+    if (!urlString.startsWith("sendmessage.php") || !urlString.contains("action=send")) {
       return false;
     }
 

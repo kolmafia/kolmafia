@@ -31,8 +31,8 @@ public abstract class MenuItemList<E> extends JMenu implements ListDataListener 
 
     JComponent[] headers = this.getHeaders();
 
-    for (int i = 0; i < headers.length; ++i) {
-      this.add(headers[i]);
+    for (JComponent header : headers) {
+      this.add(header);
     }
 
     // Add a separator between the headers and the
@@ -55,9 +55,9 @@ public abstract class MenuItemList<E> extends JMenu implements ListDataListener 
       setVisible(!model.isEmpty());
     }
 
-    for (int i = 0; i < model.size(); ++i) {
-      this.dataValues.add(model.get(i));
-      this.add(this.constructMenuItem(model.get(i)));
+    for (E e : model) {
+      this.dataValues.add(e);
+      this.add(this.constructMenuItem(e));
     }
 
     // Add this as a listener to the list so that the menu gets

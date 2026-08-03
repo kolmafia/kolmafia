@@ -175,10 +175,10 @@ public abstract class DvorakManager {
     }
     index += 6;
 
-    StringBuffer span = new StringBuffer();
+    StringBuilder span = new StringBuilder();
     span.append("<center><table cols=2><tr>");
 
-    StringBuffer stepButton = new StringBuffer();
+    StringBuilder stepButton = new StringBuilder();
     String url = "/KoLmafia/waitSpecialCommand?cmd=dvorak+step&pwd=" + GenericRequest.passwordHash;
     stepButton.append("<td>");
     stepButton.append("<form name=stepform action='").append(url).append("' method=post>");
@@ -190,7 +190,7 @@ public abstract class DvorakManager {
     stepButton.append("</td>");
     span.append(stepButton);
 
-    StringBuffer solveButton = new StringBuffer();
+    StringBuilder solveButton = new StringBuilder();
     url = "/KoLmafia/specialCommand?cmd=dvorak&pwd=" + GenericRequest.passwordHash;
     solveButton.append("<td>");
     solveButton.append("<form name=solveform action='").append(url).append("' method=post>");

@@ -85,7 +85,7 @@ public class SwitchScope extends BasicScope {
       while (testIndex < testCount) {
         Evaluable test = tests[testIndex];
         Integer offset = offsets[testIndex];
-        if (offset.intValue() != index) {
+        if (offset != index) {
           break;
         }
 

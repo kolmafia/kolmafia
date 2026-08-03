@@ -6,6 +6,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ChoiceAdventures.Spoilers;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class LouvreManager {
 
@@ -166,7 +167,7 @@ public abstract class LouvreManager {
 
     String override = Preferences.getString("louvreOverride");
     if (override.contains(",")) {
-      String[] options = override.split("\\s*,\\s*");
+      String[] options = StringUtilities.splitByComma(override);
       if (options.length > stepCount) {
         if (options[stepCount].equalsIgnoreCase("up")) {
           return "1";
@@ -252,9 +253,9 @@ public abstract class LouvreManager {
     int[] choices = LouvreManager.choiceTuple(destination);
     int nextHops = Integer.MAX_VALUE;
 
-    for (int i = 0; i < choices.length; ++i) {
+    for (int choice : choices) {
       // Determine how far destination is from goal
-      int dist = LouvreManager.hopsTo(hops + 1, destination, choices[i], goal);
+      int dist = LouvreManager.hopsTo(hops + 1, destination, choice, goal);
       if (dist < nextHops) {
         nextHops = dist;
       }

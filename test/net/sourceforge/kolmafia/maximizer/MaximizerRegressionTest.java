@@ -70,7 +70,7 @@ public class MaximizerRegressionTest {
       // monorail buff should always be available, but should not improve familiar weight.
       // so are friars, but I don't know why and that might be a bug
       assertThat(getBoosts(), hasSize(1));
-      Boost ar = getBoosts().get(0);
+      Boost ar = getBoosts().getFirst();
       assertThat(ar.getCmd(), equalTo(""));
     }
   }

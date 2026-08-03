@@ -58,14 +58,14 @@ public class KoLDatabaseTest {
     theOtherList.add(Integer.valueOf(3));
     theOtherList.add(Integer.valueOf(1));
     theOtherList.add(Integer.valueOf(2));
-    assertEquals(KoLDatabase.calculateTotal(theOtherList), 6);
+    assertEquals(6, KoLDatabase.calculateTotal(theOtherList));
     theOtherList.clear();
     theOtherList.add(null);
     theOtherList.add(Integer.valueOf(3));
     theOtherList.add(Integer.valueOf(1));
     theOtherList.add(null);
     theOtherList.add(Integer.valueOf(2));
-    assertEquals(KoLDatabase.calculateTotal(theOtherList), 6);
+    assertEquals(6, KoLDatabase.calculateTotal(theOtherList));
   }
 
   @Test
@@ -74,6 +74,6 @@ public class KoLDatabaseTest {
     theOtherList.add(Integer.valueOf(3));
     theOtherList.add(Integer.valueOf(1));
     theOtherList.add(Integer.valueOf(2));
-    assertEquals(KoLDatabase.calculateAverage(theOtherList), 2.0, 0.0);
+    assertEquals(2.0, KoLDatabase.calculateAverage(theOtherList), 0.0);
   }
 }

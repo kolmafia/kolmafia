@@ -178,3 +178,20 @@
 171	Petrified Wood Professional Wardrobe	pwoodtat.gif	petrified wood whoopie panama, petrified wood war pike, petrified wood water purifier, petrified wood walking pants, petrified wood waist protector, petrified wood wizard's pouch	petrified wood wafer praline
 172	Governor's Daughter's Fancy Finery	govtat.gif	governor's daughter's pearl hairpin, governor's daughter's petticoats, governor's daughter's lace collar	rum ball
 173	Wet Wear	wetoutfittat.gif	wet shower cap, wet shower shorts, wet shower shoes	jawwetter
+174	Axis Uniform	axistat.gif	Axis helmet, Axis fatigues, Axis suspenders	loose teeth
+175
+176
+177
+178
+179
+180
+181	Angelbone Vestments	abonetat.gif	angelbone halo, angelbone totem, angelbone mantle, angelbone kilt, angelbone dice, angelbone chopsticks	biblically accurate gumdrops
+182	Devilbone Prison	dbonetat.gif	devilbone helmet, devilbone flute, devilbone corset, devilbone greaves, devilbone shinguards, devilbone rosary	Gehenna tattoo
+183
+184
+185
+186
+187	Scorched Skeleton Suit	sskeltat.gif	scorched skeleton mask, scorched skeleton shirt, scorched skeleton pants	gummi fingerbone
+188
+189	Dino Drip	dinotat.gif	dinosaur skull helmet, dinosaur bone club, dinosaur bone corset	candy bone
+190	Flimsy Plastic Armor	lightknighttat.gif	flimsy plastic helmet, flimsy plastic breastplate, flimsy plastic shield, flimsy plastic greaves	Pixie-Swordz

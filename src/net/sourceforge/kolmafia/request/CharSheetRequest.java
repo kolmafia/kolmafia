@@ -252,7 +252,8 @@ public class CharSheetRequest extends GenericRequest {
     }
 
     // This is where Path: optionally appears
-    KoLCharacter.setRestricted(responseText.contains("standard.php"));
+    KoLCharacter.setRestricted(
+        responseText.contains("standard.php") || responseText.contains("thrifty.php"));
 
     // Consumption restrictions have special messages.
     if (responseText.contains("You may not eat or drink anything.")) {
@@ -540,12 +541,6 @@ public class CharSheetRequest extends GenericRequest {
     }
   }
 
-  /**
-   * Parses skill information from charsheet.php.
-   *
-   * @param doc Parsed-and-cleaned HTML document
-   */
-
   // Assumption:
   // In the cleaned-up HTML, each skill is displayed as an <a> tag that looks like any of the
   // following:
@@ -573,6 +568,11 @@ public class CharSheetRequest extends GenericRequest {
   private static final String UNAVAILABLE_SKILL_XPATH =
       "//a[contains(@onclick,'skill') and (ancestor::*[@id='permskills'])]";
 
+  /**
+   * Parses skill information from charsheet.php.
+   *
+   * @param doc Parsed-and-cleaned HTML document
+   */
   private static List<ParsedSkillInfo> parseSkills(Document doc) {
     List<ParsedSkillInfo> retval = new ArrayList<>();
     retval.addAll(parseSkills(doc, true));

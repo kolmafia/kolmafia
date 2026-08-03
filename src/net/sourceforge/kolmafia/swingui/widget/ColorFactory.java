@@ -17,8 +17,8 @@ public final class ColorFactory {
     String rawPref = Preferences.getString("textColors");
     String[] splitPref = rawPref.split("\\|");
 
-    for (int i = 0; i < splitPref.length; ++i) {
-      String[] it = splitPref[i].split(":");
+    for (String s : splitPref) {
+      String[] it = s.split(":");
       if (it.length == 2) {
         colorPrefMap.put(it[0], it[1]);
       }

@@ -24,12 +24,14 @@ import net.sourceforge.kolmafia.persistence.FactDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
 import net.sourceforge.kolmafia.persistence.MonsterDrop;
+import net.sourceforge.kolmafia.persistence.ShrunkenHeadDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.session.EncounterManager.EncounterType;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.MonsterManuelManager;
+import net.sourceforge.kolmafia.utilities.GraphicsUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 @SuppressWarnings("incomplete-switch")
@@ -62,6 +64,11 @@ public class MonsterData extends AdventureResult {
     ED("ED:"),
     PHYS("Phys:"),
     ELEM("Elem:"),
+    ELEM_HOT("ElemHot:"),
+    ELEM_COLD("ElemCold:"),
+    ELEM_STENCH("ElemStench:"),
+    ELEM_SLEAZE("ElemSleaze:"),
+    ELEM_SPOOKY("ElemSpooky:"),
     // Encounter Types
     WANDERER("WANDERER"),
     ULTRARARE("ULTRARARE"),
@@ -70,7 +77,14 @@ public class MonsterData extends AdventureResult {
     FREE("FREE"),
     NOWANDER("NOWANDER"),
     // Subtypes
+    BUGBEAR("BUGBEAR"),
     GHOST("GHOST"),
+    SKELETON("SKELETON"),
+    VAMPIRE("VAMPIRE"),
+    WEREWOLF("WEREWOLF"),
+    ZOMBIE("ZOMBIE"),
+    RAT("RAT"),
+    SEAL("SEAL"),
     SNAKE("SNAKE"),
     DRIPPY("DRIPPY"),
     // Specialized
@@ -169,6 +183,11 @@ public class MonsterData extends AdventureResult {
               SPRINKLE_MIN,
               SPRINKLE_MAX,
               ELEM,
+              ELEM_HOT,
+              ELEM_COLD,
+              ELEM_STENCH,
+              ELEM_SPOOKY,
+              ELEM_SLEAZE,
               PHYS -> {
             value = parseNumeric(tokens);
             attributeMap.put(attribute, value);
@@ -264,9 +283,17 @@ public class MonsterData extends AdventureResult {
               SUPERLIKELY,
               FREE,
               NOWANDER,
+              BUGBEAR,
               GHOST,
+              SKELETON,
+              VAMPIRE,
+              WEREWOLF,
+              ZOMBIE,
+              RAT,
+              SEAL,
               SNAKE,
-              DRIPPY -> attributeMap.put(attribute, true);
+              DRIPPY ->
+              attributeMap.put(attribute, true);
         }
       } catch (Exception e) {
         // This should not happen.  Therefore, print
@@ -394,13 +421,25 @@ public class MonsterData extends AdventureResult {
     saveValueAttribute(Attribute.PHYLUM, attributeMap, buf);
 
     // Subtypes
+    saveKeywordAttribute(Attribute.BUGBEAR, attributeMap, buf);
     saveKeywordAttribute(Attribute.GHOST, attributeMap, buf);
+    saveKeywordAttribute(Attribute.SKELETON, attributeMap, buf);
+    saveKeywordAttribute(Attribute.VAMPIRE, attributeMap, buf);
+    saveKeywordAttribute(Attribute.WEREWOLF, attributeMap, buf);
+    saveKeywordAttribute(Attribute.ZOMBIE, attributeMap, buf);
+    saveKeywordAttribute(Attribute.RAT, attributeMap, buf);
+    saveKeywordAttribute(Attribute.SEAL, attributeMap, buf);
     saveKeywordAttribute(Attribute.SNAKE, attributeMap, buf);
     saveKeywordAttribute(Attribute.DRIPPY, attributeMap, buf);
 
     // Resistances
     saveNumericAttribute(Attribute.PHYS, attributeMap, buf);
     saveNumericAttribute(Attribute.ELEM, attributeMap, buf);
+    saveNumericAttribute(Attribute.ELEM_HOT, attributeMap, buf);
+    saveNumericAttribute(Attribute.ELEM_COLD, attributeMap, buf);
+    saveNumericAttribute(Attribute.ELEM_STENCH, attributeMap, buf);
+    saveNumericAttribute(Attribute.ELEM_SPOOKY, attributeMap, buf);
+    saveNumericAttribute(Attribute.ELEM_SLEAZE, attributeMap, buf);
 
     Object EA = attributeMap.get(Attribute.EA);
     Object ED = attributeMap.get(Attribute.ED);
@@ -569,8 +608,29 @@ public class MonsterData extends AdventureResult {
 
   private Set<String> attributeMapToSubtypes(final Map<Attribute, Object> attributeMap) {
     Set<String> subTypes = new HashSet<>();
+    if (attributeMap.containsKey(Attribute.BUGBEAR)) {
+      subTypes.add("bugbear");
+    }
     if (attributeMap.containsKey(Attribute.GHOST)) {
       subTypes.add("ghost");
+    }
+    if (attributeMap.containsKey(Attribute.SKELETON)) {
+      subTypes.add("skeleton");
+    }
+    if (attributeMap.containsKey(Attribute.VAMPIRE)) {
+      subTypes.add("vampire");
+    }
+    if (attributeMap.containsKey(Attribute.WEREWOLF)) {
+      subTypes.add("werewolf");
+    }
+    if (attributeMap.containsKey(Attribute.ZOMBIE)) {
+      subTypes.add("zombie");
+    }
+    if (attributeMap.containsKey(Attribute.RAT)) {
+      subTypes.add("rat");
+    }
+    if (attributeMap.containsKey(Attribute.SEAL)) {
+      subTypes.add("seal");
     }
     if (attributeMap.containsKey(Attribute.SNAKE)) {
       subTypes.add("snake");
@@ -605,6 +665,11 @@ public class MonsterData extends AdventureResult {
   private Element defenseElement;
   private Object physicalResistance;
   private Object elementalResistance;
+  private Object hotResistance;
+  private Object coldResistance;
+  private Object stenchResistance;
+  private Object spookyResistance;
+  private Object sleazeResistance;
   private int meat;
   private final Object minSprinkles;
   private final Object maxSprinkles;
@@ -659,6 +724,11 @@ public class MonsterData extends AdventureResult {
     this.defenseElement = (Element) attributes.getOrDefault(Attribute.ED, Element.NONE);
     this.physicalResistance = attributes.get(Attribute.PHYS);
     this.elementalResistance = attributes.get(Attribute.ELEM);
+    this.hotResistance = attributes.get(Attribute.ELEM_HOT);
+    this.coldResistance = attributes.get(Attribute.ELEM_COLD);
+    this.stenchResistance = attributes.get(Attribute.ELEM_STENCH);
+    this.spookyResistance = attributes.get(Attribute.ELEM_SPOOKY);
+    this.sleazeResistance = attributes.get(Attribute.ELEM_SLEAZE);
     this.meat = getAverageNumber(attributes.get(Attribute.MEAT));
     this.minSprinkles = attributes.get(Attribute.SPRINKLE_MIN);
     this.maxSprinkles = attributes.get(Attribute.SPRINKLE_MAX);
@@ -766,6 +836,11 @@ public class MonsterData extends AdventureResult {
     this.defenseElement = monster.defenseElement;
     this.physicalResistance = monster.physicalResistance;
     this.elementalResistance = monster.elementalResistance;
+    this.hotResistance = monster.hotResistance;
+    this.coldResistance = monster.coldResistance;
+    this.stenchResistance = monster.stenchResistance;
+    this.spookyResistance = monster.spookyResistance;
+    this.sleazeResistance = monster.sleazeResistance;
     this.meat = monster.meat;
     this.minSprinkles = monster.minSprinkles;
     this.maxSprinkles = monster.maxSprinkles;
@@ -1130,14 +1205,14 @@ public class MonsterData extends AdventureResult {
           // Cold Aura
         }
 
-          // Nuclear Autumn
+        // Nuclear Autumn
         case "mutant" -> {
           monster.health = monster.getRawHP() * 6 / 5;
           monster.attack = monster.getRawAttack() * 6 / 5;
           monster.defense = monster.getRawDefense() * 6 / 5;
         }
 
-          // Masks
+        // Masks
         case "Mr. mask", "Bonerdagon mask" -> {
           if (this.scale == null) {
             monster.health = monster.getRawHP() * 2;
@@ -1172,7 +1247,7 @@ public class MonsterData extends AdventureResult {
           }
         }
 
-          // Fall of the Dinosaurs
+        // Fall of the Dinosaurs
         case "archelon" -> {
           // Reflects spells
         }
@@ -1198,7 +1273,7 @@ public class MonsterData extends AdventureResult {
           // Runs away if lose initiative, lots of +item when killed
         }
 
-          // Hat Trick
+        // Hat Trick
         case "terrycloth turban" -> monster.health = monster.getRawHP() * 5 / 4;
         case "jockey's hat" -> {
           // faster: unknown, probably init
@@ -1586,6 +1661,34 @@ public class MonsterData extends AdventureResult {
     return evaluate(this.elementalResistance, 0);
   }
 
+  public int getHotResistance() {
+    return getResistance(this.hotResistance);
+  }
+
+  public int getColdResistance() {
+    return getResistance(this.coldResistance);
+  }
+
+  public int getStenchResistance() {
+    return getResistance(this.stenchResistance);
+  }
+
+  public int getSpookyResistance() {
+    return getResistance(this.spookyResistance);
+  }
+
+  public int getSleazeResistance() {
+    return getResistance(this.sleazeResistance);
+  }
+
+  private int getResistance(Object sub) {
+    var res = evaluate(sub, 0);
+    if (res == 0) {
+      return getElementalResistance();
+    }
+    return res;
+  }
+
   public int getMinMeat() {
     int variation = (int) Math.max(1, Math.floor(this.meat * 0.2));
     return this.meat > 0 ? this.meat - variation : 0;
@@ -1629,7 +1732,9 @@ public class MonsterData extends AdventureResult {
   }
 
   public boolean isNoCopy() {
-    return this.noCopy;
+    // NOCOPY mimics the ingame `noputty` flag which blocks McTwist
+    // BOSS blocks instakill and copying separately
+    return this.noCopy || this.boss;
   }
 
   public boolean isNoWish() {
@@ -1645,9 +1750,8 @@ public class MonsterData extends AdventureResult {
     var forceFree =
         switch (this.name) {
           case "X-32-F Combat Training Snowman" -> Preferences.getInteger("_snojoFreeFights") < 10;
-          case "biker", "\"plain\" girl", "jock", "party girl", "burnout" -> Preferences.getInteger(
-                  "_neverendingPartyFreeTurns")
-              < 10;
+          case "biker", "\"plain\" girl", "jock", "party girl", "burnout" ->
+              Preferences.getInteger("_neverendingPartyFreeTurns") < 10;
           default -> false;
         };
 
@@ -1868,6 +1972,29 @@ public class MonsterData extends AdventureResult {
     return;
   }
 
+  public String getShrunkenHeadZombie(boolean requireEquipped) {
+    if (this.isNoCopy()) {
+      // uncopyable monsters can't be reanimated
+      return null;
+    }
+    if (!Preferences.getBoolean("hasShrunkenHead")) {
+      return null;
+    }
+    if (requireEquipped && !KoLCharacter.hasEquipped(ItemPool.SHRUNKEN_HEAD)) {
+      return null;
+    }
+    var z = ShrunkenHeadDatabase.shrunkenHeadZombie(this.id, KoLCharacter.getPath().id);
+    return "<br />Shrunken Head Zombie: " + z.toString();
+  }
+
+  public void appendShrunkenHeadZombie(StringBuilder buffer, boolean requireEquipped) {
+    String zombie = this.getShrunkenHeadZombie(requireEquipped);
+    if (zombie != null) {
+      buffer.append(zombie);
+    }
+    return;
+  }
+
   void appendMeat(StringBuilder buffer) {
     this.appendMeat(buffer, false);
   }
@@ -1972,19 +2099,72 @@ public class MonsterData extends AdventureResult {
     // The image is first, spanning 4 rows
     {
       buffer.append("<td rowspan=4 valign=top style=\"max-width:350;\">");
-      buffer.append("<img src=");
-      buffer.append(imageServerPath);
 
       // Allow variants of image
       int variants = stats.images.length;
       String image =
           variants < 2 ? stats.image : variant < variants ? stats.images[variant] : stats.image;
 
-      if (!image.contains("/")) {
-        buffer.append("adventureimages/");
+      String path;
+      int slash = image.lastIndexOf("/") + 1;
+      if (slash == 0) {
+        path = "adventureimages/";
+      } else {
+        path = image.substring(0, slash);
+        image = image.substring(slash);
       }
+
+      /* RequestFrame supports HTML 3.2.
+         We need something more capable to display a "div" of the sort KoL generated.
+         Here's how we'd do that:
+
+      if (image.contains("+")) {
+        // multiple layers
+        String[] layers = image.split("\\+");
+        StringBuilder div = new StringBuilder();
+        {
+          div.append("<div style='width: 100px; height: 100px; position: relative;'>");
+          for (String layer : layers) {
+            div.append("<img src=");
+            div.append(imageServerPath);
+            div.append(path);
+            div.append(layer);
+            div.append(".png");
+            div.append(" style=\"position: absolute; left: 0px; right: 0px\">");
+          }
+          div.append("</div>");
+        }
+
+        // This is exactly the "div" that KoL generates for overlapping .png images
+        // Unfortunately, HTML rendering in KoLmafia command frames does not handle it.
+
+        buffer.append(div);
+      }
+      */
+
+      // Instead, let's concatenate the layers into a single.png file
+      if (image.contains("+")) {
+        // multiple layers
+        ArrayList<String> paths = new ArrayList<>();
+
+        String[] layers = image.split("\\+");
+        for (String layer : layers) {
+          paths.add(path + layer + ".png");
+        }
+
+        var images = GraphicsUtilities.readImages(paths);
+        var generated = GraphicsUtilities.mergeImages(images);
+        image = "generatedImage.png";
+        GraphicsUtilities.writeImage(generated, path + image);
+      }
+
+      // A single image
+      buffer.append("<img src=");
+      buffer.append(imageServerPath);
+      buffer.append(path);
       buffer.append(image);
       buffer.append(" style=\"max-width:350;\">");
+
       buffer.append("</td>");
     }
 

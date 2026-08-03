@@ -4,7 +4,6 @@ import com.alibaba.fastjson2.JSONException;
 import com.alibaba.fastjson2.JSONObject;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -49,10 +48,7 @@ public class ClosetRequest extends TransferItemRequest {
 
     try {
       // {"1":"1","2":"1" ... }
-      Iterator<String> keys = json.keySet().iterator();
-
-      while (keys.hasNext()) {
-        String key = keys.next();
+      for (String key : json.keySet()) {
         int itemId = StringUtilities.parseInt(key);
         int count = json.getIntValue(key);
         String name = ItemDatabase.getItemDataName(itemId);
@@ -103,8 +99,8 @@ public class ClosetRequest extends TransferItemRequest {
 
     switch (moveType) {
       case REFRESH ->
-      // It doesn't matter which page we visit to get Meat
-      this.addFormField("which", "1");
+          // It doesn't matter which page we visit to get Meat
+          this.addFormField("which", "1");
       case MEAT_TO_CLOSET -> {
         // closet.php?action=addtakeclosetmeat&addtake=add&pwd&quantity=x
         this.addFormField("action", "addtakeclosetmeat");

@@ -45,9 +45,9 @@ public abstract class ConditionalStatement extends AbstractCommand {
       String statDayToday = HolidayDatabase.getMoonEffect().toLowerCase();
       String statDayTest = dayMatcher.group(2).substring(0, 3).toLowerCase();
 
-      return statDayToday.indexOf(statDayTest) != -1
-          && statDayToday.indexOf("bonus") != -1
-          && statDayToday.indexOf("not " + dayMatcher.group(1)) == -1;
+      return statDayToday.contains(statDayTest)
+          && statDayToday.contains("bonus")
+          && !statDayToday.contains("not " + dayMatcher.group(1));
     }
 
     // Check if the person is looking for whether or
@@ -56,13 +56,13 @@ public abstract class ConditionalStatement extends AbstractCommand {
     if (parameters.startsWith("class is not ")) {
       String className = parameters.substring(13).trim().toLowerCase();
       String actualClassName = KoLCharacter.getAscensionClassName().toLowerCase();
-      return actualClassName.indexOf(className) == -1;
+      return !actualClassName.contains(className);
     }
 
     if (parameters.startsWith("class is ")) {
       String className = parameters.substring(9).trim().toLowerCase();
       String actualClassName = KoLCharacter.getAscensionClassName().toLowerCase();
-      return actualClassName.indexOf(className) != -1;
+      return actualClassName.contains(className);
     }
 
     // Check if the person has a specific skill
@@ -82,21 +82,21 @@ public abstract class ConditionalStatement extends AbstractCommand {
     // involving left and right values.
 
     String operator =
-        parameters.indexOf("==") != -1
+        parameters.contains("==")
             ? "=="
-            : parameters.indexOf("!=") != -1
+            : parameters.contains("!=")
                 ? "!="
-                : parameters.indexOf(">=") != -1
+                : parameters.contains(">=")
                     ? ">="
-                    : parameters.indexOf("<=") != -1
+                    : parameters.contains("<=")
                         ? "<="
-                        : parameters.indexOf("=") != -1
+                        : parameters.contains("=")
                             ? "=="
-                            : parameters.indexOf("<>") != -1
+                            : parameters.contains("<>")
                                 ? "!="
-                                : parameters.indexOf(">") != -1
+                                : parameters.contains(">")
                                     ? ">"
-                                    : parameters.indexOf("<") != -1 ? "<" : null;
+                                    : parameters.contains("<") ? "<" : null;
 
     if (operator == null) {
       KoLmafia.updateDisplay(MafiaState.ERROR, parameters + " contains no comparison operator.");
@@ -205,11 +205,11 @@ public abstract class ConditionalStatement extends AbstractCommand {
     // substring match is preferred over a fuzzy match.
     // Items first for one reason: Knob Goblin perfume.
 
-    if (item != null && item.getName().toLowerCase().indexOf(left.toLowerCase()) != -1) {
+    if (item != null && item.getName().toLowerCase().contains(left.toLowerCase())) {
       return item.getCount(KoLConstants.inventory);
     }
 
-    if (effect != null && effect.getName().toLowerCase().indexOf(left.toLowerCase()) != -1) {
+    if (effect != null && effect.getName().toLowerCase().contains(left.toLowerCase())) {
       return effect.getCount(KoLConstants.activeEffects);
     }
 

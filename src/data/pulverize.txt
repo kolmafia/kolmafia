@@ -143,6 +143,9 @@ mariachi hat	useless powder
 Wand of Nagamar	useless powder
 hemp string	useless powder
 chisel	useless powder
+decaying wooden oar	useless powder
+giant fishhook	useless powder
+rusty old lantern	useless powder
 
 # Summoned Disco Knives are useless.
 boot knife	useless powder
@@ -231,6 +234,7 @@ Mer-kin eyeglasses	sea salt crystal
 Mer-kin finpaddle	sea salt crystal
 Mer-kin gladiator mask	sea salt crystal
 Mer-kin gladiator tailpiece	sea salt crystal
+Mer-kin gutgirdle	sea salt crystal
 Mer-kin headguard	sea salt crystal
 Mer-kin hookspear	sea salt crystal
 Mer-kin digpick	sea salt crystal

@@ -620,7 +620,7 @@ public class StoreManageFrame extends GenericPanelFrame {
       int max = (Integer) this.vector.get(3);
       Integer val = InputFieldUtilities.getQuantity("Remove how many?", max, max);
       if (val != null) {
-        int qty = val.intValue();
+        int qty = val;
         if (qty > 0) {
           RequestThread.postRequest(new ManageStoreRequest(this.itemId, qty));
         }
@@ -716,8 +716,7 @@ public class StoreManageFrame extends GenericPanelFrame {
 
       SoldItem[] items = this.getElementList().getSelectedValuesList().toArray(new SoldItem[0]);
 
-      for (int i = 0; i < items.length; ++i) {
-        SoldItem soldItem = items[i];
+      for (SoldItem soldItem : items) {
         int count = takeAll ? soldItem.getQuantity() : 1;
         RequestThread.postRequest(new ManageStoreRequest(soldItem.getItemId(), count));
       }

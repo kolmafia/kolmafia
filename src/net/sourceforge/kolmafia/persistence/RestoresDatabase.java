@@ -2,9 +2,8 @@ package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -14,6 +13,7 @@ import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -21,15 +21,24 @@ import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class RestoresDatabase {
-  private static final ArrayList<String> restoreNames = new ArrayList<>();
-  private static final Map<String, String> typeByName = new HashMap<>();
-  private static final Map<String, String> hpMinByName = new HashMap<>();
-  private static final Map<String, String> hpMaxByName = new HashMap<>();
-  private static final Map<String, String> mpMinByName = new HashMap<>();
-  private static final Map<String, String> mpMaxByName = new HashMap<>();
-  private static final Map<String, Integer> advCostByName = new HashMap<>();
-  private static final Map<String, String> usesLeftByName = new HashMap<>();
-  private static final Map<String, String> notesByName = new HashMap<>();
+  private static class RestoreData {
+    private String name;
+    private String type;
+    private String hpMin;
+    private String hpMax;
+    private String mpMin;
+    private String mpMax;
+    private int advCost;
+    private String usesLeft;
+    private String notes;
+
+    @Override
+    public String toString() {
+      return name;
+    }
+  }
+
+  private static final Map<String, RestoreData> restoreByName = new LinkedHashMap<>();
 
   static {
     RestoresDatabase.reset();
@@ -38,15 +47,7 @@ public class RestoresDatabase {
   private RestoresDatabase() {}
 
   public static void reset() {
-    RestoresDatabase.restoreNames.clear();
-    RestoresDatabase.typeByName.clear();
-    RestoresDatabase.hpMinByName.clear();
-    RestoresDatabase.hpMaxByName.clear();
-    RestoresDatabase.mpMinByName.clear();
-    RestoresDatabase.mpMaxByName.clear();
-    RestoresDatabase.advCostByName.clear();
-    RestoresDatabase.usesLeftByName.clear();
-    RestoresDatabase.notesByName.clear();
+    RestoresDatabase.restoreByName.clear();
 
     RestoresDatabase.readData();
   }
@@ -62,26 +63,17 @@ public class RestoresDatabase {
         }
 
         String name = data[0];
-        RestoresDatabase.restoreNames.add(name);
-        RestoresDatabase.typeByName.put(name, data[1]);
-        RestoresDatabase.hpMinByName.put(name, data[2]);
-        RestoresDatabase.hpMaxByName.put(name, data[3]);
-        RestoresDatabase.mpMinByName.put(name, data[4]);
-        RestoresDatabase.mpMaxByName.put(name, data[5]);
-        int advCost = StringUtilities.parseInt(data[6]);
-        RestoresDatabase.advCostByName.put(name, advCost);
-
-        if (data.length > 7) {
-          RestoresDatabase.usesLeftByName.put(name, data[7]);
-        } else {
-          RestoresDatabase.usesLeftByName.put(name, "unlimited");
-        }
-
-        if (data.length > 8) {
-          RestoresDatabase.notesByName.put(name, data[8]);
-        } else {
-          RestoresDatabase.notesByName.put(name, "");
-        }
+        RestoreData restoreData = new RestoreData();
+        restoreData.name = data[0];
+        restoreData.type = data[1];
+        restoreData.hpMin = data[2];
+        restoreData.hpMax = data[3];
+        restoreData.mpMin = data[4];
+        restoreData.mpMax = data[5];
+        restoreData.advCost = StringUtilities.parseInt(data[6]);
+        restoreData.usesLeft = data.length > 7 ? data[7] : "unlimited";
+        restoreData.notes = data.length > 8 ? data[8] : "";
+        RestoresDatabase.restoreByName.put(name, restoreData);
       }
     } catch (IOException e) {
       StaticEntity.printStackTrace(e);
@@ -98,17 +90,20 @@ public class RestoresDatabase {
       final int advCost,
       final int usesLeft,
       final String notes) {
-    RestoresDatabase.typeByName.put(name, type);
-    RestoresDatabase.hpMinByName.put(name, hpMin);
-    RestoresDatabase.hpMaxByName.put(name, hpMax);
-    RestoresDatabase.mpMinByName.put(name, mpMin);
-    RestoresDatabase.mpMaxByName.put(name, mpMax);
-    RestoresDatabase.advCostByName.put(name, advCost);
+    RestoreData restoreData =
+        RestoresDatabase.restoreByName.computeIfAbsent(name, key -> new RestoreData());
+    restoreData.name = name;
+    restoreData.type = type;
+    restoreData.hpMin = hpMin;
+    restoreData.hpMax = hpMax;
+    restoreData.mpMin = mpMin;
+    restoreData.mpMax = mpMax;
+    restoreData.advCost = advCost;
     if (usesLeft != -1) {
-      RestoresDatabase.usesLeftByName.put(name, Integer.toString(usesLeft));
+      restoreData.usesLeft = Integer.toString(usesLeft);
     }
     if (notes != null) {
-      RestoresDatabase.notesByName.put(name, notes);
+      restoreData.notes = notes;
     }
   }
 
@@ -135,7 +130,8 @@ public class RestoresDatabase {
       return null;
     }
 
-    return RestoresDatabase.typeByName.get(name);
+    RestoreData restoreData = RestoresDatabase.restoreByName.get(name);
+    return restoreData == null ? null : restoreData.type;
   }
 
   public static final long getHPMin(final String name) {
@@ -147,7 +143,8 @@ public class RestoresDatabase {
       return KoLCharacter.getRestingHP();
     }
 
-    String hpMin = RestoresDatabase.hpMinByName.get(name);
+    RestoreData restoreData = RestoresDatabase.restoreByName.get(name);
+    String hpMin = restoreData == null ? null : restoreData.hpMin;
     if (hpMin == null) {
       return 0;
     }
@@ -163,7 +160,8 @@ public class RestoresDatabase {
       return KoLCharacter.getRestingHP();
     }
 
-    String hpMax = RestoresDatabase.hpMaxByName.get(name);
+    RestoreData restoreData = RestoresDatabase.restoreByName.get(name);
+    String hpMax = restoreData == null ? null : restoreData.hpMax;
     if (hpMax == null) {
       return 0;
     }
@@ -179,7 +177,8 @@ public class RestoresDatabase {
       return KoLCharacter.getRestingMP();
     }
 
-    String mpMin = RestoresDatabase.mpMinByName.get(name);
+    RestoreData restoreData = RestoresDatabase.restoreByName.get(name);
+    String mpMin = restoreData == null ? null : restoreData.mpMin;
     if (mpMin == null) {
       return 0;
     }
@@ -195,7 +194,8 @@ public class RestoresDatabase {
       return KoLCharacter.getRestingMP();
     }
 
-    String mpMax = RestoresDatabase.mpMaxByName.get(name);
+    RestoreData restoreData = RestoresDatabase.restoreByName.get(name);
+    String mpMax = restoreData == null ? null : restoreData.mpMax;
     if (mpMax == null) {
       return 0;
     }
@@ -255,11 +255,11 @@ public class RestoresDatabase {
       return 0;
     }
 
-    Integer advCost = RestoresDatabase.advCostByName.get(name);
-    if (advCost == null) {
+    RestoreData restoreData = RestoresDatabase.restoreByName.get(name);
+    if (restoreData == null) {
       return 0;
     }
-    return advCost.intValue();
+    return restoreData.advCost;
   }
 
   public static final int getUsesLeft(final String name) {
@@ -276,7 +276,8 @@ public class RestoresDatabase {
       return (max == Integer.MAX_VALUE) ? -1 : max;
     }
 
-    String usesLeft = RestoresDatabase.usesLeftByName.get(name);
+    RestoreData restoreData = RestoresDatabase.restoreByName.get(name);
+    String usesLeft = restoreData == null ? null : restoreData.usesLeft;
     if (usesLeft == null) {
       return 0;
     }
@@ -291,7 +292,8 @@ public class RestoresDatabase {
       return null;
     }
 
-    String notes = RestoresDatabase.notesByName.get(name);
+    RestoreData restoreData = RestoresDatabase.restoreByName.get(name);
+    String notes = restoreData == null ? null : restoreData.notes;
     if (notes == null) {
       return "";
     }
@@ -323,35 +325,36 @@ public class RestoresDatabase {
             : (InventoryManager.getAccessibleCount(itemId) > 0);
       }
       case "skill" -> KoLCharacter.hasSkill(name);
-      case "loc" -> switch (name) {
-        case "A Relaxing Hot Tub" -> InventoryManager.getCount(ItemPool.VIP_LOUNGE_KEY) > 0
-            && (!KoLCharacter.inBadMoon() || KoLCharacter.kingLiberated())
-            && !limitMode.limitClan();
-        case "April Shower" -> InventoryManager.getCount(ItemPool.VIP_LOUNGE_KEY) > 0
-            && (!KoLCharacter.inBadMoon() || KoLCharacter.kingLiberated())
-            && StandardRequest.isAllowed(RestrictedItemType.CLAN_ITEMS, "April Shower")
-            && !limitMode.limitClan();
-        case "Campground" -> !limitMode.limitCampground()
-            && !KoLCharacter.isEd()
-            && !KoLCharacter.inNuclearAutumn();
-        case "Comfy Sofa" -> !limitMode.limitClan();
-        case "Doc Galaktik's" -> true;
-        case "Free rests" -> KoLCharacter.freeRestsAvailable() > 0;
-        case "Nunnery (Frat Warrior)" -> Preferences.getString("sidequestNunsCompleted")
-            .equals("fratboy");
-        case "Nunnery (War Hippy)" -> Preferences.getString("sidequestNunsCompleted")
-            .equals("hippy");
-        default -> false;
-      };
+      case "loc" ->
+          switch (name) {
+            case "A Relaxing Hot Tub" ->
+                InventoryManager.getCount(ItemPool.VIP_LOUNGE_KEY) > 0
+                    && (!KoLCharacter.inBadMoon() || KoLCharacter.kingLiberated())
+                    && !limitMode.limitClan();
+            case "April Shower" ->
+                InventoryManager.getCount(ItemPool.VIP_LOUNGE_KEY) > 0
+                    && (!KoLCharacter.inBadMoon() || KoLCharacter.kingLiberated())
+                    && StandardRequest.isAllowed(RestrictedItemType.CLAN_ITEMS, "April Shower")
+                    && !limitMode.limitClan();
+            case "Campground" -> CampgroundRequest.haveCampground() || KoLCharacter.inSmallcore();
+            case "Comfy Sofa" -> !limitMode.limitClan();
+            case "Doc Galaktik's" -> true;
+            case "Free rests" -> KoLCharacter.freeRestsAvailable() > 0;
+            case "Nunnery (Frat Warrior)" ->
+                Preferences.getString("sidequestNunsCompleted").equals("fratboy");
+            case "Nunnery (War Hippy)" ->
+                Preferences.getString("sidequestNunsCompleted").equals("hippy");
+            default -> false;
+          };
       default -> false;
     };
   }
 
   public static final String[][] getRestoreData(final String level) {
-    Iterator<String> it = RestoresDatabase.restoreNames.iterator();
+    Iterator<String> it = RestoresDatabase.restoreByName.keySet().iterator();
 
     int restores = 0;
-    int count = RestoresDatabase.restoreNames.size();
+    int count = RestoresDatabase.restoreByName.size();
 
     if (count > 0) {
       String[][] restoreData = new String[count][7];
@@ -378,11 +381,13 @@ public class RestoresDatabase {
   }
 
   public static final boolean restoresMaxHP(final String restore) {
-    return RestoresDatabase.hpMinByName.get(restore).equals("[HP]");
+    RestoreData restoreData = RestoresDatabase.restoreByName.get(restore);
+    return restoreData != null && restoreData.hpMin.equals("[HP]");
   }
 
   public static final boolean restoresMaxMP(final String restore) {
-    return RestoresDatabase.mpMinByName.get(restore).equals("[MP]");
+    RestoreData restoreData = RestoresDatabase.restoreByName.get(restore);
+    return restoreData != null && restoreData.mpMin.equals("[MP]");
   }
 
   public static final boolean pathSafeHP(final String hpRestore) {

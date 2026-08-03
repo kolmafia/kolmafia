@@ -16,6 +16,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.ModifierType;
+import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
@@ -26,7 +27,13 @@ import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
-import net.sourceforge.kolmafia.persistence.*;
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.AdventureRequest;
@@ -101,8 +108,8 @@ public class QuestManager {
     if (redirectLocation != null) {
       if (location.startsWith("adventure")) {
         switch (locationId) {
-          case AdventurePool.PALINDOME -> QuestDatabase.setQuestIfBetter(
-              Quest.PALINDOME, QuestDatabase.STARTED);
+          case AdventurePool.PALINDOME ->
+              QuestDatabase.setQuestIfBetter(Quest.PALINDOME, QuestDatabase.STARTED);
           case AdventurePool.EL_VIBRATO_ISLAND -> handleElVibratoChange(location, "");
         }
       }
@@ -271,7 +278,11 @@ public class QuestManager {
       } else if (location.contains("whichitem=" + ItemPool.BURT)) {
         BURTRequest.parseResponse(responseText);
       }
-    } else if (location.startsWith("main")) {
+    } else if (location.equals("main.php")) {
+      // Need to be strict about only accepting the version with no query parameters, since main.php
+      // may not always display the main map in those cases.
+      QuestManager.handleTimeTower(responseText.contains("twitchtower"));
+
       if (Preferences.getInteger("lastIslandUnlock") != KoLCharacter.getAscensions()
           && responseText.contains("island.php")) {
         Preferences.setInteger("lastIslandUnlock", KoLCharacter.getAscensions());
@@ -379,7 +390,7 @@ public class QuestManager {
           case "sea_oldman" -> handleSeaChange(location, responseText);
           case "spacegate" -> handleSpacegateChange(location, responseText);
           case "speakeasy" -> handleSpeakeasyChange(responseText);
-            // don't catch town_wrong, town_right, or town_market
+          // don't catch town_wrong, town_right, or town_market
           case "town" -> handleTownChange(location, responseText);
           case "town_right" -> handleTownRightChange(location, responseText);
           case "town_wrong" -> handleTownWrongChange(location, responseText);
@@ -452,7 +463,6 @@ public class QuestManager {
   }
 
   private static void handleTownChange(final String location, String responseText) {
-    QuestManager.handleTimeTower(responseText.contains("town_tower"));
     QuestManager.handleEldritchFissure(responseText.contains("town_eincursion"));
     QuestManager.handleEldritchHorror(responseText.contains("town_eicfight2"));
   }
@@ -1430,13 +1440,6 @@ public class QuestManager {
         QuestDatabase.setQuestProgress(Quest.SEA_MONKEES, "step1");
       } else if (responseText.contains("Wanna help me find Grandpa?")) {
         QuestDatabase.setQuestProgress(Quest.SEA_MONKEES, "step4");
-        if (KoLCharacter.isMuscleClass()) {
-          Preferences.setBoolean("mapToAnemoneMinePurchased", true);
-        } else if (KoLCharacter.isMysticalityClass()) {
-          Preferences.setBoolean("mapToTheMarinaraTrenchPurchased", true);
-        } else if (KoLCharacter.isMoxieClass()) {
-          Preferences.setBoolean("mapToTheDiveBarPurchased", true);
-        }
       } else if (responseText.contains("he's been actin' awful weird lately")) {
         QuestDatabase.setQuestProgress(Quest.SEA_MONKEES, "step10");
       }
@@ -1478,24 +1481,21 @@ public class QuestManager {
         QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, QuestDatabase.STARTED);
       }
 
-      if (responseText.contains("mine")) {
-        if (KoLCharacter.isMuscleClass()) {
-          QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, "step4");
-        }
+      if (responseText.contains("mine")
+          && (QuestDatabase.isQuestBefore(Quest.SEA_MONKEES, "step4")
+              || !KoLCharacter.isMuscleClass())) {
         Preferences.setBoolean("mapToAnemoneMinePurchased", true);
       }
 
-      if (responseText.contains("trench")) {
-        if (KoLCharacter.isMysticalityClass()) {
-          QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, "step4");
-        }
+      if (responseText.contains("trench")
+          && (QuestDatabase.isQuestBefore(Quest.SEA_MONKEES, "step4")
+              || !KoLCharacter.isMysticalityClass())) {
         Preferences.setBoolean("mapToTheMarinaraTrenchPurchased", true);
       }
 
-      if (responseText.contains("divebar")) {
-        if (KoLCharacter.isMoxieClass()) {
-          QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, "step4");
-        }
+      if (responseText.contains("divebar")
+          && (QuestDatabase.isQuestBefore(Quest.SEA_MONKEES, "step4")
+              || !KoLCharacter.isMoxieClass())) {
         Preferences.setBoolean("mapToTheDiveBarPurchased", true);
       }
 
@@ -1813,9 +1813,64 @@ public class QuestManager {
    * After we win a fight, some quests may need to be updated. Centralize handling for it here.
    *
    * @param responseText The text from (at least) the winning round of the fight
-   * @param monsterName The monster which <s>died</s>got beaten up.
+   * @param monster The monster which <s>died</s>got beaten up.
    */
-  public static void updateQuestData(String responseText, String monsterName) {
+  public static void updateQuestData(String responseText, MonsterData monster) {
+    if (monster == null) {
+      return;
+    }
+
+    // Handle bosses here
+    MonsterData boss = MonsterDatabase.getQuestBoss(monster);
+    if (boss != null) {
+      switch (boss.getName()) {
+        case "Boss Bat" -> {
+          QuestDatabase.setQuestProgress(Quest.BAT, "step4");
+          return;
+        }
+        case "Knob Goblin King" -> {
+          QuestDatabase.setQuestProgress(Quest.GOBLIN, QuestDatabase.FINISHED);
+          return;
+        }
+        case "Bonerdagon" -> {
+          CryptManager.defeatBoss("Bonerdagon");
+          return;
+        }
+        case "Groar" -> {
+          QuestDatabase.setQuestProgress(Quest.TRAPPER, "step5");
+          return;
+        }
+        case "Dr. Awkward" -> {
+          QuestDatabase.setQuestProgress(Quest.PALINDOME, QuestDatabase.FINISHED);
+          return;
+        }
+        case "Lord Spookyraven" -> {
+          QuestDatabase.setQuestProgress(Quest.MANOR, QuestDatabase.FINISHED);
+          return;
+        }
+        case "Protector Spectre" -> {
+          QuestDatabase.setQuestProgress(Quest.WORSHIP, QuestDatabase.FINISHED);
+          return;
+        }
+        case "The Big Wisniewski", "The Man" -> {
+          // Processed in IslandManager.handleBattlefield
+          return;
+        }
+        case "Naughty Sorceress" -> {}
+        case "Naughty Sorceress (2)" -> {}
+        case "Naughty Sorceress (3)" -> {
+          // We handle quest progress below but do not have a path map for all of them.
+          // Should fix that...
+          QuestDatabase.setQuestProgress(Quest.FINAL, "step13");
+          return;
+        }
+      }
+    }
+
+    updateQuestData(responseText, monster.getName());
+  }
+
+  private static void updateQuestData(String responseText, String monsterName) {
     String adventureId = KoLAdventure.lastAdventureIdString();
     String counter =
         adventureId.equals("ns_01_crowd1")
@@ -2175,10 +2230,7 @@ public class QuestManager {
         }
       }
       case "biker", "\"plain\" girl", "jock", "party girl", "burnout" -> {
-        int turnsSpent = Preferences.getInteger("_neverendingPartyFreeTurns");
-        if (turnsSpent < 10) {
-          Preferences.setInteger("_neverendingPartyFreeTurns", turnsSpent + 1);
-        }
+        Preferences.increment("_neverendingPartyFreeTurns", 1, 10, false);
         if (Preferences.getString("_questPartyFairQuest").equals("partiers")) {
           int kills = KoLCharacter.hasEquipped(ItemPool.INTIMIDATING_CHAINSAW) ? 2 : 1;
           Preferences.decrement("_questPartyFairProgress", kills, 0);
@@ -2227,20 +2279,8 @@ public class QuestManager {
           }
         }
       }
-      case "Steve Belmont", "Koopa Paratroopa", "Boss Bot" -> {
-        QuestDatabase.setQuestProgress(Quest.BAT, "step4");
-      }
-      case "Ricardo Belmont", "Hammer Brother", "Gobot King" -> {
-        QuestDatabase.setQuestProgress(Quest.GOBLIN, QuestDatabase.FINISHED);
-      }
-      case "Jayden Belmont", "Very Dry Bones", "Robonerdagon" -> {
-        CryptManager.defeatBoss("Bonerdagon");
-      }
       case "conjoined zmombie", "huge ghuol", "gargantulihc", "giant skeelton" -> {
         CryptManager.defeatBoss(monsterName);
-      }
-      case "Sharona", "Angry Sun", "Groarbot" -> {
-        QuestDatabase.setQuestProgress(Quest.TRAPPER, "step5");
       }
       case "smut orc jacker", "smut orc nailer", "smut orc pipelayer", "smut orc screwer" -> {
         // Out of the corner of your eye, you see another smut orc shiver and
@@ -2327,6 +2367,8 @@ public class QuestManager {
               "Ringogeorge, the Bladeswitcher" -> {
             // Don't mark path chosen unless won round 15
             if (Preferences.increment("lastColosseumRoundWon", 1) == 15) {
+              Preferences.setBoolean("isMerkinGladiatorChampion", true);
+              // The following is not applicable in the Sea path
               Preferences.setString("merkinQuestPath", "gladiator");
             }
           }
@@ -2334,7 +2376,7 @@ public class QuestManager {
         break;
 
       case AdventurePool.THE_DAILY_DUNGEON:
-        Preferences.increment("_lastDailyDungeonRoom", 1);
+        DailyDungeonManager.handleCurrentRoomCompletion(DailyDungeonManager.RoomType.MONSTER);
         break;
 
       case AdventurePool.ARID_DESERT:
@@ -2532,17 +2574,21 @@ public class QuestManager {
     }
   }
 
+  private static final Pattern CYRUS_PATTERN =
+      Pattern.compile("you remember him getting ([^.]*?)\\.");
+
   /**
    * After we lose a fight, some quests may need to be updated. Centralize handling for it here.
    *
    * @param responseText The text from (at least) the losing round of the fight
    * @param monster The monster which beat us up.
    */
-  private static final Pattern CYRUS_PATTERN =
-      Pattern.compile("you remember him getting ([^.]*?)\\.");
+  public static void updateQuestFightLost(String responseText, MonsterData monster) {
+    if (monster == null) {
+      return;
+    }
 
-  public static void updateQuestFightLost(String responseText, String monsterName) {
-    switch (monsterName) {
+    switch (monster.getName()) {
       case "menacing thug" -> QuestDatabase.setQuestProgress(Quest.NEMESIS, "step18");
       case "Mob Penguin hitman" -> QuestDatabase.setQuestProgress(Quest.NEMESIS, "step20");
       case "Naughty Sorceress (3)" -> QuestDatabase.setQuestProgress(Quest.FINAL, "step12");
@@ -2700,8 +2746,8 @@ public class QuestManager {
   public static void updateQuestItemEquipped(final int itemId) {
     switch (itemId) {
       case ItemPool.GORE_BUCKET -> QuestDatabase.setQuestIfBetter(Quest.GORE, "step1");
-      case ItemPool.MINI_CASSETTE_RECORDER -> QuestDatabase.setQuestIfBetter(
-          Quest.JUNGLE_PUN, "step1");
+      case ItemPool.MINI_CASSETTE_RECORDER ->
+          QuestDatabase.setQuestIfBetter(Quest.JUNGLE_PUN, "step1");
       case ItemPool.GPS_WATCH -> QuestDatabase.setQuestIfBetter(Quest.OUT_OF_ORDER, "step1");
       case ItemPool.TRASH_NET -> QuestDatabase.setQuestIfBetter(Quest.FISH_TRASH, "step1");
       case ItemPool.LUBE_SHOES -> QuestDatabase.setQuestIfBetter(Quest.SUPER_LUBER, "step1");

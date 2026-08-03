@@ -66,18 +66,22 @@ class UseSkillRequestTest {
     ContactManager.registerPlayerId("targetPlayer", "123");
     KoLCharacter.setMP(1000, 1000, 1000);
     KoLCharacter.addAvailableSkill(EXPERIENCE_SAFARI);
-    int startingCasts = SkillDatabase.getCasts(EXPERIENCE_SAFARI);
 
-    UseSkillRequest req = UseSkillRequest.getInstance(EXPERIENCE_SAFARI, "targetPlayer", 1);
-
-    var cleanups = withNextResponse(200, "You don't have enough mana to cast that skill.");
+    var cleanups =
+        new Cleanups(
+            withProperty("_experienceSafariUsed", 0),
+            withProperty("skillLevel180", 2),
+            withNextResponse(200, "You don't have enough mana to cast that skill."));
 
     try (cleanups) {
+      int startingCasts = SkillDatabase.getCasts(EXPERIENCE_SAFARI);
+      UseSkillRequest req = UseSkillRequest.getInstance(EXPERIENCE_SAFARI, "targetPlayer", 1);
       req.run();
-    }
 
-    assertEquals("Not enough mana to cast Experience Safari.", UseSkillRequest.lastUpdate);
-    assertEquals(startingCasts, SkillDatabase.getCasts(EXPERIENCE_SAFARI));
+      assertEquals("Not enough mana to cast Experience Safari.", UseSkillRequest.lastUpdate);
+      assertEquals(startingCasts, SkillDatabase.getCasts(EXPERIENCE_SAFARI));
+      assertThat("_experienceSafariUsed", isSetTo(0));
+    }
 
     KoLmafia.forceContinue();
   }
@@ -87,21 +91,24 @@ class UseSkillRequestTest {
     ContactManager.registerPlayerId("targetPlayer", "123");
     KoLCharacter.setMP(1000, 1000, 1000);
     KoLCharacter.addAvailableSkill(EXPERIENCE_SAFARI);
-    int startingCasts = SkillDatabase.getCasts(EXPERIENCE_SAFARI);
-
-    UseSkillRequest req = UseSkillRequest.getInstance(EXPERIENCE_SAFARI, "targetPlayer", 1);
 
     var cleanups =
-        withNextResponse(
-            200,
-            "You bless your friend, targetPlayer, with the ability to experience a safari adventure.");
+        new Cleanups(
+            withProperty("_experienceSafariUsed", 0),
+            withProperty("skillLevel180", 2),
+            withNextResponse(
+                200,
+                "You bless your friend, targetPlayer, with the ability to experience a safari adventure."));
 
     try (cleanups) {
+      int startingCasts = SkillDatabase.getCasts(EXPERIENCE_SAFARI);
+      UseSkillRequest req = UseSkillRequest.getInstance(EXPERIENCE_SAFARI, "targetPlayer", 1);
       req.run();
-    }
 
-    assertEquals("", UseSkillRequest.lastUpdate);
-    assertEquals(startingCasts + 1, SkillDatabase.getCasts(EXPERIENCE_SAFARI));
+      assertEquals("", UseSkillRequest.lastUpdate);
+      assertEquals(startingCasts + 1, SkillDatabase.getCasts(EXPERIENCE_SAFARI));
+      assertThat("_experienceSafariUsed", isSetTo(1));
+    }
   }
 
   @Test
@@ -268,7 +275,7 @@ class UseSkillRequestTest {
           "runskillz.php?action=Skillz&whichskill=7414&ajax=1&quantity=1",
           html("request/test_cast_sweat_booze.html"));
       // 31 - 25 = 6
-      assertEquals(Preferences.getInteger("sweat"), 6);
+      assertEquals(6, Preferences.getInteger("sweat"));
     }
 
     @Test
@@ -280,7 +287,7 @@ class UseSkillRequestTest {
           "runskillz.php?action=Skillz&whichskill=7419&ajax=1&quantity=1",
           html("request/test_cast_drench_sweat.html"));
       // 69 - 15 = 54
-      assertEquals(Preferences.getInteger("sweat"), 54);
+      assertEquals(54, Preferences.getInteger("sweat"));
     }
   }
 
@@ -666,6 +673,30 @@ class UseSkillRequestTest {
         var requests = getRequests();
         assertPostRequest(
             requests.get(0), "/inv_equip.php", "which=2&ajax=1&action=unequip&type=weapon");
+      }
+    }
+
+    @Test
+    public void parsesHeartstoneSkillsFromSkillzPage() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(Slot.ACCESSORY1, ItemPool.HEARTSTONE),
+              withProperty("heartstoneKillUnlocked", false),
+              withProperty("heartstoneBanishUnlocked", false),
+              withProperty("heartstoneStunUnlocked", false),
+              withProperty("heartstoneBuffUnlocked", false),
+              withProperty("heartstoneLuckUnlocked", false),
+              withProperty("heartstonePalsUnlocked", false));
+
+      try (cleanups) {
+        UseSkillRequest.parseResponse("skillz.php", html("request/test_parse_skillz.html"));
+
+        assertThat("heartstoneKillUnlocked", isSetTo(false));
+        assertThat("heartstoneBanishUnlocked", isSetTo(true));
+        assertThat("heartstoneStunUnlocked", isSetTo(true));
+        assertThat("heartstoneBuffUnlocked", isSetTo(true));
+        assertThat("heartstoneLuckUnlocked", isSetTo(true));
+        assertThat("heartstonePalsUnlocked", isSetTo(true));
       }
     }
   }

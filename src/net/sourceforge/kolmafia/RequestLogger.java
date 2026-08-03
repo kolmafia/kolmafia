@@ -8,8 +8,8 @@ import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
+// CHECKSTYLE.SUPPRESS: AvoidStarImport
 import net.sourceforge.kolmafia.request.*;
-import net.sourceforge.kolmafia.request.GrandpaRequest;
 import net.sourceforge.kolmafia.request.coinmaster.AWOLQuartermasterRequest;
 import net.sourceforge.kolmafia.request.coinmaster.AltarOfBonesRequest;
 import net.sourceforge.kolmafia.request.coinmaster.BURTRequest;
@@ -25,6 +25,7 @@ import net.sourceforge.kolmafia.request.coinmaster.GameShoppeRequest;
 import net.sourceforge.kolmafia.request.coinmaster.HermitRequest;
 import net.sourceforge.kolmafia.request.coinmaster.MrStoreRequest;
 import net.sourceforge.kolmafia.request.coinmaster.QuartersmasterRequest;
+import net.sourceforge.kolmafia.request.coinmaster.SkeletonOfCrimboPastRequest;
 import net.sourceforge.kolmafia.request.coinmaster.SwaggerShopRequest;
 import net.sourceforge.kolmafia.request.coinmaster.TravelingTraderRequest;
 import net.sourceforge.kolmafia.request.concoction.BurningLeavesRequest;
@@ -404,7 +405,9 @@ public class RequestLogger extends NullStream {
     // If we are in a fight, don't even look at things which are
     // not fight.php, since they will immediately redirect to
     // continue the fight.
-    if (FightRequest.currentRound != 0 && !urlString.startsWith("fight.php")) {
+    if (FightRequest.currentRound != 0
+        && !urlString.startsWith("fight.php")
+        && !urlString.startsWith("fambattle.php")) {
       return;
     }
 
@@ -489,6 +492,14 @@ public class RequestLogger extends NullStream {
     // ChoiceManager.
     if ((isExternal || request instanceof FudgeWandRequest)
         && FudgeWandRequest.registerRequest(urlString)) {
+      RequestLogger.wasLastRequestSimple = false;
+      return;
+    }
+
+    // We want to register visits to the Visiting your Skeleton of Crimbo Past choice adventure
+    // before ChoiceManager.
+    if ((isExternal || request instanceof SkeletonOfCrimboPastRequest)
+        && SkeletonOfCrimboPastRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }

@@ -210,34 +210,33 @@ public class DwarfFactoryRequest extends GenericRequest {
     String oldRunes = Preferences.getString(setting);
     String newRunes = "";
 
-    if (typeRunes.equals("") || typeRunes.indexOf(rune1) != -1) {
-      if (oldRunes.equals("") || oldRunes.indexOf(rune1) != -1) {
+    if (typeRunes.equals("") || typeRunes.contains(rune1)) {
+      if (oldRunes.equals("") || oldRunes.contains(rune1)) {
         newRunes += rune1;
       }
     }
 
-    if (typeRunes.equals("") || typeRunes.indexOf(rune2) != -1) {
-      if (oldRunes.equals("") || oldRunes.indexOf(rune2) != -1) {
+    if (typeRunes.equals("") || typeRunes.contains(rune2)) {
+      if (oldRunes.equals("") || oldRunes.contains(rune2)) {
         newRunes += rune2;
       }
     }
 
-    if (typeRunes.equals("") || typeRunes.indexOf(rune3) != -1) {
-      if (oldRunes.equals("") || oldRunes.indexOf(rune3) != -1) {
+    if (typeRunes.equals("") || typeRunes.contains(rune3)) {
+      if (oldRunes.equals("") || oldRunes.contains(rune3)) {
         newRunes += rune3;
       }
     }
 
     // Eliminate any runes which definitively belong to another item.
-    for (int i = 0; i < ITEMS.length; ++i) {
-      int id = ITEMS[i];
+    for (int id : ITEMS) {
       if (id == itemId) {
         continue;
       }
 
       String value = Preferences.getString("lastDwarfFactoryItem" + id);
 
-      if (value.length() == 1 && newRunes.indexOf(value) != -1) {
+      if (value.length() == 1 && newRunes.contains(value)) {
         newRunes = StringUtilities.globalStringDelete(newRunes, value);
       }
     }
@@ -252,8 +251,7 @@ public class DwarfFactoryRequest extends GenericRequest {
 
     int candidate = 0;
 
-    for (int i = 0; i < items.length; ++i) {
-      int itemId = items[i];
+    for (int itemId : items) {
       String setting = "lastDwarfFactoryItem" + itemId;
       String value = Preferences.getString(setting);
 
@@ -317,8 +315,7 @@ public class DwarfFactoryRequest extends GenericRequest {
   }
 
   private static void pruneItemRunes(final int id, final String rune) {
-    for (int i = 0; i < ITEMS.length; ++i) {
-      int itemId = ITEMS[i];
+    for (int itemId : ITEMS) {
       if (id == itemId) {
         continue;
       }
@@ -335,7 +332,7 @@ public class DwarfFactoryRequest extends GenericRequest {
       return;
     }
 
-    if (value.indexOf(rune) == -1) {
+    if (!value.contains(rune)) {
       return;
     }
 
@@ -363,7 +360,7 @@ public class DwarfFactoryRequest extends GenericRequest {
     DwarfFactoryRequest.setOreRune(rune);
 
     // See how much ore is currently in the hopper
-    if (responseText.indexOf("It is currently empty") != -1) {
+    if (responseText.contains("It is currently empty")) {
       hopperCount[hopper - 1] = 0;
       return;
     }
@@ -379,7 +376,7 @@ public class DwarfFactoryRequest extends GenericRequest {
 
   public static void setOreRune(final String rune) {
     String runes = Preferences.getString("lastDwarfOreRunes");
-    if (runes.indexOf(rune) != -1) {
+    if (runes.contains(rune)) {
       return;
     }
 
@@ -393,9 +390,7 @@ public class DwarfFactoryRequest extends GenericRequest {
     }
 
     // Prune this rune from any non-ores
-    for (int i = 0; i < ITEMS.length; ++i) {
-      int itemId = ITEMS[i];
-
+    for (int itemId : ITEMS) {
       switch (itemId) {
         case ItemPool.LINOLEUM_ORE:
         case ItemPool.ASBESTOS_ORE:
@@ -410,7 +405,7 @@ public class DwarfFactoryRequest extends GenericRequest {
 
   private static void setEquipmentRune(final String rune) {
     String runes = Preferences.getString("lastDwarfEquipmentRunes");
-    if (runes.indexOf(rune) != -1) {
+    if (runes.contains(rune)) {
       return;
     }
 
@@ -425,9 +420,7 @@ public class DwarfFactoryRequest extends GenericRequest {
     }
 
     // Prune this rune from any non-equipment
-    for (int i = 0; i < ITEMS.length; ++i) {
-      int itemId = ITEMS[i];
-
+    for (int itemId : ITEMS) {
       switch (itemId) {
         case ItemPool.MINERS_HELMET:
         case ItemPool.MINERS_PANTS:
@@ -450,7 +443,7 @@ public class DwarfFactoryRequest extends GenericRequest {
 
   public static String getRunes(final String responseText) {
     Matcher matcher = DwarfFactoryRequest.getRuneMatcher(responseText);
-    StringBuffer resultBuilder = new StringBuffer();
+    StringBuilder resultBuilder = new StringBuilder();
     while (matcher.find()) {
       resultBuilder.append(matcher.group(2));
     }
@@ -497,7 +490,7 @@ public class DwarfFactoryRequest extends GenericRequest {
 
   public static void useUnlaminatedItem(final int itemId, final String responseText) {
     Matcher matcher = DwarfFactoryRequest.getRuneMatcher(responseText);
-    StringBuffer runesBuilder = new StringBuffer();
+    StringBuilder runesBuilder = new StringBuilder();
     int count = 0;
 
     while (matcher.find()) {
@@ -521,7 +514,7 @@ public class DwarfFactoryRequest extends GenericRequest {
 
   public static void useLaminatedItem(final int itemId, final String responseText) {
     Matcher matcher = DwarfFactoryRequest.getRuneMatcher(responseText);
-    StringBuffer runesBuilder = new StringBuffer();
+    StringBuilder runesBuilder = new StringBuilder();
     int count = 0;
 
     while (matcher.find()) {
@@ -675,7 +668,7 @@ public class DwarfFactoryRequest extends GenericRequest {
       Pattern.compile("(red|orange|yellow|green|blue|indigo|violet)");
 
   public static int deduceDefense(final Matcher kiltMatcher) {
-    if (kiltMatcher.group(0).indexOf("rave on your crotch") != -1) {
+    if (kiltMatcher.group(0).contains("rave on your crotch")) {
       return 99999;
     }
 
@@ -804,21 +797,21 @@ public class DwarfFactoryRequest extends GenericRequest {
 
     // Step 0: get the unlaminated numbers
     String[] unlaminated = getUnlaminatedNumbers();
-    for (int i = 0; i < unlaminated.length; ++i) {
-      DwarfFactoryRequest.digits.addNumber(unlaminated[i]);
+    for (String s : unlaminated) {
+      DwarfFactoryRequest.digits.addNumber(s);
     }
 
     // Step 1: try to deduce what we can from the laminated items
     String[] laminated = getLaminatedNumbers();
-    for (int i = 0; i < laminated.length; ++i) {
-      DwarfFactoryRequest.digits.addNumber(laminated[i]);
+    for (String s : laminated) {
+      DwarfFactoryRequest.digits.addNumber(s);
     }
     DwarfFactoryRequest.digits.analyzeNumbers();
 
     // Step 2: iterate over saved dice rules, deducing what we can
     String[] rolls = DwarfFactoryRequest.getDiceRolls();
-    for (int i = 0; i < rolls.length; ++i) {
-      DwarfFactoryRequest.digits.addRoll(rolls[i]);
+    for (String roll : rolls) {
+      DwarfFactoryRequest.digits.addRoll(roll);
     }
     DwarfFactoryRequest.digits.analyzeRolls();
 
@@ -1095,7 +1088,7 @@ public class DwarfFactoryRequest extends GenericRequest {
     }
 
     private void mapCharacter(final char c, final int i) {
-      Character code = Character.valueOf(Character.toUpperCase(c));
+      Character code = Character.toUpperCase(c);
       Integer val = i;
       this.mapCharacter(code, val);
     }
@@ -1114,10 +1107,10 @@ public class DwarfFactoryRequest extends GenericRequest {
     }
 
     public String digitString() {
-      StringBuffer valueBuilder = new StringBuffer();
+      StringBuilder valueBuilder = new StringBuilder();
       for (int i = 0; i < 7; ++i) {
         Character code = this.charMap.get(i);
-        valueBuilder.append(code == null ? '-' : code.charValue());
+        valueBuilder.append(code == null ? '-' : code);
       }
       return valueBuilder.toString();
     }
@@ -1129,11 +1122,11 @@ public class DwarfFactoryRequest extends GenericRequest {
     public int parseNumber(final String string) {
       int number = 0;
       for (int i = 0; i < string.length(); ++i) {
-        Integer val = this.digitMap.get(Character.valueOf(string.charAt(i)));
+        Integer val = this.digitMap.get(string.charAt(i));
         if (val == null) {
           return -1;
         }
-        number = (number * 7) + val.intValue();
+        number = (number * 7) + val;
       }
       return number;
     }
@@ -1144,7 +1137,7 @@ public class DwarfFactoryRequest extends GenericRequest {
     private final ArrayList<Character> digits = new ArrayList<>();
 
     private void addNewDigit(final char ch) {
-      Character digit = Character.valueOf(ch);
+      Character digit = ch;
       if (!this.digits.contains(digit)) {
         this.digits.add(digit);
       }
@@ -1152,8 +1145,7 @@ public class DwarfFactoryRequest extends GenericRequest {
 
     public void addNumber(final String number) {
       // See if it's a new number
-      for (int i = 0; i < this.numbers.size(); ++i) {
-        String old = this.numbers.get(i);
+      for (String old : this.numbers) {
         if (old.equals(number)) {
           return;
         }
@@ -1201,9 +1193,7 @@ public class DwarfFactoryRequest extends GenericRequest {
       char[][] matches = new char[2][8];
       int[] counts = new int[2];
 
-      for (int i = 0; i < this.numbers.size(); ++i) {
-        String val = this.numbers.get(i);
-
+      for (String val : this.numbers) {
         // We only deduce digits from 3-digit numbers.
         if (val.length() < 3) {
           continue;
@@ -1289,8 +1279,7 @@ public class DwarfFactoryRequest extends GenericRequest {
       }
 
       // See if it's a new roll
-      for (int i = 0; i < this.rolls.size(); ++i) {
-        String old = this.rolls.get(i);
+      for (String old : this.rolls) {
         if (old.equals(roll)) {
           return;
         }
@@ -1386,7 +1375,7 @@ public class DwarfFactoryRequest extends GenericRequest {
       // character in that position.
       Character val = this.charMap.get(index);
       if (val != null) {
-        this.generatePermutations(prefix + val.charValue());
+        this.generatePermutations(prefix + val);
         return;
       }
 
@@ -1394,7 +1383,7 @@ public class DwarfFactoryRequest extends GenericRequest {
         Character rune = this.digits.get(i);
 
         // If we're already using this character, skip
-        char ch = rune.charValue();
+        char ch = rune;
         if (prefix.indexOf(ch) != -1) {
           continue;
         }
@@ -1402,7 +1391,7 @@ public class DwarfFactoryRequest extends GenericRequest {
         // If we know this rune, only use it in the
         // correct position.
         Integer j = this.digitMap.get(rune);
-        if (j != null && j.intValue() != index) {
+        if (j != null && j != index) {
           continue;
         }
 
@@ -1876,7 +1865,7 @@ public class DwarfFactoryRequest extends GenericRequest {
         String setting = "lastDwarfFactoryItem" + itemId;
         String value = Preferences.getString(setting);
         if (value.length() == 1) {
-          Character rune = Character.valueOf(value.charAt(0));
+          Character rune = value.charAt(0);
           Integer id = itemId;
           this.itemMap.put(rune, id);
           this.runeMap.put(id, rune);
@@ -1982,13 +1971,13 @@ public class DwarfFactoryRequest extends GenericRequest {
     }
 
     private int findItem(final char rune) {
-      Integer val = this.itemMap.get(Character.valueOf(rune));
-      return val == null ? -1 : val.intValue();
+      Integer val = this.itemMap.get(rune);
+      return val == null ? -1 : val;
     }
 
     private char findRune(final int itemId) {
       Character val = this.runeMap.get(itemId);
-      return val == null ? 0 : val.charValue();
+      return val == null ? 0 : val;
     }
 
     private int findHopper(final char rune) {

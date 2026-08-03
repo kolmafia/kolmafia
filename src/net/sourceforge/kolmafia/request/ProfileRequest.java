@@ -408,7 +408,7 @@ public class ProfileRequest extends GenericRequest implements Comparable<Profile
   }
 
   public Integer getPlayerLevel() {
-    if (this.playerLevel == null || this.playerLevel.intValue() == 0) {
+    if (this.playerLevel == null || this.playerLevel == 0) {
       this.initialize();
     }
 
@@ -461,7 +461,7 @@ public class ProfileRequest extends GenericRequest implements Comparable<Profile
   }
 
   public Integer getPvpRank() {
-    if (this.pvpRank == null || this.pvpRank.intValue() == 0) {
+    if (this.pvpRank == null || this.pvpRank == 0) {
       this.initialize();
     }
 
@@ -485,7 +485,7 @@ public class ProfileRequest extends GenericRequest implements Comparable<Profile
 
   public Integer getPower() {
     this.initialize();
-    return this.muscle.intValue() + this.mysticism.intValue() + this.moxie.intValue();
+    return this.muscle + this.mysticism + this.moxie;
   }
 
   public Integer getEquipmentPower() {
@@ -537,10 +537,10 @@ public class ProfileRequest extends GenericRequest implements Comparable<Profile
     }
 
     if (this.getPvpRank().intValue() != o.getPvpRank().intValue()) {
-      return this.getPvpRank().intValue() - o.getPvpRank().intValue();
+      return this.getPvpRank() - o.getPvpRank();
     }
 
-    return this.getPlayerLevel().intValue() - o.getPlayerLevel().intValue();
+    return this.getPlayerLevel() - o.getPlayerLevel();
   }
 
   private static final Pattern WHO_PATTERN = Pattern.compile("who=(\\d+)");

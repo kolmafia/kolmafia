@@ -128,7 +128,7 @@ public class MallPurchaseRequest extends PurchaseRequest {
       }
 
       Set<Integer> forbidden =
-          Arrays.stream(input.split("\\s*,\\s*"))
+          Arrays.stream(StringUtilities.splitByComma(input))
               .filter(s -> s.matches("[0-9]+"))
               .mapToInt(Integer::parseInt)
               .boxed()
@@ -541,6 +541,11 @@ public class MallPurchaseRequest extends PurchaseRequest {
       // check available Meat before attempting a Mall Purchase.
       // The Relay Browser has no such constraints, so don't
       // bother trying to parse the response.
+      return;
+    }
+
+    if (MallPurchaseRequest.YIELD_PATTERN.matcher(responseText).find()) {
+      // Per-day store limit; processResults() handles repurchase logic via YIELD_PATTERN.
       return;
     }
 

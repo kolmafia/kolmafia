@@ -188,8 +188,8 @@ public class PulverizePanel extends ItemListManagePanel<AdventureResult> {
               | (this.others ? EquipmentDatabase.ELEM_OTHER : 0);
       this.yieldMask = 0;
       int[] indices = PulverizePanel.this.yields.getSelectedColumns();
-      for (int i = 0; i < indices.length; ++i) {
-        this.yieldMask |= EquipmentDatabase.YIELD_1P << indices[i];
+      for (int index : indices) {
+        this.yieldMask |= EquipmentDatabase.YIELD_1P << index;
       }
       super.update();
     }
@@ -235,8 +235,7 @@ public class PulverizePanel extends ItemListManagePanel<AdventureResult> {
         return;
       }
 
-      for (int i = 0; i < items.length; ++i) {
-        AdventureResult item = items[i];
+      for (AdventureResult item : items) {
         if (item.getCount() > 0) {
           KoLConstants.pulverizeQueue.remove(item);
           KoLConstants.pulverizeQueue.add(item);
@@ -266,8 +265,7 @@ public class PulverizePanel extends ItemListManagePanel<AdventureResult> {
         return;
       }
 
-      for (int i = 0; i < items.length; ++i) {
-        AdventureResult item = items[i];
+      for (AdventureResult item : items) {
         if (item.getCount() > 0) {
           KoLConstants.pulverizeQueue.remove(item);
           LockableListModel<AdventureResult> inv =
@@ -317,8 +315,8 @@ public class PulverizePanel extends ItemListManagePanel<AdventureResult> {
       LockableListModel<AdventureResult> inv =
           (LockableListModel<AdventureResult>) PulverizePanel.this.getElementList().getModel();
       inv.fireContentsChanged(inv, 0, inv.size() - 1);
-      for (int i = 0; i < items.length; ++i) {
-        RequestThread.postRequest(new PulverizeRequest(items[i]));
+      for (AdventureResult item : items) {
+        RequestThread.postRequest(new PulverizeRequest(item));
       }
     }
 

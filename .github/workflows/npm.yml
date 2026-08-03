@@ -1,9 +1,12 @@
-
 name: Publish Typescript definitions to NPM
 on:
   push:
     branches: [ main ]
   workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
 
 jobs:
   npm:
@@ -11,12 +14,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
       - name: Setup Java 21
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: "temurin"
           java-version: "21"
@@ -27,9 +30,9 @@ jobs:
           ORG_GRADLE_PROJECT_commit: ${{ github.sha }}
         run: ./gradlew --no-daemon tsDefs
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version: 24
           registry-url: "https://registry.npmjs.org"
 
       - name: Checking generated TypeScript definitions

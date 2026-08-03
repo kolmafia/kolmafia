@@ -341,7 +341,7 @@ public class TavernManager {
     }
 
     // If we know where the faucet is, go there.
-    return TavernRequest.tavernLayout().indexOf("3") >= 0;
+    return TavernRequest.tavernLayout().contains("3");
   }
 
   public static int recommendSquare() {
@@ -370,7 +370,7 @@ public class TavernManager {
     String layout = TavernRequest.tavernLayout();
 
     // See if any squares are unexplored
-    if (layout.indexOf("0") == -1) {
+    if (!layout.contains("0")) {
       return 0;
     }
 
@@ -385,7 +385,7 @@ public class TavernManager {
     Integer searchIndex = searchList.remove(0);
 
     // That's the square we will visit.
-    return searchIndex.intValue();
+    return searchIndex;
   }
 
   public static void handleTavernChange(String responseText) {

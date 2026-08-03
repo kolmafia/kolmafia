@@ -26,6 +26,21 @@ public class Maximizer {
     };
   }
 
+  public static Matcher<Boost> recommendsEffect(String effectName) {
+    return new TypeSafeMatcher<>() {
+      @Override
+      public void describeTo(Description description) {
+        description.appendText("effect " + effectName);
+      }
+
+      @Override
+      protected boolean matchesSafely(Boost boost) {
+        AdventureResult item = boost.getItem();
+        return item.isStatusEffect() && equalsItem(effectName, item);
+      }
+    };
+  }
+
   public static Matcher<Boost> recommends(int itemId) {
     return new TypeSafeMatcher<>() {
       @Override

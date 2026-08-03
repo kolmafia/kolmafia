@@ -42,9 +42,7 @@ public class GardenCommand extends AbstractCommand {
 
   @Override
   public void run(final String cmd, String parameters) {
-    if (KoLCharacter.isEd()
-        || KoLCharacter.inNuclearAutumn()
-        || KoLCharacter.getLimitMode().limitCampground()) {
+    if (!CampgroundRequest.haveCampground()) {
       KoLmafia.updateDisplay("You can't get to your campground to visit your garden.");
       return;
     }

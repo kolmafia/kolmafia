@@ -114,30 +114,34 @@ public class GameproManager {
 
   private static String compareDirections(String direction1, String direction2) {
     return switch (direction1) {
-      case "north" -> switch (direction2) {
-        case "west" -> "1";
-        case "north" -> "2";
-        case "east" -> "3";
-        default -> "0";
-      };
-      case "east" -> switch (direction2) {
-        case "north" -> "1";
-        case "east" -> "2";
-        case "south" -> "3";
-        default -> "0";
-      };
-      case "south" -> switch (direction2) {
-        case "east" -> "1";
-        case "south" -> "2";
-        case "west" -> "3";
-        default -> "0";
-      };
-      case "west" -> switch (direction2) {
-        case "south" -> "1";
-        case "west" -> "2";
-        case "north" -> "3";
-        default -> "0";
-      };
+      case "north" ->
+          switch (direction2) {
+            case "west" -> "1";
+            case "north" -> "2";
+            case "east" -> "3";
+            default -> "0";
+          };
+      case "east" ->
+          switch (direction2) {
+            case "north" -> "1";
+            case "east" -> "2";
+            case "south" -> "3";
+            default -> "0";
+          };
+      case "south" ->
+          switch (direction2) {
+            case "east" -> "1";
+            case "south" -> "2";
+            case "west" -> "3";
+            default -> "0";
+          };
+      case "west" ->
+          switch (direction2) {
+            case "south" -> "1";
+            case "west" -> "2";
+            case "north" -> "3";
+            default -> "0";
+          };
       default -> "0";
     };
   }

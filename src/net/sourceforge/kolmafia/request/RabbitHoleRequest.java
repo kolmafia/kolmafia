@@ -31,7 +31,7 @@ public class RabbitHoleRequest extends PlaceRequest {
       // was weird enough that you're not inclined to attend
       // another one.
 
-      if (responseText.indexOf("already attended a Tea Party today") != -1) {
+      if (responseText.contains("already attended a Tea Party today")) {
         Preferences.setBoolean("_madTeaParty", true);
       }
     }

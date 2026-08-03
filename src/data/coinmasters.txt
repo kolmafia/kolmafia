@@ -2,6 +2,63 @@
 # Shop name	buy/sell	shop currency gained/lost	item bought/sold	ROWXXX
 # ROW and quantity sold are optional, if both are used they must be separated by a comma
 
+# Pixel items.  These are items which are created at the Crackpot
+# mystic after collecting enough pixels.
+
+The Crackpot Mystic's Shed	ROW31	monster bait	red pixel (20)	white pixel (15)
+# The Crackpot Mystic's Shed	ROW36	digital key	white pixel (30)
+
+The Crackpot Mystic's Shed	ROW26	white pixel	red pixel	green pixel	blue pixel
+The Crackpot Mystic's Shed	ROW27	red pixel potion	black pixel (3)	red pixel (2)
+The Crackpot Mystic's Shed	ROW28	blue pixel potion	black pixel (3)	blue pixel (2)
+The Crackpot Mystic's Shed	ROW29	green pixel potion	black pixel (4)	green pixel (3)
+The Crackpot Mystic's Shed	ROW30	purple pixel pie	white pixel (5)	red pixel (2)	blue pixel (2)
+
+# 8-Bit Finery
+The Crackpot Mystic's Shed	ROW33	pixel hat	white pixel (10)	green pixel (15)
+The Crackpot Mystic's Shed	ROW35	pixel sword	white pixel (20)	black pixel (10)	blue pixel (10)
+The Crackpot Mystic's Shed	ROW34	pixel pants	black pixel (10)	red pixel (20)
+
+The Crackpot Mystic's Shed	ROW32	pixel shield	red pixel (20)	black pixel (10)	white pixel (10)
+The Crackpot Mystic's Shed	ROW37	pixel boomerang	black pixel (10)	white pixel (10)	blue pixel (20)
+
+# Uses brown pixels from Vanya's Castle
+The Crackpot Mystic's Shed	ROW38	pixel whip	brown pixel (10)
+The Crackpot Mystic's Shed	ROW1307	pixel bread	white pixel (5)	brown pixel (5)
+The Crackpot Mystic's Shed	ROW1308	pixel whiskey	white pixel (5)	brown pixel (5)
+
+# Uses yellow pixels from Puck Man or Ms. Puck Man
+The Crackpot Mystic's Shed	ROW726	pixel coin	yellow pixel (10)
+The Crackpot Mystic's Shed	ROW734	miniature power pill	yellow pixel (15)
+The Crackpot Mystic's Shed	ROW728	pixel star	yellow pixel (15)	black pixel (2)
+The Crackpot Mystic's Shed	ROW735	yellow pixel potion	yellow pixel (10)
+The Crackpot Mystic's Shed	ROW732	pixel lemon	yellow pixel (10)
+The Crackpot Mystic's Shed	ROW729	pixel banana	yellow pixel (10)	black pixel
+The Crackpot Mystic's Shed	ROW733	pixel daiquiri	yellow pixel (10)
+The Crackpot Mystic's Shed	ROW730	pixel beer	yellow pixel (10)	white pixel (5)
+The Crackpot Mystic's Shed	ROW731	yellow submarine	yellow pixel (50)	red pixel (5)	green pixel (5)	blue pixel (5)
+
+# Unlockable after defeating Crackpot Mystic's Psychoses
+The Crackpot Mystic's Shed	ROW39	pixel pill	red pixel (20)	white pixel (20)
+The Crackpot Mystic's Shed	ROW40	pixel energy tank	blue pixel (40)	white pixel (10)
+The Crackpot Mystic's Shed	ROW41	pixel grappling hook	white pixel (50)	black pixel (50)
+
+# Star Chart items
+
+A Star Chart	ROW144	star boomerang	star chart	star (4)	line (5)
+A Star Chart	ROW138	star buckler	star chart	star (4)	line (6)
+A Star Chart	ROW134	star crossbow	star chart	star (5)	line (6)
+A Star Chart	ROW137	star hat	star chart	star (5)	line (3)
+A Star Chart	ROW136	star pants	star chart	star (7)	line (7)
+A Star Chart	ROW145	star spatula	star chart	star (5)	line (5)
+A Star Chart	ROW135	star staff	star chart	star (6)	line (5)
+A Star Chart	ROW140	star starfish	star chart	star (6)	line (4)
+A Star Chart	ROW143	star stiletto	star chart	star (5)	line (4)
+A Star Chart	ROW133	star sword	star chart	star (7)	line (4)
+A Star Chart	ROW139	star throwing star	star chart	star (4)	line (2)
+A Star Chart	ROW141	Richard's star key	star chart	star (8)	line (7)
+A Star Chart	ROW142	star shirt	star chart	star (15)	line (15)
+
 # Things you can sell to get dimes
 
 Dimemaster	sell	3	beer bong
@@ -134,6 +191,16 @@ Crimbo Cartel	buy	2000	snow belly
 Crimbo Cartel	buy	2000	snow pants
 Crimbo Cartel	buy	5000	pile of loose snow
 Crimbo Cartel	buy	10000	Crimbough
+
+# Items created by folding sugar sheets
+
+Sugar Sheet Folding	ROW327	sugar shotgun	sugar sheet
+Sugar Sheet Folding	ROW328	sugar shillelagh	sugar sheet
+Sugar Sheet Folding	ROW329	sugar shank	sugar sheet
+Sugar Sheet Folding	ROW330	sugar chapeau	sugar sheet
+Sugar Sheet Folding	ROW331	sugar shorts	sugar sheet
+Sugar Sheet Folding	ROW332	sugar shield	sugar sheet
+Sugar Sheet Folding	ROW333	sugar shirt	sugar sheet
 
 # Things you can buy with Game Grid tickets
 
@@ -543,6 +610,94 @@ FDKOL Tent	buy	1500	FDKOL fire hose	ROW11
 FDKOL Tent	buy	1500	enchanted fire extinguisher	ROW8
 FDKOL Tent	buy	3500	Hjodor's Guide to Arctic Dalmatians	ROW9
 
+# Avatar of Jarlsberg ingredients
+Jarlsberg's Cosmic Kitchen	ROW42	consummate hard-boiled egg	cosmic egg
+Jarlsberg's Cosmic Kitchen	ROW45	consummate bagel	cosmic dough
+Jarlsberg's Cosmic Kitchen	ROW51	consummate soup	cosmic vegetable
+Jarlsberg's Cosmic Kitchen	ROW43	consummate fried egg	cosmic egg
+Jarlsberg's Cosmic Kitchen	ROW58	consummate bacon	cosmic potted meat product
+Jarlsberg's Cosmic Kitchen	ROW63	consummate french fries	cosmic potato
+Jarlsberg's Cosmic Kitchen	ROW47	consummate hot dog bun	cosmic dough
+Jarlsberg's Cosmic Kitchen	ROW53	consummate salad	cosmic vegetable
+Jarlsberg's Cosmic Kitchen	ROW46	consummate sliced bread	cosmic dough
+Jarlsberg's Cosmic Kitchen	ROW52	consummate corn chips	cosmic vegetable
+Jarlsberg's Cosmic Kitchen	ROW56	consummate cheese slice	cosmic cheese
+Jarlsberg's Cosmic Kitchen	ROW69	consummate strawberries	cosmic fruit
+Jarlsberg's Cosmic Kitchen	ROW48	consummate brownie	cosmic dough
+Jarlsberg's Cosmic Kitchen	ROW57	consummate melted cheese	cosmic cheese
+Jarlsberg's Cosmic Kitchen	ROW59	consummate meatloaf	cosmic potted meat product
+Jarlsberg's Cosmic Kitchen	ROW64	consummate baked potato	cosmic potato
+Jarlsberg's Cosmic Kitchen	ROW49	consummate toast	cosmic dough
+Jarlsberg's Cosmic Kitchen	ROW60	consummate steak	cosmic potted meat product
+Jarlsberg's Cosmic Kitchen	ROW61	consummate cold cuts	cosmic potted meat product
+Jarlsberg's Cosmic Kitchen	ROW66	consummate ice cream	cosmic cream
+Jarlsberg's Cosmic Kitchen	ROW70	consummate sorbet	cosmic fruit
+Jarlsberg's Cosmic Kitchen	ROW44	consummate egg salad	cosmic egg
+Jarlsberg's Cosmic Kitchen	ROW54	consummate salsa	cosmic vegetable
+Jarlsberg's Cosmic Kitchen	ROW62	consummate frankfurter	cosmic potted meat product
+Jarlsberg's Cosmic Kitchen	ROW67	consummate whipped cream	cosmic cream
+Jarlsberg's Cosmic Kitchen	ROW50	passable stout	cosmic dough
+Jarlsberg's Cosmic Kitchen	ROW55	consummate sauerkraut	cosmic vegetable
+Jarlsberg's Cosmic Kitchen	ROW65	acceptable vodka	cosmic potato
+Jarlsberg's Cosmic Kitchen	ROW68	consummate sour cream	cosmic cream
+Jarlsberg's Cosmic Kitchen	ROW71	adequate rum	cosmic fruit
+Jarlsberg's Cosmic Kitchen	ROW112	cosmic six-pack	[0] (0)
+
+# Avatar of Jarlsberg dishes
+Jarlsberg's Cosmic Kitchen	ROW72	immaculate grilled cheese	consummate toast	consummate cheese slice
+Jarlsberg's Cosmic Kitchen	ROW73	immaculate ice cream sandwich	consummate ice cream	consummate brownie
+Jarlsberg's Cosmic Kitchen	ROW74	immaculate hot dog	consummate hot dog bun	consummate frankfurter
+Jarlsberg's Cosmic Kitchen	ROW75	immaculate egg salad sandwich	consummate egg salad	consummate sliced bread
+Jarlsberg's Cosmic Kitchen	ROW76	perfect sandwich	consummate sliced bread	consummate cheese slice	consummate cold cuts
+Jarlsberg's Cosmic Kitchen	ROW77	perfect chef salad	consummate salad	consummate hard-boiled egg	consummate cold cuts
+Jarlsberg's Cosmic Kitchen	ROW78	perfect breakfast	consummate fried egg	consummate bacon	consummate toast
+Jarlsberg's Cosmic Kitchen	ROW79	sublime deluxe hot dog	consummate hot dog bun	consummate frankfurter	consummate sauerkraut
+Jarlsberg's Cosmic Kitchen	ROW80	sublime stew	consummate soup	consummate steak	consummate baked potato
+Jarlsberg's Cosmic Kitchen	ROW81	sublime nachos	consummate corn chips	consummate salsa	consummate melted cheese	consummate sour cream
+Jarlsberg's Cosmic Kitchen	ROW82	Ultimate Breakfast Sandwich	consummate fried egg	consummate bagel	consummate cheese slice	consummate bacon
+Jarlsberg's Cosmic Kitchen	ROW83	Loaded Baked Potato	consummate baked potato	consummate bacon	consummate melted cheese	consummate sour cream
+Jarlsberg's Cosmic Kitchen	ROW84	Omega Sundae	consummate ice cream	consummate whipped cream	consummate strawberries	consummate brownie
+Jarlsberg's Cosmic Kitchen	ROW85	Das Sauerlager	mediocre lager	consummate sauerkraut
+Jarlsberg's Cosmic Kitchen	ROW86	Bologna Lambic	passable stout	consummate cold cuts
+Jarlsberg's Cosmic Kitchen	ROW87	Vodka Dog	acceptable vodka	consummate hot dog bun
+Jarlsberg's Cosmic Kitchen	ROW88	Disappointed Russian	acceptable vodka	consummate sour cream
+Jarlsberg's Cosmic Kitchen	ROW89	Chunky Mary	acceptable vodka	consummate salsa
+Jarlsberg's Cosmic Kitchen	ROW90	Nachojito	adequate rum	consummate melted cheese
+Jarlsberg's Cosmic Kitchen	ROW91	Le Roi	adequate rum	consummate french fries
+Jarlsberg's Cosmic Kitchen	ROW92	Over Easy Rider	adequate rum	consummate fried egg
+
+# Avatar of Jarlsberg chefstaves
+Jarlsberg's Cosmic Kitchen	ROW110	Staff of Fruit Salad	cosmic fruit
+Jarlsberg's Cosmic Kitchen	ROW109	Staff of the All-Steak	cosmic potted meat product
+Jarlsberg's Cosmic Kitchen	ROW111	Staff of the Cream of the Cream	cosmic cream
+Jarlsberg's Cosmic Kitchen	ROW104	Staff of the Healthy Breakfast	cosmic egg
+Jarlsberg's Cosmic Kitchen	ROW108	Staff of the Hearty Dinner	cosmic potato
+Jarlsberg's Cosmic Kitchen	ROW106	Staff of the Light Lunch	cosmic vegetable
+Jarlsberg's Cosmic Kitchen	ROW105	Staff of the Staff of Life	cosmic dough
+Jarlsberg's Cosmic Kitchen	ROW107	Staff of the Standalone Cheese	cosmic cheese
+
+# Grandma's Sea Shop
+
+# Grandma Sea Monkey	ROW128	crappy Mer-kin mask	Mer-kin gladiator mask
+# Grandma Sea Monkey	ROW131	crappy Mer-kin mask	Mer-kin scholar mask
+Grandma Sea Monkey	ROW124	crappy Mer-kin mask	aerated diving helmet	pristine fish scale (3)
+# Grandma Sea Monkey	ROW1619	crappy Mer-kin tailpiece	Mer-kin scholar tailpiece
+# Grandma Sea Monkey	ROW1618	crappy Mer-kin tailpiece	Mer-kin gladiator tailpiece
+Grandma Sea Monkey	ROW125	crappy Mer-kin tailpiece	sea chaps	teflon swim fins	pristine fish scale (3)
+Grandma Sea Monkey	ROW126	Mer-kin gladiator mask	crappy Mer-kin mask	Mer-kin headguard
+Grandma Sea Monkey	ROW127	Mer-kin gladiator tailpiece	crappy Mer-kin tailpiece	Mer-kin thighguard
+Grandma Sea Monkey	ROW129	Mer-kin scholar mask	crappy Mer-kin mask	Mer-kin facecowl
+Grandma Sea Monkey	ROW130	Mer-kin scholar tailpiece	crappy Mer-kin tailpiece	Mer-kin waistrope
+Grandma Sea Monkey	ROW116	sushi doily	sea lace
+Grandma Sea Monkey	ROW117	scimitar cozy	sea lace (3)	pristine fish scale
+Grandma Sea Monkey	ROW118	fish stick cozy	sea lace (3)	pristine fish scale
+Grandma Sea Monkey	ROW119	bazooka cozy	sea lace (3)	pristine fish scale
+Grandma Sea Monkey	ROW132	scale-mail underwear	dull fish scale (25)	pristine fish scale
+Grandma Sea Monkey	ROW120	sea mantle	pristine fish scale (5)
+Grandma Sea Monkey	ROW121	sea shawl	pristine fish scale (5)
+Grandma Sea Monkey	ROW122	sea cape	pristine fish scale (5)
+Grandma Sea Monkey	ROW123	saltwaterbed	sea leather (15)
+
 # Things you can buy with Freddy Kruegerands
 
 The Terrified Eagle Inn	buy	1	hot Dreadsylvanian cocoa	ROW156
@@ -553,12 +708,33 @@ The Terrified Eagle Inn	buy	25	folder (tranquil landscape)	ROW157
 The Terrified Eagle Inn	buy	100	brass Dreadsylvanian flask	ROW151
 The Terrified Eagle Inn	buy	100	silver Dreadsylvanian flask	ROW152
 The Terrified Eagle Inn	buy	200	bottle of Bloodweiser	ROW774
-The Terrified Eagle Inn	buy	200	electric Kool-Aid 	ROW775
+The Terrified Eagle Inn	buy	200	electric Kool-Aid	ROW775
 The Terrified Eagle Inn	buy	250	Tales of Dread	ROW146
 The Terrified Eagle Inn	buy	500	dreadful fedora	ROW153
 The Terrified Eagle Inn	buy	500	dreadful sweater	ROW154
 The Terrified Eagle Inn	buy	500	dreadful glove	ROW155
 The Terrified Eagle Inn	buy	1000	Official Seal of Dreadsylvania	ROW148
+
+# KOL High School Art Class
+Art Class (After School)	ROW163	giant eraser	eraser nubbin (4)
+Art Class (After School)	ROW165	giant Faraday cage	twisted piece of wire (8)	angry inch (2)	eraser nubbin (2)	Mountain Stream Code Black Alert (1)
+Art Class (After School)	ROW166	modeling claymore	lump of clay (6)	twisted piece of wire (2)	angry inch (4)	eraser nubbin (2)	illegal firecracker (2)
+Art Class (After School)	ROW164	quasireligious sculpture	lump of clay (2)	twisted piece of wire (6)	angry inch (4)	Mountain Stream Code Black Alert (1)
+Art Class (After School)	ROW167	sticky clay homunculus	lump of clay (4)	twisted piece of wire (2)	angry inch (2)	Mountain Stream Code Black Alert (1)
+
+# KOL High School Chemistry Class
+Chemistry Class (After School)	ROW171	dirty stinkbomb	chlorine crystal (2)	ph balancer (2)	nugget of sodium (4)	surgical tape (1)	illegal firecracker (1)
+Chemistry Class (After School)	ROW169	grains of salt	chlorine crystal (2)	nugget of sodium (2)
+Chemistry Class (After School)	ROW168	sodium pentasomething	nugget of sodium (2)	mysterious chemical residue (4)	Mountain Stream Code Black Alert (1)
+Chemistry Class (After School)	ROW172	superwater	ph balancer (6)	mysterious chemical residue (2)	Mountain Stream Code Black Alert (1)
+Chemistry Class (After School)	ROW170	yellowcake bomb	chlorine crystal (4)	ph balancer (4)	mysterious chemical residue (4)	surgical tape (1)	illegal firecracker (1)
+
+# KOL High School Shop Class
+Shop Class (After School)	ROW162	deathchucks	jigsaw blade (4)	wood screw (2)	balsa plank (2)	scrap metal (1)
+Shop Class (After School)	ROW158	miniature suspension bridge	wood screw (4)	balsa plank (4)	blob of wood glue (2)	surgical tape (1)
+Shop Class (After School)	ROW159	Staff of the Lunch Lady	jigsaw blade (2)	balsa plank (6)	blob of wood glue (4)
+Shop Class (After School)	ROW160	universal key	jigsaw blade (4)	wood screw (4)	blob of wood glue (8)	surgical tape (1)	scrap metal (1)
+Shop Class (After School)	ROW161	world's most dangerous birdhouse	jigsaw blade (4)	wood screw (4)	balsa plank (2)	blob of wood glue (2)	illegal firecracker (2)
 
 # Things you can buy with Shore Inc. Ship Trip Scrip
 
@@ -570,6 +746,28 @@ The Shore, Inc. Gift Shop	buy	3	cheap toaster	ROW179
 The Shore, Inc. Gift Shop	buy	1	UV-resistant compass	ROW183
 The Shore, Inc. Gift Shop	buy	3	dinghy plans	ROW176
 The Shore, Inc. Gift Shop	buy	5	fuzzy dice	ROW177
+
+# Junk Magazine
+Worse Homes and Gardens	ROW184	junk junk	old claw-foot bathtub	old clothesline pole	antique cigar sign
+Worse Homes and Gardens	ROW188	junk food	jagged scrap metal	bent scrap metal	molten scrap metal
+Worse Homes and Gardens	ROW189	junk yard	jagged scrap metal	bent scrap metal	molten scrap metal
+Worse Homes and Gardens	ROW185	junk band	bent scrap metal	molten scrap metal (2)	tangle of copper wire	Junk-Bond
+Worse Homes and Gardens	ROW186	junk trunks	jagged scrap metal (2)	bent scrap metal	tangle of copper wire
+Worse Homes and Gardens	ROW187	junk-mail shirt	jagged scrap metal	bent scrap metal (2)	Junk-Bond
+Worse Homes and Gardens	ROW191	arm buzzer	bent scrap metal (2)	tangle of copper wire	Junk-Bond	eternal car battery
+Worse Homes and Gardens	ROW192	boilgun	molten scrap metal (2)	tangle of copper wire	Junk-Bond	eternal car battery
+Worse Homes and Gardens	ROW190	swordzall	jagged scrap metal (2)	tangle of copper wire	Junk-Bond	eternal car battery
+
+# Beer Garden
+Beer Garden	ROW214	can of Br&uuml;talbr&auml;u	handful of barley	cluster of hops
+Beer Garden	ROW215	can of Drooling Monk	handful of barley	cluster of hops
+Beer Garden	ROW216	can of Impetuous Scofflaw	handful of barley	cluster of hops
+Beer Garden	ROW291	liquid bread	handful of barley	cluster of hops
+Beer Garden	ROW217	bottle of Old Pugilist	handful of barley	cluster of hops	fancy beer bottle	fancy beer label
+Beer Garden	ROW218	bottle of Professor Beer	handful of barley	cluster of hops	fancy beer bottle	fancy beer label
+Beer Garden	ROW219	bottle of Rapier Witbier	handful of barley	cluster of hops	fancy beer bottle	fancy beer label
+Beer Garden	ROW816	bottle of Fishhead 900-Day IPA	handful of barley	cluster of hops	fancy beer bottle	fancy beer label
+Beer Garden	ROW220	artisanal homebrew gift package	handful of barley (3)	cluster of hops (3)	fancy beer bottle (3)	fancy beer label (3)
 
 # Things you can buy with warbear whosits
 
@@ -583,6 +781,23 @@ Warbear Black Box	buy	300	warbear dress bracers	ROW243
 Warbear Black Box	buy	400	warbear dress helmet	ROW244
 Warbear Black Box	buy	500	warbear officer requisition box	ROW226
 
+# Winter Garden
+Winter Gardening	ROW227	snow cleats	snow berries
+Winter Gardening	ROW228	liquid ice pack	ice harvest
+Winter Gardening	ROW230	snow crab	snow berries (2)
+Winter Gardening	ROW231	Ice Island Long Tea	snow berries	ice harvest (3)
+Winter Gardening	ROW229	snow boards	snow berries (2)
+Winter Gardening	ROW232	unfinished ice sculpture	snow berries (3)	ice harvest (3)
+Winter Gardening	ROW235	snow mobile	snow berries (3)	ice harvest (2)
+Winter Gardening	ROW236	ice bucket	ice harvest (3)
+Winter Gardening	ROW237	snow shovel	snow berries (4)	ice harvest
+Winter Gardening	ROW238	bod-ice	snow berries	ice harvest (4)
+Winter Gardening	ROW239	snow belt	snow berries (7)	ice harvest
+Winter Gardening	ROW240	ice nine	ice harvest (9)
+Winter Gardening	ROW233	ice house	ice harvest (8)
+Winter Gardening	ROW241	snow fort	snow berries (9)
+Winter Gardening	ROW234	snow machine	snow berries (30)	ice harvest (30)
+
 # Things you can buy with odd silver coins
 
 Paul's Boutique	buy	2	cinnamon cannoli	ROW245
@@ -591,6 +806,18 @@ Paul's Boutique	buy	3	polo trophy	ROW247
 Paul's Boutique	buy	4	fancy oil painting	ROW248
 Paul's Boutique	buy	5	solid gold rosary	ROW249
 Paul's Boutique	buy	5	ornate dowsing rod	ROW250
+
+# Rumplestiltskin's Workshop
+
+Rumplestiltskin's Workshop	ROW251	smudge stick	straw	leather
+Rumplestiltskin's Workshop	ROW252	portable wall	straw	clay
+Rumplestiltskin's Workshop	ROW255	jug of &quot;wine&quot;	straw	glass
+Rumplestiltskin's Workshop	ROW254	scroll case	straw	parchment
+Rumplestiltskin's Workshop	ROW258	humble pie	clay	filling
+Rumplestiltskin's Workshop	ROW259	small golem	clay	parchment
+Rumplestiltskin's Workshop	ROW257	crappy camera	leather	glass
+Rumplestiltskin's Workshop	ROW253	large tankard of ale	leather	clay
+Rumplestiltskin's Workshop	ROW256	juggling ball	leather	filling
 
 # Things you can buy with Beach Bucks
 
@@ -645,10 +872,15 @@ Ye Newe Souvenir Shoppe	buy	1000	Yorick	ROW758
 
 # The Central Loathing Floral Mercantile Exchange
 
-# The Central Loathing Floral Mercantile Exchange	buy	2	Chroner (1)	ROW759
-# The Central Loathing Floral Mercantile Exchange	buy	1	Chroner (16)	ROW760
-# The Central Loathing Floral Mercantile Exchange	buy	1	Chroner (21)	ROW761
-# The Central Loathing Floral Mercantile Exchange	buy	1	Chroner (11)	ROW762
+The Central Loathing Floral Mercantile Exchange	ROW759	Chroner (1)	rose (2)
+The Central Loathing Floral Mercantile Exchange	ROW760	Chroner (16)	red tulip
+The Central Loathing Floral Mercantile Exchange	ROW761	Chroner (21)	white tulip
+The Central Loathing Floral Mercantile Exchange	ROW762	Chroner (11)	blue tulip
+
+# The Central Loathing Floral Mercantile Exchange	sell	1	rose (2)	ROW759
+# The Central Loathing Floral Mercantile Exchange	sell	16	red tulip	ROW760
+# The Central Loathing Floral Mercantile Exchange	sell	21	white tulip	ROW761
+# The Central Loathing Floral Mercantile Exchange	sell	11	blue tulip	ROW762
 
 The Primordial Soup Kitchen	ROW1491	bacteria bisque	Chroner (10)
 The Primordial Soup Kitchen	ROW1492	ciliophora chowder	Chroner (10)
@@ -678,6 +910,15 @@ Freshwater Fishbonery	buy	10	fishbone corset	ROW322
 Freshwater Fishbonery	buy	15	fishbone kneepads	ROW321
 Freshwater Fishbonery	buy	30	fishbone catcher's mitt	ROW320
 Freshwater Fishbonery	buy	20	fishbone fins	ROW323
+
+# Xiblaxian 5D Printer
+Xiblaxian 5D printer	ROW337	Xiblaxian xeno-detection goggles	Xiblaxian polymer (4)	Xiblaxian crystal (2)
+Xiblaxian 5D printer	ROW334	Xiblaxian stealth cowl	Xiblaxian circuitry (4)	Xiblaxian polymer (9)	Xiblaxian alloy (5)
+Xiblaxian 5D printer	ROW336	Xiblaxian stealth vest	Xiblaxian circuitry (5)	Xiblaxian polymer (4)	Xiblaxian alloy (9)
+Xiblaxian 5D printer	ROW335	Xiblaxian stealth trousers	Xiblaxian circuitry (9)	Xiblaxian polymer (4)	Xiblaxian alloy (5)
+Xiblaxian 5D printer	ROW339	Xiblaxian ultraburrito	Xiblaxian circuitry	Xiblaxian polymer	Xiblaxian alloy (3)
+Xiblaxian 5D printer	ROW338	Xiblaxian space-whiskey	Xiblaxian circuitry (3)	Xiblaxian polymer	Xiblaxian alloy
+Xiblaxian 5D printer	ROW340	Xiblaxian residence-cube	Xiblaxian circuitry (11)	Xiblaxian polymer (11)	Xiblaxian alloy (11)	Xiblaxian crystal (3)
 
 # Things you can buy with Coins-spiracy
 
@@ -793,6 +1034,15 @@ Wal-Mart	buy	150	The Chill of the Wild	ROW770
 Wal-Mart	buy	150	Cold Fang	ROW772
 Wal-Mart	buy	250	Wal-Mart tattoo kit	ROW771
 
+# Elemental Duty Free, Inc.
+
+Elemental Duty Free, Inc.	ROW776	That 70s Cologne	Volcoino (5)
+Elemental Duty Free, Inc.	ROW778	Puffstone cigar	FunFunds&trade; (20)
+Elemental Duty Free, Inc.	ROW777	Wal-Mart &quot;diamond&quot; ring	Wal-Mart gift certificate (50)
+Elemental Duty Free, Inc.	ROW779	Conspiracy&trade; mascara	Coinspiracy (75)
+Elemental Duty Free, Inc.	ROW780	Spring Break Beach &quot;swimsuit&quot;	Beach Buck (125)
+Elemental Duty Free, Inc.	ROW781	airplane tattoo	Volcoino (20)	FunFunds&trade; (80)	Wal-Mart gift certificate (200)	Coinspiracy (300)	Beach Buck (500)
+
 # Things you can Bat-Fabricate
 
 Bat-Fabricator	buy	3	bat-oomerang	ROW782
@@ -878,18 +1128,16 @@ Internet Meme Shop	buy	5000	infinite BACON machine	ROW828
 
 # Things you can buy with cop dollars
 
-# These are conditionally available (must have previous lesser badge) and require a ShopRow coinmaster
-# Precinct Materiel Division	ROW832	bronze detective badge	plastic detective badge	detective roscoe	cop dollar (50)
-# Precinct Materiel Division	ROW831	silver detective badge	bronze detective badge	detective roscoe	cop dollar (200)
-# Precinct Materiel Division	ROW833	gold detective badge	silver detective badge	detective roscoe	cop dollar (400)
-
-Precinct Materiel Division	buy	4	hardboiled egg	ROW839
-Precinct Materiel Division	buy	4	Falcon&trade; Maltese Liquor	ROW835
-Precinct Materiel Division	buy	10	shoe gum	ROW834
-Precinct Materiel Division	buy	50	detective roscoe	ROW830
-Precinct Materiel Division	buy	200	noir fedora	ROW836
-Precinct Materiel Division	buy	200	trench coat	ROW837
-Precinct Materiel Division	buy	1000	detective tattoo	ROW838
+Precinct Materiel Division	ROW832	bronze detective badge	plastic detective badge	detective roscoe	cop dollar (50)
+Precinct Materiel Division	ROW831	silver detective badge	bronze detective badge	detective roscoe	cop dollar (200)
+Precinct Materiel Division	ROW833	gold detective badge	silver detective badge	detective roscoe	cop dollar (400)
+Precinct Materiel Division	ROW839	hardboiled egg	cop dollar (4)
+Precinct Materiel Division	ROW835	Falcon&trade; Maltese Liquor	cop dollar (4)
+Precinct Materiel Division	ROW834	shoe gum	cop dollar (10)
+Precinct Materiel Division	ROW830	detective roscoe	cop dollar (50)
+Precinct Materiel Division	ROW836	noir fedora	cop dollar (200)
+Precinct Materiel Division	ROW837	trench coat	cop dollar (200)
+Precinct Materiel Division	ROW838	detective tattoo	cop dollar (1000)
 
 # Things you can buy with cashews
 
@@ -907,6 +1155,23 @@ A traveling Thanksgiving salesman	buy	3	gravy boat	ROW906
 
 The Black Market	buy	1	Red Zeppelin ticket	ROW290
 
+# Crimbo 16
+
+Crimbo Lumps Shop	ROW911	hambrosier	negative lump (10)
+Crimbo Lumps Shop	ROW912	chakra-mental wine	negative lump (10)
+Crimbo Lumps Shop	ROW913	chakra malt	negative lump (10)
+Crimbo Lumps Shop	ROW914	Black Angus blackburger	negative lump (20)	chakra sludge
+Crimbo Lumps Shop	ROW915	black brandy	negative lump (20)	chakra sludge
+Crimbo Lumps Shop	ROW916	potion of spiritual gunkifying	negative lump (20)	chakra sludge
+Crimbo Lumps Shop	ROW917	bad vibroknife	negative lump (100)	chakra sludge (10)
+Crimbo Lumps Shop	ROW918	crystal belt buckle	negative lump (100)	chakra sludge (10)
+Crimbo Lumps Shop	ROW919	saffron antaravasaka	negative lump (200)	chakra sludge (20)
+Crimbo Lumps Shop	ROW920	saffron uttarasanga	negative lump (200)	chakra sludge (20)
+Crimbo Lumps Shop	ROW921	Lump-Stacking for Beginners	negative lump (1000)	chakra sludge (30)
+Crimbo Lumps Shop	ROW922	pet bad vibe	negative lump (2000)	chakra sludge (50)
+Crimbo Lumps Shop	ROW923	Rethinking Candy	negative lump (4000)	chakra sludge (75)
+Crimbo Lumps Shop	ROW924	eternal knot tattoo	negative lump (8000)	chakra sludge (100)
+
 # Things you can buy with Spacegate Research
 
 Spacegate Fabrication Facility	buy	50	Aldebaran sardines	ROW943
@@ -918,6 +1183,25 @@ Spacegate Fabrication Facility	buy	3000	Spacegate military insignia	ROW949
 Spacegate Fabrication Facility	buy	3000	Spacegate diplomat's insignia	ROW950
 Spacegate Fabrication Facility	buy	5000	Spacegate emergency disintegrator	ROW951
 Spacegate Fabrication Facility	buy	10000	Spacegate Initiative tattoo unit	ROW952
+
+# Spant Bit Assembly
+Spant Bit Assembly	ROW942	spant backplate	spant chitin (4)	spant tendon (6)
+Spant Bit Assembly	ROW940	spant shield	spant chitin (6)	spant tendon (4)
+Spant Bit Assembly	ROW941	spant shoulderpads	spant chitin (3)	spant tendon (7)
+Spant Bit Assembly	ROW939	spants	spant chitin (7)	spant tendon (3)
+
+# XO Shop
+XO Shop	ROW953	pair of candy glasses	O (2)
+XO Shop	ROW957	temporary X tattoos	X (2)
+XO Shop	ROW956	Hide-rox&trade; cookie	O (3)
+XO Shop	ROW955	jug of booze	X (3)
+XO Shop	ROW958	glyph of athleticism	O (5)
+XO Shop	ROW959	pair of scissors	O (2)	X (1)
+XO Shop	ROW960	new habit	X (31)
+XO Shop	ROW961	bridge truss	X (23)
+XO Shop	ROW962	pearl necklace	O (37)
+XO Shop	ROW963	amorphous blob	X (111)	O (111)
+XO Shop	ROW964	giant amorphous blob	giant X (11)	giant O (11)
 
 # Crimbo 2017
 Cheer-o-Vend 3000	buy	10	stale cheer wine	ROW966
@@ -971,6 +1255,11 @@ G-Mart	buy	1	gaseous gravy	ROW1024
 G-Mart	buy	1	A-Boo glue	ROW1020
 G-Mart	buy	3	crude oil congealer	ROW1021
 G-Mart	buy	11	gattoo	ROW1019
+
+# Mad Sliemce
+Mad Sliemce	ROW1025	slime fedora	black slime glob (1)	orange slime glob (100)	green slime glob (10)
+Mad Sliemce	ROW1026	slime knuckles	black slime glob (1)	orange slime glob (50)	green slime glob (20)
+Mad Sliemce	ROW1027	slime waders	black slime glob (1)	orange slime glob (10)	green slime glob (30)
 
 # PirateRealm
 PirateRealm Fun-a-Log	buy	20	PirateRealm party hat	ROW1064
@@ -1026,6 +1315,18 @@ Cosmic Ray's Bazaar	buy	1	Boris's key	ROW1093
 Cosmic Ray's Bazaar	buy	1	Jarlsberg's key	ROW1094
 Cosmic Ray's Bazaar	buy	1	Sneaky Pete's key	ROW1095
 Cosmic Ray's Bazaar	buy	1000	rare Meat isotope	ROW1096
+
+# Crimbo 2019
+The H. M. S. Kringle's Workshop	ROW1105	antique nutcracker hat	waterlogged cloth (3)	waterlogged stuffing (3)
+The H. M. S. Kringle's Workshop	ROW1110	antique nutcracker beard	waterlogged stuffing (3)
+The H. M. S. Kringle's Workshop	ROW1111	antique nutcracker epaulets	waterlogged wood (3)	waterlogged metal (3)
+The H. M. S. Kringle's Workshop	ROW1106	antique nutcracker cape	waterlogged cloth (3)
+The H. M. S. Kringle's Workshop	ROW1107	antique nutcracker waistcoat	waterlogged cloth (3)	waterlogged stuffing (3)	waterlogged leather (3)
+The H. M. S. Kringle's Workshop	ROW1109	antique nutcracker sword	waterlogged wood (3)	waterlogged metal (3)
+The H. M. S. Kringle's Workshop	ROW1112	antique nutcracker drumstick	waterlogged wood (3)	waterlogged stuffing (3)	waterlogged leather (3)
+The H. M. S. Kringle's Workshop	ROW1114	antique nutcracker pants	waterlogged cloth (3)	waterlogged leather (3)	waterlogged metal (3)
+The H. M. S. Kringle's Workshop	ROW1108	antique nutcracker boots	waterlogged leather (3)	waterlogged metal (3)
+The H. M. S. Kringle's Workshop	ROW1113	antique nutcracker figurine	waterlogged wood (3)
 
 # Plumber
 
@@ -1124,15 +1425,17 @@ Dino World Gift Shop (The Dinostaur)	buy	500	stuffed dinosaur	ROW1288
 
 # KoL Con 13 Merch Table
 
-KoL Con 13 Merch Table	buy	1	unevolved organism	ROW1509
-KoL Con 13 Merch Table	buy	2	crated wardrobe-o-matic	ROW1397
-KoL Con 13 Merch Table	buy	3	KoL Con 13 snowglobe	ROW883
-KoL Con 13 Merch Table	buy	4	potted tea tree	ROW884
-KoL Con 13 Merch Table	buy	5	Xi Receiver Unit	ROW885
-KoL Con 13 Merch Table	buy	6	Gordon Beer's Beer Garden Catalog	ROW886
-KoL Con 13 Merch Table	buy	7	Tome of Rad Libs	ROW887
-KoL Con 13 Merch Table	buy	8	Gygaxian Libram	ROW888
-KoL Con 13 Merch Table	buy	9	hippo tutu	ROW889
+KoL Con 13 Merch Table	buy	1	packaged Portable Laughing Stock	ROW1737
+KoL Con 13 Merch Table	buy	2	Allied Radio Backpack Pack	ROW1602
+KoL Con 13 Merch Table	buy	3	unevolved organism	ROW1509
+KoL Con 13 Merch Table	buy	4	crated wardrobe-o-matic	ROW1397
+KoL Con 13 Merch Table	buy	5	KoL Con 13 snowglobe	ROW883
+KoL Con 13 Merch Table	buy	6	potted tea tree	ROW884
+KoL Con 13 Merch Table	buy	7	Xi Receiver Unit	ROW885
+KoL Con 13 Merch Table	buy	8	Gordon Beer's Beer Garden Catalog	ROW886
+KoL Con 13 Merch Table	buy	9	Tome of Rad Libs	ROW887
+KoL Con 13 Merch Table	buy	10	Gygaxian Libram	ROW888
+KoL Con 13 Merch Table	buy	11	hippo tutu	ROW889
 KoL Con 13 Merch Table	buy	1111	Twitching Television Tattoo	ROW895
 
 # Fancy Dan the Cocktail Man
@@ -1143,6 +1446,18 @@ Fancy Dan the Cocktail Man	buy	1	Marltini	ROW1291
 Fancy Dan the Cocktail Man	buy	1	Mysterious Stranger	ROW1293
 Fancy Dan the Cocktail Man	buy	1	Strong, Silent Type	ROW1292
 Fancy Dan the Cocktail Man	buy	1	Velvet Veil	ROW1290
+
+# The Shadow Forge
+
+The Shadow Forge	ROW1309	shadow chef's hat	shadow skin (3)	shadow bread (2)
+The Shadow Forge	ROW1310	shadow trousers	shadow skin (3)	shadow sinew (2)
+The Shadow Forge	ROW1311	shadow hammer	shadow brick (3)	shadow stick (3)
+The Shadow Forge	ROW1312	shadow monocle	shadow brick	shadow glass (3)	shadow ice (2)
+The Shadow Forge	ROW1313	shadow candle	shadow sausage (3)	shadow sinew (2)	shadow flame
+The Shadow Forge	ROW1315	shadow hot dog	shadow sausage	shadow bread	shadow venom
+The Shadow Forge	ROW1316	shadow martini	shadow glass	shadow ice	shadow nectar
+The Shadow Forge	ROW1317	shadow pill	shadow fluid	shadow flame
+The Shadow Forge	ROW1318	shadow needle	shadow stick (13)	shadow fluid (13)	shadow venom (13)	shadow nectar (13)
 
 # Replica Mr. Store
 
@@ -1224,6 +1539,12 @@ Mr. Store 2002	buy	1	Amulet of Perpetual Darkness	ROW1388
 Mr. Store 2002	buy	1	Giant black monolith	ROW1389
 Mr. Store 2002	buy	1	Crimbo cookie sheet	ROW1390
 
+# Fixodent (Craft with Teeth)
+Craft with Teeth	ROW1395	tooth cap	fixodent (1)	loose teeth (3)
+Craft with Teeth	ROW1394	toothy trousers	fixodent (1)	loose teeth (6)
+Craft with Teeth	ROW1393	cat o' nine teeth	fixodent (1)	loose teeth (9)
+Craft with Teeth	ROW1620	dentadent	fixodent	loose teeth
+
 # Crimbo 2023
 
 Crimbuccaneer Grub Hall	buy	5	candied lime	ROW1402
@@ -1272,6 +1593,19 @@ Elf Guard Toy and Munitions Factory	buy	150	replica Elf Guard medal	ROW1428
 Elf Guard Toy and Munitions Factory	buy	400	Lil' Snowball Factory	ROW1429
 Elf Guard Toy and Munitions Factory	buy	1000	Elf Guard safety bear	ROW1440
 Elf Guard Toy and Munitions Factory	buy	2000	Elf Guard temporary (permanent) tattoo	ROW1430
+
+# WereProfessor - Tinkering Bench
+
+Tinkering Bench	ROW1467	biphasic molecular oculus	smashed scientific equipment
+Tinkering Bench	ROW1468	triphasic molecular oculus	biphasic molecular oculus	smashed scientific equipment
+Tinkering Bench	ROW1476	focused magnetron pistol	smashed scientific equipment
+Tinkering Bench	ROW1475	motion sensor	smashed scientific equipment
+Tinkering Bench	ROW1472	quick-release belt pouch	smashed scientific equipment
+Tinkering Bench	ROW1473	quick-release fannypack	quick-release belt pouch	smashed scientific equipment
+Tinkering Bench	ROW1474	quick-release utility belt	quick-release fannypack	smashed scientific equipment
+Tinkering Bench	ROW1469	high-tension exoskeleton	smashed scientific equipment
+Tinkering Bench	ROW1470	ultra-high-tension exoskeleton	high-tension exoskeleton	smashed scientific equipment
+Tinkering Bench	ROW1471	irresponsible-tension exoskeleton	ultra-high-tension exoskeleton	smashed scientific equipment
 
 # Crimbo 2024
 
@@ -1329,7 +1663,7 @@ Sept-Ember Censer	buy	1	blade of dismemberment	ROW1510
 Sept-Ember Censer	buy	1	embers-only jacket	ROW1515
 Sept-Ember Censer	buy	1	hat of remembering	ROW1518
 Sept-Ember Censer	buy	1	wheel of camembert	ROW1517
-Sept-Ember Censer	buy	2	Mmm-brr! brand mouthwash 	ROW1512
+Sept-Ember Censer	buy	2	Mmm-brr! brand mouthwash	ROW1512
 Sept-Ember Censer	buy	2	head of emberg lettuce	ROW1520
 Sept-Ember Censer	buy	2	Septapus summoning charm	ROW1513
 Sept-Ember Censer	buy	2	throwin' ember	ROW1519
@@ -1366,26 +1700,6 @@ The Dedigitizer	ROW1569	SLEEP(5) rom chip	1 (256)	0 (64)	dedigitizer schematic: 
 The Dedigitizer	ROW1571	STATS+++ rom chip	1 (256)	0 (64)	dedigitizer schematic: STATS+++ rom chip
 The Dedigitizer	ROW1576	virtual cybertattoo	1 (512)	0 (128)	dedigitizer schematic: virtual cybertattoo
 
-# Mixing methods with multiple recipes for the same item
-
-Grandma Sea Monkey	ROW131	crappy Mer-kin mask	Mer-kin scholar mask
-Grandma Sea Monkey	ROW128	crappy Mer-kin mask	Mer-kin gladiator mask
-Grandma Sea Monkey	ROW124	crappy Mer-kin mask	aerated diving helmet	pristine fish scale (3)
-Grandma Sea Monkey	ROW125	crappy Mer-kin tailpiece	sea chaps	teflon swim fins	pristine fish scale (3)
-Grandma Sea Monkey	ROW126	Mer-kin gladiator mask	crappy Mer-kin mask	Mer-kin headguard
-Grandma Sea Monkey	ROW127	Mer-kin gladiator tailpiece	crappy Mer-kin tailpiece	Mer-kin thighguard
-Grandma Sea Monkey	ROW129	Mer-kin scholar mask	crappy Mer-kin mask	Mer-kin facecowl
-Grandma Sea Monkey	ROW130	Mer-kin scholar tailpiece	crappy Mer-kin tailpiece	Mer-kin waistrope
-Grandma Sea Monkey	ROW116	sushi doily	sea lace
-Grandma Sea Monkey	ROW117	scimitar cozy	sea lace (3)	pristine fish scale
-Grandma Sea Monkey	ROW118	fish stick cozy	sea lace (3)	pristine fish scale
-Grandma Sea Monkey	ROW119	bazooka cozy	sea lace (3)	pristine fish scale
-Grandma Sea Monkey	ROW132	scale-mail underwear	dull fish scale (25)	pristine fish scale
-Grandma Sea Monkey	ROW120	sea mantle	pristine fish scale (5)
-Grandma Sea Monkey	ROW121	sea shawl	pristine fish scale (5)
-Grandma Sea Monkey	ROW122	sea cape	pristine fish scale (5)
-Grandma Sea Monkey	ROW123	saltwaterbed	sea leather (15)
-
 # April Shower Thoughts
 
 Using your Shower Thoughts	ROW1580	spitball	glob of wet paper
@@ -1403,3 +1717,94 @@ Using your Shower Thoughts	ROW1588	wet shower shoes	glob of wet paper (15)
 Using your Shower Thoughts	ROW1589	wet shower shorts	glob of wet paper (20)
 Using your Shower Thoughts	ROW1590	wet paper tiger	glob of wet paper (1,000)
 Using your Shower Thoughts	ROW1594	wet shower stamp	glob of wet paper (1,000)
+
+# Allied HQ
+
+Allied HQ	ROW1599	flak shield	Chroner (20)
+Allied HQ	ROW1603	chocolate and nylons detector	Chroner (100)
+Allied HQ	ROW1604	Allied Forces insignia	Chroner (500)
+Allied HQ	ROW1605	Allied Tattoo Kit	Chroner (2,500)
+Allied HQ	ROW1600	Axis HQ Code	chocolate rations
+Allied HQ	ROW1601	Axis codebook	nice nylon stockings (50)
+Allied HQ	ROW1596	Chroner (10)	stolen artifact
+Allied HQ	ROW1597	Chroner (20)	really expensive stolen artifact
+Allied HQ	ROW1598	Chroner (30)	priceless stolen artifact
+
+# Renaissance Times
+
+Renaissance Gift Shop	ROW1732	premium turkey leg	Chroner (5)
+Renaissance Gift Shop	ROW1733	styrofoam cup of mead	Chroner (5)
+Renaissance Gift Shop	ROW1734	wooden sword	Chroner (100)
+Renaissance Gift Shop	ROW1735	wooden staff	Chroner (100)
+Renaissance Gift Shop	ROW1736	wooden lute	Chroner (100)
+
+# Sea Path
+
+Wet Crap For Sale	ROW1608	sand dollar	sand penny (100)
+Wet Crap For Sale	ROW1609	undersea surveying goggles	sand penny (100)
+Wet Crap For Sale	ROW1612	kelp puck	sand penny (30)
+Wet Crap For Sale	ROW1610	Ocean-Touched Rum	sand penny (30)
+Wet Crap For Sale	ROW1611	water-logged pill	sand penny (30)
+Wet Crap For Sale	ROW1617	sea gel	sand penny (10)
+Wet Crap For Sale	ROW1616	waterlogged scroll of healing	sand penny (10)
+
+# Things you can buy with knucklebones
+
+Skeleton of Crimbo Past	buy	5	Smoking Pope
+Skeleton of Crimbo Past	buy	5	prize turkey
+Skeleton of Crimbo Past	buy	5	medicinal gruel
+# A fourth rotating daily special is available
+
+# Crimbo 2025
+
+The HMS Bounty Hunter	ROW1661	messenger parrot egg	Crymbocurrency (200)
+The HMS Bounty Hunter	ROW1662	buryable chest	Crymbocurrency (300)
+The HMS Bounty Hunter	ROW1663	scorched skeleton mask	Crymbocurrency (1,000)
+The HMS Bounty Hunter	ROW1664	scorched skeleton shirt	Crymbocurrency (1,000)
+The HMS Bounty Hunter	ROW1665	scorched skeleton pants	Crymbocurrency (1,000)
+The HMS Bounty Hunter	ROW1672	&quot;salvaged&quot; wine	Crymbocurrency (3,000)
+The HMS Bounty Hunter	ROW1671	Crymbocurrency tattoo	Crymbocurrency (10,000)
+The HMS Bounty Hunter	ROW1657	counterskeleton elixir	Crymbocurrency (10)
+The HMS Bounty Hunter	ROW1652	volatile bone bomb	smoldering bone dust	100 Meat
+The HMS Bounty Hunter	ROW1653	fireproof bonesaw	Crymbocurrency (50)
+The HMS Bounty Hunter	ROW1656	heat-resistant harpoon pistol	Crymbocurrency (50)
+The HMS Bounty Hunter	ROW1655	cursed ship's lantern	Crymbocurrency (50)
+The HMS Bounty Hunter	ROW1654	vermiculite shield	Crymbocurrency (50)
+The HMS Bounty Hunter	ROW1673	undertakers' forceps	Crymbocurrency (1,500)
+The HMS Bounty Hunter	ROW1674	bone-polishing rag	Crymbocurrency (4,000)
+The HMS Bounty Hunter	ROW1666	Shanty: Let's Beat Up This Drunken Sailor	Crymbocurrency (5,000)
+The HMS Bounty Hunter	ROW1667	Shanty: I'm Smarter Than a Drunken Sailor	Crymbocurrency (5,000)
+The HMS Bounty Hunter	ROW1668	Shanty: Look At That Drunken Sailor Dance	Crymbocurrency (5,000)
+The HMS Bounty Hunter	ROW1669	Shanty: Who's Going to Pay This Drunken Sailor?	Crymbocurrency (5,000)
+The HMS Bounty Hunter	ROW1670	Shanty: Only Dogs Love a Drunken Sailor	Crymbocurrency (5,000)
+The HMS Bounty Hunter	ROW1659	tiny plastic skeleton rib cage	Crymbocurrency (1,500)
+The HMS Bounty Hunter	ROW1658	tiny plastic skeleton skull	Crymbocurrency (1,500)
+The HMS Bounty Hunter	ROW1660	tiny plastic skeleton Crimbo hat	Crymbocurrency (1,500)
+The HMS Bounty Hunter	ROW1651	Santa-Slayer medal	Skull of Claus
+The HMS Bounty Hunter	ROW1643	Crymbocurrency	burnt incisor
+The HMS Bounty Hunter	ROW1644	Crymbocurrency (5)	burnt phalange
+The HMS Bounty Hunter	ROW1646	Crymbocurrency (10)	burnt radius
+The HMS Bounty Hunter	ROW1645	Crymbocurrency (20)	burnt rib
+The HMS Bounty Hunter	ROW1647	Crymbocurrency (50)	burnt skull
+The HMS Bounty Hunter	ROW1649	Crymbocurrency (5)	cold wad
+The HMS Bounty Hunter	ROW1650	Crymbocurrency (5)	twinkly wad (3)
+
+# March 2026 IotM Archaeologist's Spade
+
+Dino Bone Fragment Assembly	ROW1713	dinosaur bone broth	dinosaur bone fragment (5)
+Dino Bone Fragment Assembly	ROW1714	giant gnawing bone	dinosaur bone fragment (10)
+Dino Bone Fragment Assembly	ROW1715	dinosaur bone club	dinosaur bone fragment (25)
+Dino Bone Fragment Assembly	ROW1716	dinosaur skull helmet	dinosaur bone fragment (50)
+Dino Bone Fragment Assembly	ROW1717	dinosaur bone corset	dinosaur bone fragment (100)
+
+Pork Elf Pottery Shard Assembly	ROW1718	Pork Elf cough syrup	ancient Pork Elf pottery shard (5)
+Pork Elf Pottery Shard Assembly	ROW1719	Pork Elf neti pot	ancient Pork Elf pottery shard (10)
+Pork Elf Pottery Shard Assembly	ROW1720	Pork Elf medicine cabinet	ancient Pork Elf pottery shard (25)
+Pork Elf Pottery Shard Assembly	ROW1721	Pork Elf sink	ancient Pork Elf pottery shard (50)
+Pork Elf Pottery Shard Assembly	ROW1722	Pork Elf toilet	ancient Pork Elf pottery shard (100)
+
+Landfill Detritus from 2015 Assembly	ROW1723	rat pizza	2015 landfill detritus (5)
+Landfill Detritus from 2015 Assembly	ROW1724	Fleek&trade; mascara	2015 landfill detritus (10)
+Landfill Detritus from 2015 Assembly	ROW1725	hoverboard	2015 landfill detritus (25)
+Landfill Detritus from 2015 Assembly	ROW1726	left shark fin	2015 landfill detritus (50)
+Landfill Detritus from 2015 Assembly	ROW1727	fitness tracking bracelet	2015 landfill detritus (100)

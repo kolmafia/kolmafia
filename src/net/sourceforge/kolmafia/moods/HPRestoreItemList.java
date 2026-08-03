@@ -353,9 +353,7 @@ public abstract class HPRestoreItemList {
             RequestThread.postRequest(new CampAwayRequest(CampAwayRequest.TENT));
             return;
           }
-          if (!limitMode.limitCampground()
-              && !KoLCharacter.isEd()
-              && !KoLCharacter.inNuclearAutumn()) {
+          if (CampgroundRequest.haveCampground() || KoLCharacter.inSmallcore()) {
             RequestThread.postRequest(new CampgroundRequest("rest"));
             return;
           }

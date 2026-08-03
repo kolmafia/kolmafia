@@ -38,7 +38,7 @@ public class LootTrapperMenuItem extends ThreadedMenuItem {
               "How many " + selectedValue.getName() + " to get?\n" + message,
               maximumValue,
               maximumValue);
-      int tradeCount = (value == null) ? 0 : value.intValue();
+      int tradeCount = (value == null) ? 0 : value;
 
       if (tradeCount == 0) {
         return;

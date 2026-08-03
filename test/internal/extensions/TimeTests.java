@@ -17,7 +17,7 @@ public class TimeTests
   private static final String TEST_METHOD_START = "TEST_METHOD_START";
 
   @Override
-  public void beforeAll(ExtensionContext context) throws Exception {
+  public void beforeAll(ExtensionContext context) {
     getClassStore(context).put(TEST_START, System.currentTimeMillis());
   }
 
@@ -38,7 +38,7 @@ public class TimeTests
   }
 
   @Override
-  public void afterAll(ExtensionContext context) throws Exception {
+  public void afterAll(ExtensionContext context) {
     var testClass = context.getRequiredTestClass();
     var startTime = getClassStore(context).remove(TEST_START, long.class);
     var duration = System.currentTimeMillis() - startTime;

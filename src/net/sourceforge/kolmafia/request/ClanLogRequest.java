@@ -122,28 +122,26 @@ public class ClanLogRequest extends GenericRequest {
     if (file.exists()) {
       try {
         String currentMember = "";
-        BufferedReader istream = FileUtilities.getReader(file);
         String line;
-
         boolean startReading = false;
 
-        while ((line = istream.readLine()) != null) {
-          if (startReading) {
-            if (line.startsWith(" ")) {
-              currentMember = line.substring(1, line.length() - 1);
-              entryList = this.stashMap.computeIfAbsent(currentMember, k -> new ArrayList<>());
-            } else if (line.length() > 0 && !line.startsWith("<")) {
-              entry = new StashLogEntry(line);
-              if (!entryList.contains(entry)) {
-                entryList.add(entry);
+        try (BufferedReader istream = FileUtilities.getReader(file)) {
+          while ((line = istream.readLine()) != null) {
+            if (startReading) {
+              if (line.startsWith(" ")) {
+                currentMember = line.substring(1, line.length() - 1);
+                entryList = this.stashMap.computeIfAbsent(currentMember, k -> new ArrayList<>());
+              } else if (line.length() > 0 && !line.startsWith("<")) {
+                entry = new StashLogEntry(line);
+                if (!entryList.contains(entry)) {
+                  entryList.add(entry);
+                }
               }
+            } else if (line.equals("<!-- Begin Stash Log: Do Not Modify Beyond This Point -->")) {
+              startReading = true;
             }
-          } else if (line.equals("<!-- Begin Stash Log: Do Not Modify Beyond This Point -->")) {
-            startReading = true;
           }
         }
-
-        istream.close();
       } catch (Exception e) {
         // This should not happen.  Therefore, print
         // a stack trace for debug purposes.
@@ -157,49 +155,48 @@ public class ClanLogRequest extends GenericRequest {
     String[] members = new String[this.stashMap.size()];
     this.stashMap.keySet().toArray(members);
 
-    PrintStream ostream = LogStream.openStream(file, true);
-    Object[] entries;
-
-    List<StashLogEntry> entryList = null;
-    ostream.println("<html><head>");
-    ostream.println("<title>Clan Stash Log @ " + (new Date()).toString() + "</title>");
-    ostream.println("<style><!--");
-    ostream.println();
-    ostream.println("\tbody { font-family: Verdana; font-size: 9pt }");
-    ostream.println();
-    ostream.println("\t." + LogEntryType.STASH_ADD + " { color: green }");
-    ostream.println("\t." + LogEntryType.STASH_TAKE + " { color: olive }");
-    ostream.println("\t." + LogEntryType.WAR_BATTLE + " { color: orange }");
-    ostream.println("\t." + LogEntryType.WHITELIST + " { color: blue }");
-    ostream.println("\t." + LogEntryType.ACCEPT + " { color: blue }");
-    ostream.println("\t." + LogEntryType.LEAVE + " { color: red }");
-    ostream.println("\t." + LogEntryType.BOOT + " { color: red }");
-    ostream.println();
-    ostream.println("--></style></head>");
-
-    ostream.println();
-    ostream.println("<body>");
-    ostream.println();
-    ostream.println("<!-- Begin Stash Log: Do Not Modify Beyond This Point -->");
-
-    for (int i = 0; i < members.length; ++i) {
-      ostream.println(" " + members[i] + ":");
-
-      entryList = this.stashMap.get(members[i]);
-      Collections.sort(entryList);
-      entries = entryList.toArray();
-
-      ostream.println("<ul>");
-      for (int j = 0; j < entries.length; ++j) {
-        ostream.println(entries[j].toString());
-      }
-      ostream.println("</ul>");
+    try (PrintStream ostream = LogStream.openStream(file, true)) {
+      Object[] entries;
+      List<StashLogEntry> entryList = null;
+      ostream.println("<html><head>");
+      ostream.println("<title>Clan Stash Log @ " + (new Date()).toString() + "</title>");
+      ostream.println("<style><!--");
+      ostream.println();
+      ostream.println("\tbody { font-family: Verdana; font-size: 9pt }");
+      ostream.println();
+      ostream.println("\t." + LogEntryType.STASH_ADD + " { color: green }");
+      ostream.println("\t." + LogEntryType.STASH_TAKE + " { color: olive }");
+      ostream.println("\t." + LogEntryType.WAR_BATTLE + " { color: orange }");
+      ostream.println("\t." + LogEntryType.WHITELIST + " { color: blue }");
+      ostream.println("\t." + LogEntryType.ACCEPT + " { color: blue }");
+      ostream.println("\t." + LogEntryType.LEAVE + " { color: red }");
+      ostream.println("\t." + LogEntryType.BOOT + " { color: red }");
+      ostream.println();
+      ostream.println("--></style></head>");
 
       ostream.println();
-    }
+      ostream.println("<body>");
+      ostream.println();
+      ostream.println("<!-- Begin Stash Log: Do Not Modify Beyond This Point -->");
 
-    ostream.println("</body></html>");
-    ostream.close();
+      for (String member : members) {
+        ostream.println(" " + member + ":");
+
+        entryList = this.stashMap.get(member);
+        Collections.sort(entryList);
+        entries = entryList.toArray();
+
+        ostream.println("<ul>");
+        for (Object entry : entries) {
+          ostream.println(entry.toString());
+        }
+        ostream.println("</ul>");
+
+        ostream.println();
+      }
+
+      ostream.println("</body></html>");
+    }
   }
 
   private static final String ADD_REGEX =
