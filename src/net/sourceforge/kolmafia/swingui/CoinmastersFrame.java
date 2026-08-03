@@ -188,6 +188,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     addPanel(new DinoBoneFragmentPanel());
     addPanel(new LandfillDetritus2015Panel());
     addPanel(new PorkElfPotteryShardPanel());
+    addPanel(new InterestingCoinPanel());
 
     // Twitch coinmasters
     this.selectorPanel.addSeparator();
@@ -202,6 +203,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     addPanel(new MerchTablePanel());
     addPanel(new TwitchSoupPanel());
     addPanel(new AlliedHqPanel());
+    addPanel(new RenaissanceGiftShopPanel());
 
     // Events coinmasters
     this.selectorPanel.addSeparator();
@@ -653,6 +655,12 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
   public class AlliedHqPanel extends TwitchPanel {
     public AlliedHqPanel() {
       super(AlliedHqRequest.DATA);
+    }
+  }
+
+  public class RenaissanceGiftShopPanel extends TwitchPanel {
+    public RenaissanceGiftShopPanel() {
+      super(RenaissanceGiftShopRequest.DATA);
     }
   }
 
@@ -1570,6 +1578,12 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
   private class PorkElfPotteryShardPanel extends CoinmasterPanel {
     public PorkElfPotteryShardPanel() {
       super(PorkElfPotteryShardRequest.DATA);
+    }
+  }
+
+  private class InterestingCoinPanel extends CoinmasterPanel {
+    public InterestingCoinPanel() {
+      super(InterestingCoinRequest.DATA);
     }
   }
 

@@ -414,6 +414,7 @@ public class Expression {
         case '\u008c' -> v = KoLCharacter.getTurnsPlayed();
         case '\u008d' -> v = KoLCharacter.getParadoxicity();
         case '\u008e' -> v = overrides.unarmed().orElse(Modifiers.unarmed) ? 1 : 0;
+        case '\u008f' -> v = KoLCharacter.getSwordOfSWordsosity();
         // Valid with Modifier Expression:
         case '\u0097' -> v = KoLCharacter.getBaseMuscle();
 

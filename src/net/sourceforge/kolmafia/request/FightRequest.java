@@ -6548,7 +6548,13 @@ public class FightRequest extends GenericRequest {
         return;
       }
 
-      Elements tables = node.select("* table");
+      // The Interesting Coin result table holds its message in a nested
+      // table, so don't strip its nested tables
+      // TODO: why are we stripping nested tables to begin with? This dates to 2020,
+      // e131baa82706a030f2f5e30b7e8b92ba1a0c390c
+      // It's probably to remove nested item acquisition messages
+      Element interestingCoin = node.selectFirst("* img[src$=\"interestcoin.gif\"]");
+      Elements tables = interestingCoin == null ? node.select("* table") : new Elements();
       for (Element table : tables) {
         table.remove();
       }
@@ -7197,6 +7203,14 @@ public class FightRequest extends GenericRequest {
       return false;
     }
 
+    if (image.equals("interestcoin.gif")) {
+      FightRequest.logText(str, status);
+      if (str.contains("Heads, you win!")) {
+        Preferences.setBoolean("_interestingCoinHeads", true);
+      }
+      return false;
+    }
+
     // Combat item usage: process the children of this node
     // to pick up damage to the monster and stat gains
     return true;
@@ -7357,7 +7371,6 @@ public class FightRequest extends GenericRequest {
         || str.contains("Someone in the crowd hurls a piece of fruit at you")
         || str.contains("Someone lobs a piece of fruit at you from the crowd")) {
       FightRequest.logText("You were pelted with fruit.", status);
-      Preferences.setInteger("_laughingStockCharges", 0);
       Preferences.increment("_laughingStockFruitDropped", 1);
     }
 
@@ -9669,6 +9682,10 @@ public class FightRequest extends GenericRequest {
           return false;
         }
 
+        return false;
+      }
+      case ItemPool.INTERESTING_COIN -> {
+        // The Interesting Coin is never consumed when thrown in combat
         return false;
       }
       default -> {

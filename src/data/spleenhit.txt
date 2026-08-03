@@ -136,6 +136,7 @@ hot wad	1	6	good	0	50-60	10-20	30-40	20 Hot Blooded (+30% mus, +20% mox, +10% my
 indescribably horrible paste	4	4	good	5-10	18-22	18-22	18-22	10 Indescribable Flavor (+30 spell dmg)
 industrial lubricant	1	1	awesome	0	0	0	0	30 Industrially Lubricated (+150 init)
 Instant Karma	5	13	EPIC	20-25	60-70	60-70	60-70
+intangible asset	1	1		0	0	0	0	Unspaded
 jug-o-magicalness	1	3	good	0	0	8-10	0
 kelp	1	1	good	0	10-20	10-20	10-20	50 Does a Body Good (+60 max hp, +30 max mp, +10 dr)
 Knob Goblin eyedrops	1	1	good	0	0	0	0	30 Peeled Eyeballs (+20% item drop, -30% meat drop, -1 stats/fight)
@@ -146,6 +147,7 @@ lavender paisley oyster egg	1	1	awesome	0	0	11-15	11-15
 lavender polka-dot oyster egg	1	1	awesome	0	0	0	22-30
 lavender striped oyster egg	1	1	awesome	0	11-15	0	11-15
 leprechaun antidepressant pill	3	1		0	0	0	0	40 Ready for War (+10% Combat Rate, +50% Weapon / Spell / Ranged Damage Percent)
+liquid asset	1	1		0	0	0	0	Unspaded
 liquid shifting time weirdness	2	6	awesome	0	50-65	50-65	50-65	10 Liquid Luck (+10% critical, +10% spell critical)
 livid energy	1	1	awesome	0	0	0	0	60 Lividly Energized (+50% MP, +3-5 MP Regen)
 loofah lumps	2	12		0	0	0	0	Unspaded
@@ -242,6 +244,7 @@ The Author's ink	1	4	awesome	0	0	0	0	200 It's a Good Life! (+10 stat gain, +200%
 the funk	1	1	EPIC	0	0	0	30-40
 The Inquisitor's unidentifiable object	1	6	EPIC	0	50-100	50-100	50-100	100 The Inquisitor's Unknown Effect (+10 fam weight, +25 DR, +100% init, +100% meat, +100% item, +100% MP, +100% weapon dmg, +200% spell dmg)
 thermos of brew	2	1	good	3-5	25-40	25-40	25-40	LWA ring (1 time)
+toxic asset	1	1		0	0	0	0	Unspaded
 transdermal smoke patch	1	5	good	2-3	-10-15	-10-15	-10-15
 tube of hair oil	1	6	awesome	0	0	0	18-20	10 Got Your Boots On (+10% mox)
 turkey blaster	2	4	crappy	0	0	0	0	Restore 500-1000 HP/MP first 3 uses per day

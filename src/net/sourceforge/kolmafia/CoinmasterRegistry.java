@@ -94,6 +94,7 @@ public abstract class CoinmasterRegistry {
         GuzzlrRequest.GUZZLR,
         HermitRequest.HERMIT,
         IsotopeSmitheryRequest.ISOTOPE_SMITHERY,
+        InterestingCoinRequest.DATA,
         JarlsbergRequest.DATA,
         JunkMagazineRequest.DATA,
         KiwiKwikiMartRequest.DATA,
