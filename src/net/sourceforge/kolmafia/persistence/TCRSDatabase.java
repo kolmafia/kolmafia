@@ -1258,7 +1258,20 @@ public class TCRSDatabase {
     Map.entry("wicked", "Spell Damage: +5"),
     Map.entry("wizardly", "Mysticality: +25"),
     Map.entry("wool", "Cold Resistance: +1"),
-    Map.entry("zippy", "Initiative: +20")
+    Map.entry("zippy", "Initiative: +20"),
+    // The four expanded meta-enchantments. The adjectives and their position here are guesses - the
+    // point is the expansions, since each one is a single enchantment that Mafia splits into a
+    // family. The values are made up too.
+    Map.entry(
+        "prismatic",
+        "Hot Damage: +5, Cold Damage: +5, Spooky Damage: +5, Stench Damage: +5, Sleaze Damage: +5"),
+    Map.entry(
+        "of all resistance",
+        "Hot Resistance: +3, Cold Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3,"
+            + " Sleaze Resistance: +3"),
+    Map.entry("of all attributes", "Muscle: +10, Mysticality: +10, Moxie: +10"),
+    Map.entry(
+        "of regeneration", "HP Regen Min: 3, HP Regen Max: 5, MP Regen Min: 3, MP Regen Max: 5")
   );
 
   private static TCRS guessEquipment(
@@ -1268,17 +1281,23 @@ public class TCRSDatabase {
     var mtRng = new PHPMTRandom(seed);
     var rng = new PHPRandom(seed);
 
+    // Cosmetic adjectives - these are correct; they match KoL for items with no enchantments.
     var cosmeticsString = rollCosmetics(mtRng, rng, 8);
 
     var name =
-        new ArrayList<>(Stream.of(cosmeticsString, removeAdjectives(ItemDatabase.getItemName(id)))
-            .filter(Predicate.not(String::isBlank)).toList());
+        new ArrayList<>(
+            Stream.of(cosmeticsString, removeAdjectives(ItemDatabase.getItemName(id)))
+                .filter(Predicate.not(String::isBlank))
+                .toList());
     var mods = getRetainedModifiers(id);
 
-    // This is not right, but should be useful
-    var originalMods = ModifierDatabase.getModifierList(new Lookup(ModifierType.ITEM, id));
-    var equipmentMods = rng.arrayPick(EQUIPMENT_MODIFIERS, originalMods.size());
-    for (var entry : equipmentMods) {
+    // One enchantment per enchantment on the base item, picked from a pool specific to the slot.
+    // We haven't worked out the per-slot pool or the pick RNG yet (a single draw per slot only gets
+    // about half of them right), so this part is still a guess.
+    var pool = slotEnchantPool(ItemDatabase.getConsumptionType(id));
+    var enchantCount = enchantCount(id);
+    for (var i = 0; i < enchantCount; i++) {
+      var entry = mtRng.pickOne(pool);
       var descriptor = entry.getKey();
       if (descriptor.startsWith("of ")) {
         name.addLast(descriptor);
@@ -1289,6 +1308,100 @@ public class TCRSDatabase {
     }
 
     return new TCRS(String.join(" ", name), 0, ConsumableQuality.NONE, mods.toString());
+  }
+
+  /**
+   * The enchantment pool for an equipment slot. Pools are per-slot, but we don't know each slot's
+   * pool yet, so this returns them all for now.
+   */
+  private static List<Entry<String, String>> slotEnchantPool(final ConsumptionType slot) {
+    return EQUIPMENT_MODIFIERS;
+  }
+
+  private static final Set<String> HP_REGEN = Set.of("HP Regen Min", "HP Regen Max");
+  private static final Set<String> MP_REGEN = Set.of("MP Regen Min", "MP Regen Max");
+  private static final Set<String> ELEMENTAL_RESISTANCE =
+      Set.of(
+          "Hot Resistance",
+          "Cold Resistance",
+          "Spooky Resistance",
+          "Stench Resistance",
+          "Sleaze Resistance");
+  private static final Set<String> ELEMENTAL_DAMAGE =
+      Set.of("Hot Damage", "Cold Damage", "Spooky Damage", "Stench Damage", "Sleaze Damage");
+  private static final Set<String> ALL_STATS = Set.of("Muscle", "Mysticality", "Moxie");
+  private static final Set<String> ALL_STATS_PERCENT =
+      Set.of("Muscle Percent", "Mysticality Percent", "Moxie Percent");
+
+  // Modifier types that can appear as an equipment enchantment, derived from the enchant pool.
+  static final Set<String> ENCHANTABLE_TYPES =
+      EQUIPMENT_MODIFIERS.stream()
+          .map(Entry::getValue)
+          .flatMap(value -> Arrays.stream(value.split(", ")))
+          .map(part -> part.substring(0, part.lastIndexOf(": ")))
+          .collect(Collectors.toUnmodifiableSet());
+
+  /** The enchantable modifier types present on the base item, in list order (with no collapsing). */
+  static List<String> enchantableModifiers(final int itemId) {
+    return ModifierDatabase.getModifierList(new Lookup(ModifierType.ITEM, itemId)).stream()
+        .map(ModifierList.ModifierValue::getName)
+        .filter(ENCHANTABLE_TYPES::contains)
+        .toList();
+  }
+
+  /**
+   * How many enchantments the base item has, which is how many TCRS re-rolls. This isn't just the
+   * modifier count. Non-enchantment modifiers (class restrictions, familiar effects, ...) don't
+   * count, an expanded family like "all resistance" counts once even though Mafia stores it as five
+   * elemental resistances, and innate constants like a shield's Damage Reduction don't count. We
+   * haven't fully worked out which base modifiers are really re-rolled enchantments, so this is a
+   * best estimate.
+   */
+  static int enchantCount(final int itemId) {
+    var present = new HashSet<>(enchantableModifiers(itemId));
+
+    var count = 0;
+
+    // Each of these is a single KoL enchantment that Mafia expands into a family of modifiers.
+    var resistances = countIn(present, ELEMENTAL_RESISTANCE);
+    count += resistances == 5 ? 1 : resistances;
+    var damages = countIn(present, ELEMENTAL_DAMAGE);
+    count += damages == 5 ? 1 : damages;
+    var stats = countIn(present, ALL_STATS);
+    count += stats == 3 ? 1 : stats;
+    var statsPercent = countIn(present, ALL_STATS_PERCENT);
+    count += statsPercent == 3 ? 1 : statsPercent;
+
+    // Regen is stored as a Min/Max pair; "both regen" bundles HP and MP into one enchantment.
+    var hpRegen = present.stream().anyMatch(HP_REGEN::contains);
+    var mpRegen = present.stream().anyMatch(MP_REGEN::contains);
+    if (hpRegen || mpRegen) count += 1;
+
+    var collapsed = new HashSet<String>();
+    collapsed.addAll(ELEMENTAL_RESISTANCE);
+    collapsed.addAll(ELEMENTAL_DAMAGE);
+    collapsed.addAll(ALL_STATS);
+    collapsed.addAll(ALL_STATS_PERCENT);
+    collapsed.addAll(HP_REGEN);
+    collapsed.addAll(MP_REGEN);
+
+    var isShield = EquipmentDatabase.isShield(itemId);
+    var isFamiliarEquipment =
+        ItemDatabase.getConsumptionType(itemId) == ConsumptionType.FAMILIAR_EQUIPMENT;
+    for (var name : present) {
+      if (collapsed.contains(name)) continue;
+      // A shield's Damage Reduction is innate, not an enchantment.
+      if (isShield && name.equals("Damage Reduction")) continue;
+      // Familiar equipment's Familiar Weight is innate, not an enchantment.
+      if (isFamiliarEquipment && name.equals("Familiar Weight")) continue;
+      count += 1;
+    }
+
+    return count;
+  }
+
+  private static int countIn(final Set<String> present, final Set<String> family) {
+    return (int) family.stream().filter(present::contains).count();
   }
 
   private static TCRS guessGeneric(
