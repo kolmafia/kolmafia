@@ -5062,7 +5062,7 @@ Familiar	Stooper	Last Available: "2018-03", Liver Capacity: +1
 Familiar	Straypler	Last Available: "2018-03"
 Familiar	Sugar Fruit Fairy	Last Available: "2008-12"
 Familiar	Sweet Nutcracker	Last Available: "2005-12"
-Familiar	Sword of S Words	Weapon Damage: [swordofswords], Muscle: [ceil(swordofswords/2)], Mysticality: [ceil(swordofswords/2)], Moxie: [ceil(swordofswords/2)] Last Available: "2026-06"
+Familiar	Sword of S Words	Weapon Damage: [swordofswords], Muscle: [ceil(swordofswords/2)], Mysticality: [ceil(swordofswords/2)], Moxie: [ceil(swordofswords/2)], Last Available: "2026-06"
 Familiar	Teddy Bear	Last Available: "2005-12"
 Familiar	Teddy Borg	Last Available: "2007-12"
 Familiar	Temporal Riftlet	Last Available: "2005-11"
