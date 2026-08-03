@@ -2138,6 +2138,8 @@ user	_crimboTraining	false
 user	_crimboTree	false
 user	_crToday	false
 user	_cupidBowFamiliars
+user	_cupOf13sCharges	4
+user	_cupOf13sDrops	0
 user	_cupOf13sJewels	13
 user	_currentDartboard
 user	_curseOfVacationUsed	0

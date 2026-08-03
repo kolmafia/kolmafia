@@ -4409,6 +4409,10 @@ public class FightRequest extends GenericRequest {
         Preferences.increment("boneAbacusVictories", 1);
       }
 
+	  if(KoLCharacter.hasEquipped(ItemPool.CUP_OF_13S)) {
+        Preferences.increment("_cupOf13sCharges", 1);
+      }
+
       if (KoLCharacter.hasEquipped(ItemPool.PORTABLE_LAUGHING_STOCK)) {
         Preferences.increment("_laughingStockCharges", 1);
       }
@@ -7336,6 +7340,13 @@ public class FightRequest extends GenericRequest {
         // Can of mixed everything
         str.contains("Something falls out of your can of mixed everything.")) {
       FightRequest.logText(str, status);
+    }
+
+	//Cup of 13s
+    if (str.contains("You hear a gurgling from your Cup of 13s, and find that it has filled itself with booze.")) {
+      FightRequest.logText(str, status);
+      Preferences.setInteger("_cupOf13sCharges", 0);
+      Preferences.increment("_cupOf13sDrops", 1);
     }
 
     // Portable Laughing Stock
