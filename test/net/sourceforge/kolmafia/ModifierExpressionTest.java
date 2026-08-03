@@ -616,4 +616,37 @@ public class ModifierExpressionTest {
       }
     }
   }
+
+  @Nested
+  class SwordOfSwords {
+    @ParameterizedTest
+    @CsvSource({
+      "beer-soaked mop, 0",
+      "seal-clubbing club, 1",
+      "ancient stone fist, 1",
+      "Stick-Knife of Loathing, 1",
+      "spooky staff, 2",
+      "star sword, 2",
+    })
+    public void canDetectSwordOfSwords(String item, String expected) {
+      var cleanups = withEquipped(Slot.WEAPON, item);
+
+      try (cleanups) {
+        var exp = new ModifierExpression("swordofswords", "Sword of S Words");
+        assertThat(item, exp.eval(), is(Double.parseDouble(expected)));
+      }
+    }
+
+    @Test
+    public void canDetectSwordOfSwordsAcrossSlots() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(Slot.WEAPON, "star sword"), withEquipped(Slot.PANTS, "snow pants"));
+
+      try (cleanups) {
+        var exp = new ModifierExpression("swordofswords", "Sword of S Words");
+        assertThat(exp.eval(), is(3.0));
+      }
+    }
+  }
 }
