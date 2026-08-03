@@ -1808,3 +1808,27 @@ Landfill Detritus from 2015 Assembly	ROW1724	Fleek&trade; mascara	2015 landfill 
 Landfill Detritus from 2015 Assembly	ROW1725	hoverboard	2015 landfill detritus (25)
 Landfill Detritus from 2015 Assembly	ROW1726	left shark fin	2015 landfill detritus (50)
 Landfill Detritus from 2015 Assembly	ROW1727	fitness tracking bracelet	2015 landfill detritus (100)
+
+# August 2026 IotM Interesting Coin
+
+Spend your Interesting Coins	ROW1758	liquid asset	Interesting Coin
+Spend your Interesting Coins	ROW1759	intangible asset	Interesting Coin
+Spend your Interesting Coins	ROW1757	toxic asset	Interesting Coin
+Spend your Interesting Coins	ROW1751	invisible hand	Interesting Coin (2)
+Spend your Interesting Coins	ROW1752	circle of overdraft protection scroll	Interesting Coin (2)
+Spend your Interesting Coins	ROW1753	mint	Interesting Coin (2)
+Spend your Interesting Coins	ROW1743	solvent	Interesting Coin (3)
+Spend your Interesting Coins	ROW1741	Roth IPA	Interesting Coin (4)
+Spend your Interesting Coins	ROW1755	savings bondo	Interesting Coin (4)
+Spend your Interesting Coins	ROW1744	soybean futures	Interesting Coin (7)
+Spend your Interesting Coins	ROW1756	homeowner's loam	Interesting Coin (3)
+Spend your Interesting Coins	ROW1745	housing bubble	Interesting Coin (5)
+Spend your Interesting Coins	ROW1750	balance sheet	Interesting Coin (23)
+Spend your Interesting Coins	ROW1742	underdraft protection	Interesting Coin (7)
+Spend your Interesting Coins	ROW1749	401k gold ring	Interesting Coin (11)
+Spend your Interesting Coins	ROW1747	hedge fund clippers	Interesting Coin (69)
+Spend your Interesting Coins	ROW1746	financial instrument	Interesting Coin (69)
+Spend your Interesting Coins	ROW1748	selling shorts	Interesting Coin (111)
+Spend your Interesting Coins	ROW1740	bear tattoo	Interesting Coin (1,111)
+Spend your Interesting Coins	ROW1760	gross prophet chrysalis	Interesting Coin (10,000,000)
+Spend your Interesting Coins	ROW1739	bull tattoo	Interesting Coin (16,777,215)
