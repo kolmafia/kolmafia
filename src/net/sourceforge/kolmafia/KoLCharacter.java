@@ -2419,6 +2419,29 @@ public abstract class KoLCharacter {
     return name.contains("u") || name.contains("U");
   }
 
+  private static final Pattern S_WORD_PATTERN = Pattern.compile("(?<!\\S)[Ss]\\S*");
+
+  public static final int getSwordOfSWordsosity() {
+    return KoLCharacter.getSwordOfSWordsosity(EquipmentManager.currentEquipment());
+  }
+
+  public static final int getSwordOfSWordsosity(Map<Slot, AdventureResult> equipment) {
+    int swords = 0;
+
+    for (var slot : SlotSet.SLOTS) {
+      var equip = equipment.get(slot);
+      if (equip == null) continue;
+      String name = equip.getName();
+      swords += KoLCharacter.getSwordOfSWordsosity(name);
+    }
+
+    return swords;
+  }
+
+  public static final int getSwordOfSWordsosity(String name) {
+    return (int) KoLCharacter.S_WORD_PATTERN.matcher(name).results().count();
+  }
+
   public static final int getRestingHP() {
     int rv = (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.BASE_RESTING_HP);
     double factor = KoLCharacter.currentModifiers.getDouble(DoubleModifier.RESTING_HP_PCT);
