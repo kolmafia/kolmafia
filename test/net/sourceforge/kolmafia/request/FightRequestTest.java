@@ -4481,6 +4481,47 @@ public class FightRequestTest {
   }
 
   @Nested
+  class CupOf13s {
+    @Test
+    void cupOf13sCharges() {
+      var cleanups =
+          new Cleanups(
+              withFight(),
+              withProperty("_cupOf13sCharges", 5),
+              withProperty("_cupOf13sDrops", 3),
+              withEquipped(Slot.OFFHAND, ItemPool.CUP_OF_13S));
+
+      try (cleanups) {
+        // Any end-of-fight will do
+        parseCombatData("request/test_fight_sword_drop_table.html");
+
+        assertThat("_cupOf13sCharges", isSetTo(6));
+        assertThat("_cupOf13sDrops", isSetTo(3));
+      }
+    }
+
+    @Test
+    void cupOf13sDropHandled() {
+      RequestLoggerOutput.startStream();
+      var cleanups =
+          new Cleanups(
+              withFight(),
+              withProperty("_cupOf13sCharges", 10),
+              withProperty("_cupOf13sDrops", 3),
+              withEquipped(Slot.OFFHAND, ItemPool.CUP_OF_13S));
+
+      try (cleanups) {
+        parseCombatData("request/test_fight_cup_of_13s_drop.html");
+        String text = RequestLoggerOutput.stopStream();
+
+        assertThat(text, containsString("You hear a gurgling from your Cup of 13s"));
+        assertThat("_cupOf13sCharges", isSetTo(1));
+        assertThat("_cupOf13sDrops", isSetTo(4));
+      }
+    }
+  }
+
+  @Nested
   class LaughingStock {
     @Test
     void laughingStockCharges() {
