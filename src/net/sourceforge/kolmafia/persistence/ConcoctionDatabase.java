@@ -149,6 +149,8 @@ public class ConcoctionDatabase {
 
   public static final AdventureResult INIGO = EffectPool.get(EffectPool.INIGOS, 0);
   public static final AdventureResult CRAFT_TEA = EffectPool.get(EffectPool.CRAFT_TEA, 0);
+  public static final AdventureResult SAVING_SOME_BONDO =
+      EffectPool.get(EffectPool.SAVING_SOME_BONDO, 0);
   public static final AdventureResult COOKING_CONCENTRATE =
       EffectPool.get(EffectPool.COOKING_CONCENTRATE, 0);
 
@@ -2182,6 +2184,7 @@ public class ConcoctionDatabase {
             ? 5 - Preferences.getInteger("_expertCornerCutterUsed")
             : 0)
         + (ConcoctionDatabase.CRAFT_TEA.getCount(KoLConstants.activeEffects) / 5)
+        + (ConcoctionDatabase.SAVING_SOME_BONDO.getCount(KoLConstants.activeEffects) / 5)
         + (StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Cold Medicine Cabinet")
             ? Preferences.getInteger("homebodylCharges")
             : 0)
