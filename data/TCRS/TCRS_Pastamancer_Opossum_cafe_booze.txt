@@ -1,22 +1,22 @@
 -1	artisanal pulsating gray Petite Porter	4	EPIC	
--2	perfectly mixed weak Scrawny Stout	2	EPIC	
--3	mediocre enchanted yellow Infinitesimal IPA	4	decent	
+-2	weak perfectly mixed Scrawny Stout	2	EPIC	
+-3	enchanted mediocre yellow Infinitesimal IPA	4	decent	
 -4	tolerable eggnogtini	3	good	
 -5	acceptable candycaine	4	good	
--6	weak lousy braincracker sweet	2	decent	
+-6	lousy weak braincracker sweet	2	decent	
 -16	acceptable watered-down shaking fermented honey	2	good	
 -17	acceptable moons-shine	4	good	
 -18	aged gin	3	awesome	
--19	mediocre triple-distilled maroon ecto-nog	10	decent	
+-19	triple-distilled mediocre maroon ecto-nog	10	decent	
 -20	drinkable hot toady	3	good	
 -21	lousy blurry hot choculate	3	decent	
 -49	fortified hand-crafted Cyder	5	EPIC	
--50	weak artisanal Oil Nog	2	EPIC	
+-50	artisanal weak Oil Nog	2	EPIC	
 -51	artisanal Hi-Octane Peppermint Jet Fuel	4	EPIC	
--58	hand-crafted triple-distilled Grimacider	8	EPIC	
--59	hand-crafted fancy high-proof Isotope Nog	7	EPIC	
+-58	triple-distilled hand-crafted Grimacider	8	EPIC	
+-59	fancy high-proof hand-crafted Isotope Nog	7	EPIC	
 -60	practically non-alcoholic acceptable Mutagin 'n' Tonic	1	good	
--70	perfectly mixed practically non-alcoholic Gin and Herring	1	EPIC	
+-70	practically non-alcoholic perfectly mixed Gin and Herring	1	EPIC	
 -71	bad Black and Tan and Red All Over	3	decent	
 -72	tolerable bouncing Antarctic Ice Tea	3	good	
 -76	mediocre CRIMBCO Ribbon Candy Schnapps	3	decent	
@@ -24,10 +24,10 @@
 -78	tolerable ghostly CRIMBCO Extreme Braincracker Sour	3	good	
 -82	lousy Horseradish-infused Vodka	4	decent	
 -83	lousy practically non-alcoholic cyan Jerkitini	1	decent	
--84	perfectly mixed practically non-alcoholic Desert Island Iced Tea	1	EPIC	
+-84	practically non-alcoholic perfectly mixed Desert Island Iced Tea	1	EPIC	
 -88	hand-crafted Crimbo Saketini	3	EPIC	
 -89	delicious upside-down Crimboku Drop	3	awesome	
 -90	tolerable squat Flaming Crimbo Log	3	good	
--107	special bad Fortified Eggnog Slurry	4	decent	
+-107	bad special Fortified Eggnog Slurry	4	decent	
 -108	tolerable skewed Hot Buttered Rum	3	good	
 -109	mediocre Spicy Hot Chocolate	3	decent	
