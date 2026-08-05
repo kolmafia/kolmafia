@@ -610,8 +610,9 @@ public class TCRSDatabase {
     EffectDatabase.keys().stream()
         // Effects must be marked as good
         .filter(id -> EffectDatabase.getQuality(id) == Quality.GOOD)
-        // Effects must be hookah/wish-able
-        .filter(id -> !EffectDatabase.hasAttribute(id, "nohookah"))
+        // Effects must be hookah/wish-able. Fishy was made nohookah after TCRS launched but is still
+        // in the path's effect pool, so keep it.
+        .filter(id -> !EffectDatabase.hasAttribute(id, "nohookah") || id == EffectPool.FISHY)
         // Some effects seem to be unavailable without any obvious reason, and so are tagged thusly
         .filter(id -> !EffectDatabase.hasAttribute(id, "notcrs"))
         // TCRS effects are limited to whatever was available at the time of the path (Tiki
