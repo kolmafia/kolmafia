@@ -119,6 +119,9 @@ public class ModifierExpression extends Expression {
     if (this.optional("unarmed")) {
       return "\u008e";
     }
+    if (this.optional("swordofswords")) {
+      return "\u008f";
+    }
     if (this.optional("mus")) {
       return "\u0080";
     }

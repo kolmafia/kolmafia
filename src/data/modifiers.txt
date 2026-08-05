@@ -869,6 +869,8 @@ Item	scale-mail underwear	MP Regen Min: 8, MP Regen Max: 12, Spooky Resistance: 
 Item	scorched skeleton pants	Experience Percent (Moxie): +20, Hot Resistance: +3, Last Available: "2025-12"
 Item	sea chaps	Muscle Percent: +15, HP Regen Min: 6, HP Regen Max: 10, Familiar Effect: "atk, 2xBarrr"
 Item	sealhide leggings	HP Regen Min: 5, HP Regen Max: 10, Familiar Effect: "1xVolley, cap 40"
+# selling shorts: Get 5% more Meat when you sell stuff
+Item	selling shorts	Sleaze Damage: +10, Last Available: "2026-08"
 Item	servo-assisted exo-pants	Initiative: -30, Last Available: "2014-12", Familiar Effect: "cold atk, 1xPotato, cap 12"
 Item	shadow trousers	Monster Level: +13, Meat Drop: +13, Maximum HP: +13
 Item	silky pirate drawers	Combat Rate: -5, Initiative: +50, Last Available: "2024-12"
@@ -931,6 +933,7 @@ Item	turtle wax greaves	Muscle: +2, Familiar Effect: "atk, 3xBarrr, cap 10"
 Item	turtlemail breeches	Maximum HP: +30, Sleaze Resistance: +2, Familiar Effect: "3xBarrr, 1.5xFairy, cap 20"
 Item	ultra-high-tension exoskeleton	Avoid Attack: 2
 Item	Uncle Hobo's gift baggy pants	Moxie Percent: +20, Critical Hit Percent: +5, Last Available: "2010-12", Familiar Effect: "1xPotato, 1xGhuol"
+Item	underdraft protection	Cold Resistance: +3, Sleaze Damage: +20, Last Available: "2026-08"
 Item	union scalemail pants	Familiar Effect: "2xBarrr, cap 12"
 Item	Unkillable Skeleton's shinguards	Sleaze Damage: +50, Hot Resistance: +5, Stench Resistance: +1, Class: "Turtle Tamer", Familiar Effect: "1xVolley, 1xBarrr"
 # velour vaqueros: Triples the effectiveness of the Dirge of Dreadfulness
@@ -1465,6 +1468,7 @@ Item	fetus-smashing club	Adventures: +3
 # fiberglass foil: Deals damage and restores some MP at the beginning of each fight
 Item	fiberglass foil	Experience (Muscle): +3, Monster Level: +10, Last Available: "2018-12", MP Regen Min: [class(Turtle Tamer)*ceil(mus/6)], MP Regen Max: [class(Turtle Tamer)*ceil(mus/4)]
 Item	filthy pestle	Spell Damage: +7
+Item	financial instrument	Meat Drop: +111, Ranged Damage Percent: +50, Last Available: "2026-08"
 Item	finger cymbals	Maximum MP: +20
 Item	fire axe	Cold Damage: +200, Last Available: "2012-07"
 Item	fire crackers	Effect: "Fire cracked", Effect Duration: 20, Last Available: "2021-07"
@@ -1594,6 +1598,7 @@ Item	heat-resistant harpoon pistol	Damage vs. Skeletons: +50, Moxie Percent: +10
 Item	heavy hammer	Plumber Stat: "Muscle", Plumber Power: 2
 Item	heavy leather-bound tome	Weakens Monster
 Item	heavy metal thunderrr guitarrr	Weapon Damage: +16
+Item	hedge fund clippers	Meat Drop: +111, Weapon Damage Percent: +50, Last Available: "2026-08"
 # heteroerotic frat-paddle
 Item	high-energy mining laser	Fumble: 2, Hot Damage: +20, Last Available: "2014-12"
 # high-temperature mining drill: Allows Mining in the Velvet / Gold Mine
@@ -2857,6 +2862,7 @@ Item	zoological sample kit	Lasts Until Rollover, Last Available: "2017-04"
 Item	[spelunking test kit]	Maximum HP: +100, Muscle: +100, Mysticality: +100, Moxie: +100
 Item	&quot;I survived Y2K&quot; T-Shirt	Maximum HP: +2, Maximum MP: +2, Adventures: +2, Experience (Muscle): +2, Experience (Mysticality): +2, Experience (Moxie): +2, Single Equip, Last Available: "2023-06"
 Item	&quot;I Voted!&quot; sticker	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Lasts Until Rollover, Last Available: "2018-11"
+Item	401k gold ring	Damage Reduction: 401, HP Regen Min: 4, HP Regen Max: 11, MP Regen Min: 4, MP Regen Max: 11, Last Available: "2026-08"
 Item	acid-squirting flower	Single Equip, Thorns: 1
 # actual reality goggles: Reveals peoples' true nature
 Item	actual reality goggles	Single Equip, Free Pull, Last Available: "2012-12"
@@ -4945,6 +4951,7 @@ Familiar	Green Pixie	Last Available: "2007-06"
 Familiar	Grey Goose	Last Available: "2022-03"
 Familiar	Grim Brother	Last Available: "2014-12"
 Familiar	Grimstone Golem	Last Available: "2014-12"
+Familiar	Gross Prophet	Stench Resistance: [ceil(W/10)], Sleaze Resistance: [ceil(W/10)], Last Available: "2026-08"
 Familiar	Hand Turkey	Last Available: "2004-11"
 Familiar	Hanukkimbo Dreidl	Last Available: "2004-12"
 Familiar	Happy Medium	Initiative: [W], Last Available: "2012-03"
@@ -5055,6 +5062,7 @@ Familiar	Stooper	Last Available: "2018-03", Liver Capacity: +1
 Familiar	Straypler	Last Available: "2018-03"
 Familiar	Sugar Fruit Fairy	Last Available: "2008-12"
 Familiar	Sweet Nutcracker	Last Available: "2005-12"
+Familiar	Sword of S Words	Weapon Damage: [swordofswords], Muscle: [ceil(swordofswords/2)], Mysticality: [ceil(swordofswords/2)], Moxie: [ceil(swordofswords/2)], Last Available: "2026-06"
 Familiar	Teddy Bear	Last Available: "2005-12"
 Familiar	Teddy Borg	Last Available: "2007-12"
 Familiar	Temporal Riftlet	Last Available: "2005-11"
@@ -5192,6 +5200,7 @@ Throne	Grey Goose	Weapon Damage: +10
 Throne	Grim Brother	Combat Rate: +5, Drops Items, Variable
 Throne	Grimstone Golem	Combat Rate: -5, Drops Items, Variable
 Throne	Grinning Turtle	Experience (Muscle): +2
+Throne	Gross Prophet	
 Throne	Grouper Groupie	Meat Drop: +20
 Throne	Grue	Mysticality Percent: +15
 Throne	Hand Turkey	Meat Drop: +20, Drops Meat
@@ -5972,6 +5981,7 @@ Effect	Bruised	Muscle: -100, Mysticality: -100, Moxie: -100
 # Bruised Jaw: Mruimed Maw
 Effect	Bubble Vision	Item Drop: [max(0,101-T)]
 Effect	Bubble, Bubble	Moxie: -5, Muscle: +5
+# Bubbled House: Restore double HP and MP from resting
 Effect	Bubbles, Tiny Bubbles	Avatar: "Drunken Tropical Vacationer"
 Effect	Bubblin' Rage	Initiative: +20, Weapon Damage: +20, Weapon Damage Percent: +20
 Effect	Bubbly	MP Regen Min: 10, MP Regen Max: 20
@@ -6625,6 +6635,7 @@ Effect	French Bronilla Brogueishness	Moxie Percent: +100, Initiative: +100, Pick
 Effect	Frenzied, Bloody	Weapon Damage Percent: +50
 Effect	Fresh Breath	Combat Rate: +10, Moxie Percent: +20, Moxie: +10
 Effect	Fresh Scent	Combat Rate: -5
+Effect	Freshly Minted	Initiative: +50, Moxie Percent: +250
 Effect	Friendly Chops	Meat Drop: +100, Sleaze Resistance: +5
 Effect	Frigid Weapon	Cold Damage: +3
 Effect	Frigidalmatian	Damage Aura: 1, Lantern: 1, Lantern Element: "Cold"
@@ -6663,6 +6674,7 @@ Effect	Funky Coal Patina	Moxie: +20
 Effect	Furrier Than Thou	Cold Resistance: +5
 Effect	Fury of the Bells	Muscle Percent: +10
 Effect	Fustulent	Stench Damage: +15, Stench Spell Damage: +15
+Effect	Future Soybeans	Meat Drop: +25
 Effect	Gabarding	Maximum HP: [min(T,500)]
 Effect	Gaffe Free	Moxie: +15, Moxie Percent: +50
 Effect	Gaining Interest	Meat Drop: +30
@@ -7019,6 +7031,7 @@ Effect	Intuition of the God Lobster	Experience: +10
 Effect	Invisible (20 Minutes Ago)	Critical Hit Percent: +15, Spell Critical Percent: +15
 Effect	Invisible Avarice	Meat Drop: +50
 Effect	Invisible Avatar	Combat Rate: -10
+Effect	Invisible Hand	Muscle: +25, Muscle Percent: +250
 # Invisible Ties
 # Iron Palms: Swords count as clubs
 Effect	Ironclad	Damage Absorption: +50, Damage Reduction: 10
@@ -7466,6 +7479,7 @@ Effect	Outer Wolf&trade;	Weapon Damage Percent: +200, Critical Hit Percent: +10
 Effect	Over the Ocean	Experience: [min(100,T/5)]
 Effect	Over-Familiar With Dactyls	Familiar Weight: +5
 Effect	Overconfident	Monster Level: +30
+Effect	Overdraft Protected	Mysticality Percent: +250, MP Regen Min: 10, MP Regen Max: 15
 Effect	Overheated	Maximum MP Percent: -50, Hot Damage: +15, Hot Spell Damage: +15
 # Oversaturated Palate: Blech
 Effect	Overstimulated	Experience (Muscle): +5
@@ -7777,6 +7791,7 @@ Effect	Sausage Festive	HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Re
 # Savage Beast: You cannot run away from combat
 Effect	Savage Beast	Combat Rate: +25, HP Regen Min: 1, HP Regen Max: 1
 Effect	Savage Beast Inside	Muscle: +20
+# Saving Some Bondo: Lets you craft things more quickly
 # Scared Stiff: Extra-Vulnerable to Cold and Spooky
 Effect	Scared Stiff	Sleaze Resistance: +2, Cold Vulnerability, Spooky Vulnerability
 Effect	Scaredy Dog	Spooky Damage: +30, Cold Resistance: +3, Sleaze Resistance: +3, Combat Rate: -5
@@ -10044,6 +10059,7 @@ Item	smelted roe	Effect: "Sizzling with Fury", Effect Duration: 50, Last Availab
 Item	SMOOCH soda	Last Available: "2015-08"
 Item	snow berries	Effect: "Berry Berry Cold", Effect Duration: 30, Last Available: "2014-01"
 Item	snow crab	Last Available: "2014-01"
+Item	soybean futures	Effect: "Future Soybeans", Effect Duration: 20, Last Available: "2026-08"
 Item	space jam toast	Last Available: "2011-01"
 Item	spaghetti con calaveras	Effect: "Eso S&iacute; Que Es", Effect Duration: 10, Last Available: "2011-04"
 Item	Spaghetti with Moonballs	Last Available: "2011-06"
@@ -10564,6 +10580,7 @@ Item	robin nog	Last Available: "2016-12"
 Item	rocket fuel	Last Available: "2014-05"
 Item	rockin' wagon with a fly in it	Last Available: "2006-04"
 Item	Rompedores de Fantasmas	Effect: "Desenfantasmada", Effect Duration: 13
+Item	Roth IPA	Last Available: "2026-08"
 Item	runny fermented egg	Last Available: "2018-12"
 # Russian Ice: Weakens enemies somewhat when used as a combat item
 Item	Russian Ice	Last Available: "2011-04"
@@ -10809,12 +10826,16 @@ Item	hot jelly	Effect: "Hot Jellied", Effect Duration: 50, Last Available: "2017
 Item	hot wad	Effect: "Hot Blooded", Effect Duration: 20
 Item	indescribably horrible paste	Effect: "Indescribable Flavor", Effect Duration: 10, Last Available: "2011-08"
 Item	industrial lubricant	Effect: "Industrially Lubricated", Effect Duration: 30, Last Available: "2019-12"
+# intangible asset: Invest the next batch of Meat you get from a monster into stats
+Item	intangible asset	Last Available: "2026-08"
 Item	kelp	Effect: "Does a Body Good", Effect Duration: 50, Last Available: "2019-07"
 Item	Knob Goblin eyedrops	Effect: "Peeled Eyeballs", Effect Duration: 30
 Item	Knob Goblin learning pill	Effect: "Big Veiny Brain", Effect Duration: 30
 Item	Knob Goblin nasal spray	Effect: "Wasabi Sinuses", Effect Duration: 30
 Item	Knob Goblin pet-buffing spray	Effect: "Heavy Petting", Effect Duration: 30
 Item	leprechaun antidepressant pill	Effect: "Ready for War", Effect Duration: 40, Last Available: "2025-03"
+# liquid asset: Use the Exercise Liquidity skill once
+Item	liquid asset	Last Available: "2026-08"
 Item	liquid shifting time weirdness	Effect: "Liquid Luck", Effect Duration: 10
 Item	livid energy	Effect: "Lividly Energized", Effect Duration: 60, Last Available: "2019-12"
 Item	loofah lumps	Last Available: "2022-12"
@@ -10900,6 +10921,8 @@ Item	terra cotta tidbits	Last Available: "2020-12"
 Item	The Author's ink	Effect: "It's a Good Life!", Effect Duration: 200, Last Available: "2016-02"
 Item	The Inquisitor's unidentifiable object	Effect: "The Inquisitor's Unknown Effect", Effect Duration: 100, Last Available: "2016-12"
 Item	thermos of brew	Last Available: "2011-12"
+# toxic asset: Force the next foe you encounter to drop all their stuff
+Item	toxic asset	Last Available: "2026-08"
 Item	transdermal smoke patch	Last Available: "2014-10"
 Item	tube of hair oil	Effect: "Got Your Boots On", Effect Duration: 10
 Item	turkey blaster	Last Available: "2016-11"
@@ -11095,6 +11118,7 @@ Item	Chubby and Plump bar	Effect: "Plump and Chubby", Effect Duration: 60, Last 
 Item	chunk of rock salt	Effect: "Fresh Scent", Effect Duration: 10
 Item	cigar box turtle	Effect: "Colorful Gratitude", Effect Duration: 15
 Item	cinnamon doubloon	Effect: "Doublooned", Effect Duration: 100, Last Available: "2025-12"
+Item	circle of overdraft protection scroll	Effect: "Overdraft Protected", Effect Duration: 30, Last Available: "2026-08"
 Item	Climate Colada	Effect: "Weather, Man", Effect Duration: 20, Last Available: "2008-06"
 # Cloaca Cola Polar: Restores 100-200 MP
 Item	Cloaca Cola Polar	Effect: "Polar Express", Effect Duration: 50, Last Available: "2013-12"
@@ -11462,6 +11486,7 @@ Item	hot cocoa with rainbow marshmallows	Effect: "Cocoa-Nuts", Effect Duration: 
 Item	hot nuggets	Effect: "Flaming Weapon", Effect Duration: 5
 Item	hot powder	Effect: "Flame-Retardant Trousers", Effect Duration: 5
 Item	Hotwire&trade; brand candy rope	Effect: "Grand Theft Candy", Effect Duration: 20, Last Available: "2020-12"
+Item	housing bubble	Effect: "Bubbled House", Effect Duration: 50, Last Available: "2026-08"
 Item	How to Avoid Scams	Effect: "How to Scam Tourists", Effect Duration: 20, Last Available: "2015-04"
 Item	huge mint leaf	Effect: "Mint-Condition Breath", Effect Duration: 20, Last Available: "2019-04"
 Item	humming El Vibrato drone	Effect: "El Vibrations", Effect Duration: 10
@@ -11479,6 +11504,7 @@ Item	Inner Truth	Effect: "Innately Truthy", Effect Duration: 20, Last Available:
 Item	Inner Wisdom	Effect: "Innately Wise", Effect Duration: 20, Last Available: "2016-12"
 Item	interrogative elixir	Effect: "Enhanced Interrogation", Effect Duration: 1, Last Available: "2018-07"
 Item	invisibility potion	Effect: "Simply Invisible", Effect Duration: 20, Last Available: "2011-08"
+Item	invisible hand	Effect: "Invisible Hand", Effect Duration: 30, Last Available: "2026-08"
 Item	invisible potion	Effect: "Invisible (20 Minutes Ago)", Effect Duration: 20
 Item	invisible seam ripper	Lasts Until Rollover, Effect: "Invisibly Ripped", Effect Duration: 5, Last Available: "2016-10"
 Item	invisible string	Lasts Until Rollover, Effect: "Invisible Ties", Effect Duration: 5, Last Available: "2016-10"
@@ -11586,6 +11612,7 @@ Item	mini kiwi antimilitaristic hippy petition	Effect: "Hippy Antimilitarism", E
 Item	mini kiwi illicit antibiotic	Effect: "Incredibly Healthy", Effect Duration: 5
 Item	mini kiwi-flavored aspirin-injecting lipstick	Effect: "Aspirinated Lips", Effect Duration: 5
 Item	miniature power pill	Effect: "Pill Power", Effect Duration: 30, Last Available: "2015-06"
+Item	mint	Effect: "Freshly Minted", Effect Duration: 30, Last Available: "2026-08"
 Item	mocking turtle	Effect: "Tortious", Effect Duration: 15
 Item	monkey barf	Effect: "Barfpits", Effect Duration: 1, Last Available: "2014-10"
 Item	Moonds	Effect: "Moon-Eyed", Effect Duration: 50
@@ -12211,6 +12238,7 @@ Item	Redeye&trade; Eyedrops	Effect: "Dazed, Confused", Effect Duration: 50
 Item	Rogue Windmill Rouge	Effect: "Mister Master", Effect Duration: 30
 Item	salt water taffy	Effect: "Bedraggled Dragoon", Effect Duration: 30
 Item	savings bond	Effect: "Earning Interest", Effect Duration: 30, Last Available: "2022-06"
+Item	savings bondo	Effect: "Saving Some Bondo", Effect Duration: 20, Last Available: "2026-08"
 Item	scrunchie tourniquet	Effect: "First, Like, Do No Harm?", Effect Duration: 50
 Item	Scuba Snack	Effect: "Jinkies!", Effect Duration: 100
 Item	secret mummy herbs and spices	Effect: "Like an Egyptian", Effect Duration: 30
@@ -12443,6 +12471,7 @@ Item	bag of Iunion stones	Free Pull
 Item	bag of park garbage	Last Available: "2015-04"
 Item	bag of sausage links	Last Available: "2019-01"
 Item	bagged Cargo Cultist Shorts	Free Pull, Last Available: "2020-09"
+Item	balance sheet	Last Available: "2026-08"
 # ball: Lets You Escape From Combat
 Item	ball	Last Available: "2010-12"
 # ballpark hot daub: Deals 450-500 <font color=red>Hot Damage</font>, also briefly stuns enemies and weakens them a lot
@@ -12487,6 +12516,7 @@ Item	battered Crimbo Crate	Last Available: "2008-12"
 Item	battoo kit	Last Available: "2016-12"
 Item	Beach Buck	Last Available: "2014-05"
 Item	Beach Comb Box	Free Pull, Last Available: "2019-07"
+Item	bear tattoo	Last Available: "2026-08"
 Item	beautiful rainbow	Last Available: "2014-11", Skill: "Belch The Rainbow"
 # beehive: Full of bees!
 # beer bomb: Deals 55-75 Physical Damage
@@ -12686,6 +12716,7 @@ Item	buffalo dime	Last Available: "2016-02"
 Item	Build-a-City Gingerbread kit	Free Pull, Last Available: "2016-12"
 Item	Bulky Buddy Box	Last Available: "2007-12", Wiki Name: "Bulky Buddy Box (hatchling)"
 Item	bulky free-range mushroom	Last Available: "2020-03"
+Item	bull tattoo	Last Available: "2026-08"
 Item	bunch of sea grapes	Last Available: "2019-07"
 # bundle of &quot;fragrant&quot; herbs: (up to 10 times per day)
 # bundle of &quot;fragrant&quot; herbs: (during the Crimbo 2015 event only)
@@ -12752,6 +12783,7 @@ Item	cartoon harpoon	Last Available: "2019-06"
 Item	cartoon heart	Last Available: "2013-02", Effect: "Healthy Red Glow", Effect Duration: 10
 Item	cashew	Last Available: "2016-11"
 # cast: Restores 25-35 HP in combat, and 15-20 out of combat
+Item	cast entrails	Familiar Weight: +5
 Item	Celsius 233	Skill: "Eternal Flame", Last Available: "2017-06"
 Item	Celsius 233 (singed)	Skill: "Eternal Flame", Last Available: "2017-06"
 Item	CEO office card	Last Available: "2013-12"
@@ -13606,6 +13638,7 @@ Item	grody jug	Last Available: "2015-04"
 # grogpagne: Restores 30-50 MP
 Item	grogpagne	Last Available: "2021-07"
 Item	grolblin rum	Lasts Until Rollover, Last Available: "2018-04"
+Item	gross prophet chrysalis	Last Available: "2026-08"
 # grouchy restless spirit: Deals 40-45 <font color=gray>Spooky Damage</font>
 # groupie lipstick: Deals 150-250 <font color=blueviolet>Sleaze Damage</font>
 # groveling gravel: &quot;Defeat&quot; your opponent for meat and stats, but no items.
@@ -13711,6 +13744,8 @@ Item	home robotics kit	Last Available: "2012-12"
 Item	homeless hobo spirit	Free Pull, Last Available: "2006-05"
 Item	homemade robot	Last Available: "2012-12"
 Item	homeopathic healing powder	Last Available: "2006-06"
+# homeowner's loam: Develop a day's worth of campground garden growth
+Item	homeowner's loam	Last Available: "2026-08"
 # honey-dipped locust: Restores 30-40 HP and MP
 Item	hopeful candle	Free Pull, Last Available: "2017-01"
 # Horsery contract: Installs a Horsery in Seaside Town
@@ -13784,6 +13819,8 @@ Item	insulated gold wire	Last Available: "2015-08"
 Item	intact anemone spike	Last Available: "2019-12"
 Item	intact dinosaur egg	Last Available: "2026-03"
 # interesting clod of dirt: Absorb it for a useful skill!
+Item	Interesting Coin	Last Available: "2026-08"
+Item	Interesting Coin Inheritance Letter	Free Pull, Last Available: "2026-08"
 Item	interesting-looking twig	Last Available: "2008-06"
 # internet point: Give yourself +1
 Item	internet point	Last Available: "2016-05"
@@ -15022,6 +15059,8 @@ Item	soggy gingerbread chunk	Last Available: "2019-12"
 Item	soggy used band-aid	Last Available: "2012-05"
 # solid gold jewel: Can be sold for 100,000 Meat
 Item	solid gold rosary	Last Available: "2014-12"
+# solvent: Removes All Negative Effects
+Item	solvent	Last Available: "2026-08"
 # sonar-in-a-biscuit: Freaks Bats Out
 # SongBoom&trade; BoomBox: Plays a Soundtrack for your Life<br />Lets you <i>Sing Along</i> during Fights
 Item	SongBoom&trade; BoomBox	Last Available: "2018-06"
