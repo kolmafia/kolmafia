@@ -27,7 +27,8 @@ public abstract class ValueConverter<ObjectType> {
   // These need special treatment. They accept a buffer as a first parameter, but we should cast
   // string to buffer in that position. These are the only functions that take a buffer as an
   // argument at the time of this comment.
-  private static final List<String> bufferFunctions = List.of("write_ccs", "buffer_to_file");
+  private static final List<String> bufferFunctions =
+      List.of("write_ccs", "buffer_to_file", "append_buffer_to_file");
 
   public static class ValueConverterException extends RuntimeException {
     public ValueConverterException(String message) {
