@@ -145,8 +145,10 @@ public class FloristRequest extends GenericRequest {
   }
 
   public static void reset() {
-    Preferences.setBoolean("floristFriarChecked", false);
     FloristRequest.floristPlants.clear();
+    if (Preferences.propertyExists("floristFriarChecked")) {
+      Preferences.removeProperty("floristFriarChecked", false);
+    }
   }
 
   // forestvillage.php?action=floristfriar
@@ -177,6 +179,14 @@ public class FloristRequest extends GenericRequest {
       return;
     }
 
+    if (FloristRequest.haveFlorist()) {
+      return;
+    }
+
+    if (!FloristRequest.ownsFlorist()) {
+      return;
+    }
+
     PlaceRequest forestVisit = new PlaceRequest("forestvillage", "fv_friar", true);
     RequestThread.postRequest(forestVisit);
     FloristRequest.setFloristFriarAvailable(
@@ -190,9 +200,7 @@ public class FloristRequest extends GenericRequest {
       return;
     }
 
-    if (!Preferences.getBoolean("floristFriarChecked")) {
-      checkFloristAvailable();
-    }
+    checkFloristAvailable();
 
     if (!FloristRequest.haveFlorist()) {
       return;
@@ -203,16 +211,15 @@ public class FloristRequest extends GenericRequest {
     super.run();
   }
 
-  public static boolean haveFlorist() {
-    if (!Preferences.getBoolean("floristFriarChecked")) {
-      return false;
-    }
+  private static boolean ownsFlorist() {
+    return Preferences.getBoolean("ownsFloristFriar");
+  }
 
-    return Preferences.getBoolean("floristFriarAvailable");
+  public static boolean haveFlorist() {
+    return FloristRequest.ownsFlorist() && Preferences.getBoolean("floristFriarAvailable");
   }
 
   public static void setFloristFriarAvailable(final boolean floristAvailable) {
-    Preferences.setBoolean("floristFriarChecked", true);
     Preferences.setBoolean("floristFriarAvailable", floristAvailable);
   }
 
