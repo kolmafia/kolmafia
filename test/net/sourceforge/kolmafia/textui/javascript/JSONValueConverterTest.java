@@ -427,7 +427,13 @@ public class JSONValueConverterTest {
               "[\"abc\", \"ccs/x.ccs\"]",
               List.of(
                   new Value(DataTypes.BUFFER_TYPE, 0, null, new StringBuffer("abc")),
-                  DataTypes.makeStringValue("ccs/x.ccs"))));
+                  DataTypes.makeStringValue("ccs/x.ccs"))),
+          Arguments.of(
+              "append_buffer_to_file",
+              "[\"abc\", \"data/x.txt\"]",
+              List.of(
+                  new Value(DataTypes.BUFFER_TYPE, 0, null, new StringBuffer("abc")),
+                  DataTypes.makeStringValue("data/x.txt"))));
     }
 
     @ParameterizedTest
