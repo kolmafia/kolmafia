@@ -868,6 +868,7 @@ user	hasCocktailKit	false	roa
 user	hasCosmicBowlingBall	false
 user	hasDetectiveSchool	false
 user	hasMaydayContract	false
+user	hasInterestingCoin	false
 user	hasOven	false	roa
 user	hasRange	false	roa
 user	hasShaker	false	roa
