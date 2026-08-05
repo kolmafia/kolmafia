@@ -687,6 +687,25 @@ public class DataFileConsistencyTest {
       var issues = ModifierDatabase.checkModifiers();
       assertThat(issues, empty());
     }
+
+    @Test
+    void noDuplicateModifierEntries() {
+      String file = "modifiers.txt";
+      int version = 3;
+      var seen = new HashSet<String>();
+      String[] fields;
+      try (BufferedReader reader = FileUtilities.getVersionedReader(file, version)) {
+        while ((fields = FileUtilities.readData(reader)) != null) {
+          var key = fields[0] + "\t" + fields[1];
+          assertThat(
+              "Duplicate modifier entry for \"" + fields[0] + " " + fields[1] + "\"",
+              seen.add(key),
+              is(true));
+        }
+      } catch (IOException e) {
+        fail("Couldn't read from " + file);
+      }
+    }
   }
 
   @Test
@@ -765,6 +784,20 @@ public class DataFileConsistencyTest {
             if (id == -1) {
               fail("unrecognised item " + item + ".");
             }
+            // A leading [id] pins the item explicitly; the rest of the string is only a
+            // label and need not match. Otherwise the name must match items.txt exactly
+            // (e.g. HTML entities like &ntilde;).
+            if (!item.startsWith("[")) {
+              var canonical = ItemDatabase.getItemDataName(id);
+              if (canonical != null && !item.equals(canonical)) {
+                fail(
+                    "item name \""
+                        + item
+                        + "\" in concoctions.txt should be \""
+                        + canonical
+                        + "\".");
+              }
+            }
           }
         }
       }
@@ -800,6 +833,22 @@ public class DataFileConsistencyTest {
               var id = ItemDatabase.getExactItemId(ingredient);
               if (id == -1) {
                 fail("unrecognised item " + ingredient + " for item " + item + ".");
+              }
+              // A leading [id] pins the item explicitly; the rest of the string is only a
+              // label and need not match. Otherwise the name must match items.txt exactly
+              // (e.g. HTML entities like &ntilde;).
+              if (!ingredient.startsWith("[")) {
+                var canonical = ItemDatabase.getItemDataName(id);
+                if (canonical != null && !ingredient.equals(canonical)) {
+                  fail(
+                      "ingredient \""
+                          + ingredient
+                          + "\" for item "
+                          + item
+                          + " in concoctions.txt should be \""
+                          + canonical
+                          + "\".");
+                }
               }
             }
           }

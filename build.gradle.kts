@@ -97,7 +97,7 @@ dependencies {
   )
 
   implementation("net.sourceforge.htmlcleaner:htmlcleaner:2.29")
-  implementation("org.jsoup:jsoup:1.21.2")
+  implementation("org.jsoup:jsoup:1.23.1")
   implementation("org.eclipse.lsp4j:org.eclipse.lsp4j:0.24.0") {
     exclude(group = "org.eclipse.xtend", module = "org.eclipse.xtend.lib")
   }

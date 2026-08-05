@@ -1,0 +1,76 @@
+<html><head>
+<script language=Javascript>
+<!--
+if (parent.frames.length == 0) location.href="game.php";
+var actions = {  }
+var notchat = true;//-->
+</script>
+<script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/keybinds.min.2.js"></script>
+<script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/window.20111231.js"></script>
+<script language="javascript">function chatFocus(){if(top.chatpane.document.chatform.graf) top.chatpane.document.chatform.graf.focus();}
+if (typeof defaultBind != 'undefined') { defaultBind(47, 2, chatFocus); defaultBind(190, 2, chatFocus);defaultBind(191, 2, chatFocus); defaultBind(47, 8, chatFocus);defaultBind(190, 8, chatFocus); defaultBind(191, 8, chatFocus); }</script><script> tp=top
+var todo = [];
+function nextAction() {
+    var next_todo = todo.shift();
+    if (next_todo) {
+        eval(next_todo);
+    }
+}
+function dojax(dourl, afterFunc, hoverCaller, failureFunc, method, params) {
+    $.ajax({
+        type: method || 'GET', url: dourl, cache: false,
+        data: params || null,
+        global: false,
+        success: function (out) {
+            nextAction();
+            if (out.match(/no\|/)) {
+                var parts = out.split(/\|/);
+                if (failureFunc) failureFunc(parts[1]);
+                else if (window.dojaxFailure) window.dojaxFailure(parts[1]);
+                else if (tp.chatpane.handleMessage) tp.chatpane.handleMessage({type: 'event', msg: 'Oops!  Sorry, Dave, you appear to be ' + parts[1]});
+                else  $('#ChatWindow').append('<font color="green">Oops!  Sorry, Dave, you appear to be ' + parts[1] + '.</font><br />' + "\n");
+                return;
+            }
+
+            if (hoverCaller)  {
+                float_results(hoverCaller, out);
+                if (afterFunc) { afterFunc(out); }
+                return;
+            }
+$(tp.mainpane.document).find("#effdiv").remove(); if(!window.dontscroll || (window.dontscroll && dontscroll==0)) { window.scroll(0,0);}
+            var $eff = $(tp.mainpane.document).find('#effdiv');
+            if ($eff.length == 0) {
+                var d = tp.mainpane.document.createElement('DIV');
+                d.id = 'effdiv';
+                var b = tp.mainpane.document.body;
+                if ($('#content_').length > 0) {
+                    b = $('#content_ div:first')[0];
+                }
+                b.insertBefore(d, b.firstChild);
+                $eff = $(d);
+            }
+            $eff.find('a[name="effdivtop"]').remove().end()
+                .prepend('<a name="effdivtop"></a><center>' + out + '</center>').css('display','block');
+            if (!window.dontscroll || (window.dontscroll && dontscroll==0)) {
+                tp.mainpane.document.location = tp.mainpane.document.location + "#effdivtop";
+            }
+            if (afterFunc) { afterFunc(out); }
+        }
+    });
+}
+</script><script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/jquery-1.3.1.min.js"></script>
+<script language=Javascript src='https://d2uyhvukfffg5a.cloudfront.net/scripts/rcm.20160406.js'></script>    <link rel="stylesheet" type="text/css" href="https://d2uyhvukfffg5a.cloudfront.net/styles.20230117d.css">
+<style type='text/css'>
+.faded {
+    zoom: 1;
+    filter: alpha(opacity=35);
+    opacity: 0.35;
+    -khtml-opacity: 0.35;
+    -moz-opacity: 0.35;
+}
+</style>
+
+</head>
+
+<body>
+<div id='menu' class=rcm></div><center></center><center><table  width=95%  cellspacing=0 cellpadding=0><tr><td style="background-color: blue" align=center ><b style="color: white">The Kingdom of Loathing</b></td></tr><tr><td style="padding: 5px; border: 1px solid blue;"><center><table><tr><td><table><tr><td align=center><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/cake2.gif" width=30 height=30></td><td align=center><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/pressie.gif" width=30 height=30></td><td align=center><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/cake2.gif" width=30 height=30></td><td align=center><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/pressie.gif" width=30 height=30></td></tr><tr><td align=center colspan=4><b>Happy Belated Anniversary!</b><br>Since you've decided to stick around and play the game for so long, we felt that we should give you something. Enjoy, and thanks for playing! We hope you continue to enjoy the game.<center><table class="item" style="float: none" rel="id=2827&s=0&q=0&d=0&g=1&t=0&n=1&m=0&p=0&u=."><tr><td><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/pressie.gif" alt="anniversary gift box" title="anniversary gift box" class=hand onClick='descitem(277422118)' ></td><td valign=center class=effect>You acquire an item: <b>anniversary gift box</b></td></tr></table></center>You've been granted access to a new chat channel: <b>/veteran</b></td></tr><tr><td align=center><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/pressie.gif" width=30 height=30></td><td align=center><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/cake2.gif" width=30 height=30></td><td align=center><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/pressie.gif" width=30 height=30></td><td align=center><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/cake2.gif" width=30 height=30></td></tr></table><style>.x2 { image-rendering: auto; }</style><center><div id=background  style='position: relative; width:700px;height:600px'  ><img id="place_bg" class="x2" src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/main/background.png" srcset="https://d2uyhvukfffg5a.cloudfront.net/otherimages/main/background2x.png 2x, https://d2uyhvukfffg5a.cloudfront.net/otherimages/main/background.png 1x" style="position: absolute; bottom: 0; left: 0" border=0><div id=newmain_campground class="element" style=' position: absolute; top: 119; left: 265; height: 62; width: 87;'><a  href=campground.php><img src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/main/campground.png" class="x2" srcset="https://d2uyhvukfffg5a.cloudfront.net/otherimages/main/campground2x.png 2x, https://d2uyhvukfffg5a.cloudfront.net/otherimages/main/campground.png 1x" width=87 height=62 border=0 alt="The Campground" title="The Campground"></a></div><div id=newmain_desertbeach class="element" style=' position: absolute; top: 391; left: 168; height: 113; width: 83;'><a  href=place.php?whichplace=desertbeach><img src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/main/desertbeach.png" class="x2" srcset="https://d2uyhvukfffg5a.cloudfront.net/otherimages/main/desertbeach2x.png 2x, https://d2uyhvukfffg5a.cloudfront.net/otherimages/main/desertbeach.png 1x" width=83 height=113 border=0 alt="Desert Beach" title="Desert Beach"></a></div><div id=newmain_mountains class="element" style=' position: absolute; top: 74; left: 366; height: 154; width: 153;'><a  href=place.php?whichplace=mountains><img src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/main/mountains.png" class="x2" srcset="https://d2uyhvukfffg5a.cloudfront.net/otherimages/main/mountains2x.png 2x, https://d2uyhvukfffg5a.cloudfront.net/otherimages/main/mountains.png 1x" width=153 height=154 border=0 alt="The Big Mountains" title="The Big Mountains"></a></div><div id=newmain_plains class="element" style=' position: absolute; top: 205; left: 256; height: 106; width: 192;'><a  href=place.php?whichplace=plains><img src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/main/plains.png" class="x2" srcset="https://d2uyhvukfffg5a.cloudfront.net/otherimages/main/plains2x.png 2x, https://d2uyhvukfffg5a.cloudfront.net/otherimages/main/plains.png 1x" width=192 height=106 border=0 alt="The Nearby Plains" title="The Nearby Plains"></a></div><div id=newmain_sorclair class="element" style=' position: absolute; top: 256; left: 452; height: 103; width: 66;'><a  href=place.php?whichplace=nstower><img src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/main/sorclair.png" class="x2" srcset="https://d2uyhvukfffg5a.cloudfront.net/otherimages/main/sorclair2x.png 2x, https://d2uyhvukfffg5a.cloudfront.net/otherimages/main/sorclair.png 1x" width=66 height=103 border=0 alt="The Lair of the Naughty Sorceress" title="The Lair of the Naughty Sorceress"></a></div><div id=newmain_town class="element" style=' position: absolute; top: 102; left: 160; height: 81; width: 74;'><a  href=place.php?whichplace=town><img src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/main/seasidetown.png" class="x2" srcset="https://d2uyhvukfffg5a.cloudfront.net/otherimages/main/seasidetown2x.png 2x, https://d2uyhvukfffg5a.cloudfront.net/otherimages/main/seasidetown.png 1x" width=74 height=81 border=0 alt="Seaside Town" title="Seaside Town"></a></div><div id=newmain_twitchtower class="element" style=' position: absolute; top: 264; left: 180; height: 91; width: 53;'><a  href=place.php?whichplace=twitch><img src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/main/twitchtower.png" class="x2" srcset="https://d2uyhvukfffg5a.cloudfront.net/otherimages/main/twitchtower2x.png 2x, https://d2uyhvukfffg5a.cloudfront.net/otherimages/main/twitchtower.png 1x" width=53 height=91 border=0 alt="The Time-Twitching Tower" title="The Time-Twitching Tower"></a></div><div id=newmain_woods class="element" style=' position: absolute; top: 311; left: 240; height: 156; width: 158;'><a  href=place.php?whichplace=woods><img src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/main/woods.png" class="x2" srcset="https://d2uyhvukfffg5a.cloudfront.net/otherimages/main/woods2x.png 2x, https://d2uyhvukfffg5a.cloudfront.net/otherimages/main/woods.png 1x" width=158 height=156 border=0 alt="The Distant Woods" title="The Distant Woods"></a></div></div><p></center></td></tr></table></center></td></tr><tr><td height=4></td></tr></table></td></tr></table></center></td></tr><tr><td height=4></td></tr></table></center></body></html>

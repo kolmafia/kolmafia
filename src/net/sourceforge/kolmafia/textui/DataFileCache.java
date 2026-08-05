@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -144,6 +145,10 @@ public class DataFileCache {
     return DataUtilities.getReader(new ByteArrayInputStream(data));
   }
 
+  private static String getSanitizedFilename(final File file) {
+    return file.getPath().substring(KoLConstants.ROOT_LOCATION.getPath().length() + 1);
+  }
+
   public static byte[] getBytes(final String filename) {
     File input = DataFileCache.getFile(filename, true);
 
@@ -151,8 +156,7 @@ public class DataFileCache {
       return new byte[0];
     }
 
-    String sanitizedFilename =
-        input.getPath().substring(KoLConstants.ROOT_LOCATION.getPath().length() + 1);
+    String sanitizedFilename = getSanitizedFilename(input);
 
     long modifiedTime = input.lastModified();
 
@@ -191,6 +195,10 @@ public class DataFileCache {
   }
 
   public static Value printBytes(final String filename, final byte[] data) {
+    return printBytes(filename, data, false);
+  }
+
+  public static Value printBytes(final String filename, final byte[] data, final boolean append) {
     File output = DataFileCache.getFile(filename, false);
 
     if (output == null) {
@@ -210,13 +218,46 @@ public class DataFileCache {
       }
     }
 
-    try (FileOutputStream ostream = new FileOutputStream(output, false)) {
+    long lastModified = output.lastModified();
+
+    try (FileOutputStream ostream = new FileOutputStream(output, append)) {
       ostream.write(data);
     } catch (Exception e) {
       return DataTypes.FALSE_VALUE;
     }
 
-    DataFileCache.updateCache(filename, output.lastModified(), data);
+    String sanitizedFilename = getSanitizedFilename(output);
+
+    byte[] cacheData = data;
+
+    if (append) {
+      byte[] existingData = DataFileCache.dataFileDataCache.get(sanitizedFilename);
+
+      // If existing data is unchanged since last cache
+      if (existingData != null
+          && dataFileTimestampCache.getOrDefault(sanitizedFilename, -1L) == lastModified) {
+        // Create a new array using the old existing data, but with a new length
+        cacheData = Arrays.copyOf(existingData, existingData.length + data.length);
+        // Copy in the appended data, starting at the old index
+        System.arraycopy(data, 0, cacheData, existingData.length, data.length);
+      } else {
+        // Otherwise load entire file back
+        try (FileInputStream istream = new FileInputStream(output)) {
+          cacheData = ByteBufferUtilities.read(istream);
+        } catch (IOException e) {
+          // If error, just don't cache
+          cacheData = null;
+        }
+      }
+    }
+
+    // Update cache only if not null
+    if (cacheData != null) {
+      DataFileCache.updateCache(sanitizedFilename, output.lastModified(), cacheData);
+    } else {
+      dataFileDataCache.remove(sanitizedFilename);
+      dataFileTimestampCache.remove(sanitizedFilename);
+    }
     return DataTypes.TRUE_VALUE;
   }
 

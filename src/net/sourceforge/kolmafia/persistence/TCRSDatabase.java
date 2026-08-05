@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.StringJoiner;
-import java.util.TreeMap;
+import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import net.java.dev.spellcast.utilities.DataUtilities;
@@ -78,11 +78,11 @@ public class TCRSDatabase {
   private static String currentClassSign; // Character class/Zodiac Sign
 
   // Sorted by itemId
-  private static final Map<Integer, TCRS> TCRSMap = new TreeMap<>();
+  private static final Map<Integer, TCRS> TCRSMap = new ConcurrentSkipListMap<>();
   private static final Map<Integer, TCRS> TCRSBoozeMap =
-      new TreeMap<>(new CafeDatabase.InverseIntegerOrder());
+      new ConcurrentSkipListMap<>(new CafeDatabase.InverseIntegerOrder());
   private static final Map<Integer, TCRS> TCRSFoodMap =
-      new TreeMap<>(new CafeDatabase.InverseIntegerOrder());
+      new ConcurrentSkipListMap<>(new CafeDatabase.InverseIntegerOrder());
 
   static {
     TCRSDatabase.reset();
