@@ -232,9 +232,7 @@ class TCRSDatabaseTest {
 
     var report = String.join("\n", mismatches.subList(0, Math.min(100, mismatches.size())));
     assertThat(
-        mismatches.size() + " mismatches (showing up to 100):\n" + report,
-        mismatches,
-        is(empty()));
+        mismatches.size() + " mismatches (showing up to 100):\n" + report, mismatches, is(empty()));
   }
 
   /**

@@ -81,8 +81,7 @@ public class PHPRandom extends Random {
   }
 
   public <T> List<T> arrayPick(final List<T> arr, final int required) {
-    return Arrays.stream(array(arr.size(), required)).mapToObj(arr::get)
-        .toList();
+    return Arrays.stream(array(arr.size(), required)).mapToObj(arr::get).toList();
   }
 
   public <T> void shuffle(final List<T> array) {
