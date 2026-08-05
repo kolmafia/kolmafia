@@ -357,7 +357,9 @@ public class DebugModifiersTest {
   @Test
   void listsFlorist() {
     try (var cleanups =
-        withFlorist(AdventurePool.NOOB_CAVE, FloristRequest.Florist.HORN_OF_PLENTY)) {
+        new Cleanups(
+            withProperty("ownsFloristFriar", true),
+            withFlorist(AdventurePool.NOOB_CAVE, FloristRequest.Florist.HORN_OF_PLENTY))) {
       evaluateDebugModifiers(DoubleModifier.ITEMDROP);
       assertThat(output(), containsDebugRow("Florist", "Horn of Plenty", 25.0, 25.0));
     }

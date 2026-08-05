@@ -426,6 +426,7 @@ public class ApiRequest extends GenericRequest {
           Map.entry("maydaykit", Map.entry("hasMaydayContract", "")),
           Map.entry("autumnaton", Map.entry("hasAutumnaton", "")),
           Map.entry("shrunkenhead", Map.entry("hasShrunkenHead", "")),
+          Map.entry("interesting", Map.entry("hasInterestingCoin", "")),
           Map.entry("tunnelofloveiotm", Map.entry("loveTunnelAvailable", "_loveTunnelToday")),
           Map.entry("ltt", Map.entry("telegraphOfficeAvailable", "_telegraphOfficeToday")),
           Map.entry("floristfriar", Map.entry("ownsFloristFriar", "")));
