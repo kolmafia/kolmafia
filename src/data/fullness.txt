@@ -195,8 +195,8 @@ ciliophora chowder	1	1	awesome	3-4	0	80-90	0	50 Twitching Senses (+50 Item Drops
 cinnamon cannoli	1	4	awesome	4-5	15-25	15-25	15-25
 Cinnamon Nutrition Block	5	1	good	10-15	0	0	0	30 Forbear, Warbears! (+40 WarBear Armor Penetration)
 circular CRIMBCOOKIE	2	1	awesome	8-10	0	0	0	10 Mystic Circle (+10% mys)
-classic banana	1	1	awesome	0	0	0	0	Unspaded
-classic banana pie	3	1	awesome	0	0	0	0	Unspaded
+classic banana	1	1	awesome	3-4	0	0	10-50	10 Bananapalooza (+100% Ranged dmg, +25 DR)
+classic banana pie	3	1	awesome	12-15	0	0	30-100	50 Bananapalooza (+100% Ranged dmg, +25 DR)
 club sandwich	3	5	awesome	9-10	18-24	0	0
 cob of corn	1	2	crappy	1	0	10-15	0
 cocktail onion	1	2	decent	2	0	0	0
@@ -783,7 +783,7 @@ python roll	3	1	pseudoitem	9-14	8-16	0	20-30	45/55 Fishy
 quantum taco	0	1	???	0	0	0	0	random food, TACO
 queen cookie	1	13	EPIC	4-6	20-40	20-40	20-40	30 Towering Strength, Mitre Cut, Knightlife, The Royal We
 questionable taco	3	1	decent	4-5	0	0	0	lovecat tail, TACO
-quince	1	1	awesome	0	0	0	0	Unspaded
+quince	1	1	awesome	3-4	0	10-50	0	10 Exotically Fruity (+100% spell dmg, +200% MP)
 quince pie	3	1	awesome	0	0	0	0	Unspaded
 rack of dinosaur ribs	3	11	EPIC	15-18	10-20	10-20	10-20	30 Meat the Flintstones
 radio button candy	1	8	EPIC	2-9	30-50	33-49	30-50
