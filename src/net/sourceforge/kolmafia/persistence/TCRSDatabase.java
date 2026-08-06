@@ -1526,7 +1526,7 @@ public class TCRSDatabase {
       case POTION, AVATAR_POTION -> guessPotion(ascensionClass, sign, item);
       case EAT, DRINK -> guessFoodBooze(ascensionClass, sign, item, type == ConsumptionType.EAT);
       case SPLEEN -> guessSpleen(ascensionClass, sign, item);
-      case HAT, SHIRT, CONTAINER, WEAPON, OFFHAND, PANTS, ACCESSORY, FAMILIAR_EQUIPMENT ->
+      case HAT, SHIRT, CONTAINER, WEAPON, OFFHAND, PANTS, ACCESSORY ->
           guessEquipment(ascensionClass, sign, item);
       default -> guessGeneric(ascensionClass, sign, item);
     };
