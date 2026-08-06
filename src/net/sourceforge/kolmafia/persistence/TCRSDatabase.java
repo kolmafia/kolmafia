@@ -1310,7 +1310,6 @@ public class TCRSDatabase {
           Map.entry("family-friendly", "Sleaze Resistance: +1"),
           Map.entry("censurious", "Sleaze Resistance: +3"),
           Map.entry("of temperance", "Sleaze Resistance: +5"),
-          Map.entry("lucky", "Item Drop: +5"),
           Map.entry("auspicious", "Item Drop: +10"),
           Map.entry("inspector's", "Item Drop: +15"),
           Map.entry("of the detective", "Item Drop: +20"),
