@@ -3,7 +3,9 @@ package net.sourceforge.kolmafia.persistence;
 import static net.sourceforge.kolmafia.persistence.ModifierDatabase.CARRIED_OVER;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -20,6 +22,7 @@ import java.util.stream.Stream;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.ModifierType;
@@ -41,6 +44,7 @@ import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.ChateauRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.PHPMTRandom;
 import net.sourceforge.kolmafia.utilities.PHPRandom;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -195,6 +199,75 @@ public class TCRSDatabase {
 
     if (verbose) {
       RequestLogger.printLine("Read file " + fileName);
+    }
+
+    return true;
+  }
+
+  public static boolean save(final boolean verbose) {
+    if (!KoLCharacter.isCrazyRandomTwo()) {
+      return false;
+    }
+    boolean retval = true;
+    retval &= save(KoLCharacter.getAscensionClass(), KoLCharacter.getSign(), verbose);
+    retval &= saveCafe(KoLCharacter.getAscensionClass(), KoLCharacter.getSign(), verbose);
+    return retval;
+  }
+
+  public static boolean save(
+      AscensionClass ascensionClass, ZodiacSign csign, final boolean verbose) {
+    return save(filename(ascensionClass, csign, ""), TCRSMap, verbose);
+  }
+
+  public static boolean saveCafe(
+      AscensionClass ascensionClass, ZodiacSign csign, final boolean verbose) {
+    boolean retval = true;
+    retval &= save(filename(ascensionClass, csign, "_cafe_booze"), TCRSBoozeMap, verbose);
+    retval &= save(filename(ascensionClass, csign, "_cafe_food"), TCRSFoodMap, verbose);
+    return retval;
+  }
+
+  public static boolean saveCafeBooze(
+      AscensionClass ascensionClass, ZodiacSign csign, final boolean verbose) {
+    return save(filename(ascensionClass, csign, "_cafe_booze"), TCRSBoozeMap, verbose);
+  }
+
+  public static boolean saveCafeFood(
+      AscensionClass ascensionClass, ZodiacSign csign, final boolean verbose) {
+    return save(filename(ascensionClass, csign, "_cafe_food"), TCRSFoodMap, verbose);
+  }
+
+  private static boolean save(
+      final String fileName, final Map<Integer, TCRS> map, final boolean verbose) {
+    if (fileName == null) {
+      return false;
+    }
+
+    PrintStream writer = LogStream.openStream(new File(KoLConstants.DATA_LOCATION, fileName), true);
+
+    // No writer, no file
+    if (writer == null) {
+      if (verbose) {
+        RequestLogger.printLine("Could not write file " + fileName);
+      }
+      return false;
+    }
+
+    try (writer) {
+      for (Entry<Integer, TCRS> entry : map.entrySet()) {
+        TCRS tcrs = entry.getValue();
+        Integer itemId = entry.getKey();
+        String name = tcrs.name;
+        Integer size = tcrs.size;
+        var quality = tcrs.quality;
+        String modifiers = tcrs.modifiers;
+        String line = itemId + "\t" + name + "\t" + size + "\t" + quality + "\t" + modifiers;
+        writer.println(line);
+      }
+    }
+
+    if (verbose) {
+      RequestLogger.printLine("Wrote file " + fileName);
     }
 
     return true;

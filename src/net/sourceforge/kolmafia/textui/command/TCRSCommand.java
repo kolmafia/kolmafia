@@ -13,7 +13,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class TCRSCommand extends AbstractCommand {
   public TCRSCommand() {
     this.usage =
-        " fetch CLASS, SIGN | load | save | derive [#] | check # | apply | help - handle item modifiers for Two Crazy Random Summer.";
+        " load | save | derive [#] | check # | apply | help - handle item modifiers for Two Crazy Random Summer.";
   }
 
   @Override
@@ -33,7 +33,6 @@ public class TCRSCommand extends AbstractCommand {
       RequestLogger.printLine(" ");
       RequestLogger.printLine("Some commands require being in a TCRS run and data will");
       RequestLogger.printLine("be for current CLASS and SIGN.");
-      RequestLogger.printLine("fetch CLASS SIGN - fetch remote data for class and sign.");
       RequestLogger.printLine(
           "test CLASS SIGN - load and apply data for class and sign, regardless of current path, class, and sign.");
       RequestLogger.printLine("ring - display modifiers for ring.");
@@ -109,6 +108,20 @@ public class TCRSCommand extends AbstractCommand {
 
     if (command.equals("load")) {
       TCRSDatabase.load(true);
+      return;
+    }
+
+    if (command.equals("save")) {
+      TCRSDatabase.save(true);
+      return;
+    }
+
+    if (command.equals("derive")) {
+      if (parameters.equals("")) {
+        TCRSDatabase.derive(true);
+      } else {
+        TCRSDatabase.deriveAndSaveItem(StringUtilities.parseInt(parameters));
+      }
       return;
     }
 
