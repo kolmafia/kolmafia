@@ -1365,8 +1365,14 @@ public class TCRSDatabase {
       DebugDatabase.appendModifier(mods, entry.getValue());
     }
 
+    // Enchant adjectives that are common adjectives (e.g. "lucky") are stripped from the name, as
+    // KoL does after applying enchantments. Cosmetics are not stripped.
     var name =
-        Stream.of(Stream.of(cosmeticsString), prefixes.stream(), Stream.of(root), suffixes.stream())
+        Stream.of(
+                Stream.of(cosmeticsString),
+                prefixes.stream().filter(Predicate.not(ADJECTIVES::contains)),
+                Stream.of(root),
+                suffixes.stream().filter(Predicate.not(ADJECTIVES::contains)))
             .flatMap(s -> s)
             .filter(Predicate.not(String::isBlank))
             .collect(Collectors.joining(" "));
