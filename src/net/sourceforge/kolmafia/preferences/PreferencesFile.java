@@ -30,8 +30,6 @@ import net.sourceforge.kolmafia.utilities.FileUtilities;
 class PreferencesFile {
   private static final long TRIM_JOURNAL_BYTE_THRESHOLD = 10_000_000; // 10MB
   static final long JOURNAL_MAX_AGE = TimeUnit.DAYS.toMillis(1);
-  // Cache of escaped-string representation per character.
-  private static final String[] characterMap = new String[65536];
 
   private final File propertiesFile;
   private final File backupFile;
@@ -163,7 +161,7 @@ class PreferencesFile {
   /**
    * Applies the journal's lines, in order, onto a freshly loaded prefs.
    *
-   * <p>A normal line sets a key, a line starting with "#" removes one. {@link #encodeCharacter}
+   * <p>A normal line sets a key, a line starting with "#" removes one. Preferences#encodeCharacter
    * always escapes a literal '#' as "\#", so a raw "#" is unambiguous as the removal marker.
    *
    * @return true if a journal file existed and was fully applied
@@ -234,7 +232,8 @@ class PreferencesFile {
 
     if (lineBytes == null) {
       // Removed, prepend with # to indicate it's removed.
-      lineBytes = ("#" + encodeProperty(propertyName, null)).getBytes(StandardCharsets.UTF_8);
+      lineBytes =
+          ("#" + Preferences.encodeProperty(propertyName, null)).getBytes(StandardCharsets.UTF_8);
     }
 
     try (OutputStream fstream = DataUtilities.getOutputStream(journalFile, true)) {
@@ -307,69 +306,5 @@ class PreferencesFile {
     } catch (IOException e) {
       return false;
     }
-  }
-
-  static String encodeProperty(String name, String value) {
-    StringBuffer buffer = new StringBuffer();
-
-    encodeString(buffer, name);
-
-    if (value != null && !value.isEmpty()) {
-      buffer.append("=");
-      encodeString(buffer, value);
-    }
-    buffer.append(KoLConstants.LINE_BREAK);
-
-    return buffer.toString();
-  }
-
-  private static void encodeString(StringBuffer buffer, String string) {
-    int length = string.length();
-
-    for (int i = 0; i < length; ++i) {
-      char ch = string.charAt(i);
-      encodeCharacter(ch);
-      buffer.append(characterMap[ch]);
-    }
-  }
-
-  private static void encodeCharacter(char ch) {
-    if (characterMap[ch] != null) {
-      return;
-    }
-
-    switch (ch) {
-      case '\t' -> {
-        characterMap[ch] = "\\t";
-        return;
-      }
-      case '\n' -> {
-        characterMap[ch] = "\\n";
-        return;
-      }
-      case '\f' -> {
-        characterMap[ch] = "\\f";
-        return;
-      }
-      case '\r' -> {
-        characterMap[ch] = "\\r";
-        return;
-      }
-      case '\\', '=', ':', '#', '!' -> {
-        characterMap[ch] = "\\" + ch;
-        return;
-      }
-    }
-
-    characterMap[ch] =
-        (ch > 0x0019 && ch < 0x007f)
-            ? String.valueOf(ch)
-            : (ch < 0x0010)
-                ? "\\u000" + Integer.toHexString(ch)
-                : (ch < 0x0100)
-                    ? "\\u00" + Integer.toHexString(ch)
-                    : (ch < 0x1000)
-                        ? "\\u0" + Integer.toHexString(ch)
-                        : "\\u" + Integer.toHexString(ch);
   }
 }

@@ -31,6 +31,8 @@ import net.sourceforge.kolmafia.webui.CharPaneDecorator;
 public class Preferences {
   // If false, blocks saving of all preferences. Do not modify outside of tests.
   public static boolean saveSettingsToFile = true;
+  // Cache of escaped-string representation per character.
+  private static final String[] characterMap = new String[65536];
 
   private static final HashMap<String, String> globalNames = new HashMap<>();
   private static final Map<String, Object> globalValues = new ConcurrentHashMap<>();
@@ -275,6 +277,20 @@ public class Preferences {
     }
   }
 
+  static String encodeProperty(String name, String value) {
+    StringBuffer buffer = new StringBuffer();
+
+    encodeString(buffer, name);
+
+    if (value != null && !value.isEmpty()) {
+      buffer.append("=");
+      encodeString(buffer, value);
+    }
+    buffer.append(KoLConstants.LINE_BREAK);
+
+    return buffer.toString();
+  }
+
   private static boolean mustTrackEncodedValues() {
     return Preferences.getBoolean("saveSettingsOnSet") && Preferences.saveSettingsToFile;
   }
@@ -284,7 +300,7 @@ public class Preferences {
     for (Entry<String, Object> entry : valuesMap.entrySet()) {
       encodedMap.put(
           entry.getKey(),
-          PreferencesFile.encodeProperty(entry.getKey(), entry.getValue().toString())
+          encodeProperty(entry.getKey(), entry.getValue().toString())
               .getBytes(StandardCharsets.UTF_8));
     }
   }
@@ -302,6 +318,56 @@ public class Preferences {
       Preferences.reinitializeEncodedValuesOn(
           Preferences.userValues, Preferences.userEncodedValues);
     }
+  }
+
+  private static void encodeString(StringBuffer buffer, String string) {
+    int length = string.length();
+
+    for (int i = 0; i < length; ++i) {
+      char ch = string.charAt(i);
+      encodeCharacter(ch);
+      buffer.append(characterMap[ch]);
+    }
+  }
+
+  private static void encodeCharacter(char ch) {
+    if (characterMap[ch] != null) {
+      return;
+    }
+
+    switch (ch) {
+      case '\t' -> {
+        characterMap[ch] = "\\t";
+        return;
+      }
+      case '\n' -> {
+        characterMap[ch] = "\\n";
+        return;
+      }
+      case '\f' -> {
+        characterMap[ch] = "\\f";
+        return;
+      }
+      case '\r' -> {
+        characterMap[ch] = "\\r";
+        return;
+      }
+      case '\\', '=', ':', '#', '!' -> {
+        characterMap[ch] = "\\" + ch;
+        return;
+      }
+    }
+
+    characterMap[ch] =
+        (ch > 0x0019 && ch < 0x007f)
+            ? String.valueOf(ch)
+            : (ch < 0x0010)
+                ? "\\u000" + Integer.toHexString(ch)
+                : (ch < 0x0100)
+                    ? "\\u00" + Integer.toHexString(ch)
+                    : (ch < 0x1000)
+                        ? "\\u0" + Integer.toHexString(ch)
+                        : "\\u" + Integer.toHexString(ch);
   }
 
   public static boolean propertyExists(final String name) {
@@ -729,8 +795,7 @@ public class Preferences {
     Preferences.globalValues.put(name, value);
     if (updateEncoded) {
       Preferences.globalEncodedValues.put(
-          name,
-          PreferencesFile.encodeProperty(name, value.toString()).getBytes(StandardCharsets.UTF_8));
+          name, encodeProperty(name, value.toString()).getBytes(StandardCharsets.UTF_8));
     }
   }
 
@@ -738,8 +803,7 @@ public class Preferences {
     Preferences.userValues.put(name, value);
     if (updateEncoded) {
       Preferences.userEncodedValues.put(
-          name,
-          PreferencesFile.encodeProperty(name, value.toString()).getBytes(StandardCharsets.UTF_8));
+          name, encodeProperty(name, value.toString()).getBytes(StandardCharsets.UTF_8));
     }
   }
 
