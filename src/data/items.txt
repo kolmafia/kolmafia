@@ -12320,8 +12320,8 @@
 12291	Quincea&ntilde;era Cooler	735241911	cocktail4.gif	drink	t,d	37
 12292	Roth IPA	755682794	rothbeer.gif	drink	t,d	5
 12293	underdraft protection	752798293	undershorts.gif	pants	q	0
-12294	solvent	880652251	solvent.gif	usable	t,d	11
-12295	soybean futures	261654233	soybeans.gif	food	t,d	8
+12294	solvent	880652251	solvent.gif	usable	t,d	11	bottles of solvent
+12295	soybean futures	261654233	soybeans.gif	food	t,d	8	soybean futures
 12296	housing bubble	161477292	housebubble.gif	potion, usable	t,d	11
 12297	Pixie-Swordz	693184026	pixiesword.gif	potion	t,d	5
 12298	financial instrument	179343388	fintrumpet.gif	weapon	q	0
@@ -12331,11 +12331,11 @@
 12302	bull tattoo	329745254	bulltat.gif	usable	t	0
 12303	401k gold ring	469785065	24kring.gif	accessory	q	0
 12304	balance sheet	946018561	balsheet.gif	usable	t,d	11
-12305	invisible hand	579883645	blank.gif	potion, usable	t,d	5
-12306	circle of overdraft protection scroll	816707629	protscroll.gif	potion, usable	t,d	5
-12307	mint	816319379	mintleaf2.gif	potion, usable	t,d	5
+12305	invisible hand	579883645	blank.gif	potion	t,d	5
+12306	circle of overdraft protection scroll	816707629	protscroll.gif	potion	t,d	5
+12307	mint	816319379	mintleaf2.gif	potion	t,d	5
 12308	savings bondo	733535412	bondo.gif	usable	t,d	55
-12309	homeowner's loam	245059498	loam.gif	usable	t,d	4
+12309	homeowner's loam	245059498	loam.gif	usable	t,d	4	piles of homeowner's loam
 12310	toxic asset	738497688	asset1.gif	spleen, usable	t,d	2
 12311	intangible asset	843065975	asset2.gif	spleen, usable	t,d	2
 12312	liquid asset	980372728	asset3.gif	spleen, usable	t,d	2
