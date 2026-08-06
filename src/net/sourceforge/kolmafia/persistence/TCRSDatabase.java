@@ -1365,10 +1365,11 @@ public class TCRSDatabase {
                 .toList());
     var mods = getRetainedModifiers(id);
 
-    // One enchantment per enchantment on the base item. We *guess* the pool might be bucketed by
-    // equipment type/slot, but that is pure speculation - we have no evidence the enchant pool is
-    // partitioned by slot at all. On top of that we haven't worked out the pick RNG (a single draw
-    // from the full list only gets about half of them right), so this whole section is a guess.
+    // -----------------------------------------------------------------------------------------
+    // WARNING: everything below is CONJECTURE. Unlike the cosmetics above, we have NOT spaded
+    // equipment enchantments - the count, the pool, whether it is bucketed by slot at all, the RNG,
+    // and the values are all unverified guesses.
+    // -----------------------------------------------------------------------------------------
     var pool = slotEnchantPool(ItemDatabase.getConsumptionType(id));
     var enchantCount = enchantCount(id);
     for (var i = 0; i < enchantCount; i++) {
