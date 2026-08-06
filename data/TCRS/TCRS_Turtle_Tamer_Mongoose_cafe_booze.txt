@@ -1,33 +1,33 @@
 -1	tolerable Petite Porter	3	good	
 -2	aged Scrawny Stout	3	awesome	
 -3	drinkable Infinitesimal IPA	4	good	
--4	enchanted acceptable extra-dry eggnogtini	5	good	
+-4	acceptable enchanted extra-dry eggnogtini	5	good	
 -5	practically non-alcoholic acceptable candycaine	1	good	
--6	distilled perfectly mixed braincracker sweet	5	EPIC	
+-6	perfectly mixed distilled braincracker sweet	5	EPIC	
 -16	bad high-proof fermented honey	6	decent	
 -17	acceptable skewed moons-shine	4	good	
 -18	bad skewed gin	4	decent	
--19	tolerable fancy upside-down skewed ecto-nog	3	good	
+-19	fancy tolerable upside-down skewed ecto-nog	3	good	
 -20	tolerable fortified hot toady	5	good	
--21	watered-down tolerable hot choculate	2	good	
--49	artisanal practically non-alcoholic Cyder	1	EPIC	
+-21	tolerable watered-down hot choculate	2	good	
+-49	practically non-alcoholic artisanal Cyder	1	EPIC	
 -50	weak lousy Oil Nog	2	decent	
 -51	hand-crafted Hi-Octane Peppermint Jet Fuel	3	EPIC	
 -58	hand-crafted twirling Grimacider	3	EPIC	
--59	artisanal weak Isotope Nog	2	EPIC	
+-59	weak artisanal Isotope Nog	2	EPIC	
 -60	hand-crafted weak wobbly spinning Mutagin 'n' Tonic	2	EPIC	
--70	fancy delicious Gin and Herring	4	awesome	
+-70	delicious fancy Gin and Herring	4	awesome	
 -71	tolerable Black and Tan and Red All Over	4	good	
 -72	acceptable Antarctic Ice Tea	3	good	
 -76	weak hand-crafted lime green CRIMBCO Ribbon Candy Schnapps	2	EPIC	
 -77	acceptable CRIMBCO Egg Substitute Nog Substitute	3	good	
--78	high-proof lousy CRIMBCO Extreme Braincracker Sour	6	decent	
--82	drinkable boozy Horseradish-infused Vodka	5	good	
--83	lousy practically non-alcoholic Jerkitini	1	decent	
+-78	lousy high-proof CRIMBCO Extreme Braincracker Sour	6	decent	
+-82	boozy drinkable Horseradish-infused Vodka	5	good	
+-83	practically non-alcoholic lousy Jerkitini	1	decent	
 -84	bad Desert Island Iced Tea	3	decent	
 -88	acceptable Crimbo Saketini	4	good	
 -89	hand-crafted spirit-forward Crimboku Drop	5	EPIC	
--90	watered-down tolerable Flaming Crimbo Log	2	good	
--107	practically non-alcoholic smooth lime green Fortified Eggnog Slurry	1	awesome	
--108	extra-dry special lousy Hot Buttered Rum	5	decent	
+-90	tolerable watered-down Flaming Crimbo Log	2	good	
+-107	smooth practically non-alcoholic lime green Fortified Eggnog Slurry	1	awesome	
+-108	lousy special extra-dry Hot Buttered Rum	5	decent	
 -109	weak perfectly mixed blinking Spicy Hot Chocolate	2	EPIC	
