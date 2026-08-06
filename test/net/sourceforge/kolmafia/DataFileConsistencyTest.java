@@ -687,6 +687,25 @@ public class DataFileConsistencyTest {
       var issues = ModifierDatabase.checkModifiers();
       assertThat(issues, empty());
     }
+
+    @Test
+    void noDuplicateModifierEntries() {
+      String file = "modifiers.txt";
+      int version = 3;
+      var seen = new HashSet<String>();
+      String[] fields;
+      try (BufferedReader reader = FileUtilities.getVersionedReader(file, version)) {
+        while ((fields = FileUtilities.readData(reader)) != null) {
+          var key = fields[0] + "\t" + fields[1];
+          assertThat(
+              "Duplicate modifier entry for \"" + fields[0] + " " + fields[1] + "\"",
+              seen.add(key),
+              is(true));
+        }
+      } catch (IOException e) {
+        fail("Couldn't read from " + file);
+      }
+    }
   }
 
   @Test

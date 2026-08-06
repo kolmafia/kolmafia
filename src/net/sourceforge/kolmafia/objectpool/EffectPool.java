@@ -444,6 +444,7 @@ public class EffectPool {
   public static final int LEGENDARY_PENNE_FEDORA = 3099;
   public static final int LEGENDARY_PASTA_EYEBALL = 3100;
   public static final int LEGENDARY_SPICE_HAZE = 3101;
+  public static final int SAVING_SOME_BONDO = 3133;
 
   public static final AdventureResult CURSE1_EFFECT = EffectPool.get(EffectPool.ONCE_CURSED);
   public static final AdventureResult CURSE2_EFFECT = EffectPool.get(EffectPool.TWICE_CURSED);
