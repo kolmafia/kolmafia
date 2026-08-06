@@ -2142,7 +2142,6 @@ user	_cupOf13sCharges	5
 user	_cupOf13sDrops	0
 user	_cupOf13sJewels	13
 user	_currentDartboard
-user	_curseOfVacationUsed	0
 user	_cursedKegUsed	false
 user	_cursedMicrowaveUsed	false
 user	_curveballMonster
