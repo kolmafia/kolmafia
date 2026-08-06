@@ -1365,9 +1365,10 @@ public class TCRSDatabase {
                 .toList());
     var mods = getRetainedModifiers(id);
 
-    // One enchantment per enchantment on the base item, picked from a pool specific to the slot.
-    // We haven't worked out the per-slot pool or the pick RNG yet (a single draw per slot only gets
-    // about half of them right), so this part is still a guess.
+    // One enchantment per enchantment on the base item. We *guess* the pool might be bucketed by
+    // equipment type/slot, but that is pure speculation - we have no evidence the enchant pool is
+    // partitioned by slot at all. On top of that we haven't worked out the pick RNG (a single draw
+    // from the full list only gets about half of them right), so this whole section is a guess.
     var pool = slotEnchantPool(ItemDatabase.getConsumptionType(id));
     var enchantCount = enchantCount(id);
     for (var i = 0; i < enchantCount; i++) {
@@ -1385,8 +1386,9 @@ public class TCRSDatabase {
   }
 
   /**
-   * The enchantment pool for an equipment slot. Pools are per-slot, but we don't know each slot's
-   * pool yet, so this returns them all for now.
+   * The enchantment pool for an equipment slot. It is purely a guess that the pool is bucketed by
+   * equipment type/slot at all - we have no confirmation that per-slot pools exist. Until that is
+   * spaded (if it is even true), this ignores the slot and returns every enchantment.
    */
   private static List<Entry<String, String>> slotEnchantPool(final ConsumptionType slot) {
     return EQUIPMENT_MODIFIERS;
