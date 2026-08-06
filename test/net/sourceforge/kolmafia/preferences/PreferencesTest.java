@@ -1137,7 +1137,7 @@ class PreferencesTest {
 
         assertThat(
             Files.readString(journalFile.toPath(), StandardCharsets.UTF_8),
-            containsString(PreferencesFile.encodeProperty(trickyName, trickyValue)));
+            containsString(Preferences.encodeProperty(trickyName, trickyValue)));
 
         login();
 
