@@ -8,35 +8,35 @@
 -11	rotten snack-sized gray shoots and leaves	2	crappy	
 -12	special flavorless bowl of unidentifiable goo	4	decent	
 -13	spoiled red gingerbread massacre	3	crappy	
--14	tasty maroon blurry It Came From Beyond Dessert	4	awesome	
+-14	tasty blurry maroon It Came From Beyond Dessert	4	awesome	
 -15	spoiled gray vampire cake	3	crappy	
--52	special normal Soylent Red and Green	3	good	
+-52	normal special Soylent Red and Green	3	good	
 -53	tasty gigantic upside-down Disc-Shaped Nutrition Unit	9	awesome	
 -54	toothsome narrow Gingerborg Hive	3	awesome	
 -61	stale Candy Cane Surprise	4	decent	
--62	stale half-sized blinking Grimdrop Chow Mein	2	decent	
+-62	half-sized stale blinking Grimdrop Chow Mein	2	decent	
 -63	normal huge Grimgerbread House	3	good	
--67	flavorless half-sized Caviar Carbonara	2	decent	
+-67	half-sized flavorless Caviar Carbonara	2	decent	
 -68	fancy decent bouncing Halibut Alfredo	3	good	
--69	bland tiny Red Herring Velvet Cake	1	decent	
+-69	tiny bland Red Herring Velvet Cake	1	decent	
 -73	tasty mirror CRIMBCO Reconstituted Gruel	3	awesome	
 -74	immense moldy New and Improved CRIMBCO Reconstituted Gruel	6	crappy	
 -75	decent CRIMBCO Deluxe Reconstituted Gruel with Simulated Raisins	3	good	
--79	toothsome low-calorie upside-down Brussels Sprout Stir-Fry	1	awesome	
+-79	low-calorie toothsome upside-down Brussels Sprout Stir-Fry	1	awesome	
 -80	snack-sized rotten Carrot, Cabbage, and Kale Pizza	2	crappy	
 -81	normal Turnip and Rutabaga Pie	3	good	
 -85	adequate bite-sized Rainbow Spider Fun Roll	1	good	
 -86	stale Vegas Volcano Lava Roll	3	decent	
--87	half-sized decent Crazy Dragon Shogun Buddha Roll	2	good	
+-87	decent half-sized Crazy Dragon Shogun Buddha Roll	2	good	
 -92	flavorless basic hot dog	3	decent	
 -93	bland savage macho dog	4	decent	
 -94	stale one with everything	4	decent	
 -95	moldy sly dog	4	crappy	
--96	tiny normal fuchsia devil dog	1	good	
--97	rotten big chilly dog	5	crappy	
--98	big rotten pulsating ghost dog	5	crappy	
--99	adequate pulsating narrow junkyard dog	4	good	
--100	rotten tiny blinking fuchsia wet dog	1	crappy	
+-96	normal tiny fuchsia devil dog	1	good	
+-97	big rotten chilly dog	5	crappy	
+-98	rotten big pulsating ghost dog	5	crappy	
+-99	adequate narrow pulsating junkyard dog	4	good	
+-100	tiny rotten blinking fuchsia wet dog	1	crappy	
 -101	super-sized spoiled sleeping dog	5	crappy	
 -102	normal massive optimal dog	10	good	
 -103	stale immense video games hot dog	8	decent	
