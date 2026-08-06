@@ -1341,11 +1341,7 @@ public class TCRSDatabase {
     // Cosmetic adjectives - these are correct; they match KoL for items with no enchantments.
     var cosmeticsString = rollCosmetics(mtRng, rng, 8);
 
-    var name =
-        new ArrayList<>(
-            Stream.of(cosmeticsString, removeAdjectives(ItemDatabase.getItemName(id)))
-                .filter(Predicate.not(String::isBlank))
-                .toList());
+    var root = removeAdjectives(ItemDatabase.getItemName(id));
     var mods = getRetainedModifiers(id);
 
     // -----------------------------------------------------------------------------------------
@@ -1355,18 +1351,26 @@ public class TCRSDatabase {
     // -----------------------------------------------------------------------------------------
     var pool = slotEnchantPool(ItemDatabase.getConsumptionType(id));
     var enchantCount = enchantCount(id);
+    var prefixes = new ArrayList<String>();
+    var suffixes = new ArrayList<String>();
     for (var i = 0; i < enchantCount; i++) {
       var entry = mtRng.pickOne(pool);
       var descriptor = entry.getKey();
       if (descriptor.startsWith("of ")) {
-        name.addLast(descriptor);
+        suffixes.add(descriptor);
       } else {
-        name.addFirst(descriptor);
+        prefixes.add(0, descriptor);
       }
       DebugDatabase.appendModifier(mods, entry.getValue());
     }
 
-    return new TCRS(String.join(" ", name), 0, ConsumableQuality.NONE, mods.toString());
+    var name =
+        Stream.of(Stream.of(cosmeticsString), prefixes.stream(), Stream.of(root), suffixes.stream())
+            .flatMap(s -> s)
+            .filter(Predicate.not(String::isBlank))
+            .collect(Collectors.joining(" "));
+
+    return new TCRS(name, 0, ConsumableQuality.NONE, mods.toString());
   }
 
   /**
