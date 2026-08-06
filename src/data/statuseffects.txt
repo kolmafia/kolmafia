@@ -3118,3 +3118,15 @@
 3115	Runneth On Fumes	runnethstench.gif	35b96e0c5637de5b95b6f8a05e186415	neutral	none
 3116	Runneth For Thy Life	runnethspooky.gif	a4c0d14bbc0c8af84aa96e4ace820c11	neutral	none
 3117	Runneth Into Thine Ex	runnethsleaze.gif	c6e701695a81c397abedc9c881f4f3f4	neutral	none
+3118	Essentially Bananafied	potion29.gif	82e86749d782ef9375a9799a163c6302	neutral	none	use 1 essential banana decoction
+3119	Quintessentially Bananafied	potion30.gif	ee62f1f950f98f2aecd9e00715b55aff	neutral	none	use 1 banana quintessence
+3120	Watermelon On The Brain	potion25.gif	5ff6e5e99f564a06465844720d8d9f3e	neutral	none	use 1 concentrated watermelon juice
+3121	Watermelon Seeds of Eternity	potion26.gif	faa21098b311fec1872c0c9bc097282f	neutral	none	use 1 Aqua Citrulanatae
+3122
+3123
+3124
+3125
+3126	Bananapalooza	origbanana.gif	015b0698db6c9fc324c4b2e4a38e4cd4	neutral	none	drink 1 Aesop Daiquiri
+3127	Still Watermelons Run Deep	origwatermelon.gif	fe350d77a126ba68b799dbc8b7207012	neutral	none	eat 1 antique watermelon
+3128	Exotically Fruity	quince.gif	33adbae4116cc790cca00a5b1b31d65c	neutral	none	eat 1 quince
+3129	Sugar-Stabbed	pixiesword.gif	f8351d29e844c978cdec90c468fe9007	neutral	none	use 1 Pixie-Swordz

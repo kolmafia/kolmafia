@@ -248,6 +248,7 @@ Item	five-gallon hat	Muscle: +5, Mysticality: +5, Moxie: +5, Experience: +3
 Item	flagstone fez	Mysticality Percent: +20, Spooky Damage: +5, Stench Damage: +5, Hot Damage: +5, Cold Damage: +5, Sleaze Damage: +5, Last Available: "2022-12", Conditional Skill (Equipped): "Flagstone Fez Ritual"
 Item	flaming leaf crown	Cold Resistance: +5, Hot Damage: +10, Hot Spell Damage: +10, Experience: +3, PvP Fights: +3, Adventures: +3
 # flatusaur gasmask: Protects against flatusaurus emissions
+Item	flimsy plastic helmet	Muscle: +10
 Item	floaty rock helmet	Spell Critical Percent: +10, Familiar Effect: "1xGhuol, cap 25"
 Item	foam commodore's hat	Weapon Damage Percent: +25, Spell Damage Percent: +25, Last Available: "2013-12", Familiar Effect: "atk, 1xVolley"
 Item	foolscap fool's cap	Moxie: +2, Mysticality: -2, Clowniness: 25, Familiar Effect: "3xVolley, cap 10"
@@ -518,6 +519,8 @@ Item	sugar chapeau	Spell Damage Percent: +50, Spell Critical Percent: +10, MP Re
 Item	superhero mask	Muscle: +5, Mysticality: +5, Moxie: +5, Softcore Only, Familiar Effect: "1xLep, 1xFairy, cap 2"
 Item	suspicious-looking fedora	Moxie: +6, Weapon Damage: +6, Last Available: "2013-12", Familiar Effect: "atk, 1xFairy, cap 15"
 Item	sweatband	PvP Fights: +2, Damage Reduction: 5, Last Available: "2014-12", Familiar Effect: "sleaze atk, 1xFairy, cap 25"
+# tactical jester's cap: Combat items deal 50% more damage
+Item	tactical jester's cap	Moxie Percent: +25, Initiative: -25
 Item	tattered paper crown	Muscle: +3, Familiar Effect: "1xSombrero, cap 15"
 Item	Team Avarice cap	Item Drop: +100
 Item	Team Sloth cap	Combat Rate: -15
@@ -714,6 +717,7 @@ Item	fancy tuxedo pants	Moxie Percent: +15, Familiar Effect: "2xVolley, 1xPotato
 Item	filthy corduroys	Mysticality: +3, Moxie: -3, Familiar Effect: "stench atk, 2xPotato, cap 15"
 Item	fire hose	Hot Damage: +20, Hot Spell Damage: +25, Spell Damage Percent: +30, Last Available: "2014-12", Familiar Effect: "hot atk, 1xVolley, cap 37"
 Item	flaming fig leaf	Cold Resistance: +3, Experience (Moxie): +2, Lasts Until Rollover
+Item	flimsy plastic greaves	Moxie: +10
 Item	floaty rock pants	Spell Critical Percent: +10, Familiar Effect: "1.5xBarrr, 1xGhuol, cap 25"
 Item	floral-print skirt	Stench Damage: +20, Monster Level: +5, Familiar Effect: "stench atk, 2xPotato, cap 15"
 Item	flowing hippy skirt	Mysticality: +9, Stench Spell Damage: +15, Familiar Effect: "stench atk, 1xFairy, cap 45"
@@ -1034,6 +1038,7 @@ Item	First Post shirt - Cir Senam	Spooky Damage: +1, Stench Damage: +1, Hot Dama
 Item	flagstone fleece	Experience (Moxie): +3, Adventures: +3, Last Available: "2022-12", Conditional Skill (Equipped): "Flagstone Fleece Flex"
 Item	flaming pink shirt	Item Drop: +15, Softcore Only, Last Available: "2007-01"
 # flatusaur gasmask: Protects against flatusaurus emissions
+Item	flimsy plastic breastplate	Muscle: +10
 Item	floral print shirt	Mysticality: +5
 Item	flyest of shirts	Moxie: +5, Spell Damage: +5, Last Available: "2010-04"
 # fresh coat of paint: Enchantments are different every day
@@ -2131,8 +2136,11 @@ Item	Windsor Pan of the Source	Mysticality: +15, Spell Damage: +23, Spell Critic
 Item	witty rapier	Experience (Mysticality): +2
 Item	wolf whistle	HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 10, MP Regen Max: 20, Sleaze Damage: +100, Last Available: "2014-12", Conditional Skill (Equipped): "Blow Wolf Whistle"
 Item	wooden axe	Muscle: +3
+Item	wooden lute	Experience Percent (Moxie): +10
 Item	wooden spoon	Spell Damage: +5
+Item	wooden staff	Experience Percent (Mysticality): +10
 Item	wooden stakes	Weapon Damage: +1
+Item	wooden sword	Experience Percent (Muscle): +10
 Item	Work is a Four Letter Sword	HP Regen Min: 4, HP Regen Max: 6, Critical Hit Percent: +5, Smithsness: +5, Last Available: "2013-12", Weapon Damage: [K]
 Item	world's smallest violin	Ranged Damage: +5, Meat Drop: +5, Monster Level: +5
 # worm-riding hooks
@@ -2370,6 +2378,7 @@ Item	flaming talons	Weapon Damage: +5, Hot Damage: +5
 Item	fleshy lump	Maximum HP: +20, HP Regen Min: 2, HP Regen Max: 4, Damage Reduction: 3, Last Available: "2016-08"
 Item	flickering flashlight	Item Drop: +15, Last Available: "2020-04"
 Item	flimsy clipboard	Meat Drop: +5, Damage Reduction: 3
+Item	flimsy plastic shield	Damage Reduction: 8
 Item	flimsy ski pole	Initiative: +30, Last Available: "2020-04"
 Item	foon	Mysticality: +2
 Item	foon of fearfulness	Mysticality: +3, Spooky Spell Damage: +8
@@ -2780,6 +2789,7 @@ Item	The Lot's engagement ring	Stench Damage: +3, Conditional Skill (Equipped): 
 # The Necbromancer's Stein: All Spells Cast Are Spooky
 Item	The Necbromancer's Stein	Spell Damage Percent: +100, Spooky Spell Damage: +30, Last Available: "2011-10"
 Item	The Spirit of Crimbo	Free Pull, Last Available: "2008-12", Conditional Skill (Equipped): "Recite 'The Spirit of Crimbo'"
+Item	The Wizard's Android	Mana Cost: -2, PvP Fights: +6, Fumble: 2
 Item	third-hand lantern	Initiative: +5
 # thought balloon
 Item	Tiki lighter	Experience: +1, Last Available: "2006-12", Stat Tuning: "Moxie"
@@ -3619,6 +3629,9 @@ Item	porquoise necklace	Moxie: +4, Meat Drop: +10, Single Equip
 Item	porquoise ring	Moxie: +5, Maximum HP: +5, Maximum MP: +5, HP Regen Min: 1, HP Regen Max: 2, MP Regen Min: 1, MP Regen Max: 2, Single Equip
 # portable cassette player: Has An Obnoxious Mix Tape Stuck In It
 Item	portable cassette player	Combat Rate: +5, Monster Level: +5, Single Equip, Last Available: "2014-08"
+# Portable Laughing Stock: Passersby will throw fruit at you
+# Portable Laughing Stock: Taunt your foes!
+Item	Portable Laughing Stock	Maximum HP: +30, Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20, Damage Reduction: 10, Last Available: "2026-07"
 Item	power sock	Muscle: +20, Mysticality: -5, Moxie: -5, Weapon Damage Percent: +20, Single Equip, Last Available: "2013-11"
 Item	Powerful Glove	Maximum MP: +10, Maximum HP: +20, Weapon Damage Percent: +25, Spell Damage Percent: +50, HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10, Single Equip, Last Available: "2020-02", Conditional Skill (Equipped): "CHEAT CODE: Replace Enemy", Conditional Skill (Equipped): "CHEAT CODE: Shrink Enemy", Conditional Skill (Equipped): "CHEAT CODE: Invisible Avatar", Conditional Skill (Equipped): "CHEAT CODE: Triple Size"
 Item	primitive alien necklace	Experience: +5, Cold Damage: +25, HP Regen Min: 2, HP Regen Max: 4, MP Regen Min: 2, MP Regen Max: 4, Last Available: "2017-04"
@@ -5729,6 +5742,7 @@ Effect	Baited Hook	Fishing Skill: +5
 # Baja, Humbug: +50% to Item Drops from Monsters (Underwater only)
 Effect	Baja, Humbug	Item Drop: [50*env(underwater)]
 Effect	Balls of Ectoplasm	Spooky Resistance: +1
+Effect	Bananapalooza	Ranged Damage Percent: +100, Damage Reduction: 25
 Effect	Bananas!	Muscle: +40, Mysticality: +40, Moxie: +40
 Effect	Bandananit	Avatar: "dirty thieving brigand"
 Effect	Bandersnatched	Moxie: +5, Ranged Damage: +10
@@ -6422,6 +6436,7 @@ Effect	Ermahgerd, Burke	Avatar: "Special Agent Wallace Burke Corrigan"
 Effect	Ermine Eyes	Item Drop: +5
 Effect	Erudite	Mysticality Percent: +10, Spell Damage: +15, Damage Reduction: -10
 # Eso S&iacute; Que Es
+Effect	Essentially Bananafied	Moxie Percent: +200, Experience Percent (Moxie): +25
 Effect	Everybody Calls Him Gorgon	Experience (Mysticality): +5, Mysticality Percent: +100, Maximum MP Percent: +50
 # Everything Is Bananas: Monsters will often fail to hit you because of all the banana oil everywhere
 # Everything Looks Blue
@@ -6436,6 +6451,7 @@ Effect	EVISCERATE!	Damage Aura: 1
 # Ew, The Humanity: Encounter human monsters more frequently
 Effect	Executive Greed	Meat Drop: +50
 # Existential Torment: Who are you?  Who are you <i>really</i>?
+Effect	Exotically Fruity	Spell Damage Percent: +100, Maximum MP Percent: +200
 Effect	Experimental Effect G-9	Muscle Percent: [pref(_g9Effect)], Mysticality Percent: [pref(_g9Effect)], Moxie Percent: [pref(_g9Effect)]
 # Expert Oiliness: Makes your Muscle and Moxie equal to your Mysticality
 Effect	Expert Oiliness	Equalize: "Mysticality"
@@ -7630,6 +7646,7 @@ Effect	Quiet Desperation	Moxie Percent: +25
 Effect	Quiet Determination	Muscle Percent: +25
 Effect	Quiet Judgement	Mysticality Percent: +25
 Effect	Quiet Night's Sleep	Initiative: +50, MP Regen Min: 5, MP Regen Max: 10
+Effect	Quintessentially Bananafied	Moxie Percent: +400, Experience Percent (Moxie): +50
 Effect	Quivering with Rage	Muscle Percent: -10, Damage Aura: 1
 Effect	QWOPped Up	Initiative: -100, Always Fumble
 Effect	Racing!	Initiative: +200
@@ -8088,6 +8105,7 @@ Effect	Sticks and Stones	Damage vs. Skeletons: +50
 Effect	Sticky Fingers	Meat Drop: +20
 # Sticky Hands: Reduced chance of fumbling
 Effect	Stiff Upper Lip	Damage Reduction: 10
+Effect	Still Watermelons Run Deep	Weapon Damage Percent: +100, Maximum HP Percent: +200
 Effect	Stimulated Body	HP Regen Min: 10, HP Regen Max: 20
 Effect	Stimulated Brain	MP Regen Min: 10, MP Regen Max: 20
 Effect	Stinking Cloud	Stench Resistance: +1
@@ -8130,6 +8148,7 @@ Effect	Sugar High	Mysticality Percent: +30
 Effect	Sugar Rush	Initiative: +20, Muscle Percent: +5, Moxie Percent: +5, Mysticality Percent: -10
 Effect	Sugar Smacks	Muscle Percent: +30
 Effect	Sugar-Frosted Pet Guts	Familiar Weight: +5
+Effect	Sugar-Stabbed	Weapon Damage: +10, Initiative: +10
 Effect	Sugar, Hello	Mysticality: +20
 Effect	Sugarplum Visions	Piece of Twelve Drop: 0.5
 Effect	Sugary Tongue	Moxie Percent: +30
@@ -8509,6 +8528,8 @@ Effect	Water Balloon Champion	Experience: +5, Item Drop: +20, Meat Drop: +40
 # Water Wings: You believe you can float!
 Effect	Water Wings	Wiki Name: "Water Wings"
 Effect	Waterborne	Avatar: "giant tardigrade"
+Effect	Watermelon On The Brain	Muscle Percent: +200, Experience Percent (Muscle): +25
+Effect	Watermelon Seeds of Eternity	Muscle Percent: +400, Experience Percent (Muscle): +50
 Effect	Wax On Your Shoes	Moxie: +15, Initiative: +25
 Effect	Waxing	Maximum HP Percent: +100, Maximum MP Percent: +50, Initiative: +50
 Effect	Waxing Mystical	MP Regen Min: 3, MP Regen Max: 5
@@ -9561,6 +9582,7 @@ Item	alien sandwich	Last Available: "2017-04"
 Item	amok pudding	Effect: "Puddingface", Effect Duration: 20
 Item	ancient unspeakable fruitcake	Last Available: "2006-12"
 Item	animal part cracker	Effect: "Sprinkle in Your Eye", Effect Duration: 30, Last Available: "2016-12"
+Item	antique watermelon	Effect: "Still Watermelons Run Deep", Effect Duration: 10, Last Available: "2026-07"
 Item	Arrattabbattabiata	Last Available: "2026-05"
 Item	autumn-spice donut	Effect: "Whet Appetite", Effect Duration: 30, Last Available: "2022-10"
 Item	bacteria bisque	Effect: "Infected with Chronerism", Effect Duration: 50
@@ -9659,6 +9681,8 @@ Item	Christmas ham	Effect: "Eyesies on the Pressies", Effect Duration: 20, Last 
 Item	ciliophora chowder	Effect: "Twitching Senses", Effect Duration: 50
 Item	cinnamon cannoli	Last Available: "2014-12"
 Item	circular CRIMBCOOKIE	Effect: "Mystic Circle", Effect Duration: 10, Last Available: "2010-12"
+Item	classic banana	Effect: "Bananapalooza", Effect Duration: 10, Last Available: "2026-07"
+Item	classic banana pie	Effect: "Bananapalooza", Effect Duration: 50, Last Available: "2026-07"
 Item	cold hi mein	Effect: "Cold Breath", Effect Duration: 5
 # cold mashed potatoes: Selling Price: <b>1 Meat.</b><p><center><b><font color=blue>Deals <font color=blue>Cold Damage</font> based on your Mysticality when used as a combat item
 Item	cold mashed potatoes	Last Available: "2013-11"
@@ -9959,6 +9983,7 @@ Item	protein paste	Effect: "Pasty", Effect Duration: 10, Last Available: "2009-0
 Item	pumpkin pie	Last Available: "2010-11"
 Item	quantum taco	Last Available: "2010-10"
 Item	queen cookie	Effect: "Towering Strength", Effect Duration: 30, Effect: "Mitre Cut", Effect Duration: 30, Effect: "Knightlife", Effect Duration: 30, Effect: "The Royal We", Effect Duration: 30, Last Available: "2010-03"
+Item	quince	Effect: "Exotically Fruity", Effect Duration: 10, Last Available: "2026-07"
 Item	rack of dinosaur ribs	Effect: "Meat the Flintstones", Effect Duration: 30
 Item	raisin	Last Available: "2010-04"
 Item	rat pizza	Effect: "Ratabunga, Dude!", Effect Duration: 50, Last Available: "2026-03"
@@ -10143,6 +10168,7 @@ Item	&quot;salvaged&quot; wine	Last Available: "2025-12"
 Item	1950 Vampire Vintner wine	Effect Duration: 10
 Item	Acqua Del Piatto Merlot	Last Available: "2004-10"
 Item	Acque Luride Grezze Cabernet	Last Available: "2004-10"
+Item	Aesop Daiquiri	Effect: "Bananapalooza", Effect Duration: 20, Last Available: "2026-07"
 Item	Afternoon Delight	Last Available: "2015-04"
 Item	Agitated Turkey	Effect: "Turkey-Agitated", Effect Duration: 25, Last Available: "2014-11"
 Item	Alewife&trade; Ale	Effect: "Brined Liver", Effect Duration: 5
@@ -10514,6 +10540,7 @@ Item	pumpkin beer	Last Available: "2010-11"
 Item	punch-drunk punch	Effect: "Boxing Day Drinking", Effect Duration: 50, Last Available: "2018-12"
 Item	Punchplanter	Effect: "Fishy", Effect Duration: 5, Last Available: "2012-03"
 Item	Quaatorade&trade;	Effect: "Quaaaaaaa", Effect Duration: 100, Last Available: "2015-08"
+Item	Quiskey Sour	Effect: "Exotically Fruity", Effect Duration: 20, Last Available: "2026-07"
 Item	R'lyeh	Effect: "The Effect Man Was Not Meant to Have", Effect Duration: 40, Last Available: "2017-03"
 Item	Racisto Ruidoso	Last Available: "2017-11"
 Item	red ale	Effect: "Putting the Pro in Proletariat", Effect Duration: 40, Last Available: "2015-12"
@@ -10917,6 +10944,7 @@ Item	anti-freeze cream	Effect: "Anti-Freezing", Effect Duration: 20, Last Availa
 Item	anti-goosebump cream	Effect: "Anti-Goosebumped", Effect Duration: 20, Last Available: "2021-12"
 Item	anti-odor cream	Effect: "Anti-Odored", Effect Duration: 20, Last Available: "2021-12"
 Item	anti-pain cream	Effect: "Anti-Hurt", Effect Duration: 20, Last Available: "2021-12"
+Item	Aqua Citrulanatae	Effect: "Watermelon Seeds of Eternity", Effect Duration: 5, Last Available: "2026-07"
 Item	arse-a'fire elixir	Effect: "Arse-a'fire", Effect Duration: 10, Last Available: "2007-01"
 Item	ash soda	Effect: "Ashen Burps", Effect Duration: 15, Last Available: "2014-06"
 Item	astral mushroom	Effect: "Half-Astral", Effect Duration: 5, Last Available: "2006-06"
@@ -10936,6 +10964,7 @@ Item	baggie of powdered sugar	Effect: "So You Can Work More...", Effect Duration
 Item	bakelite-covered bacon	Effect: "Litely Baked", Effect Duration: 10
 Item	ballast turtle	Effect: "Oxygenated Blood", Effect Duration: 20
 Item	banana candle	Effect: "Everything Is Bananas", Effect Duration: 80, Last Available: "2021-08"
+Item	banana quintessence	Effect: "Quintessentially Bananafied", Effect Duration: 5, Last Available: "2026-07"
 Item	banana smoothie	Effect: "Bananas!", Effect Duration: [R]
 Item	banana supersucker	Effect: "Bananas!", Effect Duration: 30, Last Available: "2011-11"
 Item	baobab sap	Effect: "Buff as a Baobab", Effect Duration: 10, Last Available: "2012-12"
@@ -11076,6 +11105,7 @@ Item	communal gobstopper	Effect: "The Magic of Sharing", Effect Duration: 20, La
 Item	concentrated cordial of concentration	Effect: "Concentrated Concentration", Effect Duration: [R]
 Item	concentrated fish broth	Effect: "Fishy", Effect Duration: 30, Last Available: "2019-12"
 Item	concentrated garbage juice	Effect: "Drenched With Filth", Effect Duration: 20
+Item	concentrated watermelon juice	Effect: "Watermelon On The Brain", Effect Duration: 5, Last Available: "2026-07"
 Item	concoction of clumsiness	Effect: "Clumsy", Effect Duration: [R]
 Item	confiscated cell phone	Effect: "OMG WTF", Effect Duration: 20, Last Available: "2014-08"
 Item	confiscated comic book	Effect: "Superheroic", Effect Duration: 20, Last Available: "2014-08"
@@ -11145,18 +11175,18 @@ Item	cyclops eyedrops	Effect: "One Very Clear Eye", Effect Duration: 10
 Item	cymbal syrup	Free Pull, Effect: "Tinnitus", Effect Duration: 20, Last Available: "2007-02"
 Item	Daffy Taffy	Effect: "Sugar Rush", Effect Duration: 3
 # Daily Affirmation: Adapt to Change Eventually: In Combat: Enact Immediate Change!
-Item	Daily Affirmation: Adapt to Change Eventually	Effect: "Adapt to Change Eventually", Effect Duration: 100, Last Available: "2017-05"
 # Daily Affirmation: Always be Collecting: In Combat: Collect more stuff after a fight!
-Item	Daily Affirmation: Always be Collecting	Effect: "Always be Collecting", Effect Duration: 100, Last Available: "2017-05"
 # Daily Affirmation: Be a Mind Master: In Combat: Banish Terrible Encounters!
-Item	Daily Affirmation: Be a Mind Master	Effect: "Be a Mind Master", Effect Duration: 100, Last Available: "2017-05"
 # Daily Affirmation: Be Superficially interested: In Combat: Superficially track a monster!
-Item	Daily Affirmation: Be Superficially interested	Effect: "Become Superficially interested", Effect Duration: 100, Last Available: "2017-05"
 # Daily Affirmation: Keep Free Hate in your Heart: In Combat: Demean Foes and Increase Your Belligerence
-Item	Daily Affirmation: Keep Free Hate in your Heart	Effect: "Keep Free Hate in your Heart", Effect Duration: 100, Last Available: "2017-05"
 # Daily Affirmation: Think Win-Lose: In Combat: Force a win!
-Item	Daily Affirmation: Think Win-Lose	Effect: "Think Win-Lose", Effect Duration: 100, Last Available: "2017-05"
 # Daily Affirmation: Work For Hours a Week: In Combat: Earn Active Income!
+Item	Daily Affirmation: Adapt to Change Eventually	Effect: "Adapt to Change Eventually", Effect Duration: 100, Last Available: "2017-05"
+Item	Daily Affirmation: Always be Collecting	Effect: "Always be Collecting", Effect Duration: 100, Last Available: "2017-05"
+Item	Daily Affirmation: Be a Mind Master	Effect: "Be a Mind Master", Effect Duration: 100, Last Available: "2017-05"
+Item	Daily Affirmation: Be Superficially interested	Effect: "Become Superficially interested", Effect Duration: 100, Last Available: "2017-05"
+Item	Daily Affirmation: Keep Free Hate in your Heart	Effect: "Keep Free Hate in your Heart", Effect Duration: 100, Last Available: "2017-05"
+Item	Daily Affirmation: Think Win-Lose	Effect: "Think Win-Lose", Effect Duration: 100, Last Available: "2017-05"
 Item	Daily Affirmation: Work For Hours a Week	Effect: "Work For Hours a Week", Effect Duration: 100, Last Available: "2017-05"
 Item	dark chocolate egg	Effect: "Herder, Bitter, Fester, Stranger", Effect Duration: 10, Last Available: "2024-12"
 Item	daub-breaker	Effect: "Hot Breath", Effect Duration: 1, Last Available: "2020-09"
@@ -11222,8 +11252,8 @@ Item	eldritch rub	Effect: "Infused with Sssshhsssblllrrggghsssssggggrrgglssss", 
 Item	electric mushroom	Effect: "Tingling Insides", Effect Duration: 20, Last Available: "2023-02"
 Item	Elf Guard eyedrops	Effect: "Elf Watch", Effect Duration: 30, Last Available: "2023-12"
 Item	Elizabeth's paintbrush	Effect: "Boschface", Effect Duration: 25
-# elven suicide capsule actually gives one of Sugar High, Sugar Smacks, Sugary Tongue
 Item	elven suicide capsule	Effect: "Sugar Rush", Effect Duration: 10, Last Available: "2009-12"
+# elven suicide capsule actually gives one of Sugar High, Sugar Smacks, Sugary Tongue
 Item	Elvish delight	Effect: "Cuts Like a Lightly-Buttered Knife", Effect Duration: 3
 Item	EMD holo-record	Effect: "Ministrations in the Dark", Effect Duration: 10
 Item	emergency glowstick	Effect: "Glowing Hands", Effect Duration: 20, Last Available: "2022-05"
@@ -11595,8 +11625,8 @@ Item	old love note	Effect: "Memories of Puppy Love", Effect Duration: 20, Last A
 Item	old rosewater cream	Effect: "Rosewater Mark", Effect Duration: 25
 Item	Omphalotus Omphaloskepsis mushroom	Effect: "Omphalotus Omnipresence", Effect Duration: 10, Last Available: "2014-05"
 Item	one piece of bubble gum	Effect: "Sugar Rush", Effect Duration: 10
-# one pill gives one of Larger, Small or nothing
 Item	one pill	Effect Duration: 0
+# one pill gives one of Larger, Small or nothing
 Item	orange and black Crimboween candy	Effect: "Sugar Rush", Effect Duration: 5, Last Available: "2020-09"
 Item	orange candy heart	Effect: "Heart of Orange", Effect Duration: 10, Last Available: "2007-02"
 Item	orange snowcone	Effect: "Orange Tongue", Effect Duration: 20, Last Available: "2006-01"
@@ -11660,6 +11690,7 @@ Item	pitted sheet metal	Effect: "Ironclad", Effect Duration: 20, Last Available:
 Item	pixel star	Effect: "Nigh-Invincible", Effect Duration: 30, Last Available: "2015-06"
 # pixellated candy heart: Restores 4-5 HP
 Item	pixellated candy heart	Effect: "Sugar Rush", Effect Duration: 3
+Item	Pixie-Swordz	Effect: "Sugar-Stabbed", Effect Duration: 10
 Item	PlexiPips	Effect: "Sole Soul", Effect Duration: 1
 Item	plum lozenge	Effect: "The Halls of Muscularity", Effect Duration: [R]
 Item	Pneumo bar	Effect: "Bubblin' Rage", Effect Duration: 20
@@ -14325,6 +14356,7 @@ Item	packaged miniature crystal ball	Free Pull, Last Available: "2021-01"
 Item	packaged model train set	Free Pull, Last Available: "2022-12"
 Item	packaged Monodent of the Sea	Free Pull
 Item	packaged Pocket Professor	Free Pull, Last Available: "2019-09"
+Item	packaged Portable Laughing Stock	Free Pull, Last Available: "2026-07"
 Item	packaged prismatic beret	Free Pull
 Item	packaged Roman Candelabra	Free Pull
 Item	packaged SpinMaster&trade; lathe	Free Pull, Last Available: "2020-08"

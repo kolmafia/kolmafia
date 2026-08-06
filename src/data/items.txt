@@ -12279,10 +12279,48 @@
 12250
 12251
 12252
-12253
-12254
-12255
-12256
-12257
+12253	premium turkey leg	569904659	turkeyleg2.gif	food	t,d	11
+12254	styrofoam cup of mead	834589962	meadcup.gif	drink	t,d	9
+12255	wooden sword	330222181	rensword.gif	weapon	t,d	20
+12256	wooden staff	485535819	renstaff.gif	weapon	t,d	25
+12257	wooden lute	956889070	renlute.gif	weapon	t,d	20
 12258	shrink-wrapped Cup of 13s	832590849	13cup_box.gif	usable	t	0	shrink-wrapped Cups of 13
 12259	Cup of 13s	840617830	13cup.gif	offhand		0	Cups of 13
+12260	The Wizard's Android	281711015	android.gif	offhand	t	0
+12261	flash paperwad	635576364	flashwad.gif	none, combat	t,d	5
+12262	wooden juggling ball	499375806	juggleball.gif	none, combat	t,d	10
+12263	tactical jester's cap	432619122	jestercap.gif	hat	t	0
+12264	single-use sword	767107751	flimsword.gif	none, combat	t,d	15
+12265	flimsy plastic helmet	789050953	flimhelmet.gif	hat	t,d	22
+12266	flimsy plastic greaves	326865614	flimgreaves.gif	pants	t,d	22
+12267	flimsy plastic breastplate	414917286	flimbreast.gif	shirt	t,d	22
+12268	flimsy plastic shield	471831030	flimshield.gif	offhand	t,d	11
+12269	packaged Portable Laughing Stock	747690797	stocks_box.gif	usable	t	0
+12270	Portable Laughing Stock	678311056	stocks.gif	accessory		0
+12271
+12272	classic banana	413818048	origbanana.gif	food, cook, mix	t,d	11
+12273	antique watermelon	338610731	origwatermelon.gif	food, cook, mix	t,d	11
+12274	quince	788170970	quince.gif	food, cook, mix	t,d	11
+12275
+12276
+12277	classic banana pie	933694313	creampie.gif	food	t,d	44
+12278
+12279	banana quintessence	710732122	potion30.gif	potion, usable	t,d	33
+12280	Aesop Daiquiri	856344942	cocktail5.gif	drink	t,d	23
+12281
+12282
+12283	concentrated watermelon juice	530172845	potion25.gif	potion, usable	t,d	22
+12284	Aqua Citrulanatae	950577649	potion26.gif	potion, usable	t,d	33
+12285
+12286
+12287
+12288
+12289
+12290	Quiskey Sour	689712147	cocktail3.gif	drink	t,d	23
+12291
+12292
+12293
+12294
+12295
+12296
+12297	Pixie-Swordz	693184026	pixiesword.gif	potion, usable	t,d	5
