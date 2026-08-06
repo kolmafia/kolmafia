@@ -6,7 +6,6 @@ import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withSign;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
@@ -14,7 +13,6 @@ import static org.hamcrest.Matchers.nullValue;
 
 import internal.helpers.Cleanups;
 import internal.network.FakeHttpClientBuilder;
-import java.util.ArrayList;
 import java.util.Objects;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.AscensionClass;
@@ -160,79 +158,101 @@ class TCRSDatabaseTest {
   }
 
   @Test
-  void guessAll() {
-    var mismatches = new ArrayList<String>();
-    for (var ascensionClass : AscensionClass.standardClasses) {
-      for (var sign : ZodiacSign.standardZodiacSigns) {
-        var cleanups =
-            new Cleanups(
-                withPath(Path.CRAZY_RANDOM_SUMMER_TWO), withClass(ascensionClass), withSign(sign));
-        try (cleanups) {
-          TCRSDatabase.loadTCRSData();
-          for (var i : ItemDatabase.entrySet()) {
-            var itemId = i.getKey();
-            if (!TCRSDatabase.hasData(itemId)) continue;
+  void guessAll() throws java.io.IOException {
+    // The full sweep produces a lot of mismatches while the branch is a work in progress, so stream
+    // them to a file rather than holding them all in memory (which otherwise exhausts the heap).
+    var reportFile =
+        java.nio.file.Path.of(System.getProperty("user.dir"))
+            .getParent()
+            .getParent()
+            .resolve("build/tcrs-guessAll-mismatches.txt");
+    java.nio.file.Files.createDirectories(reportFile.getParent());
 
-            var dataSays = TCRSDatabase.getData(itemId);
-            var weGuessed = TCRSDatabase.guessItem(ascensionClass, sign, itemId);
+    var count = 0;
+    try (var out = java.nio.file.Files.newBufferedWriter(reportFile)) {
+      for (var ascensionClass : AscensionClass.standardClasses) {
+        for (var sign : ZodiacSign.standardZodiacSigns) {
+          var cleanups =
+              new Cleanups(
+                  withPath(Path.CRAZY_RANDOM_SUMMER_TWO),
+                  withClass(ascensionClass),
+                  withSign(sign));
+          try (cleanups) {
+            TCRSDatabase.loadTCRSData();
+            for (var i : ItemDatabase.entrySet()) {
+              var itemId = i.getKey();
+              if (!TCRSDatabase.hasData(itemId)) continue;
 
-            if (weGuessed == null) {
-              continue;
-            }
+              var dataSays = TCRSDatabase.getData(itemId);
+              var weGuessed = TCRSDatabase.guessItem(ascensionClass, sign, itemId);
 
-            var checkMods =
-                !TCRSDatabase.DYNAMICALLY_NAMED.contains(itemId)
-                    && switch (ItemDatabase.getConsumptionType(itemId)) {
-                      case USE, USE_INFINITE, USE_MULTIPLE, USE_MESSAGE_DISPLAY -> false;
-                      default -> true;
-                    };
-
-            var prefix =
-                String.format("[%s]%s in %s / %s", itemId, i.getValue(), ascensionClass, sign);
-
-            var expectedName = StringUtilities.getEntityDecode(dataSays.name);
-            if (!weGuessed.name.equals(expectedName)) {
-              mismatches.add(mismatch(prefix, "Name", expectedName, weGuessed.name));
-            }
-            if (weGuessed.size != dataSays.size) {
-              mismatches.add(mismatch(prefix, "Size", dataSays.size, weGuessed.size));
-            }
-            if (dataSays.quality.getValue() > 0 && weGuessed.quality != dataSays.quality) {
-              mismatches.add(mismatch(prefix, "Quality", dataSays.quality, weGuessed.quality));
-            }
-
-            if (checkMods) {
-              var dataSaysMods = ModifierDatabase.splitModifiers(dataSays.modifiers);
-              var weGuessedMods = ModifierDatabase.splitModifiers(weGuessed.modifiers);
-
-              var expectedEffect = dataSaysMods.getModifierValue("Effect");
-              var actualEffect = weGuessedMods.getModifierValue("Effect");
-              if (!Objects.equals(expectedEffect, actualEffect)) {
-                mismatches.add(mismatch(prefix, "Effect", expectedEffect, actualEffect));
+              if (weGuessed == null) {
+                continue;
               }
 
-              // @TODO Queen cookie sometimes has no effect duration. Is this right?
-              if (dataSaysMods.containsModifier("Effect Duration")) {
-                var expectedDuration = dataSaysMods.getModifierValue("Effect Duration");
-                var actualDuration = weGuessedMods.getModifierValue("Effect Duration");
-                if (!Objects.equals(expectedDuration, actualDuration)) {
-                  mismatches.add(
-                      mismatch(prefix, "Effect Duration", expectedDuration, actualDuration));
+              var checkMods =
+                  !TCRSDatabase.DYNAMICALLY_NAMED.contains(itemId)
+                      && switch (ItemDatabase.getConsumptionType(itemId)) {
+                        case USE, USE_INFINITE, USE_MULTIPLE, USE_MESSAGE_DISPLAY -> false;
+                        default -> true;
+                      };
+
+              var prefix =
+                  String.format("[%s]%s in %s / %s", itemId, i.getValue(), ascensionClass, sign);
+
+              var expectedName = StringUtilities.getEntityDecode(dataSays.name);
+              if (!weGuessed.name.equals(expectedName)) {
+                out.write(mismatch(prefix, "Name", expectedName, weGuessed.name));
+                out.newLine();
+                count++;
+              }
+              if (weGuessed.size != dataSays.size) {
+                out.write(mismatch(prefix, "Size", dataSays.size, weGuessed.size));
+                out.newLine();
+                count++;
+              }
+              if (dataSays.quality.getValue() > 0 && weGuessed.quality != dataSays.quality) {
+                out.write(mismatch(prefix, "Quality", dataSays.quality, weGuessed.quality));
+                out.newLine();
+                count++;
+              }
+
+              if (checkMods) {
+                var dataSaysMods = ModifierDatabase.splitModifiers(dataSays.modifiers);
+                var weGuessedMods = ModifierDatabase.splitModifiers(weGuessed.modifiers);
+
+                var expectedEffect = dataSaysMods.getModifierValue("Effect");
+                var actualEffect = weGuessedMods.getModifierValue("Effect");
+                if (!Objects.equals(expectedEffect, actualEffect)) {
+                  out.write(mismatch(prefix, "Effect", expectedEffect, actualEffect));
+                  out.newLine();
+                  count++;
+                }
+
+                // @TODO Queen cookie sometimes has no effect duration. Is this right?
+                if (dataSaysMods.containsModifier("Effect Duration")) {
+                  var expectedDuration = dataSaysMods.getModifierValue("Effect Duration");
+                  var actualDuration = weGuessedMods.getModifierValue("Effect Duration");
+                  if (!Objects.equals(expectedDuration, actualDuration)) {
+                    out.write(
+                        mismatch(prefix, "Effect Duration", expectedDuration, actualDuration));
+                    out.newLine();
+                    count++;
+                  }
                 }
               }
             }
+          } finally {
+            // Each combo applies its overrides to the shared databases; tear them down so the next
+            // combo (and the guesser's view of the base item) starts clean.
+            TCRSDatabase.resetModifiers();
           }
-        } finally {
-          // Each combo applies its overrides to the shared databases; tear them down so the next
-          // combo (and the guesser's view of the base item) starts clean.
-          TCRSDatabase.resetModifiers();
+          out.flush();
         }
       }
     }
 
-    var report = String.join("\n", mismatches.subList(0, Math.min(100, mismatches.size())));
-    assertThat(
-        mismatches.size() + " mismatches (showing up to 100):\n" + report, mismatches, is(empty()));
+    assertThat(count + " mismatches; see " + reportFile, count, is(0));
   }
 
   /**

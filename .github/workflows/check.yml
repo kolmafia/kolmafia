@@ -68,6 +68,14 @@ jobs:
           check_name: "Test Report (${{ matrix.os }}, Java ${{ matrix.java }})"
           report_paths: "**/build/test-results/test/TEST-*.xml"
 
+      - name: Upload TCRS guessAll mismatch report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: tcrs-guessAll-mismatches-${{ matrix.os }}
+          path: build/tcrs-guessAll-mismatches.txt
+          if-no-files-found: ignore
+
       - name: Publish Coverage Report
         uses: codecov/codecov-action@v5
         if: always()
