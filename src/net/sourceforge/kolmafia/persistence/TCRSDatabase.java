@@ -1421,8 +1421,8 @@ public class TCRSDatabase {
           .collect(Collectors.toUnmodifiableSet());
 
   // Modifier types that are re-rolled as TCRS enchantments. A superset of ENCHANTABLE_TYPES: it
-  // adds
-  // enchantment types that never appear as a roll-pool output but are still re-rolled on base items
+  // adds enchantment types that never appear as a roll-pool output but are still re-rolled on base
+  // items
   // (e.g. "Damage vs. <phylum>"). Expected to grow as more such types are identified.
   static final Set<String> RPN_MODIFIERS =
       Stream.concat(
