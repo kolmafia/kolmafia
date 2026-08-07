@@ -2419,7 +2419,7 @@ public abstract class KoLCharacter {
     return name.contains("u") || name.contains("U");
   }
 
-  private static final Pattern S_WORD_PATTERN = Pattern.compile("(?<!\\S)[Ss]\\S*");
+  private static final Pattern S_WORD_PATTERN = Pattern.compile("(?<![^\\s<])[Ss]\\S*");
 
   public static final int getSwordOfSWordsosity() {
     return KoLCharacter.getSwordOfSWordsosity(EquipmentManager.currentEquipment());
@@ -2431,7 +2431,10 @@ public abstract class KoLCharacter {
     for (var slot : SlotSet.SLOTS) {
       var equip = equipment.get(slot);
       if (equip == null) continue;
-      String name = equip.getName();
+      String displayName =
+          ModifierDatabase.getStringModifier(
+              ModifierType.ITEM, equip.id, StringModifier.DISPLAY_NAME);
+      String name = displayName.isEmpty() ? equip.getName() : displayName;
       swords += KoLCharacter.getSwordOfSWordsosity(name);
     }
 

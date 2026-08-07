@@ -68,7 +68,8 @@ public enum StringModifier implements Modifier {
       "Conditional Skill (Inventory)",
       Pattern.compile("Conditional Skill \\(Inventory\\): \"(.*?)\""),
       true),
-  LANTERN_ELEMENT("Lantern Element", Pattern.compile("Lantern Element: \"(.*?)\""), true);
+  LANTERN_ELEMENT("Lantern Element", Pattern.compile("Lantern Element: \"(.*?)\""), true),
+  DISPLAY_NAME("Display Name", Pattern.compile("Display Name: \"(.*?)\""));
   private final String name;
   private final Pattern[] descPatterns;
   private final Pattern tagPattern;

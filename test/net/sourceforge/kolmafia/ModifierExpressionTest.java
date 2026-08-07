@@ -627,6 +627,8 @@ public class ModifierExpressionTest {
       "Stick-Knife of Loathing, 1",
       "spooky staff, 2",
       "star sword, 2",
+      "legendary pasta wand, 2",
+      "legendary seal-clubbing club, 3",
     })
     public void canDetectSwordOfSwords(String item, String expected) {
       var cleanups = withEquipped(Slot.WEAPON, item);
