@@ -1418,6 +1418,24 @@ public class TCRSDatabase {
           .map(part -> part.substring(0, part.lastIndexOf(": ")))
           .collect(Collectors.toUnmodifiableSet());
 
+  // Modifier types that are re-rolled as TCRS enchantments. A superset of ENCHANTABLE_TYPES: it adds
+  // enchantment types that never appear as a roll-pool output but are still re-rolled on base items
+  // (e.g. "Damage vs. <phylum>"). Expected to grow as more such types are identified.
+  static final Set<String> RPN_MODIFIERS =
+      Stream.concat(
+              ENCHANTABLE_TYPES.stream(),
+              Stream.of(
+                  "Damage vs. Bugbears",
+                  "Damage vs. Ghosts",
+                  "Damage vs. Skeletons",
+                  "Damage vs. Vampires",
+                  "Damage vs. Werewolves",
+                  "Damage vs. Zombies",
+                  "Muscle Limit",
+                  "Mysticality Limit",
+                  "Moxie Limit"))
+          .collect(Collectors.toUnmodifiableSet());
+
   /**
    * How many enchantments the base item has, which is how many TCRS re-rolls. This isn't just the
    * modifier count. Non-enchantment modifiers (class restrictions, familiar effects, ...) don't
@@ -1430,7 +1448,10 @@ public class TCRSDatabase {
     // Enchantable base modifiers with their values, so collapsible families can be split by value.
     var present = new java.util.HashMap<String, String>();
     for (var mv : ModifierDatabase.getModifierList(new Lookup(ModifierType.ITEM, itemId))) {
-      if (ENCHANTABLE_TYPES.contains(mv.getName())) present.put(mv.getName(), mv.getValue());
+      var name = mv.getName();
+      if (RPN_MODIFIERS.contains(name)) {
+        present.put(name, mv.getValue());
+      }
     }
 
     var count = 0;
