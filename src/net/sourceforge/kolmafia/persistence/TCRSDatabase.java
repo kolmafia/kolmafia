@@ -47,6 +47,7 @@ import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.PHPMTRandom;
 import net.sourceforge.kolmafia.utilities.PHPRandom;
+import net.sourceforge.kolmafia.utilities.PHPRandomSelection;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class TCRSDatabase {
@@ -1345,17 +1346,12 @@ public class TCRSDatabase {
     var root = removeAdjectives(ItemDatabase.getItemName(id));
     var mods = getRetainedModifiers(id);
 
-    // -----------------------------------------------------------------------------------------
-    // WARNING: everything below is CONJECTURE. Unlike the cosmetics above, we have NOT spaded
-    // equipment enchantments - the count, the pool, whether it is bucketed by slot at all, the RNG,
-    // and the values are all unverified guesses.
-    // -----------------------------------------------------------------------------------------
-    var pool = slotEnchantPool(ItemDatabase.getConsumptionType(id));
-    var enchantCount = enchantCount(id);
+    // Enchantments are a separate roll from the cosmetics (a different seed), producing a modifier
+    // and an adjective for the name. "of ..." adjectives are suffixes; the rest are prefixes, with
+    // the earliest-selected closest to the root.
     var prefixes = new ArrayList<String>();
     var suffixes = new ArrayList<String>();
-    for (var i = 0; i < enchantCount; i++) {
-      var entry = mtRng.pickOne(pool);
+    for (var entry : getMods(id, ascensionClass.getId(), sign.getId(), enchantCount(id))) {
       var descriptor = entry.getKey();
       if (descriptor.startsWith("of ")) {
         suffixes.add(descriptor);
@@ -1381,12 +1377,18 @@ public class TCRSDatabase {
   }
 
   /**
-   * The enchantment pool for an equipment slot. It is purely a guess that the pool is bucketed by
-   * equipment type/slot at all - we have no confirmation that per-slot pools exist. Until that is
-   * spaded (if it is even true), this ignores the slot and returns every enchantment.
+   * The enchantments rolled for an equipment item. These are a separate roll from the item's
+   * cosmetics, seeded with the per-item seed plus 10. A single enchantment is picked with an
+   * MT-random roll; multiple enchantments are picked together without replacement.
    */
-  private static List<Entry<String, String>> slotEnchantPool(final ConsumptionType slot) {
-    return EQUIPMENT_MODIFIERS;
+  private static List<Entry<String, String>> getMods(
+      final int itemId, final int classId, final int moonsignId, final int count) {
+    var seed = (50 * itemId) + (12345 * moonsignId) + (100000 * classId) + 10;
+    var mods = new ArrayList<Entry<String, String>>(count);
+    for (var index : PHPRandomSelection.pick(seed, EQUIPMENT_MODIFIERS.size(), count)) {
+      mods.add(EQUIPMENT_MODIFIERS.get(index));
+    }
+    return mods;
   }
 
   // Families that Mafia expands from a single KoL enchantment. Members sharing a value are one
