@@ -847,7 +847,7 @@ public class RequestEditorKit extends HTMLEditorKit {
           continue;
         }
 
-        url = adventure.getRequest().getURLString();
+        url = adventure.getURLString();
       }
 
       String search = matcher.group(0);

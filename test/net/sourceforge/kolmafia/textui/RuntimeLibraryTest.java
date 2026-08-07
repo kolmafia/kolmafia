@@ -31,6 +31,7 @@ import static internal.helpers.Player.withItemInCloset;
 import static internal.helpers.Player.withItemInDisplay;
 import static internal.helpers.Player.withItemInShop;
 import static internal.helpers.Player.withItemInStorage;
+import static internal.helpers.Player.withLevel;
 import static internal.helpers.Player.withMallPrice;
 import static internal.helpers.Player.withMeat;
 import static internal.helpers.Player.withNextMonster;
@@ -919,6 +920,46 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     assertThat(output, containsString("Returned: void"));
     output = execute("my_location()");
     assertThat(output, containsString("Returned: none"));
+  }
+
+  @Test
+  void toUrlReflectsCurrentPyramidBombState() {
+    var cleanups =
+        new Cleanups(withProperty("pyramidPosition", 1), withProperty("pyramidBombUsed", false));
+
+    try (cleanups) {
+      String output = execute("to_url($location[The Lower Chambers])");
+      assertThat(
+          output, endsWith("Returned: place.php?whichplace=pyramid&action=pyramid_state1\n"));
+
+      Preferences.setBoolean("pyramidBombUsed", true);
+
+      output = execute("to_url($location[The Lower Chambers])");
+      assertThat(
+          output, endsWith("Returned: place.php?whichplace=pyramid&action=pyramid_state1a\n"));
+    }
+  }
+
+  @Test
+  void toUrlReflectsCurrentCellarState() {
+    // Cellar URL params come from updateFields(), not the constructor; withLevel(3) keeps
+    // recommendSquare() from logging an error into the output.
+    var cleanups =
+        new Cleanups(
+            withLevel(3),
+            // No faucet (3) in the layout and all squares unexplored, so we explore a square.
+            withProperty("tavernLayout", "0000000000000000000000000"));
+
+    try (cleanups) {
+      var output = execute("to_url($location[The Typical Tavern Cellar])");
+      assertThat(output, endsWith("Returned: cellar.php?whichspot=4&action=explore\n"));
+
+      // Faucet now known, so we autofaucet and drop whichspot.
+      Preferences.setString("tavernLayout", "3000000000000000000000000");
+
+      output = execute("to_url($location[The Typical Tavern Cellar])");
+      assertThat(output, endsWith("Returned: cellar.php?action=autofaucet\n"));
+    }
   }
 
   @Test
