@@ -246,7 +246,7 @@ public class Preferences {
       // Only empty or drastically truncated prefs are treated as corrupt. Never promote
       // prefs.txt into the backup here — backups are refreshed only after a durable save.
       if (Preferences.prefsFileSuspect(userPrefsFile, backupFile, p)) {
-        if (backupFile != null && backupFile.exists()) {
+        if (backupFile.exists()) {
           KoLmafia.updateDisplay(
               userPrefsFile
                   + " could not be read, loading backup. "
@@ -327,8 +327,9 @@ public class Preferences {
     }
 
     Properties p = Preferences.loadPreferences(prefsFile);
-
-    if (!Preferences.isValidPreferencesFile(prefsFile, p)) {
+    boolean valid = Preferences.isValidPreferencesFile(prefsFile, p);
+    boolean suspect = Preferences.prefsFileSuspect(prefsFile, backupFile, p);
+    if (!valid || suspect) {
       // Something went wrong reading the preferences.
       if (backupFile.exists()) {
         KoLmafia.updateDisplay(
@@ -885,7 +886,7 @@ public class Preferences {
   public static void setBoolean(final String user, final String name, final boolean value) {
     boolean old = Preferences.getBoolean(user, name);
     if (old != value) {
-      Preferences.setObject(user, name, value ? "true" : "false", value);
+      Preferences.setObject(user, name, Boolean.toString(value), value);
     }
   }
 
