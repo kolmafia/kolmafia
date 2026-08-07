@@ -1420,7 +1420,8 @@ public class TCRSDatabase {
           .map(part -> part.substring(0, part.lastIndexOf(": ")))
           .collect(Collectors.toUnmodifiableSet());
 
-  // Modifier types that are re-rolled as TCRS enchantments. A superset of ENCHANTABLE_TYPES: it adds
+  // Modifier types that are re-rolled as TCRS enchantments. A superset of ENCHANTABLE_TYPES: it
+  // adds
   // enchantment types that never appear as a roll-pool output but are still re-rolled on base items
   // (e.g. "Damage vs. <phylum>"). Expected to grow as more such types are identified.
   static final Set<String> RPN_MODIFIERS =
@@ -1507,10 +1508,12 @@ public class TCRSDatabase {
     var consumed = new HashSet<String>();
 
     // A collapsible family is one combined enchantment only when the whole family is present with a
-    // single shared value (all resistance, prismatic damage, Maximum HP + MP at the same value, ...).
+    // single shared value (all resistance, prismatic damage, Maximum HP + MP at the same value,
+    // ...).
     // Otherwise its members are separate enchantments, counted individually below.
     for (var family : COLLAPSIBLE) {
-      var values = family.stream().filter(present::containsKey).map(present::get).distinct().toList();
+      var values =
+          family.stream().filter(present::containsKey).map(present::get).distinct().toList();
       if (present.keySet().containsAll(family) && values.size() == 1) {
         count += 1;
         consumed.addAll(family);
