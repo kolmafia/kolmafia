@@ -245,7 +245,9 @@ public class Preferences {
 
       // Only empty or drastically truncated prefs are treated as corrupt. Never promote
       // prefs.txt into the backup here — backups are refreshed only after a durable save.
-      if (Preferences.prefsFileSuspect(userPrefsFile, backupFile, p)) {
+      boolean valid = Preferences.isValidPreferencesFile(userPrefsFile, p);
+      boolean suspect = Preferences.prefsFileSuspect(userPrefsFile, backupFile, p);
+      if (!valid || suspect) {
         if (backupFile.exists()) {
           KoLmafia.updateDisplay(
               userPrefsFile
