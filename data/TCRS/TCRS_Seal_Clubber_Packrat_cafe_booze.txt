@@ -8,26 +8,26 @@
 -17	mediocre irresponsibly strong wobbly moons-shine	9	decent	
 -18	bad watered-down gin	2	decent	
 -19	mediocre ecto-nog	4	decent	
--20	triple-distilled tolerable hot toady	8	good	
--21	lousy high-proof hot choculate	7	decent	
+-20	tolerable triple-distilled hot toady	8	good	
+-21	high-proof lousy hot choculate	7	decent	
 -49	mediocre practically non-alcoholic maroon Cyder	1	decent	
 -50	artisanal Oil Nog	3	EPIC	
 -51	practically non-alcoholic aged Hi-Octane Peppermint Jet Fuel	1	awesome	
--58	extra-dry mediocre Grimacider	5	decent	
--59	acceptable enchanted Isotope Nog	3	good	
+-58	mediocre extra-dry Grimacider	5	decent	
+-59	enchanted acceptable Isotope Nog	3	good	
 -60	lousy blurry Mutagin 'n' Tonic	3	decent	
 -70	artisanal Gin and Herring	3	EPIC	
 -71	artisanal practically non-alcoholic Black and Tan and Red All Over	1	EPIC	
 -72	drinkable Antarctic Ice Tea	3	good	
 -76	bad red CRIMBCO Ribbon Candy Schnapps	4	decent	
 -77	tolerable weak blinking CRIMBCO Egg Substitute Nog Substitute	2	good	
--78	artisanal boozy teal CRIMBCO Extreme Braincracker Sour	5	EPIC	
+-78	boozy artisanal teal CRIMBCO Extreme Braincracker Sour	5	EPIC	
 -82	aged distilled blurry Horseradish-infused Vodka	5	awesome	
 -83	delicious bouncing Jerkitini	4	awesome	
--84	weak hand-crafted Desert Island Iced Tea	2	EPIC	
--88	practically non-alcoholic bad Crimbo Saketini	1	decent	
+-84	hand-crafted weak Desert Island Iced Tea	2	EPIC	
+-88	bad practically non-alcoholic Crimbo Saketini	1	decent	
 -89	tolerable Crimboku Drop	4	good	
--90	acceptable high-proof blurry blurry Flaming Crimbo Log	9	good	
--107	watered-down tolerable twirling Fortified Eggnog Slurry	2	good	
+-90	high-proof acceptable blurry blurry Flaming Crimbo Log	9	good	
+-107	tolerable watered-down twirling Fortified Eggnog Slurry	2	good	
 -108	mediocre Hot Buttered Rum	3	decent	
 -109	aged wobbly Spicy Hot Chocolate	3	awesome	
