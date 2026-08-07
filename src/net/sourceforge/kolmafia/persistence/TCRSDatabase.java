@@ -1389,20 +1389,26 @@ public class TCRSDatabase {
     return EQUIPMENT_MODIFIERS;
   }
 
-  private static final Set<String> HP_REGEN = Set.of("HP Regen Min", "HP Regen Max");
-  private static final Set<String> MP_REGEN = Set.of("MP Regen Min", "MP Regen Max");
-  private static final Set<String> ELEMENTAL_RESISTANCE =
+  // Families that Mafia expands from a single KoL enchantment. Members sharing a value are one
+  // combined enchantment (all resistance, prismatic damage, all attributes, Maximum HP + MP, ...);
+  // members with differing values are separate enchantments, so a family contributes one
+  // enchantment per distinct value present.
+  private static final Set<Set<String>> COLLAPSIBLE =
       Set.of(
-          "Hot Resistance",
-          "Cold Resistance",
-          "Spooky Resistance",
-          "Stench Resistance",
-          "Sleaze Resistance");
-  private static final Set<String> ELEMENTAL_DAMAGE =
-      Set.of("Hot Damage", "Cold Damage", "Spooky Damage", "Stench Damage", "Sleaze Damage");
-  private static final Set<String> ALL_STATS = Set.of("Muscle", "Mysticality", "Moxie");
-  private static final Set<String> ALL_STATS_PERCENT =
-      Set.of("Muscle Percent", "Mysticality Percent", "Moxie Percent");
+          Set.of(
+              "Hot Resistance",
+              "Cold Resistance",
+              "Spooky Resistance",
+              "Stench Resistance",
+              "Sleaze Resistance"),
+          Set.of("Hot Damage", "Cold Damage", "Spooky Damage", "Stench Damage", "Sleaze Damage"),
+          Set.of("Muscle", "Mysticality", "Moxie"),
+          Set.of("Muscle Percent", "Mysticality Percent", "Moxie Percent"),
+          Set.of("Maximum HP", "Maximum MP"),
+          Set.of("Maximum HP Percent", "Maximum MP Percent"));
+  // Regen is a Min/Max pair (so its members never share a value); any regen is one enchantment.
+  private static final Set<String> REGEN =
+      Set.of("HP Regen Min", "HP Regen Max", "MP Regen Min", "MP Regen Max");
 
   // Modifier types that can appear as an equipment enchantment, derived from the enchant pool.
   static final Set<String> ENCHANTABLE_TYPES =
@@ -1413,16 +1419,6 @@ public class TCRSDatabase {
           .collect(Collectors.toUnmodifiableSet());
 
   /**
-   * The enchantable modifier types present on the base item, in list order (with no collapsing).
-   */
-  static List<String> enchantableModifiers(final int itemId) {
-    return ModifierDatabase.getModifierList(new Lookup(ModifierType.ITEM, itemId)).stream()
-        .map(ModifierList.ModifierValue::getName)
-        .filter(ENCHANTABLE_TYPES::contains)
-        .toList();
-  }
-
-  /**
    * How many enchantments the base item has, which is how many TCRS re-rolls. This isn't just the
    * modifier count. Non-enchantment modifiers (class restrictions, familiar effects, ...) don't
    * count, an expanded family like "all resistance" counts once even though Mafia stores it as five
@@ -1431,38 +1427,37 @@ public class TCRSDatabase {
    * best estimate.
    */
   static int enchantCount(final int itemId) {
-    var present = new HashSet<>(enchantableModifiers(itemId));
+    // Enchantable base modifiers with their values, so collapsible families can be split by value.
+    var present = new java.util.HashMap<String, String>();
+    for (var mv : ModifierDatabase.getModifierList(new Lookup(ModifierType.ITEM, itemId))) {
+      if (ENCHANTABLE_TYPES.contains(mv.getName())) present.put(mv.getName(), mv.getValue());
+    }
 
     var count = 0;
+    var consumed = new HashSet<String>();
 
-    // Each of these is a single KoL enchantment that Mafia expands into a family of modifiers.
-    var resistances = countIn(present, ELEMENTAL_RESISTANCE);
-    count += resistances == 5 ? 1 : resistances;
-    var damages = countIn(present, ELEMENTAL_DAMAGE);
-    count += damages == 5 ? 1 : damages;
-    var stats = countIn(present, ALL_STATS);
-    count += stats == 3 ? 1 : stats;
-    var statsPercent = countIn(present, ALL_STATS_PERCENT);
-    count += statsPercent == 3 ? 1 : statsPercent;
+    // A collapsible family is one combined enchantment only when the whole family is present with a
+    // single shared value (all resistance, prismatic damage, Maximum HP + MP at the same value, ...).
+    // Otherwise its members are separate enchantments, counted individually below.
+    for (var family : COLLAPSIBLE) {
+      var values = family.stream().filter(present::containsKey).map(present::get).distinct().toList();
+      if (present.keySet().containsAll(family) && values.size() == 1) {
+        count += 1;
+        consumed.addAll(family);
+      }
+    }
 
-    // Regen is stored as a Min/Max pair; "both regen" bundles HP and MP into one enchantment.
-    var hpRegen = present.stream().anyMatch(HP_REGEN::contains);
-    var mpRegen = present.stream().anyMatch(MP_REGEN::contains);
-    if (hpRegen || mpRegen) count += 1;
-
-    var collapsed = new HashSet<String>();
-    collapsed.addAll(ELEMENTAL_RESISTANCE);
-    collapsed.addAll(ELEMENTAL_DAMAGE);
-    collapsed.addAll(ALL_STATS);
-    collapsed.addAll(ALL_STATS_PERCENT);
-    collapsed.addAll(HP_REGEN);
-    collapsed.addAll(MP_REGEN);
+    // Regen is a Min/Max pair, so it is one enchantment whenever present.
+    if (present.keySet().stream().anyMatch(REGEN::contains)) {
+      count += 1;
+      consumed.addAll(REGEN);
+    }
 
     var isShield = EquipmentDatabase.isShield(itemId);
     var isFamiliarEquipment =
         ItemDatabase.getConsumptionType(itemId) == ConsumptionType.FAMILIAR_EQUIPMENT;
-    for (var name : present) {
-      if (collapsed.contains(name)) continue;
+    for (var name : present.keySet()) {
+      if (consumed.contains(name)) continue;
       // A shield's Damage Reduction is innate, not an enchantment.
       if (isShield && name.equals("Damage Reduction")) continue;
       // Familiar equipment's Familiar Weight is innate, not an enchantment.
@@ -1471,10 +1466,6 @@ public class TCRSDatabase {
     }
 
     return count;
-  }
-
-  private static int countIn(final Set<String> present, final Set<String> family) {
-    return (int) family.stream().filter(present::contains).count();
   }
 
   private static TCRS guessGeneric(
