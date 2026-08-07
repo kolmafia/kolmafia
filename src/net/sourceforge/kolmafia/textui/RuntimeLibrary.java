@@ -2044,6 +2044,9 @@ public abstract class RuntimeLibrary {
     functions.add(new LibraryFunction("handling_choice", DataTypes.BOOLEAN_TYPE, params));
 
     params = List.of();
+    functions.add(new LibraryFunction("can_walk_from_choice", DataTypes.BOOLEAN_TYPE, params));
+
+    params = List.of();
     functions.add(new LibraryFunction("run_combat", DataTypes.BUFFER_TYPE, params));
 
     params = List.of(namedParam("filterFunction", DataTypes.STRING_TYPE));
@@ -2556,7 +2559,21 @@ public abstract class RuntimeLibrary {
     params = List.of(namedParam("rng", DataTypes.RNG_TYPE));
     functions.add(new LibraryFunction("php_rand", DataTypes.INT_TYPE, params));
 
+    params =
+        List.of(
+            namedParam("rng", DataTypes.RNG_TYPE),
+            namedParam("min", DataTypes.INT_TYPE),
+            namedParam("max", DataTypes.INT_TYPE));
+    functions.add(new LibraryFunction("php_rand", DataTypes.INT_TYPE, params));
+
     params = List.of(namedParam("rng", DataTypes.RNG_TYPE));
+    functions.add(new LibraryFunction("php_mt_rand", DataTypes.INT_TYPE, params));
+
+    params =
+        List.of(
+            namedParam("rng", DataTypes.RNG_TYPE),
+            namedParam("min", DataTypes.INT_TYPE),
+            namedParam("max", DataTypes.INT_TYPE));
     functions.add(new LibraryFunction("php_mt_rand", DataTypes.INT_TYPE, params));
 
     // Assorted functions
@@ -2830,6 +2847,12 @@ public abstract class RuntimeLibrary {
             namedParam("buffer", DataTypes.BUFFER_TYPE),
             namedParam("filename", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("buffer_to_file", DataTypes.BOOLEAN_TYPE, params));
+
+    params =
+        List.of(
+            namedParam("buffer", DataTypes.BUFFER_TYPE),
+            namedParam("filename", DataTypes.STRING_TYPE));
+    functions.add(new LibraryFunction("append_buffer_to_file", DataTypes.BOOLEAN_TYPE, params));
 
     params = List.of(namedParam("name", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("set_ccs", DataTypes.BOOLEAN_TYPE, params));
@@ -4925,9 +4948,7 @@ public abstract class RuntimeLibrary {
 
   public static Value to_url(ScriptRuntime controller, final Value value) {
     KoLAdventure adventure = (KoLAdventure) value.rawValue();
-    return (adventure == null)
-        ? DataTypes.STRING_INIT
-        : new Value(adventure.getRequest().getURLString());
+    return (adventure == null) ? DataTypes.STRING_INIT : new Value(adventure.getURLString());
   }
 
   public static Value to_wiki_url(ScriptRuntime controller, final Value value) {
@@ -7988,6 +8009,10 @@ public abstract class RuntimeLibrary {
     return DataTypes.makeBooleanValue(ChoiceManager.handlingChoice);
   }
 
+  public static Value can_walk_from_choice(ScriptRuntime controller) {
+    return DataTypes.makeBooleanValue(ChoiceManager.canWalkAway());
+  }
+
   public static Value run_combat(ScriptRuntime controller) {
     RelayRequest relayRequest = controller.getRelayRequest();
 
@@ -9064,9 +9089,25 @@ public abstract class RuntimeLibrary {
     return new Value(r.nextRandInt());
   }
 
+  public static Value php_rand(
+      ScriptRuntime controller, final Value rng, final Value minValue, final Value maxValue) {
+    Rng r = (Rng) rng.rawValue();
+    int min = (int) minValue.intValue();
+    int max = (int) maxValue.intValue();
+    return new Value(r.nextRandInt(min, max));
+  }
+
   public static Value php_mt_rand(ScriptRuntime controller, final Value rng) {
     Rng r = (Rng) rng.rawValue();
     return new Value(r.nextMtRandInt());
+  }
+
+  public static Value php_mt_rand(
+      ScriptRuntime controller, final Value rng, final Value minValue, final Value maxValue) {
+    Rng r = (Rng) rng.rawValue();
+    int min = (int) minValue.intValue();
+    int max = (int) maxValue.intValue();
+    return new Value(r.nextMtRandInt(min, max));
   }
 
   public static Value expression_eval(ScriptRuntime controller, final Value expr) {
@@ -9886,6 +9927,15 @@ public abstract class RuntimeLibrary {
     byte[] bytes = string.getBytes(StandardCharsets.UTF_8);
     String location = var2.toString();
     return DataFileCache.printBytes(location, bytes);
+  }
+
+  public static Value append_buffer_to_file(
+      ScriptRuntime controller, final Value var1, final Value var2) {
+    StringBuffer buffer = (StringBuffer) var1.rawValue();
+    String string = buffer.toString();
+    byte[] bytes = string.getBytes(StandardCharsets.UTF_8);
+    String location = var2.toString();
+    return DataFileCache.printBytes(location, bytes, true);
   }
 
   public static Value set_ccs(ScriptRuntime controller, final Value name) {
@@ -11070,9 +11120,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value florist_available(ScriptRuntime controller) {
-    if (!Preferences.getBoolean("floristFriarChecked")) {
-      FloristRequest.checkFloristAvailable();
-    }
+    FloristRequest.checkFloristAvailable();
     return DataTypes.makeBooleanValue(FloristRequest.haveFlorist());
   }
 

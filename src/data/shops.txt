@@ -83,6 +83,7 @@ guzzlr	Guzzlr Company Store Website	COIN
 hiddentavern	The Hidden Tavern	NPC
 hippy	Hippy Store (Pre-War)	NPC
 infernodisco	Disco GiftCo	COIN
+interesting	Spend your Interesting Coins	COIN
 jarl	Jarlsberg's Cosmic Kitchen	COIN
 jewelers	Little Canadia Jewelers	NPC
 junkmagazine	Worse Homes and Gardens	COIN
@@ -136,6 +137,7 @@ trapper	The Trapper	COIN
 tweedle	The Tweedleporium	NPC
 twitchsoup	The Primordial Soup Kitchen	COIN
 twitch_alliedhq	Allied HQ	COIN
+twitch_jousting	Renaissance Gift Shop	COIN
 unclep	Uncle P's Antiques	NPC
 vault1	Fallout Shelter Medical Supply	NPC
 vault2	Fallout Shelter Electronics Supply	NPC

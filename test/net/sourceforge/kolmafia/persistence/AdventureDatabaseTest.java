@@ -152,7 +152,7 @@ public class AdventureDatabaseTest {
       // We have a request ready to go. Rather than actually running it,
       // we'll call updateFields(), which chooses the URL in run(), just
       // before the request is submitted
-      request.updateFields();
+      request.updateFields(true);
 
       // The first time we visit a rift, we expect the URL that will
       // be submitted is the place.php with whichplace/action for the

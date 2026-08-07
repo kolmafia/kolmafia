@@ -430,11 +430,11 @@ public class KoLAdventureValidationTest {
         try (cleanups) {
           // If we have not verified access, but the Time Twitching Tower is on
           // the map, we have access today.
-          client.addResponse(200, html("request/test_visit_town_twitch.html"));
+          client.addResponse(200, html("request/test_main_twitch.html"));
           boolean success = BOHEMIAN_PARTY.preValidateAdventure();
           var requests = client.getRequests();
           assertThat(requests, hasSize(1));
-          assertPostRequest(requests.get(0), "/place.php", "whichplace=town");
+          assertGetRequest(requests.get(0), "/main.php");
           assertTrue(Preferences.getBoolean(today));
           assertTrue(success);
         }
@@ -446,13 +446,13 @@ public class KoLAdventureValidationTest {
         var client = builder.client;
         var cleanups = new Cleanups(withHttpClientBuilder(builder), withProperty(today, false));
         try (cleanups) {
-          // If we have not verified access, but the Time Twitching Tower is on
-          // the map, we have access today.
-          client.addResponse(200, html("request/test_visit_town_no_twitch.html"));
+          // If we have not verified access and the Time Twitching Tower is not
+          // on the map, we do not have access today.
+          client.addResponse(200, html("request/test_main_no_twitch.html"));
           boolean success = BOHEMIAN_PARTY.preValidateAdventure();
           var requests = client.getRequests();
           assertThat(requests, hasSize(1));
-          assertPostRequest(requests.get(0), "/place.php", "whichplace=town");
+          assertGetRequest(requests.get(0), "/main.php");
           assertFalse(Preferences.getBoolean(today));
           assertFalse(success);
         }

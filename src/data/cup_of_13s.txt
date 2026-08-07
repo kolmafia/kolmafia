@@ -3496,7 +3496,7 @@
 7028	Frankly Mr. Shank	4
 7029	Shakespeare's Sister's Accordion	4
 7030	third-hand lantern	1
-7031	loose purse strings	5
+7031	loose purse strings	1
 7032	pickled egg	1
 7033	cup of lukewarm tea	1
 7045	antimatter wad	5

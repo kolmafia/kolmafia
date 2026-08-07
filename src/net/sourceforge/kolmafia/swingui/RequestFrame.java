@@ -498,7 +498,7 @@ public class RequestFrame extends GenericFrame {
           RequestEditorKit.extractRequest(
               adventure == null
                   ? RequestFrame.this.locationField.getText()
-                  : adventure.getRequest().getURLString());
+                  : adventure.getURLString());
       RequestFrame.this.refresh(request);
     }
   }

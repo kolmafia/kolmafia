@@ -20,7 +20,15 @@ public class Rng {
     return rand.nextInt();
   }
 
+  public int nextRandInt(int min, int max) {
+    return rand.nextInt(min, max);
+  }
+
   public int nextMtRandInt() {
     return mtRand.nextInt();
+  }
+
+  public int nextMtRandInt(int min, int max) {
+    return mtRand.nextInt(min, max);
   }
 }

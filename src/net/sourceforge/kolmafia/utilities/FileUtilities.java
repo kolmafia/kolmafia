@@ -19,6 +19,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.zip.GZIPInputStream;
 import javax.swing.ImageIcon;
@@ -558,6 +559,33 @@ public class FileUtilities {
     s = matchPathLists(homelist, filelist);
 
     return s;
+  }
+
+  public static boolean containsNullBytes(File file) throws IOException {
+    for (byte b : Files.readAllBytes(file.toPath())) {
+      if (b == 0) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /** Truncates {@code bytes} to the end of the last complete line before the first null byte. */
+  public static byte[] truncateToLastGoodLineBeforeNullByte(byte[] bytes) {
+    for (int i = 0; i < bytes.length; i++) {
+      // Skip non-null
+      if (bytes[i] != 0) {
+        continue;
+      }
+
+      // We started at a null, we cannot trust that this line is complete
+      // We start scanning backwards for the first newline that indicates a complete line
+      while (--i >= 0 && bytes[i] != '\n') {}
+
+      return Arrays.copyOf(bytes, i + 1);
+    }
+
+    return bytes;
   }
 
   public static boolean isEmptyDirectory(Path path) throws IOException {

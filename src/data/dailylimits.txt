@@ -85,7 +85,6 @@ Cast	Conjure Meat Product	_jarlsMeatSummoned
 Cast	Conjure Potato	_jarlsPotatoSummoned
 Cast	Conjure Vegetables	_jarlsVeggiesSummoned
 Cast	Creepy Grin	_vmaskBanisherUsed	1
-Cast	Curse of Vacation	_curseOfVacationUsed	5
 Cast	Demand Sandwich	_demandSandwich	3
 Cast	Digitize	_sourceTerminalDigitizeUses	[1+pref(sourceTerminalChips,TRAM)+pref(sourceTerminalChips,TRIGRAM)]
 Cast	Do an epic McTwist!	_epicMcTwistUsed

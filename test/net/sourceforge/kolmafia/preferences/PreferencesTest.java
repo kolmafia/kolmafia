@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -773,6 +774,151 @@ class PreferencesTest {
           assertThat(contents, containsString("\nxyz=abc\n"));
           assertThat(contents, containsString("\nwxy=def\n"));
         }
+      }
+    }
+  }
+
+  @Nested
+  class AvoidsPartialSaveCorruption {
+    // Lowercase because of filenames
+    private final String USER_NAME = "PreferencesTestBackupUser".toLowerCase();
+    private final File userFile = new File("settings/" + USER_NAME + "_prefs.txt");
+    private final File backupFile = new File("settings/" + USER_NAME + "_prefs.bak");
+    private final String PREF_NAME = "somePreference";
+
+    @BeforeEach
+    public void deleteUserPrefs() {
+      verboseDelete(userFile);
+      verboseDelete(backupFile);
+    }
+
+    @AfterEach
+    public void resetCharAndPreferences() {
+      deleteSerFiles(USER_NAME);
+      KoLCharacter.reset("");
+    }
+
+    private void login() {
+      Preferences.reset(USER_NAME);
+    }
+
+    private void logout() {
+      Preferences.reset("");
+    }
+
+    /** Writes out parsable text, then \nul or \0 bytes to mimic a corrupted file */
+    private void corrupt(File file, String parsablePrefix) throws IOException {
+      // Turns the text into bytes
+      byte[] prefix = parsablePrefix.getBytes(StandardCharsets.UTF_8);
+      // The remaining bytes are null bytes
+      byte[] bytes = new byte[prefix.length + 64];
+      // Writes prefix into the bytes array
+      System.arraycopy(prefix, 0, bytes, 0, prefix.length);
+      // Writes to disk
+      Files.write(file.toPath(), bytes);
+    }
+
+    private void savePreference() {
+      Preferences.setString(PREF_NAME, "someValue");
+    }
+
+    /** Logs in, saves a preference, and logs back out, leaving a valid file & backup on disk. */
+    private void setupNonCorruptedState() {
+      login(); // Ensure we're logged in
+      savePreference();
+      login(); // reload the saved file, triggers backup creation
+      assertTrue(userFile.exists(), "Prefs was not written");
+      assertTrue(backupFile.exists(), "Backup was not written");
+      assertEquals("someValue", Preferences.getString(PREF_NAME));
+      logout(); // Proves we're not reading from the logged in user
+    }
+
+    @Test
+    public void normalSaveContainsNoNullBytes() throws IOException {
+      // This test proves that null bytes are not something that can be replicated by a user
+      var cleanups =
+          new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true));
+      // octal escape, unicode escape, char literal, char valueOf, char array
+      var stringWithNulChars =
+          "unicode é" + "\0" + "\u0000" + '\0' + (char) 0 + new String(new char[] {0}) + "string.";
+
+      try (cleanups) {
+        login();
+        Preferences.setString(PREF_NAME, stringWithNulChars);
+        logout();
+        // Prove it didn't persist
+        assertEquals("", Preferences.getString(PREF_NAME));
+        // Prove no nulls in the file
+        assertFalse(FileUtilities.containsNullBytes(userFile));
+        login();
+        // Prove string is identical
+        assertEquals(stringWithNulChars, Preferences.getString(PREF_NAME));
+      }
+    }
+
+    @Test
+    public void backupIsRestoredOnCorruption() throws IOException {
+      var cleanups =
+          new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true));
+      try (cleanups) {
+        // Sets up the backup file
+        setupNonCorruptedState();
+        // Corrupt the user's file
+        corrupt(userFile, "");
+        // The file is corrupt
+        assertTrue(FileUtilities.containsNullBytes(userFile));
+        assertThat(
+            Files.readString(userFile.toPath(), StandardCharsets.UTF_8),
+            not(containsString(PREF_NAME + "=someValue")));
+        // It's not in memory
+        assertEquals("", Preferences.getString(PREF_NAME));
+        login();
+        // It was loaded from backup
+        assertEquals("someValue", Preferences.getString(PREF_NAME));
+        // Both files are valid
+        assertFalse(FileUtilities.containsNullBytes(userFile));
+        assertFalse(FileUtilities.containsNullBytes(backupFile));
+      }
+    }
+
+    @Test
+    public void backupIsPreferedOverPartial() throws IOException {
+      var cleanups =
+          new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true));
+      try (cleanups) {
+        setupNonCorruptedState();
+        // Write the corrupt file, but partially parsable with a different value
+        corrupt(userFile, PREF_NAME + "=oldValue\n");
+        login();
+        // The partially parsable file was not loaded, we restored from backup
+        assertEquals("someValue", Preferences.getString(PREF_NAME));
+      }
+    }
+
+    @Test
+    public void emptyIsRestoredFromBackup() throws IOException {
+      var cleanups =
+          new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true));
+      try (cleanups) {
+        setupNonCorruptedState();
+        Files.write(userFile.toPath(), new byte[0]);
+        login();
+        assertEquals("someValue", Preferences.getString(PREF_NAME));
+      }
+    }
+
+    @Test
+    public void partialRecoveryDoesntIncludeProblematicLines() throws IOException {
+      var cleanups =
+          new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true));
+      try (cleanups) {
+        // Corrupt the file, along with a partially written value that didn't end with a newline
+        corrupt(userFile, PREF_NAME + "=someValue\nskippedKey=skippedValue");
+        login();
+        // Confirm partial recovery worked
+        assertEquals("someValue", Preferences.getString(PREF_NAME));
+        // Confirm problematic lines were not included
+        assertFalse(Preferences.propertyExists("skippedKey"));
       }
     }
   }

@@ -31,6 +31,7 @@ import static internal.helpers.Player.withItemInCloset;
 import static internal.helpers.Player.withItemInDisplay;
 import static internal.helpers.Player.withItemInShop;
 import static internal.helpers.Player.withItemInStorage;
+import static internal.helpers.Player.withLevel;
 import static internal.helpers.Player.withMallPrice;
 import static internal.helpers.Player.withMeat;
 import static internal.helpers.Player.withNextMonster;
@@ -68,7 +69,10 @@ import internal.helpers.Cleanups;
 import internal.helpers.HttpClientWrapper;
 import internal.network.FakeHttpClientBuilder;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.io.PrintStream;
+import java.nio.file.Files;
 import java.time.Month;
 import java.util.Arrays;
 import java.util.List;
@@ -76,6 +80,7 @@ import java.util.Map;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.ZodiacSign;
@@ -92,6 +97,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.GreyYouManager;
 import net.sourceforge.kolmafia.textui.command.AbstractCommandTestBase;
 import net.sourceforge.kolmafia.utilities.NullStream;
@@ -914,6 +920,46 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     assertThat(output, containsString("Returned: void"));
     output = execute("my_location()");
     assertThat(output, containsString("Returned: none"));
+  }
+
+  @Test
+  void toUrlReflectsCurrentPyramidBombState() {
+    var cleanups =
+        new Cleanups(withProperty("pyramidPosition", 1), withProperty("pyramidBombUsed", false));
+
+    try (cleanups) {
+      String output = execute("to_url($location[The Lower Chambers])");
+      assertThat(
+          output, endsWith("Returned: place.php?whichplace=pyramid&action=pyramid_state1\n"));
+
+      Preferences.setBoolean("pyramidBombUsed", true);
+
+      output = execute("to_url($location[The Lower Chambers])");
+      assertThat(
+          output, endsWith("Returned: place.php?whichplace=pyramid&action=pyramid_state1a\n"));
+    }
+  }
+
+  @Test
+  void toUrlReflectsCurrentCellarState() {
+    // Cellar URL params come from updateFields(), not the constructor; withLevel(3) keeps
+    // recommendSquare() from logging an error into the output.
+    var cleanups =
+        new Cleanups(
+            withLevel(3),
+            // No faucet (3) in the layout and all squares unexplored, so we explore a square.
+            withProperty("tavernLayout", "0000000000000000000000000"));
+
+    try (cleanups) {
+      var output = execute("to_url($location[The Typical Tavern Cellar])");
+      assertThat(output, endsWith("Returned: cellar.php?whichspot=4&action=explore\n"));
+
+      // Faucet now known, so we autofaucet and drop whichspot.
+      Preferences.setString("tavernLayout", "3000000000000000000000000");
+
+      output = execute("to_url($location[The Typical Tavern Cellar])");
+      assertThat(output, endsWith("Returned: cellar.php?action=autofaucet\n"));
+    }
   }
 
   @Test
@@ -2908,5 +2954,39 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
   @CsvSource({"moxie weed,1", "spooky scarecrow,4", "cottage,3"})
   public void cupOf13sTiers(String item, int tier) {
     assertThat(execute("cup_of_13s_tier($item[" + item + "])").trim(), is("Returned: " + tier));
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+    "570, true", // GameInformPowerDailyPro Walkthru - can walkaway
+    "1, false"
+  })
+  void canWalkFromChoice(int choice, boolean expected) {
+    var request = new GenericRequest("choice.php?whichchoice=" + choice);
+    request.responseText = "whichchoice=" + choice;
+    ChoiceManager.visitChoice(request);
+
+    String output = execute("can_walk_from_choice()");
+    assertThat(output, containsString("Returned: " + expected));
+  }
+
+  @Test
+  void appendBufferToFileKeepsExistingContent() throws IOException {
+    String filename = "RuntimeLibraryTest_append.txt";
+    File file = new File(KoLConstants.DATA_LOCATION, filename);
+    try {
+      execute("buffer_to_file(\"first line\".to_buffer(), \"" + filename + "\");");
+      // Prove the second line does not exist in the file
+      String contents = Files.readString(file.toPath());
+      assertThat(contents, not(containsString("second line")));
+
+      execute("append_buffer_to_file(\"second line\".to_buffer(), \"" + filename + "\");");
+
+      contents = Files.readString(file.toPath());
+      assertThat(contents, containsString("first line"));
+      assertThat(contents, containsString("second line"));
+    } finally {
+      Files.deleteIfExists(file.toPath());
+    }
   }
 }

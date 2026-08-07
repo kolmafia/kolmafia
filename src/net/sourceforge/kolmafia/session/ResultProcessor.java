@@ -1147,9 +1147,8 @@ public class ResultProcessor {
         case EffectPool.HARE_BRAINED -> {
           Preferences.setInteger("hareTurnsUsed", 30 - result.getCount());
         }
-        case EffectPool.INIGOS, EffectPool.CRAFT_TEA -> {
-          // If you gain or lose Inigo's or Craft Tea, what you can
-          // craft changes
+        case EffectPool.INIGOS, EffectPool.CRAFT_TEA, EffectPool.SAVING_SOME_BONDO -> {
+          // If you gain or lose one of these, what you can craft changes
           ConcoctionDatabase.setRefreshNeeded(true);
         }
         case EffectPool.RECORD_HUNGER,
