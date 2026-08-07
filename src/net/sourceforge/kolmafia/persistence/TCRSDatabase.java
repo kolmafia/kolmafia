@@ -1469,6 +1469,22 @@ public class TCRSDatabase {
                   "WarBear Armor Penetration"))
           .collect(Collectors.toUnmodifiableSet());
 
+  // Expression functions that query live character or environment state (a preference, the current
+  // zone/location environment, an active effect, ascension class or path). The enchantment
+  // pre-computation can't resolve these, so a base modifier whose value depends on one isn't a
+  // re-rolled enchantment and doesn't count. Pure arithmetic (min/max/floor/ceil/sqrt) and the
+  // supported queries (skill, event) are fine and still count.
+  // TODO: replace this token sniff with ModifierExpression parsing and Modifier enum lookups.
+  private static final java.util.List<String> UNSUPPORTED_FUNCTIONS =
+      java.util.List.of("pref(", "env(", "zone(", "effect(", "class(", "path(");
+
+  private static boolean isEnchantableValue(final String value) {
+    if (value == null || !value.startsWith("[")) {
+      return true;
+    }
+    return UNSUPPORTED_FUNCTIONS.stream().noneMatch(value::contains);
+  }
+
   /**
    * How many enchantments the base item has, which is how many TCRS re-rolls. This isn't just the
    * modifier count. Non-enchantment modifiers (class restrictions, familiar effects, ...) don't
@@ -1482,7 +1498,7 @@ public class TCRSDatabase {
     var present = new java.util.HashMap<String, String>();
     for (var mv : ModifierDatabase.getModifierList(new Lookup(ModifierType.ITEM, itemId))) {
       var name = mv.getName();
-      if (RPN_MODIFIERS.contains(name)) {
+      if (RPN_MODIFIERS.contains(name) && isEnchantableValue(mv.getValue())) {
         present.put(name, mv.getValue());
       }
     }
