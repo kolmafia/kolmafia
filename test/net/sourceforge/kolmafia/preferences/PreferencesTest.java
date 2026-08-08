@@ -914,7 +914,7 @@ class PreferencesTest {
 
   @Nested
   class AvoidsPartialSaveCorruption {
-    // Lowercase because of filenames
+    // Lowercase because filename case sensitivity not consistent across operating systems
     private final String USER_NAME = "PreferencesTestBackupUser".toLowerCase();
     private final File userFile = new File("settings/" + USER_NAME + "_prefs.txt");
     private final File backupFile = new File("settings/" + USER_NAME + "_prefs.bak");
@@ -972,13 +972,13 @@ class PreferencesTest {
       logout(); // Proves we're not reading from the logged-in user
     }
 
-    private boolean areFilesTheSame(File file1, File file2) {
+    private boolean areFileContentsTheSame(File file1, File file2) {
       Properties p1 = Preferences.loadPreferences(file1);
       Properties p2 = Preferences.loadPreferences(file2);
       return p1.equals(p2);
     }
 
-    private boolean stringInFile(File file, String string) {
+    private boolean isStringInFile(File file, String string) {
       String contents = "";
       try {
         contents = Files.readString(file.toPath(), StandardCharsets.UTF_8);
@@ -990,7 +990,7 @@ class PreferencesTest {
 
     @Test
     public void normalSaveContainsNoNullBytes() throws IOException {
-      // This test proves that null bytes are not something that can be replicated by a user
+      // This test shows that null bytes are not something that can be stored by a user
       var cleanups =
           new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true));
       // octal escape, unicode escape, char literal, char valueOf, char array
@@ -1089,8 +1089,8 @@ class PreferencesTest {
         Preferences.setString(PREF_NAME, PREF_VALUE);
         logout();
       }
-      assertTrue(stringInFile(userFile, PREF_NAME), "New preference not written.");
-      assertTrue(areFilesTheSame(userFile, backupFile), "File contents are not the same.");
+      assertTrue(isStringInFile(userFile, PREF_NAME), "New preference not written.");
+      assertTrue(areFileContentsTheSame(userFile, backupFile), "File contents are not the same.");
     }
 
     @Test
@@ -1106,8 +1106,8 @@ class PreferencesTest {
         Preferences.setString(PREF_NAME, PREF_VALUE);
         logout();
       }
-      assertTrue(stringInFile(userFile, PREF_NAME), "New preference not written.");
-      assertTrue(areFilesTheSame(userFile, backupFile), "File contents are not the same.");
+      assertTrue(isStringInFile(userFile, PREF_NAME), "New preference not written.");
+      assertTrue(areFileContentsTheSame(userFile, backupFile), "File contents are not the same.");
     }
 
     @Test
@@ -1123,8 +1123,8 @@ class PreferencesTest {
         Preferences.setString(PREF_NAME, PREF_VALUE);
         logout();
       }
-      assertTrue(stringInFile(userFile, PREF_NAME), "New preference not written.");
-      assertTrue(areFilesTheSame(userFile, backupFile), "File contents are not the same.");
+      assertTrue(isStringInFile(userFile, PREF_NAME), "New preference not written.");
+      assertTrue(areFileContentsTheSame(userFile, backupFile), "File contents are not the same.");
     }
 
     @Test
@@ -1140,8 +1140,8 @@ class PreferencesTest {
         Preferences.setString(PREF_NAME, PREF_VALUE);
         logout();
       }
-      assertTrue(stringInFile(userFile, PREF_NAME), "New preference not written.");
-      assertTrue(areFilesTheSame(userFile, backupFile), "File contents are not the same.");
+      assertTrue(isStringInFile(userFile, PREF_NAME), "New preference not written.");
+      assertTrue(areFileContentsTheSame(userFile, backupFile), "File contents are not the same.");
     }
 
     @Test
@@ -1158,8 +1158,8 @@ class PreferencesTest {
         Preferences.setString(PREF_NAME, PREF_VALUE);
         logout();
       }
-      assertTrue(stringInFile(userFile, PREF_NAME), "New preference not written.");
-      assertTrue(areFilesTheSame(userFile, backupFile), "File contents are not the same.");
+      assertTrue(isStringInFile(userFile, PREF_NAME), "New preference not written.");
+      assertTrue(areFileContentsTheSame(userFile, backupFile), "File contents are not the same.");
     }
 
     @Nested
