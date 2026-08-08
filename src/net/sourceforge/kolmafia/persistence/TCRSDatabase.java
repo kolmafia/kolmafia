@@ -1073,8 +1073,8 @@ public class TCRSDatabase {
           ItemPool.JAZZ_SOAP,
           ItemPool.CAN_OF_BINARRRCA,
           // Food
-          8462,
-          8899);
+          ItemPool.SMOOCH_SODA,
+          ItemPool.TAINTED_MILK);
 
   /** Items that TCRS does not rename or re-roll cosmetics/enchantments for */
   public static final Set<Integer> NOT_RE_ROLLED =
