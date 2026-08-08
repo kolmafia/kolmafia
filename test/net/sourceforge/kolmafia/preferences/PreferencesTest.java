@@ -989,7 +989,7 @@ class PreferencesTest {
     }
 
     @Test
-    public void normalSaveContainsNoNullBytes() throws IOException {
+    public void normalSaveContainsNoNullBytes() {
       // This test shows that null bytes are not something that can be stored by a user
       var cleanups =
           new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true));
@@ -1012,7 +1012,7 @@ class PreferencesTest {
     }
 
     @Test
-    public void backupIsRestoredOnCorruption() throws IOException {
+    public void backupIsRestoredOnCorruption() {
       var cleanups =
           new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true));
       try (cleanups) {
@@ -1021,11 +1021,11 @@ class PreferencesTest {
         // Corrupt the user's file
         corrupt(userFile, "");
         // The file is corrupt
-        assertTrue(FileUtilities.containsNullBytes(userFile));
-        assertThat(
-            Files.readString(userFile.toPath(), StandardCharsets.UTF_8),
-            not(containsString(PREF_NAME + PREF_VALUE)));
-        // It's not in memory
+        boolean corrupt;
+          corrupt = FileUtilities.containsNullBytes(userFile);
+        assertTrue(corrupt);
+        assertFalse(isStringInFile(userFile, PREF_NAME + PREF_VALUE));
+         // It's not in memory
         assertEquals("", Preferences.getString(PREF_NAME));
         login();
         // It was loaded from backup
@@ -1128,7 +1128,7 @@ class PreferencesTest {
     }
 
     @Test
-    // Pref corrupt, backup ok on logout both good
+    // Pref corrupt, backup ok, on logout both good
     public void prefsCorrupt() {
       var cleanups =
           new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true));
@@ -1145,7 +1145,7 @@ class PreferencesTest {
     }
 
     @Test
-    // Pref corrupt, backup ok on logout both good
+    // Pref corrupt, backup corrupt on logout both good
     public void bothCorrupt() {
       var cleanups =
           new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true));
@@ -1248,7 +1248,6 @@ class PreferencesTest {
         try (BufferedReader reader =
             FileUtilities.getVersionedReader("dailylimits.txt", KoLConstants.DAILYLIMITS_VERSION)) {
           String[] data;
-          int pos;
 
           while ((data = FileUtilities.readData(reader)) != null) {
             if (data.length < 3) continue;

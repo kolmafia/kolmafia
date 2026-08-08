@@ -560,12 +560,16 @@ public class FileUtilities {
 
     return s;
   }
-
-  public static boolean containsNullBytes(File file) throws IOException {
-    for (byte b : Files.readAllBytes(file.toPath())) {
-      if (b == 0) {
-        return true;
+  // will return true if file cannot be read or file can be read and contains at leat one null byte
+  public static boolean containsNullBytes(File file) {
+    try {
+      for (byte b : Files.readAllBytes(file.toPath())) {
+        if (b == 0) {
+          return true;
+        }
       }
+    } catch (IOException e) {
+      return true;
     }
     return false;
   }

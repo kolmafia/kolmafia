@@ -452,11 +452,7 @@ public class Preferences {
     if (p.isEmpty()) {
       return false;
     }
-    try {
-      return !FileUtilities.containsNullBytes(file);
-    } catch (IOException e) {
-      return false;
-    }
+     return !FileUtilities.containsNullBytes(file);
   }
 
   private static String encodeProperty(String name, String value) {
