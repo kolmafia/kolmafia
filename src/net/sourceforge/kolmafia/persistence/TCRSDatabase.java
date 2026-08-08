@@ -819,11 +819,6 @@ public class TCRSDatabase {
             //   Otherwise use the roll we got
             EffectPool.get(TCRSEffectPool.get(roll)).getDisambiguatedName();
 
-    // @TODO what is going on here
-    if (item.getItemId() == 3159 && roll == TCRSEffectPool.size()) {
-      effectName = "";
-    }
-
     // Pick duration of effect
     var duration = mtRng.nextInt(11, 69);
 
