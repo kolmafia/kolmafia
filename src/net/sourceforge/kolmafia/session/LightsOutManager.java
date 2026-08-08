@@ -59,14 +59,14 @@ public class LightsOutManager {
     String stephenRoom = Preferences.getString("nextSpookyravenStephenRoom");
     if (!elizabethRoom.equals("none")) {
       if (link) {
-        String url = AdventureDatabase.getAdventure(elizabethRoom).getRequest().getURLString();
+        String url = AdventureDatabase.getAdventure(elizabethRoom).getURLString();
         elizabethRoom = "<a href=\"" + url + "\">" + elizabethRoom + "</a>";
       }
       msg += "Elizabeth can be found in " + elizabethRoom + ".  ";
     }
     if (!stephenRoom.equals("none")) {
       if (link) {
-        String url = AdventureDatabase.getAdventure(stephenRoom).getRequest().getURLString();
+        String url = AdventureDatabase.getAdventure(stephenRoom).getURLString();
         stephenRoom = "<a href=\"" + url + "\">" + stephenRoom + "</a>";
       }
       msg += "Stephen can be found in " + stephenRoom + ".  ";

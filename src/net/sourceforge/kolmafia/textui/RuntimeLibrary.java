@@ -4948,9 +4948,7 @@ public abstract class RuntimeLibrary {
 
   public static Value to_url(ScriptRuntime controller, final Value value) {
     KoLAdventure adventure = (KoLAdventure) value.rawValue();
-    return (adventure == null)
-        ? DataTypes.STRING_INIT
-        : new Value(adventure.getRequest().getURLString());
+    return (adventure == null) ? DataTypes.STRING_INIT : new Value(adventure.getURLString());
   }
 
   public static Value to_wiki_url(ScriptRuntime controller, final Value value) {
