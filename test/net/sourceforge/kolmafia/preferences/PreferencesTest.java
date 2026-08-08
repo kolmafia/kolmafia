@@ -918,6 +918,7 @@ class PreferencesTest {
     private final File userFile = new File("settings/" + USER_NAME + "_prefs.txt");
     private final File backupFile = new File("settings/" + USER_NAME + "_prefs.bak");
     private final String PREF_NAME = "somePreference";
+    private final String PREF_VALUE = "canary";
 
     @BeforeEach
     public void deleteUserPrefs() {
@@ -952,7 +953,7 @@ class PreferencesTest {
     }
 
     private void savePreference() {
-      Preferences.setString(PREF_NAME, "someValue");
+      Preferences.setString(PREF_NAME, PREF_VALUE);
     }
 
     /** Logs in, saves a preference, and logs back out, leaving a valid file & backup on disk. */
@@ -962,7 +963,7 @@ class PreferencesTest {
       login(); // reload the saved file, triggers backup creation
       assertTrue(userFile.exists(), "Prefs was not written");
       assertTrue(backupFile.exists(), "Backup was not written");
-      assertEquals("someValue", Preferences.getString(PREF_NAME));
+      assertEquals(PREF_VALUE, Preferences.getString(PREF_NAME));
       logout(); // Proves we're not reading from the logged in user
     }
 
@@ -972,12 +973,12 @@ class PreferencesTest {
       var cleanups =
           new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true));
       // octal escape, unicode escape, char literal, char valueOf, char array
-      var stringWithNulChars =
+      var stringWithNullChars =
           "unicode é" + "\0" + "\u0000" + '\0' + (char) 0 + new String(new char[] {0}) + "string.";
 
       try (cleanups) {
         login();
-        Preferences.setString(PREF_NAME, stringWithNulChars);
+        Preferences.setString(PREF_NAME, stringWithNullChars);
         logout();
         // Prove it didn't persist
         assertEquals("", Preferences.getString(PREF_NAME));
@@ -985,7 +986,7 @@ class PreferencesTest {
         assertFalse(FileUtilities.containsNullBytes(userFile));
         login();
         // Prove string is identical
-        assertEquals(stringWithNulChars, Preferences.getString(PREF_NAME));
+        assertEquals(stringWithNullChars, Preferences.getString(PREF_NAME));
       }
     }
 
@@ -1002,12 +1003,12 @@ class PreferencesTest {
         assertTrue(FileUtilities.containsNullBytes(userFile));
         assertThat(
             Files.readString(userFile.toPath(), StandardCharsets.UTF_8),
-            not(containsString(PREF_NAME + "=someValue")));
+            not(containsString(PREF_NAME + PREF_VALUE)));
         // It's not in memory
         assertEquals("", Preferences.getString(PREF_NAME));
         login();
         // It was loaded from backup
-        assertEquals("someValue", Preferences.getString(PREF_NAME));
+        assertEquals(PREF_VALUE, Preferences.getString(PREF_NAME));
         // Both files are valid
         assertFalse(FileUtilities.containsNullBytes(userFile));
         assertFalse(FileUtilities.containsNullBytes(backupFile));
@@ -1024,7 +1025,7 @@ class PreferencesTest {
         corrupt(userFile, PREF_NAME + "=oldValue\n");
         login();
         // The partially parsable file was not loaded, we restored from backup
-        assertEquals("someValue", Preferences.getString(PREF_NAME));
+        assertEquals(PREF_VALUE, Preferences.getString(PREF_NAME));
       }
     }
 
@@ -1036,7 +1037,7 @@ class PreferencesTest {
         setupNonCorruptedState();
         Files.write(userFile.toPath(), new byte[0]);
         login();
-        assertEquals("someValue", Preferences.getString(PREF_NAME));
+        assertEquals(PREF_VALUE, Preferences.getString(PREF_NAME));
       }
     }
 
@@ -1046,12 +1047,25 @@ class PreferencesTest {
           new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true));
       try (cleanups) {
         // Corrupt the file, along with a partially written value that didn't end with a newline
-        corrupt(userFile, PREF_NAME + "=someValue\nskippedKey=skippedValue");
+        corrupt(userFile, PREF_NAME + "=" + PREF_VALUE + "\nskippedKey=skippedValue");
         login();
         // Confirm partial recovery worked
-        assertEquals("someValue", Preferences.getString(PREF_NAME));
+        assertEquals(PREF_VALUE, Preferences.getString(PREF_NAME));
         // Confirm problematic lines were not included
         assertFalse(Preferences.propertyExists("skippedKey"));
+      }
+    }
+
+    @Test
+    public void validPreferencesExist() {
+      var cleanups =
+          new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true));
+      assertFalse(userFile.exists(), "Prefs was not cleaned up");
+      assertFalse(backupFile.exists(), "Backup was not cleaned up");
+      try (cleanups) {
+        login();
+        Preferences.setString(PREF_NAME, PREF_VALUE );
+        logout();
       }
     }
   }
