@@ -2419,7 +2419,7 @@ public abstract class KoLCharacter {
     return name.contains("u") || name.contains("U");
   }
 
-  private static final Pattern S_WORD_PATTERN = Pattern.compile("(?<![^\\s<])[Ss]\\S*");
+  private static final Pattern S_WORD_PATTERN = Pattern.compile("(?<!\\S)[Ss]\\S*");
 
   public static final int getSwordOfSWordsosity() {
     return KoLCharacter.getSwordOfSWordsosity(EquipmentManager.currentEquipment());
@@ -2442,6 +2442,7 @@ public abstract class KoLCharacter {
   }
 
   public static final int getSwordOfSWordsosity(String name) {
+    name = name.replaceAll("[^0-9A-Za-z ]", "");
     return (int) KoLCharacter.S_WORD_PATTERN.matcher(name).results().count();
   }
 
