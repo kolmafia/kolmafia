@@ -71,7 +71,7 @@ public class Preferences {
   private static final Set<String> legacyDailies = new TreeSet<>();
   private static final Set<String> resetOnAscension = new TreeSet<>();
   private static final Set<String> resetOnFight = new TreeSet<>();
-
+  protected static final int SIZE_FACTOR = 2; // Used to decide if pref or backup is corrupt
   // Obsolete properties.
   private static final String[] obsoleteProperties =
       new String[] {
@@ -308,8 +308,8 @@ public class Preferences {
         // NAME_prefs.txt, add to user map with default value
         // (this is how we add a new user property)
         //
-        // If it had a value in the GLOBAL map, use that (this
-        // is how we migrate a preference from GLOBAL to user)
+        // If it had a value in the GLOBAL map, then use that.  This
+        // is how we migrate a preference from GLOBAL to user.
         String value =
             Preferences.globalValues.containsKey(key)
                 ? (String) Preferences.globalValues.get(key)
@@ -433,7 +433,7 @@ public class Preferences {
     }
     long bakLen = backupFile.length();
     long prefsLen = prefsFile.length();
-    return bakLen > 0 && prefsLen < bakLen / 2;
+    return bakLen > 0 && prefsLen < bakLen / SIZE_FACTOR;
   }
 
   protected static Properties loadPreferences(File file) {
