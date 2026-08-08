@@ -436,7 +436,7 @@ public class Preferences {
     return bakLen > 0 && prefsLen < bakLen / 2;
   }
 
-  private static Properties loadPreferences(File file) {
+  protected static Properties loadPreferences(File file) {
     Properties p = new Properties();
     try (InputStream istream = DataUtilities.getInputStream(file)) {
       p.load(istream);
