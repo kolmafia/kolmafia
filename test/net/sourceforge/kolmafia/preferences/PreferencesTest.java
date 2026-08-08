@@ -978,6 +978,16 @@ class PreferencesTest {
       return p1.equals(p2);
     }
 
+    private boolean stringInFile(File file, String string) {
+      String contents = "";
+      try {
+        contents = Files.readString(file.toPath(), StandardCharsets.UTF_8);
+      } catch (IOException e) {
+        // ignore contents is already empty
+      }
+      return contents.contains(string);
+    }
+
     @Test
     public void normalSaveContainsNoNullBytes() throws IOException {
       // This test proves that null bytes are not something that can be replicated by a user
@@ -1068,6 +1078,7 @@ class PreferencesTest {
     }
 
     @Test
+    // Pref created at login, backup created and both good
     public void validPreferencesExist() {
       var cleanups =
           new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true));
@@ -1078,25 +1089,29 @@ class PreferencesTest {
         Preferences.setString(PREF_NAME, PREF_VALUE);
         logout();
       }
+      assertTrue(stringInFile(userFile, PREF_NAME), "New preference not written.");
       assertTrue(areFilesTheSame(userFile, backupFile), "File contents are not the same.");
     }
 
     @Test
+    // Pref created at login, backup deleted and recreated on logout and both good
     public void noBackupExist() {
       var cleanups =
           new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true));
       assertFalse(userFile.exists(), "Prefs was not cleaned up");
       assertFalse(backupFile.exists(), "Backup was not cleaned up");
       try (cleanups) {
-        verboseDelete(backupFile);
         login();
+        verboseDelete(backupFile);
         Preferences.setString(PREF_NAME, PREF_VALUE);
         logout();
       }
+      assertTrue(stringInFile(userFile, PREF_NAME), "New preference not written.");
       assertTrue(areFilesTheSame(userFile, backupFile), "File contents are not the same.");
     }
 
     @Test
+    // Pref created at login, backup corrupted, on logout both good
     public void backupCorrupt() {
       var cleanups =
           new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true));
@@ -1108,6 +1123,42 @@ class PreferencesTest {
         Preferences.setString(PREF_NAME, PREF_VALUE);
         logout();
       }
+      assertTrue(stringInFile(userFile, PREF_NAME), "New preference not written.");
+      assertTrue(areFilesTheSame(userFile, backupFile), "File contents are not the same.");
+    }
+
+    @Test
+    // Pref corrupt, backup ok on logout both good
+    public void prefsCorrupt() {
+      var cleanups =
+          new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true));
+      assertFalse(userFile.exists(), "Prefs was not cleaned up");
+      assertFalse(backupFile.exists(), "Backup was not cleaned up");
+      try (cleanups) {
+        login();
+        corrupt(userFile, "xyzzy");
+        Preferences.setString(PREF_NAME, PREF_VALUE);
+        logout();
+      }
+      assertTrue(stringInFile(userFile, PREF_NAME), "New preference not written.");
+      assertTrue(areFilesTheSame(userFile, backupFile), "File contents are not the same.");
+    }
+
+    @Test
+    // Pref corrupt, backup ok on logout both good
+    public void bothCorrupt() {
+      var cleanups =
+          new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true));
+      assertFalse(userFile.exists(), "Prefs was not cleaned up");
+      assertFalse(backupFile.exists(), "Backup was not cleaned up");
+      try (cleanups) {
+        login();
+        corrupt(userFile, "xyzzy");
+        corrupt(userFile, "abcde");
+        Preferences.setString(PREF_NAME, PREF_VALUE);
+        logout();
+      }
+      assertTrue(stringInFile(userFile, PREF_NAME), "New preference not written.");
       assertTrue(areFilesTheSame(userFile, backupFile), "File contents are not the same.");
     }
 
