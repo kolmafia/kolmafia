@@ -206,7 +206,7 @@ public class TimeSpinnerCommand extends AbstractCommand {
 
       List<String> monsters = new ArrayList<>();
       for (KoLAdventure adv : AdventureDatabase.getAsLockableListModel()) {
-        if (!adv.getRequest().getURLString().startsWith("adventure.php")) {
+        if (!adv.getURLString().startsWith("adventure.php")) {
           continue;
         }
         for (String monster : AdventureQueueDatabase.getZoneQueue(adv)) {

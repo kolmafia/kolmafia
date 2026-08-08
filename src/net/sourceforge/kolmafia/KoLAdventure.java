@@ -371,6 +371,25 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     return this.request;
   }
 
+  /**
+   * Returns the current URL for this adventure. Unlike {@link #getRequest()}, whose request is
+   * cached at startup, this reflects preferences and state that can change during a session (for
+   * example the pyramid position or the tavern cellar layout) without persisting any preference.
+   *
+   * @return The up-to-date URL for this adventure
+   */
+  public String getURLString() {
+    if (this.request instanceof AdventureRequest) {
+      // Some fields (cellar, manor chamber, shadow rift) are only set in updateFields(), not the
+      // constructor, so refresh a fresh request rather than reusing the cached one.
+      var fresh = new AdventureRequest(this.adventureName, this.formSource, this.adventureId);
+      fresh.updateFields(false);
+      return fresh.getURLString();
+    }
+
+    return this.request.getURLString();
+  }
+
   public void overrideAdventuresUsed(int used) {
     if (this.request instanceof AdventureRequest) {
       ((AdventureRequest) this.request).overrideAdventuresUsed(used);
