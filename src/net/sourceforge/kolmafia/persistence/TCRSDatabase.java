@@ -1361,17 +1361,26 @@ public class TCRSDatabase {
       DebugDatabase.appendModifier(mods, entry.getValue());
     }
 
-    // Enchant adjectives that are common adjectives (e.g. "lucky") are stripped from the name, as
-    // KoL does after applying enchantments. Cosmetics are not stripped.
-    var name =
-        Stream.of(
-                Stream.of(cosmeticsString),
-                prefixes.stream().filter(Predicate.not(ADJECTIVES::contains)),
-                Stream.of(root),
-                suffixes.stream().filter(Predicate.not(ADJECTIVES::contains)))
-            .flatMap(s -> s)
-            .filter(Predicate.not(String::isBlank))
-            .collect(Collectors.joining(" "));
+    String displayName =
+        ModifierDatabase.getStringModifier(ModifierType.ITEM, id, StringModifier.DISPLAY_NAME);
+
+    // if an item has a display name, that's the final name, otherwise strip adjectives
+    String name;
+    if (!displayName.isEmpty()) {
+      name = displayName;
+    } else {
+      // Enchant adjectives that are common adjectives (e.g. "lucky") are stripped from the name, as
+      // KoL does after applying enchantments. Cosmetics are not stripped.
+      name =
+          Stream.of(
+                  Stream.of(cosmeticsString),
+                  prefixes.stream().filter(Predicate.not(ADJECTIVES::contains)),
+                  Stream.of(root),
+                  suffixes.stream().filter(Predicate.not(ADJECTIVES::contains)))
+              .flatMap(s -> s)
+              .filter(Predicate.not(String::isBlank))
+              .collect(Collectors.joining(" "));
+    }
 
     return new TCRS(name, 0, ConsumableQuality.NONE, mods.toString());
   }

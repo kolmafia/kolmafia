@@ -198,6 +198,7 @@ public class ModifierDatabase {
           StringModifier.CONDITIONAL_SKILL_EQUIPPED,
           StringModifier.CONDITIONAL_SKILL_INVENTORY,
           StringModifier.LANTERN_ELEMENT,
+          StringModifier.DISPLAY_NAME,
           BitmapModifier.BRIMSTONE,
           BitmapModifier.CLOATHING,
           BitmapModifier.SYNERGETIC,
