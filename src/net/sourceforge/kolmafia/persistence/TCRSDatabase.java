@@ -1081,15 +1081,36 @@ public class TCRSDatabase {
           8462,
           8899);
 
-  /** Dynamically named items aren't renamed by TCRS */
-  public static final Set<Integer> DYNAMICALLY_NAMED =
+  /** Items that TCRS does not rename or re-roll cosmetics/enchantments for */
+  public static final Set<Integer> NOT_RE_ROLLED =
       Set.of(
+          // Dynamically named consumables
           ItemPool.EXPERIMENTAL_CRIMBO_FOOD,
           ItemPool.EXPERIMENTAL_CRIMBO_BOOZE,
           ItemPool.EXPERIMENTAL_CRIMBO_SPLEEN,
           ItemPool.LOVE_POTION_XYZ,
           ItemPool.DIABOLIC_PIZZA,
-          ItemPool.VAMPIRE_VINTNER_WINE);
+          ItemPool.VAMPIRE_VINTNER_WINE,
+          // Equipment that TCRS never re-rolls, some of which are dynamically named
+          ItemPool.RING,
+          ItemPool.PANTOGRAM_PANTS,
+          ItemPool.GARLAND_OF_GREATNESS,
+          ItemPool.BACKUP_CAMERA,
+          ItemPool.CURSED_MONKEY_PAW,
+          ItemPool.AUGUST_SCEPTER,
+          ItemPool.REPLICA_AUGUST_SCEPTER,
+          ItemPool.FRANKEN_STEIN,
+          ItemPool.FUTURISTIC_SHIRT,
+          ItemPool.FUTURISTIC_HAT,
+          ItemPool.FUTURISTIC_COLLAR,
+          ItemPool.MIMIC_EGG,
+          ItemPool.ROMAN_CANDELABRA,
+          ItemPool.MONODENT_OF_THE_SEA,
+          ItemPool.PRISMATIC_BERET,
+          ItemPool.THE_ETERNITY_CODPIECE,
+          ItemPool.HEARTSTONE,
+          ItemPool.BASEBALL_DIAMOND,
+          ItemPool.CUP_OF_13S);
 
   /** Items that keep their Effect despite rolling for a new one */
   private static final Set<Integer> HARDCODED_EFFECT =
@@ -1366,26 +1387,17 @@ public class TCRSDatabase {
       DebugDatabase.appendModifier(mods, entry.getValue());
     }
 
-    String displayName =
-        ModifierDatabase.getStringModifier(ModifierType.ITEM, id, StringModifier.DISPLAY_NAME);
-
-    // if an item has a display name, that's the final name, otherwise strip adjectives
-    String name;
-    if (!displayName.isEmpty()) {
-      name = displayName;
-    } else {
-      // Enchant adjectives that are common adjectives (e.g. "lucky") are stripped from the name, as
-      // KoL does after applying enchantments. Cosmetics are not stripped.
-      name =
-          Stream.of(
-                  Stream.of(cosmeticsString),
-                  prefixes.stream().filter(Predicate.not(ADJECTIVES::contains)),
-                  Stream.of(root),
-                  suffixes.stream().filter(Predicate.not(ADJECTIVES::contains)))
-              .flatMap(s -> s)
-              .filter(Predicate.not(String::isBlank))
-              .collect(Collectors.joining(" "));
-    }
+    // Enchant adjectives that are common adjectives (e.g. "lucky") are stripped from the name, as
+    // KoL does after applying enchantments. Cosmetics are not stripped.
+    var name =
+        Stream.of(
+                Stream.of(cosmeticsString),
+                prefixes.stream().filter(Predicate.not(ADJECTIVES::contains)),
+                Stream.of(root),
+                suffixes.stream().filter(Predicate.not(ADJECTIVES::contains)))
+            .flatMap(s -> s)
+            .filter(Predicate.not(String::isBlank))
+            .collect(Collectors.joining(" "));
 
     return new TCRS(name, 0, ConsumableQuality.NONE, mods.toString());
   }
@@ -1589,8 +1601,10 @@ public class TCRSDatabase {
     var item = ItemPool.get(itemId);
     var type = ItemDatabase.getConsumptionType(itemId);
 
-    if (DYNAMICALLY_NAMED.contains(itemId)) {
-      var name = ItemDatabase.getItemName(itemId);
+    String displayName =
+        ModifierDatabase.getStringModifier(ModifierType.ITEM, itemId, StringModifier.DISPLAY_NAME);
+    if (NOT_RE_ROLLED.contains(itemId) || !displayName.isEmpty()) {
+      var name = !displayName.isEmpty() ? displayName : ItemDatabase.getItemName(itemId);
 
       var size =
           switch (type) {
@@ -1600,7 +1614,11 @@ public class TCRSDatabase {
             default -> 0;
           };
 
-      return new TCRS(name, size, ConsumablesDatabase.getQuality(name), "");
+      return new TCRS(
+          name,
+          size,
+          ConsumablesDatabase.getQuality(name),
+          getRetainedModifiers(itemId).toString());
     }
 
     switch (itemId) {

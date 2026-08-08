@@ -191,7 +191,7 @@ class TCRSDatabaseTest {
               }
 
               var checkMods =
-                  !TCRSDatabase.DYNAMICALLY_NAMED.contains(itemId)
+                  !TCRSDatabase.NOT_RE_ROLLED.contains(itemId)
                       && switch (ItemDatabase.getConsumptionType(itemId)) {
                         case USE, USE_INFINITE, USE_MULTIPLE, USE_MESSAGE_DISPLAY -> false;
                         default -> true;
