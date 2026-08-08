@@ -2474,6 +2474,7 @@ user	_legionJackhammerCrafting	0
 user	_leprecondoRearrangements	0
 user	_leprecondoFurniture	0
 user	_licenseToChillUsed	false
+user	_lightningRodCast	false
 user	_llamaCharge	0
 user	_locketMonstersFought
 user	_lodestoneUsed	false
@@ -2659,6 +2660,7 @@ user	_questPartyFairQuest
 user	_questPirateRealm	unstarted
 user	_radlibSummons	0
 user	_raindohCopiesMade	0
+user	_rainCoatCast	false
 user	_rainStickUsed	false
 user	_rapidPrototypingUsed	0
 user	_raveStealCount	0
@@ -2816,6 +2818,7 @@ user	_thesisDelivered	false
 user	_thingfinderCasts	0
 user	_thinknerdPackageDrops	0
 user	_thorsPliersCrafting	0
+user	_thunderDownUnderwearCast	false
 user	_tiedUpFlamingLeafletFought	false
 user	_tiedUpFlamingMonsteraFought	false
 user	_tiedUpLeaviathanFought	false
