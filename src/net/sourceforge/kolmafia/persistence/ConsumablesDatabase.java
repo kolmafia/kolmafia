@@ -59,15 +59,15 @@ public class ConsumablesDatabase {
 
   public enum ConsumableQuality {
     NONE(""),
-    CRAPPY("crappy", "#999999"),
-    DECENT("decent"),
-    GOOD("good", "green"),
-    AWESOME("awesome", "blue"),
-    EPIC("EPIC", "#8a2be2"),
-    SUPER_EPIC("super EPIC", "#8a2be2"),
-    SUPER_ULTRA_EPIC("super ultra EPIC", "#8a2be2"),
-    SUPER_ULTRA_MEGA_EPIC("super ultra mega EPIC", "#8a2be2"),
-    SUPER_ULTRA_MEGA_TURBO_EPIC("super ultra mega turbo EPIC", "#8a2be2"),
+    CRAPPY("crappy", "#999999", 1),
+    DECENT("decent", null, 2),
+    GOOD("good", "green", 3),
+    AWESOME("awesome", "blue", 4),
+    EPIC("EPIC", "#8a2be2", 5),
+    SUPER_EPIC("super EPIC", "#8a2be2", 5),
+    SUPER_ULTRA_EPIC("super ultra EPIC", "#8a2be2", 5),
+    SUPER_ULTRA_MEGA_EPIC("super ultra mega EPIC", "#8a2be2", 5),
+    SUPER_ULTRA_MEGA_TURBO_EPIC("super ultra mega turbo EPIC", "#8a2be2", 5),
     QUEST("quest"),
     CHANGING("???"),
     DRIPPY("drippy", "#964B00"),
@@ -85,10 +85,16 @@ public class ConsumablesDatabase {
 
     private final String name;
     private final String color;
+    private final int value;
 
-    ConsumableQuality(final String name, final String color) {
+    ConsumableQuality(final String name, final String color, final int value) {
       this.name = name;
       this.color = color;
+      this.value = value;
+    }
+
+    ConsumableQuality(final String name, final String color) {
+      this(name, color, -1);
     }
 
     ConsumableQuality(final String name) {
@@ -106,6 +112,10 @@ public class ConsumablesDatabase {
 
     public String getColor() {
       return color;
+    }
+
+    public int getValue() {
+      return value;
     }
   }
 
@@ -653,8 +663,18 @@ public class ConsumablesDatabase {
     return consumable == null ? null : consumable.getRawFullness();
   }
 
+  public static final Integer getRawFullness(final int id) {
+    Consumable consumable = ConsumablesDatabase.consumableByItemId.get(id);
+    return consumable == null ? null : consumable.getRawFullness();
+  }
+
   public static final int getFullness(final String name) {
     Integer fullness = ConsumablesDatabase.getRawFullness(name);
+    return fullness == null ? 0 : fullness;
+  }
+
+  public static final int getFullness(final int id) {
+    Integer fullness = ConsumablesDatabase.getRawFullness(id);
     return fullness == null ? 0 : fullness;
   }
 
@@ -667,8 +687,18 @@ public class ConsumablesDatabase {
             : KoLCharacter.applyInebrietyModifiers(consumable);
   }
 
+  public static final Integer getRawInebriety(final int id) {
+    Consumable consumable = ConsumablesDatabase.consumableByItemId.get(id);
+    return consumable == null ? null : consumable.getRawInebriety();
+  }
+
   public static final int getInebriety(final String name) {
     Integer inebriety = ConsumablesDatabase.getRawInebriety(name);
+    return inebriety == null ? 0 : inebriety;
+  }
+
+  public static final int getInebriety(final int id) {
+    Integer inebriety = ConsumablesDatabase.getRawInebriety(id);
     return inebriety == null ? 0 : inebriety;
   }
 
@@ -677,13 +707,28 @@ public class ConsumablesDatabase {
     return consumable == null ? null : consumable.getRawSpleenHit();
   }
 
+  public static final Integer getRawSpleenHit(final int id) {
+    Consumable consumable = ConsumablesDatabase.consumableByItemId.get(id);
+    return consumable == null ? null : consumable.getRawSpleenHit();
+  }
+
   public static final int getSpleenHit(final String name) {
     Integer spleenhit = ConsumablesDatabase.getRawSpleenHit(name);
     return spleenhit == null ? 0 : spleenhit;
   }
 
+  public static final int getSpleenHit(final int id) {
+    Integer spleenhit = ConsumablesDatabase.getRawSpleenHit(id);
+    return spleenhit == null ? 0 : spleenhit;
+  }
+
   public static final ConsumableQuality getQuality(final String name) {
     Consumable consumable = ConsumablesDatabase.consumableByName.get(name);
+    return consumable == null ? ConsumableQuality.NONE : consumable.quality;
+  }
+
+  public static final ConsumableQuality getQuality(final int id) {
+    Consumable consumable = ConsumablesDatabase.consumableByItemId.get(id);
     return consumable == null ? ConsumableQuality.NONE : consumable.quality;
   }
 

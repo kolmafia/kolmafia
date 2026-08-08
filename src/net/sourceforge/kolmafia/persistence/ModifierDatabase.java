@@ -198,6 +198,7 @@ public class ModifierDatabase {
           StringModifier.CONDITIONAL_SKILL_EQUIPPED,
           StringModifier.CONDITIONAL_SKILL_INVENTORY,
           StringModifier.LANTERN_ELEMENT,
+          StringModifier.DISPLAY_NAME,
           BitmapModifier.BRIMSTONE,
           BitmapModifier.CLOATHING,
           BitmapModifier.SYNERGETIC,
@@ -666,7 +667,9 @@ public class ModifierDatabase {
         value = string.substring(colon + 2);
       }
 
-      list.addModifier(key, value);
+      if (!(key.isEmpty() && value == null)) {
+        list.addModifier(key, value);
+      }
     }
 
     return list;

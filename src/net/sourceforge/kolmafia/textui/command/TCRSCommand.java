@@ -13,7 +13,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class TCRSCommand extends AbstractCommand {
   public TCRSCommand() {
     this.usage =
-        " fetch CLASS, SIGN | load | save | derive [#] | check # | apply | help - handle item modifiers for Two Crazy Random Summer.";
+        " load | save | derive [#] | check # | apply | help - handle item modifiers for Two Crazy Random Summer.";
   }
 
   @Override
@@ -33,7 +33,6 @@ public class TCRSCommand extends AbstractCommand {
       RequestLogger.printLine(" ");
       RequestLogger.printLine("Some commands require being in a TCRS run and data will");
       RequestLogger.printLine("be for current CLASS and SIGN.");
-      RequestLogger.printLine("fetch CLASS SIGN - fetch remote data for class and sign.");
       RequestLogger.printLine(
           "test CLASS SIGN - load and apply data for class and sign, regardless of current path, class, and sign.");
       RequestLogger.printLine("ring - display modifiers for ring.");
@@ -45,31 +44,6 @@ public class TCRSCommand extends AbstractCommand {
       RequestLogger.printLine("check # - display data for item.");
       RequestLogger.printLine("apply - apply current data.");
       RequestLogger.printLine("help - display this text.");
-      return;
-    }
-
-    if (command.equals("fetch")) {
-      String[] split = parameters.split(" *, *");
-      if (split.length != 2) {
-        KoLmafia.updateDisplay(MafiaState.ERROR, "fetch CLASS SIGN");
-        return;
-      }
-      String className = split[0];
-      AscensionClass ascensionClass = AscensionClass.find(className);
-      String sign = split[1];
-      ZodiacSign zsign = ZodiacSign.find(sign);
-      if (!TCRSDatabase.validate(ascensionClass, zsign)) {
-        KoLmafia.updateDisplay(
-            MafiaState.ERROR,
-            className + " is not a valid class or " + sign + " is not a valid sign.");
-        return;
-      }
-      if (TCRSDatabase.anyLocalFileExists(ascensionClass, zsign, true)) {
-        KoLmafia.updateDisplay(MafiaState.ERROR, "Will not overwrite. Aborting.");
-        return;
-      }
-      TCRSDatabase.fetch(ascensionClass, zsign, true);
-      TCRSDatabase.fetchCafe(ascensionClass, zsign, true);
       return;
     }
 
@@ -139,6 +113,7 @@ public class TCRSCommand extends AbstractCommand {
 
     if (command.equals("save")) {
       TCRSDatabase.save(true);
+      return;
     }
 
     if (command.equals("derive")) {
