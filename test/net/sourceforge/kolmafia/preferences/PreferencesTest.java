@@ -1022,10 +1022,10 @@ class PreferencesTest {
         corrupt(userFile, "");
         // The file is corrupt
         boolean corrupt;
-          corrupt = FileUtilities.containsNullBytes(userFile);
+        corrupt = FileUtilities.containsNullBytes(userFile);
         assertTrue(corrupt);
         assertFalse(isStringInFile(userFile, PREF_NAME + PREF_VALUE));
-         // It's not in memory
+        // It's not in memory
         assertEquals("", Preferences.getString(PREF_NAME));
         login();
         // It was loaded from backup

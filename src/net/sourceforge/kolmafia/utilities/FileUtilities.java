@@ -560,6 +560,7 @@ public class FileUtilities {
 
     return s;
   }
+
   // will return true if file cannot be read or file can be read and contains at leat one null byte
   public static boolean containsNullBytes(File file) {
     try {
