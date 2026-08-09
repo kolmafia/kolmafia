@@ -942,7 +942,8 @@ public class EquipmentRequest extends PasswordHashRequest {
     }
 
     if (urlString.startsWith("choice.php") && urlString.contains("whichchoice=1588")) {
-      parseCodpiece(responseText);
+      // Handling the codpiece inventory changes by calling parseCodpiece() was already handled in
+      // ChoiceControl.
       return;
     }
 
@@ -1196,24 +1197,20 @@ public class EquipmentRequest extends PasswordHashRequest {
   private static final Pattern LOSE_PATTERN = Pattern.compile("You lose an item:.*?<b>(.*?)</b>");
 
   public static void parseCodpiece(final String responseText) {
+    // GenericRequest.parseResults() already detects any gem that was acquired by pulling it out of
+    // the codpiece, so all that needs to be done is to detect and track any gem being put into the
+    // codpiece.
+
     Matcher lostMatcher = EquipmentRequest.LOSE_PATTERN.matcher(responseText);
     String lost = lostMatcher.find() ? lostMatcher.group(1) : null;
     int lostId = ItemDatabase.getItemId(lost);
 
-    Matcher acquiredMatcher = EquipmentRequest.ACQUIRE_PATTERN.matcher(responseText);
-    String acquired = acquiredMatcher.find() ? acquiredMatcher.group(1) : null;
-    int acquiredId = ItemDatabase.getItemId(acquired);
-
-    AdventureResult newItem = lost != null ? ItemPool.get(lostId) : EquipmentRequest.UNEQUIP;
-    AdventureResult oldItem =
-        acquired != null ? ItemPool.get(acquiredId) : EquipmentRequest.UNEQUIP;
-
-    if (newItem != EquipmentRequest.UNEQUIP) {
-      AdventureResult remove = oldItem.getInstance(-1);
-      AdventureResult.addResultToList(KoLConstants.tally, remove);
-      AdventureResult.addResultToList(KoLConstants.inventory, remove);
+    AdventureResult insertedGem =
+        lost != null ? ItemPool.get(lostId, -1) : EquipmentRequest.UNEQUIP.getInstance(-1);
+    if (insertedGem != EquipmentRequest.UNEQUIP) {
+      AdventureResult.addResultToList(KoLConstants.tally, insertedGem);
+      AdventureResult.addResultToList(KoLConstants.inventory, insertedGem);
     }
-    EquipmentRequest.switchItem(oldItem, newItem);
 
     // instead of parsing the page, get our updated gems from api.php
     ApiRequest.updateStatus();
