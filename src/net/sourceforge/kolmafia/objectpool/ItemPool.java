@@ -1349,6 +1349,7 @@ public class ItemPool {
   public static final int BITTER_BOWTIE = 4112;
   public static final int BEWITCHING_BOOTS = 4113;
   public static final int SECRET_FROM_THE_FUTURE = 4114;
+  public static final int OLD_SCHOOL_FLYING_DISC = 4119;
   public static final int EMPTY_AGUA_DE_VIDA_BOTTLE = 4130;
   public static final int TEMPURA_AIR = 4133;
   public static final int PRESSURIZED_PNEUMATICITY = 4134;

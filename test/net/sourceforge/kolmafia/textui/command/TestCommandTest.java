@@ -1,10 +1,14 @@
 package net.sourceforge.kolmafia.textui.command;
 
+import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withResponses;
 import static internal.helpers.Player.withStats;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.startsWith;
 
+import internal.network.FakeHttpResponse;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -12,6 +16,10 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.ModifierType;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
@@ -83,6 +91,38 @@ public class TestCommandTest extends AbstractCommandTestBase {
             After Battle: You gain 19 Smarm
             """));
       }
+    }
+  }
+
+  @Test
+  public void oldSchoolFlyingDiscHasDamageReduction() {
+    var cleanups =
+        withResponses(
+            r -> {
+              var path = r.uri().getPath();
+              if (path.startsWith("/desc_item.php")) {
+                return new FakeHttpResponse<>(
+                    html("request/test_desc_item_old_school_flying_disc.html"));
+              }
+              return null;
+            });
+
+    try (cleanups) {
+      String output = execute("newitem 940588617");
+      assertThat(
+          output,
+          containsString(
+              """
+              --------------------
+              4119\told school flying disc\t940588617\tpetfrisbee.gif\toffhand, combat\td\t800
+              old school flying disc\t0\tMus: 200\tshield
+              Item\told school flying disc\tMuscle Percent: +15, Damage Reduction: 24, Familiar Weight: +5
+              --------------------
+              """));
+      assertThat(
+          ModifierDatabase.getNumericModifier(
+              ModifierType.ITEM, ItemPool.OLD_SCHOOL_FLYING_DISC, DoubleModifier.DAMAGE_REDUCTION),
+          equalTo(24.0));
     }
   }
 }
