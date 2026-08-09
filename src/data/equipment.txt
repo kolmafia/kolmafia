@@ -1,4 +1,4 @@
-2
+3
 # Hats section of equipment.txt
 
 4-dimensional fez	50	none
@@ -2244,7 +2244,7 @@ oil lamp	120	Mus: 45
 Ol' Scratch's ash can	200	Mys: 200
 Ol' Scratch's stove door	240	Mus: 200	shield
 old pizza box	100	none	shield
-old school flying disc	220	Mus: 200	shield
+old school flying disc	220	Mus: 200	shield: 14
 Operation Patriot Shield	240	none	shield
 optimal spreadsheet	10	none
 orcish stud-finder	85	Mys: 27

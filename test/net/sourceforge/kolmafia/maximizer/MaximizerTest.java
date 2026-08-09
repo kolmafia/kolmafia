@@ -3298,4 +3298,15 @@ public class MaximizerTest {
       assertThat(getBoosts(), hasItem(recommends(ItemPool.CUSTOM_SIXGUN)));
     }
   }
+
+  @Test
+  void maximizerCountsInnateShieldDamageReduction() {
+    var cleanups = new Cleanups(withEquippableItem(ItemPool.OLD_SCHOOL_FLYING_DISC));
+
+    try (cleanups) {
+      assertTrue(maximize("dr"));
+      assertThat(getBoosts(), hasItem(recommends(ItemPool.OLD_SCHOOL_FLYING_DISC)));
+      assertThat(modFor(DoubleModifier.DAMAGE_REDUCTION), equalTo(24.0));
+    }
+  }
 }

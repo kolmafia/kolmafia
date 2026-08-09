@@ -115,8 +115,8 @@ public class TestCommandTest extends AbstractCommandTestBase {
               """
               --------------------
               4119\told school flying disc\t940588617\tpetfrisbee.gif\toffhand, combat\td\t800
-              old school flying disc\t0\tMus: 200\tshield
-              Item\told school flying disc\tMuscle Percent: +15, Damage Reduction: 24, Familiar Weight: +5
+              old school flying disc\t0\tMus: 200\tshield: 14
+              Item\told school flying disc\tMuscle Percent: +15, Damage Reduction: 10, Familiar Weight: +5
               --------------------
               """));
       assertThat(

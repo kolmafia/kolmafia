@@ -120,8 +120,6 @@ public class ModifierDatabase {
   private static final String MP_REGEN_MAX_TAG = DoubleModifier.MP_REGEN_MAX.getTag() + ": ";
 
   private static final Pattern SKILL_PATTERN = Pattern.compile("Grants Skill:.*?<b>(.*?)</b>");
-  private static final Pattern DR_PATTERN =
-      Pattern.compile("Damage Reduction: (<b>)?([+-]?\\d+)(</b>)?");
   private static final Pattern SINGLE_PATTERN =
       Pattern.compile("You may not equip more than one of these at a time");
   private static final Pattern SOFTCORE_PATTERN =
@@ -459,6 +457,19 @@ public class ModifierDatabase {
       modifiers.override(lookup);
       if (originalType != null) {
         modifiers.setLookup(new Lookup(originalType, key));
+      }
+    }
+
+    if (type == ModifierType.ITEM && key.isInt()) {
+      int shieldDR = EquipmentDatabase.getShieldDamageReduction(key.getIntValue());
+      if (shieldDR > 0) {
+        Modifiers copy = new Modifiers(modifiers);
+        copy.addDouble(
+            DoubleModifier.DAMAGE_REDUCTION,
+            shieldDR,
+            ModifierType.EQUIPMENT_POWER,
+            "shield damage reduction");
+        return copy;
       }
     }
 
@@ -828,21 +839,6 @@ public class ModifierDatabase {
     }
 
     return null;
-  }
-
-  public static final String parseDamageReduction(final String text) {
-    if (!text.contains("Damage Reduction:")) {
-      return null;
-    }
-
-    Matcher matcher = DR_PATTERN.matcher(text);
-    int dr = 0;
-
-    while (matcher.find()) {
-      dr += StringUtilities.parseInt(matcher.group(2));
-    }
-
-    return DoubleModifier.DAMAGE_REDUCTION.getTag() + ": " + dr;
   }
 
   public static final String parseSingleEquip(final String text) {

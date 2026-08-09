@@ -2573,7 +2573,7 @@ Item	oil lamp	Sleaze Damage: +5, Hot Damage: +5
 Item	Ol' Scratch's ash can	Spell Damage Percent: +100, Hot Spell Damage: +30, Class: "Sauceror"
 Item	Ol' Scratch's stove door	Hot Damage: +20, Damage Reduction: 15, Thorns: 1
 Item	old pizza box	Damage Absorption: +50, Damage Reduction: 6, Last Available: "2020-04"
-Item	old school flying disc	Muscle Percent: +15, Damage Reduction: 24, Familiar Weight: +5
+Item	old school flying disc	Muscle Percent: +15, Damage Reduction: 10, Familiar Weight: +5
 Item	Operation Patriot Shield	Experience: +3, Maximum HP: +20, Maximum MP: +20, Softcore Only, Last Available: "2011-07", Variable, Conditional Skill (Equipped): "Throw Shield"
 # * Seal Clubber:
 # * Operation Patriot Shield	HP Regen Min: 10, HP Regen Max: 12, Weapon Damage: +15, Damage Reduction: 1
