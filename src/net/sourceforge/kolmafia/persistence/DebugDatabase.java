@@ -3512,7 +3512,7 @@ public class DebugDatabase {
     }
 
     // Check last updated
-    var lastAvailable = ModifierDatabase.parseLastAvailable(text);
+    var lastAvailable = ModifierDatabase.parseLastAvailableDate(text);
     if (lastAvailable != null) {
       var lookup = new Lookup(ModifierType.FAMILIAR, FamiliarDatabase.getFamiliarName(id));
       var old = ModifierDatabase.getStringModifier(lookup, StringModifier.LAST_AVAILABLE_DATE);
