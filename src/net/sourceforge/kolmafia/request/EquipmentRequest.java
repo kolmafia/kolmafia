@@ -1205,9 +1205,10 @@ public class EquipmentRequest extends PasswordHashRequest {
     String lost = lostMatcher.find() ? lostMatcher.group(1) : null;
     int lostId = ItemDatabase.getItemId(lost);
 
-    AdventureResult insertedGem =
-        lost != null ? ItemPool.get(lostId, -1) : EquipmentRequest.UNEQUIP.getInstance(-1);
+    AdventureResult insertedGem = lost != null ? ItemPool.get(lostId) : EquipmentRequest.UNEQUIP;
+
     if (insertedGem != EquipmentRequest.UNEQUIP) {
+      insertedGem = insertedGem.getInstance(-1);
       AdventureResult.addResultToList(KoLConstants.tally, insertedGem);
       AdventureResult.addResultToList(KoLConstants.inventory, insertedGem);
     }
