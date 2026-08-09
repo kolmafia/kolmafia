@@ -22,7 +22,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import org.junit.jupiter.api.BeforeEach;
@@ -145,40 +145,62 @@ public class EquipmentRequestTest {
   }
 
   @Nested
-  class codpiece {
+  class Codpiece {
     @Test
     public void canParseCodpieceInsert() {
+      // put baconstone in empty slot
+      String text = html("request/test_codpiece_insert.html");
       var cleanups =
-          new Cleanups(withUnequipped(Slot.CODPIECE1), withItem(ItemPool.PERIDOT_OF_PERIL));
+          new Cleanups(withUnequipped(Slot.CODPIECE1), withItem(ItemPool.BACONSTONE, 10));
       try (cleanups) {
-        String text = html("request/test_codpiece_insert.html");
-        EquipmentRequest.parseCodpiece(text);
-        assertThat(InventoryManager.getCount(ItemPool.PERIDOT_OF_PERIL), equalTo(0));
-      }
-    }
+        EquipmentRequest req =
+            new EquipmentRequest(ItemPool.get(ItemPool.BACONSTONE), Slot.CODPIECE1);
+        req.setHasResult(true);
+        req.responseText = text;
+        ChoiceManager.preChoice(req);
+        req.processResponse();
 
-    @Test
-    public void canParseCodpieceRemove() {
-      var cleanups = new Cleanups(withEquipped(Slot.CODPIECE1, ItemPool.PERIDOT_OF_PERIL));
-      try (cleanups) {
-        String text = html("request/test_codpiece_remove.html");
-        EquipmentRequest.parseCodpiece(text);
-        assertThat(InventoryManager.getCount(ItemPool.PERIDOT_OF_PERIL), equalTo(1));
+        assertThat(InventoryManager.getCount(ItemPool.BACONSTONE), equalTo(9));
       }
     }
 
     @Test
     public void canParseCodpieceChange() {
+      // swap in hamethyst for baconstone
+      String text = html("request/test_codpiece_change.html");
       var cleanups =
           new Cleanups(
-              withEquipped(Slot.CODPIECE1, ItemDatabase.getItemId("Massive Gemstone")),
-              withItem(ItemPool.PERIDOT_OF_PERIL));
+              withEquipped(Slot.CODPIECE1, ItemPool.BACONSTONE),
+              withItem(ItemPool.BACONSTONE, 10),
+              withItem(ItemPool.HAMETHYST, 10));
       try (cleanups) {
-        String text = html("request/test_codpiece_change.html");
-        EquipmentRequest.parseCodpiece(text);
-        assertThat(InventoryManager.getCount(ItemPool.PERIDOT_OF_PERIL), equalTo(0));
-        assertThat(
-            InventoryManager.getCount(ItemDatabase.getItemId("Massive Gemstone")), equalTo(1));
+        EquipmentRequest req =
+            new EquipmentRequest(ItemPool.get(ItemPool.HAMETHYST), Slot.CODPIECE1);
+        req.setHasResult(true);
+        req.responseText = text;
+        ChoiceManager.preChoice(req);
+        req.processResponse();
+
+        assertThat(InventoryManager.getCount(ItemPool.BACONSTONE), equalTo(11));
+        assertThat(InventoryManager.getCount(ItemPool.HAMETHYST), equalTo(9));
+      }
+    }
+
+    @Test
+    public void canParseCodpieceRemove() {
+      // clear slot containing hamethyst
+      String text = html("request/test_codpiece_remove.html");
+      var cleanups =
+          new Cleanups(
+              withEquipped(Slot.CODPIECE1, ItemPool.HAMETHYST), withItem(ItemPool.HAMETHYST, 10));
+      try (cleanups) {
+        EquipmentRequest req = new EquipmentRequest(EquipmentRequest.UNEQUIP, Slot.CODPIECE1);
+        req.setHasResult(true);
+        req.responseText = text;
+        ChoiceManager.preChoice(req);
+        req.processResponse();
+
+        assertThat(InventoryManager.getCount(ItemPool.HAMETHYST), equalTo(11));
       }
     }
   }
