@@ -12322,7 +12322,7 @@
 12293	underdraft protection	752798293	undershorts.gif	pants	q	0
 12294	solvent	880652251	solvent.gif	usable	t,d	11	bottles of solvent
 12295	soybean futures	261654233	soybeans.gif	food	t,d	8	soybean futures
-12296	housing bubble	161477292	housebubble.gif	potion, usable	t,d	11
+12296	housing bubble	161477292	housebubble.gif	potion	t,d	11
 12297	Pixie-Swordz	693184026	pixiesword.gif	potion	t,d	5
 12298	financial instrument	179343388	fintrumpet.gif	weapon	q	0
 12299	hedge fund clippers	458108362	hedgeclips2.gif	weapon	q	0
@@ -12334,7 +12334,7 @@
 12305	invisible hand	579883645	blank.gif	potion	t,d	5
 12306	circle of overdraft protection scroll	816707629	protscroll.gif	potion	t,d	5
 12307	mint	816319379	mintleaf2.gif	potion	t,d	5
-12308	savings bondo	733535412	bondo.gif	usable	t,d	55
+12308	savings bondo	733535412	bondo.gif	multiple	t,d	55	bottles of savings bondo
 12309	homeowner's loam	245059498	loam.gif	usable	t,d	4	piles of homeowner's loam
 12310	toxic asset	738497688	asset1.gif	spleen, usable	t,d	2
 12311	intangible asset	843065975	asset2.gif	spleen, usable	t,d	2
