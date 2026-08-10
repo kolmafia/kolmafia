@@ -23,7 +23,8 @@ public class GitUrlRemap implements Listener {
       var lowerKey = key.toLowerCase();
       if (lowerUrl.startsWith(lowerKey)
           && (lowerUrl.length() == lowerKey.length()
-              || lowerUrl.charAt(lowerKey.length()) == '/')) {
+              || lowerUrl.charAt(lowerKey.length()) == '/'
+              || lowerUrl.charAt(lowerKey.length()) == '.')) {
         return entry.getValue() + url.substring(key.length());
       }
     }
