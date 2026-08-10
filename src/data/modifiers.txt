@@ -1171,7 +1171,7 @@ Item	a butt tuba	Sleaze Damage: +15
 Item	accord ion	Hot Damage: [5*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 10
 Item	accordion file	MP Regen Min: [2*(1+skill(Accordion Appreciation))], MP Regen Max: [4*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 10
 Item	Accordion of Jordion	Item Drop: [5*(1+skill(Accordion Appreciation))], Meat Drop: [10*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 14
-Item	accordionoid rocca	Damage Reduction: [10*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 18
+Item	accordionoid rocca	First Hit Damage Reduction: [10*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 18
 Item	acoustic guitarrr	Meat Drop: +8
 Item	adobe adze	Experience (Muscle): [3+3*min(1,effect(Adobe Adze Subscription))], Familiar Weight: [5+5*min(1,effect(Adobe Adze Subscription))], Single Equip, Last Available: "2024-12"
 # aerogel accordion: Only takes up one hand!
@@ -2467,10 +2467,10 @@ Item	iShield	Hot Resistance: +3, Damage Reduction: 10, Moxie Percent: +15
 Item	ivory cue ball	Item Drop: +5
 Item	jar of frostigkraut	Cold Damage: +10, Damage Aura: 1
 # Jarlsberg's pan: +1 Food Conjuration for Jarlsberg
-Item	Jarlsberg's pan	Spell Damage Percent: +50, MP Regen Min: 8, MP Regen Max: 10, Food Drop: +50, Experience (Mysticality): +2, Damage Reduction: 30, Softcore Only: [1-path(Avatar of Jarlsberg)], Free Pull: [path(Avatar of Jarlsberg)], Last Available: "2013-03"
+Item	Jarlsberg's pan	Spell Damage Percent: +50, MP Regen Min: 8, MP Regen Max: 10, Food Drop: +50, Experience (Mysticality): +2, First Hit Damage Reduction: 30, Softcore Only: [1-path(Avatar of Jarlsberg)], Free Pull: [path(Avatar of Jarlsberg)], Last Available: "2013-03"
 # Jarlsberg's pan (Cosmic portal mode): +1 Food Conjuration for Jarlsberg
 # Jarlsberg's pan (Cosmic portal mode): Converts dropped food and booze into Cosmic Calories
-Item	Jarlsberg's pan (Cosmic portal mode)	Spell Damage Percent: +50, MP Regen Min: 8, MP Regen Max: 10, Food Drop: +50, Experience (Mysticality): +2, Damage Reduction: 30, Softcore Only: [1-path(Avatar of Jarlsberg)], Free Pull: [path(Avatar of Jarlsberg)], Last Available: "2013-03"
+Item	Jarlsberg's pan (Cosmic portal mode)	Spell Damage Percent: +50, MP Regen Min: 8, MP Regen Max: 10, Food Drop: +50, Experience (Mysticality): +2, First Hit Damage Reduction: 30, Softcore Only: [1-path(Avatar of Jarlsberg)], Free Pull: [path(Avatar of Jarlsberg)], Last Available: "2013-03"
 Item	jet bennie marble	Spooky Spell Damage: +55
 Item	joybuzzer	Last Available: "2006-04", Conditional Skill (Equipped): "Shake Hands"
 Item	keg shield	Damage Absorption: +50, Mysticality: +5
@@ -2627,12 +2627,12 @@ Item	plush mutated alielf	Muscle Percent: [G], Mysticality Percent: [G], Moxie P
 Item	pocketwatch on a chain	Monster Level: -10, Experience (Mysticality): +1, Last Available: "2009-12"
 Item	polyalloy shield	Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1, Muscle: +10, Last Available: "2007-12"
 # polyester pad: Shieldbutting Always Causes Bad Guys to Stagger
-Item	polyester pad	Damage Reduction: 10, HP Regen Min: 4, HP Regen Max: 8, Last Available: "2015-12"
+Item	polyester pad	First Hit Damage Reduction: 10, HP Regen Min: 4, HP Regen Max: 8, Last Available: "2015-12"
 # pool skimmer: Catches other people's washed-away items
 # porcelain pepper mill: Adds Physical Damage to Saucestorm
 Item	porcelain pepper mill	Spell Critical Percent: +10, Weakens Monster, Last Available: "2015-12"
 Item	Pork 'n' Pork 'n' Pork 'n' Beans	Sleaze Spell Damage: [15*(1+skill(Beanweaver))], Last Available: "2016-02"
-Item	portable dam	Damage Reduction: 100, Last Available: "2018-12"
+Item	portable dam	First Hit Damage Reduction: 100, Last Available: "2018-12"
 Item	portable Othello set	Othello Skill: +10
 Item	pottery shield	Hot Damage: +5, Last Available: "2010-09"
 Item	pretty bouquet	Moxie: +3
@@ -2859,7 +2859,7 @@ Item	zoological sample kit	Lasts Until Rollover, Last Available: "2017-04"
 Item	[spelunking test kit]	Maximum HP: +100, Muscle: +100, Mysticality: +100, Moxie: +100
 Item	&quot;I survived Y2K&quot; T-Shirt	Maximum HP: +2, Maximum MP: +2, Adventures: +2, Experience (Muscle): +2, Experience (Mysticality): +2, Experience (Moxie): +2, Single Equip, Last Available: "2023-06"
 Item	&quot;I Voted!&quot; sticker	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Lasts Until Rollover, Last Available: "2018-11"
-Item	401k gold ring	Damage Reduction: 401, HP Regen Min: 4, HP Regen Max: 11, MP Regen Min: 4, MP Regen Max: 11, Last Available: "2026-08"
+Item	401k gold ring	First Hit Damage Reduction: 401, HP Regen Min: 4, HP Regen Max: 11, MP Regen Min: 4, MP Regen Max: 11, Last Available: "2026-08"
 Item	acid-squirting flower	Single Equip, Thorns: 1
 # actual reality goggles: Reveals peoples' true nature
 Item	actual reality goggles	Single Equip, Free Pull, Last Available: "2012-12"
@@ -3894,7 +3894,7 @@ Item	The One Mood Ring	Muscle Percent: [5*G], Mysticality Percent: [5*G], Moxie 
 Item	The Ring	Muscle: +3, Mysticality: +3, Moxie: +3, Spooky Damage: +40, Single Equip
 # The Superconductor's CPU: (based on Crimbo 22 Elf Gratitude)
 Item	The Superconductor's CPU	Maximum HP: [floor(sqrt(pref(elfGratitude)))], Maximum MP: [floor(sqrt(pref(elfGratitude)))], Single Equip, Last Available: "2022-12"
-Item	thicksilver ring	Damage Absorption: +30, Damage Reduction: 60, Single Equip, Last Available: "2016-02"
+Item	thicksilver ring	First Hit Damage Reduction: 50, Damage Absorption: +30, Damage Reduction: 10, Single Equip, Last Available: "2016-02"
 Item	third ear	Initiative: +50, Single Equip, Last Available: "2021-12"
 Item	ticksilver ring	Adventures: +6, PvP Fights: +4, Single Equip, Last Available: "2016-02"
 Item	tie-dyed fannypack	Spooky Damage: +2, Stench Damage: +2, Hot Damage: +2, Cold Damage: +2, Sleaze Damage: +2, Item Drop: +10, Single Equip, Last Available: "2016-08"
