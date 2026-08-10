@@ -45,6 +45,11 @@ public class CheckDataCommand extends AbstractCommand {
         RequestLogger.printLine("Data tables updated.");
         return;
       }
+      case "checkambiguous" -> {
+        DebugDatabase.checkForAmbiguous();
+        RequestLogger.printLine("Ambiguous names looked for.");
+        return;
+      }
       case "checkcandy" -> {
         String candy = parameters.trim();
         if (candy.isEmpty()) {
@@ -201,11 +206,6 @@ public class CheckDataCommand extends AbstractCommand {
       case "checkwikimonsters" -> {
         DebugDatabase.checkWikiMonsters();
         RequestLogger.printLine("Wiki monsters checked.");
-        return;
-      }
-      case "checkambiguous" -> {
-        DebugDatabase.checkForAmbiguous();
-        RequestLogger.printLine("Ambigiuous names looked for.");
         return;
       }
       case "checkzapgroups" -> {

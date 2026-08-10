@@ -4245,6 +4245,7 @@ public class DebugDatabase {
 
   public static void checkForAmbiguous() {
     // Get list of things from DatabaseFrame to keep this aligned with Encyclopedia
+    boolean suppressSameType = true;
     HashMap<String, WikiType> lazySet = new HashMap<>();
     for (var thing : DatabaseFrame.allItems) {
       String check = getNameFromData(thing.getValue());
@@ -4259,7 +4260,7 @@ public class DebugDatabase {
     for (var thing : DatabaseFrame.allEffects) {
       var check = getNameFromData(thing.getValue());
       if (lazySet.containsKey(check)) {
-        var oldType = lazySet.get(check);
+        WikiType oldType = lazySet.get(check);
         String message = ambgMsg("Effect", check, oldType.name());
         RequestLogger.printLine(message);
       } else {
@@ -4269,7 +4270,7 @@ public class DebugDatabase {
     for (var thing : DatabaseFrame.allSkills) {
       var check = getNameFromData(thing.getValue());
       if (lazySet.containsKey(check)) {
-        var oldType = lazySet.get(check);
+        WikiType oldType = lazySet.get(check);
         String message = ambgMsg("Skill", check, oldType.name());
         RequestLogger.printLine(message);
       } else {
@@ -4279,7 +4280,7 @@ public class DebugDatabase {
     for (var thing : DatabaseFrame.allFamiliars) {
       var check = getNameFromData(thing.getValue());
       if (lazySet.containsKey(check)) {
-        var oldType = lazySet.get(check);
+        WikiType oldType = lazySet.get(check);
         String message = ambgMsg("Familiar", check, oldType.name());
         RequestLogger.printLine(message);
       } else {
@@ -4289,7 +4290,7 @@ public class DebugDatabase {
     for (var thing : DatabaseFrame.allOutfits) {
       var check = getNameFromData(thing.getValue());
       if (lazySet.containsKey(check)) {
-        var oldType = lazySet.get(check);
+        WikiType oldType = lazySet.get(check);
         String message = ambgMsg("Outfit", check, oldType.name());
         RequestLogger.printLine(message);
       } else {
@@ -4299,7 +4300,7 @@ public class DebugDatabase {
     for (var thing : DatabaseFrame.allMonsters) {
       var check = getNameFromData(thing);
       if (lazySet.containsKey(check)) {
-        var oldType = lazySet.get(check);
+        WikiType oldType = lazySet.get(check);
         String message = ambgMsg("Monster", check, oldType.name());
         RequestLogger.printLine(message);
       } else {
@@ -4309,6 +4310,11 @@ public class DebugDatabase {
   }
 
   private static String getNameFromData(Object thing) {
+    String retVal = getNameFromDataObject(thing);
+    return retVal.trim().toLowerCase();
+  }
+
+  private static String getNameFromDataObject(Object thing) {
     if (thing instanceof ItemDatabase.ItemData) {
       return ((ItemDatabase.ItemData) thing).name();
     } else {
