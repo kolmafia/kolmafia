@@ -438,7 +438,9 @@ public class ModifierDatabase {
       String modifierString = getModifierString(new Lookup(type, key));
 
       if (modifierString == null) {
-        return null;
+        // Items with no modifiers.txt entry can still have innate shield
+        // Damage Reduction derived from their equipment power.
+        return shieldDamageReduction(type, key, null);
       }
 
       modifiers = parseModifiers(lookup, modifierString);
@@ -460,6 +462,12 @@ public class ModifierDatabase {
       }
     }
 
+    return shieldDamageReduction(type, key, modifiers);
+  }
+
+  /** Adds the innate shield Damage Reduction derived from equipment power, if any. */
+  private static Modifiers shieldDamageReduction(
+      final ModifierType type, final IntOrString key, final Modifiers modifiers) {
     if (type == ModifierType.ITEM && key.isInt()) {
       int shieldDR = EquipmentDatabase.getShieldDamageReduction(key.getIntValue());
       if (shieldDR > 0) {
@@ -472,7 +480,6 @@ public class ModifierDatabase {
         return copy;
       }
     }
-
     return modifiers;
   }
 
@@ -1798,5 +1805,18 @@ public class ModifierDatabase {
     computeSynergies();
     computeMutexes();
     computeReplaceableEffectMutexes();
+  }
+
+  /**
+   * Reset modifiers and re-read the base data from modifiers.txt.
+   *
+   * <p>TCRS files may contain lines for items that have no entry in modifiers.txt (such as shields
+   * whose damage reduction is derived from equipment power). Overriding those items adds their TCRS
+   * enchantments to modifierStringsByName, where they would otherwise persist for the rest of the
+   * session. This discards them so that only the enchantments in modifiers.txt remain.
+   */
+  public static void resetKnownModifiers() {
+    modifierStringsByName.clear();
+    resetModifiers();
   }
 }

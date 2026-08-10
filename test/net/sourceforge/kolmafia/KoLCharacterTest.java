@@ -818,5 +818,15 @@ public class KoLCharacterTest {
             KoLCharacter.currentNumericModifier(DoubleModifier.DAMAGE_REDUCTION), equalTo(24.0));
       }
     }
+
+    @Test
+    void shieldWithOnlyInnateDamageReductionIsTotal() {
+      var cleanups = new Cleanups(withEquipped(Slot.OFFHAND, ItemPool.ASTRAL_SHIELD));
+
+      try (cleanups) {
+        assertThat(
+            KoLCharacter.currentNumericModifier(DoubleModifier.DAMAGE_REDUCTION), equalTo(15.0));
+      }
+    }
   }
 }

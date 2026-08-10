@@ -3300,8 +3300,13 @@ public class MaximizerTest {
   }
 
   @Test
-  void maximizerCountsInnateShieldDamageReduction() {
-    var cleanups = new Cleanups(withEquippableItem(ItemPool.OLD_SCHOOL_FLYING_DISC));
+  void maximizerCountsInnateShieldDamageReductionAndEnchant() {
+    var cleanups =
+        new Cleanups(
+            withEquippableItem(ItemPool.OLD_SCHOOL_FLYING_DISC), // base 14, 10 enchant
+            withEquippableItem(ItemPool.ASTRAL_SHIELD), // higher base: 15
+            withEquippableItem(ItemPool.FURRY_YAM_BUCKLER) // higher enchant: 11
+            );
 
     try (cleanups) {
       assertTrue(maximize("dr"));

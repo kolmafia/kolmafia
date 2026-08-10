@@ -1685,6 +1685,7 @@ public class ItemPool {
   public static final int WASABI_POTION = 5019;
   public static final int TOBIKO_POTION = 5020;
   public static final int NATTO_POTION = 5021;
+  public static final int ASTRAL_SHIELD = 5029;
   public static final int PET_SWEATER = 5040;
   public static final int ASTRAL_SHIRT = 5041;
   public static final int ASTRAL_HOT_DOG = 5043;
@@ -3909,6 +3910,7 @@ public class ItemPool {
   public static final int MAYAM_CALENDAR = 11572;
   public static final int YAM_BATTERY = 11582;
   public static final int STUFFED_YAM_STINKBOMB = 11583;
+  public static final int FURRY_YAM_BUCKLER = 11584;
   public static final int YAMTILITY_BELT = 11586;
   public static final int MINI_KIWI = 11594;
   public static final int MINI_KIWI_AIOLI = 11598;
@@ -3999,6 +4001,7 @@ public class ItemPool {
   public static final int WET_BLANKET = 11891;
   public static final int PERIDOT_OF_PERIL = 11905;
   public static final int PRISMATIC_BERET = 11919;
+  public static final int FLAK_SHIELD = 11920;
   public static final int ALLIED_RADIO_BACKPACK = 11933;
   public static final int MOBIUS_RING = 11942;
   public static final int HANDHELD_ALLIED_RADIO = 11946;
