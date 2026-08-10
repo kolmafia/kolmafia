@@ -1663,9 +1663,9 @@ Item	leechknife	Maximum HP: +10, Maximum MP: +5, HP Regen Min: 4, HP Regen Max: 
 # legendary pasta wand: Summon Legendary Noodles
 # legendary pasta wand: Cook up to 5 items per day without using an Adventure
 # legendary pasta wand: Pasta Thralls Go Up to 11 (Pastamancer Only)
-Item	legendary pasta wand	Spooky Damage: +5, Stench Damage: +5, Hot Damage: +5, Cold Damage: +5, Sleaze Damage: +5, Spell Damage: +10, Spell Damage Percent: +50, Spell Critical Percent: +15, Single Equip, Last Available: "2026-05", Pasta Thrall Experience: 1
+Item	legendary pasta wand	Spooky Damage: +5, Stench Damage: +5, Hot Damage: +5, Cold Damage: +5, Sleaze Damage: +5, Spell Damage: +10, Spell Damage Percent: +50, Spell Critical Percent: +15, Single Equip, Last Available: "2026-05", Pasta Thrall Experience: 1, Display Name: "<span style='padding: 2px; color: #ff8000; background-color: black;'>legendary pasta wand</span>"
 # legendary seal-clubbing club: Increase Fury Capacity and Generation (Seal Clubbers Only)
-Item	legendary seal-clubbing club	Muscle Percent: +50, Weapon Damage: [10*L], Initiative: +50, Attacks Can't Miss, Last Available: "2026-01", Conditional Skill (Equipped): "Club 'Em Across the Battlefield", Conditional Skill (Equipped): "Club 'Em Into Next Week", Conditional Skill (Equipped): "Club 'Em Back in Time"
+Item	legendary seal-clubbing club	Muscle Percent: +50, Weapon Damage: [10*L], Initiative: +50, Attacks Can't Miss, Last Available: "2026-01", Conditional Skill (Equipped): "Club 'Em Across the Battlefield", Conditional Skill (Equipped): "Club 'Em Into Next Week", Conditional Skill (Equipped): "Club 'Em Back in Time", Display Name: "<span style='padding: 2px; color: #ff8000; background-color: black;'>legendary seal-clubbing club</span>"
 # licorice whip: Candiful Crits
 Item	licorice whip	Critical Hit Percent: +5, Last Available: "2014-12"
 Item	lightning rod	Spell Damage Percent: +200, Maximum MP: +50, MP Regen Min: 5, MP Regen Max: 10, Lasts Until Rollover
@@ -3945,7 +3945,7 @@ Item	tiny plastic 7-foot dwarf	Monster Level: +1
 Item	tiny plastic 11 Dealer	Meat Drop: +4, Last Available: "2009-12"
 Item	tiny plastic abominable fudgeman	Weapon Damage: +10, Last Available: "2011-12"
 Item	tiny plastic Abuela Crimbo	Spooky Resistance: +1, Last Available: "2018-12"
-Item	tiny plastic Abuela's cottage	Muscle: +3, Mysticality: +3, Moxie: +3
+Item	tiny plastic Abuela's cottage	Muscle: +3, Mysticality: +3, Moxie: +3, Display Name: "tiny plastic Abuela's Cottage (Pirate Control)"
 Item	tiny plastic accordion thief	Moxie: +2, Mysticality: +1
 Item	tiny plastic ambulatory robo-minecart	Moxie: +1, Last Available: "2014-12"
 Item	tiny plastic Ancient Unspeakable Bugbear	Monster Level: +1, Last Available: "2012-12"
@@ -3957,12 +3957,12 @@ Item	tiny plastic angry vikings	Weapon Damage: +10, Last Available: "2016-12"
 Item	tiny plastic anime smiley	Monster Level: +1
 Item	tiny plastic animelf	Initiative: +5, Last Available: "2012-12"
 Item	tiny plastic apathetic lizardman	Monster Level: +1
-Item	tiny plastic Armory	Weapon Damage: +3
+Item	tiny plastic Armory	Weapon Damage: +3, Display Name: "tiny plastic Elf Guard Armory"
 Item	tiny plastic astronomer	Monster Level: +1
 Item	tiny plastic Axe Wound	Monster Level: +1
 Item	tiny plastic baby gravy fairy	Familiar Weight: +1
 Item	tiny plastic bad vibe	Monster Level: +2, Last Available: "2016-12"
-Item	tiny plastic Bar	Booze Drop: +3
+Item	tiny plastic Bar	Booze Drop: +3, Display Name: "tiny plastic Crimbuccaneer Grog Hall"
 Item	tiny plastic Baron von Ratsworth	Meat Drop: +3
 Item	tiny plastic barrrnacle	Familiar Weight: +1
 Item	tiny plastic batbugbear	Monster Level: +1, Last Available: "2012-12"
@@ -3991,7 +3991,7 @@ Item	tiny plastic Bugbear Captain	Maximum HP: +20, Maximum MP: +20, HP Regen Min
 Item	tiny plastic buzzerker	Monster Level: +1, Last Available: "2012-12"
 Item	tiny plastic caboose	Last Available: "2022-12", Damage Reduction: 3
 Item	tiny plastic Caf&eacute; Elf	Hot Resistance: +1, Last Available: "2018-12"
-Item	tiny plastic Cafe	Food Drop: +3
+Item	tiny plastic Cafe	Food Drop: +3, Display Name: "tiny plastic Elf Guard Mess Hall"
 Item	tiny plastic Captain Kerkard	Monster Level: +1
 Item	tiny plastic cavebugbear	Monster Level: +1, Last Available: "2012-12"
 Item	tiny plastic Charity the Zombie Hunter	Monster Level: +1, Last Available: "2012-12"
@@ -4033,7 +4033,7 @@ Item	tiny plastic Duke Starkiller	Monster Level: +1
 Item	tiny plastic Easter Island Bunny	Damage Reduction: 3, Last Available: "2024-12"
 Item	tiny plastic Ed the Undying	Maximum HP: +30, Damage Absorption: +30
 Item	tiny plastic exo-suited miner	Muscle: +1, Last Available: "2014-12"
-Item	tiny plastic Factory	Initiative: +3
+Item	tiny plastic Factory	Initiative: +3, Display Name: "tiny Crimbuccaneer Foundry"
 Item	tiny plastic fat stack of cash	Meat Drop: +3, Last Available: "2008-12"
 Item	tiny plastic Father McGruber	Monster Level: +1, Last Available: "2012-12"
 Item	tiny plastic fax machine	Spooky Damage: +2, Stench Damage: +2, Hot Damage: +2, Cold Damage: +2, Sleaze Damage: +2, Last Available: "2010-12"
@@ -4907,6 +4907,7 @@ Familiar	Crimbo Elf	Last Available: "2004-12"
 Familiar	Crimbo P. R. E. S. S. I. E.	Last Available: "2007-12", Volleyball: 1
 Familiar	Crimbo Shrub	Familiar Tuning (Muscle): [75*pref(shrubTopper,Muscle)], Familiar Tuning (Mysticality): [75*pref(shrubTopper,Mysticality)], Familiar Tuning (Moxie): [75*pref(shrubTopper,Moxie)], Last Available: "2014-12"
 Familiar	Cute Meteor	Initiative: [2*W], Last Available: "2017-08"
+Familiar	Cute Skeletal Dinosaur	Last Available: "2026-03"
 Familiar	Cycloney	Last Available: "2018-03"
 Familiar	Cymbal-Playing Monkey	Last Available: "2006-10"
 Familiar	Dancing Frog	Last Available: "2010-10"
@@ -4922,6 +4923,7 @@ Familiar	Elf Operative	Last Available: "2019-12"
 Familiar	Emberiza Aureola	Last Available: "2024-09"
 Familiar	Emo Squid	Last Available: "2005-04"
 Familiar	Evil Teddy Bear	Last Available: "2006-12"
+Familiar	Evolving Organism	Last Available: "2024-07"
 Familiar	Exotic Parrot	Hot Resistance: [floor((W+19)/20)], Cold Resistance: [floor((W+15)/20)], Spooky Resistance: [floor((W+11)/20)], Stench Resistance: [floor((W+7)/20)], Sleaze Resistance: [floor((W+3)/20)]
 Familiar	Fancypants Scarecrow	Last Available: "2011-11"
 Familiar	Faux	Last Available: "2018-03"
@@ -5013,6 +5015,7 @@ Familiar	Peaclock	Last Available: "2018-03"
 Familiar	Penguin Goodfella	Last Available: "2007-04"
 Familiar	Peppermint Rhino	Last Available: "2011-11"
 Familiar	Personal Raincloud	Last Available: "2005-04"
+Familiar	Pet Anchor	Last Available: "2023-12"
 Familiar	Pet Coral	Last Available: "2019-07"
 Familiar	Pet Rock	Last Available: "2006-12"
 Familiar	Piano Cat	Last Available: "2011-12"
@@ -5063,6 +5066,7 @@ Familiar	Straypler	Last Available: "2018-03"
 Familiar	Sugar Fruit Fairy	Last Available: "2008-12"
 Familiar	Sweet Nutcracker	Last Available: "2005-12"
 Familiar	Sword of S Words	Weapon Damage: [swordofswords], Muscle: [ceil(swordofswords/2)], Mysticality: [ceil(swordofswords/2)], Moxie: [ceil(swordofswords/2)], Last Available: "2026-06"
+Familiar	Synthetic Rock	Last Available: "2021-12"
 Familiar	Teddy Bear	Last Available: "2005-12"
 Familiar	Teddy Borg	Last Available: "2007-12"
 Familiar	Temporal Riftlet	Last Available: "2005-11"
