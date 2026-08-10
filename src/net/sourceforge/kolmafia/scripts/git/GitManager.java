@@ -59,6 +59,8 @@ public class GitManager extends ScriptManager {
   }
 
   public static boolean clone(String repoUrl, String branch) {
+    String originalUrl = repoUrl;
+    repoUrl = GitUrlRemap.remapUrl(repoUrl);
     String id = getRepoId(repoUrl, branch);
     Path projectPath = KoLConstants.GIT_LOCATION.toPath().resolve(id);
     if (Files.exists(projectPath)) {
@@ -66,6 +68,9 @@ public class GitManager extends ScriptManager {
           MafiaState.ERROR,
           "Cannot clone project to " + id + ", folder already exists. Please delete to checkout.");
       return false;
+    }
+    if (!originalUrl.equals(repoUrl)) {
+      RequestLogger.printLine("Remapped " + originalUrl + " => " + repoUrl);
     }
     var git =
         Git.cloneRepository()
@@ -586,6 +591,7 @@ public class GitManager extends ScriptManager {
   }
 
   public static String getRepoId(String repoUrl, String branch) {
+    repoUrl = GitUrlRemap.remapUrl(repoUrl);
     String dashBranch = branch == null ? "" : "-" + branch;
     if (repoUrl.endsWith(".git")) {
       repoUrl = repoUrl.substring(0, repoUrl.length() - 4);
