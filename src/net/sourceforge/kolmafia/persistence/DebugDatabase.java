@@ -4243,9 +4243,21 @@ public class DebugDatabase {
     }
   }
 
+  public static void doAType(Map<String, WikiType> lazySet, WikiType thisType) {
+
+    for (var thing : DatabaseFrame.allItems) {
+      String check = getNameFromData(thing.getValue());
+      if (lazySet.containsKey(check)) {
+        WikiType oldType = lazySet.get(check);
+        String message = ambgMsg(thisType.name(), check, oldType.name());
+        RequestLogger.printLine(message);
+      } else {
+        lazySet.put(check, thisType);
+      }
+    }
+  }
   public static void checkForAmbiguous() {
     // Get list of things from DatabaseFrame to keep this aligned with Encyclopedia
-    boolean suppressSameType = true;
     HashMap<String, WikiType> lazySet = new HashMap<>();
     for (var thing : DatabaseFrame.allItems) {
       String check = getNameFromData(thing.getValue());
