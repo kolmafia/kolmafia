@@ -471,7 +471,8 @@ public class ModifierDatabase {
     if (type == ModifierType.ITEM && key.isInt()) {
       int shieldDR = EquipmentDatabase.getShieldDamageReduction(key.getIntValue());
       if (shieldDR > 0) {
-        Modifiers copy = new Modifiers(modifiers);
+        Modifiers copy =
+            modifiers == null ? new Modifiers(new Lookup(type, key)) : new Modifiers(modifiers);
         copy.addDouble(
             DoubleModifier.DAMAGE_REDUCTION,
             shieldDR,

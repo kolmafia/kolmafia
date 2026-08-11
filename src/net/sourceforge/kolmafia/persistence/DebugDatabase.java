@@ -77,6 +77,7 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.CharacterEntities;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.HttpUtilities;
+import net.sourceforge.kolmafia.utilities.IntOrString;
 import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.utilities.WikiUtilities;
@@ -944,7 +945,8 @@ public class DebugDatabase {
       }
     }
 
-    int shieldDamageReduction = isShield ? DebugDatabase.parseShieldDamageReduction(text) : 0;
+    IntOrString shieldDamageReduction =
+        isShield ? DebugDatabase.parseShieldDamageReduction(text) : new IntOrString(0);
     EquipmentDatabase.writeEquipmentItem(
         report, name, power, req, weaponType, isWeapon, isShield, shieldDamageReduction);
   }
@@ -1006,9 +1008,18 @@ public class DebugDatabase {
   private static final Pattern SHIELD_DR_PATTERN =
       Pattern.compile("Damage Reduction: <b>([+-]?\\d+)</b>");
 
-  public static int parseShieldDamageReduction(final String text) {
-    Matcher matcher = DebugDatabase.SHIELD_DR_PATTERN.matcher(text);
-    return matcher.find() ? StringUtilities.parseInt(matcher.group(1)) : 0;
+  private static final Pattern SHIELD_LEVEL_DR_PATTERN =
+      Pattern.compile("Damage Reduction: <b>1 per level</b>");
+
+  public static IntOrString parseShieldDamageReduction(final String text) {
+    Matcher matcher = DebugDatabase.SHIELD_LEVEL_DR_PATTERN.matcher(text);
+    if (matcher.find()) {
+      return new IntOrString("[L]");
+    }
+    matcher = DebugDatabase.SHIELD_DR_PATTERN.matcher(text);
+    return matcher.find()
+        ? new IntOrString(StringUtilities.parseInt(matcher.group(1)))
+        : new IntOrString(0);
   }
 
   private static final Pattern FULLNESS_PATTERN = Pattern.compile("Size: <b>(\\d+)</b>");

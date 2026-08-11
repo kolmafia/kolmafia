@@ -2245,7 +2245,7 @@ Ol' Scratch's ash can	200	Mys: 200
 Ol' Scratch's stove door	240	Mus: 200	shield: 15
 old pizza box	100	none	shield: 6
 old school flying disc	220	Mus: 200	shield: 14
-Operation Patriot Shield	240	none	shield
+Operation Patriot Shield	240	none	shield: [L]
 optimal spreadsheet	10	none
 orcish stud-finder	85	Mys: 27
 ornate dowsing rod	10	none
@@ -2267,7 +2267,7 @@ penguin skin buckler	90	Mus: 30	shield: 5
 penguin thesaurus	30	none
 petrified wood water purifier	120	Mys: 40
 photo booth supply list	10	none
-pilgrim shield	240	none	shield
+pilgrim shield	240	none	shield: [L]
 pirate hook	30	none
 pixel grappling hook	200	Mox: 200
 pixel shield	50	Mus: 10	shield: 3
@@ -2309,7 +2309,7 @@ red wagon	200	Mys: 200
 Red X Shield	180	Mus: 70	shield: 11
 replica august scepter	0	none
 replica Kramco Sausage-o-Matic&trade;	100	none
-replica Operation Patriot Shield	240	none	shield
+replica Operation Patriot Shield	240	none	shield: [L]
 reusable shopping bag	10	none
 rice bowl	30	none
 [8042]rock	0	none
