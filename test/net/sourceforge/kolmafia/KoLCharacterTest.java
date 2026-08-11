@@ -806,4 +806,27 @@ public class KoLCharacterTest {
       }
     }
   }
+
+  @Nested
+  class DamageReduction {
+    @Test
+    void shieldInnateDamageReductionAddsToTotal() {
+      var cleanups = new Cleanups(withEquipped(Slot.OFFHAND, ItemPool.OLD_SCHOOL_FLYING_DISC));
+
+      try (cleanups) {
+        assertThat(
+            KoLCharacter.currentNumericModifier(DoubleModifier.DAMAGE_REDUCTION), equalTo(24.0));
+      }
+    }
+
+    @Test
+    void shieldWithOnlyInnateDamageReductionIsTotal() {
+      var cleanups = new Cleanups(withEquipped(Slot.OFFHAND, ItemPool.ASTRAL_SHIELD));
+
+      try (cleanups) {
+        assertThat(
+            KoLCharacter.currentNumericModifier(DoubleModifier.DAMAGE_REDUCTION), equalTo(15.0));
+      }
+    }
+  }
 }

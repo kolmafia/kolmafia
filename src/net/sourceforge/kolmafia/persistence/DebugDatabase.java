@@ -944,7 +944,9 @@ public class DebugDatabase {
       }
     }
 
-    EquipmentDatabase.writeEquipmentItem(report, name, power, req, weaponType, isWeapon, isShield);
+    int shieldDamageReduction = isShield ? DebugDatabase.parseShieldDamageReduction(text) : 0;
+    EquipmentDatabase.writeEquipmentItem(
+        report, name, power, req, weaponType, isWeapon, isShield, shieldDamageReduction);
   }
 
   private static final Pattern POWER_PATTERN = Pattern.compile("Power: <b>(\\d+)</b>");
@@ -999,6 +1001,14 @@ public class DebugDatabase {
     }
 
     return "none";
+  }
+
+  private static final Pattern SHIELD_DR_PATTERN =
+      Pattern.compile("Damage Reduction: <b>([+-]?\\d+)</b>");
+
+  public static int parseShieldDamageReduction(final String text) {
+    Matcher matcher = DebugDatabase.SHIELD_DR_PATTERN.matcher(text);
+    return matcher.find() ? StringUtilities.parseInt(matcher.group(1)) : 0;
   }
 
   private static final Pattern FULLNESS_PATTERN = Pattern.compile("Size: <b>(\\d+)</b>");
@@ -1280,14 +1290,6 @@ public class DebugDatabase {
 
     // Several modifiers can appear outside the "Enchantments"
     // section of the item description.
-
-    // If we extracted Damage Reduction from the enchantments, we
-    // included shield DR as well, but for shields that have no
-    // enchantments, get DR here.
-    if (!known.containsModifier("Damage Reduction")) {
-      DebugDatabase.appendModifier(known, ModifierDatabase.parseDamageReduction(text));
-    }
-
     DebugDatabase.appendModifier(known, ModifierDatabase.parseSkill(text));
     DebugDatabase.appendModifier(known, ModifierDatabase.parseSingleEquip(text));
     DebugDatabase.appendModifier(known, ModifierDatabase.parseSoftcoreOnly(text));
@@ -1517,11 +1519,7 @@ public class DebugDatabase {
           }
         }
 
-        // Damage Reduction can appear in several
-        // places. Combine them all.
-        else if (mod.startsWith("Damage Reduction")) {
-          mod = ModifierDatabase.parseDamageReduction(text);
-        } else if (mod.equals("Class: \"December\"")) {
+        if (mod.equals("Class: \"December\"")) {
           decemberEvent = true;
           continue;
         }
