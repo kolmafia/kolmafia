@@ -1916,7 +1916,7 @@ public class TCRSDatabase {
 
     TCRSDatabase.reset();
 
-    ModifierDatabase.resetModifiers();
+    ModifierDatabase.resetKnownModifiers();
     EffectDatabase.reset();
     ConsumablesDatabase.reset();
 

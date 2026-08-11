@@ -120,8 +120,6 @@ public class ModifierDatabase {
   private static final String MP_REGEN_MAX_TAG = DoubleModifier.MP_REGEN_MAX.getTag() + ": ";
 
   private static final Pattern SKILL_PATTERN = Pattern.compile("Grants Skill:.*?<b>(.*?)</b>");
-  private static final Pattern DR_PATTERN =
-      Pattern.compile("Damage Reduction: (<b>)?([+-]?\\d+)(</b>)?");
   private static final Pattern SINGLE_PATTERN =
       Pattern.compile("You may not equip more than one of these at a time");
   private static final Pattern SOFTCORE_PATTERN =
@@ -440,7 +438,9 @@ public class ModifierDatabase {
       String modifierString = getModifierString(new Lookup(type, key));
 
       if (modifierString == null) {
-        return null;
+        // Items with no modifiers.txt entry can still have innate shield
+        // Damage Reduction derived from their equipment power.
+        return shieldDamageReduction(type, key, null);
       }
 
       modifiers = parseModifiers(lookup, modifierString);
@@ -462,6 +462,24 @@ public class ModifierDatabase {
       }
     }
 
+    return shieldDamageReduction(type, key, modifiers);
+  }
+
+  /** Adds the innate shield Damage Reduction derived from equipment power, if any. */
+  private static Modifiers shieldDamageReduction(
+      final ModifierType type, final IntOrString key, final Modifiers modifiers) {
+    if (type == ModifierType.ITEM && key.isInt()) {
+      int shieldDR = EquipmentDatabase.getShieldDamageReduction(key.getIntValue());
+      if (shieldDR > 0) {
+        Modifiers copy = new Modifiers(modifiers);
+        copy.addDouble(
+            DoubleModifier.DAMAGE_REDUCTION,
+            shieldDR,
+            ModifierType.EQUIPMENT_POWER,
+            "shield damage reduction");
+        return copy;
+      }
+    }
     return modifiers;
   }
 
@@ -832,21 +850,6 @@ public class ModifierDatabase {
     return null;
   }
 
-  public static final String parseDamageReduction(final String text) {
-    if (!text.contains("Damage Reduction:")) {
-      return null;
-    }
-
-    Matcher matcher = DR_PATTERN.matcher(text);
-    int dr = 0;
-
-    while (matcher.find()) {
-      dr += StringUtilities.parseInt(matcher.group(2));
-    }
-
-    return DoubleModifier.DAMAGE_REDUCTION.getTag() + ": " + dr;
-  }
-
   public static final String parseSingleEquip(final String text) {
     Matcher matcher = SINGLE_PATTERN.matcher(text);
     if (matcher.find()) {
@@ -945,10 +948,17 @@ public class ModifierDatabase {
       Pattern.compile("<![-—]+ Last Available Date: (\\d{4}-\\d{2}) [-—]+>");
 
   public static String parseLastAvailable(final String text) {
+    var date = parseLastAvailableDate(text);
+    if (date == null) return null;
+
+    return StringModifier.LAST_AVAILABLE_DATE.getTag() + ": \"" + date + "\"";
+  }
+
+  public static String parseLastAvailableDate(final String text) {
     var matcher = LAST_AVAILABLE_PATTERN.matcher(text);
     if (!matcher.find()) return null;
 
-    return StringModifier.LAST_AVAILABLE_DATE.getTag() + ": \"" + matcher.group(1) + "\"";
+    return matcher.group(1);
   }
 
   public static final String parseModifier(final String enchantment) {
@@ -1797,5 +1807,18 @@ public class ModifierDatabase {
     computeSynergies();
     computeMutexes();
     computeReplaceableEffectMutexes();
+  }
+
+  /**
+   * Reset modifiers and re-read the base data from modifiers.txt.
+   *
+   * <p>TCRS files may contain lines for items that have no entry in modifiers.txt (such as shields
+   * whose damage reduction is derived from equipment power). Overriding those items adds their TCRS
+   * enchantments to modifierStringsByName, where they would otherwise persist for the rest of the
+   * session. This discards them so that only the enchantments in modifiers.txt remain.
+   */
+  public static void resetKnownModifiers() {
+    modifierStringsByName.clear();
+    resetModifiers();
   }
 }
