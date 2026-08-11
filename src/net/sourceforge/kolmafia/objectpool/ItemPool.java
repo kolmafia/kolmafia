@@ -266,6 +266,7 @@ public class ItemPool {
   public static final int DISTURBING_FANFIC = 632;
   public static final int MEAT_GLOBE = 636;
   public static final int TOASTER = 637;
+  public static final int ASSHAT = 638;
   public static final int TOAST = 641;
   public static final int SKELETON_KEY = 642;
   public static final int SKELETON_KEY_RING = 643;

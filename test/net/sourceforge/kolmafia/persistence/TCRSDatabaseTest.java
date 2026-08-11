@@ -158,6 +158,19 @@ class TCRSDatabaseTest {
   }
 
   @Test
+  public void enchantCountCorrect() {
+    var cleanups =
+        new Cleanups(
+            withPath(Path.CRAZY_RANDOM_SUMMER_TWO),
+            withClass(AscensionClass.SEAL_CLUBBER),
+            withSign(ZodiacSign.MONGOOSE));
+    try (cleanups) {
+      TCRSDatabase.loadTCRSData();
+      assertThat(TCRSDatabase.enchantCount(ItemPool.ASSHAT), equalTo(2));
+    }
+  }
+
+  @Test
   void guessAll() throws java.io.IOException {
     // The full sweep produces a lot of mismatches while the branch is a work in progress, so stream
     // them to a file rather than holding them all in memory (which otherwise exhausts the heap).
