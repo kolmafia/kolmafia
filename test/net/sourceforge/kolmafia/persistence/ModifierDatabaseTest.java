@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.persistence;
 
+import static internal.helpers.Player.withLevel;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
@@ -133,6 +134,26 @@ public class ModifierDatabaseTest {
           ModifierDatabase.getNumericModifier(
               ModifierType.ITEM, ItemPool.FLAK_SHIELD, DoubleModifier.DAMAGE_REDUCTION),
           equalTo(9.0));
+    }
+
+    @Test
+    void levelBasedShieldsHaveDamageReductionEqualToLevel() {
+      try (var cleanups = withLevel(13)) {
+        assertThat(
+            ModifierDatabase.getNumericModifier(
+                ModifierType.ITEM, ItemPool.PILGRIM_SHIELD, DoubleModifier.DAMAGE_REDUCTION),
+            equalTo(13.0));
+        assertThat(
+            ModifierDatabase.getNumericModifier(
+                ModifierType.ITEM, ItemPool.PATRIOT_SHIELD, DoubleModifier.DAMAGE_REDUCTION),
+            equalTo(13.0));
+        assertThat(
+            ModifierDatabase.getNumericModifier(
+                ModifierType.ITEM,
+                ItemPool.REPLICA_PATRIOT_SHIELD,
+                DoubleModifier.DAMAGE_REDUCTION),
+            equalTo(13.0));
+      }
     }
   }
 }

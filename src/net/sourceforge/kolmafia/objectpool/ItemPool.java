@@ -634,6 +634,7 @@ public class ItemPool {
   public static final int MAKESHIFT_SKIRT = 2081;
   public static final int MAKESHIFT_CRANE = 2083;
   public static final int CAN_OF_STARCH = 2084;
+  public static final int PILGRIM_SHIELD = 2090;
   public static final int ANTIQUE_HAND_MIRROR = 2092;
   public static final int TOWEL = 2095;
   public static final int GMOB_POLLEN = 2096;
