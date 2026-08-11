@@ -165,7 +165,7 @@ class TCRSDatabaseTest {
             withClass(AscensionClass.SEAL_CLUBBER),
             withSign(ZodiacSign.MONGOOSE));
     try (cleanups) {
-      TCRSDatabase.loadTCRSData();
+      TCRSDatabase.loadTCRSData(false);
       assertThat(TCRSDatabase.enchantCount(ItemPool.ASSHAT), equalTo(2));
     }
   }
@@ -191,7 +191,7 @@ class TCRSDatabaseTest {
                   withClass(ascensionClass),
                   withSign(sign));
           try (cleanups) {
-            TCRSDatabase.loadTCRSData();
+            TCRSDatabase.loadTCRSData(false);
             for (var i : ItemDatabase.entrySet()) {
               var itemId = i.getKey();
               if (!TCRSDatabase.hasData(itemId)) continue;

@@ -1942,21 +1942,28 @@ public class TCRSDatabase {
       new HashSet<>(); // remote files fetched this session
 
   // *** support for loading up TCRS data appropriate to your current class/sign
-
   public static boolean loadTCRSData() {
+    return loadTCRSData(true);
+  }
+
+  public static boolean loadTCRSData(boolean overrideModifiers) {
     if (!KoLCharacter.isCrazyRandomTwo()) {
       return false;
     }
 
-    return loadTCRSData(KoLCharacter.getAscensionClass(), KoLCharacter.getSign(), true);
+    return loadTCRSData(
+        KoLCharacter.getAscensionClass(), KoLCharacter.getSign(), true, overrideModifiers);
   }
 
   private static boolean loadTCRSData(
-      final AscensionClass ascensionClass, final ZodiacSign sign, final boolean verbose) {
+      final AscensionClass ascensionClass,
+      final ZodiacSign sign,
+      final boolean verbose,
+      final boolean overrideModifiers) {
     var nonCafeLoaded = load(ascensionClass, sign, verbose);
     var cafeLoaded = loadCafe(ascensionClass, sign, verbose);
 
-    if (nonCafeLoaded || cafeLoaded) {
+    if (overrideModifiers && (nonCafeLoaded || cafeLoaded)) {
       applyModifiers();
       deriveApplyItem(ItemPool.RING);
     }
