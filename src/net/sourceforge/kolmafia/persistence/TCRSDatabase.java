@@ -1465,6 +1465,7 @@ public class TCRSDatabase {
                   "Drippy Damage",
                   "Elf Warfare Effectiveness",
                   "Familiar Damage",
+                  "First Hit Damage Reduction",
                   "Fishing Skill",
                   "Fumble",
                   "Hat Drop",
