@@ -1553,8 +1553,6 @@ public class TCRSDatabase {
         ItemDatabase.getConsumptionType(itemId) == ConsumptionType.FAMILIAR_EQUIPMENT;
     for (var name : present.keySet()) {
       if (consumed.contains(name)) continue;
-      // A shield's Damage Reduction is innate, not an enchantment.
-      if (isShield && name.equals("Damage Reduction")) continue;
       // Familiar equipment's Familiar Weight is innate, not an enchantment.
       if (isFamiliarEquipment && name.equals("Familiar Weight")) continue;
       count += 1;
