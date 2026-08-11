@@ -204,7 +204,7 @@ public interface KoLConstants extends UtilityConstants {
   int DAILYLIMITS_VERSION = 1;
   int DEFAULTS_VERSION = 2;
   int ENCOUNTERS_VERSION = 1;
-  int EQUIPMENT_VERSION = 2;
+  int EQUIPMENT_VERSION = 3;
   int FAMBATTLE_VERSION = 1;
   int FAMILIARS_VERSION = 4;
   int FAXBOTS_VERSION = 1;

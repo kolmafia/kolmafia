@@ -17,6 +17,8 @@ import net.sourceforge.kolmafia.modifiers.BitmapModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.Lookup;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -104,5 +106,33 @@ public class ModifierDatabaseTest {
     String enchantment = "Effect Duration: 5, Effect Duration: 10";
     var mods = ModifierDatabase.parseModifiers(new Lookup(ModifierType.ITEM, "1"), enchantment);
     assertThat(mods.getDoubles(DoubleModifier.EFFECT_DURATION), is(List.of(5.0, 10.0)));
+  }
+
+  @Nested
+  class DamageReduction {
+    @Test
+    void itemDamageReductionWithNoEnchantmentsIsInnateDamageReduction() {
+      assertThat(
+          ModifierDatabase.getNumericModifier(
+              ModifierType.ITEM, ItemPool.ASTRAL_SHIELD, DoubleModifier.DAMAGE_REDUCTION),
+          equalTo(15.0));
+    }
+
+    @Test
+    void itemWithEnchantmentHasSummedDamageReduction() {
+      // Brimstone Bunker: 15 innate + 10 enchantment
+      assertThat(
+          ModifierDatabase.getNumericModifier(
+              ModifierType.ITEM, ItemPool.BRIMSTONE_BUNKER, DoubleModifier.DAMAGE_REDUCTION),
+          equalTo(25.0));
+    }
+
+    @Test
+    void itemWithoutModifiersHasDamageReduction() {
+      assertThat(
+          ModifierDatabase.getNumericModifier(
+              ModifierType.ITEM, ItemPool.FLAK_SHIELD, DoubleModifier.DAMAGE_REDUCTION),
+          equalTo(9.0));
+    }
   }
 }

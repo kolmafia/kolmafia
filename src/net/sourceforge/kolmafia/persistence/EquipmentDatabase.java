@@ -39,7 +39,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 @SuppressWarnings("incomplete-switch")
 public class EquipmentDatabase {
   private record EquipmentData(
-      String name, int power, String statRequirement, int hands, String itemType) {
+      String name, int power, String statRequirement, int hands, String itemType, int shieldDR) {
     String toDataLine(final int itemId) {
       var name = ItemPool.get(itemId).getDisambiguatedName();
       String output = name + "\t" + power + "\t" + statRequirement;
@@ -47,6 +47,9 @@ public class EquipmentDatabase {
         output += "\t" + hands + "-handed " + itemType;
       } else if (itemType != null) {
         output += "\t" + itemType;
+        if (itemType.equals("shield") && shieldDR > 0) {
+          output += ": " + shieldDR;
+        }
       }
       return output;
     }
@@ -143,6 +146,7 @@ public class EquipmentDatabase {
 
         int hval = 0;
         String tval = null;
+        int shieldDR = 0;
 
         if (data.length >= 4) {
           String str = data[3];
@@ -156,8 +160,17 @@ public class EquipmentDatabase {
           }
         }
 
+        // extract shield DR
+        if (tval != null && tval.startsWith("shield:")) {
+          String dr = tval.substring(7).trim();
+          if (StringUtilities.isNumeric(dr)) {
+            shieldDR = StringUtilities.parseInt(dr);
+            tval = "shield";
+          }
+        }
+
         EquipmentDatabase.equipmentById.put(
-            itemId, new EquipmentData(data[0], power, statRequirement, hval, tval));
+            itemId, new EquipmentData(data[0], power, statRequirement, hval, tval, shieldDR));
       }
     } catch (IOException e) {
       StaticEntity.printStackTrace(e);
@@ -342,12 +355,14 @@ public class EquipmentDatabase {
       final String req,
       final String weaponType,
       final boolean isWeapon,
-      final boolean isShield) {
+      final boolean isShield,
+      final int shieldDamageReduction) {
     if (isShield && power == 0) {
       writer.println("# *** " + name + " is a shield of unknown power.");
     }
     writer.println(
-        EquipmentDatabase.equipmentString(name, power, req, weaponType, isWeapon, isShield));
+        EquipmentDatabase.equipmentString(
+            name, power, req, weaponType, isWeapon, isShield, shieldDamageReduction));
   }
 
   public static String equipmentString(
@@ -356,11 +371,13 @@ public class EquipmentDatabase {
       final String req,
       final String weaponType,
       final boolean isWeapon,
-      final boolean isShield) {
+      final boolean isShield,
+      final int shieldDamageReduction) {
     if (isWeapon) {
       return name + "\t" + power + "\t" + req + "\t" + weaponType;
     } else if (isShield) {
-      return name + "\t" + power + "\t" + req + "\tshield";
+      String shield = shieldDamageReduction > 0 ? "shield: " + shieldDamageReduction : "shield";
+      return name + "\t" + power + "\t" + req + "\t" + shield;
     } else {
       return name + "\t" + power + "\t" + req;
     }
@@ -377,6 +394,7 @@ public class EquipmentDatabase {
 
     int hands = 0;
     String itemType = null;
+    int shieldDR = 0;
 
     if (type.contains("weapon")) {
       Matcher matcher = WEAPON_TYPE_PATTERN.matcher(type);
@@ -388,9 +406,10 @@ public class EquipmentDatabase {
       }
     } else if (type.contains("shield")) {
       itemType = "shield";
+      shieldDR = DebugDatabase.parseShieldDamageReduction(text);
     }
 
-    var data = new EquipmentData(itemName, power, req, hands, itemType);
+    var data = new EquipmentData(itemName, power, req, hands, itemType, shieldDR);
     EquipmentDatabase.equipmentById.put(itemId, data);
 
     String printMe = data.toDataLine(itemId);
@@ -520,6 +539,11 @@ public class EquipmentDatabase {
   public static final int getHands(final int itemId) {
     EquipmentData equipmentData = EquipmentDatabase.equipmentById.get(itemId);
     return equipmentData == null ? 0 : equipmentData.hands;
+  }
+
+  public static final int getShieldDamageReduction(final int itemId) {
+    EquipmentData equipmentData = EquipmentDatabase.equipmentById.get(itemId);
+    return equipmentData == null ? 0 : equipmentData.shieldDR;
   }
 
   public static final String getEquipRequirement(final int itemId) {
