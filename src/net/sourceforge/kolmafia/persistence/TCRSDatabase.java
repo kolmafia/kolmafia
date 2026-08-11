@@ -1483,6 +1483,7 @@ public class TCRSDatabase {
                   "Potion Drop",
                   "PvP Fights",
                   "Random Monster Modifiers",
+                  "Ranged Damage",
                   "Ranged Damage Percent",
                   "Reduce Enemy Defense",
                   "Slime Resistance",
