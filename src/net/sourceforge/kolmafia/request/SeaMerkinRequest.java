@@ -50,21 +50,18 @@ public class SeaMerkinRequest extends GenericRequest {
       return;
     }
 
-    // If we have already finished the quest, we don't care what it
-    // says when you visit the Colosseum
-    if (Preferences.getString("merkinQuestPath").equals("done")) {
-      return;
-    }
-
     // The Colosseum is empty -- your crowd of Mer-kin admirers
     // (or, for all you know, your crowd of Mer-kin who totally,
     // totally hate you,) has gone home.
 
     if (responseText.contains("your crowd of Mer-kin admirers")) {
       Preferences.setBoolean("isMerkinGladiatorChampion", true);
-      // The following is not applicable in the Sea path
-      Preferences.setString("merkinQuestPath", "gladiator");
       Preferences.setInteger("lastColosseumRoundWon", 15);
+
+      // Update quest progress as long as we're not already done
+      if (!Preferences.getString("merkinQuestPath").equals("done")) {
+        Preferences.setString("merkinQuestPath", "gladiator");
+      }
     }
 
     // As you approach the Colosseum, the guards in the
@@ -75,8 +72,11 @@ public class SeaMerkinRequest extends GenericRequest {
 
     else if (responseText.contains("Praise be to the High Priest")) {
       Preferences.setBoolean("isMerkinHighPriest", true);
-      // The following is not applicable in the Sea path
-      Preferences.setString("merkinQuestPath", "scholar");
+
+      // Update quest progress as long as we're not already done
+      if (!Preferences.getString("merkinQuestPath").equals("done")) {
+        Preferences.setString("merkinQuestPath", "scholar");
+      }
     }
   }
 
