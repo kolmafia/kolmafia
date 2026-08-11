@@ -155,11 +155,11 @@ public class DebugDatabase {
     return plural;
   }
 
-  private static boolean decodedNamesEqual(String name1, String name2) {
+  private static boolean decodedNamesNotEqual(String name1, String name2) {
     // Sacr&eacute; Mental
     // Sacré Mental
-    return name1.equals(name2)
-        || StringUtilities.getEntityDecode(name1)
+    return !name1.equals(name2)
+        && !StringUtilities.getEntityDecode(name1)
             .equalsIgnoreCase(StringUtilities.getEntityDecode(name2));
   }
 
@@ -313,7 +313,7 @@ public class DebugDatabase {
       descriptionName = StringUtilities.globalStringReplace(descriptionName, "  ", " ");
     }
 
-    if (!name.equals(descriptionName) && !decodedNamesEqual(name, descriptionName)) {
+    if (!name.equals(descriptionName) && decodedNamesNotEqual(name, descriptionName)) {
       report.println(
           "# *** " + name + " (" + itemId + ") has description of " + descriptionName + ".");
       DebugDatabase.rawItems.put(itemId, null);
@@ -392,7 +392,7 @@ public class DebugDatabase {
 
     String access = ItemDatabase.getAccessById(id);
     String descAccess = DebugDatabase.parseAccess(text);
-    if (!access.equals(descAccess)) {
+    if ((access != null) && (!access.equals(descAccess))) {
       report.println(
           "# *** "
               + name
@@ -1192,7 +1192,7 @@ public class DebugDatabase {
           }
 
           if (key.equals("Effect") || key.equals("Rollover Effect")) {
-            if (!currentValue.equals(value) && !decodedNamesEqual(currentValue, value)) {
+            if (!currentValue.equals(value) && decodedNamesNotEqual(currentValue, value)) {
               // Effect does not match
               report.println(
                   "# *** modifier "
@@ -1219,8 +1219,8 @@ public class DebugDatabase {
         String normalizedValue = StringUtilities.globalStringReplace(value, "  ", " ").trim();
         if (!currentValue.equals(value)
             && !normalizedCurrentValue.equals(normalizedValue)
-            && !decodedNamesEqual(currentValue, value)
-            && !decodedNamesEqual(normalizedCurrentValue, normalizedValue)) {
+            && decodedNamesNotEqual(currentValue, value)
+            && decodedNamesNotEqual(normalizedCurrentValue, normalizedValue)) {
           report.println(
               "# *** modifier " + key + ": " + currentValue + " should be " + key + ": " + value);
         }
@@ -1819,7 +1819,7 @@ public class DebugDatabase {
     }
 
     String descriptionName = DebugDatabase.parseName(text);
-    if (!name.equals(descriptionName) && !decodedNamesEqual(name, descriptionName)) {
+    if (!name.equals(descriptionName) && decodedNamesNotEqual(name, descriptionName)) {
       report.println(
           "# *** " + name + " (" + effectId + ") has description of " + descriptionName + ".");
       return;
@@ -4241,19 +4241,6 @@ public class DebugDatabase {
     }
   }
 
-  public static void doAType(Map<String, WikiType> lazySet, WikiType thisType) {
-
-    for (var thing : DatabaseFrame.allItems) {
-      String check = getNameFromData(thing.getValue());
-      if (lazySet.containsKey(check)) {
-        WikiType oldType = lazySet.get(check);
-        String message = ambgMsg(thisType.name(), check, oldType.name());
-        RequestLogger.printLine(message);
-      } else {
-        lazySet.put(check, thisType);
-      }
-    }
-  }
   public static void checkForAmbiguous() {
     // Get list of things from DatabaseFrame to keep this aligned with Encyclopedia
     HashMap<String, WikiType> lazySet = new HashMap<>();
@@ -4261,8 +4248,10 @@ public class DebugDatabase {
       String check = getNameFromData(thing.getValue());
       if (lazySet.containsKey(check)) {
         WikiType oldType = lazySet.get(check);
-        String message = ambgMsg("Item", check, oldType.name());
-        RequestLogger.printLine(message);
+        if (WikiType.ITEM != oldType) {
+          String message = ambgMsg(WikiType.ITEM.name(), check, oldType.name());
+          RequestLogger.printLine(message);
+        }
       } else {
         lazySet.put(check, WikiType.ITEM);
       }
@@ -4271,8 +4260,10 @@ public class DebugDatabase {
       var check = getNameFromData(thing.getValue());
       if (lazySet.containsKey(check)) {
         WikiType oldType = lazySet.get(check);
-        String message = ambgMsg("Effect", check, oldType.name());
-        RequestLogger.printLine(message);
+        if (WikiType.EFFECT != oldType) {
+          String message = ambgMsg(WikiType.EFFECT.name(), check, oldType.name());
+          RequestLogger.printLine(message);
+        }
       } else {
         lazySet.put(check, WikiType.EFFECT);
       }
@@ -4281,8 +4272,10 @@ public class DebugDatabase {
       var check = getNameFromData(thing.getValue());
       if (lazySet.containsKey(check)) {
         WikiType oldType = lazySet.get(check);
-        String message = ambgMsg("Skill", check, oldType.name());
-        RequestLogger.printLine(message);
+        if (WikiType.SKILL != oldType) {
+          String message = ambgMsg(WikiType.SKILL.name(), check, oldType.name());
+          RequestLogger.printLine(message);
+        }
       } else {
         lazySet.put(check, WikiType.SKILL);
       }
@@ -4311,8 +4304,10 @@ public class DebugDatabase {
       var check = getNameFromData(thing);
       if (lazySet.containsKey(check)) {
         WikiType oldType = lazySet.get(check);
-        String message = ambgMsg("Monster", check, oldType.name());
-        RequestLogger.printLine(message);
+        if (WikiType.MONSTER != oldType) {
+          String message = ambgMsg(WikiType.MONSTER.name(), check, oldType.name());
+          RequestLogger.printLine(message);
+        }
       } else {
         lazySet.put(check, WikiType.MONSTER);
       }
