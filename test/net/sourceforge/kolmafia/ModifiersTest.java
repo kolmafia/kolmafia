@@ -78,12 +78,13 @@ public class ModifiersTest {
   @Test
   public void patriotShieldClassModifiers() {
     // Wide-reaching unit test for getModifiers
-    var cleanup = withClass(AscensionClass.AVATAR_OF_JARLSBERG);
+    var cleanup = new Cleanups(withClass(AscensionClass.AVATAR_OF_JARLSBERG), withLevel(15));
     try (cleanup) {
       Modifiers mods = ModifierDatabase.getModifiers(ModifierType.ITEM, ItemPool.PATRIOT_SHIELD);
 
       // Always has
       assertEquals(3, mods.getDouble(DoubleModifier.EXPERIENCE));
+      assertEquals(15, mods.getDouble(DoubleModifier.DAMAGE_REDUCTION));
 
       // Has because of class
       assertEquals(5.0, mods.getDouble(DoubleModifier.MP_REGEN_MIN));
@@ -94,7 +95,6 @@ public class ModifiersTest {
       assertEquals(0, mods.getDouble(DoubleModifier.HP_REGEN_MAX));
       assertEquals(0, mods.getDouble(DoubleModifier.HP_REGEN_MIN));
       assertEquals(0, mods.getDouble(DoubleModifier.WEAPON_DAMAGE));
-      assertEquals(0, mods.getDouble(DoubleModifier.DAMAGE_REDUCTION));
       assertEquals(0, mods.getDouble(DoubleModifier.FAMILIAR_WEIGHT));
       assertEquals(0, mods.getDouble(DoubleModifier.RANGED_DAMAGE));
       assertFalse(mods.getBoolean(BooleanModifier.FOUR_SONGS));

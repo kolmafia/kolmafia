@@ -2991,8 +2991,16 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
   }
 
   @ParameterizedTest
-  @CsvSource({"flak shield,9", "sealhide buckler,10", "old school flying disc,14", "seal tooth,0"})
+  @CsvSource({
+    "flak shield,9",
+    "sealhide buckler,10",
+    "old school flying disc,14",
+    "replica Operation Patriot Shield,15",
+    "seal tooth,0"
+  })
   void shieldDrReturnsInnateDamageReduction(String item, int dr) {
-    assertThat(execute("shield_dr($item[" + item + "])").trim(), is("Returned: " + dr));
+    try (var cleanups = withLevel(15)) {
+      assertThat(execute("shield_dr($item[" + item + "])").trim(), is("Returned: " + dr));
+    }
   }
 }
