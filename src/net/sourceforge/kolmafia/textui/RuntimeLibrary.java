@@ -2229,6 +2229,9 @@ public abstract class RuntimeLibrary {
     functions.add(new LibraryFunction("weapon_type", DataTypes.STAT_TYPE, params));
 
     params = List.of(namedParam("item", DataTypes.ITEM_TYPE));
+    functions.add(new LibraryFunction("shield_dr", DataTypes.INT_TYPE, params));
+
+    params = List.of(namedParam("item", DataTypes.ITEM_TYPE));
     functions.add(new LibraryFunction("get_power", DataTypes.INT_TYPE, params));
 
     params = List.of();
@@ -4948,9 +4951,7 @@ public abstract class RuntimeLibrary {
 
   public static Value to_url(ScriptRuntime controller, final Value value) {
     KoLAdventure adventure = (KoLAdventure) value.rawValue();
-    return (adventure == null)
-        ? DataTypes.STRING_INIT
-        : new Value(adventure.getRequest().getURLString());
+    return (adventure == null) ? DataTypes.STRING_INIT : new Value(adventure.getURLString());
   }
 
   public static Value to_wiki_url(ScriptRuntime controller, final Value value) {
@@ -8366,6 +8367,10 @@ public abstract class RuntimeLibrary {
         : stat == Stat.MYSTICALITY
             ? DataTypes.MYSTICALITY_VALUE
             : stat == Stat.MOXIE ? DataTypes.MOXIE_VALUE : DataTypes.STAT_INIT;
+  }
+
+  public static Value shield_dr(ScriptRuntime controller, final Value item) {
+    return new Value(EquipmentDatabase.getShieldDamageReduction((int) item.intValue()));
   }
 
   public static Value get_power(ScriptRuntime controller, final Value item) {

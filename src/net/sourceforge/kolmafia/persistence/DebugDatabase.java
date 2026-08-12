@@ -77,6 +77,7 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.CharacterEntities;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.HttpUtilities;
+import net.sourceforge.kolmafia.utilities.IntOrString;
 import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.utilities.WikiUtilities;
@@ -944,7 +945,10 @@ public class DebugDatabase {
       }
     }
 
-    EquipmentDatabase.writeEquipmentItem(report, name, power, req, weaponType, isWeapon, isShield);
+    IntOrString shieldDamageReduction =
+        isShield ? DebugDatabase.parseShieldDamageReduction(text) : new IntOrString(0);
+    EquipmentDatabase.writeEquipmentItem(
+        report, name, power, req, weaponType, isWeapon, isShield, shieldDamageReduction);
   }
 
   private static final Pattern POWER_PATTERN = Pattern.compile("Power: <b>(\\d+)</b>");
@@ -999,6 +1003,23 @@ public class DebugDatabase {
     }
 
     return "none";
+  }
+
+  private static final Pattern SHIELD_DR_PATTERN =
+      Pattern.compile("Damage Reduction: <b>([+-]?\\d+)</b>");
+
+  private static final Pattern SHIELD_LEVEL_DR_PATTERN =
+      Pattern.compile("Damage Reduction: <b>1 per level</b>");
+
+  public static IntOrString parseShieldDamageReduction(final String text) {
+    Matcher matcher = DebugDatabase.SHIELD_LEVEL_DR_PATTERN.matcher(text);
+    if (matcher.find()) {
+      return new IntOrString("[L]");
+    }
+    matcher = DebugDatabase.SHIELD_DR_PATTERN.matcher(text);
+    return matcher.find()
+        ? new IntOrString(StringUtilities.parseInt(matcher.group(1)))
+        : new IntOrString(0);
   }
 
   private static final Pattern FULLNESS_PATTERN = Pattern.compile("Size: <b>(\\d+)</b>");
@@ -1280,14 +1301,6 @@ public class DebugDatabase {
 
     // Several modifiers can appear outside the "Enchantments"
     // section of the item description.
-
-    // If we extracted Damage Reduction from the enchantments, we
-    // included shield DR as well, but for shields that have no
-    // enchantments, get DR here.
-    if (!known.containsModifier("Damage Reduction")) {
-      DebugDatabase.appendModifier(known, ModifierDatabase.parseDamageReduction(text));
-    }
-
     DebugDatabase.appendModifier(known, ModifierDatabase.parseSkill(text));
     DebugDatabase.appendModifier(known, ModifierDatabase.parseSingleEquip(text));
     DebugDatabase.appendModifier(known, ModifierDatabase.parseSoftcoreOnly(text));
@@ -1517,11 +1530,7 @@ public class DebugDatabase {
           }
         }
 
-        // Damage Reduction can appear in several
-        // places. Combine them all.
-        else if (mod.startsWith("Damage Reduction")) {
-          mod = ModifierDatabase.parseDamageReduction(text);
-        } else if (mod.equals("Class: \"December\"")) {
+        if (mod.equals("Class: \"December\"")) {
           decemberEvent = true;
           continue;
         }
@@ -3512,7 +3521,7 @@ public class DebugDatabase {
     }
 
     // Check last updated
-    var lastAvailable = ModifierDatabase.parseLastAvailable(text);
+    var lastAvailable = ModifierDatabase.parseLastAvailableDate(text);
     if (lastAvailable != null) {
       var lookup = new Lookup(ModifierType.FAMILIAR, FamiliarDatabase.getFamiliarName(id));
       var old = ModifierDatabase.getStringModifier(lookup, StringModifier.LAST_AVAILABLE_DATE);

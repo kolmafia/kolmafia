@@ -1,10 +1,14 @@
 package net.sourceforge.kolmafia.textui.command;
 
+import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withResponses;
 import static internal.helpers.Player.withStats;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.startsWith;
 
+import internal.network.FakeHttpResponse;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -12,6 +16,10 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.ModifierType;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
@@ -81,6 +89,73 @@ public class TestCommandTest extends AbstractCommandTestBase {
             After Battle: You gain 44 Wizardliness
             You gain a Mysticality point!
             After Battle: You gain 19 Smarm
+            """));
+      }
+    }
+  }
+
+  @Nested
+  class NewItem {
+    @Test
+    public void oldSchoolFlyingDiscHasDamageReduction() {
+      var cleanups =
+          withResponses(
+              r -> {
+                var path = r.uri().getPath();
+                if (path.startsWith("/desc_item.php")) {
+                  return new FakeHttpResponse<>(
+                      html("request/test_desc_item_old_school_flying_disc.html"));
+                }
+                return null;
+              });
+
+      try (cleanups) {
+        String output = execute("newitem 940588617");
+        assertThat(
+            output,
+            containsString(
+                """
+              --------------------
+              4119\told school flying disc\t940588617\tpetfrisbee.gif\toffhand, combat\td\t800
+              old school flying disc\t0\tMus: 200\tshield: 14
+              Item\told school flying disc\tMuscle Percent: +15, Damage Reduction: 10, Familiar Weight: +5
+              --------------------
+              """));
+        assertThat(
+            ModifierDatabase.getNumericModifier(
+                ModifierType.ITEM,
+                ItemPool.OLD_SCHOOL_FLYING_DISC,
+                DoubleModifier.DAMAGE_REDUCTION),
+            equalTo(24.0));
+      }
+    }
+
+    @Test
+    public void operationPatriotShieldHasLevelBasedDamageReduction() {
+      var cleanups =
+          withResponses(
+              r -> {
+                var path = r.uri().getPath();
+                if (path.startsWith("/desc_item.php")) {
+                  return new FakeHttpResponse<>(
+                      html("request/test_desc_item_operation_patriot_shield.html"));
+                }
+                return null;
+              });
+
+      try (cleanups) {
+        String output = execute("newitem 563222775");
+        assertThat(
+            output,
+            containsString(
+                """
+            --------------------
+            5190\tOperation Patriot Shield\t563222775\topshield.gif\toffhand\tt\t0
+            Operation Patriot Shield\t0\tnone\tshield: [L]
+            # Operation Patriot Shield: Lets You Sing More Proudly
+            # Operation Patriot Shield: Can be Thrown in Combat
+            Item\tOperation Patriot Shield\tExperience: +3, Maximum HP: +20, Maximum MP: +20, Four Songs, Softcore Only, Last Available: "2011-07"
+            --------------------
             """));
       }
     }

@@ -3298,4 +3298,34 @@ public class MaximizerTest {
       assertThat(getBoosts(), hasItem(recommends(ItemPool.CUSTOM_SIXGUN)));
     }
   }
+
+  @Nested
+  class DamageReduction {
+    @Test
+    void maximizerCountsInnateShieldDamageReductionAndEnchant() {
+      var cleanups =
+          new Cleanups(
+              withEquippableItem(ItemPool.OLD_SCHOOL_FLYING_DISC), // base 14, 10 enchant
+              withEquippableItem(ItemPool.ASTRAL_SHIELD), // higher base: 15
+              withEquippableItem(ItemPool.FURRY_YAM_BUCKLER) // higher enchant: 11
+              );
+
+      try (cleanups) {
+        assertTrue(maximize("dr"));
+        assertThat(getBoosts(), hasItem(recommends(ItemPool.OLD_SCHOOL_FLYING_DISC)));
+        assertThat(modFor(DoubleModifier.DAMAGE_REDUCTION), equalTo(24.0));
+      }
+    }
+
+    @Test
+    void maximizerAddsShieldsWithNoBaseEnchants() {
+      var cleanups = new Cleanups(withEquippableItem(ItemPool.FLAK_SHIELD));
+
+      try (cleanups) {
+        assertTrue(maximize("dr"));
+        assertThat(getBoosts(), hasItem(recommends(ItemPool.FLAK_SHIELD)));
+        assertThat(modFor(DoubleModifier.DAMAGE_REDUCTION), equalTo(9.0));
+      }
+    }
+  }
 }

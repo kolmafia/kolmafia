@@ -47,6 +47,10 @@ public enum DoubleModifier implements Modifier {
       "Damage Absorption",
       Pattern.compile("Damage Absorption ([+-]\\d+)"),
       Pattern.compile("Damage Absorption: " + EXPR)),
+  FIRST_HIT_DAMAGE_REDUCTION(
+      "First Hit Damage Reduction",
+      Pattern.compile("Damage Reduction: ([+-]?\\d+) \\(First Hit Only\\)"),
+      Pattern.compile("First Hit Damage Reduction: " + EXPR)),
   DAMAGE_REDUCTION(
       "Damage Reduction",
       Pattern.compile("Damage Reduction: ([+-]?\\d+)"),

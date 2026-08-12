@@ -1,4 +1,4 @@
-2
+3
 # Hats section of equipment.txt
 
 4-dimensional fez	50	none
@@ -1910,38 +1910,38 @@ adhesive tape dolly	0	none
 adobe abacus	120	Mys: 40
 Adventurer bobblehead	100	none
 aerogel attache case	50	none
-ancient calendar	70	Mus: 20	shield
+ancient calendar	70	Mus: 20	shield: 4
 ancient hot dog wrapper	200	Mys: 85
-ancient stone head	85	Mus: 27	shield
+ancient stone head	85	Mus: 27	shield: 5
 anniversary balloon	10	none
 anniversary chutney sculpture	10	none
 antique Canadian lantern	150	Mys: 60
 antique candy bucket	10	none
 antique nutcracker drumstick	150	Mys: 30
-antique shield	180	Mus: 60	shield
+antique shield	180	Mus: 60	shield: 11
 antique spyglass	225	Mys: 200
-April Shower Thoughts shield	100	none	shield
+April Shower Thoughts shield	100	none	shield: 6
 Apriling band staff	100	none
-arm buzzer	100	Mus: 25	shield
+arm buzzer	100	Mus: 25	shield: 6
 arrow'd heart balloon	10	none
-astral shield	240	none	shield
+astral shield	240	none	shield: 15
 astral statuette	50	none
 august scepter	0	none
-autumn debris shield	150	none	shield
-autumnal aegis	150	Mus: 25	shield
+autumn debris shield	150	none	shield: 9
+autumnal aegis	150	Mus: 25	shield: 9
 Bag o' Tricks	0	none
 bag of Crotchety Pine saplings	10	none
 bag of Laughing Willow saplings	10	none
 bag of Saccharine Maple saplings	10	none
 bakelite bowl	120	Mus: 40
 ball-in-a-cup	20	none
-balloon shield	50	Mus: 10	shield
-barrel lid	150	none	shield
-barskin buckler	25	none	shield
-basaltamander buckler	240	Mus: 40	shield
+balloon shield	50	Mus: 10	shield: 3
+barrel lid	150	none	shield: 9
+barskin buckler	25	none	shield: 1
+basaltamander buckler	240	Mus: 40	shield: 15
 Baseball Diamond	100	none
 basic meat foon	50	Mys: 10
-battered hubcap	220	Mus: 65	shield
+battered hubcap	220	Mus: 65	shield: 14
 beach ball marble	209	Mys: 85
 beetle antenna	0	none
 beige clambroth marble	207	Mys: 85
@@ -1950,7 +1950,7 @@ big bumboozer marble	211	Mys: 85
 big hot pepper	50	none
 birdybug antenna	0	none
 black catseye marble	210	Mys: 85
-black shield	160	Mus: 65	shield
+black shield	160	Mus: 65	shield: 10
 blue LavaCo Lamp&trade;	100	Mys: 35
 bobble-hip hula elf doll	40	Mys: 5
 bone abacus	100	Mys: 5
@@ -1962,25 +1962,25 @@ bottle of Goldschn&ouml;ckered	75	Mox: 22
 bouquet of all-natural free-range flowers	10	none
 bowl of petunias	100	Mys: 44
 box	10	none
-box turtle	50	Mus: 10	shield
+box turtle	50	Mus: 10	shield: 3
 box-in-the-box	20	none
 box-in-the-box-in-the-box	30	none
 Brand of Violence	200	Mus: 125
-brass dorsal fin	200	Mus: 85	shield
+brass dorsal fin	200	Mus: 85	shield: 13
 bread basket	0	none
-BRICKO bulwark	60	none	shield
-Brimstone Bunker	240	Mus: 30	shield
+BRICKO bulwark	60	none	shield: 3
+Brimstone Bunker	240	Mus: 30	shield: 15
 brown crock marble	202	Mys: 85
 bumblebee marble	205	Mys: 85
 burning paper crane	100	none
 C.H.U.M. lantern	100	Mus: 150
 can of mixed everything	100	Mys: 30
 card sleeve	10	none
-cardboard box turtle	70	Mus: 20	shield
+cardboard box turtle	70	Mus: 20	shield: 4
 cardboard wine carrier	10	none
 carnivorous potted plant	150	none
-catskin buckler	180	Mus: 75	shield
-ceramic centurion shield	150	Mus: 40	shield
+catskin buckler	180	Mus: 75	shield: 11
+ceramic centurion shield	150	Mus: 40	shield: 9
 Chalice of the Malkovich Prince	0	none
 chalk chalice	50	none
 charged druidic orb	10	none
@@ -1988,12 +1988,12 @@ charged magnet	30	none
 chiffon chamberpot	50	none
 chipped coffee mug	50	none
 chocolate and nylons detector	10	Mys: 20
-Cloaca-Cola shield	70	none	shield
+Cloaca-Cola shield	70	none	shield: 4
 clockwork detective skull	80	Mox: 25
-clownskin buckler	60	Mus: 15	shield
+clownskin buckler	60	Mus: 15	shield: 3
 cobbled-together Meat detector	10	none
 Codex of Capsaicin Conjuration	30	none
-coffin lid	50	Mus: 10	shield
+coffin lid	50	Mus: 10	shield: 3
 Cold Stone of Hatred	200	Mus: 125
 collapsible baton	200	Mys: 85
 complicated device	200	Mys: 200
@@ -2023,18 +2023,18 @@ cursed magnifying glass	100	none
 cursed ship's lantern	120	Mys: 20
 cursed stats	0	none
 cyborg doll	110	Mys: 40
-Dallas Dynasty Falcon Crest shield	240	Mus: 85	shield
+Dallas Dynasty Falcon Crest shield	240	Mus: 85	shield: 15
 deceased crimbo tree	50	none
 deck of lewd playing cards	75	Mys: 22
 deck of tropical cards	20	none
 defective skull	60	none
 deft pirate hook	100	none
-demon buckler	80	Mus: 25	shield
+demon buckler	80	Mus: 25	shield: 5
 depleted Grimacite gravy boat	100	Mus: 35
 detective skull	60	none
-detour shield	100	Mus: 35	shield
+detour shield	100	Mus: 35	shield: 6
 Diamond HP-35 Calculator	0	none
-Dinsey's radar dish	240	Mus: 100	shield
+Dinsey's radar dish	240	Mus: 100	shield: 15
 dirty rigging rope	100	Mus: 30
 discarded finger painting	50	none
 disturbing fanfic	60	Mys: 15
@@ -2042,11 +2042,11 @@ double-ice box	70	Mys: 20
 drippy shield	0	none
 druidic orb	10	none
 Drunkula's wineglass	300	Mys: 100
-duct tape buckler	195	Mus: 82	shield
+duct tape buckler	195	Mus: 82	shield: 12
 Dungeon Fist gauntlet	100	Mus: 35
-Dyspepsi-Cola shield	70	none	shield
+Dyspepsi-Cola shield	70	none	shield: 4
 easter egg balloon	100	Mys: 35
-eelskin shield	200	Mus: 85	shield
+eelskin shield	200	Mus: 85	shield: 13
 Elf Guard clipboard	100	none
 Elf Guard safety bear	10	none
 Elf Guard war standard	50	none
@@ -2061,7 +2061,7 @@ eye of the Tiger-lily	70	Mys: 20
 faded green protest sign	10	none
 faded red protest sign	0	none
 fake hand	10	none
-fake washboard	200	Mus: 50	shield
+fake washboard	200	Mus: 50	shield: 13
 familiar scrapbook	100	none
 fancy marzipan briefcase	100	Mys: 10
 fancy opera glasses	50	Mys: 10
@@ -2069,13 +2069,13 @@ fiberglass fetish	120	Mus: 40
 fireproof megaphone	10	none
 fishbone catcher's mitt	20	none
 flagstone flag	120	Mus: 40
-flak shield	150	Mus: 30	shield
+flak shield	150	Mus: 30	shield: 9
 flaming fistbone	150	Mys: 60
 flaming talons	90	Mys: 30
-fleshy lump	50	none	shield
+fleshy lump	50	none	shield: 3
 flickering flashlight	50	none
-flimsy clipboard	50	Mus: 10	shield
-flimsy plastic shield	50	none	shield
+flimsy clipboard	50	Mus: 10	shield: 3
+flimsy plastic shield	50	none	shield: 3
 flimsy ski pole	50	none
 foon	30	none
 foon of fearfulness	50	Mys: 10
@@ -2086,36 +2086,36 @@ foon of fulmination	50	Mys: 10
 Franken Stein	0	none
 frankincenser	100	none
 Frigid Northern Beans	30	none	can of beans
-furry yam buckler	50	none	shield
+furry yam buckler	50	none	shield: 3
 Gazpacho's Glacial Grimoire	30	none
 geofencing shield	150	none
 geological sample kit	10	none
-ghast iron heater shield	180	Mus: 75	shield
+ghast iron heater shield	180	Mus: 75	shield: 11
 ghostly reins	50	none
-giant clay ashtray	60	none	shield
-giant penguin keychain	155	Mus: 62	shield
+giant clay ashtray	60	none	shield: 3
+giant penguin keychain	155	Mus: 62	shield: 10
 giant stuffed bugbear	10	none
 gingerbread moneybag	0	none
 Glass Balls of the Goblin King	70	Mys: 20
 glass gnoll eye	35	Mys: 2
-glass pie plate	120	none	shield
+glass pie plate	120	none	shield: 7
 glow-in-the-dark stuffed burrowgrub	0	none
 glowing esca	200	Mys: 85
 glowstick on a string	150	Mox: 60
 glued-together crystal ball	50	none
-gnauga hide buckler	90	Mus: 30	shield
+gnauga hide buckler	90	Mus: 30	shield: 5
 Golden HP-35 Calculator	0	none
 golden sausage	0	none
 goo magnet	10	none
 gore bucket	10	none
-gravyskin buckler	120	Mus: 30	shield
+gravyskin buckler	120	Mus: 30	shield: 7
 Great Wolf's left paw	300	Mus: 250
 green balloon	10	none
 green LavaCo Lamp&trade;	100	Mox: 35
 green peawee marble	201	Mys: 85
 Grey Guanon	60	Mys: 15
-grisly shield	200	Mus: 150	shield
-gunwale	150	none	shield
+grisly shield	200	Mus: 150	shield: 13
+gunwale	150	none	shield: 9
 Guzzlr souvenir stein	100	none
 Half a Purse	100	none
 hand of Mr. Cards	10	none
@@ -2123,11 +2123,11 @@ handmade hobby horse	20	none
 heart-shaped balloon	10	none
 heavy duty umbrella	10	none
 heavy pickaxe	0	none
-heavy-duty clipboard	125	Mus: 47	shield
+heavy-duty clipboard	125	Mus: 47	shield: 8
 Heimz Fortified Kidney Beans	40	Mys: 5	can of beans
 Hellfire Spicy Beans	30	none	can of beans
-hippo skin buckler	90	Mus: 30	shield
-HOA regulation book	350	Mus: 100	shield
+hippo skin buckler	90	Mus: 30	shield: 5
+HOA regulation book	350	Mus: 100	shield: 23
 hobo code binder	10	none
 Hodgman's almanac	200	Mys: 200
 Hodgman's cane	200	Mys: 200
@@ -2136,22 +2136,22 @@ Hodgman's harmonica	200	Mox: 200
 Hodgman's imaginary hamster	200	Mys: 200
 Hodgman's metal detector	200	Mus: 200
 Hodgman's varcolac paw	200	Mus: 200
-hors d'oeuvre tray	90	Mus: 25	shield
-hot plate	60	Mus: 15	shield
+hors d'oeuvre tray	90	Mus: 25	shield: 5
+hot plate	60	Mus: 15	shield: 3
 HP-35 Calculator	0	none
 hypnodisk	200	none
 ice baby	0	none
 ice bucket	100	none
 Idol of Ak'gyxoth	200	none
 incredibly creepy marionette	110	Mys: 40
-iShield	100	Mus: 35	shield
+iShield	100	Mus: 35	shield: 6
 ivory cue ball	30	none
 jar of frostigkraut	100	Mys: 35
 Jarlsberg's pan	0	none
 Jarlsberg's pan (Cosmic portal mode)	0	none
 jet bennie marble	206	Mys: 85
 joybuzzer	20	none
-keg shield	170	Mus: 70	shield
+keg shield	170	Mus: 70	shield: 11
 Kevlar balloon	10	none
 kickback cookbook	40	Mys: 5
 killer rag doll	110	Mys: 40
@@ -2179,11 +2179,11 @@ Loathing Legion electric knife	0	none
 Loathing Legion kitchen sink	0	none
 Loathing Legion many-purpose hook	0	none
 Loathing Legion moondial	0	none
-Loathing Legion pizza stone	100	none	shield
+Loathing Legion pizza stone	100	none	shield: 6
 Loathing Legion tape measure	0	none
 loose purse strings	10	none
-LOV Elephant	100	Mus: 25	shield
-low-budget shield	60	none	shield
+LOV Elephant	100	Mus: 25	shield: 6
+low-budget shield	60	none	shield: 3
 lucky lighter	35	Mys: 2
 mad scientist's sock monkey	110	Mys: 40
 magic lamp	30	none
@@ -2197,15 +2197,15 @@ marionette	110	Mys: 40
 marionette collective	110	Mys: 40
 martini dregs	50	none
 McHugeLarge left pole	100	none
-meat shield	60	Mus: 15	shield
+meat shield	60	Mus: 15	shield: 3
 Medallion of the Ventrilo Prince	0	none
 Mer-kin begsign	200	Mus: 85
-Mer-kin roundshield	215	Mus: 85	shield
+Mer-kin roundshield	215	Mus: 85	shield: 14
 Mer-kin stopwatch	200	Mys: 85
 Mer-kin takebag	200	Mys: 85
 mesquito proboscis	0	none
 meteorb	100	none
-meteorite guard	150	none	shield
+meteorite guard	150	none	shield: 9
 Microplushie: Bropane	5	none
 Microplushie: Dorkonide	5	none
 Microplushie: Ermahgerdic Acid	5	none
@@ -2233,7 +2233,7 @@ moss megaphone	50	none
 moxie magnet	30	none
 Mr. Balloon	20	none
 Mr. Haggis	10	none
-mushroom shield	100	none	shield
+mushroom shield	100	none	shield: 6
 Mylar balloon	10	none
 naughty fortune teller	0	none
 Necrotelicomnicon	30	none
@@ -2242,35 +2242,35 @@ nozzle of the Phoenix	200	Mys: 40
 off-hand balloon	20	none
 oil lamp	120	Mus: 45
 Ol' Scratch's ash can	200	Mys: 200
-Ol' Scratch's stove door	240	Mus: 200	shield
-old pizza box	100	none	shield
-old school flying disc	220	Mus: 200	shield
-Operation Patriot Shield	240	none	shield
+Ol' Scratch's stove door	240	Mus: 200	shield: 15
+old pizza box	100	none	shield: 6
+old school flying disc	220	Mus: 200	shield: 14
+Operation Patriot Shield	240	none	shield: [L]
 optimal spreadsheet	10	none
 orcish stud-finder	85	Mys: 27
 ornate dowsing rod	10	none
-Oscus's garbage can lid	240	Mus: 200	shield
-Ouija Board, Ouija Board	120	none	shield
+Oscus's garbage can lid	240	Mus: 200	shield: 15
+Ouija Board, Ouija Board	120	none	shield: 7
 outmoded fidget toy	50	none
 oversized monocle on a stick	10	none
-ox-head shield	250	Mus: 10	shield
+ox-head shield	250	Mus: 10	shield: 16
 oyster basket	10	none
 oyster egg balloon	100	Mys: 35
-padded tortoise	100	Mus: 35	shield
+padded tortoise	100	Mus: 35	shield: 6
 paint palette	100	Mys: 20
-painted shield	120	Mus: 45	shield
+painted shield	120	Mus: 45	shield: 7
 Paradaisical Cheeseburger recipe	10	none
 parasitic strangleworm	30	none
-party crasher	150	Mus: 20	shield
-peanut brittle shield	50	Mus: 10	shield
-penguin skin buckler	90	Mus: 30	shield
+party crasher	150	Mus: 20	shield: 9
+peanut brittle shield	50	Mus: 10	shield: 3
+penguin skin buckler	90	Mus: 30	shield: 5
 penguin thesaurus	30	none
 petrified wood water purifier	120	Mys: 40
 photo booth supply list	10	none
-pilgrim shield	240	none	shield
+pilgrim shield	240	none	shield: [L]
 pirate hook	30	none
 pixel grappling hook	200	Mox: 200
-pixel shield	50	Mus: 10	shield
+pixel shield	50	Mus: 10	shield: 3
 Platinum HP-35 Calculator	0	none
 plush alielf	0	none
 plush alien hamsterpus	0	none
@@ -2280,20 +2280,20 @@ plush hamsterpus	0	none
 plush mutated alielephant	0	none
 plush mutated alielf	0	none
 pocketwatch on a chain	50	Mys: 10
-polyalloy shield	140	Mus: 55	shield
-polyester pad	50	none	shield
+polyalloy shield	140	Mus: 55	shield: 9
+polyester pad	50	none	shield: 3
 pool skimmer	10	none
 porcelain pepper mill	120	Mys: 40
 Pork 'n' Pork 'n' Pork 'n' Beans	30	none	can of beans
-portable dam	150	Mus: 60	shield
+portable dam	150	Mus: 60	shield: 9
 portable Othello set	75	Mys: 15
 pot	0	none
-pottery shield	50	none	shield
+pottery shield	50	none	shield: 3
 pretty bouquet	0	none
 primitive alien totem	50	Mus: 10
 psychic's crystal ball	100	Mys: 35
 pumpkin spice candle	100	Mus: 20
-radiator heater shield	100	Mus: 35	shield
+radiator heater shield	100	Mus: 35	shield: 6
 rag doll	110	Mys: 40
 Raggedy Hippy doll	10	none
 Rain-Doh green lantern	100	none
@@ -2306,40 +2306,40 @@ red China marble	203	Mys: 85
 red LavaCo Lamp&trade;	100	Mus: 35
 Red Roger's red left hand	120	none
 red wagon	200	Mys: 200
-Red X Shield	180	Mus: 70	shield
+Red X Shield	180	Mus: 70	shield: 11
 replica august scepter	0	none
 replica Kramco Sausage-o-Matic&trade;	100	none
-replica Operation Patriot Shield	240	none	shield
+replica Operation Patriot Shield	240	none	shield: [L]
 reusable shopping bag	10	none
 rice bowl	30	none
 [8042]rock	0	none
 Roman Candelabra	0	none
 Royal scepter	100	none
 rubber baby doll	100	none
-rubber ribcage	120	Mus: 45	shield
+rubber ribcage	120	Mus: 45	shield: 7
 rusty compass	60	Mys: 15
 rusty empty nacho cheese can	0	none
 rusty kettle bell	50	none
 rusty old lantern	200	Mys: 85
-rxr shield	100	Mus: 35	shield
+rxr shield	100	Mus: 35	shield: 6
 SalesCo sample kit	50	none
-sawblade shield	180	Mus: 75	shield
+sawblade shield	180	Mus: 75	shield: 11
 Scepter of Loathing	200	Mys: 150
 Sceptre of the Torremolinos Prince	0	none
 Science Notebook	0	Mys: 11
 scissor duck	0	none
 scorched skull trophy	200	Mus: 85
-sealhide buckler	160	Mus: 65	shield
+sealhide buckler	160	Mus: 65	shield: 10
 sealskin drum	160	Mus: 150
-sebaceous shield	35	Mus: 2	shield
+sebaceous shield	35	Mus: 2	shield: 2
 security flashlight	50	Mys: 10
 set of jacks	20	none
 Seven Loco	0	none
-sewer turtle	20	none	shield
+sewer turtle	20	none	shield: 1
 shadow candle	0	none
 shadowy seal eye	100	Mus: 35
-Shield of Icy Fate	120	none	shield
-shield of the Skeleton Lord	300	Mus: 50	shield
+Shield of Icy Fate	120	none	shield: 7
+shield of the Skeleton Lord	300	Mus: 50	shield: 19
 Shrub's Premium Baked Beans	50	none	can of beans
 shrunken head	0	none
 signal receiver	0	none
@@ -2347,44 +2347,44 @@ silver cow creamer	200	Mys: 85
 Silver HP-35 Calculator	0	none
 silver sausage	0	none
 Sinful Desires	30	none
-six-rainbow shield	190	Mus: 70	shield
+six-rainbow shield	190	Mus: 70	shield: 12
 skull gearshift knob	150	Mus: 60
 skull of the Bonerdagon	0	none
 slime-covered compass	200	Mys: 200
 slime-covered lantern	200	Mys: 200
-slippery when wet shield	100	Mus: 35	shield
+slippery when wet shield	100	Mus: 35	shield: 6
 smirking shrunken head	170	Mys: 70
-snake shield	115	Mus: 42	shield
+snake shield	115	Mus: 42	shield: 7
 snapdragon pistil	70	Mys: 20
-snarling wolf shield	115	Mus: 42	shield
+snarling wolf shield	115	Mus: 42	shield: 7
 snow mobile	100	none
 snowstick	225	Mys: 200
 sock monkey	110	Mys: 40
 Solstice Shield	0	none
 sommelier's towel	150	Mys: 60
 sonar fishfinder	10	none
-space shield	150	none	shield
+space shield	150	none	shield: 9
 Space Tourist palmdoctor	50	none
 spaghetti-box banjo	160	Mys: 150
 Spanish fly trap	10	none
-spant shield	100	Mus: 20	shield
-speed limit shield	100	Mus: 35	shield
-spiky turtle shield	130	Mus: 50	shield
-spongy shield	220	Mus: 95	shield
+spant shield	100	Mus: 20	shield: 6
+speed limit shield	100	Mus: 35	shield: 6
+spiky turtle shield	130	Mus: 50	shield: 8
+spongy shield	220	Mus: 95	shield: 14
 spooky little girl	0	none
 sprinkle shaker	10	none
 sprinkle-begging cup	100	Mys: 20
 stack of communist leaflets	10	none
-stained glass shield	120	Mus: 40	shield
+stained glass shield	120	Mus: 40	shield: 7
 standards and practices guide	100	Mys: 10
 stapler bear	0	none
-star buckler	165	Mus: 67	shield
+star buckler	165	Mus: 67	shield: 10
 steaming evil	180	Mys: 75
 steely marble	208	Mys: 85
-stinky cheese wheel	100	none	shield
-stop shield	100	Mus: 35	shield
+stinky cheese wheel	100	none	shield: 6
+stop shield	100	Mus: 35	shield: 6
 stress ball	100	Mys: 35
-studded sealhide shield	110	none	shield
+studded sealhide shield	110	none	shield: 7
 stuffed astral badger	10	none
 stuffed baby gravy fairy	10	none
 stuffed bandersnatch	10	none
@@ -2430,8 +2430,8 @@ sucker bucket	50	none
 surprisingly capacious handbag	50	none
 Sword of the Brouhaha Prince	0	none
 Taco Dan's Taco Stand Cocktail Sauce Bottle	10	none
-tailbone shield	250	Mus: 200	shield
-teflon shield	220	Mus: 85	shield
+tailbone shield	250	Mus: 200	shield: 16
+teflon shield	220	Mus: 85	shield: 14
 Temporal Tempera Tube	10	none
 terra cotta tambourine	120	Mox: 40
 Tesla's Electroplated Beans	40	Mys: 5	can of beans
@@ -2449,49 +2449,49 @@ tinsel orb	200	Mus: 75
 tiny black hole	10	none
 tip jar	135	Mys: 52
 torch	0	none
-tortoboggan shield	100	Mus: 35	shield
+tortoboggan shield	100	Mus: 35	shield: 6
 toy Crimbot super fist	50	none
 Trader Olaf's Exotic Stinkbeans	30	none	can of beans
 trench lighter	200	Mus: 200
 trojan horseshoe	50	none
 tropical paperweight	20	none
 Tuesday's ruby	120	Mys: 45
-turtle wax shield	40	Mus: 5	shield
+turtle wax shield	40	Mus: 5	shield: 2
 turtling rod	10	none
 unbreakable umbrella	100	none
 uncursed arcane orb	0	none
 uncursed stats	0	none
-Unkillable Skeleton's shield	350	Mus: 100	shield
+Unkillable Skeleton's shield	350	Mus: 100	shield: 23
 unstable fulminate	0	none
 UV-resistant compass	0	none
 Val-U Brand Every Bean Salad	60	Mys: 15
 vampire pellet	180	Mys: 35
-velcro shield	220	Mus: 85	shield
+velcro shield	220	Mus: 85	shield: 14
 velour valise	50	none
 vengeful spirit	225	Mys: 200
-vermiculite shield	150	Mus: 20	shield
+vermiculite shield	150	Mus: 20	shield: 9
 Victor, the Insult Comic Hellhound Puppet	10	none
-vinyl shield	220	Mus: 85	shield
+vinyl shield	220	Mus: 85	shield: 14
 visual packet sniffer	50	none
 voodoo doll	20	none
 wad of Crovacite	200	none
 Wal-Mart snowglobe	200	Mus: 50
 Walford's bucket	10	none
 Wand of Oscus	200	Mys: 200
-washboard shield	160	Mus: 150	shield
+washboard shield	160	Mus: 150	shield: 10
 water candle	0	none
 Whatsian Ionic Pliers	110	Mys: 40
 white balloon	10	none
-white satin shield	80	Mus: 25	shield
+white satin shield	80	Mus: 25	shield: 5
 whittled walking stick	200	Mus: 50
 wicker clicker	50	none
-wicker shield	170	Mus: 70	shield
-wonderwall shield	190	Mus: 70	shield
+wicker shield	170	Mus: 70	shield: 11
+wonderwall shield	190	Mus: 70	shield: 12
 World's Blackest-Eyed Peas	30	none	can of beans
-yakskin buckler	90	Mus: 30	shield
-yield shield	100	Mus: 35	shield
+yakskin buckler	90	Mus: 30	shield: 5
+yield shield	100	Mus: 35	shield: 6
 Yorick	150	Mys: 25
-Zombo's shield	240	Mus: 200	shield
+Zombo's shield	240	Mus: 200	shield: 15
 zoological sample kit	10	none
 
 # Accessories section of equipment.txt
