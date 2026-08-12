@@ -1451,6 +1451,8 @@ public class TCRSDatabase {
               Stream.of(
                   "Accessory Drop",
                   "Additional Song",
+                  "Adventure Randomly",
+                  "Blind",
                   "Combat Rate",
                   "DB Combat Damage",
                   "Damage vs. Bugbears",
@@ -1471,10 +1473,13 @@ public class TCRSDatabase {
                   "Hat Drop",
                   "Hobo Power",
                   "Mana Cost",
+                  "Mana Cost (combat)",
                   "Maximum Hooch",
                   "Moxie Limit",
                   "Muscle Limit",
                   "Mysticality Limit",
+                  "Negative Status Resist",
+                  "Never Fumble",
                   "Othello Skill",
                   "Pants Drop",
                   "Pickpocket Chance",
@@ -1486,11 +1491,15 @@ public class TCRSDatabase {
                   "Ranged Damage",
                   "Ranged Damage Percent",
                   "Reduce Enemy Defense",
+                  "Rollover Effect",
                   "Slime Resistance",
                   "Smithsness",
                   "Spleen Drop",
                   "Supercold Resistance",
-                  "WarBear Armor Penetration"))
+                  "WarBear Armor Penetration",
+                  "Weakens Monster",
+                  "Weakens Monster on Critical Hit",
+                  "Weapon Drop"))
           .collect(Collectors.toUnmodifiableSet());
 
   // Expression functions that query live character or environment state (a preference, the current
@@ -1513,17 +1522,17 @@ public class TCRSDatabase {
    * How many enchantments the base item has, which is how many TCRS re-rolls. This isn't just the
    * modifier count. Non-enchantment modifiers (class restrictions, familiar effects, ...) don't
    * count, an expanded family like "all resistance" counts once even though Mafia stores it as five
-   * elemental resistances, and innate constants like a shield's Damage Reduction don't count. We
-   * haven't fully worked out which base modifiers are really re-rolled enchantments, so this is a
-   * best estimate.
+   * elemental resistances, a regen min/max pair counts once, and familiar equipment's innate
+   * Familiar Weight doesn't count. We haven't fully worked out which base modifiers are really
+   * re-rolled enchantments, so this is a best estimate.
    */
   static int enchantCount(final int itemId) {
     // Enchantable base modifiers with their values, so collapsible families can be split by value.
-    var present = new java.util.HashMap<String, String>();
+    var present = new java.util.HashMap<String, Set<String>>();
     for (var mv : ModifierDatabase.getModifierList(new Lookup(ModifierType.ITEM, itemId))) {
       var name = mv.getName();
       if (RPN_MODIFIERS.contains(name) && isEnchantableValue(mv.getValue())) {
-        present.put(name, mv.getValue());
+        present.computeIfAbsent(name, key -> new HashSet<>()).add(mv.getValue());
       }
     }
 
@@ -1535,9 +1544,16 @@ public class TCRSDatabase {
     // ...).
     // Otherwise its members are separate enchantments, counted individually below.
     for (var family : COLLAPSIBLE) {
-      var values =
-          family.stream().filter(present::containsKey).map(present::get).distinct().toList();
-      if (present.keySet().containsAll(family) && values.size() == 1) {
+      var values = new HashSet<String>();
+      var complete = true;
+      for (var name : family) {
+        if (!present.containsKey(name)) {
+          complete = false;
+          break;
+        }
+        values.addAll(present.get(name));
+      }
+      if (complete && values.size() == 1) {
         count += 1;
         consumed.addAll(family);
       }
@@ -1549,14 +1565,16 @@ public class TCRSDatabase {
       consumed.addAll(REGEN);
     }
 
-    var isShield = EquipmentDatabase.isShield(itemId);
     var isFamiliarEquipment =
         ItemDatabase.getConsumptionType(itemId) == ConsumptionType.FAMILIAR_EQUIPMENT;
-    for (var name : present.keySet()) {
+    for (var entry : present.entrySet()) {
+      var name = entry.getKey();
       if (consumed.contains(name)) continue;
       // Familiar equipment's Familiar Weight is innate, not an enchantment.
       if (isFamiliarEquipment && name.equals("Familiar Weight")) continue;
-      count += 1;
+      // A base modifier that KoL displays as several lines (e.g. two distinct rollover effects in
+      // Uncle Crimbo's hat) is one enchantment per distinct value.
+      count += entry.getValue().size();
     }
 
     return count;
