@@ -277,6 +277,8 @@
 249	Look At That Drunken Sailor Dance	shanty3.gif	nc,effect,self,shanty	11	10
 250	Who's Going to Pay This Drunken Sailor?	shanty4.gif	nc,effect,self,shanty	22	10
 251	Only Dogs Love a Drunken Sailor	shanty5.gif	nc,effect,self,shanty	22	10
+252
+253	Order a Kneecapping	kneecapped.gif	combat	0	0
 
 # Skills available to Clubbers
 
