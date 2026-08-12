@@ -783,7 +783,6 @@ public class Modifiers {
         this.setDouble(DoubleModifier.HP_REGEN_MAX, 0.0);
         // Seal clubber
         this.setDouble(DoubleModifier.WEAPON_DAMAGE, 0.0);
-        this.setDouble(DoubleModifier.DAMAGE_REDUCTION, 0.0);
         // Turtle Tamer
         this.setDouble(DoubleModifier.FAMILIAR_WEIGHT, 0.0);
         // Disco Bandit
@@ -806,7 +805,6 @@ public class Modifiers {
               this.setDouble(DoubleModifier.HP_REGEN_MIN, 10.0);
               this.setDouble(DoubleModifier.HP_REGEN_MAX, 12.0);
               this.setDouble(DoubleModifier.WEAPON_DAMAGE, 15.0);
-              this.setDouble(DoubleModifier.DAMAGE_REDUCTION, 1.0);
             }
             case TURTLE_TAMER -> {
               this.setDouble(DoubleModifier.HP_REGEN_MIN, 10.0);
