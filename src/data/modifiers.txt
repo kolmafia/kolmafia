@@ -13887,6 +13887,7 @@ Item	Kissin' Cousins	Skill: "Awesome Balls of Fire"
 # kite: Weakens enemies somewhat and briefly stuns them
 Item	kite	Last Available: "2005-12"
 Item	kitten burglar	Free Pull, Last Available: "2018-07"
+Item	kneecapping contract	Skill: "Order a Kneecapping"
 # Knob Goblin firecracker: Deals 2-4 Physical Damage
 Item	Knob Goblin firecracker	Effect: "Missing Fingers", Effect Duration: 3
 # Knob Goblin seltzer: Restores 8-12 MP
