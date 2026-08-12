@@ -915,7 +915,7 @@ class PreferencesTest {
   @Nested
   /* This class has tests that deal with corrupt preferences and backups.  Several tests were added
     after work making backup writing and replacing prefs with the backup more robust.
-    Embedded in these tests and the associate code are the ideas that: If length of one of the
+    Embedded in these tests and the associated code are the ideas that: If length of one of the
     preference or backup files is less than half that of the other then one is corrupt; if a null or
     zero byte is in either file then it is corrupt; and a data before the first null is recoverable.
   */
