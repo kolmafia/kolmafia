@@ -552,6 +552,10 @@ public class EquipmentDatabase {
   }
 
   public static final String getItemType(final int itemId) {
+    return getItemType(itemId, true);
+  }
+
+  public static final String getItemType(final int itemId, final boolean showEquipmentSubtype) {
     switch (ItemDatabase.getConsumptionType(itemId)) {
       case EAT:
         return "food";
@@ -595,12 +599,18 @@ public class EquipmentDatabase {
         return "shirt";
       case WEAPON:
         {
+          if (!showEquipmentSubtype) {
+            return "weapon";
+          }
           EquipmentData equipmentData = EquipmentDatabase.equipmentById.get(itemId);
           String type = equipmentData == null ? null : equipmentData.itemType;
           return type != null ? type : "weapon";
         }
       case OFFHAND:
         {
+          if (!showEquipmentSubtype) {
+            return "offhand";
+          }
           EquipmentData equipmentData = EquipmentDatabase.equipmentById.get(itemId);
           String type = equipmentData == null ? null : equipmentData.itemType;
           return type != null ? type : "offhand";

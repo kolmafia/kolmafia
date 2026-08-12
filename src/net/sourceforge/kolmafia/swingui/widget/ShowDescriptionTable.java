@@ -409,19 +409,7 @@ public class ShowDescriptionTable<E> extends JXTable {
 
       String columnName = table.getColumnName(col);
 
-      if (columnName.equals("mallprice") && it instanceof Number) {
-        this.setValue(KoLConstants.COMMA_FORMAT.format(it));
-      } else if (columnName.equals("autosell") && it instanceof String autosell) {
-        int space = autosell.indexOf(' ');
-        if (space > 0) {
-          int price = StringUtilities.parseInt(autosell.substring(0, space));
-          this.setValue(KoLConstants.COMMA_FORMAT.format(price) + autosell.substring(space));
-        } else {
-          this.setValue(it);
-        }
-      } else {
-        this.setValue(it);
-      }
+      this.setValue(formatColumnValue(columnName, it));
 
       this.setToolTipText(TableCellFactory.getTooltipText(value, flags));
 
@@ -431,6 +419,23 @@ public class ShowDescriptionTable<E> extends JXTable {
       }
 
       return this;
+    }
+
+    /** Formats the raw cell value for display, adding thousands separators to price columns. */
+    private static Object formatColumnValue(String columnName, Object it) {
+      if (columnName.equals("mallprice") && it instanceof Number) {
+        return KoLConstants.COMMA_FORMAT.format(it);
+      }
+
+      if (columnName.equals("autosell") && it instanceof String autosell) {
+        int space = autosell.indexOf(' ');
+        if (space > 0) {
+          int price = StringUtilities.parseInt(autosell.substring(0, space));
+          return KoLConstants.COMMA_FORMAT.format(price) + autosell.substring(space);
+        }
+      }
+
+      return it;
     }
   }
 

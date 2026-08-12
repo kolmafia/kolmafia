@@ -157,84 +157,10 @@ public class TableCellFactory {
         }
         return advRange > 0 ? KoLConstants.ROUNDED_MODIFIER_FORMAT.format(advRange) : null;
       case 7:
-        return getDisplayItemType(advresult.getItemId());
+        return EquipmentDatabase.getItemType(advresult.getItemId(), false);
       default:
         return null;
     }
-  }
-
-  /**
-   * Returns the normalized item type shown in the Item Manager.
-   *
-   * <p>This intentionally maps KoLmafia's internal ConsumptionType values to a smaller set of
-   * player-facing categories for browsing and sorting. The returned value is not necessarily
-   * identical to the raw ConsumptionType or the KoL Wiki's "Type" field.
-   */
-  private static String getDisplayItemType(final int itemId) {
-    var type = ItemDatabase.getConsumptionType(itemId);
-    var attributes = ItemDatabase.getAttributes(itemId);
-
-    switch (type) {
-      case EAT:
-        return "food";
-      case DRINK:
-        return "booze";
-      case SPLEEN:
-        return "spleen item";
-
-      case POTION:
-        return "potion";
-      case AVATAR_POTION:
-        return "avatar potion";
-
-      case FAMILIAR_HATCHLING:
-        return "familiar larva";
-      case FAMILIAR_EQUIPMENT:
-        return "familiar equipment";
-
-      case HAT:
-        return "hat";
-      case CONTAINER:
-        return "back item";
-      case SHIRT:
-        return "shirt";
-      case WEAPON:
-        return "weapon";
-      case OFFHAND:
-        return "off-hand item";
-      case PANTS:
-        return "pants";
-      case ACCESSORY:
-        return "accessory";
-
-      case FOOD_HELPER:
-        return "food helper";
-      case DRINK_HELPER:
-        return "drink helper";
-      case ZAP:
-        return "zap wand";
-
-      default:
-        break;
-    }
-
-    if (attributes.contains(ItemDatabase.Attribute.COMBAT)
-        || attributes.contains(ItemDatabase.Attribute.COMBAT_REUSABLE)) {
-      return "combat item";
-    }
-
-    if (ItemDatabase.isQuestItem(itemId)) {
-      return "quest item";
-    }
-
-    return switch (type) {
-      case USE, USE_MULTIPLE, USE_INFINITE, USE_MESSAGE_DISPLAY, STICKER, PASTA_GUARDIAN ->
-          "usable";
-
-      case NONE, EL_VIBRATO_SPHERE -> "misc item";
-
-      default -> "misc item";
-    };
   }
 
   private static Object getStorageCell(
@@ -323,7 +249,7 @@ public class TableCellFactory {
         Integer lev = ConsumablesDatabase.getLevelReqByName(CIRresult.getName());
         return lev != null ? lev : null;
       case 7:
-        return getDisplayItemType(CIRresult.getItemId());
+        return EquipmentDatabase.getItemType(CIRresult.getItemId(), false);
       default:
         return null;
     }
