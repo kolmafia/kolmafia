@@ -1327,7 +1327,7 @@ Item	ceramic celery grater	Mysticality Percent: +20, Spell Critical Percent: +20
 Item	Cerebral Crossbow	Cold Damage: +3, Spooky Damage: +3, Sleaze Damage: +3, Last Available: "2006-06"
 # charming flute: +20 Damage vs. Snakes
 Item	charming flute	Moxie: +8
-# cheap plastic blowgun: 50% chance of poisoning opponent.
+Item	cheap plastic blowgun	Poison Chance: 50
 Item	cheap plastic bottle opener	Sleaze Damage: +2
 Item	cheap plastic kazoo	Monster Level: +10, Last Available: "2010-06"
 # cheer extractor: Extract 1 additional crystalline cheer from mimes in the Silent Night
@@ -1374,8 +1374,7 @@ Item	Crimbo sword	Weapon Damage: +5, Last Available: "2004-10"
 Item	Crimbo ukulele	Item Drop: +10, Last Available: "2006-12"
 # Crimbomination Contraption
 Item	Crimbomination Contraption	Last Available: "2009-12"
-# Crimbuccaneer squirtblunderbuss: 100% chance of poisoning opponent.
-Item	Crimbuccaneer squirtblunderbuss	Sleaze Damage: +30, Last Available: "2023-12"
+Item	Crimbuccaneer squirtblunderbuss	Poison Chance: 100, Sleaze Damage: +30, Last Available: "2023-12"
 # Crimbuccaneer tavern swab: Helps clean up the Bar at War
 Item	Crimbuccaneer tavern swab	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25, Sleaze Damage: +20, Stench Damage: +20, Last Available: "2023-12"
 Item	crowbar	Initiative: +25
@@ -1444,8 +1443,7 @@ Item	eggbeater	Spell Damage: +7
 Item	eldritch hammer	Maximum MP: +40, Monster Level: +10, Weapon Damage Percent: +50, Last Available: "2017-01"
 Item	electric crutch	Spell Damage: +20, Last Available: "2011-05"
 Item	elegant nightstick	Maximum HP: +30, Maximum MP: +15
-# elephant stinger: 50% chance of poisoning opponent.
-Item	elephant stinger	Muscle: +3, Last Available: "2010-03"
+Item	elephant stinger	Muscle: +3, Poison Chance: 50, Last Available: "2010-03"
 Item	elevenderizing hammer	Muscle: +11, Mysticality: +11, Moxie: +11, Weapon Damage: +11, Last Available: "2014-03"
 # Elf Guard broom: Helps clean up the Bar at War
 Item	Elf Guard broom	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25, Weakens Monster, Last Available: "2023-12"
@@ -1551,8 +1549,7 @@ Item	Gnollish pie server	Spell Damage: +3
 # Gnollish plunger
 Item	Gnollish slotted spoon	Spell Damage: +3
 Item	goatskin umbrella	Stench Damage: +15
-# goblin autoblowgun: 50% chance of poisoning opponent.
-Item	goblin autoblowgun	Ranged Damage: +5, Last Available: "2009-06"
+Item	goblin autoblowgun	Ranged Damage: +5, Poison Chance: 50, Last Available: "2009-06"
 # goblin hunting spear: +15 Damage vs. Jungle Beasts
 Item	goblin hunting spear	Weapon Damage: [5+15*loc(jungle)], Last Available: "2009-06"
 Item	goulauncher	Moxie: +4, Spooky Damage: +5
@@ -1798,8 +1795,7 @@ Item	plastic replica blaster pistol	Initiative: +20, Ranged Damage: +20, Lasts U
 Item	plexiglass pikestaff	Weapon Damage: +25, PvP Fights: +9, Muscle Percent: +30
 Item	pocket theremin	Spooky Damage: +7
 Item	pointed stick	Critical Hit Percent: +5, Weapon Damage: +10
-# poison pen: 75% chance of poisoning opponent.
-Item	poison pen	Last Available: "2009-12"
+Item	poison pen	Poison Chance: 75, Last Available: "2009-12"
 # polyester peeler: Increases the Damage of Stuffed Mortar Shell
 Item	polyester peeler	Spell Damage Percent: +20, MP Regen Min: 2, MP Regen Max: 4, Last Available: "2015-12"
 Item	pool cue	Moxie: +5, Pool Skill: +3
@@ -1881,8 +1877,7 @@ Item	savory staff	Mysticality: +4
 Item	savory sword	Muscle: +4
 Item	sawed-off blunderbuss	Pirate Warfare Effectiveness: +3, Muscle: +3, Mysticality: +3, Moxie: +3, Spooky Damage: +3, Stench Damage: +3, Hot Damage: +3, Cold Damage: +3, Sleaze Damage: +3, Last Available: "2023-12"
 Item	scepter of the Skeleton Lord	Moxie Percent: +50, Adventures: +3, PvP Fights: +3, Single Equip, Last Available: "2018-04"
-# scorpion whip: 50% chance of poisoning opponent.
-Item	scorpion whip	Weapon Damage: +13
+Item	scorpion whip	Weapon Damage: +13, Poison Chance: 50
 Item	scratch 'n' sniff crossbow	Last Available: "2008-11", none, Breakable
 Item	scratch 'n' sniff sword	Last Available: "2008-11", none, Breakable
 Item	sea-worn candlestick	PvP Fights: +5, Meat Drop: +25, Sleaze Resistance: +3, Last Available: "2020-09"
@@ -2088,8 +2083,7 @@ Item	Toyleporter	Last Available: "2018-12"
 Item	trash net	Last Available: "2015-04"
 Item	triple barreled barrel gun	Weapon Damage Percent: +100, Critical Hit Percent: +10, Meat Drop: +25, Last Available: "2015-09"
 Item	Tropical Crimbo Sword	Weapon Damage: +5, Last Available: "2006-12"
-# trout fang: 25% chance of poisoning opponent.
-Item	trout fang	Weapon Damage: +15, Last Available: "2010-09"
+Item	trout fang	Weapon Damage: +15, Poison Chance: 25, Last Available: "2010-09"
 Item	Trusty	Muscle: +5
 Item	trusty torch	Hot Damage: +3, Last Available: "2011-12"
 Item	Truthsayer	Monster Level: +12, Weapon Damage Percent: +40, Last Available: "2013-12"
@@ -5986,7 +5980,7 @@ Effect	Bubblin' Rage	Initiative: +20, Weapon Damage: +20, Weapon Damage Percent:
 Effect	Bubbly	MP Regen Min: 10, MP Regen Max: 20
 Effect	Buff as a Baobab	Experience Percent (Muscle): +20
 Effect	Bugbear in Tooth and Claw	Weapon Damage: +40, Spell Damage: +40
-# Buggy Flavor: 25% chance of poisoning opponent
+Effect	Buggy Flavor	Poison Chance: 25
 Effect	Built Body	Avatar: "Mr. Loathing"
 Effect	Bulging Jaw Muscles	Muscle: +25
 Effect	Bureaucratized	Familiar Weight: +10
@@ -6267,8 +6261,7 @@ Effect	Dead Man's Handoff	Avatar: "gamblin' man"
 Effect	Dead Sexy	Avatar: "sexy zombie"
 # Deadened palate: Bleah
 Effect	Deadly Flashing Blade	Weapon Damage: +10
-# Deadly Lampblade: 100% chance of poisoning opponent
-Effect	Deadly Lampblade	Spooky Damage: +75
+Effect	Deadly Lampblade	Spooky Damage: +75, Poison Chance: 100
 # Deep-Fried: Extra-Vulnerable to Stench and Sleaze
 Effect	Deep-Fried	Hot Resistance: +2, Stench Vulnerability, Sleaze Vulnerability
 Effect	Deep-Seated Rage	Damage vs. Mer-kin: 100
