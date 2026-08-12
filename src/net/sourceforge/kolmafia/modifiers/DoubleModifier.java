@@ -608,7 +608,15 @@ public enum DoubleModifier implements Modifier {
   PASTA_THRALL_EXPERIENCE(
       "Pasta Thrall Experience",
       Pattern.compile("([+-]\\d+) Pasta Thrall Experience"),
-      Pattern.compile("Pasta Thrall Experience: " + EXPR));
+      Pattern.compile("Pasta Thrall Experience: " + EXPR)),
+  POISON_CHANCE(
+      "Poison Chance",
+      Pattern.compile("(\\d+)% chance of poisoning opponent\\.?"),
+      Pattern.compile("Poison Chance: " + EXPR)),
+  WARBEAR_ITEM_DROP(
+      "WarBear Item Drop",
+      Pattern.compile("([+-]\\d+)% Item Drops from WarBears"),
+      Pattern.compile("WarBear Item Drop: " + EXPR));
 
   private final String name;
   private final Pattern[] descPatterns;

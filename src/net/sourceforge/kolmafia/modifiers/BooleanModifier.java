@@ -82,7 +82,11 @@ public enum BooleanModifier implements Modifier {
   WEAKENS_MONSTER_ON_CRITICAL_HIT(
       "Weakens Monster on Critical Hit",
       Pattern.compile("Weakens Monster on Critical Hit"),
-      Pattern.compile("Weakens Monster on Critical Hit"));
+      Pattern.compile("Weakens Monster on Critical Hit")),
+  HIT_CAUSES_BLEEDING(
+      "Hit Causes Bleeding",
+      Pattern.compile("Successful hit causes bleeding\\."),
+      Pattern.compile("Hit Causes Bleeding"));
 
   private final String name;
   private final Pattern[] descPatterns;
