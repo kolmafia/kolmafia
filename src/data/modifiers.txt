@@ -565,16 +565,13 @@ Item	wad of used tape	Muscle Percent: +10, Mysticality Percent: +10, Moxie Perce
 Item	warbear dress helmet	Moxie: +10, Booze Drop: +25, Last Available: "2013-12", Familiar Effect: "cold atk, 1xVolley, cap 25"
 # warbear electro-spiked helm: Troubling Vulnerability to All Elements (-5)
 Item	warbear electro-spiked helm	WarBear Armor Penetration: +60, Muscle Percent: -25, Mysticality Percent: -25, Moxie Percent: -25, Last Available: "2013-12", Hot Resistance: -5, Cold Resistance: -5, Spooky Resistance: -5, Stench Resistance: -5, Sleaze Resistance: -5, Familiar Effect: "atk, 1xFairy"
-# warbear fancy fedora: +15% Item Drops from WarBears
-Item	warbear fancy fedora	Initiative: -25, Maximum HP: -50, Maximum MP: -50, Last Available: "2013-12", Familiar Effect: "atk, 1xLep"
-# warbear feathered fedora: +10% Item Drops from WarBears
-Item	warbear feathered fedora	Last Available: "2013-12", Familiar Effect: "atk, 1xLep, cap 37"
+Item	warbear fancy fedora	WarBear Item Drop: +15, Initiative: -25, Maximum HP: -50, Maximum MP: -50, Last Available: "2013-12", Familiar Effect: "atk, 1xLep"
+Item	warbear feathered fedora	WarBear Item Drop: +10, Last Available: "2013-12", Familiar Effect: "atk, 1xLep, cap 37"
 # warbear foil hat: (additional +10 lbs. to Robotic Familiars)
 Item	warbear foil hat	Familiar Weight: [5+10*warbearfoilhat], Class: "Turtle Tamer", Last Available: "2013-12", Familiar Effect: "1xVolley, 2xPotato, cap 25"
 Item	warbear heated ushanka	Supercold Resistance: +3, Weapon Damage Percent: -25, Spell Damage Percent: -50, Last Available: "2013-12", Familiar Effect: "1xatk, 1xLep"
 Item	warbear lined ushanka	Supercold Resistance: +2, Last Available: "2013-12", Familiar Effect: "1.5xBarrr, 1xLep, cap 37"
-# warbear plain fedora: +5% Item Drops from WarBears
-Item	warbear plain fedora	Initiative: +25, Maximum HP: +50, Maximum MP: +50, Last Available: "2013-12", Familiar Effect: "atk, 1xLep, cap 12"
+Item	warbear plain fedora	WarBear Item Drop: +5, Initiative: +25, Maximum HP: +50, Maximum MP: +50, Last Available: "2013-12", Familiar Effect: "atk, 1xLep, cap 12"
 Item	warbear plain helm	WarBear Armor Penetration: +20, Weapon Damage Percent: +25, Spell Damage Percent: +50, Last Available: "2013-12", Familiar Effect: "atk, 1xFairy, cap 12"
 Item	warbear plain ushanka	Supercold Resistance: +1, Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, HP Regen Min: 10, HP Regen Max: 15, MP Regen Min: 10, MP Regen Max: 15, Last Available: "2013-12", Familiar Effect: "1xBarrr, 1xLep, cap 12"
 Item	warbear spiked helm	WarBear Armor Penetration: +40, Last Available: "2013-12", Familiar Effect: "atk, 1xFairy, cap 37"
@@ -946,17 +943,14 @@ Item	Wal-Mart overalls	Moxie Percent: +40, Experience (Moxie): +4, Initiative: +
 Item	warbear battle greaves	WarBear Armor Penetration: +20, Weapon Damage Percent: +25, Spell Damage Percent: +50, Last Available: "2013-12", Familiar Effect: "atk, 1xBarrr, cap 25"
 # warbear bearserker greaves: Troubling Vulnerability to All Elements (-5)
 Item	warbear bearserker greaves	WarBear Armor Penetration: +60, Muscle Percent: -25, Mysticality Percent: -25, Moxie Percent: -25, Last Available: "2013-12", Hot Resistance: -5, Cold Resistance: -5, Spooky Resistance: -5, Stench Resistance: -5, Sleaze Resistance: -5, Familiar Effect: "atk, 1xBarrr"
-# warbear ceremonial party pants: +10% Item Drops from WarBears
-Item	warbear ceremonial party pants	Last Available: "2013-12", Familiar Effect: "1xPotato, 1xGhuol, cap 37"
+Item	warbear ceremonial party pants	WarBear Item Drop: +10, Last Available: "2013-12", Familiar Effect: "1xPotato, 1xGhuol, cap 37"
 Item	warbear dress greaves	Muscle: +10, Food Drop: +25, Last Available: "2013-12", Familiar Effect: "2xBarrr, cap 25"
 Item	warbear electric long johns	Supercold Resistance: +3, Weapon Damage Percent: -25, Spell Damage Percent: -50, Last Available: "2013-12", Familiar Effect: "hot atk, 1xVolley"
 Item	warbear fleece-lined long johns	Supercold Resistance: +2, Last Available: "2013-12", Familiar Effect: "hot atk, 1xVolley, cap 37"
-# warbear high festival pants: +15% Item Drops from WarBears
-Item	warbear high festival pants	Initiative: -25, Maximum HP: -50, Maximum MP: -50, Last Available: "2013-12", Familiar Effect: "1xPotato, 1xGhoul"
+Item	warbear high festival pants	WarBear Item Drop: +15, Initiative: -25, Maximum HP: -50, Maximum MP: -50, Last Available: "2013-12", Familiar Effect: "1xPotato, 1xGhoul"
 Item	warbear long johns	Supercold Resistance: +1, Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, HP Regen Min: 10, HP Regen Max: 15, MP Regen Min: 10, MP Regen Max: 15, Last Available: "2013-12", Familiar Effect: "hot atk, 1xVolley, cap 12"
 Item	warbear officer greaves	WarBear Armor Penetration: +40, Last Available: "2013-12", Familiar Effect: "atk, 1xBarrr, cap 37"
-# warbear party pants: +5% Item Drops from WarBears
-Item	warbear party pants	Initiative: +25, Maximum HP: +50, Maximum MP: +50, Last Available: "2013-12", Familiar Effect: "1xPotato, 1xGhoul, cap 12"
+Item	warbear party pants	WarBear Item Drop: +5, Initiative: +25, Maximum HP: +50, Maximum MP: +50, Last Available: "2013-12", Familiar Effect: "1xPotato, 1xGhoul, cap 12"
 Item	Warms-Your-Tush	Hot Damage: +50, Cold Resistance: +5, Spooky Resistance: +1, Class: "Disco Bandit", Familiar Effect: "1xVolley, 1xPotato"
 Item	wax pants	Moxie: +7, Initiative: +10, Last Available: "2012-06", Familiar Effect: "atk, 3xBarrr, cap 12"
 Item	weasel stomping pants	Initiative: +25, Candy Drop: +25, Last Available: "2014-12", Familiar Effect: "1xGhoul, cap 20"
@@ -4222,8 +4216,7 @@ Item	warbear energy bracers	Class: "Pastamancer", Single Equip, Last Available: 
 # warbear exo-arm: Increases the magnitude of your Smacks
 Item	warbear exo-arm	Class: "Seal Clubber", Single Equip, Last Available: "2013-12"
 Item	warbear fleece-lined warscarf	Supercold Resistance: +2, Single Equip, Last Available: "2013-12"
-# warbear goggles: +5% Item Drops from WarBears
-Item	warbear goggles	Initiative: +25, Maximum HP: +50, Maximum MP: +50, Single Equip, Last Available: "2013-12"
+Item	warbear goggles	WarBear Item Drop: +5, Initiative: +25, Maximum HP: +50, Maximum MP: +50, Single Equip, Last Available: "2013-12"
 # warbear hoverbelt: Grants access to the upper floors of the Warbear fortress
 Item	warbear hoverbelt	Muscle Limit: 100, Mysticality Limit: 100, Moxie Limit: 100, Single Equip, Last Available: "2013-12"
 # warbear laser beacon: Attracts Cool Lasers
@@ -4233,10 +4226,8 @@ Item	warbear laser bowtie	WarBear Armor Penetration: +20, Weapon Damage Percent:
 # warbear nuclear bowtie: Troubling Vulnerability to All Elements (-5)
 Item	warbear nuclear bowtie	WarBear Armor Penetration: +60, Muscle Percent: -25, Mysticality Percent: -25, Moxie Percent: -25, Single Equip, Last Available: "2013-12", Cold Resistance: -5, Hot Resistance: -5, Sleaze Resistance: -5, Spooky Resistance: -5, Stench Resistance: -5
 Item	warbear plasma bowtie	WarBear Armor Penetration: +40, Single Equip, Last Available: "2013-12"
-# warbear polarized goggles: +15% Item Drops from WarBears
-Item	warbear polarized goggles	Initiative: -25, Maximum HP: -50, Maximum MP: -50, Single Equip, Last Available: "2013-12"
-# warbear snowblindness goggles: +10% Item Drops from WarBears
-Item	warbear snowblindness goggles	Single Equip, Last Available: "2013-12"
+Item	warbear polarized goggles	WarBear Item Drop: +15, Initiative: -25, Maximum HP: -50, Maximum MP: -50, Single Equip, Last Available: "2013-12"
+Item	warbear snowblindness goggles	WarBear Item Drop: +10, Single Equip, Last Available: "2013-12"
 Item	warbear warscarf	Supercold Resistance: +1, Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, HP Regen Min: 10, HP Regen Max: 15, MP Regen Min: 10, MP Regen Max: 15, Single Equip, Last Available: "2013-12"
 Item	Warehouse 23 bling	Maximum MP: +23
 Item	warm fur	Hot Damage: +60
@@ -6243,7 +6234,7 @@ Effect	damage.enh	Hot Damage: +5, Cold Damage: +5, Stench Damage: +5, Spooky Dam
 Effect	Dance Interpreter	Item Drop: +20
 Effect	Dance of the Sugar Fairy	Item Drop: +25
 Effect	Dances with Tweedles	Meat Drop: +40
-# Dances with Warbears: +10% Item Drops from WarBears
+Effect	Dances with Warbears	WarBear Item Drop: +10
 Effect	Dancin' Drunk	Item Drop: +100
 Effect	[1609]Dancin' Fool	Item Drop: +20
 Effect	[1910]Dancin' Fool	Moxie Percent: +200
@@ -6684,7 +6675,7 @@ Effect	Gettin' the Goods	Item Drop: +100
 Effect	Ghost Finger	Damage vs. Ghosts: +100
 Effect	Ghostly Shell	Damage Absorption: +80
 Effect	Giant Growth	Muscle Percent: +300, Mysticality Percent: +300, Moxie Percent: +300
-# Gift of the Warbear: +15% Item Drops from WarBears
+Effect	Gift of the Warbear	WarBear Item Drop: +15
 Effect	Gimme, Gimme	Food Drop: +25
 Effect	Ginger Fightis	Avatar: "creepy ginger twin"
 Effect	Ginger Snapped	Spooky Damage: +10
@@ -8514,9 +8505,8 @@ Effect	Wandering Eye Surgery	Item Drop: +50
 # Wanged: Unable to use obnoxious abbreviations
 Effect	War is Hol	Avatar: "François Verte, Art Teacher"
 Effect	Warbear Blubber	Supercold Resistance: +3
-# Warbear Hunter: +10% Item Drops from WarBears
-Effect	Warbear Hunter	WarBear Armor Penetration: +40, Supercold Resistance: +2
-# Warbear Loot Lust: +15% Item Drops from WarBears
+Effect	Warbear Hunter	WarBear Item Drop: +10, WarBear Armor Penetration: +40, Supercold Resistance: +2
+Effect	Warbear Loot Lust	WarBear Item Drop: +15
 Effect	Warbear on the Inside	Supercold Resistance: +2
 Effect	Warbear Warlust	WarBear Armor Penetration: +60
 Effect	Warlock Fairy Wizard Sorcerer	Avatar: "spooky gravy fairy warlock"
