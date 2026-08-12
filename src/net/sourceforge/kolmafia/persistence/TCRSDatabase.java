@@ -1548,7 +1548,6 @@ public class TCRSDatabase {
       consumed.addAll(REGEN);
     }
 
-    var isShield = EquipmentDatabase.isShield(itemId);
     var isFamiliarEquipment =
         ItemDatabase.getConsumptionType(itemId) == ConsumptionType.FAMILIAR_EQUIPMENT;
     for (var name : present.keySet()) {
