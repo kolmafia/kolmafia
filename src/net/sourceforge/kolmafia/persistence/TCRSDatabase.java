@@ -1471,6 +1471,7 @@ public class TCRSDatabase {
                   "Fishing Skill",
                   "Fumble",
                   "Hat Drop",
+                  "Hit Causes Bleeding",
                   "Hobo Power",
                   "Mana Cost",
                   "Mana Cost (combat)",
@@ -1484,6 +1485,7 @@ public class TCRSDatabase {
                   "Pants Drop",
                   "Pickpocket Chance",
                   "Pirate Warfare Effectiveness",
+                  "Poison Chance",
                   "Pool Skill",
                   "Potion Drop",
                   "PvP Fights",
@@ -1497,6 +1499,7 @@ public class TCRSDatabase {
                   "Spleen Drop",
                   "Supercold Resistance",
                   "WarBear Armor Penetration",
+                  "WarBear Item Drop",
                   "Weakens Monster",
                   "Weakens Monster on Critical Hit",
                   "Weapon Drop"))
