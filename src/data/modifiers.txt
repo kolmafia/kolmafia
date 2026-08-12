@@ -565,16 +565,13 @@ Item	wad of used tape	Muscle Percent: +10, Mysticality Percent: +10, Moxie Perce
 Item	warbear dress helmet	Moxie: +10, Booze Drop: +25, Last Available: "2013-12", Familiar Effect: "cold atk, 1xVolley, cap 25"
 # warbear electro-spiked helm: Troubling Vulnerability to All Elements (-5)
 Item	warbear electro-spiked helm	WarBear Armor Penetration: +60, Muscle Percent: -25, Mysticality Percent: -25, Moxie Percent: -25, Last Available: "2013-12", Hot Resistance: -5, Cold Resistance: -5, Spooky Resistance: -5, Stench Resistance: -5, Sleaze Resistance: -5, Familiar Effect: "atk, 1xFairy"
-# warbear fancy fedora: +15% Item Drops from WarBears
-Item	warbear fancy fedora	Initiative: -25, Maximum HP: -50, Maximum MP: -50, Last Available: "2013-12", Familiar Effect: "atk, 1xLep"
-# warbear feathered fedora: +10% Item Drops from WarBears
-Item	warbear feathered fedora	Last Available: "2013-12", Familiar Effect: "atk, 1xLep, cap 37"
+Item	warbear fancy fedora	WarBear Item Drop: +15, Initiative: -25, Maximum HP: -50, Maximum MP: -50, Last Available: "2013-12", Familiar Effect: "atk, 1xLep"
+Item	warbear feathered fedora	WarBear Item Drop: +10, Last Available: "2013-12", Familiar Effect: "atk, 1xLep, cap 37"
 # warbear foil hat: (additional +10 lbs. to Robotic Familiars)
 Item	warbear foil hat	Familiar Weight: [5+10*warbearfoilhat], Class: "Turtle Tamer", Last Available: "2013-12", Familiar Effect: "1xVolley, 2xPotato, cap 25"
 Item	warbear heated ushanka	Supercold Resistance: +3, Weapon Damage Percent: -25, Spell Damage Percent: -50, Last Available: "2013-12", Familiar Effect: "1xatk, 1xLep"
 Item	warbear lined ushanka	Supercold Resistance: +2, Last Available: "2013-12", Familiar Effect: "1.5xBarrr, 1xLep, cap 37"
-# warbear plain fedora: +5% Item Drops from WarBears
-Item	warbear plain fedora	Initiative: +25, Maximum HP: +50, Maximum MP: +50, Last Available: "2013-12", Familiar Effect: "atk, 1xLep, cap 12"
+Item	warbear plain fedora	WarBear Item Drop: +5, Initiative: +25, Maximum HP: +50, Maximum MP: +50, Last Available: "2013-12", Familiar Effect: "atk, 1xLep, cap 12"
 Item	warbear plain helm	WarBear Armor Penetration: +20, Weapon Damage Percent: +25, Spell Damage Percent: +50, Last Available: "2013-12", Familiar Effect: "atk, 1xFairy, cap 12"
 Item	warbear plain ushanka	Supercold Resistance: +1, Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, HP Regen Min: 10, HP Regen Max: 15, MP Regen Min: 10, MP Regen Max: 15, Last Available: "2013-12", Familiar Effect: "1xBarrr, 1xLep, cap 12"
 Item	warbear spiked helm	WarBear Armor Penetration: +40, Last Available: "2013-12", Familiar Effect: "atk, 1xFairy, cap 37"
@@ -946,17 +943,14 @@ Item	Wal-Mart overalls	Moxie Percent: +40, Experience (Moxie): +4, Initiative: +
 Item	warbear battle greaves	WarBear Armor Penetration: +20, Weapon Damage Percent: +25, Spell Damage Percent: +50, Last Available: "2013-12", Familiar Effect: "atk, 1xBarrr, cap 25"
 # warbear bearserker greaves: Troubling Vulnerability to All Elements (-5)
 Item	warbear bearserker greaves	WarBear Armor Penetration: +60, Muscle Percent: -25, Mysticality Percent: -25, Moxie Percent: -25, Last Available: "2013-12", Hot Resistance: -5, Cold Resistance: -5, Spooky Resistance: -5, Stench Resistance: -5, Sleaze Resistance: -5, Familiar Effect: "atk, 1xBarrr"
-# warbear ceremonial party pants: +10% Item Drops from WarBears
-Item	warbear ceremonial party pants	Last Available: "2013-12", Familiar Effect: "1xPotato, 1xGhuol, cap 37"
+Item	warbear ceremonial party pants	WarBear Item Drop: +10, Last Available: "2013-12", Familiar Effect: "1xPotato, 1xGhuol, cap 37"
 Item	warbear dress greaves	Muscle: +10, Food Drop: +25, Last Available: "2013-12", Familiar Effect: "2xBarrr, cap 25"
 Item	warbear electric long johns	Supercold Resistance: +3, Weapon Damage Percent: -25, Spell Damage Percent: -50, Last Available: "2013-12", Familiar Effect: "hot atk, 1xVolley"
 Item	warbear fleece-lined long johns	Supercold Resistance: +2, Last Available: "2013-12", Familiar Effect: "hot atk, 1xVolley, cap 37"
-# warbear high festival pants: +15% Item Drops from WarBears
-Item	warbear high festival pants	Initiative: -25, Maximum HP: -50, Maximum MP: -50, Last Available: "2013-12", Familiar Effect: "1xPotato, 1xGhoul"
+Item	warbear high festival pants	WarBear Item Drop: +15, Initiative: -25, Maximum HP: -50, Maximum MP: -50, Last Available: "2013-12", Familiar Effect: "1xPotato, 1xGhoul"
 Item	warbear long johns	Supercold Resistance: +1, Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, HP Regen Min: 10, HP Regen Max: 15, MP Regen Min: 10, MP Regen Max: 15, Last Available: "2013-12", Familiar Effect: "hot atk, 1xVolley, cap 12"
 Item	warbear officer greaves	WarBear Armor Penetration: +40, Last Available: "2013-12", Familiar Effect: "atk, 1xBarrr, cap 37"
-# warbear party pants: +5% Item Drops from WarBears
-Item	warbear party pants	Initiative: +25, Maximum HP: +50, Maximum MP: +50, Last Available: "2013-12", Familiar Effect: "1xPotato, 1xGhoul, cap 12"
+Item	warbear party pants	WarBear Item Drop: +5, Initiative: +25, Maximum HP: +50, Maximum MP: +50, Last Available: "2013-12", Familiar Effect: "1xPotato, 1xGhoul, cap 12"
 Item	Warms-Your-Tush	Hot Damage: +50, Cold Resistance: +5, Spooky Resistance: +1, Class: "Disco Bandit", Familiar Effect: "1xVolley, 1xPotato"
 Item	wax pants	Moxie: +7, Initiative: +10, Last Available: "2012-06", Familiar Effect: "atk, 3xBarrr, cap 12"
 Item	weasel stomping pants	Initiative: +25, Candy Drop: +25, Last Available: "2014-12", Familiar Effect: "1xGhoul, cap 20"
@@ -1327,7 +1321,7 @@ Item	ceramic celery grater	Mysticality Percent: +20, Spell Critical Percent: +20
 Item	Cerebral Crossbow	Cold Damage: +3, Spooky Damage: +3, Sleaze Damage: +3, Last Available: "2006-06"
 # charming flute: +20 Damage vs. Snakes
 Item	charming flute	Moxie: +8
-# cheap plastic blowgun: 50% chance of poisoning opponent.
+Item	cheap plastic blowgun	Poison Chance: 50
 Item	cheap plastic bottle opener	Sleaze Damage: +2
 Item	cheap plastic kazoo	Monster Level: +10, Last Available: "2010-06"
 # cheer extractor: Extract 1 additional crystalline cheer from mimes in the Silent Night
@@ -1374,8 +1368,7 @@ Item	Crimbo sword	Weapon Damage: +5, Last Available: "2004-10"
 Item	Crimbo ukulele	Item Drop: +10, Last Available: "2006-12"
 # Crimbomination Contraption
 Item	Crimbomination Contraption	Last Available: "2009-12"
-# Crimbuccaneer squirtblunderbuss: 100% chance of poisoning opponent.
-Item	Crimbuccaneer squirtblunderbuss	Sleaze Damage: +30, Last Available: "2023-12"
+Item	Crimbuccaneer squirtblunderbuss	Poison Chance: 100, Sleaze Damage: +30, Last Available: "2023-12"
 # Crimbuccaneer tavern swab: Helps clean up the Bar at War
 Item	Crimbuccaneer tavern swab	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25, Sleaze Damage: +20, Stench Damage: +20, Last Available: "2023-12"
 Item	crowbar	Initiative: +25
@@ -1444,8 +1437,7 @@ Item	eggbeater	Spell Damage: +7
 Item	eldritch hammer	Maximum MP: +40, Monster Level: +10, Weapon Damage Percent: +50, Last Available: "2017-01"
 Item	electric crutch	Spell Damage: +20, Last Available: "2011-05"
 Item	elegant nightstick	Maximum HP: +30, Maximum MP: +15
-# elephant stinger: 50% chance of poisoning opponent.
-Item	elephant stinger	Muscle: +3, Last Available: "2010-03"
+Item	elephant stinger	Muscle: +3, Poison Chance: 50, Last Available: "2010-03"
 Item	elevenderizing hammer	Muscle: +11, Mysticality: +11, Moxie: +11, Weapon Damage: +11, Last Available: "2014-03"
 # Elf Guard broom: Helps clean up the Bar at War
 Item	Elf Guard broom	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25, Weakens Monster, Last Available: "2023-12"
@@ -1551,8 +1543,7 @@ Item	Gnollish pie server	Spell Damage: +3
 # Gnollish plunger
 Item	Gnollish slotted spoon	Spell Damage: +3
 Item	goatskin umbrella	Stench Damage: +15
-# goblin autoblowgun: 50% chance of poisoning opponent.
-Item	goblin autoblowgun	Ranged Damage: +5, Last Available: "2009-06"
+Item	goblin autoblowgun	Ranged Damage: +5, Poison Chance: 50, Last Available: "2009-06"
 # goblin hunting spear: +15 Damage vs. Jungle Beasts
 Item	goblin hunting spear	Weapon Damage: [5+15*loc(jungle)], Last Available: "2009-06"
 Item	goulauncher	Moxie: +4, Spooky Damage: +5
@@ -1798,8 +1789,7 @@ Item	plastic replica blaster pistol	Initiative: +20, Ranged Damage: +20, Lasts U
 Item	plexiglass pikestaff	Weapon Damage: +25, PvP Fights: +9, Muscle Percent: +30
 Item	pocket theremin	Spooky Damage: +7
 Item	pointed stick	Critical Hit Percent: +5, Weapon Damage: +10
-# poison pen: 75% chance of poisoning opponent.
-Item	poison pen	Last Available: "2009-12"
+Item	poison pen	Poison Chance: 75, Last Available: "2009-12"
 # polyester peeler: Increases the Damage of Stuffed Mortar Shell
 Item	polyester peeler	Spell Damage Percent: +20, MP Regen Min: 2, MP Regen Max: 4, Last Available: "2015-12"
 Item	pool cue	Moxie: +5, Pool Skill: +3
@@ -1842,10 +1832,9 @@ Item	red-hot poker	Hot Damage: +15
 Item	red-hot sausage fork	Hot Damage: +8, Food Drop: +10, Last Available: "2019-01"
 Item	regret hose	Cold Damage: +10, Last Available: "2013-12", Conditional Skill (Equipped): "Tear Wave"
 Item	reindeer hammer	Muscle: +10, Mysticality: +10, Moxie: +10, Last Available: "2015-12"
-# reindeer sickle: Successful hit causes bleeding.
-Item	reindeer sickle	Last Available: "2015-12"
+Item	reindeer sickle	Hit Causes Bleeding, Last Available: "2015-12"
 Item	remaindered axe	Muscle: +2, Weapon Damage: +2
-# remorseless knife: Successful hit causes bleeding.
+Item	remorseless knife	Hit Causes Bleeding
 Item	repeating crossbow	Moxie: +2, Critical Hit Percent: +15
 Item	replica bottle-rocket crossbow	Moxie Percent: +15, Meat Drop: +15, Item Drop: +10, Conditional Skill (Equipped): "Fire red bottle-rocket", Conditional Skill (Equipped): "Fire blue bottle-rocket", Conditional Skill (Equipped): "Fire orange bottle-rocket", Conditional Skill (Equipped): "Fire purple bottle-rocket", Conditional Skill (Equipped): "Fire black bottle-rocket"
 Item	replica Fourth of May Cosplay Saber	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20, Spooky Damage: +4, Stench Damage: +4, Hot Damage: +4, Cold Damage: +4, Sleaze Damage: +4, Spooky Resistance: [1+3*pref(_saberMod,3)], Stench Resistance: [1+3*pref(_saberMod,3)], Hot Resistance: [1+3*pref(_saberMod,3)], Cold Resistance: [1+3*pref(_saberMod,3)], Sleaze Resistance: [1+3*pref(_saberMod,3)], MP Regen Min: [10*pref(_saberMod,1)], MP Regen Max: [15*pref(_saberMod,1)], Monster Level: [20*pref(_saberMod,2)], Familiar Weight: [10*pref(_saberMod,4)], Conditional Skill (Equipped): "Use the Force"
@@ -1882,8 +1871,7 @@ Item	savory staff	Mysticality: +4
 Item	savory sword	Muscle: +4
 Item	sawed-off blunderbuss	Pirate Warfare Effectiveness: +3, Muscle: +3, Mysticality: +3, Moxie: +3, Spooky Damage: +3, Stench Damage: +3, Hot Damage: +3, Cold Damage: +3, Sleaze Damage: +3, Last Available: "2023-12"
 Item	scepter of the Skeleton Lord	Moxie Percent: +50, Adventures: +3, PvP Fights: +3, Single Equip, Last Available: "2018-04"
-# scorpion whip: 50% chance of poisoning opponent.
-Item	scorpion whip	Weapon Damage: +13
+Item	scorpion whip	Weapon Damage: +13, Poison Chance: 50
 Item	scratch 'n' sniff crossbow	Last Available: "2008-11", none, Breakable
 Item	scratch 'n' sniff sword	Last Available: "2008-11", none, Breakable
 Item	sea-worn candlestick	PvP Fights: +5, Meat Drop: +25, Sleaze Resistance: +3, Last Available: "2020-09"
@@ -2089,8 +2077,7 @@ Item	Toyleporter	Last Available: "2018-12"
 Item	trash net	Last Available: "2015-04"
 Item	triple barreled barrel gun	Weapon Damage Percent: +100, Critical Hit Percent: +10, Meat Drop: +25, Last Available: "2015-09"
 Item	Tropical Crimbo Sword	Weapon Damage: +5, Last Available: "2006-12"
-# trout fang: 25% chance of poisoning opponent.
-Item	trout fang	Weapon Damage: +15, Last Available: "2010-09"
+Item	trout fang	Weapon Damage: +15, Poison Chance: 25, Last Available: "2010-09"
 Item	Trusty	Muscle: +5
 Item	trusty torch	Hot Damage: +3, Last Available: "2011-12"
 Item	Truthsayer	Monster Level: +12, Weapon Damage Percent: +40, Last Available: "2013-12"
@@ -3846,8 +3833,7 @@ Item	stainless steel scarf	Spell Damage: +20, Monster Level: +20, Mysticality Pe
 Item	stainless steel solitaire	Mana Cost: -2, Adventures: +2, Mysticality Percent: +15, Single Equip
 Item	stainless steel suspenders	Damage Absorption: +60, Maximum MP: +40, Moxie Percent: +15, Single Equip
 Item	Star of Bravery	Maximum HP: +25, Maximum MP: +25, Single Equip
-# steel knuckles: +30 Damage to Unarmed Attacks
-Item	steel knuckles	Last Available: "2016-02"
+Item	steel knuckles	Weapon Damage: [30*unarmed], Last Available: "2016-02"
 Item	stick-on eyebrow piercing	Muscle: +1, Last Available: "2008-04"
 Item	sticky gloves	Pickpocket Chance: +20, Single Equip, Last Available: "2011-05"
 Item	stinky cheese eye	Item Drop: [max(1,min(20,floor(pref(_stinkyCheeseCount)/5)))], Stinky Cheese, Softcore Only, Last Available: "2010-01", Meat Drop: [max(1,min(20,floor(pref(_stinkyCheeseCount)/5)))], Conditional Skill (Equipped): "Give Your Opponent the Stinkeye"
@@ -4230,8 +4216,7 @@ Item	warbear energy bracers	Class: "Pastamancer", Single Equip, Last Available: 
 # warbear exo-arm: Increases the magnitude of your Smacks
 Item	warbear exo-arm	Class: "Seal Clubber", Single Equip, Last Available: "2013-12"
 Item	warbear fleece-lined warscarf	Supercold Resistance: +2, Single Equip, Last Available: "2013-12"
-# warbear goggles: +5% Item Drops from WarBears
-Item	warbear goggles	Initiative: +25, Maximum HP: +50, Maximum MP: +50, Single Equip, Last Available: "2013-12"
+Item	warbear goggles	WarBear Item Drop: +5, Initiative: +25, Maximum HP: +50, Maximum MP: +50, Single Equip, Last Available: "2013-12"
 # warbear hoverbelt: Grants access to the upper floors of the Warbear fortress
 Item	warbear hoverbelt	Muscle Limit: 100, Mysticality Limit: 100, Moxie Limit: 100, Single Equip, Last Available: "2013-12"
 # warbear laser beacon: Attracts Cool Lasers
@@ -4241,10 +4226,8 @@ Item	warbear laser bowtie	WarBear Armor Penetration: +20, Weapon Damage Percent:
 # warbear nuclear bowtie: Troubling Vulnerability to All Elements (-5)
 Item	warbear nuclear bowtie	WarBear Armor Penetration: +60, Muscle Percent: -25, Mysticality Percent: -25, Moxie Percent: -25, Single Equip, Last Available: "2013-12", Cold Resistance: -5, Hot Resistance: -5, Sleaze Resistance: -5, Spooky Resistance: -5, Stench Resistance: -5
 Item	warbear plasma bowtie	WarBear Armor Penetration: +40, Single Equip, Last Available: "2013-12"
-# warbear polarized goggles: +15% Item Drops from WarBears
-Item	warbear polarized goggles	Initiative: -25, Maximum HP: -50, Maximum MP: -50, Single Equip, Last Available: "2013-12"
-# warbear snowblindness goggles: +10% Item Drops from WarBears
-Item	warbear snowblindness goggles	Single Equip, Last Available: "2013-12"
+Item	warbear polarized goggles	WarBear Item Drop: +15, Initiative: -25, Maximum HP: -50, Maximum MP: -50, Single Equip, Last Available: "2013-12"
+Item	warbear snowblindness goggles	WarBear Item Drop: +10, Single Equip, Last Available: "2013-12"
 Item	warbear warscarf	Supercold Resistance: +1, Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, HP Regen Min: 10, HP Regen Max: 15, MP Regen Min: 10, MP Regen Max: 15, Single Equip, Last Available: "2013-12"
 Item	Warehouse 23 bling	Maximum MP: +23
 Item	warm fur	Hot Damage: +60
@@ -5988,7 +5971,7 @@ Effect	Bubblin' Rage	Initiative: +20, Weapon Damage: +20, Weapon Damage Percent:
 Effect	Bubbly	MP Regen Min: 10, MP Regen Max: 20
 Effect	Buff as a Baobab	Experience Percent (Muscle): +20
 Effect	Bugbear in Tooth and Claw	Weapon Damage: +40, Spell Damage: +40
-# Buggy Flavor: 25% chance of poisoning opponent
+Effect	Buggy Flavor	Poison Chance: 25
 Effect	Built Body	Avatar: "Mr. Loathing"
 Effect	Bulging Jaw Muscles	Muscle: +25
 Effect	Bureaucratized	Familiar Weight: +10
@@ -6251,7 +6234,7 @@ Effect	damage.enh	Hot Damage: +5, Cold Damage: +5, Stench Damage: +5, Spooky Dam
 Effect	Dance Interpreter	Item Drop: +20
 Effect	Dance of the Sugar Fairy	Item Drop: +25
 Effect	Dances with Tweedles	Meat Drop: +40
-# Dances with Warbears: +10% Item Drops from WarBears
+Effect	Dances with Warbears	WarBear Item Drop: +10
 Effect	Dancin' Drunk	Item Drop: +100
 Effect	[1609]Dancin' Fool	Item Drop: +20
 Effect	[1910]Dancin' Fool	Moxie Percent: +200
@@ -6269,8 +6252,7 @@ Effect	Dead Man's Handoff	Avatar: "gamblin' man"
 Effect	Dead Sexy	Avatar: "sexy zombie"
 # Deadened palate: Bleah
 Effect	Deadly Flashing Blade	Weapon Damage: +10
-# Deadly Lampblade: 100% chance of poisoning opponent
-Effect	Deadly Lampblade	Spooky Damage: +75
+Effect	Deadly Lampblade	Spooky Damage: +75, Poison Chance: 100
 # Deep-Fried: Extra-Vulnerable to Stench and Sleaze
 Effect	Deep-Fried	Hot Resistance: +2, Stench Vulnerability, Sleaze Vulnerability
 Effect	Deep-Seated Rage	Damage vs. Mer-kin: 100
@@ -6693,7 +6675,7 @@ Effect	Gettin' the Goods	Item Drop: +100
 Effect	Ghost Finger	Damage vs. Ghosts: +100
 Effect	Ghostly Shell	Damage Absorption: +80
 Effect	Giant Growth	Muscle Percent: +300, Mysticality Percent: +300, Moxie Percent: +300
-# Gift of the Warbear: +15% Item Drops from WarBears
+Effect	Gift of the Warbear	WarBear Item Drop: +15
 Effect	Gimme, Gimme	Food Drop: +25
 Effect	Ginger Fightis	Avatar: "creepy ginger twin"
 Effect	Ginger Snapped	Spooky Damage: +10
@@ -8523,9 +8505,8 @@ Effect	Wandering Eye Surgery	Item Drop: +50
 # Wanged: Unable to use obnoxious abbreviations
 Effect	War is Hol	Avatar: "François Verte, Art Teacher"
 Effect	Warbear Blubber	Supercold Resistance: +3
-# Warbear Hunter: +10% Item Drops from WarBears
-Effect	Warbear Hunter	WarBear Armor Penetration: +40, Supercold Resistance: +2
-# Warbear Loot Lust: +15% Item Drops from WarBears
+Effect	Warbear Hunter	WarBear Item Drop: +10, WarBear Armor Penetration: +40, Supercold Resistance: +2
+Effect	Warbear Loot Lust	WarBear Item Drop: +15
 Effect	Warbear on the Inside	Supercold Resistance: +2
 Effect	Warbear Warlust	WarBear Armor Penetration: +60
 Effect	Warlock Fairy Wizard Sorcerer	Avatar: "spooky gravy fairy warlock"
