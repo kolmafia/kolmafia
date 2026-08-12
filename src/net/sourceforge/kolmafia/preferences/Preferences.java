@@ -4,9 +4,9 @@ import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.AtomicMoveNotSupportedException;
 import java.nio.file.Files;
@@ -949,18 +949,62 @@ public class Preferences {
     // the file in synch atomically
 
     synchronized (lock) {
-      // Determine the contents of the file by
-      // actually printing them.
+      File tempFile = new File(file.getPath() + ".tmp");
+      try {
+        try (FileOutputStream fos = new FileOutputStream(tempFile);
+            BufferedOutputStream bos = new BufferedOutputStream(fos)) {
+          synchronized (encodedData) {
+            for (Entry<String, byte[]> current : encodedData.entrySet()) {
+              bos.write(current.getValue());
+            }
+          }
+          bos.flush();
+          fos.getFD().sync();
+        }
 
-      try (OutputStream fstream = new BufferedOutputStream(DataUtilities.getOutputStream(file))) {
-        synchronized (encodedData) {
-          for (Entry<String, byte[]> current : encodedData.entrySet()) {
-            fstream.write(current.getValue());
+        // Refresh backup from the previous durable prefs before replace, so a crash
+        // during the upcoming commit cannot leave both files damaged.
+        File backupFile = Preferences.prefsBackupFileFor(file);
+        if (backupFile != null && file.exists() && file.length() > 0) {
+          try {
+            Files.copy(file.toPath(), backupFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+          } catch (IOException ex) {
+            System.out.println(
+                "I/O Error when creating backup preferences file: " + ex.getMessage());
+            RequestLogger.updateSessionLog(
+                file
+                    + " backup creation failed. Please manually inspect "
+                    + "your preferences and backup files and repair any problems.  If you have a damaged preferences file, "
+                    + "please consider creating a bug report on the forum, noting any special circumstances around "
+                    + "the failure, and attaching the preferences.");
           }
         }
+
+        Preferences.commitPrefsTempFile(tempFile, file);
       } catch (IOException e) {
         System.out.println(e.getMessage() + " trying to write preferences as byte array.");
+        try {
+          Files.deleteIfExists(tempFile.toPath());
+        } catch (IOException ignored) {
+        }
       }
+    }
+  }
+
+  /**
+   * Replace the live prefs file with a fully written temp file. Prefers an atomic rename; when the
+   * OS/filesystem cannot do that, uses a backup-safe delete-then-rename so the live file is never
+   * truncated in place. Caller must already have refreshed {@code *.bak} when applicable.
+   */
+  static void commitPrefsTempFile(File tempFile, File targetFile) throws IOException {
+    try {
+      Files.move(
+          tempFile.toPath(),
+          targetFile.toPath(),
+          StandardCopyOption.ATOMIC_MOVE,
+          StandardCopyOption.REPLACE_EXISTING);
+    } catch (AtomicMoveNotSupportedException e) {
+      Preferences.commitPrefsTempFileNonAtomic(tempFile, targetFile, e);
     }
   }
 
