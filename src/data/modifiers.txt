@@ -1140,8 +1140,7 @@ Item	unrequired jacket	Initiative: +20
 Item	white and gold dress	Food Drop: +75, Maximum HP: +50, Last Available: "2026-03"
 Item	white hat hacker T-shirt	Critical Hit Percent: +3, Muscle: +2, Mysticality: +2, Moxie: +2
 Item	white snakeskin duster	Muscle: +2, Maximum HP: +10
-# witch's bra: All Spells Cast Are Cold
-Item	witch's bra	Spell Damage Percent: +50, Cold Spell Damage: +50, Last Available: "2014-12"
+Item	witch's bra	Spell Damage Percent: +50, Cold Spell Damage: +50, All Spells Cast Are Cold, Last Available: "2014-12"
 Item	wumpus-hair sweater	Muscle: +3, Mysticality: +3, Moxie: +3, Maximum HP: +30, Maximum MP: +30, Last Available: "2009-06"
 Item	Xiblaxian stealth vest	Combat Rate: -5, Muscle Percent: +20, Last Available: "2014-09"
 Item	yak anorak	MP Regen Min: 3, MP Regen Max: 4
@@ -1918,8 +1917,7 @@ Item	slime-covered club	Weapon Damage: [50*loc(The Slime Tube)+25], Critical Hit
 Item	slime-covered shovel	Weapon Damage: [100*loc(The Slime Tube)+60], Initiative: -10
 # slime-covered speargun: +50 Damage against Slimes
 Item	slime-covered speargun	Weapon Damage: [50*loc(The Slime Tube)+25], Critical Hit Percent: +7
-# slime-covered staff: All Spells Cast Are Sleazy
-Item	slime-covered staff	Spell Damage: +60, Initiative: -10
+Item	slime-covered staff	All Spells Cast Are Sleazy, Spell Damage: +60, Initiative: -10
 # slingshot
 Item	smoldering bagel punch	Hot Spell Damage: +10, Spell Damage: +5, Last Available: "2016-08"
 Item	smoldering staff	Mysticality: +7, Moxie: +5, Stench Spell Damage: +11
@@ -2270,14 +2268,12 @@ Item	Cloaca-Cola shield	Mysticality: +1
 # clockwork detective skull
 Item	clownskin buckler	Spooky Damage: +3, Clowniness: 50
 Item	cobbled-together Meat detector	Meat Drop: +15, Lasts Until Rollover, Last Available: "2019-12"
-# Codex of Capsaicin Conjuration: All Spells Cast Are Hot
-Item	Codex of Capsaicin Conjuration	Spell Damage: +10
+Item	Codex of Capsaicin Conjuration	Spell Damage: +10, All Spells Cast Are Hot
 Item	coffin lid	Spooky Resistance: +1
 Item	Cold Stone of Hatred	Mysticality Percent: +20, Reduce Enemy Defense: 10, Spell Damage Percent: +60, Conditional Skill (Equipped): "Chilling Grip"
 Item	collapsible baton	Mysticality Percent: +10, Spell Critical Percent: +5
 Item	complicated device	Experience: +1, Hot Damage: +1, Cold Damage: +1, Stench Damage: +1, Spooky Damage: +1, Sleaze Damage: +1, Hot Spell Damage: +11, Cold Spell Damage: +11, Stench Spell Damage: +11, Spooky Spell Damage: +11, Sleaze Spell Damage: +11, Monster Level: +11, Initiative: +11, Damage Reduction: 11, Damage Absorption: +11, Meat Drop: +11, Item Drop: +11, Muscle: +11, Mysticality: +11, Moxie: +11, Muscle Percent: +11, Mysticality Percent: +11, Moxie Percent: +11, Maximum HP: +111, Maximum MP: +111, Maximum HP Percent: +111, Maximum MP Percent: +111, Last Available: "2020-09"
-# Cookbook of the Damned: All Spells Cast Are Stinky
-Item	Cookbook of the Damned	Spell Damage: +10
+Item	Cookbook of the Damned	Spell Damage: +10, All Spells Cast Are Stinky
 Item	cosmetic football	Muscle: +10, Last Available: "2018-09"
 Item	creepy doll head	Spooky Damage: +15
 Item	creepy voice box	Conditional Skill (Equipped): "Pull Voice Box String"
@@ -2324,8 +2320,7 @@ Item	Dinsey's radar dish	MP Regen Min: 8, MP Regen Max: 10, Last Available: "201
 Item	dirty rigging rope	Initiative: +30, Stench Damage: +15, Last Available: "2015-04"
 Item	discarded finger painting	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Last Available: "2020-04"
 Item	disturbing fanfic	Sleaze Spell Damage: +30
-# double-ice box: All Spells Cast Are Cold
-Item	double-ice box	Spell Damage Percent: +10, Last Available: "2011-04", Damage Aura: 1
+Item	double-ice box	All Spells Cast Are Cold, Spell Damage Percent: +10, Last Available: "2011-04", Damage Aura: 1
 Item	drippy shield	Drippy Resistance: +10
 Item	druidic orb	Lasts Until Rollover, Last Available: "2018-04"
 # Drunkula's wineglass: Allows adventuring while falling-down drunk
@@ -2343,12 +2338,10 @@ Item	Elf Guard war standard	Elf Warfare Effectiveness: +50, MP Regen Min: 4, MP 
 Item	Elizabeth's Dollie	Cold Resistance: +4, Spooky Spell Damage: +25
 Item	Ellsbury's skull	Meat Drop: +10, Item Drop: +10, Last Available: "2010-09"
 Item	enchanted brass knuckles	Critical Hit Percent: +5
-# enchanted fire extinguisher: All Spells Cast Are Cold
-Item	enchanted fire extinguisher	Spell Damage Percent: +100, Cold Spell Damage: +30, Last Available: "2012-07"
+Item	enchanted fire extinguisher	All Spells Cast Are Cold, Spell Damage Percent: +100, Cold Spell Damage: +30, Last Available: "2012-07"
 # encrypted micro-cassette recorder: Optimized for Pun-Recording
 Item	encrypted micro-cassette recorder	Last Available: "2014-10"
-# Engorged Sausages and You: All Spells Cast Are Sleazy
-Item	Engorged Sausages and You	Spell Damage: +15, Food Drop: +20
+Item	Engorged Sausages and You	Spell Damage: +15, All Spells Cast Are Sleazy, Food Drop: +20
 # enhanced signal receiver: Reveals and interprets electromagnetic noise
 Item	eye of the Tiger-lily	Spell Damage: +10, Item Drop: +5, Last Available: "2010-03"
 Item	faded green protest sign	Last Available: "2015-12"
@@ -2381,8 +2374,7 @@ Item	foon of fulmination	Mysticality: +3, Hot Spell Damage: +8
 Item	Franken Stein	Conditional Skill (Equipped): "Toast your enemy"
 Item	frankincenser	Maximum MP: +10, Experience (Mysticality): +3, Last Available: "2020-12"
 Item	furry yam buckler	Cold Resistance: +4, Damage Reduction: 11, Negative Status Resist, Lasts Until Rollover, Last Available: "2024-05"
-# Gazpacho's Glacial Grimoire: All Spells Cast Are Cold
-Item	Gazpacho's Glacial Grimoire	Spell Damage: +10
+Item	Gazpacho's Glacial Grimoire	Spell Damage: +10, All Spells Cast Are Cold
 # geofencing shield: CyberRealm: Prevent most damage from processes
 Item	geofencing shield	Last Available: "2025-12"
 # geological sample kit: Increases the yield of Spacegate geology operations
@@ -2548,14 +2540,12 @@ Item	mushroom shield	Muscle: +40, Mysticality: -20, Moxie: -20, Combat Rate: +10
 # Mylar balloon
 # naughty fortune teller: + Some Stats Per Fight
 Item	naughty fortune teller	Softcore Only, Last Available: "2008-02"
-# Necrotelicomnicon: All Spells Cast Are Spooky
-Item	Necrotelicomnicon	Spell Damage: +10
+Item	Necrotelicomnicon	Spell Damage: +10, All Spells Cast Are Spooky
 Item	novelty monorail ticket	Adventures: +3, Rollover Effect: "Favored by Lyle", Rollover Effect Duration: 100
 Item	nozzle of the Phoenix	Mysticality: +15, Mysticality Percent: +25, Hot Spell Damage: +50, Last Available: "2018-04"
 Item	off-hand balloon	Muscle: +1, Mysticality: +1, Moxie: +1
 Item	oil lamp	Sleaze Damage: +5, Hot Damage: +5
-# Ol' Scratch's ash can: All Spells Cast Are Hot
-Item	Ol' Scratch's ash can	Spell Damage Percent: +100, Hot Spell Damage: +30, Class: "Sauceror"
+Item	Ol' Scratch's ash can	All Spells Cast Are Hot, Spell Damage Percent: +100, Hot Spell Damage: +30, Class: "Sauceror"
 Item	Ol' Scratch's stove door	Hot Damage: +20, Thorns: 1
 Item	old pizza box	Damage Absorption: +50, Last Available: "2020-04"
 Item	old school flying disc	Muscle Percent: +15, Damage Reduction: 10, Familiar Weight: +5
@@ -2678,8 +2668,7 @@ Item	shrunken head	Damage Reduction: [5*L], Muscle: [3*L], Mysticality: [3*L], M
 # signal receiver: Receives signals, presumably
 Item	silver cow creamer	Adventures: +3, PvP Fights: +3, Meat Drop: +30, Last Available: "2014-12"
 # silver sausage
-# Sinful Desires: All Spells Cast Are Sleazy
-Item	Sinful Desires	Spell Damage: +10
+Item	Sinful Desires	Spell Damage: +10, All Spells Cast Are Sleazy
 Item	six-rainbow shield	Maximum HP: +50, Spooky Resistance: +3, Stench Resistance: +3, Hot Resistance: +3, Cold Resistance: +3, Sleaze Resistance: +3, Last Available: "2008-07"
 Item	skull gearshift knob	Spooky Damage: +20, Spooky Spell Damage: +25, Spell Damage Percent: +30, Last Available: "2014-12"
 Item	skull of the Bonerdagon	Spooky Damage: +5
@@ -2688,8 +2677,7 @@ Item	slime-covered lantern	Slime Resistance: +2, Maximum HP: +50, Maximum MP: +5
 Item	slippery when wet shield	Damage Absorption: +10, Last Available: "2010-04"
 Item	smirking shrunken head	Damage Aura: 1
 Item	snake shield	Muscle: +6, Synergetic
-# snapdragon pistil: All Spells Cast Are Hot
-Item	snapdragon pistil	Spell Critical Percent: +5, Last Available: "2010-03"
+Item	snapdragon pistil	All Spells Cast Are Hot, Spell Critical Percent: +5, Last Available: "2010-03"
 Item	snarling wolf shield	Maximum HP: +40, Synergetic
 Item	snow mobile	Maximum MP: +20, Lasts Until Rollover, Last Available: "2014-01", Lantern: 1, Lantern Element: "Cold"
 Item	snowstick	Cold Spell Damage: +80
@@ -2776,8 +2764,7 @@ Item	Tesla's Electroplated Beans	Maximum MP: [15*(1+skill(Beanweaver))], Spell D
 Item	testy toolbox	Rollover Effect: "Knob Goblin Perfume", Rollover Effect Duration: 11
 # The Lot's engagement ring: Allows Noxious Proposals
 Item	The Lot's engagement ring	Stench Damage: +3, Conditional Skill (Equipped): "Propose To Your Opponent"
-# The Necbromancer's Stein: All Spells Cast Are Spooky
-Item	The Necbromancer's Stein	Spell Damage Percent: +100, Spooky Spell Damage: +30, Last Available: "2011-10"
+Item	The Necbromancer's Stein	All Spells Cast Are Spooky, Spell Damage Percent: +100, Spooky Spell Damage: +30, Last Available: "2011-10"
 Item	The Spirit of Crimbo	Free Pull, Last Available: "2008-12", Conditional Skill (Equipped): "Recite 'The Spirit of Crimbo'"
 Item	The Wizard's Android	Mana Cost: -2, PvP Fights: +6, Fumble: 2
 Item	third-hand lantern	Initiative: +5
@@ -2821,8 +2808,7 @@ Item	voodoo doll	Mysticality: +1
 Item	wad of Crovacite	Muscle: +5, Mysticality: +5, Moxie: +5, Spooky Damage: +5
 Item	Wal-Mart snowglobe	Muscle Percent: +40, Experience (Muscle): +4, Familiar Weight: +5, Last Available: "2015-11"
 Item	Walford's bucket	Last Available: "2015-11"
-# Wand of Oscus: All Spells Cast Are Stinky
-Item	Wand of Oscus	Spell Damage Percent: +100, Stench Spell Damage: +30, Class: "Pastamancer"
+Item	Wand of Oscus	All Spells Cast Are Stinky, Spell Damage Percent: +100, Stench Spell Damage: +30, Class: "Pastamancer"
 Item	washboard shield	Damage Absorption: +50, Class: "Turtle Tamer"
 Item	water candle	Hot Resistance: +3, Lasts Until Rollover, Water: +3
 Item	Whatsian Ionic Pliers	HP Regen Min: 3, HP Regen Max: 5, MP Regen Min: 3, MP Regen Max: 5
@@ -3021,8 +3007,7 @@ Item	cheap plastic pipe	Maximum MP: +40, MP Regen Min: 8, MP Regen Max: 12, Sing
 Item	cheap studded belt	Damage Reduction: 1, Last Available: "2008-04"
 # cheap sunglasses: +60% Meat Drops from Tourists
 Item	cheap sunglasses	Meat Drop: [60*zone(Dinseylandfill)], Single Equip, Last Available: "2015-04"
-# Chester's Aquarius medallion: All Spells Cast Are Sleazy
-Item	Chester's Aquarius medallion	Sleaze Spell Damage: +30, Single Equip
+Item	Chester's Aquarius medallion	All Spells Cast Are Sleazy, Sleaze Spell Damage: +30, Single Equip
 # Chester's moustache: Disco Bandit Combat Skills weaken enemies by an additional 50%
 Item	Chester's moustache	DB Combat Damage: +20, Sleaze Damage: +20, Class: "Disco Bandit", Single Equip
 Item	Chester's sunglasses	Moxie Percent: +15, Sleaze Damage: +20, Reduce Enemy Defense: 15, Single Equip
@@ -3518,8 +3503,7 @@ Item	nylon Christmas stockings	Initiative: +75, Spell Damage Percent: +50, Exper
 Item	observational glasses	Item Drop: +5
 Item	offensive moustache	PvP Fights: +7, Single Equip
 Item	Official Council Aide Pin	Adventures: +4, PvP Fights: +2, Last Available: "2016-11"
-# Ol' Scratch's manacles: All Spells Cast Are Hot
-Item	Ol' Scratch's manacles	Hot Spell Damage: +30, Moxie Percent: +15, Single Equip
+Item	Ol' Scratch's manacles	Hot Spell Damage: +30, All Spells Cast Are Hot, Moxie Percent: +15, Single Equip
 Item	old ball and chain	Initiative: -50, Cold Damage: +100, Single Equip
 # old school calculator watch: Math!
 Item	old school calculator watch	Last Available: "2012-12", Sporadic Damage Aura: 0.25
@@ -8030,17 +8014,12 @@ Effect	Spiky Hair	Muscle: +6, Moxie: +6
 Effect	Spiky Shell	Thorns: 1
 Effect	Spirit Bubble	Damage Reduction: 10, Spooky Damage: +10, Spooky Spell Damage: +10
 Effect	Spirit of Alph	Muscle Percent: +10
-# Spirit of Bacon Grease: All Spells Cast Are Sleazy
-Effect	Spirit of Bacon Grease	Spell Damage: +10
-# Spirit of Cayenne: All Spells Cast Are Hot
-Effect	Spirit of Cayenne	Spell Damage: +10
+Effect	Spirit of Bacon Grease	All Spells Cast Are Sleazy, Spell Damage: +10
+Effect	Spirit of Cayenne	All Spells Cast Are Hot, Spell Damage: +10
 Effect	Spirit of Galactic Unity	Familiar Weight: +10
-# Spirit of Garlic: All Spells Cast Are Stinky
-Effect	Spirit of Garlic	Spell Damage: +10
-# Spirit of Peppermint: All Spells Cast Are Cold
-Effect	Spirit of Peppermint	Spell Damage: +10
-# Spirit of Wormwood: All Spells Cast Are Spooky
-Effect	Spirit of Wormwood	Spell Damage: +10
+Effect	Spirit of Garlic	All Spells Cast Are Stinky, Spell Damage: +10
+Effect	Spirit of Peppermint	All Spells Cast Are Cold, Spell Damage: +10
+Effect	Spirit of Wormwood	All Spells Cast Are Spooky, Spell Damage: +10
 # Spirit Pariah
 Effect	Spirit Schooled	Maximum MP Percent: +20
 Effect	Spirit Souvenirs	Maximum MP: +10, MP Regen Min: 8, MP Regen Max: 10
