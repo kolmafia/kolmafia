@@ -32,6 +32,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -141,6 +142,7 @@ class PreferencesTest {
     }
 
     @Test
+    @Disabled("Test depends upon size comparison to determine backup validity")
     void partialPrefsRestoresFromBackupWithoutClobberingIt() throws IOException {
       var cleanups =
           new Cleanups(

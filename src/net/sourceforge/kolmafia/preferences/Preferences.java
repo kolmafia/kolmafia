@@ -823,7 +823,7 @@ public class Preferences {
   public static void setBoolean(final String user, final String name, final boolean value) {
     boolean old = Preferences.getBoolean(user, name);
     if (old != value) {
-      Preferences.setObject(user, name, value ? "true" : "false", value);
+      Preferences.setObject(user, name, Boolean.toString(value), value);
     }
   }
 
