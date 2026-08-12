@@ -343,6 +343,32 @@ public class ChatPoller extends Thread {
     return messages;
   }
 
+  /**
+   * Interpret a message's "mid" field for GUI-seen deduplication. Public chat messages carry a
+   * plain numeric mid: a counter in the same space as the response's "last" field, which is what we
+   * compare against. As of August 2026 KoL gives events ("ev1786406503_0") and private messages
+   * ("pm1786469973_353702_0") prefixed ids instead; the number embedded there is a Unix timestamp,
+   * not comparable to "last", so we return 0 for those and never skip them by mid. Also returns 0
+   * when the mid is absent.
+   */
+  static long parseMid(final Object value) {
+    if (value instanceof Number number) {
+      return number.longValue();
+    }
+    if (value == null) {
+      return 0;
+    }
+    String text = value.toString();
+    if (text.isEmpty() || !text.chars().allMatch(Character::isDigit)) {
+      return 0;
+    }
+    try {
+      return Long.parseLong(text);
+    } catch (NumberFormatException e) {
+      return 0;
+    }
+  }
+
   public static List<ChatMessage> parseNewChat(
       final List<ChatMessage> messages,
       JSONObject obj,
@@ -355,7 +381,7 @@ public class ChatPoller extends Thread {
       JSONObject msg = msgs.getJSONObject(i);
 
       // If we have already seen this message in the chat GUI, skip it.
-      long mid = msg.getLongValue("mid");
+      long mid = ChatPoller.parseMid(msg.get("mid"));
       if (!debug && mid != 0 && mid <= ChatPoller.serverLastSeen) {
         continue;
       }
