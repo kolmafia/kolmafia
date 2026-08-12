@@ -63,7 +63,6 @@ import net.sourceforge.kolmafia.swingui.listener.PopupListener;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.menu.ThreadedMenuItem;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.utilities.WikiUtilities;
 import net.sourceforge.kolmafia.webui.RelayLoader;
 import org.jdesktop.swingx.JXTable;
@@ -406,11 +405,7 @@ public class ShowDescriptionTable<E> extends JXTable {
         this.setToolTipText(((JButton) it).getToolTipText());
         return (Component) it;
       }
-
-      String columnName = table.getColumnName(col);
-
-      this.setValue(formatColumnValue(columnName, it));
-
+      this.setValue(it);
       this.setToolTipText(TableCellFactory.getTooltipText(value, flags));
 
       if (isSelected) {
@@ -419,23 +414,6 @@ public class ShowDescriptionTable<E> extends JXTable {
       }
 
       return this;
-    }
-
-    /** Formats the raw cell value for display, adding thousands separators to price columns. */
-    private static Object formatColumnValue(String columnName, Object it) {
-      if (columnName.equals("mallprice") && it instanceof Number) {
-        return KoLConstants.COMMA_FORMAT.format(it);
-      }
-
-      if (columnName.equals("autosell") && it instanceof String autosell) {
-        int space = autosell.indexOf(' ');
-        if (space > 0) {
-          int price = StringUtilities.parseInt(autosell.substring(0, space));
-          return KoLConstants.COMMA_FORMAT.format(price) + autosell.substring(space);
-        }
-      }
-
-      return it;
     }
   }
 
