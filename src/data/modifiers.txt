@@ -3846,8 +3846,7 @@ Item	stainless steel scarf	Spell Damage: +20, Monster Level: +20, Mysticality Pe
 Item	stainless steel solitaire	Mana Cost: -2, Adventures: +2, Mysticality Percent: +15, Single Equip
 Item	stainless steel suspenders	Damage Absorption: +60, Maximum MP: +40, Moxie Percent: +15, Single Equip
 Item	Star of Bravery	Maximum HP: +25, Maximum MP: +25, Single Equip
-# steel knuckles: +30 Damage to Unarmed Attacks
-Item	steel knuckles	Last Available: "2016-02"
+Item	steel knuckles	Weapon Damage: [30*unarmed], Last Available: "2016-02"
 Item	stick-on eyebrow piercing	Muscle: +1, Last Available: "2008-04"
 Item	sticky gloves	Pickpocket Chance: +20, Single Equip, Last Available: "2011-05"
 Item	stinky cheese eye	Item Drop: [max(1,min(20,floor(pref(_stinkyCheeseCount)/5)))], Stinky Cheese, Softcore Only, Last Available: "2010-01", Meat Drop: [max(1,min(20,floor(pref(_stinkyCheeseCount)/5)))], Conditional Skill (Equipped): "Give Your Opponent the Stinkeye"
