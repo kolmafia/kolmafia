@@ -4260,7 +4260,8 @@ public class DebugDatabase {
       if (lazySet.containsKey(check)) {
         WikiType oldType = lazySet.get(check);
         if (WikiType.ITEM != oldType) {
-          String message = ambgMsg(WikiType.ITEM.name(), check, oldType.name());
+          String message =
+              ambgMsg(WikiType.ITEM.name(), thing.getValue().toString(), oldType.name());
           RequestLogger.printLine(message);
         }
       } else {
@@ -4272,7 +4273,8 @@ public class DebugDatabase {
       if (lazySet.containsKey(check)) {
         WikiType oldType = lazySet.get(check);
         if (WikiType.EFFECT != oldType) {
-          String message = ambgMsg(WikiType.EFFECT.name(), check, oldType.name());
+          String message =
+              ambgMsg(WikiType.EFFECT.name(), thing.getValue().toString(), oldType.name());
           RequestLogger.printLine(message);
         }
       } else {
@@ -4284,7 +4286,8 @@ public class DebugDatabase {
       if (lazySet.containsKey(check)) {
         WikiType oldType = lazySet.get(check);
         if (WikiType.SKILL != oldType) {
-          String message = ambgMsg(WikiType.SKILL.name(), check, oldType.name());
+          String message =
+              ambgMsg(WikiType.SKILL.name(), thing.getValue().toString(), oldType.name());
           RequestLogger.printLine(message);
         }
       } else {
@@ -4295,28 +4298,31 @@ public class DebugDatabase {
       var check = getNameFromData(thing.getValue());
       if (lazySet.containsKey(check)) {
         WikiType oldType = lazySet.get(check);
-        String message = ambgMsg("Familiar", check, oldType.name());
+        String message =
+            ambgMsg(WikiType.FAMILIAR.name(), thing.getValue().toString(), oldType.name());
         RequestLogger.printLine(message);
       } else {
-        lazySet.put(check, WikiType.ANY);
+        lazySet.put(check, WikiType.FAMILIAR);
       }
     }
     for (var thing : DatabaseFrame.allOutfits) {
       var check = getNameFromData(thing.getValue());
       if (lazySet.containsKey(check)) {
         WikiType oldType = lazySet.get(check);
-        String message = ambgMsg("Outfit", check, oldType.name());
+        String message =
+            ambgMsg(WikiType.OUTFIT.name(), thing.getValue().toString(), oldType.name());
         RequestLogger.printLine(message);
       } else {
-        lazySet.put(check, WikiType.ANY);
+        lazySet.put(check, WikiType.OUTFIT);
       }
     }
     for (var thing : DatabaseFrame.allMonsters) {
-      var check = getNameFromData(thing);
+      var check = getNameFromData(thing.getValue());
       if (lazySet.containsKey(check)) {
         WikiType oldType = lazySet.get(check);
         if (WikiType.MONSTER != oldType) {
-          String message = ambgMsg(WikiType.MONSTER.name(), check, oldType.name());
+          String message =
+              ambgMsg(WikiType.MONSTER.name(), thing.getValue().toString(), oldType.name());
           RequestLogger.printLine(message);
         }
       } else {

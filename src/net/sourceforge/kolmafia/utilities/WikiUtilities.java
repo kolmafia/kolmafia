@@ -31,7 +31,9 @@ public class WikiUtilities {
     ITEM,
     EFFECT,
     SKILL,
-    MONSTER
+    MONSTER,
+    FAMILIAR, // Only used in ambiguity checking.
+    OUTFIT // Only used in ambiguity checking.
   }
 
   private WikiUtilities() {}
