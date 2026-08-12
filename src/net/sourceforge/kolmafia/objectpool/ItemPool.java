@@ -266,6 +266,7 @@ public class ItemPool {
   public static final int DISTURBING_FANFIC = 632;
   public static final int MEAT_GLOBE = 636;
   public static final int TOASTER = 637;
+  public static final int ASSHAT = 638;
   public static final int TOAST = 641;
   public static final int SKELETON_KEY = 642;
   public static final int SKELETON_KEY_RING = 643;
@@ -2814,6 +2815,7 @@ public class ItemPool {
   public static final int HEAT_RESISTANT_SHEET_METAL = 8453;
   public static final int GLOWING_NEW_AGE_CRYSTAL = 8455;
   public static final int CRYSTALLINE_LIGHT_BULB = 8456;
+  public static final int SMOOCH_SODA = 8462;
   public static final int GOOEY_LAVA_GLOBS = 8470;
   public static final int LAVA_MINERS_DAUGHTER = 8482;
   public static final int PSYCHO_FROM_THE_HEAT = 8483;
@@ -2987,6 +2989,7 @@ public class ItemPool {
   public static final int GLENN_DICE = 8890;
   public static final int CLARA_BELL = 8893;
   public static final int BUFFALO_DIME = 8895;
+  public static final int TAINTED_MILK = 8899;
   public static final int WESTERN_BOOK_BRAGGADOCCIO = 8916;
   public static final int WESTERN_BOOK_HELL = 8917;
   public static final int WESTERN_BOOK_LOOK = 8918;

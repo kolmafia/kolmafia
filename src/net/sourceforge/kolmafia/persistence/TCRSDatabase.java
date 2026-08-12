@@ -609,6 +609,7 @@ public class TCRSDatabase {
               "candied",
               "cardboard",
               "cheap",
+              "chintzy",
               "cold",
               "creepy",
               "cursed",
@@ -652,7 +653,9 @@ public class TCRSDatabase {
               "oversized",
               "paisley",
               "paraffin",
+              "plexiglass",
               "polka-dot",
+              "polyester",
               "porcelain",
               "portable",
               "powdered",
@@ -662,11 +665,13 @@ public class TCRSDatabase {
               "rusty",
               "shiny",
               "silver",
+              "slime-covered",
               "sour",
               "solid",
               "spicy",
               "spooky",
               "stained",
+              "stainless",
               "sticky",
               "stinky",
               "strange",
@@ -813,11 +818,6 @@ public class TCRSDatabase {
             :
             //   Otherwise use the roll we got
             EffectPool.get(TCRSEffectPool.get(roll)).getDisambiguatedName();
-
-    // @TODO what is going on here
-    if (item.getItemId() == 3159 && roll == TCRSEffectPool.size()) {
-      effectName = "";
-    }
 
     // Pick duration of effect
     var duration = mtRng.nextInt(11, 69);
@@ -1073,18 +1073,39 @@ public class TCRSDatabase {
           ItemPool.JAZZ_SOAP,
           ItemPool.CAN_OF_BINARRRCA,
           // Food
-          8462,
-          8899);
+          ItemPool.SMOOCH_SODA,
+          ItemPool.TAINTED_MILK);
 
-  /** Dynamically named items aren't renamed by TCRS */
-  public static final Set<Integer> DYNAMICALLY_NAMED =
+  /** Items that TCRS does not rename or re-roll cosmetics/enchantments for */
+  public static final Set<Integer> NOT_RE_ROLLED =
       Set.of(
+          // Dynamically named consumables
           ItemPool.EXPERIMENTAL_CRIMBO_FOOD,
           ItemPool.EXPERIMENTAL_CRIMBO_BOOZE,
           ItemPool.EXPERIMENTAL_CRIMBO_SPLEEN,
           ItemPool.LOVE_POTION_XYZ,
           ItemPool.DIABOLIC_PIZZA,
-          ItemPool.VAMPIRE_VINTNER_WINE);
+          ItemPool.VAMPIRE_VINTNER_WINE,
+          // Equipment that TCRS never re-rolls, some of which are dynamically named
+          ItemPool.RING,
+          ItemPool.PANTOGRAM_PANTS,
+          ItemPool.GARLAND_OF_GREATNESS,
+          ItemPool.BACKUP_CAMERA,
+          ItemPool.CURSED_MONKEY_PAW,
+          ItemPool.AUGUST_SCEPTER,
+          ItemPool.REPLICA_AUGUST_SCEPTER,
+          ItemPool.FRANKEN_STEIN,
+          ItemPool.FUTURISTIC_SHIRT,
+          ItemPool.FUTURISTIC_HAT,
+          ItemPool.FUTURISTIC_COLLAR,
+          ItemPool.MIMIC_EGG,
+          ItemPool.ROMAN_CANDELABRA,
+          ItemPool.MONODENT_OF_THE_SEA,
+          ItemPool.PRISMATIC_BERET,
+          ItemPool.THE_ETERNITY_CODPIECE,
+          ItemPool.HEARTSTONE,
+          ItemPool.BASEBALL_DIAMOND,
+          ItemPool.CUP_OF_13S);
 
   /** Items that keep their Effect despite rolling for a new one */
   private static final Set<Integer> HARDCODED_EFFECT =
@@ -1420,8 +1441,9 @@ public class TCRSDatabase {
           .map(part -> part.substring(0, part.lastIndexOf(": ")))
           .collect(Collectors.toUnmodifiableSet());
 
-  // Modifier types that are re-rolled as TCRS enchantments. A superset of ENCHANTABLE_TYPES: it adds
-  // enchantment types that never appear as a roll-pool output but are still re-rolled on base items
+  // Modifier types that are re-rolled as TCRS enchantments. A superset of ENCHANTABLE_TYPES: it
+  // adds enchantment types that never appear as a roll-pool output but are still re-rolled on base
+  // items
   // (e.g. "Damage vs. <phylum>"). Expected to grow as more such types are identified.
   static final Set<String> RPN_MODIFIERS =
       Stream.concat(
@@ -1443,6 +1465,7 @@ public class TCRSDatabase {
                   "Drippy Damage",
                   "Elf Warfare Effectiveness",
                   "Familiar Damage",
+                  "First Hit Damage Reduction",
                   "Fishing Skill",
                   "Fumble",
                   "Hat Drop",
@@ -1507,10 +1530,12 @@ public class TCRSDatabase {
     var consumed = new HashSet<String>();
 
     // A collapsible family is one combined enchantment only when the whole family is present with a
-    // single shared value (all resistance, prismatic damage, Maximum HP + MP at the same value, ...).
+    // single shared value (all resistance, prismatic damage, Maximum HP + MP at the same value,
+    // ...).
     // Otherwise its members are separate enchantments, counted individually below.
     for (var family : COLLAPSIBLE) {
-      var values = family.stream().filter(present::containsKey).map(present::get).distinct().toList();
+      var values =
+          family.stream().filter(present::containsKey).map(present::get).distinct().toList();
       if (present.keySet().containsAll(family) && values.size() == 1) {
         count += 1;
         consumed.addAll(family);
@@ -1528,8 +1553,6 @@ public class TCRSDatabase {
         ItemDatabase.getConsumptionType(itemId) == ConsumptionType.FAMILIAR_EQUIPMENT;
     for (var name : present.keySet()) {
       if (consumed.contains(name)) continue;
-      // A shield's Damage Reduction is innate, not an enchantment.
-      if (isShield && name.equals("Damage Reduction")) continue;
       // Familiar equipment's Familiar Weight is innate, not an enchantment.
       if (isFamiliarEquipment && name.equals("Familiar Weight")) continue;
       count += 1;
@@ -1572,8 +1595,10 @@ public class TCRSDatabase {
     var item = ItemPool.get(itemId);
     var type = ItemDatabase.getConsumptionType(itemId);
 
-    if (DYNAMICALLY_NAMED.contains(itemId)) {
-      var name = ItemDatabase.getItemName(itemId);
+    String displayName =
+        ModifierDatabase.getStringModifier(ModifierType.ITEM, itemId, StringModifier.DISPLAY_NAME);
+    if (NOT_RE_ROLLED.contains(itemId) || !displayName.isEmpty()) {
+      var name = !displayName.isEmpty() ? displayName : ItemDatabase.getItemName(itemId);
 
       var size =
           switch (type) {
@@ -1583,7 +1608,11 @@ public class TCRSDatabase {
             default -> 0;
           };
 
-      return new TCRS(name, size, ConsumablesDatabase.getQuality(name), "");
+      return new TCRS(
+          name,
+          size,
+          ConsumablesDatabase.getQuality(name),
+          getRetainedModifiers(itemId).toString());
     }
 
     switch (itemId) {
@@ -1911,21 +1940,28 @@ public class TCRSDatabase {
       new HashSet<>(); // remote files fetched this session
 
   // *** support for loading up TCRS data appropriate to your current class/sign
-
   public static boolean loadTCRSData() {
+    return loadTCRSData(true);
+  }
+
+  public static boolean loadTCRSData(boolean overrideModifiers) {
     if (!KoLCharacter.isCrazyRandomTwo()) {
       return false;
     }
 
-    return loadTCRSData(KoLCharacter.getAscensionClass(), KoLCharacter.getSign(), true);
+    return loadTCRSData(
+        KoLCharacter.getAscensionClass(), KoLCharacter.getSign(), true, overrideModifiers);
   }
 
   private static boolean loadTCRSData(
-      final AscensionClass ascensionClass, final ZodiacSign sign, final boolean verbose) {
+      final AscensionClass ascensionClass,
+      final ZodiacSign sign,
+      final boolean verbose,
+      final boolean overrideModifiers) {
     var nonCafeLoaded = load(ascensionClass, sign, verbose);
     var cafeLoaded = loadCafe(ascensionClass, sign, verbose);
 
-    if (nonCafeLoaded || cafeLoaded) {
+    if (overrideModifiers && (nonCafeLoaded || cafeLoaded)) {
       applyModifiers();
       deriveApplyItem(ItemPool.RING);
     }
