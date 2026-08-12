@@ -917,9 +917,8 @@ class PreferencesTest {
   @Nested
   /* This class has tests that deal with corrupt preferences and backups.  Several tests were added
     after work making backup writing and replacing prefs with the backup more robust.
-    Embedded in these tests and the associated code are the ideas that: If length of one of the
-    preference or backup files is less than half that of the other then one is corrupt; if a null or
-    zero byte is in either file then it is corrupt; and a data before the first null is recoverable.
+    Embedded in these tests and the associated code is the ideas that if a null or
+    zero byte is in either file then it is corrupt.
   */
   class AvoidsPartialSaveCorruption {
     // Lowercase because filename case sensitivity not consistent across operating systems
@@ -1169,124 +1168,122 @@ class PreferencesTest {
       assertTrue(isStringInFile(userFile, PREF_NAME), "New preference not written.");
       assertTrue(areFileContentsTheSame(userFile, backupFile), "File contents are not the same.");
     }
+  }
 
-    @Nested
-    class SetterFunctions {
-      @Test
-      void canSetStringWithFunction() {
-        var cleanups = withProperty("example", "a");
-        try (cleanups) {
-          Preferences.setString("example", v -> v + "b");
-          assertThat("example", isSetTo("ab"));
-        }
+  @Nested
+  class SetterFunctions {
+    @Test
+    void canSetStringWithFunction() {
+      var cleanups = withProperty("example", "a");
+      try (cleanups) {
+        Preferences.setString("example", v -> v + "b");
+        assertThat("example", isSetTo("ab"));
       }
+    }
 
-      @Test
-      void canSetBooleanWithFunction() {
-        var cleanups = withProperty("example", "true");
-        try (cleanups) {
-          Preferences.setBoolean("example", v -> !v);
-          assertThat("example", isSetTo(false));
-        }
+    @Test
+    void canSetBooleanWithFunction() {
+      var cleanups = withProperty("example", "true");
+      try (cleanups) {
+        Preferences.setBoolean("example", v -> !v);
+        assertThat("example", isSetTo(false));
       }
+    }
 
-      @Test
-      void canSetIntegerWithFunction() {
-        var cleanups = withProperty("example", 10);
-        try (cleanups) {
-          Preferences.setInteger("example", v -> v / 5);
-          assertThat("example", isSetTo(2));
-        }
+    @Test
+    void canSetIntegerWithFunction() {
+      var cleanups = withProperty("example", 10);
+      try (cleanups) {
+        Preferences.setInteger("example", v -> v / 5);
+        assertThat("example", isSetTo(2));
       }
+    }
 
-      @Test
-      void canSetFloatWithFunction() {
-        var cleanups = withProperty("example", 10.0f);
-        try (cleanups) {
-          Preferences.setFloat("example", v -> v / 5.0f);
-          assertThat("example", isSetTo(2.0f));
-        }
+    @Test
+    void canSetFloatWithFunction() {
+      var cleanups = withProperty("example", 10.0f);
+      try (cleanups) {
+        Preferences.setFloat("example", v -> v / 5.0f);
+        assertThat("example", isSetTo(2.0f));
       }
+    }
 
-      @Test
-      void canSetDoubleWithFunction() {
-        var cleanups = withProperty("example", 10.0);
-        try (cleanups) {
-          Preferences.setDouble("example", v -> v / 5.0);
-          assertThat("example", isSetTo(2.0));
-        }
+    @Test
+    void canSetDoubleWithFunction() {
+      var cleanups = withProperty("example", 10.0);
+      try (cleanups) {
+        Preferences.setDouble("example", v -> v / 5.0);
+        assertThat("example", isSetTo(2.0));
       }
+    }
 
-      @Test
-      void canSetLongWithFunction() {
-        var cleanups = withProperty("example", 10L);
-        try (cleanups) {
-          Preferences.setLong("example", v -> v / 5L);
-          assertThat("example", isSetTo(2L));
+    @Test
+    void canSetLongWithFunction() {
+      var cleanups = withProperty("example", 10L);
+      try (cleanups) {
+        Preferences.setLong("example", v -> v / 5L);
+        assertThat("example", isSetTo(2L));
+      }
+    }
+  }
+
+  @Nested
+  class TestPropertiesExists {
+    @Test
+    void consequencesPrefsExist() throws IOException {
+      try (BufferedReader reader =
+          FileUtilities.getVersionedReader("consequences.txt", KoLConstants.CONSEQUENCES_VERSION)) {
+        String[] data;
+        int pos;
+
+        while ((data = FileUtilities.readData(reader)) != null) {
+          if (data.length < 4 || (pos = data[3].indexOf("=")) == -1) continue;
+
+          String key = data[3].substring(0, pos);
+
+          if (Preferences.containsDefault(key)) continue;
+
+          assertTrue(
+              Preferences.containsDefault(key),
+              "Unknown preference '" + key + "' in consequences.txt");
         }
       }
     }
 
-    @Nested
-    class TestPropertiesExists {
-      @Test
-      void consequencesPrefsExist() throws IOException {
-        try (BufferedReader reader =
-            FileUtilities.getVersionedReader(
-                "consequences.txt", KoLConstants.CONSEQUENCES_VERSION)) {
-          String[] data;
-          int pos;
+    @Test
+    void dailyLimitsPrefsExist() throws IOException {
+      try (BufferedReader reader =
+          FileUtilities.getVersionedReader("dailylimits.txt", KoLConstants.DAILYLIMITS_VERSION)) {
+        String[] data;
 
-          while ((data = FileUtilities.readData(reader)) != null) {
-            if (data.length < 4 || (pos = data[3].indexOf("=")) == -1) continue;
+        while ((data = FileUtilities.readData(reader)) != null) {
+          if (data.length < 3) continue;
 
-            String key = data[3].substring(0, pos);
-
-            if (Preferences.containsDefault(key)) continue;
-
-            assertTrue(
-                Preferences.containsDefault(key),
-                "Unknown preference '" + key + "' in consequences.txt");
-          }
+          assertTrue(
+              Preferences.containsDefault(data[2]),
+              "Unknown preference '" + data[2] + "' in dailylimits.txt");
         }
       }
+    }
 
-      @Test
-      void dailyLimitsPrefsExist() throws IOException {
-        try (BufferedReader reader =
-            FileUtilities.getVersionedReader("dailylimits.txt", KoLConstants.DAILYLIMITS_VERSION)) {
-          String[] data;
+    @Test
+    void allPrefModifiersExist() throws IOException {
+      // Finds all occurrences of pref() in data files and tests the first parameter as a property
+      Pattern pattern = Pattern.compile("pref\\(([^),]+)(?:,[^),]+)?\\)");
 
-          while ((data = FileUtilities.readData(reader)) != null) {
-            if (data.length < 3) continue;
+      for (String file : KoLConstants.OVERRIDE_DATA) {
+        try (BufferedReader reader = FileUtilities.getReader(file)) {
+          String line;
 
-            assertTrue(
-                Preferences.containsDefault(data[2]),
-                "Unknown preference '" + data[2] + "' in dailylimits.txt");
-          }
-        }
-      }
+          while ((line = reader.readLine()) != null) {
+            if (line.startsWith("#")) continue;
+            Matcher match = pattern.matcher(line);
 
-      @Test
-      void allPrefModifiersExist() throws IOException {
-        // Finds all occurrences of pref() in data files and tests the first parameter as a property
-        Pattern pattern = Pattern.compile("pref\\(([^),]+)(?:,[^),]+)?\\)");
+            while (match.find()) {
+              String key = match.group(1);
 
-        for (String file : KoLConstants.OVERRIDE_DATA) {
-          try (BufferedReader reader = FileUtilities.getReader(file)) {
-            String line;
-
-            while ((line = reader.readLine()) != null) {
-              if (line.startsWith("#")) continue;
-              Matcher match = pattern.matcher(line);
-
-              while (match.find()) {
-                String key = match.group(1);
-
-                assertTrue(
-                    Preferences.containsDefault(key),
-                    "Unknown preference '" + key + "' in " + file);
-              }
+              assertTrue(
+                  Preferences.containsDefault(key), "Unknown preference '" + key + "' in " + file);
             }
           }
         }
