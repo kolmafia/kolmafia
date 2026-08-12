@@ -4,9 +4,9 @@ import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.AtomicMoveNotSupportedException;
 import java.nio.file.Files;
@@ -71,7 +71,7 @@ public class Preferences {
   private static final Set<String> legacyDailies = new TreeSet<>();
   private static final Set<String> resetOnAscension = new TreeSet<>();
   private static final Set<String> resetOnFight = new TreeSet<>();
-  protected static final int SIZE_FACTOR = 2; // Used to decide if pref or backup is corrupt
+
   // Obsolete properties.
   private static final String[] obsoleteProperties =
       new String[] {
@@ -243,50 +243,6 @@ public class Preferences {
     synchronized (lock) {
       Properties p = Preferences.loadPreferencesWithBackup(userPrefsFile, backupFile);
 
-      // Only empty or drastically truncated prefs are treated as corrupt. Never promote
-      // prefs.txt into the backup here — backups are refreshed only after a durable save.
-      boolean valid = Preferences.isValidPreferencesFile(userPrefsFile, p);
-      boolean suspect = Preferences.prefsFileSuspect(userPrefsFile, backupFile, p);
-      if (!valid || suspect) {
-        if (backupFile.exists()) {
-          KoLmafia.updateDisplay(
-              userPrefsFile
-                  + " could not be read, loading backup. "
-                  + "This will restore the last successfully saved preferences");
-          System.out.println("Prefs could not be read and backup exists, trying backup. ");
-
-          p = Preferences.loadPreferences(backupFile);
-
-          if (!p.isEmpty()) {
-            try {
-              Files.copy(
-                  backupFile.toPath(), userPrefsFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-            } catch (IOException ex) {
-              KoLmafia.updateDisplay(
-                  "Error when restoring preferences from backup,  see session log for details");
-              RequestLogger.updateSessionLog(
-                  userPrefsFile
-                      + " could not be read and backup was used. KoLmafia was unable to copy your backup file to "
-                      + "your preferences file and received error message:"
-                      + ex.getMessage()
-                      + "\nIf this is unexpected, please manually review your preferences and backup and repair any problems."
-                      + " If you have a damaged preferences file, "
-                      + "please consider creating a bug report on the forum, noting any special circumstances around "
-                      + "the failure, and attaching the preferences.");
-            }
-          }
-        } else {
-          KoLmafia.updateDisplay("Preferences could not be read and no backup exists.");
-          RequestLogger.updateSessionLog(
-              userPrefsFile
-                  + " could not be read and there is no backup file found. "
-                  + "If this is unexpected, please manually inspect "
-                  + "your preferences file and repair any problems.  If you have a damaged preferences file, "
-                  + "please consider creating a bug report on the forum, noting any special circumstances around "
-                  + "the failure, and attaching the preferences.");
-        }
-      }
-
       Preferences.userPropertiesFile = null;
       Preferences.userValues.clear();
       Preferences.userEncodedValues.clear();
@@ -308,8 +264,8 @@ public class Preferences {
         // NAME_prefs.txt, add to user map with default value
         // (this is how we add a new user property)
         //
-        // If it had a value in the GLOBAL map, then use that.  This
-        // is how we migrate a preference from GLOBAL to user.
+        // If it had a value in the GLOBAL map, use that (this
+        // is how we migrate a preference from GLOBAL to user)
         String value =
             Preferences.globalValues.containsKey(key)
                 ? (String) Preferences.globalValues.get(key)
@@ -323,15 +279,28 @@ public class Preferences {
     }
   }
 
+  /** Backup path for a prefs file (`*_prefs.txt` → `*_prefs.bak`), or null if not a prefs file. */
+  private static File prefsBackupFileFor(File prefsFile) {
+    if (prefsFile == null) {
+      return null;
+    }
+    String name = prefsFile.getName();
+    if (!name.endsWith("_prefs.txt")) {
+      return null;
+    }
+    String bakName = name.substring(0, name.length() - ".txt".length()) + ".bak";
+    File parent = prefsFile.getParentFile();
+    return parent == null ? new File(bakName) : new File(parent, bakName);
+  }
+
   private static Properties loadPreferencesWithBackup(File prefsFile, File backupFile) {
     if (!prefsFile.exists() && !backupFile.exists()) {
       return new Properties();
     }
 
     Properties p = Preferences.loadPreferences(prefsFile);
-    boolean valid = Preferences.isValidPreferencesFile(prefsFile, p);
-    boolean suspect = Preferences.prefsFileSuspect(prefsFile, backupFile, p);
-    if (!valid || suspect) {
+
+    if (!Preferences.isValidPreferencesFile(prefsFile, p)) {
       // Something went wrong reading the preferences.
       if (backupFile.exists()) {
         KoLmafia.updateDisplay(
@@ -404,36 +373,6 @@ public class Preferences {
     }
 
     return p;
-  }
-
-  /** Backup path for a prefs file (`*_prefs.txt` → `*_prefs.bak`), or null if not a prefs file. */
-  private static File prefsBackupFileFor(File prefsFile) {
-    if (prefsFile == null) {
-      return null;
-    }
-    String name = prefsFile.getName();
-    if (!name.endsWith("_prefs.txt")) {
-      return null;
-    }
-    String bakName = name.substring(0, name.length() - ".txt".length()) + ".bak";
-    File parent = prefsFile.getParentFile();
-    return parent == null ? new File(bakName) : new File(parent, bakName);
-  }
-
-  /**
-   * True when prefs are empty or drastically smaller than an existing backup (typical of a
-   * truncated mid-write file that still parses as non-empty Properties).
-   */
-  private static boolean prefsFileSuspect(File prefsFile, File backupFile, Properties loaded) {
-    if (loaded.isEmpty()) {
-      return true;
-    }
-    if (backupFile == null || !backupFile.exists()) {
-      return false;
-    }
-    long bakLen = backupFile.length();
-    long prefsLen = prefsFile.length();
-    return bakLen > 0 && prefsLen < bakLen / SIZE_FACTOR;
   }
 
   protected static Properties loadPreferences(File file) {
@@ -884,7 +823,7 @@ public class Preferences {
   public static void setBoolean(final String user, final String name, final boolean value) {
     boolean old = Preferences.getBoolean(user, name);
     if (old != value) {
-      Preferences.setObject(user, name, Boolean.toString(value), value);
+      Preferences.setObject(user, name, value ? "true" : "false", value);
     }
   }
 
@@ -1010,62 +949,18 @@ public class Preferences {
     // the file in synch atomically
 
     synchronized (lock) {
-      File tempFile = new File(file.getPath() + ".tmp");
-      try {
-        try (FileOutputStream fos = new FileOutputStream(tempFile);
-            BufferedOutputStream bos = new BufferedOutputStream(fos)) {
-          synchronized (encodedData) {
-            for (Entry<String, byte[]> current : encodedData.entrySet()) {
-              bos.write(current.getValue());
-            }
-          }
-          bos.flush();
-          fos.getFD().sync();
-        }
+      // Determine the contents of the file by
+      // actually printing them.
 
-        // Refresh backup from the previous durable prefs before replace, so a crash
-        // during the upcoming commit cannot leave both files damaged.
-        File backupFile = Preferences.prefsBackupFileFor(file);
-        if (backupFile != null && file.exists() && file.length() > 0) {
-          try {
-            Files.copy(file.toPath(), backupFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-          } catch (IOException ex) {
-            System.out.println(
-                "I/O Error when creating backup preferences file: " + ex.getMessage());
-            RequestLogger.updateSessionLog(
-                file
-                    + " backup creation failed. Please manually inspect "
-                    + "your preferences and backup files and repair any problems.  If you have a damaged preferences file, "
-                    + "please consider creating a bug report on the forum, noting any special circumstances around "
-                    + "the failure, and attaching the preferences.");
+      try (OutputStream fstream = new BufferedOutputStream(DataUtilities.getOutputStream(file))) {
+        synchronized (encodedData) {
+          for (Entry<String, byte[]> current : encodedData.entrySet()) {
+            fstream.write(current.getValue());
           }
         }
-
-        Preferences.commitPrefsTempFile(tempFile, file);
       } catch (IOException e) {
         System.out.println(e.getMessage() + " trying to write preferences as byte array.");
-        try {
-          Files.deleteIfExists(tempFile.toPath());
-        } catch (IOException ignored) {
-        }
       }
-    }
-  }
-
-  /**
-   * Replace the live prefs file with a fully written temp file. Prefers an atomic rename; when the
-   * OS/filesystem cannot do that, uses a backup-safe delete-then-rename so the live file is never
-   * truncated in place. Caller must already have refreshed {@code *.bak} when applicable.
-   */
-  static void commitPrefsTempFile(File tempFile, File targetFile) throws IOException {
-    try {
-      Files.move(
-          tempFile.toPath(),
-          targetFile.toPath(),
-          StandardCopyOption.ATOMIC_MOVE,
-          StandardCopyOption.REPLACE_EXISTING);
-    } catch (AtomicMoveNotSupportedException e) {
-      Preferences.commitPrefsTempFileNonAtomic(tempFile, targetFile, e);
     }
   }
 
