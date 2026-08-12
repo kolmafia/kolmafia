@@ -17,6 +17,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLConstants.Stat;
@@ -33,13 +34,19 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase.ItemData;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.IntOrString;
 import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 @SuppressWarnings("incomplete-switch")
 public class EquipmentDatabase {
   private record EquipmentData(
-      String name, int power, String statRequirement, int hands, String itemType, int shieldDR) {
+      String name,
+      int power,
+      String statRequirement,
+      int hands,
+      String itemType,
+      IntOrString shieldDR) {
     String toDataLine(final int itemId) {
       var name = ItemPool.get(itemId).getDisambiguatedName();
       String output = name + "\t" + power + "\t" + statRequirement;
@@ -47,7 +54,7 @@ public class EquipmentDatabase {
         output += "\t" + hands + "-handed " + itemType;
       } else if (itemType != null) {
         output += "\t" + itemType;
-        if (itemType.equals("shield") && shieldDR > 0) {
+        if (itemType.equals("shield") && (shieldDR.isString() || shieldDR.getIntValue() > 0)) {
           output += ": " + shieldDR;
         }
       }
@@ -146,7 +153,7 @@ public class EquipmentDatabase {
 
         int hval = 0;
         String tval = null;
-        int shieldDR = 0;
+        IntOrString shieldDR = new IntOrString(0);
 
         if (data.length >= 4) {
           String str = data[3];
@@ -163,9 +170,11 @@ public class EquipmentDatabase {
         // extract shield DR
         if (tval != null && tval.startsWith("shield:")) {
           String dr = tval.substring(7).trim();
-          if (StringUtilities.isNumeric(dr)) {
-            shieldDR = StringUtilities.parseInt(dr);
-            tval = "shield";
+          tval = "shield";
+          if (dr.equals("[L]")) {
+            shieldDR = new IntOrString("[L]");
+          } else if (StringUtilities.isNumeric(dr)) {
+            shieldDR = new IntOrString(StringUtilities.parseInt(dr));
           }
         }
 
@@ -356,7 +365,7 @@ public class EquipmentDatabase {
       final String weaponType,
       final boolean isWeapon,
       final boolean isShield,
-      final int shieldDamageReduction) {
+      final IntOrString shieldDamageReduction) {
     if (isShield && power == 0) {
       writer.println("# *** " + name + " is a shield of unknown power.");
     }
@@ -372,11 +381,14 @@ public class EquipmentDatabase {
       final String weaponType,
       final boolean isWeapon,
       final boolean isShield,
-      final int shieldDamageReduction) {
+      final IntOrString shieldDamageReduction) {
     if (isWeapon) {
       return name + "\t" + power + "\t" + req + "\t" + weaponType;
     } else if (isShield) {
-      String shield = shieldDamageReduction > 0 ? "shield: " + shieldDamageReduction : "shield";
+      String shield =
+          shieldDamageReduction.isString() || shieldDamageReduction.getIntValue() > 0
+              ? "shield: " + shieldDamageReduction
+              : "shield";
       return name + "\t" + power + "\t" + req + "\t" + shield;
     } else {
       return name + "\t" + power + "\t" + req;
@@ -394,7 +406,7 @@ public class EquipmentDatabase {
 
     int hands = 0;
     String itemType = null;
-    int shieldDR = 0;
+    IntOrString shieldDR = new IntOrString(0);
 
     if (type.contains("weapon")) {
       Matcher matcher = WEAPON_TYPE_PATTERN.matcher(type);
@@ -543,7 +555,15 @@ public class EquipmentDatabase {
 
   public static final int getShieldDamageReduction(final int itemId) {
     EquipmentData equipmentData = EquipmentDatabase.equipmentById.get(itemId);
-    return equipmentData == null ? 0 : equipmentData.shieldDR;
+    if (equipmentData == null) {
+      return 0;
+    }
+    IntOrString shieldDR = equipmentData.shieldDR;
+    if (shieldDR.isString()) {
+      // "[L]" indicates a shield whose Damage Reduction is equal to the player's level
+      return shieldDR.getStringValue().equals("[L]") ? KoLCharacter.getLevel() : 0;
+    }
+    return shieldDR.getIntValue();
   }
 
   public static final String getEquipRequirement(final int itemId) {
