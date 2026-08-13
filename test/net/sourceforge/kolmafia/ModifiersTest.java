@@ -1205,7 +1205,7 @@ public class ModifiersTest {
         KoLCharacter.recalculateAdjustments(false);
         Modifiers current = KoLCharacter.getCurrentModifiers();
 
-        assertThat(current.getDouble(DoubleModifier.PVP_FIGHTS), equalTo(12.0));
+        assertThat(current.getDouble(DoubleModifier.PVP_FIGHTS), equalTo(22.0));
       }
     }
 
@@ -1291,15 +1291,33 @@ public class ModifiersTest {
   }
 
   @Nested
-  class RolloverAdventures {
-    private double currentAdventures() {
+  class Rollover {
+    private double current(final DoubleModifier modifier) {
       KoLCharacter.recalculateAdjustments(false);
-      return KoLCharacter.getCurrentModifiers().getDouble(DoubleModifier.ADVENTURES);
+      return KoLCharacter.getCurrentModifiers().getDouble(modifier);
+    }
+
+    private double currentAdventures() {
+      return current(DoubleModifier.ADVENTURES);
     }
 
     @Test
     void rolloverGrantsFortyAdventures() {
       assertThat(currentAdventures(), equalTo(40.0));
+    }
+
+    @Test
+    void rolloverGrantsTenPvpFights() {
+      assertThat(current(DoubleModifier.PVP_FIGHTS), equalTo(10.0));
+    }
+
+    @Test
+    void slowAndSteadyDoesNotAffectPvpFights() {
+      var cleanups = withPath(Path.SLOW_AND_STEADY);
+
+      try (cleanups) {
+        assertThat(current(DoubleModifier.PVP_FIGHTS), equalTo(10.0));
+      }
     }
 
     @Test

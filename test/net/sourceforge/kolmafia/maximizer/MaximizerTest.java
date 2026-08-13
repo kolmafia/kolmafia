@@ -2313,7 +2313,7 @@ public class MaximizerTest {
 
       try (cleanups) {
         assertTrue(maximize("fites"));
-        assertEquals(5, modFor(DoubleModifier.PVP_FIGHTS), 0.01);
+        assertEquals(15, modFor(DoubleModifier.PVP_FIGHTS), 0.01);
         assertThat(getBoosts(), hasItem(recommends("Crimbolex watch")));
         assertThat(getBoosts(), not(hasItem(recommends(ItemPool.SASQ_WATCH))));
       }

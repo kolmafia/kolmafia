@@ -5503,6 +5503,9 @@ public abstract class KoLCharacter {
     // add additional rollover adventures
     newModifiers.applyAdditionalRolloverAdventureModifiers();
 
+    // add rollover PvP fights
+    newModifiers.applyRolloverPvpFightModifiers();
+
     // Organ capacity
     newModifiers.applyAdditionalStomachCapacityModifiers();
     newModifiers.applyAdditionalSpleenCapacityModifiers();

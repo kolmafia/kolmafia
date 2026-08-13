@@ -1061,6 +1061,10 @@ public class Modifiers {
     }
   }
 
+  public final void applyRolloverPvpFightModifiers() {
+    this.addDouble(DoubleModifier.PVP_FIGHTS, 10, ModifierType.GENERATED, "Rollover");
+  }
+
   public final void applyAdditionalRolloverAdventureModifiers() {
     if (KoLCharacter.canGainRolloverAdventures()) {
       this.addDouble(DoubleModifier.ADVENTURES, 40, ModifierType.GENERATED, "Rollover");
