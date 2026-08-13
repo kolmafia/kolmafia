@@ -105,6 +105,7 @@ public class BanishManager {
     MAFIA_MIDDLEFINGER_RING("mafia middle finger ring", 60, 1, true, Reset.TURN_ROLLOVER_RESET),
     MONKEY_SLAP("Monkey Slap", -1, 1, false, Reset.ROLLOVER_RESET),
     NANORHINO("nanorhino", -1, 1, false, Reset.ROLLOVER_RESET),
+    ORDER_A_KNEECAPPING("Order a Kneecapping", -1, 1, false, Reset.ROLLOVER_RESET),
     PANTSGIVING("pantsgiving", 30, 1, false, Reset.TURN_ROLLOVER_RESET),
     PEEL_OUT("peel out", -1, 1, true, Reset.AVATAR_RESET),
     PEPPERMINT_BOMB("peppermint bomb", 100, 1, false, Reset.TURN_ROLLOVER_RESET),

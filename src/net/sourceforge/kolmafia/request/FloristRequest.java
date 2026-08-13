@@ -10,6 +10,7 @@ import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -146,9 +147,6 @@ public class FloristRequest extends GenericRequest {
 
   public static void reset() {
     FloristRequest.floristPlants.clear();
-    if (Preferences.propertyExists("floristFriarChecked")) {
-      Preferences.removeProperty("floristFriarChecked", false);
-    }
   }
 
   // forestvillage.php?action=floristfriar
@@ -167,31 +165,7 @@ public class FloristRequest extends GenericRequest {
   }
 
   public static void checkFloristAvailable() {
-    if (GenericRequest.abortIfInFightOrChoice(true)) {
-      return;
-    }
-
-    if (KoLCharacter.isKingdomOfExploathing()) {
-      return;
-    }
-
-    if (!KoLAdventure.woodsOpen()) {
-      return;
-    }
-
-    if (FloristRequest.haveFlorist()) {
-      return;
-    }
-
-    if (!FloristRequest.ownsFlorist()) {
-      return;
-    }
-
-    PlaceRequest forestVisit = new PlaceRequest("forestvillage", "fv_friar", true);
-    RequestThread.postRequest(forestVisit);
-    FloristRequest.setFloristFriarAvailable(
-        forestVisit.responseText != null
-            && forestVisit.responseText.contains("The Florist Friar's Cottage"));
+    FloristRequest.haveFlorist();
   }
 
   @Override
@@ -199,8 +173,6 @@ public class FloristRequest extends GenericRequest {
     if (GenericRequest.abortIfInFightOrChoice()) {
       return;
     }
-
-    checkFloristAvailable();
 
     if (!FloristRequest.haveFlorist()) {
       return;
@@ -216,7 +188,19 @@ public class FloristRequest extends GenericRequest {
   }
 
   public static boolean haveFlorist() {
-    return FloristRequest.ownsFlorist() && Preferences.getBoolean("floristFriarAvailable");
+    boolean floristAvailable =
+        (FloristRequest.ownsFlorist()
+                    && StandardRequest.isAllowed(
+                        RestrictedItemType.ITEMS, "Order of the Green Thumb Order Form")
+                || KoLCharacter.inLegacyOfLoathing()
+                    && Preferences.getBoolean("ownsReplicaFloristFriar"))
+            && KoLAdventure.woodsOpen()
+            && !KoLCharacter.inBadMoon()
+            && !KoLCharacter.isKingdomOfExploathing();
+
+    Preferences.setBoolean("floristFriarChecked", true);
+    Preferences.setBoolean("floristFriarAvailable", floristAvailable);
+    return floristAvailable;
   }
 
   public static void setFloristFriarAvailable(final boolean floristAvailable) {
