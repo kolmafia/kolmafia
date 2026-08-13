@@ -10292,6 +10292,12 @@ public class FightRequest extends GenericRequest {
           Preferences.decrement("preworkoutPowderUses");
         }
       }
+      case SkillPool.ORDER_A_KNEECAPPING -> {
+        if (responseText.contains("You call in a favor from your mob") || skillRunawaySuccess) {
+          BanishManager.banishMonster(monster, Banisher.ORDER_A_KNEECAPPING);
+          skillRunawaySuccess = true;
+        }
+      }
       case SkillPool.HUGS_KISSES -> {
         if (responseText.contains("yoinks something") || skillSuccess) {
           skillSuccess = true;

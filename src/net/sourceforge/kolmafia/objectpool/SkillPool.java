@@ -134,6 +134,7 @@ public class SkillPool {
   public static final int OVERCLOCK10 = 243;
   public static final int GENERATE_IRONY = 245;
   public static final int ONLY_DOGS_LOVE_A_DRUNKEN_SAILOR = 251;
+  public static final int ORDER_A_KNEECAPPING = 253;
 
   public static final int SEAL_CLUBBING_FRENZY = 1000;
   public static final int THRUST_SMACK = 1003;
