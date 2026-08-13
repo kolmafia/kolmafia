@@ -57,6 +57,7 @@ global	externalEditor
 global	fixedThreadPoolSize	0
 global	gapProtection	false
 global	getBreakfast
+global	gitConflictPriority
 global	gitInstallDependencies	true
 global	gitShowCommitMessages	false
 global	gitUpdateOnLogin	false
