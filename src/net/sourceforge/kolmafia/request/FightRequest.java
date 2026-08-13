@@ -10293,8 +10293,7 @@ public class FightRequest extends GenericRequest {
         }
       }
       case SkillPool.ORDER_A_KNEECAPPING -> {
-        if (responseText.contains("You call in a favor from your mob")
-            || skillRunawaySuccess) {
+        if (responseText.contains("You call in a favor from your mob") || skillRunawaySuccess) {
           BanishManager.banishMonster(monster, Banisher.ORDER_A_KNEECAPPING);
           skillRunawaySuccess = true;
         }
