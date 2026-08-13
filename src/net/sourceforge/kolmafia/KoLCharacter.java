@@ -2965,6 +2965,7 @@ public abstract class KoLCharacter {
     if (oldPath == Path.LEGACY_OF_LOATHING) {
       Preferences.resetToDefault("replicaChateauAvailable");
       Preferences.resetToDefault("replicaNeverendingPartyAlways");
+      Preferences.resetToDefault("ownsReplicaFloristFriar");
       Preferences.resetToDefault("replicaWitchessSetAvailable");
 
       // we lose set enquiry, even if we have a terminal
