@@ -1272,7 +1272,7 @@ public class ModifiersTest {
         KoLCharacter.recalculateAdjustments(false);
         Modifiers current = KoLCharacter.getCurrentModifiers();
 
-        assertThat(current.getDouble(DoubleModifier.ADVENTURES), equalTo(10.0));
+        assertThat(current.getDouble(DoubleModifier.ADVENTURES), equalTo(50.0));
       }
     }
 
@@ -1286,6 +1286,61 @@ public class ModifiersTest {
 
         assertThat(current.getDouble(DoubleModifier.MOX_EXPERIENCE_PCT), equalTo(25.0));
         assertThat(current.getDouble(DoubleModifier.MANA_COST), equalTo(-3.0));
+      }
+    }
+  }
+
+  @Nested
+  class RolloverAdventures {
+    private double currentAdventures() {
+      KoLCharacter.recalculateAdjustments(false);
+      return KoLCharacter.getCurrentModifiers().getDouble(DoubleModifier.ADVENTURES);
+    }
+
+    @Test
+    void rolloverGrantsFortyAdventures() {
+      assertThat(currentAdventures(), equalTo(40.0));
+    }
+
+    @Test
+    void otherSourcesStackWithTheRolloverGrant() {
+      var cleanups = withEquipped(Slot.HAT, ItemPool.TIME_HELMET);
+
+      try (cleanups) {
+        assertThat(currentAdventures(), equalTo(43.0));
+      }
+    }
+
+    @Test
+    void borrowedTimeSubtractsFromTheRolloverGrant() {
+      var cleanups = withProperty("_borrowedTimeUsed", true);
+
+      try (cleanups) {
+        assertThat(currentAdventures(), equalTo(20.0));
+      }
+    }
+
+    @Test
+    void slowAndSteadyGrantsOneHundredAdventures() {
+      var cleanups = withPath(Path.SLOW_AND_STEADY);
+
+      try (cleanups) {
+        assertThat(currentAdventures(), equalTo(100.0));
+      }
+    }
+
+    @Test
+    void slowAndSteadyZeroesAllOtherAdventureSources() {
+      var cleanups =
+          new Cleanups(
+              withPath(Path.SLOW_AND_STEADY),
+              withEquipped(Slot.HAT, ItemPool.TIME_HELMET),
+              withEffect("A Date With Tomorrow"),
+              withProperty("_hareAdv", 4),
+              withProperty("_borrowedTimeUsed", true));
+
+      try (cleanups) {
+        assertThat(currentAdventures(), equalTo(100.0));
       }
     }
   }
