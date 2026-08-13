@@ -18,6 +18,7 @@ import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
+import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.FloristRequest;
@@ -359,6 +360,7 @@ public class DebugModifiersTest {
     try (var cleanups =
         new Cleanups(
             withProperty("ownsFloristFriar", true),
+            withQuestProgress(QuestDatabase.Quest.LARVA, QuestDatabase.STARTED),
             withFlorist(AdventurePool.NOOB_CAVE, FloristRequest.Florist.HORN_OF_PLENTY))) {
       evaluateDebugModifiers(DoubleModifier.ITEMDROP);
       assertThat(output(), containsDebugRow("Florist", "Horn of Plenty", 25.0, 25.0));
