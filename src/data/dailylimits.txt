@@ -151,6 +151,7 @@ Cast	Meat Loaf	_meatLoafUsed	11
 Cast	Meatify Matter	_meatifyMatterUsed
 Cast	Meteor Shower	_meteorShowerUses	5
 Cast	Offer Latte to Opponent	_latteCopyUsed
+Cast	Order a Kneecapping	_kneecappingOrdered
 Cast	Otoscope	_otoscopeUsed	3
 Cast	Pastamastery	noodleSummons
 Cast	Peel Out	_petePeeledOut	[10+(pref(peteMotorbikeTires,Racing Slicks)*20)]
