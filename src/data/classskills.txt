@@ -279,6 +279,7 @@
 251	Only Dogs Love a Drunken Sailor	shanty5.gif	nc,effect,self,shanty	22	10
 252
 253	Order a Kneecapping	kneecapped.gif	combat	0	0
+254	Old Country Cooking	legpasta1.gif	passive	0	0
 
 # Skills available to Clubbers
 

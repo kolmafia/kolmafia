@@ -8997,6 +8997,7 @@ Skill	Object Permanence	Mysticality: +5
 Skill	Object Quasi-Permanence	Item Drop: +10
 Skill	Oily Scalp	Sleaze Damage: +7
 Skill	Okay Seriously, This is the Last Spleen	Spleen Capacity: +5
+# Old Country Cooking: Pastamastery conjures an additional batch of dry noodles
 # Old-School Cocktailcrafting: Make 3 cocktails per day without spending an Adventure
 Skill	Olfactory Burnout	Stench Resistance: +3
 Skill	Olfactory Cortex	Stench Resistance: +3
@@ -14309,6 +14310,7 @@ Item	odd silver coin	Last Available: "2014-12"
 Item	odor extractor	Last Available: "2019-12"
 # off-white plastic oyster egg: Weakens enemies a little bit
 # oily boid: Weakens enemies a little bit as it briefly stuns them
+Item	Old Country cookbook	Skill: "Old Country Cooking"
 # old school beer pull tab: Causes a significant amount of bleeding
 Item	old school beer pull tab	Last Available: "2013-11"
 Item	old-fashioned Crimbo Pressie	Last Available: "2007-12"
