@@ -157,7 +157,7 @@ public class TableCellFactory {
         }
         return advRange > 0 ? KoLConstants.ROUNDED_MODIFIER_FORMAT.format(advRange) : null;
       case 7:
-        return EquipmentDatabase.getItemType(advresult.getItemId(), false);
+        return getDisplayItemType(advresult.getItemId());
       default:
         return null;
     }
@@ -249,7 +249,7 @@ public class TableCellFactory {
         Integer lev = ConsumablesDatabase.getLevelReqByName(CIRresult.getName());
         return lev != null ? lev : null;
       case 7:
-        return EquipmentDatabase.getItemType(CIRresult.getItemId(), false);
+        return getDisplayItemType(CIRresult.getItemId());
       default:
         return null;
     }
@@ -319,6 +319,68 @@ public class TableCellFactory {
       default:
         return null;
     }
+  }
+
+  private static String getDisplayItemType(final int itemId) {
+    String type = EquipmentDatabase.getItemType(itemId, false);
+
+    if (type.equals("container")) {
+      return "back item";
+    }
+
+    if (type.equals("offhand")) {
+      return "off-hand item";
+    }
+
+    if (type.equals("zap wand")
+        || type.equals("bootskin")
+        || type.equals("bootspur")
+        || type.equals("sticker")
+        || type.equals("folder")
+        || type.equals("pasta guardian")) {
+      return "usable";
+    }
+
+    if (type.equals("sixgun")) {
+      return "combat item";
+    }
+
+    if (type.equals("card")) {
+      return "miscellaneous";
+    }
+
+    if (!type.isEmpty()) {
+      return type;
+    }
+
+    var consumptionType = ItemDatabase.getConsumptionType(itemId);
+    var attributes = ItemDatabase.getAttributes(itemId);
+
+    switch (consumptionType) {
+      case USE, USE_MULTIPLE, USE_INFINITE, USE_MESSAGE_DISPLAY, POKEPILL:
+        return ItemDatabase.isQuestItem(itemId) ? "quest item" : "usable";
+      default:
+        break;
+    }
+
+    if (attributes.contains(ItemDatabase.Attribute.USABLE)
+        || attributes.contains(ItemDatabase.Attribute.MULTIPLE)
+        || attributes.contains(ItemDatabase.Attribute.REUSABLE)
+        || attributes.contains(ItemDatabase.Attribute.MESSAGE)
+        || attributes.contains(ItemDatabase.Attribute.CURSE)) {
+      return "usable";
+    }
+
+    if (attributes.contains(ItemDatabase.Attribute.COMBAT)
+        || attributes.contains(ItemDatabase.Attribute.COMBAT_REUSABLE)) {
+      return "combat item";
+    }
+
+    if (ItemDatabase.isQuestItem(itemId)) {
+      return "quest item";
+    }
+
+    return "miscellaneous";
   }
 
   private static String addTag(String itemColor, boolean isSelected) {

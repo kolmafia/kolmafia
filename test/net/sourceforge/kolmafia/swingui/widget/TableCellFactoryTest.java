@@ -19,14 +19,55 @@ class TableCellFactoryTest {
   }
 
   @Test
-  void displaysNormalizedTypesForRepresentativeEdgeCases() {
-    // Representative edge cases for the normalized, player-facing type mapping.
+  void displaysUsableTypes() {
     assertThat(getType("11-leaf clover"), is("usable"));
-    assertThat(getType("seal tooth"), is("combat item"));
+    assertThat(getType("all-year sucker"), is("usable"));
+    assertThat(getType("milk of magnesium"), is("usable"));
+    assertThat(getType("ebony wand"), is("usable"));
+    assertThat(getType("cloaca-cola"), is("usable"));
+    assertThat(getType("metandienone"), is("usable"));
+    assertThat(getType("disintegrating sheet music"), is("usable"));
+    assertThat(getType("towel"), is("usable"));
+    assertThat(getType("Loathing Legion jackhammer"), is("usable"));
+    assertThat(getType("mountain lion skin"), is("usable"));
+    assertThat(getType("quicksilver spurs"), is("usable"));
+    assertThat(getType("Scratch 'n' sniff unicorn sticker"), is("usable"));
+    assertThat(getType("Folder (blue)"), is("usable"));
+    assertThat(getType("seal tooth"), is("usable"));
+  }
+
+  @Test
+  void displaysCombatTypes() {
+    assertThat(getType("4:20 bomb"), is("combat item"));
+    assertThat(getType("baconstone-handled sixgun"), is("combat item"));
+    assertThat(getType("33398 scroll"), is("combat item"));
+  }
+
+  @Test
+  void displaysSpecializedTypes() {
+    assertThat(getType("agua de vida"), is("spleen item"));
     assertThat(getType("abstraction: action"), is("spleen item"));
+    assertThat(getType("alien autoautopsy kit"), is("avatar potion"));
+    assertThat(getType("abominable blubber"), is("potion"));
+  }
+
+  @Test
+  void displaysEquipmentTypes() {
+    assertThat(getType("makeshift cape"), is("back item"));
     assertThat(getType("shock collar"), is("familiar equipment"));
     assertThat(getType("halibut"), is("weapon"));
-    assertThat(getType("makeshift cape"), is("back item"));
-    assertThat(getType("33398 scroll"), is("combat item"));
+    assertThat(getType("3-ball"), is("off-hand item"));
+  }
+
+  @Test
+  void displaysMiscTypes() {
+    assertThat(getType("squashed frog"), is("miscellaneous"));
+    assertThat(getType("El Vibrato power sphere"), is("miscellaneous"));
+    assertThat(getType("Alice's Army Guard"), is("miscellaneous"));
+  }
+
+  @Test
+  void displaysQuestTypes() {
+    assertThat(getType("Dolphin King's map"), is("quest item"));
   }
 }
