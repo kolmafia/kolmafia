@@ -1484,6 +1484,7 @@ public class TCRSDatabase {
                   "Pants Drop",
                   "Pickpocket Chance",
                   "Pirate Warfare Effectiveness",
+                  "Poison Chance",
                   "Pool Skill",
                   "Potion Drop",
                   "PvP Fights",
@@ -1497,6 +1498,7 @@ public class TCRSDatabase {
                   "Spleen Drop",
                   "Supercold Resistance",
                   "WarBear Armor Penetration",
+                  "WarBear Item Drop",
                   "Weakens Monster",
                   "Weakens Monster on Critical Hit",
                   "Weapon Drop"))
@@ -1526,7 +1528,38 @@ public class TCRSDatabase {
    * Familiar Weight doesn't count. We haven't fully worked out which base modifiers are really
    * re-rolled enchantments, so this is a best estimate.
    */
+  private static final Map<Integer, Integer> ENCHANT_COUNT_OVERRIDES =
+      Map.ofEntries(
+          Map.entry(ItemPool.COMPLICATED_DEVICE, 0), // Not in RPN
+          Map.entry(ItemPool.IUNION_CROWN, 0), // Not in RPN
+          Map.entry(ItemPool.SOFT_CAP_OF_DIMINISHING_RETURNS, 0), // Not in RPN
+          Map.entry(ItemPool.UNIRONIC_KNIFE, 0), // Not in RPN
+          Map.entry(ItemPool.CURSED_BLANKET, 0), // Not in RPN
+          Map.entry(ItemPool.UNCURSED_BLANKET, 0), // Not in RPN
+          Map.entry(ItemPool.MR_ACCESSATURDAY, 0), // Not in RPN
+          Map.entry(ItemPool.SURPRISINGLY_CAPACIOUS_HANDBAG, 0), // Not in RPN
+          Map.entry(ItemPool.STAINED_GLASS_STETSON, 2), // Something not in RPN
+          Map.entry(ItemPool.PLASTIC_DETECTIVE_BADGE, 4), // Max HP/MP count separately
+          Map.entry(ItemPool.RIDING_CROP, 3), // Something not in RPN
+          Map.entry(ItemPool.MR_SHIRT, 3), // Stats count separately
+          Map.entry(ItemPool.OFF_HAND_BALLOON, 3), // Stats count separately
+          Map.entry(ItemPool.RAIN_DOH_YELLOW_LASER_GUN, 2), // Something not in RPN
+          Map.entry(ItemPool.SPHYGMAYOMANOMETER, 1), // Something not in RPN
+          Map.entry(ItemPool.STINKY_CHEESE_DIAPER, 1), // Something not in RPN
+          Map.entry(ItemPool.STINKY_CHEESE_EYE, 1), // Something not in RPN
+          Map.entry(ItemPool.YEARBOOK_CAMERA, 1), // Something not in RPN
+          Map.entry(ItemPool.TUESDAYS_RUBY, 1), // Not sure which part will be the RPN, but the dailies aren't
+          Map.entry(ItemPool.CAN_YOU_DIG_IT, 1), // ??? is probably an RPN
+          Map.entry(ItemPool.GIFT_A_PULT, 1), // Dunno
+          Map.entry(ItemPool.LOATHING_LEGION_HAMMER, 1), // Dunno
+          Map.entry(ItemPool.PRIVATE_PEPPERS_JACKET, 1)); // ??? is probably an RPN
+
   static int enchantCount(final int itemId) {
+    var override = ENCHANT_COUNT_OVERRIDES.get(itemId);
+    if (override != null) {
+      return override;
+    }
+
     // Enchantable base modifiers with their values, so collapsible families can be split by value.
     var present = new java.util.HashMap<String, Set<String>>();
     for (var mv : ModifierDatabase.getModifierList(new Lookup(ModifierType.ITEM, itemId))) {
