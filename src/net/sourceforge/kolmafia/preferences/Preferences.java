@@ -1001,58 +1001,43 @@ public class Preferences {
     // the file in synch atomically
 
     synchronized (lock) {
-      // Determine the contents of the file by
-      // actually printing them.
-      /*
-           try (OutputStream fstream = new BufferedOutputStream(DataUtilities.getOutputStream(file))) {
-             synchronized (encodedData) {
-               for (Entry<String, byte[]> current : encodedData.entrySet()) {
-                 fstream.write(current.getValue());
-               }
-             }
-           } catch (IOException e) {
-             System.out.println(e.getMessage() + " trying to write preferences as byte array.");
-           }
-      */
-      synchronized (lock) {
-        File tempFile = new File(file.getPath() + ".tmp");
-        try {
-          try (FileOutputStream fos = (FileOutputStream) DataUtilities.getOutputStream(tempFile);
-              BufferedOutputStream bos = new BufferedOutputStream(fos)) {
-            synchronized (encodedData) {
-              for (Entry<String, byte[]> current : encodedData.entrySet()) {
-                bos.write(current.getValue());
-              }
-            }
-            bos.flush();
-            fos.getFD().sync();
-          }
-
-          // Refresh backup from the previous durable prefs before replace, so a crash
-          // during the upcoming commit cannot leave both files damaged.
-          File backupFile = Preferences.prefsBackupFileFor(file);
-          if (backupFile != null && file.exists() && file.length() > 0) {
-            try {
-              Files.copy(file.toPath(), backupFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-            } catch (IOException ex) {
-              System.out.println(
-                  "I/O Error when creating backup preferences file: " + ex.getMessage());
-              RequestLogger.updateSessionLog(
-                  file
-                      + " backup creation failed. Please manually inspect "
-                      + "your preferences and backup files and repair any problems.  If you have a damaged preferences file, "
-                      + "please consider creating a bug report on the forum, noting any special circumstances around "
-                      + "the failure, and attaching the preferences.");
+      File tempFile = new File(file.getPath() + ".tmp");
+      try {
+        try (FileOutputStream fos = (FileOutputStream) DataUtilities.getOutputStream(tempFile);
+            BufferedOutputStream bos = new BufferedOutputStream(fos)) {
+          synchronized (encodedData) {
+            for (Entry<String, byte[]> current : encodedData.entrySet()) {
+              bos.write(current.getValue());
             }
           }
+          bos.flush();
+          fos.getFD().sync();
+        }
 
-          Preferences.commitPrefsTempFile(tempFile, file);
-        } catch (IOException e) {
-          System.out.println(e.getMessage() + " trying to write preferences as byte array.");
+        // Refresh backup from the previous durable prefs before replace, so a crash
+        // during the upcoming commit cannot leave both files damaged.
+        File backupFile = Preferences.prefsBackupFileFor(file);
+        if (backupFile != null && file.exists() && file.length() > 0) {
           try {
-            Files.deleteIfExists(tempFile.toPath());
-          } catch (IOException ignored) {
+            Files.copy(file.toPath(), backupFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+          } catch (IOException ex) {
+            System.out.println(
+                "I/O Error when creating backup preferences file: " + ex.getMessage());
+            RequestLogger.updateSessionLog(
+                file
+                    + " backup creation failed. Please manually inspect "
+                    + "your preferences and backup files and repair any problems.  If you have a damaged preferences file, "
+                    + "please consider creating a bug report on the forum, noting any special circumstances around "
+                    + "the failure, and attaching the preferences.");
           }
+        }
+
+        Preferences.commitPrefsTempFile(tempFile, file);
+      } catch (IOException e) {
+        System.out.println(e.getMessage() + " trying to write preferences as byte array.");
+        try {
+          Files.deleteIfExists(tempFile.toPath());
+        } catch (IOException ignored) {
         }
       }
     }
