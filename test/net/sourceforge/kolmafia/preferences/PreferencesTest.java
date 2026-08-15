@@ -32,7 +32,6 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -140,7 +139,7 @@ class PreferencesTest {
         assertThat(prefsContents, not(containsString("durableMarker=first")));
       }
     }
-    
+
     @Test
     void nonAtomicCommitUsesBackupSafeReplace() throws IOException {
       File target = userFile();
