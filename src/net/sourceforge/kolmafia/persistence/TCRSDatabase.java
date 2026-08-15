@@ -1046,6 +1046,10 @@ public class TCRSDatabase {
     var name =
         adjectives.stream().filter(Predicate.not(String::isBlank)).collect(Collectors.joining(" "));
 
+    if (quality == ConsumableQuality.EPIC && size > 0) {
+      quality = ConsumablesDatabase.superEpicQuality(ConsumablesDatabase.getBaseAverageAdventures(id) / size);
+    }
+
     return new TCRS(name, size, quality, mods.toString());
   }
 
@@ -1795,7 +1799,11 @@ public class TCRSDatabase {
 
   private static int qualityMultiplier(ConsumableQuality quality) {
     return switch (quality) {
-      case EPIC -> 5;
+      case EPIC,
+          SUPER_EPIC,
+          SUPER_ULTRA_EPIC,
+          SUPER_ULTRA_MEGA_EPIC,
+          SUPER_ULTRA_MEGA_TURBO_EPIC -> 5;
       case AWESOME -> 4;
       case GOOD -> 3;
       case DECENT -> 2;
