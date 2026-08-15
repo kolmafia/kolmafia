@@ -7,7 +7,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.AtomicMoveNotSupportedException;
 import java.nio.file.Files;
@@ -279,6 +278,7 @@ public class Preferences {
       Preferences.userPropertiesFile = userPrefsFile;
     }
   }
+
   /** Backup path for a prefs file (`*_prefs.txt` → `*_prefs.bak`), or null if not a prefs file. */
   private static File prefsBackupFileFor(File prefsFile) {
     if (prefsFile == null) {
@@ -292,6 +292,7 @@ public class Preferences {
     File parent = prefsFile.getParentFile();
     return parent == null ? new File(bakName) : new File(parent, bakName);
   }
+
   private static Properties loadPreferencesWithBackup(File prefsFile, File backupFile) {
     if (!prefsFile.exists() && !backupFile.exists()) {
       return new Properties();
@@ -939,6 +940,7 @@ public class Preferences {
   private static String propertyName(final String user, final String name) {
     return user == null ? name : name + "." + Preferences.baseUserName(user);
   }
+
   /**
    * Replace the live prefs file with a fully written temp file. Prefers an atomic rename; when the
    * OS/filesystem cannot do that, uses a backup-safe delete-then-rename so the live file is never
@@ -947,10 +949,10 @@ public class Preferences {
   static void commitPrefsTempFile(File tempFile, File targetFile) throws IOException {
     try {
       Files.move(
-        tempFile.toPath(),
-        targetFile.toPath(),
-        StandardCopyOption.ATOMIC_MOVE,
-        StandardCopyOption.REPLACE_EXISTING);
+          tempFile.toPath(),
+          targetFile.toPath(),
+          StandardCopyOption.ATOMIC_MOVE,
+          StandardCopyOption.REPLACE_EXISTING);
     } catch (AtomicMoveNotSupportedException e) {
       Preferences.commitPrefsTempFileNonAtomic(tempFile, targetFile, e);
     }
@@ -962,15 +964,15 @@ public class Preferences {
    * then renames the complete temp into place — never opens/truncates the live path for writing.
    */
   static void commitPrefsTempFileNonAtomic(
-    File tempFile, File targetFile, AtomicMoveNotSupportedException cause) throws IOException {
+      File tempFile, File targetFile, AtomicMoveNotSupportedException cause) throws IOException {
     String message =
-      "Atomic move not supported when saving "
-        + targetFile
-        + "; using backup-safe replace"
-        + (cause.getMessage() != null ? " (" + cause.getMessage() + ")" : "")
-        + ". Prior contents are in "
-        + Preferences.prefsBackupFileFor(targetFile)
-        + " if recovery is needed.";
+        "Atomic move not supported when saving "
+            + targetFile
+            + "; using backup-safe replace"
+            + (cause.getMessage() != null ? " (" + cause.getMessage() + ")" : "")
+            + ". Prior contents are in "
+            + Preferences.prefsBackupFileFor(targetFile)
+            + " if recovery is needed.";
     System.out.println(message);
     RequestLogger.updateSessionLog(message);
 
@@ -987,7 +989,6 @@ public class Preferences {
     Files.move(tempFile.toPath(), targetFile.toPath());
   }
 
-
   private static void saveToFile(File file, Map<String, byte[]> encodedData) {
     if (!Preferences.saveSettingsToFile) {
       return;
@@ -1002,22 +1003,22 @@ public class Preferences {
     synchronized (lock) {
       // Determine the contents of the file by
       // actually printing them.
-/*
-      try (OutputStream fstream = new BufferedOutputStream(DataUtilities.getOutputStream(file))) {
-        synchronized (encodedData) {
-          for (Entry<String, byte[]> current : encodedData.entrySet()) {
-            fstream.write(current.getValue());
-          }
-        }
-      } catch (IOException e) {
-        System.out.println(e.getMessage() + " trying to write preferences as byte array.");
-      }
- */
+      /*
+           try (OutputStream fstream = new BufferedOutputStream(DataUtilities.getOutputStream(file))) {
+             synchronized (encodedData) {
+               for (Entry<String, byte[]> current : encodedData.entrySet()) {
+                 fstream.write(current.getValue());
+               }
+             }
+           } catch (IOException e) {
+             System.out.println(e.getMessage() + " trying to write preferences as byte array.");
+           }
+      */
       synchronized (lock) {
         File tempFile = new File(file.getPath() + ".tmp");
         try {
           try (FileOutputStream fos = new FileOutputStream(tempFile);
-               BufferedOutputStream bos = new BufferedOutputStream(fos)) {
+              BufferedOutputStream bos = new BufferedOutputStream(fos)) {
             synchronized (encodedData) {
               for (Entry<String, byte[]> current : encodedData.entrySet()) {
                 bos.write(current.getValue());
@@ -1035,13 +1036,13 @@ public class Preferences {
               Files.copy(file.toPath(), backupFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
             } catch (IOException ex) {
               System.out.println(
-                "I/O Error when creating backup preferences file: " + ex.getMessage());
+                  "I/O Error when creating backup preferences file: " + ex.getMessage());
               RequestLogger.updateSessionLog(
-                file
-                  + " backup creation failed. Please manually inspect "
-                  + "your preferences and backup files and repair any problems.  If you have a damaged preferences file, "
-                  + "please consider creating a bug report on the forum, noting any special circumstances around "
-                  + "the failure, and attaching the preferences.");
+                  file
+                      + " backup creation failed. Please manually inspect "
+                      + "your preferences and backup files and repair any problems.  If you have a damaged preferences file, "
+                      + "please consider creating a bug report on the forum, noting any special circumstances around "
+                      + "the failure, and attaching the preferences.");
             }
           }
 
