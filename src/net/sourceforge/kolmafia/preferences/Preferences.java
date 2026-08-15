@@ -1017,7 +1017,7 @@ public class Preferences {
       synchronized (lock) {
         File tempFile = new File(file.getPath() + ".tmp");
         try {
-          try (FileOutputStream fos = new FileOutputStream(tempFile);
+          try (FileOutputStream fos = (FileOutputStream) DataUtilities.getOutputStream(file);
               BufferedOutputStream bos = new BufferedOutputStream(fos)) {
             synchronized (encodedData) {
               for (Entry<String, byte[]> current : encodedData.entrySet()) {
