@@ -140,36 +140,7 @@ class PreferencesTest {
         assertThat(prefsContents, not(containsString("durableMarker=first")));
       }
     }
-
-    @Test
-    @Disabled("Test depends upon size comparison to determine backup validity")
-    void partialPrefsRestoresFromBackupWithoutClobberingIt() throws IOException {
-      var cleanups =
-          new Cleanups(
-              withSavePreferencesToFile(),
-              withProperty("saveSettingsOnSet", true),
-              withProperty("keepMe", "precious"));
-      try (cleanups) {
-        // A second distinct save refreshes .bak from the previous durable prefs file.
-        Preferences.setString("otherMarker", "ensure-backup");
-        assertTrue(backupFile().exists());
-
-        String backupBefore = Files.readString(backupFile().toPath(), StandardCharsets.UTF_8);
-        assertThat(backupBefore, containsString("keepMe=precious"));
-
-        // Simulate catastrophic truncation: a small but non-empty prefs file.
-        Files.writeString(userFile().toPath(), "keepMe=corrupted\n", StandardCharsets.UTF_8);
-        assertTrue(userFile().length() < backupFile().length() / 2);
-
-        Preferences.reset(DURABLE_USER);
-        assertEquals("precious", Preferences.getString("keepMe"));
-        String backupAfter = Files.readString(backupFile().toPath(), StandardCharsets.UTF_8);
-        assertEquals(backupBefore, backupAfter, "backup must not be overwritten by partial prefs");
-        String restoredPrefs = Files.readString(userFile().toPath(), StandardCharsets.UTF_8);
-        assertThat(restoredPrefs, containsString("keepMe=precious"));
-      }
-    }
-
+    
     @Test
     void nonAtomicCommitUsesBackupSafeReplace() throws IOException {
       File target = userFile();
@@ -1015,6 +986,8 @@ class PreferencesTest {
         login();
         // Prove string is identical
         assertEquals(stringWithNullChars, Preferences.getString(PREF_NAME));
+      } catch (IOException e) {
+        throw new RuntimeException(e);
       }
     }
 
@@ -1040,6 +1013,8 @@ class PreferencesTest {
         // Both files are valid
         assertFalse(FileUtilities.containsNullBytes(userFile));
         assertFalse(FileUtilities.containsNullBytes(backupFile));
+      } catch (IOException e) {
+        throw new RuntimeException(e);
       }
     }
 
