@@ -57,6 +57,7 @@ global	externalEditor
 global	fixedThreadPoolSize	0
 global	gapProtection	false
 global	getBreakfast
+global	gitConflictPriority
 global	gitInstallDependencies	true
 global	gitShowCommitMessages	false
 global	gitUpdateOnLogin	false
@@ -3715,6 +3716,28 @@ user	choiceAdventure1548	1
 user	choiceAdventure1549	1
 user	choiceAdventure1550	1
 user	choiceAdventure1591	1
+user	choiceAdventure1604	1
+user	choiceAdventure1605	1
+user	choiceAdventure1606	1
+user	choiceAdventure1607	1
+user	choiceAdventure1608	1
+user	choiceAdventure1609	1
+user	choiceAdventure1610	1
+user	choiceAdventure1611	1
+user	choiceAdventure1612	1
+user	choiceAdventure1613	1
+user	choiceAdventure1614	1
+user	choiceAdventure1615	1
+user	choiceAdventure1616	1
+user	choiceAdventure1617	1
+user	choiceAdventure1618	1
+user	choiceAdventure1619	1
+user	choiceAdventure1620	1
+user	choiceAdventure1621	1
+user	choiceAdventure1622	1
+user	choiceAdventure1623	1
+user	choiceAdventure1624	1
+user	choiceAdventure1625	1
 user	lockedItem4637	true
 user	lockedItem4638	true
 user	lockedItem4639	true
