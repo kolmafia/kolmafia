@@ -1940,4 +1940,17 @@ class ChoiceControlTest {
       }
     }
   }
+
+  @Test
+  void incrementsDesertExplorationInBlueVsRed() {
+    var cleanups =
+        new Cleanups(
+            withProperty("desertExploration", 7),
+            withEquipped(Slot.OFFHAND, ItemPool.UV_RESISTANT_COMPASS),
+            withPostChoice2(1622, 1, html("request/test_bluevsred_desert_exploration.html")));
+
+    try (cleanups) {
+      assertThat("desertExploration", isSetTo(9));
+    }
+  }
 }
