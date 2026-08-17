@@ -246,8 +246,25 @@ public class CoinmastersDatabase {
           ItemPool.MINI_KIWI_INTOXICATING_SPIRITS,
           ItemPool.SMOKING_POPE,
           ItemPool.PRIZE_TURKEY,
-          ItemPool.MEDICAL_GRUEL ->
+          ItemPool.MEDICAL_GRUEL,
+          ItemPool.UNDERDRAFT_PROTECTION,
+          ItemPool.GOLD_401K_RING,
+          ItemPool.HEDGE_FUND_CLIPPERS,
+          ItemPool.FINANCIAL_INSTRUMENT,
+          ItemPool.SELLING_SHORTS,
+          ItemPool.BEAR_TATTOO ->
           1;
+      case ItemPool.LIQUID_ASSET,
+          ItemPool.INTANGIBLE_ASSET,
+          ItemPool.TOXIC_ASSET,
+          ItemPool.INVISIBLE_HAND,
+          ItemPool.CIRCLE_OF_OVERDRAFT_PROTECTION_SCROLL,
+          ItemPool.MINT,
+          ItemPool.SOLVENT,
+          ItemPool.ROTH_IPA,
+          ItemPool.SAVINGS_BONDO,
+          ItemPool.SOYBEAN_FUTURES ->
+          3;
       default -> PurchaseRequest.MAX_QUANTITY;
     };
   }

@@ -1585,6 +1585,31 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     public InterestingCoinPanel() {
       super(InterestingCoinRequest.DATA);
     }
+
+    @Override
+    public int buyMax(final AdventureResult item, final int max) {
+      return switch (item.getItemId()) {
+        case ItemPool.UNDERDRAFT_PROTECTION,
+            ItemPool.GOLD_401K_RING,
+            ItemPool.HEDGE_FUND_CLIPPERS,
+            ItemPool.FINANCIAL_INSTRUMENT,
+            ItemPool.SELLING_SHORTS,
+            ItemPool.BEAR_TATTOO ->
+            1;
+        case ItemPool.LIQUID_ASSET,
+            ItemPool.INTANGIBLE_ASSET,
+            ItemPool.TOXIC_ASSET,
+            ItemPool.INVISIBLE_HAND,
+            ItemPool.CIRCLE_OF_OVERDRAFT_PROTECTION_SCROLL,
+            ItemPool.MINT,
+            ItemPool.SOLVENT,
+            ItemPool.ROTH_IPA,
+            ItemPool.SAVINGS_BONDO,
+            ItemPool.SOYBEAN_FUTURES ->
+            3;
+        default -> max;
+      };
+    }
   }
 
   public abstract class CoinmasterPanel extends JPanel implements Listener {
