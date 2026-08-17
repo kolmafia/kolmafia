@@ -364,6 +364,7 @@ user	blackPuddingsDefeated	0
 user	blackForestProgress	0
 user	blankOutUsed	0	roa
 user	bloodweiserDrunk	0
+user	blueVsRedTeam		roa
 user	bodyguardCharge	0	roa
 user	bodyguardChatMonster
 user	bondAdv	false	roa
@@ -3738,6 +3739,17 @@ user	choiceAdventure1622	1
 user	choiceAdventure1623	1
 user	choiceAdventure1624	1
 user	choiceAdventure1625	1
+user	choiceAdventure1626	1
+user	choiceAdventure1627	1
+user	choiceAdventure1628	1
+user	choiceAdventure1629	1
+user	choiceAdventure1630	1
+user	choiceAdventure1631	1
+user	choiceAdventure1632	1
+user	choiceAdventure1633	1
+user	choiceAdventure1634	1
+user	choiceAdventure1635	1
+user	choiceAdventure1636	1
 user	lockedItem4637	true
 user	lockedItem4638	true
 user	lockedItem4639	true

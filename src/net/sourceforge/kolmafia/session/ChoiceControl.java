@@ -6911,6 +6911,14 @@ public abstract class ChoiceControl {
         ResultProcessor.removeItem(Integer.parseInt(whichitem2));
         ResultProcessor.removeItem(Integer.parseInt(whichitem3));
       }
+
+      case 1603 -> {
+        // Pick a Color
+        switch (ChoiceManager.lastDecision) {
+          case 1 -> Preferences.setString("blueVsRedTeam", "red");
+          case 2 -> Preferences.setString("blueVsRedTeam", "blue");
+        }
+      }
     }
   }
 
