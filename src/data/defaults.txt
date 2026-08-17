@@ -929,6 +929,12 @@ user	itemBoughtPerAscension8266	false	roa
 user	itemBoughtPerAscension10790	false	roa
 user	itemBoughtPerAscension10794	false	roa
 user	itemBoughtPerAscension10795	false	roa
+user	itemBoughtPerAscension12293	false	roa
+user	itemBoughtPerAscension12298	false	roa
+user	itemBoughtPerAscension12299	false	roa
+user	itemBoughtPerAscension12300	false	roa
+user	itemBoughtPerAscension12301	false	roa
+user	itemBoughtPerAscension12303	false	roa
 user	itemBoughtPerCharacter6423	false
 user	itemBoughtPerCharacter6428	false
 user	itemBoughtPerCharacter6429	false
@@ -2390,6 +2396,16 @@ user	_interviewMasquerade	false
 user	_interviewVlad	false
 user	_inquisitorsUnidentifiableObjectUsed	false
 user	_interestingCoinHeads	false
+user	_itemBoughtPerDay12292	0
+user	_itemBoughtPerDay12294	0
+user	_itemBoughtPerDay12295	0
+user	_itemBoughtPerDay12305	0
+user	_itemBoughtPerDay12306	0
+user	_itemBoughtPerDay12307	0
+user	_itemBoughtPerDay12308	0
+user	_itemBoughtPerDay12310	0
+user	_itemBoughtPerDay12311	0
+user	_itemBoughtPerDay12312	0
 user	_ironicMoustache	false
 user	_ironTricornHeadbuttUsed	0
 user	_jackassPlumberGame	false
