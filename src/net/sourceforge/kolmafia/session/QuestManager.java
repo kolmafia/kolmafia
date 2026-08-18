@@ -2397,6 +2397,10 @@ public class QuestManager {
       }
     }
 
+    if (IslandManager.isBattlefieldMonster(monsterName)) {
+      IslandManager.handleBattlefieldMonster(responseText, monsterName);
+    }
+
     int adventure = KoLAdventure.lastAdventureId();
 
     switch (adventure) {
