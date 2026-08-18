@@ -4314,9 +4314,7 @@ public class FightRequest extends GenericRequest {
         }
       }
 
-      if (IslandManager.isBattlefieldMonster(monsterName)) {
-        IslandManager.handleBattlefieldMonster(responseText, monsterName);
-      } else if (special == SpecialMonster.SEWER && !EncounterManager.ignoreSpecialMonsters) {
+      if (special == SpecialMonster.SEWER && !EncounterManager.ignoreSpecialMonsters) {
         AdventureResult result = AdventureResult.tallyItem("sewer tunnel explorations", false);
         AdventureResult.addResultToList(KoLConstants.tally, result);
       }
