@@ -888,7 +888,7 @@ public class IslandManager {
     }
   }
 
-  private static void handleEndOfWar(final String loser) {
+  public static void handleEndOfWar(final String loser) {
     String message;
 
     int total = KoLCharacter.isKingdomOfExploathing() ? 333 : 1000;

@@ -6919,6 +6919,100 @@ public abstract class ChoiceControl {
           case 2 -> Preferences.setString("blueVsRedTeam", "blue");
         }
       }
+
+      case 1604, // Let Slip the Beasts of War
+          1605, // Taking an Insect Aside
+          1606, // Space Support
+          1607, // Military Hardware
+          1608, // War is Literally Hell
+          1609, // Humanity's Humanity to Humanity
+          1610, // Primal Forces
+          1611, // Small Arms
+          1612, // The Marine Corps
+          1613, // All Quiet on the Goblin Front
+          1614, // Like, Make Love, Not War, Man
+          1615, // Hobo Code Talkers
+          1616, // The Horrors of War
+          1617, // Bros In Arms
+          1618, // Mer-kin Warfighter
+          1619, // Fraternizing With The Non-Enemy
+          1620, // Marching Orders of The Penguins
+          1621, // War at Sea
+          1622, // Shoots and Leaves
+          1623, // Splorched Earth
+          1624, // Partial Casualties
+          1625 // Psychological Warfare
+          -> {
+        var storedMonster = Preferences.getInteger("lastBlueVsRedNCMonster");
+        if (storedMonster == -1) {
+          storedMonster = 313; // fluffy bunny, need a non-null monster to update quests
+        }
+        var monster = MonsterDatabase.findMonsterById(storedMonster);
+        QuestManager.updateQuestData(text, monster);
+      }
+
+      case 1626 -> {
+        // The Boss Bat
+        if (ChoiceManager.lastDecision == 1) {
+          QuestDatabase.setQuestProgress(Quest.BAT, "step4");
+        }
+      }
+
+      case 1627 -> {
+        // The Knob Goblin King
+        if (ChoiceManager.lastDecision == 1) {
+          QuestDatabase.setQuestProgress(Quest.GOBLIN, QuestDatabase.FINISHED);
+        }
+      }
+
+      case 1628 -> {
+        // The Bonerdagon
+        if (ChoiceManager.lastDecision == 1) {
+          CryptManager.defeatBoss("Bonerdagon");
+        }
+      }
+
+      case 1630 -> {
+        // Ancient Protector Spectre
+        if (ChoiceManager.lastDecision == 1) {
+          QuestDatabase.setQuestProgress(Quest.WORSHIP, QuestDatabase.FINISHED);
+        }
+      }
+
+      case 1631 -> {
+        // Dr. Awkward
+        if (ChoiceManager.lastDecision == 1) {
+          QuestDatabase.setQuestProgress(Quest.PALINDOME, QuestDatabase.FINISHED);
+        }
+      }
+
+      case 1632 -> {
+        // Lord Spookyraven
+        if (ChoiceManager.lastDecision == 1) {
+          QuestDatabase.setQuestProgress(Quest.MANOR, QuestDatabase.FINISHED);
+        }
+      }
+
+      case 1634 -> {
+        // The Big Wisniewski
+        if (ChoiceManager.lastDecision == 1) {
+          IslandManager.handleEndOfWar("hippies");
+        }
+      }
+
+      case 1635 -> {
+        // The Man
+        if (ChoiceManager.lastDecision == 1) {
+          IslandManager.handleEndOfWar("fratboys");
+        }
+      }
+
+      case 1636 -> {
+        // Groar
+        if (ChoiceManager.lastDecision == 1) {
+          QuestDatabase.setQuestProgress(Quest.TRAPPER, "step5");
+        }
+      }
     }
   }
 
@@ -7041,6 +7135,8 @@ public abstract class ChoiceControl {
   private static final Pattern CUP_OF_13S_PATTERN = Pattern.compile("cup with (\\d+) shining gem");
   private static final Pattern ADVENTURE_GAIN_PATTERN =
       Pattern.compile("You gain (\\d+) Adventures");
+  private static final Pattern MONSTER_COMMENT_PATTERN =
+      Pattern.compile("<!-- monsterid: (\\d+) -->");
 
   public static final Map<Quest, String> conspiracyQuestMessages = new HashMap<>();
 
@@ -8853,6 +8949,36 @@ public abstract class ChoiceControl {
         Matcher matcher = CUP_OF_13S_PATTERN.matcher(text);
         if (matcher.find()) {
           Preferences.setInteger("_cupOf13sJewels", Integer.parseInt(matcher.group(1)));
+        }
+      }
+
+      case 1604, // Let Slip the Beasts of War
+          1605, // Taking an Insect Aside
+          1606, // Space Support
+          1607, // Military Hardware
+          1608, // War is Literally Hell
+          1609, // Humanity's Humanity to Humanity
+          1610, // Primal Forces
+          1611, // Small Arms
+          1612, // The Marine Corps
+          1613, // All Quiet on the Goblin Front
+          1614, // Like, Make Love, Not War, Man
+          1615, // Hobo Code Talkers
+          1616, // The Horrors of War
+          1617, // Bros In Arms
+          1618, // Mer-kin Warfighter
+          1619, // Fraternizing With The Non-Enemy
+          1620, // Marching Orders of The Penguins
+          1621, // War at Sea
+          1622, // Shoots and Leaves
+          1623, // Splorched Earth
+          1624, // Partial Casualties
+          1625 // Psychological Warfare
+          -> {
+        Matcher commentMatcher = MONSTER_COMMENT_PATTERN.matcher(text);
+        if (commentMatcher.find()) {
+          int monsterId = Integer.parseInt(commentMatcher.group(1));
+          Preferences.setInteger("lastBlueVsRedNCMonster", monsterId);
         }
       }
     }
