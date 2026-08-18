@@ -566,3 +566,47 @@ questL12War	finished	Meat meat, meat! Meat meat meat meat island meat meat smug 
 questL13Final	started	Meat! Meat meat meat meat meat meat Naughty Meat meat meat meat meat meat meat. Meat meat meat meat meat meat, meat meat meat meat meat meat meat meat, meat meat meat, meat meat meat meat meat meat meat meat meat meat meat meat meat meat meat. Meat meat meat meat meat Meat Meat, meat meat meat meat meat meat meat meat, meat meat King Meat MEat, meat meat meat meat.
 questL13Final	started	Meat meat, Meat! Meat meat meat meat Naughty Meat! Meat meat meat meat meat meat meat meat Meat Meat.
 questL13Final	step13	Meat, meat meat. Meat, Meat meat meat meat meat meat meat meat meat. Meat meat meat meat meat meat meat meat meat, meat meat meat meat meat meat meat meat meat meat meat meat meat meat meat meat meat meat meat meat. Meat, meat meat meat meat meat meat.
+
+# Blue vs. Red
+# Each line has a Blue and a Red version
+questL02Larva	started	Okay, here's a good first quest for you -- head to the Spooky Forest and bring us back a mosquito larva
+questL02Larva	started	All right, here's your first quest for the Blue Team -- head to the Spooky Forest
+questL02Larva	finished	That's a real good-looking mosquito larva
+questL02Larva	finished	That's a real fine-looking mosquito larva
+questL03Rat	started	They're having problems with a rat infestation
+questL03Rat	started	It turns out he's having problems with rats
+questL04Bat	started	You know the Boss Bat, in the Bat Hole
+questL04Bat	finished	Any word from the Boss Bat? Oh, you got it
+questL04Bat	finished	You killed the Boss Bat? Great
+questL05Goblin	started	The Goblin King at Cobb's Knob has thrown in with the Blue team
+questL05Goblin	started	I need you to infiltrate Cobb's Knob, get into the Goblin King's throne room, and pass this letter to him
+questL05Goblin	step1	We still need you to neutralize the Goblin King, Adventurer
+questL05Goblin	step1	Have you delivered those plans to the Knob Goblin King yet
+questL05Goblin	finished	Great job slaying the Goblin King
+questL05Goblin	finished	Good job delivering that message to the Goblin King, adventurer
+questL06Friar	started	The Deep Fat Friars in the Distant Woods are under attack
+questL07Cyrptic	started	the ancient and powerful Bonerdagon, in the Cyrpt in the Nearby Plains, has joined our cause
+questL07Cyrptic	started	the Red Team has somehow managed to enlist the Bonerdagon on their side
+questL07Cyrptic	finished	good work getting those plans to the Bonerdagon
+questL07Cyrptic	finished	You successfully destroyed the Bonerdagon
+questL08Trapper	started	We've received an urgent letter from the Trapper, on Mt. McLargeHuge in the Big Mountains
+questL08Trapper	started	There's a trapper who lives on Mt. McLargeHuge in the Big Mountains, who's reported some kind of monster at the peak of his mountain
+questL09Topping	started	There's been a message from one of the of the Kingdom's minor nobles, a guy called Black Angus
+questL09Topping	started	The Council got a message requesting help from a minor noble named Black Angus
+questL10Garbage	started	now there's garbage falling out of the sky, all over the Nearby Plains
+questL10Garbage	started	it pours giant garbage out of the sky onto the Nearby Plains
+questL10Garbage	finished	Great job stopping the garbage
+questL10Garbage	finished	You stopped the garbage -- great work
+questL11MacGuffin	started	your father, the renowned archaeologist, has gone missing
+questL11MacGuffin	finished	Fantastic work recovering the Holy MacGuffin, adventurer
+questL11MacGuffin	finished	You've brought back the Holy MacGuffin
+questL12War	started	So here's an interesting little development: there's a war brewing on the Mysterious Island of Mystery nearby
+questL12War	started	There's a little island off the southeastern coast called The Mysterious Island of Mystery
+questL12War	step1	With the hippies and frat boys at war, it should be easy for you to get to The Man and take him out of the picture
+questL12War	step1	With all the fighting, it should be easy for you to get to Wisniewski and assassinate him
+questL12War	finished	With the loss of The Man's connections and resources, the Blue Bastards will have a long road ahead of them
+questL12War	finished	I still don't know what sort of benefit Red Team was getting from having Wisniewski on their side, but whatever it was, it's gone now
+questL13Final	started	the Naughty Sorceress is holding some kind of contest for adventurers, in her tower east of the Nearby Plains
+questL13Final	started	The Naughty Sorceress is holding some kind of contest at her tower, east of the Nearby Plains
+questL13Final	step13	You defeated the Naughty Sorceress
+questL13Final	step13	You did it, you destroyed the Naughty Sorceress

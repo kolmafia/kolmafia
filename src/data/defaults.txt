@@ -364,6 +364,7 @@ user	blackPuddingsDefeated	0
 user	blackForestProgress	0
 user	blankOutUsed	0	roa
 user	bloodweiserDrunk	0
+user	blueVsRedTeam		roa
 user	bodyguardCharge	0	roa
 user	bodyguardChatMonster
 user	bondAdv	false	roa
@@ -928,6 +929,12 @@ user	itemBoughtPerAscension8266	false	roa
 user	itemBoughtPerAscension10790	false	roa
 user	itemBoughtPerAscension10794	false	roa
 user	itemBoughtPerAscension10795	false	roa
+user	itemBoughtPerAscension12293	false	roa
+user	itemBoughtPerAscension12298	false	roa
+user	itemBoughtPerAscension12299	false	roa
+user	itemBoughtPerAscension12300	false	roa
+user	itemBoughtPerAscension12301	false	roa
+user	itemBoughtPerAscension12303	false	roa
 user	itemBoughtPerCharacter6423	false
 user	itemBoughtPerCharacter6428	false
 user	itemBoughtPerCharacter6429	false
@@ -1063,6 +1070,7 @@ user	lastPorkoPayouts
 user	lastPorkoExpected
 user	lastQuartetAscension	-1
 user	lastQuartetRequest	0
+user	lastBlueVsRedNCMonster	-1	roa
 user	lastSecondFloorUnlock	-1
 user	lastShadowForgeUnlockAdventure	-1	roa
 user	lastKOLHSArtClassUnlockAdventure	-1	roa
@@ -2389,6 +2397,16 @@ user	_interviewMasquerade	false
 user	_interviewVlad	false
 user	_inquisitorsUnidentifiableObjectUsed	false
 user	_interestingCoinHeads	false
+user	_itemBoughtPerDay12292	0
+user	_itemBoughtPerDay12294	0
+user	_itemBoughtPerDay12295	0
+user	_itemBoughtPerDay12305	0
+user	_itemBoughtPerDay12306	0
+user	_itemBoughtPerDay12307	0
+user	_itemBoughtPerDay12308	0
+user	_itemBoughtPerDay12310	0
+user	_itemBoughtPerDay12311	0
+user	_itemBoughtPerDay12312	0
 user	_ironicMoustache	false
 user	_ironTricornHeadbuttUsed	0
 user	_jackassPlumberGame	false
@@ -3738,6 +3756,17 @@ user	choiceAdventure1622	1
 user	choiceAdventure1623	1
 user	choiceAdventure1624	1
 user	choiceAdventure1625	1
+user	choiceAdventure1626	1
+user	choiceAdventure1627	1
+user	choiceAdventure1628	1
+user	choiceAdventure1629	1
+user	choiceAdventure1630	1
+user	choiceAdventure1631	1
+user	choiceAdventure1632	1
+user	choiceAdventure1633	1
+user	choiceAdventure1634	1
+user	choiceAdventure1635	1
+user	choiceAdventure1636	1
 user	lockedItem4637	true
 user	lockedItem4638	true
 user	lockedItem4639	true

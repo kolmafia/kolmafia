@@ -60,8 +60,7 @@ public class FloristRequestTest {
             withProperty("ownsFloristFriar", true),
             withPath(Path.STANDARD),
             withRestricted(true),
-            withNotAllowedInStandard(
-                RestrictedItemType.ITEMS, "Order of the Green Thumb Order Form"))) {
+            withNotAllowedInStandard(RestrictedItemType.BOOKSHELF_BOOKS, "Florist Friar"))) {
       assertThat(FloristRequest.haveFlorist(), is(false));
     }
   }
