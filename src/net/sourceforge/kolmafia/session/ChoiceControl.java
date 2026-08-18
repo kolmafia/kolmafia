@@ -6943,7 +6943,7 @@ public abstract class ChoiceControl {
           1624, // Partial Casualties
           1625 // Psychological Warfare
           -> {
-        var storedMonster = Preferences.getInteger("lastRedVsBlueNCMonster");
+        var storedMonster = Preferences.getInteger("lastBlueVsRedNCMonster");
         if (storedMonster == -1) {
           storedMonster = 313; // fluffy bunny, need a non-null monster to update quests
         }
@@ -8978,7 +8978,7 @@ public abstract class ChoiceControl {
         Matcher commentMatcher = MONSTER_COMMENT_PATTERN.matcher(text);
         if (commentMatcher.find()) {
           int monsterId = Integer.parseInt(commentMatcher.group(1));
-          Preferences.setInteger("lastRedVsBlueNCMonster", monsterId);
+          Preferences.setInteger("lastBlueVsRedNCMonster", monsterId);
         }
       }
     }
