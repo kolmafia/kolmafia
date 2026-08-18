@@ -74,7 +74,6 @@ class ChoiceControlTest {
 
   @Nested
   class SuburbsOfDisTest {
-
     @BeforeEach
     public void beforeEach() {
       QuestDatabase.setQuest(Quest.CLUMSINESS, QuestDatabase.UNSTARTED);
@@ -196,7 +195,6 @@ class ChoiceControlTest {
 
   @Nested
   class ColdMedicineCabinet {
-
     @ParameterizedTest
     @CsvSource({"ice_crown, 0", "frozen_jeans, 1", "ice_wrap, 2"})
     void seeingEquipmentCorrectsTotalTakenToday(String itemSlug, int impliedEquipmentTaken) {
@@ -227,7 +225,6 @@ class ChoiceControlTest {
 
   @Nested
   class StillSuit {
-
     @Test
     void canReadInformationFromChoicePage() {
       var cleanups = new Cleanups(withProperty("familiarSweat"));
@@ -311,7 +308,6 @@ class ChoiceControlTest {
 
   @Nested
   class Entauntauned {
-
     @Test
     void canDetectEntauntaunedLevel() {
       var builder = new FakeHttpClientBuilder();
@@ -339,7 +335,6 @@ class ChoiceControlTest {
 
   @Nested
   class Cartography {
-
     @ParameterizedTest
     @CsvSource({
       "lastCartographyGuanoJunction, 1427",
@@ -370,7 +365,6 @@ class ChoiceControlTest {
 
   @Nested
   class Speakeasy {
-
     @Test
     void visitingPlaqueIdentifiesName() {
       var cleanups =
@@ -408,7 +402,6 @@ class ChoiceControlTest {
 
   @Nested
   class Yachtzee {
-
     @Test
     void choosingAnNCOptionSetsPreference() {
       var cleanups =
@@ -433,7 +426,6 @@ class ChoiceControlTest {
 
   @Nested
   class AutomatedFuture {
-
     @Test
     void choosingSolenoids() {
       var cleanups =
@@ -506,7 +498,6 @@ class ChoiceControlTest {
 
   @Nested
   class ChestMimic {
-
     @Test
     void updatesEggsObtainedAndDonatedIfPresent() {
       var cleanups =
@@ -602,7 +593,6 @@ class ChoiceControlTest {
 
   @Nested
   class WereProfessorResearch {
-
     @ParameterizedTest
     @CsvSource({
       "0, test_choice_wereprofessor_no_upgrades.html",
@@ -648,7 +638,6 @@ class ChoiceControlTest {
 
   @Nested
   class SavageBeast {
-
     @Test
     void canDetectSavageBeastTransformation() {
       var builder = new FakeHttpClientBuilder();
@@ -828,7 +817,6 @@ class ChoiceControlTest {
 
   @Nested
   class AprilConduct {
-
     @Test
     void choosingAConductSetsPreference() {
       var cleanups =
@@ -851,7 +839,6 @@ class ChoiceControlTest {
 
   @Nested
   class Mayam {
-
     @Test
     void parsesUnusedCalendarOnVisit() {
       var cleanups =
@@ -937,7 +924,6 @@ class ChoiceControlTest {
 
   @Nested
   class TrickOrTreat {
-
     @ParameterizedTest
     @CsvSource({
       "full,DLDLLLDLLDDL",
@@ -1004,7 +990,6 @@ class ChoiceControlTest {
 
   @Nested
   class PirateRealm {
-
     @Test
     void canParseCrewmates() {
       var responseText = html("request/test_choice_piraterealm_three_crewmates.html");
@@ -1138,7 +1123,6 @@ class ChoiceControlTest {
 
   @Nested
   class BWApron {
-
     @Test
     void handlesSuccess() {
       var responseText = html("request/test_choice_bw_apron_success.html");
@@ -1180,7 +1164,6 @@ class ChoiceControlTest {
 
   @Nested
   class BodyguardChat {
-
     @Test
     void tracksChattedBodyguard() {
       var responseText = html("request/test_choice_bodyguard_chat_success.html");
@@ -1199,7 +1182,6 @@ class ChoiceControlTest {
 
   @Nested
   class TakerSpace {
-
     @ParameterizedTest
     @CsvSource({
       "first,3,15,26,26,7,1",
@@ -1245,7 +1227,6 @@ class ChoiceControlTest {
 
   @Nested
   class CyberRealm {
-
     @ParameterizedTest
     @CsvSource({"1, 1545", "2, 1547", "3, 1549"})
     public void cyberRealmHalfWaySetsTurns(int securityLevel, int choice) {
@@ -1287,7 +1268,6 @@ class ChoiceControlTest {
 
   @Nested
   class HashingVise {
-
     AdventureResult cybeer = new AdventureResult("dedigitizer schematic: cybeer", 1, false);
     AdventureResult one = ItemPool.get(ItemPool.ONE);
     AdventureResult zero = ItemPool.get(ItemPool.ZERO);
@@ -1328,7 +1308,6 @@ class ChoiceControlTest {
 
   @Nested
   class BoxingDaycare {
-
     @Test
     void canParseInstructorItems() {
       var cleanups =
@@ -1414,7 +1393,6 @@ class ChoiceControlTest {
 
   @Nested
   class Zootomist {
-
     @ParameterizedTest
     @ValueSource(ints = {0, 1})
     void canDetectSpecimensPrepared(int numUsed) {
@@ -1446,7 +1424,6 @@ class ChoiceControlTest {
 
   @Nested
   class Leprecondo {
-
     @ParameterizedTest
     @CsvSource(
         value = {"1|1,2,3,4,5,6,8,9,12,13,21,24"},
@@ -1511,7 +1488,6 @@ class ChoiceControlTest {
 
   @Nested
   class PeridotOfPeril {
-
     @CsvSource({"2_left,1", "blank,0", "none_left,3"})
     @ParameterizedTest
     void canDetectForeseesLeft(final String file, final int expected) {
@@ -1594,7 +1570,6 @@ class ChoiceControlTest {
 
   @Nested
   class CoolerYeti {
-
     @Test
     void allChoicesAvailable() {
       var cleanups =
@@ -1652,7 +1627,6 @@ class ChoiceControlTest {
 
   @Nested
   class CatalogCard {
-
     @Test
     void parsesChoiceAdventure() {
       var cleanups =
@@ -1712,7 +1686,6 @@ class ChoiceControlTest {
 
   @Nested
   class DreadScroll {
-
     @Test
     void failureAddsGuessesToBlank() {
       var cleanups =
@@ -1836,7 +1809,6 @@ class ChoiceControlTest {
 
   @Nested
   class BaseballDiamond {
-
     @Test
     void visitingIncrementsInnings() {
       var cleanups =
@@ -1939,7 +1911,6 @@ class ChoiceControlTest {
 
   @Nested
   class CupOf13s {
-
     @Test
     void setsJewelsOnVisit() {
       var cleanups =
