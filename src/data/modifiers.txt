@@ -2954,6 +2954,7 @@ Item	Blue Diamond of Honesty	Muscle: +7, Mysticality: +7, Moxie: +7, Item Drop: 
 Item	blue glowstick	Maximum MP: +5, Moxie: -3, Last Available: "2007-11", Raveosity: +1
 Item	blue plastic baby	Maximum HP: +5, Maximum MP: +5, Single Equip, Last Available: "2008-12"
 Item	blue ribbon	Maximum HP: +5, Last Available: "2006-07"
+# Blue Team scarf: Show your team blue allegiance
 Item	bone spurs	Monster Level: +20, Single Equip, Last Available: "2010-10"
 Item	Bonerdagon necklace	Muscle: +5, Moxie: +5, Initiative: +30
 Item	BOOtonniere	Cold Resistance: +4, Single Equip
@@ -3654,6 +3655,7 @@ Item	Red Roger's red left foot	Single Equip, Last Available: "2019-04"
 # Red Roger's red right foot: Gain more FunPoints during PirateRealm sailing adventures
 Item	Red Roger's red right foot	Single Equip, Last Available: "2019-04"
 Item	red shoe	Hot Resistance: +2, Combat Rate: -5, Single Equip
+# Red Team scarf: Show your team red allegiance
 Item	red-hot medallion	Hot Damage: +30, Single Equip, Last Available: "2010-09"
 Item	red-soled high heels	Moxie Percent: +10, Experience (Moxie): +3, Booze Drop: +50, Last Available: "2023-06"
 Item	reinforced furry underpants	Mysticality: +2, Sleaze Damage: +2
