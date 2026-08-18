@@ -1675,7 +1675,7 @@ public class QuestManager {
     QuestManager.setDesertExploration(current, explored - current);
   }
 
-  public static void incrementDesertExploration(String responseText) {
+  private static void incrementDesertExploration(String responseText) {
     // As you're about to collapse from dehydration, you stagger
     // over one last dune to discover a verdant oasis.
     if (responseText.contains("discover a verdant oasis")) {
