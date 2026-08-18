@@ -1070,6 +1070,7 @@ user	lastPorkoPayouts
 user	lastPorkoExpected
 user	lastQuartetAscension	-1
 user	lastQuartetRequest	0
+user	lastRedVsBlueNCMonster	-1	roa
 user	lastSecondFloorUnlock	-1
 user	lastShadowForgeUnlockAdventure	-1	roa
 user	lastKOLHSArtClassUnlockAdventure	-1	roa
