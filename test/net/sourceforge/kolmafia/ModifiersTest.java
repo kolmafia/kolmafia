@@ -253,6 +253,37 @@ public class ModifiersTest {
   }
 
   @Nested
+  class SomePigs {
+    @Test
+    void somePigsSuppressesFamiliarModifiers() {
+      var cleanups = withEffect(EffectPool.SOME_PIGS);
+
+      try (cleanups) {
+        Modifiers familiarMods = new Modifiers();
+        var familiar = FamiliarData.registerFamiliar(FamiliarPool.BABY_GRAVY_FAIRY, 400);
+
+        familiarMods.applyFamiliarModifiers(familiar, null);
+
+        assertThat(familiarMods.getDouble(DoubleModifier.ITEMDROP), closeTo(0, 0.001));
+      }
+    }
+
+    @Test
+    void somePigsStillAppliesStooperLiverCapacity() {
+      var cleanups = withEffect(EffectPool.SOME_PIGS);
+
+      try (cleanups) {
+        Modifiers familiarMods = new Modifiers();
+        var familiar = FamiliarData.registerFamiliar(FamiliarPool.STOOPER, 0);
+
+        familiarMods.applyFamiliarModifiers(familiar, null);
+
+        assertThat(familiarMods.getDouble(DoubleModifier.LIVER_CAPACITY), closeTo(1, 0.001));
+      }
+    }
+  }
+
+  @Nested
   class SquintChampagne {
     @BeforeAll
     public static void setup() {

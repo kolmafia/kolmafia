@@ -1166,7 +1166,18 @@ public class Modifiers {
 
   public void applyFamiliarModifiers(final FamiliarData familiar, AdventureResult famItem) {
     if (KoLConstants.activeEffects.contains(Modifiers.somePigs)) {
-      // Under the effect of SOME PIGS, familiar gives no modifiers
+      // Under the effect of SOME PIGS, familiar gives no modifiers, with one
+      // exception: KoL still honors additional liver capacity (i.e. from the
+      // Stooper), as seen in the charpane's inebriety limit and by the ability
+      // to keep drinking up to it.
+      String race = familiar.getEffectiveRace();
+      Modifiers famMods = ModifierDatabase.getModifiers(ModifierType.FAMILIAR, race);
+      if (famMods != null) {
+        double liverCapacity = famMods.getDouble(DoubleModifier.LIVER_CAPACITY);
+        if (liverCapacity != 0.0) {
+          this.addDouble(DoubleModifier.LIVER_CAPACITY, liverCapacity, ModifierType.FAMILIAR, race);
+        }
+      }
       return;
     }
 
