@@ -7372,6 +7372,17 @@ public class FightRequest extends GenericRequest {
       Preferences.increment("_laughingStockFruitDropped", 1);
     }
 
+    // Interesting Coin
+    if (str.contains(
+        "You decide to forgo hoarding this tangible meat, and invest it in your intangibles.")) {
+      FightRequest.logText(str, status);
+      Preferences.decrement("intangibleAssetCharges");
+    }
+    if (str.contains("your toxic emanations")) {
+      FightRequest.logText(str, status);
+      Preferences.decrement("toxicAssetCharges");
+    }
+
     FightRequest.handleLuckyGoldRing(str, status);
 
     // Serendipity
@@ -11341,6 +11352,12 @@ public class FightRequest extends GenericRequest {
       case SkillPool.STOP_KILLING -> {
         if (responseText.contains("kill") || skillSuccess) {
           Preferences.setInteger("swordOfSWordsMonster", -1);
+        }
+      }
+      case SkillPool.EXERCISE_LIQUIDITY -> {
+        if (responseText.contains("You flow away") || skillSuccess) {
+          Preferences.decrement("exerciseLiquidityCharges");
+          skillSuccess = true;
         }
       }
     }
