@@ -4314,9 +4314,7 @@ public class FightRequest extends GenericRequest {
         }
       }
 
-      if (IslandManager.isBattlefieldMonster(monsterName)) {
-        IslandManager.handleBattlefieldMonster(responseText, monsterName);
-      } else if (special == SpecialMonster.SEWER && !EncounterManager.ignoreSpecialMonsters) {
+      if (special == SpecialMonster.SEWER && !EncounterManager.ignoreSpecialMonsters) {
         AdventureResult result = AdventureResult.tallyItem("sewer tunnel explorations", false);
         AdventureResult.addResultToList(KoLConstants.tally, result);
       }
@@ -7372,6 +7370,17 @@ public class FightRequest extends GenericRequest {
         || str.contains("Someone lobs a piece of fruit at you from the crowd")) {
       FightRequest.logText("You were pelted with fruit.", status);
       Preferences.increment("_laughingStockFruitDropped", 1);
+    }
+
+    // Interesting Coin
+    if (str.contains(
+        "You decide to forgo hoarding this tangible meat, and invest it in your intangibles.")) {
+      FightRequest.logText(str, status);
+      Preferences.decrement("intangibleAssetCharges");
+    }
+    if (str.contains("your toxic emanations")) {
+      FightRequest.logText(str, status);
+      Preferences.decrement("toxicAssetCharges");
     }
 
     FightRequest.handleLuckyGoldRing(str, status);
@@ -11343,6 +11352,12 @@ public class FightRequest extends GenericRequest {
       case SkillPool.STOP_KILLING -> {
         if (responseText.contains("kill") || skillSuccess) {
           Preferences.setInteger("swordOfSWordsMonster", -1);
+        }
+      }
+      case SkillPool.EXERCISE_LIQUIDITY -> {
+        if (responseText.contains("You flow away") || skillSuccess) {
+          Preferences.decrement("exerciseLiquidityCharges");
+          skillSuccess = true;
         }
       }
     }

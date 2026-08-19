@@ -63,7 +63,9 @@ public abstract class InterestingCoinRequest extends CoinMasterShopRequest {
   public static void visitShop(final String responseText) {
     for (int itemId : DAILY_ITEMS) {
       String name = ItemDatabase.getItemName(itemId);
-      Preferences.setInteger(dailyProperty(itemId), responseText.contains(name) ? 0 : 3);
+      if (!responseText.contains(name)) {
+        Preferences.setInteger(dailyProperty(itemId), 3);
+      }
     }
     for (int itemId : ASCENSION_ITEMS) {
       String name = ItemDatabase.getItemName(itemId);
