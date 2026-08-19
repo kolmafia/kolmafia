@@ -4562,22 +4562,71 @@ public class FightRequestTest {
     }
   }
 
-  @Test
-  void canTrackHeadsFromInterestingCoin() {
-    SessionLoggerOutput.startStream();
-    var cleanups =
-        new Cleanups(
-            withProperty("_interestingCoinHeads", false), withItem(ItemPool.INTERESTING_COIN));
+  @Nested
+  class InterestingCoin {
+    @Test
+    void canTrackHeadsFromInterestingCoin() {
+      SessionLoggerOutput.startStream();
+      var cleanups =
+          new Cleanups(
+              withProperty("_interestingCoinHeads", false), withItem(ItemPool.INTERESTING_COIN));
 
-    try (cleanups) {
-      parseCombatData(
-          "request/test_fight_interesting_coin.html",
-          "fight.php?action=useitem&whichitem=0&whichitem2=12275");
-      var text = SessionLoggerOutput.stopStream();
-      assertThat("_interestingCoinHeads", isSetTo(true));
-      assertThat(ItemPool.INTERESTING_COIN, isInInventory(1));
-      assertThat(
-          text, containsString("Heads, you win! Your foe wanders off, leaving you victorious."));
+      try (cleanups) {
+        parseCombatData(
+            "request/test_fight_interesting_coin.html",
+            "fight.php?action=useitem&whichitem=0&whichitem2=12275");
+        var text = SessionLoggerOutput.stopStream();
+        assertThat("_interestingCoinHeads", isSetTo(true));
+        assertThat(ItemPool.INTERESTING_COIN, isInInventory(1));
+        assertThat(
+            text, containsString("Heads, you win! Your foe wanders off, leaving you victorious."));
+      }
+    }
+
+    @Test
+    void canTrackLiquidAsset() {
+      var cleanups = new Cleanups(withProperty("exerciseLiquidityCharges", 2));
+
+      try (cleanups) {
+        parseCombatData(
+            "request/test_fight_interestingcoin_liquid_asset.html",
+            "fight.php?action=skill&whichskill=7596");
+        assertThat("exerciseLiquidityCharges", isSetTo(1));
+      }
+    }
+
+    @Test
+    void canTrackIntangibleAsset() {
+      SessionLoggerOutput.startStream();
+      var cleanups = new Cleanups(withProperty("intangibleAssetCharges", 2));
+
+      try (cleanups) {
+        parseCombatData(
+            "request/test_fight_interestingcoin_intangible_asset.html", "fight.php?action=attack");
+        var text = SessionLoggerOutput.stopStream();
+        assertThat("intangibleAssetCharges", isSetTo(1));
+        assertThat(
+            text,
+            containsString(
+                "You decide to forgo hoarding this tangible meat, and invest it in your intangibles."));
+      }
+    }
+
+    @Test
+    void canTrackToxicAsset() {
+      SessionLoggerOutput.startStream();
+      var cleanups = new Cleanups(withProperty("toxicAssetCharges", 2));
+
+      try (cleanups) {
+        parseCombatData(
+            "request/test_fight_interestingcoin_toxic_asset.html", "fight.php?action=attack");
+        var text = SessionLoggerOutput.stopStream();
+        assertThat("toxicAssetCharges", isSetTo(1));
+        assertThat(
+            text,
+            containsString(
+                "In a rush to divest from this fight and your toxic emanations, your foe rushes off and drops everything they were carrying."));
+      }
     }
   }
 }
