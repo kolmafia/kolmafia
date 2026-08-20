@@ -702,6 +702,7 @@ user	essenceOfBearCost	1000
 user	EVEDirections	LLRLR0
 user	everfullDartPerks		roa
 user	eweItem		roa
+user	exerciseLiquidityCharges	0	roa
 user	expressCardUsed	false	ld
 user	extraCosmeticModifiers
 user	extraRolloverAdventures	0	ld
@@ -919,6 +920,7 @@ user	hpAutoRecoveryTarget	1.0
 user	iceSculptureMonster		roa
 user	iceSwagger	0
 user	implementGlitchItem	false
+user	intangibleAssetCharges	0	roa
 user	intenseCurrents	false	roa
 user	invalidBuffMessage	You sent an amount which does not correspond to a valid buff amount.
 user	ironicSwagger	0
@@ -1769,6 +1771,7 @@ user	tomeSkillsHardcore	Summon Snowcone
 user	tomeSkillsSoftcore	all
 user	tomeSummons	0	ld
 user	totalCharitableDonations	0
+user	toxicAssetCharges	0	roa
 user	trackLightsOut	false
 user	trackVoteMonster	false
 user	trackedMonsters

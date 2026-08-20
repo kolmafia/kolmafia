@@ -39,6 +39,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.OrcChasmRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
@@ -2397,6 +2398,10 @@ public class QuestManager {
       }
     }
 
+    if (IslandManager.isBattlefieldMonster(monsterName)) {
+      IslandManager.handleBattlefieldMonster(responseText, monsterName);
+    }
+
     int adventure = KoLAdventure.lastAdventureId();
 
     switch (adventure) {
@@ -2420,7 +2425,10 @@ public class QuestManager {
         break;
 
       case AdventurePool.THE_DAILY_DUNGEON:
-        DailyDungeonManager.handleCurrentRoomCompletion(DailyDungeonManager.RoomType.MONSTER);
+        if (FightRequest.specialMonsterCategory(monsterName)
+            == FightRequest.SpecialMonster.DAILY_DUNGEON) {
+          DailyDungeonManager.handleCurrentRoomCompletion(DailyDungeonManager.RoomType.MONSTER);
+        }
         break;
 
       case AdventurePool.ARID_DESERT:

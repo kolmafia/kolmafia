@@ -1967,5 +1967,21 @@ class ChoiceControlTest {
         assertThat("desertExploration", isSetTo(9));
       }
     }
+
+    @Test
+    void tracksWarProgressInBlueVsRed() {
+      var cleanups =
+          new Cleanups(
+              withProperty("fratboysDefeated", 72),
+              withProperty("lastBlueVsRedNCMonster", 423),
+              withProperty("sidequestOrchardCompleted", "hippy"),
+              withProperty("sidequestFarmCompleted", "hippy"),
+              withProperty("sidequestLighthouseCompleted", "hippy"),
+              withPostChoice2(1619, 1, html("request/test_bluevsred_war_progress.html")));
+
+      try (cleanups) {
+        assertThat("fratboysDefeated", isSetTo(80));
+      }
+    }
   }
 }
