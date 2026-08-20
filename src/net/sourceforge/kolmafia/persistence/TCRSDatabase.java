@@ -750,15 +750,21 @@ public class TCRSDatabase {
 
   private static ModifierList getRetainedModifiers(final int itemId) {
     var list = ModifierDatabase.getModifierList(new Lookup(ModifierType.ITEM, itemId));
-    switch (ItemDatabase.getConsumptionType(itemId)) {
-      case EAT, DRINK, SPLEEN, POTION, AVATAR_POTION -> {
-        while (list.containsModifier("Effect")) list.removeModifier("Effect");
-        while (list.containsModifier("Effect Duration")) list.removeModifier("Effect Duration");
-      }
+    var stripEffect =
+        DROP_RETAINED_EFFECT.contains(itemId)
+            || switch (ItemDatabase.getConsumptionType(itemId)) {
+              case EAT, DRINK, SPLEEN, POTION, AVATAR_POTION -> true;
+              default -> false;
+            };
+    if (stripEffect) {
+      while (list.containsModifier("Effect")) list.removeModifier("Effect");
+      while (list.containsModifier("Effect Duration")) list.removeModifier("Effect Duration");
     }
 
     return list;
   }
+
+  private static final Set<Integer> DROP_RETAINED_EFFECT = Set.of(ItemPool.OUTRAGEOUS_SOMBRERO);
 
   private static Enchantment rollConsumableEnchantment(final int itemId, final PHPMTRandom mtRng) {
     var roll = mtRng.nextInt(0, TCRSEffectPool.size());
@@ -766,7 +772,7 @@ public class TCRSDatabase {
     var effectName =
         (roll != TCRSEffectPool.size())
             ? EffectPool.get(TCRSEffectPool.get(roll)).getDisambiguatedName()
-            : ModifierDatabase.getStringModifier(ModifierType.ITEM, itemId, StringModifier.EFFECT);
+            : EffectPool.get(TCRSEffectPool.get(TCRSEffectPool.size() - 1)).getDisambiguatedName();
     var duration = 5 * mtRng.nextInt(1, 10);
 
     return new Enchantment(effectName, duration);
@@ -811,13 +817,8 @@ public class TCRSDatabase {
 
     var effectName =
         (roll == TCRSEffectPool.size())
-            ?
-            //   If we picked an overflow size, the item retains its original effect
-            ModifierDatabase.getStringModifier(
-                ModifierType.ITEM, item.getDisambiguatedName(), StringModifier.EFFECT)
-            :
-            //   Otherwise use the roll we got
-            EffectPool.get(TCRSEffectPool.get(roll)).getDisambiguatedName();
+            ? EffectPool.get(TCRSEffectPool.get(TCRSEffectPool.size() - 1)).getDisambiguatedName()
+            : EffectPool.get(TCRSEffectPool.get(roll)).getDisambiguatedName();
 
     // Pick duration of effect
     var duration = mtRng.nextInt(11, 69);
@@ -1016,8 +1017,11 @@ public class TCRSDatabase {
 
     if (HARDCODED_EFFECT.contains(id)) {
       enchanted = true;
+      var effectOverride = HARDCODED_EFFECT_OVERRIDE.get(id);
       enchantment.effect =
-          ModifierDatabase.getStringModifier(ModifierType.ITEM, id, StringModifier.EFFECT);
+          effectOverride != null
+              ? EffectPool.get(effectOverride).getDisambiguatedName()
+              : ModifierDatabase.getStringModifier(ModifierType.ITEM, id, StringModifier.EFFECT);
 
       if (!HARDCODED_EFFECT_DYNAMIC_DURATION.contains(id)) {
         enchantment.duration =
@@ -1145,6 +1149,13 @@ public class TCRSDatabase {
   /** Items that keep their Effect but take on a new Effect Duration */
   private static final Set<Integer> HARDCODED_EFFECT_DYNAMIC_DURATION =
       Set.of(ItemPool.QUEEN_COOKIE, ItemPool.TURTLE_SOUP);
+
+  private static final Map<Integer, Integer> HARDCODED_EFFECT_OVERRIDE =
+      Map.ofEntries(
+          Map.entry(ItemPool.SKULL_CRIMBOWEEN_COOKIE, 256), // Bells in the Batfry
+          Map.entry(ItemPool.TURTLE_SOUP, 598), // A Little Bit Evil
+          Map.entry(ItemPool.QUEEN_COOKIE, 755), // Towering Strength
+          Map.entry(ItemPool.SUN_DRIED_TOFU, 775)); // Oversaturated Palate
 
   private static TCRS guessSpleen(
       final AscensionClass ascensionClass, final ZodiacSign sign, final AdventureResult item) {
