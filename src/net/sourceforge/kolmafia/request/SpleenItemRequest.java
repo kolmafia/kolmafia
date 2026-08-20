@@ -292,6 +292,9 @@ public class SpleenItemRequest extends UseItemRequest {
           Preferences.increment("preworkoutPowderUses", count);
       case ItemPool.PHOSPHOR_TRACES -> Preferences.increment("phosphorTracesUses", count);
       case ItemPool.MIXED_BERRY_JELLY -> Preferences.increment("mixedBerryJellyUses", count);
+      case ItemPool.LIQUID_ASSET -> Preferences.increment("exerciseLiquidityCharges", count);
+      case ItemPool.INTANGIBLE_ASSET -> Preferences.increment("intangibleAssetCharges", count);
+      case ItemPool.TOXIC_ASSET -> Preferences.increment("toxicAssetCharges", count);
     }
   }
 

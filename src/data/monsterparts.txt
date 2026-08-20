@@ -2350,3 +2350,5 @@
 2536	Open Mic Knight	arm	head	leg	microphone	torso
 2537	Poker Knight	arm	head	leg	torso
 2538	Wedding Knight	arm	head	leg	torso
+2539	Scarlet Sorceress	arm	head	leg	torso
+2540	Sapphire Sorceress	arm	head	leg	torso

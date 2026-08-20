@@ -2956,6 +2956,7 @@ Item	Blue Diamond of Honesty	Muscle: +7, Mysticality: +7, Moxie: +7, Item Drop: 
 Item	blue glowstick	Maximum MP: +5, Moxie: -3, Last Available: "2007-11", Raveosity: +1
 Item	blue plastic baby	Maximum HP: +5, Maximum MP: +5, Single Equip, Last Available: "2008-12"
 Item	blue ribbon	Maximum HP: +5, Last Available: "2006-07"
+# Blue Team scarf: Show your team blue allegiance
 Item	bone spurs	Monster Level: +20, Single Equip, Last Available: "2010-10"
 Item	Bonerdagon necklace	Muscle: +5, Moxie: +5, Initiative: +30
 Item	BOOtonniere	Cold Resistance: +4, Single Equip
@@ -3656,6 +3657,7 @@ Item	Red Roger's red left foot	Single Equip, Last Available: "2019-04"
 # Red Roger's red right foot: Gain more FunPoints during PirateRealm sailing adventures
 Item	Red Roger's red right foot	Single Equip, Last Available: "2019-04"
 Item	red shoe	Hot Resistance: +2, Combat Rate: -5, Single Equip
+# Red Team scarf: Show your team red allegiance
 Item	red-hot medallion	Hot Damage: +30, Single Equip, Last Available: "2010-09"
 Item	red-soled high heels	Moxie Percent: +10, Experience (Moxie): +3, Booze Drop: +50, Last Available: "2023-06"
 Item	reinforced furry underpants	Mysticality: +2, Sleaze Damage: +2
@@ -8999,6 +9001,7 @@ Skill	Object Permanence	Mysticality: +5
 Skill	Object Quasi-Permanence	Item Drop: +10
 Skill	Oily Scalp	Sleaze Damage: +7
 Skill	Okay Seriously, This is the Last Spleen	Spleen Capacity: +5
+# Old Country Cooking: Pastamastery conjures an additional batch of dry noodles
 # Old-School Cocktailcrafting: Make 3 cocktails per day without spending an Adventure
 Skill	Olfactory Burnout	Stench Resistance: +3
 Skill	Olfactory Cortex	Stench Resistance: +3
@@ -14311,6 +14314,7 @@ Item	odd silver coin	Last Available: "2014-12"
 Item	odor extractor	Last Available: "2019-12"
 # off-white plastic oyster egg: Weakens enemies a little bit
 # oily boid: Weakens enemies a little bit as it briefly stuns them
+Item	Old Country cookbook	Skill: "Old Country Cooking"
 # old school beer pull tab: Causes a significant amount of bleeding
 Item	old school beer pull tab	Last Available: "2013-11"
 Item	old-fashioned Crimbo Pressie	Last Available: "2007-12"
