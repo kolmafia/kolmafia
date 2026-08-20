@@ -1476,6 +1476,7 @@ public class TCRSDatabase {
                   "Accessory Drop",
                   "Additional Song",
                   "Adventure Randomly",
+                  "Hit Causes Bleeding",
                   "All Spells Cast Are Hot",
                   "All Spells Cast Are Cold",
                   "All Spells Cast Are Stinky",
