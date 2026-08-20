@@ -495,6 +495,7 @@ public class FightRequest extends GenericRequest {
     // Categories of monsters
     BEE("bee"),
     CYRPT("Cyrpt"),
+    DAILY_DUNGEON("Daily Dungeon"),
     DMT("Deep Machine Tunnels"),
     EVENT("event monster"),
     GINGERBREAD("Gingerbread City"),
@@ -710,6 +711,7 @@ public class FightRequest extends GenericRequest {
     FightRequest.specialMonsters.put("void slab", SpecialMonster.VOID);
     FightRequest.specialMonsters.put("void spider", SpecialMonster.VOID);
 
+    FightRequest.addAreaMonsters("The Daily Dungeon", SpecialMonster.DAILY_DUNGEON);
     FightRequest.addAreaMonsters("A Maze of Sewer Tunnels", SpecialMonster.SEWER);
     FightRequest.addAreaMonsters("The Battlefield (Frat Uniform)", SpecialMonster.WAR_HIPPY);
     FightRequest.addAreaMonsters("The Battlefield (Hippy Uniform)", SpecialMonster.WAR_FRATBOY);
