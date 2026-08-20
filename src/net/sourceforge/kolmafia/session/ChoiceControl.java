@@ -8911,6 +8911,11 @@ public abstract class ChoiceControl {
         SkeletonOfCrimboPastRequest.visit(text);
       }
 
+      case 1588 -> {
+        // Decorate Your Eternity Codpiece
+        EquipmentRequest.parseCodpiecePage(text);
+      }
+
       case 1596 -> {
         // Dig at Zone
         Matcher matcher = ARCH_SPADE_PATTERN.matcher(text);
