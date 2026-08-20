@@ -3839,6 +3839,7 @@ user	unknownRecipe10991	true
 user	unknownRecipe10992	true
 user	unknownRecipe11000	true
 user	lastNoncombat15	0	roa
+user	lastNoncombat207	0	roa
 user	lastNoncombat257	0	roa
 user	lastNoncombat270	0	roa
 user	lastNoncombat273	0	roa
