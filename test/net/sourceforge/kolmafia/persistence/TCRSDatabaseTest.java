@@ -216,19 +216,24 @@ class TCRSDatabaseTest {
 
               var expectedName = StringUtilities.getEntityDecode(dataSays.name);
               if (!weGuessed.name.equals(expectedName)) {
-                // Cosmetic ORDER is non-deterministic in KoL (the shuffle runs on PHP's native MT,
-                // which is not seeded per item), so an order-only difference is unrecoverable
-                // noise: log it but don't count it as a failure. A different word set is a real,
-                // deterministic content miss (e.g. a wrong enchant).
+                // NOT_RE_ROLLED items have dynamic/stateful names (daily-random consumables, costume
+                // and form states, ...) captured as-is, so their name is not TCRS-derived and can't
+                // be matched: log it but don't count it. Otherwise, cosmetic ORDER is
+                // non-deterministic in KoL (the shuffle runs on PHP's native MT, which is not seeded
+                // per item), so an order-only difference is unrecoverable noise: log it but don't
+                // count it. A different word set is a real, deterministic content miss.
+                var notReRolled = TCRSDatabase.NOT_RE_ROLLED.contains(itemId);
                 var orderOnly = sortedWords(weGuessed.name).equals(sortedWords(expectedName));
                 out.write(
                     mismatch(
                         prefix,
-                        orderOnly ? "Name-order(noise)" : "Name-content",
+                        notReRolled
+                            ? "Name(not-rerolled)"
+                            : orderOnly ? "Name-order(noise)" : "Name-content",
                         expectedName,
                         weGuessed.name));
                 out.newLine();
-                if (!orderOnly) {
+                if (!notReRolled && !orderOnly) {
                   count++;
                 }
               }

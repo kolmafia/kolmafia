@@ -1116,6 +1116,8 @@ public class TCRSDatabase {
           ItemPool.ROMAN_CANDELABRA,
           ItemPool.MONODENT_OF_THE_SEA,
           ItemPool.PRISMATIC_BERET,
+          ItemPool.UNBREAKABLE_UMBRELLA,
+          ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE,
           ItemPool.THE_ETERNITY_CODPIECE,
           ItemPool.HEARTSTONE,
           ItemPool.BASEBALL_DIAMOND,
