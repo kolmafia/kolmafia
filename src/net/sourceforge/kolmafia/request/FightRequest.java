@@ -613,16 +613,6 @@ public class FightRequest extends GenericRequest {
     FightRequest.specialMonsters.put("giant skeelton", SpecialMonster.CYRPT);
     FightRequest.specialMonsters.put("huge ghuol", SpecialMonster.CYRPT);
 
-    FightRequest.specialMonsters.put("apathetic lizardman", SpecialMonster.DAILY_DUNGEON);
-    FightRequest.specialMonsters.put("dairy ooze", SpecialMonster.DAILY_DUNGEON);
-    FightRequest.specialMonsters.put("dodecapede", SpecialMonster.DAILY_DUNGEON);
-    FightRequest.specialMonsters.put("giant giant moth", SpecialMonster.DAILY_DUNGEON);
-    FightRequest.specialMonsters.put("mayonnaise wasp", SpecialMonster.DAILY_DUNGEON);
-    FightRequest.specialMonsters.put("pencil golem", SpecialMonster.DAILY_DUNGEON);
-    FightRequest.specialMonsters.put("sabre-toothed lime", SpecialMonster.DAILY_DUNGEON);
-    FightRequest.specialMonsters.put("tonic water elemental", SpecialMonster.DAILY_DUNGEON);
-    FightRequest.specialMonsters.put("vampire clam", SpecialMonster.DAILY_DUNGEON);
-
     FightRequest.specialMonsters.put("Performer of Actions", SpecialMonster.DMT);
     FightRequest.specialMonsters.put("Thinker of Thoughts", SpecialMonster.DMT);
     FightRequest.specialMonsters.put("Perceiver of Sensations", SpecialMonster.DMT);
@@ -721,6 +711,7 @@ public class FightRequest extends GenericRequest {
     FightRequest.specialMonsters.put("void slab", SpecialMonster.VOID);
     FightRequest.specialMonsters.put("void spider", SpecialMonster.VOID);
 
+    FightRequest.addAreaMonsters("The Daily Dungeon", SpecialMonster.DAILY_DUNGEON);
     FightRequest.addAreaMonsters("A Maze of Sewer Tunnels", SpecialMonster.SEWER);
     FightRequest.addAreaMonsters("The Battlefield (Frat Uniform)", SpecialMonster.WAR_HIPPY);
     FightRequest.addAreaMonsters("The Battlefield (Hippy Uniform)", SpecialMonster.WAR_FRATBOY);
