@@ -104,14 +104,14 @@ class TCRSDatabaseTest {
             "vacuum-sealed tumbling battery (car)",
             "Starry-Eyed",
             24),
-        // Sauceror/Vole Spooky Powder rolls an overflow for effect and as such keeps its original
-        // effect
+        // Sauceror/Vole Spooky Powder rolls an overflow for effect, which resolves to the last pool
+        // effect (Tiki Temerity)
         Arguments.of(
             AscensionClass.SAUCEROR,
             ZodiacSign.VOLE,
             ItemPool.SPOOKY_POWDER,
             "irradiated altered powder",
-            "Spookypants",
+            "Tiki Temerity",
             69),
         Arguments.of(
             AscensionClass.TURTLE_TAMER,
