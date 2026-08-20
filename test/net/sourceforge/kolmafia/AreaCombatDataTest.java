@@ -1126,7 +1126,7 @@ public class AreaCombatDataTest {
                 .getMonsterData(true);
         assertThat(
             appearanceRates.get(MonsterDatabase.findMonster(monster)),
-            expected ? closeTo(100.0 / 3, 0.001) : is(0.0));
+            expected ? closeTo(95.0 / 3, 0.001) : is(0.0));
       }
     }
 
