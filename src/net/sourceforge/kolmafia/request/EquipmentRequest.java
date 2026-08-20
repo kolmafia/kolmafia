@@ -1213,8 +1213,34 @@ public class EquipmentRequest extends PasswordHashRequest {
       AdventureResult.addResultToList(KoLConstants.inventory, insertedGem);
     }
 
-    // instead of parsing the page, get our updated gems from api.php
+    // Also parse the slot contents from the page itself, in case api.php below gets diverted to
+    // updateStatusFromCharpane(), which doesn't know about codpiece slots.
+    EquipmentRequest.parseCodpiecePage(responseText);
+
+    // get our updated gems from api.php
     ApiRequest.updateStatus();
+  }
+
+  private static final Pattern CODPIECE_SLOT_PATTERN =
+      Pattern.compile("name=\"which\" value=\"(\\d)\" /><select name=\"iid\"[^>]*>(.*?)</select>");
+  private static final Pattern CODPIECE_SELECTED_OPTION_PATTERN =
+      Pattern.compile("<option selected[^>]*value=\"(\\d+)\"");
+
+  // Each slot's <select> marks the mounted gem's item id "selected", or has no selected option.
+  public static void parseCodpiecePage(final String responseText) {
+    Matcher matcher = EquipmentRequest.CODPIECE_SLOT_PATTERN.matcher(responseText);
+    while (matcher.find()) {
+      Slot slot = Slot.byCaselessName("codpiece" + matcher.group(1));
+
+      Matcher selected =
+          EquipmentRequest.CODPIECE_SELECTED_OPTION_PATTERN.matcher(matcher.group(2));
+      AdventureResult item =
+          selected.find()
+              ? ItemPool.get(Integer.parseInt(selected.group(1)))
+              : EquipmentRequest.UNEQUIP;
+
+      EquipmentManager.setEquipment(slot, item);
+    }
   }
 
   public static void parseEquipment(final String location, final String responseText) {

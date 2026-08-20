@@ -187,6 +187,49 @@ public class EquipmentRequestTest {
     }
 
     @Test
+    public void canParseCodpiecePageForAllSlots() {
+      String text = html("request/test_codpiece_full_page.html");
+      var cleanups =
+          new Cleanups(
+              withEquipped(Slot.CODPIECE1, ItemPool.HAMETHYST),
+              withEquipped(Slot.CODPIECE2, ItemPool.HAMETHYST),
+              withEquipped(Slot.CODPIECE3, ItemPool.HAMETHYST),
+              withEquipped(Slot.CODPIECE4, ItemPool.HAMETHYST),
+              withEquipped(Slot.CODPIECE5, ItemPool.HAMETHYST));
+      try (cleanups) {
+        EquipmentRequest.parseCodpiecePage(text);
+
+        assertItem(Slot.CODPIECE1, "blood cubic zirconia");
+        assertItem(Slot.CODPIECE2, "massive gemstone");
+        assertItemUnequip(Slot.CODPIECE3);
+        assertItem(Slot.CODPIECE4, "Heartstone");
+        assertItem(Slot.CODPIECE5, "Peridot of Peril");
+      }
+    }
+
+    @Test
+    public void canParseCodpiecePageWithEmptySlots() {
+      // only slot 1 is filled; slots 2-5 are empty
+      String text = html("request/test_codpiece_insert.html");
+      var cleanups =
+          new Cleanups(
+              withUnequipped(Slot.CODPIECE1),
+              withEquipped(Slot.CODPIECE2, ItemPool.HAMETHYST),
+              withEquipped(Slot.CODPIECE3, ItemPool.HAMETHYST),
+              withEquipped(Slot.CODPIECE4, ItemPool.HAMETHYST),
+              withEquipped(Slot.CODPIECE5, ItemPool.HAMETHYST));
+      try (cleanups) {
+        EquipmentRequest.parseCodpiecePage(text);
+
+        assertItem(Slot.CODPIECE1, "baconstone");
+        assertItemUnequip(Slot.CODPIECE2);
+        assertItemUnequip(Slot.CODPIECE3);
+        assertItemUnequip(Slot.CODPIECE4);
+        assertItemUnequip(Slot.CODPIECE5);
+      }
+    }
+
+    @Test
     public void canParseCodpieceRemove() {
       // clear slot containing hamethyst
       String text = html("request/test_codpiece_remove.html");
