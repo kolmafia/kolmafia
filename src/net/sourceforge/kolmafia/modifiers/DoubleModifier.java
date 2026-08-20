@@ -616,7 +616,8 @@ public enum DoubleModifier implements Modifier {
   WARBEAR_ITEM_DROP(
       "WarBear Item Drop",
       Pattern.compile("([+-]\\d+)% Item Drops from WarBears"),
-      Pattern.compile("WarBear Item Drop: " + EXPR));
+      Pattern.compile("WarBear Item Drop: " + EXPR)),
+  ENCHANTMENT_COUNT("Enchantment Count", Pattern.compile("Enchantment Count: " + EXPR));
 
   private final String name;
   private final Pattern[] descPatterns;
