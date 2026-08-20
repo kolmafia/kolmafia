@@ -495,6 +495,7 @@ public class FightRequest extends GenericRequest {
     // Categories of monsters
     BEE("bee"),
     CYRPT("Cyrpt"),
+    DAILY_DUNGEON("Daily Dungeon"),
     DMT("Deep Machine Tunnels"),
     EVENT("event monster"),
     GINGERBREAD("Gingerbread City"),
@@ -611,6 +612,16 @@ public class FightRequest extends GenericRequest {
     FightRequest.specialMonsters.put("gargantulihc", SpecialMonster.CYRPT);
     FightRequest.specialMonsters.put("giant skeelton", SpecialMonster.CYRPT);
     FightRequest.specialMonsters.put("huge ghuol", SpecialMonster.CYRPT);
+
+    FightRequest.specialMonsters.put("apathetic lizardman", SpecialMonster.DAILY_DUNGEON);
+    FightRequest.specialMonsters.put("dairy ooze", SpecialMonster.DAILY_DUNGEON);
+    FightRequest.specialMonsters.put("dodecapede", SpecialMonster.DAILY_DUNGEON);
+    FightRequest.specialMonsters.put("giant giant moth", SpecialMonster.DAILY_DUNGEON);
+    FightRequest.specialMonsters.put("mayonnaise wasp", SpecialMonster.DAILY_DUNGEON);
+    FightRequest.specialMonsters.put("pencil golem", SpecialMonster.DAILY_DUNGEON);
+    FightRequest.specialMonsters.put("sabre-toothed lime", SpecialMonster.DAILY_DUNGEON);
+    FightRequest.specialMonsters.put("tonic water elemental", SpecialMonster.DAILY_DUNGEON);
+    FightRequest.specialMonsters.put("vampire clam", SpecialMonster.DAILY_DUNGEON);
 
     FightRequest.specialMonsters.put("Performer of Actions", SpecialMonster.DMT);
     FightRequest.specialMonsters.put("Thinker of Thoughts", SpecialMonster.DMT);
