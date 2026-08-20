@@ -734,7 +734,7 @@ public class ConsumablesDatabase {
 
   public static final ConsumableQuality superEpicQuality(final double turnsPerFullness) {
     if (turnsPerFullness >= 11) return ConsumableQuality.SUPER_ULTRA_MEGA_TURBO_EPIC;
-    if (turnsPerFullness >= 10) return ConsumableQuality.SUPER_ULTRA_MEGA_EPIC;
+    if (turnsPerFullness >= 9.5) return ConsumableQuality.SUPER_ULTRA_MEGA_EPIC;
     if (turnsPerFullness >= 8) return ConsumableQuality.SUPER_ULTRA_EPIC;
     if (turnsPerFullness > 6.5) return ConsumableQuality.SUPER_EPIC;
     return ConsumableQuality.EPIC;

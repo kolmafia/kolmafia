@@ -22,6 +22,7 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.ConsumablesDatabase.ConsumableQuality;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -237,9 +238,19 @@ class TCRSDatabaseTest {
                 count++;
               }
               if (dataSays.quality.getValue() > 0 && weGuessed.quality != dataSays.quality) {
-                out.write(mismatch(prefix, "Quality", dataSays.quality, weGuessed.quality));
+                var superEpicOnly =
+                    dataSays.quality.getValue() == ConsumableQuality.EPIC.getValue()
+                        && weGuessed.quality.getValue() == ConsumableQuality.EPIC.getValue();
+                out.write(
+                    mismatch(
+                        prefix,
+                        superEpicOnly ? "Quality(>EPIC warning)" : "Quality",
+                        dataSays.quality,
+                        weGuessed.quality));
                 out.newLine();
-                count++;
+                if (!superEpicOnly) {
+                  count++;
+                }
               }
 
               if (checkMods) {

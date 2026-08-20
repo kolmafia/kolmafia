@@ -3108,6 +3108,7 @@ public class ItemPool {
   public static final int TIME_RESIDUE = 9116;
   public static final int EARL_GREY = 9122;
   public static final int SCHOOL_OF_HARD_KNOCKS_DIPLOMA = 9123;
+  public static final int UNIDENTIFIED_DRINK = 9126;
   public static final int KOL_COL_13_SNOWGLOBE = 9133;
   public static final int TRICK_TOT_KNIGHT = 9137;
   public static final int TRICK_TOT_UNICORN = 9138;

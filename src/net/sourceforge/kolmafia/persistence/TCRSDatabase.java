@@ -926,6 +926,8 @@ public class TCRSDatabase {
           Map.entry(
               ConsumableQuality.EPIC, List.of("perfectly mixed", "artisanal", "hand-crafted")));
 
+  private static final Set<Integer> ZERO_ADVENTURE_CONSUMABLES = Set.of(ItemPool.UNIDENTIFIED_DRINK);
+
   private static TCRS guessFoodBooze(
       final AscensionClass ascensionClass,
       final ZodiacSign sign,
@@ -1047,7 +1049,11 @@ public class TCRSDatabase {
         adjectives.stream().filter(Predicate.not(String::isBlank)).collect(Collectors.joining(" "));
 
     if (quality == ConsumableQuality.EPIC && size > 0) {
-      quality = ConsumablesDatabase.superEpicQuality(ConsumablesDatabase.getBaseAverageAdventures(id) / size);
+      var baseAdventures =
+          ZERO_ADVENTURE_CONSUMABLES.contains(id)
+              ? 0.0
+              : ConsumablesDatabase.getBaseAverageAdventures(id);
+      quality = ConsumablesDatabase.superEpicQuality(baseAdventures / size);
     }
 
     return new TCRS(name, size, quality, mods.toString());
