@@ -1,5 +1,5 @@
 1
-# TCRS string tables. ORDER MATTERS — DO NOT SORT OR DEDUPE.
+# TCRS string tables. ORDER MATTERS. DO NOT SORT OR DEDUPE.
 Color	red
 Color	lime green
 Color	blue
@@ -12,6 +12,7 @@ Color	teal
 Color	green
 Color	fuchsia
 Color	purple
+
 Cosmetic	narrow
 Cosmetic	huge
 Cosmetic	skewed
@@ -29,6 +30,7 @@ Cosmetic	shaking
 Cosmetic	ghostly
 Cosmetic	blurry
 Cosmetic	bouncing
+
 Potion Mod	galvanized
 Potion Mod	liquefied
 Potion Mod	magnetized
@@ -73,15 +75,18 @@ Potion Mod	dry
 Potion Mod	pressed
 Potion Mod	flattened
 Potion Mod	irradiated
+
 Potion Prefix	double
 Potion Prefix	triple
 Potion Prefix	quadruple
 Potion Prefix	extra
 Potion Prefix	non
 Potion Prefix	super
+
 Food Enchantment	special
 Food Enchantment	fancy
 Food Enchantment	enchanted
+
 Spleen Mod	boiled
 Spleen Mod	dried
 Spleen Mod	dehydrated
@@ -96,6 +101,7 @@ Spleen Mod	vaporized
 Spleen Mod	denatured
 Spleen Mod	compressed
 Spleen Mod	pickled
+
 Food Size	1	tiny
 Food Size	1	bite-sized
 Food Size	1	diet
@@ -112,6 +118,7 @@ Food Size	6	massive
 Food Size	6	gigantic
 Food Size	6	huge
 Food Size	6	immense
+
 Booze Size	1	practically non-alcoholic
 Booze Size	2	weak
 Booze Size	2	watered-down
@@ -124,6 +131,7 @@ Booze Size	5	extra-dry
 Booze Size	6	irresponsibly strong
 Booze Size	6	high-proof
 Booze Size	6	triple-distilled
+
 Food Quality	EPIC	
 Food Quality	AWESOME	delicious
 Food Quality	AWESOME	tasty
@@ -138,6 +146,7 @@ Food Quality	DECENT	flavorless
 Food Quality	CRAPPY	rotten
 Food Quality	CRAPPY	spoiled
 Food Quality	CRAPPY	moldy
+
 Booze Quality	EPIC	perfectly mixed
 Booze Quality	EPIC	artisanal
 Booze Quality	EPIC	hand-crafted
@@ -151,6 +160,7 @@ Booze Quality	DECENT	bad
 Booze Quality	DECENT	lousy
 Booze Quality	DECENT	mediocre
 Booze Quality	CRAPPY	
+
 Equipment Enchant	strapping	Muscle: +5
 Equipment Enchant	beefy	Muscle: +10
 Equipment Enchant	weightlifter's	Muscle: +15
@@ -321,6 +331,7 @@ Equipment Enchant	of Flo-Jo	Initiative: +100
 Equipment Enchant	prompt	Adventures: +3
 Equipment Enchant	up-at-dawn	Adventures: +5
 Equipment Enchant	of the early riser	Adventures: +7
+
 Adjective	Brimstone
 Adjective	Spooky
 Adjective	aerogel
@@ -407,6 +418,7 @@ Adjective	white
 Adjective	wooden
 Adjective	wrought-iron
 Adjective	yellow
+
 RPN Modifier	Accessory Drop
 RPN Modifier	Additional Song
 RPN Modifier	Adventure Randomly
