@@ -9,6 +9,8 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -508,180 +510,7 @@ public class TCRSDatabase {
     return new TCRS(name, size, quality, modifiers.toString());
   }
 
-  private static final List<String> COLOR_MODS =
-      List.of(
-          "red",
-          "lime green",
-          "blue",
-          "gray",
-          "maroon",
-          "yellow",
-          "olive",
-          "cyan",
-          "teal",
-          "green",
-          "fuchsia",
-          "purple");
-
-  private static final List<String> COSMETIC_MODS =
-      List.of(
-          "narrow",
-          "huge",
-          "skewed",
-          "blinking",
-          "upside-down",
-          "mirror",
-          "wobbly",
-          "twirling",
-          "pulsating",
-          "jittery",
-          "squat",
-          "spinning",
-          "tumbling",
-          "shaking",
-          "ghostly",
-          "blurry",
-          "bouncing");
-
-  private static final List<String> POTION_MODS =
-      List.of(
-          "galvanized",
-          "liquefied",
-          "magnetized",
-          "nitrogenated",
-          "oxidized",
-          "polarized",
-          "polymerized",
-          "quantum",
-          "tarnished",
-          "vacuum-sealed",
-          "energized",
-          "frozen",
-          "diffused",
-          "electrified",
-          "concentrated",
-          "colloidal",
-          "activated",
-          "aerosolized",
-          "anodized",
-          "alkaline",
-          "ionized",
-          "deionized",
-          "denatured",
-          "pickled",
-          "cold-filtered",
-          "boiled",
-          "modified",
-          "altered",
-          "corrupted",
-          "unsweetened",
-          "improved",
-          "adjusted",
-          "enhanced",
-          "moist",
-          "dry",
-          "chilled",
-          "warmed",
-          "ionized",
-          "Vulcanized",
-          "wet",
-          "dry",
-          "pressed",
-          "flattened",
-          "irradiated");
-
-  private static final List<String> POTION_PREFIXES =
-      List.of("double", "triple", "quadruple", "extra", "non", "super");
-
-  private static final Set<String> ADJECTIVES =
-      new HashSet<>(
-          List.of(
-              "Brimstone",
-              "Spooky",
-              "aerogel",
-              "ancient",
-              "antique",
-              "bakelite",
-              "big",
-              "black",
-              "blue",
-              "brass",
-              "candied",
-              "cardboard",
-              "cheap",
-              "chintzy",
-              "cold",
-              "creepy",
-              "cursed",
-              "cute",
-              "delicious",
-              "dirty",
-              "disintegrating",
-              "dusty",
-              "electric",
-              "enchanted",
-              "fancy",
-              "fishy",
-              "flaming",
-              "floaty",
-              "foam",
-              "frigid",
-              "frozen",
-              "fuchsia",
-              "gabardine",
-              "giant",
-              "glowing",
-              "gold",
-              "golden",
-              "green",
-              "haunted",
-              "heavy",
-              "intricate",
-              "large",
-              "lavender",
-              "leather",
-              "little",
-              "long",
-              "lucky",
-              "magical",
-              "maroon",
-              "metal",
-              "miniature",
-              "oily",
-              "old",
-              "orange",
-              "oversized",
-              "paisley",
-              "paraffin",
-              "plexiglass",
-              "polka-dot",
-              "polyester",
-              "porcelain",
-              "portable",
-              "powdered",
-              "primitive",
-              "purple",
-              "red",
-              "rusty",
-              "shiny",
-              "silver",
-              "slime-covered",
-              "sour",
-              "solid",
-              "spicy",
-              "spooky",
-              "stained",
-              "stainless",
-              "sticky",
-              "stinky",
-              "strange",
-              "striped",
-              "stuffed",
-              "tiny",
-              "white",
-              "wooden",
-              "wrought-iron",
-              "yellow"));
+  private static Map<String, List<String>> STRINGS;
 
   public static void getEffectPool() {
     EffectDatabase.keys().stream()
@@ -699,8 +528,9 @@ public class TCRSDatabase {
   }
 
   private static String removeAdjectives(final String name) {
+    var adjectives = new HashSet<>(STRINGS.get("Adjective"));
     var words = Arrays.asList(name.split(" "));
-    return String.join(" ", words.stream().filter(w -> !ADJECTIVES.contains(w)).toList());
+    return String.join(" ", words.stream().filter(w -> !adjectives.contains(w)).toList());
   }
 
   private static String rollCosmetics(final PHPMTRandom mtRng, final PHPRandom rng, final int max) {
@@ -709,7 +539,7 @@ public class TCRSDatabase {
 
     //   Roll 1d6 on whether to add a color
     if (mtRng.nextInt(1, max) == 1) {
-      cosmeticMods.add(mtRng.pickOne(COLOR_MODS));
+      cosmeticMods.add(mtRng.pickOne(STRINGS.get("Color")));
     }
 
     //   Work out how many cosmetic modifiers to add
@@ -720,7 +550,7 @@ public class TCRSDatabase {
 
     //   Pick and add cosmetic modifiers
     for (var i = 0; i < numCosmeticMods; i++) {
-      cosmeticMods.add(mtRng.pickOne(COSMETIC_MODS));
+      cosmeticMods.add(mtRng.pickOne(STRINGS.get("Cosmetic")));
     }
 
     if (cosmeticMods.size() > 0) {
@@ -809,7 +639,7 @@ public class TCRSDatabase {
 
     //   Pick and add potion modifiers
     for (var i = 0; i < numPotionMods; i++) {
-      potionMods.add(mtRng.pickOne(POTION_MODS));
+      potionMods.add(mtRng.pickOne(STRINGS.get("Potion Mod")));
     }
 
     // Pick effect (note that purposely pick a number that can overflow the pool by 1)
@@ -824,12 +654,13 @@ public class TCRSDatabase {
     var duration = mtRng.nextInt(11, 69);
 
     // Pick potion mod prefixes
+    var potionPrefixes = STRINGS.get("Potion Prefix");
     var prefixedPotionMods = new ArrayList<String>();
 
     for (var mod : potionMods) {
       var prefixRoll = mtRng.nextInt(1, 40);
-      if (prefixRoll <= POTION_PREFIXES.size()) {
-        mod = POTION_PREFIXES.get(prefixRoll - 1) + "-" + mod;
+      if (prefixRoll <= potionPrefixes.size()) {
+        mod = potionPrefixes.get(prefixRoll - 1) + "-" + mod;
       }
 
       // They get rendered in reverse
@@ -889,43 +720,11 @@ public class TCRSDatabase {
     };
   }
 
-  private static final List<List<String>> FOOD_SIZE_DESCRIPTORS =
-      List.of(
-          List.of("tiny", "bite-sized", "diet", "low-calorie"),
-          List.of("small", "snack-sized", "half-sized", "miniature"),
-          List.of(),
-          List.of(),
-          List.of("big", "thick", "super-sized", "jumbo"),
-          List.of("massive", "gigantic", "huge", "immense"));
-
-  private static final List<List<String>> BOOZE_SIZE_DESCRIPTORS =
-      List.of(
-          List.of("practically non-alcoholic"),
-          List.of("weak", "watered-down"),
-          List.of(),
-          List.of(),
-          List.of("strong", "spirit-forward", "fortified", "boozy", "distilled", "extra-dry"),
-          List.of("irresponsibly strong", "high-proof", "triple-distilled"));
-
-  private static final List<String> FOOD_BOOZE_ENCHANTMENT_DESCRIPTOR =
-      List.of("special", "fancy", "enchanted");
-
-  private static final Map<ConsumableQuality, List<String>> FOOD_QUALITY_DESCRIPTORS =
-      Map.ofEntries(
-          Map.entry(ConsumableQuality.CRAPPY, List.of("rotten", "spoiled", "moldy")),
-          Map.entry(ConsumableQuality.DECENT, List.of("bland", "stale", "flavorless")),
-          Map.entry(ConsumableQuality.GOOD, List.of("decent", "adequate", "normal")),
-          Map.entry(ConsumableQuality.AWESOME, List.of("delicious", "tasty", "toothsome", "yummy")),
-          Map.entry(ConsumableQuality.EPIC, List.of("")));
-
-  private static final Map<ConsumableQuality, List<String>> BOOZE_QUALITY_DESCRIPTORS =
-      Map.ofEntries(
-          Map.entry(ConsumableQuality.CRAPPY, List.of("")),
-          Map.entry(ConsumableQuality.DECENT, List.of("bad", "lousy", "mediocre")),
-          Map.entry(ConsumableQuality.GOOD, List.of("acceptable", "drinkable", "tolerable")),
-          Map.entry(ConsumableQuality.AWESOME, List.of("delicious", "smooth", "aged")),
-          Map.entry(
-              ConsumableQuality.EPIC, List.of("perfectly mixed", "artisanal", "hand-crafted")));
+  // Size descriptors keyed by size bucket (1..6); buckets with no entries are simply absent.
+  private static Map<Integer, List<String>> FOOD_SIZE_DESCRIPTORS;
+  private static Map<Integer, List<String>> BOOZE_SIZE_DESCRIPTORS;
+  private static Map<ConsumableQuality, List<String>> FOOD_QUALITY_DESCRIPTORS;
+  private static Map<ConsumableQuality, List<String>> BOOZE_QUALITY_DESCRIPTORS;
 
   private static final Set<Integer> ZERO_ADVENTURE_CONSUMABLES =
       Set.of(ItemPool.UNIDENTIFIED_DRINK);
@@ -988,7 +787,8 @@ public class TCRSDatabase {
 
     if (!beverage) {
       var sizeDescriptors =
-          (isFood ? FOOD_SIZE_DESCRIPTORS : BOOZE_SIZE_DESCRIPTORS).get(Math.min(size - 1, 5));
+          (isFood ? FOOD_SIZE_DESCRIPTORS : BOOZE_SIZE_DESCRIPTORS)
+              .getOrDefault(Math.min(size, 6), List.of());
       if (sizeDescriptors.size() > 0) {
         var sizeDescriptor = mtRng.pickOne(sizeDescriptors);
         adjectives.add(sizeDescriptor);
@@ -1011,7 +811,7 @@ public class TCRSDatabase {
 
     var enchanted = mtRng.nextInt(1, 10) == 1;
     if (enchanted) {
-      adjectives.add(mtRng.pickOne(FOOD_BOOZE_ENCHANTMENT_DESCRIPTOR));
+      adjectives.add(mtRng.pickOne(STRINGS.get("Food Enchantment")));
     }
 
     var enchantment = rollConsumableEnchantment(id, mtRng);
@@ -1063,23 +863,6 @@ public class TCRSDatabase {
 
     return new TCRS(name, size, quality, mods.toString());
   }
-
-  private static final List<String> SPLEEN_MODIFIERS =
-      List.of(
-          "boiled",
-          "dried",
-          "dehydrated",
-          "diluted",
-          "powdered",
-          "mixed",
-          "distilled",
-          "altered",
-          "modified",
-          "twisted",
-          "vaporized",
-          "denatured",
-          "compressed",
-          "pickled");
 
   /** Items whose item types are ignored for TCRS */
   private static final Set<Integer> TCRS_GENERIC =
@@ -1171,7 +954,7 @@ public class TCRSDatabase {
 
     var quality = determineSpleenQuality(mtRng.nextInt(1, 7));
 
-    var adjective = mtRng.pickOne(SPLEEN_MODIFIERS);
+    var adjective = mtRng.pickOne(STRINGS.get("Spleen Mod"));
 
     // Some unknown machinations here, only CDM can explain
     {
@@ -1205,178 +988,7 @@ public class TCRSDatabase {
     return new TCRS(name, 1, quality, mods.toString());
   }
 
-  protected static List<Entry<String, String>> EQUIPMENT_MODIFIERS =
-      List.<Entry<String, String>>of(
-          Map.entry("strapping", "Muscle: +5"),
-          Map.entry("beefy", "Muscle: +10"),
-          Map.entry("weightlifter's", "Muscle: +15"),
-          Map.entry("of the ox", "Muscle: +20"),
-          Map.entry("beefcake's", "Muscle: +25"),
-          Map.entry("brainy", "Mysticality: +5"),
-          Map.entry("thinker's", "Mysticality: +10"),
-          Map.entry("of wisdom", "Mysticality: +15"),
-          Map.entry("of the wise owl", "Mysticality: +20"),
-          Map.entry("wizardly", "Mysticality: +25"),
-          Map.entry("cool", "Moxie: +5"),
-          Map.entry("slick", "Moxie: +10"),
-          Map.entry("smooth", "Moxie: +15"),
-          Map.entry("of the cougar", "Moxie: +20"),
-          Map.entry("stylish", "Moxie: +25"),
-          Map.entry("boxer's", "Muscle Percent: +10"),
-          Map.entry("brawny", "Muscle Percent: +20"),
-          Map.entry("of the brute", "Muscle Percent: +30"),
-          Map.entry("sage", "Mysticality Percent: +10"),
-          Map.entry("savvy", "Mysticality Percent: +20"),
-          Map.entry("Rosewater's", "Mysticality Percent: +30"),
-          Map.entry("groovy", "Moxie Percent: +10"),
-          Map.entry("supercool", "Moxie Percent: +20"),
-          Map.entry("smartaleck's", "Moxie Percent: +30"),
-          Map.entry("educational", "Experience: +1"),
-          Map.entry("experienced", "Experience: +2"),
-          Map.entry("of the pedagogue", "Experience: +3"),
-          Map.entry("Herculean", "Experience (Muscle): +1"),
-          Map.entry("of Tarzan", "Experience (Muscle): +3"),
-          Map.entry("Samson's", "Experience (Muscle): +5"),
-          Map.entry("Socratic", "Experience (Mysticality): +1"),
-          Map.entry("Newton's", "Experience (Mysticality): +3"),
-          Map.entry("Da Vinci's", "Experience (Mysticality): +5"),
-          Map.entry("Fonzie's", "Experience (Moxie): +1"),
-          Map.entry("of James Dean", "Experience (Moxie): +3"),
-          Map.entry("Sinatra's", "Experience (Moxie): +5"),
-          Map.entry("personal trainer's", "Experience Percent (Muscle): +10"),
-          Map.entry("arcane researcher's", "Experience Percent (Mysticality): +10"),
-          Map.entry("dance instructor's", "Experience Percent (Moxie): +10"),
-          Map.entry("deadly", "Weapon Damage: +5"),
-          Map.entry("dangerous", "Weapon Damage: +10"),
-          Map.entry("of dire peril", "Weapon Damage: +20"),
-          Map.entry("razor-sharp", "Weapon Damage Percent: +25"),
-          Map.entry("grievous", "Weapon Damage Percent: +50"),
-          Map.entry("extremely unsafe", "Weapon Damage Percent: +100"),
-          Map.entry("wicked", "Spell Damage: +5"),
-          Map.entry("sinister", "Spell Damage: +10"),
-          Map.entry("baleful", "Spell Damage: +25"),
-          Map.entry("occult", "Spell Damage Percent: +25"),
-          Map.entry("forbidden", "Spell Damage Percent: +50"),
-          Map.entry("of the dark arts", "Spell Damage Percent: +100"),
-          Map.entry("padded", "Damage Absorption: +20"),
-          Map.entry("quilted", "Damage Absorption: +40"),
-          Map.entry("fortified", "Damage Absorption: +60"),
-          Map.entry("studded", "Damage Absorption: +80"),
-          Map.entry("banded", "Damage Absorption: +100"),
-          Map.entry("stiffened", "Damage Reduction: 1"),
-          Map.entry("hardened", "Damage Reduction: 3"),
-          Map.entry("rock-hard", "Damage Reduction: 5"),
-          Map.entry("shellacked", "Damage Reduction: 7"),
-          Map.entry("steel-toed", "Damage Reduction: 9"),
-          Map.entry("wholesome", "Maximum HP Percent: +10"),
-          Map.entry("healthy", "Maximum HP Percent: +20"),
-          Map.entry("rosy-cheeked", "Maximum HP Percent: +30"),
-          Map.entry("ruddy", "Maximum HP Percent: +40"),
-          Map.entry("of vim and vigor", "Maximum HP Percent: +50"),
-          Map.entry("veiny", "Maximum HP: +10"),
-          Map.entry("hale", "Maximum HP: +20"),
-          Map.entry("hardy", "Maximum HP: +50"),
-          Map.entry("of the bloodbag", "Maximum HP: +100"),
-          Map.entry("curative", "HP Regen Min: 3, HP Regen Max: 5"),
-          Map.entry("therapeutic", "HP Regen Min: 5, HP Regen Max: 7"),
-          Map.entry("medical-grade", "HP Regen Min: 7, HP Regen Max: 10"),
-          Map.entry("vibrating", "Maximum MP Percent: +10"),
-          Map.entry("energetic", "Maximum MP Percent: +20"),
-          Map.entry("supercharged", "Maximum MP Percent: +30"),
-          Map.entry("of the storm", "Maximum MP Percent: +40"),
-          Map.entry("Oprah's", "Maximum MP Percent: +50"),
-          Map.entry("crafty", "Maximum MP: +10"),
-          Map.entry("clever", "Maximum MP: +20"),
-          Map.entry("resourceful", "Maximum MP: +50"),
-          Map.entry("MacGyver's", "Maximum MP: +100"),
-          Map.entry("electrified", "MP Regen Min: 3, MP Regen Max: 5"),
-          Map.entry("Van der Graaf", "MP Regen Min: 5, MP Regen Max: 7"),
-          Map.entry("Tesla", "MP Regen Min: 7, MP Regen Max: 10"),
-          Map.entry("sharpshooter's", "Critical Hit Percent: +10"),
-          Map.entry("of Calamity Jane", "Critical Hit Percent: +15"),
-          Map.entry("Annie Oakley's", "Critical Hit Percent: +20"),
-          Map.entry("chaotic", "Spell Critical Percent: +10"),
-          Map.entry("of Gandalf", "Spell Critical Percent: +20"),
-          Map.entry("Lo Pan's", "Spell Critical Percent: +30"),
-          Map.entry("manspreader's", "Monster Level: +10"),
-          Map.entry("mansplainer's", "Monster Level: +15"),
-          Map.entry("of Leguizamo", "Monster Level: +20"),
-          Map.entry("Jim Carey's", "Monster Level: +25"),
-          Map.entry("careful", "Monster Level: -10"),
-          Map.entry("of the scaredy-cat", "Monster Level: -15"),
-          Map.entry("coward's", "Monster Level: -20"),
-          Map.entry("of extreme caution", "Monster Level: -25"),
-          Map.entry("friendly", "Familiar Weight: +3"),
-          Map.entry("of the empath", "Familiar Weight: +5"),
-          Map.entry("Temple Grandin's", "Familiar Weight: +7"),
-          Map.entry("dog trainer's", "Experience (familiar): +1"),
-          Map.entry("lion tamer's", "Experience (familiar): +2"),
-          Map.entry("chilly", "Cold Damage: +5"),
-          Map.entry("nippy", "Cold Damage: +10"),
-          Map.entry("of chilblains", "Cold Damage: +25"),
-          Map.entry("frosty", "Cold Spell Damage: +10"),
-          Map.entry("of the blizzard", "Cold Spell Damage: +25"),
-          Map.entry("Jack Frost's", "Cold Spell Damage: +50"),
-          Map.entry("toasty", "Hot Damage: +5"),
-          Map.entry("sizzling", "Hot Damage: +10"),
-          Map.entry("scorching", "Hot Damage: +25"),
-          Map.entry("flame-wreathed", "Hot Spell Damage: +10"),
-          Map.entry("of the brazier", "Hot Spell Damage: +25"),
-          Map.entry("of incineration", "Hot Spell Damage: +50"),
-          Map.entry("nasty", "Stench Damage: +5"),
-          Map.entry("foul-smelling", "Stench Damage: +10"),
-          Map.entry("of the sewer", "Stench Damage: +25"),
-          Map.entry("smelly", "Stench Spell Damage: +10"),
-          Map.entry("stanky", "Stench Spell Damage: +25"),
-          Map.entry("of the overflowing toilet", "Stench Spell Damage: +50"),
-          Map.entry("frightening", "Spooky Damage: +5"),
-          Map.entry("gravedigger's", "Spooky Damage: +10"),
-          Map.entry("horrifying", "Spooky Damage: +25"),
-          Map.entry("of terror", "Spooky Spell Damage: +10"),
-          Map.entry("of horror", "Spooky Spell Damage: +25"),
-          Map.entry("of doom", "Spooky Spell Damage: +50"),
-          Map.entry("scandalous", "Sleaze Damage: +5"),
-          Map.entry("ribald", "Sleaze Damage: +10"),
-          Map.entry("Jeselnik's", "Sleaze Damage: +25"),
-          Map.entry("greasy", "Sleaze Spell Damage: +10"),
-          Map.entry("lard-coated", "Sleaze Spell Damage: +25"),
-          Map.entry("of mayonnaise", "Sleaze Spell Damage: +50"),
-          Map.entry("wool", "Cold Resistance: +1"),
-          Map.entry("knitted", "Cold Resistance: +3"),
-          Map.entry("double-paned", "Cold Resistance: +5"),
-          Map.entry("flame-retardant", "Hot Resistance: +1"),
-          Map.entry("fireproof", "Hot Resistance: +3"),
-          Map.entry("asbestos-lined", "Hot Resistance: +5"),
-          Map.entry("reassuring", "Spooky Resistance: +1"),
-          Map.entry("of courage", "Spooky Resistance: +3"),
-          Map.entry("of bravery", "Spooky Resistance: +5"),
-          Map.entry("aromatic", "Stench Resistance: +1"),
-          Map.entry("rosewater-soaked", "Stench Resistance: +3"),
-          Map.entry("perfumed", "Stench Resistance: +5"),
-          Map.entry("family-friendly", "Sleaze Resistance: +1"),
-          Map.entry("censurious", "Sleaze Resistance: +3"),
-          Map.entry("of temperance", "Sleaze Resistance: +5"),
-          Map.entry("lucky", "Item Drop: +5"),
-          Map.entry("auspicious", "Item Drop: +10"),
-          Map.entry("inspector's", "Item Drop: +15"),
-          Map.entry("of the detective", "Item Drop: +20"),
-          Map.entry("Sherlock's", "Item Drop: +25"),
-          Map.entry("miser's", "Meat Drop: +10"),
-          Map.entry("greedy", "Meat Drop: +20"),
-          Map.entry("avaricious", "Meat Drop: +30"),
-          Map.entry("executive", "Meat Drop: +40"),
-          Map.entry("of the businessman", "Meat Drop: +50"),
-          Map.entry("of the boozehound", "Booze Drop: +100"),
-          Map.entry("of the sweet-tooth", "Candy Drop: +100"),
-          Map.entry("of the glutton", "Food Drop: +100"),
-          Map.entry("zippy", "Initiative: +20"),
-          Map.entry("lightning-fast", "Initiative: +40"),
-          Map.entry("of the cheetah", "Initiative: +60"),
-          Map.entry("Usain Bolt's", "Initiative: +80"),
-          Map.entry("of Flo-Jo", "Initiative: +100"),
-          Map.entry("prompt", "Adventures: +3"),
-          Map.entry("up-at-dawn", "Adventures: +5"),
-          Map.entry("of the early riser", "Adventures: +7"));
+  protected static List<Entry<String, String>> EQUIPMENT_MODIFIERS;
 
   private static TCRS guessEquipment(
       final AscensionClass ascensionClass, final ZodiacSign sign, final AdventureResult item) {
@@ -1408,12 +1020,13 @@ public class TCRSDatabase {
 
     // Enchant adjectives that are common adjectives (e.g. "lucky") are stripped from the name, as
     // KoL does after applying enchantments. Cosmetics are not stripped.
+    var adjectives = new HashSet<>(STRINGS.get("Adjective"));
     var name =
         Stream.of(
                 Stream.of(cosmeticsString),
-                prefixes.stream().filter(Predicate.not(ADJECTIVES::contains)),
+                prefixes.stream().filter(Predicate.not(adjectives::contains)),
                 Stream.of(root),
-                suffixes.stream().filter(Predicate.not(ADJECTIVES::contains)))
+                suffixes.stream().filter(Predicate.not(adjectives::contains)))
             .flatMap(s -> s)
             .filter(Predicate.not(String::isBlank))
             .collect(Collectors.joining(" "));
@@ -1457,83 +1070,13 @@ public class TCRSDatabase {
   private static final Set<String> REGEN =
       Set.of("HP Regen Min", "HP Regen Max", "MP Regen Min", "MP Regen Max");
 
-  // Modifier types that can appear as an equipment enchantment, derived from the enchant pool.
-  static final Set<String> ENCHANTABLE_TYPES =
-      EQUIPMENT_MODIFIERS.stream()
-          .map(Entry::getValue)
-          .flatMap(value -> Arrays.stream(value.split(", ")))
-          .map(part -> part.substring(0, part.lastIndexOf(": ")))
-          .collect(Collectors.toUnmodifiableSet());
+  // Modifier types that can appear as an equipment enchantment, derived from EQUIPMENT_MODIFIERS.
+  static Set<String> ENCHANTABLE_TYPES;
 
   // Modifier types that are re-rolled as TCRS enchantments. A superset of ENCHANTABLE_TYPES: it
   // adds enchantment types that never appear as a roll-pool output but are still re-rolled on base
-  // items
-  // (e.g. "Damage vs. <phylum>"). Expected to grow as more such types are identified.
-  static final Set<String> RPN_MODIFIERS =
-      Stream.concat(
-              ENCHANTABLE_TYPES.stream(),
-              Stream.of(
-                  "Accessory Drop",
-                  "Additional Song",
-                  "Adventure Randomly",
-                  "Hit Causes Bleeding",
-                  "All Spells Cast Are Hot",
-                  "All Spells Cast Are Cold",
-                  "All Spells Cast Are Stinky",
-                  "All Spells Cast Are Spooky",
-                  "All Spells Cast Are Sleazy",
-                  "Blind",
-                  "Combat Rate",
-                  "DB Combat Damage",
-                  "Damage vs. Bugbears",
-                  "Damage vs. Ghosts",
-                  "Damage vs. Mer-kin",
-                  "Damage vs. Orcs",
-                  "Damage vs. Skeletons",
-                  "Damage vs. Vampires",
-                  "Damage vs. Werewolves",
-                  "Damage vs. Zombies",
-                  "Disco Style",
-                  "Drippy Damage",
-                  "Elf Warfare Effectiveness",
-                  "Familiar Damage",
-                  "First Hit Damage Reduction",
-                  "Fishing Skill",
-                  "Fumble",
-                  "Hat Drop",
-                  "Hit Causes Bleeding",
-                  "Hobo Power",
-                  "Mana Cost",
-                  "Mana Cost (combat)",
-                  "Maximum Hooch",
-                  "Moxie Limit",
-                  "Muscle Limit",
-                  "Mysticality Limit",
-                  "Negative Status Resist",
-                  "Never Fumble",
-                  "Othello Skill",
-                  "Pants Drop",
-                  "Pickpocket Chance",
-                  "Pirate Warfare Effectiveness",
-                  "Poison Chance",
-                  "Pool Skill",
-                  "Potion Drop",
-                  "PvP Fights",
-                  "Random Monster Modifiers",
-                  "Ranged Damage",
-                  "Ranged Damage Percent",
-                  "Reduce Enemy Defense",
-                  "Rollover Effect",
-                  "Slime Resistance",
-                  "Smithsness",
-                  "Spleen Drop",
-                  "Supercold Resistance",
-                  "WarBear Armor Penetration",
-                  "WarBear Item Drop",
-                  "Weakens Monster",
-                  "Weakens Monster on Critical Hit",
-                  "Weapon Drop"))
-          .collect(Collectors.toUnmodifiableSet());
+  // items (e.g. "Damage vs. <phylum>"), listed as "RPN Modifier" rows in tcrs.txt.
+  static Set<String> RPN_MODIFIERS;
 
   // Expression functions that query live character or environment state (a preference, the current
   // zone/location environment, an active effect, ascension class or path). The enchantment
@@ -1541,8 +1084,64 @@ public class TCRSDatabase {
   // re-rolled enchantment and doesn't count. Pure arithmetic (min/max/floor/ceil/sqrt) and the
   // supported queries (skill, event) are fine and still count.
   // TODO: replace this token sniff with ModifierExpression parsing and Modifier enum lookups.
-  private static final java.util.List<String> UNSUPPORTED_FUNCTIONS =
-      java.util.List.of("pref(", "env(", "zone(", "effect(", "class(", "path(");
+  private static final List<String> UNSUPPORTED_FUNCTIONS =
+      List.of("pref(", "env(", "zone(", "effect(", "class(", "path(");
+
+  static {
+    loadStringData();
+  }
+
+  // Reads the ordered string tables from tcrs.txt. Order is significant for every list here — the
+  // RNG indexes into them by position — so the file must never be sorted or de-duplicated.
+  private static void loadStringData() {
+    STRINGS = new HashMap<>();
+    FOOD_SIZE_DESCRIPTORS = new HashMap<>();
+    BOOZE_SIZE_DESCRIPTORS = new HashMap<>();
+    FOOD_QUALITY_DESCRIPTORS = new EnumMap<>(ConsumableQuality.class);
+    BOOZE_QUALITY_DESCRIPTORS = new EnumMap<>(ConsumableQuality.class);
+    EQUIPMENT_MODIFIERS = new ArrayList<>();
+    try (BufferedReader reader =
+        FileUtilities.getVersionedReader("tcrs.txt", KoLConstants.TCRS_VERSION)) {
+      String[] data;
+      while ((data = FileUtilities.readData(reader)) != null) {
+        switch (data[0]) {
+          case "Food Size" ->
+              FOOD_SIZE_DESCRIPTORS
+                  .computeIfAbsent(Integer.parseInt(data[1]), k -> new ArrayList<>())
+                  .add(data[2]);
+          case "Booze Size" ->
+              BOOZE_SIZE_DESCRIPTORS
+                  .computeIfAbsent(Integer.parseInt(data[1]), k -> new ArrayList<>())
+                  .add(data[2]);
+          case "Food Quality" ->
+              FOOD_QUALITY_DESCRIPTORS
+                  .computeIfAbsent(ConsumableQuality.valueOf(data[1]), k -> new ArrayList<>())
+                  .add(data[2]);
+          case "Booze Quality" ->
+              BOOZE_QUALITY_DESCRIPTORS
+                  .computeIfAbsent(ConsumableQuality.valueOf(data[1]), k -> new ArrayList<>())
+                  .add(data[2]);
+          case "Equipment Enchant" -> EQUIPMENT_MODIFIERS.add(Map.entry(data[1], data[2]));
+          // Every other tag is a simple ordered word list keyed by the tag.
+          default -> STRINGS.computeIfAbsent(data[0], k -> new ArrayList<>()).add(data[1]);
+        }
+      }
+    } catch (IOException e) {
+      StaticEntity.printStackTrace(e);
+    }
+
+    ENCHANTABLE_TYPES =
+        EQUIPMENT_MODIFIERS.stream()
+            .map(Entry::getValue)
+            .flatMap(value -> Arrays.stream(value.split(", ")))
+            .map(part -> part.substring(0, part.lastIndexOf(": ")))
+            .collect(Collectors.toUnmodifiableSet());
+    RPN_MODIFIERS =
+        Stream.concat(
+                ENCHANTABLE_TYPES.stream(),
+                STRINGS.getOrDefault("RPN Modifier", List.of()).stream())
+            .collect(Collectors.toUnmodifiableSet());
+  }
 
   private static boolean isEnchantableValue(final String value) {
     if (value == null || !value.startsWith("[")) {
