@@ -3484,6 +3484,10 @@ public abstract class KoLCharacter {
     return KoLCharacter.ascensionPath == Path.THRIFTY;
   }
 
+  public static final boolean isBlueVsRed() {
+    return KoLCharacter.ascensionPath == Path.BLUE_VS_RED;
+  }
+
   public static final boolean noExperience() {
     return inZootomist();
   }
