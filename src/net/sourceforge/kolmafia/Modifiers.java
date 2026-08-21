@@ -649,6 +649,12 @@ public class Modifiers {
           this.doubles.increment(mod, value);
         }
         break;
+      case ADVENTURES:
+        // Slow and Steady's own grant arrives as a Path modifier, so let that one through
+        if (KoLCharacter.canGainRolloverAdventures() || type == ModifierType.PATH) {
+          this.doubles.increment(mod, value);
+        }
+        break;
       default:
         this.doubles.increment(mod, value);
         break;
@@ -1055,7 +1061,15 @@ public class Modifiers {
     }
   }
 
+  public final void applyRolloverPvpFightModifiers() {
+    this.addDouble(DoubleModifier.PVP_FIGHTS, 10, ModifierType.GENERATED, "Rollover");
+  }
+
   public final void applyAdditionalRolloverAdventureModifiers() {
+    if (KoLCharacter.canGainRolloverAdventures()) {
+      this.addDouble(DoubleModifier.ADVENTURES, 40, ModifierType.GENERATED, "Rollover");
+    }
+
     var resolutionAdv = Preferences.getInteger("_resolutionAdv");
     if (resolutionAdv > 0) {
       this.addDouble(
