@@ -72,8 +72,6 @@
 
 # Hats section of modifiers.txt
 
-Item	Private Pepper's Lonely Hearts Club Jacket	Enchantment Count: 1
-Item	Colonel Mustard's Lonely Spades Club Jacket	Enchantment Count: 1
 Item	4-dimensional fez	Maximum Hooch: +4, Familiar Effect: "atk, 1xLep, cap 12"
 Item	8-billed baseball cap	Muscle Percent: +15, Initiative: +30, Spooky Damage: +5, Stench Damage: +5, Hot Damage: +5, Cold Damage: +5, Sleaze Damage: +5, Last Available: "2014-05", Familiar Effect: "1xVolley, 1xBarrr, cap 12"
 # Admiral's hat: +50 Skeleton Anger
@@ -1011,6 +1009,7 @@ Item	clockwork trench coat	Damage Absorption: +15
 Item	clownskin harness	Spooky Damage: +2, Sleaze Damage: +2, Clowniness: 50
 Item	coconut bikini top	Mysticality: +5
 # Colonel Mustard's Lonely Spades Club Jacket: + ???
+Item	Colonel Mustard's Lonely Spades Club Jacket	Enchantment Count: 1
 Item	conquistador's breastplate	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Meat Drop: +15, Last Available: "2019-04"
 Item	cool iron breastplate	Damage Reduction: 20, Maximum HP: +200
 Item	Corporal Fennel's Lonely Clubs Club Jacket	PvP Fights: +2
@@ -1093,6 +1092,7 @@ Item	pirate shirt	Moxie: +3
 Item	poncho de azucar	Adventures: +5, Stench Damage: +30, Class: "Accordion Thief", Last Available: "2020-12"
 Item	potato jacket	Hot Damage: +20, Cold Resistance: +3, Meat Drop: +15, Last Available: "2024-12"
 # Private Pepper's Lonely Hearts Club Jacket: 50% Discount on Gift Packages
+Item	Private Pepper's Lonely Hearts Club Jacket	Enchantment Count: 1
 Item	Professor What T-Shirt	MP Regen Min: 1, MP Regen Max: 2
 Item	psycho sweater	Weapon Damage Percent: +20, Spell Damage Percent: +20, Last Available: "2008-12"
 Item	punk rock jacket	Moxie: +8, Damage Reduction: 5
