@@ -1023,7 +1023,8 @@ public class ModifiersTest {
         KoLCharacter.recalculateAdjustments();
         Modifiers current = KoLCharacter.getCurrentModifiers();
         assertEquals(30, current.getDouble(DoubleModifier.MEATDROP));
-        assertEquals(2, current.getDouble(DoubleModifier.FAMILIAR_EXP));
+        // the base 1 familiar experience every fight grants, plus the vote's 2
+        assertEquals(3, current.getDouble(DoubleModifier.FAMILIAR_EXP));
         assertEquals(4, current.getDouble(DoubleModifier.MUS_EXPERIENCE));
       }
     }
@@ -1359,6 +1360,75 @@ public class ModifiersTest {
 
       try (cleanups) {
         assertThat(currentAdventures(), equalTo(100.0));
+      }
+    }
+
+    @Test
+    void youRobotGrantsNoAdventures() {
+      var cleanups = withPath(Path.YOU_ROBOT);
+
+      try (cleanups) {
+        assertThat(currentAdventures(), equalTo(0.0));
+      }
+    }
+
+    @Test
+    void youRobotStillGainsAdventuresFromOtherSources() {
+      var cleanups =
+          new Cleanups(withPath(Path.YOU_ROBOT), withEquipped(Slot.HAT, ItemPool.TIME_HELMET));
+
+      try (cleanups) {
+        assertThat(currentAdventures(), equalTo(3.0));
+      }
+    }
+
+    @Test
+    void youRobotStillGainsPvpFights() {
+      var cleanups = withPath(Path.YOU_ROBOT);
+
+      try (cleanups) {
+        assertThat(current(DoubleModifier.PVP_FIGHTS), equalTo(10.0));
+      }
+    }
+  }
+
+  @Nested
+  class BaseChances {
+    private double current(final DoubleModifier modifier) {
+      KoLCharacter.recalculateAdjustments(false);
+      return KoLCharacter.getCurrentModifiers().getDouble(modifier);
+    }
+
+    @Test
+    void everyFightGrantsOneFamiliarExperience() {
+      assertThat(current(DoubleModifier.FAMILIAR_EXP), equalTo(1.0));
+    }
+
+    @Test
+    void otherSourcesStackWithBaseFamiliarExperience() {
+      var cleanups = withEquipped(Slot.WEAPON, "yule hatchet");
+
+      try (cleanups) {
+        assertThat(current(DoubleModifier.FAMILIAR_EXP), equalTo(3.0));
+      }
+    }
+
+    @Test
+    void thereIsABaseChanceOfACriticalHit() {
+      assertThat(current(DoubleModifier.CRITICAL_PCT), equalTo(9.0));
+    }
+
+    @Test
+    void thereIsABaseChanceOfASpellCriticalHit() {
+      assertThat(current(DoubleModifier.SPELL_CRITICAL_PCT), equalTo(9.0));
+    }
+
+    @Test
+    void otherSourcesStackWithTheBaseCriticalChance() {
+      var cleanups = withEquipped(Slot.HAT, "moose antlers");
+
+      try (cleanups) {
+        assertThat(current(DoubleModifier.CRITICAL_PCT), equalTo(14.0));
       }
     }
   }

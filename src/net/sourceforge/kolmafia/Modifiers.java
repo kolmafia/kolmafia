@@ -87,6 +87,9 @@ public class Modifiers {
 
   private static final AdventureResult FIDOXENE = EffectPool.get(EffectPool.FIDOXENE);
 
+  // The key the adventures and PvP fights granted at rollover are attributed to
+  private static final String ROLLOVER = "Rollover";
+
   public Modifiers() {
     // Everything should be initialized above.
   }
@@ -650,8 +653,8 @@ public class Modifiers {
         }
         break;
       case ADVENTURES:
-        // Slow and Steady's own grant arrives as a Path modifier, so let that one through
-        if (KoLCharacter.canGainRolloverAdventures() || type == ModifierType.PATH) {
+        // In Slow and Steady the rollover grant is all you get, so let that one through
+        if (KoLCharacter.canGainRolloverAdventures() || isRolloverGrant(type, key)) {
           this.doubles.increment(mod, value);
         }
         break;
@@ -659,6 +662,18 @@ public class Modifiers {
         this.doubles.increment(mod, value);
         break;
     }
+  }
+
+  /**
+   * Whether a modifier is the grant of adventures or PvP fights that rollover itself provides,
+   * rather than a bonus on top of it.
+   *
+   * @param type Type of the modifier's source
+   * @param key Key of the modifier's source
+   * @return true if this is the rollover grant
+   */
+  private static boolean isRolloverGrant(final ModifierType type, final IntOrString key) {
+    return type == ModifierType.GENERATED && ROLLOVER.equals(key.getStringValue());
   }
 
   public void addBitmap(BitmapModifier modifier, int bit) {
@@ -1062,13 +1077,24 @@ public class Modifiers {
   }
 
   public final void applyRolloverPvpFightModifiers() {
-    this.addDouble(DoubleModifier.PVP_FIGHTS, 10, ModifierType.GENERATED, "Rollover");
+    this.addDouble(DoubleModifier.PVP_FIGHTS, 10, ModifierType.GENERATED, ROLLOVER);
+  }
+
+  public final void applyBaseFamiliarExperienceModifiers() {
+    this.addDouble(DoubleModifier.FAMILIAR_EXP, 1, ModifierType.GENERATED, "Base");
+  }
+
+  public final void applyBaseCriticalModifiers() {
+    this.addDouble(DoubleModifier.CRITICAL_PCT, 9, ModifierType.GENERATED, "Base");
+    this.addDouble(DoubleModifier.SPELL_CRITICAL_PCT, 9, ModifierType.GENERATED, "Base");
   }
 
   public final void applyAdditionalRolloverAdventureModifiers() {
-    if (KoLCharacter.canGainRolloverAdventures()) {
-      this.addDouble(DoubleModifier.ADVENTURES, 40, ModifierType.GENERATED, "Rollover");
-    }
+    this.addDouble(
+        DoubleModifier.ADVENTURES,
+        KoLCharacter.rolloverAdventuresGranted(),
+        ModifierType.GENERATED,
+        ROLLOVER);
 
     var resolutionAdv = Preferences.getInteger("_resolutionAdv");
     if (resolutionAdv > 0) {
