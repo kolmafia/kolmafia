@@ -3488,6 +3488,16 @@ public abstract class KoLCharacter {
     return inZootomist();
   }
 
+  /**
+   * Whether rollover adventures can come from anywhere other than the daily grant itself. In Slow
+   * and Steady the grant is a flat 100 and nothing else contributes.
+   *
+   * @return true unless in Slow and Steady
+   */
+  public static final boolean canGainRolloverAdventures() {
+    return !inSlowcore();
+  }
+
   public static final boolean isUnarmed() {
     AdventureResult weapon = EquipmentManager.getEquipment(Slot.WEAPON);
     AdventureResult offhand = EquipmentManager.getEquipment(Slot.OFFHAND);
@@ -5492,6 +5502,9 @@ public abstract class KoLCharacter {
 
     // add additional rollover adventures
     newModifiers.applyAdditionalRolloverAdventureModifiers();
+
+    // add rollover PvP fights
+    newModifiers.applyRolloverPvpFightModifiers();
 
     // Organ capacity
     newModifiers.applyAdditionalStomachCapacityModifiers();

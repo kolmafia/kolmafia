@@ -87,8 +87,8 @@ public class ChateauRequestTest {
   class Modifiers {
     @ParameterizedTest
     @CsvSource({
-      ItemPool.CHATEAU_SKYLIGHT + ", Adventures, 3",
-      ItemPool.CHATEAU_CHANDELIER + ", PvP Fights, 3",
+      ItemPool.CHATEAU_SKYLIGHT + ", Adventures, 43",
+      ItemPool.CHATEAU_CHANDELIER + ", PvP Fights, 13",
       ItemPool.CHATEAU_FAN + ", Free Rests, 5",
     })
     void appliesModifiersFromChateau(final int itemId, final String modifierName, double score) {

@@ -265,7 +265,7 @@ public class MaximizerRegressionTest {
 
     try (cleanups) {
       assertTrue(maximize("adv,fites,-tie"));
-      assertEquals(15, modFor(DoubleModifier.ADVENTURES), 0.01);
+      assertEquals(55, modFor(DoubleModifier.ADVENTURES), 0.01);
       assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.ACCESSORY1))));
       assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.ACCESSORY2))));
       assertThat(getBoosts(), hasItem(recommendsSlot(Slot.ACCESSORY3, "Counterclockwise Watch")));
