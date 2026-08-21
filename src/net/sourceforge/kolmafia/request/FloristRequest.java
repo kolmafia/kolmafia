@@ -191,7 +191,7 @@ public class FloristRequest extends GenericRequest {
     boolean floristAvailable =
         (FloristRequest.ownsFlorist()
                     && StandardRequest.isAllowed(
-                        RestrictedItemType.ITEMS, "Order of the Green Thumb Order Form")
+                        RestrictedItemType.BOOKSHELF_BOOKS, "Florist Friar")
                 || KoLCharacter.inLegacyOfLoathing()
                     && Preferences.getBoolean("ownsReplicaFloristFriar"))
             && KoLAdventure.woodsOpen()

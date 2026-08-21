@@ -35,9 +35,6 @@ public class TypescriptDefinition {
 
   private static final JsRefCommand INSTANCE = new JsRefCommand();
 
-  private static final String combatFilterType =
-      "string | ((round: number, monster: Monster, text: string) => string)";
-
   private static final Map<String, String> descriptiveFieldTypes =
       Map.ofEntries(
           Map.entry("Bounty.location", "Location"),
@@ -165,12 +162,12 @@ public class TypescriptDefinition {
       switch (f.getName()) {
         case "adv1", "adventure" -> {
           if (paramIndex == 2) {
-            tsType = combatFilterType;
+            tsType = "CombatFilter";
           }
         }
         case "run_combat" -> {
           if (paramIndex == 0) {
-            tsType = combatFilterType;
+            tsType = "CombatFilter";
           }
         }
         case "get_items_hash" -> {
@@ -291,6 +288,7 @@ public class TypescriptDefinition {
     abstractClass.add("declare abstract class MafiaClass {");
     abstractClass.addAll(formatMafiaClassMethods());
     abstractClass.add("}");
+    abstractClass.add("export type { MafiaClass };");
     return abstractClass;
   }
 
@@ -422,8 +420,13 @@ public class TypescriptDefinition {
 
   protected static List<String> getHelperTypes() {
     return List.of(
-        "type Environment = " + getEnvironmentUnion() + ";",
-        "type ModifierValueType = " + getModifierValueTypeUnion() + ";");
+        "export type Environment = " + getEnvironmentUnion() + ";",
+        "export type ModifierValueType = " + getModifierValueTypeUnion() + ";",
+        "export type CombatFilter = string | ((round: number, monster: Monster, text: string) => string);",
+        """
+            export interface Rng {
+                readonly __rng: unique symbol;
+            }""");
   }
 
   protected static List<String> getOtherClassTypings() {
@@ -461,9 +464,6 @@ public class TypescriptDefinition {
                 setItem(key: string, value: string): void;
             }
             export const sessionStorage: Storage;
-            """,
-        """
-            declare class Rng {}
             """);
   }
 

@@ -1470,6 +1470,10 @@ The Big Mac Wisniewski	2519	bigmacwis.gif	BOSS NOCOPY Atk: 300 Def: 300 HP: 3000
 The Manwich	2520	themanwich.gif	BOSS NOCOPY Atk: 300 Def: 300 HP: 3000 Init: 60 Meat: 1000 P: dude	really dense meat stack (100)	loose Meats (n100)
 Naughty Sorceress, all sausage	2521	sausagesorc.gif	BOSS NOCOPY Atk: 400 Def: 400 HP: 5000 Init: 10000 Meat: 3000 P: construct Article: The	loose Meats (n100)	Thwaitgold meat bee statuette (n100)
 
+# Blue vs. Red
+Scarlet Sorceress	2539	sorcform1.gif	BOSS NOCOPY Atk: 500 Def: 500 HP: 1000 Init: 10000 P: dude Article: The	Thwaitgold red and blue beetle statuette (n100)	Blue Team scarf (n100)
+Sapphire Sorceress	2540	sorcform1.gif	BOSS NOCOPY Atk: 500 Def: 500 HP: 1000 Init: 10000 P: dude Article: The	Thwaitgold red and blue beetle statuette (n100)	Red Team scarf (n100)
+
 # Items of the Month
 
 # Bad Trip (Astral Badger June 2006)

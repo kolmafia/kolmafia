@@ -4042,6 +4042,22 @@ public class ItemPool {
   public static final int CUP_OF_13S = 12259;
   public static final int PORTABLE_LAUGHING_STOCK = 12270;
   public static final int INTERESTING_COIN = 12275;
+  public static final int ROTH_IPA = 12292;
+  public static final int UNDERDRAFT_PROTECTION = 12293;
+  public static final int SOLVENT = 12294;
+  public static final int SOYBEAN_FUTURES = 12295;
+  public static final int FINANCIAL_INSTRUMENT = 12298;
+  public static final int HEDGE_FUND_CLIPPERS = 12299;
+  public static final int SELLING_SHORTS = 12300;
+  public static final int BEAR_TATTOO = 12301;
+  public static final int GOLD_401K_RING = 12303;
+  public static final int INVISIBLE_HAND = 12305;
+  public static final int CIRCLE_OF_OVERDRAFT_PROTECTION_SCROLL = 12306;
+  public static final int MINT = 12307;
+  public static final int SAVINGS_BONDO = 12308;
+  public static final int TOXIC_ASSET = 12310;
+  public static final int INTANGIBLE_ASSET = 12311;
+  public static final int LIQUID_ASSET = 12312;
 
   private ItemPool() {}
 

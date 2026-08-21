@@ -6,6 +6,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.matchesPattern;
+import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.startsWith;
 import static org.hamcrest.text.CharSequenceLength.hasLength;
 
@@ -17,6 +18,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 public class TypescriptDefinitionTest {
   private LibraryFunction findFunction(final String signature) {
@@ -49,10 +51,10 @@ public class TypescriptDefinitionTest {
         Arguments.of("adv1(location)", "export function adv1(locationValue: Location): boolean;"),
         Arguments.of(
             "adv1(location, int, string)",
-            "export function adv1(locationValue: Location, adventuresUsedValue: number, filterFunction: string | ((round: number, monster: Monster, text: string) => string)): boolean;"),
+            "export function adv1(locationValue: Location, adventuresUsedValue: number, filterFunction: CombatFilter): boolean;"),
         Arguments.of(
             "run_combat(string)",
-            "export function runCombat(filterFunction: string | ((round: number, monster: Monster, text: string) => string)): string;"),
+            "export function runCombat(filterFunction: CombatFilter): string;"),
         Arguments.of(
             "fact_type(class, path, monster)",
             "export function factType(cls: Class, path: Path, monster: Monster): \"none\" | \"effect\" | \"item\" | \"stats\" | \"hp\" | \"mp\" | \"meat\" | \"modifier\";"),
@@ -75,7 +77,7 @@ export function getItemsHash(itemsSource: "inventory" | "closet" | "storage" | "
             "adv1(location",
             List.of(
                 "export function adv1(locationValue: Location, adventuresUsedValue?: number): boolean;",
-                "export function adv1(locationValue: Location, adventuresUsedValue: number, filterFunction?: string | ((round: number, monster: Monster, text: string) => string)): boolean;")),
+                "export function adv1(locationValue: Location, adventuresUsedValue: number, filterFunction?: CombatFilter): boolean;")),
         Arguments.of(
             "buy(item",
             List.of(
@@ -113,6 +115,26 @@ export function getItemsHash(itemsSource: "inventory" | "closet" | "storage" | "
   @Test
   void containsEnvironmentUnion() {
     assertThat(TypescriptDefinition.getEnvironmentUnion(), startsWith("\"indoor\""));
+  }
+
+  @ParameterizedTest
+  @ValueSource(
+      strings = {
+        "export interface Rng",
+        "export type { MafiaClass };",
+        "export type Environment =",
+        "export type ModifierValueType =",
+        "export type CombatFilter =",
+      })
+  void exportsPublicTypeNames(final String declaration) {
+    assertThat(TypescriptDefinition.getTypeDefContents(), containsString(declaration));
+  }
+
+  @Test
+  void typeOnlyExportsHaveNoRuntimeStub() {
+    var contents = TypescriptDefinition.getHeaderFileContents();
+    assertThat(contents, not(containsString("module.exports.MafiaClass")));
+    assertThat(contents, not(containsString("module.exports.Rng")));
   }
 
   @Test

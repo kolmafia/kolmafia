@@ -12344,3 +12344,6 @@
 12315	Malattia Becco Malbec	480441201	wine.gif	drink	t	0
 12316	kneecapping contract	672433971	document2.gif	usable	t	0
 12317	Old Country cookbook	805238568	book4.gif	usable	t	0
+12318	Thwaitgold red and blue beetle statuette	470908923	thwaitredblue.gif	none		0
+12319	Blue Team scarf	973690564	scarf_blue.gif	accessory		0
+12320	Red Team scarf	486932990	scarf_red.gif	accessory		0
