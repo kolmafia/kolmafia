@@ -3493,8 +3493,8 @@ public abstract class KoLCharacter {
   }
 
   /**
-   * Whether rollover adventures can come from anywhere other than the grant itself. In Slow and
-   * Steady the grant is a flat 100 and nothing else contributes.
+   * Whether rollover adventures can come from anywhere other than the daily grant itself. In Slow
+   * and Steady the grant is a flat 100 and nothing else contributes.
    *
    * @return true unless in Slow and Steady
    */
@@ -3503,10 +3503,8 @@ public abstract class KoLCharacter {
   }
 
   /**
-   * The adventures granted at rollover, before anything else contributes. You, Robot grants none at
-   * all, since its adventures come from the Chronolith instead.
-   *
-   * @return the adventures rollover grants
+   * The adventures granted at rollover, before anything else contributes. You, Robot grants none,
+   * since its adventures come from the Chronolith instead.
    */
   public static final int rolloverAdventuresGranted() {
     if (inRobocore()) return 0;
@@ -5522,10 +5520,7 @@ public abstract class KoLCharacter {
     // add rollover PvP fights
     newModifiers.applyRolloverPvpFightModifiers();
 
-    // add the familiar experience every fight grants
     newModifiers.applyBaseFamiliarExperienceModifiers();
-
-    // add the base chance of a critical hit
     newModifiers.applyBaseCriticalModifiers();
 
     // Organ capacity

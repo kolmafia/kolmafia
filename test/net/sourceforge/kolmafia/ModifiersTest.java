@@ -1023,7 +1023,7 @@ public class ModifiersTest {
         KoLCharacter.recalculateAdjustments();
         Modifiers current = KoLCharacter.getCurrentModifiers();
         assertEquals(30, current.getDouble(DoubleModifier.MEATDROP));
-        // the base 1 familiar experience every fight grants, plus the vote's 2
+        // 1 base, plus the vote's 2
         assertEquals(3, current.getDouble(DoubleModifier.FAMILIAR_EXP));
         assertEquals(4, current.getDouble(DoubleModifier.MUS_EXPERIENCE));
       }

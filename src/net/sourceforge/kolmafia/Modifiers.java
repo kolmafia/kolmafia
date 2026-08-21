@@ -87,7 +87,6 @@ public class Modifiers {
 
   private static final AdventureResult FIDOXENE = EffectPool.get(EffectPool.FIDOXENE);
 
-  // The key the adventures and PvP fights granted at rollover are attributed to
   private static final String ROLLOVER = "Rollover";
 
   public Modifiers() {
@@ -653,7 +652,6 @@ public class Modifiers {
         }
         break;
       case ADVENTURES:
-        // In Slow and Steady the rollover grant is all you get, so let that one through
         if (KoLCharacter.canGainRolloverAdventures() || isRolloverGrant(type, key)) {
           this.doubles.increment(mod, value);
         }
@@ -664,14 +662,7 @@ public class Modifiers {
     }
   }
 
-  /**
-   * Whether a modifier is the grant of adventures or PvP fights that rollover itself provides,
-   * rather than a bonus on top of it.
-   *
-   * @param type Type of the modifier's source
-   * @param key Key of the modifier's source
-   * @return true if this is the rollover grant
-   */
+  /** Whether this is the grant rollover itself provides, rather than a bonus on top of it. */
   private static boolean isRolloverGrant(final ModifierType type, final IntOrString key) {
     return type == ModifierType.GENERATED && ROLLOVER.equals(key.getStringValue());
   }
