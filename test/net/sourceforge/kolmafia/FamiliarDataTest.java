@@ -460,6 +460,23 @@ public class FamiliarDataTest {
   }
 
   @Nested
+  class TestudinalTeachings {
+    @Test
+    public void doesNotAdvanceAnotherFamiliarsCounter() {
+      // The Grue is familiar 11, so its entry contains the Mosquito's "1:3" as a substring
+      var cleanups =
+          new Cleanups(
+              withFamiliar(FamiliarPool.MOSQUITO), withProperty("testudinalTeachings", "1:3|11:3"));
+
+      try (cleanups) {
+        KoLCharacter.getFamiliar().determineTestTeachExperience();
+
+        assertThat(Preferences.getString("testudinalTeachings"), equalTo("1:4|11:3"));
+      }
+    }
+  }
+
+  @Nested
   class Comma {
     @Test
     public void correctEffectiveIdWhenCommaImitating() {
