@@ -55,4 +55,15 @@ class CompactSidePaneTest {
       assertThat(text, containsString("Adv 40<br>PvP 10<br>"));
     }
   }
+
+  @Test
+  void criticalHitChanceIsNotShownAsABonus() {
+    var cleanups = new Cleanups(withClass(AscensionClass.SEAL_CLUBBER));
+
+    try (cleanups) {
+      KoLCharacter.recalculateAdjustments();
+      var text = CompactSidePane.modifierPopupText();
+      assertThat(text, containsString("<td>Critical</td><td>9%"));
+    }
+  }
 }
