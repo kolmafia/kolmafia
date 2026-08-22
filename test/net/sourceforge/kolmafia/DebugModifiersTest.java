@@ -605,7 +605,8 @@ public class DebugModifiersTest {
   void listsFamiliarAdventures(String preference, String familiar) {
     try (var cleanups = new Cleanups(withProperty(preference, 6))) {
       evaluateDebugModifiers(DoubleModifier.ADVENTURES);
-      assertThat(output(), containsDebugRow("Familiar", familiar, 6.0, 6.0));
+      assertThat(output(), containsDebugRow("Generated", "Rollover", 40.0, 40.0));
+      assertThat(output(), containsDebugRow("Familiar", familiar, 6.0, 46.0));
     }
   }
 
