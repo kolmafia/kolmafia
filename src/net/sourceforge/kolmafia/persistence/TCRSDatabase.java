@@ -1070,14 +1070,6 @@ public class TCRSDatabase {
   private static final Set<String> REGEN =
       Set.of("HP Regen Min", "HP Regen Max", "MP Regen Min", "MP Regen Max");
 
-  // Modifier types that can appear as an equipment enchantment, derived from EQUIPMENT_MODIFIERS.
-  static Set<String> ENCHANTABLE_TYPES;
-
-  // Modifier types that are re-rolled as TCRS enchantments. A superset of ENCHANTABLE_TYPES: it
-  // adds enchantment types that never appear as a roll-pool output but are still re-rolled on base
-  // items (e.g. "Damage vs. <phylum>"), listed as "RPN Modifier" rows in tcrs.txt.
-  static Set<String> RPN_MODIFIERS;
-
   // Expression functions that query live character or environment state (a preference, the current
   // zone/location environment, an active effect, ascension class or path). The enchantment
   // pre-computation can't resolve these, so a base modifier whose value depends on one isn't a
@@ -1129,18 +1121,6 @@ public class TCRSDatabase {
     } catch (IOException e) {
       StaticEntity.printStackTrace(e);
     }
-
-    ENCHANTABLE_TYPES =
-        EQUIPMENT_MODIFIERS.stream()
-            .map(Entry::getValue)
-            .flatMap(value -> Arrays.stream(value.split(", ")))
-            .map(part -> part.substring(0, part.lastIndexOf(": ")))
-            .collect(Collectors.toUnmodifiableSet());
-    RPN_MODIFIERS =
-        Stream.concat(
-                ENCHANTABLE_TYPES.stream(),
-                STRINGS.getOrDefault("RPN Modifier", List.of()).stream())
-            .collect(Collectors.toUnmodifiableSet());
   }
 
   private static boolean isEnchantableValue(final String value) {
@@ -1171,7 +1151,8 @@ public class TCRSDatabase {
     var present = new java.util.HashMap<String, Set<String>>();
     for (var mv : modifiers) {
       var name = mv.getName();
-      if (RPN_MODIFIERS.contains(name) && isEnchantableValue(mv.getValue())) {
+      var modifier = ModifierDatabase.getModifierByName(name);
+      if (modifier != null && modifier.isEnchantment() && isEnchantableValue(mv.getValue())) {
         present.computeIfAbsent(name, key -> new HashSet<>()).add(mv.getValue());
       }
     }

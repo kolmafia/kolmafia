@@ -151,6 +151,27 @@ public enum BooleanModifier implements Modifier {
     return ModifierValueType.BOOLEAN;
   }
 
+  // Modifiers we are confident map to lines of RPN internally.
+  private static final Set<BooleanModifier> ENCHANTMENTS =
+      EnumSet.of(
+          ADVENTURE_RANDOMLY,
+          ALL_SPELLS_CAST_ARE_COLD,
+          ALL_SPELLS_CAST_ARE_HOT,
+          ALL_SPELLS_CAST_ARE_SLEAZY,
+          ALL_SPELLS_CAST_ARE_SPOOKY,
+          ALL_SPELLS_CAST_ARE_STINKY,
+          BLIND,
+          HIT_CAUSES_BLEEDING,
+          NEGATIVE_STATUS_RESIST,
+          NEVER_FUMBLE,
+          WEAKENS,
+          WEAKENS_MONSTER_ON_CRITICAL_HIT);
+
+  @Override
+  public boolean isEnchantment() {
+    return ENCHANTMENTS.contains(this);
+  }
+
   @Override
   public String toString() {
     return name;

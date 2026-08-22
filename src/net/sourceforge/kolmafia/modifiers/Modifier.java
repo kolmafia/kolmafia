@@ -12,4 +12,9 @@ public interface Modifier {
   String getTag();
 
   ModifierValueType getType();
+
+  /** Whether TCRS re-rolls this modifier as an item enchantment. */
+  default boolean isEnchantment() {
+    return false;
+  }
 }
