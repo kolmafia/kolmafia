@@ -13,7 +13,7 @@ public interface Modifier {
 
   ModifierValueType getType();
 
-  /** Whether TCRS re-rolls this modifier as an item enchantment. */
+  /** Whether we are confident this modifier maps to a line of RPN internally. */
   default boolean isEnchantment() {
     return false;
   }
