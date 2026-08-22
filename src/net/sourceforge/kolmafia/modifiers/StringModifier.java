@@ -135,6 +135,14 @@ public enum StringModifier implements Modifier {
     return multiple ? ModifierValueType.MULTISTRING : ModifierValueType.STRING;
   }
 
+  // Modifiers we are confident map to lines of RPN internally.
+  private static final Set<StringModifier> ENCHANTMENTS = EnumSet.of(ROLLOVER_EFFECT);
+
+  @Override
+  public boolean isEnchantment() {
+    return ENCHANTMENTS.contains(this);
+  }
+
   @Override
   public String toString() {
     return name;

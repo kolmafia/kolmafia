@@ -758,6 +758,7 @@ public class Modifiers {
         return this.setBoolean(b, mod.getValue().equals("true"));
       }
     }
+
     return false;
   }
 

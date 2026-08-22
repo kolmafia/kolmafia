@@ -114,7 +114,7 @@
 67	Potion	virgin jello shot
 68	Candy2	The Halls of Muscularity (40)
 69	Stats	120	80	90
-70	Candy	Dweeby (40)	The Strength... of the Future (20)
+70	Candy	Dweeby (40)	The Strength...  of the Future (20)
 71	Potion	Senior Mints
 72	Element	Sizzlin' Hand (20)
 73	Needle	It's Soporiffic! (40)	Vented Spleen (40)
@@ -161,7 +161,7 @@
 114	Candy	Sourpuss (40)	The Wisdom... of the Future (20)
 115	Meat	351	Perilous or likely to do harm
 116	Item	honey-dipped locust
-117	Candy	Vitamin-Maxed (40)	The Strength... of the Future (20)
+117	Candy	Vitamin-Maxed (40)	The Strength...  of the Future (20)
 118	Effect	Coldfinger (10)
 119	Joke	"Q: How does a skeleton know what's about to happen? A: He feels it in his bones."
 120	Element	Frosty Hand (20)
@@ -365,7 +365,7 @@
 318	Effect	Missing Fingers (10)
 319	Needle	Tetanus (10)	It's Soporiffic! (40)
 320	Candy	Milk Studly (20)	Refuse Reflux (10)
-321	Candy	Milk Studly (40)	The Strength... of the Future (20)
+321	Candy	Milk Studly (40)	The Strength...  of the Future (20)
 322	Yeg	Yeg's Motel disposable razor
 323	Element	Foul Hand (20)
 324	Booze	flask of moonshine
@@ -386,7 +386,7 @@
 339	Lens1	Night Vision (50)
 340	Common	Wary (20)
 341	Candy	Sourpuss (40)	The Style... of the Future (20)
-342	Candy2	The Strength... of the Future (40)
+342	Candy2	The Strength...  of the Future (40)
 343	Effect	Filthworm Drone Stench (5)
 344	Avatar	alien autoautopsy kit
 345	Restore	Glo-Face (20)
@@ -424,7 +424,7 @@
 377	Common	Wary (20)
 378	Stats	50	50	150
 379	Candy2	The Halls of Moxiousness (40)
-380	Candy	Sourpuss (40)	The Strength... of the Future (20)
+380	Candy	Sourpuss (40)	The Strength...  of the Future (20)
 381	Choco	chocolate seal-clubbing club
 382	Effect	Stinky Hands (10)
 383	Monster	Skinflute
@@ -640,7 +640,7 @@
 593	Candy	Discomfited (30)	The Halls of Moxiousness (20)
 594	Avatar	skeleton beans
 595	Gum	Mystic Pickleness (40)	Nasty, Nasty Breath (20)
-596	Candy	Just the Brown Ones (40)	The Strength... of the Future (20)
+596	Candy	Just the Brown Ones (40)	The Strength...  of the Future (20)
 597	Avatar	haunted flame
 598	Element	Foul Hand (20)
 599	Fruit	raspberry
@@ -709,5 +709,5 @@
 662	Potion	Glo-Pop
 663	Element	Frosty Hand (20)
 664	Restore	Waxing Mystical (20)
-665	Candy	Discomfited (30)	The Strength... of the Future (20)
+665	Candy	Discomfited (30)	The Strength...  of the Future (20)
 666	Monster	smut orc pervert
