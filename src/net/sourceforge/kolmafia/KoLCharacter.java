@@ -3502,6 +3502,16 @@ public abstract class KoLCharacter {
     return !inSlowcore();
   }
 
+  /**
+   * The adventures granted at rollover, before anything else contributes. You, Robot grants none,
+   * since its adventures come from the Chronolith instead.
+   */
+  public static final int rolloverAdventuresGranted() {
+    if (inRobocore()) return 0;
+    if (inSlowcore()) return 100;
+    return 40;
+  }
+
   public static final boolean isUnarmed() {
     AdventureResult weapon = EquipmentManager.getEquipment(Slot.WEAPON);
     AdventureResult offhand = EquipmentManager.getEquipment(Slot.OFFHAND);
@@ -5509,6 +5519,9 @@ public abstract class KoLCharacter {
 
     // add rollover PvP fights
     newModifiers.applyRolloverPvpFightModifiers();
+
+    newModifiers.applyBaseFamiliarExperienceModifiers();
+    newModifiers.applyBaseCriticalModifiers();
 
     // Organ capacity
     newModifiers.applyAdditionalStomachCapacityModifiers();

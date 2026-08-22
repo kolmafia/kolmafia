@@ -990,8 +990,7 @@ public class CompactSidePane extends JPanel implements Runnable {
       if (familiars && count < this.BONUS_LABELS) {
         this.bonusLabel[count].setText("   Fam Exp: ");
         this.bonusValueLabel[count].setText(
-            KoLConstants.ROUNDED_MODIFIER_FORMAT.format(
-                KoLCharacter.getFamiliarExperienceAdjustment()));
+            String.valueOf(KoLCharacter.getFamiliarExperienceAdjustment()));
         count++;
       }
       int hobo = KoLCharacter.getHoboPower();
@@ -1406,9 +1405,7 @@ public class CompactSidePane extends JPanel implements Runnable {
         KoLConstants.MODIFIER_FORMAT.format(
             KoLCharacter.currentNumericModifier(DoubleModifier.RANGED_DAMAGE_PCT)));
     buf.append("%</td></tr><tr><td>Critical</td><td>");
-    buf.append(
-        KoLConstants.MODIFIER_FORMAT.format(
-            KoLCharacter.currentNumericModifier(DoubleModifier.CRITICAL_PCT)));
+    buf.append((int) KoLCharacter.currentNumericModifier(DoubleModifier.CRITICAL_PCT));
     buf.append("%</td><td rowspan=2>MP cost:<br>");
     buf.append(KoLConstants.MODIFIER_FORMAT.format(KoLCharacter.getManaCostAdjustment()));
     int hpmin = (int) KoLCharacter.currentNumericModifier(DoubleModifier.HP_REGEN_MIN);

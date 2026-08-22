@@ -343,11 +343,10 @@ public class FamiliarData implements Comparable<FamiliarData> {
     }
 
     int exp =
-        (1
-            + (int) experienceModifier
+        (int) experienceModifier
             + (KoLCharacter.hasSkill(SkillPool.TESTUDINAL_TEACHINGS)
                 ? determineTestTeachExperience()
-                : 0));
+                : 0);
 
     setExperience(this.experience + exp);
   }
