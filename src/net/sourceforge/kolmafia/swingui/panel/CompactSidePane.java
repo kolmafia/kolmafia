@@ -1323,7 +1323,7 @@ public class CompactSidePane extends JPanel implements Runnable {
         + "</table></html>";
   }
 
-  private static String modifierPopupText() {
+  static String modifierPopupText() {
     StringBuffer buf = new StringBuffer("<html><body><table border=1>");
     var predicted = KoLCharacter.getCurrentModifiers().predict();
     int mus = Math.max(1, predicted.get(DerivedModifier.BUFFED_MUS));
@@ -1430,13 +1430,9 @@ public class CompactSidePane extends JPanel implements Runnable {
       }
     }
     buf.append("</td><td rowspan=2>Rollover:<br>Adv ");
-    buf.append(
-        KoLConstants.MODIFIER_FORMAT.format(
-            KoLCharacter.currentNumericModifier(DoubleModifier.ADVENTURES)));
+    buf.append((int) KoLCharacter.currentNumericModifier(DoubleModifier.ADVENTURES));
     buf.append("<br>PvP ");
-    buf.append(
-        KoLConstants.MODIFIER_FORMAT.format(
-            KoLCharacter.currentNumericModifier(DoubleModifier.PVP_FIGHTS)));
+    buf.append((int) KoLCharacter.currentNumericModifier(DoubleModifier.PVP_FIGHTS));
     buf.append("<br>HP ~");
     buf.append(KoLCharacter.getRestingHP());
     buf.append("<br>MP ");
