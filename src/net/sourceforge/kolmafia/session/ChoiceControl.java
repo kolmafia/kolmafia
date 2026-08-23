@@ -6950,6 +6950,7 @@ public abstract class ChoiceControl {
         }
         var monster = MonsterDatabase.findMonsterById(storedMonster);
         QuestManager.updateQuestData(text, monster);
+        CryptManager.handleEvilometer(text, monster);
       }
 
       case 1626 -> {

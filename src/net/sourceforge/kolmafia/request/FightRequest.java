@@ -13,7 +13,6 @@ import java.util.Set;
 import java.util.TimeZone;
 import java.util.TreeMap;
 import java.util.TreeSet;
-import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -213,7 +212,6 @@ public class FightRequest extends GenericRequest {
       Pattern.compile("newpic\\(\"(.*?)\", \"(.*?)\".*?\\);");
   private static final Pattern WORN_STICKER_PATTERN =
       Pattern.compile("A sticker falls off your weapon, faded and torn");
-  private static final Pattern BEEP_PATTERN = Pattern.compile("Your Evilometer beeps (\\d+) times");
   private static final Pattern BALLROOM_SONG_PATTERN =
       Pattern.compile("You hear strains of (?:(lively)|(mellow)|(lovely)) music in the distance");
   private static final Pattern WHICHMACRO_PATTERN = Pattern.compile("whichmacro=(\\d+)");
@@ -458,21 +456,6 @@ public class FightRequest extends GenericRequest {
     "quarters are too tight for that",
     "smells here are too weird to remember",
     "hard to smell anything in this crowd"
-  };
-
-  private static final String[][] EVIL_ZONES = {
-    {
-      "The Defiled Alcove", "cyrptAlcoveEvilness",
-    },
-    {
-      "The Defiled Cranny", "cyrptCrannyEvilness",
-    },
-    {
-      "The Defiled Niche", "cyrptNicheEvilness",
-    },
-    {
-      "The Defiled Nook", "cyrptNookEvilness",
-    },
   };
 
   public enum SpecialMonster {
@@ -8281,101 +8264,24 @@ public class FightRequest extends GenericRequest {
   }
 
   private static boolean handleEvilometer(String text, TagStatus status) {
-    if (!text.contains("Evilometer")
-        && !text.contains("ghost vacuum")
-        && !text.contains("gravy sloshes")
-        && !text.contains("the nightmare fuel")
-        && !text.contains("an evil draft blows")) {
+    if (!CryptManager.isEvilometerMessage(text)) {
       return false;
     }
 
     FightRequest.logText(text, status);
 
-    MonsterData monster = status.monster;
-    String setting = getEvilZoneSetting(monster);
-
-    if (setting == null) {
+    if (!CryptManager.handleEvilometer(text, status.monster)) {
       return false;
     }
 
-    boolean retval = true;
-
-    int evilness =
-        text.contains("a single beep")
-            ? 1
-            : text.contains("beeps three times")
-                ? 3
-                : text.contains("three quick beeps")
-                    ? 3
-                    : text.contains("five quick beeps")
-                        ? 5
-                        : text.contains("loud") ? Preferences.getInteger(setting) : 0;
-
-    if (text.contains("ghost vacuum sucks up some extra evil")) {
-      evilness++;
-    }
-
-    if (text.contains("Some gravy sloshes")) {
-      evilness++;
-      retval = false;
-    }
-
-    // Casting Slay the Dead while wearing a Vampire Slicer trench code decreases evilness.
     // Subsequent familiar actions and item drops appear in the same "p" node, for some reason.
     // Therefore, return false to allow subsequent nodes to be processed.
-
-    // You trench cape ripples as an evil draft blows and then quiets, it feels less evil in here!
-    if (text.contains("an evil draft blows")) {
-      evilness++;
-      retval = false;
-    }
-
-    // The evil of the nightmare fuel in your system is in a different phase
-    // from the evil emanations in this area, so they cancel each other out a bit.
-    if (text.contains("the nightmare fuel")) {
-      evilness += 2;
-      Preferences.decrement("_nightmareFuelCharges");
-    }
-
-    if (evilness == 0) {
-      Matcher m = BEEP_PATTERN.matcher(text);
-      if (!m.find()) {
-        return false;
-      }
-      evilness = StringUtilities.parseInt(m.group(1));
-    }
-
-    CryptManager.decreaseEvilness(setting, evilness);
-
-    return retval;
-  }
-
-  private static String getEvilZoneSetting(final Function<String, Boolean> isLocation) {
-    for (String[] data : FightRequest.EVIL_ZONES) {
-      if (isLocation.apply(data[0])) {
-        return data[1];
-      }
-    }
-
-    return null;
-  }
-
-  private static String getEvilZoneSetting(final String location) {
-    return getEvilZoneSetting(l -> l.equals(location));
-  }
-
-  private static String getEvilZoneSetting(final MonsterData monster) {
-    return getEvilZoneSetting(
-        l -> AdventureDatabase.getAdventure(l).getAreaSummary().hasMonster(monster));
-  }
-
-  private static String getEvilZoneSetting() {
-    return getEvilZoneSetting(KoLAdventure.lastLocationName);
+    return !text.contains("Some gravy sloshes") && !text.contains("an evil draft blows");
   }
 
   private static boolean handleEvilometerLovebug(final String text) {
     if (text.contains("Evilometer beeps once")) {
-      String setting = getEvilZoneSetting();
+      String setting = CryptManager.evilZoneProperty(KoLAdventure.lastLocationName);
       if (setting != null) {
         int evilness = 1;
         // If you have a gravy boat and Lovebugs, the gravy boat message ends up in the same node as
@@ -10817,7 +10723,7 @@ public class FightRequest extends GenericRequest {
             if (responseText.contains(
                     "The chill of the refrigerant quickly replaces some of the chill of evil in the air")
                 || skillSuccess) {
-              String setting = getEvilZoneSetting();
+              String setting = CryptManager.evilZoneProperty(KoLAdventure.lastLocationName);
               if (setting != null) {
                 CryptManager.decreaseEvilness(setting, 10);
               }
