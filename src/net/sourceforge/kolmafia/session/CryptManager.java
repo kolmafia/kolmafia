@@ -103,9 +103,7 @@ public abstract class CryptManager {
                 ? 3
                 : text.contains("three quick beeps")
                     ? 3
-                    : text.contains("five quick beeps")
-                        ? 5
-                        : text.contains("loud") ? Preferences.getInteger(property) : 0;
+                    : text.contains("five quick beeps") ? 5 : text.contains("loud") ? 100 : 0;
 
     if (text.contains("ghost vacuum sucks up some extra evil")) {
       evilness++;
@@ -161,8 +159,11 @@ public abstract class CryptManager {
   }
 
   public static void decreaseEvilness(final String property, final int delta) {
-    Preferences.decrement(property, delta);
-    int total = Preferences.decrement("cyrptTotalEvilness", delta);
+    // Decreasing more than the zone has left would drive cyrptTotalEvilness
+    // below zero and prematurely transition to the Haert of the Cyrpt.
+    int actual = Math.min(delta, Preferences.getInteger(property));
+    Preferences.decrement(property, actual);
+    int total = Preferences.decrement("cyrptTotalEvilness", actual);
     if (total == 0) {
       Preferences.setInteger("cyrptTotalEvilness", 999);
     }
