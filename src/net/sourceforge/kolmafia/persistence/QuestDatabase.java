@@ -196,13 +196,14 @@ public class QuestDatabase {
   }
 
   public static void reset() {
+    String username = KoLCharacter.getUserName();
     try (BufferedReader reader =
         FileUtilities.getVersionedReader("questslog.txt", KoLConstants.QUESTSLOG_VERSION)) {
       ArrayList<String[]> quests = new ArrayList<>();
       String[] data;
 
       while ((data = FileUtilities.readData(reader)) != null) {
-        data[1] = data[1].replaceAll("<Player\\sName>", KoLCharacter.getUserName());
+        data[1] = data[1].replaceAll("<Player\\sName>", username);
         quests.add(data);
       }
 
@@ -217,7 +218,12 @@ public class QuestDatabase {
       String[] data;
 
       while ((data = FileUtilities.readData(reader)) != null) {
-        quests.add(new CouncilQuest(data[0], data[1], Arrays.stream(data).skip(2).toList()));
+        List<String> texts =
+            Arrays.stream(data)
+                .skip(2)
+                .map(text -> text.replaceAll("<Player\\sName>", username))
+                .toList();
+        quests.add(new CouncilQuest(data[0], data[1], texts));
       }
 
       councilData = quests;
