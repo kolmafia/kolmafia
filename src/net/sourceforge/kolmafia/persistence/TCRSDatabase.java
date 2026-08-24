@@ -596,23 +596,54 @@ public class TCRSDatabase {
     }
   }
 
-  private static ModifierList getRetainedModifiers(final int itemId) {
-    var list = ModifierDatabase.getModifierList(new Lookup(ModifierType.ITEM, itemId));
-    var stripEffect =
-        DROP_RETAINED_EFFECT.contains(itemId)
-            || switch (ItemDatabase.getConsumptionType(itemId)) {
-              case EAT, DRINK, SPLEEN, POTION, AVATAR_POTION -> true;
-              default -> false;
-            };
-    if (stripEffect) {
-      while (list.containsModifier("Effect")) list.removeModifier("Effect");
-      while (list.containsModifier("Effect Duration")) list.removeModifier("Effect Duration");
+  /**
+   * The modifiers a re-rolled item keeps: its base modifiers minus the ones TCRS re-rolls (the
+   * enchantment stats, plus a consumable's effect), so a guess matches the recorded data. The new
+   * enchantments are added on top by the caller. (NOT_RE_ROLLED items keep their full base
+   * modifiers; see {@link #guessItem}.)
+   */
+  /**
+   * The modifiers of an item TCRS does not re-roll: its full base modifiers, minus our internal
+   * Enchantment Count bookkeeping. Used for NOT_RE_ROLLED items and the categories TCRS leaves
+   * functionally unchanged (miscellaneous items, combat items, familiar equipment) — only their
+   * name gains cosmetics.
+   */
+  private static ModifierList unalteredModifiers(final int itemId) {
+    var mods = new ModifierList();
+    for (var m : ModifierDatabase.getModifierList(new Lookup(ModifierType.ITEM, itemId))) {
+      if (!m.getName().equals("Enchantment Count")) {
+        mods.addModifier(m);
+      }
     }
-
-    return list;
+    return mods;
   }
 
-  private static final Set<Integer> DROP_RETAINED_EFFECT = Set.of(ItemPool.OUTRAGEOUS_SOMBRERO);
+  /**
+   * The modifiers a re-rolled item (equipment or a consumable) keeps: its base modifiers minus the
+   * ones TCRS re-rolls (the enchantment stats and the item's intrinsic effect). The new
+   * enchantments are added on top by the caller.
+   */
+  private static ModifierList getRetainedModifiers(final int itemId) {
+    var retained = new ModifierList();
+    for (var m : ModifierDatabase.getModifierList(new Lookup(ModifierType.ITEM, itemId))) {
+      var name = m.getName();
+      // TCRS never keeps an item's intrinsic effect: consumables get a fresh one added by the
+      // caller, everything else (e.g. the outrageous sombrero's "La Bamba") simply loses it.
+      if (name.equals("Effect") || name.equals("Effect Duration")) {
+        continue;
+      }
+      // Enchantment Count is our own bookkeeping modifier, never part of an item's real modifiers.
+      if (name.equals("Enchantment Count")) {
+        continue;
+      }
+      var mod = ModifierDatabase.getModifierByName(name);
+      if (mod != null && mod.isEnchantment()) {
+        continue; // a re-rolled enchantment, replaced below by the caller
+      }
+      retained.addModifier(m);
+    }
+    return retained;
+  }
 
   private static Enchantment rollConsumableEnchantment(final int itemId, final PHPMTRandom mtRng) {
     var roll = mtRng.nextInt(0, TCRSEffectPool.size());
@@ -1254,7 +1285,9 @@ public class TCRSDatabase {
             .filter(Predicate.not(String::isBlank))
             .collect(Collectors.joining(" "));
 
-    var mods = getRetainedModifiers(id);
+    // These items (miscellaneous, combat items, familiar equipment, ...) are not altered in
+    // function by TCRS, so their modifiers are left untouched; only the name gains cosmetics.
+    var mods = unalteredModifiers(id);
 
     var size =
         switch (ItemDatabase.getConsumptionType(id)) {
@@ -1287,11 +1320,9 @@ public class TCRSDatabase {
             default -> 0;
           };
 
+      // NOT_RE_ROLLED items keep their full base modifiers (they are not re-rolled at all).
       return new TCRS(
-          name,
-          size,
-          ConsumablesDatabase.getQuality(name),
-          getRetainedModifiers(itemId).toString());
+          name, size, ConsumablesDatabase.getQuality(name), unalteredModifiers(itemId).toString());
     }
 
     switch (itemId) {
