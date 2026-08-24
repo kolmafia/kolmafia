@@ -431,6 +431,35 @@ public class FamiliarDataTest {
   }
 
   @Nested
+  class CombatExperience {
+    @Test
+    public void winningAFightGrantsOneExperience() {
+      var cleanups = withFamiliar(FamiliarPool.MOSQUITO);
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments();
+        var familiar = KoLCharacter.getFamiliar();
+        familiar.addCombatExperience("");
+        assertThat(familiar.getTotalExperience(), is(1));
+      }
+    }
+
+    @Test
+    public void familiarExperienceModifiersStackWithTheBase() {
+      var cleanups =
+          new Cleanups(
+              withFamiliar(FamiliarPool.MOSQUITO), withEquipped(Slot.WEAPON, "yule hatchet"));
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments();
+        var familiar = KoLCharacter.getFamiliar();
+        familiar.addCombatExperience("");
+        assertThat(familiar.getTotalExperience(), is(3));
+      }
+    }
+  }
+
+  @Nested
   class Comma {
     @Test
     public void correctEffectiveIdWhenCommaImitating() {

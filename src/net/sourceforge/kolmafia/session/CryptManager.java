@@ -4,8 +4,10 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -61,6 +63,82 @@ public abstract class CryptManager {
     return zone == null ? null : evilZoneProperty(zone);
   }
 
+  public static String evilZoneProperty(final MonsterData monster) {
+    for (var entry : zoneNameToProperty.entrySet()) {
+      var adventure = AdventureDatabase.getAdventure(entry.getKey());
+      if (adventure != null && adventure.getAreaSummary().hasMonster(monster)) {
+        return entry.getValue();
+      }
+    }
+
+    return null;
+  }
+
+  private static final Pattern BEEP_PATTERN = Pattern.compile("Your Evilometer beeps (\\d+) times");
+
+  public static boolean isEvilometerMessage(final String text) {
+    return text.contains("Evilometer")
+        || text.contains("ghost vacuum")
+        || text.contains("gravy sloshes")
+        || text.contains("the nightmare fuel")
+        || text.contains("an evil draft blows");
+  }
+
+  // Decrease cyrpt evilness if the response text indicates that it changed.
+  // Returns true if evilness was decremented.
+  public static boolean handleEvilometer(final String text, final MonsterData monster) {
+    if (!isEvilometerMessage(text)) {
+      return false;
+    }
+
+    String property = evilZoneProperty(monster);
+    if (property == null) {
+      return false;
+    }
+
+    int evilness =
+        text.contains("a single beep")
+            ? 1
+            : text.contains("beeps three times")
+                ? 3
+                : text.contains("three quick beeps")
+                    ? 3
+                    : text.contains("five quick beeps") ? 5 : text.contains("loud") ? 100 : 0;
+
+    if (text.contains("ghost vacuum sucks up some extra evil")) {
+      evilness++;
+    }
+
+    if (text.contains("Some gravy sloshes")) {
+      evilness++;
+    }
+
+    // Casting Slay the Dead while wearing a Vampire Slicer trench cape decreases evilness.
+    // You trench cape ripples as an evil draft blows and then quiets, it feels less evil in here!
+    if (text.contains("an evil draft blows")) {
+      evilness++;
+    }
+
+    // The evil of the nightmare fuel in your system is in a different phase
+    // from the evil emanations in this area, so they cancel each other out a bit.
+    if (text.contains("the nightmare fuel")) {
+      evilness += 2;
+      Preferences.decrement("_nightmareFuelCharges");
+    }
+
+    if (evilness == 0) {
+      Matcher m = BEEP_PATTERN.matcher(text);
+      if (!m.find()) {
+        return false;
+      }
+      evilness = StringUtilities.parseInt(m.group(1));
+    }
+
+    decreaseEvilness(property, evilness);
+
+    return true;
+  }
+
   public static void setEvilness(final int zone, final int value) {
     String property = evilZoneProperty(zone);
     if (property != null) {
@@ -81,8 +159,11 @@ public abstract class CryptManager {
   }
 
   public static void decreaseEvilness(final String property, final int delta) {
-    Preferences.decrement(property, delta);
-    int total = Preferences.decrement("cyrptTotalEvilness", delta);
+    // Decreasing more than the zone has left would drive cyrptTotalEvilness
+    // below zero and prematurely transition to the Haert of the Cyrpt.
+    int actual = Math.min(delta, Preferences.getInteger(property));
+    Preferences.decrement(property, actual);
+    int total = Preferences.decrement("cyrptTotalEvilness", actual);
     if (total == 0) {
       Preferences.setInteger("cyrptTotalEvilness", 999);
     }

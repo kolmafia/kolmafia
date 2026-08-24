@@ -1023,7 +1023,8 @@ public class ModifiersTest {
         KoLCharacter.recalculateAdjustments();
         Modifiers current = KoLCharacter.getCurrentModifiers();
         assertEquals(30, current.getDouble(DoubleModifier.MEATDROP));
-        assertEquals(2, current.getDouble(DoubleModifier.FAMILIAR_EXP));
+        // 1 base, plus the vote's 2
+        assertEquals(3, current.getDouble(DoubleModifier.FAMILIAR_EXP));
         assertEquals(4, current.getDouble(DoubleModifier.MUS_EXPERIENCE));
       }
     }
@@ -1205,7 +1206,7 @@ public class ModifiersTest {
         KoLCharacter.recalculateAdjustments(false);
         Modifiers current = KoLCharacter.getCurrentModifiers();
 
-        assertThat(current.getDouble(DoubleModifier.PVP_FIGHTS), equalTo(12.0));
+        assertThat(current.getDouble(DoubleModifier.PVP_FIGHTS), equalTo(22.0));
       }
     }
 
@@ -1272,7 +1273,7 @@ public class ModifiersTest {
         KoLCharacter.recalculateAdjustments(false);
         Modifiers current = KoLCharacter.getCurrentModifiers();
 
-        assertThat(current.getDouble(DoubleModifier.ADVENTURES), equalTo(10.0));
+        assertThat(current.getDouble(DoubleModifier.ADVENTURES), equalTo(50.0));
       }
     }
 
@@ -1286,6 +1287,148 @@ public class ModifiersTest {
 
         assertThat(current.getDouble(DoubleModifier.MOX_EXPERIENCE_PCT), equalTo(25.0));
         assertThat(current.getDouble(DoubleModifier.MANA_COST), equalTo(-3.0));
+      }
+    }
+  }
+
+  @Nested
+  class Rollover {
+    private double current(final DoubleModifier modifier) {
+      KoLCharacter.recalculateAdjustments(false);
+      return KoLCharacter.getCurrentModifiers().getDouble(modifier);
+    }
+
+    private double currentAdventures() {
+      return current(DoubleModifier.ADVENTURES);
+    }
+
+    @Test
+    void rolloverGrantsFortyAdventures() {
+      assertThat(currentAdventures(), equalTo(40.0));
+    }
+
+    @Test
+    void rolloverGrantsTenPvpFights() {
+      assertThat(current(DoubleModifier.PVP_FIGHTS), equalTo(10.0));
+    }
+
+    @Test
+    void slowAndSteadyDoesNotAffectPvpFights() {
+      var cleanups = withPath(Path.SLOW_AND_STEADY);
+
+      try (cleanups) {
+        assertThat(current(DoubleModifier.PVP_FIGHTS), equalTo(10.0));
+      }
+    }
+
+    @Test
+    void otherSourcesStackWithTheRolloverGrant() {
+      var cleanups = withEquipped(Slot.HAT, ItemPool.TIME_HELMET);
+
+      try (cleanups) {
+        assertThat(currentAdventures(), equalTo(43.0));
+      }
+    }
+
+    @Test
+    void borrowedTimeSubtractsFromTheRolloverGrant() {
+      var cleanups = withProperty("_borrowedTimeUsed", true);
+
+      try (cleanups) {
+        assertThat(currentAdventures(), equalTo(20.0));
+      }
+    }
+
+    @Test
+    void slowAndSteadyGrantsOneHundredAdventures() {
+      var cleanups = withPath(Path.SLOW_AND_STEADY);
+
+      try (cleanups) {
+        assertThat(currentAdventures(), equalTo(100.0));
+      }
+    }
+
+    @Test
+    void slowAndSteadyZeroesAllOtherAdventureSources() {
+      var cleanups =
+          new Cleanups(
+              withPath(Path.SLOW_AND_STEADY),
+              withEquipped(Slot.HAT, ItemPool.TIME_HELMET),
+              withEffect("A Date With Tomorrow"),
+              withProperty("_hareAdv", 4),
+              withProperty("_borrowedTimeUsed", true));
+
+      try (cleanups) {
+        assertThat(currentAdventures(), equalTo(100.0));
+      }
+    }
+
+    @Test
+    void youRobotGrantsNoAdventures() {
+      var cleanups = withPath(Path.YOU_ROBOT);
+
+      try (cleanups) {
+        assertThat(currentAdventures(), equalTo(0.0));
+      }
+    }
+
+    @Test
+    void youRobotStillGainsAdventuresFromOtherSources() {
+      var cleanups =
+          new Cleanups(withPath(Path.YOU_ROBOT), withEquipped(Slot.HAT, ItemPool.TIME_HELMET));
+
+      try (cleanups) {
+        assertThat(currentAdventures(), equalTo(3.0));
+      }
+    }
+
+    @Test
+    void youRobotStillGainsPvpFights() {
+      var cleanups = withPath(Path.YOU_ROBOT);
+
+      try (cleanups) {
+        assertThat(current(DoubleModifier.PVP_FIGHTS), equalTo(10.0));
+      }
+    }
+  }
+
+  @Nested
+  class BaseChances {
+    private double current(final DoubleModifier modifier) {
+      KoLCharacter.recalculateAdjustments(false);
+      return KoLCharacter.getCurrentModifiers().getDouble(modifier);
+    }
+
+    @Test
+    void everyFightGrantsOneFamiliarExperience() {
+      assertThat(current(DoubleModifier.FAMILIAR_EXP), equalTo(1.0));
+    }
+
+    @Test
+    void otherSourcesStackWithBaseFamiliarExperience() {
+      var cleanups = withEquipped(Slot.WEAPON, "yule hatchet");
+
+      try (cleanups) {
+        assertThat(current(DoubleModifier.FAMILIAR_EXP), equalTo(3.0));
+      }
+    }
+
+    @Test
+    void thereIsABaseChanceOfACriticalHit() {
+      assertThat(current(DoubleModifier.CRITICAL_PCT), equalTo(9.0));
+    }
+
+    @Test
+    void thereIsABaseChanceOfASpellCriticalHit() {
+      assertThat(current(DoubleModifier.SPELL_CRITICAL_PCT), equalTo(9.0));
+    }
+
+    @Test
+    void otherSourcesStackWithTheBaseCriticalChance() {
+      var cleanups = withEquipped(Slot.HAT, "moose antlers");
+
+      try (cleanups) {
+        assertThat(current(DoubleModifier.CRITICAL_PCT), equalTo(14.0));
       }
     }
   }
