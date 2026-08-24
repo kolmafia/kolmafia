@@ -13,7 +13,6 @@ import static org.hamcrest.Matchers.nullValue;
 
 import internal.helpers.Cleanups;
 import internal.network.FakeHttpClientBuilder;
-import java.util.Objects;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
@@ -204,11 +203,26 @@ class TCRSDatabaseTest {
                 continue;
               }
 
+              // Only equipment and consumables have their modifiers re-rolled by TCRS; everything
+              // else (miscellaneous, combat items, familiar equipment, ...) keeps its modifiers, so
+              // the recorded data is a lossy description parse we don't try to reproduce.
               var checkMods =
                   !TCRSDatabase.NOT_RE_ROLLED.contains(itemId)
                       && switch (ItemDatabase.getConsumptionType(itemId)) {
-                        case USE, USE_INFINITE, USE_MULTIPLE, USE_MESSAGE_DISPLAY -> false;
-                        default -> true;
+                        case HAT,
+                            SHIRT,
+                            CONTAINER,
+                            WEAPON,
+                            OFFHAND,
+                            PANTS,
+                            ACCESSORY,
+                            EAT,
+                            DRINK,
+                            SPLEEN,
+                            POTION,
+                            AVATAR_POTION ->
+                            true;
+                        default -> false;
                       };
 
               var prefix =
@@ -260,27 +274,18 @@ class TCRSDatabaseTest {
               }
 
               if (checkMods) {
-                var dataSaysMods = ModifierDatabase.splitModifiers(dataSays.modifiers);
-                var weGuessedMods = ModifierDatabase.splitModifiers(weGuessed.modifiers);
-
-                var expectedEffect = dataSaysMods.getModifierValue("Effect");
-                var actualEffect = weGuessedMods.getModifierValue("Effect");
-                if (!Objects.equals(expectedEffect, actualEffect)) {
-                  out.write(mismatch(prefix, "Effect", expectedEffect, actualEffect));
+                // Compare the whole modifier set (order-insensitive): re-rolled items must
+                // reproduce every modifier, not just the effect.
+                var expected = modifierSet(dataSays.modifiers);
+                var actual = modifierSet(weGuessed.modifiers);
+                if (!expected.equals(actual)) {
+                  var missing = new java.util.TreeSet<>(expected);
+                  missing.removeAll(actual);
+                  var extra = new java.util.TreeSet<>(actual);
+                  extra.removeAll(expected);
+                  out.write(mismatch(prefix, "Modifiers", "missing " + missing, "extra " + extra));
                   out.newLine();
                   count++;
-                }
-
-                // @TODO Queen cookie sometimes has no effect duration. Is this right?
-                if (dataSaysMods.containsModifier("Effect Duration")) {
-                  var expectedDuration = dataSaysMods.getModifierValue("Effect Duration");
-                  var actualDuration = weGuessedMods.getModifierValue("Effect Duration");
-                  if (!Objects.equals(expectedDuration, actualDuration)) {
-                    out.write(
-                        mismatch(prefix, "Effect Duration", expectedDuration, actualDuration));
-                    out.newLine();
-                    count++;
-                  }
                 }
               }
             }
@@ -315,6 +320,15 @@ class TCRSDatabaseTest {
   /**
    * The words of a name, sorted, so two names can be compared ignoring (non-deterministic) order.
    */
+  /** The modifiers as a set of "name: value" tokens, for order-insensitive comparison. */
+  private static java.util.Set<String> modifierSet(final String modifiers) {
+    var set = new java.util.TreeSet<String>();
+    for (var m : ModifierDatabase.splitModifiers(modifiers)) {
+      set.add(m.getName() + ": " + m.getValue());
+    }
+    return set;
+  }
+
   private static java.util.List<String> sortedWords(final String name) {
     return java.util.Arrays.stream(name.trim().split("\\s+")).sorted().toList();
   }
