@@ -202,7 +202,13 @@ public enum StringModifier implements Modifier {
         String value = matcher.group(1);
 
         if (mod == StringModifier.CLASS) {
-          value = StringModifier.depluralizeClassName(value);
+          // Only a real class is a Class restriction; phrases like "Only Unarmed Characters may use
+          // this item" are not, so don't mis-parse them as one.
+          var ascensionClass = AscensionClass.findByPlural(value.replace("&nbsp;", " "));
+          if (ascensionClass == null) {
+            continue;
+          }
+          value = ascensionClass.getName();
         }
 
         return tag + ": " + quote + value.trim() + quote;
