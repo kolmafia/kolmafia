@@ -250,22 +250,6 @@ public class QuestDatabase {
         .orElse("");
   }
 
-  public static Quest titleToQuest(final String title) {
-    String pref = titleToPref(title);
-    if (pref.isEmpty()) {
-      return null;
-    }
-    return Arrays.stream(Quest.values())
-        .filter(q -> q.getPref().equals(pref))
-        .findFirst()
-        .orElse(null);
-  }
-
-  public static String prefToTitle(final String pref) {
-    QuestLogEntry entry = findEntry(pref);
-    return entry == null ? "" : entry.title();
-  }
-
   private static QuestLogEntry findEntry(final String pref) {
     String lowercasePref = pref.toLowerCase();
     return questLogData.stream()
