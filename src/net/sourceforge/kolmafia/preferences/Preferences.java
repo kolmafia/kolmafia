@@ -748,8 +748,6 @@ public class Preferences {
       }
     }
 
-    boolean trackEncoded = Preferences.mustTrackEncodedValues();
-
     // We stop tracking encoded values when saveSettingsOnSet is off. When it is turned back on,
     // many encoded values will be out of date, and we don't know which ones, so we have to
     // recompute all of them.
@@ -758,17 +756,22 @@ public class Preferences {
       synchronized (globalEncodedValues) {
         synchronized (userEncodedValues) {
           Preferences.reinitializeEncodedValues();
-          trackEncoded |= Preferences.saveSettingsToFile;
           // The changes above bypassed the journal, so save to get all prefs onto disk.
           Preferences.saveToFile(Preferences.globalFile, false);
           if (Preferences.userFile != null) {
             Preferences.saveToFile(Preferences.userFile, false);
           }
-          Preferences.put(user, name, object, trackEncoded);
+          // mustTrackEncodedValues() is what's being modified, so we're doing a shortened variant
+          var mustTrackEncoded = Preferences.saveSettingsToFile;
+          Preferences.put(user, name, object, mustTrackEncoded);
         }
       }
     } else {
-      Preferences.put(user, name, object, trackEncoded);
+      // Read mustTrackEncodedValues() after locking, not before
+      var lock = Preferences.isGlobalProperty(name) ? globalEncodedValues : userEncodedValues;
+      synchronized (lock) {
+        Preferences.put(user, name, object, Preferences.mustTrackEncodedValues());
+      }
     }
 
     PreferenceListenerRegistry.firePreferenceChanged(name);
