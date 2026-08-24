@@ -457,6 +457,20 @@ public class FamiliarDataTest {
         assertThat(familiar.getTotalExperience(), is(3));
       }
     }
+
+    @Test
+    public void winningAFightWithoutAFamiliarGrantsNothing() {
+      var cleanups = withEquipped(Slot.WEAPON, "yule hatchet");
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments();
+        var experience = FamiliarData.NO_FAMILIAR.getTotalExperience();
+
+        FamiliarData.NO_FAMILIAR.addCombatExperience("");
+
+        assertThat(FamiliarData.NO_FAMILIAR.getTotalExperience(), is(experience));
+      }
+    }
   }
 
   @Nested
@@ -469,9 +483,76 @@ public class FamiliarDataTest {
               withFamiliar(FamiliarPool.MOSQUITO), withProperty("testudinalTeachings", "1:3|11:3"));
 
       try (cleanups) {
-        KoLCharacter.getFamiliar().determineTestTeachExperience();
+        KoLCharacter.getFamiliar().advanceTestudinalTeachings();
 
         assertThat(Preferences.getString("testudinalTeachings"), equalTo("1:4|11:3"));
+      }
+    }
+
+    @Test
+    public void addsAFamiliarWithNoCounterYet() {
+      var cleanups =
+          new Cleanups(
+              withFamiliar(FamiliarPool.MOSQUITO), withProperty("testudinalTeachings", "11:3"));
+
+      try (cleanups) {
+        assertThat(KoLCharacter.getFamiliar().advanceTestudinalTeachings(), is(0));
+
+        assertThat(Preferences.getString("testudinalTeachings"), equalTo("11:3|1:1"));
+      }
+    }
+
+    @Test
+    public void addsAFamiliarToAnEmptyPreference() {
+      var cleanups =
+          new Cleanups(
+              withFamiliar(FamiliarPool.MOSQUITO), withProperty("testudinalTeachings", ""));
+
+      try (cleanups) {
+        assertThat(KoLCharacter.getFamiliar().advanceTestudinalTeachings(), is(0));
+
+        assertThat(Preferences.getString("testudinalTeachings"), equalTo("1:1"));
+      }
+    }
+
+    @Test
+    public void grantsExperienceAndResetsOnTheSixthCombat() {
+      var cleanups =
+          new Cleanups(
+              withFamiliar(FamiliarPool.MOSQUITO), withProperty("testudinalTeachings", "1:5|11:3"));
+
+      try (cleanups) {
+        assertThat(KoLCharacter.getFamiliar().advanceTestudinalTeachings(), is(1));
+
+        assertThat(Preferences.getString("testudinalTeachings"), equalTo("1:0|11:3"));
+      }
+    }
+
+    @Test
+    public void doesNotTrackCombatsFoughtWithoutAFamiliar() {
+      var cleanups =
+          new Cleanups(
+              withSkill(SkillPool.TESTUDINAL_TEACHINGS),
+              withProperty("testudinalTeachings", "1:3"));
+
+      try (cleanups) {
+        FamiliarData.NO_FAMILIAR.addCombatExperience("");
+
+        assertThat(Preferences.getString("testudinalTeachings"), equalTo("1:3"));
+      }
+    }
+
+    @Test
+    public void preservesOtherFamiliarsAndTheirOrder() {
+      var cleanups =
+          new Cleanups(
+              withFamiliar(FamiliarPool.MOSQUITO),
+              withProperty("testudinalTeachings", "11:2|1:3|3:0"));
+
+      try (cleanups) {
+        KoLCharacter.getFamiliar().advanceTestudinalTeachings();
+
+        assertThat(Preferences.getString("testudinalTeachings"), equalTo("11:2|1:4|3:0"));
       }
     }
   }

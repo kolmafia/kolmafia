@@ -5,11 +5,13 @@ import java.awt.Component;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JLabel;
@@ -156,6 +158,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
   private static final Pattern DESCID_PATTERN = Pattern.compile("descitem\\((.*?)\\)");
   private static final Pattern SHRUB_TOPPER_PATTERN = Pattern.compile("span title=\"(.*?)-heavy");
   private static final Pattern SHRUB_LIGHT_PATTERN = Pattern.compile("Deals (.*?) damage");
+  private static final Pattern TESTUDINAL_ENTRY_PATTERN = Pattern.compile("(\\d+):(\\d+)");
 
   public static final AdventureResult BATHYSPHERE = ItemPool.get(ItemPool.BATHYSPHERE, 1);
   public static final AdventureResult DAS_BOOT = ItemPool.get(ItemPool.DAS_BOOT, 1);
@@ -322,8 +325,12 @@ public class FamiliarData implements Comparable<FamiliarData> {
   }
 
   public final void addCombatExperience(String responseText) {
-    if (this.id == FamiliarPool.STOCKING_MIMIC) {
-      // Doesn't automatically gain experience from winning a combat
+    if (
+    // No familiar, so nothing to gain experience
+    this.id < 0
+        ||
+        // Doesn't automatically gain experience from winning a combat
+        this.id == FamiliarPool.STOCKING_MIMIC) {
       return;
     }
 
@@ -345,7 +352,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
     int exp =
         (int) experienceModifier
             + (KoLCharacter.hasSkill(SkillPool.TESTUDINAL_TEACHINGS)
-                ? determineTestTeachExperience()
+                ? advanceTestudinalTeachings()
                 : 0);
 
     setExperience(this.experience + exp);
@@ -376,39 +383,34 @@ public class FamiliarData implements Comparable<FamiliarData> {
     this.loseExperience(this.experience);
   }
 
-  public final int determineTestTeachExperience() {
-    String rawTTPref = Preferences.getString("testudinalTeachings");
-    String[] splitTTPref = rawTTPref.split("\\|");
+  /**
+   * Advances this familiar's Testudinal Teachings counter, writing it back to the {@code
+   * testudinalTeachings} preference. Every sixth combat the counter rolls over and the familiar
+   * gains a bonus point of experience.
+   *
+   * @return The bonus experience earned by this combat
+   */
+  public final int advanceTestudinalTeachings() {
+    var counters =
+        Arrays.stream(Preferences.getString("testudinalTeachings").split("\\|"))
+            .map(TESTUDINAL_ENTRY_PATTERN::matcher)
+            .filter(Matcher::matches)
+            .collect(
+                Collectors.toMap(
+                    m -> Integer.parseInt(m.group(1)),
+                    m -> Integer.parseInt(m.group(2)),
+                    (first, second) -> first,
+                    LinkedHashMap<Integer, Integer>::new));
 
-    // Check Familiar Testudinal Teachings experience
-    for (String s : splitTTPref) {
-      String[] it = s.split(":");
-      if (it.length == 2) {
-        if (this.id == Integer.parseInt(it[0])) {
-          int testTeachExp = 0;
+    var count = counters.merge(this.id, 1, (current, increment) -> (current + increment) % 6);
 
-          int newCount = Integer.parseInt(it[1]) + 1;
-          if (newCount >= 6) {
-            testTeachExp++;
-            newCount = 0;
-          }
-          String newTTProperty = it[0] + ":" + newCount;
-          String newTTPref = StringUtilities.globalStringReplace(rawTTPref, s, newTTProperty);
-          Preferences.setString("testudinalTeachings", newTTPref);
-          return testTeachExp;
-        }
-      }
-    }
+    Preferences.setString(
+        "testudinalTeachings",
+        counters.entrySet().stream()
+            .map(entry -> entry.getKey() + ":" + entry.getValue())
+            .collect(Collectors.joining("|")));
 
-    // Familiar not found, so add it
-    String delimiter = "";
-    if (rawTTPref.length() > 0) {
-      delimiter = "|";
-    }
-    String newTTPref = rawTTPref + delimiter + this.id + ":1";
-    Preferences.setString("testudinalTeachings", newTTPref);
-
-    return 0;
+    return count == 0 ? 1 : 0;
   }
 
   public final void recognizeCombatUse() {
