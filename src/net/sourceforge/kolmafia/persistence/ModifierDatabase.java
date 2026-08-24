@@ -215,7 +215,40 @@ public class ModifierDatabase {
           DoubleModifier.DAMAGE_AURA,
           DoubleModifier.SPORADIC_DAMAGE_AURA,
           DoubleModifier.LEAVES,
-          DoubleModifier.LANTERN);
+          DoubleModifier.LANTERN,
+          // Innate item properties that survive the TCRS re-roll but aren't shown in the item
+          // description (so the derived data omits them).
+          StringModifier.PLUMBER_STAT,
+          DoubleModifier.ROLLOVER_EFFECT_DURATION,
+          DoubleModifier.INITIATIVE_PENALTY,
+          DoubleModifier.ITEMDROP_PENALTY,
+          DoubleModifier.MEATDROP_PENALTY,
+          DoubleModifier.AVOID_ATTACK,
+          DoubleModifier.PLUMBER_POWER,
+          DoubleModifier.MINSTREL_LEVEL,
+          DoubleModifier.DRIPPY_RESISTANCE,
+          DoubleModifier.SPORADIC_ITEMDROP,
+          DoubleModifier.SPORADIC_MEATDROP,
+          DoubleModifier.COMBAT_ITEM_DAMAGE_PCT,
+          DoubleModifier.GEARDROP,
+          DoubleModifier.RAM,
+          DoubleModifier.SPLEEN_CAPACITY,
+          DoubleModifier.STOMACH_CAPACITY,
+          DoubleModifier.LIVER_CAPACITY,
+          DoubleModifier.BONUS_RESTING_HP,
+          DoubleModifier.BONUS_RESTING_MP,
+          DoubleModifier.WATER_LEVEL,
+          DoubleModifier.PIECE_OF_TWELVE_DROP,
+          DoubleModifier.MPC_DROP,
+          BooleanModifier.LASTS_ONE_DAY,
+          BooleanModifier.VARIABLE,
+          BooleanModifier.ADVENTURE_UNDERWATER,
+          BooleanModifier.MOXIE_CONTROLS_MP,
+          BooleanModifier.MOXIE_MAY_CONTROL_MP,
+          BooleanModifier.LOOK_LIKE_A_PIRATE,
+          BooleanModifier.SINGLE,
+          BooleanModifier.EXTRA_PICKPOCKET,
+          BooleanModifier.ATTACKS_CANT_MISS);
 
   public static void ensureModifierDatabaseInitialised() {
     if (modifierTypesByName.isEmpty()) {
