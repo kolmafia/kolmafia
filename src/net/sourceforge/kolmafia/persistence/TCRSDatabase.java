@@ -1072,6 +1072,22 @@ public class TCRSDatabase {
       DebugDatabase.appendModifier(mods, entry.getValue());
     }
 
+    // A shield's Damage Reduction is an innate property of the shield (stored in the equipment
+    // data,
+    // not its modifier list), so it survives the re-roll and is shown in the TCRS item description.
+    // If the item also rolled a Damage Reduction enchantment, KoL merges the two into one value.
+    if (EquipmentDatabase.isShield(id)) {
+      var dr = EquipmentDatabase.getShieldDamageReduction(id);
+      if (dr > 0) {
+        var rolled = mods.getModifierValue("Damage Reduction");
+        if (rolled != null) {
+          dr += Integer.parseInt(rolled);
+          mods.removeModifier("Damage Reduction");
+        }
+        mods.addModifier("Damage Reduction", String.valueOf(dr));
+      }
+    }
+
     // KoL shuffles the cosmetics on the same stream it just selected enchantments from, so continue
     // enchantRng (already advanced by a multi-enchantment selection; still fresh at seed+10 after a
     // single MT-picked enchantment). With no enchantments there is no seed+10 stream, so the
