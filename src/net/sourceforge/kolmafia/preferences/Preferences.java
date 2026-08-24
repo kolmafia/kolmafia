@@ -157,20 +157,20 @@ public class Preferences {
       synchronized (userEncodedValues) {
         // We might not have been tracking encoded values here before this save. Fix that.
         Preferences.reinitializeEncodedValues();
-        // Only tear down the shared global journal on a logout, not a character switch.
+        // A boolean is passed to know if the journal should be torn down
         Preferences.saveToFile(Preferences.globalFile, loggingOut);
-        // Save the logged in user.
+        // If a user was logged in, save their data
         if (Preferences.userFile != null) {
           Preferences.saveToFile(Preferences.userFile, true);
         }
 
-        if (loggingOut) {
-          if (Preferences.userFile != null) {
-            Preferences.userFile = null;
-            Preferences.userValues.clear();
-            Preferences.userEncodedValues.clear();
-          }
+        // Clear the previous user
+        Preferences.userFile = null;
+        Preferences.userValues.clear();
+        Preferences.userEncodedValues.clear();
 
+        // If we're not loading a new user
+        if (loggingOut) {
           return;
         }
 
@@ -231,16 +231,13 @@ public class Preferences {
     }
   }
 
+  /** This is always called with the assumption that the previous user was torn down */
   private static void loadUserPreferences(String username) {
     PreferencesFile newUserFile =
         new PreferencesFile(Preferences.baseUserName(username), userEncodedValues);
 
     Properties p = newUserFile.loadWithBackup();
     boolean hadJournal = newUserFile.applyJournal(p);
-
-    Preferences.userFile = null;
-    Preferences.userValues.clear();
-    Preferences.userEncodedValues.clear();
 
     for (Entry<Object, Object> currentEntry : p.entrySet()) {
       String key = (String) currentEntry.getKey();
@@ -266,7 +263,6 @@ public class Preferences {
               ? (String) Preferences.globalValues.get(key)
               : entry.getValue();
 
-      // System.out.println( "Adding new built-in user setting: " + key );
       Preferences.putUser(key, value, true);
     }
 
