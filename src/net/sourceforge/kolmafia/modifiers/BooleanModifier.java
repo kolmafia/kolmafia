@@ -82,7 +82,31 @@ public enum BooleanModifier implements Modifier {
   WEAKENS_MONSTER_ON_CRITICAL_HIT(
       "Weakens Monster on Critical Hit",
       Pattern.compile("Weakens Monster on Critical Hit"),
-      Pattern.compile("Weakens Monster on Critical Hit"));
+      Pattern.compile("Weakens Monster on Critical Hit")),
+  HIT_CAUSES_BLEEDING(
+      "Hit Causes Bleeding",
+      Pattern.compile("Successful hit causes bleeding\\."),
+      Pattern.compile("Hit Causes Bleeding")),
+  ALL_SPELLS_CAST_ARE_HOT(
+      "All Spells Cast Are Hot",
+      Pattern.compile("All Spells Cast Are Hot"),
+      Pattern.compile("All Spells Cast Are Hot")),
+  ALL_SPELLS_CAST_ARE_COLD(
+      "All Spells Cast Are Cold",
+      Pattern.compile("All Spells Cast Are Cold"),
+      Pattern.compile("All Spells Cast Are Cold")),
+  ALL_SPELLS_CAST_ARE_STINKY(
+      "All Spells Cast Are Stinky",
+      Pattern.compile("All Spells Cast Are Stinky"),
+      Pattern.compile("All Spells Cast Are Stinky")),
+  ALL_SPELLS_CAST_ARE_SPOOKY(
+      "All Spells Cast Are Spooky",
+      Pattern.compile("All Spells Cast Are Spooky"),
+      Pattern.compile("All Spells Cast Are Spooky")),
+  ALL_SPELLS_CAST_ARE_SLEAZY(
+      "All Spells Cast Are Sleazy",
+      Pattern.compile("All Spells Cast Are Sleazy"),
+      Pattern.compile("All Spells Cast Are Sleazy"));
 
   private final String name;
   private final Pattern[] descPatterns;

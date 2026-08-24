@@ -57,7 +57,8 @@ public class EquipmentDatabaseTest {
     // Assert a spread
     assertThat(data, containsString("4-dimensional fez\t50\tnone\n"));
     assertThat(data, containsString("antique candy bucket\t10\tnone\n"));
-    assertThat(data, containsString("antique shield\t180\tMus: 60\tshield\n"));
+    assertThat(data, containsString("antique shield\t180\tMus: 60\tshield: 11\n"));
+    assertThat(data, containsString("pilgrim shield\t240\tnone\tshield: [L]\n"));
     assertThat(data, containsString("[10462]fire flower\t0\tMus: 0\t1-handed flower\n"));
     assertThat(data, containsString("World's Blackest-Eyed Peas\t30\tnone\tcan of beans\n"));
     assertThat(

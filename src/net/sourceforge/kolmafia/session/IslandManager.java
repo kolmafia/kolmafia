@@ -888,7 +888,7 @@ public class IslandManager {
     }
   }
 
-  private static void handleEndOfWar(final String loser) {
+  public static void handleEndOfWar(final String loser) {
     String message;
 
     int total = KoLCharacter.isKingdomOfExploathing() ? 333 : 1000;
@@ -927,11 +927,6 @@ public class IslandManager {
 
   public static final void handleBattlefieldMonster(
       final String responseText, final String monsterName) {
-    // Nothing to do until battle is done
-    if (!responseText.contains("WINWINWIN")) {
-      return;
-    }
-
     // You can fax in monsters even after the war is over. Nothing
     // special to do in that case.
     if (Preferences.getString("warProgress").equals("finished")) {

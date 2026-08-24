@@ -15,9 +15,14 @@ import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -54,6 +59,13 @@ public class GitManager extends ScriptManager {
   protected static final String MANIFEST = "manifest.json";
   protected static final String MANIFEST_ROOTDIR = "root_directory";
 
+  // Cache of sync path -> projects, used to check for file conflicts
+  private static Map<Path, Set<String>> projectsSyncPaths = null;
+
+  private static void invalidateProjectsSyncPaths() {
+    projectsSyncPaths = null;
+  }
+
   public static void clone(String repoUrl) {
     clone(repoUrl, null);
   }
@@ -78,6 +90,7 @@ public class GitManager extends ScriptManager {
       git.setBranch(branch).setBranchesToClone(List.of("refs/heads/" + branch));
     }
     try (var ignored = git.call()) {
+      invalidateProjectsSyncPaths();
       sync(projectPath);
     } catch (InvalidRemoteException e) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "Could not find project at " + repoUrl + ": " + e);
@@ -158,6 +171,7 @@ public class GitManager extends ScriptManager {
 
       if (!oldRoot.equals(newRoot)) {
         // the root directory has changed. Figuring out the diff is too hard, just sync
+        invalidateProjectsSyncPaths();
         return sync(projectPath);
       }
 
@@ -410,11 +424,11 @@ public class GitManager extends ScriptManager {
     }
     if (!errored) {
       KoLmafia.updateDisplay("Project " + folder + " removed.");
-      return true;
     } else {
       KoLmafia.updateDisplay(MafiaState.ERROR, "Failed to completely remove project " + folder);
-      return false;
     }
+    invalidateProjectsSyncPaths();
+    return !errored;
   }
 
   /** Copy files from all installed git projects to permissible folders. */
@@ -437,9 +451,51 @@ public class GitManager extends ScriptManager {
     sync(projectPath);
   }
 
+  /** Parse the gitConflictPriority preference into an ordered list */
+  private static List<String> getConflictPriorityList() {
+    var pref = Preferences.getString("gitConflictPriority");
+    if (pref.isBlank()) {
+      return List.of();
+    }
+    return Arrays.stream(pref.split(",")).map(String::trim).filter(s -> !s.isEmpty()).toList();
+  }
+
+  /** Find the highest-priority project among the conflicting projects */
+  private static String getConflictWinner(
+      Set<String> conflictingProjects, List<String> priorityList) {
+    for (var projectName : priorityList) {
+      if (conflictingProjects.contains(projectName)) {
+        return projectName;
+      }
+    }
+    return null;
+  }
+
+  private static Map<Path, Set<String>> getAllProjectsSyncPaths() {
+    if (projectsSyncPaths != null) {
+      return projectsSyncPaths;
+    }
+    projectsSyncPaths = new HashMap<>();
+    for (var folder : allFolders()) {
+      var projectPath = KoLConstants.GIT_LOCATION.toPath().resolve(folder);
+      try {
+        var root = getRoot(projectPath);
+        var files = getPermissibleFiles(root, false);
+        for (var f : files) {
+          var relPath = root.relativize(f);
+          projectsSyncPaths.computeIfAbsent(relPath, k -> new HashSet<>()).add(folder);
+        }
+      } catch (IOException e) {
+        continue;
+      }
+    }
+    return projectsSyncPaths;
+  }
+
   private static boolean sync(Path projectPath) {
     var folder = KoLConstants.GIT_LOCATION.toPath().relativize(projectPath);
     var root = getRoot(projectPath);
+    KoLmafia.updateDisplay(MafiaState.CONTINUE, "Syncing " + folder + "...");
     List<Path> toAdd;
     try {
       toAdd = getPermissibleFiles(root, false);
@@ -447,21 +503,60 @@ public class GitManager extends ScriptManager {
       KoLmafia.updateDisplay(MafiaState.ERROR, "Failed to sync project " + folder + ": " + e);
       return false;
     }
-    IOException lastError = null;
+    var projects = getAllProjectsSyncPaths();
+
+    // Detect all conflicts
+    var conflictingPaths = new ArrayList<Path>();
     for (var absPath : toAdd) {
-      try {
-        var toRel = root.relativize(absPath);
-        copyPath(absPath, toRel);
-      } catch (IOException e) {
-        // other files might succeed, so keep going
-        lastError = e;
-        continue;
+      var toRel = root.relativize(absPath);
+      var conflictingProjects = projects.get(toRel);
+      // size > 1 as the entry would include the current project
+      if (conflictingProjects != null && conflictingProjects.size() > 1) {
+        conflictingPaths.add(toRel);
       }
     }
-    if (lastError != null) {
-      KoLmafia.updateDisplay(
-          MafiaState.ERROR, "Failed to sync project " + folder + ": " + lastError);
-      return false;
+
+    // Determine whether to sync if there are conflicts
+    var shouldSync = true;
+    if (!conflictingPaths.isEmpty()) {
+      // Report conflicts
+      var allConflictingProjects = new HashSet<String>();
+      for (var toRel : conflictingPaths) {
+        var conflictingProjects = projects.get(toRel);
+        allConflictingProjects.addAll(conflictingProjects);
+        KoLmafia.updateDisplay(
+            MafiaState.CONTINUE,
+            "Conflict: " + toRel + " (" + String.join(", ", conflictingProjects) + ")");
+      }
+
+      var priorityList = getConflictPriorityList();
+      var winner = getConflictWinner(allConflictingProjects, priorityList);
+      shouldSync = winner == null || winner.equals(folder.toString());
+      if (!shouldSync) {
+        KoLmafia.updateDisplay(
+            MafiaState.CONTINUE,
+            "Skipped " + folder + " (lower gitConflictPriority than " + winner + ")");
+      }
+    }
+
+    // Copy all files
+    if (shouldSync) {
+      IOException lastError = null;
+      for (var absPath : toAdd) {
+        try {
+          var toRel = root.relativize(absPath);
+          copyPath(absPath, toRel);
+        } catch (IOException e) {
+          // other files might succeed, so keep going
+          lastError = e;
+          continue;
+        }
+      }
+      if (lastError != null) {
+        KoLmafia.updateDisplay(
+            MafiaState.ERROR, "Failed to sync project " + folder + ": " + lastError);
+        return false;
+      }
     }
     var deps = root.resolve(DEPENDENCIES);
     if (Files.exists(deps)) {

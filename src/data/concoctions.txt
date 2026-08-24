@@ -2370,7 +2370,7 @@ Pendant of Gargalesis	EJEWEL	heavy necklace chain	mangled finger
 doll-eye amulet	EJEWEL	heavy necklace chain	droopy doll eye
 picture of you	COMBINE	ancient oil painting of yourself	ornate picture frame
 
-# Twitch Events
+# Time-Twitching Tower
 government	ACOMBINE	anticheese	government cheese
 stealth bomber	MIX	government	rocket fuel
 buffed alien drugs	COMBINE	alien drugs	alien protein powder
@@ -2393,6 +2393,7 @@ sentient meat mass	WSMITH	gelatinous meat mass	simple AI
 dove DNA	COMBINE	unused soap	viral DNA
 corrupted bird DNA	COMBINE	dove DNA	99.44% pure math
 zombie dinosaur egg	WSMITH	corrupted bird DNA	sentient meat mass
+Staff of Anachronistic Churning	STAFF	wooden staff	premium turkey leg (3)	styrofoam cup of mead (3)	flash paperwad (3)	wooden juggling ball (3)
 
 # Galloping Grill
 ash soda	COOK	hot ashes	soda water
@@ -3085,3 +3086,20 @@ Linguini Ubriacapa	COOK	legendary noodles	sauced mutton
 Formica e Pepe	COOK	legendary noodles	hot honey ant
 Tubetto Gelatto	COOK	legendary noodles	tomb aspic
 Gnocci Domani	COOK	legendary noodles	later tots
+
+# Portable Laughing Stock
+antique watermelon pie	COOK	antique watermelon	pie crust
+quince pie	COOK	quince	pie crust
+classic banana pie	COOK	classic banana	pie crust
+Melonegroni	MIX	antique watermelon	bottle of gin
+Quiskey Sour	MIX	quince	bottle of whiskey
+Aesop Daiquiri	MIX	classic banana	bottle of vodka
+Melonade Spritz	SCOCK	antique watermelon	boxed champagne
+Quincea&ntilde;era Cooler	SCOCK	quince	bottle of Jorge Sinsonte
+Monkey Congress	SCOCK	classic banana	bottle of Lieutenant Freeman
+concentrated watermelon juice	SAUCE	antique watermelon	scrumptious reagent
+quince quaff	SAUCE	quince	scrumptious reagent
+essential banana decoction	SAUCE	classic banana	scrumptious reagent
+Aqua Citrulanatae	SSAUCE	antique watermelon	scrumdiddlyumptious solution
+Quickquince	SSAUCE	quince	scrumdiddlyumptious solution
+banana quintessence	SSAUCE	classic banana	scrumdiddlyumptious solution

@@ -2419,6 +2419,33 @@ public abstract class KoLCharacter {
     return name.contains("u") || name.contains("U");
   }
 
+  private static final Pattern S_WORD_PATTERN = Pattern.compile("(?<!\\S)[Ss]\\S*");
+
+  public static final int getSwordOfSWordsosity() {
+    return KoLCharacter.getSwordOfSWordsosity(EquipmentManager.currentEquipment());
+  }
+
+  public static final int getSwordOfSWordsosity(Map<Slot, AdventureResult> equipment) {
+    int swords = 0;
+
+    for (var slot : SlotSet.SLOTS) {
+      var equip = equipment.get(slot);
+      if (equip == null) continue;
+      String displayName =
+          ModifierDatabase.getStringModifier(
+              ModifierType.ITEM, equip.id, StringModifier.DISPLAY_NAME);
+      String name = displayName.isEmpty() ? equip.getName() : displayName;
+      swords += KoLCharacter.getSwordOfSWordsosity(name);
+    }
+
+    return swords;
+  }
+
+  public static final int getSwordOfSWordsosity(String name) {
+    name = name.replaceAll("[^0-9A-Za-z ]", "");
+    return (int) KoLCharacter.S_WORD_PATTERN.matcher(name).results().count();
+  }
+
   public static final int getRestingHP() {
     int rv = (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.BASE_RESTING_HP);
     double factor = KoLCharacter.currentModifiers.getDouble(DoubleModifier.RESTING_HP_PCT);
@@ -2938,6 +2965,7 @@ public abstract class KoLCharacter {
     if (oldPath == Path.LEGACY_OF_LOATHING) {
       Preferences.resetToDefault("replicaChateauAvailable");
       Preferences.resetToDefault("replicaNeverendingPartyAlways");
+      Preferences.resetToDefault("ownsReplicaFloristFriar");
       Preferences.resetToDefault("replicaWitchessSetAvailable");
 
       // we lose set enquiry, even if we have a terminal
@@ -3456,8 +3484,32 @@ public abstract class KoLCharacter {
     return KoLCharacter.ascensionPath == Path.THRIFTY;
   }
 
+  public static final boolean isBlueVsRed() {
+    return KoLCharacter.ascensionPath == Path.BLUE_VS_RED;
+  }
+
   public static final boolean noExperience() {
     return inZootomist();
+  }
+
+  /**
+   * Whether rollover adventures can come from anywhere other than the daily grant itself. In Slow
+   * and Steady the grant is a flat 100 and nothing else contributes.
+   *
+   * @return true unless in Slow and Steady
+   */
+  public static final boolean canGainRolloverAdventures() {
+    return !inSlowcore();
+  }
+
+  /**
+   * The adventures granted at rollover, before anything else contributes. You, Robot grants none,
+   * since its adventures come from the Chronolith instead.
+   */
+  public static final int rolloverAdventuresGranted() {
+    if (inRobocore()) return 0;
+    if (inSlowcore()) return 100;
+    return 40;
   }
 
   public static final boolean isUnarmed() {
@@ -5464,6 +5516,12 @@ public abstract class KoLCharacter {
 
     // add additional rollover adventures
     newModifiers.applyAdditionalRolloverAdventureModifiers();
+
+    // add rollover PvP fights
+    newModifiers.applyRolloverPvpFightModifiers();
+
+    newModifiers.applyBaseFamiliarExperienceModifiers();
+    newModifiers.applyBaseCriticalModifiers();
 
     // Organ capacity
     newModifiers.applyAdditionalStomachCapacityModifiers();

@@ -76,7 +76,7 @@ An Overgrown Shrine (Southeast)	100	dense liana
 An Overgrown Shrine (Southwest)	100	dense liana
 An Unsettling Abyssal Portal	100	bulwark bull seal
 An Unusually Quiet Barroom Brawl	100	gator-human hybrid	gangster's moll	goblin flapper	traveling hobo	undercover prohibition agent
-Anemone Mine	-1	Anemone combatant	killer clownfish	Mer-kin miner
+Anemone Mine	95	Anemone combatant	killer clownfish	Mer-kin miner
 Anger Man's Level	100	frustrating knight	rage flame	ticking time bomb	Anger Man: 0
 Art Class	100	rulergheist	clay golem	misproportioned portrait	wire sculpture	Fran&ccedil;ois Verte, Art Teacher: 0
 Atomic Crimbo Toy Factory	100	mutant circuit-soldering elf	mutant cookie-baking elf	mutant doll-dressing elf	mutant gift-wrapping elf	mutant whistle-carving elf
@@ -170,6 +170,7 @@ Haert of the Cyrpt	100	Bonerdagon
 Hamburglaris Shield Generator	100	alien hamsterpus	mutated alielephant	mutated alielf
 Hell	100	devil	magma man	vampire
 Hero's Field	100	Keese	Octorok	Tektite	Zol
+Historically-Accurate Hamlet	100	knight in lightweight armor	neckbearded wizard	performative peasant	soused tosspot	visiting space soldier: -1
 Hobopolis Town Square	95	Normal hobo	Hodgman, The Hoboverlord: 0
 Hottest Adventurer Contest	100	Fire Fighter	Cereal Arsonist	Burnglar	The Lavalier: 0
 Infernal Rackets Backstage	70	inkubus	serialbus	suckubus
@@ -198,8 +199,8 @@ McMillicancuddy's Shady Thicket	100	drunk duck	mean drunk duck
 Medbay	100	hypodermic bugbear	anesthesiologist bugbear	bugbear robo-surgeon
 Megalo-City	100	Blader	Met	Tackle Fire
 Mer-kin Colosseum	100	Mer-kin balldodger	Mer-kin bladeswitcher	Mer-kin netdragger	Georgepaul, the Balldodger: 0	Johnringo, the Netdragger: 0	Ringogeorge, the Bladeswitcher: 0
-Mer-kin Elementary School	-1	Mer-kin monitor	Mer-kin punisher	Mer-kin teacher
-Mer-kin Gymnasium	-1	Mer-kin juicer	Mer-kin poseur	Mer-kin trainer
+Mer-kin Elementary School	90	Mer-kin monitor	Mer-kin punisher	Mer-kin teacher
+Mer-kin Gymnasium	100	Mer-kin juicer	Mer-kin poseur	Mer-kin trainer
 Mer-kin Library	-1	Mer-kin alphabetizer	Mer-kin drifter	Mer-kin researcher
 Mer-kin Temple	100	Shub-Jigguwatt, Elder God of Violence: 0	Yog-Urt, Elder Goddess of Hatred: 0	Dad Sea Monkee: 0
 Mer-kin Temple (Left Door)	100	Shub-Jigguwatt, Elder God of Violence: 0
@@ -468,7 +469,7 @@ The Royal Guard Chamber	100	filthworm royal guard
 The Ruined Wizard Tower	-1	bogart	haunted skullabra	smell-o-the-wisp
 The Secret Council Warehouse	100	warehouse clerk	warehouse guard	warehouse janitor
 The Secret Government Laboratory	100	lab monkey	government scientist	creepy little girl	super-sized Cola Wars soldier	E.V.E., the robot zombie: 0
-The Skate Park	100	grouper groupie	ice skate	roller skate	Skate Board member	urchin urchin
+The Skate Park	85	grouper groupie	ice skate	roller skate	Skate Board member	urchin urchin
 The Skeleton Store	100	factory-irregular skeleton	novelty tropical skeleton	remaindered skeleton	swarm of skulls	the former owner of the Skeleton Store: 0	boneless blobghost: 0
 The Sleazy Back Alley	80	big creepy spider	completely different spider	rushing bum	drunken half-orc hobo: 1o	hung-over half-orc hobo: 1e	crazy bastard: -1
 The Slime Tube	95	Slime	Slime Hand	Slime Mouth	Slime Construct	Slime Colossus	Mother Slime: 0
@@ -502,7 +503,7 @@ The Velvet / Gold Mine	100	healing crystal golem	mine worker (female)	mine overs
 The VERY Unquiet Garves	100	corpulent zobmie	grave rober zmobie	senile lihc	slick lihc	gluttonous ghuol	gaunt ghuol	spiny skelelton	toothy sklelton	Skelter Butleton, the Butler Skeleton: 0	Count Bakula: -1	Snakeleton: 0
 The Weird Swamp Village	-1	mud turtle	swamp gator	swamp owl	swamp skunk: 0
 The Wildlife Sanctuarrrrrgh	-1	swamp beaver warrior	swamp entity	swamp gator
-The Wreck of the Edgar Fitzsimmons	100	cargo crab	drowned sailor	Mer-kin scavenger	mine crab	unholy diver
+The Wreck of the Edgar Fitzsimmons	95	cargo crab	drowned sailor	Mer-kin scavenger	mine crab	unholy diver
 The Wreck of the H. M. S. Kringle	95	Crimbylow	peppermint eel	sea-elf	dolphin "orphan"
 The X-32-F Combat Training Snowman	100	X-32-F Combat Training Snowman
 Throne Room	100	Knob Goblin King

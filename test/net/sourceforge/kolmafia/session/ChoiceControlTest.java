@@ -65,6 +65,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 class ChoiceControlTest {
+
   @BeforeEach
   public void beforeEach() {
     KoLCharacter.reset("ChoiceControlTest");
@@ -676,7 +677,7 @@ class ChoiceControlTest {
         assertThat(
             "_savageBeastMods",
             isSetTo(
-                "Combat Rate: +25, Muscle Percent: 100, Maximum HP Percent: 100, Damage Reduction: 90, Mysticality Percent: 100, Hot Resistance: 6, Cold Resistance: 6, Stench Resistance: 6, Sleaze Resistance: 6, Spooky Resistance: 6, Item Drop: 75, Monster Level: 50, Moxie Percent: 100, Initiative: 200, Meat Drop: 150, Experience: +5, HP Regen Min: 9, HP Regen Max: 11"));
+                "Combat Rate: +25, Muscle Percent: 100, Maximum HP Percent: 100, Damage Reduction: 30, Mysticality Percent: 100, Hot Resistance: 6, Cold Resistance: 6, Stench Resistance: 6, Sleaze Resistance: 6, Spooky Resistance: 6, Item Drop: 75, Monster Level: 50, Moxie Percent: 100, Initiative: 200, Meat Drop: 150, Experience: +5, HP Regen Min: 9, HP Regen Max: 11"));
 
         var requests = client.getRequests();
 
@@ -1937,6 +1938,64 @@ class ChoiceControlTest {
       try (cleanups) {
         assertThat("_cupOf13sJewels", isSetTo(1));
         assertThat(InventoryManager.getCount(ItemPool.LOOSE_PURSE_STRINGS), equalTo(7));
+      }
+    }
+  }
+
+  @Nested
+  class BlueVsRed {
+    @Test
+    void readsMonsterIdFromNC() {
+      var cleanups =
+          new Cleanups(withChoice(1619, html("request/test_bluevsred_nc_monsterid.html")));
+
+      try (cleanups) {
+        assertThat("lastBlueVsRedNCMonster", isSetTo(1232));
+      }
+    }
+
+    @Test
+    void incrementsDesertExplorationInBlueVsRed() {
+      var cleanups =
+          new Cleanups(
+              withProperty("desertExploration", 7),
+              withLastLocation("The Arid, Extra-Dry Desert"),
+              withEquipped(Slot.OFFHAND, ItemPool.UV_RESISTANT_COMPASS),
+              withPostChoice2(1622, 1, html("request/test_bluevsred_desert_exploration.html")));
+
+      try (cleanups) {
+        assertThat("desertExploration", isSetTo(9));
+      }
+    }
+
+    @Test
+    void tracksWarProgressInBlueVsRed() {
+      var cleanups =
+          new Cleanups(
+              withProperty("fratboysDefeated", 72),
+              withProperty("lastBlueVsRedNCMonster", 423),
+              withProperty("sidequestOrchardCompleted", "hippy"),
+              withProperty("sidequestFarmCompleted", "hippy"),
+              withProperty("sidequestLighthouseCompleted", "hippy"),
+              withPostChoice2(1619, 1, html("request/test_bluevsred_war_progress.html")));
+
+      try (cleanups) {
+        assertThat("fratboysDefeated", isSetTo(80));
+      }
+    }
+
+    @Test
+    void decreasesEvilnessInBlueVsRed() {
+      var cleanups =
+          new Cleanups(
+              withProperty("lastBlueVsRedNCMonster", 190), // gaunt ghuol
+              withProperty("cyrptCrannyEvilness", 50),
+              withProperty("cyrptTotalEvilness", 200),
+              withPostChoice2(1624, 1, html("request/test_bluevsred_evilometer.html")));
+
+      try (cleanups) {
+        assertThat("cyrptCrannyEvilness", isSetTo(49));
+        assertThat("cyrptTotalEvilness", isSetTo(199));
       }
     }
   }

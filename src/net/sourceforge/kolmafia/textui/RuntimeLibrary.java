@@ -2044,6 +2044,9 @@ public abstract class RuntimeLibrary {
     functions.add(new LibraryFunction("handling_choice", DataTypes.BOOLEAN_TYPE, params));
 
     params = List.of();
+    functions.add(new LibraryFunction("can_walk_from_choice", DataTypes.BOOLEAN_TYPE, params));
+
+    params = List.of();
     functions.add(new LibraryFunction("run_combat", DataTypes.BUFFER_TYPE, params));
 
     params = List.of(namedParam("filterFunction", DataTypes.STRING_TYPE));
@@ -2224,6 +2227,9 @@ public abstract class RuntimeLibrary {
 
     params = List.of(namedParam("item", DataTypes.ITEM_TYPE));
     functions.add(new LibraryFunction("weapon_type", DataTypes.STAT_TYPE, params));
+
+    params = List.of(namedParam("item", DataTypes.ITEM_TYPE));
+    functions.add(new LibraryFunction("shield_dr", DataTypes.INT_TYPE, params));
 
     params = List.of(namedParam("item", DataTypes.ITEM_TYPE));
     functions.add(new LibraryFunction("get_power", DataTypes.INT_TYPE, params));
@@ -2844,6 +2850,12 @@ public abstract class RuntimeLibrary {
             namedParam("buffer", DataTypes.BUFFER_TYPE),
             namedParam("filename", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("buffer_to_file", DataTypes.BOOLEAN_TYPE, params));
+
+    params =
+        List.of(
+            namedParam("buffer", DataTypes.BUFFER_TYPE),
+            namedParam("filename", DataTypes.STRING_TYPE));
+    functions.add(new LibraryFunction("append_buffer_to_file", DataTypes.BOOLEAN_TYPE, params));
 
     params = List.of(namedParam("name", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("set_ccs", DataTypes.BOOLEAN_TYPE, params));
@@ -4939,9 +4951,7 @@ public abstract class RuntimeLibrary {
 
   public static Value to_url(ScriptRuntime controller, final Value value) {
     KoLAdventure adventure = (KoLAdventure) value.rawValue();
-    return (adventure == null)
-        ? DataTypes.STRING_INIT
-        : new Value(adventure.getRequest().getURLString());
+    return (adventure == null) ? DataTypes.STRING_INIT : new Value(adventure.getURLString());
   }
 
   public static Value to_wiki_url(ScriptRuntime controller, final Value value) {
@@ -8002,6 +8012,10 @@ public abstract class RuntimeLibrary {
     return DataTypes.makeBooleanValue(ChoiceManager.handlingChoice);
   }
 
+  public static Value can_walk_from_choice(ScriptRuntime controller) {
+    return DataTypes.makeBooleanValue(ChoiceManager.canWalkAway());
+  }
+
   public static Value run_combat(ScriptRuntime controller) {
     RelayRequest relayRequest = controller.getRelayRequest();
 
@@ -8353,6 +8367,10 @@ public abstract class RuntimeLibrary {
         : stat == Stat.MYSTICALITY
             ? DataTypes.MYSTICALITY_VALUE
             : stat == Stat.MOXIE ? DataTypes.MOXIE_VALUE : DataTypes.STAT_INIT;
+  }
+
+  public static Value shield_dr(ScriptRuntime controller, final Value item) {
+    return new Value(EquipmentDatabase.getShieldDamageReduction((int) item.intValue()));
   }
 
   public static Value get_power(ScriptRuntime controller, final Value item) {
@@ -9918,6 +9936,15 @@ public abstract class RuntimeLibrary {
     return DataFileCache.printBytes(location, bytes);
   }
 
+  public static Value append_buffer_to_file(
+      ScriptRuntime controller, final Value var1, final Value var2) {
+    StringBuffer buffer = (StringBuffer) var1.rawValue();
+    String string = buffer.toString();
+    byte[] bytes = string.getBytes(StandardCharsets.UTF_8);
+    String location = var2.toString();
+    return DataFileCache.printBytes(location, bytes, true);
+  }
+
   public static Value set_ccs(ScriptRuntime controller, final Value name) {
     String ccsName = name.toString();
     Optional<String> strategy =
@@ -11100,9 +11127,6 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value florist_available(ScriptRuntime controller) {
-    if (!Preferences.getBoolean("floristFriarChecked")) {
-      FloristRequest.checkFloristAvailable();
-    }
     return DataTypes.makeBooleanValue(FloristRequest.haveFlorist());
   }
 

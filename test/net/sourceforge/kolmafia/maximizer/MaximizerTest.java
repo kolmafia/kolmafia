@@ -1181,7 +1181,7 @@ public class MaximizerTest {
       try (cleanups) {
         assertTrue(maximize("adv, exp"));
 
-        assertEquals(5, modFor(DoubleModifier.ADVENTURES), 0.01);
+        assertEquals(45, modFor(DoubleModifier.ADVENTURES), 0.01);
         assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.WEAPON))));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.ACCESSORY1, "time halo")));
         assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.ACCESSORY2))));
@@ -2280,10 +2280,26 @@ public class MaximizerTest {
 
       try (cleanups) {
         assertTrue(maximize("adv"));
-        assertEquals(14, modFor(DoubleModifier.ADVENTURES), 0.01);
+        assertEquals(54, modFor(DoubleModifier.ADVENTURES), 0.01);
         assertThat(getBoosts(), hasItem(recommends("Counterclockwise Watch")));
         assertThat(getBoosts(), hasItem(recommends("plexiglass pocketwatch")));
         assertThat(getBoosts(), hasItem(recommends("gold wedding ring")));
+      }
+    }
+
+    @Test
+    public void suggestsNoAdventureGearInSlowAndSteady() {
+      var cleanups =
+          new Cleanups(
+              withPath(Path.SLOW_AND_STEADY),
+              withEquippableItem("Counterclockwise Watch"),
+              withEquippableItem("gold wedding ring"));
+
+      try (cleanups) {
+        assertTrue(maximize("adv"));
+        assertEquals(100, modFor(DoubleModifier.ADVENTURES), 0.01);
+        assertThat(getBoosts(), not(hasItem(recommends("Counterclockwise Watch"))));
+        assertThat(getBoosts(), not(hasItem(recommends("gold wedding ring"))));
       }
     }
 
@@ -2297,7 +2313,7 @@ public class MaximizerTest {
 
       try (cleanups) {
         assertTrue(maximize("fites"));
-        assertEquals(5, modFor(DoubleModifier.PVP_FIGHTS), 0.01);
+        assertEquals(15, modFor(DoubleModifier.PVP_FIGHTS), 0.01);
         assertThat(getBoosts(), hasItem(recommends("Crimbolex watch")));
         assertThat(getBoosts(), not(hasItem(recommends(ItemPool.SASQ_WATCH))));
       }
@@ -3296,6 +3312,36 @@ public class MaximizerTest {
     try (cleanups) {
       maximize("muscle");
       assertThat(getBoosts(), hasItem(recommends(ItemPool.CUSTOM_SIXGUN)));
+    }
+  }
+
+  @Nested
+  class DamageReduction {
+    @Test
+    void maximizerCountsInnateShieldDamageReductionAndEnchant() {
+      var cleanups =
+          new Cleanups(
+              withEquippableItem(ItemPool.OLD_SCHOOL_FLYING_DISC), // base 14, 10 enchant
+              withEquippableItem(ItemPool.ASTRAL_SHIELD), // higher base: 15
+              withEquippableItem(ItemPool.FURRY_YAM_BUCKLER) // higher enchant: 11
+              );
+
+      try (cleanups) {
+        assertTrue(maximize("dr"));
+        assertThat(getBoosts(), hasItem(recommends(ItemPool.OLD_SCHOOL_FLYING_DISC)));
+        assertThat(modFor(DoubleModifier.DAMAGE_REDUCTION), equalTo(24.0));
+      }
+    }
+
+    @Test
+    void maximizerAddsShieldsWithNoBaseEnchants() {
+      var cleanups = new Cleanups(withEquippableItem(ItemPool.FLAK_SHIELD));
+
+      try (cleanups) {
+        assertTrue(maximize("dr"));
+        assertThat(getBoosts(), hasItem(recommends(ItemPool.FLAK_SHIELD)));
+        assertThat(modFor(DoubleModifier.DAMAGE_REDUCTION), equalTo(9.0));
+      }
     }
   }
 }

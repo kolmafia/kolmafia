@@ -85,7 +85,6 @@ Cast	Conjure Meat Product	_jarlsMeatSummoned
 Cast	Conjure Potato	_jarlsPotatoSummoned
 Cast	Conjure Vegetables	_jarlsVeggiesSummoned
 Cast	Creepy Grin	_vmaskBanisherUsed	1
-Cast	Curse of Vacation	_curseOfVacationUsed	5
 Cast	Demand Sandwich	_demandSandwich	3
 Cast	Digitize	_sourceTerminalDigitizeUses	[1+pref(sourceTerminalChips,TRAM)+pref(sourceTerminalChips,TRIGRAM)]
 Cast	Do an epic McTwist!	_epicMcTwistUsed
@@ -137,6 +136,7 @@ Cast	Jump Shark	_peteJumpedShark	3
 Cast	KGB tranquilizer dart	_kgbTranquilizerDartUses	3
 Cast	Lash of the Cobra	_edLashCount	30
 Cast	Launch spikolodon spikes	_spikolodonSpikeUses	5
+Cast	Lightning Rod	_lightningRodCast
 Cast	Lock Picking	lockPicked
 Cast	Long Con	_longConUsed	5
 Cast	Lunch Break	_lunchBreak
@@ -151,6 +151,7 @@ Cast	Meat Loaf	_meatLoafUsed	11
 Cast	Meatify Matter	_meatifyMatterUsed
 Cast	Meteor Shower	_meteorShowerUses	5
 Cast	Offer Latte to Opponent	_latteCopyUsed
+Cast	Order a Kneecapping	_kneecappingOrdered
 Cast	Otoscope	_otoscopeUsed	3
 Cast	Pastamastery	noodleSummons
 Cast	Peel Out	_petePeeledOut	[10+(pref(peteMotorbikeTires,Racing Slicks)*20)]
@@ -162,6 +163,7 @@ Cast	Portscan	_sourceTerminalPortscanUses	3
 Cast	Prelude of Precision	_precisionCasts	10
 Cast	Prevent Scurvy and Sobriety	_preventScurvy
 Cast	Psychokinetic Hug	_psychokineticHugUsed
+Cast	Rain Coat	_rainCoatCast
 Cast	Rainbow Gravitation	prismaticSummons	3
 Cast	Recall Facts: %phylum Circadian Rhythms	_circadianRhythmsRecalled
 Cast	Recall Facts: Monster Habitats	_monsterHabitatsRecalled	3
@@ -203,6 +205,7 @@ Cast	The Ballad of Richie Thingfinder	_thingfinderCasts	10
 Cast	The Smile of Mr. A.	_smilesOfMrA	[pref(goldenMrAccessories)*5]
 Cast	Throw Latte on Opponent	_latteBanishUsed
 Cast	Throw Party	_petePartyThrown
+Cast	Thunder Down Underwear	_thunderDownUnderwearCast
 Cast	Transcendent Olfaction	_olfactionsUsed	3
 Cast	Turtle Power	_turtlePowerCast
 Cast	Use the Force	_saberForceUses	5

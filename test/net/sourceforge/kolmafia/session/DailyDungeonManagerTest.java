@@ -123,6 +123,20 @@ public class DailyDungeonManagerTest {
     }
 
     @Test
+    public void dailyDungeonWrongMonsterVictoryIgnored() {
+      var cleanups =
+          new Cleanups(
+              withFight(),
+              withNextMonster("Quantum Mechanic"),
+              withLastLocation("The Daily Dungeon"),
+              withProperty("_lastDailyDungeonRoom", 1));
+      try (cleanups) {
+        FightRequest.updateFinalRoundData("", true, false);
+        assertThat("_lastDailyDungeonRoom", isSetTo(1));
+      }
+    }
+
+    @Test
     public void dailyDungeonMonsterLoss() {
       var cleanups =
           new Cleanups(

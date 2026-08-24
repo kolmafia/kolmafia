@@ -57,6 +57,7 @@ global	externalEditor
 global	fixedThreadPoolSize	0
 global	gapProtection	false
 global	getBreakfast
+global	gitConflictPriority
 global	gitInstallDependencies	true
 global	gitShowCommitMessages	false
 global	gitUpdateOnLogin	false
@@ -363,6 +364,7 @@ user	blackPuddingsDefeated	0
 user	blackForestProgress	0
 user	blankOutUsed	0	roa
 user	bloodweiserDrunk	0
+user	blueVsRedTeam		roa
 user	bodyguardCharge	0	roa
 user	bodyguardChatMonster
 user	bondAdv	false	roa
@@ -700,6 +702,7 @@ user	essenceOfBearCost	1000
 user	EVEDirections	LLRLR0
 user	everfullDartPerks		roa
 user	eweItem		roa
+user	exerciseLiquidityCharges	0	roa
 user	expressCardUsed	false	ld
 user	extraCosmeticModifiers
 user	extraRolloverAdventures	0	ld
@@ -869,6 +872,7 @@ user	hasCocktailKit	false	roa
 user	hasCosmicBowlingBall	false
 user	hasDetectiveSchool	false
 user	hasMaydayContract	false
+user	hasInterestingCoin	false
 user	hasOven	false	roa
 user	hasRange	false	roa
 user	hasShaker	false	roa
@@ -916,6 +920,7 @@ user	hpAutoRecoveryTarget	1.0
 user	iceSculptureMonster		roa
 user	iceSwagger	0
 user	implementGlitchItem	false
+user	intangibleAssetCharges	0	roa
 user	intenseCurrents	false	roa
 user	invalidBuffMessage	You sent an amount which does not correspond to a valid buff amount.
 user	ironicSwagger	0
@@ -926,6 +931,12 @@ user	itemBoughtPerAscension8266	false	roa
 user	itemBoughtPerAscension10790	false	roa
 user	itemBoughtPerAscension10794	false	roa
 user	itemBoughtPerAscension10795	false	roa
+user	itemBoughtPerAscension12293	false	roa
+user	itemBoughtPerAscension12298	false	roa
+user	itemBoughtPerAscension12299	false	roa
+user	itemBoughtPerAscension12300	false	roa
+user	itemBoughtPerAscension12301	false	roa
+user	itemBoughtPerAscension12303	false	roa
 user	itemBoughtPerCharacter6423	false
 user	itemBoughtPerCharacter6428	false
 user	itemBoughtPerCharacter6429	false
@@ -1061,6 +1072,7 @@ user	lastPorkoPayouts
 user	lastPorkoExpected
 user	lastQuartetAscension	-1
 user	lastQuartetRequest	0
+user	lastBlueVsRedNCMonster	-1	roa
 user	lastSecondFloorUnlock	-1
 user	lastShadowForgeUnlockAdventure	-1	roa
 user	lastKOLHSArtClassUnlockAdventure	-1	roa
@@ -1290,6 +1302,7 @@ user	oscusSodaUsed	false	ld
 user	outrageousSombreroUsed	false	ld
 user	overgrownLotAvailable	false	roa
 user	ownsFloristFriar	false
+user	ownsReplicaFloristFriar	false
 user	ownsSpeakeasy	false
 user	palindomeDudesDefeated	0
 user	parasolUsed	0	roa
@@ -1758,6 +1771,7 @@ user	tomeSkillsHardcore	Summon Snowcone
 user	tomeSkillsSoftcore	all
 user	tomeSummons	0	ld
 user	totalCharitableDonations	0
+user	toxicAssetCharges	0	roa
 user	trackLightsOut	false
 user	trackVoteMonster	false
 user	trackedMonsters
@@ -2138,9 +2152,10 @@ user	_crimboTraining	false
 user	_crimboTree	false
 user	_crToday	false
 user	_cupidBowFamiliars
+user	_cupOf13sCharges	5
+user	_cupOf13sDrops	0
 user	_cupOf13sJewels	13
 user	_currentDartboard
-user	_curseOfVacationUsed	0
 user	_cursedKegUsed	false
 user	_cursedMicrowaveUsed	false
 user	_curveballMonster
@@ -2384,6 +2399,17 @@ user	_interviewIsabella	false
 user	_interviewMasquerade	false
 user	_interviewVlad	false
 user	_inquisitorsUnidentifiableObjectUsed	false
+user	_interestingCoinHeads	false
+user	_itemBoughtPerDay12292	0
+user	_itemBoughtPerDay12294	0
+user	_itemBoughtPerDay12295	0
+user	_itemBoughtPerDay12305	0
+user	_itemBoughtPerDay12306	0
+user	_itemBoughtPerDay12307	0
+user	_itemBoughtPerDay12308	0
+user	_itemBoughtPerDay12310	0
+user	_itemBoughtPerDay12311	0
+user	_itemBoughtPerDay12312	0
 user	_ironicMoustache	false
 user	_ironTricornHeadbuttUsed	0
 user	_jackassPlumberGame	false
@@ -2426,6 +2452,7 @@ user	_kgbTranquilizerDartUses	0
 user	_klawSummons	0
 user	_kloopCharge	0
 user	_kloopDrops	0
+user	_kneecappingOrdered	false
 user	_knuckleboneDrops	0
 user	_knuckleboneRests	0
 user	_kolConSixPackUsed	false
@@ -2451,6 +2478,8 @@ user	_latteCopyUsed	false
 user	_latteDrinkUsed	false
 user	_latteMonster
 user	_latteRefillsUsed	0
+user	_laughingStockCharges	0
+user	_laughingStockFruitDropped	0
 user	_lawOfAveragesUsed	0
 user	_leafblowerML	1
 user	_leafAntEggCrafted	false
@@ -2470,6 +2499,7 @@ user	_legionJackhammerCrafting	0
 user	_leprecondoRearrangements	0
 user	_leprecondoFurniture	0
 user	_licenseToChillUsed	false
+user	_lightningRodCast	false
 user	_llamaCharge	0
 user	_locketMonstersFought
 user	_lodestoneUsed	false
@@ -2655,6 +2685,7 @@ user	_questPartyFairQuest
 user	_questPirateRealm	unstarted
 user	_radlibSummons	0
 user	_raindohCopiesMade	0
+user	_rainCoatCast	false
 user	_rainStickUsed	false
 user	_rapidPrototypingUsed	0
 user	_raveStealCount	0
@@ -2812,6 +2843,7 @@ user	_thesisDelivered	false
 user	_thingfinderCasts	0
 user	_thinknerdPackageDrops	0
 user	_thorsPliersCrafting	0
+user	_thunderDownUnderwearCast	false
 user	_tiedUpFlamingLeafletFought	false
 user	_tiedUpFlamingMonsteraFought	false
 user	_tiedUpLeaviathanFought	false
@@ -3705,6 +3737,39 @@ user	choiceAdventure1548	1
 user	choiceAdventure1549	1
 user	choiceAdventure1550	1
 user	choiceAdventure1591	1
+user	choiceAdventure1604	1
+user	choiceAdventure1605	1
+user	choiceAdventure1606	1
+user	choiceAdventure1607	1
+user	choiceAdventure1608	1
+user	choiceAdventure1609	1
+user	choiceAdventure1610	1
+user	choiceAdventure1611	1
+user	choiceAdventure1612	1
+user	choiceAdventure1613	1
+user	choiceAdventure1614	1
+user	choiceAdventure1615	1
+user	choiceAdventure1616	1
+user	choiceAdventure1617	1
+user	choiceAdventure1618	1
+user	choiceAdventure1619	1
+user	choiceAdventure1620	1
+user	choiceAdventure1621	1
+user	choiceAdventure1622	1
+user	choiceAdventure1623	1
+user	choiceAdventure1624	1
+user	choiceAdventure1625	1
+user	choiceAdventure1626	1
+user	choiceAdventure1627	1
+user	choiceAdventure1628	1
+user	choiceAdventure1629	1
+user	choiceAdventure1630	1
+user	choiceAdventure1631	1
+user	choiceAdventure1632	1
+user	choiceAdventure1633	1
+user	choiceAdventure1634	1
+user	choiceAdventure1635	1
+user	choiceAdventure1636	1
 user	lockedItem4637	true
 user	lockedItem4638	true
 user	lockedItem4639	true
@@ -3774,6 +3839,7 @@ user	unknownRecipe10991	true
 user	unknownRecipe10992	true
 user	unknownRecipe11000	true
 user	lastNoncombat15	0	roa
+user	lastNoncombat207	0	roa
 user	lastNoncombat257	0	roa
 user	lastNoncombat270	0	roa
 user	lastNoncombat273	0	roa

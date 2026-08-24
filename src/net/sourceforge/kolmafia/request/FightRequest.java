@@ -13,7 +13,6 @@ import java.util.Set;
 import java.util.TimeZone;
 import java.util.TreeMap;
 import java.util.TreeSet;
-import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -213,7 +212,6 @@ public class FightRequest extends GenericRequest {
       Pattern.compile("newpic\\(\"(.*?)\", \"(.*?)\".*?\\);");
   private static final Pattern WORN_STICKER_PATTERN =
       Pattern.compile("A sticker falls off your weapon, faded and torn");
-  private static final Pattern BEEP_PATTERN = Pattern.compile("Your Evilometer beeps (\\d+) times");
   private static final Pattern BALLROOM_SONG_PATTERN =
       Pattern.compile("You hear strains of (?:(lively)|(mellow)|(lovely)) music in the distance");
   private static final Pattern WHICHMACRO_PATTERN = Pattern.compile("whichmacro=(\\d+)");
@@ -460,21 +458,6 @@ public class FightRequest extends GenericRequest {
     "hard to smell anything in this crowd"
   };
 
-  private static final String[][] EVIL_ZONES = {
-    {
-      "The Defiled Alcove", "cyrptAlcoveEvilness",
-    },
-    {
-      "The Defiled Cranny", "cyrptCrannyEvilness",
-    },
-    {
-      "The Defiled Niche", "cyrptNicheEvilness",
-    },
-    {
-      "The Defiled Nook", "cyrptNookEvilness",
-    },
-  };
-
   public enum SpecialMonster {
     // Individual monsters
     ANCIENT_PROTECTOR_SPIRIT("Ancient Protector Spirit"),
@@ -495,6 +478,7 @@ public class FightRequest extends GenericRequest {
     // Categories of monsters
     BEE("bee"),
     CYRPT("Cyrpt"),
+    DAILY_DUNGEON("Daily Dungeon"),
     DMT("Deep Machine Tunnels"),
     EVENT("event monster"),
     GINGERBREAD("Gingerbread City"),
@@ -710,6 +694,7 @@ public class FightRequest extends GenericRequest {
     FightRequest.specialMonsters.put("void slab", SpecialMonster.VOID);
     FightRequest.specialMonsters.put("void spider", SpecialMonster.VOID);
 
+    FightRequest.addAreaMonsters("The Daily Dungeon", SpecialMonster.DAILY_DUNGEON);
     FightRequest.addAreaMonsters("A Maze of Sewer Tunnels", SpecialMonster.SEWER);
     FightRequest.addAreaMonsters("The Battlefield (Frat Uniform)", SpecialMonster.WAR_HIPPY);
     FightRequest.addAreaMonsters("The Battlefield (Hippy Uniform)", SpecialMonster.WAR_FRATBOY);
@@ -4314,9 +4299,7 @@ public class FightRequest extends GenericRequest {
         }
       }
 
-      if (IslandManager.isBattlefieldMonster(monsterName)) {
-        IslandManager.handleBattlefieldMonster(responseText, monsterName);
-      } else if (special == SpecialMonster.SEWER && !EncounterManager.ignoreSpecialMonsters) {
+      if (special == SpecialMonster.SEWER && !EncounterManager.ignoreSpecialMonsters) {
         AdventureResult result = AdventureResult.tallyItem("sewer tunnel explorations", false);
         AdventureResult.addResultToList(KoLConstants.tally, result);
       }
@@ -4407,6 +4390,14 @@ public class FightRequest extends GenericRequest {
       if (KoLCharacter.hasEquipped(ItemPool.BONE_ABACUS, Slot.OFFHAND)
           && responseText.contains("You move a bone on the abacus to record your victory")) {
         Preferences.increment("boneAbacusVictories", 1);
+      }
+
+      if (KoLCharacter.hasEquipped(ItemPool.CUP_OF_13S)) {
+        Preferences.increment("_cupOf13sCharges", 1);
+      }
+
+      if (KoLCharacter.hasEquipped(ItemPool.PORTABLE_LAUGHING_STOCK)) {
+        Preferences.increment("_laughingStockCharges", 1);
       }
 
       if (KoLCharacter.getAscensionClass() == AscensionClass.SNAKE_OILER) {
@@ -6540,7 +6531,13 @@ public class FightRequest extends GenericRequest {
         return;
       }
 
-      Elements tables = node.select("* table");
+      // The Interesting Coin result table holds its message in a nested
+      // table, so don't strip its nested tables
+      // TODO: why are we stripping nested tables to begin with? This dates to 2020,
+      // e131baa82706a030f2f5e30b7e8b92ba1a0c390c
+      // It's probably to remove nested item acquisition messages
+      Element interestingCoin = node.selectFirst("* img[src$=\"interestcoin.gif\"]");
+      Elements tables = interestingCoin == null ? node.select("* table") : new Elements();
       for (Element table : tables) {
         table.remove();
       }
@@ -7189,6 +7186,14 @@ public class FightRequest extends GenericRequest {
       return false;
     }
 
+    if (image.equals("interestcoin.gif")) {
+      FightRequest.logText(str, status);
+      if (str.contains("Heads, you win!")) {
+        Preferences.setBoolean("_interestingCoinHeads", true);
+      }
+      return false;
+    }
+
     // Combat item usage: process the children of this node
     // to pick up damage to the monster and stat gains
     return true;
@@ -7332,6 +7337,35 @@ public class FightRequest extends GenericRequest {
         // Can of mixed everything
         str.contains("Something falls out of your can of mixed everything.")) {
       FightRequest.logText(str, status);
+    }
+
+    // Cup of 13s
+    if (str.contains("You hear a gurgling from your Cup of 13s")) {
+      FightRequest.logText(str, status);
+      Preferences.setInteger("_cupOf13sCharges", 0);
+      Preferences.increment("_cupOf13sDrops", 1);
+    }
+
+    // Portable Laughing Stock
+    if (str.contains("You get smacked in the face with a piece of fruit from somewhere")
+        || str.contains(
+            "The crowd's derision takes a physical form as a piece of fruit sails toward your head")
+        || str.contains("A jeering onlooker chucks something soft and squishy your way")
+        || str.contains("Someone in the crowd hurls a piece of fruit at you")
+        || str.contains("Someone lobs a piece of fruit at you from the crowd")) {
+      FightRequest.logText("You were pelted with fruit.", status);
+      Preferences.increment("_laughingStockFruitDropped", 1);
+    }
+
+    // Interesting Coin
+    if (str.contains(
+        "You decide to forgo hoarding this tangible meat, and invest it in your intangibles.")) {
+      FightRequest.logText(str, status);
+      Preferences.decrement("intangibleAssetCharges");
+    }
+    if (str.contains("your toxic emanations")) {
+      FightRequest.logText(str, status);
+      Preferences.decrement("toxicAssetCharges");
     }
 
     FightRequest.handleLuckyGoldRing(str, status);
@@ -8230,101 +8264,24 @@ public class FightRequest extends GenericRequest {
   }
 
   private static boolean handleEvilometer(String text, TagStatus status) {
-    if (!text.contains("Evilometer")
-        && !text.contains("ghost vacuum")
-        && !text.contains("gravy sloshes")
-        && !text.contains("the nightmare fuel")
-        && !text.contains("an evil draft blows")) {
+    if (!CryptManager.isEvilometerMessage(text)) {
       return false;
     }
 
     FightRequest.logText(text, status);
 
-    MonsterData monster = status.monster;
-    String setting = getEvilZoneSetting(monster);
-
-    if (setting == null) {
+    if (!CryptManager.handleEvilometer(text, status.monster)) {
       return false;
     }
 
-    boolean retval = true;
-
-    int evilness =
-        text.contains("a single beep")
-            ? 1
-            : text.contains("beeps three times")
-                ? 3
-                : text.contains("three quick beeps")
-                    ? 3
-                    : text.contains("five quick beeps")
-                        ? 5
-                        : text.contains("loud") ? Preferences.getInteger(setting) : 0;
-
-    if (text.contains("ghost vacuum sucks up some extra evil")) {
-      evilness++;
-    }
-
-    if (text.contains("Some gravy sloshes")) {
-      evilness++;
-      retval = false;
-    }
-
-    // Casting Slay the Dead while wearing a Vampire Slicer trench code decreases evilness.
     // Subsequent familiar actions and item drops appear in the same "p" node, for some reason.
     // Therefore, return false to allow subsequent nodes to be processed.
-
-    // You trench cape ripples as an evil draft blows and then quiets, it feels less evil in here!
-    if (text.contains("an evil draft blows")) {
-      evilness++;
-      retval = false;
-    }
-
-    // The evil of the nightmare fuel in your system is in a different phase
-    // from the evil emanations in this area, so they cancel each other out a bit.
-    if (text.contains("the nightmare fuel")) {
-      evilness += 2;
-      Preferences.decrement("_nightmareFuelCharges");
-    }
-
-    if (evilness == 0) {
-      Matcher m = BEEP_PATTERN.matcher(text);
-      if (!m.find()) {
-        return false;
-      }
-      evilness = StringUtilities.parseInt(m.group(1));
-    }
-
-    CryptManager.decreaseEvilness(setting, evilness);
-
-    return retval;
-  }
-
-  private static String getEvilZoneSetting(final Function<String, Boolean> isLocation) {
-    for (String[] data : FightRequest.EVIL_ZONES) {
-      if (isLocation.apply(data[0])) {
-        return data[1];
-      }
-    }
-
-    return null;
-  }
-
-  private static String getEvilZoneSetting(final String location) {
-    return getEvilZoneSetting(l -> l.equals(location));
-  }
-
-  private static String getEvilZoneSetting(final MonsterData monster) {
-    return getEvilZoneSetting(
-        l -> AdventureDatabase.getAdventure(l).getAreaSummary().hasMonster(monster));
-  }
-
-  private static String getEvilZoneSetting() {
-    return getEvilZoneSetting(KoLAdventure.lastLocationName);
+    return !text.contains("Some gravy sloshes") && !text.contains("an evil draft blows");
   }
 
   private static boolean handleEvilometerLovebug(final String text) {
     if (text.contains("Evilometer beeps once")) {
-      String setting = getEvilZoneSetting();
+      String setting = CryptManager.evilZoneProperty(KoLAdventure.lastLocationName);
       if (setting != null) {
         int evilness = 1;
         // If you have a gravy boat and Lovebugs, the gravy boat message ends up in the same node as
@@ -9644,6 +9601,10 @@ public class FightRequest extends GenericRequest {
 
         return false;
       }
+      case ItemPool.INTERESTING_COIN -> {
+        // The Interesting Coin is never consumed when thrown in combat
+        return false;
+      }
       default -> {
         return true;
       }
@@ -10248,6 +10209,12 @@ public class FightRequest extends GenericRequest {
           Preferences.decrement("preworkoutPowderUses");
         }
       }
+      case SkillPool.ORDER_A_KNEECAPPING -> {
+        if (responseText.contains("You call in a favor from your mob") || skillRunawaySuccess) {
+          BanishManager.banishMonster(monster, Banisher.ORDER_A_KNEECAPPING);
+          skillRunawaySuccess = true;
+        }
+      }
       case SkillPool.HUGS_KISSES -> {
         if (responseText.contains("yoinks something") || skillSuccess) {
           skillSuccess = true;
@@ -10756,7 +10723,7 @@ public class FightRequest extends GenericRequest {
             if (responseText.contains(
                     "The chill of the refrigerant quickly replaces some of the chill of evil in the air")
                 || skillSuccess) {
-              String setting = getEvilZoneSetting();
+              String setting = CryptManager.evilZoneProperty(KoLAdventure.lastLocationName);
               if (setting != null) {
                 CryptManager.decreaseEvilness(setting, 10);
               }
@@ -11293,6 +11260,12 @@ public class FightRequest extends GenericRequest {
       case SkillPool.STOP_KILLING -> {
         if (responseText.contains("kill") || skillSuccess) {
           Preferences.setInteger("swordOfSWordsMonster", -1);
+        }
+      }
+      case SkillPool.EXERCISE_LIQUIDITY -> {
+        if (responseText.contains("You flow away") || skillSuccess) {
+          Preferences.decrement("exerciseLiquidityCharges");
+          skillSuccess = true;
         }
       }
     }

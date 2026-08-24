@@ -39,6 +39,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.OrcChasmRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
@@ -278,7 +279,11 @@ public class QuestManager {
       } else if (location.contains("whichitem=" + ItemPool.BURT)) {
         BURTRequest.parseResponse(responseText);
       }
-    } else if (location.startsWith("main")) {
+    } else if (location.equals("main.php")) {
+      // Need to be strict about only accepting the version with no query parameters, since main.php
+      // may not always display the main map in those cases.
+      QuestManager.handleTimeTower(responseText.contains("twitchtower"));
+
       if (Preferences.getInteger("lastIslandUnlock") != KoLCharacter.getAscensions()
           && responseText.contains("island.php")) {
         Preferences.setInteger("lastIslandUnlock", KoLCharacter.getAscensions());
@@ -459,7 +464,6 @@ public class QuestManager {
   }
 
   private static void handleTownChange(final String location, String responseText) {
-    QuestManager.handleTimeTower(responseText.contains("town_tower"));
     QuestManager.handleEldritchFissure(responseText.contains("town_eincursion"));
     QuestManager.handleEldritchHorror(responseText.contains("town_eicfight2"));
   }
@@ -1672,6 +1676,50 @@ public class QuestManager {
     QuestManager.setDesertExploration(current, explored - current);
   }
 
+  private static void incrementDesertExploration(String responseText) {
+    // As you're about to collapse from dehydration, you stagger
+    // over one last dune to discover a verdant oasis.
+    if (responseText.contains("discover a verdant oasis")) {
+      Preferences.setBoolean("oasisAvailable", true);
+    }
+
+    // clingy monsters do not increment exploration
+    if (!responseText.contains("Desert exploration")) {
+      return;
+    }
+
+    int explored = 1;
+
+    if (KoLCharacter.hasEquipped(ItemPool.UV_RESISTANT_COMPASS)) {
+      explored += 1;
+    } else if (KoLCharacter.hasEquipped(ItemPool.DOWSING_ROD)) {
+      explored += 2;
+    }
+
+    // Survival knife does not give exploration bonus the first adv in Arid Desert
+    // Oasis is always unlocked first adv. Don't count progress if Oasis was just unlocked
+    if (KoLCharacter.hasEquipped(ItemPool.SURVIVAL_KNIFE)
+        && KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.ULTRAHYDRATED))
+        && !responseText.contains("discover a verdant oasis")) {
+      explored += 2;
+    }
+
+    if (KoLCharacter.getFamiliar().getId() == FamiliarPool.MELODRAMEDARY) {
+      explored += 1;
+    }
+
+    if (Preferences.getString("peteMotorbikeHeadlight").equals("Blacklight Bulb")) {
+      explored += 2;
+    } else if (Preferences.getBoolean("bondDesert")
+        && Preferences.getInteger("desertExploration") > 0) {
+      // Universal GPS doesn't help on the first turn.  Probably a KoL bug, but it probably
+      // won't get fixed.
+      explored += 2;
+    }
+
+    QuestManager.incrementDesertExploration(explored);
+  }
+
   public static final void incrementDesertExploration(final int increment) {
     int current = Preferences.getInteger("desertExploration");
     QuestManager.setDesertExploration(current, increment);
@@ -2350,6 +2398,10 @@ public class QuestManager {
       }
     }
 
+    if (IslandManager.isBattlefieldMonster(monsterName)) {
+      IslandManager.handleBattlefieldMonster(responseText, monsterName);
+    }
+
     int adventure = KoLAdventure.lastAdventureId();
 
     switch (adventure) {
@@ -2373,51 +2425,14 @@ public class QuestManager {
         break;
 
       case AdventurePool.THE_DAILY_DUNGEON:
-        DailyDungeonManager.handleCurrentRoomCompletion(DailyDungeonManager.RoomType.MONSTER);
+        if (FightRequest.specialMonsterCategory(monsterName)
+            == FightRequest.SpecialMonster.DAILY_DUNGEON) {
+          DailyDungeonManager.handleCurrentRoomCompletion(DailyDungeonManager.RoomType.MONSTER);
+        }
         break;
 
       case AdventurePool.ARID_DESERT:
-        // As you're about to collapse from dehydration, you stagger
-        // over one last dune to discover a verdant oasis.
-        if (responseText.contains("discover a verdant oasis")) {
-          Preferences.setBoolean("oasisAvailable", true);
-        }
-
-        // clingy monsters do not increment exploration
-        if (!responseText.contains("Desert exploration")) {
-          break;
-        }
-
-        int explored = 1;
-
-        if (KoLCharacter.hasEquipped(ItemPool.UV_RESISTANT_COMPASS)) {
-          explored += 1;
-        } else if (KoLCharacter.hasEquipped(ItemPool.DOWSING_ROD)) {
-          explored += 2;
-        }
-
-        // Survival knife does not give exploration bonus the first adv in Arid Desert
-        // Oasis is always unlocked first adv. Don't count progress if Oasis was just unlocked
-        if (KoLCharacter.hasEquipped(ItemPool.SURVIVAL_KNIFE)
-            && KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.ULTRAHYDRATED))
-            && !responseText.contains("discover a verdant oasis")) {
-          explored += 2;
-        }
-
-        if (KoLCharacter.getFamiliar().getId() == FamiliarPool.MELODRAMEDARY) {
-          explored += 1;
-        }
-
-        if (Preferences.getString("peteMotorbikeHeadlight").equals("Blacklight Bulb")) {
-          explored += 2;
-        } else if (Preferences.getBoolean("bondDesert")
-            && Preferences.getInteger("desertExploration") > 0) {
-          // Universal GPS doesn't help on the first turn.  Probably a KoL bug, but it probably
-          // won't get fixed.
-          explored += 2;
-        }
-
-        QuestManager.incrementDesertExploration(explored);
+        QuestManager.incrementDesertExploration(responseText);
         break;
 
       case AdventurePool.ZEPPELIN_PROTESTORS:

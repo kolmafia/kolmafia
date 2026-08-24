@@ -277,6 +277,9 @@
 249	Look At That Drunken Sailor Dance	shanty3.gif	nc,effect,self,shanty	11	10
 250	Who's Going to Pay This Drunken Sailor?	shanty4.gif	nc,effect,self,shanty	22	10
 251	Only Dogs Love a Drunken Sailor	shanty5.gif	nc,effect,self,shanty	22	10
+252
+253	Order a Kneecapping	kneecapped.gif	combat	0	0
+254	Old Country Cooking	legpasta1.gif	passive	0	0
 
 # Skills available to Clubbers
 
@@ -1169,6 +1172,8 @@
 7592	Wave your Pasta Wand	legpastaspoon.gif	nc,item	25	0
 7593	%fn, kill a lot of these guys	swordsword1.gif	combat	0	0
 7594	%fn, stop killing those guys	swordsword2.gif	combat	0	0
+7595	Taunt Your Foe	stocks.gif	combat	0	0
+7596	Exercise Liquidity	asset3.gif	combat	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.

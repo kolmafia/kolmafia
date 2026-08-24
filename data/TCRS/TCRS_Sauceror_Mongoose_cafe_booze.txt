@@ -2,7 +2,7 @@
 -2	weak perfectly mixed Scrawny Stout	2	EPIC	
 -3	bad practically non-alcoholic mirror Infinitesimal IPA	1	decent	
 -4	practically non-alcoholic bad eggnogtini	1	decent	
--5	practically non-alcoholic perfectly mixed candycaine	1	EPIC	
+-5	practically non-alcoholic perfectly mixed candycaine	1	super ultra EPIC	
 -6	bad mirror braincracker sweet	4	decent	
 -16	aged fermented honey	4	awesome	
 -17	perfectly mixed moons-shine	4	EPIC	

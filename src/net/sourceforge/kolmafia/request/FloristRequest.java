@@ -10,6 +10,7 @@ import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -145,7 +146,6 @@ public class FloristRequest extends GenericRequest {
   }
 
   public static void reset() {
-    Preferences.setBoolean("floristFriarChecked", false);
     FloristRequest.floristPlants.clear();
   }
 
@@ -165,33 +165,13 @@ public class FloristRequest extends GenericRequest {
   }
 
   public static void checkFloristAvailable() {
-    if (GenericRequest.abortIfInFightOrChoice(true)) {
-      return;
-    }
-
-    if (KoLCharacter.isKingdomOfExploathing()) {
-      return;
-    }
-
-    if (!KoLAdventure.woodsOpen()) {
-      return;
-    }
-
-    PlaceRequest forestVisit = new PlaceRequest("forestvillage", "fv_friar", true);
-    RequestThread.postRequest(forestVisit);
-    FloristRequest.setFloristFriarAvailable(
-        forestVisit.responseText != null
-            && forestVisit.responseText.contains("The Florist Friar's Cottage"));
+    FloristRequest.haveFlorist();
   }
 
   @Override
   public void run() {
     if (GenericRequest.abortIfInFightOrChoice()) {
       return;
-    }
-
-    if (!Preferences.getBoolean("floristFriarChecked")) {
-      checkFloristAvailable();
     }
 
     if (!FloristRequest.haveFlorist()) {
@@ -203,16 +183,27 @@ public class FloristRequest extends GenericRequest {
     super.run();
   }
 
-  public static boolean haveFlorist() {
-    if (!Preferences.getBoolean("floristFriarChecked")) {
-      return false;
-    }
+  private static boolean ownsFlorist() {
+    return Preferences.getBoolean("ownsFloristFriar");
+  }
 
-    return Preferences.getBoolean("floristFriarAvailable");
+  public static boolean haveFlorist() {
+    boolean floristAvailable =
+        (FloristRequest.ownsFlorist()
+                    && StandardRequest.isAllowed(
+                        RestrictedItemType.BOOKSHELF_BOOKS, "Florist Friar")
+                || KoLCharacter.inLegacyOfLoathing()
+                    && Preferences.getBoolean("ownsReplicaFloristFriar"))
+            && KoLAdventure.woodsOpen()
+            && !KoLCharacter.inBadMoon()
+            && !KoLCharacter.isKingdomOfExploathing();
+
+    Preferences.setBoolean("floristFriarChecked", true);
+    Preferences.setBoolean("floristFriarAvailable", floristAvailable);
+    return floristAvailable;
   }
 
   public static void setFloristFriarAvailable(final boolean floristAvailable) {
-    Preferences.setBoolean("floristFriarChecked", true);
     Preferences.setBoolean("floristFriarAvailable", floristAvailable);
   }
 

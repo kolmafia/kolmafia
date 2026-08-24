@@ -47,6 +47,10 @@ public enum DoubleModifier implements Modifier {
       "Damage Absorption",
       Pattern.compile("Damage Absorption ([+-]\\d+)"),
       Pattern.compile("Damage Absorption: " + EXPR)),
+  FIRST_HIT_DAMAGE_REDUCTION(
+      "First Hit Damage Reduction",
+      Pattern.compile("Damage Reduction: ([+-]?\\d+) \\(First Hit Only\\)"),
+      Pattern.compile("First Hit Damage Reduction: " + EXPR)),
   DAMAGE_REDUCTION(
       "Damage Reduction",
       Pattern.compile("Damage Reduction: ([+-]?\\d+)"),
@@ -550,7 +554,7 @@ public enum DoubleModifier implements Modifier {
   PIECE_OF_TWELVE_DROP("Piece of Twelve Drop", Pattern.compile("Piece of Twelve Drop: " + EXPR)),
   COMBAT_ITEM_DAMAGE_PCT(
       "Combat Item Damage Percent",
-      Pattern.compile("Combat items deal ([+-]\\d+)% more damage"),
+      Pattern.compile("Combat items deal ([+-]?\\d+)% more damage"),
       Pattern.compile("Combat Item Damage Percent: " + EXPR)),
   AVOID_ATTACK(
       "Avoid Attack",
@@ -604,7 +608,15 @@ public enum DoubleModifier implements Modifier {
   PASTA_THRALL_EXPERIENCE(
       "Pasta Thrall Experience",
       Pattern.compile("([+-]\\d+) Pasta Thrall Experience"),
-      Pattern.compile("Pasta Thrall Experience: " + EXPR));
+      Pattern.compile("Pasta Thrall Experience: " + EXPR)),
+  POISON_CHANCE(
+      "Poison Chance",
+      Pattern.compile("(\\d+)% chance of poisoning opponent\\.?"),
+      Pattern.compile("Poison Chance: " + EXPR)),
+  WARBEAR_ITEM_DROP(
+      "WarBear Item Drop",
+      Pattern.compile("([+-]\\d+)% Item Drops from WarBears"),
+      Pattern.compile("WarBear Item Drop: " + EXPR));
 
   private final String name;
   private final Pattern[] descPatterns;

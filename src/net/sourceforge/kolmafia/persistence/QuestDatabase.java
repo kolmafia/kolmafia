@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -185,21 +186,24 @@ public class QuestDatabase {
   private static final Pattern HIPPY_FRAT_PATTERN =
       Pattern.compile("Remaining soldiers: (\\d+) hippies, +(\\d+) frat boys\\.");
 
+  private record CouncilQuest(String pref, String status, List<String> texts) {}
+
   private static String[][] questLogData = null;
-  private static String[][] councilData = null;
+  private static List<CouncilQuest> councilData = null;
 
   static {
     reset();
   }
 
   public static void reset() {
+    String username = KoLCharacter.getUserName();
     try (BufferedReader reader =
         FileUtilities.getVersionedReader("questslog.txt", KoLConstants.QUESTSLOG_VERSION)) {
       ArrayList<String[]> quests = new ArrayList<>();
       String[] data;
 
       while ((data = FileUtilities.readData(reader)) != null) {
-        data[1] = data[1].replaceAll("<Player\\sName>", KoLCharacter.getUserName());
+        data[1] = data[1].replaceAll("<Player\\sName>", username);
         quests.add(data);
       }
 
@@ -210,14 +214,19 @@ public class QuestDatabase {
 
     try (BufferedReader reader =
         FileUtilities.getVersionedReader("questscouncil.txt", KoLConstants.QUESTSCOUNCIL_VERSION)) {
-      ArrayList<String[]> quests = new ArrayList<>();
+      ArrayList<CouncilQuest> quests = new ArrayList<>();
       String[] data;
 
       while ((data = FileUtilities.readData(reader)) != null) {
-        quests.add(data);
+        List<String> texts =
+            Arrays.stream(data)
+                .skip(2)
+                .map(text -> text.replaceAll("<Player\\sName>", username))
+                .toList();
+        quests.add(new CouncilQuest(data[0], data[1], texts));
       }
 
-      councilData = quests.toArray(new String[quests.size()][]);
+      councilData = quests;
     } catch (IOException e) {
       StaticEntity.printStackTrace(e);
     }
@@ -1059,20 +1068,20 @@ public class QuestDatabase {
     for (String responseToken : responseTokens) {
       cleanedResponseToken =
           QuestDatabase.HTML_WHITESPACE.matcher(responseToken).replaceAll("").toLowerCase();
-      for (String[] councilDatum : councilData) {
-        for (int j = 2; j < councilDatum.length; ++j) {
-          // Now, we have to split the councilData entry by <p> tags too.
-          // Assume that no two paragraphs are identical, otherwise more loop termination logic is
-          // needed.
+      for (CouncilQuest quest : councilData) {
+        // Now, we have to split the council text by <p> tags too.
+        // Assume that no two paragraphs are identical, otherwise more loop termination logic is
+        // needed.
 
-          String[] councilTokens = councilDatum[j].split("<[pP]>");
+        for (String text : quest.texts()) {
+          String[] councilTokens = text.split("<[pP]>");
 
           for (String councilToken : councilTokens) {
             cleanedQuestToken =
                 QuestDatabase.HTML_WHITESPACE.matcher(councilToken).replaceAll("").toLowerCase();
 
             if (cleanedResponseToken.contains(cleanedQuestToken)) {
-              setQuestIfBetter(councilDatum[0], councilDatum[1]);
+              setQuestIfBetter(quest.pref(), quest.status());
               break;
             }
           }
