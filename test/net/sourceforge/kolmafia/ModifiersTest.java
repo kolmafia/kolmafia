@@ -254,6 +254,28 @@ public class ModifiersTest {
 
   @Nested
   class SomePigs {
+    @ParameterizedTest
+    @CsvSource({
+      FamiliarPool.JUMPSUITED_HOUND_DOG + ", false, 3",
+      FamiliarPool.JUMPSUITED_HOUND_DOG + ", true, 0",
+      FamiliarPool.DISGEIST + ", false, -2",
+      FamiliarPool.DISGEIST + ", true, 0",
+    })
+    void somePigsSuppressesCombatRateModifiers(
+        final int familiarId, final boolean somePigs, final double expected) {
+      var cleanups = new Cleanups();
+      if (somePigs) cleanups.add(withEffect(EffectPool.SOME_PIGS));
+
+      try (cleanups) {
+        Modifiers familiarMods = new Modifiers();
+        var familiar = FamiliarData.registerFamiliar(familiarId, 400);
+
+        familiarMods.applyFamiliarModifiers(familiar, null);
+
+        assertThat(familiarMods.getDouble(DoubleModifier.COMBAT_RATE), closeTo(expected, 0.001));
+      }
+    }
+
     @Test
     void somePigsSuppressesFamiliarModifiers() {
       var cleanups = withEffect(EffectPool.SOME_PIGS);
@@ -279,6 +301,24 @@ public class ModifiersTest {
         familiarMods.applyFamiliarModifiers(familiar, null);
 
         assertThat(familiarMods.getDouble(DoubleModifier.LIVER_CAPACITY), closeTo(1, 0.001));
+      }
+    }
+
+    @Test
+    void somePigsDoesNotApplyLiverCapacityFromOtherFamiliars() {
+      var cleanups =
+          new Cleanups(
+              withOverrideModifiers(
+                  ModifierType.FAMILIAR, "Baby Gravy Fairy", "Liver Capacity: +2"),
+              withEffect(EffectPool.SOME_PIGS));
+
+      try (cleanups) {
+        Modifiers familiarMods = new Modifiers();
+        var familiar = FamiliarData.registerFamiliar(FamiliarPool.BABY_GRAVY_FAIRY, 0);
+
+        familiarMods.applyFamiliarModifiers(familiar, null);
+
+        assertThat(familiarMods.getDouble(DoubleModifier.LIVER_CAPACITY), closeTo(0, 0.001));
       }
     }
   }
