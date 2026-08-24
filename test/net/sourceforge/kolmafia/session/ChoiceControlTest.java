@@ -1983,5 +1983,20 @@ class ChoiceControlTest {
         assertThat("fratboysDefeated", isSetTo(80));
       }
     }
+
+    @Test
+    void decreasesEvilnessInBlueVsRed() {
+      var cleanups =
+          new Cleanups(
+              withProperty("lastBlueVsRedNCMonster", 190), // gaunt ghuol
+              withProperty("cyrptCrannyEvilness", 50),
+              withProperty("cyrptTotalEvilness", 200),
+              withPostChoice2(1624, 1, html("request/test_bluevsred_evilometer.html")));
+
+      try (cleanups) {
+        assertThat("cyrptCrannyEvilness", isSetTo(49));
+        assertThat("cyrptTotalEvilness", isSetTo(199));
+      }
+    }
   }
 }

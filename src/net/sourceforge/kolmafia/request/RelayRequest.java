@@ -2950,7 +2950,8 @@ public class RelayRequest extends PasswordHashRequest {
         || KoLCharacter.inDinocore()
         || KoLCharacter.inShadowsOverLoathing()
         || KoLCharacter.inWereProfessor()
-        || KoLCharacter.isMeat()) {
+        || KoLCharacter.isMeat()
+        || KoLCharacter.isBlueVsRed()) {
       return false;
     }
 

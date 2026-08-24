@@ -117,6 +117,7 @@ public abstract class ChoiceControl {
   }
 
   private static final Pattern TELEGRAM_PATTERN = Pattern.compile("value=\"RE: (.*?)\"");
+  private static final Pattern PERIDOT_PATTERN = Pattern.compile("bandersnatch=(\\d+)");
 
   public static final void preChoice(final GenericRequest request) {
     switch (ChoiceManager.lastChoice) {
@@ -6949,6 +6950,7 @@ public abstract class ChoiceControl {
         }
         var monster = MonsterDatabase.findMonsterById(storedMonster);
         QuestManager.updateQuestData(text, monster);
+        CryptManager.handleEvilometer(text, monster);
       }
 
       case 1626 -> {
@@ -9853,6 +9855,17 @@ public abstract class ChoiceControl {
 
         case 1523 -> { // Research Bench
           return ResearchBenchRequest.registerRequest(urlString);
+        }
+
+        case 1557 -> { // Peering Through Your Peridot
+          Matcher matcher = PERIDOT_PATTERN.matcher(urlString);
+          if (matcher.find()) {
+            var monsterId = StringUtilities.parseInt(matcher.group(1));
+            var monsterName = MonsterDatabase.getMonsterName(monsterId);
+            RequestLogger.updateSessionLog(
+                "Took choice " + choice + "/" + decision + ": " + monsterName);
+            return true;
+          }
         }
       }
 

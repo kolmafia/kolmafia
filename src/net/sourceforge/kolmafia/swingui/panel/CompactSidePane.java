@@ -990,8 +990,7 @@ public class CompactSidePane extends JPanel implements Runnable {
       if (familiars && count < this.BONUS_LABELS) {
         this.bonusLabel[count].setText("   Fam Exp: ");
         this.bonusValueLabel[count].setText(
-            KoLConstants.ROUNDED_MODIFIER_FORMAT.format(
-                KoLCharacter.getFamiliarExperienceAdjustment()));
+            String.valueOf(KoLCharacter.getFamiliarExperienceAdjustment()));
         count++;
       }
       int hobo = KoLCharacter.getHoboPower();
@@ -1323,7 +1322,7 @@ public class CompactSidePane extends JPanel implements Runnable {
         + "</table></html>";
   }
 
-  private static String modifierPopupText() {
+  static String modifierPopupText() {
     StringBuffer buf = new StringBuffer("<html><body><table border=1>");
     var predicted = KoLCharacter.getCurrentModifiers().predict();
     int mus = Math.max(1, predicted.get(DerivedModifier.BUFFED_MUS));
@@ -1406,9 +1405,7 @@ public class CompactSidePane extends JPanel implements Runnable {
         KoLConstants.MODIFIER_FORMAT.format(
             KoLCharacter.currentNumericModifier(DoubleModifier.RANGED_DAMAGE_PCT)));
     buf.append("%</td></tr><tr><td>Critical</td><td>");
-    buf.append(
-        KoLConstants.MODIFIER_FORMAT.format(
-            KoLCharacter.currentNumericModifier(DoubleModifier.CRITICAL_PCT)));
+    buf.append((int) KoLCharacter.currentNumericModifier(DoubleModifier.CRITICAL_PCT));
     buf.append("%</td><td rowspan=2>MP cost:<br>");
     buf.append(KoLConstants.MODIFIER_FORMAT.format(KoLCharacter.getManaCostAdjustment()));
     int hpmin = (int) KoLCharacter.currentNumericModifier(DoubleModifier.HP_REGEN_MIN);
@@ -1430,13 +1427,9 @@ public class CompactSidePane extends JPanel implements Runnable {
       }
     }
     buf.append("</td><td rowspan=2>Rollover:<br>Adv ");
-    buf.append(
-        KoLConstants.MODIFIER_FORMAT.format(
-            KoLCharacter.currentNumericModifier(DoubleModifier.ADVENTURES)));
+    buf.append((int) KoLCharacter.currentNumericModifier(DoubleModifier.ADVENTURES));
     buf.append("<br>PvP ");
-    buf.append(
-        KoLConstants.MODIFIER_FORMAT.format(
-            KoLCharacter.currentNumericModifier(DoubleModifier.PVP_FIGHTS)));
+    buf.append((int) KoLCharacter.currentNumericModifier(DoubleModifier.PVP_FIGHTS));
     buf.append("<br>HP ~");
     buf.append(KoLCharacter.getRestingHP());
     buf.append("<br>MP ");
