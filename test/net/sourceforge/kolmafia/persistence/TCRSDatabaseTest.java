@@ -19,7 +19,12 @@ import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.ZodiacSign;
+import net.sourceforge.kolmafia.modifiers.BitmapModifier;
+import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
+import net.sourceforge.kolmafia.modifiers.Lookup;
+import net.sourceforge.kolmafia.modifiers.Modifier;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase.ConsumableQuality;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -297,28 +302,9 @@ class TCRSDatabaseTest {
               }
 
               if (checkMods) {
-                // Compare the whole modifier set (order-insensitive): re-rolled items must
-                // reproduce every modifier, not just the effect.
-                var expected = modifierSet(dataSays.modifiers);
-                var actual = modifierSet(weGuessed.modifiers);
-                // Internal carried-over modifiers (Thorns, the outfit-set bitmaps, Nonstackable
-                // Watch, ...) survive the re-roll but aren't shown in the item description, so the
-                // derived data omits the non-string ones. The guess keeps them, so treat the data
-                // as if it had any carried-over modifier we emit that it doesn't already name.
-                var expectedNames = new java.util.HashSet<String>();
-                for (var tok : expected) expectedNames.add(tok.substring(0, tok.indexOf(":")));
-                for (var tok : actual) {
-                  var name = tok.substring(0, tok.indexOf(":"));
-                  if (CARRIED_OVER_NAMES.contains(name) && !expectedNames.contains(name)) {
-                    expected.add(tok);
-                  }
-                }
-                if (!expected.equals(actual)) {
-                  var missing = new java.util.TreeSet<>(expected);
-                  missing.removeAll(actual);
-                  var extra = new java.util.TreeSet<>(actual);
-                  extra.removeAll(expected);
-                  out.write(mismatch(prefix, "Modifiers", "missing " + missing, "extra " + extra));
+                var diff = modifierDiff(itemId, dataSays.modifiers, weGuessed.modifiers);
+                if (diff != null) {
+                  out.write(mismatch(prefix, "Modifiers", diff.expected(), diff.actual()));
                   out.newLine();
                   count++;
                 }
@@ -352,23 +338,68 @@ class TCRSDatabaseTest {
     return String.format("%s - %s: expected <%s> but was <%s>", prefix, field, expected, actual);
   }
 
+  private record ModifierDiff(String expected, String actual) {}
+
+  /**
+   * Compares the expected (derived) and guessed modifier strings by {@link Modifier} rather than by
+   * string name, so aliases like "Look like a Pirate" vs "Pirate" can't slip through. Returns the
+   * differing modifiers, or null if they match. Internal carried-over modifiers the guess emits
+   * that the data lacks are ignored: they survive the TCRS re-roll but aren't shown in the item
+   * description, so the derived data omits them.
+   */
+  private static ModifierDiff modifierDiff(
+      final int itemId, final String expStr, final String gotStr) {
+    var lookup = new Lookup(ModifierType.ITEM, itemId);
+    var exp = ModifierDatabase.parseModifiers(lookup, expStr);
+    var got = ModifierDatabase.parseModifiers(lookup, gotStr);
+    var missing = new java.util.TreeSet<String>();
+    var extra = new java.util.TreeSet<String>();
+
+    java.util.function.BiConsumer<Modifier, String[]> classify =
+        (mod, vals) -> {
+          var ev = vals[0];
+          var gv = vals[1];
+          if (ev.equals(gv)) return;
+          // A carried-over modifier the guess keeps but the data omits is expected: ignore it.
+          if (ModifierDatabase.CARRIED_OVER.contains(mod) && ev.isEmpty()) return;
+          if (!ev.isEmpty()) missing.add(mod.getName() + ": " + ev);
+          if (!gv.isEmpty()) extra.add(mod.getName() + ": " + gv);
+        };
+
+    for (var mod : DoubleModifier.DOUBLE_MODIFIERS) {
+      classify.accept(mod, new String[] {number(exp.getDouble(mod)), number(got.getDouble(mod))});
+    }
+    for (var mod : BooleanModifier.BOOLEAN_MODIFIERS) {
+      classify.accept(
+          mod, new String[] {exp.getBoolean(mod) ? "true" : "", got.getBoolean(mod) ? "true" : ""});
+    }
+    for (var mod : BitmapModifier.BITMAP_MODIFIERS) {
+      // Bitmap bits are assigned per parse, so compare presence, not the raw value.
+      classify.accept(
+          mod,
+          new String[] {
+            exp.getRawBitmap(mod) != 0 ? "set" : "", got.getRawBitmap(mod) != 0 ? "set" : ""
+          });
+    }
+    for (var mod : StringModifier.STRING_MODIFIERS) {
+      // MODIFIERS / EVALUATED_MODIFIERS are meta-fields holding the whole (order-sensitive)
+      // modifier
+      // string, not real modifiers, so skip them.
+      if (mod == StringModifier.MODIFIERS || mod == StringModifier.EVALUATED_MODIFIERS) continue;
+      classify.accept(mod, new String[] {exp.getString(mod), got.getString(mod)});
+    }
+
+    if (missing.isEmpty() && extra.isEmpty()) return null;
+    return new ModifierDiff("missing " + missing, "extra " + extra);
+  }
+
+  private static String number(final double v) {
+    return v == 0.0 ? "" : (v == Math.rint(v) ? String.valueOf((long) v) : String.valueOf(v));
+  }
+
   /**
    * The words of a name, sorted, so two names can be compared ignoring (non-deterministic) order.
    */
-  private static final java.util.Set<String> CARRIED_OVER_NAMES =
-      ModifierDatabase.CARRIED_OVER.stream()
-          .map(net.sourceforge.kolmafia.modifiers.Modifier::getName)
-          .collect(java.util.stream.Collectors.toSet());
-
-  /** The modifiers as a set of "name: value" tokens, for order-insensitive comparison. */
-  private static java.util.Set<String> modifierSet(final String modifiers) {
-    var set = new java.util.TreeSet<String>();
-    for (var m : ModifierDatabase.splitModifiers(modifiers)) {
-      set.add(m.getName() + ": " + m.getValue());
-    }
-    return set;
-  }
-
   private static java.util.List<String> sortedWords(final String name) {
     return java.util.Arrays.stream(name.trim().split("\\s+")).sorted().toList();
   }
