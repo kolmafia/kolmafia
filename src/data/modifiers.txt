@@ -1040,6 +1040,7 @@ Item	flimsy plastic breastplate	Muscle: +10
 Item	floral print shirt	Mysticality: +5
 Item	flyest of shirts	Moxie: +5, Spell Damage: +5, Last Available: "2010-04"
 # fresh coat of paint: Enchantments are different every day
+Item	fresh coat of paint	Last Available: "2021-12"
 Item	frilly shirt	Mysticality: +3
 Item	futuristic shirt	Lasts Until Rollover
 Item	General Sage's Lonely Diamonds Club Jacket	Adventures: +3
@@ -2466,7 +2467,7 @@ Item	KoL Con X Treasure Map	Item Drop: +5, Meat Drop: +10
 # Kramco Sausage-o-Matic&trade;: Shows you how the sausage is made
 Item	Kramco Sausage-o-Matic&trade;	Item Drop: +10, Food Drop: +10, Maximum HP: +5, Maximum MP: +5, Critical Hit Percent: +20, Last Available: "2019-01", Enchantment Count: 5
 Item	LARP carp	Muscle: +10, Mysticality: +10, Moxie: +10
-Item	latte lovers member's mug	Conditional Skill (Equipped): "Throw Latte on Opponent", Conditional Skill (Equipped): "Offer Latte to Opponent", Conditional Skill (Equipped): "Gulp Latte"
+Item	latte lovers member's mug	Conditional Skill (Equipped): "Throw Latte on Opponent", Conditional Skill (Equipped): "Offer Latte to Opponent", Conditional Skill (Equipped): "Gulp Latte", Last Available: "2018-10"
 Item	left bear arm	Muscle Percent: +10, Maximum HP: +30, Damage Reduction: 10, Softcore Only: [1-path(Zombie Slayer)], Last Available: "2012-09", Conditional Skill (Equipped): "Bear-Backrub", Conditional Skill (Equipped): "Bear-ly Legal"
 Item	left shark fin	Experience Percent (Muscle): +10, Experience Percent (Mysticality): +10, Experience Percent (Moxie): +10, Last Available: "2026-03"
 Item	Left-Hand Man action figure	Familiar Weight: +7, Last Available: "2020-04"
@@ -3359,7 +3360,7 @@ Item	KoL Con X Bingo Card	HP Regen Min: 3, HP Regen Max: 5, MP Regen Min: 3, MP 
 # Krampus Horn: Doubles your damage against Bad Vibes
 # Krampus Horn: Greatly improves chances of finding lumps and sludge
 Item	Krampus Horn	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Experience: +2, Single Equip, Last Available: "2016-12"
-Item	Kremlin's Greatest Briefcase	Muscle: +10, Mysticality: +10, Moxie: +10, Maximum HP: +25, Maximum MP: +25, Weapon Damage Percent: +25, Initiative: +25, MP Regen Min: 5, MP Regen Max: 10, HP Regen Min: 5, HP Regen Max: 10, Single Equip, Conditional Skill (Equipped): "KGB tranquilizer dart", Enchantment Count: 3
+Item	Kremlin's Greatest Briefcase	Muscle: +10, Mysticality: +10, Moxie: +10, Maximum HP: +25, Maximum MP: +25, Weapon Damage Percent: +25, Initiative: +25, MP Regen Min: 5, MP Regen Max: 10, HP Regen Min: 5, HP Regen Max: 10, Single Equip, Conditional Skill (Equipped): "KGB tranquilizer dart", Last Available: "2017-06", Enchantment Count: 3
 # kumquartz ring: +200% Physical Damage (currently approximated with Weapon Damage)
 # kumquartz ring: (only in the Candy Diorama)
 Item	kumquartz ring	Single Equip, Last Available: "2011-11", Weapon Damage Percent: [200*zone(The Candy Diorama)], Enchantment Count: 1
