@@ -596,12 +596,19 @@ public class TCRSDatabase {
     }
   }
 
-  /**
-   * The modifiers a re-rolled item keeps: its base modifiers minus the ones TCRS re-rolls (the
-   * enchantment stats, plus a consumable's effect), so a guess matches the recorded data. The new
-   * enchantments are added on top by the caller. (NOT_RE_ROLLED items keep their full base
-   * modifiers; see {@link #guessItem}.)
-   */
+  // The raw (unevaluated) base modifiers of an item, so context-dependent expressions are preserved
+  // rather than evaluated in the guessing context.
+  private static ModifierList rawModifiers(final int itemId) {
+    var raw = ModifierDatabase.getModifierString(new Lookup(ModifierType.ITEM, itemId));
+    return ModifierDatabase.splitModifiers(raw == null ? "" : raw);
+  }
+
+  // A modifier value that is a bracketed expression is an innate, context-dependent property (e.g.
+  // "[100*zone(Hobopolis)]") rather than a fixed re-rolled enchantment value.
+  private static boolean isExpression(final String value) {
+    return value != null && value.contains("[");
+  }
+
   /**
    * The modifiers of an item TCRS does not re-roll: its full base modifiers, minus our internal
    * Enchantment Count bookkeeping. Used for NOT_RE_ROLLED items and the categories TCRS leaves
@@ -610,7 +617,7 @@ public class TCRSDatabase {
    */
   private static ModifierList unalteredModifiers(final int itemId) {
     var mods = new ModifierList();
-    for (var m : ModifierDatabase.getModifierList(new Lookup(ModifierType.ITEM, itemId))) {
+    for (var m : rawModifiers(itemId)) {
       if (!m.getName().equals("Enchantment Count")) {
         mods.addModifier(m);
       }
@@ -621,11 +628,12 @@ public class TCRSDatabase {
   /**
    * The modifiers a re-rolled item (equipment or a consumable) keeps: its base modifiers minus the
    * ones TCRS re-rolls (the enchantment stats and the item's intrinsic effect). The new
-   * enchantments are added on top by the caller.
+   * enchantments are added on top by the caller. Enchantment modifiers with an expression value are
+   * innate, context-dependent properties (not a fixed re-roll), so they are kept verbatim.
    */
   private static ModifierList getRetainedModifiers(final int itemId) {
     var retained = new ModifierList();
-    for (var m : ModifierDatabase.getModifierList(new Lookup(ModifierType.ITEM, itemId))) {
+    for (var m : rawModifiers(itemId)) {
       var name = m.getName();
       // TCRS never keeps an item's intrinsic effect: consumables get a fresh one added by the
       // caller, everything else (e.g. the outrageous sombrero's "La Bamba") simply loses it.
@@ -637,7 +645,7 @@ public class TCRSDatabase {
         continue;
       }
       var mod = ModifierDatabase.getModifierByName(name);
-      if (mod != null && mod.isEnchantment()) {
+      if (mod != null && mod.isEnchantment() && !isExpression(m.getValue())) {
         continue; // a re-rolled enchantment, replaced below by the caller
       }
       retained.addModifier(m);
