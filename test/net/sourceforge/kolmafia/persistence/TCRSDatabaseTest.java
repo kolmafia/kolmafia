@@ -171,6 +171,29 @@ class TCRSDatabaseTest {
   }
 
   @Test
+  void shieldDamageReductionNotDoubled() {
+    var cleanups =
+        new Cleanups(
+            withPath(Path.CRAZY_RANDOM_SUMMER_TWO),
+            withClass(AscensionClass.SEAL_CLUBBER),
+            withSign(ZodiacSign.MONGOOSE));
+    try (cleanups) {
+      TCRSDatabase.loadTCRSData(true);
+      // Resolved DR must equal the derived total, not the total plus the innate shield DR again.
+      for (var id : new int[] {662, 1034, 3258}) {
+        var dataDR =
+            Integer.parseInt(
+                ModifierDatabase.splitModifiers(TCRSDatabase.getData(id).modifiers)
+                    .getModifierValue("Damage Reduction"));
+        var resolved =
+            ModifierDatabase.getNumericModifier(
+                ModifierType.ITEM, id, DoubleModifier.DAMAGE_REDUCTION);
+        assertThat(ItemDatabase.getItemName(id), (int) resolved, is(dataDR));
+      }
+    }
+  }
+
+  @Test
   void guessAll() throws java.io.IOException {
     // The full sweep produces a lot of mismatches while the branch is a work in progress, so stream
     // them to a file rather than holding them all in memory (which otherwise exhausts the heap).

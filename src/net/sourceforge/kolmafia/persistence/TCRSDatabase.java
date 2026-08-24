@@ -1479,6 +1479,30 @@ public class TCRSDatabase {
     };
   }
 
+  /**
+   * A bandaid for the TCRS shield Damage Reduction double-apply. The derived data stores a shield's
+   * full Damage Reduction (its innate DR plus any rolled enchantment), but {@link ModifierDatabase}
+   * re-adds the innate shield DR at resolution, so applying the stored value verbatim doubles the
+   * innate part. Subtract the innate DR here so the stored value is enchant-only and the resolved
+   * total is correct. TODO: remove once the derive itself stores enchant-only Damage Reduction.
+   */
+  private static String subtractInnateShieldDR(final int itemId, final String modifiers) {
+    if (!EquipmentDatabase.isShield(itemId)) {
+      return modifiers;
+    }
+    var list = ModifierDatabase.splitModifiers(modifiers);
+    var dr = list.getModifierValue("Damage Reduction");
+    if (dr == null) {
+      return modifiers;
+    }
+    var enchantDR = Integer.parseInt(dr) - EquipmentDatabase.getShieldDamageReduction(itemId);
+    list.removeModifier("Damage Reduction");
+    if (enchantDR > 0) {
+      list.addModifier("Damage Reduction", String.valueOf(enchantDR));
+    }
+    return list.toString();
+  }
+
   public static boolean applyModifiers(final Integer itemId, final TCRS tcrs) {
     // Adjust item data to have TCRS modifiers
     if (tcrs == null) {
@@ -1503,7 +1527,7 @@ public class TCRSDatabase {
     }
 
     // Set modifiers
-    ModifierDatabase.updateItem(itemId, tcrs.modifiers);
+    ModifierDatabase.updateItem(itemId, subtractInnateShieldDR(itemId, tcrs.modifiers));
 
     // *** Do this after modifiers are set so can log effect modifiers
     ConsumptionType usage = ItemDatabase.getConsumptionType(itemId);
