@@ -301,6 +301,18 @@ class TCRSDatabaseTest {
                 // reproduce every modifier, not just the effect.
                 var expected = modifierSet(dataSays.modifiers);
                 var actual = modifierSet(weGuessed.modifiers);
+                // Internal carried-over modifiers (Thorns, the outfit-set bitmaps, Nonstackable
+                // Watch, ...) survive the re-roll but aren't shown in the item description, so the
+                // derived data omits the non-string ones. The guess keeps them, so treat the data
+                // as if it had any carried-over modifier we emit that it doesn't already name.
+                var expectedNames = new java.util.HashSet<String>();
+                for (var tok : expected) expectedNames.add(tok.substring(0, tok.indexOf(":")));
+                for (var tok : actual) {
+                  var name = tok.substring(0, tok.indexOf(":"));
+                  if (CARRIED_OVER_NAMES.contains(name) && !expectedNames.contains(name)) {
+                    expected.add(tok);
+                  }
+                }
                 if (!expected.equals(actual)) {
                   var missing = new java.util.TreeSet<>(expected);
                   missing.removeAll(actual);
@@ -343,6 +355,11 @@ class TCRSDatabaseTest {
   /**
    * The words of a name, sorted, so two names can be compared ignoring (non-deterministic) order.
    */
+  private static final java.util.Set<String> CARRIED_OVER_NAMES =
+      ModifierDatabase.CARRIED_OVER.stream()
+          .map(net.sourceforge.kolmafia.modifiers.Modifier::getName)
+          .collect(java.util.stream.Collectors.toSet());
+
   /** The modifiers as a set of "name: value" tokens, for order-insensitive comparison. */
   private static java.util.Set<String> modifierSet(final String modifiers) {
     var set = new java.util.TreeSet<String>();
