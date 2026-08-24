@@ -188,7 +188,9 @@ public class QuestDatabase {
 
   private record CouncilQuest(String pref, String status, List<String> texts) {}
 
-  private static String[][] questLogData = null;
+  private record QuestLogEntry(String pref, String title, List<String> steps) {}
+
+  private static List<QuestLogEntry> questLogData = null;
   private static List<CouncilQuest> councilData = null;
 
   static {
@@ -199,15 +201,15 @@ public class QuestDatabase {
     String username = KoLCharacter.getUserName();
     try (BufferedReader reader =
         FileUtilities.getVersionedReader("questslog.txt", KoLConstants.QUESTSLOG_VERSION)) {
-      ArrayList<String[]> quests = new ArrayList<>();
+      ArrayList<QuestLogEntry> quests = new ArrayList<>();
       String[] data;
 
       while ((data = FileUtilities.readData(reader)) != null) {
-        data[1] = data[1].replaceAll("<Player\\sName>", username);
-        quests.add(data);
+        String title = data[1].replaceAll("<Player\\sName>", username);
+        quests.add(new QuestLogEntry(data[0], title, Arrays.stream(data).skip(2).toList()));
       }
 
-      questLogData = quests.toArray(new String[quests.size()][]);
+      questLogData = quests;
     } catch (IOException e) {
       StaticEntity.printStackTrace(e);
     }
@@ -238,10 +240,10 @@ public class QuestDatabase {
       // deal with.
       return "questG02Whitecastle";
     }
-    for (String[] questLogDatum : questLogData) {
+    for (QuestLogEntry entry : questLogData) {
       // The title may contain other text, so check if quest title is contained in it
-      if (title.toLowerCase().contains(questLogDatum[1].toLowerCase())) {
-        return questLogDatum[0];
+      if (title.toLowerCase().contains(entry.title().toLowerCase())) {
+        return entry.pref();
       }
     }
 
@@ -263,9 +265,9 @@ public class QuestDatabase {
   }
 
   public static String prefToTitle(final String pref) {
-    for (String[] questLogDatum : questLogData) {
-      if (questLogDatum[0].toLowerCase().contains(pref.toLowerCase())) {
-        return questLogDatum[1];
+    for (QuestLogEntry entry : questLogData) {
+      if (entry.pref().toLowerCase().contains(pref.toLowerCase())) {
+        return entry.title();
       }
     }
 
@@ -274,8 +276,8 @@ public class QuestDatabase {
   }
 
   public static int prefToIndex(final String pref) {
-    for (int i = 0; i < questLogData.length; ++i) {
-      if (questLogData[i][0].toLowerCase().contains(pref.toLowerCase())) {
+    for (int i = 0; i < questLogData.size(); ++i) {
+      if (questLogData.get(i).pref().toLowerCase().contains(pref.toLowerCase())) {
         return i;
       }
     }
@@ -389,8 +391,11 @@ public class QuestDatabase {
       return "";
     }
 
-    // Next, find the number of quest steps
-    final int steps = questLogData[index].length - 2;
+    // Next, find the quest's step descriptions
+    final List<String> questSteps = questLogData.get(index).steps();
+
+    // and count how many steps it has.
+    final int steps = questSteps.size();
 
     if (steps < 1) {
       return "";
@@ -400,9 +405,9 @@ public class QuestDatabase {
     // whitespace, html, and the like. We'll handle that below.
     int foundAtStep = -1;
 
-    for (int i = 2; i < questLogData[index].length; ++i) {
-      if (questLogData[index][i].contains(details)) {
-        foundAtStep = i - 2;
+    for (int i = 0; i < steps; ++i) {
+      if (questSteps.get(i).contains(details)) {
+        foundAtStep = i;
         break;
       }
     }
@@ -415,14 +420,11 @@ public class QuestDatabase {
           QuestDatabase.HTML_WHITESPACE.matcher(details).replaceAll("").toLowerCase();
       String cleanedQuest = "";
 
-      for (int i = 2; i < questLogData[index].length; ++i) {
+      for (int i = 0; i < steps; ++i) {
         cleanedQuest =
-            QuestDatabase.HTML_WHITESPACE
-                .matcher(questLogData[index][i])
-                .replaceAll("")
-                .toLowerCase();
+            QuestDatabase.HTML_WHITESPACE.matcher(questSteps.get(i)).replaceAll("").toLowerCase();
         if (cleanedQuest.contains(cleanedResponse)) {
-          foundAtStep = i - 2;
+          foundAtStep = i;
           break;
         }
       }
@@ -437,12 +439,9 @@ public class QuestDatabase {
       String questStart = "";
       String questEnd = "";
 
-      for (int i = 2; i < questLogData[index].length; ++i) {
+      for (int i = 0; i < steps; ++i) {
         cleanedQuest =
-            QuestDatabase.HTML_WHITESPACE
-                .matcher(questLogData[index][i])
-                .replaceAll("")
-                .toLowerCase();
+            QuestDatabase.HTML_WHITESPACE.matcher(questSteps.get(i)).replaceAll("").toLowerCase();
 
         if (cleanedQuest.length() <= 100) {
           questStart = cleanedQuest;
@@ -453,7 +452,7 @@ public class QuestDatabase {
         }
 
         if (cleanedResponse.contains(questStart) || cleanedResponse.contains(questEnd)) {
-          foundAtStep = i - 2;
+          foundAtStep = i;
           break;
         }
       }
@@ -962,13 +961,13 @@ public class QuestDatabase {
   }
 
   public static void resetQuests() {
-    for (String[] questLogDatum : questLogData) {
+    for (QuestLogEntry entry : questLogData) {
       // Don't reset Spring Beach Break quests
       // Don't reset Conspiracy Island quests if finished
-      if (!questLogDatum[0].startsWith("questESl")
-          && !(questLogDatum[0].startsWith("questESp")
-              && QuestDatabase.isQuestFinished(questLogDatum[0]))) {
-        QuestDatabase.setQuestProgress(questLogDatum[0], QuestDatabase.UNSTARTED);
+      if (!entry.pref().startsWith("questESl")
+          && !(entry.pref().startsWith("questESp")
+              && QuestDatabase.isQuestFinished(entry.pref()))) {
+        QuestDatabase.setQuestProgress(entry.pref(), QuestDatabase.UNSTARTED);
       }
     }
     Preferences.resetToDefault(
@@ -1239,7 +1238,7 @@ public class QuestDatabase {
     }
 
     // Next, find the number of quest steps
-    final int totalSteps = questLogData[index].length - 2;
+    final int totalSteps = questLogData.get(index).steps().size();
     if (totalSteps < 1) {
       return "";
     }
