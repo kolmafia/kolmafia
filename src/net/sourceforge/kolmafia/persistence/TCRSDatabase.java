@@ -1066,6 +1066,11 @@ public class TCRSDatabase {
     // Enchantments are selected from a glibc stream seeded with the per-item seed plus 10. Each
     // enchantment produces a modifier and an adjective for the name: "of ..." adjectives are
     // suffixes; the rest are prefixes, with the earliest-selected closest to the root.
+    // A December ("event(December)") item's enchantments are conditional on the event; when TCRS
+    // re-rolls one it keeps that wrapper, so the rolled enchantment is also event-conditional.
+    var raw = ModifierDatabase.getModifierString(new Lookup(ModifierType.ITEM, id));
+    var december = raw != null && raw.contains("event(December)");
+
     var count = enchantCount(id);
     var enchantRng = new PHPRandom(seed + 10);
     var prefixes = new ArrayList<String>();
@@ -1077,7 +1082,11 @@ public class TCRSDatabase {
       } else {
         prefixes.add(0, descriptor);
       }
-      DebugDatabase.appendModifier(mods, entry.getValue());
+      var value = entry.getValue();
+      if (december) {
+        value = value.replaceAll("(: )([+-]?\\d+(?:\\.\\d+)?)", "$1[$2*event(December)]");
+      }
+      DebugDatabase.appendModifier(mods, value);
     }
 
     // A shield's Damage Reduction is an innate property of the shield (stored in the equipment
