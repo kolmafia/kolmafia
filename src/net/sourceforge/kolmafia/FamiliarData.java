@@ -159,6 +159,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
   private static final Pattern SHRUB_TOPPER_PATTERN = Pattern.compile("span title=\"(.*?)-heavy");
   private static final Pattern SHRUB_LIGHT_PATTERN = Pattern.compile("Deals (.*?) damage");
   private static final Pattern TESTUDINAL_ENTRY_PATTERN = Pattern.compile("(\\d+):(\\d+)");
+  private static final int TESTUDINAL_TEACHINGS_RATE = 6;
 
   public static final AdventureResult BATHYSPHERE = ItemPool.get(ItemPool.BATHYSPHERE, 1);
   public static final AdventureResult DAS_BOOT = ItemPool.get(ItemPool.DAS_BOOT, 1);
@@ -399,7 +400,13 @@ public class FamiliarData implements Comparable<FamiliarData> {
                     (first, second) -> first,
                     LinkedHashMap<Integer, Integer>::new));
 
-    var count = counters.merge(this.id, 1, (current, increment) -> (current + increment) % 6);
+    // The counter wraps back to zero on the combat that earns the bonus experience
+    var earnedExperience =
+        counters.merge(
+                this.id,
+                1,
+                (current, increment) -> (current + increment) % TESTUDINAL_TEACHINGS_RATE)
+            == 0;
 
     Preferences.setString(
         "testudinalTeachings",
@@ -407,7 +414,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
             .map(entry -> entry.getKey() + ":" + entry.getValue())
             .collect(Collectors.joining("|")));
 
-    return count == 0 ? 1 : 0;
+    return earnedExperience ? 1 : 0;
   }
 
   public final void recognizeCombatUse() {
