@@ -325,12 +325,9 @@ public class FamiliarData implements Comparable<FamiliarData> {
   }
 
   public final void addCombatExperience(String responseText) {
-    if (
-    // No familiar, so nothing to gain experience
-    this.id < 0
-        ||
-        // Doesn't automatically gain experience from winning a combat
-        this.id == FamiliarPool.STOCKING_MIMIC) {
+    if (this.id < 0 // No familiar, so nothing to gain experience
+        || this.id == FamiliarPool.STOCKING_MIMIC // Doesn't automatically gain experience
+    ) {
       return;
     }
 
