@@ -362,6 +362,12 @@ class TCRSDatabaseTest {
           if (ev.equals(gv)) return;
           // A carried-over modifier the guess keeps but the data omits is expected: ignore it.
           if (ModifierDatabase.CARRIED_OVER.contains(mod) && ev.isEmpty()) return;
+          // The derive mis-parses "Only Unarmed Characters may use this item" as a Class
+          // restriction; it isn't one, so the guess correctly omits it. Ignore the bad data value.
+          if (mod == StringModifier.CLASS
+              && ev.replace("&nbsp;", " ").equals("Unarmed Characters")) {
+            return;
+          }
           if (!ev.isEmpty()) missing.add(mod.getName() + ": " + ev);
           if (!gv.isEmpty()) extra.add(mod.getName() + ": " + gv);
         };
