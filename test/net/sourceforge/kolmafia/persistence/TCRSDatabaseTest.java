@@ -219,11 +219,10 @@ class TCRSDatabaseTest {
                 // NOT_RE_ROLLED items have dynamic/stateful names (daily-random consumables,
                 // costume
                 // and form states, ...) captured as-is, so their name is not TCRS-derived and can't
-                // be matched: log it but don't count it. Otherwise, cosmetic ORDER is
-                // non-deterministic in KoL (the shuffle runs on PHP's native MT, which is not
-                // seeded
-                // per item), so an order-only difference is unrecoverable noise: log it but don't
-                // count it. A different word set is a real, deterministic content miss.
+                // be matched: log it but don't count it. Every other name difference is a real
+                // miss:
+                // a different word set is a content miss, a same-set-different-order is a shuffle
+                // miss (the cosmetic shuffle is deterministic per item).
                 var notReRolled = TCRSDatabase.NOT_RE_ROLLED.contains(itemId);
                 var orderOnly = sortedWords(weGuessed.name).equals(sortedWords(expectedName));
                 out.write(
@@ -231,11 +230,11 @@ class TCRSDatabaseTest {
                         prefix,
                         notReRolled
                             ? "Name(not-rerolled)"
-                            : orderOnly ? "Name-order(noise)" : "Name-content",
+                            : orderOnly ? "Name-order" : "Name-content",
                         expectedName,
                         weGuessed.name));
                 out.newLine();
-                if (!notReRolled && !orderOnly) {
+                if (!notReRolled) {
                   count++;
                 }
               }
@@ -299,7 +298,7 @@ class TCRSDatabaseTest {
         count
             + " content mismatches; see "
             + reportFile
-            + " (order-only diffs logged, not counted)",
+            + " (NOT_RE_ROLLED dynamic names logged, not counted)",
         count,
         is(0));
   }

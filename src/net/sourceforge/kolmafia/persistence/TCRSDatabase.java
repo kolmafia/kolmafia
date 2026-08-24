@@ -533,8 +533,11 @@ public class TCRSDatabase {
     return String.join(" ", words.stream().filter(w -> !adjectives.contains(w)).toList());
   }
 
-  private static String rollCosmetics(final PHPMTRandom mtRng, final PHPRandom rng, final int max) {
-    // Determine cosmetic modifiers
+  /**
+   * The cosmetic adjectives for an item, before shuffling: an optional color followed by 0-3
+   * cosmetic adjectives, all rolled from the item's base seed via MT.
+   */
+  private static ArrayList<String> buildCosmeticList(final PHPMTRandom mtRng, final int max) {
     var cosmeticMods = new ArrayList<String>();
 
     //   Roll 1d6 on whether to add a color
@@ -553,6 +556,17 @@ public class TCRSDatabase {
       cosmeticMods.add(mtRng.pickOne(STRINGS.get("Cosmetic")));
     }
 
+    return cosmeticMods;
+  }
+
+  /**
+   * Shuffles the cosmetic adjectives with the given glibc stream and joins them into a name prefix.
+   * The stream matters: for equipment the shuffle continues the same seed+10 stream the
+   * enchantments were selected from (see {@link #guessEquipment}); everything else uses the base
+   * seed stream.
+   */
+  private static String shuffleCosmetics(
+      final ArrayList<String> cosmeticMods, final PHPRandom rng) {
     if (cosmeticMods.size() > 0) {
       rng.shuffle(cosmeticMods);
     }
@@ -560,6 +574,10 @@ public class TCRSDatabase {
     Collections.reverse(cosmeticMods);
 
     return String.join(" ", cosmeticMods);
+  }
+
+  private static String rollCosmetics(final PHPMTRandom mtRng, final PHPRandom rng, final int max) {
+    return shuffleCosmetics(buildCosmeticList(mtRng, max), rng);
   }
 
   static class Enchantment {
@@ -995,20 +1013,25 @@ public class TCRSDatabase {
     var id = item.getItemId();
     var seed = (50 * id) + (12345 * sign.getId()) + (100000 * ascensionClass.getId());
     var mtRng = new PHPMTRandom(seed);
-    var rng = new PHPRandom(seed);
 
-    // Cosmetic adjectives - these are correct; they match KoL for items with no enchantments.
-    var cosmeticsString = rollCosmetics(mtRng, rng, 8);
+    // Cosmetic adjectives are rolled from the base seed, but the shuffle that orders them shares
+    // the
+    // seed+10 glibc stream the enchantments are selected from (see below), so build the list now
+    // and
+    // shuffle it once the enchantment stream has advanced.
+    var cosmeticList = buildCosmeticList(mtRng, 8);
 
     var root = removeAdjectives(ItemDatabase.getItemName(id));
     var mods = getRetainedModifiers(id);
 
-    // Enchantments are a separate roll from the cosmetics (a different seed), producing a modifier
-    // and an adjective for the name. "of ..." adjectives are suffixes; the rest are prefixes, with
-    // the earliest-selected closest to the root.
+    // Enchantments are selected from a glibc stream seeded with the per-item seed plus 10. Each
+    // enchantment produces a modifier and an adjective for the name: "of ..." adjectives are
+    // suffixes; the rest are prefixes, with the earliest-selected closest to the root.
+    var count = enchantCount(id);
+    var enchantRng = new PHPRandom(seed + 10);
     var prefixes = new ArrayList<String>();
     var suffixes = new ArrayList<String>();
-    for (var entry : getMods(id, ascensionClass.getId(), sign.getId(), enchantCount(id))) {
+    for (var entry : getMods(id, ascensionClass.getId(), sign.getId(), count, enchantRng)) {
       var descriptor = entry.getKey();
       if (descriptor.startsWith("of ")) {
         suffixes.add(descriptor);
@@ -1017,6 +1040,14 @@ public class TCRSDatabase {
       }
       DebugDatabase.appendModifier(mods, entry.getValue());
     }
+
+    // KoL shuffles the cosmetics on the same stream it just selected enchantments from, so continue
+    // enchantRng (already advanced by a multi-enchantment selection; still fresh at seed+10 after a
+    // single MT-picked enchantment). With no enchantments there is no seed+10 stream, so the
+    // shuffle
+    // uses the base seed stream.
+    var shuffleRng = (count == 0) ? new PHPRandom(seed) : enchantRng;
+    var cosmeticsString = shuffleCosmetics(cosmeticList, shuffleRng);
 
     // Enchant adjectives that are common adjectives (e.g. "lucky") are stripped from the name, as
     // KoL does after applying enchantments. Cosmetics are not stripped.
@@ -1035,15 +1066,23 @@ public class TCRSDatabase {
   }
 
   /**
-   * The enchantments rolled for an equipment item. These are a separate roll from the item's
-   * cosmetics, seeded with the per-item seed plus 10. A single enchantment is picked with an
-   * MT-random roll; multiple enchantments are picked together without replacement.
+   * The enchantments rolled for an equipment item, seeded with the per-item seed plus 10. A single
+   * enchantment is picked with an MT-random roll; multiple enchantments are picked together without
+   * replacement. The multi-pick draws from {@code enchantRng} (seeded with that same seed+10) so
+   * the caller can continue the stream for the cosmetic shuffle.
    */
   private static List<Entry<String, String>> getMods(
-      final int itemId, final int classId, final int moonsignId, final int count) {
+      final int itemId,
+      final int classId,
+      final int moonsignId,
+      final int count,
+      final PHPRandom enchantRng) {
     var seed = (50 * itemId) + (12345 * moonsignId) + (100000 * classId) + 10;
     var mods = new ArrayList<Entry<String, String>>(count);
-    for (var index : PHPRandomSelection.pick(seed, EQUIPMENT_MODIFIERS.size(), count)) {
+    var indices =
+        PHPRandomSelection.pick(
+            enchantRng, new PHPMTRandom(seed), EQUIPMENT_MODIFIERS.size(), count);
+    for (var index : indices) {
       mods.add(EQUIPMENT_MODIFIERS.get(index));
     }
     return mods;
