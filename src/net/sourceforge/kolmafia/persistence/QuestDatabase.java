@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -240,50 +241,37 @@ public class QuestDatabase {
       // deal with.
       return "questG02Whitecastle";
     }
-    for (QuestLogEntry entry : questLogData) {
-      // The title may contain other text, so check if quest title is contained in it
-      if (title.toLowerCase().contains(entry.title().toLowerCase())) {
-        return entry.pref();
-      }
-    }
-
-    // couldn't find a match
-    return "";
+    // The title may contain other text, so check if quest title is contained in it
+    String lowercaseTitle = title.toLowerCase();
+    return questLogData.stream()
+        .filter(entry -> lowercaseTitle.contains(entry.title().toLowerCase()))
+        .map(QuestLogEntry::pref)
+        .findFirst()
+        .orElse("");
   }
 
   public static Quest titleToQuest(final String title) {
     String pref = titleToPref(title);
-    if (pref.equals("")) {
+    if (pref.isEmpty()) {
       return null;
     }
-    for (Quest q : Quest.values()) {
-      if (q.getPref().equals(pref)) {
-        return q;
-      }
-    }
-    return null;
+    return Arrays.stream(Quest.values())
+        .filter(q -> q.getPref().equals(pref))
+        .findFirst()
+        .orElse(null);
   }
 
   public static String prefToTitle(final String pref) {
-    for (QuestLogEntry entry : questLogData) {
-      if (entry.pref().toLowerCase().contains(pref.toLowerCase())) {
-        return entry.title();
-      }
-    }
-
-    // couldn't find a match
-    return "";
+    QuestLogEntry entry = findEntry(pref);
+    return entry == null ? "" : entry.title();
   }
 
-  public static int prefToIndex(final String pref) {
-    for (int i = 0; i < questLogData.size(); ++i) {
-      if (questLogData.get(i).pref().toLowerCase().contains(pref.toLowerCase())) {
-        return i;
-      }
-    }
-
-    // couldn't find a match
-    return -1;
+  private static QuestLogEntry findEntry(final String pref) {
+    String lowercasePref = pref.toLowerCase();
+    return questLogData.stream()
+        .filter(entry -> entry.pref().toLowerCase().contains(lowercasePref))
+        .findFirst()
+        .orElse(null);
   }
 
   public static String findQuestProgress(String pref, String details) {
@@ -385,83 +373,53 @@ public class QuestDatabase {
     }
 
     // First thing to do is find which quest we're talking about.
-    int index = prefToIndex(pref);
+    QuestLogEntry entry = findEntry(pref);
 
-    if (index == -1) {
+    if (entry == null) {
       return "";
     }
 
-    // Next, find the quest's step descriptions
-    final List<String> questSteps = questLogData.get(index).steps();
+    // Next, get its step descriptions, and count how many steps it has.
+    final List<String> questSteps = entry.steps();
+    final int stepCount = questSteps.size();
 
-    // and count how many steps it has.
-    final int steps = questSteps.size();
-
-    if (steps < 1) {
+    if (stepCount < 1) {
       return "";
     }
 
     // Now, try to see if we can find an exact match for response->step. This is often messed up by
     // whitespace, html, and the like. We'll handle that below.
-    int foundAtStep = -1;
-
-    for (int i = 0; i < steps; ++i) {
-      if (questSteps.get(i).contains(details)) {
-        foundAtStep = i;
-        break;
-      }
-    }
+    int foundAtStep = indexOfStep(questSteps, step -> step.contains(details));
 
     if (foundAtStep == -1) {
       // Didn't manage to find an exact match. Now try stripping out all whitespace, newlines, and
       // anything that looks like html from questData and response. And make everything lower case,
       // because player names can be arbitrarily capitalized.
-      String cleanedResponse =
-          QuestDatabase.HTML_WHITESPACE.matcher(details).replaceAll("").toLowerCase();
-      String cleanedQuest = "";
-
-      for (int i = 0; i < steps; ++i) {
-        cleanedQuest =
-            QuestDatabase.HTML_WHITESPACE.matcher(questSteps.get(i)).replaceAll("").toLowerCase();
-        if (cleanedQuest.contains(cleanedResponse)) {
-          foundAtStep = i;
-          break;
-        }
-      }
+      String cleanedResponse = cleanText(details);
+      foundAtStep = indexOfStep(questSteps, step -> cleanText(step).contains(cleanedResponse));
     }
 
     if (foundAtStep == -1) {
       // STILL haven't found a match. Try reversing the match, and chopping up the quest data into
       // substrings.
-      String cleanedResponse =
-          QuestDatabase.HTML_WHITESPACE.matcher(details).replaceAll("").toLowerCase();
-      String cleanedQuest = "";
-      String questStart = "";
-      String questEnd = "";
-
-      for (int i = 0; i < steps; ++i) {
-        cleanedQuest =
-            QuestDatabase.HTML_WHITESPACE.matcher(questSteps.get(i)).replaceAll("").toLowerCase();
-
-        if (cleanedQuest.length() <= 100) {
-          questStart = cleanedQuest;
-          questEnd = cleanedQuest;
-        } else {
-          questStart = cleanedQuest.substring(0, 100);
-          questEnd = cleanedQuest.substring(cleanedQuest.length() - 100);
-        }
-
-        if (cleanedResponse.contains(questStart) || cleanedResponse.contains(questEnd)) {
-          foundAtStep = i;
-          break;
-        }
-      }
+      String cleanedResponse = cleanText(details);
+      foundAtStep =
+          indexOfStep(
+              questSteps,
+              step -> {
+                String cleanedQuest = cleanText(step);
+                int length = cleanedQuest.length();
+                return length <= 100
+                    ? cleanedResponse.contains(cleanedQuest)
+                    : cleanedResponse.contains(cleanedQuest.substring(0, 100))
+                        || cleanedResponse.contains(cleanedQuest.substring(length - 100));
+              });
     }
 
     if (foundAtStep != -1) {
       if (foundAtStep == 0) {
         return QuestDatabase.STARTED;
-      } else if (foundAtStep == steps - 1) {
+      } else if (foundAtStep == stepCount - 1) {
         return QuestDatabase.FINISHED;
       } else {
         return "step" + foundAtStep;
@@ -470,6 +428,19 @@ public class QuestDatabase {
 
     // Well, none of the above worked. Punt.
     return "";
+  }
+
+  private static String cleanText(final String text) {
+    return HTML_WHITESPACE.matcher(text).replaceAll("").toLowerCase();
+  }
+
+  private static int indexOfStep(final List<String> steps, final Predicate<String> matches) {
+    for (int i = 0; i < steps.size(); ++i) {
+      if (matches.test(steps.get(i))) {
+        return i;
+      }
+    }
+    return -1;
   }
 
   private static String handlePeakStatus(String details) {
@@ -947,7 +918,7 @@ public class QuestDatabase {
   }
 
   public static void setQuestProgress(String pref, String status) {
-    if (prefToIndex(pref) == -1) {
+    if (findEntry(pref) == null) {
       return;
     }
 
@@ -1061,25 +1032,17 @@ public class QuestDatabase {
     // weird, but not really an issue other than the minor disk I/O.
 
     String[] responseTokens = responseText.split("<[pP]>");
-    String cleanedResponseToken = "";
-    String cleanedQuestToken = "";
 
     for (String responseToken : responseTokens) {
-      cleanedResponseToken =
-          QuestDatabase.HTML_WHITESPACE.matcher(responseToken).replaceAll("").toLowerCase();
+      String cleanedResponseToken = cleanText(responseToken);
       for (CouncilQuest quest : councilData) {
         // Now, we have to split the council text by <p> tags too.
         // Assume that no two paragraphs are identical, otherwise more loop termination logic is
         // needed.
 
         for (String text : quest.texts()) {
-          String[] councilTokens = text.split("<[pP]>");
-
-          for (String councilToken : councilTokens) {
-            cleanedQuestToken =
-                QuestDatabase.HTML_WHITESPACE.matcher(councilToken).replaceAll("").toLowerCase();
-
-            if (cleanedResponseToken.contains(cleanedQuestToken)) {
+          for (String councilToken : text.split("<[pP]>")) {
+            if (cleanedResponseToken.contains(cleanText(councilToken))) {
               setQuestIfBetter(quest.pref(), quest.status());
               break;
             }
@@ -1232,13 +1195,13 @@ public class QuestDatabase {
 
   public static String questStepAfter(String pref, String step) {
     // First thing to do is find which quest we're talking about.
-    int index = prefToIndex(pref);
-    if (index == -1) {
+    QuestLogEntry entry = findEntry(pref);
+    if (entry == null) {
       return "";
     }
 
     // Next, find the number of quest steps
-    final int totalSteps = questLogData.get(index).steps().size();
+    final int totalSteps = entry.steps().size();
     if (totalSteps < 1) {
       return "";
     }
