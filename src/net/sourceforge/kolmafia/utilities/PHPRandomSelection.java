@@ -12,8 +12,6 @@ public class PHPRandomSelection {
     return pick(new PHPRandom(seed), new PHPMTRandom(seed), size, count);
   }
 
-  // Draws from the provided rollers rather than creating them, so the caller can keep using them
-  // afterwards. A single pick uses mtRng and leaves rng untouched; multiple picks advance rng.
   public static int[] pick(
       final PHPRandom rng, final PHPMTRandom mtRng, final int size, final int count) {
     if (count <= 0) {
