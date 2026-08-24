@@ -206,11 +206,6 @@ public class Preferences {
     // migration will pull the value from the global map
     for (Entry<Object, Object> entry : p.entrySet()) {
       String key = (String) entry.getKey();
-      if (!Preferences.globalNames.containsKey(key)) {
-        Preferences.isPerUserGlobalProperty(key);
-      } // System.out.println( "obsolete global setting detected: " + key );
-      // continue;
-
       String value = (String) entry.getValue();
       Preferences.putGlobal(key, value);
     }
@@ -821,7 +816,6 @@ public class Preferences {
     }
   }
 
-  /** Callers must already hold the matching scope's lock */
   private static void maybeSaveToFileAfterUpdating(
       boolean enable, boolean global, String updatedProperty) {
     if (!enable) {
