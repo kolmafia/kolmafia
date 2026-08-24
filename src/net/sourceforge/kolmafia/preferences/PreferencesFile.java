@@ -254,7 +254,7 @@ class PreferencesFile {
         || (System.currentTimeMillis() - prefsFileLastSave) >= PreferencesFile.JOURNAL_MAX_AGE;
   }
 
-  /** Saves the current prefs to file. Callers must already hold the matching scope's lock. */
+  /** Saves the current prefs to file. Callers must already hold Preferences.prefsLock. */
   void savePrefsFile(boolean loggingOut) {
     try (OutputStream fstream =
         new BufferedOutputStream(DataUtilities.getOutputStream(propertiesFile))) {

@@ -34,6 +34,9 @@ public class Preferences {
   // Cache of escaped-string representation per character.
   private static final String[] characterMap = new String[65536];
 
+  // Guards all reads/writes of the value/encoded maps below and their PreferencesFile.
+  private static final Object prefsLock = new Object();
+
   private static final HashMap<String, String> globalNames = new HashMap<>();
   private static final Map<String, Object> globalValues = new ConcurrentHashMap<>();
   // user/globalEncodedValues cache the byte sequence corresponding to the on-disk representation
@@ -152,30 +155,27 @@ public class Preferences {
   /** Resets all settings so that the given user is represented whenever settings are modified. */
   public static void reset(String username) {
     boolean loggingOut = username == null || username.isEmpty();
-    // Global as outer lock, user as inner, everywhere both locks are needed.
-    synchronized (globalEncodedValues) {
-      synchronized (userEncodedValues) {
-        // We might not have been tracking encoded values here before this save. Fix that.
-        Preferences.reinitializeEncodedValues();
-        // A boolean is passed to know if the journal should be torn down
-        Preferences.saveToFile(Preferences.globalFile, loggingOut);
-        // If a user was logged in, save their data
-        if (Preferences.userFile != null) {
-          Preferences.saveToFile(Preferences.userFile, true);
-        }
-
-        // Clear the previous user
-        Preferences.userFile = null;
-        Preferences.userValues.clear();
-        Preferences.userEncodedValues.clear();
-
-        // If we're not loading a new user
-        if (loggingOut) {
-          return;
-        }
-
-        Preferences.loadUserPreferences(username);
+    synchronized (prefsLock) {
+      // We might not have been tracking encoded values here before this save. Fix that.
+      Preferences.reinitializeEncodedValues();
+      // A boolean is passed to know if the journal should be torn down
+      Preferences.saveToFile(Preferences.globalFile, loggingOut);
+      // If a user was logged in, save their data
+      if (Preferences.userFile != null) {
+        Preferences.saveToFile(Preferences.userFile, true);
       }
+
+      // Clear the previous user
+      Preferences.userFile = null;
+      Preferences.userValues.clear();
+      Preferences.userEncodedValues.clear();
+
+      // If we're not loading a new user
+      if (loggingOut) {
+        return;
+      }
+
+      Preferences.loadUserPreferences(username);
     }
 
     AdventureFrame.updateFromPreferences();
@@ -400,7 +400,7 @@ public class Preferences {
   }
 
   public static void removeProperty(final String name, final boolean global) {
-    synchronized (global ? globalEncodedValues : userEncodedValues) {
+    synchronized (prefsLock) {
       boolean trackEncoded = Preferences.mustTrackEncodedValues();
       // Remove only properties which do not have defaults
       if (global) {
@@ -751,25 +751,18 @@ public class Preferences {
     // We stop tracking encoded values when saveSettingsOnSet is off. When it is turned back on,
     // many encoded values will be out of date, and we don't know which ones, so we have to
     // recompute all of them.
-    if (name.equals("saveSettingsOnSet") && (boolean) object) {
-      // Touches both scopes, same order as reset().
-      synchronized (globalEncodedValues) {
-        synchronized (userEncodedValues) {
-          Preferences.reinitializeEncodedValues();
-          // The changes above bypassed the journal, so save to get all prefs onto disk.
-          Preferences.saveToFile(Preferences.globalFile, false);
-          if (Preferences.userFile != null) {
-            Preferences.saveToFile(Preferences.userFile, false);
-          }
-          // mustTrackEncodedValues() is what's being modified, so we're doing a shortened variant
-          var mustTrackEncoded = Preferences.saveSettingsToFile;
-          Preferences.put(user, name, object, mustTrackEncoded);
+    synchronized (prefsLock) {
+      if (name.equals("saveSettingsOnSet") && (boolean) object) {
+        Preferences.reinitializeEncodedValues();
+        // The changes above bypassed the journal, so save to get all prefs onto disk.
+        Preferences.saveToFile(Preferences.globalFile, false);
+        if (Preferences.userFile != null) {
+          Preferences.saveToFile(Preferences.userFile, false);
         }
-      }
-    } else {
-      // Read mustTrackEncodedValues() after locking, not before
-      var lock = Preferences.isGlobalProperty(name) ? globalEncodedValues : userEncodedValues;
-      synchronized (lock) {
+        // mustTrackEncodedValues() is what's being modified, so we're doing a shortened variant
+        var mustTrackEncoded = Preferences.saveSettingsToFile;
+        Preferences.put(user, name, object, mustTrackEncoded);
+      } else {
         Preferences.put(user, name, object, Preferences.mustTrackEncodedValues());
       }
     }
@@ -801,21 +794,16 @@ public class Preferences {
     }
   }
 
+  /** Callers must already hold prefsLock. */
   private static void put(
       final String user, final String name, final Object value, boolean updateEncoded) {
     if (Preferences.isGlobalProperty(name)) {
       String actualName = Preferences.propertyName(user, name);
-      synchronized (globalEncodedValues) {
-        Preferences.putGlobal(actualName, value, updateEncoded);
-        Preferences.maybeSaveToFileAfterUpdating(updateEncoded, true, actualName);
-      }
-    } else {
-      synchronized (userEncodedValues) {
-        if (Preferences.userFile != null) {
-          putUser(name, value, updateEncoded);
-          Preferences.maybeSaveToFileAfterUpdating(updateEncoded, false, name);
-        }
-      }
+      Preferences.putGlobal(actualName, value, updateEncoded);
+      Preferences.maybeSaveToFileAfterUpdating(updateEncoded, true, actualName);
+    } else if (Preferences.userFile != null) {
+      putUser(name, value, updateEncoded);
+      Preferences.maybeSaveToFileAfterUpdating(updateEncoded, false, name);
     }
   }
 
@@ -906,24 +894,21 @@ public class Preferences {
   }
 
   public static void resetDailies() {
-    // Also takes globalEncodedValues to avoid misclassified globals
     // Copy the keys out first since setString/removeProperty below mutate the map we'd
     // otherwise be iterating over.
-    synchronized (globalEncodedValues) {
-      synchronized (userEncodedValues) {
-        for (String name : new ArrayList<>(Preferences.userValues.keySet())) {
-          if (!isDaily(name)) {
-            continue;
-          }
-          if (!Preferences.containsDefault(name)) {
-            // fully delete preferences that start with _ and aren't in defaults.txt
-            Preferences.removeProperty(name, false);
-            continue;
-          }
-          String val = Preferences.userNames.get(name);
-          if (val == null) val = "";
-          Preferences.setString(name, val);
+    synchronized (prefsLock) {
+      for (String name : new ArrayList<>(Preferences.userValues.keySet())) {
+        if (!isDaily(name)) {
+          continue;
         }
+        if (!Preferences.containsDefault(name)) {
+          // fully delete preferences that start with _ and aren't in defaults.txt
+          Preferences.removeProperty(name, false);
+          continue;
+        }
+        String val = Preferences.userNames.get(name);
+        if (val == null) val = "";
+        Preferences.setString(name, val);
       }
     }
   }
@@ -931,7 +916,7 @@ public class Preferences {
   public static void resetGlobalDailies() {
     // Copy the keys out first since setString/setLong below mutate the map we'd otherwise be
     // iterating over.
-    synchronized (globalEncodedValues) {
+    synchronized (prefsLock) {
       for (String name : new ArrayList<>(Preferences.globalValues.keySet())) {
         if (isDaily(name)) {
           String val = Preferences.globalNames.get(name);
