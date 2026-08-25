@@ -1,4 +1,4 @@
--1	half-sized decent fancy spinning Peche a la Frog	2	good	
+-1	half-sized decent spinning Peche a la Frog	2	good	
 -2	rotten ghostly As Jus Gezund Heit	4	crappy	
 -3	diet spoiled squat spinning Bouillabaise Coucher Avec Moi	1	crappy	
 -7	miniature decent gray squat gumdrop chow mein	2	good	
@@ -20,18 +20,18 @@
 -68	stale Halibut Alfredo	4	decent	
 -69	flavorless Red Herring Velvet Cake	3	decent	
 -73	flavorless immense CRIMBCO Reconstituted Gruel	8	decent	
--74	bland upside-down New and Improved CRIMBCO Reconstituted Gruel	3	decent	
+-74	enchanted bland upside-down New and Improved CRIMBCO Reconstituted Gruel	3	decent	
 -75	jumbo tasty CRIMBCO Deluxe Reconstituted Gruel with Simulated Raisins	5	awesome	
 -79	stale diet Brussels Sprout Stir-Fry	1	decent	
 -80	moldy low-calorie special cyan Carrot, Cabbage, and Kale Pizza	1	crappy	
--81	flavorless fancy Turnip and Rutabaga Pie	3	decent	
+-81	flavorless Turnip and Rutabaga Pie	3	decent	
 -85	special toothsome Rainbow Spider Fun Roll	3	awesome	
 -86	decent bite-sized Vegas Volcano Lava Roll	1	good	
 -87	delicious Crazy Dragon Shogun Buddha Roll	3	awesome	
 -92	stale basic hot dog	4	decent	
--93	half-sized enchanted normal huge savage macho dog	2	good	
+-93	half-sized normal huge savage macho dog	2	good	
 -94	toothsome half-sized one with everything	2	awesome	
--95	enchanted stale green sly dog	3	decent	
+-95	stale green sly dog	3	decent	
 -96	tasty devil dog	4	awesome	
 -97	rotten chilly dog	3	crappy	
 -98	adequate tumbling ghost dog	4	good	

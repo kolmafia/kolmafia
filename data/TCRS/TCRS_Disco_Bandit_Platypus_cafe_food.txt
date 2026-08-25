@@ -6,7 +6,7 @@
 -9	massive yummy upside-down gingerbread stir-fry	7	awesome	
 -10	huge decent squat twigs and gravel	7	good	
 -11	rotten shoots and leaves	4	crappy	
--12	big rotten bowl of unidentifiable goo	5	crappy	
+-12	big rotten enchanted bowl of unidentifiable goo	5	crappy	
 -13	flavorless gingerbread massacre	4	decent	
 -14	snack-sized spoiled blurry It Came From Beyond Dessert	2	crappy	
 -15	bite-sized stale vampire cake	1	decent	

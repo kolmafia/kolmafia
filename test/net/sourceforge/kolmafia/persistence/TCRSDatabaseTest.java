@@ -184,16 +184,18 @@ class TCRSDatabaseTest {
             withSign(ZodiacSign.MONGOOSE));
     try (cleanups) {
       TCRSDatabase.loadTCRSData(true);
-      // Resolved DR must equal the derived total, not the total plus the innate shield DR again.
+      // The derived data stores only a shield's rolled Damage Reduction enchantment (or none);
+      // ModifierDatabase re-adds the innate shield DR once at resolution, without doubling it.
       for (var id : new int[] {662, 1034, 3258}) {
-        var dataDR =
-            Integer.parseInt(
-                ModifierDatabase.splitModifiers(TCRSDatabase.getData(id).modifiers)
-                    .getModifierValue("Damage Reduction"));
+        var storedDR =
+            ModifierDatabase.splitModifiers(TCRSDatabase.getData(id).modifiers)
+                .getModifierValue("Damage Reduction");
+        var enchantDR = storedDR == null ? 0 : Integer.parseInt(storedDR);
+        var innateDR = EquipmentDatabase.getShieldDamageReduction(id);
         var resolved =
             ModifierDatabase.getNumericModifier(
                 ModifierType.ITEM, id, DoubleModifier.DAMAGE_REDUCTION);
-        assertThat(ItemDatabase.getItemName(id), (int) resolved, is(dataDR));
+        assertThat(ItemDatabase.getItemName(id), (int) resolved, is(innateDR + enchantDR));
       }
     }
   }
@@ -371,8 +373,10 @@ class TCRSDatabaseTest {
           var ev = vals[0];
           var gv = vals[1];
           if (ev.equals(gv)) return;
-          // A carried-over modifier the guess keeps but the data omits is expected: ignore it.
-          if (ModifierDatabase.CARRIED_OVER.contains(mod) && ev.isEmpty()) return;
+          // A carried-over modifier survives the TCRS re-roll as an innate item property. Whether it
+          // shows in the item description (so the derive records it) is inconsistent, so if either
+          // side omits it entirely, that's expected: ignore it.
+          if (ModifierDatabase.CARRIED_OVER.contains(mod) && (ev.isEmpty() || gv.isEmpty())) return;
           // An expression-valued modifier's value is context-dependent; the guess keeping it is
           // enough, so don't compare the (unreproducible) value.
           if (expressionMods.contains(mod)) return;

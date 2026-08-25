@@ -17,9 +17,9 @@
 -62	bland special Grimdrop Chow Mein	4	decent	
 -63	toothsome Grimgerbread House	3	awesome	
 -67	moldy fuchsia Caviar Carbonara	4	crappy	
--68	bland fuchsia Halibut Alfredo	3	decent	
+-68	enchanted bland fuchsia Halibut Alfredo	3	decent	
 -69	decent Red Herring Velvet Cake	3	good	
--73	flavorless special CRIMBCO Reconstituted Gruel	3	decent	
+-73	flavorless CRIMBCO Reconstituted Gruel	3	decent	
 -74	decent New and Improved CRIMBCO Reconstituted Gruel	3	good	
 -75	rotten CRIMBCO Deluxe Reconstituted Gruel with Simulated Raisins	4	crappy	
 -79	normal skewed Brussels Sprout Stir-Fry	3	good	
@@ -35,11 +35,11 @@
 -96	adequate half-sized purple devil dog	2	good	
 -97	immense flavorless chilly dog	9	decent	
 -98	spoiled narrow blue ghost dog	4	crappy	
--99	fancy flavorless blinking junkyard dog	3	decent	
+-99	flavorless blinking junkyard dog	3	decent	
 -100	flavorless twirling wet dog	3	decent	
 -101	special snack-sized delicious sleeping dog	2	awesome	
 -102	bland optimal dog	3	decent	
 -103	tiny rotten video games hot dog	1	crappy	
--104	immense special moldy Peppermint Nutrition Block	7	crappy	
+-104	immense moldy Peppermint Nutrition Block	7	crappy	
 -105	normal half-sized Gingerbread Nutrition Block	2	good	
 -106	normal tiny Cinnamon Nutrition Block	1	good	

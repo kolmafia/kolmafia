@@ -15,7 +15,7 @@
 -51	drinkable extra-dry Hi-Octane Peppermint Jet Fuel	5	good	
 -58	hand-crafted practically non-alcoholic skewed Grimacider	1	EPIC	
 -59	spirit-forward hand-crafted Isotope Nog	5	EPIC	
--60	bad Mutagin 'n' Tonic	3	decent	
+-60	fancy bad Mutagin 'n' Tonic	3	decent	
 -70	lousy fancy blurry Gin and Herring	4	decent	
 -71	practically non-alcoholic drinkable Black and Tan and Red All Over	1	good	
 -72	practically non-alcoholic artisanal Antarctic Ice Tea	1	EPIC	

@@ -860,21 +860,21 @@ public class TCRSDatabase {
       adjectives.add(qualityDescriptor);
     }
 
-    if (quality.getValue() * size >= 5) {
+    if (quality.getValue() * size >= 7) {
       mtRng.nextDouble();
     }
 
     var mods = getRetainedModifiers(id);
 
-    var enchanted = mtRng.nextInt(1, 10) == 1;
-    if (enchanted) {
+    var rolledEnchantment = mtRng.nextInt(1, 10) == 1;
+    if (rolledEnchantment) {
       adjectives.add(mtRng.pickOne(STRINGS.get("Food Enchantment")));
     }
 
     var enchantment = rollConsumableEnchantment(id, mtRng);
 
-    if (HARDCODED_EFFECT.contains(id)) {
-      enchanted = true;
+    var hardcoded = HARDCODED_EFFECT.contains(id);
+    if (hardcoded) {
       var effectOverride = HARDCODED_EFFECT_OVERRIDE.get(id);
       enchantment.effect =
           effectOverride != null
@@ -889,9 +889,14 @@ public class TCRSDatabase {
       }
     }
 
+    // A hardcoded item always grants its effect; others only when the enchant gate rolled.
+    var enchanted = hardcoded || rolledEnchantment;
     if (enchanted && !enchantment.effect.isBlank()) {
       mods.addModifier("Effect", enchantment.effect);
-      mods.addModifier("Effect Duration", String.valueOf(enchantment.duration));
+      // A dynamic-duration hardcoded item only displays its (rolled) duration when the gate rolled.
+      if (rolledEnchantment || !HARDCODED_EFFECT_DYNAMIC_DURATION.contains(id)) {
+        mods.addModifier("Effect Duration", String.valueOf(enchantment.duration));
+      }
     }
 
     if (id == ItemPool.QUANTUM_TACO
@@ -1066,11 +1071,6 @@ public class TCRSDatabase {
     // Enchantments are selected from a glibc stream seeded with the per-item seed plus 10. Each
     // enchantment produces a modifier and an adjective for the name: "of ..." adjectives are
     // suffixes; the rest are prefixes, with the earliest-selected closest to the root.
-    // A December ("event(December)") item's enchantments are conditional on the event; when TCRS
-    // re-rolls one it keeps that wrapper, so the rolled enchantment is also event-conditional.
-    var raw = ModifierDatabase.getModifierString(new Lookup(ModifierType.ITEM, id));
-    var december = raw != null && raw.contains("event(December)");
-
     var count = enchantCount(id);
     var enchantRng = new PHPRandom(seed + 10);
     var prefixes = new ArrayList<String>();
@@ -1082,27 +1082,7 @@ public class TCRSDatabase {
       } else {
         prefixes.add(0, descriptor);
       }
-      var value = entry.getValue();
-      if (december) {
-        value = value.replaceAll("(: )([+-]?\\d+(?:\\.\\d+)?)", "$1[$2*event(December)]");
-      }
-      DebugDatabase.appendModifier(mods, value);
-    }
-
-    // A shield's Damage Reduction is an innate property of the shield (stored in the equipment
-    // data,
-    // not its modifier list), so it survives the re-roll and is shown in the TCRS item description.
-    // If the item also rolled a Damage Reduction enchantment, KoL merges the two into one value.
-    if (EquipmentDatabase.isShield(id)) {
-      var dr = EquipmentDatabase.getShieldDamageReduction(id);
-      if (dr > 0) {
-        var rolled = mods.getModifierValue("Damage Reduction");
-        if (rolled != null) {
-          dr += Integer.parseInt(rolled);
-          mods.removeModifier("Damage Reduction");
-        }
-        mods.addModifier("Damage Reduction", String.valueOf(dr));
-      }
+      DebugDatabase.appendModifier(mods, entry.getValue());
     }
 
     // KoL shuffles the cosmetics on the same stream it just selected enchantments from, so continue
@@ -1496,30 +1476,6 @@ public class TCRSDatabase {
     };
   }
 
-  /**
-   * A bandaid for the TCRS shield Damage Reduction double-apply. The derived data stores a shield's
-   * full Damage Reduction (its innate DR plus any rolled enchantment), but {@link ModifierDatabase}
-   * re-adds the innate shield DR at resolution, so applying the stored value verbatim doubles the
-   * innate part. Subtract the innate DR here so the stored value is enchant-only and the resolved
-   * total is correct. TODO: remove once the derive itself stores enchant-only Damage Reduction.
-   */
-  private static String subtractInnateShieldDR(final int itemId, final String modifiers) {
-    if (!EquipmentDatabase.isShield(itemId)) {
-      return modifiers;
-    }
-    var list = ModifierDatabase.splitModifiers(modifiers);
-    var dr = list.getModifierValue("Damage Reduction");
-    if (dr == null) {
-      return modifiers;
-    }
-    var enchantDR = Integer.parseInt(dr) - EquipmentDatabase.getShieldDamageReduction(itemId);
-    list.removeModifier("Damage Reduction");
-    if (enchantDR > 0) {
-      list.addModifier("Damage Reduction", String.valueOf(enchantDR));
-    }
-    return list.toString();
-  }
-
   public static boolean applyModifiers(final Integer itemId, final TCRS tcrs) {
     // Adjust item data to have TCRS modifiers
     if (tcrs == null) {
@@ -1544,7 +1500,7 @@ public class TCRSDatabase {
     }
 
     // Set modifiers
-    ModifierDatabase.updateItem(itemId, subtractInnateShieldDR(itemId, tcrs.modifiers));
+    ModifierDatabase.updateItem(itemId, tcrs.modifiers);
 
     // *** Do this after modifiers are set so can log effect modifiers
     ConsumptionType usage = ItemDatabase.getConsumptionType(itemId);

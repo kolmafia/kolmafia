@@ -248,7 +248,9 @@ public class ModifierDatabase {
           BooleanModifier.LOOK_LIKE_A_PIRATE,
           BooleanModifier.SINGLE,
           BooleanModifier.EXTRA_PICKPOCKET,
-          BooleanModifier.ATTACKS_CANT_MISS);
+          BooleanModifier.ATTACKS_CANT_MISS,
+          BooleanModifier.SOFTCORE,
+          BitmapModifier.CLOWNINESS);
 
   public static void ensureModifierDatabaseInitialised() {
     if (modifierTypesByName.isEmpty()) {
