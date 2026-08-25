@@ -33,9 +33,11 @@ class PreferencesFile {
   private static final long TRIM_JOURNAL_BYTE_THRESHOLD = 10_000_000; // 10MB
   static final long JOURNAL_MAX_AGE = TimeUnit.DAYS.toMillis(1);
 
-  private final File propertiesFile;
-  private final File backupFile;
-  private final File journalFile;
+  private final File
+      propertiesFile; // Our live preferences file, what each new session is loading from
+  private final File backupFile; // The previous version of our preferences file
+  private final File journalFile; // A record of our preferences that's appended as they change
+  private final File tempFile; // The file that is atomically saved
   private final Map<String, byte[]> encodedData;
 
   // Exposed for tests
@@ -48,6 +50,7 @@ class PreferencesFile {
     this.propertiesFile = new File(KoLConstants.SETTINGS_LOCATION, baseName + "_prefs.txt");
     this.backupFile = new File(KoLConstants.SETTINGS_LOCATION, baseName + "_prefs.bak");
     this.journalFile = new File(KoLConstants.SETTINGS_LOCATION, baseName + "_prefs.journal");
+    this.tempFile = new File(propertiesFile.getParentFile(), propertiesFile.getName() + ".tmp");
     this.journalBytes = journalFile.length();
   }
 
@@ -56,7 +59,7 @@ class PreferencesFile {
   }
 
   Properties loadWithBackup() {
-    if (!propertiesFile.exists() && !backupFile.exists()) {
+    if (!propertiesFile.exists() && !backupFile.exists() && !tempFile.exists()) {
       return new Properties();
     }
 
@@ -64,6 +67,8 @@ class PreferencesFile {
 
     if (!isValidPreferencesFile(propertiesFile, p)) {
       // Something went wrong reading the preferences.
+      boolean recoveredData = false;
+
       if (backupFile.exists()) {
         KoLmafia.updateDisplay(
             propertiesFile
@@ -75,6 +80,7 @@ class PreferencesFile {
         p = loadProperties(backupFile);
 
         if (isValidPreferencesFile(backupFile, p)) {
+          recoveredData = true;
           try {
             Files.copy(
                 backupFile.toPath(), propertiesFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
@@ -93,9 +99,38 @@ class PreferencesFile {
                     + "the failure, and attaching the preferences.");
           }
         }
-      } else {
-        // No backup to fall back on, recover whatever complete lines were written before the
-        // corruption point instead of loading a malformed line.
+      }
+
+      // Our prefs.txt is bad, and so is our .bak
+      // We're trying our .tmp now, this is unlikely to ever occur
+      if (!recoveredData && tempFile.exists()) {
+        KoLmafia.updateDisplay(
+            propertiesFile
+                + " and backup could not be read, loading temporary file. This will restore the last saved preferences");
+        System.out.println(
+            "Prefs and backup could not be read and temp exists, trying temporary file. ");
+
+        p = loadProperties(tempFile);
+
+        if (isValidPreferencesFile(tempFile, p)) {
+          recoveredData = true;
+          try {
+            Files.copy(
+                tempFile.toPath(), propertiesFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+          } catch (IOException ex) {
+            KoLmafia.updateDisplay(
+                "Error when restoring preferences from temp file, see session log for details");
+            RequestLogger.updateSessionLog(
+                propertiesFile
+                    + " and backup could not be read. KoLmafia was unable to restore your preferences and received error message:"
+                    + ex.getMessage());
+          }
+        }
+      }
+
+      if (!recoveredData) {
+        // No valid backup or temp to fall back on, recover whatever complete lines were written
+        // before the corruption point instead of loading a malformed line.
         try {
           byte[] safeBytes =
               FileUtilities.truncateToLastGoodLineBeforeNullByte(
@@ -106,14 +141,14 @@ class PreferencesFile {
           }
           p = recovered;
           KoLmafia.updateDisplay(
-              "Preferences was partially recovered from corruption, no backup exists.");
+              "Preferences was partially recovered from corruption, no valid backup exists.");
         } catch (IOException e) {
           p = new Properties();
-          KoLmafia.updateDisplay("Preferences could not be read and no backup exists.");
+          KoLmafia.updateDisplay("Preferences could not be read and no valid backup exists.");
         }
         RequestLogger.updateSessionLog(
             propertiesFile
-                + " could not be read and backup there is no backup file found. "
+                + " could not be read and no valid backup file was found. "
                 + "If this is unexpected, please manually inspect "
                 + "your preferences file and repair any problems.  If you have a damaged preferences file, "
                 + "please consider creating a bug report on the forum, noting any special circumstances around "
@@ -245,7 +280,6 @@ class PreferencesFile {
 
   /** Saves the current prefs to file. Callers must already hold Preferences.prefsLock. */
   void savePrefsFile(boolean loggingOut) {
-    File tempFile = new File(propertiesFile.getParentFile(), propertiesFile.getName() + ".tmp");
     tempFile.getParentFile().mkdirs(); // Guarantee directory presence before using FileOutputStream
 
     try (FileOutputStream fos = new FileOutputStream(tempFile);
