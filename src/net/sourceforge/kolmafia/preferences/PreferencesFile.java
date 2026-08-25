@@ -4,12 +4,14 @@ import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.AtomicMoveNotSupportedException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.Map;
@@ -114,19 +116,6 @@ class PreferencesFile {
                 + " could not be read and backup there is no backup file found. "
                 + "If this is unexpected, please manually inspect "
                 + "your preferences file and repair any problems.  If you have a damaged preferences file, "
-                + "please consider creating a bug report on the forum, noting any special circumstances around "
-                + "the failure, and attaching the preferences.");
-      }
-    } else {
-      try {
-        Files.copy(
-            propertiesFile.toPath(), backupFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-      } catch (IOException ex) {
-        System.out.println("I/O Error when creating backup preferences file: " + ex.getMessage());
-        RequestLogger.updateSessionLog(
-            propertiesFile
-                + " backup creation failed. Please manually inspect "
-                + "your preferences and backup files and repair any problems.  If you have a damaged preferences file, "
                 + "please consider creating a bug report on the forum, noting any special circumstances around "
                 + "the failure, and attaching the preferences.");
       }
@@ -256,27 +245,47 @@ class PreferencesFile {
 
   /** Saves the current prefs to file. Callers must already hold Preferences.prefsLock. */
   void savePrefsFile(boolean loggingOut) {
-    try (OutputStream fstream =
-        new BufferedOutputStream(DataUtilities.getOutputStream(propertiesFile))) {
+    File tempFile = new File(propertiesFile.getParentFile(), propertiesFile.getName() + ".tmp");
+    tempFile.getParentFile().mkdirs(); // Guarantee directory presence before using FileOutputStream
+
+    try (FileOutputStream fos = new FileOutputStream(tempFile);
+        OutputStream fstream = new BufferedOutputStream(fos)) {
+
       for (Entry<String, byte[]> current : encodedData.entrySet()) {
         fstream.write(current.getValue());
       }
+
+      // Force hardware sync before rename: Flush Java buffer, then force OS flush
+      fstream.flush();
+      fos.getFD().sync();
     } catch (IOException e) {
       System.out.println(e.getMessage() + " trying to write preferences as byte array.");
-      // We early exit as saving filed
+      // We early exit as saving failed
       return;
     }
 
-    if (!writeLooksValid(propertiesFile)) {
+    if (!writeLooksValid(tempFile)) {
       // Bad write - leave the journal alone, it's the only record of the unsaved changes.
-      System.out.println(propertiesFile + " failed validation after saving, backup left as-is.");
+      System.out.println(tempFile + " failed validation after saving, backup left as-is.");
       return;
+    }
+
+    // Rotate existing valid prefs to backup
+    if (propertiesFile.exists()) {
+      try {
+        if (propertiesFile.length() > 0 && !FileUtilities.containsNullBytes(propertiesFile)) {
+          safeMove(propertiesFile, backupFile);
+        }
+      } catch (IOException e) {
+        System.out.println(e.getMessage() + " trying to rotate old preferences to backup.");
+      }
     }
 
     try {
-      Files.copy(propertiesFile.toPath(), backupFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+      safeMove(tempFile, propertiesFile);
     } catch (IOException e) {
-      System.out.println(e.getMessage() + " trying to refresh preferences backup.");
+      System.out.println(e.getMessage() + " trying to atomically move preferences file.");
+      return; // Early exit since main file failed to save
     }
 
     try {
@@ -305,6 +314,22 @@ class PreferencesFile {
       return !FileUtilities.containsNullBytes(file);
     } catch (IOException e) {
       return false;
+    }
+  }
+
+  /**
+   * Attempts to atomically move a file, falling back to a non-atomic move if unsupported by the
+   * OS/filesystem.
+   */
+  private static void safeMove(File source, File dest) throws IOException {
+    try {
+      Files.move(
+          source.toPath(),
+          dest.toPath(),
+          StandardCopyOption.ATOMIC_MOVE,
+          StandardCopyOption.REPLACE_EXISTING);
+    } catch (AtomicMoveNotSupportedException e) {
+      Files.move(source.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
     }
   }
 }
