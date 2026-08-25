@@ -202,7 +202,7 @@ public class SushiRequest extends CreateItemRequest {
     return null;
   }
 
-  private static int nameToId(final String name) {
+  static int nameToId(final String name) {
     // Bento Boxes do not have special names based on veggie or dipping sauce
     if (name.contains("bento box")) {
       return 7;
@@ -255,7 +255,7 @@ public class SushiRequest extends CreateItemRequest {
     return baseName;
   }
 
-  private static int nameToTopping(final String name) {
+  static int nameToTopping(final String name) {
     for (Topping sushi : TOPPING) {
       if (name.startsWith(sushi.name)) {
         return sushi.id;
@@ -295,7 +295,7 @@ public class SushiRequest extends CreateItemRequest {
     return baseName;
   }
 
-  private static int nameToFilling1(final String name) {
+  static int nameToFilling1(final String name) {
     for (Filling sushi : FILLING1) {
       if (name.contains(sushi.finalName)) {
         return sushi.id;
@@ -327,7 +327,7 @@ public class SushiRequest extends CreateItemRequest {
     return baseName;
   }
 
-  private static int nameToVeggie(final String name) {
+  static int nameToVeggie(final String name) {
     for (Veggie sushi : VEGGIE) {
       if (name.startsWith(sushi.name)) {
         return sushi.id;
@@ -358,9 +358,9 @@ public class SushiRequest extends CreateItemRequest {
     return baseName;
   }
 
-  private static int nameToDipping(final String name) {
+  static int nameToDipping(final String name) {
     for (Dipping sushi : DIPPING) {
-      if (name.endsWith(sushi.name)) {
+      if (name.endsWith(" with " + sushi.name)) {
         return sushi.id;
       }
     }
@@ -368,7 +368,7 @@ public class SushiRequest extends CreateItemRequest {
     return -1;
   }
 
-  private static String sushiName(
+  static String sushiName(
       final int id, final int topping, final int filling1, final int veggie, final int dipping) {
     String name = SushiRequest.idToName(id);
 
