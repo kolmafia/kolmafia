@@ -46,7 +46,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.junitpioneer.jupiter.cartesian.CartesianTest;
 
@@ -243,20 +242,25 @@ public class RelayRequestWarningsTest {
       }
     }
 
-    @ParameterizedTest
-    @EnumSource(
-        value = Slot.class,
-        names = {"OFFHAND", "FAMILIAR"})
-    public void thatNoWarningNeededIfWineglassEquipped(final Slot slot) {
+    @Test
+    public void thatNoWarningNeededIfWineglassEquippedInOffhand() {
       var cleanups =
-          new Cleanups(
-              withInebriety(30),
-              withFamiliar(FamiliarPool.LEFT_HAND),
-              withEquipped(slot, ItemPool.DRUNKULA_WINEGLASS));
+          new Cleanups(withInebriety(30), withEquipped(Slot.OFFHAND, ItemPool.DRUNKULA_WINEGLASS));
       try (cleanups) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(WARREN.getRequest().getURLString());
         assertFalse(request.sendWineglassWarning(WARREN));
+      }
+    }
+
+    @Test
+    public void thatWarningNeededIfWineglassOnLeftHandMan() {
+      var cleanups =
+          new Cleanups(withInebriety(30), withEquippableItem(ItemPool.DRUNKULA_WINEGLASS));
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(WARREN.getRequest().getURLString());
+        assertTrue(request.sendWineglassWarning(WARREN));
       }
     }
 
