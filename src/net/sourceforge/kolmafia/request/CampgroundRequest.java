@@ -19,6 +19,7 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
@@ -760,7 +761,7 @@ public class CampgroundRequest extends GenericRequest {
     }
 
     if (KoLCharacter.isFallingDown()
-        && !KoLCharacter.hasEquipped(ItemPool.get(ItemPool.DRUNKULA_WINEGLASS))) {
+        && !KoLCharacter.hasEquipped(ItemPool.DRUNKULA_WINEGLASS, Slot.OFFHAND)) {
       // You cannot be falling down drunk
       return;
     }
