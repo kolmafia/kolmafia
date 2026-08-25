@@ -12341,7 +12341,7 @@
 12312	liquid asset	980372728	asset3.gif	spleen, usable	t,d	2
 12313	gross prophet chrysalis	752490296	prophetegg.gif	grow	t	0
 12314	cast entrails	874376801	prophetguts.gif	familiar	t,d	75
-12315	Malattia Becco Malbec	480441201	wine.gif	drink	t	0
+12315	Malattia Becco Malbec	480441201	wine.gif	drink	t	0	bottles of Malattia Becco Malbec
 12316	kneecapping contract	672433971	document2.gif	usable	t	0
 12317	Old Country cookbook	805238568	book4.gif	usable	t	0
 12318	Thwaitgold red and blue beetle statuette	470908923	thwaitredblue.gif	none		0
