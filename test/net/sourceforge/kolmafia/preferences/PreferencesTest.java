@@ -71,6 +71,9 @@ class PreferencesTest {
     try (cleanups) {
       Preferences.setString("tabby", "*\t*");
       Preferences.reset(EMPTY_USER);
+      // We relog twice because the preference file is only backed up when we're about to replace the existing file.
+      // So the first relog will save a prefs.txt, the second relog will save a new prefs.txt and move the old to .bak
+      Preferences.reset(EMPTY_USER);
       assertThat("userFile Not Found: " + userFile, userFile.exists());
       assertThat("backupUserFile not found: " + backupUserFile, backupUserFile.exists());
     }
