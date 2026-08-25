@@ -58,9 +58,9 @@ class PreferencesFile {
       return new Properties();
     }
 
-    Properties p = PreferencesFile.loadProperties(propertiesFile);
+    Properties p = loadProperties(propertiesFile);
 
-    if (!PreferencesFile.isValidPreferencesFile(propertiesFile, p)) {
+    if (!isValidPreferencesFile(propertiesFile, p)) {
       // Something went wrong reading the preferences.
       if (backupFile.exists()) {
         KoLmafia.updateDisplay(
@@ -70,9 +70,9 @@ class PreferencesFile {
         // also tell system out, in case things are really fubar
         System.out.println("Prefs could not be read and backup exists, trying backup. ");
 
-        p = PreferencesFile.loadProperties(backupFile);
+        p = loadProperties(backupFile);
 
-        if (PreferencesFile.isValidPreferencesFile(backupFile, p)) {
+        if (isValidPreferencesFile(backupFile, p)) {
           try {
             Files.copy(
                 backupFile.toPath(), propertiesFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
@@ -188,7 +188,7 @@ class PreferencesFile {
         Properties scratch = new Properties();
         String line;
         while ((line = reader.readLine()) != null) {
-          PreferencesFile.applyJournalLine(properties, scratch, line);
+          applyJournalLine(properties, scratch, line);
         }
       }
     } catch (IOException e) {
@@ -250,8 +250,8 @@ class PreferencesFile {
 
   /** Trim once the journal has grown too large, or it's been too long since the last one. */
   private boolean shouldTrimJournal() {
-    return journalBytes >= PreferencesFile.TRIM_JOURNAL_BYTE_THRESHOLD
-        || (System.currentTimeMillis() - prefsFileLastSave) >= PreferencesFile.JOURNAL_MAX_AGE;
+    return journalBytes >= TRIM_JOURNAL_BYTE_THRESHOLD
+        || (System.currentTimeMillis() - prefsFileLastSave) >= JOURNAL_MAX_AGE;
   }
 
   /** Saves the current prefs to file. Callers must already hold Preferences.prefsLock. */
