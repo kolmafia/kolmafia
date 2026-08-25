@@ -360,7 +360,7 @@ public class SushiRequest extends CreateItemRequest {
 
   static int nameToDipping(final String name) {
     for (Dipping sushi : DIPPING) {
-      if (name.endsWith(sushi.name)) {
+      if (name.endsWith(" with " + sushi.name)) {
         return sushi.id;
       }
     }
