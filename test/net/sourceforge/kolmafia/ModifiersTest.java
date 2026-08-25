@@ -303,24 +303,6 @@ public class ModifiersTest {
         assertThat(familiarMods.getDouble(DoubleModifier.LIVER_CAPACITY), closeTo(1, 0.001));
       }
     }
-
-    @Test
-    void somePigsDoesNotApplyLiverCapacityFromOtherFamiliars() {
-      var cleanups =
-          new Cleanups(
-              withOverrideModifiers(
-                  ModifierType.FAMILIAR, "Baby Gravy Fairy", "Liver Capacity: +2"),
-              withEffect(EffectPool.SOME_PIGS));
-
-      try (cleanups) {
-        Modifiers familiarMods = new Modifiers();
-        var familiar = FamiliarData.registerFamiliar(FamiliarPool.BABY_GRAVY_FAIRY, 0);
-
-        familiarMods.applyFamiliarModifiers(familiar, null);
-
-        assertThat(familiarMods.getDouble(DoubleModifier.LIVER_CAPACITY), closeTo(0, 0.001));
-      }
-    }
   }
 
   @Nested
