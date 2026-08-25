@@ -122,17 +122,13 @@ public class KoLAdventureValidationTest {
       }
     }
 
-    @ParameterizedTest
-    @EnumSource(
-        value = Slot.class,
-        names = {"OFFHAND", "FAMILIAR"})
-    void beingTooDrunkWithAWineglassPassesPreValidation(final Slot slot) {
+    @Test
+    void beingTooDrunkWithAWineglassInOffhandPassesPreValidation() {
       var cleanups =
           new Cleanups(
               withInebriety(30),
               withPath(Path.SHADOWS_OVER_LOATHING),
-              withFamiliar(FamiliarPool.LEFT_HAND),
-              withEquipped(slot, ItemPool.DRUNKULA_WINEGLASS));
+              withEquipped(Slot.OFFHAND, ItemPool.DRUNKULA_WINEGLASS));
 
       try (cleanups) {
         assertThat(WARREN.preValidateAdventure(), is(true));
@@ -140,16 +136,25 @@ public class KoLAdventureValidationTest {
       }
     }
 
-    @ParameterizedTest
-    @EnumSource(
-        value = Slot.class,
-        names = {"OFFHAND", "FAMILIAR"})
-    void beingTooDrunkWithAWineglassInNonSnarfblatFailsPreValidation(final Slot slot) {
+    @Test
+    void beingTooDrunkWithAWineglassOnLeftHandManDoesNotPassPreValidation() {
       var cleanups =
           new Cleanups(
               withInebriety(30),
+              withPath(Path.SHADOWS_OVER_LOATHING),
               withFamiliar(FamiliarPool.LEFT_HAND),
-              withEquipped(slot, ItemPool.DRUNKULA_WINEGLASS));
+              withEquipped(Slot.FAMILIAR, ItemPool.DRUNKULA_WINEGLASS));
+
+      try (cleanups) {
+        assertThat(WARREN.preValidateAdventure(), is(false));
+        assertThat(SHADOW_RIFT.preValidateAdventure(), is(false));
+      }
+    }
+
+    @Test
+    void beingTooDrunkWithAWineglassInNonSnarfblatFailsPreValidation() {
+      var cleanups =
+          new Cleanups(withInebriety(30), withEquipped(Slot.OFFHAND, ItemPool.DRUNKULA_WINEGLASS));
 
       try (cleanups) {
         assertThat(
