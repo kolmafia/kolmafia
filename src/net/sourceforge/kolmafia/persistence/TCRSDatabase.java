@@ -865,7 +865,7 @@ public class TCRSDatabase {
       adjectives.add(qualityDescriptor);
     }
 
-    if (quality.getValue() * size >= 7) {
+    if (quality.getValue() * size >= 8) {
       mtRng.nextDouble();
     }
 
