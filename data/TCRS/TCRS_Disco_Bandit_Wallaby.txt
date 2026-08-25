@@ -1630,7 +1630,7 @@
 1650	milk of magnesium	0		
 1651	toothsome foie gras	4	awesome	
 1652	dry candy brain	0		Effect: "Berry Critical", Effect Duration: 40, Last Available: "2020-09"
-1653	narrow jittery curative thinker's beefy jewel-eyed wizard hat	0		Muscle: +10, Mysticality: +10, HP Regen Min: 3, HP Regen Max: 5, Softcore Only, Familiar Effect: "atk, 5xVolley, 5xLep, cap 2", Conditional Skill (Equipped): "Magic Missile", Last Available: "2006-07"
+1653	narrow jittery curative thinker's beefy jewel-eyed wizard hat	0		Muscle: +10, Mysticality: +10, HP Regen Min: 3, HP Regen Max: 5, Softcore Only, Conditional Skill (Equipped): "Magic Missile", Familiar Effect: "atk, 5xVolley, 5xLep, cap 2", Last Available: "2006-07"
 1654	reassuring hardy wad of Crovacite	0		Maximum HP: +50, Spooky Resistance: +1
 1655	cyan Usain Bolt's stiffened collar	0		Damage Reduction: 1, Initiative: +80
 1656	White Citadel Satisfaction Satchel	0		
@@ -2182,9 +2182,9 @@
 2207	reassuring Crimbo tiki necklace	0		Spooky Resistance: +1, Last Available: "2006-12"
 2208	blurry personal trainer's slick bobble-hip hula elf doll	0		Moxie: +10, Experience Percent (Muscle): +10, Last Available: "2006-12"
 2209	crafty Crimbo ukulele	0		Maximum MP: +10, Last Available: "2006-12"
-2210	supercharged stylish Tiki lighter	0		Moxie: +25, Maximum MP Percent: +30, Stat Tuning: "Moxie", Last Available: "2006-12"
-2211	skewed twirling wool studded deck of tropical cards	0		Damage Absorption: +80, Cold Resistance: +1, Stat Tuning: "Mysticality", Last Available: "2006-12"
-2212	upside-down frosty tropical paperweight of the blizzard	0		Cold Spell Damage: 35, Stat Tuning: "Muscle", Last Available: "2006-12"
+2210	supercharged stylish Tiki lighter	0		Moxie: +25, Maximum MP Percent: +30, Last Available: "2006-12", Stat Tuning: "Moxie"
+2211	skewed twirling wool studded deck of tropical cards	0		Damage Absorption: +80, Cold Resistance: +1, Last Available: "2006-12", Stat Tuning: "Mysticality"
+2212	upside-down frosty tropical paperweight of the blizzard	0		Cold Spell Damage: 35, Last Available: "2006-12", Stat Tuning: "Muscle"
 2213	tumbling tropical Crimbo pressie	0		Last Available: "2006-12"
 2214	tropical wrapping paper	0		Last Available: "2006-12"
 2215	olive wobbly Tropical Crimbo Hat of the brute	0		Muscle Percent: +30, Familiar Effect: "1xLep, 1.5xFairy, cap 25", Last Available: "2006-12"
@@ -3048,7 +3048,7 @@
 3076	laser targeting chip	0		Last Available: "2007-12"
 3077	spinning hi-density nylocite leg armor	0		Last Available: "2007-12"
 3078	kevlateflocite helmet	0		Last Available: "2007-12"
-3079	upside-down Bulky Buddy Box	0		Wiki Name: "Bulky Buddy Box (hatchling)", Last Available: "2007-12"
+3079	upside-down Bulky Buddy Box	0		Last Available: "2007-12", Wiki Name: "Bulky Buddy Box (hatchling)"
 3080	spinning teddy borg	0		Last Available: "2007-12"
 3081	spinning pulsating quilted marionette collective	0		Damage Absorption: +40, Last Available: "2007-12"
 3082	red monomolecular yo-yo	0		Last Available: "2010-12"
@@ -3240,9 +3240,9 @@
 3268	tarnished skewed huge handful of Crotchety Pine needles	0		Effect: "Fifty Ways to Bereave Your Lover", Effect Duration: 51
 3269	liquefied vacuum-sealed teal lump of Saccharine Maple sap	0		Effect: "Stinking Cloud", Effect Duration: 20
 3270	denatured concentrated handful of Laughing Willow bark	0		Effect: "Red-Shirted Escort", Effect Duration: 32
-3271	purple wicked crotchety pants	0		Spell Damage: +5, Familiar Effect: "3xPotato, 2xGhuol, cap 18", Conditional Skill (Equipped): "Put Down Roots"
+3271	purple wicked crotchety pants	0		Spell Damage: +5, Conditional Skill (Equipped): "Put Down Roots", Familiar Effect: "3xPotato, 2xGhuol, cap 18"
 3272	sharpshooter's Saccharine Maple pendant	0		Critical Hit Percent: +10, Conditional Skill (Equipped): "Spray Sap"
-3273	skewed Jeselnik's willowy bonnet	0		Sleaze Damage: +25, Familiar Effect: "1xFairy, cap 18", Conditional Skill (Equipped): "Rouse Sapling"
+3273	skewed Jeselnik's willowy bonnet	0		Sleaze Damage: +25, Conditional Skill (Equipped): "Rouse Sapling", Familiar Effect: "1xFairy, cap 18"
 3274	flavored foot massage oil	0		Last Available: "2008-04"
 3275	ghostly dart	0		Last Available: "2008-04"
 3276	black-and-blue light	0		Last Available: "2008-04"
@@ -3616,7 +3616,7 @@
 3650	flavorless snack-sized wobbly narrow toast with jam	2	decent	Last Available: "2008-12"
 3651	bouncing antlers	0		Familiar Weight: +3, Last Available: "2008-12"
 3652	lousy jittery elven moonshine	3	decent	Last Available: "2008-12"
-3653	bland knuckle sandwich	3	decent	Wiki Name: "knuckle sandwich", Last Available: "2008-12"
+3653	bland knuckle sandwich	3	decent	Last Available: "2008-12", Wiki Name: "knuckle sandwich"
 3654	rosy-cheeked psycho sweater of temperance	0		Maximum HP Percent: +30, Sleaze Resistance: +5, Last Available: "2008-12"
 3655	wobbly fin-bit wax	0		Familiar Weight: +5
 3656	lard-coated plastic Mob Penguin	0		Sleaze Spell Damage: +25, Last Available: "2008-12"
@@ -4249,15 +4249,15 @@
 4297	gravedigger's rosy-cheeked smartaleck's Ass-Stompers of Violence	0		Moxie Percent: +30, Maximum HP Percent: +30, Spooky Damage: +10, Single Equip, Conditional Skill (Equipped): "Stomp Ass"
 4298	shaking greedy shellacked Brand of Violence of the empath	0		Damage Reduction: 7, Familiar Weight: +5, Meat Drop: +20, Conditional Skill (Equipped): "Brand"
 4299	red sizzling nippy Rosewater's Novelty Belt Buckle of Violence	0		Mysticality Percent: +30, Cold Damage: +10, Hot Damage: +10, Single Equip
-4300	greasy energetic ruddy Lens of Violence	0		Maximum HP Percent: +40, Maximum MP Percent: +20, Sleaze Spell Damage: +10, Familiar Effect: "atk, 1xBarrr", Conditional Skill (Equipped): "Violent Gaze"
+4300	greasy energetic ruddy Lens of Violence	0		Maximum HP Percent: +40, Maximum MP Percent: +20, Sleaze Spell Damage: +10, Conditional Skill (Equipped): "Violent Gaze", Familiar Effect: "atk, 1xBarrr"
 4301	foul-smelling Pigsticker of Violence of the brute of chilblains	0		Muscle Percent: +30, Cold Damage: +25, Stench Damage: +10
-4302	scorching dance instructor's beefcake's Jodhpurs of Violence	0		Muscle: +25, Experience Percent (Moxie): +10, Hot Damage: +25, Familiar Effect: "atk, 1xPotato", Conditional Skill (Equipped): "Mosh"
+4302	scorching dance instructor's beefcake's Jodhpurs of Violence	0		Muscle: +25, Experience Percent (Moxie): +10, Hot Damage: +25, Conditional Skill (Equipped): "Mosh", Familiar Effect: "atk, 1xPotato"
 4303	experienced savvy cool Cold Stone of Hatred	0		Moxie: +5, Mysticality Percent: +20, Experience: +2, Conditional Skill (Equipped): "Chilling Grip"
 4304	Jack Frost's chilly energetic Girdle of Hatred	0		Maximum MP Percent: +20, Cold Damage: +5, Cold Spell Damage: +50, Single Equip, Conditional Skill (Equipped): "Tighten Girdle"
 4305	olive baleful Da Vinci's Staff of Simmering Hatred of the businessman	0		Experience (Mysticality): +5, Spell Damage: +25, Meat Drop: +50
-4306	green sizzling Tesla Pantaloons of Hatred of the businessman	0		Hot Damage: +10, Meat Drop: +50, MP Regen Min: 7, MP Regen Max: 10, Familiar Effect: "hot atk, 2xVolley", Conditional Skill (Equipped): "[7156]Static Shock"
+4306	green sizzling Tesla Pantaloons of Hatred of the businessman	0		Hot Damage: +10, Meat Drop: +50, MP Regen Min: 7, MP Regen Max: 10, Conditional Skill (Equipped): "[7156]Static Shock", Familiar Effect: "hot atk, 2xVolley"
 4307	auspicious veiny beefcake's Fuzzy Slippers of Hatred	0		Muscle: +25, Maximum HP: +10, Item Drop: +10, Single Equip
-4308	vibrating Lens of Hatred of the ox of the brute	0		Muscle: +20, Muscle Percent: +30, Maximum MP Percent: +10, Familiar Effect: "hot atk, 1xBarrr", Conditional Skill (Equipped): "Hateful Gaze"
+4308	vibrating Lens of Hatred of the ox of the brute	0		Muscle: +20, Muscle Percent: +30, Maximum MP Percent: +10, Conditional Skill (Equipped): "Hateful Gaze", Familiar Effect: "hot atk, 1xBarrr"
 4309	squat Sherlock's reassuring sinister Treads of Loathing	0		Spell Damage: +10, Spooky Resistance: +1, Item Drop: +25, Single Equip
 4310	bouncing Sherlock's dangerous Scepter of Loathing of Gandalf	0		Weapon Damage: +10, Spell Critical Percent: +20, Item Drop: +25
 4311	miser's banded Belt of Loathing of the sweet-tooth	0		Damage Absorption: +100, Meat Drop: +10, Candy Drop: +100, Single Equip
@@ -4424,7 +4424,7 @@
 4476	BRICKO oyster	0		Last Available: "2010-02"
 4477	BRICKO turtle	0		Last Available: "2010-02"
 4478	BRICKO elephant	0		Last Available: "2010-02"
-4479	BRICKO octopus	0		Wiki Name: "BRICKO octopus (item)", Last Available: "2010-02"
+4479	BRICKO octopus	0		Last Available: "2010-02", Wiki Name: "BRICKO octopus (item)"
 4480	squat BRICKO python	0		Last Available: "2010-02"
 4481	BRICKO vacuum cleaner	0		Last Available: "2010-02"
 4482	BRICKO airship	0		Last Available: "2010-02"
@@ -4526,7 +4526,7 @@
 4578	meat st&permil;&iquest;bing club	0		Last Available: "2010-04"
 4579	warmed teal Knob G&Atilde;&para;blin l&Atilde;&sup2;ve potion	0		Effect: "Psalm of Pointiness", Effect Duration: 47, Last Available: "2010-04"
 4580	jittery beefy school Mafi<i>a kni</i>cke&frac12;&aelig;	0		Muscle: +10, Last Available: "2010-04"
-4581	blurry Sherlock's gravedigger's T&Icirc;&curren;&loz;lisman of Bai&oslash;&Dagger;	0		Spooky Damage: +10, Item Drop: +25, Wiki Name: "Bugged baio", Last Available: "2010-04"
+4581	blurry Sherlock's gravedigger's T&Icirc;&curren;&loz;lisman of Bai&oslash;&Dagger;	0		Spooky Damage: +10, Item Drop: +25, Last Available: "2010-04", Wiki Name: "Bugged baio"
 4582	fat bottom quark	0		Last Available: "2010-05"
 4583	blurry glob of skin	0		
 4584	moldy miniature six wedges of goat cheese	2	crappy	
@@ -5823,7 +5823,7 @@
 5925	ChibiBuddy&trade; (off)	0		Last Available: "2012-12"
 5926	BittyCar MeatCar	0		Last Available: "2012-12"
 5927	BittyCar HotCar	0		Last Available: "2012-12"
-5928	brainwave-controlled unicorn horn of the empath	0		Familiar Weight: +5, Familiar Effect: "atk, 5xVolley, cap 2", Conditional Skill (Equipped): "Uni-Gore", Last Available: "2012-12"
+5928	brainwave-controlled unicorn horn of the empath	0		Familiar Weight: +5, Conditional Skill (Equipped): "Uni-Gore", Familiar Effect: "atk, 5xVolley, cap 2", Last Available: "2012-12"
 5929	bubble-wrap simulator	0		Last Available: "2012-12"
 5930	wobbly blind-packed capsule toy	0		Last Available: "2012-12"
 5931	squat ruddy plastic four-shadowed mime of the cougar of the detective	0		Moxie: +20, Maximum HP Percent: +40, Item Drop: +20, Single Equip, Last Available: "2012-12"
@@ -5858,7 +5858,7 @@
 5960	boxer's plastic Father McGruber	0		Muscle Percent: +10, Last Available: "2012-12"
 5961	plastic Hank North, Photojournalist of the early riser	0		Adventures: +7, Last Available: "2012-12"
 5962	huge blurry Lo Pan's plastic blazing bat	0		Spell Critical Percent: +30, Last Available: "2012-12"
-5963	reassuring occult electronic dulcimer pants	0		Spell Damage Percent: +25, Spooky Resistance: +1, Familiar Effect: "8xPotato, cap 2", Conditional Skill (Equipped): "Play Hog Fiddle", Last Available: "2012-12"
+5963	reassuring occult electronic dulcimer pants	0		Spell Damage Percent: +25, Spooky Resistance: +1, Conditional Skill (Equipped): "Play Hog Fiddle", Familiar Effect: "8xPotato, cap 2", Last Available: "2012-12"
 5964	gray A-Boo clue	0		
 5965	dog trainer's slick Frown Exerciser	0		Moxie: +10, Experience (familiar): +1, Single Equip, Last Available: "2012-12"
 5966	soul monocle	0		Single Equip
@@ -5951,7 +5951,7 @@
 6053	watered-down artisanal Taco Dan's Taco Stand Chimichangarita	2	EPIC	Last Available: "2012-12"
 6054	extra-frozen mirror tumbling Taco Dan's Taco Stand Chillacious Churro	0		Effect: "Twinklebritches", Effect Duration: 18, Last Available: "2012-12"
 6055	psychoanalytic jar	0		Last Available: "2013-12"
-6056	The Sword in the Steak	0		Wiki Name: "The Sword in the Steak (item)", Last Available: "2013-12"
+6056	The Sword in the Steak	0		Last Available: "2013-12", Wiki Name: "The Sword in the Steak (item)"
 6057	mirror Usain Bolt's Meatcleaver of bravery	0		Spooky Resistance: +5, Initiative: +80, Last Available: "2013-12"
 6058	resourceful Crimbo Elf bobble-head	0		Maximum MP: +50, Last Available: "2012-12"
 6059	ruddy Crimbo stogie-scented room odorizer	0		Maximum HP Percent: +40, Last Available: "2012-12"
@@ -6182,7 +6182,7 @@
 6286	blurry up-at-dawn nasty Mark II Steam-Hat of the blizzard	0		Cold Spell Damage: +25, Stench Damage: +5, Adventures: +5, Familiar Effect: "1xLep, cap 37"
 6287	medical-grade sage wizardly Mark III Steam-Hat	0		Mysticality: +25, Mysticality Percent: +10, Item Drop: +5, HP Regen Min: 7, HP Regen Max: 10, Familiar Effect: "1xLep, cap 37"
 6288	blurry purple avaricious gravedigger's Temple Grandin's vibrating rock-hard Mark IV Steam-Hat	0		Damage Reduction: 5, Maximum MP Percent: +10, Familiar Weight: +7, Spooky Damage: +10, Meat Drop: +30, Familiar Effect: "1xLep, cap 37"
-6289	yellow wobbly auspicious Newton's groovy Mark V Steam-Hat of Calamity Jane of the empath	0		Moxie Percent: +10, Experience (Mysticality): +3, Critical Hit Percent: +15, Familiar Weight: +5, Item Drop: +10, Familiar Effect: "1xLep, cap 37", Conditional Skill (Equipped): "Fire Death Ray"
+6289	yellow wobbly auspicious Newton's groovy Mark V Steam-Hat of Calamity Jane of the empath	0		Moxie Percent: +10, Experience (Mysticality): +3, Critical Hit Percent: +15, Familiar Weight: +5, Item Drop: +10, Conditional Skill (Equipped): "Fire Death Ray", Familiar Effect: "1xLep, cap 37"
 6290	bouncing steam-powered model rocketship	0		
 6291	yellow Fonzie's punk rock jacket of the storm	0		Experience (Moxie): +1, Maximum MP Percent: +40
 6292	aromatic hardened safety pin	0		Damage Reduction: 3, Stench Resistance: +1
@@ -6746,7 +6746,7 @@
 6857	fuchsia Usain Bolt's Cajun accordion	0		Initiative: +80, Class: "Accordion Thief", Song Duration: 10, Last Available: "2013-10"
 6858	wobbly careful quirky accordion	0		Monster Level: -10, Class: "Accordion Thief", Song Duration: 10, Last Available: "2013-10"
 6859	ribald electrified Skipper's accordion	0		Sleaze Damage: +10, MP Regen Min: 3, MP Regen Max: 5, Class: "Accordion Thief", Song Duration: 10, Last Available: "2013-10"
-6860	resourceful razor-sharp Pantsgiving of the dark arts of horror	0		Weapon Damage Percent: +25, Spell Damage Percent: +100, Maximum MP: +50, Spooky Spell Damage: +25, Softcore Only, Familiar Effect: "1xPotato, cap 25", Conditional Skill (Equipped): "Talk About Politics", Conditional Skill (Equipped): "Pocket Crumbs", Conditional Skill (Equipped): "Air Dirty Laundry", Last Available: "2013-11"
+6860	resourceful razor-sharp Pantsgiving of the dark arts of horror	0		Weapon Damage Percent: +25, Spell Damage Percent: +100, Maximum MP: +50, Spooky Spell Damage: +25, Softcore Only, Conditional Skill (Equipped): "Talk About Politics", Conditional Skill (Equipped): "Pocket Crumbs", Conditional Skill (Equipped): "Air Dirty Laundry", Familiar Effect: "1xPotato, cap 25", Last Available: "2013-11"
 6861	normal jittery can of sardines	3	good	Last Available: "2013-11"
 6862	adequate high-calorie sugar substitute	3	good	Last Available: "2013-11"
 6863	bland pat of butter	3	decent	Last Available: "2013-11"
@@ -7367,7 +7367,7 @@
 7478	possessed sugar cube	0		Last Available: "2014-05"
 7479	liquefied wobbly purple sugar fairy	0		Effect: "Amorous", Effect Duration: 53, Last Available: "2014-05"
 7480	corrupted enhanced galvanized sugar bunny	0		Effect: "Smoky Third Eye", Effect Duration: 25, Last Available: "2014-05"
-7481	blinking sweet tooth	0		Wiki Name: "sweet tooth", Last Available: "2014-05"
+7481	blinking sweet tooth	0		Last Available: "2014-05", Wiki Name: "sweet tooth"
 7482	watered-down hand-crafted twirling Rompedores de Fantasmas	2	EPIC	
 7483	enchanted acceptable La Fantasma y La Oscuridad	4	good	Effect: "Pronounced Potency", Effect Duration: 20
 7484	practically non-alcoholic aged wobbly Fantasma en la M&aacute;quina	1	awesome	
@@ -7881,7 +7881,7 @@
 7999	colloidal huge choco-Crimbot	0		Effect: "Oth-Jeal-O", Effect Duration: 45, Last Available: "2014-12"
 8000	cold-filtered olive smart watch	0		Effect: "Prince of Seaside Town", Effect Duration: 40, Last Available: "2014-12"
 8001	double-denatured augmented-reality shades	0		Effect: "Wings of the Grasshopper", Effect Duration: 44, Last Available: "2014-12"
-8002	toy Crimbot mega face of the sweet-tooth	0		Candy Drop: +100, Crimbot Outfit Power: +1, Familiar Effect: "hot atk, cap 12", Conditional Skill (Equipped): "LIGHT", Last Available: "2014-12"
+8002	toy Crimbot mega face of the sweet-tooth	0		Candy Drop: +100, Crimbot Outfit Power: +1, Conditional Skill (Equipped): "LIGHT", Familiar Effect: "hot atk, cap 12", Last Available: "2014-12"
 8003	squat lightning-fast toy Crimbot power glove	0		Initiative: +40, Crimbot Outfit Power: +1, Conditional Skill (Equipped): "ZAP", Last Available: "2014-12"
 8004	sharpshooter's toy Crimbot super fist	0		Critical Hit Percent: +10, Crimbot Outfit Power: +1, Conditional Skill (Equipped): "POW", Last Available: "2014-12"
 8005	careful toy Crimbot rocket legs	0		Monster Level: -10, Crimbot Outfit Power: +1, Conditional Skill (Equipped): "BURN", Last Available: "2014-12"
@@ -8559,7 +8559,7 @@
 8686	perfect ice cube	0		Last Available: "2015-11"
 8687	huge The Fun-Guy Cold Weather Bartender's Guide	0		Skill: "Perfect Freeze", Last Available: "2015-11"
 8688	educational bellhop's hat	0		Experience: +1, Familiar Effect: "1xLep, 0.75xBarrr, cap 30", Last Available: "2015-11"
-8689	hand-crafted high-proof ice porter	6	EPIC	Wiki Name: "ice porter (drink)", Last Available: "2015-11"
+8689	hand-crafted high-proof ice porter	6	EPIC	Last Available: "2015-11", Wiki Name: "ice porter (drink)"
 8690	wet exotic travel brochure	0		Effect: "Oiled Skin", Effect Duration: 45, Last Available: "2015-11"
 8691	bag of foreign bribes	0		Last Available: "2015-11"
 8692	quadruple-activated shampoo-conditioner	0		Effect: "One Foot Heavier", Effect Duration: 56, Last Available: "2015-11"
@@ -8601,7 +8601,7 @@
 8728	wobbly VYKEA dowel	0		Last Available: "2015-11"
 8729	razor-sharp arcane researcher's VYKEA hex key of Flo-Jo	0		Experience Percent (Mysticality): +10, Weapon Damage Percent: +25, Initiative: +100, Last Available: "2015-11"
 8730	VYKEA instructions	0		Last Available: "2015-11"
-8731	stale tin of submardines	3	decent	Wiki Name: "tin of submardines", Last Available: "2015-11"
+8731	stale tin of submardines	3	decent	Last Available: "2015-11", Wiki Name: "tin of submardines"
 8732	lousy distilled bottle of norwhiskey	5	decent	Last Available: "2015-11"
 8733	powdered upside-down cyan octolus oculus	1	decent	Last Available: "2015-11"
 8734	stylish sardine can key of chilblains of mayonnaise	0		Moxie: +25, Cold Damage: +25, Sleaze Spell Damage: +50, Last Available: "2015-11"
@@ -8695,7 +8695,7 @@
 8823	spoiled big Mr. Burnsger	5	crappy	Last Available: "2016-12"
 8824	compressed upside-down The Inquisitor's unidentifiable object	1		Last Available: "2016-12"
 8825	lion tamer's wicked supercool The Jokester's gun	0		Moxie Percent: +20, Spell Damage: +5, Experience (familiar): +2, Conditional Skill (Equipped): "Fire the Jokester's Gun", Last Available: "2016-12"
-8826	slick The Jokester's wig of Gandalf of courage	0		Moxie: +10, Spell Critical Percent: +20, Spooky Resistance: +3, Familiar Effect: "1xPotato, 1xGhuol", Conditional Skill (Equipped): "Adjust the Jokester's Wig", Last Available: "2016-12"
+8826	slick The Jokester's wig of Gandalf of courage	0		Moxie: +10, Spell Critical Percent: +20, Spooky Resistance: +3, Conditional Skill (Equipped): "Adjust the Jokester's Wig", Familiar Effect: "1xPotato, 1xGhuol", Last Available: "2016-12"
 8827	asbestos-lined clever weightlifter's The Jokester's pants	0		Muscle: +15, Maximum MP: +20, Hot Resistance: +5, Conditional Skill (Equipped): "Adjust the Jokester's Pants", Last Available: "2016-12"
 8828	extra-polymerized electrified Jokester makeup	0		Effect: "Patched In", Effect Duration: 25, Last Available: "2016-12"
 8829	replica bat-oomerang	0		Last Available: "2016-12"
@@ -9536,9 +9536,9 @@
 9664	donated candy	0		
 9665	ionized blue digital honeypot	0		Effect: "Techno Bliss", Effect Duration: 11, Last Available: "2025-12"
 9666	mime-proof sunglasses	0		Single Equip, Last Available: "2017-12"
-9667	mime army insignia (infantry) of the cheetah	0		Initiative: +60, Single Equip, Stat Tuning: "Muscle (all)", Last Available: "2017-12"
-9668	sage mime army insignia (intelligence)	0		Mysticality Percent: +10, Single Equip, Stat Tuning: "Mysticality (all)", Last Available: "2017-12"
-9669	skewed mime army insignia (espionage) of mayonnaise	0		Sleaze Spell Damage: +50, Single Equip, Stat Tuning: "Moxie (all)", Last Available: "2017-12"
+9667	mime army insignia (infantry) of the cheetah	0		Initiative: +60, Single Equip, Last Available: "2017-12", Stat Tuning: "Muscle (all)"
+9668	sage mime army insignia (intelligence)	0		Mysticality Percent: +10, Single Equip, Last Available: "2017-12", Stat Tuning: "Mysticality (all)"
+9669	skewed mime army insignia (espionage) of mayonnaise	0		Sleaze Spell Damage: +50, Single Equip, Last Available: "2017-12", Stat Tuning: "Moxie (all)"
 9670	mime army insignia (pyrotechnics)	0		Single Equip, Last Available: "2017-12"
 9671	mime army insignia (cryonics)	0		Single Equip, Last Available: "2017-12"
 9672	mime army insignia (psychological warfare)	0		Single Equip, Last Available: "2017-12"
@@ -9620,7 +9620,7 @@
 9752	yellow ultracalcium	0		
 9753	ginseng	0		
 9754	Team Avarice cap of bravery	0		Spooky Resistance: +5
-9755	upside-down greedy Team Sloth cap	0		Meat Drop: +20, Combat Rate: -15
+9755	upside-down greedy Team Sloth cap	0		Meat Drop: +20
 9756	stanky Team Wrath cap	0		Stench Spell Damage: +25
 9757	lard-coated Mu cap	0		Sleaze Spell Damage: +25
 9758	Thwaitgold metabug statuette	0		
@@ -10782,7 +10782,7 @@
 10926	non-aerosolized liquefied trampled ticket stub	0		Effect: "stats.enq", Effect Duration: 43, Last Available: "2022-06"
 10927	concentrated savings bond	0		Effect: "Fiery Spirit", Effect Duration: 40, Last Available: "2022-06"
 10928	designer sweatpants (new stock)	0		Free Pull, Last Available: "2022-07"
-10929	designer sweatpants	0		Conditional Skill (Inventory): "Sweat Out Some Booze", Conditional Skill (Equipped): "Sweat Flick", Conditional Skill (Equipped): "Sweat Flood", Conditional Skill (Equipped): "Sweat Spray", Conditional Skill (Equipped): "Sweat Sip", Conditional Skill (Equipped): "Make Sweat-Ade", Conditional Skill (Equipped): "Drench Yourself in Sweat", Conditional Skill (Equipped): "Sip Some Sweat", Last Available: "2022-07"
+10929	designer sweatpants	0		Conditional Skill (Equipped): "Sweat Flick", Conditional Skill (Equipped): "Sweat Flood", Conditional Skill (Equipped): "Sweat Spray", Conditional Skill (Equipped): "Sweat Sip", Conditional Skill (Equipped): "Make Sweat-Ade", Conditional Skill (Equipped): "Drench Yourself in Sweat", Conditional Skill (Equipped): "Sip Some Sweat", Conditional Skill (Inventory): "Sweat Out Some Booze", Last Available: "2022-07"
 10930	compressed skewed purple spinning sweat-ade	1		Last Available: "2022-07"
 10931	unopened stillsuit	0		Free Pull, Last Available: "2022-08"
 10932	olive stillsuit	0		Familiar Weight: +5, Experience (familiar): +1, Familiar Damage: +10, Last Available: "2022-08"
@@ -10832,27 +10832,27 @@
 10976	hand-crafted Boris's beer	4	EPIC	Last Available: "2022-11"
 10977	stale pulsating cyan honey bun of Boris	3	decent	Last Available: "2022-11"
 10978	moldy Boris's bread	4	crappy	Last Available: "2022-11"
-10979	Recipe of Before Yore: ratatouille de Jarlsberg	0		Recipe: "ratatouille de Jarlsberg", Last Available: "2022-11"
-10980	Recipe of Before Yore: Jarlsberg's vegetable soup	0		Recipe: "Jarlsberg's vegetable soup", Last Available: "2022-11"
-10981	Recipe of Before Yore: roasted vegetable of J.	0		Recipe: "roasted vegetable of Jarlsberg", Last Available: "2022-11"
-10982	twirling Recipe of Before Yore: St. Pete's sneaky smoothie	0		Recipe: "St. Pete's sneaky smoothie", Last Available: "2022-11"
-10983	Recipe of Before Yore: Pete's wily whey bar	0		Recipe: "Pete's wiley whey bar", Last Available: "2022-11"
-10984	Recipe of Before Yore: Pete's rich ricotta	0		Recipe: "Pete's rich ricotta", Last Available: "2022-11"
-10985	spinning Recipe of Before Yore: Boris's beer	0		Recipe: "Boris's beer", Last Available: "2022-11"
-10986	twirling blue Recipe of Before Yore: honey bun of Boris	0		Recipe: "honey bun of Boris", Last Available: "2022-11"
-10987	Recipe of Before Yore: Boris's bread	0		Recipe: "Boris's bread", Last Available: "2022-11"
+10979	Recipe of Before Yore: ratatouille de Jarlsberg	0		Last Available: "2022-11", Recipe: "ratatouille de Jarlsberg"
+10980	Recipe of Before Yore: Jarlsberg's vegetable soup	0		Last Available: "2022-11", Recipe: "Jarlsberg's vegetable soup"
+10981	Recipe of Before Yore: roasted vegetable of J.	0		Last Available: "2022-11", Recipe: "roasted vegetable of Jarlsberg"
+10982	twirling Recipe of Before Yore: St. Pete's sneaky smoothie	0		Last Available: "2022-11", Recipe: "St. Pete's sneaky smoothie"
+10983	Recipe of Before Yore: Pete's wily whey bar	0		Last Available: "2022-11", Recipe: "Pete's wiley whey bar"
+10984	Recipe of Before Yore: Pete's rich ricotta	0		Last Available: "2022-11", Recipe: "Pete's rich ricotta"
+10985	spinning Recipe of Before Yore: Boris's beer	0		Last Available: "2022-11", Recipe: "Boris's beer"
+10986	twirling blue Recipe of Before Yore: honey bun of Boris	0		Last Available: "2022-11", Recipe: "honey bun of Boris"
+10987	Recipe of Before Yore: Boris's bread	0		Last Available: "2022-11", Recipe: "Boris's bread"
 10988	moldy baked veggie ricotta casserole	3	crappy	Last Available: "2022-11"
 10989	bite-sized bland plain calzone	1	decent	Last Available: "2022-11"
 10990	moldy bouncing roasted vegetable focaccia	3	crappy	Last Available: "2022-11"
 10991	decent huge olive Pizza of Legend	9	good	Last Available: "2022-11"
 10992	decent Calzone of Legend	3	good	Last Available: "2022-11"
-10993	Recipe of Before Yore: Calzone of Legend	0		Recipe: "Calzone of Legend", Last Available: "2022-11"
-10994	Recipe of Before Yore: Pizza of Legend	0		Recipe: "Pizza of Legend", Last Available: "2022-11"
-10995	blurry Recipe of Before Yore: roasted vegetable focaccia	0		Recipe: "roasted vegetable focaccia", Last Available: "2022-11"
-10996	Recipe of Before Yore: plain calzone	0		Recipe: "plain calzone", Last Available: "2022-11"
-10997	purple Recipe of Before Yore: baked veggie ricotta	0		Recipe: "baked veggie ricotta casserole", Last Available: "2022-11"
+10993	Recipe of Before Yore: Calzone of Legend	0		Last Available: "2022-11", Recipe: "Calzone of Legend"
+10994	Recipe of Before Yore: Pizza of Legend	0		Last Available: "2022-11", Recipe: "Pizza of Legend"
+10995	blurry Recipe of Before Yore: roasted vegetable focaccia	0		Last Available: "2022-11", Recipe: "roasted vegetable focaccia"
+10996	Recipe of Before Yore: plain calzone	0		Last Available: "2022-11", Recipe: "plain calzone"
+10997	purple Recipe of Before Yore: baked veggie ricotta	0		Last Available: "2022-11", Recipe: "baked veggie ricotta casserole"
 10998	shaking cookbookbat book	0		Familiar Weight: +5
-10999	huge Recipe of Before Yore: Deep Dish of Legend	0		Recipe: "Deep Dish of Legend", Last Available: "2022-11"
+10999	huge Recipe of Before Yore: Deep Dish of Legend	0		Last Available: "2022-11", Recipe: "Deep Dish of Legend"
 11000	adequate Deep Dish of Legend	3	good	Last Available: "2022-11"
 11001	deed to Oliver's Place	0		Free Pull
 11002	drink chit	0		
@@ -11103,7 +11103,7 @@
 11248	replica emotion chip	0		Skill: "Replica Emotionally Chipped"
 11249	blinking frightening nippy replica Jurassic Parka	0		Cold Damage: +10, Spooky Damage: +5
 11250	replica grey gosling	0		
-11251	replica designer sweatpants	0		Conditional Skill (Inventory): "Sweat Out Some Booze", Conditional Skill (Equipped): "Sweat Flick", Conditional Skill (Equipped): "Sweat Flood", Conditional Skill (Equipped): "Sweat Spray", Conditional Skill (Equipped): "Sweat Sip", Conditional Skill (Equipped): "Make Sweat-Ade", Conditional Skill (Equipped): "Drench Yourself in Sweat", Conditional Skill (Equipped): "Sip Some Sweat"
+11251	replica designer sweatpants	0		Conditional Skill (Equipped): "Sweat Flick", Conditional Skill (Equipped): "Sweat Flood", Conditional Skill (Equipped): "Sweat Spray", Conditional Skill (Equipped): "Sweat Sip", Conditional Skill (Equipped): "Make Sweat-Ade", Conditional Skill (Equipped): "Drench Yourself in Sweat", Conditional Skill (Equipped): "Sip Some Sweat", Conditional Skill (Inventory): "Sweat Out Some Booze"
 11252	replica plastic pumpkin bucket	0		Familiar Weight: +5, Item Drop: +13
 11253	huge replica Ten Dollars	0		
 11254	upside-down reassuring clever sage replica Cincho de Mayo of the bloodbag	0		Mysticality Percent: +10, Maximum HP: +100, Maximum MP: +20, Spooky Resistance: +1, Conditional Skill (Equipped): "Cincho: Dispense Salt and Lime", Conditional Skill (Equipped): "Cincho: Party Soundtrack", Conditional Skill (Equipped): "Cincho: Fiesta Exit", Conditional Skill (Equipped): "Cincho: Projectile Piñata", Conditional Skill (Equipped): "Cincho: Party Foul", Conditional Skill (Equipped): "Cincho: Confetti Extravaganza"
@@ -11889,7 +11889,7 @@
 12131	altered nitrogenated boiling synovial fluid	0		Effect: "Hair on Your Chest", Effect Duration: 23, Last Available: "2025-12"
 12132	dangerous supercool smoldering vertebra of the detective	0		Moxie Percent: +20, Weapon Damage: +10, Item Drop: +20, Single Equip, Last Available: "2025-12"
 12133	huge seal-clubbing club loot box	0		Free Pull, Last Available: "2026-01"
-12134	<span style='padding: 2px; color: #ff8000; background-color: black;'>legendary seal-clubbing club</span>	0		Muscle Percent: +50, Weapon Damage: +10, Initiative: +50, Display Name: "<span style='padding: 2px; color: #ff8000; background-color: black;'>legendary seal-clubbing club</span>", Conditional Skill (Equipped): "Club 'Em Across the Battlefield", Conditional Skill (Equipped): "Club 'Em Into Next Week", Conditional Skill (Equipped): "Club 'Em Back in Time", Last Available: "2026-01"
+12134	<span style='padding: 2px; color: #ff8000; background-color: black;'>legendary seal-clubbing club</span>	0		Muscle Percent: +50, Weapon Damage: +10, Initiative: +50, Conditional Skill (Equipped): "Club 'Em Across the Battlefield", Conditional Skill (Equipped): "Club 'Em Into Next Week", Conditional Skill (Equipped): "Club 'Em Back in Time", Display Name: "<span style='padding: 2px; color: #ff8000; background-color: black;'>legendary seal-clubbing club</span>", Last Available: "2026-01"
 12135	jittery smoldering bone dust	0		Last Available: "2025-12"
 12136	volatile bone bomb	0		Last Available: "2025-12"
 12137	wobbly chilly lion tamer's hot boning knife of terror	0		Experience (familiar): +2, Cold Damage: +5, Spooky Spell Damage: +10, Single Equip, Last Available: "2025-12"

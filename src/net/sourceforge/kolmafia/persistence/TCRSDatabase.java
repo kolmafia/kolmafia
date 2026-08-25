@@ -9,6 +9,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -34,6 +35,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.Lookup;
+import net.sourceforge.kolmafia.modifiers.Modifier;
 import net.sourceforge.kolmafia.modifiers.ModifierList;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.Concoction;
@@ -463,7 +465,10 @@ public class TCRSDatabase {
       return List.of();
     }
 
+    // Sort by name so the emitted order is stable: CARRIED_OVER is a Set.of, whose iteration order
+    // is randomized per JVM run, which would otherwise churn the derived data on every re-derive.
     return CARRIED_OVER.stream()
+        .sorted(Comparator.comparing(Modifier::getName))
         .map(
             mod -> {
               var name = mod.getName();
