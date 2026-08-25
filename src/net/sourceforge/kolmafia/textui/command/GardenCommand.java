@@ -8,6 +8,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
@@ -29,7 +30,7 @@ public class GardenCommand extends AbstractCommand {
       return false;
     }
     if (KoLCharacter.isFallingDown()
-        && !KoLCharacter.hasEquipped(ItemPool.get(ItemPool.DRUNKULA_WINEGLASS))) {
+        && !KoLCharacter.hasEquipped(ItemPool.DRUNKULA_WINEGLASS, Slot.OFFHAND)) {
       KoLmafia.updateDisplay("You are too drunk to enter your mushroom garden.");
       return false;
     }
