@@ -3369,6 +3369,44 @@ public class MaximizerTest {
     }
 
     @Test
+    void prefersBaseballDiamondAsOffhandForWeaponDamage() {
+      var cleanups =
+          new Cleanups(
+              withEquippableItem(ItemPool.THE_ETERNITY_CODPIECE),
+              withEquippableItem(ItemPool.BASEBALL_DIAMOND));
+
+      try (cleanups) {
+        assertTrue(maximize("+equip baseball diamond, weapon damage, -tie"));
+        assertThat(
+            Maximizer.best.equipment.get(Slot.OFFHAND).getItemId(),
+            equalTo(ItemPool.BASEBALL_DIAMOND));
+        assertTrue(
+            SlotSet.CODPIECE_SLOTS.stream()
+                .map(Maximizer.best.equipment::get)
+                .noneMatch(item -> item.getItemId() == ItemPool.BASEBALL_DIAMOND));
+      }
+    }
+
+    @Test
+    void movesSlottedBaseballDiamondToOffhandWhenCodpieceForbidden() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(Slot.ACCESSORY1, ItemPool.THE_ETERNITY_CODPIECE),
+              withEquipped(Slot.CODPIECE1, ItemPool.BASEBALL_DIAMOND));
+
+      try (cleanups) {
+        assertTrue(maximize("+equip baseball diamond, -equip the eternity codpiece, -tie"));
+        assertThat(
+            Maximizer.best.equipment.get(Slot.OFFHAND).getItemId(),
+            equalTo(ItemPool.BASEBALL_DIAMOND));
+        assertTrue(
+            SlotSet.CODPIECE_SLOTS.stream()
+                .map(Maximizer.best.equipment::get)
+                .noneMatch(item -> item.getItemId() == ItemPool.BASEBALL_DIAMOND));
+      }
+    }
+
+    @Test
     void removesForbiddenHeartstoneFromActiveCodpiece() {
       var cleanups =
           new Cleanups(
