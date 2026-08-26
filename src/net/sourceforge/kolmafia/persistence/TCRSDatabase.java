@@ -851,7 +851,7 @@ public class TCRSDatabase {
       adjectives.add(qualityDescriptor);
     }
 
-    if (quality.getValue() * size >= 8) {
+    if (qualityToTurnsPerFullness(quality) * size >= 8) {
       mtRng.nextDouble();
     }
 
@@ -1113,8 +1113,8 @@ public class TCRSDatabase {
     var seed = (50 * itemId) + (12345 * moonsignId) + (100000 * classId) + 10;
     var mods = new ArrayList<Entry<String, String>>(count);
     var indices =
-        PHPRandomSelection.pick(
-            enchantRng, new PHPMTRandom(seed), EQUIPMENT_MODIFIERS.size(), count);
+        new PHPRandomSelection(enchantRng, new PHPMTRandom(seed))
+            .pick(EQUIPMENT_MODIFIERS.size(), count);
     for (var index : indices) {
       mods.add(EQUIPMENT_MODIFIERS.get(index));
     }
@@ -1452,7 +1452,7 @@ public class TCRSDatabase {
     return applyModifiers(itemId, TCRSMap.get(itemId));
   }
 
-  private static int qualityMultiplier(ConsumableQuality quality) {
+  static int qualityToTurnsPerFullness(ConsumableQuality quality) {
     return switch (quality) {
       case EPIC, SUPER_EPIC, SUPER_ULTRA_EPIC, SUPER_ULTRA_MEGA_EPIC, SUPER_ULTRA_MEGA_TURBO_EPIC ->
           5;
@@ -1581,7 +1581,10 @@ public class TCRSDatabase {
     Integer lint = ConsumablesDatabase.getLevelReq(consumable);
     int level = lint == null ? 0 : lint;
     // Guess
-    int adv = (usage == ConsumptionType.SPLEEN) ? 0 : (tcrs.size * qualityMultiplier(tcrs.quality));
+    int adv =
+        (usage == ConsumptionType.SPLEEN)
+            ? 0
+            : (tcrs.size * qualityToTurnsPerFullness(tcrs.quality));
     int mus = 0;
     int mys = 0;
     int mox = 0;

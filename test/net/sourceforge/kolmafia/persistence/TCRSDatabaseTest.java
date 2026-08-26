@@ -275,10 +275,13 @@ class TCRSDatabaseTest {
                 out.newLine();
                 count++;
               }
-              if (dataSays.quality.getValue() > 0 && weGuessed.quality != dataSays.quality) {
+              if (TCRSDatabase.qualityToTurnsPerFullness(dataSays.quality) > 0
+                  && weGuessed.quality != dataSays.quality) {
                 var superEpicOnly =
-                    dataSays.quality.getValue() == ConsumableQuality.EPIC.getValue()
-                        && weGuessed.quality.getValue() == ConsumableQuality.EPIC.getValue();
+                    TCRSDatabase.qualityToTurnsPerFullness(dataSays.quality)
+                            == TCRSDatabase.qualityToTurnsPerFullness(ConsumableQuality.EPIC)
+                        && TCRSDatabase.qualityToTurnsPerFullness(weGuessed.quality)
+                            == TCRSDatabase.qualityToTurnsPerFullness(ConsumableQuality.EPIC);
                 out.write(
                     mismatch(
                         prefix,

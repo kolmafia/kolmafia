@@ -6,14 +6,19 @@ package net.sourceforge.kolmafia.utilities;
  * equipment enchantments and the voting booth's daily modifiers.
  */
 public class PHPRandomSelection {
-  private PHPRandomSelection() {}
+  private final PHPRandom rng;
+  private final PHPMTRandom mtRng;
 
-  public static int[] pick(final int seed, final int size, final int count) {
-    return pick(new PHPRandom(seed), new PHPMTRandom(seed), size, count);
+  public PHPRandomSelection(final int seed) {
+    this(new PHPRandom(seed), new PHPMTRandom(seed));
   }
 
-  public static int[] pick(
-      final PHPRandom rng, final PHPMTRandom mtRng, final int size, final int count) {
+  public PHPRandomSelection(final PHPRandom rng, final PHPMTRandom mtRng) {
+    this.rng = rng;
+    this.mtRng = mtRng;
+  }
+
+  public int[] pick(final int size, final int count) {
     if (count <= 0) {
       return new int[0];
     }

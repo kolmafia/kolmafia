@@ -66,7 +66,7 @@ public class VotingBoothManager {
   }
 
   public static final ModifierValue[] getPositiveInitiatives(final int seed) {
-    int[] positives = PHPRandomSelection.pick(seed, VOTING_BOOTH_POSITIVE_MODIFIERS.length, 3);
+    int[] positives = new PHPRandomSelection(seed).pick(VOTING_BOOTH_POSITIVE_MODIFIERS.length, 3);
 
     ModifierValue[] modifiers = new ModifierValue[3];
 
@@ -78,7 +78,7 @@ public class VotingBoothManager {
   }
 
   public static final ModifierValue getNegativeInitiative(final int seed) {
-    int n = PHPRandomSelection.pick(seed, VOTING_BOOTH_NEGATIVE_MODIFIERS.length, 1)[0];
+    int n = new PHPRandomSelection(seed).pick(VOTING_BOOTH_NEGATIVE_MODIFIERS.length, 1)[0];
 
     return VOTING_BOOTH_NEGATIVE_MODIFIERS[n];
   }
