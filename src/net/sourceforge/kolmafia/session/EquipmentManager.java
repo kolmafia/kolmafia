@@ -1238,25 +1238,19 @@ public class EquipmentManager {
   }
 
   public static List<AdventureResult> getCodpieceOutfit(SpecialOutfit outfit) {
-    try {
-      JSONArray configuration =
-          codpieceOutfits().getJSONArray(String.valueOf(outfit.getOutfitId()));
-      if (configuration == null || configuration.size() != SlotSet.CODPIECE_SLOTS.size()) {
-        return List.of();
-      }
-      if (!configuration.stream().allMatch(Number.class::isInstance)) {
-        RequestLogger.printLine("Invalid saved Codpiece outfit configuration.");
-        return List.of();
-      }
-
-      return configuration.stream()
-          .mapToInt(value -> ((Number) value).intValue())
-          .mapToObj(itemId -> itemId > 0 ? ItemPool.get(itemId) : EquipmentRequest.UNEQUIP)
-          .toList();
-    } catch (ClassCastException e) {
+    JSONArray configuration = codpieceOutfits().getJSONArray(String.valueOf(outfit.getOutfitId()));
+    if (configuration == null || configuration.size() != SlotSet.CODPIECE_SLOTS.size()) {
+      return List.of();
+    }
+    if (!configuration.stream().allMatch(Number.class::isInstance)) {
       RequestLogger.printLine("Invalid saved Codpiece outfit configuration.");
       return List.of();
     }
+
+    return configuration.stream()
+        .mapToInt(value -> ((Number) value).intValue())
+        .mapToObj(itemId -> itemId > 0 ? ItemPool.get(itemId) : EquipmentRequest.UNEQUIP)
+        .toList();
   }
 
   public static void retainCodpieceOutfits(List<SpecialOutfit> outfits) {

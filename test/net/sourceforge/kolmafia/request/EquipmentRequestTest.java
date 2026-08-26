@@ -4,6 +4,7 @@ import static internal.helpers.Equipment.assertItem;
 import static internal.helpers.Equipment.assertItemUnequip;
 import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withContinuationState;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withHatTrickHat;
@@ -12,6 +13,7 @@ import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withUnequipped;
+import static internal.helpers.Player.withoutItem;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
@@ -23,6 +25,7 @@ import java.util.Map;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -30,6 +33,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -38,6 +42,14 @@ public class EquipmentRequestTest {
   @BeforeEach
   public void beforeEach() {
     KoLCharacter.reset("EquipmentRequestTest");
+    ChoiceManager.handlingChoice = false;
+    ChoiceManager.lastChoice = 0;
+  }
+
+  @AfterEach
+  public void afterEach() {
+    ChoiceManager.handlingChoice = false;
+    ChoiceManager.lastChoice = 0;
   }
 
   private AdventureResult makeItem(String name) {
@@ -84,6 +96,100 @@ public class EquipmentRequestTest {
       assertPostRequest(inventoryRequests.get(1), "/inventory.php", "action=docodpiece");
       assertPostRequest(
           choiceRequests.get(1), "/choice.php", "whichchoice=1588&option=1&which=1&iid=9412");
+    }
+  }
+
+  @Test
+  void doesNothingWhenCodpieceSlotsAlreadyMatchOutfit() {
+    var builder = new FakeHttpClientBuilder();
+    var outfit = new SpecialOutfit(-123, "Codpiece Test");
+    outfit.addPiece(ItemPool.get(ItemPool.THE_ETERNITY_CODPIECE));
+    var cleanups =
+        new Cleanups(
+            withHttpClientBuilder(builder),
+            withProperty("customOutfitCodpieceConfigurations", "{\"-123\":[9412,-1,-1,-1,-1]}"),
+            withEquipped(Slot.ACCESSORY1, ItemPool.THE_ETERNITY_CODPIECE),
+            withEquipped(Slot.CODPIECE1, ItemPool.ALIEN_GEMSTONE));
+
+    try (cleanups) {
+      new EquipmentRequest(outfit).run();
+
+      assertTrue(builder.client.getRequests().isEmpty());
+    }
+  }
+
+  @Test
+  void leavesCodpieceSlotsAloneWhenRequiredGemIsUnavailable() {
+    var builder = new FakeHttpClientBuilder();
+    var outfit = new SpecialOutfit(-123, "Codpiece Test");
+    outfit.addPiece(ItemPool.get(ItemPool.THE_ETERNITY_CODPIECE));
+    var cleanups =
+        new Cleanups(
+            withHttpClientBuilder(builder),
+            withContinuationState(),
+            withProperty("autoSatisfyWithMall", false),
+            withProperty("autoSatisfyWithNPCs", false),
+            withProperty("customOutfitCodpieceConfigurations", "{\"-123\":[9412,-1,-1,-1,-1]}"),
+            withEquipped(Slot.ACCESSORY1, ItemPool.THE_ETERNITY_CODPIECE),
+            withoutItem(ItemPool.ALIEN_GEMSTONE));
+
+    try (cleanups) {
+      new EquipmentRequest(outfit).run();
+
+      assertTrue(builder.client.getRequests().isEmpty());
+    }
+  }
+
+  @Test
+  void stopsRestoringCodpieceSlotsWhenFollowupInsertionFails() {
+    var builder = new FakeHttpClientBuilder();
+    builder.client.addResponse(502, "");
+    var outfit = new SpecialOutfit(-123, "Codpiece Test");
+    outfit.addPiece(ItemPool.get(ItemPool.THE_ETERNITY_CODPIECE));
+    var cleanups =
+        new Cleanups(
+            withHttpClientBuilder(builder),
+            withContinuationState(),
+            withProperty("customOutfitCodpieceConfigurations", "{\"-123\":[-1,9412,-1,-1,-1]}"),
+            withEquipped(Slot.ACCESSORY1, ItemPool.THE_ETERNITY_CODPIECE),
+            withEquipped(Slot.CODPIECE1, ItemPool.ALIEN_GEMSTONE));
+
+    try (cleanups) {
+      new EquipmentRequest(outfit).run();
+
+      assertFalse(builder.client.getRequests().isEmpty());
+      assertFalse(KoLmafia.permitsContinue());
+      assertEquals(
+          1,
+          builder.client.getRequests().stream()
+              .filter(request -> request.uri().getPath().equals("/choice.php"))
+              .count());
+    }
+  }
+
+  @Test
+  void reportsSuccessfulOutfitSave() {
+    var builder = new FakeHttpClientBuilder();
+    builder.client.addResponse(200, "");
+    var cleanups = new Cleanups(withHttpClientBuilder(builder), withContinuationState());
+
+    try (cleanups) {
+      new EquipmentRequest("Saved outfit").run();
+
+      assertEquals("Outfit saved", KoLmafia.getLastMessage());
+    }
+  }
+
+  @Test
+  void reportsSuccessfulUnequipAll() {
+    var builder = new FakeHttpClientBuilder();
+    builder.client.addResponse(200, "");
+    var cleanups = new Cleanups(withHttpClientBuilder(builder), withContinuationState());
+
+    try (cleanups) {
+      new EquipmentRequest(EquipmentRequest.EquipmentRequestType.UNEQUIP_ALL).run();
+
+      assertEquals("Everything removed.", KoLmafia.getLastMessage());
     }
   }
 

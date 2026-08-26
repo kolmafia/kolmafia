@@ -32,6 +32,7 @@ import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.request.CustomOutfitRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import org.junit.jupiter.api.BeforeAll;
@@ -147,6 +148,27 @@ public class EquipmentManagerTest {
     }
 
     @Test
+    void ignoresInvalidSavedConfigurations() {
+      var outfit = new SpecialOutfit(-123, "Invalid");
+      var cleanups = new Cleanups(withProperty("customOutfitCodpieceConfigurations", "not JSON"));
+
+      try (cleanups) {
+        assertThat(EquipmentManager.getCodpieceOutfit(outfit), equalTo(List.of()));
+      }
+    }
+
+    @Test
+    void ignoresSavedConfigurationsWithWrongSize() {
+      var outfit = new SpecialOutfit(-123, "Wrong size");
+      var cleanups =
+          new Cleanups(withProperty("customOutfitCodpieceConfigurations", "{\"-123\":[1,2]}"));
+
+      try (cleanups) {
+        assertThat(EquipmentManager.getCodpieceOutfit(outfit), equalTo(List.of()));
+      }
+    }
+
+    @Test
     void removesConfigurationsForDeletedOutfits() {
       var kept = new SpecialOutfit(-123, "Kept");
       var removed = new SpecialOutfit(-456, "Removed");
@@ -160,6 +182,27 @@ public class EquipmentManagerTest {
         EquipmentManager.retainCodpieceOutfits(List.of(kept));
 
         assertThat(EquipmentManager.getCodpieceOutfit(kept).size(), equalTo(5));
+        assertThat(EquipmentManager.getCodpieceOutfit(removed), equalTo(List.of()));
+      }
+    }
+
+    @Test
+    void parsingCustomOutfitsRemovesDeletedConfigurations() {
+      var removed = new SpecialOutfit(-456, "Removed");
+      var cleanups =
+          new Cleanups(
+              withProperty(
+                  "customOutfitCodpieceConfigurations",
+                  "{\"-123\":[1,2,3,4,5],\"-456\":[6,7,8,9,10]}"));
+      String responseText =
+          "<form name=manageoutfits><input name=name123 value=\"Kept\">"
+              + "<center><b>Contents:</b></center>the eternity codpiece<br></td></form>";
+
+      try (cleanups) {
+        CustomOutfitRequest.parseResponse("account_manageoutfits.php", responseText);
+
+        assertThat(
+            EquipmentManager.getCodpieceOutfit(new SpecialOutfit(-123, "Kept")).size(), equalTo(5));
         assertThat(EquipmentManager.getCodpieceOutfit(removed), equalTo(List.of()));
       }
     }
