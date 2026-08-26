@@ -259,28 +259,20 @@ class TCRSDatabaseTest {
                   String.format("[%s]%s in %s / %s", itemId, i.getValue(), ascensionClass, sign);
 
               var expectedName = StringUtilities.getEntityDecode(dataSays.name);
-              if (!weGuessed.name.equals(expectedName)) {
-                // NOT_RE_ROLLED items have dynamic/stateful names (daily-random consumables,
-                // costume
-                // and form states, ...) captured as-is, so their name is not TCRS-derived and can't
-                // be matched: log it but don't count it. Every other name difference is a real
-                // miss:
-                // a different word set is a content miss, a same-set-different-order is a shuffle
-                // miss (the cosmetic shuffle is deterministic per item).
-                var notReRolled = TCRSDatabase.NOT_RE_ROLLED.contains(itemId);
+              // NOT_RE_ROLLED items have dynamic/stateful names (daily-random consumables, costume
+              // and form states, ...) that aren't TCRS-derived and can't be matched, so ignore them
+              // entirely. Every other name difference is a real miss: a different word set is a
+              // content miss, a same-set-different-order is a shuffle miss (the cosmetic shuffle is
+              // deterministic per item).
+              if (!weGuessed.name.equals(expectedName)
+                  && !TCRSDatabase.NOT_RE_ROLLED.contains(itemId)) {
                 var orderOnly = sortedWords(weGuessed.name).equals(sortedWords(expectedName));
                 out.write(
                     mismatch(
-                        prefix,
-                        notReRolled
-                            ? "Name(not-rerolled)"
-                            : orderOnly ? "Name-order" : "Name-content",
-                        expectedName,
+                        prefix, orderOnly ? "Name-order" : "Name-content", expectedName,
                         weGuessed.name));
                 out.newLine();
-                if (!notReRolled) {
-                  count++;
-                }
+                count++;
               }
               if (weGuessed.size != dataSays.size) {
                 out.write(mismatch(prefix, "Size", dataSays.size, weGuessed.size));
@@ -322,13 +314,7 @@ class TCRSDatabaseTest {
       }
     }
 
-    assertThat(
-        count
-            + " content mismatches; see "
-            + reportFile
-            + " (NOT_RE_ROLLED dynamic names logged, not counted)",
-        count,
-        is(0));
+    assertThat(count + " content mismatches; see " + reportFile, count, is(0));
   }
 
   /**
