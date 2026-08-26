@@ -311,4 +311,25 @@ public class DebugDatabaseTest {
       assertThat(known, containsString("Maximum HP: +240"));
     }
   }
+
+  @Test
+  public void parsesEnchantmentsInNestedTcrsFontBlock() {
+    // TCRS wraps re-rolled enchantments in a nested <p><center><b><font color="blue"> block after
+    // any freetext lines. The closing </font></b></center> was handled but the opening wrapper was
+    // not, so the first nested enchantment kept its wrapper prefix and failed to parse (dropped).
+    // The Crown of Ed the Undying (Turtle Tamer / Marmot) has both a spell-damage and a
+    // direct-damage enchantment in that nested block; both must be parsed.
+    String desc =
+        "<center><b><font color=blue>Ed's servants will level up faster<br>"
+            + "Allows you to read thoughts<br>"
+            + "<p><center><b><font color=\"blue\">"
+            + "+10 Damage to <font color=red>Hot Spells</font><br>"
+            + "+10 <font color=gray>Spooky Damage</font>"
+            + "</font></b></center></font></b></center>";
+
+    ArrayList<String> unknown = new ArrayList<>();
+    String known = DebugDatabase.parseItemEnchantments(desc, unknown, ConsumptionType.HAT);
+    assertThat(known, containsString("Hot Spell Damage: +10"));
+    assertThat(known, containsString("Spooky Damage: +10"));
+  }
 }

@@ -1458,7 +1458,8 @@ public class DebugDatabase {
     StringUtilities.globalStringReplace(enchantments, "<br>", "\n");
     StringUtilities.globalStringReplace(enchantments, "<Br>", "\n");
     StringUtilities.globalStringReplace(enchantments, "<br />", "\n");
-    // Following from bogus HTML in Two Crazy Random Summer
+    // Following from bogus HTML in Two Crazy Random Summer (a nested enchantment block's wrapper)
+    StringUtilities.globalStringReplace(enchantments, "<p><center><b><font color=\"blue\">", "\n");
     StringUtilities.globalStringReplace(enchantments, "</font></b></center>", "\n");
     // Following from bogus HTML for mime army infiltration glove
     StringUtilities.globalStringReplace(enchantments, "<font color=\"blue\"></font>", "");
