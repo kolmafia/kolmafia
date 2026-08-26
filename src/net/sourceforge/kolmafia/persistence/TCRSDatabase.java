@@ -465,8 +465,7 @@ public class TCRSDatabase {
       return List.of();
     }
 
-    // Sort by name so the emitted order is stable: CARRIED_OVER is a Set.of, whose iteration order
-    // is randomized per JVM run, which would otherwise churn the derived data on every re-derive.
+    // Set.of iteration order is randomized per JVM run. Sort so the derive output is stable.
     return CARRIED_OVER.stream()
         .sorted(Comparator.comparing(Modifier::getName))
         .map(
@@ -545,18 +544,15 @@ public class TCRSDatabase {
   private static ArrayList<String> buildCosmeticList(final PHPMTRandom mtRng, final int max) {
     var cosmeticMods = new ArrayList<String>();
 
-    //   Roll 1d6 on whether to add a color
     if (mtRng.nextInt(1, max) == 1) {
       cosmeticMods.add(mtRng.pickOne(STRINGS.get("Color")));
     }
 
-    //   Work out how many cosmetic modifiers to add
     var numCosmeticMods = 0;
     if (mtRng.nextInt(1, max) == 1) numCosmeticMods++;
     if (mtRng.nextInt(1, max) == 1) numCosmeticMods++;
     if (mtRng.nextInt(1, max) == 1) numCosmeticMods++;
 
-    //   Pick and add cosmetic modifiers
     for (var i = 0; i < numCosmeticMods; i++) {
       cosmeticMods.add(mtRng.pickOne(STRINGS.get("Cosmetic")));
     }
@@ -567,7 +563,7 @@ public class TCRSDatabase {
   /**
    * Shuffles the cosmetic adjectives with the given glibc stream and joins them into a name prefix.
    * The stream matters: for equipment the shuffle continues the same seed+10 stream the
-   * enchantments were selected from (see {@link #guessEquipment}); everything else uses the base
+   * enchantments were selected from (see {@link #guessEquipment}). Everything else uses the base
    * seed stream.
    */
   private static String shuffleCosmetics(
@@ -617,7 +613,7 @@ public class TCRSDatabase {
   /**
    * The modifiers of an item TCRS does not re-roll: its full base modifiers, minus our internal
    * Enchantment Count bookkeeping. Used for NOT_RE_ROLLED items and the categories TCRS leaves
-   * functionally unchanged (miscellaneous items, combat items, familiar equipment) — only their
+   * functionally unchanged (miscellaneous items, combat items, familiar equipment). Only their
    * name gains cosmetics.
    */
   private static ModifierList unalteredModifiers(final int itemId) {
@@ -691,20 +687,17 @@ public class TCRSDatabase {
       return new TCRS(name, 0, ConsumableQuality.NONE, mods.toString());
     }
 
-    // Determine potion modifiers
     var potionMods = new ArrayList<String>();
 
-    //   Work out how many potion modifiers to add
     var numPotionMods = 1;
     if (mtRng.nextInt(1, 3) == 1) numPotionMods++;
     if (mtRng.nextInt(1, 3) == 1) numPotionMods++;
 
-    //   Pick and add potion modifiers
     for (var i = 0; i < numPotionMods; i++) {
       potionMods.add(mtRng.pickOne(STRINGS.get("Potion Mod")));
     }
 
-    // Pick effect (note that purposely pick a number that can overflow the pool by 1)
+    // The effect roll can overflow the pool by 1, resolving to the last effect.
     var roll = mtRng.nextInt(0, TCRSEffectPool.size());
 
     var effectName =
@@ -712,10 +705,8 @@ public class TCRSDatabase {
             ? EffectPool.get(TCRSEffectPool.get(TCRSEffectPool.size() - 1)).getDisambiguatedName()
             : EffectPool.get(TCRSEffectPool.get(roll)).getDisambiguatedName();
 
-    // Pick duration of effect
     var duration = mtRng.nextInt(11, 69);
 
-    // Pick potion mod prefixes
     var potionPrefixes = STRINGS.get("Potion Prefix");
     var prefixedPotionMods = new ArrayList<String>();
 
@@ -782,7 +773,7 @@ public class TCRSDatabase {
     };
   }
 
-  // Size descriptors keyed by size bucket (1..6); buckets with no entries are simply absent.
+  // Size descriptors keyed by size bucket (1..6). Buckets with no entries are simply absent.
   private static Map<Integer, List<String>> FOOD_SIZE_DESCRIPTORS;
   private static Map<Integer, List<String>> BOOZE_SIZE_DESCRIPTORS;
   private static Map<ConsumableQuality, List<String>> FOOD_QUALITY_DESCRIPTORS;
@@ -831,7 +822,6 @@ public class TCRSDatabase {
     var quality =
         isFood ? determineFoodQuality(qualityRoll, beverage) : determineBoozeQuality(qualityRoll);
 
-    // Does it roll the size if a beverage?
     var size =
         beverage
             ? 1
@@ -894,11 +884,9 @@ public class TCRSDatabase {
       }
     }
 
-    // A hardcoded item always grants its effect; others only when the enchant gate rolled.
     var enchanted = hardcoded || rolledEnchantment;
     if (enchanted && !enchantment.effect.isBlank()) {
       mods.addModifier("Effect", enchantment.effect);
-      // A dynamic-duration hardcoded item only displays its (rolled) duration when the gate rolled.
       if (rolledEnchantment || !HARDCODED_EFFECT_DYNAMIC_DURATION.contains(id)) {
         mods.addModifier("Effect Duration", String.valueOf(enchantment.duration));
       }
@@ -1063,10 +1051,8 @@ public class TCRSDatabase {
     var seed = (50 * id) + (12345 * sign.getId()) + (100000 * ascensionClass.getId());
     var mtRng = new PHPMTRandom(seed);
 
-    // Cosmetic adjectives are rolled from the base seed, but the shuffle that orders them shares
-    // the
-    // seed+10 glibc stream the enchantments are selected from (see below), so build the list now
-    // and
+    // Cosmetic adjectives are rolled from the base seed, but the shuffle that orders them shares the
+    // seed+10 glibc stream the enchantments are selected from (see below). Build the list now and
     // shuffle it once the enchantment stream has advanced.
     var cosmeticList = buildCosmeticList(mtRng, 8);
 
@@ -1075,7 +1061,7 @@ public class TCRSDatabase {
 
     // Enchantments are selected from a glibc stream seeded with the per-item seed plus 10. Each
     // enchantment produces a modifier and an adjective for the name: "of ..." adjectives are
-    // suffixes; the rest are prefixes, with the earliest-selected closest to the root.
+    // suffixes. The rest are prefixes, with the earliest-selected closest to the root.
     var count = enchantCount(id);
     var enchantRng = new PHPRandom(seed + 10);
     var prefixes = new ArrayList<String>();
@@ -1090,10 +1076,9 @@ public class TCRSDatabase {
       DebugDatabase.appendModifier(mods, entry.getValue());
     }
 
-    // KoL shuffles the cosmetics on the same stream it just selected enchantments from, so continue
-    // enchantRng (already advanced by a multi-enchantment selection; still fresh at seed+10 after a
-    // single MT-picked enchantment). With no enchantments there is no seed+10 stream, so the
-    // shuffle
+    // KoL shuffles the cosmetics on the same stream it selected enchantments from, so continue
+    // enchantRng (already advanced by a multi-enchantment selection, still fresh at seed+10 after a
+    // single MT-picked enchantment). With no enchantments there is no seed+10 stream, so the shuffle
     // uses the base seed stream.
     var shuffleRng = (count == 0) ? new PHPRandom(seed) : enchantRng;
     var cosmeticsString = shuffleCosmetics(cosmeticList, shuffleRng);
@@ -1116,7 +1101,7 @@ public class TCRSDatabase {
 
   /**
    * The enchantments rolled for an equipment item, seeded with the per-item seed plus 10. A single
-   * enchantment is picked with an MT-random roll; multiple enchantments are picked together without
+   * enchantment is picked with an MT-random roll. Multiple enchantments are picked together without
    * replacement. The multi-pick draws from {@code enchantRng} (seeded with that same seed+10) so
    * the caller can continue the stream for the cosmetic shuffle.
    */
@@ -1138,8 +1123,8 @@ public class TCRSDatabase {
   }
 
   // Families that Mafia expands from a single KoL enchantment. Members sharing a value are one
-  // combined enchantment (all resistance, prismatic damage, all attributes, Maximum HP + MP, ...);
-  // members with differing values are separate enchantments, so a family contributes one
+  // combined enchantment (all resistance, prismatic damage, all attributes, Maximum HP + MP, ...).
+  // Members with differing values are separate enchantments, so a family contributes one
   // enchantment per distinct value present.
   private static final Set<Set<String>> COLLAPSIBLE =
       Set.of(
@@ -1154,7 +1139,7 @@ public class TCRSDatabase {
           Set.of("Muscle Percent", "Mysticality Percent", "Moxie Percent"),
           Set.of("Maximum HP", "Maximum MP"),
           Set.of("Maximum HP Percent", "Maximum MP Percent"));
-  // Regen is a Min/Max pair (so its members never share a value); any regen is one enchantment.
+  // Regen is a Min/Max pair (so its members never share a value). Any regen is one enchantment.
   private static final Set<String> REGEN =
       Set.of("HP Regen Min", "HP Regen Max", "MP Regen Min", "MP Regen Max");
 
@@ -1171,8 +1156,8 @@ public class TCRSDatabase {
     loadStringData();
   }
 
-  // Reads the ordered string tables from tcrs.txt. Order is significant for every list here — the
-  // RNG indexes into them by position — so the file must never be sorted or de-duplicated.
+  // Reads the ordered string tables from tcrs.txt. Order matters for every list here. The RNG
+  // indexes into them by position, so the file must never be sorted or de-duplicated.
   private static void loadStringData() {
     STRINGS = new HashMap<>();
     FOOD_SIZE_DESCRIPTORS = new HashMap<>();
@@ -1304,7 +1289,7 @@ public class TCRSDatabase {
             .collect(Collectors.joining(" "));
 
     // These items (miscellaneous, combat items, familiar equipment, ...) are not altered in
-    // function by TCRS, so their modifiers are left untouched; only the name gains cosmetics.
+    // function by TCRS, so their modifiers are left untouched. Only the name gains cosmetics.
     var mods = unalteredModifiers(id);
 
     var size =
@@ -1338,7 +1323,6 @@ public class TCRSDatabase {
             default -> 0;
           };
 
-      // NOT_RE_ROLLED items keep their full base modifiers (they are not re-rolled at all).
       return new TCRS(
           name, size, ConsumablesDatabase.getQuality(name), unalteredModifiers(itemId).toString());
     }

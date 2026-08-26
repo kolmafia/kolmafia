@@ -690,7 +690,6 @@ public enum DoubleModifier implements Modifier {
     return multiple;
   }
 
-  // Modifiers we are confident map to lines of RPN internally.
   private static final Set<DoubleModifier> ENCHANTMENTS =
       EnumSet.of(
           ACCESSORYDROP,

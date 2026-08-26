@@ -184,8 +184,6 @@ class TCRSDatabaseTest {
             withSign(ZodiacSign.MONGOOSE));
     try (cleanups) {
       TCRSDatabase.loadTCRSData(true);
-      // The derived data stores only a shield's rolled Damage Reduction enchantment (or none);
-      // ModifierDatabase re-adds the innate shield DR once at resolution, without doubling it.
       for (var id : new int[] {662, 1034, 3258}) {
         var storedDR =
             ModifierDatabase.splitModifiers(TCRSDatabase.getData(id).modifiers)
@@ -202,8 +200,7 @@ class TCRSDatabaseTest {
 
   @Test
   void guessAll() throws java.io.IOException {
-    // The full sweep produces a lot of mismatches while the branch is a work in progress, so stream
-    // them to a file rather than holding them all in memory (which otherwise exhausts the heap).
+    // Stream mismatches to a file rather than holding them all in memory (exhausts the heap).
     var reportFile =
         java.nio.file.Path.of(System.getProperty("user.dir"))
             .getParent()
@@ -233,7 +230,7 @@ class TCRSDatabaseTest {
                 continue;
               }
 
-              // Only equipment and consumables have their modifiers re-rolled by TCRS; everything
+              // Only equipment and consumables have their modifiers re-rolled by TCRS. Everything
               // else (miscellaneous, combat items, familiar equipment, ...) keeps its modifiers, so
               // the recorded data is a lossy description parse we don't try to reproduce.
               var checkMods =
@@ -259,11 +256,8 @@ class TCRSDatabaseTest {
                   String.format("[%s]%s in %s / %s", itemId, i.getValue(), ascensionClass, sign);
 
               var expectedName = StringUtilities.getEntityDecode(dataSays.name);
-              // NOT_RE_ROLLED items have dynamic/stateful names (daily-random consumables, costume
-              // and form states, ...) that aren't TCRS-derived and can't be matched, so ignore them
-              // entirely. Every other name difference is a real miss: a different word set is a
-              // content miss, a same-set-different-order is a shuffle miss (the cosmetic shuffle is
-              // deterministic per item).
+              // NOT_RE_ROLLED items have dynamic names (daily-random, costume/form state) we can't
+              // reproduce.
               if (!weGuessed.name.equals(expectedName)
                   && !TCRSDatabase.NOT_RE_ROLLED.contains(itemId)) {
                 var orderOnly = sortedWords(weGuessed.name).equals(sortedWords(expectedName));
@@ -305,7 +299,7 @@ class TCRSDatabaseTest {
               }
             }
           } finally {
-            // Each combo applies its overrides to the shared databases; tear them down so the next
+            // Each combo applies its overrides to the shared databases. Tear them down so the next
             // combo (and the guesser's view of the base item) starts clean.
             TCRSDatabase.resetModifiers();
           }
@@ -317,10 +311,7 @@ class TCRSDatabaseTest {
     assertThat(count + " content mismatches; see " + reportFile, count, is(0));
   }
 
-  /**
-   * Formats one guessAll mismatch. Kept as a helper so guessAll can collect every mismatch across
-   * all class/sign combos and report them together, rather than aborting on the first.
-   */
+  /** Formats one guessAll mismatch line. */
   private static String mismatch(
       final String prefix, final String field, final Object expected, final Object actual) {
     return String.format("%s - %s: expected <%s> but was <%s>", prefix, field, expected, actual);
@@ -329,11 +320,8 @@ class TCRSDatabaseTest {
   private record ModifierDiff(String expected, String actual) {}
 
   /**
-   * Compares the expected (derived) and guessed modifier strings by {@link Modifier} rather than by
-   * string name, so aliases like "Look like a Pirate" vs "Pirate" can't slip through. Returns the
-   * differing modifiers, or null if they match. Internal carried-over modifiers the guess emits
-   * that the data lacks are ignored: they survive the TCRS re-roll but aren't shown in the item
-   * description, so the derived data omits them.
+   * Compares expected vs guessed modifiers by {@link Modifier} (not string name) so aliases like
+   * "Look like a Pirate" vs "Pirate" can't slip through. Returns the differences, or null if equal.
    */
   private static ModifierDiff modifierDiff(
       final int itemId, final String expStr, final String gotStr) {
@@ -359,15 +347,13 @@ class TCRSDatabaseTest {
           var ev = vals[0];
           var gv = vals[1];
           if (ev.equals(gv)) return;
-          // A carried-over modifier survives the TCRS re-roll as an innate item property. Whether it
-          // shows in the item description (so the derive records it) is inconsistent, so if either
-          // side omits it entirely, that's expected: ignore it.
+          // Carried-over modifiers inconsistently show in the description. Ignore if either omits it.
           if (ModifierDatabase.CARRIED_OVER.contains(mod) && (ev.isEmpty() || gv.isEmpty())) return;
-          // An expression-valued modifier's value is context-dependent; the guess keeping it is
+          // An expression-valued modifier's value is context-dependent. The guess keeping it is
           // enough, so don't compare the (unreproducible) value.
           if (expressionMods.contains(mod)) return;
           // The derive mis-parses "Only Unarmed Characters may use this item" as a Class
-          // restriction; it isn't one, so the guess correctly omits it. Ignore the bad data value.
+          // restriction. It isn't one, so the guess correctly omits it. Ignore the bad data value.
           if (mod == StringModifier.CLASS
               && ev.replace("&nbsp;", " ").equals("Unarmed Characters")) {
             return;

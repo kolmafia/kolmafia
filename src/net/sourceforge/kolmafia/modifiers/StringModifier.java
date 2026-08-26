@@ -135,7 +135,6 @@ public enum StringModifier implements Modifier {
     return multiple ? ModifierValueType.MULTISTRING : ModifierValueType.STRING;
   }
 
-  // Modifiers we are confident map to lines of RPN internally.
   private static final Set<StringModifier> ENCHANTMENTS = EnumSet.of(ROLLOVER_EFFECT);
 
   @Override
@@ -202,7 +201,7 @@ public enum StringModifier implements Modifier {
         String value = matcher.group(1);
 
         if (mod == StringModifier.CLASS) {
-          // Only a real class is a Class restriction; phrases like "Only Unarmed Characters may use
+          // Only a real class is a Class restriction. Phrases like "Only Unarmed Characters may use
           // this item" are not, so don't mis-parse them as one.
           var ascensionClass = AscensionClass.findByPlural(value.replace("&nbsp;", " "));
           if (ascensionClass == null) {

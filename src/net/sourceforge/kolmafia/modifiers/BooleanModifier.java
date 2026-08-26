@@ -151,7 +151,6 @@ public enum BooleanModifier implements Modifier {
     return ModifierValueType.BOOLEAN;
   }
 
-  // Modifiers we are confident map to lines of RPN internally.
   private static final Set<BooleanModifier> ENCHANTMENTS =
       EnumSet.of(
           ADVENTURE_RANDOMLY,

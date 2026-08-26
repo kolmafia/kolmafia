@@ -167,7 +167,7 @@ public class ModifierList implements Iterable<ModifierValue> {
 
     @Override
     public String toString() {
-      // Boolean modifiers have no value; render just the name (not "name: null").
+      // Boolean modifiers have no value. Render just the name (not "name: null").
       if (value == null) return name;
       if (name.equals("Effect") && !value.startsWith("\"")) return name + ": \"" + value + "\"";
       return name + ": " + value;

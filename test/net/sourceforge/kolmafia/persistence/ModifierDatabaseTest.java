@@ -71,7 +71,6 @@ public class ModifierDatabaseTest {
 
   @Test
   public void doesNotParseUnarmedRestrictionAsClass() {
-    // "Unarmed Characters" is not a real class, so it must not become a Class modifier.
     assertNull(ModifierDatabase.parseModifier("Only Unarmed Characters may use this item"));
   }
 

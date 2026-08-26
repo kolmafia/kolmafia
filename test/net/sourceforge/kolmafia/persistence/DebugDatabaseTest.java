@@ -314,11 +314,6 @@ public class DebugDatabaseTest {
 
   @Test
   public void parsesEnchantmentsInNestedTcrsFontBlock() {
-    // TCRS wraps re-rolled enchantments in a nested <p><center><b><font color="blue"> block after
-    // any freetext lines. The closing </font></b></center> was handled but the opening wrapper was
-    // not, so the first nested enchantment kept its wrapper prefix and failed to parse (dropped).
-    // The Crown of Ed the Undying (Turtle Tamer / Marmot) has both a spell-damage and a
-    // direct-damage enchantment in that nested block; both must be parsed.
     String desc =
         "<center><b><font color=blue>Ed's servants will level up faster<br>"
             + "Allows you to read thoughts<br>"
