@@ -587,6 +587,7 @@ user	currentSpecialBountyItem		roa
 user	currentSITSkill	none	roa
 user	cursedMagnifyingGlassCount	0	roa
 user	customCombatScript	default
+user	customOutfitCodpieceConfigurations	
 user	cyberDatastickCollected	false	roa
 user	cyrptAlcoveEvilness	0
 user	cyrptCrannyEvilness	0

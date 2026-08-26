@@ -11,6 +11,7 @@ import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withStats;
+import static internal.helpers.Player.withUnequipped;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.equalTo;
@@ -19,10 +20,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import com.alibaba.fastjson2.JSONObject;
 import internal.helpers.Cleanups;
+import java.util.List;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionPath;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -72,6 +75,93 @@ public class EquipmentManagerTest {
       assertEquals("unbreakable umbrella (" + style + ")", UNBREAKABLE_UMBRELLA.getName());
       assertEquals(
           UNBREAKABLE_UMBRELLA.getItemId(), ItemDatabase.getItemId(UNBREAKABLE_UMBRELLA.getName()));
+    }
+  }
+
+  @Nested
+  class CodpieceOutfits {
+    @Test
+    void savesAndLoadsCodpieceSlotsByOutfitId() {
+      var outfit = new SpecialOutfit(-123, "Codpiece Test");
+      outfit.addPiece(ItemPool.get(ItemPool.THE_ETERNITY_CODPIECE));
+      var cleanups =
+          new Cleanups(
+              withProperty("customOutfitCodpieceConfigurations", ""),
+              withUnequipped(Slot.CODPIECE1),
+              withUnequipped(Slot.CODPIECE2),
+              withUnequipped(Slot.CODPIECE3),
+              withUnequipped(Slot.CODPIECE4),
+              withUnequipped(Slot.CODPIECE5),
+              withEquipped(Slot.CODPIECE1, ItemPool.ALIEN_GEMSTONE),
+              withEquipped(Slot.CODPIECE3, ItemPool.HAMETHYST));
+
+      try (cleanups) {
+        EquipmentManager.saveCodpieceOutfit(outfit);
+
+        assertThat(
+            EquipmentManager.getCodpieceOutfit(outfit),
+            contains(
+                ItemPool.get(ItemPool.ALIEN_GEMSTONE),
+                EquipmentRequest.UNEQUIP,
+                ItemPool.get(ItemPool.HAMETHYST),
+                EquipmentRequest.UNEQUIP,
+                EquipmentRequest.UNEQUIP));
+      }
+    }
+
+    @Test
+    void doesNotSaveSlotsForOutfitWithoutCodpiece() {
+      var outfit = new SpecialOutfit(-123, "No Codpiece");
+      var cleanups =
+          new Cleanups(
+              withProperty("customOutfitCodpieceConfigurations", ""),
+              withEquipped(Slot.CODPIECE1, ItemPool.ALIEN_GEMSTONE));
+
+      try (cleanups) {
+        EquipmentManager.saveCodpieceOutfit(outfit);
+
+        assertThat(EquipmentManager.getCodpieceOutfit(outfit), equalTo(List.of()));
+      }
+    }
+
+    @Test
+    void ignoresMalformedSavedConfiguration() {
+      var outfit = new SpecialOutfit(-123, "Malformed");
+      var cleanups =
+          new Cleanups(
+              withProperty("customOutfitCodpieceConfigurations", "{\"-123\":[\"gem\",2,3,4,5]}"));
+
+      try (cleanups) {
+        assertThat(EquipmentManager.getCodpieceOutfit(outfit), equalTo(List.of()));
+      }
+    }
+
+    @Test
+    void ignoresNullSavedConfigurations() {
+      var outfit = new SpecialOutfit(-123, "Null");
+      var cleanups = new Cleanups(withProperty("customOutfitCodpieceConfigurations", "null"));
+
+      try (cleanups) {
+        assertThat(EquipmentManager.getCodpieceOutfit(outfit), equalTo(List.of()));
+      }
+    }
+
+    @Test
+    void removesConfigurationsForDeletedOutfits() {
+      var kept = new SpecialOutfit(-123, "Kept");
+      var removed = new SpecialOutfit(-456, "Removed");
+      var cleanups =
+          new Cleanups(
+              withProperty(
+                  "customOutfitCodpieceConfigurations",
+                  "{\"-123\":[1,2,3,4,5],\"-456\":[6,7,8,9,10]}"));
+
+      try (cleanups) {
+        EquipmentManager.retainCodpieceOutfits(List.of(kept));
+
+        assertThat(EquipmentManager.getCodpieceOutfit(kept).size(), equalTo(5));
+        assertThat(EquipmentManager.getCodpieceOutfit(removed), equalTo(List.of()));
+      }
     }
   }
 

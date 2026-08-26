@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.request;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -763,6 +764,7 @@ public class EquipmentRequest extends PasswordHashRequest {
 
         // If you are already wearing the outfit, nothing to do
         if (EquipmentManager.isWearingOutfit(this.outfit)) {
+          this.restoreCodpieceOutfit();
           return;
         }
 
@@ -921,8 +923,62 @@ public class EquipmentRequest extends PasswordHashRequest {
         KoLmafia.updateDisplay("Outfit saved");
         return;
       }
-      case CHANGE_ITEM, CHANGE_OUTFIT, REMOVE_ITEM -> KoLmafia.updateDisplay("Equipment changed.");
+      case CHANGE_OUTFIT -> {
+        this.restoreCodpieceOutfit();
+        KoLmafia.updateDisplay("Equipment changed.");
+      }
+      case CHANGE_ITEM, REMOVE_ITEM -> KoLmafia.updateDisplay("Equipment changed.");
       case UNEQUIP_ALL -> KoLmafia.updateDisplay("Everything removed.");
+    }
+  }
+
+  private void restoreCodpieceOutfit() {
+    List<AdventureResult> configuration = EquipmentManager.getCodpieceOutfit(this.outfit);
+    if (configuration.isEmpty()) {
+      return;
+    }
+
+    List<AdventureResult> currentConfiguration =
+        SlotSet.CODPIECE_SLOTS.stream().map(EquipmentManager::getEquipment).toList();
+    if (configuration.equals(currentConfiguration)) {
+      return;
+    }
+
+    Map<Integer, Integer> slotted = new HashMap<>();
+    Map<Integer, Integer> required = new HashMap<>();
+    currentConfiguration.stream()
+        .mapToInt(AdventureResult::getItemId)
+        .filter(itemId -> itemId > 0)
+        .forEach(itemId -> slotted.merge(itemId, 1, Integer::sum));
+    configuration.stream()
+        .mapToInt(AdventureResult::getItemId)
+        .filter(itemId -> itemId > 0)
+        .forEach(itemId -> required.merge(itemId, 1, Integer::sum));
+    for (Map.Entry<Integer, Integer> entry : required.entrySet()) {
+      int needed = entry.getValue() - slotted.getOrDefault(entry.getKey(), 0);
+      if (needed > 0 && !InventoryManager.retrieveItem(ItemPool.get(entry.getKey(), needed))) {
+        return;
+      }
+    }
+
+    for (Slot slot : SlotSet.CODPIECE_SLOTS) {
+      if (!EquipmentManager.getEquipment(slot).equals(EquipmentRequest.UNEQUIP)) {
+        new EquipmentRequest(EquipmentRequest.UNEQUIP, slot).run();
+        if (!KoLmafia.permitsContinue()) {
+          return;
+        }
+      }
+    }
+
+    int index = 0;
+    for (Slot slot : SlotSet.CODPIECE_SLOTS) {
+      AdventureResult gem = configuration.get(index++);
+      if (gem != EquipmentRequest.UNEQUIP) {
+        new EquipmentRequest(gem, slot).run();
+        if (!KoLmafia.permitsContinue()) {
+          return;
+        }
+      }
     }
   }
 
@@ -1724,6 +1780,7 @@ public class EquipmentRequest extends PasswordHashRequest {
 
       // Add this outfit to the list of custom outfits.
       EquipmentManager.addCustomOutfit(outfit);
+      EquipmentManager.saveCodpieceOutfit(outfit);
 
       return false;
     }
