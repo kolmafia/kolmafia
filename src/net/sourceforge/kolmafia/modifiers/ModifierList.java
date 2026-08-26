@@ -157,19 +157,10 @@ public class ModifierList implements Iterable<ModifierValue> {
       this.value = (val > 0 ? "+" : "") + val;
     }
 
-    public void toString(final StringBuilder buffer) {
-      buffer.append(name);
-      if (value != null) {
-        buffer.append(": ");
-        buffer.append(value);
-      }
-    }
-
     @Override
     public String toString() {
       // Boolean modifiers have no value. Render just the name (not "name: null").
       if (value == null) return name;
-      if (name.equals("Effect") && !value.startsWith("\"")) return name + ": \"" + value + "\"";
       return name + ": " + value;
     }
   }

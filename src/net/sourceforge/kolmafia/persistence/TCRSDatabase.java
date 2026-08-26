@@ -93,7 +93,7 @@ public class TCRSDatabase {
   private static final Map<Integer, TCRS> TCRSFoodMap =
       new ConcurrentSkipListMap<>(new CafeDatabase.InverseIntegerOrder());
 
-  private static final List<Integer> TCRSEffectPool = new ArrayList<Integer>();
+  private static final List<Integer> TCRSEffectPool = new ArrayList<>();
 
   static {
     TCRSDatabase.reset();
@@ -511,6 +511,7 @@ public class TCRSDatabase {
   }
 
   private static Map<String, List<String>> STRINGS;
+  private static Set<String> ADJECTIVES;
 
   public static void getEffectPool() {
     EffectDatabase.keys().stream()
@@ -528,9 +529,9 @@ public class TCRSDatabase {
   }
 
   private static String removeAdjectives(final String name) {
-    var adjectives = new HashSet<>(STRINGS.get("Adjective"));
-    var words = Arrays.asList(name.split(" "));
-    return String.join(" ", words.stream().filter(w -> !adjectives.contains(w)).toList());
+    return Arrays.stream(name.split(" "))
+        .filter(Predicate.not(ADJECTIVES::contains))
+        .collect(Collectors.joining(" "));
   }
 
   /**
@@ -585,12 +586,30 @@ public class TCRSDatabase {
       this.effect = effect;
       this.duration = duration;
     }
+  }
 
-    @Override
-    public String toString() {
-      if (this.effect.isBlank()) return "";
-      return "Effect: \"" + this.effect + "\", Effect Duration: " + this.duration;
-    }
+  private static String quoted(final String value) {
+    return "\"" + value + "\"";
+  }
+
+  private static int seedFor(
+      final int itemId, final AscensionClass ascensionClass, final ZodiacSign sign) {
+    return (50 * itemId) + (12345 * sign.getId()) + (100000 * ascensionClass.getId());
+  }
+
+  private static int sizeFor(final int id) {
+    return switch (ItemDatabase.getConsumptionType(id)) {
+      case EAT -> ConsumablesDatabase.getFullness(id);
+      case DRINK -> ConsumablesDatabase.getInebriety(id);
+      case SPLEEN -> ConsumablesDatabase.getSpleenHit(id);
+      default -> 0;
+    };
+  }
+
+  private static String joinName(final String... parts) {
+    return Arrays.stream(parts)
+        .filter(Predicate.not(String::isBlank))
+        .collect(Collectors.joining(" "));
   }
 
   // The raw (unevaluated) base modifiers of an item, so context-dependent expressions are preserved
@@ -650,13 +669,14 @@ public class TCRSDatabase {
     return retained;
   }
 
-  private static Enchantment rollConsumableEnchantment(final int itemId, final PHPMTRandom mtRng) {
-    var roll = mtRng.nextInt(0, TCRSEffectPool.size());
+  // The effect roll can overflow the pool by 1, which resolves to the last effect.
+  private static String effectNameAt(final int roll) {
+    var index = Math.min(roll, TCRSEffectPool.size() - 1);
+    return EffectPool.get(TCRSEffectPool.get(index)).getDisambiguatedName();
+  }
 
-    var effectName =
-        (roll != TCRSEffectPool.size())
-            ? EffectPool.get(TCRSEffectPool.get(roll)).getDisambiguatedName()
-            : EffectPool.get(TCRSEffectPool.get(TCRSEffectPool.size() - 1)).getDisambiguatedName();
+  private static Enchantment rollConsumableEnchantment(final int itemId, final PHPMTRandom mtRng) {
+    var effectName = effectNameAt(mtRng.nextInt(0, TCRSEffectPool.size()));
     var duration = 5 * mtRng.nextInt(1, 10);
 
     return new Enchantment(effectName, duration);
@@ -665,7 +685,7 @@ public class TCRSDatabase {
   public static TCRS guessPotion(
       final AscensionClass ascensionClass, final ZodiacSign sign, final AdventureResult item) {
     var id = item.getItemId();
-    var seed = (50 * id) + (12345 * sign.getId()) + (100000 * ascensionClass.getId());
+    var seed = seedFor(id, ascensionClass, sign);
     var mtRng = new PHPMTRandom(seed);
     var rng = new PHPRandom(seed);
 
@@ -675,10 +695,7 @@ public class TCRSDatabase {
 
     if (TCRS_GENERIC.contains(id)) {
       mods = ModifierDatabase.getModifierList(new Lookup(ModifierType.ITEM, id));
-      var name =
-          Stream.of(cosmeticsString, removeAdjectives(ItemDatabase.getItemName(id)))
-              .filter(Predicate.not(String::isBlank))
-              .collect(Collectors.joining(" "));
+      var name = joinName(cosmeticsString, removeAdjectives(ItemDatabase.getItemName(id)));
 
       return new TCRS(name, 0, ConsumableQuality.NONE, mods.toString());
     }
@@ -693,13 +710,7 @@ public class TCRSDatabase {
       potionMods.add(mtRng.pickOne(STRINGS.get("Potion Mod")));
     }
 
-    // The effect roll can overflow the pool by 1, resolving to the last effect.
-    var roll = mtRng.nextInt(0, TCRSEffectPool.size());
-
-    var effectName =
-        (roll == TCRSEffectPool.size())
-            ? EffectPool.get(TCRSEffectPool.get(TCRSEffectPool.size() - 1)).getDisambiguatedName()
-            : EffectPool.get(TCRSEffectPool.get(roll)).getDisambiguatedName();
+    var effectName = effectNameAt(mtRng.nextInt(0, TCRSEffectPool.size()));
 
     var duration = mtRng.nextInt(11, 69);
 
@@ -719,17 +730,15 @@ public class TCRSDatabase {
     var potionString = String.join(" ", prefixedPotionMods);
 
     if (!effectName.isBlank()) {
-      mods.addModifier("Effect", effectName);
+      mods.addModifier("Effect", quoted(effectName));
       mods.addModifier("Effect Duration", String.valueOf(duration));
     }
 
     var name =
-        Stream.of(
-                potionString,
-                cosmeticsString,
-                removeAdjectives(ItemDatabase.getItemName(item.getItemId())))
-            .filter(Predicate.not(String::isBlank))
-            .collect(Collectors.joining(" "));
+        joinName(
+            potionString,
+            cosmeticsString,
+            removeAdjectives(ItemDatabase.getItemName(item.getItemId())));
 
     return new TCRS(name, 0, ConsumableQuality.NONE, mods.toString());
   }
@@ -784,7 +793,7 @@ public class TCRSDatabase {
       final AdventureResult item,
       final boolean isFood) {
     var id = item.getItemId();
-    var seed = (50 * id) + (12345 * sign.getId()) + (100000 * ascensionClass.getId());
+    var seed = seedFor(id, ascensionClass, sign);
     var mtRng = new PHPMTRandom(seed);
     var rng = new PHPRandom(seed);
 
@@ -792,26 +801,12 @@ public class TCRSDatabase {
 
     var cosmeticsString = rollCosmetics(mtRng, rng, beverage ? 8 : 10);
 
-    switch (id) {
-      case ItemPool.GUNPOWDER_BURRITO, ItemPool.BEERY_BLOOD -> {
-        var name =
-            Stream.of(cosmeticsString, removeAdjectives(ItemDatabase.getItemName(id)))
-                .filter(Predicate.not(String::isBlank))
-                .collect(Collectors.joining(" "));
-
-        var mods = getRetainedModifiers(id);
-
-        var size =
-            switch (ItemDatabase.getConsumptionType(id)) {
-              case EAT -> ConsumablesDatabase.getFullness(id);
-              case DRINK -> ConsumablesDatabase.getInebriety(id);
-              default -> 0;
-            };
-
-        var quality = ConsumablesDatabase.getQuality(id);
-
-        return new TCRS(name, size, quality, mods.toString());
-      }
+    if (id == ItemPool.GUNPOWDER_BURRITO || id == ItemPool.BEERY_BLOOD) {
+      var name = joinName(cosmeticsString, removeAdjectives(ItemDatabase.getItemName(id)));
+      var mods = getRetainedModifiers(id);
+      var size = sizeFor(id);
+      var quality = ConsumablesDatabase.getQuality(id);
+      return new TCRS(name, size, quality, mods.toString());
     }
 
     var qualityRoll = mtRng.nextInt(1, 7);
@@ -883,7 +878,7 @@ public class TCRSDatabase {
 
     var enchanted = hardcoded || rolledEnchantment;
     if (enchanted && !enchantment.effect.isBlank()) {
-      mods.addModifier("Effect", enchantment.effect);
+      mods.addModifier("Effect", quoted(enchantment.effect));
       if (rolledEnchantment || !dynamicDuration) {
         mods.addModifier("Effect Duration", String.valueOf(enchantment.duration));
       }
@@ -998,7 +993,7 @@ public class TCRSDatabase {
   private static TCRS guessSpleen(
       final AscensionClass ascensionClass, final ZodiacSign sign, final AdventureResult item) {
     var id = item.getItemId();
-    var seed = (50 * id) + (12345 * sign.getId()) + (100000 * ascensionClass.getId());
+    var seed = seedFor(id, ascensionClass, sign);
     var mtRng = new PHPMTRandom(seed);
     var rng = new PHPRandom(seed);
 
@@ -1027,15 +1022,12 @@ public class TCRSDatabase {
     if ((mtRng.nextInt(1, 3) == 1)) {
       var enchantment = rollConsumableEnchantment(id, mtRng);
       if (!enchantment.effect.isBlank()) {
-        mods.addModifier("Effect", enchantment.effect);
+        mods.addModifier("Effect", quoted(enchantment.effect));
         mods.addModifier("Effect Duration", String.valueOf(enchantment.duration));
       }
     }
 
-    var name =
-        Stream.of(adjective, cosmeticsString, removeAdjectives(ItemDatabase.getItemName(id)))
-            .filter(Predicate.not(String::isBlank))
-            .collect(Collectors.joining(" "));
+    var name = joinName(adjective, cosmeticsString, removeAdjectives(ItemDatabase.getItemName(id)));
 
     return new TCRS(name, 1, quality, mods.toString());
   }
@@ -1045,7 +1037,7 @@ public class TCRSDatabase {
   private static TCRS guessEquipment(
       final AscensionClass ascensionClass, final ZodiacSign sign, final AdventureResult item) {
     var id = item.getItemId();
-    var seed = (50 * id) + (12345 * sign.getId()) + (100000 * ascensionClass.getId());
+    var seed = seedFor(id, ascensionClass, sign);
     var mtRng = new PHPMTRandom(seed);
 
     // Cosmetic adjectives are rolled from the base seed, but the shuffle that orders them shares
@@ -1064,7 +1056,7 @@ public class TCRSDatabase {
     var enchantRng = new PHPRandom(seed + 10);
     var prefixes = new ArrayList<String>();
     var suffixes = new ArrayList<String>();
-    for (var entry : getMods(id, ascensionClass.getId(), sign.getId(), count, enchantRng)) {
+    for (var entry : getMods(id, ascensionClass, sign, count, enchantRng)) {
       var descriptor = entry.getKey();
       if (descriptor.startsWith("of ")) {
         suffixes.add(descriptor);
@@ -1084,13 +1076,12 @@ public class TCRSDatabase {
 
     // Enchant adjectives that are common adjectives (e.g. "lucky") are stripped from the name, as
     // KoL does after applying enchantments. Cosmetics are not stripped.
-    var adjectives = new HashSet<>(STRINGS.get("Adjective"));
     var name =
         Stream.of(
                 Stream.of(cosmeticsString),
-                prefixes.stream().filter(Predicate.not(adjectives::contains)),
+                prefixes.stream().filter(Predicate.not(ADJECTIVES::contains)),
                 Stream.of(root),
-                suffixes.stream().filter(Predicate.not(adjectives::contains)))
+                suffixes.stream().filter(Predicate.not(ADJECTIVES::contains)))
             .flatMap(s -> s)
             .filter(Predicate.not(String::isBlank))
             .collect(Collectors.joining(" "));
@@ -1106,11 +1097,11 @@ public class TCRSDatabase {
    */
   private static List<Entry<String, String>> getMods(
       final int itemId,
-      final int classId,
-      final int moonsignId,
+      final AscensionClass ascensionClass,
+      final ZodiacSign sign,
       final int count,
       final PHPRandom enchantRng) {
-    var seed = (50 * itemId) + (12345 * moonsignId) + (100000 * classId) + 10;
+    var seed = seedFor(itemId, ascensionClass, sign) + 10;
     var mods = new ArrayList<Entry<String, String>>(count);
     var indices =
         new PHPRandomSelection(enchantRng, new PHPMTRandom(seed))
@@ -1193,6 +1184,8 @@ public class TCRSDatabase {
     } catch (IOException e) {
       StaticEntity.printStackTrace(e);
     }
+
+    ADJECTIVES = new HashSet<>(STRINGS.getOrDefault("Adjective", List.of()));
   }
 
   private static boolean isEnchantableValue(final String value) {
@@ -1276,28 +1269,19 @@ public class TCRSDatabase {
   private static TCRS guessGeneric(
       final AscensionClass ascensionClass, final ZodiacSign sign, final AdventureResult item) {
     var id = item.getItemId();
-    var seed = (50 * id) + (12345 * sign.getId()) + (100000 * ascensionClass.getId());
+    var seed = seedFor(id, ascensionClass, sign);
     var mtRng = new PHPMTRandom(seed);
     var rng = new PHPRandom(seed);
 
     var cosmeticsString = rollCosmetics(mtRng, rng, 8);
 
-    var name =
-        Stream.of(cosmeticsString, removeAdjectives(ItemDatabase.getItemName(id)))
-            .filter(Predicate.not(String::isBlank))
-            .collect(Collectors.joining(" "));
+    var name = joinName(cosmeticsString, removeAdjectives(ItemDatabase.getItemName(id)));
 
     // These items (miscellaneous, combat items, familiar equipment, ...) are not altered in
     // function by TCRS, so their modifiers are left untouched. Only the name gains cosmetics.
     var mods = unalteredModifiers(id);
 
-    var size =
-        switch (ItemDatabase.getConsumptionType(id)) {
-          case EAT -> ConsumablesDatabase.getFullness(id);
-          case DRINK -> ConsumablesDatabase.getInebriety(id);
-          case SPLEEN -> ConsumablesDatabase.getSpleenHit(id);
-          default -> 0;
-        };
+    var size = sizeFor(id);
 
     var quality = ConsumablesDatabase.getQuality(id);
 
@@ -1326,11 +1310,9 @@ public class TCRSDatabase {
           name, size, ConsumablesDatabase.getQuality(name), unalteredModifiers(itemId).toString());
     }
 
-    switch (itemId) {
-      case
-          // Glitch item isn't really a food
-          ItemPool.GLITCH_ITEM ->
-          type = ConsumptionType.NONE;
+    // Glitch item isn't really a food
+    if (itemId == ItemPool.GLITCH_ITEM) {
+      type = ConsumptionType.NONE;
     }
 
     return switch (type) {
