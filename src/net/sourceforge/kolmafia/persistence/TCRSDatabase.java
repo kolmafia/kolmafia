@@ -535,7 +535,7 @@ public class TCRSDatabase {
 
   /**
    * The cosmetic adjectives for an item, before shuffling: an optional color followed by 0-3
-   * cosmetic adjectives, all rolled from the item's base seed via MT.
+   * cosmetic adjectives, all rolled from the item's base seed via mtrand.
    */
   private static ArrayList<String> buildCosmeticList(final PHPMTRandom mtRng, final int max) {
     var cosmeticMods = new ArrayList<String>();
@@ -557,7 +557,7 @@ public class TCRSDatabase {
   }
 
   /**
-   * Shuffles the cosmetic adjectives with the given glibc stream and joins them into a name prefix.
+   * Shuffles the cosmetic adjectives with the given rand stream and joins them into a name prefix.
    * The stream matters: for equipment the shuffle continues the same seed+10 stream the
    * enchantments were selected from (see {@link #guessEquipment}). Everything else uses the base
    * seed stream.
@@ -655,7 +655,7 @@ public class TCRSDatabase {
       if (name.equals("Effect") || name.equals("Effect Duration")) {
         continue;
       }
-      // Enchantment Count is our own bookkeeping modifier, never part of an item's real modifiers.
+      // Our own bookkeeping modifier, never part of an item's real modifiers.
       if (name.equals("Enchantment Count")) {
         continue;
       }
@@ -1039,15 +1039,15 @@ public class TCRSDatabase {
     var seed = seedFor(id, ascensionClass, sign);
     var mtRng = new PHPMTRandom(seed);
 
-    // Cosmetics roll from the base seed, but the shuffle that orders them uses the seed+10 stream
-    // the enchantments are selected from (see below). Build the list now and shuffle it once that
-    // stream has advanced.
+    // Cosmetics roll from the base seed, but the shuffle that orders them uses the seed+10 rand
+    // stream the enchantments are selected from (see below). Build the list now and shuffle it once
+    // that stream has advanced.
     var cosmeticList = buildCosmeticList(mtRng, 8);
 
     var root = removeAdjectives(ItemDatabase.getItemName(id));
     var mods = getRetainedModifiers(id);
 
-    // Enchantments are selected from a glibc stream seeded with the per-item seed plus 10. Each
+    // Enchantments are selected from a rand stream seeded with the per-item seed plus 10. Each
     // enchantment produces a modifier and an adjective for the name: "of ..." adjectives are
     // suffixes. The rest are prefixes, with the earliest-selected closest to the root.
     var count = enchantCount(id);
@@ -1066,7 +1066,7 @@ public class TCRSDatabase {
 
     // KoL shuffles cosmetics on the same stream it selected enchantments from, so continue
     // enchantRng: it is already advanced after a multi-enchantment selection, and still fresh at
-    // seed+10 after a single MT-picked one. With no enchantments there is no seed+10 stream, so
+    // seed+10 after a single mtrand-picked one. With no enchantments there is no seed+10 stream, so
     // the shuffle falls back to the base seed stream.
     var shuffleRng = (count == 0) ? new PHPRandom(seed) : enchantRng;
     var cosmeticsString = shuffleCosmetics(cosmeticList, shuffleRng);
@@ -1088,7 +1088,7 @@ public class TCRSDatabase {
 
   /**
    * The enchantments rolled for an equipment item, seeded with the per-item seed plus 10. A single
-   * enchantment is picked with an MT-random roll. Multiple enchantments are picked together without
+   * enchantment is picked with an mtrand roll. Multiple enchantments are picked together without
    * replacement. The multi-pick draws from {@code enchantRng} (seeded with that same seed+10) so
    * the caller can continue the stream for the cosmetic shuffle.
    */
@@ -1203,8 +1203,8 @@ public class TCRSDatabase {
   static int enchantCount(final int itemId) {
     var modifiers = ModifierDatabase.getModifierList(new Lookup(ModifierType.ITEM, itemId));
 
-    // An explicit Enchantment Count modifier is authoritative for items whose re-rolled enchantment
-    // count can't be derived from the base modifiers.
+    // Authoritative when present, for items whose re-rolled enchantment count can't be derived
+    // from the base modifiers.
     if (modifiers.containsModifier("Enchantment Count")) {
       return (int) Double.parseDouble(modifiers.getModifierValue("Enchantment Count"));
     }
@@ -1241,7 +1241,7 @@ public class TCRSDatabase {
       }
     }
 
-    // Regen is a Min/Max pair, so it is one enchantment whenever present.
+    // A Min/Max pair, so one enchantment whenever present.
     if (present.keySet().stream().anyMatch(REGEN::contains)) {
       count += 1;
       consumed.addAll(REGEN);
@@ -1252,7 +1252,7 @@ public class TCRSDatabase {
     for (var entry : present.entrySet()) {
       var name = entry.getKey();
       if (consumed.contains(name)) continue;
-      // Familiar equipment's Familiar Weight is innate, not an enchantment.
+      // Innate, not an enchantment.
       if (isFamiliarEquipment && name.equals("Familiar Weight")) continue;
       // A base modifier that KoL displays as several lines (e.g. two distinct rollover effects in
       // Uncle Crimbo's hat) is one enchantment per distinct value.
@@ -1306,7 +1306,7 @@ public class TCRSDatabase {
           name, size, ConsumablesDatabase.getQuality(name), unalteredModifiers(itemId).toString());
     }
 
-    // Glitch item isn't really a food
+    // Not really a food
     if (itemId == ItemPool.GLITCH_ITEM) {
       type = ConsumptionType.NONE;
     }

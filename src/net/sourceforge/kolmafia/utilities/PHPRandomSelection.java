@@ -2,8 +2,8 @@ package net.sourceforge.kolmafia.utilities;
 
 /**
  * KoL's seeded selection of count distinct indices from a list of size entries. A single pick is an
- * MT roll that rerolls on the overflow value. Multiple picks use a glibc selection. Used for TCRS
- * equipment enchantments and the voting booth's daily modifiers.
+ * mtrand roll that rerolls on the overflow value. Multiple picks use a rand selection. Used for
+ * TCRS equipment enchantments and the voting booth's daily modifiers.
  */
 public class PHPRandomSelection {
   private final PHPRandom rng;

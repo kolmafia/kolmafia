@@ -256,8 +256,7 @@ class TCRSDatabaseTest {
                   String.format("[%s]%s in %s / %s", itemId, i.getValue(), ascensionClass, sign);
 
               var expectedName = StringUtilities.getEntityDecode(dataSays.name);
-              // NOT_RE_ROLLED items have dynamic names (daily-random, costume/form state) that we
-              // cannot reproduce.
+              // These items are dynamically named and don't get rerolled
               if (!weGuessed.name.equals(expectedName)
                   && !TCRSDatabase.NOT_RE_ROLLED.contains(itemId)) {
                 var orderOnly = sortedWords(weGuessed.name).equals(sortedWords(expectedName));
@@ -384,8 +383,7 @@ class TCRSDatabaseTest {
           });
     }
     for (var mod : StringModifier.STRING_MODIFIERS) {
-      // MODIFIERS / EVALUATED_MODIFIERS are meta-fields holding the whole (order-sensitive)
-      // modifier string, not real modifiers, so skip them.
+      // These are metamodifiers that just show the modifier string, skip
       if (mod == StringModifier.MODIFIERS || mod == StringModifier.EVALUATED_MODIFIERS) continue;
       classify.accept(mod, new String[] {exp.getString(mod), got.getString(mod)});
     }
