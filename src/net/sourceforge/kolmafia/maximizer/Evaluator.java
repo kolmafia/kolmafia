@@ -176,6 +176,7 @@ public class Evaluator {
               + this.relevantFamiliar(FamiliarPool.HAND);
       case OFFHAND -> 1 + this.relevantFamiliar(FamiliarPool.LEFT_HAND);
       case ACCESSORY1 -> 3;
+      case CODPIECE1 -> 5;
       case FAMILIAR ->
           // Familiar items include weapons, hats and pants, make sure we have enough to consider
           // for
@@ -1647,6 +1648,42 @@ public class Evaluator {
       if (auxSlot != Slot.NONE) ranked.get(auxSlot).add(item);
     }
 
+    for (var entry : ModifierDatabase.getAllModifiersOfType(ModifierType.ETERNITY_CODPIECE)) {
+      if (!entry.getKey().isInt()) {
+        continue;
+      }
+
+      int gemId = entry.getKey().getIntValue();
+      CheckedItem gem = new CheckedItem(gemId, equipScope, maxPrice, priceLevel);
+      if (gem.getCount() == 0) {
+        continue;
+      }
+
+      Modifiers mods = ModifierDatabase.getModifiers(ModifierType.ETERNITY_CODPIECE, gemId);
+      switch (this.checkConstraints(mods)) {
+        case VIOLATES:
+          continue;
+        case MEETS:
+          gem.automaticFlag = true;
+      }
+
+      double delta = this.getScore(mods, Map.of(Slot.CODPIECE1, gem), Map.of()) - nullScore;
+      if (delta <= 0.0 && !gem.automaticFlag && !(KoLCharacter.inCodpiece(gem) && this.current)) {
+        continue;
+      }
+      if (KoLCharacter.inCodpiece(gem) && this.current) {
+        gem.automaticFlag = true;
+      }
+
+      ranked.get(Slot.CODPIECE1).add(gem);
+    }
+
+    if (!ranked.get(Slot.CODPIECE1).isEmpty()) {
+      ranked.get(Slot.ACCESSORY1).stream()
+          .filter(item -> item.getItemId() == ItemPool.THE_ETERNITY_CODPIECE)
+          .forEach(item -> item.automaticFlag = true);
+    }
+
     // Get best Familiars for Crown of Thrones and Buddy Bjorn
     // Assume current ones are best if in use
     FamiliarData bestCarriedFamiliar = FamiliarData.NO_FAMILIAR;
@@ -1803,9 +1840,10 @@ public class Evaluator {
       List<CheckedItem> checkedItemList = entry.value();
 
       // If we currently have nothing equipped, also consider leaving nothing equipped
-      if (!entry.isSlot()
-          || EquipmentManager.getEquipment(Evaluator.toUseSlot(entry.slot()))
-              == EquipmentRequest.UNEQUIP) {
+      if ((!entry.isSlot() || entry.slot() != Slot.CODPIECE1)
+          && (!entry.isSlot()
+              || EquipmentManager.getEquipment(Evaluator.toUseSlot(entry.slot()))
+                  == EquipmentRequest.UNEQUIP)) {
         checkedItemList.add(new CheckedItem(-1, equipScope, maxPrice, priceLevel));
       }
 
@@ -1822,6 +1860,13 @@ public class Evaluator {
           useSlot = Slot.FAMILIAR;
         }
         spec.equipment.put(useSlot, item);
+
+        if (useSlot == Slot.CODPIECE1) {
+          for (var slot : SlotSet.CODPIECE_SLOTS) {
+            spec.equipment.put(slot, EquipmentRequest.UNEQUIP);
+          }
+          spec.equipment.put(useSlot, item);
+        }
 
         switch (item.getItemId()) {
           case ItemPool.HATSEAT:

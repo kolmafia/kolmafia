@@ -29,6 +29,8 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 
 public class MaximizerSpeculation extends Speculation
     implements Comparable<MaximizerSpeculation>, Cloneable {
+  private static final Slot[] CODPIECE_SLOTS = SlotSet.CODPIECE_SLOTS.toArray(Slot[]::new);
+
   private boolean scored = false;
   private boolean tiebreakered = false;
   private boolean exceeded;
@@ -798,7 +800,51 @@ public class MaximizerSpeculation extends Speculation
       this.equipment.put(Slot.OFFHAND, EquipmentRequest.UNEQUIP);
     }
 
-    // doit
+    boolean wearingCodpiece =
+        this.equipment.values().stream()
+            .anyMatch(item -> item != null && item.getItemId() == ItemPool.THE_ETERNITY_CODPIECE);
+    if (!wearingCodpiece) {
+      this.checkBest();
+      this.restore(mark);
+      return;
+    }
+
+    this.checkBest();
+    for (var slot : CODPIECE_SLOTS) {
+      this.equipment.put(slot, EquipmentRequest.UNEQUIP);
+    }
+    List<CheckedItem> codpieceGems =
+        possibles.get(Slot.CODPIECE1).stream()
+            .filter(gem -> gem.getCount() > 0 && EquipmentRequest.isCodpieceGem(gem.getItemId()))
+            .limit(CODPIECE_SLOTS.length)
+            .toList();
+    this.tryCodpieceGems(codpieceGems, 0, 0);
+    this.restore(mark);
+  }
+
+  private void tryCodpieceGems(List<CheckedItem> possibles, int start, int slotIndex)
+      throws MaximizerInterruptedException {
+    this.checkBest();
+    if (slotIndex == CODPIECE_SLOTS.length) {
+      return;
+    }
+
+    Slot slot = CODPIECE_SLOTS[slotIndex];
+    for (int i = start; i < possibles.size(); i++) {
+      CheckedItem item = possibles.get(i);
+      long used =
+          SlotSet.CODPIECE_SLOTS.stream().map(this.equipment::get).filter(item::equals).count();
+      if (used >= item.getCount()) {
+        continue;
+      }
+
+      this.equipment.put(slot, item);
+      this.tryCodpieceGems(possibles, i, slotIndex + 1);
+      this.equipment.put(slot, EquipmentRequest.UNEQUIP);
+    }
+  }
+
+  private void checkBest() throws MaximizerInterruptedException {
     this.calculated = false;
     this.scored = false;
     this.tiebreakered = false;
@@ -817,7 +863,6 @@ public class MaximizerSpeculation extends Speculation
       MaximizerSpeculation.showProgress();
       Maximizer.bestUpdate = t + 5000;
     }
-    this.restore(mark);
     if (!KoLmafia.permitsContinue()) {
       throw new MaximizerInterruptedException();
     }

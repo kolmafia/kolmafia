@@ -5,6 +5,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RestrictedItemType;
+import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -13,8 +14,10 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase.FoldGroup;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.ThriftyRequest;
 import net.sourceforge.kolmafia.request.coinmaster.MrStoreRequest;
+import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.MallPriceManager;
 
@@ -25,6 +28,14 @@ public class CheckedItem extends AdventureResult {
     this.inventory = InventoryManager.getCount(itemId);
 
     this.initial = InventoryManager.getAccessibleCount(itemId);
+    if (EquipmentRequest.isCodpieceGem(itemId)) {
+      this.initial +=
+          (int)
+              SlotSet.CODPIECE_SLOTS.stream()
+                  .map(EquipmentManager::getEquipment)
+                  .filter(item -> item != null && item.getItemId() == itemId)
+                  .count();
+    }
 
     // special case used to get a CheckItem that .equals( EquipmentRequest.UNEQUIP ).
     if (itemId == -1) {

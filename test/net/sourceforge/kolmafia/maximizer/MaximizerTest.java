@@ -3344,4 +3344,134 @@ public class MaximizerTest {
       }
     }
   }
+
+  @Nested
+  class EternityCodpiece {
+    @Test
+    void considersCodpieceGemConfigurations() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(Slot.ACCESSORY1, ItemPool.THE_ETERNITY_CODPIECE),
+              withItem(ItemPool.ALIEN_GEMSTONE),
+              withItem("autumn years wisdom"));
+
+      try (cleanups) {
+        assertTrue(maximize("mus exp, mys exp, -tie"));
+        assertThat(getBoosts(), hasItem(recommends("alien gemstone")));
+        assertThat(getBoosts(), hasItem(recommends("autumn years wisdom")));
+        assertThat(modFor(DoubleModifier.MUS_EXPERIENCE), equalTo(1.0));
+        assertThat(modFor(DoubleModifier.MYS_EXPERIENCE), equalTo(1.0));
+      }
+    }
+
+    @Test
+    void considersGemsAlreadyInCodpiece() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(Slot.ACCESSORY1, ItemPool.THE_ETERNITY_CODPIECE),
+              withEquipped(Slot.CODPIECE1, ItemPool.ALIEN_GEMSTONE),
+              withItem("autumn years wisdom"));
+
+      try (cleanups) {
+        assertTrue(maximize("mus exp, mys exp, -tie"));
+        assertThat(getBoosts(), not(hasItem(recommends("alien gemstone"))));
+        assertThat(getBoosts(), hasItem(recommends("autumn years wisdom")));
+        assertThat(modFor(DoubleModifier.MUS_EXPERIENCE), equalTo(1.0));
+        assertThat(modFor(DoubleModifier.MYS_EXPERIENCE), equalTo(1.0));
+      }
+    }
+
+    @Test
+    void considersUnequippedCodpieceDespiteIrrelevantSlottedGems() {
+      var cleanups =
+          new Cleanups(
+              withEquippableItem(ItemPool.THE_ETERNITY_CODPIECE),
+              withEquipped(Slot.CODPIECE1, "big bumboozer marble"),
+              withEquipped(Slot.CODPIECE2, "black catseye marble"),
+              withEquipped(Slot.CODPIECE3, "beach ball marble"),
+              withEquipped(Slot.CODPIECE4, "steely marble"),
+              withEquipped(Slot.CODPIECE5, "beige clambroth marble"),
+              withItem(ItemPool.ALIEN_GEMSTONE),
+              withItem("autumn years wisdom"));
+
+      try (cleanups) {
+        assertTrue(maximize("mus exp, mys exp, -tie"));
+        assertThat(getBoosts(), hasItem(recommends(ItemPool.THE_ETERNITY_CODPIECE)));
+        assertThat(getBoosts(), hasItem(recommends("alien gemstone")));
+        assertThat(getBoosts(), hasItem(recommends("autumn years wisdom")));
+        assertThat(modFor(DoubleModifier.MUS_EXPERIENCE), equalTo(1.0));
+        assertThat(modFor(DoubleModifier.MYS_EXPERIENCE), equalTo(1.0));
+      }
+    }
+
+    @Test
+    void prunesNonmatchingGemsBeforeCheckingCombinations() {
+      var cleanups = new Cleanups(withEquipped(Slot.ACCESSORY1, ItemPool.THE_ETERNITY_CODPIECE));
+
+      try (cleanups) {
+        assertTrue(maximize("mus exp, -tie"));
+        int combinationsWithoutGems = Maximizer.bestChecked;
+
+        try (var ignored =
+            new Cleanups(
+                withItem("big bumboozer marble"),
+                withItem("black catseye marble"),
+                withItem("beach ball marble"),
+                withItem("steely marble"),
+                withItem("beige clambroth marble"),
+                withItem("jet bennie marble"),
+                withItem("bumblebee marble"))) {
+          assertTrue(maximize("mus exp, -tie"));
+          assertThat(Maximizer.bestChecked, equalTo(combinationsWithoutGems));
+          assertThat(modFor(DoubleModifier.MUS_EXPERIENCE), equalTo(0.0));
+          assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.CODPIECE1))));
+        }
+      }
+    }
+
+    @Test
+    void choosesBestFiveWhenMoreThanFiveGemsMatch() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(Slot.ACCESSORY1, ItemPool.THE_ETERNITY_CODPIECE),
+              withItem("big bumboozer marble"),
+              withItem("black catseye marble"),
+              withItem("beach ball marble"),
+              withItem("steely marble"),
+              withItem("beige clambroth marble"));
+
+      try (cleanups) {
+        assertTrue(maximize("init, -tie"));
+        int combinationsWithFiveGems = Maximizer.bestChecked;
+
+        try (var ignored =
+            new Cleanups(withItem("jet bennie marble"), withItem("bumblebee marble"))) {
+          assertTrue(maximize("init, -tie"));
+          assertThat(Maximizer.bestChecked, equalTo(combinationsWithFiveGems));
+          assertThat(modFor(DoubleModifier.INITIATIVE), equalTo(45.0));
+          assertThat(getBoosts(), hasItem(recommends("big bumboozer marble")));
+          assertThat(getBoosts(), hasItem(recommends("black catseye marble")));
+          assertThat(getBoosts(), hasItem(recommends("beach ball marble")));
+          assertThat(getBoosts(), hasItem(recommends("steely marble")));
+          assertThat(getBoosts(), hasItem(recommends("beige clambroth marble")));
+          assertThat(getBoosts(), not(hasItem(recommends("jet bennie marble"))));
+          assertThat(getBoosts(), not(hasItem(recommends("bumblebee marble"))));
+        }
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({"2, 22.0", "7, 55.0"})
+    void respectsOwnedCopiesAndAvailableSlots(int copies, double expectedInitiative) {
+      var cleanups =
+          new Cleanups(
+              withEquipped(Slot.ACCESSORY1, ItemPool.THE_ETERNITY_CODPIECE),
+              withItem("big bumboozer marble", copies));
+
+      try (cleanups) {
+        assertTrue(maximize("init, -tie"));
+        assertThat(modFor(DoubleModifier.INITIATIVE), equalTo(expectedInitiative));
+      }
+    }
+  }
 }
