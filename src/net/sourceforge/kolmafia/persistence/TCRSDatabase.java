@@ -9,7 +9,6 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -35,7 +34,6 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.Lookup;
-import net.sourceforge.kolmafia.modifiers.Modifier;
 import net.sourceforge.kolmafia.modifiers.ModifierList;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.Concoction;
@@ -465,9 +463,7 @@ public class TCRSDatabase {
       return List.of();
     }
 
-    // Set.of iteration order is randomized per JVM run. Sort so the derive output is stable.
     return CARRIED_OVER.stream()
-        .sorted(Comparator.comparing(Modifier::getName))
         .map(
             mod -> {
               var name = mod.getName();
@@ -613,8 +609,8 @@ public class TCRSDatabase {
   /**
    * The modifiers of an item TCRS does not re-roll: its full base modifiers, minus our internal
    * Enchantment Count bookkeeping. Used for NOT_RE_ROLLED items and the categories TCRS leaves
-   * functionally unchanged (miscellaneous items, combat items, familiar equipment). Only their
-   * name gains cosmetics.
+   * functionally unchanged (miscellaneous items, combat items, familiar equipment). Only their name
+   * gains cosmetics.
    */
   private static ModifierList unalteredModifiers(final int itemId) {
     var mods = new ModifierList();
@@ -869,6 +865,7 @@ public class TCRSDatabase {
     var enchantment = rollConsumableEnchantment(id, mtRng);
 
     var hardcoded = HARDCODED_EFFECT.contains(id);
+    var dynamicDuration = HARDCODED_EFFECT_DYNAMIC_DURATION.contains(id);
     if (hardcoded) {
       var effectOverride = HARDCODED_EFFECT_OVERRIDE.get(id);
       enchantment.effect =
@@ -876,7 +873,7 @@ public class TCRSDatabase {
               ? EffectPool.get(effectOverride).getDisambiguatedName()
               : ModifierDatabase.getStringModifier(ModifierType.ITEM, id, StringModifier.EFFECT);
 
-      if (!HARDCODED_EFFECT_DYNAMIC_DURATION.contains(id)) {
+      if (!dynamicDuration) {
         enchantment.duration =
             (int)
                 ModifierDatabase.getNumericModifier(
@@ -887,7 +884,7 @@ public class TCRSDatabase {
     var enchanted = hardcoded || rolledEnchantment;
     if (enchanted && !enchantment.effect.isBlank()) {
       mods.addModifier("Effect", enchantment.effect);
-      if (rolledEnchantment || !HARDCODED_EFFECT_DYNAMIC_DURATION.contains(id)) {
+      if (rolledEnchantment || !dynamicDuration) {
         mods.addModifier("Effect Duration", String.valueOf(enchantment.duration));
       }
     }
@@ -1051,7 +1048,8 @@ public class TCRSDatabase {
     var seed = (50 * id) + (12345 * sign.getId()) + (100000 * ascensionClass.getId());
     var mtRng = new PHPMTRandom(seed);
 
-    // Cosmetic adjectives are rolled from the base seed, but the shuffle that orders them shares the
+    // Cosmetic adjectives are rolled from the base seed, but the shuffle that orders them shares
+    // the
     // seed+10 glibc stream the enchantments are selected from (see below). Build the list now and
     // shuffle it once the enchantment stream has advanced.
     var cosmeticList = buildCosmeticList(mtRng, 8);
@@ -1078,7 +1076,8 @@ public class TCRSDatabase {
 
     // KoL shuffles the cosmetics on the same stream it selected enchantments from, so continue
     // enchantRng (already advanced by a multi-enchantment selection, still fresh at seed+10 after a
-    // single MT-picked enchantment). With no enchantments there is no seed+10 stream, so the shuffle
+    // single MT-picked enchantment). With no enchantments there is no seed+10 stream, so the
+    // shuffle
     // uses the base seed stream.
     var shuffleRng = (count == 0) ? new PHPRandom(seed) : enchantRng;
     var cosmeticsString = shuffleCosmetics(cosmeticList, shuffleRng);
