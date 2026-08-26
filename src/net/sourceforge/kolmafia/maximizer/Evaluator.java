@@ -996,11 +996,15 @@ public class Evaluator {
     if (!this.failed && !this.posEquip.isEmpty()) {
       equipSatisfied = true;
       for (AdventureResult item : this.posEquip) {
-        if (!KoLCharacter.hasEquipped(equipment, item)) {
+        if (!this.hasEquipped(equipment, item)) {
           equipSatisfied = false;
           break;
         }
       }
+    }
+    if (!this.failed
+        && this.negEquip.stream().anyMatch(item -> this.hasEquipped(equipment, item))) {
+      this.failed = true;
     }
     if (!this.failed) {
       String outfit = mods.getString(StringModifier.OUTFIT);
@@ -1010,14 +1014,30 @@ public class Evaluator {
         outfitSatisfied = this.posOutfits.contains(outfit) || this.posOutfits.isEmpty();
       }
     }
-    // negEquip is not checked, since enumerateEquipment should make it
-    // impossible for such items to be chosen.
     if (!outfitSatisfied || !equipSatisfied) {
       this.failed = true;
     }
     if (beeosity > this.beeosity) {
       this.failed = true;
     }
+  }
+
+  private boolean hasEquipped(Map<Slot, AdventureResult> equipment, AdventureResult item) {
+    if (KoLCharacter.hasEquipped(equipment, item)) {
+      return true;
+    }
+
+    boolean wearingCodpiece =
+        KoLCharacter.hasEquipped(
+            equipment, ItemPool.get(ItemPool.THE_ETERNITY_CODPIECE), SlotSet.ACCESSORY_SLOTS);
+    return wearingCodpiece
+        && EquipmentRequest.isCodpieceGem(item.getItemId())
+        && KoLCharacter.hasEquipped(equipment, item, SlotSet.CODPIECE_SLOTS);
+  }
+
+  boolean slotEnabled(Slot slot) {
+    int threshold = this.slots.values().stream().anyMatch(value -> value > 0) ? 1 : 0;
+    return this.slots.getOrDefault(slot, 0) >= threshold;
   }
 
   double getTiebreaker(Modifiers mods) {
@@ -1657,6 +1677,13 @@ public class Evaluator {
       CheckedItem gem = new CheckedItem(gemId, equipScope, maxPrice, priceLevel);
       if (gem.getCount() == 0) {
         continue;
+      }
+      if (this.negEquip.contains(gem)) {
+        continue;
+      }
+      if (this.posEquip.contains(gem)) {
+        gem.automaticFlag = true;
+        gem.requiredFlag = true;
       }
 
       Modifiers mods = ModifierDatabase.getModifiers(ModifierType.ETERNITY_CODPIECE, gemId);

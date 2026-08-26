@@ -59,6 +59,7 @@ import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.modifiers.BitmapModifier;
 import net.sourceforge.kolmafia.modifiers.DerivedModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
@@ -3347,6 +3348,233 @@ public class MaximizerTest {
 
   @Nested
   class EternityCodpiece {
+    @Test
+    void prefersHeartstoneAsAccessoryForHpRegen() {
+      var cleanups =
+          new Cleanups(
+              withEquippableItem(ItemPool.THE_ETERNITY_CODPIECE),
+              withEquippableItem(ItemPool.HEARTSTONE));
+
+      try (cleanups) {
+        assertTrue(maximize("+equip heartstone, hp regen, -tie"));
+        assertTrue(
+            SlotSet.ACCESSORY_SLOTS.stream()
+                .map(Maximizer.best.equipment::get)
+                .anyMatch(item -> item.getItemId() == ItemPool.HEARTSTONE));
+        assertTrue(
+            SlotSet.CODPIECE_SLOTS.stream()
+                .map(Maximizer.best.equipment::get)
+                .noneMatch(item -> item.getItemId() == ItemPool.HEARTSTONE));
+      }
+    }
+
+    @Test
+    void removesForbiddenHeartstoneFromActiveCodpiece() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(Slot.ACCESSORY1, ItemPool.THE_ETERNITY_CODPIECE),
+              withEquipped(Slot.CODPIECE1, ItemPool.HEARTSTONE));
+
+      try (cleanups) {
+        assertTrue(maximize("-equip heartstone, -tie"));
+        boolean wearingCodpiece =
+            SlotSet.ACCESSORY_SLOTS.stream()
+                .map(Maximizer.best.equipment::get)
+                .anyMatch(item -> item.getItemId() == ItemPool.THE_ETERNITY_CODPIECE);
+        boolean heartstoneSlotted =
+            SlotSet.CODPIECE_SLOTS.stream()
+                .map(Maximizer.best.equipment::get)
+                .anyMatch(item -> item.getItemId() == ItemPool.HEARTSTONE);
+        assertFalse(wearingCodpiece && heartstoneSlotted);
+      }
+    }
+
+    @Test
+    void movesSlottedHeartstoneToAccessoryWhenCodpieceForbidden() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(Slot.ACCESSORY1, ItemPool.THE_ETERNITY_CODPIECE),
+              withEquipped(Slot.CODPIECE1, ItemPool.HEARTSTONE));
+
+      try (cleanups) {
+        assertTrue(maximize("+equip heartstone, -equip the eternity codpiece, -tie"));
+        assertTrue(
+            SlotSet.ACCESSORY_SLOTS.stream()
+                .map(Maximizer.best.equipment::get)
+                .anyMatch(item -> item.getItemId() == ItemPool.HEARTSTONE));
+        assertTrue(
+            SlotSet.ACCESSORY_SLOTS.stream()
+                .map(Maximizer.best.equipment::get)
+                .noneMatch(item -> item.getItemId() == ItemPool.THE_ETERNITY_CODPIECE));
+        assertTrue(
+            SlotSet.CODPIECE_SLOTS.stream()
+                .map(Maximizer.best.equipment::get)
+                .noneMatch(item -> item.getItemId() == ItemPool.HEARTSTONE));
+      }
+    }
+
+    @Test
+    void honorsForcedCodpieceAndGemSlots() {
+      var cleanups =
+          new Cleanups(
+              withEquippableItem(ItemPool.THE_ETERNITY_CODPIECE),
+              withEquippableItem(ItemPool.HEARTSTONE));
+
+      try (cleanups) {
+        assertTrue(
+            maximize(
+                "+equip heartstone, +equip the eternity codpiece, -acc1, -acc2, -codpiece1, -codpiece2, -codpiece3, -codpiece4, -tie"));
+        assertThat(
+            Maximizer.best.equipment.get(Slot.ACCESSORY3).getItemId(),
+            equalTo(ItemPool.THE_ETERNITY_CODPIECE));
+        assertThat(
+            Maximizer.best.equipment.get(Slot.CODPIECE5).getItemId(), equalTo(ItemPool.HEARTSTONE));
+      }
+    }
+
+    @Test
+    void failsWhenForcedCodpieceGemHasNoAvailableSlot() {
+      var cleanups =
+          new Cleanups(
+              withEquippableItem(ItemPool.THE_ETERNITY_CODPIECE),
+              withEquippableItem(ItemPool.HEARTSTONE));
+
+      try (cleanups) {
+        assertFalse(
+            maximize(
+                "+equip heartstone, +equip the eternity codpiece, -acc1, -acc2, -codpiece1, -codpiece2, -codpiece3, -codpiece4, -codpiece5, -tie"));
+      }
+    }
+
+    @Test
+    void failsWhenCodpieceModifierIsRequiredButCodpieceIsForbidden() {
+      var cleanups =
+          new Cleanups(
+              withEquippableItem(ItemPool.THE_ETERNITY_CODPIECE),
+              withItem(ItemPool.ALIEN_GEMSTONE));
+
+      try (cleanups) {
+        assertFalse(maximize("mus exp 1 min, -equip the eternity codpiece, -tie"));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({"1, false", "3, false", "4, false", "6, true"})
+    void wearsCodpieceOnlyWhenDenseMeatGemsMakeItOptimal(int copies, boolean expectedCodpiece) {
+      var cleanups =
+          new Cleanups(
+              withEquippableItem(ItemPool.THE_ETERNITY_CODPIECE),
+              withEquippableItem("incredibly dense meat gem", copies));
+
+      try (cleanups) {
+        assertTrue(maximize("meat, -tie"));
+        assertThat(
+            SlotSet.ACCESSORY_SLOTS.stream()
+                .map(Maximizer.best.equipment::get)
+                .anyMatch(item -> item.getItemId() == ItemPool.THE_ETERNITY_CODPIECE),
+            equalTo(expectedCodpiece));
+        long used =
+            SlotSet.ACCESSORY_SLOTS.stream()
+                    .map(Maximizer.best.equipment::get)
+                    .filter(item -> item.getName().equals("incredibly dense meat gem"))
+                    .count()
+                + SlotSet.CODPIECE_SLOTS.stream()
+                    .map(Maximizer.best.equipment::get)
+                    .filter(item -> item.getName().equals("incredibly dense meat gem"))
+                    .count();
+        assertTrue(used <= copies);
+      }
+    }
+
+    @Test
+    void slotsForcedPeridotWhenThatLeavesMoreMeatGemAccessories() {
+      var cleanups =
+          new Cleanups(
+              withEquippableItem(ItemPool.THE_ETERNITY_CODPIECE),
+              withEquippableItem("incredibly dense meat gem", 3),
+              withEquippableItem(ItemPool.PERIDOT_OF_PERIL));
+
+      try (cleanups) {
+        assertTrue(maximize("+equip peridot of peril, meat, -tie"));
+        assertTrue(
+            SlotSet.ACCESSORY_SLOTS.stream()
+                .map(Maximizer.best.equipment::get)
+                .anyMatch(item -> item.getItemId() == ItemPool.THE_ETERNITY_CODPIECE));
+        assertTrue(
+            SlotSet.CODPIECE_SLOTS.stream()
+                .map(Maximizer.best.equipment::get)
+                .anyMatch(item -> item.getItemId() == ItemPool.PERIDOT_OF_PERIL));
+      }
+    }
+
+    @Test
+    void preservesGemsInExcludedCodpieceSlots() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(Slot.ACCESSORY1, ItemPool.THE_ETERNITY_CODPIECE),
+              withEquipped(Slot.CODPIECE1, ItemPool.ALIEN_GEMSTONE),
+              withItem("autumn years wisdom"));
+
+      try (cleanups) {
+        assertTrue(maximize("mus exp, mys exp, -codpiece1, -tie"));
+        assertThat(
+            Maximizer.best.equipment.get(Slot.CODPIECE1).getItemId(),
+            equalTo(ItemPool.ALIEN_GEMSTONE));
+        assertTrue(
+            SlotSet.CODPIECE_SLOTS.stream()
+                .map(Maximizer.best.equipment::get)
+                .anyMatch(item -> item.getName().equals("autumn years wisdom")));
+      }
+    }
+
+    @Test
+    void replacesShortlistedGemWhoseOnlyCopyIsUsedAsAccessory() {
+      var cleanups =
+          new Cleanups(
+              withEquippableItem(ItemPool.THE_ETERNITY_CODPIECE),
+              withEquippableItem("incredibly dense meat gem"),
+              withItem(ItemPool.ALIEN_GEMSTONE));
+
+      try (cleanups) {
+        assertTrue(
+            maximize(
+                "+equip incredibly dense meat gem, +equip the eternity codpiece, meat, mus exp, -codpiece2, -codpiece3, -codpiece4, -codpiece5, -tie"));
+        assertThat(
+            Maximizer.best.equipment.get(Slot.CODPIECE1).getItemId(),
+            equalTo(ItemPool.ALIEN_GEMSTONE));
+      }
+    }
+
+    @Test
+    void doesNotReuseGemLockedInExcludedCodpieceSlot() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(Slot.ACCESSORY1, ItemPool.THE_ETERNITY_CODPIECE),
+              withEquipped(Slot.CODPIECE1, ItemPool.HEARTSTONE));
+
+      try (cleanups) {
+        assertTrue(maximize("+equip heartstone, hp regen, -codpiece1, -tie"));
+        assertTrue(
+            SlotSet.ACCESSORY_SLOTS.stream()
+                .map(Maximizer.best.equipment::get)
+                .noneMatch(item -> item.getItemId() == ItemPool.HEARTSTONE));
+        assertThat(
+            Maximizer.best.equipment.get(Slot.CODPIECE1).getItemId(), equalTo(ItemPool.HEARTSTONE));
+      }
+    }
+
+    @Test
+    void failsWhenRequiredGemCannotBeReleasedFromExcludedSlot() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(Slot.ACCESSORY1, ItemPool.THE_ETERNITY_CODPIECE),
+              withEquipped(Slot.CODPIECE1, ItemPool.HEARTSTONE));
+
+      try (cleanups) {
+        assertFalse(maximize("+equip heartstone, -equip the eternity codpiece, -codpiece1, -tie"));
+      }
+    }
+
     @Test
     void considersCodpieceGemConfigurations() {
       var cleanups =

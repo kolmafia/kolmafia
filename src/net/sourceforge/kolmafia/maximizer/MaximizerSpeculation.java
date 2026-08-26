@@ -804,47 +804,88 @@ public class MaximizerSpeculation extends Speculation
         this.equipment.values().stream()
             .anyMatch(item -> item != null && item.getItemId() == ItemPool.THE_ETERNITY_CODPIECE);
     if (!wearingCodpiece) {
+      this.releaseCodpieceGemsNeededElsewhere();
       this.checkBest();
       this.restore(mark);
       return;
     }
 
     this.checkBest();
-    for (var slot : CODPIECE_SLOTS) {
+    List<Slot> codpieceSlots =
+        SlotSet.CODPIECE_SLOTS.stream().filter(Maximizer.eval::slotEnabled).toList();
+    for (Slot slot : codpieceSlots) {
       this.equipment.put(slot, EquipmentRequest.UNEQUIP);
     }
     List<CheckedItem> codpieceGems =
         possibles.get(Slot.CODPIECE1).stream()
             .filter(gem -> gem.getCount() > 0 && EquipmentRequest.isCodpieceGem(gem.getItemId()))
-            .limit(CODPIECE_SLOTS.length)
+            .filter(
+                gem ->
+                    this.equipment.values().stream().filter(gem::equals).count() < gem.getCount())
+            .limit(codpieceSlots.size())
             .toList();
-    this.tryCodpieceGems(codpieceGems, 0, 0);
+    this.tryCodpieceGems(codpieceGems, codpieceSlots, 0, 0);
     this.restore(mark);
   }
 
-  private void tryCodpieceGems(List<CheckedItem> possibles, int start, int slotIndex)
+  private void releaseCodpieceGemsNeededElsewhere() {
+    for (Slot slot : CODPIECE_SLOTS) {
+      if (!Maximizer.eval.slotEnabled(slot)) {
+        continue;
+      }
+
+      AdventureResult gem = this.equipment.get(slot);
+      if (gem == null || gem.equals(EquipmentRequest.UNEQUIP)) {
+        continue;
+      }
+
+      CheckedItem equippedElsewhere =
+          this.equipment.entrySet().stream()
+              .filter(entry -> !SlotSet.CODPIECE_SLOTS.contains(entry.getKey()))
+              .map(Map.Entry::getValue)
+              .filter(gem::equals)
+              .filter(CheckedItem.class::isInstance)
+              .map(CheckedItem.class::cast)
+              .findFirst()
+              .orElse(null);
+      if (equippedElsewhere == null) {
+        continue;
+      }
+
+      long used = this.equipment.values().stream().filter(gem::equals).count();
+      if (used > equippedElsewhere.getCount()) {
+        this.equipment.put(slot, EquipmentRequest.UNEQUIP);
+      }
+    }
+  }
+
+  private void tryCodpieceGems(
+      List<CheckedItem> possibles, List<Slot> slots, int start, int slotIndex)
       throws MaximizerInterruptedException {
     this.checkBest();
-    if (slotIndex == CODPIECE_SLOTS.length) {
+    if (slotIndex == slots.size()) {
       return;
     }
 
-    Slot slot = CODPIECE_SLOTS[slotIndex];
+    Slot slot = slots.get(slotIndex);
     for (int i = start; i < possibles.size(); i++) {
       CheckedItem item = possibles.get(i);
-      long used =
-          SlotSet.CODPIECE_SLOTS.stream().map(this.equipment::get).filter(item::equals).count();
+      long used = this.equipment.values().stream().filter(item::equals).count();
       if (used >= item.getCount()) {
         continue;
       }
 
       this.equipment.put(slot, item);
-      this.tryCodpieceGems(possibles, i, slotIndex + 1);
+      this.tryCodpieceGems(possibles, slots, i, slotIndex + 1);
       this.equipment.put(slot, EquipmentRequest.UNEQUIP);
     }
   }
 
   private void checkBest() throws MaximizerInterruptedException {
+    if (!this.hasEnoughCodpieceGems()) {
+      return;
+    }
+
     this.calculated = false;
     this.scored = false;
     this.tiebreakered = false;
@@ -873,6 +914,16 @@ public class MaximizerSpeculation extends Speculation
     if (comboLimit != 0 && Maximizer.bestChecked >= comboLimit) {
       throw new MaximizerLimitException();
     }
+  }
+
+  private boolean hasEnoughCodpieceGems() {
+    return this.equipment.values().stream()
+        .filter(CheckedItem.class::isInstance)
+        .map(CheckedItem.class::cast)
+        .filter(item -> EquipmentRequest.isCodpieceGem(item.getItemId()))
+        .allMatch(
+            item ->
+                this.equipment.values().stream().filter(item::equals).count() <= item.getCount());
   }
 
   private static int getMutex(AdventureResult item) {
