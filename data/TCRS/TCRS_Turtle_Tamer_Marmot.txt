@@ -8056,7 +8056,7 @@
 8182	purple Map to Kokomo	0		Free Pull, Skill: "Summon Kokomo Resort Pass"
 8183	studded bread basket	0		Damage Absorption: +80
 8184	blinking Ed the Undying exhibit crate	0		
-8185	teal gravedigger's flame-wreathed The Crown of Ed the Undying	0		Spooky Damage: +10, Softcore Only, Familiar Effect: "spooky atk, 1.5xVolley, cap 25", Last Available: "2015-03"
+8185	teal gravedigger's flame-wreathed The Crown of Ed the Undying	0		Hot Spell Damage: +10, Spooky Damage: +10, Softcore Only, Familiar Effect: "spooky atk, 1.5xVolley, cap 25", Last Available: "2015-03"
 8186	Doc Galaktik's Invigorating Tonic	0		
 8187	shaking skewed map to a hidden booze cache	0		
 8188	perfectly mixed bouncing Cherrytastrophe wine cooler	4	EPIC	

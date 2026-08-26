@@ -8056,7 +8056,7 @@
 8182	Map to Kokomo	0		Free Pull, Skill: "Summon Kokomo Resort Pass"
 8183	quilted bread basket	0		Damage Absorption: +40
 8184	wobbly Ed the Undying exhibit crate	0		
-8185	blurry fireproof frightening The Crown of Ed the Undying	0		Hot Resistance: +3, Softcore Only, Familiar Effect: "spooky atk, 1.5xVolley, cap 25", Last Available: "2015-03"
+8185	blurry fireproof frightening The Crown of Ed the Undying	0		Spooky Damage: +5, Hot Resistance: +3, Softcore Only, Familiar Effect: "spooky atk, 1.5xVolley, cap 25", Last Available: "2015-03"
 8186	Doc Galaktik's Invigorating Tonic	0		
 8187	maroon map to a hidden booze cache	0		
 8188	hand-crafted Cherrytastrophe wine cooler	3	EPIC	

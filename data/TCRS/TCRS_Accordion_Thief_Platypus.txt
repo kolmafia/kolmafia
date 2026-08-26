@@ -8056,7 +8056,7 @@
 8182	Map to Kokomo	0		Free Pull, Skill: "Summon Kokomo Resort Pass"
 8183	bread basket of courage	0		Spooky Resistance: +3
 8184	twirling Ed the Undying exhibit crate	0		
-8185	pulsating ribald The Crown of Ed the Undying of bravery	0		Spooky Resistance: +5, Softcore Only, Familiar Effect: "spooky atk, 1.5xVolley, cap 25", Last Available: "2015-03"
+8185	pulsating ribald The Crown of Ed the Undying of bravery	0		Sleaze Damage: +10, Spooky Resistance: +5, Softcore Only, Familiar Effect: "spooky atk, 1.5xVolley, cap 25", Last Available: "2015-03"
 8186	fuchsia Doc Galaktik's Invigorating Tonic	0		
 8187	map to a hidden booze cache	0		
 8188	smooth fancy Cherrytastrophe wine cooler	3	awesome	Effect: "Hoity Toity", Effect Duration: 10
