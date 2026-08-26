@@ -36,7 +36,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class TCRSDatabaseTest {
 
-  private static Stream<Arguments> guesses() {
+  private static Stream<Arguments> derivations() {
     return Stream.of(
         Arguments.of(
             AscensionClass.SEAL_CLUBBER,
@@ -141,15 +141,15 @@ class TCRSDatabaseTest {
   }
 
   @ParameterizedTest
-  @MethodSource("guesses")
-  void guessItem(
+  @MethodSource("derivations")
+  void deriveItem(
       final AscensionClass ascensionClass,
       final ZodiacSign sign,
       final int itemId,
       final String expectedName,
       final String expectedEffect,
       final int expectedDuration) {
-    var item = TCRSDatabase.guessItem(ascensionClass, sign, itemId);
+    var item = TCRSDatabase.deriveItem(ascensionClass, sign, itemId);
     assertThat(item.name, equalTo(expectedName));
     var modifiers = ModifierDatabase.splitModifiers(item.modifiers);
     assertThat(modifiers.getModifierValue("Effect"), equalTo("\"" + expectedEffect + "\""));
@@ -199,13 +199,13 @@ class TCRSDatabaseTest {
   }
 
   @Test
-  void guessAll() throws java.io.IOException {
+  void deriveAll() throws java.io.IOException {
     // Stream mismatches to a file rather than holding them all in memory (exhausts the heap).
     var reportFile =
         java.nio.file.Path.of(System.getProperty("user.dir"))
             .getParent()
             .getParent()
-            .resolve("build/tcrs-guessAll-mismatches.txt");
+            .resolve("build/tcrs-deriveAll-mismatches.txt");
     java.nio.file.Files.createDirectories(reportFile.getParent());
 
     var count = 0;
@@ -224,9 +224,9 @@ class TCRSDatabaseTest {
               if (!TCRSDatabase.hasData(itemId)) continue;
 
               var dataSays = TCRSDatabase.getData(itemId);
-              var weGuessed = TCRSDatabase.guessItem(ascensionClass, sign, itemId);
+              var weDerived = TCRSDatabase.deriveItem(ascensionClass, sign, itemId);
 
-              if (weGuessed == null) {
+              if (weDerived == null) {
                 continue;
               }
 
@@ -257,36 +257,36 @@ class TCRSDatabaseTest {
 
               var expectedName = StringUtilities.getEntityDecode(dataSays.name);
               // These items are dynamically named and don't get rerolled
-              if (!weGuessed.name.equals(expectedName)
+              if (!weDerived.name.equals(expectedName)
                   && !TCRSDatabase.NOT_RE_ROLLED.contains(itemId)) {
-                var orderOnly = sortedWords(weGuessed.name).equals(sortedWords(expectedName));
+                var orderOnly = sortedWords(weDerived.name).equals(sortedWords(expectedName));
                 out.write(
                     mismatch(
                         prefix,
                         orderOnly ? "Name-order" : "Name-content",
                         expectedName,
-                        weGuessed.name));
+                        weDerived.name));
                 out.newLine();
                 count++;
               }
-              if (weGuessed.size != dataSays.size) {
-                out.write(mismatch(prefix, "Size", dataSays.size, weGuessed.size));
+              if (weDerived.size != dataSays.size) {
+                out.write(mismatch(prefix, "Size", dataSays.size, weDerived.size));
                 out.newLine();
                 count++;
               }
               if (TCRSDatabase.qualityToTurnsPerFullness(dataSays.quality) > 0
-                  && weGuessed.quality != dataSays.quality) {
+                  && weDerived.quality != dataSays.quality) {
                 var superEpicOnly =
                     TCRSDatabase.qualityToTurnsPerFullness(dataSays.quality)
                             == TCRSDatabase.qualityToTurnsPerFullness(ConsumableQuality.EPIC)
-                        && TCRSDatabase.qualityToTurnsPerFullness(weGuessed.quality)
+                        && TCRSDatabase.qualityToTurnsPerFullness(weDerived.quality)
                             == TCRSDatabase.qualityToTurnsPerFullness(ConsumableQuality.EPIC);
                 out.write(
                     mismatch(
                         prefix,
                         superEpicOnly ? "Quality(>EPIC warning)" : "Quality",
                         dataSays.quality,
-                        weGuessed.quality));
+                        weDerived.quality));
                 out.newLine();
                 if (!superEpicOnly) {
                   count++;
@@ -294,7 +294,7 @@ class TCRSDatabaseTest {
               }
 
               if (checkMods) {
-                var diff = modifierDiff(itemId, dataSays.modifiers, weGuessed.modifiers);
+                var diff = modifierDiff(itemId, dataSays.modifiers, weDerived.modifiers);
                 if (diff != null) {
                   out.write(mismatch(prefix, "Modifiers", diff.expected(), diff.actual()));
                   out.newLine();
@@ -303,8 +303,8 @@ class TCRSDatabaseTest {
               }
             }
           } finally {
-            // Each combo applies its overrides to the shared databases. Tear them down so the next
-            // combo (and the guesser's view of the base item) starts clean.
+            // Each combo overrides the shared databases. Tear them down so the next combo and its
+            // view of the base item start clean.
             TCRSDatabase.resetModifiers();
           }
           out.flush();
@@ -315,7 +315,7 @@ class TCRSDatabaseTest {
     assertThat(count + " content mismatches; see " + reportFile, count, is(0));
   }
 
-  /** Formats one guessAll mismatch line. */
+  /** Formats one deriveAll mismatch line. */
   private static String mismatch(
       final String prefix, final String field, final Object expected, final Object actual) {
     return String.format("%s - %s: expected <%s> but was <%s>", prefix, field, expected, actual);
@@ -324,7 +324,7 @@ class TCRSDatabaseTest {
   private record ModifierDiff(String expected, String actual) {}
 
   /**
-   * Compares expected vs guessed modifiers by {@link Modifier} (not string name) so aliases like
+   * Compares expected vs derived modifiers by {@link Modifier} (not string name) so aliases like
    * "Look like a Pirate" vs "Pirate" can't slip through. Returns the differences, or null if equal.
    */
   private static ModifierDiff modifierDiff(
@@ -335,9 +335,8 @@ class TCRSDatabaseTest {
     var missing = new java.util.TreeSet<String>();
     var extra = new java.util.TreeSet<String>();
 
-    // Modifiers the guess keeps as a raw expression are innate, context-dependent properties: the
-    // derive baked one context's value into the data, which we can't reproduce, so compare them by
-    // presence (i.e. skip the value check).
+    // A raw-expression modifier is an innate, context-dependent property. Introspection baked one
+    // context's value into the recorded data, which we can't reproduce, so compare by presence.
     var expressionMods = new java.util.HashSet<Modifier>();
     for (var m : ModifierDatabase.splitModifiers(gotStr)) {
       if (m.getValue() != null && m.getValue().contains("[")) {
@@ -354,11 +353,11 @@ class TCRSDatabaseTest {
           // Carried-over modifiers inconsistently show in the description, so ignore when
           // either side omits it.
           if (ModifierDatabase.CARRIED_OVER.contains(mod) && (ev.isEmpty() || gv.isEmpty())) return;
-          // An expression-valued modifier's value is context-dependent. The guess keeping it is
-          // enough, so don't compare the (unreproducible) value.
+          // An expression-valued modifier's value is context-dependent. Keeping it is enough, so
+          // don't compare the value.
           if (expressionMods.contains(mod)) return;
-          // The derive mis-parses "Only Unarmed Characters may use this item" as a Class
-          // restriction. It isn't one, so the guess correctly omits it. Ignore the bad data value.
+          // Introspection mis-parses "Only Unarmed Characters may use this item" as a Class
+          // restriction. It isn't one, so deriveItem omits it. Ignore the bad data value.
           if (mod == StringModifier.CLASS
               && ev.replace("&nbsp;", " ").equals("Unarmed Characters")) {
             return;
@@ -449,12 +448,32 @@ class TCRSDatabaseTest {
 
     try (cleanups) {
       ModifierDatabase.resetModifiers();
-      var ring = TCRSDatabase.deriveItem(ItemPool.RING_OF_TELLING_SKELETONS_WHAT_TO_DO);
+      var ring = TCRSDatabase.introspectItem(ItemPool.RING_OF_TELLING_SKELETONS_WHAT_TO_DO);
       assertThat(ring, not(nullValue()));
       assertThat(
           ring.modifiers,
           equalTo(
               "Hot Resistance: +1, Conditional Skill (Equipped): \"Tell a Skeleton What To Do\", Conditional Skill (Equipped): \"Tell This Skeleton What To Do\""));
+    }
+  }
+
+  @Test
+  void deriveIntrospectsRegisteredItems() {
+    int itemId = ItemDatabase.maxItemId() + 1;
+    try {
+      // Empty description so registration pulls in no extra data.
+      DebugDatabase.cacheItemDescriptionText(itemId, "");
+      ItemDatabase.registerItem(itemId, "zz tcrs registration test item", "9999999");
+      // Has a name, so the guard fires via isRegisteredLive, not the unknown-name branch.
+      assertThat(ItemDatabase.getItemName(itemId), not(nullValue()));
+      assertThat(ItemDatabase.isRegisteredLive(itemId), is(true));
+
+      // deriveItem introspects (null here, empty description) instead of seed-deriving.
+      assertThat(
+          TCRSDatabase.deriveItem(AscensionClass.SEAL_CLUBBER, ZodiacSign.MARMOT, itemId),
+          is(nullValue()));
+    } finally {
+      ItemDatabase.forgetItem(itemId);
     }
   }
 
@@ -473,7 +492,7 @@ class TCRSDatabaseTest {
 
     try (cleanups) {
       ModifierDatabase.resetModifiers();
-      var book = TCRSDatabase.deriveItem(ItemPool.CRIMBO_CANDY_COOKBOOK);
+      var book = TCRSDatabase.introspectItem(ItemPool.CRIMBO_CANDY_COOKBOOK);
       assertThat(book, not(nullValue()));
       assertThat(
           book.modifiers, equalTo("Skill: \"Summon Crimbo Candy\", Last Available: \"2009-12\""));

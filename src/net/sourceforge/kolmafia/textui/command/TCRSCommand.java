@@ -13,7 +13,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class TCRSCommand extends AbstractCommand {
   public TCRSCommand() {
     this.usage =
-        " load | save | derive [#] | check # | apply | help - handle item modifiers for Two Crazy Random Summer.";
+        " load | save | introspect [#] | derive [#] | check # | apply | help - handle item modifiers for Two Crazy Random Summer.";
   }
 
   @Override
@@ -40,7 +40,9 @@ public class TCRSCommand extends AbstractCommand {
       RequestLogger.printLine("load - load current data.");
       RequestLogger.printLine("save = data to local disk.");
       RequestLogger.printLine(
-          "derive [#] - derive data for specified item or all items for current CLASS and SIGN");
+          "introspect [#] - introspect data for specified item or all items for current CLASS and SIGN");
+      RequestLogger.printLine(
+          "derive [#] - derive data (introspecting items not in items.txt) for specified item or all items for current CLASS and SIGN");
       RequestLogger.printLine("check # - display data for item.");
       RequestLogger.printLine("apply - apply current data.");
       RequestLogger.printLine("help - display this text.");
@@ -48,7 +50,7 @@ public class TCRSCommand extends AbstractCommand {
     }
 
     if (command.equals("ring")) {
-      TCRS tcrs = TCRSDatabase.deriveRing();
+      TCRS tcrs = TCRSDatabase.introspectRing();
       if (tcrs == null) {
         KoLmafia.updateDisplay(MafiaState.ERROR, "No item description for the 'ring'!");
         return;
@@ -61,7 +63,7 @@ public class TCRSCommand extends AbstractCommand {
     }
 
     if (command.equals("spoon")) {
-      TCRS tcrs = TCRSDatabase.deriveSpoon();
+      TCRS tcrs = TCRSDatabase.introspectSpoon();
       if (tcrs == null) {
         KoLmafia.updateDisplay(MafiaState.ERROR, "No item description for the 'spoon'!");
         return;
@@ -116,11 +118,29 @@ public class TCRSCommand extends AbstractCommand {
       return;
     }
 
+    if (command.equals("introspect")) {
+      if (parameters.equals("")) {
+        TCRSDatabase.introspect(true);
+      } else {
+        TCRSDatabase.introspectAndSaveItem(StringUtilities.parseInt(parameters));
+      }
+      return;
+    }
+
     if (command.equals("derive")) {
       if (parameters.equals("")) {
         TCRSDatabase.derive(true);
       } else {
-        TCRSDatabase.deriveAndSaveItem(StringUtilities.parseInt(parameters));
+        int itemId = StringUtilities.parseInt(parameters);
+        TCRS tcrs = TCRSDatabase.deriveAndSaveItem(itemId);
+        if (tcrs == null) {
+          KoLmafia.updateDisplay(MafiaState.ERROR, "Could not derive item #" + itemId + ".");
+          return;
+        }
+        RequestLogger.printLine("name = " + tcrs.name);
+        RequestLogger.printLine("size = " + tcrs.size);
+        RequestLogger.printLine("quality = " + tcrs.quality);
+        RequestLogger.printLine("modifiers = '" + tcrs.modifiers + "'");
       }
       return;
     }
@@ -134,7 +154,7 @@ public class TCRSCommand extends AbstractCommand {
 
     if (command.equals("check")) {
       int itemId = StringUtilities.parseInt(parameters);
-      TCRS tcrs = TCRSDatabase.deriveItem(itemId);
+      TCRS tcrs = TCRSDatabase.introspectItem(itemId);
       if (tcrs == null) {
         KoLmafia.updateDisplay(
             MafiaState.ERROR, "Item #" + itemId + " does not have a description");

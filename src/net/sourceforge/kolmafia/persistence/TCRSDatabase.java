@@ -70,7 +70,7 @@ public class TCRSDatabase {
     }
   }
 
-  private record TCRSDeriveRunnable(int itemId) implements Runnable {
+  private record TCRSIntrospectRunnable(int itemId) implements Runnable {
     @Override
     public void run() {
       String text = DebugDatabase.itemDescriptionText(itemId, false);
@@ -78,7 +78,7 @@ public class TCRSDatabase {
         return;
       }
 
-      TCRS tcrs = deriveItem(itemId, text);
+      TCRS tcrs = introspectItem(itemId, text);
 
       TCRSMap.put(itemId, tcrs);
     }
@@ -276,17 +276,17 @@ public class TCRSDatabase {
     return true;
   }
 
-  public static boolean derive(final boolean verbose) {
+  public static boolean introspect(final boolean verbose) {
     if (!KoLCharacter.isCrazyRandomTwo()) {
       return false;
     }
 
-    derive(KoLCharacter.getAscensionClass(), KoLCharacter.getSign(), verbose);
-    deriveCafe(verbose);
+    introspect(KoLCharacter.getAscensionClass(), KoLCharacter.getSign(), verbose);
+    introspectCafe(verbose);
     return true;
   }
 
-  private static boolean derive(
+  private static boolean introspect(
       final AscensionClass ascensionClass, final ZodiacSign sign, final boolean verbose) {
     // If we don't currently have data for this class/sign, start fresh
     String classSign = ascensionClass.getName() + "/" + sign;
@@ -297,13 +297,13 @@ public class TCRSDatabase {
     Set<Integer> keys = ItemDatabase.descriptionIdKeySet();
 
     if (verbose) {
-      KoLmafia.updateDisplay("Deriving TCRS item adjustments for all real items...");
+      KoLmafia.updateDisplay("Introspecting TCRS item adjustments for all real items...");
     }
 
     List<Runnable> actions = new ArrayList<>();
 
     for (Integer id : keys) {
-      actions.add(new TCRSDeriveRunnable(id));
+      actions.add(new TCRSIntrospectRunnable(id));
     }
 
     RequestThread.runInParallel(actions, verbose);
@@ -317,18 +317,77 @@ public class TCRSDatabase {
     return true;
   }
 
-  public static boolean derive(final int itemId) {
+  public static boolean introspect(final int itemId) {
     // Don't do this if we already know the item
     if (TCRSMap.containsKey(itemId)) {
       return false;
     }
 
-    TCRS tcrs = deriveItem(itemId);
+    TCRS tcrs = introspectItem(itemId);
     if (tcrs == null) {
       return false;
     }
 
     TCRSMap.put(itemId, tcrs);
+
+    return true;
+  }
+
+  public static boolean derive(final int itemId) {
+    if (TCRSMap.containsKey(itemId)) {
+      return false;
+    }
+
+    TCRS tcrs = deriveItem(KoLCharacter.getAscensionClass(), KoLCharacter.getSign(), itemId);
+    if (tcrs == null) {
+      return false;
+    }
+
+    TCRSMap.put(itemId, tcrs);
+
+    return true;
+  }
+
+  public static TCRS deriveAndSaveItem(final int itemId) {
+    TCRS tcrs = deriveItem(KoLCharacter.getAscensionClass(), KoLCharacter.getSign(), itemId);
+    if (tcrs != null) {
+      TCRSMap.put(itemId, tcrs);
+    }
+    return tcrs;
+  }
+
+  public static boolean derive(final boolean verbose) {
+    if (!KoLCharacter.isCrazyRandomTwo()) {
+      return false;
+    }
+
+    var ascensionClass = KoLCharacter.getAscensionClass();
+    var sign = KoLCharacter.getSign();
+
+    String classSign = ascensionClass.getName() + "/" + sign;
+    if (!currentClassSign.equals(classSign)) {
+      reset();
+    }
+
+    if (verbose) {
+      KoLmafia.updateDisplay("Deriving TCRS item adjustments for all real items...");
+    }
+
+    for (Integer id : ItemDatabase.descriptionIdKeySet()) {
+      TCRS tcrs = deriveItem(ascensionClass, sign, id);
+      if (tcrs != null) {
+        TCRSMap.put(id, tcrs);
+      }
+    }
+
+    // deriveItem skips cafe consumables, so introspect those.
+    introspectCafe(verbose);
+
+    currentClassSign = classSign;
+
+    if (verbose) {
+      KoLmafia.updateDisplay("Done!");
+    }
 
     return true;
   }
@@ -348,7 +407,7 @@ public class TCRSDatabase {
     for (Integer id : keys) {
       // For a while, we stored the hewn moon-rune spoon
       // without modifiers.  If the data file we loaded has
-      // that, force derive here to get the real modifiers.
+      // that, force introspect here to get the real modifiers.
       if (id == ItemPool.HEWN_MOON_RUNE_SPOON) {
         TCRS tcrs = TCRSMap.get(id);
         if (tcrs != null && "hewn moon-rune spoon".equals(tcrs.name)) {
@@ -356,7 +415,7 @@ public class TCRSDatabase {
         }
       }
 
-      if (derive(id)) {
+      if (introspect(id)) {
         count++;
       }
     }
@@ -379,7 +438,7 @@ public class TCRSDatabase {
 
     int count = 0;
     for (Integer id : CafeDatabase.cafeBoozeKeySet()) {
-      if (deriveCafe(id, CafeDatabase.boozeDescId(id), TCRSBoozeMap)) {
+      if (introspectCafe(id, CafeDatabase.boozeDescId(id), TCRSBoozeMap)) {
         count++;
       }
     }
@@ -402,7 +461,7 @@ public class TCRSDatabase {
 
     int count = 0;
     for (Integer id : CafeDatabase.cafeFoodKeySet()) {
-      if (deriveCafe(id, CafeDatabase.foodDescId(id), TCRSFoodMap)) {
+      if (introspectCafe(id, CafeDatabase.foodDescId(id), TCRSFoodMap)) {
         count++;
       }
     }
@@ -414,7 +473,7 @@ public class TCRSDatabase {
     return count;
   }
 
-  public static TCRS deriveItem(final int itemId) {
+  public static TCRS introspectItem(final int itemId) {
     // The "ring" is the path reward for completing a TCRS run.
     // Its enchantments are character-specific.
     if (itemId == ItemPool.RING) {
@@ -427,33 +486,33 @@ public class TCRSDatabase {
       return null;
     }
 
-    return deriveItem(itemId, text);
+    return introspectItem(itemId, text);
   }
 
-  public static TCRS deriveAndSaveItem(final int itemId) {
-    TCRS tcrs = deriveItem(itemId);
+  public static TCRS introspectAndSaveItem(final int itemId) {
+    TCRS tcrs = introspectItem(itemId);
     if (tcrs != null) {
       TCRSMap.put(itemId, tcrs);
     }
     return tcrs;
   }
 
-  public static TCRS deriveRing() {
+  public static TCRS introspectRing() {
     String text = DebugDatabase.itemDescriptionText(ItemPool.RING, false);
-    return deriveItem(ItemPool.RING, text);
+    return introspectItem(ItemPool.RING, text);
   }
 
-  public static TCRS deriveSpoon() {
+  public static TCRS introspectSpoon() {
     String text = DebugDatabase.itemDescriptionText(ItemPool.HEWN_MOON_RUNE_SPOON, false);
-    return deriveItem(ItemPool.HEWN_MOON_RUNE_SPOON, text);
+    return introspectItem(ItemPool.HEWN_MOON_RUNE_SPOON, text);
   }
 
-  public static void deriveApplyItem(final int id) {
+  public static void introspectApplyItem(final int id) {
     String text = DebugDatabase.itemDescriptionText(id, false);
 
     // should only be null in tests, but setting up the builder is hard
     if (text != null) {
-      applyModifiers(id, deriveItem(id, text));
+      applyModifiers(id, introspectItem(id, text));
     }
   }
 
@@ -485,7 +544,7 @@ public class TCRSDatabase {
         .toList();
   }
 
-  private static TCRS deriveItem(final int itemId, final String text) {
+  private static TCRS introspectItem(final int itemId, final String text) {
     // Parse the things that are changed in TCRS
     String name = DebugDatabase.parseName(text);
     int size = DebugDatabase.parseConsumableSize(text);
@@ -559,7 +618,7 @@ public class TCRSDatabase {
   /**
    * Shuffles the cosmetic adjectives with the given rand stream and joins them into a name prefix.
    * The stream matters: for equipment the shuffle continues the same seed+10 stream the
-   * enchantments were selected from (see {@link #guessEquipment}). Everything else uses the base
+   * enchantments were selected from (see {@link #deriveEquipment}). Everything else uses the base
    * seed stream.
    */
   private static String shuffleCosmetics(
@@ -608,7 +667,7 @@ public class TCRSDatabase {
   }
 
   // The raw (unevaluated) base modifiers of an item, so context-dependent expressions are preserved
-  // rather than evaluated in the guessing context.
+  // rather than evaluated in the deriving context.
   private static ModifierList rawModifiers(final int itemId) {
     var raw = ModifierDatabase.getModifierString(new Lookup(ModifierType.ITEM, itemId));
     return ModifierDatabase.splitModifiers(raw == null ? "" : raw);
@@ -677,7 +736,7 @@ public class TCRSDatabase {
     return new Enchantment(effectName, duration);
   }
 
-  public static TCRS guessPotion(
+  public static TCRS derivePotion(
       final AscensionClass ascensionClass, final ZodiacSign sign, final AdventureResult item) {
     var id = item.getItemId();
     var seed = seedFor(id, ascensionClass, sign);
@@ -782,7 +841,7 @@ public class TCRSDatabase {
   private static final Set<Integer> ZERO_ADVENTURE_CONSUMABLES =
       Set.of(ItemPool.UNIDENTIFIED_DRINK);
 
-  private static TCRS guessFoodBooze(
+  private static TCRS deriveFoodBooze(
       final AscensionClass ascensionClass,
       final ZodiacSign sign,
       final AdventureResult item,
@@ -985,7 +1044,7 @@ public class TCRSDatabase {
           Map.entry(ItemPool.QUEEN_COOKIE, 755), // Towering Strength
           Map.entry(ItemPool.SUN_DRIED_TOFU, 775)); // Oversaturated Palate
 
-  private static TCRS guessSpleen(
+  private static TCRS deriveSpleen(
       final AscensionClass ascensionClass, final ZodiacSign sign, final AdventureResult item) {
     var id = item.getItemId();
     var seed = seedFor(id, ascensionClass, sign);
@@ -1029,7 +1088,7 @@ public class TCRSDatabase {
 
   protected static List<Entry<String, String>> EQUIPMENT_MODIFIERS;
 
-  private static TCRS guessEquipment(
+  private static TCRS deriveEquipment(
       final AscensionClass ascensionClass, final ZodiacSign sign, final AdventureResult item) {
     var id = item.getItemId();
     var seed = seedFor(id, ascensionClass, sign);
@@ -1258,7 +1317,7 @@ public class TCRSDatabase {
     return count;
   }
 
-  private static TCRS guessGeneric(
+  private static TCRS deriveGeneric(
       final AscensionClass ascensionClass, final ZodiacSign sign, final AdventureResult item) {
     var id = item.getItemId();
     var seed = seedFor(id, ascensionClass, sign);
@@ -1280,8 +1339,13 @@ public class TCRSDatabase {
     return new TCRS(name, size, quality, mods.toString());
   }
 
-  public static TCRS guessItem(
+  public static TCRS deriveItem(
       final AscensionClass ascensionClass, final ZodiacSign sign, final int itemId) {
+    // Items not in items.txt (unknown, or only registered live) have no base data, so introspect.
+    if (ItemDatabase.getItemName(itemId) == null || ItemDatabase.isRegisteredLive(itemId)) {
+      return introspectItem(itemId);
+    }
+
     var item = ItemPool.get(itemId);
     var type = ItemDatabase.getConsumptionType(itemId);
 
@@ -1308,22 +1372,22 @@ public class TCRSDatabase {
     }
 
     return switch (type) {
-      case POTION, AVATAR_POTION -> guessPotion(ascensionClass, sign, item);
-      case EAT, DRINK -> guessFoodBooze(ascensionClass, sign, item, type == ConsumptionType.EAT);
-      case SPLEEN -> guessSpleen(ascensionClass, sign, item);
+      case POTION, AVATAR_POTION -> derivePotion(ascensionClass, sign, item);
+      case EAT, DRINK -> deriveFoodBooze(ascensionClass, sign, item, type == ConsumptionType.EAT);
+      case SPLEEN -> deriveSpleen(ascensionClass, sign, item);
       case HAT, SHIRT, CONTAINER, WEAPON, OFFHAND, PANTS, ACCESSORY ->
-          guessEquipment(ascensionClass, sign, item);
-      default -> guessGeneric(ascensionClass, sign, item);
+          deriveEquipment(ascensionClass, sign, item);
+      default -> deriveGeneric(ascensionClass, sign, item);
     };
   }
 
-  private static boolean deriveCafe(final boolean verbose) {
+  private static boolean introspectCafe(final boolean verbose) {
     if (verbose) {
-      KoLmafia.updateDisplay("Deriving TCRS item adjustments for all cafe booze items...");
+      KoLmafia.updateDisplay("Introspecting TCRS item adjustments for all cafe booze items...");
     }
 
     for (Integer id : CafeDatabase.cafeBoozeKeySet()) {
-      deriveCafe(id, CafeDatabase.boozeDescId(id), TCRSBoozeMap);
+      introspectCafe(id, CafeDatabase.boozeDescId(id), TCRSBoozeMap);
     }
 
     if (verbose) {
@@ -1331,11 +1395,11 @@ public class TCRSDatabase {
     }
 
     if (verbose) {
-      KoLmafia.updateDisplay("Deriving TCRS item adjustments for all cafe food items...");
+      KoLmafia.updateDisplay("Introspecting TCRS item adjustments for all cafe food items...");
     }
 
     for (Integer id : CafeDatabase.cafeFoodKeySet()) {
-      deriveCafe(id, CafeDatabase.foodDescId(id), TCRSFoodMap);
+      introspectCafe(id, CafeDatabase.foodDescId(id), TCRSFoodMap);
     }
 
     if (verbose) {
@@ -1345,7 +1409,7 @@ public class TCRSDatabase {
     return true;
   }
 
-  private static boolean deriveCafe(final int itemId, String descId, Map<Integer, TCRS> map) {
+  private static boolean introspectCafe(final int itemId, String descId, Map<Integer, TCRS> map) {
     // Don't do this if we already know the item
     if (map.containsKey(itemId)) {
       return false;
@@ -1353,7 +1417,7 @@ public class TCRSDatabase {
 
     String text = DebugDatabase.cafeItemDescriptionText(descId);
 
-    TCRS tcrs = deriveItem(itemId, text);
+    TCRS tcrs = introspectItem(itemId, text);
 
     map.put(itemId, tcrs);
 
@@ -1554,7 +1618,6 @@ public class TCRSDatabase {
     var consumable = ConsumablesDatabase.getConsumableByName(itemName);
     Integer lint = ConsumablesDatabase.getLevelReq(consumable);
     int level = lint == null ? 0 : lint;
-    // Guess
     int adv =
         (usage == ConsumptionType.SPLEEN)
             ? 0
@@ -1611,7 +1674,7 @@ public class TCRSDatabase {
     // Check items that vary per person
     InventoryManager.checkMods();
 
-    deriveApplyItem(ItemPool.RING);
+    introspectApplyItem(ItemPool.RING);
 
     ConcoctionDatabase.resetEffects();
     ConcoctionDatabase.refreshConcoctions();
@@ -1652,7 +1715,7 @@ public class TCRSDatabase {
 
     if (overrideModifiers && (nonCafeLoaded || cafeLoaded)) {
       applyModifiers();
-      deriveApplyItem(ItemPool.RING);
+      introspectApplyItem(ItemPool.RING);
     }
 
     return true;

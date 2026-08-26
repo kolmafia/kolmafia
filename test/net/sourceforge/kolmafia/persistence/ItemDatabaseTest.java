@@ -242,4 +242,22 @@ public class ItemDatabaseTest {
       }
     }
   }
+
+  @Test
+  public void isRegisteredLiveIsFalseForDatafileItems() {
+    assertThat(ItemDatabase.isRegisteredLive(ItemPool.SEAL_CLUB), is(false));
+  }
+
+  @Test
+  public void isRegisteredLiveIsTrueAfterLiveRegistration() {
+    int itemId = ItemDatabase.maxItemId() + 1;
+    try {
+      // Empty description so registration pulls in no extra data.
+      DebugDatabase.cacheItemDescriptionText(itemId, "");
+      ItemDatabase.registerItem(itemId, "zz tcrs registration test item", "9999999");
+      assertThat(ItemDatabase.isRegisteredLive(itemId), is(true));
+    } finally {
+      ItemDatabase.forgetItem(itemId);
+    }
+  }
 }

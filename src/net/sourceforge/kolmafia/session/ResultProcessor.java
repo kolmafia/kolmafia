@@ -266,7 +266,7 @@ public class ResultProcessor {
   }
 
   private static void handleCrazyRandomAdjectives(final AdventureResult item, final String name) {
-    // Add to TCRS data map if not already present
+    // Add to the TCRS map if new. derive() introspects items not in items.txt.
     int itemId = item.getItemId();
     if (TCRSDatabase.derive(itemId)) {
       TCRSDatabase.applyModifiers(itemId);
