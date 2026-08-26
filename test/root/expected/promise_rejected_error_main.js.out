@@ -1,0 +1,5 @@
+JavaScript exception: Error: deep failure
+	at file:%%STACKTRACE_LOCATION%%/promise_rejected_error_main.js:2 (fail)
+	at file:%%STACKTRACE_LOCATION%%/promise_rejected_error_main.js:6 (wrapper)
+	at file:%%STACKTRACE_LOCATION%%/promise_rejected_error_main.js:13 (anonymous)
+	at file:%%STACKTRACE_LOCATION%%/promise_rejected_error_main.js:11 (main)
