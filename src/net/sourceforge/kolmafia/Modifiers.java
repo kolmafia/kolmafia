@@ -1198,7 +1198,12 @@ public class Modifiers {
 
   public void applyFamiliarModifiers(final FamiliarData familiar, AdventureResult famItem) {
     if (KoLConstants.activeEffects.contains(Modifiers.somePigs)) {
-      // Under the effect of SOME PIGS, familiar gives no modifiers
+      // Under the effect of SOME PIGS, familiars give no modifiers. The Stooper is the exception:
+      // KoL still honors its additional liver capacity.
+      if (familiar.getEffectiveId() == FamiliarPool.STOOPER) {
+        String race = familiar.getEffectiveRace();
+        this.add(ModifierDatabase.getModifiers(ModifierType.FAMILIAR, race));
+      }
       return;
     }
 
