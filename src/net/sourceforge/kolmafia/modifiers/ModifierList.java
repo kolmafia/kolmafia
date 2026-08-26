@@ -161,6 +161,10 @@ public class ModifierList implements Iterable<ModifierValue> {
     public String toString() {
       // Boolean modifiers have no value. Render just the name (not "name: null").
       if (value == null) return name;
+      // String modifier values are quoted in the modifier string; quote if the caller didn't.
+      if (StringModifier.byCaselessName(name) != null && !value.startsWith("\"")) {
+        return name + ": \"" + value + "\"";
+      }
       return name + ": " + value;
     }
   }

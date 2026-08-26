@@ -587,10 +587,6 @@ public class TCRSDatabase {
     }
   }
 
-  private static String quoted(final String value) {
-    return "\"" + value + "\"";
-  }
-
   private static int seedFor(
       final int itemId, final AscensionClass ascensionClass, final ZodiacSign sign) {
     return (50 * itemId) + (12345 * sign.getId()) + (100000 * ascensionClass.getId());
@@ -729,7 +725,7 @@ public class TCRSDatabase {
     var potionString = String.join(" ", prefixedPotionMods);
 
     if (!effectName.isBlank()) {
-      mods.addModifier("Effect", quoted(effectName));
+      mods.addModifier("Effect", effectName);
       mods.addModifier("Effect Duration", String.valueOf(duration));
     }
 
@@ -877,7 +873,7 @@ public class TCRSDatabase {
 
     var enchanted = hardcoded || rolledEnchantment;
     if (enchanted && !enchantment.effect.isBlank()) {
-      mods.addModifier("Effect", quoted(enchantment.effect));
+      mods.addModifier("Effect", enchantment.effect);
       if (rolledEnchantment || !dynamicDuration) {
         mods.addModifier("Effect Duration", String.valueOf(enchantment.duration));
       }
@@ -1021,7 +1017,7 @@ public class TCRSDatabase {
     if ((mtRng.nextInt(1, 3) == 1)) {
       var enchantment = rollConsumableEnchantment(id, mtRng);
       if (!enchantment.effect.isBlank()) {
-        mods.addModifier("Effect", quoted(enchantment.effect));
+        mods.addModifier("Effect", enchantment.effect);
         mods.addModifier("Effect Duration", String.valueOf(enchantment.duration));
       }
     }
