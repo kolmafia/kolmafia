@@ -475,6 +475,19 @@ public class KoLCharacterTest {
       }
     }
 
+    @ParameterizedTest
+    @ValueSource(booleans = {true, false})
+    void stooperGrantsLiverEvenUnderSomePigs(final boolean somePigs) {
+      var cleanups =
+          new Cleanups(withClass(AscensionClass.SEAL_CLUBBER), withFamiliar(FamiliarPool.STOOPER));
+      if (somePigs) cleanups.add(withEffect(EffectPool.SOME_PIGS));
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments();
+        assertThat(KoLCharacter.getLiverCapacity(), is(15));
+      }
+    }
+
     @Test
     void vampyresCannotExpandLiver() {
       // "If you somehow got liver or stomach of steel, those would similarly not work."
