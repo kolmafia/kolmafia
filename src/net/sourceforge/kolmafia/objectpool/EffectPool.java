@@ -356,6 +356,7 @@ public class EffectPool {
   public static final int WOLF_FORM = 2449;
   public static final int MIST_FORM = 2450;
   public static final int BATS_FORM = 2451;
+  public static final int TIKI_TEMERITY = 2468;
   public static final int FIDOXENE = 2520;
   public static final int SPIRIT_OF_TAKING = 2541;
   public static final int BLESSING_OF_THE_BIRD = 2551;

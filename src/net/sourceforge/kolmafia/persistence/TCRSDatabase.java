@@ -522,8 +522,8 @@ public class TCRSDatabase {
         .filter(id -> !EffectDatabase.hasAttribute(id, "nohookah") || id == EffectPool.FISHY)
         // Some effects are unavailable for no obvious reason, so they are tagged notcrs
         .filter(id -> !EffectDatabase.hasAttribute(id, "notcrs"))
-        // Limited to effects available at path launch; id 2468 is Tiki Temerity, the last one
-        .filter(id -> id <= 2468)
+        // Limited to effects available at path launch (Tiki Temerity and prior)
+        .filter(id -> id <= EffectPool.TIKI_TEMERITY)
         .forEachOrdered(TCRSEffectPool::add);
   }
 
