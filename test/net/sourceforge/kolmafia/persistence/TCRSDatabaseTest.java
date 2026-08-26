@@ -256,8 +256,8 @@ class TCRSDatabaseTest {
                   String.format("[%s]%s in %s / %s", itemId, i.getValue(), ascensionClass, sign);
 
               var expectedName = StringUtilities.getEntityDecode(dataSays.name);
-              // NOT_RE_ROLLED items have dynamic names (daily-random, costume/form state) we can't
-              // reproduce.
+              // NOT_RE_ROLLED items have dynamic names (daily-random, costume/form state) that we
+              // cannot reproduce.
               if (!weGuessed.name.equals(expectedName)
                   && !TCRSDatabase.NOT_RE_ROLLED.contains(itemId)) {
                 var orderOnly = sortedWords(weGuessed.name).equals(sortedWords(expectedName));
@@ -352,8 +352,8 @@ class TCRSDatabaseTest {
           var ev = vals[0];
           var gv = vals[1];
           if (ev.equals(gv)) return;
-          // Carried-over modifiers inconsistently show in the description. Ignore if either omits
-          // it.
+          // Carried-over modifiers inconsistently show in the description, so ignore when
+          // either side omits it.
           if (ModifierDatabase.CARRIED_OVER.contains(mod) && (ev.isEmpty() || gv.isEmpty())) return;
           // An expression-valued modifier's value is context-dependent. The guess keeping it is
           // enough, so don't compare the (unreproducible) value.
@@ -385,8 +385,7 @@ class TCRSDatabaseTest {
     }
     for (var mod : StringModifier.STRING_MODIFIERS) {
       // MODIFIERS / EVALUATED_MODIFIERS are meta-fields holding the whole (order-sensitive)
-      // modifier
-      // string, not real modifiers, so skip them.
+      // modifier string, not real modifiers, so skip them.
       if (mod == StringModifier.MODIFIERS || mod == StringModifier.EVALUATED_MODIFIERS) continue;
       classify.accept(mod, new String[] {exp.getString(mod), got.getString(mod)});
     }

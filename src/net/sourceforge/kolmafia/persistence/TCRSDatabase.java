@@ -520,10 +520,9 @@ public class TCRSDatabase {
         // Effects must be hookah/wish-able, except Fishy: it became nohookah after TCRS
         // launched but is still in the path's effect pool.
         .filter(id -> !EffectDatabase.hasAttribute(id, "nohookah") || id == EffectPool.FISHY)
-        // Some effects seem to be unavailable without any obvious reason, and so are tagged thusly
+        // Some effects are unavailable for no obvious reason, so they are tagged notcrs
         .filter(id -> !EffectDatabase.hasAttribute(id, "notcrs"))
-        // TCRS effects are limited to whatever was available at the time of the path (Tiki
-        // Temerity)
+        // TCRS effects are limited to those available when the path (Tiki Temerity) launched
         .filter(id -> id <= 2468)
         .forEachOrdered(TCRSEffectPool::add);
   }
@@ -1040,10 +1039,9 @@ public class TCRSDatabase {
     var seed = seedFor(id, ascensionClass, sign);
     var mtRng = new PHPMTRandom(seed);
 
-    // Cosmetic adjectives are rolled from the base seed, but the shuffle that orders them shares
-    // the
-    // seed+10 glibc stream the enchantments are selected from (see below). Build the list now and
-    // shuffle it once the enchantment stream has advanced.
+    // Cosmetics roll from the base seed, but the shuffle that orders them uses the seed+10 stream
+    // the enchantments are selected from (see below). Build the list now and shuffle it once that
+    // stream has advanced.
     var cosmeticList = buildCosmeticList(mtRng, 8);
 
     var root = removeAdjectives(ItemDatabase.getItemName(id));
@@ -1066,11 +1064,10 @@ public class TCRSDatabase {
       DebugDatabase.appendModifier(mods, entry.getValue());
     }
 
-    // KoL shuffles the cosmetics on the same stream it selected enchantments from, so continue
-    // enchantRng (already advanced by a multi-enchantment selection, still fresh at seed+10 after a
-    // single MT-picked enchantment). With no enchantments there is no seed+10 stream, so the
-    // shuffle
-    // uses the base seed stream.
+    // KoL shuffles cosmetics on the same stream it selected enchantments from, so continue
+    // enchantRng: it is already advanced after a multi-enchantment selection, and still fresh at
+    // seed+10 after a single MT-picked one. With no enchantments there is no seed+10 stream, so
+    // the shuffle falls back to the base seed stream.
     var shuffleRng = (count == 0) ? new PHPRandom(seed) : enchantRng;
     var cosmeticsString = shuffleCosmetics(cosmeticList, shuffleRng);
 
@@ -1196,12 +1193,12 @@ public class TCRSDatabase {
   }
 
   /**
-   * How many enchantments the base item has, which is how many TCRS re-rolls. This isn't just the
-   * modifier count. Non-enchantment modifiers (class restrictions, familiar effects, ...) don't
+   * How many enchantments the base item has, which is how many TCRS re-rolls. This is not the raw
+   * modifier count: non-enchantment modifiers (class restrictions, familiar effects, ...) don't
    * count, an expanded family like "all resistance" counts once even though Mafia stores it as five
    * elemental resistances, a regen min/max pair counts once, and familiar equipment's innate
-   * Familiar Weight doesn't count. We haven't fully worked out which base modifiers are really
-   * re-rolled enchantments, so this is a best estimate.
+   * Familiar Weight doesn't count. Which modifiers are truly re-rolled isn't fully known, so this
+   * is a best estimate.
    */
   static int enchantCount(final int itemId) {
     var modifiers = ModifierDatabase.getModifierList(new Lookup(ModifierType.ITEM, itemId));
@@ -1226,8 +1223,7 @@ public class TCRSDatabase {
     var consumed = new HashSet<String>();
 
     // A collapsible family is one combined enchantment only when the whole family is present with a
-    // single shared value (all resistance, prismatic damage, Maximum HP + MP at the same value,
-    // ...).
+    // single shared value (all resistance, prismatic damage, Maximum HP + MP at one value, ...).
     // Otherwise its members are separate enchantments, counted individually below.
     for (var family : COLLAPSIBLE) {
       var values = new HashSet<String>();
@@ -1602,8 +1598,8 @@ public class TCRSDatabase {
   }
 
   public static void resetModifiers() {
-    // Reset all the data structures that we altered in-place to
-    // supper a particular TCRS class/sign to standard KoL values.
+    // Reset all the data structures that we altered in-place to support a particular TCRS
+    // class/sign back to standard KoL values.
 
     // Nothing to reset if we didn't load TCRS data
     if (currentClassSign.isEmpty()) {
