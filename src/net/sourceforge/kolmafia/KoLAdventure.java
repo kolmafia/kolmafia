@@ -543,7 +543,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     // The wine glass allows you to adventure in snarfblat zones while falling down drunk
     // There may be some non-snarfblat zones coded to respect the wineglass, but I've not
     // been able to find any.
-    if (KoLCharacter.hasEquipped(ItemPool.get(ItemPool.DRUNKULA_WINEGLASS))) {
+    if (KoLCharacter.hasEquipped(ItemPool.DRUNKULA_WINEGLASS, Slot.OFFHAND)) {
       if (this.hasSnarfblat()) {
         return false;
       }

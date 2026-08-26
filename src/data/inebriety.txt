@@ -448,7 +448,7 @@ Mae West	4	6	awesome	14-18	0	0	40-47
 Mae West with a fly in it	0	1	crappy	0	0	0	0	Undrinkable
 magnum of fancy champagne	6	6	awesome	22-26	10-20	10-20	10-20	20-40 MP, WINE
 Maiali Sifilitici Pinot Noir	1	10	super ultra mega turbo EPIC	6-10	60	60	60	WINE
-Malattia Becco Malbec	1	13	super ultra EPIC	0	0	0	0	Unspaded
+Malattia Becco Malbec	1	13	super ultra EPIC	0	0	0	0	Unspaded, WINE
 mandarina colada	4	6	awesome	14-18	0	16-20	25-27
 mandarina colada with a fly in it	0	1	crappy	0	0	0	0	Undrinkable
 margarita	3	1	decent	5-6	8-10	0	0
@@ -585,7 +585,7 @@ Punchplanter	2	1	good	4-5	5-10	5-10	5-10	5 Fishy
 purple corpsel	3	1	good	5-10	29-34	0	0
 Quaatorade&trade;	1	6	EPIC	6-7	0	30-40	0	100 Quaaaaaaa (+50% mys, +50 MP, +10-20 MP regen)
 Quincea&ntilde;era Cooler	3	1	awesome	0	0	0	0	Unspaded
-Quiskey Sour	2	1	awesome	0	0	0	0	Unspaded
+Quiskey Sour	2	1	awesome	6-8	0	20-40	0	20 Exotically Fruity (+100% spell dmg, +200% MP)
 R'lyeh	1	3	EPIC	5-7	10-30	10-30	10-30	40 The Effect Man Was Not Meant to Have (+40 Spooky Damage & Spooky Spell Damage)
 rabbit punch	3	3	good	5-10	0	0	16-20
 Racisto Ruidoso	5	6	super EPIC	33-37	100-300	100-300	100-300
@@ -705,7 +705,7 @@ stealth bomber	3	6	awesome	9-12	10-20	0	10-20
 Steamboat	3	1	awesome	12	15-30	15-30	15-30	20 Steamed (+3 Hot Resist, +20 Hot Dam, +20 Item Drop)
 steel margarita	5	5	quest	0	0	0	0	Liver of Steel skill
 stepmom's booze	3	5	decent	4-6	0	5-10	5-10	KOLHS
-Steve Abrams' Holiday Sampler Beer	2	6	EPIC	0	0	0	0	Unspaded, BEER
+Steve Abrams' Holiday Sampler Beer	2	6	EPIC	11-13	22-44	22-44	22-44	BEER
 stillsuit distillate	1	1	pseudoitem	0	0	0	0	Buzzed on Distillate
 stinkwater	3	24	super ultra EPIC	25-29	20-30	20-30	20-30
 stinky mushroom wine	3	6	awesome	10-14	0	0	12-15	WINE
@@ -742,7 +742,7 @@ thermos full of Knob coffee	1	1	EPIC	5-6	5-6	5-6	5-6	lose 1-2 HP
 thermos of &quot;whiskey&quot;	1	1	good	2-3	0	0	75-100
 Third Base	1	4	good	3	20-40	20-40	20-40	40 Third Based (+25% pickpocket chance)
 thistle wine	1	10	good	2-4	0	0	30-60	lose 50-75 HP, WINE
-Three Sheets to the Wind	1	1	awesome	0	0	0	0	Unspaded
+Three Sheets to the Wind	1	1	awesome	4-5	10-15	10-15	10-15	1 Wetted Whistle (+10 advs at rollover)
 Thriller Ice	2	22	super EPIC	14-16	10-20	10-20	10-20	30-40 MP, BEER
 tobiko-infused sake	3	1	good	6-8	6-8	8-8	6-8	30 Pisces in the Skyces (+150% spell dmg), WINE
 tomato daiquiri	3	2	decent	4-8	10-12	0	10-12

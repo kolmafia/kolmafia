@@ -186,7 +186,7 @@ LavaCo&trade; Lamp Factory	100	factory worker (female)	factory overseer (male): 
 Lollipop Forest	90	lollicat	lolligator	lollipede	lolliphaunt	lolrus	trollipop	The Colollilossus
 LOLmec's Lair	100	LOLmec: 0
 Madness Bakery	-1	dinner troll	baguette lady	gingerbread murderer	cr&ecirc;ep	Cake Lord: 0	the ghost of Monsieur Baguelle: 0
-Madness Reef	100	jamfish	magic dragonfish	pufferfish
+Madness Reef	95	jamfish	magic dragonfish	pufferfish
 McMillicancuddy's Back 40	100	fire-breathing duck	scorched duck
 McMillicancuddy's Barn	100	generic duck
 McMillicancuddy's Bog	100	rattlin' duck	swamp duck
@@ -337,7 +337,7 @@ The Degrassi Knoll Garage	100	Gnollish Gearhead	Gnollish Tirejuggler	Guard Bugbe
 The Degrassi Knoll Gym	100	Gnollish Crossdresser	Gnollish Bodybuilder	one-eyed Gnoll
 The Degrassi Knoll Restroom	100	Gnollish Flyslayer	Gnollish Plungermaster	Guard Bugbear
 The Dire Warren	100	fluffy bunny
-The Dive Bar	100	lounge lizardfish	Mer-kin tippler	nurse shark
+The Dive Bar	95	lounge lizardfish	Mer-kin tippler	nurse shark
 The Don's Crimbo Compound	100	Black-and-White-Ops Penguin	Cement Cobbler Penguin	Mesmerizing Penguin	Mob Penguin Arsonist	Mob Penguin Caporegime	Mob Penguin Demolitionist	Mob Penguin Goon (2009)	Mob Penguin Kneecapper	Undercover Penguin	Don Crimbo: 0
 The Dragon's Moor	0	Sewage Treatment Dragon: 0
 The Dripping Hall	100	drippy reveler
