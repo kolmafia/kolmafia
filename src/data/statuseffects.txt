@@ -242,7 +242,7 @@
 240	Vitamin-Maxed	goofballs.gif	30b35877440e5cc89f36a65b15274a04	good	none	chew 1 bottle of ultravitamins|cargo effect Vitamin-Maxed
 241	Got Your Boots On	boot.gif	4021090627813d8ea662ca050395f338	good	none	chew 1 tube of hair oil
 242	The Q Is Talking To You	q.gif	4d1451739cd618bf2dcdff61af68ae65	good	none	chew 1 antique bottle of cough syrup
-243	Bad Luck	bmirror.gif	d7d35d7b14c7322fef4ddd80a0847473	neutral	none	use 1 antique hand mirror
+243	Bad Luck	bmirror.gif	d7d35d7b14c7322fef4ddd80a0847473	neutral	none
 244	Deadly Flashing Blade	blacksword.gif	05bc11c2da34e7f6fe1511ec6850fe2e	good	none	use 1 adder bladder
 245	Locks Like the Raven	blackbird2.gif	6d4452e978741bda60e82e316fdd7ba5	good	none	use 1 Black No. 2
 246	Smugness	happy.gif	e6f64babb5a6850783db4f82fe7e239b	good	none	# adv in Sleazy Back Alley
