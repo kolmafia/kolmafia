@@ -1,0 +1,6 @@
+foo
+Unhandled rejected Promise: Error: deep failure
+	at file:%%STACKTRACE_LOCATION%%/promise_rejected_unhandled_error.js:4 (fail)
+	at file:%%STACKTRACE_LOCATION%%/promise_rejected_unhandled_error.js:8 (wrapper)
+	at file:%%STACKTRACE_LOCATION%%/promise_rejected_unhandled_error.js:13 (anonymous)
+	at file:%%STACKTRACE_LOCATION%%/promise_rejected_unhandled_error.js:11
