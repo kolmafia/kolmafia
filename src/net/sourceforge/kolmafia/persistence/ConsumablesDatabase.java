@@ -668,18 +668,19 @@ public class ConsumablesDatabase {
     return fullness == null ? 0 : fullness;
   }
 
+  public static final Integer getRawInebriety(final Consumable consumable) {
+    if (consumable == null || consumable.getRawInebriety() == null) {
+      return null;
+    }
+    return KoLCharacter.applyInebrietyModifiers(consumable);
+  }
+
   public static final Integer getRawInebriety(final String name) {
-    Consumable consumable = ConsumablesDatabase.consumableByName.get(name);
-    return consumable == null
-        ? null
-        : consumable.getRawInebriety() == null
-            ? null
-            : KoLCharacter.applyInebrietyModifiers(consumable);
+    return getRawInebriety(ConsumablesDatabase.consumableByName.get(name));
   }
 
   public static final Integer getRawInebriety(final int id) {
-    Consumable consumable = ConsumablesDatabase.consumableByItemId.get(id);
-    return consumable == null ? null : consumable.getRawInebriety();
+    return getRawInebriety(ConsumablesDatabase.consumableByItemId.get(id));
   }
 
   public static final int getInebriety(final String name) {
