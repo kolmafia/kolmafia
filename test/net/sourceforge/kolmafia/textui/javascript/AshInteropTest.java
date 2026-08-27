@@ -1,13 +1,18 @@
 package net.sourceforge.kolmafia.textui.javascript;
 
+import static internal.helpers.Player.withContinuationState;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.*;
 
+import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 public class AshInteropTest {
 
@@ -112,5 +117,46 @@ public class AshInteropTest {
     assertNotNull(ret, "Javascript execute returns null instead of a result to be tested.");
     String retS = ret.toString();
     assertEquals(expected, retS);
+  }
+
+  @Test
+  void reportsEcmaErrors() {
+    var cleanups = new Cleanups(withContinuationState());
+
+    try (cleanups) {
+      new JavascriptRuntime("null.property").execute(null, null, true);
+
+      assertThat(KoLmafia.getLastMessage(), containsString("JavaScript error:"));
+    }
+  }
+
+  @Test
+  void reportsTheCapturedStackForRejectedErrors() {
+    var cleanups = new Cleanups(withContinuationState());
+
+    try (cleanups) {
+      new JavascriptRuntime("Promise.reject(new Error(\"rejected\"))").execute(null, null, true);
+
+      assertThat(
+          KoLmafia.getLastMessage(), containsString("JavaScript exception: Error: rejected"));
+      assertThat(KoLmafia.getLastMessage(), containsString("command line"));
+    }
+  }
+
+  @ParameterizedTest
+  @ValueSource(strings = {"\"\"", "1"})
+  void ignoresUnusableCapturedErrorStacks(String stack) {
+    var cleanups = new Cleanups(withContinuationState());
+
+    try (cleanups) {
+      new JavascriptRuntime(
+              "const error = new Error(\"rejected\"); error.stack = "
+                  + stack
+                  + "; Promise.reject(error)")
+          .execute(null, null, true);
+
+      assertThat(
+          KoLmafia.getLastMessage(), containsString("JavaScript exception: Error: rejected"));
+    }
   }
 }
