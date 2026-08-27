@@ -15,6 +15,14 @@ import static org.hamcrest.Matchers.nullValue;
 
 import internal.helpers.Cleanups;
 import internal.network.FakeHttpClientBuilder;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.TreeSet;
+import java.util.function.BiConsumer;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
@@ -168,7 +176,7 @@ class TCRSDatabaseTest {
   void noRedundantEnchantmentCountOverrides() {
     // An explicit Enchantment Count is only meant for items whose count we can't derive. Flag any
     // that now match the derived count so the override can be dropped.
-    var redundant = new java.util.ArrayList<String>();
+    var redundant = new ArrayList<String>();
     for (var entry : ItemDatabase.entrySet()) {
       int itemId = entry.getKey();
       var lookup = new Lookup(ModifierType.ITEM, itemId);
@@ -238,17 +246,17 @@ class TCRSDatabaseTest {
   }
 
   @Test
-  void deriveAll() throws java.io.IOException {
+  void deriveAll() throws IOException {
     // Stream mismatches to a file rather than holding them all in memory (exhausts the heap).
     var reportFile =
         java.nio.file.Path.of(System.getProperty("user.dir"))
             .getParent()
             .getParent()
             .resolve("build/tcrs-deriveAll-mismatches.txt");
-    java.nio.file.Files.createDirectories(reportFile.getParent());
+    Files.createDirectories(reportFile.getParent());
 
     var count = 0;
-    try (var out = java.nio.file.Files.newBufferedWriter(reportFile)) {
+    try (var out = Files.newBufferedWriter(reportFile)) {
       for (var ascensionClass : AscensionClass.standardClasses) {
         for (var sign : ZodiacSign.standardZodiacSigns) {
           var cleanups =
@@ -371,12 +379,12 @@ class TCRSDatabaseTest {
     var lookup = new Lookup(ModifierType.ITEM, itemId);
     var exp = ModifierDatabase.parseModifiers(lookup, expStr);
     var got = ModifierDatabase.parseModifiers(lookup, gotStr);
-    var missing = new java.util.TreeSet<String>();
-    var extra = new java.util.TreeSet<String>();
+    var missing = new TreeSet<String>();
+    var extra = new TreeSet<String>();
 
     // A raw-expression modifier is an innate, context-dependent property. Introspection baked one
     // context's value into the recorded data, which we can't reproduce, so compare by presence.
-    var expressionMods = new java.util.HashSet<Modifier>();
+    var expressionMods = new HashSet<Modifier>();
     for (var m : ModifierDatabase.splitModifiers(gotStr)) {
       if (m.getValue() != null && m.getValue().contains("[")) {
         var mod = ModifierDatabase.getModifierByName(m.getName());
@@ -384,7 +392,7 @@ class TCRSDatabaseTest {
       }
     }
 
-    java.util.function.BiConsumer<Modifier, String[]> classify =
+    BiConsumer<Modifier, String[]> classify =
         (mod, vals) -> {
           var ev = vals[0];
           var gv = vals[1];
@@ -437,8 +445,8 @@ class TCRSDatabaseTest {
   /**
    * The words of a name, sorted, so two names can be compared ignoring (non-deterministic) order.
    */
-  private static java.util.List<String> sortedWords(final String name) {
-    return java.util.Arrays.stream(name.trim().split("\\s+")).sorted().toList();
+  private static List<String> sortedWords(final String name) {
+    return Arrays.stream(name.trim().split("\\s+")).sorted().toList();
   }
 
   @Test

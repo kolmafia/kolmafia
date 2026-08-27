@@ -109,8 +109,7 @@ public class TCRSDatabase {
     TCRSMap.clear();
     TCRSBoozeMap.clear();
     TCRSFoodMap.clear();
-    TCRSEffectPool.clear();
-    getEffectPool();
+    buildEffectPool();
   }
 
   public static boolean hasData(int itemId) {
@@ -588,7 +587,8 @@ public class TCRSDatabase {
   private static Map<String, List<String>> STRINGS;
   private static Set<String> ADJECTIVES;
 
-  public static void getEffectPool() {
+  private static void buildEffectPool() {
+    TCRSEffectPool.clear();
     EffectDatabase.keys().stream()
         // Effects must be marked as good
         .filter(id -> EffectDatabase.getQuality(id) == Quality.GOOD)
@@ -761,14 +761,12 @@ public class TCRSDatabase {
 
     var cosmeticsString = rollCosmetics(mtRng, rng, 6);
 
-    var mods = getRetainedModifiers(id);
-
     if (TCRS_GENERIC.contains(id)) {
-      mods = ModifierDatabase.getModifierList(new Lookup(ModifierType.ITEM, id));
       var name = joinName(cosmeticsString, removeAdjectives(ItemDatabase.getItemName(id)));
-
-      return new TCRS(name, 0, ConsumableQuality.NONE, mods.toString());
+      return new TCRS(name, 0, ConsumableQuality.NONE, unalteredModifiers(id).toString());
     }
+
+    var mods = getRetainedModifiers(id);
 
     var potionMods = new ArrayList<String>();
 
@@ -1030,7 +1028,6 @@ public class TCRSDatabase {
           ItemPool.WREATH_CRIMBO_COOKIE,
           ItemPool.BELL_CRIMBO_COOKIE,
           ItemPool.TREE_CRIMBO_COOKIE,
-          ItemPool.JAZZ_SOAP,
           ItemPool.BAT_CRIMBOWEEN_COOKIE,
           ItemPool.SKULL_CRIMBOWEEN_COOKIE,
           ItemPool.TOMBSTONE_CRIMBOWEEN_COOKIE,
@@ -1296,7 +1293,7 @@ public class TCRSDatabase {
     }
 
     // Enchantable base modifiers with their values, so collapsible families can be split by value.
-    var present = new java.util.HashMap<String, Set<String>>();
+    var present = new HashMap<String, Set<String>>();
     for (var mv : modifiers) {
       var name = mv.getName();
       var modifier = ModifierDatabase.getModifierByName(name);
@@ -1715,12 +1712,6 @@ public class TCRSDatabase {
     KoLCharacter.recalculateAdjustments();
     KoLCharacter.updateStatus();
   }
-
-  // *** support for fetching TCRS files from KoLmafia's SVN repository
-
-  // Remote files we have fetched this session
-  private static final Set<String> remoteFetched =
-      new HashSet<>(); // remote files fetched this session
 
   // *** support for loading up TCRS data appropriate to your current class/sign
   public static boolean loadTCRSData() {

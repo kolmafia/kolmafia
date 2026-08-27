@@ -60,7 +60,7 @@ public class ConsumablesDatabase {
   public enum ConsumableQuality {
     NONE(""),
     CRAPPY("crappy", "#999999"),
-    DECENT("decent", null),
+    DECENT("decent"),
     GOOD("good", "green"),
     AWESOME("awesome", "blue"),
     EPIC("EPIC", "#8a2be2"),
