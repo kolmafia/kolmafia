@@ -7,6 +7,7 @@ import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withSign;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
@@ -161,6 +162,43 @@ class TCRSDatabaseTest {
   @AfterEach
   void afterEach() {
     TCRSDatabase.resetModifiers();
+  }
+
+  @Test
+  void noRedundantEnchantmentCountOverrides() {
+    // An explicit Enchantment Count is only meant for items whose count we can't derive. Flag any
+    // that now match the derived count so the override can be dropped.
+    var redundant = new java.util.ArrayList<String>();
+    for (var entry : ItemDatabase.entrySet()) {
+      int itemId = entry.getKey();
+      var lookup = new Lookup(ModifierType.ITEM, itemId);
+      String mods = ModifierDatabase.getModifierString(lookup);
+      if (mods == null || !mods.contains("Enchantment Count:")) {
+        continue;
+      }
+      var list = ModifierDatabase.splitModifiers(mods);
+      String value = list.getModifierValue("Enchantment Count");
+      if (value == null) {
+        continue;
+      }
+      int explicit = (int) Double.parseDouble(value);
+      list.removeModifier("Enchantment Count");
+      ModifierDatabase.updateItem(itemId, list.toString());
+      int derived;
+      try {
+        derived = TCRSDatabase.enchantCount(itemId);
+      } finally {
+        ModifierDatabase.updateItem(itemId, mods);
+      }
+      if (derived == explicit) {
+        redundant.add(ItemDatabase.getItemName(itemId) + " (#" + itemId + "), count " + explicit);
+      }
+    }
+    assertThat(
+        "Enchantment Count overrides that match the derived count and can be removed:\n"
+            + String.join("\n", redundant),
+        redundant,
+        is(empty()));
   }
 
   @Test

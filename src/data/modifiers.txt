@@ -356,7 +356,7 @@ Item	lucky army helmet	Damage Absorption: +10, Maximum HP: +100, Spooky Resistan
 Item	lynyrdskin cap	Initiative: +25, Familiar Effect: "1xPotato, 1xVolley, cap 42"
 Item	MAHI fez	Moxie: +30, Familiar Effect: "0.5xVolley, 0.5xPotato, 0.5xLep, 0.5xFairy"
 Item	maiden wig	Familiar Effect: "2xPotato, cap 8"
-Item	makeshift turban	Spooky Resistance: +2, Familiar Effect: "1.5xBarrr, 1xLep, cap 25", Blind
+Item	makeshift turban	Spooky Resistance: +2, Familiar Effect: "1.5xBarrr, 1xLep, cap 25", Blind, Enchantment Count: 2
 Item	makeshift yakuza mask	Moxie: -10, Last Available: "2013-12"
 Item	mantis skull	Ranged Damage: +15, Moxie: [5*L], Enchantment Count: 1
 Item	marble mariachi hat	Monster Level: +10, Ranged Damage Percent: +30, Last Available: "2019-12", Thorns: 1
@@ -484,7 +484,7 @@ Item	silent beret	Muscle Percent: -30, Mysticality Percent: -30, Moxie Percent: 
 Item	sinister demon mask	Spooky Damage: +25, HP Regen Min: 10, HP Regen Max: 25, Food Drop: +25, Last Available: "2010-06", Familiar Effect: "atk, cap 25"
 Item	six-gallon hat	Muscle: +6, Mysticality: +6, Moxie: +6, Experience: +3
 Item	skeletortoise	Mysticality: +2, Familiar Effect: "spooky atk, 2xFairy, cap 7"
-Item	sleep mask	Familiar Effect: "atk, 1xBarrr, cap 37", Blind
+Item	sleep mask	Familiar Effect: "atk, 1xBarrr, cap 37", Blind, Enchantment Count: 1
 Item	slime fedora	Mysticality Percent: +25, Spell Critical Percent: +10, MP Regen Min: 10, MP Regen Max: 15, Last Available: "2018-11"
 Item	slime-covered helmet	Slime Resistance: +2, Stench Resistance: +2, Cold Resistance: +2, Familiar Effect: "1xPotato, 1xFairy"
 Item	smooth velvet hat	Disco Style: +1, Last Available: "2015-08"
@@ -2846,7 +2846,7 @@ Item	Allied Forces insignia	Experience: +6, HP Regen Min: 8, HP Regen Max: 12, M
 Item	Aluminum Epsilon of Humility	Muscle: +7, Mysticality: +7, Moxie: +7, Item Drop: +9, Single Equip
 Item	amber aviator shades	Mysticality Percent: +5, Moxie Percent: +5, Sleaze Damage: +30, Single Equip
 Item	amulet of extreme plot significance	Maximum MP: +30
-Item	Amulet of Perpetual Darkness	Monster Level: +15, Spooky Damage: +10, Spooky Spell Damage: +10, Weakens Monster, Last Available: "2023-06", Blind, Enchantment Count: 4
+Item	Amulet of Perpetual Darkness	Monster Level: +15, Spooky Damage: +10, Spooky Spell Damage: +10, Weakens Monster, Last Available: "2023-06", Blind
 # Amulet of Yendor: Prevents Level Teleporting
 Item	Amulet of Yendor	Mana Cost: +3, Initiative: -10, Single Equip, Last Available: "2011-12"
 Item	anchovy can key	Food Drop: +100, Last Available: "2020-08"
@@ -3295,7 +3295,7 @@ Item	heart of the volcano	HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 2, M
 Item	Heartstone	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25, Experience: +3, HP Regen Min: 15, HP Regen Max: 20, Single Equip, Last Available: "2026-02", Conditional Skill (Equipped): "Steal Monster's Heart", Conditional Skill (Equipped): "Heartstone: %kill", Conditional Skill (Equipped): "Heartstone: %banish", Conditional Skill (Equipped): "Heartstone: %stun", Conditional Skill (Equipped): "Heartstone: %luck", Conditional Skill (Equipped): "Heartstone: %pals", Conditional Skill (Equipped): "Heartstone: %buff"
 Item	heat-resistant gloves	Hot Resistance: +4, Weapon Damage Percent: -50, Fumble: 2, Single Equip, Last Available: "2015-08"
 Item	heat-resistant necktie	Hot Resistance: +4, Spell Damage: -50, Single Equip, Last Available: "2015-08"
-Item	Helps-You-Sleep	Initiative: +75, Critical Hit Percent: +10, Single Equip, Blind, Enchantment Count: 2
+Item	Helps-You-Sleep	Initiative: +75, Critical Hit Percent: +10, Single Equip, Blind
 # hemp string
 Item	hewn moon-rune spoon	Experience: +3, Familiar Weight: +5, Critical Hit Percent: +10, Spell Damage: +10, Initiative: +25, Rollover Effect: "Spoon Boon", Rollover Effect Duration: 50, Muscle: +5, Mysticality: +5, Moxie: +5, Maximum HP: +25, Maximum MP: +25, Single Equip, Last Available: "2019-06", Alters Page Text, Conditional Skill (Equipped): "Dragoon Platoon", Conditional Skill (Equipped): "Spittoon Monsoon", Conditional Skill (Equipped): "Festoon Buffoon", Enchantment Count: 11
 # high-friction boots: Allows you to move normally on extremely windy planets

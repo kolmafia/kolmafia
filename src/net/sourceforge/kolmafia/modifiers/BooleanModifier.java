@@ -161,7 +161,6 @@ public enum BooleanModifier implements Modifier {
           ALL_SPELLS_CAST_ARE_SLEAZY,
           ALL_SPELLS_CAST_ARE_SPOOKY,
           ALL_SPELLS_CAST_ARE_STINKY,
-          BLIND,
           HIT_CAUSES_BLEEDING,
           NEGATIVE_STATUS_RESIST,
           NEVER_FUMBLE,
