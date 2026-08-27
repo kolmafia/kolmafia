@@ -397,9 +397,10 @@ class TCRSDatabaseTest {
           var ev = vals[0];
           var gv = vals[1];
           if (ev.equals(gv)) return;
-          // Carried-over modifiers inconsistently show in the description, so ignore when
-          // either side omits it.
-          if (ModifierDatabase.CARRIED_OVER.contains(mod) && (ev.isEmpty() || gv.isEmpty())) return;
+          // Introspection restores carried-over modifiers from the base item, so the data should
+          // have whatever derive has. It may legitimately have more: a live run records ones
+          // learned at runtime that are not in modifiers.txt.
+          if (ModifierDatabase.CARRIED_OVER.contains(mod) && gv.isEmpty()) return;
           // An expression-valued modifier's value is context-dependent. Keeping it is enough, so
           // don't compare the value.
           if (expressionMods.contains(mod)) return;
