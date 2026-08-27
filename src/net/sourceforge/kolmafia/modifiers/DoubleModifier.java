@@ -47,13 +47,9 @@ public enum DoubleModifier implements Modifier {
       "Damage Absorption",
       Pattern.compile("Damage Absorption ([+-]\\d+)"),
       Pattern.compile("Damage Absorption: " + EXPR)),
-  FIRST_HIT_DAMAGE_REDUCTION(
-      "First Hit Damage Reduction",
-      Pattern.compile("Damage Reduction: ([+-]?\\d+) \\(First Hit Only\\)"),
-      Pattern.compile("First Hit Damage Reduction: " + EXPR)),
   DAMAGE_REDUCTION(
       "Damage Reduction",
-      Pattern.compile("Damage Reduction: ([+-]?\\d+)"),
+      Pattern.compile("Damage Reduction: ([+-]?\\d+)$"),
       Pattern.compile("Damage Reduction: " + EXPR)),
   COLD_RESISTANCE("Cold Resistance", Pattern.compile("Cold Resistance: " + EXPR)),
   HOT_RESISTANCE("Hot Resistance", Pattern.compile("Hot Resistance: " + EXPR)),
@@ -609,6 +605,10 @@ public enum DoubleModifier implements Modifier {
       "Pasta Thrall Experience",
       Pattern.compile("([+-]\\d+) Pasta Thrall Experience"),
       Pattern.compile("Pasta Thrall Experience: " + EXPR)),
+  FIRST_HIT_DAMAGE_REDUCTION(
+      "First Hit Damage Reduction",
+      Pattern.compile("Damage Reduction: ([+-]?\\d+) \\(First Hit Only\\)"),
+      Pattern.compile("First Hit Damage Reduction: " + EXPR)),
   POISON_CHANCE(
       "Poison Chance",
       Pattern.compile("(\\d+)% chance of poisoning opponent\\.?"),
@@ -616,7 +616,15 @@ public enum DoubleModifier implements Modifier {
   WARBEAR_ITEM_DROP(
       "WarBear Item Drop",
       Pattern.compile("([+-]\\d+)% Item Drops from WarBears"),
-      Pattern.compile("WarBear Item Drop: " + EXPR));
+      Pattern.compile("WarBear Item Drop: " + EXPR)),
+  DB_COMBAT_WEAKEN(
+      "DB Combat Weaken",
+      Pattern.compile("Disco Bandit Combat Skills weaken enemies by an additional (\\d+)%"),
+      Pattern.compile("DB Combat Weaken: " + EXPR)),
+  KILL_MORE_SKELETONS(
+      "Kill More Skeletons",
+      Pattern.compile("Kill (\\d+)% More Skeletons"),
+      Pattern.compile("Kill More Skeletons: " + EXPR));
 
   private final String name;
   private final Pattern[] descPatterns;
