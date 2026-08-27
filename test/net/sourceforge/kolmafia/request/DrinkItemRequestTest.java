@@ -41,6 +41,7 @@ import net.sourceforge.kolmafia.swingui.GenericPanelFrame;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.DisabledIf;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -325,6 +326,9 @@ class DrinkItemRequestTest {
   }
 
   @Test
+  @DisabledIf(
+      value = "java.awt.GraphicsEnvironment#isHeadless",
+      disabledReason = "headless environment")
   public void itEquipsPinkyRingInFirstAvailableNonLiverSlot() {
     var builder = new FakeHttpClientBuilder();
     builder.client.addResponse(200, "Item equipped.");

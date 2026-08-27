@@ -26,7 +26,11 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.DisabledIf;
 
+@DisabledIf(
+    value = "java.awt.GraphicsEnvironment#isHeadless",
+    disabledReason = "headless environment")
 public class MaximizerFrameTest {
   @Nested
   class FilterBoostsTest {

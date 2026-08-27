@@ -28,9 +28,13 @@ import net.sourceforge.kolmafia.swingui.widget.RequestPane;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.DisabledIf;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+@DisabledIf(
+    value = "java.awt.GraphicsEnvironment#isHeadless",
+    disabledReason = "headless environment")
 class CalendarFrameTest {
 
   private final String USER_NAME = "CalendarFrameTestFakeUser";
