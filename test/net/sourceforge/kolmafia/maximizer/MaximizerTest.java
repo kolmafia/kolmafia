@@ -20,6 +20,7 @@ import static internal.helpers.Player.withItemInFreepulls;
 import static internal.helpers.Player.withItemInStorage;
 import static internal.helpers.Player.withLocation;
 import static internal.helpers.Player.withMCD;
+import static internal.helpers.Player.withMallPrice;
 import static internal.helpers.Player.withMeat;
 import static internal.helpers.Player.withMoxie;
 import static internal.helpers.Player.withMuscle;
@@ -49,6 +50,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
 import java.time.Month;
+import java.util.EnumSet;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -3924,6 +3926,25 @@ public class MaximizerTest {
       }
     }
 
+    @Test
+    public void allCodpieceSlotsConsideredByDefault() {
+      int massiveGemstone = ItemPool.get("massive gemstone", 1).getItemId();
+      final var cleanups =
+          new Cleanups(
+              withEquippableItem(ItemPool.THE_ETERNITY_CODPIECE),
+              withItem(ItemPool.HAMETHYST, 5),
+              withItem(massiveGemstone, 5));
+
+      try (cleanups) {
+        assertTrue(maximize("tie"));
+        assertThat(getBoosts(), hasItem(recommends(ItemPool.THE_ETERNITY_CODPIECE)));
+        assertTrue(
+            SlotSet.CODPIECE_SLOTS.stream()
+                .map(Maximizer.best.equipment::get)
+                .allMatch(item -> item.getItemId() == massiveGemstone));
+      }
+    }
+
     @ParameterizedTest
     @CsvSource({"2, 22.0", "7, 55.0"})
     void respectsOwnedCopiesAndAvailableSlots(int copies, double expectedInitiative) {
@@ -3935,6 +3956,198 @@ public class MaximizerTest {
       try (cleanups) {
         assertTrue(maximize("init, -tie"));
         assertThat(modFor(DoubleModifier.INITIATIVE), equalTo(expectedInitiative));
+      }
+    }
+
+    @Nested
+    class Tiebreaking {
+      @Test
+      void tieDisabledPrunesTiebreakerOnlyGems() {
+        int massiveGemstone = ItemPool.get("massive gemstone", 1).getItemId();
+        var cleanups =
+            new Cleanups(
+                withEquipped(Slot.ACCESSORY1, ItemPool.THE_ETERNITY_CODPIECE),
+                withItem(massiveGemstone, 5));
+
+        try (cleanups) {
+          assertTrue(maximize("-tie"));
+          assertTrue(
+              SlotSet.CODPIECE_SLOTS.stream()
+                  .map(Maximizer.best.equipment::get)
+                  .allMatch(EquipmentRequest.UNEQUIP::equals));
+        }
+      }
+
+      @Test
+      void primaryScoreOutranksTiebreakerScore() {
+        int massiveGemstone = ItemPool.get("massive gemstone", 1).getItemId();
+        var cleanups =
+            new Cleanups(
+                withEquipped(Slot.ACCESSORY1, ItemPool.THE_ETERNITY_CODPIECE),
+                withItem(ItemPool.ALIEN_GEMSTONE),
+                withItem(massiveGemstone));
+
+        try (cleanups) {
+          assertTrue(maximize("mus exp, codpiece1"));
+          assertThat(
+              Maximizer.best.equipment.get(Slot.CODPIECE1).getItemId(),
+              equalTo(ItemPool.ALIEN_GEMSTONE));
+        }
+      }
+
+      @Test
+      void tiebreakerDoesNotRescueNegativePrimaryScore() {
+        int massiveGemstone = ItemPool.get("massive gemstone", 1).getItemId();
+        var cleanups =
+            new Cleanups(
+                withEquipped(Slot.ACCESSORY1, ItemPool.THE_ETERNITY_CODPIECE),
+                withItem(massiveGemstone));
+
+        try (cleanups) {
+          assertTrue(maximize("-item, tie"));
+          assertThat(
+              Maximizer.best.equipment.get(Slot.CODPIECE1), equalTo(EquipmentRequest.UNEQUIP));
+        }
+      }
+    }
+
+    @Nested
+    class OptionsAndAcquisition {
+      @Test
+      void positiveSlotSelectorEnablesOnlyThatCodpieceSlot() {
+        var cleanups =
+            new Cleanups(
+                withEquipped(Slot.ACCESSORY1, ItemPool.THE_ETERNITY_CODPIECE),
+                withItem(ItemPool.ALIEN_GEMSTONE, 5));
+
+        try (cleanups) {
+          assertTrue(maximize("mus exp, codpiece3, -tie"));
+          assertThat(
+              Maximizer.best.equipment.get(Slot.CODPIECE3).getItemId(),
+              equalTo(ItemPool.ALIEN_GEMSTONE));
+          assertTrue(
+              SlotSet.CODPIECE_SLOTS.stream()
+                  .filter(slot -> slot != Slot.CODPIECE3)
+                  .map(Maximizer.best.equipment::get)
+                  .allMatch(EquipmentRequest.UNEQUIP::equals));
+        }
+      }
+
+      @Test
+      void offhandExclusionStillAllowsBaseballDiamondAsCodpieceGem() {
+        var cleanups =
+            new Cleanups(
+                withEquipped(Slot.ACCESSORY1, ItemPool.THE_ETERNITY_CODPIECE),
+                withEquippableItem(ItemPool.BASEBALL_DIAMOND));
+
+        try (cleanups) {
+          assertTrue(maximize("weapon damage, -offhand, -tie"));
+          assertThat(Maximizer.best.equipment.get(Slot.OFFHAND), equalTo(EquipmentRequest.UNEQUIP));
+          assertTrue(
+              SlotSet.CODPIECE_SLOTS.stream()
+                  .map(Maximizer.best.equipment::get)
+                  .anyMatch(item -> item.getItemId() == ItemPool.BASEBALL_DIAMOND));
+        }
+      }
+
+      @Test
+      void equipmentFilterControlsCodpieceGemRecommendations() {
+        var cleanups =
+            new Cleanups(
+                withEquippableItem(ItemPool.THE_ETERNITY_CODPIECE),
+                withItem(ItemPool.ALIEN_GEMSTONE));
+
+        try (cleanups) {
+          assertTrue(
+              Maximizer.maximize(
+                  "mus exp, -tie",
+                  0,
+                  PriceLevel.DONT_CHECK,
+                  EquipScope.SPECULATE_INVENTORY,
+                  EnumSet.of(KoLConstants.filterType.EQUIP)));
+          assertThat(getBoosts(), hasItem(recommends(ItemPool.ALIEN_GEMSTONE)));
+
+          Maximizer.maximize(
+              "mus exp, -tie",
+              0,
+              PriceLevel.DONT_CHECK,
+              EquipScope.SPECULATE_INVENTORY,
+              EnumSet.of(KoLConstants.filterType.OTHER));
+          assertThat(getBoosts(), not(hasItem(recommends(ItemPool.ALIEN_GEMSTONE))));
+        }
+      }
+
+      @Test
+      void currentControlsWhetherIrrelevantSlottedGemsArePreserved() {
+        int massiveGemstone = ItemPool.get("massive gemstone", 1).getItemId();
+        var cleanups =
+            new Cleanups(
+                withEquipped(Slot.ACCESSORY1, ItemPool.THE_ETERNITY_CODPIECE),
+                withEquipped(Slot.CODPIECE1, massiveGemstone));
+
+        try (cleanups) {
+          assertTrue(maximize("+equip the eternity codpiece, mus exp, current, -tie"));
+          assertThat(
+              Maximizer.best.equipment.get(Slot.CODPIECE1).getItemId(), equalTo(massiveGemstone));
+
+          assertTrue(maximize("+equip the eternity codpiece, mus exp, -current, -tie"));
+          assertThat(
+              Maximizer.best.equipment.get(Slot.CODPIECE1), equalTo(EquipmentRequest.UNEQUIP));
+        }
+      }
+
+      @Test
+      void pullsEnoughCopiesToFillEveryCodpieceSlot() {
+        var onyx = ItemPool.get("unearthly onyx", 1);
+        var cleanups =
+            new Cleanups(
+                withEquippableItem(ItemPool.THE_ETERNITY_CODPIECE),
+                withItemInStorage(onyx.getItemId(), 5),
+                withInteractivity(false));
+
+        try (cleanups) {
+          maximizeAny("spooky resistance, -tie");
+
+          assertTrue(
+              SlotSet.CODPIECE_SLOTS.stream()
+                  .map(Maximizer.best.equipment::get)
+                  .allMatch(onyx::equals));
+          assertThat(
+              getBoosts().stream()
+                  .filter(boost -> onyx.equals(boost.getItem()))
+                  .filter(boost -> boost.getCmd().startsWith("pull"))
+                  .count(),
+              equalTo(5L));
+        }
+      }
+
+      @ParameterizedTest
+      @CsvSource({"999, 0", "1001, 5"})
+      void mallPriceLimitControlsCodpieceGemAvailability(int maxPrice, long expectedGemCount) {
+        var onyx = ItemPool.get("unearthly onyx", 1);
+        var cleanups =
+            new Cleanups(
+                withEquippableItem(ItemPool.THE_ETERNITY_CODPIECE),
+                withInteractivity(true),
+                withProperty("autoSatisfyWithMall", true),
+                withMallPrice(onyx.getItemId(), 1_000),
+                withMeat(100_000));
+
+        try (cleanups) {
+          assertTrue(
+              Maximizer.maximize(
+                  "spooky resistance, -tie",
+                  maxPrice,
+                  PriceLevel.BUYABLE_ONLY,
+                  EquipScope.SPECULATE_ANY,
+                  EnumSet.allOf(KoLConstants.filterType.class)));
+          assertThat(
+              SlotSet.CODPIECE_SLOTS.stream()
+                  .map(Maximizer.best.equipment::get)
+                  .filter(onyx::equals)
+                  .count(),
+              equalTo(expectedGemCount));
+        }
       }
     }
   }

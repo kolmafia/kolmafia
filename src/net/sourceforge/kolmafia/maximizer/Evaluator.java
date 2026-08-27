@@ -1163,6 +1163,7 @@ public class Evaluator {
     SlotList<CheckedItem> ranked = new SlotList<>(this.familiars.size());
 
     double nullScore = this.getScore(new Modifiers());
+    double nullTiebreaker = this.getTiebreaker(new Modifiers());
 
     Map<Integer, Boolean> usefulOutfits = new HashMap<>();
     Map<AdventureResult, AdventureResult> outfitPieces = new HashMap<>();
@@ -1695,7 +1696,10 @@ public class Evaluator {
       }
 
       double delta = this.getScore(mods, Map.of(Slot.CODPIECE1, gem), Map.of()) - nullScore;
-      if (delta <= 0.0 && !gem.automaticFlag && !(KoLCharacter.inCodpiece(gem) && this.current)) {
+      double tiebreakerDelta = this.getTiebreaker(mods) - nullTiebreaker;
+      if ((delta < 0.0 || (delta == 0.0 && tiebreakerDelta <= 0.0))
+          && !gem.automaticFlag
+          && !(KoLCharacter.inCodpiece(gem) && this.current)) {
         continue;
       }
       if (KoLCharacter.inCodpiece(gem) && this.current) {

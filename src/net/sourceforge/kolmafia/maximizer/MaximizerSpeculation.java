@@ -810,7 +810,6 @@ public class MaximizerSpeculation extends Speculation
       return;
     }
 
-    this.checkBest();
     List<Slot> codpieceSlots =
         SlotSet.CODPIECE_SLOTS.stream().filter(Maximizer.eval::slotEnabled).toList();
     for (Slot slot : codpieceSlots) {
