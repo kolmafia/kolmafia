@@ -33,6 +33,7 @@ import net.sourceforge.kolmafia.persistence.DebugDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.QuestManager;
@@ -181,18 +182,18 @@ public class EquipmentRequest extends PasswordHashRequest {
 
   public EquipmentRequest(final String changeName) {
     this(EquipmentRequestType.SAVE_OUTFIT);
-    String savedName = EquipmentRequest.addCodpieceConfiguration(changeName);
+    String savedName =
+        Preferences.getBoolean("includeCodpieceGemsInOutfits")
+                && KoLCharacter.hasEquipped(ItemPool.THE_ETERNITY_CODPIECE)
+            ? EquipmentRequest.outfitNameWithCodpieceGems(changeName)
+            : changeName;
     this.addFormField("action", "customoutfit");
     this.addFormField("outfitname", savedName);
     this.addFormField("ajax", "1");
     this.outfitName = changeName;
   }
 
-  private static String addCodpieceConfiguration(final String outfitName) {
-    if (!KoLCharacter.hasEquipped(ItemPool.THE_ETERNITY_CODPIECE)) {
-      return outfitName;
-    }
-
+  public static String outfitNameWithCodpieceGems(final String outfitName) {
     String suffix = " c=" + EquipmentRequest.encodeCodpieceConfiguration();
     int nameLength = Math.min(outfitName.length(), 50 - suffix.length());
     return outfitName.substring(0, nameLength).stripTrailing() + suffix;

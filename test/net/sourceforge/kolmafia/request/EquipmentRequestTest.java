@@ -69,7 +69,7 @@ public class EquipmentRequestTest {
   }
 
   @Test
-  void reappliesCodpieceSlotsWhenAlreadyWearingOutfit() {
+  void reappliesCodpieceSlotsWhenAutomaticSavingIsDisabled() {
     var builder = new FakeHttpClientBuilder();
     var client = builder.client;
     client.addResponse(200, "");
@@ -85,6 +85,7 @@ public class EquipmentRequestTest {
     var cleanups =
         new Cleanups(
             withHttpClientBuilder(builder),
+            withProperty("includeCodpieceGemsInOutfits", false),
             withEquipped(Slot.ACCESSORY1, ItemPool.THE_ETERNITY_CODPIECE),
             withEquipped(Slot.CODPIECE1, ItemPool.HAMETHYST),
             withItem(ItemPool.ALIEN_GEMSTONE));
@@ -230,7 +231,7 @@ public class EquipmentRequestTest {
   }
 
   @Test
-  void savesCodpieceSlotsInOutfitName() {
+  void doesNotSaveCodpieceSlotsInOutfitNameByDefault() {
     var builder = new FakeHttpClientBuilder();
     builder.client.addResponse(200, "");
     var cleanups =
@@ -244,32 +245,49 @@ public class EquipmentRequestTest {
     try (cleanups) {
       new EquipmentRequest("Saved outfit").run();
 
-      // The suffix decodes to item IDs [9412, 0, 704, 0, 0].
       assertThat(
-          getPostRequestBody(builder.client.getRequests().getFirst()),
-          containsString("outfitname=Saved outfit c=~xEkAwAUAAA"));
+          getPostRequestBody(builder.client.getRequests().getFirst()), not(containsString(" c=")));
     }
   }
 
   @Test
-  void truncatesOutfitNameToLeaveRoomForCodpieceSlots() {
+  void doesNotSaveCodpieceSlotsWhenEnabledWithoutEquippedCodpiece() {
     var builder = new FakeHttpClientBuilder();
     builder.client.addResponse(200, "");
     var cleanups =
         new Cleanups(
             withHttpClientBuilder(builder),
             withContinuationState(),
-            withEquipped(Slot.ACCESSORY1, ItemPool.THE_ETERNITY_CODPIECE));
+            withProperty("includeCodpieceGemsInOutfits", true));
 
     try (cleanups) {
-      new EquipmentRequest("A".repeat(50)).run();
+      new EquipmentRequest("Saved outfit").run();
 
-      // Decodes to item IDs [0, 0, 0, 0, 0].
-      String suffix = " c=~AAAAAAA";
-      String savedName = "A".repeat(50 - suffix.length()) + suffix;
+      assertThat(
+          getPostRequestBody(builder.client.getRequests().getFirst()), not(containsString(" c=")));
+    }
+  }
+
+  @Test
+  void savesCodpieceSlotsInOutfitNameWhenEnabled() {
+    var builder = new FakeHttpClientBuilder();
+    builder.client.addResponse(200, "");
+    var cleanups =
+        new Cleanups(
+            withHttpClientBuilder(builder),
+            withContinuationState(),
+            withProperty("includeCodpieceGemsInOutfits", true),
+            withEquipped(Slot.ACCESSORY1, ItemPool.THE_ETERNITY_CODPIECE),
+            withEquipped(Slot.CODPIECE1, ItemPool.ALIEN_GEMSTONE),
+            withEquipped(Slot.CODPIECE3, ItemPool.HAMETHYST));
+
+    try (cleanups) {
+      new EquipmentRequest("Saved outfit").run();
+
+      // The suffix decodes to item IDs [9412, 0, 704, 0, 0].
       assertThat(
           getPostRequestBody(builder.client.getRequests().getFirst()),
-          containsString("outfitname=" + savedName));
+          containsString("outfitname=Saved outfit c=~xEkAwAUAAA"));
     }
   }
 

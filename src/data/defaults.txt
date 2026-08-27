@@ -920,6 +920,7 @@ user	hpAutoRecoveryTarget	1.0
 user	iceSculptureMonster		roa
 user	iceSwagger	0
 user	implementGlitchItem	false
+user	includeCodpieceGemsInOutfits	false
 user	intangibleAssetCharges	0	roa
 user	intenseCurrents	false	roa
 user	invalidBuffMessage	You sent an amount which does not correspond to a valid buff amount.
