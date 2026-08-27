@@ -853,7 +853,7 @@ public class MaximizerSpeculation extends Speculation
       }
 
       long used = this.equipment.values().stream().filter(gem::equals).count();
-      if (used > equippedElsewhere.getCount()) {
+      if (used > equippedElsewhere.getAvailableCount()) {
         this.equipment.put(slot, EquipmentRequest.UNEQUIP);
       }
     }
@@ -923,7 +923,8 @@ public class MaximizerSpeculation extends Speculation
         .filter(item -> EquipmentRequest.isCodpieceGem(item.getItemId()))
         .allMatch(
             item ->
-                this.equipment.values().stream().filter(item::equals).count() <= item.getCount());
+                this.equipment.values().stream().filter(item::equals).count()
+                    <= item.getAvailableCount());
   }
 
   private static int getMutex(AdventureResult item) {

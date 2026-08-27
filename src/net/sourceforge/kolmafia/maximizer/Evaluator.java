@@ -1630,7 +1630,7 @@ public class Evaluator {
           break gotItem;
         }
 
-        if (id == ItemPool.CARD_SLEEVE) {
+        if (id == ItemPool.CARD_SLEEVE || id == ItemPool.THE_ETERNITY_CODPIECE) {
           break gotItem;
         }
 
