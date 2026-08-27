@@ -87,6 +87,5 @@ public class CustomOutfitRequest extends GenericRequest {
     }
 
     EquipmentManager.setCustomOutfits(outfits);
-    EquipmentManager.retainCodpieceOutfits(outfits);
   }
 }

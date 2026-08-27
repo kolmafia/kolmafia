@@ -1,6 +1,9 @@
 package net.sourceforge.kolmafia.request;
 
+import java.io.ByteArrayOutputStream;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -109,6 +112,10 @@ public class EquipmentRequest extends PasswordHashRequest {
       Pattern.compile("Item unequipped:</td><td>.*?descitem\\((.*?)\\)'> <b>(.*?)</b></td>");
   private static final Pattern HOLSTER_URL_PATTERN = Pattern.compile("holster=(\\d+)");
 
+  private static final int VARINT_PAYLOAD_BITS = 7;
+  private static final int VARINT_PAYLOAD_MASK = (1 << VARINT_PAYLOAD_BITS) - 1;
+  private static final int VARINT_CONTINUATION_BIT = 1 << VARINT_PAYLOAD_BITS;
+
   public static final AdventureResult UNEQUIP = ItemPool.get("(none)", 1);
 
   public enum EquipmentRequestType {
@@ -174,10 +181,36 @@ public class EquipmentRequest extends PasswordHashRequest {
 
   public EquipmentRequest(final String changeName) {
     this(EquipmentRequestType.SAVE_OUTFIT);
+    String savedName = EquipmentRequest.addCodpieceConfiguration(changeName);
     this.addFormField("action", "customoutfit");
-    this.addFormField("outfitname", changeName);
+    this.addFormField("outfitname", savedName);
     this.addFormField("ajax", "1");
     this.outfitName = changeName;
+  }
+
+  private static String addCodpieceConfiguration(final String outfitName) {
+    if (!KoLCharacter.hasEquipped(ItemPool.THE_ETERNITY_CODPIECE)) {
+      return outfitName;
+    }
+
+    String suffix = " c=" + EquipmentRequest.encodeCodpieceConfiguration();
+    int nameLength = Math.min(outfitName.length(), 50 - suffix.length());
+    return outfitName.substring(0, nameLength).stripTrailing() + suffix;
+  }
+
+  private static String encodeCodpieceConfiguration() {
+    var bytes = new ByteArrayOutputStream();
+    for (Slot slot : SlotSet.CODPIECE_SLOTS) {
+      int itemId = Math.max(0, EquipmentManager.getEquipment(slot).getItemId());
+      do {
+        int next = itemId & VARINT_PAYLOAD_MASK;
+        itemId >>>= VARINT_PAYLOAD_BITS;
+        bytes.write(itemId == 0 ? next : next | VARINT_CONTINUATION_BIT);
+      } while (itemId != 0);
+    }
+
+    // Varints keep empty/current IDs compact; URL-safe Base64 adds no separators or padding.
+    return "~" + Base64.getUrlEncoder().withoutPadding().encodeToString(bytes.toByteArray());
   }
 
   public EquipmentRequest(final AdventureResult changeItem) {
@@ -933,8 +966,68 @@ public class EquipmentRequest extends PasswordHashRequest {
   }
 
   private void restoreCodpieceOutfit() {
-    List<AdventureResult> configuration = EquipmentManager.getCodpieceOutfit(this.outfit);
-    if (configuration.isEmpty()) {
+    Matcher matcher = EquipmentRequest.OUTFIT_ACTION_PATTERN.matcher(this.outfit.getName());
+    while (matcher.find()) {
+      if (matcher.group(1).equalsIgnoreCase("c")
+          && EquipmentRequest.restoreCodpieceOutfit(matcher.group(2).trim())) {
+        return;
+      }
+    }
+  }
+
+  private static boolean restoreCodpieceOutfit(final String text) {
+    if (!text.startsWith("~")) {
+      return false;
+    }
+
+    List<AdventureResult> configuration = new ArrayList<>(SlotSet.CODPIECE_SLOTS.size());
+    try {
+      ByteBuffer buffer = ByteBuffer.wrap(Base64.getUrlDecoder().decode(text.substring(1)));
+      for (int slot = 0; slot < SlotSet.CODPIECE_SLOTS.size(); slot++) {
+        int itemId = EquipmentRequest.decodeUnsignedVarInt(buffer);
+        if (itemId <= 0) {
+          configuration.add(EquipmentRequest.UNEQUIP);
+        } else if (EquipmentRequest.isCodpieceGem(itemId)) {
+          configuration.add(ItemPool.get(itemId));
+        } else {
+          RequestLogger.printLine(
+              "Ignoring non-Codpiece gem item ID " + itemId + " in outfit configuration.");
+          configuration.add(EquipmentRequest.UNEQUIP);
+        }
+      }
+      if (buffer.hasRemaining()) {
+        throw new IllegalArgumentException();
+      }
+    } catch (IllegalArgumentException e) {
+      RequestLogger.printLine("Invalid Codpiece outfit configuration.");
+      return true;
+    }
+
+    EquipmentRequest.restoreCodpieceOutfit(configuration);
+    return true;
+  }
+
+  private static int decodeUnsignedVarInt(final ByteBuffer buffer) {
+    long value = 0;
+    for (int shift = 0; shift < Integer.SIZE; shift += VARINT_PAYLOAD_BITS) {
+      if (!buffer.hasRemaining()) {
+        throw new IllegalArgumentException();
+      }
+
+      int next = Byte.toUnsignedInt(buffer.get());
+      value |= (long) (next & VARINT_PAYLOAD_MASK) << shift;
+      if ((next & VARINT_CONTINUATION_BIT) == 0) {
+        if (value > Integer.MAX_VALUE) {
+          throw new IllegalArgumentException();
+        }
+        return (int) value;
+      }
+    }
+    throw new IllegalArgumentException();
+  }
+
+  private static void restoreCodpieceOutfit(final List<AdventureResult> configuration) {
+    if (!KoLCharacter.hasEquipped(ItemPool.THE_ETERNITY_CODPIECE)) {
       return;
     }
 
@@ -1780,7 +1873,6 @@ public class EquipmentRequest extends PasswordHashRequest {
 
       // Add this outfit to the list of custom outfits.
       EquipmentManager.addCustomOutfit(outfit);
-      EquipmentManager.saveCodpieceOutfit(outfit);
 
       return false;
     }
@@ -1993,7 +2085,11 @@ public class EquipmentRequest extends PasswordHashRequest {
     while (m.find()) {
       String text = m.group(2).trim();
       switch (m.group(1).toLowerCase().charAt(0)) {
-        case 'c' -> KoLmafiaCLI.DEFAULT_SHELL.executeLine(text);
+        case 'c' -> {
+          if (!EquipmentRequest.restoreCodpieceOutfit(text)) {
+            KoLmafiaCLI.DEFAULT_SHELL.executeLine(text);
+          }
+        }
         case 'e' -> KoLmafiaCLI.DEFAULT_SHELL.executeCommand("equip", "familiar " + text);
         case 'f' -> KoLmafiaCLI.DEFAULT_SHELL.executeCommand("familiar", text);
         case 'm' -> KoLmafiaCLI.DEFAULT_SHELL.executeCommand("mood", text);

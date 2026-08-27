@@ -1,6 +1,5 @@
 package net.sourceforge.kolmafia.session;
 
-import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONException;
 import com.alibaba.fastjson2.JSONObject;
@@ -1203,65 +1202,6 @@ public class EquipmentManager {
     }
     newOutfits.add(outfit);
     EquipmentManager.setCustomOutfits(newOutfits);
-  }
-
-  private static final String CODPIECE_OUTFITS = "customOutfitCodpieceConfigurations";
-
-  private static JSONObject codpieceOutfits() {
-    String value = Preferences.getString(CODPIECE_OUTFITS);
-    if (value.isEmpty()) {
-      return new JSONObject();
-    }
-
-    try {
-      JSONObject configurations = JSON.parseObject(value);
-      return configurations == null ? new JSONObject() : configurations;
-    } catch (JSONException e) {
-      RequestLogger.printLine("Invalid saved Codpiece outfit configurations.");
-      return new JSONObject();
-    }
-  }
-
-  public static void saveCodpieceOutfit(SpecialOutfit outfit) {
-    if (!outfit.containsPiece(ItemPool.THE_ETERNITY_CODPIECE)) {
-      return;
-    }
-
-    JSONArray configuration = new JSONArray(SlotSet.CODPIECE_SLOTS.size());
-    for (Slot slot : SlotSet.CODPIECE_SLOTS) {
-      configuration.add(EquipmentManager.getEquipment(slot).getItemId());
-    }
-
-    JSONObject configurations = codpieceOutfits();
-    configurations.put(String.valueOf(outfit.getOutfitId()), configuration);
-    Preferences.setString(CODPIECE_OUTFITS, configurations.toJSONString());
-  }
-
-  public static List<AdventureResult> getCodpieceOutfit(SpecialOutfit outfit) {
-    JSONArray configuration = codpieceOutfits().getJSONArray(String.valueOf(outfit.getOutfitId()));
-    if (configuration == null || configuration.size() != SlotSet.CODPIECE_SLOTS.size()) {
-      return List.of();
-    }
-    if (!configuration.stream().allMatch(Number.class::isInstance)) {
-      RequestLogger.printLine("Invalid saved Codpiece outfit configuration.");
-      return List.of();
-    }
-
-    return configuration.stream()
-        .mapToInt(value -> ((Number) value).intValue())
-        .mapToObj(itemId -> itemId > 0 ? ItemPool.get(itemId) : EquipmentRequest.UNEQUIP)
-        .toList();
-  }
-
-  public static void retainCodpieceOutfits(List<SpecialOutfit> outfits) {
-    JSONObject configurations = codpieceOutfits();
-    configurations
-        .keySet()
-        .removeIf(
-            id ->
-                outfits.stream()
-                    .noneMatch(outfit -> String.valueOf(outfit.getOutfitId()).equals(id)));
-    Preferences.setString(CODPIECE_OUTFITS, configurations.toJSONString());
   }
 
   /**
