@@ -1553,7 +1553,7 @@
 1550	Living Fast	fast.gif	9bcf5b01e28eaa05b9519bbd60c6500e	neutral	none	cast 1 Live Fast
 1551	Brooding	brood.gif	4904020a24d6ebc1085fa5484d6db58c	neutral	nohookah	cast 1 Brood
 1552	Jukebox Hero	jukebox.gif	80bb09a70dda2a2b0aa8538ae933d3d8	good	nohookah	# cast Fix Jukebox in combat
-1553	Slicked-Back Do	slickback.gif	733893084c2634dc395c540ae9204929	good	notcrs	# cast Check Mirror
+1553	Slicked-Back Do	slickback.gif	733893084c2634dc395c540ae9204929	good	nohookah	# cast Check Mirror
 1554	Pompadour	petepadour.gif	a1d6cd8bd17acbe235f3a9b679871d15	good	nohookah	# cast Check Mirror
 1555	Cowlick	cowlick.gif	6345c69dfd1bcd34dc51c4b92a842aa0	good	nohookah	# cast Check Mirror with 20+ Love
 1556	Fauxhawk	fauxhawk.gif	89ac380320f6108fc8680dc6318bb09f	good	nohookah	# cast Check Mirror with 20+ Hate
@@ -1937,7 +1937,7 @@
 1934	Doing The Hustle	dance3.gif	52284e7299b35e9d392bddaee7a8258f	good	nohookah	# visiting The Towering Inferno Discotheque Floor 2
 1935	Lemony Goodness	lemon.gif	cc5c7ccbc1ebc14a841f803cc735a8aa	good	none
 1936	Nearly All-Natural	knobsack.gif	a6708fb7d4ae8200584e8fbdc1a3fb59	good	nohookah	use 1 bag of grain
-1937	Amazing	puzzle.gif	713377d5825b78085bfd432dfa61e8c7	good	notcrs	use 1 pocket maze
+1937	Amazing	puzzle.gif	713377d5825b78085bfd432dfa61e8c7	good	nohookah	use 1 pocket maze
 1938	Throwing Some Shade	bigglasses.gif	c5cff9851dd22e65ea938582e6eabe68	neutral	nohookah	use 1 shady shades
 1939	A Rose by Any Other Material	rose.gif	a045be8e57e7ed0a5fefaec9e1fa70c9	neutral	nohookah	use 1 squeaky toy rose
 1940	Gaze of the Gazelle	gnatfilet.gif	07d1f36bb0141751020c2f5f5cc210ce	good	nohookah	eat 1 weird gazelle steak
