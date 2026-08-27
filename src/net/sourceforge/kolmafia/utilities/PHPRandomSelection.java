@@ -19,7 +19,7 @@ public class PHPRandomSelection {
   }
 
   public int[] pick(final int size, final int count) {
-    if (count <= 0) {
+    if (count <= 0 || size <= 0) {
       return new int[0];
     }
     if (count == 1) {
