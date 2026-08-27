@@ -47,11 +47,16 @@ public class MallPriceDatabase {
   private static final int CONNECT_TIMEOUT = 15 * 1000;
 
   static {
-    updatePricesFromSource("mallprices.txt");
-    MallPriceDatabase.modCount = 0;
+    MallPriceDatabase.reset();
   }
 
   private MallPriceDatabase() {}
+
+  public static void reset() {
+    prices.clear();
+    updatePricesFromSource("mallprices.txt");
+    MallPriceDatabase.modCount = 0;
+  }
 
   private static int updatePricesFromSource(String filename) {
     int count = 0;
