@@ -20,7 +20,6 @@ import static internal.helpers.Player.withItemInFreepulls;
 import static internal.helpers.Player.withItemInStorage;
 import static internal.helpers.Player.withLocation;
 import static internal.helpers.Player.withMCD;
-import static internal.helpers.Player.withMallPrice;
 import static internal.helpers.Player.withMeat;
 import static internal.helpers.Player.withMoxie;
 import static internal.helpers.Player.withMuscle;
@@ -71,14 +70,17 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase.Environment;
+import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.MallPriceManager;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.mockito.Mockito;
 
 public class MaximizerTest {
   @BeforeAll
@@ -4130,10 +4132,20 @@ public class MaximizerTest {
                 withEquippableItem(ItemPool.THE_ETERNITY_CODPIECE),
                 withInteractivity(true),
                 withProperty("autoSatisfyWithMall", true),
-                withMallPrice(onyx.getItemId(), 1_000),
                 withMeat(100_000));
 
-        try (cleanups) {
+        try (cleanups;
+            var mallPriceDatabase =
+                Mockito.mockStatic(MallPriceDatabase.class, Mockito.CALLS_REAL_METHODS);
+            var mallPriceManager =
+                Mockito.mockStatic(MallPriceManager.class, Mockito.CALLS_REAL_METHODS)) {
+          mallPriceDatabase
+              .when(() -> MallPriceDatabase.getPrice(onyx.getItemId()))
+              .thenReturn(1_000L);
+          mallPriceManager
+              .when(() -> MallPriceManager.getMallPrice(onyx.getItemId()))
+              .thenReturn(1_000L);
+
           assertTrue(
               Maximizer.maximize(
                   "spooky resistance, -tie",
