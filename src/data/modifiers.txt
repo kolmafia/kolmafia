@@ -404,7 +404,7 @@ Item	nine-gallon hat	Muscle: +9, Mysticality: +9, Moxie: +9, Experience: +3
 Item	no hat	Lasts Until Rollover, Last Available: "2016-12"
 Item	noir fedora	Experience Percent (Moxie): +20, Moxie Percent: +20, HP Regen Min: 8, HP Regen Max: 10, MP Regen Min: 8, MP Regen Max: 10, Last Available: "2016-07"
 Item	norwhal helmet	Experience (Mysticality): +2, Spell Damage Percent: +60, Booze Drop: +60, Last Available: "2015-11", Familiar Effect: "atk"
-Item	nurse's hat	Maximum HP: +300, HP Regen Min: 30, HP Regen Max: 60, MP Regen Min: 10, MP Regen Max: 15, Familiar Effect: "atk", Enchantment Count: 3
+Item	nurse's hat	Maximum HP: +300, HP Regen Min: 30, HP Regen Max: 60, MP Regen Min: 10, MP Regen Max: 15, Familiar Effect: "atk"
 Item	oil cap	MP Regen Min: 2, MP Regen Max: 4, Sleaze Resistance: +2, Familiar Effect: "cap 28"
 Item	Ol' Scratch's stovepipe hat	Mysticality Percent: +20, Hot Spell Damage: +30, Class: "Sauceror", Familiar Effect: "hot atk"
 Item	one-gallon hat	Muscle: +1, Mysticality: +1, Moxie: +1, Experience: +1
@@ -1982,7 +1982,7 @@ Item	Staff of the Scummy Sink	Spell Damage Percent: +150, Sleaze Spell Damage: +
 Item	Staff of the Short Order Cook	Spell Damage Percent: +20, Mysticality: +5, MP Regen Min: 2, MP Regen Max: 3
 Item	Staff of the Soupbone	Spell Damage Percent: +75, Maximum MP: +15, MP Regen Min: 5, MP Regen Max: 6
 # Staff of the Staff of Life: (5 charges left today)
-Item	Staff of the Staff of Life	Spell Damage Percent: +50, Maximum HP: +30, MP Regen Min: 5, MP Regen Max: 6, HP Regen Min: 10, HP Regen Max: 12, Jiggle: "Full HP Recovery", Enchantment Count: 4
+Item	Staff of the Staff of Life	Spell Damage Percent: +50, Maximum HP: +30, MP Regen Min: 5, MP Regen Max: 6, HP Regen Min: 10, HP Regen Max: 12, Jiggle: "Full HP Recovery"
 # Staff of the Standalone Cheese: (5 charges left today)
 Item	Staff of the Standalone Cheese	Spell Damage Percent: +50, Initiative: +30, MP Regen Min: 5, MP Regen Max: 6, Jiggle: "Banish opponent for the rest of the day"
 Item	Staff of the Teapot Tempest	Spell Damage Percent: +25, Mysticality: +5, MP Regen Min: 3, MP Regen Max: 4
@@ -3291,7 +3291,7 @@ Item	hazardous sauce dosimeter	Class: "Sauceror", Last Available: "2013-11"
 # head mirror: Makes you look like a doctor
 Item	head mirror	Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1, Surgeonosity: +1
 Item	headhunter necktie	Muscle: +15, Moxie: -3, Single Equip
-Item	heart of the volcano	HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 2, MP Regen Max: 5, Enchantment Count: 2
+Item	heart of the volcano	HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 2, MP Regen Max: 5
 Item	Heartstone	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25, Experience: +3, HP Regen Min: 15, HP Regen Max: 20, Single Equip, Last Available: "2026-02", Conditional Skill (Equipped): "Steal Monster's Heart", Conditional Skill (Equipped): "Heartstone: %kill", Conditional Skill (Equipped): "Heartstone: %banish", Conditional Skill (Equipped): "Heartstone: %stun", Conditional Skill (Equipped): "Heartstone: %luck", Conditional Skill (Equipped): "Heartstone: %pals", Conditional Skill (Equipped): "Heartstone: %buff"
 Item	heat-resistant gloves	Hot Resistance: +4, Weapon Damage Percent: -50, Fumble: 2, Single Equip, Last Available: "2015-08"
 Item	heat-resistant necktie	Hot Resistance: +4, Spell Damage: -50, Single Equip, Last Available: "2015-08"
@@ -4341,7 +4341,7 @@ Item	marble mantle	Damage Reduction: 10, Weapon Damage Percent: +30, Last Availa
 Item	Mayor Ghost's cloak	PvP Fights: +5, Weapon Drop: +20, Food Drop: +20, Class: "Pastamancer"
 # McHugeLarge duffel bag: Lets you hit the slopes when equipped with all your McHugeLarge ski gear
 Item	McHugeLarge duffel bag	Item Drop: +15, Maximum HP: +20, Last Available: "2025-01", McHugeLarge
-Item	Misty Cape	Moxie: +5, HP Regen Min: 2, HP Regen Max: 4, MP Regen Min: 1, MP Regen Max: 2, Enchantment Count: 3
+Item	Misty Cape	Moxie: +5, HP Regen Min: 2, HP Regen Max: 4, MP Regen Min: 1, MP Regen Max: 2
 Item	Misty Cloak	Muscle: +5, HP Regen Min: 4, HP Regen Max: 8
 Item	Misty Robe	Mysticality: +5, MP Regen Min: 2, MP Regen Max: 4
 Item	moss mantle	Experience (Moxie): +2, Sleaze Resistance: +2, Last Available: "2024-12", Conditional Skill (Equipped): "Drop Mantle"

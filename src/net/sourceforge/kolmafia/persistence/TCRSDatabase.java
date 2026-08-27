@@ -15,6 +15,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.Set;
 import java.util.StringJoiner;
 import java.util.concurrent.ConcurrentSkipListMap;
@@ -1196,9 +1197,24 @@ public class TCRSDatabase {
           Set.of("Muscle Percent", "Mysticality Percent", "Moxie Percent"),
           Set.of("Maximum HP", "Maximum MP"),
           Set.of("Maximum HP Percent", "Maximum MP Percent"));
-  // Regen is a Min/Max pair (so its members never share a value). Any regen is one enchantment.
   private static final Set<String> REGEN =
       Set.of("HP Regen Min", "HP Regen Max", "MP Regen Min", "MP Regen Max");
+
+  /**
+   * How many regen enchantments an item has. HP and MP regen are one combined enchantment when
+   * their amounts match ("Regenerate X HP and MP"), but two separate ones when the amounts differ.
+   */
+  private static int regenCount(final Map<String, Set<String>> present) {
+    var hp = present.containsKey("HP Regen Min") || present.containsKey("HP Regen Max");
+    var mp = present.containsKey("MP Regen Min") || present.containsKey("MP Regen Max");
+    if (!hp || !mp) {
+      return (hp || mp) ? 1 : 0;
+    }
+    var sameAmounts =
+        Objects.equals(present.get("HP Regen Min"), present.get("MP Regen Min"))
+            && Objects.equals(present.get("HP Regen Max"), present.get("MP Regen Max"));
+    return sameAmounts ? 1 : 2;
+  }
 
   // Expression functions that query live character or environment state (a preference, the current
   // zone/location environment, an active effect, ascension class or path). The enchantment
@@ -1311,9 +1327,9 @@ public class TCRSDatabase {
       }
     }
 
-    // A Min/Max pair, so one enchantment whenever present.
-    if (present.keySet().stream().anyMatch(REGEN::contains)) {
-      count += 1;
+    var regen = regenCount(present);
+    if (regen > 0) {
+      count += regen;
       consumed.addAll(REGEN);
     }
 

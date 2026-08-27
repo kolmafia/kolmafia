@@ -281,7 +281,7 @@ public class ItemDatabase {
     return data != null && data.registered;
   }
 
-  // Undo a live registration. Package-private for tests.
+  /** Undoes a live registration. Package-private for tests. */
   static void forgetItem(final int itemId) {
     ItemData data = ItemDatabase.itemDataById.remove(itemId);
     if (data != null && data.descriptionId != null) {
