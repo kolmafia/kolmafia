@@ -2770,6 +2770,40 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
   }
 
   @Nested
+  class OutfitNameWithCodpieceGems {
+    @Test
+    void appendsCurrentCodpieceConfiguration() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(Slot.CODPIECE1, ItemPool.ALIEN_GEMSTONE),
+              withEquipped(Slot.CODPIECE3, ItemPool.HAMETHYST));
+
+      try (cleanups) {
+        assertThat(
+            execute("outfit_name_with_codpiece_gems(\"Saved outfit\")").trim(),
+            is("Returned: Saved outfit c=~xEkAwAUAAA"));
+      }
+    }
+
+    @Test
+    void truncatesOutfitNameToFitConfiguration() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(Slot.CODPIECE1, ItemPool.ALIEN_GEMSTONE),
+              withEquipped(Slot.CODPIECE3, ItemPool.HAMETHYST));
+
+      try (cleanups) {
+        String suffix = " c=~xEkAwAUAAA";
+        String originalName = "A".repeat(50);
+        String expectedName = "A".repeat(50 - suffix.length()) + suffix;
+        assertThat(
+            execute("outfit_name_with_codpiece_gems(\"" + originalName + "\")").trim(),
+            is("Returned: " + expectedName));
+      }
+    }
+  }
+
+  @Nested
   class MobiusRingNoncombat {
     @Test
     void withoutPrimingTakesInfinity() {
