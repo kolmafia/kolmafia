@@ -4036,6 +4036,10 @@ public abstract class RuntimeLibrary {
     params = List.of(namedParam("string", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("heartstone_string_length", DataTypes.INT_TYPE, params));
 
+    params = List.of(namedParam("originalOutfitName", DataTypes.STRING_TYPE));
+    functions.add(
+        new LibraryFunction("outfit_name_with_codpiece_gems", DataTypes.STRING_TYPE, params));
+
     params = List.of();
     functions.add(
         new LibraryFunction("turns_until_mobius_noncombat_available", DataTypes.INT_TYPE, params));
@@ -12264,6 +12268,12 @@ public abstract class RuntimeLibrary {
     var str = value.contentString;
     var length = HeartstoneDatabase.spaceStrippedStringLength(str);
     return DataTypes.makeIntValue(length);
+  }
+
+  public static Value outfit_name_with_codpiece_gems(
+      ScriptRuntime controller, final Value originalOutfitName) {
+    return DataTypes.makeStringValue(
+        EquipmentRequest.outfitNameWithCodpieceGems(originalOutfitName.toString()));
   }
 
   public static Value turns_until_mobius_noncombat_available(ScriptRuntime controller) {
