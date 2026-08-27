@@ -616,7 +616,15 @@ public enum DoubleModifier implements Modifier {
   WARBEAR_ITEM_DROP(
       "WarBear Item Drop",
       Pattern.compile("([+-]\\d+)% Item Drops from WarBears"),
-      Pattern.compile("WarBear Item Drop: " + EXPR));
+      Pattern.compile("WarBear Item Drop: " + EXPR)),
+  DB_COMBAT_WEAKEN(
+      "DB Combat Weaken",
+      Pattern.compile("Disco Bandit Combat Skills weaken enemies by an additional (\\d+)%"),
+      Pattern.compile("DB Combat Weaken: " + EXPR)),
+  KILL_MORE_SKELETONS(
+      "Kill More Skeletons",
+      Pattern.compile("Kill (\\d+)% More Skeletons"),
+      Pattern.compile("Kill More Skeletons: " + EXPR));
 
   private final String name;
   private final Pattern[] descPatterns;
