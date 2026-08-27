@@ -3961,6 +3961,29 @@ public class MaximizerTest {
       }
     }
 
+    @Test
+    void honorsBooleanConstraintsOnCodpieceGems() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(Slot.ACCESSORY1, ItemPool.THE_ETERNITY_CODPIECE),
+              withItem(ItemPool.ALIEN_GEMSTONE),
+              withOverrideModifiers(
+                  ModifierType.ETERNITY_CODPIECE, ItemPool.ALIEN_GEMSTONE, "Adventure Underwater"));
+
+      try (cleanups) {
+        assertTrue(maximize("adventure underwater, -tie"));
+        assertThat(
+            Maximizer.best.equipment.get(Slot.CODPIECE1).getItemId(),
+            equalTo(ItemPool.ALIEN_GEMSTONE));
+
+        assertTrue(maximize("-adventure underwater, -tie"));
+        assertTrue(
+            SlotSet.CODPIECE_SLOTS.stream()
+                .map(Maximizer.best.equipment::get)
+                .allMatch(EquipmentRequest.UNEQUIP::equals));
+      }
+    }
+
     @Nested
     class Tiebreaking {
       @Test
@@ -4123,6 +4146,36 @@ public class MaximizerTest {
         }
       }
 
+      @Test
+      void buysOnlyMissingStorageCopiesForCodpieceSlots() {
+        var onyx = ItemPool.get("unearthly onyx", 1);
+        var previousStorageMeat = KoLCharacter.getStorageMeat();
+        KoLCharacter.setStorageMeat(100_000);
+        var cleanups =
+            new Cleanups(
+                withItemInStorage(onyx.getItemId(), 2),
+                withHardcore(false),
+                withInteractivity(false),
+                withProperty("autoSatisfyWithMall", true),
+                new Cleanups(() -> KoLCharacter.setStorageMeat(previousStorageMeat)));
+
+        try (cleanups;
+            var mallPriceDatabase =
+                Mockito.mockStatic(MallPriceDatabase.class, Mockito.CALLS_REAL_METHODS)) {
+          mallPriceDatabase
+              .when(() -> MallPriceDatabase.getPrice(onyx.getItemId()))
+              .thenReturn(1_000L);
+
+          var checked =
+              new CheckedItem(
+                  onyx.getItemId(), EquipScope.SPECULATE_ANY, 1_001, PriceLevel.BUYABLE_ONLY);
+
+          assertThat(checked.pullable, equalTo(2));
+          assertThat(checked.pullBuyable, equalTo(3));
+          assertThat(checked.getAvailableCount(), equalTo(5));
+        }
+      }
+
       @ParameterizedTest
       @CsvSource({"999, 0", "1001, 5"})
       void mallPriceLimitControlsCodpieceGemAvailability(int maxPrice, long expectedGemCount) {
@@ -4144,6 +4197,9 @@ public class MaximizerTest {
               .thenReturn(1_000L);
           mallPriceManager
               .when(() -> MallPriceManager.getMallPrice(onyx.getItemId()))
+              .thenReturn(1_000L);
+          mallPriceManager
+              .when(() -> MallPriceManager.getMallPrice(onyx.getItemId(), 7.0f))
               .thenReturn(1_000L);
 
           assertTrue(
