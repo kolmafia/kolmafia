@@ -32,9 +32,13 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.ZodiacSign;
+import net.sourceforge.kolmafia.modifiers.BitmapModifier;
+import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.Lookup;
+import net.sourceforge.kolmafia.modifiers.Modifier;
 import net.sourceforge.kolmafia.modifiers.ModifierList;
+import net.sourceforge.kolmafia.modifiers.ModifierList.ModifierValue;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
@@ -516,32 +520,43 @@ public class TCRSDatabase {
     }
   }
 
-  private static List<String> carriedOverModifiers(final int itemId) {
-    var modifiers = ModifierDatabase.getItemModifiers(itemId);
-    if (modifiers == null) {
-      return List.of();
-    }
+  /**
+   * The item's CARRIED_OVER modifiers, taken verbatim from its base modifier string. These cannot
+   * be read back from the item description, so introspection has to restore them from the base
+   * item. Read raw rather than from a {@link net.sourceforge.kolmafia.Modifiers}: an expression
+   * value like "[env(underwater)]" is an innate, context-dependent property, and evaluating it here
+   * would bake in the deriving context (usually zero, which reads as absent).
+   *
+   * <p>Returned in CARRIED_OVER order, which is sorted by name, so the output is reproducible.
+   */
+  /**
+   * The modifier a modifier-string entry denotes. Entries are written as tags, which match a
+   * modifier by pattern rather than by name: "Look like a Pirate" is the Pirate modifier, and "Item
+   * Drop (sporadic)" is Sporadic Item Drop. Comparing text against getName() misses both.
+   */
+  private static Modifier resolveModifier(final ModifierValue value) {
+    var tag = value.toString();
+    Modifier mod = DoubleModifier.byTagPattern(tag);
+    if (mod == null) mod = BooleanModifier.byTagPattern(tag);
+    if (mod == null) mod = BitmapModifier.byTagPattern(tag);
+    if (mod == null) mod = StringModifier.byTagPattern(tag);
+    return mod;
+  }
 
-    return CARRIED_OVER.stream()
-        .map(
-            mod -> {
-              var name = mod.getName();
-              if (mod instanceof StringModifier m) {
-                if (m.isMultiple()) {
-                  var value = modifiers.getStrings(m);
-                  if (!value.isEmpty())
-                    return value.stream()
-                        .map(s -> name + ": \"" + s + "\"")
-                        .collect(Collectors.joining(", "));
-                } else {
-                  var value = modifiers.getString(m);
-                  if (!value.isBlank()) return name + ": \"" + value + "\"";
-                }
-              }
-              return "";
-            })
-        .filter(Predicate.not(String::isBlank))
-        .toList();
+  private static List<ModifierValue> carriedOverModifiers(final int itemId) {
+    var byModifier = new HashMap<Modifier, List<ModifierValue>>();
+    for (var m : rawModifiers(itemId)) {
+      var mod = resolveModifier(m);
+      if (mod != null && CARRIED_OVER.contains(mod)) {
+        byModifier.computeIfAbsent(mod, k -> new ArrayList<>()).add(m);
+      }
+    }
+    // CARRIED_OVER iterates in name order, so the output is reproducible.
+    var carried = new ArrayList<ModifierValue>();
+    for (var mod : CARRIED_OVER) {
+      carried.addAll(byModifier.getOrDefault(mod, List.of()));
+    }
+    return carried;
   }
 
   private static TCRS introspectItem(final int itemId, final String text) {
@@ -550,19 +565,19 @@ public class TCRSDatabase {
     int size = DebugDatabase.parseConsumableSize(text);
     var quality = DebugDatabase.parseQuality(text);
     ArrayList<String> unknown = new ArrayList<>();
-    StringBuilder modifiers =
-        new StringBuilder(
+    var modifiers =
+        ModifierDatabase.splitModifiers(
             DebugDatabase.parseItemEnchantments(text, unknown, ConsumptionType.UNKNOWN));
 
-    var carriedOver = carriedOverModifiers(itemId);
-    for (var mod : carriedOver) {
-      if (modifiers.toString().contains(mod)) {
-        continue;
+    // Compare whole modifiers, not substrings: "Thorns: 1" is a substring of "Sporadic Thorns: 1".
+    var present = new HashSet<String>();
+    for (var m : modifiers) {
+      present.add(m.toString());
+    }
+    for (var mod : carriedOverModifiers(itemId)) {
+      if (present.add(mod.toString())) {
+        modifiers.addModifier(mod);
       }
-      if (!modifiers.toString().isBlank()) {
-        modifiers.append(", ");
-      }
-      modifiers.append(mod);
     }
 
     // Create and return the TCRS object

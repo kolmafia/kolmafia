@@ -6,6 +6,7 @@ import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withSign;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
@@ -454,6 +455,133 @@ class TCRSDatabaseTest {
           ring.modifiers,
           equalTo(
               "Hot Resistance: +1, Conditional Skill (Equipped): \"Tell a Skeleton What To Do\", Conditional Skill (Equipped): \"Tell This Skeleton What To Do\""));
+    }
+  }
+
+  /**
+   * A description page with a name and no enchantments, so only carry-over can supply modifiers.
+   */
+  private static String bareDescription(final int itemId, final String name) {
+    return "<html><body><div id=\"description\" class=small><center><b>"
+        + name
+        + "</b></center><p><blockquote>A hat.<!-- itemid: "
+        + itemId
+        + " --><br><br>Type: <b>hat</b><br>Power: <b>100</b><br>Selling Price: <b>50 Meat.</b>"
+        + "</blockquote><script type=\"text/javascript\"></script></div></body></html>";
+  }
+
+  @Test
+  void nonStringModifiersAlsoCarryOver() {
+    var cleanups =
+        new Cleanups(
+            withPath(Path.CRAZY_RANDOM_SUMMER_TWO),
+            withClass(AscensionClass.SEAL_CLUBBER),
+            withSign(ZodiacSign.MONGOOSE));
+
+    // marble mariachi hat: Last Available (a String) and Thorns (a Double) are both in
+    // CARRIED_OVER, and neither is readable from the item description, so introspection must
+    // add both back.
+    int itemId = 10095;
+
+    try (cleanups) {
+      ModifierDatabase.resetModifiers();
+      DebugDatabase.cacheItemDescriptionText(
+          itemId, bareDescription(itemId, "marble mariachi hat"));
+
+      var hat = TCRSDatabase.introspectItem(itemId);
+      assertThat(hat, not(nullValue()));
+      assertThat(hat.modifiers, containsString("Last Available: \"2019-12\""));
+      assertThat(hat.modifiers, containsString("Thorns: 1"));
+    }
+  }
+
+  @Test
+  void expressionValuedModifiersCarryOverVerbatim() {
+    var cleanups =
+        new Cleanups(
+            withPath(Path.CRAZY_RANDOM_SUMMER_TWO),
+            withClass(AscensionClass.SEAL_CLUBBER),
+            withSign(ZodiacSign.MONGOOSE));
+
+    // eelskin hat's Thorns is "[env(underwater)]" -- an innate, context-dependent property, not a
+    // fixed value. Evaluating it here would yield 0 (we aren't underwater) and read as absent, so
+    // it has to be carried over as written.
+    int itemId = ItemPool.EELSKIN_HAT;
+
+    try (cleanups) {
+      ModifierDatabase.resetModifiers();
+      DebugDatabase.cacheItemDescriptionText(itemId, bareDescription(itemId, "eelskin hat"));
+
+      var hat = TCRSDatabase.introspectItem(itemId);
+      assertThat(hat, not(nullValue()));
+      assertThat(hat.modifiers, containsString("Thorns: [env(underwater)]"));
+    }
+  }
+
+  @Test
+  void bitmapModifiersKeepTheirLevel() {
+    var cleanups =
+        new Cleanups(
+            withPath(Path.CRAZY_RANDOM_SUMMER_TWO),
+            withClass(AscensionClass.SEAL_CLUBBER),
+            withSign(ZodiacSign.MONGOOSE));
+
+    // A bitmap modifier carries a level in modifiers.txt ("Raveosity: +2"). Emitting the bare tag
+    // would silently drop the rave visor from 2 points of Raveosity to 1.
+    int itemId = ItemPool.RAVE_VISOR;
+
+    try (cleanups) {
+      ModifierDatabase.resetModifiers();
+      DebugDatabase.cacheItemDescriptionText(itemId, bareDescription(itemId, "rave visor"));
+
+      var visor = TCRSDatabase.introspectItem(itemId);
+      assertThat(visor, not(nullValue()));
+      assertThat(visor.modifiers, containsString("Raveosity: +2"));
+    }
+  }
+
+  @Test
+  void modifiersWhoseTagDiffersFromTheirNameCarryOver() {
+    var cleanups =
+        new Cleanups(
+            withPath(Path.CRAZY_RANDOM_SUMMER_TWO),
+            withClass(AscensionClass.SEAL_CLUBBER),
+            withSign(ZodiacSign.MONGOOSE));
+
+    // A modifier string writes the tag, not the name: Sporadic Item Drop is written "Item Drop
+    // (sporadic)". Matching on the name alone loses the Mayflower bouquet's sporadic drops.
+    int itemId = ItemPool.MAYFLOWER_BOUQUET;
+
+    try (cleanups) {
+      ModifierDatabase.resetModifiers();
+      DebugDatabase.cacheItemDescriptionText(itemId, bareDescription(itemId, "Mayflower bouquet"));
+
+      var bouquet = TCRSDatabase.introspectItem(itemId);
+      assertThat(bouquet, not(nullValue()));
+      assertThat(bouquet.modifiers, containsString("Item Drop (sporadic): +2.5"));
+      assertThat(bouquet.modifiers, containsString("Meat Drop (sporadic): +5"));
+    }
+  }
+
+  @Test
+  void patternMatchedTagsCarryOver() {
+    var cleanups =
+        new Cleanups(
+            withPath(Path.CRAZY_RANDOM_SUMMER_TWO),
+            withClass(AscensionClass.SEAL_CLUBBER),
+            withSign(ZodiacSign.MONGOOSE));
+
+    // A modifier string entry matches its modifier by pattern, not by name: "Look like a Pirate"
+    // is the Pirate modifier. Resolving by name alone loses it.
+    int itemId = ItemPool.PIRATE_FLEDGES;
+
+    try (cleanups) {
+      ModifierDatabase.resetModifiers();
+      DebugDatabase.cacheItemDescriptionText(itemId, bareDescription(itemId, "pirate fledges"));
+
+      var fledges = TCRSDatabase.introspectItem(itemId);
+      assertThat(fledges, not(nullValue()));
+      assertThat(fledges.modifiers, containsString("Look like a Pirate"));
     }
   }
 
