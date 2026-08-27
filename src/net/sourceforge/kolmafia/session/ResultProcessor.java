@@ -304,9 +304,9 @@ public class ResultProcessor {
   // <b>Discomfited</b><br>(duration: 30 Adventures)</td></tr></table>
   // <table><tr><td><img class=hand
   // src="https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/strboost.gif"
-  // onClick='eff("332e06d519892d99db38ab7f918b1edf");' width=30 height=30 alt="The Strength...  of
-  // the Future" title="The Strength...  of the Future"></td><td valign=center class=effect>You
-  // acquire an effect: <b>The Strength...  of the Future</b><br>(duration: 20
+  // onClick='eff("332e06d519892d99db38ab7f918b1edf");' width=30 height=30 alt="The Strength... of
+  // the Future" title="The Strength... of the Future"></td><td valign=center class=effect>You
+  // acquire an effect: <b>The Strength... of the Future</b><br>(duration: 20
   // Adventures)</td></tr></table>
 
   public static Pattern BIRD_PATTERN = Pattern.compile("Blessing of the (.*)");
@@ -710,7 +710,7 @@ public class ResultProcessor {
     // Sacr&eacute; Mental
     // Sacré Mental
     // The Strength... of the Future
-    // The Strength...  of the Future
+    // The Strength... of the Future
     return name1.equals(name2)
         || StringUtilities.getEntityDecode(name1).equals(StringUtilities.getEntityDecode(name2));
   }
