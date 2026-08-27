@@ -106,7 +106,9 @@ public enum BooleanModifier implements Modifier {
   ALL_SPELLS_CAST_ARE_SLEAZY(
       "All Spells Cast Are Sleazy",
       Pattern.compile("All Spells Cast Are Sleazy"),
-      Pattern.compile("All Spells Cast Are Sleazy"));
+      Pattern.compile("All Spells Cast Are Sleazy")),
+  SUPER_ACCURATE(
+      "Super Accurate!", Pattern.compile("Super Accurate!"), Pattern.compile("Super Accurate!"));
 
   private final String name;
   private final Pattern[] descPatterns;
@@ -164,7 +166,8 @@ public enum BooleanModifier implements Modifier {
           NEGATIVE_STATUS_RESIST,
           NEVER_FUMBLE,
           WEAKENS,
-          WEAKENS_MONSTER_ON_CRITICAL_HIT);
+          WEAKENS_MONSTER_ON_CRITICAL_HIT,
+          SUPER_ACCURATE);
 
   @Override
   public boolean isEnchantment() {
