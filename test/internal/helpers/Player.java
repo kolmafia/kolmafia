@@ -3045,6 +3045,7 @@ public class Player {
     return new Cleanups(
         () -> {
           MallPriceManager.reset();
+          MallPriceDatabase.reset();
           MallPriceDatabase.savePricesToFile = true;
         });
   }
@@ -3063,6 +3064,7 @@ public class Player {
     return new Cleanups(
         () -> {
           MallPriceManager.reset();
+          MallPriceDatabase.reset();
           MallPriceDatabase.savePricesToFile = true;
         });
   }
