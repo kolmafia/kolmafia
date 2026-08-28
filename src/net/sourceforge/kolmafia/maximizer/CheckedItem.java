@@ -19,7 +19,6 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.ThriftyRequest;
 import net.sourceforge.kolmafia.request.coinmaster.MrStoreRequest;
-import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.MallPriceManager;
 
@@ -40,14 +39,6 @@ public class CheckedItem extends AdventureResult {
 
     boolean isCodpieceGem = EquipmentRequest.isCodpieceGem(itemId);
     this.initial = InventoryManager.getAccessibleCount(itemId, true, ignoreStandardRestriction);
-    if (isCodpieceGem) {
-      this.initial +=
-          (int)
-              SlotSet.CODPIECE_SLOTS.stream()
-                  .map(EquipmentManager::getEquipment)
-                  .filter(item -> item != null && item.getItemId() == itemId)
-                  .count();
-    }
 
     // special case used to get a CheckItem that .equals( EquipmentRequest.UNEQUIP ).
     if (itemId == -1) {
