@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.modifiers.BitmapModifier;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.DerivedModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
@@ -2023,6 +2024,19 @@ public class ModifiersTest {
     plainSet.set(source);
     assertThat(plainSet.getDouble(DoubleModifier.INITIATIVE), equalTo(50.0));
     assertThat(plainSet.getAccumulator(DoubleModifier.INITIATIVE), equalTo(0.0));
+  }
+
+  @Test
+  public void addsOnlyPresentBitmapAndBooleanModifiers() {
+    Modifiers source = new Modifiers();
+    source.setBitmap(BitmapModifier.CLOWNINESS, 1);
+    source.setBoolean(BooleanModifier.BREAKABLE, true);
+
+    Modifiers target = new Modifiers();
+    target.add(source);
+
+    assertThat(target.getRawBitmap(BitmapModifier.CLOWNINESS), equalTo(1));
+    assertThat(target.getBoolean(BooleanModifier.BREAKABLE), is(true));
   }
 
   @Test

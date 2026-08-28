@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.modifiers;
 
 import java.util.EnumSet;
+import java.util.function.Consumer;
 
 public class BooleanModifierCollection {
   private final EnumSet<BooleanModifier> booleans = EnumSet.noneOf(BooleanModifier.class);
@@ -24,5 +25,9 @@ public class BooleanModifierCollection {
 
   public EnumSet<BooleanModifier> raw() {
     return this.booleans.clone();
+  }
+
+  public void forEach(Consumer<? super BooleanModifier> action) {
+    this.booleans.forEach(action);
   }
 }

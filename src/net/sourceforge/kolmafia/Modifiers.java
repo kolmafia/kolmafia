@@ -441,6 +441,10 @@ public class Modifiers {
     return this.strings.getList(modifier);
   }
 
+  public boolean hasString(final StringModifier modifier) {
+    return modifier != null && this.strings.contains(modifier);
+  }
+
   public double getAccumulator(final DoubleModifier modifier) {
     if (modifier == null) {
       // For now, make it obvious that something went wrong
@@ -716,16 +720,10 @@ public class Modifiers {
     // OR in the bitmap modifiers
     var mutexes = this.bitmaps.get(BitmapModifier.MUTEX) & mods.bitmaps.get(BitmapModifier.MUTEX);
     this.bitmaps.add(BitmapModifier.MUTEX_VIOLATIONS, mutexes);
-    for (var mod : BitmapModifier.BITMAP_MODIFIERS) {
-      this.bitmaps.add(mod, mods.bitmaps.get(mod));
-    }
+    mods.bitmaps.forEach(this.bitmaps::add);
 
     // OR in the boolean modifiers
-    for (var mod : BooleanModifier.BOOLEAN_MODIFIERS) {
-      if (mods.booleans.get(mod)) {
-        this.booleans.set(mod, true);
-      }
-    }
+    mods.booleans.forEach(mod -> this.booleans.set(mod, true));
   }
 
   public boolean setModifier(final ModifierValue mod) {

@@ -33,6 +33,10 @@ public class StringModifierCollection {
     return entry.getListValue();
   }
 
+  public boolean contains(final StringModifier mod) {
+    return this.strings.containsKey(mod);
+  }
+
   public boolean set(final StringModifier mod, final String value) {
     return set(mod, new StringOrList(value));
   }

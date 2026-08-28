@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.modifiers;
 
 import java.util.EnumMap;
 import java.util.Map;
+import java.util.function.BiConsumer;
 
 public class BitmapModifierCollection {
   private final Map<BitmapModifier, Integer> bitmaps = new EnumMap<>(BitmapModifier.class);
@@ -29,5 +30,9 @@ public class BitmapModifierCollection {
 
   public double add(final BitmapModifier mod, final Integer value) {
     return this.bitmaps.merge(mod, value, (v1, v2) -> v1 | v2);
+  }
+
+  public void forEach(BiConsumer<? super BitmapModifier, ? super Integer> action) {
+    this.bitmaps.forEach(action);
   }
 }
