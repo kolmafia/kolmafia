@@ -10,6 +10,11 @@ public class BitmapModifierCollection {
     this.bitmaps.clear();
   }
 
+  public void set(BitmapModifierCollection source) {
+    this.bitmaps.clear();
+    this.bitmaps.putAll(source.bitmaps);
+  }
+
   public Integer get(final BitmapModifier mod) {
     return this.bitmaps.getOrDefault(mod, 0);
   }

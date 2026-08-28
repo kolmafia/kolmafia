@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.maximizer;
 
 import java.util.EnumMap;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +12,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.WeaponType;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.Speculation;
@@ -18,6 +20,7 @@ import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.modifiers.BitmapModifier;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
@@ -32,6 +35,68 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 public class MaximizerSpeculation extends Speculation
     implements Comparable<MaximizerSpeculation>, Cloneable {
   private static final Slot[] CODPIECE_SLOTS = SlotSet.CODPIECE_SLOTS.toArray(Slot[]::new);
+  private static final EnumSet<DoubleModifier> SAFE_LATE_CODPIECE_DOUBLE_MODIFIERS =
+      EnumSet.of(
+          DoubleModifier.ADVENTURES,
+          DoubleModifier.BOOZEDROP,
+          DoubleModifier.BUGBEAR_DAMAGE,
+          DoubleModifier.CANDYDROP,
+          DoubleModifier.COLD_DAMAGE,
+          DoubleModifier.COLD_RESISTANCE,
+          DoubleModifier.COLD_SPELL_DAMAGE,
+          DoubleModifier.DAMAGE_ABSORPTION,
+          DoubleModifier.DAMAGE_REDUCTION,
+          DoubleModifier.FAMILIAR_DAMAGE,
+          DoubleModifier.FAMILIAR_EXP,
+          DoubleModifier.FAMILIAR_WEIGHT,
+          DoubleModifier.FISHING_SKILL,
+          DoubleModifier.FOODDROP,
+          DoubleModifier.GHOST_DAMAGE,
+          DoubleModifier.HOT_DAMAGE,
+          DoubleModifier.HOT_RESISTANCE,
+          DoubleModifier.HOT_SPELL_DAMAGE,
+          DoubleModifier.HP,
+          DoubleModifier.HP_PCT,
+          DoubleModifier.HP_REGEN_MAX,
+          DoubleModifier.HP_REGEN_MIN,
+          DoubleModifier.INITIATIVE,
+          DoubleModifier.ITEMDROP,
+          DoubleModifier.MEATDROP,
+          DoubleModifier.MONSTER_LEVEL,
+          DoubleModifier.MOX,
+          DoubleModifier.MOX_EXPERIENCE,
+          DoubleModifier.MOX_PCT,
+          DoubleModifier.MP,
+          DoubleModifier.MP_PCT,
+          DoubleModifier.MP_REGEN_MAX,
+          DoubleModifier.MP_REGEN_MIN,
+          DoubleModifier.MUS,
+          DoubleModifier.MUS_EXPERIENCE,
+          DoubleModifier.MUS_PCT,
+          DoubleModifier.MYS,
+          DoubleModifier.MYS_EXPERIENCE,
+          DoubleModifier.MYS_PCT,
+          DoubleModifier.PICKPOCKET_CHANCE,
+          DoubleModifier.POOL_SKILL,
+          DoubleModifier.PVP_FIGHTS,
+          DoubleModifier.SEAL_DAMAGE,
+          DoubleModifier.SLEAZE_DAMAGE,
+          DoubleModifier.SLEAZE_RESISTANCE,
+          DoubleModifier.SLEAZE_SPELL_DAMAGE,
+          DoubleModifier.SPOOKY_DAMAGE,
+          DoubleModifier.SPOOKY_RESISTANCE,
+          DoubleModifier.SPELL_DAMAGE_PCT,
+          DoubleModifier.SPOOKY_SPELL_DAMAGE,
+          DoubleModifier.STENCH_DAMAGE,
+          DoubleModifier.STENCH_RESISTANCE,
+          DoubleModifier.STENCH_SPELL_DAMAGE,
+          DoubleModifier.VAMPIRE_DAMAGE,
+          DoubleModifier.WEAPON_DAMAGE,
+          DoubleModifier.WEAPON_DAMAGE_PCT,
+          DoubleModifier.WEREWOLF_DAMAGE,
+          DoubleModifier.ZOMBIE_DAMAGE);
+  private static final EnumSet<StringModifier> SAFE_LATE_CODPIECE_STRING_MODIFIERS =
+      EnumSet.of(StringModifier.CONDITIONAL_SKILL_EQUIPPED, StringModifier.MODIFIERS);
 
   private boolean scored = false;
   private boolean tiebreakered = false;
@@ -43,6 +108,9 @@ public class MaximizerSpeculation extends Speculation
   public boolean failed = false;
   public CheckedItem attachment;
   private boolean foldables = false;
+  private LateCodpieceCache lateCodpieceCache;
+
+  private record LateCodpieceCache(Modifiers baseline, Modifiers fightMods, List<Slot> slots) {}
 
   @Override
   public MaximizerSpeculation clone() {
@@ -50,10 +118,32 @@ public class MaximizerSpeculation extends Speculation
       MaximizerSpeculation copy = (MaximizerSpeculation) super.clone();
       copy.equipment = this.equipment.clone();
       copy.setModeables(new EnumMap<>(this.getModeables()));
+      copy.lateCodpieceCache = null;
       return copy;
     } catch (CloneNotSupportedException e) {
       return null;
     }
+  }
+
+  @Override
+  public Modifiers calculate() {
+    if (this.lateCodpieceCache == null) {
+      return super.calculate();
+    }
+
+    Modifiers newModifiers = new Modifiers(this.lateCodpieceCache.baseline());
+    KoLCharacter.addEternityCodpieceAdjustments(
+        this.lateCodpieceCache.slots(), this.equipment, newModifiers);
+    this.mods =
+        KoLCharacter.applyAdjustmentSuffix(
+            false,
+            newModifiers,
+            this.lateCodpieceCache.fightMods(),
+            this.equipment,
+            this.getEffects(),
+            true);
+    this.calculated = true;
+    return this.mods;
   }
 
   @Override
@@ -840,8 +930,16 @@ public class MaximizerSpeculation extends Speculation
         requiredCount++;
       }
     }
-    this.tryCodpieceGems(codpieceGems, codpieceSlots, remaining, required, requiredCount, 0, 0);
-    this.restore(mark);
+    try {
+      this.lateCodpieceCache =
+          this.canUseLateCodpieceCache(codpieceGems, codpieceSlots)
+              ? this.primeLateCodpieceCache(codpieceSlots)
+              : null;
+      this.tryCodpieceGems(codpieceGems, codpieceSlots, remaining, required, requiredCount, 0, 0);
+    } finally {
+      this.lateCodpieceCache = null;
+      this.restore(mark);
+    }
   }
 
   private void releaseCodpieceGemsNeededElsewhere() {
@@ -873,6 +971,102 @@ public class MaximizerSpeculation extends Speculation
         this.equipment.put(slot, EquipmentRequest.UNEQUIP);
       }
     }
+  }
+
+  private boolean canUseLateCodpieceCache(List<CheckedItem> possibles, List<Slot> slots) {
+    FamiliarData familiar = this.getFamiliar();
+    if (familiar != null && familiar != FamiliarData.NO_FAMILIAR) {
+      return false;
+    }
+
+    for (Slot slot : slots) {
+      AdventureResult equipped = this.equipment.get(slot);
+      if (equipped != null
+          && equipped != EquipmentRequest.UNEQUIP
+          && !this.isSafeLateCodpieceGem(equipped.getItemId())) {
+        return false;
+      }
+    }
+
+    for (CheckedItem possible : possibles) {
+      if (!this.isSafeLateCodpieceGem(possible.getItemId())) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  private LateCodpieceCache primeLateCodpieceCache(List<Slot> slots) {
+    var mark = this.mark();
+    try {
+      for (Slot slot : slots) {
+        this.equipment.put(slot, EquipmentRequest.UNEQUIP);
+      }
+
+      var prefix =
+          KoLCharacter.recalculateAdjustmentsPrefix(
+              false,
+              this.getMindControlLevel(),
+              this.equipment,
+              this.getEffects(),
+              this.getFamiliar(),
+              this.getEnthroned(),
+              this.getBjorned(),
+              this.getCustom(),
+              this.getHorsery(),
+              this.getBoomBox(),
+              this.getModeables(),
+              true);
+      return new LateCodpieceCache(prefix.modifiers(), prefix.fightMods(), List.copyOf(slots));
+    } finally {
+      this.restore(mark);
+    }
+  }
+
+  private boolean isSafeLateCodpieceGem(int itemId) {
+    Modifiers modifiers = ModifierDatabase.getModifiers(ModifierType.ETERNITY_CODPIECE, itemId);
+    if (modifiers == null) {
+      return true;
+    }
+
+    for (DoubleModifier modifier : DoubleModifier.values()) {
+      if (modifier == DoubleModifier.PRISMATIC_DAMAGE
+          || modifier == DoubleModifier.RAW_COMBAT_RATE) {
+        continue;
+      }
+      if (!SAFE_LATE_CODPIECE_DOUBLE_MODIFIERS.contains(modifier)
+          && (modifiers.getDouble(modifier) != 0.0 || !modifiers.getDoubles(modifier).isEmpty())) {
+        return false;
+      }
+    }
+
+    for (BitmapModifier modifier : BitmapModifier.values()) {
+      if (modifiers.getRawBitmap(modifier) != 0) {
+        return false;
+      }
+    }
+
+    for (BooleanModifier modifier : BooleanModifier.values()) {
+      if (modifiers.getBoolean(modifier)) {
+        return false;
+      }
+    }
+
+    for (StringModifier modifier : StringModifier.values()) {
+      if (modifier == StringModifier.EVALUATED_MODIFIERS) {
+        continue;
+      }
+      boolean present =
+          modifier.isMultiple()
+              ? !modifiers.getStrings(modifier).isEmpty()
+              : !modifiers.getString(modifier).isEmpty();
+      if (present && !SAFE_LATE_CODPIECE_STRING_MODIFIERS.contains(modifier)) {
+        return false;
+      }
+    }
+
+    return true;
   }
 
   private void tryCodpieceGems(

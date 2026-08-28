@@ -15,6 +15,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.AscensionPath.Path;
@@ -5118,6 +5119,39 @@ public abstract class KoLCharacter {
       String boomBox,
       Map<Modeable, String> modeables,
       boolean speculation) {
+    var prefix =
+        KoLCharacter.recalculateAdjustmentsPrefix(
+            debug,
+            MCD,
+            equipment,
+            effects,
+            familiar,
+            enthroned,
+            bjorned,
+            custom,
+            horsery,
+            boomBox,
+            modeables,
+            speculation);
+    return KoLCharacter.applyAdjustmentSuffix(
+        debug, prefix.modifiers(), prefix.fightMods(), equipment, effects, speculation);
+  }
+
+  public static record AdjustmentPrefix(Modifiers modifiers, Modifiers fightMods) {}
+
+  public static final AdjustmentPrefix recalculateAdjustmentsPrefix(
+      boolean debug,
+      int MCD,
+      Map<Slot, AdventureResult> equipment,
+      List<AdventureResult> effects,
+      FamiliarData familiar,
+      FamiliarData enthroned,
+      FamiliarData bjorned,
+      String custom,
+      String horsery,
+      String boomBox,
+      Map<Modeable, String> modeables,
+      boolean speculation) {
     int taoFactor = KoLCharacter.hasSkill(SkillPool.TAO_OF_THE_TERRAPIN) ? 2 : 1;
 
     Modifiers newModifiers = debug ? new DebugModifiers() : new Modifiers();
@@ -5530,6 +5564,17 @@ public abstract class KoLCharacter {
     // free rests
     newModifiers.applyAdditionalFreeRestModifiers();
 
+    return new AdjustmentPrefix(newModifiers, fightMods);
+  }
+
+  public static final Modifiers applyAdjustmentSuffix(
+      boolean debug,
+      Modifiers newModifiers,
+      Modifiers fightMods,
+      Map<Slot, AdventureResult> equipment,
+      List<AdventureResult> effects,
+      boolean speculation) {
+
     // Lastly, experience adjustment also implicitly depends on
     // monster level.  Add that information.
 
@@ -5831,14 +5876,7 @@ public abstract class KoLCharacter {
         case ItemPool.PRISMATIC_BERET ->
             newModifiers.applyPrismaticBeretModifiers(getTotalPower(equipment::get));
         case ItemPool.THE_ETERNITY_CODPIECE ->
-            SlotSet.CODPIECE_SLOTS.stream()
-                .map(equipment::get)
-                .filter(s -> s != null && s != EquipmentRequest.UNEQUIP)
-                .map(AdventureResult::getItemId)
-                .forEach(
-                    (id) ->
-                        newModifiers.add(
-                            ModifierDatabase.getModifiers(ModifierType.ETERNITY_CODPIECE, id)));
+            KoLCharacter.addEternityCodpieceAdjustments(equipment, newModifiers);
         default -> {
           var modeable = Modeable.find(itemId);
           if (modeable != null) {
@@ -5925,6 +5963,23 @@ public abstract class KoLCharacter {
           break;
       }
     }
+  }
+
+  public static void addEternityCodpieceAdjustments(
+      Map<Slot, AdventureResult> equipment, Modifiers newModifiers) {
+    KoLCharacter.addEternityCodpieceAdjustments(SlotSet.CODPIECE_SLOTS, equipment, newModifiers);
+  }
+
+  public static void addEternityCodpieceAdjustments(
+      Iterable<Slot> slots, Map<Slot, AdventureResult> equipment, Modifiers newModifiers) {
+    StreamSupport.stream(slots.spliterator(), false)
+        .map(equipment::get)
+        .filter(s -> s != null && s != EquipmentRequest.UNEQUIP)
+        .map(AdventureResult::getItemId)
+        .forEach(
+            (id) ->
+                newModifiers.add(
+                    ModifierDatabase.getModifiers(ModifierType.ETERNITY_CODPIECE, id)));
   }
 
   private static final AdventureResult HAMMERTIME = EffectPool.get(EffectPool.HAMMERTIME);

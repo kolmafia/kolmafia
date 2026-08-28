@@ -12,6 +12,11 @@ public class StringModifierCollection {
     this.strings.clear();
   }
 
+  public void set(StringModifierCollection source) {
+    this.strings.clear();
+    this.strings.putAll(source.strings);
+  }
+
   private StringOrList get(final StringModifier mod) {
     return this.strings.getOrDefault(mod, new StringOrList(""));
   }

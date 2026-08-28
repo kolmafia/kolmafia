@@ -2008,6 +2008,24 @@ public class ModifiersTest {
   }
 
   @Test
+  public void copyConstructorCopiesAccumulators() {
+    Modifiers source = new Modifiers();
+    source.addDouble(DoubleModifier.INITIATIVE, 50, ModifierType.NONE, "");
+
+    assertThat(source.getDouble(DoubleModifier.INITIATIVE), equalTo(50.0));
+    assertThat(source.getAccumulator(DoubleModifier.INITIATIVE), equalTo(50.0));
+
+    Modifiers copy = new Modifiers(source);
+    assertThat(copy.getDouble(DoubleModifier.INITIATIVE), equalTo(50.0));
+    assertThat(copy.getAccumulator(DoubleModifier.INITIATIVE), equalTo(50.0));
+
+    Modifiers plainSet = new Modifiers();
+    plainSet.set(source);
+    assertThat(plainSet.getDouble(DoubleModifier.INITIATIVE), equalTo(50.0));
+    assertThat(plainSet.getAccumulator(DoubleModifier.INITIATIVE), equalTo(0.0));
+  }
+
+  @Test
   public void copyConstructorKeepsExpressions() {
     var cleanups = new Cleanups(withEquipped(Slot.WEAPON, ItemPool.SEAL_CLUB));
 

@@ -9,6 +9,11 @@ public class BooleanModifierCollection {
     this.booleans.clear();
   }
 
+  public void set(BooleanModifierCollection source) {
+    this.booleans.clear();
+    this.booleans.addAll(source.booleans);
+  }
+
   public boolean get(final BooleanModifier mod) {
     return this.booleans.contains(mod);
   }
