@@ -2886,6 +2886,83 @@ public class MaximizerTest {
             getBoosts(), hasItem(recommendsSlot(Slot.CARDSLEEVE, "Alice's Army Foil Lanceman")));
       }
     }
+
+    @Test
+    public void canReplaceCardSleeveNonDestructively() {
+      // A card sleeve item can be switched non-destructively, we can consider it
+      // This is unlike the folder holder, which destroys the replaced item
+      var cleanups =
+          new Cleanups(
+              withEquippableItem(ItemPool.CARD_SLEEVE), withEquippableItem("Alice's Army Sniper"));
+
+      try (cleanups) {
+        maximizeAny("+equip card sleeve, Weapon Damage");
+        assertFalse(Maximizer.best.failed);
+        assertThat(getBoosts(), hasItem(recommends(ItemPool.CARD_SLEEVE)));
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.CARDSLEEVE)));
+      }
+    }
+  }
+
+  @Nested
+  class FolderHolder {
+    @Test
+    public void doesNotRecommendReplacingFolderDestructively() {
+      // Folders are destroyed when the slot is replaced, it's not handled by default
+      // This is unlike the card sleeve, which doesn't destroy the replaced item
+      var cleanups =
+          new Cleanups(
+              withEquippableItem(ItemPool.FOLDER_HOLDER), withEquippableItem("Folder (red)"));
+
+      try (cleanups) {
+        maximizeAny("+equip over-the-shoulder folder holder, muscle");
+        assertFalse(Maximizer.best.failed);
+        assertThat(getBoosts(), hasItem(recommends(ItemPool.FOLDER_HOLDER)));
+        assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.FOLDER1))));
+      }
+    }
+  }
+
+  @Nested
+  class StickerWeapon {
+    @Test
+    public void doesNotRecommendReplacingStickerDestructively() {
+      // Stickers are destroyed (peeled off) when the slot is replaced, it's not handled by
+      // default. This is unlike the card sleeve, which doesn't destroy the replaced item
+      var cleanups =
+          new Cleanups(
+              withEquippableItem(ItemPool.STICKER_SWORD),
+              withEquippableItem(ItemPool.UNICORN_STICKER));
+
+      try (cleanups) {
+        maximizeAny("+equip scratch 'n' sniff sword, muscle");
+        assertFalse(Maximizer.best.failed);
+        assertThat(getBoosts(), hasItem(recommends(ItemPool.STICKER_SWORD)));
+        assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.STICKER1))));
+      }
+    }
+  }
+
+  @Nested
+  class CowboyBoots {
+    @Test
+    public void doesNotRecommendReplacingBootDecorationsDestructively() {
+      // Boot skins and spurs are destroyed when the slot is replaced, it's not handled by
+      // default. This is unlike the card sleeve, which doesn't destroy the replaced item
+      var cleanups =
+          new Cleanups(
+              withEquippableItem(ItemPool.COWBOY_BOOTS),
+              withEquippableItem(ItemPool.MOUNTAIN_SKIN),
+              withEquippableItem(ItemPool.QUICKSILVER_SPURS));
+
+      try (cleanups) {
+        maximizeAny("+equip your cowboy boots, muscle");
+        assertFalse(Maximizer.best.failed);
+        assertThat(getBoosts(), hasItem(recommends(ItemPool.COWBOY_BOOTS)));
+        assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.BOOTSKIN))));
+        assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.BOOTSPUR))));
+      }
+    }
   }
 
   @Nested
