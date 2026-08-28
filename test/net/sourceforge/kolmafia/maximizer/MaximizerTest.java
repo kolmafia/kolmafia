@@ -2924,6 +2924,48 @@ public class MaximizerTest {
   }
 
   @Nested
+  class StickerWeapon {
+    @Test
+    public void doesNotRecommendReplacingStickerDestructively() {
+      // Stickers are destroyed (peeled off) when the slot is replaced, it's not handled by
+      // default. This is unlike the card sleeve, which doesn't destroy the replaced item
+      var cleanups =
+          new Cleanups(
+              withEquippableItem(ItemPool.STICKER_SWORD),
+              withEquippableItem(ItemPool.UNICORN_STICKER));
+
+      try (cleanups) {
+        maximizeAny("+equip scratch 'n' sniff sword, muscle");
+        assertFalse(Maximizer.best.failed);
+        assertThat(getBoosts(), hasItem(recommends(ItemPool.STICKER_SWORD)));
+        assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.STICKER1))));
+      }
+    }
+  }
+
+  @Nested
+  class CowboyBoots {
+    @Test
+    public void doesNotRecommendReplacingBootDecorationsDestructively() {
+      // Boot skins and spurs are destroyed when the slot is replaced, it's not handled by
+      // default. This is unlike the card sleeve, which doesn't destroy the replaced item
+      var cleanups =
+          new Cleanups(
+              withEquippableItem(ItemPool.COWBOY_BOOTS),
+              withEquippableItem(ItemPool.MOUNTAIN_SKIN),
+              withEquippableItem(ItemPool.QUICKSILVER_SPURS));
+
+      try (cleanups) {
+        maximizeAny("+equip your cowboy boots, muscle");
+        assertFalse(Maximizer.best.failed);
+        assertThat(getBoosts(), hasItem(recommends(ItemPool.COWBOY_BOOTS)));
+        assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.BOOTSKIN))));
+        assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.BOOTSPUR))));
+      }
+    }
+  }
+
+  @Nested
   class LegacyOfLoathing {
     @Test
     public void shouldNotSuggestPullingEquipmentInLegacyOfLoathing() {
