@@ -3715,7 +3715,8 @@ public class MaximizerTest {
               withEquippableItem(bloodCubicZirconia));
 
       try (cleanups) {
-        // Baseball is an offhand, not accessory. We're forcing it to rely on the codpiece to be equipped
+        // Baseball is an offhand, not accessory. We're forcing it to rely on the codpiece to be
+        // equipped
         assertTrue(
             maximize(
                 "+equip baseball diamond, +equip heartstone, +equip peridot, +equip blood cubic, -acc1, -offhand, -tie"));
@@ -3727,6 +3728,22 @@ public class MaximizerTest {
             SlotSet.CODPIECE_SLOTS.stream()
                 .map(Maximizer.best.equipment::get)
                 .anyMatch(item -> item.getItemId() == ItemPool.BASEBALL_DIAMOND));
+      }
+    }
+
+    @Test
+    void doesNotOverflowAccessoryShortlistWhenSlotIsUnequipped() {
+      var cleanups =
+          new Cleanups(
+              withItem(ItemPool.THE_ETERNITY_CODPIECE),
+              withItem(ItemPool.PERIDOT_OF_PERIL),
+              withItem("spring shoes"),
+              withItem("Portable Laughing Stock"),
+              withItem(ItemPool.HEARTSTONE));
+
+      try (cleanups) {
+        assertTrue(maximize("mana cost -tie"));
+        assertTrue(Maximizer.bestChecked < 100);
       }
     }
 

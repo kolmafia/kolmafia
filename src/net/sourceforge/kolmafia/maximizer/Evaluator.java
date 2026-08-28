@@ -2380,6 +2380,8 @@ public class Evaluator {
             // If we don't have one, and they aren't nothing, skip
             continue;
           }
+          // (none)'s Integer.MAX_VALUE count would overflow total/beeotches if counted here.
+          boolean leavesSlotEmpty = item.getItemId() == -1;
           if (KoLCharacter.inBeecore()
               && (b = KoLCharacter.getBeeosity(item.getName())) > 0) { // This item is a beeotch!
             // Don't count it towards the number of items desired
@@ -2390,26 +2392,30 @@ public class Evaluator {
               if (!automaticEntry.contains(item)) {
                 automaticEntry.add(item);
               }
-              beeotches += item.getCount();
-              beeosity += b * item.getCount();
+              if (!leavesSlotEmpty) {
+                beeotches += item.getCount();
+                beeosity += b * item.getCount();
+              }
             } else if (total < useful && beeotches < useful && beeosity < this.beeosity) {
               if (!automaticEntry.contains(item)) {
                 automaticEntry.add(item);
               }
-              beeotches += item.getCount();
-              beeosity += b * item.getCount();
+              if (!leavesSlotEmpty) {
+                beeotches += item.getCount();
+                beeosity += b * item.getCount();
+              }
             }
           } else if (item.automaticFlag) {
             if (!automaticEntry.contains(item)) {
               automaticEntry.add(item);
-              if (!item.conditionalFlag && item.getCount() >= foldItemsNeeded) {
+              if (!leavesSlotEmpty && !item.conditionalFlag && item.getCount() >= foldItemsNeeded) {
                 total += item.getCount();
               }
             }
           } else if (total < useful) {
             if (!automaticEntry.contains(item)) {
               automaticEntry.add(item);
-              if (!item.conditionalFlag && item.getCount() >= foldItemsNeeded) {
+              if (!leavesSlotEmpty && !item.conditionalFlag && item.getCount() >= foldItemsNeeded) {
                 total += item.getCount();
               }
             }
