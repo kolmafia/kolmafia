@@ -1815,25 +1815,29 @@ public class Evaluator {
     AdventureResult useCard = null;
 
     if (this.cardNeeded) {
-      MaximizerSpeculation best = new MaximizerSpeculation();
+      MaximizerSpeculation baseline = new MaximizerSpeculation();
 
       // Check each card in sleeve to see if they are worthwhile
+      List<CheckedItem> cardCandidates = new ArrayList<>();
       for (int c = 4967; c <= 5007; c++) {
         CheckedItem card = new CheckedItem(c, equipScope, maxPrice, priceLevel);
         AdventureResult equippedCard = EquipmentManager.getEquipment(Slot.CARDSLEEVE);
         if (card.getCount() > 0 || (equippedCard != null && c == equippedCard.getItemId())) {
-          MaximizerSpeculation spec = new MaximizerSpeculation();
-          CheckedItem sleeve =
-              new CheckedItem(ItemPool.CARD_SLEEVE, equipScope, maxPrice, priceLevel);
-          spec.attachment = sleeve;
-          spec.equipment.put(Slot.OFFHAND, sleeve);
-          spec.equipment.put(Slot.CARDSLEEVE, card);
-          if (spec.compareTo(best) > 0) {
-            best = spec.clone();
-            bestCard = card;
-          }
+          cardCandidates.add(card);
         }
       }
+      MaximizerSpeculation best =
+          MaximizerSpeculation.bestOf(
+              baseline,
+              cardCandidates,
+              (spec, card) -> {
+                CheckedItem sleeve =
+                    new CheckedItem(ItemPool.CARD_SLEEVE, equipScope, maxPrice, priceLevel);
+                spec.attachment = sleeve;
+                spec.equipment.put(Slot.OFFHAND, sleeve);
+                spec.equipment.put(Slot.CARDSLEEVE, card);
+              });
+      bestCard = best == baseline ? null : (CheckedItem) best.equipment.get(Slot.CARDSLEEVE);
     }
 
     Map<Modeable, String> bestModes =
@@ -1851,25 +1855,23 @@ public class Evaluator {
 
                       CheckedItem item =
                           new CheckedItem(modeable.getItemId(), equipScope, maxPrice, priceLevel);
-                      var bestMode = modeable.getState();
-                      MaximizerSpeculation best = new MaximizerSpeculation();
-                      best.attachment = item;
-                      best.equipment.put(modeable.getSlot(), item);
-                      best.setModeable(modeable, bestMode);
+                      MaximizerSpeculation baseline = new MaximizerSpeculation();
+                      baseline.attachment = item;
+                      baseline.equipment.put(modeable.getSlot(), item);
+                      baseline.setModeable(modeable, modeable.getState());
 
                       // Check each mode in modeable to determine the best
-                      for (String mode : modeable.getModes()) {
-                        MaximizerSpeculation spec = new MaximizerSpeculation();
-                        spec.attachment = item;
-                        spec.equipment.put(modeable.getSlot(), item);
-                        spec.setModeable(modeable, mode);
-                        if (spec.compareTo(best) > 0) {
-                          best = spec.clone();
-                          bestMode = mode;
-                        }
-                      }
+                      MaximizerSpeculation best =
+                          MaximizerSpeculation.bestOf(
+                              baseline,
+                              modeable.getModes(),
+                              (spec, mode) -> {
+                                spec.attachment = item;
+                                spec.equipment.put(modeable.getSlot(), item);
+                                spec.setModeable(modeable, mode);
+                              });
 
-                      return bestMode;
+                      return best.getModeables().get(modeable);
                     }));
 
     SlotList<MaximizerSpeculation> speculationList = new SlotList<>(this.familiars.size());
