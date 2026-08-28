@@ -110,7 +110,11 @@ public class MaximizerSpeculation extends Speculation
   private boolean foldables = false;
   private LateCodpieceCache lateCodpieceCache;
 
-  private record LateCodpieceCache(Modifiers baseline, Modifiers fightMods, List<Slot> slots) {}
+  private record LateCodpieceCache(
+      Modifiers baseline,
+      Modifiers fightMods,
+      Modifiers[] gemModifiers,
+      Modifiers[] slotModifiers) {}
 
   @Override
   public MaximizerSpeculation clone() {
@@ -132,8 +136,9 @@ public class MaximizerSpeculation extends Speculation
     }
 
     Modifiers newModifiers = new Modifiers(this.lateCodpieceCache.baseline());
-    KoLCharacter.addEternityCodpieceAdjustments(
-        this.lateCodpieceCache.slots(), this.equipment, newModifiers);
+    for (Modifiers gemModifiers : this.lateCodpieceCache.slotModifiers()) {
+      newModifiers.add(gemModifiers);
+    }
     this.mods =
         KoLCharacter.applyAdjustmentSuffix(
             false,
@@ -931,7 +936,7 @@ public class MaximizerSpeculation extends Speculation
     try {
       this.lateCodpieceCache =
           this.canUseLateCodpieceCache(codpieceGems, codpieceSlots)
-              ? this.primeLateCodpieceCache(codpieceSlots)
+              ? this.primeLateCodpieceCache(codpieceGems, codpieceSlots)
               : null;
       this.tryCodpieceGems(codpieceGems, codpieceSlots, remaining, required, requiredCount, 0, 0);
     } finally {
@@ -995,7 +1000,7 @@ public class MaximizerSpeculation extends Speculation
     return true;
   }
 
-  private LateCodpieceCache primeLateCodpieceCache(List<Slot> slots) {
+  private LateCodpieceCache primeLateCodpieceCache(List<CheckedItem> possibles, List<Slot> slots) {
     var mark = this.mark();
     try {
       for (Slot slot : slots) {
@@ -1016,7 +1021,14 @@ public class MaximizerSpeculation extends Speculation
               this.getBoomBox(),
               this.getModeables(),
               true);
-      return new LateCodpieceCache(prefix.modifiers(), prefix.fightMods(), List.copyOf(slots));
+      Modifiers[] gemModifiers = new Modifiers[possibles.size()];
+      for (int i = 0; i < possibles.size(); i++) {
+        gemModifiers[i] =
+            ModifierDatabase.getModifiers(
+                ModifierType.ETERNITY_CODPIECE, possibles.get(i).getItemId());
+      }
+      return new LateCodpieceCache(
+          prefix.modifiers(), prefix.fightMods(), gemModifiers, new Modifiers[slots.size()]);
     } finally {
       this.restore(mark);
     }
@@ -1104,6 +1116,10 @@ public class MaximizerSpeculation extends Speculation
       remaining[i]--;
       required[i] = false;
       this.equipment.put(slot, possibles.get(i));
+      if (this.lateCodpieceCache != null) {
+        this.lateCodpieceCache.slotModifiers()[slotIndex] =
+            this.lateCodpieceCache.gemModifiers()[i];
+      }
       this.tryCodpieceGems(
           possibles,
           slots,
@@ -1113,6 +1129,9 @@ public class MaximizerSpeculation extends Speculation
           i,
           slotIndex + 1);
       this.equipment.put(slot, EquipmentRequest.UNEQUIP);
+      if (this.lateCodpieceCache != null) {
+        this.lateCodpieceCache.slotModifiers()[slotIndex] = null;
+      }
       required[i] = satisfiesRequirement;
       remaining[i]++;
     }
