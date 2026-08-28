@@ -33,10 +33,12 @@ public class MallSearchResultsPanelTest {
   @BeforeEach
   public void beforeEach() {
     Preferences.reset("mallSearchResultsPanel");
+    MallPurchaseRequest.disabledStores.clear();
+    MallPurchaseRequest.ignoringStores.clear();
   }
 
   @AfterEach
-  public void AfterEach() {
+  public void afterEach() {
     MallPurchaseRequest.reset();
   }
 
