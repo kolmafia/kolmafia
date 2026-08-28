@@ -129,7 +129,8 @@ public class InventoryManagerTest {
 
     var cleanups =
         new Cleanups(
-            withItem(ItemPool.THE_ETERNITY_CODPIECE), withEquipped(Slot.CODPIECE1, PERIDOT_OF_PERIL));
+            withItem(ItemPool.THE_ETERNITY_CODPIECE),
+            withEquipped(Slot.CODPIECE1, PERIDOT_OF_PERIL));
 
     try (cleanups) {
       assertEquals(1, InventoryManager.getAccessibleCount(PERIDOT_OF_PERIL));
