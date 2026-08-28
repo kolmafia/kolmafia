@@ -60,6 +60,7 @@ import net.sourceforge.kolmafia.persistence.FamiliarDatabase.FamiliarRaceData;
 import net.sourceforge.kolmafia.persistence.ItemDatabase.Attribute;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.SkillDatabase.Category;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest.ClosetRequestType;
@@ -4253,6 +4254,19 @@ public class DebugDatabase {
   }
 
   static boolean allowDisplay(WikiType first, WikiType second) {
+    String prefString = Preferences.getString("ambiguousCheckSuppressPairs");
+    String t1 = first.name().toLowerCase().trim();
+    String t2 = second.name().toLowerCase().trim();
+    String[] parts = prefString.split("\\|");
+    for (int i = 0; i < parts.length; i++) {
+      String[] pair = parts[i].split(",");
+      String p1 = pair[0].toLowerCase().trim();
+      String p2 = pair[1].toLowerCase().trim();
+      if (t1.equals(t2) && p1.equals("same")) return false;
+      if (t1.equals(t2) && p2.equals("same")) return false;
+      if (t1.equals(p1) && t2.equals(p2)) return false;
+      if (t1.equals(p2) && t2.equals(p1)) return false;
+    }
     return true;
   }
 
