@@ -4271,6 +4271,8 @@ public class DebugDatabase {
   }
 
   public static void checkForAmbiguous() {
+    String prefString = Preferences.getString("ambiguousCheckSuppressPairs");
+    RequestLogger.printLine(prefString);
     // Get list of things from DatabaseFrame to keep this aligned with Encyclopedia
     HashMap<String, WikiType> lazySet = new HashMap<>();
     for (var thing : DatabaseFrame.allItems) {
