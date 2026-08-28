@@ -3673,6 +3673,64 @@ public class MaximizerTest {
     }
 
     @Test
+    void considersCodpieceWhenForcedGemsFillTheAccessoryPool() {
+      int bloodCubicZirconia = ItemPool.get("blood cubic zirconia").getItemId();
+      var cleanups =
+          new Cleanups(
+              withEquippableItem(ItemPool.THE_ETERNITY_CODPIECE),
+              withEquippableItem(ItemPool.HEARTSTONE),
+              withEquippableItem(ItemPool.PERIDOT_OF_PERIL),
+              withEquippableItem(bloodCubicZirconia));
+
+      try (cleanups) {
+        assertTrue(maximize("+equip heartstone, +equip peridot, +equip blood cubic, -acc1, -tie"));
+        assertTrue(
+            SlotSet.ACCESSORY_SLOTS.stream()
+                .map(Maximizer.best.equipment::get)
+                .anyMatch(item -> item.getItemId() == ItemPool.THE_ETERNITY_CODPIECE));
+        assertTrue(
+            SlotSet.ALL_SLOTS.stream()
+                .map(Maximizer.best.equipment::get)
+                .anyMatch(item -> item.getItemId() == ItemPool.HEARTSTONE));
+        assertTrue(
+            SlotSet.ALL_SLOTS.stream()
+                .map(Maximizer.best.equipment::get)
+                .anyMatch(item -> item.getItemId() == ItemPool.PERIDOT_OF_PERIL));
+        assertTrue(
+            SlotSet.ALL_SLOTS.stream()
+                .map(Maximizer.best.equipment::get)
+                .anyMatch(item -> item.getItemId() == bloodCubicZirconia));
+      }
+    }
+
+    @Test
+    void considersCodpieceForNonAccessoryTypedGemWithOffhandForbidden() {
+      int bloodCubicZirconia = ItemPool.get("blood cubic zirconia").getItemId();
+      var cleanups =
+          new Cleanups(
+              withEquippableItem(ItemPool.THE_ETERNITY_CODPIECE),
+              withEquippableItem(ItemPool.BASEBALL_DIAMOND),
+              withEquippableItem(ItemPool.HEARTSTONE),
+              withEquippableItem(ItemPool.PERIDOT_OF_PERIL),
+              withEquippableItem(bloodCubicZirconia));
+
+      try (cleanups) {
+        // Baseball is an offhand, not accessory. We're forcing it to rely on the codpiece to be equipped
+        assertTrue(
+            maximize(
+                "+equip baseball diamond, +equip heartstone, +equip peridot, +equip blood cubic, -acc1, -offhand, -tie"));
+        assertTrue(
+            SlotSet.ACCESSORY_SLOTS.stream()
+                .map(Maximizer.best.equipment::get)
+                .anyMatch(item -> item.getItemId() == ItemPool.THE_ETERNITY_CODPIECE));
+        assertTrue(
+            SlotSet.CODPIECE_SLOTS.stream()
+                .map(Maximizer.best.equipment::get)
+                .anyMatch(item -> item.getItemId() == ItemPool.BASEBALL_DIAMOND));
+      }
+    }
+
+    @Test
     void failsWhenForcedCodpieceGemHasNoAvailableSlot() {
       var cleanups =
           new Cleanups(

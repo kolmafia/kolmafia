@@ -1709,10 +1709,17 @@ public class Evaluator {
       ranked.get(Slot.CODPIECE1).add(gem);
     }
 
+    // The codpiece can expand the accessory pool via its gem slots (see useful/total below).
+    boolean codpieceCanExpandAccessoryPool = false;
     if (!ranked.get(Slot.CODPIECE1).isEmpty()) {
-      ranked.get(Slot.ACCESSORY1).stream()
-          .filter(item -> item.getItemId() == ItemPool.THE_ETERNITY_CODPIECE)
-          .forEach(item -> item.automaticFlag = true);
+      for (CheckedItem item : ranked.get(Slot.ACCESSORY1)) {
+        if (item.getItemId() != ItemPool.THE_ETERNITY_CODPIECE) {
+          continue;
+        }
+        item.automaticFlag = true;
+        codpieceCanExpandAccessoryPool =
+            item.getCount() > 0 && SlotSet.CODPIECE_SLOTS.stream().anyMatch(this::slotEnabled);
+      }
     }
 
     // Get best Familiars for Crown of Thrones and Buddy Bjorn
@@ -2308,8 +2315,11 @@ public class Evaluator {
 
       int useful = entry.isSlot() ? this.maxUseful(entry.slot()) : 1;
 
-      // If slots already handled by required items, we're done with the slot
-      if (useful > total) {
+      // Done with the slot once required items fill it, unless the codpiece could expand it.
+      if (useful > total
+          || (codpieceCanExpandAccessoryPool
+              && entry.isSlot()
+              && entry.slot() == Slot.ACCESSORY1)) {
         ListIterator<MaximizerSpeculation> speculationIterator =
             speculationList.get(entry).listIterator(speculationList.get(entry).size());
 
