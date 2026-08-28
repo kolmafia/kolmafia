@@ -3944,6 +3944,33 @@ public class MaximizerTest {
     }
 
     @Test
+    void prunesCodpieceConfigurationsThatCannotContainRequiredGems() {
+      int bloodCubicZirconia = ItemPool.get("blood cubic zirconia").getItemId();
+      var cleanups =
+          new Cleanups(
+              withEquipped(Slot.ACCESSORY1, ItemPool.THE_ETERNITY_CODPIECE),
+              withItem(ItemPool.HEARTSTONE),
+              withItem(ItemPool.PERIDOT_OF_PERIL),
+              withItem(bloodCubicZirconia),
+              withItem(ItemPool.ALIEN_GEMSTONE),
+              withItem("autumn years wisdom"));
+
+      try (cleanups) {
+        assertTrue(
+            maximize(
+                "+equip heartstone, +equip peridot, +equip blood cubic, -acc1, -acc2, -acc3, -tie"));
+        assertTrue(Maximizer.bestChecked < 10);
+        for (int itemId :
+            new int[] {ItemPool.HEARTSTONE, ItemPool.PERIDOT_OF_PERIL, bloodCubicZirconia}) {
+          assertTrue(
+              SlotSet.CODPIECE_SLOTS.stream()
+                  .map(Maximizer.best.equipment::get)
+                  .anyMatch(item -> item.getItemId() == itemId));
+        }
+      }
+    }
+
+    @Test
     void failsWhenCodpieceModifierIsRequiredButCodpieceIsForbidden() {
       var cleanups =
           new Cleanups(

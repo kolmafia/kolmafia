@@ -824,7 +824,19 @@ public class MaximizerSpeculation extends Speculation
                 gem ->
                     this.equipment.values().stream().filter(gem::equals).count() < gem.getCount())
             .toList();
-    this.tryCodpieceGems(codpieceGems, codpieceSlots, 0, 0);
+    int[] remaining = new int[codpieceGems.size()];
+    boolean[] required = new boolean[codpieceGems.size()];
+    int requiredCount = 0;
+    for (int i = 0; i < codpieceGems.size(); i++) {
+      CheckedItem gem = codpieceGems.get(i);
+      long used = this.equipment.values().stream().filter(gem::equals).count();
+      remaining[i] = gem.getCount() - (int) used;
+      if (gem.requiredFlag && used == 0) {
+        required[i] = true;
+        requiredCount++;
+      }
+    }
+    this.tryCodpieceGems(codpieceGems, codpieceSlots, remaining, required, requiredCount, 0, 0);
     this.restore(mark);
   }
 
@@ -860,24 +872,53 @@ public class MaximizerSpeculation extends Speculation
   }
 
   private void tryCodpieceGems(
-      List<CheckedItem> possibles, List<Slot> slots, int start, int slotIndex)
+      List<CheckedItem> possibles,
+      List<Slot> slots,
+      int[] remaining,
+      boolean[] required,
+      int requiredCount,
+      int start,
+      int slotIndex)
       throws MaximizerInterruptedException {
-    this.checkBest();
-    if (slotIndex == slots.size()) {
+    if (requiredCount == 0) {
+      this.checkBest();
+    }
+    if (slotIndex == slots.size() || requiredCount > slots.size() - slotIndex) {
       return;
+    }
+
+    int firstRequired = -1;
+    for (int i = start; i < required.length; i++) {
+      if (required[i]) {
+        firstRequired = i;
+        break;
+      }
     }
 
     Slot slot = slots.get(slotIndex);
     for (int i = start; i < possibles.size(); i++) {
-      CheckedItem item = possibles.get(i);
-      long used = this.equipment.values().stream().filter(item::equals).count();
-      if (used >= item.getCount()) {
+      if (firstRequired != -1 && i > firstRequired) {
+        break;
+      }
+      if (remaining[i] == 0) {
         continue;
       }
 
-      this.equipment.put(slot, item);
-      this.tryCodpieceGems(possibles, slots, i, slotIndex + 1);
+      boolean satisfiesRequirement = required[i];
+      remaining[i]--;
+      required[i] = false;
+      this.equipment.put(slot, possibles.get(i));
+      this.tryCodpieceGems(
+          possibles,
+          slots,
+          remaining,
+          required,
+          requiredCount - (satisfiesRequirement ? 1 : 0),
+          i,
+          slotIndex + 1);
       this.equipment.put(slot, EquipmentRequest.UNEQUIP);
+      required[i] = satisfiesRequirement;
+      remaining[i]++;
     }
   }
 
