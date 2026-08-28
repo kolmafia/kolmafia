@@ -3850,7 +3850,46 @@ public class MaximizerTest {
                 .count();
         assertEquals(3, gemstonesUsed);
         assertEquals(2, healingCrystalsUsed);
-        assertTrue(Maximizer.bestChecked < 20); // exhaustive search took dozens for this pool
+      }
+    }
+
+    @Test
+    void cappedStatsCanMakeGreedyCodpieceSelectionSuboptimal() {
+      var cleanups =
+          new Cleanups(
+              withEquippableItem(ItemPool.THE_ETERNITY_CODPIECE),
+              withItem("18-picohertz resonator crystal"),
+              withItem("shard of double-ice"),
+              withItem("kumquartz"));
+
+      try (cleanups) {
+        // The resonator scores 10 by itself, versus 9 for either specialized gem. Greedy selects
+        // it first and reaches only 14, while the two specialized gems reach both caps for 18.
+        assertTrue(
+            maximize("cold damage 9 max, cold spell damage 9 max, codpiece1, codpiece2, -tie"));
+        assertThat(Maximizer.best.getScore(), equalTo(18.0));
+      }
+    }
+
+    @Test
+    void individuallyBestCodpieceShortlistCanExcludeOptimalCombination() {
+      var cleanups =
+          new Cleanups(
+              withEquippableItem(ItemPool.THE_ETERNITY_CODPIECE),
+              withItem("rainbow pearl"),
+              withItem("Rubee&trade;"),
+              withItem("shard of double-ice"),
+              withItem("Lapis Lazuli"),
+              withItem("shadow glass"),
+              withItem("Azurite"));
+
+      try (cleanups) {
+        // Rainbow pearl scores 25 by itself, while each specialized gem scores 9. Keeping the
+        // pearl and only four specialists reaches 41; all five specialists reach 45.
+        assertTrue(
+            maximize(
+                "hot damage 9 max, cold damage 9 max, stench damage 9 max, spooky damage 9 max, sleaze damage 9 max, -tie"));
+        assertThat(Maximizer.best.getScore(), equalTo(45.0));
       }
     }
 
@@ -4128,12 +4167,10 @@ public class MaximizerTest {
 
       try (cleanups) {
         assertTrue(maximize("init, -tie"));
-        int combinationsWithFiveGems = Maximizer.bestChecked;
 
         try (var ignored =
             new Cleanups(withItem("jet bennie marble"), withItem("bumblebee marble"))) {
           assertTrue(maximize("init, -tie"));
-          assertThat(Maximizer.bestChecked, equalTo(combinationsWithFiveGems));
           assertThat(modFor(DoubleModifier.INITIATIVE), equalTo(45.0));
           assertThat(getBoosts(), hasItem(recommends("big bumboozer marble")));
           assertThat(getBoosts(), hasItem(recommends("black catseye marble")));

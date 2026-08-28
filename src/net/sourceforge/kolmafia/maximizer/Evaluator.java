@@ -2414,7 +2414,7 @@ public class Evaluator {
                 total += item.getCount();
               }
             }
-          } else if (total < useful) {
+          } else if ((entry.isSlot() && entry.slot() == Slot.CODPIECE1) || total < useful) {
             if (!automaticEntry.contains(item)) {
               automaticEntry.add(item);
               if (!leavesSlotEmpty && !item.conditionalFlag && item.getCount() >= foldItemsNeeded) {
