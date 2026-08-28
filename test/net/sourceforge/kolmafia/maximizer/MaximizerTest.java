@@ -3984,6 +3984,50 @@ public class MaximizerTest {
       }
     }
 
+    @Test
+    void codpieceGemsAreUsableEvenWhenNotAllowedInStandard() {
+      int massiveGemstone = ItemPool.get("massive gemstone").getItemId();
+      var cleanups =
+          new Cleanups(
+              withRestricted(true),
+              withNotAllowedInStandard(RestrictedItemType.ITEMS, "massive gemstone"),
+              withEquippableItem(ItemPool.THE_ETERNITY_CODPIECE),
+              withItem("massive gemstone", 5));
+
+      try (cleanups) {
+        assertTrue(maximize("item drop, -tie"));
+        assertThat(getBoosts(), hasItem(recommends(ItemPool.THE_ETERNITY_CODPIECE)));
+        assertTrue(
+            SlotSet.CODPIECE_SLOTS.stream()
+                .map(Maximizer.best.equipment::get)
+                .allMatch(item -> item.getItemId() == massiveGemstone));
+      }
+    }
+
+    @Test
+    void dualPurposeGemNeedsCodpieceToBypassStandardRestriction() {
+      int bloodCubicZirconia = ItemPool.get("blood cubic zirconia").getItemId();
+      var cleanups =
+          new Cleanups(
+              withRestricted(true),
+              withNotAllowedInStandard(RestrictedItemType.ITEMS, "blood cubic zirconia"),
+              withItem("blood cubic zirconia", 1));
+
+      try (cleanups) {
+        assertTrue(maximize("spooky resistance, -tie"));
+        assertThat(getBoosts(), not(hasItem(recommends("blood cubic zirconia"))));
+
+        try (var ignored = new Cleanups(withEquippableItem(ItemPool.THE_ETERNITY_CODPIECE))) {
+          assertTrue(maximize("spooky resistance, -tie"));
+          assertThat(getBoosts(), hasItem(recommends("blood cubic zirconia")));
+          assertTrue(
+              SlotSet.CODPIECE_SLOTS.stream()
+                  .map(Maximizer.best.equipment::get)
+                  .anyMatch(item -> item.getItemId() == bloodCubicZirconia));
+        }
+      }
+    }
+
     @Nested
     class Tiebreaking {
       @Test

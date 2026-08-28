@@ -25,12 +25,21 @@ import net.sourceforge.kolmafia.session.MallPriceManager;
 
 public class CheckedItem extends AdventureResult {
   public CheckedItem(int itemId, EquipScope equipScope, long maxPrice, PriceLevel priceLevel) {
+    this(itemId, equipScope, maxPrice, priceLevel, false);
+  }
+
+  public CheckedItem(
+      int itemId,
+      EquipScope equipScope,
+      long maxPrice,
+      PriceLevel priceLevel,
+      boolean ignoreStandardRestriction) {
     super(itemId, 1, false);
 
     this.inventory = InventoryManager.getCount(itemId);
 
-    this.initial = InventoryManager.getAccessibleCount(itemId);
     boolean isCodpieceGem = EquipmentRequest.isCodpieceGem(itemId);
+    this.initial = InventoryManager.getAccessibleCount(itemId, true, ignoreStandardRestriction);
     if (isCodpieceGem) {
       this.initial +=
           (int)

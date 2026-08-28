@@ -1675,7 +1675,7 @@ public class Evaluator {
       }
 
       int gemId = entry.getKey().getIntValue();
-      CheckedItem gem = new CheckedItem(gemId, equipScope, maxPrice, priceLevel);
+      CheckedItem gem = new CheckedItem(gemId, equipScope, maxPrice, priceLevel, true);
       if (gem.getCount() == 0) {
         continue;
       }
