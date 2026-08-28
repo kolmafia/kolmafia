@@ -260,6 +260,20 @@ public abstract class InventoryManager {
         ++count;
       }
     }
+    if (InventoryManager.equippedOrInInventory(ItemPool.THE_ETERNITY_CODPIECE)) {
+      for (var slot : SlotSet.CODPIECE_SLOTS) {
+        AdventureResult equipment = EquipmentManager.getEquipment(slot);
+        if (equipment != null && equipment.getItemId() == item.getItemId()) {
+          ++count;
+        }
+      }
+    }
+    if (InventoryManager.equippedOrInInventory(EquipmentManager.CARD_SLEEVE)) {
+      AdventureResult equipment = EquipmentManager.getEquipment(Slot.CARDSLEEVE);
+      if (equipment != null && equipment.getItemId() == item.getItemId()) {
+        ++count;
+      }
+    }
     if (KoLCharacter.inHatTrick()) {
       for (var hat : EquipmentManager.getHatTrickHats()) {
         if (hat == item.getItemId()) {
@@ -661,6 +675,33 @@ public abstract class InventoryManager {
           if (--missingCount <= 0) {
             return "";
           }
+        }
+      }
+      if (InventoryManager.equippedOrInInventory(ItemPool.THE_ETERNITY_CODPIECE)) {
+        for (var slot : SlotSet.CODPIECE_SLOTS) {
+          if (EquipmentManager.getEquipment(slot).equals(item)) {
+            if (sim) {
+              return "remove";
+            }
+
+            RequestThread.postRequest(new EquipmentRequest(EquipmentRequest.UNEQUIP, slot));
+
+            if (--missingCount <= 0) {
+              return "";
+            }
+          }
+        }
+      }
+      if (InventoryManager.equippedOrInInventory(EquipmentManager.CARD_SLEEVE)
+          && EquipmentManager.getEquipment(Slot.CARDSLEEVE).equals(item)) {
+        if (sim) {
+          return "remove";
+        }
+
+        RequestThread.postRequest(new EquipmentRequest(EquipmentRequest.UNEQUIP, Slot.CARDSLEEVE));
+
+        if (--missingCount <= 0) {
+          return "";
         }
       }
     }

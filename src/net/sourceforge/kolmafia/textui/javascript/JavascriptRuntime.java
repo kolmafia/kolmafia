@@ -316,9 +316,13 @@ public class JavascriptRuntime extends AbstractRuntime {
               "JavaScript error: " + e.getErrorMessage() + "\n" + e.getScriptStackTrace());
       KoLmafia.updateDisplay(KoLConstants.MafiaState.ERROR, escapedMessage);
     } catch (JavaScriptException e) {
+      String stack = errorStack(e.getValue());
       String escapedMessage =
           escapeHtmlInMessage(
-              "JavaScript exception: " + e.getMessage() + "\n" + e.getScriptStackTrace());
+              "JavaScript exception: "
+                  + e.getMessage()
+                  + "\n"
+                  + (stack != null ? stack : e.getScriptStackTrace()));
       KoLmafia.updateDisplay(KoLConstants.MafiaState.ERROR, escapedMessage);
     } catch (ScriptException e) {
       String escapedMessage = escapeHtmlInMessage("Script exception: " + e.getMessage());
@@ -333,9 +337,12 @@ public class JavascriptRuntime extends AbstractRuntime {
     cx.getUnhandledPromiseTracker()
         .process(
             o -> {
-              String escapedMessage =
-                  escapeHtmlInMessage("Unhandled rejected Promise: " + o.toString());
-              KoLmafia.updateDisplay(KoLConstants.MafiaState.ERROR, escapedMessage);
+              String stack = errorStack(o);
+              String message =
+                  "Unhandled rejected Promise: "
+                      + o.toString()
+                      + (stack == null ? "" : "\n" + stack);
+              KoLmafia.updateDisplay(KoLConstants.MafiaState.ERROR, escapeHtmlInMessage(message));
             });
 
     try {
@@ -343,6 +350,19 @@ public class JavascriptRuntime extends AbstractRuntime {
     } catch (ValueConverter.ValueConverterException e) {
       throw new EvaluatorException(e.getMessage());
     }
+  }
+
+  /**
+   * The stack an Error captured when it was constructed, or null if the thrown value is not an
+   * Error. Rejected promises are reported after their frames have unwound, so the reporting
+   * exception has no script stack of its own.
+   */
+  private static String errorStack(Object thrown) {
+    Object stack =
+        thrown instanceof Scriptable scriptable
+            ? ScriptableObject.getProperty(scriptable, "stack")
+            : null;
+    return stack instanceof String text && !text.isBlank() ? text : null;
   }
 
   private static Object resolvePromise(Context cx, NativePromise promise) {

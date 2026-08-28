@@ -4,7 +4,9 @@ import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withClass;
 import static internal.helpers.Player.withDay;
+import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withEquipped;
+import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withFamiliarInTerrarium;
 import static internal.helpers.Player.withFullness;
 import static internal.helpers.Player.withHttpClientBuilder;
@@ -31,6 +33,7 @@ import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -38,6 +41,7 @@ import net.sourceforge.kolmafia.swingui.GenericPanelFrame;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.DisabledIf;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -304,9 +308,27 @@ class DrinkItemRequestTest {
         assertThat(DrinkItemRequest.maximumUses(ItemPool.GREEN_BEER), is(sspd ? 25 : 15));
       }
     }
+
+    @Test
+    void somePigsAllowsStooperNightcapAtExpandedLimit() {
+      var cleanups =
+          new Cleanups(
+              withClass(AscensionClass.SEAL_CLUBBER),
+              withFamiliar(FamiliarPool.STOOPER),
+              withEffect(EffectPool.SOME_PIGS),
+              withInebriety(15));
+
+      try (cleanups) {
+        assertThat(
+            DrinkItemRequest.maximumUses(ItemPool.BOTTLE_OF_GIN, "bottle of gin", 1, false), is(1));
+      }
+    }
   }
 
   @Test
+  @DisabledIf(
+      value = "java.awt.GraphicsEnvironment#isHeadless",
+      disabledReason = "headless environment")
   public void itEquipsPinkyRingInFirstAvailableNonLiverSlot() {
     var builder = new FakeHttpClientBuilder();
     builder.client.addResponse(200, "Item equipped.");

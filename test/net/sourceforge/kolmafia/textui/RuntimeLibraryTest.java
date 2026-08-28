@@ -2635,7 +2635,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
         Patience of the Tortoise,Patience of the Tortoise,Strength of the Tortoise
         Manicotti Meditation,Pasta Oneness,Tubes of Universal Meat
         Sauce Contemplation,Saucemastery,Lubricating Sauce
-        Disco Aerobics,Disco State of Mind,Disco Over Matter
+        Disco Aerobics,Disco State of Mind,Disco over Matter
         Moxie of the Mariachi,Mariachi Mood,Mariachi Moisture
         """;
 
@@ -2766,6 +2766,40 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     @Test
     void countsUtf8Length() {
       assertThat(execute("heartstone_string_length(\"Homebodyl™\")").trim(), is("Returned: 12"));
+    }
+  }
+
+  @Nested
+  class OutfitNameWithCodpieceGems {
+    @Test
+    void appendsCurrentCodpieceConfiguration() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(Slot.CODPIECE1, ItemPool.ALIEN_GEMSTONE),
+              withEquipped(Slot.CODPIECE3, ItemPool.HAMETHYST));
+
+      try (cleanups) {
+        assertThat(
+            execute("outfit_name_with_codpiece_gems(\"Saved outfit\")").trim(),
+            is("Returned: Saved outfit c=~xEkAwAUAAA"));
+      }
+    }
+
+    @Test
+    void truncatesOutfitNameToFitConfiguration() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(Slot.CODPIECE1, ItemPool.ALIEN_GEMSTONE),
+              withEquipped(Slot.CODPIECE3, ItemPool.HAMETHYST));
+
+      try (cleanups) {
+        String suffix = " c=~xEkAwAUAAA";
+        String originalName = "A".repeat(50);
+        String expectedName = "A".repeat(50 - suffix.length()) + suffix;
+        assertThat(
+            execute("outfit_name_with_codpiece_gems(\"" + originalName + "\")").trim(),
+            is("Returned: " + expectedName));
+      }
     }
   }
 

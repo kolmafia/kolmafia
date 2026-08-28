@@ -1,0 +1,4 @@
+JavaScript exception: my error (file:%%STACKTRACE_LOCATION%%/throw_string_error.js#2)
+	at file:%%STACKTRACE_LOCATION%%/throw_string_error.js:2 (fail)
+	at file:%%STACKTRACE_LOCATION%%/throw_string_error.js:6 (wrapper)
+	at file:%%STACKTRACE_LOCATION%%/throw_string_error.js:9
