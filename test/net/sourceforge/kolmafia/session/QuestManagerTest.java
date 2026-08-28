@@ -17,6 +17,7 @@ import static internal.helpers.Player.withHardcore;
 import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withLastLocation;
+import static internal.helpers.Player.withNextMonster;
 import static internal.helpers.Player.withNextResponse;
 import static internal.helpers.Player.withNoEffects;
 import static internal.helpers.Player.withNoItems;
@@ -24,6 +25,7 @@ import static internal.helpers.Player.withPasswordHash;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withQuestProgress;
+import static internal.helpers.Player.withoutCounters;
 import static internal.matchers.Item.isInInventory;
 import static internal.matchers.Preference.hasIntegerValue;
 import static internal.matchers.Preference.isSetTo;
@@ -3505,6 +3507,8 @@ public class QuestManagerTest {
           new Cleanups(
               withProperty("autoQuest", true),
               withLastLocation("Madness Bakery"),
+              withNextMonster("Heimandatz, Nacho Golem"),
+              withoutCounters(),
               withHttpClientBuilder(builder));
 
       try (cleanup) {
