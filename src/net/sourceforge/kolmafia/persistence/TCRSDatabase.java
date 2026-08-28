@@ -521,15 +521,6 @@ public class TCRSDatabase {
   }
 
   /**
-   * The item's CARRIED_OVER modifiers, taken verbatim from its base modifier string. These cannot
-   * be read back from the item description, so introspection has to restore them from the base
-   * item. Read raw rather than from a {@link net.sourceforge.kolmafia.Modifiers}: an expression
-   * value like "[env(underwater)]" is an innate, context-dependent property, and evaluating it here
-   * would bake in the deriving context (usually zero, which reads as absent).
-   *
-   * <p>Returned in CARRIED_OVER order, which is sorted by name, so the output is reproducible.
-   */
-  /**
    * The modifier a modifier-string entry denotes. Entries are written as tags, which match a
    * modifier by pattern rather than by name: "Look like a Pirate" is the Pirate modifier, and "Item
    * Drop (sporadic)" is Sporadic Item Drop. Comparing text against getName() misses both.
@@ -543,6 +534,15 @@ public class TCRSDatabase {
     return mod;
   }
 
+  /**
+   * The item's CARRIED_OVER modifiers, taken verbatim from its base modifier string. These cannot
+   * be read back from the item description, so introspection has to restore them from the base
+   * item. Read raw rather than from a {@link net.sourceforge.kolmafia.Modifiers}: an expression
+   * value like "[env(underwater)]" is an innate, context-dependent property, and evaluating it here
+   * would bake in the deriving context (usually zero, which reads as absent).
+   *
+   * <p>Returned in CARRIED_OVER order, which is sorted by name, so the output is reproducible.
+   */
   private static List<ModifierValue> carriedOverModifiers(final int itemId) {
     var byModifier = new HashMap<Modifier, List<ModifierValue>>();
     for (var m : rawModifiers(itemId)) {
@@ -551,7 +551,6 @@ public class TCRSDatabase {
         byModifier.computeIfAbsent(mod, k -> new ArrayList<>()).add(m);
       }
     }
-    // CARRIED_OVER iterates in name order, so the output is reproducible.
     var carried = new ArrayList<ModifierValue>();
     for (var mod : CARRIED_OVER) {
       carried.addAll(byModifier.getOrDefault(mod, List.of()));
@@ -855,6 +854,15 @@ public class TCRSDatabase {
   private static final Set<Integer> ZERO_ADVENTURE_CONSUMABLES =
       Set.of(ItemPool.UNIDENTIFIED_DRINK);
 
+  // Consumables TCRS renames but leaves otherwise unchanged: their modifiers are kept, not
+  // re-rolled.
+  private static final Set<Integer> UNALTERED_CONSUMABLES =
+      Set.of(ItemPool.GUNPOWDER_BURRITO, ItemPool.BEERY_BLOOD);
+
+  // Consumables whose size is forced to zero.
+  private static final Set<Integer> ZERO_SIZE_CONSUMABLES =
+      Set.of(ItemPool.QUANTUM_TACO, ItemPool.SCHRODINGERS_THERMOS, ItemPool.SMORE);
+
   private static TCRS deriveFoodBooze(
       final AscensionClass ascensionClass,
       final ZodiacSign sign,
@@ -869,7 +877,7 @@ public class TCRSDatabase {
 
     var cosmeticsString = rollCosmetics(mtRng, rng, beverage ? 8 : 10);
 
-    if (id == ItemPool.GUNPOWDER_BURRITO || id == ItemPool.BEERY_BLOOD) {
+    if (UNALTERED_CONSUMABLES.contains(id)) {
       var name = joinName(cosmeticsString, removeAdjectives(ItemDatabase.getItemName(id)));
       var mods = getRetainedModifiers(id);
       var size = sizeFor(id);
@@ -952,9 +960,7 @@ public class TCRSDatabase {
       }
     }
 
-    if (id == ItemPool.QUANTUM_TACO
-        || id == ItemPool.SCHRODINGERS_THERMOS
-        || id == ItemPool.SMORE) {
+    if (ZERO_SIZE_CONSUMABLES.contains(id)) {
       size = 0;
     }
 
@@ -1052,10 +1058,10 @@ public class TCRSDatabase {
 
   private static final Map<Integer, Integer> HARDCODED_EFFECT_OVERRIDE =
       Map.ofEntries(
-          Map.entry(ItemPool.SKULL_CRIMBOWEEN_COOKIE, 256), // Bells in the Batfry
-          Map.entry(ItemPool.TURTLE_SOUP, 598), // A Little Bit Evil
-          Map.entry(ItemPool.QUEEN_COOKIE, 755), // Towering Strength
-          Map.entry(ItemPool.SUN_DRIED_TOFU, 775)); // Oversaturated Palate
+          Map.entry(ItemPool.SKULL_CRIMBOWEEN_COOKIE, EffectPool.BELLS_IN_THE_BATFRY),
+          Map.entry(ItemPool.TURTLE_SOUP, EffectPool.A_LITTLE_BIT_EVIL),
+          Map.entry(ItemPool.QUEEN_COOKIE, EffectPool.TOWERING_STRENGTH),
+          Map.entry(ItemPool.SUN_DRIED_TOFU, EffectPool.OVERSATURATED_PALATE));
 
   private static TCRS deriveSpleen(
       final AscensionClass ascensionClass, final ZodiacSign sign, final AdventureResult item) {

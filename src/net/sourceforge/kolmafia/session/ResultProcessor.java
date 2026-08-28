@@ -709,8 +709,6 @@ public class ResultProcessor {
   private static boolean decodedNamesEqual(String name1, String name2) {
     // Sacr&eacute; Mental
     // Sacré Mental
-    // The Strength... of the Future
-    // The Strength... of the Future
     return name1.equals(name2)
         || StringUtilities.getEntityDecode(name1).equals(StringUtilities.getEntityDecode(name2));
   }
