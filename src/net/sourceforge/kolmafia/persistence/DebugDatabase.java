@@ -4252,6 +4252,10 @@ public class DebugDatabase {
     }
   }
 
+  static boolean allowDisplay(WikiType first, WikiType second) {
+    return true;
+  }
+
   public static void checkForAmbiguous() {
     // Get list of things from DatabaseFrame to keep this aligned with Encyclopedia
     HashMap<String, WikiType> lazySet = new HashMap<>();
@@ -4259,7 +4263,7 @@ public class DebugDatabase {
       String check = getNameFromData(thing.getValue());
       if (lazySet.containsKey(check)) {
         WikiType oldType = lazySet.get(check);
-        if (WikiType.ITEM != oldType) {
+        if (allowDisplay(WikiType.ITEM, oldType)) {
           String message =
               ambgMsg(WikiType.ITEM.name(), thing.getValue().toString(), oldType.name());
           RequestLogger.printLine(message);
@@ -4272,7 +4276,7 @@ public class DebugDatabase {
       var check = getNameFromData(thing.getValue());
       if (lazySet.containsKey(check)) {
         WikiType oldType = lazySet.get(check);
-        if (WikiType.EFFECT != oldType) {
+        if (allowDisplay(WikiType.EFFECT, oldType)) {
           String message =
               ambgMsg(WikiType.EFFECT.name(), thing.getValue().toString(), oldType.name());
           RequestLogger.printLine(message);
@@ -4285,7 +4289,7 @@ public class DebugDatabase {
       var check = getNameFromData(thing.getValue());
       if (lazySet.containsKey(check)) {
         WikiType oldType = lazySet.get(check);
-        if (WikiType.SKILL != oldType) {
+        if (allowDisplay(WikiType.SKILL, oldType)) {
           String message =
               ambgMsg(WikiType.SKILL.name(), thing.getValue().toString(), oldType.name());
           RequestLogger.printLine(message);
@@ -4298,9 +4302,11 @@ public class DebugDatabase {
       var check = getNameFromData(thing.getValue());
       if (lazySet.containsKey(check)) {
         WikiType oldType = lazySet.get(check);
-        String message =
-            ambgMsg(WikiType.FAMILIAR.name(), thing.getValue().toString(), oldType.name());
-        RequestLogger.printLine(message);
+        if (allowDisplay(WikiType.FAMILIAR, oldType)) {
+          String message =
+              ambgMsg(WikiType.FAMILIAR.name(), thing.getValue().toString(), oldType.name());
+          RequestLogger.printLine(message);
+        }
       } else {
         lazySet.put(check, WikiType.FAMILIAR);
       }
@@ -4309,9 +4315,11 @@ public class DebugDatabase {
       var check = getNameFromData(thing.getValue());
       if (lazySet.containsKey(check)) {
         WikiType oldType = lazySet.get(check);
-        String message =
-            ambgMsg(WikiType.OUTFIT.name(), thing.getValue().toString(), oldType.name());
-        RequestLogger.printLine(message);
+        if (allowDisplay(WikiType.OUTFIT, oldType)) {
+          String message =
+              ambgMsg(WikiType.OUTFIT.name(), thing.getValue().toString(), oldType.name());
+          RequestLogger.printLine(message);
+        }
       } else {
         lazySet.put(check, WikiType.OUTFIT);
       }
@@ -4320,7 +4328,7 @@ public class DebugDatabase {
       var check = getNameFromData(thing.getValue());
       if (lazySet.containsKey(check)) {
         WikiType oldType = lazySet.get(check);
-        if (WikiType.MONSTER != oldType) {
+        if (allowDisplay(WikiType.MONSTER, oldType)) {
           String message =
               ambgMsg(WikiType.MONSTER.name(), thing.getValue().toString(), oldType.name());
           RequestLogger.printLine(message);
