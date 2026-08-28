@@ -20,6 +20,7 @@ import static internal.helpers.Player.withItemInFreepulls;
 import static internal.helpers.Player.withItemInStorage;
 import static internal.helpers.Player.withLocation;
 import static internal.helpers.Player.withMCD;
+import static internal.helpers.Player.withMallPrice;
 import static internal.helpers.Player.withMeat;
 import static internal.helpers.Player.withMoxie;
 import static internal.helpers.Player.withMuscle;
@@ -70,17 +71,14 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase.Environment;
-import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
-import net.sourceforge.kolmafia.session.MallPriceManager;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.mockito.Mockito;
 
 public class MaximizerTest {
   @BeforeAll
@@ -4211,6 +4209,41 @@ public class MaximizerTest {
     }
 
     @Test
+    void enumeratesCodpieceGemCombinationsRatherThanPermutations() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(Slot.ACCESSORY1, ItemPool.THE_ETERNITY_CODPIECE),
+              withItem("big bumboozer marble", 5),
+              withItem("black catseye marble", 5),
+              withItem("beach ball marble", 5),
+              withItem("steely marble", 5),
+              withItem("beige clambroth marble", 5),
+              withItem("jet bennie marble", 5),
+              withItem("bumblebee marble", 5),
+              withItem("lemonade marble", 5),
+              withItem("red China marble", 5),
+              withItem("brown crock marble", 5));
+
+      try (cleanups) {
+        assertTrue(maximize("init, -acc1, -acc2, -acc3, -offhand, -tie"));
+        // Canonical search treats the five slots as interchangeable, checking C'(10 + 1, 5) =
+        // 3,003 multisets rather than every ordered permutation.
+        assertEquals(3003, Maximizer.bestChecked);
+        assertThat(modFor(DoubleModifier.INITIATIVE), equalTo(55.0));
+
+        try (var ignored = withEquipped(Slot.CODPIECE3, "big bumboozer marble")) {
+          assertTrue(maximize("init, -acc1, -acc2, -acc3, -offhand, -codpiece3, -tie"));
+          // Slot 3 remains fixed, leaving four interchangeable slots: C'(10 + 1, 4) = 1,001.
+          assertEquals(1001, Maximizer.bestChecked);
+          assertThat(
+              Maximizer.best.equipment.get(Slot.CODPIECE3).getName(),
+              equalTo("big bumboozer marble"));
+          assertThat(modFor(DoubleModifier.INITIATIVE), equalTo(55.0));
+        }
+      }
+    }
+
+    @Test
     public void allCodpieceSlotsConsideredByDefault() {
       int massiveGemstone = ItemPool.get("massive gemstone", 1).getItemId();
       final var cleanups =
@@ -4483,15 +4516,10 @@ public class MaximizerTest {
                 withHardcore(false),
                 withInteractivity(false),
                 withProperty("autoSatisfyWithMall", true),
+                withMallPrice(onyx.getItemId(), 1_000),
                 new Cleanups(() -> KoLCharacter.setStorageMeat(previousStorageMeat)));
 
-        try (cleanups;
-            var mallPriceDatabase =
-                Mockito.mockStatic(MallPriceDatabase.class, Mockito.CALLS_REAL_METHODS)) {
-          mallPriceDatabase
-              .when(() -> MallPriceDatabase.getPrice(onyx.getItemId()))
-              .thenReturn(1_000L);
-
+        try (cleanups) {
           var checked =
               new CheckedItem(
                   onyx.getItemId(), EquipScope.SPECULATE_ANY, 1_001, PriceLevel.BUYABLE_ONLY);
@@ -4511,23 +4539,10 @@ public class MaximizerTest {
                 withEquippableItem(ItemPool.THE_ETERNITY_CODPIECE),
                 withInteractivity(true),
                 withProperty("autoSatisfyWithMall", true),
+                withMallPrice(onyx.getItemId(), 1_000),
                 withMeat(100_000));
 
-        try (cleanups;
-            var mallPriceDatabase =
-                Mockito.mockStatic(MallPriceDatabase.class, Mockito.CALLS_REAL_METHODS);
-            var mallPriceManager =
-                Mockito.mockStatic(MallPriceManager.class, Mockito.CALLS_REAL_METHODS)) {
-          mallPriceDatabase
-              .when(() -> MallPriceDatabase.getPrice(onyx.getItemId()))
-              .thenReturn(1_000L);
-          mallPriceManager
-              .when(() -> MallPriceManager.getMallPrice(onyx.getItemId()))
-              .thenReturn(1_000L);
-          mallPriceManager
-              .when(() -> MallPriceManager.getMallPrice(onyx.getItemId(), 7.0f))
-              .thenReturn(1_000L);
-
+        try (cleanups) {
           assertTrue(
               Maximizer.maximize(
                   "spooky resistance, -tie",
