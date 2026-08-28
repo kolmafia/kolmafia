@@ -37,8 +37,8 @@ public class CheckedItem extends AdventureResult {
 
     this.inventory = InventoryManager.getCount(itemId);
 
-    boolean isCodpieceGem = EquipmentRequest.isCodpieceGem(itemId);
     this.initial = InventoryManager.getAccessibleCount(itemId, true, ignoreStandardRestriction);
+    boolean isCodpieceGem = EquipmentRequest.isCodpieceGem(itemId);
 
     // special case used to get a CheckItem that .equals( EquipmentRequest.UNEQUIP ).
     if (itemId == -1) {
