@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.EnumMap;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -1187,35 +1188,50 @@ public class TCRSDatabase {
   // combined enchantment (all resistance, prismatic damage, all attributes, Maximum HP + MP, ...).
   // Members with differing values are separate enchantments, so a family contributes one
   // enchantment per distinct value present.
-  private static final Set<Set<String>> COLLAPSIBLE =
+  private static final Set<Set<DoubleModifier>> COLLAPSIBLE =
       Set.of(
-          Set.of(
-              "Hot Resistance",
-              "Cold Resistance",
-              "Spooky Resistance",
-              "Stench Resistance",
-              "Sleaze Resistance"),
-          Set.of("Hot Damage", "Cold Damage", "Spooky Damage", "Stench Damage", "Sleaze Damage"),
-          Set.of("Muscle", "Mysticality", "Moxie"),
-          Set.of("Muscle Percent", "Mysticality Percent", "Moxie Percent"),
-          Set.of("Maximum HP", "Maximum MP"),
-          Set.of("Maximum HP Percent", "Maximum MP Percent"));
-  private static final Set<String> REGEN =
-      Set.of("HP Regen Min", "HP Regen Max", "MP Regen Min", "MP Regen Max");
+          EnumSet.of(
+              DoubleModifier.HOT_RESISTANCE,
+              DoubleModifier.COLD_RESISTANCE,
+              DoubleModifier.SPOOKY_RESISTANCE,
+              DoubleModifier.STENCH_RESISTANCE,
+              DoubleModifier.SLEAZE_RESISTANCE),
+          EnumSet.of(
+              DoubleModifier.HOT_DAMAGE,
+              DoubleModifier.COLD_DAMAGE,
+              DoubleModifier.SPOOKY_DAMAGE,
+              DoubleModifier.STENCH_DAMAGE,
+              DoubleModifier.SLEAZE_DAMAGE),
+          EnumSet.of(DoubleModifier.MUS, DoubleModifier.MYS, DoubleModifier.MOX),
+          EnumSet.of(DoubleModifier.MUS_PCT, DoubleModifier.MYS_PCT, DoubleModifier.MOX_PCT),
+          EnumSet.of(DoubleModifier.HP, DoubleModifier.MP),
+          EnumSet.of(DoubleModifier.HP_PCT, DoubleModifier.MP_PCT));
+  private static final Set<DoubleModifier> REGEN =
+      EnumSet.of(
+          DoubleModifier.HP_REGEN_MIN,
+          DoubleModifier.HP_REGEN_MAX,
+          DoubleModifier.MP_REGEN_MIN,
+          DoubleModifier.MP_REGEN_MAX);
 
   /**
    * How many regen enchantments an item has. HP and MP regen are one combined enchantment when
    * their amounts match ("Regenerate X HP and MP"), but two separate ones when the amounts differ.
    */
-  private static int regenCount(final Map<String, Set<String>> present) {
-    var hp = present.containsKey("HP Regen Min") || present.containsKey("HP Regen Max");
-    var mp = present.containsKey("MP Regen Min") || present.containsKey("MP Regen Max");
+  private static int regenCount(final Map<Modifier, Set<String>> present) {
+    var hp =
+        present.containsKey(DoubleModifier.HP_REGEN_MIN)
+            || present.containsKey(DoubleModifier.HP_REGEN_MAX);
+    var mp =
+        present.containsKey(DoubleModifier.MP_REGEN_MIN)
+            || present.containsKey(DoubleModifier.MP_REGEN_MAX);
     if (!hp || !mp) {
       return (hp || mp) ? 1 : 0;
     }
     var sameAmounts =
-        Objects.equals(present.get("HP Regen Min"), present.get("MP Regen Min"))
-            && Objects.equals(present.get("HP Regen Max"), present.get("MP Regen Max"));
+        Objects.equals(
+                present.get(DoubleModifier.HP_REGEN_MIN), present.get(DoubleModifier.MP_REGEN_MIN))
+            && Objects.equals(
+                present.get(DoubleModifier.HP_REGEN_MAX), present.get(DoubleModifier.MP_REGEN_MAX));
     return sameAmounts ? 1 : 2;
   }
 
@@ -1224,7 +1240,8 @@ public class TCRSDatabase {
   // pre-computation can't resolve these, so a base modifier whose value depends on one isn't a
   // re-rolled enchantment and doesn't count. Pure arithmetic (min/max/floor/ceil/sqrt) and the
   // supported queries (skill, event) are fine and still count.
-  // TODO: replace this token sniff with ModifierExpression parsing and Modifier enum lookups.
+  // In the future it could be nice to parse the ModifierExpression and ask the AST whether the
+  // value should be applied, rather than substring matching.
   private static final List<String> UNSUPPORTED_FUNCTIONS =
       List.of("pref(", "env(", "zone(", "effect(", "class(", "path(");
 
@@ -1299,17 +1316,16 @@ public class TCRSDatabase {
     }
 
     // Enchantable base modifiers with their values, so collapsible families can be split by value.
-    var present = new HashMap<String, Set<String>>();
+    var present = new HashMap<Modifier, Set<String>>();
     for (var mv : modifiers) {
-      var name = mv.getName();
-      var modifier = ModifierDatabase.getModifierByName(name);
+      var modifier = ModifierDatabase.getModifierByName(mv.getName());
       if (modifier != null && modifier.isEnchantment() && isEnchantableValue(mv.getValue())) {
-        present.computeIfAbsent(name, key -> new HashSet<>()).add(mv.getValue());
+        present.computeIfAbsent(modifier, key -> new HashSet<>()).add(mv.getValue());
       }
     }
 
     var count = 0;
-    var consumed = new HashSet<String>();
+    var consumed = new HashSet<Modifier>();
 
     // A collapsible family is one combined enchantment only when the whole family is present with a
     // single shared value (all resistance, prismatic damage, Maximum HP + MP at one value, ...).
@@ -1317,12 +1333,12 @@ public class TCRSDatabase {
     for (var family : COLLAPSIBLE) {
       var values = new HashSet<String>();
       var complete = true;
-      for (var name : family) {
-        if (!present.containsKey(name)) {
+      for (var modifier : family) {
+        if (!present.containsKey(modifier)) {
           complete = false;
           break;
         }
-        values.addAll(present.get(name));
+        values.addAll(present.get(modifier));
       }
       if (complete && values.size() == 1) {
         count += 1;
@@ -1339,10 +1355,10 @@ public class TCRSDatabase {
     var isFamiliarEquipment =
         ItemDatabase.getConsumptionType(itemId) == ConsumptionType.FAMILIAR_EQUIPMENT;
     for (var entry : present.entrySet()) {
-      var name = entry.getKey();
-      if (consumed.contains(name)) continue;
+      var modifier = entry.getKey();
+      if (consumed.contains(modifier)) continue;
       // Innate, not an enchantment.
-      if (isFamiliarEquipment && name.equals("Familiar Weight")) continue;
+      if (isFamiliarEquipment && modifier == DoubleModifier.FAMILIAR_WEIGHT) continue;
       // A base modifier that KoL displays as several lines (e.g. two distinct rollover effects in
       // Uncle Crimbo's hat) is one enchantment per distinct value.
       count += entry.getValue().size();
