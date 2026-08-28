@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.maximizer;
 
 import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
@@ -817,19 +818,22 @@ public class MaximizerSpeculation extends Speculation
     for (Slot slot : codpieceSlots) {
       this.equipment.put(slot, EquipmentRequest.UNEQUIP);
     }
+    if (!this.hasEnoughCodpieceGems()) {
+      this.restore(mark);
+      return;
+    }
+
     List<CheckedItem> codpieceGems =
         possibles.get(Slot.CODPIECE1).stream()
             .filter(gem -> gem.getCount() > 0 && EquipmentRequest.isCodpieceGem(gem.getItemId()))
-            .filter(
-                gem ->
-                    this.equipment.values().stream().filter(gem::equals).count() < gem.getCount())
+            .filter(gem -> this.countEquipped(gem.getItemId()) < gem.getCount())
             .toList();
     int[] remaining = new int[codpieceGems.size()];
     boolean[] required = new boolean[codpieceGems.size()];
     int requiredCount = 0;
     for (int i = 0; i < codpieceGems.size(); i++) {
       CheckedItem gem = codpieceGems.get(i);
-      long used = this.equipment.values().stream().filter(gem::equals).count();
+      long used = this.countEquipped(gem.getItemId());
       remaining[i] = gem.getCount() - (int) used;
       if (gem.requiredFlag && used == 0) {
         required[i] = true;
@@ -881,7 +885,7 @@ public class MaximizerSpeculation extends Speculation
       int slotIndex)
       throws MaximizerInterruptedException {
     if (requiredCount == 0) {
-      this.checkBest();
+      this.checkBest(true);
     }
     if (slotIndex == slots.size() || requiredCount > slots.size() - slotIndex) {
       return;
@@ -940,7 +944,11 @@ public class MaximizerSpeculation extends Speculation
   }
 
   private void checkBest() throws MaximizerInterruptedException {
-    if (!this.hasEnoughCodpieceGems()) {
+    this.checkBest(false);
+  }
+
+  private void checkBest(boolean codpieceCountsValid) throws MaximizerInterruptedException {
+    if (!codpieceCountsValid && !this.hasEnoughCodpieceGems()) {
       return;
     }
 
@@ -974,15 +982,33 @@ public class MaximizerSpeculation extends Speculation
     }
   }
 
-  private boolean hasEnoughCodpieceGems() {
+  private long countEquipped(int itemId) {
     return this.equipment.values().stream()
-        .filter(CheckedItem.class::isInstance)
-        .map(CheckedItem.class::cast)
-        .filter(item -> EquipmentRequest.isCodpieceGem(item.getItemId()))
-        .allMatch(
-            item ->
-                this.equipment.values().stream().filter(item::equals).count()
-                    <= item.getAvailableCount());
+        .filter(item -> item != null && item.getItemId() == itemId)
+        .count();
+  }
+
+  private boolean hasEnoughCodpieceGems() {
+    Map<Integer, Integer> used = new HashMap<>();
+    Map<Integer, Integer> available = new HashMap<>();
+    for (AdventureResult item : this.equipment.values()) {
+      if (item == null || !EquipmentRequest.isCodpieceGem(item.getItemId())) {
+        continue;
+      }
+
+      int itemId = item.getItemId();
+      used.merge(itemId, 1, Integer::sum);
+      if (item instanceof CheckedItem checked) {
+        available.put(itemId, checked.getAvailableCount());
+      }
+    }
+
+    for (var entry : available.entrySet()) {
+      if (used.get(entry.getKey()) > entry.getValue()) {
+        return false;
+      }
+    }
+    return true;
   }
 
   private static int getMutex(AdventureResult item) {
