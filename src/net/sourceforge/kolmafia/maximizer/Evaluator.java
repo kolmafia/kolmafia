@@ -1675,7 +1675,7 @@ public class Evaluator {
       }
 
       int gemId = entry.getKey().getIntValue();
-      CheckedItem gem = new CheckedItem(gemId, equipScope, maxPrice, priceLevel);
+      CheckedItem gem = new CheckedItem(gemId, equipScope, maxPrice, priceLevel, true);
       if (gem.getCount() == 0) {
         continue;
       }
@@ -1709,10 +1709,17 @@ public class Evaluator {
       ranked.get(Slot.CODPIECE1).add(gem);
     }
 
+    // The codpiece can expand the accessory pool via its gem slots (see useful/total below).
+    boolean codpieceCanExpandAccessoryPool = false;
     if (!ranked.get(Slot.CODPIECE1).isEmpty()) {
-      ranked.get(Slot.ACCESSORY1).stream()
-          .filter(item -> item.getItemId() == ItemPool.THE_ETERNITY_CODPIECE)
-          .forEach(item -> item.automaticFlag = true);
+      for (CheckedItem item : ranked.get(Slot.ACCESSORY1)) {
+        if (item.getItemId() != ItemPool.THE_ETERNITY_CODPIECE) {
+          continue;
+        }
+        item.automaticFlag = true;
+        codpieceCanExpandAccessoryPool =
+            item.getCount() > 0 && SlotSet.CODPIECE_SLOTS.stream().anyMatch(this::slotEnabled);
+      }
     }
 
     // Get best Familiars for Crown of Thrones and Buddy Bjorn
@@ -1808,25 +1815,29 @@ public class Evaluator {
     AdventureResult useCard = null;
 
     if (this.cardNeeded) {
-      MaximizerSpeculation best = new MaximizerSpeculation();
+      MaximizerSpeculation baseline = new MaximizerSpeculation();
 
       // Check each card in sleeve to see if they are worthwhile
+      List<CheckedItem> cardCandidates = new ArrayList<>();
       for (int c = 4967; c <= 5007; c++) {
         CheckedItem card = new CheckedItem(c, equipScope, maxPrice, priceLevel);
         AdventureResult equippedCard = EquipmentManager.getEquipment(Slot.CARDSLEEVE);
         if (card.getCount() > 0 || (equippedCard != null && c == equippedCard.getItemId())) {
-          MaximizerSpeculation spec = new MaximizerSpeculation();
-          CheckedItem sleeve =
-              new CheckedItem(ItemPool.CARD_SLEEVE, equipScope, maxPrice, priceLevel);
-          spec.attachment = sleeve;
-          spec.equipment.put(Slot.OFFHAND, sleeve);
-          spec.equipment.put(Slot.CARDSLEEVE, card);
-          if (spec.compareTo(best) > 0) {
-            best = spec.clone();
-            bestCard = card;
-          }
+          cardCandidates.add(card);
         }
       }
+      MaximizerSpeculation best =
+          MaximizerSpeculation.bestOf(
+              baseline,
+              cardCandidates,
+              (spec, card) -> {
+                CheckedItem sleeve =
+                    new CheckedItem(ItemPool.CARD_SLEEVE, equipScope, maxPrice, priceLevel);
+                spec.attachment = sleeve;
+                spec.equipment.put(Slot.OFFHAND, sleeve);
+                spec.equipment.put(Slot.CARDSLEEVE, card);
+              });
+      bestCard = best == baseline ? null : (CheckedItem) best.equipment.get(Slot.CARDSLEEVE);
     }
 
     Map<Modeable, String> bestModes =
@@ -1844,25 +1855,23 @@ public class Evaluator {
 
                       CheckedItem item =
                           new CheckedItem(modeable.getItemId(), equipScope, maxPrice, priceLevel);
-                      var bestMode = modeable.getState();
-                      MaximizerSpeculation best = new MaximizerSpeculation();
-                      best.attachment = item;
-                      best.equipment.put(modeable.getSlot(), item);
-                      best.setModeable(modeable, bestMode);
+                      MaximizerSpeculation baseline = new MaximizerSpeculation();
+                      baseline.attachment = item;
+                      baseline.equipment.put(modeable.getSlot(), item);
+                      baseline.setModeable(modeable, modeable.getState());
 
                       // Check each mode in modeable to determine the best
-                      for (String mode : modeable.getModes()) {
-                        MaximizerSpeculation spec = new MaximizerSpeculation();
-                        spec.attachment = item;
-                        spec.equipment.put(modeable.getSlot(), item);
-                        spec.setModeable(modeable, mode);
-                        if (spec.compareTo(best) > 0) {
-                          best = spec.clone();
-                          bestMode = mode;
-                        }
-                      }
+                      MaximizerSpeculation best =
+                          MaximizerSpeculation.bestOf(
+                              baseline,
+                              modeable.getModes(),
+                              (spec, mode) -> {
+                                spec.attachment = item;
+                                spec.equipment.put(modeable.getSlot(), item);
+                                spec.setModeable(modeable, mode);
+                              });
 
-                      return bestMode;
+                      return best.getModeables().get(modeable);
                     }));
 
     SlotList<MaximizerSpeculation> speculationList = new SlotList<>(this.familiars.size());
@@ -2308,8 +2317,11 @@ public class Evaluator {
 
       int useful = entry.isSlot() ? this.maxUseful(entry.slot()) : 1;
 
-      // If slots already handled by required items, we're done with the slot
-      if (useful > total) {
+      // Done with the slot once required items fill it, unless the codpiece could expand it.
+      if (useful > total
+          || (codpieceCanExpandAccessoryPool
+              && entry.isSlot()
+              && entry.slot() == Slot.ACCESSORY1)) {
         ListIterator<MaximizerSpeculation> speculationIterator =
             speculationList.get(entry).listIterator(speculationList.get(entry).size());
 
@@ -2370,6 +2382,8 @@ public class Evaluator {
             // If we don't have one, and they aren't nothing, skip
             continue;
           }
+          // (none)'s Integer.MAX_VALUE count would overflow total/beeotches if counted here.
+          boolean leavesSlotEmpty = item.getItemId() == -1;
           if (KoLCharacter.inBeecore()
               && (b = KoLCharacter.getBeeosity(item.getName())) > 0) { // This item is a beeotch!
             // Don't count it towards the number of items desired
@@ -2380,26 +2394,30 @@ public class Evaluator {
               if (!automaticEntry.contains(item)) {
                 automaticEntry.add(item);
               }
-              beeotches += item.getCount();
-              beeosity += b * item.getCount();
+              if (!leavesSlotEmpty) {
+                beeotches += item.getCount();
+                beeosity += b * item.getCount();
+              }
             } else if (total < useful && beeotches < useful && beeosity < this.beeosity) {
               if (!automaticEntry.contains(item)) {
                 automaticEntry.add(item);
               }
-              beeotches += item.getCount();
-              beeosity += b * item.getCount();
+              if (!leavesSlotEmpty) {
+                beeotches += item.getCount();
+                beeosity += b * item.getCount();
+              }
             }
           } else if (item.automaticFlag) {
             if (!automaticEntry.contains(item)) {
               automaticEntry.add(item);
-              if (!item.conditionalFlag && item.getCount() >= foldItemsNeeded) {
+              if (!leavesSlotEmpty && !item.conditionalFlag && item.getCount() >= foldItemsNeeded) {
                 total += item.getCount();
               }
             }
           } else if (total < useful) {
             if (!automaticEntry.contains(item)) {
               automaticEntry.add(item);
-              if (!item.conditionalFlag && item.getCount() >= foldItemsNeeded) {
+              if (!leavesSlotEmpty && !item.conditionalFlag && item.getCount() >= foldItemsNeeded) {
                 total += item.getCount();
               }
             }

@@ -3750,6 +3750,147 @@ public class MaximizerTest {
     }
 
     @Test
+    void considersCodpieceWhenForcedGemsFillTheAccessoryPool() {
+      int bloodCubicZirconia = ItemPool.get("blood cubic zirconia").getItemId();
+      var cleanups =
+          new Cleanups(
+              withEquippableItem(ItemPool.THE_ETERNITY_CODPIECE),
+              withEquippableItem(ItemPool.HEARTSTONE),
+              withEquippableItem(ItemPool.PERIDOT_OF_PERIL),
+              withEquippableItem(bloodCubicZirconia));
+
+      try (cleanups) {
+        assertTrue(maximize("+equip heartstone, +equip peridot, +equip blood cubic, -acc1, -tie"));
+        assertTrue(
+            SlotSet.ACCESSORY_SLOTS.stream()
+                .map(Maximizer.best.equipment::get)
+                .anyMatch(item -> item.getItemId() == ItemPool.THE_ETERNITY_CODPIECE));
+        assertTrue(
+            SlotSet.ALL_SLOTS.stream()
+                .map(Maximizer.best.equipment::get)
+                .anyMatch(item -> item.getItemId() == ItemPool.HEARTSTONE));
+        assertTrue(
+            SlotSet.ALL_SLOTS.stream()
+                .map(Maximizer.best.equipment::get)
+                .anyMatch(item -> item.getItemId() == ItemPool.PERIDOT_OF_PERIL));
+        assertTrue(
+            SlotSet.ALL_SLOTS.stream()
+                .map(Maximizer.best.equipment::get)
+                .anyMatch(item -> item.getItemId() == bloodCubicZirconia));
+      }
+    }
+
+    @Test
+    void considersCodpieceForNonAccessoryTypedGemWithOffhandForbidden() {
+      int bloodCubicZirconia = ItemPool.get("blood cubic zirconia").getItemId();
+      var cleanups =
+          new Cleanups(
+              withEquippableItem(ItemPool.THE_ETERNITY_CODPIECE),
+              withEquippableItem(ItemPool.BASEBALL_DIAMOND),
+              withEquippableItem(ItemPool.HEARTSTONE),
+              withEquippableItem(ItemPool.PERIDOT_OF_PERIL),
+              withEquippableItem(bloodCubicZirconia));
+
+      try (cleanups) {
+        // Baseball is an offhand, not accessory. We're forcing it to rely on the codpiece to be
+        // equipped
+        assertTrue(
+            maximize(
+                "+equip baseball diamond, +equip heartstone, +equip peridot, +equip blood cubic, -acc1, -offhand, -tie"));
+        assertTrue(
+            SlotSet.ACCESSORY_SLOTS.stream()
+                .map(Maximizer.best.equipment::get)
+                .anyMatch(item -> item.getItemId() == ItemPool.THE_ETERNITY_CODPIECE));
+        assertTrue(
+            SlotSet.CODPIECE_SLOTS.stream()
+                .map(Maximizer.best.equipment::get)
+                .anyMatch(item -> item.getItemId() == ItemPool.BASEBALL_DIAMOND));
+      }
+    }
+
+    @Test
+    void doesNotOverflowAccessoryShortlistWhenSlotIsUnequipped() {
+      var cleanups =
+          new Cleanups(
+              withItem(ItemPool.THE_ETERNITY_CODPIECE),
+              withItem(ItemPool.PERIDOT_OF_PERIL),
+              withItem("spring shoes"),
+              withItem("Portable Laughing Stock"),
+              withItem(ItemPool.HEARTSTONE));
+
+      try (cleanups) {
+        assertTrue(maximize("mana cost -tie"));
+        assertTrue(Maximizer.bestChecked < 100);
+      }
+    }
+
+    @Test
+    void picksOptimalMixOfCodpieceGemsAcrossDifferentCappedStats() {
+      int massiveGemstone = ItemPool.get("massive gemstone").getItemId();
+      int healingCrystal = ItemPool.get("New Age healing crystal").getItemId();
+      var cleanups =
+          new Cleanups(
+              withEquippableItem(ItemPool.THE_ETERNITY_CODPIECE),
+              withItem(massiveGemstone, 3),
+              withItem(healingCrystal, 2));
+
+      try (cleanups) {
+        // 125 caps Item Drop only with all 3 gemstones; 15 caps HP Regen Min only with both
+        // crystals. Either gem alone caps one stat and leaves the other unbuffed.
+        assertTrue(maximize("0.1 item drop 125 max, 0.1 hp regen min 15 max, -tie"));
+        long gemstonesUsed =
+            SlotSet.CODPIECE_SLOTS.stream()
+                .map(Maximizer.best.equipment::get)
+                .filter(item -> item.getItemId() == massiveGemstone)
+                .count();
+        long healingCrystalsUsed =
+            SlotSet.CODPIECE_SLOTS.stream()
+                .map(Maximizer.best.equipment::get)
+                .filter(item -> item.getItemId() == healingCrystal)
+                .count();
+        assertEquals(3, gemstonesUsed);
+        assertEquals(2, healingCrystalsUsed);
+        assertTrue(Maximizer.bestChecked < 20); // exhaustive search took dozens for this pool
+      }
+    }
+
+    @Test
+    void placesRequiredDualUseGemWhereItScoresBestNotJustToSatisfyTheRequirement() {
+      // Meat Drop is worth +60 as a plain accessory but only +30 as a codpiece gem, so a
+      // required copy should land in accessory rather than being forced into the codpiece.
+      int denseMeatGem = ItemPool.get("incredibly dense meat gem").getItemId();
+      int massiveGemstone = ItemPool.get("massive gemstone").getItemId();
+      var cleanups =
+          new Cleanups(
+              withItem(denseMeatGem, 2),
+              withItem(massiveGemstone, 3),
+              withEquippableItem(ItemPool.THE_ETERNITY_CODPIECE));
+
+      try (cleanups) {
+        assertTrue(
+            maximize("+equip incredibly dense meat gem, 0.1 meat drop, 0.1 item drop, -tie"));
+        long meatGemsInAccessory =
+            SlotSet.ACCESSORY_SLOTS.stream()
+                .map(Maximizer.best.equipment::get)
+                .filter(item -> item.getItemId() == denseMeatGem)
+                .count();
+        long meatGemsInCodpiece =
+            SlotSet.CODPIECE_SLOTS.stream()
+                .map(Maximizer.best.equipment::get)
+                .filter(item -> item.getItemId() == denseMeatGem)
+                .count();
+        long gemstonesInCodpiece =
+            SlotSet.CODPIECE_SLOTS.stream()
+                .map(Maximizer.best.equipment::get)
+                .filter(item -> item.getItemId() == massiveGemstone)
+                .count();
+        assertEquals(2, meatGemsInAccessory);
+        assertEquals(0, meatGemsInCodpiece);
+        assertEquals(3, gemstonesInCodpiece);
+      }
+    }
+
+    @Test
     void failsWhenForcedCodpieceGemHasNoAvailableSlot() {
       var cleanups =
           new Cleanups(
@@ -4058,6 +4199,50 @@ public class MaximizerTest {
             SlotSet.CODPIECE_SLOTS.stream()
                 .map(Maximizer.best.equipment::get)
                 .allMatch(EquipmentRequest.UNEQUIP::equals));
+      }
+    }
+
+    @Test
+    void codpieceGemsAreUsableEvenWhenNotAllowedInStandard() {
+      int massiveGemstone = ItemPool.get("massive gemstone").getItemId();
+      var cleanups =
+          new Cleanups(
+              withRestricted(true),
+              withNotAllowedInStandard(RestrictedItemType.ITEMS, "massive gemstone"),
+              withEquippableItem(ItemPool.THE_ETERNITY_CODPIECE),
+              withItem("massive gemstone", 5));
+
+      try (cleanups) {
+        assertTrue(maximize("item drop, -tie"));
+        assertThat(getBoosts(), hasItem(recommends(ItemPool.THE_ETERNITY_CODPIECE)));
+        assertTrue(
+            SlotSet.CODPIECE_SLOTS.stream()
+                .map(Maximizer.best.equipment::get)
+                .allMatch(item -> item.getItemId() == massiveGemstone));
+      }
+    }
+
+    @Test
+    void dualPurposeGemNeedsCodpieceToBypassStandardRestriction() {
+      int bloodCubicZirconia = ItemPool.get("blood cubic zirconia").getItemId();
+      var cleanups =
+          new Cleanups(
+              withRestricted(true),
+              withNotAllowedInStandard(RestrictedItemType.ITEMS, "blood cubic zirconia"),
+              withItem("blood cubic zirconia", 1));
+
+      try (cleanups) {
+        assertTrue(maximize("spooky resistance, -tie"));
+        assertThat(getBoosts(), not(hasItem(recommends("blood cubic zirconia"))));
+
+        try (var ignored = new Cleanups(withEquippableItem(ItemPool.THE_ETERNITY_CODPIECE))) {
+          assertTrue(maximize("spooky resistance, -tie"));
+          assertThat(getBoosts(), hasItem(recommends("blood cubic zirconia")));
+          assertTrue(
+              SlotSet.CODPIECE_SLOTS.stream()
+                  .map(Maximizer.best.equipment::get)
+                  .anyMatch(item -> item.getItemId() == bloodCubicZirconia));
+        }
       }
     }
 

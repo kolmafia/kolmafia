@@ -1,8 +1,10 @@
 package net.sourceforge.kolmafia.maximizer;
 
+import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiConsumer;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -65,6 +67,7 @@ public class MaximizerSpeculation extends Speculation
   public void setUnscored() {
     this.scored = false;
     this.calculated = false;
+    this.tiebreakered = false;
   }
 
   public double getScore() {
@@ -821,9 +824,8 @@ public class MaximizerSpeculation extends Speculation
             .filter(
                 gem ->
                     this.equipment.values().stream().filter(gem::equals).count() < gem.getCount())
-            .limit(codpieceSlots.size())
             .toList();
-    this.tryCodpieceGems(codpieceGems, codpieceSlots, 0, 0);
+    this.tryCodpieceGems(codpieceGems, codpieceSlots);
     this.restore(mark);
   }
 
@@ -858,26 +860,59 @@ public class MaximizerSpeculation extends Speculation
     }
   }
 
-  private void tryCodpieceGems(
-      List<CheckedItem> possibles, List<Slot> slots, int start, int slotIndex)
+  private void tryCodpieceGems(List<CheckedItem> possibles, List<Slot> slots)
       throws MaximizerInterruptedException {
-    this.checkBest();
-    if (slotIndex == slots.size()) {
-      return;
-    }
-
-    Slot slot = slots.get(slotIndex);
-    for (int i = start; i < possibles.size(); i++) {
-      CheckedItem item = possibles.get(i);
-      long used = this.equipment.values().stream().filter(item::equals).count();
-      if (used >= item.getCount()) {
+    List<Slot> remainingSlots = new ArrayList<>(slots);
+    for (CheckedItem item : possibles) {
+      if (!item.requiredFlag || remainingSlots.isEmpty()) {
         continue;
       }
-
-      this.equipment.put(slot, item);
-      this.tryCodpieceGems(possibles, slots, i, slotIndex + 1);
-      this.equipment.put(slot, EquipmentRequest.UNEQUIP);
+      // Already satisfied elsewhere, eg, accessory slot.
+      boolean alreadyEquipped = this.equipment.values().stream().anyMatch(item::equals);
+      if (alreadyEquipped) {
+        continue;
+      }
+      // Slot it directly, greedy can't tell required gems apart until all present
+      this.equipment.put(remainingSlots.remove(0), item);
     }
+
+    // Gems stack additively with no synergy between slots, so greedy matches exhaustive.
+    for (Slot slot : remainingSlots) {
+      MaximizerSpeculation baseline = this.clone();
+      baseline.equipment.put(slot, EquipmentRequest.UNEQUIP);
+      baseline.setUnscored();
+
+      List<CheckedItem> eligible =
+          possibles.stream()
+              .filter(
+                  item ->
+                      this.equipment.values().stream().filter(item::equals).count()
+                          < item.getCount())
+              .toList();
+
+      MaximizerSpeculation best =
+          MaximizerSpeculation.bestOf(
+              baseline, eligible, (spec, item) -> spec.equipment.put(slot, item));
+      this.equipment.put(slot, best.equipment.get(slot));
+    }
+    this.checkBest();
+  }
+
+  /** Applies each candidate to its own clone of baseline and returns the best-scoring one. */
+  public static <T> MaximizerSpeculation bestOf(
+      MaximizerSpeculation baseline,
+      Iterable<T> candidates,
+      BiConsumer<MaximizerSpeculation, T> mutator) {
+    MaximizerSpeculation best = baseline;
+    for (T candidate : candidates) {
+      MaximizerSpeculation spec = baseline.clone();
+      mutator.accept(spec, candidate);
+      spec.setUnscored(); // clone() may carry baseline's cached score
+      if (spec.compareTo(best) > 0) {
+        best = spec;
+      }
+    }
+    return best;
   }
 
   private void checkBest() throws MaximizerInterruptedException {
