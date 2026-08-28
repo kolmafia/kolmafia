@@ -2956,6 +2956,23 @@ public class FightRequestTest {
   }
 
   @Nested
+  class RomanCandelabra {
+    @Test
+    public void canDetectPurpleCandleCast() {
+      var cleanups = new Cleanups(withFight(), withProperty("romanCandelabraPurpleCasts", 0));
+
+      try (cleanups) {
+        parseCombatData(
+            "request/test_fight_purple_candle.html",
+            "fight.php?action=skill&whichskill=" + SkillPool.BLOW_THE_PURPLE_CANDLE);
+
+        assertThat("romanCandelabraPurpleCasts", hasIntegerValue(equalTo(1)));
+        assertThat("_chainedPurpleCandleMonster", isSetTo("Racecar Bob"));
+      }
+    }
+  }
+
+  @Nested
   class TearawayPants {
     @Test
     public void canTrackPlantAdventures() {
