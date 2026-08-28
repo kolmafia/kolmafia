@@ -67,13 +67,13 @@ repositories {
 
 dependencies {
   // Use JUnit Jupiter for running JUnit5 tests.
-  testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.14.0")
-  testRuntimeOnly("org.junit.jupiter:junit-jupiter:5.14.0")
+  testRuntimeOnly("org.junit.platform:junit-platform-launcher:6.1.3")
+  testRuntimeOnly("org.junit.jupiter:junit-jupiter:6.1.3")
 
   testImplementation("org.hamcrest:hamcrest:3.0")
   testImplementation("com.spotify:hamcrest-optional:1.3.2")
-  testImplementation("org.junit.jupiter:junit-jupiter-api:5.14.0")
-  testImplementation("org.junit.jupiter:junit-jupiter-params:5.14.0")
+  testImplementation("org.junit.jupiter:junit-jupiter-api:6.1.3")
+  testImplementation("org.junit.jupiter:junit-jupiter-params:6.1.3")
   testImplementation("org.mockito:mockito-core:5.20.0")
   testImplementation("org.eclipse.xtext:org.eclipse.xtext.xbase.lib:2.41.0.M1") {
     because("assertion errors including Location/Range/Position need it")

@@ -2635,7 +2635,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
         Patience of the Tortoise,Patience of the Tortoise,Strength of the Tortoise
         Manicotti Meditation,Pasta Oneness,Tubes of Universal Meat
         Sauce Contemplation,Saucemastery,Lubricating Sauce
-        Disco Aerobics,Disco State of Mind,Disco Over Matter
+        Disco Aerobics,Disco State of Mind,Disco over Matter
         Moxie of the Mariachi,Mariachi Mood,Mariachi Moisture
         """;
 

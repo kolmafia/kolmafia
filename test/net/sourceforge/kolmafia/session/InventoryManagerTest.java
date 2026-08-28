@@ -108,6 +108,70 @@ public class InventoryManagerTest {
     }
   }
 
+  @Test
+  public void codpieceGemCountsAsAccessible() {
+    AdventureResult PERIDOT_OF_PERIL = ItemPool.get(ItemPool.PERIDOT_OF_PERIL);
+
+    var cleanups =
+        new Cleanups(
+            withEquipped(Slot.ACCESSORY1, ItemPool.THE_ETERNITY_CODPIECE),
+            withEquipped(Slot.CODPIECE1, PERIDOT_OF_PERIL));
+
+    try (cleanups) {
+      assertEquals(0, InventoryManager.getCount(PERIDOT_OF_PERIL));
+      assertEquals(1, InventoryManager.getAccessibleCount(PERIDOT_OF_PERIL));
+    }
+  }
+
+  @Test
+  public void codpieceGemCountsAsAccessibleWhenCodpieceIsUnwornButOwned() {
+    AdventureResult PERIDOT_OF_PERIL = ItemPool.get(ItemPool.PERIDOT_OF_PERIL);
+
+    var cleanups =
+        new Cleanups(
+            withItem(ItemPool.THE_ETERNITY_CODPIECE),
+            withEquipped(Slot.CODPIECE1, PERIDOT_OF_PERIL));
+
+    try (cleanups) {
+      assertEquals(1, InventoryManager.getAccessibleCount(PERIDOT_OF_PERIL));
+    }
+  }
+
+  @Test
+  public void codpieceGemDoesNotCountAsAccessibleWithoutCodpiece() {
+    AdventureResult PERIDOT_OF_PERIL = ItemPool.get(ItemPool.PERIDOT_OF_PERIL);
+
+    var cleanups = withEquipped(Slot.CODPIECE1, PERIDOT_OF_PERIL);
+
+    try (cleanups) {
+      assertEquals(0, InventoryManager.getAccessibleCount(PERIDOT_OF_PERIL));
+    }
+  }
+
+  @Test
+  public void cardSleeveCardCountsAsAccessibleWhenSleeveIsUnwornButOwned() {
+    AdventureResult CARD = AdventureResult.tallyItem("Alice's Army Swordsman");
+
+    var cleanups =
+        new Cleanups(withItem(ItemPool.CARD_SLEEVE), withEquipped(Slot.CARDSLEEVE, CARD));
+
+    try (cleanups) {
+      assertEquals(0, InventoryManager.getCount(CARD));
+      assertEquals(1, InventoryManager.getAccessibleCount(CARD));
+    }
+  }
+
+  @Test
+  public void cardSleeveCardDoesNotCountAsAccessibleWithoutSleeve() {
+    AdventureResult CARD = AdventureResult.tallyItem("Alice's Army Swordsman");
+
+    var cleanups = withEquipped(Slot.CARDSLEEVE, CARD);
+
+    try (cleanups) {
+      assertEquals(0, InventoryManager.getAccessibleCount(CARD));
+    }
+  }
+
   @Nested
   class CrimboTrainingManual {
     @Test

@@ -10999,7 +10999,7 @@ public class FightRequest extends GenericRequest {
         }
       }
       case SkillPool.BLOW_THE_PURPLE_CANDLE -> {
-        if (responseText.contains("all the purple") || skillSuccess) {
+        if (responseText.contains("blast of purple light") || skillSuccess) {
           Preferences.increment("romanCandelabraPurpleCasts");
           Preferences.setString("_chainedPurpleCandleMonster", monsterName);
         }
