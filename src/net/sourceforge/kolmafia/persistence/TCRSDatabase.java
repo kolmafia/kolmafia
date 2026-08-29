@@ -366,9 +366,20 @@ public class TCRSDatabase {
       return false;
     }
 
-    var ascensionClass = KoLCharacter.getAscensionClass();
-    var sign = KoLCharacter.getSign();
+    return derive(KoLCharacter.getAscensionClass(), KoLCharacter.getSign(), verbose, true);
+  }
 
+  /**
+   * Derives the TCRS data for every real item.
+   *
+   * @param cafe whether to also introspect cafe consumables, which deriveItem cannot derive and
+   *     which cost an item description request each.
+   */
+  public static boolean derive(
+      final AscensionClass ascensionClass,
+      final ZodiacSign sign,
+      final boolean verbose,
+      final boolean cafe) {
     String classSign = ascensionClass.getName() + "/" + sign;
     if (!currentClassSign.equals(classSign)) {
       reset();
@@ -385,8 +396,9 @@ public class TCRSDatabase {
       }
     }
 
-    // deriveItem skips cafe consumables, so introspect those.
-    introspectCafe(verbose);
+    if (cafe) {
+      introspectCafe(verbose);
+    }
 
     currentClassSign = classSign;
 
@@ -1754,10 +1766,15 @@ public class TCRSDatabase {
       final ZodiacSign sign,
       final boolean verbose,
       final boolean overrideModifiers) {
-    var nonCafeLoaded = load(ascensionClass, sign, verbose);
-    var cafeLoaded = loadCafe(ascensionClass, sign, verbose);
+    if (!validate(ascensionClass, sign)) {
+      return false;
+    }
 
-    if (overrideModifiers && (nonCafeLoaded || cafeLoaded)) {
+    // The per-class/sign files are test fixtures and are not shipped, so there is nothing to load.
+    derive(ascensionClass, sign, verbose, false);
+    loadCafe(ascensionClass, sign, false);
+
+    if (overrideModifiers) {
       applyModifiers();
       introspectApplyItem(ItemPool.RING);
     }

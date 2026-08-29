@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.persistence;
 
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withClass;
+import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withSign;
@@ -26,9 +27,11 @@ import java.util.function.BiConsumer;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.ZodiacSign;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.modifiers.BitmapModifier;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
@@ -210,6 +213,28 @@ class TCRSDatabaseTest {
   }
 
   @Test
+  void derivedModifiersReachTheCharacter() {
+    // What logging in does: derive, then put the enchantments on the character.
+    var cleanups =
+        new Cleanups(
+            withPath(Path.CRAZY_RANDOM_SUMMER_TWO),
+            withClass(AscensionClass.SEAL_CLUBBER),
+            withSign(ZodiacSign.OPOSSUM),
+            withEquipped(Slot.HAT, ItemPool.PLEXIGLASS_PITH_HELMET));
+    try (cleanups) {
+      TCRSDatabase.loadTCRSData(true);
+
+      var tcrs = TCRSDatabase.getData(ItemPool.PLEXIGLASS_PITH_HELMET);
+      assertThat(tcrs.name, equalTo("flame-wreathed frosty pith helmet of vim and vigor"));
+
+      var current = KoLCharacter.getCurrentModifiers();
+      assertThat(current.getDouble(DoubleModifier.HP_PCT), equalTo(50.0));
+      assertThat(current.getDouble(DoubleModifier.COLD_SPELL_DAMAGE), equalTo(10.0));
+      assertThat(current.getDouble(DoubleModifier.HOT_SPELL_DAMAGE), equalTo(10.0));
+    }
+  }
+
+  @Test
   public void enchantCountCorrect() {
     var cleanups =
         new Cleanups(
@@ -265,7 +290,8 @@ class TCRSDatabaseTest {
                   withClass(ascensionClass),
                   withSign(sign));
           try (cleanups) {
-            TCRSDatabase.loadTCRSData(false);
+            // Not loadTCRSData, which derives: the recorded file is the ground truth here.
+            TCRSDatabase.load(ascensionClass, sign, false);
             for (var i : ItemDatabase.entrySet()) {
               var itemId = i.getKey();
               if (!TCRSDatabase.hasData(itemId)) continue;
