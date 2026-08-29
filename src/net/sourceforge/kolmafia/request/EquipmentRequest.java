@@ -1,7 +1,11 @@
 package net.sourceforge.kolmafia.request;
 
+import java.io.ByteArrayOutputStream;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +33,7 @@ import net.sourceforge.kolmafia.persistence.DebugDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.QuestManager;
@@ -108,6 +113,10 @@ public class EquipmentRequest extends PasswordHashRequest {
       Pattern.compile("Item unequipped:</td><td>.*?descitem\\((.*?)\\)'> <b>(.*?)</b></td>");
   private static final Pattern HOLSTER_URL_PATTERN = Pattern.compile("holster=(\\d+)");
 
+  private static final int VARINT_PAYLOAD_BITS = 7;
+  private static final int VARINT_PAYLOAD_MASK = (1 << VARINT_PAYLOAD_BITS) - 1;
+  private static final int VARINT_CONTINUATION_BIT = 1 << VARINT_PAYLOAD_BITS;
+
   public static final AdventureResult UNEQUIP = ItemPool.get("(none)", 1);
 
   public enum EquipmentRequestType {
@@ -173,10 +182,36 @@ public class EquipmentRequest extends PasswordHashRequest {
 
   public EquipmentRequest(final String changeName) {
     this(EquipmentRequestType.SAVE_OUTFIT);
+    String savedName =
+        Preferences.getBoolean("includeCodpieceGemsInOutfits")
+                && KoLCharacter.hasEquipped(ItemPool.THE_ETERNITY_CODPIECE)
+            ? EquipmentRequest.outfitNameWithCodpieceGems(changeName)
+            : changeName;
     this.addFormField("action", "customoutfit");
-    this.addFormField("outfitname", changeName);
+    this.addFormField("outfitname", savedName);
     this.addFormField("ajax", "1");
     this.outfitName = changeName;
+  }
+
+  public static String outfitNameWithCodpieceGems(final String outfitName) {
+    String suffix = " c=" + EquipmentRequest.encodeCodpieceConfiguration();
+    int nameLength = Math.min(outfitName.length(), 50 - suffix.length());
+    return outfitName.substring(0, nameLength).stripTrailing() + suffix;
+  }
+
+  private static String encodeCodpieceConfiguration() {
+    var bytes = new ByteArrayOutputStream();
+    for (Slot slot : SlotSet.CODPIECE_SLOTS) {
+      int itemId = Math.max(0, EquipmentManager.getEquipment(slot).getItemId());
+      do {
+        int next = itemId & VARINT_PAYLOAD_MASK;
+        itemId >>>= VARINT_PAYLOAD_BITS;
+        bytes.write(itemId == 0 ? next : next | VARINT_CONTINUATION_BIT);
+      } while (itemId != 0);
+    }
+
+    // Varints keep empty/current IDs compact; URL-safe Base64 adds no separators or padding.
+    return "~" + Base64.getUrlEncoder().withoutPadding().encodeToString(bytes.toByteArray());
   }
 
   public EquipmentRequest(final AdventureResult changeItem) {
@@ -763,6 +798,7 @@ public class EquipmentRequest extends PasswordHashRequest {
 
         // If you are already wearing the outfit, nothing to do
         if (EquipmentManager.isWearingOutfit(this.outfit)) {
+          this.restoreCodpieceOutfit();
           return;
         }
 
@@ -921,8 +957,122 @@ public class EquipmentRequest extends PasswordHashRequest {
         KoLmafia.updateDisplay("Outfit saved");
         return;
       }
-      case CHANGE_ITEM, CHANGE_OUTFIT, REMOVE_ITEM -> KoLmafia.updateDisplay("Equipment changed.");
+      case CHANGE_OUTFIT -> {
+        this.restoreCodpieceOutfit();
+        KoLmafia.updateDisplay("Equipment changed.");
+      }
+      case CHANGE_ITEM, REMOVE_ITEM -> KoLmafia.updateDisplay("Equipment changed.");
       case UNEQUIP_ALL -> KoLmafia.updateDisplay("Everything removed.");
+    }
+  }
+
+  private void restoreCodpieceOutfit() {
+    Matcher matcher = EquipmentRequest.OUTFIT_ACTION_PATTERN.matcher(this.outfit.getName());
+    while (matcher.find()) {
+      if (matcher.group(1).equalsIgnoreCase("c")
+          && EquipmentRequest.restoreCodpieceOutfit(matcher.group(2).trim())) {
+        return;
+      }
+    }
+  }
+
+  private static boolean restoreCodpieceOutfit(final String text) {
+    if (!text.startsWith("~")) {
+      return false;
+    }
+
+    List<AdventureResult> configuration = new ArrayList<>(SlotSet.CODPIECE_SLOTS.size());
+    try {
+      ByteBuffer buffer = ByteBuffer.wrap(Base64.getUrlDecoder().decode(text.substring(1)));
+      for (int slot = 0; slot < SlotSet.CODPIECE_SLOTS.size(); slot++) {
+        int itemId = EquipmentRequest.decodeUnsignedVarInt(buffer);
+        if (itemId <= 0) {
+          configuration.add(EquipmentRequest.UNEQUIP);
+        } else if (EquipmentRequest.isCodpieceGem(itemId)) {
+          configuration.add(ItemPool.get(itemId));
+        } else {
+          RequestLogger.printLine(
+              "Ignoring non-Codpiece gem item ID " + itemId + " in outfit configuration.");
+          configuration.add(EquipmentRequest.UNEQUIP);
+        }
+      }
+      if (buffer.hasRemaining()) {
+        throw new IllegalArgumentException();
+      }
+    } catch (IllegalArgumentException e) {
+      RequestLogger.printLine("Invalid Codpiece outfit configuration.");
+      return true;
+    }
+
+    EquipmentRequest.restoreCodpieceOutfit(configuration);
+    return true;
+  }
+
+  private static int decodeUnsignedVarInt(final ByteBuffer buffer) {
+    long value = 0;
+    for (int shift = 0; shift < Integer.SIZE; shift += VARINT_PAYLOAD_BITS) {
+      if (!buffer.hasRemaining()) {
+        throw new IllegalArgumentException();
+      }
+
+      int next = Byte.toUnsignedInt(buffer.get());
+      value |= (long) (next & VARINT_PAYLOAD_MASK) << shift;
+      if ((next & VARINT_CONTINUATION_BIT) == 0) {
+        if (value > Integer.MAX_VALUE) {
+          throw new IllegalArgumentException();
+        }
+        return (int) value;
+      }
+    }
+    throw new IllegalArgumentException();
+  }
+
+  private static void restoreCodpieceOutfit(final List<AdventureResult> configuration) {
+    if (!KoLCharacter.hasEquipped(ItemPool.THE_ETERNITY_CODPIECE)) {
+      return;
+    }
+
+    List<AdventureResult> currentConfiguration =
+        SlotSet.CODPIECE_SLOTS.stream().map(EquipmentManager::getEquipment).toList();
+    if (configuration.equals(currentConfiguration)) {
+      return;
+    }
+
+    Map<Integer, Integer> slotted = new HashMap<>();
+    Map<Integer, Integer> required = new HashMap<>();
+    currentConfiguration.stream()
+        .mapToInt(AdventureResult::getItemId)
+        .filter(itemId -> itemId > 0)
+        .forEach(itemId -> slotted.merge(itemId, 1, Integer::sum));
+    configuration.stream()
+        .mapToInt(AdventureResult::getItemId)
+        .filter(itemId -> itemId > 0)
+        .forEach(itemId -> required.merge(itemId, 1, Integer::sum));
+    for (Map.Entry<Integer, Integer> entry : required.entrySet()) {
+      int needed = entry.getValue() - slotted.getOrDefault(entry.getKey(), 0);
+      if (needed > 0 && !InventoryManager.retrieveItem(ItemPool.get(entry.getKey(), needed))) {
+        return;
+      }
+    }
+
+    for (Slot slot : SlotSet.CODPIECE_SLOTS) {
+      if (!EquipmentManager.getEquipment(slot).equals(EquipmentRequest.UNEQUIP)) {
+        new EquipmentRequest(EquipmentRequest.UNEQUIP, slot).run();
+        if (!KoLmafia.permitsContinue()) {
+          return;
+        }
+      }
+    }
+
+    int index = 0;
+    for (Slot slot : SlotSet.CODPIECE_SLOTS) {
+      AdventureResult gem = configuration.get(index++);
+      if (gem != EquipmentRequest.UNEQUIP) {
+        new EquipmentRequest(gem, slot).run();
+        if (!KoLmafia.permitsContinue()) {
+          return;
+        }
+      }
     }
   }
 
@@ -1936,7 +2086,11 @@ public class EquipmentRequest extends PasswordHashRequest {
     while (m.find()) {
       String text = m.group(2).trim();
       switch (m.group(1).toLowerCase().charAt(0)) {
-        case 'c' -> KoLmafiaCLI.DEFAULT_SHELL.executeLine(text);
+        case 'c' -> {
+          if (!EquipmentRequest.restoreCodpieceOutfit(text)) {
+            KoLmafiaCLI.DEFAULT_SHELL.executeLine(text);
+          }
+        }
         case 'e' -> KoLmafiaCLI.DEFAULT_SHELL.executeCommand("equip", "familiar " + text);
         case 'f' -> KoLmafiaCLI.DEFAULT_SHELL.executeCommand("familiar", text);
         case 'm' -> KoLmafiaCLI.DEFAULT_SHELL.executeCommand("mood", text);

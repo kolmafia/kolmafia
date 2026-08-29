@@ -161,6 +161,7 @@ public class MallPriceManagerTest {
   public static void beforeAll() {
     KoLCharacter.reset("MallPriceManager");
     MallPriceManager.reset();
+    MallPriceDatabase.reset();
     GenericRequest.sessionId = null;
     MallPriceDatabase.savePricesToFile = false;
   }
@@ -176,6 +177,7 @@ public class MallPriceManagerTest {
   @AfterEach
   public void AfterEach() {
     MallPriceManager.reset();
+    MallPriceDatabase.reset();
     MallPurchaseRequest.reset();
   }
 
