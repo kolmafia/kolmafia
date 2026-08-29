@@ -15,7 +15,7 @@ public class DoubleModifierCollection {
   private Map<DoubleModifier, DoubleOrList> doubles = new TreeMap<>();
 
   public void reset() {
-    this.doubles = new TreeMap<>();
+    this.doubles.clear();
   }
 
   public void set(DoubleModifierCollection source) {

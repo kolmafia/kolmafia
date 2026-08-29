@@ -76,6 +76,17 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 public class MaximizerTest {
+  @Test
+  void clonedSpeculationOwnsCalculatedModifiers() {
+    var speculation = new MaximizerSpeculation();
+    double itemDrop = speculation.calculate().getDouble(DoubleModifier.ITEMDROP);
+    var copy = speculation.clone();
+
+    speculation.getModifiers().setDouble(DoubleModifier.ITEMDROP, itemDrop + 1);
+
+    assertThat(copy.getModifiers().getDouble(DoubleModifier.ITEMDROP), equalTo(itemDrop));
+  }
+
   @BeforeAll
   public static void beforeAll() {
     KoLCharacter.reset("MaximizerTest");

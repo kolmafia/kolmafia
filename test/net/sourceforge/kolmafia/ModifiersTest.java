@@ -2027,6 +2027,17 @@ public class ModifiersTest {
   }
 
   @Test
+  public void resetClearsAccumulators() {
+    Modifiers modifiers = new Modifiers();
+    modifiers.addDouble(DoubleModifier.INITIATIVE, 50, ModifierType.NONE, "");
+
+    modifiers.reset();
+
+    assertThat(modifiers.getDouble(DoubleModifier.INITIATIVE), equalTo(0.0));
+    assertThat(modifiers.getAccumulator(DoubleModifier.INITIATIVE), equalTo(0.0));
+  }
+
+  @Test
   public void addsOnlyPresentBitmapAndBooleanModifiers() {
     Modifiers source = new Modifiers();
     source.setBitmap(BitmapModifier.CLOWNINESS, 1);

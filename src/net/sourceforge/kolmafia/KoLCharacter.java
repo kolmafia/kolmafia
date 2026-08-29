@@ -5118,9 +5118,47 @@ public abstract class KoLCharacter {
       String boomBox,
       Map<Modeable, String> modeables,
       boolean speculation) {
+    return recalculateAdjustments(
+        debug,
+        MCD,
+        equipment,
+        effects,
+        familiar,
+        enthroned,
+        bjorned,
+        custom,
+        horsery,
+        boomBox,
+        modeables,
+        speculation,
+        null);
+  }
+
+  static final Modifiers recalculateAdjustments(
+      boolean debug,
+      int MCD,
+      Map<Slot, AdventureResult> equipment,
+      List<AdventureResult> effects,
+      FamiliarData familiar,
+      FamiliarData enthroned,
+      FamiliarData bjorned,
+      String custom,
+      String horsery,
+      String boomBox,
+      Map<Modeable, String> modeables,
+      boolean speculation,
+      Modifiers target) {
     int taoFactor = KoLCharacter.hasSkill(SkillPool.TAO_OF_THE_TERRAPIN) ? 2 : 1;
 
-    Modifiers newModifiers = debug ? new DebugModifiers() : new Modifiers();
+    Modifiers newModifiers;
+    if (debug) {
+      newModifiers = new DebugModifiers();
+    } else if (target == null) {
+      newModifiers = new Modifiers();
+    } else {
+      target.reset();
+      newModifiers = target;
+    }
     Modifiers.setFamiliar(familiar);
     AdventureResult weapon = equipment.get(Slot.WEAPON);
     Modifiers.mainhandClass =

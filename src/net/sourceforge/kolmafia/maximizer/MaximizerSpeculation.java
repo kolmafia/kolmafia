@@ -46,6 +46,9 @@ public class MaximizerSpeculation extends Speculation
       MaximizerSpeculation copy = (MaximizerSpeculation) super.clone();
       copy.equipment = this.equipment.clone();
       copy.setModeables(new EnumMap<>(this.getModeables()));
+      if (this.mods != null) {
+        copy.mods = new Modifiers(this.mods);
+      }
       return copy;
     } catch (CloneNotSupportedException e) {
       return null;

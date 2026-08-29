@@ -294,6 +294,7 @@ public class Modifiers {
     this.booleans.reset();
     this.bitmaps.reset();
     this.expressions = null;
+    this.accumulators.reset();
   }
 
   public double getNumeric(final Modifier modifier) {
