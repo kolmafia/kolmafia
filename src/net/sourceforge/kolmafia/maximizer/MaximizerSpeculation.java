@@ -35,6 +35,10 @@ public class MaximizerSpeculation extends Speculation
   private double score, tiebreaker;
   private int simplicity;
   private int beeosity;
+  private int rolloverEffects;
+  private int breakables;
+  private int itemDroppers;
+  private int meatDroppers;
 
   public boolean failed = false;
   public CheckedItem attachment;
@@ -65,6 +69,7 @@ public class MaximizerSpeculation extends Speculation
 
   public void setUnscored() {
     this.scored = false;
+    this.tiebreakered = false;
     this.calculated = false;
   }
 
@@ -117,6 +122,19 @@ public class MaximizerSpeculation extends Speculation
         this.simplicity += 3;
       }
     }
+    this.rolloverEffects = 0;
+    this.breakables = 0;
+    this.itemDroppers = 0;
+    this.meatDroppers = 0;
+    for (var equip : this.equipment.values()) {
+      if (equip == null) continue;
+      Modifiers mods = ModifierDatabase.getItemModifiers(equip.getItemId());
+      if (mods == null) continue;
+      if (mods.hasString(StringModifier.ROLLOVER_EFFECT)) this.rolloverEffects++;
+      if (mods.getBoolean(BooleanModifier.BREAKABLE)) this.breakables++;
+      if (mods.getBoolean(BooleanModifier.DROPS_ITEMS)) this.itemDroppers++;
+      if (mods.getBoolean(BooleanModifier.DROPS_MEAT)) this.meatDroppers++;
+    }
     return this.tiebreaker;
   }
 
@@ -132,53 +150,26 @@ public class MaximizerSpeculation extends Speculation
     // In Bees Hate You, prefer lower B count
     rv = other.beeosity - this.beeosity;
     if (rv != 0) return rv;
-    // Get other comparisons
-    int countThisEffects = 0;
-    int countOtherEffects = 0;
-    int countThisBreakables = 0;
-    int countOtherBreakables = 0;
-    int countThisDropsItems = 0;
-    int countOtherDropsItems = 0;
-    int countThisDropsMeat = 0;
-    int countOtherDropsMeat = 0;
-    for (var equip : this.equipment.values()) {
-      if (equip == null) continue;
-      int itemId = equip.getItemId();
-      Modifiers mods = ModifierDatabase.getItemModifiers(itemId);
-      if (mods == null) continue;
-      if (mods.hasString(StringModifier.ROLLOVER_EFFECT)) countThisEffects++;
-      if (mods.getBoolean(BooleanModifier.BREAKABLE)) countThisBreakables++;
-      if (mods.getBoolean(BooleanModifier.DROPS_ITEMS)) countThisDropsItems++;
-      if (mods.getBoolean(BooleanModifier.DROPS_MEAT)) countThisDropsMeat++;
-    }
-    for (var equip : other.equipment.values()) {
-      if (equip == null) continue;
-      int itemId = equip.getItemId();
-      Modifiers mods = ModifierDatabase.getItemModifiers(itemId);
-      if (mods == null) continue;
-      if (mods.hasString(StringModifier.ROLLOVER_EFFECT)) countOtherEffects++;
-      if (mods.getBoolean(BooleanModifier.BREAKABLE)) countOtherBreakables++;
-      if (mods.getBoolean(BooleanModifier.DROPS_ITEMS)) countOtherDropsItems++;
-      if (mods.getBoolean(BooleanModifier.DROPS_MEAT)) countOtherDropsMeat++;
-    }
+    this.getTiebreaker();
+    other.getTiebreaker();
     // Prefer item droppers
-    if (Maximizer.eval.isUsingTiebreaker() && countThisDropsItems != countOtherDropsItems) {
-      return countThisDropsItems > countOtherDropsItems ? 1 : -1;
+    if (Maximizer.eval.isUsingTiebreaker() && this.itemDroppers != other.itemDroppers) {
+      return this.itemDroppers > other.itemDroppers ? 1 : -1;
     }
     // Prefer meat droppers
-    if (Maximizer.eval.isUsingTiebreaker() && countThisDropsMeat != countOtherDropsMeat) {
-      return countThisDropsMeat > countOtherDropsMeat ? 1 : -1;
+    if (Maximizer.eval.isUsingTiebreaker() && this.meatDroppers != other.meatDroppers) {
+      return this.meatDroppers > other.meatDroppers ? 1 : -1;
     }
     // Prefer higher tiebreaker account (unless -tie used)
-    rv = Double.compare(this.getTiebreaker(), other.getTiebreaker());
+    rv = Double.compare(this.tiebreaker, other.tiebreaker);
     if (rv != 0) return rv;
     // Prefer rollover effects
-    if (Maximizer.eval.isUsingTiebreaker() && countThisEffects != countOtherEffects) {
-      return countThisEffects > countOtherEffects ? 1 : -1;
+    if (Maximizer.eval.isUsingTiebreaker() && this.rolloverEffects != other.rolloverEffects) {
+      return this.rolloverEffects > other.rolloverEffects ? 1 : -1;
     }
     // Prefer unbreakables
-    if (countThisBreakables != countOtherBreakables) {
-      return countThisBreakables < countOtherBreakables ? 1 : -1;
+    if (this.breakables != other.breakables) {
+      return this.breakables < other.breakables ? 1 : -1;
     }
     // Prefer worn
     rv = this.simplicity - other.simplicity;
@@ -813,10 +804,12 @@ public class MaximizerSpeculation extends Speculation
       Maximizer.best = this.clone();
     }
     Maximizer.bestChecked++;
-    long t = System.currentTimeMillis();
-    if (t > Maximizer.bestUpdate) {
-      MaximizerSpeculation.showProgress();
-      Maximizer.bestUpdate = t + 5000;
+    if ((Maximizer.bestChecked & 0x3FF) == 0) {
+      long t = System.currentTimeMillis();
+      if (t > Maximizer.bestUpdate) {
+        MaximizerSpeculation.showProgress();
+        Maximizer.bestUpdate = t + 5000;
+      }
     }
     this.restore(mark);
     if (!KoLmafia.permitsContinue()) {
@@ -825,8 +818,7 @@ public class MaximizerSpeculation extends Speculation
     if (this.exceeded) {
       throw new MaximizerExceededException();
     }
-    long comboLimit = Preferences.getLong("maximizerCombinationLimit");
-    if (comboLimit != 0 && Maximizer.bestChecked >= comboLimit) {
+    if (Maximizer.combinationLimit != 0 && Maximizer.bestChecked >= Maximizer.combinationLimit) {
       throw new MaximizerLimitException();
     }
   }

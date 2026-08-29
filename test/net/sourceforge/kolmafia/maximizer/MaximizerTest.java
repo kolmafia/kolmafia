@@ -77,6 +77,47 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 public class MaximizerTest {
   @Test
+  void respectsCachedCombinationLimit() {
+    try (var cleanups =
+        new Cleanups(
+            withEquippableItem("hardened slime hat"),
+            withEquippableItem("bounty-hunting helmet"),
+            withProperty("maximizerCombinationLimit", 1))) {
+      maximize("item drop");
+      assertThat(Maximizer.bestChecked, is(1));
+      assertThat(Maximizer.combinationLimit, is(1L));
+    }
+
+    try (var cleanups =
+        new Cleanups(
+            withEquippableItem("hardened slime hat"),
+            withEquippableItem("bounty-hunting helmet"),
+            withProperty("maximizerCombinationLimit", 0))) {
+      maximize("item drop");
+      assertThat(Maximizer.combinationLimit, is(0L));
+    }
+  }
+
+  @Test
+  void invalidatesCachedTieComparisons() {
+    Maximizer.eval = new Evaluator("0, -tie");
+    var speculation = new MaximizerSpeculation();
+    var comparison = new MaximizerSpeculation();
+
+    speculation.equip(Slot.HAT, ItemPool.get(ItemPool.ANTIQUE_HELMET));
+    speculation.setUnscored();
+    speculation.getTiebreaker();
+
+    var helmetTurtle = ItemPool.get(ItemPool.HELMET_TURTLE);
+    speculation.equip(Slot.HAT, helmetTurtle);
+    speculation.setUnscored();
+    comparison.equip(Slot.HAT, helmetTurtle);
+    comparison.setUnscored();
+
+    assertThat(speculation.compareTo(comparison), is(0));
+  }
+
+  @Test
   void clonedSpeculationOwnsCalculatedModifiers() {
     var speculation = new MaximizerSpeculation();
     double itemDrop = speculation.calculate().getDouble(DoubleModifier.ITEMDROP);
