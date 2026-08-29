@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 public class StringModifierCollection {
+  private static final StringOrList DEFAULT = new StringOrList("");
   private final Map<StringModifier, StringOrList> strings = new EnumMap<>(StringModifier.class);
 
   public void reset() {
@@ -18,7 +19,7 @@ public class StringModifierCollection {
   }
 
   private StringOrList get(final StringModifier mod) {
-    return this.strings.getOrDefault(mod, new StringOrList(""));
+    return this.strings.getOrDefault(mod, DEFAULT);
   }
 
   public String getString(final StringModifier mod) {
