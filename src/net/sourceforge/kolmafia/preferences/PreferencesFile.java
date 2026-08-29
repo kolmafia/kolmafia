@@ -25,7 +25,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 
 /**
- * Controls a preference snapshot/backup/journal file ([user]_prefs.txt/.bak/.journal) and it's IO.
+ * Controls a preference snapshot/backup/journal file ([user]_prefs.txt/.bak/.journal) and its IO.
  * Changes are appended to the journal instead of rewriting the whole snapshot, and the journal is
  * trimmed when needed. It's removed when logging out.
  */
