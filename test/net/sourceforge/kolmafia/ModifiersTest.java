@@ -2040,6 +2040,18 @@ public class ModifiersTest {
   }
 
   @Test
+  public void detectsOnlyPresentStringModifiers() {
+    Modifiers modifiers = new Modifiers();
+
+    assertThat(modifiers.hasString(null), is(false));
+    assertThat(modifiers.hasString(StringModifier.ROLLOVER_EFFECT), is(false));
+
+    modifiers.setString(StringModifier.ROLLOVER_EFFECT, "Sleepy");
+
+    assertThat(modifiers.hasString(StringModifier.ROLLOVER_EFFECT), is(true));
+  }
+
+  @Test
   public void copyConstructorKeepsExpressions() {
     var cleanups = new Cleanups(withEquipped(Slot.WEAPON, ItemPool.SEAL_CLUB));
 

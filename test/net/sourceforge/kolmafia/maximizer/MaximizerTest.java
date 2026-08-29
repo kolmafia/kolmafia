@@ -234,6 +234,20 @@ public class MaximizerTest {
         assertTrue(maximize("2 min, mus"));
       }
     }
+
+    @Test
+    public void zeroWeightModifierStillEnforcesMinimum() {
+      Evaluator evaluator = new Evaluator("0 da, 2 min, -tie");
+      Modifiers modifiers = new Modifiers();
+
+      modifiers.setDouble(DoubleModifier.DAMAGE_ABSORPTION, 1.0);
+      evaluator.getScore(modifiers);
+      assertTrue(evaluator.failed);
+
+      modifiers.setDouble(DoubleModifier.DAMAGE_ABSORPTION, 2.0);
+      evaluator.getScore(modifiers);
+      assertFalse(evaluator.failed);
+    }
   }
 
   @Nested
