@@ -12,6 +12,11 @@ public class StringModifierCollection {
     this.strings.clear();
   }
 
+  public void set(StringModifierCollection source) {
+    this.strings.clear();
+    this.strings.putAll(source.strings);
+  }
+
   private StringOrList get(final StringModifier mod) {
     return this.strings.getOrDefault(mod, new StringOrList(""));
   }
@@ -26,6 +31,10 @@ public class StringModifierCollection {
     var entry = this.strings.get(mod);
     if (entry == null) return new ArrayList<>(List.of());
     return entry.getListValue();
+  }
+
+  public boolean contains(final StringModifier mod) {
+    return this.strings.containsKey(mod);
   }
 
   public boolean set(final StringModifier mod, final String value) {

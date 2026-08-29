@@ -95,7 +95,9 @@ public class Modifiers {
 
   public Modifiers(Modifiers copy) {
     this();
-    this.set(copy);
+    if (this.set(copy)) {
+      this.accumulators.set(copy.accumulators);
+    }
   }
 
   public Modifiers(Lookup lookup) {
@@ -439,6 +441,10 @@ public class Modifiers {
     return this.strings.getList(modifier);
   }
 
+  public boolean hasString(final StringModifier modifier) {
+    return modifier != null && this.strings.contains(modifier);
+  }
+
   public double getAccumulator(final DoubleModifier modifier) {
     if (modifier == null) {
       // For now, make it obvious that something went wrong
@@ -512,32 +518,12 @@ public class Modifiers {
       return false;
     }
 
-    boolean changed = false;
     this.originalLookup = mods.originalLookup;
 
-    for (var mod : DoubleModifier.DOUBLE_MODIFIERS) {
-      if (mod.isMultiple()) {
-        changed |= this.doubles.set(mod, mods.doubles.getList(mod));
-      } else {
-        changed |= this.setDouble(mod, mods.doubles.getDouble(mod));
-      }
-    }
-
-    for (var mod : BitmapModifier.BITMAP_MODIFIERS) {
-      changed |= this.setBitmap(mod, mods.bitmaps.get(mod));
-    }
-
-    for (var mod : BooleanModifier.BOOLEAN_MODIFIERS) {
-      changed |= this.setBoolean(mod, mods.booleans.get(mod));
-    }
-
-    for (var mod : StringModifier.STRING_MODIFIERS) {
-      if (mod.isMultiple()) {
-        changed |= this.strings.set(mod, mods.strings.getList(mod));
-      } else {
-        changed |= this.setString(mod, mods.strings.getString(mod));
-      }
-    }
+    this.doubles.set(mods.doubles);
+    this.bitmaps.set(mods.bitmaps);
+    this.booleans.set(mods.booleans);
+    this.strings.set(mods.strings);
 
     if (mods.expressions != null && !mods.expressions.isEmpty()) {
       if (this.expressions == null) {
@@ -548,10 +534,9 @@ public class Modifiers {
       // them to avoid stacking up multiple copies of the same expression. This isn't technically
       // quite right, but it's probably close enough to right.
       this.expressions.putAll(mods.expressions);
-      changed = true;
     }
 
-    return changed;
+    return true;
   }
 
   public void addDouble(
@@ -735,16 +720,10 @@ public class Modifiers {
     // OR in the bitmap modifiers
     var mutexes = this.bitmaps.get(BitmapModifier.MUTEX) & mods.bitmaps.get(BitmapModifier.MUTEX);
     this.bitmaps.add(BitmapModifier.MUTEX_VIOLATIONS, mutexes);
-    for (var mod : BitmapModifier.BITMAP_MODIFIERS) {
-      this.bitmaps.add(mod, mods.bitmaps.get(mod));
-    }
+    mods.bitmaps.forEach(this.bitmaps::add);
 
     // OR in the boolean modifiers
-    for (var mod : BooleanModifier.BOOLEAN_MODIFIERS) {
-      if (mods.booleans.get(mod)) {
-        this.booleans.set(mod, true);
-      }
-    }
+    mods.booleans.forEach(mod -> this.booleans.set(mod, true));
   }
 
   public boolean setModifier(final ModifierValue mod) {

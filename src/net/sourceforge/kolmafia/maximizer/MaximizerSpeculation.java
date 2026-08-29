@@ -143,8 +143,7 @@ public class MaximizerSpeculation extends Speculation
       int itemId = equip.getItemId();
       Modifiers mods = ModifierDatabase.getItemModifiers(itemId);
       if (mods == null) continue;
-      var rolloverEffects = mods.getStrings(StringModifier.ROLLOVER_EFFECT);
-      if (!rolloverEffects.isEmpty()) countThisEffects++;
+      if (mods.hasString(StringModifier.ROLLOVER_EFFECT)) countThisEffects++;
       if (mods.getBoolean(BooleanModifier.BREAKABLE)) countThisBreakables++;
       if (mods.getBoolean(BooleanModifier.DROPS_ITEMS)) countThisDropsItems++;
       if (mods.getBoolean(BooleanModifier.DROPS_MEAT)) countThisDropsMeat++;
@@ -154,8 +153,7 @@ public class MaximizerSpeculation extends Speculation
       int itemId = equip.getItemId();
       Modifiers mods = ModifierDatabase.getItemModifiers(itemId);
       if (mods == null) continue;
-      var rolloverEffects = mods.getStrings(StringModifier.ROLLOVER_EFFECT);
-      if (!rolloverEffects.isEmpty()) countOtherEffects++;
+      if (mods.hasString(StringModifier.ROLLOVER_EFFECT)) countOtherEffects++;
       if (mods.getBoolean(BooleanModifier.BREAKABLE)) countOtherBreakables++;
       if (mods.getBoolean(BooleanModifier.DROPS_ITEMS)) countOtherDropsItems++;
       if (mods.getBoolean(BooleanModifier.DROPS_MEAT)) countOtherDropsMeat++;

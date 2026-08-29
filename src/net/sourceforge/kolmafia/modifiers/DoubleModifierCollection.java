@@ -18,6 +18,13 @@ public class DoubleModifierCollection {
     this.doubles = new TreeMap<>();
   }
 
+  public void set(DoubleModifierCollection source) {
+    Map<DoubleModifier, DoubleOrList> copy =
+        source.doubles instanceof EnumMap ? new EnumMap<>(DoubleModifier.class) : new TreeMap<>();
+    copy.putAll(source.doubles);
+    this.doubles = copy;
+  }
+
   public void densify() {
     if (this.doubles instanceof EnumMap) return;
     Map<DoubleModifier, DoubleOrList> newDoubles = new EnumMap<>(DoubleModifier.class);
