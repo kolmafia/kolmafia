@@ -28,7 +28,7 @@
 -85	spoiled Rainbow Spider Fun Roll	4	crappy	
 -86	spoiled half-sized Vegas Volcano Lava Roll	2	crappy	
 -87	bland shaking Crazy Dragon Shogun Buddha Roll	3	decent	
--92	enchanted normal small skewed gray basic hot dog	2	good	
+-92	normal small skewed gray basic hot dog	2	good	
 -93	spoiled half-sized savage macho dog	2	crappy	
 -94	bland one with everything	4	decent	
 -95	adequate fuchsia sly dog	4	good	

@@ -1,5 +1,5 @@
 -1	aged Petite Porter	3	awesome	
--2	bad Scrawny Stout	3	decent	
+-2	bad fancy Scrawny Stout	3	decent	
 -3	practically non-alcoholic artisanal Infinitesimal IPA	1	EPIC	
 -4	mediocre high-proof eggnogtini	6	decent	
 -5	lousy candycaine	4	decent	

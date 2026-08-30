@@ -11,7 +11,7 @@
 -20	smooth practically non-alcoholic hot toady	1	awesome	
 -21	practically non-alcoholic lousy hot choculate	1	decent	
 -49	drinkable jittery Cyder	3	good	
--50	artisanal practically non-alcoholic enchanted green Oil Nog	1	EPIC	
+-50	practically non-alcoholic artisanal green Oil Nog	1	EPIC	
 -51	acceptable Hi-Octane Peppermint Jet Fuel	3	good	
 -58	hand-crafted Grimacider	4	EPIC	
 -59	tolerable Isotope Nog	3	good	

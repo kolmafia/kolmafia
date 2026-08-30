@@ -7,11 +7,11 @@
 -10	tasty big twigs and gravel	5	awesome	
 -11	half-sized moldy spinning shoots and leaves	2	crappy	
 -12	immense flavorless shaking bowl of unidentifiable goo	9	decent	
--13	small normal shaking gingerbread massacre	2	good	
+-13	small normal special shaking gingerbread massacre	2	good	
 -14	miniature bland It Came From Beyond Dessert	2	decent	
 -15	bland vampire cake	4	decent	
 -52	stale big twirling olive blurry Soylent Red and Green	5	decent	
--53	special moldy super-sized huge Disc-Shaped Nutrition Unit	5	crappy	
+-53	moldy super-sized huge Disc-Shaped Nutrition Unit	5	crappy	
 -54	stale fancy immense Gingerborg Hive	9	decent	
 -61	super-sized decent Candy Cane Surprise	5	good	
 -62	delicious special Grimdrop Chow Mein	4	awesome	
