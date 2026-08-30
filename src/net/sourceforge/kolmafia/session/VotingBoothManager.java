@@ -1,8 +1,7 @@
 package net.sourceforge.kolmafia.session;
 
 import net.sourceforge.kolmafia.modifiers.ModifierList.ModifierValue;
-import net.sourceforge.kolmafia.utilities.PHPMTRandom;
-import net.sourceforge.kolmafia.utilities.PHPRandom;
+import net.sourceforge.kolmafia.utilities.PHPRandomSelection;
 
 public class VotingBoothManager {
   private static final ModifierValue[] VOTING_BOOTH_POSITIVE_MODIFIERS = {
@@ -67,9 +66,7 @@ public class VotingBoothManager {
   }
 
   public static final ModifierValue[] getPositiveInitiatives(final int seed) {
-    PHPRandom rng = new PHPRandom(seed);
-
-    int[] positives = rng.array(VOTING_BOOTH_POSITIVE_MODIFIERS.length, 3);
+    int[] positives = new PHPRandomSelection(seed).pick(VOTING_BOOTH_POSITIVE_MODIFIERS.length, 3);
 
     ModifierValue[] modifiers = new ModifierValue[3];
 
@@ -81,12 +78,7 @@ public class VotingBoothManager {
   }
 
   public static final ModifierValue getNegativeInitiative(final int seed) {
-    PHPMTRandom mtRng = new PHPMTRandom(seed);
-
-    int n = 15;
-    while (n > 14) {
-      n = mtRng.nextInt(0, 15);
-    }
+    int n = new PHPRandomSelection(seed).pick(VOTING_BOOTH_NEGATIVE_MODIFIERS.length, 1)[0];
 
     return VOTING_BOOTH_NEGATIVE_MODIFIERS[n];
   }

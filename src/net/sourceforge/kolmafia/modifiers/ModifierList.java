@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.modifiers;
 
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 import net.sourceforge.kolmafia.ModifierExpression;
@@ -107,15 +108,7 @@ public class ModifierList implements Iterable<ModifierValue> {
 
   @Override
   public String toString() {
-    StringBuilder buffer = new StringBuilder();
-    for (ModifierValue modifier : this.list) {
-      if (buffer.length() > 0) {
-        buffer.append(", ");
-      }
-
-      modifier.toString(buffer);
-    }
-    return buffer.toString();
+    return this.list.stream().map(ModifierValue::toString).collect(Collectors.joining(", "));
   }
 
   public static class ModifierValue {
@@ -164,19 +157,15 @@ public class ModifierList implements Iterable<ModifierValue> {
       this.value = (val > 0 ? "+" : "") + val;
     }
 
-    public void toString(final StringBuilder buffer) {
-      buffer.append(name);
-      if (value != null) {
-        buffer.append(": ");
-        buffer.append(value);
-      }
-    }
-
     @Override
     public String toString() {
-      StringBuilder buffer = new StringBuilder();
-      this.toString(buffer);
-      return buffer.toString();
+      // Boolean modifiers have no value. Render just the name (not "name: null").
+      if (value == null) return name;
+      // String modifier values are quoted in the modifier string; quote if the caller didn't.
+      if (StringModifier.byCaselessName(name) != null && !value.startsWith("\"")) {
+        return name + ": \"" + value + "\"";
+      }
+      return name + ": " + value;
     }
   }
 }

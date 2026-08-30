@@ -1,11 +1,11 @@
--1	special big spoiled Peche a la Frog	5	crappy	
+-1	spoiled big Peche a la Frog	5	crappy	
 -2	decent As Jus Gezund Heit	3	good	
 -3	spoiled Bouillabaise Coucher Avec Moi	3	crappy	
 -7	decent gigantic gumdrop chow mein	8	good	
 -8	stale teal candy cane pizza	4	decent	
 -9	toothsome blinking gingerbread stir-fry	3	awesome	
 -10	normal twigs and gravel	3	good	
--11	adequate snack-sized skewed shoots and leaves	2	good	
+-11	fancy snack-sized adequate skewed shoots and leaves	2	good	
 -12	big spoiled bowl of unidentifiable goo	5	crappy	
 -13	decent mirror gingerbread massacre	4	good	
 -14	small moldy It Came From Beyond Dessert	2	crappy	

@@ -13,7 +13,7 @@
 -49	artisanal Cyder	4	EPIC	
 -50	enchanted weak artisanal Oil Nog	2	EPIC	
 -51	aged enchanted irresponsibly strong Hi-Octane Peppermint Jet Fuel	7	awesome	
--58	acceptable weak fancy blue Grimacider	2	good	
+-58	acceptable weak blue Grimacider	2	good	
 -59	watered-down perfectly mixed Isotope Nog	2	EPIC	
 -60	drinkable Mutagin 'n' Tonic	3	good	
 -70	artisanal fortified Gin and Herring	5	EPIC	

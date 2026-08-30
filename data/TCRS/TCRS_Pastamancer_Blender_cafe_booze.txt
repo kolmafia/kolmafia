@@ -11,7 +11,7 @@
 -20	lousy practically non-alcoholic hot toady	1	decent	
 -21	artisanal hot choculate	3	EPIC	
 -49	fortified tolerable Cyder	5	good	
--50	lousy Oil Nog	3	decent	
+-50	special lousy Oil Nog	3	decent	
 -51	perfectly mixed Hi-Octane Peppermint Jet Fuel	3	EPIC	
 -58	practically non-alcoholic perfectly mixed Grimacider	1	EPIC	
 -59	aged Isotope Nog	3	awesome	

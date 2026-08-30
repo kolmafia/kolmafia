@@ -2,7 +2,7 @@
 -2	decent snack-sized twirling As Jus Gezund Heit	2	good	
 -3	spoiled Bouillabaise Coucher Avec Moi	3	crappy	
 -7	adequate low-calorie gumdrop chow mein	1	good	
--8	enchanted stale candy cane pizza	3	decent	
+-8	stale candy cane pizza	3	decent	
 -9	immense rotten gingerbread stir-fry	8	crappy	
 -10	bland twigs and gravel	4	decent	
 -11	decent shoots and leaves	4	good	
@@ -28,7 +28,7 @@
 -85	stale shaking Rainbow Spider Fun Roll	4	decent	
 -86	moldy half-sized Vegas Volcano Lava Roll	2	crappy	
 -87	big bland Crazy Dragon Shogun Buddha Roll	5	decent	
--92	enchanted stale basic hot dog	3	decent	
+-92	stale basic hot dog	3	decent	
 -93	yummy blurry savage macho dog	4	awesome	
 -94	delicious one with everything	3	awesome	
 -95	decent sly dog	4	good	
@@ -37,7 +37,7 @@
 -98	moldy jittery ghost dog	4	crappy	
 -99	bland immense junkyard dog	7	decent	
 -100	stale miniature special wet dog	2	decent	
--101	flavorless sleeping dog	3	decent	
+-101	flavorless enchanted sleeping dog	3	decent	
 -102	rotten huge optimal dog	3	crappy	
 -103	bland narrow video games hot dog	3	decent	
 -104	rotten Peppermint Nutrition Block	4	crappy	

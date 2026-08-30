@@ -32,7 +32,7 @@
 -93	bland savage macho dog	4	decent	
 -94	adequate one with everything	4	good	
 -95	adequate sly dog	4	good	
--96	moldy gigantic mirror devil dog	6	crappy	
+-96	moldy gigantic special mirror devil dog	6	crappy	
 -97	miniature bland chilly dog	2	decent	
 -98	small bland ghost dog	2	decent	
 -99	spoiled junkyard dog	4	crappy	
@@ -41,5 +41,5 @@
 -102	toothsome half-sized optimal dog	2	awesome	
 -103	flavorless small video games hot dog	2	decent	
 -104	half-sized normal Peppermint Nutrition Block	2	good	
--105	bland Gingerbread Nutrition Block	3	decent	
+-105	bland fancy Gingerbread Nutrition Block	3	decent	
 -106	rotten low-calorie Cinnamon Nutrition Block	1	crappy	

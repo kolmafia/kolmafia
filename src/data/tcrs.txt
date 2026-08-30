@@ -1,0 +1,420 @@
+1
+# TCRS string tables. ORDER MATTERS. DO NOT SORT OR DEDUPE.
+Color	red
+Color	lime green
+Color	blue
+Color	gray
+Color	maroon
+Color	yellow
+Color	olive
+Color	cyan
+Color	teal
+Color	green
+Color	fuchsia
+Color	purple
+
+Cosmetic	narrow
+Cosmetic	huge
+Cosmetic	skewed
+Cosmetic	blinking
+Cosmetic	upside-down
+Cosmetic	mirror
+Cosmetic	wobbly
+Cosmetic	twirling
+Cosmetic	pulsating
+Cosmetic	jittery
+Cosmetic	squat
+Cosmetic	spinning
+Cosmetic	tumbling
+Cosmetic	shaking
+Cosmetic	ghostly
+Cosmetic	blurry
+Cosmetic	bouncing
+
+Potion Mod	galvanized
+Potion Mod	liquefied
+Potion Mod	magnetized
+Potion Mod	nitrogenated
+Potion Mod	oxidized
+Potion Mod	polarized
+Potion Mod	polymerized
+Potion Mod	quantum
+Potion Mod	tarnished
+Potion Mod	vacuum-sealed
+Potion Mod	energized
+Potion Mod	frozen
+Potion Mod	diffused
+Potion Mod	electrified
+Potion Mod	concentrated
+Potion Mod	colloidal
+Potion Mod	activated
+Potion Mod	aerosolized
+Potion Mod	anodized
+Potion Mod	alkaline
+Potion Mod	ionized
+Potion Mod	deionized
+Potion Mod	denatured
+Potion Mod	pickled
+Potion Mod	cold-filtered
+Potion Mod	boiled
+Potion Mod	modified
+Potion Mod	altered
+Potion Mod	corrupted
+Potion Mod	unsweetened
+Potion Mod	improved
+Potion Mod	adjusted
+Potion Mod	enhanced
+Potion Mod	moist
+Potion Mod	dry
+Potion Mod	chilled
+Potion Mod	warmed
+Potion Mod	ionized
+Potion Mod	Vulcanized
+Potion Mod	wet
+Potion Mod	dry
+Potion Mod	pressed
+Potion Mod	flattened
+Potion Mod	irradiated
+
+Potion Prefix	double
+Potion Prefix	triple
+Potion Prefix	quadruple
+Potion Prefix	extra
+Potion Prefix	non
+Potion Prefix	super
+
+Food Enchantment	special
+Food Enchantment	fancy
+Food Enchantment	enchanted
+
+Spleen Mod	boiled
+Spleen Mod	dried
+Spleen Mod	dehydrated
+Spleen Mod	diluted
+Spleen Mod	powdered
+Spleen Mod	mixed
+Spleen Mod	distilled
+Spleen Mod	altered
+Spleen Mod	modified
+Spleen Mod	twisted
+Spleen Mod	vaporized
+Spleen Mod	denatured
+Spleen Mod	compressed
+Spleen Mod	pickled
+
+Food Size	1	tiny
+Food Size	1	bite-sized
+Food Size	1	diet
+Food Size	1	low-calorie
+Food Size	2	small
+Food Size	2	snack-sized
+Food Size	2	half-sized
+Food Size	2	miniature
+Food Size	5	big
+Food Size	5	thick
+Food Size	5	super-sized
+Food Size	5	jumbo
+Food Size	6	massive
+Food Size	6	gigantic
+Food Size	6	huge
+Food Size	6	immense
+
+Booze Size	1	practically non-alcoholic
+Booze Size	2	weak
+Booze Size	2	watered-down
+Booze Size	5	strong
+Booze Size	5	spirit-forward
+Booze Size	5	fortified
+Booze Size	5	boozy
+Booze Size	5	distilled
+Booze Size	5	extra-dry
+Booze Size	6	irresponsibly strong
+Booze Size	6	high-proof
+Booze Size	6	triple-distilled
+
+Food Quality	EPIC	
+Food Quality	AWESOME	delicious
+Food Quality	AWESOME	tasty
+Food Quality	AWESOME	toothsome
+Food Quality	AWESOME	yummy
+Food Quality	GOOD	decent
+Food Quality	GOOD	adequate
+Food Quality	GOOD	normal
+Food Quality	DECENT	bland
+Food Quality	DECENT	stale
+Food Quality	DECENT	flavorless
+Food Quality	CRAPPY	rotten
+Food Quality	CRAPPY	spoiled
+Food Quality	CRAPPY	moldy
+
+Booze Quality	EPIC	perfectly mixed
+Booze Quality	EPIC	artisanal
+Booze Quality	EPIC	hand-crafted
+Booze Quality	AWESOME	delicious
+Booze Quality	AWESOME	smooth
+Booze Quality	AWESOME	aged
+Booze Quality	GOOD	acceptable
+Booze Quality	GOOD	drinkable
+Booze Quality	GOOD	tolerable
+Booze Quality	DECENT	bad
+Booze Quality	DECENT	lousy
+Booze Quality	DECENT	mediocre
+Booze Quality	CRAPPY	
+
+Equipment Enchant	strapping	Muscle: +5
+Equipment Enchant	beefy	Muscle: +10
+Equipment Enchant	weightlifter's	Muscle: +15
+Equipment Enchant	of the ox	Muscle: +20
+Equipment Enchant	beefcake's	Muscle: +25
+Equipment Enchant	brainy	Mysticality: +5
+Equipment Enchant	thinker's	Mysticality: +10
+Equipment Enchant	of wisdom	Mysticality: +15
+Equipment Enchant	of the wise owl	Mysticality: +20
+Equipment Enchant	wizardly	Mysticality: +25
+Equipment Enchant	cool	Moxie: +5
+Equipment Enchant	slick	Moxie: +10
+Equipment Enchant	smooth	Moxie: +15
+Equipment Enchant	of the cougar	Moxie: +20
+Equipment Enchant	stylish	Moxie: +25
+Equipment Enchant	boxer's	Muscle Percent: +10
+Equipment Enchant	brawny	Muscle Percent: +20
+Equipment Enchant	of the brute	Muscle Percent: +30
+Equipment Enchant	sage	Mysticality Percent: +10
+Equipment Enchant	savvy	Mysticality Percent: +20
+Equipment Enchant	Rosewater's	Mysticality Percent: +30
+Equipment Enchant	groovy	Moxie Percent: +10
+Equipment Enchant	supercool	Moxie Percent: +20
+Equipment Enchant	smartaleck's	Moxie Percent: +30
+Equipment Enchant	educational	Experience: +1
+Equipment Enchant	experienced	Experience: +2
+Equipment Enchant	of the pedagogue	Experience: +3
+Equipment Enchant	Herculean	Experience (Muscle): +1
+Equipment Enchant	of Tarzan	Experience (Muscle): +3
+Equipment Enchant	Samson's	Experience (Muscle): +5
+Equipment Enchant	Socratic	Experience (Mysticality): +1
+Equipment Enchant	Newton's	Experience (Mysticality): +3
+Equipment Enchant	Da Vinci's	Experience (Mysticality): +5
+Equipment Enchant	Fonzie's	Experience (Moxie): +1
+Equipment Enchant	of James Dean	Experience (Moxie): +3
+Equipment Enchant	Sinatra's	Experience (Moxie): +5
+Equipment Enchant	personal trainer's	Experience Percent (Muscle): +10
+Equipment Enchant	arcane researcher's	Experience Percent (Mysticality): +10
+Equipment Enchant	dance instructor's	Experience Percent (Moxie): +10
+Equipment Enchant	deadly	Weapon Damage: +5
+Equipment Enchant	dangerous	Weapon Damage: +10
+Equipment Enchant	of dire peril	Weapon Damage: +20
+Equipment Enchant	razor-sharp	Weapon Damage Percent: +25
+Equipment Enchant	grievous	Weapon Damage Percent: +50
+Equipment Enchant	extremely unsafe	Weapon Damage Percent: +100
+Equipment Enchant	wicked	Spell Damage: +5
+Equipment Enchant	sinister	Spell Damage: +10
+Equipment Enchant	baleful	Spell Damage: +25
+Equipment Enchant	occult	Spell Damage Percent: +25
+Equipment Enchant	forbidden	Spell Damage Percent: +50
+Equipment Enchant	of the dark arts	Spell Damage Percent: +100
+Equipment Enchant	padded	Damage Absorption: +20
+Equipment Enchant	quilted	Damage Absorption: +40
+Equipment Enchant	fortified	Damage Absorption: +60
+Equipment Enchant	studded	Damage Absorption: +80
+Equipment Enchant	banded	Damage Absorption: +100
+Equipment Enchant	stiffened	Damage Reduction: 1
+Equipment Enchant	hardened	Damage Reduction: 3
+Equipment Enchant	rock-hard	Damage Reduction: 5
+Equipment Enchant	shellacked	Damage Reduction: 7
+Equipment Enchant	steel-toed	Damage Reduction: 9
+Equipment Enchant	wholesome	Maximum HP Percent: +10
+Equipment Enchant	healthy	Maximum HP Percent: +20
+Equipment Enchant	rosy-cheeked	Maximum HP Percent: +30
+Equipment Enchant	ruddy	Maximum HP Percent: +40
+Equipment Enchant	of vim and vigor	Maximum HP Percent: +50
+Equipment Enchant	veiny	Maximum HP: +10
+Equipment Enchant	hale	Maximum HP: +20
+Equipment Enchant	hardy	Maximum HP: +50
+Equipment Enchant	of the bloodbag	Maximum HP: +100
+Equipment Enchant	curative	HP Regen Min: 3, HP Regen Max: 5
+Equipment Enchant	therapeutic	HP Regen Min: 5, HP Regen Max: 7
+Equipment Enchant	medical-grade	HP Regen Min: 7, HP Regen Max: 10
+Equipment Enchant	vibrating	Maximum MP Percent: +10
+Equipment Enchant	energetic	Maximum MP Percent: +20
+Equipment Enchant	supercharged	Maximum MP Percent: +30
+Equipment Enchant	of the storm	Maximum MP Percent: +40
+Equipment Enchant	Oprah's	Maximum MP Percent: +50
+Equipment Enchant	crafty	Maximum MP: +10
+Equipment Enchant	clever	Maximum MP: +20
+Equipment Enchant	resourceful	Maximum MP: +50
+Equipment Enchant	MacGyver's	Maximum MP: +100
+Equipment Enchant	electrified	MP Regen Min: 3, MP Regen Max: 5
+Equipment Enchant	Van der Graaf	MP Regen Min: 5, MP Regen Max: 7
+Equipment Enchant	Tesla	MP Regen Min: 7, MP Regen Max: 10
+Equipment Enchant	sharpshooter's	Critical Hit Percent: +10
+Equipment Enchant	of Calamity Jane	Critical Hit Percent: +15
+Equipment Enchant	Annie Oakley's	Critical Hit Percent: +20
+Equipment Enchant	chaotic	Spell Critical Percent: +10
+Equipment Enchant	of Gandalf	Spell Critical Percent: +20
+Equipment Enchant	Lo Pan's	Spell Critical Percent: +30
+Equipment Enchant	manspreader's	Monster Level: +10
+Equipment Enchant	mansplainer's	Monster Level: +15
+Equipment Enchant	of Leguizamo	Monster Level: +20
+Equipment Enchant	Jim Carey's	Monster Level: +25
+Equipment Enchant	careful	Monster Level: -10
+Equipment Enchant	of the scaredy-cat	Monster Level: -15
+Equipment Enchant	coward's	Monster Level: -20
+Equipment Enchant	of extreme caution	Monster Level: -25
+Equipment Enchant	friendly	Familiar Weight: +3
+Equipment Enchant	of the empath	Familiar Weight: +5
+Equipment Enchant	Temple Grandin's	Familiar Weight: +7
+Equipment Enchant	dog trainer's	Experience (familiar): +1
+Equipment Enchant	lion tamer's	Experience (familiar): +2
+Equipment Enchant	chilly	Cold Damage: +5
+Equipment Enchant	nippy	Cold Damage: +10
+Equipment Enchant	of chilblains	Cold Damage: +25
+Equipment Enchant	frosty	Cold Spell Damage: +10
+Equipment Enchant	of the blizzard	Cold Spell Damage: +25
+Equipment Enchant	Jack Frost's	Cold Spell Damage: +50
+Equipment Enchant	toasty	Hot Damage: +5
+Equipment Enchant	sizzling	Hot Damage: +10
+Equipment Enchant	scorching	Hot Damage: +25
+Equipment Enchant	flame-wreathed	Hot Spell Damage: +10
+Equipment Enchant	of the brazier	Hot Spell Damage: +25
+Equipment Enchant	of incineration	Hot Spell Damage: +50
+Equipment Enchant	nasty	Stench Damage: +5
+Equipment Enchant	foul-smelling	Stench Damage: +10
+Equipment Enchant	of the sewer	Stench Damage: +25
+Equipment Enchant	smelly	Stench Spell Damage: +10
+Equipment Enchant	stanky	Stench Spell Damage: +25
+Equipment Enchant	of the overflowing toilet	Stench Spell Damage: +50
+Equipment Enchant	frightening	Spooky Damage: +5
+Equipment Enchant	gravedigger's	Spooky Damage: +10
+Equipment Enchant	horrifying	Spooky Damage: +25
+Equipment Enchant	of terror	Spooky Spell Damage: +10
+Equipment Enchant	of horror	Spooky Spell Damage: +25
+Equipment Enchant	of doom	Spooky Spell Damage: +50
+Equipment Enchant	scandalous	Sleaze Damage: +5
+Equipment Enchant	ribald	Sleaze Damage: +10
+Equipment Enchant	Jeselnik's	Sleaze Damage: +25
+Equipment Enchant	greasy	Sleaze Spell Damage: +10
+Equipment Enchant	lard-coated	Sleaze Spell Damage: +25
+Equipment Enchant	of mayonnaise	Sleaze Spell Damage: +50
+Equipment Enchant	wool	Cold Resistance: +1
+Equipment Enchant	knitted	Cold Resistance: +3
+Equipment Enchant	double-paned	Cold Resistance: +5
+Equipment Enchant	flame-retardant	Hot Resistance: +1
+Equipment Enchant	fireproof	Hot Resistance: +3
+Equipment Enchant	asbestos-lined	Hot Resistance: +5
+Equipment Enchant	reassuring	Spooky Resistance: +1
+Equipment Enchant	of courage	Spooky Resistance: +3
+Equipment Enchant	of bravery	Spooky Resistance: +5
+Equipment Enchant	aromatic	Stench Resistance: +1
+Equipment Enchant	rosewater-soaked	Stench Resistance: +3
+Equipment Enchant	perfumed	Stench Resistance: +5
+Equipment Enchant	family-friendly	Sleaze Resistance: +1
+Equipment Enchant	censurious	Sleaze Resistance: +3
+Equipment Enchant	of temperance	Sleaze Resistance: +5
+Equipment Enchant	lucky	Item Drop: +5
+Equipment Enchant	auspicious	Item Drop: +10
+Equipment Enchant	inspector's	Item Drop: +15
+Equipment Enchant	of the detective	Item Drop: +20
+Equipment Enchant	Sherlock's	Item Drop: +25
+Equipment Enchant	miser's	Meat Drop: +10
+Equipment Enchant	greedy	Meat Drop: +20
+Equipment Enchant	avaricious	Meat Drop: +30
+Equipment Enchant	executive	Meat Drop: +40
+Equipment Enchant	of the businessman	Meat Drop: +50
+Equipment Enchant	of the boozehound	Booze Drop: +100
+Equipment Enchant	of the sweet-tooth	Candy Drop: +100
+Equipment Enchant	of the glutton	Food Drop: +100
+Equipment Enchant	zippy	Initiative: +20
+Equipment Enchant	lightning-fast	Initiative: +40
+Equipment Enchant	of the cheetah	Initiative: +60
+Equipment Enchant	Usain Bolt's	Initiative: +80
+Equipment Enchant	of Flo-Jo	Initiative: +100
+Equipment Enchant	prompt	Adventures: +3
+Equipment Enchant	up-at-dawn	Adventures: +5
+Equipment Enchant	of the early riser	Adventures: +7
+
+Adjective	Brimstone
+Adjective	Spooky
+Adjective	aerogel
+Adjective	ancient
+Adjective	antique
+Adjective	bakelite
+Adjective	big
+Adjective	black
+Adjective	blue
+Adjective	brass
+Adjective	candied
+Adjective	cardboard
+Adjective	cheap
+Adjective	chintzy
+Adjective	cold
+Adjective	creepy
+Adjective	cursed
+Adjective	cute
+Adjective	delicious
+Adjective	dirty
+Adjective	disintegrating
+Adjective	dusty
+Adjective	electric
+Adjective	enchanted
+Adjective	fancy
+Adjective	fishy
+Adjective	flaming
+Adjective	floaty
+Adjective	foam
+Adjective	frigid
+Adjective	frozen
+Adjective	fuchsia
+Adjective	gabardine
+Adjective	giant
+Adjective	glowing
+Adjective	gold
+Adjective	golden
+Adjective	green
+Adjective	haunted
+Adjective	heavy
+Adjective	intricate
+Adjective	large
+Adjective	lavender
+Adjective	leather
+Adjective	little
+Adjective	long
+Adjective	lucky
+Adjective	magical
+Adjective	maroon
+Adjective	metal
+Adjective	miniature
+Adjective	oily
+Adjective	old
+Adjective	orange
+Adjective	oversized
+Adjective	paisley
+Adjective	paraffin
+Adjective	plexiglass
+Adjective	polka-dot
+Adjective	polyester
+Adjective	porcelain
+Adjective	portable
+Adjective	powdered
+Adjective	primitive
+Adjective	purple
+Adjective	red
+Adjective	rusty
+Adjective	shiny
+Adjective	silver
+Adjective	slime-covered
+Adjective	solid
+Adjective	sour
+Adjective	spicy
+Adjective	spooky
+Adjective	stained
+Adjective	stainless
+Adjective	sticky
+Adjective	stinky
+Adjective	strange
+Adjective	striped
+Adjective	stuffed
+Adjective	tiny
+Adjective	white
+Adjective	wooden
+Adjective	wrought-iron
+Adjective	yellow

@@ -1,4 +1,4 @@
--1	lousy enchanted Petite Porter	3	decent	
+-1	lousy Petite Porter	3	decent	
 -2	artisanal Scrawny Stout	4	EPIC	
 -3	drinkable blurry Infinitesimal IPA	3	good	
 -4	irresponsibly strong lousy eggnogtini	7	decent	
@@ -26,7 +26,7 @@
 -83	weak tolerable blinking Jerkitini	2	good	
 -84	fancy artisanal narrow Desert Island Iced Tea	4	EPIC	
 -88	drinkable mirror twirling Crimbo Saketini	4	good	
--89	mediocre lime green Crimboku Drop	3	decent	
+-89	fancy mediocre lime green Crimboku Drop	3	decent	
 -90	distilled acceptable upside-down Flaming Crimbo Log	5	good	
 -107	perfectly mixed Fortified Eggnog Slurry	3	EPIC	
 -108	tolerable ghostly maroon Hot Buttered Rum	4	good	
