@@ -624,7 +624,9 @@ public enum DoubleModifier implements Modifier {
   KILL_MORE_SKELETONS(
       "Kill More Skeletons",
       Pattern.compile("Kill (\\d+)% More Skeletons"),
-      Pattern.compile("Kill More Skeletons: " + EXPR));
+      Pattern.compile("Kill More Skeletons: " + EXPR)),
+  COMBOS_CONSIDERED("Combos Considered", null),
+  SCORE("Score", null);
 
   private final String name;
   private final Pattern[] descPatterns;

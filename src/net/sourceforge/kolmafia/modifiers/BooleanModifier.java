@@ -108,7 +108,8 @@ public enum BooleanModifier implements Modifier {
       Pattern.compile("All Spells Cast Are Sleazy"),
       Pattern.compile("All Spells Cast Are Sleazy")),
   SUPER_ACCURATE(
-      "Super Accurate!", Pattern.compile("Super Accurate!"), Pattern.compile("Super Accurate!"));
+      "Super Accurate!", Pattern.compile("Super Accurate!"), Pattern.compile("Super Accurate!")),
+  RESULT("Result", null);
 
   private final String name;
   private final Pattern[] descPatterns;
