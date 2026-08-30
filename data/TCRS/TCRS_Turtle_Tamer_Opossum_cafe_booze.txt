@@ -28,6 +28,6 @@
 -88	practically non-alcoholic delicious Crimbo Saketini	1	awesome	
 -89	practically non-alcoholic perfectly mixed Crimboku Drop	1	EPIC	
 -90	triple-distilled artisanal Flaming Crimbo Log	6	EPIC	
--107	acceptable fancy weak Fortified Eggnog Slurry	2	good	
+-107	acceptable weak Fortified Eggnog Slurry	2	good	
 -108	artisanal boozy blurry Hot Buttered Rum	5	EPIC	
 -109	delicious Spicy Hot Chocolate	4	awesome	

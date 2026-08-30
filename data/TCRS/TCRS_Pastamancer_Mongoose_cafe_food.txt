@@ -42,4 +42,4 @@
 -103	stale half-sized enchanted cyan video games hot dog	2	decent	
 -104	decent low-calorie tumbling Peppermint Nutrition Block	1	good	
 -105	adequate blinking Gingerbread Nutrition Block	3	good	
--106	decent snack-sized Cinnamon Nutrition Block	2	good	
+-106	enchanted snack-sized decent Cinnamon Nutrition Block	2	good	

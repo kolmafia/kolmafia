@@ -1,6 +1,6 @@
 -1	mediocre Petite Porter	3	decent	
 -2	bad triple-distilled gray Scrawny Stout	6	decent	
--3	enchanted mediocre jittery Infinitesimal IPA	3	decent	
+-3	mediocre jittery Infinitesimal IPA	3	decent	
 -4	drinkable eggnogtini	3	good	
 -5	tolerable candycaine	4	good	
 -6	artisanal braincracker sweet	3	EPIC	

@@ -12,7 +12,7 @@
 -15	adequate ghostly vampire cake	3	good	
 -52	spoiled special half-sized Soylent Red and Green	2	crappy	
 -53	bite-sized adequate Disc-Shaped Nutrition Unit	1	good	
--54	decent snack-sized bouncing Gingerborg Hive	2	good	
+-54	decent enchanted snack-sized bouncing Gingerborg Hive	2	good	
 -61	tasty Candy Cane Surprise	3	awesome	
 -62	special delicious ghostly blurry Grimdrop Chow Mein	3	awesome	
 -63	bite-sized normal Grimgerbread House	1	good	

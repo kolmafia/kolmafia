@@ -24,7 +24,7 @@
 -75	miniature toothsome CRIMBCO Deluxe Reconstituted Gruel with Simulated Raisins	2	awesome	
 -79	tasty big Brussels Sprout Stir-Fry	5	awesome	
 -80	delicious wobbly Carrot, Cabbage, and Kale Pizza	4	awesome	
--81	flavorless blurry Turnip and Rutabaga Pie	3	decent	
+-81	flavorless fancy blurry Turnip and Rutabaga Pie	3	decent	
 -85	bland huge narrow Rainbow Spider Fun Roll	4	decent	
 -86	rotten snack-sized ghostly Vegas Volcano Lava Roll	2	crappy	
 -87	immense bland Crazy Dragon Shogun Buddha Roll	9	decent	
@@ -41,5 +41,5 @@
 -102	rotten small enchanted optimal dog	2	crappy	
 -103	flavorless small shaking video games hot dog	2	decent	
 -104	yummy super-sized fuchsia Peppermint Nutrition Block	5	awesome	
--105	super-sized rotten special Gingerbread Nutrition Block	5	crappy	
+-105	super-sized rotten Gingerbread Nutrition Block	5	crappy	
 -106	snack-sized normal jittery Cinnamon Nutrition Block	2	good	

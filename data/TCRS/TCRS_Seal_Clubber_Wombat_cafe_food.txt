@@ -36,7 +36,7 @@
 -97	delicious chilly dog	4	awesome	
 -98	decent ghost dog	3	good	
 -99	adequate bouncing junkyard dog	3	good	
--100	special flavorless wet dog	3	decent	
+-100	flavorless wet dog	3	decent	
 -101	tiny decent sleeping dog	1	good	
 -102	decent bite-sized upside-down optimal dog	1	good	
 -103	normal jumbo upside-down video games hot dog	5	good	

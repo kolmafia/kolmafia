@@ -10,7 +10,7 @@
 -13	rotten gingerbread massacre	3	crappy	
 -14	small delicious It Came From Beyond Dessert	2	awesome	
 -15	decent narrow vampire cake	4	good	
--52	special bland Soylent Red and Green	3	decent	
+-52	bland Soylent Red and Green	3	decent	
 -53	moldy Disc-Shaped Nutrition Unit	3	crappy	
 -54	snack-sized special stale Gingerborg Hive	2	decent	
 -61	normal bite-sized Candy Cane Surprise	1	good	
@@ -31,7 +31,7 @@
 -92	small bland basic hot dog	2	decent	
 -93	snack-sized spoiled gray savage macho dog	2	crappy	
 -94	normal purple one with everything	3	good	
--95	enchanted stale sly dog	3	decent	
+-95	special stale sly dog	3	decent	
 -96	moldy special diet devil dog	1	crappy	
 -97	gigantic moldy chilly dog	10	crappy	
 -98	tasty ghost dog	3	awesome	
@@ -42,4 +42,4 @@
 -103	spoiled video games hot dog	3	crappy	
 -104	rotten ghostly Peppermint Nutrition Block	4	crappy	
 -105	adequate super-sized ghostly Gingerbread Nutrition Block	5	good	
--106	stale wobbly Cinnamon Nutrition Block	3	decent	
+-106	enchanted stale wobbly Cinnamon Nutrition Block	3	decent	

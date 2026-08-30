@@ -5,7 +5,7 @@
 -8	flavorless candy cane pizza	3	decent	
 -9	toothsome gray gingerbread stir-fry	3	awesome	
 -10	miniature enchanted toothsome twigs and gravel	2	awesome	
--11	bland fancy shoots and leaves	3	decent	
+-11	bland shoots and leaves	3	decent	
 -12	bland bowl of unidentifiable goo	3	decent	
 -13	decent thick narrow gingerbread massacre	5	good	
 -14	spoiled It Came From Beyond Dessert	3	crappy	

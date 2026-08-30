@@ -24,7 +24,7 @@
 -78	artisanal skewed CRIMBCO Extreme Braincracker Sour	3	EPIC	
 -82	delicious fortified Horseradish-infused Vodka	5	awesome	
 -83	perfectly mixed irresponsibly strong Jerkitini	7	EPIC	
--84	lousy Desert Island Iced Tea	3	decent	
+-84	lousy fancy Desert Island Iced Tea	3	decent	
 -88	fortified lousy Crimbo Saketini	5	decent	
 -89	lousy Crimboku Drop	4	decent	
 -90	extra-dry drinkable Flaming Crimbo Log	5	good	

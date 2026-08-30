@@ -10,7 +10,7 @@
 -19	tolerable triple-distilled ecto-nog	9	good	
 -20	drinkable upside-down hot toady	3	good	
 -21	tolerable yellow twirling mirror hot choculate	4	good	
--49	tolerable watered-down Cyder	2	good	
+-49	tolerable watered-down enchanted Cyder	2	good	
 -50	tolerable fancy huge huge Oil Nog	3	good	
 -51	perfectly mixed purple Hi-Octane Peppermint Jet Fuel	3	EPIC	
 -58	artisanal boozy Grimacider	5	EPIC	

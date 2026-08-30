@@ -23,7 +23,7 @@
 -77	fancy bad CRIMBCO Egg Substitute Nog Substitute	4	decent	
 -78	practically non-alcoholic acceptable enchanted CRIMBCO Extreme Braincracker Sour	1	good	
 -82	weak artisanal Horseradish-infused Vodka	2	EPIC	
--83	bad Jerkitini	3	decent	
+-83	special bad Jerkitini	3	decent	
 -84	practically non-alcoholic tolerable Desert Island Iced Tea	1	good	
 -88	acceptable Crimbo Saketini	4	good	
 -89	practically non-alcoholic drinkable Crimboku Drop	1	good	
