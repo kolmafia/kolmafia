@@ -366,20 +366,12 @@ public class TCRSDatabase {
       return false;
     }
 
-    return derive(KoLCharacter.getAscensionClass(), KoLCharacter.getSign(), verbose, true);
+    return derive(KoLCharacter.getAscensionClass(), KoLCharacter.getSign(), verbose);
   }
 
-  /**
-   * Derives the TCRS data for every real item.
-   *
-   * @param cafe whether to also introspect cafe consumables, which deriveItem cannot derive and
-   *     which cost an item description request each.
-   */
+  /** Derives the TCRS data for every real item and cafe consumable. */
   public static boolean derive(
-      final AscensionClass ascensionClass,
-      final ZodiacSign sign,
-      final boolean verbose,
-      final boolean cafe) {
+      final AscensionClass ascensionClass, final ZodiacSign sign, final boolean verbose) {
     String classSign = ascensionClass.getName() + "/" + sign;
     if (!currentClassSign.equals(classSign)) {
       reset();
@@ -396,8 +388,12 @@ public class TCRSDatabase {
       }
     }
 
-    if (cafe) {
-      introspectCafe(verbose);
+    for (Integer id : CafeDatabase.cafeBoozeKeySet()) {
+      TCRSBoozeMap.put(id, deriveCafe(ascensionClass, sign, id, false));
+    }
+
+    for (Integer id : CafeDatabase.cafeFoodKeySet()) {
+      TCRSFoodMap.put(id, deriveCafe(ascensionClass, sign, id, true));
     }
 
     currentClassSign = classSign;
@@ -876,6 +872,48 @@ public class TCRSDatabase {
   private static final Set<Integer> ZERO_SIZE_CONSUMABLES =
       Set.of(ItemPool.QUANTUM_TACO, ItemPool.SCHRODINGERS_THERMOS, ItemPool.SMORE);
 
+  private static int rollConsumableSize(final PHPMTRandom mtRng) {
+    return switch (mtRng.nextInt(1, 10)) {
+      case 1 -> 1;
+      case 2, 3 -> 2;
+      case 4, 5, 6 -> 3;
+      case 7, 8 -> 4;
+      case 9 -> 5;
+      case 10 -> 5 + mtRng.nextInt(1, 5);
+      default -> 0;
+    };
+  }
+
+  private static void addSizeAndQualityAdjectives(
+      final List<String> adjectives,
+      final PHPMTRandom mtRng,
+      final boolean isFood,
+      final int size,
+      final ConsumableQuality quality) {
+    var sizeDescriptors =
+        (isFood ? FOOD_SIZE_DESCRIPTORS : BOOZE_SIZE_DESCRIPTORS)
+            .getOrDefault(Math.min(size, 6), List.of());
+    if (sizeDescriptors.size() > 0) {
+      adjectives.add(mtRng.pickOne(sizeDescriptors));
+    }
+
+    var qualityDescriptors =
+        (isFood ? FOOD_QUALITY_DESCRIPTORS : BOOZE_QUALITY_DESCRIPTORS).get(quality);
+    adjectives.add(
+        qualityDescriptors.size() > 1
+            ? mtRng.pickOne(qualityDescriptors)
+            : qualityDescriptors.get(0));
+  }
+
+  /** An EPIC consumable is promoted further by how many adventures it packs into its size. */
+  private static ConsumableQuality promoteEpic(
+      final ConsumableQuality quality, final int size, final double baseAdventures) {
+    if (quality != ConsumableQuality.EPIC || size <= 0) {
+      return quality;
+    }
+    return ConsumablesDatabase.superEpicQuality(baseAdventures / size);
+  }
+
   private static TCRS deriveFoodBooze(
       final AscensionClass ascensionClass,
       final ZodiacSign sign,
@@ -902,37 +940,12 @@ public class TCRSDatabase {
     var quality =
         isFood ? determineFoodQuality(qualityRoll, beverage) : determineBoozeQuality(qualityRoll);
 
-    var size =
-        beverage
-            ? 1
-            : switch (mtRng.nextInt(1, 10)) {
-              case 1 -> 1;
-              case 2, 3 -> 2;
-              case 4, 5, 6 -> 3;
-              case 7, 8 -> 4;
-              case 9 -> 5;
-              case 10 -> 5 + mtRng.nextInt(1, 5);
-              default -> 0;
-            };
+    var size = beverage ? 1 : rollConsumableSize(mtRng);
 
     var adjectives = new ArrayList<String>();
 
     if (!beverage) {
-      var sizeDescriptors =
-          (isFood ? FOOD_SIZE_DESCRIPTORS : BOOZE_SIZE_DESCRIPTORS)
-              .getOrDefault(Math.min(size, 6), List.of());
-      if (sizeDescriptors.size() > 0) {
-        var sizeDescriptor = mtRng.pickOne(sizeDescriptors);
-        adjectives.add(sizeDescriptor);
-      }
-
-      var qualityDescriptors =
-          (isFood ? FOOD_QUALITY_DESCRIPTORS : BOOZE_QUALITY_DESCRIPTORS).get(quality);
-      var qualityDescriptor =
-          qualityDescriptors.size() > 1
-              ? mtRng.pickOne(qualityDescriptors)
-              : qualityDescriptors.get(0);
-      adjectives.add(qualityDescriptor);
+      addSizeAndQualityAdjectives(adjectives, mtRng, isFood, size, quality);
     }
 
     if (qualityToTurnsPerFullness(quality) * size >= 8) {
@@ -987,15 +1000,12 @@ public class TCRSDatabase {
     var name =
         adjectives.stream().filter(Predicate.not(String::isBlank)).collect(Collectors.joining(" "));
 
-    if (quality == ConsumableQuality.EPIC && size > 0) {
-      var baseAdventures =
-          ZERO_ADVENTURE_CONSUMABLES.contains(id)
-              ? 0.0
-              : ConsumablesDatabase.getBaseAverageAdventures(id);
-      quality = ConsumablesDatabase.superEpicQuality(baseAdventures / size);
-    }
+    var baseAdventures =
+        ZERO_ADVENTURE_CONSUMABLES.contains(id)
+            ? 0.0
+            : ConsumablesDatabase.getBaseAverageAdventures(id);
 
-    return new TCRS(name, size, quality, mods.toString());
+    return new TCRS(name, size, promoteEpic(quality, size, baseAdventures), mods.toString());
   }
 
   /** Items whose item types are ignored for TCRS */
@@ -1401,6 +1411,58 @@ public class TCRSDatabase {
     return new TCRS(name, size, quality, mods.toString());
   }
 
+  /**
+   * Cafe consumables are rolled like any other food or booze, off the same seed as the real item
+   * with that id, but they never gain an enchantment.
+   */
+  public static TCRS deriveCafe(
+      final AscensionClass ascensionClass,
+      final ZodiacSign sign,
+      final int id,
+      final boolean isFood) {
+    var baseName = isFood ? CafeDatabase.getCafeFoodName(id) : CafeDatabase.getCafeBoozeName(id);
+    if (baseName == null) {
+      return null;
+    }
+
+    var seed = seedFor(id, ascensionClass, sign);
+    var mtRng = new PHPMTRandom(seed);
+    var rng = new PHPRandom(seed);
+
+    var cosmeticsString = rollCosmetics(mtRng, rng, 10);
+
+    var qualityRoll = mtRng.nextInt(1, 7);
+    var quality =
+        isFood ? determineFoodQuality(qualityRoll, false) : determineBoozeQuality(qualityRoll);
+
+    var size = rollConsumableSize(mtRng);
+
+    var adjectives = new ArrayList<String>();
+    addSizeAndQualityAdjectives(adjectives, mtRng, isFood, size, quality);
+
+    if (qualityToTurnsPerFullness(quality) * size >= 8) {
+      mtRng.nextDouble();
+    }
+
+    if (mtRng.nextInt(1, 10) == 1) {
+      adjectives.add(mtRng.pickOne(STRINGS.get("Food Enchantment")));
+    }
+
+    rng.shuffle(adjectives);
+    Collections.reverse(adjectives);
+    adjectives.add(cosmeticsString);
+    adjectives.add(baseName);
+
+    var name =
+        adjectives.stream().filter(Predicate.not(String::isBlank)).collect(Collectors.joining(" "));
+
+    var baseAdventures =
+        ConsumablesDatabase.getBaseAverageAdventures(
+            ConsumablesDatabase.getConsumableByName(baseName));
+
+    return new TCRS(name, size, promoteEpic(quality, size, baseAdventures), "");
+  }
+
   public static TCRS deriveItem(
       final AscensionClass ascensionClass, final ZodiacSign sign, final int itemId) {
     // Items not in items.txt (unknown, or only registered live) have no base data, so introspect.
@@ -1771,8 +1833,7 @@ public class TCRSDatabase {
     }
 
     // The per-class/sign files are test fixtures and are not shipped, so there is nothing to load.
-    derive(ascensionClass, sign, verbose, false);
-    loadCafe(ascensionClass, sign, false);
+    derive(ascensionClass, sign, verbose);
 
     if (overrideModifiers) {
       applyModifiers();

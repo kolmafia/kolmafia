@@ -732,7 +732,10 @@ public class ConsumablesDatabase {
   }
 
   public static final double getBaseAverageAdventures(final int itemId) {
-    Consumable consumable = ConsumablesDatabase.consumableByItemId.get(itemId);
+    return getBaseAverageAdventures(ConsumablesDatabase.consumableByItemId.get(itemId));
+  }
+
+  public static final double getBaseAverageAdventures(final Consumable consumable) {
     return consumable == null ? 0 : (consumable.adventureStart + consumable.adventureEnd) / 2.0;
   }
 

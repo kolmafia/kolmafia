@@ -40,6 +40,7 @@ import net.sourceforge.kolmafia.modifiers.Modifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase.ConsumableQuality;
+import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -268,6 +269,64 @@ class TCRSDatabaseTest {
         assertThat(ItemDatabase.getItemName(id), (int) resolved, is(innateDR + enchantDR));
       }
     }
+  }
+
+  @Test
+  void deriveAllCafe() throws IOException {
+    var mismatches = new ArrayList<String>();
+
+    for (var ascensionClass : AscensionClass.standardClasses) {
+      for (var sign : ZodiacSign.standardZodiacSigns) {
+        for (var isFood : new boolean[] {false, true}) {
+          var suffix = isFood ? "_cafe_food" : "_cafe_booze";
+          try (var reader =
+              FileUtilities.getReader(TCRSDatabase.filename(ascensionClass, sign, suffix))) {
+            String[] data;
+            while ((data = FileUtilities.readData(reader)) != null) {
+              if (data.length < 5) continue;
+              var itemId = StringUtilities.parseInt(data[0]);
+              var derived = TCRSDatabase.deriveCafe(ascensionClass, sign, itemId, isFood);
+              var recorded =
+                  new TCRSDatabase.TCRS(
+                      data[1],
+                      StringUtilities.parseInt(data[2]),
+                      ConsumableQuality.find(data[3]),
+                      data[4]);
+
+              // Which tier above EPIC an EPIC consumable reaches is cosmetic, and KoL only records
+              // an adventure yield for some cafe items, so treat that difference as a warning.
+              var qualityDiffers =
+                  derived != null
+                      && derived.quality != recorded.quality
+                      && !(TCRSDatabase.qualityToTurnsPerFullness(derived.quality)
+                              == TCRSDatabase.qualityToTurnsPerFullness(ConsumableQuality.EPIC)
+                          && TCRSDatabase.qualityToTurnsPerFullness(recorded.quality)
+                              == TCRSDatabase.qualityToTurnsPerFullness(ConsumableQuality.EPIC));
+
+              if (derived == null
+                  || !derived.name.equals(recorded.name)
+                  || derived.size != recorded.size
+                  || !derived.modifiers.equals(recorded.modifiers)
+                  || qualityDiffers) {
+                mismatches.add(
+                    String.format(
+                        "[%d] %s / %s%n  want: %s%n  got : %s",
+                        itemId, ascensionClass, sign, describe(recorded), describe(derived)));
+              }
+            }
+          }
+        }
+      }
+    }
+
+    assertThat(String.join("\n", mismatches), mismatches, is(empty()));
+  }
+
+  private static String describe(final TCRSDatabase.TCRS tcrs) {
+    return tcrs == null
+        ? "null"
+        : String.join(
+            "\t", tcrs.name, String.valueOf(tcrs.size), tcrs.quality.toString(), tcrs.modifiers);
   }
 
   @Test
