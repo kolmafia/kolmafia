@@ -37,7 +37,7 @@
 -98	rotten special ghost dog	3	crappy	
 -99	decent green junkyard dog	3	good	
 -100	moldy wet dog	3	crappy	
--101	bland sleeping dog	3	decent	
+-101	bland enchanted sleeping dog	3	decent	
 -102	huge enchanted decent twirling optimal dog	10	good	
 -103	snack-sized spoiled tumbling video games hot dog	2	crappy	
 -104	massive rotten skewed Peppermint Nutrition Block	7	crappy	

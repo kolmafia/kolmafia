@@ -9,19 +9,19 @@
 -12	normal fuchsia bowl of unidentifiable goo	4	good	
 -13	adequate massive ghostly gingerbread massacre	10	good	
 -14	massive decent It Came From Beyond Dessert	6	good	
--15	flavorless mirror vampire cake	3	decent	
+-15	flavorless enchanted mirror vampire cake	3	decent	
 -52	moldy pulsating spinning Soylent Red and Green	4	crappy	
 -53	normal bite-sized pulsating Disc-Shaped Nutrition Unit	1	good	
 -54	half-sized yummy yellow Gingerborg Hive	2	awesome	
 -61	adequate small Candy Cane Surprise	2	good	
 -62	moldy squat Grimdrop Chow Mein	3	crappy	
 -63	decent Grimgerbread House	4	good	
--67	stale Caviar Carbonara	3	decent	
+-67	stale enchanted Caviar Carbonara	3	decent	
 -68	bland Halibut Alfredo	3	decent	
 -69	big decent wobbly Red Herring Velvet Cake	5	good	
 -73	decent tiny cyan CRIMBCO Reconstituted Gruel	1	good	
 -74	spoiled diet New and Improved CRIMBCO Reconstituted Gruel	1	crappy	
--75	bland fancy CRIMBCO Deluxe Reconstituted Gruel with Simulated Raisins	3	decent	
+-75	bland CRIMBCO Deluxe Reconstituted Gruel with Simulated Raisins	3	decent	
 -79	small bland mirror Brussels Sprout Stir-Fry	2	decent	
 -80	huge stale fancy huge Carrot, Cabbage, and Kale Pizza	7	decent	
 -81	snack-sized stale Turnip and Rutabaga Pie	2	decent	

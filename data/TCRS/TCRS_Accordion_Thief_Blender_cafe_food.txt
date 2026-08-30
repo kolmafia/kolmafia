@@ -41,5 +41,5 @@
 -102	delicious small optimal dog	2	awesome	
 -103	flavorless video games hot dog	4	decent	
 -104	adequate snack-sized squat Peppermint Nutrition Block	2	good	
--105	miniature normal skewed Gingerbread Nutrition Block	2	good	
+-105	normal fancy miniature skewed Gingerbread Nutrition Block	2	good	
 -106	stale Cinnamon Nutrition Block	3	decent	

@@ -16,7 +16,7 @@
 -61	adequate Candy Cane Surprise	3	good	
 -62	normal enchanted Grimdrop Chow Mein	4	good	
 -63	moldy special half-sized Grimgerbread House	2	crappy	
--67	flavorless enchanted Caviar Carbonara	3	decent	
+-67	flavorless Caviar Carbonara	3	decent	
 -68	flavorless twirling Halibut Alfredo	4	decent	
 -69	stale Red Herring Velvet Cake	3	decent	
 -73	big rotten CRIMBCO Reconstituted Gruel	5	crappy	

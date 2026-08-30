@@ -1,4 +1,4 @@
--1	jumbo moldy blinking Peche a la Frog	5	crappy	
+-1	jumbo moldy enchanted blinking Peche a la Frog	5	crappy	
 -2	half-sized flavorless As Jus Gezund Heit	2	decent	
 -3	bland shaking Bouillabaise Coucher Avec Moi	4	decent	
 -7	stale gumdrop chow mein	3	decent	
@@ -42,4 +42,4 @@
 -103	rotten pulsating video games hot dog	3	crappy	
 -104	spoiled low-calorie Peppermint Nutrition Block	1	crappy	
 -105	bland Gingerbread Nutrition Block	3	decent	
--106	moldy big Cinnamon Nutrition Block	5	crappy	
+-106	moldy special big Cinnamon Nutrition Block	5	crappy	

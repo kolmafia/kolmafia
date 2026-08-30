@@ -19,7 +19,7 @@
 -67	spoiled twirling Caviar Carbonara	3	crappy	
 -68	stale half-sized Halibut Alfredo	2	decent	
 -69	bland Red Herring Velvet Cake	4	decent	
--73	enchanted rotten big CRIMBCO Reconstituted Gruel	5	crappy	
+-73	rotten big CRIMBCO Reconstituted Gruel	5	crappy	
 -74	thick moldy New and Improved CRIMBCO Reconstituted Gruel	5	crappy	
 -75	yummy CRIMBCO Deluxe Reconstituted Gruel with Simulated Raisins	3	awesome	
 -79	adequate Brussels Sprout Stir-Fry	4	good	
@@ -33,8 +33,8 @@
 -94	spoiled small one with everything	2	crappy	
 -95	miniature adequate wobbly sly dog	2	good	
 -96	moldy low-calorie devil dog	1	crappy	
--97	stale special chilly dog	3	decent	
--98	special decent half-sized ghost dog	2	good	
+-97	stale chilly dog	3	decent	
+-98	decent half-sized ghost dog	2	good	
 -99	decent junkyard dog	3	good	
 -100	stale miniature wet dog	2	decent	
 -101	special decent purple sleeping dog	3	good	

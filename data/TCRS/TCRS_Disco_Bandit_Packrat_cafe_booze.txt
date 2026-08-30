@@ -1,4 +1,4 @@
--1	practically non-alcoholic perfectly mixed enchanted purple Petite Porter	1	EPIC	
+-1	practically non-alcoholic perfectly mixed purple Petite Porter	1	EPIC	
 -2	acceptable Scrawny Stout	3	good	
 -3	drinkable Infinitesimal IPA	4	good	
 -4	drinkable eggnogtini	4	good	
