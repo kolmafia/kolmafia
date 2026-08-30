@@ -23,7 +23,7 @@
 -74	rotten blue twirling New and Improved CRIMBCO Reconstituted Gruel	3	crappy	
 -75	bland CRIMBCO Deluxe Reconstituted Gruel with Simulated Raisins	3	decent	
 -79	snack-sized delicious shaking Brussels Sprout Stir-Fry	2	awesome	
--80	snack-sized adequate Carrot, Cabbage, and Kale Pizza	2	good	
+-80	snack-sized fancy adequate Carrot, Cabbage, and Kale Pizza	2	good	
 -81	small moldy Turnip and Rutabaga Pie	2	crappy	
 -85	rotten Rainbow Spider Fun Roll	3	crappy	
 -86	low-calorie stale Vegas Volcano Lava Roll	1	decent	

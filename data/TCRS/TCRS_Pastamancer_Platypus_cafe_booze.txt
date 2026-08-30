@@ -7,7 +7,7 @@
 -16	delicious fermented honey	4	awesome	
 -17	bad weak purple moons-shine	2	decent	
 -18	bad practically non-alcoholic gin	1	decent	
--19	mediocre ecto-nog	3	decent	
+-19	fancy mediocre ecto-nog	3	decent	
 -20	acceptable hot toady	3	good	
 -21	hand-crafted hot choculate	4	EPIC	
 -49	artisanal enchanted Cyder	3	EPIC	

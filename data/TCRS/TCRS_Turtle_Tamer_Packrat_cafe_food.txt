@@ -2,12 +2,12 @@
 -2	stale As Jus Gezund Heit	3	decent	
 -3	bite-sized flavorless Bouillabaise Coucher Avec Moi	1	decent	
 -7	rotten snack-sized wobbly gumdrop chow mein	2	crappy	
--8	miniature normal candy cane pizza	2	good	
+-8	normal miniature fancy candy cane pizza	2	good	
 -9	massive bland huge spinning gingerbread stir-fry	7	decent	
 -10	bland wobbly twigs and gravel	4	decent	
 -11	adequate enchanted shoots and leaves	4	good	
 -12	adequate half-sized fuchsia wobbly bowl of unidentifiable goo	2	good	
--13	stale gingerbread massacre	3	decent	
+-13	stale special gingerbread massacre	3	decent	
 -14	adequate massive It Came From Beyond Dessert	7	good	
 -15	jumbo decent wobbly vampire cake	5	good	
 -52	miniature moldy Soylent Red and Green	2	crappy	

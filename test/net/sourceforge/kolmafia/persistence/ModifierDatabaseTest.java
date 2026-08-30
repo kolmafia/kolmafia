@@ -6,6 +6,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -66,6 +67,11 @@ public class ModifierDatabaseTest {
   })
   public void canParseModifier(String enchantment, String modifier) {
     assertEquals(modifier, ModifierDatabase.parseModifier(enchantment));
+  }
+
+  @Test
+  public void doesNotParseUnarmedRestrictionAsClass() {
+    assertNull(ModifierDatabase.parseModifier("Only Unarmed Characters may use this item"));
   }
 
   @Test

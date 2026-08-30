@@ -1,10 +1,10 @@
 -1	decent Peche a la Frog	3	good	
 -2	toothsome special shaking As Jus Gezund Heit	3	awesome	
--3	normal snack-sized Bouillabaise Coucher Avec Moi	2	good	
+-3	special snack-sized normal Bouillabaise Coucher Avec Moi	2	good	
 -7	spoiled miniature gumdrop chow mein	2	crappy	
 -8	bland red candy cane pizza	3	decent	
 -9	super-sized delicious gingerbread stir-fry	5	awesome	
--10	fancy stale twigs and gravel	3	decent	
+-10	stale twigs and gravel	3	decent	
 -11	diet moldy narrow shoots and leaves	1	crappy	
 -12	super-sized normal bowl of unidentifiable goo	5	good	
 -13	fancy rotten half-sized gingerbread massacre	2	crappy	
@@ -12,7 +12,7 @@
 -15	flavorless vampire cake	4	decent	
 -52	fancy big adequate lime green Soylent Red and Green	5	good	
 -53	adequate Disc-Shaped Nutrition Unit	4	good	
--54	snack-sized normal fancy Gingerborg Hive	2	good	
+-54	snack-sized normal Gingerborg Hive	2	good	
 -61	fancy stale Candy Cane Surprise	4	decent	
 -62	moldy Grimdrop Chow Mein	4	crappy	
 -63	toothsome Grimgerbread House	3	awesome	

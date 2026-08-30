@@ -5,7 +5,7 @@
 -8	normal mirror candy cane pizza	4	good	
 -9	bland diet wobbly gingerbread stir-fry	1	decent	
 -10	decent twigs and gravel	4	good	
--11	stale lime green shoots and leaves	3	decent	
+-11	enchanted stale lime green shoots and leaves	3	decent	
 -12	half-sized yummy bowl of unidentifiable goo	2	awesome	
 -13	moldy gingerbread massacre	3	crappy	
 -14	normal twirling It Came From Beyond Dessert	4	good	
@@ -13,7 +13,7 @@
 -52	rotten Soylent Red and Green	3	crappy	
 -53	decent diet Disc-Shaped Nutrition Unit	1	good	
 -54	yummy bite-sized Gingerborg Hive	1	awesome	
--61	flavorless Candy Cane Surprise	3	decent	
+-61	flavorless fancy Candy Cane Surprise	3	decent	
 -62	stale Grimdrop Chow Mein	4	decent	
 -63	flavorless red Grimgerbread House	3	decent	
 -67	half-sized tasty blinking Caviar Carbonara	2	awesome	
@@ -23,7 +23,7 @@
 -74	flavorless New and Improved CRIMBCO Reconstituted Gruel	3	decent	
 -75	delicious special miniature CRIMBCO Deluxe Reconstituted Gruel with Simulated Raisins	2	awesome	
 -79	flavorless Brussels Sprout Stir-Fry	4	decent	
--80	flavorless skewed Carrot, Cabbage, and Kale Pizza	3	decent	
+-80	flavorless enchanted skewed Carrot, Cabbage, and Kale Pizza	3	decent	
 -81	delicious Turnip and Rutabaga Pie	3	awesome	
 -85	adequate enchanted Rainbow Spider Fun Roll	3	good	
 -86	stale enchanted diet squat Vegas Volcano Lava Roll	1	decent	

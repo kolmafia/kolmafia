@@ -9,7 +9,7 @@
 -12	special delicious twirling bowl of unidentifiable goo	3	awesome	
 -13	half-sized moldy skewed gingerbread massacre	2	crappy	
 -14	spoiled It Came From Beyond Dessert	3	crappy	
--15	stale vampire cake	3	decent	
+-15	stale special vampire cake	3	decent	
 -52	spoiled thick bouncing Soylent Red and Green	5	crappy	
 -53	moldy Disc-Shaped Nutrition Unit	3	crappy	
 -54	moldy Gingerborg Hive	3	crappy	
@@ -20,7 +20,7 @@
 -68	rotten Halibut Alfredo	4	crappy	
 -69	snack-sized normal red ghostly Red Herring Velvet Cake	2	good	
 -73	bite-sized rotten fancy CRIMBCO Reconstituted Gruel	1	crappy	
--74	half-sized decent bouncing fuchsia New and Improved CRIMBCO Reconstituted Gruel	2	good	
+-74	decent half-sized special bouncing fuchsia New and Improved CRIMBCO Reconstituted Gruel	2	good	
 -75	normal twirling CRIMBCO Deluxe Reconstituted Gruel with Simulated Raisins	4	good	
 -79	decent half-sized Brussels Sprout Stir-Fry	2	good	
 -80	adequate Carrot, Cabbage, and Kale Pizza	4	good	
@@ -34,7 +34,7 @@
 -95	yummy teal sly dog	4	awesome	
 -96	bland devil dog	4	decent	
 -97	fancy spoiled chilly dog	3	crappy	
--98	enchanted stale tumbling ghost dog	3	decent	
+-98	stale tumbling ghost dog	3	decent	
 -99	moldy big green junkyard dog	5	crappy	
 -100	bland wet dog	3	decent	
 -101	special adequate sleeping dog	4	good	

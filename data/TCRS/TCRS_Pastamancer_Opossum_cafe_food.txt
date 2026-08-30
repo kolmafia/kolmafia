@@ -1,10 +1,10 @@
 -1	adequate pulsating gray Peche a la Frog	4	good	
 -2	delicious small As Jus Gezund Heit	2	awesome	
 -3	moldy yellow Bouillabaise Coucher Avec Moi	4	crappy	
--7	special flavorless gumdrop chow mein	3	decent	
+-7	flavorless gumdrop chow mein	3	decent	
 -8	spoiled blinking candy cane pizza	3	crappy	
 -9	normal gingerbread stir-fry	4	good	
--10	snack-sized adequate twigs and gravel	2	good	
+-10	snack-sized enchanted adequate twigs and gravel	2	good	
 -11	special tasty gray shoots and leaves	3	awesome	
 -12	small spoiled shaking twirling bowl of unidentifiable goo	2	crappy	
 -13	moldy enchanted gingerbread massacre	4	crappy	
@@ -17,12 +17,12 @@
 -62	yummy enchanted Grimdrop Chow Mein	3	awesome	
 -63	bland gigantic Grimgerbread House	8	decent	
 -67	spoiled miniature Caviar Carbonara	2	crappy	
--68	special moldy super-sized Halibut Alfredo	5	crappy	
+-68	moldy super-sized Halibut Alfredo	5	crappy	
 -69	normal Red Herring Velvet Cake	4	good	
 -73	adequate CRIMBCO Reconstituted Gruel	4	good	
--74	bland lime green New and Improved CRIMBCO Reconstituted Gruel	3	decent	
+-74	enchanted bland lime green New and Improved CRIMBCO Reconstituted Gruel	3	decent	
 -75	small bland CRIMBCO Deluxe Reconstituted Gruel with Simulated Raisins	2	decent	
--79	bland Brussels Sprout Stir-Fry	3	decent	
+-79	enchanted bland Brussels Sprout Stir-Fry	3	decent	
 -80	rotten immense Carrot, Cabbage, and Kale Pizza	9	crappy	
 -81	normal small Turnip and Rutabaga Pie	2	good	
 -85	moldy upside-down Rainbow Spider Fun Roll	3	crappy	
