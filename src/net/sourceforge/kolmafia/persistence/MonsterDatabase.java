@@ -203,6 +203,30 @@ public class MonsterDatabase {
     }
   }
 
+  public enum BvrTeam {
+    BLUE("blue"),
+    RED("red"),
+    ENEMY("enemy"),
+    UNKNOWN("unknown");
+
+    private final String teamName;
+
+    BvrTeam(String teamName) {
+      this.teamName = teamName;
+    }
+
+    public String getTeamName() {
+      return this.teamName;
+    }
+
+    public static BvrTeam from(String teamName) {
+      for (BvrTeam team : BvrTeam.values()) {
+        if (teamName.equalsIgnoreCase(team.getTeamName())) return team;
+      }
+      return BvrTeam.UNKNOWN;
+    }
+  }
+
   public static final String[] ELEMENT_ARRAY = new String[Element.values().length];
   public static final String[] PHYLUM_ARRAY = new String[Phylum.values().length];
 
