@@ -1209,6 +1209,7 @@ public class ItemPool {
   public static final int VELCRO_ORE = 3698;
   public static final int TEFLON_ORE = 3699;
   public static final int VINYL_ORE = 3700;
+  public static final int VELCRO_BROADSWORD = 3705;
   public static final int ANEMONE_MINE_MAP = 3701;
   public static final int TEFLON_SWIM_FINS = 3712;
   public static final int VINYL_BOOTS = 3716;
@@ -1350,6 +1351,7 @@ public class ItemPool {
   public static final int ESSENCE_OF_CUTE = 4072;
   public static final int SUPREME_BEING_GLOSSARY = 4073;
   public static final int MULTI_PASS = 4074;
+  public static final int BANEFUL_BANDOLIER = 4076;
   public static final int GRISLY_SHIELD = 4080;
   public static final int CYBER_MATTOCK = 4086;
   public static final int GREEN_PEAWEE_MARBLE = 4095;

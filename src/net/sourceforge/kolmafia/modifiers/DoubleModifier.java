@@ -241,7 +241,7 @@ public enum DoubleModifier implements Modifier {
       Pattern.compile("Booze Drop: " + EXPR)),
   HATDROP(
       "Hat Drop",
-      Pattern.compile("([+-]\\d+)% Hat(?:/Pants)? Drops? [Ff]rom Monsters$"),
+      Pattern.compile("([+-]\\d+)% Hat Drops? [Ff]rom Monsters$"),
       Pattern.compile("Hat Drop: " + EXPR)),
   WEAPONDROP(
       "Weapon Drop",
@@ -257,7 +257,7 @@ public enum DoubleModifier implements Modifier {
       Pattern.compile("Shirt Drop: " + EXPR)),
   PANTSDROP(
       "Pants Drop",
-      Pattern.compile("([+-]\\d+)% (?:Hat/)?Pants Drops? [Ff]rom Monsters$"),
+      Pattern.compile("([+-]\\d+)% Pants Drops? [Ff]rom Monsters$"),
       Pattern.compile("Pants Drop: " + EXPR)),
   ACCESSORYDROP(
       "Accessory Drop",
@@ -625,13 +625,19 @@ public enum DoubleModifier implements Modifier {
   KILL_MORE_SKELETONS(
       "Kill More Skeletons",
       Pattern.compile("Kill (\\d+)% More Skeletons"),
-      Pattern.compile("Kill More Skeletons: " + EXPR));
+      Pattern.compile("Kill More Skeletons: " + EXPR)),
+  HAT_PANTS_DROP(
+      "Hat Pants Drop",
+      Pattern.compile("([+-]\\d+)% Hat/Pants Drops? [Ff]rom Monsters$"),
+      Pattern.compile("Hat Pants Drop: " + EXPR),
+      new DoubleModifier[] {HATDROP, PANTSDROP});
 
   private final String name;
   private final Pattern[] descPatterns;
   private final Pattern tagPattern;
   private final String tag;
   private final boolean multiple;
+  private final DoubleModifier[] subsumed;
 
   DoubleModifier(String name, Pattern tagPattern) {
     this(name, (Pattern[]) null, tagPattern, name);
@@ -646,15 +652,19 @@ public enum DoubleModifier implements Modifier {
   }
 
   DoubleModifier(String name, Pattern descPattern, Pattern tagPattern) {
-    this(name, new Pattern[] {descPattern}, tagPattern, name);
+    this(name, new Pattern[] {descPattern}, tagPattern, name, false, null);
   }
 
   DoubleModifier(String name, Pattern descPattern, Pattern tagPattern, boolean multiple) {
-    this(name, new Pattern[] {descPattern}, tagPattern, name, multiple);
+    this(name, new Pattern[] {descPattern}, tagPattern, name, multiple, null);
   }
 
   DoubleModifier(String name, Pattern descPattern, Pattern tagPattern, String tag) {
-    this(name, new Pattern[] {descPattern}, tagPattern, tag);
+    this(name, new Pattern[] {descPattern}, tagPattern, tag, false, null);
+  }
+
+  DoubleModifier(String name, Pattern descPattern, Pattern tagPattern, DoubleModifier[] subsumed) {
+    this(name, new Pattern[] {descPattern}, tagPattern, name, false, subsumed);
   }
 
   DoubleModifier(String name, Pattern[] descPatterns, Pattern tagPattern) {
@@ -667,11 +677,22 @@ public enum DoubleModifier implements Modifier {
 
   DoubleModifier(
       String name, Pattern[] descPatterns, Pattern tagPattern, String tag, boolean multiple) {
+    this(name, descPatterns, tagPattern, tag, multiple, null);
+  }
+
+  DoubleModifier(
+      String name,
+      Pattern[] descPatterns,
+      Pattern tagPattern,
+      String tag,
+      boolean multiple,
+      DoubleModifier[] subsumed) {
     this.name = name;
     this.descPatterns = descPatterns;
     this.tagPattern = tagPattern;
     this.tag = tag;
     this.multiple = multiple;
+    this.subsumed = subsumed == null ? new DoubleModifier[0] : subsumed;
   }
 
   @Override
@@ -696,6 +717,10 @@ public enum DoubleModifier implements Modifier {
 
   public boolean isMultiple() {
     return multiple;
+  }
+
+  public DoubleModifier[] getSubsumed() {
+    return subsumed;
   }
 
   private static final Set<DoubleModifier> ENCHANTMENTS =
@@ -728,6 +753,7 @@ public enum DoubleModifier implements Modifier {
           FUMBLE,
           GHOST_DAMAGE,
           HATDROP,
+          HAT_PANTS_DROP,
           HOBO_POWER,
           HOT_DAMAGE,
           HOT_RESISTANCE,
