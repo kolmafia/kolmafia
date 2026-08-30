@@ -3329,6 +3329,46 @@ public class MaximizerTest {
                     hasProperty("cmd", startsWith("monkeypaw effect Mild-Mannered Professor")))));
       }
     }
+
+    @Test
+    public void acquiresWishIfItIsMallBuyable() {
+      var cleanups =
+          new Cleanups(withProperty("autoSatisfyWithMall", true), withInteractivity(true));
+
+      try (cleanups) {
+        maximize("-combat");
+        var boosts = getBoosts();
+        assertThat(
+            boosts,
+            hasItem(
+                hasProperty(
+                    "cmd",
+                    startsWith(
+                        "acquire 1 \u00B6"
+                            + ItemPool.POCKET_WISH
+                            + ";genie effect Disquiet Riot"))));
+      }
+    }
+
+    @Test
+    public void acquiresAlliedRadioIfItIsMallBuyable() {
+      var cleanups =
+          new Cleanups(withProperty("autoSatisfyWithMall", true), withInteractivity(true));
+
+      try (cleanups) {
+        maximize("item");
+        var boosts = getBoosts();
+        assertThat(
+            boosts,
+            hasItem(
+                hasProperty(
+                    "cmd",
+                    startsWith(
+                        "acquire 1 \u00B6"
+                            + ItemPool.HANDHELD_ALLIED_RADIO
+                            + ";alliedradio effect intel"))));
+      }
+    }
   }
 
   @Nested

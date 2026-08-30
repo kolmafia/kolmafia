@@ -1522,6 +1522,7 @@ public class Maximizer {
               cmd = "pull \u00B6" + itemId + ";" + cmd;
             } else if (checkedItem.mallBuyable > 0) {
               text = "acquire & " + text;
+              cmd = "acquire 1 \u00B6" + itemId + ";" + cmd;
               if (priceLevel != PriceLevel.DONT_CHECK) {
                 if (MallPriceDatabase.getPrice(itemId) > maxPrice * 2) {
                   continue;
