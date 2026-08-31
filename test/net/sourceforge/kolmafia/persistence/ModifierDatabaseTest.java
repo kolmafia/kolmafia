@@ -5,6 +5,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
@@ -26,6 +27,32 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 public class ModifierDatabaseTest {
+  @Test
+  public void reparsingAnItemReusesItsBitmapBits() {
+    var lookup = new Lookup(ModifierType.ITEM, ItemPool.CLOWN_WIG);
+
+    var first = ModifierDatabase.parseModifiers(lookup, "Clowniness: 50");
+    var second = ModifierDatabase.parseModifiers(lookup, "Clowniness: 50");
+
+    var mask = first.getRawBitmap(BitmapModifier.CLOWNINESS);
+    assertThat(mask, is(not(0)));
+    assertThat(second.getRawBitmap(BitmapModifier.CLOWNINESS), is(mask));
+  }
+
+  @Test
+  public void distinctItemsGetDistinctBitmapBits() {
+    var wig =
+        ModifierDatabase.parseModifiers(ModifierType.ITEM, ItemPool.CLOWN_WIG, "Clowniness: 50");
+    var shoes =
+        ModifierDatabase.parseModifiers(ModifierType.ITEM, ItemPool.CLOWN_SHOES, "Clowniness: 25");
+
+    var wigMask = wig.getRawBitmap(BitmapModifier.CLOWNINESS);
+    var shoesMask = shoes.getRawBitmap(BitmapModifier.CLOWNINESS);
+    assertThat(wigMask, is(not(0)));
+    assertThat(shoesMask, is(not(0)));
+    assertThat(wigMask & shoesMask, is(0));
+  }
+
   @Test
   public void testSynergies() {
     // The "synergy" bitmap modifier is assigned dynamically, based on appearance order in
@@ -56,7 +83,6 @@ public class ModifierDatabaseTest {
     "Bonus&nbsp;for&nbsp;Saucerors&nbsp;only, Class: \"Sauceror\"",
     "Monsters are much more attracted to you., Combat Rate: +10",
     "Monsters will be significantly less attracted to you. (Underwater only), Combat Rate (Underwater): -15",
-    "Maximum HP/MP +200, 'Maximum HP: +200, Maximum MP: +200'",
     "Regenerate 100 MP per adventure, 'MP Regen Min: 100, MP Regen Max: 100'",
     "Regenerate 15-20 HP and MP per adventure, 'HP Regen Min: 15, HP Regen Max: 20, MP Regen Min: 15, MP Regen Max: 20'",
     "Serious Cold Resistance (+3), Cold Resistance: +3",

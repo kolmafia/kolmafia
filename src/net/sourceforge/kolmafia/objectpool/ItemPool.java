@@ -172,6 +172,7 @@ public class ItemPool {
   public static final int FERRIGNOS_ELIXIR_OF_POWER = 418;
   public static final int POTION_OF_POTENCY = 422;
   public static final int BEANBAG_CHAIR = 429;
+  public static final int CLOWN_SHOES = 431;
   public static final int LONG_SKINNY_BALLOON = 433;
   public static final int BALLOON_MONKEY = 436;
   public static final int CHEF = 438;
@@ -774,6 +775,7 @@ public class ItemPool {
   public static final int ODOR_EXTRACTOR = 2462;
   public static final int OLFACTION_BOOK = 2463;
   public static final int OREILLE_DIVISEE_BRANDY = 2465;
+  public static final int CLOWN_WIG = 2475;
   public static final int TUXEDO_SHIRT = 2489;
   public static final int SHIRT_KIT = 2491;
   public static final int TROPICAL_ORCHID = 2492;
@@ -1209,6 +1211,7 @@ public class ItemPool {
   public static final int VELCRO_ORE = 3698;
   public static final int TEFLON_ORE = 3699;
   public static final int VINYL_ORE = 3700;
+  public static final int VELCRO_BROADSWORD = 3705;
   public static final int ANEMONE_MINE_MAP = 3701;
   public static final int TEFLON_SWIM_FINS = 3712;
   public static final int VINYL_BOOTS = 3716;
@@ -1350,6 +1353,7 @@ public class ItemPool {
   public static final int ESSENCE_OF_CUTE = 4072;
   public static final int SUPREME_BEING_GLOSSARY = 4073;
   public static final int MULTI_PASS = 4074;
+  public static final int BANEFUL_BANDOLIER = 4076;
   public static final int GRISLY_SHIELD = 4080;
   public static final int CYBER_MATTOCK = 4086;
   public static final int GREEN_PEAWEE_MARBLE = 4095;

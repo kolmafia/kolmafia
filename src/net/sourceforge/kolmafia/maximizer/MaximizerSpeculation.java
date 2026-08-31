@@ -29,7 +29,7 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 
 public class MaximizerSpeculation extends Speculation
     implements Comparable<MaximizerSpeculation>, Cloneable {
-  private boolean scored = false;
+  boolean scored = false;
   private boolean tiebreakered = false;
   private boolean exceeded;
   private double score, tiebreaker;
@@ -46,6 +46,9 @@ public class MaximizerSpeculation extends Speculation
       MaximizerSpeculation copy = (MaximizerSpeculation) super.clone();
       copy.equipment = this.equipment.clone();
       copy.setModeables(new EnumMap<>(this.getModeables()));
+      if (this.mods != null) {
+        copy.mods = new Modifiers(this.mods);
+      }
       return copy;
     } catch (CloneNotSupportedException e) {
       return null;
@@ -62,6 +65,7 @@ public class MaximizerSpeculation extends Speculation
 
   public void setUnscored() {
     this.scored = false;
+    this.tiebreakered = false;
     this.calculated = false;
   }
 
@@ -143,8 +147,7 @@ public class MaximizerSpeculation extends Speculation
       int itemId = equip.getItemId();
       Modifiers mods = ModifierDatabase.getItemModifiers(itemId);
       if (mods == null) continue;
-      var rolloverEffects = mods.getStrings(StringModifier.ROLLOVER_EFFECT);
-      if (!rolloverEffects.isEmpty()) countThisEffects++;
+      if (mods.hasString(StringModifier.ROLLOVER_EFFECT)) countThisEffects++;
       if (mods.getBoolean(BooleanModifier.BREAKABLE)) countThisBreakables++;
       if (mods.getBoolean(BooleanModifier.DROPS_ITEMS)) countThisDropsItems++;
       if (mods.getBoolean(BooleanModifier.DROPS_MEAT)) countThisDropsMeat++;
@@ -154,8 +157,7 @@ public class MaximizerSpeculation extends Speculation
       int itemId = equip.getItemId();
       Modifiers mods = ModifierDatabase.getItemModifiers(itemId);
       if (mods == null) continue;
-      var rolloverEffects = mods.getStrings(StringModifier.ROLLOVER_EFFECT);
-      if (!rolloverEffects.isEmpty()) countOtherEffects++;
+      if (mods.hasString(StringModifier.ROLLOVER_EFFECT)) countOtherEffects++;
       if (mods.getBoolean(BooleanModifier.BREAKABLE)) countOtherBreakables++;
       if (mods.getBoolean(BooleanModifier.DROPS_ITEMS)) countOtherDropsItems++;
       if (mods.getBoolean(BooleanModifier.DROPS_MEAT)) countOtherDropsMeat++;
@@ -812,10 +814,12 @@ public class MaximizerSpeculation extends Speculation
       Maximizer.best = this.clone();
     }
     Maximizer.bestChecked++;
-    long t = System.currentTimeMillis();
-    if (t > Maximizer.bestUpdate) {
-      MaximizerSpeculation.showProgress();
-      Maximizer.bestUpdate = t + 5000;
+    if ((Maximizer.bestChecked & 0x3FF) == 0) {
+      long t = System.currentTimeMillis();
+      if (t > Maximizer.bestUpdate) {
+        MaximizerSpeculation.showProgress();
+        Maximizer.bestUpdate = t + 5000;
+      }
     }
     this.restore(mark);
     if (!KoLmafia.permitsContinue()) {
@@ -824,8 +828,7 @@ public class MaximizerSpeculation extends Speculation
     if (this.exceeded) {
       throw new MaximizerExceededException();
     }
-    long comboLimit = Preferences.getLong("maximizerCombinationLimit");
-    if (comboLimit != 0 && Maximizer.bestChecked >= comboLimit) {
+    if (Maximizer.combinationLimit != 0 && Maximizer.bestChecked >= Maximizer.combinationLimit) {
       throw new MaximizerLimitException();
     }
   }

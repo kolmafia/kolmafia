@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.modifiers.BitmapModifier;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.DerivedModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
@@ -2008,6 +2009,60 @@ public class ModifiersTest {
   }
 
   @Test
+  public void copyConstructorCopiesAccumulators() {
+    Modifiers source = new Modifiers();
+    source.addDouble(DoubleModifier.INITIATIVE, 50, ModifierType.NONE, "");
+
+    assertThat(source.getDouble(DoubleModifier.INITIATIVE), equalTo(50.0));
+    assertThat(source.getAccumulator(DoubleModifier.INITIATIVE), equalTo(50.0));
+
+    Modifiers copy = new Modifiers(source);
+    assertThat(copy.getDouble(DoubleModifier.INITIATIVE), equalTo(50.0));
+    assertThat(copy.getAccumulator(DoubleModifier.INITIATIVE), equalTo(50.0));
+
+    Modifiers plainSet = new Modifiers();
+    plainSet.set(source);
+    assertThat(plainSet.getDouble(DoubleModifier.INITIATIVE), equalTo(50.0));
+    assertThat(plainSet.getAccumulator(DoubleModifier.INITIATIVE), equalTo(0.0));
+  }
+
+  @Test
+  public void resetClearsAccumulators() {
+    Modifiers modifiers = new Modifiers();
+    modifiers.addDouble(DoubleModifier.INITIATIVE, 50, ModifierType.NONE, "");
+
+    modifiers.reset();
+
+    assertThat(modifiers.getDouble(DoubleModifier.INITIATIVE), equalTo(0.0));
+    assertThat(modifiers.getAccumulator(DoubleModifier.INITIATIVE), equalTo(0.0));
+  }
+
+  @Test
+  public void addsOnlyPresentBitmapAndBooleanModifiers() {
+    Modifiers source = new Modifiers();
+    source.setBitmap(BitmapModifier.CLOWNINESS, 1);
+    source.setBoolean(BooleanModifier.BREAKABLE, true);
+
+    Modifiers target = new Modifiers();
+    target.add(source);
+
+    assertThat(target.getRawBitmap(BitmapModifier.CLOWNINESS), equalTo(1));
+    assertThat(target.getBoolean(BooleanModifier.BREAKABLE), is(true));
+  }
+
+  @Test
+  public void detectsOnlyPresentStringModifiers() {
+    Modifiers modifiers = new Modifiers();
+
+    assertThat(modifiers.hasString(null), is(false));
+    assertThat(modifiers.hasString(StringModifier.ROLLOVER_EFFECT), is(false));
+
+    modifiers.setString(StringModifier.ROLLOVER_EFFECT, "Sleepy");
+
+    assertThat(modifiers.hasString(StringModifier.ROLLOVER_EFFECT), is(true));
+  }
+
+  @Test
   public void copyConstructorKeepsExpressions() {
     var cleanups = new Cleanups(withEquipped(Slot.WEAPON, ItemPool.SEAL_CLUB));
 
@@ -2044,6 +2099,98 @@ public class ModifiersTest {
         assertThat(mods.getDouble(DoubleModifier.HP), equalTo(60.0));
         assertThat(mods.getDouble(DoubleModifier.SPOOKY_RESISTANCE), equalTo(1.0));
       }
+    }
+  }
+
+  @Nested
+  class HatPantsDrop {
+    // baneful bandolier has the combined "+30% Hat/Pants Drops from Monsters" enchantment
+    private static final int BANEFUL_BANDOLIER = ItemPool.BANEFUL_BANDOLIER;
+    // velcro broadsword has the combined "+20% Hat/Pants Drops from Monsters" enchantment
+    private static final int VELCRO_BROADSWORD = ItemPool.VELCRO_BROADSWORD;
+    // velour vaqueros has only "+30% Pants Drops from Monsters"
+    private static final int VELOUR_VAQUEROS = ItemPool.VELOUR_VAQUEROS;
+
+    @Test
+    public void combinedEnchantmentStoredAsHatPantsDrop() {
+      assertThat(
+          ModifierDatabase.getStringModifier(
+              ModifierType.ITEM, BANEFUL_BANDOLIER, StringModifier.MODIFIERS),
+          equalTo("Ranged Damage: +30, Slime Hates It: +1, Hat / Pants Drop: +30"));
+
+      assertThat(
+          ModifierDatabase.getStringModifier(
+              ModifierType.ITEM, VELCRO_BROADSWORD, StringModifier.MODIFIERS),
+          equalTo("Muscle Percent: +5, MP Regen Min: 6, MP Regen Max: 12, Hat / Pants Drop: +20"));
+    }
+
+    @Test
+    public void combinedImpliesHatAndPantsDropIndividually() {
+      for (int itemId : new int[] {BANEFUL_BANDOLIER, VELCRO_BROADSWORD}) {
+        assertThat(
+            ModifierDatabase.getNumericModifier(ModifierType.ITEM, itemId, DoubleModifier.HATDROP),
+            equalTo(itemId == BANEFUL_BANDOLIER ? 30.0 : 20.0));
+        assertThat(
+            ModifierDatabase.getNumericModifier(
+                ModifierType.ITEM, itemId, DoubleModifier.PANTSDROP),
+            equalTo(itemId == BANEFUL_BANDOLIER ? 30.0 : 20.0));
+        assertThat(
+            ModifierDatabase.getNumericModifier(
+                ModifierType.ITEM, itemId, DoubleModifier.HAT_PANTS_DROP),
+            equalTo(itemId == BANEFUL_BANDOLIER ? 30.0 : 20.0));
+      }
+    }
+
+    @Test
+    public void separatePantsDropDoesNotCreateHatPantsDrop() {
+      assertThat(
+          ModifierDatabase.getNumericModifier(
+              ModifierType.ITEM, VELOUR_VAQUEROS, DoubleModifier.PANTSDROP),
+          equalTo(30.0));
+      assertThat(
+          ModifierDatabase.getNumericModifier(
+              ModifierType.ITEM, VELOUR_VAQUEROS, DoubleModifier.HATDROP),
+          equalTo(0.0));
+      assertThat(
+          ModifierDatabase.getNumericModifier(
+              ModifierType.ITEM, VELOUR_VAQUEROS, DoubleModifier.HAT_PANTS_DROP),
+          equalTo(0.0));
+    }
+
+    @Test
+    public void parsesCombinedEnchantmentIntoSingleModifier() {
+      assertThat(
+          ModifierDatabase.parseModifier("+30% Hat/Pants Drops from Monsters"),
+          equalTo("Hat / Pants Drop: +30"));
+      // Individual drop types still parse to their own modifier
+      assertThat(
+          ModifierDatabase.parseModifier("+30% Pants Drops from Monsters"),
+          equalTo("Pants Drop: +30"));
+      assertThat(
+          ModifierDatabase.parseModifier("+30% Hat Drops from Monsters"), equalTo("Hat Drop: +30"));
+    }
+
+    @Test
+    public void derivesHatPantsDropFromSeparatePartsWhenNotStored() {
+      Modifiers mods =
+          ModifierDatabase.parseModifiers(
+              new Lookup(ModifierType.ITEM, "test"), "Hat Drop: +20, Pants Drop: +30");
+
+      assertThat(mods.getDouble(DoubleModifier.HATDROP), equalTo(20.0));
+      assertThat(mods.getDouble(DoubleModifier.PANTSDROP), equalTo(30.0));
+      assertThat(mods.getDouble(DoubleModifier.HAT_PANTS_DROP), equalTo(20.0));
+    }
+
+    @Test
+    public void expressionCombinedAppliesToSubsumed() {
+      Modifiers mods =
+          ModifierDatabase.parseModifiers(
+              new Lookup(ModifierType.ITEM, "test"), "Hat / Pants Drop: [6*4]");
+      mods.recalculateExpressions();
+
+      assertThat(mods.getDouble(DoubleModifier.HATDROP), equalTo(24.0));
+      assertThat(mods.getDouble(DoubleModifier.PANTSDROP), equalTo(24.0));
+      assertThat(mods.getDouble(DoubleModifier.HAT_PANTS_DROP), equalTo(24.0));
     }
   }
 }

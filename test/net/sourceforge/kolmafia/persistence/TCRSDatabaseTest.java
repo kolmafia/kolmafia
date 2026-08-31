@@ -489,6 +489,12 @@ class TCRSDatabaseTest {
           // An expression-valued modifier's value is context-dependent. Keeping it is enough, so
           // don't compare the value.
           if (expressionMods.contains(mod)) return;
+          // Expression modifiers can also pollute modifiers that subsume them
+          if (mod instanceof DoubleModifier dm) {
+            for (var sub : dm.getSubsumed()) {
+              if (expressionMods.contains(sub)) return;
+            }
+          }
           // Introspection mis-parses "Only Unarmed Characters may use this item" as a Class
           // restriction. It isn't one, so deriveItem omits it. Ignore the bad data value.
           if (mod == StringModifier.CLASS

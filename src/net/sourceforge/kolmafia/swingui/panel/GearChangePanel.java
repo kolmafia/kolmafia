@@ -207,6 +207,9 @@ public class GearChangePanel extends JPanel {
     buff.append(">");
 
     for (var mod : DoubleModifier.DOUBLE_MODIFIERS) {
+      // A collapsible modifier only summarizes the individual modifiers it subsumes, which are
+      // shown on their own lines.
+      if (mod.getSubsumed().length > 0) continue;
       double val = mods.getDouble(mod);
       if (val == 0.0f) continue;
       name = mod.getName();

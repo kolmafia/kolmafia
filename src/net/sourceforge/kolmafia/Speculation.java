@@ -165,7 +165,8 @@ public class Speculation {
             this.horsery,
             this.boomBox,
             this.modeables,
-            true);
+            true,
+            this.mods);
     this.calculated = true;
     return this.mods;
   }
