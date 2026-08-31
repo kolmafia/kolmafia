@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.modifiers.BitmapModifier;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.DerivedModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
@@ -2008,6 +2009,60 @@ public class ModifiersTest {
   }
 
   @Test
+  public void copyConstructorCopiesAccumulators() {
+    Modifiers source = new Modifiers();
+    source.addDouble(DoubleModifier.INITIATIVE, 50, ModifierType.NONE, "");
+
+    assertThat(source.getDouble(DoubleModifier.INITIATIVE), equalTo(50.0));
+    assertThat(source.getAccumulator(DoubleModifier.INITIATIVE), equalTo(50.0));
+
+    Modifiers copy = new Modifiers(source);
+    assertThat(copy.getDouble(DoubleModifier.INITIATIVE), equalTo(50.0));
+    assertThat(copy.getAccumulator(DoubleModifier.INITIATIVE), equalTo(50.0));
+
+    Modifiers plainSet = new Modifiers();
+    plainSet.set(source);
+    assertThat(plainSet.getDouble(DoubleModifier.INITIATIVE), equalTo(50.0));
+    assertThat(plainSet.getAccumulator(DoubleModifier.INITIATIVE), equalTo(0.0));
+  }
+
+  @Test
+  public void resetClearsAccumulators() {
+    Modifiers modifiers = new Modifiers();
+    modifiers.addDouble(DoubleModifier.INITIATIVE, 50, ModifierType.NONE, "");
+
+    modifiers.reset();
+
+    assertThat(modifiers.getDouble(DoubleModifier.INITIATIVE), equalTo(0.0));
+    assertThat(modifiers.getAccumulator(DoubleModifier.INITIATIVE), equalTo(0.0));
+  }
+
+  @Test
+  public void addsOnlyPresentBitmapAndBooleanModifiers() {
+    Modifiers source = new Modifiers();
+    source.setBitmap(BitmapModifier.CLOWNINESS, 1);
+    source.setBoolean(BooleanModifier.BREAKABLE, true);
+
+    Modifiers target = new Modifiers();
+    target.add(source);
+
+    assertThat(target.getRawBitmap(BitmapModifier.CLOWNINESS), equalTo(1));
+    assertThat(target.getBoolean(BooleanModifier.BREAKABLE), is(true));
+  }
+
+  @Test
+  public void detectsOnlyPresentStringModifiers() {
+    Modifiers modifiers = new Modifiers();
+
+    assertThat(modifiers.hasString(null), is(false));
+    assertThat(modifiers.hasString(StringModifier.ROLLOVER_EFFECT), is(false));
+
+    modifiers.setString(StringModifier.ROLLOVER_EFFECT, "Sleepy");
+
+    assertThat(modifiers.hasString(StringModifier.ROLLOVER_EFFECT), is(true));
+  }
+
+  @Test
   public void copyConstructorKeepsExpressions() {
     var cleanups = new Cleanups(withEquipped(Slot.WEAPON, ItemPool.SEAL_CLUB));
 
@@ -2124,6 +2179,18 @@ public class ModifiersTest {
       assertThat(mods.getDouble(DoubleModifier.HATDROP), equalTo(20.0));
       assertThat(mods.getDouble(DoubleModifier.PANTSDROP), equalTo(30.0));
       assertThat(mods.getDouble(DoubleModifier.HAT_PANTS_DROP), equalTo(20.0));
+    }
+
+    @Test
+    public void expressionCombinedAppliesToSubsumed() {
+      Modifiers mods =
+          ModifierDatabase.parseModifiers(
+              new Lookup(ModifierType.ITEM, "test"), "Hat / Pants Drop: [6*4]");
+      mods.recalculateExpressions();
+
+      assertThat(mods.getDouble(DoubleModifier.HATDROP), equalTo(24.0));
+      assertThat(mods.getDouble(DoubleModifier.PANTSDROP), equalTo(24.0));
+      assertThat(mods.getDouble(DoubleModifier.HAT_PANTS_DROP), equalTo(24.0));
     }
   }
 }

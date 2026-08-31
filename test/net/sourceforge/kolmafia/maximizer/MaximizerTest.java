@@ -76,6 +76,58 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 public class MaximizerTest {
+  @Test
+  void respectsCachedCombinationLimit() {
+    try (var cleanups =
+        new Cleanups(
+            withEquippableItem("hardened slime hat"),
+            withEquippableItem("bounty-hunting helmet"),
+            withProperty("maximizerCombinationLimit", 1))) {
+      maximize("item drop");
+      assertThat(Maximizer.bestChecked, is(1));
+      assertThat(Maximizer.combinationLimit, is(1L));
+    }
+
+    try (var cleanups =
+        new Cleanups(
+            withEquippableItem("hardened slime hat"),
+            withEquippableItem("bounty-hunting helmet"),
+            withProperty("maximizerCombinationLimit", 0))) {
+      maximize("item drop");
+      assertThat(Maximizer.combinationLimit, is(0L));
+    }
+  }
+
+  @Test
+  void invalidatesCachedTieComparisons() {
+    Maximizer.eval = new Evaluator("0, -tie");
+    var speculation = new MaximizerSpeculation();
+    var comparison = new MaximizerSpeculation();
+
+    speculation.equip(Slot.HAT, ItemPool.get(ItemPool.ANTIQUE_HELMET));
+    speculation.setUnscored();
+    speculation.getTiebreaker();
+
+    var helmetTurtle = ItemPool.get(ItemPool.HELMET_TURTLE);
+    speculation.equip(Slot.HAT, helmetTurtle);
+    speculation.setUnscored();
+    comparison.equip(Slot.HAT, helmetTurtle);
+    comparison.setUnscored();
+
+    assertThat(speculation.compareTo(comparison), is(0));
+  }
+
+  @Test
+  void clonedSpeculationOwnsCalculatedModifiers() {
+    var speculation = new MaximizerSpeculation();
+    double itemDrop = speculation.calculate().getDouble(DoubleModifier.ITEMDROP);
+    var copy = speculation.clone();
+
+    speculation.getModifiers().setDouble(DoubleModifier.ITEMDROP, itemDrop + 1);
+
+    assertThat(copy.getModifiers().getDouble(DoubleModifier.ITEMDROP), equalTo(itemDrop));
+  }
+
   @BeforeAll
   public static void beforeAll() {
     KoLCharacter.reset("MaximizerTest");
@@ -233,6 +285,20 @@ public class MaximizerTest {
       try (cleanups) {
         assertTrue(maximize("2 min, mus"));
       }
+    }
+
+    @Test
+    public void zeroWeightModifierStillEnforcesMinimum() {
+      Evaluator evaluator = new Evaluator("0 da, 2 min, -tie");
+      Modifiers modifiers = new Modifiers();
+
+      modifiers.setDouble(DoubleModifier.DAMAGE_ABSORPTION, 1.0);
+      evaluator.getScore(modifiers);
+      assertTrue(evaluator.failed);
+
+      modifiers.setDouble(DoubleModifier.DAMAGE_ABSORPTION, 2.0);
+      evaluator.getScore(modifiers);
+      assertFalse(evaluator.failed);
     }
   }
 
