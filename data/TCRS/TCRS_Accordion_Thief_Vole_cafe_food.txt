@@ -32,7 +32,7 @@
 -93	normal squat savage macho dog	3	good	
 -94	delicious one with everything	3	awesome	
 -95	flavorless sly dog	4	decent	
--96	stale devil dog	3	decent	
+-96	stale fancy devil dog	3	decent	
 -97	super-sized bland narrow chilly dog	5	decent	
 -98	rotten ghost dog	3	crappy	
 -99	super-sized bland bouncing junkyard dog	5	decent	

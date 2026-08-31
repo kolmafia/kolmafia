@@ -9,7 +9,7 @@
 -18	aged gin	3	awesome	
 -19	mediocre triple-distilled maroon ecto-nog	10	decent	
 -20	drinkable hot toady	3	good	
--21	lousy blurry hot choculate	3	decent	
+-21	enchanted lousy blurry hot choculate	3	decent	
 -49	fortified hand-crafted Cyder	5	EPIC	
 -50	weak artisanal Oil Nog	2	EPIC	
 -51	artisanal Hi-Octane Peppermint Jet Fuel	4	EPIC	

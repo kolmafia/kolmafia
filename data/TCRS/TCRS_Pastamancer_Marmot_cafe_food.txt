@@ -25,9 +25,9 @@
 -79	tasty Brussels Sprout Stir-Fry	3	awesome	
 -80	bland snack-sized green Carrot, Cabbage, and Kale Pizza	2	decent	
 -81	tiny rotten special Turnip and Rutabaga Pie	1	crappy	
--85	decent miniature Rainbow Spider Fun Roll	2	good	
+-85	special miniature decent Rainbow Spider Fun Roll	2	good	
 -86	flavorless red Vegas Volcano Lava Roll	3	decent	
--87	immense rotten Crazy Dragon Shogun Buddha Roll	7	crappy	
+-87	immense rotten enchanted Crazy Dragon Shogun Buddha Roll	7	crappy	
 -92	rotten basic hot dog	3	crappy	
 -93	decent savage macho dog	4	good	
 -94	stale enchanted purple one with everything	4	decent	
@@ -42,4 +42,4 @@
 -103	spoiled purple video games hot dog	3	crappy	
 -104	toothsome massive blinking Peppermint Nutrition Block	10	awesome	
 -105	spoiled super-sized Gingerbread Nutrition Block	5	crappy	
--106	miniature special decent Cinnamon Nutrition Block	2	good	
+-106	miniature decent Cinnamon Nutrition Block	2	good	

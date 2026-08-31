@@ -12,4 +12,9 @@ public interface Modifier {
   String getTag();
 
   ModifierValueType getType();
+
+  /** Whether we are confident this modifier maps to a line of RPN internally. */
+  default boolean isEnchantment() {
+    return false;
+  }
 }

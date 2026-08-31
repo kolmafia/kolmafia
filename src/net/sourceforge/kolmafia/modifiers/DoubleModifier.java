@@ -241,7 +241,7 @@ public enum DoubleModifier implements Modifier {
       Pattern.compile("Booze Drop: " + EXPR)),
   HATDROP(
       "Hat Drop",
-      Pattern.compile("([+-]\\d+)% Hat(?:/Pants)? Drops? [Ff]rom Monsters$"),
+      Pattern.compile("([+-]\\d+)% Hat Drops? [Ff]rom Monsters$"),
       Pattern.compile("Hat Drop: " + EXPR)),
   WEAPONDROP(
       "Weapon Drop",
@@ -257,7 +257,7 @@ public enum DoubleModifier implements Modifier {
       Pattern.compile("Shirt Drop: " + EXPR)),
   PANTSDROP(
       "Pants Drop",
-      Pattern.compile("([+-]\\d+)% (?:Hat/)?Pants Drops? [Ff]rom Monsters$"),
+      Pattern.compile("([+-]\\d+)% Pants Drops? [Ff]rom Monsters$"),
       Pattern.compile("Pants Drop: " + EXPR)),
   ACCESSORYDROP(
       "Accessory Drop",
@@ -617,6 +617,7 @@ public enum DoubleModifier implements Modifier {
       "WarBear Item Drop",
       Pattern.compile("([+-]\\d+)% Item Drops from WarBears"),
       Pattern.compile("WarBear Item Drop: " + EXPR)),
+  ENCHANTMENT_COUNT("Enchantment Count", Pattern.compile("Enchantment Count: " + EXPR)),
   DB_COMBAT_WEAKEN(
       "DB Combat Weaken",
       Pattern.compile("Disco Bandit Combat Skills weaken enemies by an additional (\\d+)%"),
@@ -624,13 +625,19 @@ public enum DoubleModifier implements Modifier {
   KILL_MORE_SKELETONS(
       "Kill More Skeletons",
       Pattern.compile("Kill (\\d+)% More Skeletons"),
-      Pattern.compile("Kill More Skeletons: " + EXPR));
+      Pattern.compile("Kill More Skeletons: " + EXPR)),
+  HAT_PANTS_DROP(
+      "Hat / Pants Drop",
+      Pattern.compile("([+-]\\d+)% Hat/Pants Drops? [Ff]rom Monsters$"),
+      Pattern.compile("Hat / Pants Drop: " + EXPR),
+      new DoubleModifier[] {HATDROP, PANTSDROP});
 
   private final String name;
   private final Pattern[] descPatterns;
   private final Pattern tagPattern;
   private final String tag;
   private final boolean multiple;
+  private final DoubleModifier[] subsumed;
 
   DoubleModifier(String name, Pattern tagPattern) {
     this(name, (Pattern[]) null, tagPattern, name);
@@ -645,15 +652,19 @@ public enum DoubleModifier implements Modifier {
   }
 
   DoubleModifier(String name, Pattern descPattern, Pattern tagPattern) {
-    this(name, new Pattern[] {descPattern}, tagPattern, name);
+    this(name, new Pattern[] {descPattern}, tagPattern, name, false, null);
   }
 
   DoubleModifier(String name, Pattern descPattern, Pattern tagPattern, boolean multiple) {
-    this(name, new Pattern[] {descPattern}, tagPattern, name, multiple);
+    this(name, new Pattern[] {descPattern}, tagPattern, name, multiple, null);
   }
 
   DoubleModifier(String name, Pattern descPattern, Pattern tagPattern, String tag) {
-    this(name, new Pattern[] {descPattern}, tagPattern, tag);
+    this(name, new Pattern[] {descPattern}, tagPattern, tag, false, null);
+  }
+
+  DoubleModifier(String name, Pattern descPattern, Pattern tagPattern, DoubleModifier[] subsumed) {
+    this(name, new Pattern[] {descPattern}, tagPattern, name, false, subsumed);
   }
 
   DoubleModifier(String name, Pattern[] descPatterns, Pattern tagPattern) {
@@ -666,11 +677,22 @@ public enum DoubleModifier implements Modifier {
 
   DoubleModifier(
       String name, Pattern[] descPatterns, Pattern tagPattern, String tag, boolean multiple) {
+    this(name, descPatterns, tagPattern, tag, multiple, null);
+  }
+
+  DoubleModifier(
+      String name,
+      Pattern[] descPatterns,
+      Pattern tagPattern,
+      String tag,
+      boolean multiple,
+      DoubleModifier[] subsumed) {
     this.name = name;
     this.descPatterns = descPatterns;
     this.tagPattern = tagPattern;
     this.tag = tag;
     this.multiple = multiple;
+    this.subsumed = subsumed == null ? new DoubleModifier[0] : subsumed;
   }
 
   @Override
@@ -695,6 +717,121 @@ public enum DoubleModifier implements Modifier {
 
   public boolean isMultiple() {
     return multiple;
+  }
+
+  public DoubleModifier[] getSubsumed() {
+    return subsumed;
+  }
+
+  private static final Set<DoubleModifier> ENCHANTMENTS =
+      EnumSet.of(
+          ACCESSORYDROP,
+          ADDITIONAL_SONG,
+          ADVENTURES,
+          BOOZEDROP,
+          BUGBEAR_DAMAGE,
+          CANDYDROP,
+          COLD_DAMAGE,
+          COLD_RESISTANCE,
+          COLD_SPELL_DAMAGE,
+          COMBAT_MANA_COST,
+          COMBAT_RATE,
+          CRITICAL_PCT,
+          DAMAGE_ABSORPTION,
+          DAMAGE_REDUCTION,
+          DB_COMBAT_DAMAGE,
+          DISCO_STYLE,
+          DRIPPY_DAMAGE,
+          ELF_WARFARE_EFFECTIVENESS,
+          EXPERIENCE,
+          FAMILIAR_DAMAGE,
+          FAMILIAR_EXP,
+          FAMILIAR_WEIGHT,
+          FIRST_HIT_DAMAGE_REDUCTION,
+          FISHING_SKILL,
+          FOODDROP,
+          FUMBLE,
+          GHOST_DAMAGE,
+          HATDROP,
+          HAT_PANTS_DROP,
+          HOBO_POWER,
+          HOT_DAMAGE,
+          HOT_RESISTANCE,
+          HOT_SPELL_DAMAGE,
+          HP,
+          HP_PCT,
+          HP_REGEN_MAX,
+          HP_REGEN_MIN,
+          INITIATIVE,
+          ITEMDROP,
+          MANA_COST,
+          MAXIMUM_HOOCH,
+          MEATDROP,
+          MERKIN_DAMAGE,
+          MONSTER_LEVEL,
+          MOX,
+          MOX_EXPERIENCE,
+          MOX_EXPERIENCE_PCT,
+          MOX_LIMIT,
+          MOX_PCT,
+          MP,
+          MP_PCT,
+          MP_REGEN_MAX,
+          MP_REGEN_MIN,
+          MUS,
+          MUS_EXPERIENCE,
+          MUS_EXPERIENCE_PCT,
+          MUS_LIMIT,
+          MUS_PCT,
+          MYS,
+          MYS_EXPERIENCE,
+          MYS_EXPERIENCE_PCT,
+          MYS_LIMIT,
+          MYS_PCT,
+          ORC_DAMAGE,
+          OTHELLO_SKILL,
+          PANTSDROP,
+          PICKPOCKET_CHANCE,
+          PIRATE_WARFARE_EFFECTIVENESS,
+          POISON_CHANCE,
+          POOL_SKILL,
+          POTION_DROP,
+          PVP_FIGHTS,
+          RANDOM_MONSTER_MODIFIERS,
+          RANGED_DAMAGE,
+          RANGED_DAMAGE_PCT,
+          REDUCE_ENEMY_DEFENSE,
+          SKELETON_DAMAGE,
+          SLEAZE_DAMAGE,
+          SLEAZE_RESISTANCE,
+          SLEAZE_SPELL_DAMAGE,
+          SLIME_RESISTANCE,
+          SMITHSNESS,
+          SPELL_CRITICAL_PCT,
+          SPELL_DAMAGE,
+          SPELL_DAMAGE_PCT,
+          SPLEEN_DROP,
+          SPOOKY_DAMAGE,
+          SPOOKY_RESISTANCE,
+          SPOOKY_SPELL_DAMAGE,
+          STENCH_DAMAGE,
+          STENCH_RESISTANCE,
+          STENCH_SPELL_DAMAGE,
+          SUPERCOLD_RESISTANCE,
+          VAMPIRE_DAMAGE,
+          WARBEAR_ARMOR_PENETRATION,
+          WARBEAR_ITEM_DROP,
+          WEAPONDROP,
+          WEAPON_DAMAGE,
+          WEAPON_DAMAGE_PCT,
+          WEREWOLF_DAMAGE,
+          ZOMBIE_DAMAGE,
+          DB_COMBAT_WEAKEN,
+          KILL_MORE_SKELETONS);
+
+  @Override
+  public boolean isEnchantment() {
+    return ENCHANTMENTS.contains(this);
   }
 
   @Override

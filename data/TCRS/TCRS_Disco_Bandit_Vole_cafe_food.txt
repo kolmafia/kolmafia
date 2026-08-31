@@ -18,7 +18,7 @@
 -63	big rotten Grimgerbread House	5	crappy	
 -67	flavorless diet Caviar Carbonara	1	decent	
 -68	bland jittery Halibut Alfredo	3	decent	
--69	snack-sized fancy adequate Red Herring Velvet Cake	2	good	
+-69	snack-sized adequate Red Herring Velvet Cake	2	good	
 -73	enchanted moldy jittery CRIMBCO Reconstituted Gruel	3	crappy	
 -74	normal big New and Improved CRIMBCO Reconstituted Gruel	5	good	
 -75	flavorless spinning CRIMBCO Deluxe Reconstituted Gruel with Simulated Raisins	4	decent	
@@ -36,7 +36,7 @@
 -97	immense stale chilly dog	9	decent	
 -98	decent shaking ghost dog	4	good	
 -99	miniature adequate junkyard dog	2	good	
--100	bland enchanted wet dog	3	decent	
+-100	bland wet dog	3	decent	
 -101	bland narrow sleeping dog	4	decent	
 -102	flavorless optimal dog	3	decent	
 -103	delicious video games hot dog	4	awesome	

@@ -22,7 +22,7 @@
 -73	moldy CRIMBCO Reconstituted Gruel	3	crappy	
 -74	small bland New and Improved CRIMBCO Reconstituted Gruel	2	decent	
 -75	yummy upside-down CRIMBCO Deluxe Reconstituted Gruel with Simulated Raisins	3	awesome	
--79	flavorless jittery Brussels Sprout Stir-Fry	3	decent	
+-79	flavorless fancy jittery Brussels Sprout Stir-Fry	3	decent	
 -80	adequate diet cyan Carrot, Cabbage, and Kale Pizza	1	good	
 -81	big tasty huge Turnip and Rutabaga Pie	5	awesome	
 -85	decent Rainbow Spider Fun Roll	3	good	
@@ -30,8 +30,8 @@
 -87	flavorless blurry Crazy Dragon Shogun Buddha Roll	3	decent	
 -92	flavorless super-sized skewed basic hot dog	5	decent	
 -93	half-sized delicious blinking savage macho dog	2	awesome	
--94	bland one with everything	3	decent	
--95	bland fancy sly dog	3	decent	
+-94	bland special one with everything	3	decent	
+-95	bland sly dog	3	decent	
 -96	spoiled enchanted devil dog	4	crappy	
 -97	moldy jittery chilly dog	4	crappy	
 -98	yummy ghost dog	3	awesome	

@@ -12,7 +12,7 @@
 -15	normal bite-sized jittery vampire cake	1	good	
 -52	enchanted decent Soylent Red and Green	4	good	
 -53	jumbo rotten maroon Disc-Shaped Nutrition Unit	5	crappy	
--54	stale Gingerborg Hive	3	decent	
+-54	stale enchanted Gingerborg Hive	3	decent	
 -61	half-sized decent squat Candy Cane Surprise	2	good	
 -62	normal jumbo Grimdrop Chow Mein	5	good	
 -63	flavorless gigantic bouncing Grimgerbread House	9	decent	

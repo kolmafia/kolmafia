@@ -12,7 +12,7 @@
 -21	delicious hot choculate	4	awesome	
 -49	mediocre ghostly Cyder	3	decent	
 -50	hand-crafted weak bouncing Oil Nog	2	EPIC	
--51	mediocre special Hi-Octane Peppermint Jet Fuel	3	decent	
+-51	mediocre Hi-Octane Peppermint Jet Fuel	3	decent	
 -58	artisanal Grimacider	3	EPIC	
 -59	hand-crafted watered-down shaking Isotope Nog	2	EPIC	
 -60	high-proof artisanal Mutagin 'n' Tonic	10	EPIC	

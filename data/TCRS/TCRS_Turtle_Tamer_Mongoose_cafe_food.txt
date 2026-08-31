@@ -35,7 +35,7 @@
 -96	super-sized flavorless devil dog	5	decent	
 -97	delicious chilly dog	4	awesome	
 -98	moldy snack-sized cyan ghost dog	2	crappy	
--99	miniature adequate fancy junkyard dog	2	good	
+-99	miniature adequate junkyard dog	2	good	
 -100	toothsome gigantic wet dog	6	awesome	
 -101	half-sized bland sleeping dog	2	decent	
 -102	snack-sized flavorless pulsating optimal dog	2	decent	

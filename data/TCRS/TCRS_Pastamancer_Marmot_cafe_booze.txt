@@ -30,4 +30,4 @@
 -90	lousy extra-dry upside-down cyan Flaming Crimbo Log	5	decent	
 -107	perfectly mixed Fortified Eggnog Slurry	4	EPIC	
 -108	mediocre Hot Buttered Rum	3	decent	
--109	perfectly mixed practically non-alcoholic skewed Spicy Hot Chocolate	1	EPIC	
+-109	enchanted perfectly mixed practically non-alcoholic skewed Spicy Hot Chocolate	1	EPIC	

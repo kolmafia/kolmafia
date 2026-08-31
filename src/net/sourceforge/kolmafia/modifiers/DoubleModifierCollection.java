@@ -9,13 +9,21 @@ import java.util.function.BiConsumer;
 
 public class DoubleModifierCollection {
   public static final int SPARSE_DOUBLES_MAX_SIZE = 32;
+  private static final DoubleOrList DEFAULT = new DoubleOrList(0.0);
 
   // If only a few values are set in doubles, we instead store all modifiers in a sparse TreeMap.
   // When that map gets bigger than SPARSE_DOUBLES_MAX_SIZE, we copy it over to the dense EnumMap.
   private Map<DoubleModifier, DoubleOrList> doubles = new TreeMap<>();
 
   public void reset() {
-    this.doubles = new TreeMap<>();
+    this.doubles.clear();
+  }
+
+  public void set(DoubleModifierCollection source) {
+    Map<DoubleModifier, DoubleOrList> copy =
+        source.doubles instanceof EnumMap ? new EnumMap<>(DoubleModifier.class) : new TreeMap<>();
+    copy.putAll(source.doubles);
+    this.doubles = copy;
   }
 
   public void densify() {
@@ -26,7 +34,7 @@ public class DoubleModifierCollection {
   }
 
   private DoubleOrList get(final DoubleModifier mod) {
-    return this.doubles.getOrDefault(mod, new DoubleOrList(0.0));
+    return this.doubles.getOrDefault(mod, DEFAULT);
   }
 
   public double getDouble(final DoubleModifier mod) {

@@ -37,7 +37,7 @@ ancient protector spirit (obsolete)	446	protspirit.gif	BOSS NOCOPY Atk: 160 Def:
 Anemone combatant	766	anemone.gif	Atk: 400 Def: 585 HP: 600 Init: 25 Meat: 100 P: fish Article: an Poison: "Majorly Poisoned"	anemone nematocyst (n25)
 anglerbush	381	anglerbush.gif	Atk: 22 Def: 21 HP: 25 Init: 300 P: plant EA: sleaze EA: none Article: an	meat stack (35)
 angry bugbear	256	angbugbear.gif	Atk: 15 Def: 14 HP: 12 Init: 50 P: beast BUGBEAR Article: an
-angry pi&ntilde;ata	269	pinata.gif	Atk: 22 Def: 19 HP: 20 Init: 50 P: construct Article: an	pile of candy (100)
+angry pi&ntilde;ata	269	pinata.gif	Atk: 22 Def: 19 HP: 20 Init: 50 P: construct Article: an Manuel: "angry piñata"	pile of candy (100)
 angry mushroom guy	1800	mush_angry.gif	Atk: 30 Def: 25 HP: 20 Init: 75 P: plant Article: an	fizzing spore pod (70)	Knob mushroom (20)
 animated mahogany nightstand	1541	nightstand2.gif	Atk: 55 Def: 55 HP: 60 Init: -10000 P: construct Article: an
 animated ornate nightstand	1542	nightstand4.gif	Atk: 60 Def: 45 HP: 55 Init: -10000 P: construct EA: spooky EA: none Article: an
@@ -2417,10 +2417,10 @@ Axis infantry skeleton	2493	otherimages/skeletonwar/spine+rib1+rib2+rib4+head1+a
 Axis officer skeleton	2496	otherimages/skeletonwar/spine+rib1+rib3+rib5+rib6+head2+arms1+legs1	NOCOPY Scale: 20 Cap: 10000 Floor: ? Init: 250 P: undead SKELETON Phys: 50 ElemHot: 90 ElemCold: 90 ElemStench: 50 ElemSpooky: 90 ElemSleaze: 90 Article: an	Axis helmet (10)	Axis fatigues (10)	Axis suspenders (10)	stolen artifact (4)	really expensive stolen artifact (2)	priceless stolen artifact (1)	Chroner (100)
 
 # Twitch 12 - Renaissance Times (July 2026)
-soused tosspot	2534	tosspot.gif	Scale: 5 Cap: 1000 Floor: ? Init: 0 P: dude Article: a	bottle of vodka (10)	bottle of whiskey (10)	bottle of gin (10)	bottle of rum (10)	boxed wine (10)	bottle of tequila (10)	ice-cold six-pack (10)
-knight in lightweight armor	2533	lightknight.gif	Scale: 10 Cap: 1000 Floor: ? Init: 0 P: dude Article: a	flimsy plastic breastplate (c3)	flimsy plastic helmet (c3)	flimsy plastic greaves (c3)	flimsy plastic shield (c3)	single-use sword (10)
-neckbearded wizard	2531	neckbeardwizard.gif	Scale: 20 Cap: 1000 Floor: ? Init: 0 P: dude Article: a	flash paperwad (10)	The Wizard's Android (c0.03)
-performative peasant	2532	juggler.gif	Scale: 1 Cap: 1000 Floor: ? Init: 0 P: dude Article: a	wooden juggling ball (10)	tactical jester's cap (f0.1)
+soused tosspot	2534	tosspot.gif	Scale: 5 Cap: 1000 Floor: ? Init: -10000 P: dude Article: a	bottle of vodka (10)	bottle of whiskey (10)	bottle of gin (10)	bottle of rum (10)	boxed wine (10)	bottle of tequila (10)	ice-cold six-pack (10)
+knight in lightweight armor	2533	lightknight.gif	Scale: 10 Cap: 1000 Floor: ? Init: -10000 P: dude Article: a	flimsy plastic breastplate (c3)	flimsy plastic helmet (c3)	flimsy plastic greaves (c3)	flimsy plastic shield (c3)	single-use sword (10)
+neckbearded wizard	2531	neckbeardwizard.gif	Scale: 20 Cap: 1000 Floor: ? Init: -10000 P: dude Article: a	flash paperwad (10)	The Wizard's Android (c0.03)
+performative peasant	2532	juggler.gif	Scale: 1 Cap: 1000 Floor: ? Init: -10000 P: dude Article: a	wooden juggling ball (10)	tactical jester's cap (f0.1)
 Open Mic Knight	2536	openmicknight.gif	Scale: 15 Cap: 1000 Floor: ? Init: 0 P: dude Article: the
 Poker Knight	2537	pokerknight.gif	Scale: 30 Cap: 1000 Floor: ? Init: 0 P: dude Article: the
 Wedding Knight	2538	weddingknight.gif	Scale: 30 Cap: 1000 Floor: ? Init: 0 P: dude Article: the
@@ -2466,15 +2466,15 @@ Striking Middle-Management Elf	319	crimboelf.gif	Atk: 0 Def: 0 HP: 0 Init: -1000
 Striking Pencil-Pusher Elf	320	crimboelf.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: elf Article: A	felt (10)	wooden block (10)	googly eye (10)	length of string (10)	stuffing (10)	toy wheel (10)
 Striking Stocking-Stuffer Elf	321	crimboelf.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: elf Article: A	length of string (10)	stuffing (10)	wooden block (10)	googly eye (10)	felt (10)	toy wheel (10)
 
-Bashful, the Reindeer	327	reindeer.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast
-Doc, the Reindeer	329	reindeer.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast
-Dopey, the Reindeer	324	reindeer.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast
-Grumpy, the Reindeer	328	reindeer.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast
-Happy, the Reindeer	326	reindeer.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast
+Bashful, the Reindeer	327	reindeer.gif	Scale: ? Cap: ? Floor: ? Init: -10000 P: beast
+Doc, the Reindeer	329	reindeer.gif	Scale: ? Cap: ? Floor: ? Init: -10000 P: beast
+Dopey, the Reindeer	324	reindeer.gif	Scale: ? Cap: ? Floor: ? Init: -10000 P: beast
+Grumpy, the Reindeer	328	reindeer.gif	Scale: ? Cap: ? Floor: ? Init: -10000 P: beast
+Happy, the Reindeer	326	reindeer.gif	Scale: ? Cap: ? Floor: ? Init: -10000 P: beast
 Rudolph the Red	323	reindeer.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast Wiki: "Rudolph the Red (Monster)"
-Sleepy, the Reindeer	325	reindeer.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast
-Sneezy, the Reindeer	330	reindeer.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast
-Zeppo, the Reindeer	331	reindeer.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast
+Sleepy, the Reindeer	325	reindeer.gif	Scale: ? Cap: ? Floor: ? Init: -10000 P: beast
+Sneezy, the Reindeer	330	reindeer.gif	Scale: ? Cap: ? Floor: ? Init: -10000 P: beast
+Zeppo, the Reindeer	331	reindeer.gif	Scale: ? Cap: ? Floor: ? Init: -10000 P: beast
 
 # April Fools Day (April 2006)
 fake Baiowulf	343	baiowulf.gif	NOCOPY Atk: 15 Def: 13 HP: 20 Init: 10000 P: dude

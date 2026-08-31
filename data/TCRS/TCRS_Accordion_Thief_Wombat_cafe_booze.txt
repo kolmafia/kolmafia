@@ -22,12 +22,12 @@
 -76	tolerable blurry CRIMBCO Ribbon Candy Schnapps	3	good	
 -77	smooth practically non-alcoholic CRIMBCO Egg Substitute Nog Substitute	1	awesome	
 -78	irresponsibly strong hand-crafted CRIMBCO Extreme Braincracker Sour	7	EPIC	
--82	fancy mediocre Horseradish-infused Vodka	3	decent	
+-82	mediocre Horseradish-infused Vodka	3	decent	
 -83	artisanal Jerkitini	3	EPIC	
 -84	hand-crafted yellow Desert Island Iced Tea	3	EPIC	
--88	watered-down acceptable tumbling purple Crimbo Saketini	2	good	
+-88	watered-down special acceptable tumbling purple Crimbo Saketini	2	good	
 -89	acceptable Crimboku Drop	4	good	
--90	artisanal practically non-alcoholic spinning Flaming Crimbo Log	1	EPIC	
+-90	enchanted artisanal practically non-alcoholic spinning Flaming Crimbo Log	1	EPIC	
 -107	high-proof lousy gray Fortified Eggnog Slurry	10	decent	
 -108	hand-crafted squat Hot Buttered Rum	3	EPIC	
 -109	delicious triple-distilled Spicy Hot Chocolate	9	awesome	

@@ -17,7 +17,7 @@
 -62	tasty jittery Grimdrop Chow Mein	3	awesome	
 -63	stale miniature Grimgerbread House	2	decent	
 -67	moldy snack-sized Caviar Carbonara	2	crappy	
--68	adequate fancy snack-sized Halibut Alfredo	2	good	
+-68	snack-sized adequate Halibut Alfredo	2	good	
 -69	bite-sized yummy Red Herring Velvet Cake	1	awesome	
 -73	tiny stale CRIMBCO Reconstituted Gruel	1	decent	
 -74	normal ghostly New and Improved CRIMBCO Reconstituted Gruel	3	good	
@@ -27,7 +27,7 @@
 -81	rotten Turnip and Rutabaga Pie	3	crappy	
 -85	toothsome thick Rainbow Spider Fun Roll	5	awesome	
 -86	rotten special upside-down Vegas Volcano Lava Roll	3	crappy	
--87	super-sized spoiled squat Crazy Dragon Shogun Buddha Roll	5	crappy	
+-87	spoiled enchanted super-sized squat Crazy Dragon Shogun Buddha Roll	5	crappy	
 -92	spoiled jumbo basic hot dog	5	crappy	
 -93	moldy squat savage macho dog	4	crappy	
 -94	gigantic spoiled one with everything	8	crappy	

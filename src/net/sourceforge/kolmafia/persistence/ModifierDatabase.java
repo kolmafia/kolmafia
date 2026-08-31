@@ -12,6 +12,7 @@ import java.util.Comparator;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -20,6 +21,7 @@ import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.FamiliarData;
@@ -181,41 +183,82 @@ public class ModifierDatabase {
           ModifierType.UNBREAKABLE_UMBRELLA,
           ModifierType.PASSIVES);
 
-  // in general these are the modifiers which cannot be read from the item description
+  // In general these are the modifiers which cannot be read from the item description. Iteration
+  // order is sorted by name (not JVM-randomized like Set.of) so consumers that emit these in order
+  // — e.g. the TCRS derive — get stable output.
   public static final Set<Modifier> CARRIED_OVER =
-      Set.of(
-          StringModifier.CLASS,
-          StringModifier.WIKI_NAME,
-          // stat tuning is (likely) carried over for mime army but not tropical
-          StringModifier.STAT_TUNING,
-          StringModifier.EQUIPS_ON,
-          StringModifier.FAMILIAR_EFFECT,
-          StringModifier.SKILL,
-          StringModifier.RECIPE,
-          StringModifier.LAST_AVAILABLE_DATE,
-          StringModifier.CONDITIONAL_SKILL_EQUIPPED,
-          StringModifier.CONDITIONAL_SKILL_INVENTORY,
-          StringModifier.LANTERN_ELEMENT,
-          StringModifier.DISPLAY_NAME,
-          BitmapModifier.BRIMSTONE,
-          BitmapModifier.CLOATHING,
-          BitmapModifier.SYNERGETIC,
-          BitmapModifier.RAVEOSITY,
-          BitmapModifier.MCHUGELARGE,
-          BitmapModifier.STINKYCHEESE,
-          BooleanModifier.NONSTACKABLE_WATCH,
-          BooleanModifier.NOPULL,
-          BooleanModifier.ALTERS_PAGE_TEXT,
-          BooleanModifier.BLIND,
-          BooleanModifier.BREAKABLE,
-          BooleanModifier.DROPS_ITEMS,
-          BooleanModifier.DROPS_MEAT,
-          DoubleModifier.THORNS,
-          DoubleModifier.SPORADIC_THORNS,
-          DoubleModifier.DAMAGE_AURA,
-          DoubleModifier.SPORADIC_DAMAGE_AURA,
-          DoubleModifier.LEAVES,
-          DoubleModifier.LANTERN);
+      Stream.of(
+              StringModifier.CLASS,
+              StringModifier.WIKI_NAME,
+              // stat tuning is (likely) carried over for mime army but not tropical
+              StringModifier.STAT_TUNING,
+              StringModifier.EQUIPS_ON,
+              StringModifier.FAMILIAR_EFFECT,
+              StringModifier.SKILL,
+              StringModifier.RECIPE,
+              StringModifier.LAST_AVAILABLE_DATE,
+              StringModifier.CONDITIONAL_SKILL_EQUIPPED,
+              StringModifier.CONDITIONAL_SKILL_INVENTORY,
+              StringModifier.LANTERN_ELEMENT,
+              StringModifier.DISPLAY_NAME,
+              BitmapModifier.BRIMSTONE,
+              BitmapModifier.CLOATHING,
+              BitmapModifier.SYNERGETIC,
+              BitmapModifier.RAVEOSITY,
+              BitmapModifier.MCHUGELARGE,
+              BitmapModifier.STINKYCHEESE,
+              BooleanModifier.NONSTACKABLE_WATCH,
+              BooleanModifier.NOPULL,
+              BooleanModifier.ALTERS_PAGE_TEXT,
+              BooleanModifier.BLIND,
+              BooleanModifier.BREAKABLE,
+              BooleanModifier.DROPS_ITEMS,
+              BooleanModifier.DROPS_MEAT,
+              DoubleModifier.THORNS,
+              DoubleModifier.SPORADIC_THORNS,
+              DoubleModifier.DAMAGE_AURA,
+              DoubleModifier.SPORADIC_DAMAGE_AURA,
+              DoubleModifier.LEAVES,
+              DoubleModifier.LANTERN,
+              // Innate item properties that survive the TCRS re-roll but aren't shown in the item
+              // description (so the derived data omits them).
+              StringModifier.PLUMBER_STAT,
+              DoubleModifier.ROLLOVER_EFFECT_DURATION,
+              DoubleModifier.INITIATIVE_PENALTY,
+              DoubleModifier.ITEMDROP_PENALTY,
+              DoubleModifier.MEATDROP_PENALTY,
+              DoubleModifier.AVOID_ATTACK,
+              DoubleModifier.PLUMBER_POWER,
+              DoubleModifier.MINSTREL_LEVEL,
+              DoubleModifier.DRIPPY_RESISTANCE,
+              DoubleModifier.SPORADIC_ITEMDROP,
+              DoubleModifier.SPORADIC_MEATDROP,
+              DoubleModifier.COMBAT_ITEM_DAMAGE_PCT,
+              DoubleModifier.GEARDROP,
+              DoubleModifier.RAM,
+              DoubleModifier.SPLEEN_CAPACITY,
+              DoubleModifier.STOMACH_CAPACITY,
+              DoubleModifier.LIVER_CAPACITY,
+              DoubleModifier.BONUS_RESTING_HP,
+              DoubleModifier.BONUS_RESTING_MP,
+              DoubleModifier.WATER_LEVEL,
+              DoubleModifier.PIECE_OF_TWELVE_DROP,
+              DoubleModifier.MPC_DROP,
+              BooleanModifier.LASTS_ONE_DAY,
+              BooleanModifier.VARIABLE,
+              BooleanModifier.ADVENTURE_UNDERWATER,
+              BooleanModifier.MOXIE_CONTROLS_MP,
+              BooleanModifier.MOXIE_MAY_CONTROL_MP,
+              BooleanModifier.LOOK_LIKE_A_PIRATE,
+              BooleanModifier.SINGLE,
+              BooleanModifier.EXTRA_PICKPOCKET,
+              BooleanModifier.ATTACKS_CANT_MISS,
+              BooleanModifier.SOFTCORE,
+              BitmapModifier.CLOWNINESS)
+          .sorted(Comparator.comparing(Modifier::getName))
+          .collect(
+              Collectors.collectingAndThen(
+                  Collectors.toCollection(LinkedHashSet::new), Collections::unmodifiableSet));
 
   public static void ensureModifierDatabaseInitialised() {
     if (modifierTypesByName.isEmpty()) {
@@ -686,7 +729,9 @@ public class ModifierDatabase {
         value = string.substring(colon + 2);
       }
 
-      list.addModifier(key, value);
+      if (!(key.isEmpty() && value == null)) {
+        list.addModifier(key, value);
+      }
     }
 
     return list;
@@ -750,7 +795,12 @@ public class ModifierDatabase {
         }
 
         if (matcher.group(1) != null) {
-          newMods.setDouble(mod, Double.parseDouble(matcher.group(1)));
+          double value = Double.parseDouble(matcher.group(1));
+          newMods.setDouble(mod, value);
+
+          for (var subsumed : mod.getSubsumed()) {
+            newMods.setDouble(subsumed, value);
+          }
         } else {
           newMods.addExpression(mod, ModifierExpression.getInstance(matcher.group(2), lookup));
         }
