@@ -98,6 +98,10 @@ public class Maximizer {
 
   private Maximizer() {}
 
+  public static boolean lastMaximizeSucceeded() {
+    return best != null && best.scored && !best.failed;
+  }
+
   public static boolean maximize(
       String maximizerString,
       int maxPrice,
@@ -147,6 +151,8 @@ public class Maximizer {
     int filterCount = filter.size();
     var limitMode = KoLCharacter.getLimitMode();
 
+    Maximizer.best = new MaximizerSpeculation();
+
     // parsing error
     if (!KoLmafia.permitsContinue() || filterCount == 0) {
       return;
@@ -176,7 +182,6 @@ public class Maximizer {
 
     Maximizer.boosts.clear();
     if (filter.contains(KoLConstants.filterType.EQUIP)) {
-      Maximizer.best = new MaximizerSpeculation();
       Maximizer.best.getScore();
       // In case the current outfit scores better than any tried combination,
       // due to some newly-added constraint (such as +melee):
