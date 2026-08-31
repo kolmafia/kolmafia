@@ -14,7 +14,7 @@
 -50	acceptable watered-down Oil Nog	2	good	
 -51	hand-crafted Hi-Octane Peppermint Jet Fuel	3	EPIC	
 -58	mediocre Grimacider	3	decent	
--59	special lousy purple Isotope Nog	3	decent	
+-59	lousy purple Isotope Nog	3	decent	
 -60	drinkable Mutagin 'n' Tonic	3	good	
 -70	aged watered-down Gin and Herring	2	awesome	
 -71	aged squat Black and Tan and Red All Over	3	awesome	

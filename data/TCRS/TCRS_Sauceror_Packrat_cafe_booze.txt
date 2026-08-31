@@ -1,4 +1,4 @@
--1	bad Petite Porter	3	decent	
+-1	fancy bad Petite Porter	3	decent	
 -2	strong perfectly mixed blue Scrawny Stout	5	EPIC	
 -3	high-proof bad twirling Infinitesimal IPA	8	decent	
 -4	lousy eggnogtini	4	decent	
@@ -7,7 +7,7 @@
 -16	tolerable fermented honey	4	good	
 -17	watered-down bad jittery moons-shine	2	decent	
 -18	perfectly mixed practically non-alcoholic gin	1	EPIC	
--19	weak tolerable blurry ecto-nog	2	good	
+-19	weak tolerable fancy blurry ecto-nog	2	good	
 -20	drinkable hot toady	3	good	
 -21	mediocre hot choculate	3	decent	
 -49	artisanal Cyder	4	EPIC	

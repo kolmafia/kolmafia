@@ -4,7 +4,7 @@
 -7	normal super-sized fancy shaking cyan gumdrop chow mein	5	good	
 -8	bland half-sized squat candy cane pizza	2	decent	
 -9	flavorless gingerbread stir-fry	4	decent	
--10	half-sized decent twigs and gravel	2	good	
+-10	half-sized decent enchanted twigs and gravel	2	good	
 -11	rotten shoots and leaves	4	crappy	
 -12	normal blurry bowl of unidentifiable goo	4	good	
 -13	decent gingerbread massacre	3	good	
@@ -30,7 +30,7 @@
 -87	stale miniature Crazy Dragon Shogun Buddha Roll	2	decent	
 -92	low-calorie stale shaking basic hot dog	1	decent	
 -93	normal immense shaking savage macho dog	8	good	
--94	small adequate one with everything	2	good	
+-94	small special adequate one with everything	2	good	
 -95	miniature rotten mirror sly dog	2	crappy	
 -96	miniature adequate devil dog	2	good	
 -97	stale gray chilly dog	4	decent	

@@ -1,7 +1,7 @@
 -1	drinkable Petite Porter	3	good	
 -2	watered-down drinkable squat Scrawny Stout	2	good	
 -3	mediocre Infinitesimal IPA	4	decent	
--4	watered-down tolerable eggnogtini	2	good	
+-4	watered-down tolerable fancy eggnogtini	2	good	
 -5	delicious triple-distilled candycaine	8	awesome	
 -6	artisanal braincracker sweet	4	EPIC	
 -16	bad weak yellow fermented honey	2	decent	
@@ -11,12 +11,12 @@
 -20	tolerable hot toady	4	good	
 -21	weak perfectly mixed hot choculate	2	EPIC	
 -49	practically non-alcoholic mediocre upside-down Cyder	1	decent	
--50	special practically non-alcoholic hand-crafted narrow Oil Nog	1	EPIC	
+-50	hand-crafted practically non-alcoholic narrow Oil Nog	1	EPIC	
 -51	practically non-alcoholic acceptable Hi-Octane Peppermint Jet Fuel	1	good	
--58	weak acceptable skewed Grimacider	2	good	
+-58	acceptable weak special skewed Grimacider	2	good	
 -59	aged gray Isotope Nog	4	awesome	
 -60	distilled special smooth Mutagin 'n' Tonic	5	awesome	
--70	watered-down tolerable Gin and Herring	2	good	
+-70	tolerable fancy watered-down Gin and Herring	2	good	
 -71	hand-crafted Black and Tan and Red All Over	4	EPIC	
 -72	hand-crafted distilled blurry Antarctic Ice Tea	5	EPIC	
 -76	drinkable CRIMBCO Ribbon Candy Schnapps	4	good	

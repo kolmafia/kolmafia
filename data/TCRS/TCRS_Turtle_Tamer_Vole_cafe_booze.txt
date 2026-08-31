@@ -8,10 +8,10 @@
 -17	lousy moons-shine	3	decent	
 -18	perfectly mixed gin	3	EPIC	
 -19	acceptable ecto-nog	3	good	
--20	practically non-alcoholic hand-crafted hot toady	1	EPIC	
+-20	practically non-alcoholic hand-crafted enchanted hot toady	1	EPIC	
 -21	practically non-alcoholic mediocre red pulsating hot choculate	1	decent	
 -49	lousy Cyder	3	decent	
--50	bad Oil Nog	3	decent	
+-50	bad enchanted Oil Nog	3	decent	
 -51	acceptable Hi-Octane Peppermint Jet Fuel	3	good	
 -58	weak delicious Grimacider	2	awesome	
 -59	bad watered-down jittery Isotope Nog	2	decent	

@@ -27,7 +27,7 @@
 -81	normal Turnip and Rutabaga Pie	3	good	
 -85	adequate bite-sized Rainbow Spider Fun Roll	1	good	
 -86	stale Vegas Volcano Lava Roll	3	decent	
--87	decent half-sized Crazy Dragon Shogun Buddha Roll	2	good	
+-87	decent half-sized fancy Crazy Dragon Shogun Buddha Roll	2	good	
 -92	flavorless basic hot dog	3	decent	
 -93	bland savage macho dog	4	decent	
 -94	stale one with everything	4	decent	

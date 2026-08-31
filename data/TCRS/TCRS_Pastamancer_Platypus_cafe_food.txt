@@ -23,7 +23,7 @@
 -74	big decent cyan New and Improved CRIMBCO Reconstituted Gruel	5	good	
 -75	rotten CRIMBCO Deluxe Reconstituted Gruel with Simulated Raisins	4	crappy	
 -79	moldy low-calorie Brussels Sprout Stir-Fry	1	crappy	
--80	rotten super-sized fancy Carrot, Cabbage, and Kale Pizza	5	crappy	
+-80	rotten super-sized Carrot, Cabbage, and Kale Pizza	5	crappy	
 -81	normal half-sized olive Turnip and Rutabaga Pie	2	good	
 -85	toothsome lime green Rainbow Spider Fun Roll	4	awesome	
 -86	miniature enchanted delicious squat wobbly Vegas Volcano Lava Roll	2	awesome	
@@ -31,7 +31,7 @@
 -92	bland basic hot dog	4	decent	
 -93	delicious savage macho dog	3	awesome	
 -94	snack-sized yummy wobbly one with everything	2	awesome	
--95	special normal miniature blue sly dog	2	good	
+-95	normal miniature blue sly dog	2	good	
 -96	delicious tiny devil dog	1	awesome	
 -97	rotten massive green chilly dog	7	crappy	
 -98	moldy ghost dog	4	crappy	

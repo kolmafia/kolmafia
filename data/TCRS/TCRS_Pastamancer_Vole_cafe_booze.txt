@@ -1,5 +1,5 @@
 -1	mediocre Petite Porter	4	decent	
--2	tolerable watered-down fancy Scrawny Stout	2	good	
+-2	tolerable watered-down special Scrawny Stout	2	good	
 -3	perfectly mixed blurry Infinitesimal IPA	3	EPIC	
 -4	weak bad eggnogtini	2	decent	
 -5	perfectly mixed boozy candycaine	5	EPIC	
@@ -18,7 +18,7 @@
 -60	weak bad Mutagin 'n' Tonic	2	decent	
 -70	artisanal strong enchanted Gin and Herring	5	EPIC	
 -71	weak fancy bad squat Black and Tan and Red All Over	2	decent	
--72	fancy bad Antarctic Ice Tea	3	decent	
+-72	bad Antarctic Ice Tea	3	decent	
 -76	acceptable fortified CRIMBCO Ribbon Candy Schnapps	5	good	
 -77	perfectly mixed watered-down CRIMBCO Egg Substitute Nog Substitute	2	EPIC	
 -78	drinkable CRIMBCO Extreme Braincracker Sour	3	good	

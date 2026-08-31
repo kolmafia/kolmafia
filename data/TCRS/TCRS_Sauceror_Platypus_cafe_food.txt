@@ -1,24 +1,24 @@
 -1	spoiled pulsating shaking Peche a la Frog	3	crappy	
 -2	half-sized decent As Jus Gezund Heit	2	good	
--3	big spoiled Bouillabaise Coucher Avec Moi	5	crappy	
+-3	spoiled big fancy Bouillabaise Coucher Avec Moi	5	crappy	
 -7	bland spinning gumdrop chow mein	4	decent	
 -8	yummy candy cane pizza	4	awesome	
 -9	spoiled gingerbread stir-fry	3	crappy	
 -10	spoiled huge twigs and gravel	6	crappy	
--11	snack-sized normal enchanted shoots and leaves	2	good	
+-11	snack-sized normal shoots and leaves	2	good	
 -12	normal snack-sized bowl of unidentifiable goo	2	good	
 -13	yummy bite-sized yellow gingerbread massacre	1	awesome	
 -14	delicious small It Came From Beyond Dessert	2	awesome	
 -15	stale vampire cake	3	decent	
 -52	rotten Soylent Red and Green	3	crappy	
 -53	spoiled wobbly Disc-Shaped Nutrition Unit	3	crappy	
--54	big rotten narrow Gingerborg Hive	5	crappy	
+-54	big enchanted rotten narrow Gingerborg Hive	5	crappy	
 -61	flavorless huge Candy Cane Surprise	3	decent	
 -62	thick normal Grimdrop Chow Mein	5	good	
 -63	half-sized moldy Grimgerbread House	2	crappy	
 -67	stale Caviar Carbonara	4	decent	
 -68	yummy Halibut Alfredo	3	awesome	
--69	rotten super-sized jittery Red Herring Velvet Cake	5	crappy	
+-69	enchanted super-sized rotten jittery Red Herring Velvet Cake	5	crappy	
 -73	spoiled CRIMBCO Reconstituted Gruel	3	crappy	
 -74	rotten gigantic special spinning New and Improved CRIMBCO Reconstituted Gruel	7	crappy	
 -75	miniature bland CRIMBCO Deluxe Reconstituted Gruel with Simulated Raisins	2	decent	

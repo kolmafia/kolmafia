@@ -1,7 +1,7 @@
 -1	spoiled snack-sized Peche a la Frog	2	crappy	
 -2	moldy enchanted yellow narrow As Jus Gezund Heit	4	crappy	
 -3	tasty small spinning mirror Bouillabaise Coucher Avec Moi	2	awesome	
--7	normal enchanted miniature gumdrop chow mein	2	good	
+-7	normal miniature gumdrop chow mein	2	good	
 -8	flavorless tiny candy cane pizza	1	decent	
 -9	spoiled gingerbread stir-fry	4	crappy	
 -10	big rotten twigs and gravel	5	crappy	
@@ -26,8 +26,8 @@
 -80	normal shaking Carrot, Cabbage, and Kale Pizza	4	good	
 -81	delicious Turnip and Rutabaga Pie	3	awesome	
 -85	moldy Rainbow Spider Fun Roll	4	crappy	
--86	fancy flavorless Vegas Volcano Lava Roll	3	decent	
--87	stale Crazy Dragon Shogun Buddha Roll	3	decent	
+-86	special flavorless Vegas Volcano Lava Roll	3	decent	
+-87	stale special Crazy Dragon Shogun Buddha Roll	3	decent	
 -92	jumbo decent bouncing basic hot dog	5	good	
 -93	decent savage macho dog	3	good	
 -94	yummy immense one with everything	6	awesome	
@@ -38,7 +38,7 @@
 -99	rotten junkyard dog	4	crappy	
 -100	moldy massive wet dog	6	crappy	
 -101	fancy spoiled half-sized sleeping dog	2	crappy	
--102	small decent cyan optimal dog	2	good	
+-102	small fancy decent cyan optimal dog	2	good	
 -103	bland bouncing video games hot dog	3	decent	
 -104	delicious Peppermint Nutrition Block	3	awesome	
 -105	jumbo spoiled olive wobbly Gingerbread Nutrition Block	5	crappy	

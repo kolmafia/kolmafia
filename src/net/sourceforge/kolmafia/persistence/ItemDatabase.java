@@ -73,6 +73,7 @@ public class ItemDatabase {
     private String access;
     private int price;
     private String plural;
+    private boolean registered = false;
 
     public ItemData() {
       this(null);
@@ -270,6 +271,22 @@ public class ItemDatabase {
 
   private static ItemData getOrCreateItemData(final int itemId) {
     return ItemDatabase.itemDataById.computeIfAbsent(itemId, id -> new ItemData());
+  }
+
+  /**
+   * Whether the item was registered live from its description rather than loaded from items.txt.
+   */
+  public static boolean isRegisteredLive(final int itemId) {
+    ItemData data = ItemDatabase.getItemData(itemId);
+    return data != null && data.registered;
+  }
+
+  /** Undoes a live registration. Package-private for tests. */
+  static void forgetItem(final int itemId) {
+    ItemData data = ItemDatabase.itemDataById.remove(itemId);
+    if (data != null && data.descriptionId != null) {
+      ItemDatabase.itemIdByDescription.remove(data.descriptionId);
+    }
   }
 
   static {
@@ -878,7 +895,12 @@ public class ItemDatabase {
 
     Integer id = itemId;
 
+    boolean isNew = ItemDatabase.getItemData(itemId) == null;
+
     ItemData itemData = ItemDatabase.getOrCreateItemData(itemId);
+    if (isNew) {
+      itemData.registered = true;
+    }
     itemData.displayName = StringUtilities.getDisplayName(itemName);
     itemData.dataName = itemName;
     itemData.descriptionId = descId;
