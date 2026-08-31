@@ -95,7 +95,8 @@ public class Modifiers {
 
   public Modifiers(Modifiers copy) {
     this();
-    if (this.set(copy)) {
+    this.set(copy);
+    if (copy != null) {
       this.accumulators.set(copy.accumulators);
     }
   }
@@ -514,9 +515,9 @@ public class Modifiers {
     return this.strings.set(modifier, mod);
   }
 
-  public boolean set(final Modifiers mods) {
+  public void set(final Modifiers mods) {
     if (mods == null) {
-      return false;
+      return;
     }
 
     this.originalLookup = mods.originalLookup;
@@ -536,8 +537,6 @@ public class Modifiers {
       // quite right, but it's probably close enough to right.
       this.expressions.putAll(mods.expressions);
     }
-
-    return true;
   }
 
   public void addDouble(

@@ -5084,12 +5084,12 @@ public abstract class KoLCharacter {
     return Math.round((baseStats + bonusStats) * 100d) / 100d;
   }
 
-  public static final boolean recalculateAdjustments() {
-    return KoLCharacter.recalculateAdjustments(false);
+  public static final void recalculateAdjustments() {
+    KoLCharacter.recalculateAdjustments(false);
   }
 
-  public static final boolean recalculateAdjustments(boolean debug) {
-    return KoLCharacter.currentModifiers.set(
+  public static final void recalculateAdjustments(boolean debug) {
+    KoLCharacter.currentModifiers.set(
         KoLCharacter.recalculateAdjustments(
             debug,
             KoLCharacter.getMindControlLevel(),

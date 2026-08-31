@@ -67,7 +67,7 @@ public class Evaluator {
   private Map<DoubleModifier, Double> min;
   private Map<DoubleModifier, Double> max;
   private List<ScoreModifier> activeScoreModifiers = List.of();
-  private boolean predictsDerivedModifiers;
+  private boolean shouldPredictDerivedModifiers;
   private double totalMin, totalMax;
   private int dump = 0;
   private int clownosity = 0;
@@ -228,7 +228,7 @@ public class Evaluator {
 
   private void initializeScoreModifiers() {
     var active = new ArrayList<ScoreModifier>();
-    this.predictsDerivedModifiers = false;
+    this.shouldPredictDerivedModifiers = false;
     for (var modifier : DoubleModifier.DOUBLE_MODIFIERS) {
       double weight = this.weight.getDouble(modifier);
       double min = this.min.get(modifier);
@@ -242,7 +242,7 @@ public class Evaluator {
           || modifier == DoubleModifier.MOX
           || modifier == DoubleModifier.HP
           || modifier == DoubleModifier.MP) {
-        this.predictsDerivedModifiers = true;
+        this.shouldPredictDerivedModifiers = true;
       }
     }
     this.activeScoreModifiers = List.copyOf(active);
@@ -837,7 +837,7 @@ public class Evaluator {
       Modifiers mods, Map<Slot, AdventureResult> equipment, Map<Modeable, String> modeables) {
     this.failed = false;
     this.exceeded = false;
-    var predicted = this.predictsDerivedModifiers ? mods.predict() : null;
+    var predicted = this.shouldPredictDerivedModifiers ? mods.predict() : null;
 
     double score = 0.0;
     for (var scoreModifier : this.activeScoreModifiers) {
