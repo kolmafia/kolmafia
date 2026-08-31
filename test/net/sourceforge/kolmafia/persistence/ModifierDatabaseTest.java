@@ -5,6 +5,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
@@ -26,6 +27,32 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 public class ModifierDatabaseTest {
+  @Test
+  public void reparsingAnItemReusesItsBitmapBits() {
+    var lookup = new Lookup(ModifierType.ITEM, ItemPool.CLOWN_WIG);
+
+    var first = ModifierDatabase.parseModifiers(lookup, "Clowniness: 50");
+    var second = ModifierDatabase.parseModifiers(lookup, "Clowniness: 50");
+
+    var mask = first.getRawBitmap(BitmapModifier.CLOWNINESS);
+    assertThat(mask, is(not(0)));
+    assertThat(second.getRawBitmap(BitmapModifier.CLOWNINESS), is(mask));
+  }
+
+  @Test
+  public void distinctItemsGetDistinctBitmapBits() {
+    var wig =
+        ModifierDatabase.parseModifiers(ModifierType.ITEM, ItemPool.CLOWN_WIG, "Clowniness: 50");
+    var shoes =
+        ModifierDatabase.parseModifiers(ModifierType.ITEM, ItemPool.CLOWN_SHOES, "Clowniness: 25");
+
+    var wigMask = wig.getRawBitmap(BitmapModifier.CLOWNINESS);
+    var shoesMask = shoes.getRawBitmap(BitmapModifier.CLOWNINESS);
+    assertThat(wigMask, is(not(0)));
+    assertThat(shoesMask, is(not(0)));
+    assertThat(wigMask & shoesMask, is(0));
+  }
+
   @Test
   public void testSynergies() {
     // The "synergy" bitmap modifier is assigned dynamically, based on appearance order in
