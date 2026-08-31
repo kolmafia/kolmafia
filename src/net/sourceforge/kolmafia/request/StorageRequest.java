@@ -4,6 +4,7 @@ import com.alibaba.fastjson2.JSONException;
 import com.alibaba.fastjson2.JSONObject;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -35,7 +36,7 @@ public class StorageRequest extends TransferItemRequest {
   private StorageRequestType moveType;
   private boolean bulkTransfer;
 
-  public static final Set<Integer> roninStoragePulls = new HashSet<>();
+  public static final Set<Integer> roninStoragePulls = new LinkedHashSet<>();
 
   // Public interface
   public static void resetRoninStoragePulls() {

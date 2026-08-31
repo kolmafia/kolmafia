@@ -5084,12 +5084,12 @@ public abstract class KoLCharacter {
     return Math.round((baseStats + bonusStats) * 100d) / 100d;
   }
 
-  public static final boolean recalculateAdjustments() {
-    return KoLCharacter.recalculateAdjustments(false);
+  public static final void recalculateAdjustments() {
+    KoLCharacter.recalculateAdjustments(false);
   }
 
-  public static final boolean recalculateAdjustments(boolean debug) {
-    return KoLCharacter.currentModifiers.set(
+  public static final void recalculateAdjustments(boolean debug) {
+    KoLCharacter.currentModifiers.set(
         KoLCharacter.recalculateAdjustments(
             debug,
             KoLCharacter.getMindControlLevel(),
@@ -5118,9 +5118,47 @@ public abstract class KoLCharacter {
       String boomBox,
       Map<Modeable, String> modeables,
       boolean speculation) {
+    return recalculateAdjustments(
+        debug,
+        MCD,
+        equipment,
+        effects,
+        familiar,
+        enthroned,
+        bjorned,
+        custom,
+        horsery,
+        boomBox,
+        modeables,
+        speculation,
+        null);
+  }
+
+  static final Modifiers recalculateAdjustments(
+      boolean debug,
+      int MCD,
+      Map<Slot, AdventureResult> equipment,
+      List<AdventureResult> effects,
+      FamiliarData familiar,
+      FamiliarData enthroned,
+      FamiliarData bjorned,
+      String custom,
+      String horsery,
+      String boomBox,
+      Map<Modeable, String> modeables,
+      boolean speculation,
+      Modifiers target) {
     int taoFactor = KoLCharacter.hasSkill(SkillPool.TAO_OF_THE_TERRAPIN) ? 2 : 1;
 
-    Modifiers newModifiers = debug ? new DebugModifiers() : new Modifiers();
+    Modifiers newModifiers;
+    if (debug) {
+      newModifiers = new DebugModifiers();
+    } else if (target == null) {
+      newModifiers = new Modifiers();
+    } else {
+      target.reset();
+      newModifiers = target;
+    }
     Modifiers.setFamiliar(familiar);
     AdventureResult weapon = equipment.get(Slot.WEAPON);
     Modifiers.mainhandClass =

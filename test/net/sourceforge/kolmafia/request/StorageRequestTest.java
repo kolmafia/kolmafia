@@ -23,7 +23,7 @@ import internal.helpers.Cleanups;
 import internal.network.FakeHttpClientBuilder;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -44,7 +44,7 @@ import org.junit.jupiter.api.Test;
 
 public class StorageRequestTest {
 
-  private final Set<Integer> pulledItemSet = new HashSet<>();
+  private final Set<Integer> pulledItemSet = new LinkedHashSet<>();
   private String pulledItemProperty = "";
 
   // *** Here are tests for the primitives that handle ronin item pulls.
@@ -221,6 +221,21 @@ public class StorageRequestTest {
     assertTrue(property.contains(Integer.toString(ItemPool.FIVE_ALARM_SAUCEPAN)));
     assertTrue(property.contains(Integer.toString(ItemPool.MACE_OF_THE_TORTOISE)));
     Preferences.setString("_roninStoragePulls", "");
+  }
+
+  @Test
+  public void itShouldKeepPulledItemsInInsertionOrder() {
+    roninStoragePropertySetup();
+    try (var cleanup = withProperty("_roninStoragePulls")) {
+      StorageRequest.addPulledItem(ItemPool.MACE_OF_THE_TORTOISE);
+      StorageRequest.addPulledItem(ItemPool.FIVE_ALARM_SAUCEPAN);
+      assertEquals(
+          List.of(ItemPool.MACE_OF_THE_TORTOISE, ItemPool.FIVE_ALARM_SAUCEPAN),
+          List.copyOf(StorageRequest.roninStoragePulls));
+      assertEquals(
+          ItemPool.MACE_OF_THE_TORTOISE + "," + ItemPool.FIVE_ALARM_SAUCEPAN,
+          Preferences.getString("_roninStoragePulls"));
+    }
   }
 
   // *** Here are tests for how StorageRequest generates subminstances.

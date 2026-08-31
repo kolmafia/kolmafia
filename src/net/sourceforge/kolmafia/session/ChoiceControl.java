@@ -163,9 +163,8 @@ public abstract class ChoiceControl {
         Preferences.setInteger("lastQuartetAscension", KoLCharacter.getAscensions());
         Preferences.setInteger("lastQuartetRequest", ChoiceManager.lastDecision);
 
-        if (KoLCharacter.recalculateAdjustments()) {
-          KoLCharacter.updateStatus();
-        }
+        KoLCharacter.recalculateAdjustments();
+        KoLCharacter.updateStatus();
       }
 
       case 123 -> { // At Least It's Not Full Of Trash

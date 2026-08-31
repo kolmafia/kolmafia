@@ -154,7 +154,7 @@ public class TestCommandTest extends AbstractCommandTestBase {
             Operation Patriot Shield\t0\tnone\tshield: [L]
             # Operation Patriot Shield: Lets You Sing More Proudly
             # Operation Patriot Shield: Can be Thrown in Combat
-            Item\tOperation Patriot Shield\tExperience: +3, Maximum HP: +20, Maximum MP: +20, Four Songs, Softcore Only, Last Available: "2011-07"
+            Item\tOperation Patriot Shield\tExperience: +3, Maximum HP / MP: +20, Four Songs, Softcore Only, Last Available: "2011-07"
             --------------------
             """));
       }
