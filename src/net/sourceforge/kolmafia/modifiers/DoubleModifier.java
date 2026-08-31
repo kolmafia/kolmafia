@@ -635,7 +635,17 @@ public enum DoubleModifier implements Modifier {
       "Maximum HP / MP",
       Pattern.compile("Maximum HP/MP ([+-]\\d+)$"),
       Pattern.compile("Maximum HP / MP: " + EXPR),
-      new DoubleModifier[] {HP, MP});
+      new DoubleModifier[] {HP, MP}),
+  ALL_ATTRIBUTES(
+      "All Attributes",
+      Pattern.compile("All Attributes ([+-]\\d+)$"),
+      Pattern.compile("All Attributes: " + EXPR),
+      new DoubleModifier[] {MUS, MYS, MOX}),
+  ALL_ATTRIBUTES_PCT(
+      "All Attributes Percent",
+      Pattern.compile("All Attributes ([+-]\\d+)%$"),
+      Pattern.compile("All Attributes Percent: " + EXPR),
+      new DoubleModifier[] {MUS_PCT, MYS_PCT, MOX_PCT});
 
   private final String name;
   private final Pattern[] descPatterns;
@@ -733,6 +743,8 @@ public enum DoubleModifier implements Modifier {
           ACCESSORYDROP,
           ADDITIONAL_SONG,
           ADVENTURES,
+          ALL_ATTRIBUTES,
+          ALL_ATTRIBUTES_PCT,
           BOOZEDROP,
           BUGBEAR_DAMAGE,
           CANDYDROP,

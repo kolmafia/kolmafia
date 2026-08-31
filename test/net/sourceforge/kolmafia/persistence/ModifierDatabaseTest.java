@@ -78,8 +78,6 @@ public class ModifierDatabaseTest {
     "+50% Spell Damage, Spell Damage Percent: +50",
     "Successful hit weakens opponent, Weakens Monster",
     "Only Accordion Thieves may use this item, Class: \"Accordion Thief\"",
-    "All Attributes +5, 'Muscle: +5, Mysticality: +5, Moxie: +5'",
-    "All Attributes +30%, 'Muscle Percent: +30, Mysticality Percent: +30, Moxie Percent: +30'",
     "Bonus&nbsp;for&nbsp;Saucerors&nbsp;only, Class: \"Sauceror\"",
     "Monsters are much more attracted to you., Combat Rate: +10",
     "Monsters will be significantly less attracted to you. (Underwater only), Combat Rate (Underwater): -15",
