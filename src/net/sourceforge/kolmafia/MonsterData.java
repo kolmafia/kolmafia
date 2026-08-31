@@ -21,7 +21,7 @@ import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.FactDatabase;
-import net.sourceforge.kolmafia.persistence.MonsterDatabase.BvrTeam;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase.BlueVsRedTeam;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
 import net.sourceforge.kolmafia.persistence.MonsterDrop;
@@ -97,7 +97,7 @@ public class MonsterData extends AdventureResult {
     SPELLS("Spell:"),
     MANUEL_NAME("Manuel:"),
     WIKI_NAME("Wiki:"),
-    BVR_TEAM("BvR:");
+    BLUE_VS_RED_TEAM("BvR:");
 
     public static final Map<String, Attribute> optionToAttribute =
         Arrays.stream(Attribute.values())
@@ -273,11 +273,11 @@ public class MonsterData extends AdventureResult {
               attributeMap.put(attribute, poison);
             }
           }
-          case BVR_TEAM -> {
+          case BLUE_VS_RED_TEAM -> {
             if (tokens.hasMoreTokens()) {
               String next = tokens.nextToken();
-              BvrTeam team = BvrTeam.from(next);
-              if (team != BvrTeam.UNKNOWN) {
+              BlueVsRedTeam team = BlueVsRedTeam.from(next);
+              if (team != BlueVsRedTeam.UNKNOWN) {
                 attributeMap.put(attribute, team);
               }
             }
@@ -489,7 +489,7 @@ public class MonsterData extends AdventureResult {
 
     saveStringAttribute(Attribute.MANUEL_NAME, attributeMap, buf);
     saveStringAttribute(Attribute.WIKI_NAME, attributeMap, buf);
-    saveValueAttribute(Attribute.BVR_TEAM, attributeMap, buf);
+    saveValueAttribute(Attribute.BLUE_VS_RED_TEAM, attributeMap, buf);
 
     return buf.toString().trim();
   }
@@ -700,7 +700,7 @@ public class MonsterData extends AdventureResult {
   private String manuelName;
   private final String wikiName;
   private String article;
-  private final BvrTeam bvrTeam;
+  private final BlueVsRedTeam blueVsRedTeam;
   private final Set<String> subTypes;
   private final String attributes;
   private final int beeCount;
@@ -761,7 +761,8 @@ public class MonsterData extends AdventureResult {
     this.manuelName = (String) attributes.get(Attribute.MANUEL_NAME);
     this.wikiName = (String) attributes.getOrDefault(Attribute.WIKI_NAME, name);
     this.article = (String) attributes.get(Attribute.ARTICLE);
-    this.bvrTeam = (BvrTeam) attributes.getOrDefault(Attribute.BVR_TEAM, BvrTeam.UNKNOWN);
+    this.blueVsRedTeam =
+        (BlueVsRedTeam) attributes.getOrDefault(Attribute.BLUE_VS_RED_TEAM, BlueVsRedTeam.UNKNOWN);
 
     // We could normalize the string.
     //   this.attributes = attributeMapToString(attributes);
@@ -870,7 +871,7 @@ public class MonsterData extends AdventureResult {
     this.images = monster.images;
     this.manuelName = monster.manuelName;
     this.wikiName = monster.wikiName;
-    this.bvrTeam = monster.bvrTeam;
+    this.blueVsRedTeam = monster.blueVsRedTeam;
     this.subTypes = monster.subTypes;
     this.attributes = monster.attributes;
     this.noManuel = monster.noManuel;
@@ -1404,8 +1405,8 @@ public class MonsterData extends AdventureResult {
     this.article = article;
   }
 
-  public BvrTeam getBvrTeam() {
-    return this.bvrTeam;
+  public BlueVsRedTeam getBlueVsRedTeam() {
+    return this.blueVsRedTeam;
   }
 
   public int getHP() {

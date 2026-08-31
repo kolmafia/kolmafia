@@ -203,7 +203,7 @@ public class MonsterDatabase {
     }
   }
 
-  public enum BvrTeam {
+  public enum BlueVsRedTeam {
     BLUE("blue"),
     RED("red"),
     ENEMY("enemy"),
@@ -211,7 +211,7 @@ public class MonsterDatabase {
 
     private final String teamName;
 
-    BvrTeam(String teamName) {
+    BlueVsRedTeam(String teamName) {
       this.teamName = teamName;
     }
 
@@ -219,11 +219,11 @@ public class MonsterDatabase {
       return this.teamName;
     }
 
-    public static BvrTeam from(String teamName) {
-      for (BvrTeam team : BvrTeam.values()) {
+    public static BlueVsRedTeam from(String teamName) {
+      for (BlueVsRedTeam team : BlueVsRedTeam.values()) {
         if (teamName.equalsIgnoreCase(team.getTeamName())) return team;
       }
-      return BvrTeam.UNKNOWN;
+      return BlueVsRedTeam.UNKNOWN;
     }
   }
 

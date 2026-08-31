@@ -317,7 +317,7 @@ public class MonsterDataTest {
       assertEquals("scary monster", monster.getWikiName());
       assertEquals("scary monster", monster.getManuelName());
       assertEquals("a", monster.getArticle());
-      assertEquals(MonsterDatabase.BvrTeam.RED, monster.getBvrTeam());
+      assertEquals(MonsterDatabase.BlueVsRedTeam.RED, monster.getBlueVsRedTeam());
       // *** note that MonsterData constructor does not normalize
       // *** the attributes string, although it does parse it.
       // *** This may change.
