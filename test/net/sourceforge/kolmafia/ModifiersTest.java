@@ -2061,12 +2061,12 @@ public class ModifiersTest {
       assertThat(
           ModifierDatabase.getStringModifier(
               ModifierType.ITEM, BANEFUL_BANDOLIER, StringModifier.MODIFIERS),
-          equalTo("Ranged Damage: +30, Slime Hates It: +1, Hat Pants Drop: +30"));
+          equalTo("Ranged Damage: +30, Slime Hates It: +1, Hat / Pants Drop: +30"));
 
       assertThat(
           ModifierDatabase.getStringModifier(
               ModifierType.ITEM, VELCRO_BROADSWORD, StringModifier.MODIFIERS),
-          equalTo("Muscle Percent: +5, MP Regen Min: 6, MP Regen Max: 12, Hat Pants Drop: +20"));
+          equalTo("Muscle Percent: +5, MP Regen Min: 6, MP Regen Max: 12, Hat / Pants Drop: +20"));
     }
 
     @Test
@@ -2106,7 +2106,7 @@ public class ModifiersTest {
     public void parsesCombinedEnchantmentIntoSingleModifier() {
       assertThat(
           ModifierDatabase.parseModifier("+30% Hat/Pants Drops from Monsters"),
-          equalTo("Hat Pants Drop: +30"));
+          equalTo("Hat / Pants Drop: +30"));
       // Individual drop types still parse to their own modifier
       assertThat(
           ModifierDatabase.parseModifier("+30% Pants Drops from Monsters"),

@@ -627,9 +627,9 @@ public enum DoubleModifier implements Modifier {
       Pattern.compile("Kill (\\d+)% More Skeletons"),
       Pattern.compile("Kill More Skeletons: " + EXPR)),
   HAT_PANTS_DROP(
-      "Hat Pants Drop",
+      "Hat / Pants Drop",
       Pattern.compile("([+-]\\d+)% Hat/Pants Drops? [Ff]rom Monsters$"),
-      Pattern.compile("Hat Pants Drop: " + EXPR),
+      Pattern.compile("Hat / Pants Drop: " + EXPR),
       new DoubleModifier[] {HATDROP, PANTSDROP});
 
   private final String name;

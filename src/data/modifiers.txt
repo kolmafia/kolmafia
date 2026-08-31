@@ -2093,7 +2093,7 @@ Item	Unkillable Skeleton's restless leg	Weapon Damage: +40, MP Regen Min: 20, MP
 Item	Unkillable Skeleton's sawsword	Damage vs. Skeletons: +100, Damage vs. Zombies: +50, Damage vs. Vampires: +50, Damage vs. Werewolves: +50, Damage vs. Ghosts: +50, Damage vs. Bugbears: +50
 Item	unsanitized scalpel	Sleaze Damage: +25
 Item	vampire duck-on-a-string	Weapon Damage: +5, Item Drop: +5, Last Available: "2006-12"
-Item	velcro broadsword	Muscle Percent: +5, MP Regen Min: 6, MP Regen Max: 12, Hat Pants Drop: +20
+Item	velcro broadsword	Muscle Percent: +5, MP Regen Min: 6, MP Regen Max: 12, Hat / Pants Drop: +20
 Item	velcro paddle ball	Moxie Percent: +5, MP Regen Min: 6, MP Regen Max: 12, Accessory Drop: +20
 # velour voulge: Triples the effect of Snarl of the Timberwolf
 Item	velour voulge	Experience (Muscle): +2, Weapon Drop: +30, Last Available: "2021-12"
@@ -2904,7 +2904,7 @@ Item	bakelite brooch	Mana Cost (combat): -2, Mysticality Percent: +20, Spell Dam
 # bananarama bangle: (only in the Candy Diorama)
 Item	bananarama bangle	Damage Reduction: [30*zone(The Candy Diorama)], Single Equip, Last Available: "2011-11", Enchantment Count: 1
 Item	Bandolier of the Spaghetti Elemental	Mysticality: +11, MP Regen Min: 10, MP Regen Max: 12, Class: "Pastamancer", Single Equip
-Item	baneful bandolier	Ranged Damage: +30, Slime Hates It: +1, Hat Pants Drop: +30
+Item	baneful bandolier	Ranged Damage: +30, Slime Hates It: +1, Hat / Pants Drop: +30
 Item	banjo kazoo mount	Maximum Hooch: +2, Single Equip
 Item	bark bracelet	Damage Reduction: 2, Single Equip
 Item	Baron von Ratsworth's money clip	Meat Drop: +15, Single Equip
