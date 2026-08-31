@@ -172,6 +172,7 @@ public class ItemPool {
   public static final int FERRIGNOS_ELIXIR_OF_POWER = 418;
   public static final int POTION_OF_POTENCY = 422;
   public static final int BEANBAG_CHAIR = 429;
+  public static final int CLOWN_SHOES = 431;
   public static final int LONG_SKINNY_BALLOON = 433;
   public static final int BALLOON_MONKEY = 436;
   public static final int CHEF = 438;
@@ -774,6 +775,7 @@ public class ItemPool {
   public static final int ODOR_EXTRACTOR = 2462;
   public static final int OLFACTION_BOOK = 2463;
   public static final int OREILLE_DIVISEE_BRANDY = 2465;
+  public static final int CLOWN_WIG = 2475;
   public static final int TUXEDO_SHIRT = 2489;
   public static final int SHIRT_KIT = 2491;
   public static final int TROPICAL_ORCHID = 2492;
