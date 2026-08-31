@@ -66,6 +66,8 @@ public class Evaluator {
   private final DoubleModifierCollection weight = new DoubleModifierCollection();
   private Map<DoubleModifier, Double> min;
   private Map<DoubleModifier, Double> max;
+  private List<ScoreModifier> activeScoreModifiers = List.of();
+  private boolean shouldPredictDerivedModifiers;
   private double totalMin, totalMax;
   private int dump = 0;
   private int clownosity = 0;
@@ -114,6 +116,8 @@ public class Evaluator {
   record BonusFunction(Function<AdventureResult, Double> bonusFunction, Double weight) {}
 
   record ItemBonus(double base, Map<String, Double> modes) {}
+
+  private record ScoreModifier(DoubleModifier modifier, double weight, double min, double max) {}
 
   private static final Pattern MUS_EXP_PERC_PATTERN =
       Pattern.compile("^mus(cle)? exp(erience)? perc(ent(age)?)?");
@@ -214,10 +218,34 @@ public class Evaluator {
       tiebreaker.max.put(mod, Double.POSITIVE_INFINITY);
     }
     tiebreaker.parse(Evaluator.TIEBREAKER);
+    tiebreaker.initializeScoreModifiers();
 
     this.min = new EnumMap<>(tiebreaker.min);
     this.max = new EnumMap<>(tiebreaker.max);
     this.parse(expr);
+    this.initializeScoreModifiers();
+  }
+
+  private void initializeScoreModifiers() {
+    var active = new ArrayList<ScoreModifier>();
+    this.shouldPredictDerivedModifiers = false;
+    for (var modifier : DoubleModifier.DOUBLE_MODIFIERS) {
+      double weight = this.weight.getDouble(modifier);
+      double min = this.min.get(modifier);
+      if (weight == 0.0 && min == Double.NEGATIVE_INFINITY) {
+        continue;
+      }
+
+      active.add(new ScoreModifier(modifier, weight, min, this.max.get(modifier)));
+      if (modifier == DoubleModifier.MUS
+          || modifier == DoubleModifier.MYS
+          || modifier == DoubleModifier.MOX
+          || modifier == DoubleModifier.HP
+          || modifier == DoubleModifier.MP) {
+        this.shouldPredictDerivedModifiers = true;
+      }
+    }
+    this.activeScoreModifiers = List.copyOf(active);
   }
 
   @SuppressWarnings("BooleanMethodIsAlwaysInverted")
@@ -809,15 +837,15 @@ public class Evaluator {
       Modifiers mods, Map<Slot, AdventureResult> equipment, Map<Modeable, String> modeables) {
     this.failed = false;
     this.exceeded = false;
-    var predicted = mods.predict();
+    var predicted = this.shouldPredictDerivedModifiers ? mods.predict() : null;
 
     double score = 0.0;
-    for (var mod : DoubleModifier.DOUBLE_MODIFIERS) {
-      double weight = this.weight.getDouble(mod);
-      double min = this.min.get(mod);
-      if (weight == 0.0 && min == Double.NEGATIVE_INFINITY) continue;
+    for (var scoreModifier : this.activeScoreModifiers) {
+      var mod = scoreModifier.modifier();
+      double weight = scoreModifier.weight();
+      double min = scoreModifier.min();
       double val = mods.getDouble(mod);
-      double max = this.max.get(mod);
+      double max = scoreModifier.max();
       switch (mod) {
         case MUS:
           val = predicted.get(DerivedModifier.BUFFED_MUS);
@@ -953,7 +981,7 @@ public class Evaluator {
       }
     }
     // Add fudge factor for Rollover Effect
-    if (!mods.getStrings(StringModifier.ROLLOVER_EFFECT).isEmpty()) {
+    if (mods.hasString(StringModifier.ROLLOVER_EFFECT)) {
       score += 0.01f;
     }
     if (score < this.totalMin) this.failed = true;
