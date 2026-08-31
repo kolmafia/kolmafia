@@ -2459,7 +2459,7 @@ Item	KoL Con IV Pole	Maximum HP / MP: +4, Muscle: +4, Mysticality: +4, Moxie: +4
 Item	KoL Con Six Pack	Muscle: +5, Mysticality: +5, Moxie: +5, Booze Drop: +25
 Item	KoL Con X Treasure Map	Item Drop: +5, Meat Drop: +10
 # Kramco Sausage-o-Matic&trade;: Shows you how the sausage is made
-Item	Kramco Sausage-o-Matic&trade;	Item Drop: +10, Food Drop: +10, Maximum HP: +5, Maximum MP: +5, Critical Hit Percent: +20, Last Available: "2019-01", Enchantment Count: 5
+Item	Kramco Sausage-o-Matic&trade;	Item Drop: +10, Food Drop: +10, Maximum HP: +5, Maximum MP: +5, Critical Hit Percent: +20, Last Available: "2019-01"
 Item	LARP carp	Muscle: +10, Mysticality: +10, Moxie: +10
 Item	latte lovers member's mug	Conditional Skill (Equipped): "Throw Latte on Opponent", Conditional Skill (Equipped): "Offer Latte to Opponent", Conditional Skill (Equipped): "Gulp Latte", Last Available: "2018-10"
 Item	left bear arm	Muscle Percent: +10, Maximum HP: +30, Damage Reduction: 10, Softcore Only: [1-path(Zombie Slayer)], Last Available: "2012-09", Conditional Skill (Equipped): "Bear-Backrub", Conditional Skill (Equipped): "Bear-ly Legal"
@@ -2744,7 +2744,7 @@ Item	stuffed porpoise	Last Available: "2010-03"
 # stuffed yeti
 # stuffed yo-yo
 # stuffed zmobie
-Item	Stupid University Diploma	Maximum HP: +3, Maximum MP: +3, Spooky Damage: +5, Stench Damage: +5, Hot Damage: +5, Cold Damage: +5, Sleaze Damage: +5, Enchantment Count: 3
+Item	Stupid University Diploma	Maximum HP: +3, Maximum MP: +3, Spooky Damage: +5, Stench Damage: +5, Hot Damage: +5, Cold Damage: +5, Sleaze Damage: +5
 Item	sturdy cane	PvP Fights: +4, Fumble: 2, Initiative: -25
 # sucker bucket: May Attract Walruses
 Item	sucker bucket	Candy Drop: +50, Last Available: "2011-11", Enchantment Count: 2
@@ -2827,7 +2827,7 @@ Item	zoological sample kit	Lasts Until Rollover, Last Available: "2017-04"
 # Accessories section of modifiers.txt
 
 Item	[spelunking test kit]	Maximum HP: +100, Muscle: +100, Mysticality: +100, Moxie: +100
-Item	&quot;I survived Y2K&quot; T-Shirt	Maximum HP: +2, Maximum MP: +2, Adventures: +2, Experience (Muscle): +2, Experience (Mysticality): +2, Experience (Moxie): +2, Single Equip, Last Available: "2023-06", Enchantment Count: 6
+Item	&quot;I survived Y2K&quot; T-Shirt	Maximum HP: +2, Maximum MP: +2, Adventures: +2, Experience (Muscle): +2, Experience (Mysticality): +2, Experience (Moxie): +2, Single Equip, Last Available: "2023-06"
 Item	&quot;I Voted!&quot; sticker	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Lasts Until Rollover, Last Available: "2018-11"
 Item	401k gold ring	First Hit Damage Reduction: 401, HP Regen Min: 4, HP Regen Max: 11, MP Regen Min: 4, MP Regen Max: 11, Last Available: "2026-08"
 Item	acid-squirting flower	Single Equip, Thorns: 1
@@ -2969,7 +2969,7 @@ Item	brazen bracelet	Sleaze Resistance: +1, Meat Drop: +10, Last Available: "200
 Item	Brimstone Bracelet	Mysticality Percent: +50, Muscle Percent: -20, Mana Cost: -3, Single Equip, Brimstone
 Item	Brimstone Brooch	Mysticality Percent: +50, Moxie Percent: -20, Spell Damage: +40, Single Equip, Brimstone
 Item	broken clock	Monster Level: +5, Last Available: "2011-09"
-Item	bronze detective badge	Maximum HP: +20, Maximum MP: +20, Item Drop: +10, Meat Drop: +20, Last Available: "2016-07", Enchantment Count: 4
+Item	bronze detective badge	Maximum HP: +20, Maximum MP: +20, Item Drop: +10, Meat Drop: +20, Last Available: "2016-07"
 Item	brown plastic baby	Maximum HP / MP: +5, Single Equip, Last Available: "2008-08"
 # bugbear communicator badge
 # bugbear detector: Detects Bugbears (Duh)
@@ -3238,7 +3238,7 @@ Item	glow-in-the-dark wristwatch	Mysticality: [9-M], Spell Damage: [9-M], Advent
 Item	glowing red eye	Spooky Resistance: +2
 Item	gnatwing earring	Initiative: +15, Mysticality: +6
 Item	gnoll-tooth necklace	Muscle: +5
-Item	gold detective badge	Maximum HP: +40, Maximum MP: +40, Item Drop: +20, Meat Drop: +30, Last Available: "2016-07", Enchantment Count: 4
+Item	gold detective badge	Maximum HP: +40, Maximum MP: +40, Item Drop: +20, Meat Drop: +30, Last Available: "2016-07"
 Item	gold skull ring	PvP Fights: +7, Single Equip, Last Available: "2018-09"
 Item	gold wedding ring	Adventures: +1, Negative Status Resist, Single Equip
 Item	Golden Mr. Accessory	Muscle: +15, Mysticality: +15, Moxie: +15, Softcore Only
@@ -3561,7 +3561,7 @@ Item	pirate fledges	Muscle: +7, Mysticality: +7, Moxie: +7, Look like a Pirate
 Item	pirate radio ring	Spooky Damage: +2, Stench Damage: +2, Hot Damage: +2, Cold Damage: +2, Sleaze Damage: +2, Spell Damage Percent: +15, Single Equip, Last Available: "2019-04"
 Item	PirateRealm eyepatch	Muscle Limit: 20, Mysticality Limit: 20, Moxie Limit: 20, Lasts Until Rollover, Last Available: "2019-04"
 Item	plaid pocket square	Meat Drop: +15
-Item	plastic detective badge	Maximum HP: +10, Maximum MP: +10, Item Drop: +5, Meat Drop: +15, Last Available: "2016-07", Enchantment Count: 4
+Item	plastic detective badge	Maximum HP: +10, Maximum MP: +10, Item Drop: +5, Meat Drop: +15, Last Available: "2016-07"
 Item	plastic Duskwalker necklace	Moxie: +5, Familiar Weight: +3, Single Equip, Lasts Until Rollover
 Item	plastic spider ring	Mysticality: +3, Single Equip, Last Available: "2010-06", Conditional Skill (Equipped): "Shoot Web"
 Item	plastic vampire fangs	Maximum HP / MP: +30, Muscle: +15, Mysticality: +15, Moxie: +15, Single Equip, Softcore Only, Last Available: "2011-10", Conditional Skill (Equipped): "Feed", Enchantment Count: 3
@@ -3661,7 +3661,7 @@ Item	replica hewn moon-rune spoon	Experience: +3, Familiar Weight: +5, Critical 
 # replica Juju Mojo Mask: Big Mojo
 Item	replica Juju Mojo Mask	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Experience: +2, Single Equip, Enchantment Count: 3
 # replica Kramco Sausage-o-Matic&trade;: Shows you how the sausage is made
-Item	replica Kramco Sausage-o-Matic&trade;	Item Drop: +10, Food Drop: +10, Maximum HP: +5, Maximum MP: +5, Critical Hit Percent: +20, Enchantment Count: 5
+Item	replica Kramco Sausage-o-Matic&trade;	Item Drop: +10, Food Drop: +10, Maximum HP: +5, Maximum MP: +5, Critical Hit Percent: +20
 Item	replica navel ring of navel gazing	Damage Reduction: [L], Mysticality Percent: +25, Spell Damage Percent: +100, Mana Cost: -1, Single Equip, Item Drop (sporadic): 4.25, Meat Drop (sporadic): 4.25, Experience: 0.6375, MP Regen Min: 2.125, MP Regen Max: 4.25, Enchantment Count: 4
 Item	replica plastic vampire fangs	Maximum HP / MP: +30, Muscle: +15, Mysticality: +15, Moxie: +15, Single Equip, Conditional Skill (Equipped): "Feed", Enchantment Count: 3
 Item	replica Powerful Glove	Maximum MP: +10, Maximum HP: +20, Weapon Damage Percent: +25, Spell Damage Percent: +50, HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10, Single Equip, Conditional Skill (Equipped): "CHEAT CODE: Replace Enemy", Conditional Skill (Equipped): "CHEAT CODE: Shrink Enemy", Conditional Skill (Equipped): "CHEAT CODE: Invisible Avatar", Conditional Skill (Equipped): "CHEAT CODE: Triple Size"
@@ -3747,7 +3747,7 @@ Item	sicksilver ring	Stench Damage: +20, Stench Spell Damage: +40, Muscle: +10, 
 # signal jammer: Repels Skeleton Astronauts
 Item	signal jammer	Single Equip
 Item	silent nightlight	Muscle: +5, Mysticality: +5, Moxie: +5, Rollover Effect: "Nightlit", Rollover Effect Duration: 50, Enchantment Count: 4
-Item	silver detective badge	Maximum HP: +30, Maximum MP: +30, Item Drop: +15, Meat Drop: +25, Last Available: "2016-07", Enchantment Count: 4
+Item	silver detective badge	Maximum HP: +30, Maximum MP: +30, Item Drop: +15, Meat Drop: +25, Last Available: "2016-07"
 # silver table-scraper: Fully restore your HP after Crimbo Train fights
 Item	silver table-scraper	Single Equip
 Item	silver tongue charrrm bracelet	Moxie: +5, Spell Damage: +10, Single Equip

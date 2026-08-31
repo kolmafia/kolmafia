@@ -1226,7 +1226,6 @@ public class TCRSDatabase {
               DoubleModifier.SLEAZE_DAMAGE),
           EnumSet.of(DoubleModifier.MUS, DoubleModifier.MYS, DoubleModifier.MOX),
           EnumSet.of(DoubleModifier.MUS_PCT, DoubleModifier.MYS_PCT, DoubleModifier.MOX_PCT),
-          EnumSet.of(DoubleModifier.HP, DoubleModifier.MP),
           EnumSet.of(DoubleModifier.HP_PCT, DoubleModifier.MP_PCT));
   private static final Set<DoubleModifier> REGEN =
       EnumSet.of(
