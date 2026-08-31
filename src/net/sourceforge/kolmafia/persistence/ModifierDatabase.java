@@ -113,9 +113,6 @@ public class ModifierDatabase {
   private static final String MUSCLE_PCT = DoubleModifier.MUS_PCT.getTag() + ": ";
   private static final String MYSTICALITY_PCT = DoubleModifier.MYS_PCT.getTag() + ": ";
 
-  private static final String HP_TAG = DoubleModifier.HP.getTag() + ": ";
-  private static final String MP_TAG = DoubleModifier.MP.getTag() + ": ";
-
   private static final String HP_REGEN_MIN_TAG = DoubleModifier.HP_REGEN_MIN.getTag() + ": ";
   private static final String HP_REGEN_MAX_TAG = DoubleModifier.HP_REGEN_MAX.getTag() + ": ";
   private static final String MP_REGEN_MIN_TAG = DoubleModifier.MP_REGEN_MIN.getTag() + ": ";
@@ -144,7 +141,6 @@ public class ModifierDatabase {
       Pattern.compile("Bonus&nbsp;for&nbsp;(.*)&nbsp;only");
   private static final Pattern COMBAT_PATTERN =
       Pattern.compile("Monsters (?:are|will be) (.*) attracted to you");
-  private static final Pattern HP_MP_PATTERN = Pattern.compile("^Maximum HP/MP ([+-]\\d+)$");
   private static final Pattern REGEN_PATTERN =
       Pattern.compile("Regenerate (\\d*)-?(\\d*)? ([HM]P)( and .*)? per [aA]dventure$");
   private static final Pattern RESISTANCE_PATTERN = Pattern.compile("Resistance \\(([+-]\\d+)\\)");
@@ -802,7 +798,11 @@ public class ModifierDatabase {
             newMods.setDouble(subsumed, value);
           }
         } else {
-          newMods.addExpression(mod, ModifierExpression.getInstance(matcher.group(2), lookup));
+          ModifierExpression expression = ModifierExpression.getInstance(matcher.group(2), lookup);
+          newMods.addExpression(mod, expression);
+          for (var subsumed : mod.getSubsumed()) {
+            newMods.addExpression(subsumed, expression);
+          }
         }
         continue modLoop;
       }
@@ -1076,12 +1076,6 @@ public class ModifierDatabase {
       String level = matcher.group(1);
       String rate = COMBAT_RATE_DESCRIPTIONS.getOrDefault(level, "+0");
       return tag + ": " + rate;
-    }
-
-    matcher = HP_MP_PATTERN.matcher(enchantment);
-    if (matcher.find()) {
-      String mod = matcher.group(1);
-      return HP_TAG + mod + ", " + MP_TAG + mod;
     }
 
     if (enchantment.contains("Regenerate")) {
