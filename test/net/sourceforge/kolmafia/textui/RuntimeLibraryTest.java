@@ -57,7 +57,6 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.endsWith;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.startsWith;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -2036,43 +2035,11 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     }
 
     @Test
-    public void exposesCombinationsConsideredEvenWhenFailed() {
-      final var cleanups = new Cleanups(withEquippableItem("helmet turtle"));
-      try (cleanups) {
-        execute("maximize(\"mus 2 min\", true)");
-        assertThat(execute("last_maximizer_succeeded()"), endsWith("Returned: false\n"));
-        String out = execute("last_maximizer_combinations_considered()");
-        int considered = Integer.parseInt(out.replace("Returned: ", "").trim());
-        assertThat(considered, greaterThan(0));
-      }
-    }
-
-    @Test
     public void exposesSuccessfulResultWhenMinHit() {
       final var cleanups = new Cleanups(withEquippableItem("wreath of laurels"));
       try (cleanups) {
         execute("maximize(\"mus 2 min\", true)");
         assertThat(execute("last_maximizer_succeeded()"), endsWith("Returned: true\n"));
-      }
-    }
-
-    @Test
-    public void exposesCombinationsConsidered() {
-      final var cleanups = new Cleanups(withEquippableItem("wreath of laurels"));
-      try (cleanups) {
-        execute("maximize(\"mus 2 min\", true)");
-        String out = execute("last_maximizer_combinations_considered()");
-        int considered = Integer.parseInt(out.replace("Returned: ", "").trim());
-        assertThat(considered, greaterThan(0));
-      }
-    }
-
-    @Test
-    public void exposesScore() {
-      final var cleanups = new Cleanups(withEquippableItem("wreath of laurels"));
-      try (cleanups) {
-        execute("maximize(\"mus\", true)");
-        assertThat(execute("last_maximizer_score()"), endsWith("Returned: 25.0\n"));
       }
     }
 
@@ -2101,33 +2068,18 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     }
 
     @Test
-    public void resetsResultForCallsThatDoNotSearchEquipment() {
-      final var cleanups = new Cleanups(withEquippableItem("wreath of laurels"));
-      try (cleanups) {
-        execute("maximize(\"mus 2 min\", true)");
-        assertThat(execute("last_maximizer_succeeded()"), endsWith("Returned: true\n"));
-
-        execute("maximize(\"meat\", 0, 0, 0, \"wish\")");
-        assertThat(execute("last_maximizer_succeeded()"), endsWith("Returned: false\n"));
-        assertThat(execute("last_maximizer_combinations_considered()"), endsWith("Returned: 0\n"));
-        assertThat(execute("last_maximizer_score()"), endsWith("Returned: 0.0\n"));
-      }
-    }
-
-    @Test
-    public void doesNotReportAScoreWhenMaximizingOnNonEquipment() {
-      // This test doesn't prove the behavior is desirable, only that it exists
-      // We didn't provide an 'equip' filter, so it won't be telling us anything about the score
+    public void reportsFailureWhenMaximizingOnNonEquipment() {
       final var cleanups =
           new Cleanups(
               withItem(ItemPool.POCKET_WISH), withEquippableItem("incredibly dense meat gem"));
       try (cleanups) {
+        execute("maximize(\"mus\", true)");
+        assertThat(execute("last_maximizer_succeeded()"), endsWith("Returned: true\n"));
+
+        // Without an 'equip' filter no combination is searched, so nothing succeeds
         String out = execute("maximize(\"meat\", 0, 0, 0, \"wish\")");
         assertTrue(out.contains("genie effect Sinuses For Miles"));
-
         assertThat(execute("last_maximizer_succeeded()"), endsWith("Returned: false\n"));
-        assertThat(execute("last_maximizer_combinations_considered()"), endsWith("Returned: 0\n"));
-        assertThat(execute("last_maximizer_score()"), endsWith("Returned: 0.0\n"));
       }
     }
   }

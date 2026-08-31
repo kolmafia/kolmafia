@@ -2628,13 +2628,6 @@ public abstract class RuntimeLibrary {
     params = List.of();
     functions.add(new LibraryFunction("last_maximizer_succeeded", DataTypes.BOOLEAN_TYPE, params));
 
-    params = List.of();
-    functions.add(new LibraryFunction("last_maximizer_score", DataTypes.FLOAT_TYPE, params));
-
-    params = List.of();
-    functions.add(
-        new LibraryFunction("last_maximizer_combinations_considered", DataTypes.INT_TYPE, params));
-
     params = List.of(namedParam("expr", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("monster_eval", DataTypes.FLOAT_TYPE, params));
 
@@ -9306,17 +9299,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value last_maximizer_succeeded(ScriptRuntime controller) {
-    return DataTypes.makeBooleanValue(
-        Maximizer.best != null && Maximizer.best.scored && !Maximizer.best.failed);
-  }
-
-  public static Value last_maximizer_score(ScriptRuntime controller) {
-    return DataTypes.makeFloatValue(
-        Maximizer.best != null && Maximizer.best.scored ? Maximizer.best.getScore() : 0.0);
-  }
-
-  public static Value last_maximizer_combinations_considered(ScriptRuntime controller) {
-    return DataTypes.makeIntValue(Maximizer.bestChecked);
+    return DataTypes.makeBooleanValue(Maximizer.lastMaximizeSucceeded());
   }
 
   public static Value monster_eval(ScriptRuntime controller, final Value expr) {
