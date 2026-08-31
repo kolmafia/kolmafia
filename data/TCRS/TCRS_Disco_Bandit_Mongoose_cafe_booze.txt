@@ -17,7 +17,7 @@
 -59	hand-crafted mirror blurry Isotope Nog	3	EPIC	
 -60	fancy hand-crafted Mutagin 'n' Tonic	4	EPIC	
 -70	aged practically non-alcoholic Gin and Herring	1	awesome	
--71	lousy special Black and Tan and Red All Over	3	decent	
+-71	lousy Black and Tan and Red All Over	3	decent	
 -72	fortified mediocre Antarctic Ice Tea	5	decent	
 -76	practically non-alcoholic drinkable CRIMBCO Ribbon Candy Schnapps	1	good	
 -77	delicious fortified CRIMBCO Egg Substitute Nog Substitute	5	awesome	
@@ -26,8 +26,8 @@
 -83	mediocre Jerkitini	4	decent	
 -84	delicious teal Desert Island Iced Tea	3	awesome	
 -88	artisanal Crimbo Saketini	4	EPIC	
--89	fancy hand-crafted practically non-alcoholic shaking Crimboku Drop	1	EPIC	
+-89	hand-crafted practically non-alcoholic shaking Crimboku Drop	1	EPIC	
 -90	high-proof drinkable Flaming Crimbo Log	8	good	
 -107	watered-down acceptable Fortified Eggnog Slurry	2	good	
 -108	mediocre Hot Buttered Rum	3	decent	
--109	hand-crafted practically non-alcoholic gray Spicy Hot Chocolate	1	EPIC	
+-109	fancy hand-crafted practically non-alcoholic gray Spicy Hot Chocolate	1	EPIC	

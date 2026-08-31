@@ -169,6 +169,13 @@ tasks.register<Delete>("pruneDist") {
   }
 }
 
+// The per-class/sign TCRS data lives only in the top-level data/ dir (not under src/), so copy it
+// onto the test classpath at data/TCRS. This lets tests load it via getReader without committing a
+// duplicate copy under src/data, and keeps it out of the production jar.
+tasks.named<Copy>("processTestResources") {
+  from("data/TCRS") { into("data/TCRS") }
+}
+
 tasks.test {
   useJUnitPlatform()
   systemProperty("line.separator", "\n")

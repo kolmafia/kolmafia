@@ -64,6 +64,7 @@ public class EffectPool {
   public static final int DREAMS_AND_LIGHTS = 223;
   public static final int SCARYSAUCE = 224;
   public static final int DIRGE_OF_DREADFULNESS = 225;
+  public static final int BELLS_IN_THE_BATFRY = 256;
   public static final int EAU_DE_TORTUE = 263;
   public static final int MAJORLY_POISONED = 264;
   public static final int TENUOUS_GRIP_ON_REALITY = 265;
@@ -165,6 +166,7 @@ public class EffectPool {
   public static final int SWEET_AND_GREEN = 576;
   public static final int SWEET_AND_RED = 577;
   public static final int THE_COLORS = 584;
+  public static final int A_LITTLE_BIT_EVIL = 598;
   public static final int CLUMSY = 612;
   public static final int DONHOS_BUBBLY_BALLAD = 614;
   public static final int COATED_IN_SLIME = 633;
@@ -172,7 +174,9 @@ public class EffectPool {
   public static final int IRON_PALMS = 709;
   public static final int INIGOS = 716;
   public static final int DOWN_THE_RABBIT_HOLE = 725;
+  public static final int TOWERING_STRENGTH = 755;
   public static final int DEADENED_PALATE = 774;
+  public static final int OVERSATURATED_PALATE = 775;
   public static final int SUPER_SKILL = 777;
   public static final int SUPER_STRUCTURE = 778;
   public static final int SUPER_VISION = 779;
@@ -356,6 +360,7 @@ public class EffectPool {
   public static final int WOLF_FORM = 2449;
   public static final int MIST_FORM = 2450;
   public static final int BATS_FORM = 2451;
+  public static final int TIKI_TEMERITY = 2468;
   public static final int FIDOXENE = 2520;
   public static final int SPIRIT_OF_TAKING = 2541;
   public static final int BLESSING_OF_THE_BIRD = 2551;

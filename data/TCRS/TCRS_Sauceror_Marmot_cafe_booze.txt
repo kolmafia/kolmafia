@@ -2,14 +2,14 @@
 -2	spirit-forward perfectly mixed Scrawny Stout	5	EPIC	
 -3	bad Infinitesimal IPA	4	decent	
 -4	weak acceptable eggnogtini	2	good	
--5	special tolerable watered-down candycaine	2	good	
+-5	tolerable watered-down candycaine	2	good	
 -6	acceptable braincracker sweet	3	good	
 -16	weak perfectly mixed fermented honey	2	EPIC	
 -17	fortified artisanal skewed moons-shine	5	EPIC	
 -18	delicious gin	3	awesome	
--19	bad ecto-nog	3	decent	
+-19	bad fancy ecto-nog	3	decent	
 -20	tolerable watered-down hot toady	2	good	
--21	bad hot choculate	3	decent	
+-21	fancy bad hot choculate	3	decent	
 -49	aged mirror Cyder	3	awesome	
 -50	hand-crafted blurry Oil Nog	4	EPIC	
 -51	bad Hi-Octane Peppermint Jet Fuel	3	decent	

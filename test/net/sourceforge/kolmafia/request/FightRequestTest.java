@@ -2970,6 +2970,58 @@ public class FightRequestTest {
         assertThat("_chainedPurpleCandleMonster", isSetTo("Racecar Bob"));
       }
     }
+
+    @Test
+    public void canDetectRedCandleCast() {
+      var cleanups = new Cleanups(withFight(), withProperty("romanCandelabraRedCasts", 0));
+
+      try (cleanups) {
+        parseCombatData(
+            "request/test_fight_red_candle.html",
+            "fight.php?action=skill&whichskill=" + SkillPool.BLOW_THE_RED_CANDLE);
+
+        assertThat("romanCandelabraRedCasts", hasIntegerValue(equalTo(1)));
+      }
+    }
+
+    @Test
+    public void canDetectYellowCandleCast() {
+      var cleanups = new Cleanups(withFight(), withProperty("romanCandelabraYellowCasts", 0));
+
+      try (cleanups) {
+        parseCombatData(
+            "request/test_fight_yellow_candle.html",
+            "fight.php?action=skill&whichskill=" + SkillPool.BLOW_THE_YELLOW_CANDLE);
+
+        assertThat("romanCandelabraYellowCasts", hasIntegerValue(equalTo(1)));
+      }
+    }
+
+    @Test
+    public void canDetectBlueCandleCast() {
+      var cleanups = new Cleanups(withFight(), withProperty("romanCandelabraBlueCasts", 0));
+
+      try (cleanups) {
+        parseCombatData(
+            "request/test_fight_blue_candle.html",
+            "fight.php?action=skill&whichskill=" + SkillPool.BLOW_THE_BLUE_CANDLE);
+
+        assertThat("romanCandelabraBlueCasts", hasIntegerValue(equalTo(1)));
+      }
+    }
+
+    @Test
+    public void canDetectGreenCandleCast() {
+      var cleanups = new Cleanups(withFight(), withProperty("romanCandelabraGreenCasts", 0));
+
+      try (cleanups) {
+        parseCombatData(
+            "request/test_fight_green_candle.html",
+            "fight.php?action=skill&whichskill=" + SkillPool.BLOW_THE_GREEN_CANDLE);
+
+        assertThat("romanCandelabraGreenCasts", hasIntegerValue(equalTo(1)));
+      }
+    }
   }
 
   @Nested

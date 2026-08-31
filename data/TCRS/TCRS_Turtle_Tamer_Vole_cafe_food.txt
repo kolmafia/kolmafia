@@ -1,5 +1,5 @@
 -1	flavorless super-sized Peche a la Frog	5	decent	
--2	adequate miniature As Jus Gezund Heit	2	good	
+-2	fancy miniature adequate As Jus Gezund Heit	2	good	
 -3	rotten pulsating Bouillabaise Coucher Avec Moi	3	crappy	
 -7	toothsome small gumdrop chow mein	2	awesome	
 -8	half-sized rotten candy cane pizza	2	crappy	
@@ -25,9 +25,9 @@
 -79	toothsome ghostly Brussels Sprout Stir-Fry	3	awesome	
 -80	delicious Carrot, Cabbage, and Kale Pizza	3	awesome	
 -81	tasty Turnip and Rutabaga Pie	3	awesome	
--85	bland Rainbow Spider Fun Roll	3	decent	
+-85	bland special Rainbow Spider Fun Roll	3	decent	
 -86	low-calorie spoiled cyan Vegas Volcano Lava Roll	1	crappy	
--87	stale wobbly Crazy Dragon Shogun Buddha Roll	3	decent	
+-87	fancy stale wobbly Crazy Dragon Shogun Buddha Roll	3	decent	
 -92	low-calorie flavorless basic hot dog	1	decent	
 -93	flavorless immense savage macho dog	6	decent	
 -94	decent snack-sized squat one with everything	2	good	
