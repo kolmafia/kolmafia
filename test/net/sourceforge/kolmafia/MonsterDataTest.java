@@ -290,7 +290,7 @@ public class MonsterDataTest {
       int id = 13;
       String[] images = {"scary.gif"};
       String attributes =
-          "BOSS NOBANISH NOCOPY FREE WANDERER Def: 37 HP: 666 Atk: 13 Init: 1000 E: spooky Phys: [50] Elem: 50 Meat: 100 SprinkleMin: 10 SprinkleMax: 20 Group: 13 P: horror GHOST Poison: \"Really Quite Poisoned\" Manuel: \"scary monster\" Wiki: \"scary monster\" Article: a";
+          "BOSS NOBANISH NOCOPY FREE WANDERER Def: 37 HP: 666 Atk: 13 Init: 1000 E: spooky Phys: [50] Elem: 50 Meat: 100 SprinkleMin: 10 SprinkleMax: 20 Group: 13 P: horror GHOST Poison: \"Really Quite Poisoned\" Manuel: \"scary monster\" Wiki: \"scary monster\" Article: a BvR: red";
       MonsterData monster = new MonsterData(name, id, images, attributes);
       assertEquals(13, monster.getRawAttack());
       assertEquals(37, monster.getRawDefense());
@@ -317,6 +317,7 @@ public class MonsterDataTest {
       assertEquals("scary monster", monster.getWikiName());
       assertEquals("scary monster", monster.getManuelName());
       assertEquals("a", monster.getArticle());
+      assertEquals(MonsterDatabase.BlueVsRedTeam.RED, monster.getBlueVsRedTeam());
       // *** note that MonsterData constructor does not normalize
       // *** the attributes string, although it does parse it.
       // *** This may change.
