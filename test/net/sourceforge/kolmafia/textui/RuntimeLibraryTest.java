@@ -2024,6 +2024,64 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       assertFalse(out.toLowerCase().contains("error"));
       assertFalse(out.toLowerCase().contains("banana"));
     }
+
+    @Test
+    public void exposesFailedResultWhenMinNotHit() {
+      final var cleanups = new Cleanups(withEquippableItem("helmet turtle"));
+      try (cleanups) {
+        execute("maximize(\"mus 2 min\", true)");
+        assertThat(execute("last_maximizer_succeeded()"), endsWith("Returned: false\n"));
+      }
+    }
+
+    @Test
+    public void exposesSuccessfulResultWhenMinHit() {
+      final var cleanups = new Cleanups(withEquippableItem("wreath of laurels"));
+      try (cleanups) {
+        execute("maximize(\"mus 2 min\", true)");
+        assertThat(execute("last_maximizer_succeeded()"), endsWith("Returned: true\n"));
+      }
+    }
+
+    @Test
+    public void exposesResultOfMostRecentMaximizeCall() {
+      final var cleanups = new Cleanups(withEquippableItem("wreath of laurels"));
+      try (cleanups) {
+        execute("maximize(\"mus 2 min\", true)");
+        assertThat(execute("last_maximizer_succeeded()"), endsWith("Returned: true\n"));
+
+        execute("maximize(\"mus 200 min\", true)");
+        assertThat(execute("last_maximizer_succeeded()"), endsWith("Returned: false\n"));
+      }
+    }
+
+    @Test
+    public void resetsResultWhenSubsequentMaximizeFailsToParse() {
+      final var cleanups = new Cleanups(withEquippableItem("wreath of laurels"));
+      try (cleanups) {
+        execute("maximize(\"mus\", true)");
+        assertThat(execute("last_maximizer_succeeded()"), endsWith("Returned: true\n"));
+
+        execute("maximize(\"nonsense\", true)");
+        assertThat(execute("last_maximizer_succeeded()"), endsWith("Returned: false\n"));
+      }
+    }
+
+    @Test
+    public void reportsFailureWhenMaximizingOnNonEquipment() {
+      final var cleanups =
+          new Cleanups(
+              withItem(ItemPool.POCKET_WISH), withEquippableItem("incredibly dense meat gem"));
+      try (cleanups) {
+        execute("maximize(\"mus\", true)");
+        assertThat(execute("last_maximizer_succeeded()"), endsWith("Returned: true\n"));
+
+        // Without an 'equip' filter no combination is searched, so nothing succeeds
+        String out = execute("maximize(\"meat\", 0, 0, 0, \"wish\")");
+        assertTrue(out.contains("genie effect Sinuses For Miles"));
+        assertThat(execute("last_maximizer_succeeded()"), endsWith("Returned: false\n"));
+      }
+    }
   }
 
   @Test
