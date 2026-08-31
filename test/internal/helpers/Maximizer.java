@@ -8,8 +8,6 @@ import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.maximizer.Boost;
 import net.sourceforge.kolmafia.maximizer.EquipScope;
 import net.sourceforge.kolmafia.maximizer.PriceLevel;
-import net.sourceforge.kolmafia.modifiers.BooleanModifier;
-import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.Modifier;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.swingui.MaximizerFrame;
@@ -39,21 +37,6 @@ public class Maximizer {
 
   public static double modFor(Modifier modifier) {
     return ModifierDatabase.getNumericModifier(ModifierType.GENERATED, "_spec", modifier);
-  }
-
-  public static boolean result() {
-    return ModifierDatabase.getBooleanModifier(
-        ModifierType.GENERATED, "_result", BooleanModifier.RESULT);
-  }
-
-  public static double combosConsidered() {
-    return ModifierDatabase.getNumericModifier(
-        ModifierType.GENERATED, "_result", DoubleModifier.COMBOS_CONSIDERED);
-  }
-
-  public static double score() {
-    return ModifierDatabase.getNumericModifier(
-        ModifierType.GENERATED, "_result", DoubleModifier.SCORE);
   }
 
   public static List<Boost> getBoosts() {

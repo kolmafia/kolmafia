@@ -25,7 +25,6 @@ import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.modifiers.BitmapModifier;
-import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.moods.MoodManager;
@@ -92,8 +91,8 @@ public class Maximizer {
     "_mcHugeLarge",
   };
 
-  static MaximizerSpeculation best;
-  static int bestChecked;
+  public static MaximizerSpeculation best;
+  public static int bestChecked;
   static long bestUpdate;
 
   private Maximizer() {}
@@ -120,12 +119,6 @@ public class Maximizer {
 
     Modifiers mods = Maximizer.best.calculate();
     ModifierDatabase.overrideModifier(ModifierType.GENERATED, "_spec", mods);
-
-    Modifiers result = new Modifiers();
-    result.setBoolean(BooleanModifier.RESULT, !Maximizer.best.failed);
-    result.setDouble(DoubleModifier.COMBOS_CONSIDERED, Maximizer.bestChecked);
-    result.setDouble(DoubleModifier.SCORE, Maximizer.best.getScore());
-    ModifierDatabase.overrideModifier(ModifierType.GENERATED, "_result", result);
 
     return !Maximizer.best.failed;
   }

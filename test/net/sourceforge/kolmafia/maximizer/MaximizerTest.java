@@ -1,12 +1,9 @@
 package net.sourceforge.kolmafia.maximizer;
 
-import static internal.helpers.Maximizer.combosConsidered;
 import static internal.helpers.Maximizer.getBoosts;
 import static internal.helpers.Maximizer.maximize;
 import static internal.helpers.Maximizer.maximizeAny;
 import static internal.helpers.Maximizer.modFor;
-import static internal.helpers.Maximizer.result;
-import static internal.helpers.Maximizer.score;
 import static internal.helpers.Player.withCampgroundItem;
 import static internal.helpers.Player.withClass;
 import static internal.helpers.Player.withDay;
@@ -39,7 +36,6 @@ import static internal.matchers.Maximizer.recommendsSlot;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.hasToString;
@@ -236,45 +232,6 @@ public class MaximizerTest {
       final var cleanups = new Cleanups(withEquippableItem("wreath of laurels"));
       try (cleanups) {
         assertTrue(maximize("2 min, mus"));
-      }
-    }
-  }
-
-  @Nested
-  class State {
-    @Test
-    public void exposesFailedResultWhenMinNotHit() {
-      final var cleanups = new Cleanups(withEquippableItem("helmet turtle"));
-      try (cleanups) {
-        assertFalse(maximize("mus 2 min"));
-        assertFalse(result());
-      }
-    }
-
-    @Test
-    public void exposesSuccessfulResultWhenMinHit() {
-      final var cleanups = new Cleanups(withEquippableItem("wreath of laurels"));
-      try (cleanups) {
-        assertTrue(maximize("mus 2 min"));
-        assertTrue(result());
-      }
-    }
-
-    @Test
-    public void exposesCombosConsidered() {
-      final var cleanups = new Cleanups(withEquippableItem("wreath of laurels"));
-      try (cleanups) {
-        maximize("mus 2 min");
-        assertThat(combosConsidered(), greaterThan(0.0));
-      }
-    }
-
-    @Test
-    public void exposesScoreMatchingBestSpeculation() {
-      final var cleanups = new Cleanups(withEquippableItem("wreath of laurels"));
-      try (cleanups) {
-        maximize("mus");
-        assertEquals(modFor(DoubleModifier.MUS), score());
       }
     }
   }
