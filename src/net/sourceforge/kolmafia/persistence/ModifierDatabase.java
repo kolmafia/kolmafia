@@ -86,6 +86,10 @@ public class ModifierDatabase {
   private static final Map<BitmapModifier, Integer> bitmapMasks =
       new EnumMap<>(BitmapModifier.class);
 
+  // The bits each source has already been given, so reparsing reuses them.
+  private static final Map<BitmapModifier, Map<String, Integer>> bitmapMasksBySource =
+      new EnumMap<>(BitmapModifier.class);
+
   // constant fields
 
   public static final String EXPR = "(?:([-+]?[\\d.]+)|\\[([^]]+)\\])";
@@ -824,21 +828,8 @@ public class ModifierDatabase {
             bitcount = bitcount / 25;
           }
         }
-        // bitmapMasks stores the next mask we're going to use for modifier mod
-        int mask = bitmapMasks.get(mod);
-        bitmapMasks.put(mod, mask << bitcount);
-        for (int i = 0; i < bitcount - 1; i++) {
-          mask |= mask << 1;
-        }
-        if (bitmapMasks.get(mod) == 0) {
-          String message =
-              "ERROR: too many sources for bitmap modifier "
-                  + mod.getName()
-                  + ", consider using longs.";
-          KoLmafia.updateDisplay(message);
-        }
 
-        newMods.addBitmap(mod, mask);
+        newMods.addBitmap(mod, getBitmapMask(mod, lookup, bitcount));
         continue modLoop;
       }
 
@@ -1834,11 +1825,38 @@ public class ModifierDatabase {
     }
   }
 
+  /** Reparsing an item must reuse the same bits, of which there are only 32 to hand out. */
+  private static int getBitmapMask(
+      final BitmapModifier mod, final Lookup lookup, final int bitcount) {
+    var assigned = bitmapMasksBySource.computeIfAbsent(mod, k -> new HashMap<>());
+    Integer known = assigned.get(lookup.toString());
+    if (known != null) {
+      return known;
+    }
+
+    // bitmapMasks stores the next mask we're going to use for modifier mod
+    int mask = bitmapMasks.get(mod);
+    bitmapMasks.put(mod, mask << bitcount);
+    for (int i = 0; i < bitcount - 1; i++) {
+      mask |= mask << 1;
+    }
+    if (bitmapMasks.get(mod) == 0) {
+      KoLmafia.updateDisplay(
+          "ERROR: too many sources for bitmap modifier "
+              + mod.getName()
+              + ", consider using longs.");
+    }
+
+    assigned.put(lookup.toString(), mask);
+    return mask;
+  }
+
   public static void resetModifiers() {
     // Don't reset any variables that are set up by loadAllModifiers, as subsequent calls to
     // resetModifiers then won't set them back up due to the if() guarding loadAllModifiers.
     modifiersByName.clear();
     Modifiers.resetAvailablePassiveSkills();
+    bitmapMasksBySource.clear();
     for (var mod : BitmapModifier.BITMAP_MODIFIERS) {
       bitmapMasks.put(mod, 1);
     }

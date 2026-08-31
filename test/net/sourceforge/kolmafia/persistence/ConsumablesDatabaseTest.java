@@ -18,15 +18,10 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 
 import internal.helpers.Cleanups;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.time.Month;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -368,20 +363,13 @@ class ConsumablesDatabaseTest {
     }
 
     @AfterAll
-    static void afterAll() throws IOException {
+    static void afterAll() {
       CLEANUPS.close();
 
       DebugDatabase.cacheItemDescriptionText(
           ItemPool.RING, html("request/test_normal_desc_item_ring.html"));
       TCRSDatabase.resetModifiers();
       ConsumablesDatabase.clearAndRebuild();
-      try (var walker = Files.walk(KoLConstants.DATA_LOCATION.toPath())) {
-        walker
-            .map(Path::toFile)
-            .filter(f -> f.getName().startsWith("TCRS_"))
-            .filter(f -> f.getName().endsWith(".txt"))
-            .forEach(File::delete);
-      }
     }
 
     @Test

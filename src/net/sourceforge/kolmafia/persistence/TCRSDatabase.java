@@ -1749,7 +1749,7 @@ public class TCRSDatabase {
     int mys = 0;
     int mox = 0;
 
-    var comment = new StringJoiner(", ").add("Unspaded");
+    var comment = new StringJoiner(", ");
 
     // Consumable attributes (like SAUCY, BEER, etc) are preserved
     ConsumablesDatabase.getAttributes(consumable).stream().map(Enum::name).forEach(comment::add);
@@ -1776,7 +1776,7 @@ public class TCRSDatabase {
         String.valueOf(mus),
         String.valueOf(mys),
         String.valueOf(mox),
-        comment.toString());
+        comment.length() == 0 ? null : comment.toString());
   }
 
   public static void resetModifiers() {
