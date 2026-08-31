@@ -81,15 +81,17 @@ public class ApiRequest extends GenericRequest {
       return ApiRequest.updateStatusFromCharpane();
     }
 
-    // Similarly, if you have the continuum transfunctioner equipped,
-    // the Character Pane shows you your (8-bit) Score
-    if (KoLCharacter.hasEquipped(TRANSFUNCTIONER)) {
-      return ApiRequest.updateStatusFromCharpane();
-    }
-
     ApiRequest.INSTANCE.silent = silent;
     ApiRequest.INSTANCE.run();
-    return ApiRequest.INSTANCE.redirectLocation;
+    String rv = ApiRequest.INSTANCE.redirectLocation;
+
+    // If you have the continuum transfunctioner equipped, the Character Pane shows you your (8-bit)
+    // Score, so request that as well.
+    if (KoLCharacter.hasEquipped(TRANSFUNCTIONER)) {
+      rv = ApiRequest.updateStatusFromCharpane();
+    }
+
+    return rv;
   }
 
   public static String updateStatusFromCharpane() {
