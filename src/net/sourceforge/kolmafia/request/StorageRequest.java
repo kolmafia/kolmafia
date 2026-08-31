@@ -2,13 +2,6 @@ package net.sourceforge.kolmafia.request;
 
 import com.alibaba.fastjson2.JSONException;
 import com.alibaba.fastjson2.JSONObject;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -30,12 +23,21 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+
 @SuppressWarnings("incomplete-switch")
 public class StorageRequest extends TransferItemRequest {
   private StorageRequestType moveType;
   private boolean bulkTransfer;
 
-  public static final Set<Integer> roninStoragePulls = new HashSet<>();
+  public static final Set<Integer> roninStoragePulls = new LinkedHashSet<>();
 
   // Public interface
   public static void resetRoninStoragePulls() {
