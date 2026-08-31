@@ -2046,4 +2046,84 @@ public class ModifiersTest {
       }
     }
   }
+
+  @Nested
+  class HatPantsDrop {
+    // baneful bandolier has the combined "+30% Hat/Pants Drops from Monsters" enchantment
+    private static final int BANEFUL_BANDOLIER = ItemPool.BANEFUL_BANDOLIER;
+    // velcro broadsword has the combined "+20% Hat/Pants Drops from Monsters" enchantment
+    private static final int VELCRO_BROADSWORD = ItemPool.VELCRO_BROADSWORD;
+    // velour vaqueros has only "+30% Pants Drops from Monsters"
+    private static final int VELOUR_VAQUEROS = ItemPool.VELOUR_VAQUEROS;
+
+    @Test
+    public void combinedEnchantmentStoredAsHatPantsDrop() {
+      assertThat(
+          ModifierDatabase.getStringModifier(
+              ModifierType.ITEM, BANEFUL_BANDOLIER, StringModifier.MODIFIERS),
+          equalTo("Ranged Damage: +30, Slime Hates It: +1, Hat / Pants Drop: +30"));
+
+      assertThat(
+          ModifierDatabase.getStringModifier(
+              ModifierType.ITEM, VELCRO_BROADSWORD, StringModifier.MODIFIERS),
+          equalTo("Muscle Percent: +5, MP Regen Min: 6, MP Regen Max: 12, Hat / Pants Drop: +20"));
+    }
+
+    @Test
+    public void combinedImpliesHatAndPantsDropIndividually() {
+      for (int itemId : new int[] {BANEFUL_BANDOLIER, VELCRO_BROADSWORD}) {
+        assertThat(
+            ModifierDatabase.getNumericModifier(ModifierType.ITEM, itemId, DoubleModifier.HATDROP),
+            equalTo(itemId == BANEFUL_BANDOLIER ? 30.0 : 20.0));
+        assertThat(
+            ModifierDatabase.getNumericModifier(
+                ModifierType.ITEM, itemId, DoubleModifier.PANTSDROP),
+            equalTo(itemId == BANEFUL_BANDOLIER ? 30.0 : 20.0));
+        assertThat(
+            ModifierDatabase.getNumericModifier(
+                ModifierType.ITEM, itemId, DoubleModifier.HAT_PANTS_DROP),
+            equalTo(itemId == BANEFUL_BANDOLIER ? 30.0 : 20.0));
+      }
+    }
+
+    @Test
+    public void separatePantsDropDoesNotCreateHatPantsDrop() {
+      assertThat(
+          ModifierDatabase.getNumericModifier(
+              ModifierType.ITEM, VELOUR_VAQUEROS, DoubleModifier.PANTSDROP),
+          equalTo(30.0));
+      assertThat(
+          ModifierDatabase.getNumericModifier(
+              ModifierType.ITEM, VELOUR_VAQUEROS, DoubleModifier.HATDROP),
+          equalTo(0.0));
+      assertThat(
+          ModifierDatabase.getNumericModifier(
+              ModifierType.ITEM, VELOUR_VAQUEROS, DoubleModifier.HAT_PANTS_DROP),
+          equalTo(0.0));
+    }
+
+    @Test
+    public void parsesCombinedEnchantmentIntoSingleModifier() {
+      assertThat(
+          ModifierDatabase.parseModifier("+30% Hat/Pants Drops from Monsters"),
+          equalTo("Hat / Pants Drop: +30"));
+      // Individual drop types still parse to their own modifier
+      assertThat(
+          ModifierDatabase.parseModifier("+30% Pants Drops from Monsters"),
+          equalTo("Pants Drop: +30"));
+      assertThat(
+          ModifierDatabase.parseModifier("+30% Hat Drops from Monsters"), equalTo("Hat Drop: +30"));
+    }
+
+    @Test
+    public void derivesHatPantsDropFromSeparatePartsWhenNotStored() {
+      Modifiers mods =
+          ModifierDatabase.parseModifiers(
+              new Lookup(ModifierType.ITEM, "test"), "Hat Drop: +20, Pants Drop: +30");
+
+      assertThat(mods.getDouble(DoubleModifier.HATDROP), equalTo(20.0));
+      assertThat(mods.getDouble(DoubleModifier.PANTSDROP), equalTo(30.0));
+      assertThat(mods.getDouble(DoubleModifier.HAT_PANTS_DROP), equalTo(20.0));
+    }
+  }
 }

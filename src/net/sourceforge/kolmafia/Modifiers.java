@@ -353,7 +353,17 @@ public class Modifiers {
     }
 
     if (modifier instanceof DoubleModifier dm) {
-      return this.doubles.getDouble(dm);
+      var value = this.doubles.getDouble(dm);
+      // A combined modifier (like "Hat/Pants Drop") may be stored explicitly.
+      // If it isn't present, derive it from the modifiers it subsumes, taking the minimum.
+      if (dm.getSubsumed().length > 0 && value == 0.0) {
+        double derived = Double.MAX_VALUE;
+        for (var sub : dm.getSubsumed()) {
+          derived = Math.min(derived, this.getDouble(sub));
+        }
+        return derived;
+      }
+      return value;
     }
 
     return 0.0;
