@@ -94,6 +94,7 @@ public class Maximizer {
   static MaximizerSpeculation best;
   static int bestChecked;
   static long bestUpdate;
+  static long combinationLimit;
 
   private Maximizer() {}
 
@@ -187,6 +188,7 @@ public class Maximizer {
       Maximizer.best.failed = true;
       Maximizer.bestChecked = 0;
       Maximizer.bestUpdate = System.currentTimeMillis() + 5000;
+      Maximizer.combinationLimit = Preferences.getLong("maximizerCombinationLimit");
       try {
         Maximizer.eval.enumerateEquipment(equipScope, maxPrice, priceLevel);
       } catch (MaximizerExceededException e) {

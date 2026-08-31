@@ -6,14 +6,20 @@ import java.util.List;
 import java.util.Map;
 
 public class StringModifierCollection {
+  private static final StringOrList DEFAULT = new StringOrList("");
   private final Map<StringModifier, StringOrList> strings = new EnumMap<>(StringModifier.class);
 
   public void reset() {
     this.strings.clear();
   }
 
+  public void set(StringModifierCollection source) {
+    this.strings.clear();
+    this.strings.putAll(source.strings);
+  }
+
   private StringOrList get(final StringModifier mod) {
-    return this.strings.getOrDefault(mod, new StringOrList(""));
+    return this.strings.getOrDefault(mod, DEFAULT);
   }
 
   public String getString(final StringModifier mod) {
@@ -26,6 +32,10 @@ public class StringModifierCollection {
     var entry = this.strings.get(mod);
     if (entry == null) return new ArrayList<>(List.of());
     return entry.getListValue();
+  }
+
+  public boolean contains(final StringModifier mod) {
+    return this.strings.containsKey(mod);
   }
 
   public boolean set(final StringModifier mod, final String value) {

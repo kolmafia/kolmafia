@@ -2754,17 +2754,19 @@ public class KoLAdventureValidationTest {
               withEquippableItem(ItemPool.TRANSFUNCTIONER));
       try (cleanups) {
         client.addResponse(200, html("request/test_equip_transfunctioner.html"));
+        client.addResponse(200, ""); // api.php
         client.addResponse(200, ""); // charpane.php
         assertTrue(FUNGUS_PLAINS.canAdventure());
         assertTrue(FUNGUS_PLAINS.prepareForAdventure());
 
         var requests = client.getRequests();
-        assertThat(requests, hasSize(2));
+        assertThat(requests, hasSize(3));
         assertPostRequest(
             requests.get(0),
             "/inv_equip.php",
             "which=2&ajax=1&slot=1&action=equip&whichitem=" + ItemPool.TRANSFUNCTIONER);
-        assertGetRequest(requests.get(1), "/charpane.php", null);
+        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+        assertGetRequest(requests.get(2), "/charpane.php", null);
       }
     }
 
@@ -2782,13 +2784,14 @@ public class KoLAdventureValidationTest {
       client.addResponse(200, ""); // api.php
       // inv_equip.php?which=2&ajax=1&slot=1&action=equip&whichitem=458
       client.addResponse(200, html("request/test_equip_transfunctioner.html"));
+      client.addResponse(200, ""); // api.php
       client.addResponse(200, ""); // charpane.php
 
       assertTrue(FUNGUS_PLAINS.canAdventure());
       assertTrue(FUNGUS_PLAINS.prepareForAdventure());
 
       var requests = client.getRequests();
-      assertThat(requests, hasSize(8));
+      assertThat(requests, hasSize(9));
       assertPostRequest(requests.get(0), "/place.php", "whichplace=forestvillage&action=fv_mystic");
       assertGetRequest(requests.get(1), "/choice.php", "forceoption=0");
       assertPostRequest(requests.get(2), "/choice.php", "whichchoice=664&option=1");
@@ -2799,7 +2802,8 @@ public class KoLAdventureValidationTest {
           requests.get(6),
           "/inv_equip.php",
           "which=2&ajax=1&slot=1&action=equip&whichitem=" + ItemPool.TRANSFUNCTIONER);
-      assertGetRequest(requests.get(7), "/charpane.php", null);
+      assertPostRequest(requests.get(7), "/api.php", "what=status&for=KoLmafia");
+      assertGetRequest(requests.get(8), "/charpane.php", null);
     }
 
     @Test
