@@ -2180,5 +2180,17 @@ public class ModifiersTest {
       assertThat(mods.getDouble(DoubleModifier.PANTSDROP), equalTo(30.0));
       assertThat(mods.getDouble(DoubleModifier.HAT_PANTS_DROP), equalTo(20.0));
     }
+
+    @Test
+    public void expressionCombinedAppliesToSubsumed() {
+      Modifiers mods =
+          ModifierDatabase.parseModifiers(
+              new Lookup(ModifierType.ITEM, "test"), "Hat / Pants Drop: [6*4]");
+      mods.recalculateExpressions();
+
+      assertThat(mods.getDouble(DoubleModifier.HATDROP), equalTo(24.0));
+      assertThat(mods.getDouble(DoubleModifier.PANTSDROP), equalTo(24.0));
+      assertThat(mods.getDouble(DoubleModifier.HAT_PANTS_DROP), equalTo(24.0));
+    }
   }
 }
