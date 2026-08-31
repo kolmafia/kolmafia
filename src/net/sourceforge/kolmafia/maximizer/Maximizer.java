@@ -1793,6 +1793,20 @@ public class Maximizer {
       return equipScope;
     }
     MaximizerSpeculation spec = new MaximizerSpeculation();
+    double baseline = current;
+    if (SlotSet.CODPIECE_SLOTS.contains(slot)
+        && !KoLCharacter.hasEquipped(ItemPool.get(ItemPool.THE_ETERNITY_CODPIECE))) {
+      for (Slot accessorySlot : SlotSet.ACCESSORY_SLOTS) {
+        AdventureResult accessory = Maximizer.best.equipment.get(accessorySlot);
+        if (accessory != null && accessory.getItemId() == ItemPool.THE_ETERNITY_CODPIECE) {
+          MaximizerSpeculation codpieceSpec = new MaximizerSpeculation();
+          codpieceSpec.equip(accessorySlot, accessory);
+          baseline = codpieceSpec.getScore();
+          spec.equip(accessorySlot, accessory);
+          break;
+        }
+      }
+    }
     spec.equip(slot, item);
     if (itemId == ItemPool.HATSEAT) {
       spec.setEnthroned(enthroned);
@@ -1802,7 +1816,7 @@ public class Maximizer {
       spec.setModeable(modeable, modeables.get(modeable));
     }
 
-    double delta = spec.getScore() - current;
+    double delta = spec.getScore() - baseline;
 
     String cmd, text;
     if (item.equals(EquipmentRequest.UNEQUIP)) {

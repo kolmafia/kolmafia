@@ -1,7 +1,9 @@
 package net.sourceforge.kolmafia.maximizer;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -63,11 +65,12 @@ public class Evaluator {
   public boolean failed;
   boolean exceeded;
   private Evaluator tiebreaker;
+  private final Map<Integer, CodpieceCandidateScore> codpieceCandidateScores = new HashMap<>();
   private final DoubleModifierCollection weight = new DoubleModifierCollection();
   private Map<DoubleModifier, Double> min;
   private Map<DoubleModifier, Double> max;
-  private List<ScoreModifier> activeScoreModifiers = List.of();
-  private boolean shouldPredictDerivedModifiers;
+  private List<ScoreTerm> activeScoreModifiers = List.of();
+  private boolean predictsDerivedModifiers;
   private double totalMin, totalMax;
   private int dump = 0;
   private int clownosity = 0;
@@ -117,7 +120,7 @@ public class Evaluator {
 
   record ItemBonus(double base, Map<String, Double> modes) {}
 
-  private record ScoreModifier(DoubleModifier modifier, double weight, double min, double max) {}
+  record ScoreTerm(DoubleModifier modifier, double weight, double min, double max) {}
 
   private static final Pattern MUS_EXP_PERC_PATTERN =
       Pattern.compile("^mus(cle)? exp(erience)? perc(ent(age)?)?");
@@ -133,6 +136,9 @@ public class Evaluator {
       Pattern.compile("^mox(ie)? exp(erience)? perc(ent(age)?)?");
   private static final Pattern MOX_EXP_PATTERN = Pattern.compile("^mox(ie)? exp(erience)?");
   private static final Pattern MOX_PERC_PATTERN = Pattern.compile("^mox(ie)? perc(ent(age)?)?");
+
+  private record CodpieceCandidateScore(double score, double tiebreaker) {}
+
   private static final String TIEBREAKER =
       "1 familiar weight, 1 familiar experience, 1 initiative, 5 exp, 1 item, 1 meat, 0.1 DA 1000 max, 1 DR, 0.5 all res, -10 mana cost, 1.0 mus, 0.5 mys, 1.0 mox, 1.5 mainstat, 1 HP, 1 MP, 1 weapon damage, 1 ranged damage, 1 spell damage, 1 cold damage, 1 hot damage, 1 sleaze damage, 1 spooky damage, 1 stench damage, 1 cold spell damage, 1 hot spell damage, 1 sleaze spell damage, 1 spooky spell damage, 1 stench spell damage, -1 fumble, 1 HP regen max, 3 MP regen max, 1 critical hit percent, 0.1 food drop, 0.1 booze drop, 0.1 hat drop, 0.1 weapon drop, 0.1 offhand drop, 0.1 shirt drop, 0.1 pants drop, 0.1 accessory drop, 1 DB combat damage, 0.1 sixgun damage";
   private static final Pattern KEYWORD_PATTERN =
@@ -180,6 +186,7 @@ public class Evaluator {
               + this.relevantFamiliar(FamiliarPool.HAND);
       case OFFHAND -> 1 + this.relevantFamiliar(FamiliarPool.LEFT_HAND);
       case ACCESSORY1 -> 3;
+      case CODPIECE1 -> 5;
       case FAMILIAR ->
           // Familiar items include weapons, hats and pants, make sure we have enough to consider
           // for
@@ -227,8 +234,8 @@ public class Evaluator {
   }
 
   private void initializeScoreModifiers() {
-    var active = new ArrayList<ScoreModifier>();
-    this.shouldPredictDerivedModifiers = false;
+    var active = new ArrayList<ScoreTerm>();
+    this.predictsDerivedModifiers = false;
     for (var modifier : DoubleModifier.DOUBLE_MODIFIERS) {
       double weight = this.weight.getDouble(modifier);
       double min = this.min.get(modifier);
@@ -236,13 +243,13 @@ public class Evaluator {
         continue;
       }
 
-      active.add(new ScoreModifier(modifier, weight, min, this.max.get(modifier)));
+      active.add(new ScoreTerm(modifier, weight, min, this.max.get(modifier)));
       if (modifier == DoubleModifier.MUS
           || modifier == DoubleModifier.MYS
           || modifier == DoubleModifier.MOX
           || modifier == DoubleModifier.HP
           || modifier == DoubleModifier.MP) {
-        this.shouldPredictDerivedModifiers = true;
+        this.predictsDerivedModifiers = true;
       }
     }
     this.activeScoreModifiers = List.copyOf(active);
@@ -406,8 +413,9 @@ public class Evaluator {
       }
 
       if (keyword.equals("surgeonosity")) {
-        // If no weight specified, assume 5
-        this.surgeonosity = (m.end(2) == m.start(2)) ? 5 : (int) weight;
+        // If no target is specified, require every equippable surgical item.
+        this.surgeonosity =
+            (m.end(2) == m.start(2)) ? (KoLCharacter.isTorsoAware() ? 5 : 4) : (int) weight;
         continue;
       }
 
@@ -837,120 +845,15 @@ public class Evaluator {
       Modifiers mods, Map<Slot, AdventureResult> equipment, Map<Modeable, String> modeables) {
     this.failed = false;
     this.exceeded = false;
-    var predicted = this.shouldPredictDerivedModifiers ? mods.predict() : null;
+    var predicted = this.predictsDerivedModifiers ? mods.predict() : null;
 
     double score = 0.0;
     for (var scoreModifier : this.activeScoreModifiers) {
       var mod = scoreModifier.modifier();
       double weight = scoreModifier.weight();
       double min = scoreModifier.min();
-      double val = mods.getDouble(mod);
+      double val = scoreValue(mod, mods, predicted);
       double max = scoreModifier.max();
-      switch (mod) {
-        case MUS:
-          val = predicted.get(DerivedModifier.BUFFED_MUS);
-          break;
-        case MYS:
-          val = predicted.get(DerivedModifier.BUFFED_MYS);
-          break;
-        case MOX:
-          val = predicted.get(DerivedModifier.BUFFED_MOX);
-          break;
-        case FAMILIAR_WEIGHT:
-          val += mods.getDouble(DoubleModifier.HIDDEN_FAMILIAR_WEIGHT);
-          if (mods.getDouble(DoubleModifier.FAMILIAR_WEIGHT_PCT) < 0.0) {
-            val *= 0.5f;
-          }
-          break;
-        case MANA_COST:
-          val += mods.getDouble(DoubleModifier.STACKABLE_MANA_COST);
-          break;
-        case INITIATIVE:
-          val += Math.min(0.0, mods.getDouble(DoubleModifier.INITIATIVE_PENALTY));
-          break;
-        case MEATDROP:
-          val +=
-              100.0
-                  + Math.min(0.0, mods.getDouble(DoubleModifier.MEATDROP_PENALTY))
-                  + mods.getDouble(DoubleModifier.SPORADIC_MEATDROP)
-                  + mods.getDouble(DoubleModifier.MEAT_BONUS) / 10000.0;
-          break;
-        case ITEMDROP:
-          val +=
-              100.0
-                  + Math.min(0.0, mods.getDouble(DoubleModifier.ITEMDROP_PENALTY))
-                  + mods.getDouble(DoubleModifier.SPORADIC_ITEMDROP);
-          break;
-        case HP:
-          val = predicted.get(DerivedModifier.BUFFED_HP);
-          break;
-        case MP:
-          val = predicted.get(DerivedModifier.BUFFED_MP);
-          break;
-        case WEAPON_DAMAGE:
-          // Incorrect - needs to estimate base damage
-          val += mods.getDouble(DoubleModifier.WEAPON_DAMAGE_PCT);
-          break;
-        case RANGED_DAMAGE:
-          // Incorrect - needs to estimate base damage
-          val += mods.getDouble(DoubleModifier.RANGED_DAMAGE_PCT);
-          break;
-        case SPELL_DAMAGE:
-          // Incorrect - base damage depends on spell used
-          val += mods.getDouble(DoubleModifier.SPELL_DAMAGE_PCT);
-          break;
-        case COLD_RESISTANCE:
-          if (mods.getBoolean(BooleanModifier.COLD_IMMUNITY)) {
-            val = 100.0;
-          } else if (mods.getBoolean(BooleanModifier.COLD_VULNERABILITY)) {
-            val -= 100.0;
-          }
-          break;
-        case HOT_RESISTANCE:
-          if (mods.getBoolean(BooleanModifier.HOT_IMMUNITY)) {
-            val = 100.0;
-          } else if (mods.getBoolean(BooleanModifier.HOT_VULNERABILITY)) {
-            val -= 100.0;
-          }
-          break;
-        case SLEAZE_RESISTANCE:
-          if (mods.getBoolean(BooleanModifier.SLEAZE_IMMUNITY)) {
-            val = 100.0;
-          } else if (mods.getBoolean(BooleanModifier.SLEAZE_VULNERABILITY)) {
-            val -= 100.0;
-          }
-          break;
-        case SPOOKY_RESISTANCE:
-          if (mods.getBoolean(BooleanModifier.SPOOKY_IMMUNITY)) {
-            val = 100.0;
-          } else if (mods.getBoolean(BooleanModifier.SPOOKY_VULNERABILITY)) {
-            val -= 100.0;
-          }
-          break;
-        case STENCH_RESISTANCE:
-          if (mods.getBoolean(BooleanModifier.STENCH_IMMUNITY)) {
-            val = 100.0;
-          } else if (mods.getBoolean(BooleanModifier.STENCH_VULNERABILITY)) {
-            val -= 100.0;
-          }
-          break;
-        case EXPERIENCE:
-          double baseExp =
-              KoLCharacter.estimatedBaseExp(
-                  mods.getDouble(DoubleModifier.MONSTER_LEVEL)
-                      * (1 + mods.getDouble(DoubleModifier.MONSTER_LEVEL_PERCENT) / 100));
-          double expPct = mods.getDouble(DoubleModifier.primeStatExpPercent()) / 100.0f;
-          double exp = mods.getDouble(DoubleModifier.primeStatExp());
-
-          val = ((baseExp + exp) * (1 + expPct)) / 2.0f;
-          break;
-        case DAMAGE_AURA:
-          val += mods.getDouble(DoubleModifier.SPORADIC_DAMAGE_AURA);
-          break;
-        case THORNS:
-          val += mods.getDouble(DoubleModifier.SPORADIC_THORNS);
-          break;
-      }
       if (val < min) this.failed = true;
       score += weight * Math.min(val, max);
     }
@@ -958,26 +861,9 @@ public class Evaluator {
       int val = mods.getBitmap(BitmapModifier.STINKYCHEESE);
       score += this.stinkycheese * val;
     }
-    if (!this.bonuses.isEmpty()) {
+    if (!this.bonuses.isEmpty() || !this.bonusFunc.isEmpty()) {
       for (AdventureResult item : equipment.values()) {
-        ItemBonus itemBonus = this.bonuses.get(item);
-        // Add the base bonus
-        if (itemBonus == null) continue;
-        score += itemBonus.base();
-        // If it's a modeable and has a bonus for it
-        var modeable = Modeable.find(item);
-        if (modeable == null) continue;
-        var mode = modeables.get(modeable);
-        if (mode == null) continue;
-        Double bonus = itemBonus.modes().get(mode);
-        if (bonus != null) score += bonus;
-      }
-    }
-    if (!this.bonusFunc.isEmpty()) {
-      for (BonusFunction func : this.bonusFunc) {
-        for (AdventureResult item : equipment.values()) {
-          score += func.bonusFunction.apply(item) * func.weight;
-        }
+        score += this.getItemScore(item, modeables);
       }
     }
     // Add fudge factor for Rollover Effect
@@ -986,10 +872,7 @@ public class Evaluator {
     }
     if (score < this.totalMin) this.failed = true;
     if (score >= this.totalMax) this.exceeded = true;
-    // special handling for -osity:
-    // The "weight" specified is actually the desired -osity.
-    // Allow partials to contribute to the score (1:1 ratio) up to the desired value.
-    // Similar to setting a max.
+    // Score bitmap objectives 1:1 up to the requested target, which must be reached.
     if (this.clownosity > 0) {
       int osity = mods.getBitmap(BitmapModifier.CLOWNINESS);
       score += Math.min(osity, this.clownosity);
@@ -1017,17 +900,364 @@ public class Evaluator {
     return this.getScore(mods, Map.of(), Map.of());
   }
 
+  static double scoreValue(
+      DoubleModifier modifier, Modifiers modifiers, Map<DerivedModifier, Integer> predicted) {
+    return switch (modifier) {
+      case MUS -> predicted.get(DerivedModifier.BUFFED_MUS);
+      case MYS -> predicted.get(DerivedModifier.BUFFED_MYS);
+      case MOX -> predicted.get(DerivedModifier.BUFFED_MOX);
+      case HP -> predicted.get(DerivedModifier.BUFFED_HP);
+      case MP -> predicted.get(DerivedModifier.BUFFED_MP);
+      case FAMILIAR_WEIGHT ->
+          (modifiers.getDouble(DoubleModifier.FAMILIAR_WEIGHT)
+                  + modifiers.getDouble(DoubleModifier.HIDDEN_FAMILIAR_WEIGHT))
+              * (modifiers.getDouble(DoubleModifier.FAMILIAR_WEIGHT_PCT) < 0.0 ? 0.5 : 1.0);
+      case INITIATIVE ->
+          modifiers.getDouble(DoubleModifier.INITIATIVE)
+              + Math.min(0.0, modifiers.getDouble(DoubleModifier.INITIATIVE_PENALTY));
+      case MANA_COST ->
+          modifiers.getDouble(DoubleModifier.MANA_COST)
+              + modifiers.getDouble(DoubleModifier.STACKABLE_MANA_COST);
+      case ITEMDROP ->
+          modifiers.getDouble(DoubleModifier.ITEMDROP)
+              + 100.0
+              + Math.min(0.0, modifiers.getDouble(DoubleModifier.ITEMDROP_PENALTY))
+              + modifiers.getDouble(DoubleModifier.SPORADIC_ITEMDROP);
+      case MEATDROP ->
+          modifiers.getDouble(DoubleModifier.MEATDROP)
+              + 100.0
+              + Math.min(0.0, modifiers.getDouble(DoubleModifier.MEATDROP_PENALTY))
+              + modifiers.getDouble(DoubleModifier.SPORADIC_MEATDROP)
+              + modifiers.getDouble(DoubleModifier.MEAT_BONUS) / 10000.0;
+      case WEAPON_DAMAGE ->
+          modifiers.getDouble(DoubleModifier.WEAPON_DAMAGE)
+              + modifiers.getDouble(DoubleModifier.WEAPON_DAMAGE_PCT);
+      case RANGED_DAMAGE ->
+          modifiers.getDouble(DoubleModifier.RANGED_DAMAGE)
+              + modifiers.getDouble(DoubleModifier.RANGED_DAMAGE_PCT);
+      case SPELL_DAMAGE ->
+          modifiers.getDouble(DoubleModifier.SPELL_DAMAGE)
+              + modifiers.getDouble(DoubleModifier.SPELL_DAMAGE_PCT);
+      case DAMAGE_AURA ->
+          modifiers.getDouble(DoubleModifier.DAMAGE_AURA)
+              + modifiers.getDouble(DoubleModifier.SPORADIC_DAMAGE_AURA);
+      case THORNS ->
+          modifiers.getDouble(DoubleModifier.THORNS)
+              + modifiers.getDouble(DoubleModifier.SPORADIC_THORNS);
+      case COLD_RESISTANCE ->
+          resistanceValue(
+              modifiers,
+              DoubleModifier.COLD_RESISTANCE,
+              BooleanModifier.COLD_IMMUNITY,
+              BooleanModifier.COLD_VULNERABILITY);
+      case HOT_RESISTANCE ->
+          resistanceValue(
+              modifiers,
+              DoubleModifier.HOT_RESISTANCE,
+              BooleanModifier.HOT_IMMUNITY,
+              BooleanModifier.HOT_VULNERABILITY);
+      case SLEAZE_RESISTANCE ->
+          resistanceValue(
+              modifiers,
+              DoubleModifier.SLEAZE_RESISTANCE,
+              BooleanModifier.SLEAZE_IMMUNITY,
+              BooleanModifier.SLEAZE_VULNERABILITY);
+      case SPOOKY_RESISTANCE ->
+          resistanceValue(
+              modifiers,
+              DoubleModifier.SPOOKY_RESISTANCE,
+              BooleanModifier.SPOOKY_IMMUNITY,
+              BooleanModifier.SPOOKY_VULNERABILITY);
+      case STENCH_RESISTANCE ->
+          resistanceValue(
+              modifiers,
+              DoubleModifier.STENCH_RESISTANCE,
+              BooleanModifier.STENCH_IMMUNITY,
+              BooleanModifier.STENCH_VULNERABILITY);
+      case EXPERIENCE -> experienceValue(modifiers);
+      default -> modifiers.getDouble(modifier);
+    };
+  }
+
+  private static double resistanceValue(
+      Modifiers modifiers,
+      DoubleModifier resistance,
+      BooleanModifier immunity,
+      BooleanModifier vulnerability) {
+    if (modifiers.getBoolean(immunity)) {
+      return 100.0;
+    }
+    double value = modifiers.getDouble(resistance);
+    return modifiers.getBoolean(vulnerability) ? value - 100.0 : value;
+  }
+
+  private static double experienceValue(Modifiers modifiers) {
+    double baseExperience =
+        KoLCharacter.estimatedBaseExp(
+            modifiers.getDouble(DoubleModifier.MONSTER_LEVEL)
+                * (1.0 + modifiers.getDouble(DoubleModifier.MONSTER_LEVEL_PERCENT) / 100.0));
+    double experiencePercent = modifiers.getDouble(DoubleModifier.primeStatExpPercent()) / 100.0;
+    double experience = modifiers.getDouble(DoubleModifier.primeStatExp());
+    return ((baseExperience + experience) * (1.0 + experiencePercent)) / 2.0;
+  }
+
+  CodpiecePruning.ScoreUpperBound createTheoreticalCodpieceScoreUpperBound(
+      Modifiers baseline, Modifiers[] gemModifiers, int[] remaining, int slotCount) {
+    return this.createTheoreticalCodpieceScoreUpperBound(
+        baseline, gemModifiers, remaining, slotCount, null, null, null, null);
+  }
+
+  boolean canMeetCodpieceHardRequirements(
+      Modifiers baseline, Modifiers[] gemModifiers, int[] remaining) {
+    if (maximumBitmapValue(baseline, gemModifiers, remaining, BitmapModifier.CLOWNINESS)
+            < this.clownosity
+        || maximumBitmapValue(baseline, gemModifiers, remaining, BitmapModifier.RAVEOSITY)
+            < this.raveosity
+        || maximumBitmapValue(baseline, gemModifiers, remaining, BitmapModifier.SURGEONOSITY)
+            < this.surgeonosity) {
+      return false;
+    }
+
+    for (BooleanModifier modifier : this.booleanMask) {
+      if (this.booleanValue.contains(modifier)) {
+        if (!baseline.getBoolean(modifier)
+            && !candidateProvidesBoolean(gemModifiers, remaining, modifier)) {
+          return false;
+        }
+      } else if (baseline.getBoolean(modifier)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  private static int maximumBitmapValue(
+      Modifiers baseline, Modifiers[] gemModifiers, int[] remaining, BitmapModifier modifier) {
+    int bits = baseline.getRawBitmap(modifier);
+    for (int i = 0; i < gemModifiers.length; i++) {
+      if (remaining[i] > 0 && gemModifiers[i] != null) {
+        bits |= gemModifiers[i].getRawBitmap(modifier);
+      }
+    }
+    int value = Integer.bitCount(bits);
+    return modifier == BitmapModifier.CLOWNINESS ? value * 25 : value;
+  }
+
+  private static boolean candidateProvidesBoolean(
+      Modifiers[] gemModifiers, int[] remaining, BooleanModifier modifier) {
+    for (int i = 0; i < gemModifiers.length; i++) {
+      if (remaining[i] > 0 && gemModifiers[i] != null && gemModifiers[i].getBoolean(modifier)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  CodpiecePruning.ScoreUpperBound createTheoreticalCodpieceScoreUpperBound(
+      Modifiers baseline,
+      Modifiers[] gemModifiers,
+      int[] remaining,
+      int slotCount,
+      Map<Slot, AdventureResult> equipment,
+      Map<Modeable, String> modeables,
+      List<CheckedItem> gems,
+      CodpiecePruning.FamiliarScoreContributions familiarScoreContributions) {
+    if ((!this.bonuses.isEmpty() || !this.bonusFunc.isEmpty())
+        && (equipment == null || modeables == null || gems == null)) {
+      return null;
+    }
+
+    for (var scoreModifier : this.activeScoreModifiers) {
+      if (!CodpiecePruning.supportsScoreTerm(
+          scoreModifier.modifier(),
+          scoreModifier.weight(),
+          baseline,
+          gemModifiers,
+          familiarScoreContributions)) {
+        return null;
+      }
+    }
+
+    boolean baselineRollover = baseline.hasString(StringModifier.ROLLOVER_EFFECT);
+    boolean candidateRollover =
+        !baselineRollover
+            && Arrays.stream(gemModifiers)
+                .anyMatch(
+                    modifiers ->
+                        modifiers != null && modifiers.hasString(StringModifier.ROLLOVER_EFFECT));
+    boolean candidateBitmapScore = this.hasCandidateBitmapScore(gemModifiers, remaining);
+    double fixedScore =
+        this.stinkycheese
+                * maximumBitmapValue(baseline, gemModifiers, remaining, BitmapModifier.STINKYCHEESE)
+            + Math.min(
+                maximumBitmapValue(baseline, gemModifiers, remaining, BitmapModifier.CLOWNINESS),
+                this.clownosity)
+            + Math.min(
+                maximumBitmapValue(baseline, gemModifiers, remaining, BitmapModifier.RAVEOSITY),
+                this.raveosity)
+            + Math.min(
+                maximumBitmapValue(baseline, gemModifiers, remaining, BitmapModifier.SURGEONOSITY),
+                this.surgeonosity);
+    double[] itemContributions = new double[gemModifiers.length];
+    if (equipment != null) {
+      for (AdventureResult item : equipment.values()) {
+        fixedScore += this.getItemScore(item, modeables);
+      }
+      double emptySlotScore = this.getItemScore(EquipmentRequest.UNEQUIP, modeables);
+      for (int i = 0; i < gems.size(); i++) {
+        itemContributions[i] = this.getItemScore(gems.get(i), modeables) - emptySlotScore;
+      }
+    }
+    return new CodpiecePruning.ScoreUpperBound(
+        this.activeScoreModifiers,
+        baseline,
+        gemModifiers,
+        remaining,
+        slotCount,
+        this.totalMin,
+        fixedScore + (baselineRollover || candidateRollover ? 0.01f : 0.0),
+        !candidateRollover && !candidateBitmapScore,
+        false,
+        itemContributions,
+        familiarScoreContributions,
+        this.canMeetCodpieceHardRequirements(baseline, gemModifiers, remaining));
+  }
+
+  private boolean hasCandidateBitmapScore(Modifiers[] gemModifiers, int[] remaining) {
+    for (int i = 0; i < gemModifiers.length; i++) {
+      Modifiers modifiers = gemModifiers[i];
+      if (remaining[i] > 0
+          && modifiers != null
+          && ((this.stinkycheese > 0 && modifiers.getRawBitmap(BitmapModifier.STINKYCHEESE) != 0)
+              || (this.clownosity > 0 && modifiers.getRawBitmap(BitmapModifier.CLOWNINESS) != 0)
+              || (this.raveosity > 0 && modifiers.getRawBitmap(BitmapModifier.RAVEOSITY) != 0)
+              || (this.surgeonosity > 0
+                  && modifiers.getRawBitmap(BitmapModifier.SURGEONOSITY) != 0))) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  EnumSet<DoubleModifier> familiarDependentScoreModifiers() {
+    var modifiers = EnumSet.noneOf(DoubleModifier.class);
+    List<ScoreTerm> scoreModifiers = new ArrayList<>(this.activeScoreModifiers);
+    if (!this.noTiebreaker) {
+      scoreModifiers.addAll(this.tiebreaker.activeScoreModifiers);
+    }
+    for (var scoreModifier : scoreModifiers) {
+      if (scoreModifier.modifier() == DoubleModifier.ITEMDROP
+          || scoreModifier.modifier() == DoubleModifier.MEATDROP
+          || scoreModifier.modifier() == DoubleModifier.EXPERIENCE) {
+        modifiers.add(scoreModifier.modifier());
+      }
+    }
+    return modifiers;
+  }
+
+  CodpiecePruning.ScoreUpperBound createTheoreticalCodpieceTiebreakerUpperBound(
+      Modifiers baseline, Modifiers[] gemModifiers, int[] remaining, int slotCount) {
+    return this.createTheoreticalCodpieceTiebreakerUpperBound(
+        baseline, gemModifiers, remaining, slotCount, null);
+  }
+
+  CodpiecePruning.ScoreUpperBound createTheoreticalCodpieceTiebreakerUpperBound(
+      Modifiers baseline,
+      Modifiers[] gemModifiers,
+      int[] remaining,
+      int slotCount,
+      CodpiecePruning.FamiliarScoreContributions familiarScoreContributions) {
+    if (this.noTiebreaker) {
+      return null;
+    }
+    for (Modifiers modifiers : gemModifiers) {
+      if (!CodpiecePruning.hasOnlySupportedTiebreakerModifiers(modifiers)) {
+        return null;
+      }
+    }
+
+    List<ScoreTerm> supported = new ArrayList<>();
+    double fixedScore = this.tiebreaker.getScore(baseline);
+    Map<DerivedModifier, Integer> predicted = null;
+    for (var scoreModifier : this.tiebreaker.activeScoreModifiers) {
+      if (!CodpiecePruning.supportsTiebreakerTerm(
+          scoreModifier.modifier(),
+          scoreModifier.weight(),
+          baseline,
+          gemModifiers,
+          familiarScoreContributions)) {
+        if ((scoreModifier.modifier() == DoubleModifier.ITEMDROP
+                || scoreModifier.modifier() == DoubleModifier.MEATDROP
+                || scoreModifier.modifier() == DoubleModifier.EXPERIENCE)
+            && Arrays.stream(gemModifiers).anyMatch(CodpiecePruning::affectsFamiliarCalculation)) {
+          return null;
+        }
+        continue;
+      }
+      supported.add(scoreModifier);
+      DoubleModifier modifier = scoreModifier.modifier();
+      if ((modifier == DoubleModifier.MUS
+              || modifier == DoubleModifier.MYS
+              || modifier == DoubleModifier.MOX
+              || modifier == DoubleModifier.HP
+              || modifier == DoubleModifier.MP)
+          && predicted == null) {
+        predicted = baseline.predict();
+      }
+      fixedScore -=
+          scoreModifier.weight()
+              * Math.min(scoreValue(modifier, baseline, predicted), scoreModifier.max());
+    }
+
+    return new CodpiecePruning.ScoreUpperBound(
+        supported,
+        baseline,
+        gemModifiers,
+        remaining,
+        slotCount,
+        Double.NEGATIVE_INFINITY,
+        fixedScore,
+        true,
+        true,
+        new double[gemModifiers.length],
+        familiarScoreContributions,
+        true);
+  }
+
+  private double getItemScore(AdventureResult item, Map<Modeable, String> modeables) {
+    double score = 0.0;
+    ItemBonus itemBonus = this.bonuses.get(item);
+    if (itemBonus != null) {
+      score += itemBonus.base();
+      var modeable = Modeable.find(item);
+      if (modeable != null) {
+        var mode = modeables.get(modeable);
+        if (mode != null) {
+          score += itemBonus.modes().getOrDefault(mode, 0.0);
+        }
+      }
+    }
+    for (BonusFunction func : this.bonusFunc) {
+      score += func.bonusFunction.apply(item) * func.weight;
+    }
+    return score;
+  }
+
   void checkEquipment(Modifiers mods, Map<Slot, AdventureResult> equipment, int beeosity) {
     boolean outfitSatisfied = this.posOutfits.isEmpty();
     boolean equipSatisfied = this.posEquip.isEmpty();
     if (!this.failed && !this.posEquip.isEmpty()) {
       equipSatisfied = true;
       for (AdventureResult item : this.posEquip) {
-        if (!KoLCharacter.hasEquipped(equipment, item)) {
+        if (!this.hasEquipped(equipment, item)) {
           equipSatisfied = false;
           break;
         }
       }
+    }
+    if (!this.failed
+        && this.negEquip.stream().anyMatch(item -> this.hasEquipped(equipment, item))) {
+      this.failed = true;
     }
     if (!this.failed) {
       String outfit = mods.getString(StringModifier.OUTFIT);
@@ -1037,14 +1267,30 @@ public class Evaluator {
         outfitSatisfied = this.posOutfits.contains(outfit) || this.posOutfits.isEmpty();
       }
     }
-    // negEquip is not checked, since enumerateEquipment should make it
-    // impossible for such items to be chosen.
     if (!outfitSatisfied || !equipSatisfied) {
       this.failed = true;
     }
     if (beeosity > this.beeosity) {
       this.failed = true;
     }
+  }
+
+  private boolean hasEquipped(Map<Slot, AdventureResult> equipment, AdventureResult item) {
+    if (KoLCharacter.hasEquipped(equipment, item)) {
+      return true;
+    }
+
+    boolean wearingCodpiece =
+        KoLCharacter.hasEquipped(
+            equipment, ItemPool.get(ItemPool.THE_ETERNITY_CODPIECE), SlotSet.ACCESSORY_SLOTS);
+    return wearingCodpiece
+        && EquipmentRequest.isCodpieceGem(item.getItemId())
+        && KoLCharacter.hasEquipped(equipment, item, SlotSet.CODPIECE_SLOTS);
+  }
+
+  boolean slotEnabled(Slot slot) {
+    int threshold = this.slots.values().stream().anyMatch(value -> value > 0) ? 1 : 0;
+    return this.slots.getOrDefault(slot, 0) >= threshold;
   }
 
   double getTiebreaker(Modifiers mods) {
@@ -1054,6 +1300,27 @@ public class Evaluator {
 
   boolean isUsingTiebreaker() {
     return !this.noTiebreaker;
+  }
+
+  boolean areScoreModifiersSaturated(Modifiers modifiers) {
+    Map<DerivedModifier, Integer> predicted = null;
+    for (ScoreTerm term : this.activeScoreModifiers) {
+      DoubleModifier modifier = term.modifier();
+      if ((modifier == DoubleModifier.MUS
+              || modifier == DoubleModifier.MYS
+              || modifier == DoubleModifier.MOX
+              || modifier == DoubleModifier.HP
+              || modifier == DoubleModifier.MP)
+          && predicted == null) {
+        predicted = modifiers.predict();
+      }
+      double value = scoreValue(modifier, modifiers, predicted);
+      if ((term.weight() > 0.0 && value < term.max())
+          || (term.weight() < 0.0 && value > term.min())) {
+        return false;
+      }
+    }
+    return true;
   }
 
   boolean isWeaponTypeRequired() {
@@ -1170,6 +1437,7 @@ public class Evaluator {
     SlotList<CheckedItem> ranked = new SlotList<>(this.familiars.size());
 
     double nullScore = this.getScore(new Modifiers());
+    double nullTiebreaker = this.getTiebreaker(new Modifiers());
 
     Map<Integer, Boolean> usefulOutfits = new HashMap<>();
     Map<AdventureResult, AdventureResult> outfitPieces = new HashMap<>();
@@ -1641,7 +1909,7 @@ public class Evaluator {
           break gotItem;
         }
 
-        if (id == ItemPool.CARD_SLEEVE) {
+        if (id == ItemPool.CARD_SLEEVE || id == ItemPool.THE_ETERNITY_CODPIECE) {
           break gotItem;
         }
 
@@ -1677,6 +1945,62 @@ public class Evaluator {
       // "break gotItem" goes here
       if (slot != Slot.NONE) ranked.get(slot).add(item);
       if (auxSlot != Slot.NONE) ranked.get(auxSlot).add(item);
+    }
+
+    boolean usesFamiliarDependentScore = !this.familiarDependentScoreModifiers().isEmpty();
+    for (var entry : ModifierDatabase.getAllModifiersOfType(ModifierType.ETERNITY_CODPIECE)) {
+      if (!entry.getKey().isInt()) {
+        continue;
+      }
+
+      int gemId = entry.getKey().getIntValue();
+      CheckedItem gem = new CheckedItem(gemId, equipScope, maxPrice, priceLevel, true);
+      if (gem.getCount() == 0) {
+        continue;
+      }
+      if (this.negEquip.contains(gem)) {
+        continue;
+      }
+      if (this.posEquip.contains(gem)) {
+        gem.automaticFlag = true;
+        gem.requiredFlag = true;
+      }
+
+      Modifiers mods = ModifierDatabase.getModifiers(ModifierType.ETERNITY_CODPIECE, gemId);
+      switch (this.checkConstraints(mods)) {
+        case VIOLATES:
+          continue;
+        case MEETS:
+          gem.automaticFlag = true;
+      }
+
+      double delta = this.getScore(mods, Map.of(Slot.CODPIECE1, gem), Map.of()) - nullScore;
+      double tiebreakerDelta = this.getTiebreaker(mods) - nullTiebreaker;
+      this.codpieceCandidateScores.put(gemId, new CodpieceCandidateScore(delta, tiebreakerDelta));
+      if ((delta < 0.0 || (delta == 0.0 && tiebreakerDelta <= 0.0))
+          && !gem.automaticFlag
+          && !(usesFamiliarDependentScore && CodpiecePruning.affectsFamiliarCalculation(mods))
+          && !(KoLCharacter.inCodpiece(gem) && this.current)) {
+        continue;
+      }
+      if (KoLCharacter.inCodpiece(gem) && this.current) {
+        gem.automaticFlag = true;
+      }
+
+      ranked.get(Slot.CODPIECE1).add(gem);
+    }
+
+    // The codpiece can expand the accessory pool via its gem slots (see useful/total below).
+    boolean codpieceCanExpandAccessoryPool = false;
+    if (!ranked.get(Slot.CODPIECE1).isEmpty()) {
+      for (CheckedItem item : ranked.get(Slot.ACCESSORY1)) {
+        if (item.getItemId() != ItemPool.THE_ETERNITY_CODPIECE) {
+          continue;
+        }
+        item.automaticFlag = true;
+        codpieceCanExpandAccessoryPool =
+            item.getCount() > 0 && SlotSet.CODPIECE_SLOTS.stream().anyMatch(this::slotEnabled);
+      }
     }
 
     // Get best Familiars for Crown of Thrones and Buddy Bjorn
@@ -1772,25 +2096,29 @@ public class Evaluator {
     AdventureResult useCard = null;
 
     if (this.cardNeeded) {
-      MaximizerSpeculation best = new MaximizerSpeculation();
+      MaximizerSpeculation baseline = new MaximizerSpeculation();
 
       // Check each card in sleeve to see if they are worthwhile
+      List<CheckedItem> cardCandidates = new ArrayList<>();
       for (int c = 4967; c <= 5007; c++) {
         CheckedItem card = new CheckedItem(c, equipScope, maxPrice, priceLevel);
         AdventureResult equippedCard = EquipmentManager.getEquipment(Slot.CARDSLEEVE);
         if (card.getCount() > 0 || (equippedCard != null && c == equippedCard.getItemId())) {
-          MaximizerSpeculation spec = new MaximizerSpeculation();
-          CheckedItem sleeve =
-              new CheckedItem(ItemPool.CARD_SLEEVE, equipScope, maxPrice, priceLevel);
-          spec.attachment = sleeve;
-          spec.equipment.put(Slot.OFFHAND, sleeve);
-          spec.equipment.put(Slot.CARDSLEEVE, card);
-          if (spec.compareTo(best) > 0) {
-            best = spec.clone();
-            bestCard = card;
-          }
+          cardCandidates.add(card);
         }
       }
+      MaximizerSpeculation best =
+          MaximizerSpeculation.bestOf(
+              baseline,
+              cardCandidates,
+              (spec, card) -> {
+                CheckedItem sleeve =
+                    new CheckedItem(ItemPool.CARD_SLEEVE, equipScope, maxPrice, priceLevel);
+                spec.attachment = sleeve;
+                spec.equipment.put(Slot.OFFHAND, sleeve);
+                spec.equipment.put(Slot.CARDSLEEVE, card);
+              });
+      bestCard = best == baseline ? null : (CheckedItem) best.equipment.get(Slot.CARDSLEEVE);
     }
 
     Map<Modeable, String> bestModes =
@@ -1808,25 +2136,23 @@ public class Evaluator {
 
                       CheckedItem item =
                           new CheckedItem(modeable.getItemId(), equipScope, maxPrice, priceLevel);
-                      var bestMode = modeable.getState();
-                      MaximizerSpeculation best = new MaximizerSpeculation();
-                      best.attachment = item;
-                      best.equipment.put(modeable.getSlot(), item);
-                      best.setModeable(modeable, bestMode);
+                      MaximizerSpeculation baseline = new MaximizerSpeculation();
+                      baseline.attachment = item;
+                      baseline.equipment.put(modeable.getSlot(), item);
+                      baseline.setModeable(modeable, modeable.getState());
 
                       // Check each mode in modeable to determine the best
-                      for (String mode : modeable.getModes()) {
-                        MaximizerSpeculation spec = new MaximizerSpeculation();
-                        spec.attachment = item;
-                        spec.equipment.put(modeable.getSlot(), item);
-                        spec.setModeable(modeable, mode);
-                        if (spec.compareTo(best) > 0) {
-                          best = spec.clone();
-                          bestMode = mode;
-                        }
-                      }
+                      MaximizerSpeculation best =
+                          MaximizerSpeculation.bestOf(
+                              baseline,
+                              modeable.getModes(),
+                              (spec, mode) -> {
+                                spec.attachment = item;
+                                spec.equipment.put(modeable.getSlot(), item);
+                                spec.setModeable(modeable, mode);
+                              });
 
-                      return bestMode;
+                      return best.getModeables().get(modeable);
                     }));
 
     SlotList<MaximizerSpeculation> speculationList = new SlotList<>(this.familiars.size());
@@ -1835,9 +2161,10 @@ public class Evaluator {
       List<CheckedItem> checkedItemList = entry.value();
 
       // If we currently have nothing equipped, also consider leaving nothing equipped
-      if (!entry.isSlot()
-          || EquipmentManager.getEquipment(Evaluator.toUseSlot(entry.slot()))
-              == EquipmentRequest.UNEQUIP) {
+      if ((!entry.isSlot() || entry.slot() != Slot.CODPIECE1)
+          && (!entry.isSlot()
+              || EquipmentManager.getEquipment(Evaluator.toUseSlot(entry.slot()))
+                  == EquipmentRequest.UNEQUIP)) {
         checkedItemList.add(new CheckedItem(-1, equipScope, maxPrice, priceLevel));
       }
 
@@ -1854,6 +2181,13 @@ public class Evaluator {
           useSlot = Slot.FAMILIAR;
         }
         spec.equipment.put(useSlot, item);
+
+        if (useSlot == Slot.CODPIECE1) {
+          for (var slot : SlotSet.CODPIECE_SLOTS) {
+            spec.equipment.put(slot, EquipmentRequest.UNEQUIP);
+          }
+          spec.equipment.put(useSlot, item);
+        }
 
         switch (item.getItemId()) {
           case ItemPool.HATSEAT:
@@ -2264,8 +2598,11 @@ public class Evaluator {
 
       int useful = entry.isSlot() ? this.maxUseful(entry.slot()) : 1;
 
-      // If slots already handled by required items, we're done with the slot
-      if (useful > total) {
+      // Done with the slot once required items fill it, unless the codpiece could expand it.
+      if (useful > total
+          || (codpieceCanExpandAccessoryPool
+              && entry.isSlot()
+              && entry.slot() == Slot.ACCESSORY1)) {
         ListIterator<MaximizerSpeculation> speculationIterator =
             speculationList.get(entry).listIterator(speculationList.get(entry).size());
 
@@ -2326,6 +2663,8 @@ public class Evaluator {
             // If we don't have one, and they aren't nothing, skip
             continue;
           }
+          // (none)'s Integer.MAX_VALUE count would overflow total/beeotches if counted here.
+          boolean leavesSlotEmpty = item.getItemId() == -1;
           if (KoLCharacter.inBeecore()
               && (b = KoLCharacter.getBeeosity(item.getName())) > 0) { // This item is a beeotch!
             // Don't count it towards the number of items desired
@@ -2336,26 +2675,30 @@ public class Evaluator {
               if (!automaticEntry.contains(item)) {
                 automaticEntry.add(item);
               }
-              beeotches += item.getCount();
-              beeosity += b * item.getCount();
+              if (!leavesSlotEmpty) {
+                beeotches += item.getCount();
+                beeosity += b * item.getCount();
+              }
             } else if (total < useful && beeotches < useful && beeosity < this.beeosity) {
               if (!automaticEntry.contains(item)) {
                 automaticEntry.add(item);
               }
-              beeotches += item.getCount();
-              beeosity += b * item.getCount();
+              if (!leavesSlotEmpty) {
+                beeotches += item.getCount();
+                beeosity += b * item.getCount();
+              }
             }
           } else if (item.automaticFlag) {
             if (!automaticEntry.contains(item)) {
               automaticEntry.add(item);
-              if (!item.conditionalFlag && item.getCount() >= foldItemsNeeded) {
+              if (!leavesSlotEmpty && !item.conditionalFlag && item.getCount() >= foldItemsNeeded) {
                 total += item.getCount();
               }
             }
-          } else if (total < useful) {
+          } else if ((entry.isSlot() && entry.slot() == Slot.CODPIECE1) || total < useful) {
             if (!automaticEntry.contains(item)) {
               automaticEntry.add(item);
-              if (!item.conditionalFlag && item.getCount() >= foldItemsNeeded) {
+              if (!leavesSlotEmpty && !item.conditionalFlag && item.getCount() >= foldItemsNeeded) {
                 total += item.getCount();
               }
             }
@@ -2443,6 +2786,17 @@ public class Evaluator {
         useCard,
         useCrownFamiliar,
         useBjornFamiliar);
+  }
+
+  List<CheckedItem> prioritizeCodpieceGems(List<CheckedItem> gems) {
+    return gems.stream()
+        .sorted(
+            Comparator.comparingDouble(
+                    (CheckedItem gem) -> this.codpieceCandidateScores.get(gem.getItemId()).score())
+                .thenComparingDouble(
+                    gem -> this.codpieceCandidateScores.get(gem.getItemId()).tiebreaker())
+                .reversed())
+        .toList();
   }
 
   private boolean isCatUseful(double nullScore, String catName) {

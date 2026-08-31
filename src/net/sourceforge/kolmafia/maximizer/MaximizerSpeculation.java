@@ -1,14 +1,21 @@
 package net.sourceforge.kolmafia.maximizer;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.EnumMap;
+import java.util.EnumSet;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiConsumer;
+import java.util.function.Supplier;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.WeaponType;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.Speculation;
@@ -16,6 +23,7 @@ import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.modifiers.BitmapModifier;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
@@ -29,6 +37,32 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 
 public class MaximizerSpeculation extends Speculation
     implements Comparable<MaximizerSpeculation>, Cloneable {
+  private static final Slot[] CODPIECE_SLOTS = SlotSet.CODPIECE_SLOTS.toArray(Slot[]::new);
+  private static final EnumSet<DoubleModifier> FAMILIAR_CALCULATION_DOUBLE_MODIFIERS =
+      EnumSet.of(
+          DoubleModifier.FAMILIAR_WEIGHT,
+          DoubleModifier.HIDDEN_FAMILIAR_WEIGHT,
+          DoubleModifier.FAMILIAR_WEIGHT_PCT,
+          DoubleModifier.FAMILIAR_WEIGHT_CAP,
+          DoubleModifier.VOLLEYBALL_WEIGHT,
+          DoubleModifier.VOLLEYBALL_EFFECTIVENESS,
+          DoubleModifier.FAMILIAR_TUNING_MUSCLE,
+          DoubleModifier.FAMILIAR_TUNING_MYSTICALITY,
+          DoubleModifier.FAMILIAR_TUNING_MOXIE,
+          DoubleModifier.SOMBRERO_WEIGHT,
+          DoubleModifier.SOMBRERO_BONUS,
+          DoubleModifier.SOMBRERO_EFFECTIVENESS,
+          DoubleModifier.LEPRECHAUN_WEIGHT,
+          DoubleModifier.LEPRECHAUN_EFFECTIVENESS,
+          DoubleModifier.FAIRY_WEIGHT,
+          DoubleModifier.FAIRY_EFFECTIVENESS,
+          DoubleModifier.FOOD_FAIRY_WEIGHT,
+          DoubleModifier.FOOD_FAIRY_EFFECTIVENESS,
+          DoubleModifier.BOOZE_FAIRY_WEIGHT,
+          DoubleModifier.BOOZE_FAIRY_EFFECTIVENESS,
+          DoubleModifier.CANDY_FAIRY_WEIGHT,
+          DoubleModifier.CANDY_FAIRY_EFFECTIVENESS);
+
   boolean scored = false;
   private boolean tiebreakered = false;
   private boolean exceeded;
@@ -39,6 +73,132 @@ public class MaximizerSpeculation extends Speculation
   public boolean failed = false;
   public CheckedItem attachment;
   private boolean foldables = false;
+  private CodpieceSearch codpieceSearch;
+  private Map<FamiliarContributionKey, Map<DoubleModifier, Double>> familiarContributionCache =
+      new HashMap<>();
+
+  private static final class FamiliarContributionKey {
+    private final int familiarId;
+    private final int effectiveFamiliarId;
+    private final int familiarWeight;
+    private final boolean familiarFeasted;
+    private final int familiarSoupWeight;
+    private final int familiarItemId;
+    private final int gemItemId;
+    private final int copies;
+    private final long[] calculationValues;
+    private final int hashCode;
+
+    private FamiliarContributionKey(
+        FamiliarData familiar,
+        AdventureResult familiarItem,
+        int gemItemId,
+        int copies,
+        Modifiers baseline) {
+      this.familiarId = familiar.getId();
+      this.effectiveFamiliarId = familiar.getEffectiveId();
+      this.familiarWeight = familiar.getUncappedWeight();
+      this.familiarFeasted = familiar.getFeasted();
+      this.familiarSoupWeight = familiar.getSoupWeight();
+      this.familiarItemId = familiarItem == null ? -1 : familiarItem.getItemId();
+      this.gemItemId = gemItemId;
+      this.copies = copies;
+      this.calculationValues = CodpiecePruning.familiarCalculationValues(baseline);
+      int hash = Integer.hashCode(this.familiarId);
+      hash = 31 * hash + Integer.hashCode(this.effectiveFamiliarId);
+      hash = 31 * hash + Integer.hashCode(this.familiarWeight);
+      hash = 31 * hash + Boolean.hashCode(this.familiarFeasted);
+      hash = 31 * hash + Integer.hashCode(this.familiarSoupWeight);
+      hash = 31 * hash + Integer.hashCode(this.familiarItemId);
+      hash = 31 * hash + Integer.hashCode(this.gemItemId);
+      hash = 31 * hash + Integer.hashCode(this.copies);
+      this.hashCode = 31 * hash + Arrays.hashCode(this.calculationValues);
+    }
+
+    @Override
+    public boolean equals(Object other) {
+      return other instanceof FamiliarContributionKey key
+          && this.familiarId == key.familiarId
+          && this.effectiveFamiliarId == key.effectiveFamiliarId
+          && this.familiarWeight == key.familiarWeight
+          && this.familiarFeasted == key.familiarFeasted
+          && this.familiarSoupWeight == key.familiarSoupWeight
+          && this.familiarItemId == key.familiarItemId
+          && this.gemItemId == key.gemItemId
+          && this.copies == key.copies
+          && Arrays.equals(this.calculationValues, key.calculationValues);
+    }
+
+    @Override
+    public int hashCode() {
+      return this.hashCode;
+    }
+  }
+
+  private static final class LateCodpieceCache {
+    private final Modifiers baseline;
+    private final Modifiers fightMods;
+    private final List<Slot> slots;
+    private final Modifiers[] gemModifiers;
+    private final boolean[] familiarDependentGems;
+    private final CodpiecePruning.FamiliarScoreContributions familiarScoreContributions;
+    private final Modifiers[] slotModifiers;
+    private final int[] slotGemIndexes;
+    private final Map<List<Integer>, KoLCharacter.AdjustmentPrefix> prefixes;
+    private int familiarSlots;
+
+    private LateCodpieceCache(
+        Modifiers baseline,
+        Modifiers fightMods,
+        List<Slot> slots,
+        Modifiers[] gemModifiers,
+        boolean[] familiarDependentGems,
+        CodpiecePruning.FamiliarScoreContributions familiarScoreContributions,
+        Map<List<Integer>, KoLCharacter.AdjustmentPrefix> prefixes) {
+      this.baseline = baseline;
+      this.fightMods = fightMods;
+      this.slots = slots;
+      this.gemModifiers = gemModifiers;
+      this.familiarDependentGems = familiarDependentGems;
+      this.familiarScoreContributions = familiarScoreContributions;
+      this.slotModifiers = new Modifiers[slots.size()];
+      this.slotGemIndexes = new int[slots.size()];
+      this.prefixes = prefixes;
+    }
+
+    private void select(int slotIndex, int gemIndex) {
+      this.slotModifiers[slotIndex] = this.gemModifiers[gemIndex];
+      this.slotGemIndexes[slotIndex] = gemIndex + 1;
+      if (this.familiarDependentGems[gemIndex]) {
+        this.familiarSlots++;
+      }
+    }
+
+    private void deselect(int slotIndex) {
+      int gemIndex = this.slotGemIndexes[slotIndex] - 1;
+      if (gemIndex >= 0 && this.familiarDependentGems[gemIndex]) {
+        this.familiarSlots--;
+      }
+      this.slotModifiers[slotIndex] = null;
+      this.slotGemIndexes[slotIndex] = 0;
+    }
+
+    private KoLCharacter.AdjustmentPrefix getPrefix(
+        Supplier<KoLCharacter.AdjustmentPrefix> factory) {
+      List<Integer> familiarGemIndexes = new ArrayList<>();
+      for (int encodedGemIndex : this.slotGemIndexes) {
+        if (encodedGemIndex == 0) {
+          continue;
+        }
+        int gemIndex = encodedGemIndex - 1;
+        if (this.familiarDependentGems[gemIndex]) {
+          familiarGemIndexes.add(gemIndex);
+        }
+      }
+      return this.prefixes.computeIfAbsent(
+          List.copyOf(familiarGemIndexes), ignored -> factory.get());
+    }
+  }
 
   @Override
   public MaximizerSpeculation clone() {
@@ -49,10 +209,48 @@ public class MaximizerSpeculation extends Speculation
       if (this.mods != null) {
         copy.mods = new Modifiers(this.mods);
       }
+      copy.codpieceSearch = null;
+      copy.familiarContributionCache = new HashMap<>();
       return copy;
     } catch (CloneNotSupportedException e) {
       return null;
     }
+  }
+
+  @Override
+  public Modifiers calculate() {
+    LateCodpieceCache cache = this.codpieceSearch == null ? null : this.codpieceSearch.cache;
+    if (cache == null) {
+      return super.calculate();
+    }
+
+    Modifiers newModifiers;
+    Modifiers fightMods;
+    if (cache.familiarSlots == 0) {
+      newModifiers = new Modifiers(cache.baseline);
+      for (Modifiers gemModifiers : cache.slotModifiers) {
+        newModifiers.add(gemModifiers);
+      }
+      fightMods = cache.fightMods;
+    } else {
+      var prefix = cache.getPrefix(this::primeFamiliarCodpiecePrefix);
+      newModifiers = new Modifiers(prefix.modifiers());
+      for (int encodedGemIndex : cache.slotGemIndexes) {
+        if (encodedGemIndex == 0) {
+          continue;
+        }
+        int gemIndex = encodedGemIndex - 1;
+        if (!cache.familiarDependentGems[gemIndex]) {
+          newModifiers.add(cache.gemModifiers[gemIndex]);
+        }
+      }
+      fightMods = prefix.fightMods();
+    }
+    this.mods =
+        KoLCharacter.applyAdjustmentSuffix(
+            false, newModifiers, fightMods, this.equipment, this.getEffects(), true);
+    this.calculated = true;
+    return this.mods;
   }
 
   @Override
@@ -217,6 +415,30 @@ public class MaximizerSpeculation extends Speculation
     this.equipment.putAll(mark);
   }
 
+  private int availableCount(AdventureResult item, Slot foldTarget, Slot... duplicateSlots) {
+    int count = item.getCount();
+    for (Slot slot : duplicateSlots) {
+      if (item.equals(this.equipment.get(slot))) {
+        --count;
+      }
+    }
+    FoldGroup group = ItemDatabase.getFoldGroup(item.getName());
+    if (group == null || !this.foldables) {
+      return count;
+    }
+    String groupName = group.names.get(0);
+    for (Slot slot : SlotSet.SLOTS) {
+      if (slot == foldTarget || this.equipment.get(slot) == null) {
+        continue;
+      }
+      FoldGroup equippedGroup = ItemDatabase.getFoldGroup(this.equipment.get(slot).getName());
+      if (equippedGroup != null && groupName.equals(equippedGroup.names.get(0))) {
+        --count;
+      }
+    }
+    return count;
+  }
+
   public void tryAll(
       List<FamiliarData> familiars,
       List<FamiliarData> enthronedFamiliars,
@@ -339,32 +561,9 @@ public class MaximizerSpeculation extends Speculation
       List<CheckedItem> possible = possibles.get(Slot.FAMILIAR);
       boolean any = false;
       for (AdventureResult item : possible) {
-        int count = item.getCount();
-        if (item.equals(this.equipment.get(Slot.OFFHAND))) {
-          --count;
-        }
-        if (item.equals(this.equipment.get(Slot.WEAPON))) {
-          --count;
-        }
-        if (item.equals(this.equipment.get(Slot.HAT))) {
-          --count;
-        }
-        if (item.equals(this.equipment.get(Slot.PANTS))) {
-          --count;
-        }
-        FoldGroup group = ItemDatabase.getFoldGroup(item.getName());
-        if (group != null && this.foldables) {
-          String groupName = group.names.get(0);
-          for (var slot : SlotSet.SLOTS) {
-            if (slot != Slot.FAMILIAR && this.equipment.get(slot) != null) {
-              FoldGroup groupEquipped =
-                  ItemDatabase.getFoldGroup(this.equipment.get(slot).getName());
-              if (groupEquipped != null && groupName.equals(groupEquipped.names.get(0))) {
-                --count;
-              }
-            }
-          }
-        }
+        int count =
+            this.availableCount(
+                item, Slot.FAMILIAR, Slot.OFFHAND, Slot.WEAPON, Slot.HAT, Slot.PANTS);
         if (count <= 0) continue;
         this.equipment.put(Slot.FAMILIAR, item);
         this.tryContainers(
@@ -393,20 +592,7 @@ public class MaximizerSpeculation extends Speculation
       List<CheckedItem> possible = possibles.get(Slot.CONTAINER);
       boolean any = false;
       for (CheckedItem item : possible) {
-        int count = item.getCount();
-        FoldGroup group = ItemDatabase.getFoldGroup(item.getName());
-        if (group != null && this.foldables) {
-          String groupName = group.names.get(0);
-          for (var slot : SlotSet.SLOTS) {
-            if (slot != Slot.CONTAINER && this.equipment.get(slot) != null) {
-              FoldGroup groupEquipped =
-                  ItemDatabase.getFoldGroup(this.equipment.get(slot).getName());
-              if (groupEquipped != null && groupName.equals(groupEquipped.names.get(0))) {
-                --count;
-              }
-            }
-          }
-        }
+        int count = this.availableCount(item, Slot.CONTAINER);
         if (count <= 0) continue;
         this.equipment.put(Slot.CONTAINER, item);
         if (item.getItemId() == ItemPool.BUDDY_BJORN) {
@@ -455,29 +641,8 @@ public class MaximizerSpeculation extends Speculation
       boolean any = false;
       for (; pos < possible.size(); ++pos) {
         AdventureResult item = possible.get(pos);
-        int count = item.getCount();
-        if (item.equals(this.equipment.get(Slot.ACCESSORY1))) {
-          --count;
-        }
-        if (item.equals(this.equipment.get(Slot.ACCESSORY2))) {
-          --count;
-        }
-        if (item.equals(this.equipment.get(Slot.ACCESSORY3))) {
-          --count;
-        }
-        FoldGroup group = ItemDatabase.getFoldGroup(item.getName());
-        if (group != null && this.foldables) {
-          String groupName = group.names.get(0);
-          for (var slot : SlotSet.SLOTS) {
-            if (this.equipment.get(slot) != null) {
-              FoldGroup groupEquipped =
-                  ItemDatabase.getFoldGroup(this.equipment.get(slot).getName());
-              if (groupEquipped != null && groupName.equals(groupEquipped.names.get(0))) {
-                --count;
-              }
-            }
-          }
-        }
+        int count =
+            this.availableCount(item, Slot.NONE, Slot.ACCESSORY1, Slot.ACCESSORY2, Slot.ACCESSORY3);
         if (count <= 0) continue;
         for (count = Math.min(free, count); count > 0; --count) {
           if (this.equipment.get(Slot.ACCESSORY1) == null) {
@@ -513,6 +678,7 @@ public class MaximizerSpeculation extends Speculation
     this.trySwap(Slot.ACCESSORY1, Slot.ACCESSORY2);
     this.trySwap(Slot.ACCESSORY2, Slot.ACCESSORY3);
     this.trySwap(Slot.ACCESSORY3, Slot.ACCESSORY1);
+    this.trySwap(Slot.ACCESSORY1, Slot.ACCESSORY2);
 
     this.tryHats(enthronedFamiliars, possibles, bestCard, useCrownFamiliar);
     this.restore(mark);
@@ -529,23 +695,7 @@ public class MaximizerSpeculation extends Speculation
       List<CheckedItem> possible = possibles.get(Slot.HAT);
       boolean any = false;
       for (CheckedItem item : possible) {
-        int count = item.getCount();
-        if (item.equals(this.equipment.get(Slot.FAMILIAR))) {
-          --count;
-        }
-        FoldGroup group = ItemDatabase.getFoldGroup(item.getName());
-        if (group != null && this.foldables) {
-          String groupName = group.names.get(0);
-          for (var slot : SlotSet.SLOTS) {
-            if (slot != Slot.HAT && this.equipment.get(slot) != null) {
-              FoldGroup groupEquipped =
-                  ItemDatabase.getFoldGroup(this.equipment.get(slot).getName());
-              if (groupEquipped != null && groupName.equals(groupEquipped.names.get(0))) {
-                --count;
-              }
-            }
-          }
-        }
+        int count = this.availableCount(item, Slot.HAT, Slot.FAMILIAR);
         if (count <= 0) continue;
         this.equipment.put(Slot.HAT, item);
         if (item.getItemId() == ItemPool.HATSEAT) {
@@ -588,23 +738,7 @@ public class MaximizerSpeculation extends Speculation
       if (KoLCharacter.isTorsoAware()) {
         List<CheckedItem> possible = possibles.get(Slot.SHIRT);
         for (AdventureResult item : possible) {
-          int count = item.getCount();
-          if (item.equals(this.equipment.get(Slot.FAMILIAR))) {
-            --count;
-          }
-          FoldGroup group = ItemDatabase.getFoldGroup(item.getName());
-          if (group != null && this.foldables) {
-            String groupName = group.names.get(0);
-            for (var slot : SlotSet.SLOTS) {
-              if (slot != Slot.SHIRT && this.equipment.get(slot) != null) {
-                FoldGroup groupEquipped =
-                    ItemDatabase.getFoldGroup(this.equipment.get(slot).getName());
-                if (groupEquipped != null && groupName.equals(groupEquipped.names.get(0))) {
-                  --count;
-                }
-              }
-            }
-          }
+          int count = this.availableCount(item, Slot.SHIRT, Slot.FAMILIAR);
           if (count <= 0) continue;
           this.equipment.put(Slot.SHIRT, item);
           this.tryPants(possibles, bestCard);
@@ -628,23 +762,7 @@ public class MaximizerSpeculation extends Speculation
       List<CheckedItem> possible = possibles.get(Slot.PANTS);
       boolean any = false;
       for (AdventureResult item : possible) {
-        int count = item.getCount();
-        if (item.equals(this.equipment.get(Slot.FAMILIAR))) {
-          --count;
-        }
-        FoldGroup group = ItemDatabase.getFoldGroup(item.getName());
-        if (group != null && this.foldables) {
-          String groupName = group.names.get(0);
-          for (var slot : SlotSet.SLOTS) {
-            if (slot != Slot.PANTS && this.equipment.get(slot) != null) {
-              FoldGroup groupEquipped =
-                  ItemDatabase.getFoldGroup(this.equipment.get(slot).getName());
-              if (groupEquipped != null && groupName.equals(groupEquipped.names.get(0))) {
-                --count;
-              }
-            }
-          }
-        }
+        int count = this.availableCount(item, Slot.PANTS, Slot.FAMILIAR);
         if (count <= 0) continue;
         this.equipment.put(Slot.PANTS, item);
         this.trySixguns(possibles, bestCard);
@@ -701,26 +819,7 @@ public class MaximizerSpeculation extends Speculation
         if (!chefstaffable && EquipmentDatabase.getItemType(item.getItemId()).equals("chefstaff")) {
           continue;
         }
-        int count = item.getCount();
-        if (item.equals(this.equipment.get(Slot.OFFHAND))) {
-          --count;
-        }
-        if (item.equals(this.equipment.get(Slot.FAMILIAR))) {
-          --count;
-        }
-        FoldGroup group = ItemDatabase.getFoldGroup(item.getName());
-        if (group != null && this.foldables) {
-          String groupName = group.names.get(0);
-          for (var slot : SlotSet.SLOTS) {
-            if (slot != Slot.WEAPON && this.equipment.get(slot) != null) {
-              FoldGroup groupEquipped =
-                  ItemDatabase.getFoldGroup(this.equipment.get(slot).getName());
-              if (groupEquipped != null && groupName.equals(groupEquipped.names.get(0))) {
-                --count;
-              }
-            }
-          }
-        }
+        int count = this.availableCount(item, Slot.WEAPON, Slot.OFFHAND, Slot.FAMILIAR);
         if (count <= 0) continue;
         this.equipment.put(Slot.WEAPON, item);
         this.tryOffhands(possibles, bestCard);
@@ -766,26 +865,7 @@ public class MaximizerSpeculation extends Speculation
       boolean any = false;
 
       for (AdventureResult item : possible) {
-        int count = item.getCount();
-        if (item.equals(this.equipment.get(Slot.WEAPON))) {
-          --count;
-        }
-        if (item.equals(this.equipment.get(Slot.FAMILIAR))) {
-          --count;
-        }
-        FoldGroup group = ItemDatabase.getFoldGroup(item.getName());
-        if (group != null && this.foldables) {
-          String groupName = group.names.get(0);
-          for (var slot : SlotSet.SLOTS) {
-            if (slot != Slot.OFFHAND && this.equipment.get(slot) != null) {
-              FoldGroup groupEquipped =
-                  ItemDatabase.getFoldGroup(this.equipment.get(slot).getName());
-              if (groupEquipped != null && groupName.equals(groupEquipped.names.get(0))) {
-                --count;
-              }
-            }
-          }
-        }
+        int count = this.availableCount(item, Slot.OFFHAND, Slot.WEAPON, Slot.FAMILIAR);
         if (count <= 0) continue;
         if (item.getItemId() == ItemPool.CARD_SLEEVE) {
           this.equipment.put(Slot.CARDSLEEVE, bestCard);
@@ -800,7 +880,445 @@ public class MaximizerSpeculation extends Speculation
       this.equipment.put(Slot.OFFHAND, EquipmentRequest.UNEQUIP);
     }
 
-    // doit
+    boolean wearingCodpiece =
+        this.equipment.values().stream()
+            .anyMatch(item -> item != null && item.getItemId() == ItemPool.THE_ETERNITY_CODPIECE);
+    if (!wearingCodpiece) {
+      this.releaseCodpieceGemsNeededElsewhere();
+      this.checkBest();
+      this.restore(mark);
+      return;
+    }
+
+    List<Slot> codpieceSlots =
+        SlotSet.CODPIECE_SLOTS.stream().filter(Maximizer.eval::slotEnabled).toList();
+    for (Slot slot : codpieceSlots) {
+      this.equipment.put(slot, EquipmentRequest.UNEQUIP);
+    }
+    if (!this.hasEnoughCodpieceGems()) {
+      this.restore(mark);
+      return;
+    }
+
+    List<CheckedItem> codpieceGems =
+        possibles.get(Slot.CODPIECE1).stream()
+            .filter(gem -> gem.getCount() > 0 && EquipmentRequest.isCodpieceGem(gem.getItemId()))
+            .filter(gem -> this.countEquipped(gem.getItemId()) < gem.getCount())
+            .toList();
+    try {
+      boolean canCollapseSaturatedScore =
+          !Maximizer.eval.isUsingTiebreaker()
+              && !KoLCharacter.inBeecore()
+              && codpieceSlots.stream()
+                  .allMatch(
+                      slot -> EquipmentManager.getEquipment(slot).equals(EquipmentRequest.UNEQUIP));
+      LateCodpieceCache cache =
+          this.canUseLateCodpieceCache(codpieceGems, codpieceSlots)
+              ? this.primeLateCodpieceCache(codpieceGems, codpieceSlots)
+              : null;
+      CodpieceSearch search =
+          new CodpieceSearch(codpieceGems, codpieceSlots, cache, canCollapseSaturatedScore);
+      this.codpieceSearch = search;
+      this.calculated = false;
+      if (Maximizer.eval.isUsingTiebreaker()
+          && Maximizer.eval.areScoreModifiersSaturated(this.calculate())) {
+        codpieceGems = Maximizer.eval.prioritizeCodpieceGems(codpieceGems);
+        cache = this.primeLateCodpieceCache(codpieceGems, codpieceSlots);
+        search = new CodpieceSearch(codpieceGems, codpieceSlots, cache, false);
+      }
+      this.codpieceSearch = search;
+      this.codpieceSearch.run();
+    } finally {
+      this.codpieceSearch = null;
+      this.restore(mark);
+    }
+  }
+
+  private void releaseCodpieceGemsNeededElsewhere() {
+    for (Slot slot : CODPIECE_SLOTS) {
+      if (!Maximizer.eval.slotEnabled(slot)) {
+        continue;
+      }
+
+      AdventureResult gem = this.equipment.get(slot);
+      if (gem == null || gem.equals(EquipmentRequest.UNEQUIP)) {
+        continue;
+      }
+
+      CheckedItem equippedElsewhere =
+          this.equipment.entrySet().stream()
+              .filter(entry -> !SlotSet.CODPIECE_SLOTS.contains(entry.getKey()))
+              .map(Map.Entry::getValue)
+              .filter(gem::equals)
+              .filter(CheckedItem.class::isInstance)
+              .map(CheckedItem.class::cast)
+              .findFirst()
+              .orElse(null);
+      if (equippedElsewhere == null) {
+        continue;
+      }
+
+      long used = this.equipment.values().stream().filter(gem::equals).count();
+      if (used > equippedElsewhere.getAvailableCount()) {
+        this.equipment.put(slot, EquipmentRequest.UNEQUIP);
+      }
+    }
+  }
+
+  private boolean canUseLateCodpieceCache(List<CheckedItem> possibles, List<Slot> slots) {
+    for (Slot slot : slots) {
+      AdventureResult equipped = this.equipment.get(slot);
+      if (equipped != null
+          && equipped != EquipmentRequest.UNEQUIP
+          && !this.isSafeLateCodpieceGem(equipped.getItemId())) {
+        return false;
+      }
+    }
+
+    for (CheckedItem possible : possibles) {
+      if (!this.isSafeLateCodpieceGem(possible.getItemId())) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  private LateCodpieceCache primeLateCodpieceCache(List<CheckedItem> possibles, List<Slot> slots) {
+    var mark = this.mark();
+    try {
+      for (Slot slot : slots) {
+        this.equipment.put(slot, EquipmentRequest.UNEQUIP);
+      }
+
+      var prefix = this.recalculateCodpiecePrefix(this.equipment);
+      Modifiers[] gemModifiers = new Modifiers[possibles.size()];
+      boolean[] familiarDependentGems = new boolean[possibles.size()];
+      for (int i = 0; i < possibles.size(); i++) {
+        gemModifiers[i] =
+            ModifierDatabase.getModifiers(
+                ModifierType.ETERNITY_CODPIECE, possibles.get(i).getItemId());
+        familiarDependentGems[i] = CodpiecePruning.affectsFamiliarCalculation(gemModifiers[i]);
+      }
+      Map<List<Integer>, KoLCharacter.AdjustmentPrefix> prefixes = new HashMap<>();
+      prefixes.put(List.of(), prefix);
+      CodpiecePruning.FamiliarScoreContributions familiarScoreContributions =
+          this.findFamiliarScoreContributions(
+              possibles, slots, prefix.modifiers(), familiarDependentGems);
+      return new LateCodpieceCache(
+          prefix.modifiers(),
+          prefix.fightMods(),
+          slots,
+          gemModifiers,
+          familiarDependentGems,
+          familiarScoreContributions,
+          prefixes);
+    } finally {
+      this.restore(mark);
+    }
+  }
+
+  private CodpiecePruning.FamiliarScoreContributions findFamiliarScoreContributions(
+      List<CheckedItem> possibles,
+      List<Slot> slots,
+      Modifiers baseline,
+      boolean[] familiarDependentGems) {
+    EnumSet<DoubleModifier> scored = Maximizer.eval.familiarDependentScoreModifiers();
+    if (scored.isEmpty()) {
+      return new CodpiecePruning.FamiliarScoreContributions(-1, Map.of());
+    }
+    int familiarGemIndex = -1;
+    for (int i = 0; i < familiarDependentGems.length; i++) {
+      if (!familiarDependentGems[i]) {
+        continue;
+      }
+      if (familiarGemIndex != -1) {
+        return null;
+      }
+      familiarGemIndex = i;
+    }
+    if (familiarGemIndex == -1) {
+      return new CodpiecePruning.FamiliarScoreContributions(-1, Map.of());
+    }
+
+    Map<DoubleModifier, Double> ceilings = new EnumMap<>(DoubleModifier.class);
+    Map<DoubleModifier, Double> previous = new EnumMap<>(DoubleModifier.class);
+    for (DoubleModifier modifier : scored) {
+      previous.put(modifier, Evaluator.scoreValue(modifier, baseline, null));
+    }
+    CheckedItem gem = possibles.get(familiarGemIndex);
+    int copies = Math.min(slots.size(), gem.getCount() - (int) this.countEquipped(gem.getItemId()));
+    var key =
+        new FamiliarContributionKey(
+            this.getFamiliar(),
+            this.equipment.get(Slot.FAMILIAR),
+            gem.getItemId(),
+            copies,
+            baseline);
+    var cached = this.familiarContributionCache.get(key);
+    if (cached != null) {
+      return new CodpiecePruning.FamiliarScoreContributions(familiarGemIndex, cached);
+    }
+
+    for (int copy = 0; copy < copies; copy++) {
+      this.equipment.put(slots.get(copy), gem);
+      var prefix = this.recalculateCodpiecePrefix(this.equipment);
+      for (DoubleModifier modifier : scored) {
+        double value = Evaluator.scoreValue(modifier, prefix.modifiers(), null);
+        double contribution = value - previous.put(modifier, value);
+        if (contribution == 0.0) {
+          continue;
+        }
+        ceilings.merge(modifier, contribution, Math::max);
+      }
+    }
+    for (Slot slot : slots) {
+      this.equipment.put(slot, EquipmentRequest.UNEQUIP);
+    }
+    var cachedCeilings = Map.copyOf(ceilings);
+    this.familiarContributionCache.put(key, cachedCeilings);
+    return new CodpiecePruning.FamiliarScoreContributions(familiarGemIndex, cachedCeilings);
+  }
+
+  private KoLCharacter.AdjustmentPrefix primeFamiliarCodpiecePrefix() {
+    LateCodpieceCache cache = this.codpieceSearch.cache;
+    Map<Slot, AdventureResult> equipment = new EnumMap<>(this.equipment);
+    for (int slotIndex = 0; slotIndex < cache.slots.size(); slotIndex++) {
+      int encodedGemIndex = cache.slotGemIndexes[slotIndex];
+      if (encodedGemIndex == 0 || !cache.familiarDependentGems[encodedGemIndex - 1]) {
+        equipment.put(cache.slots.get(slotIndex), EquipmentRequest.UNEQUIP);
+      }
+    }
+
+    return this.recalculateCodpiecePrefix(equipment);
+  }
+
+  private KoLCharacter.AdjustmentPrefix recalculateCodpiecePrefix(
+      Map<Slot, AdventureResult> equipment) {
+    return KoLCharacter.recalculateAdjustmentsPrefix(
+        false,
+        this.getMindControlLevel(),
+        equipment,
+        this.getEffects(),
+        this.getFamiliar(),
+        this.getEnthroned(),
+        this.getBjorned(),
+        this.getCustom(),
+        this.getHorsery(),
+        this.getBoomBox(),
+        this.getModeables(),
+        true);
+  }
+
+  private boolean isSafeLateCodpieceGem(int itemId) {
+    return CodpiecePruning.hasOnlySupportedLateCalculationModifiers(
+        ModifierDatabase.getModifiers(ModifierType.ETERNITY_CODPIECE, itemId));
+  }
+
+  private int countEquipmentWith(BooleanModifier modifier) {
+    int count = 0;
+    for (AdventureResult item : this.equipment.values()) {
+      if (item == null) {
+        continue;
+      }
+      Modifiers modifiers = ModifierDatabase.getItemModifiers(item.getItemId());
+      if (modifiers != null && modifiers.getBoolean(modifier)) {
+        count++;
+      }
+    }
+    return count;
+  }
+
+  private final class CodpieceSearch {
+    private final List<CheckedItem> gems;
+    private final List<Slot> slots;
+    private final int[] remaining;
+    private final boolean[] required;
+    private final int requiredCount;
+    private final LateCodpieceCache cache;
+    private final boolean canCollapseSaturatedScore;
+    private CodpiecePruning.BranchBounds bounds;
+
+    private CodpieceSearch(
+        List<CheckedItem> gems,
+        List<Slot> slots,
+        LateCodpieceCache cache,
+        boolean canCollapseSaturatedScore) {
+      this.gems = gems;
+      this.slots = slots;
+      this.remaining = new int[gems.size()];
+      this.required = new boolean[gems.size()];
+      this.cache = cache;
+      this.canCollapseSaturatedScore = canCollapseSaturatedScore;
+
+      int requiredCount = 0;
+      for (int i = 0; i < gems.size(); i++) {
+        CheckedItem gem = gems.get(i);
+        long used = MaximizerSpeculation.this.countEquipped(gem.getItemId());
+        this.remaining[i] = gem.getCount() - (int) used;
+        if (gem.requiredFlag && used == 0) {
+          this.required[i] = true;
+          requiredCount++;
+        }
+      }
+      this.requiredCount = requiredCount;
+    }
+
+    private void run() throws MaximizerInterruptedException {
+      CodpiecePruning.ScoreUpperBound scoreUpperBound = this.createScoreUpperBound();
+      CodpiecePruning.ScoreUpperBound tiebreakUpperBound =
+          scoreUpperBound == null
+              ? null
+              : Maximizer.eval.createTheoreticalCodpieceTiebreakerUpperBound(
+                  MaximizerSpeculation.this.calculate(),
+                  this.cache.gemModifiers,
+                  this.remaining,
+                  this.slots.size(),
+                  this.cache.familiarScoreContributions);
+      this.bounds =
+          new CodpiecePruning.BranchBounds(
+              scoreUpperBound,
+              tiebreakUpperBound,
+              new CodpiecePruning.BooleanUpperBound(
+                  this.gems, this.remaining, this.slots.size(), BooleanModifier.DROPS_ITEMS),
+              new CodpiecePruning.BooleanUpperBound(
+                  this.gems, this.remaining, this.slots.size(), BooleanModifier.DROPS_MEAT));
+      this.search(0, 0, this.requiredCount);
+    }
+
+    private CodpiecePruning.ScoreUpperBound createScoreUpperBound() {
+      return this.cache == null
+          ? null
+          : Maximizer.eval.createTheoreticalCodpieceScoreUpperBound(
+              this.cache.baseline,
+              this.cache.gemModifiers,
+              this.remaining,
+              this.slots.size(),
+              MaximizerSpeculation.this.equipment,
+              MaximizerSpeculation.this.getModeables(),
+              this.gems,
+              this.cache.familiarScoreContributions);
+    }
+
+    private void search(int start, int slotIndex, int requiredCount)
+        throws MaximizerInterruptedException {
+      boolean scoreSaturated = false;
+      boolean canMeetRequirements = true;
+      if (this.bounds.score() != null) {
+        int remainingSlots = this.slots.size() - slotIndex;
+        double upperScore = this.bounds.score().estimate(start, this.remaining, remainingSlots);
+        canMeetRequirements &=
+            this.bounds.score().canMeetMinimum(start, this.remaining, remainingSlots, upperScore);
+        if (!Maximizer.best.failed || !canMeetRequirements) {
+          double bestScore = Maximizer.best.getScore();
+          if (upperScore < bestScore) {
+            return;
+          }
+          if (Double.compare(upperScore, bestScore) == 0
+              && this.bounds.tiebreaker() != null
+              && !KoLCharacter.inBeecore()) {
+            int bestItemDroppers = Maximizer.best.countEquipmentWith(BooleanModifier.DROPS_ITEMS);
+            int itemDropperCeiling =
+                MaximizerSpeculation.this.countEquipmentWith(BooleanModifier.DROPS_ITEMS)
+                    + this.bounds
+                        .itemDroppers()
+                        .estimateAdditional(start, this.remaining, remainingSlots);
+            if (itemDropperCeiling < bestItemDroppers) {
+              return;
+            }
+            if (itemDropperCeiling == bestItemDroppers) {
+              int bestMeatDroppers = Maximizer.best.countEquipmentWith(BooleanModifier.DROPS_MEAT);
+              int meatDropperCeiling =
+                  MaximizerSpeculation.this.countEquipmentWith(BooleanModifier.DROPS_MEAT)
+                      + this.bounds
+                          .meatDroppers()
+                          .estimateAdditional(start, this.remaining, remainingSlots);
+              if (meatDropperCeiling < bestMeatDroppers
+                  || (meatDropperCeiling == bestMeatDroppers
+                      && this.bounds.tiebreaker().estimate(start, this.remaining, remainingSlots)
+                          < Maximizer.best.getTiebreaker())) {
+                return;
+              }
+            }
+          }
+        }
+        scoreSaturated = this.bounds.score().isScoreSaturated(start, this.remaining, upperScore);
+      }
+      if (requiredCount == 0) {
+        MaximizerSpeculation.this.checkBest(true);
+        if (this.canCollapseSaturatedScore
+            && scoreSaturated
+            && (!MaximizerSpeculation.this.failed || !canMeetRequirements)) {
+          return;
+        }
+      }
+      if (slotIndex == this.slots.size() || requiredCount > this.slots.size() - slotIndex) {
+        return;
+      }
+
+      int firstRequired = -1;
+      for (int i = start; i < this.required.length; i++) {
+        if (this.required[i]) {
+          firstRequired = i;
+          break;
+        }
+      }
+
+      Slot slot = this.slots.get(slotIndex);
+      for (int i = start; i < this.gems.size(); i++) {
+        if (firstRequired != -1 && i > firstRequired) {
+          break;
+        }
+        if (this.remaining[i] == 0) {
+          continue;
+        }
+
+        boolean satisfiesRequirement = this.required[i];
+        this.remaining[i]--;
+        this.required[i] = false;
+        MaximizerSpeculation.this.equipment.put(slot, this.gems.get(i));
+        if (this.cache != null) {
+          this.cache.select(slotIndex, i);
+        }
+        this.bounds.select(i);
+        this.search(i, slotIndex + 1, requiredCount - (satisfiesRequirement ? 1 : 0));
+        this.bounds.deselect(i);
+        MaximizerSpeculation.this.equipment.put(slot, EquipmentRequest.UNEQUIP);
+        if (this.cache != null) {
+          this.cache.deselect(slotIndex);
+        }
+        this.required[i] = satisfiesRequirement;
+        this.remaining[i]++;
+      }
+    }
+  }
+
+  /** Applies each candidate to its own clone of baseline and returns the best-scoring one. */
+  public static <T> MaximizerSpeculation bestOf(
+      MaximizerSpeculation baseline,
+      Iterable<T> candidates,
+      BiConsumer<MaximizerSpeculation, T> mutator) {
+    MaximizerSpeculation best = baseline;
+    for (T candidate : candidates) {
+      MaximizerSpeculation spec = baseline.clone();
+      mutator.accept(spec, candidate);
+      spec.setUnscored(); // clone() may carry baseline's cached score
+      if (spec.compareTo(best) > 0) {
+        best = spec;
+      }
+    }
+    return best;
+  }
+
+  private void checkBest() throws MaximizerInterruptedException {
+    this.checkBest(false);
+  }
+
+  private void checkBest(boolean codpieceCountsValid) throws MaximizerInterruptedException {
+    if (!codpieceCountsValid && !this.hasEnoughCodpieceGems()) {
+      return;
+    }
+
     this.calculated = false;
     this.scored = false;
     this.tiebreakered = false;
@@ -821,7 +1339,6 @@ public class MaximizerSpeculation extends Speculation
         Maximizer.bestUpdate = t + 5000;
       }
     }
-    this.restore(mark);
     if (!KoLmafia.permitsContinue()) {
       throw new MaximizerInterruptedException();
     }
@@ -831,6 +1348,35 @@ public class MaximizerSpeculation extends Speculation
     if (Maximizer.combinationLimit != 0 && Maximizer.bestChecked >= Maximizer.combinationLimit) {
       throw new MaximizerLimitException();
     }
+  }
+
+  private long countEquipped(int itemId) {
+    return this.equipment.values().stream()
+        .filter(item -> item != null && item.getItemId() == itemId)
+        .count();
+  }
+
+  private boolean hasEnoughCodpieceGems() {
+    Map<Integer, Integer> used = new HashMap<>();
+    Map<Integer, Integer> available = new HashMap<>();
+    for (AdventureResult item : this.equipment.values()) {
+      if (item == null || !EquipmentRequest.isCodpieceGem(item.getItemId())) {
+        continue;
+      }
+
+      int itemId = item.getItemId();
+      used.merge(itemId, 1, Integer::sum);
+      if (item instanceof CheckedItem checked) {
+        available.put(itemId, checked.getAvailableCount());
+      }
+    }
+
+    for (var entry : available.entrySet()) {
+      if (used.get(entry.getKey()) > entry.getValue()) {
+        return false;
+      }
+    }
+    return true;
   }
 
   private static int getMutex(AdventureResult item) {
