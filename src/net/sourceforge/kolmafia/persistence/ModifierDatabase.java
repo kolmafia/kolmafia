@@ -795,7 +795,12 @@ public class ModifierDatabase {
         }
 
         if (matcher.group(1) != null) {
-          newMods.setDouble(mod, Double.parseDouble(matcher.group(1)));
+          double value = Double.parseDouble(matcher.group(1));
+          newMods.setDouble(mod, value);
+
+          for (var subsumed : mod.getSubsumed()) {
+            newMods.setDouble(subsumed, value);
+          }
         } else {
           newMods.addExpression(mod, ModifierExpression.getInstance(matcher.group(2), lookup));
         }
