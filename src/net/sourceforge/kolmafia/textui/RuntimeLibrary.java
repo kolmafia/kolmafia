@@ -9306,11 +9306,13 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value last_maximizer_succeeded(ScriptRuntime controller) {
-    return DataTypes.makeBooleanValue(Maximizer.best != null && !Maximizer.best.failed);
+    return DataTypes.makeBooleanValue(
+        Maximizer.best != null && Maximizer.best.scored && !Maximizer.best.failed);
   }
 
   public static Value last_maximizer_score(ScriptRuntime controller) {
-    return DataTypes.makeFloatValue(Maximizer.best == null ? 0.0 : Maximizer.best.getScore());
+    return DataTypes.makeFloatValue(
+        Maximizer.best != null && Maximizer.best.scored ? Maximizer.best.getScore() : 0.0);
   }
 
   public static Value last_maximizer_combinations_considered(ScriptRuntime controller) {

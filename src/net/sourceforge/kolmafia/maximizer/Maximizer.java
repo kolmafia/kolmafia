@@ -146,6 +146,9 @@ public class Maximizer {
     int filterCount = filter.size();
     var limitMode = KoLCharacter.getLimitMode();
 
+    Maximizer.best = new MaximizerSpeculation();
+    Maximizer.bestChecked = 0;
+
     // parsing error
     if (!KoLmafia.permitsContinue() || filterCount == 0) {
       return;
@@ -175,12 +178,10 @@ public class Maximizer {
 
     Maximizer.boosts.clear();
     if (filter.contains(KoLConstants.filterType.EQUIP)) {
-      Maximizer.best = new MaximizerSpeculation();
       Maximizer.best.getScore();
       // In case the current outfit scores better than any tried combination,
       // due to some newly-added constraint (such as +melee):
       Maximizer.best.failed = true;
-      Maximizer.bestChecked = 0;
       Maximizer.bestUpdate = System.currentTimeMillis() + 5000;
       try {
         Maximizer.eval.enumerateEquipment(equipScope, maxPrice, priceLevel);

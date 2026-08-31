@@ -2036,6 +2036,18 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     }
 
     @Test
+    public void exposesCombinationsConsideredEvenWhenFailed() {
+      final var cleanups = new Cleanups(withEquippableItem("helmet turtle"));
+      try (cleanups) {
+        execute("maximize(\"mus 2 min\", true)");
+        assertThat(execute("last_maximizer_succeeded()"), endsWith("Returned: false\n"));
+        String out = execute("last_maximizer_combinations_considered()");
+        int considered = Integer.parseInt(out.replace("Returned: ", "").trim());
+        assertThat(considered, greaterThan(0));
+      }
+    }
+
+    @Test
     public void exposesSuccessfulResultWhenMinHit() {
       final var cleanups = new Cleanups(withEquippableItem("wreath of laurels"));
       try (cleanups) {
@@ -2061,6 +2073,61 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       try (cleanups) {
         execute("maximize(\"mus\", true)");
         assertThat(execute("last_maximizer_score()"), endsWith("Returned: 25.0\n"));
+      }
+    }
+
+    @Test
+    public void exposesResultOfMostRecentMaximizeCall() {
+      final var cleanups = new Cleanups(withEquippableItem("wreath of laurels"));
+      try (cleanups) {
+        execute("maximize(\"mus 2 min\", true)");
+        assertThat(execute("last_maximizer_succeeded()"), endsWith("Returned: true\n"));
+
+        execute("maximize(\"mus 200 min\", true)");
+        assertThat(execute("last_maximizer_succeeded()"), endsWith("Returned: false\n"));
+      }
+    }
+
+    @Test
+    public void resetsResultWhenSubsequentMaximizeFailsToParse() {
+      final var cleanups = new Cleanups(withEquippableItem("wreath of laurels"));
+      try (cleanups) {
+        execute("maximize(\"mus\", true)");
+        assertThat(execute("last_maximizer_succeeded()"), endsWith("Returned: true\n"));
+
+        execute("maximize(\"nonsense\", true)");
+        assertThat(execute("last_maximizer_succeeded()"), endsWith("Returned: false\n"));
+      }
+    }
+
+    @Test
+    public void resetsResultForCallsThatDoNotSearchEquipment() {
+      final var cleanups = new Cleanups(withEquippableItem("wreath of laurels"));
+      try (cleanups) {
+        execute("maximize(\"mus 2 min\", true)");
+        assertThat(execute("last_maximizer_succeeded()"), endsWith("Returned: true\n"));
+
+        execute("maximize(\"meat\", 0, 0, 0, \"wish\")");
+        assertThat(execute("last_maximizer_succeeded()"), endsWith("Returned: false\n"));
+        assertThat(execute("last_maximizer_combinations_considered()"), endsWith("Returned: 0\n"));
+        assertThat(execute("last_maximizer_score()"), endsWith("Returned: 0.0\n"));
+      }
+    }
+
+    @Test
+    public void doesNotReportAScoreWhenMaximizingOnNonEquipment() {
+      // This test doesn't prove the behavior is desirable, only that it exists
+      // We didn't provide an 'equip' filter, so it won't be telling us anything about the score
+      final var cleanups =
+          new Cleanups(
+              withItem(ItemPool.POCKET_WISH), withEquippableItem("incredibly dense meat gem"));
+      try (cleanups) {
+        String out = execute("maximize(\"meat\", 0, 0, 0, \"wish\")");
+        assertTrue(out.contains("genie effect Sinuses For Miles"));
+
+        assertThat(execute("last_maximizer_succeeded()"), endsWith("Returned: false\n"));
+        assertThat(execute("last_maximizer_combinations_considered()"), endsWith("Returned: 0\n"));
+        assertThat(execute("last_maximizer_score()"), endsWith("Returned: 0.0\n"));
       }
     }
   }

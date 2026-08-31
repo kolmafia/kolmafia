@@ -29,7 +29,7 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 
 public class MaximizerSpeculation extends Speculation
     implements Comparable<MaximizerSpeculation>, Cloneable {
-  private boolean scored = false;
+  public boolean scored = false;
   private boolean tiebreakered = false;
   private boolean exceeded;
   private double score, tiebreaker;
