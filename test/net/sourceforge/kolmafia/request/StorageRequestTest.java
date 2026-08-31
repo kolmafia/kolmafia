@@ -1,5 +1,29 @@
 package net.sourceforge.kolmafia.request;
 
+import internal.helpers.Cleanups;
+import internal.network.FakeHttpClientBuilder;
+import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
+import net.sourceforge.kolmafia.AscensionPath.Path;
+import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
+import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.StorageRequest.StorageRequestType;
+import net.sourceforge.kolmafia.session.InventoryManager;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withContinuationState;
 import static internal.helpers.Player.withHardcore;
@@ -19,32 +43,9 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import internal.helpers.Cleanups;
-import internal.network.FakeHttpClientBuilder;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
-import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
-import net.sourceforge.kolmafia.AscensionPath.Path;
-import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLConstants.MafiaState;
-import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
-import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.StorageRequest.StorageRequestType;
-import net.sourceforge.kolmafia.session.InventoryManager;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
-
 public class StorageRequestTest {
 
-  private final Set<Integer> pulledItemSet = new LinkedHashSet<>();
+  private final Set<Integer> pulledItemSet = new HashSet<>();
   private String pulledItemProperty = "";
 
   // *** Here are tests for the primitives that handle ronin item pulls.
