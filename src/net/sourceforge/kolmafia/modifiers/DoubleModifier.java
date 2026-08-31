@@ -630,7 +630,12 @@ public enum DoubleModifier implements Modifier {
       "Hat / Pants Drop",
       Pattern.compile("([+-]\\d+)% Hat/Pants Drops? [Ff]rom Monsters$"),
       Pattern.compile("Hat / Pants Drop: " + EXPR),
-      new DoubleModifier[] {HATDROP, PANTSDROP});
+      new DoubleModifier[] {HATDROP, PANTSDROP}),
+  MAXIMUM_HP_MP(
+      "Maximum HP / MP",
+      Pattern.compile("Maximum HP/MP ([+-]\\d+)$"),
+      Pattern.compile("Maximum HP / MP: " + EXPR),
+      new DoubleModifier[] {HP, MP});
 
   private final String name;
   private final Pattern[] descPatterns;
@@ -766,6 +771,7 @@ public enum DoubleModifier implements Modifier {
           ITEMDROP,
           MANA_COST,
           MAXIMUM_HOOCH,
+          MAXIMUM_HP_MP,
           MEATDROP,
           MERKIN_DAMAGE,
           MONSTER_LEVEL,

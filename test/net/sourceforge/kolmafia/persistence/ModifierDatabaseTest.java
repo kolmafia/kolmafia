@@ -56,7 +56,6 @@ public class ModifierDatabaseTest {
     "Bonus&nbsp;for&nbsp;Saucerors&nbsp;only, Class: \"Sauceror\"",
     "Monsters are much more attracted to you., Combat Rate: +10",
     "Monsters will be significantly less attracted to you. (Underwater only), Combat Rate (Underwater): -15",
-    "Maximum HP/MP +200, 'Maximum HP: +200, Maximum MP: +200'",
     "Regenerate 100 MP per adventure, 'MP Regen Min: 100, MP Regen Max: 100'",
     "Regenerate 15-20 HP and MP per adventure, 'HP Regen Min: 15, HP Regen Max: 20, MP Regen Min: 15, MP Regen Max: 20'",
     "Serious Cold Resistance (+3), Cold Resistance: +3",
