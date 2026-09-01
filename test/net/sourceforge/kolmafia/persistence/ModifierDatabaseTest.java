@@ -122,7 +122,7 @@ public class ModifierDatabaseTest {
         writeModifiersLines,
         hasItem(
             equalTo(
-                "Sign\tVole\tExperience Percent (Moxie): +10, Initiative: +20, Maximum HP: +20, Maximum MP: +20")));
+                "Sign\tVole\tExperience Percent (Moxie): +10, Initiative: +20, Maximum HP / MP: +20")));
   }
 
   @Test
