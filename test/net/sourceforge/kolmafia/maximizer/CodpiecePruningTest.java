@@ -1,6 +1,8 @@
 package net.sourceforge.kolmafia.maximizer;
 
+import static internal.helpers.Player.withClass;
 import static internal.helpers.Player.withOverrideModifiers;
+import static internal.helpers.Player.withPath;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.not;
@@ -13,6 +15,8 @@ import internal.helpers.Cleanups;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import net.sourceforge.kolmafia.AscensionClass;
+import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
@@ -1120,5 +1124,129 @@ class CodpiecePruningTest {
           0.0001,
           entry.getKey().getName());
     }
+  }
+
+  @Test
+  void checksBooleanRequirementsAgainstRemainingGems() {
+    var booleanGem = new Modifiers();
+    booleanGem.setBoolean(BooleanModifier.DROPS_ITEMS, true);
+
+    int[] remaining = {1};
+    var attainable =
+        new Evaluator("drops items, -tie")
+            .createTheoreticalCodpieceScoreUpperBound(
+                new Modifiers(), new Modifiers[] {booleanGem}, remaining, 1);
+    assertTrue(attainable.canMeetMinimum(0, remaining, 1, attainable.estimate(0, remaining, 1)));
+
+    remaining = new int[] {0};
+    var unattainable =
+        new Evaluator("drops items, -tie")
+            .createTheoreticalCodpieceScoreUpperBound(
+                new Modifiers(), new Modifiers[] {booleanGem}, remaining, 1);
+    assertFalse(
+        unattainable.canMeetMinimum(0, remaining, 1, unattainable.estimate(0, remaining, 1)));
+
+    var forbiddenBaseline = new Modifiers();
+    forbiddenBaseline.setBoolean(BooleanModifier.DROPS_ITEMS, true);
+    int[] forbiddenRemaining = {1};
+    var forbidden =
+        new Evaluator("-1 drops items, -tie")
+            .createTheoreticalCodpieceScoreUpperBound(
+                forbiddenBaseline, new Modifiers[] {new Modifiers()}, forbiddenRemaining, 1);
+    assertFalse(
+        forbidden.canMeetMinimum(
+            0, forbiddenRemaining, 1, forbidden.estimate(0, forbiddenRemaining, 1)));
+  }
+
+  @Test
+  void treatsCandidateBitmapScoresAsInexact() {
+    var gem = new Modifiers();
+    gem.setBitmap(BitmapModifier.SURGEONOSITY, 1);
+    int[] remaining = {1};
+    var upperBound =
+        new Evaluator("1 surgeonosity, -tie")
+            .createTheoreticalCodpieceScoreUpperBound(
+                new Modifiers(), new Modifiers[] {gem}, remaining, 1);
+
+    assertThat(upperBound.estimate(0, remaining, 1), equalTo(1.0));
+    assertFalse(upperBound.isScoreSaturated(0, remaining, 1.0));
+  }
+
+  @Test
+  void preservesExplicitCombinedModifierValues() {
+    var baseline = new Modifiers();
+    baseline.setDouble(DoubleModifier.MAXIMUM_HP_MP, 5.0);
+    var gem = new Modifiers();
+    gem.setDouble(DoubleModifier.HP, 100.0);
+    gem.setDouble(DoubleModifier.MP, 100.0);
+
+    assertThat(
+        estimate(
+            new Evaluator("maximum hp / mp, -tie"),
+            baseline,
+            new Modifiers[] {gem},
+            new int[] {1},
+            1),
+        equalTo(5.0));
+  }
+
+  @Test
+  void boundsSourceExperienceWithAllStatTuning() {
+    var cleanups = new Cleanups(withPath(Path.THE_SOURCE), withClass(AscensionClass.SEAL_CLUBBER));
+    var baseline = new Modifiers();
+    baseline.setDouble(DoubleModifier.MONSTER_LEVEL, 12.0);
+    baseline.setDouble(DoubleModifier.EXPERIENCE, 3.0);
+    baseline.setString(StringModifier.STAT_TUNING, "Muscle (all)");
+    var gem = new Modifiers();
+    gem.setDouble(DoubleModifier.MUS_EXPERIENCE, 2.0);
+
+    try (cleanups) {
+      for (String expression : List.of("experience, -tie", "muscle experience, -tie")) {
+        var evaluator = new Evaluator(expression);
+        var upperBound =
+            evaluator.createTheoreticalCodpieceScoreUpperBound(
+                baseline, new Modifiers[] {gem}, new int[] {1}, 1);
+        var achievable = new Modifiers(baseline);
+        achievable.setDouble(
+            DoubleModifier.MUS_EXPERIENCE,
+            baseline.getDouble(DoubleModifier.MUS_EXPERIENCE)
+                + gem.getDouble(DoubleModifier.MUS_EXPERIENCE));
+
+        assertThat(upperBound, not(nullValue()));
+        assertTrue(upperBound.estimate(0, new int[] {1}, 1) >= evaluator.getScore(achievable));
+      }
+    }
+  }
+
+  @Test
+  void estimatesDamageAuraFromNonzeroCandidateIndex() {
+    var firstGem = new Modifiers();
+    firstGem.setDouble(DoubleModifier.DAMAGE_AURA, 7.0);
+    firstGem.setDouble(DoubleModifier.SPORADIC_DAMAGE_AURA, 3.0);
+    var secondGem = new Modifiers();
+    secondGem.setDouble(DoubleModifier.DAMAGE_AURA, 2.0);
+    secondGem.setDouble(DoubleModifier.SPORADIC_DAMAGE_AURA, 1.0);
+    int[] remaining = {1, 1};
+    var upperBound =
+        new Evaluator("damage aura, -tie")
+            .createTheoreticalCodpieceScoreUpperBound(
+                new Modifiers(), new Modifiers[] {firstGem, secondGem}, remaining, 1);
+
+    assertEquals(3.0, upperBound.estimate(1, remaining, 1), 0.001);
+  }
+
+  @Test
+  void ignoresNonpositiveLimitContributions() {
+    var gem = new Modifiers();
+    gem.setDouble(DoubleModifier.MUS_LIMIT, -10.0);
+
+    assertThat(
+        estimate(
+            new Evaluator("muscle limit, -tie"),
+            new Modifiers(),
+            new Modifiers[] {gem},
+            new int[] {1},
+            1),
+        equalTo(0.0));
   }
 }

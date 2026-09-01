@@ -1333,6 +1333,26 @@ public class EternityCodpieceMaximizerTest {
   }
 
   @Test
+  void boundsFamiliarExperienceWithLimitedGemCopies() {
+    try (var cleanups =
+        new Cleanups(
+            withEquipped(Slot.ACCESSORY1, ItemPool.THE_ETERNITY_CODPIECE),
+            withFamiliar(FamiliarPool.BLOOD_FACED_VOLLEYBALL, 400),
+            withItem("Heartstone"),
+            withItem("Tuesday's ruby"),
+            withItem(ItemPool.ALIEN_GEMSTONE))) {
+      String expression =
+          "muscle experience, -hat, -weapon, -offhand, -back, -shirt, -pants, "
+              + "-familiar, -acc1, -acc2, -acc3, -tie";
+      assertTrue(maximize(expression));
+      double score = Maximizer.best.getScore();
+
+      assertTrue(maximizeExhaustively(expression));
+      assertThat(Maximizer.best.getScore(), equalTo(score));
+    }
+  }
+
+  @Test
   @EnabledIfEnvironmentVariable(named = "KOLMAFIA_CODPIECE_CHECK_BENCHMARK", matches = "true")
   void benchmarksCodpieceCombinationChecking() {
     var cleanups =
