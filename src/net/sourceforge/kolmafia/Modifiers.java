@@ -360,13 +360,18 @@ public class Modifiers {
     if (modifier instanceof DoubleModifier dm) {
       var value = this.doubles.getDouble(dm);
       // A combined modifier (like "Hat/Pants Drop") may be stored explicitly.
-      // If it isn't present, derive it from the modifiers it subsumes, taking the minimum.
+      // If it isn't present, derive it from the modifiers it subsumes.
       if (dm.getSubsumed().length > 0 && value == 0.0) {
-        double derived = Double.MAX_VALUE;
+        double min = Double.MAX_VALUE;
+        double max = -Double.MAX_VALUE;
         for (var sub : dm.getSubsumed()) {
-          derived = Math.min(derived, this.getDouble(sub));
+          double subValue = this.getDouble(sub);
+          min = Math.min(min, subValue);
+          max = Math.max(max, subValue);
         }
-        return derived;
+        // If the sub-modifiers straddle zero, the combined effect cancels out.
+        // Otherwise take the most extreme (lowest) value.
+        return min < 0.0 && max > 0.0 ? 0.0 : min;
       }
       return value;
     }

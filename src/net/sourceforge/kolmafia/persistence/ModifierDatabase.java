@@ -109,14 +109,6 @@ public class ModifierDatabase {
   private static final String SLIME = DoubleModifier.SLIME_RESISTANCE.getTag() + ": ";
   private static final String SUPERCOLD = DoubleModifier.SUPERCOLD_RESISTANCE.getTag() + ": ";
 
-  private static final String MOXIE = DoubleModifier.MOX.getTag() + ": ";
-  private static final String MUSCLE = DoubleModifier.MUS.getTag() + ": ";
-  private static final String MYSTICALITY = DoubleModifier.MYS.getTag() + ": ";
-
-  private static final String MOXIE_PCT = DoubleModifier.MOX_PCT.getTag() + ": ";
-  private static final String MUSCLE_PCT = DoubleModifier.MUS_PCT.getTag() + ": ";
-  private static final String MYSTICALITY_PCT = DoubleModifier.MYS_PCT.getTag() + ": ";
-
   private static final String HP_REGEN_MIN_TAG = DoubleModifier.HP_REGEN_MIN.getTag() + ": ";
   private static final String HP_REGEN_MAX_TAG = DoubleModifier.HP_REGEN_MAX.getTag() + ": ";
   private static final String MP_REGEN_MIN_TAG = DoubleModifier.MP_REGEN_MIN.getTag() + ": ";
@@ -138,9 +130,6 @@ public class ModifierDatabase {
       Pattern.compile("</a></b> \\(([\\d]*) Adventures?\\)");
   private static final Pattern SONG_DURATION_PATTERN =
       Pattern.compile("Song Duration: <b>([\\d]*) Adventures</b>");
-  private static final Pattern ALL_ATTR_PATTERN = Pattern.compile("^All Attributes ([+-]\\d+)$");
-  private static final Pattern ALL_ATTR_PCT_PATTERN =
-      Pattern.compile("^All Attributes ([+-]\\d+)%$");
   private static final Pattern CLASS_PATTERN =
       Pattern.compile("Bonus&nbsp;for&nbsp;(.*)&nbsp;only");
   private static final Pattern COMBAT_PATTERN =
@@ -1035,18 +1024,6 @@ public class ModifierDatabase {
     // Special handling needed
 
     Matcher matcher;
-
-    matcher = ALL_ATTR_PATTERN.matcher(enchantment);
-    if (matcher.find()) {
-      String mod = matcher.group(1);
-      return MUSCLE + mod + ", " + MYSTICALITY + mod + ", " + MOXIE + mod;
-    }
-
-    matcher = ALL_ATTR_PCT_PATTERN.matcher(enchantment);
-    if (matcher.find()) {
-      String mod = matcher.group(1);
-      return MUSCLE_PCT + mod + ", " + MYSTICALITY_PCT + mod + ", " + MOXIE_PCT + mod;
-    }
 
     matcher = CLASS_PATTERN.matcher(enchantment);
     if (matcher.find()) {
