@@ -684,8 +684,114 @@ class CodpiecePruningTest {
 
   @ParameterizedTest
   @CsvSource({
+    "all attributes,ALL_ATTRIBUTES,MUS,MYS,MOX",
+    "all attributes percent,ALL_ATTRIBUTES_PCT,MUS_PCT,MYS_PCT,MOX_PCT"
+  })
+  void boundsThreeComponentCombinedScores(
+      String expression,
+      DoubleModifier scoreModifier,
+      DoubleModifier firstComponent,
+      DoubleModifier secondComponent,
+      DoubleModifier thirdComponent) {
+    var baseline = new Modifiers();
+    baseline.setDouble(firstComponent, 10.0);
+    baseline.setDouble(secondComponent, 20.0);
+    baseline.setDouble(thirdComponent, 30.0);
+    var gem = new Modifiers();
+    gem.setDouble(firstComponent, 5.0);
+    gem.setDouble(secondComponent, -5.0);
+    int[] remaining = {1};
+
+    for (String sign : List.of("", "-1 ")) {
+      var evaluator = new Evaluator(sign + expression + ", -tie");
+      var upperBound =
+          evaluator.createTheoreticalCodpieceScoreUpperBound(
+              baseline, new Modifiers[] {gem}, remaining, 1);
+      var achievable = new Modifiers(baseline);
+      achievable.setDouble(firstComponent, 15.0);
+      achievable.setDouble(secondComponent, 15.0);
+
+      assertThat(upperBound, not(nullValue()));
+      assertTrue(upperBound.estimate(0, remaining, 1) >= evaluator.getScore(achievable));
+      assertThat(baseline.getDouble(scoreModifier), equalTo(10.0));
+    }
+  }
+
+  @Test
+  void boundsCombinedScoresThatCrossZero() {
+    var negativeBaseline = new Modifiers();
+    negativeBaseline.setDouble(DoubleModifier.HP, -1.0);
+    negativeBaseline.setDouble(DoubleModifier.MP, -100.0);
+    negativeBaseline.addDouble(DoubleModifier.MAXIMUM_HP_MP, 1.0, ModifierType.GENERATED, "test");
+    negativeBaseline.addDouble(DoubleModifier.MAXIMUM_HP_MP, -1.0, ModifierType.GENERATED, "test");
+    var positiveGem = new Modifiers();
+    positiveGem.setDouble(DoubleModifier.HP, 2.0);
+    positiveGem.setDouble(DoubleModifier.MP, 2.0);
+    var straddlingBaseline = new Modifiers();
+    straddlingBaseline.setDouble(DoubleModifier.HP, -100.0);
+    straddlingBaseline.setDouble(DoubleModifier.MP, 1.0);
+    var negativeGem = new Modifiers();
+    negativeGem.setDouble(DoubleModifier.MP, -2.0);
+
+    assertTrue(
+        estimate(
+                new Evaluator("maximum hp / mp, -tie"),
+                negativeBaseline,
+                new Modifiers[] {positiveGem},
+                new int[] {1},
+                1)
+            >= 0.0);
+    assertTrue(
+        estimate(
+                new Evaluator("-1 maximum hp / mp, -tie"),
+                straddlingBaseline,
+                new Modifiers[] {negativeGem},
+                new int[] {1},
+                1)
+            >= 100.0);
+  }
+
+  @Test
+  void doesNotUseNegativeObjectiveBoundsForMinimumRequirements() {
+    var baseline = new Modifiers();
+    baseline.setDouble(DoubleModifier.HP, -100.0);
+    baseline.setDouble(DoubleModifier.MP, 1.0);
+    var negativeGem = new Modifiers();
+    negativeGem.setDouble(DoubleModifier.MP, -2.0);
+    var positiveGem = new Modifiers();
+    positiveGem.setDouble(DoubleModifier.MP, 2.0);
+    var gemModifiers = new Modifiers[] {negativeGem, positiveGem};
+    int[] remaining = {1, 1};
+    var upperBound =
+        new Evaluator("-1 maximum hp / mp 0 min, -tie")
+            .createTheoreticalCodpieceScoreUpperBound(baseline, gemModifiers, remaining, 2);
+
+    assertThat(upperBound, not(nullValue()));
+    upperBound.select(0);
+    remaining[0]--;
+    assertTrue(upperBound.canMeetMinimum(1, remaining, 1, upperBound.estimate(1, remaining, 1)));
+  }
+
+  @Test
+  void usesZeroWeightObjectiveBoundsForMinimumRequirements() {
+    var negativeGem = new Modifiers();
+    negativeGem.setDouble(DoubleModifier.DAMAGE_REDUCTION, -5.0);
+    int[] remaining = {1};
+    var upperBound =
+        new Evaluator("0 damage reduction 5 min, -tie")
+            .createTheoreticalCodpieceScoreUpperBound(
+                new Modifiers(), new Modifiers[] {negativeGem}, remaining, 1);
+
+    assertThat(upperBound, not(nullValue()));
+    assertFalse(upperBound.canMeetMinimum(0, remaining, 1, upperBound.estimate(0, remaining, 1)));
+  }
+
+  @ParameterizedTest
+  @CsvSource({
     "hat / pants drop, HAT_PANTS_DROP",
     "maximum hp / mp, MAXIMUM_HP_MP",
+    "all attributes, ALL_ATTRIBUTES",
+    "all attributes percent, ALL_ATTRIBUTES_PCT",
   })
   void fallsBackForExplicitMinimumDerivedGem(String expression, DoubleModifier modifier) {
     var gem = new Modifiers();
