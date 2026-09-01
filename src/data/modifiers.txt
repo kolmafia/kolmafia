@@ -5072,11 +5072,11 @@ Throne	Angry Jung Man	Maximum HP: 10, Maximum MP: 10
 Throne	Animated Macaroni Duck	Familiar Weight: +5
 Throne	Antique Nutcracker	Experience: +2
 Throne	Arachnelf	none
-Throne	Artistic Goth Kid	Muscle: +10, Mysticality: +10, Moxie: +10
+Throne	Artistic Goth Kid	All Attributes: +10
 Throne	Astral Badger	Maximum HP: +10, Maximum MP: +10, Drops Items
 Throne	Attention-Deficit Demon	Meat Drop: +20, Drops Items
 Throne	Autonomous Disco Ball	Familiar Weight: +5
-Throne	Baby Bugged Bugbear	Muscle: -10, Mysticality: -10, Moxie: -10, Experience: +2
+Throne	Baby Bugged Bugbear	All Attributes: -10, Experience: +2
 Throne	Baby Gravy Fairy	Weapon Damage: +10
 Throne	Baby Mayonnaise Wasp	Mysticality Percent: +15
 Throne	Baby Mutant Rattlesnake	Experience (Muscle): +2
@@ -5087,7 +5087,7 @@ Throne	Baby Z-Rex	Experience (Muscle): +2
 Throne	Bad Vibe	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 Throne	Bark Scorpion	Monster Level: +10
 Throne	Barrrnacle	Familiar Weight: +5
-Throne	Black Cat	Muscle: -10, Mysticality: -10, Moxie: -10, Drops Meat
+Throne	Black Cat	All Attributes: -10, Drops Meat
 Throne	Blavious Kloop	Maximum HP: +10, Maximum MP: +10
 Throne	Blood-Faced Volleyball	Experience (Moxie): +2
 Throne	Bloovian Groose	Maximum HP: +10, Maximum MP: +10
@@ -5103,7 +5103,7 @@ Throne	Chest Mimic	Maximum HP: +5
 Throne	Chocolate Lab	Weapon Damage: +15
 Throne	Choctopus	Maximum HP: 15
 Throne	Clockwork Grapefruit	Moxie Percent: +15
-Throne	Cocoabo	Muscle: +10, Mysticality: +10, Moxie: +10, Drops Items
+Throne	Cocoabo	All Attributes: +10, Drops Items
 Throne	Coffee Pixie	Meat Drop: +20
 Throne	Cold Cut	Cold Damage: +33
 Throne	Comma Chameleon	none
@@ -5113,8 +5113,8 @@ Throne	Cooler Yeti	Cold Damage: +25
 Throne	Cornbeefadon	none
 Throne	Cotton Candy Carnie	Initiative: +20, Drops Items
 Throne	Crimbo Elf	Weapon Damage: +10, Drops Items
-Throne	Crimbo P. R. E. S. S. I. E.	Muscle: +10, Mysticality: +10, Moxie: +10
-Throne	Crimbo Shrub	Muscle: +10, Mysticality: +10, Moxie: +10
+Throne	Crimbo P. R. E. S. S. I. E.	All Attributes: +10
+Throne	Crimbo Shrub	All Attributes: +10
 Throne	Cuddlefish	Initiative: +20
 Throne	Cute Skeletal Dinosaur	
 Throne	Cute Meteor	Hot Damage: +15
@@ -5146,7 +5146,7 @@ Throne	Flaming Leafcutter Ant	Hot Damage: +5
 Throne	Foul Ball	Stench Damage: +33
 Throne	Frozen Gravy Fairy	Cold Damage: +20, Drops Items
 Throne	Frumious Bandersnatch	Experience: +2
-Throne	Fuzzy Dice	Muscle: +10, Mysticality: +10, Moxie: +10
+Throne	Fuzzy Dice	All Attributes: +10
 Throne	Galloping Grill	Spell Damage Percent: +10
 Throne	Garbage Fire	Hot Spell Damage: +25, Drops Items, Variable
 Throne	Gelatinous Cubeling	Familiar Weight: +5
@@ -5169,9 +5169,9 @@ Throne	Gross Prophet
 Throne	Grouper Groupie	Meat Drop: +20
 Throne	Grue	Mysticality Percent: +15
 Throne	Hand Turkey	Meat Drop: +20, Drops Meat
-Throne	Hanukkimbo Dreidl	Muscle: +10, Mysticality: +10, Moxie: +10
+Throne	Hanukkimbo Dreidl	All Attributes: +10
 Throne	Happy Medium	Meat Drop: +25, Drops Meat
-Throne	He-Boulder	Muscle: +10, Mysticality: +10, Moxie: +10, Drops Meat
+Throne	He-Boulder	All Attributes: +10, Drops Meat
 Throne	Heat Wave	Hot Damage: +33
 Throne	Helix Fossil	none
 Throne	Hippo Ballerina	Meat Drop: +20
@@ -5188,7 +5188,7 @@ Throne	Inflatable Dodecapede	Mysticality Percent: +15
 Throne	Intergnat	Monster Level: +10
 Throne	Jack-in-the-Box	Experience: +2
 Throne	Jill-O-Lantern	Experience (Moxie): +2
-Throne	Jill-of-All-Trades	Muscle: +10, Mysticality: +10, Moxie: +10
+Throne	Jill-of-All-Trades	All Attributes: +10
 Throne	Jitterbug	Meat Drop: +20
 Throne	Jumpsuited Hound Dog	Weapon Damage: +20
 Throne	Killer Bee	Experience (Muscle): +2
@@ -5199,35 +5199,35 @@ Throne	Levitating Potato	Initiative: +20
 Throne	Li'l Xenomorph	Item Drop: +15, Drops Items
 Throne	Lil' Barrel Mimic	Experience: +2
 Throne	Llama Lama	Maximum HP: +10, Maximum MP: +10
-Throne	Machine Elf	Muscle: +7, Mysticality: +7, Moxie: +7, Drops Items, Variable
+Throne	Machine Elf	All Attributes: +7, Drops Items, Variable
 Throne	Mad Hatrack	none
 Throne	Magic Dragonfish	Spell Damage Percent: +15
 Throne	MagiMechTech MicroMechaMech	Muscle Percent: +15
 Throne	Mariachi Chihuahua	Experience (Moxie): +2
 Throne	Mechanical Songbird	Spell Damage Percent: 20
-Throne	Melodramedary	Muscle: +10, Mysticality: +10, Moxie: +10
+Throne	Melodramedary	All Attributes: +10
 Throne	Midget Clownfish	Spell Damage Percent: +10
 Throne	Mini Kiwi	Initiative: +30, Drops Items
 Throne	Mini-Adventurer	Muscle Percent: 10, Mysticality Percent: 10, Moxie Percent: 10, Drops Meat
 Throne	Mini-Crimbot	Cold Damage: +15
-Throne	Mini-Hipster	Muscle: +10, Mysticality: +10, Moxie: +10
+Throne	Mini-Hipster	All Attributes: +10
 Throne	Mini-Skulldozer	Initiative: +20
 Throne	Mini-Trainbot	Maximum HP: +10, Maximum MP: +10
 Throne	Miniature Sword & Martini Guy	none
 Throne	MiniMechaElf	Muscle Percent: +15
 Throne	Misshapen Animal Skeleton	Familiar Weight: +5, Drops Meat
 Throne	Mosquito	Weapon Damage Percent: +20
-Throne	Ms. Puck Man	Muscle: +10, Mysticality: +10, Moxie: +10, Drops Items
+Throne	Ms. Puck Man	All Attributes: +10, Drops Items
 Throne	Mu	none
 Throne	Mutant Cactus Bud	Meat Drop: +20
 Throne	Mutant Fire Ant	Hot Damage: +20
 Throne	Mutant Gila Monster	HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8
 Throne	Nanorhino	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Drops Meat
 Throne	Nervous Tick	Experience (Moxie): +2
-Throne	Ninja Pirate Zombie Robot	Muscle: +10, Mysticality: +10, Moxie: +10
+Throne	Ninja Pirate Zombie Robot	All Attributes: +10
 Throne	Ninja Snowflake	Moxie Percent: +15
 Throne	Nosy Nose	Moxie Percent: 15
-Throne	O.A.F.	Muscle: -10, Mysticality: -10, Moxie: -10
+Throne	O.A.F.	All Attributes: -10
 Throne	Observer	Item Drop: 10
 Throne	Obtuse Angel	Meat Drop: +20
 Throne	Oily Woim	Item Drop: +10, Drops Meat
@@ -5240,7 +5240,7 @@ Throne	Patriotic Eagle	Monster Level: +10
 Throne	Peace Turkey	Combat Rate: -5
 Throne	Penguin Goodfella	Familiar Weight: +5
 Throne	Peppermint Rhino	Weapon Damage Percent: +10
-Throne	Personal Raincloud	Muscle: +10, Mysticality: +10, Moxie: +10
+Throne	Personal Raincloud	All Attributes: +10
 Throne	Pet Anchor	Damage Reduction: 10
 Throne	Pet Cheezling	Spell Damage Percent: +15
 Throne	Pet Coral	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
@@ -5255,7 +5255,7 @@ Throne	Pottery Barn Owl	Hot Damage: +10, Drops Items
 Throne	Profane Parrot	none
 Throne	Proto-Protozoa	none
 Throne	Psychedelic Bear	Meat Drop: +20
-Throne	Puck Man	Muscle: +10, Mysticality: +10, Moxie: +10, Drops Items
+Throne	Puck Man	All Attributes: +10, Drops Items
 Throne	Purse Rat	Experience: +2
 Throne	Putty Buddy	Weapon Damage Percent: +20
 Throne	Pygmy Bugbear Shaman	Experience (Mysticality): +2
@@ -5268,9 +5268,9 @@ Throne	Reconstituted Crow	Item Drop: +10, Drops Items
 Throne	Red-Nosed Snapper	Experience: +1
 Throne	Restless Cow Skull	Spooky Damage: +15
 Throne	Rigging Snake	Maximum HP: +20
-Throne	RoboGoose	Muscle: +10, Mysticality: +10, Moxie: +10
+Throne	RoboGoose	All Attributes: +10
 Throne	Robortender	Meat Drop: +20
-Throne	Robot Reindeer	Muscle: +10, Mysticality: +10, Moxie: +10, Drops Items
+Throne	Robot Reindeer	All Attributes: +10, Drops Items
 Throne	Rock Lobster	Spell Damage Percent: +15
 Throne	Rockin' Robin	Item Drop: +15, Drops Meat
 Throne	Rogue Program	Spell Damage Percent: +10
@@ -5295,9 +5295,9 @@ Throne	Spooky Pirate Skeleton	Familiar Weight: +5
 Throne	Squamous Gibberer	Initiative: +20
 Throne	Stab Bat	Muscle Percent: +15
 Throne	Star Starfish	Spell Damage Percent: +10
-Throne	Steam-Powered Cheerleader	Muscle: +10, Mysticality: +10, Moxie: +10
+Throne	Steam-Powered Cheerleader	All Attributes: +10
 Throne	Stinky Gravy Fairy	Stench Damage: +20, Drops Items
-Throne	Stocking Mimic	Muscle: +10, Mysticality: +10, Moxie: +10, Drops Items
+Throne	Stocking Mimic	All Attributes: +10, Drops Items
 Throne	Stooper	none
 Throne	Sugar Fruit Fairy	Experience (Mysticality): +2
 Throne	Sweet Nutcracker	HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8, Drops Items
@@ -5307,11 +5307,11 @@ Throne	Synthetic Rock	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance
 Throne	Teddy Bear	Initiative: +20
 Throne	Teddy Borg	Initiative: +20
 Throne	Temporal Riftlet	Initiative: +20, Drops Meat
-Throne	Tickle-Me Emilio	Muscle: +10, Mysticality: +10, Moxie: +10
+Throne	Tickle-Me Emilio	All Attributes: +10
 Throne	Tiny Plastic Santa Claus Skeleton	Cold Resistance: +2, Lantern: 1, Lantern Element: "Hot"
 Throne	Toothsome Rock	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 Throne	Topiary Skunk	Stench Damage: +15
-Throne	Trick-or-Treating Tot	Muscle: +10, Mysticality: +10, Moxie: +10, Drops Items, Variable
+Throne	Trick-or-Treating Tot	All Attributes: +10, Drops Items, Variable
 Throne	Twitching Space Critter	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2, Drops Items, Variable
 Throne	Unconscious Collective	Maximum HP: 10, Maximum MP: 10
 Throne	Underworld Bonsai	Spell Damage Percent: +10
@@ -5324,11 +5324,11 @@ Throne	Warbear Drone	Maximum HP: +10, Maximum MP: +10, Drops Items
 Throne	Wereturtle	Muscle Percent: +15, Drops Meat
 Throne	Wet Paper Tiger	none
 Throne	Whirling Maple Leaf	Spell Damage Percent: +10
-Throne	Wild Hare	Muscle: +10, Mysticality: +10, Moxie: +10
+Throne	Wild Hare	All Attributes: +10
 Throne	Wind-up Chattering Teeth	Muscle Percent: +15
 Throne	Wizard Action Figure	Spell Damage Percent: +10
 Throne	Xiblaxian Holo-Companion	none
-Throne	XO Skeleton	Muscle: +10, Mysticality: +10, Moxie: +10
+Throne	XO Skeleton	All Attributes: +10
 Throne	Yule Hound	Candy Drop: +20, Drops Items
 Throne	Zapper Bug	MP Regen Min: 15, MP Regen Max: 20
 
@@ -5566,7 +5566,7 @@ Effect	[600]A Little Bit Evil	Monster Level: +2
 Effect	[601]A Little Bit Evil	Monster Level: +2
 Effect	[602]A Little Bit Evil	Monster Level: +2
 Effect	A Little Bit Frightening	Spooky Damage: [3*L]
-Effect	A Little Bit Poisoned	Muscle Percent: -30, Mysticality Percent: -30, Moxie Percent: -30, Muscle: -5, Mysticality: -5, Moxie: -5
+Effect	A Little Bit Poisoned	All Attributes Percent: -30, All Attributes: -5
 Effect	A Lovely Day for a Beatnik	Avatar: "Savage Beatnik"
 Effect	A Real Head for Fish	Fishing Skill: +10
 Effect	A Revolution in Your Mouth	Moxie Percent: -10
@@ -5717,7 +5717,7 @@ Effect	Baited Hook	Fishing Skill: +5
 Effect	Baja, Humbug	Item Drop: [50*env(underwater)]
 Effect	Balls of Ectoplasm	Spooky Resistance: +1
 Effect	Bananapalooza	Ranged Damage Percent: +100, Damage Reduction: 25
-Effect	Bananas!	Muscle: +40, Mysticality: +40, Moxie: +40
+Effect	Bananas!	All Attributes: +40
 Effect	Bandananit	Avatar: "dirty thieving brigand"
 Effect	Bandersnatched	Moxie: +5, Ranged Damage: +10
 Effect	Banono	Stench Damage: +40, Stench Spell Damage: +40
@@ -6776,7 +6776,7 @@ Effect	Happy Trails	Mysticality: +100
 Effect	Happy-go-meaty	Avatar: "bundle of Meat of Happiness"
 Effect	Hardened Fabric	Damage Reduction: 15
 Effect	Hardened Sweatshirt	Damage Absorption: +100, Damage Reduction: 10
-Effect	Hardly Poisoned at All	Muscle: -3, Mysticality: -3, Moxie: -3, Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10
+Effect	Hardly Poisoned at All	All Attributes: -3, All Attributes Percent: -10
 Effect	Hare-Brained	Muscle Limit: 400, Mysticality Limit: 400, Moxie Limit: 400
 Effect	Hare-o-dynamic	Initiative: +300
 Effect	Haunted Liver	Item Drop: +50, Meat Drop: +25
@@ -6793,12 +6793,12 @@ Effect	Healthy Red Glow	HP Regen Min: 6, HP Regen Max: 8
 Effect	Healthy, Elfy, and Wise	HP Regen Min: 8, HP Regen Max: 10
 Effect	Heart Aflame	Hot Damage: +50
 # Heart of Black: Damn, Gina
-Effect	Heart of Green	Muscle: +3, Mysticality: +3, Moxie: +3, Familiar Weight: +3
-Effect	Heart of Lavender	Muscle: +3, Mysticality: +3, Moxie: +3, Item Drop: +10
-Effect	Heart of Orange	Muscle: +3, Mysticality: +3, Moxie: +3, Hot Damage: +5, Hot Spell Damage: +5, HP Regen Min: 5, HP Regen Max: 6, MP Regen Min: 5, MP Regen Max: 6
-Effect	Heart of Pink	Muscle: +3, Mysticality: +3, Moxie: +3, Meat Drop: +20
-Effect	Heart of White	Muscle: +3, Mysticality: +3, Moxie: +3, Experience: +1, Experience (familiar): +1
-Effect	Heart of Yellow	Muscle: +3, Mysticality: +3, Moxie: +3, Initiative: +20
+Effect	Heart of Green	All Attributes: +3, Familiar Weight: +3
+Effect	Heart of Lavender	All Attributes: +3, Item Drop: +10
+Effect	Heart of Orange	All Attributes: +3, Hot Damage: +5, Hot Spell Damage: +5, HP Regen Min: 5, HP Regen Max: 6, MP Regen Min: 5, MP Regen Max: 6
+Effect	Heart of Pink	All Attributes: +3, Meat Drop: +20
+Effect	Heart of White	All Attributes: +3, Experience: +1, Experience (familiar): +1
+Effect	Heart of Yellow	All Attributes: +3, Initiative: +20
 # Heartstone Attunement: Variable
 Effect	Heated Up	Muscle Percent: +200, Mysticality Percent: +200, Moxie Percent: +200
 Effect	Heavily Breathing	Experience (Muscle): [L]
@@ -7182,7 +7182,7 @@ Effect	Magnetized Ears	Item Drop: +15
 Effect	Magreame Headache	Avatar: "Ice Cream Conjurer"
 Effect	Maid Disservice	Muscle Percent: -20, Mysticality Percent: -20, Moxie Percent: -20
 Effect	Majestic Neckbeard	Avatar: "Neckbeard Giant"
-Effect	Majorly Poisoned	Muscle Percent: -90, Mysticality Percent: -90, Moxie Percent: -90, Muscle: -11, Mysticality: -11, Moxie: -11
+Effect	Majorly Poisoned	All Attributes Percent: -90, All Attributes: -11
 Effect	Make Meat FA$T!	Meat Drop: +20
 Effect	Mallowed Out	Muscle Percent: [min(500,+5*T)], Mysticality Percent: [min(500,+5*T)], Moxie Percent: [min(500,+5*T)]
 Effect	Man's Worst Enemy	Familiar Weight: +5
@@ -7665,7 +7665,7 @@ Effect	Ready to Survive	Experience (Muscle): +1, Experience (Mysticality): +1, E
 Effect	Real Meat Craving	Meat Drop: +30
 Effect	Really Deep Breath	Adventure Underwater
 Effect	Really Hard	Damage Reduction: 50
-Effect	Really Quite Poisoned	Muscle Percent: -70, Mysticality Percent: -70, Moxie Percent: -70, Muscle: -9, Mysticality: -9, Moxie: -9
+Effect	Really Quite Poisoned	All Attributes Percent: -70, All Attributes: -9
 Effect	Really Thin Blood	Maximum HP: +100, Maximum HP Percent: +1000
 Effect	Reassured	Muscle: [10*interact()], Mysticality: [10*interact()], Moxie: [10*interact()]
 # Record Hunger: Food gives 100% more Adventures
@@ -7839,7 +7839,7 @@ Effect	Shortly Hydrated	Experience (familiar): +5, Familiar Action Bonus: +100
 Effect	Shortly Stacked	Familiar Weight: +10, Familiar Action Bonus: +100
 # Shortly Wired: Your familiar will act twice per round
 Effect	Shortly Wired	Familiar Action Bonus: +100
-Effect	Shot in the Arse	Muscle: +15, Mysticality: +15, Moxie: +15
+Effect	Shot in the Arse	All Attributes: +15
 Effect	Shredding, Sweating	Weapon Damage Percent: +25
 Effect	Shrieking Weasel	Monster Level: +30
 Effect	Shrimpin' Ain't Easy	Familiar Weight: +5
@@ -7957,7 +7957,7 @@ Effect	Sole Soul	Item Drop: [min(300,T)]
 Effect	Soles of Glass	Initiative: +20
 Effect	Some Cheese with Your Wine	Stench Damage: +30, Stench Spell Damage: +30
 Effect	Something's Amistress	Avatar: "remains of a jilted mistress"
-Effect	Somewhat Poisoned	Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -50, Muscle: -7, Mysticality: -7, Moxie: -7
+Effect	Somewhat Poisoned	All Attributes Percent: -50, All Attributes: -7
 Effect	Song of Accompaniment	Minstrel Level: +3
 Effect	Song of Battle	Combat Rate: +20, Weapon Damage Percent: +100, Attacks Can't Miss
 Effect	Song of Bravado	Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +15
@@ -8635,7 +8635,7 @@ Effect	You're Rubber	Damage Reduction: 20
 # You've Got a Stew Going!: +500% Item Drops from Monsters (Dreadsylvania only)
 Effect	You've Got a Stew Going!	Item Drop: [500*zone(Dreadsylvania)]
 Effect	You've Got Questions	Avatar: "The Inquisitor"
-Effect	Your #1 Problem	Muscle: -20, Mysticality: -20, Moxie: -20, Item Drop: +100
+Effect	Your #1 Problem	All Attributes: -20, Item Drop: +100
 Effect	Your Cupcake Senses Are Tingling	Meat Drop: +30
 Effect	Your Days Are Numbed	Familiar Weight: +5, Experience (familiar): +5
 Effect	Your Eyes are Peeled!	Item Drop: +25
