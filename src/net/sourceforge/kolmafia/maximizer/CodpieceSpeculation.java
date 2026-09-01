@@ -185,7 +185,7 @@ final class CodpieceSpeculation {
                   .allMatch(
                       slot -> EquipmentManager.getEquipment(slot).equals(EquipmentRequest.UNEQUIP));
       LateCodpieceCache cache =
-          this.canUseLateCodpieceCache(codpieceGems, codpieceSlots)
+          this.canUseLateCodpieceCache(codpieceGems)
               ? this.primeLateCodpieceCache(plan, codpieceSlots)
               : null;
       CodpieceSearch search =
@@ -241,16 +241,7 @@ final class CodpieceSpeculation {
     }
   }
 
-  private boolean canUseLateCodpieceCache(List<CheckedItem> possibles, List<Slot> slots) {
-    for (Slot slot : slots) {
-      AdventureResult equipped = this.owner.equipment.get(slot);
-      if (equipped != null
-          && equipped != EquipmentRequest.UNEQUIP
-          && !this.isSafeLateCodpieceGem(equipped.getItemId())) {
-        return false;
-      }
-    }
-
+  private boolean canUseLateCodpieceCache(List<CheckedItem> possibles) {
     for (CheckedItem possible : possibles) {
       if (!this.isSafeLateCodpieceGem(possible.getItemId())) {
         return false;
