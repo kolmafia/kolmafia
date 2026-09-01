@@ -1013,7 +1013,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
               .anyMatch(i -> i == skillId);
 
       if (codpiecePossible) {
-        possibleEquipment.add(ItemPool.get(ItemPool.THE_ETERNITY_CODPIECE));
+        possibleEquipment.addFirst(ItemPool.get(ItemPool.THE_ETERNITY_CODPIECE));
       }
 
       if (!possibleEquipment.isEmpty()) {
