@@ -134,6 +134,23 @@ class StationaryButtonDecoratorTest {
             "steal monster's heart: t -> ta", StationaryButtonDecorator.getActionName("7585"));
       }
     }
+
+    @Test
+    void stealHeartRestartsWordWhenFull() {
+      var cleanups =
+          new Cleanups(
+              withProperty("heartstoneLetters", "GONE"),
+              withFight(),
+              withNextMonster("oil cartel"));
+
+      try (cleanups) {
+        assertEquals(
+            "Steal Monster's Heart: GONE -> A",
+            SkillDatabase.getPrettySkillName(SkillPool.STEAL_HEART));
+        assertEquals(
+            "steal monster's heart: gone -> a", StationaryButtonDecorator.getActionName("7585"));
+      }
+    }
   }
 
   @Nested
