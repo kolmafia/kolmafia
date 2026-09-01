@@ -1,6 +1,5 @@
 package net.sourceforge.kolmafia.maximizer;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.List;
@@ -9,23 +8,46 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.modifiers.BitmapModifier;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
-import net.sourceforge.kolmafia.modifiers.DerivedModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 
+/**
+ * Conservative branch bounds for Codpiece gem search. Unsupported interactions must disable a bound
+ * rather than risk underestimating a reachable score.
+ */
 final class CodpiecePruning {
-  record FamiliarScoreContributions(int gemIndex, Map<DoubleModifier, Double> ceilings) {
-    boolean affects(DoubleModifier modifier) {
-      return this.ceilings.containsKey(modifier);
+  static boolean forceExhaustiveForTests;
+
+  record ContributionRange(double minimum, double maximum) {
+    ContributionRange include(double value) {
+      return new ContributionRange(Math.min(this.minimum, value), Math.max(this.maximum, value));
+    }
+  }
+
+  record FamiliarScoreContributions(
+      int gemIndex,
+      Map<DoubleModifier, ContributionRange> ranges,
+      Map<DoubleModifier, ContributionRange> baselines) {
+    FamiliarScoreContributions(int gemIndex, Map<DoubleModifier, ContributionRange> ranges) {
+      this(gemIndex, ranges, Map.of());
     }
 
-    Double ceiling(DoubleModifier modifier, int gemIndex) {
-      return this.gemIndex == gemIndex ? this.ceilings.get(modifier) : null;
+    Double bound(DoubleModifier modifier, int gemIndex, boolean maximum) {
+      if (this.gemIndex != gemIndex) {
+        return null;
+      }
+      ContributionRange range = this.ranges.get(modifier);
+      return range == null ? null : maximum ? range.maximum() : range.minimum();
+    }
+
+    double baseline(DoubleModifier modifier, boolean maximum) {
+      ContributionRange range = this.baselines.get(modifier);
+      return range == null ? 0.0 : maximum ? range.maximum() : range.minimum();
     }
 
     boolean isEmpty() {
-      return this.ceilings.isEmpty();
+      return this.ranges.isEmpty();
     }
   }
 
@@ -38,6 +60,7 @@ final class CodpiecePruning {
           DoubleModifier.CANDYDROP,
           DoubleModifier.DAMAGE_ABSORPTION,
           DoubleModifier.DAMAGE_REDUCTION,
+          DoubleModifier.ENCHANTMENT_COUNT,
           DoubleModifier.FAIRY_EFFECTIVENESS,
           DoubleModifier.FAIRY_WEIGHT,
           DoubleModifier.FAMILIAR_DAMAGE,
@@ -55,10 +78,10 @@ final class CodpiecePruning {
           DoubleModifier.MEAT_BONUS,
           DoubleModifier.MONSTER_LEVEL,
           DoubleModifier.MONSTER_LEVEL_PERCENT,
-          DoubleModifier.MP_REGEN_MAX,
-          DoubleModifier.MP_REGEN_MIN,
           DoubleModifier.MOX_EXPERIENCE,
           DoubleModifier.MOX_EXPERIENCE_PCT,
+          DoubleModifier.MP_REGEN_MAX,
+          DoubleModifier.MP_REGEN_MIN,
           DoubleModifier.MUS_EXPERIENCE,
           DoubleModifier.MUS_EXPERIENCE_PCT,
           DoubleModifier.MYS_EXPERIENCE,
@@ -71,6 +94,7 @@ final class CodpiecePruning {
           DoubleModifier.PVP_FIGHTS,
           DoubleModifier.SEAL_DAMAGE,
           DoubleModifier.SHIRTDROP,
+          DoubleModifier.SLIME_RESISTANCE,
           DoubleModifier.SOMBRERO_BONUS,
           DoubleModifier.SOMBRERO_EFFECTIVENESS,
           DoubleModifier.SOMBRERO_WEIGHT,
@@ -85,6 +109,108 @@ final class CodpiecePruning {
           DoubleModifier.WEAPONDROP,
           DoubleModifier.WEREWOLF_DAMAGE,
           DoubleModifier.ZOMBIE_DAMAGE);
+
+  // These are safe as objectives with today's gems, but not necessarily as future gem inputs.
+  private static final EnumSet<DoubleModifier> DIRECT_SCORE_MODIFIERS =
+      EnumSet.of(
+          DoubleModifier.ABSORB_ADV,
+          DoubleModifier.ABSORB_STAT,
+          DoubleModifier.ADDITIONAL_SONG,
+          DoubleModifier.AVOID_ATTACK,
+          DoubleModifier.BASE_RESTING_HP,
+          DoubleModifier.BASE_RESTING_MP,
+          DoubleModifier.BONUS_RESTING_HP,
+          DoubleModifier.BONUS_RESTING_MP,
+          DoubleModifier.BOOZE_FAIRY_EFFECTIVENESS,
+          DoubleModifier.BOOZE_FAIRY_WEIGHT,
+          DoubleModifier.CANDY_FAIRY_EFFECTIVENESS,
+          DoubleModifier.CANDY_FAIRY_WEIGHT,
+          DoubleModifier.COMBAT_ITEM_DAMAGE_PCT,
+          DoubleModifier.COMBAT_MANA_COST,
+          DoubleModifier.CRIMBOT_POWER,
+          DoubleModifier.CRITICAL_PCT,
+          DoubleModifier.DB_COMBAT_DAMAGE,
+          DoubleModifier.DB_COMBAT_WEAKEN,
+          DoubleModifier.DISCO_STYLE,
+          DoubleModifier.DRIPPY_DAMAGE,
+          DoubleModifier.DRIPPY_RESISTANCE,
+          DoubleModifier.EFFECT_DURATION,
+          DoubleModifier.ELF_WARFARE_EFFECTIVENESS,
+          DoubleModifier.ENERGY,
+          DoubleModifier.FAMILIAR_ACTION_BONUS,
+          DoubleModifier.FAMILIAR_TUNING_MOXIE,
+          DoubleModifier.FAMILIAR_TUNING_MUSCLE,
+          DoubleModifier.FAMILIAR_TUNING_MYSTICALITY,
+          DoubleModifier.FAMILIAR_WEIGHT_CAP,
+          DoubleModifier.FAMILIAR_WEIGHT_PCT,
+          DoubleModifier.FIRST_HIT_DAMAGE_REDUCTION,
+          DoubleModifier.FOOD_FAIRY_EFFECTIVENESS,
+          DoubleModifier.FOOD_FAIRY_WEIGHT,
+          DoubleModifier.FREE_RESTS,
+          DoubleModifier.HIDDEN_FAMILIAR_WEIGHT,
+          DoubleModifier.HAT_PANTS_DROP,
+          DoubleModifier.HOBO_POWER,
+          DoubleModifier.HP_PCT,
+          DoubleModifier.INITIATIVE_PENALTY,
+          DoubleModifier.ITEMDROP_PENALTY,
+          DoubleModifier.KILL_MORE_SKELETONS,
+          DoubleModifier.KRUEGERAND_DROP,
+          DoubleModifier.LANTERN,
+          DoubleModifier.LEAVES,
+          DoubleModifier.LIVER_CAPACITY,
+          DoubleModifier.LUCK,
+          DoubleModifier.MAXIMUM_HOOCH,
+          DoubleModifier.MAXIMUM_HP_MP,
+          DoubleModifier.MEATDROP_PENALTY,
+          DoubleModifier.MERKIN_DAMAGE,
+          DoubleModifier.MINSTREL_LEVEL,
+          DoubleModifier.MOX_PCT,
+          DoubleModifier.MOX_LIMIT,
+          DoubleModifier.MP_PCT,
+          DoubleModifier.MPC_DROP,
+          DoubleModifier.MUS_PCT,
+          DoubleModifier.MUS_LIMIT,
+          DoubleModifier.MYS_PCT,
+          DoubleModifier.MYS_LIMIT,
+          DoubleModifier.ORC_DAMAGE,
+          DoubleModifier.OTHELLO_SKILL,
+          DoubleModifier.PIECE_OF_TWELVE_DROP,
+          DoubleModifier.PIRATE_WARFARE_EFFECTIVENESS,
+          DoubleModifier.PLUMBER_POWER,
+          DoubleModifier.POISON_CHANCE,
+          DoubleModifier.POTION_DROP,
+          DoubleModifier.PP,
+          DoubleModifier.PRISMATIC_DAMAGE,
+          DoubleModifier.RAM,
+          DoubleModifier.RANDOM_MONSTER_MODIFIERS,
+          DoubleModifier.RANGED_DAMAGE_PCT,
+          DoubleModifier.RAW_COMBAT_RATE,
+          DoubleModifier.REDUCE_ENEMY_DEFENSE,
+          DoubleModifier.RESTING_HP_PCT,
+          DoubleModifier.RESTING_MP_PCT,
+          DoubleModifier.ROLLOVER_EFFECT_DURATION,
+          DoubleModifier.RUBEE_DROP,
+          DoubleModifier.SAUCE_SPELL_DAMAGE,
+          DoubleModifier.SCRAP,
+          DoubleModifier.SIXGUN_DAMAGE,
+          DoubleModifier.SKELETON_DAMAGE,
+          DoubleModifier.SLIME_HATES_IT,
+          DoubleModifier.SMITHSNESS,
+          DoubleModifier.SONG_DURATION,
+          DoubleModifier.SPELL_CRITICAL_PCT,
+          DoubleModifier.SPLEEN_CAPACITY,
+          DoubleModifier.SPLEEN_DROP,
+          DoubleModifier.SPRINKLES,
+          DoubleModifier.STACKABLE_MANA_COST,
+          DoubleModifier.STOMACH_CAPACITY,
+          DoubleModifier.SUPERCOLD_RESISTANCE,
+          DoubleModifier.UNDEAD_DAMAGE,
+          DoubleModifier.UNDERWATER_COMBAT_RATE,
+          DoubleModifier.WARBEAR_ARMOR_PENETRATION,
+          DoubleModifier.WARBEAR_ITEM_DROP,
+          DoubleModifier.WATER,
+          DoubleModifier.WATER_LEVEL,
+          DoubleModifier.WEAPON_DAMAGE_PCT);
 
   private static final EnumSet<DoubleModifier> TIEBREAKER_MODIFIERS =
       EnumSet.of(
@@ -189,8 +315,18 @@ final class CodpiecePruning {
   }
 
   static boolean supportsScoreTerm(
-      DoubleModifier modifier, double weight, Modifiers baseline, Modifiers[] gemModifiers) {
-    return supportsScoreTerm(modifier, weight, baseline, gemModifiers, null);
+      DoubleModifier modifier,
+      double weight,
+      Modifiers baseline,
+      Modifiers[] gemModifiers,
+      FamiliarScoreContributions familiarScoreContributions) {
+    return supportsScoreTerm(
+        modifier,
+        weight,
+        baseline,
+        gemModifiers,
+        familiarScoreContributions,
+        Arrays.stream(gemModifiers).allMatch(CodpiecePruning::hasOnlySupportedTiebreakerModifiers));
   }
 
   static boolean supportsScoreTerm(
@@ -198,11 +334,22 @@ final class CodpiecePruning {
       double weight,
       Modifiers baseline,
       Modifiers[] gemModifiers,
-      FamiliarScoreContributions familiarScoreContributions) {
-    return ADDITIVE_MODIFIERS.contains(modifier)
-        || (supportsDirectScoreBound(modifier, weight, gemModifiers, familiarScoreContributions)
-            && Arrays.stream(gemModifiers)
-                .allMatch(CodpiecePruning::hasOnlySupportedTiebreakerModifiers))
+      FamiliarScoreContributions familiarScoreContributions,
+      boolean hasOnlySupportedTiebreakerModifiers) {
+    return (isExperienceScoreModifier(modifier)
+            && supportsDirectScoreBound(modifier, weight, gemModifiers, familiarScoreContributions)
+            && hasOnlySupportedTiebreakerModifiers)
+        || (isSpecialFoldScoreModifier(modifier)
+            && supportsDirectScoreBound(modifier, weight, gemModifiers, familiarScoreContributions))
+        || (!isExperienceScoreModifier(modifier)
+            && !isSpecialFoldScoreModifier(modifier)
+            && ADDITIVE_MODIFIERS.contains(modifier))
+        || (!isExperienceScoreModifier(modifier)
+            && !isSpecialFoldScoreModifier(modifier)
+            && (DIRECT_SCORE_MODIFIERS.contains(modifier)
+                || supportsDirectScoreBound(
+                    modifier, weight, gemModifiers, familiarScoreContributions))
+            && hasOnlySupportedTiebreakerModifiers)
         || canBoundDerivedStat(modifier, weight, baseline, gemModifiers)
         || canBoundHitPoints(modifier, weight, baseline, gemModifiers)
         || canBoundManaPoints(modifier, weight, baseline, gemModifiers);
@@ -213,33 +360,50 @@ final class CodpiecePruning {
       double weight,
       Modifiers[] gemModifiers,
       FamiliarScoreContributions familiarScoreContributions) {
-    if (!TIEBREAKER_MODIFIERS.contains(modifier)
-        || (modifier == DoubleModifier.EXPERIENCE
-            && (weight <= 0.0
-                || Arrays.stream(gemModifiers)
-                        .filter(CodpiecePruning.ScoreUpperBound::affectsExperience)
-                        .count()
-                    > 8))) {
+    if ((!TIEBREAKER_MODIFIERS.contains(modifier)
+            && !isExperienceScoreModifier(modifier)
+            && !isSpecialFoldScoreModifier(modifier))
+        || (isExperienceScoreModifier(modifier)
+            && Arrays.stream(gemModifiers)
+                    .filter(modifiers -> affectsExperience(modifiers, modifier))
+                    .count()
+                > 8)) {
+      return false;
+    }
+    if ((modifier == DoubleModifier.HAT_PANTS_DROP || modifier == DoubleModifier.MAXIMUM_HP_MP)
+        && Arrays.stream(gemModifiers)
+            .filter(java.util.Objects::nonNull)
+            .anyMatch(
+                modifiers -> modifiers.hasDoubleModifier(candidate -> candidate == modifier))) {
       return false;
     }
     if (modifier != DoubleModifier.ITEMDROP
         && modifier != DoubleModifier.MEATDROP
-        && modifier != DoubleModifier.EXPERIENCE) {
+        && !isExperienceScoreModifier(modifier)) {
       return true;
     }
+
     if (familiarScoreContributions == null) {
       return Arrays.stream(gemModifiers).noneMatch(CodpiecePruning::affectsFamiliarCalculation);
     }
-    boolean affected = familiarScoreContributions.affects(modifier);
-    if (modifier == DoubleModifier.EXPERIENCE) {
-      return !affected;
-    }
-    return !affected || weight > 0.0;
+    return true;
   }
 
-  static boolean supportsTiebreakerTerm(
-      DoubleModifier modifier, double weight, Modifiers baseline, Modifiers[] gemModifiers) {
-    return supportsTiebreakerTerm(modifier, weight, baseline, gemModifiers, null);
+  static boolean isExperienceScoreModifier(DoubleModifier modifier) {
+    return modifier == DoubleModifier.EXPERIENCE
+        || modifier == DoubleModifier.MUS_EXPERIENCE
+        || modifier == DoubleModifier.MYS_EXPERIENCE
+        || modifier == DoubleModifier.MOX_EXPERIENCE;
+  }
+
+  static boolean isSpecialFoldScoreModifier(DoubleModifier modifier) {
+    return modifier == DoubleModifier.FAMILIAR_WEIGHT_PCT
+        || modifier == DoubleModifier.MUS_LIMIT
+        || modifier == DoubleModifier.MYS_LIMIT
+        || modifier == DoubleModifier.MOX_LIMIT
+        || modifier == DoubleModifier.PRISMATIC_DAMAGE
+        || modifier == DoubleModifier.HAT_PANTS_DROP
+        || modifier == DoubleModifier.MAXIMUM_HP_MP;
   }
 
   static boolean supportsTiebreakerTerm(
@@ -250,14 +414,14 @@ final class CodpiecePruning {
       FamiliarScoreContributions familiarScoreContributions) {
     if ((modifier == DoubleModifier.ITEMDROP
             || modifier == DoubleModifier.MEATDROP
-            || modifier == DoubleModifier.EXPERIENCE)
+            || isExperienceScoreModifier(modifier))
         && Arrays.stream(gemModifiers).anyMatch(CodpiecePruning::affectsFamiliarCalculation)
-        && (familiarScoreContributions == null
-            || familiarScoreContributions.affects(modifier)
-                && (modifier == DoubleModifier.EXPERIENCE || weight <= 0.0))) {
+        && familiarScoreContributions == null) {
       return false;
     }
-    return ADDITIVE_MODIFIERS.contains(modifier)
+    return (isExperienceScoreModifier(modifier)
+            && supportsDirectScoreBound(modifier, weight, gemModifiers, familiarScoreContributions))
+        || (!isExperienceScoreModifier(modifier) && ADDITIVE_MODIFIERS.contains(modifier))
         || TIEBREAKER_MODIFIERS.contains(modifier)
         || canBoundDerivedStat(modifier, weight, baseline, gemModifiers)
         || canBoundHitPoints(modifier, weight, baseline, gemModifiers)
@@ -273,9 +437,21 @@ final class CodpiecePruning {
           case MOX -> StringModifier.FLOOR_BUFFED_MOXIE;
           default -> null;
         };
-    if (floor == null || weight <= 0.0 || baseline.hasString(floor)) {
+    if (floor == null || baseline.hasString(floor)) {
       return false;
     }
+    DoubleModifier flat =
+        switch (modifier) {
+          case MUS -> DoubleModifier.MUS;
+          case MYS -> DoubleModifier.MYS;
+          default -> DoubleModifier.MOX;
+        };
+    DoubleModifier percent =
+        switch (modifier) {
+          case MUS -> DoubleModifier.MUS_PCT;
+          case MYS -> DoubleModifier.MYS_PCT;
+          default -> DoubleModifier.MOX_PCT;
+        };
     DoubleModifier limit =
         switch (modifier) {
           case MUS -> DoubleModifier.MUS_LIMIT;
@@ -293,7 +469,8 @@ final class CodpiecePruning {
           && (modifiers.getDouble(limit) != 0.0
               || modifiers.hasString(StringModifier.EQUALIZE)
               || modifiers.hasString(equalize)
-              || modifiers.hasString(floor))) {
+              || modifiers.hasString(floor)
+              || (weight < 0.0 && hasNegativeContribution(modifiers, flat, percent)))) {
         return false;
       }
     }
@@ -303,7 +480,6 @@ final class CodpiecePruning {
   private static boolean canBoundManaPoints(
       DoubleModifier modifier, double weight, Modifiers baseline, Modifiers[] gemModifiers) {
     if (modifier != DoubleModifier.MP
-        || weight <= 0.0
         || KoLCharacter.isGreyGoo()
         || baseline.hasString(StringModifier.FLOOR_BUFFED_MYST)
         || baseline.hasString(StringModifier.FLOOR_BUFFED_MOXIE)) {
@@ -319,7 +495,16 @@ final class CodpiecePruning {
               || modifiers.hasString(StringModifier.FLOOR_BUFFED_MYST)
               || modifiers.hasString(StringModifier.FLOOR_BUFFED_MOXIE)
               || modifiers.getBoolean(BooleanModifier.MOXIE_CONTROLS_MP)
-              || modifiers.getBoolean(BooleanModifier.MOXIE_MAY_CONTROL_MP))) {
+              || modifiers.getBoolean(BooleanModifier.MOXIE_MAY_CONTROL_MP)
+              || (weight < 0.0
+                  && hasNegativeContribution(
+                      modifiers,
+                      DoubleModifier.MYS,
+                      DoubleModifier.MYS_PCT,
+                      DoubleModifier.MOX,
+                      DoubleModifier.MOX_PCT,
+                      DoubleModifier.MP,
+                      DoubleModifier.MP_PCT)))) {
         return false;
       }
     }
@@ -329,7 +514,6 @@ final class CodpiecePruning {
   private static boolean canBoundHitPoints(
       DoubleModifier modifier, double weight, Modifiers baseline, Modifiers[] gemModifiers) {
     if (modifier != DoubleModifier.HP
-        || weight <= 0.0
         || KoLCharacter.isVampyre()
         || KoLCharacter.inZootomist()
         || KoLCharacter.inRobocore()
@@ -342,11 +526,22 @@ final class CodpiecePruning {
           && (modifiers.getDouble(DoubleModifier.MUS_LIMIT) != 0.0
               || modifiers.hasString(StringModifier.EQUALIZE)
               || modifiers.hasString(StringModifier.EQUALIZE_MUSCLE)
-              || modifiers.hasString(StringModifier.FLOOR_BUFFED_MUSCLE))) {
+              || modifiers.hasString(StringModifier.FLOOR_BUFFED_MUSCLE)
+              || (weight < 0.0
+                  && hasNegativeContribution(
+                      modifiers,
+                      DoubleModifier.MUS,
+                      DoubleModifier.MUS_PCT,
+                      DoubleModifier.HP,
+                      DoubleModifier.HP_PCT)))) {
         return false;
       }
     }
     return true;
+  }
+
+  private static boolean hasNegativeContribution(Modifiers modifiers, DoubleModifier... inputs) {
+    return Arrays.stream(inputs).anyMatch(input -> modifiers.getDouble(input) < 0.0);
   }
 
   static boolean hasOnlySupportedTiebreakerModifiers(Modifiers modifiers) {
@@ -370,13 +565,73 @@ final class CodpiecePruning {
     return modifiers.getBoolean(BooleanModifier.VOLLEYBALL_OR_SOMBRERO);
   }
 
-  static long[] familiarCalculationValues(Modifiers modifiers) {
-    long[] values = new long[FAMILIAR_CALCULATION_MODIFIERS.size()];
-    int index = 0;
+  static double familiarWeightAdjustment(Modifiers modifiers) {
     for (DoubleModifier modifier : FAMILIAR_CALCULATION_MODIFIERS) {
-      values[index++] = Double.doubleToLongBits(modifiers.getDouble(modifier));
+      if (modifier != DoubleModifier.FAMILIAR_WEIGHT && modifiers.getDouble(modifier) != 0.0) {
+        return Double.NaN;
+      }
     }
-    return values;
+    return modifiers.getDouble(DoubleModifier.FAMILIAR_WEIGHT);
+  }
+
+  static double generalExperienceScoreMultiplier(Modifiers modifiers) {
+    double experienceMultiplier =
+        1.0 + modifiers.getDouble(DoubleModifier.primeStatExpPercent()) / 100.0;
+    return CodpieceScoreBound.primeStatExperienceDistribution(modifiers)
+        * experienceMultiplier
+        * experienceMultiplier
+        / 2.0;
+  }
+
+  static double familiarExperienceContribution(
+      DoubleModifier scoreModifier,
+      Modifiers modifiers,
+      double directExperience,
+      double generalExperience) {
+    if (scoreModifier == DoubleModifier.EXPERIENCE) {
+      return directExperience
+              * (1.0 + modifiers.getDouble(DoubleModifier.primeStatExpPercent()) / 100.0)
+              / 2.0
+          + generalExperience * generalExperienceScoreMultiplier(modifiers);
+    }
+    double direct = scoreModifier == DoubleModifier.primeStatExp() ? directExperience : 0.0;
+    double general =
+        generalExperience
+            * CodpieceScoreBound.statExperienceDistribution(scoreModifier, modifiers)
+            * (1.0
+                + modifiers.getDouble(CodpieceScoreBound.experiencePercent(scoreModifier)) / 100.0);
+    return direct + (KoLCharacter.inTheSource() ? general / 3.0 : general);
+  }
+
+  static boolean affectsExperience(Modifiers modifiers, DoubleModifier scoreModifier) {
+    if (modifiers == null) {
+      return false;
+    }
+    DoubleModifier statExperience =
+        scoreModifier == DoubleModifier.EXPERIENCE ? DoubleModifier.primeStatExp() : scoreModifier;
+    DoubleModifier statExperiencePercent = CodpieceScoreBound.experiencePercent(statExperience);
+    return modifiers.getDouble(DoubleModifier.MONSTER_LEVEL) != 0.0
+        || (scoreModifier == DoubleModifier.EXPERIENCE
+            && modifiers.getDouble(DoubleModifier.MONSTER_LEVEL_PERCENT) != 0.0)
+        || modifiers.getDouble(DoubleModifier.EXPERIENCE) != 0.0
+        || modifiers.getDouble(statExperience) != 0.0
+        || modifiers.getDouble(statExperiencePercent) != 0.0;
+  }
+
+  static void addExperienceInputs(Modifiers target, Modifiers source) {
+    for (DoubleModifier modifier :
+        List.of(
+            DoubleModifier.MONSTER_LEVEL,
+            DoubleModifier.MONSTER_LEVEL_PERCENT,
+            DoubleModifier.EXPERIENCE,
+            DoubleModifier.MUS_EXPERIENCE,
+            DoubleModifier.MUS_EXPERIENCE_PCT,
+            DoubleModifier.MYS_EXPERIENCE,
+            DoubleModifier.MYS_EXPERIENCE_PCT,
+            DoubleModifier.MOX_EXPERIENCE,
+            DoubleModifier.MOX_EXPERIENCE_PCT)) {
+      target.setDouble(modifier, target.getDouble(modifier) + source.getDouble(modifier));
+    }
   }
 
   private static boolean hasOnlySupportedModifiers(
@@ -412,614 +667,6 @@ final class CodpiecePruning {
     return true;
   }
 
-  static final class ScoreUpperBound {
-    private final List<Evaluator.ScoreTerm> scoreModifiers;
-    private final double[] baseline;
-    private final double[][] contributions;
-    private final double[][][] suffixContributions;
-    private final double[][][] maximumSuffixContributions;
-    private final double[] selectedContributions;
-    private final boolean[] jointModifiers;
-    private final double[] jointContributions;
-    private final double[][] jointSuffixContributions;
-    private final double[] itemContributions;
-    private final double[][] itemSuffixContributions;
-    private double selectedJointContribution;
-    private double selectedItemContribution;
-    private double jointBaseline;
-    private final double totalMin;
-    private final double fixedScore;
-    private final boolean exact;
-    private final boolean canMeetHardRequirements;
-
-    ScoreUpperBound(
-        List<Evaluator.ScoreTerm> scoreModifiers,
-        Modifiers baseline,
-        Modifiers[] gemModifiers,
-        int[] remaining,
-        int slotCount,
-        double totalMin,
-        double fixedScore,
-        boolean exact,
-        boolean combineContributions,
-        double[] itemContributions,
-        FamiliarScoreContributions familiarScoreContributions,
-        boolean canMeetHardRequirements) {
-      this.scoreModifiers = scoreModifiers;
-      this.baseline = new double[scoreModifiers.size()];
-      this.contributions = new double[scoreModifiers.size()][gemModifiers.length];
-      this.suffixContributions =
-          new double[scoreModifiers.size()][gemModifiers.length + 1][slotCount];
-      this.maximumSuffixContributions =
-          totalMin != Double.NEGATIVE_INFINITY
-                  || scoreModifiers.stream()
-                      .anyMatch(modifier -> modifier.min() != Double.NEGATIVE_INFINITY)
-              ? new double[scoreModifiers.size()][gemModifiers.length + 1][slotCount]
-              : null;
-      this.selectedContributions = new double[scoreModifiers.size()];
-      this.totalMin = totalMin;
-      this.fixedScore = fixedScore;
-      this.canMeetHardRequirements = canMeetHardRequirements;
-      this.exact =
-          exact
-              && (familiarScoreContributions == null || familiarScoreContributions.isEmpty())
-              && scoreModifiers.stream()
-                  .noneMatch(
-                      modifier ->
-                          modifier.modifier() == DoubleModifier.MUS
-                              || modifier.modifier() == DoubleModifier.MYS
-                              || modifier.modifier() == DoubleModifier.MOX
-                              || modifier.modifier() == DoubleModifier.HP
-                              || modifier.modifier() == DoubleModifier.MP
-                              || modifier.modifier() == DoubleModifier.EXPERIENCE);
-      this.jointModifiers = combineContributions ? new boolean[scoreModifiers.size()] : null;
-      this.jointContributions = combineContributions ? new double[gemModifiers.length] : null;
-      this.jointSuffixContributions =
-          combineContributions ? new double[gemModifiers.length + 1][slotCount] : null;
-      boolean hasItemContributions =
-          Arrays.stream(itemContributions).anyMatch(value -> value != 0.0);
-      this.itemContributions = hasItemContributions ? itemContributions : null;
-      this.itemSuffixContributions =
-          hasItemContributions ? new double[gemModifiers.length + 1][slotCount] : null;
-
-      Map<DerivedModifier, Integer> predicted = null;
-      double baseStatUpperBound =
-          Math.max(
-              KoLCharacter.getBaseMuscle(),
-              Math.max(KoLCharacter.getBaseMysticality(), KoLCharacter.getBaseMoxie()));
-      double[] maximumMuscleContributions = new double[slotCount];
-      double[] maximumHitPointPercentContributions = new double[slotCount];
-      double[] maximumMysticalityContributions = new double[slotCount];
-      double[] maximumMoxieContributions = new double[slotCount];
-      double[] maximumManaPointPercentContributions = new double[slotCount];
-      for (int gemIndex = 0; gemIndex < gemModifiers.length; gemIndex++) {
-        Modifiers modifiers = gemModifiers[gemIndex];
-        if (modifiers == null) {
-          continue;
-        }
-        double muscleContribution =
-            derivedStatContribution(
-                modifiers, DoubleModifier.MUS, DoubleModifier.MUS_PCT, baseStatUpperBound);
-        double hitPointPercent = Math.max(0.0, modifiers.getDouble(DoubleModifier.HP_PCT));
-        double mysticalityContribution =
-            derivedStatContribution(
-                modifiers, DoubleModifier.MYS, DoubleModifier.MYS_PCT, baseStatUpperBound);
-        double moxieContribution =
-            derivedStatContribution(
-                modifiers, DoubleModifier.MOX, DoubleModifier.MOX_PCT, baseStatUpperBound);
-        double manaPointPercent = Math.max(0.0, modifiers.getDouble(DoubleModifier.MP_PCT));
-        for (int copy = 0; copy < Math.min(remaining[gemIndex], slotCount); copy++) {
-          insertContribution(maximumMuscleContributions, muscleContribution, true);
-          insertContribution(maximumHitPointPercentContributions, hitPointPercent, true);
-          insertContribution(maximumMysticalityContributions, mysticalityContribution, true);
-          insertContribution(maximumMoxieContributions, moxieContribution, true);
-          insertContribution(maximumManaPointPercentContributions, manaPointPercent, true);
-        }
-      }
-      double maximumMuscleContribution = Arrays.stream(maximumMuscleContributions).sum();
-      double maximumHitPointPercent =
-          baseline.getDouble(DoubleModifier.HP_PCT)
-              + Arrays.stream(maximumHitPointPercentContributions).sum();
-      double maximumBuffedMuscle =
-          baseline.predict().get(DerivedModifier.BUFFED_MUS) + maximumMuscleContribution;
-      double maximumHitPointBase = Math.max(0.0, maximumBuffedMuscle + 3.0);
-      double maximumHitPointMultiplier =
-          Math.max(
-              0.0, (KoLCharacter.isMuscleClass() ? 1.5 : 1.0) + maximumHitPointPercent / 100.0);
-      double maximumMysticality =
-          baseline.predict().get(DerivedModifier.BUFFED_MYS)
-              + Arrays.stream(maximumMysticalityContributions).sum();
-      double maximumMoxie =
-          baseline.predict().get(DerivedModifier.BUFFED_MOX)
-              + Arrays.stream(maximumMoxieContributions).sum();
-      double maximumManaPointBase = Math.max(0.0, Math.max(maximumMysticality, maximumMoxie));
-      double maximumManaPointPercent =
-          baseline.getDouble(DoubleModifier.MP_PCT)
-              + Arrays.stream(maximumManaPointPercentContributions).sum();
-      double maximumManaPointMultiplier =
-          Math.max(
-              0.0,
-              (KoLCharacter.isMysticalityClass() ? 1.5 : 1.0) + maximumManaPointPercent / 100.0);
-      double[] maximumExperienceMarginals =
-          maximumExperienceMarginals(baseline, gemModifiers, remaining, slotCount);
-      for (int modifierIndex = 0; modifierIndex < scoreModifiers.size(); modifierIndex++) {
-        Evaluator.ScoreTerm scoreModifier = scoreModifiers.get(modifierIndex);
-        DoubleModifier modifier = scoreModifier.modifier();
-        boolean descending = scoreModifier.weight() > 0.0;
-        if ((modifier == DoubleModifier.MUS
-                || modifier == DoubleModifier.MYS
-                || modifier == DoubleModifier.MOX
-                || modifier == DoubleModifier.HP
-                || modifier == DoubleModifier.MP)
-            && predicted == null) {
-          predicted = baseline.predict();
-        }
-        this.baseline[modifierIndex] = Evaluator.scoreValue(modifier, baseline, predicted);
-
-        for (int gemIndex = 0; gemIndex < gemModifiers.length; gemIndex++) {
-          Modifiers modifiers = gemModifiers[gemIndex];
-          if (modifiers != null) {
-            Double familiarCeiling =
-                familiarScoreContributions == null
-                    ? null
-                    : familiarScoreContributions.ceiling(modifier, gemIndex);
-            this.contributions[modifierIndex][gemIndex] =
-                familiarCeiling != null
-                    ? familiarCeiling
-                    : switch (modifier) {
-                      case MUS ->
-                          derivedStatContribution(
-                              modifiers,
-                              DoubleModifier.MUS,
-                              DoubleModifier.MUS_PCT,
-                              baseStatUpperBound);
-                      case MYS ->
-                          derivedStatContribution(
-                              modifiers,
-                              DoubleModifier.MYS,
-                              DoubleModifier.MYS_PCT,
-                              baseStatUpperBound);
-                      case MOX ->
-                          derivedStatContribution(
-                              modifiers,
-                              DoubleModifier.MOX,
-                              DoubleModifier.MOX_PCT,
-                              baseStatUpperBound);
-                      case HP ->
-                          hitPointContribution(
-                              modifiers,
-                              baseStatUpperBound,
-                              maximumHitPointBase,
-                              maximumHitPointMultiplier);
-                      case MP ->
-                          manaPointContribution(
-                              modifiers,
-                              baseStatUpperBound,
-                              maximumManaPointBase,
-                              maximumManaPointMultiplier);
-                      case EXPERIENCE -> maximumExperienceMarginals[gemIndex];
-                      case FAMILIAR_WEIGHT -> modifiers.getDouble(DoubleModifier.FAMILIAR_WEIGHT);
-                      case COMBAT_RATE -> modifiers.getDouble(DoubleModifier.RAW_COMBAT_RATE);
-                      case MANA_COST ->
-                          modifiers.getDouble(DoubleModifier.MANA_COST)
-                              + modifiers.getDouble(DoubleModifier.STACKABLE_MANA_COST);
-                      case ITEMDROP ->
-                          modifiers.getDouble(DoubleModifier.ITEMDROP)
-                              + Math.min(0.0, modifiers.getDouble(DoubleModifier.ITEMDROP_PENALTY))
-                              + modifiers.getDouble(DoubleModifier.SPORADIC_ITEMDROP);
-                      case MEATDROP ->
-                          modifiers.getDouble(DoubleModifier.MEATDROP)
-                              + Math.min(0.0, modifiers.getDouble(DoubleModifier.MEATDROP_PENALTY))
-                              + modifiers.getDouble(DoubleModifier.SPORADIC_MEATDROP)
-                              + modifiers.getDouble(DoubleModifier.MEAT_BONUS) / 10000.0;
-                      case WEAPON_DAMAGE ->
-                          modifiers.getDouble(DoubleModifier.WEAPON_DAMAGE)
-                              + modifiers.getDouble(DoubleModifier.WEAPON_DAMAGE_PCT);
-                      case RANGED_DAMAGE ->
-                          modifiers.getDouble(DoubleModifier.RANGED_DAMAGE)
-                              + modifiers.getDouble(DoubleModifier.RANGED_DAMAGE_PCT);
-                      case SPELL_DAMAGE ->
-                          modifiers.getDouble(DoubleModifier.SPELL_DAMAGE)
-                              + modifiers.getDouble(DoubleModifier.SPELL_DAMAGE_PCT);
-                      case DAMAGE_AURA ->
-                          modifiers.getDouble(DoubleModifier.DAMAGE_AURA)
-                              + modifiers.getDouble(DoubleModifier.SPORADIC_DAMAGE_AURA);
-                      case THORNS ->
-                          modifiers.getDouble(DoubleModifier.THORNS)
-                              + modifiers.getDouble(DoubleModifier.SPORADIC_THORNS);
-                      default -> modifiers.getDouble(modifier);
-                    };
-          }
-        }
-
-        buildSuffix(
-            this.suffixContributions[modifierIndex],
-            this.contributions[modifierIndex],
-            remaining,
-            slotCount,
-            descending);
-        if (this.maximumSuffixContributions != null) {
-          buildSuffix(
-              this.maximumSuffixContributions[modifierIndex],
-              this.contributions[modifierIndex],
-              remaining,
-              slotCount,
-              true);
-        }
-      }
-      if (this.itemContributions != null) {
-        buildSuffix(
-            this.itemSuffixContributions, this.itemContributions, remaining, slotCount, true);
-      }
-      if (combineContributions) {
-        for (int modifierIndex = 0; modifierIndex < scoreModifiers.size(); modifierIndex++) {
-          DoubleModifier modifier = scoreModifiers.get(modifierIndex).modifier();
-          boolean joint =
-              modifier != DoubleModifier.MUS
-                  && modifier != DoubleModifier.MYS
-                  && modifier != DoubleModifier.MOX
-                  && modifier != DoubleModifier.HP
-                  && modifier != DoubleModifier.MP
-                  && modifier != DoubleModifier.EXPERIENCE;
-          this.jointModifiers[modifierIndex] = joint;
-          if (!joint) {
-            continue;
-          }
-          double weight = scoreModifiers.get(modifierIndex).weight();
-          this.jointBaseline += weight * this.baseline[modifierIndex];
-          for (int gemIndex = 0; gemIndex < gemModifiers.length; gemIndex++) {
-            this.jointContributions[gemIndex] +=
-                weight * this.contributions[modifierIndex][gemIndex];
-          }
-        }
-        buildSuffix(
-            this.jointSuffixContributions, this.jointContributions, remaining, slotCount, true);
-      }
-    }
-
-    private static void buildSuffix(
-        double[][] suffix,
-        double[] contributions,
-        int[] remaining,
-        int slotCount,
-        boolean descending) {
-      for (int start = contributions.length - 1; start >= 0; start--) {
-        double[] best = suffix[start];
-        System.arraycopy(suffix[start + 1], 0, best, 0, slotCount);
-        double contribution = beneficialContribution(contributions[start], descending);
-        for (int copy = 0; copy < Math.min(remaining[start], slotCount); copy++) {
-          insertContribution(best, contribution, descending);
-        }
-      }
-    }
-
-    private static double derivedStatContribution(
-        Modifiers modifiers,
-        DoubleModifier flatModifier,
-        DoubleModifier percentModifier,
-        double baseStatUpperBound) {
-      return Math.ceil(Math.max(0.0, modifiers.getDouble(flatModifier)))
-          + Math.ceil(
-              Math.max(0.0, modifiers.getDouble(percentModifier)) * baseStatUpperBound / 100.0);
-    }
-
-    private static double hitPointContribution(
-        Modifiers modifiers,
-        double baseStatUpperBound,
-        double maximumBase,
-        double maximumMultiplier) {
-      return Math.ceil(Math.max(0.0, modifiers.getDouble(DoubleModifier.HP)))
-          + Math.ceil(
-              derivedStatContribution(
-                      modifiers, DoubleModifier.MUS, DoubleModifier.MUS_PCT, baseStatUpperBound)
-                  * maximumMultiplier)
-          + Math.ceil(
-              Math.max(0.0, modifiers.getDouble(DoubleModifier.HP_PCT)) * maximumBase / 100.0);
-    }
-
-    private static double manaPointContribution(
-        Modifiers modifiers,
-        double baseStatUpperBound,
-        double maximumBase,
-        double maximumMultiplier) {
-      return Math.ceil(Math.max(0.0, modifiers.getDouble(DoubleModifier.MP)))
-          + Math.ceil(
-              Math.max(
-                      derivedStatContribution(
-                          modifiers,
-                          DoubleModifier.MYS,
-                          DoubleModifier.MYS_PCT,
-                          baseStatUpperBound),
-                      derivedStatContribution(
-                          modifiers,
-                          DoubleModifier.MOX,
-                          DoubleModifier.MOX_PCT,
-                          baseStatUpperBound))
-                  * maximumMultiplier)
-          + Math.ceil(
-              Math.max(0.0, modifiers.getDouble(DoubleModifier.MP_PCT)) * maximumBase / 100.0);
-    }
-
-    private static boolean affectsExperience(Modifiers modifiers) {
-      if (modifiers == null) {
-        return false;
-      }
-      return modifiers.getDouble(DoubleModifier.MONSTER_LEVEL) != 0.0
-          || modifiers.getDouble(DoubleModifier.MONSTER_LEVEL_PERCENT) != 0.0
-          || modifiers.getDouble(DoubleModifier.primeStatExp()) != 0.0
-          || modifiers.getDouble(DoubleModifier.primeStatExpPercent()) != 0.0;
-    }
-
-    private static double[] maximumExperienceMarginals(
-        Modifiers baseline, Modifiers[] gemModifiers, int[] remaining, int slotCount) {
-      var relevant = new ArrayList<Integer>();
-      for (int i = 0; i < gemModifiers.length; i++) {
-        if (affectsExperience(gemModifiers[i])) {
-          relevant.add(i);
-        }
-      }
-      double[] marginals = new double[gemModifiers.length];
-      collectExperienceMarginals(
-          baseline,
-          gemModifiers,
-          remaining,
-          relevant,
-          new int[gemModifiers.length],
-          marginals,
-          0,
-          0,
-          slotCount);
-      return marginals;
-    }
-
-    private static void collectExperienceMarginals(
-        Modifiers current,
-        Modifiers[] gemModifiers,
-        int[] remaining,
-        List<Integer> relevant,
-        int[] used,
-        double[] marginals,
-        int start,
-        int selected,
-        int slotCount) {
-      double currentExperience = Evaluator.scoreValue(DoubleModifier.EXPERIENCE, current, null);
-      for (int gemIndex : relevant) {
-        if (used[gemIndex] >= remaining[gemIndex]) {
-          continue;
-        }
-        var next = new Modifiers(current);
-        addExperienceInputs(next, gemModifiers[gemIndex]);
-        marginals[gemIndex] =
-            Math.max(
-                marginals[gemIndex],
-                Evaluator.scoreValue(DoubleModifier.EXPERIENCE, next, null) - currentExperience);
-      }
-      if (selected + 1 >= slotCount) {
-        return;
-      }
-      for (int relevantIndex = start; relevantIndex < relevant.size(); relevantIndex++) {
-        int gemIndex = relevant.get(relevantIndex);
-        if (used[gemIndex] >= remaining[gemIndex]) {
-          continue;
-        }
-        var next = new Modifiers(current);
-        addExperienceInputs(next, gemModifiers[gemIndex]);
-        used[gemIndex]++;
-        collectExperienceMarginals(
-            next,
-            gemModifiers,
-            remaining,
-            relevant,
-            used,
-            marginals,
-            relevantIndex,
-            selected + 1,
-            slotCount);
-        used[gemIndex]--;
-      }
-    }
-
-    private static void addExperienceInputs(Modifiers target, Modifiers source) {
-      for (DoubleModifier modifier :
-          List.of(
-              DoubleModifier.MONSTER_LEVEL,
-              DoubleModifier.MONSTER_LEVEL_PERCENT,
-              DoubleModifier.primeStatExp(),
-              DoubleModifier.primeStatExpPercent())) {
-        target.setDouble(modifier, target.getDouble(modifier) + source.getDouble(modifier));
-      }
-    }
-
-    void select(int gemIndex) {
-      for (int modifierIndex = 0;
-          modifierIndex < this.selectedContributions.length;
-          modifierIndex++) {
-        this.selectedContributions[modifierIndex] += this.contributions[modifierIndex][gemIndex];
-      }
-      if (this.jointContributions != null) {
-        this.selectedJointContribution += this.jointContributions[gemIndex];
-      }
-      if (this.itemContributions != null) {
-        this.selectedItemContribution += this.itemContributions[gemIndex];
-      }
-    }
-
-    void deselect(int gemIndex) {
-      for (int modifierIndex = 0;
-          modifierIndex < this.selectedContributions.length;
-          modifierIndex++) {
-        this.selectedContributions[modifierIndex] -= this.contributions[modifierIndex][gemIndex];
-      }
-      if (this.jointContributions != null) {
-        this.selectedJointContribution -= this.jointContributions[gemIndex];
-      }
-      if (this.itemContributions != null) {
-        this.selectedItemContribution -= this.itemContributions[gemIndex];
-      }
-    }
-
-    double estimate(int start, int[] remaining, int remainingSlots) {
-      double score =
-          this.fixedScore
-              + this.selectedItemContribution
-              + estimateAdditional(this.itemSuffixContributions, start, remainingSlots);
-      for (int modifierIndex = 0; modifierIndex < this.scoreModifiers.size(); modifierIndex++) {
-        Evaluator.ScoreTerm scoreModifier = this.scoreModifiers.get(modifierIndex);
-        boolean descending = scoreModifier.weight() > 0.0;
-        double value =
-            this.estimateValue(
-                modifierIndex,
-                start,
-                remaining,
-                remainingSlots,
-                descending,
-                this.suffixContributions);
-        score += scoreModifier.weight() * Math.min(value, scoreModifier.max());
-      }
-      if (this.jointContributions != null) {
-        score = Math.min(score, this.estimateJoint(start, remaining, remainingSlots));
-      }
-      return score;
-    }
-
-    private double estimateJoint(int start, int[] remaining, int remainingSlots) {
-      double score =
-          this.fixedScore
-              + this.selectedItemContribution
-              + estimateAdditional(this.itemSuffixContributions, start, remainingSlots)
-              + this.jointBaseline
-              + this.selectedJointContribution;
-      for (int modifierIndex = 0; modifierIndex < this.scoreModifiers.size(); modifierIndex++) {
-        if (this.jointModifiers[modifierIndex]) {
-          continue;
-        }
-        Evaluator.ScoreTerm scoreModifier = this.scoreModifiers.get(modifierIndex);
-        double value =
-            this.estimateValue(
-                modifierIndex,
-                start,
-                remaining,
-                remainingSlots,
-                scoreModifier.weight() > 0.0,
-                this.suffixContributions);
-        score += scoreModifier.weight() * Math.min(value, scoreModifier.max());
-      }
-      if (remainingSlots == 0 || start >= remaining.length) {
-        return score;
-      }
-
-      double current = Math.max(0.0, this.jointContributions[start]);
-      int currentCopies = Math.min(remaining[start], remainingSlots);
-      double[] later = this.jointSuffixContributions[start + 1];
-      int laterIndex = 0;
-      for (int slot = 0; slot < remainingSlots; slot++) {
-        if (currentCopies > 0 && (laterIndex >= later.length || current > later[laterIndex])) {
-          score += current;
-          currentCopies--;
-        } else {
-          score += later[laterIndex++];
-        }
-      }
-      return score;
-    }
-
-    private static double estimateAdditional(
-        double[][] suffixContributions, int start, int remainingSlots) {
-      if (suffixContributions == null
-          || remainingSlots == 0
-          || start >= suffixContributions.length - 1) {
-        return 0.0;
-      }
-      double score = 0.0;
-      for (int i = 0; i < remainingSlots; i++) {
-        score += suffixContributions[start][i];
-      }
-      return score;
-    }
-
-    boolean canMeetMinimum(int start, int[] remaining, int remainingSlots, double scoreUpperBound) {
-      if (!this.canMeetHardRequirements) {
-        return false;
-      }
-      if (this.maximumSuffixContributions == null) {
-        return true;
-      }
-      if (scoreUpperBound < this.totalMin) {
-        return false;
-      }
-      for (int modifierIndex = 0; modifierIndex < this.scoreModifiers.size(); modifierIndex++) {
-        double minimum = this.scoreModifiers.get(modifierIndex).min();
-        if (minimum == Double.NEGATIVE_INFINITY) {
-          continue;
-        }
-        double maximum =
-            this.estimateValue(
-                modifierIndex,
-                start,
-                remaining,
-                remainingSlots,
-                true,
-                this.maximumSuffixContributions);
-        if (maximum < minimum) {
-          return false;
-        }
-      }
-      return true;
-    }
-
-    boolean isScoreSaturated(int start, int[] remaining, double scoreUpperBound) {
-      return this.exact && Double.compare(scoreUpperBound, this.estimate(start, remaining, 0)) == 0;
-    }
-
-    private double estimateValue(
-        int modifierIndex,
-        int start,
-        int[] remaining,
-        int remainingSlots,
-        boolean descending,
-        double[][][] suffixContributions) {
-      double value = this.baseline[modifierIndex] + this.selectedContributions[modifierIndex];
-      if (remainingSlots == 0 || start >= remaining.length) {
-        return value;
-      }
-
-      double current = beneficialContribution(this.contributions[modifierIndex][start], descending);
-      int currentCopies = Math.min(remaining[start], remainingSlots);
-      double[] later = suffixContributions[modifierIndex][start + 1];
-      int laterIndex = 0;
-      for (int slot = 0; slot < remainingSlots; slot++) {
-        if (currentCopies > 0
-            && (laterIndex >= later.length || isBetter(current, later[laterIndex], descending))) {
-          value += current;
-          currentCopies--;
-        } else {
-          value += later[laterIndex++];
-        }
-      }
-      return value;
-    }
-
-    private static double beneficialContribution(double contribution, boolean descending) {
-      return descending ? Math.max(0.0, contribution) : Math.min(0.0, contribution);
-    }
-
-    private static boolean isBetter(double candidate, double existing, boolean descending) {
-      return descending ? candidate > existing : candidate < existing;
-    }
-
-    private static void insertContribution(
-        double[] contributions, double contribution, boolean descending) {
-      for (int i = 0; i < contributions.length; i++) {
-        if (!isBetter(contribution, contributions[i], descending)) {
-          continue;
-        }
-        System.arraycopy(contributions, i, contributions, i + 1, contributions.length - i - 1);
-        contributions[i] = contribution;
-        return;
-      }
-    }
-  }
-
   static final class BooleanUpperBound {
     private final boolean[] contributions;
     private final int[] suffixCopies;
@@ -1049,8 +696,8 @@ final class CodpiecePruning {
   }
 
   record BranchBounds(
-      ScoreUpperBound score,
-      ScoreUpperBound tiebreaker,
+      CodpieceScoreBound score,
+      CodpieceScoreBound tiebreaker,
       BooleanUpperBound itemDroppers,
       BooleanUpperBound meatDroppers) {
     void select(int gemIndex) {

@@ -1,7 +1,6 @@
 package net.sourceforge.kolmafia.maximizer;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -38,30 +37,6 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 public class MaximizerSpeculation extends Speculation
     implements Comparable<MaximizerSpeculation>, Cloneable {
   private static final Slot[] CODPIECE_SLOTS = SlotSet.CODPIECE_SLOTS.toArray(Slot[]::new);
-  private static final EnumSet<DoubleModifier> FAMILIAR_CALCULATION_DOUBLE_MODIFIERS =
-      EnumSet.of(
-          DoubleModifier.FAMILIAR_WEIGHT,
-          DoubleModifier.HIDDEN_FAMILIAR_WEIGHT,
-          DoubleModifier.FAMILIAR_WEIGHT_PCT,
-          DoubleModifier.FAMILIAR_WEIGHT_CAP,
-          DoubleModifier.VOLLEYBALL_WEIGHT,
-          DoubleModifier.VOLLEYBALL_EFFECTIVENESS,
-          DoubleModifier.FAMILIAR_TUNING_MUSCLE,
-          DoubleModifier.FAMILIAR_TUNING_MYSTICALITY,
-          DoubleModifier.FAMILIAR_TUNING_MOXIE,
-          DoubleModifier.SOMBRERO_WEIGHT,
-          DoubleModifier.SOMBRERO_BONUS,
-          DoubleModifier.SOMBRERO_EFFECTIVENESS,
-          DoubleModifier.LEPRECHAUN_WEIGHT,
-          DoubleModifier.LEPRECHAUN_EFFECTIVENESS,
-          DoubleModifier.FAIRY_WEIGHT,
-          DoubleModifier.FAIRY_EFFECTIVENESS,
-          DoubleModifier.FOOD_FAIRY_WEIGHT,
-          DoubleModifier.FOOD_FAIRY_EFFECTIVENESS,
-          DoubleModifier.BOOZE_FAIRY_WEIGHT,
-          DoubleModifier.BOOZE_FAIRY_EFFECTIVENESS,
-          DoubleModifier.CANDY_FAIRY_WEIGHT,
-          DoubleModifier.CANDY_FAIRY_EFFECTIVENESS);
 
   boolean scored = false;
   private boolean tiebreakered = false;
@@ -74,67 +49,15 @@ public class MaximizerSpeculation extends Speculation
   public CheckedItem attachment;
   private boolean foldables = false;
   private CodpieceSearch codpieceSearch;
-  private Map<FamiliarContributionKey, Map<DoubleModifier, Double>> familiarContributionCache =
-      new HashMap<>();
+  private final Map<Integer, Modifiers> codpieceGemModifiers = new HashMap<>();
+  private final Map<Integer, Boolean> safeLateCodpieceGems = new HashMap<>();
+  private CodpiecePlan codpiecePlan;
+  private CodpiecePlan prioritizedCodpiecePlan;
 
-  private static final class FamiliarContributionKey {
-    private final int familiarId;
-    private final int effectiveFamiliarId;
-    private final int familiarWeight;
-    private final boolean familiarFeasted;
-    private final int familiarSoupWeight;
-    private final int familiarItemId;
-    private final int gemItemId;
-    private final int copies;
-    private final long[] calculationValues;
-    private final int hashCode;
+  private record CodpiecePlan(
+      List<CheckedItem> gems, Modifiers[] gemModifiers, boolean[] familiarDependentGems) {}
 
-    private FamiliarContributionKey(
-        FamiliarData familiar,
-        AdventureResult familiarItem,
-        int gemItemId,
-        int copies,
-        Modifiers baseline) {
-      this.familiarId = familiar.getId();
-      this.effectiveFamiliarId = familiar.getEffectiveId();
-      this.familiarWeight = familiar.getUncappedWeight();
-      this.familiarFeasted = familiar.getFeasted();
-      this.familiarSoupWeight = familiar.getSoupWeight();
-      this.familiarItemId = familiarItem == null ? -1 : familiarItem.getItemId();
-      this.gemItemId = gemItemId;
-      this.copies = copies;
-      this.calculationValues = CodpiecePruning.familiarCalculationValues(baseline);
-      int hash = Integer.hashCode(this.familiarId);
-      hash = 31 * hash + Integer.hashCode(this.effectiveFamiliarId);
-      hash = 31 * hash + Integer.hashCode(this.familiarWeight);
-      hash = 31 * hash + Boolean.hashCode(this.familiarFeasted);
-      hash = 31 * hash + Integer.hashCode(this.familiarSoupWeight);
-      hash = 31 * hash + Integer.hashCode(this.familiarItemId);
-      hash = 31 * hash + Integer.hashCode(this.gemItemId);
-      hash = 31 * hash + Integer.hashCode(this.copies);
-      this.hashCode = 31 * hash + Arrays.hashCode(this.calculationValues);
-    }
-
-    @Override
-    public boolean equals(Object other) {
-      return other instanceof FamiliarContributionKey key
-          && this.familiarId == key.familiarId
-          && this.effectiveFamiliarId == key.effectiveFamiliarId
-          && this.familiarWeight == key.familiarWeight
-          && this.familiarFeasted == key.familiarFeasted
-          && this.familiarSoupWeight == key.familiarSoupWeight
-          && this.familiarItemId == key.familiarItemId
-          && this.gemItemId == key.gemItemId
-          && this.copies == key.copies
-          && Arrays.equals(this.calculationValues, key.calculationValues);
-    }
-
-    @Override
-    public int hashCode() {
-      return this.hashCode;
-    }
-  }
-
+  /** Reuses the expensive adjustment prefix while the search changes only late-safe gem effects. */
   private static final class LateCodpieceCache {
     private final Modifiers baseline;
     private final Modifiers fightMods;
@@ -210,7 +133,6 @@ public class MaximizerSpeculation extends Speculation
         copy.mods = new Modifiers(this.mods);
       }
       copy.codpieceSearch = null;
-      copy.familiarContributionCache = new HashMap<>();
       return copy;
     } catch (CloneNotSupportedException e) {
       return null;
@@ -233,6 +155,7 @@ public class MaximizerSpeculation extends Speculation
       }
       fightMods = cache.fightMods;
     } else {
+      // Familiar-dependent gems must be present when familiar effects are calculated.
       var prefix = cache.getPrefix(this::primeFamiliarCodpiecePrefix);
       newModifiers = new Modifiers(prefix.modifiers());
       for (int encodedGemIndex : cache.slotGemIndexes) {
@@ -900,12 +823,10 @@ public class MaximizerSpeculation extends Speculation
       return;
     }
 
-    List<CheckedItem> codpieceGems =
-        possibles.get(Slot.CODPIECE1).stream()
-            .filter(gem -> gem.getCount() > 0 && EquipmentRequest.isCodpieceGem(gem.getItemId()))
-            .filter(gem -> this.countEquipped(gem.getItemId()) < gem.getCount())
-            .toList();
+    CodpiecePlan plan = this.getCodpiecePlan(possibles.get(Slot.CODPIECE1));
+    List<CheckedItem> codpieceGems = plan.gems();
     try {
+      // Saturation does not model tiebreaks, beeosity, or removal of initially equipped gems.
       boolean canCollapseSaturatedScore =
           !Maximizer.eval.isUsingTiebreaker()
               && !KoLCharacter.inBeecore()
@@ -914,7 +835,7 @@ public class MaximizerSpeculation extends Speculation
                       slot -> EquipmentManager.getEquipment(slot).equals(EquipmentRequest.UNEQUIP));
       LateCodpieceCache cache =
           this.canUseLateCodpieceCache(codpieceGems, codpieceSlots)
-              ? this.primeLateCodpieceCache(codpieceGems, codpieceSlots)
+              ? this.primeLateCodpieceCache(plan, codpieceSlots)
               : null;
       CodpieceSearch search =
           new CodpieceSearch(codpieceGems, codpieceSlots, cache, canCollapseSaturatedScore);
@@ -922,8 +843,12 @@ public class MaximizerSpeculation extends Speculation
       this.calculated = false;
       if (Maximizer.eval.isUsingTiebreaker()
           && Maximizer.eval.areScoreModifiersSaturated(this.calculate())) {
-        codpieceGems = Maximizer.eval.prioritizeCodpieceGems(codpieceGems);
-        cache = this.primeLateCodpieceCache(codpieceGems, codpieceSlots);
+        if (this.prioritizedCodpiecePlan == null) {
+          this.prioritizedCodpiecePlan =
+              this.createCodpiecePlan(Maximizer.eval.prioritizeCodpieceGems(codpieceGems));
+        }
+        codpieceGems = this.prioritizedCodpiecePlan.gems();
+        cache = this.primeLateCodpieceCache(this.prioritizedCodpiecePlan, codpieceSlots);
         search = new CodpieceSearch(codpieceGems, codpieceSlots, cache, false);
       }
       this.codpieceSearch = search;
@@ -984,7 +909,29 @@ public class MaximizerSpeculation extends Speculation
     return true;
   }
 
-  private LateCodpieceCache primeLateCodpieceCache(List<CheckedItem> possibles, List<Slot> slots) {
+  private CodpiecePlan getCodpiecePlan(List<CheckedItem> possibles) {
+    if (this.codpiecePlan == null) {
+      this.codpiecePlan =
+          this.createCodpiecePlan(
+              possibles.stream()
+                  .filter(
+                      gem -> gem.getCount() > 0 && EquipmentRequest.isCodpieceGem(gem.getItemId()))
+                  .toList());
+    }
+    return this.codpiecePlan;
+  }
+
+  private CodpiecePlan createCodpiecePlan(List<CheckedItem> gems) {
+    Modifiers[] gemModifiers = new Modifiers[gems.size()];
+    boolean[] familiarDependentGems = new boolean[gems.size()];
+    for (int i = 0; i < gems.size(); i++) {
+      gemModifiers[i] = this.getCodpieceGemModifiers(gems.get(i).getItemId());
+      familiarDependentGems[i] = CodpiecePruning.affectsFamiliarCalculation(gemModifiers[i]);
+    }
+    return new CodpiecePlan(gems, gemModifiers, familiarDependentGems);
+  }
+
+  private LateCodpieceCache primeLateCodpieceCache(CodpiecePlan plan, List<Slot> slots) {
     var mark = this.mark();
     try {
       for (Slot slot : slots) {
@@ -992,25 +939,22 @@ public class MaximizerSpeculation extends Speculation
       }
 
       var prefix = this.recalculateCodpiecePrefix(this.equipment);
-      Modifiers[] gemModifiers = new Modifiers[possibles.size()];
-      boolean[] familiarDependentGems = new boolean[possibles.size()];
-      for (int i = 0; i < possibles.size(); i++) {
-        gemModifiers[i] =
-            ModifierDatabase.getModifiers(
-                ModifierType.ETERNITY_CODPIECE, possibles.get(i).getItemId());
-        familiarDependentGems[i] = CodpiecePruning.affectsFamiliarCalculation(gemModifiers[i]);
-      }
       Map<List<Integer>, KoLCharacter.AdjustmentPrefix> prefixes = new HashMap<>();
       prefixes.put(List.of(), prefix);
       CodpiecePruning.FamiliarScoreContributions familiarScoreContributions =
           this.findFamiliarScoreContributions(
-              possibles, slots, prefix.modifiers(), familiarDependentGems);
+              plan.gems(),
+              slots,
+              prefix.modifiers(),
+              prefix.familiarWeightInputs(),
+              plan.gemModifiers(),
+              plan.familiarDependentGems());
       return new LateCodpieceCache(
           prefix.modifiers(),
           prefix.fightMods(),
           slots,
-          gemModifiers,
-          familiarDependentGems,
+          plan.gemModifiers(),
+          plan.familiarDependentGems(),
           familiarScoreContributions,
           prefixes);
     } finally {
@@ -1022,6 +966,8 @@ public class MaximizerSpeculation extends Speculation
       List<CheckedItem> possibles,
       List<Slot> slots,
       Modifiers baseline,
+      Modifiers.FamiliarWeightInputs familiarWeightInputs,
+      Modifiers[] gemModifiers,
       boolean[] familiarDependentGems) {
     EnumSet<DoubleModifier> scored = Maximizer.eval.familiarDependentScoreModifiers();
     if (scored.isEmpty()) {
@@ -1041,43 +987,163 @@ public class MaximizerSpeculation extends Speculation
       return new CodpiecePruning.FamiliarScoreContributions(-1, Map.of());
     }
 
-    Map<DoubleModifier, Double> ceilings = new EnumMap<>(DoubleModifier.class);
-    Map<DoubleModifier, Double> previous = new EnumMap<>(DoubleModifier.class);
-    for (DoubleModifier modifier : scored) {
-      previous.put(modifier, Evaluator.scoreValue(modifier, baseline, null));
-    }
+    Map<DoubleModifier, CodpiecePruning.ContributionRange> ranges =
+        new EnumMap<>(DoubleModifier.class);
+    Map<DoubleModifier, CodpiecePruning.ContributionRange> baselines =
+        new EnumMap<>(DoubleModifier.class);
     CheckedItem gem = possibles.get(familiarGemIndex);
-    int copies = Math.min(slots.size(), gem.getCount() - (int) this.countEquipped(gem.getItemId()));
-    var key =
-        new FamiliarContributionKey(
-            this.getFamiliar(),
-            this.equipment.get(Slot.FAMILIAR),
-            gem.getItemId(),
-            copies,
-            baseline);
-    var cached = this.familiarContributionCache.get(key);
-    if (cached != null) {
-      return new CodpiecePruning.FamiliarScoreContributions(familiarGemIndex, cached);
+    double weightAdjustment =
+        CodpiecePruning.familiarWeightAdjustment(gemModifiers[familiarGemIndex]);
+    if (!Double.isFinite(weightAdjustment)) {
+      return null;
     }
-
-    for (int copy = 0; copy < copies; copy++) {
-      this.equipment.put(slots.get(copy), gem);
-      var prefix = this.recalculateCodpiecePrefix(this.equipment);
+    int copies = Math.min(slots.size(), gem.getCount() - (int) this.countEquipped(gem.getItemId()));
+    var familiar = this.getFamiliar();
+    var baselineEffect = baseline.familiarEffect(familiar, familiarWeightInputs, 0);
+    var previous = baselineEffect;
+    double[] directExperienceDeltas = new double[copies];
+    double[] generalExperienceDeltas = new double[copies];
+    for (int copy = 1; copy <= copies; copy++) {
+      var current =
+          baseline.familiarEffect(familiar, familiarWeightInputs, copy * weightAdjustment);
+      directExperienceDeltas[copy - 1] =
+          current.primeStatExperience() - previous.primeStatExperience();
+      generalExperienceDeltas[copy - 1] =
+          current.generalExperience() - previous.generalExperience();
       for (DoubleModifier modifier : scored) {
-        double value = Evaluator.scoreValue(modifier, prefix.modifiers(), null);
-        double contribution = value - previous.put(modifier, value);
+        double contribution =
+            switch (modifier) {
+              case ITEMDROP -> current.itemDrop() - previous.itemDrop();
+              case MEATDROP -> current.meatDrop() - previous.meatDrop();
+              case EXPERIENCE, MUS_EXPERIENCE, MYS_EXPERIENCE, MOX_EXPERIENCE -> 0.0;
+              default -> 0.0;
+            };
         if (contribution == 0.0) {
           continue;
         }
-        ceilings.merge(modifier, contribution, Math::max);
+        ranges.merge(
+            modifier,
+            new CodpiecePruning.ContributionRange(contribution, contribution),
+            (range, ignored) -> range.include(contribution));
+      }
+      previous = current;
+    }
+    for (DoubleModifier modifier : scored) {
+      if (!CodpiecePruning.isExperienceScoreModifier(modifier)) {
+        continue;
+      }
+      baselines.put(
+          modifier,
+          this.findFamiliarExperienceRange(
+              modifier,
+              possibles,
+              slots.size(),
+              baseline,
+              gemModifiers,
+              familiarGemIndex,
+              new double[] {0.0},
+              new double[] {baselineEffect.generalExperience()}));
+      ranges.put(
+          modifier,
+          this.findFamiliarExperienceRange(
+              modifier,
+              possibles,
+              slots.size(),
+              baseline,
+              gemModifiers,
+              familiarGemIndex,
+              directExperienceDeltas,
+              generalExperienceDeltas));
+    }
+    return new CodpiecePruning.FamiliarScoreContributions(
+        familiarGemIndex, Map.copyOf(ranges), Map.copyOf(baselines));
+  }
+
+  private CodpiecePruning.ContributionRange findFamiliarExperienceRange(
+      DoubleModifier scoreModifier,
+      List<CheckedItem> possibles,
+      int slotCount,
+      Modifiers baseline,
+      Modifiers[] gemModifiers,
+      int familiarGemIndex,
+      double[] directDeltas,
+      double[] generalDeltas) {
+    int[] remaining = new int[possibles.size()];
+    var relevant = new ArrayList<Integer>();
+    for (int i = 0; i < possibles.size(); i++) {
+      remaining[i] =
+          Math.min(
+              slotCount,
+              possibles.get(i).getCount() - (int) this.countEquipped(possibles.get(i).getItemId()));
+      if (i != familiarGemIndex
+          && CodpiecePruning.affectsExperience(gemModifiers[i], scoreModifier)) {
+        relevant.add(i);
       }
     }
-    for (Slot slot : slots) {
-      this.equipment.put(slot, EquipmentRequest.UNEQUIP);
+    var range =
+        new CodpiecePruning.ContributionRange(Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY);
+    return collectFamiliarExperienceRange(
+        scoreModifier,
+        baseline,
+        gemModifiers,
+        remaining,
+        relevant,
+        new int[possibles.size()],
+        directDeltas,
+        generalDeltas,
+        range,
+        0,
+        0,
+        slotCount);
+  }
+
+  private static CodpiecePruning.ContributionRange collectFamiliarExperienceRange(
+      DoubleModifier scoreModifier,
+      Modifiers current,
+      Modifiers[] gemModifiers,
+      int[] remaining,
+      List<Integer> relevant,
+      int[] used,
+      double[] directDeltas,
+      double[] generalDeltas,
+      CodpiecePruning.ContributionRange range,
+      int start,
+      int selected,
+      int slotCount) {
+    for (int copy = 0; copy < directDeltas.length; copy++) {
+      range =
+          range.include(
+              CodpiecePruning.familiarExperienceContribution(
+                  scoreModifier, current, directDeltas[copy], generalDeltas[copy]));
     }
-    var cachedCeilings = Map.copyOf(ceilings);
-    this.familiarContributionCache.put(key, cachedCeilings);
-    return new CodpiecePruning.FamiliarScoreContributions(familiarGemIndex, cachedCeilings);
+    if (selected == slotCount) {
+      return range;
+    }
+    for (int relevantIndex = start; relevantIndex < relevant.size(); relevantIndex++) {
+      int gemIndex = relevant.get(relevantIndex);
+      if (used[gemIndex] >= remaining[gemIndex]) {
+        continue;
+      }
+      var next = new Modifiers(current);
+      CodpiecePruning.addExperienceInputs(next, gemModifiers[gemIndex]);
+      used[gemIndex]++;
+      range =
+          collectFamiliarExperienceRange(
+              scoreModifier,
+              next,
+              gemModifiers,
+              remaining,
+              relevant,
+              used,
+              directDeltas,
+              generalDeltas,
+              range,
+              relevantIndex,
+              selected + 1,
+              slotCount);
+      used[gemIndex]--;
+    }
+    return range;
   }
 
   private KoLCharacter.AdjustmentPrefix primeFamiliarCodpiecePrefix() {
@@ -1111,8 +1177,16 @@ public class MaximizerSpeculation extends Speculation
   }
 
   private boolean isSafeLateCodpieceGem(int itemId) {
-    return CodpiecePruning.hasOnlySupportedLateCalculationModifiers(
-        ModifierDatabase.getModifiers(ModifierType.ETERNITY_CODPIECE, itemId));
+    return this.safeLateCodpieceGems.computeIfAbsent(
+        itemId,
+        id ->
+            CodpiecePruning.hasOnlySupportedLateCalculationModifiers(
+                this.getCodpieceGemModifiers(id)));
+  }
+
+  private Modifiers getCodpieceGemModifiers(int itemId) {
+    return this.codpieceGemModifiers.computeIfAbsent(
+        itemId, id -> ModifierDatabase.getModifiers(ModifierType.ETERNITY_CODPIECE, id));
   }
 
   private int countEquipmentWith(BooleanModifier modifier) {
@@ -1129,6 +1203,7 @@ public class MaximizerSpeculation extends Speculation
     return count;
   }
 
+  /** Enumerates canonical gem multisets and rejects branches using conservative score ceilings. */
   private final class CodpieceSearch {
     private final List<CheckedItem> gems;
     private final List<Slot> slots;
@@ -1168,7 +1243,7 @@ public class MaximizerSpeculation extends Speculation
     }
 
     private void run() throws MaximizerInterruptedException {
-      CodpiecePruning.ScoreUpperBound scoreUpperBound = this.createScoreUpperBound();
+      CodpieceScoreBound scoreUpperBound = this.createScoreUpperBound();
       this.bounds =
           new CodpiecePruning.BranchBounds(
               scoreUpperBound,
@@ -1180,7 +1255,7 @@ public class MaximizerSpeculation extends Speculation
       this.search(0, 0, this.requiredCount);
     }
 
-    private CodpiecePruning.ScoreUpperBound createScoreUpperBound() {
+    private CodpieceScoreBound createScoreUpperBound() {
       return this.cache == null
           ? null
           : Maximizer.eval.createTheoreticalCodpieceScoreUpperBound(
@@ -1209,8 +1284,9 @@ public class MaximizerSpeculation extends Speculation
             return;
           }
           if (Double.compare(upperScore, bestScore) == 0 && !KoLCharacter.inBeecore()) {
-            CodpiecePruning.ScoreUpperBound tiebreakUpperBound =
-                this.getTiebreakUpperBound(slotIndex);
+            // Keep this tie pruning in compareTo order: item drops, meat drops, then tiebreak
+            // score.
+            CodpieceScoreBound tiebreakUpperBound = this.getTiebreakUpperBound(slotIndex);
             int bestItemDroppers = Maximizer.best.countEquipmentWith(BooleanModifier.DROPS_ITEMS);
             int itemDropperCeiling =
                 MaximizerSpeculation.this.countEquipmentWith(BooleanModifier.DROPS_ITEMS)
@@ -1286,13 +1362,13 @@ public class MaximizerSpeculation extends Speculation
       }
     }
 
-    private CodpiecePruning.ScoreUpperBound getTiebreakUpperBound(int selectedCount) {
+    private CodpieceScoreBound getTiebreakUpperBound(int selectedCount) {
       if (this.tiebreakBoundInitialized) {
         return this.bounds.tiebreaker();
       }
 
       this.tiebreakBoundInitialized = true;
-      CodpiecePruning.ScoreUpperBound tiebreakUpperBound =
+      CodpieceScoreBound tiebreakUpperBound =
           Maximizer.eval.createTheoreticalCodpieceTiebreakerUpperBound(
               this.cache.baseline,
               this.cache.gemModifiers,
@@ -1370,28 +1446,37 @@ public class MaximizerSpeculation extends Speculation
   }
 
   private long countEquipped(int itemId) {
-    return this.equipment.values().stream()
-        .filter(item -> item != null && item.getItemId() == itemId)
-        .count();
+    long count = 0;
+    for (AdventureResult item : this.equipment.values()) {
+      if (item != null && item.getItemId() == itemId) {
+        count++;
+      }
+    }
+    return count;
   }
 
   private boolean hasEnoughCodpieceGems() {
-    Map<Integer, Integer> used = new HashMap<>();
-    Map<Integer, Integer> available = new HashMap<>();
+    boolean hasSlottedGem = false;
+    for (Slot slot : CODPIECE_SLOTS) {
+      AdventureResult item = this.equipment.get(slot);
+      if (item != null && !item.equals(EquipmentRequest.UNEQUIP)) {
+        hasSlottedGem = true;
+        break;
+      }
+    }
+    if (!hasSlottedGem) {
+      return true;
+    }
+
     for (AdventureResult item : this.equipment.values()) {
-      if (item == null || !EquipmentRequest.isCodpieceGem(item.getItemId())) {
+      if (!(item instanceof CheckedItem checked)
+          || !EquipmentRequest.isCodpieceGem(item.getItemId())) {
         continue;
       }
 
       int itemId = item.getItemId();
-      used.merge(itemId, 1, Integer::sum);
-      if (item instanceof CheckedItem checked) {
-        available.put(itemId, checked.getAvailableCount());
-      }
-    }
-
-    for (var entry : available.entrySet()) {
-      if (used.get(entry.getKey()) > entry.getValue()) {
+      int used = (int) this.countEquipped(itemId);
+      if (used > checked.getAvailableCount()) {
         return false;
       }
     }

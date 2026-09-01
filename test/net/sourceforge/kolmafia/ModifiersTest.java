@@ -1528,6 +1528,19 @@ public class ModifiersTest {
         assertThat(current.getDouble(DoubleModifier.MEATDROP), closeTo(lepFunction(10), 0.001));
       }
     }
+
+    @Test
+    void familiarWeightAdjustmentIsTruncatedWithExistingWeight() {
+      var cleanups = withFamiliar(FamiliarPool.BABY_GRAVY_FAIRY, 100);
+
+      try (cleanups) {
+        var modifiers = new Modifiers();
+        var effect =
+            modifiers.familiarEffect(
+                KoLCharacter.getFamiliar(), new Modifiers.FamiliarWeightInputs(0.5, 0.0, 0.0), 5.5);
+        assertThat(effect.itemDrop(), closeTo(fairyFunction(16), 0.001));
+      }
+    }
   }
 
   @Nested
