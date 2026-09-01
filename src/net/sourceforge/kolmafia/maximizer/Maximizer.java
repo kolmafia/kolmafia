@@ -1864,9 +1864,10 @@ public class Maximizer {
           }
         }
       } else {
-        // Otherwise we iterate through the maximization set so far
-        for (Boost boost : Maximizer.boosts) {
-          if (item.equals(boost.getItem())) {
+        // Otherwise count earlier uses directly from the selected equipment.
+        for (var piece : SlotSet.ALL_SLOTS) {
+          if (piece.ordinal() >= slot.ordinal()) break;
+          if (item.equals(Maximizer.best.equipment.get(piece))) {
             count++;
           }
         }

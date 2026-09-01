@@ -23,6 +23,7 @@ import static internal.matchers.Maximizer.recommends;
 import static internal.matchers.Maximizer.recommendsSlot;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
@@ -269,6 +270,19 @@ public class EternityCodpieceMaximizerTest {
               .count(),
           equalTo(1L));
       assertThat(
+          pearlBoosts.stream()
+              .filter(boost -> boost.toString().startsWith("acquire & equip codpiece"))
+              .findFirst()
+              .orElseThrow()
+              .toString()
+              .contains("1,000 meat"),
+          is(true));
+      assertThat(
+          pearlBoosts.stream()
+              .filter(boost -> !boost.toString().startsWith("acquire & equip codpiece"))
+              .noneMatch(boost -> boost.toString().contains("meat")),
+          is(true));
+      assertThat(
           pearlBoosts.stream().map(Boost::getBoost).toList(),
           equalTo(java.util.List.of(1.0, 1.0, 1.0, 1.0, 1.0)));
     }
@@ -299,6 +313,100 @@ public class EternityCodpieceMaximizerTest {
       assertThat(
           SlotSet.ACCESSORY_SLOTS.stream().map(Maximizer.best.equipment::get).toList(),
           hasItem(watch));
+    }
+  }
+
+  @Test
+  void keepsGrandfatherWatchWhenOtherUpgradesMaskWorseBoots() {
+    var watch = ItemPool.get("grandfather watch");
+    var boots = ItemPool.get("Boots of Twilight Whispers");
+    var ninjammies = ItemPool.get("ninjammies");
+    var pearl = ItemPool.get("unblemished pearl");
+    var cleanups =
+        new Cleanups(
+            withStats(1_000, 1_000, 1_000),
+            withEquipped(Slot.HAT, "time cop top hat"),
+            withEquipped(Slot.WEAPON, "sword behind inappropriate prepositions"),
+            withEquipped(Slot.CONTAINER, "Allied Radio Backpack"),
+            withEquipped(Slot.SHIRT, "shoe ad T-shirt"),
+            withEquipped(Slot.PANTS, "sea chaps"),
+            withEquipped(Slot.ACCESSORY1, ItemPool.THE_ETERNITY_CODPIECE),
+            withEquipped(Slot.ACCESSORY2, watch),
+            withEquipped(Slot.ACCESSORY3, "Elf Guard insignia (general)"),
+            withEquipped(Slot.CODPIECE1, pearl),
+            withEquipped(Slot.CODPIECE2, pearl),
+            withEquipped(Slot.CODPIECE3, pearl),
+            withItem(boots),
+            withInteractivity(true),
+            withProperty("autoSatisfyWithMall", true),
+            withMallPrice(ninjammies.getItemId(), 840_664),
+            withMallPrice(pearl.getItemId(), 78_000),
+            withMeat(16_000_000),
+            withRestricted(false));
+
+    try (cleanups) {
+      var currentScore = new Evaluator("adv").getScore(KoLCharacter.getCurrentModifiers());
+
+      assertTrue(
+          Maximizer.maximize(
+              "adv",
+              1_000_000,
+              PriceLevel.BUYABLE_ONLY,
+              EquipScope.SPECULATE_ANY,
+              EnumSet.allOf(KoLConstants.filterType.class)));
+
+      assertThat(Maximizer.best.getScore(), greaterThan(currentScore));
+      assertThat(
+          SlotSet.ACCESSORY_SLOTS.stream().map(Maximizer.best.equipment::get).toList(),
+          hasItem(watch));
+      assertThat(
+          SlotSet.CODPIECE_SLOTS.stream()
+              .map(Maximizer.best.equipment::get)
+              .filter(pearl::equals)
+              .count(),
+          equalTo(5L));
+      assertThat(getBoosts().stream().noneMatch(boost -> boots.equals(boost.getItem())), is(true));
+    }
+  }
+
+  @Test
+  void pricesAdventureGemsBoughtAfterEquippedCopies() {
+    var pearl = ItemPool.get("unblemished pearl");
+    var cleanups =
+        new Cleanups(
+            withEquipped(Slot.ACCESSORY1, ItemPool.THE_ETERNITY_CODPIECE),
+            withEquipped(Slot.CODPIECE1, pearl),
+            withEquipped(Slot.CODPIECE2, pearl),
+            withEquipped(Slot.CODPIECE3, pearl),
+            withInteractivity(true),
+            withProperty("autoSatisfyWithMall", true),
+            withMallPrice(pearl.getItemId(), 1_000),
+            withMeat(100_000));
+
+    try (cleanups) {
+      assertTrue(
+          Maximizer.maximize(
+              "adv, -tie",
+              10_000,
+              PriceLevel.BUYABLE_ONLY,
+              EquipScope.SPECULATE_ANY,
+              EnumSet.allOf(KoLConstants.filterType.class)));
+
+      assertThat(
+          SlotSet.CODPIECE_SLOTS.stream()
+              .map(Maximizer.best.equipment::get)
+              .filter(pearl::equals)
+              .count(),
+          equalTo(5L));
+      var boughtPearls =
+          getBoosts().stream()
+              .filter(boost -> pearl.equals(boost.getItem()))
+              .filter(boost -> boost.toString().startsWith("acquire & equip codpiece"))
+              .toList();
+      assertThat(boughtPearls.size(), equalTo(2));
+      assertThat(
+          boughtPearls.stream().allMatch(boost -> boost.toString().contains("1,000 meat")),
+          is(true));
     }
   }
 

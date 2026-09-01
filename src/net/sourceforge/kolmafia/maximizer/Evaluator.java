@@ -1839,6 +1839,13 @@ public class Evaluator {
             item.getCount() > 0 && SlotSet.CODPIECE_SLOTS.stream().anyMatch(this::slotEnabled);
       }
     }
+    if (codpieceCanExpandAccessoryPool) {
+      for (CheckedItem item : ranked.get(Slot.ACCESSORY1)) {
+        if (KoLCharacter.hasEquipped(item)) {
+          item.automaticFlag = true;
+        }
+      }
+    }
 
     // Get best Familiars for Crown of Thrones and Buddy Bjorn
     // Assume current ones are best if in use
