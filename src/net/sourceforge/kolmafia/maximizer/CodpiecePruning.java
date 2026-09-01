@@ -370,7 +370,7 @@ final class CodpiecePruning {
                 > 8)) {
       return false;
     }
-    if ((modifier == DoubleModifier.HAT_PANTS_DROP || modifier == DoubleModifier.MAXIMUM_HP_MP)
+    if (modifier.getSubsumed().length > 0
         && Arrays.stream(gemModifiers)
             .filter(java.util.Objects::nonNull)
             .anyMatch(
@@ -402,8 +402,7 @@ final class CodpiecePruning {
         || modifier == DoubleModifier.MYS_LIMIT
         || modifier == DoubleModifier.MOX_LIMIT
         || modifier == DoubleModifier.PRISMATIC_DAMAGE
-        || modifier == DoubleModifier.HAT_PANTS_DROP
-        || modifier == DoubleModifier.MAXIMUM_HP_MP;
+        || modifier.getSubsumed().length > 0;
   }
 
   static boolean supportsTiebreakerTerm(

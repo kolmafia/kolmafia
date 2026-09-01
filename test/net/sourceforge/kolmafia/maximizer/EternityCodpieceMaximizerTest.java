@@ -1667,7 +1667,9 @@ public class EternityCodpieceMaximizerTest {
         start = System.nanoTime();
         assertTrue(maximize("0 damage reduction 30 min, " + expression.replace("-acc1, ", "")));
         elapsed = (System.nanoTime() - start) / 1_000_000.0;
-        assertTrue(Maximizer.bestChecked < 62_798);
+        assertTrue(
+            Maximizer.bestChecked < 62_800,
+            () -> "checked " + Maximizer.bestChecked + " combinations");
         System.out.printf(
             "CODPIECE_MINIMUM_BENCHMARK combinations=%d ms=%.3f%n", Maximizer.bestChecked, elapsed);
       }

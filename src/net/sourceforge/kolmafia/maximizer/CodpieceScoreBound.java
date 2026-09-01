@@ -267,7 +267,8 @@ final class CodpieceScoreBound {
       double[] basisContributions = contributionBasis.contributions[modifierIndex];
       this.contributions[modifierIndex] =
           basisContributions == null ? new double[gemModifiers.length] : basisContributions;
-      boolean descending = scoreModifier.weight() > 0.0;
+      // A zero-weight term can still have a minimum, so build its upper contribution bound.
+      boolean descending = scoreModifier.weight() >= 0.0;
       if ((modifier == DoubleModifier.MUS
               || modifier == DoubleModifier.MYS
               || modifier == DoubleModifier.MOX
@@ -352,21 +353,17 @@ final class CodpieceScoreBound {
                           DoubleModifier.SLEAZE_DAMAGE,
                           DoubleModifier.SPOOKY_DAMAGE,
                           DoubleModifier.STENCH_DAMAGE);
-                  case HAT_PANTS_DROP ->
-                      baseline.hasDoubleModifier(
-                              candidate -> candidate == DoubleModifier.HAT_PANTS_DROP)
+                  case HAT_PANTS_DROP, MAXIMUM_HP_MP, ALL_ATTRIBUTES, ALL_ATTRIBUTES_PCT ->
+                      baseline.hasDoubleModifier(candidate -> candidate == modifier)
+                              && baseline.getRawDouble(modifier) != 0.0
                           ? 0.0
-                          : foldedContribution(
-                              modifiers,
+                          : combinedContributionBound(
+                              baseline,
+                              gemModifiers,
+                              remaining,
+                              slotCount,
                               descending,
-                              DoubleModifier.HATDROP,
-                              DoubleModifier.PANTSDROP);
-                  case MAXIMUM_HP_MP ->
-                      baseline.hasDoubleModifier(
-                              candidate -> candidate == DoubleModifier.MAXIMUM_HP_MP)
-                          ? 0.0
-                          : foldedContribution(
-                              modifiers, descending, DoubleModifier.HP, DoubleModifier.MP);
+                              modifier.getSubsumed());
                   default -> throw new IllegalStateException("Unexpected contribution");
                 };
           }
@@ -492,6 +489,40 @@ final class CodpieceScoreBound {
               : Math.min(contribution, modifiers.getDouble(component));
     }
     return contribution;
+  }
+
+  private static double combinedContributionBound(
+      Modifiers baseline,
+      Modifiers[] gemModifiers,
+      int[] remaining,
+      int slotCount,
+      boolean maximum,
+      DoubleModifier... components) {
+    double minimumLower = Double.POSITIVE_INFINITY;
+    double minimumUpper = Double.POSITIVE_INFINITY;
+    for (DoubleModifier component : components) {
+      double[] lowest = new double[slotCount];
+      double[] highest = new double[slotCount];
+      for (int gemIndex = 0; gemIndex < gemModifiers.length; gemIndex++) {
+        Modifiers modifiers = gemModifiers[gemIndex];
+        if (modifiers == null) {
+          continue;
+        }
+        double contribution = modifiers.getDouble(component);
+        for (int copy = 0; copy < Math.min(remaining[gemIndex], slotCount); copy++) {
+          insertContribution(lowest, contribution, false);
+          insertContribution(highest, contribution, true);
+        }
+      }
+      double componentBaseline = baseline.getDouble(component);
+      minimumLower = Math.min(minimumLower, componentBaseline + Arrays.stream(lowest).sum());
+      minimumUpper = Math.min(minimumUpper, componentBaseline + Arrays.stream(highest).sum());
+    }
+
+    // Combined modifiers become zero when their components straddle zero.
+    double lower = Math.min(0.0, minimumLower);
+    double upper = Math.max(0.0, minimumUpper);
+    return maximum ? upper - lower : lower - upper;
   }
 
   private static double hitPointContribution(
@@ -760,8 +791,9 @@ final class CodpieceScoreBound {
       return false;
     }
     for (int modifierIndex = 0; modifierIndex < this.scoreModifiers.size(); modifierIndex++) {
-      double minimum = this.scoreModifiers.get(modifierIndex).min();
-      if (minimum == Double.NEGATIVE_INFINITY) {
+      Evaluator.ScoreTerm scoreModifier = this.scoreModifiers.get(modifierIndex);
+      double minimum = scoreModifier.min();
+      if (minimum == Double.NEGATIVE_INFINITY || scoreModifier.weight() < 0.0) {
         continue;
       }
       double maximum =

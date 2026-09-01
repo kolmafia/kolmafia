@@ -385,6 +385,10 @@ public class Modifiers {
     return this.doubles.getList(modifier);
   }
 
+  public double getRawDouble(final DoubleModifier modifier) {
+    return this.doubles.getDouble(modifier);
+  }
+
   public boolean hasDoubleModifier(Predicate<DoubleModifier> predicate) {
     return this.doubles.anyMatch(predicate);
   }
