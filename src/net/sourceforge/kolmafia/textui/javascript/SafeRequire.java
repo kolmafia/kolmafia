@@ -33,7 +33,7 @@ public class SafeRequire extends Require {
         cx,
         nativeScope,
         new SoftCachingModuleScriptProvider(new KoLmafiaUrlModuleSourceProvider()),
-        null,
+        new ScopeIsolationScript(nativeScope),
         new MainWarningScript(),
         true);
     this.stdLib = stdLib;
