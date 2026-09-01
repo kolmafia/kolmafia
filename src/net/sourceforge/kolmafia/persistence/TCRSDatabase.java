@@ -1223,10 +1223,7 @@ public class TCRSDatabase {
               DoubleModifier.COLD_DAMAGE,
               DoubleModifier.SPOOKY_DAMAGE,
               DoubleModifier.STENCH_DAMAGE,
-              DoubleModifier.SLEAZE_DAMAGE),
-          EnumSet.of(DoubleModifier.MUS, DoubleModifier.MYS, DoubleModifier.MOX),
-          EnumSet.of(DoubleModifier.MUS_PCT, DoubleModifier.MYS_PCT, DoubleModifier.MOX_PCT),
-          EnumSet.of(DoubleModifier.HP_PCT, DoubleModifier.MP_PCT));
+              DoubleModifier.SLEAZE_DAMAGE));
   private static final Set<DoubleModifier> REGEN =
       EnumSet.of(
           DoubleModifier.HP_REGEN_MIN,

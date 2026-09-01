@@ -1692,6 +1692,7 @@ public class ProxyRecordValue extends RecordValue {
             .add("random_modifiers", new PluralValueType(DataTypes.STRING_TYPE))
             .add("manuel_name", DataTypes.STRING_TYPE)
             .add("wiki_name", DataTypes.STRING_TYPE)
+            .add("blue_vs_red_team", DataTypes.STRING_TYPE)
             .add("attributes", DataTypes.STRING_TYPE)
             .add("fact_type", DataTypes.STRING_TYPE)
             .add("fact", DataTypes.STRING_TYPE)
@@ -1897,6 +1898,12 @@ public class ProxyRecordValue extends RecordValue {
 
     public String get_wiki_name() {
       return this.content != null ? ((MonsterData) this.content).getWikiName() : "";
+    }
+
+    public String get_blue_vs_red_team() {
+      return this.content != null
+          ? ((MonsterData) this.content).getBlueVsRedTeam().getTeamName()
+          : "";
     }
 
     public String get_attributes() {
