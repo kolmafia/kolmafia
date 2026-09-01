@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.function.BiConsumer;
+import java.util.function.Predicate;
 
 public class DoubleModifierCollection {
   public static final int SPARSE_DOUBLES_MAX_SIZE = 32;
@@ -100,5 +101,9 @@ public class DoubleModifierCollection {
 
   public void forEach(BiConsumer<? super DoubleModifier, ? super DoubleOrList> action) {
     this.doubles.forEach(action);
+  }
+
+  public boolean anyMatch(Predicate<DoubleModifier> predicate) {
+    return this.doubles.keySet().stream().anyMatch(predicate);
   }
 }

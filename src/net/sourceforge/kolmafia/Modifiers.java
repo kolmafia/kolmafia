@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.TreeMap;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.VYKEACompanionData.VYKEACompanionType;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
@@ -392,6 +393,10 @@ public class Modifiers {
     if (modifier == null) return List.of();
 
     return this.doubles.getList(modifier);
+  }
+
+  public boolean hasDoubleModifier(Predicate<DoubleModifier> predicate) {
+    return this.doubles.anyMatch(predicate);
   }
 
   public int getRawBitmap(final BitmapModifier modifier) {
