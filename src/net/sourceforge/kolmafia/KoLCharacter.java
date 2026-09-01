@@ -15,7 +15,6 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.AscensionPath.Path;
@@ -5168,7 +5167,11 @@ public abstract class KoLCharacter {
         debug, prefix.modifiers(), prefix.fightMods(), equipment, effects, speculation);
   }
 
-  public static record AdjustmentPrefix(Modifiers modifiers, Modifiers fightMods) {}
+  /** State after equipment and familiar effects, but before final derived adjustments. */
+  public static record AdjustmentPrefix(
+      Modifiers modifiers,
+      Modifiers fightMods,
+      Modifiers.FamiliarWeightInputs familiarWeightInputs) {}
 
   public static final AdjustmentPrefix recalculateAdjustmentsPrefix(
       boolean debug,
@@ -5446,6 +5449,7 @@ public abstract class KoLCharacter {
     newModifiers.applySynergies();
 
     // Add familiar effects based on calculated weight adjustment.
+    var familiarWeightInputs = newModifiers.familiarWeightInputs();
     newModifiers.applyFamiliarModifiers(familiar, equipment.get(Slot.FAMILIAR));
 
     // Add Pasta Thrall effects
@@ -5633,9 +5637,10 @@ public abstract class KoLCharacter {
     // free rests
     newModifiers.applyAdditionalFreeRestModifiers();
 
-    return new AdjustmentPrefix(newModifiers, fightMods);
+    return new AdjustmentPrefix(newModifiers, fightMods, familiarWeightInputs);
   }
 
+  /** Completes adjustment calculation from a reusable {@link AdjustmentPrefix}. */
   public static final Modifiers applyAdjustmentSuffix(
       boolean debug,
       Modifiers newModifiers,
@@ -6036,12 +6041,7 @@ public abstract class KoLCharacter {
 
   public static void addEternityCodpieceAdjustments(
       Map<Slot, AdventureResult> equipment, Modifiers newModifiers) {
-    KoLCharacter.addEternityCodpieceAdjustments(SlotSet.CODPIECE_SLOTS, equipment, newModifiers);
-  }
-
-  public static void addEternityCodpieceAdjustments(
-      Iterable<Slot> slots, Map<Slot, AdventureResult> equipment, Modifiers newModifiers) {
-    StreamSupport.stream(slots.spliterator(), false)
+    SlotSet.CODPIECE_SLOTS.stream()
         .map(equipment::get)
         .filter(s -> s != null && s != EquipmentRequest.UNEQUIP)
         .map(AdventureResult::getItemId)

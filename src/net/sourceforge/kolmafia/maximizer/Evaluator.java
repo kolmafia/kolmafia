@@ -1,9 +1,7 @@
 package net.sourceforge.kolmafia.maximizer;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -65,8 +63,10 @@ public class Evaluator {
   public boolean failed;
   boolean exceeded;
   private Evaluator tiebreaker;
-  private final Map<Integer, CodpieceCandidateScore> codpieceCandidateScores = new HashMap<>();
+  private final CodpieceEvaluator codpieceEvaluator = new CodpieceEvaluator(this);
   private final DoubleModifierCollection weight = new DoubleModifierCollection();
+  private final EnumSet<DoubleModifier> explicitScoreModifiers =
+      EnumSet.noneOf(DoubleModifier.class);
   private Map<DoubleModifier, Double> min;
   private Map<DoubleModifier, Double> max;
   private List<ScoreTerm> activeScoreModifiers = List.of();
@@ -136,8 +136,6 @@ public class Evaluator {
       Pattern.compile("^mox(ie)? exp(erience)? perc(ent(age)?)?");
   private static final Pattern MOX_EXP_PATTERN = Pattern.compile("^mox(ie)? exp(erience)?");
   private static final Pattern MOX_PERC_PATTERN = Pattern.compile("^mox(ie)? perc(ent(age)?)?");
-
-  private record CodpieceCandidateScore(double score, double tiebreaker) {}
 
   private static final String TIEBREAKER =
       "1 familiar weight, 1 familiar experience, 1 initiative, 5 exp, 1 item, 1 meat, 0.1 DA 1000 max, 1 DR, 0.5 all res, -10 mana cost, 1.0 mus, 0.5 mys, 1.0 mox, 1.5 mainstat, 1 HP, 1 MP, 1 weapon damage, 1 ranged damage, 1 spell damage, 1 cold damage, 1 hot damage, 1 sleaze damage, 1 spooky damage, 1 stench damage, 1 cold spell damage, 1 hot spell damage, 1 sleaze spell damage, 1 spooky spell damage, 1 stench spell damage, -1 fumble, 1 HP regen max, 3 MP regen max, 1 critical hit percent, 0.1 food drop, 0.1 booze drop, 0.1 hat drop, 0.1 weapon drop, 0.1 offhand drop, 0.1 shirt drop, 0.1 pants drop, 0.1 accessory drop, 1 DB combat damage, 0.1 sixgun damage";
@@ -738,6 +736,7 @@ public class Evaluator {
       if (index != null) {
         // We found a match.
         String modifierName = index.getName();
+        this.explicitScoreModifiers.add(index);
         this.weight.set(index, weight);
         continue;
       }
@@ -1001,59 +1000,13 @@ public class Evaluator {
     return ((baseExperience + experience) * (1.0 + experiencePercent)) / 2.0;
   }
 
-  CodpiecePruning.ScoreUpperBound createTheoreticalCodpieceScoreUpperBound(
+  CodpieceScoreBound createTheoreticalCodpieceScoreUpperBound(
       Modifiers baseline, Modifiers[] gemModifiers, int[] remaining, int slotCount) {
-    return this.createTheoreticalCodpieceScoreUpperBound(
-        baseline, gemModifiers, remaining, slotCount, null, null, null, null);
+    return this.codpieceEvaluator.createTheoreticalCodpieceScoreUpperBound(
+        baseline, gemModifiers, remaining, slotCount);
   }
 
-  boolean canMeetCodpieceHardRequirements(
-      Modifiers baseline, Modifiers[] gemModifiers, int[] remaining) {
-    if (maximumBitmapValue(baseline, gemModifiers, remaining, BitmapModifier.CLOWNINESS)
-            < this.clownosity
-        || maximumBitmapValue(baseline, gemModifiers, remaining, BitmapModifier.RAVEOSITY)
-            < this.raveosity
-        || maximumBitmapValue(baseline, gemModifiers, remaining, BitmapModifier.SURGEONOSITY)
-            < this.surgeonosity) {
-      return false;
-    }
-
-    for (BooleanModifier modifier : this.booleanMask) {
-      if (this.booleanValue.contains(modifier)) {
-        if (!baseline.getBoolean(modifier)
-            && !candidateProvidesBoolean(gemModifiers, remaining, modifier)) {
-          return false;
-        }
-      } else if (baseline.getBoolean(modifier)) {
-        return false;
-      }
-    }
-    return true;
-  }
-
-  private static int maximumBitmapValue(
-      Modifiers baseline, Modifiers[] gemModifiers, int[] remaining, BitmapModifier modifier) {
-    int bits = baseline.getRawBitmap(modifier);
-    for (int i = 0; i < gemModifiers.length; i++) {
-      if (remaining[i] > 0 && gemModifiers[i] != null) {
-        bits |= gemModifiers[i].getRawBitmap(modifier);
-      }
-    }
-    int value = Integer.bitCount(bits);
-    return modifier == BitmapModifier.CLOWNINESS ? value * 25 : value;
-  }
-
-  private static boolean candidateProvidesBoolean(
-      Modifiers[] gemModifiers, int[] remaining, BooleanModifier modifier) {
-    for (int i = 0; i < gemModifiers.length; i++) {
-      if (remaining[i] > 0 && gemModifiers[i] != null && gemModifiers[i].getBoolean(modifier)) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  CodpiecePruning.ScoreUpperBound createTheoreticalCodpieceScoreUpperBound(
+  CodpieceScoreBound createTheoreticalCodpieceScoreUpperBound(
       Modifiers baseline,
       Modifiers[] gemModifiers,
       int[] remaining,
@@ -1062,169 +1015,53 @@ public class Evaluator {
       Map<Modeable, String> modeables,
       List<CheckedItem> gems,
       CodpiecePruning.FamiliarScoreContributions familiarScoreContributions) {
-    if ((!this.bonuses.isEmpty() || !this.bonusFunc.isEmpty())
-        && (equipment == null || modeables == null || gems == null)) {
-      return null;
-    }
-
-    for (var scoreModifier : this.activeScoreModifiers) {
-      if (!CodpiecePruning.supportsScoreTerm(
-          scoreModifier.modifier(),
-          scoreModifier.weight(),
-          baseline,
-          gemModifiers,
-          familiarScoreContributions)) {
-        return null;
-      }
-    }
-
-    boolean baselineRollover = baseline.hasString(StringModifier.ROLLOVER_EFFECT);
-    boolean candidateRollover =
-        !baselineRollover
-            && Arrays.stream(gemModifiers)
-                .anyMatch(
-                    modifiers ->
-                        modifiers != null && modifiers.hasString(StringModifier.ROLLOVER_EFFECT));
-    boolean candidateBitmapScore = this.hasCandidateBitmapScore(gemModifiers, remaining);
-    double fixedScore =
-        this.stinkycheese
-                * maximumBitmapValue(baseline, gemModifiers, remaining, BitmapModifier.STINKYCHEESE)
-            + Math.min(
-                maximumBitmapValue(baseline, gemModifiers, remaining, BitmapModifier.CLOWNINESS),
-                this.clownosity)
-            + Math.min(
-                maximumBitmapValue(baseline, gemModifiers, remaining, BitmapModifier.RAVEOSITY),
-                this.raveosity)
-            + Math.min(
-                maximumBitmapValue(baseline, gemModifiers, remaining, BitmapModifier.SURGEONOSITY),
-                this.surgeonosity);
-    double[] itemContributions = new double[gemModifiers.length];
-    if (equipment != null) {
-      for (AdventureResult item : equipment.values()) {
-        fixedScore += this.getItemScore(item, modeables);
-      }
-      double emptySlotScore = this.getItemScore(EquipmentRequest.UNEQUIP, modeables);
-      for (int i = 0; i < gems.size(); i++) {
-        itemContributions[i] = this.getItemScore(gems.get(i), modeables) - emptySlotScore;
-      }
-    }
-    return new CodpiecePruning.ScoreUpperBound(
-        this.activeScoreModifiers,
+    return this.codpieceEvaluator.createTheoreticalCodpieceScoreUpperBound(
         baseline,
         gemModifiers,
         remaining,
         slotCount,
-        this.totalMin,
-        fixedScore + (baselineRollover || candidateRollover ? 0.01f : 0.0),
-        !candidateRollover && !candidateBitmapScore,
-        false,
-        itemContributions,
-        familiarScoreContributions,
-        this.canMeetCodpieceHardRequirements(baseline, gemModifiers, remaining));
-  }
-
-  private boolean hasCandidateBitmapScore(Modifiers[] gemModifiers, int[] remaining) {
-    for (int i = 0; i < gemModifiers.length; i++) {
-      Modifiers modifiers = gemModifiers[i];
-      if (remaining[i] > 0
-          && modifiers != null
-          && ((this.stinkycheese > 0 && modifiers.getRawBitmap(BitmapModifier.STINKYCHEESE) != 0)
-              || (this.clownosity > 0 && modifiers.getRawBitmap(BitmapModifier.CLOWNINESS) != 0)
-              || (this.raveosity > 0 && modifiers.getRawBitmap(BitmapModifier.RAVEOSITY) != 0)
-              || (this.surgeonosity > 0
-                  && modifiers.getRawBitmap(BitmapModifier.SURGEONOSITY) != 0))) {
-        return true;
-      }
-    }
-    return false;
+        equipment,
+        modeables,
+        gems,
+        familiarScoreContributions);
   }
 
   EnumSet<DoubleModifier> familiarDependentScoreModifiers() {
-    var modifiers = EnumSet.noneOf(DoubleModifier.class);
-    List<ScoreTerm> scoreModifiers = new ArrayList<>(this.activeScoreModifiers);
-    if (!this.noTiebreaker) {
-      scoreModifiers.addAll(this.tiebreaker.activeScoreModifiers);
-    }
-    for (var scoreModifier : scoreModifiers) {
-      if (scoreModifier.modifier() == DoubleModifier.ITEMDROP
-          || scoreModifier.modifier() == DoubleModifier.MEATDROP
-          || scoreModifier.modifier() == DoubleModifier.EXPERIENCE) {
-        modifiers.add(scoreModifier.modifier());
-      }
-    }
-    return modifiers;
+    return this.codpieceEvaluator.familiarDependentScoreModifiers();
   }
 
-  CodpiecePruning.ScoreUpperBound createTheoreticalCodpieceTiebreakerUpperBound(
+  CodpieceScoreBound createTheoreticalCodpieceTiebreakerUpperBound(
       Modifiers baseline, Modifiers[] gemModifiers, int[] remaining, int slotCount) {
-    return this.createTheoreticalCodpieceTiebreakerUpperBound(
-        baseline, gemModifiers, remaining, slotCount, null);
+    return this.codpieceEvaluator.createTheoreticalCodpieceTiebreakerUpperBound(
+        baseline, gemModifiers, remaining, slotCount);
   }
 
-  CodpiecePruning.ScoreUpperBound createTheoreticalCodpieceTiebreakerUpperBound(
+  CodpieceScoreBound createTheoreticalCodpieceTiebreakerUpperBound(
       Modifiers baseline,
       Modifiers[] gemModifiers,
       int[] remaining,
       int slotCount,
       CodpiecePruning.FamiliarScoreContributions familiarScoreContributions) {
-    if (this.noTiebreaker) {
-      return null;
-    }
-    for (Modifiers modifiers : gemModifiers) {
-      if (!CodpiecePruning.hasOnlySupportedTiebreakerModifiers(modifiers)) {
-        return null;
-      }
-    }
-
-    List<ScoreTerm> supported = new ArrayList<>();
-    double fixedScore = this.tiebreaker.getScore(baseline);
-    Map<DerivedModifier, Integer> predicted = null;
-    for (var scoreModifier : this.tiebreaker.activeScoreModifiers) {
-      if (!CodpiecePruning.supportsTiebreakerTerm(
-          scoreModifier.modifier(),
-          scoreModifier.weight(),
-          baseline,
-          gemModifiers,
-          familiarScoreContributions)) {
-        if ((scoreModifier.modifier() == DoubleModifier.ITEMDROP
-                || scoreModifier.modifier() == DoubleModifier.MEATDROP
-                || scoreModifier.modifier() == DoubleModifier.EXPERIENCE)
-            && Arrays.stream(gemModifiers).anyMatch(CodpiecePruning::affectsFamiliarCalculation)) {
-          return null;
-        }
-        continue;
-      }
-      supported.add(scoreModifier);
-      DoubleModifier modifier = scoreModifier.modifier();
-      if ((modifier == DoubleModifier.MUS
-              || modifier == DoubleModifier.MYS
-              || modifier == DoubleModifier.MOX
-              || modifier == DoubleModifier.HP
-              || modifier == DoubleModifier.MP)
-          && predicted == null) {
-        predicted = baseline.predict();
-      }
-      fixedScore -=
-          scoreModifier.weight()
-              * Math.min(scoreValue(modifier, baseline, predicted), scoreModifier.max());
-    }
-
-    return new CodpiecePruning.ScoreUpperBound(
-        supported,
-        baseline,
-        gemModifiers,
-        remaining,
-        slotCount,
-        Double.NEGATIVE_INFINITY,
-        fixedScore,
-        true,
-        true,
-        new double[gemModifiers.length],
-        familiarScoreContributions,
-        true);
+    return this.codpieceEvaluator.createTheoreticalCodpieceTiebreakerUpperBound(
+        baseline, gemModifiers, remaining, slotCount, familiarScoreContributions);
   }
 
-  private double getItemScore(AdventureResult item, Map<Modeable, String> modeables) {
+  CodpieceEvaluator.Context codpieceContext() {
+    return new CodpieceEvaluator.Context(
+        this.activeScoreModifiers,
+        this.tiebreaker == null ? List.of() : this.tiebreaker.activeScoreModifiers,
+        this.totalMin,
+        this.clownosity,
+        this.raveosity,
+        this.surgeonosity,
+        this.stinkycheese,
+        this.booleanMask,
+        this.booleanValue,
+        this.noTiebreaker,
+        !this.bonuses.isEmpty() || !this.bonusFunc.isEmpty());
+  }
+
+  double getItemScore(AdventureResult item, Map<Modeable, String> modeables) {
     double score = 0.0;
     ItemBonus itemBonus = this.bonuses.get(item);
     if (itemBonus != null) {
@@ -1974,9 +1811,9 @@ public class Evaluator {
           gem.automaticFlag = true;
       }
 
-      double delta = this.getScore(mods, Map.of(Slot.CODPIECE1, gem), Map.of()) - nullScore;
-      double tiebreakerDelta = this.getTiebreaker(mods) - nullTiebreaker;
-      this.codpieceCandidateScores.put(gemId, new CodpieceCandidateScore(delta, tiebreakerDelta));
+      var candidate = this.codpieceEvaluator.scoreCandidate(mods, gem, nullScore, nullTiebreaker);
+      double delta = candidate.score();
+      double tiebreakerDelta = candidate.tiebreaker();
       if ((delta < 0.0 || (delta == 0.0 && tiebreakerDelta <= 0.0))
           && !gem.automaticFlag
           && !(usesFamiliarDependentScore && CodpiecePruning.affectsFamiliarCalculation(mods))
@@ -2789,14 +2626,7 @@ public class Evaluator {
   }
 
   List<CheckedItem> prioritizeCodpieceGems(List<CheckedItem> gems) {
-    return gems.stream()
-        .sorted(
-            Comparator.comparingDouble(
-                    (CheckedItem gem) -> this.codpieceCandidateScores.get(gem.getItemId()).score())
-                .thenComparingDouble(
-                    gem -> this.codpieceCandidateScores.get(gem.getItemId()).tiebreaker())
-                .reversed())
-        .toList();
+    return this.codpieceEvaluator.prioritize(gems);
   }
 
   private boolean isCatUseful(double nullScore, String catName) {

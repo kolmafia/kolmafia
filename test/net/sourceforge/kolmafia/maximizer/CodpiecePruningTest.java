@@ -53,8 +53,9 @@ class CodpiecePruningTest {
     var gemModifiers = new Modifiers[] {new Modifiers(), new Modifiers()};
     int[] remaining = {1, 1};
     var upperBound =
-        new CodpiecePruning.ScoreUpperBound(
+        new CodpieceScoreBound(
             List.of(),
+            new CodpieceScoreBound.ContributionBasis(List.of(), gemModifiers),
             new Modifiers(),
             gemModifiers,
             remaining,
@@ -122,6 +123,39 @@ class CodpiecePruningTest {
         equalTo(1.0));
   }
 
+  @ParameterizedTest
+  @CsvSource({
+    "smithsness, SMITHSNESS",
+    "critical hit percent, CRITICAL_PCT",
+    "stomach capacity, STOMACH_CAPACITY",
+    "familiar weight cap, FAMILIAR_WEIGHT_CAP"
+  })
+  void boundsDirectNumericModifiers(String expression, DoubleModifier modifier) {
+    var baseline = new Modifiers();
+    baseline.setDouble(modifier, 5.0);
+
+    assertThat(
+        estimate(
+            new Evaluator(expression + ", -tie"),
+            baseline,
+            new Modifiers[] {new Modifiers()},
+            new int[] {1},
+            1),
+        equalTo(5.0));
+  }
+
+  @Test
+  void fallsBackForUnmodeledDirectModifierGem() {
+    var gem = new Modifiers();
+    gem.setDouble(DoubleModifier.SMITHSNESS, 1.0);
+
+    assertThat(
+        new Evaluator("smithsness")
+            .createTheoreticalCodpieceScoreUpperBound(
+                new Modifiers(), new Modifiers[] {gem}, new int[] {1}, 1),
+        nullValue());
+  }
+
   @Test
   void boundsMinimumsAndSaturation() {
     var baseline = new Modifiers();
@@ -141,6 +175,12 @@ class CodpiecePruningTest {
     upperBound.select(1);
     remaining[1]--;
     assertFalse(upperBound.canMeetMinimum(1, remaining, 1, upperBound.estimate(1, remaining, 1)));
+
+    remaining = new int[] {2, 2};
+    upperBound =
+        new Evaluator("pool skill, 6 damage reduction min, -tie")
+            .createTheoreticalCodpieceScoreUpperBound(baseline, gemModifiers, remaining, 2);
+    assertTrue(upperBound.canMeetMinimum(0, remaining, 2, upperBound.estimate(0, remaining, 2)));
 
     remaining = new int[] {2, 2};
     upperBound =
@@ -300,11 +340,12 @@ class CodpiecePruningTest {
 
   @ParameterizedTest
   @CsvSource({"item drop,ITEMDROP", "meat drop,MEATDROP"})
-  void boundsPositiveFamiliarDependentScoresWithContributionCeiling(
-      String expression, DoubleModifier modifier) {
+  void boundsFamiliarDependentScoresInBothDirections(String expression, DoubleModifier modifier) {
     var familiarGem = new Modifiers();
     familiarGem.setDouble(DoubleModifier.FAMILIAR_WEIGHT, 1.0);
-    var contributions = new CodpiecePruning.FamiliarScoreContributions(0, Map.of(modifier, 7.0));
+    var contributions =
+        new CodpiecePruning.FamiliarScoreContributions(
+            0, Map.of(modifier, new CodpiecePruning.ContributionRange(-3.0, 7.0)));
     var upperBound =
         new Evaluator(expression)
             .createTheoreticalCodpieceScoreUpperBound(
@@ -319,7 +360,7 @@ class CodpiecePruningTest {
 
     assertThat(upperBound, not(nullValue()));
     assertTrue(upperBound.estimate(0, new int[] {1}, 1) >= 107.0);
-    assertThat(
+    var negativeUpperBound =
         new Evaluator("-1 " + expression)
             .createTheoreticalCodpieceScoreUpperBound(
                 new Modifiers(),
@@ -329,8 +370,9 @@ class CodpiecePruningTest {
                 null,
                 null,
                 null,
-                contributions),
-        nullValue());
+                contributions);
+    assertThat(negativeUpperBound, not(nullValue()));
+    assertTrue(negativeUpperBound.estimate(0, new int[] {1}, 1) >= -97.0);
   }
 
   @Test
@@ -368,8 +410,11 @@ class CodpiecePruningTest {
                 null,
                 null,
                 new CodpiecePruning.FamiliarScoreContributions(
-                    0, Map.of(DoubleModifier.EXPERIENCE, 1.0))),
-        nullValue());
+                    0,
+                    Map.of(
+                        DoubleModifier.EXPERIENCE,
+                        new CodpiecePruning.ContributionRange(1.0, 1.0)))),
+        not(nullValue()));
   }
 
   @Test
@@ -405,6 +450,19 @@ class CodpiecePruningTest {
 
     assertThat(upperBound, not(nullValue()));
     assertTrue(upperBound.estimate(0, remaining, 5) >= achievable);
+  }
+
+  @ParameterizedTest
+  @CsvSource({"muscle experience", "mysticality experience", "moxie experience"})
+  void boundsStatExperienceAdjustedByMonsterLevel(String expression) {
+    var monsterLevelGem = new Modifiers();
+    monsterLevelGem.setDouble(DoubleModifier.MONSTER_LEVEL, 5.0);
+
+    assertThat(
+        new Evaluator(expression)
+            .createTheoreticalCodpieceScoreUpperBound(
+                new Modifiers(), new Modifiers[] {monsterLevelGem}, new int[] {1}, 1),
+        not(nullValue()));
   }
 
   @Test
@@ -536,12 +594,194 @@ class CodpiecePruningTest {
   }
 
   @Test
-  void doesNotBoundNegativeExperienceAsPrimaryScore() {
-    assertThat(
-        new Evaluator("-1 experience, -tie")
+  void boundsNegativeExperienceAsPrimaryScore() {
+    var baseline = new Modifiers();
+    baseline.setDouble(DoubleModifier.MONSTER_LEVEL, 10.0);
+    var monsterLevelGem = new Modifiers();
+    monsterLevelGem.setDouble(DoubleModifier.MONSTER_LEVEL, -5.0);
+    var experienceGem = new Modifiers();
+    experienceGem.setDouble(DoubleModifier.primeStatExp(), -2.0);
+    var gemModifiers = new Modifiers[] {monsterLevelGem, experienceGem};
+    int[] remaining = {5, 5};
+    var evaluator = new Evaluator("-1 experience, -tie");
+    var upperBound =
+        evaluator.createTheoreticalCodpieceScoreUpperBound(baseline, gemModifiers, remaining, 5);
+    double achievable = Double.NEGATIVE_INFINITY;
+    for (int monsterLevelCopies = 0; monsterLevelCopies <= 5; monsterLevelCopies++) {
+      for (int experienceCopies = 0;
+          experienceCopies <= 5 - monsterLevelCopies;
+          experienceCopies++) {
+        var modifiers = new Modifiers(baseline);
+        modifiers.setDouble(
+            DoubleModifier.MONSTER_LEVEL,
+            baseline.getDouble(DoubleModifier.MONSTER_LEVEL)
+                + monsterLevelCopies * monsterLevelGem.getDouble(DoubleModifier.MONSTER_LEVEL));
+        modifiers.setDouble(
+            DoubleModifier.primeStatExp(),
+            baseline.getDouble(DoubleModifier.primeStatExp())
+                + experienceCopies * experienceGem.getDouble(DoubleModifier.primeStatExp()));
+        achievable = Math.max(achievable, evaluator.getScore(modifiers));
+      }
+    }
+
+    assertThat(upperBound, not(nullValue()));
+    assertTrue(upperBound.estimate(0, remaining, 5) >= achievable);
+  }
+
+  @Test
+  void boundsEnchantmentCountAsPrimaryScore() {
+    var gem = new Modifiers();
+    gem.setDouble(DoubleModifier.ENCHANTMENT_COUNT, 2.0);
+    int[] remaining = {2};
+    var upperBound =
+        new Evaluator("enchantment count, -tie")
             .createTheoreticalCodpieceScoreUpperBound(
-                new Modifiers(), new Modifiers[] {new Modifiers()}, new int[] {1}, 1),
-        nullValue());
+                new Modifiers(), new Modifiers[] {gem}, remaining, 2);
+
+    assertThat(upperBound, not(nullValue()));
+    assertTrue(upperBound.estimate(0, remaining, 2) >= 4.0);
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+    "hat / pants drop,HAT_PANTS_DROP,HATDROP,PANTSDROP",
+    "maximum hp / mp,MAXIMUM_HP_MP,HP,MP"
+  })
+  void boundsMinimumDerivedScores(
+      String expression,
+      DoubleModifier scoreModifier,
+      DoubleModifier firstComponent,
+      DoubleModifier secondComponent) {
+    var baseline = new Modifiers();
+    baseline.setDouble(firstComponent, 10.0);
+    baseline.setDouble(secondComponent, 20.0);
+    var firstGem = new Modifiers();
+    firstGem.setDouble(firstComponent, 15.0);
+    var secondGem = new Modifiers();
+    secondGem.setDouble(secondComponent, -5.0);
+    var gemModifiers = new Modifiers[] {firstGem, secondGem};
+    int[] remaining = {1, 1};
+
+    for (String sign : List.of("", "-1 ")) {
+      var evaluator = new Evaluator(sign + expression + ", -tie");
+      var upperBound =
+          evaluator.createTheoreticalCodpieceScoreUpperBound(baseline, gemModifiers, remaining, 2);
+      double achievable = Double.NEGATIVE_INFINITY;
+      for (int first = 0; first <= 1; first++) {
+        for (int second = 0; second <= 1; second++) {
+          var modifiers = new Modifiers(baseline);
+          modifiers.setDouble(firstComponent, 10.0 + first * 15.0);
+          modifiers.setDouble(secondComponent, 20.0 - second * 5.0);
+          achievable = Math.max(achievable, evaluator.getScore(modifiers));
+        }
+      }
+
+      assertThat(upperBound, not(nullValue()));
+      assertTrue(upperBound.estimate(0, remaining, 2) >= achievable);
+      assertThat(baseline.getDouble(scoreModifier), equalTo(10.0));
+    }
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+    "hat / pants drop, HAT_PANTS_DROP",
+    "maximum hp / mp, MAXIMUM_HP_MP",
+  })
+  void fallsBackForExplicitMinimumDerivedGem(String expression, DoubleModifier modifier) {
+    var gem = new Modifiers();
+    gem.setDouble(modifier, 1.0);
+
+    for (String sign : List.of("", "-1 ")) {
+      assertThat(
+          new Evaluator(sign + expression + ", -tie")
+              .createTheoreticalCodpieceScoreUpperBound(
+                  new Modifiers(), new Modifiers[] {gem}, new int[] {1}, 1),
+          nullValue());
+    }
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+    "familiar weight percent,FAMILIAR_WEIGHT_PCT,-10,-20,-5",
+    "muscle limit,MUS_LIMIT,100,50,200"
+  })
+  void boundsLowestValueScores(
+      String expression,
+      DoubleModifier modifier,
+      double baselineValue,
+      double firstValue,
+      double secondValue) {
+    var baseline = new Modifiers();
+    baseline.setDouble(modifier, baselineValue);
+    var firstGem = new Modifiers();
+    firstGem.setDouble(modifier, firstValue);
+    var secondGem = new Modifiers();
+    secondGem.setDouble(modifier, secondValue);
+    var gemModifiers = new Modifiers[] {firstGem, secondGem};
+    int[] remaining = {1, 1};
+
+    for (String sign : List.of("", "-1 ")) {
+      var upperBound =
+          new Evaluator(sign + expression + ", -tie")
+              .createTheoreticalCodpieceScoreUpperBound(baseline, gemModifiers, remaining, 2);
+      assertThat(upperBound, not(nullValue()));
+      double bestValue =
+          modifier == DoubleModifier.FAMILIAR_WEIGHT_PCT
+              ? Math.min(0.0, Math.min(baselineValue, Math.min(firstValue, secondValue)))
+              : Math.min(baselineValue, Math.min(firstValue, secondValue));
+      assertTrue(
+          upperBound.estimate(0, remaining, 2)
+              >= (sign.isEmpty() ? Math.max(baselineValue, bestValue) : -bestValue));
+    }
+  }
+
+  @Test
+  void boundsPrismaticDamage() {
+    var baseline = new Modifiers();
+    for (DoubleModifier modifier :
+        List.of(
+            DoubleModifier.COLD_DAMAGE,
+            DoubleModifier.HOT_DAMAGE,
+            DoubleModifier.SLEAZE_DAMAGE,
+            DoubleModifier.SPOOKY_DAMAGE,
+            DoubleModifier.STENCH_DAMAGE)) {
+      baseline.setDouble(modifier, 10.0);
+    }
+    var gem = new Modifiers();
+    gem.setDouble(DoubleModifier.COLD_DAMAGE, 5.0);
+    gem.setDouble(DoubleModifier.HOT_DAMAGE, -2.0);
+    int[] remaining = {1};
+
+    for (String sign : List.of("", "-1 ")) {
+      var evaluator = new Evaluator(sign + "prismatic damage, -tie");
+      var upperBound =
+          evaluator.createTheoreticalCodpieceScoreUpperBound(
+              baseline, new Modifiers[] {gem}, remaining, 1);
+      var achievable = new Modifiers(baseline);
+      achievable.setDouble(DoubleModifier.COLD_DAMAGE, 15.0);
+      achievable.setDouble(DoubleModifier.HOT_DAMAGE, 8.0);
+
+      assertThat(upperBound, not(nullValue()));
+      assertTrue(upperBound.estimate(0, remaining, 1) >= evaluator.getScore(achievable));
+    }
+  }
+
+  @Test
+  void classifiesEveryNumericObjectiveInBothDirections() {
+    var baseline = new Modifiers();
+    var gemModifiers = new Modifiers[] {new Modifiers()};
+    var familiarContributions = new CodpiecePruning.FamiliarScoreContributions(-1, Map.of());
+    var unsupported =
+        Arrays.stream(DoubleModifier.values())
+            .filter(
+                modifier ->
+                    !CodpiecePruning.supportsScoreTerm(
+                            modifier, 1.0, baseline, gemModifiers, familiarContributions)
+                        || !CodpiecePruning.supportsScoreTerm(
+                            modifier, -1.0, baseline, gemModifiers, familiarContributions))
+            .toList();
+
+    assertThat(unsupported, equalTo(List.of()));
   }
 
   @ParameterizedTest
@@ -581,7 +821,7 @@ class CodpiecePruningTest {
             new Modifiers[] {flatGem},
             new int[] {1},
             1),
-        equalTo(Double.POSITIVE_INFINITY));
+        equalTo((double) -baseline.predict().get(derived)));
 
     baseline.setString(floor, floorValue);
     assertThat(
@@ -592,6 +832,23 @@ class CodpiecePruningTest {
             new int[] {1},
             1),
         equalTo(Double.POSITIVE_INFINITY));
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+    "muscle, MUS",
+    "maximum hp, HP",
+    "maximum mp, MP",
+  })
+  void fallsBackForNegativeDerivedStatInputs(String expression, DoubleModifier modifier) {
+    var gem = new Modifiers();
+    gem.setDouble(modifier, -1.0);
+
+    assertThat(
+        new Evaluator("-1 " + expression + ", -tie")
+            .createTheoreticalCodpieceScoreUpperBound(
+                new Modifiers(), new Modifiers[] {gem}, new int[] {1}, 1),
+        nullValue());
   }
 
   @Test
@@ -641,7 +898,7 @@ class CodpiecePruningTest {
             new Modifiers[] {hitPointGem},
             new int[] {1},
             1),
-        equalTo(Double.POSITIVE_INFINITY));
+        equalTo((double) -baseline.predict().get(DerivedModifier.BUFFED_HP)));
 
     var manaPointGem = new Modifiers();
     manaPointGem.setDouble(DoubleModifier.MP, 20.0);
@@ -668,7 +925,7 @@ class CodpiecePruningTest {
             new Modifiers[] {manaPointGem},
             new int[] {1},
             1),
-        equalTo(Double.POSITIVE_INFINITY));
+        equalTo((double) -baseline.predict().get(DerivedModifier.BUFFED_MP)));
   }
 
   @Test
