@@ -4255,12 +4255,19 @@ public class DebugDatabase {
   }
 
   static boolean allowDisplay(WikiType first, WikiType second) {
+    /*
+    Preference is a list of pipe delimited pairs (with pair components comma separated) to be excluded
+    from the display.  For example, there are duplicate items and many skills have the same name as
+    the effect.  The pair "same,same" will suppress duplicates. "item", "effect", "skill", "monster",
+    "familiar" and "outfit" are valid components of a pair.  Input text is trimmed and compared
+    as lower case.
+     */
     String prefString = Preferences.getString("ambiguousCheckSuppressPairs");
     String t1 = first.name().toLowerCase().trim();
     String t2 = second.name().toLowerCase().trim();
     String[] parts = prefString.split("\\|");
-    for (int i = 0; i < parts.length; i++) {
-      String[] pair = parts[i].split(",");
+    for (String part : parts) {
+      String[] pair = part.split(",");
       String p1 = pair[0].toLowerCase().trim();
       String p2 = pair[1].toLowerCase().trim();
       if (t1.equals(t2) && p1.equals("same")) return false;
