@@ -32,6 +32,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
+import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.LinkedHashSet;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -1577,16 +1578,23 @@ public class EternityCodpieceMaximizerTest {
         availableItems.add(entry.getKey().getIntValue());
       }
     }
-    availableItems.forEach(id -> cleanups.add(withItem(id, 8)));
+    var previousInventory = new ArrayList<>(KoLConstants.inventory);
+    KoLConstants.inventory.clear();
+    availableItems.forEach(id -> KoLConstants.inventory.add(ItemPool.get(id, 8)));
 
     try (cleanups) {
-      long start = System.nanoTime();
-      maximizeAny("adv");
-      double elapsed = (System.nanoTime() - start) / 1_000_000.0;
-      assertFalse(Maximizer.best.failed);
-      System.out.printf(
-          "ALL_EQUIPMENT_BENCHMARK items=%d combinations=%d score=%.3f ms=%.3f%n",
-          availableItems.size(), Maximizer.bestChecked, Maximizer.best.getScore(), elapsed);
+      try {
+        long start = System.nanoTime();
+        maximizeAny("adv");
+        double elapsed = (System.nanoTime() - start) / 1_000_000.0;
+        assertFalse(Maximizer.best.failed);
+        System.out.printf(
+            "ALL_EQUIPMENT_BENCHMARK items=%d combinations=%d score=%.3f ms=%.3f%n",
+            availableItems.size(), Maximizer.bestChecked, Maximizer.best.getScore(), elapsed);
+      } finally {
+        KoLConstants.inventory.clear();
+        KoLConstants.inventory.addAll(previousInventory);
+      }
     }
   }
 

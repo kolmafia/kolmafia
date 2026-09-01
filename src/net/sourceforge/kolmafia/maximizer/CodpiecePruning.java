@@ -386,12 +386,9 @@ final class CodpiecePruning {
     if (modifiers == null) {
       return true;
     }
-    for (DoubleModifier modifier : DoubleModifier.values()) {
-      if (modifier.getSubsumed().length == 0
-          && !supportedDoubles.contains(modifier)
-          && (modifiers.getDouble(modifier) != 0.0 || !modifiers.getDoubles(modifier).isEmpty())) {
-        return false;
-      }
+    if (modifiers.hasDoubleModifier(
+        modifier -> modifier.getSubsumed().length == 0 && !supportedDoubles.contains(modifier))) {
+      return false;
     }
     for (BitmapModifier modifier : BitmapModifier.values()) {
       if (modifiers.getRawBitmap(modifier) != 0) {
