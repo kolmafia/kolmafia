@@ -5064,23 +5064,23 @@ Familiar	Yule Hound	Last Available: "2018-12"
 # If a familiar cannot be enthroned, indicate with "none". If the effect is unspaded, leave blank.
 
 Throne	Adorable Seal Larva	HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8, Drops Items
-Throne	Adorable Space Buddy	Maximum HP: 30, Maximum MP: 30
+Throne	Adorable Space Buddy	Maximum HP / MP: 30
 Throne	Adventurous Spelunker	Item Drop: +15, Drops Items, Variable
 Throne	Ancient Yuletide Troll	HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8, Drops Items
 Throne	Angry Goat	Muscle Percent: +15, Drops Items
-Throne	Angry Jung Man	Maximum HP: 10, Maximum MP: 10
+Throne	Angry Jung Man	Maximum HP / MP: 10
 Throne	Animated Macaroni Duck	Familiar Weight: +5
 Throne	Antique Nutcracker	Experience: +2
 Throne	Arachnelf	none
 Throne	Artistic Goth Kid	All Attributes: +10
-Throne	Astral Badger	Maximum HP: +10, Maximum MP: +10, Drops Items
+Throne	Astral Badger	Maximum HP / MP: +10, Drops Items
 Throne	Attention-Deficit Demon	Meat Drop: +20, Drops Items
 Throne	Autonomous Disco Ball	Familiar Weight: +5
 Throne	Baby Bugged Bugbear	All Attributes: -10, Experience: +2
 Throne	Baby Gravy Fairy	Weapon Damage: +10
 Throne	Baby Mayonnaise Wasp	Mysticality Percent: +15
 Throne	Baby Mutant Rattlesnake	Experience (Muscle): +2
-Throne	Baby Sandworm	Maximum HP: +10, Maximum MP: +10
+Throne	Baby Sandworm	Maximum HP / MP: +10
 Throne	Baby Skeleton	Damage vs. Skeletons: 50
 Throne	Baby Yeti	Spell Damage Percent: +10
 Throne	Baby Z-Rex	Experience (Muscle): +2
@@ -5088,9 +5088,9 @@ Throne	Bad Vibe	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, 
 Throne	Bark Scorpion	Monster Level: +10
 Throne	Barrrnacle	Familiar Weight: +5
 Throne	Black Cat	All Attributes: -10, Drops Meat
-Throne	Blavious Kloop	Maximum HP: +10, Maximum MP: +10
+Throne	Blavious Kloop	Maximum HP / MP: +10
 Throne	Blood-Faced Volleyball	Experience (Moxie): +2
-Throne	Bloovian Groose	Maximum HP: +10, Maximum MP: +10
+Throne	Bloovian Groose	Maximum HP / MP: +10
 Throne	Bowlet	none
 Throne	BRICKO chick	All Attributes Percent: +10, Drops Items
 Throne	Bulky Buddy Box	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
@@ -5160,7 +5160,7 @@ Throne	Gluttonous Green Ghost	Food Drop: +15, Drops Items
 Throne	God Lobster	none
 Throne	Golden Monkey	Meat Drop: +25, Drops Items
 Throne	Golden Pet Rock	none
-Throne	Green Pixie	Maximum HP: +10, Maximum MP: +10, Drops Items
+Throne	Green Pixie	Maximum HP / MP: +10, Drops Items
 Throne	Grey Goose	Weapon Damage: +10
 Throne	Grim Brother	Combat Rate: +5, Drops Items, Variable
 Throne	Grimstone Golem	Combat Rate: -5, Drops Items, Variable
@@ -5198,7 +5198,7 @@ Throne	Leprechaun	Meat Drop: +20, Drops Meat
 Throne	Levitating Potato	Initiative: +20
 Throne	Li'l Xenomorph	Item Drop: +15, Drops Items
 Throne	Lil' Barrel Mimic	Experience: +2
-Throne	Llama Lama	Maximum HP: +10, Maximum MP: +10
+Throne	Llama Lama	Maximum HP / MP: +10
 Throne	Machine Elf	All Attributes: +7, Drops Items, Variable
 Throne	Mad Hatrack	none
 Throne	Magic Dragonfish	Spell Damage Percent: +15
@@ -5212,7 +5212,7 @@ Throne	Mini-Adventurer	All Attributes Percent: 10, Drops Meat
 Throne	Mini-Crimbot	Cold Damage: +15
 Throne	Mini-Hipster	All Attributes: +10
 Throne	Mini-Skulldozer	Initiative: +20
-Throne	Mini-Trainbot	Maximum HP: +10, Maximum MP: +10
+Throne	Mini-Trainbot	Maximum HP / MP: +10
 Throne	Miniature Sword & Martini Guy	none
 Throne	MiniMechaElf	Muscle Percent: +15
 Throne	Misshapen Animal Skeleton	Familiar Weight: +5, Drops Meat
@@ -5278,7 +5278,7 @@ Throne	Sabre-Toothed Lime	Moxie Percent: +15
 Throne	Sausage Golem	Sleaze Damage: +20
 Throne	Scary Death Orb	Mysticality Percent: +15
 Throne	Shame Spiral	none
-Throne	Shorter-Order Cook	Maximum HP: +20, Maximum MP: +20
+Throne	Shorter-Order Cook	Maximum HP / MP: +20
 Throne	Significant Bit	none
 Throne	Skeleton of Crimbo Past	Damage vs. Skeletons: 100
 Throne	Sleazy Gravy Fairy	Sleaze Damage: +20, Drops Items
@@ -5313,14 +5313,14 @@ Throne	Toothsome Rock	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance
 Throne	Topiary Skunk	Stench Damage: +15
 Throne	Trick-or-Treating Tot	All Attributes: +10, Drops Items, Variable
 Throne	Twitching Space Critter	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2, Drops Items, Variable
-Throne	Unconscious Collective	Maximum HP: 10, Maximum MP: 10
+Throne	Unconscious Collective	Maximum HP / MP: 10
 Throne	Underworld Bonsai	Spell Damage Percent: +10
 Throne	Uniclops	Experience (Mysticality): +2
 Throne	Unspeakachu	none
 Throne	Untamed Turtle	Initiative: +20, Drops Items
 Throne	Urchin Urchin	Weapon Damage: +10
 Throne	Vampire Vintner	Maximum HP: +10
-Throne	Warbear Drone	Maximum HP: +15, Maximum MP: +15, Drops Items
+Throne	Warbear Drone	Maximum HP / MP: +15, Drops Items
 Throne	Wereturtle	Muscle Percent: +15, Drops Meat
 Throne	Wet Paper Tiger	none
 Throne	Whirling Maple Leaf	Spell Damage Percent: +10
@@ -9423,7 +9423,7 @@ Sign	Packrat	Experience Percent (Moxie): +10, Item Drop: +10
 # Platypus: Unlocks Little Canadia
 Sign	Platypus	Experience Percent (Muscle): +10, Familiar Weight: +5
 # Vole: Unlocks Degrassi Knoll
-Sign	Vole	Experience Percent (Moxie): +10, Initiative: +20, Maximum HP: +20, Maximum MP: +20
+Sign	Vole	Experience Percent (Moxie): +10, Initiative: +20, Maximum HP / MP: +20
 # Wallaby: Unlocks Degrassi Knoll
 Sign	Wallaby	Experience Percent (Mysticality): +10, Spell Damage Percent: +20
 # Wombat: Unlocks the Gnomish Gnomad Camp
@@ -15810,10 +15810,10 @@ RetroCape	heck hold	Mysticality Percent: 30, Maximum MP: +50
 RetroCape	heck thrill	Mysticality Percent: 30, Maximum MP: +50, Experience (Mysticality): 3
 RetroCape	heck kiss	Mysticality Percent: 30, Maximum MP: +50, Conditional Skill (Equipped): "Unleash the Devil's Kiss"
 RetroCape	heck kill	Mysticality Percent: 30, Maximum MP: +50, Lantern: 1, Lantern Element: "Spooky"
-RetroCape	robot hold	Moxie Percent: 30, Maximum HP: +25, Maximum MP: +25, Conditional Skill (Equipped): "Deploy Robo-Handcuffs"
-RetroCape	robot thrill	Moxie Percent: 30, Maximum HP: +25, Maximum MP: +25, Experience (Moxie): 3
-RetroCape	robot kiss	Moxie Percent: 30, Maximum HP: +25, Maximum MP: +25, Conditional Skill (Equipped): "Blow a Robo-Kiss"
-RetroCape	robot kill	Moxie Percent: 30, Maximum HP: +25, Maximum MP: +25, Conditional Skill (Equipped): "Precision Shot"
+RetroCape	robot hold	Moxie Percent: 30, Maximum HP / MP: +25, Conditional Skill (Equipped): "Deploy Robo-Handcuffs"
+RetroCape	robot thrill	Moxie Percent: 30, Maximum HP / MP: +25, Experience (Moxie): 3
+RetroCape	robot kiss	Moxie Percent: 30, Maximum HP / MP: +25, Conditional Skill (Equipped): "Blow a Robo-Kiss"
+RetroCape	robot kill	Moxie Percent: 30, Maximum HP / MP: +25, Conditional Skill (Equipped): "Precision Shot"
 
 # Backup Camera
 BackupCamera	ml	Monster Level: [min(3*L,50)]
