@@ -5320,7 +5320,7 @@ Throne	Unspeakachu	none
 Throne	Untamed Turtle	Initiative: +20, Drops Items
 Throne	Urchin Urchin	Weapon Damage: +10
 Throne	Vampire Vintner	Maximum HP: +10
-Throne	Warbear Drone	Maximum HP: +10, Maximum MP: +10, Drops Items
+Throne	Warbear Drone	Maximum HP: +15, Maximum MP: +15, Drops Items
 Throne	Wereturtle	Muscle Percent: +15, Drops Meat
 Throne	Wet Paper Tiger	none
 Throne	Whirling Maple Leaf	Spell Damage Percent: +10
