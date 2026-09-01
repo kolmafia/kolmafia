@@ -381,11 +381,8 @@ public class SkillDatabase {
         if (newHeart == null) {
           return name;
         }
-        return "Steal Monster's Heart: "
-            + currentHearts
-            + " -> "
-            + currentHearts
-            + newHeart.letter();
+        var currentWord = currentHearts.length() > 3 ? "" : currentHearts;
+        return "Steal Monster's Heart: " + currentHearts + " -> " + currentWord + newHeart.letter();
       }
     }
     return name;
