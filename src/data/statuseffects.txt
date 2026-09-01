@@ -2924,7 +2924,7 @@
 2921	Aspirinated Lips	kiwi_lipstick.gif	9e5dfff0ab057887d958c0fb5609c2c1	neutral	none	use 1 mini kiwi-flavored aspirin-injecting lipstick
 2922	Everything Looks Purple	eyes.gif	3c340b41732b40571bf8ca24eb535380	neutral	noremove
 2923	Infected with Chronerism	chroner.gif	85122dd028354f65bf76800b064eb920	good	none	eat 1 bacteria bisque
-2924	Twitching Senses	nopic.gif	10424fbb137ba7a24a8a7798f2908bb6	neutral	none	eat 1 ciliophora chowder
+2924	Twitching Senses	watch.gif	10424fbb137ba7a24a8a7798f2908bb6	neutral	none	eat 1 ciliophora chowder
 2925	Chloroplasted	sun.gif	f1c704c574989c850076ccc1b43ce420	good	none	eat 1 cream of chloroplasts
 2926	Burning Mouth	embercheese.gif	077bfdc23982be1c734fa7a8f47791a4	good	none	eat 1 wheel of camembert
 2927	Lettuce Rejoice	emberlettuce.gif	74fff3d37b73461779ee2a24ef4cf34b	good	none
@@ -2999,7 +2999,7 @@
 2996	Current Axis Codes	axiscode.gif	415836d626cb8e5c6a9ce26908df5e9c	neutral	nohookah	use 1 Axis HQ Code
 2997	Looking Cool	ice.gif	2c2021fad6001c6da810328dd53f033c	neutral	nohookah
 2998	It's Like a Tickertape Parade	confetti.gif	15517c9531a69396e8c7e07e6dc9181d	neutral	nohookah
-2999	Wildsun Boon	wild_sun.gif	6f0fbda9b7530056f9deba25393c6eb7	neutral	nohookah	alliedradio effect boon
+2999	Wildsun Boon	sun.gif	6f0fbda9b7530056f9deba25393c6eb7	neutral	nohookah	alliedradio effect boon
 3000	Materiel Intel	dinseybrain.gif	61d884a9f0584996cabd095045b0d39e	neutral	nohookah	alliedradio effect intel
 3001	Demon in Combat	skeldoll.gif	62733d7f016123c31e2393696cd2c0f0	neutral	nohookah
 3002	Ellipsoidtined	circle.gif	74c598b6434144e0ef61711a547ce203	neutral	nohookah	alliedradio effect ellipsoidtine
