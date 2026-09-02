@@ -113,7 +113,7 @@ class AnytimeSearchTest {
   }
 
   private static class KnapsackProblem
-      implements AnytimeSearch.Problem<Choice, SolutionQuality, List<Choice>> {
+      implements AnytimeSearch.Problem<Choice, SolutionQuality, List<Choice>, RuntimeException> {
     private final List<List<Choice>> choices;
     private final int capacity;
     private final boolean useBounds;
@@ -186,7 +186,8 @@ class AnytimeSearchTest {
     }
 
     @Override
-    public AnytimeSearch.Candidate<SolutionQuality, List<Choice>> evaluate() {
+    public AnytimeSearch.Candidate<SolutionQuality, List<Choice>> candidate() {
+      if (!this.complete()) return null;
       return new AnytimeSearch.Candidate<>(quality(this.score), List.copyOf(this.assignment));
     }
 

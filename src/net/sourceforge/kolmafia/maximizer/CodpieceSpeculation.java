@@ -566,17 +566,29 @@ final class CodpieceSpeculation {
   }
 
   /** Enumerates canonical gem multisets and rejects branches using conservative score ceilings. */
-  private final class CodpieceSearch {
+  private final class CodpieceSearch
+      implements AnytimeSearch.Problem<
+          Integer, SolutionQuality, MaximizerSpeculation, MaximizerInterruptedException> {
     private final List<CheckedItem> gems;
     private final List<Slot> slots;
     private final int[] remaining;
     private final int[] initialRemaining;
     private final boolean[] required;
+    private final int[] previousStarts;
+    private final boolean[] satisfiedRequirement;
     private final int requiredCount;
     private final LateCodpieceCache cache;
     private final boolean canCollapseSaturatedScore;
     private CodpiecePruning.BranchBounds bounds;
     private boolean tiebreakBoundInitialized;
+    private int start;
+    private int slotIndex;
+    private int remainingRequired;
+    private boolean stop;
+    private boolean analyzed;
+    private boolean canMeetRequirements;
+    private boolean scoreSaturated;
+    private double upperScore;
 
     private CodpieceSearch(
         List<CheckedItem> gems,
@@ -587,6 +599,8 @@ final class CodpieceSpeculation {
       this.slots = slots;
       this.remaining = new int[gems.size()];
       this.required = new boolean[gems.size()];
+      this.previousStarts = new int[slots.size()];
+      this.satisfiedRequirement = new boolean[slots.size()];
       this.cache = cache;
       this.canCollapseSaturatedScore = canCollapseSaturatedScore;
 
@@ -602,6 +616,7 @@ final class CodpieceSpeculation {
       }
       this.initialRemaining = this.remaining.clone();
       this.requiredCount = requiredCount;
+      this.remainingRequired = requiredCount;
     }
 
     private void run() throws MaximizerInterruptedException {
@@ -614,7 +629,8 @@ final class CodpieceSpeculation {
                   this.gems, this.remaining, this.slots.size(), BooleanModifier.DROPS_ITEMS),
               new CodpiecePruning.BooleanUpperBound(
                   this.gems, this.remaining, this.slots.size(), BooleanModifier.DROPS_MEAT));
-      this.search(0, 0, this.requiredCount);
+      MaximizerSpeculation best = Maximizer.best();
+      AnytimeSearch.maximize(this, new AnytimeSearch.Candidate<>(best.quality(), best), () -> true);
     }
 
     private CodpieceScoreBound createScoreUpperBound() {
@@ -632,100 +648,144 @@ final class CodpieceSpeculation {
                   this.cache.familiarScoreContributions);
     }
 
-    private void search(int start, int slotIndex, int requiredCount)
-        throws MaximizerInterruptedException {
-      boolean scoreSaturated = false;
-      boolean canMeetRequirements = true;
-      if (this.bounds.score() != null) {
-        int remainingSlots = this.slots.size() - slotIndex;
-        double upperScore = this.bounds.score().estimate(start, this.remaining, remainingSlots);
-        canMeetRequirements &=
-            this.bounds.score().canMeetMinimum(start, this.remaining, remainingSlots, upperScore);
-        if (!Maximizer.best().failed || !canMeetRequirements) {
-          double bestScore = Maximizer.best().getScore();
-          if (upperScore < bestScore) {
-            return;
-          }
-          if (Double.compare(upperScore, bestScore) == 0
-              && !Maximizer.character().hasActiveResources()) {
-            // Keep this tie pruning in compareTo order: item drops, meat drops, then tiebreak
-            // score.
-            CodpieceScoreBound tiebreakUpperBound = this.getTiebreakUpperBound(slotIndex);
-            int bestItemDroppers =
-                countEquipmentWith(Maximizer.best(), BooleanModifier.DROPS_ITEMS);
-            int itemDropperCeiling =
-                countEquipmentWith(owner, BooleanModifier.DROPS_ITEMS)
-                    + this.bounds
-                        .itemDroppers()
-                        .estimateAdditional(start, this.remaining, remainingSlots);
-            if (itemDropperCeiling < bestItemDroppers) {
-              return;
-            }
-            if (itemDropperCeiling == bestItemDroppers && tiebreakUpperBound != null) {
-              int bestMeatDroppers =
-                  countEquipmentWith(Maximizer.best(), BooleanModifier.DROPS_MEAT);
-              int meatDropperCeiling =
-                  countEquipmentWith(owner, BooleanModifier.DROPS_MEAT)
-                      + this.bounds
-                          .meatDroppers()
-                          .estimateAdditional(start, this.remaining, remainingSlots);
-              if (meatDropperCeiling < bestMeatDroppers
-                  || (meatDropperCeiling == bestMeatDroppers
-                      && tiebreakUpperBound.estimate(start, this.remaining, remainingSlots)
-                          < Maximizer.best().getTiebreaker())) {
-                return;
-              }
-            }
-          }
-        }
-        scoreSaturated = this.bounds.score().isScoreSaturated(start, this.remaining, upperScore);
-      }
-      if (requiredCount == 0) {
-        owner.checkBest(true);
-        if (this.canCollapseSaturatedScore
-            && scoreSaturated
-            && (!owner.failed || !canMeetRequirements)) {
-          return;
-        }
-      }
-      if (slotIndex == this.slots.size() || requiredCount > this.slots.size() - slotIndex) {
-        return;
-      }
+    @Override
+    public boolean complete() {
+      return this.stop
+          || this.slotIndex == this.slots.size()
+          || this.remainingRequired > this.slots.size() - this.slotIndex;
+    }
 
+    @Override
+    public List<Integer> choices() {
+      List<Integer> choices = new ArrayList<>();
       int firstRequired = -1;
-      for (int i = start; i < this.required.length; i++) {
+      for (int i = this.start; i < this.required.length; i++) {
         if (this.required[i]) {
           firstRequired = i;
           break;
         }
       }
 
-      Slot slot = this.slots.get(slotIndex);
-      for (int i = start; i < this.gems.size(); i++) {
+      for (int i = this.start; i < this.gems.size(); i++) {
         if (firstRequired != -1 && i > firstRequired) {
           break;
         }
-        if (this.remaining[i] == 0) {
-          continue;
-        }
-
-        boolean satisfiesRequirement = this.required[i];
-        this.remaining[i]--;
-        this.required[i] = false;
-        owner.equipment.put(slot, this.gems.get(i));
-        if (this.cache != null) {
-          this.cache.select(slotIndex, i);
-        }
-        this.bounds.select(i);
-        this.search(i, slotIndex + 1, requiredCount - (satisfiesRequirement ? 1 : 0));
-        this.bounds.deselect(i);
-        owner.equipment.put(slot, EquipmentRequest.UNEQUIP);
-        if (this.cache != null) {
-          this.cache.deselect(slotIndex);
-        }
-        this.required[i] = satisfiesRequirement;
-        this.remaining[i]++;
+        if (this.remaining[i] > 0) choices.add(i);
       }
+      return choices;
+    }
+
+    @Override
+    public boolean choose(Integer choice) {
+      int depth = this.slotIndex;
+      this.previousStarts[depth] = this.start;
+      this.satisfiedRequirement[depth] = this.required[choice];
+      this.remaining[choice]--;
+      this.required[choice] = false;
+      owner.equipment.put(this.slots.get(depth), this.gems.get(choice));
+      if (this.cache != null) {
+        this.cache.select(depth, choice);
+      }
+      this.bounds.select(choice);
+      this.start = choice;
+      this.slotIndex++;
+      if (this.satisfiedRequirement[depth]) this.remainingRequired--;
+      this.invalidate();
+      return true;
+    }
+
+    @Override
+    public void undo(Integer choice) {
+      this.slotIndex--;
+      int depth = this.slotIndex;
+      this.start = this.previousStarts[depth];
+      if (this.satisfiedRequirement[depth]) this.remainingRequired++;
+      this.bounds.deselect(choice);
+      owner.equipment.put(this.slots.get(depth), EquipmentRequest.UNEQUIP);
+      if (this.cache != null) {
+        this.cache.deselect(depth);
+      }
+      this.required[choice] = this.satisfiedRequirement[depth];
+      this.remaining[choice]++;
+      this.invalidate();
+    }
+
+    @Override
+    public boolean canBeat(SolutionQuality incumbent) {
+      this.analyze();
+      if (this.bounds.score() == null
+          || (!incumbent.feasible() && this.canMeetRequirements)
+          || this.upperScore > incumbent.score()) {
+        return true;
+      }
+      if (this.upperScore < incumbent.score()) {
+        return false;
+      }
+      if (Maximizer.character().hasActiveResources()) {
+        return true;
+      }
+
+      int remainingSlots = this.slots.size() - this.slotIndex;
+      int itemDropperCeiling =
+          countEquipmentWith(owner, BooleanModifier.DROPS_ITEMS)
+              + this.bounds
+                  .itemDroppers()
+                  .estimateAdditional(this.start, this.remaining, remainingSlots);
+      if (itemDropperCeiling != incumbent.itemDroppers()) {
+        return itemDropperCeiling > incumbent.itemDroppers();
+      }
+
+      CodpieceScoreBound tiebreakUpperBound = this.getTiebreakUpperBound(this.slotIndex);
+      if (tiebreakUpperBound == null) {
+        return true;
+      }
+      int meatDropperCeiling =
+          countEquipmentWith(owner, BooleanModifier.DROPS_MEAT)
+              + this.bounds
+                  .meatDroppers()
+                  .estimateAdditional(this.start, this.remaining, remainingSlots);
+      return meatDropperCeiling > incumbent.meatDroppers()
+          || (meatDropperCeiling == incumbent.meatDroppers()
+              && tiebreakUpperBound.estimate(this.start, this.remaining, remainingSlots)
+                  >= incumbent.tiebreaker());
+    }
+
+    @Override
+    public AnytimeSearch.Candidate<SolutionQuality, MaximizerSpeculation> candidate()
+        throws MaximizerInterruptedException {
+      if (this.remainingRequired != 0) return null;
+
+      owner.checkBest(true);
+      this.analyze();
+      this.stop =
+          this.canCollapseSaturatedScore
+              && this.scoreSaturated
+              && (!owner.failed || !this.canMeetRequirements);
+      MaximizerSpeculation best = Maximizer.best();
+      return new AnytimeSearch.Candidate<>(best.quality(), best);
+    }
+
+    private void analyze() {
+      if (this.analyzed) return;
+      this.analyzed = true;
+      this.canMeetRequirements = true;
+      this.scoreSaturated = false;
+      if (this.bounds.score() == null) return;
+
+      int remainingSlots = this.slots.size() - this.slotIndex;
+      this.upperScore = this.bounds.score().estimate(this.start, this.remaining, remainingSlots);
+      this.canMeetRequirements =
+          this.bounds
+              .score()
+              .canMeetMinimum(this.start, this.remaining, remainingSlots, this.upperScore);
+      this.scoreSaturated =
+          this.bounds.score().isScoreSaturated(this.start, this.remaining, this.upperScore);
+    }
+
+    private void invalidate() {
+      this.analyzed = false;
+      this.stop = false;
+      owner.setUnscored();
     }
 
     private CodpieceScoreBound getTiebreakUpperBound(int selectedCount) {

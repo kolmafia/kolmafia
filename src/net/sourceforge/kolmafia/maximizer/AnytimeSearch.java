@@ -6,7 +6,7 @@ import java.util.function.BooleanSupplier;
 final class AnytimeSearch {
   private AnytimeSearch() {}
 
-  interface Problem<C, Q extends Comparable<Q>, R> {
+  interface Problem<C, Q extends Comparable<Q>, R, E extends Exception> {
     boolean complete();
 
     List<C> choices();
@@ -30,7 +30,8 @@ final class AnytimeSearch {
 
     default void record() {}
 
-    Candidate<Q, R> evaluate();
+    /** Returns a valid candidate at the current state, or null when the state is incomplete. */
+    Candidate<Q, R> candidate() throws E;
   }
 
   record Candidate<Q, R>(Q quality, R result) {}
@@ -44,15 +45,16 @@ final class AnytimeSearch {
       long boundPrunes,
       boolean optimal) {}
 
-  static <C, Q extends Comparable<Q>, R> Result<Q, R> maximize(
-      Problem<C, Q, R> problem, Candidate<Q, R> incumbent, BooleanSupplier keepSearching) {
+  static <C, Q extends Comparable<Q>, R, E extends Exception> Result<Q, R> maximize(
+      Problem<C, Q, R, E> problem, Candidate<Q, R> incumbent, BooleanSupplier keepSearching)
+      throws E {
     var search = new Search<>(problem, incumbent, keepSearching);
     search.visit();
     return search.result();
   }
 
-  private static final class Search<C, Q extends Comparable<Q>, R> {
-    private final Problem<C, Q, R> problem;
+  private static final class Search<C, Q extends Comparable<Q>, R, E extends Exception> {
+    private final Problem<C, Q, R, E> problem;
     private final BooleanSupplier keepSearching;
     private Candidate<Q, R> best;
     private long nodes;
@@ -62,13 +64,13 @@ final class AnytimeSearch {
     private boolean stopped;
 
     private Search(
-        Problem<C, Q, R> problem, Candidate<Q, R> incumbent, BooleanSupplier keepSearching) {
+        Problem<C, Q, R, E> problem, Candidate<Q, R> incumbent, BooleanSupplier keepSearching) {
       this.problem = problem;
       this.best = incumbent;
       this.keepSearching = keepSearching;
     }
 
-    private void visit() {
+    private void visit() throws E {
       if (!this.keepSearching.getAsBoolean()) {
         this.stopped = true;
         return;
@@ -86,12 +88,15 @@ final class AnytimeSearch {
         return;
       }
 
-      if (this.problem.complete()) {
+      Candidate<Q, R> candidate = this.problem.candidate();
+      if (candidate != null) {
         this.leaves++;
-        Candidate<Q, R> candidate = this.problem.evaluate();
         if (this.best == null || candidate.quality().compareTo(this.best.quality()) > 0) {
           this.best = candidate;
         }
+      }
+
+      if (this.problem.complete()) {
         return;
       }
 
