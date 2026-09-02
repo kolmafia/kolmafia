@@ -48,6 +48,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
 import java.time.Month;
+import java.util.EnumSet;
+import java.util.Map;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -86,6 +88,7 @@ public class MaximizerTest {
       maximize("item drop");
       assertThat(Maximizer.bestChecked, is(1));
       assertThat(Maximizer.combinationLimit, is(1L));
+      assertThat(Maximizer.lastSearchMetrics().combinationsChecked(), is(1));
     }
 
     try (var cleanups =
@@ -95,6 +98,47 @@ public class MaximizerTest {
             withProperty("maximizerCombinationLimit", 0))) {
       maximize("item drop");
       assertThat(Maximizer.combinationLimit, is(0L));
+    }
+  }
+
+  @Test
+  void resetsSearchStateForRunsWithoutEquipmentSearch() {
+    try (var cleanups =
+        new Cleanups(
+            withEquippableItem("hardened slime hat"),
+            withEquippableItem("bounty-hunting helmet"),
+            withEquippableItem(ItemPool.JURASSIC_PARKA),
+            withSkill(SkillPool.TORSO),
+            withProperty("maximizerCombinationLimit", 1))) {
+      maximize("item drop");
+      assertThat(Maximizer.bestChecked, is(1));
+
+      assertFalse(maximize("ml, equip Jurassic Parka (magical mode)"));
+      assertThat(Maximizer.bestChecked, is(0));
+      assertThat(Maximizer.lastSearchMetrics(), is(SearchMetrics.EMPTY));
+
+      Maximizer.maximize(
+          "item drop",
+          EquipScope.SPECULATE_INVENTORY,
+          0,
+          PriceLevel.DONT_CHECK,
+          false,
+          EnumSet.of(KoLConstants.filterType.CAST));
+
+      assertThat(Maximizer.bestChecked, is(0));
+      assertThat(Maximizer.bestUpdate, is(0L));
+      assertThat(Maximizer.lastSearchMetrics(), is(SearchMetrics.EMPTY));
+
+      Maximizer.maximize(
+          "item drop",
+          EquipScope.SPECULATE_INVENTORY,
+          0,
+          PriceLevel.DONT_CHECK,
+          false,
+          EnumSet.noneOf(KoLConstants.filterType.class));
+
+      assertThat(Maximizer.bestChecked, is(0));
+      assertThat(Maximizer.lastSearchMetrics(), is(SearchMetrics.EMPTY));
     }
   }
 
@@ -115,6 +159,18 @@ public class MaximizerTest {
     comparison.setUnscored();
 
     assertThat(speculation.compareTo(comparison), is(0));
+  }
+
+  @Test
+  void evaluationReportsFailureWithoutCompatibilityScoring() {
+    var evaluator = new Evaluator("0 da, 2 min, -tie");
+    var modifiers = new Modifiers();
+    modifiers.setDouble(DoubleModifier.DAMAGE_ABSORPTION, 1.0);
+
+    var outcome = evaluator.evaluate(modifiers, Map.of(), Map.of());
+
+    assertTrue(outcome.failed());
+    assertThat(evaluator.getScore(modifiers), is(outcome.score()));
   }
 
   @Test
@@ -293,12 +349,10 @@ public class MaximizerTest {
       Modifiers modifiers = new Modifiers();
 
       modifiers.setDouble(DoubleModifier.DAMAGE_ABSORPTION, 1.0);
-      evaluator.getScore(modifiers);
-      assertTrue(evaluator.failed);
+      assertTrue(evaluator.evaluate(modifiers).failed());
 
       modifiers.setDouble(DoubleModifier.DAMAGE_ABSORPTION, 2.0);
-      evaluator.getScore(modifiers);
-      assertFalse(evaluator.failed);
+      assertFalse(evaluator.evaluate(modifiers).failed());
     }
   }
 

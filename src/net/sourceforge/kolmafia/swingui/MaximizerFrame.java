@@ -115,13 +115,12 @@ public class MaximizerFrame extends GenericFrame implements ListSelectionListene
 
   @Override
   public void valueChanged(final ListSelectionEvent e) {
-    double current = Maximizer.eval.getScore(KoLCharacter.getCurrentModifiers());
-    boolean failed = Maximizer.eval.failed;
+    var currentEvaluation = Maximizer.eval.evaluate(KoLCharacter.getCurrentModifiers());
     Object[] items = this.boostList.getSelectedValuesList().toArray();
 
     StringBuilder buff = new StringBuilder("Current score: ");
-    buff.append(KoLConstants.FLOAT_FORMAT.format(current));
-    if (failed) {
+    buff.append(KoLConstants.FLOAT_FORMAT.format(currentEvaluation.score()));
+    if (currentEvaluation.failed()) {
       buff.append(" (FAILED)");
     }
     buff.append(" \u25CA Predicted: ");
@@ -137,7 +136,7 @@ public class MaximizerFrame extends GenericFrame implements ListSelectionListene
       double score = spec.getScore();
       buff.append(KoLConstants.FLOAT_FORMAT.format(score));
       buff.append(" (");
-      buff.append(KoLConstants.MODIFIER_FORMAT.format(score - current));
+      buff.append(KoLConstants.MODIFIER_FORMAT.format(score - currentEvaluation.score()));
       if (spec.failed) {
         buff.append(", FAILED)");
       } else {
@@ -154,6 +153,7 @@ public class MaximizerFrame extends GenericFrame implements ListSelectionListene
 
   public void maximize() {
     Maximizer.maximize(
+        (String) expressionSelect.getSelectedItem(),
         EquipScope.byIndex(this.equipmentSelect.getSelectedIndex()),
         InputFieldUtilities.getValue(this.maxPriceField),
         PriceLevel.byIndex(this.mallSelect.getSelectedIndex()),

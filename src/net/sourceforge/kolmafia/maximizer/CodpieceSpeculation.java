@@ -165,7 +165,7 @@ final class CodpieceSpeculation {
     }
 
     List<Slot> codpieceSlots =
-        SlotSet.CODPIECE_SLOTS.stream().filter(Maximizer.eval::slotEnabled).toList();
+        SlotSet.CODPIECE_SLOTS.stream().filter(Maximizer.evaluator()::slotEnabled).toList();
     for (Slot slot : codpieceSlots) {
       this.owner.equipment.put(slot, EquipmentRequest.UNEQUIP);
     }
@@ -179,7 +179,7 @@ final class CodpieceSpeculation {
     try {
       // Saturation does not model tiebreaks, beeosity, or removal of initially equipped gems.
       boolean canCollapseSaturatedScore =
-          !Maximizer.eval.isUsingTiebreaker()
+          !Maximizer.evaluator().isUsingTiebreaker()
               && !KoLCharacter.inBeecore()
               && codpieceSlots.stream()
                   .allMatch(
@@ -192,11 +192,11 @@ final class CodpieceSpeculation {
           new CodpieceSearch(codpieceGems, codpieceSlots, cache, canCollapseSaturatedScore);
       this.search = search;
       this.owner.setUnscored();
-      if (Maximizer.eval.isUsingTiebreaker()
-          && Maximizer.eval.areScoreModifiersSaturated(this.owner.calculate())) {
+      if (Maximizer.evaluator().isUsingTiebreaker()
+          && Maximizer.evaluator().areScoreModifiersSaturated(this.owner.calculate())) {
         if (this.prioritizedCodpiecePlan == null) {
           this.prioritizedCodpiecePlan =
-              this.createCodpiecePlan(Maximizer.eval.prioritizeCodpieceGems(codpieceGems));
+              this.createCodpiecePlan(Maximizer.evaluator().prioritizeCodpieceGems(codpieceGems));
         }
         codpieceGems = this.prioritizedCodpiecePlan.gems();
         cache = this.primeLateCodpieceCache(this.prioritizedCodpiecePlan, codpieceSlots);
@@ -212,7 +212,7 @@ final class CodpieceSpeculation {
 
   private void releaseCodpieceGemsNeededElsewhere() {
     for (Slot slot : CODPIECE_SLOTS) {
-      if (!Maximizer.eval.slotEnabled(slot)) {
+      if (!Maximizer.evaluator().slotEnabled(slot)) {
         continue;
       }
 
@@ -311,7 +311,7 @@ final class CodpieceSpeculation {
       Modifiers.FamiliarWeightInputs familiarWeightInputs,
       Modifiers[] gemModifiers,
       boolean[] familiarDependentGems) {
-    EnumSet<DoubleModifier> scored = Maximizer.eval.familiarDependentScoreModifiers();
+    EnumSet<DoubleModifier> scored = Maximizer.evaluator().familiarDependentScoreModifiers();
     if (scored.isEmpty()) {
       return new CodpiecePruning.FamiliarScoreContributions(-1, Map.of());
     }
@@ -619,15 +619,16 @@ final class CodpieceSpeculation {
     private CodpieceScoreBound createScoreUpperBound() {
       return this.cache == null
           ? null
-          : Maximizer.eval.createTheoreticalCodpieceScoreUpperBound(
-              this.cache.baseline,
-              this.cache.gemModifiers,
-              this.remaining,
-              this.slots.size(),
-              owner.equipment,
-              owner.getModeables(),
-              this.gems,
-              this.cache.familiarScoreContributions);
+          : Maximizer.evaluator()
+              .createTheoreticalCodpieceScoreUpperBound(
+                  this.cache.baseline,
+                  this.cache.gemModifiers,
+                  this.remaining,
+                  this.slots.size(),
+                  owner.equipment,
+                  owner.getModeables(),
+                  this.gems,
+                  this.cache.familiarScoreContributions);
     }
 
     private void search(int start, int slotIndex, int requiredCount)
@@ -639,8 +640,8 @@ final class CodpieceSpeculation {
         double upperScore = this.bounds.score().estimate(start, this.remaining, remainingSlots);
         canMeetRequirements &=
             this.bounds.score().canMeetMinimum(start, this.remaining, remainingSlots, upperScore);
-        if (!Maximizer.best.failed || !canMeetRequirements) {
-          double bestScore = Maximizer.best.getScore();
+        if (!Maximizer.best().failed || !canMeetRequirements) {
+          double bestScore = Maximizer.best().getScore();
           if (upperScore < bestScore) {
             return;
           }
@@ -648,7 +649,8 @@ final class CodpieceSpeculation {
             // Keep this tie pruning in compareTo order: item drops, meat drops, then tiebreak
             // score.
             CodpieceScoreBound tiebreakUpperBound = this.getTiebreakUpperBound(slotIndex);
-            int bestItemDroppers = countEquipmentWith(Maximizer.best, BooleanModifier.DROPS_ITEMS);
+            int bestItemDroppers =
+                countEquipmentWith(Maximizer.best(), BooleanModifier.DROPS_ITEMS);
             int itemDropperCeiling =
                 countEquipmentWith(owner, BooleanModifier.DROPS_ITEMS)
                     + this.bounds
@@ -658,7 +660,8 @@ final class CodpieceSpeculation {
               return;
             }
             if (itemDropperCeiling == bestItemDroppers && tiebreakUpperBound != null) {
-              int bestMeatDroppers = countEquipmentWith(Maximizer.best, BooleanModifier.DROPS_MEAT);
+              int bestMeatDroppers =
+                  countEquipmentWith(Maximizer.best(), BooleanModifier.DROPS_MEAT);
               int meatDropperCeiling =
                   countEquipmentWith(owner, BooleanModifier.DROPS_MEAT)
                       + this.bounds
@@ -667,7 +670,7 @@ final class CodpieceSpeculation {
               if (meatDropperCeiling < bestMeatDroppers
                   || (meatDropperCeiling == bestMeatDroppers
                       && tiebreakUpperBound.estimate(start, this.remaining, remainingSlots)
-                          < Maximizer.best.getTiebreaker())) {
+                          < Maximizer.best().getTiebreaker())) {
                 return;
               }
             }
@@ -730,12 +733,13 @@ final class CodpieceSpeculation {
 
       this.tiebreakBoundInitialized = true;
       CodpieceScoreBound tiebreakUpperBound =
-          Maximizer.eval.createTheoreticalCodpieceTiebreakerUpperBound(
-              this.cache.baseline,
-              this.cache.gemModifiers,
-              this.initialRemaining,
-              this.slots.size(),
-              this.cache.familiarScoreContributions);
+          Maximizer.evaluator()
+              .createTheoreticalCodpieceTiebreakerUpperBound(
+                  this.cache.baseline,
+                  this.cache.gemModifiers,
+                  this.initialRemaining,
+                  this.slots.size(),
+                  this.cache.familiarScoreContributions);
       for (int i = 0; tiebreakUpperBound != null && i < selectedCount; i++) {
         tiebreakUpperBound.select(this.cache.slotGemIndexes[i] - 1);
       }

@@ -63,6 +63,7 @@ import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
 import net.sourceforge.kolmafia.request.concoction.MayamRequest;
 import net.sourceforge.kolmafia.session.BeachManager;
 import net.sourceforge.kolmafia.session.BeachManager.BeachHead;
+import net.sourceforge.kolmafia.session.EffectAvailability;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.MallPriceManager;
@@ -95,11 +96,47 @@ public class Maximizer {
   static int bestChecked;
   static long bestUpdate;
   static long combinationLimit;
+  private static MaximizerSession session;
 
   private Maximizer() {}
 
   public static boolean lastMaximizeSucceeded() {
     return best != null && best.scored && !best.failed;
+  }
+
+  public static SearchMetrics lastSearchMetrics() {
+    return session == null ? SearchMetrics.EMPTY : session.metrics();
+  }
+
+  static Evaluator evaluator() {
+    return eval;
+  }
+
+  static MaximizerSpeculation best() {
+    return session == null ? best : session.best;
+  }
+
+  static void setBest(MaximizerSpeculation candidate) {
+    best = candidate;
+    if (session != null) session.best = candidate;
+  }
+
+  static int incrementCombinationsChecked() {
+    int checked = session == null ? bestChecked + 1 : ++session.combinationsChecked;
+    return bestChecked = checked;
+  }
+
+  static long nextProgressUpdate() {
+    return session == null ? bestUpdate : session.nextProgressUpdate;
+  }
+
+  static void setNextProgressUpdate(long update) {
+    bestUpdate = update;
+    if (session != null) session.nextProgressUpdate = update;
+  }
+
+  static long combinationLimit() {
+    return session == null ? combinationLimit : session.combinationLimit;
   }
 
   public static boolean maximize(
@@ -116,16 +153,16 @@ public class Maximizer {
 
     KoLmafiaCLI.isExecutingCheckOnlyCommand = false;
 
-    Maximizer.maximize(equipScope, maxPrice, priceLevel, false, filter);
+    Maximizer.maximize(maximizerString, equipScope, maxPrice, priceLevel, false, filter);
 
     if (!KoLmafia.permitsContinue()) {
       return false;
     }
 
-    Modifiers mods = Maximizer.best.calculate();
+    Modifiers mods = Maximizer.best().calculate();
     ModifierDatabase.overrideModifier(ModifierType.GENERATED, "_spec", mods);
 
-    return !Maximizer.best.failed;
+    return !Maximizer.best().failed;
   }
 
   public static boolean maximize(
@@ -137,13 +174,14 @@ public class Maximizer {
   }
 
   public static void maximize(
+      String maximizerString,
       EquipScope equipScope,
       int maxPrice,
       PriceLevel priceLevel,
       boolean includeAll,
       Set<filterType> filter) {
     KoLmafia.forceContinue();
-    String maxMe = (String) MaximizerFrame.expressionSelect.getSelectedItem();
+    String maxMe = maximizerString;
     RequestLogger.printLine("Maximizer: " + maxMe);
     RequestLogger.updateSessionLog("Maximizer: " + maxMe);
     KoLConstants.maximizerMList.addItem(maxMe);
@@ -152,6 +190,10 @@ public class Maximizer {
     var limitMode = KoLCharacter.getLimitMode();
 
     Maximizer.best = new MaximizerSpeculation();
+    Maximizer.combinationLimit = Preferences.getLong("maximizerCombinationLimit");
+    Maximizer.session = new MaximizerSession(Maximizer.best, combinationLimit);
+    Maximizer.bestChecked = 0;
+    Maximizer.bestUpdate = 0;
 
     // parsing error
     if (!KoLmafia.permitsContinue() || filterCount == 0) {
@@ -167,10 +209,11 @@ public class Maximizer {
     // ensure current modifiers are up-to-date
     KoLCharacter.recalculateAdjustments();
     double current =
-        Maximizer.eval.getScore(
-            KoLCharacter.getCurrentModifiers(),
-            EquipmentManager.currentEquipment(),
-            Modeable.getStateMap());
+        Maximizer.evaluator()
+            .getScore(
+                KoLCharacter.getCurrentModifiers(),
+                EquipmentManager.currentEquipment(),
+                Modeable.getStateMap());
 
     if (maxPrice <= 0) {
       maxPrice = Preferences.getInteger("autoBuyPriceLimit");
@@ -182,15 +225,15 @@ public class Maximizer {
 
     Maximizer.boosts.clear();
     if (filter.contains(KoLConstants.filterType.EQUIP)) {
-      Maximizer.best.getScore();
-      MaximizerSpeculation currentEquipment = Maximizer.best.clone();
+      Maximizer.best().getScore();
+      MaximizerSpeculation currentEquipment = Maximizer.best().clone();
       // Allow an equal-scoring configuration to replace current equipment.
-      Maximizer.best.failed = true;
-      Maximizer.bestChecked = 0;
-      Maximizer.bestUpdate = System.currentTimeMillis() + 5000;
-      Maximizer.combinationLimit = Preferences.getLong("maximizerCombinationLimit");
+      Maximizer.best().failed = true;
+      Maximizer.session.resetSearch();
+      Maximizer.bestChecked = Maximizer.session.combinationsChecked;
+      Maximizer.bestUpdate = Maximizer.session.nextProgressUpdate;
       try {
-        Maximizer.eval.enumerateEquipment(equipScope, maxPrice, priceLevel);
+        Maximizer.evaluator().enumerateEquipment(equipScope, maxPrice, priceLevel);
       } catch (MaximizerExceededException e) {
         Maximizer.boosts.add(
             new Boost(
@@ -213,15 +256,15 @@ public class Maximizer {
                 null,
                 0.0));
       }
-      if (!currentEquipment.failed && Maximizer.best.getScore() < currentEquipment.getScore()) {
-        Maximizer.best = currentEquipment;
+      if (!currentEquipment.failed && Maximizer.best().getScore() < currentEquipment.getScore()) {
+        Maximizer.setBest(currentEquipment);
       }
       MaximizerSpeculation.showProgress();
 
       EnumSet<Slot> alreadyDone = EnumSet.noneOf(Slot.class);
 
       for (Slot slot : SlotSet.ACCESSORY_SLOTS) {
-        if (Maximizer.best.equipment.get(slot).getItemId() == ItemPool.SPECIAL_SAUCE_GLOVE
+        if (Maximizer.best().equipment.get(slot).getItemId() == ItemPool.SPECIAL_SAUCE_GLOVE
             && EquipmentManager.getEquipment(slot).getItemId() != ItemPool.SPECIAL_SAUCE_GLOVE) {
           equipScope = Maximizer.emitSlot(slot, equipScope, maxPrice, priceLevel, current);
           alreadyDone.add(slot);
@@ -236,10 +279,11 @@ public class Maximizer {
     }
 
     current =
-        Maximizer.eval.getScore(
-            KoLCharacter.getCurrentModifiers(),
-            EquipmentManager.currentEquipment(),
-            Modeable.getStateMap());
+        Maximizer.evaluator()
+            .getScore(
+                KoLCharacter.getCurrentModifiers(),
+                EquipmentManager.currentEquipment(),
+                Modeable.getStateMap());
 
     // Show only equipment
     if (filter.contains(filterType.EQUIP) && filterCount == 1) {
@@ -482,7 +526,8 @@ public class Maximizer {
           // uneffecting the conflicting effect, but for now just skip.
           continue;
         }
-        switch (Maximizer.eval.checkConstraints(ModifierDatabase.getEffectModifiers(effectId))) {
+        switch (Maximizer.evaluator()
+            .checkConstraints(ModifierDatabase.getEffectModifiers(effectId))) {
           case VIOLATES:
             continue;
           case IRRELEVANT:
@@ -492,7 +537,7 @@ public class Maximizer {
             isSpecial = true;
         }
         sources = EffectDatabase.getAllActions(effectId);
-        if (Evaluator.cannotGainEffect(effectId)) {
+        if (EffectAvailability.cannotGain(effectId)) {
           // sources do not apply
           sources = new ArrayList<>();
         }
@@ -510,7 +555,8 @@ public class Maximizer {
       } else {
         spec.removeEffect(effect);
         delta = spec.getScore() - current;
-        switch (Maximizer.eval.checkConstraints(ModifierDatabase.getEffectModifiers(effectId))) {
+        switch (Maximizer.evaluator()
+            .checkConstraints(ModifierDatabase.getEffectModifiers(effectId))) {
           case MEETS:
             continue;
           case IRRELEVANT:
@@ -1734,7 +1780,7 @@ public class Maximizer {
       return equipScope;
     }
     if (slot == Slot.FAMILIAR) { // Insert any familiar switch at this point
-      FamiliarData fam = Maximizer.best.getFamiliar();
+      FamiliarData fam = Maximizer.best().getFamiliar();
       if (!fam.equals(KoLCharacter.getFamiliar())) {
         MaximizerSpeculation spec = new MaximizerSpeculation();
         spec.setFamiliar(fam);
@@ -1754,11 +1800,11 @@ public class Maximizer {
     }
 
     String slotname = slot.name;
-    AdventureResult item = Maximizer.best.equipment.get(slot);
+    AdventureResult item = Maximizer.best().equipment.get(slot);
     int itemId = -1;
-    FamiliarData enthroned = Maximizer.best.getEnthroned();
-    FamiliarData bjorned = Maximizer.best.getBjorned();
-    var modeables = Maximizer.best.getModeables();
+    FamiliarData enthroned = Maximizer.best().getEnthroned();
+    FamiliarData bjorned = Maximizer.best().getBjorned();
+    var modeables = Maximizer.best().getModeables();
     AdventureResult curr = EquipmentManager.getEquipment(slot);
     FamiliarData currEnthroned = KoLCharacter.getEnthroned();
     FamiliarData currBjorned = KoLCharacter.getBjorned();
@@ -1800,7 +1846,7 @@ public class Maximizer {
     if (SlotSet.CODPIECE_SLOTS.contains(slot)
         && !KoLCharacter.hasEquipped(ItemPool.get(ItemPool.THE_ETERNITY_CODPIECE))) {
       for (Slot accessorySlot : SlotSet.ACCESSORY_SLOTS) {
-        AdventureResult accessory = Maximizer.best.equipment.get(accessorySlot);
+        AdventureResult accessory = Maximizer.best().equipment.get(accessorySlot);
         if (accessory != null && accessory.getItemId() == ItemPool.THE_ETERNITY_CODPIECE) {
           MaximizerSpeculation codpieceSpec = new MaximizerSpeculation();
           codpieceSpec.equip(accessorySlot, accessory);
@@ -1867,7 +1913,7 @@ public class Maximizer {
         // Otherwise count earlier uses directly from the selected equipment.
         for (var piece : SlotSet.ALL_SLOTS) {
           if (piece.ordinal() >= slot.ordinal()) break;
-          if (item.equals(Maximizer.best.equipment.get(piece))) {
+          if (item.equals(Maximizer.best().equipment.get(piece))) {
             count++;
           }
         }

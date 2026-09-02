@@ -14,7 +14,6 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.equipment.Slot;
-import net.sourceforge.kolmafia.maximizer.Evaluator;
 import net.sourceforge.kolmafia.moods.ManaBurnManager;
 import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -25,6 +24,7 @@ import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.UneffectRequest;
+import net.sourceforge.kolmafia.session.EffectAvailability;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.session.TurnCounter;
@@ -1048,7 +1048,7 @@ public class CharPaneDecorator {
         int effectId = currentEffect.getEffectId();
         String escapedEffectName = StringUtilities.getEntityEncode(effectName);
 
-        if (Evaluator.cannotGainEffect(effectId)) {
+        if (EffectAvailability.cannotGain(effectId)) {
           // Don't include effects that you cannot cast
           continue;
         }

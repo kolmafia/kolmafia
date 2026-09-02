@@ -89,19 +89,20 @@ public class MaximizerSpeculation extends Speculation
   public double getScore() {
     if (this.scored) return this.score;
     if (!this.calculated) this.calculate();
-    this.score = Maximizer.eval.getScore(this.mods, this.equipment, this.getModeables());
     if (KoLCharacter.inBeecore()) {
       this.beeosity = KoLCharacter.getBeeosity(this.equipment);
     }
-    Maximizer.eval.checkEquipment(this.mods, this.equipment, this.beeosity);
-    this.failed = Maximizer.eval.failed;
-    if ((this.mods.getRawBitmap(BitmapModifier.MUTEX_VIOLATIONS)
-            & ~KoLCharacter.currentRawBitmapModifier(BitmapModifier.MUTEX_VIOLATIONS))
-        != 0) { // We're speculating about something that would create a
-      // mutex problem that the player didn't already have.
-      this.failed = true;
-    }
-    this.exceeded = Maximizer.eval.exceeded;
+    var outcome =
+        Maximizer.evaluator()
+            .evaluateComplete(
+                this.mods,
+                this.equipment,
+                this.getModeables(),
+                this.beeosity,
+                KoLCharacter.currentRawBitmapModifier(BitmapModifier.MUTEX_VIOLATIONS));
+    this.score = outcome.score();
+    this.failed = outcome.failed();
+    this.exceeded = outcome.exceeded();
     this.scored = true;
     return this.score;
   }
@@ -109,7 +110,7 @@ public class MaximizerSpeculation extends Speculation
   public double getTiebreaker() {
     if (this.tiebreakered) return this.tiebreaker;
     if (!this.calculated) this.calculate();
-    this.tiebreaker = Maximizer.eval.getTiebreaker(this.mods);
+    this.tiebreaker = Maximizer.evaluator().getTiebreaker(this.mods);
     this.tiebreakered = true;
     this.simplicity = 0;
     for (var slot : SlotSet.ALL_SLOTS) {
@@ -123,13 +124,13 @@ public class MaximizerSpeculation extends Speculation
     }
     // When an equipment-type keyword (club, sword, shield, etc.) is active, prefer any
     // qualifying item over leaving the slot empty: give it a nudge above UNEQUIP's +2.
-    if (Maximizer.eval.isWeaponTypeRequired()) {
+    if (Maximizer.evaluator().isWeaponTypeRequired()) {
       AdventureResult weapon = this.equipment.get(Slot.WEAPON);
       if (weapon != null && !weapon.equals(EquipmentRequest.UNEQUIP)) {
         this.simplicity += 3;
       }
     }
-    if (Maximizer.eval.isShieldRequired()) {
+    if (Maximizer.evaluator().isShieldRequired()) {
       AdventureResult offhand = this.equipment.get(Slot.OFFHAND);
       if (offhand != null && !offhand.equals(EquipmentRequest.UNEQUIP)) {
         this.simplicity += 3;
@@ -141,87 +142,57 @@ public class MaximizerSpeculation extends Speculation
   @Override
   public int compareTo(MaximizerSpeculation o) {
     if (o == null) return 1;
-    MaximizerSpeculation other = o;
-    int rv = Double.compare(this.getScore(), other.getScore());
-    // Always prefer success to failure
-    if (this.failed != other.failed) return this.failed ? -1 : 1;
-    // Prefer higher bonus
-    if (rv != 0) return rv;
-    // In Bees Hate You, prefer lower B count
-    rv = other.beeosity - this.beeosity;
-    if (rv != 0) return rv;
-    // Get other comparisons
-    int countThisEffects = 0;
-    int countOtherEffects = 0;
-    int countThisBreakables = 0;
-    int countOtherBreakables = 0;
-    int countThisDropsItems = 0;
-    int countOtherDropsItems = 0;
-    int countThisDropsMeat = 0;
-    int countOtherDropsMeat = 0;
+
+    int comparison = Double.compare(this.getScore(), o.getScore());
+    if (this.failed != o.failed) return this.failed ? -1 : 1;
+    if (comparison != 0) return comparison;
+
+    comparison = Integer.compare(o.beeosity, this.beeosity);
+    if (comparison != 0) return comparison;
+
+    return this.quality().compareTo(o.quality());
+  }
+
+  SolutionQuality quality() {
+    this.getScore();
+    this.getTiebreaker();
+
+    int rolloverEffects = 0;
+    int breakables = 0;
+    int itemDroppers = 0;
+    int meatDroppers = 0;
     for (var equip : this.equipment.values()) {
       if (equip == null) continue;
       int itemId = equip.getItemId();
       Modifiers mods = ModifierDatabase.getItemModifiers(itemId);
       if (mods == null) continue;
-      if (mods.hasString(StringModifier.ROLLOVER_EFFECT)) countThisEffects++;
-      if (mods.getBoolean(BooleanModifier.BREAKABLE)) countThisBreakables++;
-      if (mods.getBoolean(BooleanModifier.DROPS_ITEMS)) countThisDropsItems++;
-      if (mods.getBoolean(BooleanModifier.DROPS_MEAT)) countThisDropsMeat++;
+      if (mods.hasString(StringModifier.ROLLOVER_EFFECT)) rolloverEffects++;
+      if (mods.getBoolean(BooleanModifier.BREAKABLE)) breakables++;
+      if (mods.getBoolean(BooleanModifier.DROPS_ITEMS)) itemDroppers++;
+      if (mods.getBoolean(BooleanModifier.DROPS_MEAT)) meatDroppers++;
     }
-    for (var equip : other.equipment.values()) {
-      if (equip == null) continue;
-      int itemId = equip.getItemId();
-      Modifiers mods = ModifierDatabase.getItemModifiers(itemId);
-      if (mods == null) continue;
-      if (mods.hasString(StringModifier.ROLLOVER_EFFECT)) countOtherEffects++;
-      if (mods.getBoolean(BooleanModifier.BREAKABLE)) countOtherBreakables++;
-      if (mods.getBoolean(BooleanModifier.DROPS_ITEMS)) countOtherDropsItems++;
-      if (mods.getBoolean(BooleanModifier.DROPS_MEAT)) countOtherDropsMeat++;
-    }
-    // Prefer item droppers
-    if (Maximizer.eval.isUsingTiebreaker() && countThisDropsItems != countOtherDropsItems) {
-      return countThisDropsItems > countOtherDropsItems ? 1 : -1;
-    }
-    // Prefer meat droppers
-    if (Maximizer.eval.isUsingTiebreaker() && countThisDropsMeat != countOtherDropsMeat) {
-      return countThisDropsMeat > countOtherDropsMeat ? 1 : -1;
-    }
-    // Prefer higher tiebreaker account (unless -tie used)
-    rv = Double.compare(this.getTiebreaker(), other.getTiebreaker());
-    if (rv != 0) return rv;
-    // Prefer rollover effects
-    if (Maximizer.eval.isUsingTiebreaker() && countThisEffects != countOtherEffects) {
-      return countThisEffects > countOtherEffects ? 1 : -1;
-    }
-    // Prefer unbreakables
-    if (countThisBreakables != countOtherBreakables) {
-      return countThisBreakables < countOtherBreakables ? 1 : -1;
-    }
-    // Prefer worn
-    rv = this.simplicity - other.simplicity;
-    if (rv != 0) return rv;
-    if (this.attachment != null && other.attachment != null) {
-      // prefer items that you don't have to buy
-      if (this.attachment.buyableFlag != other.attachment.buyableFlag) {
-        return this.attachment.buyableFlag ? -1 : 1;
-      }
-      if (KoLCharacter.inBeecore()) { // prefer fewer Bs
-        rv =
-            KoLCharacter.getBeeosity(other.attachment.getName())
-                - KoLCharacter.getBeeosity(this.attachment.getName());
-      }
 
-      // prefer items that you have
-      // doesn't consider wanting multiple of the same item and not having enough
-      if ((this.attachment.inventory > 0) != (other.attachment.inventory > 0)) {
-        return this.attachment.inventory > 0 ? 1 : -1;
-      }
-      if ((this.attachment.initial > 0) != (other.attachment.initial > 0)) {
-        return this.attachment.initial > 0 ? 1 : -1;
-      }
-    }
-    return rv;
+    boolean useTiebreaker = Maximizer.evaluator().isUsingTiebreaker();
+    SolutionQuality.AttachmentQuality attachmentQuality =
+        this.attachment == null
+            ? null
+            : new SolutionQuality.AttachmentQuality(
+                this.attachment.buyableFlag,
+                KoLCharacter.inBeecore() ? KoLCharacter.getBeeosity(this.attachment.getName()) : 0,
+                this.attachment.inventory > 0,
+                this.attachment.initial > 0);
+
+    return new SolutionQuality(
+        !this.failed,
+        this.score,
+        this.beeosity,
+        useTiebreaker ? itemDroppers : 0,
+        useTiebreaker ? meatDroppers : 0,
+        this.tiebreaker,
+        useTiebreaker ? rolloverEffects : 0,
+        breakables,
+        this.simplicity,
+        attachmentQuality);
   }
 
   // Remember which equipment slots were null, so that this
@@ -647,7 +618,7 @@ public class MaximizerSpeculation extends Speculation
       }
 
       // if ( any && <no unarmed items in shortlists> ) return;
-      if (Maximizer.eval.melee < -1 || Maximizer.eval.melee > 1) {
+      if (Maximizer.evaluator().melee < -1 || Maximizer.evaluator().melee > 1) {
         return;
       }
       this.equipment.put(Slot.WEAPON, EquipmentRequest.UNEQUIP);
@@ -748,21 +719,21 @@ public class MaximizerSpeculation extends Speculation
     this.calculated = false;
     this.scored = false;
     this.tiebreakered = false;
-    if (Maximizer.best == null) {
+    if (Maximizer.best() == null) {
       RequestLogger.updateSessionLog(
           "Maximizer about to throw LimitExceeded because of null best.");
       // this isn't really what is happening but trying to understand why this is happening, first.
       throw new MaximizerLimitException();
     }
-    if (this.compareTo(Maximizer.best) > 0) {
-      Maximizer.best = this.clone();
+    if (this.compareTo(Maximizer.best()) > 0) {
+      Maximizer.setBest(this.clone());
     }
-    Maximizer.bestChecked++;
-    if ((Maximizer.bestChecked & 0x3FF) == 0) {
+    int checked = Maximizer.incrementCombinationsChecked();
+    if ((checked & 0x3FF) == 0) {
       long t = System.currentTimeMillis();
-      if (t > Maximizer.bestUpdate) {
+      if (t > Maximizer.nextProgressUpdate()) {
         MaximizerSpeculation.showProgress();
-        Maximizer.bestUpdate = t + 5000;
+        Maximizer.setNextProgressUpdate(t + 5000);
       }
     }
     if (!KoLmafia.permitsContinue()) {
@@ -771,7 +742,7 @@ public class MaximizerSpeculation extends Speculation
     if (this.exceeded) {
       throw new MaximizerExceededException();
     }
-    if (Maximizer.combinationLimit != 0 && Maximizer.bestChecked >= Maximizer.combinationLimit) {
+    if (Maximizer.combinationLimit() != 0 && checked >= Maximizer.combinationLimit()) {
       throw new MaximizerLimitException();
     }
   }
@@ -819,11 +790,11 @@ public class MaximizerSpeculation extends Speculation
 
   public static void showProgress() {
     StringBuilder msg = new StringBuilder();
-    msg.append(Maximizer.bestChecked);
+    msg.append(Maximizer.lastSearchMetrics().combinationsChecked());
     msg.append(" combinations checked, best score ");
-    double score = Maximizer.best.getScore();
+    double score = Maximizer.best().getScore();
     msg.append(KoLConstants.FLOAT_FORMAT.format(score));
-    if (Maximizer.best.failed) {
+    if (Maximizer.best().failed) {
       msg.append(" (FAIL)");
     }
     // if ( MaximizerFrame.best.tiebreakered )

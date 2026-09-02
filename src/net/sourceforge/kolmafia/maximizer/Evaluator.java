@@ -20,8 +20,6 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.ExpressionOverrides;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLCharacter.TurtleBlessing;
-import net.sourceforge.kolmafia.KoLCharacter.TurtleBlessingLevel;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLConstants.WeaponType;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -39,7 +37,6 @@ import net.sourceforge.kolmafia.modifiers.DerivedModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifierCollection;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
-import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
@@ -54,13 +51,14 @@ import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
+import net.sourceforge.kolmafia.session.EffectAvailability;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 @SuppressWarnings("incomplete-switch")
 public class Evaluator {
-  public boolean failed;
+  @Deprecated public boolean failed;
   boolean exceeded;
   private Evaluator tiebreaker;
   private final CodpieceEvaluator codpieceEvaluator = new CodpieceEvaluator(this);
@@ -842,10 +840,21 @@ public class Evaluator {
 
   public double getScore(
       Modifiers mods, Map<Slot, AdventureResult> equipment, Map<Modeable, String> modeables) {
-    this.failed = false;
-    this.exceeded = false;
+    var outcome = this.evaluate(mods, equipment, modeables);
+    this.failed = outcome.failed();
+    this.exceeded = outcome.exceeded();
+    return outcome.score();
+  }
+
+  public EvaluationOutcome evaluate(Modifiers mods) {
+    return this.evaluate(mods, Map.of(), Map.of());
+  }
+
+  EvaluationOutcome evaluate(
+      Modifiers mods, Map<Slot, AdventureResult> equipment, Map<Modeable, String> modeables) {
     var predicted = this.predictsDerivedModifiers ? mods.predict() : null;
 
+    boolean failed = false;
     double score = 0.0;
     for (var scoreModifier : this.activeScoreModifiers) {
       var mod = scoreModifier.modifier();
@@ -853,7 +862,7 @@ public class Evaluator {
       double min = scoreModifier.min();
       double val = scoreValue(mod, mods, predicted);
       double max = scoreModifier.max();
-      if (val < min) this.failed = true;
+      if (val < min) failed = true;
       score += weight * Math.min(val, max);
     }
     if (this.stinkycheese > 0) {
@@ -869,30 +878,30 @@ public class Evaluator {
     if (mods.hasString(StringModifier.ROLLOVER_EFFECT)) {
       score += 0.01f;
     }
-    if (score < this.totalMin) this.failed = true;
-    if (score >= this.totalMax) this.exceeded = true;
+    if (score < this.totalMin) failed = true;
+    boolean exceeded = score >= this.totalMax;
     // Score bitmap objectives 1:1 up to the requested target, which must be reached.
     if (this.clownosity > 0) {
       int osity = mods.getBitmap(BitmapModifier.CLOWNINESS);
       score += Math.min(osity, this.clownosity);
-      if (osity < this.clownosity) this.failed = true;
+      if (osity < this.clownosity) failed = true;
     }
     if (this.raveosity > 0) {
       int osity = mods.getBitmap(BitmapModifier.RAVEOSITY);
       score += Math.min(osity, this.raveosity);
-      if (osity < this.raveosity) this.failed = true;
+      if (osity < this.raveosity) failed = true;
     }
     if (this.surgeonosity > 0) {
       int osity = mods.getBitmap(BitmapModifier.SURGEONOSITY);
       score += Math.min(osity, this.surgeonosity);
-      if (osity < this.surgeonosity) this.failed = true;
+      if (osity < this.surgeonosity) failed = true;
     }
-    if (!this.failed
+    if (!failed
         && !this.booleanMask.isEmpty()
         && !mods.getBooleans(this.booleanMask).equals(this.booleanValue)) {
-      this.failed = true;
+      failed = true;
     }
-    return score;
+    return new EvaluationOutcome(score, failed, exceeded);
   }
 
   public double getScore(Modifiers mods) {
@@ -1080,10 +1089,26 @@ public class Evaluator {
     return score;
   }
 
-  void checkEquipment(Modifiers mods, Map<Slot, AdventureResult> equipment, int beeosity) {
+  EvaluationOutcome evaluateComplete(
+      Modifiers mods,
+      Map<Slot, AdventureResult> equipment,
+      Map<Modeable, String> modeables,
+      int beeosity,
+      int allowedMutexViolations) {
+    var outcome = this.evaluate(mods, equipment, modeables);
+    boolean failed = this.failsEquipment(mods, equipment, beeosity, outcome.failed());
+    if ((mods.getRawBitmap(BitmapModifier.MUTEX_VIOLATIONS) & ~allowedMutexViolations) != 0) {
+      failed = true;
+    }
+    return new EvaluationOutcome(outcome.score(), failed, outcome.exceeded());
+  }
+
+  private boolean failsEquipment(
+      Modifiers mods, Map<Slot, AdventureResult> equipment, int beeosity, boolean scoreFailed) {
+    boolean failed = scoreFailed;
     boolean outfitSatisfied = this.posOutfits.isEmpty();
     boolean equipSatisfied = this.posEquip.isEmpty();
-    if (!this.failed && !this.posEquip.isEmpty()) {
+    if (!failed && !this.posEquip.isEmpty()) {
       equipSatisfied = true;
       for (AdventureResult item : this.posEquip) {
         if (!this.hasEquipped(equipment, item)) {
@@ -1092,24 +1117,24 @@ public class Evaluator {
         }
       }
     }
-    if (!this.failed
-        && this.negEquip.stream().anyMatch(item -> this.hasEquipped(equipment, item))) {
-      this.failed = true;
+    if (!failed && this.negEquip.stream().anyMatch(item -> this.hasEquipped(equipment, item))) {
+      failed = true;
     }
-    if (!this.failed) {
+    if (!failed) {
       String outfit = mods.getString(StringModifier.OUTFIT);
       if (this.negOutfits.contains(outfit)) {
-        this.failed = true;
+        failed = true;
       } else {
         outfitSatisfied = this.posOutfits.contains(outfit) || this.posOutfits.isEmpty();
       }
     }
     if (!outfitSatisfied || !equipSatisfied) {
-      this.failed = true;
+      failed = true;
     }
     if (beeosity > this.beeosity) {
-      this.failed = true;
+      failed = true;
     }
+    return failed;
   }
 
   private boolean hasEquipped(Map<Slot, AdventureResult> equipment, AdventureResult item) {
@@ -1189,80 +1214,9 @@ public class Evaluator {
     return Constraint.IRRELEVANT;
   }
 
+  @Deprecated
   public static boolean cannotGainEffect(int effectId) {
-    // Return true if effect cannot be gained due to current other effects or class
-    return switch (effectId) {
-      case EffectPool.NEARLY_SILENT_HUNTING -> KoLCharacter.isSealClubber();
-      case EffectPool.SILENT_HUNTING, EffectPool.BARREL_CHESTED -> !KoLCharacter.isSealClubber();
-      case EffectPool.BOON_OF_SHE_WHO_WAS ->
-          KoLCharacter.getBlessingType() != TurtleBlessing.SHE_WHO_WAS
-              || KoLCharacter.getBlessingLevel() == TurtleBlessingLevel.AVATAR;
-      case EffectPool.BOON_OF_THE_STORM_TORTOISE ->
-          KoLCharacter.getBlessingType() != TurtleBlessing.STORM
-              || KoLCharacter.getBlessingLevel() == TurtleBlessingLevel.AVATAR;
-      case EffectPool.BOON_OF_THE_WAR_SNAPPER ->
-          KoLCharacter.getBlessingType() != TurtleBlessing.WAR
-              || KoLCharacter.getBlessingLevel() == TurtleBlessingLevel.AVATAR;
-      case EffectPool.AVATAR_OF_SHE_WHO_WAS ->
-          KoLCharacter.getBlessingType() != TurtleBlessing.SHE_WHO_WAS
-              || KoLCharacter.getBlessingLevel() != TurtleBlessingLevel.GLORIOUS_BLESSING;
-      case EffectPool.AVATAR_OF_THE_STORM_TORTOISE ->
-          KoLCharacter.getBlessingType() != TurtleBlessing.STORM
-              || KoLCharacter.getBlessingLevel() != TurtleBlessingLevel.GLORIOUS_BLESSING;
-      case EffectPool.AVATAR_OF_THE_WAR_SNAPPER ->
-          KoLCharacter.getBlessingType() != TurtleBlessing.WAR
-              || KoLCharacter.getBlessingLevel() != TurtleBlessingLevel.GLORIOUS_BLESSING;
-      case EffectPool.BLESSING_OF_SHE_WHO_WAS ->
-          !KoLCharacter.isTurtleTamer()
-              || KoLCharacter.getBlessingType() == TurtleBlessing.SHE_WHO_WAS
-              || KoLCharacter.getBlessingLevel() == TurtleBlessingLevel.PARIAH
-              || KoLCharacter.getBlessingLevel() == TurtleBlessingLevel.AVATAR;
-      case EffectPool.BLESSING_OF_THE_STORM_TORTOISE ->
-          !KoLCharacter.isTurtleTamer()
-              || KoLCharacter.getBlessingType() == TurtleBlessing.STORM
-              || KoLCharacter.getBlessingLevel() == TurtleBlessingLevel.PARIAH
-              || KoLCharacter.getBlessingLevel() == TurtleBlessingLevel.AVATAR;
-      case EffectPool.BLESSING_OF_THE_WAR_SNAPPER ->
-          !KoLCharacter.isTurtleTamer()
-              || KoLCharacter.getBlessingType() == TurtleBlessing.WAR
-              || KoLCharacter.getBlessingLevel() == TurtleBlessingLevel.PARIAH
-              || KoLCharacter.getBlessingLevel() == TurtleBlessingLevel.AVATAR;
-      case EffectPool.DISDAIN_OF_SHE_WHO_WAS,
-          EffectPool.DISDAIN_OF_THE_STORM_TORTOISE,
-          EffectPool.DISDAIN_OF_THE_WAR_SNAPPER ->
-          KoLCharacter.isTurtleTamer();
-      case EffectPool.BARREL_OF_LAUGHS -> !KoLCharacter.isTurtleTamer();
-      case EffectPool.FLIMSY_SHIELD_OF_THE_PASTALORD,
-          EffectPool.BLOODY_POTATO_BITS,
-          EffectPool.SLINKING_NOODLE_GLOB,
-          EffectPool.WHISPERING_STRANDS,
-          EffectPool.MACARONI_COATING,
-          EffectPool.PENNE_FEDORA,
-          EffectPool.PASTA_EYEBALL,
-          EffectPool.SPICE_HAZE,
-          EffectPool.LEGENDARY_BLOODY_POTATO_BITS,
-          EffectPool.LEGENDARY_SLINKING_NOODLE_GLOB,
-          EffectPool.LEGENDARY_WHISPERING_STRANDS,
-          EffectPool.LEGENDARY_MACARONI_COATING,
-          EffectPool.LEGENDARY_PENNE_FEDORA,
-          EffectPool.LEGENDARY_PASTA_EYEBALL,
-          EffectPool.LEGENDARY_SPICE_HAZE ->
-          KoLCharacter.isPastamancer();
-      case EffectPool.SHIELD_OF_THE_PASTALORD, EffectPool.PORK_BARREL ->
-          !KoLCharacter.isPastamancer();
-      case EffectPool.BLOOD_SUGAR_SAUCE_MAGIC,
-          EffectPool.SOULERSKATES,
-          EffectPool.WARLOCK_WARSTOCK_WARBARREL ->
-          !KoLCharacter.isSauceror();
-      case EffectPool.BLOOD_SUGAR_SAUCE_MAGIC_LITE -> KoLCharacter.isSauceror();
-      case EffectPool.DOUBLE_BARRELED -> !KoLCharacter.isDiscoBandit();
-      case EffectPool.BEER_BARREL_POLKA -> !KoLCharacter.isAccordionThief();
-      case EffectPool.UNMUFFLED ->
-          !Preferences.getString("peteMotorbikeMuffler").equals("Extra-Loud Muffler");
-      case EffectPool.MUFFLED ->
-          !Preferences.getString("peteMotorbikeMuffler").equals("Extra-Quiet Muffler");
-      default -> false;
-    };
+    return EffectAvailability.cannotGain(effectId);
   }
 
   void enumerateEquipment(EquipScope equipScope, int maxPrice, PriceLevel priceLevel)

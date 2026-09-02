@@ -12,13 +12,13 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.maximizer.Evaluator;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.request.UneffectRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
+import net.sourceforge.kolmafia.session.EffectAvailability;
 import net.sourceforge.kolmafia.utilities.CharacterEntities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -307,7 +307,7 @@ public class MoodTrigger implements Comparable<MoodTrigger> {
     }
 
     // Don't cast if you are restricted by your current class/skills
-    if (this.effect != null && Evaluator.cannotGainEffect(this.effect.getEffectId())) {
+    if (this.effect != null && EffectAvailability.cannotGain(this.effect.getEffectId())) {
       return false;
     }
 
