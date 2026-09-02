@@ -124,14 +124,11 @@ public class CheckedItem extends AdventureResult {
     } else if (InventoryManager.canUseMall(itemId)) {
       // Ordinary equipment only needs one mall copy; Codpiece gems can fill five slots.
       int needed = isCodpieceGem ? maxUseful - this.getCount() : this.getCount() == 0 ? 1 : 0;
-      if (needed > 0) {
-        // We include things with historical price up to twice as high as limit, as current price
-        // may be lower
-        long price = Math.min(maxPrice, KoLCharacter.getAvailableMeat());
-        if (priceLevel == PriceLevel.DONT_CHECK || MallPriceDatabase.getPrice(itemId) < price * 2) {
-          this.mallBuyable = needed;
-          this.buyableFlag = true;
-        }
+      if (needed > 0
+          && historicalPriceMayBeAffordable(
+              itemId, maxPrice, KoLCharacter.getAvailableMeat(), priceLevel)) {
+        this.mallBuyable = needed;
+        this.buyableFlag = true;
       }
     } else if (!KoLCharacter.isHardcore() && InventoryManager.pullableInCurrentPath(itemId)) {
       // consider pulling
@@ -139,15 +136,11 @@ public class CheckedItem extends AdventureResult {
 
       if (InventoryManager.canUseMallToStorage(itemId)) {
         int needed = isCodpieceGem ? maxUseful - this.getCount() : this.getCount() == 0 ? 1 : 0;
-        if (needed > 0) {
-          // We include things with historical price up to twice as high as limit, as current price
-          // may be lower
-          long price = Math.min(maxPrice, KoLCharacter.getStorageMeat());
-          if (priceLevel == PriceLevel.DONT_CHECK
-              || MallPriceDatabase.getPrice(itemId) < price * 2) {
-            this.pullBuyable = needed;
-            this.buyableFlag = true;
-          }
+        if (needed > 0
+            && historicalPriceMayBeAffordable(
+                itemId, maxPrice, KoLCharacter.getStorageMeat(), priceLevel)) {
+          this.pullBuyable = needed;
+          this.buyableFlag = true;
         }
       }
 
@@ -170,6 +163,13 @@ public class CheckedItem extends AdventureResult {
             || (MrStoreRequest.UNCLE_B).equals(c.getIngredients()[0]))) {
       this.creatable = 0;
     }
+  }
+
+  private static boolean historicalPriceMayBeAffordable(
+      int itemId, long maxPrice, long availableMeat, PriceLevel priceLevel) {
+    // Current mall price may be less than the historical price.
+    return priceLevel == PriceLevel.DONT_CHECK
+        || MallPriceDatabase.getPrice(itemId) < Math.min(maxPrice, availableMeat) * 2;
   }
 
   private static FoldAvailability getFoldAvailability(
