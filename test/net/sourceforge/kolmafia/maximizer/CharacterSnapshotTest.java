@@ -53,6 +53,10 @@ class CharacterSnapshotTest {
       var defaultUsage = defaultSnapshot.resourceUsage("Bobby");
       assertThat(defaultUsage.cost(0), is(3));
       assertThat(defaultSnapshot.resourcesExceeded(defaultUsage), is(true));
+      assertThat(
+          defaultSnapshot.hasRemainingCapacityFor(
+              defaultSnapshot.resourceUsage("baby"), defaultSnapshot.resourceUsage("b")),
+          is(false));
 
       var relaxedSnapshot = CharacterSnapshot.capture(new Evaluator("item drop, 5 beeosity"));
       assertThat(

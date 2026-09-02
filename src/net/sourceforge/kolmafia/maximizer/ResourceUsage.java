@@ -44,6 +44,44 @@ final class ResourceUsage implements Comparable<ResourceUsage> {
     return false;
   }
 
+  boolean hasRemainingCapacityFor(ResourceUsage candidate, List<EquipmentResource> resources) {
+    if (this.costs.length != candidate.costs.length || this.costs.length != resources.size()) {
+      throw new IllegalArgumentException("Cannot compare different equipment resource sets");
+    }
+    for (int i = 0; i < this.costs.length; i++) {
+      if (candidate.costs[i] != 0 && this.costs[i] >= resources.get(i).limit()) return false;
+    }
+    return true;
+  }
+
+  boolean isZero() {
+    for (int cost : this.costs) {
+      if (cost != 0) return false;
+    }
+    return true;
+  }
+
+  ResourceUsage plus(ResourceUsage other) {
+    if (this.costs.length != other.costs.length) {
+      throw new IllegalArgumentException("Cannot combine different equipment resource sets");
+    }
+    if (this.costs.length == 0) return EMPTY;
+    int[] sum = new int[this.costs.length];
+    for (int i = 0; i < sum.length; i++) {
+      sum[i] = this.costs[i] + other.costs[i];
+    }
+    return new ResourceUsage(sum);
+  }
+
+  ResourceUsage times(int multiplier) {
+    if (this.costs.length == 0) return EMPTY;
+    int[] product = new int[this.costs.length];
+    for (int i = 0; i < product.length; i++) {
+      product[i] = this.costs[i] * multiplier;
+    }
+    return new ResourceUsage(product);
+  }
+
   int cost(int index) {
     return this.costs[index];
   }

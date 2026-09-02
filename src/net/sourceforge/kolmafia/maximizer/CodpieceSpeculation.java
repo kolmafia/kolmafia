@@ -177,10 +177,11 @@ final class CodpieceSpeculation {
     CodpiecePlan plan = this.getCodpiecePlan(possibles);
     List<CheckedItem> codpieceGems = plan.gems();
     try {
-      // Saturation does not model tiebreaks, beeosity, or removal of initially equipped gems.
+      // Saturation does not model tiebreaks, shared resources, or removal of initially equipped
+      // gems.
       boolean canCollapseSaturatedScore =
           !Maximizer.evaluator().isUsingTiebreaker()
-              && !KoLCharacter.inBeecore()
+              && !Maximizer.character().hasActiveEquipmentResources()
               && codpieceSlots.stream()
                   .allMatch(
                       slot -> EquipmentManager.getEquipment(slot).equals(EquipmentRequest.UNEQUIP));
@@ -645,7 +646,8 @@ final class CodpieceSpeculation {
           if (upperScore < bestScore) {
             return;
           }
-          if (Double.compare(upperScore, bestScore) == 0 && !KoLCharacter.inBeecore()) {
+          if (Double.compare(upperScore, bestScore) == 0
+              && !Maximizer.character().hasActiveEquipmentResources()) {
             // Keep this tie pruning in compareTo order: item drops, meat drops, then tiebreak
             // score.
             CodpieceScoreBound tiebreakUpperBound = this.getTiebreakUpperBound(slotIndex);

@@ -1231,6 +1231,7 @@ public class Evaluator {
   void enumerateEquipment(
       EquipScope equipScope, int maxPrice, PriceLevel priceLevel, boolean exhaustive)
       throws MaximizerInterruptedException {
+    CharacterSnapshot character = Maximizer.character();
     // Items automatically considered regardless of their score -
     // synergies, hobo power, brimstone, etc.
     SlotList<CheckedItem> automatic = new SlotList<>(this.familiars.size());
@@ -1298,8 +1299,7 @@ public class Evaluator {
       String name = preItem.getName();
       CheckedItem item = null;
       if (this.negEquip.contains(preItem)) continue;
-      if (KoLCharacter.inBeecore()
-          && KoLCharacter.getBeeosity(name) > this.beeosity) { // too beechin' all by itself!
+      if (character.resourcesExceeded(character.resourceUsage(name))) {
         continue;
       }
 
@@ -2437,9 +2437,8 @@ public class Evaluator {
         ListIterator<MaximizerSpeculation> speculationIterator =
             speculationList.get(entry).listIterator(speculationList.get(entry).size());
 
-        int beeotches = 0;
-        int beeosity = 0;
-        int b;
+        int resourceCandidates = 0;
+        ResourceUsage resourceUsage = character.resourceUsage("");
 
         while (speculationIterator.hasPrevious()) {
           CheckedItem item = speculationIterator.previous().attachment;
@@ -2496,27 +2495,29 @@ public class Evaluator {
           }
           // (none)'s Integer.MAX_VALUE count would overflow total/beeotches if counted here.
           boolean leavesSlotEmpty = item.getItemId() == -1;
-          if (KoLCharacter.inBeecore()
-              && (b = KoLCharacter.getBeeosity(item.getName())) > 0) { // This item is a beeotch!
+          ResourceUsage itemResourceUsage = character.resourceUsage(item.getName());
+          if (!itemResourceUsage.isZero()) {
             // Don't count it towards the number of items desired
             // in this slot's shortlist, since it may turn out to be
-            // advantageous to use up all our allowed beeosity on
+            // advantageous to use up all our allowed resources on
             // other slots.
             if (item.automaticFlag) {
               if (!automaticEntry.contains(item)) {
                 automaticEntry.add(item);
               }
               if (!leavesSlotEmpty) {
-                beeotches += item.getCount();
-                beeosity += b * item.getCount();
+                resourceCandidates += item.getCount();
+                resourceUsage = resourceUsage.plus(itemResourceUsage.times(item.getCount()));
               }
-            } else if (total < useful && beeotches < useful && beeosity < this.beeosity) {
+            } else if (total < useful
+                && resourceCandidates < useful
+                && character.hasRemainingCapacityFor(resourceUsage, itemResourceUsage)) {
               if (!automaticEntry.contains(item)) {
                 automaticEntry.add(item);
               }
               if (!leavesSlotEmpty) {
-                beeotches += item.getCount();
-                beeosity += b * item.getCount();
+                resourceCandidates += item.getCount();
+                resourceUsage = resourceUsage.plus(itemResourceUsage.times(item.getCount()));
               }
             }
           } else if (item.automaticFlag) {

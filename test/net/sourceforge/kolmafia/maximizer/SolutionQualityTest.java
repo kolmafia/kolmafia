@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.maximizer;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.lessThan;
 
 import org.junit.jupiter.api.Test;
@@ -57,5 +58,14 @@ class SolutionQualityTest {
         greaterThan(
             new SolutionQuality(
                 true, 1, ResourceUsage.EMPTY, 0, 0, 0, 0, 0, 0, lowerResourceCost)));
+  }
+
+  @Test
+  void resourceUsageSupportsIncrementalSearchAccounting() {
+    var usage = ResourceUsage.of(1, 2).plus(ResourceUsage.of(3, 4).times(2));
+
+    assertThat(usage.cost(0), is(7));
+    assertThat(usage.cost(1), is(10));
+    assertThat(ResourceUsage.of(1).times(0).cost(0), is(0));
   }
 }

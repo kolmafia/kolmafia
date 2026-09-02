@@ -51,4 +51,12 @@ record CharacterSnapshot(
   boolean resourcesExceeded(ResourceUsage usage) {
     return usage.exceeds(this.resources);
   }
+
+  boolean hasRemainingCapacityFor(ResourceUsage usage, ResourceUsage candidate) {
+    return usage.hasRemainingCapacityFor(candidate, this.resources);
+  }
+
+  boolean hasActiveEquipmentResources() {
+    return !this.resources.isEmpty();
+  }
 }
