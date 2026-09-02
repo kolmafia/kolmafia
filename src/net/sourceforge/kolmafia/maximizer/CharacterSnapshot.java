@@ -14,7 +14,7 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 record CharacterSnapshot(
     int allowedMutexViolations,
     Map<Slot, AdventureResult> currentEquipment,
-    List<EquipmentResource> resources) {
+    List<SharedResource> resources) {
 
   static CharacterSnapshot capture() {
     return capture(null);
@@ -25,10 +25,10 @@ record CharacterSnapshot(
     for (var slot : SlotSet.ALL_SLOTS) {
       equipment.put(slot, EquipmentManager.getEquipment(slot));
     }
-    List<EquipmentResource> resources =
+    List<SharedResource> resources =
         KoLCharacter.inBeecore()
             ? List.of(
-                new EquipmentResource(
+                new SharedResource(
                     "beeosity",
                     evaluator == null ? 2 : evaluator.beeosityLimit(),
                     KoLCharacter::getBeeosity,
@@ -56,7 +56,7 @@ record CharacterSnapshot(
     return usage.hasRemainingCapacityFor(candidate, this.resources);
   }
 
-  boolean hasActiveEquipmentResources() {
+  boolean hasActiveResources() {
     return !this.resources.isEmpty();
   }
 }

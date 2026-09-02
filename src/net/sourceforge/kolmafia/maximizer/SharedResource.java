@@ -5,7 +5,7 @@ import java.util.function.ToIntFunction;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.equipment.Slot;
 
-record EquipmentResource(
+record SharedResource(
     String name,
     int limit,
     ToIntFunction<Map<Slot, AdventureResult>> equipmentCost,

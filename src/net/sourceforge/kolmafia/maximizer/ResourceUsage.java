@@ -19,7 +19,7 @@ final class ResourceUsage implements Comparable<ResourceUsage> {
   }
 
   static ResourceUsage forEquipment(
-      List<EquipmentResource> resources, Map<Slot, AdventureResult> equipment) {
+      List<SharedResource> resources, Map<Slot, AdventureResult> equipment) {
     if (resources.isEmpty()) return EMPTY;
     int[] costs = new int[resources.size()];
     for (int i = 0; i < costs.length; i++) {
@@ -28,7 +28,7 @@ final class ResourceUsage implements Comparable<ResourceUsage> {
     return new ResourceUsage(costs);
   }
 
-  static ResourceUsage forItem(List<EquipmentResource> resources, String itemName) {
+  static ResourceUsage forItem(List<SharedResource> resources, String itemName) {
     if (resources.isEmpty()) return EMPTY;
     int[] costs = new int[resources.size()];
     for (int i = 0; i < costs.length; i++) {
@@ -37,14 +37,14 @@ final class ResourceUsage implements Comparable<ResourceUsage> {
     return new ResourceUsage(costs);
   }
 
-  boolean exceeds(List<EquipmentResource> resources) {
+  boolean exceeds(List<SharedResource> resources) {
     for (int i = 0; i < this.costs.length; i++) {
       if (this.costs[i] > resources.get(i).limit()) return true;
     }
     return false;
   }
 
-  boolean hasRemainingCapacityFor(ResourceUsage candidate, List<EquipmentResource> resources) {
+  boolean hasRemainingCapacityFor(ResourceUsage candidate, List<SharedResource> resources) {
     if (this.costs.length != candidate.costs.length || this.costs.length != resources.size()) {
       throw new IllegalArgumentException("Cannot compare different equipment resource sets");
     }

@@ -1559,7 +1559,7 @@ public class Maximizer {
         if (item != null) {
           String iname = item.getName();
 
-          if (KoLCharacter.inBeecore() && KoLCharacter.hasBeeosity(iname)) {
+          if (!Maximizer.character().resourceUsage(iname).isZero()) {
             continue;
           }
 

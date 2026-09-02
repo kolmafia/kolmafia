@@ -1888,7 +1888,7 @@ public class Evaluator {
             && !familiar.equals(useCrownFamiliar)
             && !familiar.equals(useBjornFamiliar)
             && !familiar.equals(bestCarriedFamiliar)
-            && !(KoLCharacter.inBeecore() && KoLCharacter.hasBeeosity(familiar.getRace()))) {
+            && character.resourceUsage(familiar.getRace()).isZero()) {
           MaximizerSpeculation spec = new MaximizerSpeculation();
           spec.attachment = item;
           spec.equipment.put(Slot.HAT, item);

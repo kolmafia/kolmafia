@@ -181,7 +181,7 @@ final class CodpieceSpeculation {
       // gems.
       boolean canCollapseSaturatedScore =
           !Maximizer.evaluator().isUsingTiebreaker()
-              && !Maximizer.character().hasActiveEquipmentResources()
+              && !Maximizer.character().hasActiveResources()
               && codpieceSlots.stream()
                   .allMatch(
                       slot -> EquipmentManager.getEquipment(slot).equals(EquipmentRequest.UNEQUIP));
@@ -647,7 +647,7 @@ final class CodpieceSpeculation {
             return;
           }
           if (Double.compare(upperScore, bestScore) == 0
-              && !Maximizer.character().hasActiveEquipmentResources()) {
+              && !Maximizer.character().hasActiveResources()) {
             // Keep this tie pruning in compareTo order: item drops, meat drops, then tiebreak
             // score.
             CodpieceScoreBound tiebreakUpperBound = this.getTiebreakUpperBound(slotIndex);
