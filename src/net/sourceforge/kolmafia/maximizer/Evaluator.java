@@ -15,7 +15,6 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.ExpressionOverrides;
 import net.sourceforge.kolmafia.FamiliarData;
@@ -1656,38 +1655,7 @@ public class Evaluator {
     AdventureResult useCard = null;
 
     Map<Modeable, String> bestModes =
-        modeablesNeeded.entrySet().stream()
-            .collect(
-                Collectors.toMap(
-                    Entry::getKey,
-                    entry -> {
-                      if (!entry.getValue()) return "";
-                      var modeable = entry.getKey();
-
-                      if (!forcedModeables.get(modeable).isEmpty()) {
-                        return forcedModeables.get(modeable);
-                      }
-
-                      CheckedItem item =
-                          new CheckedItem(modeable.getItemId(), equipScope, maxPrice, priceLevel);
-                      MaximizerSpeculation baseline = new MaximizerSpeculation();
-                      baseline.attachment = item;
-                      baseline.equipment.put(modeable.getSlot(), item);
-                      baseline.setModeable(modeable, modeable.getState());
-
-                      // Check each mode in modeable to determine the best
-                      MaximizerSpeculation best =
-                          MaximizerSpeculation.bestOf(
-                              baseline,
-                              modeable.getModes(),
-                              (spec, mode) -> {
-                                spec.attachment = item;
-                                spec.equipment.put(modeable.getSlot(), item);
-                                spec.setModeable(modeable, mode);
-                              });
-
-                      return best.getModeables().get(modeable);
-                    }));
+        ModeableSelector.select(modeablesNeeded, forcedModeables, equipScope, maxPrice, priceLevel);
 
     SlotList<MaximizerSpeculation> speculationList = new SlotList<>(this.familiars.size());
 
