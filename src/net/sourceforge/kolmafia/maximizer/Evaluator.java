@@ -8,9 +8,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.regex.Matcher;
@@ -20,12 +18,10 @@ import net.sourceforge.kolmafia.ExpressionOverrides;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
-import net.sourceforge.kolmafia.KoLConstants.WeaponType;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modeable;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
-import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.equipment.SlotSet;
@@ -39,7 +35,6 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
-import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
@@ -1120,42 +1115,18 @@ public class Evaluator {
     double nullScore = this.getScore(new Modifiers());
     double nullTiebreaker = this.getTiebreaker(new Modifiers());
 
-    Map<Integer, Boolean> usefulOutfits = new HashMap<>();
-    Map<AdventureResult, AdventureResult> outfitPieces = new HashMap<>();
-    for (var outfitEntry : EquipmentDatabase.normalOutfits.entrySet()) {
-      var i = outfitEntry.getKey();
-      var outfit = outfitEntry.getValue();
-      if (outfit == null) continue;
-      if (this.negOutfits.contains(outfit.getName())) continue;
-      if (this.posOutfits.contains(outfit.getName())) {
-        usefulOutfits.put(i, true);
-        continue;
-      }
-
-      Modifiers mods = ModifierDatabase.getModifiers(ModifierType.OUTFIT, outfit.getName());
-      if (mods == null) continue;
-
-      switch (this.checkConstraints(mods)) {
-        case VIOLATES:
-          continue;
-        case IRRELEVANT:
-          // intentionally not including outfit.getPieces() because this is
-          // only rating whether the outfit itself is useful, not its pieces
-          double delta = this.getScore(mods) - nullScore;
-          if (delta <= 0.0) continue;
-          break;
-      }
-      usefulOutfits.put(i, true);
-    }
-
-    int usefulSynergies = 0;
-    for (Entry<String, Integer> entry : ModifierDatabase.getSynergies()) {
-      Modifiers mods = ModifierDatabase.getModifiers(ModifierType.SYNERGY, entry.getKey());
-      int value = entry.getValue();
-      if (mods == null) continue;
-      double delta = this.getScore(mods) - nullScore;
-      if (delta > 0.0) usefulSynergies |= value;
-    }
+    EquipmentSetEvaluator setEvaluator =
+        new EquipmentSetEvaluator(
+            this,
+            this.posOutfits,
+            this.negOutfits,
+            equipScope,
+            maxPrice,
+            priceLevel,
+            this.dump,
+            nullScore);
+    Map<Integer, Boolean> usefulOutfits = setEvaluator.usefulOutfits();
+    Map<AdventureResult, AdventureResult> outfitPieces = setEvaluator.outfitPieces();
 
     boolean hoboPowerUseful = isCatUseful(nullScore, "_hoboPower");
     boolean smithsnessUseful = isCatUseful(nullScore, "_smithsness");
@@ -1236,13 +1207,11 @@ public class Evaluator {
           break gotItem;
         }
 
-        if (usefulOutfits.getOrDefault(EquipmentDatabase.getOutfitWithItem(id), false)) {
-          item.validate(maxPrice, priceLevel);
-
+        if (setEvaluator.isUsefulOutfitPiece(id)) {
+          setEvaluator.retainOutfitPiece(item);
           if (item.getCount() == 0) {
             continue;
           }
-          outfitPieces.put(item, item);
         }
 
         if (KoLCharacter.hasEquipped(item)
@@ -1326,7 +1295,7 @@ public class Evaluator {
             || (this.raveosity > 0 && mods.getRawBitmap(BitmapModifier.RAVEOSITY) != 0)
             || (this.surgeonosity > 0 && mods.getRawBitmap(BitmapModifier.SURGEONOSITY) != 0)
             || (this.stinkycheese > 0 && mods.getRawBitmap(BitmapModifier.STINKYCHEESE) != 0)
-            || ((mods.getRawBitmap(BitmapModifier.SYNERGETIC) & usefulSynergies) != 0)) {
+            || setEvaluator.isUsefulSynergyPiece(mods)) {
           item.automaticFlag = true;
           break gotItem;
         } else if (mods.hasUnarmedBonus()) {
@@ -1477,308 +1446,7 @@ public class Evaluator {
     int catalogCandidateCount =
         catalog.entries().stream().mapToInt(entry -> entry.value().size()).sum();
 
-    // Compare sets which improve with the number of items equipped with the best items in the same
-    // spots
-
-    // Compare synergies with best items in the same spots, and remove automatic flag if not better
-    for (Entry<String, Integer> entry : ModifierDatabase.getSynergies()) {
-      String synergy = entry.getKey();
-      int mask = entry.getValue();
-      int index = synergy.indexOf("/");
-      String itemName1 = synergy.substring(0, index);
-      String itemName2 = synergy.substring(index + 1);
-      int itemId1 = ItemDatabase.getItemId(itemName1);
-      int itemId2 = ItemDatabase.getItemId(itemName2);
-      Slot slot1 = EquipmentManager.itemIdToEquipmentType(itemId1);
-      Slot slot2 = EquipmentManager.itemIdToEquipmentType(itemId2);
-      CheckedItem item1 = null;
-      CheckedItem item2 = null;
-
-      // The only times the slots will be wrong for looking at speculation lists for current
-      // synergies are 1 handed swords
-      // They are always item 1
-      int hands = EquipmentDatabase.getHands(itemId1);
-      WeaponType weaponType = EquipmentDatabase.getWeaponType(itemId1);
-      Slot slot1SpecLookup = slot1;
-      if (hands == 1 && weaponType == WeaponType.MELEE) {
-        slot1SpecLookup = Evaluator.WEAPON_1H;
-      }
-
-      if (slot1 == Slot.NONE || slot2 == Slot.NONE) {
-        continue;
-      }
-
-      ListIterator<MaximizerSpeculation> sI =
-          speculationList
-              .get(slot1SpecLookup)
-              .listIterator(speculationList.get(slot1SpecLookup).size());
-
-      while (sI.hasPrevious() && item1 == null) {
-        CheckedItem checkItem = sI.previous().attachment;
-        checkItem.validate(maxPrice, priceLevel);
-        if (checkItem.getName().equals(itemName1)) {
-          item1 = checkItem;
-        }
-      }
-
-      sI = speculationList.get(slot2).listIterator(speculationList.get(slot2).size());
-
-      while (sI.hasPrevious() && item2 == null) {
-        CheckedItem checkItem = sI.previous().attachment;
-        checkItem.validate(maxPrice, priceLevel);
-        if (checkItem.getName().equals(itemName2)) {
-          item2 = checkItem;
-        }
-      }
-
-      if (item1 == null || item2 == null) {
-        continue;
-      }
-
-      // Found a synergy in our speculationList, so compare it with the best individual items
-
-      int accCompared = 0;
-      MaximizerSpeculation synergySpec = new MaximizerSpeculation();
-      MaximizerSpeculation compareSpec = new MaximizerSpeculation();
-
-      Slot newSlot1 = slot1;
-      int compareItemNo =
-          slot1 == Slot.ACCESSORY1
-              ? speculationList.get(slot1SpecLookup).size() - 3
-              : speculationList.get(slot1SpecLookup).size() - 1;
-      do {
-        CheckedItem compareItem =
-            speculationList.get(slot1SpecLookup).get(compareItemNo).attachment;
-        if (compareItem.conditionalFlag) {
-          compareItemNo--;
-        } else {
-          compareSpec.equipment.put(
-              newSlot1, speculationList.get(slot1SpecLookup).get(compareItemNo).attachment);
-          break;
-        }
-        if (compareItemNo < 0) {
-          compareSpec.equipment.put(newSlot1, EquipmentRequest.UNEQUIP);
-          break;
-        }
-      } while (compareItemNo >= 0);
-      if (slot1 == Slot.ACCESSORY1) {
-        accCompared++;
-      }
-      synergySpec.equipment.put(newSlot1, item1);
-
-      Slot newSlot2 = jumpAccessories(slot2, accCompared);
-      compareItemNo =
-          slot2 == Slot.ACCESSORY1
-              ? speculationList.get(slot2).size() - 2
-              : speculationList.get(slot2).size() - 1;
-      do {
-        CheckedItem compareItem = speculationList.get(slot2).get(compareItemNo).attachment;
-        if (compareItem.conditionalFlag
-            || compareItem.getName().equals(compareSpec.equipment.get(newSlot1).getName())) {
-          compareItemNo--;
-        } else {
-          compareSpec.equipment.put(
-              newSlot2, speculationList.get(slot2).get(compareItemNo).attachment);
-          break;
-        }
-        if (compareItemNo < 0) {
-          compareSpec.equipment.put(newSlot2, EquipmentRequest.UNEQUIP);
-          break;
-        }
-      } while (compareItemNo >= 0);
-      synergySpec.equipment.put(newSlot2, item2);
-
-      if (synergySpec.compareTo(compareSpec) <= 0 || synergySpec.failed) {
-        // Not useful, so remove it's automatic flag so it won't be put forward unless it's good
-        // enough in it's own right
-        sI =
-            speculationList
-                .get(slot1SpecLookup)
-                .listIterator(speculationList.get(slot1SpecLookup).size());
-
-        while (sI.hasPrevious()) {
-          MaximizerSpeculation spec = sI.previous();
-          CheckedItem checkItem = spec.attachment;
-          checkItem.validate(maxPrice, priceLevel);
-          if (checkItem.getName().equals(itemName1)) {
-            spec.attachment.automaticFlag = false;
-            break;
-          }
-        }
-
-        sI = speculationList.get(slot2).listIterator(speculationList.get(slot2).size());
-
-        while (sI.hasPrevious()) {
-          MaximizerSpeculation spec = sI.previous();
-          CheckedItem checkItem = spec.attachment;
-          checkItem.validate(maxPrice, priceLevel);
-          if (checkItem.getName().equals(itemName2)) {
-            spec.attachment.automaticFlag = false;
-            break;
-          }
-        }
-      }
-    }
-
-    // However, that's only two item Synergies, and there are two three item synergies effectively.
-    // Ugly hack to reinstate them if necessary. They are always accessories, which simplifies
-    // things.
-    int count = 0;
-    while (count < 2) {
-      int itemId1;
-      int itemId2;
-      int itemId3;
-      CheckedItem item1 = null;
-      CheckedItem item2 = null;
-      CheckedItem item3 = null;
-      Slot slot = Slot.ACCESSORY1;
-
-      if (count == 0) {
-        itemId1 = ItemPool.MONSTROUS_MONOCLE;
-        itemId2 = ItemPool.MUSTY_MOCCASINS;
-        itemId3 = ItemPool.MOLTEN_MEDALLION;
-      } else {
-        itemId1 = ItemPool.BRAZEN_BRACELET;
-        itemId2 = ItemPool.BITTER_BOWTIE;
-        itemId3 = ItemPool.BEWITCHING_BOOTS;
-      }
-      count++;
-
-      ListIterator<MaximizerSpeculation> sI =
-          speculationList.get(slot).listIterator(speculationList.get(slot).size());
-
-      while (sI.hasPrevious()) {
-        CheckedItem checkItem = sI.previous().attachment;
-        checkItem.validate(maxPrice, priceLevel);
-        if (checkItem.getItemId() == itemId1) {
-          item1 = checkItem;
-        } else if (checkItem.getItemId() == itemId2) {
-          item2 = checkItem;
-        } else if (checkItem.getItemId() == itemId3) {
-          item3 = checkItem;
-        }
-        if (item1 != null && item2 != null && item3 != null) {
-          break;
-        }
-      }
-
-      if (item1 == null || item2 == null || item3 == null) {
-        continue;
-      }
-
-      // All three in our speculationList, so compare it with the best 3 accessories items
-
-      MaximizerSpeculation synergySpec = new MaximizerSpeculation();
-      MaximizerSpeculation compareSpec = new MaximizerSpeculation();
-
-      int compareItemNo = speculationList.get(slot).size() - 1;
-      compareSpec.equipment.put(slot, EquipmentRequest.UNEQUIP);
-      compareSpec.equipment.put(Slot.ACCESSORY2, EquipmentRequest.UNEQUIP);
-      compareSpec.equipment.put(Slot.ACCESSORY3, EquipmentRequest.UNEQUIP);
-      Slot newSlot = slot;
-      do {
-        CheckedItem compareItem = speculationList.get(slot).get(compareItemNo).attachment;
-        if (!compareItem.conditionalFlag) {
-          compareSpec.equipment.put(
-              newSlot, speculationList.get(slot).get(compareItemNo).attachment);
-          newSlot = incrementAccessory(newSlot);
-        }
-        compareItemNo--;
-      } while (compareItemNo >= 0 && newSlot != Slot.NONE);
-      synergySpec.equipment.put(slot, item1);
-      synergySpec.equipment.put(Slot.ACCESSORY2, item2);
-      synergySpec.equipment.put(Slot.ACCESSORY3, item3);
-
-      if (synergySpec.compareTo(compareSpec) > 0 && !synergySpec.failed) {
-        // Useful, so automatic flag it again
-        sI = speculationList.get(slot).listIterator(speculationList.get(slot).size());
-
-        int found = 0;
-        while (sI.hasPrevious() && found < 3) {
-          MaximizerSpeculation spec = sI.previous();
-          CheckedItem checkItem = spec.attachment;
-          checkItem.validate(maxPrice, priceLevel);
-          if (checkItem.getItemId() == itemId1) {
-            spec.attachment.automaticFlag = true;
-            found++;
-          } else if (checkItem.getItemId() == itemId2) {
-            spec.attachment.automaticFlag = true;
-            found++;
-          } else if (checkItem.getItemId() == itemId3) {
-            spec.attachment.automaticFlag = true;
-            found++;
-          }
-        }
-      }
-    }
-
-    // Compare outfits with best item in the same spot, and remove if not better
-    // Compare the accessories to the worst ones, not the best
-    StringBuilder outfitSummary = new StringBuilder();
-    outfitSummary.append("Outfits [");
-    int outfitCount = 0;
-    for (Integer i : usefulOutfits.keySet()) {
-      if (usefulOutfits.get(i)) {
-        int accCount = 0;
-        MaximizerSpeculation outfitSpec = new MaximizerSpeculation();
-        MaximizerSpeculation compareSpec = new MaximizerSpeculation();
-        // Get pieces of outfit
-        SpecialOutfit outfit = EquipmentDatabase.getOutfit(i);
-        AdventureResult[] pieces = outfit.getPieces();
-        for (AdventureResult piece : pieces) {
-          int outfitItemId = piece.getItemId();
-          Slot slot = EquipmentManager.itemIdToEquipmentType(outfitItemId);
-          // For some items, Evaluator uses a different slot
-          // I don't think any outfits use an offhand weapon or watch though?
-          int hands = EquipmentDatabase.getHands(outfitItemId);
-          if (hands == 1) {
-            slot = Evaluator.WEAPON_1H;
-          }
-
-          // Compare outfit with best individual non conditional item that hasn't previously been
-          // used
-          // For accessories compare with 3rd best for first accessory, 2nd best for second
-          // accessory, best for third
-          Slot newSlot = jumpAccessories(slot, accCount);
-          // if we're comparing 1-handed weapons, assign the spec slot as weapon
-          newSlot = newSlot == Evaluator.WEAPON_1H ? Slot.WEAPON : newSlot;
-          int compareItemNo = speculationList.get(slot).size() - 1;
-          int accSkip = slot == Slot.ACCESSORY1 ? 2 - accCount : 0;
-          while (compareItemNo >= 0) {
-            CheckedItem compareItem = speculationList.get(slot).get(compareItemNo).attachment;
-            if (compareItem.conditionalFlag) {
-              compareItemNo--;
-            } else if (accSkip > 0) {
-              // Valid item, but we're looking for 2nd or 3rd best non-conditional
-              compareItemNo--;
-              accSkip--;
-            } else {
-              compareSpec.equipment.put(newSlot, compareItem);
-              break;
-            }
-            if (compareItemNo < 0) {
-              compareSpec.equipment.put(newSlot, EquipmentRequest.UNEQUIP);
-              break;
-            }
-          }
-          CheckedItem outfitItem = new CheckedItem(outfitItemId, equipScope, maxPrice, priceLevel);
-          outfitSpec.equipment.put(newSlot, outfitItem);
-        }
-        if (outfitSpec.compareTo(compareSpec) <= 0 && !this.posOutfits.contains(outfit.getName())) {
-          usefulOutfits.put(i, false);
-        } else {
-          if (outfitCount > 0) {
-            outfitSummary.append(", ");
-          }
-          outfitSummary.append(outfit.toString());
-          outfitCount++;
-        }
-      }
-    }
-    if (this.dump > 0) {
-      outfitSummary.append("]");
-      RequestLogger.printLine(outfitSummary.toString());
-    }
+    setEvaluator.evaluate(speculationList);
 
     var shortlist =
         new CandidateShortlistCompiler(
@@ -1896,29 +1564,4 @@ public class Evaluator {
     return mods != null && this.getScore(mods) - nullScore > 0.0;
   }
 
-  private Slot jumpAccessories(Slot base, int jumpIfFromStart) {
-    if (base == Slot.ACCESSORY1) {
-      if (jumpIfFromStart == 0) {
-        return Slot.ACCESSORY1;
-      } else if (jumpIfFromStart == 1) {
-        return Slot.ACCESSORY2;
-      } else {
-        return Slot.ACCESSORY3;
-      }
-    } else {
-      return base;
-    }
-  }
-
-  private Slot incrementAccessory(Slot base) {
-    if (base == Slot.ACCESSORY1) {
-      return Slot.ACCESSORY2;
-    } else if (base == Slot.ACCESSORY2) {
-      return Slot.ACCESSORY3;
-    } else if (base == Slot.ACCESSORY3) {
-      // sentinel value
-      return Slot.NONE;
-    }
-    throw new IllegalStateException("Unexpected value: " + base);
-  }
 }
