@@ -974,10 +974,6 @@ public class Evaluator {
     return ((baseExperience + experience) * (1.0 + experiencePercent)) / 2.0;
   }
 
-  EnumSet<DoubleModifier> familiarDependentScoreModifiers() {
-    return this.codpieceEvaluator.familiarDependentScoreModifiers();
-  }
-
   CodpieceEvaluator.Context codpieceContext() {
     return new CodpieceEvaluator.Context(
         this.activeScoreModifiers,
@@ -1131,6 +1127,18 @@ public class Evaluator {
     if (!this.booleanValue.containsAll(bools)) return Constraint.VIOLATES;
     if (!bools.isEmpty()) return Constraint.MEETS;
     return Constraint.IRRELEVANT;
+  }
+
+  boolean requiresEquipment(AdventureResult item) {
+    return this.posEquip.contains(item);
+  }
+
+  boolean excludesEquipment(AdventureResult item) {
+    return this.negEquip.contains(item);
+  }
+
+  boolean currentOnly() {
+    return this.current;
   }
 
   @Deprecated
@@ -1619,70 +1627,16 @@ public class Evaluator {
       addCandidate(ranked, slot, auxSlot, item);
     }
 
-    boolean usesFamiliarDependentScore = !this.familiarDependentScoreModifiers().isEmpty();
-    for (var entry : ModifierDatabase.getAllModifiersOfType(ModifierType.ETERNITY_CODPIECE)) {
-      if (!entry.getKey().isInt()) {
-        continue;
-      }
-
-      int gemId = entry.getKey().getIntValue();
-      CheckedItem gem = new CheckedItem(gemId, equipScope, maxPrice, priceLevel, true);
-      if (gem.getCount() == 0) {
-        continue;
-      }
-      if (this.negEquip.contains(gem)) {
-        continue;
-      }
-      if (this.posEquip.contains(gem)) {
-        gem.automaticFlag = true;
-        gem.requiredFlag = true;
-      }
-
-      Modifiers mods = ModifierDatabase.getModifiers(ModifierType.ETERNITY_CODPIECE, gemId);
-      switch (this.checkConstraints(mods)) {
-        case VIOLATES:
-          continue;
-        case MEETS:
-          gem.automaticFlag = true;
-      }
-
-      catalog.get(Slot.CODPIECE1).add(gem);
-      var candidate = this.codpieceEvaluator.scoreCandidate(mods, gem, nullScore, nullTiebreaker);
-      double delta = candidate.score();
-      double tiebreakerDelta = candidate.tiebreaker();
-      if ((delta < 0.0 || (delta == 0.0 && tiebreakerDelta <= 0.0))
-          && !gem.automaticFlag
-          && !(usesFamiliarDependentScore
-              && CodpieceModifierSafety.affectsFamiliarCalculation(mods))
-          && !(KoLCharacter.inCodpiece(gem) && this.current)) {
-        continue;
-      }
-      if (KoLCharacter.inCodpiece(gem) && this.current) {
-        gem.automaticFlag = true;
-      }
-
-      ranked.get(Slot.CODPIECE1).add(gem);
-    }
-
-    // The codpiece can expand the accessory pool via its gem slots (see useful/total below).
-    boolean codpieceCanExpandAccessoryPool = false;
-    if (!ranked.get(Slot.CODPIECE1).isEmpty()) {
-      for (CheckedItem item : ranked.get(Slot.ACCESSORY1)) {
-        if (item.getItemId() != ItemPool.THE_ETERNITY_CODPIECE) {
-          continue;
-        }
-        item.automaticFlag = true;
-        codpieceCanExpandAccessoryPool =
-            item.getCount() > 0 && SlotSet.CODPIECE_SLOTS.stream().anyMatch(this::slotEnabled);
-      }
-    }
-    if (codpieceCanExpandAccessoryPool) {
-      for (CheckedItem item : ranked.get(Slot.ACCESSORY1)) {
-        if (KoLCharacter.hasEquipped(item)) {
-          item.automaticFlag = true;
-        }
-      }
-    }
+    var codpieceCandidates =
+        this.codpieceEvaluator.compileCandidates(
+            equipScope, maxPrice, priceLevel, nullScore, nullTiebreaker);
+    catalog.get(Slot.CODPIECE1).addAll(codpieceCandidates.catalog());
+    ranked.get(Slot.CODPIECE1).addAll(codpieceCandidates.ranked());
+    boolean codpieceCanExpandAccessoryPool =
+        this.codpieceEvaluator.prepareAccessoryCandidates(
+            codpieceCandidates.ranked(),
+            ranked.get(Slot.ACCESSORY1),
+            SlotSet.CODPIECE_SLOTS.stream().anyMatch(this::slotEnabled));
 
     // Get best Familiars for Crown of Thrones and Buddy Bjorn
     // Assume current ones are best if in use
