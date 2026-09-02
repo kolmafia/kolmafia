@@ -5204,6 +5204,7 @@ Throne	Mad Hatrack	none
 Throne	Magic Dragonfish	Spell Damage Percent: +15
 Throne	MagiMechTech MicroMechaMech	Muscle Percent: +15
 Throne	Mariachi Chihuahua	Experience (Moxie): +2
+Throne	Meat Shield Maiden	Damage Reduction: 10
 Throne	Mechanical Songbird	Spell Damage Percent: 20
 Throne	Melodramedary	All Attributes: +10
 Throne	Midget Clownfish	Spell Damage Percent: +10
