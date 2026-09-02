@@ -36,7 +36,6 @@ import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifierCollection;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
@@ -1165,12 +1164,30 @@ public class Evaluator {
     boolean slimeHateUseful = isCatUseful(nullScore, "_slimeHate");
     boolean mcHugeLargeUseful = isCatUseful(nullScore, "_mcHugeLarge");
 
-    // This relies on the special sauce glove having a lower ID
-    // than any chefstaff.
-    boolean gloveAvailable = false;
     FamiliarEquipmentCompiler familiarEquipmentCompiler =
         new FamiliarEquipmentCompiler(
             this, this.familiars, catalog, ranked, equipScope, maxPrice, priceLevel, nullScore);
+    EquipmentCandidateSlotter candidateSlotter =
+        new EquipmentCandidateSlotter(
+            new EquipmentCandidateSlotter.Requirements(
+                this.hands,
+                this.melee,
+                this.weaponType,
+                this.requireShield,
+                this.requireClub,
+                this.requireUtensil,
+                this.requireSword,
+                this.requireKnife,
+                this.requireAccordion,
+                this.effective),
+            hoboPowerUseful,
+            this.weight.getDouble(DoubleModifier.ITEMDROP) > 0,
+            this.weight.getDouble(DoubleModifier.EXPERIENCE) > 0
+                || this.weight.getDouble(DoubleModifier.MUS_EXPERIENCE) > 0
+                || this.weight.getDouble(DoubleModifier.MYS_EXPERIENCE) > 0
+                || this.weight.getDouble(DoubleModifier.MOX_EXPERIENCE) > 0,
+            maxPrice,
+            priceLevel);
 
     int id = 0;
     while ((id = EquipmentDatabase.nextEquipmentItemId(id)) != -1) {
@@ -1209,131 +1226,14 @@ public class Evaluator {
       Slot auxSlot = Slot.NONE;
       gotItem:
       {
-        switch (slot) {
-          case FAMILIAR:
-            if (!famCanEquip) continue;
-            break;
-
-          case WEAPON:
-            int hands = EquipmentDatabase.getHands(id);
-            if (this.hands == 1 && hands != 1) {
-              continue;
-            }
-            if (this.hands > 1 && hands < this.hands) {
-              continue;
-            }
-            WeaponType weaponType = EquipmentDatabase.getWeaponType(id);
-            if (this.melee > 0 && weaponType != WeaponType.MELEE) {
-              continue;
-            }
-            if (this.melee < 0 && weaponType != WeaponType.RANGED) {
-              continue;
-            }
-            String type = EquipmentDatabase.getItemType(id);
-            if (this.weaponType != null && !type.contains(this.weaponType)) {
-              continue;
-            }
-            if (hands == 1) {
-              slot = Evaluator.WEAPON_1H;
-              if (type.equals("chefstaff")) { // Don't allow chefstaves to displace other
-                // 1H weapons from the shortlist if you can't
-                // equip them anyway.
-                if (!EquipmentManager.canEquipChefstaff(gloveAvailable)) {
-                  continue;
-                }
-                // In any case, don't put this in an aux slot.
-              } else if (!this.requireShield && !EquipmentDatabase.isMainhandOnly(id)) {
-                switch (weaponType) {
-                  case MELEE -> auxSlot = Evaluator.OFFHAND_MELEE;
-                  case RANGED -> auxSlot = Evaluator.OFFHAND_RANGED;
-                  case NONE -> {}
-                }
-              }
-            }
-            if (this.requireClub && !EquipmentDatabase.isClub(id)) {
-              slot = auxSlot;
-            }
-            if (this.requireUtensil && !EquipmentDatabase.isUtensil(id)) {
-              slot = auxSlot;
-            }
-            if (this.requireSword && !EquipmentDatabase.isSword(id)) {
-              slot = auxSlot;
-            }
-            if (this.requireKnife && !EquipmentDatabase.isKnife(id)) {
-              slot = auxSlot;
-            }
-            if (this.requireAccordion && !EquipmentDatabase.isAccordion(id)) {
-              slot = auxSlot;
-            }
-            if (this.effective) {
-              if (id != ItemPool.FOURTH_SABER
-                  && id != ItemPool.REPLICA_FOURTH_SABER
-                  && !ModifierDatabase.getBooleanModifier(
-                      ModifierType.ITEM, id, BooleanModifier.ATTACKS_CANT_MISS)) {
-                // Always uses best stat, so always considered effective
-                if (KoLCharacter.getAdjustedMoxie() >= KoLCharacter.getAdjustedMuscle()
-                    && weaponType != WeaponType.RANGED
-                    && (!EquipmentDatabase.isKnife(id)
-                        || !KoLCharacter.hasSkill(SkillPool.TRICKY_KNIFEWORK))) {
-                  slot = auxSlot;
-                }
-                if (KoLCharacter.getAdjustedMoxie() < KoLCharacter.getAdjustedMuscle()
-                    && weaponType != WeaponType.MELEE) {
-                  slot = auxSlot;
-                }
-              }
-            }
-            if (id == ItemPool.BROKEN_CHAMPAGNE
-                && this.weight.getDouble(DoubleModifier.ITEMDROP) > 0
-                && (Preferences.getInteger("garbageChampagneCharge") > 0
-                    || !Preferences.getBoolean("_garbageItemChanged"))) {
-              // This is always going to be worth including if useful
-              item.requiredFlag = true;
-              item.automaticFlag = true;
-              break gotItem;
-            }
-            break;
-
-          case OFFHAND:
-            if (this.requireShield
-                && !EquipmentDatabase.isShield(id)
-                && id != ItemPool.UNBREAKABLE_UMBRELLA) {
-              continue;
-            }
-            if (hoboPowerUseful && name.startsWith("Hodgman's")) {
-              Modifiers.hoboPower = 100.0;
-              item.automaticFlag = true;
-            }
-            break;
-
-          case ACCESSORY1:
-            if (id == ItemPool.SPECIAL_SAUCE_GLOVE
-                && EquipmentManager.canEquipChefstaff(true)
-                && !EquipmentManager.canEquipChefstaff(false)) {
-              item.validate(maxPrice, priceLevel);
-
-              if (item.getCount() == 0) {
-                continue;
-              }
-
-              item.automaticFlag = true;
-              gloveAvailable = true;
-              break gotItem;
-            }
-            break;
-          case SHIRT:
-            if (id == ItemPool.MAKESHIFT_GARBAGE_SHIRT
-                && (this.weight.getDouble(DoubleModifier.EXPERIENCE) > 0
-                    || this.weight.getDouble(DoubleModifier.MUS_EXPERIENCE) > 0
-                    || this.weight.getDouble(DoubleModifier.MYS_EXPERIENCE) > 0
-                    || this.weight.getDouble(DoubleModifier.MOX_EXPERIENCE) > 0)
-                && Preferences.getInteger("garbageShirtCharge") > 0) {
-              // This is always going to be worth including if useful
-              item.requiredFlag = true;
-              item.automaticFlag = true;
-              break gotItem;
-            }
-            break;
+        var placement = candidateSlotter.place(id, name, slot, item, famCanEquip);
+        if (!placement.accepted()) {
+          continue;
+        }
+        slot = placement.slot();
+        auxSlot = placement.auxiliarySlot();
+        if (placement.skipScoring()) {
+          break gotItem;
         }
 
         if (usefulOutfits.getOrDefault(EquipmentDatabase.getOutfitWithItem(id), false)) {
