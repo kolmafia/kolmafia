@@ -1897,11 +1897,16 @@ public class EternityCodpieceMaximizerTest {
           double elapsed = (System.nanoTime() - start) / 1_000_000.0;
           totalElapsed += elapsed;
           assertFalse(Maximizer.best.failed);
+          var metrics = Maximizer.lastSearchMetrics();
           System.out.printf(
-              "ALL_EQUIPMENT_BENCHMARK expression=%s items=%d combinations=%d score=%.3f ms=%.3f%n",
+              "ALL_EQUIPMENT_BENCHMARK expression=%s items=%d catalog=%d shortlist=%d"
+                  + " combinations=%d calculations=%d score=%.3f ms=%.3f%n",
               expression,
               availableItems.size(),
-              Maximizer.bestChecked,
+              metrics.catalogCandidates(),
+              metrics.shortlistedCandidates(),
+              metrics.combinationsChecked(),
+              metrics.scoreCalculations(),
               Maximizer.best.getScore(),
               elapsed);
         }
