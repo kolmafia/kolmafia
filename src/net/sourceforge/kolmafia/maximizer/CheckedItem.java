@@ -110,11 +110,11 @@ public class CheckedItem extends AdventureResult {
       this.creatable = 0;
     } else if (c.price > 0) {
       long theoreticBuyable = maxPrice / c.price;
-      int limit = CheckedItem.limitBuyable(itemId);
+      int limit = NPCStoreDatabase.getQuantity(itemId).orElse(Integer.MAX_VALUE);
       if (limit < theoreticBuyable) {
         this.npcBuyable = limit;
       } else {
-        // SAFETY: limitBuyable caps at Integer.MAX_VALUE
+        // SAFETY: theoreticBuyable is no greater than the int quantity limit
         this.npcBuyable = (int) theoreticBuyable;
       }
     }
@@ -273,22 +273,6 @@ public class CheckedItem extends AdventureResult {
       this.pullBuyable = 0;
     }
   }
-
-  private static int limitBuyable(final int itemId) {
-    var possibleQuantity = NPCStoreDatabase.getQuantity(itemId);
-    return possibleQuantity.orElse(Integer.MAX_VALUE);
-  }
-
-  public static final int TOTAL_MASK = 0xFF;
-  public static final int SUBTOTAL_MASK = 0x0F;
-  public static final int INITIAL_SHIFT = 8;
-  public static final int CREATABLE_SHIFT = 12;
-  public static final int NPCBUYABLE_SHIFT = 16;
-  public static final int FOLDABLE_SHIFT = 20;
-  public static final int PULLABLE_SHIFT = 24;
-  public static final int BUYABLE_FLAG = 1 << 28;
-  public static final int AUTOMATIC_FLAG = 1 << 29;
-  public static final int CONDITIONAL_FLAG = 1 << 30;
 
   public int inventory;
   public int initial;
