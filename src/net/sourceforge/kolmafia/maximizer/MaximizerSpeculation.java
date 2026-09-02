@@ -382,7 +382,6 @@ public class MaximizerSpeculation extends Speculation
           var familiars = useBjornFamiliar == null ? enthronedFamiliars : List.of(useBjornFamiliar);
           for (FamiliarData familiar : familiars) {
             this.setBjorned(familiar);
-            this.setBjorned(familiar);
             this.tryAccessories(enthronedFamiliars, possibles, 0, bestCard, useCrownFamiliar);
             any = true;
             this.restore(carrierMark);
