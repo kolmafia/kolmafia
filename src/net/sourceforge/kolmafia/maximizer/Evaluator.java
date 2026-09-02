@@ -53,7 +53,6 @@ import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.session.EffectAvailability;
 import net.sourceforge.kolmafia.session.EquipmentManager;
-import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 @SuppressWarnings("incomplete-switch")
@@ -500,11 +499,11 @@ public class Evaluator {
           return;
         }
         // Pick a tool that matches your prime stat
-        AdventureResult item = pickPlumberTool(KoLCharacter.getPrimeIndex());
+        AdventureResult item = EquipmentManager.getBestPlumberTool(KoLCharacter.getPrimeIndex());
         if (item == null) {
           // Otherwise, pick best available tool
           // You are guaranteed to have work boots, at least
-          item = pickPlumberTool(-1);
+          item = EquipmentManager.getBestPlumberTool(-1);
         }
         this.posEquip.add(item);
         continue;
@@ -516,7 +515,7 @@ public class Evaluator {
           return;
         }
         // Mysticality plumber item
-        AdventureResult item1 = pickPlumberTool(1);
+        AdventureResult item1 = EquipmentManager.getBestPlumberTool(1);
         if (item1 == null) {
           KoLmafia.updateDisplay(MafiaState.ERROR, "You don't have an appropriate flower to wield");
           return;
@@ -802,40 +801,6 @@ public class Evaluator {
         this.weight.increment(extra, fudge);
       }
     }
-  }
-
-  private AdventureResult pickPlumberTool(int primeIndex) {
-    AdventureResult hammer = ItemPool.get(ItemPool.HAMMER);
-    boolean haveHammer = InventoryManager.hasItem(hammer);
-    AdventureResult heavyHammer = ItemPool.get(ItemPool.HEAVY_HAMMER);
-    boolean haveHeavyHammer = InventoryManager.hasItem(heavyHammer);
-    AdventureResult fireFlower = ItemPool.get(ItemPool.PLUMBER_FIRE_FLOWER);
-    boolean haveFireFlower = InventoryManager.hasItem(fireFlower);
-    AdventureResult bonfireFlower = ItemPool.get(ItemPool.BONFIRE_FLOWER);
-    boolean haveBonfireFlower = InventoryManager.hasItem(bonfireFlower);
-    AdventureResult workBoots = ItemPool.get(ItemPool.WORK_BOOTS);
-    boolean haveWorkBoots = InventoryManager.hasItem(workBoots);
-    AdventureResult fancyBoots = ItemPool.get(ItemPool.FANCY_BOOTS);
-    boolean haveFancyBoots = InventoryManager.hasItem(fancyBoots);
-
-    // Find the best plumber tool
-    return switch (primeIndex) {
-      case 0 -> // Muscle
-          haveHeavyHammer ? heavyHammer : haveHammer ? hammer : null;
-      case 1 -> // Mysticality
-          haveBonfireFlower ? bonfireFlower : haveFireFlower ? fireFlower : null;
-      case 2 -> // Moxie
-          haveFancyBoots ? fancyBoots : haveWorkBoots ? workBoots : null;
-      default ->
-          // If you don't care about stat, pick the best item you own.
-          haveHeavyHammer
-              ? heavyHammer
-              : haveBonfireFlower
-                  ? bonfireFlower
-                  : haveFancyBoots
-                      ? fancyBoots
-                      : haveHammer ? hammer : haveFireFlower ? fireFlower : workBoots;
-    };
   }
 
   public double getScore(

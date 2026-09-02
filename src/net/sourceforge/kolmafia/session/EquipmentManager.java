@@ -1299,6 +1299,35 @@ public class EquipmentManager {
         || (KoLCharacter.isSauceror() && wearingSpecialSauceGlove);
   }
 
+  public static AdventureResult getBestPlumberTool(final int primeIndex) {
+    AdventureResult hammer = ItemPool.get(ItemPool.HAMMER);
+    boolean haveHammer = InventoryManager.hasItem(hammer);
+    AdventureResult heavyHammer = ItemPool.get(ItemPool.HEAVY_HAMMER);
+    boolean haveHeavyHammer = InventoryManager.hasItem(heavyHammer);
+    AdventureResult fireFlower = ItemPool.get(ItemPool.PLUMBER_FIRE_FLOWER);
+    boolean haveFireFlower = InventoryManager.hasItem(fireFlower);
+    AdventureResult bonfireFlower = ItemPool.get(ItemPool.BONFIRE_FLOWER);
+    boolean haveBonfireFlower = InventoryManager.hasItem(bonfireFlower);
+    AdventureResult workBoots = ItemPool.get(ItemPool.WORK_BOOTS);
+    boolean haveWorkBoots = InventoryManager.hasItem(workBoots);
+    AdventureResult fancyBoots = ItemPool.get(ItemPool.FANCY_BOOTS);
+    boolean haveFancyBoots = InventoryManager.hasItem(fancyBoots);
+
+    return switch (primeIndex) {
+      case 0 -> haveHeavyHammer ? heavyHammer : haveHammer ? hammer : null;
+      case 1 -> haveBonfireFlower ? bonfireFlower : haveFireFlower ? fireFlower : null;
+      case 2 -> haveFancyBoots ? fancyBoots : haveWorkBoots ? workBoots : null;
+      default ->
+          haveHeavyHammer
+              ? heavyHammer
+              : haveBonfireFlower
+                  ? bonfireFlower
+                  : haveFancyBoots
+                      ? fancyBoots
+                      : haveHammer ? hammer : haveFireFlower ? fireFlower : workBoots;
+    };
+  }
+
   /**
    * Accessor method to determine if character's off-hand is a bean can
    *
