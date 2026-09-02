@@ -96,6 +96,8 @@ class AnytimeSearchTest {
         IllegalStateException.class, () -> AnytimeSearch.maximize(problem, null, () -> true));
 
     assertThat(problem.depth(), is(0));
+    assertThat(problem.finished().nodes(), is(2L));
+    assertThat(problem.finished().optimal(), is(false));
   }
 
   @Test
@@ -155,6 +157,7 @@ class AnytimeSearchTest {
     private final boolean useFrontier;
     private final List<Choice> assignment = new ArrayList<>();
     private final Map<Integer, List<Point>> frontier = new HashMap<>();
+    private AnytimeSearch.Result<SolutionQuality, List<Choice>> finished;
     private int score;
     private int cost;
 
@@ -226,8 +229,17 @@ class AnytimeSearchTest {
       return new AnytimeSearch.Candidate<>(quality(this.score), List.copyOf(this.assignment));
     }
 
+    @Override
+    public void finished(AnytimeSearch.Result<SolutionQuality, List<Choice>> result) {
+      this.finished = result;
+    }
+
     int depth() {
       return this.assignment.size();
+    }
+
+    AnytimeSearch.Result<SolutionQuality, List<Choice>> finished() {
+      return this.finished;
     }
   }
 }

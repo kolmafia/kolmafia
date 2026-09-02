@@ -125,7 +125,7 @@ public class CheckedItem extends AdventureResult {
       return;
     }
 
-    if (!ItemDatabase.isAllowed(this)) {
+    if (!ignoreStandardRestriction && !ItemDatabase.isAllowed(this)) {
       // Unallowed items can't be bought or pulled, though the original code
       // just reset everything to zero
 

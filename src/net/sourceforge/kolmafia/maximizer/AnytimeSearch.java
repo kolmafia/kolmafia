@@ -32,6 +32,8 @@ final class AnytimeSearch {
 
     /** Returns a valid candidate at the current state, or null when the state is incomplete. */
     Candidate<Q, R> candidate() throws E;
+
+    default void finished(Result<Q, R> result) {}
   }
 
   record Candidate<Q, R>(Q quality, R result) {}
@@ -49,8 +51,13 @@ final class AnytimeSearch {
       Problem<C, Q, R, E> problem, Candidate<Q, R> incumbent, BooleanSupplier keepSearching)
       throws E {
     var search = new Search<>(problem, incumbent, keepSearching);
-    search.visit();
-    return search.result();
+    try {
+      search.visit();
+      search.completed = true;
+      return search.result();
+    } finally {
+      problem.finished(search.result());
+    }
   }
 
   private static final class Search<C, Q extends Comparable<Q>, R, E extends Exception> {
@@ -62,6 +69,7 @@ final class AnytimeSearch {
     private long dominancePrunes;
     private long boundPrunes;
     private boolean stopped;
+    private boolean completed;
 
     private Search(
         Problem<C, Q, R, E> problem, Candidate<Q, R> incumbent, BooleanSupplier keepSearching) {
@@ -120,7 +128,7 @@ final class AnytimeSearch {
           this.leaves,
           this.dominancePrunes,
           this.boundPrunes,
-          !this.stopped);
+          this.completed && !this.stopped);
     }
   }
 }
