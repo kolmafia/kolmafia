@@ -28,7 +28,7 @@ public class LocketManager {
   private static final Set<Integer> knownMonsters = new TreeSet<>();
   private static final Pattern REMINISCABLE_MONSTER = Pattern.compile("<option value=\"(\\d+)\"");
   private static final Set<String> CONSTANT_MODS =
-      Set.of("HP Regen Min", "HP Regen Max", "MP Regen Min", "MP Regen Max", "Single Equip");
+      Set.of("HP / MP Regen Min", "HP / MP Regen Max", "Single Equip");
 
   private static void addFoughtMonster(int monsterId) {
     Set<Integer> foughtMonsters = new TreeSet<>(getFoughtMonsters());
