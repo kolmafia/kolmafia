@@ -370,24 +370,19 @@ public class MaximizerSpeculation extends Speculation
         if (count <= 0) continue;
         this.equipment.put(Slot.CONTAINER, item);
         if (item.getItemId() == ItemPool.BUDDY_BJORN) {
-          if (useBjornFamiliar != null) {
-            this.setBjorned(useBjornFamiliar);
+          var carrierMark = this.mark();
+          var familiars = useBjornFamiliar == null ? enthronedFamiliars : List.of(useBjornFamiliar);
+          for (FamiliarData familiar : familiars) {
+            this.setBjorned(familiar);
             this.tryAccessories(enthronedFamiliars, possibles, 0, bestCard, useCrownFamiliar);
             any = true;
-            this.restore(mark);
-          } else {
-            for (FamiliarData f : enthronedFamiliars) {
-              this.setBjorned(f);
-              this.tryAccessories(enthronedFamiliars, possibles, 0, bestCard, useCrownFamiliar);
-              any = true;
-              this.restore(mark);
-            }
+            this.restore(carrierMark);
           }
         } else {
           this.tryAccessories(enthronedFamiliars, possibles, 0, bestCard, useCrownFamiliar);
           any = true;
-          this.restore(mark);
         }
+        this.restore(mark);
       }
 
       if (any) return;
@@ -473,27 +468,25 @@ public class MaximizerSpeculation extends Speculation
         if (count <= 0) continue;
         this.equipment.put(Slot.HAT, item);
         if (item.getItemId() == ItemPool.HATSEAT) {
-          if (useCrownFamiliar != null) {
-            this.setEnthroned(useCrownFamiliar);
+          var carrierMark = this.mark();
+          var familiars = useCrownFamiliar == null ? enthronedFamiliars : List.of(useCrownFamiliar);
+          for (FamiliarData familiar : familiars) {
+            // Cannot use the same familiar for this and the Bjorn unless the slot is empty.
+            if (useCrownFamiliar == null
+                && familiar == this.getBjorned()
+                && familiar != FamiliarData.NO_FAMILIAR) {
+              continue;
+            }
+            this.setEnthroned(familiar);
             this.trySimpleSlots(possibles, bestCard, 0);
             any = true;
-            this.restore(mark);
-          } else {
-            for (FamiliarData f : enthronedFamiliars) {
-              // Cannot use same familiar for this and Bjorn
-              if (f != this.getBjorned() || f == FamiliarData.NO_FAMILIAR) {
-                this.setEnthroned(f);
-                this.trySimpleSlots(possibles, bestCard, 0);
-                any = true;
-                this.restore(mark);
-              }
-            }
+            this.restore(carrierMark);
           }
         } else {
           this.trySimpleSlots(possibles, bestCard, 0);
           any = true;
-          this.restore(mark);
         }
+        this.restore(mark);
       }
 
       if (any) return;
