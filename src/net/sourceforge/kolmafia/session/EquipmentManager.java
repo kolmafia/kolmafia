@@ -1293,6 +1293,12 @@ public class EquipmentManager {
     return EquipmentDatabase.isChefStaff(EquipmentManager.getEquipment(Slot.WEAPON));
   }
 
+  public static boolean canEquipChefstaff(final boolean wearingSpecialSauceGlove) {
+    return KoLCharacter.hasSkill(SkillPool.SPIRIT_OF_RIGATONI)
+        || KoLCharacter.isJarlsberg()
+        || (KoLCharacter.isSauceror() && wearingSpecialSauceGlove);
+  }
+
   /**
    * Accessor method to determine if character's off-hand is a bean can
    *

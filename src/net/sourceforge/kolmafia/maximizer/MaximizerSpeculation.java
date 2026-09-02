@@ -551,14 +551,11 @@ public class MaximizerSpeculation extends Speculation
       throws MaximizerInterruptedException {
     if (!Maximizer.keepSearching()) return;
     var mark = this.mark();
-    boolean chefstaffable =
-        KoLCharacter.hasSkill(SkillPool.SPIRIT_OF_RIGATONI) || KoLCharacter.isJarlsberg();
-    if (!chefstaffable && KoLCharacter.isSauceror()) {
-      chefstaffable =
-          this.equipment.get(Slot.ACCESSORY1).getItemId() == ItemPool.SPECIAL_SAUCE_GLOVE
-              || this.equipment.get(Slot.ACCESSORY2).getItemId() == ItemPool.SPECIAL_SAUCE_GLOVE
-              || this.equipment.get(Slot.ACCESSORY3).getItemId() == ItemPool.SPECIAL_SAUCE_GLOVE;
-    }
+    boolean wearingSpecialSauceGlove =
+        this.equipment.get(Slot.ACCESSORY1).getItemId() == ItemPool.SPECIAL_SAUCE_GLOVE
+            || this.equipment.get(Slot.ACCESSORY2).getItemId() == ItemPool.SPECIAL_SAUCE_GLOVE
+            || this.equipment.get(Slot.ACCESSORY3).getItemId() == ItemPool.SPECIAL_SAUCE_GLOVE;
+    boolean chefstaffable = EquipmentManager.canEquipChefstaff(wearingSpecialSauceGlove);
     if (this.equipment.get(Slot.WEAPON) == null) {
       List<CheckedItem> possible = possibles.get(Slot.WEAPON);
       // boolean any = false;

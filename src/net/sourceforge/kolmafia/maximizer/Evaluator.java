@@ -1395,9 +1395,7 @@ public class Evaluator {
               if (type.equals("chefstaff")) { // Don't allow chefstaves to displace other
                 // 1H weapons from the shortlist if you can't
                 // equip them anyway.
-                if (!KoLCharacter.hasSkill(SkillPool.SPIRIT_OF_RIGATONI)
-                    && !KoLCharacter.isJarlsberg()
-                    && !(KoLCharacter.isSauceror() && gloveAvailable)) {
+                if (!EquipmentManager.canEquipChefstaff(gloveAvailable)) {
                   continue;
                 }
                 // In any case, don't put this in an aux slot.

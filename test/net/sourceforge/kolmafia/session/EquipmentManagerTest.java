@@ -297,7 +297,26 @@ public class EquipmentManagerTest {
   }
 
   @Nested
-  class PathEquipment {
+  class EquipmentRules {
+    @Test
+    void chefstaffEquipmentUsesSharedClassRules() {
+      try (var cleanups = withClass(AscensionClass.SAUCEROR)) {
+        assertFalse(EquipmentManager.canEquipChefstaff(false));
+        assertTrue(EquipmentManager.canEquipChefstaff(true));
+      }
+      try (var cleanups =
+          new Cleanups(
+              withPath(Path.AVATAR_OF_JARLSBERG),
+              withClass(AscensionClass.AVATAR_OF_JARLSBERG))) {
+        assertTrue(EquipmentManager.canEquipChefstaff(false));
+      }
+      try (var cleanups =
+          new Cleanups(
+              withClass(AscensionClass.SEAL_CLUBBER), withSkill(SkillPool.SPIRIT_OF_RIGATONI))) {
+        assertTrue(EquipmentManager.canEquipChefstaff(false));
+      }
+    }
+
     @Test
     void hardcorePathEquipmentRequiresItsPath() {
       record ClassItem(int itemId, AscensionClass ascensionClass, Path path) {}

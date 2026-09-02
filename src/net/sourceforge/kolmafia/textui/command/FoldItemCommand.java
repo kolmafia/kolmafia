@@ -11,7 +11,6 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase.FoldGroup;
@@ -77,10 +76,8 @@ public class FoldItemCommand extends AbstractCommand {
 
     if (EquipmentDatabase.isChefStaff(target)) {
       boolean canStaff =
-          KoLCharacter.hasSkill(SkillPool.SPIRIT_OF_RIGATONI)
-              || KoLCharacter.isJarlsberg()
-              || (KoLCharacter.isSauceror()
-                  && KoLCharacter.hasEquipped(ItemPool.get(ItemPool.SPECIAL_SAUCE_GLOVE, 1)));
+          EquipmentManager.canEquipChefstaff(
+              KoLCharacter.hasEquipped(ItemPool.get(ItemPool.SPECIAL_SAUCE_GLOVE, 1)));
       if (!canStaff) {
         KoLmafia.updateDisplay(MafiaState.ERROR, "You can't make a chefstaff");
         return;
