@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.maximizer;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
+import java.util.List;
 import org.junit.jupiter.api.Test;
 
 class CheckedItemTest {
@@ -49,5 +50,22 @@ class CheckedItemTest {
     assertThat(availability.inventory(), is(1));
     assertThat(availability.total(), is(5));
     assertThat(availability.acquisitionMethod(2), is(AcquisitionMethod.CREATE));
+  }
+
+  @Test
+  void exposesOnlyAvailableAcquisitionOptionsInPriorityOrder() {
+    var item = new CheckedItem(-1, EquipScope.SPECULATE_INVENTORY, 0, PriceLevel.DONT_CHECK);
+    item.initial = 2;
+    item.creatable = 0;
+    item.npcBuyable = 1;
+    item.mallBuyable = 3;
+
+    assertThat(
+        item.acquisitionOptions(),
+        is(
+            List.of(
+                new AcquisitionOption(AcquisitionMethod.ACCESSIBLE, 2),
+                new AcquisitionOption(AcquisitionMethod.NPC_BUY, 1),
+                new AcquisitionOption(AcquisitionMethod.MALL_BUY, 3))));
   }
 }

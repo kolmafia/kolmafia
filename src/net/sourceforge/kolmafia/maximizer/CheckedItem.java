@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.maximizer;
 
+import java.util.List;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -234,6 +235,10 @@ public class CheckedItem extends AdventureResult {
         this.pullable,
         this.pullfoldable,
         this.pullBuyable);
+  }
+
+  List<AcquisitionOption> acquisitionOptions() {
+    return this.availability().options();
   }
 
   public void validate(long maxPrice, PriceLevel priceLevel) throws MaximizerInterruptedException {

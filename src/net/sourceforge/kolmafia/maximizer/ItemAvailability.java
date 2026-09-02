@@ -1,5 +1,8 @@
 package net.sourceforge.kolmafia.maximizer;
 
+import java.util.ArrayList;
+import java.util.List;
+
 record ItemAvailability(
     int inventory,
     int initial,
@@ -31,5 +34,23 @@ record ItemAvailability(
     if (pullFoldable + initial > used) return AcquisitionMethod.PULL_FOLD;
     if (storageBuyable + initial > used) return AcquisitionMethod.STORAGE_BUY;
     return AcquisitionMethod.MALL_BUY;
+  }
+
+  List<AcquisitionOption> options() {
+    var options = new ArrayList<AcquisitionOption>(8);
+    addOption(options, AcquisitionMethod.ACCESSIBLE, initial);
+    addOption(options, AcquisitionMethod.CREATE, creatable);
+    addOption(options, AcquisitionMethod.NPC_BUY, npcBuyable);
+    addOption(options, AcquisitionMethod.FOLD, foldable);
+    addOption(options, AcquisitionMethod.PULL, pullable);
+    addOption(options, AcquisitionMethod.PULL_FOLD, pullFoldable);
+    addOption(options, AcquisitionMethod.STORAGE_BUY, storageBuyable);
+    addOption(options, AcquisitionMethod.MALL_BUY, mallBuyable);
+    return List.copyOf(options);
+  }
+
+  private static void addOption(
+      List<AcquisitionOption> options, AcquisitionMethod method, int quantity) {
+    if (quantity > 0) options.add(new AcquisitionOption(method, quantity));
   }
 }
