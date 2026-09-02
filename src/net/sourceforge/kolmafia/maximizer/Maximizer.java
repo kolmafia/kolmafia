@@ -139,6 +139,12 @@ public class Maximizer {
     return session == null ? combinationLimit : session.combinationLimit;
   }
 
+  static CharacterSnapshot character() {
+    return session == null || !session.active || session.character == null
+        ? CharacterSnapshot.capture()
+        : session.character;
+  }
+
   public static boolean maximize(
       String maximizerString,
       int maxPrice,
@@ -180,6 +186,23 @@ public class Maximizer {
       PriceLevel priceLevel,
       boolean includeAll,
       Set<filterType> filter) {
+    var previousSession = Maximizer.session;
+    try {
+      maximizeRun(maximizerString, equipScope, maxPrice, priceLevel, includeAll, filter);
+    } finally {
+      if (Maximizer.session != previousSession) {
+        Maximizer.session.finish();
+      }
+    }
+  }
+
+  private static void maximizeRun(
+      String maximizerString,
+      EquipScope equipScope,
+      int maxPrice,
+      PriceLevel priceLevel,
+      boolean includeAll,
+      Set<filterType> filter) {
     KoLmafia.forceContinue();
     String maxMe = maximizerString;
     RequestLogger.printLine("Maximizer: " + maxMe);
@@ -208,6 +231,7 @@ public class Maximizer {
     ApiRequest.updateStatus();
     // ensure current modifiers are up-to-date
     KoLCharacter.recalculateAdjustments();
+    Maximizer.session.refreshCharacterSnapshot();
     double current =
         Maximizer.evaluator()
             .getScore(

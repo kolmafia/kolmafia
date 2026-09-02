@@ -89,9 +89,8 @@ public class MaximizerSpeculation extends Speculation
   public double getScore() {
     if (this.scored) return this.score;
     if (!this.calculated) this.calculate();
-    if (KoLCharacter.inBeecore()) {
-      this.beeosity = KoLCharacter.getBeeosity(this.equipment);
-    }
+    var character = Maximizer.character();
+    this.beeosity = character.beeosity(this.equipment);
     var outcome =
         Maximizer.evaluator()
             .evaluateComplete(
@@ -99,7 +98,7 @@ public class MaximizerSpeculation extends Speculation
                 this.equipment,
                 this.getModeables(),
                 this.beeosity,
-                KoLCharacter.currentRawBitmapModifier(BitmapModifier.MUTEX_VIOLATIONS));
+                character.allowedMutexViolations());
     this.score = outcome.score();
     this.failed = outcome.failed();
     this.exceeded = outcome.exceeded();
@@ -113,10 +112,11 @@ public class MaximizerSpeculation extends Speculation
     this.tiebreaker = Maximizer.evaluator().getTiebreaker(this.mods);
     this.tiebreakered = true;
     this.simplicity = 0;
+    var currentEquipment = Maximizer.character().currentEquipment();
     for (var slot : SlotSet.ALL_SLOTS) {
       AdventureResult item = this.equipment.get(slot);
       if (item == null) item = EquipmentRequest.UNEQUIP;
-      if (EquipmentManager.getEquipment(slot).equals(item)) {
+      if (currentEquipment.get(slot).equals(item)) {
         this.simplicity += 2;
       } else if (item.equals(EquipmentRequest.UNEQUIP)) {
         this.simplicity += slot == Slot.WEAPON ? -1 : 1;
@@ -178,7 +178,7 @@ public class MaximizerSpeculation extends Speculation
             ? null
             : new SolutionQuality.AttachmentQuality(
                 this.attachment.buyableFlag,
-                KoLCharacter.inBeecore() ? KoLCharacter.getBeeosity(this.attachment.getName()) : 0,
+                Maximizer.character().beeosity(this.attachment.getName()),
                 this.attachment.inventory > 0,
                 this.attachment.initial > 0);
 
