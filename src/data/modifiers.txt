@@ -5832,12 +5832,18 @@ Effect	Blessing of Squirtlcthulli	HP Regen Min: 2, HP Regen Max: 10, MP Regen Mi
 Effect	Blessing of the Bird	none
 Effect	Blessing of the Creepy Pasta	Spooky Spell Damage: +20, Sleaze Resistance: +2
 Effect	Blessing of the Frozen Tortellini	Cold Spell Damage: +20, Stench Resistance: +2
+Effect	Blessing of the Heat Shield	Hot Damage: +2, Hot Spell Damage: +2, Initiative: +30
 Effect	Blessing of the Hot Linguine	Hot Spell Damage: +20, Cold Resistance: +2
+Effect	Blessing of the Mental Shield	Mysticality Percent: +10, MP Regen Min: 2, MP Regen Max: 4
 Effect	Blessing of the Pervy Noodles	Sleaze Spell Damage: +20, Hot Resistance: +2
+Effect	Blessing of the Privacy Shield	Stench Resistance: +1, Combat Rate: -5
+Effect	Blessing of the Riot Shield	Muscle Percent: +10, HP Regen Min: 4, HP Regen Max: 8
 Effect	Blessing of the Spaghetto	Spell Damage: +40, Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 Effect	Blessing of the Stinking Alphredo&trade;	Stench Spell Damage: +20, Spooky Resistance: +2
 Effect	Blessing of the Storm Tortoise	Initiative: +5, Maximum MP: +10
+Effect	Blessing of the Tax Shield	Moxie Percent: +10, Meat Drop: +5
 Effect	Blessing of the War Snapper	Muscle: +5, Weapon Damage: +5
+Effect	Blessing of the Wind Shield	Experience: +1, Damage Reduction: 2
 Effect	Blessing of your favorite Bird	none
 Effect	Blinded by the Crepe	Combat Rate: -5
 Effect	Blinking Belly	Combat Rate: +10
@@ -7858,6 +7864,7 @@ Effect	Simply Irresistible	Combat Rate: +5
 Effect	Simply Irritable	Monster Level: +15
 Effect	Simulation Stimulation	Experience (Moxie): +5
 Effect	Singer's Faithful Ocelot	Item Drop: +10
+# Singing of your Prowess: Your Meat Shield Maiden is Singing
 # Single-Eyed Vision
 Effect	Sinuses For Miles	Meat Drop: +200
 Effect	Sizzlin' Hand	Hot Resistance: +5
@@ -12702,6 +12709,8 @@ Item	can of depilatory cream	Last Available: "2010-04"
 # can of Ghuol-B-Gone&trade;: Repels Ghuols
 Item	can of Minions-Be-Gone	Last Available: "2017-06"
 Item	can of Rain-Doh	Last Available: "2012-02"
+# can of shield tenderizer: Improves your Meat Shield Maiden's "Protection"
+Item	can of shield tenderizer	Familiar Weight: +3, Last Available: "2026-09"
 # can of sterno: Deals 15-20 <font color=red>Hot Damage</font> and 10-20 more each round for the rest of the fight
 Item	candy cane candygram	Last Available: "2011-12"
 Item	candy cornucopia	Free Pull, Last Available: "2011-12"
@@ -14045,6 +14054,7 @@ Item	Mayostat	Last Available: "2015-05"
 Item	Mayozapine	Last Available: "2015-05"
 Item	McHugeLarge deluxe ski set	Free Pull, Last Available: "2025-01"
 Item	McPhee's Grimoire of Hilarious Object Summoning	Last Available: "2006-04", Skill: "Summon Hilarious Objects"
+Item	meat shield toddler	Last Available: "2026-09"
 Item	meat st&permil;&iquest;bing club	Last Available: "2010-04"
 # meat vortex: Steals Some Meat From an Enemy
 Item	meatball machine	Last Available: "2021-12"
