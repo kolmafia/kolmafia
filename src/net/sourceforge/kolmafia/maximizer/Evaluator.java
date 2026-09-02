@@ -1465,8 +1465,8 @@ public class Evaluator {
 
           case ACCESSORY1:
             if (id == ItemPool.SPECIAL_SAUCE_GLOVE
-                && KoLCharacter.isSauceror()
-                && !KoLCharacter.hasSkill(SkillPool.SPIRIT_OF_RIGATONI)) {
+                && EquipmentManager.canEquipChefstaff(true)
+                && !EquipmentManager.canEquipChefstaff(false)) {
               item.validate(maxPrice, priceLevel);
 
               if (item.getCount() == 0) {
