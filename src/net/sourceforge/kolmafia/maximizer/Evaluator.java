@@ -1651,35 +1651,9 @@ public class Evaluator {
     FamiliarData useCrownFamiliar = carriedFamiliarSelection.lockedCrown();
     FamiliarData useBjornFamiliar = carriedFamiliarSelection.lockedBjorn();
 
-    // Get best Card for Card Sleeve
-    CheckedItem bestCard = null;
+    CheckedItem bestCard =
+        CardSleeveSelector.select(this.cardNeeded, equipScope, maxPrice, priceLevel);
     AdventureResult useCard = null;
-
-    if (this.cardNeeded) {
-      MaximizerSpeculation baseline = new MaximizerSpeculation();
-
-      // Check each card in sleeve to see if they are worthwhile
-      List<CheckedItem> cardCandidates = new ArrayList<>();
-      for (int c = 4967; c <= 5007; c++) {
-        CheckedItem card = new CheckedItem(c, equipScope, maxPrice, priceLevel);
-        AdventureResult equippedCard = EquipmentManager.getEquipment(Slot.CARDSLEEVE);
-        if (card.getCount() > 0 || (equippedCard != null && c == equippedCard.getItemId())) {
-          cardCandidates.add(card);
-        }
-      }
-      MaximizerSpeculation best =
-          MaximizerSpeculation.bestOf(
-              baseline,
-              cardCandidates,
-              (spec, card) -> {
-                CheckedItem sleeve =
-                    new CheckedItem(ItemPool.CARD_SLEEVE, equipScope, maxPrice, priceLevel);
-                spec.attachment = sleeve;
-                spec.equipment.put(Slot.OFFHAND, sleeve);
-                spec.equipment.put(Slot.CARDSLEEVE, card);
-              });
-      bestCard = best == baseline ? null : (CheckedItem) best.equipment.get(Slot.CARDSLEEVE);
-    }
 
     Map<Modeable, String> bestModes =
         modeablesNeeded.entrySet().stream()
