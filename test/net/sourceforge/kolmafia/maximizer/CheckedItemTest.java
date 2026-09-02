@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.maximizer;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -18,22 +19,17 @@ class CheckedItemTest {
     item.pullable = 1;
     item.pullfoldable = 1;
     item.pullBuyable = 1;
+    item.mallBuyable = 1;
 
     assertThat(item.acquisitionMethod(0), is(AcquisitionMethod.ACCESSIBLE));
     assertThat(item.acquisitionMethod(1), is(AcquisitionMethod.CREATE));
-
-    item.creatable = 0;
-    assertThat(item.acquisitionMethod(1), is(AcquisitionMethod.NPC_BUY));
-    item.npcBuyable = 0;
-    assertThat(item.acquisitionMethod(1), is(AcquisitionMethod.FOLD));
-    item.foldable = 0;
-    assertThat(item.acquisitionMethod(1), is(AcquisitionMethod.PULL));
-    item.pullable = 0;
-    assertThat(item.acquisitionMethod(1), is(AcquisitionMethod.PULL_FOLD));
-    item.pullfoldable = 0;
-    assertThat(item.acquisitionMethod(1), is(AcquisitionMethod.STORAGE_BUY));
-    item.pullBuyable = 0;
-    assertThat(item.acquisitionMethod(1), is(AcquisitionMethod.MALL_BUY));
+    assertThat(item.acquisitionMethod(2), is(AcquisitionMethod.NPC_BUY));
+    assertThat(item.acquisitionMethod(3), is(AcquisitionMethod.FOLD));
+    assertThat(item.acquisitionMethod(4), is(AcquisitionMethod.PULL));
+    assertThat(item.acquisitionMethod(5), is(AcquisitionMethod.PULL_FOLD));
+    assertThat(item.acquisitionMethod(6), is(AcquisitionMethod.STORAGE_BUY));
+    assertThat(item.acquisitionMethod(7), is(AcquisitionMethod.MALL_BUY));
+    assertThrows(IllegalArgumentException.class, () -> item.acquisitionMethod(8));
   }
 
   @Test

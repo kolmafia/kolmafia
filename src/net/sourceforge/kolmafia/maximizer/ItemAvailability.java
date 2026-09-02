@@ -26,14 +26,12 @@ record ItemAvailability(
   }
 
   AcquisitionMethod acquisitionMethod(int used) {
-    if (initial > used) return AcquisitionMethod.ACCESSIBLE;
-    if (creatable + initial > used) return AcquisitionMethod.CREATE;
-    if (npcBuyable + initial > used) return AcquisitionMethod.NPC_BUY;
-    if (foldable + initial > used) return AcquisitionMethod.FOLD;
-    if (pullable + initial > used) return AcquisitionMethod.PULL;
-    if (pullFoldable + initial > used) return AcquisitionMethod.PULL_FOLD;
-    if (storageBuyable + initial > used) return AcquisitionMethod.STORAGE_BUY;
-    return AcquisitionMethod.MALL_BUY;
+    if (used < 0) throw new IllegalArgumentException("Used quantity cannot be negative");
+    for (var option : this.options()) {
+      if (used < option.quantity()) return option.method();
+      used -= option.quantity();
+    }
+    throw new IllegalArgumentException("No acquisition option for requested copy");
   }
 
   List<AcquisitionOption> options() {
