@@ -1447,7 +1447,8 @@ public class EternityCodpieceMaximizerTest {
     var cleanups =
         new Cleanups(
             withEquipped(Slot.ACCESSORY1, ItemPool.THE_ETERNITY_CODPIECE),
-            withProperty("maximizerCombinationLimit", 0));
+            withProperty("maximizerCombinationLimit", 0),
+            withProperty("maximizerSearchTimeLimit", 0));
     int gemCount = 0;
     for (var entry : ModifierDatabase.getAllModifiersOfType(ModifierType.ETERNITY_CODPIECE)) {
       if (entry.getKey().isInt() && gemCount < 30) {
@@ -1467,6 +1468,46 @@ public class EternityCodpieceMaximizerTest {
         assertEquals(324_632, Maximizer.bestChecked);
         System.out.printf("CODPIECE_CHECK_BENCHMARK run=%d ms=%.3f%n", run, elapsed);
       }
+    }
+  }
+
+  @Test
+  @EnabledIfEnvironmentVariable(named = "KOLMAFIA_CODPIECE_WORST_CASE_BENCHMARK", matches = "true")
+  void benchmarksWorstCaseCodpieceSearch() {
+    var cleanups =
+        new Cleanups(
+            withEquipped(Slot.ACCESSORY1, ItemPool.THE_ETERNITY_CODPIECE),
+            withProperty("maximizerCombinationLimit", 0),
+            withProperty("maximizerSearchTimeLimit", 0));
+    int gemCount = 0;
+    for (var entry : ModifierDatabase.getAllModifiersOfType(ModifierType.ETERNITY_CODPIECE)) {
+      if (entry.getKey().isInt()) {
+        cleanups.add(withItem(entry.getKey().getIntValue(), 5));
+        gemCount++;
+      }
+    }
+
+    try (cleanups) {
+      var expression =
+          "tie, mus percent, mys percent, mox percent, maximum mp percent, pvp fights, "
+              + "candy drop, damage vs. seals, damage vs. zombies, pool skill, pickpocket chance, "
+              + "fishing skill, damage vs. ghosts, familiar damage, damage vs. werewolves, "
+              + "adventures, damage vs. vampires, damage vs. bugbears, -hat, -weapon, -offhand, "
+              + "-back, -shirt, -pants, -familiar, -acc1, -acc2, -acc3";
+      long expectedCombinations = 1;
+      for (int i = 1; i <= 5; i++) {
+        expectedCombinations = expectedCombinations * (gemCount + i) / i;
+      }
+
+      long start = System.nanoTime();
+      assertTrue(maximizeExhaustively(expression));
+      double elapsed = (System.nanoTime() - start) / 1_000_000.0;
+
+      assertTrue(Maximizer.lastSearchMetrics().searchComplete());
+      assertEquals(expectedCombinations, Maximizer.bestChecked);
+      System.out.printf(
+          "CODPIECE_WORST_CASE_BENCHMARK gems=%d combinations=%d ms=%.3f%n",
+          gemCount, expectedCombinations, elapsed);
     }
   }
 
