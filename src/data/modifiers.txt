@@ -2426,7 +2426,7 @@ Item	Hodgman's garbage sticker	Meat Drop: [1.0*H]
 # Hodgman's harmonica: Converts Hobo Power to Ranged Damage
 Item	Hodgman's harmonica	Ranged Damage: [1.0*H]
 # Hodgman's imaginary hamster: Converts Hobo Power to + Meat Drops, + Item Drops, and HP and MP Regeneration
-Item	Hodgman's imaginary hamster	All Attributes Percent: +20, Item Drop: [0.5*H], Meat Drop: [1.0*H], HP Regen Min: [0.25*H], HP Regen Max: [0.33*H], MP Regen Min: [0.25*H], MP Regen Max: [0.33*H], Enchantment Count: 2
+Item	Hodgman's imaginary hamster	All Attributes Percent: +20, Item Drop: [0.5*H], Meat Drop: [1.0*H], HP / MP Regen Min: [0.25*H], HP / MP Regen Max: [0.33*H], Enchantment Count: 2
 # Hodgman's metal detector: Converts Hobo Power to + Item Drops
 Item	Hodgman's metal detector	Item Drop: [0.5*H]
 # Hodgman's varcolac paw: Converts Hobo Power to Weapon Damage
@@ -5063,10 +5063,10 @@ Familiar	Yule Hound	Last Available: "2018-12"
 # Enthroned familiars section of modifiers.txt
 # If a familiar cannot be enthroned, indicate with "none". If the effect is unspaded, leave blank.
 
-Throne	Adorable Seal Larva	HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8, Drops Items
+Throne	Adorable Seal Larva	HP / MP Regen Min: 2, HP / MP Regen Max: 8, Drops Items
 Throne	Adorable Space Buddy	Maximum HP / MP: 30
 Throne	Adventurous Spelunker	Item Drop: +15, Drops Items, Variable
-Throne	Ancient Yuletide Troll	HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8, Drops Items
+Throne	Ancient Yuletide Troll	HP / MP Regen Min: 2, HP / MP Regen Max: 8, Drops Items
 Throne	Angry Goat	Muscle Percent: +15, Drops Items
 Throne	Angry Jung Man	Maximum HP / MP: 10
 Throne	Animated Macaroni Duck	Familiar Weight: +5
@@ -5120,7 +5120,7 @@ Throne	Cute Skeletal Dinosaur
 Throne	Cute Meteor	Hot Damage: +15
 Throne	Cymbal-Playing Monkey	Experience (Moxie): +2
 Throne	Dancing Frog	Meat Drop: +20
-Throne	Dandy Lion	HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8
+Throne	Dandy Lion	HP / MP Regen Min: 2, HP / MP Regen Max: 8
 Throne	Dataspider	Spell Damage Percent: +10
 Throne	Defective Childrens' Stapler	Weapon Damage Percent: +20
 Throne	Dire Cassava	Damage Reduction: 11
@@ -5154,7 +5154,7 @@ Throne	Ghost of Crimbo Carols	Weapon Damage: +15
 Throne	Ghost of Crimbo Cheer	Experience: +3
 Throne	Ghost of Crimbo Commerce	Meat Drop: +25, Drops Meat
 Throne	Ghost Pickle on a Stick	Familiar Weight: +5
-Throne	Ghuol Whelp	HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8
+Throne	Ghuol Whelp	HP / MP Regen Min: 2, HP / MP Regen Max: 8
 Throne	Glover	none
 Throne	Gluttonous Green Ghost	Food Drop: +15, Drops Items
 Throne	God Lobster	none
@@ -5221,7 +5221,7 @@ Throne	Ms. Puck Man	All Attributes: +10, Drops Items
 Throne	Mu	none
 Throne	Mutant Cactus Bud	Meat Drop: +20
 Throne	Mutant Fire Ant	Hot Damage: +20
-Throne	Mutant Gila Monster	HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8
+Throne	Mutant Gila Monster	HP / MP Regen Min: 2, HP / MP Regen Max: 8
 Throne	Nanorhino	All Attributes Percent: +10, Drops Meat
 Throne	Nervous Tick	Experience (Moxie): +2
 Throne	Ninja Pirate Zombie Robot	All Attributes: +10
@@ -5300,7 +5300,7 @@ Throne	Stinky Gravy Fairy	Stench Damage: +20, Drops Items
 Throne	Stocking Mimic	All Attributes: +10, Drops Items
 Throne	Stooper	none
 Throne	Sugar Fruit Fairy	Experience (Mysticality): +2
-Throne	Sweet Nutcracker	HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8, Drops Items
+Throne	Sweet Nutcracker	HP / MP Regen Min: 2, HP / MP Regen Max: 8, Drops Items
 Throne	Sword of S Words	none
 Throne	Syncopated Turtle	Initiative: +20
 Throne	Synthetic Rock	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
@@ -5342,7 +5342,7 @@ Throne	Zapper Bug	MP Regen Min: 15, MP Regen Max: 20
 # Motorbike	Extra-Smelly Muffler means Peel Out also banishes enemies
 # Motorbike	Ghost Vacuum does more damage against undead
 # Motorbike	Large Capacity Tanks allows access to Desert Beach
-Motorbike	Massage Seat	HP Regen Min: 5, HP Regen Max: 6, MP Regen Min: 5, MP Regen Max: 6
+Motorbike	Massage Seat	HP / MP Regen Min: 5, HP / MP Regen Max: 6
 Motorbike	Nitro-Burnin' Funny Tank	Initiative: +50
 # Motorbike	Party Bulb makes Flash Headlight deal prismatic damage
 # Motorbike	Racing Slicks allows you to Peel Out 20 times more per day
@@ -7670,7 +7670,7 @@ Effect	Really Thin Blood	Maximum HP: +100, Maximum HP Percent: +1000
 Effect	Reassured	Muscle: [10*interact()], Mysticality: [10*interact()], Moxie: [10*interact()]
 # Record Hunger: Food gives 100% more Adventures
 # Red Around the Gills: Regenerate 140-150 HP and MP per fight (Underwater only)
-Effect	Red Around the Gills	HP Regen Min: [140*env(underwater)], HP Regen Max: [150*env(underwater)], MP Regen Min: [140*env(underwater)], MP Regen Max: [150*env(underwater)]
+Effect	Red Around the Gills	HP / MP Regen Min: [140*env(underwater)], HP / MP Regen Max: [150*env(underwater)]
 Effect	Red Door Syndrome	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2
 Effect	Red in Tooth	Meat Drop: [min(500,T)]
 Effect	Red Lettered	Monster Level: +15
@@ -7750,7 +7750,7 @@ Effect	Saucegoggles	MP Regen Min: 8, MP Regen Max: 10
 Effect	Saucemastery	Maximum HP: +3, Mysticality: +1
 Effect	Sauna-Fresh	Muscle: +100, Mysticality: +100, Moxie: +100, Cold Resistance: +5
 # Sausage Festive: Regenerate 5-10 HP/MP per Adventure
-Effect	Sausage Festive	HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10
+Effect	Sausage Festive	HP / MP Regen Min: 5, HP / MP Regen Max: 10
 # Savage Beast: You cannot run away from combat
 Effect	Savage Beast	Combat Rate: +25, HP Regen Min: 1, HP Regen Max: 1
 Effect	Savage Beast Inside	Muscle: +20
@@ -9537,7 +9537,7 @@ MutexER	Let's Beat Up This Drunken Sailor/I'm Smarter Than a Drunken Sailor/Look
 
 MaxCat	_brimstone	Item Drop: +1, Meat Drop: +1, Monster Level: +1
 MaxCat	_cloathing	Item Drop: +1, Meat Drop: +1, Moxie: +1, Mysticality: +1, Muscle: +1
-MaxCat	_hoboPower	Weapon Damage: 0.8, Ranged Damage: 1.0, Spell Damage: 1.2, HP Regen Min: 0.25, HP Regen Max: 0.33, MP Regen Min: 0.25, MP Regen Max: 0.33, Meat Drop: 1.0, Item Drop: 0.5
+MaxCat	_hoboPower	Weapon Damage: 0.8, Ranged Damage: 1.0, Spell Damage: 1.2, HP / MP Regen Min: 0.25, HP / MP Regen Max: 0.33, Meat Drop: 1.0, Item Drop: 0.5
 MaxCat	_mcHugeLarge	Cold Resistance: +1, Hot Damage: +5, Initiative: +10
 MaxCat	_slimeHate	Monster Level: [loc(The Slime Tube)]
 MaxCat	_smithsness	Meat Drop: +2, Item Drop: +1, Moxie Percent: +2, Mysticality Percent: +2, Muscle Percent: +2, Weapon Damage: +1, Monster Level: +1, Spell Damage: +2, Initiative: +1, Maximum MP: +2, Maximum HP: +2
