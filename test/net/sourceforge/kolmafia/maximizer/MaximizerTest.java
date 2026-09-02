@@ -3658,4 +3658,15 @@ public class MaximizerTest {
     assertFalse(session.keepSearching());
     assertFalse(session.searchComplete);
   }
+
+  @Test
+  void recordsCandidateCompilationBeforeSearchStarts() {
+    var session = new MaximizerSession(new MaximizerSpeculation(), 0);
+    session.candidateCompilationStartedNanos = System.nanoTime() - 1_000_000;
+
+    session.finishCandidateCompilation();
+
+    assertTrue(session.candidateCompilationNanos >= 1_000_000);
+    assertThat(session.candidateCompilationStartedNanos, is(0L));
+  }
 }

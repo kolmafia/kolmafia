@@ -11,6 +11,8 @@ final class MaximizerSession {
   long dominancePrunes;
   long boundPrunes;
   boolean searchComplete = true;
+  long candidateCompilationNanos;
+  long candidateCompilationStartedNanos;
   long searchDeadlineNanos = Long.MAX_VALUE;
   boolean searchingEquipment;
   long nextProgressUpdate;
@@ -31,6 +33,8 @@ final class MaximizerSession {
     this.dominancePrunes = 0;
     this.boundPrunes = 0;
     this.searchComplete = true;
+    this.candidateCompilationNanos = 0;
+    this.candidateCompilationStartedNanos = System.nanoTime();
     this.searchingEquipment = true;
     this.nextProgressUpdate = System.currentTimeMillis() + 5000;
   }
@@ -44,12 +48,21 @@ final class MaximizerSession {
         this.searchNodes,
         this.dominancePrunes,
         this.boundPrunes,
-        this.searchComplete);
+        this.searchComplete,
+        this.candidateCompilationNanos);
   }
 
   void startSearch(int timeLimitMillis) {
+    this.finishCandidateCompilation();
+    long now = System.nanoTime();
     this.searchDeadlineNanos =
-        timeLimitMillis <= 0 ? Long.MAX_VALUE : System.nanoTime() + timeLimitMillis * 1_000_000L;
+        timeLimitMillis <= 0 ? Long.MAX_VALUE : now + timeLimitMillis * 1_000_000L;
+  }
+
+  void finishCandidateCompilation() {
+    if (this.candidateCompilationStartedNanos == 0) return;
+    this.candidateCompilationNanos = System.nanoTime() - this.candidateCompilationStartedNanos;
+    this.candidateCompilationStartedNanos = 0;
   }
 
   boolean keepSearching() {

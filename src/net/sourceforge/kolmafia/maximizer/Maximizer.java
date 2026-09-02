@@ -307,7 +307,11 @@ public class Maximizer {
       Maximizer.bestChecked = Maximizer.session.combinationsChecked;
       Maximizer.bestUpdate = Maximizer.session.nextProgressUpdate;
       try {
-        Maximizer.evaluator().enumerateEquipment(equipScope, maxPrice, priceLevel, exhaustive);
+        try {
+          Maximizer.evaluator().enumerateEquipment(equipScope, maxPrice, priceLevel, exhaustive);
+        } finally {
+          Maximizer.session.finishCandidateCompilation();
+        }
         if (!Maximizer.session.searchComplete) {
           Maximizer.boosts.add(
               new Boost(
