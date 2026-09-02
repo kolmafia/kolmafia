@@ -1637,64 +1637,75 @@ public class Maximizer {
             }
             CheckedItem checkedItem = new CheckedItem(itemId, showScope, maxPrice, priceLevel);
             ItemAvailability availability = checkedItem.availability();
-            if (availability.inventory() > 0) {
-            } else if (availability.initial() > 0) {
-              String method =
-                  InventoryManager.simRetrieveItem(item, equipScope == EquipScope.EQUIP_NOW, false);
-              if (!method.equals("have")) {
-                text = method + " & " + text;
-              }
-              if (method.equals("uncloset")) {
-                cmd = "closet take 1 \u00B6" + itemId + ";" + cmd;
-              }
-              // Should be only hitting this after Ronin I think
-              else if (method.equals("pull")) {
-                cmd = "pull 1 \u00B6" + itemId + ";" + cmd;
-              }
-            } else if (availability.creatable() > 0) {
-              text = "make & " + text;
-              cmd = "make \u00B6" + itemId + ";" + cmd;
-              price = ConcoctionPool.get(item).price;
-              advCost = ConcoctionPool.get(item).getAdventuresNeeded(1);
-            } else if (availability.npcBuyable() > 0) {
-              text = "buy & " + text;
-              cmd = "buy 1 \u00B6" + itemId + ";" + cmd;
-              price = ConcoctionPool.get(item).price;
-            } else if (availability.pullable() > 0) {
-              text = "pull & " + text;
-              cmd = "pull \u00B6" + itemId + ";" + cmd;
-            } else if (availability.mallBuyable() > 0) {
-              text = "acquire & " + text;
-              cmd = "acquire 1 \u00B6" + itemId + ";" + cmd;
-              if (priceLevel != PriceLevel.DONT_CHECK) {
-                if (MallPriceDatabase.getPrice(itemId) > maxPrice * 2) {
-                  continue;
-                }
-
-                // Depending on preference, either get historical mall price or look it up
-                if (Preferences.getBoolean("maximizerCurrentMallPrices")) {
-                  price = MallPriceManager.getMallPrice(itemId);
-                } else {
-                  price = MallPriceManager.getMallPrice(itemId, 7.0f);
-                }
-              }
-            } else if (availability.storageBuyable() > 0) {
-              text = "buy & pull & " + text;
-              cmd = "buy using storage 1 \u00B6" + itemId + ";pull \u00B6" + itemId + ";" + cmd;
-              if (priceLevel != PriceLevel.DONT_CHECK) {
-                if (MallPriceDatabase.getPrice(itemId) > maxPrice * 2) {
-                  continue;
-                }
-
-                // Depending on preference, either get historical mall price or look it up
-                if (Preferences.getBoolean("maximizerCurrentMallPrices")) {
-                  price = MallPriceManager.getMallPrice(itemId);
-                } else {
-                  price = MallPriceManager.getMallPrice(itemId, 7.0f);
-                }
-              }
-            } else {
+            if (availability.total() == 0) {
               continue;
+            }
+            switch (availability.acquisitionMethod(0)) {
+              case ACCESSIBLE -> {
+                if (availability.inventory() == 0) {
+                  String method =
+                      InventoryManager.simRetrieveItem(
+                          item, equipScope == EquipScope.EQUIP_NOW, false);
+                  if (!method.equals("have")) {
+                    text = method + " & " + text;
+                  }
+                  if (method.equals("uncloset")) {
+                    cmd = "closet take 1 \u00B6" + itemId + ";" + cmd;
+                  } else if (method.equals("pull")) {
+                    cmd = "pull 1 \u00B6" + itemId + ";" + cmd;
+                  }
+                }
+              }
+              case CREATE -> {
+                text = "make & " + text;
+                cmd = "make \u00B6" + itemId + ";" + cmd;
+                price = ConcoctionPool.get(item).price;
+                advCost = ConcoctionPool.get(item).getAdventuresNeeded(1);
+              }
+              case NPC_BUY -> {
+                text = "buy & " + text;
+                cmd = "buy 1 \u00B6" + itemId + ";" + cmd;
+                price = ConcoctionPool.get(item).price;
+              }
+              case PULL -> {
+                text = "pull & " + text;
+                cmd = "pull \u00B6" + itemId + ";" + cmd;
+              }
+              case MALL_BUY -> {
+                text = "acquire & " + text;
+                cmd = "acquire 1 \u00B6" + itemId + ";" + cmd;
+                if (priceLevel != PriceLevel.DONT_CHECK) {
+                  if (MallPriceDatabase.getPrice(itemId) > maxPrice * 2) {
+                    continue;
+                  }
+
+                  // Depending on preference, either get historical mall price or look it up
+                  if (Preferences.getBoolean("maximizerCurrentMallPrices")) {
+                    price = MallPriceManager.getMallPrice(itemId);
+                  } else {
+                    price = MallPriceManager.getMallPrice(itemId, 7.0f);
+                  }
+                }
+              }
+              case STORAGE_BUY -> {
+                text = "buy & pull & " + text;
+                cmd = "buy using storage 1 \u00B6" + itemId + ";pull \u00B6" + itemId + ";" + cmd;
+                if (priceLevel != PriceLevel.DONT_CHECK) {
+                  if (MallPriceDatabase.getPrice(itemId) > maxPrice * 2) {
+                    continue;
+                  }
+
+                  // Depending on preference, either get historical mall price or look it up
+                  if (Preferences.getBoolean("maximizerCurrentMallPrices")) {
+                    price = MallPriceManager.getMallPrice(itemId);
+                  } else {
+                    price = MallPriceManager.getMallPrice(itemId, 7.0f);
+                  }
+                }
+              }
+              case FOLD, PULL_FOLD -> {
+                continue;
+              }
             }
 
             if (price > maxPrice || price == -1) continue;
@@ -2172,44 +2183,53 @@ public class Maximizer {
     ItemAvailability availability = checkedItem.availability();
     cmd = "absorb \u00B6" + itemId;
     text = "absorb " + item.getName() + " (";
-    if (availability.inventory() > 0) {
-    } else if (availability.initial() > 0) {
-      String method =
-          InventoryManager.simRetrieveItem(item, equipScope == EquipScope.EQUIP_NOW, false);
-      if (!method.equals("have")) {
-        text = method + " & " + text;
-      }
-      if (method.equals("uncloset")) {
-        cmd = "closet take 1 \u00B6" + itemId + ";" + cmd;
-      }
-      // Should be only hitting this after Ronin I think
-      else if (method.equals("pull")) {
-        cmd = "pull 1 \u00B6" + itemId + ";" + cmd;
-      }
-    } else if (availability.creatable() > 0) {
-      text = "make & " + text;
-      cmd = "make \u00B6" + itemId + ";" + cmd;
-      price = ConcoctionPool.get(item).price;
-    } else if (availability.npcBuyable() > 0) {
-      text = "buy & " + text;
-      cmd = "buy 1 \u00B6" + itemId + ";" + cmd;
-      price = ConcoctionPool.get(item).price;
-    } else if (availability.pullable() > 0) {
-      text = "pull & " + text;
-      cmd = "pull \u00B6" + itemId + ";" + cmd;
-    } else if (availability.mallBuyable() > 0) {
-      text = "acquire & " + text;
-      if (priceLevel != PriceLevel.DONT_CHECK) {
-        price = MallPriceManager.getMallPrice(itemId);
-      }
-    } else if (availability.storageBuyable() > 0) {
-      text = "buy & pull & " + text;
-      cmd = "buy using storage 1 \u00B6" + itemId + ";pull \u00B6" + itemId + ";" + cmd;
-      if (priceLevel != PriceLevel.DONT_CHECK) {
-        price = MallPriceManager.getMallPrice(itemId);
-      }
-    } else {
+    if (availability.total() == 0) {
       canMake = false;
+    } else {
+      switch (availability.acquisitionMethod(0)) {
+        case ACCESSIBLE -> {
+          if (availability.inventory() == 0) {
+            String method =
+                InventoryManager.simRetrieveItem(item, equipScope == EquipScope.EQUIP_NOW, false);
+            if (!method.equals("have")) {
+              text = method + " & " + text;
+            }
+            if (method.equals("uncloset")) {
+              cmd = "closet take 1 \u00B6" + itemId + ";" + cmd;
+            } else if (method.equals("pull")) {
+              cmd = "pull 1 \u00B6" + itemId + ";" + cmd;
+            }
+          }
+        }
+        case CREATE -> {
+          text = "make & " + text;
+          cmd = "make \u00B6" + itemId + ";" + cmd;
+          price = ConcoctionPool.get(item).price;
+        }
+        case NPC_BUY -> {
+          text = "buy & " + text;
+          cmd = "buy 1 \u00B6" + itemId + ";" + cmd;
+          price = ConcoctionPool.get(item).price;
+        }
+        case PULL -> {
+          text = "pull & " + text;
+          cmd = "pull \u00B6" + itemId + ";" + cmd;
+        }
+        case MALL_BUY -> {
+          text = "acquire & " + text;
+          if (priceLevel != PriceLevel.DONT_CHECK) {
+            price = MallPriceManager.getMallPrice(itemId);
+          }
+        }
+        case STORAGE_BUY -> {
+          text = "buy & pull & " + text;
+          cmd = "buy using storage 1 \u00B6" + itemId + ";pull \u00B6" + itemId + ";" + cmd;
+          if (priceLevel != PriceLevel.DONT_CHECK) {
+            price = MallPriceManager.getMallPrice(itemId);
+          }
+        }
+        case FOLD, PULL_FOLD -> canMake = false;
+      }
     }
     if (price > 0) {
       text = text + KoLConstants.COMMA_FORMAT.format(price) + " meat, ";
