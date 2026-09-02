@@ -608,9 +608,8 @@ public class MaximizerSpeculation extends Speculation
           this.equipment.put(Slot.CARDSLEEVE, bestCard);
         }
         this.equipment.put(Slot.OFFHAND, item);
-        this.tryOffhands(possibles, bestCard);
+        this.codpiece.trySlots(mark, possibles.get(Slot.CODPIECE1));
         any = true;
-        this.restore(mark);
       }
 
       if (any && weapon > 0) return;
