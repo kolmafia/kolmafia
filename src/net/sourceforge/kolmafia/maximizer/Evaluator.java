@@ -1334,6 +1334,10 @@ public class Evaluator {
         continue;
       }
 
+      if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, item.getName())) {
+        continue;
+      }
+
       Slot auxSlot = Slot.NONE;
       gotItem:
       {

@@ -366,3 +366,4 @@
 329
 330	Sword of S Words	swordsword.gif	item0,combat0,passive	scabbarded Sword of S Words	second-hand synthetic sloth skin scabbard	0	0	0	0	hard,hovers,object,phallic
 331	Gross Prophet	prophet.gif	combat1	gross prophet chrysalis	cast entrails	0	0	0	0
+332	Meat Shield Maiden	msm.gif	stat1,meat0	meat shield toddler	can of shield tenderizer	0	0	0	0
