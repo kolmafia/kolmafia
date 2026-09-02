@@ -49,12 +49,15 @@ public class CheckedItem extends AdventureResult {
     }
 
     String itemName = this.getName();
-    var modifiers = ModifierDatabase.getItemModifiers(itemId);
-    int equipmentLimit =
-        !ItemDatabase.isEquipment(itemId)
-            ? 0
-            : modifiers != null && modifiers.getBoolean(BooleanModifier.SINGLE) ? 1 : 3;
-    int maxUseful = isCodpieceGem ? SlotSet.CODPIECE_SLOTS.size() + equipmentLimit : 3;
+    int maxUseful = 3;
+    if (isCodpieceGem) {
+      var modifiers = ModifierDatabase.getItemModifiers(itemId);
+      int equipmentLimit =
+          !ItemDatabase.isEquipment(itemId)
+              ? 0
+              : modifiers != null && modifiers.getBoolean(BooleanModifier.SINGLE) ? 1 : 3;
+      maxUseful = SlotSet.CODPIECE_SLOTS.size() + equipmentLimit;
+    }
 
     FoldGroup foldGroup =
         itemId > 0 && Preferences.getBoolean("maximizerFoldables")
