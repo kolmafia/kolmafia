@@ -27,7 +27,6 @@ import net.sourceforge.kolmafia.Modeable;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.equipment.SlotSet;
@@ -50,7 +49,6 @@ import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
-import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.session.EffectAvailability;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -1638,93 +1636,20 @@ public class Evaluator {
             ranked.get(Slot.ACCESSORY1),
             SlotSet.CODPIECE_SLOTS.stream().anyMatch(this::slotEnabled));
 
-    // Get best Familiars for Crown of Thrones and Buddy Bjorn
-    // Assume current ones are best if in use
-    FamiliarData bestCarriedFamiliar = FamiliarData.NO_FAMILIAR;
-    FamiliarData secondBestCarriedFamiliar = FamiliarData.NO_FAMILIAR;
-    FamiliarData useBjornFamiliar = null;
-    FamiliarData useCrownFamiliar = null;
-
-    // If we're not allowed to change the current familiar, lock it
-    if (this.slots.getOrDefault(Slot.BUDDYBJORN, 0) < 0) {
-      useBjornFamiliar = KoLCharacter.getBjorned();
-    } else {
-      bestCarriedFamiliar = KoLCharacter.getBjorned();
-    }
-
-    // If we're not allowed to change the current familiar, lock it
-    if (this.slots.getOrDefault(Slot.CROWNOFTHRONES, 0) < 0) {
-      useCrownFamiliar = KoLCharacter.getEnthroned();
-    } else {
-      secondBestCarriedFamiliar = KoLCharacter.getEnthroned();
-    }
-
-    if (bestCarriedFamiliar == FamiliarData.NO_FAMILIAR
-        && !(secondBestCarriedFamiliar == FamiliarData.NO_FAMILIAR)) {
-      bestCarriedFamiliar = secondBestCarriedFamiliar;
-      secondBestCarriedFamiliar = FamiliarData.NO_FAMILIAR;
-    }
-    if (secondBestCarriedFamiliar != FamiliarData.NO_FAMILIAR) {
-      // Make sure best is better than secondBest !
-      MaximizerSpeculation best = new MaximizerSpeculation();
-      MaximizerSpeculation secondBest = new MaximizerSpeculation();
-      CheckedItem item = new CheckedItem(ItemPool.HATSEAT, equipScope, maxPrice, priceLevel);
-      best.attachment = secondBest.attachment = item;
-      best.equipment.put(Slot.HAT, item);
-      secondBest.equipment.put(Slot.HAT, item);
-      best.setEnthroned(bestCarriedFamiliar);
-      secondBest.setEnthroned(secondBestCarriedFamiliar);
-      if (secondBest.compareTo(best) > 0) {
-        FamiliarData temp = bestCarriedFamiliar;
-        bestCarriedFamiliar = secondBestCarriedFamiliar;
-        secondBestCarriedFamiliar = temp;
-      }
-    }
-
-    if (this.carriedFamiliarsNeeded > 0) {
-      MaximizerSpeculation best = new MaximizerSpeculation();
-      MaximizerSpeculation secondBest = new MaximizerSpeculation();
-      CheckedItem item = new CheckedItem(ItemPool.HATSEAT, equipScope, maxPrice, priceLevel);
-      best.attachment = secondBest.attachment = item;
-      best.equipment.put(Slot.HAT, item);
-      secondBest.equipment.put(Slot.HAT, item);
-      best.setEnthroned(bestCarriedFamiliar);
-      secondBest.setEnthroned(secondBestCarriedFamiliar);
-
-      // Check each familiar in hat to see if they are worthwhile
-      List<FamiliarData> familiarList = KoLCharacter.usableFamiliars();
-      for (FamiliarData familiar : familiarList) {
-        if (familiar != null
-            && familiar != FamiliarData.NO_FAMILIAR
-            && familiar.canCarry()
-            && StandardRequest.isAllowed(RestrictedItemType.FAMILIARS, familiar.getRace())
-            && !familiar.equals(KoLCharacter.getFamiliar())
-            && !this.carriedFamiliars.contains(familiar)
-            && !familiar.equals(useCrownFamiliar)
-            && !familiar.equals(useBjornFamiliar)
-            && !familiar.equals(bestCarriedFamiliar)
-            && character.resourceUsage(familiar.getRace()).isZero()) {
-          MaximizerSpeculation spec = new MaximizerSpeculation();
-          spec.attachment = item;
-          spec.equipment.put(Slot.HAT, item);
-          spec.setEnthroned(familiar);
-          spec.setUnscored();
-          if (spec.compareTo(best) > 0) {
-            secondBest = best.clone();
-            best = spec.clone();
-            secondBestCarriedFamiliar = bestCarriedFamiliar;
-            bestCarriedFamiliar = familiar;
-          } else if (spec.compareTo(secondBest) > 0) {
-            secondBest = spec.clone();
-            secondBestCarriedFamiliar = familiar;
-          }
-        }
-      }
-      this.carriedFamiliars.add(bestCarriedFamiliar);
-      if (this.carriedFamiliarsNeeded > 1) {
-        this.carriedFamiliars.add(secondBestCarriedFamiliar);
-      }
-    }
+    var carriedFamiliarSelection =
+        CarriedFamiliarSelector.select(
+            this.carriedFamiliarsNeeded,
+            this.slots.getOrDefault(Slot.CROWNOFTHRONES, 0) < 0,
+            this.slots.getOrDefault(Slot.BUDDYBJORN, 0) < 0,
+            character,
+            equipScope,
+            maxPrice,
+            priceLevel);
+    this.carriedFamiliars.addAll(carriedFamiliarSelection.candidates());
+    FamiliarData bestCarriedFamiliar = carriedFamiliarSelection.best();
+    FamiliarData secondBestCarriedFamiliar = carriedFamiliarSelection.secondBest();
+    FamiliarData useCrownFamiliar = carriedFamiliarSelection.lockedCrown();
+    FamiliarData useBjornFamiliar = carriedFamiliarSelection.lockedBjorn();
 
     // Get best Card for Card Sleeve
     CheckedItem bestCard = null;
