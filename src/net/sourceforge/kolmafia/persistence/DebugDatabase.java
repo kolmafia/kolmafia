@@ -3159,7 +3159,9 @@ public class DebugDatabase {
   private static final Pattern QUALITY_PATTERN = Pattern.compile("Type: <b>.*?\\((.*?)\\).*?</b>");
 
   public static ConsumableQuality parseQuality(final String text) {
-    Matcher matcher = DebugDatabase.QUALITY_PATTERN.matcher(text);
+    // Strip font tags so that split-tag qualities like ??? are visible as plain text
+    String stripped = text.replaceAll("</?font[^>]*>", "");
+    Matcher matcher = DebugDatabase.QUALITY_PATTERN.matcher(stripped);
     return ConsumableQuality.find(matcher.find() ? matcher.group(1) : "");
   }
 
