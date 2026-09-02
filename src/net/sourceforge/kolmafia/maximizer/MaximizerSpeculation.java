@@ -28,6 +28,8 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 
 public class MaximizerSpeculation extends Speculation
     implements Comparable<MaximizerSpeculation>, Cloneable {
+  private static final List<Slot> SIMPLE_SLOTS = List.of(Slot.SHIRT, Slot.PANTS, Slot.HOLSTER);
+
   boolean scored = false;
   private boolean tiebreakered = false;
   private boolean exceeded;
@@ -473,7 +475,7 @@ public class MaximizerSpeculation extends Speculation
         if (item.getItemId() == ItemPool.HATSEAT) {
           if (useCrownFamiliar != null) {
             this.setEnthroned(useCrownFamiliar);
-            this.tryShirts(possibles, bestCard);
+            this.trySimpleSlots(possibles, bestCard, 0);
             any = true;
             this.restore(mark);
           } else {
@@ -481,14 +483,14 @@ public class MaximizerSpeculation extends Speculation
               // Cannot use same familiar for this and Bjorn
               if (f != this.getBjorned() || f == FamiliarData.NO_FAMILIAR) {
                 this.setEnthroned(f);
-                this.tryShirts(possibles, bestCard);
+                this.trySimpleSlots(possibles, bestCard, 0);
                 any = true;
                 this.restore(mark);
               }
             }
           }
         } else {
-          this.tryShirts(possibles, bestCard);
+          this.trySimpleSlots(possibles, bestCard, 0);
           any = true;
           this.restore(mark);
         }
@@ -498,78 +500,41 @@ public class MaximizerSpeculation extends Speculation
       this.equipment.put(Slot.HAT, EquipmentRequest.UNEQUIP);
     }
 
-    this.tryShirts(possibles, bestCard);
+    this.trySimpleSlots(possibles, bestCard, 0);
     this.restore(mark);
   }
 
-  public void tryShirts(SlotList<CheckedItem> possibles, AdventureResult bestCard)
+  private void trySimpleSlots(
+      SlotList<CheckedItem> possibles, AdventureResult bestCard, int position)
       throws MaximizerInterruptedException {
+    if (position == SIMPLE_SLOTS.size()) {
+      this.tryWeapons(possibles, bestCard);
+      return;
+    }
+
     var mark = this.mark();
-    if (this.equipment.get(Slot.SHIRT) == null) {
+    Slot slot = SIMPLE_SLOTS.get(position);
+    if (this.equipment.get(slot) == null) {
       boolean any = false;
-      if (KoLCharacter.isTorsoAware()) {
-        List<CheckedItem> possible = possibles.get(Slot.SHIRT);
-        for (AdventureResult item : possible) {
-          int count = this.availableCount(item, Slot.SHIRT, Slot.FAMILIAR);
+      if (slot != Slot.SHIRT || KoLCharacter.isTorsoAware()) {
+        for (CheckedItem item : possibles.get(slot)) {
+          int count =
+              slot == Slot.HOLSTER
+                  ? item.getCount()
+                  : this.availableCount(item, slot, Slot.FAMILIAR);
           if (count <= 0) continue;
-          this.equipment.put(Slot.SHIRT, item);
-          this.tryPants(possibles, bestCard);
+          this.equipment.put(slot, item);
+          this.trySimpleSlots(possibles, bestCard, position + 1);
           any = true;
           this.restore(mark);
         }
       }
 
       if (any) return;
-      this.equipment.put(Slot.SHIRT, EquipmentRequest.UNEQUIP);
+      this.equipment.put(slot, EquipmentRequest.UNEQUIP);
     }
 
-    this.tryPants(possibles, bestCard);
-    this.restore(mark);
-  }
-
-  public void tryPants(SlotList<CheckedItem> possibles, AdventureResult bestCard)
-      throws MaximizerInterruptedException {
-    var mark = this.mark();
-    if (this.equipment.get(Slot.PANTS) == null) {
-      List<CheckedItem> possible = possibles.get(Slot.PANTS);
-      boolean any = false;
-      for (AdventureResult item : possible) {
-        int count = this.availableCount(item, Slot.PANTS, Slot.FAMILIAR);
-        if (count <= 0) continue;
-        this.equipment.put(Slot.PANTS, item);
-        this.trySixguns(possibles, bestCard);
-        any = true;
-        this.restore(mark);
-      }
-
-      if (any) return;
-      this.equipment.put(Slot.PANTS, EquipmentRequest.UNEQUIP);
-    }
-
-    this.trySixguns(possibles, bestCard);
-    this.restore(mark);
-  }
-
-  public void trySixguns(SlotList<CheckedItem> possibles, AdventureResult bestCard)
-      throws MaximizerInterruptedException {
-    var mark = this.mark();
-    if (this.equipment.get(Slot.HOLSTER) == null) {
-      List<CheckedItem> possible = possibles.get(Slot.HOLSTER);
-      boolean any = false;
-      for (AdventureResult item : possible) {
-        int count = item.getCount();
-        if (count <= 0) continue;
-        this.equipment.put(Slot.HOLSTER, item);
-        this.tryWeapons(possibles, bestCard);
-        any = true;
-        this.restore(mark);
-      }
-
-      if (any) return;
-      this.equipment.put(Slot.HOLSTER, EquipmentRequest.UNEQUIP);
-    }
-
-    this.tryWeapons(possibles, bestCard);
+    this.trySimpleSlots(possibles, bestCard, position + 1);
     this.restore(mark);
   }
 
