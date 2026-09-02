@@ -1560,8 +1560,6 @@ public class Evaluator {
             maxPrice,
             priceLevel);
     this.carriedFamiliars.addAll(carriedFamiliarSelection.candidates());
-    FamiliarData bestCarriedFamiliar = carriedFamiliarSelection.best();
-    FamiliarData secondBestCarriedFamiliar = carriedFamiliarSelection.secondBest();
     FamiliarData useCrownFamiliar = carriedFamiliarSelection.lockedCrown();
     FamiliarData useBjornFamiliar = carriedFamiliarSelection.lockedBjorn();
 
@@ -1571,6 +1569,9 @@ public class Evaluator {
 
     Map<Modeable, String> bestModes =
         ModeableSelector.select(modeablesNeeded, forcedModeables, equipScope, maxPrice, priceLevel);
+    CandidateSpeculationFactory speculationFactory =
+        new CandidateSpeculationFactory(
+            this.carriedFamiliarsNeeded, carriedFamiliarSelection, bestCard, bestModes);
 
     SlotList<MaximizerSpeculation> speculationList = new SlotList<>(this.familiars.size());
 
@@ -1590,96 +1591,20 @@ public class Evaluator {
       List<MaximizerSpeculation> specs = speculationList.get(entry);
 
       for (CheckedItem item : checkedItemList) {
-        MaximizerSpeculation spec = new MaximizerSpeculation();
-        spec.attachment = item;
         Slot useSlot;
+        FamiliarData familiar = null;
         if (entry.isSlot()) {
           useSlot = Evaluator.toUseSlot(entry.slot());
         } else {
-          spec.setFamiliar(this.familiars.get(entry.famIndex()));
+          familiar = this.familiars.get(entry.famIndex());
           useSlot = Slot.FAMILIAR;
         }
-        spec.equipment.put(useSlot, item);
-
-        if (useSlot == Slot.CODPIECE1) {
-          for (var slot : SlotSet.CODPIECE_SLOTS) {
-            spec.equipment.put(slot, EquipmentRequest.UNEQUIP);
-          }
-          spec.equipment.put(useSlot, item);
+        var result = speculationFactory.create(item, useSlot, familiar);
+        if (result.card() != null) {
+          useCard = result.card();
         }
 
-        switch (item.getItemId()) {
-          case ItemPool.HATSEAT:
-            if (this.slots.getOrDefault(Slot.CROWNOFTHRONES, 0) < 0) {
-              spec.setEnthroned(useCrownFamiliar);
-            } else if (this.carriedFamiliarsNeeded > 1) {
-              item.automaticFlag = true;
-              spec.setEnthroned(secondBestCarriedFamiliar);
-            } else {
-              spec.setEnthroned(bestCarriedFamiliar);
-            }
-            break;
-          case ItemPool.BUDDY_BJORN:
-            if (this.slots.getOrDefault(Slot.BUDDYBJORN, 0) < 0) {
-              spec.setBjorned(useBjornFamiliar);
-            } else if (this.carriedFamiliarsNeeded > 1) {
-              item.automaticFlag = true;
-              spec.setBjorned(secondBestCarriedFamiliar);
-            } else {
-              spec.setBjorned(bestCarriedFamiliar);
-            }
-            break;
-          case ItemPool.CARD_SLEEVE:
-            {
-              MaximizerSpeculation current = new MaximizerSpeculation();
-              if (bestCard != null) {
-                spec.equipment.put(Slot.CARDSLEEVE, bestCard);
-                useCard = bestCard;
-              } else {
-                spec.equipment.put(Slot.CARDSLEEVE, current.equipment.get(Slot.CARDSLEEVE));
-                useCard = current.equipment.get(Slot.CARDSLEEVE);
-              }
-              break;
-            }
-          case ItemPool.FOLDER_HOLDER:
-          case ItemPool.REPLICA_FOLDER_HOLDER:
-            {
-              MaximizerSpeculation current = new MaximizerSpeculation();
-              spec.equipment.put(Slot.FOLDER1, current.equipment.get(Slot.FOLDER1));
-              spec.equipment.put(Slot.FOLDER2, current.equipment.get(Slot.FOLDER2));
-              spec.equipment.put(Slot.FOLDER3, current.equipment.get(Slot.FOLDER3));
-              spec.equipment.put(Slot.FOLDER4, current.equipment.get(Slot.FOLDER4));
-              spec.equipment.put(Slot.FOLDER5, current.equipment.get(Slot.FOLDER5));
-              break;
-            }
-          case ItemPool.COWBOY_BOOTS:
-            {
-              MaximizerSpeculation current = new MaximizerSpeculation();
-              spec.equipment.put(Slot.BOOTSKIN, current.equipment.get(Slot.BOOTSKIN));
-              spec.equipment.put(Slot.BOOTSPUR, current.equipment.get(Slot.BOOTSPUR));
-              break;
-            }
-          default:
-            {
-              var modeable = Modeable.find(item);
-              if (EquipmentManager.isStickerWeapon(item)) {
-                MaximizerSpeculation current = new MaximizerSpeculation();
-                spec.equipment.put(Slot.STICKER1, current.equipment.get(Slot.STICKER1));
-                spec.equipment.put(Slot.STICKER2, current.equipment.get(Slot.STICKER2));
-                spec.equipment.put(Slot.STICKER3, current.equipment.get(Slot.STICKER3));
-              } else if (modeable != null) {
-                var best = bestModes.getOrDefault(modeable, "");
-                if (!best.isEmpty()) {
-                  spec.setModeable(modeable, best);
-                }
-              }
-              break;
-            }
-        }
-        spec.getScore(); // force evaluation
-        spec.failed = false; // individual items are not expected to fulfill all requirements
-
-        specs.add(spec);
+        specs.add(result.speculation());
       }
 
       Collections.sort(specs);
