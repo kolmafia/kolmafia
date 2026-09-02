@@ -34,4 +34,20 @@ class CheckedItemTest {
     item.pullBuyable = 0;
     assertThat(item.acquisitionMethod(1), is(AcquisitionMethod.MALL_BUY));
   }
+
+  @Test
+  void availabilityIsAnImmutableSnapshot() {
+    var item = new CheckedItem(-1, EquipScope.SPECULATE_INVENTORY, 0, PriceLevel.DONT_CHECK);
+    item.inventory = 1;
+    item.initial = 2;
+    item.creatable = 3;
+
+    var availability = item.availability();
+    item.initial = 0;
+    item.creatable = 0;
+
+    assertThat(availability.inventory(), is(1));
+    assertThat(availability.total(), is(5));
+    assertThat(availability.acquisitionMethod(2), is(AcquisitionMethod.CREATE));
+  }
 }
