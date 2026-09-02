@@ -533,6 +533,26 @@ public class MaximizerTest {
         assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.SHIRT, "surgical apron"))));
       }
     }
+
+    @Test
+    public void surgeonosityUsesNondefaultTarget() {
+      final var cleanups =
+          new Cleanups(
+              withEquippableItem("head mirror"),
+              withEquippableItem("bloodied surgical dungarees"),
+              withEquippableItem("surgical apron"),
+              withEquippableItem("surgical mask"),
+              withEquippableItem("half-size scalpel"),
+              withSkill("Torso Awareness"));
+
+      try (cleanups) {
+        assertTrue(maximize("3 surgeonosity, -tie"));
+        assertEquals(3, modFor(BitmapModifier.SURGEONOSITY), 0.01);
+        assertThat(getBoosts(), hasItem(recommends("head mirror")));
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.PANTS, "bloodied surgical dungarees")));
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.SHIRT, "surgical apron")));
+      }
+    }
   }
 
   @Nested
