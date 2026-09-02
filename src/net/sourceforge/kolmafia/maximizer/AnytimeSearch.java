@@ -19,11 +19,10 @@ final class AnytimeSearch {
 
     void undo(C choice);
 
-    /**
-     * Returns an admissible upper bound on every completion of the current state, or null when this
-     * state cannot be bounded safely.
-     */
-    Q upperBound();
+    /** Returns false only when no completion of the current state can beat the incumbent. */
+    default boolean canBeat(Q incumbent) {
+      return true;
+    }
 
     default boolean dominated() {
       return false;
@@ -82,8 +81,7 @@ final class AnytimeSearch {
       }
       this.problem.record();
 
-      Q bound = this.problem.upperBound();
-      if (this.best != null && bound != null && bound.compareTo(this.best.quality()) <= 0) {
+      if (this.best != null && !this.problem.canBeat(this.best.quality())) {
         this.boundPrunes++;
         return;
       }

@@ -85,9 +85,9 @@ class AnytimeSearchTest {
     var problem =
         new KnapsackProblem(List.of(List.of(new Choice("choice", 1, 0))), 0, false, false) {
           @Override
-          public SolutionQuality upperBound() {
+          public boolean complete() {
             if (this.depth() > 0) throw new IllegalStateException("failed");
-            return null;
+            return super.complete();
           }
         };
 
@@ -157,14 +157,14 @@ class AnytimeSearchTest {
     }
 
     @Override
-    public SolutionQuality upperBound() {
-      if (!this.useBounds) return null;
+    public boolean canBeat(SolutionQuality incumbent) {
+      if (!this.useBounds) return true;
 
       int optimistic = this.score;
       for (int depth = this.assignment.size(); depth < this.choices.size(); depth++) {
         optimistic += this.choices.get(depth).stream().mapToInt(Choice::score).max().orElseThrow();
       }
-      return quality(optimistic);
+      return quality(optimistic).compareTo(incumbent) > 0;
     }
 
     @Override
