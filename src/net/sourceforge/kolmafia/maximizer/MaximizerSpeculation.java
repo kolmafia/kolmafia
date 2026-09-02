@@ -16,8 +16,6 @@ import net.sourceforge.kolmafia.Speculation;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.modifiers.BitmapModifier;
-import net.sourceforge.kolmafia.modifiers.BooleanModifier;
-import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
@@ -157,22 +155,6 @@ public class MaximizerSpeculation extends Speculation
     this.getScore();
     this.getTiebreaker();
 
-    int rolloverEffects = 0;
-    int breakables = 0;
-    int itemDroppers = 0;
-    int meatDroppers = 0;
-    for (var equip : this.equipment.values()) {
-      if (equip == null) continue;
-      int itemId = equip.getItemId();
-      Modifiers mods = ModifierDatabase.getItemModifiers(itemId);
-      if (mods == null) continue;
-      if (mods.hasString(StringModifier.ROLLOVER_EFFECT)) rolloverEffects++;
-      if (mods.getBoolean(BooleanModifier.BREAKABLE)) breakables++;
-      if (mods.getBoolean(BooleanModifier.DROPS_ITEMS)) itemDroppers++;
-      if (mods.getBoolean(BooleanModifier.DROPS_MEAT)) meatDroppers++;
-    }
-
-    boolean useTiebreaker = Maximizer.evaluator().isUsingTiebreaker();
     SolutionQuality.AttachmentQuality attachmentQuality =
         this.attachment == null
             ? null
@@ -182,16 +164,13 @@ public class MaximizerSpeculation extends Speculation
                 this.attachment.inventory > 0,
                 this.attachment.initial > 0);
 
-    return new SolutionQuality(
-        !this.failed,
-        this.score,
+    return SolutionQuality.from(
+        new EvaluationOutcome(this.score, this.failed, this.exceeded),
         this.beeosity,
-        useTiebreaker ? itemDroppers : 0,
-        useTiebreaker ? meatDroppers : 0,
+        Maximizer.evaluator().isUsingTiebreaker(),
         this.tiebreaker,
-        useTiebreaker ? rolloverEffects : 0,
-        breakables,
         this.simplicity,
+        this.equipment,
         attachmentQuality);
   }
 

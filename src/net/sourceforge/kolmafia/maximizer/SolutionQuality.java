@@ -1,5 +1,13 @@
 package net.sourceforge.kolmafia.maximizer;
 
+import java.util.Map;
+import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.Modifiers;
+import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.modifiers.BooleanModifier;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
+
 record SolutionQuality(
     boolean feasible,
     double score,
@@ -14,6 +22,41 @@ record SolutionQuality(
     implements Comparable<SolutionQuality> {
 
   record AttachmentQuality(boolean buyable, int beeosity, boolean inInventory, boolean initial) {}
+
+  static SolutionQuality from(
+      EvaluationOutcome outcome,
+      int beeosity,
+      boolean useTiebreaker,
+      double tiebreaker,
+      int simplicity,
+      Map<Slot, AdventureResult> equipment,
+      AttachmentQuality attachment) {
+    int rolloverEffects = 0;
+    int breakables = 0;
+    int itemDroppers = 0;
+    int meatDroppers = 0;
+    for (var equip : equipment.values()) {
+      if (equip == null) continue;
+      Modifiers modifiers = ModifierDatabase.getItemModifiers(equip.getItemId());
+      if (modifiers == null) continue;
+      if (modifiers.hasString(StringModifier.ROLLOVER_EFFECT)) rolloverEffects++;
+      if (modifiers.getBoolean(BooleanModifier.BREAKABLE)) breakables++;
+      if (modifiers.getBoolean(BooleanModifier.DROPS_ITEMS)) itemDroppers++;
+      if (modifiers.getBoolean(BooleanModifier.DROPS_MEAT)) meatDroppers++;
+    }
+
+    return new SolutionQuality(
+        !outcome.failed(),
+        outcome.score(),
+        beeosity,
+        useTiebreaker ? itemDroppers : 0,
+        useTiebreaker ? meatDroppers : 0,
+        tiebreaker,
+        useTiebreaker ? rolloverEffects : 0,
+        breakables,
+        simplicity,
+        attachment);
+  }
 
   @Override
   public int compareTo(SolutionQuality other) {
