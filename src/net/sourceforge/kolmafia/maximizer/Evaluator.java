@@ -1210,6 +1210,9 @@ public class Evaluator {
     // This relies on the special sauce glove having a lower ID
     // than any chefstaff.
     boolean gloveAvailable = false;
+    FamiliarEquipmentCompiler familiarEquipmentCompiler =
+        new FamiliarEquipmentCompiler(
+            this, this.familiars, catalog, ranked, equipScope, maxPrice, priceLevel, nullScore);
 
     int id = 0;
     while ((id = EquipmentDatabase.nextEquipmentItemId(id)) != -1) {
@@ -1217,7 +1220,7 @@ public class Evaluator {
       if (slot == Slot.NONE) continue;
       AdventureResult preItem = ItemPool.get(id, 1);
       String name = preItem.getName();
-      CheckedItem item = null;
+      CheckedItem item;
       if (this.negEquip.contains(preItem)) continue;
       if (character.resourcesExceeded(character.resourceUsage(name))) {
         continue;
@@ -1226,99 +1229,11 @@ public class Evaluator {
       var modeable = Modeable.find(id);
 
       boolean famCanEquip = KoLCharacter.getFamiliar().canEquip(preItem);
-      if (famCanEquip && slot != Slot.FAMILIAR) {
-        // Modifiers when worn by Hatrack or Scarecrow
-        Modifiers familiarMods = new Modifiers();
-        int familiarId = KoLCharacter.getFamiliar().getId();
-        if ((familiarId == FamiliarPool.HATRACK && slot == Slot.HAT)
-            || (familiarId == FamiliarPool.SCARECROW && slot == Slot.PANTS)) {
-          familiarMods.applyFamiliarModifiers(KoLCharacter.getFamiliar(), preItem);
-        }
-        // Normal item modifiers when used by Disembodied Hand and Left-Hand
-        else {
-          familiarMods = ModifierDatabase.getItemModifiersInFamiliarSlot(id);
-
-          // Some items work differently with the Left Hand
-          if (familiarId == FamiliarPool.LEFT_HAND) {
-            familiarMods =
-                switch (id) {
-                  case ItemPool.KOL_COL_13_SNOWGLOBE, ItemPool.GLOWING_ESCA -> null;
-                  default -> familiarMods;
-                };
-          }
-        }
-
-        // no enchantments
-        if (familiarMods == null) {
-          familiarMods = new Modifiers();
-        }
-
-        item = new CheckedItem(id, equipScope, maxPrice, priceLevel);
-
-        switch (this.checkConstraints(familiarMods)) {
-          case VIOLATES:
-            continue;
-          case MEETS:
-            item.automaticFlag = true;
-        }
-
-        if (modeable != null) {
-          item.automaticFlag = true;
-        }
-
-        if (item.getCount() != 0) {
-          catalog.get(Slot.FAMILIAR).add(item);
-          if (item.automaticFlag
-              || this.posEquip.contains(item)
-              // Modeable items are already automaticFlag, avoids a needless lookup
-              || this.getScore(familiarMods, Map.of(Slot.FAMILIAR, item), Map.of()) - nullScore
-                  > 0.0) {
-            ranked.get(Slot.FAMILIAR).add(item);
-          }
-        }
+      var familiarResult = familiarEquipmentCompiler.compile(id, preItem, slot, modeable);
+      if (familiarResult.rejected()) {
+        continue;
       }
-      for (int f = this.familiars.size() - 1; f >= 0; --f) {
-        FamiliarData fam = this.familiars.get(f);
-        if (!fam.canEquip(preItem)) continue;
-        // Modifiers when worn by Hatrack or Scarecrow
-        Modifiers familiarMods = new Modifiers();
-        int familiarId = fam.getId();
-        if ((familiarId == FamiliarPool.HATRACK && slot == Slot.HAT)
-            || (familiarId == FamiliarPool.SCARECROW && slot == Slot.PANTS)) {
-          familiarMods.applyFamiliarModifiers(fam, preItem);
-        } else {
-          // Normal item modifiers when used by Disembodied Hand
-          familiarMods = ModifierDatabase.getItemModifiers(id);
-          if (familiarMods == null) { // no enchantments
-            familiarMods = new Modifiers();
-          }
-        }
-        if (item == null) {
-          item = new CheckedItem(id, equipScope, maxPrice, priceLevel);
-        }
-
-        switch (this.checkConstraints(familiarMods)) {
-          case VIOLATES:
-            continue;
-          case MEETS:
-            item.automaticFlag = true;
-        }
-
-        if (modeable != null) {
-          item.automaticFlag = true;
-        }
-
-        if (item.getCount() != 0) {
-          catalog.getFamiliar(f).add(item);
-          if (item.automaticFlag
-              || this.posEquip.contains(item)
-              // Modeable items are already automaticFlag, avoids a needless lookup
-              || this.getScore(familiarMods, Map.of(Slot.FAMILIAR, item), Map.of()) - nullScore
-                  > 0.0) {
-            ranked.getFamiliar(f).add(item);
-          }
-        }
-      }
+      item = familiarResult.item();
 
       if (!EquipmentManager.canEquip(id) && !KoLCharacter.hasEquipped(id)) continue;
       if (item == null) {
