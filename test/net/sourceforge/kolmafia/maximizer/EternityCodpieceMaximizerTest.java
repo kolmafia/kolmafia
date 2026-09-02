@@ -1109,6 +1109,10 @@ public class EternityCodpieceMaximizerTest {
       assertTrue(
           maximize("init, 1 bonus big bumboozer marble, -acc1, -acc2, -acc3, -offhand, -tie"));
       assertTrue(Maximizer.bestChecked < 3003);
+      assertTrue(
+          Maximizer.lastSearchMetrics().searchNodes()
+              > Maximizer.lastSearchMetrics().combinationsChecked());
+      assertTrue(Maximizer.lastSearchMetrics().boundPrunes() > 0);
       assertThat(modFor(DoubleModifier.INITIATIVE), equalTo(55.0));
 
       assertTrue(maximize("init, letter b, -acc1, -acc2, -acc3, -offhand, -tie"));
@@ -1900,13 +1904,17 @@ public class EternityCodpieceMaximizerTest {
           var metrics = Maximizer.lastSearchMetrics();
           System.out.printf(
               "ALL_EQUIPMENT_BENCHMARK expression=%s items=%d catalog=%d shortlist=%d"
-                  + " combinations=%d calculations=%d score=%.3f ms=%.3f%n",
+                  + " combinations=%d calculations=%d nodes=%d dominance=%d bounds=%d"
+                  + " score=%.3f ms=%.3f%n",
               expression,
               availableItems.size(),
               metrics.catalogCandidates(),
               metrics.shortlistedCandidates(),
               metrics.combinationsChecked(),
               metrics.scoreCalculations(),
+              metrics.searchNodes(),
+              metrics.dominancePrunes(),
+              metrics.boundPrunes(),
               Maximizer.best.getScore(),
               elapsed);
         }

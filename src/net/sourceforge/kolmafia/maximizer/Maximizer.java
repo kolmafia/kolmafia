@@ -136,6 +136,13 @@ public class Maximizer {
     if (session != null && session.searchingEquipment) ++session.scoreCalculations;
   }
 
+  static void recordSearch(long nodes, long dominancePrunes, long boundPrunes) {
+    if (session == null) return;
+    session.searchNodes += nodes;
+    session.dominancePrunes += dominancePrunes;
+    session.boundPrunes += boundPrunes;
+  }
+
   static long nextProgressUpdate() {
     return session == null ? bestUpdate : session.nextProgressUpdate;
   }
@@ -1947,7 +1954,9 @@ public class Maximizer {
       }
       text = text + " (";
 
-      CheckedItem checkedItem = new CheckedItem(itemId, equipScope, maxPrice, priceLevel);
+      CheckedItem checkedItem =
+          new CheckedItem(
+              itemId, equipScope, maxPrice, priceLevel, SlotSet.CODPIECE_SLOTS.contains(slot));
 
       long price = 0L;
 

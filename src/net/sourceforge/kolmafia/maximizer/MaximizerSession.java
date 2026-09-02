@@ -7,6 +7,9 @@ final class MaximizerSession {
   int catalogCandidates;
   int shortlistedCandidates;
   int scoreCalculations;
+  long searchNodes;
+  long dominancePrunes;
+  long boundPrunes;
   boolean searchingEquipment;
   long nextProgressUpdate;
   CharacterSnapshot character;
@@ -22,6 +25,9 @@ final class MaximizerSession {
     this.catalogCandidates = 0;
     this.shortlistedCandidates = 0;
     this.scoreCalculations = 0;
+    this.searchNodes = 0;
+    this.dominancePrunes = 0;
+    this.boundPrunes = 0;
     this.searchingEquipment = true;
     this.nextProgressUpdate = System.currentTimeMillis() + 5000;
   }
@@ -31,7 +37,10 @@ final class MaximizerSession {
         this.combinationsChecked,
         this.catalogCandidates,
         this.shortlistedCandidates,
-        this.scoreCalculations);
+        this.scoreCalculations,
+        this.searchNodes,
+        this.dominancePrunes,
+        this.boundPrunes);
   }
 
   void refreshCharacterSnapshot(Evaluator evaluator) {
