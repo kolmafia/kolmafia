@@ -2924,7 +2924,7 @@
 2921	Aspirinated Lips	kiwi_lipstick.gif	9e5dfff0ab057887d958c0fb5609c2c1	neutral	none	use 1 mini kiwi-flavored aspirin-injecting lipstick
 2922	Everything Looks Purple	eyes.gif	3c340b41732b40571bf8ca24eb535380	neutral	noremove
 2923	Infected with Chronerism	chroner.gif	85122dd028354f65bf76800b064eb920	good	none	eat 1 bacteria bisque
-2924	Twitching Senses	nopic.gif	10424fbb137ba7a24a8a7798f2908bb6	neutral	none	eat 1 ciliophora chowder
+2924	Twitching Senses	watch.gif	10424fbb137ba7a24a8a7798f2908bb6	neutral	none	eat 1 ciliophora chowder
 2925	Chloroplasted	sun.gif	f1c704c574989c850076ccc1b43ce420	good	none	eat 1 cream of chloroplasts
 2926	Burning Mouth	embercheese.gif	077bfdc23982be1c734fa7a8f47791a4	good	none	eat 1 wheel of camembert
 2927	Lettuce Rejoice	emberlettuce.gif	74fff3d37b73461779ee2a24ef4cf34b	good	none
@@ -2999,7 +2999,7 @@
 2996	Current Axis Codes	axiscode.gif	415836d626cb8e5c6a9ce26908df5e9c	neutral	nohookah	use 1 Axis HQ Code
 2997	Looking Cool	ice.gif	2c2021fad6001c6da810328dd53f033c	neutral	nohookah
 2998	It's Like a Tickertape Parade	confetti.gif	15517c9531a69396e8c7e07e6dc9181d	neutral	nohookah
-2999	Wildsun Boon	wild_sun.gif	6f0fbda9b7530056f9deba25393c6eb7	neutral	nohookah	alliedradio effect boon
+2999	Wildsun Boon	sun.gif	6f0fbda9b7530056f9deba25393c6eb7	neutral	nohookah	alliedradio effect boon
 3000	Materiel Intel	dinseybrain.gif	61d884a9f0584996cabd095045b0d39e	neutral	nohookah	alliedradio effect intel
 3001	Demon in Combat	skeldoll.gif	62733d7f016123c31e2393696cd2c0f0	neutral	nohookah
 3002	Ellipsoidtined	circle.gif	74c598b6434144e0ef61711a547ce203	neutral	nohookah	alliedradio effect ellipsoidtine
@@ -3134,3 +3134,11 @@
 3131	Overdraft Protected	protscroll.gif	c887af6cb7b0f96df8c5d7023a1a25e6	neutral	none	use 1 circle of overdraft protection scroll
 3132	Freshly Minted	mintleaf2.gif	56eb22b41bfb6d4c971d2ecc2f8596df	neutral	none	use 1 mint
 3133	Saving Some Bondo	bondo.gif	40b3f7dc010d298d22a4ed55ffeece6f	neutral	none	use 1 savings bondo
+3134
+3135	Blessing of the Heat Shield	msm_heat.gif	98f0cf9fa21878847c7bd42f045a39b4	neutral	none
+3136	Blessing of the Riot Shield	msm_riot.gif	99191332a74cc05a1390cc5ce313c746	neutral	none
+3137	Blessing of the Mental Shield	msm_mental.gif	a7a78e8056a539be200a6076f53fd32f	neutral	none
+3138	Blessing of the Privacy Shield	msm_privacy.gif	0cb4ea224bc8d0b0c2b426c378f5b4d9	neutral	none
+3139	Blessing of the Tax Shield	msm_tax.gif	57fa6c6826f2e9993e92da4bc49d9b1b	neutral	none
+3140	Blessing of the Wind Shield	msm_wind.gif	62614a3f112b3f02eba5ac257865b49e	neutral	none
+3141	Singing of your Prowess	msm_song.gif	d64e3b55d6f06b2b32ee18690810c589	neutral	none	cast 1 %fn, sing a song of my prowess

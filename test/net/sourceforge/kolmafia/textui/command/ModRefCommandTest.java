@@ -36,7 +36,7 @@ public class ModRefCommandTest extends AbstractCommandTestBase {
   public void showsModifiersForItem() {
     var mods = execute("Cargo Cultist Shorts");
 
-    assertThat(mods, containsString("Muscle: +6, Mysticality: +6, Moxie: +6"));
+    assertThat(mods, containsString("All Attributes: +6"));
   }
 
   @Test
