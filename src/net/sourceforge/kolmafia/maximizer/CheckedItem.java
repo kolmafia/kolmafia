@@ -22,6 +22,8 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.MallPriceManager;
 
 public class CheckedItem extends AdventureResult {
+  private record FoldAvailability(int count, int sourceItemId) {}
+
   public CheckedItem(int itemId, EquipScope equipScope, long maxPrice, PriceLevel priceLevel) {
     this(itemId, equipScope, maxPrice, priceLevel, false);
   }
@@ -47,7 +49,6 @@ public class CheckedItem extends AdventureResult {
     }
 
     String itemName = this.getName();
-    this.foldable = 0;
     var modifiers = ModifierDatabase.getItemModifiers(itemId);
     int equipmentLimit =
         !ItemDatabase.isEquipment(itemId)
@@ -55,35 +56,29 @@ public class CheckedItem extends AdventureResult {
             : modifiers != null && modifiers.getBoolean(BooleanModifier.SINGLE) ? 1 : 3;
     int maxUseful = isCodpieceGem ? SlotSet.CODPIECE_SLOTS.size() + equipmentLimit : 3;
 
-    if (itemId > 0 && Preferences.getBoolean("maximizerFoldables")) {
-      FoldGroup group = ItemDatabase.getFoldGroup(itemName);
-      if (group != null) {
-        for (int i = 0; i < group.names.size(); ++i) {
-          String form = group.names.get(i);
-          if (!form.equals(itemName)) {
-            int foldItemId = ItemDatabase.getItemId(form);
-            int count = InventoryManager.getAccessibleCount(foldItemId);
-            this.foldable += count;
-            if (count > 0) {
-              this.foldItemId = foldItemId;
-            }
-          }
+    FoldGroup foldGroup =
+        itemId > 0 && Preferences.getBoolean("maximizerFoldables")
+            ? ItemDatabase.getFoldGroup(itemName)
+            : null;
+    if (foldGroup != null) {
+      var foldAvailability = getFoldAvailability(foldGroup, itemName, false);
+      this.foldable = foldAvailability.count();
+      this.foldItemId = foldAvailability.sourceItemId();
+
+      // Cannot have more than one item from January's Garbage Tote, no matter how many you have
+      //
+      // The actual tote (or replica tote), must be accessible, since we "fold"
+      // by using that item and selecting a choice.
+      //
+      // Fold groups are stored in lower case
+      if (foldGroup.names.get(0).equals("january's garbage tote")) {
+        if (this.foldable + this.initial > 1) {
+          this.foldable = 1 - this.initial;
         }
-        // Cannot have more than one item from January's Garbage Tote, no matter how many you have
-        //
-        // The actual tote (or replica tote), must be accessible, since we "fold"
-        // by using that item and selecting a choice.
-        //
-        // Fold groups are stored in lower case
-        if (group.names.get(0).equals("january's garbage tote")) {
-          if (this.foldable + this.initial > 1) {
-            this.foldable = 1 - this.initial;
-          }
-          if (this.foldable > 0) {
-            int tote = InventoryManager.getGarbageTote();
-            if (InventoryManager.getAccessibleCount(tote) == 0) {
-              this.foldable = 0;
-            }
+        if (this.foldable > 0) {
+          int tote = InventoryManager.getGarbageTote();
+          if (InventoryManager.getAccessibleCount(tote) == 0) {
+            this.foldable = 0;
           }
         }
       }
@@ -142,7 +137,6 @@ public class CheckedItem extends AdventureResult {
       // consider pulling
       this.pullable = this.getCount(KoLConstants.storage);
 
-      this.pullBuyable = 0;
       if (InventoryManager.canUseMallToStorage(itemId)) {
         int needed = isCodpieceGem ? maxUseful - this.getCount() : this.getCount() == 0 ? 1 : 0;
         if (needed > 0) {
@@ -157,29 +151,15 @@ public class CheckedItem extends AdventureResult {
         }
       }
 
-      this.pullfoldable = 0;
-      if (itemId > 0 && Preferences.getBoolean("maximizerFoldables")) {
-        FoldGroup group = ItemDatabase.getFoldGroup(itemName);
-        if (group != null) {
-          for (int i = 0; i < group.names.size(); ++i) {
-            String form = group.names.get(i);
-            if (!form.equals(itemName)) {
-              int foldItemId = ItemDatabase.getItemId(form);
-              AdventureResult foldItem = ItemPool.get(foldItemId);
-              int count = foldItem.getCount(KoLConstants.storage);
-              this.pullfoldable += count;
-              if (count > 0) {
-                this.foldItemId = foldItemId;
-              }
-            }
-          }
-          // Cannot have more than one item from January's Garbage Tote, no matter how many you
-          // have
-          if (group.names.get(0).equals("january's garbage tote")) {
-            if (this.pullfoldable > 1) {
-              this.pullfoldable = 1;
-            }
-          }
+      if (foldGroup != null) {
+        var foldAvailability = getFoldAvailability(foldGroup, itemName, true);
+        this.pullfoldable = foldAvailability.count();
+        if (foldAvailability.sourceItemId() > 0) {
+          this.foldItemId = foldAvailability.sourceItemId();
+        }
+        // Cannot have more than one item from January's Garbage Tote, no matter how many you have
+        if (foldGroup.names.get(0).equals("january's garbage tote")) {
+          this.pullfoldable = Math.min(this.pullfoldable, 1);
         }
       }
     }
@@ -190,6 +170,26 @@ public class CheckedItem extends AdventureResult {
             || (MrStoreRequest.UNCLE_B).equals(c.getIngredients()[0]))) {
       this.creatable = 0;
     }
+  }
+
+  private static FoldAvailability getFoldAvailability(
+      FoldGroup group, String itemName, boolean storageOnly) {
+    int available = 0;
+    int availableItemId = 0;
+    for (String form : group.names) {
+      if (form.equals(itemName)) continue;
+
+      int foldItemId = ItemDatabase.getItemId(form);
+      int count =
+          storageOnly
+              ? ItemPool.get(foldItemId).getCount(KoLConstants.storage)
+              : InventoryManager.getAccessibleCount(foldItemId);
+      available += count;
+      if (count > 0) {
+        availableItemId = foldItemId;
+      }
+    }
+    return new FoldAvailability(available, availableItemId);
   }
 
   @Override
