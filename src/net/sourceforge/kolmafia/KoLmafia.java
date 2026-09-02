@@ -170,7 +170,7 @@ public abstract class KoLmafia {
       Set.of(
           PREFERRED_IMAGE_SERVER_PATH,
           "https://s3.amazonaws.com/images.kingdomofloathing.com/",
-          "http://images.kingdomofloathing.com/");
+          "https://images.kingdomofloathing.com/");
   // Displays a warning in several areas when the JVM is running an older version
   public static final int MINIMUM_JAVA_VERSION = 21;
 
