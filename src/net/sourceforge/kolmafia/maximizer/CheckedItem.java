@@ -217,7 +217,14 @@ public class CheckedItem extends AdventureResult {
   }
 
   final int getAvailableCount() {
-    return this.availability().total();
+    return this.initial
+        + this.creatable
+        + this.npcBuyable
+        + this.mallBuyable
+        + this.foldable
+        + this.pullable
+        + this.pullfoldable
+        + this.pullBuyable;
   }
 
   AcquisitionMethod acquisitionMethod(int used) {

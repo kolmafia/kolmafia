@@ -21,6 +21,7 @@ class CheckedItemTest {
     item.pullBuyable = 1;
     item.mallBuyable = 1;
 
+    assertThat(item.getAvailableCount(), is(item.availability().total()));
     assertThat(item.acquisitionMethod(0), is(AcquisitionMethod.ACCESSIBLE));
     assertThat(item.acquisitionMethod(1), is(AcquisitionMethod.CREATE));
     assertThat(item.acquisitionMethod(2), is(AcquisitionMethod.NPC_BUY));
