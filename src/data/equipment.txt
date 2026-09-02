@@ -875,7 +875,7 @@ dreadful sweater	200	Mys: 200
 duct tape shirt	195	Mus: 82
 embers-only jacket	100	none
 extra-see-thru nightie	200	Mus: 200
-extra-thick Crimbo sweater	100	none
+extra-thick Crimbo sweater	100	Mus:35
 eXtreme Bi-Polar Fleece Vest	90	Mus: 30
 extremely wet T-shirt	200	Mus: 85
 famous blue raincoat	100	none

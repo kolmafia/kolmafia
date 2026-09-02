@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -175,6 +176,23 @@ public class DebugDatabase {
   private static final String ITEM_DATA = "itemdata.txt";
   private static final Map<Integer, String> rawItems = new HashMap<>();
 
+  private static final Comparator<String> NAME_COMPARATOR =
+      (a, b) -> {
+        int compare =
+            KoLConstants.ignoreCaseComparator.compare(DebugDatabase.name(a), DebugDatabase.name(b));
+        return compare != 0 ? compare : KoLConstants.ignoreCaseComparator.compare(a, b);
+      };
+
+  private static String name(final String key) {
+    if (key.startsWith("[")) {
+      int ind = key.indexOf("]");
+      if (ind > 0) {
+        return key.substring(ind + 1);
+      }
+    }
+    return key;
+  }
+
   private static class ItemMap {
     private final String tag;
     private final ConsumptionType type;
@@ -183,7 +201,7 @@ public class DebugDatabase {
     public ItemMap(final String tag, final ConsumptionType type) {
       this.tag = tag;
       this.type = type;
-      this.map = new TreeMap<>(KoLConstants.ignoreCaseComparator);
+      this.map = new TreeMap<>(DebugDatabase.NAME_COMPARATOR);
     }
 
     public String getTag() {
@@ -421,7 +439,11 @@ public class DebugDatabase {
     }
 
     ItemMap map = DebugDatabase.findItemMap(type);
-    map.put(name, rawText);
+    // Prefix ambiguous duplicate names with their id so that
+    // modifiers.txt lookups resolve to the correct item.
+    String modifierName =
+        ItemDatabase.getExactItemId(name) == itemId ? name : "[" + itemId + "]" + name;
+    map.put(modifierName, rawText);
 
     String descId = ItemDatabase.getDescriptionId(id);
 
@@ -1840,7 +1862,11 @@ public class DebugDatabase {
           "# *** " + name + " (" + effectId + ") has image of " + descriptionImage + ".");
     }
 
-    DebugDatabase.effects.put(name, text);
+    // Prefix ambiguous duplicate names with their id so that
+    // modifiers.txt lookups resolve to the correct effect.
+    String modifierName =
+        EffectDatabase.getEffectId(name, true) == effectId ? name : "[" + effectId + "]" + name;
+    DebugDatabase.effects.put(modifierName, text);
   }
 
   // <!-- effectid: 806 -->
@@ -2065,7 +2091,11 @@ public class DebugDatabase {
 
     String type = DebugDatabase.parseSkillType(text);
     if (type.equals("Passive")) {
-      DebugDatabase.passiveSkills.put(name, text);
+      // Prefix ambiguous duplicate names with their id so that
+      // modifiers.txt lookups resolve to the correct skill.
+      String modifierName =
+          SkillDatabase.getSkillId(name, true) == skillId ? name : "[" + skillId + "]" + name;
+      DebugDatabase.passiveSkills.put(modifierName, text);
     }
 
     if (type.equals("Passive")) {
