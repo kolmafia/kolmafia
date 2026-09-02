@@ -35,14 +35,12 @@ import net.sourceforge.kolmafia.modifiers.DerivedModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifierCollection;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
-import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
-import net.sourceforge.kolmafia.persistence.ItemDatabase.FoldGroup;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
@@ -153,43 +151,6 @@ public class Evaluator {
 
   // Slots starting with EquipmentSlot.ALL_SLOTS are equipment
   // for other familiars being considered.
-
-  private static int relevantSkill(int skillId) {
-    return KoLCharacter.hasSkill(skillId) ? 1 : 0;
-  }
-
-  private int relevantFamiliar(int id) {
-    if (KoLCharacter.getFamiliar().getId() == id) {
-      return 1;
-    }
-    for (FamiliarData familiar : this.familiars) {
-      if (familiar.getId() == id) {
-        return 1;
-      }
-    }
-    return 0;
-  }
-
-  private int maxUseful(Slot slot) {
-    return switch (slot) {
-      case /* Evaluator.WEAPON_1H */ STICKER3 ->
-          1
-              + relevantSkill(SkillPool.DOUBLE_FISTED_SKULL_SMASHING)
-              + this.relevantFamiliar(FamiliarPool.HAND);
-      case OFFHAND -> 1 + this.relevantFamiliar(FamiliarPool.LEFT_HAND);
-      case ACCESSORY1 -> 3;
-      case CODPIECE1 -> 5;
-      case FAMILIAR ->
-          // Familiar items include weapons, hats and pants, make sure we have enough to consider
-          // for
-          // other slots
-          1
-              + this.relevantFamiliar(FamiliarPool.SCARECROW)
-              + this.relevantFamiliar(FamiliarPool.HAND)
-              + this.relevantFamiliar(FamiliarPool.HATRACK);
-      default -> 1;
-    };
-  }
 
   private static Slot toUseSlot(Slot slot) {
     return switch (slot) {
@@ -1152,9 +1113,6 @@ public class Evaluator {
       EquipScope equipScope, int maxPrice, PriceLevel priceLevel, boolean exhaustive)
       throws MaximizerInterruptedException {
     CharacterSnapshot character = Maximizer.character();
-    // Items automatically considered regardless of their score -
-    // synergies, hobo power, brimstone, etc.
-    SlotList<CheckedItem> automatic = new SlotList<>(this.familiars.size());
     // Every legal, available candidate, including those rejected by isolated scoring.
     SlotList<CheckedItem> catalog = new SlotList<>(this.familiars.size());
     // Items to be considered based on their score
@@ -1922,161 +1880,12 @@ public class Evaluator {
       RequestLogger.printLine(outfitSummary.toString());
     }
 
-    for (var entry : ranked.entries()) {
-      List<CheckedItem> checkedItemList = ranked.get(entry);
-      var automaticEntry = automatic.get(entry);
-
-      if (this.dump > 0) {
-        RequestLogger.printLine(
-            "SLOT " + (entry.isSlot() ? entry.slot() : "BONUS FAMILIAR #" + entry.famIndex()));
-      }
-
-      if (this.dump > 1) {
-        RequestLogger.printLine(speculationList.get(entry).toString());
-      }
-
-      // Do we have any required items for the slot?
-      int total = 0;
-      for (CheckedItem item : checkedItemList) {
-        if (item.requiredFlag) {
-          automatic.get(entry).add(item);
-          // Don't increase total if it's one of the required flagged foldables by Evaluator rather
-          // than user
-          int itemId = item.getItemId();
-          if (itemId != ItemPool.BROKEN_CHAMPAGNE && itemId != ItemPool.MAKESHIFT_GARBAGE_SHIRT) {
-            ++total;
-          }
-        }
-      }
-
-      int useful = entry.isSlot() ? this.maxUseful(entry.slot()) : 1;
-
-      // Done with the slot once required items fill it, unless the codpiece could expand it.
-      if (useful > total
-          || (codpieceCanExpandAccessoryPool
-              && entry.isSlot()
-              && entry.slot() == Slot.ACCESSORY1)) {
-        ListIterator<MaximizerSpeculation> speculationIterator =
-            speculationList.get(entry).listIterator(speculationList.get(entry).size());
-
-        int resourceCandidates = 0;
-        ResourceUsage resourceUsage = character.resourceUsage("");
-
-        while (speculationIterator.hasPrevious()) {
-          CheckedItem item = speculationIterator.previous().attachment;
-          item.validate(maxPrice, priceLevel);
-
-          // If we only need as many fold items as we have, then we can
-          // count them against the items we need to pass through
-          FoldGroup group = ItemDatabase.getFoldGroup(item.getName());
-          int foldItemsNeeded = 0;
-          if (group != null && Preferences.getBoolean("maximizerFoldables")) {
-            foldItemsNeeded += Math.max(item.getCount(), useful);
-            // How many times have we already used this fold item?
-            for (var checkSlot : SlotSet.SLOTS) {
-              if (entry.isSlot() && checkSlot.ordinal() >= entry.slot().ordinal()) break;
-              List<CheckedItem> checkItemList = automatic.get(checkSlot);
-              if (checkItemList != null) {
-                for (CheckedItem checkItem : checkItemList) {
-                  FoldGroup checkGroup = ItemDatabase.getFoldGroup(checkItem.getName());
-                  if (checkGroup != null
-                      && group.names.getFirst().equals(checkGroup.names.getFirst())) {
-                    foldItemsNeeded += Math.max(checkItem.getCount(), this.maxUseful(checkSlot));
-                  }
-                }
-              }
-            }
-            // And how many times do we expect to use them for the rest of the slots?
-            if (entry.isSlot() && entry.slot().ordinal() < Slot.FAMILIAR.ordinal()) {
-              for (var checkSlot :
-                  EnumSet.range(Slot.byOrdinal(entry.slot().ordinal() + 1), Slot.FAMILIAR)) {
-                ListIterator<MaximizerSpeculation> checkIterator =
-                    speculationList
-                        .get(checkSlot)
-                        .listIterator(speculationList.get(checkSlot).size());
-                int usefulCheckCount = this.maxUseful(checkSlot);
-                while (checkIterator.hasPrevious()) {
-                  CheckedItem checkItem = checkIterator.previous().attachment;
-                  FoldGroup checkGroup = ItemDatabase.getFoldGroup(checkItem.getName());
-                  if (checkGroup != null
-                      && group.names.getFirst().equals(checkGroup.names.getFirst())) {
-                    if (usefulCheckCount > 0 || checkItem.requiredFlag) {
-                      foldItemsNeeded += Math.max(checkItem.getCount(), this.maxUseful(checkSlot));
-                    }
-                  } else if (checkItem.automaticFlag || !checkItem.conditionalFlag) {
-                    usefulCheckCount--;
-                  }
-                }
-              }
-            }
-          }
-
-          if (item.getCount() == 0) {
-            // If we don't have one, and they aren't nothing, skip
-            continue;
-          }
-          // (none)'s Integer.MAX_VALUE count would overflow total/beeotches if counted here.
-          boolean leavesSlotEmpty = item.getItemId() == -1;
-          ResourceUsage itemResourceUsage = character.resourceUsage(item.getName());
-          if (!itemResourceUsage.isZero()) {
-            // Don't count it towards the number of items desired
-            // in this slot's shortlist, since it may turn out to be
-            // advantageous to use up all our allowed resources on
-            // other slots.
-            if (item.automaticFlag) {
-              if (!automaticEntry.contains(item)) {
-                automaticEntry.add(item);
-              }
-              if (!leavesSlotEmpty) {
-                resourceCandidates += item.getCount();
-                resourceUsage = resourceUsage.plus(itemResourceUsage.times(item.getCount()));
-              }
-            } else if (total < useful
-                && resourceCandidates < useful
-                && character.hasRemainingCapacityFor(resourceUsage, itemResourceUsage)) {
-              if (!automaticEntry.contains(item)) {
-                automaticEntry.add(item);
-              }
-              if (!leavesSlotEmpty) {
-                resourceCandidates += item.getCount();
-                resourceUsage = resourceUsage.plus(itemResourceUsage.times(item.getCount()));
-              }
-            }
-          } else if (item.automaticFlag) {
-            if (!automaticEntry.contains(item)) {
-              automaticEntry.add(item);
-              if (!leavesSlotEmpty && !item.conditionalFlag && item.getCount() >= foldItemsNeeded) {
-                total += item.getCount();
-              }
-            }
-          } else if ((entry.isSlot() && entry.slot() == Slot.CODPIECE1) || total < useful) {
-            if (!automaticEntry.contains(item)) {
-              automaticEntry.add(item);
-              if (!leavesSlotEmpty && !item.conditionalFlag && item.getCount() >= foldItemsNeeded) {
-                total += item.getCount();
-              }
-            }
-          }
-        }
-      }
-
-      // Blunt object fix for only having a foldable that might be needed elsewhere
-      if (automaticEntry.size() == 1
-          && ItemDatabase.getFoldGroup(automaticEntry.getFirst().getName()) != null) {
-        automaticEntry.add(new CheckedItem(-1, equipScope, maxPrice, priceLevel));
-      }
-
-      if (this.dump > 0) {
-        RequestLogger.printLine(automaticEntry.toString());
-      }
-    }
-
-    int shortlistedCandidateCount =
-        automatic.entries().stream().mapToInt(entry -> entry.value().size()).sum();
-    Maximizer.recordCandidateCounts(catalogCandidateCount, shortlistedCandidateCount);
-    automatic.get(Slot.WEAPON).addAll(automatic.get(Evaluator.WEAPON_1H));
-    automatic.get(Evaluator.OFFHAND_MELEE).addAll(automatic.get(Slot.OFFHAND));
-    automatic.get(Evaluator.OFFHAND_RANGED).addAll(automatic.get(Slot.OFFHAND));
+    var shortlist =
+        new CandidateShortlistCompiler(
+                this.familiars, character, equipScope, maxPrice, priceLevel, this.dump)
+            .compile(ranked, speculationList, codpieceCanExpandAccessoryPool);
+    SlotList<CheckedItem> automatic = shortlist.candidates();
+    Maximizer.recordCandidateCounts(catalogCandidateCount, shortlist.candidateCount());
 
     MaximizerSpeculation spec = new MaximizerSpeculation();
     // The threshold in the slots array that indicates that a slot
