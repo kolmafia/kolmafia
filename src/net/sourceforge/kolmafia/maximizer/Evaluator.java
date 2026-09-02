@@ -395,20 +395,18 @@ public class Evaluator {
 
       if (keyword.equals("clownosity")) {
         // If no weight specified, assume 100%
-        this.clownosity = (m.end(2) == m.start(2)) ? 100 : (int) weight * 25;
+        this.clownosity = (int) weight * 25;
         continue;
       }
 
       if (keyword.equals("raveosity")) {
         // If no weight specified, assume 7
-        this.raveosity = (m.end(2) == m.start(2)) ? 7 : (int) weight;
+        this.raveosity = (int) weight;
         continue;
       }
 
       if (keyword.equals("surgeonosity")) {
-        // If no weight is specified, 5 (if not torso aware, then 4).
-        this.surgeonosity =
-            (m.end(2) == m.start(2)) ? (KoLCharacter.isTorsoAware() ? 5 : 4) : (int) weight;
+        this.surgeonosity = (int) weight;
         continue;
       }
 

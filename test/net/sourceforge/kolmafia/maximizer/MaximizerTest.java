@@ -405,7 +405,7 @@ public class MaximizerTest {
     public void clownosityTriesClownEquipment() {
       final var cleanups = new Cleanups(withEquippableItem("clown wig"));
       try (cleanups) {
-        assertFalse(maximize("clownosity -tie"));
+        assertFalse(maximize("4 clownosity -tie"));
         // still provides equipment
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "clown wig")));
         assertEquals(50, modFor(BitmapModifier.CLOWNINESS), 0.01);
@@ -417,7 +417,7 @@ public class MaximizerTest {
       final var cleanups =
           new Cleanups(withEquippableItem("clown wig"), withEquippableItem("polka-dot bow tie"));
       try (cleanups) {
-        assertTrue(maximize("clownosity -tie"));
+        assertTrue(maximize("4 clownosity -tie"));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "clown wig")));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.ACCESSORY1, "polka-dot bow tie")));
         assertEquals(125, modFor(BitmapModifier.CLOWNINESS), 0.01);
@@ -429,7 +429,7 @@ public class MaximizerTest {
       var cleanups = withEquippableItem("clownskin belt", 3);
 
       try (cleanups) {
-        maximize("clownosity, -tie");
+        maximize("4 clownosity, -tie");
         assertEquals(50, modFor(BitmapModifier.CLOWNINESS), 0.01);
         assertThat(
             getBoosts().stream()
@@ -450,7 +450,7 @@ public class MaximizerTest {
               withEquippableItem("baggy rave pants"),
               withEquippableItem("rave whistle"));
       try (cleanups) {
-        assertFalse(maximize("raveosity -tie"));
+        assertFalse(maximize("7 raveosity -tie"));
         // still provides equipment
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "rave visor")));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.PANTS, "baggy rave pants")));
@@ -469,7 +469,7 @@ public class MaximizerTest {
               withEquippableItem("rave visor"),
               withEquippableItem("baggy rave pants"));
       try (cleanups) {
-        assertTrue(maximize("raveosity -tie"));
+        assertTrue(maximize("7 raveosity -tie"));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "rave visor")));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.PANTS, "baggy rave pants")));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.CONTAINER, "teddybear backpack")));
@@ -492,7 +492,7 @@ public class MaximizerTest {
               withEquippableItem("half-size scalpel"),
               withSkill("Torso Awareness"));
       try (cleanups) {
-        assertTrue(maximize("surgeonosity -tie"));
+        assertTrue(maximize("5 surgeonosity -tie"));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.PANTS, "bloodied surgical dungarees")));
         assertThat(getBoosts(), hasItem(recommends("head mirror")));
         assertThat(getBoosts(), hasItem(recommends("surgical mask")));
@@ -507,7 +507,7 @@ public class MaximizerTest {
       var cleanups = withEquippableItem("surgical mask", 3);
 
       try (cleanups) {
-        maximize("surgeonosity, -tie");
+        maximize("3 surgeonosity, -tie");
         assertEquals(1, modFor(BitmapModifier.SURGEONOSITY), 0.01);
         assertThat(
             getBoosts().stream()
@@ -518,24 +518,7 @@ public class MaximizerTest {
     }
 
     @Test
-    public void defaultSurgeonosityAccountsForShirtEligibility() {
-      final var cleanups =
-          new Cleanups(
-              withEquippableItem("head mirror"),
-              withEquippableItem("bloodied surgical dungarees"),
-              withEquippableItem("surgical apron"),
-              withEquippableItem("surgical mask"),
-              withEquippableItem("half-size scalpel"));
-
-      try (cleanups) {
-        assertTrue(maximize("surgeonosity, -tie"));
-        assertEquals(4, modFor(BitmapModifier.SURGEONOSITY), 0.01);
-        assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.SHIRT, "surgical apron"))));
-      }
-    }
-
-    @Test
-    public void surgeonosityUsesNondefaultTarget() {
+    public void surgeonosityOnlyEquipsUpToTarget() {
       final var cleanups =
           new Cleanups(
               withEquippableItem("head mirror"),
