@@ -208,7 +208,7 @@
 227	axe handle	handle
 228	forest spirit	arm	head	leg	torso
 229	crazy bastard
-230	infinite meat bug
+230	infinite meat bug	head	leg
 231	Baiowulf	arm	head	leg	torso
 232	Hypnotist of Hey Deze	arm	head	leg	torso
 233	decent lumberjack	arm	head	leg	torso
