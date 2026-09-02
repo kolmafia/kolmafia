@@ -55,8 +55,4 @@ record CharacterSnapshot(
   boolean hasRemainingCapacityFor(ResourceUsage usage, ResourceUsage candidate) {
     return usage.hasRemainingCapacityFor(candidate, this.resources);
   }
-
-  boolean hasActiveResources() {
-    return !this.resources.isEmpty();
-  }
 }

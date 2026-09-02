@@ -8,11 +8,11 @@ public record SearchMetrics(
     long searchNodes,
     long dominancePrunes,
     long boundPrunes,
-    long incompleteSearches) {
-  public static final SearchMetrics EMPTY = new SearchMetrics(0, 0, 0, 0, 0, 0, 0, 0);
+    boolean searchComplete) {
+  public static final SearchMetrics EMPTY = new SearchMetrics(0, 0, 0, 0, 0, 0, 0, true);
 
   public SearchMetrics(int combinationsChecked) {
-    this(combinationsChecked, 0, 0, 0, 0, 0, 0, 0);
+    this(combinationsChecked, 0, 0, 0, 0, 0, 0, true);
   }
 
   public SearchMetrics(
@@ -28,6 +28,6 @@ public record SearchMetrics(
         0,
         0,
         0,
-        0);
+        true);
   }
 }

@@ -2,7 +2,6 @@ package net.sourceforge.kolmafia.maximizer;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
-import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,12 +12,9 @@ import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.equipment.SlotSet;
-import net.sourceforge.kolmafia.modifiers.BooleanModifier;
-import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
-import net.sourceforge.kolmafia.session.EquipmentManager;
 
 /**
  * Codpiece-specific plan/cache state and canonical gem search for a single {@link
@@ -52,7 +48,6 @@ final class CodpieceSpeculation {
     private final List<Slot> slots;
     private final Modifiers[] gemModifiers;
     private final boolean[] familiarDependentGems;
-    private final CodpiecePruning.FamiliarScoreContributions familiarScoreContributions;
     private final Modifiers[] slotModifiers;
     private final int[] slotGemIndexes;
     private final Map<List<Integer>, KoLCharacter.AdjustmentPrefix> prefixes;
@@ -64,14 +59,12 @@ final class CodpieceSpeculation {
         List<Slot> slots,
         Modifiers[] gemModifiers,
         boolean[] familiarDependentGems,
-        CodpiecePruning.FamiliarScoreContributions familiarScoreContributions,
         Map<List<Integer>, KoLCharacter.AdjustmentPrefix> prefixes) {
       this.baseline = baseline;
       this.fightMods = fightMods;
       this.slots = slots;
       this.gemModifiers = gemModifiers;
       this.familiarDependentGems = familiarDependentGems;
-      this.familiarScoreContributions = familiarScoreContributions;
       this.slotModifiers = new Modifiers[slots.size()];
       this.slotGemIndexes = new int[slots.size()];
       this.prefixes = prefixes;
@@ -177,20 +170,11 @@ final class CodpieceSpeculation {
     CodpiecePlan plan = this.getCodpiecePlan(possibles);
     List<CheckedItem> codpieceGems = plan.gems();
     try {
-      // Saturation does not model tiebreaks, shared resources, or removal of initially equipped
-      // gems.
-      boolean canCollapseSaturatedScore =
-          !Maximizer.evaluator().isUsingTiebreaker()
-              && !Maximizer.character().hasActiveResources()
-              && codpieceSlots.stream()
-                  .allMatch(
-                      slot -> EquipmentManager.getEquipment(slot).equals(EquipmentRequest.UNEQUIP));
       LateCodpieceCache cache =
           this.canUseLateCodpieceCache(codpieceGems)
               ? this.primeLateCodpieceCache(plan, codpieceSlots)
               : null;
-      CodpieceSearch search =
-          new CodpieceSearch(codpieceGems, codpieceSlots, cache, canCollapseSaturatedScore);
+      CodpieceSearch search = new CodpieceSearch(codpieceGems, codpieceSlots, cache);
       this.search = search;
       this.owner.setUnscored();
       if (Maximizer.evaluator().isUsingTiebreaker()
@@ -201,7 +185,7 @@ final class CodpieceSpeculation {
         }
         codpieceGems = this.prioritizedCodpiecePlan.gems();
         cache = this.primeLateCodpieceCache(this.prioritizedCodpiecePlan, codpieceSlots);
-        search = new CodpieceSearch(codpieceGems, codpieceSlots, cache, false);
+        search = new CodpieceSearch(codpieceGems, codpieceSlots, cache);
       }
       this.search = search;
       this.search.run();
@@ -269,7 +253,7 @@ final class CodpieceSpeculation {
     boolean[] familiarDependentGems = new boolean[gems.size()];
     for (int i = 0; i < gems.size(); i++) {
       gemModifiers[i] = this.getCodpieceGemModifiers(gems.get(i).getItemId());
-      familiarDependentGems[i] = CodpiecePruning.affectsFamiliarCalculation(gemModifiers[i]);
+      familiarDependentGems[i] = CodpieceModifierSafety.affectsFamiliarCalculation(gemModifiers[i]);
     }
     return new CodpiecePlan(gems, gemModifiers, familiarDependentGems);
   }
@@ -284,209 +268,16 @@ final class CodpieceSpeculation {
       var prefix = this.owner.recalculateCodpiecePrefix(this.owner.equipment);
       Map<List<Integer>, KoLCharacter.AdjustmentPrefix> prefixes = new HashMap<>();
       prefixes.put(List.of(), prefix);
-      CodpiecePruning.FamiliarScoreContributions familiarScoreContributions =
-          this.findFamiliarScoreContributions(
-              plan.gems(),
-              slots,
-              prefix.modifiers(),
-              prefix.familiarWeightInputs(),
-              plan.gemModifiers(),
-              plan.familiarDependentGems());
       return new LateCodpieceCache(
           prefix.modifiers(),
           prefix.fightMods(),
           slots,
           plan.gemModifiers(),
           plan.familiarDependentGems(),
-          familiarScoreContributions,
           prefixes);
     } finally {
       this.owner.restore(mark);
     }
-  }
-
-  private CodpiecePruning.FamiliarScoreContributions findFamiliarScoreContributions(
-      List<CheckedItem> possibles,
-      List<Slot> slots,
-      Modifiers baseline,
-      Modifiers.FamiliarWeightInputs familiarWeightInputs,
-      Modifiers[] gemModifiers,
-      boolean[] familiarDependentGems) {
-    EnumSet<DoubleModifier> scored = Maximizer.evaluator().familiarDependentScoreModifiers();
-    if (scored.isEmpty()) {
-      return new CodpiecePruning.FamiliarScoreContributions(-1, Map.of());
-    }
-    int familiarGemIndex = -1;
-    for (int i = 0; i < familiarDependentGems.length; i++) {
-      if (!familiarDependentGems[i]) {
-        continue;
-      }
-      if (familiarGemIndex != -1) {
-        return null;
-      }
-      familiarGemIndex = i;
-    }
-    if (familiarGemIndex == -1) {
-      return new CodpiecePruning.FamiliarScoreContributions(-1, Map.of());
-    }
-
-    Map<DoubleModifier, CodpiecePruning.ContributionRange> ranges =
-        new EnumMap<>(DoubleModifier.class);
-    Map<DoubleModifier, CodpiecePruning.ContributionRange> baselines =
-        new EnumMap<>(DoubleModifier.class);
-    CheckedItem gem = possibles.get(familiarGemIndex);
-    double weightAdjustment =
-        CodpiecePruning.familiarWeightAdjustment(gemModifiers[familiarGemIndex]);
-    if (!Double.isFinite(weightAdjustment)) {
-      return null;
-    }
-    int copies = Math.min(slots.size(), gem.getCount() - (int) this.countEquipped(gem.getItemId()));
-    var familiar = this.owner.getFamiliar();
-    var baselineEffect = baseline.familiarEffect(familiar, familiarWeightInputs, 0);
-    var previous = baselineEffect;
-    double[] directExperienceDeltas = new double[copies];
-    double[] generalExperienceDeltas = new double[copies];
-    for (int copy = 1; copy <= copies; copy++) {
-      var current =
-          baseline.familiarEffect(familiar, familiarWeightInputs, copy * weightAdjustment);
-      directExperienceDeltas[copy - 1] =
-          current.primeStatExperience() - previous.primeStatExperience();
-      generalExperienceDeltas[copy - 1] =
-          current.generalExperience() - previous.generalExperience();
-      for (DoubleModifier modifier : scored) {
-        double contribution =
-            switch (modifier) {
-              case ITEMDROP -> current.itemDrop() - previous.itemDrop();
-              case MEATDROP -> current.meatDrop() - previous.meatDrop();
-              case EXPERIENCE, MUS_EXPERIENCE, MYS_EXPERIENCE, MOX_EXPERIENCE -> 0.0;
-              default -> 0.0;
-            };
-        if (contribution == 0.0) {
-          continue;
-        }
-        ranges.merge(
-            modifier,
-            new CodpiecePruning.ContributionRange(contribution, contribution),
-            (range, ignored) -> range.include(contribution));
-      }
-      previous = current;
-    }
-    for (DoubleModifier modifier : scored) {
-      if (!CodpiecePruning.isExperienceScoreModifier(modifier)) {
-        continue;
-      }
-      baselines.put(
-          modifier,
-          this.findFamiliarExperienceRange(
-              modifier,
-              possibles,
-              slots.size(),
-              baseline,
-              gemModifiers,
-              familiarGemIndex,
-              new double[] {0.0},
-              new double[] {baselineEffect.generalExperience()}));
-      ranges.put(
-          modifier,
-          this.findFamiliarExperienceRange(
-              modifier,
-              possibles,
-              slots.size(),
-              baseline,
-              gemModifiers,
-              familiarGemIndex,
-              directExperienceDeltas,
-              generalExperienceDeltas));
-    }
-    return new CodpiecePruning.FamiliarScoreContributions(
-        familiarGemIndex, Map.copyOf(ranges), Map.copyOf(baselines));
-  }
-
-  private CodpiecePruning.ContributionRange findFamiliarExperienceRange(
-      DoubleModifier scoreModifier,
-      List<CheckedItem> possibles,
-      int slotCount,
-      Modifiers baseline,
-      Modifiers[] gemModifiers,
-      int familiarGemIndex,
-      double[] directDeltas,
-      double[] generalDeltas) {
-    int[] remaining = new int[possibles.size()];
-    var relevant = new ArrayList<Integer>();
-    for (int i = 0; i < possibles.size(); i++) {
-      remaining[i] =
-          Math.min(
-              slotCount,
-              possibles.get(i).getCount() - (int) this.countEquipped(possibles.get(i).getItemId()));
-      if (i != familiarGemIndex
-          && CodpiecePruning.affectsExperience(gemModifiers[i], scoreModifier)) {
-        relevant.add(i);
-      }
-    }
-    var range =
-        new CodpiecePruning.ContributionRange(Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY);
-    return collectFamiliarExperienceRange(
-        scoreModifier,
-        baseline,
-        gemModifiers,
-        remaining,
-        relevant,
-        new int[possibles.size()],
-        directDeltas,
-        generalDeltas,
-        range,
-        0,
-        0,
-        slotCount);
-  }
-
-  private static CodpiecePruning.ContributionRange collectFamiliarExperienceRange(
-      DoubleModifier scoreModifier,
-      Modifiers current,
-      Modifiers[] gemModifiers,
-      int[] remaining,
-      List<Integer> relevant,
-      int[] used,
-      double[] directDeltas,
-      double[] generalDeltas,
-      CodpiecePruning.ContributionRange range,
-      int start,
-      int selected,
-      int slotCount) {
-    for (int copy = 0; copy < directDeltas.length; copy++) {
-      range =
-          range.include(
-              CodpiecePruning.familiarExperienceContribution(
-                  scoreModifier, current, directDeltas[copy], generalDeltas[copy]));
-    }
-    if (selected == slotCount) {
-      return range;
-    }
-    for (int relevantIndex = start; relevantIndex < relevant.size(); relevantIndex++) {
-      int gemIndex = relevant.get(relevantIndex);
-      if (used[gemIndex] >= remaining[gemIndex]) {
-        continue;
-      }
-      var next = new Modifiers(current);
-      CodpiecePruning.addExperienceInputs(next, gemModifiers[gemIndex]);
-      used[gemIndex]++;
-      range =
-          collectFamiliarExperienceRange(
-              scoreModifier,
-              next,
-              gemModifiers,
-              remaining,
-              relevant,
-              used,
-              directDeltas,
-              generalDeltas,
-              range,
-              relevantIndex,
-              selected + 1,
-              slotCount);
-      used[gemIndex]--;
-    }
-    return range;
   }
 
   private KoLCharacter.AdjustmentPrefix primeFamiliarCodpiecePrefix() {
@@ -506,7 +297,7 @@ final class CodpieceSpeculation {
     return this.safeLateCodpieceGems.computeIfAbsent(
         itemId,
         id ->
-            CodpiecePruning.hasOnlySupportedLateCalculationModifiers(
+            CodpieceModifierSafety.hasOnlySupportedLateCalculationModifiers(
                 this.getCodpieceGemModifiers(id)));
   }
 
@@ -550,51 +341,23 @@ final class CodpieceSpeculation {
         .count();
   }
 
-  private static int countEquipmentWith(
-      MaximizerSpeculation speculation, BooleanModifier modifier) {
-    int count = 0;
-    for (AdventureResult item : speculation.equipment.values()) {
-      if (item == null) {
-        continue;
-      }
-      Modifiers modifiers = ModifierDatabase.getItemModifiers(item.getItemId());
-      if (modifiers != null && modifiers.getBoolean(modifier)) {
-        count++;
-      }
-    }
-    return count;
-  }
-
-  /** Enumerates canonical gem multisets and rejects branches using conservative score ceilings. */
+  /** Enumerates canonical gem multisets, deduplicating by treating a branch as a multiset. */
   private final class CodpieceSearch
       implements AnytimeSearch.Problem<
           Integer, SolutionQuality, MaximizerSpeculation, MaximizerInterruptedException> {
     private final List<CheckedItem> gems;
     private final List<Slot> slots;
     private final int[] remaining;
-    private final int[] initialRemaining;
     private final boolean[] required;
     private final int[] previousStarts;
     private final boolean[] satisfiedRequirement;
     private final int requiredCount;
     private final LateCodpieceCache cache;
-    private final boolean canCollapseSaturatedScore;
-    private CodpiecePruning.BranchBounds bounds;
-    private boolean tiebreakBoundInitialized;
     private int start;
     private int slotIndex;
     private int remainingRequired;
-    private boolean stop;
-    private boolean analyzed;
-    private boolean canMeetRequirements;
-    private boolean scoreSaturated;
-    private double upperScore;
 
-    private CodpieceSearch(
-        List<CheckedItem> gems,
-        List<Slot> slots,
-        LateCodpieceCache cache,
-        boolean canCollapseSaturatedScore) {
+    private CodpieceSearch(List<CheckedItem> gems, List<Slot> slots, LateCodpieceCache cache) {
       this.gems = gems;
       this.slots = slots;
       this.remaining = new int[gems.size()];
@@ -602,7 +365,6 @@ final class CodpieceSpeculation {
       this.previousStarts = new int[slots.size()];
       this.satisfiedRequirement = new boolean[slots.size()];
       this.cache = cache;
-      this.canCollapseSaturatedScore = canCollapseSaturatedScore;
 
       int requiredCount = 0;
       for (int i = 0; i < gems.size(); i++) {
@@ -614,45 +376,19 @@ final class CodpieceSpeculation {
           requiredCount++;
         }
       }
-      this.initialRemaining = this.remaining.clone();
       this.requiredCount = requiredCount;
       this.remainingRequired = requiredCount;
     }
 
     private void run() throws MaximizerInterruptedException {
-      CodpieceScoreBound scoreUpperBound = this.createScoreUpperBound();
-      this.bounds =
-          new CodpiecePruning.BranchBounds(
-              scoreUpperBound,
-              null,
-              new CodpiecePruning.BooleanUpperBound(
-                  this.gems, this.remaining, this.slots.size(), BooleanModifier.DROPS_ITEMS),
-              new CodpiecePruning.BooleanUpperBound(
-                  this.gems, this.remaining, this.slots.size(), BooleanModifier.DROPS_MEAT));
       MaximizerSpeculation best = Maximizer.best();
       AnytimeSearch.maximize(
           this, new AnytimeSearch.Candidate<>(best.quality(), best), Maximizer::keepSearching);
     }
 
-    private CodpieceScoreBound createScoreUpperBound() {
-      return this.cache == null
-          ? null
-          : Maximizer.evaluator()
-              .createTheoreticalCodpieceScoreUpperBound(
-                  this.cache.baseline,
-                  this.cache.gemModifiers,
-                  this.remaining,
-                  this.slots.size(),
-                  owner.equipment,
-                  owner.getModeables(),
-                  this.gems,
-                  this.cache.familiarScoreContributions);
-    }
-
     @Override
     public boolean complete() {
-      return this.stop
-          || this.slotIndex == this.slots.size()
+      return this.slotIndex == this.slots.size()
           || this.remainingRequired > this.slots.size() - this.slotIndex;
     }
 
@@ -687,11 +423,10 @@ final class CodpieceSpeculation {
       if (this.cache != null) {
         this.cache.select(depth, choice);
       }
-      this.bounds.select(choice);
       this.start = choice;
       this.slotIndex++;
       if (this.satisfiedRequirement[depth]) this.remainingRequired--;
-      this.invalidate();
+      owner.setUnscored();
       return true;
     }
 
@@ -701,54 +436,13 @@ final class CodpieceSpeculation {
       int depth = this.slotIndex;
       this.start = this.previousStarts[depth];
       if (this.satisfiedRequirement[depth]) this.remainingRequired++;
-      this.bounds.deselect(choice);
       owner.equipment.put(this.slots.get(depth), EquipmentRequest.UNEQUIP);
       if (this.cache != null) {
         this.cache.deselect(depth);
       }
       this.required[choice] = this.satisfiedRequirement[depth];
       this.remaining[choice]++;
-      this.invalidate();
-    }
-
-    @Override
-    public boolean canBeat(SolutionQuality incumbent) {
-      this.analyze();
-      if (this.bounds.score() == null
-          || (!incumbent.feasible() && this.canMeetRequirements)
-          || this.upperScore > incumbent.score()) {
-        return true;
-      }
-      if (this.upperScore < incumbent.score()) {
-        return false;
-      }
-      if (Maximizer.character().hasActiveResources()) {
-        return true;
-      }
-
-      int remainingSlots = this.slots.size() - this.slotIndex;
-      int itemDropperCeiling =
-          countEquipmentWith(owner, BooleanModifier.DROPS_ITEMS)
-              + this.bounds
-                  .itemDroppers()
-                  .estimateAdditional(this.start, this.remaining, remainingSlots);
-      if (itemDropperCeiling != incumbent.itemDroppers()) {
-        return itemDropperCeiling > incumbent.itemDroppers();
-      }
-
-      CodpieceScoreBound tiebreakUpperBound = this.getTiebreakUpperBound(this.slotIndex);
-      if (tiebreakUpperBound == null) {
-        return true;
-      }
-      int meatDropperCeiling =
-          countEquipmentWith(owner, BooleanModifier.DROPS_MEAT)
-              + this.bounds
-                  .meatDroppers()
-                  .estimateAdditional(this.start, this.remaining, remainingSlots);
-      return meatDropperCeiling > incumbent.meatDroppers()
-          || (meatDropperCeiling == incumbent.meatDroppers()
-              && tiebreakUpperBound.estimate(this.start, this.remaining, remainingSlots)
-                  >= incumbent.tiebreaker());
+      owner.setUnscored();
     }
 
     @Override
@@ -757,11 +451,6 @@ final class CodpieceSpeculation {
       if (this.remainingRequired != 0) return null;
 
       owner.checkBest(true);
-      this.analyze();
-      this.stop =
-          this.canCollapseSaturatedScore
-              && this.scoreSaturated
-              && (!owner.failed || !this.canMeetRequirements);
       MaximizerSpeculation best = Maximizer.best();
       return new AnytimeSearch.Candidate<>(best.quality(), best);
     }
@@ -770,55 +459,6 @@ final class CodpieceSpeculation {
     public void finished(AnytimeSearch.Result<SolutionQuality, MaximizerSpeculation> result) {
       Maximizer.recordSearch(
           result.nodes(), result.dominancePrunes(), result.boundPrunes(), result.optimal());
-    }
-
-    private void analyze() {
-      if (this.analyzed) return;
-      this.analyzed = true;
-      this.canMeetRequirements = true;
-      this.scoreSaturated = false;
-      if (this.bounds.score() == null) return;
-
-      int remainingSlots = this.slots.size() - this.slotIndex;
-      this.upperScore = this.bounds.score().estimate(this.start, this.remaining, remainingSlots);
-      this.canMeetRequirements =
-          this.bounds
-              .score()
-              .canMeetMinimum(this.start, this.remaining, remainingSlots, this.upperScore);
-      this.scoreSaturated =
-          this.bounds.score().isScoreSaturated(this.start, this.remaining, this.upperScore);
-    }
-
-    private void invalidate() {
-      this.analyzed = false;
-      this.stop = false;
-      owner.setUnscored();
-    }
-
-    private CodpieceScoreBound getTiebreakUpperBound(int selectedCount) {
-      if (this.tiebreakBoundInitialized) {
-        return this.bounds.tiebreaker();
-      }
-
-      this.tiebreakBoundInitialized = true;
-      CodpieceScoreBound tiebreakUpperBound =
-          Maximizer.evaluator()
-              .createTheoreticalCodpieceTiebreakerUpperBound(
-                  this.cache.baseline,
-                  this.cache.gemModifiers,
-                  this.initialRemaining,
-                  this.slots.size(),
-                  this.cache.familiarScoreContributions);
-      for (int i = 0; tiebreakUpperBound != null && i < selectedCount; i++) {
-        tiebreakUpperBound.select(this.cache.slotGemIndexes[i] - 1);
-      }
-      this.bounds =
-          new CodpiecePruning.BranchBounds(
-              this.bounds.score(),
-              tiebreakUpperBound,
-              this.bounds.itemDroppers(),
-              this.bounds.meatDroppers());
-      return tiebreakUpperBound;
     }
   }
 }

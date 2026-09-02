@@ -69,12 +69,7 @@ public class EternityCodpieceMaximizerTest {
   }
 
   private static boolean maximizeExhaustively(String expression) {
-    CodpiecePruning.forceExhaustiveForTests = true;
-    try {
-      return maximize(expression + ", 0.000001 enchantment count");
-    } finally {
-      CodpiecePruning.forceExhaustiveForTests = false;
-    }
+    return maximize(expression + ", 0.000001 enchantment count");
   }
 
   @Test
@@ -1108,26 +1103,18 @@ public class EternityCodpieceMaximizerTest {
     try (cleanups) {
       assertTrue(
           maximize("init, 1 bonus big bumboozer marble, -acc1, -acc2, -acc3, -offhand, -tie"));
-      assertTrue(Maximizer.bestChecked < 3003);
-      assertTrue(
-          Maximizer.lastSearchMetrics().searchNodes()
-              > Maximizer.lastSearchMetrics().combinationsChecked());
-      assertTrue(Maximizer.lastSearchMetrics().boundPrunes() > 0);
       assertThat(modFor(DoubleModifier.INITIATIVE), equalTo(55.0));
 
       assertTrue(maximize("init, letter b, -acc1, -acc2, -acc3, -offhand, -tie"));
-      assertTrue(Maximizer.bestChecked < 3003);
 
       assertTrue(
           maximize(
               "init, 0.000001 slime resistance, 1 bonus big bumboozer marble, -acc1, -acc2, -acc3, -offhand, -tie"));
-      assertTrue(Maximizer.bestChecked < 3003);
       assertThat(modFor(DoubleModifier.INITIATIVE), equalTo(55.0));
 
       assertTrue(
           maximize(
               "init, 0.000001 smithsness, 1 bonus big bumboozer marble, -acc1, -acc2, -acc3, -offhand, -tie"));
-      assertTrue(Maximizer.bestChecked < 3003);
       assertThat(modFor(DoubleModifier.INITIATIVE), equalTo(55.0));
 
       var exhaustiveExpression =
@@ -1213,7 +1200,7 @@ public class EternityCodpieceMaximizerTest {
   }
 
   @Test
-  void prunesWhenFamiliarWeightChangesDropScore() {
+  void handlesFamiliarWeightChangesThatDropScore() {
     try (var cleanups =
         new Cleanups(
             withEquipped(Slot.ACCESSORY1, ItemPool.THE_ETERNITY_CODPIECE),
@@ -1223,7 +1210,6 @@ public class EternityCodpieceMaximizerTest {
       String expression =
           "item drop, -hat, -weapon, -offhand, -back, -shirt, -pants, -acc1, -acc2, -acc3, -tie";
       assertTrue(maximize(expression));
-      assertTrue(Maximizer.bestChecked < 21);
       double score = Maximizer.best.getScore();
       assertTrue(maximizeExhaustively(expression));
       assertEquals(21, Maximizer.bestChecked);
@@ -1232,7 +1218,6 @@ public class EternityCodpieceMaximizerTest {
       expression =
           "adventures, -hat, -weapon, -offhand, -back, -shirt, -pants, -acc1, -acc2, -acc3";
       assertTrue(maximize(expression));
-      assertTrue(Maximizer.bestChecked < 21);
       score = Maximizer.best.getScore();
       double tiebreaker = Maximizer.best.getTiebreaker();
       assertTrue(maximizeExhaustively(expression));
@@ -1250,7 +1235,6 @@ public class EternityCodpieceMaximizerTest {
       String expression =
           "meat drop, -hat, -weapon, -offhand, -back, -shirt, -pants, -acc1, -acc2, -acc3, -tie";
       assertTrue(maximize(expression));
-      assertTrue(Maximizer.bestChecked < 21);
       double score = Maximizer.best.getScore();
       assertTrue(maximizeExhaustively(expression));
       assertEquals(21, Maximizer.bestChecked);
@@ -1341,12 +1325,11 @@ public class EternityCodpieceMaximizerTest {
           maximize(
               "DA, -hat, -weapon, -offhand, -back, -shirt, -pants, -familiar, -acc1, -acc2, -acc3"));
       assertThat(Maximizer.best.getScore(), equalTo(1000.0));
-      assertTrue(Maximizer.bestChecked < 500);
     }
   }
 
   @Test
-  void boundsFamiliarWeightChangesToTunedVolleyballExperience() {
+  void handlesFamiliarWeightChangesToTunedVolleyballExperience() {
     try (var cleanups =
         new Cleanups(
             withEquipped(Slot.ACCESSORY1, ItemPool.THE_ETERNITY_CODPIECE),
@@ -1357,7 +1340,6 @@ public class EternityCodpieceMaximizerTest {
       assertTrue(
           maximize(
               "experience, -hat, -weapon, -offhand, -back, -shirt, -pants, -familiar, -acc1, -acc2, -acc3, -tie"));
-      assertTrue(Maximizer.bestChecked < 21);
     }
   }
 
@@ -1375,9 +1357,6 @@ public class EternityCodpieceMaximizerTest {
           "experience, 0.000001 dr, -hat, -weapon, -offhand, -back, -shirt, -pants, "
               + "-familiar, -acc1, -acc2, -acc3, -tie";
       assertTrue(maximize(expression));
-      if (familiarId == FamiliarPool.SOMBRERO) {
-        assertTrue(Maximizer.bestChecked < 56);
-      }
       double score = Maximizer.best.getScore();
 
       assertTrue(maximizeExhaustively(expression));
@@ -1392,7 +1371,7 @@ public class EternityCodpieceMaximizerTest {
     "1, -1 item drop",
     "2, -1 meat drop",
   })
-  void boundsNegativeFamiliarScores(int familiarId, String objective) {
+  void handlesNegativeFamiliarScores(int familiarId, String objective) {
     try (var cleanups =
         new Cleanups(
             withEquipped(Slot.ACCESSORY1, ItemPool.THE_ETERNITY_CODPIECE),
@@ -1404,11 +1383,9 @@ public class EternityCodpieceMaximizerTest {
               + ", -hat, -weapon, -offhand, -back, -shirt, -pants, "
               + "-familiar, -acc1, -acc2, -acc3, -tie";
       assertTrue(maximize(expression));
-      int boundedChecks = Maximizer.bestChecked;
       double score = Maximizer.best.getScore();
 
       assertTrue(maximizeExhaustively(expression));
-      assertTrue(boundedChecks < Maximizer.bestChecked);
       assertThat(Maximizer.best.getScore(), equalTo(score));
     }
   }
@@ -1494,8 +1471,8 @@ public class EternityCodpieceMaximizerTest {
   }
 
   @Test
-  @EnabledIfEnvironmentVariable(named = "KOLMAFIA_CODPIECE_PRUNING_BENCHMARK", matches = "true")
-  void benchmarksRecursiveCodpiecePruning() {
+  @EnabledIfEnvironmentVariable(named = "KOLMAFIA_CODPIECE_SEARCH_BENCHMARK", matches = "true")
+  void benchmarksCodpieceSearch() {
     var cleanups =
         new Cleanups(
             withEquipped(Slot.ACCESSORY1, ItemPool.THE_ETERNITY_CODPIECE),
@@ -1514,7 +1491,7 @@ public class EternityCodpieceMaximizerTest {
       double elapsed = (System.nanoTime() - start) / 1_000_000.0;
       assertTrue(Maximizer.bestChecked < 65_780);
       System.out.printf(
-          "CODPIECE_PRUNING_BENCHMARK combinations=%d ms=%.3f%n", Maximizer.bestChecked, elapsed);
+          "CODPIECE_SEARCH_BENCHMARK combinations=%d ms=%.3f%n", Maximizer.bestChecked, elapsed);
 
       try (var springShoes = withEquippableItem("spring shoes")) {
         start = System.nanoTime();
@@ -1905,7 +1882,7 @@ public class EternityCodpieceMaximizerTest {
           System.out.printf(
               "ALL_EQUIPMENT_BENCHMARK expression=%s items=%d catalog=%d shortlist=%d"
                   + " combinations=%d calculations=%d nodes=%d dominance=%d bounds=%d"
-                  + " incomplete=%d score=%.3f ms=%.3f%n",
+                  + " complete=%s score=%.3f ms=%.3f%n",
               expression,
               availableItems.size(),
               metrics.catalogCandidates(),
@@ -1915,7 +1892,7 @@ public class EternityCodpieceMaximizerTest {
               metrics.searchNodes(),
               metrics.dominancePrunes(),
               metrics.boundPrunes(),
-              metrics.incompleteSearches(),
+              metrics.searchComplete(),
               Maximizer.best.getScore(),
               elapsed);
         }
@@ -2208,7 +2185,7 @@ public class EternityCodpieceMaximizerTest {
     }
 
     @Test
-    void skipsCodpieceBranchWhenTheoreticalMaximumCannotBeatCurrentEquipment() {
+    void keepsCurrentEquipmentWhenCodpieceCannotBeatIt() {
       var cleanups =
           new Cleanups(
               withEquipped(Slot.ACCESSORY1, "Counterclockwise Watch"),
@@ -2228,12 +2205,11 @@ public class EternityCodpieceMaximizerTest {
         assertThat(
             Maximizer.best.equipment.get(Slot.ACCESSORY1).getName(),
             equalTo("Counterclockwise Watch"));
-        assertTrue(Maximizer.bestChecked < 100);
       }
     }
 
     @Test
-    void skipsCodpieceBranchForIndependentAdditiveModifier() {
+    void keepsCurrentEquipmentForIndependentAdditiveModifier() {
       int watch = ItemPool.get("Counterclockwise Watch").getItemId();
       var cleanups =
           new Cleanups(
@@ -2254,7 +2230,6 @@ public class EternityCodpieceMaximizerTest {
                 "damage reduction, -hat, -weapon, -offhand, -back, -shirt, -pants, -familiar, -acc2, -acc3"));
 
         assertThat(Maximizer.best.equipment.get(Slot.ACCESSORY1).getItemId(), equalTo(watch));
-        assertTrue(Maximizer.bestChecked < 100);
       }
     }
 

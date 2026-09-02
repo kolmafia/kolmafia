@@ -1009,65 +1009,15 @@ public class Evaluator {
     return ((baseExperience + experience) * (1.0 + experiencePercent)) / 2.0;
   }
 
-  CodpieceScoreBound createTheoreticalCodpieceScoreUpperBound(
-      Modifiers baseline, Modifiers[] gemModifiers, int[] remaining, int slotCount) {
-    return this.codpieceEvaluator.createTheoreticalCodpieceScoreUpperBound(
-        baseline, gemModifiers, remaining, slotCount);
-  }
-
-  CodpieceScoreBound createTheoreticalCodpieceScoreUpperBound(
-      Modifiers baseline,
-      Modifiers[] gemModifiers,
-      int[] remaining,
-      int slotCount,
-      Map<Slot, AdventureResult> equipment,
-      Map<Modeable, String> modeables,
-      List<CheckedItem> gems,
-      CodpiecePruning.FamiliarScoreContributions familiarScoreContributions) {
-    return this.codpieceEvaluator.createTheoreticalCodpieceScoreUpperBound(
-        baseline,
-        gemModifiers,
-        remaining,
-        slotCount,
-        equipment,
-        modeables,
-        gems,
-        familiarScoreContributions);
-  }
-
   EnumSet<DoubleModifier> familiarDependentScoreModifiers() {
     return this.codpieceEvaluator.familiarDependentScoreModifiers();
-  }
-
-  CodpieceScoreBound createTheoreticalCodpieceTiebreakerUpperBound(
-      Modifiers baseline, Modifiers[] gemModifiers, int[] remaining, int slotCount) {
-    return this.codpieceEvaluator.createTheoreticalCodpieceTiebreakerUpperBound(
-        baseline, gemModifiers, remaining, slotCount);
-  }
-
-  CodpieceScoreBound createTheoreticalCodpieceTiebreakerUpperBound(
-      Modifiers baseline,
-      Modifiers[] gemModifiers,
-      int[] remaining,
-      int slotCount,
-      CodpiecePruning.FamiliarScoreContributions familiarScoreContributions) {
-    return this.codpieceEvaluator.createTheoreticalCodpieceTiebreakerUpperBound(
-        baseline, gemModifiers, remaining, slotCount, familiarScoreContributions);
   }
 
   CodpieceEvaluator.Context codpieceContext() {
     return new CodpieceEvaluator.Context(
         this.activeScoreModifiers,
         this.tiebreaker == null ? List.of() : this.tiebreaker.activeScoreModifiers,
-        this.totalMin,
-        this.clownosity,
-        this.raveosity,
-        this.surgeonosity,
-        this.stinkycheese,
-        this.booleanMask,
-        this.booleanValue,
-        this.noTiebreaker,
-        !this.bonuses.isEmpty() || !this.bonusFunc.isEmpty());
+        this.noTiebreaker);
   }
 
   double getItemScore(AdventureResult item, Map<Modeable, String> modeables) {
@@ -1792,7 +1742,8 @@ public class Evaluator {
       double tiebreakerDelta = candidate.tiebreaker();
       if ((delta < 0.0 || (delta == 0.0 && tiebreakerDelta <= 0.0))
           && !gem.automaticFlag
-          && !(usesFamiliarDependentScore && CodpiecePruning.affectsFamiliarCalculation(mods))
+          && !(usesFamiliarDependentScore
+              && CodpieceModifierSafety.affectsFamiliarCalculation(mods))
           && !(KoLCharacter.inCodpiece(gem) && this.current)) {
         continue;
       }

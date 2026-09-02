@@ -141,7 +141,7 @@ public class Maximizer {
     session.searchNodes += nodes;
     session.dominancePrunes += dominancePrunes;
     session.boundPrunes += boundPrunes;
-    if (!optimal) ++session.incompleteSearches;
+    if (!optimal) session.searchComplete = false;
   }
 
   static void startSearch(boolean exhaustive) {
@@ -308,7 +308,7 @@ public class Maximizer {
       Maximizer.bestUpdate = Maximizer.session.nextProgressUpdate;
       try {
         Maximizer.evaluator().enumerateEquipment(equipScope, maxPrice, priceLevel, exhaustive);
-        if (Maximizer.session.incompleteSearches > 0) {
+        if (!Maximizer.session.searchComplete) {
           Maximizer.boosts.add(
               new Boost(
                   "",
