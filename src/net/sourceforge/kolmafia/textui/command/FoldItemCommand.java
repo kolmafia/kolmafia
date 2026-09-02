@@ -298,11 +298,7 @@ public class FoldItemCommand extends AbstractCommand {
         }
       }
 
-      int tote =
-          KoLCharacter.inLegacyOfLoathing()
-                  && InventoryManager.hasItem(ItemPool.REPLICA_GARBAGE_TOTE)
-              ? ItemPool.REPLICA_GARBAGE_TOTE
-              : ItemPool.GARBAGE_TOTE;
+      int tote = InventoryManager.getGarbageTote();
 
       // If we found a tote item, we made it with a tote.
       // Make sure it is in inventory

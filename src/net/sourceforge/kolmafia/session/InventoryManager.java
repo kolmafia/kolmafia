@@ -176,6 +176,13 @@ public abstract class InventoryManager {
     return count > 0 && count >= item.getCount();
   }
 
+  public static int getGarbageTote() {
+    return KoLCharacter.inLegacyOfLoathing()
+            && InventoryManager.hasItem(ItemPool.REPLICA_GARBAGE_TOTE)
+        ? ItemPool.REPLICA_GARBAGE_TOTE
+        : ItemPool.GARBAGE_TOTE;
+  }
+
   public static final int getAccessibleCount(final int itemId) {
     return getAccessibleCount(itemId, true);
   }

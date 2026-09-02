@@ -80,11 +80,7 @@ public class CheckedItem extends AdventureResult {
             this.foldable = 1 - this.initial;
           }
           if (this.foldable > 0) {
-            int tote =
-                KoLCharacter.inLegacyOfLoathing()
-                        && InventoryManager.hasItem(ItemPool.REPLICA_GARBAGE_TOTE)
-                    ? ItemPool.REPLICA_GARBAGE_TOTE
-                    : ItemPool.GARBAGE_TOTE;
+            int tote = InventoryManager.getGarbageTote();
             if (InventoryManager.getAccessibleCount(tote) == 0) {
               this.foldable = 0;
             }
