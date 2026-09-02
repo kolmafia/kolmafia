@@ -226,6 +226,17 @@ public class CheckedItem extends AdventureResult {
         + this.pullBuyable;
   }
 
+  AcquisitionMethod acquisitionMethod(int used) {
+    if (this.initial > used) return AcquisitionMethod.ACCESSIBLE;
+    if (this.creatable + this.initial > used) return AcquisitionMethod.CREATE;
+    if (this.npcBuyable + this.initial > used) return AcquisitionMethod.NPC_BUY;
+    if (this.foldable + this.initial > used) return AcquisitionMethod.FOLD;
+    if (this.pullable + this.initial > used) return AcquisitionMethod.PULL;
+    if (this.pullfoldable + this.initial > used) return AcquisitionMethod.PULL_FOLD;
+    if (this.pullBuyable + this.initial > used) return AcquisitionMethod.STORAGE_BUY;
+    return AcquisitionMethod.MALL_BUY;
+  }
+
   public void validate(long maxPrice, PriceLevel priceLevel) throws MaximizerInterruptedException {
     if (!KoLmafia.permitsContinue()) {
       throw new MaximizerInterruptedException();

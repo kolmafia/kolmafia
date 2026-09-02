@@ -1965,75 +1965,87 @@ public class Maximizer {
       // to take any special action here.  Displaying the method that will be used
       // would still be useful, though.
       if (curr.equals(item)) {
-      } else if (checkedItem.initial > count) {
-        // This may look odd, but we need an item, not a checked item
-        // The count of a checked item includes creatable, buyable, pullable etc.
-        String method =
-            InventoryManager.simRetrieveItem(
-                ItemPool.get(item.getItemId(), count + 1),
-                equipScope == EquipScope.EQUIP_NOW,
-                false);
-        if (!method.equals("have")) {
-          text = method + " & " + text;
-        }
-        cmd =
-            switch (method) {
-              case "uncloset" -> "closet take 1 \u00B6" + item.getItemId() + ";" + cmd;
-              case "unstash" -> "stash take 1 \u00B6" + item.getItemId() + ";" + cmd;
-              // Should be only hitting this after Ronin I think
-              case "pull" -> "pull 1 \u00B6" + item.getItemId() + ";" + cmd;
-              default -> cmd;
-            };
-      } else if (checkedItem.creatable + checkedItem.initial > count) {
-        text = "make & " + text;
-        cmd = "make \u00B6" + item.getItemId() + ";" + cmd;
-        price = ConcoctionPool.get(item).price;
-      } else if (checkedItem.npcBuyable + checkedItem.initial > count) {
-        text = "buy & " + text;
-        cmd = "buy 1 \u00B6" + item.getItemId() + ";" + cmd;
-        price = ConcoctionPool.get(item).price;
-      } else if (checkedItem.foldable + checkedItem.initial > count) {
-        // We assume that there is only one available fold item type of the right group.
-        // Not always right, but will do for now.
-        String method =
-            InventoryManager.simRetrieveItem(ItemPool.get(checkedItem.foldItemId, count + 1));
-        if (method.equals("have") || method.equals("remove")) {
-          text = "fold & " + text;
-          cmd = "fold \u00B6" + item.getItemId() + ";" + cmd;
-        } else {
-          text = method + " & fold & " + text;
-          cmd =
-              "acquire 1 \u00B6"
-                  + checkedItem.foldItemId
-                  + ";fold \u00B6"
-                  + item.getItemId()
-                  + ";"
-                  + cmd;
-        }
-      } else if (checkedItem.pullable + checkedItem.initial > count) {
-        text = "pull & " + text;
-        cmd = "pull \u00B6" + item.getItemId() + ";" + cmd;
-      } else if (checkedItem.pullfoldable + checkedItem.initial > count) {
-        // We assume that there is only one available fold item type of the right group.
-        // Not always right, but will do for now.
-        text = "pull & fold & " + text;
-        cmd =
-            "pull 1 \u00B6"
-                + checkedItem.foldItemId
-                + ";fold \u00B6"
-                + item.getItemId()
-                + ";"
-                + cmd;
-      } else if (checkedItem.pullBuyable + checkedItem.initial > count) {
-        text = "buy & pull & " + text;
-        cmd = "buy using storage 1 \u00B6" + itemId + ";pull \u00B6" + itemId + ";" + cmd;
-        if (priceLevel != PriceLevel.DONT_CHECK) {
-          price = MallPriceManager.getMallPrice(itemId);
-        }
-      } else { // Mall buyable
-        text = "acquire & " + text;
-        if (priceLevel != PriceLevel.DONT_CHECK) {
-          price = MallPriceManager.getMallPrice(itemId);
+      } else {
+        switch (checkedItem.acquisitionMethod(count)) {
+          case ACCESSIBLE -> {
+            // This may look odd, but we need an item, not a checked item
+            // The count of a checked item includes creatable, buyable, pullable etc.
+            String method =
+                InventoryManager.simRetrieveItem(
+                    ItemPool.get(item.getItemId(), count + 1),
+                    equipScope == EquipScope.EQUIP_NOW,
+                    false);
+            if (!method.equals("have")) {
+              text = method + " & " + text;
+            }
+            cmd =
+                switch (method) {
+                  case "uncloset" -> "closet take 1 \u00B6" + item.getItemId() + ";" + cmd;
+                  case "unstash" -> "stash take 1 \u00B6" + item.getItemId() + ";" + cmd;
+                  // Should be only hitting this after Ronin I think
+                  case "pull" -> "pull 1 \u00B6" + item.getItemId() + ";" + cmd;
+                  default -> cmd;
+                };
+          }
+          case CREATE -> {
+            text = "make & " + text;
+            cmd = "make \u00B6" + item.getItemId() + ";" + cmd;
+            price = ConcoctionPool.get(item).price;
+          }
+          case NPC_BUY -> {
+            text = "buy & " + text;
+            cmd = "buy 1 \u00B6" + item.getItemId() + ";" + cmd;
+            price = ConcoctionPool.get(item).price;
+          }
+          case FOLD -> {
+            // We assume that there is only one available fold item type of the right group.
+            // Not always right, but will do for now.
+            String method =
+                InventoryManager.simRetrieveItem(ItemPool.get(checkedItem.foldItemId, count + 1));
+            if (method.equals("have") || method.equals("remove")) {
+              text = "fold & " + text;
+              cmd = "fold \u00B6" + item.getItemId() + ";" + cmd;
+            } else {
+              text = method + " & fold & " + text;
+              cmd =
+                  "acquire 1 \u00B6"
+                      + checkedItem.foldItemId
+                      + ";fold \u00B6"
+                      + item.getItemId()
+                      + ";"
+                      + cmd;
+            }
+          }
+          case PULL -> {
+            text = "pull & " + text;
+            cmd = "pull \u00B6" + item.getItemId() + ";" + cmd;
+          }
+          case PULL_FOLD -> {
+            // We assume that there is only one available fold item type of the right group.
+            // Not always right, but will do for now.
+            text = "pull & fold & " + text;
+            cmd =
+                "pull 1 \u00B6"
+                    + checkedItem.foldItemId
+                    + ";fold \u00B6"
+                    + item.getItemId()
+                    + ";"
+                    + cmd;
+          }
+          case STORAGE_BUY -> {
+            text = "buy & pull & " + text;
+            cmd = "buy using storage 1 \u00B6" + itemId + ";pull \u00B6" + itemId + ";" + cmd;
+            if (priceLevel != PriceLevel.DONT_CHECK) {
+              price = MallPriceManager.getMallPrice(itemId);
+            }
+          }
+          case MALL_BUY -> {
+            text = "acquire & " + text;
+            if (priceLevel != PriceLevel.DONT_CHECK) {
+              price = MallPriceManager.getMallPrice(itemId);
+            }
+          }
+          default -> throw new IllegalStateException("Unsupported acquisition method");
         }
       }
 
