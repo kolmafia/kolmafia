@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.maximizer;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.lessThan;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -95,6 +96,40 @@ class AnytimeSearchTest {
         IllegalStateException.class, () -> AnytimeSearch.maximize(problem, null, () -> true));
 
     assertThat(problem.depth(), is(0));
+  }
+
+  @Test
+  void preservesQualityAcrossEquivalentSearchChanges() {
+    var choices =
+        List.of(
+            List.of(new Choice("first", 1, 0), new Choice("better first", 3, 1)),
+            List.of(new Choice("second", 2, 0), new Choice("better second", 4, 1)));
+    var expanded =
+        List.of(
+            List.of(
+                new Choice("first", 1, 0),
+                new Choice("better first", 3, 1),
+                new Choice("best first", 5, 1)),
+            choices.get(1));
+
+    var shortRun =
+        AnytimeSearch.maximize(new KnapsackProblem(choices, 2, false, false), null, calls(3));
+    var longRun =
+        AnytimeSearch.maximize(new KnapsackProblem(choices, 2, false, false), null, calls(20));
+    var expandedRun =
+        AnytimeSearch.maximize(new KnapsackProblem(expanded, 2, false, false), null, () -> true);
+    var reorderedRun =
+        AnytimeSearch.maximize(
+            new KnapsackProblem(choices.stream().map(List::reversed).toList(), 2, false, false),
+            null,
+            () -> true);
+    var repeatedRun =
+        AnytimeSearch.maximize(new KnapsackProblem(choices, 2, false, false), null, () -> true);
+
+    assertThat(longRun.quality(), greaterThanOrEqualTo(shortRun.quality()));
+    assertThat(expandedRun.quality(), greaterThanOrEqualTo(longRun.quality()));
+    assertThat(reorderedRun.quality(), is(longRun.quality()));
+    assertThat(repeatedRun, is(longRun));
   }
 
   private static BooleanSupplier calls(int allowed) {
