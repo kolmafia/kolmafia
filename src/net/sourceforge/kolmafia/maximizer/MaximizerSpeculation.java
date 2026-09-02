@@ -86,7 +86,10 @@ public class MaximizerSpeculation extends Speculation
 
   public double getScore() {
     if (this.scored) return this.score;
-    if (!this.calculated) this.calculate();
+    if (!this.calculated) {
+      Maximizer.recordScoreCalculation();
+      this.calculate();
+    }
     var character = Maximizer.character();
     this.resourceUsage = character.resourceUsage(this.equipment);
     var outcome =

@@ -132,6 +132,10 @@ public class Maximizer {
     session.shortlistedCandidates = shortlisted;
   }
 
+  static void recordScoreCalculation() {
+    if (session != null && session.searchingEquipment) ++session.scoreCalculations;
+  }
+
   static long nextProgressUpdate() {
     return session == null ? bestUpdate : session.nextProgressUpdate;
   }

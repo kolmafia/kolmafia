@@ -6,6 +6,8 @@ final class MaximizerSession {
   int combinationsChecked;
   int catalogCandidates;
   int shortlistedCandidates;
+  int scoreCalculations;
+  boolean searchingEquipment;
   long nextProgressUpdate;
   CharacterSnapshot character;
   boolean active = true;
@@ -19,12 +21,17 @@ final class MaximizerSession {
     this.combinationsChecked = 0;
     this.catalogCandidates = 0;
     this.shortlistedCandidates = 0;
+    this.scoreCalculations = 0;
+    this.searchingEquipment = true;
     this.nextProgressUpdate = System.currentTimeMillis() + 5000;
   }
 
   SearchMetrics metrics() {
     return new SearchMetrics(
-        this.combinationsChecked, this.catalogCandidates, this.shortlistedCandidates);
+        this.combinationsChecked,
+        this.catalogCandidates,
+        this.shortlistedCandidates,
+        this.scoreCalculations);
   }
 
   void refreshCharacterSnapshot(Evaluator evaluator) {
