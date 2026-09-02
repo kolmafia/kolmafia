@@ -516,6 +516,23 @@ public class MaximizerTest {
             equalTo(1L));
       }
     }
+
+    @Test
+    public void defaultSurgeonosityAccountsForShirtEligibility() {
+      final var cleanups =
+          new Cleanups(
+              withEquippableItem("head mirror"),
+              withEquippableItem("bloodied surgical dungarees"),
+              withEquippableItem("surgical apron"),
+              withEquippableItem("surgical mask"),
+              withEquippableItem("half-size scalpel"));
+
+      try (cleanups) {
+        assertTrue(maximize("surgeonosity, -tie"));
+        assertEquals(4, modFor(BitmapModifier.SURGEONOSITY), 0.01);
+        assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.SHIRT, "surgical apron"))));
+      }
+    }
   }
 
   @Nested

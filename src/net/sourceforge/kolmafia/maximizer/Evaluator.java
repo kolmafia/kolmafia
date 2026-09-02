@@ -406,8 +406,9 @@ public class Evaluator {
       }
 
       if (keyword.equals("surgeonosity")) {
-        // If no weight specified, assume 5
-        this.surgeonosity = (m.end(2) == m.start(2)) ? 5 : (int) weight;
+        // If no weight is specified, 5 (if not torso aware, then 4).
+        this.surgeonosity =
+            (m.end(2) == m.start(2)) ? (KoLCharacter.isTorsoAware() ? 5 : 4) : (int) weight;
         continue;
       }
 
