@@ -7,6 +7,7 @@ import static internal.helpers.Player.withEquippableItem;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliarInTerrarium;
 import static internal.helpers.Player.withOverrideModifiers;
+import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withSign;
 import static internal.helpers.Player.withStats;
 import static internal.matchers.Maximizer.recommendsSlot;
@@ -21,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
 import java.util.Set;
+import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.ModifierType;
@@ -121,6 +123,21 @@ public class MaximizerRegressionTest {
       assertEquals(0, modFor(DerivedModifier.BUFFED_MUS), 0.01);
       // Actually equipped the buddy bjorn
       assertEquals(25, modFor(DoubleModifier.MEATDROP), 0.01);
+    }
+  }
+
+  @Test
+  public void doesNotCarryFamiliarsOnPathsWithoutFamiliars() {
+    var cleanups =
+        new Cleanups(
+            withPath(Path.ACTUALLY_ED_THE_UNDYING),
+            withEquippableItem("Crown of Thrones"),
+            withFamiliarInTerrarium(FamiliarPool.DICE),
+            withOverrideModifiers(ModifierType.THRONE, "Fuzzy Dice", "Muscle: +100"));
+
+    try (cleanups) {
+      assertTrue(maximize("mus"));
+      assertThat(Maximizer.best.getEnthroned(), equalTo(FamiliarData.NO_FAMILIAR));
     }
   }
 

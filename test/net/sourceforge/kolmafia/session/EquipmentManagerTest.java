@@ -306,8 +306,7 @@ public class EquipmentManagerTest {
       }
       try (var cleanups =
           new Cleanups(
-              withPath(Path.AVATAR_OF_JARLSBERG),
-              withClass(AscensionClass.AVATAR_OF_JARLSBERG))) {
+              withPath(Path.AVATAR_OF_JARLSBERG), withClass(AscensionClass.AVATAR_OF_JARLSBERG))) {
         assertTrue(EquipmentManager.canEquipChefstaff(false));
       }
       try (var cleanups =

@@ -1529,9 +1529,7 @@ public class Evaluator {
 
         if (((id == ItemPool.HATSEAT && this.slots.getOrDefault(Slot.CROWNOFTHRONES, 0) >= 0)
                 || (id == ItemPool.BUDDY_BJORN && this.slots.getOrDefault(Slot.BUDDYBJORN, 0) >= 0))
-            && !KoLCharacter.isSneakyPete()
-            && !KoLCharacter.inAxecore()
-            && !KoLCharacter.isJarlsberg()) {
+            && KoLCharacter.getPath().canUseFamiliars()) {
           this.carriedFamiliarsNeeded++;
         }
 
@@ -1609,9 +1607,7 @@ public class Evaluator {
         // Always carry through items with changeable contents to speculation, but don't force them
         // to go further
         if ((id == ItemPool.HATSEAT || id == ItemPool.BUDDY_BJORN)
-            && !KoLCharacter.isSneakyPete()
-            && !KoLCharacter.inAxecore()
-            && !KoLCharacter.isJarlsberg()) {
+            && KoLCharacter.getPath().canUseFamiliars()) {
           break gotItem;
         }
 
