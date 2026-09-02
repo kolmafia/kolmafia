@@ -4,12 +4,15 @@ import static internal.helpers.Equipment.assertItem;
 import static internal.helpers.Equipment.assertItemUnequip;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Networking.json;
+import static internal.helpers.Player.withClass;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
+import static internal.helpers.Player.withHardcore;
 import static internal.helpers.Player.withIntrinsicEffect;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withSkill;
 import static internal.helpers.Player.withStats;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
@@ -19,7 +22,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import com.alibaba.fastjson2.JSONObject;
 import internal.helpers.Cleanups;
+import java.util.List;
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -288,6 +293,59 @@ public class EquipmentManagerTest {
       assertItemUnequip(Slot.CODPIECE3);
       assertItemUnequip(Slot.CODPIECE4);
       assertItemUnequip(Slot.CODPIECE5);
+    }
+  }
+
+  @Nested
+  class PathEquipment {
+    @Test
+    void hardcorePathEquipmentRequiresItsPath() {
+      record ClassItem(int itemId, AscensionClass ascensionClass, Path path) {}
+      var classItems =
+          List.of(
+              new ClassItem(
+                  ItemPool.BORIS_HELM, AscensionClass.AVATAR_OF_BORIS, Path.AVATAR_OF_BORIS),
+              new ClassItem(
+                  ItemPool.RIGHT_BEAR_ARM, AscensionClass.ZOMBIE_MASTER, Path.ZOMBIE_SLAYER),
+              new ClassItem(
+                  ItemPool.JARLS_PAN, AscensionClass.AVATAR_OF_JARLSBERG, Path.AVATAR_OF_JARLSBERG),
+              new ClassItem(
+                  ItemPool.PETE_JACKET,
+                  AscensionClass.AVATAR_OF_SNEAKY_PETE,
+                  Path.AVATAR_OF_SNEAKY_PETE),
+              new ClassItem(ItemPool.CROWN_OF_ED, AscensionClass.ED, Path.ACTUALLY_ED_THE_UNDYING));
+
+      for (var item : classItems) {
+        try (var cleanups =
+            new Cleanups(
+                withHardcore(),
+                withStats(10_000, 10_000, 10_000),
+                withPath(item.path()),
+                withSkill(SkillPool.TORSO),
+                withClass(item.ascensionClass()))) {
+          assertTrue(EquipmentManager.canEquip(item.itemId()), item.toString());
+        }
+        try (var cleanups =
+            new Cleanups(
+                withHardcore(),
+                withStats(10_000, 10_000, 10_000),
+                withSkill(SkillPool.TORSO),
+                withClass(AscensionClass.SEAL_CLUBBER))) {
+          assertFalse(EquipmentManager.canEquip(item.itemId()));
+        }
+      }
+
+      try (var cleanups =
+          new Cleanups(withHardcore(), withStats(10_000, 10_000, 10_000), withPath(Path.KOLHS))) {
+        assertTrue(EquipmentManager.canEquip(ItemPool.FOLDER_HOLDER));
+        assertFalse(EquipmentManager.canEquip(ItemPool.THORS_PLIERS));
+      }
+      try (var cleanups =
+          new Cleanups(
+              withHardcore(), withStats(10_000, 10_000, 10_000), withPath(Path.HEAVY_RAINS))) {
+        assertFalse(EquipmentManager.canEquip(ItemPool.FOLDER_HOLDER));
+        assertTrue(EquipmentManager.canEquip(ItemPool.THORS_PLIERS));
+      }
     }
   }
 }
