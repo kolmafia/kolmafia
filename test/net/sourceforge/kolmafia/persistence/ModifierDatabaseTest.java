@@ -78,13 +78,11 @@ public class ModifierDatabaseTest {
     "+50% Spell Damage, Spell Damage Percent: +50",
     "Successful hit weakens opponent, Weakens Monster",
     "Only Accordion Thieves may use this item, Class: \"Accordion Thief\"",
-    "All Attributes +5, 'Muscle: +5, Mysticality: +5, Moxie: +5'",
-    "All Attributes +30%, 'Muscle Percent: +30, Mysticality Percent: +30, Moxie Percent: +30'",
     "Bonus&nbsp;for&nbsp;Saucerors&nbsp;only, Class: \"Sauceror\"",
     "Monsters are much more attracted to you., Combat Rate: +10",
     "Monsters will be significantly less attracted to you. (Underwater only), Combat Rate (Underwater): -15",
     "Regenerate 100 MP per adventure, 'MP Regen Min: 100, MP Regen Max: 100'",
-    "Regenerate 15-20 HP and MP per adventure, 'HP Regen Min: 15, HP Regen Max: 20, MP Regen Min: 15, MP Regen Max: 20'",
+    "Regenerate 15-20 HP and MP per adventure, 'HP / MP Regen Min: 15, HP / MP Regen Max: 20'",
     "Serious Cold Resistance (+3), Cold Resistance: +3",
     "Sublime Resistance to All Elements (+9), 'Spooky Resistance: +9, Stench Resistance: +9, Hot Resistance: +9, Cold Resistance: +9, Sleaze Resistance: +9'",
     "So-So Slime Resistance (+2), Slime Resistance: +2",
@@ -124,7 +122,7 @@ public class ModifierDatabaseTest {
         writeModifiersLines,
         hasItem(
             equalTo(
-                "Sign\tVole\tExperience Percent (Moxie): +10, Initiative: +20, Maximum HP: +20, Maximum MP: +20")));
+                "Sign\tVole\tExperience Percent (Moxie): +10, Initiative: +20, Maximum HP / MP: +20")));
   }
 
   @Test

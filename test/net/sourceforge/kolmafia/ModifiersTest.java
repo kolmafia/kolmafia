@@ -2103,7 +2103,7 @@ public class ModifiersTest {
   }
 
   @Nested
-  class HatPantsDrop {
+  class SubsumedModifiers {
     // baneful bandolier has the combined "+30% Hat/Pants Drops from Monsters" enchantment
     private static final int BANEFUL_BANDOLIER = ItemPool.BANEFUL_BANDOLIER;
     // velcro broadsword has the combined "+20% Hat/Pants Drops from Monsters" enchantment
@@ -2191,6 +2191,57 @@ public class ModifiersTest {
       assertThat(mods.getDouble(DoubleModifier.HATDROP), equalTo(24.0));
       assertThat(mods.getDouble(DoubleModifier.PANTSDROP), equalTo(24.0));
       assertThat(mods.getDouble(DoubleModifier.HAT_PANTS_DROP), equalTo(24.0));
+    }
+
+    @Test
+    public void itemsStraddlingZeroReturnZeroForCombined() {
+      assertThat(
+          ModifierDatabase.getNumericModifier(
+              ModifierType.ITEM, ItemPool.DRUNKULA_HAZE_RING, DoubleModifier.HP),
+          equalTo(-200.0));
+      assertThat(
+          ModifierDatabase.getNumericModifier(
+              ModifierType.ITEM, ItemPool.DRUNKULA_HAZE_RING, DoubleModifier.MP),
+          equalTo(300.0));
+      assertThat(
+          ModifierDatabase.getNumericModifier(
+              ModifierType.ITEM, ItemPool.DRUNKULA_HAZE_RING, DoubleModifier.MAXIMUM_HP_MP),
+          equalTo(0.0));
+    }
+
+    @Test
+    public void parsesCombinedRegenEnchantmentIntoCombinedModifiers() {
+      assertThat(
+          ModifierDatabase.parseModifier("Regenerate 15-20 HP and MP per adventure"),
+          equalTo("HP / MP Regen Min: 15, HP / MP Regen Max: 20"));
+    }
+
+    @Test
+    public void combinedRegenImpliesSeparateHpAndMpRegen() {
+      Modifiers mods =
+          ModifierDatabase.parseModifiers(
+              new Lookup(ModifierType.ITEM, "test"),
+              "HP / MP Regen Min: 15, HP / MP Regen Max: 20");
+
+      assertThat(mods.getDouble(DoubleModifier.HP_REGEN_MIN), equalTo(15.0));
+      assertThat(mods.getDouble(DoubleModifier.MP_REGEN_MIN), equalTo(15.0));
+      assertThat(mods.getDouble(DoubleModifier.HP_REGEN_MAX), equalTo(20.0));
+      assertThat(mods.getDouble(DoubleModifier.MP_REGEN_MAX), equalTo(20.0));
+      assertThat(mods.getDouble(DoubleModifier.HP_MP_REGEN_MIN), equalTo(15.0));
+      assertThat(mods.getDouble(DoubleModifier.HP_MP_REGEN_MAX), equalTo(20.0));
+    }
+
+    @Test
+    public void separateRegenDoesNotCreateCombinedRegen() {
+      Modifiers mods =
+          ModifierDatabase.parseModifiers(
+              new Lookup(ModifierType.ITEM, "test"), "MP Regen Min: 6, MP Regen Max: 12");
+
+      assertThat(mods.getDouble(DoubleModifier.MP_REGEN_MIN), equalTo(6.0));
+      assertThat(mods.getDouble(DoubleModifier.MP_REGEN_MAX), equalTo(12.0));
+      assertThat(mods.getDouble(DoubleModifier.HP_REGEN_MIN), equalTo(0.0));
+      assertThat(mods.getDouble(DoubleModifier.HP_MP_REGEN_MIN), equalTo(0.0));
+      assertThat(mods.getDouble(DoubleModifier.HP_MP_REGEN_MAX), equalTo(0.0));
     }
   }
 }

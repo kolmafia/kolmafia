@@ -2162,6 +2162,7 @@ public class ItemPool {
   public static final int ZOMBIE_ACCORDION = 6455;
   public static final int MAYOR_GHOSTS_GAVEL = 6465;
   public static final int GHOST_PEPPER = 6468;
+  public static final int DRUNKULA_HAZE_RING = 6473;
   public static final int DRUNKULA_WINEGLASS = 6474;
   public static final int BLOODWEISER = 6475;
   public static final int ELECTRIC_KOOL_AID = 6483;
