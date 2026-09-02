@@ -39,6 +39,24 @@ public class MaximizerCreatableTest {
     }
   }
 
+  @Test
+  public void doesNotRecommendTinyBlackHoleInStandard() {
+    var cleanups =
+        new Cleanups(
+            withRestricted(true),
+            withItem("coconut shell", 1),
+            withItem("lime", 1),
+            withItem("meat paste", 1),
+            withProperty("unknownRecipe5069", false),
+            withNotAllowedInStandard(RestrictedItemType.ITEMS, "tiny black hole"),
+            withConcoctionRefresh());
+
+    try (cleanups) {
+      maximizeCreatable("item +offhand");
+      assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.OFFHAND, "tiny black hole"))));
+    }
+  }
+
   @Nested
   class BarrelShrine {
     @Test
