@@ -126,6 +126,12 @@ public class Maximizer {
     return bestChecked = checked;
   }
 
+  static void recordCandidateCounts(int ranked, int shortlisted) {
+    if (session == null) return;
+    session.rankedCandidates = ranked;
+    session.shortlistedCandidates = shortlisted;
+  }
+
   static long nextProgressUpdate() {
     return session == null ? bestUpdate : session.nextProgressUpdate;
   }

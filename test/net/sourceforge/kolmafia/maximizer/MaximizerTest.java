@@ -89,6 +89,8 @@ public class MaximizerTest {
       assertThat(Maximizer.bestChecked, is(1));
       assertThat(Maximizer.combinationLimit, is(1L));
       assertThat(Maximizer.lastSearchMetrics().combinationsChecked(), is(1));
+      assertTrue(Maximizer.lastSearchMetrics().rankedCandidates() > 0);
+      assertTrue(Maximizer.lastSearchMetrics().shortlistedCandidates() > 0);
     }
 
     try (var cleanups =

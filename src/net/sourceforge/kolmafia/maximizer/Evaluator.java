@@ -1958,6 +1958,7 @@ public class Evaluator {
                     }));
 
     SlotList<MaximizerSpeculation> speculationList = new SlotList<>(this.familiars.size());
+    int rankedCandidateCount = 0;
 
     for (var entry : ranked.entries()) {
       List<CheckedItem> checkedItemList = entry.value();
@@ -1969,6 +1970,7 @@ public class Evaluator {
                   == EquipmentRequest.UNEQUIP)) {
         checkedItemList.add(new CheckedItem(-1, equipScope, maxPrice, priceLevel));
       }
+      rankedCandidateCount += checkedItemList.size();
 
       List<MaximizerSpeculation> specs = speculationList.get(entry);
 
@@ -2522,6 +2524,9 @@ public class Evaluator {
     automatic.get(Slot.WEAPON).addAll(automatic.get(Evaluator.WEAPON_1H));
     automatic.get(Evaluator.OFFHAND_MELEE).addAll(automatic.get(Slot.OFFHAND));
     automatic.get(Evaluator.OFFHAND_RANGED).addAll(automatic.get(Slot.OFFHAND));
+    int shortlistedCandidateCount =
+        automatic.entries().stream().mapToInt(entry -> entry.value().size()).sum();
+    Maximizer.recordCandidateCounts(rankedCandidateCount, shortlistedCandidateCount);
 
     MaximizerSpeculation spec = new MaximizerSpeculation();
     // The threshold in the slots array that indicates that a slot
