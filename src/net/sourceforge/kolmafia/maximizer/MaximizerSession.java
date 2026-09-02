@@ -10,6 +10,8 @@ final class MaximizerSession {
   long searchNodes;
   long dominancePrunes;
   long boundPrunes;
+  long incompleteSearches;
+  long searchDeadlineNanos = Long.MAX_VALUE;
   boolean searchingEquipment;
   long nextProgressUpdate;
   CharacterSnapshot character;
@@ -28,6 +30,7 @@ final class MaximizerSession {
     this.searchNodes = 0;
     this.dominancePrunes = 0;
     this.boundPrunes = 0;
+    this.incompleteSearches = 0;
     this.searchingEquipment = true;
     this.nextProgressUpdate = System.currentTimeMillis() + 5000;
   }
@@ -40,7 +43,17 @@ final class MaximizerSession {
         this.scoreCalculations,
         this.searchNodes,
         this.dominancePrunes,
-        this.boundPrunes);
+        this.boundPrunes,
+        this.incompleteSearches);
+  }
+
+  void startSearch(int timeLimitMillis) {
+    this.searchDeadlineNanos =
+        timeLimitMillis <= 0 ? Long.MAX_VALUE : System.nanoTime() + timeLimitMillis * 1_000_000L;
+  }
+
+  boolean keepSearching() {
+    return System.nanoTime() < this.searchDeadlineNanos;
   }
 
   void refreshCharacterSnapshot(Evaluator evaluator) {

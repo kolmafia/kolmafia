@@ -136,11 +136,21 @@ public class Maximizer {
     if (session != null && session.searchingEquipment) ++session.scoreCalculations;
   }
 
-  static void recordSearch(long nodes, long dominancePrunes, long boundPrunes) {
+  static void recordSearch(long nodes, long dominancePrunes, long boundPrunes, boolean optimal) {
     if (session == null) return;
     session.searchNodes += nodes;
     session.dominancePrunes += dominancePrunes;
     session.boundPrunes += boundPrunes;
+    if (!optimal) ++session.incompleteSearches;
+  }
+
+  static void startSearch(boolean exhaustive) {
+    if (session == null) return;
+    session.startSearch(exhaustive ? 0 : Preferences.getInteger("maximizerSearchTimeLimit"));
+  }
+
+  static boolean keepSearching() {
+    return session == null || session.keepSearching();
   }
 
   static long nextProgressUpdate() {
@@ -298,6 +308,15 @@ public class Maximizer {
       Maximizer.bestUpdate = Maximizer.session.nextProgressUpdate;
       try {
         Maximizer.evaluator().enumerateEquipment(equipScope, maxPrice, priceLevel, exhaustive);
+        if (Maximizer.session.incompleteSearches > 0) {
+          Maximizer.boosts.add(
+              new Boost(
+                  "",
+                  "<font color=red>(hit search time limit, optimality not guaranteed)</font>",
+                  Slot.NONE,
+                  null,
+                  0.0));
+        }
       } catch (MaximizerExceededException e) {
         Maximizer.boosts.add(
             new Boost(

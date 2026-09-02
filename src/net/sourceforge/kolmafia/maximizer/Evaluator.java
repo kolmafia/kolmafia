@@ -2616,6 +2616,7 @@ public class Evaluator {
         });
 
     MaximizerSpeculation exhaustiveBaseline = exhaustive ? spec.clone() : null;
+    Maximizer.startSearch(exhaustive);
     spec.tryAll(
         this.familiars,
         this.carriedFamiliars,

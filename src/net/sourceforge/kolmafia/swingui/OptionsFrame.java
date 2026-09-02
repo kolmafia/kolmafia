@@ -829,6 +829,11 @@ public class OptionsFrame extends GenericFrame {
               8,
               "Maximum number of combinations to consider (0 for no max)"));
       this.queue(
+          new PreferenceIntegerTextField(
+              "maximizerSearchTimeLimit",
+              8,
+              "Maximum equipment search time in milliseconds (0 for no max)"));
+      this.queue(
           new PreferenceButtonGroup(
               "maximizerPriceLevel",
               "Price check by default:",

@@ -1905,7 +1905,7 @@ public class EternityCodpieceMaximizerTest {
           System.out.printf(
               "ALL_EQUIPMENT_BENCHMARK expression=%s items=%d catalog=%d shortlist=%d"
                   + " combinations=%d calculations=%d nodes=%d dominance=%d bounds=%d"
-                  + " score=%.3f ms=%.3f%n",
+                  + " incomplete=%d score=%.3f ms=%.3f%n",
               expression,
               availableItems.size(),
               metrics.catalogCandidates(),
@@ -1915,6 +1915,7 @@ public class EternityCodpieceMaximizerTest {
               metrics.searchNodes(),
               metrics.dominancePrunes(),
               metrics.boundPrunes(),
+              metrics.incompleteSearches(),
               Maximizer.best.getScore(),
               elapsed);
         }

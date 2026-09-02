@@ -630,7 +630,8 @@ final class CodpieceSpeculation {
               new CodpiecePruning.BooleanUpperBound(
                   this.gems, this.remaining, this.slots.size(), BooleanModifier.DROPS_MEAT));
       MaximizerSpeculation best = Maximizer.best();
-      AnytimeSearch.maximize(this, new AnytimeSearch.Candidate<>(best.quality(), best), () -> true);
+      AnytimeSearch.maximize(
+          this, new AnytimeSearch.Candidate<>(best.quality(), best), Maximizer::keepSearching);
     }
 
     private CodpieceScoreBound createScoreUpperBound() {
@@ -767,7 +768,8 @@ final class CodpieceSpeculation {
 
     @Override
     public void finished(AnytimeSearch.Result<SolutionQuality, MaximizerSpeculation> result) {
-      Maximizer.recordSearch(result.nodes(), result.dominancePrunes(), result.boundPrunes());
+      Maximizer.recordSearch(
+          result.nodes(), result.dominancePrunes(), result.boundPrunes(), result.optimal());
     }
 
     private void analyze() {
