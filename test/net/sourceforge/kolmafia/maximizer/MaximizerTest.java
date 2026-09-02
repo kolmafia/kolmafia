@@ -36,6 +36,7 @@ import static internal.matchers.Maximizer.recommendsSlot;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.hasToString;
@@ -89,7 +90,7 @@ public class MaximizerTest {
       assertThat(Maximizer.bestChecked, is(1));
       assertThat(Maximizer.combinationLimit, is(1L));
       assertThat(Maximizer.lastSearchMetrics().combinationsChecked(), is(1));
-      assertTrue(Maximizer.lastSearchMetrics().rankedCandidates() > 0);
+      assertTrue(Maximizer.lastSearchMetrics().catalogCandidates() > 0);
       assertTrue(Maximizer.lastSearchMetrics().shortlistedCandidates() > 0);
     }
 
@@ -100,6 +101,53 @@ public class MaximizerTest {
             withProperty("maximizerCombinationLimit", 0))) {
       maximize("item drop");
       assertThat(Maximizer.combinationLimit, is(0L));
+    }
+  }
+
+  @Test
+  void catalogRetainsCandidatesRejectedByIsolatedScoring() {
+    try (var cleanups =
+        new Cleanups(
+            withEquippableItem("helmet turtle"),
+            withOverrideModifiers(ModifierType.ITEM, ItemPool.HELMET_TURTLE, "Item Drop: -100"))) {
+      maximize("item drop");
+
+      assertTrue(
+          Maximizer.lastSearchMetrics().catalogCandidates()
+              > Maximizer.lastSearchMetrics().shortlistedCandidates());
+    }
+  }
+
+  @Test
+  void exhaustiveCatalogSearchPreservesTheLegacyFloor() {
+    try (var cleanups =
+        new Cleanups(
+            withEquippableItem("helmet turtle"),
+            withEquippableItem(ItemPool.DESIGNER_SWEATPANTS),
+            withOverrideModifiers(
+                ModifierType.ITEM, ItemPool.HELMET_TURTLE, "Surgeonosity: +1, Item Drop: -1"),
+            withOverrideModifiers(
+                ModifierType.ITEM, ItemPool.DESIGNER_SWEATPANTS, "Surgeonosity: +1, Item Drop: -1"),
+            withProperty("maximizerCombinationLimit", 0))) {
+      var filter = EnumSet.of(KoLConstants.filterType.EQUIP);
+      Maximizer.maximize(
+          "item drop, 2 surgeonosity min, -tie",
+          EquipScope.SPECULATE_INVENTORY,
+          0,
+          PriceLevel.DONT_CHECK,
+          false,
+          filter);
+      var legacyQuality = Maximizer.best().quality();
+
+      Maximizer.maximizeExhaustively(
+          "item drop, 2 surgeonosity min, -tie",
+          EquipScope.SPECULATE_INVENTORY,
+          0,
+          PriceLevel.DONT_CHECK,
+          false,
+          filter);
+      assertThat(Maximizer.best().quality(), greaterThanOrEqualTo(legacyQuality));
+      assertThat(Maximizer.best().quality(), greaterThanOrEqualTo(legacyQuality));
     }
   }
 

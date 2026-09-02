@@ -126,9 +126,9 @@ public class Maximizer {
     return bestChecked = checked;
   }
 
-  static void recordCandidateCounts(int ranked, int shortlisted) {
+  static void recordCandidateCounts(int catalog, int shortlisted) {
     if (session == null) return;
-    session.rankedCandidates = ranked;
+    session.catalogCandidates = catalog;
     session.shortlistedCandidates = shortlisted;
   }
 
@@ -192,9 +192,31 @@ public class Maximizer {
       PriceLevel priceLevel,
       boolean includeAll,
       Set<filterType> filter) {
+    maximize(maximizerString, equipScope, maxPrice, priceLevel, includeAll, filter, false);
+  }
+
+  static void maximizeExhaustively(
+      String maximizerString,
+      EquipScope equipScope,
+      int maxPrice,
+      PriceLevel priceLevel,
+      boolean includeAll,
+      Set<filterType> filter) {
+    maximize(maximizerString, equipScope, maxPrice, priceLevel, includeAll, filter, true);
+  }
+
+  private static void maximize(
+      String maximizerString,
+      EquipScope equipScope,
+      int maxPrice,
+      PriceLevel priceLevel,
+      boolean includeAll,
+      Set<filterType> filter,
+      boolean exhaustive) {
     var previousSession = Maximizer.session;
     try {
-      maximizeRun(maximizerString, equipScope, maxPrice, priceLevel, includeAll, filter);
+      maximizeRun(
+          maximizerString, equipScope, maxPrice, priceLevel, includeAll, filter, exhaustive);
     } finally {
       if (Maximizer.session != previousSession) {
         Maximizer.session.finish();
@@ -208,7 +230,8 @@ public class Maximizer {
       int maxPrice,
       PriceLevel priceLevel,
       boolean includeAll,
-      Set<filterType> filter) {
+      Set<filterType> filter,
+      boolean exhaustive) {
     KoLmafia.forceContinue();
     String maxMe = maximizerString;
     RequestLogger.printLine("Maximizer: " + maxMe);
@@ -263,7 +286,7 @@ public class Maximizer {
       Maximizer.bestChecked = Maximizer.session.combinationsChecked;
       Maximizer.bestUpdate = Maximizer.session.nextProgressUpdate;
       try {
-        Maximizer.evaluator().enumerateEquipment(equipScope, maxPrice, priceLevel);
+        Maximizer.evaluator().enumerateEquipment(equipScope, maxPrice, priceLevel, exhaustive);
       } catch (MaximizerExceededException e) {
         Maximizer.boosts.add(
             new Boost(

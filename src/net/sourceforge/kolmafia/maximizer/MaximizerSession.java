@@ -4,7 +4,7 @@ final class MaximizerSession {
   final long combinationLimit;
   MaximizerSpeculation best;
   int combinationsChecked;
-  int rankedCandidates;
+  int catalogCandidates;
   int shortlistedCandidates;
   long nextProgressUpdate;
   CharacterSnapshot character;
@@ -17,14 +17,14 @@ final class MaximizerSession {
 
   void resetSearch() {
     this.combinationsChecked = 0;
-    this.rankedCandidates = 0;
+    this.catalogCandidates = 0;
     this.shortlistedCandidates = 0;
     this.nextProgressUpdate = System.currentTimeMillis() + 5000;
   }
 
   SearchMetrics metrics() {
     return new SearchMetrics(
-        this.combinationsChecked, this.rankedCandidates, this.shortlistedCandidates);
+        this.combinationsChecked, this.catalogCandidates, this.shortlistedCandidates);
   }
 
   void refreshCharacterSnapshot(Evaluator evaluator) {

@@ -1225,9 +1225,17 @@ public class Evaluator {
 
   void enumerateEquipment(EquipScope equipScope, int maxPrice, PriceLevel priceLevel)
       throws MaximizerInterruptedException {
+    this.enumerateEquipment(equipScope, maxPrice, priceLevel, false);
+  }
+
+  void enumerateEquipment(
+      EquipScope equipScope, int maxPrice, PriceLevel priceLevel, boolean exhaustive)
+      throws MaximizerInterruptedException {
     // Items automatically considered regardless of their score -
     // synergies, hobo power, brimstone, etc.
     SlotList<CheckedItem> automatic = new SlotList<>(this.familiars.size());
+    // Every legal, available candidate, including those rejected by isolated scoring.
+    SlotList<CheckedItem> catalog = new SlotList<>(this.familiars.size());
     // Items to be considered based on their score
     SlotList<CheckedItem> ranked = new SlotList<>(this.familiars.size());
 
@@ -1338,13 +1346,15 @@ public class Evaluator {
           item.automaticFlag = true;
         }
 
-        if (item.getCount() != 0
-            && (item.automaticFlag
-                || this.posEquip.contains(item)
-                // Modeable items are already automaticFlag, avoids a needless lookup
-                || this.getScore(familiarMods, Map.of(Slot.FAMILIAR, item), Map.of()) - nullScore
-                    > 0.0)) {
-          ranked.get(Slot.FAMILIAR).add(item);
+        if (item.getCount() != 0) {
+          catalog.get(Slot.FAMILIAR).add(item);
+          if (item.automaticFlag
+              || this.posEquip.contains(item)
+              // Modeable items are already automaticFlag, avoids a needless lookup
+              || this.getScore(familiarMods, Map.of(Slot.FAMILIAR, item), Map.of()) - nullScore
+                  > 0.0) {
+            ranked.get(Slot.FAMILIAR).add(item);
+          }
         }
       }
       for (int f = this.familiars.size() - 1; f >= 0; --f) {
@@ -1378,13 +1388,15 @@ public class Evaluator {
           item.automaticFlag = true;
         }
 
-        if (item.getCount() != 0
-            && (item.automaticFlag
-                || this.posEquip.contains(item)
-                // Modeable items are already automaticFlag, avoids a needless lookup
-                || this.getScore(familiarMods, Map.of(Slot.FAMILIAR, item), Map.of()) - nullScore
-                    > 0.0)) {
-          ranked.getFamiliar(f).add(item);
+        if (item.getCount() != 0) {
+          catalog.getFamiliar(f).add(item);
+          if (item.automaticFlag
+              || this.posEquip.contains(item)
+              // Modeable items are already automaticFlag, avoids a needless lookup
+              || this.getScore(familiarMods, Map.of(Slot.FAMILIAR, item), Map.of()) - nullScore
+                  > 0.0) {
+            ranked.getFamiliar(f).add(item);
+          }
         }
       }
 
@@ -1724,11 +1736,16 @@ public class Evaluator {
         }
         // Modeable items never reach here (they break gotItem above), so we leave out modes
         double delta = this.getScore(mods, Map.of(Slot.NONE, item), Map.of()) - nullScore;
-        if (delta < 0.0) continue;
+        if (delta < 0.0) {
+          addCandidate(catalog, slot, auxSlot, item);
+          continue;
+        }
         if (delta == 0.0) {
           if (KoLCharacter.hasEquipped(item) && this.current) break gotItem;
-          if (item.initial == 0) continue;
-          if (item.automaticFlag) continue;
+          if (item.initial == 0 || item.automaticFlag) {
+            addCandidate(catalog, slot, auxSlot, item);
+            continue;
+          }
         }
 
         if (mods.getRawBitmap(BitmapModifier.MUTEX) != 0) {
@@ -1738,8 +1755,8 @@ public class Evaluator {
         }
       }
       // "break gotItem" goes here
-      if (slot != Slot.NONE) ranked.get(slot).add(item);
-      if (auxSlot != Slot.NONE) ranked.get(auxSlot).add(item);
+      addCandidate(catalog, slot, auxSlot, item);
+      addCandidate(ranked, slot, auxSlot, item);
     }
 
     boolean usesFamiliarDependentScore = !this.familiarDependentScoreModifiers().isEmpty();
@@ -1769,6 +1786,7 @@ public class Evaluator {
           gem.automaticFlag = true;
       }
 
+      catalog.get(Slot.CODPIECE1).add(gem);
       var candidate = this.codpieceEvaluator.scoreCandidate(mods, gem, nullScore, nullTiebreaker);
       double delta = candidate.score();
       double tiebreakerDelta = candidate.tiebreaker();
@@ -1958,7 +1976,6 @@ public class Evaluator {
                     }));
 
     SlotList<MaximizerSpeculation> speculationList = new SlotList<>(this.familiars.size());
-    int rankedCandidateCount = 0;
 
     for (var entry : ranked.entries()) {
       List<CheckedItem> checkedItemList = entry.value();
@@ -1968,9 +1985,10 @@ public class Evaluator {
           && (!entry.isSlot()
               || EquipmentManager.getEquipment(Evaluator.toUseSlot(entry.slot()))
                   == EquipmentRequest.UNEQUIP)) {
-        checkedItemList.add(new CheckedItem(-1, equipScope, maxPrice, priceLevel));
+        var unequip = new CheckedItem(-1, equipScope, maxPrice, priceLevel);
+        checkedItemList.add(unequip);
+        catalog.get(entry).add(unequip);
       }
-      rankedCandidateCount += checkedItemList.size();
 
       List<MaximizerSpeculation> specs = speculationList.get(entry);
 
@@ -2069,6 +2087,15 @@ public class Evaluator {
 
       Collections.sort(specs);
     }
+
+    for (var entry : catalog.entries()) {
+      if ((!entry.isSlot() || entry.slot() != Slot.CODPIECE1)
+          && entry.value().stream().noneMatch(item -> item.getItemId() == -1)) {
+        entry.value().add(new CheckedItem(-1, equipScope, maxPrice, priceLevel));
+      }
+    }
+    int catalogCandidateCount =
+        catalog.entries().stream().mapToInt(entry -> entry.value().size()).sum();
 
     // Compare sets which improve with the number of items equipped with the best items in the same
     // spots
@@ -2521,12 +2548,12 @@ public class Evaluator {
       }
     }
 
+    int shortlistedCandidateCount =
+        automatic.entries().stream().mapToInt(entry -> entry.value().size()).sum();
+    Maximizer.recordCandidateCounts(catalogCandidateCount, shortlistedCandidateCount);
     automatic.get(Slot.WEAPON).addAll(automatic.get(Evaluator.WEAPON_1H));
     automatic.get(Evaluator.OFFHAND_MELEE).addAll(automatic.get(Slot.OFFHAND));
     automatic.get(Evaluator.OFFHAND_RANGED).addAll(automatic.get(Slot.OFFHAND));
-    int shortlistedCandidateCount =
-        automatic.entries().stream().mapToInt(entry -> entry.value().size()).sum();
-    Maximizer.recordCandidateCounts(rankedCandidateCount, shortlistedCandidateCount);
 
     MaximizerSpeculation spec = new MaximizerSpeculation();
     // The threshold in the slots array that indicates that a slot
@@ -2547,6 +2574,9 @@ public class Evaluator {
     if (spec.equipment.get(Slot.OFFHAND) != null) {
       this.hands = 1;
       automatic.set(Slot.WEAPON, automatic.get(Evaluator.WEAPON_1H));
+      if (exhaustive) {
+        catalog.set(Slot.WEAPON, catalog.get(Evaluator.WEAPON_1H));
+      }
 
       Iterator<AdventureResult> i = outfitPieces.keySet().iterator();
       while (i.hasNext()) {
@@ -2584,6 +2614,7 @@ public class Evaluator {
           }
         });
 
+    MaximizerSpeculation exhaustiveBaseline = exhaustive ? spec.clone() : null;
     spec.tryAll(
         this.familiars,
         this.carriedFamiliars,
@@ -2593,10 +2624,38 @@ public class Evaluator {
         useCard,
         useCrownFamiliar,
         useBjornFamiliar);
+
+    if (exhaustive) {
+      for (var entry : catalog.entries()) {
+        for (var item : entry.value()) {
+          item.validate(maxPrice, priceLevel);
+        }
+      }
+      if (exhaustiveBaseline.equipment.get(Slot.OFFHAND) == null) {
+        catalog.get(Slot.WEAPON).addAll(catalog.get(Evaluator.WEAPON_1H));
+      }
+      catalog.get(Evaluator.OFFHAND_MELEE).addAll(catalog.get(Slot.OFFHAND));
+      catalog.get(Evaluator.OFFHAND_RANGED).addAll(catalog.get(Slot.OFFHAND));
+      exhaustiveBaseline.tryAll(
+          this.familiars,
+          this.carriedFamiliars,
+          usefulOutfits,
+          outfitPieces,
+          catalog,
+          useCard,
+          useCrownFamiliar,
+          useBjornFamiliar);
+    }
   }
 
   List<CheckedItem> prioritizeCodpieceGems(List<CheckedItem> gems) {
     return this.codpieceEvaluator.prioritize(gems);
+  }
+
+  private static void addCandidate(
+      SlotList<CheckedItem> candidates, Slot slot, Slot auxSlot, CheckedItem item) {
+    if (slot != Slot.NONE) candidates.get(slot).add(item);
+    if (auxSlot != Slot.NONE) candidates.get(auxSlot).add(item);
   }
 
   private boolean isCatUseful(double nullScore, String catName) {
