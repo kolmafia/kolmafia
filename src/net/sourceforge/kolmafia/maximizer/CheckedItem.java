@@ -35,17 +35,17 @@ public class CheckedItem extends AdventureResult {
       boolean ignoreStandardRestriction) {
     super(itemId, 1, false);
 
-    this.inventory = InventoryManager.getCount(itemId);
-
-    this.initial = InventoryManager.getAccessibleCount(itemId, true, ignoreStandardRestriction);
-    boolean isCodpieceGem = EquipmentDatabase.isCodpieceGem(itemId);
-
-    // special case used to get a CheckedItem that equals UNEQUIP.
+    // Special case used to get a CheckedItem that equals UNEQUIP.
     if (itemId == -1) {
       this.name = "(none)";
       this.inventory = Integer.MAX_VALUE;
       this.initial = Integer.MAX_VALUE;
+      return;
     }
+
+    this.inventory = InventoryManager.getCount(itemId);
+    this.initial = InventoryManager.getAccessibleCount(itemId, true, ignoreStandardRestriction);
+    boolean isCodpieceGem = EquipmentDatabase.isCodpieceGem(itemId);
 
     String itemName = this.getName();
     int maxUseful = 3;
