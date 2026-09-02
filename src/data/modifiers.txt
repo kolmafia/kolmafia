@@ -1840,7 +1840,7 @@ Item	revolver	Experience (Moxie): +2, Initiative: +50, Lasts Until Rollover, Las
 Item	rib of the Bonerdagon	Muscle: +5, Mysticality: +5, Spell Damage: +15
 Item	ridiculously huge sword	Weapon Damage: +12, Muscle: +4
 Item	ridiculously overelaborate ninja weapon	Critical Hit Percent: +15, Fumble: 3
-Item	right bear arm	Muscle Percent: +10, Weapon Damage Percent: +30, Softcore Only: [1-path(Zombie Slayer)], Conditional Skill (Equipped): "Kodiak Moment", Conditional Skill (Equipped): "Grizzly Scene", Last Available: "2012-09"
+Item	right bear arm	Muscle Percent: +10, Weapon Damage Percent: +30, Conditional Skill (Equipped): "Kodiak Moment", Conditional Skill (Equipped): "Grizzly Scene", Last Available: "2012-09"
 Item	roboduck-on-a-string	Weapon Damage: +5, Item Drop: +5, Last Available: "2007-12"
 Item	Rock and Roll Legend	Moxie: [7*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 10
 Item	rope	Experience (Muscle): +2, Familiar Weight: +10, Lasts Until Rollover, Last Available: "2015-07"
