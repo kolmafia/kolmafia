@@ -231,11 +231,7 @@ public abstract class InventoryManager {
       count += item.getCount(KoLConstants.closet);
     }
 
-    if ((!KoLCharacter.inLegacyOfLoathing() || pullableInLoL(itemId))
-        && (!KoLCharacter.inSeaPath() || pullableInSeaPath(itemId))
-        && (!KoLCharacter.isThrifty()
-            || ThriftyRequest.isAllowed(
-                RestrictedItemType.ITEMS, ItemDatabase.getItemName(itemId)))) {
+    if (InventoryManager.pullableInCurrentPath(itemId)) {
       // Free Pulls from Hagnk's are always accessible
       count += item.getCount(KoLConstants.freepulls);
 
@@ -2195,6 +2191,14 @@ public abstract class InventoryManager {
               itemId, EnumSet.of(Attribute.COMBAT, Attribute.COMBAT_REUSABLE));
       default -> false;
     };
+  }
+
+  public static boolean pullableInCurrentPath(int itemId) {
+    return (!KoLCharacter.inLegacyOfLoathing() || pullableInLoL(itemId))
+        && (!KoLCharacter.inSeaPath() || pullableInSeaPath(itemId))
+        && (!KoLCharacter.isThrifty()
+            || ThriftyRequest.isAllowed(
+                RestrictedItemType.ITEMS, ItemDatabase.getItemName(itemId)));
   }
 
   public static boolean pullableInSeaPath(int itemId) {

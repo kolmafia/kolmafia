@@ -10,6 +10,7 @@ import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withMeat;
 import static internal.helpers.Player.withNPCStoreReset;
 import static internal.helpers.Player.withNoItems;
+import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -21,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import internal.helpers.Cleanups;
 import internal.network.FakeHttpClientBuilder;
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.ModifierType;
@@ -491,6 +493,20 @@ public class InventoryManagerTest {
 
       assertThat(InventoryManager.getCount(ItemPool.WORTHLESS_TRINKET), is(25252));
       assertThat(InventoryManager.getCount(ItemPool.WORTHLESS_GEWGAW), is(10622));
+    }
+  }
+
+  @Test
+  void pullabilityUsesCurrentPathRules() {
+    assertTrue(InventoryManager.pullableInCurrentPath(ItemPool.HELMET_TURTLE));
+
+    try (var cleanups = withPath(Path.LEGACY_OF_LOATHING)) {
+      assertFalse(InventoryManager.pullableInCurrentPath(ItemPool.HELMET_TURTLE));
+    }
+
+    try (var cleanups = withPath(Path.UNDER_THE_SEA)) {
+      assertFalse(InventoryManager.pullableInCurrentPath(ItemPool.ROUGH_FISH_SCALE));
+      assertTrue(InventoryManager.pullableInCurrentPath(ItemPool.HELMET_TURTLE));
     }
   }
 
