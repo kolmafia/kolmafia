@@ -113,6 +113,8 @@ public class ModifierDatabase {
   private static final String HP_REGEN_MAX_TAG = DoubleModifier.HP_REGEN_MAX.getTag() + ": ";
   private static final String MP_REGEN_MIN_TAG = DoubleModifier.MP_REGEN_MIN.getTag() + ": ";
   private static final String MP_REGEN_MAX_TAG = DoubleModifier.MP_REGEN_MAX.getTag() + ": ";
+  private static final String HP_MP_REGEN_MIN_TAG = DoubleModifier.HP_MP_REGEN_MIN.getTag() + ": ";
+  private static final String HP_MP_REGEN_MAX_TAG = DoubleModifier.HP_MP_REGEN_MAX.getTag() + ": ";
 
   private static final Pattern SKILL_PATTERN = Pattern.compile("Grants Skill:.*?<b>(.*?)</b>");
   private static final Pattern SINGLE_PATTERN =
@@ -1081,17 +1083,7 @@ public class ModifierDatabase {
     }
 
     if (both) {
-      return HP_REGEN_MIN_TAG
-          + min
-          + ", "
-          + HP_REGEN_MAX_TAG
-          + max
-          + ", "
-          + MP_REGEN_MIN_TAG
-          + min
-          + ", "
-          + MP_REGEN_MAX_TAG
-          + max;
+      return HP_MP_REGEN_MIN_TAG + min + ", " + HP_MP_REGEN_MAX_TAG + max;
     }
 
     if (hp) {
