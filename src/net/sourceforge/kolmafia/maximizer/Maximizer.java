@@ -470,23 +470,24 @@ public class Maximizer {
         String cmd = makeable.cmd;
         String text = makeable.txt;
         CheckedItem checkedItem = makeable.checkedItem;
+        ItemAvailability availability = checkedItem.availability();
         text = text + "lasts til end of day, ";
         text = text + KoLConstants.MODIFIER_FORMAT.format(delta) + ")";
         text = text + " [" + absorbsLeft + " absorbs remaining";
-        if (checkedItem.inventory > 0) {
-          text = text + ", " + checkedItem.inventory + " in inventory";
+        if (availability.inventory() > 0) {
+          text = text + ", " + availability.inventory() + " in inventory";
         }
-        if (checkedItem.initial - checkedItem.inventory > 0) {
-          text = text + ", " + (checkedItem.initial - checkedItem.inventory) + " obtainable";
+        if (availability.initial() - availability.inventory() > 0) {
+          text = text + ", " + (availability.initial() - availability.inventory()) + " obtainable";
         }
-        if (checkedItem.creatable > 0) {
-          text = text + ", " + checkedItem.creatable + " createable";
+        if (availability.creatable() > 0) {
+          text = text + ", " + availability.creatable() + " createable";
         }
-        if (checkedItem.npcBuyable > 0) {
-          text = text + ", " + checkedItem.npcBuyable + " NPC buyable";
+        if (availability.npcBuyable() > 0) {
+          text = text + ", " + availability.npcBuyable() + " NPC buyable";
         }
-        if (checkedItem.pullable > 0) {
-          text = text + ", " + checkedItem.pullable + " pullable";
+        if (availability.pullable() > 0) {
+          text = text + ", " + availability.pullable() + " pullable";
         }
         text = text + "]";
         Maximizer.boosts.add(new Boost(cmd, text, ItemPool.get(itemId), delta));
@@ -1635,8 +1636,9 @@ public class Maximizer {
               showScope = EquipScope.SPECULATE_ANY;
             }
             CheckedItem checkedItem = new CheckedItem(itemId, showScope, maxPrice, priceLevel);
-            if (checkedItem.inventory > 0) {
-            } else if (checkedItem.initial > 0) {
+            ItemAvailability availability = checkedItem.availability();
+            if (availability.inventory() > 0) {
+            } else if (availability.initial() > 0) {
               String method =
                   InventoryManager.simRetrieveItem(item, equipScope == EquipScope.EQUIP_NOW, false);
               if (!method.equals("have")) {
@@ -1649,19 +1651,19 @@ public class Maximizer {
               else if (method.equals("pull")) {
                 cmd = "pull 1 \u00B6" + itemId + ";" + cmd;
               }
-            } else if (checkedItem.creatable > 0) {
+            } else if (availability.creatable() > 0) {
               text = "make & " + text;
               cmd = "make \u00B6" + itemId + ";" + cmd;
               price = ConcoctionPool.get(item).price;
               advCost = ConcoctionPool.get(item).getAdventuresNeeded(1);
-            } else if (checkedItem.npcBuyable > 0) {
+            } else if (availability.npcBuyable() > 0) {
               text = "buy & " + text;
               cmd = "buy 1 \u00B6" + itemId + ";" + cmd;
               price = ConcoctionPool.get(item).price;
-            } else if (checkedItem.pullable > 0) {
+            } else if (availability.pullable() > 0) {
               text = "pull & " + text;
               cmd = "pull \u00B6" + itemId + ";" + cmd;
-            } else if (checkedItem.mallBuyable > 0) {
+            } else if (availability.mallBuyable() > 0) {
               text = "acquire & " + text;
               cmd = "acquire 1 \u00B6" + itemId + ";" + cmd;
               if (priceLevel != PriceLevel.DONT_CHECK) {
@@ -1676,7 +1678,7 @@ public class Maximizer {
                   price = MallPriceManager.getMallPrice(itemId, 7.0f);
                 }
               }
-            } else if (checkedItem.pullBuyable > 0) {
+            } else if (availability.storageBuyable() > 0) {
               text = "buy & pull & " + text;
               cmd = "buy using storage 1 \u00B6" + itemId + ";pull \u00B6" + itemId + ";" + cmd;
               if (priceLevel != PriceLevel.DONT_CHECK) {
@@ -1697,10 +1699,10 @@ public class Maximizer {
 
             if (price > maxPrice || price == -1) continue;
             if (priceLevel == PriceLevel.ALL
-                && (checkedItem.initial > 0
-                    || checkedItem.creatable > 0
-                    || checkedItem.pullable > 0
-                    || checkedItem.npcBuyable > 0)) {
+                && (availability.initial() > 0
+                    || availability.creatable() > 0
+                    || availability.pullable() > 0
+                    || availability.npcBuyable() > 0)) {
               // Only check mall prices on tradeable items.
               if (ItemDatabase.isTradeable(itemId) && !ClanLoungeRequest.isSpeakeasyDrink(iname)) {
                 if (MallPriceDatabase.getPrice(itemId) > maxPrice * 2) {
@@ -2014,7 +2016,7 @@ public class Maximizer {
           || (itemId == ItemPool.MAKESHIFT_GARBAGE_SHIRT
               && Preferences.getInteger("garbageShirtCharge") == 0
               && !Preferences.getBoolean("_garbageItemChanged"))) {
-        if (checkedItem.initial > count) {
+        if (checkedItem.availability().initial() > count) {
           text = "fold & " + text;
           cmd = "fold \u00B6" + item.getItemId() + ";" + cmd;
         }
@@ -2066,7 +2068,8 @@ public class Maximizer {
             // We assume that there is only one available fold item type of the right group.
             // Not always right, but will do for now.
             String method =
-                InventoryManager.simRetrieveItem(ItemPool.get(checkedItem.foldItemId, count + 1));
+                InventoryManager.simRetrieveItem(
+                    ItemPool.get(checkedItem.availability().foldItemId(), count + 1));
             if (method.equals("have") || method.equals("remove")) {
               text = "fold & " + text;
               cmd = "fold \u00B6" + item.getItemId() + ";" + cmd;
@@ -2074,7 +2077,7 @@ public class Maximizer {
               text = method + " & fold & " + text;
               cmd =
                   "acquire 1 \u00B6"
-                      + checkedItem.foldItemId
+                      + checkedItem.availability().foldItemId()
                       + ";fold \u00B6"
                       + item.getItemId()
                       + ";"
@@ -2091,7 +2094,7 @@ public class Maximizer {
             text = "pull & fold & " + text;
             cmd =
                 "pull 1 \u00B6"
-                    + checkedItem.foldItemId
+                    + checkedItem.availability().foldItemId()
                     + ";fold \u00B6"
                     + item.getItemId()
                     + ";"
@@ -2166,10 +2169,11 @@ public class Maximizer {
     long price = 0L;
     boolean canMake = true;
     AdventureResult item = ItemPool.get(itemId);
+    ItemAvailability availability = checkedItem.availability();
     cmd = "absorb \u00B6" + itemId;
     text = "absorb " + item.getName() + " (";
-    if (checkedItem.inventory > 0) {
-    } else if (checkedItem.initial > 0) {
+    if (availability.inventory() > 0) {
+    } else if (availability.initial() > 0) {
       String method =
           InventoryManager.simRetrieveItem(item, equipScope == EquipScope.EQUIP_NOW, false);
       if (!method.equals("have")) {
@@ -2182,23 +2186,23 @@ public class Maximizer {
       else if (method.equals("pull")) {
         cmd = "pull 1 \u00B6" + itemId + ";" + cmd;
       }
-    } else if (checkedItem.creatable > 0) {
+    } else if (availability.creatable() > 0) {
       text = "make & " + text;
       cmd = "make \u00B6" + itemId + ";" + cmd;
       price = ConcoctionPool.get(item).price;
-    } else if (checkedItem.npcBuyable > 0) {
+    } else if (availability.npcBuyable() > 0) {
       text = "buy & " + text;
       cmd = "buy 1 \u00B6" + itemId + ";" + cmd;
       price = ConcoctionPool.get(item).price;
-    } else if (checkedItem.pullable > 0) {
+    } else if (availability.pullable() > 0) {
       text = "pull & " + text;
       cmd = "pull \u00B6" + itemId + ";" + cmd;
-    } else if (checkedItem.mallBuyable > 0) {
+    } else if (availability.mallBuyable() > 0) {
       text = "acquire & " + text;
       if (priceLevel != PriceLevel.DONT_CHECK) {
         price = MallPriceManager.getMallPrice(itemId);
       }
-    } else if (checkedItem.pullBuyable > 0) {
+    } else if (availability.storageBuyable() > 0) {
       text = "buy & pull & " + text;
       cmd = "buy using storage 1 \u00B6" + itemId + ";pull \u00B6" + itemId + ";" + cmd;
       if (priceLevel != PriceLevel.DONT_CHECK) {

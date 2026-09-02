@@ -164,10 +164,10 @@ public class MaximizerSpeculation extends Speculation
         this.attachment == null
             ? null
             : new SolutionQuality.AttachmentQuality(
-                this.attachment.buyableFlag,
+                this.attachment.isBuyable(),
                 Maximizer.character().resourceUsage(this.attachment.getName()),
-                this.attachment.inventory > 0,
-                this.attachment.initial > 0);
+                this.attachment.availability().inventory() > 0,
+                this.attachment.availability().initial() > 0);
 
     return SolutionQuality.from(
         new EvaluationOutcome(this.score, this.failed, this.exceeded),

@@ -3,25 +3,12 @@ package net.sourceforge.kolmafia.maximizer;
 import java.util.List;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.equipment.SlotSet;
-import net.sourceforge.kolmafia.modifiers.BooleanModifier;
-import net.sourceforge.kolmafia.objectpool.Concoction;
-import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
-import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
-import net.sourceforge.kolmafia.persistence.ItemDatabase;
-import net.sourceforge.kolmafia.persistence.ItemDatabase.FoldGroup;
-import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
-import net.sourceforge.kolmafia.persistence.ModifierDatabase;
-import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
-import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.MallPriceManager;
 
 public class CheckedItem extends AdventureResult {
-  private record FoldAvailability(int count, int sourceItemId) {}
+  private ItemAvailability availability;
+  private final boolean buyable;
 
   public CheckedItem(int itemId, EquipScope equipScope, long maxPrice, PriceLevel priceLevel) {
     this(itemId, equipScope, maxPrice, priceLevel, false);
@@ -35,165 +22,17 @@ public class CheckedItem extends AdventureResult {
       boolean ignoreStandardRestriction) {
     super(itemId, 1, false);
 
-    // Special case used to get a CheckedItem that equals UNEQUIP.
     if (itemId == -1) {
       this.name = "(none)";
-      this.inventory = Integer.MAX_VALUE;
-      this.initial = Integer.MAX_VALUE;
+      this.availability = ItemAvailability.unlimited();
+      this.buyable = false;
       return;
     }
 
-    this.inventory = InventoryManager.getCount(itemId);
-    this.initial = InventoryManager.getAccessibleCount(itemId, true, ignoreStandardRestriction);
-    boolean isCodpieceGem = EquipmentDatabase.isCodpieceGem(itemId);
-
-    String itemName = this.getName();
-    int maxUseful = 3;
-    if (isCodpieceGem) {
-      var modifiers = ModifierDatabase.getItemModifiers(itemId);
-      int equipmentLimit =
-          !ItemDatabase.isEquipment(itemId)
-              ? 0
-              : modifiers != null && modifiers.getBoolean(BooleanModifier.SINGLE) ? 1 : 3;
-      maxUseful = SlotSet.CODPIECE_SLOTS.size() + equipmentLimit;
-    }
-
-    FoldGroup foldGroup =
-        itemId > 0 && Preferences.getBoolean("maximizerFoldables")
-            ? ItemDatabase.getFoldGroup(itemName)
-            : null;
-    if (foldGroup != null) {
-      var foldAvailability = getFoldAvailability(foldGroup, itemName, false);
-      this.foldable = foldAvailability.count();
-      this.foldItemId = foldAvailability.sourceItemId();
-
-      // Cannot have more than one item from January's Garbage Tote, no matter how many you have
-      //
-      // The actual tote (or replica tote), must be accessible, since we "fold"
-      // by using that item and selecting a choice.
-      //
-      // Fold groups are stored in lower case
-      if (foldGroup.names.get(0).equals("january's garbage tote")) {
-        if (this.foldable + this.initial > 1) {
-          this.foldable = 1 - this.initial;
-        }
-        if (this.foldable > 0) {
-          int tote = InventoryManager.getGarbageTote();
-          if (InventoryManager.getAccessibleCount(tote) == 0) {
-            this.foldable = 0;
-          }
-        }
-      }
-    }
-
-    boolean skillCreateCheck =
-        Preferences.getBoolean("maximizerCreateOnHand")
-            && equipScope == EquipScope.SPECULATE_INVENTORY
-            && !ItemDatabase.isEquipment(itemId);
-    if (this.initial >= maxUseful || (equipScope.checkInventoryOnly() && !skillCreateCheck)) {
-      return;
-    }
-
-    Concoction c = ConcoctionPool.get(itemId);
-    if (c == null) return;
-
-    this.creatable = c.creatable;
-
-    if (c.getAdventuresNeeded(1) > 0 && Preferences.getBoolean("maximizerNoAdventures")) {
-      this.creatable = 0;
-    } else if (c.price > 0) {
-      long theoreticBuyable = maxPrice / c.price;
-      int limit = NPCStoreDatabase.getQuantity(itemId).orElse(Integer.MAX_VALUE);
-      if (limit < theoreticBuyable) {
-        this.npcBuyable = limit;
-      } else {
-        // SAFETY: theoreticBuyable is no greater than the int quantity limit
-        this.npcBuyable = (int) theoreticBuyable;
-      }
-    }
-
-    if (this.getCount() >= maxUseful || equipScope != EquipScope.SPECULATE_ANY) {
-      return;
-    }
-
-    if (!ignoreStandardRestriction && !ItemDatabase.isAllowed(this)) {
-      // Unallowed items can't be bought or pulled, though the original code
-      // just reset everything to zero
-
-      this.initial = 0;
-      this.creatable = 0;
-      this.npcBuyable = 0;
-    } else if (InventoryManager.canUseMall(itemId)) {
-      // Ordinary equipment only needs one mall copy; Codpiece gems can fill five slots.
-      int needed = isCodpieceGem ? maxUseful - this.getCount() : this.getCount() == 0 ? 1 : 0;
-      if (needed > 0
-          && historicalPriceMayBeAffordable(
-              itemId, maxPrice, KoLCharacter.getAvailableMeat(), priceLevel)) {
-        this.mallBuyable = needed;
-        this.buyableFlag = true;
-      }
-    } else if (!KoLCharacter.isHardcore() && InventoryManager.pullableInCurrentPath(itemId)) {
-      // consider pulling
-      this.pullable = this.getCount(KoLConstants.storage);
-
-      if (InventoryManager.canUseMallToStorage(itemId)) {
-        int needed = isCodpieceGem ? maxUseful - this.getCount() : this.getCount() == 0 ? 1 : 0;
-        if (needed > 0
-            && historicalPriceMayBeAffordable(
-                itemId, maxPrice, KoLCharacter.getStorageMeat(), priceLevel)) {
-          this.pullBuyable = needed;
-          this.buyableFlag = true;
-        }
-      }
-
-      if (foldGroup != null) {
-        var foldAvailability = getFoldAvailability(foldGroup, itemName, true);
-        this.pullfoldable = foldAvailability.count();
-        if (foldAvailability.sourceItemId() > 0) {
-          this.foldItemId = foldAvailability.sourceItemId();
-        }
-        // Cannot have more than one item from January's Garbage Tote, no matter how many you have
-        if (foldGroup.names.get(0).equals("january's garbage tote")) {
-          this.pullfoldable = Math.min(this.pullfoldable, 1);
-        }
-      }
-    }
-
-    // We never want to suggest turning Mr. Accessories into other items
-    var ingredients = c.getIngredients();
-    if (ingredients.length > 0) {
-      int ingredientId = ingredients[0].getItemId();
-      if (ingredientId == ItemPool.MR_ACCESSORY || ingredientId == ItemPool.UNCLE_BUCK) {
-        this.creatable = 0;
-      }
-    }
-  }
-
-  private static boolean historicalPriceMayBeAffordable(
-      int itemId, long maxPrice, long availableMeat, PriceLevel priceLevel) {
-    // Current mall price may be less than the historical price.
-    return priceLevel == PriceLevel.DONT_CHECK
-        || MallPriceDatabase.getPrice(itemId) < Math.min(maxPrice, availableMeat) * 2;
-  }
-
-  private static FoldAvailability getFoldAvailability(
-      FoldGroup group, String itemName, boolean storageOnly) {
-    int available = 0;
-    int availableItemId = 0;
-    for (String form : group.names) {
-      if (form.equals(itemName)) continue;
-
-      int foldItemId = ItemDatabase.getItemId(form);
-      int count =
-          storageOnly
-              ? ItemPool.get(foldItemId).getCount(KoLConstants.storage)
-              : InventoryManager.getAccessibleCount(foldItemId);
-      available += count;
-      if (count > 0) {
-        availableItemId = foldItemId;
-      }
-    }
-    return new FoldAvailability(available, availableItemId);
+    this.availability =
+        ItemAvailabilityCompiler.compile(
+            itemId, equipScope, maxPrice, priceLevel, ignoreStandardRestriction);
+    this.buyable = this.availability.buyable();
   }
 
   @Override
@@ -202,90 +41,43 @@ public class CheckedItem extends AdventureResult {
       // We have all the no items you'd ever want!
       return Integer.MAX_VALUE;
     }
-    if (this.singleFlag) {
-      return Math.min(1, this.getAvailableCount());
-    }
-
-    return this.getAvailableCount();
+    return this.singleFlag ? Math.min(1, this.availability.total()) : this.availability.total();
   }
 
   final int getAvailableCount() {
-    return this.initial
-        + this.creatable
-        + this.npcBuyable
-        + this.mallBuyable
-        + this.foldable
-        + this.pullable
-        + this.pullfoldable
-        + this.pullBuyable;
+    return this.availability.total();
   }
 
   AcquisitionMethod acquisitionMethod(int used) {
-    return this.availability().acquisitionMethod(used);
+    return this.availability.acquisitionMethod(used);
   }
 
   ItemAvailability availability() {
-    return new ItemAvailability(
-        this.inventory,
-        this.initial,
-        this.creatable,
-        this.npcBuyable,
-        this.mallBuyable,
-        this.foldable,
-        this.pullable,
-        this.pullfoldable,
-        this.pullBuyable);
+    return this.availability;
   }
 
   List<AcquisitionOption> acquisitionOptions() {
-    return this.availability().options();
+    return this.availability.options();
+  }
+
+  boolean isBuyable() {
+    return this.buyable;
   }
 
   public void validate(long maxPrice, PriceLevel priceLevel) throws MaximizerInterruptedException {
     if (!KoLmafia.permitsContinue()) {
       throw new MaximizerInterruptedException();
     }
-
-    if (priceLevel == PriceLevel.DONT_CHECK) {
+    if (priceLevel == PriceLevel.DONT_CHECK || !this.buyable) {
       return;
     }
 
-    if (!this.buyableFlag) {
-      return;
-    }
-
-    // Check mall price
     long price = MallPriceManager.getMallPrice(this.getItemId());
-
-    // Check if too expensive for max price settings
-    if (price <= 0 || price > maxPrice) {
-      this.mallBuyable = 0;
-      this.pullBuyable = 0;
-    }
-
-    // Check character has meat to buy with
-    if (price > KoLCharacter.getAvailableMeat()) {
-      this.mallBuyable = 0;
-    }
-
-    // Check character has storage meat to buy for pulling
-    if (price > KoLCharacter.getStorageMeat()) {
-      this.pullBuyable = 0;
-    }
+    this.availability =
+        this.availability.withValidatedMallPrice(
+            price, maxPrice, KoLCharacter.getAvailableMeat(), KoLCharacter.getStorageMeat());
   }
 
-  public int inventory;
-  public int initial;
-  public int creatable;
-  public int npcBuyable;
-  public int mallBuyable;
-  public int foldable;
-  public int pullable;
-  public int pullfoldable;
-  public int pullBuyable;
-  public int foldItemId;
-
-  public boolean buyableFlag;
   public boolean automaticFlag;
   public boolean requiredFlag;
   public boolean conditionalFlag;

@@ -1602,7 +1602,7 @@ public class Evaluator {
         }
         if (delta == 0.0) {
           if (KoLCharacter.hasEquipped(item) && this.current) break gotItem;
-          if (item.initial == 0 || item.automaticFlag) {
+          if (item.availability().initial() == 0 || item.automaticFlag) {
             addCandidate(catalog, slot, auxSlot, item);
             continue;
           }

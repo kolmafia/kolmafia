@@ -12,7 +12,12 @@ record ItemAvailability(
     int foldable,
     int pullable,
     int pullFoldable,
-    int storageBuyable) {
+    int storageBuyable,
+    int foldItemId) {
+
+  static ItemAvailability unlimited() {
+    return new ItemAvailability(Integer.MAX_VALUE, Integer.MAX_VALUE, 0, 0, 0, 0, 0, 0, 0, 0);
+  }
 
   int total() {
     return initial
@@ -23,6 +28,40 @@ record ItemAvailability(
         + pullable
         + pullFoldable
         + storageBuyable;
+  }
+
+  boolean buyable() {
+    return mallBuyable > 0 || storageBuyable > 0;
+  }
+
+  ItemAvailability withValidatedMallPrice(
+      long price, long maxPrice, long availableMeat, long storageMeat) {
+    int validatedMallBuyable = mallBuyable;
+    int validatedStorageBuyable = storageBuyable;
+    if (price <= 0 || price > maxPrice) {
+      validatedMallBuyable = 0;
+      validatedStorageBuyable = 0;
+    }
+    if (price > availableMeat) {
+      validatedMallBuyable = 0;
+    }
+    if (price > storageMeat) {
+      validatedStorageBuyable = 0;
+    }
+    if (validatedMallBuyable == mallBuyable && validatedStorageBuyable == storageBuyable) {
+      return this;
+    }
+    return new ItemAvailability(
+        inventory,
+        initial,
+        creatable,
+        npcBuyable,
+        validatedMallBuyable,
+        foldable,
+        pullable,
+        pullFoldable,
+        validatedStorageBuyable,
+        foldItemId);
   }
 
   AcquisitionMethod acquisitionMethod(int used) {

@@ -416,7 +416,7 @@ public class EternityCodpieceMaximizerTest {
       var checked =
           new CheckedItem(eye.getItemId(), EquipScope.SPECULATE_ANY, 0, PriceLevel.DONT_CHECK);
 
-      assertThat(checked.mallBuyable, equalTo(6));
+      assertThat(checked.availability().mallBuyable(), equalTo(6));
     }
   }
 
@@ -2388,8 +2388,8 @@ public class EternityCodpieceMaximizerTest {
             new CheckedItem(
                 onyx.getItemId(), EquipScope.SPECULATE_ANY, 1_001, PriceLevel.BUYABLE_ONLY);
 
-        assertThat(checked.pullable, equalTo(2));
-        assertThat(checked.pullBuyable, equalTo(3));
+        assertThat(checked.availability().pullable(), equalTo(2));
+        assertThat(checked.availability().storageBuyable(), equalTo(3));
         assertThat(checked.getAvailableCount(), equalTo(5));
       }
     }

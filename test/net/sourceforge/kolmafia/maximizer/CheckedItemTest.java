@@ -10,55 +10,36 @@ import org.junit.jupiter.api.Test;
 class CheckedItemTest {
   @Test
   void classifiesHowTheNextCopyCanBeAcquired() {
-    var item = new CheckedItem(-1, EquipScope.SPECULATE_INVENTORY, 0, PriceLevel.DONT_CHECK);
-    item.inventory = 0;
-    item.initial = 1;
-    item.creatable = 1;
-    item.npcBuyable = 1;
-    item.foldable = 1;
-    item.pullable = 1;
-    item.pullfoldable = 1;
-    item.pullBuyable = 1;
-    item.mallBuyable = 1;
+    var availability = new ItemAvailability(0, 1, 1, 1, 1, 1, 1, 1, 1, 0);
 
-    assertThat(item.getAvailableCount(), is(item.availability().total()));
-    assertThat(item.acquisitionMethod(0), is(AcquisitionMethod.ACCESSIBLE));
-    assertThat(item.acquisitionMethod(1), is(AcquisitionMethod.CREATE));
-    assertThat(item.acquisitionMethod(2), is(AcquisitionMethod.NPC_BUY));
-    assertThat(item.acquisitionMethod(3), is(AcquisitionMethod.FOLD));
-    assertThat(item.acquisitionMethod(4), is(AcquisitionMethod.PULL));
-    assertThat(item.acquisitionMethod(5), is(AcquisitionMethod.PULL_FOLD));
-    assertThat(item.acquisitionMethod(6), is(AcquisitionMethod.STORAGE_BUY));
-    assertThat(item.acquisitionMethod(7), is(AcquisitionMethod.MALL_BUY));
-    assertThrows(IllegalArgumentException.class, () -> item.acquisitionMethod(8));
+    assertThat(availability.acquisitionMethod(0), is(AcquisitionMethod.ACCESSIBLE));
+    assertThat(availability.acquisitionMethod(1), is(AcquisitionMethod.CREATE));
+    assertThat(availability.acquisitionMethod(2), is(AcquisitionMethod.NPC_BUY));
+    assertThat(availability.acquisitionMethod(3), is(AcquisitionMethod.FOLD));
+    assertThat(availability.acquisitionMethod(4), is(AcquisitionMethod.PULL));
+    assertThat(availability.acquisitionMethod(5), is(AcquisitionMethod.PULL_FOLD));
+    assertThat(availability.acquisitionMethod(6), is(AcquisitionMethod.STORAGE_BUY));
+    assertThat(availability.acquisitionMethod(7), is(AcquisitionMethod.MALL_BUY));
+    assertThrows(IllegalArgumentException.class, () -> availability.acquisitionMethod(8));
   }
 
   @Test
-  void availabilityIsAnImmutableSnapshot() {
+  void checkedItemRetainsItsCompiledAvailability() {
     var item = new CheckedItem(-1, EquipScope.SPECULATE_INVENTORY, 0, PriceLevel.DONT_CHECK);
-    item.inventory = 1;
-    item.initial = 2;
-    item.creatable = 3;
 
     var availability = item.availability();
-    item.initial = 0;
-    item.creatable = 0;
 
-    assertThat(availability.inventory(), is(1));
-    assertThat(availability.total(), is(5));
-    assertThat(availability.acquisitionMethod(2), is(AcquisitionMethod.CREATE));
+    assertThat(item.availability(), is(availability));
+    assertThat(availability.inventory(), is(Integer.MAX_VALUE));
+    assertThat(availability.total(), is(Integer.MAX_VALUE));
   }
 
   @Test
   void exposesOnlyAvailableAcquisitionOptionsInPriorityOrder() {
-    var item = new CheckedItem(-1, EquipScope.SPECULATE_INVENTORY, 0, PriceLevel.DONT_CHECK);
-    item.initial = 2;
-    item.creatable = 0;
-    item.npcBuyable = 1;
-    item.mallBuyable = 3;
+    var availability = new ItemAvailability(0, 2, 0, 1, 3, 0, 0, 0, 0, 0);
 
     assertThat(
-        item.acquisitionOptions(),
+        availability.options(),
         is(
             List.of(
                 new AcquisitionOption(AcquisitionMethod.ACCESSIBLE, 2),
