@@ -223,6 +223,7 @@ public class MaximizerSpeculation extends Speculation
       FamiliarData useCrownFamiliar,
       FamiliarData useBjornFamiliar)
       throws MaximizerInterruptedException {
+    if (!Maximizer.keepSearching()) return;
     this.foldables = Preferences.getBoolean("maximizerFoldables");
     this.tryOutfits(
         enthronedFamiliars,
@@ -233,6 +234,7 @@ public class MaximizerSpeculation extends Speculation
         useCrownFamiliar,
         useBjornFamiliar);
     for (int i = 0; i < familiars.size(); ++i) {
+      if (!Maximizer.keepSearching()) return;
       this.setFamiliar(familiars.get(i));
       possibles.set(Slot.FAMILIAR, possibles.getFamiliar(i));
       this.tryOutfits(
@@ -255,8 +257,10 @@ public class MaximizerSpeculation extends Speculation
       FamiliarData useCrownFamiliar,
       FamiliarData useBjornFamiliar)
       throws MaximizerInterruptedException {
+    if (!Maximizer.keepSearching()) return;
     var mark = this.mark();
     for (Integer outfit : usefulOutfits.keySet()) {
+      if (!Maximizer.keepSearching()) return;
       if (!usefulOutfits.get(outfit)) continue;
       AdventureResult[] pieces = EquipmentDatabase.getOutfit(outfit).getPieces();
       pieceloop:
@@ -330,11 +334,13 @@ public class MaximizerSpeculation extends Speculation
       FamiliarData useCrownFamiliar,
       FamiliarData useBjornFamiliar)
       throws MaximizerInterruptedException {
+    if (!Maximizer.keepSearching()) return;
     var mark = this.mark();
     if (this.equipment.get(Slot.FAMILIAR) == null) {
       List<CheckedItem> possible = possibles.get(Slot.FAMILIAR);
       boolean any = false;
       for (AdventureResult item : possible) {
+        if (!Maximizer.keepSearching()) return;
         int count =
             this.availableCount(
                 item, Slot.FAMILIAR, Slot.OFFHAND, Slot.WEAPON, Slot.HAT, Slot.PANTS);
@@ -361,11 +367,13 @@ public class MaximizerSpeculation extends Speculation
       FamiliarData useCrownFamiliar,
       FamiliarData useBjornFamiliar)
       throws MaximizerInterruptedException {
+    if (!Maximizer.keepSearching()) return;
     var mark = this.mark();
     if (this.equipment.get(Slot.CONTAINER) == null) {
       List<CheckedItem> possible = possibles.get(Slot.CONTAINER);
       boolean any = false;
       for (CheckedItem item : possible) {
+        if (!Maximizer.keepSearching()) return;
         int count = this.availableCount(item, Slot.CONTAINER);
         if (count <= 0) continue;
         this.equipment.put(Slot.CONTAINER, item);
@@ -373,6 +381,7 @@ public class MaximizerSpeculation extends Speculation
           var carrierMark = this.mark();
           var familiars = useBjornFamiliar == null ? enthronedFamiliars : List.of(useBjornFamiliar);
           for (FamiliarData familiar : familiars) {
+            this.setBjorned(familiar);
             this.setBjorned(familiar);
             this.tryAccessories(enthronedFamiliars, possibles, 0, bestCard, useCrownFamiliar);
             any = true;
@@ -400,6 +409,7 @@ public class MaximizerSpeculation extends Speculation
       AdventureResult bestCard,
       FamiliarData useCrownFamiliar)
       throws MaximizerInterruptedException {
+    if (!Maximizer.keepSearching()) return;
     var mark = this.mark();
     int free = 0;
     if (this.equipment.get(Slot.ACCESSORY1) == null) ++free;
@@ -409,11 +419,13 @@ public class MaximizerSpeculation extends Speculation
       List<CheckedItem> possible = possibles.get(Slot.ACCESSORY1);
       boolean any = false;
       for (; pos < possible.size(); ++pos) {
+        if (!Maximizer.keepSearching()) return;
         AdventureResult item = possible.get(pos);
         int count =
             this.availableCount(item, Slot.NONE, Slot.ACCESSORY1, Slot.ACCESSORY2, Slot.ACCESSORY3);
         if (count <= 0) continue;
         for (count = Math.min(free, count); count > 0; --count) {
+          if (!Maximizer.keepSearching()) return;
           if (this.equipment.get(Slot.ACCESSORY1) == null) {
             this.equipment.put(Slot.ACCESSORY1, item);
           } else if (this.equipment.get(Slot.ACCESSORY2) == null) {
@@ -424,7 +436,6 @@ public class MaximizerSpeculation extends Speculation
             System.out.println("no room left???");
             break; // no room left - shouldn't happen
           }
-
           this.tryAccessories(enthronedFamiliars, possibles, pos + 1, bestCard, useCrownFamiliar);
           any = true;
         }
@@ -459,11 +470,13 @@ public class MaximizerSpeculation extends Speculation
       AdventureResult bestCard,
       FamiliarData useCrownFamiliar)
       throws MaximizerInterruptedException {
+    if (!Maximizer.keepSearching()) return;
     var mark = this.mark();
     if (this.equipment.get(Slot.HAT) == null) {
       List<CheckedItem> possible = possibles.get(Slot.HAT);
       boolean any = false;
       for (CheckedItem item : possible) {
+        if (!Maximizer.keepSearching()) return;
         int count = this.availableCount(item, Slot.HAT, Slot.FAMILIAR);
         if (count <= 0) continue;
         this.equipment.put(Slot.HAT, item);
@@ -471,6 +484,7 @@ public class MaximizerSpeculation extends Speculation
           var carrierMark = this.mark();
           var familiars = useCrownFamiliar == null ? enthronedFamiliars : List.of(useCrownFamiliar);
           for (FamiliarData familiar : familiars) {
+            if (!Maximizer.keepSearching()) return;
             // Cannot use the same familiar for this and the Bjorn unless the slot is empty.
             if (useCrownFamiliar == null
                 && familiar == this.getBjorned()
@@ -500,6 +514,7 @@ public class MaximizerSpeculation extends Speculation
   private void trySimpleSlots(
       SlotList<CheckedItem> possibles, AdventureResult bestCard, int position)
       throws MaximizerInterruptedException {
+    if (!Maximizer.keepSearching()) return;
     if (position == SIMPLE_SLOTS.size()) {
       this.tryWeapons(possibles, bestCard);
       return;
@@ -511,6 +526,7 @@ public class MaximizerSpeculation extends Speculation
       boolean any = false;
       if (slot != Slot.SHIRT || KoLCharacter.isTorsoAware()) {
         for (CheckedItem item : possibles.get(slot)) {
+          if (!Maximizer.keepSearching()) return;
           int count =
               slot == Slot.HOLSTER
                   ? item.getCount()
@@ -533,6 +549,7 @@ public class MaximizerSpeculation extends Speculation
 
   public void tryWeapons(SlotList<CheckedItem> possibles, AdventureResult bestCard)
       throws MaximizerInterruptedException {
+    if (!Maximizer.keepSearching()) return;
     var mark = this.mark();
     boolean chefstaffable =
         KoLCharacter.hasSkill(SkillPool.SPIRIT_OF_RIGATONI) || KoLCharacter.isJarlsberg();
@@ -546,6 +563,7 @@ public class MaximizerSpeculation extends Speculation
       List<CheckedItem> possible = possibles.get(Slot.WEAPON);
       // boolean any = false;
       for (AdventureResult item : possible) {
+        if (!Maximizer.keepSearching()) return;
         if (!chefstaffable && EquipmentDatabase.getItemType(item.getItemId()).equals("chefstaff")) {
           continue;
         }
@@ -574,6 +592,7 @@ public class MaximizerSpeculation extends Speculation
 
   public void tryOffhands(SlotList<CheckedItem> possibles, AdventureResult bestCard)
       throws MaximizerInterruptedException {
+    if (!Maximizer.keepSearching()) return;
     var mark = this.mark();
     int weapon = this.equipment.get(Slot.WEAPON).getItemId();
     if (EquipmentDatabase.getHands(weapon) > 1) {
@@ -595,6 +614,7 @@ public class MaximizerSpeculation extends Speculation
       boolean any = false;
 
       for (AdventureResult item : possible) {
+        if (!Maximizer.keepSearching()) return;
         int count = this.availableCount(item, Slot.OFFHAND, Slot.WEAPON, Slot.FAMILIAR);
         if (count <= 0) continue;
         if (item.getItemId() == ItemPool.CARD_SLEEVE) {

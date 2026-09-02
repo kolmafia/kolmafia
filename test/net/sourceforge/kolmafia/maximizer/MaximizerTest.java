@@ -3649,4 +3649,13 @@ public class MaximizerTest {
       }
     }
   }
+
+  @Test
+  void marksExpiredSearchIncomplete() {
+    var session = new MaximizerSession(new MaximizerSpeculation(), 0);
+    session.searchDeadlineNanos = 0;
+
+    assertFalse(session.keepSearching());
+    assertFalse(session.searchComplete);
+  }
 }

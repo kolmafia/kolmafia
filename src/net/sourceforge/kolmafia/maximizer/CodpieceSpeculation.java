@@ -147,6 +147,7 @@ final class CodpieceSpeculation {
    */
   void trySlots(EnumMap<Slot, AdventureResult> mark, List<CheckedItem> possibles)
       throws MaximizerInterruptedException {
+    if (!Maximizer.keepSearching()) return;
     boolean wearingCodpiece =
         this.owner.equipment.values().stream()
             .anyMatch(item -> item != null && item.getItemId() == ItemPool.THE_ETERNITY_CODPIECE);

@@ -53,7 +53,9 @@ final class MaximizerSession {
   }
 
   boolean keepSearching() {
-    return System.nanoTime() < this.searchDeadlineNanos;
+    if (System.nanoTime() < this.searchDeadlineNanos) return true;
+    this.searchComplete = false;
+    return false;
   }
 
   void refreshCharacterSnapshot(Evaluator evaluator) {
