@@ -33,7 +33,7 @@ public class MaximizerSpeculation extends Speculation
   private boolean exceeded;
   private double score, tiebreaker;
   private int simplicity;
-  private int beeosity;
+  private ResourceUsage resourceUsage = ResourceUsage.EMPTY;
 
   public boolean failed = false;
   public CheckedItem attachment;
@@ -88,14 +88,14 @@ public class MaximizerSpeculation extends Speculation
     if (this.scored) return this.score;
     if (!this.calculated) this.calculate();
     var character = Maximizer.character();
-    this.beeosity = character.beeosity(this.equipment);
+    this.resourceUsage = character.resourceUsage(this.equipment);
     var outcome =
         Maximizer.evaluator()
             .evaluateComplete(
                 this.mods,
                 this.equipment,
                 this.getModeables(),
-                this.beeosity,
+                character.resourcesExceeded(this.resourceUsage),
                 character.allowedMutexViolations());
     this.score = outcome.score();
     this.failed = outcome.failed();
@@ -145,7 +145,7 @@ public class MaximizerSpeculation extends Speculation
     if (this.failed != o.failed) return this.failed ? -1 : 1;
     if (comparison != 0) return comparison;
 
-    comparison = Integer.compare(o.beeosity, this.beeosity);
+    comparison = this.resourceUsage.compareTo(o.resourceUsage);
     if (comparison != 0) return comparison;
 
     return this.quality().compareTo(o.quality());
@@ -160,13 +160,13 @@ public class MaximizerSpeculation extends Speculation
             ? null
             : new SolutionQuality.AttachmentQuality(
                 this.attachment.buyableFlag,
-                Maximizer.character().beeosity(this.attachment.getName()),
+                Maximizer.character().resourceUsage(this.attachment.getName()),
                 this.attachment.inventory > 0,
                 this.attachment.initial > 0);
 
     return SolutionQuality.from(
         new EvaluationOutcome(this.score, this.failed, this.exceeded),
-        this.beeosity,
+        this.resourceUsage,
         Maximizer.evaluator().isUsingTiebreaker(),
         this.tiebreaker,
         this.simplicity,

@@ -11,7 +11,7 @@ import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 record SolutionQuality(
     boolean feasible,
     double score,
-    int beeosity,
+    ResourceUsage resourceUsage,
     int itemDroppers,
     int meatDroppers,
     double tiebreaker,
@@ -21,11 +21,12 @@ record SolutionQuality(
     AttachmentQuality attachment)
     implements Comparable<SolutionQuality> {
 
-  record AttachmentQuality(boolean buyable, int beeosity, boolean inInventory, boolean initial) {}
+  record AttachmentQuality(
+      boolean buyable, ResourceUsage resourceUsage, boolean inInventory, boolean initial) {}
 
   static SolutionQuality from(
       EvaluationOutcome outcome,
-      int beeosity,
+      ResourceUsage resourceUsage,
       boolean useTiebreaker,
       double tiebreaker,
       int simplicity,
@@ -48,7 +49,7 @@ record SolutionQuality(
     return new SolutionQuality(
         !outcome.failed(),
         outcome.score(),
-        beeosity,
+        resourceUsage,
         useTiebreaker ? itemDroppers : 0,
         useTiebreaker ? meatDroppers : 0,
         tiebreaker,
@@ -66,7 +67,7 @@ record SolutionQuality(
     comparison = Double.compare(this.score, other.score);
     if (comparison != 0) return comparison;
 
-    comparison = Integer.compare(other.beeosity, this.beeosity);
+    comparison = this.resourceUsage.compareTo(other.resourceUsage);
     if (comparison != 0) return comparison;
 
     comparison = Integer.compare(this.itemDroppers, other.itemDroppers);
@@ -98,6 +99,6 @@ record SolutionQuality(
     comparison = Boolean.compare(this.attachment.initial, other.attachment.initial);
     if (comparison != 0) return comparison;
 
-    return Integer.compare(other.attachment.beeosity, this.attachment.beeosity);
+    return this.attachment.resourceUsage.compareTo(other.attachment.resourceUsage);
   }
 }

@@ -8,10 +8,11 @@ import org.junit.jupiter.api.Test;
 
 class SolutionQualityTest {
   private static final SolutionQuality.AttachmentQuality NO_ACQUISITION =
-      new SolutionQuality.AttachmentQuality(false, 0, false, false);
+      new SolutionQuality.AttachmentQuality(false, ResourceUsage.EMPTY, false, false);
 
   private static SolutionQuality quality(boolean feasible, double score, int simplicity) {
-    return new SolutionQuality(feasible, score, 0, 0, 0, 0, 0, 0, simplicity, NO_ACQUISITION);
+    return new SolutionQuality(
+        feasible, score, ResourceUsage.EMPTY, 0, 0, 0, 0, 0, simplicity, NO_ACQUISITION);
   }
 
   @Test
@@ -26,26 +27,35 @@ class SolutionQualityTest {
     var baseline = quality(true, 1, 0);
 
     assertThat(
-        new SolutionQuality(true, 1, 0, 1, 0, 0, 0, 0, 0, NO_ACQUISITION), greaterThan(baseline));
+        new SolutionQuality(true, 1, ResourceUsage.EMPTY, 1, 0, 0, 0, 0, 0, NO_ACQUISITION),
+        greaterThan(baseline));
     assertThat(
-        new SolutionQuality(true, 1, 0, 0, 1, 0, 0, 0, 0, NO_ACQUISITION), greaterThan(baseline));
+        new SolutionQuality(true, 1, ResourceUsage.EMPTY, 0, 1, 0, 0, 0, 0, NO_ACQUISITION),
+        greaterThan(baseline));
     assertThat(
-        new SolutionQuality(true, 1, 0, 0, 0, 1, 0, 0, 0, NO_ACQUISITION), greaterThan(baseline));
+        new SolutionQuality(true, 1, ResourceUsage.EMPTY, 0, 0, 1, 0, 0, 0, NO_ACQUISITION),
+        greaterThan(baseline));
     assertThat(
-        new SolutionQuality(true, 1, 0, 0, 0, 0, 1, 0, 0, NO_ACQUISITION), greaterThan(baseline));
+        new SolutionQuality(true, 1, ResourceUsage.EMPTY, 0, 0, 0, 1, 0, 0, NO_ACQUISITION),
+        greaterThan(baseline));
     assertThat(
-        new SolutionQuality(true, 1, 0, 0, 0, 0, 0, 1, 0, NO_ACQUISITION), lessThan(baseline));
+        new SolutionQuality(true, 1, ResourceUsage.EMPTY, 0, 0, 0, 0, 1, 0, NO_ACQUISITION),
+        lessThan(baseline));
     assertThat(
-        new SolutionQuality(true, 1, 1, 0, 0, 0, 0, 0, 0, NO_ACQUISITION), lessThan(baseline));
+        new SolutionQuality(true, 1, ResourceUsage.of(1), 0, 0, 0, 0, 0, 0, NO_ACQUISITION),
+        lessThan(baseline));
   }
 
   @Test
-  void prefersOwnedAttachmentsBeforeBeeosity() {
-    var owned = new SolutionQuality.AttachmentQuality(false, 3, true, true);
-    var fewerBees = new SolutionQuality.AttachmentQuality(false, 0, false, false);
+  void prefersOwnedAttachmentsBeforeResourceCost() {
+    var owned = new SolutionQuality.AttachmentQuality(false, ResourceUsage.of(3), true, true);
+    var lowerResourceCost =
+        new SolutionQuality.AttachmentQuality(false, ResourceUsage.of(0), false, false);
 
     assertThat(
-        new SolutionQuality(true, 1, 0, 0, 0, 0, 0, 0, 0, owned),
-        greaterThan(new SolutionQuality(true, 1, 0, 0, 0, 0, 0, 0, 0, fewerBees)));
+        new SolutionQuality(true, 1, ResourceUsage.EMPTY, 0, 0, 0, 0, 0, 0, owned),
+        greaterThan(
+            new SolutionQuality(
+                true, 1, ResourceUsage.EMPTY, 0, 0, 0, 0, 0, 0, lowerResourceCost)));
   }
 }

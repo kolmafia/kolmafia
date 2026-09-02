@@ -1093,10 +1093,13 @@ public class Evaluator {
       Modifiers mods,
       Map<Slot, AdventureResult> equipment,
       Map<Modeable, String> modeables,
-      int beeosity,
+      boolean resourceLimitExceeded,
       int allowedMutexViolations) {
     var outcome = this.evaluate(mods, equipment, modeables);
-    boolean failed = this.failsEquipment(mods, equipment, beeosity, outcome.failed());
+    boolean failed = this.failsEquipment(mods, equipment, outcome.failed());
+    if (resourceLimitExceeded) {
+      failed = true;
+    }
     if ((mods.getRawBitmap(BitmapModifier.MUTEX_VIOLATIONS) & ~allowedMutexViolations) != 0) {
       failed = true;
     }
@@ -1104,7 +1107,7 @@ public class Evaluator {
   }
 
   private boolean failsEquipment(
-      Modifiers mods, Map<Slot, AdventureResult> equipment, int beeosity, boolean scoreFailed) {
+      Modifiers mods, Map<Slot, AdventureResult> equipment, boolean scoreFailed) {
     boolean failed = scoreFailed;
     boolean outfitSatisfied = this.posOutfits.isEmpty();
     boolean equipSatisfied = this.posEquip.isEmpty();
@@ -1131,10 +1134,11 @@ public class Evaluator {
     if (!outfitSatisfied || !equipSatisfied) {
       failed = true;
     }
-    if (beeosity > this.beeosity) {
-      failed = true;
-    }
     return failed;
+  }
+
+  int beeosityLimit() {
+    return this.beeosity;
   }
 
   private boolean hasEquipped(Map<Slot, AdventureResult> equipment, AdventureResult item) {

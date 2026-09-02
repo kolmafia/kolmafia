@@ -141,7 +141,7 @@ public class Maximizer {
 
   static CharacterSnapshot character() {
     return session == null || !session.active || session.character == null
-        ? CharacterSnapshot.capture()
+        ? CharacterSnapshot.capture(Maximizer.evaluator())
         : session.character;
   }
 
@@ -231,7 +231,7 @@ public class Maximizer {
     ApiRequest.updateStatus();
     // ensure current modifiers are up-to-date
     KoLCharacter.recalculateAdjustments();
-    Maximizer.session.refreshCharacterSnapshot();
+    Maximizer.session.refreshCharacterSnapshot(Maximizer.evaluator());
     double current =
         Maximizer.evaluator()
             .getScore(

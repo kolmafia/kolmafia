@@ -22,8 +22,8 @@ final class MaximizerSession {
     return new SearchMetrics(this.combinationsChecked);
   }
 
-  void refreshCharacterSnapshot() {
-    this.character = CharacterSnapshot.capture();
+  void refreshCharacterSnapshot(Evaluator evaluator) {
+    this.character = CharacterSnapshot.capture(evaluator);
   }
 
   void finish() {
