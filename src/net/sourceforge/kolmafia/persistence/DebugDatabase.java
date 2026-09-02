@@ -829,7 +829,9 @@ public class DebugDatabase {
 
   private static void checkConsumableDatum(
       final String name, final ConsumptionType type, final String text, final PrintStream report) {
-    Integer requirement = ConsumablesDatabase.getLevelReqByName(name);
+    int itemId = ItemDatabase.getItemId(name, 1, false);
+
+    Integer requirement = ConsumablesDatabase.getLevelReqById(itemId);
     int level = requirement == null ? 0 : requirement;
     int descLevel = DebugDatabase.parseLevel(text);
     if (level != descLevel) {
@@ -839,17 +841,17 @@ public class DebugDatabase {
 
     int size =
         (type == ConsumptionType.EAT)
-            ? ConsumablesDatabase.getFullness(name)
+            ? ConsumablesDatabase.getFullness(itemId)
             : (type == ConsumptionType.DRINK)
-                ? ConsumablesDatabase.getInebriety(name)
-                : (type == ConsumptionType.SPLEEN) ? ConsumablesDatabase.getSpleenHit(name) : 1;
+                ? ConsumablesDatabase.getInebriety(itemId)
+                : (type == ConsumptionType.SPLEEN) ? ConsumablesDatabase.getSpleenHit(itemId) : 1;
 
     int descSize = DebugDatabase.parseSize(text);
     if (size != descSize) {
       report.println("# *** " + name + " is size " + size + " but should be " + descSize + ".");
     }
 
-    var quality = ConsumablesDatabase.getQuality(name);
+    var quality = ConsumablesDatabase.getQuality(itemId);
     var descQuality = DebugDatabase.parseQuality(text);
     if (quality != descQuality) {
       report.println(
