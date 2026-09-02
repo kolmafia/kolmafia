@@ -22,6 +22,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLConstants.Stat;
 import net.sourceforge.kolmafia.KoLConstants.WeaponType;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.SpecialOutfit;
@@ -679,6 +680,10 @@ public class EquipmentDatabase {
 
   public static final boolean isChefStaff(final int itemId) {
     return EquipmentDatabase.getItemType(itemId).equals("chefstaff");
+  }
+
+  public static boolean isCodpieceGem(final int itemId) {
+    return ModifierDatabase.getModifiers(ModifierType.ETERNITY_CODPIECE, itemId) != null;
   }
 
   public static final boolean isCanOfBeans(final AdventureResult item) {

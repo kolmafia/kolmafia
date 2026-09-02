@@ -10,13 +10,13 @@ import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase.FoldGroup;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.coinmaster.MrStoreRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.MallPriceManager;
@@ -37,9 +37,9 @@ public class CheckedItem extends AdventureResult {
     this.inventory = InventoryManager.getCount(itemId);
 
     this.initial = InventoryManager.getAccessibleCount(itemId, true, ignoreStandardRestriction);
-    boolean isCodpieceGem = EquipmentRequest.isCodpieceGem(itemId);
+    boolean isCodpieceGem = EquipmentDatabase.isCodpieceGem(itemId);
 
-    // special case used to get a CheckItem that .equals( EquipmentRequest.UNEQUIP ).
+    // special case used to get a CheckedItem that equals UNEQUIP.
     if (itemId == -1) {
       this.name = "(none)";
       this.inventory = Integer.MAX_VALUE;

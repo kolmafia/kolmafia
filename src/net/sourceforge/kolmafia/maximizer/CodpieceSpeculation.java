@@ -13,6 +13,7 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 
@@ -243,7 +244,7 @@ final class CodpieceSpeculation {
           this.createCodpiecePlan(
               possibles.stream()
                   .filter(
-                      gem -> gem.getCount() > 0 && EquipmentRequest.isCodpieceGem(gem.getItemId()))
+                      gem -> gem.getCount() > 0 && EquipmentDatabase.isCodpieceGem(gem.getItemId()))
                   .toList());
     }
     return this.codpiecePlan;
@@ -323,7 +324,7 @@ final class CodpieceSpeculation {
 
     for (AdventureResult item : this.owner.equipment.values()) {
       if (!(item instanceof CheckedItem checked)
-          || !EquipmentRequest.isCodpieceGem(item.getItemId())) {
+          || !EquipmentDatabase.isCodpieceGem(item.getItemId())) {
         continue;
       }
 

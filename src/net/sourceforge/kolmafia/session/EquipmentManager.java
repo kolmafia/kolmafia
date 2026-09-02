@@ -225,7 +225,7 @@ public class EquipmentManager {
 
     // Codpiece gems can also have other consumption types (e.g. accessories),
     // so check for ETERNITY_CODPIECE modifiers separately
-    if (EquipmentRequest.isCodpieceGem(itemId)) {
+    if (EquipmentDatabase.isCodpieceGem(itemId)) {
       for (Slot slot : SlotSet.CODPIECE_SLOTS) {
         AdventureResult current = EquipmentManager.getEquipment(slot);
         AdventureResult.addResultToList(EquipmentManager.equipmentLists.get(slot), item);
@@ -1132,7 +1132,7 @@ public class EquipmentManager {
 
     for (AdventureResult currentItem : KoLConstants.inventory) {
       int itemId = currentItem.getItemId();
-      if (EquipmentRequest.isCodpieceGem(itemId)) {
+      if (EquipmentDatabase.isCodpieceGem(itemId)) {
         temporary.add(currentItem);
       }
     }

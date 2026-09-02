@@ -25,7 +25,6 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase.Attribute;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.concoction.CombineMeatRequest;
 import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
@@ -262,7 +261,7 @@ public class ItemFinder {
                 BOOTSPUR,
                 SIXGUN -> {}
             default -> {
-              if (!EquipmentRequest.isCodpieceGem(itemId)) {
+              if (!EquipmentDatabase.isCodpieceGem(itemId)) {
                 nameIterator.remove();
               }
             }

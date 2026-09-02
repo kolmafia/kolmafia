@@ -1100,7 +1100,7 @@ public class Evaluator {
         KoLCharacter.hasEquipped(
             equipment, ItemPool.get(ItemPool.THE_ETERNITY_CODPIECE), SlotSet.ACCESSORY_SLOTS);
     return wearingCodpiece
-        && EquipmentRequest.isCodpieceGem(item.getItemId())
+        && EquipmentDatabase.isCodpieceGem(item.getItemId())
         && KoLCharacter.hasEquipped(equipment, item, SlotSet.CODPIECE_SLOTS);
   }
 
