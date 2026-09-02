@@ -17,7 +17,6 @@ import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.coinmaster.MrStoreRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.MallPriceManager;
 
@@ -161,10 +160,12 @@ public class CheckedItem extends AdventureResult {
     }
 
     // We never want to suggest turning Mr. Accessories into other items
-    if (c.getIngredients().length > 0
-        && ((MrStoreRequest.MR_A).equals(c.getIngredients()[0])
-            || (MrStoreRequest.UNCLE_B).equals(c.getIngredients()[0]))) {
-      this.creatable = 0;
+    var ingredients = c.getIngredients();
+    if (ingredients.length > 0) {
+      int ingredientId = ingredients[0].getItemId();
+      if (ingredientId == ItemPool.MR_ACCESSORY || ingredientId == ItemPool.UNCLE_BUCK) {
+        this.creatable = 0;
+      }
     }
   }
 
