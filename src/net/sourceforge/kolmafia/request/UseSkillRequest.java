@@ -68,7 +68,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
 
   private static final Pattern SKILLZ_PATTERN =
       Pattern.compile(
-          "rel=\\\"(\\d+)\\\".*?<span class=small>(.*?)</center></span>", Pattern.DOTALL);
+          "rel=\\\"(\\d+)\\\"(.*?<span class=small>.*?</center></span>)", Pattern.DOTALL);
 
   private static final Pattern SWEAT_PATTERN = Pattern.compile("You get (\\d+)% less Sweaty.");
 
