@@ -5,6 +5,7 @@ import static internal.helpers.Player.withNextResponse;
 import static internal.helpers.Player.withResponses;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
@@ -22,10 +23,12 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.ConsumablesDatabase.ConsumableQuality;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mockito;
 
@@ -326,5 +329,17 @@ public class DebugDatabaseTest {
     String known = DebugDatabase.parseItemEnchantments(desc, unknown, ConsumptionType.HAT);
     assertThat(known, containsString("Hot Spell Damage: +10"));
     assertThat(known, containsString("Spooky Damage: +10"));
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+    "astral_pilsner, ???",
+    "vampire_vintner_wine, awesome",
+  })
+  void parsesQuality(String htmlFragment, String quality) {
+    var qual = ConsumableQuality.find(quality);
+    assertThat(
+        DebugDatabase.parseQuality(html("request/test_desc_item_" + htmlFragment + ".html")),
+        equalTo(qual));
   }
 }

@@ -484,8 +484,10 @@ class TCRSDatabaseTest {
           if (ev.equals(gv)) return;
           // Introspection restores carried-over modifiers from the base item, so the data should
           // have whatever derive has. It may legitimately have more: a live run records ones
-          // learned at runtime that are not in modifiers.txt.
-          if (ModifierDatabase.CARRIED_OVER.contains(mod) && gv.isEmpty()) return;
+          // learned at runtime that are not in modifiers.txt. It may also have less, e.g. if the
+          // base item has gained a last available date, or a different one, if the date has
+          // changed.
+          if (ModifierDatabase.CARRIED_OVER.contains(mod)) return;
           // An expression-valued modifier's value is context-dependent. Keeping it is enough, so
           // don't compare the value.
           if (expressionMods.contains(mod)) return;
