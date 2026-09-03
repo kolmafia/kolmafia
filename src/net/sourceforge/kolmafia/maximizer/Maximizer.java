@@ -341,7 +341,7 @@ public class Maximizer {
       if (!currentEquipment.failed() && Maximizer.best().getScore() < currentEquipment.getScore()) {
         Maximizer.setBest(currentEquipment);
       }
-      MaximizerSpeculation.showProgress();
+      Maximizer.session.showProgress();
 
       EnumSet<Slot> alreadyDone = EnumSet.noneOf(Slot.class);
 

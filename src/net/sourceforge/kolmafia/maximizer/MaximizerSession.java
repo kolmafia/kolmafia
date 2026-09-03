@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.maximizer;
 
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
@@ -89,7 +90,7 @@ final class MaximizerSession {
     if ((checked & 0x3FF) == 0) {
       long now = System.currentTimeMillis();
       if (now > this.nextProgressUpdate) {
-        MaximizerSpeculation.showProgress();
+        this.showProgress();
         this.nextProgressUpdate = now + 5000;
       }
     }
@@ -102,6 +103,17 @@ final class MaximizerSession {
     if (this.combinationLimit != 0 && checked >= this.combinationLimit) {
       throw new MaximizerLimitException();
     }
+  }
+
+  void showProgress() {
+    StringBuilder message = new StringBuilder();
+    message.append(this.combinationsChecked);
+    message.append(" combinations checked, best score ");
+    message.append(KoLConstants.FLOAT_FORMAT.format(this.best.getScore()));
+    if (this.best.failed()) {
+      message.append(" (FAIL)");
+    }
+    KoLmafia.updateDisplay(message.toString());
   }
 
   void refreshCharacterSnapshot(Evaluator evaluator) {

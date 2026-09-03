@@ -7,9 +7,7 @@ import java.util.function.BiConsumer;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.WeaponType;
-import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.Speculation;
 import net.sourceforge.kolmafia.equipment.Slot;
@@ -665,22 +663,5 @@ public class MaximizerSpeculation extends Speculation
       this.equipment.put(slot1, item2);
       this.equipment.put(slot2, item1);
     }
-  }
-
-  public static void showProgress() {
-    StringBuilder msg = new StringBuilder();
-    msg.append(Maximizer.lastSearchMetrics().combinationsChecked());
-    msg.append(" combinations checked, best score ");
-    double score = Maximizer.best().getScore();
-    msg.append(KoLConstants.FLOAT_FORMAT.format(score));
-    if (Maximizer.best().failed()) {
-      msg.append(" (FAIL)");
-    }
-    // if ( MaximizerFrame.best.tiebreakered )
-    // {
-    //	msg = msg + " / " + MaximizerFrame.best.getTiebreaker() + " / " +
-    //		MaximizerFrame.best.simplicity;
-    // }
-    KoLmafia.updateDisplay(msg.toString());
   }
 }
