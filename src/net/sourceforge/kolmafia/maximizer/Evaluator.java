@@ -1098,11 +1098,6 @@ public class Evaluator {
       EquipScope equipScope, int maxPrice, PriceLevel priceLevel, boolean exhaustive)
       throws MaximizerInterruptedException {
     CharacterSnapshot character = Maximizer.character();
-    // Every legal, available candidate, including those rejected by isolated scoring.
-    SlotList<CheckedItem> catalog = new SlotList<>(this.familiars.size());
-    // Items to be considered based on their score
-    SlotList<CheckedItem> ranked = new SlotList<>(this.familiars.size());
-
     double nullScore = this.getScore(new Modifiers());
     double nullTiebreaker = this.getTiebreaker(new Modifiers());
 
@@ -1119,100 +1114,43 @@ public class Evaluator {
     Map<Integer, Boolean> usefulOutfits = setEvaluator.usefulOutfits();
     Map<AdventureResult, AdventureResult> outfitPieces = setEvaluator.outfitPieces();
 
-    OrdinaryCandidateEvaluator candidateEvaluator =
-        new OrdinaryCandidateEvaluator(
-            this,
-            setEvaluator,
-            new OrdinaryCandidateEvaluator.Requirements(
-                this.slots,
-                this.forcedModeables,
-                this.current,
-                this.clownosity,
-                this.raveosity,
-                this.surgeonosity,
-                this.stinkycheese),
-            nullScore);
-
-    FamiliarEquipmentCompiler familiarEquipmentCompiler =
-        new FamiliarEquipmentCompiler(
-            this, this.familiars, catalog, ranked, equipScope, maxPrice, priceLevel, nullScore);
-    EquipmentCandidateSlotter candidateSlotter =
-        new EquipmentCandidateSlotter(
-            new EquipmentCandidateSlotter.Requirements(
-                this.hands,
-                this.melee,
-                this.weaponType,
-                this.requireShield,
-                this.requireClub,
-                this.requireUtensil,
-                this.requireSword,
-                this.requireKnife,
-                this.requireAccordion,
-                this.effective),
-            candidateEvaluator.hoboPowerUseful(),
-            this.weight.getDouble(DoubleModifier.ITEMDROP) > 0,
-            this.weight.getDouble(DoubleModifier.EXPERIENCE) > 0
-                || this.weight.getDouble(DoubleModifier.MUS_EXPERIENCE) > 0
-                || this.weight.getDouble(DoubleModifier.MYS_EXPERIENCE) > 0
-                || this.weight.getDouble(DoubleModifier.MOX_EXPERIENCE) > 0,
-            maxPrice,
-            priceLevel);
-
-    int id = 0;
-    while ((id = EquipmentDatabase.nextEquipmentItemId(id)) != -1) {
-      Slot slot = EquipmentManager.itemIdToEquipmentType(id);
-      if (slot == Slot.NONE) continue;
-      AdventureResult preItem = ItemPool.get(id, 1);
-      String name = preItem.getName();
-      CheckedItem item;
-      if (this.negEquip.contains(preItem)) continue;
-      if (character.resourcesExceeded(character.resourceUsage(name))) {
-        continue;
-      }
-
-      var modeable = Modeable.find(id);
-
-      boolean famCanEquip = KoLCharacter.getFamiliar().canEquip(preItem);
-      var familiarResult = familiarEquipmentCompiler.compile(id, preItem, slot, modeable);
-      if (familiarResult.rejected()) {
-        continue;
-      }
-      item = familiarResult.item();
-
-      if (!EquipmentManager.canEquip(id) && !KoLCharacter.hasEquipped(id)) continue;
-      if (item == null) {
-        item = new CheckedItem(id, equipScope, maxPrice, priceLevel);
-      }
-
-      if (item.getCount() == 0) {
-        continue;
-      }
-
-      if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, item.getName())) {
-        continue;
-      }
-
-      Slot auxSlot = Slot.NONE;
-      var placement = candidateSlotter.place(id, name, slot, item, famCanEquip);
-      if (!placement.accepted()) {
-        continue;
-      }
-      slot = placement.slot();
-      auxSlot = placement.auxiliarySlot();
-      if (!placement.skipScoring()) {
-        switch (candidateEvaluator.evaluate(id, item, modeable)) {
-          case REJECT:
-            continue;
-          case CATALOG_ONLY:
-            addCandidate(catalog, slot, auxSlot, item);
-            continue;
-          case RANKED:
-            break;
-        }
-      }
-      addCandidate(catalog, slot, auxSlot, item);
-      addCandidate(ranked, slot, auxSlot, item);
-    }
+    var ordinaryCandidates =
+        new OrdinaryCandidateCompiler(
+                this,
+                character,
+                setEvaluator,
+                new OrdinaryCandidateCompiler.Options(
+                    this.familiars,
+                    this.slots,
+                    this.forcedModeables,
+                    this.current,
+                    this.clownosity,
+                    this.raveosity,
+                    this.surgeonosity,
+                    this.stinkycheese,
+                    new EquipmentCandidateSlotter.Requirements(
+                        this.hands,
+                        this.melee,
+                        this.weaponType,
+                        this.requireShield,
+                        this.requireClub,
+                        this.requireUtensil,
+                        this.requireSword,
+                        this.requireKnife,
+                        this.requireAccordion,
+                        this.effective),
+                    this.weight.getDouble(DoubleModifier.ITEMDROP) > 0,
+                    this.weight.getDouble(DoubleModifier.EXPERIENCE) > 0
+                        || this.weight.getDouble(DoubleModifier.MUS_EXPERIENCE) > 0
+                        || this.weight.getDouble(DoubleModifier.MYS_EXPERIENCE) > 0
+                        || this.weight.getDouble(DoubleModifier.MOX_EXPERIENCE) > 0,
+                    equipScope,
+                    maxPrice,
+                    priceLevel,
+                    nullScore))
+            .compile();
+    SlotList<CheckedItem> catalog = ordinaryCandidates.catalog();
+    SlotList<CheckedItem> ranked = ordinaryCandidates.ranked();
 
     var codpieceCandidates =
         this.codpieceEvaluator.compileCandidates(
@@ -1227,7 +1165,7 @@ public class Evaluator {
 
     var carriedFamiliarSelection =
         CarriedFamiliarSelector.select(
-            candidateEvaluator.carriedFamiliarsNeeded(),
+            ordinaryCandidates.carriedFamiliarsNeeded(),
             this.slots.getOrDefault(Slot.CROWNOFTHRONES, 0) < 0,
             this.slots.getOrDefault(Slot.BUDDYBJORN, 0) < 0,
             character,
@@ -1240,19 +1178,19 @@ public class Evaluator {
 
     CheckedItem bestCard =
         CardSleeveSelector.select(
-            candidateEvaluator.cardNeeded(), equipScope, maxPrice, priceLevel);
+            ordinaryCandidates.cardNeeded(), equipScope, maxPrice, priceLevel);
     AdventureResult useCard = null;
 
     Map<Modeable, String> bestModes =
         ModeableSelector.select(
-            candidateEvaluator.modeablesNeeded(),
+            ordinaryCandidates.modeablesNeeded(),
             forcedModeables,
             equipScope,
             maxPrice,
             priceLevel);
     CandidateSpeculationFactory speculationFactory =
         new CandidateSpeculationFactory(
-            candidateEvaluator.carriedFamiliarsNeeded(),
+            ordinaryCandidates.carriedFamiliarsNeeded(),
             carriedFamiliarSelection,
             bestCard,
             bestModes);
@@ -1291,11 +1229,5 @@ public class Evaluator {
 
   List<CheckedItem> prioritizeCodpieceGems(List<CheckedItem> gems) {
     return this.codpieceEvaluator.prioritize(gems);
-  }
-
-  private static void addCandidate(
-      SlotList<CheckedItem> candidates, Slot slot, Slot auxSlot, CheckedItem item) {
-    if (slot != Slot.NONE) candidates.get(slot).add(item);
-    if (auxSlot != Slot.NONE) candidates.get(auxSlot).add(item);
   }
 }
