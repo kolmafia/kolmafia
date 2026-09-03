@@ -1,10 +1,12 @@
 package net.sourceforge.kolmafia.maximizer;
 
+import static internal.helpers.Player.withProperty;
 import static net.sourceforge.kolmafia.maximizer.MaximizerTermRegistry.IntegerSetting.BEEOSITY;
 import static net.sourceforge.kolmafia.maximizer.MaximizerTermRegistry.IntegerSetting.STINKYCHEESE;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import org.junit.jupiter.api.Nested;
@@ -151,6 +153,40 @@ class MaximizerTermRegistryTest {
 
       assertThat(
           scoreTerm(terms, DoubleModifier.DAMAGE_ABSORPTION).max(), is(Double.POSITIVE_INFINITY));
+    }
+  }
+
+  @Nested
+  class BonusFunctions {
+    @Test
+    void handleNullItems() {
+      assertThat(MaximizerTermRegistry.letterBonus(null), is(0.0));
+      assertThat(MaximizerTermRegistry.letterBonus(null, "X"), is(0.0));
+      assertThat(MaximizerTermRegistry.numberBonus(null), is(0.0));
+    }
+
+    @Test
+    void countLettersInItemNames() {
+      AdventureResult item = AdventureResult.tallyItem("spiked femur");
+
+      assertThat(MaximizerTermRegistry.letterBonus(item), is(12.0));
+      assertThat(MaximizerTermRegistry.letterBonus(item, "e"), is(2.0));
+    }
+
+    @Test
+    void ignoreItemModes() {
+      try (var cleanups = withProperty("backupCameraMode", "meat")) {
+        AdventureResult item = AdventureResult.tallyItem("backup camera");
+
+        assertThat(MaximizerTermRegistry.letterBonus(item), is(13.0));
+      }
+    }
+
+    @Test
+    void countNumbersInItemNames() {
+      AdventureResult item = AdventureResult.tallyItem("X-37 gun");
+
+      assertThat(MaximizerTermRegistry.numberBonus(item), is(2.0));
     }
   }
 }
