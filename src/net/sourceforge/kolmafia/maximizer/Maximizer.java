@@ -1728,71 +1728,71 @@ public class Maximizer {
           itemsRemaining = item.getCount(KoLConstants.inventory);
         }
 
-        text = text + " (";
+        List<String> costs = new ArrayList<>();
         if (advCost > 0) {
           if (Preferences.getBoolean("maximizerNoAdventures")) {
             continue;
           }
-          text += advCost + " adv, ";
+          costs.add(advCost + " adv");
           if (advCost > KoLCharacter.getAdventuresLeft()) {
             cmd = "";
           }
         }
         if (fullCost != 0) {
-          text += fullCost + " full, ";
+          costs.add(fullCost + " full");
           if (KoLCharacter.getFullness() + fullCost > KoLCharacter.getStomachCapacity()) {
             cmd = "";
           }
         }
         if (drunkCost != 0) {
-          text += drunkCost + " drunk, ";
+          costs.add(drunkCost + " drunk");
           if (KoLCharacter.getInebriety() + drunkCost > KoLCharacter.getLiverCapacity()) {
             cmd = "";
           }
         }
         if (spleenCost != 0) {
-          text += spleenCost + " spleen, ";
+          costs.add(spleenCost + " spleen");
           if (KoLCharacter.getSpleenUse() + spleenCost > KoLCharacter.getSpleenLimit()) {
             cmd = "";
           }
         }
         if (mpCost > 0) {
-          text += mpCost + " mp, ";
+          costs.add(mpCost + " mp");
           // Don't ever grey out as we can recover MP
         }
         if (soulsauceCost > 0) {
-          text += soulsauceCost + " soulsauce, ";
+          costs.add(soulsauceCost + " soulsauce");
           if (soulsauceCost > KoLCharacter.getSoulsauce()) {
             cmd = "";
           }
         }
         if (thunderCost > 0) {
-          text += thunderCost + " dB of thunder, ";
+          costs.add(thunderCost + " dB of thunder");
           if (thunderCost > KoLCharacter.getThunder()) {
             cmd = "";
           }
         } else if (rainCost > 0) {
-          text += rainCost + " drops of rain, ";
+          costs.add(rainCost + " drops of rain");
           if (rainCost > KoLCharacter.getRain()) {
             cmd = "";
           }
         } else if (lightningCost > 0) {
-          text += lightningCost + " bolts of lightning, ";
+          costs.add(lightningCost + " bolts of lightning");
           if (lightningCost > KoLCharacter.getLightning()) {
             cmd = "";
           }
         }
         if (hpCost > 0) {
-          text += hpCost + " hp, ";
+          costs.add(hpCost + " hp");
           if (hpCost > KoLCharacter.getCurrentHP()) {
             cmd = "";
           }
         }
         if (fuelCost > 0) {
-          text += fuelCost + " fuel, ";
+          costs.add(fuelCost + " fuel");
         }
         if (price > 0) {
-          text += KoLConstants.COMMA_FORMAT.format(price) + " meat, ";
+          costs.add(KoLConstants.COMMA_FORMAT.format(price) + " meat");
           if (cmd.startsWith("buy using storage")) {
             if (price > KoLCharacter.getStorageMeat()) {
               cmd = "";
@@ -1803,55 +1803,22 @@ public class Maximizer {
             }
           }
         }
-        text += KoLConstants.MODIFIER_FORMAT.format(delta) + ")";
+        costs.add(KoLConstants.MODIFIER_FORMAT.format(delta));
+        text += " (" + String.join(", ", costs) + ")";
         if (Preferences.getBoolean("verboseMaximizer")) {
-          boolean show =
-              duration > 0
-                  || (usesRemaining > 0 && usesRemaining < Integer.MAX_VALUE)
-                  || itemsRemaining + itemsCreatable > 0;
-          int count = 0;
-          if (show) {
-            text += " [";
-          }
+          List<String> details = new ArrayList<>();
           if (duration > 0) {
-            if (duration == 999) {
-              text += "intrinsic";
-            } else if (duration == 1) {
-              text += "1 adv duration";
-            } else {
-              text += duration + " advs duration";
-            }
-            count++;
+            details.add(
+                duration == 999
+                    ? "intrinsic"
+                    : duration == 1 ? "1 adv duration" : duration + " advs duration");
           }
           if (usesRemaining > 0 && usesRemaining < Integer.MAX_VALUE) {
-            if (count > 0) {
-              text += ", ";
-            }
-            if (usesRemaining == 1) {
-              text += "1 use remaining";
-              count++;
-            } else {
-              text += usesRemaining + " uses remaining";
-              count++;
-            }
+            details.add(usesRemaining == 1 ? "1 use remaining" : usesRemaining + " uses remaining");
           }
-          if (itemsRemaining > 0) {
-            if (count > 0) {
-              text += ", ";
-            }
-            text += itemsRemaining + " in inventory";
-            count++;
-          }
-          if (itemsCreatable > 0) {
-            if (count > 0) {
-              text += ", ";
-            }
-            text += itemsCreatable + " creatable";
-            count++;
-          }
-          if (show) {
-            text += "]";
-          }
+          if (itemsRemaining > 0) details.add(itemsRemaining + " in inventory");
+          if (itemsCreatable > 0) details.add(itemsCreatable + " creatable");
+          if (!details.isEmpty()) text += " [" + String.join(", ", details) + "]";
         }
         if (orFlag) {
           text = "...or " + text;

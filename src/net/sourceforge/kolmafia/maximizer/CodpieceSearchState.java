@@ -222,13 +222,7 @@ final class CodpieceSearchState {
   }
 
   private boolean canUseLateCodpieceCache(List<CheckedItem> possibles) {
-    for (CheckedItem possible : possibles) {
-      if (!this.isSafeLateCodpieceGem(possible.getItemId())) {
-        return false;
-      }
-    }
-
-    return true;
+    return possibles.stream().allMatch(item -> this.isSafeLateCodpieceGem(item.getItemId()));
   }
 
   private CodpiecePlan getCodpiecePlan(List<CheckedItem> possibles) {
@@ -303,30 +297,14 @@ final class CodpieceSearchState {
 
   /** Gem-count validation: rejects branches that over-commit a gem beyond its available count. */
   boolean hasEnoughCodpieceGems() {
-    boolean hasSlottedGem = false;
-    for (Slot slot : CODPIECE.slots()) {
-      AdventureResult item = this.owner.equipment.get(slot);
-      if (item != null && !item.equals(EquipmentRequest.UNEQUIP)) {
-        hasSlottedGem = true;
-        break;
-      }
-    }
-    if (!hasSlottedGem) {
-      return true;
-    }
-
-    for (AdventureResult item : this.owner.equipment.values()) {
-      if (!(item instanceof CheckedItem checked) || !CODPIECE.accepts(item.getItemId())) {
-        continue;
-      }
-
-      int itemId = item.getItemId();
-      int used = (int) this.countEquipped(itemId);
-      if (used > checked.getAvailableCount()) {
-        return false;
-      }
-    }
-    return true;
+    if (CODPIECE.slots().stream()
+        .map(this.owner.equipment::get)
+        .allMatch(item -> item == null || item.equals(EquipmentRequest.UNEQUIP))) return true;
+    return this.owner.equipment.values().stream()
+        .filter(CheckedItem.class::isInstance)
+        .map(CheckedItem.class::cast)
+        .filter(item -> CODPIECE.accepts(item.getItemId()))
+        .allMatch(item -> this.countEquipped(item.getItemId()) <= item.getAvailableCount());
   }
 
   private long countEquipped(int itemId) {

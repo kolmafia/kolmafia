@@ -1,6 +1,5 @@
 package net.sourceforge.kolmafia.maximizer;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -29,19 +28,9 @@ interface SlottedItem<T> {
 }
 
 enum ItemSlotGroup implements SlottedItem<AdventureResult> {
-  STICKERS(
-      List.copyOf(SlotSet.STICKER_SLOTS),
-      ModifierType.ITEM,
-      false,
-      ItemPool.STICKER_SWORD,
-      ItemPool.STICKER_CROSSBOW),
+  STICKERS(List.copyOf(SlotSet.STICKER_SLOTS), ModifierType.ITEM, false, ItemPool.STICKER_SWORD),
   CARD_SLEEVE(List.of(Slot.CARDSLEEVE), ModifierType.ITEM, true, ItemPool.CARD_SLEEVE),
-  FOLDERS(
-      List.copyOf(SlotSet.FOLDER_SLOTS),
-      ModifierType.ITEM,
-      false,
-      ItemPool.FOLDER_HOLDER,
-      ItemPool.REPLICA_FOLDER_HOLDER),
+  FOLDERS(List.copyOf(SlotSet.FOLDER_SLOTS), ModifierType.ITEM, false, ItemPool.FOLDER_HOLDER),
   BOOTS(List.of(Slot.BOOTSKIN, Slot.BOOTSPUR), ModifierType.ITEM, false, ItemPool.COWBOY_BOOTS),
   ETERNITY_CODPIECE(
       List.copyOf(SlotSet.CODPIECE_SLOTS),
@@ -52,17 +41,17 @@ enum ItemSlotGroup implements SlottedItem<AdventureResult> {
   private final List<Slot> slots;
   private final ModifierType modifierType;
   private final boolean searchable;
-  private final List<Integer> parentIds;
+  private final int parentItemId;
 
-  ItemSlotGroup(List<Slot> slots, ModifierType modifierType, boolean searchable, int... parentIds) {
+  ItemSlotGroup(List<Slot> slots, ModifierType modifierType, boolean searchable, int parentItemId) {
     this.slots = slots;
     this.modifierType = modifierType;
     this.searchable = searchable;
-    this.parentIds = Arrays.stream(parentIds).boxed().toList();
+    this.parentItemId = parentItemId;
   }
 
   public boolean isParent(int itemId) {
-    return this.parentIds.contains(itemId);
+    return find(itemId) == this;
   }
 
   @Override
@@ -92,7 +81,7 @@ enum ItemSlotGroup implements SlottedItem<AdventureResult> {
   }
 
   int parentItemId() {
-    return this.parentIds.getFirst();
+    return this.parentItemId;
   }
 
   @Override

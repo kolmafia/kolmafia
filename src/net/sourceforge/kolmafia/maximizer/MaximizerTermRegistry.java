@@ -66,6 +66,15 @@ final class MaximizerTermRegistry {
     }
   }
 
+  private enum WeaponRequirement {
+    CLUB,
+    SHIELD,
+    UTENSIL,
+    SWORD,
+    KNIFE,
+    ACCORDION
+  }
+
   /** What a registered keyword does to the expression it appears in. */
   @FunctionalInterface
   private interface Action {
@@ -87,11 +96,21 @@ final class MaximizerTermRegistry {
 
   private record BonusFunction(Function<AdventureResult, Double> bonusFunction, double weight) {}
 
+  private static final class Requirements<T> {
+    private final Set<T> required = new HashSet<>();
+    private final Set<T> excluded = new HashSet<>();
+
+    void add(T value, double weight) {
+      (weight > 0.0 ? this.required : this.excluded).add(value);
+    }
+  }
+
   private static final Map<String, Action> EXACT_DIRECTIVES = new LinkedHashMap<>();
   private static final List<Map.Entry<String, Action>> PREFIX_DIRECTIVES = new ArrayList<>();
   private static final Map<String, Action> EXACT_TERMS = new LinkedHashMap<>();
   private static final List<Alias> ALIAS_TERMS = new ArrayList<>();
   private static final List<Rewrite> REWRITES = new ArrayList<>();
+  private static final Pattern NUMBER_PATTERN = Pattern.compile("[0-9]");
 
   static {
     suffixRewrite(" res", " resistance");
@@ -111,12 +130,14 @@ final class MaximizerTermRegistry {
         flag((terms, value) -> terms.current = value)
             .andThen((terms, term) -> terms.forceCurrent = true));
     prefixDirective("type ", text(5, (terms, value) -> terms.weaponType = value));
-    directive("club", flag((terms, value) -> terms.requireClub = value));
-    directive("shield", MaximizerTermRegistry::requireShield);
-    directive("utensil", flag((terms, value) -> terms.requireUtensil = value));
-    directive("sword", flag((terms, value) -> terms.requireSword = value));
-    directive("knife", flag((terms, value) -> terms.requireKnife = value));
-    directive("accordion", flag((terms, value) -> terms.requireAccordion = value));
+    directive("club", weaponRequirement(WeaponRequirement.CLUB));
+    directive(
+        "shield",
+        weaponRequirement(WeaponRequirement.SHIELD).andThen(MaximizerTermRegistry::prepareShield));
+    directive("utensil", weaponRequirement(WeaponRequirement.UTENSIL));
+    directive("sword", weaponRequirement(WeaponRequirement.SWORD));
+    directive("knife", weaponRequirement(WeaponRequirement.KNIFE));
+    directive("accordion", weaponRequirement(WeaponRequirement.ACCORDION));
     directive("melee", integerSetting(IntegerSetting.MELEE, term -> (int) (term.weight() * 2.0)));
     directive("effective", flag((terms, value) -> terms.effective = value));
     directive("empty", MaximizerTermRegistry::setEmpty);
@@ -239,19 +260,13 @@ final class MaximizerTermRegistry {
 
   private String weaponType = null;
   private boolean effective = false;
-  private boolean requireClub = false;
-  private boolean requireShield = false;
-  private boolean requireUtensil = false;
-  private boolean requireSword = false;
-  private boolean requireKnife = false;
-  private boolean requireAccordion = false;
+  private final EnumSet<WeaponRequirement> weaponRequirements =
+      EnumSet.noneOf(WeaponRequirement.class);
   private boolean noTiebreaker = false;
   private boolean current =
       !KoLCharacter.canInteract() || Preferences.getBoolean("maximizerAlwaysCurrent");
-  private final Set<String> posOutfits = new HashSet<>();
-  private final Set<String> negOutfits = new HashSet<>();
-  private final Set<AdventureResult> posEquip = new HashSet<>();
-  private final Set<AdventureResult> negEquip = new HashSet<>();
+  private final Requirements<String> outfits = new Requirements<>();
+  private final Requirements<AdventureResult> equipment = new Requirements<>();
   private final Map<AdventureResult, ItemBonus> bonuses = new HashMap<>();
   private final List<BonusFunction> bonusFunc = new ArrayList<>();
 
@@ -409,8 +424,7 @@ final class MaximizerTermRegistry {
     }
   }
 
-  private void requireShield(ParsedTerm term) {
-    this.requireShield = term.weight() > 0.0;
+  private void prepareShield(ParsedTerm term) {
     if (this.forcedModeables.get(Modeable.UMBRELLA).isEmpty()) {
       this.forcedModeables.put(Modeable.UMBRELLA, "forward-facing");
     }
@@ -445,11 +459,9 @@ final class MaximizerTermRegistry {
       this.failed = true;
       return;
     }
+    this.equipment.add(match.item(), term.weight());
     if (term.weight() > 0.0) {
-      this.posEquip.add(match.item());
       this.equipBeeosity += KoLCharacter.getBeeosity(match.item().getName());
-    } else {
-      this.negEquip.add(match.item());
     }
   }
 
@@ -475,15 +487,14 @@ final class MaximizerTermRegistry {
   private void setLetterBonus(ParsedTerm term) {
     String letters = term.keyword().substring(6).trim();
     if (letters.isEmpty()) {
-      this.bonusFunc.add(new BonusFunction(LetterBonus::letterBonus, term.weight()));
+      this.bonusFunc.add(new BonusFunction(MaximizerTermRegistry::letterBonus, term.weight()));
     } else {
-      this.bonusFunc.add(
-          new BonusFunction(ar -> LetterBonus.letterBonus(ar, letters), term.weight()));
+      this.bonusFunc.add(new BonusFunction(item -> letterBonus(item, letters), term.weight()));
     }
   }
 
   private void setNumberBonus(ParsedTerm term) {
-    this.bonusFunc.add(new BonusFunction(LetterBonus::numberBonus, term.weight()));
+    this.bonusFunc.add(new BonusFunction(MaximizerTermRegistry::numberBonus, term.weight()));
   }
 
   private void setPlumber(ParsedTerm term) {
@@ -496,7 +507,7 @@ final class MaximizerTermRegistry {
     if (item == null) {
       item = EquipmentManager.getBestPlumberTool(-1);
     }
-    this.posEquip.add(item);
+    this.equipment.required.add(item);
   }
 
   private void setColdPlumber(ParsedTerm term) {
@@ -511,8 +522,8 @@ final class MaximizerTermRegistry {
       this.failed = true;
       return;
     }
-    this.posEquip.add(item);
-    this.posEquip.add(ItemPool.get(ItemPool.FROSTY_BUTTON));
+    this.equipment.required.add(item);
+    this.equipment.required.add(ItemPool.get(ItemPool.FROSTY_BUTTON));
   }
 
   private void setOutfit(ParsedTerm term) {
@@ -526,15 +537,13 @@ final class MaximizerTermRegistry {
       this.failed = true;
       return;
     }
+    this.outfits.add(outfit.getName(), term.weight());
     if (term.weight() > 0.0) {
-      this.posOutfits.add(outfit.getName());
       int bees = 0;
       for (AdventureResult piece : outfit.getPieces()) {
         bees += KoLCharacter.getBeeosity(piece.getName());
       }
       this.outfitBeeosity = Math.max(this.outfitBeeosity, bees);
-    } else {
-      this.negOutfits.add(outfit.getName());
     }
   }
 
@@ -648,11 +657,11 @@ final class MaximizerTermRegistry {
   }
 
   Set<String> posOutfits() {
-    return this.posOutfits;
+    return this.outfits.required;
   }
 
   Set<String> negOutfits() {
-    return this.negOutfits;
+    return this.outfits.excluded;
   }
 
   boolean slotEnabled(Slot slot) {
@@ -665,25 +674,22 @@ final class MaximizerTermRegistry {
         this.integer(IntegerSetting.HANDS),
         this.integer(IntegerSetting.MELEE),
         this.weaponType,
-        this.requireShield,
-        this.requireClub,
-        this.requireUtensil,
-        this.requireSword,
-        this.requireKnife,
-        this.requireAccordion,
+        this.weaponRequirements.contains(WeaponRequirement.SHIELD),
+        this.weaponRequirements.contains(WeaponRequirement.CLUB),
+        this.weaponRequirements.contains(WeaponRequirement.UTENSIL),
+        this.weaponRequirements.contains(WeaponRequirement.SWORD),
+        this.weaponRequirements.contains(WeaponRequirement.KNIFE),
+        this.weaponRequirements.contains(WeaponRequirement.ACCORDION),
         this.effective);
   }
 
   boolean isWeaponTypeRequired() {
-    return this.requireClub
-        || this.requireUtensil
-        || this.requireSword
-        || this.requireKnife
-        || this.requireAccordion;
+    return this.weaponRequirements.stream()
+        .anyMatch(requirement -> requirement != WeaponRequirement.SHIELD);
   }
 
   boolean isShieldRequired() {
-    return this.requireShield;
+    return this.weaponRequirements.contains(WeaponRequirement.SHIELD);
   }
 
   /** Whether a weapon of a particular type is mandatory, which rules out fighting unarmed. */
@@ -713,11 +719,11 @@ final class MaximizerTermRegistry {
   }
 
   boolean requiresEquipment(AdventureResult item) {
-    return this.posEquip.contains(item);
+    return this.equipment.required.contains(item);
   }
 
   boolean excludesEquipment(AdventureResult item) {
-    return this.negEquip.contains(item);
+    return this.equipment.excluded.contains(item);
   }
 
   boolean booleansSatisfied(Modifiers mods) {
@@ -735,19 +741,12 @@ final class MaximizerTermRegistry {
 
   /** Whether the given equipment honours every "equip" and "outfit" term. */
   boolean equipmentSatisfied(Modifiers mods, Map<Slot, AdventureResult> equipment) {
-    for (AdventureResult item : this.posEquip) {
-      if (!hasEquipped(equipment, item)) {
-        return false;
-      }
-    }
-    if (this.negEquip.stream().anyMatch(item -> hasEquipped(equipment, item))) {
+    if (!this.equipment.required.stream().allMatch(item -> hasEquipped(equipment, item))
+        || this.equipment.excluded.stream().anyMatch(item -> hasEquipped(equipment, item)))
       return false;
-    }
     String outfit = mods.getString(StringModifier.OUTFIT);
-    if (this.negOutfits.contains(outfit)) {
-      return false;
-    }
-    return this.posOutfits.isEmpty() || this.posOutfits.contains(outfit);
+    return !this.outfits.excluded.contains(outfit)
+        && (this.outfits.required.isEmpty() || this.outfits.required.contains(outfit));
   }
 
   private static boolean hasEquipped(Map<Slot, AdventureResult> equipment, AdventureResult item) {
@@ -878,6 +877,14 @@ final class MaximizerTermRegistry {
     return (terms, term) -> terms.integers.put(setting, value.applyAsInt(term));
   }
 
+  private static Action weaponRequirement(WeaponRequirement requirement) {
+    return flag(
+        (terms, required) -> {
+          if (required) terms.weaponRequirements.add(requirement);
+          else terms.weaponRequirements.remove(requirement);
+        });
+  }
+
   private static Action flag(BiConsumer<MaximizerTermRegistry, Boolean> setter) {
     return flag(term -> term.weight() > 0.0, setter);
   }
@@ -925,5 +932,24 @@ final class MaximizerTermRegistry {
 
   private static void prefixRewrite(String prefix, UnaryOperator<String> rewrite) {
     REWRITES.add(new Rewrite(keyword -> keyword.startsWith(prefix), rewrite));
+  }
+
+  static double letterBonus(AdventureResult item) {
+    return item == null || item.getItemId() < 0 ? 0 : item.getDataName().length();
+  }
+
+  static double letterBonus(AdventureResult item, String letters) {
+    return item == null || item.getItemId() < 0
+        ? 0
+        : Pattern.compile(letters, Pattern.CASE_INSENSITIVE)
+            .matcher(item.getDataName())
+            .results()
+            .count();
+  }
+
+  static double numberBonus(AdventureResult item) {
+    return item == null || item.getItemId() < 0
+        ? 0
+        : NUMBER_PATTERN.matcher(item.getDataName()).results().count();
   }
 }

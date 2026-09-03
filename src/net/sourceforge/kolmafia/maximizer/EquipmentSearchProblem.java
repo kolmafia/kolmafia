@@ -391,20 +391,12 @@ final class EquipmentSearchProblem
       int count =
           this.availableCount(item, Slot.FAMILIAR, Slot.OFFHAND, Slot.WEAPON, Slot.HAT, Slot.PANTS);
       if (count <= 0) continue;
-      choices.add(this.familiarItemChoice(item));
+      choices.add(this.slotChoice(Slot.FAMILIAR, item));
     }
     if (choices.isEmpty()) {
-      choices.add(this.familiarItemChoice(EquipmentRequest.UNEQUIP));
+      choices.add(this.slotChoice(Slot.FAMILIAR, EquipmentRequest.UNEQUIP));
     }
     return choices;
-  }
-
-  private Choice familiarItemChoice(AdventureResult item) {
-    return this.choice(
-        () -> {
-          this.owner.equipment.put(Slot.FAMILIAR, item);
-          this.advance();
-        });
   }
 
   private List<Choice> containerChoices() {
@@ -425,29 +417,20 @@ final class EquipmentSearchProblem
                   }));
         }
       } else {
-        choices.add(this.containerChoice(item));
+        choices.add(this.slotChoice(Slot.CONTAINER, item));
       }
     }
     if (choices.isEmpty()) {
-      choices.add(this.containerChoice(EquipmentRequest.UNEQUIP));
+      choices.add(this.slotChoice(Slot.CONTAINER, EquipmentRequest.UNEQUIP));
     }
     return choices;
   }
 
-  private Choice containerChoice(AdventureResult item) {
-    return this.choice(
-        () -> {
-          this.owner.equipment.put(Slot.CONTAINER, item);
-          this.advance();
-        });
-  }
-
   private int freeAccessorySlots() {
-    int free = 0;
-    if (this.owner.equipment.get(Slot.ACCESSORY1) == null) ++free;
-    if (this.owner.equipment.get(Slot.ACCESSORY2) == null) ++free;
-    if (this.owner.equipment.get(Slot.ACCESSORY3) == null) ++free;
-    return free;
+    return (int)
+        SlotSet.ACCESSORY_SLOTS.stream()
+            .filter(slot -> this.owner.equipment.get(slot) == null)
+            .count();
   }
 
   private List<Choice> accessoryChoices() {
@@ -478,7 +461,7 @@ final class EquipmentSearchProblem
     return this.choice(
         () -> {
           int remaining = count;
-          for (Slot slot : List.of(Slot.ACCESSORY1, Slot.ACCESSORY2, Slot.ACCESSORY3)) {
+          for (Slot slot : SlotSet.ACCESSORY_SLOTS) {
             if (remaining == 0) break;
             if (this.owner.equipment.get(slot) == null) {
               this.owner.equipment.put(slot, item);
@@ -490,7 +473,7 @@ final class EquipmentSearchProblem
   }
 
   private void finishAccessories() {
-    for (Slot slot : List.of(Slot.ACCESSORY1, Slot.ACCESSORY2, Slot.ACCESSORY3)) {
+    for (Slot slot : SlotSet.ACCESSORY_SLOTS) {
       if (this.owner.equipment.get(slot) == null) {
         this.owner.equipment.put(slot, EquipmentRequest.UNEQUIP);
       }
@@ -526,31 +509,23 @@ final class EquipmentSearchProblem
                   }));
         }
       } else {
-        choices.add(this.hatChoice(item));
+        choices.add(this.slotChoice(Slot.HAT, item));
       }
     }
     if (choices.isEmpty()) {
-      choices.add(this.hatChoice(EquipmentRequest.UNEQUIP));
+      choices.add(this.slotChoice(Slot.HAT, EquipmentRequest.UNEQUIP));
     }
     return choices;
-  }
-
-  private Choice hatChoice(AdventureResult item) {
-    return this.choice(
-        () -> {
-          this.owner.equipment.put(Slot.HAT, item);
-          this.advance();
-        });
   }
 
   private List<Choice> simpleSlotChoices() {
     Slot slot = SIMPLE_SLOTS.get(this.simpleSlotIndex);
     AdventureResult current = this.owner.equipment.get(slot);
     if (current != null) {
-      return List.of(this.simpleSlotChoice(slot, current));
+      return List.of(this.slotChoice(slot, current));
     }
     if (slot == Slot.SHIRT && !KoLCharacter.isTorsoAware()) {
-      return List.of(this.simpleSlotChoice(slot, EquipmentRequest.UNEQUIP));
+      return List.of(this.slotChoice(slot, EquipmentRequest.UNEQUIP));
     }
 
     List<Choice> choices = new ArrayList<>();
@@ -558,15 +533,15 @@ final class EquipmentSearchProblem
       int count =
           slot == Slot.HOLSTER ? item.getCount() : this.availableCount(item, slot, Slot.FAMILIAR);
       if (count <= 0) continue;
-      choices.add(this.simpleSlotChoice(slot, item));
+      choices.add(this.slotChoice(slot, item));
     }
     if (choices.isEmpty()) {
-      choices.add(this.simpleSlotChoice(slot, EquipmentRequest.UNEQUIP));
+      choices.add(this.slotChoice(slot, EquipmentRequest.UNEQUIP));
     }
     return choices;
   }
 
-  private Choice simpleSlotChoice(Slot slot, AdventureResult item) {
+  private Choice slotChoice(Slot slot, AdventureResult item) {
     return this.choice(
         () -> {
           this.owner.equipment.put(slot, item);
@@ -586,7 +561,7 @@ final class EquipmentSearchProblem
       if (!this.chefstaffable() && EquipmentDatabase.isChefStaff(weapon)) {
         return List.of(); // illegal preset chefstaff: dead end
       }
-      return List.of(this.weaponChoice(weapon));
+      return List.of(this.slotChoice(Slot.WEAPON, weapon));
     }
 
     List<Choice> choices = new ArrayList<>();
@@ -594,20 +569,12 @@ final class EquipmentSearchProblem
       if (!this.chefstaffable() && EquipmentDatabase.isChefStaff(item)) continue;
       int count = this.availableCount(item, Slot.WEAPON, Slot.OFFHAND, Slot.FAMILIAR);
       if (count <= 0) continue;
-      choices.add(this.weaponChoice(item));
+      choices.add(this.slotChoice(Slot.WEAPON, item));
     }
     if (!Maximizer.evaluator().forbidsUnarmed()) {
-      choices.add(this.weaponChoice(EquipmentRequest.UNEQUIP));
+      choices.add(this.slotChoice(Slot.WEAPON, EquipmentRequest.UNEQUIP));
     }
     return choices;
-  }
-
-  private Choice weaponChoice(AdventureResult item) {
-    return this.choice(
-        () -> {
-          this.owner.equipment.put(Slot.WEAPON, item);
-          this.advance();
-        });
   }
 
   private List<Choice> offhandChoices() {
