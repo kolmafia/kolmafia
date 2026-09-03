@@ -21,9 +21,9 @@ interface SlottedItem<T> {
 
   boolean accepts(Slot slot, T occupant);
 
-  T get(MaximizerSpeculation state, Slot slot);
+  T get(MaximizerLoadout state, Slot slot);
 
-  boolean put(MaximizerSpeculation state, Slot slot, T occupant);
+  boolean put(MaximizerLoadout state, Slot slot, T occupant);
 
   Modifiers modifiers(T occupant);
 }
@@ -96,12 +96,12 @@ enum ItemSlotGroup implements SlottedItem<AdventureResult> {
   }
 
   @Override
-  public AdventureResult get(MaximizerSpeculation state, Slot slot) {
+  public AdventureResult get(MaximizerLoadout state, Slot slot) {
     return this.slots.contains(slot) ? state.equipment.get(slot) : null;
   }
 
   @Override
-  public boolean put(MaximizerSpeculation state, Slot slot, AdventureResult occupant) {
+  public boolean put(MaximizerLoadout state, Slot slot, AdventureResult occupant) {
     if (!this.accepts(slot, occupant)) return false;
     state.equipment.put(slot, occupant);
     return true;
@@ -168,7 +168,7 @@ enum FamiliarSlotGroup implements SlottedItem<FamiliarData> {
   }
 
   @Override
-  public FamiliarData get(MaximizerSpeculation state, Slot slot) {
+  public FamiliarData get(MaximizerLoadout state, Slot slot) {
     if (!this.slots.contains(slot)) return null;
     return switch (this) {
       case CROWN -> state.getEnthroned();
@@ -182,7 +182,7 @@ enum FamiliarSlotGroup implements SlottedItem<FamiliarData> {
   }
 
   @Override
-  public boolean put(MaximizerSpeculation state, Slot slot, FamiliarData occupant) {
+  public boolean put(MaximizerLoadout state, Slot slot, FamiliarData occupant) {
     if (!this.accepts(slot, occupant)) return false;
     switch (this) {
       case CROWN -> state.setEnthroned(occupant);

@@ -8,7 +8,7 @@ import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 
-final class SpeculationEvaluation {
+final class LoadoutEvaluation {
   private boolean scored;
   private boolean tiebreakered;
   private boolean failed;
@@ -18,9 +18,9 @@ final class SpeculationEvaluation {
   private int simplicity;
   private ResourceUsage resourceUsage = ResourceUsage.EMPTY;
 
-  private SpeculationEvaluation() {}
+  private LoadoutEvaluation() {}
 
-  private SpeculationEvaluation(SpeculationEvaluation source) {
+  private LoadoutEvaluation(LoadoutEvaluation source) {
     this.scored = source.scored;
     this.tiebreakered = source.tiebreakered;
     this.failed = source.failed;
@@ -31,12 +31,12 @@ final class SpeculationEvaluation {
     this.resourceUsage = source.resourceUsage;
   }
 
-  static SpeculationEvaluation empty() {
-    return new SpeculationEvaluation();
+  static LoadoutEvaluation empty() {
+    return new LoadoutEvaluation();
   }
 
-  SpeculationEvaluation copy() {
-    return new SpeculationEvaluation(this);
+  LoadoutEvaluation copy() {
+    return new LoadoutEvaluation(this);
   }
 
   void invalidate() {

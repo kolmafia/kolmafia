@@ -42,7 +42,7 @@ final class CarriedFamiliarSelector {
             ? new CheckedItem(CROWN.parentItemId(), equipScope, maxPrice, priceLevel)
             : null;
     if (secondBest != FamiliarData.NO_FAMILIAR
-        && speculation(secondBest, crown).compareTo(speculation(best, crown)) > 0) {
+        && loadout(secondBest, crown).compareTo(loadout(best, crown)) > 0) {
       FamiliarData swap = best;
       best = secondBest;
       secondBest = swap;
@@ -52,21 +52,21 @@ final class CarriedFamiliarSelector {
       return new Selection(List.of(), best, secondBest, lockedCrown, lockedBjorn);
     }
 
-    MaximizerSpeculation bestSpec = speculation(best, crown);
-    MaximizerSpeculation secondBestSpec = speculation(secondBest, crown);
+    MaximizerLoadout bestLoadout = loadout(best, crown);
+    MaximizerLoadout secondBestLoadout = loadout(secondBest, crown);
     for (FamiliarData familiar : KoLCharacter.usableFamiliars()) {
       if (!eligible(familiar, best, lockedCrown, lockedBjorn, character)) {
         continue;
       }
 
-      MaximizerSpeculation speculation = speculation(familiar, crown);
-      if (speculation.compareTo(bestSpec) > 0) {
-        secondBestSpec = bestSpec.clone();
-        bestSpec = speculation.clone();
+      MaximizerLoadout loadout = loadout(familiar, crown);
+      if (loadout.compareTo(bestLoadout) > 0) {
+        secondBestLoadout = bestLoadout.clone();
+        bestLoadout = loadout.clone();
         secondBest = best;
         best = familiar;
-      } else if (speculation.compareTo(secondBestSpec) > 0) {
-        secondBestSpec = speculation.clone();
+      } else if (loadout.compareTo(secondBestLoadout) > 0) {
+        secondBestLoadout = loadout.clone();
         secondBest = familiar;
       }
     }
@@ -96,12 +96,12 @@ final class CarriedFamiliarSelector {
         && character.resourceUsage(familiar.getRace()).isZero();
   }
 
-  private static MaximizerSpeculation speculation(FamiliarData familiar, CheckedItem crown) {
-    MaximizerSpeculation speculation = new MaximizerSpeculation();
-    speculation.attachment = crown;
-    speculation.equipment.put(Slot.HAT, crown);
-    CROWN.put(speculation, Slot.CROWNOFTHRONES, familiar);
-    speculation.setUnscored();
-    return speculation;
+  private static MaximizerLoadout loadout(FamiliarData familiar, CheckedItem crown) {
+    MaximizerLoadout loadout = new MaximizerLoadout();
+    loadout.attachment = crown;
+    loadout.equipment.put(Slot.HAT, crown);
+    CROWN.put(loadout, Slot.CROWNOFTHRONES, familiar);
+    loadout.setUnscored();
+    return loadout;
   }
 }

@@ -57,7 +57,7 @@ class EquipmentSearchProblemTest {
       assertTrue(maximize("item, 1 hat, 1 pants, -tie"));
       SolutionQuality actual = Maximizer.best().quality();
 
-      var baseline = new MaximizerSpeculation();
+      var baseline = new MaximizerLoadout();
       var choices = List.of(items(TURTLE, SLIME_HAT), items(DESIGNER_PANTS, OLD_PANTS));
       var oracle =
           BruteForceMaximizer.maximize(
@@ -137,7 +137,7 @@ class EquipmentSearchProblemTest {
 
   @Test
   void slottedItemsOwnTypedSpeculativeState() {
-    var state = new MaximizerSpeculation();
+    var state = new MaximizerLoadout();
     var card = ItemPool.get("Alice's Army Sniper");
     var familiar = new FamiliarData(FamiliarPool.MOSQUITO);
 

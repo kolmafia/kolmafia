@@ -92,7 +92,7 @@ public class Maximizer {
     "_mcHugeLarge",
   };
 
-  static MaximizerSpeculation best;
+  static MaximizerLoadout best;
   static int bestChecked;
   static long bestUpdate;
   static long combinationLimit;
@@ -112,11 +112,11 @@ public class Maximizer {
     return eval;
   }
 
-  static MaximizerSpeculation best() {
+  static MaximizerLoadout best() {
     return session == null ? best : session.best;
   }
 
-  static void setBest(MaximizerSpeculation candidate) {
+  static void setBest(MaximizerLoadout candidate) {
     best = candidate;
     if (session != null) session.best = candidate;
   }
@@ -148,7 +148,7 @@ public class Maximizer {
     return session == null || session.keepSearching();
   }
 
-  static void consider(MaximizerSpeculation candidate) throws MaximizerInterruptedException {
+  static void consider(MaximizerLoadout candidate) throws MaximizerInterruptedException {
     if (session == null) {
       throw new IllegalStateException("Cannot consider equipment outside a maximizer session");
     }
@@ -194,9 +194,8 @@ public class Maximizer {
   }
 
   public static boolean maximize(
-      String maximizerString, int maxPrice, PriceLevel priceLevel, boolean isSpeculationOnly) {
-    EquipScope equipScope =
-        isSpeculationOnly ? EquipScope.SPECULATE_INVENTORY : EquipScope.EQUIP_NOW;
+      String maximizerString, int maxPrice, PriceLevel priceLevel, boolean speculateOnly) {
+    EquipScope equipScope = speculateOnly ? EquipScope.SPECULATE_INVENTORY : EquipScope.EQUIP_NOW;
     return maximize(
         maximizerString, maxPrice, priceLevel, equipScope, EnumSet.allOf(filterType.class));
   }
@@ -257,7 +256,7 @@ public class Maximizer {
     int filterCount = filter.size();
     var limitMode = KoLCharacter.getLimitMode();
 
-    Maximizer.best = new MaximizerSpeculation();
+    Maximizer.best = new MaximizerLoadout();
     Maximizer.combinationLimit = Preferences.getLong("maximizerCombinationLimit");
     Maximizer.session = new MaximizerSession(Maximizer.best, combinationLimit);
     Maximizer.bestChecked = 0;
@@ -295,7 +294,7 @@ public class Maximizer {
     Maximizer.boosts.clear();
     if (filter.contains(KoLConstants.filterType.EQUIP)) {
       Maximizer.best().getScore();
-      MaximizerSpeculation currentEquipment = Maximizer.best().clone();
+      MaximizerLoadout currentEquipment = Maximizer.best().clone();
       // Allow an equal-scoring configuration to replace current equipment.
       Maximizer.best().markFailed();
       Maximizer.session.resetSearch();
@@ -388,10 +387,10 @@ public class Maximizer {
         if (absorbsLeft < 1) {
           continue;
         }
-        MaximizerSpeculation spec = new MaximizerSpeculation();
+        MaximizerLoadout loadout = new MaximizerLoadout();
         String mods = entry.getValue();
-        spec.setCustom(mods);
-        double delta = spec.getScore() - current;
+        loadout.setCustom(mods);
+        double delta = loadout.getScore() - current;
         if (delta <= 0.0) {
           continue;
         }
@@ -437,7 +436,7 @@ public class Maximizer {
         if (!ItemDatabase.isEquipment(itemId) || ItemDatabase.isFamiliarEquipment(itemId)) {
           continue;
         }
-        MaximizerSpeculation spec = new MaximizerSpeculation();
+        MaximizerLoadout loadout = new MaximizerLoadout();
         Modifiers itemMods = ModifierDatabase.getItemModifiers(itemId);
         if (itemMods == null) {
           continue;
@@ -455,8 +454,8 @@ public class Maximizer {
         if (mods.length() == 0) {
           continue;
         }
-        spec.setCustom(mods.toString());
-        double delta = spec.getScore() - current;
+        loadout.setCustom(mods.toString());
+        double delta = loadout.getScore() - current;
         if (delta <= 0.0) {
           continue;
         }
@@ -500,9 +499,9 @@ public class Maximizer {
         }
         String cmd, text;
         int price = 0;
-        MaximizerSpeculation spec = new MaximizerSpeculation();
-        spec.setHorsery(name);
-        double delta = spec.getScore() - current;
+        MaximizerLoadout loadout = new MaximizerLoadout();
+        loadout.setHorsery(name);
+        double delta = loadout.getScore() - current;
         if (delta <= 0.0) {
           continue;
         }
@@ -532,9 +531,9 @@ public class Maximizer {
         if (!entry.getKey().isString()) continue;
         String name = entry.getKey().getStringValue();
         String cmd, text;
-        MaximizerSpeculation spec = new MaximizerSpeculation();
-        spec.setBoomBox(name);
-        double delta = spec.getScore() - current;
+        MaximizerLoadout loadout = new MaximizerLoadout();
+        loadout.setBoomBox(name);
+        double delta = loadout.getScore() - current;
         if (delta <= 0.0) {
           continue;
         }
@@ -565,9 +564,9 @@ public class Maximizer {
         int max = KoLCharacter.getSignZone() == ZodiacZone.CANADIA ? 11 : 10;
         // check only the ends
         for (int i : new int[] {0, max}) {
-          MaximizerSpeculation spec = new MaximizerSpeculation();
-          spec.setMindControlLevel(i);
-          double delta = spec.getScore() - current;
+          MaximizerLoadout loadout = new MaximizerLoadout();
+          loadout.setMindControlLevel(i);
+          double delta = loadout.getScore() - current;
           if (delta <= 0.0) {
             continue;
           }
@@ -593,16 +592,16 @@ public class Maximizer {
 
       double delta;
       boolean isSpecial = false;
-      MaximizerSpeculation spec = new MaximizerSpeculation();
+      MaximizerLoadout loadout = new MaximizerLoadout();
       AdventureResult effect = EffectPool.get(effectId);
       String name = effect.getName();
       boolean hasEffect = KoLConstants.activeEffects.contains(effect);
       List<String> sources;
 
       if (!hasEffect) {
-        spec.addEffect(effect);
-        delta = spec.getScore() - current;
-        if ((spec.getModifiers().getRawBitmap(BitmapModifier.MUTEX_VIOLATIONS)
+        loadout.addEffect(effect);
+        delta = loadout.getScore() - current;
+        if ((loadout.getModifiers().getRawBitmap(BitmapModifier.MUTEX_VIOLATIONS)
                 & ~KoLCharacter.currentRawBitmapModifier(BitmapModifier.MUTEX_VIOLATIONS))
             != 0) { // This effect creates a mutex problem that the player
           // didn't already have.  In the future, perhaps suggest
@@ -636,8 +635,8 @@ public class Maximizer {
           } else continue;
         }
       } else {
-        spec.removeEffect(effect);
-        delta = spec.getScore() - current;
+        loadout.removeEffect(effect);
+        delta = loadout.getScore() - current;
         switch (Maximizer.evaluator()
             .checkConstraints(ModifierDatabase.getEffectModifiers(effectId))) {
           case MEETS:
@@ -1877,9 +1876,9 @@ public class Maximizer {
     if (slot == Slot.FAMILIAR) { // Insert any familiar switch at this point
       FamiliarData fam = Maximizer.best().getFamiliar();
       if (!fam.equals(KoLCharacter.getFamiliar())) {
-        MaximizerSpeculation spec = new MaximizerSpeculation();
-        spec.setFamiliar(fam);
-        double delta = spec.getScore() - current;
+        MaximizerLoadout loadout = new MaximizerLoadout();
+        loadout.setFamiliar(fam);
+        double delta = loadout.getScore() - current;
         String cmd, text;
         cmd = "familiar " + fam.getRace();
         text = cmd + " (" + KoLConstants.MODIFIER_FORMAT.format(delta) + ")";
@@ -1934,7 +1933,7 @@ public class Maximizer {
           new Boost("", "keep " + slotname + ": " + item.getName(), Slot.NONE, item, 0.0));
       return equipScope;
     }
-    MaximizerSpeculation spec = new MaximizerSpeculation();
+    MaximizerLoadout loadout = new MaximizerLoadout();
     double baseline = current;
     var codpiece = ItemSlotGroup.ETERNITY_CODPIECE;
     if (codpiece.slots().contains(slot)
@@ -1942,22 +1941,22 @@ public class Maximizer {
       for (Slot accessorySlot : SlotSet.ACCESSORY_SLOTS) {
         AdventureResult accessory = Maximizer.best().equipment.get(accessorySlot);
         if (accessory != null && codpiece.isParent(accessory.getItemId())) {
-          MaximizerSpeculation codpieceSpec = new MaximizerSpeculation();
-          codpieceSpec.equip(accessorySlot, accessory);
-          baseline = codpieceSpec.getScore();
-          spec.equip(accessorySlot, accessory);
+          MaximizerLoadout codpieceLoadout = new MaximizerLoadout();
+          codpieceLoadout.equip(accessorySlot, accessory);
+          baseline = codpieceLoadout.getScore();
+          loadout.equip(accessorySlot, accessory);
           break;
         }
       }
     }
-    spec.equip(slot, item);
+    loadout.equip(slot, item);
     if (familiarSlots != null) {
-      familiarSlots.put(spec, familiarSlots.slots().getFirst(), familiarOccupant);
+      familiarSlots.put(loadout, familiarSlots.slots().getFirst(), familiarOccupant);
     } else if (modeable != null) {
-      spec.setModeable(modeable, modeables.get(modeable));
+      loadout.setModeable(modeable, modeables.get(modeable));
     }
 
-    double delta = spec.getScore() - baseline;
+    double delta = loadout.getScore() - baseline;
 
     String cmd, text;
     if (item.equals(EquipmentRequest.UNEQUIP)) {

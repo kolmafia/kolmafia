@@ -128,19 +128,18 @@ final class EquipmentSearchRunner {
             equipScope,
             maxPrice,
             priceLevel);
-    var speculationCompilation =
-        new CandidateSpeculationFactory(
+    var loadoutCompilation =
+        new CandidateLoadoutFactory(
                 ordinaryCandidates.carriedFamiliarsNeeded(), carriedFamiliars, bestCard, bestModes)
             .compile(ranked, catalog, terms.familiars(), equipScope, maxPrice, priceLevel);
-    var speculations = speculationCompilation.speculations();
-    setEvaluator.evaluate(speculations);
+    var loadouts = loadoutCompilation.loadouts();
+    setEvaluator.evaluate(loadouts);
 
     var shortlist =
         new CandidateShortlistCompiler(
                 terms.familiars(), character, equipScope, maxPrice, priceLevel, terms.integer(DUMP))
-            .compile(ranked, speculations, codpieceCanExpandAccessoryPool);
-    Maximizer.recordCandidateCounts(
-        speculationCompilation.catalogCount(), shortlist.candidateCount());
+            .compile(ranked, loadouts, codpieceCanExpandAccessoryPool);
+    Maximizer.recordCandidateCounts(loadoutCompilation.catalogCount(), shortlist.candidateCount());
 
     new EquipmentSearchRunner(
             terms.familiars(),
@@ -150,7 +149,7 @@ final class EquipmentSearchRunner {
             new Options(
                 terms.slots(),
                 bestModes,
-                speculationCompilation.card(),
+                loadoutCompilation.card(),
                 carriedFamiliars.lockedCrown(),
                 carriedFamiliars.lockedBjorn(),
                 maxPrice,
@@ -161,7 +160,7 @@ final class EquipmentSearchRunner {
 
   void run(SlotList<CheckedItem> candidates, SlotList<CheckedItem> catalog)
       throws MaximizerInterruptedException {
-    MaximizerSpeculation baseline = this.createBaseline();
+    MaximizerLoadout baseline = this.createBaseline();
     if (baseline == null) {
       return;
     }
@@ -169,7 +168,7 @@ final class EquipmentSearchRunner {
     this.prepareOffhandCandidates(baseline, candidates, catalog);
     this.applyModes(baseline);
 
-    MaximizerSpeculation exhaustiveBaseline = this.options.exhaustive() ? baseline.clone() : null;
+    MaximizerLoadout exhaustiveBaseline = this.options.exhaustive() ? baseline.clone() : null;
     Maximizer.startSearch(this.options.exhaustive());
     this.search(baseline, candidates);
 
@@ -180,8 +179,8 @@ final class EquipmentSearchRunner {
     }
   }
 
-  private MaximizerSpeculation createBaseline() {
-    MaximizerSpeculation baseline = new MaximizerSpeculation();
+  private MaximizerLoadout createBaseline() {
+    MaximizerLoadout baseline = new MaximizerLoadout();
     for (int threshold = 1; threshold >= 0; threshold--) {
       boolean anySlots = false;
       for (Slot slot : SlotSet.SLOTS) {
@@ -198,9 +197,7 @@ final class EquipmentSearchRunner {
   }
 
   private void prepareOffhandCandidates(
-      MaximizerSpeculation baseline,
-      SlotList<CheckedItem> candidates,
-      SlotList<CheckedItem> catalog) {
+      MaximizerLoadout baseline, SlotList<CheckedItem> candidates, SlotList<CheckedItem> catalog) {
     if (baseline.equipment.get(Slot.OFFHAND) == null) {
       return;
     }
@@ -220,7 +217,7 @@ final class EquipmentSearchRunner {
     }
   }
 
-  private void applyModes(MaximizerSpeculation baseline) {
+  private void applyModes(MaximizerLoadout baseline) {
     this.options
         .modes()
         .forEach(
@@ -253,7 +250,7 @@ final class EquipmentSearchRunner {
   }
 
   private static void prepareExhaustiveCatalog(
-      MaximizerSpeculation baseline, SlotList<CheckedItem> catalog) {
+      MaximizerLoadout baseline, SlotList<CheckedItem> catalog) {
     if (baseline.equipment.get(Slot.OFFHAND) == null) {
       catalog.get(Slot.WEAPON).addAll(catalog.get(Evaluator.WEAPON_1H));
     }
@@ -261,7 +258,7 @@ final class EquipmentSearchRunner {
     catalog.get(Evaluator.OFFHAND_RANGED).addAll(catalog.get(Slot.OFFHAND));
   }
 
-  private void search(MaximizerSpeculation baseline, SlotList<CheckedItem> candidates)
+  private void search(MaximizerLoadout baseline, SlotList<CheckedItem> candidates)
       throws MaximizerInterruptedException {
     var problem =
         new EquipmentSearchProblem(

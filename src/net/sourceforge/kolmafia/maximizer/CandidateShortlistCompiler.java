@@ -42,7 +42,7 @@ final class CandidateShortlistCompiler {
 
   Result compile(
       SlotList<CheckedItem> ranked,
-      SlotList<MaximizerSpeculation> speculations,
+      SlotList<MaximizerLoadout> loadouts,
       boolean codpieceCanExpandAccessoryPool)
       throws MaximizerInterruptedException {
     SlotList<CheckedItem> candidates = new SlotList<>(this.familiars.size());
@@ -55,7 +55,7 @@ final class CandidateShortlistCompiler {
             "SLOT " + (entry.isSlot() ? entry.slot() : "BONUS FAMILIAR #" + entry.famIndex()));
       }
       if (this.dump > 1) {
-        RequestLogger.printLine(speculations.get(entry).toString());
+        RequestLogger.printLine(loadouts.get(entry).toString());
       }
 
       int total = addRequired(rankedItems, selected);
@@ -64,7 +64,7 @@ final class CandidateShortlistCompiler {
           || (codpieceCanExpandAccessoryPool
               && entry.isSlot()
               && entry.slot() == Slot.ACCESSORY1)) {
-        addBestAvailable(entry, speculations, candidates, selected, total, useful);
+        addBestAvailable(entry, loadouts, candidates, selected, total, useful);
       }
 
       if (selected.size() == 1
@@ -101,21 +101,21 @@ final class CandidateShortlistCompiler {
 
   private void addBestAvailable(
       SlotList.Entry<CheckedItem> entry,
-      SlotList<MaximizerSpeculation> speculations,
+      SlotList<MaximizerLoadout> loadouts,
       SlotList<CheckedItem> candidates,
       List<CheckedItem> selected,
       int total,
       int useful)
       throws MaximizerInterruptedException {
-    ListIterator<MaximizerSpeculation> iterator =
-        speculations.get(entry).listIterator(speculations.get(entry).size());
+    ListIterator<MaximizerLoadout> iterator =
+        loadouts.get(entry).listIterator(loadouts.get(entry).size());
     int resourceCandidates = 0;
     ResourceUsage resourceUsage = this.character.resourceUsage("");
 
     while (iterator.hasPrevious()) {
       CheckedItem item = iterator.previous().attachment;
       item.validate(this.maxPrice, this.priceLevel);
-      int foldItemsNeeded = foldItemsNeeded(entry, item, candidates, speculations, useful);
+      int foldItemsNeeded = foldItemsNeeded(entry, item, candidates, loadouts, useful);
       if (item.getCount() == 0) {
         continue;
       }
@@ -164,7 +164,7 @@ final class CandidateShortlistCompiler {
       SlotList.Entry<CheckedItem> entry,
       CheckedItem item,
       SlotList<CheckedItem> selected,
-      SlotList<MaximizerSpeculation> speculations,
+      SlotList<MaximizerLoadout> loadouts,
       int useful) {
     FoldGroup group = ItemDatabase.getFoldGroup(item.getName());
     if (group == null || !Preferences.getBoolean("maximizerFoldables")) {
@@ -187,8 +187,8 @@ final class CandidateShortlistCompiler {
     if (entry.isSlot() && entry.slot().ordinal() < Slot.FAMILIAR.ordinal()) {
       for (Slot checkSlot :
           EnumSet.range(Slot.byOrdinal(entry.slot().ordinal() + 1), Slot.FAMILIAR)) {
-        ListIterator<MaximizerSpeculation> iterator =
-            speculations.get(checkSlot).listIterator(speculations.get(checkSlot).size());
+        ListIterator<MaximizerLoadout> iterator =
+            loadouts.get(checkSlot).listIterator(loadouts.get(checkSlot).size());
         int usefulCheckCount = maxUseful(checkSlot);
         while (iterator.hasPrevious()) {
           CheckedItem checkItem = iterator.previous().attachment;

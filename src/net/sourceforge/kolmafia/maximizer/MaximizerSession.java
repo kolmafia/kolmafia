@@ -6,7 +6,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 
 final class MaximizerSession {
   final long combinationLimit;
-  MaximizerSpeculation best;
+  MaximizerLoadout best;
   int combinationsChecked;
   int catalogCandidates;
   int shortlistedCandidates;
@@ -23,7 +23,7 @@ final class MaximizerSession {
   CharacterSnapshot character;
   boolean active = true;
 
-  MaximizerSession(MaximizerSpeculation best, long combinationLimit) {
+  MaximizerSession(MaximizerLoadout best, long combinationLimit) {
     this.best = best;
     this.combinationLimit = combinationLimit;
   }
@@ -75,7 +75,7 @@ final class MaximizerSession {
     return false;
   }
 
-  void consider(MaximizerSpeculation candidate) throws MaximizerInterruptedException {
+  void consider(MaximizerLoadout candidate) throws MaximizerInterruptedException {
     candidate.setUnscored();
     if (this.best == null) {
       RequestLogger.updateSessionLog(

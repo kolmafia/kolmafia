@@ -9,16 +9,16 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.Speculation;
 import net.sourceforge.kolmafia.equipment.Slot;
 
-public class MaximizerSpeculation extends Speculation
-    implements Comparable<MaximizerSpeculation>, Cloneable {
-  private SpeculationEvaluation evaluation = SpeculationEvaluation.empty();
+public class MaximizerLoadout extends Speculation
+    implements Comparable<MaximizerLoadout>, Cloneable {
+  private LoadoutEvaluation evaluation = LoadoutEvaluation.empty();
   public CheckedItem attachment;
-  CodpieceSpeculation codpiece = new CodpieceSpeculation(this);
+  CodpieceSearchState codpiece = new CodpieceSearchState(this);
 
   @Override
-  public MaximizerSpeculation clone() {
+  public MaximizerLoadout clone() {
     try {
-      MaximizerSpeculation copy = (MaximizerSpeculation) super.clone();
+      MaximizerLoadout copy = (MaximizerLoadout) super.clone();
       copy.equipment = this.equipment.clone();
       copy.setModeables(new EnumMap<>(this.getModeables()));
       if (this.mods != null) {
@@ -26,7 +26,7 @@ public class MaximizerSpeculation extends Speculation
       }
       copy.evaluation = this.evaluation.copy();
       // A clone is a frozen candidate: it must not retain an in-progress Codpiece search.
-      copy.codpiece = new CodpieceSpeculation(copy);
+      copy.codpiece = new CodpieceSearchState(copy);
       return copy;
     } catch (CloneNotSupportedException e) {
       return null;
@@ -73,7 +73,7 @@ public class MaximizerSpeculation extends Speculation
   }
 
   @Override
-  public int compareTo(MaximizerSpeculation o) {
+  public int compareTo(MaximizerLoadout o) {
     if (o == null) return 1;
 
     int comparison = Double.compare(this.getScore(), o.getScore());
@@ -122,7 +122,7 @@ public class MaximizerSpeculation extends Speculation
     this.equipment.putAll(mark);
   }
 
-  /** Used by {@link CodpieceSpeculation} to build the late-adjustment prefix it caches. */
+  /** Used by {@link CodpieceSearchState} to build the late-adjustment prefix it caches. */
   KoLCharacter.AdjustmentPrefix recalculateCodpiecePrefix(Map<Slot, AdventureResult> equipment) {
     return KoLCharacter.recalculateAdjustmentsPrefix(
         false,
@@ -140,17 +140,15 @@ public class MaximizerSpeculation extends Speculation
   }
 
   /** Applies each candidate to its own clone of baseline and returns the best-scoring one. */
-  public static <T> MaximizerSpeculation bestOf(
-      MaximizerSpeculation baseline,
-      Iterable<T> candidates,
-      BiConsumer<MaximizerSpeculation, T> mutator) {
-    MaximizerSpeculation best = baseline;
+  public static <T> MaximizerLoadout bestOf(
+      MaximizerLoadout baseline, Iterable<T> candidates, BiConsumer<MaximizerLoadout, T> mutator) {
+    MaximizerLoadout best = baseline;
     for (T candidate : candidates) {
-      MaximizerSpeculation spec = baseline.clone();
-      mutator.accept(spec, candidate);
-      spec.setUnscored(); // clone() may carry baseline's cached score
-      if (spec.compareTo(best) > 0) {
-        best = spec;
+      MaximizerLoadout loadout = baseline.clone();
+      mutator.accept(loadout, candidate);
+      loadout.setUnscored(); // clone() may carry baseline's cached score
+      if (loadout.compareTo(best) > 0) {
+        best = loadout;
       }
     }
     return best;

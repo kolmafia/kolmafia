@@ -15,19 +15,19 @@ import net.sourceforge.kolmafia.request.EquipmentRequest;
 
 /**
  * Codpiece-specific plan/cache state and canonical gem search for a single {@link
- * MaximizerSpeculation}. Reused across the outer equipment search so expensive per-item analysis
- * (gem modifiers, familiar contributions, late-adjustment prefixes) happens at most once.
+ * MaximizerLoadout}. Reused across the outer equipment search so expensive per-item analysis (gem
+ * modifiers, familiar contributions, late-adjustment prefixes) happens at most once.
  */
-final class CodpieceSpeculation {
+final class CodpieceSearchState {
   private static final ItemSlotGroup CODPIECE = ItemSlotGroup.ETERNITY_CODPIECE;
 
-  private final MaximizerSpeculation owner;
+  private final MaximizerLoadout owner;
   private final Map<Integer, Modifiers> codpieceGemModifiers = new HashMap<>();
   private final Map<Integer, Boolean> safeLateCodpieceGems = new HashMap<>();
   private CodpiecePlan codpiecePlan;
   private CodpieceSearch search;
 
-  CodpieceSpeculation(MaximizerSpeculation owner) {
+  CodpieceSearchState(MaximizerLoadout owner) {
     this.owner = owner;
   }
 

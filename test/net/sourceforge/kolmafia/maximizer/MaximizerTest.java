@@ -197,20 +197,20 @@ public class MaximizerTest {
   @Test
   void invalidatesCachedTieComparisons() {
     Maximizer.eval = new Evaluator("0, -tie");
-    var speculation = new MaximizerSpeculation();
-    var comparison = new MaximizerSpeculation();
+    var loadout = new MaximizerLoadout();
+    var comparison = new MaximizerLoadout();
 
-    speculation.equip(Slot.HAT, ItemPool.get(ItemPool.ANTIQUE_HELMET));
-    speculation.setUnscored();
-    speculation.getTiebreaker();
+    loadout.equip(Slot.HAT, ItemPool.get(ItemPool.ANTIQUE_HELMET));
+    loadout.setUnscored();
+    loadout.getTiebreaker();
 
     var helmetTurtle = ItemPool.get(ItemPool.HELMET_TURTLE);
-    speculation.equip(Slot.HAT, helmetTurtle);
-    speculation.setUnscored();
+    loadout.equip(Slot.HAT, helmetTurtle);
+    loadout.setUnscored();
     comparison.equip(Slot.HAT, helmetTurtle);
     comparison.setUnscored();
 
-    assertThat(speculation.compareTo(comparison), is(0));
+    assertThat(loadout.compareTo(comparison), is(0));
   }
 
   @Test
@@ -226,12 +226,12 @@ public class MaximizerTest {
   }
 
   @Test
-  void clonedSpeculationOwnsCalculatedModifiers() {
-    var speculation = new MaximizerSpeculation();
-    double itemDrop = speculation.calculate().getDouble(DoubleModifier.ITEMDROP);
-    var copy = speculation.clone();
+  void clonedLoadoutOwnsCalculatedModifiers() {
+    var loadout = new MaximizerLoadout();
+    double itemDrop = loadout.calculate().getDouble(DoubleModifier.ITEMDROP);
+    var copy = loadout.clone();
 
-    speculation.getModifiers().setDouble(DoubleModifier.ITEMDROP, itemDrop + 1);
+    loadout.getModifiers().setDouble(DoubleModifier.ITEMDROP, itemDrop + 1);
 
     assertThat(copy.getModifiers().getDouble(DoubleModifier.ITEMDROP), equalTo(itemDrop));
   }
@@ -3653,7 +3653,7 @@ public class MaximizerTest {
 
   @Test
   void marksExpiredSearchIncomplete() {
-    var session = new MaximizerSession(new MaximizerSpeculation(), 0);
+    var session = new MaximizerSession(new MaximizerLoadout(), 0);
     session.searchDeadlineNanos = 0;
 
     assertFalse(session.keepSearching());
@@ -3662,7 +3662,7 @@ public class MaximizerTest {
 
   @Test
   void recordsCandidateCompilationBeforeSearchStarts() {
-    var session = new MaximizerSession(new MaximizerSpeculation(), 0);
+    var session = new MaximizerSession(new MaximizerLoadout(), 0);
     session.candidateCompilationStartedNanos = System.nanoTime() - 1_000_000;
 
     session.finishCandidateCompilation();

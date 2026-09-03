@@ -39,7 +39,7 @@ import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.maximizer.Boost;
 import net.sourceforge.kolmafia.maximizer.EquipScope;
 import net.sourceforge.kolmafia.maximizer.Maximizer;
-import net.sourceforge.kolmafia.maximizer.MaximizerSpeculation;
+import net.sourceforge.kolmafia.maximizer.MaximizerLoadout;
 import net.sourceforge.kolmafia.maximizer.PriceLevel;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -127,7 +127,7 @@ public class MaximizerFrame extends GenericFrame implements ListSelectionListene
     if (items.length == 0) {
       buff.append("---");
     } else {
-      MaximizerSpeculation spec = new MaximizerSpeculation();
+      MaximizerLoadout spec = new MaximizerLoadout();
       for (Object item : items) {
         if (item instanceof Boost) {
           ((Boost) item).addTo(spec);

@@ -84,10 +84,10 @@ final class EquipmentSetEvaluator {
     }
   }
 
-  void evaluate(SlotList<MaximizerSpeculation> speculations) throws MaximizerInterruptedException {
-    this.pruneTwoItemSynergies(speculations);
-    this.restoreThreeItemSynergies(speculations);
-    this.pruneOutfits(speculations);
+  void evaluate(SlotList<MaximizerLoadout> loadouts) throws MaximizerInterruptedException {
+    this.pruneTwoItemSynergies(loadouts);
+    this.restoreThreeItemSynergies(loadouts);
+    this.pruneOutfits(loadouts);
   }
 
   private void findUsefulOutfits(Set<String> excludedOutfits, double nullScore) {
@@ -128,7 +128,7 @@ final class EquipmentSetEvaluator {
     }
   }
 
-  private void pruneTwoItemSynergies(SlotList<MaximizerSpeculation> speculations)
+  private void pruneTwoItemSynergies(SlotList<MaximizerLoadout> loadouts)
       throws MaximizerInterruptedException {
     for (var entry : ModifierDatabase.getSynergies()) {
       String synergy = entry.getKey();
@@ -148,45 +148,44 @@ final class EquipmentSetEvaluator {
                   && EquipmentDatabase.getWeaponType(itemId1) == WeaponType.MELEE
               ? Evaluator.WEAPON_1H
               : slot1;
-      CheckedItem item1 = findByName(speculations.get(slot1Lookup), itemName1);
-      CheckedItem item2 = findByName(speculations.get(slot2), itemName2);
+      CheckedItem item1 = findByName(loadouts.get(slot1Lookup), itemName1);
+      CheckedItem item2 = findByName(loadouts.get(slot2), itemName2);
       if (item1 == null || item2 == null) {
         continue;
       }
 
-      MaximizerSpeculation synergySpec = new MaximizerSpeculation();
-      MaximizerSpeculation compareSpec = new MaximizerSpeculation();
+      MaximizerLoadout synergyLoadout = new MaximizerLoadout();
+      MaximizerLoadout comparisonLoadout = new MaximizerLoadout();
       Slot useSlot1 = slot1;
       CheckedItem compareItem1 =
-          bestUnconditional(speculations.get(slot1Lookup), slot1 == Slot.ACCESSORY1 ? 2 : 0, null);
-      compareSpec.equipment.put(
+          bestUnconditional(loadouts.get(slot1Lookup), slot1 == Slot.ACCESSORY1 ? 2 : 0, null);
+      comparisonLoadout.equipment.put(
           useSlot1, compareItem1 == null ? EquipmentRequest.UNEQUIP : compareItem1);
-      synergySpec.equipment.put(useSlot1, item1);
+      synergyLoadout.equipment.put(useSlot1, item1);
 
       Slot useSlot2 = accessorySlot(slot2, slot1 == Slot.ACCESSORY1 ? 1 : 0);
       CheckedItem compareItem2 =
           bestUnconditional(
-              speculations.get(slot2),
+              loadouts.get(slot2),
               slot2 == Slot.ACCESSORY1 ? 1 : 0,
-              compareSpec.equipment.get(useSlot1).getName());
-      compareSpec.equipment.put(
+              comparisonLoadout.equipment.get(useSlot1).getName());
+      comparisonLoadout.equipment.put(
           useSlot2, compareItem2 == null ? EquipmentRequest.UNEQUIP : compareItem2);
-      synergySpec.equipment.put(useSlot2, item2);
+      synergyLoadout.equipment.put(useSlot2, item2);
 
-      if (synergySpec.compareTo(compareSpec) <= 0 || synergySpec.failed()) {
+      if (synergyLoadout.compareTo(comparisonLoadout) <= 0 || synergyLoadout.failed()) {
         item1.automaticFlag = false;
         item2.automaticFlag = false;
       }
     }
   }
 
-  private void restoreThreeItemSynergies(SlotList<MaximizerSpeculation> speculations)
+  private void restoreThreeItemSynergies(SlotList<MaximizerLoadout> loadouts)
       throws MaximizerInterruptedException {
-    ListIterator<MaximizerSpeculation> iterator;
+    ListIterator<MaximizerLoadout> iterator;
     for (int[] synergy : THREE_ITEM_SYNERGIES) {
       CheckedItem[] items = new CheckedItem[synergy.length];
-      iterator =
-          speculations.get(Slot.ACCESSORY1).listIterator(speculations.get(Slot.ACCESSORY1).size());
+      iterator = loadouts.get(Slot.ACCESSORY1).listIterator(loadouts.get(Slot.ACCESSORY1).size());
       while (iterator.hasPrevious()) {
         CheckedItem candidate = iterator.previous().attachment;
         candidate.validate(this.maxPrice, this.priceLevel);
@@ -200,18 +199,19 @@ final class EquipmentSetEvaluator {
         continue;
       }
 
-      MaximizerSpeculation synergySpec = new MaximizerSpeculation();
-      MaximizerSpeculation compareSpec = new MaximizerSpeculation();
+      MaximizerLoadout synergyLoadout = new MaximizerLoadout();
+      MaximizerLoadout comparisonLoadout = new MaximizerLoadout();
       Slot slot = Slot.ACCESSORY1;
       for (int i = 0; i < items.length; i++) {
         CheckedItem item = items[i];
-        synergySpec.equipment.put(slot, item);
-        CheckedItem comparison = bestUnconditional(speculations.get(Slot.ACCESSORY1), i, null);
-        compareSpec.equipment.put(slot, comparison == null ? EquipmentRequest.UNEQUIP : comparison);
+        synergyLoadout.equipment.put(slot, item);
+        CheckedItem comparison = bestUnconditional(loadouts.get(Slot.ACCESSORY1), i, null);
+        comparisonLoadout.equipment.put(
+            slot, comparison == null ? EquipmentRequest.UNEQUIP : comparison);
         slot = nextAccessory(slot);
       }
 
-      if (synergySpec.compareTo(compareSpec) > 0 && !synergySpec.failed()) {
+      if (synergyLoadout.compareTo(comparisonLoadout) > 0 && !synergyLoadout.failed()) {
         for (CheckedItem item : items) {
           item.automaticFlag = true;
         }
@@ -219,7 +219,7 @@ final class EquipmentSetEvaluator {
     }
   }
 
-  private void pruneOutfits(SlotList<MaximizerSpeculation> speculations) {
+  private void pruneOutfits(SlotList<MaximizerLoadout> loadouts) {
     StringBuilder summary = new StringBuilder("Outfits [");
     int outfitCount = 0;
     for (var entry : this.usefulOutfits.entrySet()) {
@@ -227,8 +227,8 @@ final class EquipmentSetEvaluator {
         continue;
       }
 
-      MaximizerSpeculation outfitSpec = new MaximizerSpeculation();
-      MaximizerSpeculation compareSpec = new MaximizerSpeculation();
+      MaximizerLoadout outfitLoadout = new MaximizerLoadout();
+      MaximizerLoadout comparisonLoadout = new MaximizerLoadout();
       SpecialOutfit outfit = EquipmentDatabase.getOutfit(entry.getKey());
       int accessoryCount = 0;
       for (AdventureResult piece : outfit.getPieces()) {
@@ -247,16 +247,16 @@ final class EquipmentSetEvaluator {
 
         CheckedItem comparison =
             bestUnconditional(
-                speculations.get(lookupSlot),
+                loadouts.get(lookupSlot),
                 lookupSlot == Slot.ACCESSORY1 ? 3 - accessoryCount : 0,
                 null);
-        compareSpec.equipment.put(
+        comparisonLoadout.equipment.put(
             useSlot, comparison == null ? EquipmentRequest.UNEQUIP : comparison);
-        outfitSpec.equipment.put(
+        outfitLoadout.equipment.put(
             useSlot, new CheckedItem(itemId, this.equipScope, this.maxPrice, this.priceLevel));
       }
 
-      if (outfitSpec.compareTo(compareSpec) <= 0
+      if (outfitLoadout.compareTo(comparisonLoadout) <= 0
           && !this.requiredOutfits.contains(outfit.getName())) {
         entry.setValue(false);
         continue;
@@ -271,7 +271,7 @@ final class EquipmentSetEvaluator {
     }
   }
 
-  private CheckedItem findByName(ListIterator<MaximizerSpeculation> iterator, String name)
+  private CheckedItem findByName(ListIterator<MaximizerLoadout> iterator, String name)
       throws MaximizerInterruptedException {
     while (iterator.hasPrevious()) {
       CheckedItem item = iterator.previous().attachment;
@@ -283,14 +283,14 @@ final class EquipmentSetEvaluator {
     return null;
   }
 
-  private CheckedItem findByName(List<MaximizerSpeculation> speculations, String name)
+  private CheckedItem findByName(List<MaximizerLoadout> loadouts, String name)
       throws MaximizerInterruptedException {
-    return findByName(speculations.listIterator(speculations.size()), name);
+    return findByName(loadouts.listIterator(loadouts.size()), name);
   }
 
   private static CheckedItem bestUnconditional(
-      List<MaximizerSpeculation> speculations, int skip, String excludedName) {
-    ListIterator<MaximizerSpeculation> iterator = speculations.listIterator(speculations.size());
+      List<MaximizerLoadout> loadouts, int skip, String excludedName) {
+    ListIterator<MaximizerLoadout> iterator = loadouts.listIterator(loadouts.size());
     while (iterator.hasPrevious()) {
       CheckedItem item = iterator.previous().attachment;
       if (item.conditionalFlag || (excludedName != null && item.getName().equals(excludedName))) {

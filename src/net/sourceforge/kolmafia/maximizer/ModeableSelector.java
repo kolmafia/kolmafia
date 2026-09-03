@@ -25,19 +25,19 @@ final class ModeableSelector {
       }
 
       CheckedItem item = new CheckedItem(modeable.getItemId(), equipScope, maxPrice, priceLevel);
-      MaximizerSpeculation baseline = new MaximizerSpeculation();
+      MaximizerLoadout baseline = new MaximizerLoadout();
       baseline.attachment = item;
       baseline.equipment.put(modeable.getSlot(), item);
       baseline.setModeable(modeable, modeable.getState());
 
-      MaximizerSpeculation best =
-          MaximizerSpeculation.bestOf(
+      MaximizerLoadout best =
+          MaximizerLoadout.bestOf(
               baseline,
               modeable.getModes(),
-              (spec, mode) -> {
-                spec.attachment = item;
-                spec.equipment.put(modeable.getSlot(), item);
-                spec.setModeable(modeable, mode);
+              (loadout, mode) -> {
+                loadout.attachment = item;
+                loadout.equipment.put(modeable.getSlot(), item);
+                loadout.setModeable(modeable, mode);
               });
       selected.put(modeable, best.getModeables().get(modeable));
     }

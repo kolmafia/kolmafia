@@ -269,7 +269,7 @@ public class MaximizerRegressionTest {
             withEquippableItem("Camp Scout backpack"),
             // +1 mys, +2 mox; 7 mox required; Maximizer needs to recommend changes in order to
             // create a
-            // speculation.
+            // loadout.
             withEquippableItem("basic meat fez"),
             // +7 mus; 75 mys required
             withEquipped(Slot.CONTAINER, "barskin cloak"));

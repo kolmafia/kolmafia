@@ -27,17 +27,17 @@ final class CardSleeveSelector {
       }
     }
 
-    MaximizerSpeculation baseline = new MaximizerSpeculation();
+    MaximizerLoadout baseline = new MaximizerLoadout();
     var group = ItemSlotGroup.CARD_SLEEVE;
     CheckedItem sleeve = new CheckedItem(group.parentItemId(), equipScope, maxPrice, priceLevel);
-    MaximizerSpeculation best =
-        MaximizerSpeculation.bestOf(
+    MaximizerLoadout best =
+        MaximizerLoadout.bestOf(
             baseline,
             candidates,
-            (spec, card) -> {
-              spec.attachment = sleeve;
-              spec.equipment.put(Slot.OFFHAND, sleeve);
-              group.put(spec, Slot.CARDSLEEVE, card);
+            (loadout, card) -> {
+              loadout.attachment = sleeve;
+              loadout.equipment.put(Slot.OFFHAND, sleeve);
+              group.put(loadout, Slot.CARDSLEEVE, card);
             });
     return best == baseline ? null : (CheckedItem) group.get(best, Slot.CARDSLEEVE);
   }

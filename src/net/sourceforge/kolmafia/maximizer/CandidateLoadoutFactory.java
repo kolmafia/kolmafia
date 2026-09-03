@@ -10,17 +10,16 @@ import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 
-final class CandidateSpeculationFactory {
-  record Compilation(
-      SlotList<MaximizerSpeculation> speculations, AdventureResult card, int catalogCount) {}
+final class CandidateLoadoutFactory {
+  record Compilation(SlotList<MaximizerLoadout> loadouts, AdventureResult card, int catalogCount) {}
 
   private final int carriedFamiliarsNeeded;
   private final CarriedFamiliarSelector.Selection carriedFamiliars;
   private final CheckedItem bestCard;
   private final Map<Modeable, String> bestModes;
-  private final MaximizerSpeculation current = new MaximizerSpeculation();
+  private final MaximizerLoadout current = new MaximizerLoadout();
 
-  CandidateSpeculationFactory(
+  CandidateLoadoutFactory(
       int carriedFamiliarsNeeded,
       CarriedFamiliarSelector.Selection carriedFamiliars,
       CheckedItem bestCard,
@@ -38,7 +37,7 @@ final class CandidateSpeculationFactory {
       EquipScope equipScope,
       int maxPrice,
       PriceLevel priceLevel) {
-    SlotList<MaximizerSpeculation> speculations = new SlotList<>(familiars.size());
+    SlotList<MaximizerLoadout> loadouts = new SlotList<>(familiars.size());
     AdventureResult card = null;
 
     for (var entry : ranked.entries()) {
@@ -52,7 +51,7 @@ final class CandidateSpeculationFactory {
         catalog.get(entry).add(unequip);
       }
 
-      List<MaximizerSpeculation> slotSpeculations = speculations.get(entry);
+      List<MaximizerLoadout> slotLoadouts = loadouts.get(entry);
       for (CheckedItem item : items) {
         FamiliarData familiar = entry.isSlot() ? null : familiars.get(entry.famIndex());
         Slot slot = entry.isSlot() ? Evaluator.toUseSlot(entry.slot()) : Slot.FAMILIAR;
@@ -60,9 +59,9 @@ final class CandidateSpeculationFactory {
         if (result.card() != null) {
           card = result.card();
         }
-        slotSpeculations.add(result.speculation());
+        slotLoadouts.add(result.loadout());
       }
-      Collections.sort(slotSpeculations);
+      Collections.sort(slotLoadouts);
     }
 
     for (var entry : catalog.entries()) {
@@ -72,31 +71,31 @@ final class CandidateSpeculationFactory {
       }
     }
     int catalogCount = catalog.entries().stream().mapToInt(entry -> entry.value().size()).sum();
-    return new Compilation(speculations, card, catalogCount);
+    return new Compilation(loadouts, card, catalogCount);
   }
 
   private Result create(CheckedItem item, Slot slot, FamiliarData familiar) {
-    MaximizerSpeculation speculation = new MaximizerSpeculation();
-    speculation.attachment = item;
+    MaximizerLoadout loadout = new MaximizerLoadout();
+    loadout.attachment = item;
     if (familiar != null) {
-      speculation.setFamiliar(familiar);
+      loadout.setFamiliar(familiar);
     }
-    speculation.equipment.put(slot, item);
+    loadout.equipment.put(slot, item);
 
     if (slot == Slot.CODPIECE1) {
       for (Slot codpieceSlot : ItemSlotGroup.ETERNITY_CODPIECE.slots()) {
-        ItemSlotGroup.ETERNITY_CODPIECE.put(speculation, codpieceSlot, EquipmentRequest.UNEQUIP);
+        ItemSlotGroup.ETERNITY_CODPIECE.put(loadout, codpieceSlot, EquipmentRequest.UNEQUIP);
       }
-      ItemSlotGroup.ETERNITY_CODPIECE.put(speculation, slot, item);
+      ItemSlotGroup.ETERNITY_CODPIECE.put(loadout, slot, item);
     }
 
     AdventureResult card = null;
     FamiliarSlotGroup familiarSlots = FamiliarSlotGroup.find(item.getItemId());
     if (familiarSlots != null) {
       if (familiarSlots == FamiliarSlotGroup.CROWN) {
-        configureCrown(speculation, item);
+        configureCrown(loadout, item);
       } else {
-        configureBjorn(speculation, item);
+        configureBjorn(loadout, item);
       }
     } else {
       ItemSlotGroup itemSlots = ItemSlotGroup.find(item.getItemId());
@@ -104,60 +103,58 @@ final class CandidateSpeculationFactory {
         case CARD_SLEEVE -> {
           card =
               this.bestCard != null ? this.bestCard : this.current.equipment.get(Slot.CARDSLEEVE);
-          ItemSlotGroup.CARD_SLEEVE.put(speculation, Slot.CARDSLEEVE, card);
+          ItemSlotGroup.CARD_SLEEVE.put(loadout, Slot.CARDSLEEVE, card);
         }
-        case STICKERS, FOLDERS, BOOTS -> copyCurrent(speculation, itemSlots);
+        case STICKERS, FOLDERS, BOOTS -> copyCurrent(loadout, itemSlots);
         case ETERNITY_CODPIECE -> {}
-        case null -> configureOther(speculation, item);
+        case null -> configureOther(loadout, item);
       }
     }
 
-    speculation.getScore();
-    speculation.clearFailure();
-    return new Result(speculation, card);
+    loadout.getScore();
+    loadout.clearFailure();
+    return new Result(loadout, card);
   }
 
-  private record Result(MaximizerSpeculation speculation, AdventureResult card) {}
+  private record Result(MaximizerLoadout loadout, AdventureResult card) {}
 
-  private void configureCrown(MaximizerSpeculation speculation, CheckedItem item) {
+  private void configureCrown(MaximizerLoadout loadout, CheckedItem item) {
     if (this.carriedFamiliars.lockedCrown() != null) {
       FamiliarSlotGroup.CROWN.put(
-          speculation, Slot.CROWNOFTHRONES, this.carriedFamiliars.lockedCrown());
+          loadout, Slot.CROWNOFTHRONES, this.carriedFamiliars.lockedCrown());
     } else if (this.carriedFamiliarsNeeded > 1) {
       item.automaticFlag = true;
-      FamiliarSlotGroup.CROWN.put(
-          speculation, Slot.CROWNOFTHRONES, this.carriedFamiliars.secondBest());
+      FamiliarSlotGroup.CROWN.put(loadout, Slot.CROWNOFTHRONES, this.carriedFamiliars.secondBest());
     } else {
-      FamiliarSlotGroup.CROWN.put(speculation, Slot.CROWNOFTHRONES, this.carriedFamiliars.best());
+      FamiliarSlotGroup.CROWN.put(loadout, Slot.CROWNOFTHRONES, this.carriedFamiliars.best());
     }
   }
 
-  private void configureBjorn(MaximizerSpeculation speculation, CheckedItem item) {
+  private void configureBjorn(MaximizerLoadout loadout, CheckedItem item) {
     if (this.carriedFamiliars.lockedBjorn() != null) {
-      FamiliarSlotGroup.BJORN.put(
-          speculation, Slot.BUDDYBJORN, this.carriedFamiliars.lockedBjorn());
+      FamiliarSlotGroup.BJORN.put(loadout, Slot.BUDDYBJORN, this.carriedFamiliars.lockedBjorn());
     } else if (this.carriedFamiliarsNeeded > 1) {
       item.automaticFlag = true;
-      FamiliarSlotGroup.BJORN.put(speculation, Slot.BUDDYBJORN, this.carriedFamiliars.secondBest());
+      FamiliarSlotGroup.BJORN.put(loadout, Slot.BUDDYBJORN, this.carriedFamiliars.secondBest());
     } else {
-      FamiliarSlotGroup.BJORN.put(speculation, Slot.BUDDYBJORN, this.carriedFamiliars.best());
+      FamiliarSlotGroup.BJORN.put(loadout, Slot.BUDDYBJORN, this.carriedFamiliars.best());
     }
   }
 
-  private void configureOther(MaximizerSpeculation speculation, CheckedItem item) {
+  private void configureOther(MaximizerLoadout loadout, CheckedItem item) {
     Modeable modeable = Modeable.find(item);
     if (modeable == null) {
       return;
     }
     String best = this.bestModes.getOrDefault(modeable, "");
     if (!best.isEmpty()) {
-      speculation.setModeable(modeable, best);
+      loadout.setModeable(modeable, best);
     }
   }
 
-  private void copyCurrent(MaximizerSpeculation speculation, SlottedItem<AdventureResult> group) {
+  private void copyCurrent(MaximizerLoadout loadout, SlottedItem<AdventureResult> group) {
     for (Slot slot : group.slots()) {
-      group.put(speculation, slot, group.get(this.current, slot));
+      group.put(loadout, slot, group.get(this.current, slot));
     }
   }
 }

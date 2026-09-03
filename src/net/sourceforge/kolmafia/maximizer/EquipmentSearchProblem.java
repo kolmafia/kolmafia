@@ -26,9 +26,9 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 
 /**
  * The outer equipment search: one {@link AnytimeSearch.Problem} covering every equipment slot,
- * familiar switch, and outfit, replacing the old recursive {@code MaximizerSpeculation.tryAll}
+ * familiar switch, and outfit, replacing the old recursive {@code MaximizerLoadout.tryAll}
  * traversal. Each slot group is a {@link Phase}; the Codpiece's gem search ({@link
- * CodpieceSpeculation.CodpieceSearch}) is folded in as the tail phase rather than run as a nested
+ * CodpieceSearchState.CodpieceSearch}) is folded in as the tail phase rather than run as a nested
  * search of its own.
  */
 final class EquipmentSearchProblem
@@ -64,7 +64,7 @@ final class EquipmentSearchProblem
       int simpleSlotIndex,
       Phase phase) {}
 
-  private final MaximizerSpeculation owner;
+  private final MaximizerLoadout owner;
   private final List<FamiliarData> familiars;
   private final List<FamiliarData> carriedFamiliars;
   private final Map<Integer, Boolean> usefulOutfits;
@@ -80,11 +80,11 @@ final class EquipmentSearchProblem
   private int simpleSlotIndex;
   private Phase phase = Phase.FAMILIAR_SWITCH;
 
-  private CodpieceSpeculation.Readiness codpieceReadiness;
-  private CodpieceSpeculation.CodpieceSearch codpieceChooser;
+  private CodpieceSearchState.Readiness codpieceReadiness;
+  private CodpieceSearchState.CodpieceSearch codpieceChooser;
 
   EquipmentSearchProblem(
-      MaximizerSpeculation owner,
+      MaximizerLoadout owner,
       List<FamiliarData> familiars,
       List<FamiliarData> carriedFamiliars,
       Map<Integer, Boolean> usefulOutfits,
@@ -149,11 +149,11 @@ final class EquipmentSearchProblem
     if (this.codpieceReadiness == null) {
       return null;
     }
-    if (this.codpieceReadiness == CodpieceSpeculation.Readiness.READY
+    if (this.codpieceReadiness == CodpieceSearchState.Readiness.READY
         && !this.codpieceChooser.requirementsSatisfied()) {
       return null;
     }
-    if (this.codpieceReadiness != CodpieceSpeculation.Readiness.READY
+    if (this.codpieceReadiness != CodpieceSearchState.Readiness.READY
         && !this.owner.codpiece.hasEnoughCodpieceGems()) {
       return null;
     }
@@ -283,7 +283,7 @@ final class EquipmentSearchProblem
               ++this.simpleSlotIndex == SIMPLE_SLOTS.size() ? Phase.WEAPON : this.phase;
           case WEAPON -> Phase.OFFHAND;
           case OFFHAND ->
-              this.codpieceReadiness == CodpieceSpeculation.Readiness.READY
+              this.codpieceReadiness == CodpieceSearchState.Readiness.READY
                       && !this.codpieceChooser.complete()
                   ? Phase.CODPIECE
                   : Phase.DONE;
