@@ -142,21 +142,30 @@ final class CodpieceSpeculation {
     return new CalculatedModifiers(newModifiers, fightMods);
   }
 
+  /** What the outer equipment search should do next about the Codpiece's gem slots. */
+  enum Readiness {
+    /** Not wearing a Codpiece: nothing further to search. */
+    NOT_WEARING,
+    /** Wearing a Codpiece, but the equipped gems already over-commit some item's count. */
+    INFEASIBLE,
+    /** Wearing a Codpiece with a feasible gem search to explore. */
+    READY
+  }
+
+  record PreparedSearch(Readiness readiness, CodpieceSearch chooser) {}
+
   /**
-   * Tail of {@code MaximizerSpeculation.tryOffhands} once the weapon/offhand slots are settled:
-   * handles the Codpiece gem slots, restoring {@code mark} on every exit path.
+   * Tail of {@code EquipmentSearchProblem}'s offhand choice once the weapon/offhand slots are
+   * settled: figures out whether/how to search the Codpiece's gem slots. The caller owns restoring
+   * equipment (and calling {@link #forget}) once it is done with the result.
    */
-  void trySlots(EnumMap<Slot, AdventureResult> mark, List<CheckedItem> possibles)
-      throws MaximizerInterruptedException {
-    if (!Maximizer.keepSearching()) return;
+  PreparedSearch prepare(List<CheckedItem> possibles) {
     boolean wearingCodpiece =
         this.owner.equipment.values().stream()
             .anyMatch(item -> item != null && item.getItemId() == ItemPool.THE_ETERNITY_CODPIECE);
     if (!wearingCodpiece) {
       this.releaseCodpieceGemsNeededElsewhere();
-      this.owner.checkBest();
-      this.owner.restore(mark);
-      return;
+      return new PreparedSearch(Readiness.NOT_WEARING, null);
     }
 
     List<Slot> codpieceSlots =
@@ -165,36 +174,34 @@ final class CodpieceSpeculation {
       this.owner.equipment.put(slot, EquipmentRequest.UNEQUIP);
     }
     if (!this.hasEnoughCodpieceGems()) {
-      this.owner.restore(mark);
-      return;
+      return new PreparedSearch(Readiness.INFEASIBLE, null);
     }
 
     CodpiecePlan plan = this.getCodpiecePlan(possibles);
     List<CheckedItem> codpieceGems = plan.gems();
-    try {
-      LateCodpieceCache cache =
-          this.canUseLateCodpieceCache(codpieceGems)
-              ? this.primeLateCodpieceCache(plan, codpieceSlots)
-              : null;
-      CodpieceSearch search = new CodpieceSearch(codpieceGems, codpieceSlots, cache);
-      this.search = search;
-      this.owner.setUnscored();
-      if (Maximizer.evaluator().isUsingTiebreaker()
-          && Maximizer.evaluator().areScoreModifiersSaturated(this.owner.calculate())) {
-        if (this.prioritizedCodpiecePlan == null) {
-          this.prioritizedCodpiecePlan =
-              this.createCodpiecePlan(Maximizer.evaluator().prioritizeCodpieceGems(codpieceGems));
-        }
-        codpieceGems = this.prioritizedCodpiecePlan.gems();
-        cache = this.primeLateCodpieceCache(this.prioritizedCodpiecePlan, codpieceSlots);
-        search = new CodpieceSearch(codpieceGems, codpieceSlots, cache);
+    LateCodpieceCache cache =
+        this.canUseLateCodpieceCache(codpieceGems)
+            ? this.primeLateCodpieceCache(plan, codpieceSlots)
+            : null;
+    CodpieceSearch search = new CodpieceSearch(codpieceGems, codpieceSlots, cache);
+    this.search = search;
+    this.owner.setUnscored();
+    if (Maximizer.evaluator().isUsingTiebreaker()
+        && Maximizer.evaluator().areScoreModifiersSaturated(this.owner.calculate())) {
+      if (this.prioritizedCodpiecePlan == null) {
+        this.prioritizedCodpiecePlan =
+            this.createCodpiecePlan(Maximizer.evaluator().prioritizeCodpieceGems(codpieceGems));
       }
+      cache = this.primeLateCodpieceCache(this.prioritizedCodpiecePlan, codpieceSlots);
+      search = new CodpieceSearch(this.prioritizedCodpiecePlan.gems(), codpieceSlots, cache);
       this.search = search;
-      this.search.run();
-    } finally {
-      this.search = null;
-      this.owner.restore(mark);
     }
+    return new PreparedSearch(Readiness.READY, search);
+  }
+
+  /** Releases the active {@link CodpieceSearch}, once the outer search leaves this branch. */
+  void forget() {
+    this.search = null;
   }
 
   private void releaseCodpieceGemsNeededElsewhere() {
@@ -343,17 +350,20 @@ final class CodpieceSpeculation {
         .count();
   }
 
-  /** Enumerates canonical gem multisets, deduplicating by treating a branch as a multiset. */
-  private final class CodpieceSearch
-      implements AnytimeSearch.Problem<
-          Integer, SolutionQuality, MaximizerSpeculation, MaximizerInterruptedException> {
+  /**
+   * Enumerates canonical gem multisets, deduplicating by treating a branch as a multiset.
+   *
+   * <p>This is a plain state machine ({@link #complete}/{@link #choices}/{@link #choose}/{@link
+   * #undo}), not an {@code AnytimeSearch.Problem} of its own: {@code EquipmentSearchProblem}
+   * delegates to it directly as the tail of its own search tree.
+   */
+  final class CodpieceSearch {
     private final List<CheckedItem> gems;
     private final List<Slot> slots;
     private final int[] remaining;
     private final boolean[] required;
     private final int[] previousStarts;
     private final boolean[] satisfiedRequirement;
-    private final int requiredCount;
     private final LateCodpieceCache cache;
     private int start;
     private int slotIndex;
@@ -378,24 +388,20 @@ final class CodpieceSpeculation {
           requiredCount++;
         }
       }
-      this.requiredCount = requiredCount;
       this.remainingRequired = requiredCount;
     }
 
-    private void run() throws MaximizerInterruptedException {
-      MaximizerSpeculation best = Maximizer.best();
-      AnytimeSearch.maximize(
-          this, new AnytimeSearch.Candidate<>(best.quality(), best), Maximizer::keepSearching);
+    /** Whether every required gem has been placed (a precondition for a valid candidate). */
+    boolean requirementsSatisfied() {
+      return this.remainingRequired == 0;
     }
 
-    @Override
-    public boolean complete() {
+    boolean complete() {
       return this.slotIndex == this.slots.size()
           || this.remainingRequired > this.slots.size() - this.slotIndex;
     }
 
-    @Override
-    public List<Integer> choices() {
+    List<Integer> choices() {
       List<Integer> choices = new ArrayList<>();
       int firstRequired = -1;
       for (int i = this.start; i < this.required.length; i++) {
@@ -414,8 +420,7 @@ final class CodpieceSpeculation {
       return choices;
     }
 
-    @Override
-    public boolean choose(Integer choice) {
+    boolean choose(Integer choice) {
       int depth = this.slotIndex;
       this.previousStarts[depth] = this.start;
       this.satisfiedRequirement[depth] = this.required[choice];
@@ -432,8 +437,7 @@ final class CodpieceSpeculation {
       return true;
     }
 
-    @Override
-    public void undo(Integer choice) {
+    void undo(Integer choice) {
       this.slotIndex--;
       int depth = this.slotIndex;
       this.start = this.previousStarts[depth];
@@ -445,22 +449,6 @@ final class CodpieceSpeculation {
       this.required[choice] = this.satisfiedRequirement[depth];
       this.remaining[choice]++;
       owner.setUnscored();
-    }
-
-    @Override
-    public AnytimeSearch.Candidate<SolutionQuality, MaximizerSpeculation> candidate()
-        throws MaximizerInterruptedException {
-      if (this.remainingRequired != 0) return null;
-
-      owner.checkBest(true);
-      MaximizerSpeculation best = Maximizer.best();
-      return new AnytimeSearch.Candidate<>(best.quality(), best);
-    }
-
-    @Override
-    public void finished(AnytimeSearch.Result<SolutionQuality, MaximizerSpeculation> result) {
-      Maximizer.recordSearch(
-          result.nodes(), result.dominancePrunes(), result.boundPrunes(), result.optimal());
     }
   }
 }

@@ -11,6 +11,7 @@ import net.sourceforge.kolmafia.Modeable;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 
 final class EquipmentSearchRunner {
@@ -147,14 +148,21 @@ final class EquipmentSearchRunner {
 
   private void search(MaximizerSpeculation baseline, SlotList<CheckedItem> candidates)
       throws MaximizerInterruptedException {
-    baseline.tryAll(
-        this.familiars,
-        this.carriedFamiliars,
-        this.usefulOutfits,
-        this.outfitPieces,
-        candidates,
-        this.options.card(),
-        this.options.crownFamiliar(),
-        this.options.bjornFamiliar());
+    var problem =
+        new EquipmentSearchProblem(
+            baseline,
+            this.familiars,
+            this.carriedFamiliars,
+            this.usefulOutfits,
+            this.outfitPieces,
+            candidates,
+            this.options.card(),
+            this.options.crownFamiliar(),
+            this.options.bjornFamiliar(),
+            Preferences.getBoolean("maximizerFoldables"));
+    AnytimeSearch.maximize(
+        problem,
+        new AnytimeSearch.Candidate<>(Maximizer.best().quality(), null),
+        Maximizer::keepSearching);
   }
 }
