@@ -16,6 +16,7 @@ import static internal.helpers.Player.withMP;
 import static internal.helpers.Player.withNextResponse;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withRestricted;
 import static internal.helpers.Player.withSkill;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -339,11 +340,29 @@ class UseSkillRequestTest {
     @Test
     void parsesCalculateTheUniverseCastsFromSkillzPage() {
       var cleanups =
-          new Cleanups(withProperty("skillLevel144", 1), withProperty("_universeCalculated", 1));
+          new Cleanups(
+              withRestricted(false),
+              withProperty("skillLevel144", 1),
+              withProperty("_universeCalculated", 1));
       try (cleanups) {
         UseSkillRequest.parseResponse("skillz.php", html("request/test_parse_skillz.html"));
 
         assertThat("skillLevel144", isSetTo(3));
+        assertThat("_universeCalculated", isSetTo(3));
+      }
+    }
+
+    @Test
+    void doesNotTrustCalculateTheUniverseMaximumWhenRestricted() {
+      var cleanups =
+          new Cleanups(
+              withRestricted(true),
+              withProperty("skillLevel144", 5),
+              withProperty("_universeCalculated", 1));
+      try (cleanups) {
+        UseSkillRequest.parseResponse("skillz.php", html("request/test_parse_skillz.html"));
+
+        assertThat("skillLevel144", isSetTo(5));
         assertThat("_universeCalculated", isSetTo(3));
       }
     }

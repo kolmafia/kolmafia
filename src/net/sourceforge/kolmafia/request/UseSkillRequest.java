@@ -70,6 +70,9 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
       Pattern.compile(
           "rel=\\\"(\\d+)\\\"(.*?<span class=small>.*?</center></span>)", Pattern.DOTALL);
 
+  private static final Pattern UNIVERSE_CASTS_PATTERN =
+      Pattern.compile("<i>\\d+ / (\\d+) casts used today</i>");
+
   private static final Pattern SWEAT_PATTERN = Pattern.compile("You get (\\d+)% less Sweaty.");
 
   public static final String[] BREAKFAST_SKILLS = {
@@ -1848,6 +1851,15 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
           case SkillPool.HEARTSTONE_LUCK -> Preferences.setBoolean("heartstoneLuckUnlocked", true);
           case SkillPool.HEARTSTONE_PALS -> Preferences.setBoolean("heartstonePalsUnlocked", true);
           case SkillPool.HEARTSTONE_BUFF -> Preferences.setBoolean("heartstoneBuffUnlocked", true);
+          case SkillPool.CALCULATE_THE_UNIVERSE -> {
+            // KoL misreports the maximum number of casts on restricted paths
+            if (!KoLCharacter.getRestricted()) {
+              Matcher casts = UNIVERSE_CASTS_PATTERN.matcher(matcher.group(2));
+              if (casts.find()) {
+                Preferences.setInteger("skillLevel144", StringUtilities.parseInt(casts.group(1)));
+              }
+            }
+          }
         }
       }
     }
