@@ -84,9 +84,9 @@ public class ModifierDatabaseTest {
     "Regenerate 100 MP per adventure, 'MP Regen Min: 100, MP Regen Max: 100'",
     "Regenerate 15-20 HP and MP per adventure, 'HP / MP Regen Min: 15, HP / MP Regen Max: 20'",
     "Serious Cold Resistance (+3), Cold Resistance: +3",
-    "Sublime Resistance to All Elements (+9), 'Spooky Resistance: +9, Stench Resistance: +9, Hot Resistance: +9, Cold Resistance: +9, Sleaze Resistance: +9'",
+    "Sublime Resistance to All Elements (+9), All Resistance: +9",
+    "Troubling Vulnerability to All Elements (-5), All Resistance: -5",
     "So-So Slime Resistance (+2), Slime Resistance: +2",
-    "Slight Supercold Resistance, Supercold Resistance: +1",
     "Your familiar will always act in combat, Familiar Action Bonus: +100"
   })
   public void canParseModifier(String enchantment, String modifier) {
