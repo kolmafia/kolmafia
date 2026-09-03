@@ -6,11 +6,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
+import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifierCollection;
 
 final class MaximizerTermRegistry {
+  record ParsedTerm(String keyword, double weight, boolean explicitWeight) {}
+
+  @FunctionalInterface
+  private interface Directive {
+    void apply(Evaluator.ParseState state, ParsedTerm term);
+  }
+
   record Contribution(DoubleModifier modifier, double factor) {}
 
   record Definition(
@@ -27,10 +35,53 @@ final class MaximizerTermRegistry {
 
   private record Entry(Predicate<String> matches, Supplier<Definition> definition) {}
 
+  private record Rewrite(Predicate<String> matches, UnaryOperator<String> rewrite) {}
+
   private static final Map<String, Supplier<Definition>> EXACT = new LinkedHashMap<>();
   private static final List<Entry> ALIASES = new ArrayList<>();
+  private static final Map<String, Directive> EXACT_DIRECTIVES = new LinkedHashMap<>();
+  private static final List<Map.Entry<String, Directive>> PREFIX_DIRECTIVES = new ArrayList<>();
+  private static final List<Rewrite> REWRITES = new ArrayList<>();
 
   static {
+    suffixRewrite(" res", " resistance");
+    suffixRewrite(" dmg percent", " damage percent");
+    suffixRewrite(" dmg", " damage");
+    suffixRewrite(" exp", " experience");
+    prefixRewrite("organ", ignored -> "organ capacity");
+
+    directive("min", Evaluator.ParseState::setMinimum);
+    directive("max", Evaluator.ParseState::setMaximum);
+    directive("dump", Evaluator.ParseState::setDump);
+    prefixDirective("hand", Evaluator.ParseState::setHands);
+    prefixDirective("tie", Evaluator.ParseState::setTiebreaker);
+    prefixDirective("current", Evaluator.ParseState::setCurrent);
+    prefixDirective("type ", Evaluator.ParseState::setWeaponType);
+    directive("club", Evaluator.ParseState::requireClub);
+    directive("shield", Evaluator.ParseState::requireShield);
+    directive("utensil", Evaluator.ParseState::requireUtensil);
+    directive("sword", Evaluator.ParseState::requireSword);
+    directive("knife", Evaluator.ParseState::requireKnife);
+    directive("accordion", Evaluator.ParseState::requireAccordion);
+    directive("melee", Evaluator.ParseState::setMelee);
+    directive("effective", Evaluator.ParseState::setEffective);
+    directive("empty", Evaluator.ParseState::setEmpty);
+    directive("clownosity", Evaluator.ParseState::setClownosity);
+    directive("raveosity", Evaluator.ParseState::setRaveosity);
+    directive("surgeonosity", Evaluator.ParseState::setSurgeonosity);
+    directive("beeosity", Evaluator.ParseState::setBeeosity);
+    directive("stinkycheese", Evaluator.ParseState::setStinkycheese);
+    directive("stinky cheese", Evaluator.ParseState::setStinkycheese);
+    directive("sea", Evaluator.ParseState::setSea);
+    prefixDirective("equip ", Evaluator.ParseState::setEquipment);
+    prefixDirective("bonus ", Evaluator.ParseState::setBonus);
+    prefixDirective("letter", Evaluator.ParseState::setLetterBonus);
+    directive("number", Evaluator.ParseState::setNumberBonus);
+    directive("plumber", Evaluator.ParseState::setPlumber);
+    directive("cold plumber", Evaluator.ParseState::setColdPlumber);
+    prefixDirective("outfit", Evaluator.ParseState::setOutfit);
+    prefixDirective("switch ", Evaluator.ParseState::setFamiliar);
+
     exact(
         "all resistance",
         aggregate(
@@ -96,6 +147,21 @@ final class MaximizerTermRegistry {
 
   private MaximizerTermRegistry() {}
 
+  static boolean applyDirective(Evaluator.ParseState state, ParsedTerm term) {
+    Directive exact = EXACT_DIRECTIVES.get(term.keyword());
+    if (exact != null) {
+      exact.apply(state, term);
+      return true;
+    }
+    for (var entry : PREFIX_DIRECTIVES) {
+      if (term.keyword().startsWith(entry.getKey())) {
+        entry.getValue().apply(state, term);
+        return true;
+      }
+    }
+    return false;
+  }
+
   static Definition find(String keyword) {
     Supplier<Definition> exact = EXACT.get(keyword);
     if (exact != null) {
@@ -108,8 +174,35 @@ final class MaximizerTermRegistry {
         .orElse(null);
   }
 
+  static String normalize(String keyword) {
+    return REWRITES.stream()
+        .filter(rewrite -> rewrite.matches().test(keyword))
+        .findFirst()
+        .map(rewrite -> rewrite.rewrite().apply(keyword))
+        .orElse(keyword);
+  }
+
   private static void exact(String keyword, Definition definition) {
     exact(keyword, () -> definition);
+  }
+
+  private static void directive(String keyword, Directive directive) {
+    EXACT_DIRECTIVES.put(keyword, directive);
+  }
+
+  private static void prefixDirective(String prefix, Directive directive) {
+    PREFIX_DIRECTIVES.add(Map.entry(prefix, directive));
+  }
+
+  private static void suffixRewrite(String suffix, String replacement) {
+    REWRITES.add(
+        new Rewrite(
+            keyword -> keyword.endsWith(suffix),
+            keyword -> keyword.substring(0, keyword.length() - suffix.length()) + replacement));
+  }
+
+  private static void prefixRewrite(String prefix, UnaryOperator<String> rewrite) {
+    REWRITES.add(new Rewrite(keyword -> keyword.startsWith(prefix), rewrite));
   }
 
   private static void exact(String keyword, Supplier<Definition> definition) {

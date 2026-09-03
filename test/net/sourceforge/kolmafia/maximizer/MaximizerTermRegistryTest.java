@@ -39,4 +39,12 @@ class MaximizerTermRegistryTest {
     assertThat(ocrs.disablesBeeosity(), is(true));
     assertThat(ocrs.disablesTiebreaker(), is(true));
   }
+
+  @Test
+  void normalizesGenericAbbreviations() {
+    assertThat(MaximizerTermRegistry.normalize("cold res"), is("cold resistance"));
+    assertThat(MaximizerTermRegistry.normalize("weapon dmg percent"), is("weapon damage percent"));
+    assertThat(MaximizerTermRegistry.normalize("mus exp"), is("mus experience"));
+    assertThat(MaximizerTermRegistry.normalize("organ"), is("organ capacity"));
+  }
 }

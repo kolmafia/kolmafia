@@ -9,8 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -37,7 +35,6 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.session.EffectAvailability;
 import net.sourceforge.kolmafia.session.EquipmentManager;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 @SuppressWarnings("incomplete-switch")
 public class Evaluator {
@@ -101,11 +98,6 @@ public class Evaluator {
 
   private static final String TIEBREAKER =
       "1 familiar weight, 1 familiar experience, 1 initiative, 5 exp, 1 item, 1 meat, 0.1 DA 1000 max, 1 DR, 0.5 all res, -10 mana cost, 1.0 mus, 0.5 mys, 1.0 mox, 1.5 mainstat, 1 HP, 1 MP, 1 weapon damage, 1 ranged damage, 1 spell damage, 1 cold damage, 1 hot damage, 1 sleaze damage, 1 spooky damage, 1 stench damage, 1 cold spell damage, 1 hot spell damage, 1 sleaze spell damage, 1 spooky spell damage, 1 stench spell damage, -1 fumble, 1 HP regen max, 3 MP regen max, 1 critical hit percent, 0.1 food drop, 0.1 booze drop, 0.1 hat drop, 0.1 weapon drop, 0.1 offhand drop, 0.1 shirt drop, 0.1 pants drop, 0.1 accessory drop, 1 DB combat damage, 0.1 sixgun damage";
-  private static final Pattern KEYWORD_PATTERN =
-      Pattern.compile(
-          "\\G\\s*(\\+|-|)([\\d.]*)\\s*(\"[^\"]+\"|(?:[^-+,0-9]|(?<! )[-+0-9])+),?\\s*");
-  // Groups: 1=sign 2=weight 3=keyword
-
   // Equipment slots, that aren't the primary slot of any item type,
   // that are repurposed here (rather than making the array bigger).
   // Watches have to be handled specially because only one can be
@@ -178,6 +170,324 @@ public class Evaluator {
     this.activeScoreModifiers = List.copyOf(active);
   }
 
+  final class ParseState {
+    private DoubleModifier index;
+    private boolean hadFamiliar;
+    private boolean forceCurrent;
+    private int equipBeeosity;
+    private int outfitBeeosity;
+    private boolean failed;
+
+    void setMinimum(MaximizerTermRegistry.ParsedTerm term) {
+      if (this.index != null) {
+        min.put(this.index, term.weight());
+      } else {
+        totalMin = term.weight();
+      }
+    }
+
+    void setMaximum(MaximizerTermRegistry.ParsedTerm term) {
+      if (this.index != null) {
+        max.put(this.index, term.weight());
+      } else {
+        totalMax = term.weight();
+      }
+    }
+
+    void setDump(MaximizerTermRegistry.ParsedTerm term) {
+      dump = (int) term.weight();
+    }
+
+    void setHands(MaximizerTermRegistry.ParsedTerm term) {
+      hands = (int) term.weight();
+    }
+
+    void setTiebreaker(MaximizerTermRegistry.ParsedTerm term) {
+      noTiebreaker = term.weight() < 0.0;
+    }
+
+    void setCurrent(MaximizerTermRegistry.ParsedTerm term) {
+      current = term.weight() > 0.0;
+      this.forceCurrent = true;
+    }
+
+    void setWeaponType(MaximizerTermRegistry.ParsedTerm term) {
+      weaponType = term.keyword().substring(5).trim();
+    }
+
+    void requireClub(MaximizerTermRegistry.ParsedTerm term) {
+      requireClub = term.weight() > 0.0;
+    }
+
+    void requireShield(MaximizerTermRegistry.ParsedTerm term) {
+      requireShield = term.weight() > 0.0;
+      if (forcedModeables.get(Modeable.UMBRELLA).isEmpty()) {
+        forcedModeables.put(Modeable.UMBRELLA, "forward-facing");
+      }
+      hands = 1;
+    }
+
+    void requireUtensil(MaximizerTermRegistry.ParsedTerm term) {
+      requireUtensil = term.weight() > 0.0;
+    }
+
+    void requireSword(MaximizerTermRegistry.ParsedTerm term) {
+      requireSword = term.weight() > 0.0;
+    }
+
+    void requireKnife(MaximizerTermRegistry.ParsedTerm term) {
+      requireKnife = term.weight() > 0.0;
+    }
+
+    void requireAccordion(MaximizerTermRegistry.ParsedTerm term) {
+      requireAccordion = term.weight() > 0.0;
+    }
+
+    void setMelee(MaximizerTermRegistry.ParsedTerm term) {
+      melee = (int) (term.weight() * 2.0);
+    }
+
+    void setEffective(MaximizerTermRegistry.ParsedTerm term) {
+      effective = term.weight() > 0.0;
+    }
+
+    void setEmpty(MaximizerTermRegistry.ParsedTerm term) {
+      for (var slot : SlotSet.ALL_SLOTS) {
+        slots.merge(
+            slot,
+            ((int) term.weight())
+                * (EquipmentManager.getEquipment(slot).equals(EquipmentRequest.UNEQUIP) ? 1 : -1),
+            Integer::sum);
+      }
+    }
+
+    void setClownosity(MaximizerTermRegistry.ParsedTerm term) {
+      clownosity = term.explicitWeight() ? (int) term.weight() * 25 : 100;
+    }
+
+    void setRaveosity(MaximizerTermRegistry.ParsedTerm term) {
+      raveosity = term.explicitWeight() ? (int) term.weight() : 7;
+    }
+
+    void setSurgeonosity(MaximizerTermRegistry.ParsedTerm term) {
+      surgeonosity =
+          term.explicitWeight() ? (int) term.weight() : (KoLCharacter.isTorsoAware() ? 5 : 4);
+    }
+
+    void setBeeosity(MaximizerTermRegistry.ParsedTerm term) {
+      beeosity = (int) term.weight();
+    }
+
+    void setStinkycheese(MaximizerTermRegistry.ParsedTerm term) {
+      stinkycheese = (int) term.weight();
+    }
+
+    void setSea(MaximizerTermRegistry.ParsedTerm term) {
+      var adventureUnderwater =
+          EnumSet.of(BooleanModifier.ADVENTURE_UNDERWATER, BooleanModifier.UNDERWATER_FAMILIAR);
+      booleanMask.addAll(adventureUnderwater);
+      booleanValue.addAll(adventureUnderwater);
+      this.index = null;
+      if (forcedModeables.get(Modeable.EDPIECE).isEmpty()) {
+        forcedModeables.put(Modeable.EDPIECE, "fish");
+      }
+    }
+
+    void setEquipment(MaximizerTermRegistry.ParsedTerm term) {
+      var match =
+          ItemFinder.getFirstMatchingItemWithMode(term.keyword().substring(6).trim(), Match.EQUIP);
+      if (match == null || (match.modeable() != null && !forceModeable(match, match.mode()))) {
+        this.failed = true;
+        return;
+      }
+      if (term.weight() > 0.0) {
+        posEquip.add(match.item());
+        this.equipBeeosity += KoLCharacter.getBeeosity(match.item().getName());
+      } else {
+        negEquip.add(match.item());
+      }
+    }
+
+    void setBonus(MaximizerTermRegistry.ParsedTerm term) {
+      var match =
+          ItemFinder.getFirstMatchingItemWithMode(term.keyword().substring(6).trim(), Match.EQUIP);
+      if (match == null) {
+        this.failed = true;
+        return;
+      }
+      if (match.mode() == null) {
+        var existing = bonuses.get(match.item());
+        var modes = existing == null ? new HashMap<String, Double>() : existing.modes();
+        bonuses.put(match.item(), new ItemBonus(term.weight(), modes));
+      } else {
+        bonuses
+            .computeIfAbsent(match.item(), k -> new ItemBonus(0.0, new HashMap<>()))
+            .modes()
+            .put(match.mode(), term.weight());
+      }
+    }
+
+    void setLetterBonus(MaximizerTermRegistry.ParsedTerm term) {
+      String letters = term.keyword().substring(6).trim();
+      if (letters.isEmpty()) {
+        bonusFunc.add(new BonusFunction(LetterBonus::letterBonus, term.weight()));
+      } else {
+        bonusFunc.add(new BonusFunction(ar -> LetterBonus.letterBonus(ar, letters), term.weight()));
+      }
+    }
+
+    void setNumberBonus(MaximizerTermRegistry.ParsedTerm term) {
+      bonusFunc.add(new BonusFunction(LetterBonus::numberBonus, term.weight()));
+    }
+
+    void setPlumber(MaximizerTermRegistry.ParsedTerm term) {
+      if (!KoLCharacter.isPlumber()) {
+        KoLmafia.updateDisplay(MafiaState.ERROR, "You are not a Plumber");
+        this.failed = true;
+        return;
+      }
+      AdventureResult item = EquipmentManager.getBestPlumberTool(KoLCharacter.getPrimeIndex());
+      if (item == null) {
+        item = EquipmentManager.getBestPlumberTool(-1);
+      }
+      posEquip.add(item);
+    }
+
+    void setColdPlumber(MaximizerTermRegistry.ParsedTerm term) {
+      if (!KoLCharacter.isPlumber()) {
+        KoLmafia.updateDisplay(MafiaState.ERROR, "You are not a Plumber");
+        this.failed = true;
+        return;
+      }
+      AdventureResult item = EquipmentManager.getBestPlumberTool(1);
+      if (item == null) {
+        KoLmafia.updateDisplay(MafiaState.ERROR, "You don't have an appropriate flower to wield");
+        this.failed = true;
+        return;
+      }
+      posEquip.add(item);
+      posEquip.add(ItemPool.get(ItemPool.FROSTY_BUTTON));
+    }
+
+    void setOutfit(MaximizerTermRegistry.ParsedTerm term) {
+      String name = term.keyword().substring(6).trim();
+      if (name.isEmpty()) {
+        name = KoLCharacter.currentStringModifier(StringModifier.OUTFIT);
+      }
+      SpecialOutfit outfit = EquipmentManager.getMatchingOutfit(name);
+      if (outfit == null || outfit.getOutfitId() <= 0) {
+        KoLmafia.updateDisplay(MafiaState.ERROR, "Unknown or custom outfit: " + name);
+        this.failed = true;
+        return;
+      }
+      if (term.weight() > 0.0) {
+        posOutfits.add(outfit.getName());
+        int bees = 0;
+        for (AdventureResult piece : outfit.getPieces()) {
+          bees += KoLCharacter.getBeeosity(piece.getName());
+        }
+        this.outfitBeeosity = Math.max(this.outfitBeeosity, bees);
+      } else {
+        negOutfits.add(outfit.getName());
+      }
+    }
+
+    void setFamiliar(MaximizerTermRegistry.ParsedTerm term) {
+      if (KoLCharacter.inPokefam()) {
+        return;
+      }
+      String name = term.keyword().substring(7).trim();
+      int id = FamiliarDatabase.getFamiliarId(name);
+      if (id == -1) {
+        KoLmafia.updateDisplay(MafiaState.ERROR, "Unknown familiar: " + name);
+        this.failed = true;
+        return;
+      }
+      if (this.hadFamiliar && term.weight() < 0.0) return;
+      FamiliarData familiar = KoLCharacter.usableFamiliar(id);
+      if (familiar == null && term.weight() > 1.0) {
+        familiar = new FamiliarData(id);
+        familiar.setWeight((int) term.weight());
+      }
+      this.hadFamiliar = familiar != null;
+      if (familiar != null
+          && !familiar.equals(KoLCharacter.getFamiliar())
+          && familiar.canEquip()
+          && !familiars.contains(familiar)) {
+        familiars.add(familiar);
+      }
+    }
+
+    boolean apply(MaximizerTermRegistry.ParsedTerm term) {
+      if (MaximizerTermRegistry.applyDirective(this, term)) {
+        return !this.failed;
+      }
+
+      String keyword = term.keyword();
+      double weight = term.weight();
+      Slot slot = EquipmentRequest.slotNumber(keyword);
+      if (SlotSet.ALL_SLOTS.contains(slot)) {
+        slots.merge(slot, (int) weight, Integer::sum);
+        return true;
+      }
+
+      this.index = DoubleModifier.byCaselessName(keyword);
+      if (this.index == null) {
+        keyword = MaximizerTermRegistry.normalize(keyword);
+        this.index = DoubleModifier.byCaselessName(keyword);
+      }
+
+      if (this.index == null) {
+        BooleanModifier modifier = BooleanModifier.byCaselessName(keyword);
+        if (modifier != null) {
+          booleanMask.add(modifier);
+          if (weight > 0.0) {
+            booleanValue.add(modifier);
+          }
+          return true;
+        }
+      }
+
+      if (this.index == null) {
+        var definition = MaximizerTermRegistry.find(keyword);
+        if (definition != null) {
+          definition.apply(Evaluator.this.weight, weight);
+          this.index = definition.primaryModifier();
+          if (definition.disablesTiebreaker()) {
+            noTiebreaker = true;
+          }
+          if (definition.disablesBeeosity()) {
+            beeosity = 999;
+          }
+          if (definition.includesUnderwaterCombatRate()
+              && AdventureDatabase.isUnderwater(Modifiers.currentLocation)) {
+            Evaluator.this.weight.set(DoubleModifier.UNDERWATER_COMBAT_RATE, weight);
+          }
+          if (this.index != null) {
+            explicitScoreModifiers.add(this.index);
+          }
+          return true;
+        }
+      }
+
+      if (this.index != null) {
+        explicitScoreModifiers.add(this.index);
+        Evaluator.this.weight.set(this.index, weight);
+        return true;
+      }
+
+      KoLmafia.updateDisplay(MafiaState.ERROR, "Unrecognized keyword: " + keyword);
+      return false;
+    }
+
+    void finish() {
+      if (!this.forceCurrent && noTiebreaker) {
+        current = true;
+      }
+      beeosity = Math.max(Math.max(beeosity, this.equipBeeosity), this.outfitBeeosity);
+    }
+  }
+
   @SuppressWarnings("BooleanMethodIsAlwaysInverted")
   private boolean forceModeable(ItemFinder.ItemWithMode modeable, String mode) {
     String existing = forcedModeables.get(modeable.modeable());
@@ -197,388 +507,10 @@ public class Evaluator {
   }
 
   private void parse(String expr) {
-    expr = expr.trim().toLowerCase();
-    Matcher m = KEYWORD_PATTERN.matcher(expr);
-    boolean hadFamiliar = false;
-    boolean forceCurrent = false;
-    int pos = 0;
-    DoubleModifier index = null;
-
-    int equipBeeosity = 0;
-    int outfitBeeosity = 0;
-
-    while (pos < expr.length()) {
-      if (!m.find()) {
-        KoLmafia.updateDisplay(MafiaState.ERROR, "Unable to interpret: " + expr.substring(pos));
-        return;
-      }
-      pos = m.end();
-      double weight =
-          StringUtilities.parseDouble(
-              m.end(2) == m.start(2) ? m.group(1) + "1" : m.group(1) + m.group(2));
-
-      String keyword = m.group(3).trim();
-      if (keyword.startsWith("\"") && keyword.endsWith("\"")) {
-        keyword = keyword.substring(1, keyword.length() - 1).trim();
-      }
-      if (keyword.equals("min")) {
-        if (index != null) {
-          this.min.put(index, weight);
-        } else {
-          this.totalMin = weight;
-        }
-        continue;
-      }
-
-      if (keyword.equals("max")) {
-        if (index != null) {
-          this.max.put(index, weight);
-        } else {
-          this.totalMax = weight;
-        }
-        continue;
-      }
-
-      if (keyword.equals("dump")) {
-        this.dump = (int) weight;
-        continue;
-      }
-
-      if (keyword.startsWith("hand")) {
-        this.hands = (int) weight;
-        if (this.hands >= 2) {
-          // this.slots[ EquipmentManager.OFFHAND ] = -1;
-        }
-        continue;
-      }
-
-      if (keyword.startsWith("tie")) {
-        this.noTiebreaker = weight < 0.0;
-        continue;
-      }
-
-      if (keyword.startsWith("current")) {
-        this.current = weight > 0.0;
-        forceCurrent = true;
-        continue;
-      }
-
-      if (keyword.startsWith("type ")) {
-        this.weaponType = keyword.substring(5).trim();
-        continue;
-      }
-
-      if (keyword.equals("club")) {
-        this.requireClub = weight > 0.0;
-        continue;
-      }
-
-      if (keyword.equals("shield")) {
-        this.requireShield = weight > 0.0;
-        // If a mode was not specified
-        if (forcedModeables.get(Modeable.UMBRELLA).isEmpty()) {
-          forcedModeables.put(Modeable.UMBRELLA, "forward-facing");
-        }
-        this.hands = 1;
-        continue;
-      }
-
-      if (keyword.equals("utensil")) {
-        this.requireUtensil = weight > 0.0;
-        continue;
-      }
-      if (keyword.equals("sword")) {
-        this.requireSword = weight > 0.0;
-        continue;
-      }
-
-      if (keyword.equals("knife")) {
-        this.requireKnife = weight > 0.0;
-        continue;
-      }
-
-      if (keyword.equals("accordion")) {
-        this.requireAccordion = weight > 0.0;
-        continue;
-      }
-
-      if (keyword.equals("melee")) {
-        this.melee = (int) (weight * 2.0);
-        continue;
-      }
-
-      if (keyword.equals("effective")) {
-        this.effective = weight > 0.0;
-        continue;
-      }
-
-      if (keyword.equals("empty")) {
-        for (var slot : SlotSet.ALL_SLOTS) {
-          this.slots.merge(
-              slot,
-              ((int) weight)
-                  * (EquipmentManager.getEquipment(slot).equals(EquipmentRequest.UNEQUIP) ? 1 : -1),
-              Integer::sum);
-        }
-        continue;
-      }
-
-      if (keyword.equals("clownosity")) {
-        // If no weight specified, assume 100%
-        this.clownosity = (m.end(2) == m.start(2)) ? 100 : (int) weight * 25;
-        continue;
-      }
-
-      if (keyword.equals("raveosity")) {
-        // If no weight specified, assume 7
-        this.raveosity = (m.end(2) == m.start(2)) ? 7 : (int) weight;
-        continue;
-      }
-
-      if (keyword.equals("surgeonosity")) {
-        // If no target is specified, require every equippable surgical item.
-        this.surgeonosity =
-            (m.end(2) == m.start(2)) ? (KoLCharacter.isTorsoAware() ? 5 : 4) : (int) weight;
-        continue;
-      }
-
-      if (keyword.equals("beeosity")) {
-        this.beeosity = (int) weight;
-        continue;
-      }
-
-      if (keyword.equals("stinkycheese") || keyword.equals("stinky cheese")) {
-        this.stinkycheese = (int) weight;
-        continue;
-      }
-
-      if (keyword.equals("sea")) {
-        var adventureUnderwater =
-            EnumSet.of(BooleanModifier.ADVENTURE_UNDERWATER, BooleanModifier.UNDERWATER_FAMILIAR);
-        this.booleanMask.addAll(adventureUnderwater);
-        this.booleanValue.addAll(adventureUnderwater);
-        index = null;
-        if (forcedModeables.get(Modeable.EDPIECE).isEmpty()) {
-          // Force Crown of Ed to Fish
-          forcedModeables.put(Modeable.EDPIECE, "fish");
-        }
-        continue;
-      }
-
-      if (keyword.startsWith("equip ")) {
-        var match =
-            ItemFinder.getFirstMatchingItemWithMode(keyword.substring(6).trim(), Match.EQUIP);
-        if (match == null) {
-          return;
-        }
-        if (match.modeable() != null && !forceModeable(match, match.mode())) {
-          return;
-        }
-        if (weight > 0.0) {
-          this.posEquip.add(match.item());
-          equipBeeosity += KoLCharacter.getBeeosity(match.item().getName());
-        } else {
-          this.negEquip.add(match.item());
-        }
-        continue;
-      }
-
-      if (keyword.startsWith("bonus ")) {
-        var match =
-            ItemFinder.getFirstMatchingItemWithMode(keyword.substring(6).trim(), Match.EQUIP);
-        if (match == null) {
-          return;
-        }
-        // If this item does not require a mode
-        if (match.mode() == null) {
-          var existing = this.bonuses.get(match.item());
-          var modes = existing == null ? new HashMap<String, Double>() : existing.modes();
-          // We override the existing base weight as per old behavior, but inherit the modes.
-          this.bonuses.put(match.item(), new ItemBonus(weight, modes));
-        } else {
-          this.bonuses
-              .computeIfAbsent(match.item(), k -> new ItemBonus(0.0, new HashMap<>()))
-              .modes()
-              .put(match.mode(), weight);
-        }
-        continue;
-      }
-
-      if (keyword.startsWith("letter")) {
-        keyword = keyword.substring(6).trim();
-        if (keyword.isEmpty()) { // no keyword counts letters
-          this.bonusFunc.add(new BonusFunction(LetterBonus::letterBonus, weight));
-        } else {
-          String finalKeyword = keyword;
-          this.bonusFunc.add(
-              new BonusFunction(ar -> LetterBonus.letterBonus(ar, finalKeyword), weight));
-        }
-        continue;
-      }
-
-      if (keyword.equals("number")) {
-        this.bonusFunc.add(new BonusFunction(LetterBonus::numberBonus, weight));
-        continue;
-      }
-
-      if (keyword.equals("plumber")) {
-        if (!KoLCharacter.isPlumber()) {
-          KoLmafia.updateDisplay(MafiaState.ERROR, "You are not a Plumber");
-          return;
-        }
-        // Pick a tool that matches your prime stat
-        AdventureResult item = EquipmentManager.getBestPlumberTool(KoLCharacter.getPrimeIndex());
-        if (item == null) {
-          // Otherwise, pick best available tool
-          // You are guaranteed to have work boots, at least
-          item = EquipmentManager.getBestPlumberTool(-1);
-        }
-        this.posEquip.add(item);
-        continue;
-      }
-
-      if (keyword.equals("cold plumber")) {
-        if (!KoLCharacter.isPlumber()) {
-          KoLmafia.updateDisplay(MafiaState.ERROR, "You are not a Plumber");
-          return;
-        }
-        // Mysticality plumber item
-        AdventureResult item1 = EquipmentManager.getBestPlumberTool(1);
-        if (item1 == null) {
-          KoLmafia.updateDisplay(MafiaState.ERROR, "You don't have an appropriate flower to wield");
-          return;
-        }
-        AdventureResult item2 = ItemPool.get(ItemPool.FROSTY_BUTTON);
-        this.posEquip.add(item1);
-        this.posEquip.add(item2);
-        continue;
-      }
-
-      if (keyword.startsWith("outfit")) {
-        keyword = keyword.substring(6).trim();
-        if (keyword.isEmpty()) { // allow "+outfit" to mean "keep the current outfit on"
-          keyword = KoLCharacter.currentStringModifier(StringModifier.OUTFIT);
-        }
-        SpecialOutfit outfit = EquipmentManager.getMatchingOutfit(keyword);
-        if (outfit == null || outfit.getOutfitId() <= 0) {
-          KoLmafia.updateDisplay(MafiaState.ERROR, "Unknown or custom outfit: " + keyword);
-          return;
-        }
-        if (weight > 0.0) {
-          this.posOutfits.add(outfit.getName());
-          int bees = 0;
-          AdventureResult[] pieces = outfit.getPieces();
-          for (AdventureResult piece : pieces) {
-            bees += KoLCharacter.getBeeosity(piece.getName());
-          }
-          outfitBeeosity = Math.max(outfitBeeosity, bees);
-        } else {
-          this.negOutfits.add(outfit.getName());
-        }
-        continue;
-      }
-
-      if (keyword.startsWith("switch ")) {
-        if (KoLCharacter.inPokefam()) {
-          continue;
-        }
-        keyword = keyword.substring(7).trim();
-        int id = FamiliarDatabase.getFamiliarId(keyword);
-        if (id == -1) {
-          KoLmafia.updateDisplay(MafiaState.ERROR, "Unknown familiar: " + keyword);
-          return;
-        }
-        if (hadFamiliar && weight < 0.0) continue;
-        FamiliarData fam = KoLCharacter.usableFamiliar(id);
-        if (fam == null && weight > 1.0) { // Allow a familiar to be faked for testing
-          fam = new FamiliarData(id);
-          fam.setWeight((int) weight);
-        }
-        hadFamiliar = fam != null;
-        if (fam != null
-            && !fam.equals(KoLCharacter.getFamiliar())
-            && fam.canEquip()
-            && !this.familiars.contains(fam)) {
-          this.familiars.add(fam);
-        }
-        continue;
-      }
-
-      Slot slot = EquipmentRequest.slotNumber(keyword);
-      if (SlotSet.ALL_SLOTS.contains(slot)) {
-        this.slots.merge(slot, (int) weight, Integer::sum);
-        continue;
-      }
-
-      index = DoubleModifier.byCaselessName(keyword);
-
-      // Adjust for generic abbreviations
-      if (index == null) {
-        if (keyword.endsWith(" res")) {
-          keyword += "istance";
-        } else if (keyword.endsWith(" dmg")) {
-          keyword = keyword.substring(0, keyword.length() - 3) + "damage";
-        } else if (keyword.endsWith(" dmg percent")) {
-          keyword = keyword.substring(0, keyword.length() - 11) + "damage percent";
-        } else if (keyword.endsWith(" exp")) {
-          keyword = keyword.substring(0, keyword.length() - 3) + "experience";
-        } else if (keyword.startsWith("organ")) {
-          keyword = "organ capacity";
-        }
-        index = DoubleModifier.byCaselessName(keyword);
-      }
-
-      if (index == null) {
-        BooleanModifier modifier = BooleanModifier.byCaselessName(keyword);
-        if (modifier != null) {
-          this.booleanMask.add(modifier);
-          if (weight > 0.0) {
-            this.booleanValue.add(modifier);
-          }
-          continue;
-        }
-      }
-
-      if (index == null) {
-        var definition = MaximizerTermRegistry.find(keyword);
-        if (definition != null) {
-          definition.apply(this.weight, weight);
-          index = definition.primaryModifier();
-          if (definition.disablesTiebreaker()) {
-            this.noTiebreaker = true;
-          }
-          if (definition.disablesBeeosity()) {
-            this.beeosity = 999;
-          }
-          if (definition.includesUnderwaterCombatRate()
-              && AdventureDatabase.isUnderwater(Modifiers.currentLocation)) {
-            this.weight.set(DoubleModifier.UNDERWATER_COMBAT_RATE, weight);
-          }
-          if (index != null) {
-            this.explicitScoreModifiers.add(index);
-          }
-          continue;
-        }
-      }
-
-      if (index != null) {
-        // We found a match.
-        String modifierName = index.getName();
-        this.explicitScoreModifiers.add(index);
-        this.weight.set(index, weight);
-        continue;
-      }
-
-      KoLmafia.updateDisplay(MafiaState.ERROR, "Unrecognized keyword: " + keyword);
+    ParseState state = new ParseState();
+    if (!MaximizerExpressionParser.parse(expr, state)) {
       return;
     }
-
-    // If no tiebreaker, consider current unless -current specified
-    if (!forceCurrent && this.noTiebreaker) {
-      this.current = true;
-    }
-
-    this.beeosity = Math.max(Math.max(this.beeosity, equipBeeosity), outfitBeeosity);
 
     // Make sure indirect sources have at least a little weight;
     addFudge(
