@@ -19,8 +19,8 @@ import net.sourceforge.kolmafia.request.EquipmentRequest;
 
 /**
  * Codpiece-specific plan/cache state and canonical gem search for a single {@link
- * MaximizerSpeculation}. Reused across that owner's recursive try* traversal so expensive per-item
- * analysis (gem modifiers, familiar contributions, late-adjustment prefixes) happens at most once.
+ * MaximizerSpeculation}. Reused across the outer equipment search so expensive per-item analysis
+ * (gem modifiers, familiar contributions, late-adjustment prefixes) happens at most once.
  */
 final class CodpieceSpeculation {
   private static final Slot[] CODPIECE_SLOTS = SlotSet.CODPIECE_SLOTS.toArray(Slot[]::new);
@@ -29,7 +29,6 @@ final class CodpieceSpeculation {
   private final Map<Integer, Modifiers> codpieceGemModifiers = new HashMap<>();
   private final Map<Integer, Boolean> safeLateCodpieceGems = new HashMap<>();
   private CodpiecePlan codpiecePlan;
-  private CodpiecePlan prioritizedCodpiecePlan;
   private CodpieceSearch search;
 
   CodpieceSpeculation(MaximizerSpeculation owner) {
@@ -186,16 +185,6 @@ final class CodpieceSpeculation {
     CodpieceSearch search = new CodpieceSearch(codpieceGems, codpieceSlots, cache);
     this.search = search;
     this.owner.setUnscored();
-    if (Maximizer.evaluator().isUsingTiebreaker()
-        && Maximizer.evaluator().areScoreModifiersSaturated(this.owner.calculate())) {
-      if (this.prioritizedCodpiecePlan == null) {
-        this.prioritizedCodpiecePlan =
-            this.createCodpiecePlan(Maximizer.evaluator().prioritizeCodpieceGems(codpieceGems));
-      }
-      cache = this.primeLateCodpieceCache(this.prioritizedCodpiecePlan, codpieceSlots);
-      search = new CodpieceSearch(this.prioritizedCodpiecePlan.gems(), codpieceSlots, cache);
-      this.search = search;
-    }
     return new PreparedSearch(Readiness.READY, search);
   }
 
@@ -249,10 +238,14 @@ final class CodpieceSpeculation {
     if (this.codpiecePlan == null) {
       this.codpiecePlan =
           this.createCodpiecePlan(
-              possibles.stream()
-                  .filter(
-                      gem -> gem.getCount() > 0 && EquipmentDatabase.isCodpieceGem(gem.getItemId()))
-                  .toList());
+              Maximizer.evaluator()
+                  .prioritizeCodpieceGems(
+                      possibles.stream()
+                          .filter(
+                              gem ->
+                                  gem.getCount() > 0
+                                      && EquipmentDatabase.isCodpieceGem(gem.getItemId()))
+                          .toList()));
     }
     return this.codpiecePlan;
   }
