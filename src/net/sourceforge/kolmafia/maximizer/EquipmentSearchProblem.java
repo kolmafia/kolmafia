@@ -410,7 +410,7 @@ final class EquipmentSearchProblem
     for (CheckedItem item : this.possibles.get(Slot.CONTAINER)) {
       int count = this.availableCount(item, Slot.CONTAINER);
       if (count <= 0) continue;
-      if (item.getItemId() == ItemPool.BUDDY_BJORN) {
+      if (item.equals(EquipmentManager.BUDDY_BJORN)) {
         List<FamiliarData> candidates =
             this.bjornFamiliar == null ? this.carriedFamiliars : List.of(this.bjornFamiliar);
         for (FamiliarData familiar : candidates) {
@@ -505,7 +505,7 @@ final class EquipmentSearchProblem
     for (CheckedItem item : this.possibles.get(Slot.HAT)) {
       int count = this.availableCount(item, Slot.HAT, Slot.FAMILIAR);
       if (count <= 0) continue;
-      if (item.getItemId() == ItemPool.HATSEAT) {
+      if (item.equals(EquipmentManager.CROWN_OF_THRONES)) {
         List<FamiliarData> candidates =
             this.crownFamiliar == null ? this.carriedFamiliars : List.of(this.crownFamiliar);
         for (FamiliarData familiar : candidates) {
@@ -573,22 +573,15 @@ final class EquipmentSearchProblem
   }
 
   private boolean chefstaffable() {
-    boolean wearingSpecialSauceGlove =
-        this.owner.equipment.get(Slot.ACCESSORY1).getItemId() == ItemPool.SPECIAL_SAUCE_GLOVE
-            || this.owner.equipment.get(Slot.ACCESSORY2).getItemId() == ItemPool.SPECIAL_SAUCE_GLOVE
-            || this.owner.equipment.get(Slot.ACCESSORY3).getItemId()
-                == ItemPool.SPECIAL_SAUCE_GLOVE;
-    return EquipmentManager.canEquipChefstaff(wearingSpecialSauceGlove);
-  }
-
-  private static boolean isChefstaff(AdventureResult item) {
-    return EquipmentDatabase.getItemType(item.getItemId()).equals("chefstaff");
+    return EquipmentManager.canEquipChefstaff(
+        KoLCharacter.hasEquipped(
+            this.owner.equipment, ItemPool.get(ItemPool.SPECIAL_SAUCE_GLOVE, 1)));
   }
 
   private List<Choice> weaponChoices() {
     AdventureResult weapon = this.owner.equipment.get(Slot.WEAPON);
     if (weapon != null) {
-      if (!this.chefstaffable() && isChefstaff(weapon)) {
+      if (!this.chefstaffable() && EquipmentDatabase.isChefStaff(weapon)) {
         return List.of(); // illegal preset chefstaff: dead end
       }
       return List.of(this.weaponChoice(weapon));
@@ -596,7 +589,7 @@ final class EquipmentSearchProblem
 
     List<Choice> choices = new ArrayList<>();
     for (AdventureResult item : this.possibles.get(Slot.WEAPON)) {
-      if (!this.chefstaffable() && isChefstaff(item)) continue;
+      if (!this.chefstaffable() && EquipmentDatabase.isChefStaff(item)) continue;
       int count = this.availableCount(item, Slot.WEAPON, Slot.OFFHAND, Slot.FAMILIAR);
       if (count <= 0) continue;
       choices.add(this.weaponChoice(item));
@@ -640,8 +633,8 @@ final class EquipmentSearchProblem
     for (CheckedItem item : possible) {
       int count = this.availableCount(item, Slot.OFFHAND, Slot.WEAPON, Slot.FAMILIAR);
       if (count <= 0) continue;
-      boolean isCardSleeve = item.getItemId() == ItemPool.CARD_SLEEVE;
-      choices.add(this.offhandChoice(item, isCardSleeve ? this.card : null));
+      choices.add(
+          this.offhandChoice(item, item.equals(EquipmentManager.CARD_SLEEVE) ? this.card : null));
     }
     if (choices.isEmpty() || weapon <= 0) {
       choices.add(this.offhandChoice(EquipmentRequest.UNEQUIP, null));
