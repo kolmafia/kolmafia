@@ -14,13 +14,11 @@ import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.ExpressionOverrides;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modeable;
-import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.equipment.Slot;
@@ -37,7 +35,6 @@ import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
-import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.session.EffectAvailability;
@@ -68,10 +65,6 @@ public class Evaluator {
   private final Set<BooleanModifier> booleanValue = EnumSet.noneOf(BooleanModifier.class);
   private final List<FamiliarData> familiars = new ArrayList<>();
   private final List<FamiliarData> carriedFamiliars = new ArrayList<>();
-  private int carriedFamiliarsNeeded = 0;
-  private boolean cardNeeded = false;
-  private final Map<Modeable, Boolean> modeablesNeeded = Modeable.getBooleanMap();
-
   // Some modeables are forced based on certain expressions appearing in a maximize call
   // For example, if you request "sea" the Crown of Ed will always pick fish. This does pose
   // an issue if the maximizer would choose the SCUBA gear to provide water-breathing, as it would
@@ -1128,12 +1121,19 @@ public class Evaluator {
     Map<Integer, Boolean> usefulOutfits = setEvaluator.usefulOutfits();
     Map<AdventureResult, AdventureResult> outfitPieces = setEvaluator.outfitPieces();
 
-    boolean hoboPowerUseful = isCatUseful(nullScore, "_hoboPower");
-    boolean smithsnessUseful = isCatUseful(nullScore, "_smithsness");
-    boolean brimstoneUseful = isCatUseful(nullScore, "_brimstone");
-    boolean cloathingUseful = isCatUseful(nullScore, "_cloathing");
-    boolean slimeHateUseful = isCatUseful(nullScore, "_slimeHate");
-    boolean mcHugeLargeUseful = isCatUseful(nullScore, "_mcHugeLarge");
+    OrdinaryCandidateEvaluator candidateEvaluator =
+        new OrdinaryCandidateEvaluator(
+            this,
+            setEvaluator,
+            new OrdinaryCandidateEvaluator.Requirements(
+                this.slots,
+                this.forcedModeables,
+                this.current,
+                this.clownosity,
+                this.raveosity,
+                this.surgeonosity,
+                this.stinkycheese),
+            nullScore);
 
     FamiliarEquipmentCompiler familiarEquipmentCompiler =
         new FamiliarEquipmentCompiler(
@@ -1151,7 +1151,7 @@ public class Evaluator {
                 this.requireKnife,
                 this.requireAccordion,
                 this.effective),
-            hoboPowerUseful,
+            candidateEvaluator.hoboPowerUseful(),
             this.weight.getDouble(DoubleModifier.ITEMDROP) > 0,
             this.weight.getDouble(DoubleModifier.EXPERIENCE) > 0
                 || this.weight.getDouble(DoubleModifier.MUS_EXPERIENCE) > 0
@@ -1195,173 +1195,23 @@ public class Evaluator {
       }
 
       Slot auxSlot = Slot.NONE;
-      gotItem:
-      {
-        var placement = candidateSlotter.place(id, name, slot, item, famCanEquip);
-        if (!placement.accepted()) {
-          continue;
-        }
-        slot = placement.slot();
-        auxSlot = placement.auxiliarySlot();
-        if (placement.skipScoring()) {
-          break gotItem;
-        }
-
-        if (setEvaluator.isUsefulOutfitPiece(id)) {
-          setEvaluator.retainOutfitPiece(item);
-          if (item.getCount() == 0) {
+      var placement = candidateSlotter.place(id, name, slot, item, famCanEquip);
+      if (!placement.accepted()) {
+        continue;
+      }
+      slot = placement.slot();
+      auxSlot = placement.auxiliarySlot();
+      if (!placement.skipScoring()) {
+        switch (candidateEvaluator.evaluate(id, item, modeable)) {
+          case REJECT:
             continue;
-          }
-        }
-
-        if (KoLCharacter.hasEquipped(item)
-            && this.current) { // Make sure the current item in each slot is considered
-          // for keeping, unless it's actively harmful, unless -current
-          // option is used
-          item.automaticFlag = true;
-        }
-
-        Modifiers mods = ModifierDatabase.getItemModifiers(id);
-        if (mods == null) { // no enchantments
-          mods = new Modifiers();
-        }
-
-        boolean wrongClass = false;
-        String classType = mods.getString(StringModifier.CLASS);
-        if (!classType.isEmpty() && !classType.equals(KoLCharacter.getAscensionClassName())) {
-          wrongClass = true;
-        }
-
-        if (mods.getBoolean(BooleanModifier.SINGLE)) {
-          item.singleFlag = true;
-        }
-
-        // If you have a familiar carrier, we'll need to check 1 or 2 Familiars best carried
-        // unless you specified not to change them
-
-        if (((id == ItemPool.HATSEAT && this.slots.getOrDefault(Slot.CROWNOFTHRONES, 0) >= 0)
-                || (id == ItemPool.BUDDY_BJORN && this.slots.getOrDefault(Slot.BUDDYBJORN, 0) >= 0))
-            && KoLCharacter.getPath().canUseFamiliars()) {
-          this.carriedFamiliarsNeeded++;
-        }
-
-        if (id == ItemPool.CARD_SLEEVE && this.slots.getOrDefault(Slot.CARDSLEEVE, 0) >= 0) {
-          this.cardNeeded = true;
-        }
-
-        if (id == ItemPool.VAMPYRIC_CLOAKE) {
-          mods = new Modifiers(mods);
-          mods.applyVampyricCloakeModifiers();
-        }
-
-        if (modeable != null) {
-          var slotWeightings =
-              switch (modeable.getSlot()) {
-                case ACCESSORY1 ->
-                    List.of(
-                        this.slots.getOrDefault(Slot.ACCESSORY1, 0),
-                        this.slots.getOrDefault(Slot.ACCESSORY2, 0),
-                        this.slots.getOrDefault(Slot.ACCESSORY3, 0));
-                case OFFHAND ->
-                    List.of(
-                        this.slots.getOrDefault(Slot.OFFHAND, 0),
-                        this.slots.getOrDefault(Slot.FAMILIAR, 0));
-                default -> List.of(this.slots.getOrDefault(modeable.getSlot(), 0));
-              };
-          modeablesNeeded.put(modeable, slotWeightings.stream().anyMatch(s -> s >= 0));
-        }
-
-        if (this.posEquip.contains(item)) {
-          item.automaticFlag = true;
-          item.requiredFlag = true;
-          break gotItem;
-        }
-
-        switch (this.checkConstraints(mods)) {
-          case VIOLATES:
-            continue;
-          case MEETS:
-            item.automaticFlag = true;
-            break gotItem;
-        }
-
-        if ((hoboPowerUseful && mods.getDouble(DoubleModifier.HOBO_POWER) > 0.0)
-            || (smithsnessUseful && !wrongClass && mods.getDouble(DoubleModifier.SMITHSNESS) > 0.0)
-            || (brimstoneUseful && mods.getRawBitmap(BitmapModifier.BRIMSTONE) != 0)
-            || (cloathingUseful && mods.getRawBitmap(BitmapModifier.CLOATHING) != 0)
-            || (slimeHateUseful && mods.getDouble(DoubleModifier.SLIME_HATES_IT) > 0.0)
-            || (mcHugeLargeUseful && mods.getRawBitmap(BitmapModifier.MCHUGELARGE) != 0)
-            || (this.clownosity > 0 && mods.getRawBitmap(BitmapModifier.CLOWNINESS) != 0)
-            || (this.raveosity > 0 && mods.getRawBitmap(BitmapModifier.RAVEOSITY) != 0)
-            || (this.surgeonosity > 0 && mods.getRawBitmap(BitmapModifier.SURGEONOSITY) != 0)
-            || (this.stinkycheese > 0 && mods.getRawBitmap(BitmapModifier.STINKYCHEESE) != 0)
-            || setEvaluator.isUsefulSynergyPiece(mods)) {
-          item.automaticFlag = true;
-          break gotItem;
-        } else if (mods.hasUnarmedBonus()) {
-          // Figure out what modifiers this item would have if unarmed
-          Modifiers unarmedMods = new Modifiers(ModifierDatabase.getItemModifiers(id));
-          ExpressionOverrides overrides = new ExpressionOverrides();
-          overrides.setUnarmed(true);
-          unarmedMods.recalculateExpressions(overrides);
-          // Unlike below, modeables can reach here, so score mode bonuses at their current state
-          double score =
-              this.getScore(unarmedMods, Map.of(Slot.NONE, item), Modeable.getStateMap());
-          if (score > nullScore) {
-            // The item has an unarmed bonus that is relevant. Ensure that it is always considered,
-            // but it should not take up a spot on the shortlist.
-            item.conditionalFlag = true;
-            item.automaticFlag = true;
-            break gotItem;
-          }
-        }
-
-        // Always carry through items with changeable contents to speculation, but don't force them
-        // to go further
-        if ((id == ItemPool.HATSEAT || id == ItemPool.BUDDY_BJORN)
-            && KoLCharacter.getPath().canUseFamiliars()) {
-          break gotItem;
-        }
-
-        if (id == ItemPool.CARD_SLEEVE || id == ItemPool.THE_ETERNITY_CODPIECE) {
-          break gotItem;
-        }
-
-        if (modeable != null) {
-          if (!forcedModeables.get(modeable).isEmpty()) {
-            item.automaticFlag = true;
-          }
-          break gotItem;
-        }
-
-        String intrinsic = mods.getString(StringModifier.INTRINSIC_EFFECT);
-        if (!intrinsic.isEmpty()) {
-          Modifiers newMods = new Modifiers();
-          newMods.add(mods);
-          newMods.add(ModifierDatabase.getModifiers(ModifierType.EFFECT, intrinsic));
-          mods = newMods;
-        }
-        // Modeable items never reach here (they break gotItem above), so we leave out modes
-        double delta = this.getScore(mods, Map.of(Slot.NONE, item), Map.of()) - nullScore;
-        if (delta < 0.0) {
-          addCandidate(catalog, slot, auxSlot, item);
-          continue;
-        }
-        if (delta == 0.0) {
-          if (KoLCharacter.hasEquipped(item) && this.current) break gotItem;
-          if (item.availability().initial() == 0 || item.automaticFlag) {
+          case CATALOG_ONLY:
             addCandidate(catalog, slot, auxSlot, item);
             continue;
-          }
-        }
-
-        if (mods.getRawBitmap(BitmapModifier.MUTEX) != 0) {
-          // This item may turn out to be unequippable, so don't
-          // count it towards the shortlist length.
-          item.conditionalFlag = true;
+          case RANKED:
+            break;
         }
       }
-      // "break gotItem" goes here
       addCandidate(catalog, slot, auxSlot, item);
       addCandidate(ranked, slot, auxSlot, item);
     }
@@ -1379,7 +1229,7 @@ public class Evaluator {
 
     var carriedFamiliarSelection =
         CarriedFamiliarSelector.select(
-            this.carriedFamiliarsNeeded,
+            candidateEvaluator.carriedFamiliarsNeeded(),
             this.slots.getOrDefault(Slot.CROWNOFTHRONES, 0) < 0,
             this.slots.getOrDefault(Slot.BUDDYBJORN, 0) < 0,
             character,
@@ -1391,14 +1241,23 @@ public class Evaluator {
     FamiliarData useBjornFamiliar = carriedFamiliarSelection.lockedBjorn();
 
     CheckedItem bestCard =
-        CardSleeveSelector.select(this.cardNeeded, equipScope, maxPrice, priceLevel);
+        CardSleeveSelector.select(
+            candidateEvaluator.cardNeeded(), equipScope, maxPrice, priceLevel);
     AdventureResult useCard = null;
 
     Map<Modeable, String> bestModes =
-        ModeableSelector.select(modeablesNeeded, forcedModeables, equipScope, maxPrice, priceLevel);
+        ModeableSelector.select(
+            candidateEvaluator.modeablesNeeded(),
+            forcedModeables,
+            equipScope,
+            maxPrice,
+            priceLevel);
     CandidateSpeculationFactory speculationFactory =
         new CandidateSpeculationFactory(
-            this.carriedFamiliarsNeeded, carriedFamiliarSelection, bestCard, bestModes);
+            candidateEvaluator.carriedFamiliarsNeeded(),
+            carriedFamiliarSelection,
+            bestCard,
+            bestModes);
 
     SlotList<MaximizerSpeculation> speculationList = new SlotList<>(this.familiars.size());
 
@@ -1558,10 +1417,4 @@ public class Evaluator {
     if (slot != Slot.NONE) candidates.get(slot).add(item);
     if (auxSlot != Slot.NONE) candidates.get(auxSlot).add(item);
   }
-
-  private boolean isCatUseful(double nullScore, String catName) {
-    Modifiers mods = ModifierDatabase.getModifiers(ModifierType.MAX_CAT, catName);
-    return mods != null && this.getScore(mods) - nullScore > 0.0;
-  }
-
 }
