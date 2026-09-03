@@ -56,23 +56,38 @@ public enum DoubleModifier implements Modifier {
       Pattern.compile("Damage Reduction: " + EXPR)),
   COLD_RESISTANCE(
       "Cold Resistance",
-      Pattern.compile(" Cold (?:Resistance|Vulnerability) \\(([+-]?\\d+)\\)$"),
+      new Pattern[] {
+        Pattern.compile(" Cold (?:Resistance|Vulnerability) \\(([+-]?\\d+)\\)$"),
+        Pattern.compile("Cold Resistance \\((\\+\\d+)\\)$"),
+      },
       Pattern.compile("Cold Resistance: " + EXPR)),
   HOT_RESISTANCE(
       "Hot Resistance",
-      Pattern.compile(" Hot (?:Resistance|Vulnerability) \\(([+-]?\\d+)\\)$"),
+      new Pattern[] {
+        Pattern.compile(" Hot (?:Resistance|Vulnerability) \\(([+-]?\\d+)\\)$"),
+        Pattern.compile("Hot Resistance \\((\\+\\d+)\\)$"),
+      },
       Pattern.compile("Hot Resistance: " + EXPR)),
   SLEAZE_RESISTANCE(
       "Sleaze Resistance",
-      Pattern.compile(" Sleaze (?:Resistance|Vulnerability) \\(([+-]?\\d+)\\)$"),
+      new Pattern[] {
+        Pattern.compile(" Sleaze (?:Resistance|Vulnerability) \\(([+-]?\\d+)\\)$"),
+        Pattern.compile("Sleaze Resistance \\((\\+\\d+)\\)$"),
+      },
       Pattern.compile("Sleaze Resistance: " + EXPR)),
   SPOOKY_RESISTANCE(
       "Spooky Resistance",
-      Pattern.compile(" Spooky (?:Resistance|Vulnerability) \\(([+-]?\\d+)\\)$"),
+      new Pattern[] {
+        Pattern.compile(" Spooky (?:Resistance|Vulnerability) \\(([+-]?\\d+)\\)$"),
+        Pattern.compile("Spooky Resistance \\((\\+\\d+)\\)$"),
+      },
       Pattern.compile("Spooky Resistance: " + EXPR)),
   STENCH_RESISTANCE(
       "Stench Resistance",
-      Pattern.compile(" Stench +(?:Resistance|Vulnerability) \\(([+-]?\\d+)\\)$"),
+      new Pattern[] {
+        Pattern.compile(" Stench +(?:Resistance|Vulnerability) \\(([+-]?\\d+)\\)$"),
+        Pattern.compile("Stench +Resistance \\((\\+\\d+)\\)$"),
+      },
       Pattern.compile("Stench Resistance: " + EXPR)),
   MANA_COST(
       "Mana Cost",
