@@ -310,22 +310,6 @@ public class Evaluator {
     return this.terms.usesTiebreaker();
   }
 
-  boolean areScoreModifiersSaturated(Modifiers modifiers) {
-    Map<DerivedModifier, Integer> predicted = null;
-    for (ScoreTerm term : this.activeScoreModifiers) {
-      DoubleModifier modifier = term.modifier();
-      if (Evaluator.predictsDerived(modifier) && predicted == null) {
-        predicted = modifiers.predict();
-      }
-      double value = scoreValue(modifier, modifiers, predicted);
-      if ((term.weight() > 0.0 && value < term.max())
-          || (term.weight() < 0.0 && value > term.min())) {
-        return false;
-      }
-    }
-    return true;
-  }
-
   boolean isWeaponTypeRequired() {
     return this.terms.isWeaponTypeRequired();
   }
