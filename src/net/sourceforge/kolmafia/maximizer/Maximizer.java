@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.StringJoiner;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
@@ -402,9 +403,9 @@ public class Maximizer {
         int count = 0;
         for (int itemId : itemList) {
           var makeable = getAbsorbable(itemId, equipScope, maxPrice, priceLevel);
-          if (!makeable.canMake) continue;
-          String cmd = makeable.cmd;
-          String text = makeable.txt;
+          if (!makeable.canMake()) continue;
+          String cmd = makeable.cmd();
+          String text = makeable.txt();
           text = text + KoLConstants.MODIFIER_FORMAT.format(delta) + ")";
           text = text + " [" + absorbsLeft + " absorbs remaining]";
           if (count > 0) {
@@ -442,14 +443,10 @@ public class Maximizer {
           continue;
         }
         // Only take numeric modifiers, and not Surgeonosity, from Items in Noobcore
-        StringBuilder mods = new StringBuilder();
+        StringJoiner mods = new StringJoiner(", ");
         for (var mod : DoubleModifier.DOUBLE_MODIFIERS) {
-          if (itemMods.getDouble(mod) != 0.0) {
-            if (mods.length() > 0) {
-              mods.append(", ");
-            }
-            mods.append(mod.getName() + ": " + itemMods.getDouble(mod));
-          }
+          if (itemMods.getDouble(mod) != 0.0)
+            mods.add(mod.getName() + ": " + itemMods.getDouble(mod));
         }
         if (mods.length() == 0) {
           continue;
@@ -460,30 +457,22 @@ public class Maximizer {
           continue;
         }
         var makeable = getAbsorbable(itemId, equipScope, maxPrice, priceLevel);
-        if (!makeable.canMake) continue;
-        String cmd = makeable.cmd;
-        String text = makeable.txt;
-        CheckedItem checkedItem = makeable.checkedItem;
-        ItemAvailability availability = checkedItem.availability();
-        text = text + "lasts til end of day, ";
-        text = text + KoLConstants.MODIFIER_FORMAT.format(delta) + ")";
-        text = text + " [" + absorbsLeft + " absorbs remaining";
-        if (availability.inventory() > 0) {
-          text = text + ", " + availability.inventory() + " in inventory";
-        }
-        if (availability.initial() - availability.inventory() > 0) {
-          text = text + ", " + (availability.initial() - availability.inventory()) + " obtainable";
-        }
-        if (availability.creatable() > 0) {
-          text = text + ", " + availability.creatable() + " createable";
-        }
-        if (availability.npcBuyable() > 0) {
-          text = text + ", " + availability.npcBuyable() + " NPC buyable";
-        }
-        if (availability.pullable() > 0) {
-          text = text + ", " + availability.pullable() + " pullable";
-        }
-        text = text + "]";
+        if (!makeable.canMake()) continue;
+        String cmd = makeable.cmd();
+        String text =
+            makeable.txt()
+                + "lasts til end of day, "
+                + KoLConstants.MODIFIER_FORMAT.format(delta)
+                + ")";
+        ItemAvailability availability = makeable.checkedItem().availability();
+        List<String> details = new ArrayList<>(List.of(absorbsLeft + " absorbs remaining"));
+        if (availability.inventory() > 0) details.add(availability.inventory() + " in inventory");
+        if (availability.initial() - availability.inventory() > 0)
+          details.add((availability.initial() - availability.inventory()) + " obtainable");
+        if (availability.creatable() > 0) details.add(availability.creatable() + " createable");
+        if (availability.npcBuyable() > 0) details.add(availability.npcBuyable() + " NPC buyable");
+        if (availability.pullable() > 0) details.add(availability.pullable() + " pullable");
+        text += " [" + String.join(", ", details) + "]";
         Maximizer.boosts.add(new Boost(cmd, text, ItemPool.get(itemId), delta));
       }
     }
@@ -497,16 +486,12 @@ public class Maximizer {
         if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Horsery contract")) {
           continue;
         }
-        String cmd, text;
-        int price = 0;
         MaximizerLoadout loadout = new MaximizerLoadout();
         loadout.setHorsery(name);
         double delta = loadout.getScore() - current;
-        if (delta <= 0.0) {
-          continue;
-        }
-        text = "horsery " + name;
-        cmd = "horsery " + name;
+        if (delta <= 0.0) continue;
+        String cmd = "horsery " + name;
+        String text = cmd;
         if (!Preferences.getBoolean("horseryAvailable")) {
           cmd = "";
           if (includeAll) {
@@ -514,15 +499,9 @@ public class Maximizer {
           } else continue;
         }
         text += " (" + KoLConstants.MODIFIER_FORMAT.format(delta) + ")";
-        if (Preferences.getString("_horsery").length() > 0) {
-          price = 500;
-        }
-        if (KoLCharacter.getAvailableMeat() < price) {
-          cmd = "";
-        }
-        if (Preferences.getBoolean("verboseMaximizer")) {
-          text += " [" + price + " meat]";
-        }
+        int price = Preferences.getString("_horsery").isEmpty() ? 0 : 500;
+        if (KoLCharacter.getAvailableMeat() < price) cmd = "";
+        if (Preferences.getBoolean("verboseMaximizer")) text += " [" + price + " meat]";
         Maximizer.boosts.add(new Boost(cmd, text, name, delta));
       }
 
@@ -530,15 +509,12 @@ public class Maximizer {
           ModifierDatabase.getAllModifiersOfType(ModifierType.BOOM_BOX)) {
         if (!entry.getKey().isString()) continue;
         String name = entry.getKey().getStringValue();
-        String cmd, text;
         MaximizerLoadout loadout = new MaximizerLoadout();
         loadout.setBoomBox(name);
         double delta = loadout.getScore() - current;
-        if (delta <= 0.0) {
-          continue;
-        }
-        text = "boombox " + name.toLowerCase();
-        cmd = "boombox " + name.toLowerCase();
+        if (delta <= 0.0) continue;
+        String cmd = "boombox " + name.toLowerCase();
+        String text = cmd;
         if (!InventoryManager.hasItem(ItemPool.BOOMBOX)) {
           cmd = "";
           if (includeAll) {
@@ -547,16 +523,9 @@ public class Maximizer {
         }
         int usesRemaining = Preferences.getInteger("_boomBoxSongsLeft");
         text += " (" + KoLConstants.MODIFIER_FORMAT.format(delta) + ")";
-        if (Preferences.getBoolean("verboseMaximizer")) {
-          if (usesRemaining == 1) {
-            text += " [1 use remaining]";
-          } else {
-            text += " [" + usesRemaining + " uses remaining]";
-          }
-        }
-        if (usesRemaining < 1) {
-          cmd = "";
-        }
+        if (Preferences.getBoolean("verboseMaximizer"))
+          text += " [" + usesRemaining + (usesRemaining == 1 ? " use" : " uses") + " remaining]";
+        if (usesRemaining < 1) cmd = "";
         Maximizer.boosts.add(new Boost(cmd, text, (AdventureResult) null, delta));
       }
 
@@ -567,11 +536,9 @@ public class Maximizer {
           MaximizerLoadout loadout = new MaximizerLoadout();
           loadout.setMindControlLevel(i);
           double delta = loadout.getScore() - current;
-          if (delta <= 0.0) {
-            continue;
-          }
-          String text, cmd;
-          text = cmd = "mcd " + i;
+          if (delta <= 0.0) continue;
+          String cmd = "mcd " + i;
+          String text = cmd;
           if (!KoLCharacter.mcdAvailable()) {
             cmd = "";
             text = "(ascend into a non-Bad Moon sign and mcd " + i + ")";
@@ -586,9 +553,7 @@ public class Maximizer {
         ModifierDatabase.getAllModifiersOfType(ModifierType.EFFECT)) {
       if (!entry.getKey().isInt()) continue;
       int effectId = entry.getKey().getIntValue();
-      if (effectId == -1) {
-        continue;
-      }
+      if (effectId == -1) continue;
 
       double delta;
       boolean isSpecial = false;
@@ -689,30 +654,17 @@ public class Maximizer {
 
         String basecommand = cmd.trim().contains(" ") ? cmd.split(" ")[0] : cmd;
 
-        switch (basecommand) {
-          case "cast":
-            if (!filter.contains(KoLConstants.filterType.CAST)) continue;
-            break;
-          case "synthesize":
-          case "chew":
-            if (!filter.contains(KoLConstants.filterType.SPLEEN)) continue;
-            break;
-          case "drink":
-            if (!filter.contains(KoLConstants.filterType.BOOZE)) continue;
-            break;
-          case "eat":
-            if (!filter.contains(KoLConstants.filterType.FOOD)) continue;
-            break;
-          case "use":
-            if (!filter.contains(KoLConstants.filterType.USABLE)) continue;
-            break;
-          case "genie":
-          case "monkeypaw":
-            if (!filter.contains(KoLConstants.filterType.WISH)) continue;
-            break;
-          default:
-            if (!filter.contains(KoLConstants.filterType.OTHER)) continue;
-        }
+        filterType sourceType =
+            switch (basecommand) {
+              case "cast" -> filterType.CAST;
+              case "synthesize", "chew" -> filterType.SPLEEN;
+              case "drink" -> filterType.BOOZE;
+              case "eat" -> filterType.FOOD;
+              case "use" -> filterType.USABLE;
+              case "genie", "monkeypaw" -> filterType.WISH;
+              default -> filterType.OTHER;
+            };
+        if (!filter.contains(sourceType)) continue;
 
         if (cmd.startsWith("#")) { // usage note, no command
           if (includeAll) {
@@ -748,15 +700,15 @@ public class Maximizer {
           }
 
           String iName = cmd.substring(cmd.indexOf(" ") + 3).trim();
-          if (cmd.startsWith("use ")) {
-            item = ItemFinder.getFirstMatchingItem(iName, false, Match.USE);
-          } else if (cmd.startsWith("chew ")) {
-            item = ItemFinder.getFirstMatchingItem(iName, false, Match.SPLEEN);
-          } else if (cmd.startsWith("drink ")) {
-            item = ItemFinder.getFirstMatchingItem(iName, false, Match.BOOZE);
-          } else if (cmd.startsWith("eat ")) {
-            item = ItemFinder.getFirstMatchingItem(iName, false, Match.FOOD);
-          }
+          Match match =
+              switch (basecommand) {
+                case "use" -> Match.USE;
+                case "chew" -> Match.SPLEEN;
+                case "drink" -> Match.BOOZE;
+                case "eat" -> Match.FOOD;
+                default -> throw new IllegalStateException("Unsupported consumption command");
+              };
+          item = ItemFinder.getFirstMatchingItem(iName, false, match);
 
           if (item != null) {
             int itemId = item.getItemId();
@@ -1846,9 +1798,8 @@ public class Maximizer {
         MaximizerLoadout loadout = new MaximizerLoadout();
         loadout.setFamiliar(fam);
         double delta = loadout.getScore() - current;
-        String cmd, text;
-        cmd = "familiar " + fam.getRace();
-        text = cmd + " (" + KoLConstants.MODIFIER_FORMAT.format(delta) + ")";
+        String cmd = "familiar " + fam.getRace();
+        String text = cmd + " (" + KoLConstants.MODIFIER_FORMAT.format(delta) + ")";
 
         Boost boost = new Boost(cmd, text, fam, delta);
         if (equipScope == EquipScope.EQUIP_NOW) { // called from CLI
@@ -1999,8 +1950,7 @@ public class Maximizer {
       // is included should also be supported by retrieveItem(), so we don't need
       // to take any special action here.  Displaying the method that will be used
       // would still be useful, though.
-      if (curr.equals(item)) {
-      } else {
+      if (!curr.equals(item)) {
         switch (checkedItem.acquisitionMethod(count)) {
           case ACCESSIBLE -> {
             // This may look odd, but we need an item, not a checked item
@@ -2105,44 +2055,24 @@ public class Maximizer {
   }
 
   private static boolean excludedTCRSItem(int itemId) {
-    return switch (itemId) {
-      case ItemPool.DIETING_PILL ->
-          // Doubles adventures and stats from next food.  Also
-          // doubles fullness - which can be a surprise.
-          true;
-      default -> false;
-    };
+    // Doubles adventures, stats, and fullness from the next food.
+    return itemId == ItemPool.DIETING_PILL;
   }
 
-  private static class Makeable {
-    final String cmd;
-    final String txt;
-    final boolean canMake;
-    final CheckedItem checkedItem;
-
-    private Makeable(String cmd, String txt, boolean canMake, CheckedItem checkedItem) {
-      this.cmd = cmd;
-      this.txt = txt;
-      this.canMake = canMake;
-      this.checkedItem = checkedItem;
-    }
-  }
+  private record Makeable(String cmd, String txt, boolean canMake, CheckedItem checkedItem) {}
 
   private static Makeable getAbsorbable(
       int itemId, EquipScope equipScope, int maxPrice, PriceLevel priceLevel) {
     // Check if we have access to item
     CheckedItem checkedItem = new CheckedItem(itemId, equipScope, maxPrice, priceLevel);
     // We won't include unavailable items, as this just gets far too large
-    String cmd, text;
     long price = 0L;
-    boolean canMake = true;
     AdventureResult item = ItemPool.get(itemId);
     ItemAvailability availability = checkedItem.availability();
-    cmd = "absorb \u00B6" + itemId;
-    text = "absorb " + item.getName() + " (";
-    if (availability.total() == 0) {
-      canMake = false;
-    } else {
+    String cmd = "absorb \u00B6" + itemId;
+    String text = "absorb " + item.getName() + " (";
+    boolean canMake = availability.total() > 0;
+    if (canMake) {
       switch (availability.acquisitionMethod(0)) {
         case ACCESSIBLE -> {
           if (availability.inventory() == 0) {
@@ -2188,9 +2118,7 @@ public class Maximizer {
         case FOLD, PULL_FOLD -> canMake = false;
       }
     }
-    if (price > 0) {
-      text = text + KoLConstants.COMMA_FORMAT.format(price) + " meat, ";
-    }
+    if (price > 0) text += KoLConstants.COMMA_FORMAT.format(price) + " meat, ";
     return new Makeable(cmd, text, canMake, checkedItem);
   }
 }
