@@ -5,7 +5,6 @@ import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -1273,98 +1272,21 @@ public class Evaluator {
     SlotList<CheckedItem> automatic = shortlist.candidates();
     Maximizer.recordCandidateCounts(catalogCandidateCount, shortlist.candidateCount());
 
-    MaximizerSpeculation spec = new MaximizerSpeculation();
-    // The threshold in the slots array that indicates that a slot
-    // should be considered will be either >= 1 or >= 0, depending
-    // on whether inclusive or exclusive slot specs were used.
-    for (int thresh = 1; ; --thresh) {
-      if (thresh < 0) return; // no slots enabled
-      boolean anySlots = false;
-      for (var slot : SlotSet.SLOTS) {
-        if (this.slots.getOrDefault(slot, 0) >= thresh) {
-          spec.equipment.put(slot, null);
-          anySlots = true;
-        }
-      }
-      if (anySlots) break;
-    }
-
-    if (spec.equipment.get(Slot.OFFHAND) != null) {
-      this.hands = 1;
-      automatic.set(Slot.WEAPON, automatic.get(Evaluator.WEAPON_1H));
-      if (exhaustive) {
-        catalog.set(Slot.WEAPON, catalog.get(Evaluator.WEAPON_1H));
-      }
-
-      Iterator<AdventureResult> i = outfitPieces.keySet().iterator();
-      while (i.hasNext()) {
-        id = i.next().getItemId();
-        if (EquipmentManager.itemIdToEquipmentType(id) == Slot.WEAPON
-            && EquipmentDatabase.getHands(id) > 1) {
-          i.remove();
-        }
-      }
-    }
-
-    bestModes.forEach(
-        (modeable, mode) -> {
-          Set<Slot> backupSlots = EnumSet.noneOf(Slot.class);
-          backupSlots.add(modeable.getSlot());
-
-          if (modeable.getSlot() == Slot.ACCESSORY1) {
-            backupSlots.add(Slot.ACCESSORY2);
-            backupSlots.add(Slot.ACCESSORY3);
-          }
-
-          if (this.familiars.stream().anyMatch(f -> f.canEquip(modeable.getItem()))) {
-            backupSlots.add(Slot.FAMILIAR);
-          }
-
-          // Slots we're ignoring are not considered, they keep their modes
-          // A slot is considered ignored if not null
-          boolean itemInIgnoredSlot =
-              spec.equipment.values().stream()
-                  .anyMatch(i -> i != null && i.getItemId() == modeable.getItemId());
-
-          if (!itemInIgnoredSlot
-              && backupSlots.stream().anyMatch(s -> spec.equipment.get(s) == null)) {
-            spec.setModeable(modeable, mode);
-          }
-        });
-
-    MaximizerSpeculation exhaustiveBaseline = exhaustive ? spec.clone() : null;
-    Maximizer.startSearch(exhaustive);
-    spec.tryAll(
-        this.familiars,
-        this.carriedFamiliars,
-        usefulOutfits,
-        outfitPieces,
-        automatic,
-        useCard,
-        useCrownFamiliar,
-        useBjornFamiliar);
-
-    if (exhaustive) {
-      for (var entry : catalog.entries()) {
-        for (var item : entry.value()) {
-          item.validate(maxPrice, priceLevel);
-        }
-      }
-      if (exhaustiveBaseline.equipment.get(Slot.OFFHAND) == null) {
-        catalog.get(Slot.WEAPON).addAll(catalog.get(Evaluator.WEAPON_1H));
-      }
-      catalog.get(Evaluator.OFFHAND_MELEE).addAll(catalog.get(Slot.OFFHAND));
-      catalog.get(Evaluator.OFFHAND_RANGED).addAll(catalog.get(Slot.OFFHAND));
-      exhaustiveBaseline.tryAll(
-          this.familiars,
-          this.carriedFamiliars,
-          usefulOutfits,
-          outfitPieces,
-          catalog,
-          useCard,
-          useCrownFamiliar,
-          useBjornFamiliar);
-    }
+    new EquipmentSearchRunner(
+            this.familiars,
+            this.carriedFamiliars,
+            usefulOutfits,
+            outfitPieces,
+            new EquipmentSearchRunner.Options(
+                this.slots,
+                bestModes,
+                useCard,
+                useCrownFamiliar,
+                useBjornFamiliar,
+                maxPrice,
+                priceLevel,
+                exhaustive))
+        .run(automatic, catalog);
   }
 
   List<CheckedItem> prioritizeCodpieceGems(List<CheckedItem> gems) {
