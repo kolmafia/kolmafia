@@ -2,21 +2,17 @@ package net.sourceforge.kolmafia.maximizer;
 
 import static net.sourceforge.kolmafia.maximizer.MaximizerTermRegistry.IntegerSetting.BEEOSITY;
 import static net.sourceforge.kolmafia.maximizer.MaximizerTermRegistry.IntegerSetting.CLOWNOSITY;
-import static net.sourceforge.kolmafia.maximizer.MaximizerTermRegistry.IntegerSetting.DUMP;
 import static net.sourceforge.kolmafia.maximizer.MaximizerTermRegistry.IntegerSetting.RAVEOSITY;
 import static net.sourceforge.kolmafia.maximizer.MaximizerTermRegistry.IntegerSetting.STINKYCHEESE;
 import static net.sourceforge.kolmafia.maximizer.MaximizerTermRegistry.IntegerSetting.SURGEONOSITY;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.Modeable;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.equipment.Slot;
-import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.modifiers.BitmapModifier;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.DerivedModifier;
@@ -33,7 +29,6 @@ public class Evaluator {
   private final MaximizerTermRegistry terms;
   private List<ScoreTerm> activeScoreModifiers = List.of();
   private boolean predictsDerivedModifiers;
-  private final List<FamiliarData> carriedFamiliars = new ArrayList<>();
 
   record ScoreTerm(DoubleModifier modifier, double weight, double min, double max) {}
 
@@ -382,126 +377,8 @@ public class Evaluator {
   void enumerateEquipment(
       EquipScope equipScope, int maxPrice, PriceLevel priceLevel, boolean exhaustive)
       throws MaximizerInterruptedException {
-    CharacterSnapshot character = Maximizer.character();
-    double nullScore = this.getScore(new Modifiers());
-    double nullTiebreaker = this.getTiebreaker(new Modifiers());
-
-    EquipmentSetEvaluator setEvaluator =
-        new EquipmentSetEvaluator(
-            this,
-            this.terms.posOutfits(),
-            this.terms.negOutfits(),
-            equipScope,
-            maxPrice,
-            priceLevel,
-            this.terms.integer(DUMP),
-            nullScore);
-    Map<Integer, Boolean> usefulOutfits = setEvaluator.usefulOutfits();
-    Map<AdventureResult, AdventureResult> outfitPieces = setEvaluator.outfitPieces();
-
-    var ordinaryCandidates =
-        new OrdinaryCandidateCompiler(
-                this,
-                character,
-                setEvaluator,
-                new OrdinaryCandidateCompiler.Options(
-                    this.terms.familiars(),
-                    this.terms.slots(),
-                    this.terms.forcedModeables(),
-                    this.terms.currentOnly(),
-                    this.terms.integer(CLOWNOSITY),
-                    this.terms.integer(RAVEOSITY),
-                    this.terms.integer(SURGEONOSITY),
-                    this.terms.integer(STINKYCHEESE),
-                    this.terms.requirements(),
-                    this.terms.itemDropUseful(),
-                    this.terms.experienceUseful(),
-                    equipScope,
-                    maxPrice,
-                    priceLevel,
-                    nullScore))
-            .compile();
-    SlotList<CheckedItem> catalog = ordinaryCandidates.catalog();
-    SlotList<CheckedItem> ranked = ordinaryCandidates.ranked();
-
-    var codpieceCandidates =
-        this.codpieceEvaluator.compileCandidates(
-            equipScope, maxPrice, priceLevel, nullScore, nullTiebreaker);
-    catalog.get(Slot.CODPIECE1).addAll(codpieceCandidates.catalog());
-    ranked.get(Slot.CODPIECE1).addAll(codpieceCandidates.ranked());
-    boolean codpieceCanExpandAccessoryPool =
-        this.codpieceEvaluator.prepareAccessoryCandidates(
-            codpieceCandidates.ranked(),
-            ranked.get(Slot.ACCESSORY1),
-            SlotSet.CODPIECE_SLOTS.stream().anyMatch(this::slotEnabled));
-
-    var carriedFamiliarSelection =
-        CarriedFamiliarSelector.select(
-            ordinaryCandidates.carriedFamiliarsNeeded(),
-            this.terms.slots().getOrDefault(Slot.CROWNOFTHRONES, 0) < 0,
-            this.terms.slots().getOrDefault(Slot.BUDDYBJORN, 0) < 0,
-            character,
-            equipScope,
-            maxPrice,
-            priceLevel);
-    this.carriedFamiliars.addAll(carriedFamiliarSelection.candidates());
-    FamiliarData useCrownFamiliar = carriedFamiliarSelection.lockedCrown();
-    FamiliarData useBjornFamiliar = carriedFamiliarSelection.lockedBjorn();
-
-    CheckedItem bestCard =
-        CardSleeveSelector.select(
-            ordinaryCandidates.cardNeeded(), equipScope, maxPrice, priceLevel);
-    AdventureResult useCard = null;
-
-    Map<Modeable, String> bestModes =
-        ModeableSelector.select(
-            ordinaryCandidates.modeablesNeeded(),
-            this.terms.forcedModeables(),
-            equipScope,
-            maxPrice,
-            priceLevel);
-    CandidateSpeculationFactory speculationFactory =
-        new CandidateSpeculationFactory(
-            ordinaryCandidates.carriedFamiliarsNeeded(),
-            carriedFamiliarSelection,
-            bestCard,
-            bestModes);
-    var speculationCompilation =
-        speculationFactory.compile(
-            ranked, catalog, this.terms.familiars(), equipScope, maxPrice, priceLevel);
-    SlotList<MaximizerSpeculation> speculationList = speculationCompilation.speculations();
-    useCard = speculationCompilation.card();
-    int catalogCandidateCount = speculationCompilation.catalogCount();
-
-    setEvaluator.evaluate(speculationList);
-
-    var shortlist =
-        new CandidateShortlistCompiler(
-                this.terms.familiars(),
-                character,
-                equipScope,
-                maxPrice,
-                priceLevel,
-                this.terms.integer(DUMP))
-            .compile(ranked, speculationList, codpieceCanExpandAccessoryPool);
-    SlotList<CheckedItem> automatic = shortlist.candidates();
-    Maximizer.recordCandidateCounts(catalogCandidateCount, shortlist.candidateCount());
-
-    new EquipmentSearchRunner(
-            this.terms.familiars(),
-            this.carriedFamiliars,
-            usefulOutfits,
-            outfitPieces,
-            new EquipmentSearchRunner.Options(
-                this.terms.slots(),
-                bestModes,
-                useCard,
-                useCrownFamiliar,
-                useBjornFamiliar,
-                maxPrice,
-                priceLevel,
-                exhaustive))
-        .run(automatic, catalog);
+    EquipmentSearchRunner.compileAndRun(
+        this, this.terms, this.codpieceEvaluator, equipScope, maxPrice, priceLevel, exhaustive);
   }
 
   List<CheckedItem> prioritizeCodpieceGems(List<CheckedItem> gems) {

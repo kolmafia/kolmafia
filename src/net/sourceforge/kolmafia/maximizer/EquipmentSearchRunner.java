@@ -1,5 +1,11 @@
 package net.sourceforge.kolmafia.maximizer;
 
+import static net.sourceforge.kolmafia.maximizer.MaximizerTermRegistry.IntegerSetting.CLOWNOSITY;
+import static net.sourceforge.kolmafia.maximizer.MaximizerTermRegistry.IntegerSetting.DUMP;
+import static net.sourceforge.kolmafia.maximizer.MaximizerTermRegistry.IntegerSetting.RAVEOSITY;
+import static net.sourceforge.kolmafia.maximizer.MaximizerTermRegistry.IntegerSetting.STINKYCHEESE;
+import static net.sourceforge.kolmafia.maximizer.MaximizerTermRegistry.IntegerSetting.SURGEONOSITY;
+
 import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
@@ -8,6 +14,7 @@ import java.util.Set;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.Modeable;
+import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
@@ -42,6 +49,114 @@ final class EquipmentSearchRunner {
     this.usefulOutfits = usefulOutfits;
     this.outfitPieces = outfitPieces;
     this.options = options;
+  }
+
+  static void compileAndRun(
+      Evaluator evaluator,
+      MaximizerTermRegistry terms,
+      CodpieceEvaluator codpieceEvaluator,
+      EquipScope equipScope,
+      int maxPrice,
+      PriceLevel priceLevel,
+      boolean exhaustive)
+      throws MaximizerInterruptedException {
+    CharacterSnapshot character = Maximizer.character();
+    double nullScore = evaluator.getScore(new Modifiers());
+    double nullTiebreaker = evaluator.getTiebreaker(new Modifiers());
+    var setEvaluator =
+        new EquipmentSetEvaluator(
+            evaluator,
+            terms.posOutfits(),
+            terms.negOutfits(),
+            equipScope,
+            maxPrice,
+            priceLevel,
+            terms.integer(DUMP),
+            nullScore);
+    var ordinaryCandidates =
+        new OrdinaryCandidateCompiler(
+                evaluator,
+                character,
+                setEvaluator,
+                new OrdinaryCandidateCompiler.Options(
+                    terms.familiars(),
+                    terms.slots(),
+                    terms.forcedModeables(),
+                    terms.currentOnly(),
+                    terms.integer(CLOWNOSITY),
+                    terms.integer(RAVEOSITY),
+                    terms.integer(SURGEONOSITY),
+                    terms.integer(STINKYCHEESE),
+                    terms.requirements(),
+                    terms.itemDropUseful(),
+                    terms.experienceUseful(),
+                    equipScope,
+                    maxPrice,
+                    priceLevel,
+                    nullScore))
+            .compile();
+    SlotList<CheckedItem> catalog = ordinaryCandidates.catalog();
+    SlotList<CheckedItem> ranked = ordinaryCandidates.ranked();
+
+    var codpieceCandidates =
+        codpieceEvaluator.compileCandidates(
+            equipScope, maxPrice, priceLevel, nullScore, nullTiebreaker);
+    catalog.get(Slot.CODPIECE1).addAll(codpieceCandidates.catalog());
+    ranked.get(Slot.CODPIECE1).addAll(codpieceCandidates.ranked());
+    boolean codpieceCanExpandAccessoryPool =
+        codpieceEvaluator.prepareAccessoryCandidates(
+            codpieceCandidates.ranked(),
+            ranked.get(Slot.ACCESSORY1),
+            SlotSet.CODPIECE_SLOTS.stream().anyMatch(evaluator::slotEnabled));
+
+    var carriedFamiliars =
+        CarriedFamiliarSelector.select(
+            ordinaryCandidates.carriedFamiliarsNeeded(),
+            terms.slots().getOrDefault(Slot.CROWNOFTHRONES, 0) < 0,
+            terms.slots().getOrDefault(Slot.BUDDYBJORN, 0) < 0,
+            character,
+            equipScope,
+            maxPrice,
+            priceLevel);
+    CheckedItem bestCard =
+        CardSleeveSelector.select(
+            ordinaryCandidates.cardNeeded(), equipScope, maxPrice, priceLevel);
+    Map<Modeable, String> bestModes =
+        ModeableSelector.select(
+            ordinaryCandidates.modeablesNeeded(),
+            terms.forcedModeables(),
+            equipScope,
+            maxPrice,
+            priceLevel);
+    var speculationCompilation =
+        new CandidateSpeculationFactory(
+                ordinaryCandidates.carriedFamiliarsNeeded(), carriedFamiliars, bestCard, bestModes)
+            .compile(ranked, catalog, terms.familiars(), equipScope, maxPrice, priceLevel);
+    var speculations = speculationCompilation.speculations();
+    setEvaluator.evaluate(speculations);
+
+    var shortlist =
+        new CandidateShortlistCompiler(
+                terms.familiars(), character, equipScope, maxPrice, priceLevel, terms.integer(DUMP))
+            .compile(ranked, speculations, codpieceCanExpandAccessoryPool);
+    Maximizer.recordCandidateCounts(
+        speculationCompilation.catalogCount(), shortlist.candidateCount());
+
+    new EquipmentSearchRunner(
+            terms.familiars(),
+            carriedFamiliars.candidates(),
+            setEvaluator.usefulOutfits(),
+            setEvaluator.outfitPieces(),
+            new Options(
+                terms.slots(),
+                bestModes,
+                speculationCompilation.card(),
+                carriedFamiliars.lockedCrown(),
+                carriedFamiliars.lockedBjorn(),
+                maxPrice,
+                priceLevel,
+                exhaustive))
+        .run(shortlist.candidates(), catalog);
   }
 
   void run(SlotList<CheckedItem> candidates, SlotList<CheckedItem> catalog)
