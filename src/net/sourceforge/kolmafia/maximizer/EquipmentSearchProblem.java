@@ -35,6 +35,8 @@ final class EquipmentSearchProblem
     implements AnytimeSearch.Problem<
         EquipmentSearchProblem.Choice, SolutionQuality, Void, MaximizerInterruptedException> {
   private static final List<Slot> SIMPLE_SLOTS = List.of(Slot.SHIRT, Slot.PANTS, Slot.HOLSTER);
+  private static final FamiliarSlotGroup CROWN = FamiliarSlotGroup.CROWN;
+  private static final FamiliarSlotGroup BJORN = FamiliarSlotGroup.BJORN;
 
   record Choice(BooleanSupplier apply, Runnable undo) {}
 
@@ -172,8 +174,8 @@ final class EquipmentSearchProblem
         new Mark(
             this.owner.mark(),
             this.owner.getFamiliar(),
-            this.owner.getBjorned(),
-            this.owner.getEnthroned(),
+            BJORN.get(this.owner, Slot.BUDDYBJORN),
+            CROWN.get(this.owner, Slot.CROWNOFTHRONES),
             this.possibles.get(Slot.FAMILIAR),
             this.accessoryPos,
             this.simpleSlotIndex,
@@ -187,8 +189,8 @@ final class EquipmentSearchProblem
     this.codpieceChooser = null;
     this.owner.restore(mark.equipment());
     this.owner.setFamiliar(mark.familiar());
-    this.owner.setBjorned(mark.bjorned());
-    this.owner.setEnthroned(mark.enthroned());
+    BJORN.put(this.owner, Slot.BUDDYBJORN, mark.bjorned());
+    CROWN.put(this.owner, Slot.CROWNOFTHRONES, mark.enthroned());
     this.possibles.set(Slot.FAMILIAR, mark.familiarItems());
     this.accessoryPos = mark.accessoryPos();
     this.simpleSlotIndex = mark.simpleSlotIndex();
@@ -410,7 +412,7 @@ final class EquipmentSearchProblem
     for (CheckedItem item : this.possibles.get(Slot.CONTAINER)) {
       int count = this.availableCount(item, Slot.CONTAINER);
       if (count <= 0) continue;
-      if (item.equals(EquipmentManager.BUDDY_BJORN)) {
+      if (BJORN.isParent(item.getItemId())) {
         List<FamiliarData> candidates =
             this.bjornFamiliar == null ? this.carriedFamiliars : List.of(this.bjornFamiliar);
         for (FamiliarData familiar : candidates) {
@@ -418,7 +420,7 @@ final class EquipmentSearchProblem
               this.choice(
                   () -> {
                     this.owner.equipment.put(Slot.CONTAINER, item);
-                    this.owner.setBjorned(familiar);
+                    BJORN.put(this.owner, Slot.BUDDYBJORN, familiar);
                     this.advance();
                   }));
         }
@@ -505,13 +507,13 @@ final class EquipmentSearchProblem
     for (CheckedItem item : this.possibles.get(Slot.HAT)) {
       int count = this.availableCount(item, Slot.HAT, Slot.FAMILIAR);
       if (count <= 0) continue;
-      if (item.equals(EquipmentManager.CROWN_OF_THRONES)) {
+      if (CROWN.isParent(item.getItemId())) {
         List<FamiliarData> candidates =
             this.crownFamiliar == null ? this.carriedFamiliars : List.of(this.crownFamiliar);
         for (FamiliarData familiar : candidates) {
           // Cannot use the same familiar for this and the Bjorn unless the slot is empty.
           if (this.crownFamiliar == null
-              && familiar == this.owner.getBjorned()
+              && familiar == BJORN.get(this.owner, Slot.BUDDYBJORN)
               && familiar != FamiliarData.NO_FAMILIAR) {
             continue;
           }
@@ -519,7 +521,7 @@ final class EquipmentSearchProblem
               this.choice(
                   () -> {
                     this.owner.equipment.put(Slot.HAT, item);
-                    this.owner.setEnthroned(familiar);
+                    CROWN.put(this.owner, Slot.CROWNOFTHRONES, familiar);
                     this.advance();
                   }));
         }
@@ -634,7 +636,8 @@ final class EquipmentSearchProblem
       int count = this.availableCount(item, Slot.OFFHAND, Slot.WEAPON, Slot.FAMILIAR);
       if (count <= 0) continue;
       choices.add(
-          this.offhandChoice(item, item.equals(EquipmentManager.CARD_SLEEVE) ? this.card : null));
+          this.offhandChoice(
+              item, ItemSlotGroup.CARD_SLEEVE.isParent(item.getItemId()) ? this.card : null));
     }
     if (choices.isEmpty() || weapon <= 0) {
       choices.add(this.offhandChoice(EquipmentRequest.UNEQUIP, null));

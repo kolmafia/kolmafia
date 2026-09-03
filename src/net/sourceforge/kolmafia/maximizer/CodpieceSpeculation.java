@@ -8,14 +8,9 @@ import java.util.Map;
 import java.util.function.Supplier;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.equipment.Slot;
-import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
-import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
-import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 
 /**
@@ -24,7 +19,7 @@ import net.sourceforge.kolmafia.request.EquipmentRequest;
  * (gem modifiers, familiar contributions, late-adjustment prefixes) happens at most once.
  */
 final class CodpieceSpeculation {
-  private static final Slot[] CODPIECE_SLOTS = SlotSet.CODPIECE_SLOTS.toArray(Slot[]::new);
+  private static final ItemSlotGroup CODPIECE = ItemSlotGroup.ETERNITY_CODPIECE;
 
   private final MaximizerSpeculation owner;
   private final Map<Integer, Modifiers> codpieceGemModifiers = new HashMap<>();
@@ -162,14 +157,14 @@ final class CodpieceSpeculation {
   PreparedSearch prepare(List<CheckedItem> possibles) {
     boolean wearingCodpiece =
         this.owner.equipment.values().stream()
-            .anyMatch(item -> item != null && item.getItemId() == ItemPool.THE_ETERNITY_CODPIECE);
+            .anyMatch(item -> item != null && CODPIECE.isParent(item.getItemId()));
     if (!wearingCodpiece) {
       this.releaseCodpieceGemsNeededElsewhere();
       return new PreparedSearch(Readiness.NOT_WEARING, null);
     }
 
     List<Slot> codpieceSlots =
-        SlotSet.CODPIECE_SLOTS.stream().filter(Maximizer.evaluator()::slotEnabled).toList();
+        CODPIECE.slots().stream().filter(Maximizer.evaluator()::slotEnabled).toList();
     for (Slot slot : codpieceSlots) {
       this.owner.equipment.put(slot, EquipmentRequest.UNEQUIP);
     }
@@ -196,7 +191,7 @@ final class CodpieceSpeculation {
   }
 
   private void releaseCodpieceGemsNeededElsewhere() {
-    for (Slot slot : CODPIECE_SLOTS) {
+    for (Slot slot : CODPIECE.slots()) {
       if (!Maximizer.evaluator().slotEnabled(slot)) {
         continue;
       }
@@ -208,7 +203,7 @@ final class CodpieceSpeculation {
 
       CheckedItem equippedElsewhere =
           this.owner.equipment.entrySet().stream()
-              .filter(entry -> !SlotSet.CODPIECE_SLOTS.contains(entry.getKey()))
+              .filter(entry -> !CODPIECE.slots().contains(entry.getKey()))
               .map(Map.Entry::getValue)
               .filter(gem::equals)
               .filter(CheckedItem.class::isInstance)
@@ -243,10 +238,7 @@ final class CodpieceSpeculation {
               Maximizer.evaluator()
                   .prioritizeCodpieceGems(
                       possibles.stream()
-                          .filter(
-                              gem ->
-                                  gem.getCount() > 0
-                                      && EquipmentDatabase.isCodpieceGem(gem.getItemId()))
+                          .filter(gem -> gem.getCount() > 0 && CODPIECE.accepts(gem.getItemId()))
                           .toList()));
     }
     return this.codpiecePlan;
@@ -306,14 +298,13 @@ final class CodpieceSpeculation {
   }
 
   private Modifiers getCodpieceGemModifiers(int itemId) {
-    return this.codpieceGemModifiers.computeIfAbsent(
-        itemId, id -> ModifierDatabase.getModifiers(ModifierType.ETERNITY_CODPIECE, id));
+    return this.codpieceGemModifiers.computeIfAbsent(itemId, CODPIECE::modifiers);
   }
 
   /** Gem-count validation: rejects branches that over-commit a gem beyond its available count. */
   boolean hasEnoughCodpieceGems() {
     boolean hasSlottedGem = false;
-    for (Slot slot : CODPIECE_SLOTS) {
+    for (Slot slot : CODPIECE.slots()) {
       AdventureResult item = this.owner.equipment.get(slot);
       if (item != null && !item.equals(EquipmentRequest.UNEQUIP)) {
         hasSlottedGem = true;
@@ -325,8 +316,7 @@ final class CodpieceSpeculation {
     }
 
     for (AdventureResult item : this.owner.equipment.values()) {
-      if (!(item instanceof CheckedItem checked)
-          || !EquipmentDatabase.isCodpieceGem(item.getItemId())) {
+      if (!(item instanceof CheckedItem checked) || !CODPIECE.accepts(item.getItemId())) {
         continue;
       }
 

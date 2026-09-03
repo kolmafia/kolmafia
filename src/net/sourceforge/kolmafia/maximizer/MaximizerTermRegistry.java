@@ -32,7 +32,6 @@ import net.sourceforge.kolmafia.modifiers.DoubleModifierCollection;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
-import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
@@ -756,12 +755,14 @@ final class MaximizerTermRegistry {
       return true;
     }
 
+    var codpiece = ItemSlotGroup.ETERNITY_CODPIECE;
     boolean wearingCodpiece =
-        KoLCharacter.hasEquipped(
-            equipment, ItemPool.get(ItemPool.THE_ETERNITY_CODPIECE), SlotSet.ACCESSORY_SLOTS);
+        SlotSet.ACCESSORY_SLOTS.stream()
+            .map(equipment::get)
+            .anyMatch(parent -> parent != null && codpiece.isParent(parent.getItemId()));
     return wearingCodpiece
-        && EquipmentDatabase.isCodpieceGem(item.getItemId())
-        && KoLCharacter.hasEquipped(equipment, item, SlotSet.CODPIECE_SLOTS);
+        && codpiece.accepts(item.getItemId())
+        && codpiece.slots().stream().anyMatch(slot -> item.equals(equipment.get(slot)));
   }
 
   /** The bonus that "bonus", "letter" and "number" terms award the given equipment. */

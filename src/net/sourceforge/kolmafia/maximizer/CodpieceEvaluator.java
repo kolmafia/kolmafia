@@ -11,11 +11,12 @@ import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
-import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 
 /** Scores and orders Eternity Codpiece gem candidates for the evaluator's shortlist. */
 final class CodpieceEvaluator {
+  private static final ItemSlotGroup CODPIECE = ItemSlotGroup.ETERNITY_CODPIECE;
+
   record Context(
       List<Evaluator.ScoreTerm> scoreModifiers,
       List<Evaluator.ScoreTerm> tiebreakerScoreModifiers,
@@ -91,7 +92,7 @@ final class CodpieceEvaluator {
         gem.requiredFlag = true;
       }
 
-      Modifiers modifiers = ModifierDatabase.getModifiers(ModifierType.ETERNITY_CODPIECE, gemId);
+      Modifiers modifiers = CODPIECE.modifiers(gem);
       switch (this.evaluator.checkConstraints(modifiers)) {
         case VIOLATES:
           continue;
@@ -127,7 +128,7 @@ final class CodpieceEvaluator {
 
     boolean codpieceCanExpandAccessoryPool = false;
     for (CheckedItem item : accessories) {
-      if (item.getItemId() != ItemPool.THE_ETERNITY_CODPIECE) {
+      if (!CODPIECE.isParent(item.getItemId())) {
         continue;
       }
       item.automaticFlag = true;

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.equipment.Slot;
-import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 
 final class CardSleeveSelector {
@@ -29,7 +28,8 @@ final class CardSleeveSelector {
     }
 
     MaximizerSpeculation baseline = new MaximizerSpeculation();
-    CheckedItem sleeve = new CheckedItem(ItemPool.CARD_SLEEVE, equipScope, maxPrice, priceLevel);
+    var group = ItemSlotGroup.CARD_SLEEVE;
+    CheckedItem sleeve = new CheckedItem(group.parentItemId(), equipScope, maxPrice, priceLevel);
     MaximizerSpeculation best =
         MaximizerSpeculation.bestOf(
             baseline,
@@ -37,8 +37,8 @@ final class CardSleeveSelector {
             (spec, card) -> {
               spec.attachment = sleeve;
               spec.equipment.put(Slot.OFFHAND, sleeve);
-              spec.equipment.put(Slot.CARDSLEEVE, card);
+              group.put(spec, Slot.CARDSLEEVE, card);
             });
-    return best == baseline ? null : (CheckedItem) best.equipment.get(Slot.CARDSLEEVE);
+    return best == baseline ? null : (CheckedItem) group.get(best, Slot.CARDSLEEVE);
   }
 }

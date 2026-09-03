@@ -168,14 +168,14 @@ final class OrdinaryCandidateEvaluator {
   }
 
   private void recordSpecialtyNeed(int itemId, Modeable modeable) {
-    if (((itemId == ItemPool.HATSEAT
-                && this.requirements.slots().getOrDefault(Slot.CROWNOFTHRONES, 0) >= 0)
-            || (itemId == ItemPool.BUDDY_BJORN
-                && this.requirements.slots().getOrDefault(Slot.BUDDYBJORN, 0) >= 0))
+    FamiliarSlotGroup familiarSlots = FamiliarSlotGroup.find(itemId);
+    if (familiarSlots != null
+        && familiarSlots.slots().stream()
+            .anyMatch(slot -> this.requirements.slots().getOrDefault(slot, 0) >= 0)
         && KoLCharacter.getPath().canUseFamiliars()) {
       this.carriedFamiliarsNeeded++;
     }
-    if (itemId == ItemPool.CARD_SLEEVE
+    if (ItemSlotGroup.CARD_SLEEVE.isParent(itemId)
         && this.requirements.slots().getOrDefault(Slot.CARDSLEEVE, 0) >= 0) {
       this.cardNeeded = true;
     }
@@ -229,10 +229,9 @@ final class OrdinaryCandidateEvaluator {
   }
 
   private boolean hasChangeableContents(int itemId) {
-    return ((itemId == ItemPool.HATSEAT || itemId == ItemPool.BUDDY_BJORN)
-            && KoLCharacter.getPath().canUseFamiliars())
-        || itemId == ItemPool.CARD_SLEEVE
-        || itemId == ItemPool.THE_ETERNITY_CODPIECE;
+    ItemSlotGroup itemSlots = ItemSlotGroup.find(itemId);
+    return (FamiliarSlotGroup.find(itemId) != null && KoLCharacter.getPath().canUseFamiliars())
+        || (itemSlots != null && itemSlots.searchable());
   }
 
   private boolean isCategoryUseful(String category) {

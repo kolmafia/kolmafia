@@ -1901,8 +1901,6 @@ public class Maximizer {
     FamiliarData bjorned = Maximizer.best().getBjorned();
     var modeables = Maximizer.best().getModeables();
     AdventureResult curr = EquipmentManager.getEquipment(slot);
-    FamiliarData currEnthroned = KoLCharacter.getEnthroned();
-    FamiliarData currBjorned = KoLCharacter.getBjorned();
 
     if (item == null || item.getItemId() == 0) {
       item = EquipmentRequest.UNEQUIP;
@@ -1910,16 +1908,16 @@ public class Maximizer {
       itemId = item.getItemId();
     }
 
-    boolean changeEnthroned = itemId == ItemPool.HATSEAT && enthroned != currEnthroned;
-    boolean changeBjorned = itemId == ItemPool.BUDDY_BJORN && bjorned != currBjorned;
+    FamiliarSlotGroup familiarSlots = FamiliarSlotGroup.find(itemId);
+    FamiliarData familiarOccupant = familiarSlots == FamiliarSlotGroup.CROWN ? enthroned : bjorned;
+    boolean changeFamiliar = familiarSlots != null && familiarOccupant != familiarSlots.current();
 
     var modeable = Modeable.find(itemId);
     var changeModeable =
         modeable != null && !Objects.equals(modeables.get(modeable), modeable.getState());
 
     if (curr.equals(item)
-        && !changeEnthroned
-        && !changeBjorned
+        && !changeFamiliar
         && !changeModeable
         && !(itemId == ItemPool.BROKEN_CHAMPAGNE
             && Preferences.getInteger("garbageChampagneCharge") == 0
@@ -1938,11 +1936,12 @@ public class Maximizer {
     }
     MaximizerSpeculation spec = new MaximizerSpeculation();
     double baseline = current;
-    if (SlotSet.CODPIECE_SLOTS.contains(slot)
-        && !KoLCharacter.hasEquipped(ItemPool.get(ItemPool.THE_ETERNITY_CODPIECE))) {
+    var codpiece = ItemSlotGroup.ETERNITY_CODPIECE;
+    if (codpiece.slots().contains(slot)
+        && !KoLCharacter.hasEquipped(EquipmentManager.ETERNITY_CODPIECE)) {
       for (Slot accessorySlot : SlotSet.ACCESSORY_SLOTS) {
         AdventureResult accessory = Maximizer.best().equipment.get(accessorySlot);
-        if (accessory != null && accessory.getItemId() == ItemPool.THE_ETERNITY_CODPIECE) {
+        if (accessory != null && codpiece.isParent(accessory.getItemId())) {
           MaximizerSpeculation codpieceSpec = new MaximizerSpeculation();
           codpieceSpec.equip(accessorySlot, accessory);
           baseline = codpieceSpec.getScore();
@@ -1952,10 +1951,8 @@ public class Maximizer {
       }
     }
     spec.equip(slot, item);
-    if (itemId == ItemPool.HATSEAT) {
-      spec.setEnthroned(enthroned);
-    } else if (itemId == ItemPool.BUDDY_BJORN) {
-      spec.setBjorned(bjorned);
+    if (familiarSlots != null) {
+      familiarSlots.put(spec, familiarSlots.slots().getFirst(), familiarOccupant);
     } else if (modeable != null) {
       spec.setModeable(modeable, modeables.get(modeable));
     }
@@ -1968,11 +1965,10 @@ public class Maximizer {
       cmd = "unequip " + slotname;
       text = cmd + " (" + curr.getName() + ", " + KoLConstants.MODIFIER_FORMAT.format(delta) + ")";
     } else {
-      if (changeEnthroned) {
-        cmd = "enthrone " + enthroned.getRace();
-        text = cmd;
-      } else if (changeBjorned) {
-        cmd = "bjornify " + bjorned.getRace();
+      if (changeFamiliar) {
+        cmd =
+            (familiarSlots == FamiliarSlotGroup.CROWN ? "enthrone " : "bjornify ")
+                + familiarOccupant.getRace();
         text = cmd;
       } else if (changeModeable) {
         text = modeable.getCommand() + " " + modeables.get(modeable);
@@ -1987,7 +1983,7 @@ public class Maximizer {
 
       CheckedItem checkedItem =
           new CheckedItem(
-              itemId, equipScope, maxPrice, priceLevel, SlotSet.CODPIECE_SLOTS.contains(slot));
+              itemId, equipScope, maxPrice, priceLevel, codpiece.slots().contains(slot));
 
       long price = 0L;
 

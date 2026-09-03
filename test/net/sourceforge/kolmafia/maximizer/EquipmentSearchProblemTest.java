@@ -10,6 +10,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.lessThan;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -17,11 +19,13 @@ import internal.helpers.Cleanups;
 import java.util.List;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionPath.Path;
+import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import org.junit.jupiter.api.BeforeEach;
@@ -129,6 +133,25 @@ class EquipmentSearchProblemTest {
         assertThat(modifier.toString(), Evaluator.scoreValue(modifier, modifiers, null), is(2.0));
       }
     }
+  }
+
+  @Test
+  void slottedItemsOwnTypedSpeculativeState() {
+    var state = new MaximizerSpeculation();
+    var card = ItemPool.get("Alice's Army Sniper");
+    var familiar = new FamiliarData(FamiliarPool.MOSQUITO);
+
+    assertTrue(ItemSlotGroup.ETERNITY_CODPIECE.accepts(ItemPool.HEARTSTONE));
+    assertTrue(ItemSlotGroup.CARD_SLEEVE.put(state, Slot.CARDSLEEVE, card));
+    assertFalse(ItemSlotGroup.CARD_SLEEVE.put(state, Slot.CODPIECE1, card));
+    assertTrue(FamiliarSlotGroup.CROWN.put(state, Slot.CROWNOFTHRONES, familiar));
+    assertFalse(FamiliarSlotGroup.CROWN.put(state, Slot.BUDDYBJORN, familiar));
+
+    assertThat(ItemSlotGroup.CARD_SLEEVE.get(state, Slot.CARDSLEEVE), is(card));
+    assertNull(ItemSlotGroup.CARD_SLEEVE.get(state, Slot.CODPIECE1));
+    assertThat(FamiliarSlotGroup.CROWN.get(state, Slot.CROWNOFTHRONES), is(familiar));
+    assertThat(ItemSlotGroup.ETERNITY_CODPIECE.modifiers(ItemPool.HEARTSTONE), is(notNullValue()));
+    assertThat(FamiliarSlotGroup.CROWN.modifiers(familiar), is(notNullValue()));
   }
 
   private static List<AdventureResult> items(int first, int second) {

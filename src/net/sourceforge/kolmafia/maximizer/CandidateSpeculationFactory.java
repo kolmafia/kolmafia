@@ -7,8 +7,6 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.Modeable;
 import net.sourceforge.kolmafia.equipment.Slot;
-import net.sourceforge.kolmafia.equipment.SlotSet;
-import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 
@@ -86,32 +84,32 @@ final class CandidateSpeculationFactory {
     speculation.equipment.put(slot, item);
 
     if (slot == Slot.CODPIECE1) {
-      for (Slot codpieceSlot : SlotSet.CODPIECE_SLOTS) {
-        speculation.equipment.put(codpieceSlot, EquipmentRequest.UNEQUIP);
+      for (Slot codpieceSlot : ItemSlotGroup.ETERNITY_CODPIECE.slots()) {
+        ItemSlotGroup.ETERNITY_CODPIECE.put(speculation, codpieceSlot, EquipmentRequest.UNEQUIP);
       }
-      speculation.equipment.put(slot, item);
+      ItemSlotGroup.ETERNITY_CODPIECE.put(speculation, slot, item);
     }
 
     AdventureResult card = null;
-    switch (item.getItemId()) {
-      case ItemPool.HATSEAT -> configureCrown(speculation, item);
-      case ItemPool.BUDDY_BJORN -> configureBjorn(speculation, item);
-      case ItemPool.CARD_SLEEVE -> {
-        card = this.bestCard != null ? this.bestCard : this.current.equipment.get(Slot.CARDSLEEVE);
-        speculation.equipment.put(Slot.CARDSLEEVE, card);
+    FamiliarSlotGroup familiarSlots = FamiliarSlotGroup.find(item.getItemId());
+    if (familiarSlots != null) {
+      if (familiarSlots == FamiliarSlotGroup.CROWN) {
+        configureCrown(speculation, item);
+      } else {
+        configureBjorn(speculation, item);
       }
-      case ItemPool.FOLDER_HOLDER, ItemPool.REPLICA_FOLDER_HOLDER -> {
-        copyCurrent(speculation, Slot.FOLDER1);
-        copyCurrent(speculation, Slot.FOLDER2);
-        copyCurrent(speculation, Slot.FOLDER3);
-        copyCurrent(speculation, Slot.FOLDER4);
-        copyCurrent(speculation, Slot.FOLDER5);
+    } else {
+      ItemSlotGroup itemSlots = ItemSlotGroup.find(item.getItemId());
+      switch (itemSlots) {
+        case CARD_SLEEVE -> {
+          card =
+              this.bestCard != null ? this.bestCard : this.current.equipment.get(Slot.CARDSLEEVE);
+          ItemSlotGroup.CARD_SLEEVE.put(speculation, Slot.CARDSLEEVE, card);
+        }
+        case STICKERS, FOLDERS, BOOTS -> copyCurrent(speculation, itemSlots);
+        case ETERNITY_CODPIECE -> {}
+        case null -> configureOther(speculation, item);
       }
-      case ItemPool.COWBOY_BOOTS -> {
-        copyCurrent(speculation, Slot.BOOTSKIN);
-        copyCurrent(speculation, Slot.BOOTSPUR);
-      }
-      default -> configureOther(speculation, item);
     }
 
     speculation.getScore();
@@ -123,34 +121,30 @@ final class CandidateSpeculationFactory {
 
   private void configureCrown(MaximizerSpeculation speculation, CheckedItem item) {
     if (this.carriedFamiliars.lockedCrown() != null) {
-      speculation.setEnthroned(this.carriedFamiliars.lockedCrown());
+      FamiliarSlotGroup.CROWN.put(
+          speculation, Slot.CROWNOFTHRONES, this.carriedFamiliars.lockedCrown());
     } else if (this.carriedFamiliarsNeeded > 1) {
       item.automaticFlag = true;
-      speculation.setEnthroned(this.carriedFamiliars.secondBest());
+      FamiliarSlotGroup.CROWN.put(
+          speculation, Slot.CROWNOFTHRONES, this.carriedFamiliars.secondBest());
     } else {
-      speculation.setEnthroned(this.carriedFamiliars.best());
+      FamiliarSlotGroup.CROWN.put(speculation, Slot.CROWNOFTHRONES, this.carriedFamiliars.best());
     }
   }
 
   private void configureBjorn(MaximizerSpeculation speculation, CheckedItem item) {
     if (this.carriedFamiliars.lockedBjorn() != null) {
-      speculation.setBjorned(this.carriedFamiliars.lockedBjorn());
+      FamiliarSlotGroup.BJORN.put(
+          speculation, Slot.BUDDYBJORN, this.carriedFamiliars.lockedBjorn());
     } else if (this.carriedFamiliarsNeeded > 1) {
       item.automaticFlag = true;
-      speculation.setBjorned(this.carriedFamiliars.secondBest());
+      FamiliarSlotGroup.BJORN.put(speculation, Slot.BUDDYBJORN, this.carriedFamiliars.secondBest());
     } else {
-      speculation.setBjorned(this.carriedFamiliars.best());
+      FamiliarSlotGroup.BJORN.put(speculation, Slot.BUDDYBJORN, this.carriedFamiliars.best());
     }
   }
 
   private void configureOther(MaximizerSpeculation speculation, CheckedItem item) {
-    if (EquipmentManager.isStickerWeapon(item)) {
-      copyCurrent(speculation, Slot.STICKER1);
-      copyCurrent(speculation, Slot.STICKER2);
-      copyCurrent(speculation, Slot.STICKER3);
-      return;
-    }
-
     Modeable modeable = Modeable.find(item);
     if (modeable == null) {
       return;
@@ -161,7 +155,9 @@ final class CandidateSpeculationFactory {
     }
   }
 
-  private void copyCurrent(MaximizerSpeculation speculation, Slot slot) {
-    speculation.equipment.put(slot, this.current.equipment.get(slot));
+  private void copyCurrent(MaximizerSpeculation speculation, SlottedItem<AdventureResult> group) {
+    for (Slot slot : group.slots()) {
+      group.put(speculation, slot, group.get(this.current, slot));
+    }
   }
 }

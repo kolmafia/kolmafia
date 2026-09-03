@@ -107,7 +107,7 @@ final class EquipmentSearchRunner {
         codpieceEvaluator.prepareAccessoryCandidates(
             codpieceCandidates.ranked(),
             ranked.get(Slot.ACCESSORY1),
-            SlotSet.CODPIECE_SLOTS.stream().anyMatch(evaluator::slotEnabled));
+            ItemSlotGroup.ETERNITY_CODPIECE.slots().stream().anyMatch(evaluator::slotEnabled));
 
     var carriedFamiliars =
         CarriedFamiliarSelector.select(

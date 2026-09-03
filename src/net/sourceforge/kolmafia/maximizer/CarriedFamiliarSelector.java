@@ -6,10 +6,11 @@ import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.equipment.Slot;
-import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.StandardRequest;
 
 final class CarriedFamiliarSelector {
+  private static final FamiliarSlotGroup CROWN = FamiliarSlotGroup.CROWN;
+
   record Selection(
       List<FamiliarData> candidates,
       FamiliarData best,
@@ -38,7 +39,7 @@ final class CarriedFamiliarSelector {
     }
     CheckedItem crown =
         secondBest != FamiliarData.NO_FAMILIAR || needed > 0
-            ? new CheckedItem(ItemPool.HATSEAT, equipScope, maxPrice, priceLevel)
+            ? new CheckedItem(CROWN.parentItemId(), equipScope, maxPrice, priceLevel)
             : null;
     if (secondBest != FamiliarData.NO_FAMILIAR
         && speculation(secondBest, crown).compareTo(speculation(best, crown)) > 0) {
@@ -99,7 +100,7 @@ final class CarriedFamiliarSelector {
     MaximizerSpeculation speculation = new MaximizerSpeculation();
     speculation.attachment = crown;
     speculation.equipment.put(Slot.HAT, crown);
-    speculation.setEnthroned(familiar);
+    CROWN.put(speculation, Slot.CROWNOFTHRONES, familiar);
     speculation.setUnscored();
     return speculation;
   }

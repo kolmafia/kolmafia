@@ -2,12 +2,10 @@ package net.sourceforge.kolmafia.maximizer;
 
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase.FoldGroup;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
@@ -60,7 +58,7 @@ final class ItemAvailabilityCompiler {
   }
 
   private ItemAvailability compile() {
-    boolean codpieceGem = EquipmentDatabase.isCodpieceGem(this.itemId);
+    boolean codpieceGem = ItemSlotGroup.ETERNITY_CODPIECE.accepts(this.itemId);
     int maxUseful = this.maxUseful(codpieceGem);
     String itemName = ItemDatabase.getItemName(this.itemId);
     FoldGroup foldGroup =
@@ -102,7 +100,7 @@ final class ItemAvailabilityCompiler {
         !ItemDatabase.isEquipment(this.itemId)
             ? 0
             : modifiers != null && modifiers.getBoolean(BooleanModifier.SINGLE) ? 1 : 3;
-    return SlotSet.CODPIECE_SLOTS.size() + equipmentLimit;
+    return ItemSlotGroup.ETERNITY_CODPIECE.slots().size() + equipmentLimit;
   }
 
   private void compileAccessibleFolds(FoldGroup foldGroup, String itemName) {
