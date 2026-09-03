@@ -8,6 +8,7 @@ import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.stringContainsInOrder;
 import static org.junit.jupiter.api.Assertions.*;
 
 import internal.helpers.Cleanups;
@@ -29,7 +30,6 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mockito;
 
 public class DebugDatabaseTest {
@@ -46,11 +46,17 @@ public class DebugDatabaseTest {
 
   @Nested
   class ParseAccess {
-    @ParameterizedTest
-    @ValueSource(strings = {"autumnaton"})
-    public void canIdentifyQuestItems(final String itemName) {
-      var access = DebugDatabase.parseAccess(html("request/test_desc_item_" + itemName + ".html"));
+    @Test
+    public void canIdentifyQuestItems() {
+      var access = DebugDatabase.parseAccess(html("request/test_desc_item_autumnaton.html"));
       assertThat(access, is("q"));
+    }
+
+    @Test
+    public void canIdentifyGiftPackages() {
+      var access =
+          DebugDatabase.parseAccess(html("request/test_desc_item_anniversary_gift_box.html"));
+      assertThat(access, is("g"));
     }
   }
 
@@ -341,5 +347,19 @@ public class DebugDatabaseTest {
     assertThat(
         DebugDatabase.parseQuality(html("request/test_desc_item_" + htmlFragment + ".html")),
         equalTo(qual));
+  }
+
+  @Test
+  void parsesMultipleRolloverEffectsWithoutSummingDurations() {
+    ArrayList<String> unknown = new ArrayList<>();
+    String known =
+        DebugDatabase.parseItemEnchantments(
+            html("request/test_desc_item_uncle_crimbos_hat.html"), unknown, ConsumptionType.HAT);
+
+    assertThat(
+        known,
+        stringContainsInOrder("Rollover Effect Duration: 100", "Rollover Effect Duration: 100"));
+    assertThat(known, containsString("Rollover Effect: \"The Spirit of Crimbo\""));
+    assertThat(known, containsString("Rollover Effect: \"Crimbo Nostalgia\""));
   }
 }

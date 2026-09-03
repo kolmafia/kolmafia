@@ -126,6 +126,7 @@ public enum StringModifier implements Modifier {
     return name;
   }
 
+  @Override
   public boolean isMultiple() {
     return multiple;
   }

@@ -7,6 +7,7 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 import net.sourceforge.kolmafia.ModifierExpression;
 import net.sourceforge.kolmafia.modifiers.ModifierList.ModifierValue;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ModifierList implements Iterable<ModifierValue> {
@@ -48,12 +49,16 @@ public class ModifierList implements Iterable<ModifierValue> {
 
   public void addToModifier(final ModifierValue modifier) {
     String name = modifier.getName();
+    String value = modifier.getValue();
+    if (ModifierList.isMultiple(name)) {
+      this.list.add(modifier);
+      return;
+    }
     String current = this.getModifierValue(name);
     if (current == null) {
       this.list.add(modifier);
     } else {
       // We can only add to numeric values
-      String value = modifier.getValue();
       if (StringUtilities.isNumeric(current) && StringUtilities.isNumeric(value)) {
         int newValue = Integer.parseInt(current) + Integer.parseInt(value);
         this.removeModifier(name);
@@ -63,6 +68,10 @@ public class ModifierList implements Iterable<ModifierValue> {
   }
 
   public void addToModifier(final String name, final String value) {
+    if (ModifierList.isMultiple(name)) {
+      this.list.add(new ModifierValue(name, value));
+      return;
+    }
     String current = this.getModifierValue(name);
     if (current == null) {
       this.list.add(new ModifierValue(name, value));
@@ -74,6 +83,11 @@ public class ModifierList implements Iterable<ModifierValue> {
         this.list.add(new ModifierValue(name, String.valueOf(newValue)));
       }
     }
+  }
+
+  private static boolean isMultiple(final String name) {
+    var modifier = ModifierDatabase.byCaselessName(name);
+    return modifier != null && modifier.isMultiple();
   }
 
   public boolean containsModifier(final String name) {
