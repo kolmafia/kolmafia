@@ -789,16 +789,9 @@ public class ModifierDatabase {
         if (matcher.group(1) != null) {
           double value = Double.parseDouble(matcher.group(1));
           newMods.setDouble(mod, value);
-
-          for (var subsumed : mod.getSubsumed()) {
-            newMods.setDouble(subsumed, value);
-          }
         } else {
           ModifierExpression expression = ModifierExpression.getInstance(matcher.group(2), lookup);
           newMods.addExpression(mod, expression);
-          for (var subsumed : mod.getSubsumed()) {
-            newMods.addExpression(subsumed, expression);
-          }
         }
         continue modLoop;
       }

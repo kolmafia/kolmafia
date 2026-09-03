@@ -2777,6 +2777,7 @@ public class ItemPool {
   public static final int GARBAGE_BAG = 8211;
   public static final int SEWAGE_CLOGGED_PISTOL = 8215;
   public static final int TOXIC_GLOBULE = 8218;
+  public static final int PERFUME_SOAKED_BANDANA = 8217;
   public static final int JAR_OF_SWAMP_HONEY = 8226;
   public static final int BRAIN_PRESERVATION_FLUID = 8238;
   public static final int DINSEY_REFRESHMENTS = 8243;

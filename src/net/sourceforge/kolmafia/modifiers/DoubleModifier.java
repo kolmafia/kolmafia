@@ -2,8 +2,11 @@ package net.sourceforge.kolmafia.modifiers;
 
 import static net.sourceforge.kolmafia.persistence.ModifierDatabase.EXPR;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
@@ -51,11 +54,26 @@ public enum DoubleModifier implements Modifier {
       "Damage Reduction",
       Pattern.compile("Damage Reduction: ([+-]?\\d+)$"),
       Pattern.compile("Damage Reduction: " + EXPR)),
-  COLD_RESISTANCE("Cold Resistance", Pattern.compile("Cold Resistance: " + EXPR)),
-  HOT_RESISTANCE("Hot Resistance", Pattern.compile("Hot Resistance: " + EXPR)),
-  SLEAZE_RESISTANCE("Sleaze Resistance", Pattern.compile("Sleaze Resistance: " + EXPR)),
-  SPOOKY_RESISTANCE("Spooky Resistance", Pattern.compile("Spooky Resistance: " + EXPR)),
-  STENCH_RESISTANCE("Stench Resistance", Pattern.compile("Stench Resistance: " + EXPR)),
+  COLD_RESISTANCE(
+      "Cold Resistance",
+      Pattern.compile(" Cold (?:Resistance|Vulnerability) \\(([+-]?\\d+)\\)$"),
+      Pattern.compile("Cold Resistance: " + EXPR)),
+  HOT_RESISTANCE(
+      "Hot Resistance",
+      Pattern.compile(" Hot (?:Resistance|Vulnerability) \\(([+-]?\\d+)\\)$"),
+      Pattern.compile("Hot Resistance: " + EXPR)),
+  SLEAZE_RESISTANCE(
+      "Sleaze Resistance",
+      Pattern.compile(" Sleaze (?:Resistance|Vulnerability) \\(([+-]?\\d+)\\)$"),
+      Pattern.compile("Sleaze Resistance: " + EXPR)),
+  SPOOKY_RESISTANCE(
+      "Spooky Resistance",
+      Pattern.compile(" Spooky (?:Resistance|Vulnerability) \\(([+-]?\\d+)\\)$"),
+      Pattern.compile("Spooky Resistance: " + EXPR)),
+  STENCH_RESISTANCE(
+      "Stench Resistance",
+      Pattern.compile(" Stench (?:Resistance|Vulnerability) \\(([+-]?\\d+)\\)$"),
+      Pattern.compile("Stench Resistance: " + EXPR)),
   MANA_COST(
       "Mana Cost",
       Pattern.compile("([+-]\\d+) MP to use Skills$"),
@@ -271,7 +289,10 @@ public enum DoubleModifier implements Modifier {
       "Leprechaun Effectiveness", Pattern.compile("Leprechaun Effectiveness: " + EXPR)),
   FAIRY_EFFECTIVENESS("Fairy Effectiveness", Pattern.compile("Fairy Effectiveness: " + EXPR)),
   FAMILIAR_WEIGHT_CAP("Familiar Weight Cap", Pattern.compile("Familiar Weight Cap: " + EXPR)),
-  SLIME_RESISTANCE("Slime Resistance", Pattern.compile("Slime Resistance: " + EXPR)),
+  SLIME_RESISTANCE(
+      "Slime Resistance",
+      Pattern.compile(" Slime (?:Resistance|Vulnerability) \\(([+-]?\\d+)\\)$"),
+      Pattern.compile("Slime Resistance: " + EXPR)),
   SLIME_HATES_IT(
       "Slime Hates It",
       Pattern.compile("Slime( Really)? Hates (It|You)"),
@@ -377,7 +398,10 @@ public enum DoubleModifier implements Modifier {
       "Smithsness",
       Pattern.compile("([+-]\\d+) Smithsness"),
       Pattern.compile("Smithsness: " + EXPR)),
-  SUPERCOLD_RESISTANCE("Supercold Resistance", Pattern.compile("Supercold Resistance: " + EXPR)),
+  SUPERCOLD_RESISTANCE(
+      "Supercold Resistance",
+      Pattern.compile(" Supercold (?:Resistance|Vulnerability) \\(([+-]?\\d+)\\)$"),
+      Pattern.compile("Supercold Resistance: " + EXPR)),
   REDUCE_ENEMY_DEFENSE(
       "Reduce Enemy Defense",
       Pattern.compile("Reduce enemy defense by (\\d+)%"),
@@ -655,7 +679,14 @@ public enum DoubleModifier implements Modifier {
       "HP / MP Regen Max",
       (Pattern[]) null,
       Pattern.compile("HP / MP Regen Max: " + EXPR),
-      new DoubleModifier[] {HP_REGEN_MAX, MP_REGEN_MAX});
+      new DoubleModifier[] {HP_REGEN_MAX, MP_REGEN_MAX}),
+  ALL_RESISTANCE(
+      "All Resistance",
+      Pattern.compile("(?:Resistance|Vulnerability) to All Elements \\(([+-]?\\d+)\\)$"),
+      Pattern.compile("All Resistance: " + EXPR),
+      new DoubleModifier[] {
+        COLD_RESISTANCE, HOT_RESISTANCE, SLEAZE_RESISTANCE, SPOOKY_RESISTANCE, STENCH_RESISTANCE
+      });
 
   private final String name;
   private final Pattern[] descPatterns;
@@ -760,6 +791,7 @@ public enum DoubleModifier implements Modifier {
           ADVENTURES,
           ALL_ATTRIBUTES,
           ALL_ATTRIBUTES_PCT,
+          ALL_RESISTANCE,
           BOOZEDROP,
           BUGBEAR_DAMAGE,
           CANDYDROP,
@@ -885,6 +917,29 @@ public enum DoubleModifier implements Modifier {
   private static final Map<String, DoubleModifier> caselessNameToModifier =
       DOUBLE_MODIFIERS.stream()
           .collect(Collectors.toMap(type -> type.name.toLowerCase(), Function.identity()));
+
+  // A combined modifier (one that subsumes others) may be stored explicitly in a modifier list.
+  // Map each subsumed individual modifier to the combined modifiers that can provide it, so that
+  // lookups of the individual can add any explicitly-stored combined contribution on top.
+  private static final Map<DoubleModifier, List<DoubleModifier>> SUBSUMING;
+
+  static {
+    var map = new HashMap<DoubleModifier, List<DoubleModifier>>();
+    for (var mod : DOUBLE_MODIFIERS) {
+      for (var sub : mod.getSubsumed()) {
+        map.computeIfAbsent(sub, key -> new ArrayList<>()).add(mod);
+      }
+    }
+    for (var entry : map.entrySet()) {
+      entry.setValue(List.copyOf(entry.getValue()));
+    }
+    SUBSUMING = Map.copyOf(map);
+  }
+
+  // Any explicitly-stored combined modifiers that provide the given modifier.
+  public static List<DoubleModifier> subsuming(final DoubleModifier modifier) {
+    return SUBSUMING.getOrDefault(modifier, List.of());
+  }
 
   // equivalent to `Modifiers.findName`
   public static DoubleModifier byCaselessName(String name) {
