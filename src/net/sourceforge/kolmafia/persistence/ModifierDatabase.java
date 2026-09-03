@@ -143,6 +143,7 @@ public class ModifierDatabase {
   private static final Map<String, String> COMBAT_RATE_DESCRIPTIONS =
       Map.ofEntries(
           Map.entry("incredibly very much more", "+25"),
+          Map.entry("very very very much more", "+20"),
           Map.entry("<i>way</i> more", "+20"),
           Map.entry("significantly more", "+15"),
           Map.entry("much more", "+10"),

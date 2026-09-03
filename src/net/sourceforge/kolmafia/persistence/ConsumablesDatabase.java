@@ -629,6 +629,11 @@ public class ConsumablesDatabase {
     return getLevelReq(consumable);
   }
 
+  public static final Integer getLevelReqById(final int id) {
+    Consumable consumable = ConsumablesDatabase.consumableByItemId.get(id);
+    return getLevelReq(consumable);
+  }
+
   public static final boolean meetsLevelRequirement(final String name) {
     if (name == null) {
       return false;
