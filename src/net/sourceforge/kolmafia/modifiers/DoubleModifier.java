@@ -645,7 +645,17 @@ public enum DoubleModifier implements Modifier {
       "All Attributes Percent",
       Pattern.compile("All Attributes ([+-]\\d+)%$"),
       Pattern.compile("All Attributes Percent: " + EXPR),
-      new DoubleModifier[] {MUS_PCT, MYS_PCT, MOX_PCT});
+      new DoubleModifier[] {MUS_PCT, MYS_PCT, MOX_PCT}),
+  HP_MP_REGEN_MIN(
+      "HP / MP Regen Min",
+      (Pattern[]) null,
+      Pattern.compile("HP / MP Regen Min: " + EXPR),
+      new DoubleModifier[] {HP_REGEN_MIN, MP_REGEN_MIN}),
+  HP_MP_REGEN_MAX(
+      "HP / MP Regen Max",
+      (Pattern[]) null,
+      Pattern.compile("HP / MP Regen Max: " + EXPR),
+      new DoubleModifier[] {HP_REGEN_MAX, MP_REGEN_MAX});
 
   private final String name;
   private final Pattern[] descPatterns;
@@ -680,6 +690,11 @@ public enum DoubleModifier implements Modifier {
 
   DoubleModifier(String name, Pattern descPattern, Pattern tagPattern, DoubleModifier[] subsumed) {
     this(name, new Pattern[] {descPattern}, tagPattern, name, false, subsumed);
+  }
+
+  DoubleModifier(
+      String name, Pattern[] descPattern, Pattern tagPattern, DoubleModifier[] subsumed) {
+    this(name, descPattern, tagPattern, name, false, subsumed);
   }
 
   DoubleModifier(String name, Pattern[] descPatterns, Pattern tagPattern) {
@@ -779,6 +794,8 @@ public enum DoubleModifier implements Modifier {
           HP_PCT,
           HP_REGEN_MAX,
           HP_REGEN_MIN,
+          HP_MP_REGEN_MIN,
+          HP_MP_REGEN_MAX,
           INITIATIVE,
           ITEMDROP,
           MANA_COST,
