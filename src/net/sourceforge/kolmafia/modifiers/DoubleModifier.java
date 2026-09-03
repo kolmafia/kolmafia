@@ -745,6 +745,7 @@ public enum DoubleModifier implements Modifier {
     return tag;
   }
 
+  @Override
   public boolean isMultiple() {
     return multiple;
   }
