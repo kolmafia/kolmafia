@@ -1100,7 +1100,7 @@ Item	red coat	Ranged Damage: +25, Initiative: -25
 Item	red shirt	Monster Level: +20, All Attributes Percent: -50
 Item	red-and-green sweater	Last Available: "2009-12", Conditional Skill (Equipped): "[7094]Static Shock", Enchantment Count: 1
 Item	reflective vest	Combat Rate: +10
-Item	replica Jurassic Parka	All Attributes Percent: +10, All Resistance: 1, Avoid Attack: 1
+Item	replica Jurassic Parka	All Attributes Percent: +10, All Resistance: +1, Avoid Attack: 1
 Item	rhinestone cowboy shirt	Muscle: +5
 Item	safety vest	Damage Reduction: 3, Moxie: +5
 Item	scorched skeleton shirt	Experience Percent (Mysticality): +20, Hot Resistance: +3, Last Available: "2025-12"

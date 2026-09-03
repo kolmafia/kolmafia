@@ -72,7 +72,7 @@ public enum DoubleModifier implements Modifier {
       Pattern.compile("Spooky Resistance: " + EXPR)),
   STENCH_RESISTANCE(
       "Stench Resistance",
-      Pattern.compile(" Stench (?:Resistance|Vulnerability) \\(([+-]?\\d+)\\)$"),
+      Pattern.compile(" Stench +(?:Resistance|Vulnerability) \\(([+-]?\\d+)\\)$"),
       Pattern.compile("Stench Resistance: " + EXPR)),
   MANA_COST(
       "Mana Cost",
