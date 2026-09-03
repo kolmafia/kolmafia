@@ -71,7 +71,7 @@ final class MaximizerTermRegistry {
     directive("surgeonosity", Evaluator.ParseState::setSurgeonosity);
     directive("beeosity", Evaluator.ParseState::setBeeosity);
     directive("stinkycheese", Evaluator.ParseState::setStinkycheese);
-    directive("stinky cheese", Evaluator.ParseState::setStinkycheese);
+    directiveAlias("stinky cheese", "stinkycheese");
     directive("sea", Evaluator.ParseState::setSea);
     prefixDirective("equip ", Evaluator.ParseState::setEquipment);
     prefixDirective("bonus ", Evaluator.ParseState::setBonus);
@@ -188,6 +188,14 @@ final class MaximizerTermRegistry {
 
   private static void directive(String keyword, Directive directive) {
     EXACT_DIRECTIVES.put(keyword, directive);
+  }
+
+  private static void directiveAlias(String alias, String canonical) {
+    Directive directive = EXACT_DIRECTIVES.get(canonical);
+    if (directive == null) {
+      throw new IllegalArgumentException("Unknown canonical maximizer term: " + canonical);
+    }
+    directive(alias, directive);
   }
 
   private static void prefixDirective(String prefix, Directive directive) {
