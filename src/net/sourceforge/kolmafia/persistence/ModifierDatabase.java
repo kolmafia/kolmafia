@@ -101,13 +101,6 @@ public class ModifierDatabase {
   private static final Pattern FAMILIAR_EFFECT_TRANSLATE_PATTERN2 =
       Pattern.compile("cap ([\\d.]+)");
   private static final String FAMILIAR_EFFECT_TRANSLATE_REPLACEMENT2 = "Familiar Weight Cap: $1 ";
-  private static final String COLD = DoubleModifier.COLD_RESISTANCE.getTag() + ": ";
-  private static final String HOT = DoubleModifier.HOT_RESISTANCE.getTag() + ": ";
-  private static final String SLEAZE = DoubleModifier.SLEAZE_RESISTANCE.getTag() + ": ";
-  private static final String SPOOKY = DoubleModifier.SPOOKY_RESISTANCE.getTag() + ": ";
-  private static final String STENCH = DoubleModifier.STENCH_RESISTANCE.getTag() + ": ";
-  private static final String SLIME = DoubleModifier.SLIME_RESISTANCE.getTag() + ": ";
-  private static final String SUPERCOLD = DoubleModifier.SUPERCOLD_RESISTANCE.getTag() + ": ";
 
   private static final String HP_REGEN_MIN_TAG = DoubleModifier.HP_REGEN_MIN.getTag() + ": ";
   private static final String HP_REGEN_MAX_TAG = DoubleModifier.HP_REGEN_MAX.getTag() + ": ";
@@ -138,7 +131,6 @@ public class ModifierDatabase {
       Pattern.compile("Monsters (?:are|will be) (.*) attracted to you");
   private static final Pattern REGEN_PATTERN =
       Pattern.compile("Regenerate (\\d*)-?(\\d*)? ([HM]P)( and .*)? per [aA]dventure$");
-  private static final Pattern RESISTANCE_PATTERN = Pattern.compile("Resistance \\(([+-]\\d+)\\)");
 
   private static final Map<String, String> COMBAT_RATE_DESCRIPTIONS =
       Map.ofEntries(
@@ -1046,10 +1038,6 @@ public class ModifierDatabase {
       return parseRegeneration(enchantment);
     }
 
-    if (enchantment.contains("Resistance")) {
-      return parseResistance(enchantment);
-    }
-
     if (enchantment.contains("Your familiar will always act in combat")) {
       return DoubleModifier.FAMILIAR_ACTION_BONUS.getTag() + ": +100";
     }
@@ -1085,48 +1073,6 @@ public class ModifierDatabase {
     }
 
     return MP_REGEN_MIN_TAG + min + ", " + MP_REGEN_MAX_TAG + max;
-  }
-
-  private static String parseResistanceLevel(final String enchantment) {
-    Matcher matcher = RESISTANCE_PATTERN.matcher(enchantment);
-    if (matcher.find()) {
-      return matcher.group(1);
-    } else if (enchantment.contains("Slight")) {
-      return "+1";
-    } else if (enchantment.contains("So-So")) {
-      return "+2";
-    } else if (enchantment.contains("Serious")) {
-      return "+3";
-    } else if (enchantment.contains("Stupendous")) {
-      return "+4";
-    } else if (enchantment.contains("Superhuman")) {
-      return "+5";
-    } else if (enchantment.contains("Stunning")) {
-      return "+7";
-    } else if (enchantment.contains("Sublime")) {
-      return "+9";
-    }
-    return "";
-  }
-
-  private static String parseResistance(final String enchantment) {
-    String level = parseResistanceLevel(enchantment);
-    boolean all = enchantment.contains("All Elements");
-
-    ArrayList<String> mods = new ArrayList<>();
-
-    if (enchantment.contains("Spooky") || all) mods.add(SPOOKY);
-    if (enchantment.contains("Stench") || all) mods.add(STENCH);
-    if (enchantment.contains("Hot") || all) mods.add(HOT);
-    if (enchantment.contains("Cold") || all) mods.add(COLD);
-    if (enchantment.contains("Sleaze") || all) mods.add(SLEAZE);
-    if (enchantment.contains("Slime")) mods.add(SLIME);
-    if (enchantment.contains("Supercold")) mods.add(SUPERCOLD);
-
-    return mods.stream()
-        .map(m -> m + level)
-        .collect(
-            Collectors.collectingAndThen(Collectors.joining(", "), m -> m.isEmpty() ? null : m));
   }
 
   // region: override / register / re-register modifiers
