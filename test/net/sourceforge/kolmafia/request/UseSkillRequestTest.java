@@ -335,6 +335,18 @@ class UseSkillRequestTest {
         assertEquals(3, skill.getMaximumCast());
       }
     }
+
+    @Test
+    void parsesCalculateTheUniverseCastsFromSkillzPage() {
+      var cleanups =
+          new Cleanups(withProperty("skillLevel144", 1), withProperty("_universeCalculated", 1));
+      try (cleanups) {
+        UseSkillRequest.parseResponse("skillz.php", html("request/test_parse_skillz.html"));
+
+        assertThat("skillLevel144", isSetTo(3));
+        assertThat("_universeCalculated", isSetTo(3));
+      }
+    }
   }
 
   @Nested
