@@ -1,13 +1,30 @@
 package net.sourceforge.kolmafia.maximizer;
 
+import static net.sourceforge.kolmafia.maximizer.MaximizerTermRegistry.IntegerSetting.BEEOSITY;
+import static net.sourceforge.kolmafia.maximizer.MaximizerTermRegistry.IntegerSetting.STINKYCHEESE;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 class MaximizerTermRegistryTest {
+  private static MaximizerTermRegistry parse(String expression) {
+    var terms = new MaximizerTermRegistry();
+    MaximizerExpressionParser.parse(expression, terms);
+    return terms;
+  }
+
+  private static Evaluator.ScoreTerm scoreTerm(
+      MaximizerTermRegistry terms, DoubleModifier modifier) {
+    return terms.scoreTerms().stream()
+        .filter(term -> term.modifier() == modifier)
+        .findFirst()
+        .orElseThrow(() -> new AssertionError("No score term for " + modifier));
+  }
+
   @Test
   void appliesAggregateTerms() {
     var evaluator = new Evaluator("2 all resistance, -tie");
@@ -31,20 +48,109 @@ class MaximizerTermRegistryTest {
   }
 
   @Test
-  void recordsTermSideEffectsWithItsDefinition() {
-    var adventures = MaximizerTermRegistry.find("adv");
-    var ocrs = MaximizerTermRegistry.find("ocrs");
-
-    assertThat(adventures.disablesBeeosity(), is(true));
-    assertThat(ocrs.disablesBeeosity(), is(true));
-    assertThat(ocrs.disablesTiebreaker(), is(true));
-  }
-
-  @Test
   void normalizesGenericAbbreviations() {
     assertThat(MaximizerTermRegistry.normalize("cold res"), is("cold resistance"));
     assertThat(MaximizerTermRegistry.normalize("weapon dmg percent"), is("weapon damage percent"));
     assertThat(MaximizerTermRegistry.normalize("mus exp"), is("mus experience"));
     assertThat(MaximizerTermRegistry.normalize("organ"), is("organ capacity"));
+  }
+
+  @Nested
+  class TermSideEffects {
+    @Test
+    void adventuresIgnoresBeesButKeepsTheTiebreaker() {
+      var terms = parse("adv");
+
+      assertThat(terms.integer(BEEOSITY), is(999));
+      assertThat(terms.usesTiebreaker(), is(true));
+    }
+
+    @Test
+    void randomMonsterModifiersIgnoresBeesAndDropsTheTiebreaker() {
+      var terms = parse("ocrs");
+
+      assertThat(terms.integer(BEEOSITY), is(999));
+      assertThat(terms.usesTiebreaker(), is(false));
+    }
+
+    @Test
+    void zeroWeightKeepsTheTiebreaker() {
+      assertThat(parse("0 tie").usesTiebreaker(), is(true));
+    }
+
+    @Test
+    void anExplicitBeeosityOutranksItsDefault() {
+      var terms = parse("5 beeosity");
+
+      assertThat(terms.integer(BEEOSITY), is(5));
+    }
+  }
+
+  @Nested
+  class Aliases {
+    @Test
+    void aliasedDirectivesShareOneAction() {
+      assertThat(parse("3 stinky cheese").integer(STINKYCHEESE), is(3));
+      assertThat(parse("3 stinkycheese").integer(STINKYCHEESE), is(3));
+    }
+  }
+
+  @Nested
+  class MinimumsAndMaximums {
+    @Test
+    void applyToWhicheverModifierTheExpressionLastMentioned() {
+      var terms = parse("0.1 da 1000 max");
+
+      assertThat(scoreTerm(terms, DoubleModifier.DAMAGE_ABSORPTION).max(), is(1000.0));
+      assertThat(terms.totalMax(), is(Double.POSITIVE_INFINITY));
+    }
+
+    @Test
+    void outliveTheTermThatNamedTheModifier() {
+      var terms = parse("0.1 da, 1000 max, 20 min");
+
+      var damageAbsorption = scoreTerm(terms, DoubleModifier.DAMAGE_ABSORPTION);
+      assertThat(damageAbsorption.min(), is(20.0));
+      assertThat(damageAbsorption.max(), is(1000.0));
+    }
+
+    @Test
+    void applyToTheWholeScoreAfterAnAggregateTerm() {
+      var terms = parse("1 all resistance, 5 max, -100 min");
+
+      assertThat(terms.totalMax(), is(5.0));
+      assertThat(terms.totalMin(), is(-100.0));
+      assertThat(
+          scoreTerm(terms, DoubleModifier.COLD_RESISTANCE).max(), is(Double.POSITIVE_INFINITY));
+    }
+
+    @Test
+    void applyToTheWholeScoreWhenNoModifierHasBeenMentioned() {
+      var terms = parse("100 max");
+
+      assertThat(terms.totalMax(), is(100.0));
+    }
+  }
+
+  @Nested
+  class TiebreakerInheritance {
+    @Test
+    void anExpressionStartsFromTheMaximumsOfItsTiebreaker() {
+      var tiebreaker = parse("0.1 da 1000 max");
+      var terms = new MaximizerTermRegistry(tiebreaker);
+      MaximizerExpressionParser.parse("1 da", terms);
+
+      var damageAbsorption = scoreTerm(terms, DoubleModifier.DAMAGE_ABSORPTION);
+      assertThat(damageAbsorption.weight(), is(1.0));
+      assertThat(damageAbsorption.max(), is(1000.0));
+    }
+
+    @Test
+    void anExpressionWithoutATiebreakerIsUnbounded() {
+      var terms = parse("1 da");
+
+      assertThat(
+          scoreTerm(terms, DoubleModifier.DAMAGE_ABSORPTION).max(), is(Double.POSITIVE_INFINITY));
+    }
   }
 }

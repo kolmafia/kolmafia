@@ -13,7 +13,7 @@ final class MaximizerExpressionParser {
 
   private MaximizerExpressionParser() {}
 
-  static boolean parse(String expression, Evaluator.ParseState state) {
+  static void parse(String expression, MaximizerTermRegistry terms) {
     String normalized = expression.trim().toLowerCase();
     Matcher matcher = TERM_PATTERN.matcher(normalized);
     int position = 0;
@@ -22,7 +22,7 @@ final class MaximizerExpressionParser {
       if (!matcher.find()) {
         KoLmafia.updateDisplay(
             MafiaState.ERROR, "Unable to interpret: " + normalized.substring(position));
-        return false;
+        return;
       }
       position = matcher.end();
       double weight =
@@ -37,12 +37,11 @@ final class MaximizerExpressionParser {
 
       var term =
           new MaximizerTermRegistry.ParsedTerm(keyword, weight, matcher.end(2) != matcher.start(2));
-      if (!state.apply(term)) {
-        return false;
+      if (!terms.apply(term)) {
+        return;
       }
     }
 
-    state.finish();
-    return true;
+    terms.finish();
   }
 }
