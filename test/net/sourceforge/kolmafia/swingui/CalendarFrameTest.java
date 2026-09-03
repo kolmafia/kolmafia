@@ -104,7 +104,7 @@ class CalendarFrameTest {
                            </tr>
                            <tr>
                              <td>
-                               <img src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/bikini/nov.gif">
+                               <img src="https://images.kingdomofloathing.com/otherimages/bikini/nov.gif">
                               \s
                              </td>
                            </tr>
@@ -136,8 +136,8 @@ class CalendarFrameTest {
                            </tr>
                            <tr>
                              <td colspan="2" align="center">
-                               <img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/smoon2.gif">
-                               <img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/smoon1a.gif">
+                               <img src="https://images.kingdomofloathing.com/itemimages/smoon2.gif">
+                               <img src="https://images.kingdomofloathing.com/itemimages/smoon1a.gif">
                               \s
                              </td>
                            </tr>

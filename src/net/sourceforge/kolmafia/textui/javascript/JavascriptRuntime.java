@@ -418,8 +418,9 @@ public class JavascriptRuntime extends AbstractRuntime {
             if (scriptFile != null) {
               exports = require.requireMain(cx, scriptFile.toURI().toString());
             } else {
-              require.install(scope);
-              return cx.evaluateString(scope, scriptString, "command line", 1, null);
+              var commandScope = ScopeIsolationScript.newScriptScope(scope);
+              require.install(commandScope);
+              return cx.evaluateString(commandScope, scriptString, "command line", 1, null);
             }
           }
           if (functionName != null && exports != null) {
