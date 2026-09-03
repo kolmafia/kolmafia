@@ -99,21 +99,6 @@ public class Evaluator {
 
   record ScoreTerm(DoubleModifier modifier, double weight, double min, double max) {}
 
-  private static final Pattern MUS_EXP_PERC_PATTERN =
-      Pattern.compile("^mus(cle)? exp(erience)? perc(ent(age)?)?");
-  private static final Pattern MUS_EXP_PATTERN = Pattern.compile("^mus(cle)? exp(erience)?");
-  private static final Pattern MUS_PERC_PATTERN = Pattern.compile("^mus(cle)? perc(ent(age)?)?");
-  private static final Pattern MYS_EXP_PERC_PATTERN =
-      Pattern.compile("^mys(t(ical(ity)?)?)? exp(erience)? perc(ent(age)?)?");
-  private static final Pattern MYS_EXP_PATTERN =
-      Pattern.compile("^mys(t(ical(ity)?)?)? exp(erience)?");
-  private static final Pattern MYS_PERC_PATTERN =
-      Pattern.compile("^mys(t(ical(ity)?)?)? perc(ent(age)?)?");
-  private static final Pattern MOX_EXP_PERC_PATTERN =
-      Pattern.compile("^mox(ie)? exp(erience)? perc(ent(age)?)?");
-  private static final Pattern MOX_EXP_PATTERN = Pattern.compile("^mox(ie)? exp(erience)?");
-  private static final Pattern MOX_PERC_PATTERN = Pattern.compile("^mox(ie)? perc(ent(age)?)?");
-
   private static final String TIEBREAKER =
       "1 familiar weight, 1 familiar experience, 1 initiative, 5 exp, 1 item, 1 meat, 0.1 DA 1000 max, 1 DR, 0.5 all res, -10 mana cost, 1.0 mus, 0.5 mys, 1.0 mox, 1.5 mainstat, 1 HP, 1 MP, 1 weapon damage, 1 ranged damage, 1 spell damage, 1 cold damage, 1 hot damage, 1 sleaze damage, 1 spooky damage, 1 stench damage, 1 cold spell damage, 1 hot spell damage, 1 sleaze spell damage, 1 spooky spell damage, 1 stench spell damage, -1 fumble, 1 HP regen max, 3 MP regen max, 1 critical hit percent, 0.1 food drop, 0.1 booze drop, 0.1 hat drop, 0.1 weapon drop, 0.1 offhand drop, 0.1 shirt drop, 0.1 pants drop, 0.1 accessory drop, 1 DB combat damage, 0.1 sixgun damage";
   private static final Pattern KEYWORD_PATTERN =
@@ -554,122 +539,25 @@ public class Evaluator {
         }
       }
 
-      // Match keyword with multiple modifiers
       if (index == null) {
-        switch (keyword) {
-          case "all resistance" -> {
-            this.weight.set(DoubleModifier.COLD_RESISTANCE, weight);
-            this.weight.set(DoubleModifier.HOT_RESISTANCE, weight);
-            this.weight.set(DoubleModifier.SLEAZE_RESISTANCE, weight);
-            this.weight.set(DoubleModifier.SPOOKY_RESISTANCE, weight);
-            this.weight.set(DoubleModifier.STENCH_RESISTANCE, weight);
-            continue;
+        var definition = MaximizerTermRegistry.find(keyword);
+        if (definition != null) {
+          definition.apply(this.weight, weight);
+          index = definition.primaryModifier();
+          if (definition.disablesTiebreaker()) {
+            this.noTiebreaker = true;
           }
-          case "elemental damage" -> {
-            this.weight.set(DoubleModifier.COLD_DAMAGE, weight);
-            this.weight.set(DoubleModifier.HOT_DAMAGE, weight);
-            this.weight.set(DoubleModifier.SLEAZE_DAMAGE, weight);
-            this.weight.set(DoubleModifier.SPOOKY_DAMAGE, weight);
-            this.weight.set(DoubleModifier.STENCH_DAMAGE, weight);
-            continue;
+          if (definition.disablesBeeosity()) {
+            this.beeosity = 999;
           }
-          case "hp regen" -> {
-            this.weight.set(DoubleModifier.HP_REGEN_MIN, weight / 2);
-            this.weight.set(DoubleModifier.HP_REGEN_MAX, weight / 2);
-            continue;
-          }
-          case "mp regen" -> {
-            this.weight.set(DoubleModifier.MP_REGEN_MIN, weight / 2);
-            this.weight.set(DoubleModifier.MP_REGEN_MAX, weight / 2);
-            continue;
-          }
-          case "passive damage" -> {
-            this.weight.set(DoubleModifier.DAMAGE_AURA, weight);
-            this.weight.set(DoubleModifier.THORNS, weight);
-            continue;
-          }
-          case "organ capacity" -> {
-            this.weight.set(DoubleModifier.STOMACH_CAPACITY, weight);
-            this.weight.set(DoubleModifier.LIVER_CAPACITY, weight);
-            this.weight.set(DoubleModifier.SPLEEN_CAPACITY, weight);
-            continue;
-          }
-        }
-      }
-
-      // Match keyword with specific abbreviations
-      if (index == null) {
-        if (keyword.equals("init")) {
-          index = DoubleModifier.INITIATIVE;
-        } else if (keyword.equals("hp")) {
-          index = DoubleModifier.HP;
-        } else if (keyword.equals("mp")) {
-          index = DoubleModifier.MP;
-        } else if (keyword.equals("da")) {
-          index = DoubleModifier.DAMAGE_ABSORPTION;
-        } else if (keyword.equals("dr")) {
-          index = DoubleModifier.DAMAGE_REDUCTION;
-        } else if (keyword.equals("ml")) {
-          index = DoubleModifier.MONSTER_LEVEL;
-        } else if (MUS_EXP_PERC_PATTERN.matcher(keyword).find()) {
-          index = DoubleModifier.MUS_EXPERIENCE_PCT;
-        } else if (MUS_EXP_PATTERN.matcher(keyword).find()) {
-          index = DoubleModifier.MUS_EXPERIENCE;
-        } else if (MUS_PERC_PATTERN.matcher(keyword).find()) {
-          index = DoubleModifier.MUS_PCT;
-        } else if (MYS_EXP_PERC_PATTERN.matcher(keyword).find()) {
-          index = DoubleModifier.MYS_EXPERIENCE_PCT;
-        } else if (MYS_EXP_PATTERN.matcher(keyword).find()) {
-          index = DoubleModifier.MYS_EXPERIENCE;
-        } else if (MYS_PERC_PATTERN.matcher(keyword).find()) {
-          index = DoubleModifier.MYS_PCT;
-        } else if (MOX_EXP_PERC_PATTERN.matcher(keyword).find()) {
-          index = DoubleModifier.MOX_EXPERIENCE_PCT;
-        } else if (MOX_EXP_PATTERN.matcher(keyword).find()) {
-          index = DoubleModifier.MOX_EXPERIENCE;
-        } else if (MOX_PERC_PATTERN.matcher(keyword).find()) {
-          index = DoubleModifier.MOX_PCT;
-        } else if (keyword.startsWith("mus")) {
-          index = DoubleModifier.MUS;
-        } else if (keyword.startsWith("mys")) {
-          index = DoubleModifier.MYS;
-        } else if (keyword.startsWith("mox")) {
-          index = DoubleModifier.MOX;
-        } else if (keyword.startsWith("main")) {
-          index = DoubleModifier.primeStat();
-        } else if (keyword.startsWith("com")) {
-          index = DoubleModifier.COMBAT_RATE;
-          if (AdventureDatabase.isUnderwater(Modifiers.currentLocation)) {
+          if (definition.includesUnderwaterCombatRate()
+              && AdventureDatabase.isUnderwater(Modifiers.currentLocation)) {
             this.weight.set(DoubleModifier.UNDERWATER_COMBAT_RATE, weight);
           }
-        } else if (keyword.startsWith("item")) {
-          index = DoubleModifier.ITEMDROP;
-        } else if (keyword.startsWith("meat")) {
-          index = DoubleModifier.MEATDROP;
-        } else if (keyword.startsWith("adv")) {
-          this.beeosity = 999;
-          index = DoubleModifier.ADVENTURES;
-        } else if (keyword.startsWith("fites")) {
-          this.beeosity = 999;
-          index = DoubleModifier.PVP_FIGHTS;
-        } else if (keyword.startsWith("exp")) {
-          index = DoubleModifier.EXPERIENCE;
-        } else if (keyword.startsWith("crit")) {
-          index = DoubleModifier.CRITICAL_PCT;
-        } else if (keyword.startsWith("spell crit")) {
-          index = DoubleModifier.SPELL_CRITICAL_PCT;
-        } else if (keyword.startsWith("sprinkle")) {
-          index = DoubleModifier.SPRINKLES;
-        } else if (keyword.startsWith("stomach")) {
-          index = DoubleModifier.STOMACH_CAPACITY;
-        } else if (keyword.startsWith("liver")) {
-          index = DoubleModifier.LIVER_CAPACITY;
-        } else if (keyword.startsWith("spleen")) {
-          index = DoubleModifier.SPLEEN_CAPACITY;
-        } else if (keyword.equals("ocrs")) {
-          this.noTiebreaker = true;
-          this.beeosity = 999;
-          index = DoubleModifier.RANDOM_MONSTER_MODIFIERS;
+          if (index != null) {
+            this.explicitScoreModifiers.add(index);
+          }
+          continue;
         }
       }
 
