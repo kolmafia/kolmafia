@@ -2,17 +2,26 @@ package net.sourceforge.kolmafia.maximizer;
 
 import static internal.helpers.Maximizer.maximize;
 import static internal.helpers.Player.withEquippableItem;
+import static internal.helpers.Player.withEquipped;
+import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withOverrideModifiers;
+import static internal.helpers.Player.withPath;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.lessThan;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
 import java.util.List;
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.ModifierType;
+import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import org.junit.jupiter.api.BeforeEach;
@@ -59,6 +68,66 @@ class EquipmentSearchProblemTest {
               });
 
       assertThat(actual, is(oracle.quality()));
+    }
+  }
+
+  @Test
+  void skipsFullEvaluationOfAdditiveCodpiecePrefixesThatAlreadyLose() {
+    int diamond = ItemPool.get("lump of diamond").getItemId();
+    int pearl = ItemPool.get("unblemished pearl").getItemId();
+    try (var cleanups =
+        new Cleanups(
+            withEquipped(Slot.ACCESSORY1, ItemPool.THE_ETERNITY_CODPIECE),
+            withItem(diamond, 5),
+            withItem(pearl, 5),
+            withOverrideModifiers(ModifierType.ETERNITY_CODPIECE, diamond, "PvP Fights: +10"),
+            withOverrideModifiers(ModifierType.ETERNITY_CODPIECE, pearl, "PvP Fights: +1"))) {
+      assertTrue(
+          maximize(
+              "pvp fights, -hat, -weapon, -offhand, -back, -shirt, -pants, "
+                  + "-familiar, -acc1, -acc2, -acc3, -tie"));
+
+      assertThat(Maximizer.best().getScore(), is(60.0));
+      assertThat(Maximizer.bestChecked, lessThan(21));
+      assertThat(Maximizer.lastSearchMetrics().boundPrunes(), greaterThan(0L));
+    }
+  }
+
+  @Test
+  void worstCaseBenchmarkUsesIncrementalPrimaryScore() {
+    assertTrue(
+        new Evaluator(
+                    "tie, mus percent, mys percent, mox percent, maximum mp percent, pvp fights, "
+                        + "candy drop, damage vs. seals, damage vs. zombies, pool skill, "
+                        + "pickpocket chance, fishing skill, damage vs. ghosts, familiar damage, "
+                        + "damage vs. werewolves, adventures, damage vs. vampires, damage vs. bugbears")
+                .incrementalCodpieceScoreTerms()
+            != null);
+  }
+
+  @Test
+  void familiarDerivedExperienceFallsBackToFullEvaluation() {
+    assertNull(new Evaluator("muscle experience").incrementalCodpieceScoreTerms());
+  }
+
+  @Test
+  void suppressedAdventureModifiersFallBackToFullEvaluation() {
+    try (var cleanups = withPath(Path.SLOW_AND_STEADY)) {
+      assertNull(new Evaluator("adventures").incrementalCodpieceScoreTerms());
+    }
+  }
+
+  @Test
+  void incrementalScoreModifiersUseTheirRawValues() {
+    var modifiers = new Modifiers();
+    for (DoubleModifier modifier : DoubleModifier.DOUBLE_MODIFIERS) {
+      modifiers.setDouble(modifier, 2.0);
+    }
+
+    for (DoubleModifier modifier : DoubleModifier.DOUBLE_MODIFIERS) {
+      if (CodpieceModifierSafety.supportsIncrementalScore(modifier)) {
+        assertThat(modifier.toString(), Evaluator.scoreValue(modifier, modifiers, null), is(2.0));
+      }
     }
   }
 

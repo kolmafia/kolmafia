@@ -137,7 +137,12 @@ final class EquipmentSearchProblem
   }
 
   @Override
-  public AnytimeSearch.Candidate<SolutionQuality, Void> candidate()
+  public boolean canBeat(SolutionQuality incumbent) {
+    return this.codpieceChooser == null || this.codpieceChooser.canBeat(incumbent);
+  }
+
+  @Override
+  public AnytimeSearch.Candidate<SolutionQuality, Void> candidate(SolutionQuality incumbent)
       throws MaximizerInterruptedException {
     if (this.codpieceReadiness == null) {
       return null;
@@ -150,6 +155,8 @@ final class EquipmentSearchProblem
         && !this.owner.codpiece.hasEnoughCodpieceGems()) {
       return null;
     }
+    if (this.codpieceChooser != null && !this.codpieceChooser.currentCanBeat(incumbent))
+      return null;
     Maximizer.consider(this.owner);
     return new AnytimeSearch.Candidate<>(this.owner.quality(), null);
   }

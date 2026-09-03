@@ -12,6 +12,7 @@ import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.equipment.SlotSet;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
@@ -185,6 +186,7 @@ final class CodpieceSpeculation {
     CodpieceSearch search = new CodpieceSearch(codpieceGems, codpieceSlots, cache);
     this.search = search;
     this.owner.setUnscored();
+    search.prepareIncrementalScore();
     return new PreparedSearch(Readiness.READY, search);
   }
 
@@ -358,6 +360,12 @@ final class CodpieceSpeculation {
     private final int[] previousStarts;
     private final boolean[] satisfiedRequirement;
     private final LateCodpieceCache cache;
+    private List<Evaluator.ScoreTerm> scoreTerms;
+    private double[] baselineValues;
+    private double[] selectedValues;
+    private double[][] scoreContributions;
+    private double[][][] scoreSuffixes;
+    private boolean baselineRollover;
     private int start;
     private int slotIndex;
     private int remainingRequired;
@@ -382,6 +390,77 @@ final class CodpieceSpeculation {
         }
       }
       this.remainingRequired = requiredCount;
+    }
+
+    private void prepareIncrementalScore() {
+      Evaluator evaluator = Maximizer.evaluator();
+      List<Evaluator.ScoreTerm> terms = evaluator.incrementalCodpieceScoreTerms();
+      if (terms == null) return;
+
+      double[][] contributions = new double[this.gems.size()][terms.size()];
+      for (int i = 0; i < this.gems.size(); i++) {
+        Modifiers modifiers = getCodpieceGemModifiers(this.gems.get(i).getItemId());
+        if (modifiers != null && modifiers.hasString(StringModifier.ROLLOVER_EFFECT)) return;
+        if (modifiers == null) continue;
+        for (int j = 0; j < terms.size(); j++) {
+          contributions[i][j] = modifiers.getDouble(terms.get(j).modifier());
+        }
+      }
+
+      Modifiers baseline = owner.calculate();
+      this.baselineValues = new double[terms.size()];
+      this.selectedValues = new double[terms.size()];
+      for (int i = 0; i < terms.size(); i++) {
+        this.baselineValues[i] = baseline.getDouble(terms.get(i).modifier());
+      }
+      this.baselineRollover = baseline.hasString(StringModifier.ROLLOVER_EFFECT);
+      this.scoreTerms = terms;
+      this.scoreContributions = contributions;
+      this.scoreSuffixes = this.buildScoreSuffixes();
+    }
+
+    boolean currentCanBeat(SolutionQuality incumbent) {
+      if (this.scoreTerms == null || incumbent == null || !incumbent.feasible()) return true;
+      return this.score(0) >= incumbent.score();
+    }
+
+    boolean canBeat(SolutionQuality incumbent) {
+      if (this.scoreTerms == null || !incumbent.feasible()) return true;
+      return this.score(this.slots.size() - this.slotIndex) >= incumbent.score();
+    }
+
+    private double score(int slotsLeft) {
+      double score = this.baselineRollover ? 0.01f : 0.0;
+      for (int i = 0; i < this.scoreTerms.size(); i++) {
+        Evaluator.ScoreTerm term = this.scoreTerms.get(i);
+        double suffix = slotsLeft == 0 ? 0.0 : this.scoreSuffixes[i][this.start][slotsLeft];
+        double value =
+            Math.min(this.baselineValues[i] + this.selectedValues[i] + suffix, term.max());
+        score = Math.nextUp(score + Math.nextUp(term.weight() * value));
+      }
+      return score;
+    }
+
+    private double[][][] buildScoreSuffixes() {
+      int candidates = this.gems.size();
+      int slots = this.slots.size();
+      double[][][] suffixes = new double[this.scoreTerms.size()][candidates + 1][slots + 1];
+      for (int term = 0; term < this.scoreTerms.size(); term++) {
+        boolean maximize = this.scoreTerms.get(term).weight() >= 0.0;
+        for (int candidate = candidates - 1; candidate >= 0; candidate--) {
+          double contribution = this.scoreContributions[candidate][term];
+          for (int count = 1; count <= slots; count++) {
+            double best = suffixes[term][candidate + 1][count];
+            for (int copies = 1; copies <= Math.min(this.remaining[candidate], count); copies++) {
+              double value = copies * contribution + suffixes[term][candidate + 1][count - copies];
+              value = maximize ? Math.nextUp(value) : Math.nextDown(value);
+              best = maximize ? Math.max(best, value) : Math.min(best, value);
+            }
+            suffixes[term][candidate][count] = best;
+          }
+        }
+      }
+      return suffixes;
     }
 
     /** Whether every required gem has been placed (a precondition for a valid candidate). */
@@ -426,6 +505,11 @@ final class CodpieceSpeculation {
       this.start = choice;
       this.slotIndex++;
       if (this.satisfiedRequirement[depth]) this.remainingRequired--;
+      if (this.scoreTerms != null) {
+        for (int i = 0; i < this.scoreTerms.size(); i++) {
+          this.selectedValues[i] += this.scoreContributions[choice][i];
+        }
+      }
       owner.setUnscored();
       return true;
     }
@@ -441,6 +525,11 @@ final class CodpieceSpeculation {
       }
       this.required[choice] = this.satisfiedRequirement[depth];
       this.remaining[choice]++;
+      if (this.scoreTerms != null) {
+        for (int i = 0; i < this.scoreTerms.size(); i++) {
+          this.selectedValues[i] -= this.scoreContributions[choice][i];
+        }
+      }
       owner.setUnscored();
     }
   }

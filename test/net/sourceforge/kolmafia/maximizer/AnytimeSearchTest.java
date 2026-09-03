@@ -224,7 +224,8 @@ class AnytimeSearchTest {
     }
 
     @Override
-    public AnytimeSearch.Candidate<SolutionQuality, List<Choice>> candidate() {
+    public AnytimeSearch.Candidate<SolutionQuality, List<Choice>> candidate(
+        SolutionQuality incumbent) {
       if (!this.complete()) return null;
       return new AnytimeSearch.Candidate<>(quality(this.score), List.copyOf(this.assignment));
     }

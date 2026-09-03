@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.maximizer;
 
 import java.util.EnumSet;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.modifiers.BitmapModifier;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
@@ -102,6 +103,36 @@ final class CodpieceModifierSafety {
           DoubleModifier.STENCH_SPELL_DAMAGE,
           DoubleModifier.THORNS,
           DoubleModifier.WEAPON_DAMAGE);
+  private static final EnumSet<DoubleModifier> INCREMENTAL_SCORE_MODIFIERS =
+      EnumSet.of(
+          DoubleModifier.ADVENTURES,
+          DoubleModifier.BOOZEDROP,
+          DoubleModifier.BUGBEAR_DAMAGE,
+          DoubleModifier.CANDYDROP,
+          DoubleModifier.DAMAGE_ABSORPTION,
+          DoubleModifier.DAMAGE_REDUCTION,
+          DoubleModifier.ENCHANTMENT_COUNT,
+          DoubleModifier.FAMILIAR_DAMAGE,
+          DoubleModifier.FAMILIAR_EXP,
+          DoubleModifier.FISHING_SKILL,
+          DoubleModifier.FOODDROP,
+          DoubleModifier.GHOST_DAMAGE,
+          DoubleModifier.HP_REGEN_MAX,
+          DoubleModifier.HP_REGEN_MIN,
+          DoubleModifier.MONSTER_LEVEL,
+          DoubleModifier.MOX_PCT,
+          DoubleModifier.MP_PCT,
+          DoubleModifier.MP_REGEN_MAX,
+          DoubleModifier.MP_REGEN_MIN,
+          DoubleModifier.MUS_PCT,
+          DoubleModifier.MYS_PCT,
+          DoubleModifier.PICKPOCKET_CHANCE,
+          DoubleModifier.POOL_SKILL,
+          DoubleModifier.PVP_FIGHTS,
+          DoubleModifier.SEAL_DAMAGE,
+          DoubleModifier.VAMPIRE_DAMAGE,
+          DoubleModifier.WEREWOLF_DAMAGE,
+          DoubleModifier.ZOMBIE_DAMAGE);
   private static final EnumSet<DoubleModifier> FAMILIAR_CALCULATION_MODIFIERS =
       EnumSet.of(
           DoubleModifier.FAMILIAR_WEIGHT,
@@ -167,6 +198,11 @@ final class CodpieceModifierSafety {
     modifiers.remove(DoubleModifier.EXPERIENCE);
     modifiers.remove(DoubleModifier.SPELL_DAMAGE);
     return modifiers;
+  }
+
+  static boolean supportsIncrementalScore(DoubleModifier modifier) {
+    return INCREMENTAL_SCORE_MODIFIERS.contains(modifier)
+        && (modifier != DoubleModifier.ADVENTURES || KoLCharacter.canGainRolloverAdventures());
   }
 
   static boolean hasOnlySupportedLateCalculationModifiers(Modifiers modifiers) {

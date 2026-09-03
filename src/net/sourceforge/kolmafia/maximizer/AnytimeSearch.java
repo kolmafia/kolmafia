@@ -30,8 +30,8 @@ final class AnytimeSearch {
 
     default void record() {}
 
-    /** Returns a valid candidate at the current state, or null when the state is incomplete. */
-    Candidate<Q, R> candidate() throws E;
+    /** Returns a competitive candidate at the current state, or null when none is available. */
+    Candidate<Q, R> candidate(Q incumbent) throws E;
 
     default void finished(Result<Q, R> result) {}
   }
@@ -96,7 +96,8 @@ final class AnytimeSearch {
         return;
       }
 
-      Candidate<Q, R> candidate = this.problem.candidate();
+      Candidate<Q, R> candidate =
+          this.problem.candidate(this.best == null ? null : this.best.quality());
       if (candidate != null) {
         this.leaves++;
         if (this.best == null || candidate.quality().compareTo(this.best.quality()) > 0) {

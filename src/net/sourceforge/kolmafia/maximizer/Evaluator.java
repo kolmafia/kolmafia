@@ -95,6 +95,16 @@ public class Evaluator {
         || modifier == DoubleModifier.MP;
   }
 
+  List<ScoreTerm> incrementalCodpieceScoreTerms() {
+    if (this.terms.hasNonModifierScore()) return null;
+    List<ScoreTerm> terms =
+        this.activeScoreModifiers.stream().filter(term -> term.weight() != 0.0).toList();
+    return terms.stream()
+            .allMatch(term -> CodpieceModifierSafety.supportsIncrementalScore(term.modifier()))
+        ? terms
+        : null;
+  }
+
   public double getScore(
       Modifiers mods, Map<Slot, AdventureResult> equipment, Map<Modeable, String> modeables) {
     var outcome = this.evaluate(mods, equipment, modeables);

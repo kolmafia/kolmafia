@@ -704,6 +704,15 @@ final class MaximizerTermRegistry {
         || this.weight.getDouble(DoubleModifier.MOX_EXPERIENCE) > 0;
   }
 
+  boolean hasNonModifierScore() {
+    return this.integer(IntegerSetting.CLOWNOSITY) > 0
+        || this.integer(IntegerSetting.RAVEOSITY) > 0
+        || this.integer(IntegerSetting.SURGEONOSITY) > 0
+        || this.integer(IntegerSetting.STINKYCHEESE) > 0
+        || !this.bonuses.isEmpty()
+        || !this.bonusFunc.isEmpty();
+  }
+
   boolean requiresEquipment(AdventureResult item) {
     return this.posEquip.contains(item);
   }
