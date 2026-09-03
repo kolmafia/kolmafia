@@ -121,11 +121,6 @@ public class Maximizer {
     if (session != null) session.best = candidate;
   }
 
-  static int incrementCombinationsChecked() {
-    int checked = session == null ? bestChecked + 1 : ++session.combinationsChecked;
-    return bestChecked = checked;
-  }
-
   static void recordCandidateCounts(int catalog, int shortlisted) {
     if (session == null) return;
     session.catalogCandidates = catalog;
@@ -153,17 +148,17 @@ public class Maximizer {
     return session == null || session.keepSearching();
   }
 
-  static long nextProgressUpdate() {
-    return session == null ? bestUpdate : session.nextProgressUpdate;
-  }
-
-  static void setNextProgressUpdate(long update) {
-    bestUpdate = update;
-    if (session != null) session.nextProgressUpdate = update;
-  }
-
-  static long combinationLimit() {
-    return session == null ? combinationLimit : session.combinationLimit;
+  static void consider(MaximizerSpeculation candidate) throws MaximizerInterruptedException {
+    if (session == null) {
+      throw new IllegalStateException("Cannot consider equipment outside a maximizer session");
+    }
+    try {
+      session.consider(candidate);
+    } finally {
+      best = session.best;
+      bestChecked = session.combinationsChecked;
+      bestUpdate = session.nextProgressUpdate;
+    }
   }
 
   static CharacterSnapshot character() {

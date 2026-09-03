@@ -11,7 +11,6 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.WeaponType;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
-import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.Speculation;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.equipment.SlotSet;
@@ -118,6 +117,10 @@ public class MaximizerSpeculation extends Speculation
 
   public boolean failed() {
     return this.evaluation.failed();
+  }
+
+  boolean exceeded() {
+    return this.evaluation.exceeded();
   }
 
   void markFailed() {
@@ -620,33 +623,7 @@ public class MaximizerSpeculation extends Speculation
       return;
     }
 
-    this.setUnscored();
-    if (Maximizer.best() == null) {
-      RequestLogger.updateSessionLog(
-          "Maximizer about to throw LimitExceeded because of null best.");
-      // this isn't really what is happening but trying to understand why this is happening, first.
-      throw new MaximizerLimitException();
-    }
-    if (this.compareTo(Maximizer.best()) > 0) {
-      Maximizer.setBest(this.clone());
-    }
-    int checked = Maximizer.incrementCombinationsChecked();
-    if ((checked & 0x3FF) == 0) {
-      long t = System.currentTimeMillis();
-      if (t > Maximizer.nextProgressUpdate()) {
-        MaximizerSpeculation.showProgress();
-        Maximizer.setNextProgressUpdate(t + 5000);
-      }
-    }
-    if (!KoLmafia.permitsContinue()) {
-      throw new MaximizerInterruptedException();
-    }
-    if (this.evaluation.exceeded()) {
-      throw new MaximizerExceededException();
-    }
-    if (Maximizer.combinationLimit() != 0 && checked >= Maximizer.combinationLimit()) {
-      throw new MaximizerLimitException();
-    }
+    Maximizer.consider(this);
   }
 
   private static int getMutex(AdventureResult item) {

@@ -1,5 +1,8 @@
 package net.sourceforge.kolmafia.maximizer;
 
+import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.RequestLogger;
+
 final class MaximizerSession {
   final long combinationLimit;
   MaximizerSpeculation best;
@@ -69,6 +72,36 @@ final class MaximizerSession {
     if (System.nanoTime() < this.searchDeadlineNanos) return true;
     this.searchComplete = false;
     return false;
+  }
+
+  void consider(MaximizerSpeculation candidate) throws MaximizerInterruptedException {
+    candidate.setUnscored();
+    if (this.best == null) {
+      RequestLogger.updateSessionLog(
+          "Maximizer about to throw LimitExceeded because of null best.");
+      throw new MaximizerLimitException();
+    }
+    if (candidate.compareTo(this.best) > 0) {
+      this.best = candidate.clone();
+    }
+
+    int checked = ++this.combinationsChecked;
+    if ((checked & 0x3FF) == 0) {
+      long now = System.currentTimeMillis();
+      if (now > this.nextProgressUpdate) {
+        MaximizerSpeculation.showProgress();
+        this.nextProgressUpdate = now + 5000;
+      }
+    }
+    if (!KoLmafia.permitsContinue()) {
+      throw new MaximizerInterruptedException();
+    }
+    if (candidate.exceeded()) {
+      throw new MaximizerExceededException();
+    }
+    if (this.combinationLimit != 0 && checked >= this.combinationLimit) {
+      throw new MaximizerLimitException();
+    }
   }
 
   void refreshCharacterSnapshot(Evaluator evaluator) {
