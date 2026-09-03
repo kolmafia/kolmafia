@@ -1,7 +1,6 @@
 package net.sourceforge.kolmafia.maximizer;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -139,7 +138,7 @@ public class Evaluator {
   // Slots starting with EquipmentSlot.ALL_SLOTS are equipment
   // for other familiars being considered.
 
-  private static Slot toUseSlot(Slot slot) {
+  static Slot toUseSlot(Slot slot) {
     return switch (slot) {
       case /* Evaluator.OFFHAND_MELEE */ ACCESSORY2, /* Evaluator.OFFHAND_RANGED */ ACCESSORY3 ->
           Slot.OFFHAND;
@@ -1258,52 +1257,12 @@ public class Evaluator {
             carriedFamiliarSelection,
             bestCard,
             bestModes);
-
-    SlotList<MaximizerSpeculation> speculationList = new SlotList<>(this.familiars.size());
-
-    for (var entry : ranked.entries()) {
-      List<CheckedItem> checkedItemList = entry.value();
-
-      // If we currently have nothing equipped, also consider leaving nothing equipped
-      if ((!entry.isSlot() || entry.slot() != Slot.CODPIECE1)
-          && (!entry.isSlot()
-              || EquipmentManager.getEquipment(Evaluator.toUseSlot(entry.slot()))
-                  == EquipmentRequest.UNEQUIP)) {
-        var unequip = new CheckedItem(-1, equipScope, maxPrice, priceLevel);
-        checkedItemList.add(unequip);
-        catalog.get(entry).add(unequip);
-      }
-
-      List<MaximizerSpeculation> specs = speculationList.get(entry);
-
-      for (CheckedItem item : checkedItemList) {
-        Slot useSlot;
-        FamiliarData familiar = null;
-        if (entry.isSlot()) {
-          useSlot = Evaluator.toUseSlot(entry.slot());
-        } else {
-          familiar = this.familiars.get(entry.famIndex());
-          useSlot = Slot.FAMILIAR;
-        }
-        var result = speculationFactory.create(item, useSlot, familiar);
-        if (result.card() != null) {
-          useCard = result.card();
-        }
-
-        specs.add(result.speculation());
-      }
-
-      Collections.sort(specs);
-    }
-
-    for (var entry : catalog.entries()) {
-      if ((!entry.isSlot() || entry.slot() != Slot.CODPIECE1)
-          && entry.value().stream().noneMatch(item -> item.getItemId() == -1)) {
-        entry.value().add(new CheckedItem(-1, equipScope, maxPrice, priceLevel));
-      }
-    }
-    int catalogCandidateCount =
-        catalog.entries().stream().mapToInt(entry -> entry.value().size()).sum();
+    var speculationCompilation =
+        speculationFactory.compile(
+            ranked, catalog, this.familiars, equipScope, maxPrice, priceLevel);
+    SlotList<MaximizerSpeculation> speculationList = speculationCompilation.speculations();
+    useCard = speculationCompilation.card();
+    int catalogCandidateCount = speculationCompilation.catalogCount();
 
     setEvaluator.evaluate(speculationList);
 

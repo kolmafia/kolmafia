@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia.maximizer;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
@@ -11,7 +13,8 @@ import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 
 final class CandidateSpeculationFactory {
-  record Result(MaximizerSpeculation speculation, AdventureResult card) {}
+  record Compilation(
+      SlotList<MaximizerSpeculation> speculations, AdventureResult card, int catalogCount) {}
 
   private final int carriedFamiliarsNeeded;
   private final CarriedFamiliarSelector.Selection carriedFamiliars;
@@ -30,7 +33,51 @@ final class CandidateSpeculationFactory {
     this.bestModes = bestModes;
   }
 
-  Result create(CheckedItem item, Slot slot, FamiliarData familiar) {
+  Compilation compile(
+      SlotList<CheckedItem> ranked,
+      SlotList<CheckedItem> catalog,
+      List<FamiliarData> familiars,
+      EquipScope equipScope,
+      int maxPrice,
+      PriceLevel priceLevel) {
+    SlotList<MaximizerSpeculation> speculations = new SlotList<>(familiars.size());
+    AdventureResult card = null;
+
+    for (var entry : ranked.entries()) {
+      List<CheckedItem> items = entry.value();
+      if ((!entry.isSlot() || entry.slot() != Slot.CODPIECE1)
+          && (!entry.isSlot()
+              || EquipmentManager.getEquipment(Evaluator.toUseSlot(entry.slot()))
+                  == EquipmentRequest.UNEQUIP)) {
+        CheckedItem unequip = new CheckedItem(-1, equipScope, maxPrice, priceLevel);
+        items.add(unequip);
+        catalog.get(entry).add(unequip);
+      }
+
+      List<MaximizerSpeculation> slotSpeculations = speculations.get(entry);
+      for (CheckedItem item : items) {
+        FamiliarData familiar = entry.isSlot() ? null : familiars.get(entry.famIndex());
+        Slot slot = entry.isSlot() ? Evaluator.toUseSlot(entry.slot()) : Slot.FAMILIAR;
+        var result = this.create(item, slot, familiar);
+        if (result.card() != null) {
+          card = result.card();
+        }
+        slotSpeculations.add(result.speculation());
+      }
+      Collections.sort(slotSpeculations);
+    }
+
+    for (var entry : catalog.entries()) {
+      if ((!entry.isSlot() || entry.slot() != Slot.CODPIECE1)
+          && entry.value().stream().noneMatch(item -> item.getItemId() == -1)) {
+        entry.value().add(new CheckedItem(-1, equipScope, maxPrice, priceLevel));
+      }
+    }
+    int catalogCount = catalog.entries().stream().mapToInt(entry -> entry.value().size()).sum();
+    return new Compilation(speculations, card, catalogCount);
+  }
+
+  private Result create(CheckedItem item, Slot slot, FamiliarData familiar) {
     MaximizerSpeculation speculation = new MaximizerSpeculation();
     speculation.attachment = item;
     if (familiar != null) {
@@ -71,6 +118,8 @@ final class CandidateSpeculationFactory {
     speculation.failed = false;
     return new Result(speculation, card);
   }
+
+  private record Result(MaximizerSpeculation speculation, AdventureResult card) {}
 
   private void configureCrown(MaximizerSpeculation speculation, CheckedItem item) {
     if (this.carriedFamiliars.lockedCrown() != null) {
