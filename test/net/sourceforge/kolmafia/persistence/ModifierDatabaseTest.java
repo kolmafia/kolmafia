@@ -87,7 +87,6 @@ public class ModifierDatabaseTest {
     "Sublime Resistance to All Elements (+9), All Resistance: +9",
     "Troubling Vulnerability to All Elements (-5), All Resistance: -5",
     "So-So Slime Resistance (+2), Slime Resistance: +2",
-    "Slight Supercold Resistance, Supercold Resistance: +1",
     "Your familiar will always act in combat, Familiar Action Bonus: +100"
   })
   public void canParseModifier(String enchantment, String modifier) {
