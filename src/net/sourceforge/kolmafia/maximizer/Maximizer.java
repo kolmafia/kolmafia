@@ -101,7 +101,7 @@ public class Maximizer {
   private Maximizer() {}
 
   public static boolean lastMaximizeSucceeded() {
-    return best != null && best.scored && !best.failed;
+    return best != null && best.isScored() && !best.failed();
   }
 
   public static SearchMetrics lastSearchMetrics() {
@@ -195,7 +195,7 @@ public class Maximizer {
     Modifiers mods = Maximizer.best().calculate();
     ModifierDatabase.overrideModifier(ModifierType.GENERATED, "_spec", mods);
 
-    return !Maximizer.best().failed;
+    return !Maximizer.best().failed();
   }
 
   public static boolean maximize(
@@ -302,7 +302,7 @@ public class Maximizer {
       Maximizer.best().getScore();
       MaximizerSpeculation currentEquipment = Maximizer.best().clone();
       // Allow an equal-scoring configuration to replace current equipment.
-      Maximizer.best().failed = true;
+      Maximizer.best().markFailed();
       Maximizer.session.resetSearch();
       Maximizer.bestChecked = Maximizer.session.combinationsChecked;
       Maximizer.bestUpdate = Maximizer.session.nextProgressUpdate;
@@ -343,7 +343,7 @@ public class Maximizer {
                 null,
                 0.0));
       }
-      if (!currentEquipment.failed && Maximizer.best().getScore() < currentEquipment.getScore()) {
+      if (!currentEquipment.failed() && Maximizer.best().getScore() < currentEquipment.getScore()) {
         Maximizer.setBest(currentEquipment);
       }
       MaximizerSpeculation.showProgress();

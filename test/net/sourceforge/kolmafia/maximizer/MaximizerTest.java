@@ -3085,7 +3085,7 @@ public class MaximizerTest {
 
       try (cleanups) {
         maximizeAny("+equip card sleeve, Weapon Damage");
-        assertFalse(Maximizer.best.failed);
+        assertFalse(Maximizer.best.failed());
         assertThat(getBoosts(), hasItem(recommends(ItemPool.CARD_SLEEVE)));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.CARDSLEEVE)));
       }
@@ -3104,7 +3104,7 @@ public class MaximizerTest {
 
       try (cleanups) {
         maximizeAny("+equip over-the-shoulder folder holder, muscle");
-        assertFalse(Maximizer.best.failed);
+        assertFalse(Maximizer.best.failed());
         assertThat(getBoosts(), hasItem(recommends(ItemPool.FOLDER_HOLDER)));
         assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.FOLDER1))));
       }
@@ -3124,7 +3124,7 @@ public class MaximizerTest {
 
       try (cleanups) {
         maximizeAny("+equip scratch 'n' sniff sword, muscle");
-        assertFalse(Maximizer.best.failed);
+        assertFalse(Maximizer.best.failed());
         assertThat(getBoosts(), hasItem(recommends(ItemPool.STICKER_SWORD)));
         assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.STICKER1))));
       }
@@ -3145,7 +3145,7 @@ public class MaximizerTest {
 
       try (cleanups) {
         maximizeAny("+equip your cowboy boots, muscle");
-        assertFalse(Maximizer.best.failed);
+        assertFalse(Maximizer.best.failed());
         assertThat(getBoosts(), hasItem(recommends(ItemPool.COWBOY_BOOTS)));
         assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.BOOTSKIN))));
         assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.BOOTSPUR))));

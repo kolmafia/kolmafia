@@ -137,7 +137,7 @@ public class MaximizerFrame extends GenericFrame implements ListSelectionListene
       buff.append(KoLConstants.FLOAT_FORMAT.format(score));
       buff.append(" (");
       buff.append(KoLConstants.MODIFIER_FORMAT.format(score - currentEvaluation.score()));
-      if (spec.failed) {
+      if (spec.failed()) {
         buff.append(", FAILED)");
       } else {
         buff.append(")");

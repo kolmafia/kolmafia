@@ -30,14 +30,7 @@ public class MaximizerSpeculation extends Speculation
     implements Comparable<MaximizerSpeculation>, Cloneable {
   private static final List<Slot> SIMPLE_SLOTS = List.of(Slot.SHIRT, Slot.PANTS, Slot.HOLSTER);
 
-  boolean scored = false;
-  private boolean tiebreakered = false;
-  private boolean exceeded;
-  private double score, tiebreaker;
-  private int simplicity;
-  private ResourceUsage resourceUsage = ResourceUsage.EMPTY;
-
-  public boolean failed = false;
+  private SpeculationEvaluation evaluation = SpeculationEvaluation.empty();
   public CheckedItem attachment;
   private boolean foldables = false;
   private CodpieceSpeculation codpiece = new CodpieceSpeculation(this);
@@ -51,6 +44,7 @@ public class MaximizerSpeculation extends Speculation
       if (this.mods != null) {
         copy.mods = new Modifiers(this.mods);
       }
+      copy.evaluation = this.evaluation.copy();
       // A clone is a frozen candidate: it must not retain an in-progress Codpiece search.
       copy.codpiece = new CodpieceSpeculation(copy);
       return copy;
@@ -81,65 +75,21 @@ public class MaximizerSpeculation extends Speculation
   }
 
   public void setUnscored() {
-    this.scored = false;
-    this.tiebreakered = false;
+    this.evaluation.invalidate();
     this.calculated = false;
   }
 
   public double getScore() {
-    if (this.scored) return this.score;
     if (!this.calculated) {
       Maximizer.recordScoreCalculation();
       this.calculate();
     }
-    var character = Maximizer.character();
-    this.resourceUsage = character.resourceUsage(this.equipment);
-    var outcome =
-        Maximizer.evaluator()
-            .evaluateComplete(
-                this.mods,
-                this.equipment,
-                this.getModeables(),
-                character.resourcesExceeded(this.resourceUsage),
-                character.allowedMutexViolations());
-    this.score = outcome.score();
-    this.failed = outcome.failed();
-    this.exceeded = outcome.exceeded();
-    this.scored = true;
-    return this.score;
+    return this.evaluation.score(this.mods, this.equipment, this.getModeables());
   }
 
   public double getTiebreaker() {
-    if (this.tiebreakered) return this.tiebreaker;
     if (!this.calculated) this.calculate();
-    this.tiebreaker = Maximizer.evaluator().getTiebreaker(this.mods);
-    this.tiebreakered = true;
-    this.simplicity = 0;
-    var currentEquipment = Maximizer.character().currentEquipment();
-    for (var slot : SlotSet.ALL_SLOTS) {
-      AdventureResult item = this.equipment.get(slot);
-      if (item == null) item = EquipmentRequest.UNEQUIP;
-      if (currentEquipment.get(slot).equals(item)) {
-        this.simplicity += 2;
-      } else if (item.equals(EquipmentRequest.UNEQUIP)) {
-        this.simplicity += slot == Slot.WEAPON ? -1 : 1;
-      }
-    }
-    // When an equipment-type keyword (club, sword, shield, etc.) is active, prefer any
-    // qualifying item over leaving the slot empty: give it a nudge above UNEQUIP's +2.
-    if (Maximizer.evaluator().isWeaponTypeRequired()) {
-      AdventureResult weapon = this.equipment.get(Slot.WEAPON);
-      if (weapon != null && !weapon.equals(EquipmentRequest.UNEQUIP)) {
-        this.simplicity += 3;
-      }
-    }
-    if (Maximizer.evaluator().isShieldRequired()) {
-      AdventureResult offhand = this.equipment.get(Slot.OFFHAND);
-      if (offhand != null && !offhand.equals(EquipmentRequest.UNEQUIP)) {
-        this.simplicity += 3;
-      }
-    }
-    return this.tiebreaker;
+    return this.evaluation.tiebreaker(this.mods, this.equipment);
   }
 
   @Override
@@ -147,10 +97,10 @@ public class MaximizerSpeculation extends Speculation
     if (o == null) return 1;
 
     int comparison = Double.compare(this.getScore(), o.getScore());
-    if (this.failed != o.failed) return this.failed ? -1 : 1;
+    if (this.failed() != o.failed()) return this.failed() ? -1 : 1;
     if (comparison != 0) return comparison;
 
-    comparison = this.resourceUsage.compareTo(o.resourceUsage);
+    comparison = this.evaluation.resourceUsage().compareTo(o.evaluation.resourceUsage());
     if (comparison != 0) return comparison;
 
     return this.quality().compareTo(o.quality());
@@ -159,24 +109,23 @@ public class MaximizerSpeculation extends Speculation
   SolutionQuality quality() {
     this.getScore();
     this.getTiebreaker();
+    return this.evaluation.quality(this.mods, this.equipment, this.getModeables(), this.attachment);
+  }
 
-    SolutionQuality.AttachmentQuality attachmentQuality =
-        this.attachment == null
-            ? null
-            : new SolutionQuality.AttachmentQuality(
-                this.attachment.isBuyable(),
-                Maximizer.character().resourceUsage(this.attachment.getName()),
-                this.attachment.availability().inventory() > 0,
-                this.attachment.availability().initial() > 0);
+  boolean isScored() {
+    return this.evaluation.isScored();
+  }
 
-    return SolutionQuality.from(
-        new EvaluationOutcome(this.score, this.failed, this.exceeded),
-        this.resourceUsage,
-        Maximizer.evaluator().isUsingTiebreaker(),
-        this.tiebreaker,
-        this.simplicity,
-        this.equipment,
-        attachmentQuality);
+  public boolean failed() {
+    return this.evaluation.failed();
+  }
+
+  void markFailed() {
+    this.evaluation.setFailed(true);
+  }
+
+  void clearFailure() {
+    this.evaluation.setFailed(false);
   }
 
   // Remember which equipment slots were null, so that this
@@ -671,9 +620,7 @@ public class MaximizerSpeculation extends Speculation
       return;
     }
 
-    this.calculated = false;
-    this.scored = false;
-    this.tiebreakered = false;
+    this.setUnscored();
     if (Maximizer.best() == null) {
       RequestLogger.updateSessionLog(
           "Maximizer about to throw LimitExceeded because of null best.");
@@ -694,7 +641,7 @@ public class MaximizerSpeculation extends Speculation
     if (!KoLmafia.permitsContinue()) {
       throw new MaximizerInterruptedException();
     }
-    if (this.exceeded) {
+    if (this.evaluation.exceeded()) {
       throw new MaximizerExceededException();
     }
     if (Maximizer.combinationLimit() != 0 && checked >= Maximizer.combinationLimit()) {
@@ -749,7 +696,7 @@ public class MaximizerSpeculation extends Speculation
     msg.append(" combinations checked, best score ");
     double score = Maximizer.best().getScore();
     msg.append(KoLConstants.FLOAT_FORMAT.format(score));
-    if (Maximizer.best().failed) {
+    if (Maximizer.best().failed()) {
       msg.append(" (FAIL)");
     }
     // if ( MaximizerFrame.best.tiebreakered )

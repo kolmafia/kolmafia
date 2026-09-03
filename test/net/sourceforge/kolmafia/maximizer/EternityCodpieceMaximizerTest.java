@@ -1918,7 +1918,7 @@ public class EternityCodpieceMaximizerTest {
           maximizeAny(expression);
           double elapsed = (System.nanoTime() - start) / 1_000_000.0;
           totalElapsed += elapsed;
-          assertFalse(Maximizer.best.failed);
+          assertFalse(Maximizer.best.failed());
           var metrics = Maximizer.lastSearchMetrics();
           System.out.printf(
               "ALL_EQUIPMENT_BENCHMARK expression=%s items=%d catalog=%d shortlist=%d"

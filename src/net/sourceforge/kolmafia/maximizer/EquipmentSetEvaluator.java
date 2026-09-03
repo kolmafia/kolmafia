@@ -173,7 +173,7 @@ final class EquipmentSetEvaluator {
           useSlot2, compareItem2 == null ? EquipmentRequest.UNEQUIP : compareItem2);
       synergySpec.equipment.put(useSlot2, item2);
 
-      if (synergySpec.compareTo(compareSpec) <= 0 || synergySpec.failed) {
+      if (synergySpec.compareTo(compareSpec) <= 0 || synergySpec.failed()) {
         item1.automaticFlag = false;
         item2.automaticFlag = false;
       }
@@ -211,7 +211,7 @@ final class EquipmentSetEvaluator {
         slot = nextAccessory(slot);
       }
 
-      if (synergySpec.compareTo(compareSpec) > 0 && !synergySpec.failed) {
+      if (synergySpec.compareTo(compareSpec) > 0 && !synergySpec.failed()) {
         for (CheckedItem item : items) {
           item.automaticFlag = true;
         }

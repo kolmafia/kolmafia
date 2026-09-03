@@ -115,7 +115,7 @@ final class CandidateSpeculationFactory {
     }
 
     speculation.getScore();
-    speculation.failed = false;
+    speculation.clearFailure();
     return new Result(speculation, card);
   }
 
