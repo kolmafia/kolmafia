@@ -242,9 +242,10 @@ tiebreakers.
 
 - Parser and registry behavior: `MaximizerTermRegistryTest`
 - Scoring and constraints: `EvaluatorTest`
-- Candidate compilation: the corresponding compiler or selector test
+- Candidate compilation and placement: the corresponding compiler or selector test, including
+  `EquipmentCandidateSlotterTest`
 - Search transitions and bounds: `EquipmentSearchProblemTest`
-- Effect-source rules and shared rendering: `EffectSourceDispatcherTest`
+- Effect-source rules and shared rendering: `EffectSourceDispatcherTest` and `BoostTest`
 - End-to-end behavior: `MaximizerTest` and `MaximizerRegressionTest`
 - Codpiece behavior and performance: `EternityCodpieceMaximizerTest`
 - Codpiece custom-outfit persistence: `EquipmentRequestTest` and

@@ -44,6 +44,30 @@ class EquipmentSearchProblemTest {
   }
 
   @Test
+  void evaluatesTheEmptyAccessoryConfigurationOnlyOnce() {
+    assertTrue(maximize("fishing skill"));
+
+    assertThat(Maximizer.bestChecked, is(1));
+  }
+
+  @Test
+  void keepsEveryPartiallyEmptyAccessorySubsetReachable() {
+    try (var cleanups =
+        new Cleanups(
+            withEquippableItem("Mr. Accessory Jr."),
+            withEquippableItem("polka-dot bow tie"),
+            withEquippableItem("Krampus Horn"),
+            withProperty("maximizerSearchTimeLimit", 0))) {
+      assertTrue(maximize("fishing skill, 1 acc1, 1 acc2, 1 acc3, -tie"));
+
+      assertThat(Maximizer.bestChecked, is(8));
+      assertThat(Maximizer.best().equipment.get(Slot.ACCESSORY1), is(EquipmentRequest.UNEQUIP));
+      assertThat(Maximizer.best().equipment.get(Slot.ACCESSORY2), is(EquipmentRequest.UNEQUIP));
+      assertThat(Maximizer.best().equipment.get(Slot.ACCESSORY3), is(EquipmentRequest.UNEQUIP));
+    }
+  }
+
+  @Test
   void matchesBruteForceOnReducedRealEquipment() {
     try (var cleanups =
         new Cleanups(
@@ -154,6 +178,25 @@ class EquipmentSearchProblemTest {
     assertThat(FamiliarSlotGroup.CROWN.get(state, Slot.CROWNOFTHRONES), is(familiar));
     assertThat(ItemSlotGroup.ETERNITY_CODPIECE.modifiers(ItemPool.HEARTSTONE), is(notNullValue()));
     assertThat(FamiliarSlotGroup.CROWN.modifiers(familiar), is(notNullValue()));
+  }
+
+  @Test
+  void slottedItemGroupsAcceptOnlyTheirOwnOccupantTypes() {
+    assertTrue(
+        ItemSlotGroup.STICKERS.accepts(Slot.STICKER1, ItemPool.get(ItemPool.UNICORN_STICKER)));
+    assertTrue(
+        ItemSlotGroup.CARD_SLEEVE.accepts(Slot.CARDSLEEVE, ItemPool.get("Alice's Army Sniper")));
+    assertTrue(ItemSlotGroup.FOLDERS.accepts(Slot.FOLDER1, ItemPool.get("folder (red)")));
+    assertTrue(ItemSlotGroup.BOOTS.accepts(Slot.BOOTSKIN, ItemPool.get(ItemPool.MOUNTAIN_SKIN)));
+    assertTrue(
+        ItemSlotGroup.BOOTS.accepts(Slot.BOOTSPUR, ItemPool.get(ItemPool.QUICKSILVER_SPURS)));
+    assertTrue(
+        ItemSlotGroup.ETERNITY_CODPIECE.accepts(Slot.CODPIECE1, ItemPool.get(ItemPool.HEARTSTONE)));
+
+    assertFalse(
+        ItemSlotGroup.BOOTS.accepts(Slot.BOOTSKIN, ItemPool.get(ItemPool.QUICKSILVER_SPURS)));
+    assertFalse(ItemSlotGroup.STICKERS.accepts(Slot.STICKER1, ItemPool.get(ItemPool.HEARTSTONE)));
+    assertNull(FamiliarSlotGroup.CROWN.modifiers(null));
   }
 
   private static List<AdventureResult> items(int first, int second) {

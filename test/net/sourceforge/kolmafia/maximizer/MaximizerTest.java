@@ -80,6 +80,27 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 public class MaximizerTest {
   @Test
+  void reportsWhetherTheLastLoadoutSucceeded() {
+    var previousBest = Maximizer.best;
+    var previousEvaluator = Maximizer.eval;
+    try {
+      Maximizer.best = null;
+      assertThat(Maximizer.lastMaximizeSucceeded(), is(false));
+
+      Maximizer.eval = new Evaluator("0, -tie");
+      Maximizer.best = new MaximizerLoadout();
+      Maximizer.best.getScore();
+      assertThat(Maximizer.lastMaximizeSucceeded(), is(true));
+
+      Maximizer.best.markFailed();
+      assertThat(Maximizer.lastMaximizeSucceeded(), is(false));
+    } finally {
+      Maximizer.best = previousBest;
+      Maximizer.eval = previousEvaluator;
+    }
+  }
+
+  @Test
   void respectsCachedCombinationLimit() {
     try (var cleanups =
         new Cleanups(

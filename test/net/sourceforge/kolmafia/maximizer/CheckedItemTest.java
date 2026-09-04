@@ -66,4 +66,22 @@ class CheckedItemTest {
     assertThat(unknownPrice.buyable(), is(false));
     assertThat(availability.withValidatedMallPrice(100, 200, 200, 200), sameInstance(availability));
   }
+
+  @Test
+  void mapsLegacyScopeAndPriceIndexes() {
+    assertThat(EquipScope.byIndex(-1), is(EquipScope.EQUIP_NOW));
+    assertThat(EquipScope.byIndex(0), is(EquipScope.SPECULATE_INVENTORY));
+    assertThat(EquipScope.byIndex(1), is(EquipScope.SPECULATE_CREATABLE));
+    assertThat(EquipScope.byIndex(2), is(EquipScope.SPECULATE_ANY));
+    assertThat(EquipScope.byIndex(99), is(EquipScope.SPECULATE_ANY));
+    assertThat(EquipScope.EQUIP_NOW.checkInventoryOnly(), is(true));
+    assertThat(EquipScope.SPECULATE_INVENTORY.checkInventoryOnly(), is(true));
+    assertThat(EquipScope.SPECULATE_CREATABLE.checkInventoryOnly(), is(false));
+    assertThat(EquipScope.SPECULATE_ANY.checkInventoryOnly(), is(false));
+
+    assertThat(PriceLevel.byIndex(0), is(PriceLevel.DONT_CHECK));
+    assertThat(PriceLevel.byIndex(-1), is(PriceLevel.DONT_CHECK));
+    assertThat(PriceLevel.byIndex(1), is(PriceLevel.BUYABLE_ONLY));
+    assertThat(PriceLevel.byIndex(2), is(PriceLevel.ALL));
+  }
 }

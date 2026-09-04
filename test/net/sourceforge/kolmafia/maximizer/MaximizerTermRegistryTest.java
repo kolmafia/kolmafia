@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia.maximizer;
 
+import static internal.helpers.Player.withContinuationState;
+import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withProperty;
 import static net.sourceforge.kolmafia.maximizer.MaximizerTermRegistry.IntegerSetting.BEEOSITY;
 import static net.sourceforge.kolmafia.maximizer.MaximizerTermRegistry.IntegerSetting.STINKYCHEESE;
@@ -7,7 +9,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -57,8 +61,32 @@ class MaximizerTermRegistryTest {
     assertThat(MaximizerTermRegistry.normalize("organ"), is("organ capacity"));
   }
 
+  @Test
+  void acceptsQuotedTermsAndRejectsMalformedSyntax() {
+    assertThat(scoreTerm(parse("\"item drop\""), DoubleModifier.ITEMDROP).weight(), is(1.0));
+
+    try (var cleanups = withContinuationState()) {
+      MaximizerExpressionParser.parse("\"unterminated", new MaximizerTermRegistry());
+
+      assertThat(KoLmafia.permitsContinue(), is(false));
+    }
+  }
+
   @Nested
   class TermSideEffects {
+    @Test
+    void emptySelectsSlotsByTheirCurrentOccupancy() {
+      try (var cleanups = withEquipped(Slot.HAT, "helmet turtle")) {
+        var empty = parse("empty");
+        var occupied = parse("-empty");
+
+        assertThat(empty.slots().get(Slot.HAT), is(-1));
+        assertThat(empty.slots().get(Slot.PANTS), is(1));
+        assertThat(occupied.slots().get(Slot.HAT), is(1));
+        assertThat(occupied.slots().get(Slot.PANTS), is(-1));
+      }
+    }
+
     @Test
     void adventuresIgnoresBeesButKeepsTheTiebreaker() {
       var terms = parse("adv");

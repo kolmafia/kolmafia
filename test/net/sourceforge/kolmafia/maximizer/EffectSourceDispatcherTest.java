@@ -1,17 +1,29 @@
 package net.sourceforge.kolmafia.maximizer;
 
 import static internal.helpers.Player.withAdventuresLeft;
+import static internal.helpers.Player.withCampgroundItem;
+import static internal.helpers.Player.withContinuationState;
 import static internal.helpers.Player.withEffect;
+import static internal.helpers.Player.withFamiliarInTerrarium;
+import static internal.helpers.Player.withFullness;
+import static internal.helpers.Player.withHP;
 import static internal.helpers.Player.withHardcore;
+import static internal.helpers.Player.withInebriety;
 import static internal.helpers.Player.withInteractivity;
 import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withItemInCloset;
 import static internal.helpers.Player.withItemInStorage;
 import static internal.helpers.Player.withMP;
+import static internal.helpers.Player.withMeat;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withQuestProgress;
 import static internal.helpers.Player.withRestricted;
 import static internal.helpers.Player.withRonin;
+import static internal.helpers.Player.withSign;
 import static internal.helpers.Player.withSkill;
+import static internal.helpers.Player.withSpleenUse;
+import static internal.helpers.Player.withWorkshedItem;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.greaterThan;
@@ -21,14 +33,20 @@ import static org.hamcrest.Matchers.nullValue;
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
+import net.sourceforge.kolmafia.persistence.QuestDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.CampgroundRequest;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 class EffectSourceDispatcherTest {
@@ -77,6 +95,12 @@ class EffectSourceDispatcherTest {
     long previous = KoLCharacter.getStorageMeat();
     KoLCharacter.setStorageMeat(meat);
     return new Cleanups(() -> KoLCharacter.setStorageMeat(previous));
+  }
+
+  private static Cleanups withFuel(int fuel) {
+    int previous = CampgroundRequest.getFuel();
+    CampgroundRequest.setFuel(fuel);
+    return new Cleanups(() -> CampgroundRequest.setFuel(previous));
   }
 
   @Nested
@@ -295,6 +319,331 @@ class EffectSourceDispatcherTest {
         assertThat(plan.usesRemaining, is(1L));
       }
     }
+
+    @ParameterizedTest
+    @CsvSource({
+      "pillkeeper extend, Pill Keeper",
+      "cargo effect sample, Cargo Cultist Shorts",
+      "daycare mysticality, Boxing Daycare",
+      "play strength, Deck of Every Card",
+      "witchess, Witchess Set",
+      "crossstreams, protonic accelerator",
+      "mayosoak, Mayo Clinic",
+      "barrelprayer buff, Barrel god",
+      "gap vision, Greatest American Pants",
+      "asdonmartin drive observantly, Asdon Martin"
+    })
+    void explainsMissingInstallableSources(String command, String expectedText) {
+      try (var cleanups =
+          new Cleanups(
+              withPath(Path.NONE),
+              withRestricted(false),
+              withInteractivity(true),
+              withProperty("daycareOpen", false),
+              withProperty("_daycareToday", false),
+              withProperty("barrelShrineUnlocked", false))) {
+        var plan = EffectSourceDispatcher.dispatch(command, command, context(true, false));
+
+        assertThat(plan.skip, is(false));
+        assertThat(plan.command, is(""));
+        assertThat(plan.text, containsString(expectedText));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "monorail buff, _lyleFavored, 10",
+      "ballpit, _ballpit, 20",
+      "jukebox song, _jukebox, 10"
+    })
+    void disablesCompletedDailySources(String command, String preference, int duration) {
+      try (var cleanups = new Cleanups(withInteractivity(true), withProperty(preference, true))) {
+        var plan = EffectSourceDispatcher.dispatch(command, command, context(false, false));
+
+        assertThat(plan.skip, is(false));
+        assertThat(plan.command, is(""));
+        assertThat(plan.duration, is(duration));
+        assertThat(plan.usesRemaining, is(0L));
+      }
+    }
+
+    @Test
+    void disablesOwnedDailySourcesAfterTheirUsesAreSpent() {
+      try (var cleanups =
+          new Cleanups(
+              withRestricted(false),
+              withInteractivity(true),
+              withProperty("lastFriarCeremonyAscension", 0),
+              withProperty("knownAscensions", 0),
+              withProperty("friarsBlessingReceived", true),
+              withQuestProgress(Quest.SEA_MONKEES, QuestDatabase.FINISHED),
+              withProperty("_momFoodReceived", true),
+              withQuestProgress(Quest.MANOR, QuestDatabase.FINISHED),
+              withProperty("demonSummoned", true),
+              withProperty("sidequestArenaCompleted", "fratboy"),
+              withProperty("concertVisited", true),
+              withItem(ItemPool.DECK_OF_EVERY_CARD),
+              withProperty("_deckCardsDrawn", 15),
+              withFamiliarInTerrarium(FamiliarPool.GRIM_BROTHER),
+              withProperty("_grimBuff", true),
+              withCampgroundItem(ItemPool.WITCHESS_SET),
+              withProperty("_witchessBuff", true),
+              withProperty("puzzleChampBonus", 20),
+              withItem(ItemPool.PROTON_ACCELERATOR),
+              withProperty("_streamsCrossed", true),
+              withWorkshedItem(ItemPool.MAYO_CLINIC),
+              withProperty("_mayoTankSoaked", true),
+              withProperty("barrelShrineUnlocked", true),
+              withProperty("_barrelPrayer", true))) {
+        assertExhausted("friars food", 20);
+        assertExhausted("mom food", 50);
+        assertExhausted("summon 1", 30);
+        assertExhausted("concert Elvish", 20);
+        assertExhausted("play strength", 20);
+        assertExhausted("grim init", 30);
+        assertExhausted("witchess", 25);
+        assertExhausted("crossstreams", 10);
+        assertExhausted("mayosoak", 20);
+        assertExhausted("barrelprayer buff", 50);
+      }
+    }
+
+    @Test
+    void handlesAvailableBeachAndTelescopeSources() {
+      try (var cleanups =
+          new Cleanups(
+              withRestricted(false),
+              withItem(ItemPool.BEACH_COMB),
+              withProperty("_beachHeadsUsed", ""),
+              withProperty("telescopeUpgrades", 1),
+              withProperty("telescopeLookedHigh", true))) {
+        var beach =
+            EffectSourceDispatcher.dispatch(
+                "beach head Hot-Headed", "beach head Hot-Headed", context(2477, false, false));
+        var telescope =
+            EffectSourceDispatcher.dispatch(
+                "telescope high", "telescope high", context(false, false));
+
+        assertThat(beach.skip, is(false));
+        assertThat(beach.command, is("beach head Hot-Headed"));
+        assertThat(beach.duration, is(50));
+        assertThat(beach.usesRemaining, is(1L));
+        assertThat(telescope.skip, is(false));
+        assertThat(telescope.command, is(""));
+        assertThat(telescope.duration, is(10));
+      }
+    }
+
+    @Test
+    void handlesInstalledTerminalAndAsdonMartin() {
+      try (var cleanups =
+          new Cleanups(
+              withCampgroundItem(ItemPool.SOURCE_TERMINAL),
+              withProperty("sourceTerminalChips", "CRAM SCRAM INGRAM"),
+              withProperty("_sourceTerminalEnhanceUses", 3),
+              withProperty("sourceTerminalPram", 2),
+              withWorkshedItem(ItemPool.ASDON_MARTIN),
+              withFuel(74))) {
+        var terminal =
+            EffectSourceDispatcher.dispatch(
+                "terminal enhance items.enh", "terminal enhance items.enh", context(false, false));
+        var asdon =
+            EffectSourceDispatcher.dispatch(
+                "asdonmartin drive observantly",
+                "asdonmartin drive observantly",
+                context(false, false));
+
+        assertThat(terminal.skip, is(false));
+        assertThat(terminal.command, is(""));
+        assertThat(terminal.duration, is(60));
+        assertThat(terminal.usesRemaining, is(0L));
+        assertThat(asdon.skip, is(false));
+        assertThat(asdon.command, is("asdonmartin drive observantly"));
+        assertThat(asdon.duration, is(30));
+        assertThat(asdon.usesRemaining, is(2L));
+        assertThat(asdon.fuelCost, is(37));
+      }
+    }
+
+    @Test
+    void handlesBadMoonAndFalloutShelterDailySources() {
+      try (var badMoon =
+          new Cleanups(
+              withPath(Path.BAD_MOON),
+              withSign(ZodiacSign.BAD_MOON),
+              withProperty("styxPixieVisited", true))) {
+        var styx =
+            EffectSourceDispatcher.dispatch("styx muscle", "styx muscle", context(false, false));
+
+        assertThat(styx.skip, is(false));
+        assertThat(styx.command, is(""));
+        assertThat(styx.duration, is(10));
+      }
+
+      try (var fallout =
+          new Cleanups(
+              withPath(Path.NUCLEAR_AUTUMN),
+              withProperty("falloutShelterLevel", 3),
+              withProperty("_falloutShelterSpaUsed", true))) {
+        var spa =
+            EffectSourceDispatcher.dispatch(
+                "campground vault3", "campground vault3", context(false, false));
+
+        assertThat(spa.skip, is(false));
+        assertThat(spa.command, is(""));
+        assertThat(spa.duration, is(100));
+        assertThat(spa.usesRemaining, is(0L));
+      }
+    }
+
+    @Test
+    void handlesHatterAndAlliedRadioState() {
+      try (var cleanups =
+          new Cleanups(
+              withRestricted(false),
+              withItem(ItemPool.DRINK_ME_POTION),
+              withItem("helmet turtle"),
+              withProperty("_madTeaParty", true),
+              withItem(ItemPool.ALLIED_RADIO_BACKPACK),
+              withProperty("_alliedRadioDropsUsed", 0),
+              withProperty("_alliedRadioWildsunBoon", true))) {
+        var hatter =
+            EffectSourceDispatcher.dispatch("hatter 12", "hatter 12", context(false, false));
+        var radio =
+            EffectSourceDispatcher.dispatch(
+                "alliedradio effect boon",
+                "alliedradio effect boon",
+                context(EffectPool.WILDSUN_BOON, false, false));
+
+        assertThat(hatter.skip, is(false));
+        assertThat(hatter.command, is(""));
+        assertThat(hatter.duration, is(30));
+        assertThat(radio.skip, is(false));
+        assertThat(radio.command, is(""));
+        assertThat(radio.item, nullValue());
+        assertThat(radio.duration, is(100));
+      }
+    }
+
+    @Test
+    void rejectsExplicitlyExcludedConsumables() {
+      try (var cleanups = withItem(ItemPool.DIETING_PILL)) {
+        var dietingPill =
+            EffectSourceDispatcher.dispatch(
+                "use 1 dieting pill", "use 1 dieting pill", context(false, false));
+
+        assertThat(dietingPill.skip, is(true));
+      }
+    }
+
+    @Test
+    void omitsOrExplainsUnidentifiedConsumables() {
+      try (var cleanups = withContinuationState()) {
+        var omitted =
+            EffectSourceDispatcher.dispatch(
+                "use 1 definitely-not-an-item",
+                "use 1 definitely-not-an-item",
+                context(false, false));
+        var explained =
+            EffectSourceDispatcher.dispatch(
+                "use 1 definitely-not-an-item",
+                "use 1 definitely-not-an-item",
+                context(true, false));
+
+        assertThat(omitted.skip, is(true));
+        assertThat(explained.skip, is(false));
+        assertThat(explained.command, is(""));
+        assertThat(explained.text, is("(identify & use 1 definitely-not-an-item)"));
+      }
+    }
+
+    @Test
+    void modelsHotDogsWithoutInventoryItems() {
+      try (var cleanups =
+          new Cleanups(
+              withPath(Path.NONE),
+              withRestricted(false),
+              withInteractivity(true),
+              withProperty("_fancyHotDogEaten", false))) {
+        var plan =
+            EffectSourceDispatcher.dispatch(
+                "eat 1 optimal dog", "eat 1 optimal dog", context(false, true));
+
+        assertThat(plan.skip, is(false));
+        assertThat(plan.item, nullValue());
+        assertThat(plan.fullnessCost, greaterThan(0));
+        assertThat(plan.usesRemaining, is(1L));
+      }
+    }
+
+    @Test
+    void modelsSynthesisAndPillKeeperResourceLimits() {
+      try (var cleanups =
+          new Cleanups(
+              withPath(Path.NONE),
+              withRestricted(false),
+              withSkill(SkillPool.SWEET_SYNTHESIS),
+              withSpleenUse(KoLCharacter.getSpleenLimit()),
+              withItem(ItemPool.PILL_KEEPER),
+              withProperty("_freePillKeeperUsed", true))) {
+        var synthesis =
+            EffectSourceDispatcher.dispatch(
+                "synthesize effect", "synthesize effect", context(false, false));
+        var pillKeeper =
+            EffectSourceDispatcher.dispatch(
+                "pillkeeper extend", "pillkeeper extend", context(false, false));
+
+        assertThat(synthesis.skip, is(false));
+        assertThat(synthesis.command, is(""));
+        assertThat(synthesis.spleenCost, is(1));
+        assertThat(pillKeeper.skip, is(false));
+        assertThat(pillKeeper.command, is(""));
+        assertThat(pillKeeper.spleenCost, is(3));
+      }
+    }
+
+    @Test
+    void disablesAvailableSpacegateDaycareAndSkateUsesAfterUse() {
+      try (var cleanups =
+          new Cleanups(
+              withPath(Path.NONE),
+              withRestricted(false),
+              withProperty("spacegateAlways", true),
+              withProperty("spacegateVaccine1", true),
+              withProperty("_spacegateVaccine", true),
+              withProperty("daycareOpen", true),
+              withProperty("_daycareSpa", true),
+              withProperty("skateParkStatus", "ice"),
+              withProperty("_skateBuff1", true))) {
+        var spacegate =
+            EffectSourceDispatcher.dispatch(
+                "spacegate vaccine 1", "spacegate vaccine 1", context(false, false));
+        var daycare =
+            EffectSourceDispatcher.dispatch(
+                "daycare mysticality", "daycare mysticality", context(false, false));
+        var skate =
+            EffectSourceDispatcher.dispatch("skate lutz", "skate lutz", context(false, false));
+
+        assertThat(spacegate.skip, is(false));
+        assertThat(spacegate.command, is(""));
+        assertThat(spacegate.usesRemaining, is(0L));
+        assertThat(daycare.skip, is(false));
+        assertThat(daycare.command, is(""));
+        assertThat(daycare.usesRemaining, is(0L));
+        assertThat(skate.skip, is(false));
+        assertThat(skate.command, is(""));
+        assertThat(skate.usesRemaining, is(0L));
+      }
+    }
+
+    private void assertExhausted(String command, int duration) {
+      var plan = EffectSourceDispatcher.dispatch(command, command, context(false, true));
+
+      assertThat(command, plan.skip, is(false));
+      assertThat(command, plan.command, is(""));
+      assertThat(command, plan.duration, is(duration));
+      assertThat(command, plan.usesRemaining, is(0L));
+    }
   }
 
   @Nested
@@ -443,6 +792,131 @@ class EffectSourceDispatcherTest {
 
         assertThat(result.command, is(""));
       }
+    }
+
+    @Test
+    void retrievesAccessibleItemsFromTheCloset() {
+      try (var cleanups =
+          new Cleanups(
+              withRestricted(false),
+              withProperty("autoSatisfyWithCloset", true),
+              withItem(ItemPool.POCKET_WISH, 0),
+              withItemInCloset(ItemPool.POCKET_WISH))) {
+        var plan =
+            EffectSourceDispatcher.dispatch(
+                "custom source", "custom source", context(false, false));
+        plan.item = ItemPool.get(ItemPool.POCKET_WISH);
+
+        var result = EffectSourcePlanFinalizer.finish(plan, context(false, false), 5);
+
+        assertThat(
+            result.command, is("closet take 1 \u00B6" + ItemPool.POCKET_WISH + ";custom source"));
+        assertThat(result.text, is("uncloset & custom source (+5)"));
+      }
+    }
+
+    @Test
+    void pullsItemsFromStorageInRonin() {
+      var context =
+          context(
+              EffectPool.LEASH_OF_LINGUINI,
+              false,
+              false,
+              EquipScope.SPECULATE_ANY,
+              200,
+              PriceLevel.DONT_CHECK);
+      try (var cleanups =
+          new Cleanups(
+              withPath(Path.NONE),
+              withHardcore(false),
+              withRonin(true),
+              withInteractivity(false),
+              withRestricted(false),
+              withProperty("autoSatisfyWithMall", false),
+              withItem(ItemPool.POCKET_WISH, 0),
+              withItemInStorage(ItemPool.POCKET_WISH))) {
+        var plan = EffectSourceDispatcher.dispatch("custom source", "custom source", context);
+        plan.item = ItemPool.get(ItemPool.POCKET_WISH);
+
+        var result = EffectSourcePlanFinalizer.finish(plan, context, 5);
+
+        assertThat(result.command, is("pull \u00B6" + ItemPool.POCKET_WISH + ";custom source"));
+        assertThat(result.text, is("pull & custom source (+5)"));
+      }
+    }
+
+    @Test
+    void buysItemsFromNpcStores() {
+      var context =
+          context(
+              EffectPool.LEASH_OF_LINGUINI,
+              false,
+              false,
+              EquipScope.SPECULATE_ANY,
+              200,
+              PriceLevel.DONT_CHECK);
+      try (var cleanups =
+          new Cleanups(
+              withPath(Path.NONE),
+              withRestricted(false),
+              withMeat(200),
+              withProperty("autoSatisfyWithNPCs", true),
+              withItem(ItemPool.CHEWING_GUM, 0))) {
+        var plan = EffectSourceDispatcher.dispatch("custom source", "custom source", context);
+        plan.item = ItemPool.get(ItemPool.CHEWING_GUM);
+
+        var result = EffectSourcePlanFinalizer.finish(plan, context, 5);
+
+        assertThat(result.command, is("buy 1 \u00B6" + ItemPool.CHEWING_GUM + ";custom source"));
+        assertThat(result.text, containsString("buy & custom source"));
+        assertThat(result.text, containsString("50 meat"));
+      }
+    }
+
+    @Test
+    void disablesAndRendersUnavailableOrganAndClassResources() {
+      try (var cleanups =
+          new Cleanups(
+              withFullness(KoLCharacter.getStomachCapacity()),
+              withInebriety(KoLCharacter.getLiverCapacity()),
+              withSpleenUse(KoLCharacter.getSpleenLimit()),
+              withHP(0, 100, 100),
+              withProperty("verboseMaximizer", false))) {
+        var plan =
+            EffectSourceDispatcher.dispatch(
+                "custom source", "custom source", context(false, false));
+        plan.fullnessCost = 1;
+        plan.inebrietyCost = 2;
+        plan.spleenCost = 3;
+        plan.soulsauceCost = 4;
+        plan.thunderCost = 5;
+        plan.hpCost = 6;
+        plan.fuelCost = 37;
+
+        var result = EffectSourcePlanFinalizer.finish(plan, context(false, false), 5);
+
+        assertThat(result.skip, is(false));
+        assertThat(result.command, is(""));
+        assertThat(
+            result.text,
+            is(
+                "custom source (1 full, 2 drunk, 3 spleen, 4 soulsauce, 5 dB of thunder, "
+                    + "6 hp, 37 fuel, +5)"));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({"rain, 2, 2 drops of rain", "lightning, 3, 3 bolts of lightning"})
+    void rendersWeatherResourceCosts(String resource, int cost, String expected) {
+      var plan =
+          EffectSourceDispatcher.dispatch("custom source", "custom source", context(false, false));
+      if (resource.equals("rain")) plan.rainCost = cost;
+      else plan.lightningCost = cost;
+
+      var result = EffectSourcePlanFinalizer.finish(plan, context(false, false), 5);
+
+      assertThat(result.command, is(""));
+      assertThat(result.text, containsString(expected));
     }
   }
 }

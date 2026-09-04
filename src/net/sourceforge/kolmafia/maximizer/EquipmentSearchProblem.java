@@ -441,8 +441,27 @@ final class EquipmentSearchProblem
 
     List<CheckedItem> possible = this.possibles.get(Slot.ACCESSORY1);
     List<Choice> choices = new ArrayList<>();
+    int finishPosition = -1;
+    for (int pos = 0; pos < possible.size(); pos++) {
+      if (possible.get(pos).getItemId() <= 0) {
+        finishPosition = pos;
+        break;
+      }
+    }
+    boolean finishAdded = false;
+    if (finishPosition >= 0 && finishPosition < this.accessoryPos) {
+      choices.add(this.choice(this::finishAccessories));
+      finishAdded = true;
+    }
     for (int pos = this.accessoryPos; pos < possible.size(); pos++) {
       CheckedItem item = possible.get(pos);
+      if (item.getItemId() <= 0) {
+        if (!finishAdded) {
+          choices.add(this.choice(this::finishAccessories));
+          finishAdded = true;
+        }
+        continue;
+      }
       int count =
           this.availableCount(item, Slot.NONE, Slot.ACCESSORY1, Slot.ACCESSORY2, Slot.ACCESSORY3);
       if (count <= 0) continue;
