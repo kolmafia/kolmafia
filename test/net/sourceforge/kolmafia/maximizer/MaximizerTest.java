@@ -2153,6 +2153,9 @@ public class MaximizerTest {
     }
 
     @Test
+    @LegacyBehavior(
+        "sea forces the Crown of Ed into fish mode before equipment search; a correct maximizer "
+            + "would use the available SCUBA tank and take the higher-scoring hyena bonus")
     public void bonusModeNeverOverridesImplicitForce() {
       final var cleanups =
           new Cleanups(
