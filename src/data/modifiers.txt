@@ -6321,7 +6321,7 @@ Effect	Dreadful Heat	Cold Resistance: +5, Spooky Resistance: +5
 Effect	Dreadful Sheen	Hot Resistance: +5, Stench Resistance: +5
 Effect	Dreadful Smell	Hot Resistance: +5, Spooky Resistance: +5
 Effect	Dreadlocked	Mysticality Percent: +50, Moxie Percent: -50
-Effect	Dreaming of a Wet Crimbo	Initiative Penalty: [10*env(underwater)], Item Drop Penalty: [10*env(underwater)], Meat Drop Penalty: [10*env(underwater)], Item Drop: [50*env(underwater)], Meat Drop: [100*env(underwater)]
+Effect	Dreaming of a Wet Crimbo	Initiative Penalty: [30*env(underwater)], Item Drop Penalty: [30*env(underwater)], Meat Drop Penalty: [30*env(underwater)], Item Drop: [50*env(underwater)], Meat Drop: [100*env(underwater)]
 Effect	Dreams and Lights	Mysticality: +10, Mana Cost: -3
 Effect	Drenched in Lava	Muscle Limit: 30, Mysticality Limit: 30, Moxie Limit: 30
 Effect	Drenched With Filth	Stench Damage: +75, Thorns: 1
@@ -6512,7 +6512,7 @@ Effect	Feline Ferocity	Weapon Damage Percent: +100
 Effect	Feroci Tea	Muscle: +50
 Effect	Festive Radiation	All Attributes Percent: +5, HP Regen Min: 10, HP Regen Max: 10, MP Regen Min: 10, MP Regen Max: 10
 # Festively Brined: Makes you a better diver
-Effect	Festively Brined	Initiative Penalty: [10*env(underwater)], Item Drop Penalty: [10*env(underwater)], Meat Drop Penalty: [10*env(underwater)]
+Effect	Festively Brined	Initiative Penalty: [50*env(underwater)], Item Drop Penalty: [50*env(underwater)], Meat Drop Penalty: [50*env(underwater)]
 Effect	Festively Experimented-Upon	Maximum HP Percent: +200, Maximum MP Percent: +200
 Effect	Festively-Dusted	Mysticality Percent: +10
 Effect	Fever From the Flavor	Cold Resistance: +9
@@ -7277,7 +7277,7 @@ Effect	Mo' Hobo	Hobo Power: +10
 Effect	Moist Night's Sleep	Initiative: +50, Hot Resistance: +2, Cold Damage: +10
 Effect	Moisticality	Mysticality: +15, Experience Percent (Mysticality): +20
 # Molasses Flooded: Makes you a better diver
-Effect	Molasses Flooded	Initiative Penalty: [10*env(underwater)], Item Drop Penalty: [10*env(underwater)], Meat Drop Penalty: [10*env(underwater)]
+Effect	Molasses Flooded	Initiative Penalty: [20*env(underwater)], Item Drop Penalty: [20*env(underwater)], Meat Drop Penalty: [20*env(underwater)]
 Effect	Monkeymask	Avatar: "damned dirty ape"
 Effect	monsters.enq	Monster Level: +25
 Effect	Monstrosi Tea	Monster Level: -30
@@ -7743,7 +7743,7 @@ Effect	Salamanderenity	MP Regen Min: 3, MP Regen Max: 4
 Effect	Salsa Satanica	Item Drop: +50
 Effect	Salt Rockin'	Moxie: +30
 # Salt Rush: Makes you a better diver
-Effect	Salt Rush	Initiative Penalty: [10*env(underwater)], Item Drop Penalty: [10*env(underwater)], Meat Drop Penalty: [10*env(underwater)]
+Effect	Salt Rush	Initiative Penalty: [30*env(underwater)], Item Drop Penalty: [30*env(underwater)], Meat Drop Penalty: [30*env(underwater)]
 # Salty Dogs: Makes you a better diver
 Effect	Salty Dogs	Initiative Penalty: [10*env(underwater)], Item Drop Penalty: [10*env(underwater)], Meat Drop Penalty: [10*env(underwater)]
 # Salty Mouth: You really need a beer...
@@ -7779,7 +7779,7 @@ Effect	Scot Free	Adventures: +3, Initiative: +10
 Effect	Scowl of the Auk	Weapon Damage: +10
 Effect	Scrappy, Shadowy	Spooky Damage: +25, Damage Reduction: 15
 Effect	Screaming!  SCREAMING!  AAAAAAAH!	Combat Rate: +5
-Effect	Sea Guts	Initiative Penalty: [10*env(underwater)], Item Drop Penalty: [10*env(underwater)], Meat Drop Penalty: [10*env(underwater)]
+Effect	Sea Guts	Initiative Penalty: [20*env(underwater)], Item Drop Penalty: [20*env(underwater)], Meat Drop Penalty: [20*env(underwater)]
 Effect	Sea Seeing	Item Drop: [30*env(underwater)]
 Effect	Sea Smarm	Moxie: [25+225*env(underwater)]
 Effect	Sea Smarts	Mysticality: [25+225*env(underwater)]
