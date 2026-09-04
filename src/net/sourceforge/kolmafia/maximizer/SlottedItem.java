@@ -15,6 +15,14 @@ import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 
+/**
+ * Maximizer-local access to parent equipment whose behavior depends on typed child-slot occupants.
+ *
+ * <p>This abstraction operates only on hypothetical {@link MaximizerLoadout} state; it does not
+ * issue equipment requests or change application-wide modifier calculation. Parent groups may copy
+ * current occupants or opt into candidate selection without teaching the general search about each
+ * item's storage mechanism.
+ */
 interface SlottedItem<T> {
   List<Slot> slots();
 
@@ -27,6 +35,7 @@ interface SlottedItem<T> {
   Modifiers modifiers(T occupant);
 }
 
+/** Registered item-valued child-slot groups understood by the Maximizer. */
 enum ItemSlotGroup implements SlottedItem<AdventureResult> {
   STICKERS(List.copyOf(SlotSet.STICKER_SLOTS), ModifierType.ITEM, false, ItemPool.STICKER_SWORD),
   CARD_SLEEVE(List.of(Slot.CARDSLEEVE), ModifierType.ITEM, true, ItemPool.CARD_SLEEVE),
@@ -135,6 +144,7 @@ enum ItemSlotGroup implements SlottedItem<AdventureResult> {
           ItemPool.THE_ETERNITY_CODPIECE, ETERNITY_CODPIECE);
 }
 
+/** Registered familiar-valued child-slot groups understood by the Maximizer. */
 enum FamiliarSlotGroup implements SlottedItem<FamiliarData> {
   CROWN(ItemPool.HATSEAT, Slot.CROWNOFTHRONES),
   BJORN(ItemPool.BUDDY_BJORN, Slot.BUDDYBJORN);

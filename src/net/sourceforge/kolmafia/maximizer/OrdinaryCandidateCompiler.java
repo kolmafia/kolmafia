@@ -13,6 +13,14 @@ import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 
+/**
+ * Discovers ordinary equipment candidates and builds full and ranked catalogs.
+ *
+ * <p>Database iteration lives here; per-item legality and relevance belong to {@link
+ * OrdinaryCandidateEvaluator}, slot placement to {@link EquipmentCandidateSlotter}, and familiar
+ * equipment to {@link FamiliarEquipmentCompiler}. The full catalog is retained for exhaustive
+ * verification even when interactive search uses a shortlist.
+ */
 final class OrdinaryCandidateCompiler {
   record Options(
       List<FamiliarData> familiars,

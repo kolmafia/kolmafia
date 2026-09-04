@@ -12,6 +12,12 @@ import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 
+/**
+ * Compiles familiar-equipment candidates for each familiar considered by the expression.
+ *
+ * <p>Familiar equipment uses per-familiar ranking buckets and can interact with ordinary equipment
+ * through familiar-specific equipability and shared copy counts.
+ */
 final class FamiliarEquipmentCompiler {
   record Result(CheckedItem item, boolean rejected) {}
 

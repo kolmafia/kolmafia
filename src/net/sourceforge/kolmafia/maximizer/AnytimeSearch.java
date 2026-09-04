@@ -3,6 +3,14 @@ package net.sourceforge.kolmafia.maximizer;
 import java.util.List;
 import java.util.function.BooleanSupplier;
 
+/**
+ * Domain-independent deterministic depth-first anytime branch-and-bound.
+ *
+ * <p>The problem supplies reversible choices, complete candidates, and optional safe dominance and
+ * upper-bound checks. The engine knows nothing about equipment or KoL mechanics. If the deadline
+ * stops traversal, the best legal incumbent found so far is still returned and {@link
+ * Result#optimal()} is false.
+ */
 final class AnytimeSearch {
   private AnytimeSearch() {}
 

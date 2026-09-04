@@ -46,6 +46,18 @@ import net.sourceforge.kolmafia.session.MallPriceManager;
 import net.sourceforge.kolmafia.swingui.MaximizerFrame;
 import net.sourceforge.kolmafia.utilities.IntOrString;
 
+/**
+ * Application-facing coordinator for one maximize request.
+ *
+ * <p>This class owns the public entry points and the ordered workflow: capture current state,
+ * compile and search equipment, turn the winning loadout into equipment changes, evaluate effect
+ * sources, and publish {@link Boost} recommendations. Expression semantics belong to {@link
+ * MaximizerTermRegistry} and {@link Evaluator}; equipment search belongs to {@link
+ * EquipmentSearchRunner}; effect-specific availability belongs to {@link EffectSourceDispatcher}.
+ *
+ * <p>The static fields mirror the long-standing GUI and scripting API. Per-run mutable search state
+ * is kept in {@link MaximizerSession} so it does not leak into the search algorithm.
+ */
 public class Maximizer {
   private static boolean firstTime = true;
 
@@ -234,18 +246,15 @@ public class Maximizer {
     Maximizer.bestChecked = 0;
     Maximizer.bestUpdate = 0;
 
-    // parsing error
     if (!KoLmafia.permitsContinue() || filterCount == 0) {
       return;
     }
 
-    // ensure character state is updated
     if (KoLCharacter.inQuantum()) {
       RequestThread.postRequest(new QuantumTerrariumRequest());
     }
-    // catch passive skills
+    // Refreshing status discovers passive skills that can change modifier evaluation.
     ApiRequest.updateStatus();
-    // ensure current modifiers are up-to-date
     KoLCharacter.recalculateAdjustments();
     Maximizer.session.refreshCharacterSnapshot(Maximizer.evaluator());
     double current =
@@ -370,7 +379,6 @@ public class Maximizer {
         if (itemList == null) {
           continue;
         }
-        // Iterate over items to see if we have access to them
         int count = 0;
         for (int itemId : itemList) {
           var makeable = getAbsorbable(itemId, equipScope, maxPrice, priceLevel);
@@ -396,15 +404,12 @@ public class Maximizer {
         if (absorbsLeft < 1) {
           continue;
         }
-        // Cannot abosrb undiscardable items
         if (!ItemDatabase.isDiscardable(itemId)) {
           continue;
         }
-        // Can only absorb tradeable and gift items
         if (!ItemDatabase.isTradeable(itemId) && !ItemDatabase.isGiftItem(itemId)) {
           continue;
         }
-        // Can only get it from Equipment (not including familiar equipment)
         if (!ItemDatabase.isEquipment(itemId) || ItemDatabase.isFamiliarEquipment(itemId)) {
           continue;
         }
@@ -453,7 +458,6 @@ public class Maximizer {
           ModifierDatabase.getAllModifiersOfType(ModifierType.HORSERY)) {
         if (!entry.getKey().isString()) continue;
         String name = entry.getKey().getStringValue();
-        // Must be available in your current path
         if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Horsery contract")) {
           continue;
         }
@@ -502,7 +506,7 @@ public class Maximizer {
 
       if (KoLCharacter.mcdAvailable() || includeAll) {
         int max = KoLCharacter.getSignZone() == ZodiacZone.CANADIA ? 11 : 10;
-        // check only the ends
+        // Heuristic: compare only the extreme MCD settings.
         for (int i : new int[] {0, max}) {
           MaximizerLoadout loadout = new MaximizerLoadout();
           loadout.setMindControlLevel(i);
@@ -556,12 +560,10 @@ public class Maximizer {
         }
         sources = EffectDatabase.getAllActions(effectId);
         if (EffectAvailability.cannotGain(effectId)) {
-          // sources do not apply
           sources = new ArrayList<>();
         }
         if (filter.contains(KoLConstants.filterType.WISH)
             && !EffectDatabase.hasAttribute(effectId, "nohookah")) {
-          // effect is wishable
           sources.add("monkeypaw effect " + name);
           sources.add("genie effect " + name);
         }
@@ -612,8 +614,6 @@ public class Maximizer {
 
         String cmd = source;
         String text = source;
-
-        // Check filters
 
         String basecommand = cmd.trim().contains(" ") ? cmd.split(" ")[0] : cmd;
 
@@ -789,9 +789,8 @@ public class Maximizer {
       // We need 1 + that number to equip this item, not just 1
       int count = 0;
 
-      // If we're running from command line then execute them straight away,
-      // so we have to count how much we've used in 'earlier' items
-      // TODO: confirm this still works
+      // Assumption: immediate execution has already changed earlier live slots, while speculative
+      // output has not. TODO: verify this ordering contract end to end.
       if (equipScope == EquipScope.EQUIP_NOW) {
         for (var piece : SlotSet.ALL_SLOTS) {
           if (piece.ordinal() >= slot.ordinal()) break;
@@ -801,7 +800,6 @@ public class Maximizer {
           }
         }
       } else {
-        // Otherwise count earlier uses directly from the selected equipment.
         for (var piece : SlotSet.ALL_SLOTS) {
           if (piece.ordinal() >= slot.ordinal()) break;
           if (item.equals(Maximizer.best().equipment.get(piece))) {
@@ -826,16 +824,11 @@ public class Maximizer {
         }
       }
 
-      // The "initial" quantity comes from InventoryManager.getAccessibleCount.
-      // It can include inventory, closet, and storage.  However, anything that
-      // is included should also be supported by retrieveItem(), so we don't need
-      // to take any special action here.  Displaying the method that will be used
-      // would still be useful, though.
+      // Accessible copies may come from inventory, closet, or storage; retrieveItem chooses which.
       if (!curr.equals(item)) {
         switch (checkedItem.acquisitionMethod(count)) {
           case ACCESSIBLE -> {
-            // This may look odd, but we need an item, not a checked item
-            // The count of a checked item includes creatable, buyable, pullable etc.
+            // simRetrieveItem needs the requested copy count, not the candidate's aggregate count.
             String method =
                 InventoryManager.simRetrieveItem(
                     ItemPool.get(item.getItemId(), count + 1),
@@ -864,8 +857,8 @@ public class Maximizer {
             price = ConcoctionPool.get(item).price;
           }
           case FOLD -> {
-            // We assume that there is only one available fold item type of the right group.
-            // Not always right, but will do for now.
+            // Availability records one representative fold source; this can choose incorrectly
+            // when several source item types are available.
             String method =
                 InventoryManager.simRetrieveItem(
                     ItemPool.get(checkedItem.availability().foldItemId(), count + 1));
@@ -888,8 +881,8 @@ public class Maximizer {
             cmd = "pull \u00B6" + item.getItemId() + ";" + cmd;
           }
           case PULL_FOLD -> {
-            // We assume that there is only one available fold item type of the right group.
-            // Not always right, but will do for now.
+            // Availability records one representative fold source; this can choose incorrectly
+            // when several source item types are available.
             text = "pull & fold & " + text;
             cmd =
                 "pull 1 \u00B6"
@@ -939,9 +932,8 @@ public class Maximizer {
 
   private static Makeable getAbsorbable(
       int itemId, EquipScope equipScope, int maxPrice, PriceLevel priceLevel) {
-    // Check if we have access to item
     CheckedItem checkedItem = new CheckedItem(itemId, equipScope, maxPrice, priceLevel);
-    // We won't include unavailable items, as this just gets far too large
+    // Unavailable absorbables are omitted because listing every theoretical source is overwhelming.
     long price = 0L;
     AdventureResult item = ItemPool.get(itemId);
     ItemAvailability availability = checkedItem.availability();

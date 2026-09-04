@@ -13,6 +13,12 @@ import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 
+/**
+ * Places an accepted equipment candidate into its search and ranking buckets.
+ *
+ * <p>Placement is separate from legality and scoring because one item can require an auxiliary
+ * bucket, such as one-handed weapons retained for an offhand-compatible branch.
+ */
 final class EquipmentCandidateSlotter {
   record Requirements(
       int hands,

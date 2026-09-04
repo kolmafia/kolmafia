@@ -19,6 +19,13 @@ import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 
+/**
+ * Preserves outfit and synergy candidates whose value exists only as a complete set.
+ *
+ * <p>Isolated candidate scoring can discard a weak piece even when its outfit or synergy is useful.
+ * This evaluator identifies such sets before shortlisting, retains their pieces, and removes
+ * redundant combinations after candidate loadouts have been built.
+ */
 final class EquipmentSetEvaluator {
   private static final int[][] THREE_ITEM_SYNERGIES = {
     {

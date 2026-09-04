@@ -3,6 +3,12 @@ package net.sourceforge.kolmafia.maximizer;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Immutable copy counts for each acquisition path considered by the Maximizer.
+ *
+ * <p>{@link #options()} defines the order in which repeated copies consume those paths; changing
+ * that order changes recommendation and resource behavior.
+ */
 record ItemAvailability(
     int inventory,
     int initial,

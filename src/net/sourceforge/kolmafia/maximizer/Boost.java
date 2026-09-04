@@ -7,6 +7,12 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.Modeable;
 import net.sourceforge.kolmafia.equipment.Slot;
 
+/**
+ * One displayable and optionally executable recommendation produced by the Maximizer.
+ *
+ * <p>A boost retains both presentation text and the CLI command needed to apply the change, plus
+ * the affected item, effect, familiar, or mode state exposed through scripting and the GUI.
+ */
 public class Boost implements Comparable<Boost> {
   private boolean isEquipment, isShrug, priority;
   private final String cmd;

@@ -10,6 +10,13 @@ import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 
+/**
+ * Builds isolated loadouts used to rank individual candidates.
+ *
+ * <p>Each candidate is applied to a clean hypothetical state with the preselected card, mode, or
+ * carried familiar it requires. These loadouts rank the shortlist; they are not the complete
+ * equipment states traversed by {@link EquipmentSearchProblem}.
+ */
 final class CandidateLoadoutFactory {
   record Compilation(SlotList<MaximizerLoadout> loadouts, AdventureResult card, int catalogCount) {}
 

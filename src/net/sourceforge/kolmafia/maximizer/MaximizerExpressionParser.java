@@ -6,6 +6,14 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
+/**
+ * Tokenizes a maximizer expression into weighted terms.
+ *
+ * <p>This class owns syntax only. {@link MaximizerTermRegistry} resolves each token and stores its
+ * meaning, including stateful constructs such as {@code min} and {@code max}. Keeping those
+ * responsibilities separate prevents additions to the query language from extending an ordered
+ * parser chain.
+ */
 final class MaximizerExpressionParser {
   private static final Pattern TERM_PATTERN =
       Pattern.compile(

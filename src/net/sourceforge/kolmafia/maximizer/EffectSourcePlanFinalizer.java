@@ -14,6 +14,14 @@ import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.MallPriceManager;
 
+/**
+ * Applies behavior common to every dispatched effect-source plan.
+ *
+ * <p>After {@link EffectSourceDispatcher} handles the exceptional game rule, this pipeline checks
+ * shared resources and item legality, chooses an acquisition method, validates prices and costs,
+ * and renders the final recommendation text. Centralizing those steps keeps source handlers small
+ * and prevents subtly different purchase or affordability rules.
+ */
 final class EffectSourcePlanFinalizer {
   private EffectSourcePlanFinalizer() {}
 

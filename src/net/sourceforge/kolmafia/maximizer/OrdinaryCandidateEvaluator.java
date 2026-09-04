@@ -15,6 +15,12 @@ import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 
+/**
+ * Classifies one ordinary item as rejected, catalog-only, or useful for ranked search.
+ *
+ * <p>This is the home for item-level legality, expression relevance, modeability, and special
+ * category checks. It does not iterate the item database or decide final slot placement.
+ */
 final class OrdinaryCandidateEvaluator {
   enum Disposition {
     REJECT,

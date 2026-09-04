@@ -11,6 +11,13 @@ import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.modifiers.BitmapModifier;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 
+/**
+ * Character facts that must remain stable while one equipment search is running.
+ *
+ * <p>Candidate evaluation uses this snapshot instead of repeatedly consulting mutable global
+ * character state. Shared-resource definitions live here so every loadout measures resources in the
+ * same order.
+ */
 record CharacterSnapshot(
     int allowedMutexViolations,
     Map<Slot, AdventureResult> currentEquipment,

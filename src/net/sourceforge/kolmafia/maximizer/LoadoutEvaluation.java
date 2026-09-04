@@ -8,6 +8,13 @@ import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 
+/**
+ * Lazily cached score and comparison state for a {@link MaximizerLoadout}.
+ *
+ * <p>Equipment or mode mutation must invalidate this object through {@link
+ * MaximizerLoadout#setUnscored()}. Primary score, feasibility, shared-resource use, tiebreaker, and
+ * simplicity are calculated once and combined into the authoritative {@link SolutionQuality}.
+ */
 final class LoadoutEvaluation {
   private boolean scored;
   private boolean tiebreakered;

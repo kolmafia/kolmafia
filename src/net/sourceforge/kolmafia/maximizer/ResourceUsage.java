@@ -6,6 +6,12 @@ import java.util.function.ToIntFunction;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.equipment.Slot;
 
+/**
+ * Immutable usage vector for resources shared by otherwise independent equipment choices.
+ *
+ * <p>Each position corresponds to the same position in {@link CharacterSnapshot#resources()}.
+ * Comparison intentionally prefers lower usage so a tied solution preserves scarce capacity.
+ */
 final class ResourceUsage implements Comparable<ResourceUsage> {
   static final ResourceUsage EMPTY = new ResourceUsage(new int[0]);
 

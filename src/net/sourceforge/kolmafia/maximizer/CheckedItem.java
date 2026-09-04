@@ -6,6 +6,12 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.session.MallPriceManager;
 
+/**
+ * Equipment candidate annotated with its usable copies and search-only flags.
+ *
+ * <p>{@link ItemAvailabilityCompiler} computes possible acquisition paths once. Mall-backed counts
+ * remain provisional until {@link #validate(long, PriceLevel)} obtains the required price.
+ */
 public class CheckedItem extends AdventureResult {
   private ItemAvailability availability;
   private final boolean buyable;

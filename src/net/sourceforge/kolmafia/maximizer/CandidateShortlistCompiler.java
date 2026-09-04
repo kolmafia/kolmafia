@@ -15,6 +15,13 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase.FoldGroup;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+/**
+ * Selects the small candidate set used by interactive equipment search.
+ *
+ * <p>Required items are always retained. Remaining positions take the best isolated loadouts while
+ * respecting copy limits and slot-specific useful counts. The Codpiece may request a wider
+ * accessory pool because choosing its parent changes which gem configurations are possible.
+ */
 final class CandidateShortlistCompiler {
   record Result(SlotList<CheckedItem> candidates, int candidateCount) {}
 

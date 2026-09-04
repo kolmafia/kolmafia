@@ -4,6 +4,13 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
+/**
+ * Mutable operational state for one maximize invocation.
+ *
+ * <p>The session owns the incumbent, cancellation and deadline checks, combination limits, progress
+ * reporting, the stable {@link CharacterSnapshot}, and search metrics. It deliberately keeps
+ * lifecycle concerns out of {@link AnytimeSearch} and domain decisions out of the session.
+ */
 final class MaximizerSession {
   final long combinationLimit;
   MaximizerLoadout best;

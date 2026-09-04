@@ -21,6 +21,14 @@ import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 
+/**
+ * Builds and runs the equipment-search pipeline for one evaluator.
+ *
+ * <p>The runner coordinates ordinary and Codpiece candidate compilation, special child choices such
+ * as cards, modes, and carried familiars, outfit/synergy preservation, shortlist selection, and
+ * construction of {@link EquipmentSearchProblem}. Keeping this pipeline outside {@link Evaluator}
+ * leaves scoring independent of candidate discovery and traversal.
+ */
 final class EquipmentSearchRunner {
   record Options(
       Map<Slot, Integer> slots,

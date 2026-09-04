@@ -14,6 +14,13 @@ import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
+/**
+ * Compiles all usable copies of one item under an equipment scope and price policy.
+ *
+ * <p>The result distinguishes already accessible, craftable, foldable, pullable, NPC, mall, and
+ * storage sources because later copies can consume different resources. Codpiece gems may need more
+ * copies than ordinary equipment and therefore use a larger useful-count ceiling.
+ */
 final class ItemAvailabilityCompiler {
   private final int itemId;
   private final EquipScope equipScope;

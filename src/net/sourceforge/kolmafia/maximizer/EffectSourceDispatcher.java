@@ -47,7 +47,21 @@ import net.sourceforge.kolmafia.textui.command.AlliedRadioCommand;
 import net.sourceforge.kolmafia.textui.command.LoathingIdolCommand;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
+/**
+ * Applies game-specific availability rules to one effect-source command.
+ *
+ * <p>The visible command-family switch replaces a long precedence-sensitive conditional chain in
+ * {@link Maximizer}. Each named handler changes only source-specific state on {@link Plan}: it may
+ * keep the source, disable execution while preserving an explanatory recommendation, or skip the
+ * source entirely. Shared acquisition, affordability, and display behavior belongs to {@link
+ * EffectSourcePlanFinalizer}.
+ *
+ * <p>This is intentionally not a generic rules engine. A switch keeps command precedence and the
+ * complete supported vocabulary reviewable in one place, while named methods isolate the many
+ * unrelated Kingdom of Loathing mechanics.
+ */
 final class EffectSourceDispatcher {
+  /** Stable request and character context shared by all source handlers. */
   record Context(
       String name,
       AdventureResult effect,
@@ -59,6 +73,12 @@ final class EffectSourceDispatcher {
       LimitMode limitMode,
       boolean haveVipKey) {}
 
+  /**
+   * Mutable result of source-specific dispatch.
+   *
+   * <p>{@link #skip} means the recommendation is omitted. An empty {@link #command} means it
+   * remains visible but cannot currently execute.
+   */
   static final class Plan {
     String command;
     String text;

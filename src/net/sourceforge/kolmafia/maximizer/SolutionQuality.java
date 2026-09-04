@@ -8,6 +8,15 @@ import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 
+/**
+ * Authoritative total ordering for complete maximizer solutions.
+ *
+ * <p>The field and comparison order is user-visible behavior: feasibility and requested score win
+ * first, followed by lower shared-resource use and progressively weaker tiebreakers. Search,
+ * candidate ranking, and the brute-force oracle must not invent a different ordering. {@link
+ * MaximizerLoadout#compareTo(MaximizerLoadout)} duplicates its first inexpensive comparisons as a
+ * fast path before constructing the complete quality.
+ */
 record SolutionQuality(
     boolean feasible,
     double score,

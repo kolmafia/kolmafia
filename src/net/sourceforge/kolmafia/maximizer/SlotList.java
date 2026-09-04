@@ -10,10 +10,10 @@ import net.sourceforge.kolmafia.equipment.Slot;
  * A list of lists of T. Indexed by:
  *
  * <ul>
- *   <li>EquipmentManager slots
+ *   <li>equipment slots
  *       <ul>
- *         <li>except that the slots acc2, acc3, sticker2, sticker3 are instead the Evaluator reused
- *             slots: OFFHAND_MELEE, OFFHAND_RANGED, WATCHES, WEAPON_1H
+ *         <li>accessory 2, accessory 3, and sticker 3 are also reused as the evaluator's virtual
+ *             OFFHAND_MELEE, OFFHAND_RANGED, and WEAPON_1H ranking buckets
  *       </ul>
  *   <li>extra familiar equipment being considered. One per familiar.
  * </ul>

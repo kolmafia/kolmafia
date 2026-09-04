@@ -9,6 +9,15 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.Speculation;
 import net.sourceforge.kolmafia.equipment.Slot;
 
+/**
+ * Mutable hypothetical character configuration used by candidate ranking and equipment search.
+ *
+ * <p>A loadout contains equipment, familiars, effects, and mode states inherited from {@link
+ * Speculation}, plus memoized {@link LoadoutEvaluation}. Search mutates a loadout reversibly;
+ * retained candidates are cloned. Codpiece calculation is delegated to the loadout-owned {@link
+ * CodpieceSearchState} because its child slots can change modifiers without changing ordinary
+ * equipment slots.
+ */
 public class MaximizerLoadout extends Speculation
     implements Comparable<MaximizerLoadout>, Cloneable {
   private LoadoutEvaluation evaluation = LoadoutEvaluation.empty();

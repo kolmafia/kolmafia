@@ -17,6 +17,16 @@ import net.sourceforge.kolmafia.request.EquipmentRequest;
  * Codpiece-specific plan/cache state and canonical gem search for a single {@link
  * MaximizerLoadout}. Reused across the outer equipment search so expensive per-item analysis (gem
  * modifiers, familiar contributions, late-adjustment prefixes) happens at most once.
+ *
+ * <p>The specialization is necessary because five interchangeable slots and dozens of valid gems
+ * produce millions of multisets before surrounding equipment is considered. The search therefore
+ * enumerates canonical multisets, enforces obtainable copy counts, caches the expensive
+ * character-adjustment prefix, and uses an optimistic suffix bound only for modifier semantics
+ * proven safe by {@link CodpieceModifierSafety}. Unsupported or familiar-sensitive cases fall back
+ * to full modifier calculation rather than risk pruning the correct result.
+ *
+ * <p>{@link EquipmentSearchProblem} owns the outer traversal and delegates its tail phase to {@link
+ * CodpieceSearch}; this class is state attached to a loadout, not a second independent optimizer.
  */
 final class CodpieceSearchState {
   private static final ItemSlotGroup CODPIECE = ItemSlotGroup.ETERNITY_CODPIECE;
