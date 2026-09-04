@@ -71,10 +71,7 @@ public class Evaluator {
   private double totalMin, totalMax;
   private int dump = 0;
   private static final Set<BitmapModifier> OSITY_MODIFIERS =
-      EnumSet.of(
-          BitmapModifier.CLOWNINESS,
-          BitmapModifier.RAVEOSITY,
-          BitmapModifier.SURGEONOSITY);
+      EnumSet.of(BitmapModifier.CLOWNINESS, BitmapModifier.RAVEOSITY, BitmapModifier.SURGEONOSITY);
   private int stinkycheese = 0;
   private int beeosity = 2;
   private final EnumSet<BooleanModifier> booleanMask = EnumSet.noneOf(BooleanModifier.class);

@@ -422,8 +422,7 @@ public class MaximizerTest {
       assertBareOsityMinimum("surgeonosity", BitmapModifier.SURGEONOSITY, 1);
     }
 
-    private void assertBareOsityMinimum(
-        String expression, BitmapModifier modifier, int minimum) {
+    private void assertBareOsityMinimum(String expression, BitmapModifier modifier, int minimum) {
       var evaluator = new Evaluator(expression + ", -tie");
       var modifiers = new Modifiers();
       setOsityValue(modifiers, modifier, minimum);
