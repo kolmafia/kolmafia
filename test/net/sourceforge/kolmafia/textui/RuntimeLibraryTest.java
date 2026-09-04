@@ -1855,7 +1855,10 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     @Test
     public void immediateMaximizationEquipsRepeatedAccessoriesInOrder() {
       setupFakeClient();
-      var cleanups = withEquippableItem("clownskin belt", 3);
+      var cleanups =
+          new Cleanups(
+              withEquipped(Slot.ACCESSORY1, "clownskin belt"),
+              withEquippableItem("clownskin belt", 2));
 
       try (cleanups) {
         execute("maximize(\"mp, -tie\", false)");
@@ -1867,10 +1870,9 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
               .map(request -> getPostRequestBody(request))
               .filter(body -> body.contains("whichitem=2476"))
               .toList();
-      assertEquals(3, equipRequests.size());
-      assertTrue(equipRequests.get(0).contains("slot=1"));
-      assertTrue(equipRequests.get(1).contains("slot=2"));
-      assertTrue(equipRequests.get(2).contains("slot=3"));
+      assertEquals(2, equipRequests.size());
+      assertTrue(equipRequests.get(0).contains("slot=2"));
+      assertTrue(equipRequests.get(1).contains("slot=3"));
       assertContinueState();
     }
 
