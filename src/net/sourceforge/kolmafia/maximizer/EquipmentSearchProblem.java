@@ -33,7 +33,7 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
  */
 final class EquipmentSearchProblem
     implements AnytimeSearch.Problem<
-        EquipmentSearchProblem.Choice, SolutionQuality, Void, MaximizerInterruptedException> {
+        EquipmentSearchProblem.Choice, SolutionQuality, MaximizerInterruptedException> {
   private static final List<Slot> SIMPLE_SLOTS = List.of(Slot.SHIRT, Slot.PANTS, Slot.HOLSTER);
   private static final FamiliarSlotGroup CROWN = FamiliarSlotGroup.CROWN;
   private static final FamiliarSlotGroup BJORN = FamiliarSlotGroup.BJORN;
@@ -144,7 +144,7 @@ final class EquipmentSearchProblem
   }
 
   @Override
-  public AnytimeSearch.Candidate<SolutionQuality, Void> candidate(SolutionQuality incumbent)
+  public AnytimeSearch.Candidate<SolutionQuality> candidate(SolutionQuality incumbent)
       throws MaximizerInterruptedException {
     if (this.codpieceReadiness == null) {
       return null;
@@ -160,11 +160,11 @@ final class EquipmentSearchProblem
     if (this.codpieceChooser != null && !this.codpieceChooser.currentCanBeat(incumbent))
       return null;
     Maximizer.consider(this.owner);
-    return new AnytimeSearch.Candidate<>(this.owner.quality(), null);
+    return new AnytimeSearch.Candidate<>(this.owner.quality());
   }
 
   @Override
-  public void finished(AnytimeSearch.Result<SolutionQuality, Void> result) {
+  public void finished(AnytimeSearch.Result<SolutionQuality> result) {
     Maximizer.recordSearch(
         result.nodes(), result.dominancePrunes(), result.boundPrunes(), result.optimal());
   }

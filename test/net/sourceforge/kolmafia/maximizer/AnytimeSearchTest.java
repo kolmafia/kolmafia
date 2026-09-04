@@ -43,7 +43,6 @@ class AnytimeSearchTest {
 
     assertThat(unpruned.quality(), is(oracle.quality()));
     assertThat(reduced.quality(), is(oracle.quality()));
-    assertThat(reduced.result(), is(oracle.assignment()));
     assertThat(reduced.optimal(), is(true));
     assertThat(reduced.dominancePrunes(), greaterThan(0L));
     assertThat(reduced.boundPrunes(), greaterThan(0L));
@@ -52,8 +51,7 @@ class AnytimeSearchTest {
 
   @Test
   void retainsTheIncumbentWhenTheBudgetExpires() {
-    var incumbentChoice = new Choice("incumbent", 3, 0);
-    var incumbent = new AnytimeSearch.Candidate<>(quality(3), List.of(incumbentChoice));
+    var incumbent = new AnytimeSearch.Candidate<>(quality(3));
     var choices =
         List.of(
             List.of(new Choice("first", 1, 0), new Choice("better", 5, 0)),
@@ -63,7 +61,6 @@ class AnytimeSearchTest {
         AnytimeSearch.maximize(new KnapsackProblem(choices, 0, false, false), incumbent, calls(3));
 
     assertThat(result.quality(), is(incumbent.quality()));
-    assertThat(result.result(), is(incumbent.result()));
     assertThat(result.optimal(), is(false));
   }
 
@@ -150,14 +147,14 @@ class AnytimeSearchTest {
   }
 
   private static class KnapsackProblem
-      implements AnytimeSearch.Problem<Choice, SolutionQuality, List<Choice>, RuntimeException> {
+      implements AnytimeSearch.Problem<Choice, SolutionQuality, RuntimeException> {
     private final List<List<Choice>> choices;
     private final int capacity;
     private final boolean useBounds;
     private final boolean useFrontier;
     private final List<Choice> assignment = new ArrayList<>();
     private final Map<Integer, List<Point>> frontier = new HashMap<>();
-    private AnytimeSearch.Result<SolutionQuality, List<Choice>> finished;
+    private AnytimeSearch.Result<SolutionQuality> finished;
     private int score;
     private int cost;
 
@@ -224,14 +221,13 @@ class AnytimeSearchTest {
     }
 
     @Override
-    public AnytimeSearch.Candidate<SolutionQuality, List<Choice>> candidate(
-        SolutionQuality incumbent) {
+    public AnytimeSearch.Candidate<SolutionQuality> candidate(SolutionQuality incumbent) {
       if (!this.complete()) return null;
-      return new AnytimeSearch.Candidate<>(quality(this.score), List.copyOf(this.assignment));
+      return new AnytimeSearch.Candidate<>(quality(this.score));
     }
 
     @Override
-    public void finished(AnytimeSearch.Result<SolutionQuality, List<Choice>> result) {
+    public void finished(AnytimeSearch.Result<SolutionQuality> result) {
       this.finished = result;
     }
 
@@ -239,7 +235,7 @@ class AnytimeSearchTest {
       return this.assignment.size();
     }
 
-    AnytimeSearch.Result<SolutionQuality, List<Choice>> finished() {
+    AnytimeSearch.Result<SolutionQuality> finished() {
       return this.finished;
     }
   }

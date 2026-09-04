@@ -282,7 +282,7 @@ final class EquipmentSearchRunner {
             Preferences.getBoolean("maximizerFoldables"));
     AnytimeSearch.maximize(
         problem,
-        new AnytimeSearch.Candidate<>(Maximizer.best().quality(), null),
+        new AnytimeSearch.Candidate<>(Maximizer.best().quality()),
         Maximizer::keepSearching);
   }
 }

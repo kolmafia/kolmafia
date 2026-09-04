@@ -14,7 +14,7 @@ import java.util.function.BooleanSupplier;
 final class AnytimeSearch {
   private AnytimeSearch() {}
 
-  interface Problem<C, Q extends Comparable<Q>, R, E extends Exception> {
+  interface Problem<C, Q extends Comparable<Q>, E extends Exception> {
     boolean complete();
 
     List<C> choices();
@@ -39,25 +39,23 @@ final class AnytimeSearch {
     default void record() {}
 
     /** Returns a competitive candidate at the current state, or null when none is available. */
-    Candidate<Q, R> candidate(Q incumbent) throws E;
+    Candidate<Q> candidate(Q incumbent) throws E;
 
-    default void finished(Result<Q, R> result) {}
+    default void finished(Result<Q> result) {}
   }
 
-  record Candidate<Q, R>(Q quality, R result) {}
+  record Candidate<Q>(Q quality) {}
 
-  record Result<Q, R>(
+  record Result<Q>(
       Q quality,
-      R result,
       long nodes,
       long leaves,
       long dominancePrunes,
       long boundPrunes,
       boolean optimal) {}
 
-  static <C, Q extends Comparable<Q>, R, E extends Exception> Result<Q, R> maximize(
-      Problem<C, Q, R, E> problem, Candidate<Q, R> incumbent, BooleanSupplier keepSearching)
-      throws E {
+  static <C, Q extends Comparable<Q>, E extends Exception> Result<Q> maximize(
+      Problem<C, Q, E> problem, Candidate<Q> incumbent, BooleanSupplier keepSearching) throws E {
     var search = new Search<>(problem, incumbent, keepSearching);
     try {
       search.visit();
@@ -68,10 +66,10 @@ final class AnytimeSearch {
     }
   }
 
-  private static final class Search<C, Q extends Comparable<Q>, R, E extends Exception> {
-    private final Problem<C, Q, R, E> problem;
+  private static final class Search<C, Q extends Comparable<Q>, E extends Exception> {
+    private final Problem<C, Q, E> problem;
     private final BooleanSupplier keepSearching;
-    private Candidate<Q, R> best;
+    private Candidate<Q> best;
     private long nodes;
     private long leaves;
     private long dominancePrunes;
@@ -80,7 +78,7 @@ final class AnytimeSearch {
     private boolean completed;
 
     private Search(
-        Problem<C, Q, R, E> problem, Candidate<Q, R> incumbent, BooleanSupplier keepSearching) {
+        Problem<C, Q, E> problem, Candidate<Q> incumbent, BooleanSupplier keepSearching) {
       this.problem = problem;
       this.best = incumbent;
       this.keepSearching = keepSearching;
@@ -104,7 +102,7 @@ final class AnytimeSearch {
         return;
       }
 
-      Candidate<Q, R> candidate =
+      Candidate<Q> candidate =
           this.problem.candidate(this.best == null ? null : this.best.quality());
       if (candidate != null) {
         this.leaves++;
@@ -129,10 +127,9 @@ final class AnytimeSearch {
       }
     }
 
-    private Result<Q, R> result() {
+    private Result<Q> result() {
       return new Result<>(
           this.best == null ? null : this.best.quality(),
-          this.best == null ? null : this.best.result(),
           this.nodes,
           this.leaves,
           this.dominancePrunes,
