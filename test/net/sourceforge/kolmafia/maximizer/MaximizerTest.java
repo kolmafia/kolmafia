@@ -3704,6 +3704,11 @@ public class MaximizerTest {
   }
 
   @Test
+  void searchDeadlineIsOptInByDefault() {
+    assertThat(Preferences.getInteger("maximizerSearchTimeLimit"), is(0));
+  }
+
+  @Test
   void marksExpiredSearchIncomplete() {
     var session = new MaximizerSession(new MaximizerLoadout(), 0);
     session.searchDeadlineNanos = 0;

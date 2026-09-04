@@ -1203,7 +1203,7 @@ user	maximizerMRUList	mainstat;mus;mys;mox;familiar weight;HP;MP;ML;DA;DR;+comba
 user	maximizerMRUSize	5
 user	maximizerAlwaysCurrent	false
 user	maximizerCombinationLimit	0
-user	maximizerSearchTimeLimit	500
+user	maximizerSearchTimeLimit	0
 user	maximizerCreateOnHand	false
 user	maximizerCurrentMallPrices	false
 user	maximizerEquipmentLevel	1
