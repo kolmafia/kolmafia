@@ -2243,5 +2243,36 @@ public class ModifiersTest {
       assertThat(mods.getDouble(DoubleModifier.HP_MP_REGEN_MIN), equalTo(0.0));
       assertThat(mods.getDouble(DoubleModifier.HP_MP_REGEN_MAX), equalTo(0.0));
     }
+
+    @Test
+    public void vulnerabilityAllResistanceDerivesNegativeValues() {
+      // Great Wolf's beastly trousers: "Troubling Vulnerability to All Elements (-5)"
+      assertThat(
+          ModifierDatabase.getNumericModifier(
+              ModifierType.ITEM,
+              ItemPool.GREAT_WOLFS_BEASTLY_TROUSERS,
+              DoubleModifier.ALL_RESISTANCE),
+          equalTo(-5.0));
+      assertThat(
+          ModifierDatabase.getNumericModifier(
+              ModifierType.ITEM,
+              ItemPool.GREAT_WOLFS_BEASTLY_TROUSERS,
+              DoubleModifier.HOT_RESISTANCE),
+          equalTo(-5.0));
+    }
+
+    @Test
+    public void individualAndAllResistanceStack() {
+      // perfume-soaked bandana: "So-So Stench Resistance (+2)" and "So-So Resistance to All
+      // Elements (+2)", giving an effective Stench Resistance of +4
+      assertThat(
+          ModifierDatabase.getNumericModifier(
+              ModifierType.ITEM, ItemPool.PERFUME_SOAKED_BANDANA, DoubleModifier.STENCH_RESISTANCE),
+          equalTo(4.0));
+      assertThat(
+          ModifierDatabase.getNumericModifier(
+              ModifierType.ITEM, ItemPool.PERFUME_SOAKED_BANDANA, DoubleModifier.ALL_RESISTANCE),
+          equalTo(2.0));
+    }
   }
 }

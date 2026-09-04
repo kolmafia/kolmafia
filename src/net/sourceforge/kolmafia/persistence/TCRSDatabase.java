@@ -1212,12 +1212,6 @@ public class TCRSDatabase {
   private static final Set<Set<DoubleModifier>> COLLAPSIBLE =
       Set.of(
           EnumSet.of(
-              DoubleModifier.HOT_RESISTANCE,
-              DoubleModifier.COLD_RESISTANCE,
-              DoubleModifier.SPOOKY_RESISTANCE,
-              DoubleModifier.STENCH_RESISTANCE,
-              DoubleModifier.SLEAZE_RESISTANCE),
-          EnumSet.of(
               DoubleModifier.HOT_DAMAGE,
               DoubleModifier.COLD_DAMAGE,
               DoubleModifier.SPOOKY_DAMAGE,

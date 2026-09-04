@@ -357,6 +357,16 @@ public class Modifiers {
     }
 
     if (modifier instanceof DoubleModifier dm) {
+      // An individual modifier (one that is a member of a combined modifier, e.g. "Stench
+      // Resistance" as part of "All Resistance") may be provided both by its own explicit entry
+      // and by an explicitly-stored combined modifier. Sum those contributions.
+      if (dm.getSubsumed().length == 0) {
+        double value = this.doubles.getDouble(dm);
+        for (var parent : DoubleModifier.subsuming(dm)) {
+          value += this.doubles.getDouble(parent);
+        }
+        return value;
+      }
       var value = this.doubles.getDouble(dm);
       // A combined modifier (like "Hat/Pants Drop") may be stored explicitly.
       // If it isn't present, derive it from the modifiers it subsumes.
