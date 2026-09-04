@@ -288,10 +288,6 @@ public class ModifiersTest {
         familiarMods.applyFamiliarModifiers(familiar, null);
 
         assertThat(familiarMods.getDouble(DoubleModifier.ITEMDROP), closeTo(0, 0.001));
-        assertThat(
-            familiarMods.familiarEffect(
-                familiar, new Modifiers.FamiliarWeightInputs(0.0, 0.0, 0.0), 0.0),
-            equalTo(new Modifiers.FamiliarEffect(0.0, 0.0, 0.0, 0.0)));
       }
     }
 
@@ -1530,64 +1526,6 @@ public class ModifiersTest {
       try (cleanups) {
         Modifiers current = KoLCharacter.getCurrentModifiers();
         assertThat(current.getDouble(DoubleModifier.MEATDROP), closeTo(lepFunction(10), 0.001));
-      }
-    }
-
-    @Test
-    void familiarWeightAdjustmentIsTruncatedWithExistingWeight() {
-      var cleanups = withFamiliar(FamiliarPool.BABY_GRAVY_FAIRY, 100);
-
-      try (cleanups) {
-        var modifiers = new Modifiers();
-        var effect =
-            modifiers.familiarEffect(
-                KoLCharacter.getFamiliar(), new Modifiers.FamiliarWeightInputs(0.5, 0.0, 0.0), 5.5);
-        assertThat(effect.itemDrop(), closeTo(fairyFunction(16), 0.001));
-      }
-    }
-
-    @ParameterizedTest
-    @CsvSource({"PASTAMANCER, FAMILIAR_TUNING_MYSTICALITY", "DISCO_BANDIT, FAMILIAR_TUNING_MOXIE"})
-    void familiarEffectAppliesStatTuning(
-        AscensionClass ascensionClass, DoubleModifier tuningModifier) {
-      var cleanups =
-          new Cleanups(
-              withClass(ascensionClass), withFamiliar(FamiliarPool.BLOOD_FACED_VOLLEYBALL, 100));
-
-      try (cleanups) {
-        var modifiers = new Modifiers();
-        modifiers.setDouble(tuningModifier, 60.0);
-
-        var effect =
-            modifiers.familiarEffect(
-                KoLCharacter.getFamiliar(), new Modifiers.FamiliarWeightInputs(0.0, 0.0, 0.0), 0.0);
-
-        assertThat(effect.primeStatExperience(), closeTo(2.4, 0.001));
-        assertThat(effect.generalExperience(), equalTo(0.0));
-      }
-    }
-
-    @Test
-    void familiarEffectUsesOnlyBetterVolleyballOrSombreroBonus() {
-      var cleanups = withFamiliar(FamiliarPool.BLOOD_FACED_VOLLEYBALL, 100);
-      double previousMonsterLevel = Modifiers.currentML;
-
-      try (cleanups) {
-        Modifiers.currentML = 100.0;
-        var modifiers = new Modifiers();
-        modifiers.setDouble(DoubleModifier.SOMBRERO_WEIGHT, 1.0);
-        var inputs = new Modifiers.FamiliarWeightInputs(0.0, 0.0, 0.0);
-
-        assertThat(
-            modifiers.familiarEffect(KoLCharacter.getFamiliar(), inputs, 0.0).generalExperience(),
-            closeTo(7.75, 0.001));
-
-        modifiers.setBoolean(BooleanModifier.VOLLEYBALL_OR_SOMBRERO, true);
-        assertThat(
-            modifiers.familiarEffect(KoLCharacter.getFamiliar(), inputs, 0.0).generalExperience(),
-            closeTo(4.0, 0.001));
-      } finally {
-        Modifiers.currentML = previousMonsterLevel;
       }
     }
   }

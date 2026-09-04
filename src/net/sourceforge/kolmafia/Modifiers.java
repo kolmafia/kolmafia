@@ -395,10 +395,6 @@ public class Modifiers {
     return this.doubles.getList(modifier);
   }
 
-  public double getRawDouble(final DoubleModifier modifier) {
-    return this.doubles.getDouble(modifier);
-  }
-
   public boolean hasDoubleModifier(Predicate<DoubleModifier> predicate) {
     return this.doubles.anyMatch(predicate);
   }
@@ -1251,85 +1247,6 @@ public class Modifiers {
       weight = (int) Math.floor(weight + weight * percent);
     }
     return Math.max(1, weight);
-  }
-
-  public record FamiliarEffect(
-      double itemDrop, double meatDrop, double primeStatExperience, double generalExperience) {}
-
-  public FamiliarEffect familiarEffect(
-      FamiliarData familiar, FamiliarWeightInputs inputs, double weightAdjustment) {
-    if (KoLConstants.activeEffects.contains(Modifiers.somePigs)) {
-      return new FamiliarEffect(0.0, 0.0, 0.0, 0.0);
-    }
-    FamiliarRaceData raceData = FamiliarDatabase.getFamiliarRaceData(familiar.getEffectiveId());
-    if (raceData == null) {
-      return new FamiliarEffect(0.0, 0.0, 0.0, 0.0);
-    }
-
-    int weight = familiarWeight(familiar, inputs, weightAdjustment);
-    int cap = (int) this.getDouble(DoubleModifier.FAMILIAR_WEIGHT_CAP);
-    int cappedWeight = cap == 0 ? weight : Math.min(weight, cap);
-
-    double effective = cappedWeight * this.getDouble(DoubleModifier.FAIRY_WEIGHT);
-    if (effective == 0.0 && raceData.isFairyType()) {
-      effective = weight;
-    }
-    double itemDrop =
-        familiarDropEffect(
-            familiar,
-            effective,
-            this.getDouble(DoubleModifier.FAIRY_EFFECTIVENESS),
-            55.0,
-            1.0,
-            false);
-
-    effective = cappedWeight * this.getDouble(DoubleModifier.LEPRECHAUN_WEIGHT);
-    if (effective == 0.0 && raceData.isMeatDropType()) {
-      effective = weight;
-    }
-    double meatDrop =
-        familiarDropEffect(
-            familiar,
-            effective,
-            this.getDouble(DoubleModifier.LEPRECHAUN_EFFECTIVENESS),
-            220.0,
-            2.0,
-            true);
-
-    double volleyballFactor = this.volleyballFactor(familiar, raceData, weight, cappedWeight);
-    double primeStatExperience = 0.0;
-    double volleyballExperience = 0.0;
-    if (volleyballFactor != 0.0) {
-      DoubleModifier primeStat = DoubleModifier.primeStatExp();
-      double tuning;
-      if ((tuning = this.getDouble(DoubleModifier.FAMILIAR_TUNING_MUSCLE)) > 0) {
-        primeStatExperience =
-            volleyballFactor
-                * (primeStat == DoubleModifier.MUS_EXPERIENCE
-                    ? tuning / 100
-                    : (1 - tuning / 100) / 2);
-      } else if ((tuning = this.getDouble(DoubleModifier.FAMILIAR_TUNING_MYSTICALITY)) > 0) {
-        primeStatExperience =
-            volleyballFactor
-                * (primeStat == DoubleModifier.MYS_EXPERIENCE
-                    ? tuning / 100
-                    : (1 - tuning / 100) / 2);
-      } else if ((tuning = this.getDouble(DoubleModifier.FAMILIAR_TUNING_MOXIE)) > 0) {
-        primeStatExperience =
-            volleyballFactor
-                * (primeStat == DoubleModifier.MOX_EXPERIENCE
-                    ? tuning / 100
-                    : (1 - tuning / 100) / 2);
-      } else {
-        volleyballExperience = volleyballFactor;
-      }
-    }
-    double sombreroExperience = this.sombreroFactor(raceData, weight, cappedWeight);
-    double generalExperience =
-        this.getBoolean(BooleanModifier.VOLLEYBALL_OR_SOMBRERO)
-            ? Math.max(volleyballExperience, sombreroExperience)
-            : volleyballExperience + sombreroExperience;
-    return new FamiliarEffect(itemDrop, meatDrop, primeStatExperience, generalExperience);
   }
 
   private double volleyballFactor(
