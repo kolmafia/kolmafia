@@ -400,12 +400,53 @@ public class MaximizerTest {
   }
 
   @Nested
+  class OsityScoring {
+    @Test
+    public void zeroWeightOsityStillEnforcesExplicitMinimum() {
+      var evaluator = new Evaluator("0 raveosity, 3 min, -tie");
+      var modifiers = new Modifiers();
+
+      setOsityValue(modifiers, BitmapModifier.RAVEOSITY, 2);
+      assertEquals(0.0, evaluator.getScore(modifiers));
+      assertTrue(evaluator.failed);
+
+      setOsityValue(modifiers, BitmapModifier.RAVEOSITY, 3);
+      assertEquals(0.0, evaluator.getScore(modifiers));
+      assertFalse(evaluator.failed);
+    }
+
+    @Test
+    public void bareOsitiesAcceptTheirDefaultMinimum() {
+      assertBareOsityMinimum("clownosity", BitmapModifier.CLOWNINESS, 100);
+      assertBareOsityMinimum("raveosity", BitmapModifier.RAVEOSITY, 7);
+      assertBareOsityMinimum("surgeonosity", BitmapModifier.SURGEONOSITY, 1);
+    }
+
+    private void assertBareOsityMinimum(
+        String expression, BitmapModifier modifier, int minimum) {
+      var evaluator = new Evaluator(expression + ", -tie");
+      var modifiers = new Modifiers();
+      setOsityValue(modifiers, modifier, minimum);
+
+      evaluator.getScore(modifiers);
+
+      assertFalse(evaluator.failed);
+    }
+
+    private void setOsityValue(Modifiers modifiers, BitmapModifier modifier, int value) {
+      int sourceCount = modifier == BitmapModifier.CLOWNINESS ? value / 25 : value;
+      modifiers.setBitmap(modifier, (1 << sourceCount) - 1);
+    }
+  }
+
+  @Nested
   class Clownosity {
     @Test
     public void clownosityTriesClownEquipment() {
       final var cleanups = new Cleanups(withEquippableItem("clown wig"));
       try (cleanups) {
-        assertFalse(maximize("4 clownosity -tie"));
+        assertTrue(maximize("4 clownosity -tie"));
+        assertFalse(maximize("clownosity -tie"));
         // still provides equipment
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "clown wig")));
         assertEquals(50, modFor(BitmapModifier.CLOWNINESS), 0.01);
@@ -417,7 +458,7 @@ public class MaximizerTest {
       final var cleanups =
           new Cleanups(withEquippableItem("clown wig"), withEquippableItem("polka-dot bow tie"));
       try (cleanups) {
-        assertTrue(maximize("4 clownosity -tie"));
+        assertTrue(maximize("clownosity -tie"));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "clown wig")));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.ACCESSORY1, "polka-dot bow tie")));
         assertEquals(125, modFor(BitmapModifier.CLOWNINESS), 0.01);
@@ -450,7 +491,8 @@ public class MaximizerTest {
               withEquippableItem("baggy rave pants"),
               withEquippableItem("rave whistle"));
       try (cleanups) {
-        assertFalse(maximize("7 raveosity -tie"));
+        assertTrue(maximize("7 raveosity -tie"));
+        assertFalse(maximize("raveosity -tie"));
         // still provides equipment
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "rave visor")));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.PANTS, "baggy rave pants")));
@@ -469,7 +511,7 @@ public class MaximizerTest {
               withEquippableItem("rave visor"),
               withEquippableItem("baggy rave pants"));
       try (cleanups) {
-        assertTrue(maximize("7 raveosity -tie"));
+        assertTrue(maximize("raveosity -tie"));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "rave visor")));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.PANTS, "baggy rave pants")));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.CONTAINER, "teddybear backpack")));
@@ -492,7 +534,7 @@ public class MaximizerTest {
               withEquippableItem("half-size scalpel"),
               withSkill("Torso Awareness"));
       try (cleanups) {
-        assertTrue(maximize("5 surgeonosity -tie"));
+        assertTrue(maximize("surgeonosity -tie"));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.PANTS, "bloodied surgical dungarees")));
         assertThat(getBoosts(), hasItem(recommends("head mirror")));
         assertThat(getBoosts(), hasItem(recommends("surgical mask")));
@@ -507,7 +549,8 @@ public class MaximizerTest {
       var cleanups = withEquippableItem("surgical mask", 3);
 
       try (cleanups) {
-        maximize("3 surgeonosity, -tie");
+        assertTrue(maximize("3 surgeonosity, -tie"));
+        assertTrue(maximize("surgeonosity, -tie"));
         assertEquals(1, modFor(BitmapModifier.SURGEONOSITY), 0.01);
         assertThat(
             getBoosts().stream()
@@ -518,7 +561,7 @@ public class MaximizerTest {
     }
 
     @Test
-    public void surgeonosityOnlyEquipsUpToTarget() {
+    public void weightedSurgeonosityEquipsEveryAvailablePiece() {
       final var cleanups =
           new Cleanups(
               withEquippableItem("head mirror"),
@@ -530,6 +573,26 @@ public class MaximizerTest {
 
       try (cleanups) {
         assertTrue(maximize("3 surgeonosity, -tie"));
+        assertEquals(5, modFor(BitmapModifier.SURGEONOSITY), 0.01);
+        assertThat(getBoosts(), hasItem(recommends("head mirror")));
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.PANTS, "bloodied surgical dungarees")));
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.SHIRT, "surgical apron")));
+      }
+    }
+
+    @Test
+    public void surgeonosityRespectsMaximum() {
+      final var cleanups =
+          new Cleanups(
+              withEquippableItem("head mirror"),
+              withEquippableItem("bloodied surgical dungarees"),
+              withEquippableItem("surgical apron"),
+              withEquippableItem("surgical mask"),
+              withEquippableItem("half-size scalpel"),
+              withSkill("Torso Awareness"));
+
+      try (cleanups) {
+        assertTrue(maximize("surgeonosity, 3 max, -tie"));
         assertEquals(3, modFor(BitmapModifier.SURGEONOSITY), 0.01);
         assertThat(getBoosts(), hasItem(recommends("head mirror")));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.PANTS, "bloodied surgical dungarees")));
