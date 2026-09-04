@@ -86,6 +86,10 @@ final class OrdinaryCandidateEvaluator {
 
   Disposition evaluate(int itemId, CheckedItem item, Modeable modeable)
       throws MaximizerInterruptedException {
+    if (KoLCharacter.isHardcore() && !isHardcorePathEquipmentAllowed(itemId)) {
+      return Disposition.REJECT;
+    }
+
     if (this.setEvaluator.isUsefulOutfitPiece(itemId)) {
       this.setEvaluator.retainOutfitPiece(item);
       if (item.getCount() == 0) {
@@ -171,6 +175,19 @@ final class OrdinaryCandidateEvaluator {
       item.conditionalFlag = true;
     }
     return Disposition.RANKED;
+  }
+
+  private static boolean isHardcorePathEquipmentAllowed(int itemId) {
+    return switch (itemId) {
+      case ItemPool.BORIS_HELM, ItemPool.BORIS_HELM_ASKEW -> KoLCharacter.isAvatarOfBoris();
+      case ItemPool.RIGHT_BEAR_ARM, ItemPool.LEFT_BEAR_ARM -> KoLCharacter.isZombieMaster();
+      case ItemPool.JARLS_PAN, ItemPool.JARLS_COSMIC_PAN -> KoLCharacter.isJarlsberg();
+      case ItemPool.FOLDER_HOLDER -> KoLCharacter.inHighschool();
+      case ItemPool.PETE_JACKET, ItemPool.PETE_JACKET_COLLAR -> KoLCharacter.isSneakyPete();
+      case ItemPool.THORS_PLIERS -> KoLCharacter.inRaincore();
+      case ItemPool.CROWN_OF_ED -> KoLCharacter.isEd();
+      default -> true;
+    };
   }
 
   private void recordSpecialtyNeed(int itemId, Modeable modeable) {

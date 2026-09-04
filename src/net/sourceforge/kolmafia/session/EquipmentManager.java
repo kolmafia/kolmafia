@@ -1670,10 +1670,6 @@ public class EquipmentManager {
     }
 
     if (KoLCharacter.isHardcore()) {
-      if (!EquipmentManager.isHardcorePathEquipmentAllowed(itemId)) {
-        return false;
-      }
-
       Modifiers mods = ModifierDatabase.getItemModifiers(itemId);
       if (mods != null && mods.getBoolean(BooleanModifier.SOFTCORE)) {
         return false;
@@ -1685,19 +1681,6 @@ public class EquipmentManager {
     }
 
     return EquipmentManager.meetsStatRequirements(itemId);
-  }
-
-  private static boolean isHardcorePathEquipmentAllowed(final int itemId) {
-    return switch (itemId) {
-      case ItemPool.BORIS_HELM, ItemPool.BORIS_HELM_ASKEW -> KoLCharacter.isAvatarOfBoris();
-      case ItemPool.RIGHT_BEAR_ARM, ItemPool.LEFT_BEAR_ARM -> KoLCharacter.isZombieMaster();
-      case ItemPool.JARLS_PAN, ItemPool.JARLS_COSMIC_PAN -> KoLCharacter.isJarlsberg();
-      case ItemPool.FOLDER_HOLDER -> KoLCharacter.inHighschool();
-      case ItemPool.PETE_JACKET, ItemPool.PETE_JACKET_COLLAR -> KoLCharacter.isSneakyPete();
-      case ItemPool.THORS_PLIERS -> KoLCharacter.inRaincore();
-      case ItemPool.CROWN_OF_ED -> KoLCharacter.isEd();
-      default -> true;
-    };
   }
 
   public static final boolean meetsStatRequirements(final int itemId) {

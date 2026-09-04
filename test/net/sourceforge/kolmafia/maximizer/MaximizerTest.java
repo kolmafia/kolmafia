@@ -51,6 +51,7 @@ import internal.extensions.LegacyBehavior;
 import internal.helpers.Cleanups;
 import java.time.Month;
 import java.util.EnumSet;
+import java.util.List;
 import java.util.Map;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
@@ -283,6 +284,64 @@ public class MaximizerTest {
       assertTrue(maximize("mus"));
       assertEquals(1, modFor(DerivedModifier.BUFFED_MUS), 0.01);
       assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "helmet turtle")));
+    }
+  }
+
+  @Test
+  void onlySuggestsHardcorePathEquipmentOnItsPath() {
+    record PathItem(int itemId, AscensionClass ascensionClass, Path path) {}
+    var pathItems =
+        List.of(
+            new PathItem(ItemPool.BORIS_HELM, AscensionClass.AVATAR_OF_BORIS, Path.AVATAR_OF_BORIS),
+            new PathItem(
+                ItemPool.BORIS_HELM_ASKEW, AscensionClass.AVATAR_OF_BORIS, Path.AVATAR_OF_BORIS),
+            new PathItem(ItemPool.RIGHT_BEAR_ARM, AscensionClass.ZOMBIE_MASTER, Path.ZOMBIE_SLAYER),
+            new PathItem(ItemPool.LEFT_BEAR_ARM, AscensionClass.ZOMBIE_MASTER, Path.ZOMBIE_SLAYER),
+            new PathItem(
+                ItemPool.JARLS_PAN, AscensionClass.AVATAR_OF_JARLSBERG, Path.AVATAR_OF_JARLSBERG),
+            new PathItem(
+                ItemPool.JARLS_COSMIC_PAN,
+                AscensionClass.AVATAR_OF_JARLSBERG,
+                Path.AVATAR_OF_JARLSBERG),
+            new PathItem(ItemPool.FOLDER_HOLDER, AscensionClass.SEAL_CLUBBER, Path.KOLHS),
+            new PathItem(
+                ItemPool.PETE_JACKET,
+                AscensionClass.AVATAR_OF_SNEAKY_PETE,
+                Path.AVATAR_OF_SNEAKY_PETE),
+            new PathItem(
+                ItemPool.PETE_JACKET_COLLAR,
+                AscensionClass.AVATAR_OF_SNEAKY_PETE,
+                Path.AVATAR_OF_SNEAKY_PETE),
+            new PathItem(ItemPool.THORS_PLIERS, AscensionClass.SEAL_CLUBBER, Path.HEAVY_RAINS),
+            new PathItem(ItemPool.CROWN_OF_ED, AscensionClass.ED, Path.ACTUALLY_ED_THE_UNDYING));
+
+    for (var item : pathItems) {
+      try (var cleanups =
+          new Cleanups(
+              withHardcore(),
+              withStats(10_000, 10_000, 10_000),
+              withSkill(SkillPool.TORSO),
+              withClass(AscensionClass.SEAL_CLUBBER),
+              withEquippableItem(item.itemId()),
+              withOverrideModifiers(
+                  ModifierType.ITEM, item.itemId(), "Muscle: +100, Mysticality: +100"))) {
+        assertTrue(maximize("mus, mys, -tie"));
+        assertThat(getBoosts(), not(hasItem(recommends(item.itemId()))));
+      }
+
+      try (var cleanups =
+          new Cleanups(
+              withHardcore(),
+              withStats(10_000, 10_000, 10_000),
+              withPath(item.path()),
+              withSkill(SkillPool.TORSO),
+              withClass(item.ascensionClass()),
+              withEquippableItem(item.itemId()),
+              withOverrideModifiers(
+                  ModifierType.ITEM, item.itemId(), "Muscle: +100, Mysticality: +100"))) {
+        assertTrue(maximize("mus, mys, -tie"));
+        assertThat(getBoosts(), hasItem(recommends(item.itemId())));
+      }
     }
   }
 
