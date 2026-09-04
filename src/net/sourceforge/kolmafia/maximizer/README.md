@@ -244,8 +244,11 @@ tiebreakers.
 - Scoring and constraints: `EvaluatorTest`
 - Candidate compilation: the corresponding compiler or selector test
 - Search transitions and bounds: `EquipmentSearchProblemTest`
+- Effect-source rules and shared rendering: `EffectSourceDispatcherTest`
 - End-to-end behavior: `MaximizerTest` and `MaximizerRegressionTest`
 - Codpiece behavior and performance: `EternityCodpieceMaximizerTest`
+- Codpiece custom-outfit persistence: `EquipmentRequestTest` and
+  `RuntimeLibraryTest.OutfitNameWithCodpieceGems`
 - Independent exactness checks: reduced universes compared with
   `BruteForceMaximizer`
 

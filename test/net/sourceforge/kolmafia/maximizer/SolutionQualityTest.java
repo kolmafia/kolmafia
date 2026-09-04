@@ -4,7 +4,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.lessThan;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.util.List;
 import org.junit.jupiter.api.Test;
 
 class SolutionQualityTest {
@@ -67,5 +69,16 @@ class SolutionQualityTest {
     assertThat(usage.cost(0), is(7));
     assertThat(usage.cost(1), is(10));
     assertThat(ResourceUsage.of(1).times(0).cost(0), is(0));
+  }
+
+  @Test
+  void resourceUsageRejectsMismatchedResourceSets() {
+    var resources = List.of(new SharedResource("test", 1, ignored -> 0, ignored -> 0));
+
+    assertThrows(
+        IllegalArgumentException.class, () -> ResourceUsage.of(1).plus(ResourceUsage.of(1, 2)));
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> ResourceUsage.of(1).hasRemainingCapacityFor(ResourceUsage.of(1, 2), resources));
   }
 }

@@ -6,6 +6,7 @@ import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withOverrideModifiers;
 import static internal.helpers.Player.withPath;
+import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
@@ -84,6 +85,7 @@ class EquipmentSearchProblemTest {
             withEquipped(Slot.ACCESSORY1, ItemPool.THE_ETERNITY_CODPIECE),
             withItem(diamond, 5),
             withItem(pearl, 5),
+            withProperty("maximizerSearchTimeLimit", 0),
             withOverrideModifiers(ModifierType.ETERNITY_CODPIECE, diamond, "PvP Fights: +10"),
             withOverrideModifiers(ModifierType.ETERNITY_CODPIECE, pearl, "PvP Fights: +1"))) {
       assertTrue(

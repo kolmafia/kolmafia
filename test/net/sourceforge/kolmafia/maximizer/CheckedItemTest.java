@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.maximizer;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
@@ -20,6 +21,7 @@ class CheckedItemTest {
     assertThat(availability.acquisitionMethod(5), is(AcquisitionMethod.PULL_FOLD));
     assertThat(availability.acquisitionMethod(6), is(AcquisitionMethod.STORAGE_BUY));
     assertThat(availability.acquisitionMethod(7), is(AcquisitionMethod.MALL_BUY));
+    assertThrows(IllegalArgumentException.class, () -> availability.acquisitionMethod(-1));
     assertThrows(IllegalArgumentException.class, () -> availability.acquisitionMethod(8));
   }
 
@@ -45,5 +47,23 @@ class CheckedItemTest {
                 new AcquisitionOption(AcquisitionMethod.ACCESSIBLE, 2),
                 new AcquisitionOption(AcquisitionMethod.NPC_BUY, 1),
                 new AcquisitionOption(AcquisitionMethod.MALL_BUY, 3))));
+  }
+
+  @Test
+  void validatesMallAndStorageBuyingPowerIndependently() {
+    var availability = new ItemAvailability(0, 0, 0, 0, 2, 0, 0, 0, 3, 0);
+
+    var mallOnly = availability.withValidatedMallPrice(100, 200, 200, 50);
+    var storageOnly = availability.withValidatedMallPrice(100, 200, 50, 200);
+    var tooExpensive = availability.withValidatedMallPrice(201, 200, 500, 500);
+    var unknownPrice = availability.withValidatedMallPrice(0, 200, 500, 500);
+
+    assertThat(mallOnly.mallBuyable(), is(2));
+    assertThat(mallOnly.storageBuyable(), is(0));
+    assertThat(storageOnly.mallBuyable(), is(0));
+    assertThat(storageOnly.storageBuyable(), is(3));
+    assertThat(tooExpensive.buyable(), is(false));
+    assertThat(unknownPrice.buyable(), is(false));
+    assertThat(availability.withValidatedMallPrice(100, 200, 200, 200), sameInstance(availability));
   }
 }

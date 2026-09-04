@@ -3454,6 +3454,19 @@ public class MaximizerTest {
     }
 
     @Test
+    public void doesNotRecommendPawableEffectsWithoutPaw() {
+      var cleanups = new Cleanups(withItem(ItemPool.POCKET_WISH));
+
+      try (cleanups) {
+        maximize("-combat");
+        var boosts = getBoosts();
+        assertThat(boosts, hasItem(hasProperty("cmd", startsWith("genie effect Disquiet Riot"))));
+        assertThat(
+            boosts, not(hasItem(hasProperty("cmd", startsWith("monkeypaw effect Disquiet Riot")))));
+      }
+    }
+
+    @Test
     public void acquiresWishIfItIsMallBuyable() {
       var cleanups =
           new Cleanups(withProperty("autoSatisfyWithMall", true), withInteractivity(true));
