@@ -256,3 +256,9 @@ tiebreakers.
 Run the narrowest relevant test first, then the full
 `net.sourceforge.kolmafia.maximizer.*` suite for changes crossing these
 boundaries.
+
+Tests that intentionally preserve behavior known to be incorrect use
+`@LegacyBehavior("why correctness would differ")`. They remain enabled and are
+tagged `legacy-behavior`; fixing the behavior should update the assertion and
+remove the annotation. Do not use this marker for valid backwards compatibility
+or merely old code.

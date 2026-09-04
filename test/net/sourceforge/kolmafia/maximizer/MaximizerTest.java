@@ -47,6 +47,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import internal.extensions.LegacyBehavior;
 import internal.helpers.Cleanups;
 import java.time.Month;
 import java.util.EnumSet;
@@ -1895,6 +1896,9 @@ public class MaximizerTest {
     }
 
     @Test
+    @LegacyBehavior(
+        "sea forces the Crown of Ed into fish mode before equipment search; a correct maximizer "
+            + "would keep the requested hyena mode and use the available SCUBA tank")
     public void shouldErrorWhenIndirectConflict2() {
       final var cleanups =
           new Cleanups(
