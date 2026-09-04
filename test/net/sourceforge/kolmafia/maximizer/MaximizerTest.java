@@ -690,7 +690,10 @@ public class MaximizerTest {
     }
 
     @Test
-    public void defaultSurgeonosityAccountsForShirtEligibility() {
+    @LegacyBehavior(
+        "bare surgeonosity always requires five pieces; a correct maximizer would require only "
+            + "the four slots available to a character without Torso Awareness")
+    public void defaultSurgeonosityRetainsLegacyFiveItemTarget() {
       final var cleanups =
           new Cleanups(
               withEquippableItem("head mirror"),
@@ -700,7 +703,7 @@ public class MaximizerTest {
               withEquippableItem("half-size scalpel"));
 
       try (cleanups) {
-        assertTrue(maximize("surgeonosity, -tie"));
+        assertFalse(maximize("surgeonosity, -tie"));
         assertEquals(4, modFor(BitmapModifier.SURGEONOSITY), 0.01);
         assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.SHIRT, "surgical apron"))));
       }

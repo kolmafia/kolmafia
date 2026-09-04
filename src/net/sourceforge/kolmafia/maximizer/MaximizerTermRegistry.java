@@ -153,11 +153,7 @@ final class MaximizerTermRegistry {
     directive(
         "surgeonosity",
         integerSetting(
-            IntegerSetting.SURGEONOSITY,
-            term ->
-                term.explicitWeight()
-                    ? (int) term.weight()
-                    : (KoLCharacter.isTorsoAware() ? 5 : 4)));
+            IntegerSetting.SURGEONOSITY, term -> term.explicitWeight() ? (int) term.weight() : 5));
     directive("beeosity", integerSetting(IntegerSetting.BEEOSITY));
     directive("stinkycheese", integerSetting(IntegerSetting.STINKYCHEESE));
     alias("stinky cheese", "stinkycheese");
