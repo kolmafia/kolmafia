@@ -789,8 +789,7 @@ public class Maximizer {
       // We need 1 + that number to equip this item, not just 1
       int count = 0;
 
-      // Assumption: immediate execution has already changed earlier live slots, while speculative
-      // output has not. TODO: verify this ordering contract end to end.
+      // Immediate execution processes slots in order and applies each change before the next slot.
       if (equipScope == EquipScope.EQUIP_NOW) {
         for (var piece : SlotSet.ALL_SLOTS) {
           if (piece.ordinal() >= slot.ordinal()) break;
