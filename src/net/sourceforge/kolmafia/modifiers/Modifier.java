@@ -11,6 +11,10 @@ public interface Modifier {
 
   String getTag();
 
+  default boolean isMultiple() {
+    return false;
+  }
+
   ModifierValueType getType();
 
   /** Whether we are confident this modifier maps to a line of RPN internally. */
