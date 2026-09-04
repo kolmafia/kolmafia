@@ -1942,6 +1942,17 @@ public class MaximizerTest {
     }
 
     @Test
+    public void forbiddenItemInExcludedSlotIsLeftEquipped() {
+      final var cleanups = new Cleanups(withEquipped(Slot.WEAPON, ItemPool.BROKEN_CHAMPAGNE));
+
+      try (cleanups) {
+        assertTrue(maximize("-equip broken champagne bottle -weapon"));
+        assertThat(
+            Maximizer.best().equipment.get(Slot.WEAPON).getItemId(), is(ItemPool.BROKEN_CHAMPAGNE));
+      }
+    }
+
+    @Test
     public void doesNotChangeModeOfUmbrellaInExcludedSlot() {
       final var cleanups =
           new Cleanups(

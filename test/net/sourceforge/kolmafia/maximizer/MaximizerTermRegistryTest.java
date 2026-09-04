@@ -8,11 +8,13 @@ import static net.sourceforge.kolmafia.maximizer.MaximizerTermRegistry.IntegerSe
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
+import java.util.EnumMap;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -181,6 +183,38 @@ class MaximizerTermRegistryTest {
 
       assertThat(
           scoreTerm(terms, DoubleModifier.DAMAGE_ABSORPTION).max(), is(Double.POSITIVE_INFINITY));
+    }
+  }
+
+  @Nested
+  class EquipmentRequirements {
+    private final AdventureResult champagne = ItemPool.get(ItemPool.BROKEN_CHAMPAGNE);
+
+    private EnumMap<Slot, AdventureResult> equippedChampagne() {
+      var equipment = new EnumMap<Slot, AdventureResult>(Slot.class);
+      equipment.put(Slot.WEAPON, this.champagne);
+      return equipment;
+    }
+
+    @Test
+    void ignoresForbiddenItemsInExcludedSlots() {
+      var terms = parse("-equip broken champagne bottle -weapon");
+
+      assertThat(terms.equipmentSatisfied(new Modifiers(), this.equippedChampagne()), is(true));
+    }
+
+    @Test
+    void rejectsForbiddenItemsInEnabledSlots() {
+      var terms = parse("-equip broken champagne bottle, weapon");
+
+      assertThat(terms.equipmentSatisfied(new Modifiers(), this.equippedChampagne()), is(false));
+    }
+
+    @Test
+    void requiredItemsInExcludedSlotsStillSatisfyTheRequirement() {
+      var terms = parse("equip broken champagne bottle -weapon");
+
+      assertThat(terms.equipmentSatisfied(new Modifiers(), this.equippedChampagne()), is(true));
     }
   }
 

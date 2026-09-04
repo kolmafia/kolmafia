@@ -277,6 +277,7 @@ final class MaximizerTermRegistry {
   private boolean forceCurrent;
   private int equipBeeosity;
   private int outfitBeeosity;
+  private int slotThreshold;
   private boolean failed;
 
   /** Terms of an expression that inherits no minimums or maximums. */
@@ -346,6 +347,7 @@ final class MaximizerTermRegistry {
     if (!this.forceCurrent && this.noTiebreaker) {
       this.current = true;
     }
+    this.slotThreshold = this.slots.values().stream().anyMatch(value -> value > 0) ? 1 : 0;
     this.integers.put(
         IntegerSetting.BEEOSITY,
         Math.max(
@@ -665,8 +667,7 @@ final class MaximizerTermRegistry {
   }
 
   boolean slotEnabled(Slot slot) {
-    int threshold = this.slots.values().stream().anyMatch(value -> value > 0) ? 1 : 0;
-    return this.slots.getOrDefault(slot, 0) >= threshold;
+    return this.slots.getOrDefault(slot, 0) >= this.slotThreshold;
   }
 
   EquipmentCandidateSlotter.Requirements requirements() {
@@ -739,29 +740,42 @@ final class MaximizerTermRegistry {
     return Evaluator.Constraint.IRRELEVANT;
   }
 
-  /** Whether the given equipment honours every "equip" and "outfit" term. */
+  /**
+   * Whether required items are present, enabled slots omit forbidden items, and outfit terms hold.
+   */
   boolean equipmentSatisfied(Modifiers mods, Map<Slot, AdventureResult> equipment) {
-    if (!this.equipment.required.stream().allMatch(item -> hasEquipped(equipment, item))
-        || this.equipment.excluded.stream().anyMatch(item -> hasEquipped(equipment, item)))
+    if (!this.equipment.required.stream().allMatch(item -> hasEquipped(equipment, equipment, item)))
       return false;
+    if (!this.equipment.excluded.isEmpty()) {
+      var enabledEquipment = new EnumMap<Slot, AdventureResult>(Slot.class);
+      equipment.forEach(
+          (slot, item) -> {
+            if (this.slotEnabled(slot)) enabledEquipment.put(slot, item);
+          });
+      if (this.equipment.excluded.stream()
+          .anyMatch(item -> hasEquipped(enabledEquipment, equipment, item))) return false;
+    }
     String outfit = mods.getString(StringModifier.OUTFIT);
     return !this.outfits.excluded.contains(outfit)
         && (this.outfits.required.isEmpty() || this.outfits.required.contains(outfit));
   }
 
-  private static boolean hasEquipped(Map<Slot, AdventureResult> equipment, AdventureResult item) {
-    if (KoLCharacter.hasEquipped(equipment, item)) {
+  private static boolean hasEquipped(
+      Map<Slot, AdventureResult> enabledEquipment,
+      Map<Slot, AdventureResult> allEquipment,
+      AdventureResult item) {
+    if (KoLCharacter.hasEquipped(enabledEquipment, item)) {
       return true;
     }
 
     var codpiece = ItemSlotGroup.ETERNITY_CODPIECE;
     boolean wearingCodpiece =
         SlotSet.ACCESSORY_SLOTS.stream()
-            .map(equipment::get)
+            .map(allEquipment::get)
             .anyMatch(parent -> parent != null && codpiece.isParent(parent.getItemId()));
     return wearingCodpiece
         && codpiece.accepts(item.getItemId())
-        && codpiece.slots().stream().anyMatch(slot -> item.equals(equipment.get(slot)));
+        && codpiece.slots().stream().anyMatch(slot -> item.equals(enabledEquipment.get(slot)));
   }
 
   /** The bonus that "bonus", "letter" and "number" terms award the given equipment. */

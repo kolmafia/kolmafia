@@ -559,6 +559,20 @@ public class EternityCodpieceMaximizerTest {
   }
 
   @Test
+  void leavesForbiddenHeartstoneInExcludedCodpieceSlot() {
+    var cleanups =
+        new Cleanups(
+            withEquipped(Slot.ACCESSORY1, ItemPool.THE_ETERNITY_CODPIECE),
+            withEquipped(Slot.CODPIECE1, ItemPool.HEARTSTONE));
+
+    try (cleanups) {
+      assertTrue(maximize("-equip heartstone, -codpiece1, -tie"));
+      assertThat(
+          Maximizer.best.equipment.get(Slot.CODPIECE1).getItemId(), equalTo(ItemPool.HEARTSTONE));
+    }
+  }
+
+  @Test
   void movesSlottedHeartstoneToAccessoryWhenCodpieceForbidden() {
     var cleanups =
         new Cleanups(
