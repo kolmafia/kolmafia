@@ -939,9 +939,13 @@ public class Maximizer {
     ItemAvailability availability = checkedItem.availability();
     String cmd = "absorb \u00B6" + itemId;
     String text = "absorb " + item.getName() + " (";
-    boolean canMake = availability.total() > 0;
+    AcquisitionMethod acquisition =
+        availability.firstMethod(
+            candidate ->
+                candidate != AcquisitionMethod.FOLD && candidate != AcquisitionMethod.PULL_FOLD);
+    boolean canMake = acquisition != null;
     if (canMake) {
-      switch (availability.acquisitionMethod(0)) {
+      switch (acquisition) {
         case ACCESSIBLE -> {
           if (availability.inventory() == 0) {
             String method =
@@ -983,7 +987,7 @@ public class Maximizer {
             price = MallPriceManager.getMallPrice(itemId);
           }
         }
-        case FOLD, PULL_FOLD -> canMake = false;
+        case FOLD, PULL_FOLD -> throw new IllegalStateException("Unsupported acquisition method");
       }
     }
     if (price > 0) text += KoLConstants.COMMA_FORMAT.format(price) + " meat, ";

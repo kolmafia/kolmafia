@@ -27,6 +27,7 @@ import static internal.helpers.Player.withOverrideModifiers;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withRestricted;
+import static internal.helpers.Player.withRonin;
 import static internal.helpers.Player.withSign;
 import static internal.helpers.Player.withSkill;
 import static internal.helpers.Player.withStats;
@@ -978,6 +979,24 @@ public class MaximizerTest {
         assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.HAT))));
         assertThat(
             getBoosts(), hasItem(hasProperty("cmd", startsWith("absorb ¶3")))); // helmet turtle
+      }
+    }
+
+    @Test
+    public void absorbablePullIsNotShadowedByAFoldableSibling() {
+      final var cleanups =
+          new Cleanups(
+              withPath(Path.GELATINOUS_NOOB),
+              withHardcore(false),
+              withRonin(true),
+              withInteractivity(false),
+              withProperty("maximizerFoldables", true),
+              withItem("makeshift skirt"),
+              withItemInStorage("makeshift cape"));
+
+      try (cleanups) {
+        maximizeAny("item");
+        assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("pull ¶2080;absorb ¶2080"))));
       }
     }
 

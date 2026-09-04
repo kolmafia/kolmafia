@@ -50,6 +50,16 @@ class CheckedItemTest {
   }
 
   @Test
+  void findsTheFirstAcquisitionMethodSupportedByTheConsumer() {
+    var availability = new ItemAvailability(0, 0, 0, 0, 0, 1, 1, 1, 0, 0);
+
+    assertThat(
+        availability.firstMethod(
+            method -> method != AcquisitionMethod.FOLD && method != AcquisitionMethod.PULL_FOLD),
+        is(AcquisitionMethod.PULL));
+  }
+
+  @Test
   void validatesMallAndStorageBuyingPowerIndependently() {
     var availability = new ItemAvailability(0, 0, 0, 0, 2, 0, 0, 0, 3, 0);
 

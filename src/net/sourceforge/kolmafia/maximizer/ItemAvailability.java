@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.maximizer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 /**
  * Immutable copy counts for each acquisition path considered by the Maximizer.
@@ -77,6 +78,14 @@ record ItemAvailability(
       used -= option.quantity();
     }
     throw new IllegalArgumentException("No acquisition option for requested copy");
+  }
+
+  AcquisitionMethod firstMethod(Predicate<AcquisitionMethod> supported) {
+    return this.options().stream()
+        .map(AcquisitionOption::method)
+        .filter(supported)
+        .findFirst()
+        .orElse(null);
   }
 
   List<AcquisitionOption> options() {

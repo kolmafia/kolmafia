@@ -83,9 +83,13 @@ final class EffectSourcePlanFinalizer {
         KoLCharacter.canInteract() ? EquipScope.SPECULATE_ANY : context.equipScope();
     ItemAvailability availability =
         new CheckedItem(itemId, showScope, context.maxPrice(), context.priceLevel()).availability();
-    if (availability.total() == 0) return false;
+    AcquisitionMethod acquisition =
+        availability.firstMethod(
+            candidate ->
+                candidate != AcquisitionMethod.FOLD && candidate != AcquisitionMethod.PULL_FOLD);
+    if (acquisition == null) return false;
 
-    switch (availability.acquisitionMethod(0)) {
+    switch (acquisition) {
       case ACCESSIBLE -> {
         if (availability.inventory() == 0) {
           String method =
@@ -125,9 +129,7 @@ final class EffectSourcePlanFinalizer {
             "buy using storage 1 \u00B6" + itemId + ";pull \u00B6" + itemId + ";" + plan.command;
         if (!setMallPrice(plan, itemId, context.maxPrice(), context.priceLevel())) return false;
       }
-      case FOLD, PULL_FOLD -> {
-        return false;
-      }
+      case FOLD, PULL_FOLD -> throw new IllegalStateException("Unsupported acquisition method");
     }
 
     if (plan.price > context.maxPrice() || plan.price == -1) return false;
