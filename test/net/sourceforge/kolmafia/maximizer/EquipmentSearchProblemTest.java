@@ -149,13 +149,10 @@ class EquipmentSearchProblemTest {
 
   @Test
   void incrementalScoreModifiersUseTheirRawValues() {
-    var modifiers = new Modifiers();
-    for (DoubleModifier modifier : DoubleModifier.DOUBLE_MODIFIERS) {
-      modifiers.setDouble(modifier, 2.0);
-    }
-
     for (DoubleModifier modifier : DoubleModifier.DOUBLE_MODIFIERS) {
       if (CodpieceModifierSafety.supportsIncrementalScore(modifier)) {
+        var modifiers = new Modifiers();
+        modifiers.setDouble(modifier, 2.0);
         assertThat(modifier.toString(), Evaluator.scoreValue(modifier, modifiers, null), is(2.0));
       }
     }
