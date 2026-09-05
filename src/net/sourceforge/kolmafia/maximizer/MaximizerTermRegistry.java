@@ -307,9 +307,20 @@ final class MaximizerTermRegistry {
       return true;
     }
 
+    Action registered = EXACT_TERMS.get(keyword);
+    if (registered != null) {
+      registered.apply(this, term);
+      return true;
+    }
+
     this.index = DoubleModifier.byCaselessName(keyword);
     if (this.index == null) {
       keyword = normalize(keyword);
+      registered = EXACT_TERMS.get(keyword);
+      if (registered != null) {
+        registered.apply(this, term);
+        return true;
+      }
       this.index = DoubleModifier.byCaselessName(keyword);
     }
 
@@ -322,7 +333,7 @@ final class MaximizerTermRegistry {
     }
 
     if (this.index == null) {
-      Action registered = termFor(keyword);
+      registered = termFor(keyword);
       if (registered != null) {
         registered.apply(this, term);
         return true;
