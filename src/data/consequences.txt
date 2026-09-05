@@ -161,6 +161,13 @@ DESC_EFFECT	Wine-Dark	\+(\d+) .*? Damage	vintnerWineLevel=[$1/4]
 DESC_EFFECT	Wine-Befouled	\+(\d+) .*? Damage	vintnerWineLevel=[$1/3]
 DESC_EFFECT	Wine-Friendly	\+(\d+) .*? Damage	vintnerWineLevel=[$1/3]
 
+DESC_EFFECT	Blessing of the Heat Shield	\+(\d+)% Combat Initiative	blessingShieldHotTier=[$1/10-2]
+DESC_EFFECT	Blessing of the Riot Shield	Muscle \+(\d+)%	blessingShieldColdTier=[$1/10]
+DESC_EFFECT	Blessing of the Mental Shield	Mysticality \+(\d+)%	blessingShieldSpookyTier=[$1/10]
+# Blessing of the Privacy Shield handled in EffectDatabase.parseBlessingOfThePrivacyShieldEffect()
+DESC_EFFECT	Blessing of the Tax Shield	Moxie \+(\d+)%	blessingShieldSleazeTier=[$1/10]
+DESC_EFFECT	Blessing of the Wind Shield	\+(\d+) Stats Per Fight	blessingShieldPhysicalTier=$1
+
 COMBAT_SKILL	Use the Force	Use the Force, [\w ]+! \((\d+) uses? left\)	_saberForceUses=[5-$1]
 COMBAT_SKILL	CHEAT CODE: Shrink Enemy	CHEAT CODE: Shrink Enemy \(5 of today's remaining (\d+)%\)	_powerfulGloveBatteryPowerUsed=[100-$1]
 COMBAT_SKILL	Fire Extinguisher: Foam 'em Up	Fire Extinguisher: Foam 'em Up \(5 charge, (\d+)% remaining\)	_fireExtinguisherCharge=$1
