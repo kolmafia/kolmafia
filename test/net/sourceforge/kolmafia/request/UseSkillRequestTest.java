@@ -340,7 +340,7 @@ class UseSkillRequestTest {
     void parsesCalculateTheUniverseCastsFromSkillzPage() {
       var cleanups =
           new Cleanups(
-              withInteractivity(false),
+              withInteractivity(true),
               withProperty("skillLevel144", 1),
               withProperty("_universeCalculated", 1));
       try (cleanups) {
@@ -351,17 +351,18 @@ class UseSkillRequestTest {
       }
     }
 
-    @Test
-    void doesNotTrustCalculateTheUniverseMaximumWhenNoInteractivity() {
+    @ParameterizedTest
+    @ValueSource(ints = {1, 5})
+    void doesNotTrustCalculateTheUniverseMaximumWhenNoInteractivity(int skillLevel) {
       var cleanups =
           new Cleanups(
-              withInteractivity(true),
-              withProperty("skillLevel144", 5),
+              withInteractivity(false),
+              withProperty("skillLevel144", skillLevel),
               withProperty("_universeCalculated", 1));
       try (cleanups) {
         UseSkillRequest.parseResponse("skillz.php", html("request/test_parse_skillz.html"));
 
-        assertThat("skillLevel144", isSetTo(5));
+        assertThat("skillLevel144", isSetTo(skillLevel));
         assertThat("_universeCalculated", isSetTo(3));
       }
     }
