@@ -349,6 +349,7 @@ public class GenericRequest implements Runnable {
   private static void setLoginServer(final int serverIndex) {
     GenericRequest.KOL_HOST = GenericRequest.SERVERS[serverIndex];
 
+    // For scripts to read
     Preferences.setString("loginServerName", GenericRequest.KOL_HOST);
   }
 

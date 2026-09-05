@@ -111,18 +111,6 @@ global	mergeHobopolisChat	false
 global	pingDefaultTestPage	api
 global	pingDefaultTestPings	10
 global	pingLatest
-global	pingLogin	true
-global	pingLoginAbort	1:10
-global	pingLoginCheck	none
-global	pingLoginCount	0
-global	pingLoginFail	confirm
-global	pingLoginGoal	0
-global	pingLoginThreshold	0.2
-global	pingLongest
-global	pingShortest
-global	pingStealthyTimein	false
-global	pingTestPage	api
-global	pingTestPings	10
 global	previousNotifyList	<>
 global	previousUpdateVersion
 global	previousUpdateRevision	0
