@@ -62,6 +62,11 @@ public class CheckDataCommand extends AbstractCommand {
       }
       return;
     }
+    if (command.equals("checkambiguous")) {
+      DebugDatabase.checkForAmbiguous();
+      RequestLogger.printLine("Ambiguous names looked for.");
+      return;
+    }
 
     if (command.equals("checkconcoctions")) {
       DebugDatabase.checkConcoctions();

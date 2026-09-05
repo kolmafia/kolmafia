@@ -209,6 +209,7 @@ user	addingScrolls	1
 user	adventurerMeatsWorldPoints	0
 user	affirmationCookiesEaten	0	roa
 user	afterAdventureScript
+user	ambiguousCheckSuppressPairs	same,same|effect,skill|effect,item|skill,item|familiar,item
 user	aminoAcidsUsed	0	roa
 user	antagonisticSnowmanKitAvailable	true
 user	antagonisticSnowmanKitCost	1000

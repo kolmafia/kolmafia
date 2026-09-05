@@ -61,6 +61,7 @@ import net.sourceforge.kolmafia.persistence.FamiliarDatabase.FamiliarRaceData;
 import net.sourceforge.kolmafia.persistence.ItemDatabase.Attribute;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.SkillDatabase.Category;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest.ClosetRequestType;
@@ -75,6 +76,7 @@ import net.sourceforge.kolmafia.scripts.svn.SVNManager;
 import net.sourceforge.kolmafia.session.DisplayCaseManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.swingui.DatabaseFrame;
 import net.sourceforge.kolmafia.utilities.CharacterEntities;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.HttpUtilities;
@@ -4289,5 +4291,151 @@ public class DebugDatabase {
         }
       }
     }
+  }
+
+  static boolean allowDisplay(WikiType first, WikiType second) {
+    /*
+    Preference is a list of pipe delimited pairs (with pair components comma separated) to be excluded
+    from the display.  For example, there are duplicate items and many skills have the same name as
+    the effect.  The pair "same,same" will suppress duplicates. "item", "effect", "skill", "monster",
+    "familiar" and "outfit" are valid components of a pair.  Input text is trimmed and compared
+    as lower case.
+     */
+    String prefString = Preferences.getString("ambiguousCheckSuppressPairs");
+    String t1 = first.name().toLowerCase().trim();
+    String t2 = second.name().toLowerCase().trim();
+    String[] parts = prefString.split("\\|");
+    for (String part : parts) {
+      String[] pair = part.split(",");
+      String p1 = pair[0].toLowerCase().trim();
+      String p2 = pair[1].toLowerCase().trim();
+      if (t1.equals(t2) && p1.equals("same")) return false;
+      if (t1.equals(t2) && p2.equals("same")) return false;
+      if (t1.equals(p1) && t2.equals(p2)) return false;
+      if (t1.equals(p2) && t2.equals(p1)) return false;
+    }
+    return true;
+  }
+
+  public static void checkForAmbiguous() {
+    String prefString = Preferences.getString("ambiguousCheckSuppressPairs");
+    RequestLogger.printLine(prefString);
+    // Get list of things from DatabaseFrame to keep this aligned with Encyclopedia
+    HashMap<String, WikiType> lazySet = new HashMap<>();
+    for (var thing : DatabaseFrame.allItems) {
+      String check = getNameFromData(thing.getValue());
+      if (lazySet.containsKey(check)) {
+        WikiType oldType = lazySet.get(check);
+        if (allowDisplay(WikiType.ITEM, oldType)) {
+          String message =
+              ambgMsg(WikiType.ITEM.name(), thing.getValue().toString(), oldType.name());
+          RequestLogger.printLine(message);
+        }
+      } else {
+        lazySet.put(check, WikiType.ITEM);
+      }
+    }
+    for (var thing : DatabaseFrame.allEffects) {
+      var check = getNameFromData(thing.getValue());
+      if (lazySet.containsKey(check)) {
+        WikiType oldType = lazySet.get(check);
+        if (allowDisplay(WikiType.EFFECT, oldType)) {
+          String message =
+              ambgMsg(WikiType.EFFECT.name(), thing.getValue().toString(), oldType.name());
+          RequestLogger.printLine(message);
+        }
+      } else {
+        lazySet.put(check, WikiType.EFFECT);
+      }
+    }
+    for (var thing : DatabaseFrame.allSkills) {
+      var check = getNameFromData(thing.getValue());
+      if (lazySet.containsKey(check)) {
+        WikiType oldType = lazySet.get(check);
+        if (allowDisplay(WikiType.SKILL, oldType)) {
+          String message =
+              ambgMsg(WikiType.SKILL.name(), thing.getValue().toString(), oldType.name());
+          RequestLogger.printLine(message);
+        }
+      } else {
+        lazySet.put(check, WikiType.SKILL);
+      }
+    }
+    for (var thing : DatabaseFrame.allFamiliars) {
+      var check = getNameFromData(thing.getValue());
+      if (lazySet.containsKey(check)) {
+        WikiType oldType = lazySet.get(check);
+        if (allowDisplay(WikiType.FAMILIAR, oldType)) {
+          String message =
+              ambgMsg(WikiType.FAMILIAR.name(), thing.getValue().toString(), oldType.name());
+          RequestLogger.printLine(message);
+        }
+      } else {
+        lazySet.put(check, WikiType.FAMILIAR);
+      }
+    }
+    for (var thing : DatabaseFrame.allOutfits) {
+      var check = getNameFromData(thing.getValue());
+      if (lazySet.containsKey(check)) {
+        WikiType oldType = lazySet.get(check);
+        if (allowDisplay(WikiType.OUTFIT, oldType)) {
+          String message =
+              ambgMsg(WikiType.OUTFIT.name(), thing.getValue().toString(), oldType.name());
+          RequestLogger.printLine(message);
+        }
+      } else {
+        lazySet.put(check, WikiType.OUTFIT);
+      }
+    }
+    for (var thing : DatabaseFrame.allMonsters) {
+      var check = getNameFromData(thing.getValue());
+      if (lazySet.containsKey(check)) {
+        WikiType oldType = lazySet.get(check);
+        if (allowDisplay(WikiType.MONSTER, oldType)) {
+          String message =
+              ambgMsg(WikiType.MONSTER.name(), thing.getValue().toString(), oldType.name());
+          RequestLogger.printLine(message);
+        }
+      } else {
+        lazySet.put(check, WikiType.MONSTER);
+      }
+    }
+  }
+
+  private static String getNameFromData(Object thing) {
+    String retVal = getNameFromDataObject(thing);
+    return retVal.trim().toLowerCase();
+  }
+
+  private static String getNameFromDataObject(Object thing) {
+    if (thing instanceof ItemDatabase.ItemData) {
+      return ((ItemDatabase.ItemData) thing).name();
+    } else {
+      if (thing instanceof EffectData) {
+        return ((EffectData) thing).getName();
+      } else {
+        if (thing instanceof SkillDatabase.SkillData) {
+          return ((SkillDatabase.SkillData) thing).toString();
+        } else {
+          if (thing instanceof FamiliarRaceData) {
+            return ((FamiliarRaceData) thing).name();
+          } else {
+            if (thing instanceof MonsterData) {
+              return ((MonsterData) thing).getName();
+            } else {
+              if (thing instanceof String) {
+                return (String) thing;
+              } else {
+                return thing.toString();
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  private static String ambgMsg(String thisType, String name, String oldType) {
+    return name + " of type " + thisType + " is ambiguous with " + oldType;
   }
 }
