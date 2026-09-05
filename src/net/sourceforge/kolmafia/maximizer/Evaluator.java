@@ -37,7 +37,7 @@ import net.sourceforge.kolmafia.modifiers.BitmapModifier;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.DerivedModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
-import net.sourceforge.kolmafia.modifiers.DoubleModifierCollection;
+import net.sourceforge.kolmafia.modifiers.Modifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -63,16 +63,15 @@ public class Evaluator {
   public boolean failed;
   boolean exceeded;
   private Evaluator tiebreaker;
-  private final DoubleModifierCollection weight = new DoubleModifierCollection();
-  private Map<DoubleModifier, Double> min;
-  private Map<DoubleModifier, Double> max;
+  private final Map<Modifier, Double> weight = new HashMap<>();
+  private final Map<Modifier, Double> min = new HashMap<>();
+  private final Map<Modifier, Double> max = new HashMap<>();
   private List<ScoreModifier> activeScoreModifiers = List.of();
   private boolean shouldPredictDerivedModifiers;
   private double totalMin, totalMax;
   private int dump = 0;
-  private int clownosity = 0;
-  private int raveosity = 0;
-  private int surgeonosity = 0;
+  private static final Set<BitmapModifier> OSITY_MODIFIERS =
+      EnumSet.of(BitmapModifier.CLOWNINESS, BitmapModifier.RAVEOSITY, BitmapModifier.SURGEONOSITY);
   private int stinkycheese = 0;
   private int beeosity = 2;
   private final EnumSet<BooleanModifier> booleanMask = EnumSet.noneOf(BooleanModifier.class);
@@ -117,7 +116,7 @@ public class Evaluator {
 
   record ItemBonus(double base, Map<String, Double> modes) {}
 
-  private record ScoreModifier(DoubleModifier modifier, double weight, double min, double max) {}
+  private record ScoreModifier(Modifier modifier, double weight, double min, double max) {}
 
   private static final Pattern MUS_EXP_PERC_PATTERN =
       Pattern.compile("^mus(cle)? exp(erience)? perc(ent(age)?)?");
@@ -204,6 +203,14 @@ public class Evaluator {
   private Evaluator() {
     this.totalMin = Double.NEGATIVE_INFINITY;
     this.totalMax = Double.POSITIVE_INFINITY;
+    for (var modifier : DoubleModifier.DOUBLE_MODIFIERS) {
+      this.min.put(modifier, Double.NEGATIVE_INFINITY);
+      this.max.put(modifier, Double.POSITIVE_INFINITY);
+    }
+    for (var modifier : OSITY_MODIFIERS) {
+      this.min.put(modifier, Double.NEGATIVE_INFINITY);
+      this.max.put(modifier, Double.POSITIVE_INFINITY);
+    }
   }
 
   public Evaluator(String expr) {
@@ -211,17 +218,11 @@ public class Evaluator {
 
     Evaluator tiebreaker = new Evaluator();
     this.tiebreaker = tiebreaker;
-    tiebreaker.min = new EnumMap<>(DoubleModifier.class);
-    tiebreaker.max = new EnumMap<>(DoubleModifier.class);
-    for (var mod : DoubleModifier.DOUBLE_MODIFIERS) {
-      tiebreaker.min.put(mod, Double.NEGATIVE_INFINITY);
-      tiebreaker.max.put(mod, Double.POSITIVE_INFINITY);
-    }
     tiebreaker.parse(Evaluator.TIEBREAKER);
     tiebreaker.initializeScoreModifiers();
 
-    this.min = new EnumMap<>(tiebreaker.min);
-    this.max = new EnumMap<>(tiebreaker.max);
+    this.min.putAll(tiebreaker.min);
+    this.max.putAll(tiebreaker.max);
     this.parse(expr);
     this.initializeScoreModifiers();
   }
@@ -230,7 +231,7 @@ public class Evaluator {
     var active = new ArrayList<ScoreModifier>();
     this.shouldPredictDerivedModifiers = false;
     for (var modifier : DoubleModifier.DOUBLE_MODIFIERS) {
-      double weight = this.weight.getDouble(modifier);
+      double weight = this.weight.getOrDefault(modifier, 0.0);
       double min = this.min.get(modifier);
       if (weight == 0.0 && min == Double.NEGATIVE_INFINITY) {
         continue;
@@ -243,6 +244,13 @@ public class Evaluator {
           || modifier == DoubleModifier.HP
           || modifier == DoubleModifier.MP) {
         this.shouldPredictDerivedModifiers = true;
+      }
+    }
+    for (var modifier : OSITY_MODIFIERS) {
+      double weight = this.weight.getOrDefault(modifier, 0.0);
+      double min = this.min.get(modifier);
+      if (weight != 0.0 || min != Double.NEGATIVE_INFINITY) {
+        active.add(new ScoreModifier(modifier, weight, min, this.max.get(modifier)));
       }
     }
     this.activeScoreModifiers = List.copyOf(active);
@@ -272,7 +280,7 @@ public class Evaluator {
     boolean hadFamiliar = false;
     boolean forceCurrent = false;
     int pos = 0;
-    DoubleModifier index = null;
+    Modifier index = null;
 
     int equipBeeosity = 0;
     int outfitBeeosity = 0;
@@ -393,21 +401,28 @@ public class Evaluator {
         continue;
       }
 
-      if (keyword.equals("clownosity")) {
-        // If no weight specified, assume 100%
-        this.clownosity = (m.end(2) == m.start(2)) ? 100 : (int) weight * 25;
-        continue;
+      BitmapModifier osityModifier = null;
+      double defaultMinimum = 0.0;
+      switch (keyword) {
+        case "clownosity" -> {
+          osityModifier = BitmapModifier.CLOWNINESS;
+          defaultMinimum = 100.0;
+        }
+        case "raveosity" -> {
+          osityModifier = BitmapModifier.RAVEOSITY;
+          defaultMinimum = 7.0;
+        }
+        case "surgeonosity" -> {
+          osityModifier = BitmapModifier.SURGEONOSITY;
+          defaultMinimum = 1.0;
+        }
       }
-
-      if (keyword.equals("raveosity")) {
-        // If no weight specified, assume 7
-        this.raveosity = (m.end(2) == m.start(2)) ? 7 : (int) weight;
-        continue;
-      }
-
-      if (keyword.equals("surgeonosity")) {
-        // If no weight specified, assume 5
-        this.surgeonosity = (m.end(2) == m.start(2)) ? 5 : (int) weight;
+      if (osityModifier != null) {
+        index = osityModifier;
+        this.weight.put(osityModifier, weight);
+        if (m.group(1).isEmpty() && m.group(2).isEmpty()) {
+          this.min.put(osityModifier, defaultMinimum);
+        }
         continue;
       }
 
@@ -612,40 +627,40 @@ public class Evaluator {
       if (index == null) {
         switch (keyword) {
           case "all resistance" -> {
-            this.weight.set(DoubleModifier.COLD_RESISTANCE, weight);
-            this.weight.set(DoubleModifier.HOT_RESISTANCE, weight);
-            this.weight.set(DoubleModifier.SLEAZE_RESISTANCE, weight);
-            this.weight.set(DoubleModifier.SPOOKY_RESISTANCE, weight);
-            this.weight.set(DoubleModifier.STENCH_RESISTANCE, weight);
+            this.weight.put(DoubleModifier.COLD_RESISTANCE, weight);
+            this.weight.put(DoubleModifier.HOT_RESISTANCE, weight);
+            this.weight.put(DoubleModifier.SLEAZE_RESISTANCE, weight);
+            this.weight.put(DoubleModifier.SPOOKY_RESISTANCE, weight);
+            this.weight.put(DoubleModifier.STENCH_RESISTANCE, weight);
             continue;
           }
           case "elemental damage" -> {
-            this.weight.set(DoubleModifier.COLD_DAMAGE, weight);
-            this.weight.set(DoubleModifier.HOT_DAMAGE, weight);
-            this.weight.set(DoubleModifier.SLEAZE_DAMAGE, weight);
-            this.weight.set(DoubleModifier.SPOOKY_DAMAGE, weight);
-            this.weight.set(DoubleModifier.STENCH_DAMAGE, weight);
+            this.weight.put(DoubleModifier.COLD_DAMAGE, weight);
+            this.weight.put(DoubleModifier.HOT_DAMAGE, weight);
+            this.weight.put(DoubleModifier.SLEAZE_DAMAGE, weight);
+            this.weight.put(DoubleModifier.SPOOKY_DAMAGE, weight);
+            this.weight.put(DoubleModifier.STENCH_DAMAGE, weight);
             continue;
           }
           case "hp regen" -> {
-            this.weight.set(DoubleModifier.HP_REGEN_MIN, weight / 2);
-            this.weight.set(DoubleModifier.HP_REGEN_MAX, weight / 2);
+            this.weight.put(DoubleModifier.HP_REGEN_MIN, weight / 2);
+            this.weight.put(DoubleModifier.HP_REGEN_MAX, weight / 2);
             continue;
           }
           case "mp regen" -> {
-            this.weight.set(DoubleModifier.MP_REGEN_MIN, weight / 2);
-            this.weight.set(DoubleModifier.MP_REGEN_MAX, weight / 2);
+            this.weight.put(DoubleModifier.MP_REGEN_MIN, weight / 2);
+            this.weight.put(DoubleModifier.MP_REGEN_MAX, weight / 2);
             continue;
           }
           case "passive damage" -> {
-            this.weight.set(DoubleModifier.DAMAGE_AURA, weight);
-            this.weight.set(DoubleModifier.THORNS, weight);
+            this.weight.put(DoubleModifier.DAMAGE_AURA, weight);
+            this.weight.put(DoubleModifier.THORNS, weight);
             continue;
           }
           case "organ capacity" -> {
-            this.weight.set(DoubleModifier.STOMACH_CAPACITY, weight);
-            this.weight.set(DoubleModifier.LIVER_CAPACITY, weight);
-            this.weight.set(DoubleModifier.SPLEEN_CAPACITY, weight);
+            this.weight.put(DoubleModifier.STOMACH_CAPACITY, weight);
+            this.weight.put(DoubleModifier.LIVER_CAPACITY, weight);
+            this.weight.put(DoubleModifier.SPLEEN_CAPACITY, weight);
             continue;
           }
         }
@@ -694,7 +709,7 @@ public class Evaluator {
         } else if (keyword.startsWith("com")) {
           index = DoubleModifier.COMBAT_RATE;
           if (AdventureDatabase.isUnderwater(Modifiers.currentLocation)) {
-            this.weight.set(DoubleModifier.UNDERWATER_COMBAT_RATE, weight);
+            this.weight.put(DoubleModifier.UNDERWATER_COMBAT_RATE, weight);
           }
         } else if (keyword.startsWith("item")) {
           index = DoubleModifier.ITEMDROP;
@@ -729,8 +744,7 @@ public class Evaluator {
 
       if (index != null) {
         // We found a match.
-        String modifierName = index.getName();
-        this.weight.set(index, weight);
+        this.weight.put(index, weight);
         continue;
       }
 
@@ -791,10 +805,10 @@ public class Evaluator {
   }
 
   private void addFudge(DoubleModifier source, DoubleModifier... extras) {
-    final double fudge = this.weight.getDouble(source) * 0.0001f;
+    final double fudge = this.weight.getOrDefault(source, 0.0) * 0.0001f;
     if (fudge > 0) {
       for (var extra : extras) {
-        this.weight.increment(extra, fudge);
+        this.weight.merge(extra, fudge, Double::sum);
       }
     }
   }
@@ -844,112 +858,118 @@ public class Evaluator {
       var mod = scoreModifier.modifier();
       double weight = scoreModifier.weight();
       double min = scoreModifier.min();
-      double val = mods.getDouble(mod);
+      double val;
       double max = scoreModifier.max();
-      switch (mod) {
-        case MUS:
-          val = predicted.get(DerivedModifier.BUFFED_MUS);
-          break;
-        case MYS:
-          val = predicted.get(DerivedModifier.BUFFED_MYS);
-          break;
-        case MOX:
-          val = predicted.get(DerivedModifier.BUFFED_MOX);
-          break;
-        case FAMILIAR_WEIGHT:
-          val += mods.getDouble(DoubleModifier.HIDDEN_FAMILIAR_WEIGHT);
-          if (mods.getDouble(DoubleModifier.FAMILIAR_WEIGHT_PCT) < 0.0) {
-            val *= 0.5f;
-          }
-          break;
-        case MANA_COST:
-          val += mods.getDouble(DoubleModifier.STACKABLE_MANA_COST);
-          break;
-        case INITIATIVE:
-          val += Math.min(0.0, mods.getDouble(DoubleModifier.INITIATIVE_PENALTY));
-          break;
-        case MEATDROP:
-          val +=
-              100.0
-                  + Math.min(0.0, mods.getDouble(DoubleModifier.MEATDROP_PENALTY))
-                  + mods.getDouble(DoubleModifier.SPORADIC_MEATDROP)
-                  + mods.getDouble(DoubleModifier.MEAT_BONUS) / 10000.0;
-          break;
-        case ITEMDROP:
-          val +=
-              100.0
-                  + Math.min(0.0, mods.getDouble(DoubleModifier.ITEMDROP_PENALTY))
-                  + mods.getDouble(DoubleModifier.SPORADIC_ITEMDROP);
-          break;
-        case HP:
-          val = predicted.get(DerivedModifier.BUFFED_HP);
-          break;
-        case MP:
-          val = predicted.get(DerivedModifier.BUFFED_MP);
-          break;
-        case WEAPON_DAMAGE:
-          // Incorrect - needs to estimate base damage
-          val += mods.getDouble(DoubleModifier.WEAPON_DAMAGE_PCT);
-          break;
-        case RANGED_DAMAGE:
-          // Incorrect - needs to estimate base damage
-          val += mods.getDouble(DoubleModifier.RANGED_DAMAGE_PCT);
-          break;
-        case SPELL_DAMAGE:
-          // Incorrect - base damage depends on spell used
-          val += mods.getDouble(DoubleModifier.SPELL_DAMAGE_PCT);
-          break;
-        case COLD_RESISTANCE:
-          if (mods.getBoolean(BooleanModifier.COLD_IMMUNITY)) {
-            val = 100.0;
-          } else if (mods.getBoolean(BooleanModifier.COLD_VULNERABILITY)) {
-            val -= 100.0;
-          }
-          break;
-        case HOT_RESISTANCE:
-          if (mods.getBoolean(BooleanModifier.HOT_IMMUNITY)) {
-            val = 100.0;
-          } else if (mods.getBoolean(BooleanModifier.HOT_VULNERABILITY)) {
-            val -= 100.0;
-          }
-          break;
-        case SLEAZE_RESISTANCE:
-          if (mods.getBoolean(BooleanModifier.SLEAZE_IMMUNITY)) {
-            val = 100.0;
-          } else if (mods.getBoolean(BooleanModifier.SLEAZE_VULNERABILITY)) {
-            val -= 100.0;
-          }
-          break;
-        case SPOOKY_RESISTANCE:
-          if (mods.getBoolean(BooleanModifier.SPOOKY_IMMUNITY)) {
-            val = 100.0;
-          } else if (mods.getBoolean(BooleanModifier.SPOOKY_VULNERABILITY)) {
-            val -= 100.0;
-          }
-          break;
-        case STENCH_RESISTANCE:
-          if (mods.getBoolean(BooleanModifier.STENCH_IMMUNITY)) {
-            val = 100.0;
-          } else if (mods.getBoolean(BooleanModifier.STENCH_VULNERABILITY)) {
-            val -= 100.0;
-          }
-          break;
-        case EXPERIENCE:
-          double baseExp =
-              KoLCharacter.estimatedBaseExp(
-                  mods.getDouble(DoubleModifier.MONSTER_LEVEL)
-                      * (1 + mods.getDouble(DoubleModifier.MONSTER_LEVEL_PERCENT) / 100));
-          double expPct = mods.getDouble(DoubleModifier.primeStatExpPercent()) / 100.0f;
-          double exp = mods.getDouble(DoubleModifier.primeStatExp());
+      if (mod instanceof BitmapModifier bitmapModifier) {
+        val = mods.getBitmap(bitmapModifier);
+      } else {
+        var doubleModifier = (DoubleModifier) mod;
+        val = mods.getDouble(doubleModifier);
+        switch (doubleModifier) {
+          case MUS:
+            val = predicted.get(DerivedModifier.BUFFED_MUS);
+            break;
+          case MYS:
+            val = predicted.get(DerivedModifier.BUFFED_MYS);
+            break;
+          case MOX:
+            val = predicted.get(DerivedModifier.BUFFED_MOX);
+            break;
+          case FAMILIAR_WEIGHT:
+            val += mods.getDouble(DoubleModifier.HIDDEN_FAMILIAR_WEIGHT);
+            if (mods.getDouble(DoubleModifier.FAMILIAR_WEIGHT_PCT) < 0.0) {
+              val *= 0.5f;
+            }
+            break;
+          case MANA_COST:
+            val += mods.getDouble(DoubleModifier.STACKABLE_MANA_COST);
+            break;
+          case INITIATIVE:
+            val += Math.min(0.0, mods.getDouble(DoubleModifier.INITIATIVE_PENALTY));
+            break;
+          case MEATDROP:
+            val +=
+                100.0
+                    + Math.min(0.0, mods.getDouble(DoubleModifier.MEATDROP_PENALTY))
+                    + mods.getDouble(DoubleModifier.SPORADIC_MEATDROP)
+                    + mods.getDouble(DoubleModifier.MEAT_BONUS) / 10000.0;
+            break;
+          case ITEMDROP:
+            val +=
+                100.0
+                    + Math.min(0.0, mods.getDouble(DoubleModifier.ITEMDROP_PENALTY))
+                    + mods.getDouble(DoubleModifier.SPORADIC_ITEMDROP);
+            break;
+          case HP:
+            val = predicted.get(DerivedModifier.BUFFED_HP);
+            break;
+          case MP:
+            val = predicted.get(DerivedModifier.BUFFED_MP);
+            break;
+          case WEAPON_DAMAGE:
+            // Incorrect - needs to estimate base damage
+            val += mods.getDouble(DoubleModifier.WEAPON_DAMAGE_PCT);
+            break;
+          case RANGED_DAMAGE:
+            // Incorrect - needs to estimate base damage
+            val += mods.getDouble(DoubleModifier.RANGED_DAMAGE_PCT);
+            break;
+          case SPELL_DAMAGE:
+            // Incorrect - base damage depends on spell used
+            val += mods.getDouble(DoubleModifier.SPELL_DAMAGE_PCT);
+            break;
+          case COLD_RESISTANCE:
+            if (mods.getBoolean(BooleanModifier.COLD_IMMUNITY)) {
+              val = 100.0;
+            } else if (mods.getBoolean(BooleanModifier.COLD_VULNERABILITY)) {
+              val -= 100.0;
+            }
+            break;
+          case HOT_RESISTANCE:
+            if (mods.getBoolean(BooleanModifier.HOT_IMMUNITY)) {
+              val = 100.0;
+            } else if (mods.getBoolean(BooleanModifier.HOT_VULNERABILITY)) {
+              val -= 100.0;
+            }
+            break;
+          case SLEAZE_RESISTANCE:
+            if (mods.getBoolean(BooleanModifier.SLEAZE_IMMUNITY)) {
+              val = 100.0;
+            } else if (mods.getBoolean(BooleanModifier.SLEAZE_VULNERABILITY)) {
+              val -= 100.0;
+            }
+            break;
+          case SPOOKY_RESISTANCE:
+            if (mods.getBoolean(BooleanModifier.SPOOKY_IMMUNITY)) {
+              val = 100.0;
+            } else if (mods.getBoolean(BooleanModifier.SPOOKY_VULNERABILITY)) {
+              val -= 100.0;
+            }
+            break;
+          case STENCH_RESISTANCE:
+            if (mods.getBoolean(BooleanModifier.STENCH_IMMUNITY)) {
+              val = 100.0;
+            } else if (mods.getBoolean(BooleanModifier.STENCH_VULNERABILITY)) {
+              val -= 100.0;
+            }
+            break;
+          case EXPERIENCE:
+            double baseExp =
+                KoLCharacter.estimatedBaseExp(
+                    mods.getDouble(DoubleModifier.MONSTER_LEVEL)
+                        * (1 + mods.getDouble(DoubleModifier.MONSTER_LEVEL_PERCENT) / 100));
+            double expPct = mods.getDouble(DoubleModifier.primeStatExpPercent()) / 100.0f;
+            double exp = mods.getDouble(DoubleModifier.primeStatExp());
 
-          val = ((baseExp + exp) * (1 + expPct)) / 2.0f;
-          break;
-        case DAMAGE_AURA:
-          val += mods.getDouble(DoubleModifier.SPORADIC_DAMAGE_AURA);
-          break;
-        case THORNS:
-          val += mods.getDouble(DoubleModifier.SPORADIC_THORNS);
-          break;
+            val = ((baseExp + exp) * (1 + expPct)) / 2.0f;
+            break;
+          case DAMAGE_AURA:
+            val += mods.getDouble(DoubleModifier.SPORADIC_DAMAGE_AURA);
+            break;
+          case THORNS:
+            val += mods.getDouble(DoubleModifier.SPORADIC_THORNS);
+            break;
+        }
       }
       if (val < min) this.failed = true;
       score += weight * Math.min(val, max);
@@ -986,25 +1006,6 @@ public class Evaluator {
     }
     if (score < this.totalMin) this.failed = true;
     if (score >= this.totalMax) this.exceeded = true;
-    // special handling for -osity:
-    // The "weight" specified is actually the desired -osity.
-    // Allow partials to contribute to the score (1:1 ratio) up to the desired value.
-    // Similar to setting a max.
-    if (this.clownosity > 0) {
-      int osity = mods.getBitmap(BitmapModifier.CLOWNINESS);
-      score += Math.min(osity, this.clownosity);
-      if (osity < this.clownosity) this.failed = true;
-    }
-    if (this.raveosity > 0) {
-      int osity = mods.getBitmap(BitmapModifier.RAVEOSITY);
-      score += Math.min(osity, this.raveosity);
-      if (osity < this.raveosity) this.failed = true;
-    }
-    if (this.surgeonosity > 0) {
-      int osity = mods.getBitmap(BitmapModifier.SURGEONOSITY);
-      score += Math.min(osity, this.surgeonosity);
-      if (osity < this.surgeonosity) this.failed = true;
-    }
     if (!this.failed
         && !this.booleanMask.isEmpty()
         && !mods.getBooleans(this.booleanMask).equals(this.booleanValue)) {
@@ -1418,7 +1419,7 @@ public class Evaluator {
               }
             }
             if (id == ItemPool.BROKEN_CHAMPAGNE
-                && this.weight.getDouble(DoubleModifier.ITEMDROP) > 0
+                && this.weight.getOrDefault(DoubleModifier.ITEMDROP, 0.0) > 0
                 && (Preferences.getInteger("garbageChampagneCharge") > 0
                     || !Preferences.getBoolean("_garbageItemChanged"))) {
               // This is always going to be worth including if useful
@@ -1457,10 +1458,10 @@ public class Evaluator {
             break;
           case SHIRT:
             if (id == ItemPool.MAKESHIFT_GARBAGE_SHIRT
-                && (this.weight.getDouble(DoubleModifier.EXPERIENCE) > 0
-                    || this.weight.getDouble(DoubleModifier.MUS_EXPERIENCE) > 0
-                    || this.weight.getDouble(DoubleModifier.MYS_EXPERIENCE) > 0
-                    || this.weight.getDouble(DoubleModifier.MOX_EXPERIENCE) > 0)
+                && (this.weight.getOrDefault(DoubleModifier.EXPERIENCE, 0.0) > 0
+                    || this.weight.getOrDefault(DoubleModifier.MUS_EXPERIENCE, 0.0) > 0
+                    || this.weight.getOrDefault(DoubleModifier.MYS_EXPERIENCE, 0.0) > 0
+                    || this.weight.getOrDefault(DoubleModifier.MOX_EXPERIENCE, 0.0) > 0)
                 && Preferences.getInteger("garbageShirtCharge") > 0) {
               // This is always going to be worth including if useful
               item.requiredFlag = true;
@@ -1607,9 +1608,12 @@ public class Evaluator {
             || (cloathingUseful && mods.getRawBitmap(BitmapModifier.CLOATHING) != 0)
             || (slimeHateUseful && mods.getDouble(DoubleModifier.SLIME_HATES_IT) > 0.0)
             || (mcHugeLargeUseful && mods.getRawBitmap(BitmapModifier.MCHUGELARGE) != 0)
-            || (this.clownosity > 0 && mods.getRawBitmap(BitmapModifier.CLOWNINESS) != 0)
-            || (this.raveosity > 0 && mods.getRawBitmap(BitmapModifier.RAVEOSITY) != 0)
-            || (this.surgeonosity > 0 && mods.getRawBitmap(BitmapModifier.SURGEONOSITY) != 0)
+            || (this.weight.getOrDefault(BitmapModifier.CLOWNINESS, 0.0) > 0
+                && mods.getRawBitmap(BitmapModifier.CLOWNINESS) != 0)
+            || (this.weight.getOrDefault(BitmapModifier.RAVEOSITY, 0.0) > 0
+                && mods.getRawBitmap(BitmapModifier.RAVEOSITY) != 0)
+            || (this.weight.getOrDefault(BitmapModifier.SURGEONOSITY, 0.0) > 0
+                && mods.getRawBitmap(BitmapModifier.SURGEONOSITY) != 0)
             || (this.stinkycheese > 0 && mods.getRawBitmap(BitmapModifier.STINKYCHEESE) != 0)
             || ((mods.getRawBitmap(BitmapModifier.SYNERGETIC) & usefulSynergies) != 0)) {
           item.automaticFlag = true;
