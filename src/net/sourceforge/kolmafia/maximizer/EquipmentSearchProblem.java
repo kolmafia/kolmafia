@@ -165,8 +165,7 @@ final class EquipmentSearchProblem
 
   @Override
   public void finished(AnytimeSearch.Result<SolutionQuality> result) {
-    Maximizer.recordSearch(
-        result.nodes(), result.dominancePrunes(), result.boundPrunes(), result.optimal());
+    Maximizer.recordSearch(result.nodes(), result.boundPrunes(), result.optimal());
   }
 
   private void pushMark() {

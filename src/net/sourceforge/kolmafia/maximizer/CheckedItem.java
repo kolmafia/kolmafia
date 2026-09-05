@@ -1,6 +1,5 @@
 package net.sourceforge.kolmafia.maximizer;
 
-import java.util.List;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -60,10 +59,6 @@ public class CheckedItem extends AdventureResult {
 
   ItemAvailability availability() {
     return this.availability;
-  }
-
-  List<AcquisitionOption> acquisitionOptions() {
-    return this.availability.options();
   }
 
   boolean isBuyable() {

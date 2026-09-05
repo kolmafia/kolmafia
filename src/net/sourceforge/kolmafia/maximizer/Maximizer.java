@@ -78,7 +78,6 @@ public class Maximizer {
 
   static MaximizerLoadout best;
   static int bestChecked;
-  static long bestUpdate;
   static long combinationLimit;
   private static MaximizerSession session;
 
@@ -115,10 +114,9 @@ public class Maximizer {
     if (session != null && session.searchingEquipment) ++session.scoreCalculations;
   }
 
-  static void recordSearch(long nodes, long dominancePrunes, long boundPrunes, boolean optimal) {
+  static void recordSearch(long nodes, long boundPrunes, boolean optimal) {
     if (session == null) return;
     session.searchNodes += nodes;
-    session.dominancePrunes += dominancePrunes;
     session.boundPrunes += boundPrunes;
     if (!optimal) session.searchComplete = false;
   }
@@ -141,7 +139,6 @@ public class Maximizer {
     } finally {
       best = session.best;
       bestChecked = session.combinationsChecked;
-      bestUpdate = session.nextProgressUpdate;
     }
   }
 
@@ -244,7 +241,6 @@ public class Maximizer {
     Maximizer.combinationLimit = Preferences.getLong("maximizerCombinationLimit");
     Maximizer.session = new MaximizerSession(Maximizer.best, combinationLimit);
     Maximizer.bestChecked = 0;
-    Maximizer.bestUpdate = 0;
 
     if (!KoLmafia.permitsContinue() || filterCount == 0) {
       return;
@@ -280,7 +276,6 @@ public class Maximizer {
       Maximizer.best().markFailed();
       Maximizer.session.resetSearch();
       Maximizer.bestChecked = Maximizer.session.combinationsChecked;
-      Maximizer.bestUpdate = Maximizer.session.nextProgressUpdate;
       try {
         try {
           Maximizer.evaluator().enumerateEquipment(equipScope, maxPrice, priceLevel, exhaustive);

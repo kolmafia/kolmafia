@@ -1936,7 +1936,7 @@ public class EternityCodpieceMaximizerTest {
           var metrics = Maximizer.lastSearchMetrics();
           System.out.printf(
               "ALL_EQUIPMENT_BENCHMARK expression=%s items=%d catalog=%d shortlist=%d"
-                  + " combinations=%d calculations=%d nodes=%d dominance=%d bounds=%d"
+                  + " combinations=%d calculations=%d nodes=%d bounds=%d"
                   + " complete=%s compilationMs=%.3f score=%.3f ms=%.3f%n",
               expression,
               availableItems.size(),
@@ -1945,7 +1945,6 @@ public class EternityCodpieceMaximizerTest {
               metrics.combinationsChecked(),
               metrics.scoreCalculations(),
               metrics.searchNodes(),
-              metrics.dominancePrunes(),
               metrics.boundPrunes(),
               metrics.searchComplete(),
               metrics.candidateCompilationNanos() / 1_000_000.0,

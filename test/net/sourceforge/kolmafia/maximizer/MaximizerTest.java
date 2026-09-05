@@ -202,7 +202,6 @@ public class MaximizerTest {
           EnumSet.of(KoLConstants.filterType.CAST));
 
       assertThat(Maximizer.bestChecked, is(0));
-      assertThat(Maximizer.bestUpdate, is(0L));
       assertThat(Maximizer.lastSearchMetrics(), is(SearchMetrics.EMPTY));
 
       Maximizer.maximize(

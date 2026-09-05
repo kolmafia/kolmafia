@@ -32,12 +32,6 @@ final class AnytimeSearch {
       return true;
     }
 
-    default boolean dominated() {
-      return false;
-    }
-
-    default void record() {}
-
     /** Returns a competitive candidate at the current state, or null when none is available. */
     Candidate<Q> candidate(Q incumbent) throws E;
 
@@ -46,13 +40,7 @@ final class AnytimeSearch {
 
   record Candidate<Q>(Q quality) {}
 
-  record Result<Q>(
-      Q quality,
-      long nodes,
-      long leaves,
-      long dominancePrunes,
-      long boundPrunes,
-      boolean optimal) {}
+  record Result<Q>(Q quality, long nodes, long boundPrunes, boolean optimal) {}
 
   static <C, Q extends Comparable<Q>, E extends Exception> Result<Q> maximize(
       Problem<C, Q, E> problem, Candidate<Q> incumbent, BooleanSupplier keepSearching) throws E {
@@ -71,8 +59,6 @@ final class AnytimeSearch {
     private final BooleanSupplier keepSearching;
     private Candidate<Q> best;
     private long nodes;
-    private long leaves;
-    private long dominancePrunes;
     private long boundPrunes;
     private boolean stopped;
     private boolean completed;
@@ -91,12 +77,6 @@ final class AnytimeSearch {
       }
 
       this.nodes++;
-      if (this.problem.dominated()) {
-        this.dominancePrunes++;
-        return;
-      }
-      this.problem.record();
-
       if (this.best != null && !this.problem.canBeat(this.best.quality())) {
         this.boundPrunes++;
         return;
@@ -105,7 +85,6 @@ final class AnytimeSearch {
       Candidate<Q> candidate =
           this.problem.candidate(this.best == null ? null : this.best.quality());
       if (candidate != null) {
-        this.leaves++;
         if (this.best == null || candidate.quality().compareTo(this.best.quality()) > 0) {
           this.best = candidate;
         }
@@ -131,8 +110,6 @@ final class AnytimeSearch {
       return new Result<>(
           this.best == null ? null : this.best.quality(),
           this.nodes,
-          this.leaves,
-          this.dominancePrunes,
           this.boundPrunes,
           this.completed && !this.stopped);
     }

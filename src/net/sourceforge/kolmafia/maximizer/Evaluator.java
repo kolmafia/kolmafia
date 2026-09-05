@@ -18,7 +18,6 @@ import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.DerivedModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
-import net.sourceforge.kolmafia.session.EffectAvailability;
 
 /**
  * Evaluates modifier sets according to one parsed maximizer expression.
@@ -345,16 +344,6 @@ public class Evaluator {
 
   boolean currentOnly() {
     return this.terms.currentOnly();
-  }
-
-  @Deprecated
-  public static boolean cannotGainEffect(int effectId) {
-    return EffectAvailability.cannotGain(effectId);
-  }
-
-  void enumerateEquipment(EquipScope equipScope, int maxPrice, PriceLevel priceLevel)
-      throws MaximizerInterruptedException {
-    this.enumerateEquipment(equipScope, maxPrice, priceLevel, false);
   }
 
   void enumerateEquipment(

@@ -19,7 +19,6 @@ final class MaximizerSession {
   int shortlistedCandidates;
   int scoreCalculations;
   long searchNodes;
-  long dominancePrunes;
   long boundPrunes;
   boolean searchComplete = true;
   long candidateCompilationNanos;
@@ -41,7 +40,6 @@ final class MaximizerSession {
     this.shortlistedCandidates = 0;
     this.scoreCalculations = 0;
     this.searchNodes = 0;
-    this.dominancePrunes = 0;
     this.boundPrunes = 0;
     this.searchComplete = true;
     this.candidateCompilationNanos = 0;
@@ -57,7 +55,6 @@ final class MaximizerSession {
         this.shortlistedCandidates,
         this.scoreCalculations,
         this.searchNodes,
-        this.dominancePrunes,
         this.boundPrunes,
         this.searchComplete,
         this.candidateCompilationNanos);
