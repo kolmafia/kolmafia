@@ -1853,7 +1853,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
           case SkillPool.HEARTSTONE_BUFF -> Preferences.setBoolean("heartstoneBuffUnlocked", true);
           case SkillPool.CALCULATE_THE_UNIVERSE -> {
             // KoL misreports the maximum number of casts on restricted paths
-            if (!KoLCharacter.getRestricted()) {
+            if (!KoLCharacter.canInteract()) {
               Matcher casts = UNIVERSE_CASTS_PATTERN.matcher(matcher.group(2));
               if (casts.find()) {
                 Preferences.setInteger("skillLevel144", StringUtilities.parseInt(casts.group(1)));

@@ -16,7 +16,6 @@ import static internal.helpers.Player.withMP;
 import static internal.helpers.Player.withNextResponse;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
-import static internal.helpers.Player.withRestricted;
 import static internal.helpers.Player.withSkill;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -341,7 +340,7 @@ class UseSkillRequestTest {
     void parsesCalculateTheUniverseCastsFromSkillzPage() {
       var cleanups =
           new Cleanups(
-              withRestricted(false),
+              withInteractivity(false),
               withProperty("skillLevel144", 1),
               withProperty("_universeCalculated", 1));
       try (cleanups) {
@@ -353,10 +352,10 @@ class UseSkillRequestTest {
     }
 
     @Test
-    void doesNotTrustCalculateTheUniverseMaximumWhenRestricted() {
+    void doesNotTrustCalculateTheUniverseMaximumWhenNoInteractivity() {
       var cleanups =
           new Cleanups(
-              withRestricted(true),
+              withInteractivity(true),
               withProperty("skillLevel144", 5),
               withProperty("_universeCalculated", 1));
       try (cleanups) {
