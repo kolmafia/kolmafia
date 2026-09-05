@@ -1204,15 +1204,6 @@ public class Modifiers {
     }
   }
 
-  public record FamiliarWeightInputs(double weight, double hiddenWeight, double weightPercent) {}
-
-  public FamiliarWeightInputs familiarWeightInputs() {
-    return new FamiliarWeightInputs(
-        this.getDouble(DoubleModifier.FAMILIAR_WEIGHT),
-        this.getDouble(DoubleModifier.HIDDEN_FAMILIAR_WEIGHT),
-        this.getDouble(DoubleModifier.FAMILIAR_WEIGHT_PCT));
-  }
-
   public void applyFamiliarModifiers(final FamiliarData familiar, AdventureResult famItem) {
     if (KoLConstants.activeEffects.contains(Modifiers.somePigs)) {
       // Under the effect of SOME PIGS, familiars give no modifiers. The Stooper is the exception:
@@ -1224,25 +1215,24 @@ public class Modifiers {
       return;
     }
 
-    int weight = familiarWeight(familiar, this.familiarWeightInputs(), 0);
+    int weight = this.familiarWeight(familiar);
     this.lookupFamiliarModifiers(familiar, weight, famItem);
   }
 
-  private static int familiarWeight(
-      FamiliarData familiar, FamiliarWeightInputs inputs, double weightAdjustment) {
+  private int familiarWeight(FamiliarData familiar) {
     int weight = familiar.getUncappedWeight();
     if (KoLConstants.activeEffects.contains(FIDOXENE)) {
       weight = Math.max(weight, 20);
     }
-    weight += (int) (inputs.weight() + weightAdjustment);
-    weight += (int) inputs.hiddenWeight();
+    weight += (int) this.getDouble(DoubleModifier.FAMILIAR_WEIGHT);
+    weight += (int) this.getDouble(DoubleModifier.HIDDEN_FAMILIAR_WEIGHT);
     weight += familiar.getFeasted() ? 10 : 0;
     weight += familiar.getSoupWeight();
     if (familiar.getId() == FamiliarPool.CHAMELEON
         && familiar.getId() != familiar.getEffectiveId()) {
       weight += 5;
     }
-    double percent = inputs.weightPercent() / 100.0;
+    double percent = this.getDouble(DoubleModifier.FAMILIAR_WEIGHT_PCT) / 100.0;
     if (percent != 0.0) {
       weight = (int) Math.floor(weight + weight * percent);
     }

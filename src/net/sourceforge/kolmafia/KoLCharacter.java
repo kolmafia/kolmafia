@@ -5168,10 +5168,7 @@ public abstract class KoLCharacter {
   }
 
   /** State after equipment and familiar effects, but before final derived adjustments. */
-  public static record AdjustmentPrefix(
-      Modifiers modifiers,
-      Modifiers fightMods,
-      Modifiers.FamiliarWeightInputs familiarWeightInputs) {}
+  public static record AdjustmentPrefix(Modifiers modifiers, Modifiers fightMods) {}
 
   public static final AdjustmentPrefix recalculateAdjustmentsPrefix(
       boolean debug,
@@ -5449,7 +5446,6 @@ public abstract class KoLCharacter {
     newModifiers.applySynergies();
 
     // Add familiar effects based on calculated weight adjustment.
-    var familiarWeightInputs = newModifiers.familiarWeightInputs();
     newModifiers.applyFamiliarModifiers(familiar, equipment.get(Slot.FAMILIAR));
 
     // Add Pasta Thrall effects
@@ -5637,7 +5633,7 @@ public abstract class KoLCharacter {
     // free rests
     newModifiers.applyAdditionalFreeRestModifiers();
 
-    return new AdjustmentPrefix(newModifiers, fightMods, familiarWeightInputs);
+    return new AdjustmentPrefix(newModifiers, fightMods);
   }
 
   /** Completes adjustment calculation from a reusable {@link AdjustmentPrefix}. */
@@ -6039,7 +6035,7 @@ public abstract class KoLCharacter {
     }
   }
 
-  public static void addEternityCodpieceAdjustments(
+  private static void addEternityCodpieceAdjustments(
       Map<Slot, AdventureResult> equipment, Modifiers newModifiers) {
     SlotSet.CODPIECE_SLOTS.stream()
         .map(equipment::get)
