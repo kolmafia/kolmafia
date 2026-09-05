@@ -5,14 +5,18 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RestrictedItemType;
+import net.sourceforge.kolmafia.equipment.SlotSet;
+import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase.FoldGroup;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.ThriftyRequest;
 import net.sourceforge.kolmafia.request.coinmaster.MrStoreRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -20,11 +24,21 @@ import net.sourceforge.kolmafia.session.MallPriceManager;
 
 public class CheckedItem extends AdventureResult {
   public CheckedItem(int itemId, EquipScope equipScope, long maxPrice, PriceLevel priceLevel) {
+    this(itemId, equipScope, maxPrice, priceLevel, false);
+  }
+
+  public CheckedItem(
+      int itemId,
+      EquipScope equipScope,
+      long maxPrice,
+      PriceLevel priceLevel,
+      boolean ignoreStandardRestriction) {
     super(itemId, 1, false);
 
     this.inventory = InventoryManager.getCount(itemId);
 
-    this.initial = InventoryManager.getAccessibleCount(itemId);
+    this.initial = InventoryManager.getAccessibleCount(itemId, true, ignoreStandardRestriction);
+    boolean isCodpieceGem = EquipmentRequest.isCodpieceGem(itemId);
 
     // special case used to get a CheckItem that .equals( EquipmentRequest.UNEQUIP ).
     if (itemId == -1) {
@@ -35,6 +49,12 @@ public class CheckedItem extends AdventureResult {
 
     String itemName = this.getName();
     this.foldable = 0;
+    var modifiers = ModifierDatabase.getItemModifiers(itemId);
+    int equipmentLimit =
+        !ItemDatabase.isEquipment(itemId)
+            ? 0
+            : modifiers != null && modifiers.getBoolean(BooleanModifier.SINGLE) ? 1 : 3;
+    int maxUseful = isCodpieceGem ? SlotSet.CODPIECE_SLOTS.size() + equipmentLimit : 3;
 
     if (itemId > 0 && Preferences.getBoolean("maximizerFoldables")) {
       FoldGroup group = ItemDatabase.getFoldGroup(itemName);
@@ -78,7 +98,7 @@ public class CheckedItem extends AdventureResult {
         Preferences.getBoolean("maximizerCreateOnHand")
             && equipScope == EquipScope.SPECULATE_INVENTORY
             && !ItemDatabase.isEquipment(itemId);
-    if (this.initial >= 3 || (equipScope.checkInventoryOnly() && !skillCreateCheck)) {
+    if (this.initial >= maxUseful || (equipScope.checkInventoryOnly() && !skillCreateCheck)) {
       return;
     }
 
@@ -100,7 +120,7 @@ public class CheckedItem extends AdventureResult {
       }
     }
 
-    if (this.getCount() >= 3 || equipScope != EquipScope.SPECULATE_ANY) {
+    if (this.getCount() >= maxUseful || equipScope != EquipScope.SPECULATE_ANY) {
       return;
     }
 
@@ -112,13 +132,14 @@ public class CheckedItem extends AdventureResult {
       this.creatable = 0;
       this.npcBuyable = 0;
     } else if (InventoryManager.canUseMall(itemId)) {
-      // consider Mall buying, but only if none are otherwise available
-      if (this.getCount() == 0) {
+      // Ordinary equipment only needs one mall copy; Codpiece gems can fill five slots.
+      int needed = isCodpieceGem ? maxUseful - this.getCount() : this.getCount() == 0 ? 1 : 0;
+      if (needed > 0) {
         // We include things with historical price up to twice as high as limit, as current price
         // may be lower
         long price = Math.min(maxPrice, KoLCharacter.getAvailableMeat());
         if (priceLevel == PriceLevel.DONT_CHECK || MallPriceDatabase.getPrice(itemId) < price * 2) {
-          this.mallBuyable = 1;
+          this.mallBuyable = needed;
           this.buyableFlag = true;
         }
       }
@@ -133,14 +154,14 @@ public class CheckedItem extends AdventureResult {
 
       this.pullBuyable = 0;
       if (InventoryManager.canUseMallToStorage(itemId)) {
-        // consider Mall buying, but only if none are otherwise available
-        if (this.getCount() == 0) {
+        int needed = isCodpieceGem ? maxUseful - this.getCount() : this.getCount() == 0 ? 1 : 0;
+        if (needed > 0) {
           // We include things with historical price up to twice as high as limit, as current price
           // may be lower
           long price = Math.min(maxPrice, KoLCharacter.getStorageMeat());
           if (priceLevel == PriceLevel.DONT_CHECK
               || MallPriceDatabase.getPrice(itemId) < price * 2) {
-            this.pullBuyable = 1;
+            this.pullBuyable = needed;
             this.buyableFlag = true;
           }
         }
@@ -188,18 +209,13 @@ public class CheckedItem extends AdventureResult {
       return Integer.MAX_VALUE;
     }
     if (this.singleFlag) {
-      return Math.min(
-          1,
-          this.initial
-              + this.creatable
-              + this.npcBuyable
-              + this.mallBuyable
-              + this.foldable
-              + this.pullable
-              + this.pullfoldable
-              + this.pullBuyable);
+      return Math.min(1, this.getAvailableCount());
     }
 
+    return this.getAvailableCount();
+  }
+
+  final int getAvailableCount() {
     return this.initial
         + this.creatable
         + this.npcBuyable

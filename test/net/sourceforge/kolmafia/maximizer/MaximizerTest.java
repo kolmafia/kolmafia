@@ -503,11 +503,28 @@ public class MaximizerTest {
     }
 
     @Test
-    public void surgeonosityItemsDontStack() {
+    public void defaultSurgeonosityAccountsForShirtEligibility() {
+      final var cleanups =
+          new Cleanups(
+              withEquippableItem("head mirror"),
+              withEquippableItem("bloodied surgical dungarees"),
+              withEquippableItem("surgical apron"),
+              withEquippableItem("surgical mask"),
+              withEquippableItem("half-size scalpel"));
+
+      try (cleanups) {
+        assertTrue(maximize("surgeonosity, -tie"));
+        assertEquals(4, modFor(BitmapModifier.SURGEONOSITY), 0.01);
+        assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.SHIRT, "surgical apron"))));
+      }
+    }
+
+    @Test
+    public void explicitSurgeonosityTargetIsRequiredAndItemsDontStack() {
       var cleanups = withEquippableItem("surgical mask", 3);
 
       try (cleanups) {
-        maximize("surgeonosity, -tie");
+        assertFalse(maximize("2 surgeonosity, -tie"));
         assertEquals(1, modFor(BitmapModifier.SURGEONOSITY), 0.01);
         assertThat(
             getBoosts().stream()

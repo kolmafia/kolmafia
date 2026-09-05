@@ -63,6 +63,10 @@ public class Speculation {
     this.MCD = MCD;
   }
 
+  protected int getMindControlLevel() {
+    return this.MCD;
+  }
+
   public void setFamiliar(FamiliarData familiar) {
     this.familiar = familiar;
   }
@@ -149,6 +153,10 @@ public class Speculation {
 
   public void removeEffect(AdventureResult effect) {
     this.effects.remove(effect);
+  }
+
+  protected List<AdventureResult> getEffects() {
+    return this.effects;
   }
 
   public Modifiers calculate() {

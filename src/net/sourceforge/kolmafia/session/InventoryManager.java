@@ -184,12 +184,25 @@ public abstract class InventoryManager {
     return InventoryManager.getAccessibleCount(ItemPool.get(itemId, 1), includeStash);
   }
 
+  public static final int getAccessibleCount(
+      final int itemId, final boolean includeStash, final boolean ignoreStandardRestriction) {
+    return InventoryManager.getAccessibleCount(
+        ItemPool.get(itemId, 1), includeStash, ignoreStandardRestriction);
+  }
+
   public static final int getAccessibleCount(final AdventureResult item) {
     return getAccessibleCount(item, true);
   }
 
   public static final int getAccessibleCount(
       final AdventureResult item, final boolean includeStash) {
+    return getAccessibleCount(item, includeStash, false);
+  }
+
+  public static final int getAccessibleCount(
+      final AdventureResult item,
+      final boolean includeStash,
+      final boolean ignoreStandardRestriction) {
     if (item == null) {
       return 0;
     }
@@ -206,7 +219,7 @@ public abstract class InventoryManager {
     }
 
     // If this item is restricted, ignore it entirely.
-    if (!ItemDatabase.isAllowed(item)) {
+    if (!ignoreStandardRestriction && !ItemDatabase.isAllowed(item)) {
       return 0;
     }
 

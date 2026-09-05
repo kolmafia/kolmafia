@@ -183,8 +183,8 @@ public class Maximizer {
     Maximizer.boosts.clear();
     if (filter.contains(KoLConstants.filterType.EQUIP)) {
       Maximizer.best.getScore();
-      // In case the current outfit scores better than any tried combination,
-      // due to some newly-added constraint (such as +melee):
+      MaximizerSpeculation currentEquipment = Maximizer.best.clone();
+      // Allow an equal-scoring configuration to replace current equipment.
       Maximizer.best.failed = true;
       Maximizer.bestChecked = 0;
       Maximizer.bestUpdate = System.currentTimeMillis() + 5000;
@@ -212,6 +212,9 @@ public class Maximizer {
                 Slot.NONE,
                 null,
                 0.0));
+      }
+      if (!currentEquipment.failed && Maximizer.best.getScore() < currentEquipment.getScore()) {
+        Maximizer.best = currentEquipment;
       }
       MaximizerSpeculation.showProgress();
 
@@ -1793,6 +1796,20 @@ public class Maximizer {
       return equipScope;
     }
     MaximizerSpeculation spec = new MaximizerSpeculation();
+    double baseline = current;
+    if (SlotSet.CODPIECE_SLOTS.contains(slot)
+        && !KoLCharacter.hasEquipped(ItemPool.get(ItemPool.THE_ETERNITY_CODPIECE))) {
+      for (Slot accessorySlot : SlotSet.ACCESSORY_SLOTS) {
+        AdventureResult accessory = Maximizer.best.equipment.get(accessorySlot);
+        if (accessory != null && accessory.getItemId() == ItemPool.THE_ETERNITY_CODPIECE) {
+          MaximizerSpeculation codpieceSpec = new MaximizerSpeculation();
+          codpieceSpec.equip(accessorySlot, accessory);
+          baseline = codpieceSpec.getScore();
+          spec.equip(accessorySlot, accessory);
+          break;
+        }
+      }
+    }
     spec.equip(slot, item);
     if (itemId == ItemPool.HATSEAT) {
       spec.setEnthroned(enthroned);
@@ -1802,7 +1819,7 @@ public class Maximizer {
       spec.setModeable(modeable, modeables.get(modeable));
     }
 
-    double delta = spec.getScore() - current;
+    double delta = spec.getScore() - baseline;
 
     String cmd, text;
     if (item.equals(EquipmentRequest.UNEQUIP)) {
@@ -1847,9 +1864,10 @@ public class Maximizer {
           }
         }
       } else {
-        // Otherwise we iterate through the maximization set so far
-        for (Boost boost : Maximizer.boosts) {
-          if (item.equals(boost.getItem())) {
+        // Otherwise count earlier uses directly from the selected equipment.
+        for (var piece : SlotSet.ALL_SLOTS) {
+          if (piece.ordinal() >= slot.ordinal()) break;
+          if (item.equals(Maximizer.best.equipment.get(piece))) {
             count++;
           }
         }
