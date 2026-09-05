@@ -442,6 +442,8 @@ public class ResponseTextParser {
                 EffectPool.WINE_BEFOULED,
                 EffectPool.WINE_FRIENDLY ->
                 EffectDatabase.parseVampireVintnerWineEffect(responseText, effectId);
+            case EffectPool.BLESSING_PRIVACY_SHIELD ->
+                EffectDatabase.parseBlessingOfThePrivacyShieldEffect(responseText, effectId);
           }
         }
       }
