@@ -152,7 +152,7 @@ final class CandidateLoadoutFactory {
     }
   }
 
-  private void copyCurrent(MaximizerLoadout loadout, SlottedItem<AdventureResult> group) {
+  private void copyCurrent(MaximizerLoadout loadout, ItemSlotGroup group) {
     for (Slot slot : group.slots()) {
       group.put(loadout, slot, group.get(this.current, slot));
     }

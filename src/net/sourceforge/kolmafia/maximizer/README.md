@@ -117,7 +117,7 @@ algorithm.
 
 | File | Responsibility |
 | --- | --- |
-| `SlottedItem.java` | Maximizer-local typed access to parent equipment whose modifiers depend on child-slot occupants. |
+| `ItemSlotGroup.java` | Registers item- and familiar-valued child-slot groups used by hypothetical loadouts. |
 | `CodpieceEvaluator.java` | Discovers and ranks Codpiece gem candidates in isolation. |
 | `CodpieceModifierSafety.java` | Conservatively decides which gem modifiers support cached incremental evaluation and safe bounds. |
 | `CodpieceSearchState.java` | Owns canonical gem-multiset traversal, copy accounting, cached modifier prefixes, and suffix bounds for one loadout. |

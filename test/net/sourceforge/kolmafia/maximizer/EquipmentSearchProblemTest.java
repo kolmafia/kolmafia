@@ -174,7 +174,6 @@ class EquipmentSearchProblemTest {
     assertNull(ItemSlotGroup.CARD_SLEEVE.get(state, Slot.CODPIECE1));
     assertThat(FamiliarSlotGroup.CROWN.get(state, Slot.CROWNOFTHRONES), is(familiar));
     assertThat(ItemSlotGroup.ETERNITY_CODPIECE.modifiers(ItemPool.HEARTSTONE), is(notNullValue()));
-    assertThat(FamiliarSlotGroup.CROWN.modifiers(familiar), is(notNullValue()));
   }
 
   @Test
@@ -193,7 +192,6 @@ class EquipmentSearchProblemTest {
     assertFalse(
         ItemSlotGroup.BOOTS.accepts(Slot.BOOTSKIN, ItemPool.get(ItemPool.QUICKSILVER_SPURS)));
     assertFalse(ItemSlotGroup.STICKERS.accepts(Slot.STICKER1, ItemPool.get(ItemPool.HEARTSTONE)));
-    assertNull(FamiliarSlotGroup.CROWN.modifiers(null));
   }
 
   private static List<AdventureResult> items(int first, int second) {

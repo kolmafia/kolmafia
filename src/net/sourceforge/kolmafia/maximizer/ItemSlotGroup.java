@@ -15,28 +15,8 @@ import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 
-/**
- * Maximizer-local access to parent equipment whose behavior depends on typed child-slot occupants.
- *
- * <p>This abstraction operates only on hypothetical {@link MaximizerLoadout} state; it does not
- * issue equipment requests or change application-wide modifier calculation. Parent groups may copy
- * current occupants or opt into candidate selection without teaching the general search about each
- * item's storage mechanism.
- */
-interface SlottedItem<T> {
-  List<Slot> slots();
-
-  boolean accepts(Slot slot, T occupant);
-
-  T get(MaximizerLoadout state, Slot slot);
-
-  boolean put(MaximizerLoadout state, Slot slot, T occupant);
-
-  Modifiers modifiers(T occupant);
-}
-
 /** Registered item-valued child-slot groups understood by the Maximizer. */
-enum ItemSlotGroup implements SlottedItem<AdventureResult> {
+enum ItemSlotGroup {
   STICKERS(List.copyOf(SlotSet.STICKER_SLOTS), ModifierType.ITEM, false, ItemPool.STICKER_SWORD),
   CARD_SLEEVE(List.of(Slot.CARDSLEEVE), ModifierType.ITEM, true, ItemPool.CARD_SLEEVE),
   FOLDERS(List.copyOf(SlotSet.FOLDER_SLOTS), ModifierType.ITEM, false, ItemPool.FOLDER_HOLDER),
@@ -63,12 +43,10 @@ enum ItemSlotGroup implements SlottedItem<AdventureResult> {
     return find(itemId) == this;
   }
 
-  @Override
   public List<Slot> slots() {
     return this.slots;
   }
 
-  @Override
   public boolean accepts(Slot slot, AdventureResult occupant) {
     if (!this.slots.contains(slot)) return false;
     int itemId = occupant == null ? -1 : occupant.getItemId();
@@ -93,19 +71,16 @@ enum ItemSlotGroup implements SlottedItem<AdventureResult> {
     return this.parentItemId;
   }
 
-  @Override
   public AdventureResult get(MaximizerLoadout state, Slot slot) {
     return this.slots.contains(slot) ? state.equipment.get(slot) : null;
   }
 
-  @Override
   public boolean put(MaximizerLoadout state, Slot slot, AdventureResult occupant) {
     if (!this.accepts(slot, occupant)) return false;
     state.equipment.put(slot, occupant);
     return true;
   }
 
-  @Override
   public Modifiers modifiers(AdventureResult occupant) {
     return occupant == null ? null : this.modifiers(occupant.getItemId());
   }
@@ -145,7 +120,7 @@ enum ItemSlotGroup implements SlottedItem<AdventureResult> {
 }
 
 /** Registered familiar-valued child-slot groups understood by the Maximizer. */
-enum FamiliarSlotGroup implements SlottedItem<FamiliarData> {
+enum FamiliarSlotGroup {
   CROWN(ItemPool.HATSEAT, Slot.CROWNOFTHRONES),
   BJORN(ItemPool.BUDDY_BJORN, Slot.BUDDYBJORN);
 
@@ -161,12 +136,10 @@ enum FamiliarSlotGroup implements SlottedItem<FamiliarData> {
     return this.parentItemId == itemId;
   }
 
-  @Override
   public List<Slot> slots() {
     return this.slots;
   }
 
-  @Override
   public FamiliarData get(MaximizerLoadout state, Slot slot) {
     if (!this.slots.contains(slot)) return null;
     return switch (this) {
@@ -175,12 +148,10 @@ enum FamiliarSlotGroup implements SlottedItem<FamiliarData> {
     };
   }
 
-  @Override
   public boolean accepts(Slot slot, FamiliarData occupant) {
     return this.slots.contains(slot) && occupant != null;
   }
 
-  @Override
   public boolean put(MaximizerLoadout state, Slot slot, FamiliarData occupant) {
     if (!this.accepts(slot, occupant)) return false;
     switch (this) {
@@ -188,14 +159,6 @@ enum FamiliarSlotGroup implements SlottedItem<FamiliarData> {
       case BJORN -> state.setBjorned(occupant);
     }
     return true;
-  }
-
-  @Override
-  public Modifiers modifiers(FamiliarData occupant) {
-    return occupant == null
-        ? null
-        : ModifierDatabase.getModifiers(
-            this == CROWN ? ModifierType.THRONE : ModifierType.BJORN, occupant.getRace());
   }
 
   FamiliarData current() {
