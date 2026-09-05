@@ -1,9 +1,11 @@
 package net.sourceforge.kolmafia;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
@@ -73,24 +75,31 @@ public class DebugModifiers extends Modifiers {
 
     super.addDouble(modifier, mod, type, key);
 
-    if (!DebugModifiers.wanted.containsKey(modifier)) {
-      return;
-    }
+    // The added modifier may be a combined one (e.g. "All Resistance") that provides several
+    // individual modifiers (e.g. "Sleaze Resistance"), so record it under every wanted modifier
+    // it subsumes.
+    List<DoubleModifier> subsumed = Arrays.asList(modifier.getSubsumed());
 
     String name = lookup.getName();
-    if (!name.equals(DebugModifiers.currentName)
-        || DebugModifiers.adjustments.containsKey(modifier)) {
-      DebugModifiers.flushRow();
+    for (DoubleModifier wanted : DebugModifiers.wanted.keySet()) {
+      if (wanted != modifier && !subsumed.contains(wanted)) {
+        continue;
+      }
+
+      if (!name.equals(DebugModifiers.currentName)
+          || DebugModifiers.adjustments.containsKey(wanted)) {
+        DebugModifiers.flushRow();
+      }
+      DebugModifiers.currentType = type.wordsName();
+      DebugModifiers.currentName = name;
+      DebugModifiers.adjustments.put(
+          wanted,
+          "<td>"
+              + KoLConstants.ROUNDED_MODIFIER_FORMAT.format(mod)
+              + "</td><td>=&nbsp;"
+              + KoLConstants.ROUNDED_MODIFIER_FORMAT.format(this.getDouble(wanted))
+              + "</td>");
     }
-    DebugModifiers.currentType = type.wordsName();
-    DebugModifiers.currentName = name;
-    DebugModifiers.adjustments.put(
-        modifier,
-        "<td>"
-            + KoLConstants.ROUNDED_MODIFIER_FORMAT.format(mod)
-            + "</td><td>=&nbsp;"
-            + KoLConstants.ROUNDED_MODIFIER_FORMAT.format(this.getDouble(modifier))
-            + "</td>");
   }
 
   public static void finish() {

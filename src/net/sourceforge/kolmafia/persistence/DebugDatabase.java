@@ -331,7 +331,14 @@ public class DebugDatabase {
       descriptionName = StringUtilities.globalStringReplace(descriptionName, "  ", " ");
     }
 
-    if (!name.equals(descriptionName) && !decodedNamesEqual(name, descriptionName)) {
+    // An item with a Display Name modifier shows that name in its description
+    // rather than the base name in items.txt.
+    String displayName =
+        ModifierDatabase.getStringModifier(ModifierType.ITEM, itemId, StringModifier.DISPLAY_NAME);
+    String expectedName = displayName.isEmpty() ? name : displayName;
+
+    if (!expectedName.equals(descriptionName)
+        && !decodedNamesEqual(expectedName, descriptionName)) {
       report.println(
           "# *** " + name + " (" + itemId + ") has description of " + descriptionName + ".");
       DebugDatabase.rawItems.put(itemId, null);
@@ -573,7 +580,7 @@ public class DebugDatabase {
     }
 
     // Quest items cannot be gifted or traded
-    else if (text.contains("Gift Item") && !text.contains("gift package")) {
+    else if (text.contains("Gift Item")) {
       accessTypes = appendAccessTypes(accessTypes, Attribute.GIFT);
     }
 

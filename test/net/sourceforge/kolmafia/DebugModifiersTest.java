@@ -115,6 +115,14 @@ public class DebugModifiersTest {
   }
 
   @Test
+  void listsAllResistanceForIndividualElement() {
+    try (var cleanups = withEquipped(Slot.HAT, "tin foil hat")) {
+      evaluateDebugModifiers("sleaze res");
+    }
+    assertThat(output(), containsDebugRow("Item", "tin foil hat", 2.0, 2.0));
+  }
+
+  @Test
   void listsPassiveSkill() {
     try (var cleanups = withSkill(SkillPool.COSMIC_UNDERSTANDING)) {
       evaluateDebugModifiers(DoubleModifier.MP_PCT);
@@ -152,18 +160,18 @@ public class DebugModifiersTest {
 
   @Test
   void listsMultipleInOneRow() {
-    try (var cleanups = withEffect(EffectPool.ELEMENTAL_SPHERE)) {
+    try (var cleanups = withEffect(EffectPool.AVATAR_OF_SHE_WHO_WAS)) {
       evaluateDebugModifiers("Resistance");
     }
     assertThat(output().split("<tr>"), arrayWithSize(3));
     assertThat(
         output(),
         stringContainsInOrder(
-            "<td>+2.00</td><td>=&nbsp;+2.00</td>",
-            "<td>+2.00</td><td>=&nbsp;+2.00</td>",
-            "<td>+2.00</td><td>=&nbsp;+2.00</td>",
-            "<td>+2.00</td><td>=&nbsp;+2.00</td>",
-            "<td>+2.00</td><td>=&nbsp;+2.00</td>"));
+            "<td>+5.00</td><td>=&nbsp;+5.00</td>",
+            "<td>+5.00</td><td>=&nbsp;+5.00</td>",
+            "<td>+5.00</td><td>=&nbsp;+5.00</td>",
+            "<td>+5.00</td><td>=&nbsp;+5.00</td>",
+            "<td>+5.00</td><td>=&nbsp;+5.00</td>"));
   }
 
   @Test
