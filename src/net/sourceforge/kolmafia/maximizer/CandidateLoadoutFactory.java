@@ -99,11 +99,13 @@ final class CandidateLoadoutFactory {
     AdventureResult card = null;
     FamiliarSlotGroup familiarSlots = FamiliarSlotGroup.find(item.getItemId());
     if (familiarSlots != null) {
-      if (familiarSlots == FamiliarSlotGroup.CROWN) {
-        configureCrown(loadout, item);
-      } else {
-        configureBjorn(loadout, item);
-      }
+      boolean crown = familiarSlots == FamiliarSlotGroup.CROWN;
+      configureCarried(
+          loadout,
+          item,
+          familiarSlots,
+          crown ? Slot.CROWNOFTHRONES : Slot.BUDDYBJORN,
+          crown ? this.carriedFamiliars.lockedCrown() : this.carriedFamiliars.lockedBjorn());
     } else {
       ItemSlotGroup itemSlots = ItemSlotGroup.find(item.getItemId());
       switch (itemSlots) {
@@ -125,27 +127,18 @@ final class CandidateLoadoutFactory {
 
   private record Result(MaximizerLoadout loadout, AdventureResult card) {}
 
-  private void configureCrown(MaximizerLoadout loadout, CheckedItem item) {
-    if (this.carriedFamiliars.lockedCrown() != null) {
-      FamiliarSlotGroup.CROWN.put(
-          loadout, Slot.CROWNOFTHRONES, this.carriedFamiliars.lockedCrown());
-    } else if (this.carriedFamiliarsNeeded > 1) {
+  private void configureCarried(
+      MaximizerLoadout loadout,
+      CheckedItem item,
+      FamiliarSlotGroup group,
+      Slot slot,
+      FamiliarData locked) {
+    FamiliarData familiar = locked;
+    if (familiar == null && this.carriedFamiliarsNeeded > 1) {
       item.automaticFlag = true;
-      FamiliarSlotGroup.CROWN.put(loadout, Slot.CROWNOFTHRONES, this.carriedFamiliars.secondBest());
-    } else {
-      FamiliarSlotGroup.CROWN.put(loadout, Slot.CROWNOFTHRONES, this.carriedFamiliars.best());
+      familiar = this.carriedFamiliars.secondBest();
     }
-  }
-
-  private void configureBjorn(MaximizerLoadout loadout, CheckedItem item) {
-    if (this.carriedFamiliars.lockedBjorn() != null) {
-      FamiliarSlotGroup.BJORN.put(loadout, Slot.BUDDYBJORN, this.carriedFamiliars.lockedBjorn());
-    } else if (this.carriedFamiliarsNeeded > 1) {
-      item.automaticFlag = true;
-      FamiliarSlotGroup.BJORN.put(loadout, Slot.BUDDYBJORN, this.carriedFamiliars.secondBest());
-    } else {
-      FamiliarSlotGroup.BJORN.put(loadout, Slot.BUDDYBJORN, this.carriedFamiliars.best());
-    }
+    group.put(loadout, slot, familiar == null ? this.carriedFamiliars.best() : familiar);
   }
 
   private void configureOther(MaximizerLoadout loadout, CheckedItem item) {

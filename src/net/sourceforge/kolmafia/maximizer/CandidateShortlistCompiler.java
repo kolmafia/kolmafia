@@ -130,17 +130,12 @@ final class CandidateShortlistCompiler {
       boolean leavesSlotEmpty = item.getItemId() == -1;
       ResourceUsage itemResourceUsage = this.character.resourceUsage(item.getName());
       if (!itemResourceUsage.isZero()) {
-        if (item.automaticFlag) {
-          if (!selected.contains(item)) {
-            selected.add(item);
-          }
-          if (!leavesSlotEmpty) {
-            resourceCandidates += item.getCount();
-            resourceUsage = resourceUsage.plus(itemResourceUsage.times(item.getCount()));
-          }
-        } else if (total < useful
-            && resourceCandidates < useful
-            && this.character.hasRemainingCapacityFor(resourceUsage, itemResourceUsage)) {
+        boolean include =
+            item.automaticFlag
+                || (total < useful
+                    && resourceCandidates < useful
+                    && this.character.hasRemainingCapacityFor(resourceUsage, itemResourceUsage));
+        if (include) {
           if (!selected.contains(item)) {
             selected.add(item);
           }
@@ -149,14 +144,9 @@ final class CandidateShortlistCompiler {
             resourceUsage = resourceUsage.plus(itemResourceUsage.times(item.getCount()));
           }
         }
-      } else if (item.automaticFlag) {
-        if (!selected.contains(item)) {
-          selected.add(item);
-          if (!leavesSlotEmpty && !item.conditionalFlag && item.getCount() >= foldItemsNeeded) {
-            total += item.getCount();
-          }
-        }
-      } else if ((entry.isSlot() && entry.slot() == Slot.CODPIECE1) || total < useful) {
+      } else if (item.automaticFlag
+          || (entry.isSlot() && entry.slot() == Slot.CODPIECE1)
+          || total < useful) {
         if (!selected.contains(item)) {
           selected.add(item);
           if (!leavesSlotEmpty && !item.conditionalFlag && item.getCount() >= foldItemsNeeded) {
