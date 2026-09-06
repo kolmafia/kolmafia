@@ -444,8 +444,9 @@ public class MaximizerTest {
     public void clownosityTriesClownEquipment() {
       final var cleanups = new Cleanups(withEquippableItem("clown wig"));
       try (cleanups) {
-        assertTrue(maximize("4 clownosity -tie"));
+        assertTrue(maximize("clownosity 50 min -tie"));
         assertFalse(maximize("clownosity -tie"));
+        assertFalse(maximize("10 clownosity -tie"));
         // still provides equipment
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "clown wig")));
         assertEquals(50, modFor(BitmapModifier.CLOWNINESS), 0.01);
@@ -469,7 +470,7 @@ public class MaximizerTest {
       var cleanups = withEquippableItem("clownskin belt", 3);
 
       try (cleanups) {
-        maximize("4 clownosity, -tie");
+        maximize("clownosity, -tie");
         assertEquals(50, modFor(BitmapModifier.CLOWNINESS), 0.01);
         assertThat(
             getBoosts().stream()
@@ -490,7 +491,8 @@ public class MaximizerTest {
               withEquippableItem("baggy rave pants"),
               withEquippableItem("rave whistle"));
       try (cleanups) {
-        assertTrue(maximize("7 raveosity -tie"));
+        assertTrue(maximize("raveosity 5 min -tie"));
+        assertFalse(maximize("10 raveosity -tie"));
         assertFalse(maximize("raveosity -tie"));
         // still provides equipment
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "rave visor")));
@@ -548,7 +550,7 @@ public class MaximizerTest {
       var cleanups = withEquippableItem("surgical mask", 3);
 
       try (cleanups) {
-        assertTrue(maximize("3 surgeonosity, -tie"));
+        assertFalse(maximize("surgeonosity 3 min, -tie"));
         assertTrue(maximize("surgeonosity, -tie"));
         assertEquals(1, modFor(BitmapModifier.SURGEONOSITY), 0.01);
         assertThat(
@@ -571,9 +573,11 @@ public class MaximizerTest {
               withSkill("Torso Awareness"));
 
       try (cleanups) {
-        assertTrue(maximize("3 surgeonosity, -tie"));
+        assertTrue(maximize("surgeonosity, -tie"));
         assertEquals(5, modFor(BitmapModifier.SURGEONOSITY), 0.01);
         assertThat(getBoosts(), hasItem(recommends("head mirror")));
+        assertThat(getBoosts(), hasItem(recommends("surgical mask")));
+        assertThat(getBoosts(), hasItem(recommends("half-size scalpel")));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.PANTS, "bloodied surgical dungarees")));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.SHIRT, "surgical apron")));
       }

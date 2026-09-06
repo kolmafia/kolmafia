@@ -420,9 +420,10 @@ public class Evaluator {
       if (osityModifier != null) {
         index = osityModifier;
         this.weight.put(osityModifier, weight);
-        if (m.group(1).isEmpty() && m.group(2).isEmpty()) {
-          this.min.put(osityModifier, defaultMinimum);
-        }
+
+        // Even if the user specified a weight for an -osity, but did not specify a min, then use a
+        // default value.
+        this.min.put(osityModifier, defaultMinimum);
         continue;
       }
 
@@ -858,11 +859,11 @@ public class Evaluator {
       var mod = scoreModifier.modifier();
       double weight = scoreModifier.weight();
       double min = scoreModifier.min();
-      double val;
+      double val = 0.0;
       double max = scoreModifier.max();
       if (mod instanceof BitmapModifier bitmapModifier) {
         val = mods.getBitmap(bitmapModifier);
-      } else {
+      } else if (mod instanceof DoubleModifier) {
         var doubleModifier = (DoubleModifier) mod;
         val = mods.getDouble(doubleModifier);
         switch (doubleModifier) {
