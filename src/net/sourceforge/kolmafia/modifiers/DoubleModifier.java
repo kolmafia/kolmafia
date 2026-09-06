@@ -701,7 +701,12 @@ public enum DoubleModifier implements Modifier {
       Pattern.compile("All Resistance: " + EXPR),
       new DoubleModifier[] {
         COLD_RESISTANCE, HOT_RESISTANCE, SLEAZE_RESISTANCE, SPOOKY_RESISTANCE, STENCH_RESISTANCE
-      });
+      }),
+  BETTER_DIVER(
+      "Better Diver",
+      Pattern.compile("Makes you a (?:much )?better diver \\(([+-]?\\d+)\\)$"),
+      Pattern.compile("Better Diver: " + EXPR),
+      new DoubleModifier[] {INITIATIVE_PENALTY, MEATDROP_PENALTY, ITEMDROP_PENALTY});
 
   private final String name;
   private final Pattern[] descPatterns;
@@ -808,6 +813,7 @@ public enum DoubleModifier implements Modifier {
           ALL_ATTRIBUTES,
           ALL_ATTRIBUTES_PCT,
           ALL_RESISTANCE,
+          BETTER_DIVER,
           BOOZEDROP,
           BUGBEAR_DAMAGE,
           CANDYDROP,

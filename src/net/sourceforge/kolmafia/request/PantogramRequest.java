@@ -143,9 +143,7 @@ public class PantogramRequest extends GenericRequest {
         ResultProcessor.processResult(ItemPool.get(ItemPool.HUGE_BOWL_OF_CANDY, -1));
       } else if (slot3.startsWith("3495")) {
         // Makes you a better diver by 20%
-        modList.addModifier("Initiative Penalty", "[20*env(underwater)]");
-        modList.addModifier("Item Drop Penalty", "[20*env(underwater)]");
-        modList.addModifier("Meat Drop Penalty", "[20*env(underwater)]");
+        modList.addModifier("Better Diver", "20");
         ResultProcessor.processResult(ItemPool.get(ItemPool.SEA_SALT_CRYSTAL, -11));
       } else if (slot3.startsWith("9008")) {
         modList.addModifier("Fishing Skill", "+5");

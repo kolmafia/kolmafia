@@ -31,7 +31,6 @@ import net.sourceforge.kolmafia.swingui.panel.ConfigQueueingPanel;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.swingui.panel.LabeledPanel;
 import net.sourceforge.kolmafia.swingui.panel.OptionsPanel;
-import net.sourceforge.kolmafia.swingui.panel.PingOptionsPanel;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.EditableAutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.PreferenceCheckBox;
@@ -427,8 +426,6 @@ public class LoginFrame extends GenericFrame {
       super();
 
       this.queue(new PreferenceCheckBox("useDevServer", "Use dev.kingdomofloathing.com to login"));
-      this.queue(this.newSeparator());
-      this.queue(new PingOptionsPanel());
       this.makeLayout();
     }
   }

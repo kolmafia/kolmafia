@@ -272,8 +272,7 @@ Item	giant yellow hat	Familiar Damage: +10, Experience (familiar): +1, HP / MP R
 Item	gingerbread mask	Hat / Pants Drop: +25, Last Available: "2016-12"
 Item	gingerbread tophat	Mysticality: +10, Last Available: "2016-12"
 Item	goat beard	Mysticality: +3, Familiar Effect: "atk, 1xPotato, cap 15"
-# Goggles of Loathing: Makes you a better diver
-Item	Goggles of Loathing	Initiative: +50, Hot Resistance: +5, Initiative Penalty: [10*env(underwater)], Item Drop Penalty: [10*env(underwater)], Meat Drop Penalty: [10*env(underwater)], Cloathing, Familiar Effect: "1.5xVolley, 1.5xBarrr", Enchantment Count: 3
+Item	Goggles of Loathing	Initiative: +50, Hot Resistance: +5, Better Diver: 10, Cloathing, Familiar Effect: "1.5xVolley, 1.5xBarrr"
 Item	gold crown	Sleaze Resistance: +3, HP / MP Regen Min: 2, HP / MP Regen Max: 4, Meat Drop: +10, Last Available: "2013-02", Familiar Effect: "3xGhoul, cap 37"
 Item	goofily-plumed helmet	Familiar Effect: "atk, cap 17"
 Item	googly-ball hat	Mysticality: +10, Experience (Mysticality): +3, Last Available: "2010-06"
@@ -1357,10 +1356,8 @@ Item	corn holder	Spell Damage: +6
 Item	corrupt club of corrupt corruption	Weapon Damage: +9, Class: "Seal Clubber"
 Item	corrupt club of corruption	Weapon Damage: +5, Class: "Seal Clubber"
 Item	costume sword	Weapon Damage: -10, Initiative: +30
-# cozy bazooka: Makes you a much better diver
-Item	cozy bazooka	Moxie Percent: +15, Meat Drop: +20, Initiative Penalty: [30*env(underwater)], Item Drop Penalty: [30*env(underwater)], Meat Drop Penalty: [30*env(underwater)], Breakable, Enchantment Count: 3
-# cozy scimitar: Makes you a much better diver
-Item	cozy scimitar	Muscle Percent: +15, Weapon Damage Percent: +50, Initiative Penalty: [30*env(underwater)], Item Drop Penalty: [30*env(underwater)], Meat Drop Penalty: [30*env(underwater)], Breakable, Enchantment Count: 3
+Item	cozy bazooka	Moxie Percent: +15, Meat Drop: +20, Better Diver: 30, Breakable
+Item	cozy scimitar	Muscle Percent: +15, Weapon Damage Percent: +50, Better Diver: 30, Breakable
 Item	crazy bastard sword	Weapon Damage: +30, Critical Hit Percent: +10, PvP Fights: +6
 Item	creepy-ass club	Weapon Damage: +25, Monster Level: +15, Sleaze Damage: +15, Class: "Seal Clubber"
 Item	Crimbo sword	Weapon Damage: +5, Last Available: "2004-10"
@@ -1959,8 +1956,7 @@ Item	Staff of Simmering Hatred	MP Regen Min: 20, MP Regen Max: 30, Reduce Enemy 
 # Staff of the All-Steak: (5 charges left today)
 Item	Staff of the All-Steak	Spell Damage Percent: +50, Damage Reduction: 15, MP Regen Min: 5, MP Regen Max: 6, Jiggle: "Massive Bonus to Item Drops"
 Item	Staff of the Black Kettle	Spell Damage Percent: +75, Mysticality: +10, MP Regen Min: 5, MP Regen Max: 6
-# Staff of the Cozy Fish: Makes you a much better diver
-Item	Staff of the Cozy Fish	Mysticality Percent: +15, Spell Damage Percent: +150, Initiative Penalty: [30*env(underwater)], Item Drop Penalty: [30*env(underwater)], Meat Drop Penalty: [30*env(underwater)], Breakable, Enchantment Count: 3
+Item	Staff of the Cozy Fish	Mysticality Percent: +15, Spell Damage Percent: +150, Better Diver: 30, Breakable
 # Staff of the Cream of the Cream: (5 charges left today)
 Item	Staff of the Cream of the Cream	Spell Damage Percent: +50, Moxie: +30, MP Regen Min: 5, MP Regen Max: 6, Jiggle: "Attune to Monster's Essence"
 Item	Staff of the Deepest Freeze	Spell Damage Percent: +200, Cold Spell Damage: +30, MP Regen Min: 20, MP Regen Max: 30
@@ -2869,10 +2865,8 @@ Item	antique nutcracker beard	Spooky Damage: +3, Stench Damage: +3, Hot Damage: 
 Item	antique nutcracker boots	Weapon Damage: +15, Muscle Percent: +15, Single Equip, Last Available: "2019-12"
 Item	antique nutcracker epaulets	HP Regen Min: 6, HP Regen Max: 12, Moxie Percent: +15, Single Equip, Last Available: "2019-12"
 Item	aqu&iacute;	Hot Resistance: +3, Hot Damage: +15, Hot Spell Damage: +30, Last Available: "2020-08"
-# aquamariner's necklace: Makes you a better diver
-Item	aquamariner's necklace	MP Regen Min: 10, MP Regen Max: 15, Meat Drop: +15, Single Equip, Initiative Penalty: [10*env(underwater)], Item Drop Penalty: [10*env(underwater)], Meat Drop Penalty: [10*env(underwater)], Enchantment Count: 3
-# aquamariner's ring: Makes you a better diver
-Item	aquamariner's ring	HP Regen Min: 10, HP Regen Max: 15, Meat Drop: +10, Single Equip, Initiative Penalty: [10*env(underwater)], Item Drop Penalty: [10*env(underwater)], Meat Drop Penalty: [10*env(underwater)], Enchantment Count: 3
+Item	aquamariner's necklace	MP Regen Min: 10, MP Regen Max: 15, Meat Drop: +15, Single Equip, Better Diver: 10
+Item	aquamariner's ring	HP Regen Min: 10, HP Regen Max: 15, Meat Drop: +10, Single Equip, Better Diver: 10
 Item	arrrgyle socks	Mysticality: +6
 Item	Ass-Stompers of Violence	Combat Rate: +5, Critical Hit Percent: +5, Weapon Damage Percent: +30, Single Equip, Conditional Skill (Equipped): "Stomp Ass"
 # asteroid belt: Deflects 25% of enemy attacks
@@ -3101,8 +3095,7 @@ Item	disbelief suspenders	Sleaze Resistance: +1
 Item	discarded bike lock key	Maximum MP: +10, MP Regen Min: 4, MP Regen Max: 5, Last Available: "2020-08"
 Item	discarded bowtie	Combat Rate: -5, Monster Level: -10, Lasts Until Rollover, Last Available: "2019-12"
 Item	disembodied smile	Spooky Damage: +2, Single Equip
-# diving muff: Makes you a better diver
-Item	diving muff	Single Equip, Initiative Penalty: [10*env(underwater)], Item Drop Penalty: [10*env(underwater)], Meat Drop Penalty: [10*env(underwater)], Enchantment Count: 1
+Item	diving muff	Single Equip, Better Diver: 10
 # doll-eye amulet: +40% Item Drops in Spookyraven Manor
 Item	doll-eye amulet	Single Equip, Item Drop: [40*zone(Manor)]
 Item	dope gangsta bling-bling	Moxie: +1
@@ -3283,7 +3276,7 @@ Item	hamethyst necklace	Muscle: +4, Weapon Damage: +5, PvP Fights: +2, Single Eq
 Item	hamethyst ring	Muscle: +5, Maximum HP: +10, HP Regen Min: 2, HP Regen Max: 4, Single Equip
 Item	Hand in Glove	Muscle: +5, Smithsness: +5, Single Equip, Last Available: "2013-12", Monster Level: [K], Damage Aura: 1
 Item	hand-knitted Crimbo socks	Maximum HP: +10, HP Regen Min: 3, HP Regen Max: 5, Cold Resistance: +1
-Item	hand-knitted diving booties	Last Available: "2019-12", Initiative Penalty: [10*env(underwater)], Item Drop Penalty: [10*env(underwater)], Meat Drop Penalty: [10*env(underwater)]
+Item	hand-knitted diving booties	Last Available: "2019-12", Better Diver: 10, Enchantment Count: 0
 Item	hardened slime belt	All Resistance: +3, HP / MP Regen Min: 10, HP / MP Regen Max: 30, Mysticality Percent: +20, Single Equip
 Item	hare pin	Moxie Percent: +20, Initiative: +40, Single Equip, Last Available: "2014-12"
 # hazardous sauce dosimeter: Lets you gather more Soulsauce
@@ -3848,8 +3841,7 @@ Item	tap shoes	Moxie: +9, Initiative: -15, Single Equip
 # tarnished tastevin: Sample Booze Items as They Drop
 Item	tarnished tastevin	Booze Drop: +25, Single Equip
 Item	tarrrnished charrrm bracelet	Stench Damage: +10, Stench Spell Damage: +10, Single Equip
-# teflon swim fins: Makes you a better diver
-Item	teflon swim fins	Moxie Percent: -5, Initiative: +25, Single Equip, Initiative Penalty: [10*env(underwater)], Item Drop Penalty: [10*env(underwater)], Meat Drop Penalty: [10*env(underwater)], Enchantment Count: 3
+Item	teflon swim fins	Moxie Percent: -5, Initiative: +25, Single Equip, Better Diver: 10
 Item	terra cotta tie tack	Experience (Moxie): +3, Meat Drop: +20, Single Equip, Last Available: "2020-12", Conditional Skill (Equipped): "Unleash Terra Cotta Army"
 Item	terra cotta truss	Experience (Muscle): +3, Initiative: +40, Single Equip, Last Available: "2020-12", Conditional Skill (Equipped): "Unleash Terra Cotta Army"
 # The Eternity Codpiece: Holds Gems
@@ -4507,7 +4499,7 @@ Item	gill rings	Familiar Weight: +5
 Item	gnomish athlete's foot	Last Available: "2012-08", Equips On: "Reagnimated Gnome", Familiar Effect: "delevel"
 Item	gnomish coal miner's lung	Last Available: "2012-08", Equips On: "Reagnimated Gnome", Familiar Effect: "block"
 Item	gnomish housemaid's kgnee	Last Available: "2012-08", Equips On: "Reagnimated Gnome", Familiar Effect: "gain advs"
-Item	gnomish swimmer's ears	Last Available: "2012-08", Underwater Familiar, Initiative Penalty: [10*env(underwater)], Item Drop Penalty: [10*env(underwater)], Meat Drop Penalty: [10*env(underwater)], Equips On: "Reagnimated Gnome", Familiar Effect: "underwater"
+Item	gnomish swimmer's ears	Last Available: "2012-08", Underwater Familiar, Better Diver: 10, Equips On: "Reagnimated Gnome", Familiar Effect: "underwater"
 Item	gnomish tennis elbow	Last Available: "2012-08", Equips On: "Reagnimated Gnome", Familiar Effect: "damage"
 # God Lobster's Crown: Makes your God Lobster increase Item Drops
 Item	God Lobster's Crown	Last Available: "2018-05", Fairy: 1, Equips On: "God Lobster", Familiar Effect: "fairy"
@@ -5442,7 +5434,7 @@ Item	folder (magenta)	Muscle: +15, Mysticality: +15, Last Available: "2013-08"
 Item	folder (owl)	Last Available: "2013-08", Item Drop: [500*zone(Dreadsylvania)]
 Item	folder (rainbow unicorn)	Last Available: "2013-08", Thorns: 5
 Item	folder (red)	Muscle: +20, Last Available: "2013-08"
-Item	folder (Seawolf)	Last Available: "2013-08", Initiative Penalty: [10*env(underwater)], Item Drop Penalty: [10*env(underwater)], Meat Drop Penalty: [10*env(underwater)]
+Item	folder (Seawolf)	Last Available: "2013-08", Better Diver: 10
 Item	folder (skull and crossbones)	Combat Rate: -5, Last Available: "2013-08"
 Item	folder (smiley face)	Experience (Muscle): +2, Last Available: "2013-08"
 Item	folder (space skeleton)	Experience (Moxie): +2, Last Available: "2013-08"
@@ -5514,7 +5506,7 @@ Item	Meat Butler	Last Available: "2023-06", Adventures: +4
 Item	Meat maid	Adventures: +4
 Item	Newbiesport&trade; tent	Base Resting HP: +9, Base Resting MP: +10
 Item	pagoda plans	Resting HP Percent: +100, Resting MP Percent: +100, Adventures: +3
-Item	saltwaterbed	Item Drop Penalty: [10*env(underwater)], Meat Drop Penalty: [10*env(underwater)], Initiative Penalty: [10*env(underwater)]
+Item	saltwaterbed	Better Diver: 10
 Item	sandcastle	Base Resting HP: +49, Base Resting MP: +50
 # sleeping stocking
 # snow fort 10 turns of Snow Fortified (+25% item drop, +50% meat drop, +50 max MP, +100 max HP)
@@ -5928,8 +5920,7 @@ Effect	Brewed Up	Initiative: +200
 Effect	Bricked-In	Maximum HP: +50
 Effect	Bright!	Maximum MP: +100
 Effect	Brilliant Resolve	Experience (Mysticality): +2
-# Brined Liver: Makes you a better diver
-Effect	Brined Liver	Initiative Penalty: [20*env(underwater)], Item Drop Penalty: [20*env(underwater)], Meat Drop Penalty: [20*env(underwater)]
+Effect	Brined Liver	Better Diver: 20
 Effect	Briney Brains	Mysticality Percent: [10+90*env(underwater)]
 Effect	Briney Bravado	Moxie Percent: [10+90*env(underwater)]
 Effect	Briney Brawn	Muscle Percent: [10+90*env(underwater)]
@@ -6297,8 +6288,7 @@ Effect	Dog Breath	Stench Damage: +30, Hot Resistance: +3, Spooky Resistance: +3,
 Effect	Doing The Hustle	Item Drop: +100
 # Don't Rest Ye, Bold Adventurer: variable Experience
 Effect	Don't Step to Your Stepmother	Experience Percent (Moxie): +5, Moxie Percent: +25
-# Donho's Bubbly Ballad: Makes you a better diver
-Effect	Donho's Bubbly Ballad	Initiative Penalty: [20*env(underwater)], Item Drop Penalty: [20*env(underwater)], Meat Drop Penalty: [20*env(underwater)]
+Effect	Donho's Bubbly Ballad	Better Diver: 20
 Effect	Double Carbonated	MP Regen Min: 16, MP Regen Max: 20
 Effect	Double Frozen	Cold Damage: +20, Hot Resistance: +4
 Effect	Double Hot Soupy Garbage	Stench Damage: +20, Cold Resistance: +4
@@ -6321,7 +6311,7 @@ Effect	Dreadful Heat	Cold Resistance: +5, Spooky Resistance: +5
 Effect	Dreadful Sheen	Hot Resistance: +5, Stench Resistance: +5
 Effect	Dreadful Smell	Hot Resistance: +5, Spooky Resistance: +5
 Effect	Dreadlocked	Mysticality Percent: +50, Moxie Percent: -50
-Effect	Dreaming of a Wet Crimbo	Initiative Penalty: [30*env(underwater)], Item Drop Penalty: [30*env(underwater)], Meat Drop Penalty: [30*env(underwater)], Item Drop: [50*env(underwater)], Meat Drop: [100*env(underwater)]
+Effect	Dreaming of a Wet Crimbo	Better Diver: 30, Item Drop: [50*env(underwater)], Meat Drop: [100*env(underwater)]
 Effect	Dreams and Lights	Mysticality: +10, Mana Cost: -3
 Effect	Drenched in Lava	Muscle Limit: 30, Mysticality Limit: 30, Moxie Limit: 30
 Effect	Drenched With Filth	Stench Damage: +75, Thorns: 1
@@ -6336,9 +6326,8 @@ Effect	Driving Recklessly	Monster Level: +25
 Effect	Driving Safely	Damage Absorption: +50, Damage Reduction: 10, Hot Resistance: +1, Cold Resistance: +1, Stench Resistance: +1, Spooky Resistance: +1, Sleaze Resistance: +1
 Effect	Driving Stealthily	Combat Rate: -10
 # Driving Wastefully
-# Driving Waterproofly: Makes you a better diver
 # Driving Waterproofly: Your familiar can breathe underwater
-Effect	Driving Waterproofly	Adventure Underwater, Initiative Penalty: [20*env(underwater)], Item Drop Penalty: [20*env(underwater)], Meat Drop Penalty: [20*env(underwater)], Underwater Familiar
+Effect	Driving Waterproofly	Adventure Underwater, Better Diver: 20, Underwater Familiar
 Effect	Drummed Out	Mysticality Percent: +50, Muscle Percent: -50
 # Drunk and Avuncular: Booze gives 100% more Adventures
 Effect	Drunk With Power	Spell Damage Percent: +100
@@ -6511,8 +6500,7 @@ Effect	Feet of Watermelon	Experience (Muscle): +3
 Effect	Feline Ferocity	Weapon Damage Percent: +100
 Effect	Feroci Tea	Muscle: +50
 Effect	Festive Radiation	All Attributes Percent: +5, HP Regen Min: 10, HP Regen Max: 10, MP Regen Min: 10, MP Regen Max: 10
-# Festively Brined: Makes you a better diver
-Effect	Festively Brined	Initiative Penalty: [50*env(underwater)], Item Drop Penalty: [50*env(underwater)], Meat Drop Penalty: [50*env(underwater)]
+Effect	Festively Brined	Better Diver: 50
 Effect	Festively Experimented-Upon	Maximum HP Percent: +200, Maximum MP Percent: +200
 Effect	Festively-Dusted	Mysticality Percent: +10
 Effect	Fever From the Flavor	Cold Resistance: +9
@@ -6526,8 +6514,7 @@ Effect	Filled with Magic	Spell Damage Percent: +100
 # Filthworm Guard Stench
 # Filthworm Larva Stench
 Effect	Finding Stuff	Item Drop: +30
-# Finstrong: Makes you a better diver
-Effect	Finstrong	Initiative Penalty: [30*env(underwater)], Item Drop Penalty: [30*env(underwater)], Meat Drop Penalty: [30*env(underwater)]
+Effect	Finstrong	Better Diver: 30
 Effect	Fire cracked	Experience: +20
 Effect	Fire Down Below	Hot Damage: [min(100,T)]
 Effect	Fire Inside	Hot Damage: +25
@@ -6762,8 +6749,7 @@ Effect	Hagg-ard	Muscle: +10
 Effect	Hagnk's Gratitude	Hot Spell Damage: +50, Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 Effect	Haiku State of Mind	Alters Page Text
 Effect	Hair on Your Chest	Maximum MP Percent: +50
-# Hairless and Airless: Makes you a better diver
-Effect	Hairless and Airless	Initiative Penalty: [20*env(underwater)], Item Drop Penalty: [20*env(underwater)], Meat Drop Penalty: [20*env(underwater)]
+Effect	Hairless and Airless	Better Diver: 20
 Effect	Hairy Palms	Never Fumble, MP Regen Min: 3, MP Regen Max: 4, HP Regen Min: 6, HP Regen Max: 8
 # Half-Astral: Like, Wow, Man
 Effect	Half-Blooded	Maximum HP Percent: -50
@@ -7056,8 +7042,7 @@ Effect	Juiced and Jacked	Item Drop: +20, Spooky Damage: +10, Monster Level: +10
 Effect	Juiced and Loose	Muscle Percent: +50
 Effect	Juiced Newton	Muscle Percent: -100, Mysticality Percent: +200, Moxie Percent: -100
 Effect	Juiced Out	Muscle Percent: +200, Mysticality Percent: -100, Moxie Percent: -100
-# Juiced Up: Makes you a better diver
-Effect	Juiced Up	All Attributes Percent: -5, Initiative Penalty: [10*env(underwater)], Item Drop Penalty: [10*env(underwater)], Meat Drop Penalty: [10*env(underwater)]
+Effect	Juiced Up	All Attributes Percent: -5, Better Diver: 10
 Effect	Juicy Boost	Maximum HP: +30, Maximum MP: +30, Experience Percent (Muscle): +100, Experience Percent (Mysticality): +100, Experience Percent (Moxie): +100
 Effect	Juicy Health	HP Regen Min: 5, HP Regen Max: 5
 Effect	Jukebox Hero	Item Drop: +300
@@ -7276,8 +7261,7 @@ Effect	Mmmmmelon	Item Drop: +30
 Effect	Mo' Hobo	Hobo Power: +10
 Effect	Moist Night's Sleep	Initiative: +50, Hot Resistance: +2, Cold Damage: +10
 Effect	Moisticality	Mysticality: +15, Experience Percent (Mysticality): +20
-# Molasses Flooded: Makes you a better diver
-Effect	Molasses Flooded	Initiative Penalty: [20*env(underwater)], Item Drop Penalty: [20*env(underwater)], Meat Drop Penalty: [20*env(underwater)]
+Effect	Molasses Flooded	Better Diver: 20
 Effect	Monkeymask	Avatar: "damned dirty ape"
 Effect	monsters.enq	Monster Level: +25
 Effect	Monstrosi Tea	Monster Level: -30
@@ -7742,10 +7726,8 @@ Effect	Salamander In Your Stomach	Mysticality: +25
 Effect	Salamanderenity	MP Regen Min: 3, MP Regen Max: 4
 Effect	Salsa Satanica	Item Drop: +50
 Effect	Salt Rockin'	Moxie: +30
-# Salt Rush: Makes you a better diver
-Effect	Salt Rush	Initiative Penalty: [30*env(underwater)], Item Drop Penalty: [30*env(underwater)], Meat Drop Penalty: [30*env(underwater)]
-# Salty Dogs: Makes you a better diver
-Effect	Salty Dogs	Initiative Penalty: [10*env(underwater)], Item Drop Penalty: [10*env(underwater)], Meat Drop Penalty: [10*env(underwater)]
+Effect	Salt Rush	Better Diver: 30
+Effect	Salty Dogs	Better Diver: 10
 # Salty Mouth: You really need a beer...
 Effect	Sangre Brillante	Experience (Moxie): +3, MP Regen Min: 5, MP Regen Max: 6
 Effect	Sappy Blood	Spooky Resistance: +3
@@ -7779,7 +7761,7 @@ Effect	Scot Free	Adventures: +3, Initiative: +10
 Effect	Scowl of the Auk	Weapon Damage: +10
 Effect	Scrappy, Shadowy	Spooky Damage: +25, Damage Reduction: 15
 Effect	Screaming!  SCREAMING!  AAAAAAAH!	Combat Rate: +5
-Effect	Sea Guts	Initiative Penalty: [20*env(underwater)], Item Drop Penalty: [20*env(underwater)], Meat Drop Penalty: [20*env(underwater)]
+Effect	Sea Guts	Better Diver: 20
 Effect	Sea Seeing	Item Drop: [30*env(underwater)]
 Effect	Sea Smarm	Moxie: [25+225*env(underwater)]
 Effect	Sea Smarts	Mysticality: [25+225*env(underwater)]
@@ -8178,8 +8160,7 @@ Effect	Sweetbreads Flamb&eacute;	Monster Level: +25, Experience: +10
 Effect	Sweetened and Fattened	Maximum MP: +10, Damage Absorption: +30
 # Swimming Head: +25% Item Drops from Monsters (Underwater only)
 Effect	Swimming Head	Item Drop: [25*env(underwater)]
-# Swimming with Sharks: Makes you a better diver
-Effect	Swimming with Sharks	Meat Drop: +20, Pool Skill: +3, Initiative Penalty: [20*env(underwater)], Item Drop Penalty: [20*env(underwater)], Meat Drop Penalty: [20*env(underwater)]
+Effect	Swimming with Sharks	Meat Drop: +20, Pool Skill: +3, Better Diver: 20
 Effect	Swordholder	Weapon Damage Percent: +50
 Effect	Swung Step	Avatar: "Doc Clock"
 Effect	Synthesis: Cold	Cold Resistance: +9
