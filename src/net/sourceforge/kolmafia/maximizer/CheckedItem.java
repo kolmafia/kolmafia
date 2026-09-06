@@ -5,14 +5,18 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RestrictedItemType;
+import net.sourceforge.kolmafia.equipment.SlotSet;
+import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase.FoldGroup;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.ThriftyRequest;
 import net.sourceforge.kolmafia.request.coinmaster.MrStoreRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -20,11 +24,29 @@ import net.sourceforge.kolmafia.session.MallPriceManager;
 
 public class CheckedItem extends AdventureResult {
   public CheckedItem(int itemId, EquipScope equipScope, long maxPrice, PriceLevel priceLevel) {
+    this(itemId, equipScope, maxPrice, priceLevel, false);
+  }
+
+  /**
+   * @param ignoreStandardRestriction whether the item can be used even if Standard forbids it, as
+   *     an Eternity Codpiece gem can, since inserting a gem is not equipping it
+   */
+  CheckedItem(
+      int itemId,
+      EquipScope equipScope,
+      long maxPrice,
+      PriceLevel priceLevel,
+      boolean ignoreStandardRestriction) {
     super(itemId, 1, false);
 
     this.inventory = InventoryManager.getCount(itemId);
 
-    this.initial = InventoryManager.getAccessibleCount(itemId);
+    AdventureResult item = ItemPool.get(itemId, 1);
+    boolean restrictedGem = ignoreStandardRestriction && !ItemDatabase.isAllowed(item);
+    this.initial =
+        restrictedGem
+            ? this.inventory + InventoryManager.getEquippedCount(item)
+            : InventoryManager.getAccessibleCount(item);
 
     // special case used to get a CheckItem that .equals( EquipmentRequest.UNEQUIP ).
     if (itemId == -1) {
@@ -35,8 +57,18 @@ public class CheckedItem extends AdventureResult {
 
     String itemName = this.getName();
     this.foldable = 0;
+    boolean codpieceGem = EquipmentRequest.isCodpieceGem(itemId);
+    int maxUseful = 3;
+    if (codpieceGem) {
+      var modifiers = ModifierDatabase.getItemModifiers(itemId);
+      int equipmentLimit =
+          !ItemDatabase.isEquipment(itemId)
+              ? 0
+              : modifiers != null && modifiers.getBoolean(BooleanModifier.SINGLE) ? 1 : 3;
+      maxUseful = SlotSet.CODPIECE_SLOTS.size() + equipmentLimit;
+    }
 
-    if (itemId > 0 && Preferences.getBoolean("maximizerFoldables")) {
+    if (!restrictedGem && itemId > 0 && Preferences.getBoolean("maximizerFoldables")) {
       FoldGroup group = ItemDatabase.getFoldGroup(itemName);
       if (group != null) {
         for (int i = 0; i < group.names.size(); ++i) {
@@ -78,7 +110,7 @@ public class CheckedItem extends AdventureResult {
         Preferences.getBoolean("maximizerCreateOnHand")
             && equipScope == EquipScope.SPECULATE_INVENTORY
             && !ItemDatabase.isEquipment(itemId);
-    if (this.initial >= 3 || (equipScope.checkInventoryOnly() && !skillCreateCheck)) {
+    if (this.initial >= maxUseful || (equipScope.checkInventoryOnly() && !skillCreateCheck)) {
       return;
     }
 
@@ -89,7 +121,7 @@ public class CheckedItem extends AdventureResult {
 
     if (c.getAdventuresNeeded(1) > 0 && Preferences.getBoolean("maximizerNoAdventures")) {
       this.creatable = 0;
-    } else if (c.price > 0) {
+    } else if (!restrictedGem && c.price > 0) {
       long theoreticBuyable = maxPrice / c.price;
       int limit = CheckedItem.limitBuyable(itemId);
       if (limit < theoreticBuyable) {
@@ -100,11 +132,15 @@ public class CheckedItem extends AdventureResult {
       }
     }
 
-    if (this.getCount() >= 3 || equipScope != EquipScope.SPECULATE_ANY) {
+    if (this.getCount() >= maxUseful || equipScope != EquipScope.SPECULATE_ANY) {
       return;
     }
 
-    if (!ItemDatabase.isAllowed(this)) {
+    if (restrictedGem) {
+      return;
+    }
+
+    if (!ignoreStandardRestriction && !ItemDatabase.isAllowed(this)) {
       // Unallowed items can't be bought or pulled, though the original code
       // just reset everything to zero
 
@@ -112,13 +148,13 @@ public class CheckedItem extends AdventureResult {
       this.creatable = 0;
       this.npcBuyable = 0;
     } else if (InventoryManager.canUseMall(itemId)) {
-      // consider Mall buying, but only if none are otherwise available
-      if (this.getCount() == 0) {
+      int needed = codpieceGem ? maxUseful - this.getCount() : this.getCount() == 0 ? 1 : 0;
+      if (needed > 0) {
         // We include things with historical price up to twice as high as limit, as current price
         // may be lower
         long price = Math.min(maxPrice, KoLCharacter.getAvailableMeat());
         if (priceLevel == PriceLevel.DONT_CHECK || MallPriceDatabase.getPrice(itemId) < price * 2) {
-          this.mallBuyable = 1;
+          this.mallBuyable = needed;
           this.buyableFlag = true;
         }
       }
@@ -133,14 +169,14 @@ public class CheckedItem extends AdventureResult {
 
       this.pullBuyable = 0;
       if (InventoryManager.canUseMallToStorage(itemId)) {
-        // consider Mall buying, but only if none are otherwise available
-        if (this.getCount() == 0) {
+        int needed = codpieceGem ? maxUseful - this.getCount() : this.getCount() == 0 ? 1 : 0;
+        if (needed > 0) {
           // We include things with historical price up to twice as high as limit, as current price
           // may be lower
           long price = Math.min(maxPrice, KoLCharacter.getStorageMeat());
           if (priceLevel == PriceLevel.DONT_CHECK
               || MallPriceDatabase.getPrice(itemId) < price * 2) {
-            this.pullBuyable = 1;
+            this.pullBuyable = needed;
             this.buyableFlag = true;
           }
         }
@@ -188,18 +224,13 @@ public class CheckedItem extends AdventureResult {
       return Integer.MAX_VALUE;
     }
     if (this.singleFlag) {
-      return Math.min(
-          1,
-          this.initial
-              + this.creatable
-              + this.npcBuyable
-              + this.mallBuyable
-              + this.foldable
-              + this.pullable
-              + this.pullfoldable
-              + this.pullBuyable);
+      return Math.min(1, this.getCountIgnoringSingleEquip());
     }
 
+    return this.getCountIgnoringSingleEquip();
+  }
+
+  int getCountIgnoringSingleEquip() {
     return this.initial
         + this.creatable
         + this.npcBuyable
@@ -223,24 +254,21 @@ public class CheckedItem extends AdventureResult {
       return;
     }
 
-    // Check mall price
-    long price = MallPriceManager.getMallPrice(this.getItemId());
+    this.mallBuyable =
+        this.affordableMallQuantity(this.mallBuyable, KoLCharacter.getAvailableMeat(), maxPrice);
+    this.pullBuyable =
+        this.affordableMallQuantity(this.pullBuyable, KoLCharacter.getStorageMeat(), maxPrice);
+  }
 
-    // Check if too expensive for max price settings
-    if (price <= 0 || price > maxPrice) {
-      this.mallBuyable = 0;
-      this.pullBuyable = 0;
+  private int affordableMallQuantity(int quantity, long availableMeat, long maxPrice) {
+    while (quantity > 0) {
+      long price = MallPriceManager.getMallPrice(ItemPool.get(this.getItemId(), quantity));
+      if (price > 0 && price <= availableMeat && price <= maxPrice) {
+        break;
+      }
+      quantity--;
     }
-
-    // Check character has meat to buy with
-    if (price > KoLCharacter.getAvailableMeat()) {
-      this.mallBuyable = 0;
-    }
-
-    // Check character has storage meat to buy for pulling
-    if (price > KoLCharacter.getStorageMeat()) {
-      this.pullBuyable = 0;
-    }
+    return quantity;
   }
 
   private static int limitBuyable(final int itemId) {

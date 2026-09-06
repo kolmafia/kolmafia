@@ -338,8 +338,8 @@ public class MaximizerSpeculation extends Speculation
     if (this.equipment.get(Slot.FAMILIAR) == null) {
       List<CheckedItem> possible = possibles.get(Slot.FAMILIAR);
       boolean any = false;
-      for (AdventureResult item : possible) {
-        int count = item.getCount();
+      for (CheckedItem item : possible) {
+        int count = countAfterCodpieceSlots(item);
         if (item.equals(this.equipment.get(Slot.OFFHAND))) {
           --count;
         }
@@ -454,8 +454,8 @@ public class MaximizerSpeculation extends Speculation
       List<CheckedItem> possible = possibles.get(Slot.ACCESSORY1);
       boolean any = false;
       for (; pos < possible.size(); ++pos) {
-        AdventureResult item = possible.get(pos);
-        int count = item.getCount();
+        CheckedItem item = possible.get(pos);
+        int count = countAfterCodpieceSlots(item);
         if (item.equals(this.equipment.get(Slot.ACCESSORY1))) {
           --count;
         }
@@ -465,6 +465,8 @@ public class MaximizerSpeculation extends Speculation
         if (item.equals(this.equipment.get(Slot.ACCESSORY3))) {
           --count;
         }
+        // A dual-role item locked into a codpiece gem slot is already committed; do not offer
+        // that same copy as an accessory too.
         FoldGroup group = ItemDatabase.getFoldGroup(item.getName());
         if (group != null && this.foldables) {
           String groupName = group.names.get(0);
@@ -743,6 +745,43 @@ public class MaximizerSpeculation extends Speculation
     this.restore(mark);
   }
 
+  /**
+   * Scores one fully decided equipment combination against the running best. Split out of the tail
+   * of {@link #tryOffhands} so that the codpiece gem search can score every combination it reaches
+   * with the same machinery the rest of the equipment search uses.
+   */
+  void checkBest() throws MaximizerInterruptedException {
+    this.calculated = false;
+    this.scored = false;
+    this.tiebreakered = false;
+    if (Maximizer.best == null) {
+      RequestLogger.updateSessionLog(
+          "Maximizer about to throw LimitExceeded because of null best.");
+      // this isn't really what is happening but trying to understand why this is happening, first.
+      throw new MaximizerLimitException();
+    }
+    if (this.compareTo(Maximizer.best) > 0) {
+      Maximizer.best = this.clone();
+    }
+    Maximizer.bestChecked++;
+    if ((Maximizer.bestChecked & 0x3FF) == 0) {
+      long t = System.currentTimeMillis();
+      if (t > Maximizer.bestUpdate) {
+        MaximizerSpeculation.showProgress();
+        Maximizer.bestUpdate = t + 5000;
+      }
+    }
+    if (!KoLmafia.permitsContinue()) {
+      throw new MaximizerInterruptedException();
+    }
+    if (this.exceeded) {
+      throw new MaximizerExceededException();
+    }
+    if (Maximizer.combinationLimit != 0 && Maximizer.bestChecked >= Maximizer.combinationLimit) {
+      throw new MaximizerLimitException();
+    }
+  }
+
   public void tryOffhands(SlotList<CheckedItem> possibles, AdventureResult bestCard)
       throws MaximizerInterruptedException {
     var mark = this.mark();
@@ -765,8 +804,8 @@ public class MaximizerSpeculation extends Speculation
           };
       boolean any = false;
 
-      for (AdventureResult item : possible) {
-        int count = item.getCount();
+      for (CheckedItem item : possible) {
+        int count = countAfterCodpieceSlots(item);
         if (item.equals(this.equipment.get(Slot.WEAPON))) {
           --count;
         }
@@ -800,37 +839,15 @@ public class MaximizerSpeculation extends Speculation
       this.equipment.put(Slot.OFFHAND, EquipmentRequest.UNEQUIP);
     }
 
-    // doit
-    this.calculated = false;
-    this.scored = false;
-    this.tiebreakered = false;
-    if (Maximizer.best == null) {
-      RequestLogger.updateSessionLog(
-          "Maximizer about to throw LimitExceeded because of null best.");
-      // this isn't really what is happening but trying to understand why this is happening, first.
-      throw new MaximizerLimitException();
-    }
-    if (this.compareTo(Maximizer.best) > 0) {
-      Maximizer.best = this.clone();
-    }
-    Maximizer.bestChecked++;
-    if ((Maximizer.bestChecked & 0x3FF) == 0) {
-      long t = System.currentTimeMillis();
-      if (t > Maximizer.bestUpdate) {
-        MaximizerSpeculation.showProgress();
-        Maximizer.bestUpdate = t + 5000;
-      }
-    }
+    Maximizer.eval.codpiece().search(this);
     this.restore(mark);
-    if (!KoLmafia.permitsContinue()) {
-      throw new MaximizerInterruptedException();
-    }
-    if (this.exceeded) {
-      throw new MaximizerExceededException();
-    }
-    if (Maximizer.combinationLimit != 0 && Maximizer.bestChecked >= Maximizer.combinationLimit) {
-      throw new MaximizerLimitException();
-    }
+  }
+
+  private int countAfterCodpieceSlots(CheckedItem item) {
+    int codpieceCopies = CodpieceMaximizer.copiesInGemSlots(this.equipment, item);
+    return item.singleFlag
+        ? Math.min(1, item.getCountIgnoringSingleEquip() - codpieceCopies)
+        : item.getCount() - codpieceCopies;
   }
 
   private static int getMutex(AdventureResult item) {
