@@ -704,7 +704,7 @@ public enum DoubleModifier implements Modifier {
       }),
   BETTER_DIVER(
       "Better Diver",
-      Pattern.compile("Makes you a (much )?better diver"),
+      Pattern.compile("Makes you a (?:much )?better diver \\(([+-]?\\d+)\\)$"),
       Pattern.compile("Better Diver: " + EXPR),
       new DoubleModifier[] {INITIATIVE_PENALTY, MEATDROP_PENALTY, ITEMDROP_PENALTY});
 
@@ -1008,11 +1008,6 @@ public enum DoubleModifier implements Modifier {
         // Kludge for Slime (Really) Hates it
         if (mod == DoubleModifier.SLIME_HATES_IT) {
           return matcher.group(1) == null ? "Slime Hates It: +1" : "Slime Hates It: +2";
-        }
-
-        // Kludge for Better Diver
-        if (mod == DoubleModifier.BETTER_DIVER) {
-          return matcher.group(1) == null ? "Better Diver: 10" : "Better Diver: 30";
         }
 
         String value = matcher.group(1);
