@@ -2274,5 +2274,35 @@ public class ModifiersTest {
               ModifierType.ITEM, ItemPool.PERFUME_SOAKED_BANDANA, DoubleModifier.ALL_RESISTANCE),
           equalTo(2.0));
     }
+
+    @Test
+    public void betterDiverDerivesPenaltiesUnderwater() {
+      var cleanups = new Cleanups(withLocation("The Briny Deeps"));
+      try (cleanups) {
+        var mods =
+            ModifierDatabase.parseModifiers(
+                new Lookup(ModifierType.ITEM, "test"), "Better Diver: 10");
+
+        assertThat(mods.getDouble(DoubleModifier.BETTER_DIVER), equalTo(10.0));
+        assertThat(mods.getDouble(DoubleModifier.ITEMDROP_PENALTY), equalTo(10.0));
+        assertThat(mods.getDouble(DoubleModifier.MEATDROP_PENALTY), equalTo(10.0));
+        assertThat(mods.getDouble(DoubleModifier.INITIATIVE_PENALTY), equalTo(10.0));
+      }
+    }
+
+    @Test
+    public void betterDiverDoesNothingOnTheSurface() {
+      var cleanups = new Cleanups(withLocation("The Smut Orc Logging Camp"));
+      try (cleanups) {
+        var mods =
+            ModifierDatabase.parseModifiers(
+                new Lookup(ModifierType.ITEM, "test"), "Better Diver: 10");
+
+        assertThat(mods.getDouble(DoubleModifier.BETTER_DIVER), equalTo(10.0));
+        assertThat(mods.getDouble(DoubleModifier.ITEMDROP_PENALTY), equalTo(0.0));
+        assertThat(mods.getDouble(DoubleModifier.MEATDROP_PENALTY), equalTo(0.0));
+        assertThat(mods.getDouble(DoubleModifier.INITIATIVE_PENALTY), equalTo(0.0));
+      }
+    }
   }
 }
