@@ -129,7 +129,7 @@ public class ShowDataCommand extends AbstractCommand {
       desiredStream.println("Player: " + KoLCharacter.getUserName());
       desiredStream.println("Session Id: " + GenericRequest.sessionId);
       desiredStream.println("Password Hash: " + GenericRequest.passwordHash);
-      desiredStream.println("Current Server: " + GenericRequest.KOL_HOST);
+      desiredStream.println("Current Server: " + GenericRequest.getRootHostName());
       desiredStream.println();
       return;
     }

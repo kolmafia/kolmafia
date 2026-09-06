@@ -1,11 +1,5 @@
 package net.sourceforge.kolmafia.session;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -14,17 +8,15 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class PingManager {
 
-  public PingManager() {}
+  private PingManager() {}
 
   public static class PingTest {
-    private final List<Long> pings = new ArrayList<>();
     private final String page;
     private long count = 0L;
     private long total = 0L;
     private long low = 0L;
     private long high = 0L;
     private long bytes = 0L;
-    private PingAbortTrigger trigger = null;
 
     public static String normalizePage(String page) {
       // Backwards compatibility; we no longer save ".php",
@@ -34,10 +26,6 @@ public class PingManager {
         page = page.substring(0, php);
       }
       return page;
-    }
-
-    public PingTest() {
-      this("api");
     }
 
     public PingTest(String page) {
@@ -53,14 +41,7 @@ public class PingManager {
       this.bytes = bytes;
     }
 
-    public void addPing(PingRequest ping) {
-      long elapsed = ping.getElapsedTime();
-      long bytes = ping.responseText.length();
-      this.addPing(elapsed, bytes);
-    }
-
     public void addPing(long elapsed, long bytes) {
-      this.pings.add(elapsed);
       this.count++;
       this.total += elapsed;
       if (this.low == 0 || elapsed < this.low) {
@@ -70,10 +51,6 @@ public class PingManager {
         this.high = elapsed;
       }
       this.bytes += bytes;
-    }
-
-    public List<Long> getPings() {
-      return this.pings;
     }
 
     public String getPage() {
@@ -98,14 +75,6 @@ public class PingManager {
 
     public long getBytes() {
       return this.bytes;
-    }
-
-    public PingAbortTrigger getTrigger() {
-      return this.trigger;
-    }
-
-    public void setTrigger(PingAbortTrigger trigger) {
-      this.trigger = trigger;
     }
 
     public double getAverage() {
@@ -135,42 +104,8 @@ public class PingManager {
       return buf.toString();
     }
 
-    public boolean isSaveable() {
-      String defaultPage = normalizePage(Preferences.getString("pingDefaultTestPage"));
-
-      return this.getPage().equals(defaultPage);
-    }
-
     public void save() {
-      String value = this.toString();
-
-      // Always save the last ping results
-      Preferences.setString("pingLatest", value);
-
-      // Only save in historical properties if we tested the default page
-      if (!this.isSaveable()) {
-        return;
-      }
-
-      double average = this.getAverage();
-      PingTest shortest = PingTest.parseProperty("pingShortest");
-      double shortestAverage = shortest.getAverage();
-      PingTest longest = PingTest.parseProperty("pingLongest");
-      double longestAverage = longest.getAverage();
-
-      // If the historical data are for a different page than we now
-      // require, reset them and start fresh with this test.
-      if (!this.getPage().equals(shortest.getPage())) {
-        shortestAverage = 0;
-        longestAverage = 0;
-      }
-
-      if (shortestAverage == 0 || average < shortestAverage) {
-        Preferences.setString("pingShortest", value);
-      }
-      if (longestAverage == 0 || average > longestAverage) {
-        Preferences.setString("pingLongest", value);
-      }
+      Preferences.setString("pingLatest", this.toString());
     }
 
     public static PingTest parseProperty(String property) {
@@ -194,95 +129,7 @@ public class PingManager {
     }
   }
 
-  public static class PingAbortTrigger implements Comparable<PingAbortTrigger> {
-    private int count;
-    private int factor;
-
-    public PingAbortTrigger(int count, int factor) {
-      this.count = count;
-      this.factor = factor;
-    }
-
-    public int getCount() {
-      return this.count;
-    }
-
-    public void setCount(int count) {
-      this.count = count;
-    }
-
-    public int getFactor() {
-      return this.factor;
-    }
-
-    public void setFactor(int factor) {
-      this.factor = factor;
-    }
-
-    public int compareTo(final PingAbortTrigger o) {
-      if (o == null) {
-        throw new ClassCastException();
-      }
-      return this.factor < o.factor
-          ? -1
-          : this.factor > o.factor ? 1 : this.count < o.count ? -1 : this.count > o.count ? 1 : 0;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-      if (obj instanceof PingAbortTrigger o) {
-        return this.count == o.count && this.factor == o.factor;
-      }
-      return false;
-    }
-
-    @Override
-    public int hashCode() {
-      return this.count * 1000 + this.factor;
-    }
-
-    public static Set<PingAbortTrigger> load() {
-      Set<PingAbortTrigger> triggers = new TreeSet<>();
-      for (String value : Preferences.getString("pingLoginAbort").split("\\s*\\|\\s*")) {
-        int index = value.indexOf(":");
-        if (index != -1) {
-          int count = StringUtilities.parseInt(value.substring(0, index));
-          int factor = StringUtilities.parseInt(value.substring(index + 1));
-          if (count > 0 && factor > 0) {
-            triggers.add(new PingAbortTrigger(count, factor));
-          }
-        }
-      }
-
-      return triggers;
-    }
-
-    public static void save(Set<PingAbortTrigger> triggers) {
-      StringBuilder buffer = new StringBuilder();
-      for (PingAbortTrigger trigger : triggers) {
-        if (trigger.count < 1 || trigger.factor < 1) {
-          continue;
-        }
-        if (buffer.length() > 0) {
-          buffer.append("|");
-        }
-        buffer.append(String.valueOf(trigger.count));
-        buffer.append(":");
-        buffer.append(String.valueOf(trigger.factor));
-      }
-      Preferences.setString("pingLoginAbort", buffer.toString());
-    }
-  }
-
-  private static Map<PingAbortTrigger, Integer> getAllAbortTriggers() {
-    Map<PingAbortTrigger, Integer> retval = new HashMap<>();
-    for (PingAbortTrigger trigger : PingAbortTrigger.load()) {
-      retval.put(trigger, 0);
-    }
-    return retval;
-  }
-
-  private static boolean runPing(PingRequest ping, boolean verbose) {
+  private static boolean runPing(PingRequest ping) {
     // Run a single ping
     ping.run();
 
@@ -298,63 +145,29 @@ public class PingManager {
     return true;
   }
 
-  private static boolean shouldAbortPingTest(
-      PingRequest ping, double average, Map<PingAbortTrigger, Integer> triggers, PingTest result) {
-    // If the user has not set any abort triggers, nothing to do.
-    if (triggers.size() == 0) {
-      return false;
-    }
-    long elapsed = ping.getElapsedTime();
-    for (var entry : triggers.entrySet()) {
-      PingAbortTrigger trigger = entry.getKey();
-      int count = trigger.getCount();
-      int factor = trigger.getFactor();
-      if (elapsed >= average * factor) {
-        // This ping applies. Increment count.
-        int seen = entry.getValue() + 1;
-        if (seen >= count) {
-          // This trigger fires
-          result.setTrigger(trigger);
-          return true;
-        }
-        // Increment seen count for trigger
-        triggers.put(trigger, seen);
-      }
-    }
-    return false;
+  public static String defaultTestPage() {
+    return PingTest.normalizePage(Preferences.getString("pingDefaultTestPage"));
   }
 
-  public static PingTest runPingTest(boolean checkTriggers) {
-    // Run a ping test that qualifies to be saved in ping history.
-    String defaultPage = PingTest.normalizePage(Preferences.getString("pingDefaultTestPage"));
-    int defaultPings = Preferences.getInteger("pingDefaultTestPings");
-    return runPingTest(defaultPings, defaultPage, false, checkTriggers);
+  public static int defaultTestPings() {
+    return Preferences.getInteger("pingDefaultTestPings");
   }
 
-  public static PingTest runPingTest(
-      int count, String page, boolean verbose, boolean checkTriggers) {
+  public static PingTest runPingTest() {
+    return runPingTest(defaultTestPings(), defaultTestPage(), false);
+  }
+
+  public static PingTest runPingTest(int count, String page, boolean verbose) {
+    page = PingTest.normalizePage(page);
+
     PingTest result = new PingTest(page);
 
     PingRequest ping = new PingRequest(page);
 
-    Map<PingAbortTrigger, Integer> triggers = getAllAbortTriggers();
-    PingTest shortest = PingTest.parseProperty("pingShortest");
-    double average = shortest.getAverage();
-
-    // Only check triggers if historical average is for the same page.
-    checkTriggers &= result.getPage().equals(shortest.getPage());
-
-    // The first ping can be anomalous. Perhaps we were logged out and
-    // KoLmafia needs to time us in - which will now run a ping test.
+    // A time-in can land inside the first ping's measured time.
     //
     // Run a single ping first and don't count it.
-    if (!runPing(ping, verbose)) {
-      return result;
-    }
-
-    // But do check if it should trigger an abort
-    if (checkTriggers && shouldAbortPingTest(ping, average, triggers, result)) {
-      result.addPing(ping);
+    if (!runPing(ping)) {
       return result;
     }
 
@@ -363,7 +176,7 @@ public class PingManager {
         RequestLogger.printLine("Ping #" + i + " of " + count + "...");
       }
 
-      if (!runPing(ping, verbose)) {
+      if (!runPing(ping)) {
         return result;
       }
 
@@ -374,14 +187,8 @@ public class PingManager {
       if (verbose) {
         RequestLogger.printLine("-> " + elapsed + " msec (" + bytes + " bytes)");
       }
-
-      // If this ping should trigger an abort, stop the test
-      if (checkTriggers && shouldAbortPingTest(ping, average, triggers, result)) {
-        break;
-      }
     }
 
-    // Save in appropriate properties
     result.save();
 
     return result;

@@ -11929,7 +11929,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value ping(ScriptRuntime controller) {
-    return ping(controller, PingManager.runPingTest(false));
+    return ping(controller, PingManager.runPingTest());
   }
 
   public static Value ping(ScriptRuntime controller, final Value arg1) {
@@ -11940,7 +11940,7 @@ public abstract class RuntimeLibrary {
   public static Value ping(ScriptRuntime controller, final Value arg1, final Value arg2) {
     int count = (int) arg1.intValue();
     String page = arg2.toString();
-    return ping(controller, PingManager.runPingTest(count, page, false, false));
+    return ping(controller, PingManager.runPingTest(count, page, false));
   }
 
   private static Value ping(ScriptRuntime controller, final PingTest result) {
