@@ -363,6 +363,12 @@ user	blackBartsBootyCost	1000
 user	blackPuddingsDefeated	0
 user	blackForestProgress	0
 user	blankOutUsed	0	roa
+user	blessingShieldColdTier	1	roa
+user	blessingShieldHotTier	1	roa
+user	blessingShieldPhysicalTier	1	roa
+user	blessingShieldSleazeTier	1	roa
+user	blessingShieldSpookyTier	1	roa
+user	blessingShieldStenchTier	1	roa
 user	bloodweiserDrunk	0
 user	blueVsRedTeam		roa
 user	bodyguardCharge	0	roa
@@ -1529,11 +1535,11 @@ user	restUsingChateau	true
 user	retroCapeSuperhero	vampire	roa
 user	retroCapeWashingInstructions	hold	roa
 user	rockinRobinProgress	25	roa
-user	romanCandelabraRedCasts	0
-user	romanCandelabraBlueCasts	0
-user	romanCandelabraYellowCasts	0
-user	romanCandelabraGreenCasts	0
-user	romanCandelabraPurpleCasts	0
+user	romanCandelabraRedCasts	0	roa
+user	romanCandelabraBlueCasts	0	roa
+user	romanCandelabraYellowCasts	0	roa
+user	romanCandelabraGreenCasts	0	roa
+user	romanCandelabraPurpleCasts	0	roa
 user	romanticTarget		ld
 user	ROMOfOptimalityAvailable	true
 user	ROMOfOptimalityCost	1000

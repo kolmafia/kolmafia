@@ -22,8 +22,13 @@ import internal.network.FakeHttpClientBuilder;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLCharacter.Gender;
+import net.sourceforge.kolmafia.ModifierType;
+import net.sourceforge.kolmafia.Modifiers;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -31,6 +36,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 class ResponseTextParserTest {
@@ -329,6 +335,27 @@ class ResponseTextParserTest {
       request.responseText = html("request/test_allied_radio_empty.html");
       ResponseTextParser.externalUpdate(request);
       assertThat("_alliedRadioDropsUsed", isSetTo(3));
+    }
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+    "1,1,-5", "5,5,-13",
+  })
+  void canParseBlessingOfThePrivacyShieldEffect(int tier, double resistance, double combatRate) {
+    var cleanups = withProperty("blessingShieldStenchTier");
+
+    try (cleanups) {
+      GenericRequest req =
+          new GenericRequest("desc_effect.php?whicheffect=0cb4ea224bc8d0b0c2b426c378f5b4d9");
+      req.responseText = html("request/test_desc_effect_privacyshield_tier" + tier + ".html");
+      ResponseTextParser.externalUpdate(req);
+
+      assertThat("blessingShieldStenchTier", isSetTo(tier));
+      Modifiers mods =
+          ModifierDatabase.getModifiers(ModifierType.EFFECT, EffectPool.BLESSING_PRIVACY_SHIELD);
+      assertThat(mods.getDouble(DoubleModifier.STENCH_RESISTANCE), is(resistance));
+      assertThat(mods.getDouble(DoubleModifier.COMBAT_RATE), is(combatRate));
     }
   }
 }
