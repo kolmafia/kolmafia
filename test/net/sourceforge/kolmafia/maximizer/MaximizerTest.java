@@ -418,6 +418,7 @@ public class MaximizerTest {
     @Test
     public void bareOsitiesAcceptTheirDefaultMinimum() {
       assertBareOsityMinimum("clownosity", BitmapModifier.CLOWNINESS, 100);
+      assertBareOsityMinimum("clowniness", BitmapModifier.CLOWNINESS, 100);
       assertBareOsityMinimum("raveosity", BitmapModifier.RAVEOSITY, 7);
       assertBareOsityMinimum("surgeonosity", BitmapModifier.SURGEONOSITY, 1);
     }

@@ -404,7 +404,7 @@ public class Evaluator {
       BitmapModifier osityModifier = null;
       double defaultMinimum = 0.0;
       switch (keyword) {
-        case "clownosity" -> {
+        case "clownosity", "clowniness" -> {
           osityModifier = BitmapModifier.CLOWNINESS;
           defaultMinimum = 100.0;
         }
