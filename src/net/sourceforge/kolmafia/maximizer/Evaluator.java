@@ -423,7 +423,7 @@ public class Evaluator {
 
         // Even if the user specified a weight for an -osity, but did not specify a min, then use a
         // default value.
-        this.min.put(osityModifier, defaultMinimum);
+        this.min.put(osityModifier, defaultMinimum * weight);
         continue;
       }
 
