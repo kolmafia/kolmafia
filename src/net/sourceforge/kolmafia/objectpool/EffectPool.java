@@ -169,9 +169,11 @@ public class EffectPool {
   public static final int A_LITTLE_BIT_EVIL = 598;
   public static final int CLUMSY = 612;
   public static final int DONHOS_BUBBLY_BALLAD = 614;
+  public static final int ANTIHANGOVER = 615;
   public static final int COATED_IN_SLIME = 633;
   public static final int EXISTENTIAL_TORMENT = 675;
   public static final int IRON_PALMS = 709;
+  public static final int HAVING_A_BALL = 712;
   public static final int INIGOS = 716;
   public static final int DOWN_THE_RABBIT_HOLE = 725;
   public static final int TOWERING_STRENGTH = 755;
@@ -450,6 +452,12 @@ public class EffectPool {
   public static final int LEGENDARY_PASTA_EYEBALL = 3100;
   public static final int LEGENDARY_SPICE_HAZE = 3101;
   public static final int SAVING_SOME_BONDO = 3133;
+  public static final int BLESSING_HEAT_SHIELD = 3135;
+  public static final int BLESSING_RIOT_SHIELD = 3136;
+  public static final int BLESSING_MENTAL_SHIELD = 3137;
+  public static final int BLESSING_PRIVACY_SHIELD = 3138;
+  public static final int BLESSING_TAX_SHIELD = 3139;
+  public static final int BLESSING_WIND_SHIELD = 3140;
 
   public static final AdventureResult CURSE1_EFFECT = EffectPool.get(EffectPool.ONCE_CURSED);
   public static final AdventureResult CURSE2_EFFECT = EffectPool.get(EffectPool.TWICE_CURSED);
