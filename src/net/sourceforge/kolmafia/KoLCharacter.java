@@ -3009,6 +3009,7 @@ public abstract class KoLCharacter {
         || oldPath == Path.JOURNEYMAN) {
       RequestThread.postRequest(new CharSheetRequest());
       InventoryManager.checkSkillGrantingEquipment();
+      FamiliarData.checkSkillGrantingFamiliars();
     }
 
     if (restricted
