@@ -1580,6 +1580,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
           SkillPool.CINCHO_DISPENSE_SALT_AND_LIME,
           SkillPool.CINCHO_PARTY_SOUNDTRACK,
           SkillPool.CINCHO_FIESTA_EXIT,
+          SkillPool.REST_UPSIDE_DOWN,
           SkillPool.BCZ__BLOOD_BATH,
           SkillPool.BCZ__DIAL_IT_UP_TO_11,
           SkillPool.BCZ__SWEAT_EQUITY,
