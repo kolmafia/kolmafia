@@ -57,6 +57,7 @@ import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.DailyLimitDatabase.DailyLimitType;
+import net.sourceforge.kolmafia.persistence.DebugDatabase;
 import net.sourceforge.kolmafia.persistence.EffectData;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
@@ -4306,6 +4307,16 @@ public class FightRequest extends GenericRequest {
 
       switch (monsterName) {
         case "black pudding" -> Preferences.increment("blackPuddingsDefeated", 1);
+        case "reanimated bat skeleton",
+            "reanimated serpent skeleton",
+            "reanimated baboon skeleton",
+            "reanimated wyrm skeleton",
+            "reanimated demon skeleton",
+            "reanimated giant spider skeleton" -> {
+          if (responseText.contains("you grab one of its teeth")) {
+            DebugDatabase.itemDescriptionText(ItemPool.FOSSILIZED_NECKLACE, true);
+          }
+        }
         case "general seal" -> ResultProcessor.removeItem(ItemPool.ABYSSAL_BATTLE_PLANS);
         case "Frank &quot;Skipper&quot; Dan, the Accordion Lord" ->
             ResultProcessor.removeItem(ItemPool.SUSPICIOUS_ADDRESS);
