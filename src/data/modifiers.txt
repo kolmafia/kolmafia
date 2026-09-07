@@ -4932,6 +4932,7 @@ Familiar	Llama Lama	Last Available: "2008-06", Volleyball: 0.5
 Familiar	Machine Elf	Last Available: "2015-12"
 Familiar	Mad Hatrack	Last Available: "2008-03"
 Familiar	Magic Dragonfish	Spell Damage Percent: [min(2*W,100^env(underwater)*100)]
+Familiar	Meat Shield Maiden	Conditional Skill (Equipped): "%fn, sing a song of my prowess"
 Familiar	Mechamelion	Last Available: "2018-03"
 Familiar	Mechanical Songbird	Fairy Effectiveness: [1.0+0.5*zone(Dreadsylvania)]
 Familiar	Melodramedary	Last Available: "2020-07"

@@ -33,6 +33,7 @@ import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase.FamiliarRaceData;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
+import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -643,6 +644,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
     EquipmentManager.setEquipment(Slot.FAMILIAR, current.getItem());
     FamiliarData.checkLockedItem(responseText);
     FamiliarData.parseSoup(responseText);
+    FamiliarData.checkSkillGrantingFamiliars();
   }
 
   private static FamiliarData registerFamiliar(final Matcher matcher, boolean idFirst) {
@@ -760,6 +762,24 @@ public class FamiliarData implements Comparable<FamiliarData> {
     this.soupAttributes.addAll(attributes);
   }
 
+  public static void checkSkillGrantingFamiliars() {
+    ModifierDatabase.getInventorySkillProviders().stream()
+        .filter(l -> l.getType() == ModifierType.FAMILIAR)
+        .map(Lookup::getStringKey)
+        .filter(race -> KoLCharacter.usableFamiliar(race) != null)
+        .flatMap(
+            race -> {
+              var mods = ModifierDatabase.getModifiers(ModifierType.FAMILIAR, race);
+              if (mods == null) {
+                return Stream.empty();
+              }
+              return mods.getStrings(StringModifier.CONDITIONAL_SKILL_EQUIPPED).stream();
+            })
+        .map(SkillDatabase::getSkillId)
+        .filter(id -> SkillDatabase.getSkillTags(id).contains(SkillDatabase.SkillTag.NONCOMBAT))
+        .forEach(KoLCharacter::addAvailableSkill);
+  }
+
   public void deactivate() {
     // Do anything necessary when this familiar is banished to the Terrarium
     this.active = false;
@@ -771,6 +791,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
   public void activate() {
     // Do anything necessary when this familiar is removed from the Terrarium
     this.active = true;
+    addConditionalSkills();
     switch (this.getEffectiveId()) {
       case FamiliarPool.GREY_GOOSE -> {
         if (this.weight >= 6) {
@@ -778,6 +799,16 @@ public class FamiliarData implements Comparable<FamiliarData> {
         }
       }
     }
+  }
+
+  private void addConditionalSkills() {
+    var mods = ModifierDatabase.getModifiers(ModifierType.FAMILIAR, this.getRace());
+    if (mods == null) {
+      return;
+    }
+    mods.getStrings(StringModifier.CONDITIONAL_SKILL_EQUIPPED).stream()
+        .map(SkillDatabase::getSkillId)
+        .forEach(KoLCharacter::addAvailableSkill);
   }
 
   public void setWeight(final int weight) {

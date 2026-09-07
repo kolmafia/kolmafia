@@ -2727,6 +2727,11 @@ public class Player {
     return new Cleanups(new OrderedRunnable(KoLCharacter::recalculateAdjustments, 10));
   }
 
+  public static Cleanups withSkillGrantingFamiliarsChecked() {
+    FamiliarData.checkSkillGrantingFamiliars();
+    return new Cleanups(new OrderedRunnable(FamiliarData::checkSkillGrantingFamiliars, 9));
+  }
+
   public static Cleanups withNPCStoreReset() {
     NPCStoreDatabase.reset();
 
