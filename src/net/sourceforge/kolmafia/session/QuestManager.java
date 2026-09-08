@@ -30,6 +30,7 @@ import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.DebugDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
@@ -101,10 +102,18 @@ public class QuestManager {
     String field = request.getFormField("snarfblat");
     int locationId = StringUtilities.isNumeric(field) ? StringUtilities.parseInt(field) : 0;
 
+    // In License to Adventure, update the strength of the Disavowed buff when going to a non-Lair
+    // adventure.php location, regardless of whether we're getting redirected to a fight or choice
+    // or not at all.
+    if (KoLCharacter.inBondcore() && locationId != 495 && location.startsWith("adventure.php")) {
+      if (Preferences.getInteger("_villainLairProgress") < 999) {
+        DebugDatabase.readEffectDescriptionText(EffectPool.DISAVOWED);
+      }
+    }
+
     // If we redirected to a choice or fight, there is no response
     // text here. Look for the above-mentioned quest changes which
     // don't depend on a responseText.
-
     String redirectLocation = request.redirectLocation;
     if (redirectLocation != null) {
       if (location.startsWith("adventure")) {
