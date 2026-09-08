@@ -927,6 +927,9 @@ public abstract class KoLmafia {
     // Items that conditionally grant skills
     InventoryManager.checkSkillGrantingEquipment();
 
+    // Familiars that conditionally grant skills
+    FamiliarData.checkSkillGrantingFamiliars();
+
     // Check Horsery if we haven't today
     if (Preferences.getBoolean("horseryAvailable")
         && Preferences.getString("_horseryCrazyMox").length() == 0) {

@@ -36,6 +36,7 @@ import static internal.matchers.Maximizer.recommendsSlot;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.hasToString;
@@ -59,6 +60,7 @@ import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.modifiers.BitmapModifier;
 import net.sourceforge.kolmafia.modifiers.DerivedModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
@@ -3612,6 +3614,27 @@ public class MaximizerTest {
         assertThat(getBoosts(), hasItem(recommends(ItemPool.FLAK_SHIELD)));
         assertThat(modFor(DoubleModifier.DAMAGE_REDUCTION), equalTo(9.0));
       }
+    }
+  }
+
+  @Test
+  void keepsCurrentEquipmentWhenCombinationLimitIsReached() {
+    var watch = ItemPool.get("grandfather watch");
+    try (var cleanups =
+        new Cleanups(
+            withItem("Boots of Twilight Whispers"),
+            withEquipped(Slot.ACCESSORY1, "Elf Guard insignia (general)"),
+            withEquipped(Slot.ACCESSORY2, watch),
+            withEquipped(Slot.ACCESSORY3, ItemPool.THE_ETERNITY_CODPIECE),
+            withEquipped(Slot.FAMILIAR, "solid shifting time weirdness"),
+            withProperty("maximizerCombinationLimit", 1))) {
+      double current = new Evaluator("adv").getScore(KoLCharacter.getCurrentModifiers());
+
+      assertThat(maximize("adv"), is(true));
+      assertThat(Maximizer.best.getScore(), greaterThanOrEqualTo(current));
+      assertThat(
+          SlotSet.ACCESSORY_SLOTS.stream().map(Maximizer.best.equipment::get).toList(),
+          hasItem(watch));
     }
   }
 }

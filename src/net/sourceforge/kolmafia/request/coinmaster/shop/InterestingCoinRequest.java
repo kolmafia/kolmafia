@@ -16,7 +16,8 @@ public abstract class InterestingCoinRequest extends CoinMasterShopRequest {
           .withNewShopRowFields(master, SHOPID)
           .withCanBuyItem(InterestingCoinRequest::canBuyItem)
           .withVisitShop(InterestingCoinRequest::visitShop)
-          .withPurchasedItem(InterestingCoinRequest::purchasedItem);
+          .withPurchasedItem(InterestingCoinRequest::purchasedItem)
+          .withCountField(null);
 
   private static String dailyProperty(final int itemId) {
     return "_itemBoughtPerDay" + itemId;

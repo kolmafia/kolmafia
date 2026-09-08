@@ -3,12 +3,16 @@ package net.sourceforge.kolmafia.request;
 import static internal.helpers.HttpClientWrapper.getRequests;
 import static internal.helpers.Networking.assertGetRequest;
 import static internal.helpers.Networking.assertPostRequest;
+import static internal.helpers.Networking.getPostRequestBody;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withAdventuresLeft;
 import static internal.helpers.Player.withClass;
 import static internal.helpers.Player.withDay;
 import static internal.helpers.Player.withEquippableItem;
 import static internal.helpers.Player.withEquipped;
+import static internal.helpers.Player.withFamiliar;
+import static internal.helpers.Player.withFamiliarInTerrarium;
+import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withInteractivity;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withLevel;
@@ -17,15 +21,23 @@ import static internal.helpers.Player.withNextResponse;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withSkill;
+import static internal.helpers.Player.withSkillGrantingFamiliarsChecked;
+import static internal.helpers.Player.withoutSkill;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
 import internal.helpers.HttpClientWrapper;
+import internal.network.FakeHttpClientBuilder;
+import internal.network.FakeHttpResponse;
+import java.net.http.HttpRequest;
 import java.time.Month;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
@@ -33,6 +45,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
@@ -697,6 +710,104 @@ class UseSkillRequestTest {
         assertThat("heartstoneBuffUnlocked", isSetTo(true));
         assertThat("heartstoneLuckUnlocked", isSetTo(true));
         assertThat("heartstonePalsUnlocked", isSetTo(true));
+      }
+    }
+  }
+
+  @Nested
+  class FamiliarGrantedSkill {
+    @BeforeEach
+    public void initializeState() {
+      KoLCharacter.reset("FamiliarGrantedSkill");
+      Preferences.reset("FamiliarGrantedSkill");
+    }
+
+    private FakeHttpResponse<String> getHttpResponses(HttpRequest r) {
+      if (r.uri().getPath().equals("/familiar.php")) {
+        var body = getPostRequestBody(r);
+        if (body.contains("newfam=" + FamiliarPool.MEAT_SHIELD_MAIDEN)) {
+          return new FakeHttpResponse<>("You take your Meat Shield Maiden with you.");
+        }
+        if (body.contains("newfam=" + FamiliarPool.MOSQUITO)) {
+          return new FakeHttpResponse<>("You take your Mosquito with you.");
+        }
+      }
+      return new FakeHttpResponse<>("");
+    }
+
+    @Test
+    public void switchesFamiliarAndRestoresAfterCasting() {
+      var builder = new FakeHttpClientBuilder();
+      builder.client.setResponseFunc(this::getHttpResponses);
+
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withoutSkill(SkillPool.SING_A_SONG_OF_MY_PROWESS),
+              withFamiliar(FamiliarPool.MOSQUITO),
+              withFamiliarInTerrarium(FamiliarPool.MEAT_SHIELD_MAIDEN),
+              withMP(100, 100, 100),
+              withSkillGrantingFamiliarsChecked());
+
+      try (cleanups) {
+        assertTrue(KoLCharacter.hasSkill(SkillPool.SING_A_SONG_OF_MY_PROWESS));
+        assertThat(KoLCharacter.getFamiliar().getId(), is(FamiliarPool.MOSQUITO));
+
+        var req = UseSkillRequest.getInstance(SkillPool.SING_A_SONG_OF_MY_PROWESS, 1);
+        req.run();
+
+        var requests = builder.client.getRequests();
+        assertThat(requests, hasSize(greaterThanOrEqualTo(3)));
+        assertPostRequest(
+            requests.get(0),
+            "/familiar.php",
+            "action=newfam&newfam=" + FamiliarPool.MEAT_SHIELD_MAIDEN + "&ajax=1");
+        assertGetRequest(
+            requests.get(1),
+            "/runskillz.php",
+            "action=Skillz&whichskill="
+                + SkillPool.SING_A_SONG_OF_MY_PROWESS
+                + "&ajax=1&quantity=1");
+        // 2 is an api.php request call
+        assertPostRequest(
+            requests.get(3),
+            "/familiar.php",
+            "action=newfam&newfam=" + FamiliarPool.MOSQUITO + "&ajax=1");
+
+        assertThat(KoLCharacter.getFamiliar().getId(), is(FamiliarPool.MOSQUITO));
+      }
+    }
+
+    @Test
+    public void doesNotChangeFamiliarWithCorrectFamiliar() {
+      var builder = new FakeHttpClientBuilder();
+      builder.client.setResponseFunc(this::getHttpResponses);
+
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withoutSkill(SkillPool.SING_A_SONG_OF_MY_PROWESS),
+              withFamiliar(FamiliarPool.MEAT_SHIELD_MAIDEN),
+              withMP(100, 100, 100),
+              withSkillGrantingFamiliarsChecked());
+
+      try (cleanups) {
+        assertTrue(KoLCharacter.hasSkill(SkillPool.SING_A_SONG_OF_MY_PROWESS));
+        assertThat(KoLCharacter.getFamiliar().getId(), is(FamiliarPool.MEAT_SHIELD_MAIDEN));
+
+        var req = UseSkillRequest.getInstance(SkillPool.SING_A_SONG_OF_MY_PROWESS, 1);
+        req.run();
+
+        var requests = builder.client.getRequests();
+        assertThat(requests, hasSize(equalTo(2)));
+        assertGetRequest(
+            requests.get(0),
+            "/runskillz.php",
+            "action=Skillz&whichskill="
+                + SkillPool.SING_A_SONG_OF_MY_PROWESS
+                + "&ajax=1&quantity=1");
+
+        assertThat(KoLCharacter.getFamiliar().getId(), is(FamiliarPool.MEAT_SHIELD_MAIDEN));
       }
     }
   }
