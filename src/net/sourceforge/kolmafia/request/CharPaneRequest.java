@@ -49,12 +49,12 @@ import net.sourceforge.kolmafia.session.YouRobotManager;
 import net.sourceforge.kolmafia.swingui.MallSearchFrame;
 import net.sourceforge.kolmafia.swingui.RequestFrame;
 import net.sourceforge.kolmafia.textui.command.SnowsuitCommand;
-import net.sourceforge.kolmafia.utilities.HTMLParserUtils;
 import net.sourceforge.kolmafia.utilities.LockableListFactory;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
-import org.htmlcleaner.HtmlCleaner;
-import org.htmlcleaner.TagNode;
-import org.htmlcleaner.XPatherException;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 public class CharPaneRequest extends GenericRequest {
   private static final AdventureResult CHILLED_TO_THE_BONE =
@@ -70,8 +70,6 @@ public class CharPaneRequest extends GenericRequest {
 
   public static boolean compactCharacterPane = false;
   public static boolean familiarBelowEffects = false;
-
-  private static final HtmlCleaner cleaner = HTMLParserUtils.configureDefaultParser();
 
   public CharPaneRequest() {
     super("charpane.php");
@@ -1421,24 +1419,16 @@ public class CharPaneRequest extends GenericRequest {
       return;
     }
 
-    TagNode doc;
-    doc = cleaner.clean(responseText);
+    Document doc = Jsoup.parse(responseText);
 
-    Object[] result;
-    String xpath = "//div[@class='gnoob small']/font/text()";
-    try {
-      result = doc.evaluateXPath(xpath);
-    } catch (XPatherException e) {
-      StaticEntity.printStackTrace(e);
-      return;
-    }
-    if (result.length == 0) {
+    Elements result = doc.select("div.gnoob.small > font");
+    if (result.isEmpty()) {
       return;
     }
 
     ModifierList modList = new ModifierList();
-    for (Object res : result) {
-      String mod = ModifierDatabase.parseModifier(res.toString());
+    for (Element res : result) {
+      String mod = ModifierDatabase.parseModifier(res.text());
       if (mod == null) {
         // this shouldn't happen...
         continue;
