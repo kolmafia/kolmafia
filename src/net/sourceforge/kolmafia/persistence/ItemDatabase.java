@@ -54,12 +54,8 @@ import net.sourceforge.kolmafia.session.ElVibratoManager;
 import net.sourceforge.kolmafia.session.ElVibratoManager.Punchcard;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
-import net.sourceforge.kolmafia.utilities.HTMLParserUtils;
 import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
-import org.htmlcleaner.HtmlCleaner;
-import org.htmlcleaner.TagNode;
-import org.htmlcleaner.XPatherException;
 import org.jsoup.Jsoup;
 
 public class ItemDatabase {
@@ -2499,19 +2495,8 @@ public class ItemDatabase {
     if (!desc.contains("Active Perks")) {
       Preferences.setString("everfullDartPerks", "");
     } else {
-      HtmlCleaner cleaner = HTMLParserUtils.configureDefaultParser();
-      TagNode doc = cleaner.clean(desc);
-      String xpath = "//ul/li/text()";
-
-      Object[] result;
-      try {
-        result = doc.evaluateXPath(xpath);
-      } catch (XPatherException ex) {
-        // do nothing
-        return;
-      }
-
-      var perks = Arrays.stream(result).map(Object::toString).collect(Collectors.joining(","));
+      var parsed = Jsoup.parse(desc);
+      var perks = String.join(",", parsed.select("ul li").eachText());
       Preferences.setString("everfullDartPerks", perks);
     }
   }
