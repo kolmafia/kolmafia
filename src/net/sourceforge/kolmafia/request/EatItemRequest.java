@@ -962,6 +962,8 @@ public class EatItemRequest extends UseItemRequest {
       case ItemPool.STENCH_TOAST -> Preferences.setBoolean("noncombatForcerActive", true);
       case ItemPool.HOT_TOAST -> Preferences.increment("_hotJellyUses");
       case ItemPool.SPOOKY_TOAST -> Preferences.increment("_spookyJellyUses");
+      case ItemPool.SOYBEAN_FUTURES ->
+          Preferences.increment("soybeanFuturesEaten", item.getCount(), 50);
     }
   }
 
