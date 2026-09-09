@@ -8,10 +8,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -25,19 +21,16 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.GreyYouManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.YouRobotManager;
-import net.sourceforge.kolmafia.utilities.HTMLParserUtils;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
-import org.htmlcleaner.DomSerializer;
-import org.htmlcleaner.HtmlCleaner;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.nodes.Node;
+import org.jsoup.nodes.TextNode;
+import org.jsoup.select.Elements;
 
 public class CharSheetRequest extends GenericRequest {
   private static final Pattern BASE_PATTERN = Pattern.compile(" \\(base: ([\\d,]+)\\)");
-
-  private static final HtmlCleaner cleaner = HTMLParserUtils.configureDefaultParser();
-  private static final DomSerializer domSerializer = new DomSerializer(cleaner.getProperties());
 
   /**
    * Constructs a new <code>CharSheetRequest</code>. The data in the KoLCharacter entity will be
@@ -77,13 +70,7 @@ public class CharSheetRequest extends GenericRequest {
 
   public static void parseStatus(final String responseText) {
     // Currently, this is used only for parsing the list of skills
-    Document doc;
-    try {
-      doc = domSerializer.createDOM(cleaner.clean(responseText));
-    } catch (ParserConfigurationException e) {
-      e.printStackTrace();
-      return;
-    }
+    Document doc = Jsoup.parse(responseText);
 
     // Strip all of the HTML from the server reply
     // and then figure out what to do from there.
@@ -562,12 +549,6 @@ public class CharSheetRequest extends GenericRequest {
   //
   //	<span id="permskills" ...>...</span>
 
-  private static final String AVAILABLE_SKILL_XPATH =
-      "//a[contains(@onclick,'skill') and not(ancestor::*[@id='permskills'])]";
-
-  private static final String UNAVAILABLE_SKILL_XPATH =
-      "//a[contains(@onclick,'skill') and (ancestor::*[@id='permskills'])]";
-
   /**
    * Parses skill information from charsheet.php.
    *
@@ -581,17 +562,10 @@ public class CharSheetRequest extends GenericRequest {
   }
 
   private static List<ParsedSkillInfo> parseSkills(Document doc, boolean available) {
-    String xpath = available ? AVAILABLE_SKILL_XPATH : UNAVAILABLE_SKILL_XPATH;
-    NodeList skillNodes;
-    try {
-      skillNodes =
-          (NodeList)
-              XPathFactory.newInstance().newXPath().evaluate(xpath, doc, XPathConstants.NODESET);
-    } catch (XPathExpressionException e) {
-      // Our xpath selector is bad; this build shouldn't be released at all
-      e.printStackTrace();
-      throw new RuntimeException("Bad XPath selector");
-    }
+    Elements skillNodes =
+        available
+            ? doc.select("a[onclick*=skill]:not(#permskills a)")
+            : doc.select("#permskills a[onclick*=skill]");
 
     List<ParsedSkillInfo> parsedSkillInfos = new ArrayList<>();
 
@@ -599,19 +573,17 @@ public class CharSheetRequest extends GenericRequest {
       Pattern.compile("\\bwhichskill=(\\d+)").matcher(""),
       Pattern.compile("\\bskill\\((\\d+)\\)").matcher(""),
     };
-    for (int i = 0; i < skillNodes.getLength(); ++i) {
-      Node node = skillNodes.item(i);
-
+    for (Element node : skillNodes) {
       boolean isSkillIdFound = false;
       int skillId = -1;
-      String skillName = node.getTextContent();
+      String skillName = node.text();
       ParsedSkillInfo.PermStatus permStatus = ParsedSkillInfo.PermStatus.NONE;
 
       // Parse following sibling nodes to check perm status
-      Node nextSibling = node.getNextSibling();
+      Node nextSibling = node.nextSibling();
       while (nextSibling != null) {
-        if (nextSibling.getNodeType() == Node.TEXT_NODE) {
-          String siblingText = nextSibling.getTextContent();
+        if (nextSibling instanceof TextNode tn) {
+          String siblingText = tn.text();
           if (siblingText.contains("(HP)")) {
             permStatus = ParsedSkillInfo.PermStatus.HARDCORE;
           } else if (siblingText.contains("(P)")) {
@@ -619,8 +591,8 @@ public class CharSheetRequest extends GenericRequest {
           }
 
           // If the text node does not contain perm status, keep examining subsequent siblings
-        } else if (nextSibling.getNodeName().equals("b")) {
-          String siblingText = nextSibling.getTextContent();
+        } else if (nextSibling instanceof Element e && e.normalName().equals("b")) {
+          String siblingText = e.text();
           if (siblingText.contains("HP")) {
             permStatus = ParsedSkillInfo.PermStatus.HARDCORE;
           } else if (siblingText.contains("P")) {
@@ -635,10 +607,10 @@ public class CharSheetRequest extends GenericRequest {
           break;
         }
 
-        nextSibling = nextSibling.getNextSibling();
+        nextSibling = nextSibling.nextSibling();
       }
 
-      String onclick = node.getAttributes().getNamedItem("onclick").getNodeValue();
+      String onclick = node.attr("onclick");
 
       // Find the first successful matcher
       for (Matcher skillIdMatcher : onclickSkillIdMatchers) {
@@ -669,37 +641,24 @@ public class CharSheetRequest extends GenericRequest {
   //
   // The following methods that accept a responseText are for use by tests.
 
-  public static void parseAndUpdateSkills(
+  static void parseAndUpdateSkills(
       String responseText,
       List<UseSkillRequest> available,
       List<UseSkillRequest> permed,
       Set<Integer> hardcore) {
-    try {
-      Document doc = domSerializer.createDOM(cleaner.clean(responseText));
-      parseAndUpdateSkills(doc, available, permed, hardcore);
-    } catch (ParserConfigurationException e) {
-      e.printStackTrace();
-    }
+    Document doc = Jsoup.parse(responseText);
+    parseAndUpdateSkills(doc, available, permed, hardcore);
   }
 
-  public static List<ParsedSkillInfo> parseSkills(final String responseText) {
-    try {
-      Document doc = domSerializer.createDOM(cleaner.clean(responseText));
-      return parseSkills(doc);
-    } catch (ParserConfigurationException e) {
-      e.printStackTrace();
-      return new ArrayList<>();
-    }
+  static List<ParsedSkillInfo> parseSkills(final String responseText) {
+    Document doc = Jsoup.parse(responseText);
+    return parseSkills(doc);
   }
 
+  // The following method is additionally used in TestCommand
   public static List<ParsedSkillInfo> parseSkills(final String responseText, boolean available) {
-    try {
-      Document doc = domSerializer.createDOM(cleaner.clean(responseText));
-      return parseSkills(doc, available);
-    } catch (ParserConfigurationException e) {
-      e.printStackTrace();
-      return new ArrayList<ParsedSkillInfo>();
-    }
+    Document doc = Jsoup.parse(responseText);
+    return parseSkills(doc, available);
   }
 
   public static void parseStatus(final JSONObject json) throws JSONException {
