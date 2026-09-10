@@ -38,7 +38,7 @@ public class VotingBoothManager {
     new ModifierValue("Adventures", "+1"),
     new ModifierValue("Candy Drop", "+30"),
     new ModifierValue("Maximum HP Percent", "+30"),
-    new ModifierValue("Sleaze Resistanc", "+3"),
+    new ModifierValue("Sleaze Resistance", "+3"),
   };
 
   private static final ModifierValue[] VOTING_BOOTH_NEGATIVE_MODIFIERS = {
