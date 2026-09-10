@@ -32,7 +32,7 @@ public class ChallengePathTest {
             withEquipped(ItemPool.COAT_OF_PAINT),
             withProperty(
                 "_coatOfPaintModifier",
-                "Experience (Muscle): +5, Cold Resistance: +2, Stench Damage: +20, Stench Spell Damage: +20, Familiar Weight: +5"));
+                "Muscle Experience: +5, Cold Resistance: +2, Stench Damage: +20, Stench Spell Damage: +20, Familiar Weight: +5"));
 
     try (cleanups) {
       // Perform a reset as if we're leaving an avatar path

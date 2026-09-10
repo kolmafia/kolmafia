@@ -1257,7 +1257,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
           output,
           is(
               """
-                 Returned: Experience Percent (Moxie): +10, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
+                 Returned: Moxie Experience Percent: +10, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
                  """));
     }
 
@@ -1407,7 +1407,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     @Test
     void parsesModifiersWithDifferentNamesToTags() {
       String input =
-          "split_modifiers(\"Experience (Muscle): +11, Experience (Mysticality): +9, Experience (Moxie): +7, Damage Reduction: 24\")";
+          "split_modifiers(\"Muscle Experience: +11, Mysticality Experience: +9, Moxie Experience: +7, Damage Reduction: 24\")";
       String output = execute(input);
       assertThat(
           output,
@@ -1492,7 +1492,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     @CsvSource({
       "ACCORDION_THIEF, CRAZY_RANDOM_SUMMER, topiary golem, stats, +1 all substats",
       "TURTLE_TAMER, OXYGENARIAN, Blooper, meat, 10 Meat",
-      "PASTAMANCER, COMMUNITY_SERVICE, bookbat, modifier, Experience (familiar): +1",
+      "PASTAMANCER, COMMUNITY_SERVICE, bookbat, modifier, Familiar Experience: +1",
       "SEAL_CLUBBER, KINGDOM_OF_EXPLOATHING, Jefferson pilot, item, foon"
     })
     void exposesFactAndFactTypeInMonsterProxy(
@@ -1549,7 +1549,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     @ParameterizedTest
     @CsvSource({
       "fact_type, briefcase bat, modifier",
-      "string_fact, briefcase bat, Experience (familiar): +1",
+      "string_fact, briefcase bat, Familiar Experience: +1",
       "item_fact, goblin conspirator, Knob mushroom",
       "effect_fact, trophyfish, Fishy",
       "numeric_fact, trophyfish, 10",

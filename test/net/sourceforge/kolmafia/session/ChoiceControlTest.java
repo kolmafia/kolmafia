@@ -241,7 +241,7 @@ class ChoiceControlTest {
         assertThat(
             "nextDistillateMods",
             isSetTo(
-                "Experience (Muscle): +5, Experience (Moxie): +4, Spooky Damage: +15, Spooky Spell Damage: +25"));
+                "Muscle Experience: +5, Moxie Experience: +4, Spooky Damage: +15, Spooky Spell Damage: +25"));
       }
     }
 
@@ -301,7 +301,7 @@ class ChoiceControlTest {
         assertThat(
             "currentDistillateMods",
             isSetTo(
-                "Experience (Muscle): +3, Experience (Mysticality): +2, Experience (Moxie): +2, Damage Reduction: 9, Sleaze Damage: +6, Sleaze Spell Damage: +10"));
+                "Muscle Experience: +3, Mysticality Experience: +2, Moxie Experience: +2, Damage Reduction: 9, Sleaze Damage: +6, Sleaze Spell Damage: +10"));
       }
     }
   }
