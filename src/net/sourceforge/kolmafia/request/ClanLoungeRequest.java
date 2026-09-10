@@ -1999,7 +1999,12 @@ public class ClanLoungeRequest extends GenericRequest {
     String message = ClanLoungeRequest.equipmentVisit(urlString);
 
     if (message == null) {
+      // The speakeasy, hot dog stand, pool table, shower and swimming pool all
+      // submit their real actions as "preaction", which getAction() ignores.
       String action = GenericRequest.getAction(urlString);
+      if (action == null) {
+        action = GenericRequest.getPreaction(urlString);
+      }
       if (action == null) {
         return true;
       }
@@ -2111,11 +2116,11 @@ public class ClanLoungeRequest extends GenericRequest {
             if (!m.find()) {
               return false;
             }
-            SpeakeasyDrink drink = SpeakeasyDrink.findId(StringUtilities.parseInt(m.group(0)));
+            SpeakeasyDrink drink = SpeakeasyDrink.findId(StringUtilities.parseInt(m.group(1)));
             if (drink == null) {
               return false;
             }
-            message = "drink 1 " + drink.getName();
+            message = "drink 1 " + StringUtilities.getEntityDecode(drink.getName());
             break;
           }
         default:

@@ -380,4 +380,53 @@ public class ClanLoungeRequestTest {
       }
     }
   }
+
+  @Nested
+  class RegisterRequest {
+    // The speakeasy and hot dog stand submit their real action as "preaction",
+    // which getAction() ignores; registerRequest must still name the consumed
+    // drink / dog in the session log.
+
+    @Test
+    void logsSpeakeasyDrinkBoughtFromPreaction() {
+      SessionLoggerOutput.startStream();
+      boolean handled =
+          ClanLoungeRequest.registerRequest(
+              "clan_viplounge.php?preaction=speakeasydrink&drink=5&whichfloor=2");
+      var text = SessionLoggerOutput.stopStream();
+
+      assertTrue(handled);
+      assertThat(text, containsString("drink 1 Bee's Knees"));
+    }
+
+    @Test
+    void logsQuotedSpeakeasyDrinkWithoutHtmlEntities() {
+      SessionLoggerOutput.startStream();
+      ClanLoungeRequest.registerRequest(
+          "clan_viplounge.php?preaction=speakeasydrink&drink=1&whichfloor=2");
+      var text = SessionLoggerOutput.stopStream();
+
+      assertThat(text, containsString("drink 1 glass of \"milk\""));
+    }
+
+    @Test
+    void logsBasicHotDogEatenFromPreaction() {
+      SessionLoggerOutput.startStream();
+      boolean handled =
+          ClanLoungeRequest.registerRequest("clan_viplounge.php?preaction=eathotdog&whichdog=-92");
+      var text = SessionLoggerOutput.stopStream();
+
+      assertTrue(handled);
+      assertThat(text, containsString("eat 1 basic hot dog"));
+    }
+
+    @Test
+    void logsFancyHotDogEatenFromPreaction() {
+      SessionLoggerOutput.startStream();
+      ClanLoungeRequest.registerRequest("clan_viplounge.php?preaction=eathotdog&whichdog=-93");
+      var text = SessionLoggerOutput.stopStream();
+
+      assertThat(text, containsString("eat 1 savage macho dog"));
+    }
+  }
 }
