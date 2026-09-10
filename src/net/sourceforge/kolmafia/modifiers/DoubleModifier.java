@@ -211,7 +211,9 @@ public enum DoubleModifier implements Modifier {
       Pattern.compile("^([+-]\\d+) (Damage )?to <font color=green>Stench Spells</font>"),
       Pattern.compile("Stench Spell Damage: " + EXPR)),
   UNDERWATER_COMBAT_RATE(
-      "Underwater Combat Rate", Pattern.compile("Combat Rate \\(Underwater\\): " + EXPR)),
+      "Underwater Combat Rate",
+      Pattern.compile("Combat Rate \\(Underwater\\): " + EXPR),
+      "Combat Rate (Underwater)"),
   FUMBLE("Fumble", Pattern.compile("(\\d+)x chance of Fumble"), Pattern.compile("Fumble: " + EXPR)),
   HP_REGEN_MIN("HP Regen Min", Pattern.compile("HP Regen Min: " + EXPR)),
   HP_REGEN_MAX("HP Regen Max", Pattern.compile("HP Regen Max: " + EXPR)),
@@ -236,7 +238,8 @@ public enum DoubleModifier implements Modifier {
   STACKABLE_MANA_COST(
       "Stackable Mana Cost",
       Pattern.compile("([+-]\\d+) MP to use Skills$"),
-      Pattern.compile("Mana Cost \\(stackable\\): " + EXPR)),
+      Pattern.compile("Mana Cost \\(stackable\\): " + EXPR),
+      "Mana Cost (stackable)"),
   HOBO_POWER(
       "Hobo Power",
       Pattern.compile("([+-]\\d+) Hobo Power"),
@@ -255,13 +258,15 @@ public enum DoubleModifier implements Modifier {
       "PvP Fights",
       Pattern.compile("([+-]\\d+) PvP [Ff]ight\\(s\\) per day( when equipped)?"),
       Pattern.compile("PvP Fights: " + EXPR)),
-  VOLLEYBALL_WEIGHT("Volleyball", Pattern.compile("Volley(?:ball)?: " + EXPR)),
-  SOMBRERO_WEIGHT("Sombrero", Pattern.compile("Somb(?:rero)?: " + EXPR)),
-  LEPRECHAUN_WEIGHT("Leprechaun", Pattern.compile("Lep(?:rechaun)?: " + EXPR)),
+  VOLLEYBALL_WEIGHT("Volleyball", Pattern.compile("Volleyball: " + EXPR)),
+  SOMBRERO_WEIGHT("Sombrero", Pattern.compile("Sombrero: " + EXPR)),
+  LEPRECHAUN_WEIGHT("Leprechaun", Pattern.compile("Leprechaun: " + EXPR)),
   FAIRY_WEIGHT("Fairy", Pattern.compile("Fairy: " + EXPR)),
   MEATDROP_PENALTY("Meat Drop Penalty", Pattern.compile("Meat Drop Penalty: " + EXPR)),
   HIDDEN_FAMILIAR_WEIGHT(
-      "Hidden Familiar Weight", Pattern.compile("Familiar Weight \\(hidden\\): " + EXPR)),
+      "Hidden Familiar Weight",
+      Pattern.compile("Familiar Weight \\(hidden\\): " + EXPR),
+      "Familiar Weight (hidden)"),
   ITEMDROP_PENALTY("Item Drop Penalty", Pattern.compile("Item Drop Penalty: " + EXPR)),
   INITIATIVE_PENALTY("Initiative Penalty", Pattern.compile("Initiative Penalty: " + EXPR)),
   FOODDROP(

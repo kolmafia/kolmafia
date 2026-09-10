@@ -39,6 +39,7 @@ import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.DerivedModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.Lookup;
+import net.sourceforge.kolmafia.modifiers.Modifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -2303,6 +2304,54 @@ public class ModifiersTest {
         assertThat(mods.getDouble(DoubleModifier.MEATDROP_PENALTY), equalTo(0.0));
         assertThat(mods.getDouble(DoubleModifier.INITIATIVE_PENALTY), equalTo(0.0));
       }
+    }
+  }
+
+  @Nested
+  class TagPatternMatcher {
+    @Test
+    public void doubles() {
+      for (var modifier : DoubleModifier.DOUBLE_MODIFIERS) {
+        assertTagMatchesTagPattern(modifier, "42");
+      }
+    }
+
+    @Test
+    public void bitmaps() {
+      for (var modifier : BitmapModifier.BITMAP_MODIFIERS) {
+        assertTagMatchesTagPattern(modifier, "37", true);
+      }
+    }
+
+    @Test
+    public void strings() {
+      for (var modifier : StringModifier.STRING_MODIFIERS) {
+        assertTagMatchesTagPattern(modifier, "\"Test\"");
+      }
+    }
+
+    @Test
+    public void booleans() {
+      for (var modifier : BooleanModifier.BOOLEAN_MODIFIERS) {
+        assertTagMatchesTagPattern(modifier, null);
+      }
+    }
+
+    private void assertTagMatchesTagPattern(Modifier modifier, String value) {
+      assertTagMatchesTagPattern(modifier, value, false);
+    }
+
+    private void assertTagMatchesTagPattern(
+        Modifier modifier, String value, boolean valueOptional) {
+      if (modifier.getTagPattern() == null) return; // if no tag pattern, no problem
+      if (modifier == StringModifier.MODIFIERS) return; // MODIFIERS is special
+      value = value == null ? "" : ": " + value;
+      if (valueOptional) {
+        if (!modifier.getTagPattern().matcher(modifier.getTag() + value).matches()) {
+          value = "";
+        }
+      }
+      assertThat(modifier.getTag() + value, matchesPattern(modifier.getTagPattern()));
     }
   }
 }
