@@ -1614,6 +1614,7 @@ public class ItemPool {
   public static final int FOSSILIZED_TORSO = 4693;
   public static final int FOSSILIZED_SPINE = 4694;
   public static final int GREAT_PANTS = 4696;
+  public static final int FOSSILIZED_NECKLACE = 4697;
   public static final int IMP_AIR = 4698;
   public static final int BUS_PASS = 4699;
   public static final int FOSSILIZED_SPIKE = 4700;
