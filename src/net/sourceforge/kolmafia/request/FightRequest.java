@@ -323,6 +323,9 @@ public class FightRequest extends GenericRequest {
   private static final Pattern DESIGNER_SWEATPANTS_MORE_SWEATY =
       Pattern.compile("<td>You get (\\d+)% Sweatier.</td>");
 
+  private static final Pattern LUCKY_GOLD_RING_PATTERN =
+      Pattern.compile("You look down and find (?:a|some) (.+?)!");
+
   private static final AdventureResult TOOTH = ItemPool.get(ItemPool.SEAL_TOOTH, 1);
   private static final AdventureResult SPICES = ItemPool.get(ItemPool.SPICES, 1);
   private static final AdventureResult MERCENARY = ItemPool.get(ItemPool.TOY_MERCENARY, 1);
@@ -7943,8 +7946,21 @@ public class FightRequest extends GenericRequest {
       return;
     }
     FightRequest.logText(str, status);
-    if (str.contains("You look down and find a Volcoino!")) {
-      Preferences.setBoolean("_luckyGoldRingVolcoino", true);
+    Matcher RingMatcher = FightRequest.LUCKY_GOLD_RING_PATTERN.matcher(str);
+    if (RingMatcher.find()) {
+      switch (RingMatcher.group(1)) {
+        case "Beach Buck" -> Preferences.increment("_luckyGoldRingBeachBuck");
+        case "bits" -> Preferences.increment("_luckyGoldRingBit");
+        case "Coinspiracy" -> Preferences.increment("_luckyGoldRingCoinspiracy");
+        case "Freddy Kruegerand" -> Preferences.increment("_luckyGoldRingFreddy");
+        case "FunFunds™" -> Preferences.increment("_luckyGoldRingFunFunds");
+        case "hobo nickel" -> Preferences.increment("_luckyGoldRingHoboNickel");
+        case "Meat" -> Preferences.increment("_luckyGoldRingMeat");
+        case "Rubee™" -> Preferences.increment("_luckyGoldRingRubee");
+        case "sand dollar" -> Preferences.increment("_luckyGoldRingSandDollar");
+        case "Volcoino" -> Preferences.increment("_luckyGoldRingVolcoino");
+        case "Wal-Mart gift certificate" -> Preferences.increment("_luckyGoldRingWalmart");
+      }
     }
   }
 
