@@ -1647,6 +1647,51 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
             """));
       }
     }
+
+    @Test
+    void monsterTrackersListsEveryTracker() {
+      // No player state - this is a static registry.
+      assertThat(
+          execute(
+              "boolean found; foreach i, t in monster_trackers() if (t == \"Red-Nosed Snapper\") found"
+                  + " = true; found;"),
+          equalTo("Returned: true\n"));
+      assertThat(
+          execute("boolean enough = count(monster_trackers()) >= 20; enough;"),
+          equalTo("Returned: true\n"));
+    }
+
+    @Test
+    void monsterTrackerFieldsAreExposed() {
+      assertThat(
+          execute("monster_tracker_duration(\"Offer Latte to Opponent\");"),
+          equalTo("Returned: 30\n"));
+      assertThat(
+          execute("monster_tracker_duration(\"Transcendent Olfaction\");"),
+          equalTo("Returned: -1\n"));
+      assertThat(
+          execute("monster_tracker_copies(\"Transcendent Olfaction\");"), equalTo("Returned: 3\n"));
+      assertThat(
+          execute("monster_tracker_reset(\"Transcendent Olfaction\");"),
+          equalTo("Returned: ascension\n"));
+      assertThat(
+          execute("monster_tracker_type(\"Red-Nosed Snapper\");"), equalTo("Returned: phylum\n"));
+      assertThat(
+          execute("monster_tracker_type(\"Transcendent Olfaction\");"),
+          equalTo("Returned: monster\n"));
+      assertThat(
+          execute("monster_tracker_ignores_queue(\"Transcendent Olfaction\");"),
+          equalTo("Returned: true\n"));
+      assertThat(
+          execute("monster_tracker_ignores_queue(\"Gallapagosian Mating Call\");"),
+          equalTo("Returned: false\n"));
+    }
+
+    @Test
+    void unknownMonsterTrackerReturnsDefaults() {
+      assertThat(execute("monster_tracker_duration(\"not a tracker\");"), equalTo("Returned: 0\n"));
+      assertThat(execute("monster_tracker_reset(\"not a tracker\");"), equalTo("Returned:\n"));
+    }
   }
 
   /**
