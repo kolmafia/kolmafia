@@ -1672,6 +1672,7 @@ user	sourceTerminalEducateKnown
 user	sourceTerminalEnhanceKnown
 user	sourceTerminalEnquiryKnown
 user	sourceTerminalExtrudeKnown
+user	soybeanFuturesEaten	0	roa
 user	spaceBabyLanguageFluency	0	roa
 user	spacePirateLanguageFluency	0	roa
 user	spacegateAlways	false

@@ -4712,4 +4712,17 @@ public class FightRequestTest {
       }
     }
   }
+
+  @Test
+  void canDetectSoybeanFuturesPayoff() {
+    RequestLoggerOutput.startStream();
+    var cleanups = new Cleanups(withFight(), withProperty("soybeanFuturesEaten", 7));
+
+    try (cleanups) {
+      parseCombatData("request/test_fight_soybean_futures_payoff.html");
+      var text = RequestLoggerOutput.stopStream();
+      assertThat(text, containsString("Your soybean futures finally pay off"));
+      assertThat("soybeanFuturesEaten", isSetTo(0));
+    }
+  }
 }
