@@ -62,7 +62,11 @@ public enum BooleanModifier implements Modifier {
       "Attacks Can't Miss",
       new Pattern[] {Pattern.compile("Regular Attacks Can't Miss"), Pattern.compile("Cannot miss")},
       Pattern.compile("Attacks Can't Miss")),
-  LOOK_LIKE_A_PIRATE("Pirate", Pattern.compile("Look like a Pirate")),
+  LOOK_LIKE_A_PIRATE(
+      "Pirate",
+      Pattern.compile("Look like a Pirate"),
+      Pattern.compile("Look like a Pirate"),
+      "Look like a Pirate"),
   BLIND("Blind", Pattern.compile("Blind")),
   BREAKABLE("Breakable", Pattern.compile("Breakable")),
   DROPS_ITEMS("Drops Items", Pattern.compile("Drops Items")),
@@ -113,19 +117,29 @@ public enum BooleanModifier implements Modifier {
   private final String name;
   private final Pattern[] descPatterns;
   private final Pattern tagPattern;
+  private final String tag;
 
   BooleanModifier(String name, Pattern tagPattern) {
-    this(name, (Pattern[]) null, tagPattern);
+    this(name, (Pattern[]) null, tagPattern, name);
   }
 
   BooleanModifier(String name, Pattern descPattern, Pattern tagPattern) {
-    this(name, new Pattern[] {descPattern}, tagPattern);
+    this(name, new Pattern[] {descPattern}, tagPattern, name);
+  }
+
+  BooleanModifier(String name, Pattern descPattern, Pattern tagPattern, String tag) {
+    this(name, new Pattern[] {descPattern}, tagPattern, tag);
   }
 
   BooleanModifier(String name, Pattern[] descPattern, Pattern tagPattern) {
+    this(name, descPattern, tagPattern, name);
+  }
+
+  BooleanModifier(String name, Pattern[] descPattern, Pattern tagPattern, String tag) {
     this.name = name;
     this.descPatterns = descPattern;
     this.tagPattern = tagPattern;
+    this.tag = tag;
   }
 
   @Override
@@ -145,7 +159,7 @@ public enum BooleanModifier implements Modifier {
 
   @Override
   public String getTag() {
-    return name;
+    return tag;
   }
 
   @Override

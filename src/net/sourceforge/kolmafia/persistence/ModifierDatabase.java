@@ -1029,7 +1029,7 @@ public class ModifierDatabase {
       String tag =
           !enchantment.contains("Underwater only")
               ? DoubleModifier.COMBAT_RATE.getTag()
-              : "Combat Rate (Underwater)";
+              : DoubleModifier.UNDERWATER_COMBAT_RATE.getTag();
       String level = matcher.group(1);
       String rate = COMBAT_RATE_DESCRIPTIONS.getOrDefault(level, "+0");
       return tag + ": " + rate;
