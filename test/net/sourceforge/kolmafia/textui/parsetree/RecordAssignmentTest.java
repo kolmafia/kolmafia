@@ -247,6 +247,18 @@ public class RecordAssignmentTest {
     assertThat(output, containsString("3;done"));
   }
 
+  @Test
+  void storeRecordCoercePathToInt() {
+    String output =
+        runAsh(
+            """
+        record f {path pth;};
+        record {int pth;} dest = new f($path[Trendy]);
+        print(dest.pth + ';done');
+        """);
+    assertThat(output, containsString("7;done"));
+  }
+
   // Records containing records work if the contained record is a subset
 
   @Test

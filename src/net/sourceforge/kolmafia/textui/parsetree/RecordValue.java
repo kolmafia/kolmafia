@@ -63,11 +63,14 @@ public class RecordValue extends CompositeValue {
     if (destination.equals(TypeSpec.STRING)) {
       return source.toStringValue();
     }
-    if (destination.equals(TypeSpec.INT) && source.getType().equals(TypeSpec.FLOAT)) {
+    if (destination.equals(TypeSpec.INT)) {
       return source.toIntValue();
     }
-    if (destination.equals(TypeSpec.FLOAT) && source.getType().equals(TypeSpec.INT)) {
+    if (destination.equals(TypeSpec.FLOAT)) {
       return source.toFloatValue();
+    }
+    if (destination.equals(TypeSpec.BOOLEAN)) {
+      return source.toBooleanValue();
     }
     return source;
   }
