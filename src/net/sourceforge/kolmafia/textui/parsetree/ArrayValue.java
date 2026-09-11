@@ -61,6 +61,9 @@ public class ArrayValue extends AggregateValue {
 
     if (baseType.equals(valType)) {
       array[index] = val;
+    } else if (baseType instanceof RecordType recordType
+        && val instanceof RecordValue recordValue) {
+      array[index] = RecordValue.coerceTo(recordType, recordValue);
     } else if (baseType.equals(TypeSpec.STRING)) {
       array[index] = val.toStringValue();
     } else if (baseType.equals(TypeSpec.INT) && valType.equals(TypeSpec.FLOAT)) {
