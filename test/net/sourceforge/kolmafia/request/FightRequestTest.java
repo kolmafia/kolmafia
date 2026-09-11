@@ -566,10 +566,24 @@ public class FightRequestTest {
   }
 
   @Test
+  public void luckyGoldRingFunFundsDropRecorded() {
+    assertEquals(0, Preferences.getInteger("_luckyGoldRingFunFunds"));
+    parseCombatData("request/test_fight_lovebug_beach_buck.html");
+    assertEquals(1, Preferences.getInteger("_luckyGoldRingFunFunds"));
+  }
+
+  @Test
+  public void luckyGoldRingRubeeDropRecorded() {
+    assertEquals(0, Preferences.getInteger("_luckyGoldRingRubee"));
+    parseCombatData("request/test_fight_feel_superior_pvp.html");
+    assertEquals(1, Preferences.getInteger("_luckyGoldRingRubee"));
+  }
+
+  @Test
   public void luckyGoldRingVolcoinoDropRecorded() {
-    assertFalse(Preferences.getBoolean("_luckyGoldRingVolcoino"));
+    assertEquals(0, Preferences.getInteger("_luckyGoldRingVolcoino"));
     parseCombatData("request/test_fight_lucky_gold_ring_volcoino.html");
-    assertTrue(Preferences.getBoolean("_luckyGoldRingVolcoino"));
+    assertEquals(1, Preferences.getInteger("_luckyGoldRingVolcoino"));
   }
 
   @Nested
