@@ -104,22 +104,22 @@ public class PantogramRequest extends GenericRequest {
         modList.addModifier("Item Drop", "+30");
         ResultProcessor.processResult(ItemPool.get(ItemPool.TINY_DANCER, -1));
       } else if (slot2.startsWith("747")) {
-        modList.addModifier("Experience (Muscle)", "+3");
+        modList.addModifier("Muscle Experience", "+3");
         ResultProcessor.processResult(ItemPool.get(ItemPool.KNOB_FIRECRACKER, -3));
       } else if (slot2.startsWith("559")) {
-        modList.addModifier("Experience (Mysticality)", "+3");
+        modList.addModifier("Mysticality Experience", "+3");
         ResultProcessor.processResult(ItemPool.get(ItemPool.CAN_LID, -3));
       } else if (slot2.startsWith("27")) {
-        modList.addModifier("Experience (Moxie)", "+3");
+        modList.addModifier("Moxie Experience", "+3");
         ResultProcessor.processResult(ItemPool.get(ItemPool.SPIDER_WEB, -3));
       } else if (slot2.startsWith("7327")) {
-        modList.addModifier("Experience Percent (Muscle)", "+25");
+        modList.addModifier("Muscle Experience Percent", "+25");
         ResultProcessor.processResult(ItemPool.get(ItemPool.SYNTHETIC_MARROW, -5));
       } else if (slot2.startsWith("7324")) {
-        modList.addModifier("Experience Percent (Mysticality)", "+25");
+        modList.addModifier("Mysticality Experience Percent", "+25");
         ResultProcessor.processResult(ItemPool.get(ItemPool.HAUNTED_BATTERY, -5));
       } else if (slot2.startsWith("7330")) {
-        modList.addModifier("Experience Percent (Moxie)", "+25");
+        modList.addModifier("Moxie Experience Percent", "+25");
         ResultProcessor.processResult(ItemPool.get(ItemPool.FUNK, -5));
       }
 

@@ -63,10 +63,9 @@ public enum BooleanModifier implements Modifier {
       new Pattern[] {Pattern.compile("Regular Attacks Can't Miss"), Pattern.compile("Cannot miss")},
       Pattern.compile("Attacks Can't Miss")),
   LOOK_LIKE_A_PIRATE(
-      "Pirate",
+      "Look like a Pirate",
       Pattern.compile("Look like a Pirate"),
-      Pattern.compile("Look like a Pirate"),
-      "Look like a Pirate"),
+      Pattern.compile("Look like a Pirate")),
   BLIND("Blind", Pattern.compile("Blind")),
   BREAKABLE("Breakable", Pattern.compile("Breakable")),
   DROPS_ITEMS("Drops Items", Pattern.compile("Drops Items")),
@@ -117,29 +116,19 @@ public enum BooleanModifier implements Modifier {
   private final String name;
   private final Pattern[] descPatterns;
   private final Pattern tagPattern;
-  private final String tag;
 
   BooleanModifier(String name, Pattern tagPattern) {
-    this(name, (Pattern[]) null, tagPattern, name);
+    this(name, (Pattern[]) null, tagPattern);
   }
 
   BooleanModifier(String name, Pattern descPattern, Pattern tagPattern) {
-    this(name, new Pattern[] {descPattern}, tagPattern, name);
-  }
-
-  BooleanModifier(String name, Pattern descPattern, Pattern tagPattern, String tag) {
-    this(name, new Pattern[] {descPattern}, tagPattern, tag);
+    this(name, new Pattern[] {descPattern}, tagPattern);
   }
 
   BooleanModifier(String name, Pattern[] descPattern, Pattern tagPattern) {
-    this(name, descPattern, tagPattern, name);
-  }
-
-  BooleanModifier(String name, Pattern[] descPattern, Pattern tagPattern, String tag) {
     this.name = name;
     this.descPatterns = descPattern;
     this.tagPattern = tagPattern;
-    this.tag = tag;
   }
 
   @Override
@@ -159,7 +148,7 @@ public enum BooleanModifier implements Modifier {
 
   @Override
   public String getTag() {
-    return tag;
+    return name;
   }
 
   @Override
@@ -201,7 +190,11 @@ public enum BooleanModifier implements Modifier {
 
   // equivalent to `Modifiers.findName`
   public static BooleanModifier byCaselessName(String name) {
-    return caselessNameToModifier.get(name.toLowerCase());
+    String key = name.toLowerCase();
+    if (key.equals("pirate")) {
+      return LOOK_LIKE_A_PIRATE;
+    }
+    return caselessNameToModifier.get(key);
   }
 
   // equivalent to `Modifiers.findModifier`

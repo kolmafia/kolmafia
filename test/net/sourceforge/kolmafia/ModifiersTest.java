@@ -1025,7 +1025,7 @@ public class ModifiersTest {
         LatteRequest.setLatteEnchantments(mods);
 
         String expected =
-            "Familiar Weight: 5, Meat Drop: 40, Experience (Moxie): 1, Moxie Percent: 5, Pickpocket Chance: 5";
+            "Familiar Weight: 5, Meat Drop: 40, Moxie Experience: 1, Moxie Percent: 5, Pickpocket Chance: 5";
         assertEquals(expected, Preferences.getString("latteModifier"));
 
         // Modifiers set "override" modifiers for the latte mug
@@ -1060,7 +1060,7 @@ public class ModifiersTest {
 
     @Test
     void canEvaluateExperienceModifiers() {
-      String setting = "Meat Drop: +30, Experience (familiar): +2, Experience (Muscle): +4";
+      String setting = "Meat Drop: +30, Familiar Experience: +2, Muscle Experience: +4";
       Lookup lookup = new Lookup(ModifierType.LOCAL_VOTE, "");
 
       Modifiers mods = ModifierDatabase.parseModifiers(lookup, setting);
