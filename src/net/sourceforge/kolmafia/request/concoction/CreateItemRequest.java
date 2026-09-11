@@ -695,6 +695,13 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
         Preferences.increment("_elfGuardCookingUsed", created - turnsSaved, 3, false);
         turnsSaved += elfGuardTurnsSaved;
       }
+      if (craftSection.contains("Cooking with your legendary pasta wand is really fast!")) {
+        int pastaWandTurnsSaved =
+            Math.min(
+                5 - Preferences.getInteger("_legendaryPastaWandCrafting"), created - turnsSaved);
+        Preferences.increment("_legendaryPastaWandCrafting", created - turnsSaved, 5, false);
+        turnsSaved += pastaWandTurnsSaved;
+      }
       if (craftSection.contains("That old-school cocktail training has made you fast!")) {
         int oldSchoolTurnsSaved =
             Math.min(

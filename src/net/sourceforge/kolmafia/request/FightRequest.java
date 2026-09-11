@@ -4467,6 +4467,11 @@ public class FightRequest extends GenericRequest {
     // Handle autumnaton checking (this happens whether the fight is won or lost)
     AutumnatonManager.parseFight(responseText);
 
+    if (responseText.contains("Your soybean futures finally pay off")) {
+      FightRequest.logText("Your soybean futures finally pay off");
+      Preferences.setInteger("soybeanFuturesEaten", 0);
+    }
+
     // No messages for either of these
     Preferences.decrement("legendaryNoodlesAmygdala");
     Preferences.decrement("legendaryNoodlesSkin");
@@ -7950,7 +7955,7 @@ public class FightRequest extends GenericRequest {
     if (RingMatcher.find()) {
       switch (RingMatcher.group(1)) {
         case "Beach Buck" -> Preferences.increment("_luckyGoldRingBeachBuck");
-        case "bits" -> Preferences.increment("_luckyGoldRingBit");
+        case "bit" -> Preferences.increment("_luckyGoldRingBit");
         case "Coinspiracy" -> Preferences.increment("_luckyGoldRingCoinspiracy");
         case "Freddy Kruegerand" -> Preferences.increment("_luckyGoldRingFreddy");
         case "FunFunds™" -> Preferences.increment("_luckyGoldRingFunFunds");
