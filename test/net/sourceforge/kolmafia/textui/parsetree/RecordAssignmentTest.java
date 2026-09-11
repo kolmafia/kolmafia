@@ -44,6 +44,19 @@ public class RecordAssignmentTest {
   // Same fields, matching name and order.
 
   @Test
+  void storeRecordSameType() {
+    String output =
+        runAsh(
+            """
+        record f {string file; string name; int line;};
+        f source = new f('a','b',3);
+        f dest = source;
+        print(dest.name + dest.line + ';done');
+        """);
+    assertThat(output, containsString("b3;done"));
+  }
+
+  @Test
   void storeRecordSameFieldsSameName() {
     String output =
         runAsh(
@@ -215,10 +228,10 @@ public class RecordAssignmentTest {
     String output =
         runAsh(
             """
-            record f {int item;};
-            record {float item;} dest = new f(3);
-            print(dest.item + ';done');
-            """);
+        record f {int item;};
+        record {float item;} dest = new f(3);
+        print(dest.item + ';done');
+        """);
     assertThat(output, containsString("3.0;done"));
   }
 
@@ -227,10 +240,64 @@ public class RecordAssignmentTest {
     String output =
         runAsh(
             """
-            record f {int item;};
-            record {string item;} dest = new f(3);
-            print(dest.item + ';done');
-            """);
+        record f {int item;};
+        record {string item;} dest = new f(3);
+        print(dest.item + ';done');
+        """);
     assertThat(output, containsString("3;done"));
+  }
+
+  // Records containing records work if the contained record is a subset
+
+  @Test
+  void storeRecordContainingRecord() {
+    String output =
+        runAsh(
+            """
+          record d {string name; string otherstuff;};
+          record e {string name;};
+          record f {d innerrec;};
+          record g {e innerrec;};
+          f source = new f(new d('a', 'b'));
+          g dest = source;
+          print(dest.innerrec.name + ';done');
+          """);
+    assertThat(output, containsString("a;done"));
+  }
+
+  // Arrays and maps can contain records as expected
+
+  @Test
+  void storeRecordInArray() {
+    String output =
+        runAsh(
+            """
+          record f {string name; string otherstuff;};
+          record g {string name;};
+          g[2] garray;
+          f source = new f('a', 'b');
+          g dest = new g('a');
+          garray[0] = source;
+          garray[1] = dest;
+          print(garray[0].name + ';done');
+          """);
+    assertThat(output, containsString("a;done"));
+  }
+
+  @Test
+  void storeRecordInMap() {
+    String output =
+        runAsh(
+            """
+          record f {string name; string otherstuff;};
+          record g {string name;};
+          g[int] gmap;
+          f source = new f('a', 'b');
+          g dest = new g('a');
+          gmap[0] = source;
+          gmap[1] = dest;
+          print(gmap[0].name + ';done');
+          """);
+    assertThat(output, containsString("a;done"));
   }
 }
