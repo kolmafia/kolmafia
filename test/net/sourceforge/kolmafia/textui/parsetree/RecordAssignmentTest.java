@@ -47,9 +47,11 @@ public class RecordAssignmentTest {
   void storeRecordSameFieldsSameName() {
     String output =
         runAsh(
-            "record f {string file; string name; int line;};\n"
-                + "record {string file; string name; int line;} dest = new f('a','b',3);\n"
-                + "print(dest.name + dest.line + ';done');\n");
+            """
+            record f {string file; string name; int line;};
+            record {string file; string name; int line;} dest = new f('a','b',3);
+            print(dest.name + dest.line + ';done');
+            """);
     assertThat(output, containsString("b3;done"));
   }
 
@@ -57,11 +59,13 @@ public class RecordAssignmentTest {
   void storeRecordSameFieldsDifferentName() {
     String output =
         runAsh(
-            "record f {string file; string name; int line;};\n"
-                + "record g {string file; string name; int line;};\n"
-                + "f source = new f('a','b',3);\n"
-                + "g dest = source;\n"
-                + "print(dest.name + dest.line + ';done');\n");
+            """
+            record f {string file; string name; int line;};
+            record g {string file; string name; int line;};
+            f source = new f('a','b',3);
+            g dest = source;
+            print(dest.name + dest.line + ';done');
+            """);
     assertThat(output, containsString("b3;done"));
   }
 
@@ -69,8 +73,10 @@ public class RecordAssignmentTest {
   void storeRecordSameFieldsFromFunction() {
     String output =
         runAsh(
-            "record {string file; string name; int line;} dest = get_stack_trace()[0];\n"
-                + "print('done');\n");
+            """
+            record {string file; string name; int line;} dest = get_stack_trace()[0];
+            print('done');
+            """);
     assertThat(output, containsString("done"));
   }
 
@@ -80,11 +86,13 @@ public class RecordAssignmentTest {
   void storeRecordFewerFields() {
     String output =
         runAsh(
-            "record f {string file; string name; int line;};\n"
-                + "record g {string name; int line;};\n"
-                + "f source = new f('a','b',3);\n"
-                + "g dest = source;\n"
-                + "print(dest.name + dest.line + ';done');\n");
+            """
+            record f {string file; string name; int line;};
+            record g {string name; int line;};
+            f source = new f('a','b',3);
+            g dest = source;
+            print(dest.name + dest.line + ';done');
+            """);
     assertThat(output, containsString("b3;done"));
   }
 
@@ -92,11 +100,13 @@ public class RecordAssignmentTest {
   void storeRecordFewerFieldsRearranged() {
     String output =
         runAsh(
-            "record f {string file; string name; int line; boolean george;};\n"
-                + "record g {string name; boolean george; int line;};\n"
-                + "f source = new f('a','b',3,true);\n"
-                + "g dest = source;\n"
-                + "print(dest.name + dest.line + dest.george + ';done');\n");
+            """
+            record f {string file; string name; int line; boolean george;};
+            record g {string name; boolean george; int line;};
+            f source = new f('a','b',3,true);
+            g dest = source;
+            print(dest.name + dest.line + dest.george + ';done');
+            """);
     assertThat(output, containsString("b3true;done"));
   }
 
@@ -104,7 +114,10 @@ public class RecordAssignmentTest {
   void storeRecordFewerFieldsFromFunction() {
     String output =
         runAsh(
-            "record {string name; int line;} dest = get_stack_trace()[0];\n" + "print('done');\n");
+            """
+            record {string name; int line;} dest = get_stack_trace()[0];
+            print('done');
+            """);
     assertThat(output, containsString("done"));
   }
 
@@ -112,11 +125,13 @@ public class RecordAssignmentTest {
   void storeRecordSingleField() {
     String output =
         runAsh(
-            "record f {string file; string name; int line;};\n"
-                + "record g {int line;};\n"
-                + "f source = new f('a','b',77);\n"
-                + "g dest = source;\n"
-                + "print(dest.line + ';done');\n");
+            """
+            record f {string file; string name; int line;};
+            record g {int line;};
+            f source = new f('a','b',77);
+            g dest = source;
+            print(dest.line + ';done');
+            """);
     assertThat(output, containsString("77;done"));
   }
 
@@ -124,12 +139,14 @@ public class RecordAssignmentTest {
   void storeRecordFewerFieldsPlainAssignment() {
     String output =
         runAsh(
-            "record f {string file; string name; int line;};\n"
-                + "record g {string name; int line;};\n"
-                + "f source = new f('a','b',3);\n"
-                + "g dest;\n"
-                + "dest = source;\n"
-                + "print(dest.name + dest.line + ';done');\n");
+            """
+            record f {string file; string name; int line;};
+            record g {string name; int line;};
+            f source = new f('a','b',3);
+            g dest;
+            dest = source;
+            print(dest.name + dest.line + ';done');
+            """);
     assertThat(output, containsString("b3;done"));
   }
 
@@ -139,11 +156,13 @@ public class RecordAssignmentTest {
   void storeRecordSameFieldsDifferentOrder() {
     String output =
         runAsh(
-            "record f {string file; string name; int line;};\n"
-                + "record g {string name; int line; string file;};\n"
-                + "f source = new f('a','b',3);\n"
-                + "g dest = source;\n"
-                + "print(dest.name + dest.line + dest.file + ';done');\n");
+            """
+            record f {string file; string name; int line;};
+            record g {string name; int line; string file;};
+            f source = new f('a','b',3);
+            g dest = source;
+            print(dest.name + dest.line + dest.file + ';done');
+            """);
     assertThat(output, containsString("b3a;done"));
   }
 
@@ -153,11 +172,13 @@ public class RecordAssignmentTest {
   void storeRecordExtraFieldsDestinationFails() {
     String output =
         runAsh(
-            "record f {string name;};\n"
-                + "record g {string name; int line;};\n"
-                + "f source = new f('a');\n"
-                + "g dest = source;\n"
-                + "print('FAIL');\n");
+            """
+            record f {string name;};
+            record g {string name; int line;};
+            f source = new f('a');
+            g dest = source;
+            print('FAIL');
+            """);
     assertThat(output, containsString("Cannot store"));
   }
 
@@ -165,11 +186,13 @@ public class RecordAssignmentTest {
   void storeRecordIncompatibleFieldTypeFails() {
     String output =
         runAsh(
-            "record f {string name;};\n"
-                + "record g {int name;};\n"
-                + "f source = new f('a');\n"
-                + "g dest = source;\n"
-                + "print('FAIL');\n");
+            """
+            record f {string name;};
+            record g {int name;};
+            f source = new f('a');
+            g dest = source;
+            print('FAIL');
+            """);
     assertThat(output, containsString("Cannot store"));
   }
 
@@ -179,9 +202,11 @@ public class RecordAssignmentTest {
   void storeRecordCoerceFloatToInt() {
     String output =
         runAsh(
-            "record f {float item;};\n"
-                + "record {int item;} dest = new f(3.0);\n"
-                + "print(dest.item + ';done');\n");
+            """
+            record f {float item;};
+            record {int item;} dest = new f(3.0);
+            print(dest.item + ';done');
+            """);
     assertThat(output, containsString("3;done"));
   }
 
@@ -189,9 +214,11 @@ public class RecordAssignmentTest {
   void storeRecordCoerceIntToFloat() {
     String output =
         runAsh(
-            "record f {int item;};\n"
-                + "record {float item;} dest = new f(3);\n"
-                + "print(dest.item + ';done');\n");
+            """
+            record f {int item;};
+            record {float item;} dest = new f(3);
+            print(dest.item + ';done');
+            """);
     assertThat(output, containsString("3.0;done"));
   }
 
@@ -199,9 +226,11 @@ public class RecordAssignmentTest {
   void storeRecordCoerceIntToString() {
     String output =
         runAsh(
-            "record f {int item;};\n"
-                + "record {string item;} dest = new f(3);\n"
-                + "print(dest.item + ';done');\n");
+            """
+            record f {int item;};
+            record {string item;} dest = new f(3);
+            print(dest.item + ';done');
+            """);
     assertThat(output, containsString("3;done"));
   }
 }
