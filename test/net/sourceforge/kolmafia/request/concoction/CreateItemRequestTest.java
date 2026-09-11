@@ -128,6 +128,19 @@ public class CreateItemRequestTest {
     }
   }
 
+  @Test
+  public void recognisesLegendaryPastaWand() {
+    var cleanups = Player.withProperty("_legendaryPastaWandCrafting");
+
+    try (cleanups) {
+      CreateItemRequest.parseCrafting(
+          "craft.php?action=craft&qty=1&mode=cook&target=582&ajax=1",
+          html("request/test_create_pasta_wand.html"));
+
+      assertThat("_legendaryPastaWandCrafting", isSetTo(1));
+    }
+  }
+
   @Nested
   class NiceWarmBeer {
     @Test

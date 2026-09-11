@@ -2487,6 +2487,7 @@ user	_leavesJumped	false
 user	_legendaryBeat	false
 user	_legendaryLasagmbieMana	0
 user	_legendaryNoodlesSpleen	false
+user	_legendaryPastaWandCrafting	0
 user	_legendaryPastaWaveCast	false
 user	_legendarySpiceGhostFood	false
 user	_legendaryVermincelliFreeRats	0
