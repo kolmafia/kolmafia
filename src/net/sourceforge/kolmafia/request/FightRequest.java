@@ -7955,7 +7955,7 @@ public class FightRequest extends GenericRequest {
     if (RingMatcher.find()) {
       switch (RingMatcher.group(1)) {
         case "Beach Buck" -> Preferences.increment("_luckyGoldRingBeachBuck");
-        case "bits" -> Preferences.increment("_luckyGoldRingBit");
+        case "bit" -> Preferences.increment("_luckyGoldRingBit");
         case "Coinspiracy" -> Preferences.increment("_luckyGoldRingCoinspiracy");
         case "Freddy Kruegerand" -> Preferences.increment("_luckyGoldRingFreddy");
         case "FunFunds™" -> Preferences.increment("_luckyGoldRingFunFunds");
