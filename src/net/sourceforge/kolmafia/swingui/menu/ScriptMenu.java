@@ -34,15 +34,32 @@ public class ScriptMenu extends JMenu implements Listener {
     SwingUtilities.invokeLater(this::init);
   }
 
+  public void refresh() {
+    GenericFrame.compileScripts();
+    if (this.getParent() instanceof GlobalMenuBar) {
+      SwingUtilities.invokeLater(this::finishRefresh);
+    } else {
+      SwingUtilities.invokeLater(this::init);
+    }
+  }
+
+  private void finishRefresh() {
+    ((GlobalMenuBar) this.getParent()).rebuildScriptMenu();
+  }
+
   protected void init() {
     boolean useMRUList = Preferences.getInteger("scriptMRULength") > 0;
     boolean useCascadingMenus = Preferences.getBoolean("scriptCascadingMenus");
 
     removeAll();
 
+    int headers = 2;
+    if (!useMRUList) {
+      add(new InvocationMenuItem("Refresh menu", this, "refresh"));
+      headers++;
+    }
     add(new DisplayFrameMenuItem("Script Manager", "ScriptManageFrame"));
     add(new LoadScriptMenuItem());
-    int headers = 2;
 
     if (!useMRUList && !useCascadingMenus) {
       return;
@@ -55,10 +72,6 @@ public class ScriptMenu extends JMenu implements Listener {
       return;
     }
 
-    if (!useMRUList) {
-      add(new InvocationMenuItem("Refresh menu", this, "update"));
-      headers++;
-    }
     JMenuItem shiftToEditMenuItem = new JMenuItem("(Shift key to edit)");
     shiftToEditMenuItem.setEnabled(false);
     add(shiftToEditMenuItem);
