@@ -53,11 +53,8 @@ public class ScriptMenu extends JMenu implements Listener {
 
     removeAll();
 
-    int headers = 2;
-    if (!useMRUList) {
-      add(new InvocationMenuItem("Refresh menu", this, "refresh"));
-      headers++;
-    }
+    int headers = 3;
+    add(new InvocationMenuItem("Refresh menu", this, "refresh"));
     add(new DisplayFrameMenuItem("Script Manager", "ScriptManageFrame"));
     add(new LoadScriptMenuItem());
 
