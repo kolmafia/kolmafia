@@ -4725,4 +4725,58 @@ public class FightRequestTest {
       assertThat("soybeanFuturesEaten", isSetTo(0));
     }
   }
+
+  @Nested
+  class AugustScepter {
+    @Test
+    void handlesWaterBalloonToss() {
+      RequestLoggerOutput.startStream();
+      var cleanups =
+          new Cleanups(
+              withFight(),
+              withProperty("_waterBalloonHeldByEnemy", false),
+              withProperty("_waterBalloonTossStreak", 11));
+
+      try (cleanups) {
+        parseCombatData(
+            "request/test_fight_waterballoon_tossed.html",
+            "fight.php?action=useitem&whichitem=11309&whichitem2=0");
+        var text = RequestLoggerOutput.stopStream();
+        assertThat(text, containsString("You tossed a water balloon."));
+        assertThat("_waterBalloonHeldByEnemy", isSetTo(true));
+        assertThat("_waterBalloonTossStreak", isSetTo(12));
+      }
+    }
+
+    @Test
+    void handlesWaterBalloonReturn() {
+      RequestLoggerOutput.startStream();
+      var cleanups =
+          new Cleanups(
+              withFight(),
+              withProperty("_waterBalloonHeldByEnemy", true),
+              withProperty("_waterBalloonTossStreak", 11));
+
+      try (cleanups) {
+        parseCombatData("request/test_fight_waterballoon_returned.html");
+        var text = RequestLoggerOutput.stopStream();
+        assertThat(text, containsString("Your opponent returned your water balloon."));
+        assertThat("_waterBalloonHeldByEnemy", isSetTo(false));
+        assertThat("_waterBalloonTossStreak", isSetTo(12));
+      }
+    }
+
+    @Test
+    void handlesWaterBalloonDrop() {
+      RequestLoggerOutput.startStream();
+      var cleanups = new Cleanups(withFight(), withProperty("_waterBalloonTossStreak", 11));
+
+      try (cleanups) {
+        parseCombatData("request/test_fight_waterballoon_dropped.html");
+        var text = RequestLoggerOutput.stopStream();
+        assertThat(text, containsString("Your opponent dropped the water balloon."));
+        assertThat("_waterBalloonTossStreak", isSetTo(0));
+      }
+    }
+  }
 }
