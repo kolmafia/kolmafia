@@ -944,9 +944,18 @@ public class Modifiers {
     return switch (lookup.type) {
       case ITEM -> overrideItem(lookup.getIntKey());
       case THRONE -> overrideThrone(lookup);
+      case GENERATED -> overrideGenerated(lookup);
       case LOC, ZONE -> true;
       default -> false;
     };
+  }
+
+  private boolean overrideGenerated(final Lookup lookup) {
+    if (ROLLOVER.equalsIgnoreCase(lookup.getName())) {
+      this.setDouble(DoubleModifier.ADVENTURES, KoLCharacter.rolloverAdventuresGranted());
+      return true;
+    }
+    return false;
   }
 
   public static synchronized void availableSkillsChanged() {
@@ -1078,26 +1087,27 @@ public class Modifiers {
     }
   }
 
+  public final void applyRolloverModifiers() {
+    this.add(ModifierDatabase.getModifiers(ModifierType.GENERATED, ROLLOVER));
+  }
+
   public final void applyRolloverPvpFightModifiers() {
-    this.addDouble(DoubleModifier.PVP_FIGHTS, 10, ModifierType.GENERATED, ROLLOVER);
+    this.applyRolloverModifiers();
+  }
+
+  public final void applyBaseModifiers() {
+    this.add(ModifierDatabase.getModifiers(ModifierType.GENERATED, "Base"));
   }
 
   public final void applyBaseFamiliarExperienceModifiers() {
-    this.addDouble(DoubleModifier.FAMILIAR_EXP, 1, ModifierType.GENERATED, "Base");
+    this.applyBaseModifiers();
   }
 
   public final void applyBaseCriticalModifiers() {
-    this.addDouble(DoubleModifier.CRITICAL_PCT, 9, ModifierType.GENERATED, "Base");
-    this.addDouble(DoubleModifier.SPELL_CRITICAL_PCT, 9, ModifierType.GENERATED, "Base");
+    // Included in applyBaseModifiers()
   }
 
   public final void applyAdditionalRolloverAdventureModifiers() {
-    this.addDouble(
-        DoubleModifier.ADVENTURES,
-        KoLCharacter.rolloverAdventuresGranted(),
-        ModifierType.GENERATED,
-        ROLLOVER);
-
     var resolutionAdv = Preferences.getInteger("_resolutionAdv");
     if (resolutionAdv > 0) {
       this.addDouble(

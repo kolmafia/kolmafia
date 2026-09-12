@@ -10835,6 +10835,9 @@ public abstract class RuntimeLibrary {
       ModifierType modifierType = ModifierType.fromString(name.substring(0, name.indexOf(":")));
       if (modifierType != null) return modifierType;
     }
+    if (name.equalsIgnoreCase("Base") || name.equalsIgnoreCase("Rollover")) {
+      return ModifierType.GENERATED;
+    }
     return ModifierType.ITEM;
   }
 
@@ -10849,7 +10852,13 @@ public abstract class RuntimeLibrary {
     }
     int index = name.indexOf(":");
     if (index != -1) {
-      return name.substring(index + 1);
+      name = name.substring(index + 1);
+    }
+    if (name.equalsIgnoreCase("Base")) {
+      return "Base";
+    }
+    if (name.equalsIgnoreCase("Rollover")) {
+      return "Rollover";
     }
     return name;
   }

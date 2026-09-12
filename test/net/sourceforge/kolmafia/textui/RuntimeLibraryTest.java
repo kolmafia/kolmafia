@@ -1224,6 +1224,67 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     }
 
     @Test
+    void canGetNumericModifierForGeneratedBase() {
+      assertThat(
+          execute("numeric_modifier(\"Generated:Base\", \"Familiar Experience\")"),
+          is("Returned: 1.0\n"));
+      assertThat(
+          execute("numeric_modifier(\"Generated:Base\", \"Critical Hit Percent\")"),
+          is("Returned: 9.0\n"));
+      assertThat(
+          execute("numeric_modifier(\"Generated:Base\", \"Spell Critical Percent\")"),
+          is("Returned: 9.0\n"));
+      assertThat(
+          execute("numeric_modifier(\"Generated:Base\", $modifier[Familiar Experience])"),
+          is("Returned: 1.0\n"));
+    }
+
+    @Test
+    void canGetNumericModifierForShortBase() {
+      assertThat(
+          execute("numeric_modifier(\"Base\", \"Familiar Experience\")"), is("Returned: 1.0\n"));
+      assertThat(
+          execute("numeric_modifier(\"base\", \"Critical Hit Percent\")"), is("Returned: 9.0\n"));
+    }
+
+    @Test
+    void canGetNumericModifierForGeneratedRollover() {
+      assertThat(
+          execute("numeric_modifier(\"Generated:Rollover\", \"Adventures\")"),
+          is("Returned: 40.0\n"));
+      assertThat(
+          execute("numeric_modifier(\"Generated:Rollover\", \"PvP Fights\")"),
+          is("Returned: 10.0\n"));
+      assertThat(
+          execute("numeric_modifier(\"Generated:Rollover\", $modifier[Adventures])"),
+          is("Returned: 40.0\n"));
+    }
+
+    @Test
+    void canGetNumericModifierForShortRollover() {
+      assertThat(execute("numeric_modifier(\"Rollover\", \"Adventures\")"), is("Returned: 40.0\n"));
+      assertThat(execute("numeric_modifier(\"rollover\", \"PvP Fights\")"), is("Returned: 10.0\n"));
+    }
+
+    @Test
+    void generatedRolloverReflectsCurrentPath() {
+      try (var cleanups = withPath(Path.YOU_ROBOT)) {
+        assertThat(
+            execute("numeric_modifier(\"Generated:Rollover\", \"Adventures\")"),
+            is("Returned: 0.0\n"));
+        assertThat(
+            execute("numeric_modifier(\"Generated:Rollover\", \"PvP Fights\")"),
+            is("Returned: 10.0\n"));
+      }
+
+      try (var cleanups = withPath(Path.SLOW_AND_STEADY)) {
+        assertThat(
+            execute("numeric_modifier(\"Generated:Rollover\", \"Adventures\")"),
+            is("Returned: 100.0\n"));
+      }
+    }
+
+    @Test
     void canCallBooleanWithModifier() {
       String input = "boolean_modifier($item[Brimstone Beret], $modifier[Four Songs])";
       String output = execute(input);

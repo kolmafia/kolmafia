@@ -440,7 +440,16 @@ public class ModifierDatabase {
   }
 
   public static String getModifierString(final Lookup lookup) {
-    return modifierStringsByName.get(lookup.type, lookup.getKey());
+    ModifierType type = lookup.type;
+    IntOrString key = lookup.getKey();
+    if (type == ModifierType.GENERATED && key.isString()) {
+      if ("base".equalsIgnoreCase(key.getStringValue())) {
+        key = new IntOrString("Base");
+      } else if ("rollover".equalsIgnoreCase(key.getStringValue())) {
+        key = new IntOrString("Rollover");
+      }
+    }
+    return modifierStringsByName.get(type, key);
   }
 
   public static final Modifiers getModifiers(final ModifierType type, final int id) {
@@ -458,6 +467,13 @@ public class ModifierDatabase {
     if (type == ModifierType.BJORN) {
       originalType = type;
       type = ModifierType.THRONE;
+    }
+    if (type == ModifierType.GENERATED && key.isString()) {
+      if ("base".equalsIgnoreCase(key.getStringValue())) {
+        key = new IntOrString("Base");
+      } else if ("rollover".equalsIgnoreCase(key.getStringValue())) {
+        key = new IntOrString("Rollover");
+      }
     }
 
     Modifiers modifiers = modifiersByName.get(type, key);

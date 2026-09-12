@@ -5553,14 +5553,14 @@ public abstract class KoLCharacter {
       newModifiers.applyCompanionModifiers(VYKEACompanionData.currentCompanion());
     }
 
+    // add rollover modifiers (adventures and PvP fights)
+    newModifiers.applyRolloverModifiers();
+
     // add additional rollover adventures
     newModifiers.applyAdditionalRolloverAdventureModifiers();
 
-    // add rollover PvP fights
-    newModifiers.applyRolloverPvpFightModifiers();
-
-    newModifiers.applyBaseFamiliarExperienceModifiers();
-    newModifiers.applyBaseCriticalModifiers();
+    // add base modifiers (familiar experience and critical hits)
+    newModifiers.applyBaseModifiers();
 
     // Organ capacity
     newModifiers.applyAdditionalStomachCapacityModifiers();
