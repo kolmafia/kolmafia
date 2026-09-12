@@ -243,6 +243,8 @@ import net.sourceforge.kolmafia.textui.parsetree.MapValue;
 import net.sourceforge.kolmafia.textui.parsetree.RecordType;
 import net.sourceforge.kolmafia.textui.parsetree.RecordValue;
 import net.sourceforge.kolmafia.textui.parsetree.Type;
+import net.sourceforge.kolmafia.textui.parsetree.TypeDef;
+import net.sourceforge.kolmafia.textui.parsetree.TypeList;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
 import net.sourceforge.kolmafia.textui.parsetree.Variable;
 import net.sourceforge.kolmafia.textui.parsetree.VariableReference;
@@ -266,6 +268,24 @@ import org.tmatesoft.svn.core.wc.SVNWCUtil;
 
 @SuppressWarnings({"incomplete-switch", "unused"})
 public abstract class RuntimeLibrary {
+  public static final TypeList simpleTypesWithNamedRecords = new TypeList();
+
+  static {
+    simpleTypesWithNamedRecords.addAll(DataTypes.simpleTypes);
+  }
+
+  private static RecordType registerNamedRecord(RecordType type) {
+    String typeName = type.getName();
+    String name = type.getName();
+    int idx = name.indexOf("=");
+    if (idx > 0) {
+      name = name.substring(0, idx).trim();
+    }
+    Type typedef = new TypeDef(name, type, null);
+    simpleTypesWithNamedRecords.add(typedef);
+    return type;
+  }
+
   private static final RecordType itemDropRec =
       new RecordType(
           "{item drop; float rate; string type;}",
@@ -326,19 +346,20 @@ public abstract class RuntimeLibrary {
           });
 
   private static final RecordType pingTestRec =
-      new RecordType(
-          "{string page; int count; int low; int high; int total; int bytes; int average; int bps;}",
-          new String[] {"page", "count", "low", "high", "total", "bytes", "average", "bps"},
-          new Type[] {
-            DataTypes.STRING_TYPE,
-            DataTypes.INT_TYPE,
-            DataTypes.INT_TYPE,
-            DataTypes.INT_TYPE,
-            DataTypes.INT_TYPE,
-            DataTypes.INT_TYPE,
-            DataTypes.INT_TYPE,
-            DataTypes.INT_TYPE
-          });
+      registerNamedRecord(
+          new RecordType(
+              "km_ping_result={string page; int count; int low; int high; int total; int bytes; int average; int bps;}",
+              new String[] {"page", "count", "low", "high", "total", "bytes", "average", "bps"},
+              new Type[] {
+                DataTypes.STRING_TYPE,
+                DataTypes.INT_TYPE,
+                DataTypes.INT_TYPE,
+                DataTypes.INT_TYPE,
+                DataTypes.INT_TYPE,
+                DataTypes.INT_TYPE,
+                DataTypes.INT_TYPE,
+                DataTypes.INT_TYPE
+              }));
 
   private static final RecordType stackTraceRec =
       new RecordType(
