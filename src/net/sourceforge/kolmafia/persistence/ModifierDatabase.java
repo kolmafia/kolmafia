@@ -443,10 +443,15 @@ public class ModifierDatabase {
     ModifierType type = lookup.type;
     IntOrString key = lookup.getKey();
     if (type == ModifierType.GENERATED && key.isString()) {
-      if ("base".equalsIgnoreCase(key.getStringValue())) {
-        key = new IntOrString("Base");
-      } else if ("rollover".equalsIgnoreCase(key.getStringValue())) {
-        key = new IntOrString("Rollover");
+      var map = modifierStringsByName.getAll(type);
+      if (map != null) {
+        for (var entryKey : map.keySet()) {
+          if (entryKey.isString()
+              && entryKey.getStringValue().equalsIgnoreCase(key.getStringValue())) {
+            key = entryKey;
+            break;
+          }
+        }
       }
     }
     return modifierStringsByName.get(type, key);
@@ -469,10 +474,15 @@ public class ModifierDatabase {
       type = ModifierType.THRONE;
     }
     if (type == ModifierType.GENERATED && key.isString()) {
-      if ("base".equalsIgnoreCase(key.getStringValue())) {
-        key = new IntOrString("Base");
-      } else if ("rollover".equalsIgnoreCase(key.getStringValue())) {
-        key = new IntOrString("Rollover");
+      var map = modifierStringsByName.getAll(type);
+      if (map != null) {
+        for (var entryKey : map.keySet()) {
+          if (entryKey.isString()
+              && entryKey.getStringValue().equalsIgnoreCase(key.getStringValue())) {
+            key = entryKey;
+            break;
+          }
+        }
       }
     }
 

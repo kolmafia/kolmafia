@@ -1091,20 +1091,8 @@ public class Modifiers {
     this.add(ModifierDatabase.getModifiers(ModifierType.GENERATED, ROLLOVER));
   }
 
-  public final void applyRolloverPvpFightModifiers() {
-    this.applyRolloverModifiers();
-  }
-
   public final void applyBaseModifiers() {
     this.add(ModifierDatabase.getModifiers(ModifierType.GENERATED, "Base"));
-  }
-
-  public final void applyBaseFamiliarExperienceModifiers() {
-    this.applyBaseModifiers();
-  }
-
-  public final void applyBaseCriticalModifiers() {
-    // Included in applyBaseModifiers()
   }
 
   public final void applyAdditionalRolloverAdventureModifiers() {
