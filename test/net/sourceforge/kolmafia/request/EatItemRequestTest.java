@@ -367,4 +367,18 @@ class EatItemRequestTest {
       assertThat("_legendarySpiceGhostFood", isSetTo(true));
     }
   }
+
+  @Test
+  void parsesDietingPillUse() {
+    RequestLoggerOutput.startStream();
+    var cleanups = withProperty("dietingPillCharges", 2);
+    try (cleanups) {
+      var req = new EatItemRequest(ItemPool.get(ItemPool.JUMPING_HORSERADISH));
+      req.responseText = html("request/test_eat_dietingpill.html");
+      req.processResults();
+      var text = RequestLoggerOutput.stopStream();
+      assertThat("dietingPillCharges", isSetTo(1));
+      assertThat(text, containsString("You used a dieting pill charge with your food"));
+    }
+  }
 }
