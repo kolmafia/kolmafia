@@ -219,7 +219,6 @@ public class ModifierDatabase {
               DoubleModifier.SPORADIC_ITEMDROP,
               DoubleModifier.SPORADIC_MEATDROP,
               DoubleModifier.COMBAT_ITEM_DAMAGE_PCT,
-              DoubleModifier.GEARDROP,
               DoubleModifier.RAM,
               DoubleModifier.SPLEEN_CAPACITY,
               DoubleModifier.STOMACH_CAPACITY,

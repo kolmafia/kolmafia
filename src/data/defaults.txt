@@ -2949,6 +2949,9 @@ user	_warbearBankUsed	false
 user	_warbearBreakfastMachineUsed	false
 user	_warbearGyrocopterUsed	false
 user	_warbearSodaMachineUsed	false
+user	_waterBalloonBuffGranted	false
+user	_waterBalloonHeldByEnemy	false	rof
+user	_waterBalloonTossStreak	0
 user	_waxGlobDrops	0
 user	_whiteRiceDrops	0
 user	_wildfireBarrelHarvested	false
