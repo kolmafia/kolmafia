@@ -3870,6 +3870,7 @@ public class ItemPool {
   public static final int REPLICA_MR_STORE_2002_CATALOG = 11280;
   public static final int REPLICA_PATRIOTIC_EAGLE = 11304;
   public static final int AUGUST_SCEPTER = 11306;
+  public static final int WATER_BALLOON = 11309;
   public static final int FIXODENT = 11312;
   public static final int TINY_GOLD_MEDAL = 11319;
   public static final int BAYWATCH = 11321;
