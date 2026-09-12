@@ -121,6 +121,7 @@ DESC_SKILL	Summon Annoyance	Cost</b>: (\d+)	summonAnnoyanceCost=$1
 DESC_SKILL	Bear Essence	\+(\d+)% Picnic Basket	skillLevel134=[$1/20]
 DESC_SKILL	Chitinous Soul	Maximum HP \+(\d+)	skillLevel227=$1
 DESC_SKILL	Visit your Favorite Bird	your favorite bird, the (.*?), and get	yourFavoriteBird=$1
+DESC_SKILL	Calculate the Universe	<i>(\d+) / \d+ casts used today</i>	_universeCalculated=$1
 
 DESC_EFFECT	Antihangover	Moxie \+(\d+)	_antihangoverBonus=$1
 DESC_EFFECT	Blood Porter	HP \+(\d+)	bloodweiserDrunk=[$1/10]
