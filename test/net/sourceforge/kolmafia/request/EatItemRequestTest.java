@@ -368,17 +368,18 @@ class EatItemRequestTest {
     }
   }
 
-  @Test
-  void parsesDietingPillUse() {
+  @ParameterizedTest
+  @CsvSource({"1,a dieting pill charge", "2,2 dieting pill charges"})
+  void parsesDietingPillUse(int count, String logPhrase) {
     RequestLoggerOutput.startStream();
-    var cleanups = withProperty("dietingPillCharges", 2);
+    var cleanups = withProperty("dietingPillCharges", 3);
     try (cleanups) {
-      var req = new EatItemRequest(ItemPool.get(ItemPool.JUMPING_HORSERADISH));
-      req.responseText = html("request/test_eat_dietingpill.html");
+      var req = new EatItemRequest(ItemPool.get(ItemPool.JUMPING_HORSERADISH, count));
+      req.responseText = html("request/test_eat_dietingpill_x" + count + ".html");
       req.processResults();
       var text = RequestLoggerOutput.stopStream();
-      assertThat("dietingPillCharges", isSetTo(1));
-      assertThat(text, containsString("You used a dieting pill charge with your food"));
+      assertThat("dietingPillCharges", isSetTo(3 - count));
+      assertThat(text, containsString("You used " + logPhrase + " with your food"));
     }
   }
 }
