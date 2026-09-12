@@ -1,11 +1,13 @@
 package net.sourceforge.kolmafia.request.coinmaster.shop;
 
+import java.util.List;
 import java.util.Set;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.shop.ShopRow;
 
 public abstract class InterestingCoinRequest extends CoinMasterShopRequest {
   public static final String master = "Spend your Interesting Coins";
@@ -14,6 +16,7 @@ public abstract class InterestingCoinRequest extends CoinMasterShopRequest {
   public static final CoinmasterData DATA =
       new CoinmasterData(master, SHOPID, InterestingCoinRequest.class)
           .withNewShopRowFields(master, SHOPID)
+          .withVisitShopRows(InterestingCoinRequest::visitShopRows)
           .withCanBuyItem(InterestingCoinRequest::canBuyItem)
           .withVisitShop(InterestingCoinRequest::visitShop)
           .withPurchasedItem(InterestingCoinRequest::purchasedItem)
@@ -40,6 +43,14 @@ public abstract class InterestingCoinRequest extends CoinMasterShopRequest {
           ItemPool.ROTH_IPA,
           ItemPool.SAVINGS_BONDO,
           ItemPool.SOYBEAN_FUTURES);
+
+  // Prices increase as items are purchased
+  private static final Set<Integer> INFLATION_ITEMS =
+      Set.of(
+          ItemPool.HOMEOWNERS_LOAM,
+          ItemPool.HOUSING_BUBBLE,
+          ItemPool.BALANCE_SHEET,
+          ItemPool.GROSS_PROPHET_CHRYSALIS);
 
   // Once in a Lifetime Deals (1 per ascension)
   private static final Set<Integer> ASCENSION_ITEMS =
@@ -80,6 +91,15 @@ public abstract class InterestingCoinRequest extends CoinMasterShopRequest {
       Preferences.increment(dailyProperty(itemId), 1, 3, false);
     } else if (ASCENSION_ITEMS.contains(itemId)) {
       Preferences.setBoolean(ascensionProperty(itemId), true);
+    }
+  }
+
+  public static void visitShopRows(final List<ShopRow> shopRows, Boolean force) {
+    for (ShopRow shopRow : shopRows) {
+      int itemId = shopRow.getItem().getItemId();
+      if (INFLATION_ITEMS.contains(itemId)) {
+        DATA.getShopRow(itemId).setCosts(shopRow.getCosts());
+      }
     }
   }
 }
