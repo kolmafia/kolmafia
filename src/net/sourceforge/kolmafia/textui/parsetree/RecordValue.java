@@ -29,6 +29,52 @@ public class RecordValue extends CompositeValue {
     return ((RecordType) this.type).getDataType(key);
   }
 
+  /**
+   * Returns a record value of the given type whose fields, matched by name, hold the (coerced)
+   * values of the corresponding fields of {@code source}. Fields present in {@code source} but
+   * absent from {@code type} are dropped.
+   */
+  public static RecordValue coerceTo(final RecordType type, final RecordValue source) {
+    if (type.equals(source.getRecordType())) {
+      return source;
+    }
+
+    RecordValue result = new RecordValue(type);
+    String[] names = type.getFieldNames();
+    Type[] dataTypes = type.getFieldTypes();
+    Value[] fields = result.getRecordFields();
+    RecordType sourceType = source.getRecordType();
+    for (int i = 0; i < names.length; ++i) {
+      int sourceIndex = sourceType.indexOf(names[i]);
+      if (sourceIndex >= 0) {
+        fields[i] = RecordValue.coerceValue(dataTypes[i], source.aref(sourceIndex, null));
+      }
+    }
+    return result;
+  }
+
+  private static Value coerceValue(final Type destination, final Value source) {
+    if (destination.equals(source.getType())) {
+      return source;
+    }
+    if (destination instanceof RecordType recordType && source instanceof RecordValue recordValue) {
+      return RecordValue.coerceTo(recordType, recordValue);
+    }
+    if (destination.equals(TypeSpec.STRING)) {
+      return source.toStringValue();
+    }
+    if (destination.equals(TypeSpec.INT)) {
+      return source.toIntValue();
+    }
+    if (destination.equals(TypeSpec.FLOAT)) {
+      return source.toFloatValue();
+    }
+    if (destination.equals(TypeSpec.BOOLEAN)) {
+      return source.toBooleanValue();
+    }
+    return source;
+  }
+
   // The only comparison we implement is equality; we define no
   // "natural order" for a record value.
   //
@@ -139,6 +185,9 @@ public class RecordValue extends CompositeValue {
 
     if (array[index].getType().equals(val.getType())) {
       array[index] = val;
+    } else if (array[index].getType() instanceof RecordType recordType
+        && val instanceof RecordValue recordValue) {
+      array[index] = RecordValue.coerceTo(recordType, recordValue);
     } else if (array[index].getType().equals(TypeSpec.STRING)) {
       array[index] = val.toStringValue();
     } else if (array[index].getType().equals(TypeSpec.INT)

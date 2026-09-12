@@ -152,7 +152,25 @@ public class AssignmentTest {
             "Invalid assignment coercion - assignment",
             "boolean x; x += 'foo'",
             "Cannot store string in x of type boolean",
-            "char 12 to char 22"));
+            "char 12 to char 22"),
+        invalid(
+            "Cannot store record in record with extra fields",
+            "record f {string name;};\n"
+                + "record g {string name; int line;};\n"
+                + "f source = new f('a');\n"
+                + "g dest = source;\n"
+                + "print('FAIL');\n",
+            "Cannot store f in dest of type g",
+            "line 4, char 10 to char 16"),
+        invalid(
+            "Cannot store record in record with incompatible field type",
+            "record f {string name;};\n"
+                + "record g {int name;};\n"
+                + "f source = new f('a');\n"
+                + "g dest = source;\n"
+                + "print('FAIL');\n",
+            "Cannot store f in dest of type g",
+            "line 4, char 10 to char 16"));
   }
 
   @ParameterizedTest
