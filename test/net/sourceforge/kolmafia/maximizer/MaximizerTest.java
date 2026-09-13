@@ -469,6 +469,21 @@ public class MaximizerTest {
     }
 
     @Test
+    public void clownosityWeightRetainsDefaultMinimum() {
+      final var cleanups =
+          new Cleanups(
+              withEquippableItem("mesh cap"),
+              withEquippableItem("clown wig"),
+              withEquippableItem("polka-dot bow tie"));
+      try (cleanups) {
+        assertTrue(maximize("100 muscle 5 clownosity -tie"));
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "clown wig")));
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.ACCESSORY1, "polka-dot bow tie")));
+        assertEquals(125, modFor(BitmapModifier.CLOWNINESS), 0.01);
+      }
+    }
+
+    @Test
     public void clownosityItemsDontStack() {
       var cleanups = withEquippableItem("clownskin belt", 3);
 
