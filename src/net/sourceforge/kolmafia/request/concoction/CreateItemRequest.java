@@ -601,15 +601,16 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
         ConcoctionDatabase.setRefreshNeeded(true);
       }
 
+      int fancyType = 0;
       if (ItemDatabase.isFancyItem(item1) || ItemDatabase.isFancyItem(item2)) {
-        if (mode.equals("cook") && KoLCharacter.hasChef()) {
-          Preferences.increment("chefTurnsUsed", qty);
-        } else if (mode.equals("cocktail") && KoLCharacter.hasBartender()) {
-          Preferences.increment("bartenderTurnsUsed", qty);
+        if (mode.equals("cook")) {
+          fancyType = 1;
+        } else if (mode.equals("cocktail")) {
+          fancyType = 2;
         }
       }
 
-      craftComments.add(new Integer[] {m.start(), qty});
+      craftComments.add(new Integer[] {m.start(), qty, fancyType});
     } while (m.find());
 
     // Parse for the end of the table we currently are in
@@ -628,22 +629,11 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
     }
     craftComments.add(new Integer[] {craftEnd});
 
-    if (responseText.contains("Smoke")) {
-      String servant = "servant";
-      if (mode.equals("cook")) {
-        servant = "chef";
-        KoLCharacter.setChef(false);
-      } else if (mode.equals("cocktail")) {
-        servant = "bartender";
-        KoLCharacter.setBartender(false);
-      }
-      RequestLogger.updateSessionLog("Your " + servant + " blew up");
-    }
-
     for (int i = 0; i + 1 < craftComments.size(); ++i) {
       String craftSection =
           responseText.substring(craftComments.get(i)[0], craftComments.get(i + 1)[0]);
       created = craftComments.get(i)[1];
+      int fancyType = craftComments.get(i)[2];
 
       int turnsSaved = 0;
 
@@ -729,6 +719,24 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
         Preferences.increment("_holidayMultitaskingUsed", created - turnsSaved, 3, false);
         turnsSaved += multiTaskTurnsSaved;
       }
+
+      if (fancyType == 1 && KoLCharacter.hasChef()) {
+        Preferences.increment("chefTurnsUsed", created - turnsSaved);
+      } else if (fancyType == 2 && KoLCharacter.hasBartender()) {
+        Preferences.increment("bartenderTurnsUsed", created - turnsSaved);
+      }
+    }
+
+    if (responseText.contains("Smoke")) {
+      String servant = "servant";
+      if (mode.equals("cook")) {
+        servant = "chef";
+        KoLCharacter.setChef(false);
+      } else if (mode.equals("cocktail")) {
+        servant = "bartender";
+        KoLCharacter.setBartender(false);
+      }
+      RequestLogger.updateSessionLog("Your " + servant + " blew up");
     }
 
     return created;
