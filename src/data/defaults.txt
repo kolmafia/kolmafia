@@ -625,6 +625,7 @@ user	demonSummoned	false	ld
 user	desertExploration	0
 user	desktopHeight	600
 user	desktopWidth	800
+user	dietingPillCharges	0	roa
 user	dinseyAudienceEngagement	false
 user	dinseyFilthLevel	0
 user	dinseyFunProgress	0
