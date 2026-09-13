@@ -425,10 +425,10 @@ public class TurnCounter implements Comparable<TurnCounter> {
         || !KoLAdventure.lastVisitedLocation().hasWanderers()) {
       return;
     }
-    if (type.equals("Combat")) {
-      if (EncounterManager.isNoWanderMonster(encounter)) {
-        return;
-      }
+    if (!type.equals("Combat")
+        || EncounterManager.isNoWanderMonster(encounter)
+        || EncounterManager.isSuperlikelyMonster(encounter)) {
+      return;
     }
     String[] counters = temp.split("\\|");
     for (String counter : counters) {
