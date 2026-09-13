@@ -1,6 +1,6 @@
 <html><table width=750><tr><td>
 <h3>General</h3>
-The specification of what attributes to maximize is made by a comma-separated list of keywords, each possibly preceded by a numeric weight.  Commas can be omitted if the next item starts with a +, -, or digit.  Using just a +, or omitting the weight entirely, is equivalent to a weight of 1.  Likewise, using just a - is equivalent to a weight of -1.  Non-integer weights can be used, but may not be meaningful with all keywords.
+The specification of what attributes to maximize is made by a comma-separated list of keywords, each possibly preceded by a numeric weight.  Commas can be omitted if the next item starts with a +, -, or digit.  Using just a +, or omitting the weight entirely, is equivalent to a weight of 1.  Likewise, using just a - is equivalent to a weight of -1.  Non-integer weights can be used, but may not be meaningful with all keywords. A keyword expression can be surrounded by quotes to ensure it is interpreted as a single unit. For example, use <b>maximize muscle, &quot;equip cup of 13s&quot;</b> to maximize Muscle and equip the Cups of 13s; without the quotes the maximizer would attempt to parse the 13 as the start of a new keyword expression.
 <h3>Numeric Modifiers</h3>
 The full name of any numeric modifier (as shown by the <b>modref</b> CLI command) is a valid keyword, requesting that its value be maximized.  If multiple modifiers are given, their weights specify their relative importance.  Negative weights mean that smaller values are more desirable for that modifier.
 <p>
@@ -21,7 +21,7 @@ Any numeric modifier keyword can be followed by one or both of these special key
 <h3>Other Modifiers</h3>
 Boolean modifiers can also be used as keywords.  With positive weight, the modifier is required to be true; with negative weight, it is required to be false.  There is one shortcut available: <b>sea</b> requires both Adventure Underwater and Underwater Familiar to be true.
 <p>
-The only bitmap modifiers that currently appear useful for maximization are Clownosity and Raveosity, so they are allowed as a special case.  <b>4 clownosity</b>, <b>7 raveosity</b> are the defaults checked for if no weight is given.
+Most bitmap modifiers are not useful for maximization. Several special cases are permitted: Clownosity, Raveosity, and Surgeonosity. In most cases, assigning a weight for one of these modifiers will not be productive, but assigning a minimum can be useful. Each of these modifiers is automatically assigned a minimum acceptable value if none is specified: <b>clownosity 100 min</b>, <b>raveosity 7 min</b>, and <b>surgeonosity 1 min</b>.
 <p>
 String modifiers are not currently meaningful for maximization.
 <p>
@@ -38,7 +38,7 @@ Slot names can be used as keywords:
 <br><b>effective</b> - With positive weight, if muscle higher than moxie, only melee weapons are considered, if moxie higher or equal to muscle, ranged weapons (and knives with Tricky Knifework known) are considered.
 <br><b>type <i>text</i></b> - Only weapons with a type containing <i>text</i> are considered; for example, <b>type club</b> if you plan to do some Seal Clubbing.
 <br><b>club</b> - With positive weight, only clubs will be considered for your main-hand.
-    <br><b>sword</b> - With positive weight, only swords will be considered for your main-hand.
+<br><b>sword</b> - With positive weight, only swords will be considered for your main-hand.
 <br><b>shield</b> - With positive weight, only shields will be considered for your off-hand.  Implies <b>1 handed</b>.
 <br><b>utensil</b> - With positive weight, only utensils will be considered for your main-hand.
 <br><b>knife</b> - With positive weight, only knives will be considered for your main-hand.
