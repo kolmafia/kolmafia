@@ -1767,7 +1767,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
               withEquippableItem("Apriling band helmet"),
               withEquippableItem("toy accordion"),
               withEquippableItem("hobo code binder"),
-              withEquippableItem("stuffed spooky gravy fairy "),
+              withEquippableItem("stuffed spooky gravy fairy"),
               withEquippableItem("stuffed astral badger"),
               withEquippableItem("magical ice cubes"),
               withEquippableItem("Roman Candelabra"),
