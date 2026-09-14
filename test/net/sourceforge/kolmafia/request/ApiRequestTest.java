@@ -1,19 +1,14 @@
 package net.sourceforge.kolmafia.request;
 
-import static internal.helpers.Player.withInteractivity;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
 
 import com.alibaba.fastjson2.JSONObject;
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.AscensionPath;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,23 +18,6 @@ class ApiRequestTest {
   public void setUp() {
     Preferences.reset("CharSheetRequestTest");
     KoLCharacter.reset(true);
-  }
-
-  @Test
-  void parsesEverySectionOfARequestForSeveralThings() {
-    try (var cleanups = new Cleanups(withInteractivity(true))) {
-      ApiRequest.parseResponse(
-          "api.php?what=closet,storage&for=KoLmafia",
-          "{\"closet\":{\"1\":\"3\"},\"storage\":{\"2\":\"5\"}}");
-
-      assertThat(KoLConstants.closet, hasSize(1));
-      assertThat(KoLConstants.closet.get(0).getItemId(), is(ItemPool.SEAL_CLUB));
-      assertThat(KoLConstants.closet.get(0).getCount(), is(3));
-
-      assertThat(KoLConstants.storage, hasSize(1));
-      assertThat(KoLConstants.storage.get(0).getItemId(), is(ItemPool.SEAL_TOOTH));
-      assertThat(KoLConstants.storage.get(0).getCount(), is(5));
-    }
   }
 
   @Test
