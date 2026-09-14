@@ -3870,6 +3870,7 @@ public class ItemPool {
   public static final int REPLICA_MR_STORE_2002_CATALOG = 11280;
   public static final int REPLICA_PATRIOTIC_EAGLE = 11304;
   public static final int AUGUST_SCEPTER = 11306;
+  public static final int WATER_BALLOON = 11309;
   public static final int FIXODENT = 11312;
   public static final int TINY_GOLD_MEDAL = 11319;
   public static final int BAYWATCH = 11321;
@@ -4101,18 +4102,22 @@ public class ItemPool {
   public static final int UNDERDRAFT_PROTECTION = 12293;
   public static final int SOLVENT = 12294;
   public static final int SOYBEAN_FUTURES = 12295;
+  public static final int HOUSING_BUBBLE = 12296;
   public static final int FINANCIAL_INSTRUMENT = 12298;
   public static final int HEDGE_FUND_CLIPPERS = 12299;
   public static final int SELLING_SHORTS = 12300;
   public static final int BEAR_TATTOO = 12301;
   public static final int GOLD_401K_RING = 12303;
+  public static final int BALANCE_SHEET = 12304;
   public static final int INVISIBLE_HAND = 12305;
   public static final int CIRCLE_OF_OVERDRAFT_PROTECTION_SCROLL = 12306;
   public static final int MINT = 12307;
   public static final int SAVINGS_BONDO = 12308;
+  public static final int HOMEOWNERS_LOAM = 12309;
   public static final int TOXIC_ASSET = 12310;
   public static final int INTANGIBLE_ASSET = 12311;
   public static final int LIQUID_ASSET = 12312;
+  public static final int GROSS_PROPHET_CHRYSALIS = 12313;
 
   private ItemPool() {}
 

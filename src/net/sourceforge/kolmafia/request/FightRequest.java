@@ -3440,6 +3440,11 @@ public class FightRequest extends GenericRequest {
       KoLmafia.updateDisplay(updateMessage);
     }
 
+    if (responseText.contains("you see your water balloon fall to the ground and break")) {
+      FightRequest.logText("Your opponent dropped the water balloon.");
+      Preferences.setInteger("_waterBalloonTossStreak", 0);
+    }
+
     // Check for Latte unlocks
     if (KoLCharacter.hasEquipped(ItemPool.LATTE_MUG, Slot.OFFHAND)) {
       LatteRequest.parseFight(locationName, responseText);
@@ -7374,6 +7379,13 @@ public class FightRequest extends GenericRequest {
         || str.contains("Someone lobs a piece of fruit at you from the crowd")) {
       FightRequest.logText("You were pelted with fruit.", status);
       Preferences.increment("_laughingStockFruitDropped", 1);
+    }
+
+    // Water Balloon returned; be careful due to different wording with group monsters
+    if (str.contains("back your water balloon")) {
+      FightRequest.logText("Your opponent returned your water balloon.", status);
+      Preferences.setBoolean("_waterBalloonHeldByEnemy", false);
+      Preferences.increment("_waterBalloonTossStreak");
     }
 
     // Interesting Coin
@@ -11605,6 +11617,13 @@ public class FightRequest extends GenericRequest {
         if (responseText.contains(
             "You can't bear to use any more of those horrible things today")) {
           itemLimitMaxedOut = true;
+        }
+      }
+      case ItemPool.WATER_BALLOON -> {
+        if (responseText.contains("You toss the water balloon gently")) {
+          FightRequest.logText("You tossed a water balloon.");
+          Preferences.setBoolean("_waterBalloonHeldByEnemy", true);
+          Preferences.increment("_waterBalloonTossStreak");
         }
       }
       case ItemPool.PEPPERMINT_BOMB -> {
