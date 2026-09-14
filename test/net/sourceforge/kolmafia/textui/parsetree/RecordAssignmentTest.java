@@ -259,6 +259,34 @@ public class RecordAssignmentTest {
     assertThat(output, containsString("7;done"));
   }
 
+  @Test
+  void storeRecordCoerceStringToPath() {
+    String output =
+        runAsh(
+            """
+        record f {string pth;};
+        record g {path pth;};
+        f source = new f('Trendy');
+        g dest = source;
+        print(dest.pth.image + ';done');
+        """);
+    assertThat(output, containsString("trendyicon.gif;done"));
+  }
+
+  @Test
+  void storeRecordCoerceIntToPath() {
+    String output =
+        runAsh(
+            """
+    record f {int pth;};
+    record g {path pth;};
+    f source = new f(7);
+    g dest = source;
+    print(dest.pth.image + ';done');
+    """);
+    assertThat(output, containsString("trendyicon.gif;done"));
+  }
+
   // Records containing records work if the contained record is a subset
 
   @Test

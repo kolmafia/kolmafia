@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.textui.parsetree;
 
 import java.io.PrintStream;
 import net.sourceforge.kolmafia.textui.AshRuntime;
+import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.DataTypes.TypeSpec;
 
 public class RecordValue extends CompositeValue {
@@ -72,7 +73,16 @@ public class RecordValue extends CompositeValue {
     if (destination.equals(TypeSpec.BOOLEAN)) {
       return source.toBooleanValue();
     }
-    return source;
+    if (destination.equals(TypeSpec.PATH)) {
+      if (source.getType().equals(TypeSpec.INT)) {
+        return DataTypes.parsePathValue((int) source.intValue(), true);
+      }
+      return DataTypes.parsePathValue(source.toString(), true);
+    }
+    // Every legal coercion pair passes through validCoercion at parse time;
+    // anything reaching here is an unhandled pair.
+    throw new IllegalStateException(
+        "Internal error: cannot coerce " + source.getType() + " to " + destination);
   }
 
   // The only comparison we implement is equality; we define no
