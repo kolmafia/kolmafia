@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.session;
 
+import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withDay;
 import static internal.helpers.Player.withHttpClientBuilder;
@@ -12,6 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -779,6 +781,86 @@ public class MallPriceManagerTest {
       assertEquals(168500, MallPriceManager.getMallPrice(ItemPool.DINSEY_TICKET));
       // last item
       assertEquals(4400, MallPriceManager.getMallPrice(ItemPool.TRANSPORTER_TRANSPONDER));
+    }
+  }
+
+  @Nested
+  class MallPricesApi {
+    @Test
+    public void canGetMallPricesByCategory() {
+      var builder = new FakeHttpClientBuilder();
+
+      try (var cleanups = new Cleanups(mockClock(), withHttpClientBuilder(builder))) {
+        Mockito.when(clock.millis()).thenReturn(1_000_000L);
+        builder.client.addResponse(200, html("request/test_mallprices_allitems.json"));
+
+        int count = MallPriceManager.getMallPrices("allitems", "");
+
+        assertPostRequest(
+            builder.client.getRequests().getFirst(),
+            "/api.php",
+            "what=mallprices&for=KoLmafia&category=allitems");
+        assertEquals(8422, count);
+        assertEquals(700, MallPriceManager.getMallPrice(ItemPool.HELL_RAMEN));
+        assertEquals(7700, MallPriceManager.getMallPrice(ItemPool.TRANSPORTER_TRANSPONDER));
+      }
+    }
+
+    @Test
+    public void sendsTiersWhenSearchingConsumables() {
+      var builder = new FakeHttpClientBuilder();
+
+      try (var cleanups = new Cleanups(mockClock(), withHttpClientBuilder(builder))) {
+        Mockito.when(clock.millis()).thenReturn(1_000_000L);
+        builder.client.addResponse(200, "{\"category\":\"booze\",\"count\":5,\"items\":[]}");
+
+        assertEquals(0, MallPriceManager.getMallPrices("booze", "awesome,EPIC"));
+        assertPostRequest(
+            builder.client.getRequests().getFirst(),
+            "/api.php",
+            "what=mallprices&for=KoLmafia&category=booze&tiers=awesome,EPIC");
+      }
+    }
+
+    @Test
+    public void honoursPerStoreLimits() {
+      var builder = new FakeHttpClientBuilder();
+
+      try (var cleanups = new Cleanups(mockClock(), withHttpClientBuilder(builder))) {
+        Mockito.when(clock.millis()).thenReturn(1_000_000L);
+        builder.client.addResponse(200, html("request/test_mallprices_allitems.json"));
+
+        MallPriceManager.getMallPrices("allitems", "");
+
+        // We have already bought our one disintegrating spiky collar from a store today
+        var collars = MallPriceManager.getSavedSearch(2667, 0);
+        assertTrue(
+            collars.stream().noneMatch(r -> ((MallPurchaseRequest) r).getShopId() == 416135));
+
+        // Another store has no limit, so all honey sticks are available
+        var sticks = MallPriceManager.getSavedSearch(5188, 0);
+        var clerks =
+            sticks.stream()
+                .filter(r -> ((MallPurchaseRequest) r).getShopId() == 1053259)
+                .findFirst()
+                .orElseThrow();
+        assertEquals(7689, clerks.getLimit());
+      }
+    }
+
+    @Test
+    public void includesNPCStores() {
+      var builder = new FakeHttpClientBuilder();
+
+      try (var cleanups = new Cleanups(mockClock(), withHttpClientBuilder(builder))) {
+        Mockito.when(clock.millis()).thenReturn(1_000_000L);
+        builder.client.addResponse(200, html("request/test_mallprices_allitems.json"));
+
+        MallPriceManager.getMallPrices("allitems", "");
+
+        // The General Store sells glittery mascara for less than any mall store does
+        assertEquals(24, MallPriceManager.getMallPrice(3485));
+      }
     }
   }
 

@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.session;
 
+import com.alibaba.fastjson2.JSONObject;
 import java.time.Clock;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.CoinMasterPurchaseRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.MallPurchaseRequest;
@@ -140,6 +142,9 @@ public abstract class MallPriceManager {
 
   // a Map from itemId -> the most resent mall search results.
   private static final Map<Integer, List<PurchaseRequest>> mallSearches = new HashMap<>();
+
+  // How many prices the most recent bulk update recorded.
+  private static int pricesUpdated = 0;
 
   // Constants controlling how we manage those data
 
@@ -692,13 +697,74 @@ public abstract class MallPriceManager {
       return 0;
     }
 
-    // Issue the search request
-    MallSearchRequest request = newMallSearchRequest(category, tiers);
-    RequestThread.postRequest(request);
+    // api.php?what=mallprices supports every category except "unlockers" which may be unintended
+    if (category.equals("unlockers")) {
+      MallSearchRequest request = newMallSearchRequest(category, tiers);
+      RequestThread.postRequest(request);
+      return MallPriceManager.updateMallPrices(request.getResults());
+    }
 
-    List<PurchaseRequest> results = request.getResults();
-    if (results.size() == 0) {
-      // None found
+    // api.php doesn't return the changes directly, so we use a helper field
+    MallPriceManager.pricesUpdated = 0;
+    ApiRequest.updateMallPrices(category, tiers);
+    return MallPriceManager.pricesUpdated;
+  }
+
+  /**
+   * The cheapest listings of every item in a Mall search category, as returned by
+   * api.php?what=mallprices
+   *
+   * @param json What api.php responded with
+   */
+  public static void parseMallPrices(final JSONObject json) {
+    var items = json.getJSONArray("items");
+    if (items == null) {
+      return;
+    }
+
+    List<PurchaseRequest> results = new ArrayList<>();
+
+    for (int i = 0; i < items.size(); ++i) {
+      var item = items.getJSONObject(i);
+      int itemId = item.getIntValue("id");
+      String itemName = item.getString("name");
+
+      // Unknown item
+      if (!itemName.equals(ItemDatabase.getItemDataName(itemId))) {
+        ItemDatabase.registerItem(itemId, itemName, item.getString("descid"));
+      }
+
+      var stores = item.getJSONArray("stores");
+      // Should never be empty
+      if (stores.isEmpty()) {
+        continue;
+      }
+
+      results.addAll(NPCStoreDatabase.getAvailablePurchaseRequests(itemId));
+
+      for (int j = 0; j < stores.size(); ++j) {
+        var store = stores.getJSONObject(j);
+        int quantity = store.getIntValue("quantity");
+        int limit = store.getIntValue("limit");
+        boolean canPurchase = limit == 0 || store.getIntValue("bought") < limit;
+
+        results.add(
+            new MallPurchaseRequest(
+                itemId,
+                quantity,
+                store.getIntValue("id"),
+                store.getString("name"),
+                store.getLongValue("price"),
+                limit == 0 ? quantity : limit,
+                canPurchase));
+      }
+    }
+
+    MallPriceManager.updateMallPrices(results);
+  }
+
+  private static int updateMallPrices(final List<PurchaseRequest> results) {
+    if (results.isEmpty()) {
       return 0;
     }
 
@@ -726,6 +792,7 @@ public abstract class MallPriceManager {
       MallPriceDatabase.writePrices();
     }
 
+    MallPriceManager.pricesUpdated = count;
     return count;
   }
 }
