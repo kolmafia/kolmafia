@@ -193,29 +193,13 @@ public class ApiRequest extends GenericRequest {
     }
 
     String what = whatMatcher.group(1);
-    JSONObject json = ApiRequest.getJSON(responseText, what);
-    if (json == null) {
-      return;
-    }
-
-    // A request for several things returns each of them keyed by its own name
-    String[] whats = what.split(",");
-    for (String one : whats) {
-      ApiRequest.parseWhat(one, whats.length == 1 ? json : json.getJSONObject(one));
-    }
-  }
-
-  private static void parseWhat(final String what, final JSONObject json) {
-    if (json == null) {
-      return;
-    }
 
     switch (what) {
-      case "status" -> ApiRequest.parseStatus(json);
-      case "inventory" -> InventoryManager.parseInventory(json);
-      case "closet" -> ClosetRequest.parseCloset(json);
-      case "storage" -> StorageRequest.parseStorage(json);
-      case "mallprices" -> MallPriceManager.parseMallPrices(json);
+      case "status" -> ApiRequest.parseStatus(responseText);
+      case "inventory" -> ApiRequest.parseInventory(responseText);
+      case "closet" -> ApiRequest.parseCloset(responseText);
+      case "storage" -> ApiRequest.parseStorage(responseText);
+      case "mallprices" -> ApiRequest.parseMallPrices(responseText);
     }
   }
 
@@ -362,6 +346,10 @@ public class ApiRequest extends GenericRequest {
       }
     }
   */
+
+  public static final void parseStatus(final String responseText) {
+    ApiRequest.parseStatus(ApiRequest.getJSON(responseText, "status"));
+  }
 
   public static final void parseStatus(final JSONObject json) {
     if (json == null) {
@@ -533,6 +521,22 @@ public class ApiRequest extends GenericRequest {
       KoLCharacter.addAvailableCombatSkill(SkillPool.RIGHT_KICK);
     }
     Preferences.setInteger("zootGraftedFootRightFamiliar", rightFoot);
+  }
+
+  public static final void parseInventory(final String responseText) {
+    InventoryManager.parseInventory(ApiRequest.getJSON(responseText, "inventory"));
+  }
+
+  public static final void parseCloset(final String responseText) {
+    ClosetRequest.parseCloset(ApiRequest.getJSON(responseText, "closet"));
+  }
+
+  public static final void parseStorage(final String responseText) {
+    StorageRequest.parseStorage(ApiRequest.getJSON(responseText, "storage"));
+  }
+
+  public static final void parseMallPrices(final String responseText) {
+    MallPriceManager.parseMallPrices(ApiRequest.getJSON(responseText, "mallprices"));
   }
 
   public static final JSONObject getJSON(final String text, final String what) {
