@@ -403,18 +403,22 @@ public class Evaluator {
 
       BitmapModifier osityModifier = null;
       double defaultMinimum = 0.0;
+      double defaultMaximum = 0.0;
       switch (keyword) {
         case "clownosity", "clowniness" -> {
           osityModifier = BitmapModifier.CLOWNINESS;
           defaultMinimum = 100.0;
+          defaultMaximum = 100.0;
         }
         case "raveosity" -> {
           osityModifier = BitmapModifier.RAVEOSITY;
           defaultMinimum = 7.0;
+          defaultMaximum = 7.0;
         }
         case "surgeonosity" -> {
           osityModifier = BitmapModifier.SURGEONOSITY;
           defaultMinimum = 1.0;
+          defaultMaximum = 5.0;
         }
       }
       if (osityModifier != null) {
@@ -424,6 +428,7 @@ public class Evaluator {
         // Even if the user specified a weight for an -osity, but did not specify a min, then use a
         // default value.
         this.min.put(osityModifier, defaultMinimum);
+        this.max.put(osityModifier, defaultMaximum);
         continue;
       }
 
