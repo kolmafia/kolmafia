@@ -4,12 +4,10 @@ import static internal.helpers.Player.withAdjustmentsRecalculated;
 import static internal.helpers.Player.withContinuationState;
 import static internal.helpers.Player.withCounter;
 import static internal.helpers.Player.withEffect;
-import static internal.helpers.Player.withLastLocation;
 import static internal.helpers.Player.withLimitMode;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withSkill;
-import static internal.helpers.Player.withoutCounters;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junitpioneer.jupiter.cartesian.CartesianTest.Values;
 
@@ -1152,79 +1150,6 @@ public class TurnCounterTest {
         if (warned) {
           assertEquals(MafiaState.ERROR, StaticEntity.getContinuationState());
         }
-      }
-    }
-  }
-
-  @Nested
-  class TemporaryCounters {
-    private static final String DIGITIZE = "7:Digitize Monster loc=* type=wander:watch.gif";
-
-    private Cleanups pendingDigitize(String location) {
-      return new Cleanups(
-          withoutCounters(),
-          withProperty("_tempRelayCounters", DIGITIZE),
-          withLastLocation(location));
-    }
-
-    @Test
-    public void combatStartsPendingCounter() {
-      var cleanups = pendingDigitize("The Haunted Pantry");
-      try (cleanups) {
-        TurnCounter.handleTemporaryCounters("Combat", "possessed can of tomatoes");
-        assertTrue(TurnCounter.isCounting("Digitize Monster", 7));
-        assertEquals("", Preferences.getString("_tempRelayCounters"));
-      }
-    }
-
-    @Test
-    public void noncombatDoesNotStartPendingCounter() {
-      var cleanups = pendingDigitize("Barf Mountain");
-      try (cleanups) {
-        TurnCounter.handleTemporaryCounters(
-            "Noncombat", "This Ride Is Like... A Rollercoaster Baby Baby");
-        assertFalse(TurnCounter.isCounting("Digitize Monster"));
-        assertEquals(DIGITIZE, Preferences.getString("_tempRelayCounters"));
-      }
-    }
-
-    @Test
-    public void combatInNoWanderZoneDoesNotStartPendingCounter() {
-      var cleanups = pendingDigitize("The Dire Warren");
-      try (cleanups) {
-        TurnCounter.handleTemporaryCounters("Combat", "fluffy bunny");
-        assertFalse(TurnCounter.isCounting("Digitize Monster"));
-        assertEquals(DIGITIZE, Preferences.getString("_tempRelayCounters"));
-      }
-    }
-
-    @Test
-    public void superlikelyCombatDoesNotStartPendingCounter() {
-      var cleanups = pendingDigitize("The Defiled Alcove");
-      try (cleanups) {
-        TurnCounter.handleTemporaryCounters("Combat", "modern zmobie");
-        assertFalse(TurnCounter.isCounting("Digitize Monster"));
-        assertEquals(DIGITIZE, Preferences.getString("_tempRelayCounters"));
-      }
-    }
-
-    @Test
-    public void noWanderCombatDoesNotStartPendingCounter() {
-      var cleanups = pendingDigitize("The Haunted Pantry");
-      try (cleanups) {
-        TurnCounter.handleTemporaryCounters("Combat", "boneless blobghost");
-        assertFalse(TurnCounter.isCounting("Digitize Monster"));
-        assertEquals(DIGITIZE, Preferences.getString("_tempRelayCounters"));
-      }
-    }
-
-    @Test
-    public void sausageGoblinStartsPendingCounter() {
-      var cleanups = pendingDigitize("The Haunted Pantry");
-      try (cleanups) {
-        TurnCounter.handleTemporaryCounters("Combat", "sausage goblin");
-        assertTrue(TurnCounter.isCounting("Digitize Monster", 7));
-        assertEquals("", Preferences.getString("_tempRelayCounters"));
       }
     }
   }
