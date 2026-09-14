@@ -21,7 +21,7 @@ Any numeric modifier keyword can be followed by one or both of these special key
 <h3>Other Modifiers</h3>
 Boolean modifiers can also be used as keywords.  With positive weight, the modifier is required to be true; with negative weight, it is required to be false.  There is one shortcut available: <b>sea</b> requires both Adventure Underwater and Underwater Familiar to be true.
 <p>
-Most bitmap modifiers are not useful for maximization. Several special cases are permitted: Clownosity, Raveosity, and Surgeonosity. In most cases, assigning a weight for one of these modifiers will not be productive, but assigning a minimum can be useful. Each of these modifiers is automatically assigned a minimum acceptable value if none is specified: <b>clownosity 100 min</b>, <b>raveosity 7 min</b>, and <b>surgeonosity 1 min</b>.
+Most bitmap modifiers are not useful for maximization. Several special cases are permitted: Clownosity, Raveosity, and Surgeonosity. In most cases, assigning a weight for one of these modifiers will not be productive, but assigning a minimum can be useful. Each of these modifiers is automatically assigned a minimum acceptable value if none is specified: <b>clownosity 100 min</b>, <b>raveosity 7 min</b>, and <b>surgeonosity 1 min</b>. Each of these modifiers is <i>also</i> automatically assigned a maximum if none is specified: <b>clownosity 100 max</b>, <b>raveosity 7 max</b>, and <b>surgeonosity 5 max</b>.
 <p>
 String modifiers are not currently meaningful for maximization.
 <p>
