@@ -17,6 +17,7 @@ import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.MallPriceManager;
 import net.sourceforge.kolmafia.utilities.LockableListFactory;
 
 public class ApiRequest extends GenericRequest {
@@ -129,6 +130,19 @@ public class ApiRequest extends GenericRequest {
     return ApiRequest.STORAGE.redirectLocation;
   }
 
+  public static void updateMallPrices(final String category, final String tiers) {
+    ApiRequest request = new ApiRequest("mallprices");
+    request.addFormField("category", category);
+    if (!tiers.isEmpty()) {
+      request.addFormField("tiers", tiers);
+    }
+    // Default of 5, max of 20
+    if (MallPriceManager.NTH_CHEAPEST_COUNT != 5) {
+      request.addFormField("count", String.valueOf(MallPriceManager.NTH_CHEAPEST_COUNT));
+    }
+    request.run();
+  }
+
   @Override
   protected boolean retryOnTimeout() {
     return true;
@@ -145,6 +159,7 @@ public class ApiRequest extends GenericRequest {
               case "closet" -> "Updating closet...";
               case "storage" -> "Updating storage...";
               case "item" -> "Looking at item #" + this.id + "...";
+              case "mallprices" -> "Fetching mall prices...";
               default -> null;
             };
 
@@ -178,12 +193,29 @@ public class ApiRequest extends GenericRequest {
     }
 
     String what = whatMatcher.group(1);
+    JSONObject json = ApiRequest.getJSON(responseText, what);
+    if (json == null) {
+      return;
+    }
+
+    // A request for several things returns each of them keyed by its own name
+    String[] whats = what.split(",");
+    for (String one : whats) {
+      ApiRequest.parseWhat(one, whats.length == 1 ? json : json.getJSONObject(one));
+    }
+  }
+
+  private static void parseWhat(final String what, final JSONObject json) {
+    if (json == null) {
+      return;
+    }
 
     switch (what) {
-      case "status" -> ApiRequest.parseStatus(responseText);
-      case "inventory" -> ApiRequest.parseInventory(responseText);
-      case "closet" -> ApiRequest.parseCloset(responseText);
-      case "storage" -> ApiRequest.parseStorage(responseText);
+      case "status" -> ApiRequest.parseStatus(json);
+      case "inventory" -> InventoryManager.parseInventory(json);
+      case "closet" -> ClosetRequest.parseCloset(json);
+      case "storage" -> StorageRequest.parseStorage(json);
+      case "mallprices" -> MallPriceManager.parseMallPrices(json);
     }
   }
 
@@ -330,10 +362,6 @@ public class ApiRequest extends GenericRequest {
       }
     }
   */
-
-  public static final void parseStatus(final String responseText) {
-    ApiRequest.parseStatus(ApiRequest.getJSON(responseText, "status"));
-  }
 
   public static final void parseStatus(final JSONObject json) {
     if (json == null) {
@@ -505,18 +533,6 @@ public class ApiRequest extends GenericRequest {
       KoLCharacter.addAvailableCombatSkill(SkillPool.RIGHT_KICK);
     }
     Preferences.setInteger("zootGraftedFootRightFamiliar", rightFoot);
-  }
-
-  public static final void parseInventory(final String responseText) {
-    InventoryManager.parseInventory(ApiRequest.getJSON(responseText, "inventory"));
-  }
-
-  public static final void parseCloset(final String responseText) {
-    ClosetRequest.parseCloset(ApiRequest.getJSON(responseText, "closet"));
-  }
-
-  public static final void parseStorage(final String responseText) {
-    StorageRequest.parseStorage(ApiRequest.getJSON(responseText, "storage"));
   }
 
   public static final JSONObject getJSON(final String text, final String what) {
