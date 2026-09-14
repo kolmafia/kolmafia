@@ -5294,7 +5294,7 @@ Throne	Stocking Mimic	All Attributes: +10, Drops Items
 Throne	Stooper	none
 Throne	Sugar Fruit Fairy	Mysticality Experience: +2
 Throne	Sweet Nutcracker	HP / MP Regen Min: 2, HP / MP Regen Max: 8, Drops Items
-Throne	Sword of S Words	none
+Throne	Sword of S Words	Weapon Damage: +25
 Throne	Syncopated Turtle	Initiative: +20
 Throne	Synthetic Rock	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 Throne	Teddy Bear	Initiative: +20
@@ -5315,7 +5315,7 @@ Throne	Urchin Urchin	Weapon Damage: +10
 Throne	Vampire Vintner	Maximum HP: +10
 Throne	Warbear Drone	Maximum HP / MP: +15, Drops Items
 Throne	Wereturtle	Muscle Percent: +15, Drops Meat
-Throne	Wet Paper Tiger	none
+Throne	Wet Paper Tiger	Weapon Damage: +10
 Throne	Whirling Maple Leaf	Spell Damage Percent: +10
 Throne	Wild Hare	All Attributes: +10
 Throne	Wind-up Chattering Teeth	Muscle Percent: +15

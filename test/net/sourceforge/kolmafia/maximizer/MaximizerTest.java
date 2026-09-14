@@ -484,6 +484,20 @@ public class MaximizerTest {
     }
 
     @Test
+    public void clownosityStopsAt100() {
+      final var cleanups =
+          new Cleanups(
+              withEquippableItem("clown wig"),
+              withEquippableItem("balloon sword"),
+              withEquippableItem("clownskin buckler"));
+      try (cleanups) {
+        assertTrue(maximize("clownosity -tie"));
+        assertEquals(100, modFor(BitmapModifier.CLOWNINESS), 0.01);
+        assertThat(getBoosts().stream().filter(Boost::isEquipment).count(), equalTo(2L));
+      }
+    }
+
+    @Test
     public void clownosityItemsDontStack() {
       var cleanups = withEquippableItem("clownskin belt", 3);
 
