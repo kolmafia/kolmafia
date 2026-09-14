@@ -527,6 +527,26 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
     }
   }
 
+  private enum FancyCraftType {
+    NONE,
+    COOK,
+    MIX;
+
+    private static FancyCraftType fromMode(String mode) {
+      return switch (mode) {
+        case "cook" -> COOK;
+        case "cocktail" -> MIX;
+        default -> NONE;
+      };
+    }
+  }
+
+  private record CraftComment(int startIdx, int quantity, FancyCraftType craftType) {
+    private CraftComment(int startIdx) {
+      this(startIdx, 0, FancyCraftType.NONE);
+    }
+  }
+
   public static int parseCrafting(final String location, final String responseText) {
     if (!location.startsWith("craft.php")) {
       return 0;
@@ -565,7 +585,7 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
     // Multi-step crafting makes it harder to tell how many
     // free crafts were used, so we look at the text following
     // each craft individually for the free crafting texts.
-    List<Integer[]> craftComments = new ArrayList<>();
+    List<CraftComment> craftComments = new ArrayList<>();
 
     do {
       // item ids can be -1, if crafting uses a single item
@@ -601,20 +621,16 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
         ConcoctionDatabase.setRefreshNeeded(true);
       }
 
-      int fancyType = 0;
+      FancyCraftType fancyType = FancyCraftType.NONE;
       if (ItemDatabase.isFancyItem(item1) || ItemDatabase.isFancyItem(item2)) {
-        if (mode.equals("cook")) {
-          fancyType = 1;
-        } else if (mode.equals("cocktail")) {
-          fancyType = 2;
-        }
+        fancyType = FancyCraftType.fromMode(mode);
       }
 
-      craftComments.add(new Integer[] {m.start(), qty, fancyType});
+      craftComments.add(new CraftComment(m.start(), qty, fancyType));
     } while (m.find());
 
     // Parse for the end of the table we currently are in
-    int craftStart = craftComments.get(0)[0];
+    int craftStart = craftComments.get(0).startIdx();
     int craftEnd = m.regionEnd();
     Matcher tableStartMatcher =
         Pattern.compile("<table").matcher(responseText).region(craftStart, craftEnd);
@@ -627,13 +643,14 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
         break;
       }
     }
-    craftComments.add(new Integer[] {craftEnd});
+    craftComments.add(new CraftComment(craftEnd));
 
     for (int i = 0; i + 1 < craftComments.size(); ++i) {
       String craftSection =
-          responseText.substring(craftComments.get(i)[0], craftComments.get(i + 1)[0]);
-      created = craftComments.get(i)[1];
-      int fancyType = craftComments.get(i)[2];
+          responseText.substring(
+              craftComments.get(i).startIdx(), craftComments.get(i + 1).startIdx());
+      created = craftComments.get(i).quantity();
+      FancyCraftType fancyType = craftComments.get(i).craftType();
 
       int turnsSaved = 0;
 
@@ -720,9 +737,9 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
         turnsSaved += multiTaskTurnsSaved;
       }
 
-      if (fancyType == 1 && KoLCharacter.hasChef()) {
+      if (fancyType == FancyCraftType.COOK && KoLCharacter.hasChef()) {
         Preferences.increment("chefTurnsUsed", created - turnsSaved);
-      } else if (fancyType == 2 && KoLCharacter.hasBartender()) {
+      } else if (fancyType == FancyCraftType.MIX && KoLCharacter.hasBartender()) {
         Preferences.increment("bartenderTurnsUsed", created - turnsSaved);
       }
     }
