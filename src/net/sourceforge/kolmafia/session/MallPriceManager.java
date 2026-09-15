@@ -697,13 +697,6 @@ public abstract class MallPriceManager {
       return 0;
     }
 
-    // api.php?what=mallprices supports every category except "unlockers" which may be unintended
-    if (category.equals("unlockers")) {
-      MallSearchRequest request = newMallSearchRequest(category, tiers);
-      RequestThread.postRequest(request);
-      return MallPriceManager.updateMallPrices(request.getResults());
-    }
-
     // api.php doesn't return the changes directly, so we use a helper field
     MallPriceManager.pricesUpdated = 0;
     ApiRequest.updateMallPrices(category, tiers);
