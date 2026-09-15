@@ -119,22 +119,6 @@ public abstract class MallPriceManager {
     return new MallSearchRequest(searchString, maximumResults, results);
   }
 
-  // A Mall search in which you supply:
-  //
-  // category - The category of items to search for.
-  // tiers - The set of quality "tiers" to include.
-  //
-  // We validate the category name, since, if invalid, it results in a search
-  // for "allitems".
-  //
-  // We don't validate the "tiers" string. It's free format - although
-  // comma-separated names works well. The following "tiers" are recognized:
-  // crappy, decent, good, awesome, EPIC
-
-  public static MallSearchRequest newMallSearchRequest(String category, String tiers) {
-    return new MallSearchRequest(category, tiers);
-  }
-
   // The data structures that this package "manages".
 
   // a Map from itemId -> current mall price (as visible to a scripter.)

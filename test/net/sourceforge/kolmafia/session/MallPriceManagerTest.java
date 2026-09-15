@@ -21,7 +21,6 @@ import static org.mockito.Mockito.mockStatic;
 
 import internal.helpers.Cleanups;
 import internal.network.FakeHttpClientBuilder;
-import internal.network.FakeHttpResponse;
 import java.time.Clock;
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -96,10 +95,6 @@ public class MallPriceManagerTest {
       super(searchString, cheapestCount, results);
     }
 
-    public MockMallSearchRequest(final String category, final String tiers) {
-      super(category, tiers);
-    }
-
     @Override
     public void setResponseTexts(String... responseTexts) {
       this.responseTexts = responseTexts;
@@ -143,17 +138,6 @@ public class MallPriceManagerTest {
               request.setCheapestCount(cheapestCount);
               request.setResults(results);
               request.maybeUpdateMallPrice();
-              return request;
-            });
-    mocked
-        .when(() -> MallPriceManager.newMallSearchRequest(anyString(), anyString()))
-        .thenAnswer(
-            invocation -> {
-              Object[] arguments = invocation.getArguments();
-              String category = (String) arguments[0];
-              String tiers = (String) arguments[1];
-              request.setCategory(category);
-              request.setTiers(tiers);
               return request;
             });
     return new Cleanups(mocked::close);
@@ -756,31 +740,6 @@ public class MallPriceManagerTest {
           }
         }
       }
-    }
-  }
-
-  @Test
-  public void canGetMallPricesByCategory() {
-    // Test with category = "unlockers" since that only has two pages of results
-    try (var cleanups =
-        new Cleanups(
-            mockClock(),
-            withNextResponse(
-                new FakeHttpResponse<>(200, html("request/test_mall_search_unlockers_page_1.html")),
-                new FakeHttpResponse<>(
-                    200, html("request/test_mall_search_unlockers_page_2.html"))))) {
-      long timestamp = 1_000_000;
-      Mockito.when(clock.millis()).thenReturn(timestamp);
-
-      // MallSearchRequest will accumulate all of the PurchaseRequests seen on
-      // all responseTexts into the "results" field of the request.
-      // It will then update prices and return how many
-      int count = MallPriceManager.getMallPrices("unlockers", "");
-      assertEquals(32, count);
-      // coinmaster ticket
-      assertEquals(168500, MallPriceManager.getMallPrice(ItemPool.DINSEY_TICKET));
-      // last item
-      assertEquals(4400, MallPriceManager.getMallPrice(ItemPool.TRANSPORTER_TRANSPONDER));
     }
   }
 
