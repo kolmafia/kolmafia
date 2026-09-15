@@ -806,6 +806,9 @@ public class Player {
    */
   public static Cleanups withEquippableItem(final String itemName, final int count) {
     int itemId = ItemDatabase.getItemId(itemName, count, false);
+    if (itemId == -1) {
+      throw new RuntimeException("equippable item " + itemName + " not valid");
+    }
     return withEquippableItem(ItemPool.get(itemId, count));
   }
 
@@ -2725,6 +2728,11 @@ public class Player {
   public static Cleanups withAdjustmentsRecalculated() {
     KoLCharacter.recalculateAdjustments();
     return new Cleanups(new OrderedRunnable(KoLCharacter::recalculateAdjustments, 10));
+  }
+
+  public static Cleanups withSkillGrantingFamiliarsChecked() {
+    FamiliarData.checkSkillGrantingFamiliars();
+    return new Cleanups(new OrderedRunnable(FamiliarData::checkSkillGrantingFamiliars, 9));
   }
 
   public static Cleanups withNPCStoreReset() {

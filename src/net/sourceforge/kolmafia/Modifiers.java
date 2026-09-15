@@ -363,7 +363,14 @@ public class Modifiers {
       if (dm.getSubsumed().length == 0) {
         double value = this.doubles.getDouble(dm);
         for (var parent : DoubleModifier.subsuming(dm)) {
-          value += this.doubles.getDouble(parent);
+          if (parent == DoubleModifier.BETTER_DIVER) {
+            // "Makes you a better diver" applies to each penalty only if underwater
+            value +=
+                this.doubles.getDouble(parent)
+                    * (Modifiers.currentEnvironment.equalsIgnoreCase("underwater") ? 1.0 : 0.0);
+          } else {
+            value += this.doubles.getDouble(parent);
+          }
         }
         return value;
       }

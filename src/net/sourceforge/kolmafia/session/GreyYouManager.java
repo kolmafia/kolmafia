@@ -466,7 +466,7 @@ public abstract class GreyYouManager {
     STENCH_RESISTANCE("Stench Resistance", 9),
     SLEAZE_RESISTANCE("Sleaze Resistance", 10),
     DAMAGE_ABSORPTION("Damage Absorption", 11),
-    DAMAGE_REDUCTION("Damage Absorption", 12),
+    DAMAGE_REDUCTION("Damage Reduction", 12),
     ITEM_DROP("Item Drop", 13),
     MEAT_DROP("Meat Drop", 14),
     INITIATIVE("Initiative", 15),

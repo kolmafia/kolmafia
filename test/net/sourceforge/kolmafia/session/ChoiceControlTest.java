@@ -241,7 +241,7 @@ class ChoiceControlTest {
         assertThat(
             "nextDistillateMods",
             isSetTo(
-                "Experience (Muscle): +5, Experience (Moxie): +4, Spooky Damage: +15, Spooky Spell Damage: +25"));
+                "Muscle Experience: +5, Moxie Experience: +4, Spooky Damage: +15, Spooky Spell Damage: +25"));
       }
     }
 
@@ -301,7 +301,7 @@ class ChoiceControlTest {
         assertThat(
             "currentDistillateMods",
             isSetTo(
-                "Experience (Muscle): +3, Experience (Mysticality): +2, Experience (Moxie): +2, Damage Reduction: 9, Sleaze Damage: +6, Sleaze Spell Damage: +10"));
+                "Muscle Experience: +3, Mysticality Experience: +2, Moxie Experience: +2, Damage Reduction: 9, Sleaze Damage: +6, Sleaze Spell Damage: +10"));
       }
     }
   }
@@ -1996,6 +1996,57 @@ class ChoiceControlTest {
       try (cleanups) {
         assertThat("cyrptCrannyEvilness", isSetTo(49));
         assertThat("cyrptTotalEvilness", isSetTo(199));
+      }
+    }
+  }
+
+  @Nested
+  class VotingBooth {
+    @Test
+    void parsesVotingBooth() {
+      var cleanups =
+          new Cleanups(
+              withProperty("_voteMonster1"),
+              withProperty("_voteMonster2"),
+              withProperty("_voteLocal1"),
+              withProperty("_voteLocal2"),
+              withProperty("_voteLocal3"),
+              withProperty("_voteLocal4"));
+
+      try (cleanups) {
+        var req = new GenericRequest("choice.php?forceoption=0");
+        req.responseText = html("request/test_choice_votingbooth.html");
+
+        ChoiceManager.preChoice(req);
+        ChoiceManager.visitChoice(req);
+
+        assertThat("_voteMonster1", isSetTo("angry ghost"));
+        assertThat("_voteMonster2", isSetTo("government bureaucrat"));
+        assertThat("_voteLocal1", isSetTo("Ranged Damage Percent: +100"));
+        assertThat("_voteLocal2", isSetTo("Initiative: -30"));
+        assertThat("_voteLocal3", isSetTo("Experience: +3"));
+        assertThat("_voteLocal4", isSetTo("Mysticality Experience: +4"));
+      }
+    }
+
+    @Test
+    void parsesVoteResult() {
+      var cleanups =
+          new Cleanups(
+              withProperty("_voteMonster1", "angry ghost"),
+              withProperty("_voteMonster2", "government bureaucrat"),
+              withProperty("_voteLocal1", "Ranged Damage Percent: +100"),
+              withProperty("_voteLocal2", "Initiative: -30"),
+              withProperty("_voteLocal3", "Experience: +3"),
+              withProperty("_voteLocal4", "Mysticality Experience: +4"),
+              withPostChoice1(
+                  1331,
+                  1,
+                  "g=1&local[0]=1&local[1]=3",
+                  html("request/test_choice_votingbooth_voted.html")));
+
+      try (cleanups) {
+        assertThat("_voteModifier", isSetTo("Initiative: -30, Mysticality Experience: +4"));
       }
     }
   }

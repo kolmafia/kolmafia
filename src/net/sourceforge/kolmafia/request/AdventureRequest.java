@@ -42,15 +42,13 @@ import net.sourceforge.kolmafia.session.LouvreManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.TavernManager;
-import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.WumpusManager;
 import net.sourceforge.kolmafia.swingui.RequestSynchFrame;
 import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
-import net.sourceforge.kolmafia.utilities.HTMLParserUtils;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
-import org.htmlcleaner.HtmlCleaner;
-import org.htmlcleaner.TagNode;
-import org.htmlcleaner.XPatherException;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 
 public class AdventureRequest extends GenericRequest {
   public static final String NOT_IN_A_FIGHT = "Not in a Fight";
@@ -669,8 +667,6 @@ public class AdventureRequest extends GenericRequest {
       }
       EncounterManager.registerEncounter(encounter, type, responseText);
     }
-
-    TurnCounter.handleTemporaryCounters(type, encounter);
 
     return encounter;
   }
@@ -1398,21 +1394,10 @@ public class AdventureRequest extends GenericRequest {
       return monsterName;
     }
 
-    HtmlCleaner cleaner = HTMLParserUtils.configureDefaultParser();
-    String xpath = "//script/text()";
-    TagNode doc;
-    doc = cleaner.clean(responseText);
-
-    Object[] result;
-    try {
-      result = doc.evaluateXPath(xpath);
-    } catch (XPatherException ex) {
-      return monsterName;
-    }
-
+    Document doc = Jsoup.parse(responseText);
     String text = "";
-    for (Object result1 : result) {
-      text = result1.toString();
+    for (Element script : doc.select("script")) {
+      text = script.data();
       if (text.startsWith("var ocrs")) {
         break;
       }

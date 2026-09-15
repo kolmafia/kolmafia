@@ -162,6 +162,7 @@ public class FamiliarPool {
   public static final int OBSERVER = 318;
   public static final int SKELETON_OF_CRIMBO_PAST = 326;
   public static final int SWORD_OF_SWORDS = 330;
+  public static final int MEAT_SHIELD_MAIDEN = 332;
 
   private FamiliarPool() {}
 }

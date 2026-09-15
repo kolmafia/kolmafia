@@ -110,7 +110,7 @@ class FactDatabaseTest {
     "SEAL_CLUBBER, NONE, BASIC Elemental, STATS, +1 all substats",
     "SEAL_CLUBBER, NONE, poutine ooze, STATS, +3 all substats",
     "SEAL_CLUBBER, NONE, Assembly Elemental, STATS, +3 muscle substats",
-    "SEAL_CLUBBER, NONE, amorphous blob, MODIFIER, Experience (familiar): +1",
+    "SEAL_CLUBBER, NONE, amorphous blob, MODIFIER, Familiar Experience: +1",
     "SEAL_CLUBBER, NONE, Alphabet Giant, MODIFIER, Item Drop: +25",
     "SEAL_CLUBBER, NONE, Family Jewels, ITEM, line (3)",
     "SEAL_CLUBBER, NONE, angry mushroom guy, HP, 50% HP restore",

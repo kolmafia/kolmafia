@@ -697,6 +697,7 @@ public class SkillPool {
   public static final int KILL_A_LOT = 7593;
   public static final int STOP_KILLING = 7594;
   public static final int EXERCISE_LIQUIDITY = 7596;
+  public static final int SING_A_SONG_OF_MY_PROWESS = 7598;
 
   public static final int GOOD_SINGING_VOICE = 11016;
   public static final int BANISHING_SHOUT = 11020;

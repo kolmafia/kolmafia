@@ -62,7 +62,10 @@ public enum BooleanModifier implements Modifier {
       "Attacks Can't Miss",
       new Pattern[] {Pattern.compile("Regular Attacks Can't Miss"), Pattern.compile("Cannot miss")},
       Pattern.compile("Attacks Can't Miss")),
-  LOOK_LIKE_A_PIRATE("Pirate", Pattern.compile("Look like a Pirate")),
+  LOOK_LIKE_A_PIRATE(
+      "Look like a Pirate",
+      Pattern.compile("Look like a Pirate"),
+      Pattern.compile("Look like a Pirate")),
   BLIND("Blind", Pattern.compile("Blind")),
   BREAKABLE("Breakable", Pattern.compile("Breakable")),
   DROPS_ITEMS("Drops Items", Pattern.compile("Drops Items")),
@@ -187,7 +190,11 @@ public enum BooleanModifier implements Modifier {
 
   // equivalent to `Modifiers.findName`
   public static BooleanModifier byCaselessName(String name) {
-    return caselessNameToModifier.get(name.toLowerCase());
+    String key = name.toLowerCase();
+    if (key.equals("pirate")) {
+      return LOOK_LIKE_A_PIRATE;
+    }
+    return caselessNameToModifier.get(key);
   }
 
   // equivalent to `Modifiers.findModifier`

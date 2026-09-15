@@ -80,7 +80,7 @@ public class ModifierDatabaseTest {
     "Only Accordion Thieves may use this item, Class: \"Accordion Thief\"",
     "Bonus&nbsp;for&nbsp;Saucerors&nbsp;only, Class: \"Sauceror\"",
     "Monsters are much more attracted to you., Combat Rate: +10",
-    "Monsters will be significantly less attracted to you. (Underwater only), Combat Rate (Underwater): -15",
+    "Monsters will be significantly less attracted to you. (Underwater only), Underwater Combat Rate: -15",
     "Regenerate 100 MP per adventure, 'MP Regen Min: 100, MP Regen Max: 100'",
     "Regenerate 15-20 HP and MP per adventure, 'HP / MP Regen Min: 15, HP / MP Regen Max: 20'",
     "Serious Cold Resistance (+3), Cold Resistance: +3",
@@ -122,7 +122,7 @@ public class ModifierDatabaseTest {
         writeModifiersLines,
         hasItem(
             equalTo(
-                "Sign\tVole\tExperience Percent (Moxie): +10, Initiative: +20, Maximum HP / MP: +20")));
+                "Sign\tVole\tMoxie Experience Percent: +10, Initiative: +20, Maximum HP / MP: +20")));
   }
 
   @Test

@@ -111,18 +111,6 @@ global	mergeHobopolisChat	false
 global	pingDefaultTestPage	api
 global	pingDefaultTestPings	10
 global	pingLatest
-global	pingLogin	true
-global	pingLoginAbort	1:10
-global	pingLoginCheck	none
-global	pingLoginCount	0
-global	pingLoginFail	confirm
-global	pingLoginGoal	0
-global	pingLoginThreshold	0.2
-global	pingLongest
-global	pingShortest
-global	pingStealthyTimein	false
-global	pingTestPage	api
-global	pingTestPings	10
 global	previousNotifyList	<>
 global	previousUpdateVersion
 global	previousUpdateRevision	0
@@ -637,6 +625,7 @@ user	demonSummoned	false	ld
 user	desertExploration	0
 user	desktopHeight	600
 user	desktopWidth	800
+user	dietingPillCharges	0	roa
 user	dinseyAudienceEngagement	false
 user	dinseyFilthLevel	0
 user	dinseyFunProgress	0
@@ -1204,8 +1193,8 @@ user	maraisWildlifeUnlock	false
 user	maraisWizardUnlock	false
 user	markYourTerritoryCharges	0	roa
 user	masksUnlocked	0
-user	maximizerList	mainstat | mus | mys | mox | familiar weight | HP | MP | ML | DA | DR | +combat -tie | -combat -tie | initiative | exp | meat drop | item drop | 2.0 meat, 1.0 item | item, sea | weapon dmg | ranged dmg | elemental dmg | spell dmg | adv | pvp fights | hot res | cold res | spooky res | stench res | sleaze res | all res | mp regen | ML, 0.001 slime res | 4 clownosity, -tie | 7 raveosity, -tie | surgeonosity | +four songs
-user	maximizerMRUList	mainstat;mus;mys;mox;familiar weight;HP;MP;ML;DA;DR;+combat -tie;-combat -tie;initiative;exp;meat drop;item drop;2.0 meat, 1.0 item;item, sea;weapon dmg;ranged dmg;elemental dmg;spell dmg;adv;hot res;cold res;spooky res;stench res;sleaze res;all res;mp regen;ML, 0.001 slime res;4 clownosity;7 raveosity;+four songs
+user	maximizerList	mainstat | mus | mys | mox | familiar weight | HP | MP | ML | DA | DR | +combat -tie | -combat -tie | initiative | exp | meat drop | item drop | 2.0 meat, 1.0 item | item, sea | weapon dmg | ranged dmg | elemental dmg | spell dmg | adv | pvp fights | hot res | cold res | spooky res | stench res | sleaze res | all res | mp regen | ML, 0.001 slime res | clownosity, -tie | raveosity, -tie | surgeonosity, -tie | +four songs
+user	maximizerMRUList	mainstat;mus;mys;mox;familiar weight;HP;MP;ML;DA;DR;+combat -tie;-combat -tie;initiative;exp;meat drop;item drop;2.0 meat, 1.0 item;item, sea;weapon dmg;ranged dmg;elemental dmg;spell dmg;adv;hot res;cold res;spooky res;stench res;sleaze res;all res;mp regen;ML, 0.001 slime res;clownosity, -tie;raveosity, -tie;surgeonosity, -tie;+four songs
 user	maximizerMRUSize	5
 user	maximizerAlwaysCurrent	false
 user	maximizerCombinationLimit	0
@@ -1535,11 +1524,11 @@ user	restUsingChateau	true
 user	retroCapeSuperhero	vampire	roa
 user	retroCapeWashingInstructions	hold	roa
 user	rockinRobinProgress	25	roa
-user	romanCandelabraRedCasts	0
-user	romanCandelabraBlueCasts	0
-user	romanCandelabraYellowCasts	0
-user	romanCandelabraGreenCasts	0
-user	romanCandelabraPurpleCasts	0
+user	romanCandelabraRedCasts	0	roa
+user	romanCandelabraBlueCasts	0	roa
+user	romanCandelabraYellowCasts	0	roa
+user	romanCandelabraGreenCasts	0	roa
+user	romanCandelabraPurpleCasts	0	roa
 user	romanticTarget		ld
 user	ROMOfOptimalityAvailable	true
 user	ROMOfOptimalityCost	1000
@@ -1684,6 +1673,7 @@ user	sourceTerminalEducateKnown
 user	sourceTerminalEnhanceKnown
 user	sourceTerminalEnquiryKnown
 user	sourceTerminalExtrudeKnown
+user	soybeanFuturesEaten	0	roa
 user	spaceBabyLanguageFluency	0	roa
 user	spacePirateLanguageFluency	0	roa
 user	spacegateAlways	false
@@ -2499,6 +2489,7 @@ user	_leavesJumped	false
 user	_legendaryBeat	false
 user	_legendaryLasagmbieMana	0
 user	_legendaryNoodlesSpleen	false
+user	_legendaryPastaWandCrafting	0
 user	_legendaryPastaWaveCast	false
 user	_legendarySpiceGhostFood	false
 user	_legendaryVermincelliFreeRats	0
@@ -2522,7 +2513,17 @@ user	_lovebugsWalmart	0
 user	_loveChocolatesUsed	0
 user	_loveTunnelToday	false
 user	_loveTunnelUsed	false
-user	_luckyGoldRingVolcoino	false
+user	_luckyGoldRingBeachBuck	0
+user	_luckyGoldRingBit	0
+user	_luckyGoldRingCoinspiracy	0
+user	_luckyGoldRingFreddy	0
+user	_luckyGoldRingFunFunds	0
+user	_luckyGoldRingHoboNickel	0
+user	_luckyGoldRingMeat	0
+user	_luckyGoldRingRubee	0
+user	_luckyGoldRingSandDollar	0
+user	_luckyGoldRingVolcoino	0
+user	_luckyGoldRingWalmart	0
 user	_lunchBreak	false
 user	_lupineHormonesUsed	false
 user	_lyleFavored	false
@@ -2843,7 +2844,6 @@ user	_takerSpaceSuppliesDelivered	false
 user	_tearawayPantsAdvs	0
 user	_telegraphOfficeToday	false
 user	_templeHiddenPower	false
-user	_tempRelayCounters
 user	_tempuraAirUsed	false
 user	_thanksgettingFoodsEaten	0
 user	_thesisDelivered	false
@@ -2948,6 +2948,9 @@ user	_warbearBankUsed	false
 user	_warbearBreakfastMachineUsed	false
 user	_warbearGyrocopterUsed	false
 user	_warbearSodaMachineUsed	false
+user	_waterBalloonBuffGranted	false
+user	_waterBalloonHeldByEnemy	false	rof
+user	_waterBalloonTossStreak	0
 user	_waxGlobDrops	0
 user	_whiteRiceDrops	0
 user	_wildfireBarrelHarvested	false

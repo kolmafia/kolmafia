@@ -72,7 +72,6 @@ import net.sourceforge.kolmafia.swingui.panel.DailyDeedsPanel;
 import net.sourceforge.kolmafia.swingui.panel.DailyDeedsPanel.BuiltinDeed;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.swingui.panel.OptionsPanel;
-import net.sourceforge.kolmafia.swingui.panel.PingOptionsPanel;
 import net.sourceforge.kolmafia.swingui.panel.ScrollablePanel;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.CollapsibleTextArea;
@@ -168,20 +167,16 @@ public class OptionsFrame extends GenericFrame {
   static class ConnectionOptionsPanel extends ConfigQueueingPanel {
     public ConnectionOptionsPanel() {
       super();
-      this.queue(new PingOptionsPanel());
-      this.queue(this.newSeparator());
       this.queue(new PingTestPanel());
-      this.queue(this.newSeparator());
-      this.queue(new TimeinPanel());
       this.makeLayout();
     }
 
-    public class PingTestPanel extends ConfigQueueingPanel {
+    private static class PingTestPanel extends ConfigQueueingPanel {
       public PingTestPanel() {
         super();
         this.queue(
             new PreferenceButtonGroup(
-                "pingTestPage",
+                "pingDefaultTestPage",
                 "KoL page to ping: ",
                 true,
                 "api",
@@ -191,10 +186,9 @@ public class OptionsFrame extends GenericFrame {
                 "main"));
         this.queue(
             new PreferenceIntegerTextField(
-                "pingTestPings", 4, "How many times to ping that page."));
+                "pingDefaultTestPings", 4, "How many times to ping that page."));
         this.queue(new PingTestButton());
         this.queue(new LatestPingTest());
-        this.queue(new SetDefaultsButton());
 
         this.makeLayout();
       }
@@ -234,9 +228,7 @@ public class OptionsFrame extends GenericFrame {
           public void run() {
             try {
               PingTestButton.this.button.setEnabled(false);
-              int pings = Preferences.getInteger("pingTestPings");
-              String page = Preferences.getString("pingTestPage");
-              PingManager.runPingTest(pings, page, false, false);
+              PingManager.runPingTest();
             } finally {
               PingTestButton.this.button.setEnabled(true);
             }
@@ -262,79 +254,6 @@ public class OptionsFrame extends GenericFrame {
           message.append(KoLConstants.FLOAT_FORMAT.format(latest.getAverage()));
           message.append(" msec.");
           this.setText(message.toString());
-        }
-      }
-
-      private class SetDefaultsButton extends JPanel {
-        private final JButton button = new JButton("Set Defaults");
-
-        public SetDefaultsButton() {
-          configure();
-          makeLayout();
-        }
-
-        private void configure() {
-          this.setLayout(new FlowLayout(FlowLayout.LEFT, 1, 1));
-          this.addActionListener(
-              e -> {
-                Preferences.setString("pingDefaultTestPage", Preferences.getString("pingTestPage"));
-                Preferences.setInteger(
-                    "pingDefaultTestPings", Preferences.getInteger("pingTestPings"));
-              });
-        }
-
-        public void addActionListener(ActionListener a) {
-          this.button.addActionListener(a);
-        }
-
-        private void makeLayout() {
-          JLabel label = new JLabel("Use those parameters for login ping tests:");
-          this.add(label);
-          this.add(this.button);
-        }
-
-        @Override
-        public Dimension getMaximumSize() {
-          return this.getPreferredSize();
-        }
-      }
-    }
-
-    private class TimeinPanel extends ConfigQueueingPanel {
-      public TimeinPanel() {
-        super();
-        this.queue(new TimeinButton());
-        this.queue(
-            new PreferenceCheckBox(
-                "pingStealthyTimein", "When timing in to reconnect, use stealth mode (/q)"));
-        this.makeLayout();
-      }
-
-      private class TimeinButton extends JPanel {
-        private final JButton button = new ThreadedButton("Time In", new TimeinRunnable());
-
-        public TimeinButton() {
-          this.setLayout(new FlowLayout(FlowLayout.LEFT, 1, 1));
-          JLabel label = new JLabel("Try for a better connection:");
-          this.add(label);
-          this.add(this.button);
-        }
-
-        @Override
-        public Dimension getMaximumSize() {
-          return this.getPreferredSize();
-        }
-
-        private class TimeinRunnable implements Runnable {
-          @Override
-          public void run() {
-            try {
-              TimeinButton.this.button.setEnabled(false);
-              LoginRequest.retimein();
-            } finally {
-              TimeinButton.this.button.setEnabled(true);
-            }
-          }
         }
       }
     }

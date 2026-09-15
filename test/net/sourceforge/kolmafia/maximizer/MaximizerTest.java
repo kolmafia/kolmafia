@@ -36,6 +36,7 @@ import static internal.matchers.Maximizer.recommendsSlot;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.hasToString;
@@ -59,6 +60,7 @@ import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.modifiers.BitmapModifier;
 import net.sourceforge.kolmafia.modifiers.DerivedModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
@@ -400,12 +402,54 @@ public class MaximizerTest {
   }
 
   @Nested
+  class OsityScoring {
+    @Test
+    public void zeroWeightOsityStillEnforcesExplicitMinimum() {
+      var evaluator = new Evaluator("0 raveosity, 3 min, -tie");
+      var modifiers = new Modifiers();
+
+      setOsityValue(modifiers, BitmapModifier.RAVEOSITY, 2);
+      assertEquals(0.0, evaluator.getScore(modifiers));
+      assertTrue(evaluator.failed);
+
+      setOsityValue(modifiers, BitmapModifier.RAVEOSITY, 3);
+      assertEquals(0.0, evaluator.getScore(modifiers));
+      assertFalse(evaluator.failed);
+    }
+
+    @Test
+    public void bareOsitiesAcceptTheirDefaultMinimum() {
+      assertBareOsityMinimum("clownosity", BitmapModifier.CLOWNINESS, 100);
+      assertBareOsityMinimum("clowniness", BitmapModifier.CLOWNINESS, 100);
+      assertBareOsityMinimum("raveosity", BitmapModifier.RAVEOSITY, 7);
+      assertBareOsityMinimum("surgeonosity", BitmapModifier.SURGEONOSITY, 1);
+    }
+
+    private void assertBareOsityMinimum(String expression, BitmapModifier modifier, int minimum) {
+      var evaluator = new Evaluator(expression + ", -tie");
+      var modifiers = new Modifiers();
+      setOsityValue(modifiers, modifier, minimum);
+
+      evaluator.getScore(modifiers);
+
+      assertFalse(evaluator.failed);
+    }
+
+    private void setOsityValue(Modifiers modifiers, BitmapModifier modifier, int value) {
+      int sourceCount = modifier == BitmapModifier.CLOWNINESS ? value / 25 : value;
+      modifiers.setBitmap(modifier, (1 << sourceCount) - 1);
+    }
+  }
+
+  @Nested
   class Clownosity {
     @Test
     public void clownosityTriesClownEquipment() {
       final var cleanups = new Cleanups(withEquippableItem("clown wig"));
       try (cleanups) {
+        assertTrue(maximize("clownosity 50 min -tie"));
         assertFalse(maximize("clownosity -tie"));
+        assertFalse(maximize("10 clownosity -tie"));
         // still provides equipment
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "clown wig")));
         assertEquals(50, modFor(BitmapModifier.CLOWNINESS), 0.01);
@@ -421,6 +465,35 @@ public class MaximizerTest {
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "clown wig")));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.ACCESSORY1, "polka-dot bow tie")));
         assertEquals(125, modFor(BitmapModifier.CLOWNINESS), 0.01);
+      }
+    }
+
+    @Test
+    public void clownosityWeightRetainsDefaultMinimum() {
+      final var cleanups =
+          new Cleanups(
+              withEquippableItem("mesh cap"),
+              withEquippableItem("clown wig"),
+              withEquippableItem("polka-dot bow tie"));
+      try (cleanups) {
+        assertTrue(maximize("100 muscle 5 clownosity -tie"));
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "clown wig")));
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.ACCESSORY1, "polka-dot bow tie")));
+        assertEquals(125, modFor(BitmapModifier.CLOWNINESS), 0.01);
+      }
+    }
+
+    @Test
+    public void clownosityStopsAt100() {
+      final var cleanups =
+          new Cleanups(
+              withEquippableItem("clown wig"),
+              withEquippableItem("balloon sword"),
+              withEquippableItem("clownskin buckler"));
+      try (cleanups) {
+        assertTrue(maximize("clownosity -tie"));
+        assertEquals(100, modFor(BitmapModifier.CLOWNINESS), 0.01);
+        assertThat(getBoosts().stream().filter(Boost::isEquipment).count(), equalTo(2L));
       }
     }
 
@@ -450,6 +523,8 @@ public class MaximizerTest {
               withEquippableItem("baggy rave pants"),
               withEquippableItem("rave whistle"));
       try (cleanups) {
+        assertTrue(maximize("raveosity 5 min -tie"));
+        assertFalse(maximize("10 raveosity -tie"));
         assertFalse(maximize("raveosity -tie"));
         // still provides equipment
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "rave visor")));
@@ -507,13 +582,56 @@ public class MaximizerTest {
       var cleanups = withEquippableItem("surgical mask", 3);
 
       try (cleanups) {
-        maximize("surgeonosity, -tie");
+        assertFalse(maximize("surgeonosity 3 min, -tie"));
+        assertTrue(maximize("surgeonosity, -tie"));
         assertEquals(1, modFor(BitmapModifier.SURGEONOSITY), 0.01);
         assertThat(
             getBoosts().stream()
                 .filter(x -> x.isEquipment() && "surgical mask".equals(x.getItem().getName()))
                 .count(),
             equalTo(1L));
+      }
+    }
+
+    @Test
+    public void weightedSurgeonosityEquipsEveryAvailablePiece() {
+      final var cleanups =
+          new Cleanups(
+              withEquippableItem("head mirror"),
+              withEquippableItem("bloodied surgical dungarees"),
+              withEquippableItem("surgical apron"),
+              withEquippableItem("surgical mask"),
+              withEquippableItem("half-size scalpel"),
+              withSkill("Torso Awareness"));
+
+      try (cleanups) {
+        assertTrue(maximize("surgeonosity, -tie"));
+        assertEquals(5, modFor(BitmapModifier.SURGEONOSITY), 0.01);
+        assertThat(getBoosts(), hasItem(recommends("head mirror")));
+        assertThat(getBoosts(), hasItem(recommends("surgical mask")));
+        assertThat(getBoosts(), hasItem(recommends("half-size scalpel")));
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.PANTS, "bloodied surgical dungarees")));
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.SHIRT, "surgical apron")));
+      }
+    }
+
+    @Test
+    public void surgeonosityRespectsMaximum() {
+      final var cleanups =
+          new Cleanups(
+              withEquippableItem("head mirror"),
+              withEquippableItem("bloodied surgical dungarees"),
+              withEquippableItem("surgical apron"),
+              withEquippableItem("surgical mask"),
+              withEquippableItem("half-size scalpel"),
+              withSkill("Torso Awareness"));
+
+      try (cleanups) {
+        assertTrue(maximize("surgeonosity, 3 max, -tie"));
+        assertEquals(3, modFor(BitmapModifier.SURGEONOSITY), 0.01);
+        assertThat(getBoosts(), hasItem(recommends("head mirror")));
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.PANTS, "bloodied surgical dungarees")));
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.SHIRT, "surgical apron")));
       }
     }
   }
@@ -3525,6 +3643,27 @@ public class MaximizerTest {
         assertThat(getBoosts(), hasItem(recommends(ItemPool.FLAK_SHIELD)));
         assertThat(modFor(DoubleModifier.DAMAGE_REDUCTION), equalTo(9.0));
       }
+    }
+  }
+
+  @Test
+  void keepsCurrentEquipmentWhenCombinationLimitIsReached() {
+    var watch = ItemPool.get("grandfather watch");
+    try (var cleanups =
+        new Cleanups(
+            withItem("Boots of Twilight Whispers"),
+            withEquipped(Slot.ACCESSORY1, "Elf Guard insignia (general)"),
+            withEquipped(Slot.ACCESSORY2, watch),
+            withEquipped(Slot.ACCESSORY3, ItemPool.THE_ETERNITY_CODPIECE),
+            withEquipped(Slot.FAMILIAR, "solid shifting time weirdness"),
+            withProperty("maximizerCombinationLimit", 1))) {
+      double current = new Evaluator("adv").getScore(KoLCharacter.getCurrentModifiers());
+
+      assertThat(maximize("adv"), is(true));
+      assertThat(Maximizer.best.getScore(), greaterThanOrEqualTo(current));
+      assertThat(
+          SlotSet.ACCESSORY_SLOTS.stream().map(Maximizer.best.equipment::get).toList(),
+          hasItem(watch));
     }
   }
 }
