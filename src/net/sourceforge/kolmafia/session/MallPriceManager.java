@@ -734,13 +734,9 @@ public abstract class MallPriceManager {
         ItemDatabase.registerItem(itemId, itemName, item.getString("descid"));
       }
 
-      var stores = item.getJSONArray("stores");
-      // Should never be empty
-      if (stores.isEmpty()) {
-        continue;
-      }
-
       results.addAll(NPCStoreDatabase.getAvailablePurchaseRequests(itemId));
+
+      var stores = item.getJSONArray("stores");
 
       for (int j = 0; j < stores.size(); ++j) {
         var store = stores.getJSONObject(j);
