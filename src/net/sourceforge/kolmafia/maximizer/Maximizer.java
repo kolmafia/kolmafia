@@ -183,6 +183,7 @@ public class Maximizer {
     Maximizer.boosts.clear();
     if (filter.contains(KoLConstants.filterType.EQUIP)) {
       Maximizer.best.getScore();
+      MaximizerSpeculation currentEquipment = Maximizer.best.clone();
       // In case the current outfit scores better than any tried combination,
       // due to some newly-added constraint (such as +melee):
       Maximizer.best.failed = true;
@@ -212,6 +213,9 @@ public class Maximizer {
                 Slot.NONE,
                 null,
                 0.0));
+      }
+      if (!currentEquipment.failed && Maximizer.best.getScore() < currentEquipment.getScore()) {
+        Maximizer.best = currentEquipment;
       }
       MaximizerSpeculation.showProgress();
 

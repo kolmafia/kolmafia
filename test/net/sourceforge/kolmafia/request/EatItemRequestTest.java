@@ -367,4 +367,19 @@ class EatItemRequestTest {
       assertThat("_legendarySpiceGhostFood", isSetTo(true));
     }
   }
+
+  @ParameterizedTest
+  @CsvSource({"1,a dieting pill charge", "2,2 dieting pill charges"})
+  void parsesDietingPillUse(int count, String logPhrase) {
+    RequestLoggerOutput.startStream();
+    var cleanups = withProperty("dietingPillCharges", 3);
+    try (cleanups) {
+      var req = new EatItemRequest(ItemPool.get(ItemPool.JUMPING_HORSERADISH, count));
+      req.responseText = html("request/test_eat_dietingpill_x" + count + ".html");
+      req.processResults();
+      var text = RequestLoggerOutput.stopStream();
+      assertThat("dietingPillCharges", isSetTo(3 - count));
+      assertThat(text, containsString("You used " + logPhrase + " with your food"));
+    }
+  }
 }

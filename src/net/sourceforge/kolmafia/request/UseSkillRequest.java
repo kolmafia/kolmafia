@@ -4,6 +4,7 @@ import static net.sourceforge.kolmafia.utilities.Statics.DateTimeManager;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -28,6 +29,7 @@ import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.DerivedModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
+import net.sourceforge.kolmafia.modifiers.Lookup;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.moods.HPRestoreItemList;
 import net.sourceforge.kolmafia.moods.MoodManager;
@@ -1034,6 +1036,26 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
                                 .collect(Collectors.joining(", "))
                             + "."));
       }
+
+      var possibleFamiliars =
+          ModifierDatabase.getNonCombatSkillProviders().stream()
+              .filter(l -> l.getType() == ModifierType.FAMILIAR)
+              .filter(
+                  l ->
+                      ModifierDatabase.getMultiStringModifier(
+                              l, StringModifier.CONDITIONAL_SKILL_EQUIPPED)
+                          .stream()
+                          .mapToInt(SkillDatabase::getSkillId)
+                          .anyMatch(i -> i == skillId))
+              .map(Lookup::getStringKey)
+              .map(KoLCharacter::usableFamiliar)
+              .filter(Objects::nonNull)
+              .collect(Collectors.toList());
+
+      if (!possibleFamiliars.isEmpty() && !possibleFamiliars.contains(KoLCharacter.getFamiliar())) {
+        var familiar = possibleFamiliars.get(0);
+        RequestThread.postRequest(new FamiliarRequest(familiar));
+      }
     }
 
     if (Preferences.getBoolean("switchEquipmentForBuffs")) {
@@ -1285,6 +1307,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
 
     // Optimizing equipment can involve changing equipment.
     // Save a checkpoint so we can restore previous equipment.
+    var oldFamiliar = KoLCharacter.getFamiliar();
     try (Checkpoint checkpoint = new Checkpoint()) {
       optimizeEquipment();
       if (KoLmafia.refusesContinue()) {
@@ -1294,6 +1317,12 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
 
       this.isRunning = true;
       this.useSkillLoop();
+
+      // optimizeEquipment may have changed the active familiar so that we
+      // could cast this skill. Restore the previous familiar.
+      if (!KoLmafia.refusesContinue() && !oldFamiliar.equals(KoLCharacter.getFamiliar())) {
+        RequestThread.postRequest(new FamiliarRequest(oldFamiliar));
+      }
     } finally {
       this.isRunning = false;
     }
@@ -1580,6 +1609,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
           SkillPool.CINCHO_DISPENSE_SALT_AND_LIME,
           SkillPool.CINCHO_PARTY_SOUNDTRACK,
           SkillPool.CINCHO_FIESTA_EXIT,
+          SkillPool.REST_UPSIDE_DOWN,
           SkillPool.BCZ__BLOOD_BATH,
           SkillPool.BCZ__DIAL_IT_UP_TO_11,
           SkillPool.BCZ__SWEAT_EQUITY,

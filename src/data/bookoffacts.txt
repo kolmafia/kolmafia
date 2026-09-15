@@ -72,7 +72,7 @@ None	Stats	3	moxie
 None	Stats	3	mysticality
 None	HP	10
 None	MP	10
-None	Modifier	Experience (familiar): +1
+None	Modifier	Familiar Experience: +1
 None	Modifier	Item Drop: +25
 None	Item	HEAP
 None	Effect	Antiantifrozen (10)

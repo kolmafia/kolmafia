@@ -99,7 +99,7 @@ public class MummeryRequest extends GenericRequest {
         if (FamiliarDatabase.hasAttribute(familiarId, "animal")) {
           mod1 = 4;
         }
-        mods += "Experience (Muscle): [" + mod1 + "*fam(" + familiar + ")],";
+        mods += "Muscle Experience: [" + mod1 + "*fam(" + familiar + ")],";
       }
       case 4 -> {
         mod1 = 15;
@@ -113,7 +113,7 @@ public class MummeryRequest extends GenericRequest {
         if (FamiliarDatabase.hasAttribute(familiarId, "haseyes")) {
           mod1 = 4;
         }
-        mods += "Experience (Mysticality): [" + mod1 + "*fam(" + familiar + ")],";
+        mods += "Mysticality Experience: [" + mod1 + "*fam(" + familiar + ")],";
       }
       case 6 -> {
         mod1 = 8;
@@ -138,7 +138,7 @@ public class MummeryRequest extends GenericRequest {
         if (FamiliarDatabase.hasAttribute(familiarId, "sleaze")) {
           mod1 = 4;
         }
-        mods += "Experience (Moxie): [" + mod1 + "*fam(" + familiar + ")],";
+        mods += "Moxie Experience: [" + mod1 + "*fam(" + familiar + ")],";
       }
     }
 

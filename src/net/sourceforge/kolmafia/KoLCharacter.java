@@ -2431,11 +2431,7 @@ public abstract class KoLCharacter {
     for (var slot : SlotSet.SLOTS) {
       var equip = equipment.get(slot);
       if (equip == null) continue;
-      String displayName =
-          ModifierDatabase.getStringModifier(
-              ModifierType.ITEM, equip.id, StringModifier.DISPLAY_NAME);
-      String name = displayName.isEmpty() ? equip.getName() : displayName;
-      swords += KoLCharacter.getSwordOfSWordsosity(name);
+      swords += KoLCharacter.getSwordOfSWordsosity(equip.getName());
     }
 
     return swords;
@@ -3009,6 +3005,7 @@ public abstract class KoLCharacter {
         || oldPath == Path.JOURNEYMAN) {
       RequestThread.postRequest(new CharSheetRequest());
       InventoryManager.checkSkillGrantingEquipment();
+      FamiliarData.checkSkillGrantingFamiliars();
     }
 
     if (restricted

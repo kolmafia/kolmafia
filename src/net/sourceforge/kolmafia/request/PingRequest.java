@@ -12,10 +12,6 @@ public class PingRequest extends GenericRequest {
   // api.php's responseText is about 1/4 the size of main.php's - and
   // measured ping time is about 1/4 as long.
 
-  public PingRequest() {
-    this("api.php");
-  }
-
   public PingRequest(String pingURL) {
     super(pingURLToFormURL(pingURL));
     this.pingURL = pingURL;
@@ -115,14 +111,6 @@ public class PingRequest extends GenericRequest {
   @Override
   protected boolean shouldFollowRedirect() {
     return false;
-  }
-
-  public long getStartTime() {
-    return this.startTime;
-  }
-
-  public long getEndTime() {
-    return this.startTime;
   }
 
   public long getElapsedTime() {

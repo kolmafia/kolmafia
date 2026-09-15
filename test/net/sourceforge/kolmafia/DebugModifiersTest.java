@@ -115,6 +115,14 @@ public class DebugModifiersTest {
   }
 
   @Test
+  void listsAllResistanceForIndividualElement() {
+    try (var cleanups = withEquipped(Slot.HAT, "tin foil hat")) {
+      evaluateDebugModifiers("sleaze res");
+    }
+    assertThat(output(), containsDebugRow("Item", "tin foil hat", 2.0, 2.0));
+  }
+
+  @Test
   void listsPassiveSkill() {
     try (var cleanups = withSkill(SkillPool.COSMIC_UNDERSTANDING)) {
       evaluateDebugModifiers(DoubleModifier.MP_PCT);

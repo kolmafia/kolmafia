@@ -147,7 +147,7 @@ public class LatteRequest extends GenericRequest {
             "Cinna-",
             "cinnamon",
             "with a shake of cinnamon",
-            "Experience (Moxie): 1, Moxie Percent: 5, Pickpocket Chance: 5",
+            "Moxie Experience: 1, Moxie Percent: 5, Pickpocket Chance: 5",
             null),
         new Latte(
             "cloves",
@@ -395,7 +395,7 @@ public class LatteRequest extends GenericRequest {
             "Autumnal",
             "pumpkin spice",
             "with a hint of autumn",
-            "Experience (Mysticality): 1, Mysticality Percent: 5, Spell Damage: 5",
+            "Mysticality Experience: 1, Mysticality Percent: 5, Spell Damage: 5",
             null),
         new Latte(
             "rawhide",
@@ -475,7 +475,7 @@ public class LatteRequest extends GenericRequest {
             "Vanilla",
             "vanilla",
             "with a shot of vanilla",
-            "Experience (Muscle): 1, Muscle Percent: 5, Weapon Damage Percent: 5",
+            "Muscle Experience: 1, Muscle Percent: 5, Weapon Damage Percent: 5",
             null),
         new Latte(
             "venom",
@@ -491,7 +491,7 @@ public class LatteRequest extends GenericRequest {
             "Fortified",
             "vitamin",
             "enriched with vitamins",
-            "Experience (familiar): 3",
+            "Familiar Experience: 3",
             "specifically vitamins G, L, P, and W"),
         new Latte(
             "wing",

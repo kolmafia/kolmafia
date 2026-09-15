@@ -6,6 +6,7 @@ import static internal.helpers.Player.withEquippableItem;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withHandlingChoice;
 import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withStats;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 
@@ -62,6 +63,43 @@ public class EquipCommandTest extends AbstractCommandTestBase {
       assertThat(requests, hasSize(2));
       assertPostRequest(requests.get(0), "/inventory.php", "action=useholder");
       assertPostRequest(requests.get(1), "/choice.php", "whichchoice=774&option=1&folder=1");
+    }
+  }
+
+  @Test
+  public void insertsCodpieceGemWithoutMeetingItsEquipmentRequirement() {
+    HttpClientWrapper.setupFakeClient();
+    var cleanups =
+        new Cleanups(
+            withStats(1, 1, 1),
+            withItem(ItemPool.BLACK_CATSEYE_MARBLE),
+            withEquipped(Slot.ACCESSORY1, ItemPool.THE_ETERNITY_CODPIECE),
+            withHandlingChoice(false));
+
+    try (cleanups) {
+      execute("codpiece1 black catseye marble");
+      assertContinueState();
+
+      var requests = getRequests();
+      assertThat(requests, hasSize(2));
+      assertPostRequest(requests.get(0), "/inventory.php", "action=docodpiece");
+      assertPostRequest(
+          requests.get(1), "/choice.php", "whichchoice=1588&option=1&which=1&iid=4104");
+    }
+  }
+
+  @Test
+  public void rejectsNonGemInCodpieceSlot() {
+    HttpClientWrapper.setupFakeClient();
+    var cleanups =
+        new Cleanups(
+            withEquippableItem(ItemPool.HOT_PLATE),
+            withEquipped(Slot.ACCESSORY1, ItemPool.THE_ETERNITY_CODPIECE));
+
+    try (cleanups) {
+      execute("codpiece1 hot plate");
+      assertErrorState();
+      assertThat(getRequests(), hasSize(0));
     }
   }
 }

@@ -6,12 +6,16 @@ import static internal.helpers.Player.withClass;
 import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
+import static internal.helpers.Player.withFamiliarInTerrarium;
 import static internal.helpers.Player.withNotAllowedInStandard;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withRestricted;
 import static internal.helpers.Player.withSkill;
+import static internal.helpers.Player.withSkillGrantingFamiliarsChecked;
 import static internal.helpers.Player.withStats;
+import static internal.helpers.Player.withoutFamiliarInTerrarium;
+import static internal.helpers.Player.withoutSkill;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
@@ -647,5 +651,48 @@ public class FamiliarDataTest {
     var id = FamiliarDatabase.getFamiliarId(name);
     var fam = new FamiliarData(id);
     assertThat(fam.canCarry(), is(expected));
+  }
+
+  @Nested
+  class ConditionalSkills {
+    @Test
+    public void absentFamiliarsDoNotProvideSkills() {
+      var cleanups =
+          new Cleanups(
+              withoutSkill(SkillPool.SING_A_SONG_OF_MY_PROWESS),
+              withoutFamiliarInTerrarium(FamiliarPool.MEAT_SHIELD_MAIDEN),
+              withSkillGrantingFamiliarsChecked());
+      try (cleanups) {
+        var fam = KoLCharacter.usableFamiliar(FamiliarPool.MEAT_SHIELD_MAIDEN);
+        assertThat(fam, nullValue());
+        assertFalse(KoLCharacter.hasSkill(SkillPool.SING_A_SONG_OF_MY_PROWESS));
+      }
+    }
+
+    @Test
+    public void familiarsInTerrariumProvideSkills() {
+      var cleanups =
+          new Cleanups(
+              withoutSkill(SkillPool.SING_A_SONG_OF_MY_PROWESS),
+              withFamiliarInTerrarium(FamiliarPool.MEAT_SHIELD_MAIDEN),
+              withSkillGrantingFamiliarsChecked());
+      try (cleanups) {
+        var fam = KoLCharacter.usableFamiliar(FamiliarPool.MEAT_SHIELD_MAIDEN);
+        assertThat(fam, notNullValue());
+        assertTrue(KoLCharacter.hasSkill(SkillPool.SING_A_SONG_OF_MY_PROWESS));
+      }
+    }
+
+    @Test
+    public void cannotUseFamiliarConditionalSkillsInAvatarPaths() {
+      var cleanups =
+          new Cleanups(
+              withPath(Path.AVATAR_OF_BORIS),
+              withFamiliarInTerrarium(FamiliarPool.MEAT_SHIELD_MAIDEN),
+              withSkillGrantingFamiliarsChecked());
+      try (cleanups) {
+        assertFalse(KoLCharacter.hasSkill(SkillPool.SING_A_SONG_OF_MY_PROWESS));
+      }
+    }
   }
 }

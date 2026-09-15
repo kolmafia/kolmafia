@@ -7,6 +7,7 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
@@ -96,6 +97,11 @@ public class EquipCommand extends AbstractCommand {
       if (!familiar.canEquip(match)) {
         KoLmafia.updateDisplay(
             MafiaState.ERROR, "Your " + familiar.getRace() + " can't wear a " + match.getName());
+        return;
+      }
+    } else if (SlotSet.CODPIECE_SLOTS.contains(slot)) {
+      if (!EquipmentRequest.isCodpieceGem(itemId)) {
+        KoLmafia.updateDisplay(MafiaState.ERROR, "You can't insert a " + match.getName());
         return;
       }
     } else if (!EquipmentManager.canEquip(itemId)) {
