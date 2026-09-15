@@ -308,7 +308,7 @@ public class ModifierExpressionTest {
     var cleanups = withInteractivity(interact);
 
     try (cleanups) {
-      var exp = new ModifierExpression("interact()", "Interact");
+      var exp = new ModifierExpression("interact", "Interact");
       assertThat(exp.eval(), is(interact ? 1.0 : 0.0));
     }
   }
@@ -319,7 +319,7 @@ public class ModifierExpressionTest {
     var cleanups = withRestricted(restricted);
 
     try (cleanups) {
-      var exp = new ModifierExpression("restricted()", "Restricted");
+      var exp = new ModifierExpression("restrict", "Restricted");
       assertThat(exp.eval(), is(restricted ? 1.0 : 0.0));
     }
   }
