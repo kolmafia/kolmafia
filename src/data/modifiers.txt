@@ -5492,9 +5492,9 @@ Item	frigid air mattress	Cold Resistance: +2
 Item	Frobozz Real-Estate Company Instant House (TM)	Base Resting HP: +39, Base Resting MP: +40
 Item	gauze hammock	Bonus Resting HP: +60
 Item	gingerbread house	Last Available: "2009-12", Base Resting HP: +69, Base Resting MP: +70
-Item	giant Faraday cage	Base Resting HP: +50, Base Resting MP: +50
-Item	giant pilgrim hat	Last Available: "2016-11", Base Resting HP: +39, Base Resting MP: +40
-Item	house-sized mushroom	Last Available: "2020-03", Base Resting HP: +69, Base Resting MP: +70
+Item	giant Faraday cage	Base Resting HP: +49, Base Resting MP: +50
+Item	giant pilgrim hat	Last Available: "2016-11", Base Resting HP: +14, Base Resting MP: +15
+Item	house-sized mushroom	Last Available: "2020-03", Base Resting HP: +140, Base Resting MP: +70
 Item	ginormous pumpkin	Last Available: "2010-11", Base Resting HP: +49, Base Resting MP: +50
 # haunted doghouse: Houses your very own Hallowiener Dog!
 Item	haunted doghouse	Free Pull, Last Available: "2015-10"
@@ -5511,7 +5511,7 @@ Item	saltwaterbed	Better Diver: 10
 Item	sandcastle	Base Resting HP: +49, Base Resting MP: +50
 # sleeping stocking
 # snow fort 10 turns of Snow Fortified (+25% item drop, +50% meat drop, +50 max MP, +100 max HP)
-Item	snow fort	Last Available: "2014-01", Base Resting HP: +65, Base Resting MP: +65
+Item	snow fort	Last Available: "2014-01", Base Resting HP: +49, Base Resting MP: +50
 # spirit bed 20 turns of Spirit Schooled (+20% max MP)
 # spooky scarecrow
 Item	stained mattress	Sleaze Resistance: +2
@@ -12433,7 +12433,7 @@ Item	bag of Iunion stones	Free Pull
 Item	bag of park garbage	Last Available: "2015-04"
 Item	bag of sausage links	Last Available: "2019-01"
 Item	bagged Cargo Cultist Shorts	Free Pull, Last Available: "2020-09"
-Item	balance sheet	Last Available: "2026-08"
+Item	balance sheet	Last Available: "2026-08", Bonus Resting HP: +20, Bonus Resting MP: +10
 # ball: Lets You Escape From Combat
 Item	ball	Last Available: "2010-12"
 # ballpark hot daub: Deals 450-500 <font color=red>Hot Damage</font>, also briefly stuns enemies and weakens them a lot
@@ -12558,7 +12558,7 @@ Item	bolt of striped fabric	Last Available: "2026-03"
 Item	bomb of unknown origin	Last Available: "2016-11"
 Item	bone chips	Last Available: "2011-12"
 Item	bone pacifier	Familiar Weight: +5
-Item	bonsai tree	Last Available: "2013-12"
+Item	bonsai tree	Last Available: "2013-12", Bonus Resting MP: +2
 Item	book of facts	Skill: "Just the Facts", Last Available: "2023-09"
 Item	book of facts (dog-eared)	Skill: "Just the Facts", Last Available: "2023-09"
 Item	Book of Irony	Skill: "Generate Irony"
@@ -14149,7 +14149,7 @@ Item	mime eraser	Last Available: "2017-12"
 Item	mime soul fragment	Last Available: "2012-04"
 Item	mini kiwi aioli	Last Available: "2024-06"
 Item	mini kiwi egg	Free Pull, Last Available: "2024-06"
-Item	mini kiwi tipi	Last Available: "2024-06"
+Item	mini kiwi tipi	Last Available: "2024-06", Base Resting HP: +49, Base Resting MP: +50
 Item	mini kiwi invisible dirigible	Familiar Weight: -20, Last Available: "2024-06", Generic
 Item	Mini-Crimbot crate	Last Available: "2014-12"
 # miniature boiler: Deals 20-40 Physical Damage
@@ -15007,7 +15007,7 @@ Item	sleeping patriotic eagle	Free Pull
 Item	sleeping piano cat	Free Pull, Last Available: "2011-12"
 Item	sleeping profane parrot	Last Available: "2024-12"
 Item	sleeping snowy owl	Last Available: "2005-12"
-Item	sleeping stocking	Last Available: "2010-12"
+Item	sleeping stocking	Last Available: "2010-12", Damage Reduction: 10
 Item	slicksilver spurs	Last Available: "2016-02"
 Item	slime shooter	Last Available: "2017-03"
 # slime stack: Deals 10-20% of a monster's current Hit Points in Physical Damage
