@@ -758,7 +758,7 @@ public class MallPriceManagerTest {
         assertPostRequest(
             builder.client.getRequests().getFirst(),
             "/api.php",
-            "what=mallprices&for=KoLmafia&category=allitems");
+            "what=mallprices&for=KoLmafia&category=allitems&count=5");
         assertEquals(8422, count);
         assertEquals(700, MallPriceManager.getMallPrice(ItemPool.HELL_RAMEN));
         assertEquals(7700, MallPriceManager.getMallPrice(ItemPool.TRANSPORTER_TRANSPONDER));
@@ -777,7 +777,7 @@ public class MallPriceManagerTest {
         assertPostRequest(
             builder.client.getRequests().getFirst(),
             "/api.php",
-            "what=mallprices&for=KoLmafia&category=booze&tiers=awesome,EPIC");
+            "what=mallprices&for=KoLmafia&category=booze&tiers=awesome,EPIC&count=5");
       }
     }
 
