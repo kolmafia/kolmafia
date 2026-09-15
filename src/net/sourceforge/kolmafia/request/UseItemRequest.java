@@ -2926,6 +2926,10 @@ public class UseItemRequest extends GenericRequest {
           String skill = UseItemRequest.itemToSkill(itemId);
           if (skill != null) {
             ResponseTextParser.learnSkill(skill);
+            if (itemId == ItemPool.RESIDUAL_CHITIN_PASTE) {
+              // Ensure we have the correct strength for Chitinous Soul
+              DebugDatabase.readSkillDescriptionText(SkillPool.CHITINOUS_SOUL);
+            }
           }
 
           break;

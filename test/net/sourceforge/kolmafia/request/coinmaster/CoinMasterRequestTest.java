@@ -22,10 +22,12 @@ import internal.helpers.SessionLoggerOutput;
 import internal.network.FakeHttpClientBuilder;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionPath.Path;
+import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.CoinMasterShopRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo23ElfArmoryRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.GeneticFiddlingRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.StarChartRequest;
@@ -643,6 +645,55 @@ public class CoinMasterRequestTest {
             requests.get(0), "/shop.php", "whichshop=starchart&action=buyitem&whichrow=144&ajax=1");
         assertPostRequest(
             requests.get(1), "/shop.php", "whichshop=starchart&action=buyitem&whichrow=144&ajax=1");
+      }
+    }
+
+    private CoinmasterData shopWithCountField(final String countField) {
+      return new CoinmasterData("Test Shop", "test", CoinMasterShopRequest.class)
+          .withShopId("test")
+          .withBuyURL("shop.php?whichshop=test")
+          .withBuyAction("buyitem")
+          .withItemField("whichrow")
+          .withCountField(countField);
+    }
+
+    private static final ShopRow TEST_ROW =
+        new ShopRow(
+            1, ItemPool.get(ItemPool.MILK_OF_MAGNESIUM), ItemPool.get(ItemPool.SEAL_TOOTH, 2));
+
+    @Test
+    void coinmasterWithCountFieldBuysAllAtOnce() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+
+      var cleanups = new Cleanups(withHttpClientBuilder(builder));
+      try (cleanups) {
+        shopWithCountField("quantity").getRequest(TEST_ROW, 2).run();
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(1));
+        assertPostRequest(
+            requests.get(0),
+            "/shop.php",
+            "whichshop=test&action=buyitem&whichrow=1&ajax=1&quantity=2");
+      }
+    }
+
+    @Test
+    void coinmasterWithoutCountFieldBuysOneAtATime() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+
+      var cleanups = new Cleanups(withHttpClientBuilder(builder));
+      try (cleanups) {
+        shopWithCountField(null).getRequest(TEST_ROW, 2).run();
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(2));
+        assertPostRequest(
+            requests.get(0), "/shop.php", "whichshop=test&action=buyitem&whichrow=1&ajax=1");
+        assertPostRequest(
+            requests.get(1), "/shop.php", "whichshop=test&action=buyitem&whichrow=1&ajax=1");
       }
     }
   }

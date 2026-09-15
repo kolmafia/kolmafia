@@ -126,6 +126,37 @@ public class CreateItemRequestTest {
         assertThat("_oldSchoolCocktailCraftingUsed", isSetTo(2));
       }
     }
+
+    @Test
+    public void handlesInABoxWithOtherFreeCrafts() {
+      var cleanups =
+          new Cleanups(
+              withProperty("craftingPlansCharges", 2),
+              withProperty("chefTurnsUsed", 3),
+              withProperty("hasChef", true));
+
+      try (cleanups) {
+        CreateItemRequest.parseCrafting(
+            "craft.php?action=craft&mode=cook&ajax=1&a=2526&b=8406&qty=5",
+            html("request/test_create_chef_w_craftingplans.html"));
+
+        assertThat("craftingPlansCharges", isSetTo(0));
+        assertThat("chefTurnsUsed", isSetTo(6));
+      }
+    }
+  }
+
+  @Test
+  public void recognisesLegendaryPastaWand() {
+    var cleanups = Player.withProperty("_legendaryPastaWandCrafting");
+
+    try (cleanups) {
+      CreateItemRequest.parseCrafting(
+          "craft.php?action=craft&qty=1&mode=cook&target=582&ajax=1",
+          html("request/test_create_pasta_wand.html"));
+
+      assertThat("_legendaryPastaWandCrafting", isSetTo(1));
+    }
   }
 
   @Nested

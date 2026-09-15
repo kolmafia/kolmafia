@@ -39,6 +39,7 @@ import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.DerivedModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.Lookup;
+import net.sourceforge.kolmafia.modifiers.Modifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -1024,7 +1025,7 @@ public class ModifiersTest {
         LatteRequest.setLatteEnchantments(mods);
 
         String expected =
-            "Familiar Weight: 5, Meat Drop: 40, Experience (Moxie): 1, Moxie Percent: 5, Pickpocket Chance: 5";
+            "Familiar Weight: 5, Meat Drop: 40, Moxie Experience: 1, Moxie Percent: 5, Pickpocket Chance: 5";
         assertEquals(expected, Preferences.getString("latteModifier"));
 
         // Modifiers set "override" modifiers for the latte mug
@@ -1059,7 +1060,7 @@ public class ModifiersTest {
 
     @Test
     void canEvaluateExperienceModifiers() {
-      String setting = "Meat Drop: +30, Experience (familiar): +2, Experience (Muscle): +4";
+      String setting = "Meat Drop: +30, Familiar Experience: +2, Muscle Experience: +4";
       Lookup lookup = new Lookup(ModifierType.LOCAL_VOTE, "");
 
       Modifiers mods = ModifierDatabase.parseModifiers(lookup, setting);
@@ -1914,7 +1915,7 @@ public class ModifiersTest {
 
       assertThat(mods.getDouble(DoubleModifier.WEAPON_DAMAGE), equalTo(0.0));
       assertThat(mods.getDouble(DoubleModifier.HOT_RESISTANCE), equalTo(2.0));
-      assertThat(mods.getDouble(DoubleModifier.GEARDROP), equalTo(100.0));
+      assertThat(mods.getDouble(DoubleModifier.HAT_PANTS_DROP), equalTo(100.0));
       assertThat(mods.getDouble(DoubleModifier.DAMAGE_REDUCTION), equalTo(6.0));
       assertThat(mods.getDouble(DoubleModifier.INITIATIVE), equalTo(50.0));
       assertThat(mods.getDouble(DoubleModifier.FAMILIAR_WEIGHT), equalTo(5.0));
@@ -2303,6 +2304,54 @@ public class ModifiersTest {
         assertThat(mods.getDouble(DoubleModifier.MEATDROP_PENALTY), equalTo(0.0));
         assertThat(mods.getDouble(DoubleModifier.INITIATIVE_PENALTY), equalTo(0.0));
       }
+    }
+  }
+
+  @Nested
+  class TagPatternMatcher {
+    @Test
+    public void doubles() {
+      for (var modifier : DoubleModifier.DOUBLE_MODIFIERS) {
+        assertTagMatchesTagPattern(modifier, "42");
+      }
+    }
+
+    @Test
+    public void bitmaps() {
+      for (var modifier : BitmapModifier.BITMAP_MODIFIERS) {
+        assertTagMatchesTagPattern(modifier, "37", true);
+      }
+    }
+
+    @Test
+    public void strings() {
+      for (var modifier : StringModifier.STRING_MODIFIERS) {
+        assertTagMatchesTagPattern(modifier, "\"Test\"");
+      }
+    }
+
+    @Test
+    public void booleans() {
+      for (var modifier : BooleanModifier.BOOLEAN_MODIFIERS) {
+        assertTagMatchesTagPattern(modifier, null);
+      }
+    }
+
+    private void assertTagMatchesTagPattern(Modifier modifier, String value) {
+      assertTagMatchesTagPattern(modifier, value, false);
+    }
+
+    private void assertTagMatchesTagPattern(
+        Modifier modifier, String value, boolean valueOptional) {
+      if (modifier.getTagPattern() == null) return; // if no tag pattern, no problem
+      if (modifier == StringModifier.MODIFIERS) return; // MODIFIERS is special
+      value = value == null ? "" : ": " + value;
+      if (valueOptional) {
+        if (!modifier.getTagPattern().matcher(modifier.getTag() + value).matches()) {
+          value = "";
+        }
+      }
+      assertThat(modifier.getTag() + value, matchesPattern(modifier.getTagPattern()));
     }
   }
 }

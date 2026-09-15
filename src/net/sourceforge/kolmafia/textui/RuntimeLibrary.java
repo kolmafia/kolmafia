@@ -3052,6 +3052,27 @@ public abstract class RuntimeLibrary {
         new LibraryFunction("tracked_by", new AggregateType(DataTypes.STRING_TYPE, 0), params));
 
     params = List.of();
+    functions.add(
+        new LibraryFunction(
+            "monster_trackers", new AggregateType(DataTypes.STRING_TYPE, 0), params));
+
+    params = List.of(namedParam("tracker", DataTypes.STRING_TYPE));
+    functions.add(new LibraryFunction("monster_tracker_copies", DataTypes.INT_TYPE, params));
+
+    params = List.of(namedParam("tracker", DataTypes.STRING_TYPE));
+    functions.add(new LibraryFunction("monster_tracker_duration", DataTypes.INT_TYPE, params));
+
+    params = List.of(namedParam("tracker", DataTypes.STRING_TYPE));
+    functions.add(new LibraryFunction("monster_tracker_reset", DataTypes.STRING_TYPE, params));
+
+    params = List.of(namedParam("tracker", DataTypes.STRING_TYPE));
+    functions.add(new LibraryFunction("monster_tracker_type", DataTypes.STRING_TYPE, params));
+
+    params = List.of(namedParam("tracker", DataTypes.STRING_TYPE));
+    functions.add(
+        new LibraryFunction("monster_tracker_ignores_queue", DataTypes.BOOLEAN_TYPE, params));
+
+    params = List.of();
     functions.add(new LibraryFunction("jump_chance", DataTypes.INT_TYPE, params));
 
     params = List.of(namedParam("monster", DataTypes.MONSTER_TYPE));
@@ -10441,6 +10462,43 @@ public abstract class RuntimeLibrary {
     }
 
     return value;
+  }
+
+  public static Value monster_trackers(ScriptRuntime controller) {
+    TrackManager.Tracker[] trackers = TrackManager.Tracker.values();
+    AggregateType type = new AggregateType(DataTypes.STRING_TYPE, trackers.length);
+    ArrayValue value = new ArrayValue(type);
+
+    for (int i = 0; i < trackers.length; i++) {
+      value.aset(new Value(i), DataTypes.makeStringValue(trackers[i].getName()));
+    }
+
+    return value;
+  }
+
+  public static Value monster_tracker_copies(ScriptRuntime controller, final Value arg) {
+    TrackManager.Tracker tracker = TrackManager.Tracker.find(arg.toString());
+    return DataTypes.makeIntValue(tracker == null ? 0 : tracker.getCopies());
+  }
+
+  public static Value monster_tracker_duration(ScriptRuntime controller, final Value arg) {
+    TrackManager.Tracker tracker = TrackManager.Tracker.find(arg.toString());
+    return DataTypes.makeIntValue(tracker == null ? 0 : tracker.getDuration());
+  }
+
+  public static Value monster_tracker_reset(ScriptRuntime controller, final Value arg) {
+    TrackManager.Tracker tracker = TrackManager.Tracker.find(arg.toString());
+    return DataTypes.makeStringValue(tracker == null ? "" : tracker.getResetType());
+  }
+
+  public static Value monster_tracker_type(ScriptRuntime controller, final Value arg) {
+    TrackManager.Tracker tracker = TrackManager.Tracker.find(arg.toString());
+    return DataTypes.makeStringValue(tracker == null ? "" : tracker.getTrackTypeName());
+  }
+
+  public static Value monster_tracker_ignores_queue(ScriptRuntime controller, final Value arg) {
+    TrackManager.Tracker tracker = TrackManager.Tracker.find(arg.toString());
+    return DataTypes.makeBooleanValue(tracker != null && tracker.isIgnoreQueue());
   }
 
   public static Value jump_chance(ScriptRuntime controller) {
