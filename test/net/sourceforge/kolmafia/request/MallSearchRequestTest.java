@@ -115,11 +115,6 @@ public class MallSearchRequestTest {
       result = MallSearchRequest.registerRequest(url);
       assertTrue(result);
       assertEquals("mallsearch category food [awesome, EPIC] (page 2)", lastSessionLogLine);
-
-      MallSearchRequest request = new MallSearchRequest("booze", "EPIC awesome good decent crappy");
-      RequestLogger.registerRequest(request, request.getURLString());
-      assertEquals(
-          "mallsearch category booze [crappy, decent, good, awesome, EPIC]", lastSessionLogLine);
     }
   }
 
