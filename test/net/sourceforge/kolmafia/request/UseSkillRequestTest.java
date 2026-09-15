@@ -16,6 +16,7 @@ import static internal.helpers.Player.withMP;
 import static internal.helpers.Player.withNextResponse;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withRestricted;
 import static internal.helpers.Player.withSkill;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -336,12 +337,14 @@ class UseSkillRequestTest {
       }
     }
 
-    @Test
-    void parsesCalculateTheUniverseCastsFromSkillzPage() {
+    @ParameterizedTest
+    @ValueSource(ints = {1, 5})
+    void parsesCalculateTheUniverseCastsFromSkillzPage(int skillLevel) {
       var cleanups =
           new Cleanups(
               withInteractivity(true),
-              withProperty("skillLevel144", 1),
+              withRestricted(false),
+              withProperty("skillLevel144", skillLevel),
               withProperty("_universeCalculated", 1));
       try (cleanups) {
         UseSkillRequest.parseResponse("skillz.php", html("request/test_parse_skillz.html"));
@@ -352,11 +355,20 @@ class UseSkillRequestTest {
     }
 
     @ParameterizedTest
-    @ValueSource(ints = {1, 5})
-    void doesNotTrustCalculateTheUniverseMaximumWhenNoInteractivity(int skillLevel) {
+    @CsvSource({
+      "true, true, 1",
+      "true, true, 5",
+      "false, false, 1",
+      "false, false, 5",
+      "false, true, 1",
+      "false, true, 5",
+    })
+    void doesNotTrustCalculateTheUniverseMaximumUnlessInteractiveAndUnrestricted(
+        boolean interactivity, boolean restricted, int skillLevel) {
       var cleanups =
           new Cleanups(
-              withInteractivity(false),
+              withInteractivity(interactivity),
+              withRestricted(restricted),
               withProperty("skillLevel144", skillLevel),
               withProperty("_universeCalculated", 1));
       try (cleanups) {

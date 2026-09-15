@@ -423,6 +423,9 @@ public class Expression {
 
         // Valid with Modifier Expression:
         case '\u0099' -> v = KoLCharacter.getBaseMoxie();
+
+        // Valid with Modifier Expression:
+        case '\u009a' -> v = KoLCharacter.getRestricted() ? 1 : 0;
         case 'A' -> v = KoLCharacter.getAscensions();
         case 'B' -> v = HolidayDatabase.getBloodEffect();
         case 'C' -> v = KoLCharacter.getMinstrelLevel();
