@@ -2844,7 +2844,6 @@ user	_takerSpaceSuppliesDelivered	false
 user	_tearawayPantsAdvs	0
 user	_telegraphOfficeToday	false
 user	_templeHiddenPower	false
-user	_tempRelayCounters
 user	_tempuraAirUsed	false
 user	_thanksgettingFoodsEaten	0
 user	_thesisDelivered	false
