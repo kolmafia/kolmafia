@@ -730,7 +730,7 @@ public abstract class MallPriceManager {
       String itemName = item.getString("name");
 
       // Unknown item
-      if (!itemName.equals(ItemDatabase.getItemDataName(itemId))) {
+      if (ItemDatabase.getItemName(itemId) == null) {
         ItemDatabase.registerItem(itemId, itemName, item.getString("descid"));
       }
 
