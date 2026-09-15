@@ -356,15 +356,20 @@ class UseSkillRequestTest {
 
     @ParameterizedTest
     @CsvSource({
-      "true, true, 1",
-      "true, true, 5",
-      "false, false, 1",
-      "false, false, 5",
-      "false, true, 1",
-      "false, true, 5",
+      // Test coverage due to the complicated expression used in consequences
+      // Variations of 'in run' and/or 'in avatar path'
+      "true, true, 1, 1",
+      "true, true, 5, 5",
+      "false, false, 1, 1",
+      "false, false, 5, 5",
+      "false, true, 1, 1",
+      "false, true, 5, 5",
+      // Not in run, not in avatar path
+      "true, false, 1, 3",
+      "true, false, 5, 3",
     })
     void doesNotTrustCalculateTheUniverseMaximumUnlessInteractiveAndUnrestricted(
-        boolean interactivity, boolean restricted, int skillLevel) {
+        boolean interactivity, boolean restricted, int skillLevel, int expectedSkillLevel) {
       var cleanups =
           new Cleanups(
               withInteractivity(interactivity),
@@ -374,7 +379,7 @@ class UseSkillRequestTest {
       try (cleanups) {
         UseSkillRequest.parseResponse("skillz.php", html("request/test_parse_skillz.html"));
 
-        assertThat("skillLevel144", isSetTo(skillLevel));
+        assertThat("skillLevel144", isSetTo(expectedSkillLevel));
         assertThat("_universeCalculated", isSetTo(3));
       }
     }
