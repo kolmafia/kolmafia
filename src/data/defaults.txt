@@ -363,6 +363,12 @@ user	blackBartsBootyCost	1000
 user	blackPuddingsDefeated	0
 user	blackForestProgress	0
 user	blankOutUsed	0	roa
+user	blessingShieldColdTier	1	roa
+user	blessingShieldHotTier	1	roa
+user	blessingShieldPhysicalTier	1	roa
+user	blessingShieldSleazeTier	1	roa
+user	blessingShieldSpookyTier	1	roa
+user	blessingShieldStenchTier	1	roa
 user	bloodweiserDrunk	0
 user	blueVsRedTeam		roa
 user	bodyguardCharge	0	roa

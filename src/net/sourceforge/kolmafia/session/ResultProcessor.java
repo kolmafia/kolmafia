@@ -362,7 +362,10 @@ public class ResultProcessor {
             updateBird(EffectPool.BLESSING_OF_THE_BIRD, effectName, "_birdOfTheDay");
         case EffectPool.BLESSING_OF_YOUR_FAVORITE_BIRD ->
             updateBird(EffectPool.BLESSING_OF_YOUR_FAVORITE_BIRD, effectName, "yourFavoriteBird");
-        case EffectPool.ENTAUNTAUNED,
+        case EffectPool.ANTIHANGOVER,
+            EffectPool.HAVING_A_BALL,
+            EffectPool.EXPERIMENTAL_EFFECT_G9,
+            EffectPool.ENTAUNTAUNED,
             EffectPool.BUZZED_ON_DISTILLATE,
             EffectPool.WINE_FORTIFIED,
             EffectPool.WINE_HOT,
@@ -375,7 +378,13 @@ public class ResultProcessor {
             EffectPool.GRAFTED,
             EffectPool.MILK_OF_FAMILIAR_CRUELTY,
             EffectPool.MILK_OF_FAMILIAR_KINDNESS,
-            EffectPool.HEARTSTONE_ATTUNEMENT ->
+            EffectPool.HEARTSTONE_ATTUNEMENT,
+            EffectPool.BLESSING_HEAT_SHIELD,
+            EffectPool.BLESSING_RIOT_SHIELD,
+            EffectPool.BLESSING_MENTAL_SHIELD,
+            EffectPool.BLESSING_PRIVACY_SHIELD,
+            EffectPool.BLESSING_TAX_SHIELD,
+            EffectPool.BLESSING_WIND_SHIELD ->
             DebugDatabase.readEffectDescriptionText(effectId);
       }
 

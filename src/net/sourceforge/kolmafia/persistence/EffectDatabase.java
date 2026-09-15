@@ -693,4 +693,14 @@ public class EffectDatabase {
       Preferences.setInteger("vintnerWineLevel", level);
     }
   }
+
+  public static void parseBlessingOfThePrivacyShieldEffect(final String edesc, final int effectId) {
+    String eEnchantments = DebugDatabase.parseEffectEnchantments(edesc, new ArrayList<>());
+    Modifiers emods = ModifierDatabase.parseModifiers(ModifierType.EFFECT, effectId, eEnchantments);
+    int rateMod = (int) emods.getDouble(DoubleModifier.COMBAT_RATE);
+    if (rateMod < 0) {
+      int tier = -(rateMod + 3) / 2;
+      Preferences.setInteger("blessingShieldStenchTier", tier);
+    }
+  }
 }

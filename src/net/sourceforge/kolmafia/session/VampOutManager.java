@@ -66,9 +66,15 @@ public class VampOutManager {
     String decision = "0";
 
     if (stepCount == 0 && responseText.contains("Finally, the sun has set.")) {
-      boolean vladAvailable = responseText.contains("Visit Vlad's Boutique");
-      boolean isabellaAvailable = responseText.contains("Visit Isabella's");
-      boolean masqueradeAvailable = responseText.contains("Visit The Masquerade");
+      // The door labels seem to be HTML-encoded sometimes, so match on a substring with no
+      // apostrophe in it
+      String vladChoice = ChoiceUtilities.findChoiceDecisionIndex("Vlad", responseText);
+      String isabellaChoice = ChoiceUtilities.findChoiceDecisionIndex("Isabella", responseText);
+      String masqueradeChoice = ChoiceUtilities.findChoiceDecisionIndex("Masquerade", responseText);
+
+      boolean vladAvailable = !vladChoice.equals("0");
+      boolean isabellaAvailable = !isabellaChoice.equals("0");
+      boolean masqueradeAvailable = !masqueradeChoice.equals("0");
 
       Preferences.setBoolean("_interviewVlad", !vladAvailable);
       Preferences.setBoolean("_interviewIsabella", !isabellaAvailable);
@@ -80,17 +86,12 @@ public class VampOutManager {
         return "1";
       }
 
-      int vladChoice = vladAvailable ? 1 : 0;
-      int isabellaChoice = isabellaAvailable ? 2 - (vladAvailable ? 0 : 1) : 0;
-      int masqueradeChoice =
-          masqueradeAvailable ? 3 - (isabellaAvailable ? 0 : 1) - (vladAvailable ? 0 : 1) : 0;
-
       logText("Encounter: Interview With You - Goal " + VampOutGoals[vampOutGoal].getName());
 
       switch (vampOutGoal) {
-        case 0, 1, 2 -> decision = Integer.toString(vladChoice);
-        case 3, 4, 5, 6 -> decision = Integer.toString(isabellaChoice);
-        case 7, 8, 9, 10, 11, 12 -> decision = Integer.toString(masqueradeChoice);
+        case 0, 1, 2 -> decision = vladChoice;
+        case 3, 4, 5, 6 -> decision = isabellaChoice;
+        case 7, 8, 9, 10, 11, 12 -> decision = masqueradeChoice;
       }
     } else {
       decision = VampOutScript[vampOutGoal].substring(stepCount, stepCount + 1);

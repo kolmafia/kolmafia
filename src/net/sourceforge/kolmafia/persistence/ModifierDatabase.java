@@ -146,6 +146,7 @@ public class ModifierDatabase {
           Map.entry("quite a bit less", "-9"),
           Map.entry("much less", "-10"),
           Map.entry("very much less", "-11"),
+          Map.entry("very much muchly less", "-13"),
           Map.entry("significantly less", "-15"),
           Map.entry("very very very much less", "-20"),
           Map.entry("<i>way</i> less", "-20"),
