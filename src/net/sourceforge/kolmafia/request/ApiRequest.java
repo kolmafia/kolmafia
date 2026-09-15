@@ -136,10 +136,8 @@ public class ApiRequest extends GenericRequest {
     if (!tiers.isEmpty()) {
       request.addFormField("tiers", tiers);
     }
-    // Default of 5, max of 20
-    if (MallPriceManager.NTH_CHEAPEST_COUNT != 5) {
-      request.addFormField("count", String.valueOf(MallPriceManager.NTH_CHEAPEST_COUNT));
-    }
+    // Default of 5, max of 20.
+    request.addFormField("count", String.valueOf(MallPriceManager.NTH_CHEAPEST_COUNT));
     request.run();
   }
 
