@@ -410,35 +410,6 @@ public class TurnCounter implements Comparable<TurnCounter> {
     return -1;
   }
 
-  public static final void startCountingTemporary(int value, String label, String image) {
-    String temp = Preferences.getString("_tempRelayCounters");
-    temp = temp + value + ":" + label + ":" + image + "|";
-    Preferences.setString("_tempRelayCounters", temp);
-  }
-
-  public static final void handleTemporaryCounters(final String type, final String encounter) {
-    String temp = Preferences.getString("_tempRelayCounters");
-    if (temp.equals("")) {
-      return;
-    }
-    if (KoLAdventure.lastVisitedLocation() == null
-        || !KoLAdventure.lastVisitedLocation().hasWanderers()) {
-      return;
-    }
-    if (type.equals("Combat")) {
-      if (EncounterManager.isNoWanderMonster(encounter)) {
-        return;
-      }
-    }
-    String[] counters = temp.split("\\|");
-    for (String counter : counters) {
-      if (counter.equals("")) continue;
-      String[] values = counter.split(":");
-      TurnCounter.startCounting(StringUtilities.parseInt(values[0]), values[1], values[2]);
-    }
-    Preferences.setString("_tempRelayCounters", "");
-  }
-
   public static int getTurnsUsed(GenericRequest request) {
     return request.getAdventuresUsed();
   }
