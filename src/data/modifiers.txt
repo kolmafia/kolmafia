@@ -34,7 +34,7 @@
 # Interaction: interact
 #	This has a value of 1 if the player is out of ronin/HC, otherwise 0
 # Restricted: restrict
-#	This has a value of 1 if the player is not under restrictions, otherwise 0
+#	This has a value of 1 if the player is under restrictions, otherwise 0
 # Modifier: mod(text)
 #	This returns the value of that modifier without including itself.  Used for things that "double" a modifier.
 # Upper-case letters are varying values:
