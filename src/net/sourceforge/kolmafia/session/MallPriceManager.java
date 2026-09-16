@@ -21,6 +21,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.DateTimeManager;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
@@ -712,7 +713,9 @@ public abstract class MallPriceManager {
       }
 
       results.addAll(NPCStoreDatabase.getAvailablePurchaseRequests(itemId));
+      results.addAll(CoinmastersDatabase.getAllPurchaseRequests(itemId));
 
+      // Stores can be empty, notably when every seller is at mall max
       var stores = item.getJSONArray("stores");
 
       for (int j = 0; j < stores.size(); ++j) {
