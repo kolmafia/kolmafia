@@ -457,11 +457,6 @@ public class ChatPoller extends Thread {
       String sender = whoObj != null ? whoObj.getString("name") : null;
       String senderId = whoObj != null ? whoObj.getString("id") : null;
       Long messageId = mid == 0 ? null : mid;
-
-      if (sender != null && senderId != null) {
-        ContactManager.registerPlayerId(sender, senderId);
-      }
-
       boolean mine = KoLCharacter.getPlayerId().equals(senderId);
 
       JSONObject forObj = msg.getJSONObject("for");
