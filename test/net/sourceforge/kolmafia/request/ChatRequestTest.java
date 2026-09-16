@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.request;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.List;
 import net.sourceforge.kolmafia.KoLConstants;
 import org.junit.jupiter.api.Test;
 
@@ -82,6 +83,18 @@ public class ChatRequestTest {
     expect = "submitnewchat.php?pwd=&playerid=0&graf=This+is+not+a+message.";
     assertEquals(fullURL, expect);
     assertEquals("This is not a message.", creq.getGraf());
+    assertTrue(creq.retryOnTimeout());
+  }
+
+  @Test
+  public void itShouldBuildABatchedChatRequest() {
+    creq = new ChatRequest(List.of("/who games", "/who newbie", "/who normal"));
+    fullURL = creq.getFullURLString();
+    expect =
+        "submitnewchat.php?playerid=0&j=1&graf%5B%5D=%2Fwho+games"
+            + "&graf%5B%5D=%2Fwho+newbie&graf%5B%5D=%2Fwho+normal";
+    assertEquals(fullURL, expect);
+    assertEquals("", creq.getGraf());
     assertTrue(creq.retryOnTimeout());
   }
 }

@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.chat;
 
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -73,17 +74,23 @@ public class HugglerMessage extends ChatMessage {
   };
 
   public HugglerMessage(String content, String winner, String loser) {
+    this(content, winner, loser, new Date());
+  }
+
+  private HugglerMessage(String content, String winner, String loser, Date date) {
     super(
         "HMC Radio",
         Preferences.getBoolean("useHugglerChannel") ? "HMC Radio" : "/pvp",
         content,
-        false);
+        false,
+        date,
+        null);
     this.winner = winner;
     this.loser = loser;
   }
 
-  public HugglerMessage(String content) {
-    this(content, null, null);
+  public HugglerMessage(String content, Date date) {
+    this(content, null, null, date);
     this.setCombatants(content);
   }
 

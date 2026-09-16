@@ -3756,12 +3756,16 @@ public class RelayRequest extends PasswordHashRequest {
         ChatSender.sendMessage(null, "/listen", true);
       }
 
+      List<String> grafs = this.getFormFieldValues("graf[]");
+      String graf = grafs.isEmpty() ? this.getFormField("graf") : null;
+
       chatText =
-          ChatSender.sendMessage(
-              new LinkedList<>(), this.getFormField("graf"), true, false, tabbedChat);
+          graf != null
+              ? ChatSender.sendMessage(new LinkedList<>(), graf, true, false, tabbedChat)
+              : ChatSender.sendMessages(grafs);
 
       if (tabbedChat && chatText.startsWith("{")) {
-        ChatPoller.handleNewChat(chatText, this.getFormField("graf"), ChatPoller.localLastSeen);
+        ChatPoller.handleNewChat(chatText, graf, ChatPoller.localLastSeen);
       }
 
       if (Preferences.getBoolean("relayDecorateJsCommands")) {

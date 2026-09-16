@@ -678,6 +678,26 @@ public class GenericRequest implements Runnable {
     return this.findField(this.getFormFields(), key, true);
   }
 
+  // A form can repeat a field, as chat clients do with "graf[]" when they batch messages.
+  public List<String> getFormFieldValues(final String key) {
+    List<String> values = new ArrayList<>();
+
+    for (String datum : this.getFormFields()) {
+      int splitIndex = datum.indexOf("=");
+      if (splitIndex == -1) {
+        continue;
+      }
+
+      if (!datum.substring(0, splitIndex).equalsIgnoreCase(key)) {
+        continue;
+      }
+
+      values.add(GenericRequest.decodeField(datum.substring(splitIndex + 1)));
+    }
+
+    return values;
+  }
+
   public String getFormField(final String key, final boolean decode) {
     return this.findField(this.getFormFields(), key, decode);
   }
