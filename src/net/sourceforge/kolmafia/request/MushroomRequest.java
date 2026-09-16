@@ -9,7 +9,7 @@ import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MushroomRequest extends GenericRequest {
-  private static final Pattern SQUARE_PATTERN = Pattern.compile("pos=([\\d,]+)");
+  private static final Pattern SQUARE_PATTERN = Pattern.compile("whichpos=([\\d,]+)");
   private static final Pattern SPORE_PATTERN = Pattern.compile("whichspore=([\\d,]+)");
 
   public MushroomRequest() {
