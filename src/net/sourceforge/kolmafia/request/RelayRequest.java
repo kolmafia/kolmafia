@@ -3756,7 +3756,7 @@ public class RelayRequest extends PasswordHashRequest {
         ChatSender.sendMessage(null, "/listen", true);
       }
 
-      List<String> grafs = this.getFormFieldValues("graf[]");
+      List<String> grafs = this.getFormFields("graf[]");
       String graf = grafs.isEmpty() ? this.getFormField("graf") : null;
 
       chatText =

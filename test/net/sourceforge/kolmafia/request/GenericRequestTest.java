@@ -515,7 +515,7 @@ public class GenericRequestTest {
             "/who talkie",
             "/who trade",
             "/who veteran"),
-        request.getFormFieldValues("graf[]"));
+        request.getFormFields("graf[]"));
     assertEquals("/who clan", request.getFormField("graf[]"));
   }
 }
