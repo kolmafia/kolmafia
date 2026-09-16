@@ -136,7 +136,7 @@ public class ApiRequest extends GenericRequest {
     if (!tiers.isEmpty()) {
       request.addFormField("tiers", tiers);
     }
-    // Default of 5, max of 20.
+    // The api returns a subset of stores per item, with the default 5 and the max 20
     request.addFormField("count", String.valueOf(MallPriceManager.NTH_CHEAPEST_COUNT));
     request.run();
   }
