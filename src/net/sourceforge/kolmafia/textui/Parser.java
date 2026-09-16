@@ -334,6 +334,7 @@ public class Parser {
     reservedWords.add("static");
 
     // Data types
+    reservedWords.add("var");
     reservedWords.add("void");
     reservedWords.add("boolean");
     reservedWords.add("int");
@@ -463,7 +464,7 @@ public class Parser {
       throws InterruptedException {
     final ErrorManager commandOrDeclarationErrors = new ErrorManager();
 
-    Type t = this.parseType(result, true);
+    Type t = this.parseType(result, true, true);
 
     // If there is no data type, it's a command of some sort
     if (t == null) {
@@ -572,7 +573,7 @@ public class Parser {
         continue;
       }
 
-      Type t = this.parseType(result, true);
+      Type t = this.parseType(result, true, true);
 
       // If there is no data type, it's a command of some sort
       if (t == null) {
@@ -915,6 +916,11 @@ public class Parser {
 
     Token functionName = this.currentToken();
 
+    if (functionType.getType() == TypeSpec.VAR) {
+      functionErrors.submitError(
+          this.error(functionType.getLocation(), "var is only valid in variable declarations"));
+    }
+
     if (Parser.isReservedWord(functionName.content)) {
       functionErrors.submitError(
           this.error(
@@ -1056,7 +1062,11 @@ public class Parser {
 
   private boolean parseVariables(final Type t, final BasicScope parentScope)
       throws InterruptedException {
+    boolean isVar = t.getType() == TypeSpec.VAR;
+
     while (true) {
+      final ErrorManager variableErrors = new ErrorManager();
+
       Variable v = this.parseVariable(t, parentScope);
       if (v == null) {
         return false;
@@ -1065,19 +1075,38 @@ public class Parser {
       parentScope.addVariable(v);
       VariableReference lhs = new VariableReference(v.getLocation(), v);
       Evaluable rhs;
+      boolean compositeInitializer = false;
 
       if (this.currentToken().equals("=")) {
         this.readToken(); // read =
 
+        compositeInitializer = this.currentToken().equals("{");
         rhs = this.parseInitialization(lhs, parentScope);
       } else if (this.currentToken().equals("{")) {
         // We allow two ways of initializing aggregates:
         // <aggregate type> <name> = {};
         // <aggregate type> <name> {};
 
+        compositeInitializer = true;
         rhs = this.parseInitialization(lhs, parentScope);
       } else {
         rhs = null;
+      }
+
+      if (isVar) {
+        if (rhs == null) {
+          variableErrors.submitError(this.error(lhs.getLocation(), "var requires an initializer"));
+        } else if (compositeInitializer) {
+          variableErrors.submitError(
+              this.error(
+                  rhs.getLocation(),
+                  "Inference from composite literal not supported; declare full type"));
+        } else if (rhs instanceof VariableReference ref && ref.target == v) {
+          variableErrors.submitError(
+              this.error(rhs.getLocation(), "Cannot infer type: variable references itself"));
+        } else {
+          v.setType(rhs.getType().getBaseType());
+        }
       }
 
       parentScope.addCommand(new Assignment(lhs, rhs), this);
@@ -1136,6 +1165,13 @@ public class Parser {
     if (this.currentToken().equals("{")) {
       if (ltype instanceof CompositeType ct) {
         result = this.parseCompositeLiteral(scope, ct);
+      } else if (ltype.equals(DataTypes.VAR_TYPE)) {
+        // var cannot be inferred from a composite literal; parseVariables reports a better error.
+        // Use an int-indexed aggregate with a bad data type so that array and map literals both
+        // parse without emitting spurious errors.
+        result =
+            this.parseCompositeLiteral(
+                scope, new AggregateType(new BadType(null, null), DataTypes.INT_TYPE));
       } else {
         if (!ltype.isBad()) {
           Location errorLocation = this.makeLocation(this.currentToken());
@@ -1177,6 +1213,11 @@ public class Parser {
       final Type ltype, final Evaluable rhs, final BasicScope scope, final String oper) {
     // TypeSpec.ANY has no name
     if (ltype == null || ltype.getName() == null) {
+      return rhs;
+    }
+
+    // var accepts any value; its type is inferred before it is used
+    if (ltype.getType() == TypeSpec.VAR) {
       return rhs;
     }
 
@@ -1422,6 +1463,11 @@ public class Parser {
 
   private Type parseType(final BasicScope scope, final boolean records)
       throws InterruptedException {
+    return this.parseType(scope, records, false);
+  }
+
+  private Type parseType(final BasicScope scope, final boolean records, final boolean allowVar)
+      throws InterruptedException {
     if (!this.parseIdentifier(this.currentToken().content)) {
       return null;
     }
@@ -1436,6 +1482,14 @@ public class Parser {
             this.error(valType.getLocation(), "Existing type expected for function parameter"));
       }
     } else if ((valType = scope.findType(this.currentToken().content)) != null) {
+      if (valType.getBaseType().equals(DataTypes.VAR_TYPE) && !allowVar) {
+        typeErrors.submitError(
+            this.error(this.currentToken(), "var is only valid in variable declarations"));
+
+        this.readToken(); // read var
+        return new BadType(null, null);
+      }
+
       valType = valType.reference(this.makeLocation(this.currentToken()));
       this.readToken();
     } else {
@@ -2381,7 +2435,7 @@ public class Parser {
         continue;
       }
 
-      Type t = this.parseType(scope, true);
+      Type t = this.parseType(scope, true, true);
 
       // If there is no data type, it's a command of some sort
       if (t == null) {
