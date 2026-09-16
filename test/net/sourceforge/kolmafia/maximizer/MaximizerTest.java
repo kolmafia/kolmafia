@@ -3728,6 +3728,9 @@ public class MaximizerTest {
       delimiter = '|',
       value = {
         "elemental damage | Cold Damage: +1",
+        "any resistance | Cold Resistance: +1",
+        "ele resistance | Cold Resistance: +1",
+        "elemental resistance | Cold Resistance: +1",
         "organ capacity | Stomach Capacity: +1",
         "crit | Critical Hit Percent: +1",
         "spell crit | Spell Critical Percent: +1",
@@ -3747,12 +3750,38 @@ public class MaximizerTest {
         "\"item drop\" | Item Drop: +1"
       })
   void recognizesModifierAliases(String expression, String modifiers) {
+    int alternative = ItemPool.get("bounty-hunting helmet").getItemId();
     try (var cleanups =
         new Cleanups(
             withOverrideModifiers(ModifierType.ITEM, ItemPool.HELMET_TURTLE, modifiers),
-            withEquippableItem(ItemPool.HELMET_TURTLE))) {
+            withOverrideModifiers(ModifierType.ITEM, alternative, "Meat Drop: +100"),
+            withEquippableItem(ItemPool.HELMET_TURTLE),
+            withEquippableItem(alternative))) {
       assertTrue(maximize(expression + ", -tie"));
       assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "helmet turtle")));
+      assertThat(getBoosts(), not(hasItem(recommends("bounty-hunting helmet"))));
+    }
+  }
+
+  @ParameterizedTest
+  @CsvSource(
+      delimiter = '|',
+      value = {
+        "Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Stench Resistance: +1 | Spooky Resistance: +3 | helmet turtle | bounty-hunting helmet",
+        "Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1 | Spooky Resistance: +4 | bounty-hunting helmet | helmet turtle"
+      })
+  void anyResistanceScoresTotalResistanceAcrossElements(
+      String variedModifiers, String concentratedModifiers, String expected, String unexpected) {
+    int alternative = ItemPool.get("bounty-hunting helmet").getItemId();
+    try (var cleanups =
+        new Cleanups(
+            withOverrideModifiers(ModifierType.ITEM, ItemPool.HELMET_TURTLE, variedModifiers),
+            withOverrideModifiers(ModifierType.ITEM, alternative, concentratedModifiers),
+            withEquippableItem(ItemPool.HELMET_TURTLE),
+            withEquippableItem(alternative))) {
+      assertTrue(maximize("any resistance, -tie"));
+      assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, expected)));
+      assertThat(getBoosts(), not(hasItem(recommends(unexpected))));
     }
   }
 
