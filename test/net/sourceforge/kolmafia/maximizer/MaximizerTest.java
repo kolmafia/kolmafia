@@ -3785,6 +3785,36 @@ public class MaximizerTest {
     }
   }
 
+  @Test
+  void allResistanceModifierContributesToEveryElement() {
+    int alternative = ItemPool.get("bounty-hunting helmet").getItemId();
+    try (var cleanups =
+        new Cleanups(
+            withOverrideModifiers(ModifierType.ITEM, ItemPool.HELMET_TURTLE, "All Resistance: +1"),
+            withOverrideModifiers(ModifierType.ITEM, alternative, "Spooky Resistance: +4"),
+            withEquippableItem(ItemPool.HELMET_TURTLE),
+            withEquippableItem(alternative))) {
+      assertTrue(maximize("any resistance, -tie"));
+      assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "helmet turtle")));
+      assertThat(getBoosts(), not(hasItem(recommends("bounty-hunting helmet"))));
+    }
+  }
+
+  @ParameterizedTest
+  @CsvSource({"any resistance, helmet turtle", "all resistance, bounty-hunting helmet"})
+  void distinguishesAnyResistanceFromAllResistance(String expression, String expected) {
+    int alternative = ItemPool.get("bounty-hunting helmet").getItemId();
+    try (var cleanups =
+        new Cleanups(
+            withOverrideModifiers(ModifierType.ITEM, ItemPool.HELMET_TURTLE, "Cold Resistance: +6"),
+            withOverrideModifiers(ModifierType.ITEM, alternative, "All Resistance: +1"),
+            withEquippableItem(ItemPool.HELMET_TURTLE),
+            withEquippableItem(alternative))) {
+      assertTrue(maximize(expression + ", -tie"));
+      assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, expected)));
+    }
+  }
+
   @ParameterizedTest
   @CsvSource(
       delimiter = '|',
