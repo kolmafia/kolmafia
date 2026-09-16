@@ -7,6 +7,7 @@ import static internal.helpers.Maximizer.modFor;
 import static internal.helpers.Player.withAdjustmentsRecalculated;
 import static internal.helpers.Player.withAdventuresLeft;
 import static internal.helpers.Player.withCampgroundItem;
+import static internal.helpers.Player.withClan;
 import static internal.helpers.Player.withClass;
 import static internal.helpers.Player.withDay;
 import static internal.helpers.Player.withEffect;
@@ -19,6 +20,7 @@ import static internal.helpers.Player.withInteractivity;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withItemInCloset;
 import static internal.helpers.Player.withItemInFreepulls;
+import static internal.helpers.Player.withItemInStash;
 import static internal.helpers.Player.withItemInStorage;
 import static internal.helpers.Player.withLocation;
 import static internal.helpers.Player.withMCD;
@@ -31,6 +33,7 @@ import static internal.helpers.Player.withOverrideModifiers;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withRestricted;
+import static internal.helpers.Player.withRonin;
 import static internal.helpers.Player.withSign;
 import static internal.helpers.Player.withSkill;
 import static internal.helpers.Player.withStats;
@@ -79,6 +82,7 @@ import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase.Environment;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
@@ -899,6 +903,29 @@ public class MaximizerTest {
         assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.HAT))));
         assertThat(
             getBoosts(), hasItem(hasProperty("cmd", startsWith("absorb ¶3")))); // helmet turtle
+      }
+    }
+
+    @Test
+    public void canRetrieveAndAbsorbEquipment() {
+      var cleanups =
+          new Cleanups(
+              withPath(Path.GELATINOUS_NOOB),
+              withProperty("autoSatisfyWithCloset", true),
+              withItemInCloset(ItemPool.HELMET_TURTLE));
+
+      try (cleanups) {
+        assertTrue(maximize("muscle -tie"));
+        assertThat(
+            getBoosts(),
+            hasItem(
+                hasProperty(
+                    "cmd",
+                    startsWith(
+                        "closet take 1 ¶"
+                            + ItemPool.HELMET_TURTLE
+                            + ";absorb ¶"
+                            + ItemPool.HELMET_TURTLE))));
       }
     }
 
@@ -4238,6 +4265,141 @@ public class MaximizerTest {
               hasProperty(
                   "cmd",
                   startsWith("closet take 1 \u00B6" + ItemPool.HELMET_TURTLE + ";equip hat"))));
+    }
+  }
+
+  @Test
+  void recommendationIncludesStashRetrievalCommand() {
+    try (var clanCleanup = withClan(1, "Test Clan")) {
+      boolean hadClan = KoLCharacter.hasClan();
+      KoLCharacter.setClan(true);
+      ClanManager.setStashRetrieved();
+
+      try (var cleanups =
+          new Cleanups(
+              new Cleanups(() -> KoLCharacter.setClan(hadClan)),
+              withOverrideModifiers(ModifierType.ITEM, ItemPool.HELMET_TURTLE, "Item Drop: +10"),
+              withProperty("autoSatisfyWithStash", true),
+              withInteractivity(true),
+              withItemInStash("helmet turtle"))) {
+        maximizeAny("item drop, -tie");
+
+        assertThat(
+            getBoosts(),
+            hasItem(
+                hasProperty(
+                    "cmd",
+                    startsWith("stash take 1 \u00B6" + ItemPool.HELMET_TURTLE + ";equip hat"))));
+      }
+    }
+  }
+
+  @Test
+  void mallRecommendationIncludesAcquisitionText() {
+    try (var cleanups =
+        new Cleanups(
+            withOverrideModifiers(ModifierType.ITEM, ItemPool.HELMET_TURTLE, "Item Drop: +10"),
+            withProperty("autoSatisfyWithMall", true),
+            withInteractivity(true))) {
+      maximizeAny("item drop, +equip helmet turtle, -tie");
+
+      assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "helmet turtle")));
+      assertThat(
+          getBoosts(), hasItem(hasToString(startsWith("acquire & equip hat helmet turtle"))));
+    }
+  }
+
+  @Test
+  void recommendationIncludesPullCommand() {
+    try (var cleanups =
+        new Cleanups(
+            withOverrideModifiers(ModifierType.ITEM, ItemPool.HELMET_TURTLE, "Item Drop: +10"),
+            withInteractivity(false),
+            withRonin(true),
+            withItemInStorage(ItemPool.HELMET_TURTLE))) {
+      maximizeAny("item drop, +equip helmet turtle, -tie");
+
+      assertThat(
+          getBoosts(),
+          hasItem(
+              hasProperty(
+                  "cmd", startsWith("pull \u00B6" + ItemPool.HELMET_TURTLE + ";equip hat"))));
+    }
+  }
+
+  @Test
+  void recommendationAcquiresAndFoldsAccessibleEquipment() {
+    try (var cleanups =
+        new Cleanups(
+            withOverrideModifiers(ModifierType.ITEM, ItemPool.TURTLE_WAX_HELMET, "Item Drop: +10"),
+            withProperty("autoSatisfyWithCloset", true),
+            withProperty("maximizerFoldables", true),
+            withStats(100, 100, 100),
+            withInteractivity(true),
+            withItemInCloset(ItemPool.TURTLE_WAX_GREAVES))) {
+      maximizeAny("item drop, +equip turtle wax helmet, -tie");
+
+      assertThat(
+          getBoosts(),
+          hasItem(
+              hasProperty(
+                  "cmd",
+                  startsWith(
+                      "acquire 1 \u00B6"
+                          + ItemPool.TURTLE_WAX_GREAVES
+                          + ";fold \u00B6"
+                          + ItemPool.TURTLE_WAX_HELMET
+                          + ";equip hat"))));
+    }
+  }
+
+  @Test
+  void recommendationPullsAndFoldsStoredEquipment() {
+    try (var cleanups =
+        new Cleanups(
+            withOverrideModifiers(ModifierType.ITEM, ItemPool.TURTLE_WAX_HELMET, "Item Drop: +10"),
+            withProperty("maximizerFoldables", true),
+            withStats(100, 100, 100),
+            withInteractivity(false),
+            withRonin(true),
+            withItemInStorage(ItemPool.TURTLE_WAX_GREAVES))) {
+      maximizeAny("item drop, +equip turtle wax helmet, -tie");
+
+      assertThat(
+          getBoosts(),
+          hasItem(
+              hasProperty(
+                  "cmd",
+                  startsWith(
+                      "pull 1 \u00B6"
+                          + ItemPool.TURTLE_WAX_GREAVES
+                          + ";fold \u00B6"
+                          + ItemPool.TURTLE_WAX_HELMET
+                          + ";equip hat"))));
+    }
+  }
+
+  @Test
+  void recommendationBuysToStorageAndPullsEquipment() {
+    try (var cleanups =
+        new Cleanups(
+            withOverrideModifiers(ModifierType.ITEM, ItemPool.HELMET_TURTLE, "Item Drop: +10"),
+            withProperty("autoSatisfyWithMall", true),
+            withInteractivity(false),
+            withRonin(true))) {
+      maximizeAny("item drop, +equip helmet turtle, -tie");
+
+      assertThat(
+          getBoosts(),
+          hasItem(
+              hasProperty(
+                  "cmd",
+                  startsWith(
+                      "buy using storage 1 \u00B6"
+                          + ItemPool.HELMET_TURTLE
+                          + ";pull \u00B6"
+                          + ItemPool.HELMET_TURTLE
+                          + ";equip hat"))));
     }
   }
 
