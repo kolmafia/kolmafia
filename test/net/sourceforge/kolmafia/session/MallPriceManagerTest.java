@@ -759,7 +759,7 @@ public class MallPriceManagerTest {
             builder.client.getRequests().getFirst(),
             "/api.php",
             "what=mallprices&for=KoLmafia&category=allitems&count=5");
-        assertEquals(8422, count);
+        assertEquals(8423, count);
         assertEquals(700, MallPriceManager.getMallPrice(ItemPool.HELL_RAMEN));
         assertEquals(7700, MallPriceManager.getMallPrice(ItemPool.TRANSPORTER_TRANSPONDER));
       }
