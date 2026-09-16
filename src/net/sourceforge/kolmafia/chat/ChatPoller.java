@@ -83,7 +83,7 @@ public class ChatPoller extends Thread {
   private int delay = ChatPoller.LCHAT_DELAY_NORMAL;
 
   private final Object pollLock = new Object();
-  private boolean pollRequested = false;
+  private volatile boolean pollRequested = false;
 
   public static ChatPoller getInstance() {
     return ChatPoller.INSTANCE;
