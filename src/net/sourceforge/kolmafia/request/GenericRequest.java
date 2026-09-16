@@ -689,7 +689,9 @@ public class GenericRequest implements Runnable {
         continue;
       }
 
-      values.add(GenericRequest.decodeField(split[1], StandardCharsets.UTF_8));
+      // Chat was encoded as ISO-8859-1, so decode it that way.
+      Charset charset = this.isChatRequest ? StandardCharsets.ISO_8859_1 : StandardCharsets.UTF_8;
+      values.add(GenericRequest.decodeField(split[1], charset));
     }
 
     return values;
