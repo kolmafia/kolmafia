@@ -2731,6 +2731,48 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
   }
 
   @Nested
+  class YamBatteryEffects {
+    @Test
+    void generatesTodaysEffects() {
+      var cleanups = withGlobalDay(8619);
+
+      try (cleanups) {
+        assertThat(
+            execute("yam_battery_effects()").trim(),
+            is(
+                """
+                Returned: aggregate int [effect]
+                Make Meat FA$T! => 20
+                Thaumodynamic => 30
+                Piratey Flavor => 10"""));
+      }
+    }
+
+    @Test
+    void generatesEffectsForDay() {
+      assertThat(
+          execute("yam_battery_effects(8654)").trim(),
+          is(
+              """
+              Returned: aggregate int [effect]
+              Dwarven Hardiness => 30
+              Space Tripping => 20
+              Cold as Ice => 10"""));
+    }
+
+    @Test
+    void sumsTheDurationOfAnEffectThatRollsTwice() {
+      assertThat(
+          execute("yam_battery_effects(7898)").trim(),
+          is(
+              """
+              Returned: aggregate int [effect]
+              Dreadful Heat => 30
+              Held Closer => 30"""));
+    }
+  }
+
+  @Nested
   class AprilShowerThoughtsShield {
     final String skillEffects =
         """
