@@ -74,11 +74,10 @@ public class ChatSender {
     List<ChatMessage> accumulatedMessages = new LinkedList<>();
 
     for (String graf : grafs) {
-      // Send as mchat does, so the JSON reply goes to handleNewChat rather than ChatParser.
       String responseText =
-          ChatSender.sendMessage(accumulatedMessages, graf, false, channelRestricted, true);
+          ChatSender.sendMessage(accumulatedMessages, graf, false, channelRestricted, false);
 
-      ChatPoller.handleNewChat(responseText, graf, ChatPoller.localLastSeen);
+      ChatPoller.addSentEntry(responseText, false);
     }
   }
 
@@ -100,15 +99,30 @@ public class ChatSender {
       return "";
     }
 
-    if (ChatSender.handledLocally(graf)) {
+    if (ChatSender.executeCommand(graf)) {
       return "";
     }
 
+    if (graf.startsWith("/examine")) {
+      String item = graf.substring(graf.indexOf(" ")).trim();
+
+      AdventureResult result = ItemFinder.getFirstMatchingItem(item, false, Match.ANY);
+
+      if (result != null) {
+        ShowDescriptionList.showGameDescription(result);
+      } else {
+        EventMessage message =
+            new EventMessage("Unable to find a unique match for " + item, "green");
+        ChatManager.broadcastEvent(message);
+      }
+
+      return "";
+    }
+
+    ChatPoller.sentMessage(tabbedChat);
     ChatRequest request = new ChatRequest(graf, tabbedChat);
     List<ChatMessage> messages = ChatSender.sendRequest(request, tabbedChat);
     accumulatedMessages.addAll(messages);
-
-    ChatPoller.sentMessage(tabbedChat);
 
     if (channelRestricted) {
       Iterator<ChatMessage> messageIterator = accumulatedMessages.iterator();
@@ -131,53 +145,18 @@ public class ChatSender {
     return request.responseText == null ? "" : request.responseText;
   }
 
-  // Chat clients batch messages as graf[]; KoL takes them all in one request, so we do too.
+  // KoL's chat client batches messages as graf[], which it sends in a single request.
   public static final String sendMessages(List<String> grafs) {
     if (!ChatManager.chatLiterate()) {
       return "";
     }
 
-    List<String> remaining = new ArrayList<>();
-
-    for (String graf : grafs) {
-      if (!ChatSender.handledLocally(graf)) {
-        remaining.add(graf);
-      }
-    }
-
-    if (remaining.isEmpty()) {
-      return "";
-    }
-
-    ChatRequest request = new ChatRequest(remaining);
+    ChatRequest request = new ChatRequest(grafs);
     RequestThread.postRequest(request);
 
     ChatPoller.sentMessage(true);
 
     return request.responseText == null ? "" : request.responseText;
-  }
-
-  private static boolean handledLocally(String graf) {
-    if (ChatSender.executeCommand(graf)) {
-      return true;
-    }
-
-    if (!graf.startsWith("/examine")) {
-      return false;
-    }
-
-    String item = graf.substring(graf.indexOf(" ")).trim();
-
-    AdventureResult result = ItemFinder.getFirstMatchingItem(item, false, Match.ANY);
-
-    if (result != null) {
-      ShowDescriptionList.showGameDescription(result);
-    } else {
-      EventMessage message = new EventMessage("Unable to find a unique match for " + item, "green");
-      ChatManager.broadcastEvent(message);
-    }
-
-    return true;
   }
 
   public static final List<ChatMessage> sendRequest(ChatRequest request) {
@@ -201,9 +180,6 @@ public class ChatSender {
       String graf = request.getGraf();
       ChatSender.processResponse(newMessages, request.responseText, graf);
       ChatManager.processMessages(newMessages);
-    } else {
-      // Our caller passes the same response to handleNewChat, which displays these.
-      newMessages.addAll(ChatPoller.parseNewChat(request.responseText));
     }
 
     return newMessages;

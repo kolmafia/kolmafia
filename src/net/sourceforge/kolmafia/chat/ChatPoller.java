@@ -9,15 +9,13 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.request.ChatRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.session.ContactManager;
+import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.RollingLinkedList;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -58,10 +56,6 @@ public class ChatPoller extends Thread {
 
   private static String rightClickMenu = "";
 
-  // <i><b><a href="showplayer.php?who=1"><font color="black">Name</font></a></b> waves</i>
-  private static final Pattern ACTION_PATTERN =
-      Pattern.compile("^<i><b><a [^>]*\\bwho=\\d+[^>]*>.*?</a></b> (.*)</i>$", Pattern.DOTALL);
-
   public static final void reset() {
     ChatPoller.chatHistoryEntries.clear();
 
@@ -81,9 +75,6 @@ public class ChatPoller extends Thread {
 
   // The delay between polls
   private int delay = ChatPoller.LCHAT_DELAY_NORMAL;
-
-  private final Object pollLock = new Object();
-  private volatile boolean pollRequested = false;
 
   public static ChatPoller getInstance() {
     return ChatPoller.INSTANCE;
@@ -134,28 +125,6 @@ public class ChatPoller extends Thread {
     }
   }
 
-  private void requestPoll() {
-    synchronized (this.pollLock) {
-      this.pollRequested = true;
-      this.pollLock.notifyAll();
-    }
-  }
-
-  // A request that arrives while we are busy sets the flag, so the next wait is skipped.
-  private void awaitNextPoll() {
-    synchronized (this.pollLock) {
-      if (!this.pollRequested) {
-        try {
-          this.pollLock.wait(this.delay);
-        } catch (InterruptedException e) {
-          // Treat an interrupt the same as a timeout: go round the loop again.
-        }
-      }
-
-      this.pollRequested = false;
-    }
-  }
-
   private void pause(final boolean mchat) {
     if (!this.paused) {
       this.paused = true;
@@ -200,9 +169,6 @@ public class ChatPoller extends Thread {
     ChatPoller.lastSentMessage = new Date();
     if (ChatPoller.INSTANCE != null) {
       ChatPoller.INSTANCE.unpause(mchat);
-
-      // KoL does not echo our own message back to us, so poll for it rather than wait.
-      ChatPoller.INSTANCE.requestPoll();
     }
   }
 
@@ -210,6 +176,8 @@ public class ChatPoller extends Thread {
 
   @Override
   public void run() {
+    PauseObject pauser = new PauseObject();
+
     this.running = true;
     this.paused = false;
 
@@ -225,11 +193,8 @@ public class ChatPoller extends Thread {
           serverLast = ChatPoller.lastServerPoll.getTime();
         }
         if (serverLast == 0 || (now.getTime() - serverLast) >= this.delay) {
-          // Poll the JSON endpoint; getEntries can only parse lchat's HTML.
-          ChatRequest request = new ChatRequest(ChatPoller.serverLastSeen, true, this.paused);
-          request.run();
-
-          ChatPoller.handleNewChat(request.responseText, "", ChatPoller.localLastSeen);
+          List<HistoryEntry> entries =
+              ChatPoller.getEntries(ChatPoller.localLastSeen, false, this.paused);
         }
       } catch (Exception e) {
         StaticEntity.printStackTrace(e);
@@ -241,7 +206,7 @@ public class ChatPoller extends Thread {
         this.pause(false);
       }
 
-      this.awaitNextPoll();
+      pauser.pause(this.delay);
     }
   }
 
@@ -315,7 +280,7 @@ public class ChatPoller extends Thread {
     List<HistoryEntry> newEntries = ChatPoller.getOldEntries(isRelayRequest);
 
     if (ChatManager.getCurrentChannel() == null) {
-      ChatManager.requestChannels();
+      ChatSender.sendMessage(null, "/listen", true);
     }
 
     ChatRequest request = new ChatRequest(ChatPoller.serverLastSeen, false, paused);
@@ -351,18 +316,11 @@ public class ChatPoller extends Thread {
   }
 
   private static boolean messageAlreadySeen(
-      final Long messageId,
-      final String recipient,
-      final String content,
-      final long localLastSeen) {
+      final String recipient, final String content, final long localLastSeen) {
     synchronized (ChatPoller.chatHistoryEntries) {
       for (HistoryEntry entry : ChatPoller.chatHistoryEntries) {
         if (entry instanceof SentMessageEntry && entry.getLocalLastSeen() > localLastSeen) {
           for (ChatMessage message : entry.getChatMessages()) {
-            if (message.getMessageId() != null && message.getMessageId().equals(messageId)) {
-              return true;
-            }
-
             if (recipient.equals(message.getRecipient()) && content.equals(message.getContent())) {
               return true;
             }
@@ -430,8 +388,6 @@ public class ChatPoller extends Thread {
 
       String type = msg.getString("type");
       boolean pub = type.equals("public");
-      long time = msg.getLongValue("time", 0);
-      Date date = time > 0 ? new Date(time * 1000) : new Date();
 
       String formatString = msg.getString("format");
       int format = formatString == null ? 0 : StringUtilities.parseInt(formatString);
@@ -456,18 +412,12 @@ public class ChatPoller extends Thread {
       JSONObject whoObj = msg.getJSONObject("who");
       String sender = whoObj != null ? whoObj.getString("name") : null;
       String senderId = whoObj != null ? whoObj.getString("id") : null;
-      Long messageId = mid == 0 ? null : mid;
       boolean mine = KoLCharacter.getPlayerId().equals(senderId);
 
       JSONObject forObj = msg.getJSONObject("for");
       String recipient = forObj != null ? forObj.getString("name") : null;
 
       String content = msg.getString("msg");
-
-      if (content != null) {
-        // KoL sometimes sends these, which can be... interesting to debug.
-        content = content.replace("\u200B", "");
-      }
 
       if (type.equals("event")) {
         // {"type":"event","msg":"You are now in away mode, chat will update more slowly until you
@@ -483,12 +433,12 @@ public class ChatPoller extends Thread {
           // TODO: handle other events
         }
 
-        messages.add(new EventMessage(content, "green", date));
+        messages.add(new EventMessage(content, "green"));
         continue;
       }
 
       if (type.equals("system")) {
-        messages.add(new SystemMessage(content, date));
+        messages.add(new SystemMessage(content));
         continue;
       }
 
@@ -498,16 +448,15 @@ public class ChatPoller extends Thread {
           continue;
         }
       } else if (sender.equals("HMC Radio")) {
-        messages.add(new HugglerMessage(content, date));
+        messages.add(new HugglerMessage(content));
         continue;
       }
 
       if (recipient == null) {
         if (pub) {
           String channel = "/" + msg.getString("channel");
-          if (sender != null
-              && (sender.equals("Mod Announcement") || sender.equals("Mod Warning"))) {
-            messages.add(new ModeratorMessage(channel, sender, senderId, content, date));
+          if (sender.equals("Mod Announcement") || sender.equals("Mod Warning")) {
+            messages.add(new ModeratorMessage(channel, sender, senderId, content));
             continue;
           }
           recipient = channel;
@@ -520,21 +469,15 @@ public class ChatPoller extends Thread {
       boolean isAction = format == 1;
 
       if (isAction) {
-        // ChatFormatter renders the name and the italics itself, so keep only the action text.
-        Matcher matcher = ChatPoller.ACTION_PATTERN.matcher(content);
-
-        if (matcher.matches()) {
-          content = matcher.group(1);
-        }
+        // username ends with "</b></font></a> "; remove trailing </i>
+        content = content.substring(content.indexOf("</a>") + 5, content.length() - 4);
       }
 
-      if (pub
-          && mine
-          && ChatPoller.messageAlreadySeen(messageId, recipient, content, localLastSeen)) {
+      if (pub && mine && ChatPoller.messageAlreadySeen(recipient, content, localLastSeen)) {
         continue;
       }
 
-      messages.add(new ChatMessage(sender, recipient, content, isAction, date, messageId));
+      messages.add(new ChatMessage(sender, recipient, content, isAction));
     }
 
     return messages;
@@ -542,10 +485,6 @@ public class ChatPoller extends Thread {
 
   public static void handleNewChat(
       final String responseData, final String sent, final long localLastSeen) {
-    if (responseData == null || responseData.isEmpty()) {
-      return;
-    }
-
     try {
       List<ChatMessage> messages = new LinkedList<>();
       JSONObject obj = JSON.parseObject(responseData);

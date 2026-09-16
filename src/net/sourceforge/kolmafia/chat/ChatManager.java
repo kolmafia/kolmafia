@@ -29,7 +29,6 @@ import net.sourceforge.kolmafia.request.AltarOfLiteracyRequest;
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.ChannelColorsRequest;
 import net.sourceforge.kolmafia.request.LoginRequest;
-import net.sourceforge.kolmafia.request.OpenChatRequest;
 import net.sourceforge.kolmafia.request.SendMailRequest;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.EventManager;
@@ -137,15 +136,7 @@ public abstract class ChatManager {
    * </code> method.
    */
   public static final void initialize() {
-    if (!LoginRequest.completedLogin()) {
-      return;
-    }
-
-    if (ChatManager.isRunning) {
-      if (ChatManager.tabbedFrame != null) {
-        ChatManager.tabbedFrame.requestFocus();
-      }
-
+    if (ChatManager.isRunning || !LoginRequest.completedLogin()) {
       return;
     }
 
@@ -157,8 +148,6 @@ public abstract class ChatManager {
     ChatManager.isRunning = true;
 
     StyledChatBuffer.initializeHighlights();
-
-    requestChannels();
 
     synchronized (ChatManager.activeChannels) {
       for (String channel : ChatManager.activeChannels) {
@@ -212,24 +201,6 @@ public abstract class ChatManager {
 
   public static final String getCurrentChannel() {
     return ChatManager.currentChannel;
-  }
-
-  public static final void requestChannels() {
-    OpenChatRequest openChatRequest = new OpenChatRequest();
-    openChatRequest.run();
-
-    List<String> channels = openChatRequest.getChannels();
-    currentChannel = openChatRequest.getActiveChannel();
-
-    synchronized (ChatManager.activeChannels) {
-      for (String channel : channels) {
-        if (ChatManager.activeChannels.contains(channel)) {
-          continue;
-        }
-
-        ChatManager.activeChannels.add(channel);
-      }
-    }
   }
 
   public static final StyledChatBuffer getBuffer(final String bufferKey) {
@@ -330,7 +301,7 @@ public abstract class ChatManager {
       return;
     }
 
-    if (ChatManager.faxbot != null && ChatManager.faxbot.equalsIgnoreCase(sender)) {
+    if (ChatManager.faxbot != null && sender.equalsIgnoreCase(ChatManager.faxbot)) {
       ChatManager.faxbotMessage = message;
     }
 
@@ -338,17 +309,17 @@ public abstract class ChatManager {
     String destination = recipient;
 
     if (recipient == null) {
-      ChatManager.processCommand(message, content, recipient);
+      ChatManager.processCommand(sender, content, recipient);
     } else if (recipient.equals("/clan")
         || recipient.equals("/hobopolis")
         || recipient.equals("/slimetube")
         || recipient.equals("/dread")
         || recipient.equals("/hauntedhouse")) {
       ChatManager.clanMessages.add(message);
-      ChatManager.processCommand(message, content, recipient);
+      ChatManager.processCommand(sender, content, recipient);
     } else if (recipient.equals("/talkie")) {
       // Allow chatbot scripts to process talkie messages
-      ChatManager.processCommand(message, content, recipient);
+      ChatManager.processCommand(sender, content, recipient);
     } else if (StringUtilities.globalStringReplace(KoLCharacter.getUserName(), " ", "_")
         .equalsIgnoreCase(recipient)) {
 
@@ -362,7 +333,7 @@ public abstract class ChatManager {
         }
       }
 
-      ChatManager.processCommand(message, content, "");
+      ChatManager.processCommand(sender, content, "");
       destination = sender;
     }
 
@@ -406,7 +377,7 @@ public abstract class ChatManager {
     // Otherwise, munge it, save it, and display it
     EventManager.addChatEvent(ChatFormatter.formatChatMessage(message, false));
     String cleanContent = KoLConstants.ANYTAG_PATTERN.matcher(content).replaceAll("");
-    ChatManager.processCommand(message, cleanContent, "Events");
+    ChatManager.processCommand("", cleanContent, "Events");
     ChatManager.broadcastEvent(message);
   }
 
@@ -507,8 +478,6 @@ public abstract class ChatManager {
   public static final void processChannelEnable(final EnableMessage message) {
     String sender = message.getSender();
 
-    if (sender == null) return;
-
     if (!ChatManager.activeChannels.contains(sender)) {
       String bufferKey = ChatManager.getBufferKey(sender);
       ChatManager.activeChannels.add(sender);
@@ -523,8 +492,6 @@ public abstract class ChatManager {
   public static final void processChannelDisable(final DisableMessage message) {
     String sender = message.getSender();
 
-    if (sender == null) return;
-
     if (ChatManager.activeChannels.contains(sender)) {
       String bufferKey = ChatManager.getBufferKey(sender);
       ChatManager.activeChannels.remove(sender);
@@ -533,9 +500,7 @@ public abstract class ChatManager {
   }
 
   public static final void processCommand(
-      final ChatMessage message, final String content, final String channel) {
-    String sender = message instanceof EventMessage ? "" : message.getSender();
-
+      final String sender, final String content, final String channel) {
     if (sender == null || content == null) {
       return;
     }
@@ -592,10 +557,10 @@ public abstract class ChatManager {
 
       StringBuilder mailContent = new StringBuilder();
 
-      for (ChatMessage clanMessage : ChatManager.clanMessages) {
+      for (ChatMessage message : ChatManager.clanMessages) {
         String cleanMessage =
             KoLConstants.ANYTAG_PATTERN
-                .matcher(ChatFormatter.formatChatMessage(clanMessage))
+                .matcher(ChatFormatter.formatChatMessage(message))
                 .replaceAll("");
 
         mailContent.append(cleanMessage);
@@ -607,11 +572,11 @@ public abstract class ChatManager {
       return;
     }
 
-    ChatManager.invokeChatScript(message, content, channel);
+    ChatManager.invokeChatScript(sender, content, channel);
   }
 
   public static final void invokeChatScript(
-      final ChatMessage message, final String content, final String channel) {
+      final String sender, final String content, final String channel) {
     String scriptName = Preferences.getString("chatbotScript");
     if (scriptName.equals("")) {
       return;
@@ -629,8 +594,6 @@ public abstract class ChatManager {
       parameterCount =
           ((AshRuntime) interpreter).getParser().getMainMethod().getVariableReferences().size();
     }
-
-    String sender = message instanceof EventMessage ? "" : message.getSender();
 
     String[] scriptParameters;
     if (parameterCount == 3) {
@@ -741,7 +704,6 @@ public abstract class ChatManager {
 
     if (!closedWindow.equals(ChatManager.getCurrentChannel())) {
       ChatSender.sendMessage(closedWindow, "/listen", false);
-      ChatManager.requestChannels();
       return;
     }
 

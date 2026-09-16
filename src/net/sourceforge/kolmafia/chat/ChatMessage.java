@@ -14,39 +14,23 @@ public class ChatMessage {
   private boolean isAction;
   private final Date date;
   private final String timestamp;
-  private final Long messageId;
 
   private static final SimpleDateFormat MESSAGE_TIMESTAMP =
       new SimpleDateFormat("[HH:mm]", Locale.US);
 
   public ChatMessage() {
     this.date = new Date();
-    this.timestamp = ChatMessage.MESSAGE_TIMESTAMP.format(this.date);
-    this.messageId = null;
+    this.timestamp = ChatMessage.MESSAGE_TIMESTAMP.format(date);
   }
 
   public ChatMessage(String sender, String recipient, String content, boolean isAction) {
-    this(sender, recipient, content, isAction, new Date(), null);
-  }
-
-  public ChatMessage(
-      String sender,
-      String recipient,
-      String content,
-      boolean isAction,
-      Date date,
-      Long messageId) {
     this.sender = sender;
     this.recipient = recipient;
     this.content = content.trim();
     this.isAction = isAction;
-    this.date = date;
-    this.timestamp = ChatMessage.MESSAGE_TIMESTAMP.format(date);
-    this.messageId = messageId;
-  }
 
-  public Long getMessageId() {
-    return this.messageId;
+    this.date = new Date();
+    this.timestamp = ChatMessage.MESSAGE_TIMESTAMP.format(date);
   }
 
   public String getSender() {

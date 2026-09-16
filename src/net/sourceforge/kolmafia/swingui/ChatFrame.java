@@ -535,7 +535,7 @@ public class ChatFrame extends GenericFrame {
 
     @Override
     public void run() {
-      ChatManager.requestChannels();
+      ChatSender.sendMessage(null, "/listen", false);
     }
   }
 }
