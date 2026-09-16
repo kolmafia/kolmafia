@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.swingui.menu;
 
+import java.util.ArrayList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JSeparator;
@@ -16,7 +17,7 @@ import net.sourceforge.kolmafia.session.WumpusManager;
 import net.sourceforge.kolmafia.swingui.listener.LicenseDisplayListener;
 
 public class GlobalMenuBar extends JMenuBar {
-  private final ScriptMenu scriptMenu;
+  private ScriptMenu scriptMenu;
   private final WindowMenu windowMenu;
   private BookmarkMenu bookmarkMenu;
 
@@ -231,6 +232,29 @@ public class GlobalMenuBar extends JMenuBar {
 
     if (this.bookmarkMenu != null) {
       this.bookmarkMenu.dispose();
+    }
+  }
+
+  public void rebuildScriptMenu() {
+    ArrayList<JMenu> menus = new ArrayList<JMenu>();
+    ScriptMenu newScriptMenu = null;
+    for (int i = 0; i < this.getMenuCount(); i++) {
+      JMenu menu = this.getMenu(i);
+      if (menu == this.scriptMenu) {
+        newScriptMenu = new ScriptMenu();
+        menus.add(newScriptMenu);
+      } else menus.add(menu);
+    }
+    if (newScriptMenu != null) {
+      this.scriptMenu.dispose();
+      this.removeAll();
+      for (JMenu menu : menus) {
+        this.add(menu);
+      }
+      this.scriptMenu = newScriptMenu;
+      this.revalidate();
+      this.repaint();
+      this.updateUI();
     }
   }
 }
