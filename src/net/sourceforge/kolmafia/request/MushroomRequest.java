@@ -19,13 +19,13 @@ public class MushroomRequest extends GenericRequest {
   public MushroomRequest(final int square) {
     this();
     this.addFormField("action", "click");
-    this.addFormField("pos", String.valueOf(square - 1));
+    this.addFormField("whichpos", String.valueOf(square - 1));
   }
 
   public MushroomRequest(final int square, final int spore) {
     this();
     this.addFormField("action", "plant");
-    this.addFormField("pos", String.valueOf(square - 1));
+    this.addFormField("whichpos", String.valueOf(square - 1));
     this.addFormField("whichspore", String.valueOf(spore));
   }
 
