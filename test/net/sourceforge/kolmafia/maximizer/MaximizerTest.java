@@ -2748,6 +2748,65 @@ public class MaximizerTest {
         }
       }
     }
+
+    @Nested
+    class ModBonus {
+      @Test
+      public void canApplySameModbonusMultipleTimes() {
+        var cleanups =
+            new Cleanups(
+                withEquippableItem(ItemPool.PANTSGIVING),
+                withEquippableItem("black greaves"),
+                withEquippableItem("Camp Scout backpack"),
+                withEquippableItem("barskin cloak"));
+
+        try (cleanups) {
+          assertTrue(maximize("muscle, 100 modbonus Drops Items"));
+          assertThat(getBoosts(), hasItem(recommendsSlot(Slot.PANTS, "Pantsgiving")));
+          assertThat(getBoosts(), hasItem(recommendsSlot(Slot.CONTAINER, "Camp Scout backpack")));
+        }
+      }
+
+      @Test
+      public void betterModbonusWins() {
+        var cleanups =
+            new Cleanups(
+                withEquippableItem("garbage sticker"),
+                withEquippableItem(ItemPool.LEGENDARY_SEAL_CLUBBING_CLUB));
+
+        try (cleanups) {
+          assertTrue(maximize("100 modbonus Drops Meat, 50 modbonus Attacks Can't Miss"));
+          assertThat(getBoosts(), hasItem(recommendsSlot(Slot.WEAPON, "garbage sticker")));
+        }
+      }
+
+      @Test
+      public void succeedsEvenIfNoModbonusAvailable() {
+        var cleanups =
+            new Cleanups(withEquippableItem("black greaves"), withEquippableItem("barskin cloak"));
+
+        try (cleanups) {
+          assertTrue(maximize("muscle, 100 modbonus Drops Items"));
+          assertThat(getBoosts(), hasItem(recommendsSlot(Slot.PANTS, "black greaves")));
+          assertThat(getBoosts(), hasItem(recommendsSlot(Slot.CONTAINER, "barskin cloak")));
+        }
+      }
+
+      @Test
+      public void adjustsModeableToAchieveModbonus() {
+        final var cleanups =
+            new Cleanups(
+                withEquippableItem("The Crown of Ed the Undying"),
+                withEquippableItem("hangman's hood"),
+                withProperty("edPiece", "puma"));
+
+        try (cleanups) {
+          assertTrue(maximize("muscle, 100 modbonus Adventure Underwater"));
+          assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "The Crown of Ed the Undying")));
+          assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("edpiece fish"))));
+        }
+      }
+    }
   }
 
   @Nested
