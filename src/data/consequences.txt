@@ -102,7 +102,6 @@ DESC_ITEM	Monodent of the Sea	\+(\d+)% Stat	seadentLevel=$1
 # Item modifiers
 # Fixed per day
 DESC_ITEM	no hat		_noHatModifier=mods
-DESC_ITEM	Sword of Procedural Generation		jickSwordModifier=mods
 DESC_ITEM	pantogram pants		_pantogramModifier=mods
 DESC_ITEM	fresh coat of paint		_coatOfPaintModifier=mods
 DESC_ITEM	futuristic shirt		_futuristicShirtModifier=mods

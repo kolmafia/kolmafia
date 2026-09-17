@@ -11,6 +11,7 @@ import static internal.helpers.Player.withMeat;
 import static internal.helpers.Player.withNPCStoreReset;
 import static internal.helpers.Player.withNoItems;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withUserId;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -29,6 +30,7 @@ import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
@@ -389,6 +391,22 @@ public class InventoryManagerTest {
         assertEquals(+4.0, mods.getDouble(DoubleModifier.WEAPON_DAMAGE), "Weapon Damage Failure");
         assertEquals(0, mods.getDouble(DoubleModifier.MOX), "No Moxie Change Expected");
         assertEquals(10.0, mods.getDouble(DoubleModifier.MOX_PCT), "No Moxie Change Expected");
+      }
+    }
+
+    @Test
+    public void JickSwordWillSetModsForUser() {
+      var cleanups = withUserId(1197090);
+      try (cleanups) {
+        InventoryManager.checkJickSword();
+        var mods = ModifierDatabase.getModifiers(ModifierType.ITEM, ItemPool.JICK_SWORD);
+
+        assertEquals(100.0, mods.getDouble(DoubleModifier.SPELL_DAMAGE_PCT));
+        assertEquals(40.0, mods.getDouble(DoubleModifier.COLD_DAMAGE));
+        assertEquals(3.0, mods.getDouble(DoubleModifier.SLEAZE_RESISTANCE));
+        assertEquals(80.0, mods.getDouble(DoubleModifier.ZOMBIE_DAMAGE));
+        assertEquals(10.0, mods.getDouble(DoubleModifier.ITEMDROP));
+        assertEquals("2013-12", mods.getString(StringModifier.LAST_AVAILABLE_DATE));
       }
     }
   }
