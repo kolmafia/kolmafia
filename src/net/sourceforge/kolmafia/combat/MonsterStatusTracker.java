@@ -170,14 +170,6 @@ public class MonsterStatusTracker {
     return MonsterStatusTracker.monsterData == null ? 0 : MonsterStatusTracker.originalAttack;
   }
 
-  public static final Element getMonsterAttackElement() {
-    if (MonsterStatusTracker.monsterData == null) {
-      return Element.NONE;
-    }
-
-    return MonsterStatusTracker.monsterData.getAttackElement();
-  }
-
   public static final void lowerMonsterAttack(int amount) {
     MonsterStatusTracker.attackModifier -= amount;
   }
