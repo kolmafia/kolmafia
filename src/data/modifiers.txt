@@ -15728,7 +15728,7 @@ Item	Xiblaxian polymer	Last Available: "2014-09"
 Item	xo-skeleton-in-a-box	Free Pull, Last Available: "2017-10"
 # yam battery: Restore up to 1,000 MP
 # yam battery: Gain 3 Random Good Effects
-Item	yam battery	Last Available: "2024-05"
+Item	yam battery	Last Available: "2024-05", Variable
 # Ye Olde Medieval Insult: Weakens enemies somewhat and briefly stuns them
 Item	Ye Wizard's Shack snack voucher	Last Available: "2011-03"
 Item	Yeast of Boris	Last Available: "2022-11"
