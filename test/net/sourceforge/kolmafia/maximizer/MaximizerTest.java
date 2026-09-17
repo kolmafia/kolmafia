@@ -4045,11 +4045,36 @@ public class MaximizerTest {
   }
 
   @Test
-  void negativeFamiliarSwitchAfterPositiveSwitchIsIgnored() {
+  void negativeSwitchForSameFamiliarDoesNotCancelPositiveSwitch() {
     try (var cleanups = withFamiliarInTerrarium(FamiliarPool.BABY_GRAVY_FAIRY)) {
       assertTrue(maximize("switch Baby Gravy Fairy, -switch Baby Gravy Fairy, item drop"));
 
       assertThat(getBoosts(), hasItem(hasProperty("cmd", is("familiar Baby Gravy Fairy"))));
+    }
+  }
+
+  @Test
+  void negativeFamiliarSwitchIsUsedWhenPositiveSwitchIsUnavailable() {
+    try (var cleanups =
+        new Cleanups(
+            withFamiliarInTerrarium(FamiliarPool.TRICK_TOT),
+            withItem(ItemPool.SOLID_SHIFTING_TIME_WEIRDNESS))) {
+      assertTrue(maximize("adv, switch Left-Hand Man, -switch Trick-or-Treating Tot"));
+
+      assertThat(getBoosts(), hasItem(hasProperty("cmd", is("familiar Trick-or-Treating Tot"))));
+    }
+  }
+
+  @Test
+  void positiveFamiliarSwitchTakesPriorityOverNegativeSwitch() {
+    try (var cleanups =
+        new Cleanups(
+            withFamiliarInTerrarium(FamiliarPool.LEFT_HAND),
+            withFamiliarInTerrarium(FamiliarPool.TRICK_TOT),
+            withItem(ItemPool.SOLID_SHIFTING_TIME_WEIRDNESS))) {
+      assertTrue(maximize("adv, switch Left-Hand Man, -switch Trick-or-Treating Tot"));
+
+      assertThat(getBoosts(), hasItem(hasProperty("cmd", is("familiar Left-Hand Man"))));
     }
   }
 
