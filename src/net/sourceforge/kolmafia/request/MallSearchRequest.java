@@ -597,28 +597,17 @@ public class MallSearchRequest extends GenericRequest {
     }
   }
 
-  private static String tierName(int tier) {
-    return switch (tier) {
-      case 1 -> "crappy";
-      case 2 -> "decent";
-      case 3 -> "good";
-      case 4 -> "awesome";
-      case 5 -> "EPIC";
-      default -> "???";
-    };
-  }
-
   private static String extractTiers(String urlString) {
     StringBuilder tiers = new StringBuilder();
-    for (int i = 1; i <= 5; ++i) {
-      String name = "consumable_tier_" + i;
+    for (int i = 0; i < MallPriceManager.CONSUMABLE_TIERS.length; ++i) {
+      String name = "consumable_tier_" + (i + 1);
       String field = GenericRequest.extractValueOrDefault(urlString, name, "0");
       if (!field.equals("0")) {
-        tiers.append(tiers.length() == 0 ? "[" : ", ");
-        tiers.append(tierName(i));
+        tiers.append(tiers.isEmpty() ? "[" : ", ");
+        tiers.append(MallPriceManager.CONSUMABLE_TIERS[i]);
       }
     }
-    if (tiers.length() > 0) {
+    if (!tiers.isEmpty()) {
       tiers.append("]");
     }
     return tiers.toString();

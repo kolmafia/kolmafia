@@ -96,6 +96,9 @@ public abstract class MallPriceManager {
 
   public static final Set<String> validCategories = new HashSet<>(Arrays.asList(CATEGORY_VALUES));
 
+  // Consumable quality tiers, as api.php names them
+  public static final String[] CONSUMABLE_TIERS = {"crappy", "decent", "good", "awesome", "EPIC"};
+
   // This package makes MallSearchRequests and executes them.  This makes
   // testing difficult; we have testing infrastructure for testing
   // request classes, but that's not what we want to test here.
@@ -684,7 +687,10 @@ public abstract class MallPriceManager {
 
     // api.php doesn't return the changes directly, so we use a helper field
     MallPriceManager.pricesUpdated = 0;
-    ApiRequest.updateMallPrices(category, tiers);
+    // Converts player provided argument "crapp EPICNESS good" into api.php accepted "good,EPIC"
+    String normalizedTiers =
+        Arrays.stream(CONSUMABLE_TIERS).filter(tiers::contains).collect(Collectors.joining(","));
+    ApiRequest.updateMallPrices(category, normalizedTiers);
     return MallPriceManager.pricesUpdated;
   }
 

@@ -50,6 +50,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mockito;
 
 public class MallPriceManagerTest {
@@ -774,6 +776,30 @@ public class MallPriceManagerTest {
         builder.client.addResponse(200, "{\"category\":\"booze\",\"count\":5,\"items\":[]}");
 
         assertEquals(0, MallPriceManager.getMallPrices("booze", "awesome,EPIC"));
+        assertPostRequest(
+            builder.client.getRequests().getFirst(),
+            "/api.php",
+            "what=mallprices&for=KoLmafia&category=booze&tiers=awesome,EPIC&count=5");
+      }
+    }
+
+    @ParameterizedTest
+    @ValueSource(
+        strings = {
+          "awesome,EPIC",
+          "EPICNESS awesome bamboo crapp",
+          "awesomeEPIC",
+          "EPIC,awesome,awesome"
+        })
+    public void acceptsLooselySpecifiedTiers(final String tiers) {
+      var builder = new FakeHttpClientBuilder();
+
+      try (var cleanups = new Cleanups(mockClock(), withHttpClientBuilder(builder))) {
+        Mockito.when(clock.millis()).thenReturn(1_000_000L);
+        builder.client.addResponse(200, "{\"category\":\"booze\",\"count\":5,\"items\":[]}");
+
+        MallPriceManager.getMallPrices("booze", tiers);
+
         assertPostRequest(
             builder.client.getRequests().getFirst(),
             "/api.php",
