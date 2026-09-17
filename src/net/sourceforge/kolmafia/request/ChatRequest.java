@@ -41,9 +41,7 @@ public class ChatRequest extends GenericRequest {
     this.graf = "";
   }
 
-  /**
-   * Constructs a new <code>ChatRequest</code> that will send several messages at once
-   */
+  /** Constructs a new <code>ChatRequest</code> that will send several messages at once */
   public ChatRequest(final List<String> grafs) {
     super("submitnewchat.php", true);
 
