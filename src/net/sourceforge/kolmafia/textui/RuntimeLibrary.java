@@ -3074,6 +3074,25 @@ public abstract class RuntimeLibrary {
         new LibraryFunction("monster_tracker_ignores_queue", DataTypes.BOOLEAN_TYPE, params));
 
     params = List.of();
+    functions.add(
+        new LibraryFunction("banishers", new AggregateType(DataTypes.STRING_TYPE, 0), params));
+
+    params = List.of(namedParam("banisher", DataTypes.STRING_TYPE));
+    functions.add(new LibraryFunction("banisher_duration", DataTypes.INT_TYPE, params));
+
+    params = List.of(namedParam("banisher", DataTypes.STRING_TYPE));
+    functions.add(new LibraryFunction("banisher_queue_size", DataTypes.INT_TYPE, params));
+
+    params = List.of(namedParam("banisher", DataTypes.STRING_TYPE));
+    functions.add(new LibraryFunction("banisher_reset", DataTypes.STRING_TYPE, params));
+
+    params = List.of(namedParam("banisher", DataTypes.STRING_TYPE));
+    functions.add(new LibraryFunction("banisher_type", DataTypes.STRING_TYPE, params));
+
+    params = List.of(namedParam("banisher", DataTypes.STRING_TYPE));
+    functions.add(new LibraryFunction("banisher_is_turn_free", DataTypes.BOOLEAN_TYPE, params));
+
+    params = List.of();
     functions.add(new LibraryFunction("jump_chance", DataTypes.INT_TYPE, params));
 
     params = List.of(namedParam("monster", DataTypes.MONSTER_TYPE));
@@ -10522,6 +10541,49 @@ public abstract class RuntimeLibrary {
   public static Value monster_tracker_ignores_queue(ScriptRuntime controller, final Value arg) {
     TrackManager.Tracker tracker = TrackManager.Tracker.find(arg.toString());
     return DataTypes.makeBooleanValue(tracker != null && tracker.isIgnoreQueue());
+  }
+
+  public static Value banishers(ScriptRuntime controller) {
+    BanishManager.Banisher[] banishers = BanishManager.Banisher.values();
+    AggregateType type = new AggregateType(DataTypes.STRING_TYPE, banishers.length);
+    ArrayValue value = new ArrayValue(type);
+
+    for (int i = 0; i < banishers.length; i++) {
+      value.aset(new Value(i), DataTypes.makeStringValue(banishers[i].getName()));
+    }
+
+    return value;
+  }
+
+  // Turns the banish lasts after the banishing turn (what BanishManager counts down), or -1
+  // when it lasts until its reset condition instead of a turn count.
+  public static Value banisher_duration(ScriptRuntime controller, final Value arg) {
+    BanishManager.Banisher banisher = BanishManager.Banisher.find(arg.toString());
+    if (banisher == null) {
+      return DataTypes.makeIntValue(0);
+    }
+    int duration = banisher.getDuration();
+    return DataTypes.makeIntValue(duration < 0 ? -1 : duration);
+  }
+
+  public static Value banisher_queue_size(ScriptRuntime controller, final Value arg) {
+    BanishManager.Banisher banisher = BanishManager.Banisher.find(arg.toString());
+    return DataTypes.makeIntValue(banisher == null ? 0 : banisher.getQueueSize());
+  }
+
+  public static Value banisher_reset(ScriptRuntime controller, final Value arg) {
+    BanishManager.Banisher banisher = BanishManager.Banisher.find(arg.toString());
+    return DataTypes.makeStringValue(banisher == null ? "" : banisher.getResetTypeName());
+  }
+
+  public static Value banisher_type(ScriptRuntime controller, final Value arg) {
+    BanishManager.Banisher banisher = BanishManager.Banisher.find(arg.toString());
+    return DataTypes.makeStringValue(banisher == null ? "" : banisher.getBanishTypeName());
+  }
+
+  public static Value banisher_is_turn_free(ScriptRuntime controller, final Value arg) {
+    BanishManager.Banisher banisher = BanishManager.Banisher.find(arg.toString());
+    return DataTypes.makeBooleanValue(banisher != null && banisher.isTurnFree());
   }
 
   public static Value jump_chance(ScriptRuntime controller) {
