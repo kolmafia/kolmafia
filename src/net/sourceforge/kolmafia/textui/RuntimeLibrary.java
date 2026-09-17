@@ -4055,6 +4055,22 @@ public abstract class RuntimeLibrary {
         new LibraryFunction(
             "shrunken_head_zombie", new AggregateType(DataTypes.STRING_TYPE, 0), params));
 
+    params = List.of(namedParam("monster", DataTypes.MONSTER_TYPE));
+    functions.add(
+        new LibraryFunction(
+            "shrunken_head_zombie_weights",
+            new AggregateType(DataTypes.INT_TYPE, DataTypes.STRING_TYPE),
+            params));
+
+    params =
+        List.of(
+            namedParam("monster", DataTypes.MONSTER_TYPE), namedParam("path", DataTypes.PATH_TYPE));
+    functions.add(
+        new LibraryFunction(
+            "shrunken_head_zombie_weights",
+            new AggregateType(DataTypes.INT_TYPE, DataTypes.STRING_TYPE),
+            params));
+
     params = List.of();
     functions.add(new LibraryFunction("heartstone_middle_letter", DataTypes.STRING_TYPE, params));
 
@@ -12323,6 +12339,32 @@ public abstract class RuntimeLibrary {
   private static Value shrunken_head_zombie(int monsterId, int pathId) {
     var abilities = ShrunkenHeadDatabase.shrunkenHeadZombie(monsterId, pathId);
     return DataTypes.makeStringArrayValue(abilities);
+  }
+
+  public static Value shrunken_head_zombie_weights(
+      ScriptRuntime controller, final Value monsterVal) {
+    var monId = ((MonsterData) monsterVal.content).getId();
+    var pathId = KoLCharacter.getPath().id;
+    return shrunken_head_zombie_weights(monId, pathId);
+  }
+
+  public static Value shrunken_head_zombie_weights(
+      ScriptRuntime controller, final Value monsterVal, final Value pathVal) {
+    var monId = ((MonsterData) monsterVal.content).getId();
+    var pathId = ((Path) pathVal.content).id;
+    return shrunken_head_zombie_weights(monId, pathId);
+  }
+
+  private static Value shrunken_head_zombie_weights(int monsterId, int pathId) {
+    AggregateType type = new AggregateType(DataTypes.INT_TYPE, DataTypes.STRING_TYPE);
+    MapValue value = new MapValue(type);
+
+    for (Entry<String, Integer> entry :
+        ShrunkenHeadDatabase.shrunkenHeadZombieWithWeights(monsterId, pathId).entrySet()) {
+      value.aset(new Value(entry.getKey()), new Value(entry.getValue()));
+    }
+
+    return value;
   }
 
   public static Value heartstone_middle_letter(ScriptRuntime controller, final Value value) {
