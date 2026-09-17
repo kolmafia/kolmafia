@@ -11,6 +11,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
@@ -138,7 +139,7 @@ public class ApiRequest extends GenericRequest {
     }
     // The api returns a subset of stores per item, with the default 5 and the max 20
     request.addFormField("count", String.valueOf(MallPriceManager.NTH_CHEAPEST_COUNT));
-    request.run();
+    RequestThread.postRequest(request);
   }
 
   @Override
