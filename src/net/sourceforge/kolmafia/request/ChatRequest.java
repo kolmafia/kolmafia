@@ -49,8 +49,7 @@ public class ChatRequest extends GenericRequest {
     this.addFormField("j", "1");
 
     for (String graf : grafs) {
-      // addFormField would collapse a repeated name, and KoL wants one entry per message.
-      this.data.add("graf%5B%5D=" + GenericRequest.encodeURL(graf, StandardCharsets.ISO_8859_1));
+      addFormField("graf[]", graf, true);
     }
 
     this.setDataChanged();
