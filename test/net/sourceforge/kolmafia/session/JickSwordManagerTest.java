@@ -83,7 +83,7 @@ public class JickSwordManagerTest {
   @Test
   void rendersModifierString() {
     assertThat(
-        JickSwordManager.getModifierString(1197090),
+        JickSwordManager.getModifierList(1197090).toString(),
         is(
             "Spell Damage Percent: +100, Cold Damage: +40, Sleaze Resistance: +3, Damage vs. Zombies: +80, Item Drop: +10"));
   }
