@@ -2974,7 +2974,7 @@ public class Parser {
 
       final ErrorManager initializerErrors = javaForErrors.makeChild();
 
-      Type t = this.parseType(scope, true);
+      Type t = this.parseType(scope, true, true);
 
       Token name = this.currentToken();
       Variable variable;
@@ -3038,6 +3038,18 @@ public class Parser {
                   "Cannot store " + rtype + " in " + name + " of type " + ltype));
 
           rhs = Value.locate(rhs.getLocation(), Value.BAD_VALUE);
+        }
+      }
+
+      if (t.getType() == TypeSpec.VAR) {
+        if (rhs == null) {
+          initializerErrors.submitError(
+              this.error(lhs.getLocation(), "var requires an initializer"));
+        } else if (rhs instanceof VariableReference ref && ref.target == variable) {
+          initializerErrors.submitError(
+              this.error(rhs.getLocation(), "Cannot infer type: variable references itself"));
+        } else {
+          variable.setType(rhs.getType().getBaseType());
         }
       }
 

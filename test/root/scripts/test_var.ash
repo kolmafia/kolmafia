@@ -43,3 +43,35 @@ Point make_point(int x, int y) {
 
 var p = make_point(7, 9);
 print(p.x + p.y);
+
+int sum_to(int n) {
+    var total = 0;
+    for i from 1 to n {
+        var delta = i;
+        total += delta;
+    }
+    return total;
+}
+print(sum_to(4));
+
+var sum = 0;
+foreach k in arr {
+    var v = k * 2;
+    sum += v;
+}
+print(sum);
+
+sum = 0;
+var j = 0;
+while (j < 3) {
+    var w = j;
+    sum += w;
+    j += 1;
+}
+print(sum);
+
+var js = 0;
+for (var k = 0; k < 3; k++) {
+    js += k;
+}
+print(js);

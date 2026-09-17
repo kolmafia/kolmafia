@@ -141,12 +141,37 @@ public class VarTypeTest {
             "typedef var Foo;",
             "var is only valid in variable declarations",
             "char 9 to char 12"),
-        // Error: var in for loop
-        invalid(
+        // Valid: var in java-style for loop initializer
+        valid(
             "var in java for loop",
             "for (var i = 0; i < 10; i++) {}",
-            "var is only valid in variable declarations",
-            "char 6 to char 9"),
+            Arrays.asList(
+                "for", "(", "var", "i", "=", "0", ";", "i", "<", "10", ";", "i", "++", ")", "{",
+                "}"),
+            Arrays.asList(
+                "1-1", "1-5", "1-6", "1-10", "1-12", "1-14", "1-15", "1-17", "1-19", "1-21", "1-23",
+                "1-25", "1-26", "1-28", "1-30", "1-31"),
+            scope -> {
+              Iterator<Command> commands = scope.getCommands();
+              assertTrue(commands.hasNext());
+              JavaForLoop loop = (JavaForLoop) commands.next();
+              Iterator<Variable> vars = loop.getScope().getVariables().iterator();
+              assertTrue(vars.hasNext());
+              assertEquals(TypeSpec.INT, vars.next().getType().getType());
+              assertFalse(vars.hasNext());
+            }),
+        // Error: var without initializer in java-style for loop
+        invalid(
+            "var no initializer in java for loop",
+            "for (var i; i < 10; i++) {}",
+            "var requires an initializer",
+            "char 10 to char 11"),
+        // Error: var self-reference in java-style for loop
+        invalid(
+            "var self-reference in java for loop",
+            "for (var i = i; i < 10; i++) {}",
+            "Cannot infer type: variable references itself",
+            "char 14 to char 15"),
         // Error: var as foreach key
         invalid(
             "var as foreach key",
