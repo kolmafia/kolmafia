@@ -30,6 +30,7 @@ import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
@@ -405,6 +406,7 @@ public class InventoryManagerTest {
         assertEquals(3.0, mods.getDouble(DoubleModifier.SLEAZE_RESISTANCE));
         assertEquals(80.0, mods.getDouble(DoubleModifier.ZOMBIE_DAMAGE));
         assertEquals(10.0, mods.getDouble(DoubleModifier.ITEMDROP));
+        assertEquals("2013-12", mods.getString(StringModifier.LAST_AVAILABLE_DATE));
       }
     }
   }
