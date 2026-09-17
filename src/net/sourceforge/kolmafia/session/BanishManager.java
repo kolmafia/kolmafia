@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.function.Consumer;
@@ -62,6 +63,11 @@ public class BanishManager {
       }
 
       return turnReset;
+    }
+
+    // e.g. "turn_rollover", "cosmic_bowling_ball" - the ASH-facing name for this reset condition.
+    final String shortName() {
+      return this.name().toLowerCase(Locale.ROOT).replace("_reset", "");
     }
   }
 
@@ -214,6 +220,16 @@ public class BanishManager {
 
     public final BanishType getBanishType() {
       return this.banishType;
+    }
+
+    // String forms of resetType / banishType, for banisher_reset() / banisher_type() in ASH
+    // (the enums are private).
+    public final String getResetTypeName() {
+      return this.resetType.shortName();
+    }
+
+    public final String getBanishTypeName() {
+      return this.banishType.name().toLowerCase(Locale.ROOT);
     }
 
     public final boolean isEffective() {

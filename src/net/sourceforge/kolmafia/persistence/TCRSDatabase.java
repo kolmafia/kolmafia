@@ -594,6 +594,10 @@ public class TCRSDatabase {
   private static Map<String, List<String>> STRINGS;
   private static Set<String> ADJECTIVES;
 
+  public static List<Integer> getEffectPool() {
+    return Collections.unmodifiableList(TCRSEffectPool);
+  }
+
   private static void buildEffectPool() {
     TCRSEffectPool.clear();
     EffectDatabase.keys().stream()
