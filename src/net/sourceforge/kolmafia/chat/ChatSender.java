@@ -192,7 +192,7 @@ public class ChatSender {
       return;
     }
 
-    // A batch of grafs has no single command to attribute this output to.
+    // TODO Add support for when the graf was batched via graf[]
     if (graf == null) {
       return;
     }
