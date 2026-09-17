@@ -183,7 +183,7 @@ public class ApiRequest extends GenericRequest {
     // Save the JSON object so caller can look further at it
     this.json = ApiRequest.getJSON(this.responseText, this.what);
 
-    ApiRequest.parseResponse(this.getURLString(), this.json);
+    ApiRequest.parseResponse(this.what, this.json);
   }
 
   private static final Pattern WHAT_PATTERN = Pattern.compile("what=([^&]*)");
