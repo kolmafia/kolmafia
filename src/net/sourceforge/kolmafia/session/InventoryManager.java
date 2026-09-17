@@ -1779,7 +1779,9 @@ public abstract class InventoryManager {
     }
 
     ModifierDatabase.overrideModifier(
-        ModifierType.ITEM, ItemPool.JICK_SWORD, JickSwordManager.getModifierString(playerId));
+        ModifierType.ITEM,
+        ItemPool.JICK_SWORD,
+        JickSwordManager.getModifierList(playerId).toString());
   }
 
   public static void checkPantogram() {

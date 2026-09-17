@@ -7,8 +7,8 @@ import java.util.EnumMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
+import net.sourceforge.kolmafia.modifiers.ModifierList;
 import net.sourceforge.kolmafia.utilities.PHPMTRandom;
 
 /**
@@ -111,16 +111,15 @@ public class JickSwordManager {
   }
 
   /**
-   * The enchantments on the Sword of Procedural Generation belonging to the given player, as a
-   * modifier string.
+   * The enchantments on the Sword of Procedural Generation belonging to the given player.
    *
    * @param playerId Owner's player id
-   * @return Modifier string suitable for ModifierDatabase
+   * @return Modifiers, in the order the game lists them
    */
-  public static String getModifierString(final int playerId) {
-    return getModifiers(playerId).entrySet().stream()
-        .map(e -> e.getKey().getName() + ": +" + e.getValue())
-        .collect(Collectors.joining(", "));
+  public static ModifierList getModifierList(final int playerId) {
+    var list = new ModifierList();
+    getModifiers(playerId).forEach((mod, value) -> list.addModifier(mod.getName(), "+" + value));
+    return list;
   }
 
   private static int value(final Map<Slot, Integer> points, final Slot slot) {
