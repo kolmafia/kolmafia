@@ -3760,7 +3760,7 @@ public class RelayRequest extends PasswordHashRequest {
       String graf = grafs.isEmpty() ? this.getFormField("graf") : null;
 
       chatText =
-          graf != null
+          grafs.isEmpty()
               ? ChatSender.sendMessage(new LinkedList<>(), graf, true, false, tabbedChat)
               : ChatSender.sendMessages(grafs);
 
