@@ -18,7 +18,7 @@ public class MayamManagerTest {
     void startsAndEndsWhereTheTwoCrazyRandomSummerPoolDoes() {
       var pool = MayamManager.getYamBatteryPool();
 
-      assertThat(pool.get(0), is(5));
+      assertThat(pool.get(0), is(EffectPool.FAR_OUT));
       assertThat(pool.get(pool.size() - 1), is(EffectPool.TIKI_TEMERITY));
     }
 
