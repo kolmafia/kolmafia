@@ -42,10 +42,7 @@ public class ChatRequest extends GenericRequest {
   }
 
   /**
-   * Constructs a new <code>ChatRequest</code> that will send several messages at once, the way
-   * mchat's Javascript does.
-   *
-   * @param grafs The messages to be sent
+   * Constructs a new <code>ChatRequest</code> that will send several messages at once
    */
   public ChatRequest(final List<String> grafs) {
     super("submitnewchat.php", true);
@@ -55,7 +52,7 @@ public class ChatRequest extends GenericRequest {
 
     for (String graf : grafs) {
       // addFormField would collapse a repeated name, and KoL wants one entry per message.
-      this.data.add("graf%5B%5D=" + GenericRequest.encodeURL(graf, StandardCharsets.UTF_8));
+      this.data.add("graf%5B%5D=" + GenericRequest.encodeURL(graf, StandardCharsets.ISO_8859_1));
     }
 
     this.setDataChanged();
