@@ -117,6 +117,20 @@ public class VarTypeTest {
             "var x = x;",
             "Cannot infer type: variable references itself",
             "char 9 to char 10"),
+        // Valid: var with void initializer (matches "void x = wait(1)")
+        valid(
+            "var with void initializer",
+            "void g() {} var x = g();",
+            Arrays.asList("void", "g", "(", ")", "{", "}", "var", "x", "=", "g", "(", ")", ";"),
+            Arrays.asList(
+                "1-1", "1-6", "1-7", "1-8", "1-10", "1-11", "1-13", "1-17", "1-19", "1-21", "1-22",
+                "1-23", "1-24"),
+            scope -> {
+              Iterator<Variable> vars = scope.getVariables().iterator();
+              assertTrue(vars.hasNext());
+              assertEquals(TypeSpec.VOID, vars.next().getType().getType());
+              assertFalse(vars.hasNext());
+            }),
         // Error: var in function parameter
         invalid(
             "var as function parameter type",
