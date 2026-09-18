@@ -743,6 +743,38 @@ public class MaximizerSpeculation extends Speculation
     this.restore(mark);
   }
 
+  void checkBest() throws MaximizerInterruptedException {
+    this.calculated = false;
+    this.scored = false;
+    this.tiebreakered = false;
+    if (Maximizer.best == null) {
+      RequestLogger.updateSessionLog(
+          "Maximizer about to throw LimitExceeded because of null best.");
+      // this isn't really what is happening but trying to understand why this is happening, first.
+      throw new MaximizerLimitException();
+    }
+    if (this.compareTo(Maximizer.best) > 0) {
+      Maximizer.best = this.clone();
+    }
+    Maximizer.bestChecked++;
+    if ((Maximizer.bestChecked & 0x3FF) == 0) {
+      long t = System.currentTimeMillis();
+      if (t > Maximizer.bestUpdate) {
+        MaximizerSpeculation.showProgress();
+        Maximizer.bestUpdate = t + 5000;
+      }
+    }
+    if (!KoLmafia.permitsContinue()) {
+      throw new MaximizerInterruptedException();
+    }
+    if (this.exceeded) {
+      throw new MaximizerExceededException();
+    }
+    if (Maximizer.combinationLimit != 0 && Maximizer.bestChecked >= Maximizer.combinationLimit) {
+      throw new MaximizerLimitException();
+    }
+  }
+
   public void tryOffhands(SlotList<CheckedItem> possibles, AdventureResult bestCard)
       throws MaximizerInterruptedException {
     var mark = this.mark();
@@ -800,37 +832,8 @@ public class MaximizerSpeculation extends Speculation
       this.equipment.put(Slot.OFFHAND, EquipmentRequest.UNEQUIP);
     }
 
-    // doit
-    this.calculated = false;
-    this.scored = false;
-    this.tiebreakered = false;
-    if (Maximizer.best == null) {
-      RequestLogger.updateSessionLog(
-          "Maximizer about to throw LimitExceeded because of null best.");
-      // this isn't really what is happening but trying to understand why this is happening, first.
-      throw new MaximizerLimitException();
-    }
-    if (this.compareTo(Maximizer.best) > 0) {
-      Maximizer.best = this.clone();
-    }
-    Maximizer.bestChecked++;
-    if ((Maximizer.bestChecked & 0x3FF) == 0) {
-      long t = System.currentTimeMillis();
-      if (t > Maximizer.bestUpdate) {
-        MaximizerSpeculation.showProgress();
-        Maximizer.bestUpdate = t + 5000;
-      }
-    }
+    this.checkBest();
     this.restore(mark);
-    if (!KoLmafia.permitsContinue()) {
-      throw new MaximizerInterruptedException();
-    }
-    if (this.exceeded) {
-      throw new MaximizerExceededException();
-    }
-    if (Maximizer.combinationLimit != 0 && Maximizer.bestChecked >= Maximizer.combinationLimit) {
-      throw new MaximizerLimitException();
-    }
   }
 
   private static int getMutex(AdventureResult item) {

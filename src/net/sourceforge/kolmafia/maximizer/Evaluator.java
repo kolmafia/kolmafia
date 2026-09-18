@@ -119,6 +119,37 @@ public class Evaluator {
 
   private record ScoreModifier(Modifier modifier, double weight, double min, double max) {}
 
+  private double getItemBonus(AdventureResult item, Map<Modeable, String> modeables) {
+    ItemBonus itemBonus = this.bonuses.get(item);
+    if (itemBonus == null) return 0.0;
+
+    double score = itemBonus.base();
+    Modeable modeable = Modeable.find(item);
+    if (modeable == null) return score;
+    Double modeBonus = itemBonus.modes().get(modeables.get(modeable));
+    return modeBonus == null ? score : score + modeBonus;
+  }
+
+  private double getModBonus(AdventureResult item, Map<Modeable, String> modeables) {
+    Modifiers itemMods = ModifierDatabase.getItemModifiers(item.getItemId());
+    if (itemMods == null) return 0.0;
+
+    Modifiers modeMods = null;
+    Modeable modeable = Modeable.find(item);
+    if (modeable != null) {
+      modeMods = ModifierDatabase.getModifiers(modeable.getModifierType(), modeables.get(modeable));
+    }
+
+    double score = 0.0;
+    for (Entry<BooleanModifier, Double> modBonus : this.modBonuses.entrySet()) {
+      if (itemMods.getBoolean(modBonus.getKey())
+          || modeMods != null && modeMods.getBoolean(modBonus.getKey())) {
+        score += modBonus.getValue();
+      }
+    }
+    return score;
+  }
+
   private static final Pattern MUS_EXP_PERC_PATTERN =
       Pattern.compile("^mus(cle)? exp(erience)? perc(ent(age)?)?");
   private static final Pattern MUS_EXP_PATTERN = Pattern.compile("^mus(cle)? exp(erience)?");
@@ -876,119 +907,8 @@ public class Evaluator {
       var mod = scoreModifier.modifier();
       double weight = scoreModifier.weight();
       double min = scoreModifier.min();
-      double val = 0.0;
+      double val = scoreValue(mod, mods, predicted);
       double max = scoreModifier.max();
-      if (mod instanceof BitmapModifier bitmapModifier) {
-        val = mods.getBitmap(bitmapModifier);
-      } else if (mod instanceof DoubleModifier) {
-        var doubleModifier = (DoubleModifier) mod;
-        val = mods.getDouble(doubleModifier);
-        switch (doubleModifier) {
-          case MUS:
-            val = predicted.get(DerivedModifier.BUFFED_MUS);
-            break;
-          case MYS:
-            val = predicted.get(DerivedModifier.BUFFED_MYS);
-            break;
-          case MOX:
-            val = predicted.get(DerivedModifier.BUFFED_MOX);
-            break;
-          case FAMILIAR_WEIGHT:
-            val += mods.getDouble(DoubleModifier.HIDDEN_FAMILIAR_WEIGHT);
-            if (mods.getDouble(DoubleModifier.FAMILIAR_WEIGHT_PCT) < 0.0) {
-              val *= 0.5f;
-            }
-            break;
-          case MANA_COST:
-            val += mods.getDouble(DoubleModifier.STACKABLE_MANA_COST);
-            break;
-          case INITIATIVE:
-            val += Math.min(0.0, mods.getDouble(DoubleModifier.INITIATIVE_PENALTY));
-            break;
-          case MEATDROP:
-            val +=
-                100.0
-                    + Math.min(0.0, mods.getDouble(DoubleModifier.MEATDROP_PENALTY))
-                    + mods.getDouble(DoubleModifier.SPORADIC_MEATDROP)
-                    + mods.getDouble(DoubleModifier.MEAT_BONUS) / 10000.0;
-            break;
-          case ITEMDROP:
-            val +=
-                100.0
-                    + Math.min(0.0, mods.getDouble(DoubleModifier.ITEMDROP_PENALTY))
-                    + mods.getDouble(DoubleModifier.SPORADIC_ITEMDROP);
-            break;
-          case HP:
-            val = predicted.get(DerivedModifier.BUFFED_HP);
-            break;
-          case MP:
-            val = predicted.get(DerivedModifier.BUFFED_MP);
-            break;
-          case WEAPON_DAMAGE:
-            // Incorrect - needs to estimate base damage
-            val += mods.getDouble(DoubleModifier.WEAPON_DAMAGE_PCT);
-            break;
-          case RANGED_DAMAGE:
-            // Incorrect - needs to estimate base damage
-            val += mods.getDouble(DoubleModifier.RANGED_DAMAGE_PCT);
-            break;
-          case SPELL_DAMAGE:
-            // Incorrect - base damage depends on spell used
-            val += mods.getDouble(DoubleModifier.SPELL_DAMAGE_PCT);
-            break;
-          case COLD_RESISTANCE:
-            if (mods.getBoolean(BooleanModifier.COLD_IMMUNITY)) {
-              val = 100.0;
-            } else if (mods.getBoolean(BooleanModifier.COLD_VULNERABILITY)) {
-              val -= 100.0;
-            }
-            break;
-          case HOT_RESISTANCE:
-            if (mods.getBoolean(BooleanModifier.HOT_IMMUNITY)) {
-              val = 100.0;
-            } else if (mods.getBoolean(BooleanModifier.HOT_VULNERABILITY)) {
-              val -= 100.0;
-            }
-            break;
-          case SLEAZE_RESISTANCE:
-            if (mods.getBoolean(BooleanModifier.SLEAZE_IMMUNITY)) {
-              val = 100.0;
-            } else if (mods.getBoolean(BooleanModifier.SLEAZE_VULNERABILITY)) {
-              val -= 100.0;
-            }
-            break;
-          case SPOOKY_RESISTANCE:
-            if (mods.getBoolean(BooleanModifier.SPOOKY_IMMUNITY)) {
-              val = 100.0;
-            } else if (mods.getBoolean(BooleanModifier.SPOOKY_VULNERABILITY)) {
-              val -= 100.0;
-            }
-            break;
-          case STENCH_RESISTANCE:
-            if (mods.getBoolean(BooleanModifier.STENCH_IMMUNITY)) {
-              val = 100.0;
-            } else if (mods.getBoolean(BooleanModifier.STENCH_VULNERABILITY)) {
-              val -= 100.0;
-            }
-            break;
-          case EXPERIENCE:
-            double baseExp =
-                KoLCharacter.estimatedBaseExp(
-                    mods.getDouble(DoubleModifier.MONSTER_LEVEL)
-                        * (1 + mods.getDouble(DoubleModifier.MONSTER_LEVEL_PERCENT) / 100));
-            double expPct = mods.getDouble(DoubleModifier.primeStatExpPercent()) / 100.0f;
-            double exp = mods.getDouble(DoubleModifier.primeStatExp());
-
-            val = ((baseExp + exp) * (1 + expPct)) / 2.0f;
-            break;
-          case DAMAGE_AURA:
-            val += mods.getDouble(DoubleModifier.SPORADIC_DAMAGE_AURA);
-            break;
-          case THORNS:
-            val += mods.getDouble(DoubleModifier.SPORADIC_THORNS);
-            break;
-        }
-      }
       if (val < min) this.failed = true;
       score += weight * Math.min(val, max);
     }
@@ -998,38 +918,12 @@ public class Evaluator {
     }
     if (!this.bonuses.isEmpty()) {
       for (AdventureResult item : equipment.values()) {
-        ItemBonus itemBonus = this.bonuses.get(item);
-        // Add the base bonus
-        if (itemBonus == null) continue;
-        score += itemBonus.base();
-        // If it's a modeable and has a bonus for it
-        var modeable = Modeable.find(item);
-        if (modeable == null) continue;
-        var mode = modeables.get(modeable);
-        if (mode == null) continue;
-        Double bonus = itemBonus.modes().get(mode);
-        if (bonus != null) score += bonus;
+        score += this.getItemBonus(item, modeables);
       }
     }
     if (!this.modBonuses.isEmpty()) {
       for (AdventureResult item : equipment.values()) {
-        Modifiers itemMods = ModifierDatabase.getItemModifiers(item.getItemId());
-        if (itemMods == null) {
-          continue;
-        }
-        Modifiers modeMods = null;
-        Modeable modeable = Modeable.find(item);
-        if (modeable != null) {
-          modeMods =
-              ModifierDatabase.getModifiers(modeable.getModifierType(), modeables.get(modeable));
-        }
-
-        for (Entry<BooleanModifier, Double> modBonus : this.modBonuses.entrySet()) {
-          if (itemMods.getBoolean(modBonus.getKey())
-              || modeMods != null && modeMods.getBoolean(modBonus.getKey())) {
-            score += modBonus.getValue();
-          }
-        }
+        score += this.getModBonus(item, modeables);
       }
     }
     if (!this.bonusFunc.isEmpty()) {
@@ -1051,6 +945,121 @@ public class Evaluator {
       this.failed = true;
     }
     return score;
+  }
+
+  private static double scoreValue(
+      Modifier scoreModifier, Modifiers mods, Map<DerivedModifier, Integer> predictedModifiers) {
+    if (scoreModifier instanceof BitmapModifier modifier) {
+      return mods.getBitmap(modifier);
+    }
+    DoubleModifier modifier = (DoubleModifier) scoreModifier;
+    double val = mods.getDouble(modifier);
+    switch (modifier) {
+      case MUS:
+        val = predictedModifiers.get(DerivedModifier.BUFFED_MUS);
+        break;
+      case MYS:
+        val = predictedModifiers.get(DerivedModifier.BUFFED_MYS);
+        break;
+      case MOX:
+        val = predictedModifiers.get(DerivedModifier.BUFFED_MOX);
+        break;
+      case FAMILIAR_WEIGHT:
+        val += mods.getDouble(DoubleModifier.HIDDEN_FAMILIAR_WEIGHT);
+        if (mods.getDouble(DoubleModifier.FAMILIAR_WEIGHT_PCT) < 0.0) {
+          val *= 0.5f;
+        }
+        break;
+      case MANA_COST:
+        val += mods.getDouble(DoubleModifier.STACKABLE_MANA_COST);
+        break;
+      case INITIATIVE:
+        val += Math.min(0.0, mods.getDouble(DoubleModifier.INITIATIVE_PENALTY));
+        break;
+      case MEATDROP:
+        val +=
+            100.0
+                + Math.min(0.0, mods.getDouble(DoubleModifier.MEATDROP_PENALTY))
+                + mods.getDouble(DoubleModifier.SPORADIC_MEATDROP)
+                + mods.getDouble(DoubleModifier.MEAT_BONUS) / 10000.0;
+        break;
+      case ITEMDROP:
+        val +=
+            100.0
+                + Math.min(0.0, mods.getDouble(DoubleModifier.ITEMDROP_PENALTY))
+                + mods.getDouble(DoubleModifier.SPORADIC_ITEMDROP);
+        break;
+      case HP:
+        val = predictedModifiers.get(DerivedModifier.BUFFED_HP);
+        break;
+      case MP:
+        val = predictedModifiers.get(DerivedModifier.BUFFED_MP);
+        break;
+      case WEAPON_DAMAGE:
+        // Incorrect - needs to estimate base damage
+        val += mods.getDouble(DoubleModifier.WEAPON_DAMAGE_PCT);
+        break;
+      case RANGED_DAMAGE:
+        // Incorrect - needs to estimate base damage
+        val += mods.getDouble(DoubleModifier.RANGED_DAMAGE_PCT);
+        break;
+      case SPELL_DAMAGE:
+        // Incorrect - base damage depends on spell used
+        val += mods.getDouble(DoubleModifier.SPELL_DAMAGE_PCT);
+        break;
+      case COLD_RESISTANCE:
+        if (mods.getBoolean(BooleanModifier.COLD_IMMUNITY)) {
+          val = 100.0;
+        } else if (mods.getBoolean(BooleanModifier.COLD_VULNERABILITY)) {
+          val -= 100.0;
+        }
+        break;
+      case HOT_RESISTANCE:
+        if (mods.getBoolean(BooleanModifier.HOT_IMMUNITY)) {
+          val = 100.0;
+        } else if (mods.getBoolean(BooleanModifier.HOT_VULNERABILITY)) {
+          val -= 100.0;
+        }
+        break;
+      case SLEAZE_RESISTANCE:
+        if (mods.getBoolean(BooleanModifier.SLEAZE_IMMUNITY)) {
+          val = 100.0;
+        } else if (mods.getBoolean(BooleanModifier.SLEAZE_VULNERABILITY)) {
+          val -= 100.0;
+        }
+        break;
+      case SPOOKY_RESISTANCE:
+        if (mods.getBoolean(BooleanModifier.SPOOKY_IMMUNITY)) {
+          val = 100.0;
+        } else if (mods.getBoolean(BooleanModifier.SPOOKY_VULNERABILITY)) {
+          val -= 100.0;
+        }
+        break;
+      case STENCH_RESISTANCE:
+        if (mods.getBoolean(BooleanModifier.STENCH_IMMUNITY)) {
+          val = 100.0;
+        } else if (mods.getBoolean(BooleanModifier.STENCH_VULNERABILITY)) {
+          val -= 100.0;
+        }
+        break;
+      case EXPERIENCE:
+        double baseExp =
+            KoLCharacter.estimatedBaseExp(
+                mods.getDouble(DoubleModifier.MONSTER_LEVEL)
+                    * (1 + mods.getDouble(DoubleModifier.MONSTER_LEVEL_PERCENT) / 100));
+        double expPct = mods.getDouble(DoubleModifier.primeStatExpPercent()) / 100.0f;
+        double exp = mods.getDouble(DoubleModifier.primeStatExp());
+
+        val = ((baseExp + exp) * (1 + expPct)) / 2.0f;
+        break;
+      case DAMAGE_AURA:
+        val += mods.getDouble(DoubleModifier.SPORADIC_DAMAGE_AURA);
+        break;
+      case THORNS:
+        val += mods.getDouble(DoubleModifier.SPORADIC_THORNS);
+        break;
+    }
+    return val;
   }
 
   public double getScore(Modifiers mods) {
