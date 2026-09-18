@@ -1094,19 +1094,7 @@ public class Parser {
       }
 
       if (isVar) {
-        if (rhs == null) {
-          variableErrors.submitError(this.error(lhs.getLocation(), "var requires an initializer"));
-        } else if (compositeInitializer) {
-          variableErrors.submitError(
-              this.error(
-                  rhs.getLocation(),
-                  "Inference from composite literal not supported; declare full type"));
-        } else if (rhs instanceof VariableReference ref && ref.target == v) {
-          variableErrors.submitError(
-              this.error(rhs.getLocation(), "Cannot infer type: variable references itself"));
-        } else {
-          v.setType(rhs.getType().getBaseType());
-        }
+        this.inferVarType(v, lhs, rhs, compositeInitializer, variableErrors);
       }
 
       parentScope.addCommand(new Assignment(lhs, rhs), this);
@@ -1117,6 +1105,27 @@ public class Parser {
       }
 
       return true;
+    }
+  }
+
+  private void inferVarType(
+      final Variable v,
+      final VariableReference lhs,
+      final Evaluable rhs,
+      final boolean compositeInitializer,
+      final ErrorManager errors) {
+    if (rhs == null) {
+      errors.submitError(this.error(lhs.getLocation(), "var requires an initializer"));
+    } else if (compositeInitializer) {
+      errors.submitError(
+          this.error(
+              rhs.getLocation(),
+              "Inference from composite literal not supported; declare full type"));
+    } else if (rhs instanceof VariableReference ref && ref.target == v) {
+      errors.submitError(
+          this.error(rhs.getLocation(), "Cannot infer type: variable references itself"));
+    } else {
+      v.setType(rhs.getType().getBaseType());
     }
   }
 
@@ -3055,20 +3064,7 @@ public class Parser {
       }
 
       if (isVar) {
-        if (rhs == null) {
-          initializerErrors.submitError(
-              this.error(lhs.getLocation(), "var requires an initializer"));
-        } else if (compositeInitializer) {
-          initializerErrors.submitError(
-              this.error(
-                  rhs.getLocation(),
-                  "Inference from composite literal not supported; declare full type"));
-        } else if (rhs instanceof VariableReference ref && ref.target == variable) {
-          initializerErrors.submitError(
-              this.error(rhs.getLocation(), "Cannot infer type: variable references itself"));
-        } else {
-          variable.setType(rhs.getType().getBaseType());
-        }
+        this.inferVarType(variable, lhs, rhs, compositeInitializer, initializerErrors);
       }
 
       Assignment initializer = new Assignment(lhs, rhs);
