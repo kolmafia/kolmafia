@@ -5,7 +5,7 @@ import java.util.List;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
-import net.sourceforge.kolmafia.persistence.TCRSDatabase;
+import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.utilities.PHPMTRandom;
 
 /** Yam battery seeding spaded by VeeArr. */
@@ -15,19 +15,8 @@ public class MayamManager {
   /** A yam battery's three effects arrive with these durations, in this order. */
   private static final int[] YAM_BATTERY_DURATIONS = {10, 20, 30};
 
-  private static List<Integer> yamBatteryPool;
-
-  /**
-   * The effects a yam battery can roll, in the order KoL indexes into them.
-   *
-   * <p>For some reason the pool is the Two Crazy Random Summer effect pool minus Floundering.
-   */
-  public static synchronized List<Integer> getYamBatteryPool() {
-    if (yamBatteryPool == null) {
-      yamBatteryPool =
-          TCRSDatabase.getEffectPool().stream().filter(id -> id != EffectPool.FLOUNDERING).toList();
-    }
-    return yamBatteryPool;
+  public static List<Integer> getYamBatteryPool() {
+    return EffectDatabase.getGoodEffects(EffectPool.TIKI_TEMERITY);
   }
 
   /** The effects a yam battery would grant today. */
