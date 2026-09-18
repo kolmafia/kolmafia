@@ -39,6 +39,7 @@ import net.sourceforge.kolmafia.persistence.DateTimeManager;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.MallPurchaseRequest;
@@ -747,6 +748,27 @@ public class MallPriceManagerTest {
 
   @Nested
   class MallPricesApi {
+    private static final String MALL_PRICE_FIELDS =
+        "fields=id,store.id,store.price,store.quantity,store.limit,store.bought";
+
+    private static String listing(final int itemId, final long price) {
+      return listing("\"id\":" + itemId, price);
+    }
+
+    private static String listing(final String identifier, final long price) {
+      return "{"
+          + identifier
+          + ",\"stores\":[{\"id\":1234,\"price\":"
+          + price
+          + ",\"quantity\":10,\"limit\":0,\"bought\":0}]}";
+    }
+
+    private static void parseMallPrices(final int count, final String items) {
+      ApiRequest.parseResponse(
+          "api.php?what=mallprices&category=allitems",
+          "{\"count\":" + count + ",\"items\":[" + items + "]}");
+    }
+
     @Test
     public void canGetMallPricesByCategory() {
       var builder = new FakeHttpClientBuilder();
@@ -760,10 +782,53 @@ public class MallPriceManagerTest {
         assertPostRequest(
             builder.client.getRequests().getFirst(),
             "/api.php",
-            "what=mallprices&for=KoLmafia&category=allitems&count=5");
-        assertEquals(8423, count);
+            "what=mallprices&for=KoLmafia&category=allitems&" + MALL_PRICE_FIELDS + "&count=5");
+        assertEquals(1, builder.client.getRequests().size());
+        assertEquals(8422, count);
+        assertEquals(678, MallPriceManager.getMallPrice(ItemPool.HELL_RAMEN));
+        assertEquals(7790, MallPriceManager.getMallPrice(ItemPool.TRANSPORTER_TRANSPONDER));
+      }
+    }
+
+    @Test
+    public void canResolveItemByDescid() {
+      try (var cleanups = new Cleanups(mockClock())) {
+        Mockito.when(clock.millis()).thenReturn(1_000_000L);
+
+        parseMallPrices(5, listing("\"descid\":\"388744461\"", 642));
+
+        assertEquals(642, MallPriceManager.getMallPrice(ItemPool.HELL_RAMEN));
+      }
+    }
+
+    @Test
+    public void ignoresResponsesMissingAStoreField() {
+      try (var cleanups = new Cleanups(mockClock())) {
+        Mockito.when(clock.millis()).thenReturn(1_000_000L);
+
+        parseMallPrices(5, listing(ItemPool.HELL_RAMEN, 700));
+        parseMallPrices(
+            5, "{\"id\":" + ItemPool.HELL_RAMEN + ",\"stores\":[{\"id\":1,\"price\":100}]}");
+
         assertEquals(700, MallPriceManager.getMallPrice(ItemPool.HELL_RAMEN));
-        assertEquals(7700, MallPriceManager.getMallPrice(ItemPool.TRANSPORTER_TRANSPONDER));
+      }
+    }
+
+    @Test
+    public void ignoresResponsesWithTooFewListingsPerItem() {
+      try (var cleanups = new Cleanups(mockClock())) {
+        Mockito.when(clock.millis()).thenReturn(1_000_000L);
+
+        // First prove that the price being loaded correctly
+        parseMallPrices(5, listing(ItemPool.HELL_RAMEN, 1000));
+        assertEquals(1000, MallPriceManager.getMallPrice(ItemPool.HELL_RAMEN));
+        parseMallPrices(5, listing(ItemPool.HELL_RAMEN, 500));
+        assertEquals(500, MallPriceManager.getMallPrice(ItemPool.HELL_RAMEN));
+
+        // Call the api where we do not request enough stores for mafia to use
+        parseMallPrices(1, listing(ItemPool.HELL_RAMEN, 100));
+
+        assertEquals(500, MallPriceManager.getMallPrice(ItemPool.HELL_RAMEN));
       }
     }
 
@@ -779,7 +844,9 @@ public class MallPriceManagerTest {
         assertPostRequest(
             builder.client.getRequests().getFirst(),
             "/api.php",
-            "what=mallprices&for=KoLmafia&category=booze&tiers=awesome,EPIC&count=5");
+            "what=mallprices&for=KoLmafia&category=booze&tiers=awesome,EPIC&"
+                + MALL_PRICE_FIELDS
+                + "&count=5");
       }
     }
 
@@ -803,7 +870,9 @@ public class MallPriceManagerTest {
         assertPostRequest(
             builder.client.getRequests().getFirst(),
             "/api.php",
-            "what=mallprices&for=KoLmafia&category=booze&tiers=awesome,EPIC&count=5");
+            "what=mallprices&for=KoLmafia&category=booze&tiers=awesome,EPIC&"
+                + MALL_PRICE_FIELDS
+                + "&count=5");
       }
     }
 
@@ -818,9 +887,9 @@ public class MallPriceManagerTest {
         MallPriceManager.getMallPrices("allitems", "");
 
         // We have already bought our one disintegrating spiky collar from a store today
-        var collars = MallPriceManager.getSavedSearch(2667, 0);
+        var collars = MallPriceManager.getSavedSearch(2275, 0);
         assertTrue(
-            collars.stream().noneMatch(r -> ((MallPurchaseRequest) r).getShopId() == 416135));
+            collars.stream().noneMatch(r -> ((MallPurchaseRequest) r).getShopId() == 1333319));
 
         // Another store has no limit, so all honey sticks are available
         var sticks = MallPriceManager.getSavedSearch(5188, 0);
@@ -829,7 +898,7 @@ public class MallPriceManagerTest {
                 .filter(r -> ((MallPurchaseRequest) r).getShopId() == 1053259)
                 .findFirst()
                 .orElseThrow();
-        assertEquals(7689, clerks.getLimit());
+        assertEquals(7597, clerks.getLimit());
       }
     }
 

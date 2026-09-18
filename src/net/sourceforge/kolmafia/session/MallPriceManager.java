@@ -99,6 +99,10 @@ public abstract class MallPriceManager {
   // Consumable quality tiers, as api.php names them
   public static final String[] CONSUMABLE_TIERS = {"crappy", "decent", "good", "awesome", "EPIC"};
 
+  // The store fields we record prices from, as api.php names them
+  public static final List<String> STORE_FIELDS =
+      List.of("id", "price", "quantity", "limit", "bought");
+
   // This package makes MallSearchRequests and executes them.  This makes
   // testing difficult; we have testing infrastructure for testing
   // request classes, but that's not what we want to test here.
@@ -701,21 +705,28 @@ public abstract class MallPriceManager {
    * @param json What api.php responded with
    */
   public static void parseMallPrices(final JSONObject json) {
-    var items = json.getJSONArray("items");
-    if (items == null) {
+    // If the response doesn't have enough information
+    if (!MallPriceManager.canRecordPrices(json)) {
       return;
     }
 
+    var items = json.getJSONArray("items");
     List<PurchaseRequest> results = new ArrayList<>();
 
     for (int i = 0; i < items.size(); ++i) {
       var item = items.getJSONObject(i);
-      int itemId = item.getIntValue("id");
-      String itemName = item.getString("name");
+      int itemId;
 
-      // Unknown item
-      if (ItemDatabase.getItemName(itemId) == null) {
-        ItemDatabase.registerItem(itemId, itemName, item.getString("descid"));
+      // Resolve item by id, or descid
+      if (item.containsKey("id")) {
+        itemId = item.getIntValue("id");
+      } else {
+        itemId = ItemDatabase.getItemIdFromDescription(item.getString("descid"));
+      }
+
+      // If unknown item
+      if (itemId <= 0) {
+        return;
       }
 
       results.addAll(NPCStoreDatabase.getAvailablePurchaseRequests(itemId));
@@ -742,7 +753,46 @@ public abstract class MallPriceManager {
       }
     }
 
-    MallPriceManager.updateMallPrices(results);
+    MallPriceManager.pricesUpdated = MallPriceManager.updateMallPrices(results);
+  }
+
+  /** Whether a response holds every field needed to update internal prices */
+  private static boolean canRecordPrices(final JSONObject jsonObject) {
+    // If we can't figure out the count, or the count is less than our minimum
+    if (!jsonObject.containsKey("count")
+        || jsonObject.getIntValue("count", 0) < MallPriceManager.NTH_CHEAPEST_COUNT) {
+      return false;
+    }
+
+    var items = jsonObject.getJSONArray("items");
+
+    // If items are missing
+    if (items == null || items.isEmpty()) {
+      return false;
+    }
+
+    for (int i = 0; i < items.size(); ++i) {
+      var item = items.getJSONObject(i);
+      // If item has no identifier (ignoring name)
+      if (!item.containsKey("id") && !item.containsKey("descid")) {
+        return false;
+      }
+      var stores = item.getJSONArray("stores");
+      // If stores were not part of the response
+      if (stores == null) {
+        return false;
+      }
+
+      // If stores is empty, it doesn't invalidate the response
+      if (stores.isEmpty()) continue;
+
+      // Return if the store contains all the information we need
+      return stores.getJSONObject(0).keySet().containsAll(STORE_FIELDS);
+    }
+
+    // We failed to find an item that has a non-empty array of stores
+    // But as 'count' was not 0, the response is usable
+    return true;
   }
 
   private static int updateMallPrices(final List<PurchaseRequest> results) {
@@ -774,7 +824,6 @@ public abstract class MallPriceManager {
       MallPriceDatabase.writePrices();
     }
 
-    MallPriceManager.pricesUpdated = count;
     return count;
   }
 }

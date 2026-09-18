@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -137,7 +138,14 @@ public class ApiRequest extends GenericRequest {
     if (!tiers.isEmpty()) {
       request.addFormField("tiers", tiers);
     }
-    // The api returns a subset of X cheapest stores per item, with the default 5 and the max 20
+    request.addFormField(
+        "fields",
+        "id,"
+            + MallPriceManager.STORE_FIELDS.stream()
+                .map(s -> "store." + s)
+                .collect(Collectors.joining(",")));
+    // The backend api returns a subset of X cheapest stores per item, with the default 5 stores and
+    // the max 20
     request.addFormField("count", String.valueOf(MallPriceManager.NTH_CHEAPEST_COUNT));
     RequestThread.postRequest(request);
   }
