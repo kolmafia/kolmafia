@@ -35,7 +35,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 import java.util.zip.GZIPInputStream;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -107,7 +106,6 @@ import net.sourceforge.kolmafia.persistence.CandyDatabase.Candy;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.CupOf13sDatabase;
-import net.sourceforge.kolmafia.persistence.EffectData;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FactDatabase;
@@ -194,6 +192,7 @@ import net.sourceforge.kolmafia.scripts.git.GitManager;
 import net.sourceforge.kolmafia.scripts.svn.SVNManager;
 import net.sourceforge.kolmafia.session.AutumnatonManager;
 import net.sourceforge.kolmafia.session.BanishManager;
+import net.sourceforge.kolmafia.session.BeretManager;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.ContactManager;
@@ -253,7 +252,6 @@ import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.HTMLParserUtils;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.LogStream;
-import net.sourceforge.kolmafia.utilities.PHPMTRandom;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.utilities.WikiUtilities;
 import net.sourceforge.kolmafia.webui.RelayServer;
@@ -11646,50 +11644,13 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value beret_busking_effects(ScriptRuntime controller) {
-    var power = KoLCharacter.getTotalPower();
-    var cast = Preferences.getInteger("_beretBuskingUses");
-    return beret_busking_effects(controller, new Value(power), new Value(cast));
+    // $effect[none] indicates the meat gained
+    return makeEffectMap(BeretManager.buskingEffects());
   }
 
   public static Value beret_busking_effects(
       ScriptRuntime controller, final Value power, final Value cast) {
-    var results = new ArrayList<AdventureResult>();
-
-    // Calculate the capped power
-    var cappedPower =
-        Math.min(power.contentLong, 1100)
-            + (long) Math.floor(Math.pow(Math.max(0, power.contentLong - 1100), 0.8));
-
-    // $effect[none] will indicate the meat gained
-    results.add(new AdventureResult(AdventureResult.MEAT, (int) Math.ceil(cappedPower / 5.0) + 1));
-
-    // Grab list of valid effects
-    var validEffectIds =
-        new ArrayList<>(
-            IntStream.range(1, 2991)
-                .filter(i -> EffectDatabase.getEffectName(i) != null)
-                .filter(i -> EffectDatabase.getQuality(i) == EffectData.Quality.GOOD)
-                .filter(i -> !EffectDatabase.hasAttribute(i, "nohookah") || i == EffectPool.FISHY)
-                .filter(i -> !EffectDatabase.hasAttribute(i, "notcrs"))
-                .boxed()
-                .toList());
-
-    // The last entry is duplicated
-    validEffectIds.add(validEffectIds.getLast());
-
-    // Roll the effects
-    var seed = cappedPower + cast.contentLong;
-    var rng = new PHPMTRandom(seed);
-    var total = Math.ceil(cappedPower / 100.0);
-    for (int i = 0; i < total; i++) {
-      var effectId = rng.pickOne(validEffectIds);
-      var effect =
-          new AdventureResult(
-              EffectDatabase.getEffectName(effectId), effectId == EffectPool.FISHY ? 1 : 10, true);
-      results.add(effect);
-    }
-
-    return makeEffectMap(results);
+    return makeEffectMap(BeretManager.buskingEffects(power.contentLong, cast.contentLong));
   }
 
   /** Turns effects into an [effect] int, summing the counts of any that appear more than once. */
