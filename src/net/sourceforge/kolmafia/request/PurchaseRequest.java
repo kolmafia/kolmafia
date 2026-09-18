@@ -148,7 +148,7 @@ public abstract class PurchaseRequest extends GenericRequest
     buffer.append(" @ ");
     buffer.append(this.getPriceString());
     buffer.append("): ");
-    buffer.append(this.shopName);
+    buffer.append(this.getShopName());
 
     return buffer.toString();
   }

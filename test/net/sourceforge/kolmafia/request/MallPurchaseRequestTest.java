@@ -9,6 +9,7 @@ import static internal.helpers.Player.withItemInStorage;
 import static internal.helpers.Player.withMeat;
 import static internal.helpers.Player.withProperty;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
@@ -114,6 +115,58 @@ public class MallPurchaseRequestTest {
         MallPurchaseRequest.addForbiddenStore(request.getShopId());
         assertEquals("red", request.color());
       }
+    }
+  }
+
+  @Nested
+  class ShopName {
+    @Test
+    public void usesTheParsedName() {
+      var request =
+          new MallPurchaseRequest(
+              ItemPool.get(ItemPool.SEAL_TOOTH, 1), 1, 1234, "shop", 100, 1, true);
+      assertEquals("shop", request.getShopName());
+    }
+
+    @Test
+    public void fallsBackToTheShopId() {
+      var request = new MallPurchaseRequest(ItemPool.SEAL_TOOTH, 1, 1234, null, 100, 1, true);
+      assertEquals("shop #1234", request.getShopName());
+    }
+  }
+
+  @Nested
+  class Identity {
+    @Test
+    public void sameShopAndItemAreEqual() {
+      var one = new MallPurchaseRequest(ItemPool.SEAL_TOOTH, 1, 1234, null, 100, 1, true);
+      var two = new MallPurchaseRequest(ItemPool.SEAL_TOOTH, 5, 1234, null, 200, 5, true);
+      assertEquals(one, two);
+      assertEquals(one.hashCode(), two.hashCode());
+    }
+
+    @Test
+    public void differentShopsWithTheSameNameAreNotEqual() {
+      var item = ItemPool.get(ItemPool.SEAL_TOOTH, 1);
+      var one = new MallPurchaseRequest(item, 1, 1234, "shop", 100, 1, true);
+      var two = new MallPurchaseRequest(item, 1, 5678, "shop", 100, 1, true);
+      assertNotEquals(one, two);
+    }
+
+    @Test
+    public void playerShopsWithDifferentNamesAreEqual() {
+      var item = ItemPool.get(ItemPool.SEAL_TOOTH, 1);
+      var one = new MallPurchaseRequest(item, 1, 1234, "My shop", 100, 1, true);
+      var two = new MallPurchaseRequest(item, 1, 1234, "My old shop", 100, 1, true);
+      assertEquals(one, two);
+      assertEquals(one.hashCode(), two.hashCode());
+    }
+
+    @Test
+    public void differentItemsAreNotEqual() {
+      var one = new MallPurchaseRequest(ItemPool.SEAL_TOOTH, 1, 1234, null, 100, 1, true);
+      var two = new MallPurchaseRequest(ItemPool.TOILET_PAPER, 1, 1234, null, 100, 1, true);
+      assertNotEquals(one, two);
     }
   }
 

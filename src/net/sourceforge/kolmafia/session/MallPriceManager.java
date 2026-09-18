@@ -735,7 +735,7 @@ public abstract class MallPriceManager {
                 itemId,
                 quantity,
                 store.getIntValue("id"),
-                store.getString("name"),
+                null,
                 store.getLongValue("price"),
                 limit == 0 ? quantity : limit,
                 canPurchase));

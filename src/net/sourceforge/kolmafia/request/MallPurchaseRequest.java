@@ -281,6 +281,26 @@ public class MallPurchaseRequest extends PurchaseRequest {
   }
 
   @Override
+  public String getShopName() {
+    return this.shopName != null ? this.shopName : "shop #" + this.shopId;
+  }
+
+  @Override
+  public boolean equals(final Object o) {
+    return o instanceof MallPurchaseRequest mpr
+        && this.shopId == mpr.shopId
+        && this.item.getItemId() == mpr.item.getItemId();
+  }
+
+  @Override
+  public int hashCode() {
+    int hash = 0;
+    hash += 31 * this.shopId;
+    hash += this.item != null ? this.item.hashCode() : 0;
+    return hash;
+  }
+
+  @Override
   public long getAvailableMeat() {
     return KoLCharacter.canInteract()
         ? KoLCharacter.getAvailableMeat()
@@ -314,32 +334,18 @@ public class MallPurchaseRequest extends PurchaseRequest {
     }
 
     if (isDisabled(this.shopId)) {
-      KoLmafia.updateDisplay(
-          "This shop "
-              + this.shopName
-              + ", owned by #"
-              + this.shopId
-              + ") is disabled. Skipping...");
+      KoLmafia.updateDisplay("The shop owned by #" + this.shopId + " is disabled. Skipping...");
       return;
     }
 
     if (isIgnoring(this.shopId)) {
-      KoLmafia.updateDisplay(
-          "This shop ("
-              + this.shopName
-              + ", owned by #"
-              + this.shopId
-              + ") is ignoring you. Skipping...");
+      KoLmafia.updateDisplay("The shop owned by #" + this.shopId + " is ignoring you. Skipping...");
       return;
     }
 
     if (isForbidden(this.shopId)) {
       KoLmafia.updateDisplay(
-          "This shop ("
-              + this.shopName
-              + ", owned by #"
-              + this.shopId
-              + ") is on your forbidden list. Skipping...");
+          "The shop owned by #" + this.shopId + " is on your forbidden list. Skipping...");
       return;
     }
 
