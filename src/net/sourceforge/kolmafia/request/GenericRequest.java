@@ -649,10 +649,13 @@ public class GenericRequest implements Runnable {
       element = name + "=" + value;
     }
 
-    synchronized (this.data) {
-      for (String datum : this.data) {
-        if (datum.equals(element)) {
-          return;
+    // chat repeats graf[] when it batches messages, so let it send the same field twice
+    if (!this.isChatRequest) {
+      synchronized (this.data) {
+        for (String datum : this.data) {
+          if (datum.equals(element)) {
+            return;
+          }
         }
       }
     }
@@ -685,7 +688,8 @@ public class GenericRequest implements Runnable {
     for (String datum : this.getFormFields()) {
       String[] split = datum.split("=", 2);
 
-      if (split.length != 2 || !split[0].equals(key)) {
+      // The name may or may not be encoded.
+      if (split.length != 2 || !GenericRequest.decodeField(split[0]).equals(key)) {
         continue;
       }
 
