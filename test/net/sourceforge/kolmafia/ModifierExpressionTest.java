@@ -303,12 +303,12 @@ public class ModifierExpressionTest {
   }
 
   @ParameterizedTest
-  @ValueSource(booleans = {true, false})
-  public void canDetectInteractive(boolean interact) {
+  @CsvSource({"interact, true", "interact(), true", "interact, false", "interact(), false"})
+  public void canDetectInteractiveAndAliases(String expression, boolean interact) {
     var cleanups = withInteractivity(interact);
 
     try (cleanups) {
-      var exp = new ModifierExpression("interact", "Interact");
+      var exp = new ModifierExpression(expression, "Interact");
       assertThat(exp.eval(), is(interact ? 1.0 : 0.0));
     }
   }
@@ -319,7 +319,7 @@ public class ModifierExpressionTest {
     var cleanups = withRestricted(restricted);
 
     try (cleanups) {
-      var exp = new ModifierExpression("restrict", "Restricted");
+      var exp = new ModifierExpression("restricted", "Restricted");
       assertThat(exp.eval(), is(restricted ? 1.0 : 0.0));
     }
   }

@@ -181,7 +181,7 @@ public class ExpressionTest {
     var cleanups = new Cleanups(withRestricted(restricted));
 
     try (cleanups) {
-      var exp = new ModifierExpression("restrict*7+(1-restrict)*3", "Test expression");
+      var exp = new ModifierExpression("restricted*7+(1-restricted)*3", "Test expression");
       assertThat(exp.eval(), equalTo(expectedOutput));
     }
   }

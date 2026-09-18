@@ -124,7 +124,7 @@ DESC_SKILL	Visit your Favorite Bird	your favorite bird, the (.*?), and get	yourF
 # While in ronin/hardcore, KoL will cap the displayed skill level to 3, we ignore that and default to the pref.
 # It's not spaded how it's displayed when in an avatar path out of ronin/hardcore, which is why we ignore that too.
 # This maths to: if interaction && !restricted: { $2 } else { existing pref() }
-DESC_SKILL	Calculate the Universe	<i>(\d+) / (\d+) casts used today</i>	_universeCalculated=$1	skillLevel144=[interact*(1-restrict)*$2+(1-interact*(1-restrict))*pref(skillLevel144)]
+DESC_SKILL	Calculate the Universe	<i>(\d+) / (\d+) casts used today</i>	_universeCalculated=$1	skillLevel144=[interact*(1-restricted)*$2+(1-interact*(1-restricted))*pref(skillLevel144)]
 
 DESC_EFFECT	Antihangover	Moxie \+(\d+)	_antihangoverBonus=$1
 DESC_EFFECT	Blood Porter	HP \+(\d+)	bloodweiserDrunk=[$1/10]

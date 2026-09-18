@@ -33,7 +33,7 @@
 #	text can be the skill name or id
 # Interaction: interact
 #	This has a value of 1 if the player is out of ronin/HC, otherwise 0
-# Restricted: restrict
+# Restricted: restricted
 #	This has a value of 1 if the player is under restrictions, otherwise 0
 # Modifier: mod(text)
 #	This returns the value of that modifier without including itself.  Used for things that "double" a modifier.

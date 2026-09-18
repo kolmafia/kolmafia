@@ -134,7 +134,7 @@ public class ModifierExpression extends Expression {
     if (this.optional("interact") || this.optional("interact()")) {
       return "\u0094";
     }
-    if (this.optional("restrict")) {
+    if (this.optional("restricted")) {
       return "\u009a";
     }
     if (this.optional("basemus")) {
