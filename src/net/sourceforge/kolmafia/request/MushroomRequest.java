@@ -9,7 +9,7 @@ import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MushroomRequest extends GenericRequest {
-  private static final Pattern SQUARE_PATTERN = Pattern.compile("pos=([\\d,]+)");
+  private static final Pattern SQUARE_PATTERN = Pattern.compile("whichpos=([\\d,]+)");
   private static final Pattern SPORE_PATTERN = Pattern.compile("whichspore=([\\d,]+)");
 
   public MushroomRequest() {
@@ -19,13 +19,13 @@ public class MushroomRequest extends GenericRequest {
   public MushroomRequest(final int square) {
     this();
     this.addFormField("action", "click");
-    this.addFormField("pos", String.valueOf(square - 1));
+    this.addFormField("whichpos", String.valueOf(square - 1));
   }
 
   public MushroomRequest(final int square, final int spore) {
     this();
     this.addFormField("action", "plant");
-    this.addFormField("pos", String.valueOf(square - 1));
+    this.addFormField("whichpos", String.valueOf(square - 1));
     this.addFormField("whichspore", String.valueOf(spore));
   }
 

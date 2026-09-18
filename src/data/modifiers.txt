@@ -6004,7 +6004,7 @@ Effect	Cartographically Rooted	Maximum HP Percent: +20, HP Regen Min: 6, HP Rege
 Effect	Castaway Physique	Muscle Percent: +25
 Effect	Cat Class, Cat Style	Moxie Percent: +20
 Effect	Cat-Alyzed	Moxie: +10
-Effect	Category	Mysticality Experience Percent: +25
+Effect	Category	Mysticality Experience Percent: +25, Wiki Name: "Category (effect)"
 Effect	Catstermind	Avatar: "The Mastermind"
 # Caught Yam-Handed: Monsters will sometimes be distracted, trying to avoid the hot yam
 Effect	Cautious Prowl	Item Drop: +50
@@ -7777,7 +7777,7 @@ Effect	Self-Harmonizing	Moxie Percent: +10
 Effect	Sensation	Moxie Percent: +100
 Effect	Sepia Tan	Moxie: +10, Initiative: +20, Moxie Experience: +2
 Effect	Serendipi Tea	Item Drop: +25
-Effect	Serenity	Moxie Percent: +15
+Effect	Serenity	Moxie Percent: +15, Wiki Name: Serenity (effect)
 Effect	Seriously Mutated	All Attributes Percent: +50
 Effect	Sewer-Drenched	Stench Damage: +100
 # Shadow Affinity: Adventuring in Shadow Rifts will consume turns of this instead of Adventures

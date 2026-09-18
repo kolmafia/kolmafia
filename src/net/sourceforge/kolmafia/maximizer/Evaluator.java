@@ -632,7 +632,7 @@ public class Evaluator {
       // Match keyword with multiple modifiers
       if (index == null) {
         switch (keyword) {
-          case "all resistance" -> {
+          case "any resistance", "ele resistance", "elemental resistance" -> {
             this.weight.put(DoubleModifier.COLD_RESISTANCE, weight);
             this.weight.put(DoubleModifier.HOT_RESISTANCE, weight);
             this.weight.put(DoubleModifier.SLEAZE_RESISTANCE, weight);
