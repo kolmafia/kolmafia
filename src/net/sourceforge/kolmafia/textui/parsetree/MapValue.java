@@ -47,6 +47,9 @@ public class MapValue extends AggregateValue {
 
     if (baseType.equals(valType)) {
       map.put(key, val);
+    } else if (baseType instanceof RecordType recordType
+        && val instanceof RecordValue recordValue) {
+      map.put(key, RecordValue.coerceTo(recordType, recordValue));
     } else if (baseType.equals(TypeSpec.STRING)) {
       map.put(key, val.toStringValue());
     } else if (baseType.equals(TypeSpec.INT) && valType.equals(TypeSpec.FLOAT)) {
