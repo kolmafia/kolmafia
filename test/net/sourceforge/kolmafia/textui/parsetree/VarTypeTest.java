@@ -172,6 +172,38 @@ public class VarTypeTest {
             "for (var i = i; i < 10; i++) {}",
             "Cannot infer type: variable references itself",
             "char 14 to char 15"),
+        // Error: var with empty composite literal in java-style for loop
+        invalid(
+            "var with empty composite literal in java for",
+            "for (var x = {}; false; ) {}",
+            "Inference from composite literal not supported; declare full type",
+            "char 14 to char 16"),
+        // Error: var with non-empty composite literal in java-style for loop
+        invalid(
+            "var with non-empty composite literal in java for",
+            "for (var x = {1, 2}; false; ) {}",
+            "Inference from composite literal not supported; declare full type",
+            "char 14 to char 20"),
+        // Valid: var in java-style for loop with explicit aggregate type expression
+        valid(
+            "var aggregate in java for loop",
+            "for (var x = int[3] {1, 2, 3}; false; ) {}",
+            Arrays.asList(
+                "for", "(", "var", "x", "=", "int", "[", "3", "]", "{", "1", ",", "2", ",", "3",
+                "}", ";", "false", ";", ")", "{", "}"),
+            Arrays.asList(
+                "1-1", "1-5", "1-6", "1-10", "1-12", "1-14", "1-17", "1-18", "1-19", "1-21", "1-22",
+                "1-23", "1-25", "1-26", "1-28", "1-29", "1-30", "1-32", "1-37", "1-39", "1-41",
+                "1-42"),
+            scope -> {
+              Iterator<Command> commands = scope.getCommands();
+              assertTrue(commands.hasNext());
+              JavaForLoop loop = (JavaForLoop) commands.next();
+              Iterator<Variable> vars = loop.getScope().getVariables().iterator();
+              assertTrue(vars.hasNext());
+              assertEquals(TypeSpec.AGGREGATE, vars.next().getType().getType());
+              assertFalse(vars.hasNext());
+            }),
         // Error: var as foreach key
         invalid(
             "var as foreach key",

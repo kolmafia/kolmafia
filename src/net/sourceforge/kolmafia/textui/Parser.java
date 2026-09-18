@@ -3011,13 +3011,26 @@ public class Parser {
 
       this.readToken(); // name
 
+      boolean isVar = t.getType() == TypeSpec.VAR;
+      boolean compositeInitializer = false;
+
       VariableReference lhs = new VariableReference(variable.getLocation(), variable);
       Evaluable rhs = null;
 
       if (this.currentToken().equals("=")) {
         this.readToken(); // =
 
-        rhs = this.parseExpression(scope);
+        compositeInitializer = this.currentToken().equals("{");
+
+        if (isVar && compositeInitializer) {
+          // var cannot be inferred from a composite literal; parse the literal with a
+          // placeholder type so that the var block below can report a better error.
+          rhs =
+              this.parseCompositeLiteral(
+                  scope, new AggregateType(new BadType(null, null), DataTypes.INT_TYPE));
+        } else {
+          rhs = this.parseExpression(scope);
+        }
 
         if (rhs == null) {
           Location errorLocation = this.makeLocation(this.currentToken());
@@ -3041,10 +3054,15 @@ public class Parser {
         }
       }
 
-      if (t.getType() == TypeSpec.VAR) {
+      if (isVar) {
         if (rhs == null) {
           initializerErrors.submitError(
               this.error(lhs.getLocation(), "var requires an initializer"));
+        } else if (compositeInitializer) {
+          initializerErrors.submitError(
+              this.error(
+                  rhs.getLocation(),
+                  "Inference from composite literal not supported; declare full type"));
         } else if (rhs instanceof VariableReference ref && ref.target == variable) {
           initializerErrors.submitError(
               this.error(rhs.getLocation(), "Cannot infer type: variable references itself"));
