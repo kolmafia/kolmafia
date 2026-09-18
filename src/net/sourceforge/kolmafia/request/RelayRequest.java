@@ -3746,7 +3746,8 @@ public class RelayRequest extends PasswordHashRequest {
 
   private void handleChat() {
     String path = this.getPath();
-    boolean tabbedChat = path.contains("j=1");
+    // A POST moves the query string into the form fields, so "j" can live in either.
+    boolean tabbedChat = "1".equals(this.getFormField("j"));
     String chatText = "";
 
     if (path.startsWith("newchatmessages.php")) {
