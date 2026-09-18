@@ -135,7 +135,21 @@ public class Evaluator {
     return this.activeScoreModifiers;
   }
 
-  private double getItemBonus(AdventureResult item, Map<Modeable, String> modeables) {
+  List<ScoreModifier> getActiveTiebreakerScoreModifiers() {
+    return this.noTiebreaker ? List.of() : this.tiebreaker.activeScoreModifiers;
+  }
+
+  double getTiebreakerScoreValue(ScoreModifier term, Modifiers mods) {
+    var predicted = this.tiebreaker.shouldPredictDerivedModifiers ? mods.predict() : null;
+    return scoreValue(term.modifier(), mods, predicted);
+  }
+
+  /** Whether {@link #getScore} contains only primary score contributions supported by the bound. */
+  boolean scoreHasBoundablePrimaryTerms() {
+    return this.stinkycheese <= 0 && this.bonusFunc.isEmpty();
+  }
+
+  double getItemBonus(AdventureResult item, Map<Modeable, String> modeables) {
     ItemBonus itemBonus = this.bonuses.get(item);
     if (itemBonus == null) return 0.0;
 
@@ -146,7 +160,7 @@ public class Evaluator {
     return modeBonus == null ? score : score + modeBonus;
   }
 
-  private double getModBonus(AdventureResult item, Map<Modeable, String> modeables) {
+  double getModBonus(AdventureResult item, Map<Modeable, String> modeables) {
     Modifiers itemMods = ModifierDatabase.getItemModifiers(item.getItemId());
     if (itemMods == null) return 0.0;
 
@@ -201,6 +215,11 @@ public class Evaluator {
             term ->
                 scoreValue(term.modifier(), mods, predicted)
                     != scoreValue(term.modifier(), empty, emptyPredicted));
+  }
+
+  boolean contributesToNonlinearTiebreaker(Modifiers mods, Set<DoubleModifier> summableModifiers) {
+    return !this.noTiebreaker
+        && this.tiebreaker.contributesToNonlinearScore(mods, summableModifiers);
   }
 
   private static final Pattern MUS_EXP_PERC_PATTERN =

@@ -4,6 +4,7 @@ import static internal.helpers.Maximizer.getBoosts;
 import static internal.helpers.Maximizer.maximize;
 import static internal.helpers.Maximizer.modFor;
 import static internal.helpers.Player.withClan;
+import static internal.helpers.Player.withClass;
 import static internal.helpers.Player.withEquippableItem;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
@@ -32,6 +33,7 @@ import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.hasToString;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.lessThan;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.startsWith;
 
@@ -41,6 +43,7 @@ import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.List;
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -51,11 +54,13 @@ import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -84,6 +89,10 @@ public class EternityCodpieceMaximizerTest {
         .map(Maximizer.best.equipment::get)
         .filter(item -> item != null && name.equals(item.getName()))
         .count();
+  }
+
+  private static int codpieceCombinations() {
+    return Maximizer.bestChecked;
   }
 
   private static boolean maximizeBuyable(String expression, int priceLimit) {
@@ -696,6 +705,112 @@ public class EternityCodpieceMaximizerTest {
   }
 
   @Test
+  void usesExactFallbackAndSafePruning() {
+    try (var cleanups =
+        withWornCodpiece(
+            withStats(100, 100, 100),
+            withItem(CONTROL_CRYSTAL),
+            withItem("baconstone"),
+            withItem("stone of eXtreme power"))) {
+      assertThat(maximize("mys"), is(true));
+      assertThat(codpieceCombinations(), equalTo(8));
+    }
+
+    try (var cleanups =
+        withWornCodpiece(
+            withItem(HEALING_CRYSTAL), withItem(GLOWING_CRYSTAL), withItem(HEART_OF_THE_VOLCANO))) {
+      assertThat(maximize("hp regen min"), is(true));
+      assertThat(codpieceCombinations(), lessThan(8));
+    }
+  }
+
+  @Test
+  void safelyPrunesModBonus() {
+    try (var cleanups =
+        withWornCodpiece(
+            withItem(CONTROL_CRYSTAL),
+            withItem(MASSIVE_GEMSTONE),
+            withItem(HEALING_CRYSTAL),
+            withOverrideModifiers(
+                ModifierType.ETERNITY_CODPIECE, CONTROL_CRYSTAL, "HP Regen Max: +10"),
+            withOverrideModifiers(
+                ModifierType.ETERNITY_CODPIECE, MASSIVE_GEMSTONE, "HP Regen Max: +6"),
+            withOverrideModifiers(
+                ModifierType.ETERNITY_CODPIECE, HEALING_CRYSTAL, "HP Regen Max: +4"),
+            withOverrideModifiers(ModifierType.ITEM, MASSIVE_GEMSTONE, "Adventure Underwater"),
+            withOverrideModifiers(ModifierType.ITEM, HEALING_CRYSTAL, "Adventure Underwater"))) {
+      assertThat(
+          maximize(
+              "1 hp regen max 10 max, 3 modbonus Adventure Underwater, -tie, "
+                  + "-hat, -weapon, -offhand, -back, -shirt, -pants, -familiar, "
+                  + "-acc1, -acc2, -acc3, -codpiece3, -codpiece4, -codpiece5"),
+          is(true));
+      assertThat(Maximizer.best.getScore(), equalTo(16.0));
+      assertThat(codpieceCombinations(), lessThan(7));
+      assertThat(selectedGems(CONTROL_CRYSTAL), equalTo(0L));
+      assertThat(selectedGems(MASSIVE_GEMSTONE), equalTo(1L));
+      assertThat(selectedGems(HEALING_CRYSTAL), equalTo(1L));
+    }
+  }
+
+  @Test
+  void safelyPrunesItemBonuses() {
+    try (var cleanups =
+        withWornCodpiece(
+            withItem(CONTROL_CRYSTAL),
+            withItem(MASSIVE_GEMSTONE),
+            withItem(HEALING_CRYSTAL),
+            withOverrideModifiers(
+                ModifierType.ETERNITY_CODPIECE, CONTROL_CRYSTAL, "HP Regen Max: +10"),
+            withOverrideModifiers(
+                ModifierType.ETERNITY_CODPIECE, MASSIVE_GEMSTONE, "HP Regen Max: +6"),
+            withOverrideModifiers(
+                ModifierType.ETERNITY_CODPIECE, HEALING_CRYSTAL, "HP Regen Max: +4"))) {
+      assertThat(
+          maximize(
+              "1 hp regen max 10 max, 3 bonus massive gemstone, "
+                  + "3 bonus New Age healing crystal, -tie, "
+                  + "-hat, -weapon, -offhand, -back, -shirt, -pants, -familiar, "
+                  + "-acc1, -acc2, -acc3, -codpiece3, -codpiece4, -codpiece5"),
+          is(true));
+      assertThat(Maximizer.best.getScore(), equalTo(16.0));
+      assertThat(codpieceCombinations(), lessThan(7));
+      assertThat(selectedGems(CONTROL_CRYSTAL), equalTo(0L));
+      assertThat(selectedGems(MASSIVE_GEMSTONE), equalTo(1L));
+      assertThat(selectedGems(HEALING_CRYSTAL), equalTo(1L));
+    }
+  }
+
+  @Test
+  void safelyPrunesAdventureScoreInSlowAndSteady() {
+    try (var cleanups =
+        withWornCodpiece(
+            withPath(Path.SLOW_AND_STEADY),
+            withItem(CONTROL_CRYSTAL),
+            withItem(MASSIVE_GEMSTONE),
+            withItem(HEALING_CRYSTAL),
+            withOverrideModifiers(
+                ModifierType.ETERNITY_CODPIECE,
+                CONTROL_CRYSTAL,
+                "Adventures: +100, HP Regen Max: +10"),
+            withOverrideModifiers(
+                ModifierType.ETERNITY_CODPIECE, MASSIVE_GEMSTONE, "HP Regen Max: +6"),
+            withOverrideModifiers(
+                ModifierType.ETERNITY_CODPIECE, HEALING_CRYSTAL, "HP Regen Max: +4"))) {
+      assertThat(
+          maximize(
+              "1 hp regen max, 1 adv, -tie, "
+                  + "-hat, -weapon, -offhand, -back, -shirt, -pants, -familiar, "
+                  + "-acc1, -acc2, -acc3, -codpiece3, -codpiece4, -codpiece5"),
+          is(true));
+      assertThat(codpieceCombinations(), lessThan(7));
+      assertThat(selectedGems(CONTROL_CRYSTAL), equalTo(1L));
+      assertThat(selectedGems(MASSIVE_GEMSTONE), equalTo(1L));
+      assertThat(selectedGems(HEALING_CRYSTAL), equalTo(0L));
+    }
+  }
+
+  @Test
   void countsGemSearchAgainstTheExistingCombinationLimit() {
     try (var cleanups =
         withWornCodpiece(
@@ -794,6 +909,55 @@ public class EternityCodpieceMaximizerTest {
           hasItem(watch));
       assertThat(selectedGems("unblemished pearl"), equalTo(5L));
       assertThat(getBoosts().stream().noneMatch(boost -> boots.equals(boost.getItem())), is(true));
+    }
+  }
+
+  @Test
+  @EnabledIfEnvironmentVariable(named = "KOLMAFIA_CODPIECE_DEFAULTS_BENCHMARK", matches = "true")
+  void benchmarksEveryDefaultExpressionWithEveryCodpieceGem() {
+    var cleanups =
+        new Cleanups(
+            withClass(AscensionClass.SEAL_CLUBBER),
+            withStats(10_000, 10_000, 10_000),
+            withFamiliar(FamiliarPool.BABY_GRAVY_FAIRY, 20),
+            withEquipped(Slot.ACCESSORY1, ItemPool.THE_ETERNITY_CODPIECE),
+            withProperty("maximizerCombinationLimit", 0));
+    int gemCount = 0;
+    for (var entry : ModifierDatabase.getAllModifiersOfType(ModifierType.ETERNITY_CODPIECE)) {
+      if (entry.getKey().isInt()) {
+        cleanups.add(withItem(entry.getKey().getIntValue(), 5));
+        gemCount++;
+      }
+    }
+
+    try (cleanups) {
+      List<String> expressions = List.of(Preferences.getDefault("maximizerList").split(" \\| "));
+      var elapsed = new ArrayList<Double>();
+      long maxChecks = 0;
+      String exclusions =
+          ", -hat, -weapon, -offhand, -back, -shirt, -pants, -familiar, " + "-acc1, -acc2, -acc3";
+      for (String expression : expressions) {
+        long start = System.nanoTime();
+        maximize(expression + exclusions);
+        double millis = (System.nanoTime() - start) / 1_000_000.0;
+        elapsed.add(millis);
+        maxChecks = Math.max(maxChecks, codpieceCombinations());
+        System.out.printf(
+            "CODPIECE_DEFAULT_BENCHMARK expression=%s combinations=%d ms=%.3f%n",
+            expression, codpieceCombinations(), millis);
+      }
+      elapsed.sort(Double::compareTo);
+      double total = elapsed.stream().mapToDouble(Double::doubleValue).sum();
+      double median = elapsed.get(elapsed.size() / 2);
+      long exhaustiveCombinations = 1;
+      for (int slot = 1; slot <= SlotSet.CODPIECE_SLOTS.size(); slot++) {
+        exhaustiveCombinations = exhaustiveCombinations * (gemCount + slot) / slot;
+      }
+      System.out.printf(
+          "CODPIECE_DEFAULT_BENCHMARK_TOTAL expressions=%d gems=%d maxCombinations=%d "
+              + "medianMs=%.3f totalMs=%.3f%n",
+          expressions.size(), gemCount, maxChecks, median, total);
+      assertThat(maxChecks, lessThan(exhaustiveCombinations / 100));
     }
   }
 }
