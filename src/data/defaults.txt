@@ -937,7 +937,6 @@ user	itemBoughtPerCharacter6423	false
 user	itemBoughtPerCharacter6428	false
 user	itemBoughtPerCharacter6429	false
 user	jarlsbergPoints	0
-user	jickSwordModifier
 user	juicyGarbageUsed	0	roa
 user	juneCleaverQueue		roa
 user	jungCharge	0	roa
@@ -2844,7 +2843,6 @@ user	_takerSpaceSuppliesDelivered	false
 user	_tearawayPantsAdvs	0
 user	_telegraphOfficeToday	false
 user	_templeHiddenPower	false
-user	_tempRelayCounters
 user	_tempuraAirUsed	false
 user	_thanksgettingFoodsEaten	0
 user	_thesisDelivered	false

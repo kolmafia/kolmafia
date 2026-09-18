@@ -208,6 +208,7 @@ import net.sourceforge.kolmafia.session.HeistManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LocketManager;
 import net.sourceforge.kolmafia.session.MallPriceManager;
+import net.sourceforge.kolmafia.session.MayamManager;
 import net.sourceforge.kolmafia.session.MonsterManuelManager;
 import net.sourceforge.kolmafia.session.MushroomManager;
 import net.sourceforge.kolmafia.session.NumberologyManager;
@@ -3073,6 +3074,25 @@ public abstract class RuntimeLibrary {
         new LibraryFunction("monster_tracker_ignores_queue", DataTypes.BOOLEAN_TYPE, params));
 
     params = List.of();
+    functions.add(
+        new LibraryFunction("banishers", new AggregateType(DataTypes.STRING_TYPE, 0), params));
+
+    params = List.of(namedParam("banisher", DataTypes.STRING_TYPE));
+    functions.add(new LibraryFunction("banisher_duration", DataTypes.INT_TYPE, params));
+
+    params = List.of(namedParam("banisher", DataTypes.STRING_TYPE));
+    functions.add(new LibraryFunction("banisher_queue_size", DataTypes.INT_TYPE, params));
+
+    params = List.of(namedParam("banisher", DataTypes.STRING_TYPE));
+    functions.add(new LibraryFunction("banisher_reset", DataTypes.STRING_TYPE, params));
+
+    params = List.of(namedParam("banisher", DataTypes.STRING_TYPE));
+    functions.add(new LibraryFunction("banisher_type", DataTypes.STRING_TYPE, params));
+
+    params = List.of(namedParam("banisher", DataTypes.STRING_TYPE));
+    functions.add(new LibraryFunction("banisher_is_turn_free", DataTypes.BOOLEAN_TYPE, params));
+
+    params = List.of();
     functions.add(new LibraryFunction("jump_chance", DataTypes.INT_TYPE, params));
 
     params = List.of(namedParam("monster", DataTypes.MONSTER_TYPE));
@@ -4036,6 +4056,12 @@ public abstract class RuntimeLibrary {
             new AggregateType(DataTypes.INT_TYPE, DataTypes.MODIFIER_TYPE),
             params));
 
+    params = List.of();
+    functions.add(new LibraryFunction("yam_battery_effects", DataTypes.EFFECT_TO_INT_TYPE, params));
+
+    params = List.of(namedParam("daycount", DataTypes.INT_TYPE));
+    functions.add(new LibraryFunction("yam_battery_effects", DataTypes.EFFECT_TO_INT_TYPE, params));
+
     params = List.of(namedParam("monster", DataTypes.MONSTER_TYPE));
     functions.add(
         new LibraryFunction(
@@ -4047,6 +4073,22 @@ public abstract class RuntimeLibrary {
     functions.add(
         new LibraryFunction(
             "shrunken_head_zombie", new AggregateType(DataTypes.STRING_TYPE, 0), params));
+
+    params = List.of(namedParam("monster", DataTypes.MONSTER_TYPE));
+    functions.add(
+        new LibraryFunction(
+            "shrunken_head_zombie_weights",
+            new AggregateType(DataTypes.INT_TYPE, DataTypes.STRING_TYPE),
+            params));
+
+    params =
+        List.of(
+            namedParam("monster", DataTypes.MONSTER_TYPE), namedParam("path", DataTypes.PATH_TYPE));
+    functions.add(
+        new LibraryFunction(
+            "shrunken_head_zombie_weights",
+            new AggregateType(DataTypes.INT_TYPE, DataTypes.STRING_TYPE),
+            params));
 
     params = List.of();
     functions.add(new LibraryFunction("heartstone_middle_letter", DataTypes.STRING_TYPE, params));
@@ -10501,6 +10543,49 @@ public abstract class RuntimeLibrary {
     return DataTypes.makeBooleanValue(tracker != null && tracker.isIgnoreQueue());
   }
 
+  public static Value banishers(ScriptRuntime controller) {
+    BanishManager.Banisher[] banishers = BanishManager.Banisher.values();
+    AggregateType type = new AggregateType(DataTypes.STRING_TYPE, banishers.length);
+    ArrayValue value = new ArrayValue(type);
+
+    for (int i = 0; i < banishers.length; i++) {
+      value.aset(new Value(i), DataTypes.makeStringValue(banishers[i].getName()));
+    }
+
+    return value;
+  }
+
+  // Turns the banish lasts after the banishing turn (what BanishManager counts down), or -1
+  // when it lasts until its reset condition instead of a turn count.
+  public static Value banisher_duration(ScriptRuntime controller, final Value arg) {
+    BanishManager.Banisher banisher = BanishManager.Banisher.find(arg.toString());
+    if (banisher == null) {
+      return DataTypes.makeIntValue(0);
+    }
+    int duration = banisher.getDuration();
+    return DataTypes.makeIntValue(duration < 0 ? -1 : duration);
+  }
+
+  public static Value banisher_queue_size(ScriptRuntime controller, final Value arg) {
+    BanishManager.Banisher banisher = BanishManager.Banisher.find(arg.toString());
+    return DataTypes.makeIntValue(banisher == null ? 0 : banisher.getQueueSize());
+  }
+
+  public static Value banisher_reset(ScriptRuntime controller, final Value arg) {
+    BanishManager.Banisher banisher = BanishManager.Banisher.find(arg.toString());
+    return DataTypes.makeStringValue(banisher == null ? "" : banisher.getResetTypeName());
+  }
+
+  public static Value banisher_type(ScriptRuntime controller, final Value arg) {
+    BanishManager.Banisher banisher = BanishManager.Banisher.find(arg.toString());
+    return DataTypes.makeStringValue(banisher == null ? "" : banisher.getBanishTypeName());
+  }
+
+  public static Value banisher_is_turn_free(ScriptRuntime controller, final Value arg) {
+    BanishManager.Banisher banisher = BanishManager.Banisher.find(arg.toString());
+    return DataTypes.makeBooleanValue(banisher != null && banisher.isTurnFree());
+  }
+
   public static Value jump_chance(ScriptRuntime controller) {
     return new Value(MonsterStatusTracker.getJumpChance());
   }
@@ -11576,8 +11661,7 @@ public abstract class RuntimeLibrary {
             + (long) Math.floor(Math.pow(Math.max(0, power.contentLong - 1100), 0.8));
 
     // $effect[none] will indicate the meat gained
-    AdventureResult.addResultToList(
-        results, new AdventureResult(AdventureResult.MEAT, (int) Math.ceil(cappedPower / 5.0) + 1));
+    results.add(new AdventureResult(AdventureResult.MEAT, (int) Math.ceil(cappedPower / 5.0) + 1));
 
     // Grab list of valid effects
     var validEffectIds =
@@ -11602,13 +11686,20 @@ public abstract class RuntimeLibrary {
       var effect =
           new AdventureResult(
               EffectDatabase.getEffectName(effectId), effectId == EffectPool.FISHY ? 1 : 10, true);
-      AdventureResult.addResultToList(results, effect);
+      results.add(effect);
     }
 
+    return makeEffectMap(results);
+  }
+
+  /** Turns effects into an [effect] int, summing the counts of any that appear more than once. */
+  private static Value makeEffectMap(final List<AdventureResult> effects) {
     var value = new MapValue(DataTypes.EFFECT_TO_INT_TYPE);
-    for (var effect : results) {
-      value.aset(
-          DataTypes.makeEffectValue(effect.getEffectId(), true), new Value(effect.getCount()));
+    for (var effect : effects) {
+      var key = DataTypes.makeEffectValue(effect.getEffectId(), true);
+      var existing = value.aref(key);
+      var count = effect.getCount() + (existing == null ? 0 : existing.intValue());
+      value.aset(key, new Value(count));
     }
     return value;
   }
@@ -12286,6 +12377,14 @@ public abstract class RuntimeLibrary {
     return value;
   }
 
+  public static Value yam_battery_effects(ScriptRuntime controller) {
+    return makeEffectMap(MayamManager.yamBatteryEffects());
+  }
+
+  public static Value yam_battery_effects(ScriptRuntime controller, final Value daycountVal) {
+    return makeEffectMap(MayamManager.yamBatteryEffects((int) daycountVal.intValue()));
+  }
+
   public static Value shrunken_head_zombie(ScriptRuntime controller, final Value monsterVal) {
     var monId = ((MonsterData) monsterVal.content).getId();
     var pathId = KoLCharacter.getPath().id;
@@ -12302,6 +12401,32 @@ public abstract class RuntimeLibrary {
   private static Value shrunken_head_zombie(int monsterId, int pathId) {
     var abilities = ShrunkenHeadDatabase.shrunkenHeadZombie(monsterId, pathId);
     return DataTypes.makeStringArrayValue(abilities);
+  }
+
+  public static Value shrunken_head_zombie_weights(
+      ScriptRuntime controller, final Value monsterVal) {
+    var monId = ((MonsterData) monsterVal.content).getId();
+    var pathId = KoLCharacter.getPath().id;
+    return shrunken_head_zombie_weights(monId, pathId);
+  }
+
+  public static Value shrunken_head_zombie_weights(
+      ScriptRuntime controller, final Value monsterVal, final Value pathVal) {
+    var monId = ((MonsterData) monsterVal.content).getId();
+    var pathId = ((Path) pathVal.content).id;
+    return shrunken_head_zombie_weights(monId, pathId);
+  }
+
+  private static Value shrunken_head_zombie_weights(int monsterId, int pathId) {
+    AggregateType type = new AggregateType(DataTypes.INT_TYPE, DataTypes.STRING_TYPE);
+    MapValue value = new MapValue(type);
+
+    for (Entry<String, Integer> entry :
+        ShrunkenHeadDatabase.shrunkenHeadZombieWithWeights(monsterId, pathId).entrySet()) {
+      value.aset(new Value(entry.getKey()), new Value(entry.getValue()));
+    }
+
+    return value;
   }
 
   public static Value heartstone_middle_letter(ScriptRuntime controller, final Value value) {

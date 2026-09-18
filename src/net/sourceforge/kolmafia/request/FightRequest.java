@@ -10018,10 +10018,9 @@ public class FightRequest extends GenericRequest {
 
           TurnCounter.stopCounting("Romantic Monster window begin");
           TurnCounter.stopCounting("Romantic Monster window end");
-          TurnCounter.startCountingTemporary(
-              15, "Romantic Monster window begin loc=*", "lparen.gif");
-          TurnCounter.startCountingTemporary(
-              25, "Romantic Monster window end loc=* type=wander", "rparen.gif");
+          TurnCounter.startCounting(16, "Romantic Monster window begin loc=*", "lparen.gif");
+          TurnCounter.startCounting(
+              26, "Romantic Monster window end loc=* type=wander", "rparen.gif");
         }
       }
       case SkillPool.OLFACTION -> {
@@ -10446,10 +10445,9 @@ public class FightRequest extends GenericRequest {
           Preferences.setInteger("_sourceTerminalDigitizeMonsterCount", 0);
           TurnCounter.stopCounting("Digitize Monster");
           if (Preferences.getBoolean("stopForFixedWanderer")) {
-            TurnCounter.startCountingTemporary(7, "Digitize Monster type=wander", "watch.gif");
+            TurnCounter.startCounting(8, "Digitize Monster type=wander", "watch.gif");
           } else {
-            TurnCounter.startCountingTemporary(
-                7, "Digitize Monster loc=* type=wander", "watch.gif");
+            TurnCounter.startCounting(8, "Digitize Monster loc=* type=wander", "watch.gif");
           }
           Preferences.setString("_sourceTerminalDigitizeMonster", monsterName);
         }

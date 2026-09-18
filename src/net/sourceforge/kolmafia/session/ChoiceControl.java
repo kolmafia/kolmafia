@@ -526,7 +526,7 @@ public abstract class ChoiceControl {
   private static final Pattern UNPERM_PATTERN =
       Pattern.compile("Turning (.+)(?: \\(HP\\)) into (\\d+) karma.");
   private static final Pattern URL_SKILLID_PATTERN = Pattern.compile("skillid=(\\d+)");
-  private static final Pattern URL_VOTE_PATTERN = Pattern.compile("local\\[\\]=(\\d)");
+  private static final Pattern URL_VOTE_PATTERN = Pattern.compile("local\\[\\d]=(\\d)");
   private static final Pattern YEARBOOK_TARGET_PATTERN =
       Pattern.compile("<b>Results:</b>.*?<b>(.*?)</b>");
 
@@ -7124,7 +7124,7 @@ public abstract class ChoiceControl {
           "<img (class='faded')? src='.*?/trickortreat/(?:house_)?(starhouse|[ld])(?:\\d+)?.gif'");
   private static final Pattern VOTE_PATTERN =
       Pattern.compile(
-          "<label><input .*? value=\\\"(\\d)\\\" class=\\\"locals\\\" /> (.*?)<br /><span .*? color: blue\\\">(.*?)</span><br /></label>");
+          "<input .*? value=\"(\\d)\" class=\"locals2\" /></td><td>(.*?)<br /><span .*? color: blue\">(.*?)</span></td>");
   public static final Pattern VOTE_SPEECH_PATTERN =
       Pattern.compile(
           "<p><input type='radio' name='g' value='(\\d+)' /> <b>(.*?)</b>(.*?)<br><blockquote>(.*?)</blockquote>");
