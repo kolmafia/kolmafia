@@ -10271,7 +10271,7 @@ public abstract class RuntimeLibrary {
       return DataTypes.ZERO_FLOAT_VALUE;
     }
 
-    return new Value(worstElementalResistance(monster));
+    return new Value(worstElementalResistance(monster, Element.NONE));
   }
 
   public static Value elemental_resistance(ScriptRuntime controller, final Value arg) {
@@ -10286,11 +10286,15 @@ public abstract class RuntimeLibrary {
       return DataTypes.ZERO_VALUE;
     }
 
-    return new Value(worstElementalResistance(monster));
+    return new Value(worstElementalResistance(monster, Element.NONE));
   }
 
-  private static double worstElementalResistance(MonsterData monster) {
+  private static double worstElementalResistance(MonsterData monster, Element... ignoredElements) {
+    var ignored = EnumSet.noneOf(Element.class);
+    ignored.addAll(Arrays.asList(ignoredElements));
+
     return monster.getAttackElements().stream()
+        .filter(element -> !ignored.contains(element))
         .mapToDouble(KoLCharacter::getElementalResistance)
         .min()
         .orElse(0.0);
