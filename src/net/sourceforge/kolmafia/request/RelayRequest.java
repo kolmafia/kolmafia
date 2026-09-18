@@ -3746,7 +3746,8 @@ public class RelayRequest extends PasswordHashRequest {
 
   private void handleChat() {
     String path = this.getPath();
-    boolean tabbedChat = path.contains("j=1");
+    // A POST moves the query string into the form fields, so "j" can live in either.
+    boolean tabbedChat = "1".equals(this.getFormField("j"));
     String chatText = "";
 
     if (path.startsWith("newchatmessages.php")) {
@@ -3756,12 +3757,16 @@ public class RelayRequest extends PasswordHashRequest {
         ChatSender.sendMessage(null, "/listen", true);
       }
 
+      List<String> grafs = this.getFormFields("graf[]");
+      String graf = grafs.isEmpty() ? this.getFormField("graf") : null;
+
       chatText =
-          ChatSender.sendMessage(
-              new LinkedList<>(), this.getFormField("graf"), true, false, tabbedChat);
+          grafs.isEmpty()
+              ? ChatSender.sendMessage(new LinkedList<>(), graf, true, false, tabbedChat)
+              : ChatSender.sendMessages(grafs);
 
       if (tabbedChat && chatText.startsWith("{")) {
-        ChatPoller.handleNewChat(chatText, this.getFormField("graf"), ChatPoller.localLastSeen);
+        ChatPoller.handleNewChat(chatText, graf, ChatPoller.localLastSeen);
       }
 
       if (Preferences.getBoolean("relayDecorateJsCommands")) {
