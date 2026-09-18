@@ -80,6 +80,10 @@ public class Variable extends Symbol {
         || this.getBaseType().equals(targetValue.getType())) {
       this.content = targetValue;
       this.expression = null;
+    } else if (this.getBaseType() instanceof RecordType recordType
+        && targetValue instanceof RecordValue recordValue) {
+      this.content = RecordValue.coerceTo(recordType, recordValue);
+      this.expression = null;
     } else if (this.getBaseType().equals(TypeSpec.STRICT_STRING)
         || this.getBaseType().equals(TypeSpec.STRING)) {
       this.content = targetValue.toStringValue();
