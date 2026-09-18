@@ -99,23 +99,7 @@ public class ChatSender {
       return "";
     }
 
-    if (ChatSender.executeCommand(graf)) {
-      return "";
-    }
-
-    if (graf.startsWith("/examine")) {
-      String item = graf.substring(graf.indexOf(" ")).trim();
-
-      AdventureResult result = ItemFinder.getFirstMatchingItem(item, false, Match.ANY);
-
-      if (result != null) {
-        ShowDescriptionList.showGameDescription(result);
-      } else {
-        EventMessage message =
-            new EventMessage("Unable to find a unique match for " + item, "green");
-        ChatManager.broadcastEvent(message);
-      }
-
+    if (ChatSender.handleLocally(graf)) {
       return "";
     }
 
@@ -151,12 +135,42 @@ public class ChatSender {
       return "";
     }
 
-    ChatRequest request = new ChatRequest(grafs);
-    RequestThread.postRequest(request);
+    List<String> remaining =
+        grafs.stream().filter(graf -> !ChatSender.handleLocally(graf)).toList();
+
+    if (remaining.isEmpty()) {
+      return "";
+    }
 
     ChatPoller.sentMessage(true);
 
+    ChatRequest request = new ChatRequest(remaining);
+    RequestThread.postRequest(request);
+
     return request.responseText == null ? "" : request.responseText;
+  }
+
+  private static boolean handleLocally(String graf) {
+    if (ChatSender.executeCommand(graf)) {
+      return true;
+    }
+
+    if (!graf.startsWith("/examine")) {
+      return false;
+    }
+
+    String item = graf.substring(graf.indexOf(" ")).trim();
+
+    AdventureResult result = ItemFinder.getFirstMatchingItem(item, false, Match.ANY);
+
+    if (result != null) {
+      ShowDescriptionList.showGameDescription(result);
+    } else {
+      EventMessage message = new EventMessage("Unable to find a unique match for " + item, "green");
+      ChatManager.broadcastEvent(message);
+    }
+
+    return true;
   }
 
   public static final List<ChatMessage> sendRequest(ChatRequest request) {
