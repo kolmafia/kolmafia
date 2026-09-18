@@ -717,15 +717,21 @@ public abstract class MallPriceManager {
       var item = items.getJSONObject(i);
       int itemId;
 
-      // Resolve item by id, or descid
-      if (item.containsKey("id")) {
-        itemId = item.getIntValue("id");
-      } else {
+      // Resolve item by descid for potentially unknown items when 'descid' exists, falling back to
+      // itemid
+      if (item.containsKey("descid")) {
         itemId = ItemDatabase.getItemIdFromDescription(item.getString("descid"));
+
+        // If item is unknown, fallback to item id
+        if (itemId < 0) {
+          itemId = item.getIntValue("id");
+        }
+      } else {
+        itemId = item.getIntValue("id");
       }
 
       // If unknown item
-      if (itemId <= 0) {
+      if (itemId <= 0 || ItemDatabase.getItemName(itemId) == null) {
         return;
       }
 
