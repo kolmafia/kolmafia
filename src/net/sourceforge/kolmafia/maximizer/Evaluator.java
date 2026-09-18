@@ -92,6 +92,8 @@ public class Evaluator {
   /** if slots[i] >= 0 then equipment of type i can be considered for maximization */
   private final EnumMap<Slot, Integer> slots = new EnumMap<>(Slot.class);
 
+  private final CodpieceMaximizer codpiece = new CodpieceMaximizer(this);
+
   private String weaponType = null;
   private int hands = 0;
   int melee = 0; // +/-2 or higher: require, +/-1: disallow other type
@@ -117,7 +119,21 @@ public class Evaluator {
 
   record ItemBonus(double base, Map<String, Double> modes) {}
 
-  private record ScoreModifier(Modifier modifier, double weight, double min, double max) {}
+  record ScoreModifier(Modifier modifier, double weight, double min, double max) {}
+
+  private static final EnumSet<Slot> SEARCHABLE_SLOTS = EnumSet.copyOf(SlotSet.SLOTS);
+
+  static {
+    SEARCHABLE_SLOTS.addAll(SlotSet.CODPIECE_SLOTS);
+  }
+
+  CodpieceMaximizer codpiece() {
+    return this.codpiece;
+  }
+
+  List<ScoreModifier> getActiveScoreModifiers() {
+    return this.activeScoreModifiers;
+  }
 
   private double getItemBonus(AdventureResult item, Map<Modeable, String> modeables) {
     ItemBonus itemBonus = this.bonuses.get(item);
@@ -148,6 +164,43 @@ public class Evaluator {
       }
     }
     return score;
+  }
+
+  boolean isRequired(AdventureResult item) {
+    return this.posEquip.contains(item);
+  }
+
+  boolean isForbidden(AdventureResult item) {
+    return this.negEquip.contains(item);
+  }
+
+  boolean contributesToThreshold(Modifiers mods) {
+    var empty = new Modifiers();
+    var predicted = this.shouldPredictDerivedModifiers ? mods.predict() : null;
+    var emptyPredicted = this.shouldPredictDerivedModifiers ? empty.predict() : null;
+    return this.activeScoreModifiers.stream()
+        .anyMatch(
+            term -> {
+              double value = scoreValue(term.modifier(), mods, predicted);
+              double emptyValue = scoreValue(term.modifier(), empty, emptyPredicted);
+              return (term.min() != Double.NEGATIVE_INFINITY && value > emptyValue)
+                  || (term.max() != Double.POSITIVE_INFINITY && value != emptyValue);
+            });
+  }
+
+  boolean contributesToNonlinearScore(Modifiers mods, Set<DoubleModifier> summableModifiers) {
+    var empty = new Modifiers();
+    var predicted = this.shouldPredictDerivedModifiers ? mods.predict() : null;
+    var emptyPredicted = this.shouldPredictDerivedModifiers ? empty.predict() : null;
+    return this.activeScoreModifiers.stream()
+        .filter(
+            term ->
+                !(term.modifier() instanceof DoubleModifier modifier)
+                    || !summableModifiers.contains(modifier))
+        .anyMatch(
+            term ->
+                scoreValue(term.modifier(), mods, predicted)
+                    != scoreValue(term.modifier(), empty, emptyPredicted));
   }
 
   private static final Pattern MUS_EXP_PERC_PATTERN =
@@ -1072,7 +1125,8 @@ public class Evaluator {
     if (!this.failed && !this.posEquip.isEmpty()) {
       equipSatisfied = true;
       for (AdventureResult item : this.posEquip) {
-        if (!KoLCharacter.hasEquipped(equipment, item)) {
+        if (!KoLCharacter.hasEquipped(equipment, item)
+            && !this.codpiece.hasEquippedGem(equipment, item)) {
           equipSatisfied = false;
           break;
         }
@@ -1219,6 +1273,16 @@ public class Evaluator {
     SlotList<CheckedItem> ranked = new SlotList<>(this.familiars.size());
 
     double nullScore = this.getScore(new Modifiers());
+    // Codpiece gems are inserted into the codpiece rather than equipped, so they have no ordinary
+    // slot and never reach the per-slot candidate loop below. Initialize their search here, but
+    // only when the codpiece itself can participate in this maximization.
+    boolean hasPositiveSlot =
+        SEARCHABLE_SLOTS.stream().anyMatch(slot -> this.slots.getOrDefault(slot, 0) > 0);
+    int threshold = hasPositiveSlot ? 1 : 0;
+    boolean accessoryAvailable =
+        SlotSet.ACCESSORY_SLOTS.stream()
+            .anyMatch(slot -> this.slots.getOrDefault(slot, 0) >= threshold);
+    this.codpiece.initialize(accessoryAvailable, equipScope, maxPrice, priceLevel, nullScore);
 
     Map<Integer, Boolean> usefulOutfits = new HashMap<>();
     Map<AdventureResult, AdventureResult> outfitPieces = new HashMap<>();
@@ -1697,6 +1761,14 @@ public class Evaluator {
           break gotItem;
         }
 
+        // The codpiece is worth what its gems are worth, and those are chosen at the leaf of
+        // the search rather than here, so carry it through on its own rather than judging it
+        // by its bare enchantments.
+        if (id == ItemPool.THE_ETERNITY_CODPIECE && this.codpiece.isSearchable()) {
+          item.automaticFlag = true;
+          break gotItem;
+        }
+
         if (modeable != null) {
           if (!forcedModeables.get(modeable).isEmpty()) {
             item.automaticFlag = true;
@@ -1729,6 +1801,14 @@ public class Evaluator {
       // "break gotItem" goes here
       if (slot != Slot.NONE) ranked.get(slot).add(item);
       if (auxSlot != Slot.NONE) ranked.get(auxSlot).add(item);
+    }
+
+    if (this.codpiece.isSearchable()) {
+      for (CheckedItem item : ranked.get(Slot.ACCESSORY1)) {
+        if (KoLCharacter.hasEquipped(item)) {
+          item.automaticFlag = true;
+        }
+      }
     }
 
     // Get best Familiars for Crown of Thrones and Buddy Bjorn
@@ -2437,7 +2517,10 @@ public class Evaluator {
     for (int thresh = 1; ; --thresh) {
       if (thresh < 0) return; // no slots enabled
       boolean anySlots = false;
-      for (var slot : SlotSet.SLOTS) {
+      // When Codpiece search is enabled, -codpiece2 excludes a gem slot exactly as -hat excludes
+      // the hat. Otherwise, leaving every gem slot seeded preserves the current configuration.
+      for (var slot : SEARCHABLE_SLOTS) {
+        if (!this.codpiece.isSearchable() && SlotSet.CODPIECE_SLOTS.contains(slot)) continue;
         if (this.slots.getOrDefault(slot, 0) >= thresh) {
           spec.equipment.put(slot, null);
           anySlots = true;

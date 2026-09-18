@@ -2341,6 +2341,18 @@ public class MaximizerTest {
             not(hasItem(hasProperty("cmd", startsWith("fold ¶9692;equip weapon ¶9692")))));
       }
     }
+
+    @Test
+    public void forbiddenEquipInExcludedSlotIsLeftAlone() {
+      final var cleanups = new Cleanups(withEquipped(Slot.WEAPON, ItemPool.BROKEN_CHAMPAGNE));
+
+      try (cleanups) {
+        assertTrue(maximize("-equip broken champagne bottle -weapon"));
+        assertThat(
+            Maximizer.best.equipment.get(Slot.WEAPON).getItemId(),
+            equalTo(ItemPool.BROKEN_CHAMPAGNE));
+      }
+    }
   }
 
   @Nested

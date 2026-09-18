@@ -1197,6 +1197,7 @@ user	maximizerMRUList	mainstat;mus;mys;mox;familiar weight;HP;MP;ML;DA;DR;+comba
 user	maximizerMRUSize	5
 user	maximizerAlwaysCurrent	false
 user	maximizerCombinationLimit	0
+user	maximizerConsiderCodpieceGems	true
 user	maximizerCreateOnHand	false
 user	maximizerCurrentMallPrices	false
 user	maximizerEquipmentLevel	1
