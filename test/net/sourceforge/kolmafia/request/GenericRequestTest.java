@@ -518,4 +518,29 @@ public class GenericRequestTest {
         request.getFormFields("graf[]"));
     assertEquals("/who clan", request.getFormField("graf[]"));
   }
+
+  @Test
+  public void itShouldReadARepeatedFormFieldFromAnEncodedQueryString() {
+    GenericRequest request =
+        new GenericRequest(
+            "submitnewchat.php?j=1&graf%5B%5D=%2Fwho+clan&graf%5B%5D=%2Fwho+games", false);
+
+    assertEquals(List.of("/who clan", "/who games"), request.getFormFields("graf[]"));
+  }
+
+  @Test
+  public void itShouldKeepRepeatedValuesOfARepeatedFormField() {
+    GenericRequest request = new GenericRequest("submitnewchat.php");
+    request.addFormFields("j=1&graf%5B%5D=hello&graf%5B%5D=hello", true);
+
+    assertEquals(List.of("hello", "hello"), request.getFormFields("graf[]"));
+  }
+
+  @Test
+  public void itShouldStillDropAFieldThePathAndTheFormBothSupply() {
+    GenericRequest request = new GenericRequest("craft.php?mode=cook&steps[]=1,2");
+    request.addFormFields("steps%5B%5D=1%2C2&qty=1", true);
+
+    assertEquals(List.of("1,2"), request.getFormFields("steps[]"));
+  }
 }

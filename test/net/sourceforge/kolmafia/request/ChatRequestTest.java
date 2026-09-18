@@ -96,4 +96,12 @@ public class ChatRequestTest {
     assertEquals("", creq.getGraf());
     assertTrue(creq.retryOnTimeout());
   }
+
+  @Test
+  public void itShouldKeepDuplicatesInABatchedChatRequest() {
+    creq = new ChatRequest(List.of("/who games", "/who games"));
+    fullURL = creq.getFullURLString();
+    expect = "submitnewchat.php?playerid=0&j=1&graf[]=%2Fwho+games&graf[]=%2Fwho+games";
+    assertEquals(expect, fullURL);
+  }
 }
