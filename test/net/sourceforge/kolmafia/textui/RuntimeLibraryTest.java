@@ -138,6 +138,30 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
   }
 
   @Test
+  void multipleAttackElementExpectedDamage() {
+    var cleanups = new Cleanups(withEffect("Anti-Odored"));
+
+    try (cleanups) {
+      String output = execute("expected_damage($monster[The Big Wisniewski])");
+
+      assertContinueState();
+      assertThat(output, containsString("Returned: 344"));
+    }
+  }
+
+  @Test
+  void multipleAttackElementElementalResistance() {
+    var cleanups = new Cleanups(withEffect("Anti-Odored"));
+
+    try (cleanups) {
+      String output = execute("elemental_resistance($monster[blind snake])");
+
+      assertContinueState();
+      assertThat(output, containsString("Returned: 0.0"));
+    }
+  }
+
+  @Test
   void ninjaSnowmanAssassinExpectedDamage() {
     String output = execute("expected_damage($monster[ninja snowman assassin])");
 

@@ -215,6 +215,10 @@ public class Operator extends Command {
       return true;
     }
 
+    if (lhs.equals(DataTypes.VAR_TYPE)) {
+      return true;
+    }
+
     if (oper == null) {
       return lhs.getType() == rhs.getType();
     }
