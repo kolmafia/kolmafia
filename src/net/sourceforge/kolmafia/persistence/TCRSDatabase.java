@@ -46,7 +46,6 @@ import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase.ConsumableQuality;
-import net.sourceforge.kolmafia.persistence.EffectData.Quality;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.ChateauRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -98,8 +97,6 @@ public class TCRSDatabase {
   private static final Map<Integer, TCRS> TCRSFoodMap =
       new ConcurrentSkipListMap<>(new CafeDatabase.InverseIntegerOrder());
 
-  private static final List<Integer> TCRSEffectPool = new ArrayList<>();
-
   static {
     TCRSDatabase.reset();
   }
@@ -109,7 +106,6 @@ public class TCRSDatabase {
     TCRSMap.clear();
     TCRSBoozeMap.clear();
     TCRSFoodMap.clear();
-    buildEffectPool();
   }
 
   public static boolean hasData(int itemId) {
@@ -594,19 +590,8 @@ public class TCRSDatabase {
   private static Map<String, List<String>> STRINGS;
   private static Set<String> ADJECTIVES;
 
-  private static void buildEffectPool() {
-    TCRSEffectPool.clear();
-    EffectDatabase.keys().stream()
-        // Effects must be marked as good
-        .filter(id -> EffectDatabase.getQuality(id) == Quality.GOOD)
-        // Effects must be hookah/wish-able, except Fishy: it became nohookah after TCRS
-        // launched but is still in the path's effect pool.
-        .filter(id -> !EffectDatabase.hasAttribute(id, "nohookah") || id == EffectPool.FISHY)
-        // Some effects are unavailable for no obvious reason, so they are tagged notcrs
-        .filter(id -> !EffectDatabase.hasAttribute(id, "notcrs"))
-        // Limited to effects available at path launch (Tiki Temerity and prior)
-        .filter(id -> id <= EffectPool.TIKI_TEMERITY)
-        .forEachOrdered(TCRSEffectPool::add);
+  public static List<Integer> getEffectPool() {
+    return EffectDatabase.getGoodEffects(EffectPool.TIKI_TEMERITY);
   }
 
   private static String removeAdjectives(final String name) {
@@ -747,13 +732,14 @@ public class TCRSDatabase {
   }
 
   // The effect roll can overflow the pool by 1, which resolves to the last effect.
-  private static String effectNameAt(final int roll) {
-    var index = Math.min(roll, TCRSEffectPool.size() - 1);
-    return EffectPool.get(TCRSEffectPool.get(index)).getDisambiguatedName();
+  private static String rollEffect(final PHPMTRandom mtRng) {
+    var pool = getEffectPool();
+    var index = Math.min(mtRng.nextInt(0, pool.size()), pool.size() - 1);
+    return EffectPool.get(pool.get(index)).getDisambiguatedName();
   }
 
   private static Enchantment rollConsumableEnchantment(final int itemId, final PHPMTRandom mtRng) {
-    var effectName = effectNameAt(mtRng.nextInt(0, TCRSEffectPool.size()));
+    var effectName = rollEffect(mtRng);
     var duration = 5 * mtRng.nextInt(1, 10);
 
     return new Enchantment(effectName, duration);
@@ -785,7 +771,7 @@ public class TCRSDatabase {
       potionMods.add(mtRng.pickOne(STRINGS.get("Potion Mod")));
     }
 
-    var effectName = effectNameAt(mtRng.nextInt(0, TCRSEffectPool.size()));
+    var effectName = rollEffect(mtRng);
 
     var duration = mtRng.nextInt(11, 69);
 

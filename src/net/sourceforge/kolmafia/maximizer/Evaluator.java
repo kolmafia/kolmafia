@@ -110,6 +110,7 @@ public class Evaluator {
   private final Set<AdventureResult> posEquip = new HashSet<>();
   private final Set<AdventureResult> negEquip = new HashSet<>();
   private final Map<AdventureResult, ItemBonus> bonuses = new HashMap<>();
+  private final Map<BooleanModifier, Double> modBonuses = new HashMap<>();
   private final List<BonusFunction> bonusFunc = new ArrayList<>();
 
   record BonusFunction(Function<AdventureResult, Double> bonusFunction, Double weight) {}
@@ -494,6 +495,17 @@ public class Evaluator {
         continue;
       }
 
+      if (keyword.startsWith("modbonus ")) {
+        String modName = keyword.substring(9);
+        BooleanModifier mod = BooleanModifier.byCaselessName(modName);
+        if (mod == null) {
+          KoLmafia.updateDisplay(MafiaState.ERROR, "No boolean modifier found for: " + modName);
+          return;
+        }
+        this.modBonuses.put(mod, weight);
+        continue;
+      }
+
       if (keyword.startsWith("letter")) {
         keyword = keyword.substring(6).trim();
         if (keyword.isEmpty()) { // no keyword counts letters
@@ -632,7 +644,7 @@ public class Evaluator {
       // Match keyword with multiple modifiers
       if (index == null) {
         switch (keyword) {
-          case "all resistance" -> {
+          case "any resistance", "ele resistance", "elemental resistance" -> {
             this.weight.put(DoubleModifier.COLD_RESISTANCE, weight);
             this.weight.put(DoubleModifier.HOT_RESISTANCE, weight);
             this.weight.put(DoubleModifier.SLEAZE_RESISTANCE, weight);
@@ -997,6 +1009,27 @@ public class Evaluator {
         if (mode == null) continue;
         Double bonus = itemBonus.modes().get(mode);
         if (bonus != null) score += bonus;
+      }
+    }
+    if (!this.modBonuses.isEmpty()) {
+      for (AdventureResult item : equipment.values()) {
+        Modifiers itemMods = ModifierDatabase.getItemModifiers(item.getItemId());
+        if (itemMods == null) {
+          continue;
+        }
+        Modifiers modeMods = null;
+        Modeable modeable = Modeable.find(item);
+        if (modeable != null) {
+          modeMods =
+              ModifierDatabase.getModifiers(modeable.getModifierType(), modeables.get(modeable));
+        }
+
+        for (Entry<BooleanModifier, Double> modBonus : this.modBonuses.entrySet()) {
+          if (itemMods.getBoolean(modBonus.getKey())
+              || modeMods != null && modeMods.getBoolean(modBonus.getKey())) {
+            score += modBonus.getValue();
+          }
+        }
       }
     }
     if (!this.bonusFunc.isEmpty()) {

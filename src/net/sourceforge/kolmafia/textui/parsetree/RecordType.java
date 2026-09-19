@@ -89,13 +89,39 @@ public class RecordType extends CompositeType {
   }
 
   public Value getFieldIndex(final String field) {
+    int index = this.indexOf(field);
+    return index < 0 ? null : this.fieldIndices[index];
+  }
+
+  public int indexOf(final String field) {
     String val = field.toLowerCase();
     for (int index = 0; index < this.fieldNames.length; ++index) {
       if (val.equals(this.fieldNames[index])) {
-        return this.fieldIndices[index];
+        return index;
       }
     }
-    return null;
+    return -1;
+  }
+
+  /**
+   * Returns true if a value of the given record type can be stored in this record type.
+   *
+   * <p>Every field of this record must be present in {@code source} (matched by name, ignoring
+   * order) with a type that can be coerced to the field's type. Fields in {@code source} that do
+   * not appear in this record are ignored.
+   */
+  public boolean coercesFrom(final RecordType source) {
+    Type[] sourceTypes = source.getFieldTypes();
+    for (int i = 0; i < this.fieldNames.length; ++i) {
+      int sourceIndex = source.indexOf(this.fieldNames[i]);
+      if (sourceIndex < 0) {
+        return false;
+      }
+      if (!Operator.validCoercion(this.fieldTypes[i], sourceTypes[sourceIndex], "assign")) {
+        return false;
+      }
+    }
+    return true;
   }
 
   @Override

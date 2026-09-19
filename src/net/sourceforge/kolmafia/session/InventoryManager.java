@@ -1773,21 +1773,15 @@ public abstract class InventoryManager {
   }
 
   public static void checkJickSword() {
-    AdventureResult JICK_SWORD = ItemPool.get(ItemPool.JICK_SWORD, 1);
-    String mod = Preferences.getString("jickSwordModifier");
-    if (!mod.equals("")) {
-      ModifierDatabase.overrideModifier(ModifierType.ITEM, ItemPool.JICK_SWORD, mod);
-      return;
-    }
-    if (!KoLCharacter.hasEquipped(JICK_SWORD, Slot.WEAPON)
-        && !KoLConstants.inventory.contains(JICK_SWORD)) {
-      // There are other places it could be, but it only needs to be
-      // checked once ever, and if the sword isn't being used then
-      // it can be checked later
+    var playerId = KoLCharacter.getUserId();
+    if (playerId <= 0) {
       return;
     }
 
-    checkItemDescription(ItemPool.JICK_SWORD);
+    ModifierDatabase.overrideModifier(
+        ModifierType.ITEM,
+        ItemPool.JICK_SWORD,
+        JickSwordManager.getModifierList(playerId).toString());
   }
 
   public static void checkPantogram() {
