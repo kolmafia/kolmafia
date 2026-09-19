@@ -27,14 +27,23 @@ public class MonsterStatusTracker {
 
   private MonsterStatusTracker() {}
 
-  public static final void reset() {
+  public static void reset() {
+    reset(false);
+  }
+
+  public static void reset(boolean fromTransform) {
     MonsterStatusTracker.healthModifier = 0;
     MonsterStatusTracker.attackModifier = 0;
     MonsterStatusTracker.defenseModifier = 0;
-    MonsterStatusTracker.healthManuel = 0;
-    MonsterStatusTracker.attackManuel = 0;
-    MonsterStatusTracker.defenseManuel = 0;
-    MonsterStatusTracker.manuelFound = false;
+
+    // If we're resetting due to a transform, the Manuel stats that were recently parsed (if any)
+    // are still valid.
+    if (!fromTransform) {
+      MonsterStatusTracker.healthManuel = 0;
+      MonsterStatusTracker.attackManuel = 0;
+      MonsterStatusTracker.defenseManuel = 0;
+      MonsterStatusTracker.manuelFound = false;
+    }
   }
 
   public static void resetLastMonster() {
@@ -56,7 +65,8 @@ public class MonsterStatusTracker {
   }
 
   public static void setNextMonster(MonsterData monster) {
-    MonsterStatusTracker.reset();
+    boolean fromTransform = (monster != null && monster.isTransformed());
+    MonsterStatusTracker.reset(fromTransform);
 
     if (monster == null) {
       MonsterStatusTracker.resetLastMonster();
@@ -67,9 +77,17 @@ public class MonsterStatusTracker {
       MonsterStatusTracker.monsterData = MonsterStatusTracker.monsterData.handleRandomModifiers();
       MonsterStatusTracker.monsterData = MonsterStatusTracker.monsterData.handleMonsterLevel();
 
-      MonsterStatusTracker.originalHealth = MonsterStatusTracker.monsterData.getHP();
-      MonsterStatusTracker.originalAttack = MonsterStatusTracker.monsterData.getAttack();
-      MonsterStatusTracker.originalDefense = MonsterStatusTracker.monsterData.getDefense();
+      // If we just transformed, use the stats we just parsed from Manuel (if any) instead of
+      // estimating new ones.
+      if (fromTransform && MonsterStatusTracker.manuelFound) {
+        MonsterStatusTracker.originalHealth = MonsterStatusTracker.healthManuel;
+        MonsterStatusTracker.originalAttack = MonsterStatusTracker.attackManuel;
+        MonsterStatusTracker.originalDefense = MonsterStatusTracker.defenseManuel;
+      } else {
+        MonsterStatusTracker.originalHealth = MonsterStatusTracker.monsterData.getHP();
+        MonsterStatusTracker.originalAttack = MonsterStatusTracker.monsterData.getAttack();
+        MonsterStatusTracker.originalDefense = MonsterStatusTracker.monsterData.getDefense();
+      }
 
       MonsterStatusTracker.lastMonsterName = monster.getName();
     }

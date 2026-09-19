@@ -1765,6 +1765,10 @@ public class MonsterData extends AdventureResult {
     return this.subTypes.contains("drippy");
   }
 
+  public boolean isTransformed() {
+    return this.transformed;
+  }
+
   public EnumSet<EncounterType> getType() {
     // Some monsters are conditionally free
     var forceFree =

@@ -6519,6 +6519,7 @@ public class FightRequest extends GenericRequest {
       String monsterName = m.group(2);
 
       FightRequest.clearInstanceData(true);
+      FightRequest.setCurrentEncounter(CombatActionManager.encounterKey(monsterName, false));
       FightRequest.logText("your opponent becomes " + monsterName + "!", status);
 
       return;
@@ -9110,7 +9111,7 @@ public class FightRequest extends GenericRequest {
 
     // In Ed we'll only clear the monster status when we have won or abandoned the fight
     if (!KoLCharacter.isEd() || Preferences.getInteger("_edDefeats") == 0) {
-      MonsterStatusTracker.reset();
+      MonsterStatusTracker.reset(transform);
     }
 
     if (transform) {
