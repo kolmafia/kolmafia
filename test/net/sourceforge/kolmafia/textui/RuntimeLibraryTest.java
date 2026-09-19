@@ -2516,6 +2516,49 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
   }
 
   @Nested
+  class BanisherData {
+    @Test
+    void banishersListsEveryBanisher() {
+      // No player state - this is a static registry.
+      assertThat(
+          execute(
+              "boolean found; foreach i, b in banishers() if (b == \"snokebomb\") found = true;"
+                  + " found;"),
+          equalTo("Returned: true\n"));
+      assertThat(
+          execute("boolean enough = count(banishers()) >= 50; enough;"),
+          equalTo("Returned: true\n"));
+    }
+
+    @Test
+    void banisherFieldsAreExposed() {
+      // A free banish lasts its full duration; a turn-taking one loses the banishing turn.
+      assertThat(execute("banisher_duration(\"snokebomb\");"), equalTo("Returned: 30\n"));
+      assertThat(execute("banisher_duration(\"Patriotic Screech\");"), equalTo("Returned: 99\n"));
+      assertThat(execute("banisher_duration(\"batter up!\");"), equalTo("Returned: -1\n"));
+      assertThat(execute("banisher_duration(\"Snokebomb\");"), equalTo("Returned: 30\n"));
+      assertThat(execute("banisher_queue_size(\"beancannon\");"), equalTo("Returned: 5\n"));
+      assertThat(execute("banisher_reset(\"snokebomb\");"), equalTo("Returned: turn_rollover\n"));
+      assertThat(
+          execute("banisher_reset(\"Bowl a Curveball\");"),
+          equalTo("Returned: cosmic_bowling_ball\n"));
+      assertThat(execute("banisher_type(\"Patriotic Screech\");"), equalTo("Returned: phylum\n"));
+      assertThat(execute("banisher_type(\"snokebomb\");"), equalTo("Returned: monster\n"));
+      assertThat(execute("banisher_is_turn_free(\"snokebomb\");"), equalTo("Returned: true\n"));
+      assertThat(execute("banisher_is_turn_free(\"batter up!\");"), equalTo("Returned: false\n"));
+    }
+
+    @Test
+    void unknownBanisherReturnsDefaults() {
+      assertThat(execute("banisher_duration(\"not a banisher\");"), equalTo("Returned: 0\n"));
+      assertThat(execute("banisher_queue_size(\"not a banisher\");"), equalTo("Returned: 0\n"));
+      assertThat(execute("banisher_reset(\"not a banisher\");"), equalTo("Returned:\n"));
+      assertThat(
+          execute("banisher_is_turn_free(\"not a banisher\");"), equalTo("Returned: false\n"));
+    }
+  }
+
+  @Nested
   class ProxyRecordCoinmasters {
     @Test
     void dimesmasterBuys() {
@@ -2727,6 +2770,48 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
               Maximum HP => 92
               Monster Level => 24
               Mysticality => 50"""));
+    }
+  }
+
+  @Nested
+  class YamBatteryEffects {
+    @Test
+    void generatesTodaysEffects() {
+      var cleanups = withGlobalDay(8619);
+
+      try (cleanups) {
+        assertThat(
+            execute("yam_battery_effects()").trim(),
+            is(
+                """
+                Returned: aggregate int [effect]
+                Make Meat FA$T! => 20
+                Thaumodynamic => 30
+                Piratey Flavor => 10"""));
+      }
+    }
+
+    @Test
+    void generatesEffectsForDay() {
+      assertThat(
+          execute("yam_battery_effects(8654)").trim(),
+          is(
+              """
+              Returned: aggregate int [effect]
+              Dwarven Hardiness => 30
+              Space Tripping => 20
+              Cold as Ice => 10"""));
+    }
+
+    @Test
+    void sumsTheDurationOfAnEffectThatRollsTwice() {
+      assertThat(
+          execute("yam_battery_effects(7898)").trim(),
+          is(
+              """
+              Returned: aggregate int [effect]
+              Dreadful Heat => 30
+              Held Closer => 30"""));
     }
   }
 

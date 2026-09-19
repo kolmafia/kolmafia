@@ -1,7 +1,9 @@
 package net.sourceforge.kolmafia.persistence;
 
+import static internal.helpers.Player.withGlobalDay;
 import static internal.helpers.Player.withLevel;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
@@ -14,6 +16,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.stream.IntStream;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.modifiers.BitmapModifier;
@@ -183,6 +186,34 @@ public class ModifierDatabaseTest {
                 ItemPool.REPLICA_PATRIOT_SHIELD,
                 DoubleModifier.DAMAGE_REDUCTION),
             equalTo(13.0));
+      }
+    }
+  }
+
+  @Nested
+  class YamBattery {
+    private List<String> effects() {
+      var mods = ModifierDatabase.getItemModifiers(ItemPool.YAM_BATTERY);
+      var effects = mods.getStrings(StringModifier.EFFECT);
+      var durations = mods.getDoubles(DoubleModifier.EFFECT_DURATION);
+      return IntStream.range(0, effects.size())
+          .mapToObj(i -> durations.get(i).intValue() + " " + effects.get(i))
+          .toList();
+    }
+
+    @Test
+    void grantsTodaysThreeEffects() {
+      try (var cleanups = withGlobalDay(8619)) {
+        assertThat(
+            effects(), contains("10 Piratey Flavor", "20 Make Meat FA$T!", "30 Thaumodynamic"));
+      }
+    }
+
+    @Test
+    void changesFromDayToDay() {
+      try (var cleanups = withGlobalDay(8654)) {
+        assertThat(
+            effects(), contains("10 Cold as Ice", "20 Space Tripping", "30 Dwarven Hardiness"));
       }
     }
   }

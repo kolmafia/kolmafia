@@ -2029,6 +2029,7 @@ Item	survival knife	All Attributes: +5, Lasts Until Rollover, Last Available: "2
 Item	sword behind inappropriate prepositions	Muscle: +7, Adventures: +5, Alters Page Text
 Item	Sword of Dark Omens	Spooky Damage: +3, Stench Damage: +3, Hot Damage: +3, Cold Damage: +3, Sleaze Damage: +3, Spell Damage Percent: +50, All Attributes Percent: +5, Last Available: "2013-02"
 # Sword of Procedural Generation: Randomized per player
+Item	Sword of Procedural Generation	Last Available: "2013-12"
 Item	sword of static	Muscle: +3, Moxie: +2, MP Regen Min: 2, MP Regen Max: 3
 Item	swordzall	Weapon Damage: +8, Maximum MP: +10
 Item	tail o' nine cats	Initiative: +15, Monster Level: +5
@@ -15728,7 +15729,7 @@ Item	Xiblaxian polymer	Last Available: "2014-09"
 Item	xo-skeleton-in-a-box	Free Pull, Last Available: "2017-10"
 # yam battery: Restore up to 1,000 MP
 # yam battery: Gain 3 Random Good Effects
-Item	yam battery	Last Available: "2024-05"
+Item	yam battery	Last Available: "2024-05", Variable
 # Ye Olde Medieval Insult: Weakens enemies somewhat and briefly stuns them
 Item	Ye Wizard's Shack snack voucher	Last Available: "2011-03"
 Item	Yeast of Boris	Last Available: "2022-11"
