@@ -144,8 +144,9 @@ public class ApiRequest extends GenericRequest {
             + MallPriceManager.STORE_FIELDS.stream()
                 .map(s -> "store." + s)
                 .collect(Collectors.joining(",")));
-    // The backend api returns a subset of X cheapest stores per item, with the default 5 stores and
-    // the max 20
+    // The backend api returns a subset of X cheapest stores per item, defaulting to 5 when 'count'
+    // is omitted, with a maximum of 20.
+    // KoLMafia requests N, as we resolve mall prices based on the Nth cheapest listing.
     request.addFormField("count", String.valueOf(MallPriceManager.NTH_CHEAPEST_COUNT));
     RequestThread.postRequest(request);
   }
