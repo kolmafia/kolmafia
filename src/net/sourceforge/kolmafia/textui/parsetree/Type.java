@@ -29,6 +29,7 @@ import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.DataTypes.TypeSpec;
 import net.sourceforge.kolmafia.textui.Rng;
+import net.sourceforge.kolmafia.textui.ScriptException;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import org.eclipse.lsp4j.Location;
@@ -189,6 +190,9 @@ public class Type extends Symbol {
       case VYKEA -> DataTypes.VYKEA_INIT;
       case PATH -> DataTypes.PATH_INIT;
       case MODIFIER -> DataTypes.MODIFIER_INIT;
+      case VAR ->
+          throw new ScriptException(
+              "Internal error: Cannot get initial value of unresolved var type");
       default -> null;
     };
   }
