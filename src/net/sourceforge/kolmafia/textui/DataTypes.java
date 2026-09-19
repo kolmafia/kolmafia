@@ -48,6 +48,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class DataTypes {
   public enum TypeSpec {
     ANY,
+    VAR,
     VOID,
     BOOLEAN,
     INT,
@@ -83,6 +84,7 @@ public class DataTypes {
   }
 
   public static final Type ANY_TYPE = new Type(null, TypeSpec.ANY);
+  public static final Type VAR_TYPE = new Type("var", TypeSpec.VAR);
   public static final Type VOID_TYPE = new Type("void", TypeSpec.VOID);
   public static final Type BOOLEAN_TYPE = new Type("boolean", TypeSpec.BOOLEAN);
   public static final Type INT_TYPE = new Type("int", TypeSpec.INT);
@@ -258,6 +260,7 @@ public class DataTypes {
           BUFFER_TYPE,
           MATCHER_TYPE,
           RNG_TYPE,
+          VAR_TYPE,
           AGGREGATE_TYPE);
 
   static {
