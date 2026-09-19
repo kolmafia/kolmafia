@@ -16,8 +16,10 @@ import net.sourceforge.kolmafia.textui.ScriptRuntime;
 import net.sourceforge.kolmafia.textui.javascript.JavascriptRuntime;
 import net.sourceforge.kolmafia.textui.parsetree.Function;
 import net.sourceforge.kolmafia.textui.parsetree.FunctionList;
+import net.sourceforge.kolmafia.textui.parsetree.Type;
 import net.sourceforge.kolmafia.textui.parsetree.VariableReference;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class KoLmafiaASH {
   private static final HashMap<String, File> relayScriptMap = new HashMap<>();
@@ -249,6 +251,27 @@ public abstract class KoLmafiaASH {
     KoLmafiaASH.showFunctions(RuntimeLibrary.getFunctions(), filter.toLowerCase(), true);
   }
 
+  private static String getTypeString(Type type, boolean addLinks) {
+    String typeName = type.getName();
+
+    int idx = typeName.indexOf("=");
+    if (idx < 0) {
+      return typeName;
+    }
+
+    String displayName = typeName.substring(0, idx).trim();
+    String details = typeName.substring(idx + 1).trim();
+    if (addLinks) {
+      return "<font color='#008000' title='"
+          + StringUtilities.getEntityEncode(details)
+          + "'>"
+          + displayName
+          + "</font>";
+    } else {
+      return displayName;
+    }
+  }
+
   private static void showFunctions(
       final FunctionList functions, final String filter, boolean addLinks) {
     addLinks = addLinks && StaticEntity.isGUIRequired();
@@ -278,7 +301,7 @@ public abstract class KoLmafiaASH {
 
       StringBuilder description = new StringBuilder();
 
-      description.append(func.getType());
+      description.append(getTypeString(func.getType(), addLinks));
       description.append(" ");
       if (addLinks) {
         description.append("<a href='https://wiki.kolmafia.us/index.php?title=");
@@ -296,7 +319,7 @@ public abstract class KoLmafiaASH {
         description.append(sep);
         sep = ", ";
 
-        description.append(var.getRawType());
+        description.append(getTypeString(var.getRawType(), addLinks));
 
         if (var.getName() != null) {
           description.append(" ");

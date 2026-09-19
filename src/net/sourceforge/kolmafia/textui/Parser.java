@@ -261,7 +261,7 @@ public class Parser {
   }
 
   public static Scope getExistingFunctionScope() {
-    return new Scope(RuntimeLibrary.functions, null, DataTypes.simpleTypes);
+    return new Scope(RuntimeLibrary.functions, null, RuntimeLibrary.simpleTypesWithNamedRecords);
   }
 
   // **************** Parser *****************

@@ -1472,7 +1472,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
             output,
             is(
                 """
-              Returned: record {string page; int count; int low; int high; int total; int bytes; int average; int bps;}
+              Returned: record km_ping_result={string page; int count; int low; int high; int total; int bytes; int average; int bps;}
               page => api
               count => 10
               low => 26
