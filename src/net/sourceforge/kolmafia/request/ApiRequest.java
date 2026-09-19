@@ -31,7 +31,6 @@ public class ApiRequest extends GenericRequest {
 
   private final String what;
   private String id;
-  public JSONObject json;
   private boolean silent = false;
 
   public ApiRequest() {
@@ -175,12 +174,11 @@ public class ApiRequest extends GenericRequest {
       KoLmafia.updateDisplay(message);
     }
 
-    this.json = null;
-
     super.run();
+  }
 
-    // Save the JSON object so caller can look further at it
-    this.json = ApiRequest.getJSON(this.responseText, this.what);
+  public JSONObject getJSON() {
+    return ApiRequest.getJSON(this.responseText, this.what);
   }
 
   @Override
