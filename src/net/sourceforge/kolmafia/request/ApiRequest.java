@@ -167,7 +167,7 @@ public class ApiRequest extends GenericRequest {
               case "closet" -> "Updating closet...";
               case "storage" -> "Updating storage...";
               case "item" -> "Looking at item #" + this.id + "...";
-              case "mallprices" -> "Fetching mall prices...";
+              case "mallprices" -> "Updating mall prices...";
               default -> null;
             };
 
