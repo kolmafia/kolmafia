@@ -154,7 +154,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     var cleanups = new Cleanups(withEffect("Anti-Odored"));
 
     try (cleanups) {
-      String output = execute("elemental_resistance($monster[The Big Wisniewski])");
+      String output = execute("elemental_resistance($monster[blind snake])");
 
       assertContinueState();
       assertThat(output, containsString("Returned: 0.0"));
