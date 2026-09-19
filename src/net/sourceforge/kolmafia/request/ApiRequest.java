@@ -5,6 +5,7 @@ import com.alibaba.fastjson2.JSONObject;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -28,6 +29,13 @@ public class ApiRequest extends GenericRequest {
   private static final ApiRequest CLOSET = new ApiRequest("closet");
   private static final ApiRequest STORAGE = new ApiRequest("storage");
   private static final CharPaneRequest CHARPANE = new CharPaneRequest();
+  private static final Map<String, Consumer<JSONObject>> PARSERS =
+      Map.of(
+          "status", ApiRequest::parseStatus,
+          "inventory", InventoryManager::parseInventory,
+          "closet", ClosetRequest::parseCloset,
+          "storage", StorageRequest::parseStorage,
+          "mallprices", MallPriceManager::parseMallPrices);
 
   private final String what;
   private String id;
@@ -187,10 +195,7 @@ public class ApiRequest extends GenericRequest {
       return;
     }
 
-    // Save the JSON object so caller can look further at it
-    this.json = ApiRequest.getJSON(this.responseText, this.what);
-
-    ApiRequest.parseResponse(this.what, this.json);
+    ApiRequest.parseWhat(this.what, this.responseText);
   }
 
   private static final Pattern WHAT_PATTERN = Pattern.compile("what=([^&]*)");
@@ -201,22 +206,33 @@ public class ApiRequest extends GenericRequest {
       return;
     }
 
-    String what = whatMatcher.group(1);
-
-    parseResponse(what, ApiRequest.getJSON(responseText, what));
+    ApiRequest.parseWhat(whatMatcher.group(1), responseText);
   }
 
-  private static void parseResponse(final String what, final JSONObject jsonObject) {
-    if (jsonObject == null) {
+  private static void parseWhat(final String requestedWhats, final String responseText) {
+    // We can request multiple 'what' via commas (what=mallprices,status)
+    // But some responses may be something else, such as 'events' which is an array
+    // We only currently handle objects
+    if (!responseText.startsWith("{")) {
       return;
     }
 
-    switch (what) {
-      case "status" -> ApiRequest.parseStatus(jsonObject);
-      case "inventory" -> InventoryManager.parseInventory(jsonObject);
-      case "closet" -> ClosetRequest.parseCloset(jsonObject);
-      case "storage" -> StorageRequest.parseStorage(jsonObject);
-      case "mallprices" -> MallPriceManager.parseMallPrices(jsonObject);
+    JSONObject json = ApiRequest.getJSON(responseText, requestedWhats);
+    if (json == null) {
+      return;
+    }
+
+    String[] whats = requestedWhats.split(",");
+
+    for (String what : whats) {
+      // Determine if this is a 'what' we handle, as not every 'what' is handled
+      Consumer<JSONObject> parser = PARSERS.get(what);
+      if (parser == null) continue;
+
+      // Multiple uses of 'what' are in the form of {"status":{},"mallprices":{}} etc
+      // If we are handling multiple, then we retrieve the object, otherwise use the root
+      JSONObject object = whats.length == 1 ? json : json.getJSONObject(what);
+      parser.accept(object);
     }
   }
 

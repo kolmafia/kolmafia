@@ -4,11 +4,14 @@ import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
 
 import com.alibaba.fastjson2.JSONObject;
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.AscensionPath;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -63,5 +66,24 @@ class ApiRequestTest {
       assertThat("zootGraftedFootLeftFamiliar", isSetTo(286));
       assertThat("zootGraftedFootRightFamiliar", isSetTo(0));
     }
+  }
+
+  @Test
+  void parsesEachWhatWhenSeveralAreRequested() {
+    ApiRequest.parseResponse(
+        "api.php?what=inventory,closet&for=KoLmafia",
+        """
+        {"inventory":{"1":"3"},"closet":{"2":"5"}}
+        """);
+
+    assertThat(KoLConstants.inventory, contains(ItemPool.get(ItemPool.SEAL_CLUB, 3)));
+    assertThat(KoLConstants.closet, contains(ItemPool.get(ItemPool.SEAL_TOOTH, 5)));
+  }
+
+  @Test
+  void parsesRootObjectWhenOneWhatIsRequested() {
+    ApiRequest.parseResponse("api.php?what=inventory&for=KoLmafia", "{\"1\":\"3\"}");
+
+    assertThat(KoLConstants.inventory, contains(ItemPool.get(ItemPool.SEAL_CLUB, 3)));
   }
 }
