@@ -587,6 +587,7 @@ final class CodpieceMaximizer {
       double itemBonusBaseline = 0.0;
       double modBonusBaseline = 0.0;
       for (AdventureResult item : equipment.values()) {
+        if (item == null) continue;
         itemBonusBaseline =
             Math.nextUp(itemBonusBaseline + evaluator.getItemBonus(item, modeables));
         modBonusBaseline = Math.nextUp(modBonusBaseline + evaluator.getModBonus(item, modeables));

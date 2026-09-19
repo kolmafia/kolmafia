@@ -913,6 +913,20 @@ public class EternityCodpieceMaximizerTest {
   }
 
   @Test
+  void toleratesNullEquipmentWhenBuildingBound() throws MaximizerInterruptedException {
+    try (var cleanups = withWornCodpiece(withItem(CONTROL_CRYSTAL))) {
+      assertThat(maximize("mys, -tie"), is(true));
+      var speculation = Maximizer.best.clone();
+      speculation.equipment.put(Slot.CARDSLEEVE, null);
+      SlotSet.CODPIECE_SLOTS.forEach(slot -> speculation.equipment.put(slot, null));
+
+      Maximizer.eval.codpiece().search(speculation);
+
+      assertThat(speculation.equipment.get(Slot.CARDSLEEVE), equalTo(null));
+    }
+  }
+
+  @Test
   @EnabledIfEnvironmentVariable(named = "KOLMAFIA_CODPIECE_DEFAULTS_BENCHMARK", matches = "true")
   void benchmarksEveryDefaultExpressionWithEveryCodpieceGem() {
     var cleanups =
