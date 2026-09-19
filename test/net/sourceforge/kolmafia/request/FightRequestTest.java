@@ -4790,6 +4790,11 @@ public class FightRequestTest {
       request.responseText = html(fightInitPage);
       AdventureRequest.registerEncounter(request);
       parseCombatData(fightInitPage, "fight.php");
+      assertThat(MonsterStatusTracker.getLastMonsterName(), is("crate"));
+      assertThat(MonsterStatusTracker.getMonsterAttack(), is(21));
+      assertThat(MonsterStatusTracker.getMonsterDefense(), is(21));
+      assertThat(MonsterStatusTracker.getMonsterHealth(), is(22));
+
       parseCombatData(
           "request/test_fight_manuel_switchmonster_feesh.html",
           "fight.php?action=skill&whichskill=7570");
