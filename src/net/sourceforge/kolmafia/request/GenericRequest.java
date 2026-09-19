@@ -649,10 +649,13 @@ public class GenericRequest implements Runnable {
       element = name + "=" + value;
     }
 
-    synchronized (this.data) {
-      for (String datum : this.data) {
-        if (datum.equals(element)) {
-          return;
+    // chat repeats graf[] when it batches messages, so let it send the same field twice
+    if (!this.isChatRequest) {
+      synchronized (this.data) {
+        for (String datum : this.data) {
+          if (datum.equals(element)) {
+            return;
+          }
         }
       }
     }
@@ -676,6 +679,26 @@ public class GenericRequest implements Runnable {
 
   public String getFormField(final String key) {
     return this.findField(this.getFormFields(), key, true);
+  }
+
+  // A form can repeat a field, as chat clients do with "graf[]" when they batch messages.
+  public List<String> getFormFields(final String key) {
+    List<String> values = new ArrayList<>();
+
+    for (String datum : this.getFormFields()) {
+      String[] split = datum.split("=", 2);
+
+      // The name may or may not be encoded.
+      if (split.length != 2 || !GenericRequest.decodeField(split[0]).equals(key)) {
+        continue;
+      }
+
+      // Chat was encoded as ISO-8859-1, so decode it that way.
+      Charset charset = this.isChatRequest ? StandardCharsets.ISO_8859_1 : StandardCharsets.UTF_8;
+      values.add(GenericRequest.decodeField(split[1], charset));
+    }
+
+    return values;
   }
 
   public String getFormField(final String key, final boolean decode) {

@@ -937,7 +937,6 @@ user	itemBoughtPerCharacter6423	false
 user	itemBoughtPerCharacter6428	false
 user	itemBoughtPerCharacter6429	false
 user	jarlsbergPoints	0
-user	jickSwordModifier
 user	juicyGarbageUsed	0	roa
 user	juneCleaverQueue		roa
 user	jungCharge	0	roa

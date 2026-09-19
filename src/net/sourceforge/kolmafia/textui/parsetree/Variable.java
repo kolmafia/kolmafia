@@ -30,6 +30,12 @@ public class Variable extends Symbol {
     return this.type.getBaseType();
   }
 
+  public void setType(final Type type) {
+    this.type = type;
+    this.content = new Value(type);
+    this.expression = null;
+  }
+
   public boolean isStatic() {
     return this.isStatic;
   }
@@ -79,6 +85,10 @@ public class Variable extends Symbol {
     if (this.getBaseType().equals(DataTypes.ANY_TYPE)
         || this.getBaseType().equals(targetValue.getType())) {
       this.content = targetValue;
+      this.expression = null;
+    } else if (this.getBaseType() instanceof RecordType recordType
+        && targetValue instanceof RecordValue recordValue) {
+      this.content = RecordValue.coerceTo(recordType, recordValue);
       this.expression = null;
     } else if (this.getBaseType().equals(TypeSpec.STRICT_STRING)
         || this.getBaseType().equals(TypeSpec.STRING)) {
