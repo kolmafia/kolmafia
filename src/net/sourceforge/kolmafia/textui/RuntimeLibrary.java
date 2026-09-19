@@ -12419,7 +12419,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value heartstone_middle_letter(ScriptRuntime controller) {
-    return heartstone_middle_letter(FightRequest.currentEncounter);
+    return heartstone_middle_letter(StringUtilities.getEntityDecode(FightRequest.currentEncounter));
   }
 
   private static Value heartstone_middle_letter(String monsterName) {
