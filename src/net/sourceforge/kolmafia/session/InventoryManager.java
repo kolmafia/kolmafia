@@ -491,6 +491,45 @@ public abstract class InventoryManager {
     return rv;
   }
 
+  public static String simRetrieveItemFromAccessibleSources(
+      final AdventureResult item, final boolean useFamiliar) {
+    int missingCount = item.getCount() - item.getCount(KoLConstants.inventory);
+    if (missingCount <= 0) return "have";
+
+    int itemId = item.getItemId();
+    boolean restricted = !ItemDatabase.isAllowed(item);
+    if (useFamiliar
+        && !restricted
+        && ItemDatabase.isEquipment(itemId)
+        && !KoLCharacter.inQuantum()) {
+      for (FamiliarData familiar : KoLCharacter.ownedFamiliars()) {
+        if (item.equals(familiar.getItem()) && --missingCount <= 0) return "steal";
+      }
+    }
+    if (!restricted && InventoryManager.canUseCloset()) {
+      missingCount -= item.getCount(KoLConstants.closet);
+      if (missingCount <= 0) return "uncloset";
+    }
+    if (!restricted
+        && (!KoLCharacter.inLegacyOfLoathing() || pullableInLoL(itemId))
+        && (!KoLCharacter.inSeaPath() || pullableInSeaPath(itemId))
+        && (!KoLCharacter.isThrifty()
+            || ThriftyRequest.isAllowed(
+                RestrictedItemType.ITEMS, ItemDatabase.getItemName(itemId)))) {
+      missingCount -= item.getCount(KoLConstants.freepulls);
+      if (missingCount <= 0) return "free pull";
+      if (InventoryManager.canUseStorage()) {
+        missingCount -= item.getCount(KoLConstants.storage);
+        if (missingCount <= 0) return "pull";
+      }
+    }
+    if (!restricted && InventoryManager.canUseClanStash()) {
+      missingCount -= item.getCount(ClanManager.getStash());
+      if (missingCount <= 0) return "unstash";
+    }
+    return "fail";
+  }
+
   private static String retrieveItem(
       final AdventureResult item,
       final boolean isAutomated,
