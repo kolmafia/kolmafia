@@ -10262,7 +10262,7 @@ public abstract class RuntimeLibrary {
           Math.max(0, attack - defenseStat) + attack / 4 - KoLCharacter.getDamageReduction();
       damageAbsorb =
           1.0 - (Math.sqrt(Math.min(1000, KoLCharacter.getDamageAbsorption()) / 10.0) - 1.0) / 10.0;
-      elementAbsorb = 1.0 - KoLCharacter.getElementalResistance(monster.getAttackElement()) / 100.0;
+      elementAbsorb = 1.0 - worstElementalResistance(monster) / 100.0;
     }
 
     return new Value((int) Math.ceil(baseValue * damageAbsorb * elementAbsorb));
@@ -10306,8 +10306,12 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value elemental_resistance(ScriptRuntime controller) {
-    return new Value(
-        KoLCharacter.getElementalResistance(MonsterStatusTracker.getMonsterAttackElement()));
+    MonsterData monster = MonsterStatusTracker.getLastMonster();
+    if (monster == null) {
+      return DataTypes.ZERO_FLOAT_VALUE;
+    }
+
+    return new Value(worstElementalResistance(monster, Element.NONE));
   }
 
   public static Value elemental_resistance(ScriptRuntime controller, final Value arg) {
@@ -10322,7 +10326,18 @@ public abstract class RuntimeLibrary {
       return DataTypes.ZERO_VALUE;
     }
 
-    return new Value(KoLCharacter.getElementalResistance(monster.getAttackElement()));
+    return new Value(worstElementalResistance(monster, Element.NONE));
+  }
+
+  private static double worstElementalResistance(MonsterData monster, Element... ignoredElements) {
+    var ignored = EnumSet.noneOf(Element.class);
+    ignored.addAll(Arrays.asList(ignoredElements));
+
+    return monster.getAttackElements().stream()
+        .filter(element -> !ignored.contains(element))
+        .mapToDouble(KoLCharacter::getElementalResistance)
+        .min()
+        .orElse(0.0);
   }
 
   public static Value combat_rate_modifier(ScriptRuntime controller) {
