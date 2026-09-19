@@ -4779,4 +4779,37 @@ public class FightRequestTest {
       }
     }
   }
+
+  @Test
+  void manuelStatsPreservedOnSwitchmonster() {
+    var cleanups = new Cleanups(withFight(), withMuscle(300, 500), withMoxie(300, 500));
+
+    try (cleanups) {
+      String fightInitPage = "request/test_fight_manuel_switchmonster_init.html";
+      GenericRequest request = new GenericRequest("fight.php");
+      request.responseText = html(fightInitPage);
+      AdventureRequest.registerEncounter(request);
+      parseCombatData(fightInitPage, "fight.php");
+      parseCombatData(
+          "request/test_fight_manuel_switchmonster_feesh.html",
+          "fight.php?action=skill&whichskill=7570");
+      assertThat(MonsterStatusTracker.getLastMonsterName(), is("some fish"));
+      assertThat(MonsterStatusTracker.getMonsterAttack(), is(916));
+      assertThat(MonsterStatusTracker.getMonsterDefense(), is(574));
+      assertThat(MonsterStatusTracker.getMonsterHealth(), is(406));
+    }
+  }
+
+  @Test
+  void currentEncounterUpdatedOnSwitchmonster() {
+    var cleanups = new Cleanups(withFight(), withCurrentEncounter("crate"));
+
+    try (cleanups) {
+      String fightInitPage = "request/test_fight_manuel_switchmonster_init.html";
+      parseCombatData(
+          "request/test_fight_manuel_switchmonster_feesh.html",
+          "fight.php?action=skill&whichskill=7570");
+      assertThat(FightRequest.currentEncounter, is("some fish"));
+    }
+  }
 }

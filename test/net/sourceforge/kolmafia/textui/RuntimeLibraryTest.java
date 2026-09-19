@@ -2937,12 +2937,20 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       assertThat(execute("heartstone_middle_letter(\"crate\")").trim(), is("Returned: A"));
     }
 
-    @Test
-    void parameterlessUsesCurrentEncounter() {
-      var cleanups = withCurrentEncounter("wet jock");
+    @ParameterizedTest
+    @CsvSource({
+      "crate,A", // Normal monster
+      "wet jock,J", // OCRS modifier
+      "Possessed Jar of Alphredo&trade;,O", // Encoded characters
+      "jock,''" // No middle letter
+    })
+    void parameterlessUsesCurrentEncounter(String currentEncounter, String expectedAnswer) {
+      var cleanups = withCurrentEncounter(currentEncounter);
 
       try (cleanups) {
-        assertThat(execute("heartstone_middle_letter()").trim(), is("Returned: J"));
+        assertThat(
+            execute("heartstone_middle_letter()").trim(),
+            is(("Returned: " + expectedAnswer).trim()));
       }
     }
 
