@@ -30,6 +30,12 @@ public class Variable extends Symbol {
     return this.type.getBaseType();
   }
 
+  public void setType(final Type type) {
+    this.type = type;
+    this.content = new Value(type);
+    this.expression = null;
+  }
+
   public boolean isStatic() {
     return this.isStatic;
   }
