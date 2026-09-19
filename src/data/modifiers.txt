@@ -31,8 +31,10 @@
 # Skill function: skill(text)
 #	This has a value of 1 if the player has the skill matching the text.
 #	text can be the skill name or id
-# Interaction: interact()
+# Interaction: interact
 #	This has a value of 1 if the player is out of ronin/HC, otherwise 0
+# Restricted: restricted
+#	This has a value of 1 if the player is under restrictions, otherwise 0
 # Modifier: mod(text)
 #	This returns the value of that modifier without including itself.  Used for things that "double" a modifier.
 # Upper-case letters are varying values:
@@ -7659,7 +7661,7 @@ Effect	Really Deep Breath	Adventure Underwater
 Effect	Really Hard	Damage Reduction: 50
 Effect	Really Quite Poisoned	All Attributes Percent: -70, All Attributes: -9
 Effect	Really Thin Blood	Maximum HP: +100, Maximum HP Percent: +1000
-Effect	Reassured	Muscle: [10*interact()], Mysticality: [10*interact()], Moxie: [10*interact()]
+Effect	Reassured	Muscle: [10*interact], Mysticality: [10*interact], Moxie: [10*interact]
 # Record Hunger: Food gives 100% more Adventures
 # Red Around the Gills: Regenerate 140-150 HP and MP per fight (Underwater only)
 Effect	Red Around the Gills	HP / MP Regen Min: [140*env(underwater)], HP / MP Regen Max: [150*env(underwater)]
@@ -9422,9 +9424,9 @@ Sign	Wombat	Muscle Experience Percent: +10, Meat Drop: +20
 
 # Event section of modifiers.txt
 
-Event	Moxie Day	Moxie Experience Percent: [25*interact()]
-Event	Muscle Day	Muscle Experience Percent: [25*interact()]
-Event	Mysticality Day	Mysticality Experience Percent: [25*interact()]
+Event	Moxie Day	Moxie Experience Percent: [25*interact]
+Event	Muscle Day	Muscle Experience Percent: [25*interact]
+Event	Mysticality Day	Mysticality Experience Percent: [25*interact]
 Event	Festival of Jarlsberg	Mana Cost: -3
 Event	Lab&oacute;r Day Eve	Adventures: +10
 # Fullness only applies in no path or Teetotaler, and does not apply to AoWoL classes for some reason
