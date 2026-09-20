@@ -204,9 +204,11 @@ public class ApiRequest extends GenericRequest {
   }
 
   private static void parseWhat(final String requestedWhats, final String responseText) {
-    // We can request multiple 'what' via commas (what=mallprices,status)
-    // But some responses may be something else, such as 'events' which is an array
-    // We only currently handle objects
+    // We can request multiple 'what' by separating them with commas (what=mallprices,status)
+    // Most API responses are JSON objects, some are arrays.
+    // When requesting multiple 'what', valid requests receive a JSON object
+    // {"status":{},"events":[]}
+    // Currently all requests we handle are JSON objects, so we ignore everything else.
     if (!responseText.startsWith("{")) {
       return;
     }
