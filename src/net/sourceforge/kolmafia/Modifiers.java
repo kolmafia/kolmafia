@@ -45,6 +45,7 @@ import net.sourceforge.kolmafia.request.FloristRequest.Florist;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.session.AutumnatonManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.MayamManager;
 import net.sourceforge.kolmafia.utilities.IntOrString;
 
 @SuppressWarnings("incomplete-switch")
@@ -793,6 +794,16 @@ public class Modifiers {
         this.setDouble(DoubleModifier.MOX_PCT, dotw == DayOfWeek.FRIDAY ? 5.0 : 0.0);
         this.setDouble(DoubleModifier.HP_REGEN_MIN, dotw == DayOfWeek.SATURDAY ? 3.0 : 0.0);
         this.setDouble(DoubleModifier.HP_REGEN_MAX, dotw == DayOfWeek.SATURDAY ? 7.0 : 0.0);
+        return true;
+      }
+      case ItemPool.YAM_BATTERY -> {
+        var effects = MayamManager.yamBatteryEffects();
+        this.setStrings(
+            StringModifier.EFFECT,
+            effects.stream().map(AdventureResult::getDisambiguatedName).toList());
+        this.setDoubles(
+            DoubleModifier.EFFECT_DURATION,
+            effects.stream().map(e -> (double) e.getCount()).toList());
         return true;
       }
       case ItemPool.PANTSGIVING -> {

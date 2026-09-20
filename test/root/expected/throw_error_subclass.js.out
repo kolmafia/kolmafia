@@ -1,0 +1,3 @@
+JavaScript exception: Error: subclassed failure (file:%%STACKTRACE_LOCATION%%/throw_error_subclass.js#11)
+	at file:%%STACKTRACE_LOCATION%%/throw_error_subclass.js:11 (fail)
+	at file:%%STACKTRACE_LOCATION%%/throw_error_subclass.js:14

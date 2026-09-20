@@ -3440,6 +3440,11 @@ public class FightRequest extends GenericRequest {
       KoLmafia.updateDisplay(updateMessage);
     }
 
+    if (responseText.contains("you see your water balloon fall to the ground and break")) {
+      FightRequest.logText("Your opponent dropped the water balloon.");
+      Preferences.setInteger("_waterBalloonTossStreak", 0);
+    }
+
     // Check for Latte unlocks
     if (KoLCharacter.hasEquipped(ItemPool.LATTE_MUG, Slot.OFFHAND)) {
       LatteRequest.parseFight(locationName, responseText);
@@ -7376,6 +7381,13 @@ public class FightRequest extends GenericRequest {
       Preferences.increment("_laughingStockFruitDropped", 1);
     }
 
+    // Water Balloon returned; be careful due to different wording with group monsters
+    if (str.contains("back your water balloon")) {
+      FightRequest.logText("Your opponent returned your water balloon.", status);
+      Preferences.setBoolean("_waterBalloonHeldByEnemy", false);
+      Preferences.increment("_waterBalloonTossStreak");
+    }
+
     // Interesting Coin
     if (str.contains(
         "You decide to forgo hoarding this tangible meat, and invest it in your intangibles.")) {
@@ -10006,10 +10018,9 @@ public class FightRequest extends GenericRequest {
 
           TurnCounter.stopCounting("Romantic Monster window begin");
           TurnCounter.stopCounting("Romantic Monster window end");
-          TurnCounter.startCountingTemporary(
-              15, "Romantic Monster window begin loc=*", "lparen.gif");
-          TurnCounter.startCountingTemporary(
-              25, "Romantic Monster window end loc=* type=wander", "rparen.gif");
+          TurnCounter.startCounting(16, "Romantic Monster window begin loc=*", "lparen.gif");
+          TurnCounter.startCounting(
+              26, "Romantic Monster window end loc=* type=wander", "rparen.gif");
         }
       }
       case SkillPool.OLFACTION -> {
@@ -10434,10 +10445,9 @@ public class FightRequest extends GenericRequest {
           Preferences.setInteger("_sourceTerminalDigitizeMonsterCount", 0);
           TurnCounter.stopCounting("Digitize Monster");
           if (Preferences.getBoolean("stopForFixedWanderer")) {
-            TurnCounter.startCountingTemporary(7, "Digitize Monster type=wander", "watch.gif");
+            TurnCounter.startCounting(8, "Digitize Monster type=wander", "watch.gif");
           } else {
-            TurnCounter.startCountingTemporary(
-                7, "Digitize Monster loc=* type=wander", "watch.gif");
+            TurnCounter.startCounting(8, "Digitize Monster loc=* type=wander", "watch.gif");
           }
           Preferences.setString("_sourceTerminalDigitizeMonster", monsterName);
         }
@@ -11605,6 +11615,13 @@ public class FightRequest extends GenericRequest {
         if (responseText.contains(
             "You can't bear to use any more of those horrible things today")) {
           itemLimitMaxedOut = true;
+        }
+      }
+      case ItemPool.WATER_BALLOON -> {
+        if (responseText.contains("You toss the water balloon gently")) {
+          FightRequest.logText("You tossed a water balloon.");
+          Preferences.setBoolean("_waterBalloonHeldByEnemy", true);
+          Preferences.increment("_waterBalloonTossStreak");
         }
       }
       case ItemPool.PEPPERMINT_BOMB -> {

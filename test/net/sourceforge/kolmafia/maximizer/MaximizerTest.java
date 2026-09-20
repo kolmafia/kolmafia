@@ -4,7 +4,10 @@ import static internal.helpers.Maximizer.getBoosts;
 import static internal.helpers.Maximizer.maximize;
 import static internal.helpers.Maximizer.maximizeAny;
 import static internal.helpers.Maximizer.modFor;
+import static internal.helpers.Player.withAdjustmentsRecalculated;
+import static internal.helpers.Player.withAdventuresLeft;
 import static internal.helpers.Player.withCampgroundItem;
+import static internal.helpers.Player.withClan;
 import static internal.helpers.Player.withClass;
 import static internal.helpers.Player.withDay;
 import static internal.helpers.Player.withEffect;
@@ -15,7 +18,9 @@ import static internal.helpers.Player.withFamiliarInTerrarium;
 import static internal.helpers.Player.withHardcore;
 import static internal.helpers.Player.withInteractivity;
 import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withItemInCloset;
 import static internal.helpers.Player.withItemInFreepulls;
+import static internal.helpers.Player.withItemInStash;
 import static internal.helpers.Player.withItemInStorage;
 import static internal.helpers.Player.withLocation;
 import static internal.helpers.Player.withMCD;
@@ -23,10 +28,12 @@ import static internal.helpers.Player.withMeat;
 import static internal.helpers.Player.withMoxie;
 import static internal.helpers.Player.withMuscle;
 import static internal.helpers.Player.withNotAllowedInStandard;
+import static internal.helpers.Player.withOutfit;
 import static internal.helpers.Player.withOverrideModifiers;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withRestricted;
+import static internal.helpers.Player.withRonin;
 import static internal.helpers.Player.withSign;
 import static internal.helpers.Player.withSkill;
 import static internal.helpers.Player.withStats;
@@ -34,8 +41,10 @@ import static internal.matchers.Maximizer.recommends;
 import static internal.matchers.Maximizer.recommendsEffect;
 import static internal.matchers.Maximizer.recommendsSlot;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasProperty;
@@ -64,18 +73,23 @@ import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.modifiers.BitmapModifier;
 import net.sourceforge.kolmafia.modifiers.DerivedModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.OutfitPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase.Environment;
+import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 public class MaximizerTest {
   @Test
@@ -465,6 +479,35 @@ public class MaximizerTest {
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "clown wig")));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.ACCESSORY1, "polka-dot bow tie")));
         assertEquals(125, modFor(BitmapModifier.CLOWNINESS), 0.01);
+      }
+    }
+
+    @Test
+    public void clownosityWeightRetainsDefaultMinimum() {
+      final var cleanups =
+          new Cleanups(
+              withEquippableItem("mesh cap"),
+              withEquippableItem("clown wig"),
+              withEquippableItem("polka-dot bow tie"));
+      try (cleanups) {
+        assertTrue(maximize("100 muscle 5 clownosity -tie"));
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "clown wig")));
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.ACCESSORY1, "polka-dot bow tie")));
+        assertEquals(125, modFor(BitmapModifier.CLOWNINESS), 0.01);
+      }
+    }
+
+    @Test
+    public void clownosityStopsAt100() {
+      final var cleanups =
+          new Cleanups(
+              withEquippableItem("clown wig"),
+              withEquippableItem("balloon sword"),
+              withEquippableItem("clownskin buckler"));
+      try (cleanups) {
+        assertTrue(maximize("clownosity -tie"));
+        assertEquals(100, modFor(BitmapModifier.CLOWNINESS), 0.01);
+        assertThat(getBoosts().stream().filter(Boost::isEquipment).count(), equalTo(2L));
       }
     }
 
@@ -860,6 +903,29 @@ public class MaximizerTest {
         assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.HAT))));
         assertThat(
             getBoosts(), hasItem(hasProperty("cmd", startsWith("absorb ¶3")))); // helmet turtle
+      }
+    }
+
+    @Test
+    public void canRetrieveAndAbsorbEquipment() {
+      var cleanups =
+          new Cleanups(
+              withPath(Path.GELATINOUS_NOOB),
+              withProperty("autoSatisfyWithCloset", true),
+              withItemInCloset(ItemPool.HELMET_TURTLE));
+
+      try (cleanups) {
+        assertTrue(maximize("muscle -tie"));
+        assertThat(
+            getBoosts(),
+            hasItem(
+                hasProperty(
+                    "cmd",
+                    startsWith(
+                        "closet take 1 ¶"
+                            + ItemPool.HELMET_TURTLE
+                            + ";absorb ¶"
+                            + ItemPool.HELMET_TURTLE))));
       }
     }
 
@@ -2682,6 +2748,65 @@ public class MaximizerTest {
         }
       }
     }
+
+    @Nested
+    class ModBonus {
+      @Test
+      public void canApplySameModbonusMultipleTimes() {
+        var cleanups =
+            new Cleanups(
+                withEquippableItem(ItemPool.PANTSGIVING),
+                withEquippableItem("black greaves"),
+                withEquippableItem("Camp Scout backpack"),
+                withEquippableItem("barskin cloak"));
+
+        try (cleanups) {
+          assertTrue(maximize("muscle, 100 modbonus Drops Items"));
+          assertThat(getBoosts(), hasItem(recommendsSlot(Slot.PANTS, "Pantsgiving")));
+          assertThat(getBoosts(), hasItem(recommendsSlot(Slot.CONTAINER, "Camp Scout backpack")));
+        }
+      }
+
+      @Test
+      public void betterModbonusWins() {
+        var cleanups =
+            new Cleanups(
+                withEquippableItem("garbage sticker"),
+                withEquippableItem(ItemPool.LEGENDARY_SEAL_CLUBBING_CLUB));
+
+        try (cleanups) {
+          assertTrue(maximize("100 modbonus Drops Meat, 50 modbonus Attacks Can't Miss"));
+          assertThat(getBoosts(), hasItem(recommendsSlot(Slot.WEAPON, "garbage sticker")));
+        }
+      }
+
+      @Test
+      public void succeedsEvenIfNoModbonusAvailable() {
+        var cleanups =
+            new Cleanups(withEquippableItem("black greaves"), withEquippableItem("barskin cloak"));
+
+        try (cleanups) {
+          assertTrue(maximize("muscle, 100 modbonus Drops Items"));
+          assertThat(getBoosts(), hasItem(recommendsSlot(Slot.PANTS, "black greaves")));
+          assertThat(getBoosts(), hasItem(recommendsSlot(Slot.CONTAINER, "barskin cloak")));
+        }
+      }
+
+      @Test
+      public void adjustsModeableToAchieveModbonus() {
+        final var cleanups =
+            new Cleanups(
+                withEquippableItem("The Crown of Ed the Undying"),
+                withEquippableItem("hangman's hood"),
+                withProperty("edPiece", "puma"));
+
+        try (cleanups) {
+          assertTrue(maximize("muscle, 100 modbonus Adventure Underwater"));
+          assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "The Crown of Ed the Undying")));
+          assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("edpiece fish"))));
+        }
+      }
+    }
   }
 
   @Nested
@@ -3635,6 +3760,875 @@ public class MaximizerTest {
       assertThat(
           SlotSet.ACCESSORY_SLOTS.stream().map(Maximizer.best.equipment::get).toList(),
           hasItem(watch));
+    }
+  }
+
+  @Test
+  void currentKeywordControlsWhetherEquippedItemsAreConsidered() {
+    int alternative = ItemPool.get("bounty-hunting helmet").getItemId();
+    try (var cleanups =
+        new Cleanups(
+            withOverrideModifiers(ModifierType.ITEM, ItemPool.HELMET_TURTLE, "Item Drop: +10"),
+            withOverrideModifiers(ModifierType.ITEM, alternative, "Item Drop: +20"),
+            withEquipped(Slot.HAT, ItemPool.HELMET_TURTLE),
+            withEquippableItem(alternative))) {
+      assertTrue(maximize("item drop, -tie, current"));
+      assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "bounty-hunting helmet")));
+      int combinationsWithCurrent = Maximizer.bestChecked;
+
+      assertTrue(maximize("item drop, -tie, -current"));
+      assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "bounty-hunting helmet")));
+      assertThat(combinationsWithCurrent, greaterThan(Maximizer.bestChecked));
+    }
+  }
+
+  @ParameterizedTest
+  @CsvSource(
+      delimiter = '|',
+      value = {
+        "elemental damage | Cold Damage: +1",
+        "any resistance | Cold Resistance: +1",
+        "ele resistance | Cold Resistance: +1",
+        "elemental resistance | Cold Resistance: +1",
+        "organ capacity | Stomach Capacity: +1",
+        "crit | Critical Hit Percent: +1",
+        "spell crit | Spell Critical Percent: +1",
+        "sprinkle | Sprinkle Drop: +1",
+        "stomach | Stomach Capacity: +1",
+        "liver | Liver Capacity: +1",
+        "spleen | Spleen Capacity: +1",
+        "ocrs | Random Monster Modifiers: +1",
+        "weapon dmg percent | Weapon Damage Percent: +1",
+        "organ | Stomach Capacity: +1",
+        "mys exp perc | Mysticality Experience Percent: +1",
+        "mys exp | Mysticality Experience: +1",
+        "mys perc | Mysticality Percent: +1",
+        "mox exp perc | Moxie Experience Percent: +1",
+        "mox exp | Moxie Experience: +1",
+        "mox perc | Moxie Percent: +1",
+        "\"item drop\" | Item Drop: +1"
+      })
+  void recognizesModifierAliases(String expression, String modifiers) {
+    int alternative = ItemPool.get("bounty-hunting helmet").getItemId();
+    try (var cleanups =
+        new Cleanups(
+            withOverrideModifiers(ModifierType.ITEM, ItemPool.HELMET_TURTLE, modifiers),
+            withOverrideModifiers(ModifierType.ITEM, alternative, "Meat Drop: +100"),
+            withEquippableItem(ItemPool.HELMET_TURTLE),
+            withEquippableItem(alternative))) {
+      assertTrue(maximize(expression + ", -tie"));
+      assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "helmet turtle")));
+      assertThat(getBoosts(), not(hasItem(recommends("bounty-hunting helmet"))));
+    }
+  }
+
+  @ParameterizedTest
+  @CsvSource(
+      delimiter = '|',
+      value = {
+        "Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Stench Resistance: +1 | Spooky Resistance: +3 | helmet turtle | bounty-hunting helmet",
+        "Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1 | Spooky Resistance: +4 | bounty-hunting helmet | helmet turtle"
+      })
+  void anyResistanceScoresTotalResistanceAcrossElements(
+      String variedModifiers, String concentratedModifiers, String expected, String unexpected) {
+    int alternative = ItemPool.get("bounty-hunting helmet").getItemId();
+    try (var cleanups =
+        new Cleanups(
+            withOverrideModifiers(ModifierType.ITEM, ItemPool.HELMET_TURTLE, variedModifiers),
+            withOverrideModifiers(ModifierType.ITEM, alternative, concentratedModifiers),
+            withEquippableItem(ItemPool.HELMET_TURTLE),
+            withEquippableItem(alternative))) {
+      assertTrue(maximize("any resistance, -tie"));
+      assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, expected)));
+      assertThat(getBoosts(), not(hasItem(recommends(unexpected))));
+    }
+  }
+
+  @Test
+  void allResistanceModifierContributesToEveryElement() {
+    int alternative = ItemPool.get("bounty-hunting helmet").getItemId();
+    try (var cleanups =
+        new Cleanups(
+            withOverrideModifiers(ModifierType.ITEM, ItemPool.HELMET_TURTLE, "All Resistance: +1"),
+            withOverrideModifiers(ModifierType.ITEM, alternative, "Spooky Resistance: +4"),
+            withEquippableItem(ItemPool.HELMET_TURTLE),
+            withEquippableItem(alternative))) {
+      assertTrue(maximize("any resistance, -tie"));
+      assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "helmet turtle")));
+      assertThat(getBoosts(), not(hasItem(recommends("bounty-hunting helmet"))));
+    }
+  }
+
+  @ParameterizedTest
+  @CsvSource({"any resistance, helmet turtle", "all resistance, bounty-hunting helmet"})
+  void distinguishesAnyResistanceFromAllResistance(String expression, String expected) {
+    int alternative = ItemPool.get("bounty-hunting helmet").getItemId();
+    try (var cleanups =
+        new Cleanups(
+            withOverrideModifiers(ModifierType.ITEM, ItemPool.HELMET_TURTLE, "Cold Resistance: +6"),
+            withOverrideModifiers(ModifierType.ITEM, alternative, "All Resistance: +1"),
+            withEquippableItem(ItemPool.HELMET_TURTLE),
+            withEquippableItem(alternative))) {
+      assertTrue(maximize(expression + ", -tie"));
+      assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, expected)));
+    }
+  }
+
+  @ParameterizedTest
+  @CsvSource(
+      delimiter = '|',
+      value = {"utensil | pasta spoon", "knife | asparagus knife", "accordion | aerogel accordion"})
+  void honorsWeaponRequirements(String expression, String itemName) {
+    try (var cleanups = new Cleanups(withStats(100, 100, 100), withEquippableItem(itemName))) {
+      assertTrue(maximize(expression + ", -tie"));
+      assertThat(getBoosts(), hasItem(recommendsSlot(Slot.WEAPON, itemName)));
+    }
+  }
+
+  @ParameterizedTest
+  @CsvSource(
+      delimiter = '|',
+      value = {
+        "type sword | lupine sword | seal-clubbing club",
+        "2 hands | stone banjo | seal-clubbing club",
+        "melee | seal-clubbing club | disco ball",
+        "-melee | disco ball | seal-clubbing club"
+      })
+  void weaponQualifiersRestrictScoredRecommendations(
+      String qualifier, String expected, String alternative) {
+    int expectedId = ItemPool.get(expected).getItemId();
+    int alternativeId = ItemPool.get(alternative).getItemId();
+    try (var cleanups =
+        new Cleanups(
+            withStats(100, 100, 100),
+            withOverrideModifiers(ModifierType.ITEM, expectedId, "Item Drop: +10"),
+            withOverrideModifiers(ModifierType.ITEM, alternativeId, "Item Drop: +20"),
+            withEquippableItem(expected),
+            withEquippableItem(alternative))) {
+      assertTrue(maximize("item, " + qualifier + ", -tie"));
+
+      assertThat(getBoosts(), hasItem(recommendsSlot(Slot.WEAPON, expected)));
+    }
+  }
+
+  @ParameterizedTest
+  @CsvSource({"ACCORDION_THIEF, true", "SEAL_CLUBBER, false"})
+  void stolenAccordionRequirementRespectsClass(AscensionClass ascensionClass, boolean recommended) {
+    try (var cleanups =
+        new Cleanups(
+            withClass(ascensionClass),
+            withStats(100, 100, 100),
+            withEquippableItem("stolen accordion"))) {
+      assertTrue(maximize("accordion, -tie"));
+
+      assertThat(
+          getBoosts(),
+          recommended
+              ? hasItem(recommendsSlot(Slot.WEAPON, "stolen accordion"))
+              : not(hasItem(recommends("stolen accordion"))));
+    }
+  }
+
+  @ParameterizedTest
+  @CsvSource(
+      delimiter = '|',
+      value = {
+        "Scalp of Gorgolok | SEAL_CLUBBER | TURTLE_TAMER | muscle",
+        "Elder Turtle Shell | TURTLE_TAMER | SEAL_CLUBBER | muscle",
+        "Colander of Em-er'il | PASTAMANCER | SEAL_CLUBBER | mysticality",
+        "Ancient Saucehelm | SAUCEROR | SEAL_CLUBBER | mysticality",
+        "Disco 'Fro Pick | DISCO_BANDIT | SEAL_CLUBBER | moxie",
+        "El Sombrero De Lopez | ACCORDION_THIEF | SEAL_CLUBBER | moxie"
+      })
+  void classRestrictedEquipmentIsRecommendedOnlyToItsClass(
+      String itemName, AscensionClass requiredClass, AscensionClass otherClass, String expression) {
+    try (var cleanups =
+        new Cleanups(
+            withClass(requiredClass), withStats(100, 100, 100), withEquippableItem(itemName))) {
+      assertTrue(maximize(expression + ", -tie"));
+      assertThat(getBoosts(), hasItem(recommends(itemName)));
+    }
+
+    try (var cleanups =
+        new Cleanups(
+            withClass(otherClass), withStats(100, 100, 100), withEquippableItem(itemName))) {
+      assertTrue(maximize(expression + ", -tie"));
+      assertThat(getBoosts(), not(hasItem(recommends(itemName))));
+    }
+  }
+
+  @ParameterizedTest
+  @ValueSource(strings = {"Cold", "Hot", "Sleaze", "Spooky", "Stench"})
+  void elementalImmunityOutweighsOrdinaryStatsAndResistance(String element) {
+    int alternative = ItemPool.get("bounty-hunting helmet").getItemId();
+    try (var cleanups =
+        new Cleanups(
+            withOverrideModifiers(
+                ModifierType.ITEM, ItemPool.HELMET_TURTLE, "Muscle: +10, " + element + " Immunity"),
+            withOverrideModifiers(
+                ModifierType.ITEM, alternative, "Muscle: +50, " + element + " Resistance: +5"),
+            withEquippableItem(ItemPool.HELMET_TURTLE),
+            withEquippableItem(alternative))) {
+      assertTrue(maximize("muscle, " + element.toLowerCase() + " resistance, -tie"));
+      assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "helmet turtle")));
+      assertThat(getBoosts(), not(hasItem(recommends("bounty-hunting helmet"))));
+    }
+  }
+
+  @ParameterizedTest
+  @ValueSource(strings = {"Cold", "Hot", "Sleaze", "Spooky", "Stench"})
+  void elementalVulnerabilityOutweighsOrdinaryStats(String element) {
+    int alternative = ItemPool.get("bounty-hunting helmet").getItemId();
+    try (var cleanups =
+        new Cleanups(
+            withOverrideModifiers(
+                ModifierType.ITEM,
+                ItemPool.HELMET_TURTLE,
+                "Muscle: +50, " + element + " Vulnerability"),
+            withOverrideModifiers(
+                ModifierType.ITEM, alternative, "Muscle: +10, " + element + " Resistance: +1"),
+            withEquippableItem(ItemPool.HELMET_TURTLE),
+            withEquippableItem(alternative))) {
+      assertTrue(maximize("muscle, " + element.toLowerCase() + " resistance, -tie"));
+      assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "bounty-hunting helmet")));
+      assertThat(getBoosts(), not(hasItem(recommends("helmet turtle"))));
+    }
+  }
+
+  @ParameterizedTest
+  @CsvSource(
+      delimiter = '|',
+      value = {
+        "nonsense | Unrecognized keyword: nonsense",
+        "item,, | Unable to interpret: ,",
+        "outfit not an outfit | Unknown or custom outfit: not an outfit",
+        "switch not a familiar | Unknown familiar: not a familiar"
+      })
+  void reportsInvalidExpressions(String expression, String error) {
+    assertFalse(maximize(expression));
+    assertThat(KoLmafia.lastMessage, is(error));
+  }
+
+  @Test
+  void coldPlumberExplainsWhyItCannotRecommendEquipment() {
+    try (var cleanups =
+        new Cleanups(
+            withClass(AscensionClass.PLUMBER),
+            withPath(Path.PATH_OF_THE_PLUMBER),
+            withEquippableItem("work boots"),
+            withEquippableItem("frosty button"))) {
+      assertFalse(maximize("cold plumber"));
+      assertThat(KoLmafia.lastMessage, is("You don't have an appropriate flower to wield"));
+    }
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+    "SEAL_CLUBBER, Silent Hunting, Nearly Silent Hunting",
+    "TURTLE_TAMER, Nearly Silent Hunting, Silent Hunting"
+  })
+  void silentHunterRecommendationDependsOnCharacterClass(
+      AscensionClass ascensionClass, String expected, String unavailable) {
+    try (var cleanups = new Cleanups(withClass(ascensionClass), withSkill("Silent Hunter"))) {
+      assertTrue(maximize("initiative, -tie"));
+
+      assertThat(getBoosts(), hasItem(recommendsEffect(expected)));
+      assertThat(getBoosts(), not(hasItem(recommendsEffect(unavailable))));
+    }
+  }
+
+  @ParameterizedTest
+  @CsvSource({"false, true", "true, false"})
+  void noAdventuresPreferenceControlsAdventureCostEffects(
+      boolean noAdventures, boolean recommended) {
+    try (var cleanups =
+        new Cleanups(
+            withAdventuresLeft(3),
+            withItem(ItemPool.GONG),
+            withProperty("maximizerNoAdventures", noAdventures))) {
+      assertTrue(maximize("item drop"));
+      assertThat(
+          getBoosts(),
+          recommended
+              ? hasItem(hasProperty("cmd", is("gong roach itemdrop")))
+              : not(hasItem(hasProperty("cmd", is("gong roach itemdrop")))));
+    }
+  }
+
+  @ParameterizedTest
+  @CsvSource({"4, true", "5, false"})
+  void dailyUsePreferenceControlsEffectSource(int buffsUsed, boolean recommended) {
+    try (var cleanups =
+        new Cleanups(
+            withEquipped(Slot.PANTS, ItemPool.GREAT_PANTS), withProperty("_gapBuffs", buffsUsed))) {
+      assertTrue(maximize("item drop"));
+      assertThat(
+          getBoosts(),
+          recommended
+              ? hasItem(hasProperty("cmd", is("gap vision")))
+              : not(hasItem(hasProperty("cmd", is("gap vision")))));
+    }
+  }
+
+  @Test
+  void outfitWithoutANameKeepsTheCurrentlyWornOutfit() {
+    try (var cleanups =
+        new Cleanups(
+            withOutfit(OutfitPool.WAR_FRAT_OUTFIT),
+            withAdjustmentsRecalculated(),
+            withEquippableItem("bounty-hunting helmet"),
+            withEquippableItem("Pantsgiving"),
+            withEquippableItem("lucky gold ring"))) {
+      assertTrue(
+          maximize(
+              "+outfit, 100 bonus bounty-hunting helmet, 100 bonus Pantsgiving, 100 bonus lucky gold ring, -tie"));
+
+      assertThat(getBoosts(), hasItem(hasToString(containsString("keep hat: beer helmet"))));
+      assertThat(
+          getBoosts(), hasItem(hasToString(containsString("keep pants: distressed denim pants"))));
+      assertThat(
+          getBoosts(), hasItem(hasToString(containsString("keep acc1: bejeweled pledge pin"))));
+    }
+  }
+
+  @Test
+  void outfitWithoutANameDoesNotForceAnOutfitWhenNoneIsWorn() {
+    try (var cleanups =
+        new Cleanups(
+            withEquipped(Slot.HAT, "helmet turtle"),
+            withEquipped(Slot.PANTS, "old sweatpants"),
+            withEquipped(Slot.ACCESSORY1, "gold wedding ring"))) {
+      assertThat(KoLCharacter.currentStringModifier(StringModifier.OUTFIT), is(""));
+      assertFalse(maximize("+outfit, -tie"));
+    }
+  }
+
+  @Test
+  void negativeSwitchForSameFamiliarDoesNotCancelPositiveSwitch() {
+    try (var cleanups = withFamiliarInTerrarium(FamiliarPool.BABY_GRAVY_FAIRY)) {
+      assertTrue(maximize("switch Baby Gravy Fairy, -switch Baby Gravy Fairy, item drop"));
+
+      assertThat(getBoosts(), hasItem(hasProperty("cmd", is("familiar Baby Gravy Fairy"))));
+    }
+  }
+
+  @Test
+  void negativeFamiliarSwitchIsUsedWhenPositiveSwitchIsUnavailable() {
+    try (var cleanups =
+        new Cleanups(
+            withFamiliarInTerrarium(FamiliarPool.TRICK_TOT),
+            withItem(ItemPool.SOLID_SHIFTING_TIME_WEIRDNESS))) {
+      assertTrue(maximize("adv, switch Left-Hand Man, -switch Trick-or-Treating Tot"));
+
+      assertThat(getBoosts(), hasItem(hasProperty("cmd", is("familiar Trick-or-Treating Tot"))));
+    }
+  }
+
+  @Test
+  void positiveFamiliarSwitchTakesPriorityOverNegativeSwitch() {
+    try (var cleanups =
+        new Cleanups(
+            withFamiliarInTerrarium(FamiliarPool.LEFT_HAND),
+            withFamiliarInTerrarium(FamiliarPool.TRICK_TOT),
+            withItem(ItemPool.SOLID_SHIFTING_TIME_WEIRDNESS))) {
+      assertTrue(maximize("adv, switch Left-Hand Man, -switch Trick-or-Treating Tot"));
+
+      assertThat(getBoosts(), hasItem(hasProperty("cmd", is("familiar Left-Hand Man"))));
+    }
+  }
+
+  @Test
+  void weightedPositiveSwitchCanUseAnUnownedFamiliar() {
+    assertTrue(maximize("2 switch Baby Gravy Fairy, item drop"));
+
+    assertThat(getBoosts(), hasItem(hasProperty("cmd", is("familiar Baby Gravy Fairy"))));
+  }
+
+  @Test
+  void moxiePlumberPrefersFancyBoots() {
+    try (var cleanups =
+        new Cleanups(
+            withClass(AscensionClass.PLUMBER),
+            withPath(Path.PATH_OF_THE_PLUMBER),
+            withStats(10, 10, 20),
+            withEquippableItem("fancy boots"),
+            withEquippableItem("work boots"))) {
+      assertTrue(maximize("plumber, moxie, -tie"));
+
+      assertThat(getBoosts(), hasItem(recommendsSlot(Slot.ACCESSORY1, "fancy boots")));
+    }
+  }
+
+  @Test
+  void recommendsWeaponAndOffhandSynergy() {
+    try (var cleanups =
+        new Cleanups(
+            withStats(100, 100, 100),
+            withEquippableItem("lupine sword"),
+            withEquippableItem("snarling wolf shield"))) {
+      assertTrue(maximize("spooky damage, -tie"));
+
+      assertThat(getBoosts(), hasItem(recommendsSlot(Slot.WEAPON, "lupine sword")));
+      assertThat(getBoosts(), hasItem(recommendsSlot(Slot.OFFHAND, "snarling wolf shield")));
+    }
+  }
+
+  @Test
+  void recommendsThreeAccessorySynergy() {
+    try (var cleanups =
+        new Cleanups(
+            withStats(100, 100, 100),
+            withEquippableItem("monstrous monocle"),
+            withEquippableItem("musty moccasins"),
+            withEquippableItem("molten medallion"),
+            withEquippableItem("gold detective badge"))) {
+      assertTrue(maximize("item drop, -tie"));
+
+      assertThat(getBoosts(), hasItem(recommends("monstrous monocle")));
+      assertThat(getBoosts(), hasItem(recommends("musty moccasins")));
+      assertThat(getBoosts(), hasItem(recommends("molten medallion")));
+      assertThat(getBoosts(), not(hasItem(recommends("gold detective badge"))));
+    }
+  }
+
+  @ParameterizedTest
+  @CsvSource({"DISCO_BANDIT, true", "SEAL_CLUBBER, false"})
+  void doubleBarreledAvailabilityDependsOnClass(AscensionClass ascensionClass, boolean available) {
+    try (var cleanups =
+        new Cleanups(withClass(ascensionClass), withProperty("barrelShrineUnlocked", true))) {
+      assertTrue(maximize("ranged damage percent, -tie"));
+
+      assertThat(
+          getBoosts(),
+          available
+              ? hasItem(hasProperty("cmd", is("barrelprayer buff")))
+              : not(hasItem(hasProperty("cmd", is("barrelprayer buff")))));
+    }
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+    "Extra-Loud Muffler, combat, Unmuffled, Muffled",
+    "Extra-Quiet Muffler, -combat, Muffled, Unmuffled"
+  })
+  void motorbikeMufflerControlsRevEngineEffect(
+      String muffler, String expression, String expected, String unavailable) {
+    try (var cleanups =
+        new Cleanups(
+            withClass(AscensionClass.AVATAR_OF_SNEAKY_PETE),
+            withPath(Path.AVATAR_OF_SNEAKY_PETE),
+            withSkill("Rev Engine"),
+            withProperty("peteMotorbikeMuffler", muffler))) {
+      assertTrue(maximize(expression + ", -tie"));
+
+      assertThat(getBoosts(), hasItem(recommendsEffect(expected)));
+      assertThat(getBoosts(), not(hasItem(recommendsEffect(unavailable))));
+    }
+  }
+
+  @Test
+  void turtleTamerCanChangeBlessing() {
+    try (var cleanups =
+        new Cleanups(
+            withClass(AscensionClass.TURTLE_TAMER), withSkill("Blessing of She-Who-Was"))) {
+      assertTrue(maximize("mysticality, -tie"));
+
+      assertThat(getBoosts(), hasItem(recommendsEffect("Blessing of She-Who-Was")));
+    }
+  }
+
+  @Test
+  void turtleTamerCanGainBoonMatchingCurrentBlessing() {
+    try (var cleanups =
+        new Cleanups(
+            withClass(AscensionClass.TURTLE_TAMER),
+            withSkill("Spirit Boon"),
+            withEffect("Blessing of She-Who-Was"))) {
+      assertTrue(maximize("weapon damage, -tie"));
+
+      assertThat(getBoosts(), hasItem(recommendsEffect("Boon of She-Who-Was")));
+    }
+  }
+
+  @Test
+  void turtleTamerCanBecomeAvatarFromGloriousBlessing() {
+    try (var cleanups =
+        new Cleanups(
+            withClass(AscensionClass.TURTLE_TAMER),
+            withSkill("Turtle Power"),
+            withEffect("Glorious Blessing of She-Who-Was"))) {
+      assertTrue(maximize("spell damage percent, -tie"));
+
+      assertThat(getBoosts(), hasItem(recommendsEffect("Avatar of She-Who-Was")));
+    }
+  }
+
+  @Test
+  void crownAndBjornUseDifferentFamiliars() {
+    try (var cleanups =
+        new Cleanups(
+            withEquippableItem("Crown of Thrones"),
+            withEquippableItem("Buddy Bjorn"),
+            withFamiliarInTerrarium(FamiliarPool.LOBSTER),
+            withFamiliarInTerrarium(FamiliarPool.GALLOPING_GRILL))) {
+      assertTrue(maximize("spell damage, -tie"));
+
+      assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("enthrone Galloping Grill"))));
+      assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("bjornify Rock Lobster"))));
+    }
+  }
+
+  @Nested
+  class HardcorePathEquipment {
+    @ParameterizedTest
+    @CsvSource(
+        delimiter = '|',
+        value = {
+          "Boris's Helm | AVATAR_OF_BORIS | AVATAR_OF_BORIS",
+          "right bear arm | ZOMBIE_SLAYER | ZOMBIE_MASTER",
+          "Jarlsberg's pan | AVATAR_OF_JARLSBERG | AVATAR_OF_JARLSBERG",
+          "Sneaky Pete's leather jacket | AVATAR_OF_SNEAKY_PETE | AVATAR_OF_SNEAKY_PETE",
+          "Thor's Pliers | HEAVY_RAINS | SEAL_CLUBBER",
+          "The Crown of Ed the Undying | ACTUALLY_ED_THE_UNDYING | ED"
+        })
+    void unavailableOutsideItsPath(String itemName, Path path, AscensionClass ascensionClass) {
+      int itemId = ItemPool.get(itemName).getItemId();
+      try (var cleanups =
+          new Cleanups(
+              withClass(AscensionClass.SEAL_CLUBBER),
+              withHardcore(),
+              withSkill("Torso Awareness"),
+              withStats(1000, 1000, 1000),
+              withOverrideModifiers(ModifierType.ITEM, itemId, "Item Drop: +100"),
+              withEquippableItem(itemId))) {
+        assertTrue(maximize("item drop, -tie"));
+        assertThat(getBoosts(), not(hasItem(recommends(itemName))));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource(
+        delimiter = '|',
+        value = {
+          "Boris's Helm | AVATAR_OF_BORIS | AVATAR_OF_BORIS",
+          "right bear arm | ZOMBIE_SLAYER | ZOMBIE_MASTER",
+          "Jarlsberg's pan | AVATAR_OF_JARLSBERG | AVATAR_OF_JARLSBERG",
+          "Sneaky Pete's leather jacket | AVATAR_OF_SNEAKY_PETE | AVATAR_OF_SNEAKY_PETE",
+          "Thor's Pliers | HEAVY_RAINS | SEAL_CLUBBER",
+          "The Crown of Ed the Undying | ACTUALLY_ED_THE_UNDYING | ED"
+        })
+    void availableInItsPath(String itemName, Path path, AscensionClass ascensionClass) {
+      int itemId = ItemPool.get(itemName).getItemId();
+      try (var cleanups =
+          new Cleanups(
+              withPath(path),
+              withClass(ascensionClass),
+              withHardcore(),
+              withSkill("Torso Awareness"),
+              withStats(1000, 1000, 1000),
+              withOverrideModifiers(ModifierType.ITEM, itemId, "Item Drop: +100"),
+              withEquippableItem(itemId))) {
+        assertTrue(maximize("item drop, -tie"));
+        assertThat(getBoosts(), hasItem(recommends(itemName)));
+      }
+    }
+  }
+
+  @Nested
+  class GarbageShirt {
+    @Test
+    void chargedGarbageShirtBeatsAHigherUnchargedExperienceModifier() {
+      int alternative = ItemPool.get("astral shirt").getItemId();
+      try (var cleanups =
+          new Cleanups(
+              withSkill("Torso Awareness"),
+              withProperty("garbageShirtCharge", 1),
+              withOverrideModifiers(ModifierType.ITEM, alternative, "Experience: +4"),
+              withEquippableItem(alternative),
+              withEquippableItem(ItemPool.MAKESHIFT_GARBAGE_SHIRT))) {
+        assertTrue(maximize("experience, -tie"));
+
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.SHIRT, "makeshift garbage shirt")));
+      }
+    }
+
+    @Test
+    void dischargedGarbageShirtLosesToAHigherExperienceModifier() {
+      int alternative = ItemPool.get("astral shirt").getItemId();
+      try (var cleanups =
+          new Cleanups(
+              withSkill("Torso Awareness"),
+              withProperty("garbageShirtCharge", 0),
+              withProperty("_garbageItemChanged", true),
+              withOverrideModifiers(ModifierType.ITEM, alternative, "Experience: +4"),
+              withEquippableItem(alternative),
+              withEquippableItem(ItemPool.MAKESHIFT_GARBAGE_SHIRT))) {
+        assertTrue(maximize("experience, -tie"));
+
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.SHIRT, "astral shirt")));
+      }
+    }
+  }
+
+  @ParameterizedTest
+  @CsvSource(
+      delimiter = '|',
+      value = {
+        "Mad Hatrack | asbestos helmet turtle | bounty-hunting helmet",
+        "Fancypants Scarecrow | swashbuckling pants | Pantsgiving"
+      })
+  void familiarCanWearItsSpecialEquipment(String familiarName, String itemName, String forcedItem) {
+    int itemId = ItemPool.get(itemName).getItemId();
+    int forcedItemId = ItemPool.get(forcedItem).getItemId();
+    try (var cleanups =
+        new Cleanups(
+            withFamiliar(FamiliarDatabase.getFamiliarId(familiarName), 400),
+            withOverrideModifiers(ModifierType.ITEM, forcedItemId, "Item Drop: +20"),
+            withEquippableItem(itemId),
+            withEquippableItem(forcedItemId))) {
+      assertTrue(maximize("item drop, +equip " + forcedItem + ", -tie"));
+
+      assertThat(getBoosts(), hasItem(recommendsSlot(Slot.FAMILIAR, itemName)));
+    }
+  }
+
+  @Test
+  void recommendationIncludesClosetRetrievalCommand() {
+    try (var cleanups =
+        new Cleanups(
+            withOverrideModifiers(ModifierType.ITEM, ItemPool.HELMET_TURTLE, "Item Drop: +10"),
+            withProperty("autoSatisfyWithCloset", true),
+            withInteractivity(true),
+            withItemInCloset(ItemPool.HELMET_TURTLE))) {
+      maximizeAny("item drop, -tie");
+
+      assertThat(
+          getBoosts(),
+          hasItem(
+              hasProperty(
+                  "cmd",
+                  startsWith("closet take 1 \u00B6" + ItemPool.HELMET_TURTLE + ";equip hat"))));
+    }
+  }
+
+  @Test
+  void recommendationIncludesStashRetrievalCommand() {
+    try (var clanCleanup = withClan(1, "Test Clan")) {
+      boolean hadClan = KoLCharacter.hasClan();
+      KoLCharacter.setClan(true);
+      ClanManager.setStashRetrieved();
+
+      try (var cleanups =
+          new Cleanups(
+              new Cleanups(() -> KoLCharacter.setClan(hadClan)),
+              withOverrideModifiers(ModifierType.ITEM, ItemPool.HELMET_TURTLE, "Item Drop: +10"),
+              withProperty("autoSatisfyWithStash", true),
+              withInteractivity(true),
+              withItemInStash("helmet turtle"))) {
+        maximizeAny("item drop, -tie");
+
+        assertThat(
+            getBoosts(),
+            hasItem(
+                hasProperty(
+                    "cmd",
+                    startsWith("stash take 1 \u00B6" + ItemPool.HELMET_TURTLE + ";equip hat"))));
+      }
+    }
+  }
+
+  @Test
+  void mallRecommendationIncludesAcquisitionText() {
+    try (var cleanups =
+        new Cleanups(
+            withOverrideModifiers(ModifierType.ITEM, ItemPool.HELMET_TURTLE, "Item Drop: +10"),
+            withProperty("autoSatisfyWithMall", true),
+            withInteractivity(true))) {
+      maximizeAny("item drop, +equip helmet turtle, -tie");
+
+      assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "helmet turtle")));
+      assertThat(
+          getBoosts(), hasItem(hasToString(startsWith("acquire & equip hat helmet turtle"))));
+    }
+  }
+
+  @Test
+  void recommendationIncludesPullCommand() {
+    try (var cleanups =
+        new Cleanups(
+            withOverrideModifiers(ModifierType.ITEM, ItemPool.HELMET_TURTLE, "Item Drop: +10"),
+            withInteractivity(false),
+            withRonin(true),
+            withItemInStorage(ItemPool.HELMET_TURTLE))) {
+      maximizeAny("item drop, +equip helmet turtle, -tie");
+
+      assertThat(
+          getBoosts(),
+          hasItem(
+              hasProperty(
+                  "cmd", startsWith("pull \u00B6" + ItemPool.HELMET_TURTLE + ";equip hat"))));
+    }
+  }
+
+  @Test
+  void recommendationAcquiresAndFoldsAccessibleEquipment() {
+    try (var cleanups =
+        new Cleanups(
+            withOverrideModifiers(ModifierType.ITEM, ItemPool.TURTLE_WAX_HELMET, "Item Drop: +10"),
+            withProperty("autoSatisfyWithCloset", true),
+            withProperty("maximizerFoldables", true),
+            withStats(100, 100, 100),
+            withInteractivity(true),
+            withItemInCloset(ItemPool.TURTLE_WAX_GREAVES))) {
+      maximizeAny("item drop, +equip turtle wax helmet, -tie");
+
+      assertThat(
+          getBoosts(),
+          hasItem(
+              hasProperty(
+                  "cmd",
+                  startsWith(
+                      "acquire 1 \u00B6"
+                          + ItemPool.TURTLE_WAX_GREAVES
+                          + ";fold \u00B6"
+                          + ItemPool.TURTLE_WAX_HELMET
+                          + ";equip hat"))));
+    }
+  }
+
+  @Test
+  void recommendationPullsAndFoldsStoredEquipment() {
+    try (var cleanups =
+        new Cleanups(
+            withOverrideModifiers(ModifierType.ITEM, ItemPool.TURTLE_WAX_HELMET, "Item Drop: +10"),
+            withProperty("maximizerFoldables", true),
+            withStats(100, 100, 100),
+            withInteractivity(false),
+            withRonin(true),
+            withItemInStorage(ItemPool.TURTLE_WAX_GREAVES))) {
+      maximizeAny("item drop, +equip turtle wax helmet, -tie");
+
+      assertThat(
+          getBoosts(),
+          hasItem(
+              hasProperty(
+                  "cmd",
+                  startsWith(
+                      "pull 1 \u00B6"
+                          + ItemPool.TURTLE_WAX_GREAVES
+                          + ";fold \u00B6"
+                          + ItemPool.TURTLE_WAX_HELMET
+                          + ";equip hat"))));
+    }
+  }
+
+  @Test
+  void recommendationBuysToStorageAndPullsEquipment() {
+    try (var cleanups =
+        new Cleanups(
+            withOverrideModifiers(ModifierType.ITEM, ItemPool.HELMET_TURTLE, "Item Drop: +10"),
+            withProperty("autoSatisfyWithMall", true),
+            withInteractivity(false),
+            withRonin(true))) {
+      maximizeAny("item drop, +equip helmet turtle, -tie");
+
+      assertThat(
+          getBoosts(),
+          hasItem(
+              hasProperty(
+                  "cmd",
+                  startsWith(
+                      "buy using storage 1 \u00B6"
+                          + ItemPool.HELMET_TURTLE
+                          + ";pull \u00B6"
+                          + ItemPool.HELMET_TURTLE
+                          + ";equip hat"))));
+    }
+  }
+
+  @ParameterizedTest
+  @ValueSource(strings = {"Drops Items", "Drops Meat"})
+  void defaultTiebreakerPrefersSpecialEquipment(String specialModifier) {
+    try (var cleanups =
+        new Cleanups(
+            withOverrideModifiers(
+                ModifierType.ITEM, ItemPool.HELMET_TURTLE, "Item Drop: +10, " + specialModifier),
+            withOverrideModifiers(
+                ModifierType.ITEM,
+                ItemPool.get("bounty-hunting helmet").getItemId(),
+                "Item Drop: +10"),
+            withEquippableItem(ItemPool.HELMET_TURTLE),
+            withEquippableItem("bounty-hunting helmet"))) {
+      assertTrue(maximize("item drop"));
+
+      assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "helmet turtle")));
+    }
+  }
+
+  @Test
+  void defaultTiebreakerPrefersEquipmentWithARolloverEffect() {
+    int oldSweatpants = ItemPool.OLD_SWEATPANTS;
+    try (var cleanups =
+        new Cleanups(
+            withOverrideModifiers(
+                ModifierType.ITEM,
+                oldSweatpants,
+                "Adventures: +2, PvP Fights: +2, Damage Absorption: +81"),
+            withEquippableItem("ninjammies"),
+            withEquippableItem(oldSweatpants))) {
+      assertTrue(maximize("1 bonus ninjammies, 1 bonus old sweatpants"));
+
+      assertThat(getBoosts(), hasItem(recommendsSlot(Slot.PANTS, "ninjammies")));
+    }
+  }
+
+  @Test
+  void doubleFistedSkillCanPutRangedWeaponsInBothHands() {
+    try (var cleanups =
+        new Cleanups(
+            withSkill("Double-Fisted Skull Smashing"),
+            withOverrideModifiers(
+                ModifierType.ITEM, ItemPool.get("disco ball").getItemId(), "Item Drop: +10"),
+            withEquippableItem("disco ball", 2))) {
+      assertTrue(maximize("item drop, -tie"));
+
+      assertThat(getBoosts(), hasItem(recommendsSlot(Slot.WEAPON, "disco ball")));
+      assertThat(getBoosts(), hasItem(recommendsSlot(Slot.OFFHAND, "disco ball")));
+    }
+  }
+
+  @Test
+  void hatTrickDoesNotRecommendTheNormalHatSlot() {
+    try (var cleanups =
+        new Cleanups(
+            withClass(AscensionClass.SEAL_CLUBBER),
+            withPath(Path.HAT_TRICK),
+            withOverrideModifiers(ModifierType.ITEM, ItemPool.HELMET_TURTLE, "Item Drop: +10"),
+            withEquippableItem(ItemPool.HELMET_TURTLE))) {
+      assertTrue(maximize("item drop, -tie"));
+
+      assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.HAT))));
+    }
+  }
+
+  @Test
+  void speculativeSearchLeavesEquippedItemsUnchanged() {
+    var equipped = ItemPool.get("helmet turtle");
+    try (var cleanups =
+        new Cleanups(
+            withEquipped(Slot.HAT, equipped), withEquippableItem("bounty-hunting helmet"))) {
+      assertTrue(maximize("item"));
+
+      assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "bounty-hunting helmet")));
+      assertThat(EquipmentManager.getEquipment(Slot.HAT), is(equipped));
+    }
+  }
+
+  @Test
+  void emptyKeywordRecommendsKeepingOccupiedSlots() {
+    try (var cleanups = new Cleanups(withEquipped(Slot.HAT, "helmet turtle"))) {
+      assertTrue(maximize("empty"));
+      assertThat(getBoosts(), contains(hasToString(containsString("keep hat: helmet turtle"))));
     }
   }
 }

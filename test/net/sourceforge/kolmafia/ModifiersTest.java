@@ -1915,7 +1915,7 @@ public class ModifiersTest {
 
       assertThat(mods.getDouble(DoubleModifier.WEAPON_DAMAGE), equalTo(0.0));
       assertThat(mods.getDouble(DoubleModifier.HOT_RESISTANCE), equalTo(2.0));
-      assertThat(mods.getDouble(DoubleModifier.GEARDROP), equalTo(100.0));
+      assertThat(mods.getDouble(DoubleModifier.HAT_PANTS_DROP), equalTo(100.0));
       assertThat(mods.getDouble(DoubleModifier.DAMAGE_REDUCTION), equalTo(6.0));
       assertThat(mods.getDouble(DoubleModifier.INITIATIVE), equalTo(50.0));
       assertThat(mods.getDouble(DoubleModifier.FAMILIAR_WEIGHT), equalTo(5.0));

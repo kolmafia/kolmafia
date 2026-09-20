@@ -42,7 +42,6 @@ import net.sourceforge.kolmafia.session.LouvreManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.TavernManager;
-import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.WumpusManager;
 import net.sourceforge.kolmafia.swingui.RequestSynchFrame;
 import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
@@ -668,8 +667,6 @@ public class AdventureRequest extends GenericRequest {
       }
       EncounterManager.registerEncounter(encounter, type, responseText);
     }
-
-    TurnCounter.handleTemporaryCounters(type, encounter);
 
     return encounter;
   }

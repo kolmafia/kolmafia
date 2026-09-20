@@ -2029,6 +2029,7 @@ Item	survival knife	All Attributes: +5, Lasts Until Rollover, Last Available: "2
 Item	sword behind inappropriate prepositions	Muscle: +7, Adventures: +5, Alters Page Text
 Item	Sword of Dark Omens	Spooky Damage: +3, Stench Damage: +3, Hot Damage: +3, Cold Damage: +3, Sleaze Damage: +3, Spell Damage Percent: +50, All Attributes Percent: +5, Last Available: "2013-02"
 # Sword of Procedural Generation: Randomized per player
+Item	Sword of Procedural Generation	Last Available: "2013-12"
 Item	sword of static	Muscle: +3, Moxie: +2, MP Regen Min: 2, MP Regen Max: 3
 Item	swordzall	Weapon Damage: +8, Maximum MP: +10
 Item	tail o' nine cats	Initiative: +15, Monster Level: +5
@@ -3027,7 +3028,7 @@ Item	coarse hemp socks	Adventures: [1+10*event(Crimbo2015)], Single Equip, Last 
 Item	codpiece	Mysticality Percent: +100, Maximum MP: +100, Spell Damage: +50, Combat Rate: -10, Lasts Until Rollover, Last Available: "2016-04"
 Item	Codpiece of the Goblin King	Moxie: +7, Single Equip
 Item	colored-light &quot;necklace&quot;	Maximum MP: +15, Last Available: "2005-12"
-Item	combat lover's locket	HP / MP Regen Min: 8, HP / MP Regen Max: 10, Single Equip, Critical Hit Percent: [pref(locketPhylum,beast)*10], Muscle: [pref(locketPhylum,beast)*20], Weapon Damage Percent: [pref(locketPhylum,bug)*25], Maximum MP Percent: [pref(locketPhylum,bug)*25], Spell Critical Percent: [pref(locketPhylum,constellation)*10], Mysticality: [pref(locketPhylum,constellation)*20], Moxie Experience: [pref(locketPhylum,construct)*3], Spell Damage: [pref(locketPhylum,construct)*25], Hot Damage: [pref(locketPhylum,demon)*25], Gear Drop: [pref(locketPhylum,demon)*50], Cold Damage: [pref(locketPhylum,dude)*25], Moxie Percent: [pref(locketPhylum,dude)*50], Hot Resistance: [pref(locketPhylum,elemental)*3], Stench Spell Damage: [pref(locketPhylum,elemental)*25], Experience: [pref(locketPhylum,elf)*5], Candy Drop: [pref(locketPhylum,elf)*75], Meat Drop: [pref(locketPhylum,fish)*50], Spooky Spell Damage: [pref(locketPhylum,fish)*25], Stench Damage: [pref(locketPhylum,goblin)*25], Mysticality Percent: [pref(locketPhylum,goblin)*50], Stench Resistance: [pref(locketPhylum,hippy)*3], Damage Reduction: [pref(locketPhylum,hippy)*10], Mysticality Experience: [pref(locketPhylum,hobo)*3], Hot Spell Damage: [pref(locketPhylum,hobo)*25], Spooky Resistance: [pref(locketPhylum,horror)*3], Maximum HP: [pref(locketPhylum,horror)*50], Spell Damage Percent: [pref(locketPhylum,humanoid)*25], Moxie: [pref(locketPhylum,humanoid)*20], Item Drop: [pref(locketPhylum,mer-kin)*25], Sleaze Spell Damage: [pref(locketPhylum,mer-kin)*25], Sleaze Resistance: [pref(locketPhylum,orc)*3], Maximum MP: [pref(locketPhylum,orc)*25], Muscle Experience: [pref(locketPhylum,penguin)*3], Cold Spell Damage: [pref(locketPhylum,penguin)*25], Booze Drop: [pref(locketPhylum,pirate)*50], Sleaze Damage: [pref(locketPhylum,pirate)*25], Initiative: [pref(locketPhylum,plant)*50], Maximum HP Percent: [pref(locketPhylum,plant)*50], Cold Resistance: [pref(locketPhylum,slime)*3], Damage Absorption: [pref(locketPhylum,slime)*50], Spooky Damage: [pref(locketPhylum,undead)*25], Muscle Percent: [pref(locketPhylum,undead)*50], Food Drop: [pref(locketPhylum,weird)*50], Weapon Damage: [pref(locketPhylum,weird)*25], Last Available: "2022-02"
+Item	combat lover's locket	HP / MP Regen Min: 8, HP / MP Regen Max: 10, Single Equip, Critical Hit Percent: [pref(locketPhylum,beast)*10], Muscle: [pref(locketPhylum,beast)*20], Weapon Damage Percent: [pref(locketPhylum,bug)*25], Maximum MP Percent: [pref(locketPhylum,bug)*25], Spell Critical Percent: [pref(locketPhylum,constellation)*10], Mysticality: [pref(locketPhylum,constellation)*20], Moxie Experience: [pref(locketPhylum,construct)*3], Spell Damage: [pref(locketPhylum,construct)*25], Hot Damage: [pref(locketPhylum,demon)*25], Hat / Pants Drop: [pref(locketPhylum,demon)*50], Cold Damage: [pref(locketPhylum,dude)*25], Moxie Percent: [pref(locketPhylum,dude)*50], Hot Resistance: [pref(locketPhylum,elemental)*3], Stench Spell Damage: [pref(locketPhylum,elemental)*25], Experience: [pref(locketPhylum,elf)*5], Candy Drop: [pref(locketPhylum,elf)*75], Meat Drop: [pref(locketPhylum,fish)*50], Spooky Spell Damage: [pref(locketPhylum,fish)*25], Stench Damage: [pref(locketPhylum,goblin)*25], Mysticality Percent: [pref(locketPhylum,goblin)*50], Stench Resistance: [pref(locketPhylum,hippy)*3], Damage Reduction: [pref(locketPhylum,hippy)*10], Mysticality Experience: [pref(locketPhylum,hobo)*3], Hot Spell Damage: [pref(locketPhylum,hobo)*25], Spooky Resistance: [pref(locketPhylum,horror)*3], Maximum HP: [pref(locketPhylum,horror)*50], Spell Damage Percent: [pref(locketPhylum,humanoid)*25], Moxie: [pref(locketPhylum,humanoid)*20], Item Drop: [pref(locketPhylum,mer-kin)*25], Sleaze Spell Damage: [pref(locketPhylum,mer-kin)*25], Sleaze Resistance: [pref(locketPhylum,orc)*3], Maximum MP: [pref(locketPhylum,orc)*25], Muscle Experience: [pref(locketPhylum,penguin)*3], Cold Spell Damage: [pref(locketPhylum,penguin)*25], Booze Drop: [pref(locketPhylum,pirate)*50], Sleaze Damage: [pref(locketPhylum,pirate)*25], Initiative: [pref(locketPhylum,plant)*50], Maximum HP Percent: [pref(locketPhylum,plant)*50], Cold Resistance: [pref(locketPhylum,slime)*3], Damage Absorption: [pref(locketPhylum,slime)*50], Spooky Damage: [pref(locketPhylum,undead)*25], Muscle Percent: [pref(locketPhylum,undead)*50], Food Drop: [pref(locketPhylum,weird)*50], Weapon Damage: [pref(locketPhylum,weird)*25], Last Available: "2022-02"
 Item	compression stocking	Maximum MP: +30, MP Regen Min: 3, MP Regen Max: 5
 Item	Congressional Medal of Insanity	Mysticality Percent: +25, Spell Damage Percent: +50, MP Regen Min: 8, MP Regen Max: 12, Last Available: "2024-12", Lantern: 3
 Item	consolation ribbon	All Attributes: +1
@@ -3384,7 +3385,7 @@ Item	lucky rabbitfish fin	HP / MP Regen Min: 10, HP / MP Regen Max: 12, Familiar
 Item	LWA ring	MP Regen Min: 2, MP Regen Max: 3
 Item	LyleCo premium monocle	Rubee Drop: 1, Single Equip, Last Available: "2018-04"
 # M&ouml;bius ring: Allows interaction with your past and future
-Item	M&ouml;bius ring	Maximum HP: [25*eq(paradoxicity,0)], Maximum MP: [25*lte(paradoxicity,1)], Muscle: [10*lte(paradoxicity,2)], Mysticality: [10*lte(paradoxicity,3)], Moxie: [10*lte(paradoxicity,4)], Weapon Damage: [15*lte(paradoxicity,5)*gte(paradoxicity,1)], Hot Resistance: [2*lte(paradoxicity,6)*gte(paradoxicity,2)], Gear Drop: [100*lte(paradoxicity,7)*gte(paradoxicity,3)], Damage Reduction: [paradoxicity*lte(paradoxicity,8)*gte(paradoxicity,4)], Initiative: [50*lte(paradoxicity,9)*gte(paradoxicity,5)], Familiar Weight: [5*lte(paradoxicity,10)*gte(paradoxicity,6)], Cold Resistance: [2*lte(paradoxicity,11)*gte(paradoxicity,7)], Food Drop: [100*lte(paradoxicity,12)*gte(paradoxicity,8)], Spell Damage: [25*lte(paradoxicity,13)*gte(paradoxicity,9)], Stench Resistance: [2*lte(paradoxicity,14)*gte(paradoxicity,10)], Booze Drop: [50*lte(paradoxicity,15)*gte(paradoxicity,11)], Meat Drop: [25*lte(paradoxicity,16)*gte(paradoxicity,12)], Item Drop: [100*lte(paradoxicity,17)*gte(paradoxicity,13)], Ranged Damage: [15*lte(paradoxicity,18)*gte(paradoxicity,14)], Spooky Resistance: [2*lte(paradoxicity,19)*gte(paradoxicity,15)], Candy Drop: [100*lte(paradoxicity,20)*gte(paradoxicity,16)], Familiar Experience: [2*lte(paradoxicity,21)*gte(paradoxicity,17)], Experience: [4*lte(paradoxicity,22)*gte(paradoxicity,18)], Sleaze Resistance: [2*gte(paradoxicity,19)], Pickpocket Chance: [25*gte(paradoxicity,20)], Maximum HP Percent: [50*gte(paradoxicity,21)], Maximum MP Percent: [50*gte(paradoxicity,22)], Muscle Percent: [25*gte(paradoxicity,23)], Last Available: "2025-08", Enchantment Count: 0
+Item	M&ouml;bius ring	Maximum HP: [25*eq(paradoxicity,0)], Maximum MP: [25*lte(paradoxicity,1)], Muscle: [10*lte(paradoxicity,2)], Mysticality: [10*lte(paradoxicity,3)], Moxie: [10*lte(paradoxicity,4)], Weapon Damage: [15*lte(paradoxicity,5)*gte(paradoxicity,1)], Hot Resistance: [2*lte(paradoxicity,6)*gte(paradoxicity,2)], Hat / Pants Drop: [100*lte(paradoxicity,7)*gte(paradoxicity,3)], Damage Reduction: [paradoxicity*lte(paradoxicity,8)*gte(paradoxicity,4)], Initiative: [50*lte(paradoxicity,9)*gte(paradoxicity,5)], Familiar Weight: [5*lte(paradoxicity,10)*gte(paradoxicity,6)], Cold Resistance: [2*lte(paradoxicity,11)*gte(paradoxicity,7)], Food Drop: [100*lte(paradoxicity,12)*gte(paradoxicity,8)], Spell Damage: [25*lte(paradoxicity,13)*gte(paradoxicity,9)], Stench Resistance: [2*lte(paradoxicity,14)*gte(paradoxicity,10)], Booze Drop: [50*lte(paradoxicity,15)*gte(paradoxicity,11)], Meat Drop: [25*lte(paradoxicity,16)*gte(paradoxicity,12)], Item Drop: [100*lte(paradoxicity,17)*gte(paradoxicity,13)], Ranged Damage: [15*lte(paradoxicity,18)*gte(paradoxicity,14)], Spooky Resistance: [2*lte(paradoxicity,19)*gte(paradoxicity,15)], Candy Drop: [100*lte(paradoxicity,20)*gte(paradoxicity,16)], Familiar Experience: [2*lte(paradoxicity,21)*gte(paradoxicity,17)], Experience: [4*lte(paradoxicity,22)*gte(paradoxicity,18)], Sleaze Resistance: [2*gte(paradoxicity,19)], Pickpocket Chance: [25*gte(paradoxicity,20)], Maximum HP Percent: [50*gte(paradoxicity,21)], Maximum MP Percent: [50*gte(paradoxicity,22)], Muscle Percent: [25*gte(paradoxicity,23)], Last Available: "2025-08", Enchantment Count: 0
 Item	Mafia bow tie	Muscle: +20, Moxie: +20, Last Available: "2004-10"
 Item	mafia middle finger ring	Weapon Damage Percent: +13, Muscle Percent: +13, Single Equip, Conditional Skill (Equipped): "Show them your ring"
 Item	mafia organizer badge	Adventures: +2, Single Equip
@@ -5294,7 +5295,7 @@ Throne	Stocking Mimic	All Attributes: +10, Drops Items
 Throne	Stooper	none
 Throne	Sugar Fruit Fairy	Mysticality Experience: +2
 Throne	Sweet Nutcracker	HP / MP Regen Min: 2, HP / MP Regen Max: 8, Drops Items
-Throne	Sword of S Words	none
+Throne	Sword of S Words	Weapon Damage: +25
 Throne	Syncopated Turtle	Initiative: +20
 Throne	Synthetic Rock	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 Throne	Teddy Bear	Initiative: +20
@@ -5315,7 +5316,7 @@ Throne	Urchin Urchin	Weapon Damage: +10
 Throne	Vampire Vintner	Maximum HP: +10
 Throne	Warbear Drone	Maximum HP / MP: +15, Drops Items
 Throne	Wereturtle	Muscle Percent: +15, Drops Meat
-Throne	Wet Paper Tiger	none
+Throne	Wet Paper Tiger	Weapon Damage: +10
 Throne	Whirling Maple Leaf	Spell Damage Percent: +10
 Throne	Wild Hare	All Attributes: +10
 Throne	Wind-up Chattering Teeth	Muscle Percent: +15
@@ -5492,9 +5493,9 @@ Item	frigid air mattress	Cold Resistance: +2
 Item	Frobozz Real-Estate Company Instant House (TM)	Base Resting HP: +39, Base Resting MP: +40
 Item	gauze hammock	Bonus Resting HP: +60
 Item	gingerbread house	Last Available: "2009-12", Base Resting HP: +69, Base Resting MP: +70
-Item	giant Faraday cage	Base Resting HP: +50, Base Resting MP: +50
-Item	giant pilgrim hat	Last Available: "2016-11", Base Resting HP: +39, Base Resting MP: +40
-Item	house-sized mushroom	Last Available: "2020-03", Base Resting HP: +69, Base Resting MP: +70
+Item	giant Faraday cage	Base Resting HP: +49, Base Resting MP: +50
+Item	giant pilgrim hat	Last Available: "2016-11", Base Resting HP: +14, Base Resting MP: +15
+Item	house-sized mushroom	Last Available: "2020-03", Base Resting HP: +140, Base Resting MP: +70
 Item	ginormous pumpkin	Last Available: "2010-11", Base Resting HP: +49, Base Resting MP: +50
 # haunted doghouse: Houses your very own Hallowiener Dog!
 Item	haunted doghouse	Free Pull, Last Available: "2015-10"
@@ -5511,7 +5512,7 @@ Item	saltwaterbed	Better Diver: 10
 Item	sandcastle	Base Resting HP: +49, Base Resting MP: +50
 # sleeping stocking
 # snow fort 10 turns of Snow Fortified (+25% item drop, +50% meat drop, +50 max MP, +100 max HP)
-Item	snow fort	Last Available: "2014-01", Base Resting HP: +65, Base Resting MP: +65
+Item	snow fort	Last Available: "2014-01", Base Resting HP: +49, Base Resting MP: +50
 # spirit bed 20 turns of Spirit Schooled (+20% max MP)
 # spooky scarecrow
 Item	stained mattress	Sleaze Resistance: +2
@@ -5715,7 +5716,7 @@ Effect	Bandananit	Avatar: "dirty thieving brigand"
 Effect	Bandersnatched	Moxie: +5, Ranged Damage: +10
 Effect	Banono	Stench Damage: +40, Stench Spell Damage: +40
 Effect	Barbecue Saucy	Muscle: +15, Moxie: +15
-Effect	Barbell Moustache	Muscle: +25, Gear Drop: +50
+Effect	Barbell Moustache	Muscle: +25, Hat / Pants Drop: +50
 Effect	Barely Visible	Combat Rate: -10
 Effect	Barfpits	Damage Aura: 1
 Effect	Bark of the Dog	Initiative: +50, Moxie Experience: +2
@@ -6004,7 +6005,7 @@ Effect	Cartographically Rooted	Maximum HP Percent: +20, HP Regen Min: 6, HP Rege
 Effect	Castaway Physique	Muscle Percent: +25
 Effect	Cat Class, Cat Style	Moxie Percent: +20
 Effect	Cat-Alyzed	Moxie: +10
-Effect	Category	Mysticality Experience Percent: +25
+Effect	Category	Mysticality Experience Percent: +25, Wiki Name: "Category (effect)"
 Effect	Catstermind	Avatar: "The Mastermind"
 # Caught Yam-Handed: Monsters will sometimes be distracted, trying to avoid the hot yam
 Effect	Cautious Prowl	Item Drop: +50
@@ -6668,7 +6669,7 @@ Effect	Gnawed-Off Arm	Muscle: -5
 Effect	Gnollivision	Avatar: "one-eyed Gnoll"
 Effect	Gnomedome	Avatar: "menacing lawn gnome"
 Effect	Go Get 'Em, Tiger!	Muscle Percent: +15
-Effect	Go-Gone	Gear Drop: +100
+Effect	Go-Gone	Hat / Pants Drop: +100
 Effect	Goat Gotten	Avatar: "dairy goat"
 Effect	Goblin in Black	Avatar: "goblin conspirator"
 Effect	Gobliny Flavor	Damage Reduction: 5
@@ -6889,7 +6890,7 @@ Effect	Human-Machine Hybrid	Damage Absorption: +50, Damage Reduction: 5, Familia
 Effect	Human-Mer-kin Hybrid	Monster Level: +25
 Effect	Human-Orc Hybrid	Maximum HP: +40, Experience: +1
 Effect	Human-Penguin Hybrid	Item Drop: +25
-Effect	Human-Pirate Hybrid	Gear Drop: +50, Booze Drop: +50
+Effect	Human-Pirate Hybrid	Hat / Pants Drop: +50, Booze Drop: +50
 Effect	Human-Plant Hybrid	Cold Damage: +20, Cold Spell Damage: +20
 Effect	Human-Slime Hybrid	Sleaze Damage: +20, Sleaze Spell Damage: +20
 Effect	Human-Undead Hybrid	Spooky Damage: +20, Spooky Spell Damage: +20
@@ -7115,7 +7116,7 @@ Effect	Lifting Wets	Muscle: +15, Muscle Experience Percent: +20
 Effect	Light-Headed	Mysticality Percent: -30
 Effect	Like a Fish to Walter	Fishing Skill: +5
 Effect	Like an Egyptian	Avatar: "tomb servant"
-Effect	Limber as Mortimer	Gear Drop: +100
+Effect	Limber as Mortimer	Hat / Pants Drop: +100
 Effect	Limed Up	MPC Drop: +0.5
 Effect	Lion in Ambush	Combat Rate: +15
 Effect	Liquid Courage	Experience: +3
@@ -7209,7 +7210,7 @@ Effect	Medically Loosened	Moxie Experience: +3, Moxie Percent: +30
 Effect	Medically Smartified	Mysticality Experience: +3, Mysticality Percent: +30
 Effect	Medieval Mage Mayhem	Weapon Damage Percent: +50, Spell Damage Percent: +100
 Effect	Mediocri Tea	Monster Level: +30
-Effect	Meet the Meat	Meat Drop: +100, Gear Drop: +50
+Effect	Meet the Meat	Meat Drop: +100, Hat / Pants Drop: +50
 Effect	Melancholy Burden	Item Drop: +60
 Effect	Memento Moir&eacute;	Experience: +3
 Effect	Memories of Cheesier Age	Food Drop: +100, Stench Damage: +25
@@ -7753,7 +7754,7 @@ Effect	Scarysauce	Sleaze Resistance: +2, Cold Resistance: +2, Thorns: 1
 Effect	Scavengers Scavenging	Item Drop: +20
 Effect	Scent of a Kitchen Elf	Mysticality: +40, Familiar Weight Percent: -50
 Effect	School Spirited	Meat Drop: +100, Item Drop: +50
-Effect	Schroedinger's Anticipation	Damage vs. Skeletons: [20*eq(totalturnsplayed%37,0)], Initiative: [25*eq(totalturnsplayed%37,1)], Damage vs. Ghosts: [20*eq(totalturnsplayed%37,2)], Item Drop: [25*eq(totalturnsplayed%37,3)], Hot Resistance: [eq(totalturnsplayed%37,4)], Cold Damage: [eq(totalturnsplayed%37,5)], Meat Drop: [25*eq(totalturnsplayed%37,6)], Monster Level Percent: [10*eq(totalturnsplayed%37,7)], Muscle Percent: [100*eq(totalturnsplayed%37,8)], Hot Damage: [25*eq(totalturnsplayed%37,9)], Stench Damage: [25*eq(totalturnsplayed%37,10)], Damage vs. Vampires: [20*eq(totalturnsplayed%37,11)], Moxie Percent: [100*eq(totalturnsplayed%37,12)], Gear Drop: [50*eq(totalturnsplayed%37,13)], Muscle: [15*eq(totalturnsplayed%37,14)], Stench Resistance: [eq(totalturnsplayed%37,15)], Maximum MP Percent: [100*eq(totalturnsplayed%37,16)], Spooky Damage: [25*eq(totalturnsplayed%37,17)], Sleaze Damage: [25*eq(totalturnsplayed%37,18)], Candy Drop: [50*eq(totalturnsplayed%37,19)], Booze Drop: [50*eq(totalturnsplayed%37,20)], Moxie: [15*eq(totalturnsplayed%37,21)], Damage Absorption: [20*eq(totalturnsplayed%37,22)], Food Drop: [50*eq(totalturnsplayed%37,23)], Spooky Resistance: [eq(totalturnsplayed%37,24)], Weapon Damage: [25*eq(totalturnsplayed%37,25)], Maximum HP Percent: [100*eq(totalturnsplayed%37,26)], Mysticality: [15*eq(totalturnsplayed%37,27)], Ranged Damage: [25*eq(totalturnsplayed%37,28)], Familiar Damage: [10*eq(totalturnsplayed%37,29)], Sleaze Resistance: [eq(totalturnsplayed%37,30)], Cold Resistance: [eq(totalturnsplayed%37,31)], Mysticality Percent: [100*eq(totalturnsplayed%37,32)], Familiar Weight: [5*eq(totalturnsplayed%37,33)], Damage vs. Mer-kin: [20*eq(totalturnsplayed%37,34)], Monster Level: [-10*eq(totalturnsplayed%37,35)], Spell Damage Percent: [100*eq(totalturnsplayed%37,36)]
+Effect	Schroedinger's Anticipation	Damage vs. Skeletons: [20*eq(totalturnsplayed%37,0)], Initiative: [25*eq(totalturnsplayed%37,1)], Damage vs. Ghosts: [20*eq(totalturnsplayed%37,2)], Item Drop: [25*eq(totalturnsplayed%37,3)], Hot Resistance: [eq(totalturnsplayed%37,4)], Cold Damage: [eq(totalturnsplayed%37,5)], Meat Drop: [25*eq(totalturnsplayed%37,6)], Monster Level Percent: [10*eq(totalturnsplayed%37,7)], Muscle Percent: [100*eq(totalturnsplayed%37,8)], Hot Damage: [25*eq(totalturnsplayed%37,9)], Stench Damage: [25*eq(totalturnsplayed%37,10)], Damage vs. Vampires: [20*eq(totalturnsplayed%37,11)], Moxie Percent: [100*eq(totalturnsplayed%37,12)], Hat / Pants Drop: [50*eq(totalturnsplayed%37,13)], Muscle: [15*eq(totalturnsplayed%37,14)], Stench Resistance: [eq(totalturnsplayed%37,15)], Maximum MP Percent: [100*eq(totalturnsplayed%37,16)], Spooky Damage: [25*eq(totalturnsplayed%37,17)], Sleaze Damage: [25*eq(totalturnsplayed%37,18)], Candy Drop: [50*eq(totalturnsplayed%37,19)], Booze Drop: [50*eq(totalturnsplayed%37,20)], Moxie: [15*eq(totalturnsplayed%37,21)], Damage Absorption: [20*eq(totalturnsplayed%37,22)], Food Drop: [50*eq(totalturnsplayed%37,23)], Spooky Resistance: [eq(totalturnsplayed%37,24)], Weapon Damage: [25*eq(totalturnsplayed%37,25)], Maximum HP Percent: [100*eq(totalturnsplayed%37,26)], Mysticality: [15*eq(totalturnsplayed%37,27)], Ranged Damage: [25*eq(totalturnsplayed%37,28)], Familiar Damage: [10*eq(totalturnsplayed%37,29)], Sleaze Resistance: [eq(totalturnsplayed%37,30)], Cold Resistance: [eq(totalturnsplayed%37,31)], Mysticality Percent: [100*eq(totalturnsplayed%37,32)], Familiar Weight: [5*eq(totalturnsplayed%37,33)], Damage vs. Mer-kin: [20*eq(totalturnsplayed%37,34)], Monster Level: [-10*eq(totalturnsplayed%37,35)], Spell Damage Percent: [100*eq(totalturnsplayed%37,36)]
 # Schroedinger's Butt: ???
 Effect	Science is Real	Avatar: "Mrs. K, the Chemistry Teacher"
 Effect	Scorched Earth	Experience: +10
@@ -7777,7 +7778,7 @@ Effect	Self-Harmonizing	Moxie Percent: +10
 Effect	Sensation	Moxie Percent: +100
 Effect	Sepia Tan	Moxie: +10, Initiative: +20, Moxie Experience: +2
 Effect	Serendipi Tea	Item Drop: +25
-Effect	Serenity	Moxie Percent: +15
+Effect	Serenity	Moxie Percent: +15, Wiki Name: Serenity (effect)
 Effect	Seriously Mutated	All Attributes Percent: +50
 Effect	Sewer-Drenched	Stench Damage: +100
 # Shadow Affinity: Adventuring in Shadow Rifts will consume turns of this instead of Adventures
@@ -8447,7 +8448,7 @@ Effect	Very Old	Muscle: -30, Maximum HP: -15
 Effect	Vessel of Magic	Maximum MP: +100, MP Regen Min: 8, MP Regen Max: 12
 Effect	Vicarious Sweat	Maximum HP: +30, Item Drop: +15
 Effect	Video Game Hot Dog	Item Drop: +25, Meat Drop: +25
-Effect	Video... Games?	Muscle: +5, Mysticality: +5, Moxie: +5, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Maximum HP: +5, Maximum MP: +5, Maximum HP Percent: +5, Maximum MP Percent: +5, Damage Absorption: +5, Damage Reduction: 5, Hot Resistance: +5, Cold Resistance: +5, Stench Resistance: +5, Spooky Resistance: +5, Sleaze Resistance: +5, Hot Damage: +5, Cold Damage: +5, Stench Damage: +5, Spooky Damage: +5, Sleaze Damage: +5, Hot Spell Damage: +5, Cold Spell Damage: +5, Stench Spell Damage: +5, Spooky Spell Damage: +5, Sleaze Spell Damage: +5, Damage vs. Bugbears: +5, Damage vs. Werewolves: +5, Damage vs. Zombies: +5, Damage vs. Ghosts: +5, Damage vs. Vampires: +5, Damage vs. Skeletons: +5, Damage vs. Undead: +5, Weapon Damage: +5, Spell Damage: +5, Ranged Damage: +5, Weapon Damage Percent: +5, Spell Damage Percent: +5, Ranged Damage Percent: +5, Critical Hit Percent: +5, Spell Critical Percent: +5, Initiative: +5, Experience: +5, Muscle Experience: +5, Mysticality Experience: +5, Moxie Experience: +5, Muscle Experience Percent: +5, Mysticality Experience Percent: +5, Moxie Experience Percent: +5, Meat Drop: +5, Item Drop: +5, Gear Drop: +5, Food Drop: +5, Booze Drop: +5, Candy Drop: +5, Pickpocket Chance: +5, Familiar Weight: +5, Familiar Damage: +5, Familiar Experience: +5, Monster Level: +5, Pool Skill: +5, Hobo Power: +5, Smithsness: +5, Fishing Skill: +5
+Effect	Video... Games?	Muscle: +5, Mysticality: +5, Moxie: +5, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Maximum HP: +5, Maximum MP: +5, Maximum HP Percent: +5, Maximum MP Percent: +5, Damage Absorption: +5, Damage Reduction: 5, Hot Resistance: +5, Cold Resistance: +5, Stench Resistance: +5, Spooky Resistance: +5, Sleaze Resistance: +5, Hot Damage: +5, Cold Damage: +5, Stench Damage: +5, Spooky Damage: +5, Sleaze Damage: +5, Hot Spell Damage: +5, Cold Spell Damage: +5, Stench Spell Damage: +5, Spooky Spell Damage: +5, Sleaze Spell Damage: +5, Damage vs. Bugbears: +5, Damage vs. Werewolves: +5, Damage vs. Zombies: +5, Damage vs. Ghosts: +5, Damage vs. Vampires: +5, Damage vs. Skeletons: +5, Damage vs. Undead: +5, Weapon Damage: +5, Spell Damage: +5, Ranged Damage: +5, Weapon Damage Percent: +5, Spell Damage Percent: +5, Ranged Damage Percent: +5, Critical Hit Percent: +5, Spell Critical Percent: +5, Initiative: +5, Experience: +5, Muscle Experience: +5, Mysticality Experience: +5, Moxie Experience: +5, Muscle Experience Percent: +5, Mysticality Experience Percent: +5, Moxie Experience Percent: +5, Meat Drop: +5, Item Drop: +5, Hat / Pants Drop: +5, Food Drop: +5, Booze Drop: +5, Candy Drop: +5, Pickpocket Chance: +5, Familiar Weight: +5, Familiar Damage: +5, Familiar Experience: +5, Monster Level: +5, Pool Skill: +5, Hobo Power: +5, Smithsness: +5, Fishing Skill: +5
 Effect	Vinegavotte	Item Drop: +20
 Effect	Violent Night	Critical Hit Percent: +5
 Effect	Virgo Rising	Moxie Percent: +50
@@ -12433,7 +12434,7 @@ Item	bag of Iunion stones	Free Pull
 Item	bag of park garbage	Last Available: "2015-04"
 Item	bag of sausage links	Last Available: "2019-01"
 Item	bagged Cargo Cultist Shorts	Free Pull, Last Available: "2020-09"
-Item	balance sheet	Last Available: "2026-08"
+Item	balance sheet	Last Available: "2026-08", Bonus Resting HP: +20, Bonus Resting MP: +10
 # ball: Lets You Escape From Combat
 Item	ball	Last Available: "2010-12"
 # ballpark hot daub: Deals 450-500 <font color=red>Hot Damage</font>, also briefly stuns enemies and weakens them a lot
@@ -12558,7 +12559,7 @@ Item	bolt of striped fabric	Last Available: "2026-03"
 Item	bomb of unknown origin	Last Available: "2016-11"
 Item	bone chips	Last Available: "2011-12"
 Item	bone pacifier	Familiar Weight: +5
-Item	bonsai tree	Last Available: "2013-12"
+Item	bonsai tree	Last Available: "2013-12", Bonus Resting MP: +2
 Item	book of facts	Skill: "Just the Facts", Last Available: "2023-09"
 Item	book of facts (dog-eared)	Skill: "Just the Facts", Last Available: "2023-09"
 Item	Book of Irony	Skill: "Generate Irony"
@@ -14149,7 +14150,7 @@ Item	mime eraser	Last Available: "2017-12"
 Item	mime soul fragment	Last Available: "2012-04"
 Item	mini kiwi aioli	Last Available: "2024-06"
 Item	mini kiwi egg	Free Pull, Last Available: "2024-06"
-Item	mini kiwi tipi	Last Available: "2024-06"
+Item	mini kiwi tipi	Last Available: "2024-06", Base Resting HP: +49, Base Resting MP: +50
 Item	mini kiwi invisible dirigible	Familiar Weight: -20, Last Available: "2024-06", Generic
 Item	Mini-Crimbot crate	Last Available: "2014-12"
 # miniature boiler: Deals 20-40 Physical Damage
@@ -15007,7 +15008,7 @@ Item	sleeping patriotic eagle	Free Pull
 Item	sleeping piano cat	Free Pull, Last Available: "2011-12"
 Item	sleeping profane parrot	Last Available: "2024-12"
 Item	sleeping snowy owl	Last Available: "2005-12"
-Item	sleeping stocking	Last Available: "2010-12"
+Item	sleeping stocking	Last Available: "2010-12", Damage Reduction: 10
 Item	slicksilver spurs	Last Available: "2016-02"
 Item	slime shooter	Last Available: "2017-03"
 # slime stack: Deals 10-20% of a monster's current Hit Points in Physical Damage
@@ -15728,7 +15729,7 @@ Item	Xiblaxian polymer	Last Available: "2014-09"
 Item	xo-skeleton-in-a-box	Free Pull, Last Available: "2017-10"
 # yam battery: Restore up to 1,000 MP
 # yam battery: Gain 3 Random Good Effects
-Item	yam battery	Last Available: "2024-05"
+Item	yam battery	Last Available: "2024-05", Variable
 # Ye Olde Medieval Insult: Weakens enemies somewhat and briefly stuns them
 Item	Ye Wizard's Shack snack voucher	Last Available: "2011-03"
 Item	Yeast of Boris	Last Available: "2022-11"

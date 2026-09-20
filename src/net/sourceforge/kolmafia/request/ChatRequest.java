@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.request;
 
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.chat.ChatManager;
@@ -36,6 +37,22 @@ public class ChatRequest extends GenericRequest {
     }
 
     this.constructURLString(newURLString.toString(), false);
+
+    this.graf = "";
+  }
+
+  /** Constructs a new <code>ChatRequest</code> that will send several messages at once */
+  public ChatRequest(final List<String> grafs) {
+    super("submitnewchat.php", true);
+
+    this.addFormField("playerid", String.valueOf(KoLCharacter.getUserId()));
+    this.addFormField("j", "1");
+
+    for (String graf : grafs) {
+      addFormField("graf[]", graf, true);
+    }
+
+    this.setDataChanged();
 
     this.graf = "";
   }

@@ -72,6 +72,8 @@ public class QuestManager {
       Pattern.compile("&quot;Paranormal disturbance reported (.*?).&quot;");
   private static final Pattern DJ_MEAT_PATTERN = Pattern.compile("collect (.*?) Meat for the DJ");
   private static final Pattern TRASH_PATTERN = Pattern.compile("you clean up (\\d+) ");
+  private static final Pattern WATER_BALLOON_PATTERN =
+      Pattern.compile("(?:in the lead|tosser for the day) with (\\d+) tosses!");
 
   private static Set<String> friarElbowNCs =
       Set.of(
@@ -1800,6 +1802,16 @@ public class QuestManager {
     QuestDatabase.handleCouncilText(responseText);
     if (QuestDatabase.isQuestStarted(Quest.MACGUFFIN)) {
       QuestDatabase.setQuestIfBetter(Quest.BLACK, QuestDatabase.STARTED);
+    }
+
+    // Water Balloon
+    Matcher waterBalloon = WATER_BALLOON_PATTERN.matcher(responseText);
+    if (waterBalloon.find()) {
+      Preferences.setInteger("_waterBalloonTossStreak", Integer.parseInt(waterBalloon.group(1)));
+    }
+    if (responseText.contains(
+        "With such a high water balloon toss score, you truly are a winner!")) {
+      Preferences.setBoolean("_waterBalloonBuffGranted", true);
     }
   }
 

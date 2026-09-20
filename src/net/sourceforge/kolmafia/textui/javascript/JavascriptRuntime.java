@@ -358,11 +358,16 @@ public class JavascriptRuntime extends AbstractRuntime {
    * exception has no script stack of its own.
    */
   private static String errorStack(Object thrown) {
-    Object stack =
-        thrown instanceof Scriptable scriptable
-            ? ScriptableObject.getProperty(scriptable, "stack")
-            : null;
-    return stack instanceof String text && !text.isBlank() ? text : null;
+    if (!(thrown instanceof Scriptable scriptable)) {
+      return null;
+    }
+
+    try {
+      var stack = ScriptableObject.getProperty(scriptable, "stack");
+      return stack instanceof String text && !text.isBlank() ? text : null;
+    } catch (RuntimeException e) {
+      return null;
+    }
   }
 
   private static Object resolvePromise(Context cx, NativePromise promise) {

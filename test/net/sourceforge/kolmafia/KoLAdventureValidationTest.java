@@ -7,6 +7,7 @@ import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withAscensions;
 import static internal.helpers.Player.withCampgroundItem;
+import static internal.helpers.Player.withClass;
 import static internal.helpers.Player.withContinuationState;
 import static internal.helpers.Player.withDay;
 import static internal.helpers.Player.withEffect;
@@ -42,6 +43,7 @@ import static internal.matchers.Quest.isStarted;
 import static internal.matchers.Quest.isStep;
 import static internal.matchers.Quest.isUnstarted;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
@@ -6491,7 +6493,10 @@ public class KoLAdventureValidationTest {
 
       @Test
       public void someZonesRequireMaps() {
-        var cleanups = new Cleanups(withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED));
+        var cleanups =
+            new Cleanups(
+                withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
+                withQuestProgress(Quest.SEA_MONKEES, "step2"));
         try (cleanups) {
           assertFalse(TRENCH.canAdventure());
           assertFalse(MINE.canAdventure());
@@ -6501,58 +6506,84 @@ public class KoLAdventureValidationTest {
         }
       }
 
-      @Test
-      public void anemoneMineHasMap() {
+      @ParameterizedTest
+      @CsvSource({"unstarted,false", "step1,false", "step2,true", "finished,true"})
+      public void anemoneMineHasMap(String questProgress, boolean expectedAccess) {
         var cleanups =
             new Cleanups(
                 withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
+                withQuestProgress(Quest.SEA_MONKEES, questProgress),
                 withProperty("mapToAnemoneMinePurchased", true));
         try (cleanups) {
-          assertTrue(MINE.canAdventure());
+          assertThat(MINE.canAdventure(), equalTo(expectedAccess));
         }
       }
 
-      @Test
-      public void marinaraTrenchHasMap() {
+      @ParameterizedTest
+      @CsvSource({"unstarted,false", "step1,false", "step2,true", "finished,true"})
+      public void marinaraTrenchHasMap(String questProgress, boolean expectedAccess) {
         var cleanups =
             new Cleanups(
                 withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
+                withQuestProgress(Quest.SEA_MONKEES, questProgress),
                 withProperty("mapToTheMarinaraTrenchPurchased", true));
         try (cleanups) {
-          assertTrue(TRENCH.canAdventure());
+          assertThat(TRENCH.canAdventure(), equalTo(expectedAccess));
         }
       }
 
-      @Test
-      public void divebarHasMap() {
+      @ParameterizedTest
+      @CsvSource({"unstarted,false", "step1,false", "step2,true", "finished,true"})
+      public void divebarHasMap(String questProgress, boolean expectedAccess) {
         var cleanups =
             new Cleanups(
                 withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
+                withQuestProgress(Quest.SEA_MONKEES, questProgress),
                 withProperty("mapToTheDiveBarPurchased", true));
         try (cleanups) {
-          assertTrue(BAR.canAdventure());
+          assertThat(BAR.canAdventure(), equalTo(expectedAccess));
         }
       }
 
-      @Test
-      public void skateParkHasMap() {
+      @ParameterizedTest
+      @CsvSource({"unstarted,false", "step1,false", "step2,true", "finished,true"})
+      public void skateParkHasMap(String questProgress, boolean expectedAccess) {
         var cleanups =
             new Cleanups(
                 withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
+                withQuestProgress(Quest.SEA_MONKEES, questProgress),
                 withProperty("mapToTheSkateParkPurchased", true));
         try (cleanups) {
-          assertTrue(PARK.canAdventure());
+          assertThat(PARK.canAdventure(), equalTo(expectedAccess));
         }
       }
 
-      @Test
-      public void madnessReefHasMap() {
+      @ParameterizedTest
+      @CsvSource({"unstarted,false", "step1,false", "step2,true", "finished,true"})
+      public void madnessReefHasMap(String questProgress, boolean expectedAccess) {
         var cleanups =
             new Cleanups(
                 withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
+                withQuestProgress(Quest.SEA_MONKEES, questProgress),
                 withProperty("mapToMadnessReefPurchased", true));
         try (cleanups) {
-          assertTrue(REEF.canAdventure());
+          assertThat(REEF.canAdventure(), equalTo(expectedAccess));
+        }
+      }
+
+      @ParameterizedTest
+      @CsvSource({"1,true,false,false", "3,false,true,false", "5,false,false,true"})
+      void grandpaZonesDoNotRequireMapSometimes(
+          int classId, boolean expectedMine, boolean expectedTrench, boolean expectedDiveBar) {
+        var cleanups =
+            new Cleanups(
+                withClass(AscensionClass.find(classId)),
+                withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
+                withQuestProgress(Quest.SEA_MONKEES, "step4"));
+        try (cleanups) {
+          assertThat(MINE.canAdventure(), equalTo(expectedMine));
+          assertThat(TRENCH.canAdventure(), equalTo(expectedTrench));
+          assertThat(BAR.canAdventure(), equalTo(expectedDiveBar));
         }
       }
 

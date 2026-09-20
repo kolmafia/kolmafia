@@ -215,6 +215,10 @@ public class Operator extends Command {
       return true;
     }
 
+    if (lhs.equals(DataTypes.VAR_TYPE)) {
+      return true;
+    }
+
     if (oper == null) {
       return lhs.getType() == rhs.getType();
     }
@@ -248,6 +252,14 @@ public class Operator extends Command {
     // If the types are equal, no coercion is necessary
     if (lhs.equals(rhs)) {
       return true;
+    }
+
+    // A record can be stored in a record whose fields are a subset of its own
+    // fields, matched by name; any extra source fields are ignored.
+    if (lhs instanceof RecordType lhr && rhs instanceof RecordType rhr) {
+      if (oper.equals("assign") || oper.equals("=")) {
+        return lhr.coercesFrom(rhr);
+      }
     }
 
     if (lhs.equals(DataTypes.ANY_TYPE)) {

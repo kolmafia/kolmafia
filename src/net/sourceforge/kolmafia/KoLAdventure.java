@@ -2283,6 +2283,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
   private boolean seaFloorZoneAvailable() {
     // We track individual aspects of the various quests.
+    boolean bigBrotherRescued = QuestDatabase.isQuestLaterThan(Quest.SEA_MONKEES, "step1");
+    boolean grandpaQuestStarted = QuestDatabase.isQuestLaterThan(Quest.SEA_MONKEES, "step3");
     return switch (this.adventureNumber) {
       // Initially open: Little Brother
       case AdventurePool.AN_OCTOPUS_GARDEN -> true;
@@ -2292,19 +2294,16 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       // Grandpa
       // Free for Muscle classes. Otherwise, must buy map.
       case AdventurePool.ANEMONE_MINE ->
-          (QuestDatabase.isQuestLaterThan(Quest.SEA_MONKEES, "step3")
-                  && KoLCharacter.isMuscleClass())
-              || ItemDatabase.haveVirtualItem(ItemPool.ANEMONE_MINE_MAP);
-      // Free for Mysticality classes Otherwise, must buy map.
+          bigBrotherRescued && ItemDatabase.haveVirtualItem(ItemPool.ANEMONE_MINE_MAP)
+              || grandpaQuestStarted && KoLCharacter.isMuscleClass();
+      // Free for Mysticality classes. Otherwise, must buy map.
       case AdventurePool.MARINARA_TRENCH ->
-          (QuestDatabase.isQuestLaterThan(Quest.SEA_MONKEES, "step3")
-                  && KoLCharacter.isMysticalityClass())
-              || ItemDatabase.haveVirtualItem(ItemPool.MARINARA_TRENCH_MAP);
-      // Free for Moxie classes Otherwise, must buy map.
+          bigBrotherRescued && ItemDatabase.haveVirtualItem(ItemPool.MARINARA_TRENCH_MAP)
+              || grandpaQuestStarted && KoLCharacter.isMysticalityClass();
+      // Free for Moxie classes. Otherwise, must buy map.
       case AdventurePool.DIVE_BAR ->
-          (QuestDatabase.isQuestLaterThan(Quest.SEA_MONKEES, "step3")
-                  && KoLCharacter.isMoxieClass())
-              || ItemDatabase.haveVirtualItem(ItemPool.DIVE_BAR_MAP);
+          bigBrotherRescued && ItemDatabase.haveVirtualItem(ItemPool.DIVE_BAR_MAP)
+              || grandpaQuestStarted && KoLCharacter.isMoxieClass();
       // Grandma. Open when ask grandpa about Grandma.
       case AdventurePool.MERKIN_OUTPOST ->
           QuestDatabase.isQuestLaterThan(Quest.SEA_MONKEES, "step5");
@@ -2313,9 +2312,11 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       // Mom. Open when you have black glass - which you must equip
       case AdventurePool.CALIGINOUS_ABYSS -> InventoryManager.hasItem(BLACK_GLASS);
       // Optional maps you can purchase from Big Brother.
-      case AdventurePool.MADNESS_REEF -> ItemDatabase.haveVirtualItem(ItemPool.MADNESS_REEF_MAP);
+      case AdventurePool.MADNESS_REEF ->
+          bigBrotherRescued && ItemDatabase.haveVirtualItem(ItemPool.MADNESS_REEF_MAP);
       case AdventurePool.THE_SKATE_PARK ->
-          ItemDatabase.haveVirtualItem(ItemPool.SKATE_PARK_MAP)
+          bigBrotherRescued
+              && ItemDatabase.haveVirtualItem(ItemPool.SKATE_PARK_MAP)
               && !Preferences.getString("skateParkStatus").equals("peace");
       // That's all. If a new zone appears, assume you can get to it.
       default -> true;
