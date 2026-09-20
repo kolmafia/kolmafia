@@ -137,7 +137,6 @@ import net.sourceforge.kolmafia.persistence.PocketDatabase.PoemPocket;
 import net.sourceforge.kolmafia.persistence.PocketDatabase.ScrapPocket;
 import net.sourceforge.kolmafia.persistence.PocketDatabase.StatsPocket;
 import net.sourceforge.kolmafia.persistence.PocketDatabase.TwoResultPocket;
-import net.sourceforge.kolmafia.persistence.PortableLaughingStockDatabase;
 import net.sourceforge.kolmafia.persistence.ShrunkenHeadDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.persistence.WardrobeOMaticDatabase;
@@ -214,6 +213,7 @@ import net.sourceforge.kolmafia.session.MushroomManager;
 import net.sourceforge.kolmafia.session.NumberologyManager;
 import net.sourceforge.kolmafia.session.PingManager;
 import net.sourceforge.kolmafia.session.PingManager.PingTest;
+import net.sourceforge.kolmafia.session.PortableLaughingStockManager;
 import net.sourceforge.kolmafia.session.PvpManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
@@ -12534,7 +12534,7 @@ public abstract class RuntimeLibrary {
   private static Value portable_laughing_stock_drops(
       AscensionClass clazz, AscensionPath.Path path, int day, int minFights, int maxFights) {
     Map<Integer, AdventureResult> drops =
-        PortableLaughingStockDatabase.getLaughingStockDrops(clazz, path, day, minFights, maxFights);
+        PortableLaughingStockManager.getLaughingStockDrops(clazz, path, day, minFights, maxFights);
 
     MapValue value = new MapValue(DataTypes.INT_TO_ITEM_TYPE);
     for (Entry<Integer, AdventureResult> e : drops.entrySet()) {

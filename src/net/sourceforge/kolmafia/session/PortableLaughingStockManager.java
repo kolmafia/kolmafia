@@ -1,4 +1,4 @@
-package net.sourceforge.kolmafia.persistence;
+package net.sourceforge.kolmafia.session;
 
 import java.util.Collections;
 import java.util.List;
@@ -11,7 +11,7 @@ import net.sourceforge.kolmafia.AscensionPath;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.utilities.PHPMTRandom;
 
-public class PortableLaughingStockDatabase {
+public class PortableLaughingStockManager {
   static final List<AdventureResult> BASIC_FRUIT =
       Stream.of(
               "orange",
@@ -38,7 +38,7 @@ public class PortableLaughingStockDatabase {
   static final List<AdventureResult> ADVANCED_FRUIT =
       Stream.of("classic banana", "antique watermelon", "quince").map(ItemPool::get).toList();
 
-  private PortableLaughingStockDatabase() {}
+  private PortableLaughingStockManager() {}
 
   public static Map<Integer, AdventureResult> getLaughingStockDrops(
       AscensionClass clazz, AscensionPath.Path path, int day, int minFights, int maxFights) {

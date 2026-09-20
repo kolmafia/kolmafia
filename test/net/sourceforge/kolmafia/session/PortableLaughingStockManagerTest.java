@@ -1,4 +1,4 @@
-package net.sourceforge.kolmafia.persistence;
+package net.sourceforge.kolmafia.session;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
@@ -12,16 +12,16 @@ import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import org.junit.jupiter.api.Test;
 
-public class PortableLaughingStockDatabaseTest {
+public class PortableLaughingStockManagerTest {
   @Test
   void fruitListsAreValid() {
-    assertThat(PortableLaughingStockDatabase.BASIC_FRUIT.size(), is(19));
-    for (AdventureResult fruit : PortableLaughingStockDatabase.BASIC_FRUIT) {
+    assertThat(PortableLaughingStockManager.BASIC_FRUIT.size(), is(19));
+    for (AdventureResult fruit : PortableLaughingStockManager.BASIC_FRUIT) {
       assertThat(fruit.getItemId(), greaterThan(0));
     }
 
-    assertThat(PortableLaughingStockDatabase.ADVANCED_FRUIT.size(), is(3));
-    for (AdventureResult fruit : PortableLaughingStockDatabase.ADVANCED_FRUIT) {
+    assertThat(PortableLaughingStockManager.ADVANCED_FRUIT.size(), is(3));
+    for (AdventureResult fruit : PortableLaughingStockManager.ADVANCED_FRUIT) {
       assertThat(fruit.getItemId(), greaterThan(0));
     }
   }
@@ -29,7 +29,7 @@ public class PortableLaughingStockDatabaseTest {
   @Test
   void generatesCorrectDrops() {
     Map<Integer, AdventureResult> drops =
-        PortableLaughingStockDatabase.getLaughingStockDrops(
+        PortableLaughingStockManager.getLaughingStockDrops(
             AscensionClass.DISCO_BANDIT, Path.STANDARD, 3, 11, 183);
 
     assertThat(drops.size(), is(8));
@@ -46,7 +46,7 @@ public class PortableLaughingStockDatabaseTest {
   @Test
   void doesNotPredictDayFive() {
     Map<Integer, AdventureResult> drops =
-        PortableLaughingStockDatabase.getLaughingStockDrops(
+        PortableLaughingStockManager.getLaughingStockDrops(
             AscensionClass.DISCO_BANDIT, Path.STANDARD, 5, 11, 183);
     assertThat(drops.size(), is(0));
   }
