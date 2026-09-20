@@ -188,18 +188,18 @@ Equipment Enchant	smartaleck's	Moxie Percent: +30
 Equipment Enchant	educational	Experience: +1
 Equipment Enchant	experienced	Experience: +2
 Equipment Enchant	of the pedagogue	Experience: +3
-Equipment Enchant	Herculean	Experience (Muscle): +1
-Equipment Enchant	of Tarzan	Experience (Muscle): +3
-Equipment Enchant	Samson's	Experience (Muscle): +5
-Equipment Enchant	Socratic	Experience (Mysticality): +1
-Equipment Enchant	Newton's	Experience (Mysticality): +3
-Equipment Enchant	Da Vinci's	Experience (Mysticality): +5
-Equipment Enchant	Fonzie's	Experience (Moxie): +1
-Equipment Enchant	of James Dean	Experience (Moxie): +3
-Equipment Enchant	Sinatra's	Experience (Moxie): +5
-Equipment Enchant	personal trainer's	Experience Percent (Muscle): +10
-Equipment Enchant	arcane researcher's	Experience Percent (Mysticality): +10
-Equipment Enchant	dance instructor's	Experience Percent (Moxie): +10
+Equipment Enchant	Herculean	Muscle Experience: +1
+Equipment Enchant	of Tarzan	Muscle Experience: +3
+Equipment Enchant	Samson's	Muscle Experience: +5
+Equipment Enchant	Socratic	Mysticality Experience: +1
+Equipment Enchant	Newton's	Mysticality Experience: +3
+Equipment Enchant	Da Vinci's	Mysticality Experience: +5
+Equipment Enchant	Fonzie's	Moxie Experience: +1
+Equipment Enchant	of James Dean	Moxie Experience: +3
+Equipment Enchant	Sinatra's	Moxie Experience: +5
+Equipment Enchant	personal trainer's	Muscle Experience Percent: +10
+Equipment Enchant	arcane researcher's	Mysticality Experience Percent: +10
+Equipment Enchant	dance instructor's	Moxie Experience Percent: +10
 Equipment Enchant	deadly	Weapon Damage: +5
 Equipment Enchant	dangerous	Weapon Damage: +10
 Equipment Enchant	of dire peril	Weapon Damage: +20
@@ -263,8 +263,8 @@ Equipment Enchant	of extreme caution	Monster Level: -25
 Equipment Enchant	friendly	Familiar Weight: +3
 Equipment Enchant	of the empath	Familiar Weight: +5
 Equipment Enchant	Temple Grandin's	Familiar Weight: +7
-Equipment Enchant	dog trainer's	Experience (familiar): +1
-Equipment Enchant	lion tamer's	Experience (familiar): +2
+Equipment Enchant	dog trainer's	Familiar Experience: +1
+Equipment Enchant	lion tamer's	Familiar Experience: +2
 Equipment Enchant	chilly	Cold Damage: +5
 Equipment Enchant	nippy	Cold Damage: +10
 Equipment Enchant	of chilblains	Cold Damage: +25

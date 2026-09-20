@@ -962,11 +962,25 @@ public class EatItemRequest extends UseItemRequest {
       case ItemPool.STENCH_TOAST -> Preferences.setBoolean("noncombatForcerActive", true);
       case ItemPool.HOT_TOAST -> Preferences.increment("_hotJellyUses");
       case ItemPool.SPOOKY_TOAST -> Preferences.increment("_spookyJellyUses");
+      case ItemPool.SOYBEAN_FUTURES ->
+          Preferences.increment("soybeanFuturesEaten", item.getCount(), 50);
     }
   }
 
   public static final void handleFoodHelper(
       final String itemName, final int count, final String responseText) {
+    // Well, that sure was filling.  Go diet pills!
+    if (responseText.contains("Go diet pills!")) {
+      var chargesUsed = Math.min(count, Preferences.getInteger("dietingPillCharges"));
+      if (chargesUsed > 1) {
+        EatItemRequest.logConsumption(
+            "You used " + chargesUsed + " dieting pill charges with your food");
+      } else {
+        EatItemRequest.logConsumption("You used a dieting pill charge with your food");
+      }
+      Preferences.decrement("dietingPillCharges", chargesUsed);
+    }
+
     // You chase it with that salt you made in the chemistry
     // lab. Man. Teenagers will eat anything.
     if (responseText.contains("You chase it with that salt you made")) {

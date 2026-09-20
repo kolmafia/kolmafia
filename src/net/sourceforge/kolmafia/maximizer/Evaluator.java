@@ -110,6 +110,7 @@ public class Evaluator {
   private final Set<AdventureResult> posEquip = new HashSet<>();
   private final Set<AdventureResult> negEquip = new HashSet<>();
   private final Map<AdventureResult, ItemBonus> bonuses = new HashMap<>();
+  private final Map<BooleanModifier, Double> modBonuses = new HashMap<>();
   private final List<BonusFunction> bonusFunc = new ArrayList<>();
 
   record BonusFunction(Function<AdventureResult, Double> bonusFunction, Double weight) {}
@@ -403,18 +404,22 @@ public class Evaluator {
 
       BitmapModifier osityModifier = null;
       double defaultMinimum = 0.0;
+      double defaultMaximum = 0.0;
       switch (keyword) {
         case "clownosity", "clowniness" -> {
           osityModifier = BitmapModifier.CLOWNINESS;
           defaultMinimum = 100.0;
+          defaultMaximum = 100.0;
         }
         case "raveosity" -> {
           osityModifier = BitmapModifier.RAVEOSITY;
           defaultMinimum = 7.0;
+          defaultMaximum = 7.0;
         }
         case "surgeonosity" -> {
           osityModifier = BitmapModifier.SURGEONOSITY;
           defaultMinimum = 1.0;
+          defaultMaximum = 5.0;
         }
       }
       if (osityModifier != null) {
@@ -423,7 +428,8 @@ public class Evaluator {
 
         // Even if the user specified a weight for an -osity, but did not specify a min, then use a
         // default value.
-        this.min.put(osityModifier, defaultMinimum * weight);
+        this.min.put(osityModifier, defaultMinimum);
+        this.max.put(osityModifier, defaultMaximum);
         continue;
       }
 
@@ -486,6 +492,17 @@ public class Evaluator {
               .modes()
               .put(match.mode(), weight);
         }
+        continue;
+      }
+
+      if (keyword.startsWith("modbonus ")) {
+        String modName = keyword.substring(9);
+        BooleanModifier mod = BooleanModifier.byCaselessName(modName);
+        if (mod == null) {
+          KoLmafia.updateDisplay(MafiaState.ERROR, "No boolean modifier found for: " + modName);
+          return;
+        }
+        this.modBonuses.put(mod, weight);
         continue;
       }
 
@@ -627,7 +644,7 @@ public class Evaluator {
       // Match keyword with multiple modifiers
       if (index == null) {
         switch (keyword) {
-          case "all resistance" -> {
+          case "any resistance", "ele resistance", "elemental resistance" -> {
             this.weight.put(DoubleModifier.COLD_RESISTANCE, weight);
             this.weight.put(DoubleModifier.HOT_RESISTANCE, weight);
             this.weight.put(DoubleModifier.SLEAZE_RESISTANCE, weight);
@@ -992,6 +1009,27 @@ public class Evaluator {
         if (mode == null) continue;
         Double bonus = itemBonus.modes().get(mode);
         if (bonus != null) score += bonus;
+      }
+    }
+    if (!this.modBonuses.isEmpty()) {
+      for (AdventureResult item : equipment.values()) {
+        Modifiers itemMods = ModifierDatabase.getItemModifiers(item.getItemId());
+        if (itemMods == null) {
+          continue;
+        }
+        Modifiers modeMods = null;
+        Modeable modeable = Modeable.find(item);
+        if (modeable != null) {
+          modeMods =
+              ModifierDatabase.getModifiers(modeable.getModifierType(), modeables.get(modeable));
+        }
+
+        for (Entry<BooleanModifier, Double> modBonus : this.modBonuses.entrySet()) {
+          if (itemMods.getBoolean(modBonus.getKey())
+              || modeMods != null && modeMods.getBoolean(modBonus.getKey())) {
+            score += modBonus.getValue();
+          }
+        }
       }
     }
     if (!this.bonusFunc.isEmpty()) {

@@ -99,23 +99,7 @@ public class ChatSender {
       return "";
     }
 
-    if (ChatSender.executeCommand(graf)) {
-      return "";
-    }
-
-    if (graf.startsWith("/examine")) {
-      String item = graf.substring(graf.indexOf(" ")).trim();
-
-      AdventureResult result = ItemFinder.getFirstMatchingItem(item, false, Match.ANY);
-
-      if (result != null) {
-        ShowDescriptionList.showGameDescription(result);
-      } else {
-        EventMessage message =
-            new EventMessage("Unable to find a unique match for " + item, "green");
-        ChatManager.broadcastEvent(message);
-      }
-
+    if (ChatSender.handleLocally(graf)) {
       return "";
     }
 
@@ -143,6 +127,50 @@ public class ChatSender {
     }
 
     return request.responseText == null ? "" : request.responseText;
+  }
+
+  // KoL's chat client batches messages as graf[], which it sends in a single request.
+  public static final String sendMessages(List<String> grafs) {
+    if (!ChatManager.chatLiterate()) {
+      return "";
+    }
+
+    List<String> remaining =
+        grafs.stream().filter(graf -> !ChatSender.handleLocally(graf)).toList();
+
+    if (remaining.isEmpty()) {
+      return "";
+    }
+
+    ChatPoller.sentMessage(true);
+
+    ChatRequest request = new ChatRequest(remaining);
+    RequestThread.postRequest(request);
+
+    return request.responseText == null ? "" : request.responseText;
+  }
+
+  private static boolean handleLocally(String graf) {
+    if (ChatSender.executeCommand(graf)) {
+      return true;
+    }
+
+    if (!graf.startsWith("/examine")) {
+      return false;
+    }
+
+    String item = graf.substring(graf.indexOf(" ")).trim();
+
+    AdventureResult result = ItemFinder.getFirstMatchingItem(item, false, Match.ANY);
+
+    if (result != null) {
+      ShowDescriptionList.showGameDescription(result);
+    } else {
+      EventMessage message = new EventMessage("Unable to find a unique match for " + item, "green");
+      ChatManager.broadcastEvent(message);
+    }
+
+    return true;
   }
 
   public static final List<ChatMessage> sendRequest(ChatRequest request) {
@@ -175,6 +203,11 @@ public class ChatSender {
       List<ChatMessage> newMessages, String responseText, String graf) {
     // Protect against server lagging out
     if (responseText == null || responseText.equals("")) {
+      return;
+    }
+
+    // TODO Add support for when the graf was batched via graf[]
+    if (graf == null) {
       return;
     }
 

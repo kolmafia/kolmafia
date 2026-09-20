@@ -1,7 +1,9 @@
 package net.sourceforge.kolmafia.persistence;
 
+import static internal.helpers.Player.withGlobalDay;
 import static internal.helpers.Player.withLevel;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
@@ -14,6 +16,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.stream.IntStream;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.modifiers.BitmapModifier;
@@ -80,7 +83,7 @@ public class ModifierDatabaseTest {
     "Only Accordion Thieves may use this item, Class: \"Accordion Thief\"",
     "Bonus&nbsp;for&nbsp;Saucerors&nbsp;only, Class: \"Sauceror\"",
     "Monsters are much more attracted to you., Combat Rate: +10",
-    "Monsters will be significantly less attracted to you. (Underwater only), Combat Rate (Underwater): -15",
+    "Monsters will be significantly less attracted to you. (Underwater only), Underwater Combat Rate: -15",
     "Regenerate 100 MP per adventure, 'MP Regen Min: 100, MP Regen Max: 100'",
     "Regenerate 15-20 HP and MP per adventure, 'HP / MP Regen Min: 15, HP / MP Regen Max: 20'",
     "Serious Cold Resistance (+3), Cold Resistance: +3",
@@ -122,7 +125,7 @@ public class ModifierDatabaseTest {
         writeModifiersLines,
         hasItem(
             equalTo(
-                "Sign\tVole\tExperience Percent (Moxie): +10, Initiative: +20, Maximum HP / MP: +20")));
+                "Sign\tVole\tMoxie Experience Percent: +10, Initiative: +20, Maximum HP / MP: +20")));
   }
 
   @Test
@@ -183,6 +186,34 @@ public class ModifierDatabaseTest {
                 ItemPool.REPLICA_PATRIOT_SHIELD,
                 DoubleModifier.DAMAGE_REDUCTION),
             equalTo(13.0));
+      }
+    }
+  }
+
+  @Nested
+  class YamBattery {
+    private List<String> effects() {
+      var mods = ModifierDatabase.getItemModifiers(ItemPool.YAM_BATTERY);
+      var effects = mods.getStrings(StringModifier.EFFECT);
+      var durations = mods.getDoubles(DoubleModifier.EFFECT_DURATION);
+      return IntStream.range(0, effects.size())
+          .mapToObj(i -> durations.get(i).intValue() + " " + effects.get(i))
+          .toList();
+    }
+
+    @Test
+    void grantsTodaysThreeEffects() {
+      try (var cleanups = withGlobalDay(8619)) {
+        assertThat(
+            effects(), contains("10 Piratey Flavor", "20 Make Meat FA$T!", "30 Thaumodynamic"));
+      }
+    }
+
+    @Test
+    void changesFromDayToDay() {
+      try (var cleanups = withGlobalDay(8654)) {
+        assertThat(
+            effects(), contains("10 Cold as Ice", "20 Space Tripping", "30 Dwarven Hardiness"));
       }
     }
   }

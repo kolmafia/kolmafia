@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.session;
 
 import java.util.Arrays;
 import java.util.LinkedHashSet;
+import java.util.Locale;
 import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.function.Consumer;
@@ -68,6 +69,11 @@ public class TrackManager {
       }
 
       return avatarReset;
+    }
+
+    // e.g. "turn_rollover", "ascension" - the ASH-facing name for this reset condition.
+    final String shortName() {
+      return this.name().toLowerCase(Locale.ROOT).replace("_reset", "");
     }
   }
 
@@ -162,6 +168,16 @@ public class TrackManager {
 
     public final TrackType getTrackType() {
       return this.trackType;
+    }
+
+    // String forms of resetType / trackType, for monster_tracker_reset() /
+    // monster_tracker_type() in ASH (the enums are private).
+    public final String getResetType() {
+      return this.resetType.shortName();
+    }
+
+    public final String getTrackTypeName() {
+      return this.trackType.name().toLowerCase(Locale.ROOT);
     }
 
     public final boolean isEffective() {

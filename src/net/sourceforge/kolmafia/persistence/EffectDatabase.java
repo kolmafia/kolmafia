@@ -38,6 +38,7 @@ public class EffectDatabase {
   private static final Map<String, int[]> effectIdSetByName = new TreeMap<>();
   private static final Map<Integer, EffectData> effectDataById = new TreeMap<>();
   private static final Map<String, Integer> effectIdByDescription = new HashMap<>();
+  private static List<Integer> goodEffects;
 
   public static boolean newEffects = false;
 
@@ -49,6 +50,7 @@ public class EffectDatabase {
 
   public static void reset() {
     EffectDatabase.newEffects = false;
+    EffectDatabase.goodEffects = null;
 
     try (BufferedReader reader =
         FileUtilities.getVersionedReader("statuseffects.txt", KoLConstants.STATUSEFFECTS_VERSION)) {
@@ -415,6 +417,36 @@ public class EffectDatabase {
 
   public static final Set<Integer> keys() {
     return EffectDatabase.effectDataById.keySet();
+  }
+
+  /**
+   * The pool of good effects KoL rolls from, in the order it indexes into them.
+   *
+   * @param lastEffectId To keep the pool stable, it is usually limited to effects up to and
+   *     including whatever the latest was at the time. Though I suspect that Tiki Temerity is an
+   *     internal default cutoff.
+   */
+  public static final List<Integer> getGoodEffects(final int lastEffectId) {
+    var pool = EffectDatabase.getGoodEffects();
+    // The pool is in id order, so the cap is a prefix of it.
+    var found = Collections.binarySearch(pool, lastEffectId);
+    var end = (found < 0) ? -found - 1 : found + 1;
+    return pool.subList(0, end);
+  }
+
+  private static synchronized List<Integer> getGoodEffects() {
+    if (EffectDatabase.goodEffects == null) {
+      EffectDatabase.goodEffects =
+          EffectDatabase.keys().stream()
+              // Effects must be marked as good
+              .filter(id -> EffectDatabase.getQuality(id) == Quality.GOOD)
+              // Effects must be hookah/wish-able, except Fishy which is allowed regardless.
+              .filter(id -> !EffectDatabase.hasAttribute(id, "nohookah") || id == EffectPool.FISHY)
+              // Some effects are on some sort of blacklist, and are tagged notcrs.
+              .filter(id -> !EffectDatabase.hasAttribute(id, "notcrs"))
+              .toList();
+    }
+    return EffectDatabase.goodEffects;
   }
 
   /**

@@ -806,6 +806,9 @@ public class Player {
    */
   public static Cleanups withEquippableItem(final String itemName, final int count) {
     int itemId = ItemDatabase.getItemId(itemName, count, false);
+    if (itemId == -1) {
+      throw new RuntimeException("equippable item " + itemName + " not valid");
+    }
     return withEquippableItem(ItemPool.get(itemId, count));
   }
 

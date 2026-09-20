@@ -566,10 +566,24 @@ public class FightRequestTest {
   }
 
   @Test
+  public void luckyGoldRingFunFundsDropRecorded() {
+    assertEquals(0, Preferences.getInteger("_luckyGoldRingFunFunds"));
+    parseCombatData("request/test_fight_lovebug_beach_buck.html");
+    assertEquals(1, Preferences.getInteger("_luckyGoldRingFunFunds"));
+  }
+
+  @Test
+  public void luckyGoldRingRubeeDropRecorded() {
+    assertEquals(0, Preferences.getInteger("_luckyGoldRingRubee"));
+    parseCombatData("request/test_fight_feel_superior_pvp.html");
+    assertEquals(1, Preferences.getInteger("_luckyGoldRingRubee"));
+  }
+
+  @Test
   public void luckyGoldRingVolcoinoDropRecorded() {
-    assertFalse(Preferences.getBoolean("_luckyGoldRingVolcoino"));
+    assertEquals(0, Preferences.getInteger("_luckyGoldRingVolcoino"));
     parseCombatData("request/test_fight_lucky_gold_ring_volcoino.html");
-    assertTrue(Preferences.getBoolean("_luckyGoldRingVolcoino"));
+    assertEquals(1, Preferences.getInteger("_luckyGoldRingVolcoino"));
   }
 
   @Nested
@@ -4695,6 +4709,73 @@ public class FightRequestTest {
             text,
             containsString(
                 "In a rush to divest from this fight and your toxic emanations, your foe rushes off and drops everything they were carrying."));
+      }
+    }
+  }
+
+  @Test
+  void canDetectSoybeanFuturesPayoff() {
+    RequestLoggerOutput.startStream();
+    var cleanups = new Cleanups(withFight(), withProperty("soybeanFuturesEaten", 7));
+
+    try (cleanups) {
+      parseCombatData("request/test_fight_soybean_futures_payoff.html");
+      var text = RequestLoggerOutput.stopStream();
+      assertThat(text, containsString("Your soybean futures finally pay off"));
+      assertThat("soybeanFuturesEaten", isSetTo(0));
+    }
+  }
+
+  @Nested
+  class AugustScepter {
+    @Test
+    void handlesWaterBalloonToss() {
+      RequestLoggerOutput.startStream();
+      var cleanups =
+          new Cleanups(
+              withFight(),
+              withProperty("_waterBalloonHeldByEnemy", false),
+              withProperty("_waterBalloonTossStreak", 11));
+
+      try (cleanups) {
+        parseCombatData(
+            "request/test_fight_waterballoon_tossed.html",
+            "fight.php?action=useitem&whichitem=11309&whichitem2=0");
+        var text = RequestLoggerOutput.stopStream();
+        assertThat(text, containsString("You tossed a water balloon."));
+        assertThat("_waterBalloonHeldByEnemy", isSetTo(true));
+        assertThat("_waterBalloonTossStreak", isSetTo(12));
+      }
+    }
+
+    @Test
+    void handlesWaterBalloonReturn() {
+      RequestLoggerOutput.startStream();
+      var cleanups =
+          new Cleanups(
+              withFight(),
+              withProperty("_waterBalloonHeldByEnemy", true),
+              withProperty("_waterBalloonTossStreak", 11));
+
+      try (cleanups) {
+        parseCombatData("request/test_fight_waterballoon_returned.html");
+        var text = RequestLoggerOutput.stopStream();
+        assertThat(text, containsString("Your opponent returned your water balloon."));
+        assertThat("_waterBalloonHeldByEnemy", isSetTo(false));
+        assertThat("_waterBalloonTossStreak", isSetTo(12));
+      }
+    }
+
+    @Test
+    void handlesWaterBalloonDrop() {
+      RequestLoggerOutput.startStream();
+      var cleanups = new Cleanups(withFight(), withProperty("_waterBalloonTossStreak", 11));
+
+      try (cleanups) {
+        parseCombatData("request/test_fight_waterballoon_dropped.html");
+        var text = RequestLoggerOutput.stopStream();
+        assertThat(text, containsString("Your opponent dropped the water balloon."));
+        assertThat("_waterBalloonTossStreak", isSetTo(0));
       }
     }
   }

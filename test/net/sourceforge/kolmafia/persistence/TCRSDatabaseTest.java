@@ -698,8 +698,8 @@ class TCRSDatabaseTest {
 
       var bouquet = TCRSDatabase.introspectItem(itemId);
       assertThat(bouquet, not(nullValue()));
-      assertThat(bouquet.modifiers, containsString("Item Drop (sporadic): +2.5"));
-      assertThat(bouquet.modifiers, containsString("Meat Drop (sporadic): +5"));
+      assertThat(bouquet.modifiers, containsString("Sporadic Item Drop: +2.5"));
+      assertThat(bouquet.modifiers, containsString("Sporadic Meat Drop: +5"));
     }
   }
 

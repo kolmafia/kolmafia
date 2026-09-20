@@ -2207,6 +2207,10 @@ public class ConcoctionDatabase {
         + (KoLCharacter.hasSkill(SkillPool.ELF_GUARD_COOKING)
                 && StandardRequest.isAllowed(RestrictedItemType.SKILLS, "Elf Guard Cooking")
             ? 3 - Preferences.getInteger("_elfGuardCookingUsed")
+            : 0)
+        + (InventoryManager.equippedOrInInventory(ItemPool.LEGENDARY_PASTA_WAND)
+                && StandardRequest.isAllowed(RestrictedItemType.ITEMS, "legendary pasta wand")
+            ? 5 - Preferences.getInteger("_legendaryPastaWandCrafting")
             : 0);
   }
 

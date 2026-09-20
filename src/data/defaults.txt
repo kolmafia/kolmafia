@@ -625,6 +625,7 @@ user	demonSummoned	false	ld
 user	desertExploration	0
 user	desktopHeight	600
 user	desktopWidth	800
+user	dietingPillCharges	0	roa
 user	dinseyAudienceEngagement	false
 user	dinseyFilthLevel	0
 user	dinseyFunProgress	0
@@ -936,7 +937,6 @@ user	itemBoughtPerCharacter6423	false
 user	itemBoughtPerCharacter6428	false
 user	itemBoughtPerCharacter6429	false
 user	jarlsbergPoints	0
-user	jickSwordModifier
 user	juicyGarbageUsed	0	roa
 user	juneCleaverQueue		roa
 user	jungCharge	0	roa
@@ -1672,6 +1672,7 @@ user	sourceTerminalEducateKnown
 user	sourceTerminalEnhanceKnown
 user	sourceTerminalEnquiryKnown
 user	sourceTerminalExtrudeKnown
+user	soybeanFuturesEaten	0	roa
 user	spaceBabyLanguageFluency	0	roa
 user	spacePirateLanguageFluency	0	roa
 user	spacegateAlways	false
@@ -2487,6 +2488,7 @@ user	_leavesJumped	false
 user	_legendaryBeat	false
 user	_legendaryLasagmbieMana	0
 user	_legendaryNoodlesSpleen	false
+user	_legendaryPastaWandCrafting	0
 user	_legendaryPastaWaveCast	false
 user	_legendarySpiceGhostFood	false
 user	_legendaryVermincelliFreeRats	0
@@ -2510,7 +2512,17 @@ user	_lovebugsWalmart	0
 user	_loveChocolatesUsed	0
 user	_loveTunnelToday	false
 user	_loveTunnelUsed	false
-user	_luckyGoldRingVolcoino	false
+user	_luckyGoldRingBeachBuck	0
+user	_luckyGoldRingBit	0
+user	_luckyGoldRingCoinspiracy	0
+user	_luckyGoldRingFreddy	0
+user	_luckyGoldRingFunFunds	0
+user	_luckyGoldRingHoboNickel	0
+user	_luckyGoldRingMeat	0
+user	_luckyGoldRingRubee	0
+user	_luckyGoldRingSandDollar	0
+user	_luckyGoldRingVolcoino	0
+user	_luckyGoldRingWalmart	0
 user	_lunchBreak	false
 user	_lupineHormonesUsed	false
 user	_lyleFavored	false
@@ -2831,7 +2843,6 @@ user	_takerSpaceSuppliesDelivered	false
 user	_tearawayPantsAdvs	0
 user	_telegraphOfficeToday	false
 user	_templeHiddenPower	false
-user	_tempRelayCounters
 user	_tempuraAirUsed	false
 user	_thanksgettingFoodsEaten	0
 user	_thesisDelivered	false
@@ -2936,6 +2947,9 @@ user	_warbearBankUsed	false
 user	_warbearBreakfastMachineUsed	false
 user	_warbearGyrocopterUsed	false
 user	_warbearSodaMachineUsed	false
+user	_waterBalloonBuffGranted	false
+user	_waterBalloonHeldByEnemy	false	rof
+user	_waterBalloonTossStreak	0
 user	_waxGlobDrops	0
 user	_whiteRiceDrops	0
 user	_wildfireBarrelHarvested	false

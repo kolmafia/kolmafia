@@ -272,6 +272,7 @@ public class SpleenItemRequest extends UseItemRequest {
       case ItemPool.HOT_JELLY -> Preferences.increment("_hotJellyUses", count);
       case ItemPool.SPOOKY_JELLY -> Preferences.increment("_spookyJellyUses", count);
       case ItemPool.STENCH_JELLY -> Preferences.setBoolean("noncombatForcerActive", true);
+      case ItemPool.DIETING_PILL -> Preferences.increment("dietingPillCharges", count);
       case ItemPool.NIGHTMARE_FUEL -> Preferences.increment("_nightmareFuelCharges", count);
       case ItemPool.HOMEBODYL -> {
         if (responseText.contains("You pop the pill and feel an immediate desire")) {
