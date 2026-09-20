@@ -663,17 +663,16 @@ public abstract class KoLmafia {
     // Start out fetching the status using the KoL API. This
     // provides data from a lot of different standard pages
 
-    // We are in Valhalla if this redirects to afterlife.php
-    String redirection = ApiRequest.updateStatus();
-    if (redirection != null && redirection.startsWith("afterlife.php")) {
-      // In Valhalla, ApiRequest parsed the charpane for us.
+    ApiRequest.updateStatus();
+
+    if (CharPaneRequest.inValhalla()) {
+      // Nothing below applies in Valhalla, and api.php does not report our
+      // banked Karma, so read the charpane for that and stop here.
+      ApiRequest.updateStatusFromCharpane();
       KoLmafia.updateDisplay("Welcome to Valhalla!");
       KoLmafia.setIsRefreshing(false);
       return;
     }
-
-    // If api.php did not redirect, we've loaded a lot of data,
-    // including ascension status
 
     // Load saved counters before any requests are made, since both
     // charpane and charsheet requests can set them.
