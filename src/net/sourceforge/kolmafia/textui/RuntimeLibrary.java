@@ -3025,6 +3025,9 @@ public abstract class RuntimeLibrary {
     functions.add(new LibraryFunction("monster_hp", DataTypes.INT_TYPE, params));
 
     params = List.of();
+    functions.add(new LibraryFunction("monster_name", DataTypes.STRING_TYPE, params));
+
+    params = List.of();
     functions.add(new LibraryFunction("monster_phylum", DataTypes.PHYLUM_TYPE, params));
 
     params = List.of(namedParam("monster", DataTypes.MONSTER_TYPE));
@@ -10440,6 +10443,10 @@ public abstract class RuntimeLibrary {
     }
 
     return new Value(monster.getHP());
+  }
+
+  public static Value monster_name(ScriptRuntime controller) {
+    return new Value(StringUtilities.getEntityDecode(FightRequest.currentEncounter));
   }
 
   public static Value monster_phylum(ScriptRuntime controller) {
