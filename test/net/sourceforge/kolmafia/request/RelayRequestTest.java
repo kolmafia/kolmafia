@@ -676,7 +676,7 @@ public class RelayRequestTest {
     @ParameterizedTest
     @CsvSource({
       "Element,spooky",
-      "Monster,Lord Spookyraven",
+      "Monster,Zombo",
     })
     public void handlesOverloadedFunction(String type, String identifier) {
       var cleanups = withEquipped(ItemPool.CURSED_MONKEY_PAW);

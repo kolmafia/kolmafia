@@ -1,10 +1,15 @@
 package net.sourceforge.kolmafia.request;
 
+import static internal.helpers.Networking.html;
+import static internal.helpers.Networking.json;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.equalTo;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.alibaba.fastjson2.JSONObject;
 import internal.helpers.Cleanups;
@@ -65,6 +70,31 @@ class ApiRequestTest {
       assertThat("zootGraftedButtCheekRightFamiliar", isSetTo(142));
       assertThat("zootGraftedFootLeftFamiliar", isSetTo(286));
       assertThat("zootGraftedFootRightFamiliar", isSetTo(0));
+    }
+  }
+
+  @Test
+  void ascendingKeyPutsUsInValhalla() {
+    var cleanups = new Cleanups(() -> CharPaneRequest.setInValhalla(false));
+
+    try (cleanups) {
+      ApiRequest.parseStatus(json(html("request/test_api_status_valhalla.json")));
+
+      assertTrue(CharPaneRequest.inValhalla());
+      // Set at the very end of parseStatus, so we know we parsed the whole thing
+      assertThat(KoLCharacter.getRollover(), equalTo(1789875002L));
+    }
+  }
+
+  @Test
+  void absentAscendingKeyTakesUsOutOfValhalla() {
+    var cleanups = new Cleanups(() -> CharPaneRequest.setInValhalla(false));
+
+    try (cleanups) {
+      CharPaneRequest.setInValhalla(true);
+      ApiRequest.parseStatus(json(html("request/test_crimbo_ghost_api.json")));
+
+      assertFalse(CharPaneRequest.inValhalla());
     }
   }
 
