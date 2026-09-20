@@ -65,12 +65,6 @@ public class ApiRequest extends GenericRequest {
   private static final AdventureResult TRANSFUNCTIONER = ItemPool.get(ItemPool.TRANSFUNCTIONER);
 
   public static synchronized String updateStatus(final boolean silent) {
-    // api.php doesn't work at all in Valhalla
-    if (CharPaneRequest.inValhalla()) {
-      ApiRequest.updateStatusFromCharpane();
-      return "afterlife.php";
-    }
-
     // If in certain LimitModes, Noobcore, PokeFam, and Disguises Delimit, API
     // status is incomplete, so use Character Pane instead.
 
@@ -349,6 +343,9 @@ public class ApiRequest extends GenericRequest {
       // Some later processing depends on this.
       int ascensions = json.getIntValue("ascensions");
       KoLCharacter.setAscensions(ascensions);
+
+      // Other parsers behave differently in Valhalla so do this early
+      CharPaneRequest.setInValhalla(json.getIntValue("ascending") == 1);
 
       // Pull out the current password hash
       String pwd = json.getString("pwd");
