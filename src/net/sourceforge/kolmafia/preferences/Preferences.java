@@ -850,9 +850,7 @@ public class Preferences {
   public static boolean isResetOnAscension(String name) {
     // yearbookCameraUpgrades and deferred points prefs are not really reset on ascension, just
     // incremented.
-    return name.equals("muffinOnOrder")
-        || name.equals("bwApronMealsEaten")
-        || resetOnAscension.contains(name);
+    return name.equals("muffinOnOrder") || resetOnAscension.contains(name);
   }
 
   private static void deferredPoints(String prop, String defprop, int max) {
@@ -873,9 +871,6 @@ public class Preferences {
     Preferences.deferredPoints("asolPointsJazzAgent", "asolDeferredPoints", 11);
     Preferences.deferredPoints("asolPointsPigSkinner", "asolDeferredPoints", 11);
     Preferences.deferredPoints("noobPoints", "noobDeferredPoints", 20);
-
-    // This pref is -1 if unknown, and >= 0 if known, so reset it to 0 on ascension.
-    Preferences.setInteger("bwApronMealsEaten", 0);
 
     // Most prefs that get reset on ascension just return to their default value
     for (String pref : resetOnAscension) {
