@@ -95,6 +95,7 @@ public class ItemPool {
   public static final int EL_SOMBRERO_DE_LOPEZ = 155;
   public static final int RANGE = 157;
   public static final int DOUGH = 159;
+  public static final int GHUOL_EGG = 161;
   public static final int SKELETON_BONE = 163;
   public static final int SMART_SKULL = 164;
   public static final int BONE_RATTLE = 168;
@@ -109,6 +110,7 @@ public class ItemPool {
   public static final int DISASSEMBLED_CLOVER = 196;
   public static final int RAT_WHISKER = 197;
   public static final int SHINY_RING = 199;
+  public static final int WAD_OF_TOFU = 209;
   public static final int FENG_SHUI = 210;
   public static final int FOUNTAIN = 211;
   public static final int WINDCHIMES = 212;
@@ -118,6 +120,7 @@ public class ItemPool {
   public static final int PUNGENT_UNGUENT = 231;
   public static final int COCKTAIL_KIT = 236;
   public static final int BOTTLE_OF_GIN = 237;
+  public static final int BOTTLE_OF_VODKA = 238;
   public static final int GRAPEFRUIT = 243;
   public static final int TOMATO = 246;
   public static final int FERMENTING_POWDER = 247;
@@ -153,6 +156,7 @@ public class ItemPool {
   public static final int ICY_KATANA_HILT = 349;
   public static final int HOT_KATANA_BLADE = 350;
   public static final int ICY_HOT_KATANA = 351;
+  public static final int MOUNTAIN_STREAM_SODA = 357;
   public static final int MINERS_HELMET = 360;
   public static final int MINERS_PANTS = 361;
   public static final int MATTOCK = 362;
@@ -320,6 +324,7 @@ public class ItemPool {
   public static final int MAFIA_ARIA = 781;
   public static final int RAFFLE_TICKET = 785;
   public static final int STRAWBERRY = 786;
+  public static final int BOTTLE_OF_RUM = 787;
   public static final int GOLDEN_MR_ACCESSORY = 792;
   public static final int ROCKIN_WAGON = 797;
   public static final int PLUS_SIGN = 818;

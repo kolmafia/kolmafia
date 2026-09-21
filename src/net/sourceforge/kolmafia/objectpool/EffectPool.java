@@ -406,6 +406,7 @@ public class EffectPool {
   public static final int COOKING_CONCENTRATE = 2837;
   public static final int RECALLING_CIRCADIAN_RHYTHMS = 2846;
   public static final int EVERYTHING_LOOKS_GREEN = 2881;
+  public static final int SPUDLY = 2891;
   public static final int MILD_MANNERED_PROFESSOR = 2897;
   public static final int SAVAGE_BEAST = 2898;
   public static final int EVERYTHING_LOOKS_PURPLE = 2922;
