@@ -2922,7 +2922,7 @@ public class DebugDatabase {
     ApiRequest request = new ApiRequest("item", itemId);
     RequestThread.postRequest(request);
 
-    JSONObject json = request.json;
+    JSONObject json = request.getJSON();
     if (json == null) {
       var item = ItemPool.get(itemId);
       var location = getItemLocation(item);
@@ -3049,7 +3049,7 @@ public class DebugDatabase {
       ApiRequest request = new ApiRequest("item", itemId);
       RequestThread.postRequest(request);
 
-      JSONObject json = request.json;
+      JSONObject json = request.getJSON();
       if (json == null) {
         continue;
       }
