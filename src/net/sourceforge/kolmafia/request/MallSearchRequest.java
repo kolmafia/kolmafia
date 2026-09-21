@@ -64,57 +64,6 @@ public class MallSearchRequest extends GenericRequest {
     this.addFormField("x_cheapest", String.valueOf(cheapestCount));
   }
 
-  /** Search for a category */
-  public MallSearchRequest(final String category, final String tiers) {
-    super("mall.php");
-
-    this.searchString = "";
-    this.storeId = 0;
-    this.results = new ArrayList<>();
-
-    this.addFormField("pudnuggler", this.searchString);
-    this.addFormField("category", category);
-    // food_sortitemsby=name
-    // booze_sortitemsby=name
-    // othercon_sortitemsby=name
-    this.addFormField("consumable_byme", "0");
-    // hats_sortitemsby=name
-    // shirts_sortitemsby=name
-    // pants_sortitemsby=name
-    // weapons_sortitemsby=name
-    this.addFormField("weaponattribute", "3");
-    // weaponhands=3
-    // acc_sortitemsby=name
-    // offhand_sortitemsby=name
-    this.addFormField("wearable_byme", "0");
-    // famequip_sortitemsby=name
-    this.addFormField("nolimits", "0");
-    this.addFormField("sortresultsby", "price");
-    this.addFormField("justitems", "0");
-    this.addFormField("max_price", "0");
-    this.addFormField("x_cheapest", String.valueOf(5));
-    // if no tier is 1, search all consumables. Otherwise, search only selected tiers
-    this.addFormField("consumable_tier_1", tiers.contains("crappy") ? "1" : "0");
-    this.addFormField("consumable_tier_2", tiers.contains("decent") ? "1" : "0");
-    this.addFormField("consumable_tier_3", tiers.contains("good") ? "1" : "0");
-    this.addFormField("consumable_tier_4", tiers.contains("awesome") ? "1" : "0");
-    this.addFormField("consumable_tier_5", tiers.contains("EPIC") ? "1" : "0");
-  }
-
-  // *** For testing
-  public void setCategory(final String category) {
-    this.addFormField("category", category);
-  }
-
-  // *** For testing
-  public void setTiers(final String tiers) {
-    this.addFormField("consumable_tier_1", tiers.contains("crappy") ? "1" : "0");
-    this.addFormField("consumable_tier_2", tiers.contains("decent") ? "1" : "0");
-    this.addFormField("consumable_tier_3", tiers.contains("good") ? "1" : "0");
-    this.addFormField("consumable_tier_4", tiers.contains("awesome") ? "1" : "0");
-    this.addFormField("consumable_tier_5", tiers.contains("EPIC") ? "1" : "0");
-  }
-
   // *** For testing
   public void setResponseTexts(String... responseTexts) {}
 
@@ -648,28 +597,17 @@ public class MallSearchRequest extends GenericRequest {
     }
   }
 
-  private static String tierName(int tier) {
-    return switch (tier) {
-      case 1 -> "crappy";
-      case 2 -> "decent";
-      case 3 -> "good";
-      case 4 -> "awesome";
-      case 5 -> "EPIC";
-      default -> "???";
-    };
-  }
-
   private static String extractTiers(String urlString) {
     StringBuilder tiers = new StringBuilder();
-    for (int i = 1; i <= 5; ++i) {
-      String name = "consumable_tier_" + i;
+    for (int i = 0; i < MallPriceManager.CONSUMABLE_TIERS.length; ++i) {
+      String name = "consumable_tier_" + (i + 1);
       String field = GenericRequest.extractValueOrDefault(urlString, name, "0");
       if (!field.equals("0")) {
-        tiers.append(tiers.length() == 0 ? "[" : ", ");
-        tiers.append(tierName(i));
+        tiers.append(tiers.isEmpty() ? "[" : ", ");
+        tiers.append(MallPriceManager.CONSUMABLE_TIERS[i]);
       }
     }
-    if (tiers.length() > 0) {
+    if (!tiers.isEmpty()) {
       tiers.append("]");
     }
     return tiers.toString();
