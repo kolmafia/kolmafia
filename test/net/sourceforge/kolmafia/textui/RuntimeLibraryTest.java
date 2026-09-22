@@ -3249,4 +3249,39 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       assertThat(execute("shield_dr($item[" + item + "])").trim(), is("Returned: " + dr));
     }
   }
+
+  @Nested
+  class BlackAndWhiteApronMealKit {
+    @Test
+    void usesUserState() {
+      var cleanups =
+          new Cleanups(
+              withPath(Path.STANDARD),
+              withClass(AscensionClass.ACCORDION_THIEF),
+              withProperty("bwApronMealsEaten", 1));
+
+      try (cleanups) {
+        String output = execute("black_and_white_apron_kit_contents()");
+
+        assertContinueState();
+        assertThat(output.trim(), is(html("expected/black_and_white_apron_kit_contents.out")));
+      }
+    }
+  }
+
+  @Test
+  void usesSpecifiedValues() {
+    var cleanups =
+      new Cleanups(
+        withPath(Path.BLUE_VS_RED),
+        withClass(AscensionClass.SEAL_CLUBBER),
+        withProperty("bwApronMealsEaten", 5));
+
+    try (cleanups) {
+      String output = execute("black_and_white_apron_kit_contents($path[standard],$class[accordion thief],1)");
+
+      assertContinueState();
+      assertThat(output.trim(), is(html("expected/black_and_white_apron_kit_contents.out")));
+    }
+  }
 }
