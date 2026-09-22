@@ -58,6 +58,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
 import java.time.Month;
+import java.util.Map;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -263,6 +264,17 @@ public class MaximizerTest {
                     containsString("(maximum achieved, no further combinations checked)"))));
       }
     }
+
+    @Test
+    void nonModifierTermMakesFollowingMaximumApplyToTotalScore() {
+      var evaluator = new Evaluator("2 da, hat, 3 max, -tie");
+      var modifiers = new Modifiers();
+      modifiers.setDouble(DoubleModifier.DAMAGE_ABSORPTION, 2.0);
+
+      evaluator.getScore(modifiers);
+
+      assertTrue(evaluator.exceeded);
+    }
   }
 
   @Nested
@@ -314,6 +326,17 @@ public class MaximizerTest {
 
       modifiers.setDouble(DoubleModifier.DAMAGE_ABSORPTION, 2.0);
       evaluator.getScore(modifiers);
+      assertFalse(evaluator.failed);
+    }
+
+    @Test
+    void nonModifierTermMakesFollowingMinimumApplyToTotalScore() {
+      var evaluator = new Evaluator("2 da, hat, 3 min, -tie");
+      var modifiers = new Modifiers();
+      modifiers.setDouble(DoubleModifier.DAMAGE_ABSORPTION, 2.0);
+
+      evaluator.getScore(modifiers);
+
       assertFalse(evaluator.failed);
     }
   }
@@ -747,6 +770,18 @@ public class MaximizerTest {
         assertThat(
             getBoosts(), hasItem(recommendsSlot(Slot.HAT, "bubblewrap bottlecap turtleban")));
       }
+    }
+
+    @Test
+    void duplicateRequiredEquipmentDoesNotInflateBeeosity() {
+      var buddyBjorn = ItemPool.get("Buddy Bjorn");
+      var evaluator = new Evaluator("equip Buddy Bjorn, equip Buddy Bjorn, -tie");
+      var modifiers = new Modifiers();
+      evaluator.getScore(modifiers);
+
+      evaluator.checkEquipment(modifiers, Map.of(Slot.CONTAINER, buddyBjorn), 3);
+
+      assertTrue(evaluator.failed);
     }
 
     @Nested

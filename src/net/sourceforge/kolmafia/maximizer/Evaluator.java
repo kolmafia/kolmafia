@@ -393,6 +393,8 @@ public class Evaluator {
         continue;
       }
 
+      index = null;
+
       if (keyword.equals("dump")) {
         this.dump = (int) weight;
         continue;
@@ -540,8 +542,9 @@ public class Evaluator {
           return;
         }
         if (weight > 0.0) {
-          this.posEquip.add(match.item());
-          equipBeeosity += KoLCharacter.getBeeosity(match.item().getName());
+          if (this.posEquip.add(match.item())) {
+            equipBeeosity += KoLCharacter.getBeeosity(match.item().getName());
+          }
         } else {
           this.negEquip.add(match.item());
         }
