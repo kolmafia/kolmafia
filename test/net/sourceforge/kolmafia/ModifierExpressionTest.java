@@ -16,6 +16,7 @@ import static internal.helpers.Player.withMoxie;
 import static internal.helpers.Player.withMuscle;
 import static internal.helpers.Player.withMysticality;
 import static internal.helpers.Player.withPath;
+import static internal.helpers.Player.withRestricted;
 import static internal.helpers.Player.withSkill;
 import static internal.helpers.Player.withTurnsPlayed;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -302,13 +303,24 @@ public class ModifierExpressionTest {
   }
 
   @ParameterizedTest
-  @ValueSource(booleans = {true, false})
-  public void canDetectInteractive(boolean interact) {
+  @CsvSource({"interact, true", "interact(), true", "interact, false", "interact(), false"})
+  public void canDetectInteractiveAndAliases(String expression, boolean interact) {
     var cleanups = withInteractivity(interact);
 
     try (cleanups) {
-      var exp = new ModifierExpression("interact()", "Interact");
+      var exp = new ModifierExpression(expression, "Interact");
       assertThat(exp.eval(), is(interact ? 1.0 : 0.0));
+    }
+  }
+
+  @ParameterizedTest
+  @ValueSource(booleans = {true, false})
+  public void canDetectRestricted(boolean restricted) {
+    var cleanups = withRestricted(restricted);
+
+    try (cleanups) {
+      var exp = new ModifierExpression("restricted", "Restricted");
+      assertThat(exp.eval(), is(restricted ? 1.0 : 0.0));
     }
   }
 

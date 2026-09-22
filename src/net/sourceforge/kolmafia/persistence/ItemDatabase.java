@@ -771,7 +771,7 @@ public class ItemDatabase {
     ApiRequest request = new ApiRequest("item", itemId);
     RequestThread.postRequest(request);
 
-    JSONObject json = request.json;
+    JSONObject json = request.getJSON();
     if (json == null) {
       return;
     }

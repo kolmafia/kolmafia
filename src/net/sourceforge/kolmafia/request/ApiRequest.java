@@ -5,18 +5,22 @@ import com.alibaba.fastjson2.JSONObject;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.MallPriceManager;
 import net.sourceforge.kolmafia.utilities.LockableListFactory;
 
 public class ApiRequest extends GenericRequest {
@@ -25,10 +29,16 @@ public class ApiRequest extends GenericRequest {
   private static final ApiRequest CLOSET = new ApiRequest("closet");
   private static final ApiRequest STORAGE = new ApiRequest("storage");
   private static final CharPaneRequest CHARPANE = new CharPaneRequest();
+  private static final Map<String, Consumer<JSONObject>> PARSERS =
+      Map.of(
+          "status", ApiRequest::parseStatus,
+          "inventory", InventoryManager::parseInventory,
+          "closet", ClosetRequest::parseCloset,
+          "storage", StorageRequest::parseStorage,
+          "mallprices", MallPriceManager::parseMallPrices);
 
   private final String what;
   private String id;
-  public JSONObject json;
   private boolean silent = false;
 
   public ApiRequest() {
@@ -123,6 +133,25 @@ public class ApiRequest extends GenericRequest {
     return ApiRequest.STORAGE.redirectLocation;
   }
 
+  public static void updateMallPrices(final String category, final String tiers) {
+    ApiRequest request = new ApiRequest("mallprices");
+    request.addFormField("category", category);
+    if (!tiers.isEmpty()) {
+      request.addFormField("tiers", tiers);
+    }
+    request.addFormField(
+        "fields",
+        "id,"
+            + MallPriceManager.STORE_FIELDS.stream()
+                .map(s -> "store." + s)
+                .collect(Collectors.joining(",")));
+    // The backend api returns a subset of X cheapest stores per item, defaulting to 5 when 'count'
+    // is omitted, with a maximum of 20.
+    // KoLMafia requests N, as we resolve mall prices based on the Nth cheapest listing.
+    request.addFormField("count", String.valueOf(MallPriceManager.NTH_CHEAPEST_COUNT));
+    RequestThread.postRequest(request);
+  }
+
   @Override
   protected boolean retryOnTimeout() {
     return true;
@@ -139,6 +168,7 @@ public class ApiRequest extends GenericRequest {
               case "closet" -> "Updating closet...";
               case "storage" -> "Updating storage...";
               case "item" -> "Looking at item #" + this.id + "...";
+              case "mallprices" -> "Updating mall prices...";
               default -> null;
             };
 
@@ -146,12 +176,11 @@ public class ApiRequest extends GenericRequest {
       KoLmafia.updateDisplay(message);
     }
 
-    this.json = null;
-
     super.run();
+  }
 
-    // Save the JSON object so caller can look further at it
-    this.json = ApiRequest.getJSON(this.responseText, this.what);
+  public JSONObject getJSON() {
+    return ApiRequest.getJSON(this.responseText, this.what);
   }
 
   @Override
@@ -160,7 +189,7 @@ public class ApiRequest extends GenericRequest {
       return;
     }
 
-    ApiRequest.parseResponse(this.getURLString(), this.responseText);
+    ApiRequest.parseWhat(this.what, this.responseText);
   }
 
   private static final Pattern WHAT_PATTERN = Pattern.compile("what=([^&]*)");
@@ -171,13 +200,35 @@ public class ApiRequest extends GenericRequest {
       return;
     }
 
-    String what = whatMatcher.group(1);
+    ApiRequest.parseWhat(whatMatcher.group(1), responseText);
+  }
 
-    switch (what) {
-      case "status" -> ApiRequest.parseStatus(responseText);
-      case "inventory" -> ApiRequest.parseInventory(responseText);
-      case "closet" -> ApiRequest.parseCloset(responseText);
-      case "storage" -> ApiRequest.parseStorage(responseText);
+  private static void parseWhat(final String requestedWhats, final String responseText) {
+    // We can request multiple 'what' by separating them with commas (what=mallprices,status)
+    // Most API responses are JSON objects, some are arrays.
+    // When requesting multiple 'what', valid requests receive a JSON object
+    // {"status":{},"events":[]}
+    // Currently all requests we handle are JSON objects, so we ignore everything else.
+    if (!responseText.startsWith("{")) {
+      return;
+    }
+
+    JSONObject json = ApiRequest.getJSON(responseText, requestedWhats);
+    if (json == null) {
+      return;
+    }
+
+    String[] whats = requestedWhats.split(",");
+
+    for (String what : whats) {
+      // Determine if this is a 'what' we handle, as not every 'what' is handled
+      Consumer<JSONObject> parser = PARSERS.get(what);
+      if (parser == null) continue;
+
+      // Multiple uses of 'what' are in the form of {"status":{},"mallprices":{}} etc
+      // If we are handling multiple, then we retrieve the object, otherwise use the root
+      JSONObject object = whats.length == 1 ? json : json.getJSONObject(what);
+      parser.accept(object);
     }
   }
 
@@ -502,18 +553,6 @@ public class ApiRequest extends GenericRequest {
       KoLCharacter.addAvailableCombatSkill(SkillPool.RIGHT_KICK);
     }
     Preferences.setInteger("zootGraftedFootRightFamiliar", rightFoot);
-  }
-
-  public static final void parseInventory(final String responseText) {
-    InventoryManager.parseInventory(ApiRequest.getJSON(responseText, "inventory"));
-  }
-
-  public static final void parseCloset(final String responseText) {
-    ClosetRequest.parseCloset(ApiRequest.getJSON(responseText, "closet"));
-  }
-
-  public static final void parseStorage(final String responseText) {
-    StorageRequest.parseStorage(ApiRequest.getJSON(responseText, "storage"));
   }
 
   public static final JSONObject getJSON(final String text, final String what) {

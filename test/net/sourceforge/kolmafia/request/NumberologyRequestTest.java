@@ -40,11 +40,8 @@ class NumberologyRequestTest {
   }
 
   @ParameterizedTest
-  @CsvSource({
-    "false,6", // Third in-run use locks out skill for the rest of the day
-    "true,3" // Third use occurring out-of-run allows further uses
-  })
-  void numberologyQuirkHandled(boolean canInteract, int postCastUses) {
+  @CsvSource({"true", "false"})
+  void thirdInRunCastDoesNotLockOutTheDay(boolean canInteract) {
     var cleanups =
         new Cleanups(
             withInteractivity(canInteract),
@@ -53,7 +50,7 @@ class NumberologyRequestTest {
             withPostChoice2(1103, 0));
 
     try (cleanups) {
-      assertThat("_universeCalculated", isSetTo(postCastUses));
+      assertThat("_universeCalculated", isSetTo(3));
     }
   }
 }
