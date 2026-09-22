@@ -20,6 +20,7 @@ import static internal.helpers.Player.withMP;
 import static internal.helpers.Player.withNextResponse;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withRestricted;
 import static internal.helpers.Player.withSkill;
 import static internal.helpers.Player.withSkillGrantingFamiliarsChecked;
 import static internal.helpers.Player.withoutSkill;
@@ -346,6 +347,53 @@ class UseSkillRequestTest {
       try (cleanups) {
         var skill = UseSkillRequest.getInstance(SkillPool.CALCULATE_THE_UNIVERSE);
         assertEquals(3, skill.getMaximumCast());
+      }
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {1, 5})
+    void parsesCalculateTheUniverseCastsFromSkillzPage(int skillLevel) {
+      var cleanups =
+          new Cleanups(
+              withInteractivity(true),
+              withRestricted(false),
+              withProperty("skillLevel144", skillLevel),
+              withProperty("_universeCalculated", 1));
+      try (cleanups) {
+        UseSkillRequest.parseResponse("skillz.php", html("request/test_parse_skillz.html"));
+
+        assertThat("skillLevel144", isSetTo(3));
+        assertThat("_universeCalculated", isSetTo(3));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      // Test coverage due to the complicated expression used in consequences
+      // Variations of 'in run' and/or 'in avatar path'
+      "true, true, 1, 1",
+      "true, true, 5, 5",
+      "false, false, 1, 1",
+      "false, false, 5, 5",
+      "false, true, 1, 1",
+      "false, true, 5, 5",
+      // Not in run, not in avatar path
+      "true, false, 1, 3",
+      "true, false, 5, 3",
+    })
+    void doesNotTrustCalculateTheUniverseMaximumUnlessInteractiveAndUnrestricted(
+        boolean interactivity, boolean restricted, int skillLevel, int expectedSkillLevel) {
+      var cleanups =
+          new Cleanups(
+              withInteractivity(interactivity),
+              withRestricted(restricted),
+              withProperty("skillLevel144", skillLevel),
+              withProperty("_universeCalculated", 1));
+      try (cleanups) {
+        UseSkillRequest.parseResponse("skillz.php", html("request/test_parse_skillz.html"));
+
+        assertThat("skillLevel144", isSetTo(expectedSkillLevel));
+        assertThat("_universeCalculated", isSetTo(3));
       }
     }
   }
