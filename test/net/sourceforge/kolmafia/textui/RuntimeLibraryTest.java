@@ -3272,13 +3272,14 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
   @Test
   void usesSpecifiedValues() {
     var cleanups =
-      new Cleanups(
-        withPath(Path.BLUE_VS_RED),
-        withClass(AscensionClass.SEAL_CLUBBER),
-        withProperty("bwApronMealsEaten", 5));
+        new Cleanups(
+            withPath(Path.BLUE_VS_RED),
+            withClass(AscensionClass.SEAL_CLUBBER),
+            withProperty("bwApronMealsEaten", 5));
 
     try (cleanups) {
-      String output = execute("black_and_white_apron_kit_contents($path[standard],$class[accordion thief],1)");
+      String output =
+          execute("black_and_white_apron_kit_contents($path[standard],$class[accordion thief],1)");
 
       assertContinueState();
       assertThat(output.trim(), is(html("expected/black_and_white_apron_kit_contents.out")));
