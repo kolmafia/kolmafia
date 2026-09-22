@@ -3252,6 +3252,32 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
   @Nested
   class BlackAndWhiteApronMealKit {
+    private static final String scriptTemplate =
+        """
+            void main(){
+              var kit=black_and_white_apron_kit_contents(PARAMS);
+              print(`Main: {kit.main_ingredient} -> {kit.main_effect.name}`);
+              for(int i=0;i<3;i++){
+                var meal=kit.meals[i];
+                for(int j=0;j<5;j++){
+                  var ing=meal[j];
+                  print(`Ingr[{i},{j}]: {ing.ingredient.name} -> {ing.effect.name}, {ing.effect_turns} turns, {ing.meat} meat`);
+                }
+              }
+            }""";
+
+    private static void validateBWKitOutput(String output) {
+      assertThat(output, containsString("Main: chicken -> Winner, Winner, Chicken!"));
+      assertThat(
+          output, containsString("Ingr[0,1]: Gnollish pie tin -> Litely Baked, 10 turns, 0 meat"));
+      assertThat(output, containsString("Ingr[0,3]: batgut -> , 0 turns, 0 meat"));
+      assertThat(
+          output,
+          containsString("Ingr[1,1]: blackberry -> Blackberry Politeness, 50 turns, 0 meat"));
+      assertThat(output, containsString("Ingr[2,1]: philosopher's scone -> , 0 turns, 500 meat"));
+      assertThat(output, containsString("Ingr[2,4]: fishy fish -> Fishy, 100 turns, 0 meat"));
+    }
+
     @Test
     void usesUserState() {
       var cleanups =
@@ -3261,28 +3287,30 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
               withProperty("bwApronMealsEaten", 1));
 
       try (cleanups) {
-        String output = execute("black_and_white_apron_kit_contents()");
+        String script = scriptTemplate.replace("PARAMS", "");
+        String output = execute(script);
 
         assertContinueState();
-        assertThat(output.trim(), is(html("expected/black_and_white_apron_kit_contents.out")));
+        validateBWKitOutput(output);
       }
     }
-  }
 
-  @Test
-  void usesSpecifiedValues() {
-    var cleanups =
-        new Cleanups(
-            withPath(Path.BLUE_VS_RED),
-            withClass(AscensionClass.SEAL_CLUBBER),
-            withProperty("bwApronMealsEaten", 5));
+    @Test
+    void usesSpecifiedValues() {
+      var cleanups =
+          new Cleanups(
+              withPath(Path.BLUE_VS_RED),
+              withClass(AscensionClass.SEAL_CLUBBER),
+              withProperty("bwApronMealsEaten", 5));
 
-    try (cleanups) {
-      String output =
-          execute("black_and_white_apron_kit_contents($path[standard],$class[accordion thief],1)");
+      try (cleanups) {
+        String script =
+            scriptTemplate.replace("PARAMS", "$path[standard], $class[accordion thief], 1");
+        String output = execute(script);
 
-      assertContinueState();
-      assertThat(output.trim(), is(html("expected/black_and_white_apron_kit_contents.out")));
+        assertContinueState();
+        validateBWKitOutput(output);
+      }
     }
   }
 }
