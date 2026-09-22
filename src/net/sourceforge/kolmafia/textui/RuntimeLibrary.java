@@ -215,6 +215,7 @@ import net.sourceforge.kolmafia.session.MushroomManager;
 import net.sourceforge.kolmafia.session.NumberologyManager;
 import net.sourceforge.kolmafia.session.PingManager;
 import net.sourceforge.kolmafia.session.PingManager.PingTest;
+import net.sourceforge.kolmafia.session.PortableLaughingStockManager;
 import net.sourceforge.kolmafia.session.PvpManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
@@ -4152,6 +4153,20 @@ public abstract class RuntimeLibrary {
 
     params = List.of(namedParam("item", DataTypes.ITEM_TYPE));
     functions.add(new LibraryFunction("cup_of_13s_tier", DataTypes.INT_TYPE, params));
+
+    params =
+        List.of(
+            namedParam("class", DataTypes.CLASS_TYPE),
+            namedParam("path", DataTypes.PATH_TYPE),
+            namedParam("day", DataTypes.INT_TYPE),
+            namedParam("minFights", DataTypes.INT_TYPE),
+            namedParam("maxFights", DataTypes.INT_TYPE));
+    functions.add(
+        new LibraryFunction("portable_laughing_stock_drops", DataTypes.INT_TO_ITEM_TYPE, params));
+
+    params = List.of(namedParam("maxFights", DataTypes.INT_TYPE));
+    functions.add(
+        new LibraryFunction("portable_laughing_stock_drops", DataTypes.INT_TO_ITEM_TYPE, params));
 
     params = List.of();
     functions.add(
@@ -12534,6 +12549,49 @@ public abstract class RuntimeLibrary {
     int itemId = (int) value.contentLong;
     var tier = CupOf13sDatabase.getTier(itemId);
     return DataTypes.makeIntValue(tier);
+  }
+
+  public static Value portable_laughing_stock_drops(
+      ScriptRuntime controller, final Value maxFightsValue) {
+    int minFights = Preferences.getInteger("_laughingStockCharges") + 1;
+    int maxFights = (int) maxFightsValue.contentLong;
+    return portable_laughing_stock_drops(
+        KoLCharacter.getAscensionClass(),
+        KoLCharacter.getPath(),
+        KoLCharacter.getCurrentDays(),
+        minFights,
+        maxFights);
+  }
+
+  public static Value portable_laughing_stock_drops(
+      ScriptRuntime controller,
+      final Value clazzValue,
+      final Value pathValue,
+      final Value dayValue,
+      final Value minFightsValue,
+      final Value maxFightsValue) {
+    AscensionClass clazz = (AscensionClass) clazzValue.content;
+    Path path = (Path) pathValue.content;
+    int day = (int) dayValue.contentLong;
+    int minFights = (int) minFightsValue.contentLong;
+    int maxFights = (int) maxFightsValue.contentLong;
+
+    if (clazz == null || path == null) {
+      return new MapValue(DataTypes.INT_TO_ITEM_TYPE);
+    }
+    return portable_laughing_stock_drops(clazz, path, day, minFights, maxFights);
+  }
+
+  private static Value portable_laughing_stock_drops(
+      AscensionClass clazz, AscensionPath.Path path, int day, int minFights, int maxFights) {
+    Map<Integer, AdventureResult> drops =
+        PortableLaughingStockManager.getLaughingStockDrops(clazz, path, day, minFights, maxFights);
+
+    MapValue value = new MapValue(DataTypes.INT_TO_ITEM_TYPE);
+    for (Entry<Integer, AdventureResult> e : drops.entrySet()) {
+      value.aset(new Value(e.getKey()), DataTypes.makeItemValue(e.getValue().getItemId(), true));
+    }
+    return value;
   }
 
   public static Value black_and_white_apron_kit_contents(ScriptRuntime controller) {
