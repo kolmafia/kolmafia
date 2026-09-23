@@ -7,7 +7,6 @@ import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.utilities.PHPRandom;
 
 public class BlackAndWhiteApronManager {
@@ -15,79 +14,79 @@ public class BlackAndWhiteApronManager {
 
   private static final List<MainIngredient> MAIN_INGREDIENTS =
       List.of(
-          new MainIngredient("beef", "Beefy Heart"),
-          new MainIngredient("chicken", "Winner, Winner, Chicken!"),
-          new MainIngredient("potatoes", "Spudly"),
-          new MainIngredient("lettuce", "Lettuce Go!"),
-          new MainIngredient("pork", "Porked Up"),
-          new MainIngredient("flounder", "Fishing for Meat"));
+          new MainIngredient("beef", EffectPool.BEEFY_HEART),
+          new MainIngredient("chicken", EffectPool.WINNER_WINNER_CHICKEN),
+          new MainIngredient("potatoes", EffectPool.SPUDLY),
+          new MainIngredient("lettuce", EffectPool.LETTUCE_GO),
+          new MainIngredient("pork", EffectPool.PORKED_UP),
+          new MainIngredient("flounder", EffectPool.FISHING_FOR_MEAT));
 
   private static final List<Ingredient> INGREDIENTS =
       List.of(
-          otherIngredient("wad of dough", "Restore 100 HP"),
-          meatIngredient("ghuol egg", 100),
-          famXpIngredient("dry noodles", 20),
-          statsIngredient("spices", 100, 100, 100),
-          statsIngredient("cranberries", 0, 150, 0),
-          otherIngredient("cherry", "1.5x stat gain"),
-          statsIngredient("eye of newt", 0, 100, 0),
-          effectIngredient("tomato", "Tomato Power", 50),
-          effectIngredient("grapefruit", "Scared Stiff", 50),
-          effectIngredient("lemon", "Lemon Enlightenment", 50),
-          effectIngredient("olive", "Superhuman Sarcasm", 50),
-          effectIngredient("orange", "Pronounced Potency", 50),
-          effectIngredient("strawberry", "Ermine Eyes", 50),
-          effectIngredient("jabañero pepper", "Eau D'enmity", 50),
-          effectIngredient("cranberries", "Cranberry Cordiality", 50),
-          effectIngredient("gr8ps", "Gr8ness", 50),
-          effectIngredient("tangerine", "On the Shoulders of Giants", 50),
-          effectIngredient("blackberry", "Blackberry Politeness", 50),
-          statsIngredient("bottle of gin", 75, 0, 0),
-          statsIngredient("bottle of vodka", 0, 0, 75),
-          statsIngredient("bottle of whiskey", 0, 75, 0),
-          statsIngredient("bottle of rum", 75, 0, 0),
-          statsIngredient("bottle of tequila", 0, 0, 75),
-          statsIngredient("boxed wine", 0, 75, 0),
-          effectIngredient("skewer", "Sharp Weapon", 200),
-          otherIngredient("batgut", "Restore 200 HP"),
-          effectIngredient("Gnollish pie tin", "Litely Baked", 10),
-          statsIngredient("lihc eye", 0, 100, 0),
-          statsIngredient("batgut", 0, 0, 100),
-          statsIngredient("bat wing", 0, 100, 0),
-          effectIngredient("wad of tofu", "Empathy", 50),
-          effectIngredient("Knob sausage", "Incredibly Hulking", 10),
-          otherIngredient("Mountain Stream soda", "Restore 250 MP"),
-          effectIngredient("cocoa eggshell fragment", "Sugar Rush", 50),
-          otherIngredient("royal jelly", "2x stat gain"),
-          effectIngredient("displaced fish", "Fishy", 50),
-          meatIngredient("philosopher's scone", 500),
-          effectIngredient("bubblin' crude", "Greasy Visage", 50),
-          effectIngredient("soda water", "Bubbly", 25),
-          effectIngredient("enchanted bean", "Bubbly", 500),
-          statsIngredient("long pork", 150, 150, 150),
-          famXpIngredient("centipede eggs", 30),
-          effectIngredient("loose teeth", "Tenacity of the Snapper", 50),
-          effectIngredient("turtle totem", "Astral Shell", 50),
-          effectIngredient("ballroom blintz", "Ode to Booze", 15),
-          effectIngredient("hot date", "Well Fed", 100),
-          effectIngredient("black pudding", "Well Fed", 50),
-          statsIngredient("exotic jungle fruit", 50, 50, 50));
+          otherIngredient(ItemPool.DOUGH, "Restore 100 HP"),
+          meatIngredient(ItemPool.GHUOL_EGG, 100),
+          famXpIngredient(ItemPool.DRY_NOODLES, 20),
+          statsIngredient(ItemPool.SPICES, 100, 100, 100),
+          statsIngredient(ItemPool.CRANBERRIES, 0, 150, 0),
+          otherIngredient(ItemPool.CHERRY, "1.5x stat gain"),
+          statsIngredient(ItemPool.EYE_OF_NEWT, 0, 100, 0),
+          effectIngredient(ItemPool.TOMATO, EffectPool.TOMATO_POWER, 50),
+          effectIngredient(ItemPool.GRAPEFRUIT, EffectPool.SCARED_STIFF, 50),
+          effectIngredient(ItemPool.LEMON, EffectPool.LEMON_ENLIGHTENMENT, 50),
+          effectIngredient(ItemPool.OLIVE, EffectPool.SUPERHUMAN_SARCASM, 50),
+          effectIngredient(ItemPool.ORANGE, EffectPool.PRONOUNCED_POTENCY, 50),
+          effectIngredient(ItemPool.STRAWBERRY, EffectPool.ERMINE_EYES, 50),
+          effectIngredient(ItemPool.JABANERO_PEPPER, EffectPool.EAU_DENMITY, 50),
+          effectIngredient(ItemPool.CRANBERRIES, EffectPool.CRANBERRY_CORDIALITY, 50),
+          effectIngredient(ItemPool.GR8PS, EffectPool.GR8NESS, 50),
+          effectIngredient(ItemPool.TANGERINE, EffectPool.ON_THE_SHOULDERS_OF_GIANTS, 50),
+          effectIngredient(ItemPool.BLACKBERRY, EffectPool.BLACKBERRY_POLITENESS, 50),
+          statsIngredient(ItemPool.BOTTLE_OF_GIN, 75, 0, 0),
+          statsIngredient(ItemPool.BOTTLE_OF_VODKA, 0, 0, 75),
+          statsIngredient(ItemPool.BOTTLE_OF_WHISKEY, 0, 75, 0),
+          statsIngredient(ItemPool.BOTTLE_OF_RUM, 75, 0, 0),
+          statsIngredient(ItemPool.TEQUILA, 0, 0, 75),
+          statsIngredient(ItemPool.BOXED_WINE, 0, 75, 0),
+          effectIngredient(ItemPool.SKEWER, EffectPool.SHARP_WEAPON, 200),
+          otherIngredient(ItemPool.BATGUT, "Restore 200 HP"),
+          effectIngredient(ItemPool.GNOLLISH_PIE_TIN, EffectPool.LITELY_BAKED, 10),
+          statsIngredient(ItemPool.LIHC_EYE, 0, 100, 0),
+          statsIngredient(ItemPool.BATGUT, 0, 0, 100),
+          statsIngredient(ItemPool.BAT_WING, 0, 100, 0),
+          effectIngredient(ItemPool.WAD_OF_TOFU, EffectPool.EMPATHY, 50),
+          effectIngredient(ItemPool.KNOB_SAUSAGE, EffectPool.INCREDIBLY_HULKING, 10),
+          otherIngredient(ItemPool.MOUNTAIN_STREAM_SODA, "Restore 250 MP"),
+          effectIngredient(ItemPool.COCOA_EGGSHELL_FRAGMENT, EffectPool.SUGAR_RUSH, 50),
+          otherIngredient(ItemPool.ROYAL_JELLY, "2x stat gain"),
+          effectIngredient(ItemPool.DISPLACED_FISH, EffectPool.FISHY, 50),
+          meatIngredient(ItemPool.PHILOSOPHERS_SCONE, 500),
+          effectIngredient(ItemPool.BUBBLIN_CRUDE, EffectPool.GREASY_VISAGE, 50),
+          effectIngredient(ItemPool.SODA_WATER, EffectPool.BUBBLY, 25),
+          effectIngredient(ItemPool.ENCHANTED_BEAN, EffectPool.BUBBLY, 500),
+          statsIngredient(ItemPool.LONG_PORK, 150, 150, 150),
+          famXpIngredient(ItemPool.CENTIPEDE_EGGS, 30),
+          effectIngredient(ItemPool.LOOSE_TEETH, EffectPool.TENACITY_OF_THE_SNAPPER, 50),
+          effectIngredient(ItemPool.TURTLE_TOTEM, EffectPool.ASTRAL_SHELL, 50),
+          effectIngredient(ItemPool.BALLROOM_BLINTZ, EffectPool.ODE, 15),
+          effectIngredient(ItemPool.HOT_DATE, EffectPool.WELL_FED, 100),
+          effectIngredient(ItemPool.BLACK_PUDDING, EffectPool.WELL_FED, 50),
+          statsIngredient(ItemPool.EXOTIC_JUNGLE_FRUIT, 50, 50, 50));
 
   private static final List<Ingredient> SPECIAL_INGREDIENTS =
       List.of(
-          statsIngredient("slick fish meat", 0, 0, 250),
-          statsIngredient("glistening fish meat", 0, 250, 0),
-          statsIngredient("beefy fish meat", 250, 0, 0),
-          effectIngredient("kiwi", "Incredibly Hulking", 50),
-          effectIngredient("cocktail onion", "Cock of the Walk", 50),
-          effectIngredient("kumquat", "Ponderous Potency", 50),
-          effectIngredient("raspberry", "Ocelot Eyes", 50),
-          effectIngredient("dill", "Contemptible Emanations", 50),
-          effectIngredient("tonic water", "Concentrated Concentration", 50),
-          effectIngredient("fishy fish", "Fishy", 100),
-          famXpIngredient("bunny liver", 30),
-          statsIngredient("spooky fairy gravy", 100, 100, 100),
-          otherIngredient("gourd potion", "1.5x stat gain"));
+          statsIngredient(ItemPool.SLICK_FISH_MEAT, 0, 0, 250),
+          statsIngredient(ItemPool.GLISTENING_FISH_MEAT, 0, 250, 0),
+          statsIngredient(ItemPool.BEEFY_FISH_MEAT, 250, 0, 0),
+          effectIngredient(ItemPool.KIWI, EffectPool.INCREDIBLY_HULKING, 50),
+          effectIngredient(ItemPool.COCKTAIL_ONION, EffectPool.COCK_OF_THE_WALK, 50),
+          effectIngredient(ItemPool.KUMQUAT, EffectPool.PONDEROUS_POTENCY, 50),
+          effectIngredient(ItemPool.RASPBERRY, EffectPool.OCELOT_EYES, 50),
+          effectIngredient(ItemPool.DILL, EffectPool.CONTEMPTIBLE_EMANATIONS, 50),
+          effectIngredient(ItemPool.TONIC_WATER, EffectPool.CONCENTRATED_CONCENTRATION, 50),
+          effectIngredient(ItemPool.FISHY_FISH, EffectPool.FISHY, 100),
+          famXpIngredient(ItemPool.BUNNY_LIVER, 30),
+          statsIngredient(ItemPool.SPOOKY_FAIRY_GRAVY, 100, 100, 100),
+          otherIngredient(ItemPool.GOURD_POTION, "1.5x stat gain"));
 
   public static MealKit getMealKitOptions(
       AscensionPath.Path path, AscensionClass clazz, int prevEaten) {
@@ -127,8 +126,8 @@ public class BlackAndWhiteApronManager {
   public record MealKit(MainIngredient mainIngredient, Ingredient[][] meals) {}
 
   public record MainIngredient(String name, AdventureResult effect) {
-    public MainIngredient(String name, String effectName) {
-      this(name, EffectPool.get(EffectDatabase.getEffectId(effectName), 100));
+    public MainIngredient(String name, int effectId) {
+      this(name, EffectPool.get(effectId, 100));
     }
   }
 
@@ -142,7 +141,7 @@ public class BlackAndWhiteApronManager {
       int familiarXp,
       String other) {
     public Ingredient(
-        String ingredient,
+        int ingredient,
         AdventureResult effect,
         int mus,
         int mys,
@@ -154,24 +153,24 @@ public class BlackAndWhiteApronManager {
     }
   }
 
-  private static Ingredient effectIngredient(String ingredient, String effectName, int turns) {
-    AdventureResult effect = EffectPool.get(EffectDatabase.getEffectId(effectName), turns);
+  private static Ingredient effectIngredient(int ingredient, int effectId, int turns) {
+    AdventureResult effect = EffectPool.get(effectId, turns);
     return new Ingredient(ingredient, effect, 0, 0, 0, 0, 0, "");
   }
 
-  private static Ingredient meatIngredient(String ingredient, int meat) {
+  private static Ingredient meatIngredient(int ingredient, int meat) {
     return new Ingredient(ingredient, null, 0, 0, 0, meat, 0, "");
   }
 
-  private static Ingredient famXpIngredient(String ingredient, int famXp) {
+  private static Ingredient famXpIngredient(int ingredient, int famXp) {
     return new Ingredient(ingredient, null, 0, 0, 0, 0, famXp, "");
   }
 
-  private static Ingredient statsIngredient(String ingredient, int mus, int mys, int mox) {
+  private static Ingredient statsIngredient(int ingredient, int mus, int mys, int mox) {
     return new Ingredient(ingredient, null, mus, mys, mox, 0, 0, "");
   }
 
-  private static Ingredient otherIngredient(String ingredient, String other) {
+  private static Ingredient otherIngredient(int ingredient, String other) {
     return new Ingredient(ingredient, null, 0, 0, 0, 0, 0, other);
   }
 }
