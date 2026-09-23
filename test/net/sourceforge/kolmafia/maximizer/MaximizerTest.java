@@ -4046,6 +4046,7 @@ public class MaximizerTest {
         "switch | Unrecognized keyword: switch",
         "item,, | Unable to interpret: ,",
         "outfit not an outfit | Unknown or custom outfit: not an outfit",
+        "outfit stinky cheese | Unknown or custom outfit: stinky cheese",
         "switch not a familiar | Unknown familiar: not a familiar"
       })
   void reportsInvalidExpressions(String expression, String error) {

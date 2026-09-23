@@ -121,8 +121,24 @@ public class Evaluator {
 
   private record Canonicalization(Pattern pattern, String canonical) {}
 
-  private static final List<Canonicalization> MODIFIER_CANONICALIZATIONS =
+  private record ParsedKeyword(String directive, String operand, boolean operandRequired) {}
+
+  // {directive, operandRequired}
+  private static final Map<String, Boolean> DIRECTIVES_WITH_OPERANDS =
+      Map.of(
+          "type", true,
+          "equip", true,
+          "bonus", true,
+          "modbonus", true,
+          "letter", false,
+          "outfit", false,
+          "switch", true);
+
+  private static final List<Canonicalization> KEYWORD_CANONICALIZATIONS =
       List.of(
+          canonicalization("handed|hands", "hand"),
+          canonicalization("tiebreaker", "tie"),
+          canonicalization("stinky cheese", "stinkycheese"),
           tokenCanonicalization("mus", "muscle"),
           tokenCanonicalization("mys(t(ical(ity)?)?)?", "mysticality"),
           tokenCanonicalization("mox", "moxie"),
@@ -149,13 +165,6 @@ public class Evaluator {
           canonicalization("liver", DoubleModifier.LIVER_CAPACITY.getName()),
           canonicalization("spleen", DoubleModifier.SPLEEN_CAPACITY.getName()));
 
-  private static final Map<String, String> DIRECTIVE_ALIASES =
-      Map.of(
-          "handed", "hand",
-          "hands", "hand",
-          "tiebreaker", "tie",
-          "stinky cheese", "stinkycheese");
-
   private static Canonicalization tokenCanonicalization(String pattern, String canonical) {
     return new Canonicalization(Pattern.compile("\\b(?:" + pattern + ")\\b"), canonical);
   }
@@ -164,12 +173,28 @@ public class Evaluator {
     return new Canonicalization(Pattern.compile("^(?:" + pattern + ")$"), canonical);
   }
 
-  private static String canonicalizeModifierKeyword(String keyword) {
-    for (var canonicalization : MODIFIER_CANONICALIZATIONS) {
+  private static String canonicalize(String keyword) {
+    for (var canonicalization : KEYWORD_CANONICALIZATIONS) {
       keyword =
           canonicalization.pattern().matcher(keyword).replaceAll(canonicalization.canonical());
     }
     return keyword;
+  }
+
+  private static ParsedKeyword parseKeyword(String keyword) {
+    String directive = keyword;
+    String operand = "";
+    int separator = keyword.indexOf(' ');
+    String possibleDirective = separator == -1 ? keyword : keyword.substring(0, separator);
+    boolean operandRequired = DIRECTIVES_WITH_OPERANDS.getOrDefault(possibleDirective, false);
+    if (DIRECTIVES_WITH_OPERANDS.containsKey(possibleDirective)) {
+      directive = possibleDirective;
+      if (separator != -1) {
+        operand = keyword.substring(separator + 1).trim();
+      }
+    }
+
+    return new ParsedKeyword(canonicalize(directive), operand, operandRequired);
   }
 
   private static final String TIEBREAKER =
@@ -335,11 +360,21 @@ public class Evaluator {
           StringUtilities.parseDouble(
               m.end(2) == m.start(2) ? m.group(1) + "1" : m.group(1) + m.group(2));
 
-      String keyword = m.group(3).trim();
-      if (keyword.startsWith("\"") && keyword.endsWith("\"")) {
-        keyword = keyword.substring(1, keyword.length() - 1).trim();
+      String originalKeyword = m.group(3).trim();
+      if (originalKeyword.startsWith("\"") && originalKeyword.endsWith("\"")) {
+        originalKeyword = originalKeyword.substring(1, originalKeyword.length() - 1).trim();
       }
-      keyword = DIRECTIVE_ALIASES.getOrDefault(keyword, keyword);
+
+      ParsedKeyword parsedKeyword = parseKeyword(originalKeyword);
+      String keyword = parsedKeyword.directive();
+      String operand = parsedKeyword.operand();
+
+      // This error could be more descriptive; preserve historical output for now
+      if (parsedKeyword.operandRequired() && operand.isEmpty()) {
+        KoLmafia.updateDisplay(MafiaState.ERROR, "Unrecognized keyword: " + originalKeyword);
+        return;
+      }
+
       if (keyword.equals("min")) {
         if (index != null) {
           this.min.put(index, weight);
@@ -382,8 +417,8 @@ public class Evaluator {
         continue;
       }
 
-      if (keyword.startsWith("type ")) {
-        this.weaponType = keyword.substring(5).trim();
+      if (keyword.equals("type")) {
+        this.weaponType = operand;
         continue;
       }
 
@@ -496,9 +531,8 @@ public class Evaluator {
         continue;
       }
 
-      if (keyword.startsWith("equip ")) {
-        var match =
-            ItemFinder.getFirstMatchingItemWithMode(keyword.substring(6).trim(), Match.EQUIP);
+      if (keyword.equals("equip")) {
+        var match = ItemFinder.getFirstMatchingItemWithMode(operand, Match.EQUIP);
         if (match == null) {
           return;
         }
@@ -514,9 +548,8 @@ public class Evaluator {
         continue;
       }
 
-      if (keyword.startsWith("bonus ")) {
-        var match =
-            ItemFinder.getFirstMatchingItemWithMode(keyword.substring(6).trim(), Match.EQUIP);
+      if (keyword.equals("bonus")) {
+        var match = ItemFinder.getFirstMatchingItemWithMode(operand, Match.EQUIP);
         if (match == null) {
           return;
         }
@@ -535,8 +568,8 @@ public class Evaluator {
         continue;
       }
 
-      if (keyword.startsWith("modbonus ")) {
-        String modName = keyword.substring(9);
+      if (keyword.equals("modbonus")) {
+        String modName = operand;
         BooleanModifier mod = BooleanModifier.byCaselessName(modName);
         if (mod == null) {
           KoLmafia.updateDisplay(MafiaState.ERROR, "No boolean modifier found for: " + modName);
@@ -546,12 +579,11 @@ public class Evaluator {
         continue;
       }
 
-      if (keyword.equals("letter") || keyword.startsWith("letter ")) {
-        keyword = keyword.substring(6).trim();
-        if (keyword.isEmpty()) { // no keyword counts letters
+      if (keyword.equals("letter")) {
+        if (operand.isEmpty()) { // no keyword counts letters
           this.bonusFunc.add(new BonusFunction(LetterBonus::letterBonus, weight));
         } else {
-          String finalKeyword = keyword;
+          String finalKeyword = operand;
           this.bonusFunc.add(
               new BonusFunction(ar -> LetterBonus.letterBonus(ar, finalKeyword), weight));
         }
@@ -596,14 +628,14 @@ public class Evaluator {
         continue;
       }
 
-      if (keyword.equals("outfit") || keyword.startsWith("outfit ")) {
-        keyword = keyword.substring(6).trim();
-        if (keyword.isEmpty()) { // allow "+outfit" to mean "keep the current outfit on"
-          keyword = KoLCharacter.currentStringModifier(StringModifier.OUTFIT);
+      if (keyword.equals("outfit")) {
+        String outfitName = operand;
+        if (outfitName.isEmpty()) { // allow "+outfit" to mean "keep the current outfit on"
+          outfitName = KoLCharacter.currentStringModifier(StringModifier.OUTFIT);
         }
-        SpecialOutfit outfit = EquipmentManager.getMatchingOutfit(keyword);
+        SpecialOutfit outfit = EquipmentManager.getMatchingOutfit(outfitName);
         if (outfit == null || outfit.getOutfitId() <= 0) {
-          KoLmafia.updateDisplay(MafiaState.ERROR, "Unknown or custom outfit: " + keyword);
+          KoLmafia.updateDisplay(MafiaState.ERROR, "Unknown or custom outfit: " + outfitName);
           return;
         }
         if (weight > 0.0) {
@@ -620,14 +652,13 @@ public class Evaluator {
         continue;
       }
 
-      if (keyword.startsWith("switch ")) {
+      if (keyword.equals("switch")) {
         if (KoLCharacter.inPokefam()) {
           continue;
         }
-        keyword = keyword.substring(7).trim();
-        int id = FamiliarDatabase.getFamiliarId(keyword);
+        int id = FamiliarDatabase.getFamiliarId(operand);
         if (id == -1) {
-          KoLmafia.updateDisplay(MafiaState.ERROR, "Unknown familiar: " + keyword);
+          KoLmafia.updateDisplay(MafiaState.ERROR, "Unknown familiar: " + operand);
           return;
         }
         if (hadFamiliar && weight < 0.0) continue;
@@ -652,8 +683,6 @@ public class Evaluator {
         continue;
       }
 
-      String originalKeyword = keyword;
-      keyword = canonicalizeModifierKeyword(keyword);
       index = DoubleModifier.byCaselessName(keyword);
 
       if (index == null) {
