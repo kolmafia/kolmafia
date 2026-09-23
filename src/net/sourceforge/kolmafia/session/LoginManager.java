@@ -151,11 +151,11 @@ public class LoginManager {
 
     String scriptSetting = Preferences.getString("loginScript");
     if (!scriptSetting.equals("")) {
-      KoLmafiaCLI.DEFAULT_SHELL.executeLine(scriptSetting);
+      CommandDisplayFrame.executeCommand(scriptSetting);
     }
 
     if (EventManager.hasEvents()) {
-      KoLmafiaCLI.DEFAULT_SHELL.executeLine("events");
+      CommandDisplayFrame.executeCommand("events");
     }
   }
 
