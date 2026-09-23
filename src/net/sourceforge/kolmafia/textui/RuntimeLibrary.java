@@ -4156,7 +4156,7 @@ public abstract class RuntimeLibrary {
 
     params =
         List.of(
-            namedParam("class", DataTypes.CLASS_TYPE),
+            namedParam("cls", DataTypes.CLASS_TYPE),
             namedParam("path", DataTypes.PATH_TYPE),
             namedParam("day", DataTypes.INT_TYPE),
             namedParam("minFights", DataTypes.INT_TYPE),
