@@ -906,6 +906,7 @@ public abstract class KoLmafia {
     InventoryManager.checkBaseballDiamond();
     InventoryManager.checkVampireVintnerWine();
     InventoryManager.checkBirdOfTheDay();
+    InventoryManager.checkFamiliarScrapbook();
     InventoryManager.checkDartPerks();
     InventoryManager.checkMimicEgg();
     ResultProcessor.updateEntauntauned();
