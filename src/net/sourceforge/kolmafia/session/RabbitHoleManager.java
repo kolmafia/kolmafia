@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.session;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -81,10 +82,30 @@ public abstract class RabbitHoleManager {
     new Hat(26, "Cat Class, Cat Style", "Moxie +20%"),
     new Hat(27, "Surreally Buff", "Muscle +20%"),
     new Hat(28, "Quadrilled", "+20% Items from Monsters"),
-    new Hat(29, "Coming Up Roses", "Regenerate 10-20 MP per Adventure"),
+    new Hat(29, "Coming Up Roses", "Regenerate 10-20 HP per Adventure"),
     new Hat(30, "Oleaginous Soles", "+40% Combat Initiative"),
-    new Hat(31, "Oleaginous Soles", "+40% Combat Initiative"),
   };
+
+  // The first and last rows cover a range of lengths rather than one length.
+  // KoL gives Assaulted with Pepper for a hat of five characters or fewer and
+  // Oleaginous Soles for one of thirty or more; the rows between are exact.
+  //
+  // The shortest row is recorded as 4 because that is the number in
+  // statuseffects.txt's "hatter 4", which is what the Maximizer passes here.
+  private static final int SHORTEST_ROW = 4;
+  private static final int SHORTEST_LENGTH = 5;
+  private static final int LONGEST_ROW = 30;
+
+  /** The row of HAT_DATA that a hat of this many characters is served by. */
+  private static int hatBuffRow(final int length) {
+    if (length <= SHORTEST_LENGTH) {
+      return SHORTEST_ROW;
+    }
+    if (length >= LONGEST_ROW) {
+      return LONGEST_ROW;
+    }
+    return length;
+  }
 
   private static final String[] IMAGES =
       new String[] {
@@ -1207,8 +1228,9 @@ public abstract class RabbitHoleManager {
   }
 
   public static final Hat getHatData(int length) {
+    int row = hatBuffRow(length);
     for (Hat hat : HAT_DATA) {
-      if (hat.getLength() == length) {
+      if (hat.getLength() == row) {
         return hat;
       }
     }
@@ -1392,28 +1414,32 @@ public abstract class RabbitHoleManager {
   }
 
   public static void getHatBuff(final int desiredHatLength) {
-    if (hatLengthAvailable(desiredHatLength)) {
-      TreeMap<Integer, StringBuffer> lengths = getHatMap();
-
-      String hat = lengths.get(desiredHatLength).toString().split("\\|")[0];
-      getHatBuff(ItemFinder.getFirstMatchingItem(hat));
-    } else {
+    String hat = hatOfLength(desiredHatLength);
+    if (hat == null) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "No matching hat length found.");
+      return;
     }
+    getHatBuff(ItemFinder.getFirstMatchingItem(hat));
+  }
+
+  /**
+   * A hat you have which gives the same buff as one of this many characters, or null. Matching on
+   * the row rather than the length matters at both ends: a five character hat gives Assaulted with
+   * Pepper, which the Maximizer asks for as "hatter 4", and a thirty-two character hat gives
+   * Oleaginous Soles, which it asks for as "hatter 30".
+   */
+  private static String hatOfLength(final int desiredHatLength) {
+    int wanted = hatBuffRow(desiredHatLength);
+    for (Map.Entry<Integer, StringBuffer> entry : getHatMap().entrySet()) {
+      if (hatBuffRow(entry.getKey()) == wanted) {
+        return entry.getValue().toString().split("\\|")[0];
+      }
+    }
+    return null;
   }
 
   public static boolean hatLengthAvailable(int desiredHatLength) {
-    TreeMap<Integer, StringBuffer> lengths = getHatMap();
-
-    if (lengths.size() == 0) {
-      return false;
-    }
-
-    if (lengths.containsKey(desiredHatLength)) {
-      return true;
-    }
-
-    return false;
+    return hatOfLength(desiredHatLength) != null;
   }
 
   public static int hatLength(final String name) {

@@ -3,13 +3,19 @@ package net.sourceforge.kolmafia.session;
 import static internal.helpers.Networking.assertGetRequest;
 import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withEquippableItem;
 import static internal.helpers.Player.withGender;
 import static internal.helpers.Player.withHP;
 import static internal.helpers.Player.withHandlingChoice;
 import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withPasswordHash;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
@@ -26,6 +32,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junitpioneer.jupiter.RetryingTest;
 
 public class RabbitHoleManagerTest {
@@ -227,6 +235,78 @@ public class RabbitHoleManagerTest {
         assertPostRequest(requests.get(i++), "/inv_use.php", "which=3&whichitem=4509&pwd=chess");
         assertGetRequest(requests.get(i++), "/choice.php", "forceoption=0");
         i = validateChessPuzzleRequests(builder, i);
+      }
+    }
+  }
+
+  @Nested
+  class Hats {
+    @ParameterizedTest
+    @CsvSource({
+      // The first row covers every length up to five, which is how the buff was
+      // found: the 4-dimensional fez went in as the placeholder "[fez]".
+      "1, Assaulted with Pepper",
+      "3, Assaulted with Pepper",
+      "4, Assaulted with Pepper",
+      "5, Assaulted with Pepper",
+      // The rows between are exact.
+      "6, Three Days Slow",
+      "12, Thick-Skinned",
+      "29, Coming Up Roses",
+      // And the last covers every length from thirty up. Two hats in the game
+      // are thirty-two characters long: a depleted Crimbonium football helmet
+      // and a governor's daughter's pearl hairpin.
+      "30, Oleaginous Soles",
+      "31, Oleaginous Soles",
+      "32, Oleaginous Soles",
+      "99, Oleaginous Soles",
+    })
+    void everyLengthHasABuff(int length, String effect) {
+      var hat = RabbitHoleManager.getHatData(length);
+      assertThat(hat, notNullValue());
+      assertThat(hat.getEffect(), equalTo(effect));
+    }
+
+    @Test
+    void comingUpRosesRegeneratesHealth() {
+      // modifiers.txt: "Effect\tComing Up Roses\tHP Regen Min: 10, HP Regen Max: 20"
+      var hat = RabbitHoleManager.getHatData(29);
+      assertThat(hat.getModifier(), containsString("HP"));
+    }
+
+    @ParameterizedTest
+    @CsvSource({"1", "5", "32", "99"})
+    void describesALengthWithNoRowOfItsOwn(int length) {
+      assertThat(RabbitHoleManager.getHatDescription(length), not(containsString("unknown")));
+    }
+
+    @Test
+    void aShortHatSatisfiesTheShortestRow() {
+      // "Mu cap" is five characters; the Maximizer asks for this buff as
+      // "hatter 4", the number in statuseffects.txt.
+      var cleanups = new Cleanups(withEquippableItem("Mu cap"));
+      try (cleanups) {
+        assertTrue(RabbitHoleManager.hatLengthAvailable(4));
+      }
+    }
+
+    @Test
+    void aLongHatSatisfiesTheLongestRow() {
+      // Thirty-two characters; the Maximizer asks for this buff as "hatter 30".
+      var cleanups = new Cleanups(withEquippableItem("depleted Crimbonium football helmet"));
+      try (cleanups) {
+        assertTrue(RabbitHoleManager.hatLengthAvailable(30));
+      }
+    }
+
+    @Test
+    void aHatOfTheWrongLengthDoesNotSatisfyARow() {
+      // Twelve characters, which is Thick-Skinned and nothing else.
+      var cleanups = new Cleanups(withEquippableItem("coconut shell"));
+      try (cleanups) {
+        assertTrue(RabbitHoleManager.hatLengthAvailable(12));
+        assertFalse(RabbitHoleManager.hatLengthAvailable(4));
+        assertFalse(RabbitHoleManager.hatLengthAvailable(30));
       }
     }
   }
