@@ -128,6 +128,7 @@ public class ItemPool {
   public static final int BOTTLE_OF_VODKA = 238;
   public static final int ORANGE = 242;
   public static final int GRAPEFRUIT = 243;
+  public static final int GRAPES = 244;
   public static final int OLIVE = 245;
   public static final int TOMATO = 246;
   public static final int FERMENTING_POWDER = 247;
@@ -157,6 +158,7 @@ public class ItemPool {
   public static final int MUSHROOM_PIZZA = 326;
   public static final int BOTTLE_OF_WHISKEY = 328;
   public static final int LEMON = 332;
+  public static final int LIME = 333;
   public static final int TENDER_HAMMER = 338;
   public static final int LAB_KEY = 339;
   public static final int SELTZER = 344;
@@ -769,6 +771,7 @@ public class ItemPool {
   public static final int LONGHAIRED_HIPPY_WIG = 2363;
   public static final int ZIM_MERMANS_GUITAR = 2364;
   public static final int FILTHY_POULTICE = 2369;
+  public static final int BANANA = 2373;
   public static final int BOTTLE_OPENER_BELT_BUCKLE = 2385;
   public static final int MOLOTOV_COCKTAIL_COCKTAIL = 2400;
   public static final int GAUZE_GARTER = 2402;
@@ -852,6 +855,7 @@ public class ItemPool {
   public static final int ANT_PITCHFORK = 2572;
   public static final int ANT_SICKLE = 2573;
   public static final int ANT_PICK = 2574;
+  public static final int CACTUS_FRUIT = 2579;
   public static final int HANDFUL_OF_SAND = 2581;
   public static final int SAND_BRICK = 2582;
   public static final int CENTIPEDE_EGGS = 2583;
@@ -892,6 +896,9 @@ public class ItemPool {
   public static final int HAND_CARVED_STAFF = 2721;
   public static final int STAFF_OF_THE_GRAND_FLAMBE = 2723;
   public static final int JUNIPER_BERRIES = 2726;
+  public static final int PLUM = 2727;
+  public static final int PEAR = 2728;
+  public static final int PEACH = 2729;
   public static final int PLUM_WINE = 2730;
   public static final int BUNCH_OF_SQUARE_GRAPES = 2733;
   public static final int STEEL_STOMACH = 2742;
@@ -4133,6 +4140,9 @@ public class ItemPool {
   public static final int TUBETTO_GELATTO = 12242;
   public static final int CUP_OF_13S = 12259;
   public static final int PORTABLE_LAUGHING_STOCK = 12270;
+  public static final int CLASSIC_BANANA = 12272;
+  public static final int ANTIQUE_WATERMELON = 12273;
+  public static final int QUINCE = 12274;
   public static final int INTERESTING_COIN = 12275;
   public static final int ROTH_IPA = 12292;
   public static final int UNDERDRAFT_PROTECTION = 12293;
