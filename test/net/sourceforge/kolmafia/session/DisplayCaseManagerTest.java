@@ -37,6 +37,7 @@ class DisplayCaseManagerTest {
     // Test file has one shelf named -none-
     assertEquals(1, DisplayCaseManager.getShelves().size());
     assertEquals("-none-", DisplayCaseManager.getHeader(0));
+    assertEquals(6, DisplayCaseManager.getShelves().get(0).size());
   }
 
   @Test
@@ -49,8 +50,12 @@ class DisplayCaseManagerTest {
     assertTrue(displayCase.length() > 0, "Case data is empty.");
     DisplayCaseManager.update(displayCase);
     // Test file has three shelves
-    assertEquals(2, DisplayCaseManager.getShelves().size());
+    assertEquals(3, DisplayCaseManager.getShelves().size());
     assertEquals("-none-", DisplayCaseManager.getHeader(0));
-    assertEquals("Being punctual", DisplayCaseManager.getHeader(1));
+    assertEquals("Shelf 1", DisplayCaseManager.getHeader(1));
+    assertEquals("Shelf 2", DisplayCaseManager.getHeader(2));
+    assertEquals(3, DisplayCaseManager.getShelves().get(0).size());
+    assertEquals(2, DisplayCaseManager.getShelves().get(1).size());
+    assertEquals(1, DisplayCaseManager.getShelves().get(2).size());
   }
 }
