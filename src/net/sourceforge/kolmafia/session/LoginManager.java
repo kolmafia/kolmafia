@@ -72,10 +72,7 @@ public class LoginManager {
 
     // See if we are timing in across rollover.
     // api.php has rollover time in it
-    String redirection = ApiRequest.updateStatus();
-    if (redirection != null && redirection.startsWith("afterlife.php")) {
-      return;
-    }
+    ApiRequest.updateStatus();
 
     // Assume if rollover has changed by an hour, it is a new rollover.
     // Time varies slightly between servers by a few seconds.

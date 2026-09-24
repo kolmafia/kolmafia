@@ -60,7 +60,6 @@ import net.sourceforge.kolmafia.request.CharSheetRequest;
 import net.sourceforge.kolmafia.request.ChateauRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
-import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.CustomOutfitRequest;
 import net.sourceforge.kolmafia.request.EdBaseRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -782,11 +781,16 @@ public abstract class KoLmafia {
     // Hermit items depend on character class
     HermitRequest.initialize();
 
-    // Retrieve the contents of inventory.
-    InventoryManager.refresh();
-
-    // Retrieve the contents of the closet.
-    ClosetRequest.refresh();
+    // Retrieve the contents of inventory & closet, and storage if it may not be empty
+    boolean refreshStorage =
+        Preferences.getInteger("lastEmptiedStorage") != KoLCharacter.getAscensions();
+    if (refreshStorage) {
+      ApiRequest.refresh("inventory", "closet", "storage");
+    } else {
+      ApiRequest.refresh("inventory", "closet");
+    }
+    // Recalculate the modifiers
+    KoLCharacter.recalculateAdjustments();
 
     // Retrieve Custom Outfit list
     if (!KoLCharacter.getLimitMode().limitOutfits()) {
@@ -883,8 +887,8 @@ public abstract class KoLmafia {
 
     RequestThread.postRequest(new PeeVPeeRequest("fight"));
 
-    if (Preferences.getInteger("lastEmptiedStorage") != KoLCharacter.getAscensions()) {
-      StorageRequest.refresh();
+    if (refreshStorage) {
+      StorageRequest.updateSettings();
       CafeRequest.pullLARPCard();
     }
 

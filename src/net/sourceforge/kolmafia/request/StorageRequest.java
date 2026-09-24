@@ -606,24 +606,26 @@ public class StorageRequest extends TransferItemRequest {
     // you what went into inventory and what went
     // into the closet.
 
-    InventoryManager.refresh();
-    ClosetRequest.refresh();
-    NamedListenerRegistry.fireChange("(coinmaster)");
-
     // If we are still in a Trendy run or are pulling only
     // "favorite things", we may have left items in storage.
 
     if (KoLCharacter.isTrendy()
         || KoLCharacter.getRestricted()
         || urlString.contains("favonly=1")) {
-      StorageRequest.refresh();
+      ApiRequest.refresh("closet", "inventory", "storage", "status");
+    } else {
+      ApiRequest.refresh("closet", "inventory");
     }
+
+    // Recalculate the modifiers
+    KoLCharacter.recalculateAdjustments();
+    NamedListenerRegistry.fireChange("(coinmaster)");
 
     // Update settings
     StorageRequest.updateSettings();
   }
 
-  private static void updateSettings() {
+  public static void updateSettings() {
     if (KoLConstants.storage.isEmpty()
         && KoLConstants.freepulls.isEmpty()
         && KoLCharacter.getStorageMeat() == 0) {

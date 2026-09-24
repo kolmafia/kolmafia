@@ -68,13 +68,13 @@ public class ApiRequest extends GenericRequest {
     return null;
   }
 
-  public static String updateStatus() {
-    return ApiRequest.updateStatus(false);
+  public static void updateStatus() {
+    ApiRequest.updateStatus(false);
   }
 
   private static final AdventureResult TRANSFUNCTIONER = ItemPool.get(ItemPool.TRANSFUNCTIONER);
 
-  public static synchronized String updateStatus(final boolean silent) {
+  public static synchronized void updateStatus(final boolean silent) {
     // If in certain LimitModes, Noobcore, PokeFam, and Disguises Delimit, API
     // status is incomplete, so use Character Pane instead.
 
@@ -82,35 +82,31 @@ public class ApiRequest extends GenericRequest {
         || KoLCharacter.inNoobcore()
         || KoLCharacter.inPokefam()
         || KoLCharacter.inDisguise()) {
-      return ApiRequest.updateStatusFromCharpane();
+      ApiRequest.updateStatusFromCharpane();
+      return;
     }
 
     ApiRequest.INSTANCE.silent = silent;
     ApiRequest.INSTANCE.run();
-    String rv = ApiRequest.INSTANCE.redirectLocation;
 
     // If you have the continuum transfunctioner equipped, the Character Pane shows you your (8-bit)
     // Score, so request that as well.
     if (KoLCharacter.hasEquipped(TRANSFUNCTIONER)) {
-      rv = ApiRequest.updateStatusFromCharpane();
+      ApiRequest.updateStatusFromCharpane();
     }
-
-    return rv;
   }
 
-  public static String updateStatusFromCharpane() {
+  public static void updateStatusFromCharpane() {
     ApiRequest.CHARPANE.run();
-    return ApiRequest.CHARPANE.redirectLocation;
   }
 
-  public static String updateInventory() {
-    return ApiRequest.updateInventory(false);
+  public static void updateInventory() {
+    ApiRequest.updateInventory(false);
   }
 
-  public static synchronized String updateInventory(final boolean silent) {
+  public static synchronized void updateInventory(final boolean silent) {
     ApiRequest.INVENTORY.silent = silent;
     ApiRequest.INVENTORY.run();
-    return ApiRequest.INVENTORY.redirectLocation;
   }
 
   public static void refresh(final String... whats) {
