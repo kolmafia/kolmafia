@@ -103,18 +103,13 @@ public class StorageRequest extends TransferItemRequest {
   }
 
   public enum StorageRequestType {
-    REFRESH,
     EMPTY_STORAGE,
     STORAGE_TO_INVENTORY,
     PULL_MEAT_FROM_STORAGE
   }
 
   public static void refresh() {
-    // To refresh storage, we get Meat and pulls from the main page
-    // and items from api.php
-
-    RequestThread.postRequest(new StorageRequest(StorageRequestType.REFRESH));
-    ApiRequest.updateStorage();
+    ApiRequest.refresh("storage", "status");
     StorageRequest.updateSettings();
   }
 
@@ -173,11 +168,6 @@ public class StorageRequest extends TransferItemRequest {
     }
   }
 
-  public StorageRequest() {
-    super("storage.php");
-    this.moveType = StorageRequestType.REFRESH;
-  }
-
   public StorageRequest(final StorageRequestType moveType) {
     this(moveType, new AdventureResult[0]);
     this.moveType = moveType;
@@ -207,7 +197,6 @@ public class StorageRequest extends TransferItemRequest {
     // different request types.
 
     switch (moveType) {
-      case REFRESH -> this.addFormField("which", "5");
       case EMPTY_STORAGE -> {
         this.addFormField("action", "pullall");
         this.source = KoLConstants.storage;
@@ -226,7 +215,7 @@ public class StorageRequest extends TransferItemRequest {
 
   @Override
   protected boolean retryOnTimeout() {
-    return this.moveType == StorageRequestType.REFRESH;
+    return false;
   }
 
   public StorageRequestType getMoveType() {
@@ -447,17 +436,6 @@ public class StorageRequest extends TransferItemRequest {
 
     // Let TransferItemRequest handle it
     super.run();
-  }
-
-  @Override
-  public void processResults() {
-    switch (this.moveType) {
-      case REFRESH -> {
-        StorageRequest.parseStorage(this.getURLString(), this.responseText);
-        return;
-      }
-      default -> super.processResults();
-    }
   }
 
   // <b>You have 178,634,761 meat in long-term storage.</b>
@@ -827,7 +805,6 @@ public class StorageRequest extends TransferItemRequest {
   @Override
   public String getStatusMessage() {
     return switch (this.moveType) {
-      case REFRESH -> "Examining Meat and pulls in storage";
       case EMPTY_STORAGE -> "Emptying storage";
       case STORAGE_TO_INVENTORY -> "Pulling items from storage";
       case PULL_MEAT_FROM_STORAGE -> "Pulling meat from storage";

@@ -12,7 +12,6 @@ import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -23,7 +22,6 @@ public class ClosetRequest extends TransferItemRequest {
   private ClosetRequestType moveType;
 
   public enum ClosetRequestType {
-    REFRESH,
     INVENTORY_TO_CLOSET,
     CLOSET_TO_INVENTORY,
     MEAT_TO_CLOSET,
@@ -32,11 +30,7 @@ public class ClosetRequest extends TransferItemRequest {
   }
 
   public static void refresh() {
-    // To refresh closet, we get Meat from any page
-    // and items from api.php
-
-    RequestThread.postRequest(new ClosetRequest(ClosetRequestType.REFRESH));
-    ApiRequest.updateCloset();
+    ApiRequest.refresh("closet", "status");
   }
 
   public static final void parseCloset(final JSONObject json) {
@@ -72,11 +66,6 @@ public class ClosetRequest extends TransferItemRequest {
     }
   }
 
-  public ClosetRequest() {
-    super("closet.php");
-    this.moveType = ClosetRequestType.REFRESH;
-  }
-
   public ClosetRequest(final ClosetRequestType moveType) {
     this(moveType, new AdventureResult[0]);
     this.moveType = moveType;
@@ -98,9 +87,6 @@ public class ClosetRequest extends TransferItemRequest {
     // different request types.
 
     switch (moveType) {
-      case REFRESH ->
-          // It doesn't matter which page we visit to get Meat
-          this.addFormField("which", "1");
       case MEAT_TO_CLOSET -> {
         // closet.php?action=addtakeclosetmeat&addtake=add&pwd&quantity=x
         this.addFormField("action", "addtakeclosetmeat");
@@ -204,17 +190,6 @@ public class ClosetRequest extends TransferItemRequest {
   public void run() {
     // If it's a transfer, let TransferItemRequest handle it
     super.run();
-  }
-
-  @Override
-  public void processResults() {
-    switch (this.moveType) {
-      case REFRESH -> {
-        ClosetRequest.parseCloset(this.getURLString(), this.responseText);
-        return;
-      }
-      default -> super.processResults();
-    }
   }
 
   // Your closet contains <b>170,000,000</b> meat.
@@ -368,7 +343,6 @@ public class ClosetRequest extends TransferItemRequest {
   @Override
   public String getStatusMessage() {
     return switch (this.moveType) {
-      case REFRESH -> "Examining Meat in closet";
       case INVENTORY_TO_CLOSET -> "Placing items into closet";
       case CLOSET_TO_INVENTORY -> "Removing items from closet";
       case MEAT_TO_CLOSET -> "Placing meat into closet";

@@ -5,6 +5,7 @@ import com.alibaba.fastjson2.JSONObject;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -17,6 +18,7 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -26,8 +28,6 @@ import net.sourceforge.kolmafia.utilities.LockableListFactory;
 public class ApiRequest extends GenericRequest {
   private static final ApiRequest INSTANCE = new ApiRequest("status");
   private static final ApiRequest INVENTORY = new ApiRequest("inventory");
-  private static final ApiRequest CLOSET = new ApiRequest("closet");
-  private static final ApiRequest STORAGE = new ApiRequest("storage");
   private static final CharPaneRequest CHARPANE = new CharPaneRequest();
   private static final Map<String, Consumer<JSONObject>> PARSERS =
       Map.of(
@@ -113,24 +113,8 @@ public class ApiRequest extends GenericRequest {
     return ApiRequest.INVENTORY.redirectLocation;
   }
 
-  public static String updateCloset() {
-    return ApiRequest.updateCloset(false);
-  }
-
-  public static synchronized String updateCloset(final boolean silent) {
-    ApiRequest.CLOSET.silent = silent;
-    ApiRequest.CLOSET.run();
-    return ApiRequest.CLOSET.redirectLocation;
-  }
-
-  public static String updateStorage() {
-    return ApiRequest.updateStorage(false);
-  }
-
-  public static synchronized String updateStorage(final boolean silent) {
-    ApiRequest.STORAGE.silent = silent;
-    ApiRequest.STORAGE.run();
-    return ApiRequest.STORAGE.redirectLocation;
+  public static void refresh(final String... whats) {
+    new ApiRequest(String.join(",", whats)).run();
   }
 
   public static void updateMallPrices(final String category, final String tiers) {
@@ -159,21 +143,16 @@ public class ApiRequest extends GenericRequest {
 
   @Override
   public void run() {
-    String message =
-        this.silent
-            ? null
-            : switch (this.what) {
-              case "status" -> "Loading character status...";
-              case "inventory" -> "Updating inventory...";
-              case "closet" -> "Updating closet...";
-              case "storage" -> "Updating storage...";
-              case "item" -> "Looking at item #" + this.id + "...";
-              case "mallprices" -> "Updating mall prices...";
-              default -> null;
-            };
+    if (!this.silent) {
+      String message =
+          Arrays.stream(this.what.split(","))
+              .map(this::message)
+              .filter(Objects::nonNull)
+              .collect(Collectors.joining(" "));
 
-    if (message != null) {
-      KoLmafia.updateDisplay(message);
+      if (!message.isEmpty()) {
+        KoLmafia.updateDisplay(message);
+      }
     }
 
     super.run();
@@ -181,6 +160,18 @@ public class ApiRequest extends GenericRequest {
 
   public JSONObject getJSON() {
     return ApiRequest.getJSON(this.responseText, this.what);
+  }
+
+  private String message(final String what) {
+    return switch (what) {
+      case "status" -> "Loading character status...";
+      case "inventory" -> "Updating inventory...";
+      case "closet" -> "Updating closet...";
+      case "storage" -> "Updating storage...";
+      case "item" -> "Looking at item #" + this.id + "...";
+      case "mallprices" -> "Updating mall prices...";
+      default -> null;
+    };
   }
 
   @Override
@@ -200,7 +191,7 @@ public class ApiRequest extends GenericRequest {
       return;
     }
 
-    ApiRequest.parseWhat(whatMatcher.group(1), responseText);
+    ApiRequest.parseWhat(GenericRequest.decodeField(whatMatcher.group(1)), responseText);
   }
 
   private static void parseWhat(final String requestedWhats, final String responseText) {
@@ -414,6 +405,10 @@ public class ApiRequest extends GenericRequest {
 
       // Many things from the Char Pane are available
       CharPaneRequest.parseStatus(json);
+
+      KoLCharacter.setClosetMeat(json.getLongValue("closetmeat"));
+      KoLCharacter.setStorageMeat(json.getLongValue("storagemeat"));
+      ConcoctionDatabase.setPullsRemaining(json.getIntValue("pullsleft"));
 
       var limitmode = KoLCharacter.getLimitMode();
       switch (limitmode) {

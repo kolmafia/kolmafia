@@ -52,7 +52,7 @@ public class RefreshStatusCommandTest extends AbstractCommandTestBase {
 
     var requests = getRequests();
     assertThat(requests, not(empty()));
-    assertPostRequest(getLastRequest(), "/api.php", "what=closet&for=KoLmafia");
+    assertPostRequest(getLastRequest(), "/api.php", "what=closet,status&for=KoLmafia");
   }
 
   @Test
