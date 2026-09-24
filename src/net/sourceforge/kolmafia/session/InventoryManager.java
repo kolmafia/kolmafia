@@ -1964,6 +1964,10 @@ public abstract class InventoryManager {
     checkItemDescription(id);
   }
 
+  public static void checkFamiliarScrapbook() {
+    checkIfOwned(ItemPool.FAMILIAR_SCRAPBOOK);
+  }
+
   public static void checkDartPerks() {
     checkIfOwned(ItemPool.EVERFULL_DART_HOLSTER);
   }
