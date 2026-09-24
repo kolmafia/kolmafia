@@ -142,7 +142,7 @@ class ApiRequestTest {
   @Test
   void parsesClosetAndStorageFromStatus() {
     try (var cleanups =
-        new Cleanups(withMeatInCloset(0), withMeatInStorage(0), withPullsRemaining(0)); ) {
+        new Cleanups(withMeatInCloset(0), withMeatInStorage(0), withPullsRemaining(0))) {
       ApiRequest.parseStatus(json(html("request/test_status2.json")));
 
       assertThat(KoLCharacter.getClosetMeat(), is(54321L));
