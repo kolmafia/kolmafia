@@ -149,10 +149,12 @@ public class ApiRequest extends GenericRequest {
               .sorted()
               .map(this::message)
               .filter(Objects::nonNull)
-              .collect(Collectors.joining(" "));
+              .collect(Collectors.joining(", "));
 
       if (!message.isEmpty()) {
-        KoLmafia.updateDisplay(message);
+        // Updating closet, inventory, storage...
+        // Updating item #123...
+        KoLmafia.updateDisplay("Updating " + message + "...");
       }
     }
 
@@ -165,12 +167,10 @@ public class ApiRequest extends GenericRequest {
 
   private String message(final String what) {
     return switch (what) {
-      case "status" -> "Loading character status...";
-      case "inventory" -> "Updating inventory...";
-      case "closet" -> "Updating closet...";
-      case "storage" -> "Updating storage...";
-      case "item" -> "Looking at item #" + this.id + "...";
-      case "mallprices" -> "Updating mall prices...";
+      case "status" -> "character status";
+      case "item" -> "item #" + this.id;
+      case "mallprices" -> "mall prices";
+      case "inventory", "closet", "storage" -> what;
       default -> null;
     };
   }
