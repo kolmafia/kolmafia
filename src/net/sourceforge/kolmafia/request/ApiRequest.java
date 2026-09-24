@@ -146,6 +146,7 @@ public class ApiRequest extends GenericRequest {
     if (!this.silent) {
       String message =
           Arrays.stream(this.what.split(","))
+              .sorted()
               .map(this::message)
               .filter(Objects::nonNull)
               .collect(Collectors.joining(" "));
