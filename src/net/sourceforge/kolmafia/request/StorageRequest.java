@@ -213,11 +213,6 @@ public class StorageRequest extends TransferItemRequest {
     }
   }
 
-  @Override
-  protected boolean retryOnTimeout() {
-    return false;
-  }
-
   public StorageRequestType getMoveType() {
     return this.moveType;
   }
