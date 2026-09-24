@@ -750,6 +750,13 @@ public class Modifiers {
       this.strings.set(StringModifier.EQUALIZE_MOXIE, val);
     }
 
+    for (var mod : StringModifier.STRING_MODIFIERS) {
+      if (!mod.isMultiple()) continue;
+      for (var value : mods.strings.getList(mod)) {
+        this.strings.set(mod, value);
+      }
+    }
+
     // OR in the bitmap modifiers
     var mutexes = this.bitmaps.get(BitmapModifier.MUTEX) & mods.bitmaps.get(BitmapModifier.MUTEX);
     this.bitmaps.add(BitmapModifier.MUTEX_VIOLATIONS, mutexes);
