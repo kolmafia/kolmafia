@@ -8663,7 +8663,7 @@ public class FightRequest extends GenericRequest {
         ||
         // Start of combat
         text.contains("You snap a picture")
-        || text.contains("you just <i>have</i> to take a picture")
+        || text.contains("you just have to take a picture")
         || text.contains("show this photo to your grandkids")
         ||
         // Mid combat

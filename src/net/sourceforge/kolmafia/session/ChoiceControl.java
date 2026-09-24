@@ -5950,12 +5950,6 @@ public abstract class ChoiceControl {
           if (limit != null) {
             limit.increment();
             SkillDatabase.registerCasts(SkillPool.CALCULATE_THE_UNIVERSE, 1);
-            if (!KoLCharacter.canInteract() && limit.getUses() >= 3) {
-              // If the skill is used 3 times in-run, the skill can't be used more today even after
-              // breaking the prism.
-              Preferences.setInteger(
-                  "_universeCalculated", Preferences.getInteger("skillLevel144"));
-            }
           }
         }
       }
