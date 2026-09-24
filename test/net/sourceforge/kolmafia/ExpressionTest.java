@@ -6,6 +6,7 @@ import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withItemInCloset;
 import static internal.helpers.Player.withItemInStorage;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withRestricted;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
@@ -169,7 +170,18 @@ public class ExpressionTest {
     var cleanups = new Cleanups(withInteractivity(canInteract));
 
     try (cleanups) {
-      var exp = new ModifierExpression("interact()*7+(1-interact())*3", "Test expression");
+      var exp = new ModifierExpression("interact*7+(1-interact)*3", "Test expression");
+      assertThat(exp.eval(), equalTo(expectedOutput));
+    }
+  }
+
+  @ParameterizedTest
+  @CsvSource({"true,7", "false,3"})
+  void restrictedExpressions(boolean restricted, double expectedOutput) {
+    var cleanups = new Cleanups(withRestricted(restricted));
+
+    try (cleanups) {
+      var exp = new ModifierExpression("restricted*7+(1-restricted)*3", "Test expression");
       assertThat(exp.eval(), equalTo(expectedOutput));
     }
   }
