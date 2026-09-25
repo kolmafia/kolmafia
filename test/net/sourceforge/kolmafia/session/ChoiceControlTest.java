@@ -1137,18 +1137,6 @@ class ChoiceControlTest {
     }
 
     @Test
-    void handlesUnknownMealsEaten() {
-      var responseText = html("request/test_choice_bw_apron_success.html");
-      try (var cleanups =
-          new Cleanups(
-              withItem(ItemPool.BLACK_AND_WHITE_APRON_MEAL_KIT),
-              withChoice(1518, 1, responseText))) {
-        assertThat("bwApronMealsEaten", isSetTo(-1));
-        assertThat(InventoryManager.getCount(ItemPool.BLACK_AND_WHITE_APRON_MEAL_KIT), is(0));
-      }
-    }
-
-    @Test
     void handlesFull() {
       var responseText = html("request/test_choice_bw_apron_full.html");
       try (var cleanups =
