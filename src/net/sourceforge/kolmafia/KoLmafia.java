@@ -663,7 +663,16 @@ public abstract class KoLmafia {
     // Start out fetching the status using the KoL API. This
     // provides data from a lot of different standard pages
 
-    ApiRequest.updateStatus(false, What.INVENTORY, What.CLOSET, What.STORAGE);
+    // Refresh storage if the known ascensions is different from the last emptied storage
+    // If this is wrong, a later check will refresh storage
+    boolean refreshStorage =
+        Preferences.getInteger("lastEmptiedStorage") != Preferences.getInteger("knownAscensions");
+
+    if (refreshStorage) {
+      ApiRequest.updateStatus(false, What.INVENTORY, What.CLOSET, What.STORAGE);
+    } else {
+      ApiRequest.updateStatus(false, What.INVENTORY, What.CLOSET);
+    }
 
     if (CharPaneRequest.inValhalla()) {
       // Nothing below applies in Valhalla, and api.php does not report our
@@ -715,6 +724,12 @@ public abstract class KoLmafia {
 
     // No spurious adventure logging
     KoLAdventure.locationLogged = true;
+
+    // If storage was not refreshed earlier, but should have been
+    if (!refreshStorage
+        && Preferences.getInteger("lastEmptiedStorage") != KoLCharacter.getAscensions()) {
+      ApiRequest.refresh(What.STORAGE);
+    }
 
     KoLmafia.refreshSessionData();
 
