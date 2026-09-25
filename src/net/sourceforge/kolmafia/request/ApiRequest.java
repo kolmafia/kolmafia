@@ -84,11 +84,7 @@ public class ApiRequest extends GenericRequest {
       return;
     }
 
-    if (silent) {
-      ApiRequest.refreshSilent(What.STATUS);
-    } else {
-      ApiRequest.refresh(What.STATUS);
-    }
+    ApiRequest.refresh(silent, What.STATUS);
 
     // Some paths and items have state that is only surfaced on the Character Pane
     if (KoLCharacter.inNoobcore() // absorbs and enchantments
@@ -104,12 +100,12 @@ public class ApiRequest extends GenericRequest {
   }
 
   public static void refresh(final What... whats) {
-    new ApiRequest(whats).run();
+    ApiRequest.refresh(false, whats);
   }
 
-  public static void refreshSilent(final What... whats) {
+  public static void refresh(final boolean silent, final What... whats) {
     var request = new ApiRequest(whats);
-    request.silent = true;
+    request.silent = silent;
     request.run();
   }
 

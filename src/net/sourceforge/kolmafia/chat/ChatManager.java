@@ -429,17 +429,17 @@ public abstract class ChatManager {
 
     if (content.contains("New message received from") || content.contains("has sent you")) {
       // May have been sent items, and API request is low impact.
-      ApiRequest.refreshSilent(What.INVENTORY);
+      ApiRequest.refresh(true, What.INVENTORY);
     }
 
     if (content.contains("just attacked you!")) {
       // May have lost items, and API request is low impact.
-      ApiRequest.refreshSilent(What.INVENTORY);
+      ApiRequest.refresh(true, What.INVENTORY);
     }
 
     if (content.startsWith("Item #") && content.endsWith("given.")) {
       // You are a devster and you have spawned in some items.
-      ApiRequest.refreshSilent(What.INVENTORY);
+      ApiRequest.refresh(true, What.INVENTORY);
     }
 
     if (content.contains(" has ")) {
