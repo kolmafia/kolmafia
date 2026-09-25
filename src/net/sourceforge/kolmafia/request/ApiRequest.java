@@ -81,11 +81,11 @@ public class ApiRequest extends GenericRequest {
     // In certain LimitModes, API status is incomplete, so use Character Pane instead.
 
     if (KoLCharacter.getLimitMode().requiresCharPane()) {
-      // Update the rest of the stuff if we're not updating charpane
+      ApiRequest.updateStatusFromCharpane();
+      // after the charpane, since parsing inventory depends on the limit mode
       if (also.length > 0) {
         ApiRequest.refresh(silent, also);
       }
-      ApiRequest.updateStatusFromCharpane();
       return;
     }
 

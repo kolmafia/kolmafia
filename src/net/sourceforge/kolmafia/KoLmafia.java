@@ -659,6 +659,8 @@ public abstract class KoLmafia {
 
   public static void refreshSession() {
     KoLmafia.setIsRefreshing(true);
+    // inventory arrives before the char sheet, so concoctions would be computed without our skills
+    ConcoctionDatabase.deferRefresh(true);
 
     // Start out fetching the status using the KoL API. This
     // provides data from a lot of different standard pages
@@ -679,6 +681,7 @@ public abstract class KoLmafia {
       // banked Karma, so read the charpane for that and stop here.
       ApiRequest.updateStatusFromCharpane();
       KoLmafia.updateDisplay("Welcome to Valhalla!");
+      ConcoctionDatabase.deferRefresh(false);
       KoLmafia.setIsRefreshing(false);
       return;
     }
@@ -741,6 +744,7 @@ public abstract class KoLmafia {
     KoLCharacter.recalculateAdjustments();
     ConsumablesDatabase.calculateAllAverageAdventures();
 
+    ConcoctionDatabase.deferRefresh(false);
     KoLmafia.setIsRefreshing(false);
   }
 
@@ -896,7 +900,7 @@ public abstract class KoLmafia {
     RequestThread.postRequest(new PeeVPeeRequest("fight"));
 
     StorageRequest.updateSettings();
-    // Will autopull LARP card if auto sastify is enabled
+    // Will autopull LARP card if auto satisfy is enabled
     CafeRequest.pullLARPCard();
 
     // Load items pulled in Ronin
