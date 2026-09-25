@@ -3509,6 +3509,11 @@ public abstract class KoLCharacter {
     return 40;
   }
 
+  /** The PvP fights granted at rollover, before anything else contributes. */
+  public static final int rolloverPvpFightsGranted() {
+    return 10;
+  }
+
   public static final boolean isUnarmed() {
     AdventureResult weapon = EquipmentManager.getEquipment(Slot.WEAPON);
     AdventureResult offhand = EquipmentManager.getEquipment(Slot.OFFHAND);

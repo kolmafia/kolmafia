@@ -15842,7 +15842,7 @@ Path	WereProfessor	Liver Capacity: [3*(pref(wereProfessorLiver))], Stomach Capac
 
 # Generated
 Generated	Base	Familiar Experience: +1, Critical Hit Percent: +9, Spell Critical Percent: +9
-Generated	Rollover	PvP Fights: +10, Variable
+Generated	Rollover	Variable
 
 # Horsery
 Horsery	normal horse	Initiative: +10, HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10

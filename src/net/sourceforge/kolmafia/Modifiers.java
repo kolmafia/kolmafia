@@ -971,6 +971,7 @@ public class Modifiers {
   private boolean overrideGenerated(final Lookup lookup) {
     if (ROLLOVER.equalsIgnoreCase(lookup.getName())) {
       this.setDouble(DoubleModifier.ADVENTURES, KoLCharacter.rolloverAdventuresGranted());
+      this.setDouble(DoubleModifier.PVP_FIGHTS, KoLCharacter.rolloverPvpFightsGranted());
       return true;
     }
     return false;
