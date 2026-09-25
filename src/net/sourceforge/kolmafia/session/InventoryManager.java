@@ -52,6 +52,7 @@ import net.sourceforge.kolmafia.persistence.RestoresDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ApiRequest;
+import net.sourceforge.kolmafia.request.ApiRequest.What;
 import net.sourceforge.kolmafia.request.ClanStashRequest;
 import net.sourceforge.kolmafia.request.ClanStashRequest.ClanStashRequestType;
 import net.sourceforge.kolmafia.request.ClosetRequest;
@@ -90,7 +91,7 @@ public abstract class InventoryManager {
 
   public static void refresh() {
     // Retrieve the contents of inventory via api.php
-    ApiRequest.updateInventory();
+    ApiRequest.refresh(What.INVENTORY);
     // Items in inventory can grant modifiers.
     // For example, Cincho de Mayo gives 3 free rests.
     KoLCharacter.recalculateAdjustments();

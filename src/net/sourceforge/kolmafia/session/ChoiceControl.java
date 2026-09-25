@@ -59,6 +59,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.AlliedRadioRequest;
 import net.sourceforge.kolmafia.request.ApiRequest;
+import net.sourceforge.kolmafia.request.ApiRequest.What;
 import net.sourceforge.kolmafia.request.ArcadeRequest;
 import net.sourceforge.kolmafia.request.BeachCombRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
@@ -3977,7 +3978,7 @@ public abstract class ChoiceControl {
             ResultProcessor.processItem(ItemDatabase.getItemId(itemName), -1);
           } else {
             // Don't know item to remove so refresh inventory instead
-            ApiRequest.updateInventory();
+            ApiRequest.refresh(What.INVENTORY);
           }
           QuestDatabase.setQuestProgress(Quest.DOCTOR_BAG, QuestDatabase.UNSTARTED);
           Preferences.setString("doctorBagQuestItem", "");
@@ -4671,10 +4672,7 @@ public abstract class ChoiceControl {
         // Black and White Apron Meal Kit
         if (text.contains("You cook and quickly consume your")) {
           ResultProcessor.processItem(ItemPool.BLACK_AND_WHITE_APRON_MEAL_KIT, -1);
-          if (Preferences.getInteger("bwApronMealsEaten") >= 0) {
-            // Known starting point.
-            Preferences.increment("bwApronMealsEaten");
-          }
+          Preferences.increment("bwApronMealsEaten");
         }
       }
       case 1534 -> {

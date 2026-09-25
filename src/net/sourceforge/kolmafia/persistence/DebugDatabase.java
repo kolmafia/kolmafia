@@ -62,6 +62,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase.Attribute;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.SkillDatabase.Category;
 import net.sourceforge.kolmafia.request.ApiRequest;
+import net.sourceforge.kolmafia.request.ApiRequest.What;
 import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest.ClosetRequestType;
 import net.sourceforge.kolmafia.request.DisplayCaseRequest;
@@ -143,7 +144,7 @@ public class DebugDatabase {
   }
 
   private static String readApiPlural(final int itemId) {
-    GenericRequest request = new ApiRequest("item", itemId);
+    GenericRequest request = new ApiRequest(What.ITEM, itemId);
     RequestThread.postRequest(request);
     String plural = "";
     JSONObject json;
@@ -2919,7 +2920,7 @@ public class DebugDatabase {
     }
 
     // Look it up and register it anew
-    ApiRequest request = new ApiRequest("item", itemId);
+    ApiRequest request = new ApiRequest(What.ITEM, itemId);
     RequestThread.postRequest(request);
 
     JSONObject json = request.getJSON();
@@ -3046,7 +3047,7 @@ public class DebugDatabase {
         continue;
       }
 
-      ApiRequest request = new ApiRequest("item", itemId);
+      ApiRequest request = new ApiRequest(What.ITEM, itemId);
       RequestThread.postRequest(request);
 
       JSONObject json = request.getJSON();
