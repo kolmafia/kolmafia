@@ -252,16 +252,18 @@ public class GearChangePanel extends JPanel {
         continue;
       }
 
-      String strval = mods.getString(mod);
-      if (strval.isEmpty()) continue;
       name = mod.getName();
       name = StringUtilities.singleStringReplace(name, "Familiar", "Fam");
-      if (anyBool) {
-        buff.append(", ");
+      for (var strval : mods.getStrings(mod)) {
+        if (strval.isEmpty()) continue;
+        if (anyBool) {
+          buff.append(", ");
+        }
+        anyBool = true;
+        buff.append(name);
+        buff.append(": ");
+        buff.append(strval);
       }
-      buff.append(name);
-      buff.append(": ");
-      buff.append(strval);
     }
 
     buff.append("</td></tr></table></html>");

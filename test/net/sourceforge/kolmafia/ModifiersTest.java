@@ -1445,6 +1445,18 @@ public class ModifiersTest {
         assertThat(current(DoubleModifier.PVP_FIGHTS), equalTo(10.0));
       }
     }
+
+    @Test
+    void equipmentRolloverEffectsReachCurrentModifiers() {
+      var cleanups = withEquipped(Slot.OFFHAND, "Royal scepter");
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments(false);
+        assertThat(
+            KoLCharacter.getCurrentModifiers().getStrings(StringModifier.ROLLOVER_EFFECT),
+            contains("It's Good To Be Royal!"));
+      }
+    }
   }
 
   @Nested
