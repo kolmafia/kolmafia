@@ -1876,7 +1876,7 @@ public class CharPaneRequest extends GenericRequest {
       return;
     }
 
-    if (!KoLCharacter.getPath().canUseFamiliars()) return;
+    if (!KoLCharacter.getPath().canUseFamiliars() || KoLCharacter.inPokefam()) return;
 
     int famId = json.getIntValue("familiar");
     int famExp = json.getIntValue("familiarexp");

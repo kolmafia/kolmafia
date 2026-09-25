@@ -3212,7 +3212,10 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         // Otherwise, visit the Meatsmith and start the quest.
         RequestThread.postRequest(new ShopRequest("meatsmith"));
         RequestThread.postRequest(new ShopRequest("meatsmith", "talk"));
-        RequestThread.postRequest(new GenericRequest("choice.php?whichchoice=1059&option=1"));
+        // Only handle the choice if it wasn't handled via a choice adventure script or preference
+        if (ChoiceManager.handlingChoice) {
+          RequestThread.postRequest(new GenericRequest("choice.php?whichchoice=1059&option=1"));
+        }
       }
 
       return Preferences.getBoolean("skeletonStoreAvailable");
@@ -3231,7 +3234,10 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         // Otherwise, visit the Armorer and start the quest.
         RequestThread.postRequest(new ShopRequest("armory"));
         RequestThread.postRequest(new ShopRequest("armory", "talk"));
-        RequestThread.postRequest(new GenericRequest("choice.php?whichchoice=1065&option=1"));
+        // Only handle the choice if it wasn't handled via a choice adventure script or preference
+        if (ChoiceManager.handlingChoice) {
+          RequestThread.postRequest(new GenericRequest("choice.php?whichchoice=1065&option=1"));
+        }
       }
 
       return Preferences.getBoolean("madnessBakeryAvailable");
@@ -3250,7 +3256,10 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         // Otherwise, visit Doc Galaktik and start the quest.
         RequestThread.postRequest(new ShopRequest("doc"));
         RequestThread.postRequest(new ShopRequest("doc", "talk"));
-        RequestThread.postRequest(new GenericRequest("choice.php?whichchoice=1064&option=1"));
+        // Only handle the choice if it wasn't handled via a choice adventure script or preference
+        if (ChoiceManager.handlingChoice) {
+          RequestThread.postRequest(new GenericRequest("choice.php?whichchoice=1064&option=1"));
+        }
       }
 
       return Preferences.getBoolean("overgrownLotAvailable");

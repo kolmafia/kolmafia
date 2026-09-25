@@ -34,6 +34,7 @@
     <module name="AvoidStarImport">
       <property name="allowStaticMemberImports" value="true"/>
     </module>
+    <module name="UnnecessarySemicolonInTryWithResources"/>
     <module name="SuppressWarningsHolder" />
     <module name="SuppressionCommentFilter">
       <property name="offCommentFormat" value="CHECKSTYLE.OFF\: ([\w\|]+)" />
