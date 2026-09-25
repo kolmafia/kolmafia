@@ -14,29 +14,31 @@ import net.sourceforge.kolmafia.utilities.PHPMTRandom;
 public class PortableLaughingStockManager {
   static final List<AdventureResult> BASIC_FRUIT =
       Stream.of(
-              "orange",
-              "grapefruit",
-              "grapes",
-              "lemon",
-              "lime",
-              "papaya",
-              "cranberries",
-              "strawberry",
-              "cherry",
-              "kumquat",
-              "tangerine",
-              "raspberry",
-              "kiwi",
-              "blackberry",
-              "banana",
-              "cactus fruit",
-              "plum",
-              "pear",
-              "peach")
+              ItemPool.ORANGE,
+              ItemPool.GRAPEFRUIT,
+              ItemPool.GRAPES,
+              ItemPool.LEMON,
+              ItemPool.LIME,
+              ItemPool.PAPAYA,
+              ItemPool.CRANBERRIES,
+              ItemPool.STRAWBERRY,
+              ItemPool.CHERRY,
+              ItemPool.KUMQUAT,
+              ItemPool.TANGERINE,
+              ItemPool.RASPBERRY,
+              ItemPool.KIWI,
+              ItemPool.BLACKBERRY,
+              ItemPool.BANANA,
+              ItemPool.CACTUS_FRUIT,
+              ItemPool.PLUM,
+              ItemPool.PEAR,
+              ItemPool.PEACH)
           .map(ItemPool::get)
           .toList();
   static final List<AdventureResult> ADVANCED_FRUIT =
-      Stream.of("classic banana", "antique watermelon", "quince").map(ItemPool::get).toList();
+      Stream.of(ItemPool.CLASSIC_BANANA, ItemPool.ANTIQUE_WATERMELON, ItemPool.QUINCE)
+          .map(ItemPool::get)
+          .toList();
 
   private PortableLaughingStockManager() {}
 
