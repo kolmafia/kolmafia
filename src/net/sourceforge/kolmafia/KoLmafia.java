@@ -901,9 +901,11 @@ public abstract class KoLmafia {
 
     RequestThread.postRequest(new PeeVPeeRequest("fight"));
 
-    StorageRequest.updateSettings();
-    // Will autopull LARP card if auto satisfy is enabled
-    CafeRequest.pullLARPCard();
+    if (Preferences.getInteger("lastEmptiedStorage") != KoLCharacter.getAscensions()) {
+      StorageRequest.updateSettings();
+      // Will autopull LARP card if auto satisfy is enabled
+      CafeRequest.pullLARPCard();
+    }
 
     // Load items pulled in Ronin
     StorageRequest.loadRoninStoragePulls();
