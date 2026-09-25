@@ -27,6 +27,7 @@ import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.AltarOfLiteracyRequest;
 import net.sourceforge.kolmafia.request.ApiRequest;
+import net.sourceforge.kolmafia.request.ApiRequest.What;
 import net.sourceforge.kolmafia.request.ChannelColorsRequest;
 import net.sourceforge.kolmafia.request.LoginRequest;
 import net.sourceforge.kolmafia.request.SendMailRequest;
@@ -428,17 +429,17 @@ public abstract class ChatManager {
 
     if (content.contains("New message received from") || content.contains("has sent you")) {
       // May have been sent items, and API request is low impact.
-      ApiRequest.updateInventory(true);
+      ApiRequest.refresh(true, What.INVENTORY);
     }
 
     if (content.contains("just attacked you!")) {
       // May have lost items, and API request is low impact.
-      ApiRequest.updateInventory(true);
+      ApiRequest.refresh(true, What.INVENTORY);
     }
 
     if (content.startsWith("Item #") && content.endsWith("given.")) {
       // You are a devster and you have spawned in some items.
-      ApiRequest.updateInventory(true);
+      ApiRequest.refresh(true, What.INVENTORY);
     }
 
     if (content.contains(" has ")) {

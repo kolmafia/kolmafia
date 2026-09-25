@@ -126,8 +126,8 @@ class GearChangePanelTest {
 
     @ParameterizedTest
     @CsvSource({
-      ",, Maximum HP:<div align=right>+25.00</div>Maximum MP:<div align=right>+25.00</div>",
-      "diamondback skin, nicksilver spurs, Monster Level:<div align=right>+20.00</div>Item Drop:<div align=right>+20.00</div>Maximum HP:<div align=right>+25.00</div>Maximum MP:<div align=right>+25.00</div>",
+      ",, Maximum HP:<div align=right>+25.00</div>Maximum MP:<div align=right>+25.00</div>Conditional Skill (Equipped): Cowboy Kick",
+      "diamondback skin, nicksilver spurs, Monster Level:<div align=right>+20.00</div>Item Drop:<div align=right>+20.00</div>Maximum HP:<div align=right>+25.00</div>Maximum MP:<div align=right>+25.00</div>Conditional Skill (Equipped): Cowboy Kick",
     })
     void canShowCowboyBootsModifiers(String skin, String spurs, String expectedMods) {
       var cleanups = new Cleanups();
@@ -145,8 +145,8 @@ class GearChangePanelTest {
 
     @ParameterizedTest
     @CsvSource({
-      ", Maximum HP:<div align=right>+20.00</div>Maximum MP:<div align=right>+20.00</div>Single Equip",
-      "meat, Meat Drop:<div align=right>+50.00</div>Maximum HP:<div align=right>+20.00</div>Maximum MP:<div align=right>+20.00</div>Single Equip"
+      ", 'Maximum HP:<div align=right>+20.00</div>Maximum MP:<div align=right>+20.00</div>Single Equip, Conditional Skill (Equipped): Back-Up to your Last Enemy'",
+      "meat, 'Meat Drop:<div align=right>+50.00</div>Maximum HP:<div align=right>+20.00</div>Maximum MP:<div align=right>+20.00</div>Single Equip, Conditional Skill (Equipped): Back-Up to your Last Enemy'"
     })
     void canShowBackupCameraModifiers(String setting, String expectedMods) {
       var cleanups = new Cleanups(withProperty("backupCameraMode", setting == null ? "" : setting));
@@ -185,6 +185,16 @@ class GearChangePanelTest {
               ItemPool.get(ItemPool.BACONSTONE), Slot.ACCESSORY1, false, 1);
       // baconstone has no item modifiers
       assertThat(modifierText(mods.toString()), equalTo(""));
+    }
+
+    @Test
+    void showsRolloverEffect() {
+      var mods =
+          GearChangePanel.getModifiers(ItemPool.get("Royal scepter"), Slot.OFFHAND, false, 1);
+      assertThat(
+          modifierText(mods.toString()),
+          equalTo(
+              "Adventures:<div align=right>+4.00</div>PvP Fights:<div align=right>+8.00</div>Rollover Effect Duration:<div align=right>+5.00</div>Rollover Effect: It's Good To Be Royal!"));
     }
   }
 }
