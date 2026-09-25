@@ -452,9 +452,7 @@ public class ModifierDatabase {
   }
 
   public static String getModifierString(final Lookup lookup) {
-    ModifierType type = lookup.type;
-    IntOrString key = normalizeGeneratedKey(type, lookup.getKey());
-    return modifierStringsByName.get(type, key);
+    return modifierStringsByName.get(lookup.type, lookup.getKey());
   }
 
   public static final Modifiers getModifiers(final ModifierType type, final int id) {
