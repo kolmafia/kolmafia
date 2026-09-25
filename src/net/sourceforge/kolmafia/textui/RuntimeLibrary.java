@@ -10999,9 +10999,6 @@ public abstract class RuntimeLibrary {
       ModifierType modifierType = ModifierType.fromString(name.substring(0, name.indexOf(":")));
       if (modifierType != null) return modifierType;
     }
-    if (ModifierDatabase.getModifiers(ModifierType.GENERATED, name) != null) {
-      return ModifierType.GENERATED;
-    }
     return ModifierType.ITEM;
   }
 

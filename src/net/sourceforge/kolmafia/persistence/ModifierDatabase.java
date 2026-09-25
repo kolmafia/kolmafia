@@ -438,21 +438,24 @@ public class ModifierDatabase {
     return getModifiers(ModifierType.EFFECT, id);
   }
 
-  public static String getModifierString(final Lookup lookup) {
-    ModifierType type = lookup.type;
-    IntOrString key = lookup.getKey();
+  private static IntOrString normalizeKey(final ModifierType type, final IntOrString key) {
     if (type == ModifierType.GENERATED && key.isString()) {
       var map = modifierStringsByName.getAll(type);
       if (map != null) {
         for (var entryKey : map.keySet()) {
           if (entryKey.isString()
               && entryKey.getStringValue().equalsIgnoreCase(key.getStringValue())) {
-            key = entryKey;
-            break;
+            return entryKey;
           }
         }
       }
     }
+    return key;
+  }
+
+  public static String getModifierString(final Lookup lookup) {
+    ModifierType type = lookup.type;
+    IntOrString key = normalizeKey(type, lookup.getKey());
     return modifierStringsByName.get(type, key);
   }
 
@@ -472,18 +475,7 @@ public class ModifierDatabase {
       originalType = type;
       type = ModifierType.THRONE;
     }
-    if (type == ModifierType.GENERATED && key.isString()) {
-      var map = modifierStringsByName.getAll(type);
-      if (map != null) {
-        for (var entryKey : map.keySet()) {
-          if (entryKey.isString()
-              && entryKey.getStringValue().equalsIgnoreCase(key.getStringValue())) {
-            key = entryKey;
-            break;
-          }
-        }
-      }
-    }
+    key = normalizeKey(type, key);
 
     Modifiers modifiers = modifiersByName.get(type, key);
 

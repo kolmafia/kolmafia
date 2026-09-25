@@ -1264,11 +1264,16 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     }
 
     @Test
-    void canGetNumericModifierForShortBase() {
+    void canGetNumericModifierForGeneratedCaseInsensitive() {
       assertThat(
-          execute("numeric_modifier(\"Base\", \"Familiar Experience\")"), is("Returned: 1.0\n"));
+          execute("numeric_modifier(\"generated:base\", \"Familiar Experience\")"),
+          is("Returned: 1.0\n"));
       assertThat(
-          execute("numeric_modifier(\"base\", \"Critical Hit Percent\")"), is("Returned: 9.0\n"));
+          execute("numeric_modifier(\"GENERATED:BASE\", \"Critical Hit Percent\")"),
+          is("Returned: 9.0\n"));
+      assertThat(
+          execute("numeric_modifier(\"generated:rollover\", \"Adventures\")"),
+          is("Returned: 40.0\n"));
     }
 
     @Test
@@ -1285,9 +1290,10 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     }
 
     @Test
-    void canGetNumericModifierForShortRollover() {
-      assertThat(execute("numeric_modifier(\"Rollover\", \"Adventures\")"), is("Returned: 40.0\n"));
-      assertThat(execute("numeric_modifier(\"rollover\", \"PvP Fights\")"), is("Returned: 10.0\n"));
+    void unprefixedGeneratedModifiersDefaultToItem() {
+      assertThat(
+          execute("numeric_modifier(\"Base\", \"Familiar Experience\")"), is("Returned: 0.0\n"));
+      assertThat(execute("numeric_modifier(\"Rollover\", \"Adventures\")"), is("Returned: 0.0\n"));
     }
 
     @Test

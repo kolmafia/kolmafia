@@ -682,7 +682,7 @@ public class Modifiers {
 
   /** Whether this is the grant rollover itself provides, rather than a bonus on top of it. */
   private static boolean isRolloverGrant(final ModifierType type, final IntOrString key) {
-    return type == ModifierType.GENERATED && ROLLOVER.equals(key.getStringValue());
+    return type == ModifierType.GENERATED && ROLLOVER.equalsIgnoreCase(key.getStringValue());
   }
 
   public void addBitmap(BitmapModifier modifier, int bit) {
