@@ -15,6 +15,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.request.ApiRequest.What;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -30,7 +31,7 @@ public class ClosetRequest extends TransferItemRequest {
   }
 
   public static void refresh() {
-    ApiRequest.refresh("closet", "status");
+    ApiRequest.refresh(What.CLOSET, What.STATUS);
   }
 
   public static final void parseCloset(final JSONObject json) {

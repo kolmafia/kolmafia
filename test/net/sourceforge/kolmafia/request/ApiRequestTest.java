@@ -27,6 +27,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.ApiRequest.What;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -131,7 +132,7 @@ class ApiRequestTest {
     var builder = new FakeHttpClientBuilder();
 
     try (var cleanups = new Cleanups(withHttpClientBuilder(builder))) {
-      ApiRequest.refresh("inventory", "closet");
+      ApiRequest.refresh(What.INVENTORY, What.CLOSET);
 
       var requests = builder.client.getRequests();
       assertThat(requests, hasSize(1));

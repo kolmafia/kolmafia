@@ -17,6 +17,7 @@ import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.ApiRequest.What;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -49,7 +50,7 @@ public class QuantumTerrariumRequestTest {
     JSONObject jsonObject = json(text);
 
     // Quantum Terrarium will call api.php to set up familiar in middle of processing.
-    ApiRequest apiRequest = new ApiRequest("status");
+    ApiRequest apiRequest = new ApiRequest(What.STATUS);
     apiRequest.responseText = text;
 
     // Stats affect Familiar Weight in Quantum Familiar

@@ -5,7 +5,6 @@ import com.alibaba.fastjson2.JSONObject;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -26,41 +25,43 @@ import net.sourceforge.kolmafia.session.MallPriceManager;
 import net.sourceforge.kolmafia.utilities.LockableListFactory;
 
 public class ApiRequest extends GenericRequest {
-  private static final ApiRequest INSTANCE = new ApiRequest("status");
-  private static final ApiRequest INVENTORY = new ApiRequest("inventory");
+  public enum What {
+    STATUS("status", "character status", ApiRequest::parseStatus),
+    CLOSET("closet", "closet", ClosetRequest::parseCloset),
+    INVENTORY("inventory", "inventory", InventoryManager::parseInventory),
+    ITEM("item", "item", null),
+    MALL_PRICES("mallprices", "mall prices", MallPriceManager::parseMallPrices),
+    STORAGE("storage", "storage", StorageRequest::parseStorage);
+
+    private final String what;
+    private final String message;
+    private final Consumer<JSONObject> parser;
+
+    What(final String what, final String message, final Consumer<JSONObject> parser) {
+      this.what = what;
+      this.message = message;
+      this.parser = parser;
+    }
+  }
+
   private static final CharPaneRequest CHARPANE = new CharPaneRequest();
-  private static final Map<String, Consumer<JSONObject>> PARSERS =
-      Map.of(
-          "status", ApiRequest::parseStatus,
-          "inventory", InventoryManager::parseInventory,
-          "closet", ClosetRequest::parseCloset,
-          "storage", StorageRequest::parseStorage,
-          "mallprices", MallPriceManager::parseMallPrices);
 
   private final String what;
   private String id;
   private boolean silent = false;
 
-  public ApiRequest() {
-    this("status");
-  }
-
-  public ApiRequest(final String what) {
+  public ApiRequest(final What... whats) {
     super("api.php");
-    this.what = what;
-    this.addFormField("what", what);
+    this.what = Arrays.stream(whats).map(w -> w.what).collect(Collectors.joining(","));
+    this.addFormField("what", this.what);
     this.addFormField("for", "KoLmafia");
     this.id = "";
   }
 
-  public ApiRequest(final String what, final String id) {
+  public ApiRequest(final What what, final int id) {
     this(what);
     this.addFormField("id", id);
-    this.id = id;
-  }
-
-  public ApiRequest(final String what, final int id) {
-    this(what, String.valueOf(id));
+    this.id = String.valueOf(id);
   }
 
   @Override
@@ -68,13 +69,13 @@ public class ApiRequest extends GenericRequest {
     return null;
   }
 
-  public static String updateStatus() {
-    return ApiRequest.updateStatus(false);
+  public static void updateStatus() {
+    ApiRequest.updateStatus(false);
   }
 
   private static final AdventureResult TRANSFUNCTIONER = ItemPool.get(ItemPool.TRANSFUNCTIONER);
 
-  public static synchronized String updateStatus(final boolean silent) {
+  public static synchronized void updateStatus(final boolean silent) {
     // If in certain LimitModes, Noobcore, PokeFam, and Disguises Delimit, API
     // status is incomplete, so use Character Pane instead.
 
@@ -82,43 +83,39 @@ public class ApiRequest extends GenericRequest {
         || KoLCharacter.inNoobcore()
         || KoLCharacter.inPokefam()
         || KoLCharacter.inDisguise()) {
-      return ApiRequest.updateStatusFromCharpane();
+      ApiRequest.updateStatusFromCharpane();
+      return;
     }
 
-    ApiRequest.INSTANCE.silent = silent;
-    ApiRequest.INSTANCE.run();
-    String rv = ApiRequest.INSTANCE.redirectLocation;
+    if (silent) {
+      ApiRequest.refreshSilent(What.STATUS);
+    } else {
+      ApiRequest.refresh(What.STATUS);
+    }
 
     // If you have the continuum transfunctioner equipped, the Character Pane shows you your (8-bit)
     // Score, so request that as well.
     if (KoLCharacter.hasEquipped(TRANSFUNCTIONER)) {
-      rv = ApiRequest.updateStatusFromCharpane();
+      ApiRequest.updateStatusFromCharpane();
     }
-
-    return rv;
   }
 
-  public static String updateStatusFromCharpane() {
+  public static void updateStatusFromCharpane() {
     ApiRequest.CHARPANE.run();
-    return ApiRequest.CHARPANE.redirectLocation;
   }
 
-  public static String updateInventory() {
-    return ApiRequest.updateInventory(false);
+  public static void refresh(final What... whats) {
+    new ApiRequest(whats).run();
   }
 
-  public static synchronized String updateInventory(final boolean silent) {
-    ApiRequest.INVENTORY.silent = silent;
-    ApiRequest.INVENTORY.run();
-    return ApiRequest.INVENTORY.redirectLocation;
-  }
-
-  public static void refresh(final String... whats) {
-    new ApiRequest(String.join(",", whats)).run();
+  public static void refreshSilent(final What... whats) {
+    var request = new ApiRequest(whats);
+    request.silent = true;
+    request.run();
   }
 
   public static void updateMallPrices(final String category, final String tiers) {
-    ApiRequest request = new ApiRequest("mallprices");
+    ApiRequest request = new ApiRequest(What.MALL_PRICES);
     request.addFormField("category", category);
     if (!tiers.isEmpty()) {
       request.addFormField("tiers", tiers);
@@ -144,11 +141,11 @@ public class ApiRequest extends GenericRequest {
   @Override
   public void run() {
     if (!this.silent) {
+      List<String> whats = List.of(this.what.split(","));
       String message =
-          Arrays.stream(this.what.split(","))
-              .sorted()
+          Arrays.stream(What.values())
+              .filter(w -> whats.contains(w.what))
               .map(this::message)
-              .filter(Objects::nonNull)
               .collect(Collectors.joining(", "));
 
       if (!message.isEmpty()) {
@@ -165,14 +162,8 @@ public class ApiRequest extends GenericRequest {
     return ApiRequest.getJSON(this.responseText, this.what);
   }
 
-  private String message(final String what) {
-    return switch (what) {
-      case "status" -> "character status";
-      case "item" -> "item #" + this.id;
-      case "mallprices" -> "mall prices";
-      case "inventory", "closet", "storage" -> what;
-      default -> null;
-    };
+  private String message(final What what) {
+    return what == What.ITEM ? what.message + " #" + this.id : what.message;
   }
 
   @Override
@@ -210,17 +201,15 @@ public class ApiRequest extends GenericRequest {
       return;
     }
 
-    String[] whats = requestedWhats.split(",");
+    List<String> whats = List.of(requestedWhats.split(","));
 
-    for (String what : whats) {
-      // Determine if this is a 'what' we handle, as not every 'what' is handled
-      Consumer<JSONObject> parser = PARSERS.get(what);
-      if (parser == null) continue;
+    for (What what : What.values()) {
+      if (what.parser == null || !whats.contains(what.what)) continue;
 
       // Multiple uses of 'what' are in the form of {"status":{},"mallprices":{}} etc
       // If we are handling multiple, then we retrieve the object, otherwise use the root
-      JSONObject object = whats.length == 1 ? json : json.getJSONObject(what);
-      parser.accept(object);
+      JSONObject object = whats.size() == 1 ? json : json.getJSONObject(what.what);
+      what.parser.accept(object);
     }
   }
 

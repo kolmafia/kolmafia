@@ -26,6 +26,7 @@ import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.ApiRequest.What;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
@@ -109,7 +110,7 @@ public class StorageRequest extends TransferItemRequest {
   }
 
   public static void refresh() {
-    ApiRequest.refresh("storage", "status");
+    ApiRequest.refresh(What.STORAGE, What.STATUS);
     StorageRequest.updateSettings();
   }
 
