@@ -9,6 +9,7 @@ import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -76,15 +77,21 @@ public class ApiRequest extends GenericRequest {
 
   private static final AdventureResult TRANSFUNCTIONER = ItemPool.get(ItemPool.TRANSFUNCTIONER);
 
-  public static synchronized void updateStatus(final boolean silent) {
+  public static synchronized void updateStatus(final boolean silent, final What... also) {
     // In certain LimitModes, API status is incomplete, so use Character Pane instead.
 
     if (KoLCharacter.getLimitMode().requiresCharPane()) {
+      // Update the rest of the stuff if we're not updating charpane
+      if (also.length > 0) {
+        ApiRequest.refresh(silent, also);
+      }
       ApiRequest.updateStatusFromCharpane();
       return;
     }
 
-    ApiRequest.refresh(silent, What.STATUS);
+    // Request from api both the status, and the other 'what' wanted
+    ApiRequest.refresh(
+        silent, Stream.concat(Stream.of(What.STATUS), Arrays.stream(also)).toArray(What[]::new));
 
     // Some paths and items have state that is only surfaced on the Character Pane
     if (KoLCharacter.inNoobcore() // absorbs and enchantments

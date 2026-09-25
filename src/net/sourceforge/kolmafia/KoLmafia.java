@@ -663,7 +663,7 @@ public abstract class KoLmafia {
     // Start out fetching the status using the KoL API. This
     // provides data from a lot of different standard pages
 
-    ApiRequest.updateStatus();
+    ApiRequest.updateStatus(false, What.INVENTORY, What.CLOSET, What.STORAGE);
 
     if (CharPaneRequest.inValhalla()) {
       // Nothing below applies in Valhalla, and api.php does not report our
@@ -782,14 +782,6 @@ public abstract class KoLmafia {
     // Hermit items depend on character class
     HermitRequest.initialize();
 
-    // Retrieve the contents of inventory & closet, and storage if it may not be empty
-    boolean refreshStorage =
-        Preferences.getInteger("lastEmptiedStorage") != KoLCharacter.getAscensions();
-    if (refreshStorage) {
-      ApiRequest.refresh(What.INVENTORY, What.CLOSET, What.STORAGE);
-    } else {
-      ApiRequest.refresh(What.INVENTORY, What.CLOSET);
-    }
     // Recalculate the modifiers
     KoLCharacter.recalculateAdjustments();
 
@@ -888,10 +880,9 @@ public abstract class KoLmafia {
 
     RequestThread.postRequest(new PeeVPeeRequest("fight"));
 
-    if (refreshStorage) {
-      StorageRequest.updateSettings();
-      CafeRequest.pullLARPCard();
-    }
+    StorageRequest.updateSettings();
+    // Will autopull LARP card if auto sastify is enabled
+    CafeRequest.pullLARPCard();
 
     // Load items pulled in Ronin
     StorageRequest.loadRoninStoragePulls();
