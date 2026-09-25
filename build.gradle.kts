@@ -106,7 +106,9 @@ dependencies {
   implementation("com.alibaba.fastjson2:fastjson2:2.0.59")
   implementation("org.mozilla:rhino:1.9.1")
   implementation("org.swinglabs:swingx:1.0")
-  implementation("org.tmatesoft.svnkit:svnkit:1.10.11")
+  implementation("org.tmatesoft.svnkit:svnkit:1.10.11") {
+    exclude(group = "org.apache.sshd")
+  }
   implementation("com.jgoodies:jgoodies-binding:2.13.0")
   implementation("org.eclipse.jgit:org.eclipse.jgit:7.4.0.202509020913-r")
   implementation("org.eclipse.jgit:org.eclipse.jgit.ssh.apache:7.4.0.202509020913-r")
@@ -198,6 +200,44 @@ tasks.jacocoTestReport {
   }
 }
 
+val unsupportedNativeLibraries =
+  listOf(
+    "com/formdev/flatlaf/natives/flatlaf-windows-x86.dll",
+    "com/sun/jna/aix-ppc/**",
+    "com/sun/jna/aix-ppc64/**",
+    "com/sun/jna/dragonflybsd-x86-64/**",
+    "com/sun/jna/freebsd-aarch64/**",
+    "com/sun/jna/freebsd-x86/**",
+    "com/sun/jna/freebsd-x86-64/**",
+    "com/sun/jna/linux-arm/**",
+    "com/sun/jna/linux-armel/**",
+    "com/sun/jna/linux-loongarch64/**",
+    "com/sun/jna/linux-mips64el/**",
+    "com/sun/jna/linux-ppc/**",
+    "com/sun/jna/linux-ppc64le/**",
+    "com/sun/jna/linux-riscv64/**",
+    "com/sun/jna/linux-s390x/**",
+    "com/sun/jna/linux-x86/**",
+    "com/sun/jna/openbsd-x86/**",
+    "com/sun/jna/openbsd-x86-64/**",
+    "com/sun/jna/sunos-sparc/**",
+    "com/sun/jna/sunos-sparcv9/**",
+    "com/sun/jna/sunos-x86/**",
+    "com/sun/jna/sunos-x86-64/**",
+    "com/sun/jna/win32-x86/**",
+    "net/jpountz/util/linux/i386/**",
+    "net/jpountz/util/linux/ppc64le/**",
+    "net/jpountz/util/linux/s390x/**",
+    "org/fusesource/jansi/internal/native/FreeBSD/**",
+    "org/fusesource/jansi/internal/native/Linux/arm/**",
+    "org/fusesource/jansi/internal/native/Linux/armv6/**",
+    "org/fusesource/jansi/internal/native/Linux/armv7/**",
+    "org/fusesource/jansi/internal/native/Linux/ppc64/**",
+    "org/fusesource/jansi/internal/native/Linux/x86/**",
+    "org/fusesource/jansi/internal/native/Mac/x86/**",
+    "org/fusesource/jansi/internal/native/Windows/x86/**",
+  )
+
 tasks.jar {
   manifest {
     attributes(
@@ -223,6 +263,7 @@ tasks.jar {
   }) {
     exclude("META-INF/*.RSA", "META-INF/*.SF", "META-INF/*.DSA")
   }
+  exclude(unsupportedNativeLibraries)
   duplicatesStrategy = DuplicatesStrategy.EXCLUDE
   destinationDirectory.set(file("dist/"))
   archiveBaseName.set("KoLmafia")
@@ -230,6 +271,7 @@ tasks.jar {
 }
 
 tasks.shadowJar {
+  exclude(unsupportedNativeLibraries)
   mustRunAfter("cleanDist")
   duplicatesStrategy = DuplicatesStrategy.EXCLUDE
   destinationDirectory.set(file("dist/"))
