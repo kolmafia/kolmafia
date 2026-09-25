@@ -25,13 +25,14 @@ import net.sourceforge.kolmafia.session.MallPriceManager;
 import net.sourceforge.kolmafia.utilities.LockableListFactory;
 
 public class ApiRequest extends GenericRequest {
+  // The 'what' is parsed in the order defined here, status goes first
   public enum What {
     STATUS("status", "character status", ApiRequest::parseStatus),
-    CLOSET("closet", "closet", ClosetRequest::parseCloset),
     INVENTORY("inventory", "inventory", InventoryManager::parseInventory),
+    CLOSET("closet", "closet", ClosetRequest::parseCloset),
+    STORAGE("storage", "storage", StorageRequest::parseStorage),
     ITEM("item", "item", null),
-    MALL_PRICES("mallprices", "mall prices", MallPriceManager::parseMallPrices),
-    STORAGE("storage", "storage", StorageRequest::parseStorage);
+    MALL_PRICES("mallprices", "mall prices", MallPriceManager::parseMallPrices);
 
     private final String what;
     private final String message;
