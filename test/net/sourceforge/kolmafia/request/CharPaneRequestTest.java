@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Networking.html;
+import static internal.helpers.Networking.json;
 import static internal.helpers.Player.withClass;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
@@ -20,6 +21,7 @@ import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.collection.IsArrayWithSize.arrayWithSize;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.alibaba.fastjson2.JSONException;
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
@@ -603,6 +605,28 @@ class CharPaneRequestTest {
       assertThat(thrall.getName(), is("Zotzit"));
       assertThat(thrall.getLevel(), is(4));
       assertThat(thrall.getExperience(), is(1));
+    }
+  }
+
+  @Nested
+  class FamiliarStatus {
+    @Test
+    void parsesCurrentFamiliar() throws JSONException {
+      try (var cleanups = new Cleanups(withFamiliar(FamiliarPool.MOSQUITO))) {
+        CharPaneRequest.parseStatus(json(html("request/test_status2.json")));
+
+        assertThat(KoLCharacter.getFamiliar().getId(), is(326));
+      }
+    }
+
+    @Test
+    void ignoresCurrentFamiliarInPokefam() throws JSONException {
+      try (var cleanups =
+          new Cleanups(withPath(Path.POKEFAM), withFamiliar(FamiliarPool.MOSQUITO))) {
+        CharPaneRequest.parseStatus(json(html("request/test_status2.json")));
+
+        assertThat(KoLCharacter.getFamiliar().getId(), is(FamiliarPool.MOSQUITO));
+      }
     }
   }
 }
