@@ -773,15 +773,22 @@ public class MaximizerTest {
     }
 
     @Test
-    void duplicateRequiredEquipmentDoesNotInflateBeeosity() {
-      var buddyBjorn = ItemPool.get("Buddy Bjorn");
-      var evaluator = new Evaluator("equip Buddy Bjorn, equip Buddy Bjorn, -tie");
-      var modifiers = new Modifiers();
-      evaluator.getScore(modifiers);
+    void duplicateTwoBeeRequirementDoesNotAllowAThirdBee() {
+      try (var cleanups =
+          new Cleanups(
+              withPath(Path.BEES_HATE_YOU),
+              withEquippableItem("Buddy Bjorn"),
+              withEquippableItem("bounty-hunting helmet"))) {
+      // Buddy Bjorn has two Bs. Requiring it twice must not raise the allowance to four.
+        assertTrue(
+            maximize(
+                "equip Buddy Bjorn, equip Buddy Bjorn, 100 bonus bounty-hunting helmet, -tie"));
 
-      evaluator.checkEquipment(modifiers, Map.of(Slot.CONTAINER, buddyBjorn), 3);
-
-      assertTrue(evaluator.failed);
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.CONTAINER, "Buddy Bjorn")));
+      // The one-B helmet's bonus ensures it would be recommended if a third B were allowed.
+        assertThat(
+            getBoosts(), not(hasItem(recommendsSlot(Slot.HAT, "bounty-hunting helmet"))));
+      }
     }
 
     @Nested
@@ -4218,10 +4225,10 @@ public class MaximizerTest {
   }
 
   @Test
-  void weightedPositiveSwitchCanUseAnUnownedFamiliar() {
+  void weightedPositiveSwitchCannotUseAnUnownedFamiliar() {
     assertTrue(maximize("2 switch Baby Gravy Fairy, item drop"));
 
-    assertThat(getBoosts(), hasItem(hasProperty("cmd", is("familiar Baby Gravy Fairy"))));
+    assertThat(getBoosts(), not(hasItem(hasProperty("cmd", is("familiar Baby Gravy Fairy")))));
   }
 
   @Test

@@ -666,10 +666,6 @@ public class Evaluator {
         }
         if (hadFamiliar && weight < 0.0) continue;
         FamiliarData fam = KoLCharacter.usableFamiliar(id);
-        if (fam == null && weight > 1.0) { // Allow a familiar to be faked for testing
-          fam = new FamiliarData(id);
-          fam.setWeight((int) weight);
-        }
         hadFamiliar = fam != null;
         if (fam != null
             && !fam.equals(KoLCharacter.getFamiliar())
