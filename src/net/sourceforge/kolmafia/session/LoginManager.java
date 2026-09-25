@@ -72,8 +72,8 @@ public class LoginManager {
 
     // See if we are timing in across rollover.
     // api.php has rollover time in it
-    String redirection = ApiRequest.updateStatus();
-    if (redirection != null && redirection.startsWith("afterlife.php")) {
+    ApiRequest.updateStatus();
+    if (CharPaneRequest.inValhalla()) {
       return;
     }
 

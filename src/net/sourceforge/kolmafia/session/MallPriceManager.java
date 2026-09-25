@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.session;
 
+import com.alibaba.fastjson2.JSONObject;
 import java.time.Clock;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -20,11 +21,13 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.DateTimeManager;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.CoinMasterPurchaseRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.MallPurchaseRequest;
@@ -93,6 +96,13 @@ public abstract class MallPriceManager {
 
   public static final Set<String> validCategories = new HashSet<>(Arrays.asList(CATEGORY_VALUES));
 
+  // Consumable quality tiers, as api.php names them
+  public static final String[] CONSUMABLE_TIERS = {"crappy", "decent", "good", "awesome", "EPIC"};
+
+  // The store fields we record prices from, as api.php names them
+  public static final List<String> STORE_FIELDS =
+      List.of("id", "price", "quantity", "limit", "bought");
+
   // This package makes MallSearchRequests and executes them.  This makes
   // testing difficult; we have testing infrastructure for testing
   // request classes, but that's not what we want to test here.
@@ -117,22 +127,6 @@ public abstract class MallPriceManager {
     return new MallSearchRequest(searchString, maximumResults, results);
   }
 
-  // A Mall search in which you supply:
-  //
-  // category - The category of items to search for.
-  // tiers - The set of quality "tiers" to include.
-  //
-  // We validate the category name, since, if invalid, it results in a search
-  // for "allitems".
-  //
-  // We don't validate the "tiers" string. It's free format - although
-  // comma-separated names works well. The following "tiers" are recognized:
-  // crappy, decent, good, awesome, EPIC
-
-  public static MallSearchRequest newMallSearchRequest(String category, String tiers) {
-    return new MallSearchRequest(category, tiers);
-  }
-
   // The data structures that this package "manages".
 
   // a Map from itemId -> current mall price (as visible to a scripter.)
@@ -140,6 +134,9 @@ public abstract class MallPriceManager {
 
   // a Map from itemId -> the most resent mall search results.
   private static final Map<Integer, List<PurchaseRequest>> mallSearches = new HashMap<>();
+
+  // How many prices the most recent bulk update recorded.
+  private static int pricesUpdated = 0;
 
   // Constants controlling how we manage those data
 
@@ -692,13 +689,120 @@ public abstract class MallPriceManager {
       return 0;
     }
 
-    // Issue the search request
-    MallSearchRequest request = newMallSearchRequest(category, tiers);
-    RequestThread.postRequest(request);
+    // api.php doesn't return the changes directly, so we use a helper field
+    MallPriceManager.pricesUpdated = 0;
+    // Converts player provided argument "crapp EPICNESS good" into api.php accepted "good,EPIC"
+    String normalizedTiers =
+        Arrays.stream(CONSUMABLE_TIERS).filter(tiers::contains).collect(Collectors.joining(","));
+    ApiRequest.updateMallPrices(category, normalizedTiers);
+    return MallPriceManager.pricesUpdated;
+  }
 
-    List<PurchaseRequest> results = request.getResults();
-    if (results.size() == 0) {
-      // None found
+  /**
+   * The cheapest listings of every item in a Mall search category, as returned by
+   * api.php?what=mallprices
+   *
+   * @param json What api.php responded with
+   */
+  public static void parseMallPrices(final JSONObject json) {
+    // If the response doesn't have enough information
+    if (!MallPriceManager.canRecordPrices(json)) {
+      return;
+    }
+
+    var items = json.getJSONArray("items");
+    List<PurchaseRequest> results = new ArrayList<>();
+
+    for (int i = 0; i < items.size(); ++i) {
+      var item = items.getJSONObject(i);
+      int itemId;
+
+      // Resolve item by descid for potentially unknown items when 'descid' exists, falling back to
+      // itemid
+      if (item.containsKey("descid")) {
+        itemId = ItemDatabase.getItemIdFromDescription(item.getString("descid"));
+
+        // If item is unknown, fallback to item id
+        if (itemId < 0) {
+          itemId = item.getIntValue("id");
+        }
+      } else {
+        itemId = item.getIntValue("id");
+      }
+
+      // If unknown item
+      if (itemId <= 0 || ItemDatabase.getItemName(itemId) == null) {
+        return;
+      }
+
+      results.addAll(NPCStoreDatabase.getAvailablePurchaseRequests(itemId));
+      results.addAll(CoinmastersDatabase.getAllPurchaseRequests(itemId));
+
+      // Stores can be empty, notably when every seller is at mall max
+      var stores = item.getJSONArray("stores");
+
+      for (int j = 0; j < stores.size(); ++j) {
+        var store = stores.getJSONObject(j);
+        int quantity = store.getIntValue("quantity");
+        int limit = store.getIntValue("limit");
+        boolean canPurchase = limit == 0 || store.getIntValue("bought") < limit;
+
+        results.add(
+            new MallPurchaseRequest(
+                itemId,
+                quantity,
+                store.getIntValue("id"),
+                null,
+                store.getLongValue("price"),
+                limit == 0 ? quantity : limit,
+                canPurchase));
+      }
+    }
+
+    MallPriceManager.pricesUpdated = MallPriceManager.updateMallPrices(results);
+  }
+
+  /** Whether a response holds every field needed to update internal prices */
+  private static boolean canRecordPrices(final JSONObject jsonObject) {
+    // If we can't figure out the count, or the count is less than our minimum
+    if (!jsonObject.containsKey("count")
+        || jsonObject.getIntValue("count", 0) < MallPriceManager.NTH_CHEAPEST_COUNT) {
+      return false;
+    }
+
+    var items = jsonObject.getJSONArray("items");
+
+    // If items are missing
+    if (items == null || items.isEmpty()) {
+      return false;
+    }
+
+    for (int i = 0; i < items.size(); ++i) {
+      var item = items.getJSONObject(i);
+      // If item has no identifier (ignoring name)
+      if (!item.containsKey("id") && !item.containsKey("descid")) {
+        return false;
+      }
+      var stores = item.getJSONArray("stores");
+      // If stores were not part of the response
+      if (stores == null) {
+        return false;
+      }
+
+      // If stores is empty, it doesn't invalidate the response
+      if (stores.isEmpty()) continue;
+
+      // Return if the store contains all the information we need
+      return stores.getJSONObject(0).keySet().containsAll(STORE_FIELDS);
+    }
+
+    // We failed to find an item that has a non-empty array of stores
+    // But as 'count' was not 0, the response is usable
+    return true;
+  }
+
+  private static int updateMallPrices(final List<PurchaseRequest> results) {
+    if (results.isEmpty()) {
       return 0;
     }
 

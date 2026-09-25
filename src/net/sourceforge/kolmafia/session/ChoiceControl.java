@@ -59,6 +59,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.AlliedRadioRequest;
 import net.sourceforge.kolmafia.request.ApiRequest;
+import net.sourceforge.kolmafia.request.ApiRequest.What;
 import net.sourceforge.kolmafia.request.ArcadeRequest;
 import net.sourceforge.kolmafia.request.BeachCombRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
@@ -3977,7 +3978,7 @@ public abstract class ChoiceControl {
             ResultProcessor.processItem(ItemDatabase.getItemId(itemName), -1);
           } else {
             // Don't know item to remove so refresh inventory instead
-            ApiRequest.updateInventory();
+            ApiRequest.refresh(What.INVENTORY);
           }
           QuestDatabase.setQuestProgress(Quest.DOCTOR_BAG, QuestDatabase.UNSTARTED);
           Preferences.setString("doctorBagQuestItem", "");
@@ -4671,10 +4672,7 @@ public abstract class ChoiceControl {
         // Black and White Apron Meal Kit
         if (text.contains("You cook and quickly consume your")) {
           ResultProcessor.processItem(ItemPool.BLACK_AND_WHITE_APRON_MEAL_KIT, -1);
-          if (Preferences.getInteger("bwApronMealsEaten") >= 0) {
-            // Known starting point.
-            Preferences.increment("bwApronMealsEaten");
-          }
+          Preferences.increment("bwApronMealsEaten");
         }
       }
       case 1534 -> {
@@ -5950,12 +5948,6 @@ public abstract class ChoiceControl {
           if (limit != null) {
             limit.increment();
             SkillDatabase.registerCasts(SkillPool.CALCULATE_THE_UNIVERSE, 1);
-            if (!KoLCharacter.canInteract() && limit.getUses() >= 3) {
-              // If the skill is used 3 times in-run, the skill can't be used more today even after
-              // breaking the prism.
-              Preferences.setInteger(
-                  "_universeCalculated", Preferences.getInteger("skillLevel144"));
-            }
           }
         }
       }

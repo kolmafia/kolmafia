@@ -193,6 +193,8 @@ import net.sourceforge.kolmafia.scripts.svn.SVNManager;
 import net.sourceforge.kolmafia.session.AutumnatonManager;
 import net.sourceforge.kolmafia.session.BanishManager;
 import net.sourceforge.kolmafia.session.BeretManager;
+import net.sourceforge.kolmafia.session.BlackAndWhiteApronManager;
+import net.sourceforge.kolmafia.session.BlackAndWhiteApronManager.Ingredient;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.ContactManager;
@@ -213,6 +215,7 @@ import net.sourceforge.kolmafia.session.MushroomManager;
 import net.sourceforge.kolmafia.session.NumberologyManager;
 import net.sourceforge.kolmafia.session.PingManager;
 import net.sourceforge.kolmafia.session.PingManager.PingTest;
+import net.sourceforge.kolmafia.session.PortableLaughingStockManager;
 import net.sourceforge.kolmafia.session.PvpManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
@@ -344,6 +347,43 @@ public abstract class RuntimeLibrary {
           "{string file; string name; int line;}",
           new String[] {"file", "name", "line"},
           new Type[] {DataTypes.STRING_TYPE, DataTypes.STRING_TYPE, DataTypes.INT_TYPE});
+
+  private static final RecordType blackWhiteApronIngredientRec =
+      new RecordType(
+          "{item ingredient; effect effect; int effect_turns; int mus; int mys; int mox; int meat; int familiar_xp; string other;}",
+          new String[] {
+            "ingredient",
+            "effect",
+            "effect_turns",
+            "mus",
+            "mys",
+            "mox",
+            "meat",
+            "familiar_xp",
+            "other"
+          },
+          new Type[] {
+            DataTypes.ITEM_TYPE,
+            DataTypes.EFFECT_TYPE,
+            DataTypes.INT_TYPE,
+            DataTypes.INT_TYPE,
+            DataTypes.INT_TYPE,
+            DataTypes.INT_TYPE,
+            DataTypes.INT_TYPE,
+            DataTypes.INT_TYPE,
+            DataTypes.STRING_TYPE
+          });
+
+  private static final AggregateType blackWhiteApronMealType =
+      new AggregateType(blackWhiteApronIngredientRec, DataTypes.INT_TYPE);
+  private static final AggregateType blackWhiteApronMealsType =
+      new AggregateType(blackWhiteApronMealType, DataTypes.INT_TYPE);
+
+  private static final RecordType blackWhiteApronKitRec =
+      new RecordType(
+          "{string main_ingredient; effect main_effect; aggregate {item ingredient; effect effect; int effect_turns; int mus; int mys; int mox; int meat; int familiar_xp; string other;}[3, 5] meals;}",
+          new String[] {"main_ingredient", "main_effect", "meals"},
+          new Type[] {DataTypes.STRING_TYPE, DataTypes.EFFECT_TYPE, blackWhiteApronMealsType});
 
   private static final AggregateType NumberologyType =
       new AggregateType(DataTypes.INT_TYPE, DataTypes.INT_TYPE);
@@ -4113,6 +4153,32 @@ public abstract class RuntimeLibrary {
 
     params = List.of(namedParam("item", DataTypes.ITEM_TYPE));
     functions.add(new LibraryFunction("cup_of_13s_tier", DataTypes.INT_TYPE, params));
+
+    params =
+        List.of(
+            namedParam("cls", DataTypes.CLASS_TYPE),
+            namedParam("path", DataTypes.PATH_TYPE),
+            namedParam("day", DataTypes.INT_TYPE),
+            namedParam("minFights", DataTypes.INT_TYPE),
+            namedParam("maxFights", DataTypes.INT_TYPE));
+    functions.add(
+        new LibraryFunction("portable_laughing_stock_drops", DataTypes.INT_TO_ITEM_TYPE, params));
+
+    params = List.of(namedParam("maxFights", DataTypes.INT_TYPE));
+    functions.add(
+        new LibraryFunction("portable_laughing_stock_drops", DataTypes.INT_TO_ITEM_TYPE, params));
+
+    params = List.of();
+    functions.add(
+        new LibraryFunction("black_and_white_apron_kit_contents", blackWhiteApronKitRec, params));
+
+    params =
+        List.of(
+            namedParam("path", DataTypes.PATH_TYPE),
+            namedParam("cls", DataTypes.CLASS_TYPE),
+            namedParam("prevEaten", DataTypes.INT_TYPE));
+    functions.add(
+        new LibraryFunction("black_and_white_apron_kit_contents", blackWhiteApronKitRec, params));
   }
 
   public static Method findMethod(final String name, final Class<?>[] args)
@@ -12486,5 +12552,128 @@ public abstract class RuntimeLibrary {
     int itemId = (int) value.contentLong;
     var tier = CupOf13sDatabase.getTier(itemId);
     return DataTypes.makeIntValue(tier);
+  }
+
+  public static Value portable_laughing_stock_drops(
+      ScriptRuntime controller, final Value maxFightsValue) {
+    int minFights = Preferences.getInteger("_laughingStockCharges") + 1;
+    int maxFights = (int) maxFightsValue.contentLong;
+    return portable_laughing_stock_drops(
+        KoLCharacter.getAscensionClass(),
+        KoLCharacter.getPath(),
+        KoLCharacter.getCurrentDays(),
+        minFights,
+        maxFights);
+  }
+
+  public static Value portable_laughing_stock_drops(
+      ScriptRuntime controller,
+      final Value clazzValue,
+      final Value pathValue,
+      final Value dayValue,
+      final Value minFightsValue,
+      final Value maxFightsValue) {
+    AscensionClass clazz = (AscensionClass) clazzValue.content;
+    Path path = (Path) pathValue.content;
+    int day = (int) dayValue.contentLong;
+    int minFights = (int) minFightsValue.contentLong;
+    int maxFights = (int) maxFightsValue.contentLong;
+
+    if (clazz == null || path == null) {
+      return new MapValue(DataTypes.INT_TO_ITEM_TYPE);
+    }
+    return portable_laughing_stock_drops(clazz, path, day, minFights, maxFights);
+  }
+
+  private static Value portable_laughing_stock_drops(
+      AscensionClass clazz, AscensionPath.Path path, int day, int minFights, int maxFights) {
+    Map<Integer, AdventureResult> drops =
+        PortableLaughingStockManager.getLaughingStockDrops(clazz, path, day, minFights, maxFights);
+
+    MapValue value = new MapValue(DataTypes.INT_TO_ITEM_TYPE);
+    for (Entry<Integer, AdventureResult> e : drops.entrySet()) {
+      value.aset(new Value(e.getKey()), DataTypes.makeItemValue(e.getValue().getItemId(), true));
+    }
+    return value;
+  }
+
+  public static Value black_and_white_apron_kit_contents(ScriptRuntime controller) {
+    Path path = KoLCharacter.getPath();
+    AscensionClass clazz = KoLCharacter.getAscensionClass();
+    int prevEaten = Preferences.getInteger("bwApronMealsEaten");
+    return black_and_white_apron_kit_contents(controller, path, clazz, prevEaten);
+  }
+
+  public static Value black_and_white_apron_kit_contents(
+      ScriptRuntime controller, Value pathValue, Value classValue, Value prevEatenValue) {
+    Path path = (Path) pathValue.content;
+    if (path == null) {
+      throw controller.runtimeException("Invalid path");
+    }
+    AscensionClass clazz = (AscensionClass) classValue.content;
+    if (clazz == null) {
+      throw controller.runtimeException("Invalid class");
+    }
+    int prevEaten = (int) prevEatenValue.contentLong;
+    return black_and_white_apron_kit_contents(controller, path, clazz, prevEaten);
+  }
+
+  private static Value black_and_white_apron_kit_contents(
+      ScriptRuntime controller, Path path, AscensionClass clazz, int prevEaten) {
+    BlackAndWhiteApronManager.MealKit mealKit =
+        BlackAndWhiteApronManager.getMealKitOptions(path, clazz, prevEaten);
+
+    AshRuntime interpreter = controller instanceof AshRuntime ? (AshRuntime) controller : null;
+    RecordValue rv = new RecordValue(blackWhiteApronKitRec);
+
+    // main_ingredient
+    rv.aset(0, DataTypes.makeStringValue(mealKit.mainIngredient().name()), interpreter);
+    // main_effect
+    rv.aset(
+        1,
+        DataTypes.makeEffectValue(mealKit.mainIngredient().effect().getEffectId(), true),
+        interpreter);
+
+    List<Value> mealsList = new ArrayList<>();
+    for (int i = 0; i < 3; i++) {
+      Ingredient[] meal = mealKit.meals()[i];
+      List<Value> ingredientsList = new ArrayList<>();
+      for (int j = 0; j < 5; j++) {
+        Ingredient ingredient = meal[j];
+
+        RecordValue ingredientValue = new RecordValue(blackWhiteApronIngredientRec);
+        // ingredient
+        ingredientValue.aset(0, DataTypes.makeItemValue(ingredient.ingredient()), interpreter);
+        AdventureResult effect = ingredient.effect();
+        if (effect != null) {
+          // effect
+          ingredientValue.aset(
+              1, DataTypes.makeEffectValue(effect.getEffectId(), true), interpreter);
+          // effect_turns
+          ingredientValue.aset(2, DataTypes.makeIntValue(effect.getCount()), interpreter);
+        }
+        // mus
+        ingredientValue.aset(3, DataTypes.makeIntValue(ingredient.mus()), interpreter);
+        // mys
+        ingredientValue.aset(4, DataTypes.makeIntValue(ingredient.mys()), interpreter);
+        // mox
+        ingredientValue.aset(5, DataTypes.makeIntValue(ingredient.mox()), interpreter);
+        // meat
+        ingredientValue.aset(6, DataTypes.makeIntValue(ingredient.meat()), interpreter);
+        // familiar_xp
+        ingredientValue.aset(7, DataTypes.makeIntValue(ingredient.familiarXp()), interpreter);
+        // other
+        ingredientValue.aset(8, DataTypes.makeStringValue(ingredient.other()), interpreter);
+
+        ingredientsList.add(ingredientValue);
+      }
+      mealsList.add(new ArrayValue(blackWhiteApronMealType, ingredientsList));
+    }
+    ArrayValue mealsArray = new ArrayValue(blackWhiteApronMealsType, mealsList);
+
+    // meals
+    rv.aset(2, mealsArray, interpreter);
+
+    return rv;
   }
 }
