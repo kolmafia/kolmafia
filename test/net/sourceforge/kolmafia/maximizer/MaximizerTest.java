@@ -58,7 +58,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
 import java.time.Month;
-import java.util.Map;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -779,15 +778,14 @@ public class MaximizerTest {
               withPath(Path.BEES_HATE_YOU),
               withEquippableItem("Buddy Bjorn"),
               withEquippableItem("bounty-hunting helmet"))) {
-      // Buddy Bjorn has two Bs. Requiring it twice must not raise the allowance to four.
+        // Buddy Bjorn has two Bs. Requiring it twice must not raise the allowance to four.
         assertTrue(
             maximize(
                 "equip Buddy Bjorn, equip Buddy Bjorn, 100 bonus bounty-hunting helmet, -tie"));
 
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.CONTAINER, "Buddy Bjorn")));
-      // The one-B helmet's bonus ensures it would be recommended if a third B were allowed.
-        assertThat(
-            getBoosts(), not(hasItem(recommendsSlot(Slot.HAT, "bounty-hunting helmet"))));
+        // The one-B helmet's bonus ensures it would be recommended if a third B were allowed.
+        assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.HAT, "bounty-hunting helmet"))));
       }
     }
 
