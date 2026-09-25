@@ -77,13 +77,9 @@ public class ApiRequest extends GenericRequest {
   private static final AdventureResult TRANSFUNCTIONER = ItemPool.get(ItemPool.TRANSFUNCTIONER);
 
   public static synchronized void updateStatus(final boolean silent) {
-    // If in certain LimitModes, Noobcore, PokeFam, and Disguises Delimit, API
-    // status is incomplete, so use Character Pane instead.
+    // In certain LimitModes, API status is incomplete, so use Character Pane instead.
 
-    if (KoLCharacter.getLimitMode().requiresCharPane()
-        || KoLCharacter.inNoobcore()
-        || KoLCharacter.inPokefam()
-        || KoLCharacter.inDisguise()) {
+    if (KoLCharacter.getLimitMode().requiresCharPane()) {
       ApiRequest.updateStatusFromCharpane();
       return;
     }
@@ -94,9 +90,11 @@ public class ApiRequest extends GenericRequest {
       ApiRequest.refresh(What.STATUS);
     }
 
-    // If you have the continuum transfunctioner equipped, the Character Pane shows you your (8-bit)
-    // Score, so request that as well.
-    if (KoLCharacter.hasEquipped(TRANSFUNCTIONER)) {
+    // Some paths and items have state that is only surfaced on the Character Pane
+    if (KoLCharacter.inNoobcore() // absorbs and enchantments
+        || KoLCharacter.inPokefam() // familiar team
+        || KoLCharacter.inDisguise() // current mask
+        || KoLCharacter.hasEquipped(TRANSFUNCTIONER)) { // 8-bit Score
       ApiRequest.updateStatusFromCharpane();
     }
   }

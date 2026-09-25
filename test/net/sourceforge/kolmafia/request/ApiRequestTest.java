@@ -141,6 +141,34 @@ class ApiRequestTest {
   }
 
   @Test
+  void updatesStatusFromApiAlone() {
+    var builder = new FakeHttpClientBuilder();
+
+    try (var cleanups = new Cleanups(withHttpClientBuilder(builder))) {
+      ApiRequest.updateStatus();
+
+      var requests = builder.client.getRequests();
+      assertThat(requests, hasSize(1));
+      assertPostRequest(requests.get(0), "/api.php", "what=status&for=KoLmafia");
+    }
+  }
+
+  @Test
+  void updatesStatusFromApiAndCharpaneInPokefam() {
+    var builder = new FakeHttpClientBuilder();
+
+    try (var cleanups =
+        new Cleanups(withHttpClientBuilder(builder), withPath(AscensionPath.Path.POKEFAM))) {
+      ApiRequest.updateStatus();
+
+      var requests = builder.client.getRequests();
+      assertThat(requests, hasSize(2));
+      assertPostRequest(requests.get(0), "/api.php", "what=status&for=KoLmafia");
+      assertThat(requests.get(1).uri().getPath(), is("/charpane.php"));
+    }
+  }
+
+  @Test
   void parsesClosetAndStorageFromStatus() {
     try (var cleanups =
         new Cleanups(withMeatInCloset(0), withMeatInStorage(0), withPullsRemaining(0))) {
