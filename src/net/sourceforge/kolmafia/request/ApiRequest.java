@@ -60,7 +60,7 @@ public class ApiRequest extends GenericRequest {
 
   public ApiRequest(final What what, final int id) {
     this(what);
-    this.addFormField("id", id);
+    this.addFormField("id", String.valueOf(id));
     this.id = String.valueOf(id);
   }
 
@@ -398,6 +398,7 @@ public class ApiRequest extends GenericRequest {
 
       KoLCharacter.setClosetMeat(json.getLongValue("closetmeat"));
       KoLCharacter.setStorageMeat(json.getLongValue("storagemeat"));
+      // pulls remaining from Hagnk's today; -1 when unlimited
       ConcoctionDatabase.setPullsRemaining(json.getIntValue("pullsleft"));
 
       var limitmode = KoLCharacter.getLimitMode();
