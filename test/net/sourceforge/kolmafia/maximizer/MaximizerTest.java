@@ -265,14 +265,12 @@ public class MaximizerTest {
     }
 
     @Test
-    void nonModifierTermMakesFollowingMaximumApplyToTotalScore() {
-      var evaluator = new Evaluator("2 da, hat, 3 max, -tie");
-      var modifiers = new Modifiers();
-      modifiers.setDouble(DoubleModifier.DAMAGE_ABSORPTION, 2.0);
+    void maximumAfterNonModifierTermIsInvalid() {
+      assertFalse(maximize("2 da, hat, 3 max, -tie"));
 
-      evaluator.getScore(modifiers);
-
-      assertTrue(evaluator.exceeded);
+      assertThat(
+          KoLmafia.lastMessage,
+          is("max must follow a modifier or appear at the start of the expression"));
     }
   }
 
@@ -329,14 +327,12 @@ public class MaximizerTest {
     }
 
     @Test
-    void nonModifierTermMakesFollowingMinimumApplyToTotalScore() {
-      var evaluator = new Evaluator("2 da, hat, 3 min, -tie");
-      var modifiers = new Modifiers();
-      modifiers.setDouble(DoubleModifier.DAMAGE_ABSORPTION, 2.0);
+    void minimumAfterNonModifierTermIsInvalid() {
+      assertFalse(maximize("2 da, hat, 3 min, -tie"));
 
-      evaluator.getScore(modifiers);
-
-      assertFalse(evaluator.failed);
+      assertThat(
+          KoLmafia.lastMessage,
+          is("min must follow a modifier or appear at the start of the expression"));
     }
   }
 

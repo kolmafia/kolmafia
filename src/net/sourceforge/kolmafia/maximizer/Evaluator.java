@@ -346,6 +346,7 @@ public class Evaluator {
     boolean forceCurrent = false;
     int pos = 0;
     Modifier index = null;
+    boolean seenNonLimitTerm = false;
 
     int equipBeeosity = 0;
     int outfitBeeosity = 0;
@@ -378,8 +379,13 @@ public class Evaluator {
       if (keyword.equals("min")) {
         if (index != null) {
           this.min.put(index, weight);
-        } else {
+        } else if (!seenNonLimitTerm) {
           this.totalMin = weight;
+        } else {
+          KoLmafia.updateDisplay(
+              MafiaState.ERROR,
+              "min must follow a modifier or appear at the start of the expression");
+          return;
         }
         continue;
       }
@@ -387,12 +393,18 @@ public class Evaluator {
       if (keyword.equals("max")) {
         if (index != null) {
           this.max.put(index, weight);
-        } else {
+        } else if (!seenNonLimitTerm) {
           this.totalMax = weight;
+        } else {
+          KoLmafia.updateDisplay(
+              MafiaState.ERROR,
+              "max must follow a modifier or appear at the start of the expression");
+          return;
         }
         continue;
       }
 
+      seenNonLimitTerm = true;
       index = null;
 
       if (keyword.equals("dump")) {
