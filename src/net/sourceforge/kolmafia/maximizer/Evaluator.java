@@ -119,20 +119,84 @@ public class Evaluator {
 
   private record ScoreModifier(Modifier modifier, double weight, double min, double max) {}
 
-  private static final Pattern MUS_EXP_PERC_PATTERN =
-      Pattern.compile("^mus(cle)? exp(erience)? perc(ent(age)?)?");
-  private static final Pattern MUS_EXP_PATTERN = Pattern.compile("^mus(cle)? exp(erience)?");
-  private static final Pattern MUS_PERC_PATTERN = Pattern.compile("^mus(cle)? perc(ent(age)?)?");
-  private static final Pattern MYS_EXP_PERC_PATTERN =
-      Pattern.compile("^mys(t(ical(ity)?)?)? exp(erience)? perc(ent(age)?)?");
-  private static final Pattern MYS_EXP_PATTERN =
-      Pattern.compile("^mys(t(ical(ity)?)?)? exp(erience)?");
-  private static final Pattern MYS_PERC_PATTERN =
-      Pattern.compile("^mys(t(ical(ity)?)?)? perc(ent(age)?)?");
-  private static final Pattern MOX_EXP_PERC_PATTERN =
-      Pattern.compile("^mox(ie)? exp(erience)? perc(ent(age)?)?");
-  private static final Pattern MOX_EXP_PATTERN = Pattern.compile("^mox(ie)? exp(erience)?");
-  private static final Pattern MOX_PERC_PATTERN = Pattern.compile("^mox(ie)? perc(ent(age)?)?");
+  private record Canonicalization(Pattern pattern, String canonical) {}
+
+  private record ParsedKeyword(String directive, String operand, boolean operandRequired) {}
+
+  // {directive, operandRequired}
+  private static final Map<String, Boolean> DIRECTIVES_WITH_OPERANDS =
+      Map.of(
+          "type", true,
+          "equip", true,
+          "bonus", true,
+          "modbonus", true,
+          "letter", false,
+          "outfit", false,
+          "switch", true);
+
+  private static final List<Canonicalization> KEYWORD_CANONICALIZATIONS =
+      List.of(
+          canonicalization("handed|hands", "hand"),
+          canonicalization("tiebreaker", "tie"),
+          canonicalization("stinky cheese", "stinkycheese"),
+          tokenCanonicalization("mus", "muscle"),
+          tokenCanonicalization("mys(t(ical(ity)?)?)?", "mysticality"),
+          tokenCanonicalization("mox", "moxie"),
+          tokenCanonicalization("res", "resistance"),
+          tokenCanonicalization("dmg", "damage"),
+          tokenCanonicalization("exp", "experience"),
+          tokenCanonicalization("perc(ent(age)?)?", "percent"),
+          canonicalization("organ", "organ capacity"),
+          canonicalization("(any|ele) resistance", "elemental resistance"),
+          canonicalization("main", "mainstat"),
+          canonicalization("com", "combat"),
+          canonicalization("init", DoubleModifier.INITIATIVE.getName()),
+          canonicalization("hp", DoubleModifier.HP.getName()),
+          canonicalization("mp", DoubleModifier.MP.getName()),
+          canonicalization("da", DoubleModifier.DAMAGE_ABSORPTION.getName()),
+          canonicalization("dr", DoubleModifier.DAMAGE_REDUCTION.getName()),
+          canonicalization("ml", DoubleModifier.MONSTER_LEVEL.getName()),
+          canonicalization("item", DoubleModifier.ITEMDROP.getName()),
+          canonicalization("meat", DoubleModifier.MEATDROP.getName()),
+          canonicalization("crit(ical)?", DoubleModifier.CRITICAL_PCT.getName()),
+          canonicalization("spell crit(ical)?", DoubleModifier.SPELL_CRITICAL_PCT.getName()),
+          canonicalization("sprinkle", DoubleModifier.SPRINKLES.getName()),
+          canonicalization("stomach", DoubleModifier.STOMACH_CAPACITY.getName()),
+          canonicalization("liver", DoubleModifier.LIVER_CAPACITY.getName()),
+          canonicalization("spleen", DoubleModifier.SPLEEN_CAPACITY.getName()));
+
+  private static Canonicalization tokenCanonicalization(String pattern, String canonical) {
+    return new Canonicalization(Pattern.compile("\\b(?:" + pattern + ")\\b"), canonical);
+  }
+
+  private static Canonicalization canonicalization(String pattern, String canonical) {
+    return new Canonicalization(Pattern.compile("^(?:" + pattern + ")$"), canonical);
+  }
+
+  private static String canonicalize(String keyword) {
+    for (var canonicalization : KEYWORD_CANONICALIZATIONS) {
+      keyword =
+          canonicalization.pattern().matcher(keyword).replaceAll(canonicalization.canonical());
+    }
+    return keyword;
+  }
+
+  private static ParsedKeyword parseKeyword(String keyword) {
+    String directive = keyword;
+    String operand = "";
+    int separator = keyword.indexOf(' ');
+    String possibleDirective = separator == -1 ? keyword : keyword.substring(0, separator);
+    boolean operandRequired = DIRECTIVES_WITH_OPERANDS.getOrDefault(possibleDirective, false);
+    if (DIRECTIVES_WITH_OPERANDS.containsKey(possibleDirective)) {
+      directive = possibleDirective;
+      if (separator != -1) {
+        operand = keyword.substring(separator + 1).trim();
+      }
+    }
+
+    return new ParsedKeyword(canonicalize(directive), operand, operandRequired);
+  }
+
   private static final String TIEBREAKER =
       "1 familiar weight, 1 familiar experience, 1 initiative, 5 exp, 1 item, 1 meat, 0.1 DA 1000 max, 1 DR, 0.5 all res, -10 mana cost, 1.0 mus, 0.5 mys, 1.0 mox, 1.5 mainstat, 1 HP, 1 MP, 1 weapon damage, 1 ranged damage, 1 spell damage, 1 cold damage, 1 hot damage, 1 sleaze damage, 1 spooky damage, 1 stench damage, 1 cold spell damage, 1 hot spell damage, 1 sleaze spell damage, 1 spooky spell damage, 1 stench spell damage, -1 fumble, 1 HP regen max, 3 MP regen max, 1 critical hit percent, 0.1 food drop, 0.1 booze drop, 0.1 hat drop, 0.1 weapon drop, 0.1 offhand drop, 0.1 shirt drop, 0.1 pants drop, 0.1 accessory drop, 1 DB combat damage, 0.1 sixgun damage";
   private static final Pattern KEYWORD_PATTERN =
@@ -296,10 +360,21 @@ public class Evaluator {
           StringUtilities.parseDouble(
               m.end(2) == m.start(2) ? m.group(1) + "1" : m.group(1) + m.group(2));
 
-      String keyword = m.group(3).trim();
-      if (keyword.startsWith("\"") && keyword.endsWith("\"")) {
-        keyword = keyword.substring(1, keyword.length() - 1).trim();
+      String originalKeyword = m.group(3).trim();
+      if (originalKeyword.startsWith("\"") && originalKeyword.endsWith("\"")) {
+        originalKeyword = originalKeyword.substring(1, originalKeyword.length() - 1).trim();
       }
+
+      ParsedKeyword parsedKeyword = parseKeyword(originalKeyword);
+      String keyword = parsedKeyword.directive();
+      String operand = parsedKeyword.operand();
+
+      // This error could be more descriptive; preserve historical output for now
+      if (parsedKeyword.operandRequired() && operand.isEmpty()) {
+        KoLmafia.updateDisplay(MafiaState.ERROR, "Unrecognized keyword: " + originalKeyword);
+        return;
+      }
+
       if (keyword.equals("min")) {
         if (index != null) {
           this.min.put(index, weight);
@@ -323,7 +398,7 @@ public class Evaluator {
         continue;
       }
 
-      if (keyword.startsWith("hand")) {
+      if (keyword.equals("hand")) {
         this.hands = (int) weight;
         if (this.hands >= 2) {
           // this.slots[ EquipmentManager.OFFHAND ] = -1;
@@ -331,19 +406,19 @@ public class Evaluator {
         continue;
       }
 
-      if (keyword.startsWith("tie")) {
+      if (keyword.equals("tie")) {
         this.noTiebreaker = weight < 0.0;
         continue;
       }
 
-      if (keyword.startsWith("current")) {
+      if (keyword.equals("current")) {
         this.current = weight > 0.0;
         forceCurrent = true;
         continue;
       }
 
-      if (keyword.startsWith("type ")) {
-        this.weaponType = keyword.substring(5).trim();
+      if (keyword.equals("type")) {
+        this.weaponType = operand;
         continue;
       }
 
@@ -438,7 +513,7 @@ public class Evaluator {
         continue;
       }
 
-      if (keyword.equals("stinkycheese") || keyword.equals("stinky cheese")) {
+      if (keyword.equals("stinkycheese")) {
         this.stinkycheese = (int) weight;
         continue;
       }
@@ -456,9 +531,8 @@ public class Evaluator {
         continue;
       }
 
-      if (keyword.startsWith("equip ")) {
-        var match =
-            ItemFinder.getFirstMatchingItemWithMode(keyword.substring(6).trim(), Match.EQUIP);
+      if (keyword.equals("equip")) {
+        var match = ItemFinder.getFirstMatchingItemWithMode(operand, Match.EQUIP);
         if (match == null) {
           return;
         }
@@ -474,9 +548,8 @@ public class Evaluator {
         continue;
       }
 
-      if (keyword.startsWith("bonus ")) {
-        var match =
-            ItemFinder.getFirstMatchingItemWithMode(keyword.substring(6).trim(), Match.EQUIP);
+      if (keyword.equals("bonus")) {
+        var match = ItemFinder.getFirstMatchingItemWithMode(operand, Match.EQUIP);
         if (match == null) {
           return;
         }
@@ -495,8 +568,8 @@ public class Evaluator {
         continue;
       }
 
-      if (keyword.startsWith("modbonus ")) {
-        String modName = keyword.substring(9);
+      if (keyword.equals("modbonus")) {
+        String modName = operand;
         BooleanModifier mod = BooleanModifier.byCaselessName(modName);
         if (mod == null) {
           KoLmafia.updateDisplay(MafiaState.ERROR, "No boolean modifier found for: " + modName);
@@ -506,12 +579,11 @@ public class Evaluator {
         continue;
       }
 
-      if (keyword.startsWith("letter")) {
-        keyword = keyword.substring(6).trim();
-        if (keyword.isEmpty()) { // no keyword counts letters
+      if (keyword.equals("letter")) {
+        if (operand.isEmpty()) { // no keyword counts letters
           this.bonusFunc.add(new BonusFunction(LetterBonus::letterBonus, weight));
         } else {
-          String finalKeyword = keyword;
+          String finalKeyword = operand;
           this.bonusFunc.add(
               new BonusFunction(ar -> LetterBonus.letterBonus(ar, finalKeyword), weight));
         }
@@ -556,14 +628,14 @@ public class Evaluator {
         continue;
       }
 
-      if (keyword.startsWith("outfit")) {
-        keyword = keyword.substring(6).trim();
-        if (keyword.isEmpty()) { // allow "+outfit" to mean "keep the current outfit on"
-          keyword = KoLCharacter.currentStringModifier(StringModifier.OUTFIT);
+      if (keyword.equals("outfit")) {
+        String outfitName = operand;
+        if (outfitName.isEmpty()) { // allow "+outfit" to mean "keep the current outfit on"
+          outfitName = KoLCharacter.currentStringModifier(StringModifier.OUTFIT);
         }
-        SpecialOutfit outfit = EquipmentManager.getMatchingOutfit(keyword);
+        SpecialOutfit outfit = EquipmentManager.getMatchingOutfit(outfitName);
         if (outfit == null || outfit.getOutfitId() <= 0) {
-          KoLmafia.updateDisplay(MafiaState.ERROR, "Unknown or custom outfit: " + keyword);
+          KoLmafia.updateDisplay(MafiaState.ERROR, "Unknown or custom outfit: " + outfitName);
           return;
         }
         if (weight > 0.0) {
@@ -580,14 +652,13 @@ public class Evaluator {
         continue;
       }
 
-      if (keyword.startsWith("switch ")) {
+      if (keyword.equals("switch")) {
         if (KoLCharacter.inPokefam()) {
           continue;
         }
-        keyword = keyword.substring(7).trim();
-        int id = FamiliarDatabase.getFamiliarId(keyword);
+        int id = FamiliarDatabase.getFamiliarId(operand);
         if (id == -1) {
-          KoLmafia.updateDisplay(MafiaState.ERROR, "Unknown familiar: " + keyword);
+          KoLmafia.updateDisplay(MafiaState.ERROR, "Unknown familiar: " + operand);
           return;
         }
         if (hadFamiliar && weight < 0.0) continue;
@@ -614,22 +685,6 @@ public class Evaluator {
 
       index = DoubleModifier.byCaselessName(keyword);
 
-      // Adjust for generic abbreviations
-      if (index == null) {
-        if (keyword.endsWith(" res")) {
-          keyword += "istance";
-        } else if (keyword.endsWith(" dmg")) {
-          keyword = keyword.substring(0, keyword.length() - 3) + "damage";
-        } else if (keyword.endsWith(" dmg percent")) {
-          keyword = keyword.substring(0, keyword.length() - 11) + "damage percent";
-        } else if (keyword.endsWith(" exp")) {
-          keyword = keyword.substring(0, keyword.length() - 3) + "experience";
-        } else if (keyword.startsWith("organ")) {
-          keyword = "organ capacity";
-        }
-        index = DoubleModifier.byCaselessName(keyword);
-      }
-
       if (index == null) {
         BooleanModifier modifier = BooleanModifier.byCaselessName(keyword);
         if (modifier != null) {
@@ -644,7 +699,7 @@ public class Evaluator {
       // Match keyword with multiple modifiers
       if (index == null) {
         switch (keyword) {
-          case "any resistance", "ele resistance", "elemental resistance" -> {
+          case "elemental resistance" -> {
             this.weight.put(DoubleModifier.COLD_RESISTANCE, weight);
             this.weight.put(DoubleModifier.HOT_RESISTANCE, weight);
             this.weight.put(DoubleModifier.SLEAZE_RESISTANCE, weight);
@@ -686,73 +741,19 @@ public class Evaluator {
 
       // Match keyword with specific abbreviations
       if (index == null) {
-        if (keyword.equals("init")) {
-          index = DoubleModifier.INITIATIVE;
-        } else if (keyword.equals("hp")) {
-          index = DoubleModifier.HP;
-        } else if (keyword.equals("mp")) {
-          index = DoubleModifier.MP;
-        } else if (keyword.equals("da")) {
-          index = DoubleModifier.DAMAGE_ABSORPTION;
-        } else if (keyword.equals("dr")) {
-          index = DoubleModifier.DAMAGE_REDUCTION;
-        } else if (keyword.equals("ml")) {
-          index = DoubleModifier.MONSTER_LEVEL;
-        } else if (MUS_EXP_PERC_PATTERN.matcher(keyword).find()) {
-          index = DoubleModifier.MUS_EXPERIENCE_PCT;
-        } else if (MUS_EXP_PATTERN.matcher(keyword).find()) {
-          index = DoubleModifier.MUS_EXPERIENCE;
-        } else if (MUS_PERC_PATTERN.matcher(keyword).find()) {
-          index = DoubleModifier.MUS_PCT;
-        } else if (MYS_EXP_PERC_PATTERN.matcher(keyword).find()) {
-          index = DoubleModifier.MYS_EXPERIENCE_PCT;
-        } else if (MYS_EXP_PATTERN.matcher(keyword).find()) {
-          index = DoubleModifier.MYS_EXPERIENCE;
-        } else if (MYS_PERC_PATTERN.matcher(keyword).find()) {
-          index = DoubleModifier.MYS_PCT;
-        } else if (MOX_EXP_PERC_PATTERN.matcher(keyword).find()) {
-          index = DoubleModifier.MOX_EXPERIENCE_PCT;
-        } else if (MOX_EXP_PATTERN.matcher(keyword).find()) {
-          index = DoubleModifier.MOX_EXPERIENCE;
-        } else if (MOX_PERC_PATTERN.matcher(keyword).find()) {
-          index = DoubleModifier.MOX_PCT;
-        } else if (keyword.startsWith("mus")) {
-          index = DoubleModifier.MUS;
-        } else if (keyword.startsWith("mys")) {
-          index = DoubleModifier.MYS;
-        } else if (keyword.startsWith("mox")) {
-          index = DoubleModifier.MOX;
-        } else if (keyword.startsWith("main")) {
+        if (keyword.equals("mainstat")) {
           index = DoubleModifier.primeStat();
-        } else if (keyword.startsWith("com")) {
+        } else if (keyword.equals("combat")) {
           index = DoubleModifier.COMBAT_RATE;
           if (AdventureDatabase.isUnderwater(Modifiers.currentLocation)) {
             this.weight.put(DoubleModifier.UNDERWATER_COMBAT_RATE, weight);
           }
-        } else if (keyword.startsWith("item")) {
-          index = DoubleModifier.ITEMDROP;
-        } else if (keyword.startsWith("meat")) {
-          index = DoubleModifier.MEATDROP;
-        } else if (keyword.startsWith("adv")) {
+        } else if (keyword.equals("adv")) {
           this.beeosity = 999;
           index = DoubleModifier.ADVENTURES;
-        } else if (keyword.startsWith("fites")) {
+        } else if (keyword.equals("fites")) {
           this.beeosity = 999;
           index = DoubleModifier.PVP_FIGHTS;
-        } else if (keyword.startsWith("exp")) {
-          index = DoubleModifier.EXPERIENCE;
-        } else if (keyword.startsWith("crit")) {
-          index = DoubleModifier.CRITICAL_PCT;
-        } else if (keyword.startsWith("spell crit")) {
-          index = DoubleModifier.SPELL_CRITICAL_PCT;
-        } else if (keyword.startsWith("sprinkle")) {
-          index = DoubleModifier.SPRINKLES;
-        } else if (keyword.startsWith("stomach")) {
-          index = DoubleModifier.STOMACH_CAPACITY;
-        } else if (keyword.startsWith("liver")) {
-          index = DoubleModifier.LIVER_CAPACITY;
-        } else if (keyword.startsWith("spleen")) {
-          index = DoubleModifier.SPLEEN_CAPACITY;
         } else if (keyword.equals("ocrs")) {
           this.noTiebreaker = true;
           this.beeosity = 999;
@@ -766,7 +767,7 @@ public class Evaluator {
         continue;
       }
 
-      KoLmafia.updateDisplay(MafiaState.ERROR, "Unrecognized keyword: " + keyword);
+      KoLmafia.updateDisplay(MafiaState.ERROR, "Unrecognized keyword: " + originalKeyword);
       return;
     }
 

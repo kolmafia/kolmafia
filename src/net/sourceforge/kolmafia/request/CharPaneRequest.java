@@ -426,26 +426,7 @@ public class CharPaneRequest extends GenericRequest {
 
     KoLCharacter.setAvatar("otherimages/spirit.gif");
 
-    // We have no stats as an Astral Spirit
-    KoLCharacter.setStatPoints(1, 0L, 1, 0L, 1, 0L);
-    KoLCharacter.setHP(1, 1, 1);
-    KoLCharacter.setMP(1, 1, 1);
-    KoLCharacter.setAvailableMeat(0);
-    KoLCharacter.setAdventuresLeft(0);
-    KoLCharacter.setMindControlLevel(0);
-
-    // No active status effects
-    KoLConstants.recentEffects.clear();
-    KoLConstants.activeEffects.clear();
-
-    // No modifiers
-    KoLCharacter.recalculateAdjustments();
-    KoLCharacter.updateStatus();
-
-    // You certainly can't interact with the "real world"
-    CharPaneRequest.setInteraction(false);
-
-    // You do, however, have Karma available to spend in Valhalla.
+    // api.php does not give karma balance
     Pattern pattern =
         CharPaneRequest.compactCharacterPane
             ? CharPaneRequest.KARMA_PATTERN_COMPACT
@@ -1895,7 +1876,7 @@ public class CharPaneRequest extends GenericRequest {
       return;
     }
 
-    if (!KoLCharacter.getPath().canUseFamiliars()) return;
+    if (!KoLCharacter.getPath().canUseFamiliars() || KoLCharacter.inPokefam()) return;
 
     int famId = json.getIntValue("familiar");
     int famExp = json.getIntValue("familiarexp");

@@ -788,6 +788,30 @@ public class Player {
   }
 
   /**
+   * Sets the player's meat in storage to the given quantity
+   *
+   * @param meat Amount of meat to have in storage
+   * @return Restores the meat to the previous amount
+   */
+  public static Cleanups withMeatInStorage(final long meat) {
+    var old = KoLCharacter.getStorageMeat();
+    KoLCharacter.setStorageMeat(meat);
+    return new Cleanups(() -> KoLCharacter.setStorageMeat(old));
+  }
+
+  /**
+   * Sets the player's remaining pulls from storage
+   *
+   * @param pulls Number of pulls remaining
+   * @return Restores the pulls to the previous amount
+   */
+  public static Cleanups withPullsRemaining(final int pulls) {
+    var old = ConcoctionDatabase.getPullsRemaining();
+    ConcoctionDatabase.setPullsRemaining(pulls);
+    return new Cleanups(() -> ConcoctionDatabase.setPullsRemaining(old));
+  }
+
+  /**
    * Puts item in player's inventory and ensures player meets requirements to equip
    *
    * @param itemName Name of the item

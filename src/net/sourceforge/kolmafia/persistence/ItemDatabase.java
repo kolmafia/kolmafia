@@ -46,6 +46,7 @@ import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase.DustyBottle;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ApiRequest;
+import net.sourceforge.kolmafia.request.ApiRequest.What;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.UmbrellaRequest.UmbrellaMode;
@@ -768,10 +769,10 @@ public class ItemDatabase {
 
   public static final void registerItem(final int itemId) {
     // This only works for items you own.
-    ApiRequest request = new ApiRequest("item", itemId);
+    ApiRequest request = new ApiRequest(What.ITEM, itemId);
     RequestThread.postRequest(request);
 
-    JSONObject json = request.json;
+    JSONObject json = request.getJSON();
     if (json == null) {
       return;
     }

@@ -52,6 +52,7 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.persistence.TCRSDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ApiRequest;
+import net.sourceforge.kolmafia.request.ApiRequest.What;
 import net.sourceforge.kolmafia.request.CafeRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CargoCultistShortsRequest;
@@ -60,7 +61,6 @@ import net.sourceforge.kolmafia.request.CharSheetRequest;
 import net.sourceforge.kolmafia.request.ChateauRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
-import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.CustomOutfitRequest;
 import net.sourceforge.kolmafia.request.EdBaseRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -659,75 +659,94 @@ public abstract class KoLmafia {
 
   public static void refreshSession() {
     KoLmafia.setIsRefreshing(true);
+    // inventory arrives before the char sheet, so concoctions would be computed without our skills
+    ConcoctionDatabase.deferRefresh(true);
 
-    // Start out fetching the status using the KoL API. This
-    // provides data from a lot of different standard pages
+    try {
+      // Start out fetching the status using the KoL API. This
+      // provides data from a lot of different standard pages
 
-    // We are in Valhalla if this redirects to afterlife.php
-    String redirection = ApiRequest.updateStatus();
-    if (redirection != null && redirection.startsWith("afterlife.php")) {
-      // In Valhalla, ApiRequest parsed the charpane for us.
-      KoLmafia.updateDisplay("Welcome to Valhalla!");
+      // Refresh storage if the known ascensions is different from the last emptied storage
+      // If this is wrong, a later check will refresh storage
+      boolean refreshStorage =
+          Preferences.getInteger("lastEmptiedStorage") != Preferences.getInteger("knownAscensions");
+
+      if (refreshStorage) {
+        ApiRequest.updateStatus(false, What.INVENTORY, What.CLOSET, What.STORAGE);
+      } else {
+        ApiRequest.updateStatus(false, What.INVENTORY, What.CLOSET);
+      }
+
+      if (CharPaneRequest.inValhalla()) {
+        // Nothing below applies in Valhalla, and api.php does not report our
+        // banked Karma, so read the charpane for that and stop here.
+        ApiRequest.updateStatusFromCharpane();
+        KoLmafia.updateDisplay("Welcome to Valhalla!");
+        return;
+      }
+
+      // Load saved counters before any requests are made, since both
+      // charpane and charsheet requests can set them.
+
+      CharPaneRequest.reset();
+      KoLCharacter.setCurrentRun(0);
+      TurnCounter.loadCounters();
+
+      boolean shouldResetCounters = false;
+      boolean shouldResetGlobalCounters = false;
+      // Assume if rollover has changed by an hour, it is a new rollover. Time varies slightly
+      // between servers by a few seconds.
+      shouldResetCounters =
+          KoLCharacter.getRollover() - Preferences.getLong("lastCounterDay") > 3600;
+      shouldResetGlobalCounters =
+          KoLCharacter.getRollover() - Preferences.getLong("lastGlobalCounterDay") > 3600;
+
+      int ascensions = KoLCharacter.getAscensions();
+      int knownAscensions = Preferences.getInteger("knownAscensions");
+
+      if (shouldResetCounters) {
+        Preferences.resetPerRollover();
+      }
+
+      if (ascensions != 0 && knownAscensions != -1 && knownAscensions != ascensions) {
+        Preferences.setInteger("knownAscensions", ascensions);
+        ValhallaManager.resetPerAscensionCounters();
+        shouldResetCounters = true;
+        KoLCharacter.setGuildStoreOpen(false);
+      } else if (knownAscensions == -1) {
+        Preferences.setInteger("knownAscensions", ascensions);
+      }
+
+      if (shouldResetCounters) {
+        KoLmafia.resetCounters();
+      }
+
+      if (shouldResetGlobalCounters) {
+        Preferences.resetGlobalDailies();
+      }
+
+      // No spurious adventure logging
+      KoLAdventure.locationLogged = true;
+
+      // If storage was not refreshed earlier, but should have been
+      if (!refreshStorage
+          && Preferences.getInteger("lastEmptiedStorage") != KoLCharacter.getAscensions()) {
+        ApiRequest.refresh(What.STORAGE);
+      }
+
+      KoLmafia.refreshSessionData();
+
+      AdventureFrame.updateFromPreferences();
+
+      // It would be nice to not have to do this
+      IslandManager.ensureUpdatedBigIsland();
+
+      KoLCharacter.recalculateAdjustments();
+      ConsumablesDatabase.calculateAllAverageAdventures();
+    } finally {
+      ConcoctionDatabase.deferRefresh(false);
       KoLmafia.setIsRefreshing(false);
-      return;
     }
-
-    // If api.php did not redirect, we've loaded a lot of data,
-    // including ascension status
-
-    // Load saved counters before any requests are made, since both
-    // charpane and charsheet requests can set them.
-
-    CharPaneRequest.reset();
-    KoLCharacter.setCurrentRun(0);
-    TurnCounter.loadCounters();
-
-    boolean shouldResetCounters = false;
-    boolean shouldResetGlobalCounters = false;
-    // Assume if rollover has changed by an hour, it is a new rollover. Time varies slightly between
-    // servers by a few seconds.
-    shouldResetCounters = KoLCharacter.getRollover() - Preferences.getLong("lastCounterDay") > 3600;
-    shouldResetGlobalCounters =
-        KoLCharacter.getRollover() - Preferences.getLong("lastGlobalCounterDay") > 3600;
-
-    int ascensions = KoLCharacter.getAscensions();
-    int knownAscensions = Preferences.getInteger("knownAscensions");
-
-    if (shouldResetCounters) {
-      Preferences.resetPerRollover();
-    }
-
-    if (ascensions != 0 && knownAscensions != -1 && knownAscensions != ascensions) {
-      Preferences.setInteger("knownAscensions", ascensions);
-      ValhallaManager.resetPerAscensionCounters();
-      shouldResetCounters = true;
-      KoLCharacter.setGuildStoreOpen(false);
-    } else if (knownAscensions == -1) {
-      Preferences.setInteger("knownAscensions", ascensions);
-    }
-
-    if (shouldResetCounters) {
-      KoLmafia.resetCounters();
-    }
-
-    if (shouldResetGlobalCounters) {
-      Preferences.resetGlobalDailies();
-    }
-
-    // No spurious adventure logging
-    KoLAdventure.locationLogged = true;
-
-    KoLmafia.refreshSessionData();
-
-    AdventureFrame.updateFromPreferences();
-
-    // It would be nice to not have to do this
-    IslandManager.ensureUpdatedBigIsland();
-
-    KoLCharacter.recalculateAdjustments();
-    ConsumablesDatabase.calculateAllAverageAdventures();
-
-    KoLmafia.setIsRefreshing(false);
   }
 
   private static void refreshSessionData() {
@@ -783,11 +802,8 @@ public abstract class KoLmafia {
     // Hermit items depend on character class
     HermitRequest.initialize();
 
-    // Retrieve the contents of inventory.
-    InventoryManager.refresh();
-
-    // Retrieve the contents of the closet.
-    ClosetRequest.refresh();
+    // Recalculate the modifiers
+    KoLCharacter.recalculateAdjustments();
 
     // Retrieve Custom Outfit list
     if (!KoLCharacter.getLimitMode().limitOutfits()) {
@@ -885,7 +901,8 @@ public abstract class KoLmafia {
     RequestThread.postRequest(new PeeVPeeRequest("fight"));
 
     if (Preferences.getInteger("lastEmptiedStorage") != KoLCharacter.getAscensions()) {
-      StorageRequest.refresh();
+      StorageRequest.updateSettings();
+      // Will autopull LARP card if auto satisfy is enabled
       CafeRequest.pullLARPCard();
     }
 
@@ -907,6 +924,7 @@ public abstract class KoLmafia {
     InventoryManager.checkBaseballDiamond();
     InventoryManager.checkVampireVintnerWine();
     InventoryManager.checkBirdOfTheDay();
+    InventoryManager.checkFamiliarScrapbook();
     InventoryManager.checkDartPerks();
     InventoryManager.checkMimicEgg();
     ResultProcessor.updateEntauntauned();

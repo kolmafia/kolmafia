@@ -7,7 +7,6 @@ public class PingRequest extends GenericRequest {
   private long endTime = 0L;
 
   // main.php will redirect if we are in a fight or choice.
-  // api.php will redirect to afterlife.php in Valhalla.
   //
   // api.php's responseText is about 1/4 the size of main.php's - and
   // measured ping time is about 1/4 as long.
@@ -65,10 +64,7 @@ public class PingRequest extends GenericRequest {
     // - we are logged out -> login.php?notloggedin=1
     // - we are in a fight (except api) -> fight.php
     // - we are in a choice (except api) -> choice.php
-    // - we are in Valhalla -> afterlife.php
     if (this.redirectLocation != null) {
-      // We COULD do a ping test on afterlife.php, but since we can't
-      // compare the results with any other page, it is pointless.
       // leave endTime at 0
       return;
     }

@@ -26,6 +26,7 @@ import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.ApiRequest.What;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
@@ -103,18 +104,13 @@ public class StorageRequest extends TransferItemRequest {
   }
 
   public enum StorageRequestType {
-    REFRESH,
     EMPTY_STORAGE,
     STORAGE_TO_INVENTORY,
     PULL_MEAT_FROM_STORAGE
   }
 
   public static void refresh() {
-    // To refresh storage, we get Meat and pulls from the main page
-    // and items from api.php
-
-    RequestThread.postRequest(new StorageRequest(StorageRequestType.REFRESH));
-    ApiRequest.updateStorage();
+    ApiRequest.refresh(What.STORAGE, What.STATUS);
     StorageRequest.updateSettings();
   }
 
@@ -173,11 +169,6 @@ public class StorageRequest extends TransferItemRequest {
     }
   }
 
-  public StorageRequest() {
-    super("storage.php");
-    this.moveType = StorageRequestType.REFRESH;
-  }
-
   public StorageRequest(final StorageRequestType moveType) {
     this(moveType, new AdventureResult[0]);
     this.moveType = moveType;
@@ -207,7 +198,6 @@ public class StorageRequest extends TransferItemRequest {
     // different request types.
 
     switch (moveType) {
-      case REFRESH -> this.addFormField("which", "5");
       case EMPTY_STORAGE -> {
         this.addFormField("action", "pullall");
         this.source = KoLConstants.storage;
@@ -222,11 +212,6 @@ public class StorageRequest extends TransferItemRequest {
       }
       case PULL_MEAT_FROM_STORAGE -> this.addFormField("action", "takemeat");
     }
-  }
-
-  @Override
-  protected boolean retryOnTimeout() {
-    return this.moveType == StorageRequestType.REFRESH;
   }
 
   public StorageRequestType getMoveType() {
@@ -449,17 +434,6 @@ public class StorageRequest extends TransferItemRequest {
     super.run();
   }
 
-  @Override
-  public void processResults() {
-    switch (this.moveType) {
-      case REFRESH -> {
-        StorageRequest.parseStorage(this.getURLString(), this.responseText);
-        return;
-      }
-      default -> super.processResults();
-    }
-  }
-
   // <b>You have 178,634,761 meat in long-term storage.</b>
   private static final Pattern STORAGEMEAT_PATTERN =
       Pattern.compile("<b>You have ([\\d,]+) meat in long-term storage.</b>");
@@ -628,24 +602,30 @@ public class StorageRequest extends TransferItemRequest {
     // you what went into inventory and what went
     // into the closet.
 
-    InventoryManager.refresh();
-    ClosetRequest.refresh();
-    NamedListenerRegistry.fireChange("(coinmaster)");
-
     // If we are still in a Trendy run or are pulling only
     // "favorite things", we may have left items in storage.
 
     if (KoLCharacter.isTrendy()
         || KoLCharacter.getRestricted()
         || urlString.contains("favonly=1")) {
-      StorageRequest.refresh();
+      ApiRequest.refresh(What.CLOSET, What.INVENTORY, What.STORAGE, What.STATUS);
+    } else {
+      ApiRequest.refresh(What.CLOSET, What.INVENTORY);
     }
+
+    // Recalculate the modifiers
+    KoLCharacter.recalculateAdjustments();
+    NamedListenerRegistry.fireChange("(coinmaster)");
 
     // Update settings
     StorageRequest.updateSettings();
   }
 
-  private static void updateSettings() {
+  public static void updateSettings() {
+    // While in valhalla, our storage is reported as empty even as our ascensions was incremented
+    if (CharPaneRequest.inValhalla()) {
+      return;
+    }
     if (KoLConstants.storage.isEmpty()
         && KoLConstants.freepulls.isEmpty()
         && KoLCharacter.getStorageMeat() == 0) {
@@ -827,7 +807,6 @@ public class StorageRequest extends TransferItemRequest {
   @Override
   public String getStatusMessage() {
     return switch (this.moveType) {
-      case REFRESH -> "Examining Meat and pulls in storage";
       case EMPTY_STORAGE -> "Emptying storage";
       case STORAGE_TO_INVENTORY -> "Pulling items from storage";
       case PULL_MEAT_FROM_STORAGE -> "Pulling meat from storage";
