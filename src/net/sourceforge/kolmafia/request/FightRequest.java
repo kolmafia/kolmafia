@@ -2135,6 +2135,12 @@ public class FightRequest extends GenericRequest {
       // Reparse the encounter, since random modifiers,
       // intergnat, etc. could have changed the name.
       encounter = AdventureRequest.parseCombatEncounter(responseText);
+
+      // Most of the time, when a monster switch occurs, the current encounter gets updated in
+      // processNode(), but in some cases (e.g. when OCRS modifiers are in play), the monster name
+      // will change again on the next page load. Therefore, set it here too.
+      FightRequest.setCurrentEncounter(encounter);
+
       MonsterData newMonster = AdventureRequest.extractMonster(encounter, responseText);
       MonsterStatusTracker.transformMonster(newMonster);
       FightRequest.transformed = false;
@@ -6519,6 +6525,7 @@ public class FightRequest extends GenericRequest {
       String monsterName = m.group(2);
 
       FightRequest.clearInstanceData(true);
+      FightRequest.setCurrentEncounter(CombatActionManager.encounterKey(monsterName, false));
       FightRequest.logText("your opponent becomes " + monsterName + "!", status);
 
       return;
@@ -9110,7 +9117,7 @@ public class FightRequest extends GenericRequest {
 
     // In Ed we'll only clear the monster status when we have won or abandoned the fight
     if (!KoLCharacter.isEd() || Preferences.getInteger("_edDefeats") == 0) {
-      MonsterStatusTracker.reset();
+      MonsterStatusTracker.reset(transform);
     }
 
     if (transform) {
@@ -9696,6 +9703,8 @@ public class FightRequest extends GenericRequest {
 
   private static final Pattern STEAL_LETTER_PATTERN =
       Pattern.compile("You rip the heart \\(([A-Z])\\) right out of your foe");
+  private static final Pattern STEAL_LETTER_NAME_PATTERN =
+      Pattern.compile("getElementById\\(\"monname\"\\).innerHTML = \"(.*?)\";</script>");
 
   private static void payActionCost(final String responseText) {
     // If we don't know what we tried, punt now.
@@ -11266,6 +11275,13 @@ public class FightRequest extends GenericRequest {
             curLetters = "";
           }
           Preferences.setString("heartstoneLetters", curLetters + letter);
+
+          // Parse the new monster name
+          Matcher nameMatcher = STEAL_LETTER_NAME_PATTERN.matcher(responseText);
+          if (nameMatcher.find()) {
+            String newName = nameMatcher.group(1);
+            FightRequest.setCurrentEncounter(CombatActionManager.encounterKey(newName, false));
+          }
         }
       }
       case SkillPool.HEARTSTONE_KILL -> {

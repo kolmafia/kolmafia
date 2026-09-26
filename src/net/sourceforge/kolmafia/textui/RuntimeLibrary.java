@@ -3065,6 +3065,9 @@ public abstract class RuntimeLibrary {
     functions.add(new LibraryFunction("monster_hp", DataTypes.INT_TYPE, params));
 
     params = List.of();
+    functions.add(new LibraryFunction("monster_name", DataTypes.STRING_TYPE, params));
+
+    params = List.of();
     functions.add(new LibraryFunction("monster_phylum", DataTypes.PHYLUM_TYPE, params));
 
     params = List.of(namedParam("monster", DataTypes.MONSTER_TYPE));
@@ -10508,6 +10511,10 @@ public abstract class RuntimeLibrary {
     return new Value(monster.getHP());
   }
 
+  public static Value monster_name(ScriptRuntime controller) {
+    return new Value(StringUtilities.getEntityDecode(FightRequest.currentEncounter));
+  }
+
   public static Value monster_phylum(ScriptRuntime controller) {
     Phylum phylum = MonsterStatusTracker.getMonsterPhylum();
     return new Value(DataTypes.PHYLUM_TYPE, phylum.toString(), phylum);
@@ -12485,7 +12492,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value heartstone_middle_letter(ScriptRuntime controller) {
-    return heartstone_middle_letter(FightRequest.currentEncounter);
+    return heartstone_middle_letter(StringUtilities.getEntityDecode(FightRequest.currentEncounter));
   }
 
   private static Value heartstone_middle_letter(String monsterName) {
