@@ -462,6 +462,21 @@ public class FightRequest extends GenericRequest {
     "hard to smell anything in this crowd"
   };
 
+  private static final Map<String, Integer> MEAT_SHIELD_MAIDEN_BLESSINGS =
+      Map.of(
+          "Hot",
+          EffectPool.BLESSING_HEAT_SHIELD,
+          "Cold",
+          EffectPool.BLESSING_RIOT_SHIELD,
+          "Spooky",
+          EffectPool.BLESSING_MENTAL_SHIELD,
+          "Stench",
+          EffectPool.BLESSING_PRIVACY_SHIELD,
+          "Sleaze",
+          EffectPool.BLESSING_TAX_SHIELD,
+          "Physical",
+          EffectPool.BLESSING_WIND_SHIELD);
+
   public enum SpecialMonster {
     // Individual monsters
     ANCIENT_PROTECTOR_SPIRIT("Ancient Protector Spirit"),
@@ -11308,6 +11323,15 @@ public class FightRequest extends GenericRequest {
         if (responseText.contains("You flow away") || skillSuccess) {
           Preferences.decrement("exerciseLiquidityCharges");
           skillSuccess = true;
+        }
+      }
+      case SkillPool.PROTECT_ME -> {
+        for (Map.Entry<String, Integer> e : MEAT_SHIELD_MAIDEN_BLESSINGS.entrySet()) {
+          if (responseText.contains(EffectDatabase.getEffectName(e.getValue()))) {
+            Preferences.setBoolean("_blessingShield" + e.getKey() + "Received", true);
+            skillSuccess = true;
+            break;
+          }
         }
       }
     }
