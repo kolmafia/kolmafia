@@ -94,15 +94,16 @@ We use [JUnit 5](https://junit.org/junit5/docs/current/user-guide/) for all of
 our tests. If you wish to stub out complex behavior, consider using
 [Mockito](https://javadoc.io/doc/org.mockito/mockito-core/latest/org/mockito/Mockito.html).
 
-In general, the test/ directory structure mirrors that of src/, with
-test/path/to/FooTest.java corresponding to src/path/to/Foo.java.
+In general, the src/test/java/ directory structure mirrors that of
+src/main/java/, with src/test/java/path/to/FooTest.java corresponding to
+src/main/java/path/to/Foo.java.
 
 #### Script tests
 
 We provide CustomScriptTest.java if you wish to write ASH / CLI / JS scripts in
-test/root/scripts. This wrapper compares the output of these scripts against
-golden files in test/root/expected. Tests of this form must clean up after
-themselves, to avoid polluting the shared environment.
+src/test/root/scripts. This wrapper compares the output of these scripts
+against golden files in src/test/root/expected. Tests of this form must clean
+up after themselves, to avoid polluting the shared environment.
 
 See [this thread](https://kolmafia.us/threads/scripts-in-tests.26380/) for a
 discussion on setting up the environment for these custom script tests.

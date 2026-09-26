@@ -30,36 +30,6 @@ checkstyle {
   toolVersion = "12.1.0"
 }
 
-sourceSets {
-  main {
-    java {
-      setSrcDirs(listOf("src", "lib"))
-      destinationDirectory.set(file("build/main"))
-    }
-    resources {
-      setSrcDirs(listOf("src", "lib"))
-      exclude("**/*.java", "**/*.jar")
-    }
-  }
-
-  create("lib") {
-    java {
-      setSrcDirs(listOf("lib"))
-      destinationDirectory.set(file("build/lib"))
-    }
-  }
-
-  test {
-    java {
-      setSrcDirs(listOf("test"))
-      destinationDirectory.set(file("build/test"))
-    }
-    resources {
-      setSrcDirs(listOf("test/resources"))
-    }
-  }
-}
-
 repositories {
   // Use Maven Central for resolving dependencies.
   mavenCentral()
@@ -87,14 +57,6 @@ dependencies {
   runtimeOnly("com.trilead:trilead-ssh2:1.0.0-build222")
   runtimeOnly("net.java.dev.jna:jna:5.18.1")
   runtimeOnly("net.java.dev.jna:jna-platform:5.18.1")
-
-  "libImplementation"("org.swinglabs:swingx:1.0")
-
-  implementation(
-    files("build/lib") {
-      builtBy("compileLibJava")
-    },
-  )
 
   implementation("net.sourceforge.htmlcleaner:htmlcleaner:2.29")
   implementation("org.jsoup:jsoup:1.23.1")
@@ -138,7 +100,13 @@ spotless {
     ktlint()
   }
   java {
-    target("src/**/*.java", "test/**/*.java")
+    target("src/**/*.java")
+    targetExclude(
+      "src/main/java/ca/**",
+      "src/main/java/com/**",
+      "src/main/java/darrylbu/**",
+      "src/main/java/net/java/**",
+    )
     googleJavaFormat()
   }
 }
@@ -185,7 +153,7 @@ tasks.test {
   systemProperty("useCWDasROOT", true)
   systemProperty("file.encoding", "UTF-8")
   systemProperty("buildDir", layout.buildDirectory.get().asFile)
-  workingDir("test/root")
+  workingDir("src/test/root")
 
   testLogging.showStandardStreams = true
 
