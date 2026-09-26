@@ -90,8 +90,7 @@ public class ApiRequest extends GenericRequest {
     }
 
     // Request from api both the status, and the other 'what' wanted
-    ApiRequest.refresh(
-        silent, Stream.concat(Stream.of(What.STATUS), Arrays.stream(also)).toArray(What[]::new));
+    ApiRequest.refresh(silent, EnumSet.of(What.STATUS, also).toArray(What[]::new));
 
     // Some paths and items have state that is only surfaced on the Character Pane
     if (KoLCharacter.inNoobcore() // absorbs and enchantments
