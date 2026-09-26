@@ -729,7 +729,7 @@ public class MaximizerSpeculation extends Speculation
       }
 
       // if ( any && <no unarmed items in shortlists> ) return;
-      if (Maximizer.eval.melee < -1 || Maximizer.eval.melee > 1) {
+      if (Maximizer.eval.melee() < -1 || Maximizer.eval.melee() > 1) {
         return;
       }
       this.equipment.put(Slot.WEAPON, EquipmentRequest.UNEQUIP);
