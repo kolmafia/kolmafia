@@ -31,6 +31,7 @@ import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.coinmaster.HermitRequest;
 import net.sourceforge.kolmafia.scripts.git.GitManager;
 import net.sourceforge.kolmafia.scripts.svn.SVNManager;
+import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -124,7 +125,7 @@ public class LoginManager {
 
     if (Preferences.getBoolean(username, "getBreakfast")) {
       int today = HolidayDatabase.getPhaseStep();
-      BreakfastManager.getBreakfast(Preferences.getInteger("lastBreakfast") != today);
+      CommandDisplayFrame.executeCommand("breakfast");
       Preferences.setInteger("lastBreakfast", today);
     }
 
@@ -150,11 +151,11 @@ public class LoginManager {
 
     String scriptSetting = Preferences.getString("loginScript");
     if (!scriptSetting.equals("")) {
-      KoLmafiaCLI.DEFAULT_SHELL.executeLine(scriptSetting);
+      CommandDisplayFrame.executeCommand(scriptSetting);
     }
 
     if (EventManager.hasEvents()) {
-      KoLmafiaCLI.DEFAULT_SHELL.executeLine("events");
+      CommandDisplayFrame.executeCommand("events");
     }
   }
 
