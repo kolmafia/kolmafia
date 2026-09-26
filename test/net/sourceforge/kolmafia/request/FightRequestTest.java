@@ -4806,6 +4806,33 @@ public class FightRequestTest {
   }
 
   @Test
+  void manuelStatsNotCarriedOverWhenSwitchPageHasNoManuel() {
+    var cleanups = new Cleanups(withFight(), withMuscle(300, 500), withMoxie(300, 500));
+
+    try (cleanups) {
+      String fightInitPage = "request/test_fight_manuel_switchmonster_init.html";
+      GenericRequest request = new GenericRequest("fight.php");
+      request.responseText = html(fightInitPage);
+      AdventureRequest.registerEncounter(request);
+      parseCombatData(fightInitPage, "fight.php");
+      assertThat(MonsterStatusTracker.getMonsterAttack(), is(21));
+
+      var switchPage =
+          html("request/test_fight_manuel_switchmonster_feesh.html")
+              .replaceFirst("<td id='fstats'><table>.*?</table>", "<td id='fstats'>");
+      var location = "fight.php?action=skill&whichskill=7570";
+      FightRequest.registerRequest(true, location);
+      FightRequest.updateCombatData(location, null, switchPage);
+
+      var monster = MonsterStatusTracker.getLastMonster();
+      assertThat(monster.getName(), is("some fish"));
+      assertThat(MonsterStatusTracker.getMonsterAttack(), is(monster.getAttack()));
+      assertThat(MonsterStatusTracker.getMonsterDefense(), is(monster.getDefense()));
+      assertThat(MonsterStatusTracker.getMonsterHealth(), is(monster.getHP()));
+    }
+  }
+
+  @Test
   void currentEncounterUpdatedOnSwitchmonster() {
     var cleanups = new Cleanups(withFight(), withCurrentEncounter("crate"));
 
