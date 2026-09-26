@@ -88,8 +88,6 @@ public class Modifiers {
 
   private static final AdventureResult FIDOXENE = EffectPool.get(EffectPool.FIDOXENE);
 
-  private static final String ROLLOVER = "Rollover";
-
   public Modifiers() {
     // Everything should be initialized above.
   }
@@ -682,7 +680,7 @@ public class Modifiers {
 
   /** Whether this is the grant rollover itself provides, rather than a bonus on top of it. */
   private static boolean isRolloverGrant(final ModifierType type, final IntOrString key) {
-    return type == ModifierType.GENERATED && ROLLOVER.equals(key.getStringValue());
+    return type == ModifierType.BASE;
   }
 
   public void addBitmap(BitmapModifier modifier, int bit) {
@@ -1096,26 +1094,11 @@ public class Modifiers {
     }
   }
 
-  public final void applyRolloverPvpFightModifiers() {
-    this.addDouble(DoubleModifier.PVP_FIGHTS, 10, ModifierType.GENERATED, ROLLOVER);
-  }
-
-  public final void applyBaseFamiliarExperienceModifiers() {
-    this.addDouble(DoubleModifier.FAMILIAR_EXP, 1, ModifierType.GENERATED, "Base");
-  }
-
-  public final void applyBaseCriticalModifiers() {
-    this.addDouble(DoubleModifier.CRITICAL_PCT, 9, ModifierType.GENERATED, "Base");
-    this.addDouble(DoubleModifier.SPELL_CRITICAL_PCT, 9, ModifierType.GENERATED, "Base");
+  public final void applyBaseModifiers() {
+    this.add(ModifierDatabase.getModifiers(ModifierType.BASE, "Base"));
   }
 
   public final void applyAdditionalRolloverAdventureModifiers() {
-    this.addDouble(
-        DoubleModifier.ADVENTURES,
-        KoLCharacter.rolloverAdventuresGranted(),
-        ModifierType.GENERATED,
-        ROLLOVER);
-
     var resolutionAdv = Preferences.getInteger("_resolutionAdv");
     if (resolutionAdv > 0) {
       this.addDouble(

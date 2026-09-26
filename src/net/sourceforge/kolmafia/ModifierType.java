@@ -69,6 +69,7 @@ public enum ModifierType {
   MUTEX_ER,
   PASSIVES,
   GENERATED,
+  BASE,
   TERRARIUM_FAMILIAR,
   SEAHORSE,
   SHRUNKEN_HEAD,

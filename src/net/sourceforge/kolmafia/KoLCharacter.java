@@ -3499,14 +3499,16 @@ public abstract class KoLCharacter {
     return !inSlowcore();
   }
 
-  /**
-   * The adventures granted at rollover, before anything else contributes. You, Robot grants none,
-   * since its adventures come from the Chronolith instead.
-   */
+  /** The adventures granted at rollover, before anything else contributes. */
   public static final int rolloverAdventuresGranted() {
-    if (inRobocore()) return 0;
-    if (inSlowcore()) return 100;
-    return 40;
+    return (int)
+        ModifierDatabase.getNumericModifier(ModifierType.BASE, "Base", DoubleModifier.ADVENTURES);
+  }
+
+  /** The PvP fights granted at rollover, before anything else contributes. */
+  public static final int rolloverPvpFightsGranted() {
+    return (int)
+        ModifierDatabase.getNumericModifier(ModifierType.BASE, "Base", DoubleModifier.PVP_FIGHTS);
   }
 
   public static final boolean isUnarmed() {
@@ -5549,14 +5551,11 @@ public abstract class KoLCharacter {
       newModifiers.applyCompanionModifiers(VYKEACompanionData.currentCompanion());
     }
 
+    // add base modifiers (familiar experience, critical hits, adventures, and PvP fights)
+    newModifiers.applyBaseModifiers();
+
     // add additional rollover adventures
     newModifiers.applyAdditionalRolloverAdventureModifiers();
-
-    // add rollover PvP fights
-    newModifiers.applyRolloverPvpFightModifiers();
-
-    newModifiers.applyBaseFamiliarExperienceModifiers();
-    newModifiers.applyBaseCriticalModifiers();
 
     // Organ capacity
     newModifiers.applyAdditionalStomachCapacityModifiers();

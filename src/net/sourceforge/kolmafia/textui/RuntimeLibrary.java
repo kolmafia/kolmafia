@@ -10998,6 +10998,8 @@ public abstract class RuntimeLibrary {
     if (name.contains(":")) {
       ModifierType modifierType = ModifierType.fromString(name.substring(0, name.indexOf(":")));
       if (modifierType != null) return modifierType;
+    } else if ("base".equalsIgnoreCase(name)) {
+      return ModifierType.BASE;
     }
     return ModifierType.ITEM;
   }
