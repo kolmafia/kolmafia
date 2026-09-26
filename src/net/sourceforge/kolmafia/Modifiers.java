@@ -88,8 +88,6 @@ public class Modifiers {
 
   private static final AdventureResult FIDOXENE = EffectPool.get(EffectPool.FIDOXENE);
 
-  private static final String ROLLOVER = "Rollover";
-
   public Modifiers() {
     // Everything should be initialized above.
   }
@@ -682,7 +680,7 @@ public class Modifiers {
 
   /** Whether this is the grant rollover itself provides, rather than a bonus on top of it. */
   private static boolean isRolloverGrant(final ModifierType type, final IntOrString key) {
-    return type == ModifierType.GENERATED && ROLLOVER.equalsIgnoreCase(key.getStringValue());
+    return type == ModifierType.BASE;
   }
 
   public void addBitmap(BitmapModifier modifier, int bit) {
@@ -962,19 +960,9 @@ public class Modifiers {
     return switch (lookup.type) {
       case ITEM -> overrideItem(lookup.getIntKey());
       case THRONE -> overrideThrone(lookup);
-      case GENERATED -> overrideGenerated(lookup);
       case LOC, ZONE -> true;
       default -> false;
     };
-  }
-
-  private boolean overrideGenerated(final Lookup lookup) {
-    if (ROLLOVER.equalsIgnoreCase(lookup.getName())) {
-      this.setDouble(DoubleModifier.ADVENTURES, KoLCharacter.rolloverAdventuresGranted());
-      this.setDouble(DoubleModifier.PVP_FIGHTS, KoLCharacter.rolloverPvpFightsGranted());
-      return true;
-    }
-    return false;
   }
 
   public static synchronized void availableSkillsChanged() {
@@ -1106,12 +1094,8 @@ public class Modifiers {
     }
   }
 
-  public final void applyRolloverModifiers() {
-    this.add(ModifierDatabase.getModifiers(ModifierType.GENERATED, ROLLOVER));
-  }
-
   public final void applyBaseModifiers() {
-    this.add(ModifierDatabase.getModifiers(ModifierType.GENERATED, "Base"));
+    this.add(ModifierDatabase.getModifiers(ModifierType.BASE, "Base"));
   }
 
   public final void applyAdditionalRolloverAdventureModifiers() {

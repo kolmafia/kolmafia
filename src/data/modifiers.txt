@@ -15840,9 +15840,8 @@ Path	Quantum Terrarium	Familiar Weight: [min(2*L,20)]
 Path	You, Robot	Energy: +1
 Path	WereProfessor	Liver Capacity: [3*(pref(wereProfessorLiver))], Stomach Capacity: [3*(pref(wereProfessorStomach))]
 
-# Generated
-Generated	Base	Familiar Experience: +1, Critical Hit Percent: +9, Spell Critical Percent: +9
-Generated	Rollover	Variable
+# Base
+Base	Base	Familiar Experience: +1, Critical Hit Percent: +9, Spell Critical Percent: +9, Adventures: [40-40*path(You, Robot)+60*path(Slow and Steady)], PvP Fights: +10
 
 # Horsery
 Horsery	normal horse	Initiative: +10, HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10

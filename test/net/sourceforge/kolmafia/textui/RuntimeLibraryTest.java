@@ -1248,69 +1248,43 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     }
 
     @Test
-    void canGetNumericModifierForGeneratedBase() {
+    void canGetNumericModifierForBase() {
       assertThat(
-          execute("numeric_modifier(\"Generated:Base\", \"Familiar Experience\")"),
+          execute("numeric_modifier(\"Base\", \"Familiar Experience\")"), is("Returned: 1.0\n"));
+      assertThat(
+          execute("numeric_modifier(\"Base\", \"Critical Hit Percent\")"), is("Returned: 9.0\n"));
+      assertThat(
+          execute("numeric_modifier(\"Base\", \"Spell Critical Percent\")"), is("Returned: 9.0\n"));
+      assertThat(
+          execute("numeric_modifier(\"Base\", $modifier[Familiar Experience])"),
           is("Returned: 1.0\n"));
+      assertThat(execute("numeric_modifier(\"Base\", \"Adventures\")"), is("Returned: 40.0\n"));
+      assertThat(execute("numeric_modifier(\"Base\", \"PvP Fights\")"), is("Returned: 10.0\n"));
       assertThat(
-          execute("numeric_modifier(\"Generated:Base\", \"Critical Hit Percent\")"),
-          is("Returned: 9.0\n"));
-      assertThat(
-          execute("numeric_modifier(\"Generated:Base\", \"Spell Critical Percent\")"),
-          is("Returned: 9.0\n"));
-      assertThat(
-          execute("numeric_modifier(\"Generated:Base\", $modifier[Familiar Experience])"),
-          is("Returned: 1.0\n"));
+          execute("numeric_modifier(\"Base\", $modifier[Adventures])"), is("Returned: 40.0\n"));
     }
 
     @Test
-    void canGetNumericModifierForGeneratedCaseInsensitive() {
+    void canGetNumericModifierForBasePrefixedAndCaseInsensitive() {
       assertThat(
-          execute("numeric_modifier(\"generated:base\", \"Familiar Experience\")"),
-          is("Returned: 1.0\n"));
+          execute("numeric_modifier(\"base\", \"Familiar Experience\")"), is("Returned: 1.0\n"));
       assertThat(
-          execute("numeric_modifier(\"GENERATED:BASE\", \"Critical Hit Percent\")"),
-          is("Returned: 9.0\n"));
+          execute("numeric_modifier(\"BASE\", \"Critical Hit Percent\")"), is("Returned: 9.0\n"));
       assertThat(
-          execute("numeric_modifier(\"generated:rollover\", \"Adventures\")"),
-          is("Returned: 40.0\n"));
+          execute("numeric_modifier(\"Base:Base\", \"Adventures\")"), is("Returned: 40.0\n"));
+      assertThat(
+          execute("numeric_modifier(\"base:base\", \"PvP Fights\")"), is("Returned: 10.0\n"));
     }
 
     @Test
-    void canGetNumericModifierForGeneratedRollover() {
-      assertThat(
-          execute("numeric_modifier(\"Generated:Rollover\", \"Adventures\")"),
-          is("Returned: 40.0\n"));
-      assertThat(
-          execute("numeric_modifier(\"Generated:Rollover\", \"PvP Fights\")"),
-          is("Returned: 10.0\n"));
-      assertThat(
-          execute("numeric_modifier(\"Generated:Rollover\", $modifier[Adventures])"),
-          is("Returned: 40.0\n"));
-    }
-
-    @Test
-    void unprefixedGeneratedModifiersDefaultToItem() {
-      assertThat(
-          execute("numeric_modifier(\"Base\", \"Familiar Experience\")"), is("Returned: 0.0\n"));
-      assertThat(execute("numeric_modifier(\"Rollover\", \"Adventures\")"), is("Returned: 0.0\n"));
-    }
-
-    @Test
-    void generatedRolloverReflectsCurrentPath() {
+    void baseReflectsCurrentPath() {
       try (var cleanups = withPath(Path.YOU_ROBOT)) {
-        assertThat(
-            execute("numeric_modifier(\"Generated:Rollover\", \"Adventures\")"),
-            is("Returned: 0.0\n"));
-        assertThat(
-            execute("numeric_modifier(\"Generated:Rollover\", \"PvP Fights\")"),
-            is("Returned: 10.0\n"));
+        assertThat(execute("numeric_modifier(\"Base\", \"Adventures\")"), is("Returned: 0.0\n"));
+        assertThat(execute("numeric_modifier(\"Base\", \"PvP Fights\")"), is("Returned: 10.0\n"));
       }
 
       try (var cleanups = withPath(Path.SLOW_AND_STEADY)) {
-        assertThat(
-            execute("numeric_modifier(\"Generated:Rollover\", \"Adventures\")"),
-            is("Returned: 100.0\n"));
+        assertThat(execute("numeric_modifier(\"Base\", \"Adventures\")"), is("Returned: 100.0\n"));
       }
     }
 

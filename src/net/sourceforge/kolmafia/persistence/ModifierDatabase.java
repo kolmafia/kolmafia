@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -71,8 +70,6 @@ public class ModifierDatabase {
   private static final Map<String, String> familiarEffectByName = new HashMap<>();
   private static final Set<Lookup> inventorySkillProviders = new HashSet<>();
   private static final Set<Lookup> noncombatSkillProviders = new HashSet<>();
-  private static final Map<String, IntOrString> canonicalGeneratedNames =
-      new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 
   /** Map of synergetic item name to bitmap mask of all items in set */
   private static final Map<String, Integer> synergies = new HashMap<>();
@@ -441,16 +438,6 @@ public class ModifierDatabase {
     return getModifiers(ModifierType.EFFECT, id);
   }
 
-  private static IntOrString normalizeGeneratedKey(final ModifierType type, final IntOrString key) {
-    if (type == ModifierType.GENERATED && key.isString()) {
-      var canonical = canonicalGeneratedNames.get(key.getStringValue());
-      if (canonical != null) {
-        return canonical;
-      }
-    }
-    return key;
-  }
-
   public static String getModifierString(final Lookup lookup) {
     return modifierStringsByName.get(lookup.type, lookup.getKey());
   }
@@ -471,7 +458,6 @@ public class ModifierDatabase {
       originalType = type;
       type = ModifierType.THRONE;
     }
-    key = normalizeGeneratedKey(type, key);
 
     Modifiers modifiers = modifiersByName.get(type, key);
 
@@ -1121,7 +1107,6 @@ public class ModifierDatabase {
   private static void overrideModifierInternal(final Lookup lookup, final Modifiers value) {
     if (lookup.type == ModifierType.GENERATED) {
       // if generated, override exactly as given
-      canonicalGeneratedNames.put(lookup.getStringKey(), lookup.getKey());
       modifiersByName.put(lookup.type, lookup.getKey(), value);
       return;
     }
@@ -1625,10 +1610,6 @@ public class ModifierDatabase {
           KoLmafia.updateDisplay("Duplicate modifiers for: " + type + ":" + name);
         }
 
-        if (type == ModifierType.GENERATED) {
-          canonicalGeneratedNames.put(name, lookup.getKey());
-        }
-
         Matcher matcher = StringModifier.FAMILIAR_EFFECT.getTagPattern().matcher(modifiers);
         if (matcher.find()) {
           String effect = matcher.group(1);
@@ -1808,7 +1789,6 @@ public class ModifierDatabase {
    */
   public static void resetKnownModifiers() {
     modifierStringsByName.clear();
-    canonicalGeneratedNames.clear();
     resetModifiers();
   }
 }

@@ -558,7 +558,7 @@ public class DataFileConsistencyTest {
                 "RobotBottom",
                 "RobotLeft",
                 "RobotCPU",
-                "Generated" -> {
+                "Base" -> {
               // all fine
             }
             default -> fail("unrecognised identifier " + identifier);
