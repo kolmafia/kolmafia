@@ -54,6 +54,7 @@ import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.startsWith;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
@@ -142,6 +143,45 @@ public class MaximizerTest {
     speculation.getModifiers().setDouble(DoubleModifier.ITEMDROP, itemDrop + 1);
 
     assertThat(copy.getModifiers().getDouble(DoubleModifier.ITEMDROP), equalTo(itemDrop));
+  }
+
+  @Test
+  void checkingWithoutABestSpeculationThrowsLimitException() {
+    var previousBest = Maximizer.best;
+    var previousEvaluator = Maximizer.eval;
+    try {
+      Maximizer.best = null;
+      Maximizer.eval = new Evaluator("0");
+
+      assertThrows(MaximizerLimitException.class, () -> new MaximizerSpeculation().checkBest());
+    } finally {
+      Maximizer.best = previousBest;
+      Maximizer.eval = previousEvaluator;
+    }
+  }
+
+  @Test
+  void checkingTheThousandTwentyFourthSpeculationUpdatesProgress() throws Exception {
+    var previousBest = Maximizer.best;
+    var previousEvaluator = Maximizer.eval;
+    int previousBestChecked = Maximizer.bestChecked;
+    long previousBestUpdate = Maximizer.bestUpdate;
+    try {
+      Maximizer.eval = new Evaluator("0");
+      Maximizer.best = new MaximizerSpeculation();
+      Maximizer.bestChecked = 1023;
+      Maximizer.bestUpdate = 0;
+
+      new MaximizerSpeculation().checkBest();
+
+      assertThat(Maximizer.bestChecked, equalTo(1024));
+      assertThat(Maximizer.bestUpdate, greaterThan(0L));
+    } finally {
+      Maximizer.best = previousBest;
+      Maximizer.eval = previousEvaluator;
+      Maximizer.bestChecked = previousBestChecked;
+      Maximizer.bestUpdate = previousBestUpdate;
+    }
   }
 
   @BeforeAll
@@ -2335,6 +2375,18 @@ public class MaximizerTest {
         assertThat(
             getBoosts(),
             not(hasItem(hasProperty("cmd", startsWith("fold ¶9692;equip weapon ¶9692")))));
+      }
+    }
+
+    @Test
+    public void forbiddenEquipInExcludedSlotIsLeftAlone() {
+      final var cleanups = new Cleanups(withEquipped(Slot.WEAPON, ItemPool.BROKEN_CHAMPAGNE));
+
+      try (cleanups) {
+        assertTrue(maximize("-equip broken champagne bottle -weapon"));
+        assertThat(
+            Maximizer.best.equipment.get(Slot.WEAPON).getItemId(),
+            equalTo(ItemPool.BROKEN_CHAMPAGNE));
       }
     }
   }
