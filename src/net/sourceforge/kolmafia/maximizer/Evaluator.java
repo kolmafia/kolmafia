@@ -2,19 +2,14 @@ package net.sourceforge.kolmafia.maximizer;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.function.Function;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.ExpressionOverrides;
@@ -22,9 +17,7 @@ import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLCharacter.TurtleBlessing;
 import net.sourceforge.kolmafia.KoLCharacter.TurtleBlessingLevel;
-import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLConstants.WeaponType;
-import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modeable;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
@@ -43,166 +36,29 @@ import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
-import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
-import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase.FoldGroup;
-import net.sourceforge.kolmafia.persistence.ItemFinder;
-import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
-import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 @SuppressWarnings("incomplete-switch")
 public class Evaluator {
   public boolean failed;
   boolean exceeded;
   private Evaluator tiebreaker;
-  private final Map<Modifier, Double> weight = new HashMap<>();
-  private final Map<Modifier, Double> min = new HashMap<>();
-  private final Map<Modifier, Double> max = new HashMap<>();
+  private final MaximizerExpression expression = new MaximizerExpression();
   private List<ScoreModifier> activeScoreModifiers = List.of();
   private boolean shouldPredictDerivedModifiers;
-  private double totalMin, totalMax;
-  private int dump = 0;
-  private static final Set<BitmapModifier> OSITY_MODIFIERS =
-      EnumSet.of(BitmapModifier.CLOWNINESS, BitmapModifier.RAVEOSITY, BitmapModifier.SURGEONOSITY);
-  private int stinkycheese = 0;
-  private int beeosity = 2;
-  private final EnumSet<BooleanModifier> booleanMask = EnumSet.noneOf(BooleanModifier.class);
-  private final Set<BooleanModifier> booleanValue = EnumSet.noneOf(BooleanModifier.class);
-  private final List<FamiliarData> familiars = new ArrayList<>();
   private final List<FamiliarData> carriedFamiliars = new ArrayList<>();
   private int carriedFamiliarsNeeded = 0;
   private boolean cardNeeded = false;
   private final Map<Modeable, Boolean> modeablesNeeded = Modeable.getBooleanMap();
 
-  // Some modeables are forced based on certain expressions appearing in a maximize call
-  // For example, if you request "sea" the Crown of Ed will always pick fish. This does pose
-  // an issue if the maximizer would choose the SCUBA gear to provide water-breathing, as it would
-  // not consider a different mode for the Crown. e.g. "maximize sea, ml" would not consider the
-  // "bear" mode for the hat. Something for someone to fix in the future.
-  private final Map<Modeable, String> forcedModeables = Modeable.getStringMap(m -> "");
-
-  /** if slots[i] >= 0 then equipment of type i can be considered for maximization */
-  private final EnumMap<Slot, Integer> slots = new EnumMap<>(Slot.class);
-
-  private String weaponType = null;
-  private int hands = 0;
-  int melee = 0; // +/-2 or higher: require, +/-1: disallow other type
-  private boolean effective = false;
-  private boolean requireClub = false;
-  private boolean requireShield = false;
-  private boolean requireUtensil = false;
-  private boolean requireSword = false;
-  private boolean requireKnife = false;
-  private boolean requireAccordion = false;
-  private boolean noTiebreaker = false;
-  private boolean current =
-      !KoLCharacter.canInteract() || Preferences.getBoolean("maximizerAlwaysCurrent");
-  private final Set<String> posOutfits = new HashSet<>();
-  private final Set<String> negOutfits = new HashSet<>();
-  private final Set<AdventureResult> posEquip = new HashSet<>();
-  private final Set<AdventureResult> negEquip = new HashSet<>();
-  private final Map<AdventureResult, ItemBonus> bonuses = new HashMap<>();
-  private final Map<BooleanModifier, Double> modBonuses = new HashMap<>();
-  private final List<BonusFunction> bonusFunc = new ArrayList<>();
-
-  record BonusFunction(Function<AdventureResult, Double> bonusFunction, Double weight) {}
-
-  record ItemBonus(double base, Map<String, Double> modes) {}
-
   private record ScoreModifier(Modifier modifier, double weight, double min, double max) {}
-
-  private record Canonicalization(Pattern pattern, String canonical) {}
-
-  private record ParsedKeyword(String directive, String operand, boolean operandRequired) {}
-
-  // {directive, operandRequired}
-  private static final Map<String, Boolean> DIRECTIVES_WITH_OPERANDS =
-      Map.of(
-          "type", true,
-          "equip", true,
-          "bonus", true,
-          "modbonus", true,
-          "letter", false,
-          "outfit", false,
-          "switch", true);
-
-  private static final List<Canonicalization> KEYWORD_CANONICALIZATIONS =
-      List.of(
-          canonicalization("handed|hands", "hand"),
-          canonicalization("tiebreaker", "tie"),
-          canonicalization("stinky cheese", "stinkycheese"),
-          tokenCanonicalization("mus", "muscle"),
-          tokenCanonicalization("mys(t(ical(ity)?)?)?", "mysticality"),
-          tokenCanonicalization("mox", "moxie"),
-          tokenCanonicalization("res", "resistance"),
-          tokenCanonicalization("dmg", "damage"),
-          tokenCanonicalization("exp", "experience"),
-          tokenCanonicalization("perc(ent(age)?)?", "percent"),
-          canonicalization("organ", "organ capacity"),
-          canonicalization("(any|ele) resistance", "elemental resistance"),
-          canonicalization("main", "mainstat"),
-          canonicalization("com", "combat"),
-          canonicalization("init", DoubleModifier.INITIATIVE.getName()),
-          canonicalization("hp", DoubleModifier.HP.getName()),
-          canonicalization("mp", DoubleModifier.MP.getName()),
-          canonicalization("da", DoubleModifier.DAMAGE_ABSORPTION.getName()),
-          canonicalization("dr", DoubleModifier.DAMAGE_REDUCTION.getName()),
-          canonicalization("ml", DoubleModifier.MONSTER_LEVEL.getName()),
-          canonicalization("item", DoubleModifier.ITEMDROP.getName()),
-          canonicalization("meat", DoubleModifier.MEATDROP.getName()),
-          canonicalization("crit(ical)?", DoubleModifier.CRITICAL_PCT.getName()),
-          canonicalization("spell crit(ical)?", DoubleModifier.SPELL_CRITICAL_PCT.getName()),
-          canonicalization("sprinkle", DoubleModifier.SPRINKLES.getName()),
-          canonicalization("stomach", DoubleModifier.STOMACH_CAPACITY.getName()),
-          canonicalization("liver", DoubleModifier.LIVER_CAPACITY.getName()),
-          canonicalization("spleen", DoubleModifier.SPLEEN_CAPACITY.getName()));
-
-  private static Canonicalization tokenCanonicalization(String pattern, String canonical) {
-    return new Canonicalization(Pattern.compile("\\b(?:" + pattern + ")\\b"), canonical);
-  }
-
-  private static Canonicalization canonicalization(String pattern, String canonical) {
-    return new Canonicalization(Pattern.compile("^(?:" + pattern + ")$"), canonical);
-  }
-
-  private static String canonicalize(String keyword) {
-    for (var canonicalization : KEYWORD_CANONICALIZATIONS) {
-      keyword =
-          canonicalization.pattern().matcher(keyword).replaceAll(canonicalization.canonical());
-    }
-    return keyword;
-  }
-
-  private static ParsedKeyword parseKeyword(String keyword) {
-    String directive = keyword;
-    String operand = "";
-    int separator = keyword.indexOf(' ');
-    String possibleDirective = separator == -1 ? keyword : keyword.substring(0, separator);
-    boolean operandRequired = DIRECTIVES_WITH_OPERANDS.getOrDefault(possibleDirective, false);
-    if (DIRECTIVES_WITH_OPERANDS.containsKey(possibleDirective)) {
-      directive = possibleDirective;
-      if (separator != -1) {
-        operand = keyword.substring(separator + 1).trim();
-      }
-    }
-
-    return new ParsedKeyword(canonicalize(directive), operand, operandRequired);
-  }
-
-  private static final String TIEBREAKER =
-      "1 familiar weight, 1 familiar experience, 1 initiative, 5 exp, 1 item, 1 meat, 0.1 DA 1000 max, 1 DR, 0.5 all res, -10 mana cost, 1.0 mus, 0.5 mys, 1.0 mox, 1.5 mainstat, 1 HP, 1 MP, 1 weapon damage, 1 ranged damage, 1 spell damage, 1 cold damage, 1 hot damage, 1 sleaze damage, 1 spooky damage, 1 stench damage, 1 cold spell damage, 1 hot spell damage, 1 sleaze spell damage, 1 spooky spell damage, 1 stench spell damage, -1 fumble, 1 HP regen max, 3 MP regen max, 1 critical hit percent, 0.1 food drop, 0.1 booze drop, 0.1 hat drop, 0.1 weapon drop, 0.1 offhand drop, 0.1 shirt drop, 0.1 pants drop, 0.1 accessory drop, 1 DB combat damage, 0.1 sixgun damage";
-  private static final Pattern KEYWORD_PATTERN =
-      Pattern.compile(
-          "\\G\\s*(\\+|-|)([\\d.]*)\\s*(\"[^\"]+\"|(?:[^-+,0-9]|(?<! )[-+0-9])+),?\\s*");
-  // Groups: 1=sign 2=weight 3=keyword
 
   // Equipment slots, that aren't the primary slot of any item type,
   // that are repurposed here (rather than making the array bigger).
@@ -228,7 +84,7 @@ public class Evaluator {
     if (KoLCharacter.getFamiliar().getId() == id) {
       return 1;
     }
-    for (FamiliarData familiar : this.familiars) {
+    for (FamiliarData familiar : this.expression.familiars) {
       if (familiar.getId() == id) {
         return 1;
       }
@@ -265,30 +121,19 @@ public class Evaluator {
     };
   }
 
-  private Evaluator() {
-    this.totalMin = Double.NEGATIVE_INFINITY;
-    this.totalMax = Double.POSITIVE_INFINITY;
-    for (var modifier : DoubleModifier.DOUBLE_MODIFIERS) {
-      this.min.put(modifier, Double.NEGATIVE_INFINITY);
-      this.max.put(modifier, Double.POSITIVE_INFINITY);
-    }
-    for (var modifier : OSITY_MODIFIERS) {
-      this.min.put(modifier, Double.NEGATIVE_INFINITY);
-      this.max.put(modifier, Double.POSITIVE_INFINITY);
-    }
-  }
+  private Evaluator() {}
 
   public Evaluator(String expr) {
     this();
 
     Evaluator tiebreaker = new Evaluator();
     this.tiebreaker = tiebreaker;
-    tiebreaker.parse(Evaluator.TIEBREAKER);
+    tiebreaker.expression.parse(MaximizerExpression.TIEBREAKER);
     tiebreaker.initializeScoreModifiers();
 
-    this.min.putAll(tiebreaker.min);
-    this.max.putAll(tiebreaker.max);
-    this.parse(expr);
+    this.expression.min.putAll(tiebreaker.expression.min);
+    this.expression.max.putAll(tiebreaker.expression.max);
+    this.expression.parse(expr);
     this.initializeScoreModifiers();
   }
 
@@ -296,13 +141,13 @@ public class Evaluator {
     var active = new ArrayList<ScoreModifier>();
     this.shouldPredictDerivedModifiers = false;
     for (var modifier : DoubleModifier.DOUBLE_MODIFIERS) {
-      double weight = this.weight.getOrDefault(modifier, 0.0);
-      double min = this.min.get(modifier);
+      double weight = this.expression.weight.getOrDefault(modifier, 0.0);
+      double min = this.expression.min.get(modifier);
       if (weight == 0.0 && min == Double.NEGATIVE_INFINITY) {
         continue;
       }
 
-      active.add(new ScoreModifier(modifier, weight, min, this.max.get(modifier)));
+      active.add(new ScoreModifier(modifier, weight, min, this.expression.max.get(modifier)));
       if (modifier == DoubleModifier.MUS
           || modifier == DoubleModifier.MYS
           || modifier == DoubleModifier.MOX
@@ -311,570 +156,14 @@ public class Evaluator {
         this.shouldPredictDerivedModifiers = true;
       }
     }
-    for (var modifier : OSITY_MODIFIERS) {
-      double weight = this.weight.getOrDefault(modifier, 0.0);
-      double min = this.min.get(modifier);
+    for (var modifier : MaximizerExpression.OSITY_MODIFIERS) {
+      double weight = this.expression.weight.getOrDefault(modifier, 0.0);
+      double min = this.expression.min.get(modifier);
       if (weight != 0.0 || min != Double.NEGATIVE_INFINITY) {
-        active.add(new ScoreModifier(modifier, weight, min, this.max.get(modifier)));
+        active.add(new ScoreModifier(modifier, weight, min, this.expression.max.get(modifier)));
       }
     }
     this.activeScoreModifiers = List.copyOf(active);
-  }
-
-  @SuppressWarnings("BooleanMethodIsAlwaysInverted")
-  private boolean forceModeable(ItemFinder.ItemWithMode modeable, String mode) {
-    String existing = forcedModeables.get(modeable.modeable());
-    if (!existing.isEmpty() && !existing.equals(mode)) {
-      KoLmafia.updateDisplay(
-          MafiaState.ERROR,
-          "Conflicting modes requested for "
-              + modeable.item().getName()
-              + ": "
-              + existing
-              + " vs "
-              + mode);
-      return false;
-    }
-    forcedModeables.put(modeable.modeable(), mode);
-    return true;
-  }
-
-  private void parse(String expr) {
-    expr = expr.trim().toLowerCase();
-    Matcher m = KEYWORD_PATTERN.matcher(expr);
-    boolean hadFamiliar = false;
-    boolean forceCurrent = false;
-    int pos = 0;
-    Modifier index = null;
-    boolean seenNonLimitTerm = false;
-
-    int equipBeeosity = 0;
-    int outfitBeeosity = 0;
-
-    while (pos < expr.length()) {
-      if (!m.find()) {
-        KoLmafia.updateDisplay(MafiaState.ERROR, "Unable to interpret: " + expr.substring(pos));
-        return;
-      }
-      pos = m.end();
-      double weight =
-          StringUtilities.parseDouble(
-              m.end(2) == m.start(2) ? m.group(1) + "1" : m.group(1) + m.group(2));
-
-      String originalKeyword = m.group(3).trim();
-      if (originalKeyword.startsWith("\"") && originalKeyword.endsWith("\"")) {
-        originalKeyword = originalKeyword.substring(1, originalKeyword.length() - 1).trim();
-      }
-
-      ParsedKeyword parsedKeyword = parseKeyword(originalKeyword);
-      String keyword = parsedKeyword.directive();
-      String operand = parsedKeyword.operand();
-
-      // This error could be more descriptive; preserve historical output for now
-      if (parsedKeyword.operandRequired() && operand.isEmpty()) {
-        KoLmafia.updateDisplay(MafiaState.ERROR, "Unrecognized keyword: " + originalKeyword);
-        return;
-      }
-
-      if (keyword.equals("min")) {
-        if (index != null) {
-          this.min.put(index, weight);
-        } else if (!seenNonLimitTerm) {
-          this.totalMin = weight;
-        } else {
-          KoLmafia.updateDisplay(
-              MafiaState.ERROR,
-              "min must follow a modifier or appear at the start of the expression");
-          return;
-        }
-        continue;
-      }
-
-      if (keyword.equals("max")) {
-        if (index != null) {
-          this.max.put(index, weight);
-        } else if (!seenNonLimitTerm) {
-          this.totalMax = weight;
-        } else {
-          KoLmafia.updateDisplay(
-              MafiaState.ERROR,
-              "max must follow a modifier or appear at the start of the expression");
-          return;
-        }
-        continue;
-      }
-
-      seenNonLimitTerm = true;
-      index = null;
-
-      if (keyword.equals("dump")) {
-        this.dump = (int) weight;
-        continue;
-      }
-
-      if (keyword.equals("hand")) {
-        this.hands = (int) weight;
-        if (this.hands >= 2) {
-          // this.slots[ EquipmentManager.OFFHAND ] = -1;
-        }
-        continue;
-      }
-
-      if (keyword.equals("tie")) {
-        this.noTiebreaker = weight < 0.0;
-        continue;
-      }
-
-      if (keyword.equals("current")) {
-        this.current = weight > 0.0;
-        forceCurrent = true;
-        continue;
-      }
-
-      if (keyword.equals("type")) {
-        this.weaponType = operand;
-        continue;
-      }
-
-      if (keyword.equals("club")) {
-        this.requireClub = weight > 0.0;
-        continue;
-      }
-
-      if (keyword.equals("shield")) {
-        this.requireShield = weight > 0.0;
-        // If a mode was not specified
-        if (forcedModeables.get(Modeable.UMBRELLA).isEmpty()) {
-          forcedModeables.put(Modeable.UMBRELLA, "forward-facing");
-        }
-        this.hands = 1;
-        continue;
-      }
-
-      if (keyword.equals("utensil")) {
-        this.requireUtensil = weight > 0.0;
-        continue;
-      }
-      if (keyword.equals("sword")) {
-        this.requireSword = weight > 0.0;
-        continue;
-      }
-
-      if (keyword.equals("knife")) {
-        this.requireKnife = weight > 0.0;
-        continue;
-      }
-
-      if (keyword.equals("accordion")) {
-        this.requireAccordion = weight > 0.0;
-        continue;
-      }
-
-      if (keyword.equals("melee")) {
-        this.melee = (int) (weight * 2.0);
-        continue;
-      }
-
-      if (keyword.equals("effective")) {
-        this.effective = weight > 0.0;
-        continue;
-      }
-
-      if (keyword.equals("empty")) {
-        for (var slot : SlotSet.ALL_SLOTS) {
-          this.slots.merge(
-              slot,
-              ((int) weight)
-                  * (EquipmentManager.getEquipment(slot).equals(EquipmentRequest.UNEQUIP) ? 1 : -1),
-              Integer::sum);
-        }
-        continue;
-      }
-
-      BitmapModifier osityModifier = null;
-      double defaultMinimum = 0.0;
-      double defaultMaximum = 0.0;
-      switch (keyword) {
-        case "clownosity", "clowniness" -> {
-          osityModifier = BitmapModifier.CLOWNINESS;
-          defaultMinimum = 100.0;
-          defaultMaximum = 100.0;
-        }
-        case "raveosity" -> {
-          osityModifier = BitmapModifier.RAVEOSITY;
-          defaultMinimum = 7.0;
-          defaultMaximum = 7.0;
-        }
-        case "surgeonosity" -> {
-          osityModifier = BitmapModifier.SURGEONOSITY;
-          defaultMinimum = 1.0;
-          defaultMaximum = 5.0;
-        }
-      }
-      if (osityModifier != null) {
-        index = osityModifier;
-        this.weight.put(osityModifier, weight);
-
-        // Even if the user specified a weight for an -osity, but did not specify a min, then use a
-        // default value.
-        this.min.put(osityModifier, defaultMinimum);
-        this.max.put(osityModifier, defaultMaximum);
-        continue;
-      }
-
-      if (keyword.equals("beeosity")) {
-        this.beeosity = (int) weight;
-        continue;
-      }
-
-      if (keyword.equals("stinkycheese")) {
-        this.stinkycheese = (int) weight;
-        continue;
-      }
-
-      if (keyword.equals("sea")) {
-        var adventureUnderwater =
-            EnumSet.of(BooleanModifier.ADVENTURE_UNDERWATER, BooleanModifier.UNDERWATER_FAMILIAR);
-        this.booleanMask.addAll(adventureUnderwater);
-        this.booleanValue.addAll(adventureUnderwater);
-        index = null;
-        if (forcedModeables.get(Modeable.EDPIECE).isEmpty()) {
-          // Force Crown of Ed to Fish
-          forcedModeables.put(Modeable.EDPIECE, "fish");
-        }
-        continue;
-      }
-
-      if (keyword.equals("equip")) {
-        var match = ItemFinder.getFirstMatchingItemWithMode(operand, Match.EQUIP);
-        if (match == null) {
-          return;
-        }
-        if (match.modeable() != null && !forceModeable(match, match.mode())) {
-          return;
-        }
-        if (weight > 0.0) {
-          if (this.posEquip.add(match.item())) {
-            equipBeeosity += KoLCharacter.getBeeosity(match.item().getName());
-          }
-        } else {
-          this.negEquip.add(match.item());
-        }
-        continue;
-      }
-
-      if (keyword.equals("bonus")) {
-        var match = ItemFinder.getFirstMatchingItemWithMode(operand, Match.EQUIP);
-        if (match == null) {
-          return;
-        }
-        // If this item does not require a mode
-        if (match.mode() == null) {
-          var existing = this.bonuses.get(match.item());
-          var modes = existing == null ? new HashMap<String, Double>() : existing.modes();
-          // We override the existing base weight as per old behavior, but inherit the modes.
-          this.bonuses.put(match.item(), new ItemBonus(weight, modes));
-        } else {
-          this.bonuses
-              .computeIfAbsent(match.item(), k -> new ItemBonus(0.0, new HashMap<>()))
-              .modes()
-              .put(match.mode(), weight);
-        }
-        continue;
-      }
-
-      if (keyword.equals("modbonus")) {
-        String modName = operand;
-        BooleanModifier mod = BooleanModifier.byCaselessName(modName);
-        if (mod == null) {
-          KoLmafia.updateDisplay(MafiaState.ERROR, "No boolean modifier found for: " + modName);
-          return;
-        }
-        this.modBonuses.put(mod, weight);
-        continue;
-      }
-
-      if (keyword.equals("letter")) {
-        if (operand.isEmpty()) { // no keyword counts letters
-          this.bonusFunc.add(new BonusFunction(LetterBonus::letterBonus, weight));
-        } else {
-          String finalKeyword = operand;
-          this.bonusFunc.add(
-              new BonusFunction(ar -> LetterBonus.letterBonus(ar, finalKeyword), weight));
-        }
-        continue;
-      }
-
-      if (keyword.equals("number")) {
-        this.bonusFunc.add(new BonusFunction(LetterBonus::numberBonus, weight));
-        continue;
-      }
-
-      if (keyword.equals("plumber")) {
-        if (!KoLCharacter.isPlumber()) {
-          KoLmafia.updateDisplay(MafiaState.ERROR, "You are not a Plumber");
-          return;
-        }
-        // Pick a tool that matches your prime stat
-        AdventureResult item = pickPlumberTool(KoLCharacter.getPrimeIndex());
-        if (item == null) {
-          // Otherwise, pick best available tool
-          // You are guaranteed to have work boots, at least
-          item = pickPlumberTool(-1);
-        }
-        this.posEquip.add(item);
-        continue;
-      }
-
-      if (keyword.equals("cold plumber")) {
-        if (!KoLCharacter.isPlumber()) {
-          KoLmafia.updateDisplay(MafiaState.ERROR, "You are not a Plumber");
-          return;
-        }
-        // Mysticality plumber item
-        AdventureResult item1 = pickPlumberTool(1);
-        if (item1 == null) {
-          KoLmafia.updateDisplay(MafiaState.ERROR, "You don't have an appropriate flower to wield");
-          return;
-        }
-        AdventureResult item2 = ItemPool.get(ItemPool.FROSTY_BUTTON);
-        this.posEquip.add(item1);
-        this.posEquip.add(item2);
-        continue;
-      }
-
-      if (keyword.equals("outfit")) {
-        String outfitName = operand;
-        if (outfitName.isEmpty()) { // allow "+outfit" to mean "keep the current outfit on"
-          outfitName = KoLCharacter.currentStringModifier(StringModifier.OUTFIT);
-        }
-        SpecialOutfit outfit = EquipmentManager.getMatchingOutfit(outfitName);
-        if (outfit == null || outfit.getOutfitId() <= 0) {
-          KoLmafia.updateDisplay(MafiaState.ERROR, "Unknown or custom outfit: " + outfitName);
-          return;
-        }
-        if (weight > 0.0) {
-          this.posOutfits.add(outfit.getName());
-          int bees = 0;
-          AdventureResult[] pieces = outfit.getPieces();
-          for (AdventureResult piece : pieces) {
-            bees += KoLCharacter.getBeeosity(piece.getName());
-          }
-          outfitBeeosity = Math.max(outfitBeeosity, bees);
-        } else {
-          this.negOutfits.add(outfit.getName());
-        }
-        continue;
-      }
-
-      if (keyword.equals("switch")) {
-        if (KoLCharacter.inPokefam()) {
-          continue;
-        }
-        int id = FamiliarDatabase.getFamiliarId(operand);
-        if (id == -1) {
-          KoLmafia.updateDisplay(MafiaState.ERROR, "Unknown familiar: " + operand);
-          return;
-        }
-        if (hadFamiliar && weight < 0.0) continue;
-        FamiliarData fam = KoLCharacter.usableFamiliar(id);
-        hadFamiliar = fam != null;
-        if (fam != null
-            && !fam.equals(KoLCharacter.getFamiliar())
-            && fam.canEquip()
-            && !this.familiars.contains(fam)) {
-          this.familiars.add(fam);
-        }
-        continue;
-      }
-
-      Slot slot = EquipmentRequest.slotNumber(keyword);
-      if (SlotSet.ALL_SLOTS.contains(slot)) {
-        this.slots.merge(slot, (int) weight, Integer::sum);
-        continue;
-      }
-
-      index = DoubleModifier.byCaselessName(keyword);
-
-      if (index == null) {
-        BooleanModifier modifier = BooleanModifier.byCaselessName(keyword);
-        if (modifier != null) {
-          this.booleanMask.add(modifier);
-          if (weight > 0.0) {
-            this.booleanValue.add(modifier);
-          }
-          continue;
-        }
-      }
-
-      // Match keyword with multiple modifiers
-      if (index == null) {
-        switch (keyword) {
-          case "elemental resistance" -> {
-            this.weight.put(DoubleModifier.COLD_RESISTANCE, weight);
-            this.weight.put(DoubleModifier.HOT_RESISTANCE, weight);
-            this.weight.put(DoubleModifier.SLEAZE_RESISTANCE, weight);
-            this.weight.put(DoubleModifier.SPOOKY_RESISTANCE, weight);
-            this.weight.put(DoubleModifier.STENCH_RESISTANCE, weight);
-            continue;
-          }
-          case "elemental damage" -> {
-            this.weight.put(DoubleModifier.COLD_DAMAGE, weight);
-            this.weight.put(DoubleModifier.HOT_DAMAGE, weight);
-            this.weight.put(DoubleModifier.SLEAZE_DAMAGE, weight);
-            this.weight.put(DoubleModifier.SPOOKY_DAMAGE, weight);
-            this.weight.put(DoubleModifier.STENCH_DAMAGE, weight);
-            continue;
-          }
-          case "hp regen" -> {
-            this.weight.put(DoubleModifier.HP_REGEN_MIN, weight / 2);
-            this.weight.put(DoubleModifier.HP_REGEN_MAX, weight / 2);
-            continue;
-          }
-          case "mp regen" -> {
-            this.weight.put(DoubleModifier.MP_REGEN_MIN, weight / 2);
-            this.weight.put(DoubleModifier.MP_REGEN_MAX, weight / 2);
-            continue;
-          }
-          case "passive damage" -> {
-            this.weight.put(DoubleModifier.DAMAGE_AURA, weight);
-            this.weight.put(DoubleModifier.THORNS, weight);
-            continue;
-          }
-          case "organ capacity" -> {
-            this.weight.put(DoubleModifier.STOMACH_CAPACITY, weight);
-            this.weight.put(DoubleModifier.LIVER_CAPACITY, weight);
-            this.weight.put(DoubleModifier.SPLEEN_CAPACITY, weight);
-            continue;
-          }
-        }
-      }
-
-      // Match keyword with specific abbreviations
-      if (index == null) {
-        if (keyword.equals("mainstat")) {
-          index = DoubleModifier.primeStat();
-        } else if (keyword.equals("combat")) {
-          index = DoubleModifier.COMBAT_RATE;
-          if (AdventureDatabase.isUnderwater(Modifiers.currentLocation)) {
-            this.weight.put(DoubleModifier.UNDERWATER_COMBAT_RATE, weight);
-          }
-        } else if (keyword.equals("adv")) {
-          this.beeosity = 999;
-          index = DoubleModifier.ADVENTURES;
-        } else if (keyword.equals("fites")) {
-          this.beeosity = 999;
-          index = DoubleModifier.PVP_FIGHTS;
-        } else if (keyword.equals("ocrs")) {
-          this.noTiebreaker = true;
-          this.beeosity = 999;
-          index = DoubleModifier.RANDOM_MONSTER_MODIFIERS;
-        }
-      }
-
-      if (index != null) {
-        // We found a match.
-        this.weight.put(index, weight);
-        continue;
-      }
-
-      KoLmafia.updateDisplay(MafiaState.ERROR, "Unrecognized keyword: " + originalKeyword);
-      return;
-    }
-
-    // If no tiebreaker, consider current unless -current specified
-    if (!forceCurrent && this.noTiebreaker) {
-      this.current = true;
-    }
-
-    this.beeosity = Math.max(Math.max(this.beeosity, equipBeeosity), outfitBeeosity);
-
-    // Make sure indirect sources have at least a little weight;
-    addFudge(
-        DoubleModifier.EXPERIENCE,
-        DoubleModifier.MONSTER_LEVEL,
-        DoubleModifier.MONSTER_LEVEL_PERCENT,
-        DoubleModifier.MUS_EXPERIENCE,
-        DoubleModifier.MYS_EXPERIENCE,
-        DoubleModifier.MOX_EXPERIENCE,
-        DoubleModifier.MUS_EXPERIENCE_PCT,
-        DoubleModifier.MYS_EXPERIENCE_PCT,
-        DoubleModifier.MOX_EXPERIENCE_PCT,
-        DoubleModifier.VOLLEYBALL_WEIGHT,
-        DoubleModifier.SOMBRERO_WEIGHT,
-        DoubleModifier.VOLLEYBALL_EFFECTIVENESS,
-        DoubleModifier.SOMBRERO_EFFECTIVENESS,
-        DoubleModifier.SOMBRERO_BONUS);
-
-    addFudge(
-        DoubleModifier.ITEMDROP,
-        DoubleModifier.FOODDROP,
-        DoubleModifier.BOOZEDROP,
-        DoubleModifier.HATDROP,
-        DoubleModifier.WEAPONDROP,
-        DoubleModifier.OFFHANDDROP,
-        DoubleModifier.SHIRTDROP,
-        DoubleModifier.PANTSDROP,
-        DoubleModifier.ACCESSORYDROP,
-        DoubleModifier.CANDYDROP,
-        DoubleModifier.GEARDROP,
-        DoubleModifier.FAIRY_WEIGHT,
-        DoubleModifier.FAIRY_EFFECTIVENESS,
-        DoubleModifier.SPORADIC_ITEMDROP,
-        DoubleModifier.PICKPOCKET_CHANCE);
-
-    addFudge(
-        DoubleModifier.MEATDROP,
-        DoubleModifier.LEPRECHAUN_WEIGHT,
-        DoubleModifier.LEPRECHAUN_EFFECTIVENESS,
-        DoubleModifier.SPORADIC_MEATDROP,
-        DoubleModifier.MEAT_BONUS);
-
-    addFudge(DoubleModifier.DAMAGE_AURA, DoubleModifier.SPORADIC_DAMAGE_AURA);
-    addFudge(DoubleModifier.THORNS, DoubleModifier.SPORADIC_THORNS);
-  }
-
-  private void addFudge(DoubleModifier source, DoubleModifier... extras) {
-    final double fudge = this.weight.getOrDefault(source, 0.0) * 0.0001f;
-    if (fudge > 0) {
-      for (var extra : extras) {
-        this.weight.merge(extra, fudge, Double::sum);
-      }
-    }
-  }
-
-  private AdventureResult pickPlumberTool(int primeIndex) {
-    AdventureResult hammer = ItemPool.get(ItemPool.HAMMER);
-    boolean haveHammer = InventoryManager.hasItem(hammer);
-    AdventureResult heavyHammer = ItemPool.get(ItemPool.HEAVY_HAMMER);
-    boolean haveHeavyHammer = InventoryManager.hasItem(heavyHammer);
-    AdventureResult fireFlower = ItemPool.get(ItemPool.PLUMBER_FIRE_FLOWER);
-    boolean haveFireFlower = InventoryManager.hasItem(fireFlower);
-    AdventureResult bonfireFlower = ItemPool.get(ItemPool.BONFIRE_FLOWER);
-    boolean haveBonfireFlower = InventoryManager.hasItem(bonfireFlower);
-    AdventureResult workBoots = ItemPool.get(ItemPool.WORK_BOOTS);
-    boolean haveWorkBoots = InventoryManager.hasItem(workBoots);
-    AdventureResult fancyBoots = ItemPool.get(ItemPool.FANCY_BOOTS);
-    boolean haveFancyBoots = InventoryManager.hasItem(fancyBoots);
-
-    // Find the best plumber tool
-    return switch (primeIndex) {
-      case 0 -> // Muscle
-          haveHeavyHammer ? heavyHammer : haveHammer ? hammer : null;
-      case 1 -> // Mysticality
-          haveBonfireFlower ? bonfireFlower : haveFireFlower ? fireFlower : null;
-      case 2 -> // Moxie
-          haveFancyBoots ? fancyBoots : haveWorkBoots ? workBoots : null;
-      default ->
-          // If you don't care about stat, pick the best item you own.
-          haveHeavyHammer
-              ? heavyHammer
-              : haveBonfireFlower
-                  ? bonfireFlower
-                  : haveFancyBoots
-                      ? fancyBoots
-                      : haveHammer ? hammer : haveFireFlower ? fireFlower : workBoots;
-    };
   }
 
   public double getScore(
@@ -1004,13 +293,13 @@ public class Evaluator {
       if (val < min) this.failed = true;
       score += weight * Math.min(val, max);
     }
-    if (this.stinkycheese > 0) {
+    if (this.expression.stinkycheese > 0) {
       int val = mods.getBitmap(BitmapModifier.STINKYCHEESE);
-      score += this.stinkycheese * val;
+      score += this.expression.stinkycheese * val;
     }
-    if (!this.bonuses.isEmpty()) {
+    if (!this.expression.bonuses.isEmpty()) {
       for (AdventureResult item : equipment.values()) {
-        ItemBonus itemBonus = this.bonuses.get(item);
+        MaximizerExpression.ItemBonus itemBonus = this.expression.bonuses.get(item);
         // Add the base bonus
         if (itemBonus == null) continue;
         score += itemBonus.base();
@@ -1023,7 +312,7 @@ public class Evaluator {
         if (bonus != null) score += bonus;
       }
     }
-    if (!this.modBonuses.isEmpty()) {
+    if (!this.expression.modBonuses.isEmpty()) {
       for (AdventureResult item : equipment.values()) {
         Modifiers itemMods = ModifierDatabase.getItemModifiers(item.getItemId());
         if (itemMods == null) {
@@ -1036,7 +325,7 @@ public class Evaluator {
               ModifierDatabase.getModifiers(modeable.getModifierType(), modeables.get(modeable));
         }
 
-        for (Entry<BooleanModifier, Double> modBonus : this.modBonuses.entrySet()) {
+        for (Entry<BooleanModifier, Double> modBonus : this.expression.modBonuses.entrySet()) {
           if (itemMods.getBoolean(modBonus.getKey())
               || modeMods != null && modeMods.getBoolean(modBonus.getKey())) {
             score += modBonus.getValue();
@@ -1044,10 +333,10 @@ public class Evaluator {
         }
       }
     }
-    if (!this.bonusFunc.isEmpty()) {
-      for (BonusFunction func : this.bonusFunc) {
+    if (!this.expression.bonusFunc.isEmpty()) {
+      for (MaximizerExpression.BonusFunction func : this.expression.bonusFunc) {
         for (AdventureResult item : equipment.values()) {
-          score += func.bonusFunction.apply(item) * func.weight;
+          score += func.bonusFunction().apply(item) * func.weight();
         }
       }
     }
@@ -1055,11 +344,11 @@ public class Evaluator {
     if (mods.hasString(StringModifier.ROLLOVER_EFFECT)) {
       score += 0.01f;
     }
-    if (score < this.totalMin) this.failed = true;
-    if (score >= this.totalMax) this.exceeded = true;
+    if (score < this.expression.totalMin) this.failed = true;
+    if (score >= this.expression.totalMax) this.exceeded = true;
     if (!this.failed
-        && !this.booleanMask.isEmpty()
-        && !mods.getBooleans(this.booleanMask).equals(this.booleanValue)) {
+        && !this.expression.booleanMask.isEmpty()
+        && !mods.getBooleans(this.expression.booleanMask).equals(this.expression.booleanValue)) {
       this.failed = true;
     }
     return score;
@@ -1070,11 +359,11 @@ public class Evaluator {
   }
 
   void checkEquipment(Modifiers mods, Map<Slot, AdventureResult> equipment, int beeosity) {
-    boolean outfitSatisfied = this.posOutfits.isEmpty();
-    boolean equipSatisfied = this.posEquip.isEmpty();
-    if (!this.failed && !this.posEquip.isEmpty()) {
+    boolean outfitSatisfied = this.expression.posOutfits.isEmpty();
+    boolean equipSatisfied = this.expression.posEquip.isEmpty();
+    if (!this.failed && !this.expression.posEquip.isEmpty()) {
       equipSatisfied = true;
-      for (AdventureResult item : this.posEquip) {
+      for (AdventureResult item : this.expression.posEquip) {
         if (!KoLCharacter.hasEquipped(equipment, item)) {
           equipSatisfied = false;
           break;
@@ -1083,10 +372,11 @@ public class Evaluator {
     }
     if (!this.failed) {
       String outfit = mods.getString(StringModifier.OUTFIT);
-      if (this.negOutfits.contains(outfit)) {
+      if (this.expression.negOutfits.contains(outfit)) {
         this.failed = true;
       } else {
-        outfitSatisfied = this.posOutfits.contains(outfit) || this.posOutfits.isEmpty();
+        outfitSatisfied =
+            this.expression.posOutfits.contains(outfit) || this.expression.posOutfits.isEmpty();
       }
     }
     // negEquip is not checked, since enumerateEquipment should make it
@@ -1094,30 +384,34 @@ public class Evaluator {
     if (!outfitSatisfied || !equipSatisfied) {
       this.failed = true;
     }
-    if (beeosity > this.beeosity) {
+    if (beeosity > this.expression.beeosity) {
       this.failed = true;
     }
   }
 
   double getTiebreaker(Modifiers mods) {
-    if (this.noTiebreaker) return 0.0;
+    if (this.expression.noTiebreaker) return 0.0;
     return this.tiebreaker.getScore(mods);
   }
 
   boolean isUsingTiebreaker() {
-    return !this.noTiebreaker;
+    return !this.expression.noTiebreaker;
+  }
+
+  int melee() {
+    return this.expression.melee;
   }
 
   boolean isWeaponTypeRequired() {
-    return this.requireClub
-        || this.requireUtensil
-        || this.requireSword
-        || this.requireKnife
-        || this.requireAccordion;
+    return this.expression.requireClub
+        || this.expression.requireUtensil
+        || this.expression.requireSword
+        || this.expression.requireKnife
+        || this.expression.requireAccordion;
   }
 
   boolean isShieldRequired() {
-    return this.requireShield;
+    return this.expression.requireShield;
   }
 
   enum Constraint {
@@ -1131,8 +425,8 @@ public class Evaluator {
 
   Constraint checkConstraints(Modifiers mods) {
     if (mods == null) return Constraint.IRRELEVANT;
-    EnumSet<BooleanModifier> bools = mods.getBooleans(this.booleanMask);
-    if (!this.booleanValue.containsAll(bools)) return Constraint.VIOLATES;
+    EnumSet<BooleanModifier> bools = mods.getBooleans(this.expression.booleanMask);
+    if (!this.expression.booleanValue.containsAll(bools)) return Constraint.VIOLATES;
     if (!bools.isEmpty()) return Constraint.MEETS;
     return Constraint.IRRELEVANT;
   }
@@ -1217,9 +511,9 @@ public class Evaluator {
       throws MaximizerInterruptedException {
     // Items automatically considered regardless of their score -
     // synergies, hobo power, brimstone, etc.
-    SlotList<CheckedItem> automatic = new SlotList<>(this.familiars.size());
+    SlotList<CheckedItem> automatic = new SlotList<>(this.expression.familiars.size());
     // Items to be considered based on their score
-    SlotList<CheckedItem> ranked = new SlotList<>(this.familiars.size());
+    SlotList<CheckedItem> ranked = new SlotList<>(this.expression.familiars.size());
 
     double nullScore = this.getScore(new Modifiers());
 
@@ -1229,8 +523,8 @@ public class Evaluator {
       var i = outfitEntry.getKey();
       var outfit = outfitEntry.getValue();
       if (outfit == null) continue;
-      if (this.negOutfits.contains(outfit.getName())) continue;
-      if (this.posOutfits.contains(outfit.getName())) {
+      if (this.expression.negOutfits.contains(outfit.getName())) continue;
+      if (this.expression.posOutfits.contains(outfit.getName())) {
         usefulOutfits.put(i, true);
         continue;
       }
@@ -1278,9 +572,10 @@ public class Evaluator {
       AdventureResult preItem = ItemPool.get(id, 1);
       String name = preItem.getName();
       CheckedItem item = null;
-      if (this.negEquip.contains(preItem)) continue;
+      if (this.expression.negEquip.contains(preItem)) continue;
       if (KoLCharacter.inBeecore()
-          && KoLCharacter.getBeeosity(name) > this.beeosity) { // too beechin' all by itself!
+          && KoLCharacter.getBeeosity(name)
+              > this.expression.beeosity) { // too beechin' all by itself!
         continue;
       }
 
@@ -1329,15 +624,15 @@ public class Evaluator {
 
         if (item.getCount() != 0
             && (item.automaticFlag
-                || this.posEquip.contains(item)
+                || this.expression.posEquip.contains(item)
                 // Modeable items are already automaticFlag, avoids a needless lookup
                 || this.getScore(familiarMods, Map.of(Slot.FAMILIAR, item), Map.of()) - nullScore
                     > 0.0)) {
           ranked.get(Slot.FAMILIAR).add(item);
         }
       }
-      for (int f = this.familiars.size() - 1; f >= 0; --f) {
-        FamiliarData fam = this.familiars.get(f);
+      for (int f = this.expression.familiars.size() - 1; f >= 0; --f) {
+        FamiliarData fam = this.expression.familiars.get(f);
         if (!fam.canEquip(preItem)) continue;
         // Modifiers when worn by Hatrack or Scarecrow
         Modifiers familiarMods = new Modifiers();
@@ -1369,7 +664,7 @@ public class Evaluator {
 
         if (item.getCount() != 0
             && (item.automaticFlag
-                || this.posEquip.contains(item)
+                || this.expression.posEquip.contains(item)
                 // Modeable items are already automaticFlag, avoids a needless lookup
                 || this.getScore(familiarMods, Map.of(Slot.FAMILIAR, item), Map.of()) - nullScore
                     > 0.0)) {
@@ -1400,21 +695,21 @@ public class Evaluator {
 
           case WEAPON:
             int hands = EquipmentDatabase.getHands(id);
-            if (this.hands == 1 && hands != 1) {
+            if (this.expression.hands == 1 && hands != 1) {
               continue;
             }
-            if (this.hands > 1 && hands < this.hands) {
+            if (this.expression.hands > 1 && hands < this.expression.hands) {
               continue;
             }
             WeaponType weaponType = EquipmentDatabase.getWeaponType(id);
-            if (this.melee > 0 && weaponType != WeaponType.MELEE) {
+            if (this.expression.melee > 0 && weaponType != WeaponType.MELEE) {
               continue;
             }
-            if (this.melee < 0 && weaponType != WeaponType.RANGED) {
+            if (this.expression.melee < 0 && weaponType != WeaponType.RANGED) {
               continue;
             }
             String type = EquipmentDatabase.getItemType(id);
-            if (this.weaponType != null && !type.contains(this.weaponType)) {
+            if (this.expression.weaponType != null && !type.contains(this.expression.weaponType)) {
               continue;
             }
             if (hands == 1) {
@@ -1428,7 +723,7 @@ public class Evaluator {
                   continue;
                 }
                 // In any case, don't put this in an aux slot.
-              } else if (!this.requireShield && !EquipmentDatabase.isMainhandOnly(id)) {
+              } else if (!this.expression.requireShield && !EquipmentDatabase.isMainhandOnly(id)) {
                 switch (weaponType) {
                   case MELEE -> auxSlot = Evaluator.OFFHAND_MELEE;
                   case RANGED -> auxSlot = Evaluator.OFFHAND_RANGED;
@@ -1436,22 +731,22 @@ public class Evaluator {
                 }
               }
             }
-            if (this.requireClub && !EquipmentDatabase.isClub(id)) {
+            if (this.expression.requireClub && !EquipmentDatabase.isClub(id)) {
               slot = auxSlot;
             }
-            if (this.requireUtensil && !EquipmentDatabase.isUtensil(id)) {
+            if (this.expression.requireUtensil && !EquipmentDatabase.isUtensil(id)) {
               slot = auxSlot;
             }
-            if (this.requireSword && !EquipmentDatabase.isSword(id)) {
+            if (this.expression.requireSword && !EquipmentDatabase.isSword(id)) {
               slot = auxSlot;
             }
-            if (this.requireKnife && !EquipmentDatabase.isKnife(id)) {
+            if (this.expression.requireKnife && !EquipmentDatabase.isKnife(id)) {
               slot = auxSlot;
             }
-            if (this.requireAccordion && !EquipmentDatabase.isAccordion(id)) {
+            if (this.expression.requireAccordion && !EquipmentDatabase.isAccordion(id)) {
               slot = auxSlot;
             }
-            if (this.effective) {
+            if (this.expression.effective) {
               if (id != ItemPool.FOURTH_SABER
                   && id != ItemPool.REPLICA_FOURTH_SABER
                   && !ModifierDatabase.getBooleanModifier(
@@ -1470,7 +765,7 @@ public class Evaluator {
               }
             }
             if (id == ItemPool.BROKEN_CHAMPAGNE
-                && this.weight.getOrDefault(DoubleModifier.ITEMDROP, 0.0) > 0
+                && this.expression.weight.getOrDefault(DoubleModifier.ITEMDROP, 0.0) > 0
                 && (Preferences.getInteger("garbageChampagneCharge") > 0
                     || !Preferences.getBoolean("_garbageItemChanged"))) {
               // This is always going to be worth including if useful
@@ -1481,7 +776,7 @@ public class Evaluator {
             break;
 
           case OFFHAND:
-            if (this.requireShield
+            if (this.expression.requireShield
                 && !EquipmentDatabase.isShield(id)
                 && id != ItemPool.UNBREAKABLE_UMBRELLA) {
               continue;
@@ -1509,10 +804,10 @@ public class Evaluator {
             break;
           case SHIRT:
             if (id == ItemPool.MAKESHIFT_GARBAGE_SHIRT
-                && (this.weight.getOrDefault(DoubleModifier.EXPERIENCE, 0.0) > 0
-                    || this.weight.getOrDefault(DoubleModifier.MUS_EXPERIENCE, 0.0) > 0
-                    || this.weight.getOrDefault(DoubleModifier.MYS_EXPERIENCE, 0.0) > 0
-                    || this.weight.getOrDefault(DoubleModifier.MOX_EXPERIENCE, 0.0) > 0)
+                && (this.expression.weight.getOrDefault(DoubleModifier.EXPERIENCE, 0.0) > 0
+                    || this.expression.weight.getOrDefault(DoubleModifier.MUS_EXPERIENCE, 0.0) > 0
+                    || this.expression.weight.getOrDefault(DoubleModifier.MYS_EXPERIENCE, 0.0) > 0
+                    || this.expression.weight.getOrDefault(DoubleModifier.MOX_EXPERIENCE, 0.0) > 0)
                 && Preferences.getInteger("garbageShirtCharge") > 0) {
               // This is always going to be worth including if useful
               item.requiredFlag = true;
@@ -1581,7 +876,7 @@ public class Evaluator {
         }
 
         if (KoLCharacter.hasEquipped(item)
-            && this.current) { // Make sure the current item in each slot is considered
+            && this.expression.current) { // Make sure the current item in each slot is considered
           // for keeping, unless it's actively harmful, unless -current
           // option is used
           item.automaticFlag = true;
@@ -1605,15 +900,18 @@ public class Evaluator {
         // If you have a familiar carrier, we'll need to check 1 or 2 Familiars best carried
         // unless you specified not to change them
 
-        if (((id == ItemPool.HATSEAT && this.slots.getOrDefault(Slot.CROWNOFTHRONES, 0) >= 0)
-                || (id == ItemPool.BUDDY_BJORN && this.slots.getOrDefault(Slot.BUDDYBJORN, 0) >= 0))
+        if (((id == ItemPool.HATSEAT
+                    && this.expression.slots.getOrDefault(Slot.CROWNOFTHRONES, 0) >= 0)
+                || (id == ItemPool.BUDDY_BJORN
+                    && this.expression.slots.getOrDefault(Slot.BUDDYBJORN, 0) >= 0))
             && !KoLCharacter.isSneakyPete()
             && !KoLCharacter.inAxecore()
             && !KoLCharacter.isJarlsberg()) {
           this.carriedFamiliarsNeeded++;
         }
 
-        if (id == ItemPool.CARD_SLEEVE && this.slots.getOrDefault(Slot.CARDSLEEVE, 0) >= 0) {
+        if (id == ItemPool.CARD_SLEEVE
+            && this.expression.slots.getOrDefault(Slot.CARDSLEEVE, 0) >= 0) {
           this.cardNeeded = true;
         }
 
@@ -1627,19 +925,19 @@ public class Evaluator {
               switch (modeable.getSlot()) {
                 case ACCESSORY1 ->
                     List.of(
-                        this.slots.getOrDefault(Slot.ACCESSORY1, 0),
-                        this.slots.getOrDefault(Slot.ACCESSORY2, 0),
-                        this.slots.getOrDefault(Slot.ACCESSORY3, 0));
+                        this.expression.slots.getOrDefault(Slot.ACCESSORY1, 0),
+                        this.expression.slots.getOrDefault(Slot.ACCESSORY2, 0),
+                        this.expression.slots.getOrDefault(Slot.ACCESSORY3, 0));
                 case OFFHAND ->
                     List.of(
-                        this.slots.getOrDefault(Slot.OFFHAND, 0),
-                        this.slots.getOrDefault(Slot.FAMILIAR, 0));
-                default -> List.of(this.slots.getOrDefault(modeable.getSlot(), 0));
+                        this.expression.slots.getOrDefault(Slot.OFFHAND, 0),
+                        this.expression.slots.getOrDefault(Slot.FAMILIAR, 0));
+                default -> List.of(this.expression.slots.getOrDefault(modeable.getSlot(), 0));
               };
           modeablesNeeded.put(modeable, slotWeightings.stream().anyMatch(s -> s >= 0));
         }
 
-        if (this.posEquip.contains(item)) {
+        if (this.expression.posEquip.contains(item)) {
           item.automaticFlag = true;
           item.requiredFlag = true;
           break gotItem;
@@ -1659,13 +957,14 @@ public class Evaluator {
             || (cloathingUseful && mods.getRawBitmap(BitmapModifier.CLOATHING) != 0)
             || (slimeHateUseful && mods.getDouble(DoubleModifier.SLIME_HATES_IT) > 0.0)
             || (mcHugeLargeUseful && mods.getRawBitmap(BitmapModifier.MCHUGELARGE) != 0)
-            || (this.weight.getOrDefault(BitmapModifier.CLOWNINESS, 0.0) > 0
+            || (this.expression.weight.getOrDefault(BitmapModifier.CLOWNINESS, 0.0) > 0
                 && mods.getRawBitmap(BitmapModifier.CLOWNINESS) != 0)
-            || (this.weight.getOrDefault(BitmapModifier.RAVEOSITY, 0.0) > 0
+            || (this.expression.weight.getOrDefault(BitmapModifier.RAVEOSITY, 0.0) > 0
                 && mods.getRawBitmap(BitmapModifier.RAVEOSITY) != 0)
-            || (this.weight.getOrDefault(BitmapModifier.SURGEONOSITY, 0.0) > 0
+            || (this.expression.weight.getOrDefault(BitmapModifier.SURGEONOSITY, 0.0) > 0
                 && mods.getRawBitmap(BitmapModifier.SURGEONOSITY) != 0)
-            || (this.stinkycheese > 0 && mods.getRawBitmap(BitmapModifier.STINKYCHEESE) != 0)
+            || (this.expression.stinkycheese > 0
+                && mods.getRawBitmap(BitmapModifier.STINKYCHEESE) != 0)
             || ((mods.getRawBitmap(BitmapModifier.SYNERGETIC) & usefulSynergies) != 0)) {
           item.automaticFlag = true;
           break gotItem;
@@ -1701,7 +1000,7 @@ public class Evaluator {
         }
 
         if (modeable != null) {
-          if (!forcedModeables.get(modeable).isEmpty()) {
+          if (!this.expression.forcedModeables.get(modeable).isEmpty()) {
             item.automaticFlag = true;
           }
           break gotItem;
@@ -1718,7 +1017,7 @@ public class Evaluator {
         double delta = this.getScore(mods, Map.of(Slot.NONE, item), Map.of()) - nullScore;
         if (delta < 0.0) continue;
         if (delta == 0.0) {
-          if (KoLCharacter.hasEquipped(item) && this.current) break gotItem;
+          if (KoLCharacter.hasEquipped(item) && this.expression.current) break gotItem;
           if (item.initial == 0) continue;
           if (item.automaticFlag) continue;
         }
@@ -1742,14 +1041,14 @@ public class Evaluator {
     FamiliarData useCrownFamiliar = null;
 
     // If we're not allowed to change the current familiar, lock it
-    if (this.slots.getOrDefault(Slot.BUDDYBJORN, 0) < 0) {
+    if (this.expression.slots.getOrDefault(Slot.BUDDYBJORN, 0) < 0) {
       useBjornFamiliar = KoLCharacter.getBjorned();
     } else {
       bestCarriedFamiliar = KoLCharacter.getBjorned();
     }
 
     // If we're not allowed to change the current familiar, lock it
-    if (this.slots.getOrDefault(Slot.CROWNOFTHRONES, 0) < 0) {
+    if (this.expression.slots.getOrDefault(Slot.CROWNOFTHRONES, 0) < 0) {
       useCrownFamiliar = KoLCharacter.getEnthroned();
     } else {
       secondBestCarriedFamiliar = KoLCharacter.getEnthroned();
@@ -1857,8 +1156,8 @@ public class Evaluator {
                       if (!entry.getValue()) return "";
                       var modeable = entry.getKey();
 
-                      if (!forcedModeables.get(modeable).isEmpty()) {
-                        return forcedModeables.get(modeable);
+                      if (!this.expression.forcedModeables.get(modeable).isEmpty()) {
+                        return this.expression.forcedModeables.get(modeable);
                       }
 
                       CheckedItem item =
@@ -1884,7 +1183,8 @@ public class Evaluator {
                       return bestMode;
                     }));
 
-    SlotList<MaximizerSpeculation> speculationList = new SlotList<>(this.familiars.size());
+    SlotList<MaximizerSpeculation> speculationList =
+        new SlotList<>(this.expression.familiars.size());
 
     for (var entry : ranked.entries()) {
       List<CheckedItem> checkedItemList = entry.value();
@@ -1905,14 +1205,14 @@ public class Evaluator {
         if (entry.isSlot()) {
           useSlot = Evaluator.toUseSlot(entry.slot());
         } else {
-          spec.setFamiliar(this.familiars.get(entry.famIndex()));
+          spec.setFamiliar(this.expression.familiars.get(entry.famIndex()));
           useSlot = Slot.FAMILIAR;
         }
         spec.equipment.put(useSlot, item);
 
         switch (item.getItemId()) {
           case ItemPool.HATSEAT:
-            if (this.slots.getOrDefault(Slot.CROWNOFTHRONES, 0) < 0) {
+            if (this.expression.slots.getOrDefault(Slot.CROWNOFTHRONES, 0) < 0) {
               spec.setEnthroned(useCrownFamiliar);
             } else if (this.carriedFamiliarsNeeded > 1) {
               item.automaticFlag = true;
@@ -1922,7 +1222,7 @@ public class Evaluator {
             }
             break;
           case ItemPool.BUDDY_BJORN:
-            if (this.slots.getOrDefault(Slot.BUDDYBJORN, 0) < 0) {
+            if (this.expression.slots.getOrDefault(Slot.BUDDYBJORN, 0) < 0) {
               spec.setBjorned(useBjornFamiliar);
             } else if (this.carriedFamiliarsNeeded > 1) {
               item.automaticFlag = true;
@@ -2274,7 +1574,8 @@ public class Evaluator {
           CheckedItem outfitItem = new CheckedItem(outfitItemId, equipScope, maxPrice, priceLevel);
           outfitSpec.equipment.put(newSlot, outfitItem);
         }
-        if (outfitSpec.compareTo(compareSpec) <= 0 && !this.posOutfits.contains(outfit.getName())) {
+        if (outfitSpec.compareTo(compareSpec) <= 0
+            && !this.expression.posOutfits.contains(outfit.getName())) {
           usefulOutfits.put(i, false);
         } else {
           if (outfitCount > 0) {
@@ -2285,7 +1586,7 @@ public class Evaluator {
         }
       }
     }
-    if (this.dump > 0) {
+    if (this.expression.dump > 0) {
       outfitSummary.append("]");
       RequestLogger.printLine(outfitSummary.toString());
     }
@@ -2294,12 +1595,12 @@ public class Evaluator {
       List<CheckedItem> checkedItemList = ranked.get(entry);
       var automaticEntry = automatic.get(entry);
 
-      if (this.dump > 0) {
+      if (this.expression.dump > 0) {
         RequestLogger.printLine(
             "SLOT " + (entry.isSlot() ? entry.slot() : "BONUS FAMILIAR #" + entry.famIndex()));
       }
 
-      if (this.dump > 1) {
+      if (this.expression.dump > 1) {
         RequestLogger.printLine(speculationList.get(entry).toString());
       }
 
@@ -2393,7 +1694,9 @@ public class Evaluator {
               }
               beeotches += item.getCount();
               beeosity += b * item.getCount();
-            } else if (total < useful && beeotches < useful && beeosity < this.beeosity) {
+            } else if (total < useful
+                && beeotches < useful
+                && beeosity < this.expression.beeosity) {
               if (!automaticEntry.contains(item)) {
                 automaticEntry.add(item);
               }
@@ -2424,7 +1727,7 @@ public class Evaluator {
         automaticEntry.add(new CheckedItem(-1, equipScope, maxPrice, priceLevel));
       }
 
-      if (this.dump > 0) {
+      if (this.expression.dump > 0) {
         RequestLogger.printLine(automaticEntry.toString());
       }
     }
@@ -2441,7 +1744,7 @@ public class Evaluator {
       if (thresh < 0) return; // no slots enabled
       boolean anySlots = false;
       for (var slot : SlotSet.SLOTS) {
-        if (this.slots.getOrDefault(slot, 0) >= thresh) {
+        if (this.expression.slots.getOrDefault(slot, 0) >= thresh) {
           spec.equipment.put(slot, null);
           anySlots = true;
         }
@@ -2450,7 +1753,7 @@ public class Evaluator {
     }
 
     if (spec.equipment.get(Slot.OFFHAND) != null) {
-      this.hands = 1;
+      this.expression.hands = 1;
       automatic.set(Slot.WEAPON, automatic.get(Evaluator.WEAPON_1H));
 
       Iterator<AdventureResult> i = outfitPieces.keySet().iterator();
@@ -2473,7 +1776,7 @@ public class Evaluator {
             backupSlots.add(Slot.ACCESSORY3);
           }
 
-          if (this.familiars.stream().anyMatch(f -> f.canEquip(modeable.getItem()))) {
+          if (this.expression.familiars.stream().anyMatch(f -> f.canEquip(modeable.getItem()))) {
             backupSlots.add(Slot.FAMILIAR);
           }
 
@@ -2490,7 +1793,7 @@ public class Evaluator {
         });
 
     spec.tryAll(
-        this.familiars,
+        this.expression.familiars,
         this.carriedFamiliars,
         usefulOutfits,
         outfitPieces,
