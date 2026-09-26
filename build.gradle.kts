@@ -184,6 +184,7 @@ tasks.test {
   systemProperty("junit.jupiter.extensions.autodetection.enabled", true)
   systemProperty("useCWDasROOT", true)
   systemProperty("file.encoding", "UTF-8")
+  systemProperty("buildDir", layout.buildDirectory.get().asFile)
   workingDir("test/root")
 
   testLogging.showStandardStreams = true
