@@ -622,6 +622,10 @@ public class StorageRequest extends TransferItemRequest {
   }
 
   public static void updateSettings() {
+    // While in valhalla, our storage is reported as empty even as our ascensions was incremented
+    if (CharPaneRequest.inValhalla()) {
+      return;
+    }
     if (KoLConstants.storage.isEmpty()
         && KoLConstants.freepulls.isEmpty()
         && KoLCharacter.getStorageMeat() == 0) {
