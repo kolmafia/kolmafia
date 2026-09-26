@@ -1,6 +1,10 @@
 gradlew text eol=lf
-test/root/** text eol=lf linguist-documentation
-test/root/**/*.png binary
-test/root/**/*.gif binary
-test/root/**/*.ser binary
-lib/** linguist-vendored
+src/test/root/** text eol=lf linguist-documentation
+src/test/root/**/*.png binary
+src/test/root/**/*.gif binary
+src/test/root/**/*.ser binary
+src/main/java/ca/** linguist-vendored
+src/main/java/com/** linguist-vendored
+src/main/java/darrylbu/** linguist-vendored
+src/main/java/net/java/** linguist-vendored
+src/main/resources/relay/sorttable.2.js linguist-vendored
