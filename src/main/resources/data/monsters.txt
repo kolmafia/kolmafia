@@ -193,9 +193,9 @@ dopey 7-Foot Dwarf	1150	dwarf_dopey.gif	Atk: 53 Def: 47 HP: 40 Init: 50 Meat: 40
 doughbat	42	doughbat.gif	Atk: 14 Def: 12 HP: 8 Init: 60 Meat: 20 P: beast EA: sleaze EA: none Article: a BvR: blue	sonar-in-a-biscuit (10)	wad of dough (30)
 Dr. Awkward	453	drawkward.gif	BOSS NOCOPY Atk: 175 Def: 157 HP: 200 Init: -10000 P: dude BvR: red	Drowsy Sword (n100)	[2268]Staff of Fats (n100)	fumble formula (p5)
 Drab Bard	130	braddarb.gif	Atk: 136 Def: 124 HP: 170 Init: 40 Meat: 80 P: dude Article: a BvR: red	drab sonata (30)	guitar pick (15)	olive (40)	glass of warm milk (c0)	accordionoid rocca (a100)
-drippy bat	2163	drippybat.gif	NOCOPY Atk: [200] Def: [200] HP: [120] Init: 100 P: beast DRIPPY Phys: 100 Elem: 100 Article: a	Driplet (n100)
-drippy reveler	2176	drippyreveler.gif	NOCOPY Atk: [200] Def: [200] HP: [150] Init: 100 P: humanoid DRIPPY Phys: 100 Elem: 100 Article: a	Driplet (n0)	drippy stein (n0)
-drippy tree	2162	drippytree.gif	NOCOPY Atk: [150] Def: [150] HP: [100] Init: -10000 P: plant DRIPPY Phys: 100 Elem: 100 Article: a	Driplet (n0)
+drippy bat	2163	drippybat.gif	NOCOPY NOINSTAKILL Atk: [200] Def: [200] HP: [120] Init: 100 P: beast DRIPPY Phys: 100 Elem: 100 Article: a	Driplet (n100)
+drippy reveler	2176	drippyreveler.gif	NOCOPY NOINSTAKILL Atk: [200] Def: [200] HP: [150] Init: 100 P: humanoid DRIPPY Phys: 100 Elem: 100 Article: a	Driplet (n0)	drippy stein (n0)
+drippy tree	2162	drippytree.gif	NOCOPY NOINSTAKILL Atk: [150] Def: [150] HP: [100] Init: -10000 P: plant DRIPPY Phys: 100 Elem: 100 Article: a	Driplet (n0)
 drowned sailor	744	drownedsailor.gif	Atk: 400 Def: 405 HP: 700 Init: 50 Meat: 150 P: undead ED: spooky EA: spooky EA: none Article: a	moist sailor's cap (n2)	rusty compass (n2)	rusty speargun (n2)	salt water taffy (c0)
 drunk duck	566	ducknicedrunk.gif	Atk: 165 Def: 157 HP: 170 Init: 40 Meat: 200 P: beast EA: stench EA: none Article: a BvR: blue	bottle of gin (20)	bottle of rum (20)	boxed wine (20)	duct tape (5)
 drunk goat	82	drunkgoat.gif	Atk: 68 Def: 61 HP: 50 Init: 70 Meat: 45 P: beast Article: a BvR: blue	bottle of whiskey (25)	goat beard (5)	sauced mutton (15)
@@ -500,7 +500,7 @@ panicking Knott Yeti	1228	yeti.gif	BOSS NOCOPY Atk: 105 Def: 92 HP: 90 Init: 60 
 Panty Raider Frat Boy	421	warfratpr.gif	Atk: 200 Def: 180 HP: 250 Init: 100 P: orc ED: sleaze EA: sleaze EA: none Article: a BvR: red	depantsing bomb (10)	depantsing bomb (10)	Elmley shades (5)	PADL Phone (3)	panty raider camouflage (10)	white class ring (30)
 paper towelgeist	374	ptowels.gif	Atk: 21 Def: 18 HP: 22 Init: 30 P: undead Article: a BvR: blue	cardboard katana (5)
 party skelteon	2154	partyskeleton.gif	NOWISH Atk: 52 Def: 49 HP: 55 Init: 50 P: undead SKELETON ED: spooky EA: cold EA: hot EA: sleaze EA: spooky EA: none Article: a BvR: red	skeleton bone (40)	loose teeth (20)	margarita (c100)	martini (c100)	monkey wrench (c100)	salty dog (c100)	screwdriver (c100)	strawberry daiquiri (c100)	strawberry wine (c100)	tequila sunrise (c100)	vodka martini (c100)	whiskey and soda (c100)	whiskey sour (c100)	wine spritzer (c100)	haunted crudit&eacute;s (15)
-Peanut	1376	peanut.gif	NOCOPY Atk: 650 Def: 700 HP: 1200 Init: 75 P: horror Elem: 25	peanut sauce (40)
+Peanut	1376	peanut.gif	NOCOPY NOINSTAKILL Atk: 650 Def: 700 HP: 1200 Init: 75 P: horror Elem: 25	peanut sauce (40)
 pernicious puddle of pesto	659	pestopuddle.gif	NOCOPY Atk: 21 Def: 18 HP: 18 Init: 20 P: slime Article: a	a creased paper strip (30)	a crinkled paper strip (30)	a crumpled paper strip (30)	a folded paper strip (30)	a ragged paper strip (30)	a ripped paper strip (30)	a rumpled paper strip (30)	a torn paper strip (30)
 perpendicular bat	47	perpbat.gif	Atk: 18 Def: 16 HP: 12 Init: 60 Meat: 30 P: beast Article: a BvR: red	batgut (15)	bat wing (15)	sonar-in-a-biscuit (10)	perpendicular guano (c0)	guancertina (a100)
 pig	1591	somepig.gif	NOCOPY Atk: [6] Def: [7] HP: [8] Init: -10000 Meat: 5 P: beast Article: a	ham steak (100)	piggy tattoo (c0)
@@ -1002,30 +1002,30 @@ Your Shadow	210	otherimages/shadows/10.gif,otherimages/shadows/11.gif,otherimage
 
 topiary golem	205	topiary.gif	BOSS NOCOPY Atk: 235 Def: 211 HP: 220 Init: 80 P: plant Article: a	hedge maze puzzle (60)
 
-Beer Batter	208	batter.gif	NOCOPY WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: construct Article: a
-best-selling novelist	602	novelist.gif	NOCOPY WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: dude Article: a
-Big Meat Golem	276	bigmeat.gif	NOCOPY WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: construct Article: a
-Bowling Cricket	277	cricket.gif	NOCOPY WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: bug Article: a
-Bronze Chef	604	bronzechef.gif	NOCOPY WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: construct Article: a
-collapsed mineshaft golem	611	minegolem.gif	NOCOPY WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: construct Article: a
-concert pianist	601	pianist.gif	NOCOPY WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: dude Article: a
-darkness	608	rorshach.gif	NOCOPY WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: elemental Article: the Wiki: "Darkness (The Sorceress' Tower)"
-El Diablo	605	eldiablo.gif	NOCOPY WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: construct
-Electron Submarine	280	submarine.gif	NOCOPY WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: construct Article: an
-endangered inflatable white tiger	609	inflatiger.gif	NOCOPY WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: beast Article: an
-Enraged Cow	209	cow.gif	NOCOPY WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: beast Article: an
-fancy bath slug	610	bathslug.gif	NOCOPY WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: bug Article: a
-Fickle Finger of F8	204	finger.gif	NOCOPY WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: weird Article: the
-Flaming Samurai	206	samurai.gif	NOCOPY WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: dude Article: a
-giant bee	612	giantbee.gif	NOCOPY WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: bug Article: a
-Giant Desktop Globe	279	globe.gif	NOCOPY WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: construct Article: a
-giant fried egg	606	friedegg.gif	NOCOPY WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: slime Article: a
-Ice Cube	207	icecube.gif	NOCOPY WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: elemental Article: an
-malevolent crop circle	603	cropcircle.gif	NOCOPY WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: construct Article: a
-possessed pipe-organ	607	organ.gif	NOCOPY WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: construct Article: a
-Pretty Fly	203	fly.gif	NOCOPY WISH Atk: 99999 Def: 89999 HP: [99999] Exp: 40 Init: -10000 P: beast Article: a
-Tyrannosaurus Tex	278	tex.gif	NOCOPY WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: beast Article: a
-Vicious Easel	275	easel.gif	NOCOPY WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: construct Article: a
+Beer Batter	208	batter.gif	NOCOPY NOINSTAKILL WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: construct Article: a
+best-selling novelist	602	novelist.gif	NOCOPY NOINSTAKILL WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: dude Article: a
+Big Meat Golem	276	bigmeat.gif	NOCOPY NOINSTAKILL WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: construct Article: a
+Bowling Cricket	277	cricket.gif	NOCOPY NOINSTAKILL WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: bug Article: a
+Bronze Chef	604	bronzechef.gif	NOCOPY NOINSTAKILL WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: construct Article: a
+collapsed mineshaft golem	611	minegolem.gif	NOCOPY NOINSTAKILL WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: construct Article: a
+concert pianist	601	pianist.gif	NOCOPY NOINSTAKILL WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: dude Article: a
+darkness	608	rorshach.gif	NOCOPY NOINSTAKILL WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: elemental Article: the Wiki: "Darkness (The Sorceress' Tower)"
+El Diablo	605	eldiablo.gif	NOCOPY NOINSTAKILL WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: construct
+Electron Submarine	280	submarine.gif	NOCOPY NOINSTAKILL WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: construct Article: an
+endangered inflatable white tiger	609	inflatiger.gif	NOCOPY NOINSTAKILL WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: beast Article: an
+Enraged Cow	209	cow.gif	NOCOPY NOINSTAKILL WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: beast Article: an
+fancy bath slug	610	bathslug.gif	NOCOPY NOINSTAKILL WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: bug Article: a
+Fickle Finger of F8	204	finger.gif	NOCOPY NOINSTAKILL WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: weird Article: the
+Flaming Samurai	206	samurai.gif	NOCOPY NOINSTAKILL WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: dude Article: a
+giant bee	612	giantbee.gif	NOCOPY NOINSTAKILL WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: bug Article: a
+Giant Desktop Globe	279	globe.gif	NOCOPY NOINSTAKILL WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: construct Article: a
+giant fried egg	606	friedegg.gif	NOCOPY NOINSTAKILL WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: slime Article: a
+Ice Cube	207	icecube.gif	NOCOPY NOINSTAKILL WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: elemental Article: an
+malevolent crop circle	603	cropcircle.gif	NOCOPY NOINSTAKILL WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: construct Article: a
+possessed pipe-organ	607	organ.gif	NOCOPY NOINSTAKILL WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: construct Article: a
+Pretty Fly	203	fly.gif	NOCOPY NOINSTAKILL WISH Atk: 99999 Def: 89999 HP: [99999] Exp: 40 Init: -10000 P: beast Article: a
+Tyrannosaurus Tex	278	tex.gif	NOCOPY NOINSTAKILL WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: beast Article: a
+Vicious Easel	275	easel.gif	NOCOPY NOINSTAKILL WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: construct Article: a
 
 # Basement
 
@@ -1305,7 +1305,7 @@ Chad Alacarte	2113	chadalacarte.gif	BOSS NOCOPY Atk: 250 Def: 250 HP: 2000 Init:
 Your Lack of Reflection	2115	towermirror.gif	BOSS NOCOPY Atk: 100 Def: 100 HP: 3000 Init: -10000 P: horror EA: spooky EA: none
 
 # Kingdom of Exploathing
-invader bullet	2137	invaderbullet.gif	WANDERER Scale: 20 Cap: ? Floor: ? Init: 10000 P: construct Article: an	white pixel (40)	white pixel (20)	white pixel (10)	white pixel (5)
+invader bullet	2137	invaderbullet.gif	NOINSTAKILL WANDERER Scale: 20 Cap: ? Floor: ? Init: 10000 P: construct Article: an	white pixel (40)	white pixel (20)	white pixel (10)	white pixel (5)
 skeleton astronaut	2136	astroskeleton.gif	WANDERER Atk: 100 Def: 100 HP: 100 Init: 100 P: undead Article: a	skeleton bone (30)	loose teeth (30)	evil eye (30)
 the invader	2138	invader.gif	BOSS NOCOPY Atk: 1000 Def: 1000 HP: 1000 Init: -10000 P: construct EA: cold EA: hot EA: sleaze EA: spooky EA: stench	10 white pixel (m100)
 
@@ -1722,7 +1722,7 @@ desperate gold farmer	1315	goldfarmer.gif	Atk: 80 Def: 80 HP: 95 Init: 50 Meat: 
 rabid MMO addict	1316	mmoaddict.gif	Atk: 84 Def: 76 HP: 90 Init: 60 Meat: 20 P: dude Article: a	gold piece (25)	gamer slurry (c0)
 The Server	1318	theserver.gif	BOSS NOCOPY Atk: 90 Def: 90 HP: 999999999 Init: 75 P: construct
 White Bone Demon	1319	whitebonedemon.gif	BOSS NOCOPY Atk: 100 Def: 100 HP: 180 Init: 100 P: demon	suspicious-looking fedora (100)
-procedurally-generated skeleton	1323	bigskeleton.gif	NOCOPY Init: -10000 P: undead SKELETON EA: cold EA: hot EA: sleaze EA: spooky EA: stench
+procedurally-generated skeleton	1323	bigskeleton.gif	NOCOPY NOINSTAKILL Init: -10000 P: undead SKELETON EA: cold EA: hot EA: sleaze EA: spooky EA: stench
 
 # Video Game dungeon (GameInformPowerDailyPro magazine February 2013)
 Video Game Boss	1331	faq_boss1.gif,faq_boss2.gif,faq_boss3.gif,faq_boss4.gif,faq_boss5.gif,faq_boss6.gif	BOSS NOCOPY Scale: 5 Init: -10000 P: construct EA: cold EA: hot EA: none
@@ -2019,11 +2019,11 @@ The Jokester	1898	jokester.gif	BOSS NOCOPY HP: 200 Init: -10000 P: dude	tube of 
 # Witchess set (March 2016)
 Witchess Pawn	1935	chess_bpawn.gif	FREE Scale: 2 Cap: 200 Floor: 10 Init: -10000 P: dude EA: hot EA: none Article: a	armored prawn (n100)
 Witchess Knight	1936	chess_bknight.gif	FREE Scale: 5 Cap: 400 Floor: 20 Init: -10000 P: dude Article: a	jumping horseradish (n100)
-Witchess Ox	1937	chess_box.gif	FREE Atk: 1 HP: [max(2500,(MUS/4+ML/3)*45)] Scale: 0 Cap: 5000 Floor: 10 Init: -10000 P: beast Phys: 50 Elem: 50 Article: a	ox-head shield (n100)
+Witchess Ox	1937	chess_box.gif	FREE NOINSTAKILL Atk: 1 HP: [max(2500,(MUS/4+ML/3)*45)] Scale: 0 Cap: 5000 Floor: 10 Init: -10000 P: beast Phys: 50 Elem: 50 Article: a	ox-head shield (n100)
 Witchess Rook	1938	chess_brook.gif	FREE Scale: 7 Cap: 600 Floor: 25 Init: -10000 P: construct Article: a	Greek fire (n100)
-Witchess Queen	1939	chess_bqueen.gif	FREE HP: 4000 Scale: 40 Cap: 8000 Floor: 200 Init: -10000 P: dude Phys: 75 Elem: 50 Article: a	very pointy crown (n100)
-Witchess King	1940	chess_bking.gif	FREE HP: 2000 Scale: 20 Cap: 6000 Floor: 100 Init: -10000 P: dude Elem: 50 Article: a	dented scepter (n100)
-Witchess Witch	1941	chess_bwitch.gif	FREE HP: 3000 Scale: 30 Cap: 7000 Floor: 150 Init: -10000 P: dude Phys: 50 Elem: 75 EA: spooky EA: none Article: a	battle broom (n100)
+Witchess Queen	1939	chess_bqueen.gif	FREE NOINSTAKILL HP: 4000 Scale: 40 Cap: 8000 Floor: 200 Init: -10000 P: dude Phys: 75 Elem: 50 Article: a	very pointy crown (n100)
+Witchess King	1940	chess_bking.gif	FREE NOINSTAKILL HP: 2000 Scale: 20 Cap: 6000 Floor: 100 Init: -10000 P: dude Elem: 50 Article: a	dented scepter (n100)
+Witchess Witch	1941	chess_bwitch.gif	FREE NOINSTAKILL HP: 3000 Scale: 30 Cap: 7000 Floor: 150 Init: -10000 P: dude Phys: 50 Elem: 75 EA: spooky EA: none Article: a	battle broom (n100)
 Witchess Bishop	1942	chess_bbishop.gif	FREE Scale: 7 Cap: 600 Floor: 25 Init: -10000 P: dude Article: a BvR: enemy	Sacramento wine (n100)
 
 # Protonic Accelerator Pack (August 2016)
@@ -2042,13 +2042,13 @@ Emily Koops, a spooky lime	1957	ghost_lime.gif	NOCOPY FREE NOWANDER Atk: 175 Def
 The ghost of Jim Unfortunato	1958	ghost_fortunado.gif	NOCOPY FREE NOWANDER Atk: 190 Def: 170 HP: 180 Init: 75 P: undead Phys: 100 GHOST ED: spooky EA: sleaze	Unfortunato's foolscap (c100)
 
 # Time Spinner (September 2016)
-Ancient Skeleton with Skin still on it	1962	skinskeleton.gif	Scale: 3 Cap: ? Floor: 20 Init: -10000 P: undead Phys: 60 Elem: 50 Article: an	compounded experience (c100)	time residue (c0)
-Apathetic Tyrannosaurus	1959	apatheticdino.gif	Scale: 3 Cap: ? Floor: 20 Init: -10000 P: beast Phys: 60 Elem: 50 Article: an	compounded experience (c100)	time residue (c0)
-Assembly Elemental	1960	assemblyelem.gif	Scale: 5 Cap: ? Floor: 20 Init: -10000 P: elemental Phys: 80 Elem: 25 Article: an	compounded experience (c100)	time residue (c0)
-Cro-Magnon Gnoll	1961	cromaggnoll.gif	Scale: 7 Cap: ? Floor: 20 Init: -10000 P: humanoid Phys: 40 Elem: 75 Article: a	compounded experience (c100)	time residue (c0)
-Krakrox the Barbarian	1964	krakrox.gif	Scale: 25 Cap: ? Floor: 40 Init: -10000 P: dude Phys: 75 Elem: 75 Wiki: "Krakrox the Barbarian (monster)"	compounded experience (c100)	3 time residue (m100)
+Ancient Skeleton with Skin still on it	1962	skinskeleton.gif	NOINSTAKILL Scale: 3 Cap: ? Floor: 20 Init: -10000 P: undead Phys: 60 Elem: 50 Article: an	compounded experience (c100)	time residue (c0)
+Apathetic Tyrannosaurus	1959	apatheticdino.gif	NOINSTAKILL Scale: 3 Cap: ? Floor: 20 Init: -10000 P: beast Phys: 60 Elem: 50 Article: an	compounded experience (c100)	time residue (c0)
+Assembly Elemental	1960	assemblyelem.gif	NOINSTAKILL Scale: 5 Cap: ? Floor: 20 Init: -10000 P: elemental Phys: 80 Elem: 25 Article: an	compounded experience (c100)	time residue (c0)
+Cro-Magnon Gnoll	1961	cromaggnoll.gif	NOINSTAKILL Scale: 7 Cap: ? Floor: 20 Init: -10000 P: humanoid Phys: 40 Elem: 75 Article: a	compounded experience (c100)	time residue (c0)
+Krakrox the Barbarian	1964	krakrox.gif	NOINSTAKILL Scale: 25 Cap: ? Floor: 40 Init: -10000 P: dude Phys: 75 Elem: 75 Wiki: "Krakrox the Barbarian (monster)"	compounded experience (c100)	3 time residue (m100)
 time-spinner prank	1965	noart.gif	NOCOPY FREE Atk: 0 Def: 0 HP: 0 Init: -10000 P: dude	time residue (c100)
-Wooly Duck	1963	woolyduck.gif	Scale: 5 Cap: ? Floor: 20 Init: -10000 P: beast Phys: 40 Elem: 25 Article: a	compounded experience (c100)	time residue (c0)
+Wooly Duck	1963	woolyduck.gif	NOINSTAKILL Scale: 5 Cap: ? Floor: 20 Init: -10000 P: beast Phys: 40 Elem: 25 Article: a	compounded experience (c100)	time residue (c0)
 
 # Gingerbread City (December 2016)
 gingerbread pigeon	1975	gbpigeon.gif	NOCOPY Scale: -5 Cap: 1000 Floor: 30 Init: 50 SprinkleMin: 1 SprinkleMax: 3 P: beast Article: a	1-3 sprinkles (m100)
@@ -2092,7 +2092,7 @@ hostile intelligent alien	2023	sgalienb1.gif,sgalienb2.gif,sgalienb3.gif,sgalien
 intelligent alien	-31	sgaliena1.gif,sgaliena2.gif,sgaliena3.gif,sgaliena4.gif,sgaliena5.gif,sgaliena6.gif,sgaliena7.gif,sgaliena8.gif,sgaliena9.gif,sgaliena10.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: humanoid
 
 # Genie (Sept 2017)
-Genie	2029	genie_mad.gif	NOCOPY Scale: 37 Cap: 11000 Init: -10000 P: elemental Article: a	dropped scrap of paper (n100)
+Genie	2029	genie_mad.gif	NOCOPY NOINSTAKILL Scale: 37 Cap: 11000 Init: -10000 P: elemental Article: a	dropped scrap of paper (n100)
 
 # XO Skeleton (Oct 2017)
 amorphous blob	2032	xoblob.gif	NOCOPY Scale: 100 Init: -10000 P: slime Article: an	giant X (n100)	giant O (n100)
@@ -2127,7 +2127,7 @@ Ted Schwartz, Master Thief	2085	fr_masterthief.gif	BOSS NOCOPY Atk: 400 Def: 400
 Skeleton Lord	2087	skeletonlord.gif	BOSS NOCOPY Atk: 300 Def: 300 HP: 200 Init: -10000 P: construct Article: the	shield of the Skeleton Lord (c100)	ring of the Skeleton Lord (c100)	scepter of the Skeleton Lord (c100)	100 Rubee&trade; (m100)
 
 # God Lobster (May 2018)
-God Lobster	2088	godlob.gif,godlob_scepter.gif,godlob_ring.gif,godlob_rod.gif,godlob_cape.gif,godlob_crown.gif	NOCOPY FREE Scale: [10*equipped(God Lobster's Scepter)+20*equipped(God Lobster's Ring)+30*equipped(God Lobster's Rod)+40*equipped(God Lobster's Robe)+50*equipped(God Lobster's Crown)] Cap: 1500 Floor: ? Init: 1000 P: horror Phys: [30*equipped(God Lobster's Ring)+50*equipped(God Lobster's Rod)+60*equipped(God Lobster's Robe)+80*equipped(God Lobster's Crown)] Elem: [25*equipped(God Lobster's Rod)+60*equipped(God Lobster's Robe)+90*equipped(God Lobster's Crown)] EA: hot EA: spooky Article: the Wiki: "God Lobster (monster)"
+God Lobster	2088	godlob.gif,godlob_scepter.gif,godlob_ring.gif,godlob_rod.gif,godlob_cape.gif,godlob_crown.gif	NOCOPY FREE NOINSTAKILL Scale: [10*equipped(God Lobster's Scepter)+20*equipped(God Lobster's Ring)+30*equipped(God Lobster's Rod)+40*equipped(God Lobster's Robe)+50*equipped(God Lobster's Crown)] Cap: 1500 Floor: ? Init: 1000 P: horror Phys: [30*equipped(God Lobster's Ring)+50*equipped(God Lobster's Rod)+60*equipped(God Lobster's Robe)+80*equipped(God Lobster's Crown)] Elem: [25*equipped(God Lobster's Rod)+60*equipped(God Lobster's Robe)+90*equipped(God Lobster's Crown)] EA: hot EA: spooky Article: the Wiki: "God Lobster (monster)"
 
 # Neverending Party (Sept 2018)
 biker	2089	nparty_biker.gif	NOWISH Scale: [20+100*equipped(PARTY HARD T-shirt)] Cap: 20000 Floor: 21 Init: -10000 Meat: 100 P: dude Phys: 20 EA: hot EA: sleaze EA: stench EA: none Article: a	gas can (c50)	Middle of the Road&trade; brand whiskey (c50)	neverending wallet chain (c15)	pentagram bandana (c15)	gold skull ring (c0.2)
@@ -2137,11 +2137,11 @@ party girl	2092	nparty_partygirl.gif	NOWISH Scale: [10+100*equipped(PARTY HARD T
 burnout	2093	nparty_burnout.gif	NOWISH Scale: [-5+100*equipped(PARTY HARD T-shirt)] Cap: 20000 Floor: 10 Init: -10000 Meat: 50 P: dude EA: hot EA: stench EA: none Article: a	denim jacket (c15)	ratty knitted cap (c15)	van key (c50)	jam band bootleg (c50)
 
 # Voter Registration Form (Nov 2018)
-angry ghost	2094	vw_ghost.gif	NOCOPY Scale: 4 Cap: 1000 Floor: 10 Init: -10000 P: undead GHOST Phys: 50 ED: spooky EA: spooky EA: none Article: an	ghostly ectoplasm (100)	ghostly ectoplasm (10)	ghostly ectoplasm (1)
-annoyed snake	2098	vwsnake.gif	NOCOPY Scale: 3 Cap: 1000 Floor: 10 Init: -10000 Meat: 25 P: beast Elem: 50 Article: an	snake skin (100)
-government bureaucrat	2095	vwgovt.gif	NOCOPY Scale: 1 Cap: 1000 Floor: 10 Init: -10000 Meat: 50 P: dude Article: a	government requisition form (25)	absentee voter ballot (5)
-terrible mutant	2096	vwmutant.gif	NOCOPY Scale: 5 Cap: 1000 Floor: 10 Init: -10000 Meat: 10 P: humanoid Article: a	glob of undifferentiated tissue (100)	glob of undifferentiated tissue (c0)	mutant arm (c1)	mutant legs (c1)	mutant crown (c1)
-slime blob	2097	vwslime.gif	NOCOPY Scale: 4 Cap: 1000 Floor: 10 Init: -10000 P: slime Phys: 50 ED: sleaze Article: a	green slime glob (20)	orange slime glob (40)	black slime glob (n1)
+angry ghost	2094	vw_ghost.gif	NOCOPY NOINSTAKILL Scale: 4 Cap: 1000 Floor: 10 Init: -10000 P: undead GHOST Phys: 50 ED: spooky EA: spooky EA: none Article: an	ghostly ectoplasm (100)	ghostly ectoplasm (10)	ghostly ectoplasm (1)
+annoyed snake	2098	vwsnake.gif	NOCOPY NOINSTAKILL Scale: 3 Cap: 1000 Floor: 10 Init: -10000 Meat: 25 P: beast Elem: 50 Article: an	snake skin (100)
+government bureaucrat	2095	vwgovt.gif	NOCOPY NOINSTAKILL Scale: 1 Cap: 1000 Floor: 10 Init: -10000 Meat: 50 P: dude Article: a	government requisition form (25)	absentee voter ballot (5)
+terrible mutant	2096	vwmutant.gif	NOCOPY NOINSTAKILL Scale: 5 Cap: 1000 Floor: 10 Init: -10000 Meat: 10 P: humanoid Article: a	glob of undifferentiated tissue (100)	glob of undifferentiated tissue (c0)	mutant arm (c1)	mutant legs (c1)	mutant crown (c1)
+slime blob	2097	vwslime.gif	NOCOPY NOINSTAKILL Scale: 4 Cap: 1000 Floor: 10 Init: -10000 P: slime Phys: 50 ED: sleaze Article: a	green slime glob (20)	orange slime glob (40)	black slime glob (n1)
 
 # Kramco Sausage-o-Matic (Jan 2019
 sausage goblin	2104	sausagegoblin.gif	FREE Scale: [1+2*pref(_sausageFights)] Cap: ? Floor: ? Init: -10000 Meat: 69 P: goblin ED: sleaze EA: hot EA: sleaze EA: none Article: a	magical sausage casing (n100)	red-hot sausage fork (4)	bag of sausage links (n0.1)
@@ -2358,7 +2358,7 @@ Madiator	1625	madiator.gif	Scale: 4 Cap: 1000 Init: 40 Meat: 15 P: dude EA: sten
 Radiator	1626	radiator.gif	Scale: 5 Cap: 1000 Init: 50 Meat: 20 P: dude	salt wages (10)	radiator heater shield (2)	totally sweet mohawk helmet (c0)
 
 # Twitch 5 - Post Apocalypse (September 2014)
-sentient ATM	1646	atm.gif	NOCOPY Atk: [1] Def: [0] HP: [1] Exp: [1] Init: -10000 P: construct Article: a	1-25 Chroner (m100)
+sentient ATM	1646	atm.gif	NOCOPY NOINSTAKILL Atk: [1] Def: [0] HP: [1] Exp: [1] Init: -10000 P: construct Article: a	1-25 Chroner (m100)
 T-9000	1641	t9000.gif	Scale: 5 Cap: 1000 Init: -10000 P: construct Article: a	TI-9000 calculator (40)	tarnished bottlecap (20)	spray chrome (c0)
 damned dirty ape	1642	dirtyape.gif	Scale: 5 Cap: 1000 Init: -10000 P: beast ED: stench Article: a	unused soap (40)	tarnished bottlecap (20)	filthy monkey head (c0)
 jet-ski bandit	1643	jetski.gif	Scale: 5 Cap: 1000 Init: -10000 P: dude Article: a	impure gasoline (40)	tarnished bottlecap (20)
@@ -2740,7 +2740,7 @@ Chef Boy, R&amp;D	1466	chefboy.gif	BOSS NOCOPY NOMANUEL WANDERER Scale: 5 Init: 
 # The WarBear Fortress (Crimbo 2013)
 Warbear Foot Soldier	1459	warbear11.gif,warbear12.gif,warbear13.gif	NOWISH Scale: -3 Floor: 20 Init: -10000 P: beast EA: supercold	warbear whosit (n100)
 Warbear Officer	1467	warbear21.gif,warbear22.gif,warbear23.gif	NOWISH Scale: ? Cap: ? Floor: ? Init: 50 P: beast EA: supercold	2 warbear whosit (m100)	warbear requisition box (f0)	warbear badge (f0)
-High-Ranking Warbear Officer	1468	warbear31.gif,warbear32.gif,warbear33.gif	NOWISH Scale: ? Cap: ? Floor: ? Init: 100 P: beast EA: supercold EA: none	3 warbear whosit (m100)	warbear officer requisition box (f0)
+High-Ranking Warbear Officer	1468	warbear31.gif,warbear32.gif,warbear33.gif	NOINSTAKILL NOWISH Scale: ? Cap: ? Floor: ? Init: 100 P: beast EA: supercold EA: none	3 warbear whosit (m100)	warbear officer requisition box (f0)
 Warbear General Björn Björnsonsvensentagdotterström	1469	warbearboss.gif	BOSS NOCOPY NOMANUEL Scale: ? Cap: ? Floor: ? Init: 500 P: beast	warbear requisition box (n100)	warbear requisition box (n100)	warbear requisition box (n100)	warbear requisition box (n100)	warbear officer requisition box (n100)	warbear officer requisition box (n100)
 
 # Halloween 2014
@@ -2767,7 +2767,7 @@ Cinco de Mayo reveler	1943	reveler1.gif,reveler2.gif	NOWISH Scale: 5 Init: -1000
 
 # Eldritch Incursion (October 2016)
 
-Eldritch Tentacle	1974	eldtentacle.gif	FREE Scale: 7 Cap: 400 Floor: 20 Init: -10000 P: horror Phys: 50 Elem: 50 ED: spooky EA: spooky EA: none Article: an BvR: enemy	eldritch effluvium (0)	eldritch effluvium (0)	eldritch effluvium (0)
+Eldritch Tentacle	1974	eldtentacle.gif	FREE NOINSTAKILL Scale: 7 Cap: 400 Floor: 20 Init: -10000 P: horror Phys: 50 Elem: 50 ED: spooky EA: spooky EA: none Article: an BvR: enemy	eldritch effluvium (0)	eldritch effluvium (0)	eldritch effluvium (0)
 Sssshhsssblllrrggghsssssggggrrgglsssshhssslblgl	2012	eldboss.gif	FREE NOCOPY NOMANUEL Atk: 300 Def: 300 Init: -10000 P: horror Phys: 50 Elem: 50 ED: spooky	1-11 eldritch effluvium (m100)	eldritch mushroom (c0)	1-11 eldritch ichor (m100)
 
 # Crimbo 2016 (December 2016)
@@ -2848,21 +2848,21 @@ gooified dog-thing	2222	goo_dog.gif	Atk: 150 Def: 150 HP: 200 Init: 200 P: beast
 gooified flower	2223	goo_flower.gif	Atk: 180 Def: 180 HP: 300 Init: -10000 P: plant Article: a	gooified vegetable matter (100)	gooified vegetable matter (100)	gooified vegetable matter (100)
 gooified tree	2224	goo_tree.gif	Atk: 150 Def: 50 HP: 1000 Init: -10000 P: plant Article: a	gooified vegetable matter (10)	gooified vegetable matter (10)	gooified vegetable matter (10)	gooified vegetable matter (10)	gooified vegetable matter (10)
 gooified rock slab	2225	goo_slab1.gif,goo_slab2.gif,goo_slab3.gif	Atk: 250 Def: 250 HP: 500 Init: -10000 P: elemental Article: a	1-6 gooified mineral matter (m100)
-massive goo construct	2226	noart.gif	Atk: 100 Def: 100 HP: 100 Init: -10000 P: construct EA: hot EA: sleaze Article: a	4-20 gooified animal matter (m100)	4-20 gooified vegetable matter (m100)	4-20 gooified mineral matter (m100)
+massive goo construct	2226	noart.gif	NOINSTAKILL Atk: 100 Def: 100 HP: 100 Init: -10000 P: construct EA: hot EA: sleaze Article: a	4-20 gooified animal matter (m100)	4-20 gooified vegetable matter (m100)	4-20 gooified mineral matter (m100)
 
 # Crimbo 2022 (December 2022)
-Brake-Operating Trainbot	2254	trainbot_brake.gif	NOWISH Scale: 0 Cap: ? Init: -10000 P: construct Article: a
-Track-Switching Trainbot	2255	trainbot_switch.gif	NOWISH Scale: 0 Cap: ? Init: -10000 P: construct Article: a
-Ping-Pong-Playing Trainbot	2256	trainbot_ping.gif	NOWISH Scale: 0 Cap: ? Init: -10000 P: construct Article: a
-Drink-Delivery Trainbot	2257	trainbot_drinks.gif	NOWISH Scale: 0 Cap: ? Init: -10000 P: construct EA: hot EA: cold EA: none Article: a
-Luggage-Handling Trainbot	2258	trainbot_bags.gif	NOWISH Scale: 0 Cap: ? Init: -10000 P: construct EA: hot EA: none Article: a
-Ticket-Checking Trainbot	2259	trainbot_check.gif	NOWISH Scale: 0 Cap: ? Init: -10000 P: construct EA: hot EA: none Article: a
-Table-Waiting Trainbot	2260	trainbot_wait.gif	NOWISH Scale: 0 Cap: ? Init: -10000 P: construct Article: a
-Wine-Pairing Trainbot	2261	trainbot_wine.gif	NOWISH Scale: 0 Cap: ? Init: -10000 P: construct EA: sleaze EA: none Article: a
-Table-Bussing Trainbot	2262	trainbot_bus.gif	NOWISH Scale: 0 Cap: ? Init: -10000 P: construct Article: a
-Coal-Shoveling Trainbot	2263	trainbot_coal.gif	NOWISH Scale: 0 Cap: ? Init: -10000 P: construct EA: hot Article: a
-Slag-Processing Trainbot	2264	trainbot_slag.gif	NOWISH Scale: 0 Cap: ? Init: -10000 P: construct EA: hot EA: none Article: a
-Steam-Routing Trainbot	2265	trainbot_steam.gif	NOWISH Scale: 0 Cap: ? Init: -10000 P: construct EA: hot Article: a
+Brake-Operating Trainbot	2254	trainbot_brake.gif	NOINSTAKILL NOWISH Scale: 0 Cap: ? Init: -10000 P: construct Article: a
+Track-Switching Trainbot	2255	trainbot_switch.gif	NOINSTAKILL NOWISH Scale: 0 Cap: ? Init: -10000 P: construct Article: a
+Ping-Pong-Playing Trainbot	2256	trainbot_ping.gif	NOINSTAKILL NOWISH Scale: 0 Cap: ? Init: -10000 P: construct Article: a
+Drink-Delivery Trainbot	2257	trainbot_drinks.gif	NOINSTAKILL NOWISH Scale: 0 Cap: ? Init: -10000 P: construct EA: hot EA: cold EA: none Article: a
+Luggage-Handling Trainbot	2258	trainbot_bags.gif	NOINSTAKILL NOWISH Scale: 0 Cap: ? Init: -10000 P: construct EA: hot EA: none Article: a
+Ticket-Checking Trainbot	2259	trainbot_check.gif	NOINSTAKILL NOWISH Scale: 0 Cap: ? Init: -10000 P: construct EA: hot EA: none Article: a
+Table-Waiting Trainbot	2260	trainbot_wait.gif	NOINSTAKILL NOWISH Scale: 0 Cap: ? Init: -10000 P: construct Article: a
+Wine-Pairing Trainbot	2261	trainbot_wine.gif	NOINSTAKILL NOWISH Scale: 0 Cap: ? Init: -10000 P: construct EA: sleaze EA: none Article: a
+Table-Bussing Trainbot	2262	trainbot_bus.gif	NOINSTAKILL NOWISH Scale: 0 Cap: ? Init: -10000 P: construct Article: a
+Coal-Shoveling Trainbot	2263	trainbot_coal.gif	NOINSTAKILL NOWISH Scale: 0 Cap: ? Init: -10000 P: construct EA: hot Article: a
+Slag-Processing Trainbot	2264	trainbot_slag.gif	NOINSTAKILL NOWISH Scale: 0 Cap: ? Init: -10000 P: construct EA: hot EA: none Article: a
+Steam-Routing Trainbot	2265	trainbot_steam.gif	NOINSTAKILL NOWISH Scale: 0 Cap: ? Init: -10000 P: construct EA: hot Article: a
 The Superconductor	2266	superconductor.gif	BOSS NOCOPY NOMANUEL Scale: 30 Cap: ? HP: 300 Init: -10000 P: construct EA: hot EA: none	The Superconductor's CPU (100)
 
 # Crimbo 2023 (December 2023)
@@ -2942,7 +2942,7 @@ stout smoldering skeleton	2504	c25mobmus4.gif	Scale: 1 Cap: 10000 Init: -10000 P
 half-buried singed skeleton	2506	c25mobfighter7.gif	Scale: 20 Cap: ? Init: -10000 P: undead SKELETON Phys: 50 Elem: 50 ED: hot Article: a	baked bone meal (5)	burnt radius (f28)	burnt rib (f12)
 venomous singed skeleton	2508	c25mobrogue9.gif	Scale: 30 Cap: ? Init: 50 P: undead SKELETON Phys: 50 Elem: 75 ED: hot Article: a Poison: "Really Quite Poisoned"	weak skeleton venom (5)	burnt radius (f28)	burnt rib (f12)
 winged singed skeleton	2507	c25mobwiz8.gif	Scale: 20 Cap: ? Init: 250 P: undead SKELETON Elem: 50 ED: hot Article: a	wing bone (5)	burnt radius (f28)	burnt rib (f12)
-smoldering skeletal monstrosity	2509	noart.gif	NOCOPY NOMANUEL Atk: [1000+1000*pref(_smolderingSkeletonsDefeated)] Def: [1000+1000*pref(_smolderingSkeletonsDefeated)] HP: [4000+1000*pref(_smolderingSkeletonsDefeated)] Init: -10000 P: undead SKELETON ED: hot	burnt rib (f48)	burnt skull (f32)
+smoldering skeletal monstrosity	2509	noart.gif	NOCOPY NOINSTAKILL NOMANUEL Atk: [1000+1000*pref(_smolderingSkeletonsDefeated)] Def: [1000+1000*pref(_smolderingSkeletonsDefeated)] HP: [4000+1000*pref(_smolderingSkeletonsDefeated)] Init: -10000 P: undead SKELETON ED: hot	burnt rib (f48)	burnt skull (f32)
 The Unquiet Bones of Claus	2510	santa_therevenge.gif	NOCOPY NOMANUEL Atk: 500 Def: 500 HP: 3000 Init: -10000 P: undead SKELETON	Skull of Claus (n100)
 
 # Retired Standard Monsters
