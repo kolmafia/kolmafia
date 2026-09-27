@@ -345,6 +345,25 @@ public class MonsterDataTest {
     }
 
     @Test
+    public void canHandleInstakillFlags() {
+      String name = "scary monster";
+      int id = 13;
+      String[] images = {"scary.gif"};
+
+      MonsterData monster = new MonsterData(name, id, images, "BOSS");
+      assertThat(monster.isNoInstakill(), is(true));
+
+      monster = new MonsterData(name, id, images, "NOINSTAKILL");
+      assertThat(monster.isNoInstakill(), is(true));
+
+      monster = new MonsterData(name, id, images, "NOCOPY");
+      assertThat(monster.isNoInstakill(), is(false));
+
+      monster = new MonsterData(name, id, images, "");
+      assertThat(monster.isNoInstakill(), is(false));
+    }
+
+    @Test
     public void canMakeElementalAttackMonsters() {
       String name = "scary monster";
       int id = 13;
