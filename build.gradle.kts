@@ -386,15 +386,15 @@ tasks.jpackage {
 
   linux {
     type = ImageType.DEB
-    icon = file("src/main/jpackage/linux/KoLmafia.ico")
+    icon = file("src/main/resources/icons/KoLmafia.ico")
   }
   mac {
     type = ImageType.DMG
-    icon = file("src/main/jpackage/macosx/limeglass.icns")
+    icon = file("src/main/resources/icons/limeglass.icns")
   }
   windows {
     type = ImageType.EXE
-    icon = file("src/main/jpackage/windows/KoLmafia.ico")
+    icon = file("src/main/resources/icons/KoLmafia.ico")
     winShortcut = true
     winPerUserInstall = true
     javaOptions = listOf("-DuseCWDasROOT=true")
