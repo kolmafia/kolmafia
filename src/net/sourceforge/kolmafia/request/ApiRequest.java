@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.request;
 import com.alibaba.fastjson2.JSONException;
 import com.alibaba.fastjson2.JSONObject;
 import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -76,15 +77,20 @@ public class ApiRequest extends GenericRequest {
 
   private static final AdventureResult TRANSFUNCTIONER = ItemPool.get(ItemPool.TRANSFUNCTIONER);
 
-  public static synchronized void updateStatus(final boolean silent) {
+  public static synchronized void updateStatus(final boolean silent, final What... also) {
     // In certain LimitModes, API status is incomplete, so use Character Pane instead.
 
     if (KoLCharacter.getLimitMode().requiresCharPane()) {
       ApiRequest.updateStatusFromCharpane();
+      // after the charpane, since parsing inventory depends on the limit mode
+      if (also.length > 0) {
+        ApiRequest.refresh(silent, also);
+      }
       return;
     }
 
-    ApiRequest.refresh(silent, What.STATUS);
+    // Request from api both the status, and the other 'what' wanted
+    ApiRequest.refresh(silent, EnumSet.of(What.STATUS, also).toArray(What[]::new));
 
     // Some paths and items have state that is only surfaced on the Character Pane
     if (KoLCharacter.inNoobcore() // absorbs and enchantments

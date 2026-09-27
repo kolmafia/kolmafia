@@ -333,10 +333,7 @@ class TCRSDatabaseTest {
   void deriveAll() throws IOException {
     // Stream mismatches to a file rather than holding them all in memory (exhausts the heap).
     var reportFile =
-        java.nio.file.Path.of(System.getProperty("user.dir"))
-            .getParent()
-            .getParent()
-            .resolve("build/tcrs-deriveAll-mismatches.txt");
+        java.nio.file.Path.of(System.getProperty("buildDir"), "tcrs-deriveAll-mismatches.txt");
     Files.createDirectories(reportFile.getParent());
 
     var count = 0;

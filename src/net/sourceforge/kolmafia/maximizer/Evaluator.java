@@ -346,6 +346,7 @@ public class Evaluator {
     boolean forceCurrent = false;
     int pos = 0;
     Modifier index = null;
+    boolean seenNonLimitTerm = false;
 
     int equipBeeosity = 0;
     int outfitBeeosity = 0;
@@ -378,8 +379,13 @@ public class Evaluator {
       if (keyword.equals("min")) {
         if (index != null) {
           this.min.put(index, weight);
-        } else {
+        } else if (!seenNonLimitTerm) {
           this.totalMin = weight;
+        } else {
+          KoLmafia.updateDisplay(
+              MafiaState.ERROR,
+              "min must follow a modifier or appear at the start of the expression");
+          return;
         }
         continue;
       }
@@ -387,11 +393,19 @@ public class Evaluator {
       if (keyword.equals("max")) {
         if (index != null) {
           this.max.put(index, weight);
-        } else {
+        } else if (!seenNonLimitTerm) {
           this.totalMax = weight;
+        } else {
+          KoLmafia.updateDisplay(
+              MafiaState.ERROR,
+              "max must follow a modifier or appear at the start of the expression");
+          return;
         }
         continue;
       }
+
+      seenNonLimitTerm = true;
+      index = null;
 
       if (keyword.equals("dump")) {
         this.dump = (int) weight;
@@ -540,8 +554,9 @@ public class Evaluator {
           return;
         }
         if (weight > 0.0) {
-          this.posEquip.add(match.item());
-          equipBeeosity += KoLCharacter.getBeeosity(match.item().getName());
+          if (this.posEquip.add(match.item())) {
+            equipBeeosity += KoLCharacter.getBeeosity(match.item().getName());
+          }
         } else {
           this.negEquip.add(match.item());
         }
@@ -663,10 +678,6 @@ public class Evaluator {
         }
         if (hadFamiliar && weight < 0.0) continue;
         FamiliarData fam = KoLCharacter.usableFamiliar(id);
-        if (fam == null && weight > 1.0) { // Allow a familiar to be faked for testing
-          fam = new FamiliarData(id);
-          fam.setWeight((int) weight);
-        }
         hadFamiliar = fam != null;
         if (fam != null
             && !fam.equals(KoLCharacter.getFamiliar())

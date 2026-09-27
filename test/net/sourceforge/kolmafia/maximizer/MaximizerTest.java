@@ -263,6 +263,15 @@ public class MaximizerTest {
                     containsString("(maximum achieved, no further combinations checked)"))));
       }
     }
+
+    @Test
+    void maximumAfterNonModifierTermIsInvalid() {
+      assertFalse(maximize("2 da, hat, 3 max, -tie"));
+
+      assertThat(
+          KoLmafia.lastMessage,
+          is("max must follow a modifier or appear at the start of the expression"));
+    }
   }
 
   @Nested
@@ -315,6 +324,15 @@ public class MaximizerTest {
       modifiers.setDouble(DoubleModifier.DAMAGE_ABSORPTION, 2.0);
       evaluator.getScore(modifiers);
       assertFalse(evaluator.failed);
+    }
+
+    @Test
+    void minimumAfterNonModifierTermIsInvalid() {
+      assertFalse(maximize("2 da, hat, 3 min, -tie"));
+
+      assertThat(
+          KoLmafia.lastMessage,
+          is("min must follow a modifier or appear at the start of the expression"));
     }
   }
 
@@ -746,6 +764,24 @@ public class MaximizerTest {
         maximize("mys");
         assertThat(
             getBoosts(), hasItem(recommendsSlot(Slot.HAT, "bubblewrap bottlecap turtleban")));
+      }
+    }
+
+    @Test
+    void duplicateTwoBeeRequirementDoesNotAllowAThirdBee() {
+      try (var cleanups =
+          new Cleanups(
+              withPath(Path.BEES_HATE_YOU),
+              withEquippableItem("Buddy Bjorn"),
+              withEquippableItem("bounty-hunting helmet"))) {
+        // Buddy Bjorn has two Bs. Requiring it twice must not raise the allowance to four.
+        assertTrue(
+            maximize(
+                "equip Buddy Bjorn, equip Buddy Bjorn, 100 bonus bounty-hunting helmet, -tie"));
+
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.CONTAINER, "Buddy Bjorn")));
+        // The one-B helmet's bonus ensures it would be recommended if a third B were allowed.
+        assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.HAT, "bounty-hunting helmet"))));
       }
     }
 
@@ -4183,10 +4219,10 @@ public class MaximizerTest {
   }
 
   @Test
-  void weightedPositiveSwitchCanUseAnUnownedFamiliar() {
+  void weightedPositiveSwitchCannotUseAnUnownedFamiliar() {
     assertTrue(maximize("2 switch Baby Gravy Fairy, item drop"));
 
-    assertThat(getBoosts(), hasItem(hasProperty("cmd", is("familiar Baby Gravy Fairy"))));
+    assertThat(getBoosts(), not(hasItem(hasProperty("cmd", is("familiar Baby Gravy Fairy")))));
   }
 
   @Test
