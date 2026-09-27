@@ -4779,4 +4779,15 @@ public class FightRequestTest {
       }
     }
   }
+
+  @Test
+  void handlesMeatShieldMaidenBlessing() {
+    var cleanups = new Cleanups(withFight(), withProperty("_blessingShieldStenchReceived", false));
+
+    try (cleanups) {
+      parseCombatData(
+          "request/test_fight_msm_protectme.html", "fight.php?action=skill&whichskill=7597");
+      assertThat("_blessingShieldStenchReceived", isSetTo(true));
+    }
+  }
 }
