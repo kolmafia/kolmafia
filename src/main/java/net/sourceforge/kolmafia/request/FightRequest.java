@@ -9037,6 +9037,14 @@ public class FightRequest extends GenericRequest {
     return false;
   }
 
+  private static boolean handleMeatShieldMaidenBlessing(String text, String element, int effectId) {
+    if (text.contains(EffectDatabase.getEffectName(effectId))) {
+      Preferences.setBoolean("_blessingShield" + element + "Received", true);
+      return true;
+    }
+    return false;
+  }
+
   private static void logSkillAcquisition(String skillName, final TagStatus status) {
     FightRequest.logText("You acquire a skill: " + skillName, status);
   }
@@ -11309,6 +11317,22 @@ public class FightRequest extends GenericRequest {
           Preferences.decrement("exerciseLiquidityCharges");
           skillSuccess = true;
         }
+      }
+      case SkillPool.PROTECT_ME -> {
+        boolean blessingAcquired =
+            handleMeatShieldMaidenBlessing(
+                    responseText, "Physical", EffectPool.BLESSING_WIND_SHIELD)
+                || handleMeatShieldMaidenBlessing(
+                    responseText, "Hot", EffectPool.BLESSING_HEAT_SHIELD)
+                || handleMeatShieldMaidenBlessing(
+                    responseText, "Cold", EffectPool.BLESSING_RIOT_SHIELD)
+                || handleMeatShieldMaidenBlessing(
+                    responseText, "Spooky", EffectPool.BLESSING_MENTAL_SHIELD)
+                || handleMeatShieldMaidenBlessing(
+                    responseText, "Stench", EffectPool.BLESSING_PRIVACY_SHIELD)
+                || handleMeatShieldMaidenBlessing(
+                    responseText, "Sleaze", EffectPool.BLESSING_TAX_SHIELD);
+        skillSuccess |= blessingAcquired;
       }
     }
 
