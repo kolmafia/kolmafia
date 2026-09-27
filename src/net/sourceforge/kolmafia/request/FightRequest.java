@@ -462,21 +462,6 @@ public class FightRequest extends GenericRequest {
     "hard to smell anything in this crowd"
   };
 
-  private static final Map<String, Integer> MEAT_SHIELD_MAIDEN_BLESSINGS =
-      Map.of(
-          "Hot",
-          EffectPool.BLESSING_HEAT_SHIELD,
-          "Cold",
-          EffectPool.BLESSING_RIOT_SHIELD,
-          "Spooky",
-          EffectPool.BLESSING_MENTAL_SHIELD,
-          "Stench",
-          EffectPool.BLESSING_PRIVACY_SHIELD,
-          "Sleaze",
-          EffectPool.BLESSING_TAX_SHIELD,
-          "Physical",
-          EffectPool.BLESSING_WIND_SHIELD);
-
   public enum SpecialMonster {
     // Individual monsters
     ANCIENT_PROTECTOR_SPIRIT("Ancient Protector Spirit"),
@@ -9052,6 +9037,14 @@ public class FightRequest extends GenericRequest {
     return false;
   }
 
+  private static boolean handleMeatShieldMaidenBlessing(String text, String element, int effectId) {
+    if (text.contains(EffectDatabase.getEffectName(effectId))) {
+      Preferences.setBoolean("_blessingShield" + element + "Received", true);
+      return true;
+    }
+    return false;
+  }
+
   private static void logSkillAcquisition(String skillName, final TagStatus status) {
     FightRequest.logText("You acquire a skill: " + skillName, status);
   }
@@ -11326,13 +11319,20 @@ public class FightRequest extends GenericRequest {
         }
       }
       case SkillPool.PROTECT_ME -> {
-        for (Map.Entry<String, Integer> e : MEAT_SHIELD_MAIDEN_BLESSINGS.entrySet()) {
-          if (responseText.contains(EffectDatabase.getEffectName(e.getValue()))) {
-            Preferences.setBoolean("_blessingShield" + e.getKey() + "Received", true);
-            skillSuccess = true;
-            break;
-          }
-        }
+        boolean blessingAcquired =
+            handleMeatShieldMaidenBlessing(
+                    responseText, "Physical", EffectPool.BLESSING_WIND_SHIELD)
+                || handleMeatShieldMaidenBlessing(
+                    responseText, "Hot", EffectPool.BLESSING_HEAT_SHIELD)
+                || handleMeatShieldMaidenBlessing(
+                    responseText, "Cold", EffectPool.BLESSING_RIOT_SHIELD)
+                || handleMeatShieldMaidenBlessing(
+                    responseText, "Spooky", EffectPool.BLESSING_MENTAL_SHIELD)
+                || handleMeatShieldMaidenBlessing(
+                    responseText, "Stench", EffectPool.BLESSING_PRIVACY_SHIELD)
+                || handleMeatShieldMaidenBlessing(
+                    responseText, "Sleaze", EffectPool.BLESSING_TAX_SHIELD);
+        skillSuccess |= blessingAcquired;
       }
     }
 
