@@ -3499,20 +3499,6 @@ public abstract class KoLCharacter {
     return !inSlowcore();
   }
 
-  /** The adventures granted at rollover, before anything else contributes. */
-  public static final int rolloverAdventuresGranted() {
-    return (int)
-        ModifierDatabase.getNumericModifier(
-            ModifierType.BASE, "Rollover", DoubleModifier.ADVENTURES);
-  }
-
-  /** The PvP fights granted at rollover, before anything else contributes. */
-  public static final int rolloverPvpFightsGranted() {
-    return (int)
-        ModifierDatabase.getNumericModifier(
-            ModifierType.BASE, "Rollover", DoubleModifier.PVP_FIGHTS);
-  }
-
   public static final boolean isUnarmed() {
     AdventureResult weapon = EquipmentManager.getEquipment(Slot.WEAPON);
     AdventureResult offhand = EquipmentManager.getEquipment(Slot.OFFHAND);

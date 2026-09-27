@@ -668,7 +668,7 @@ public class Modifiers {
         }
         break;
       case ADVENTURES:
-        if (KoLCharacter.canGainRolloverAdventures() || isRolloverGrant(type, key)) {
+        if (KoLCharacter.canGainRolloverAdventures() || type == ModifierType.BASE) {
           this.doubles.increment(mod, value);
         }
         break;
@@ -676,11 +676,6 @@ public class Modifiers {
         this.doubles.increment(mod, value);
         break;
     }
-  }
-
-  /** Whether this is the grant rollover itself provides, rather than a bonus on top of it. */
-  private static boolean isRolloverGrant(final ModifierType type, final IntOrString key) {
-    return type == ModifierType.BASE && "Rollover".equalsIgnoreCase(key.getStringValue());
   }
 
   public void addBitmap(BitmapModifier modifier, int bit) {
@@ -1095,8 +1090,7 @@ public class Modifiers {
   }
 
   public final void applyBaseModifiers() {
-    this.add(ModifierDatabase.getModifiers(ModifierType.BASE, "Base"));
-    this.add(ModifierDatabase.getModifiers(ModifierType.BASE, "Rollover"));
+    this.add(ModifierDatabase.getModifiers(ModifierType.BASE, ""));
   }
 
   public final void applyAdditionalRolloverAdventureModifiers() {

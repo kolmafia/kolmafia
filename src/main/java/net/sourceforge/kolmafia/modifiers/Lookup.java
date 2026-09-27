@@ -30,11 +30,6 @@ public class Lookup {
           case ITEM, ETERNITY_CODPIECE -> new IntOrString(ItemDatabase.getExactItemId(name));
           case EFFECT -> new IntOrString(EffectDatabase.getEffectId(name, true));
           case SKILL -> new IntOrString(SkillDatabase.getSkillId(name, true));
-          case BASE ->
-              new IntOrString(
-                  name.equalsIgnoreCase("Rollover")
-                      ? "Rollover"
-                      : name.equalsIgnoreCase("Base") ? "Base" : name);
           default -> new IntOrString(name);
         };
     if (EnumSet.of(
