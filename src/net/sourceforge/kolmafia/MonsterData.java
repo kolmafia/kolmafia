@@ -58,6 +58,7 @@ public class MonsterData extends AdventureResult {
     BOSS("BOSS"),
     NOBANISH("NOBANISH"),
     NOCOPY("NOCOPY"),
+    NOINSTAKILL("NOINSTAKILL"),
     NOMANUEL("NOMANUEL"),
     NOWISH("NOWISH"),
     WISH("WISH"),
@@ -285,6 +286,7 @@ public class MonsterData extends AdventureResult {
           case BOSS,
               NOBANISH,
               NOCOPY,
+              NOINSTAKILL,
               NOMANUEL,
               NOWISH,
               WISH,
@@ -401,6 +403,7 @@ public class MonsterData extends AdventureResult {
     saveKeywordAttribute(Attribute.BOSS, attributeMap, buf);
     saveKeywordAttribute(Attribute.NOBANISH, attributeMap, buf);
     saveKeywordAttribute(Attribute.NOCOPY, attributeMap, buf);
+    saveKeywordAttribute(Attribute.NOINSTAKILL, attributeMap, buf);
     saveKeywordAttribute(Attribute.NOMANUEL, attributeMap, buf);
     saveKeywordAttribute(Attribute.NOWISH, attributeMap, buf);
     saveKeywordAttribute(Attribute.WISH, attributeMap, buf);
@@ -691,6 +694,7 @@ public class MonsterData extends AdventureResult {
   private final boolean boss;
   private final boolean noBanish;
   private final boolean noCopy;
+  private final boolean noInstakill;
   private final boolean noManuel;
   private final boolean noWish;
   private boolean transformed; // from CLEESH and such
@@ -751,6 +755,7 @@ public class MonsterData extends AdventureResult {
     this.boss = attributes.containsKey(Attribute.BOSS);
     this.noBanish = attributes.containsKey(Attribute.NOBANISH);
     this.noCopy = attributes.containsKey(Attribute.NOCOPY);
+    this.noInstakill = attributes.containsKey(Attribute.NOINSTAKILL);
     this.noManuel = attributes.containsKey(Attribute.NOMANUEL);
     this.noWish =
         attributes.containsKey(Attribute.WISH)
@@ -865,6 +870,7 @@ public class MonsterData extends AdventureResult {
     this.boss = monster.boss;
     this.noBanish = monster.noBanish;
     this.noCopy = monster.noCopy;
+    this.noInstakill = monster.noInstakill;
     this.transformed = monster.transformed;
     this.type = monster.type;
     this.image = monster.image;
@@ -1755,6 +1761,10 @@ public class MonsterData extends AdventureResult {
     // NOCOPY mimics the ingame `noputty` flag which blocks McTwist
     // BOSS blocks instakill and copying separately
     return this.noCopy || this.boss;
+  }
+
+  public boolean isNoInstakill() {
+    return this.noInstakill || this.boss;
   }
 
   public boolean isNoWish() {

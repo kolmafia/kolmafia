@@ -1685,6 +1685,7 @@ public class ProxyRecordValue extends RecordValue {
             .add("poison", DataTypes.EFFECT_TYPE)
             .add("boss", DataTypes.BOOLEAN_TYPE)
             .add("copyable", DataTypes.BOOLEAN_TYPE)
+            .add("instakillable", DataTypes.BOOLEAN_TYPE)
             .add("wishable", DataTypes.BOOLEAN_TYPE)
             .add("image", DataTypes.STRING_TYPE)
             .add("images", new PluralValueType(DataTypes.STRING_TYPE))
@@ -1849,6 +1850,10 @@ public class ProxyRecordValue extends RecordValue {
 
     public boolean get_copyable() {
       return this.content != null && !(((MonsterData) this.content).isNoCopy());
+    }
+
+    public boolean get_instakillable() {
+      return this.content != null && !(((MonsterData) this.content).isNoInstakill());
     }
 
     public boolean get_wishable() {
