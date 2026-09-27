@@ -1276,8 +1276,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       }
 
       try (var cleanups = withPath(Path.SLOW_AND_STEADY)) {
-        assertThat(
-            execute("numeric_modifier(\"Base\", \"Adventures\")"), is("Returned: 100.0\n"));
+        assertThat(execute("numeric_modifier(\"Base\", \"Adventures\")"), is("Returned: 100.0\n"));
       }
     }
 
