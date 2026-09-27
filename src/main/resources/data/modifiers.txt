@@ -5,6 +5,9 @@
 # ^ is exponentiation, with the highest precedence.
 # Functions available:
 #	ceil(x) floor(x) sqrt(x) min(x,y) max(x,y) abs(x)
+# Conditional function: if(cond,value,...,otherwise)
+#	Takes any number of cond,value pairs followed by a final value. Returns the
+#	value of the first pair whose cond is nonzero, or the final value if none are.
 # Location functions: loc(text) zone(text) env(text)
 #	These have a value of 1 if the current adventure location, zone, or environment
 #	contains the specified text, 0 elsewhere.
