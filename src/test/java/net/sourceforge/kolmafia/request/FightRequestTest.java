@@ -2878,6 +2878,7 @@ public class FightRequestTest {
               withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR),
               withProperty("wereProfessorResearchPoints", 11),
               withProperty("wereProfessorAdvancedResearch", "1000,10,30,20"),
+              withNextMonster("Beaver"),
               withFight(1));
       try (cleanups) {
         String html = html("request/test_fight_research_advanced_success.html");
@@ -2897,6 +2898,7 @@ public class FightRequestTest {
               withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR),
               withProperty("wereProfessorResearchPoints", 11),
               withProperty("wereProfessorAdvancedResearch", "1000,10,30,20"),
+              withNextMonster("Beaver"),
               withFight(1));
       try (cleanups) {
         String html = html("request/test_fight_research_advanced_failed.html");

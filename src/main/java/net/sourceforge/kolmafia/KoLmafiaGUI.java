@@ -30,6 +30,7 @@ import net.sourceforge.kolmafia.swingui.CalendarFrame;
 import net.sourceforge.kolmafia.swingui.ClanManageFrame;
 import net.sourceforge.kolmafia.swingui.ContactListFrame;
 import net.sourceforge.kolmafia.swingui.FamiliarTrainingFrame;
+import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.swingui.ItemManageFrame;
 import net.sourceforge.kolmafia.swingui.LoginFrame;
 import net.sourceforge.kolmafia.swingui.MuseumFrame;
@@ -172,7 +173,7 @@ public class KoLmafiaGUI {
     }
 
     try {
-      Class<?> frameClass = Class.forName("net.sourceforge.kolmafia.swingui." + frameName);
+      Class<?> frameClass = Class.forName(GenericFrame.class.getPackageName() + "." + frameName);
       KoLmafiaGUI.constructFrame(frameClass);
     } catch (ClassNotFoundException e) {
       // Can happen if preference file made by an earlier
