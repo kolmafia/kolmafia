@@ -36,6 +36,8 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.listener.Listener;
+import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.maximizer.Boost;
 import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.moods.MoodTrigger;
@@ -75,7 +77,7 @@ It is meant so that you can simply instantiate ShowDescriptionTable instead of S
 and all the "List-specific" methods will be provided in adapter methods.
 */
 
-public class ShowDescriptionTable<E> extends JXTable {
+public class ShowDescriptionTable<E> extends JXTable implements Listener {
   public JPopupMenu contextMenu;
   public ListElementFilter filter;
 
@@ -277,6 +279,14 @@ public class ShowDescriptionTable<E> extends JXTable {
 
     // install a handler to provide saner clipboard behavior
     this.setTransferHandler(new ClipboardHandler());
+    if (List.of(colNames).contains("autosell")) {
+      PreferenceListenerRegistry.registerPreferenceListener("autoSellingShorts", this);
+    }
+  }
+
+  @Override
+  public void update() {
+    SwingUtilities.invokeLater(() -> this.displayModel.updateFilter(true));
   }
 
   protected void fireSearch(String searchField) {

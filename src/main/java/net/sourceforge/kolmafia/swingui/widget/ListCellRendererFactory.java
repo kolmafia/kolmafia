@@ -33,6 +33,7 @@ import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.AutoSellRequest;
 import net.sourceforge.kolmafia.request.CafeRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
@@ -214,7 +215,7 @@ public class ListCellRendererFactory {
       int itemId = ar.getItemId();
 
       if (itemId > 0) {
-        int value = ItemDatabase.getPriceById(itemId);
+        int value = AutoSellRequest.getEffectiveAutosellPrice(itemId);
 
         if (value <= 0) {
           stringForm.append(" (no-sell)");
@@ -265,7 +266,7 @@ public class ListCellRendererFactory {
       int itemId = icr.getItemId();
 
       if (itemId > 0) {
-        int value = ItemDatabase.getPriceById(itemId);
+        int value = AutoSellRequest.getEffectiveAutosellPrice(itemId);
 
         if (value <= 0) {
           stringForm.append(" (no-sell)");

@@ -4065,7 +4065,11 @@ public class RelayRequest extends PasswordHashRequest {
     // If it gets this far, it's a normal file.  Go ahead and
     // process it accordingly.
 
-    super.run();
+    if (path.equals("sellstuff.php") || path.equals("sellstuff_ugly.php")) {
+      AutoSellRequest.withSellingShorts(this, super::run);
+    } else {
+      super.run();
+    }
 
     if (this.responseCode == 302) {
       this.pseudoResponse("HTTP/1.1 302 Found", this.redirectLocation);
