@@ -227,16 +227,13 @@ class MaximizerExpression {
   }
 
   private static ModifierLimits defaultLimitsFor(Modifier modifier) {
-    if (modifier == BitmapModifier.CLOWNINESS) {
-      return new ModifierLimits(100.0, 100.0);
-    }
-    if (modifier == BitmapModifier.RAVEOSITY) {
-      return new ModifierLimits(7.0, 7.0);
-    }
-    if (modifier == BitmapModifier.SURGEONOSITY) {
-      return new ModifierLimits(1.0, 5.0);
-    }
-    return null;
+    return switch (modifier) {
+      case BitmapModifier.CLOWNINESS -> new ModifierLimits(100.0, 100.0);
+      case BitmapModifier.RAVEOSITY -> new ModifierLimits(7.0, 7.0);
+      case BitmapModifier.SURGEONOSITY -> new ModifierLimits(1.0, 5.0);
+      case null -> null;
+      default -> null;
+    };
   }
 
   static final String TIEBREAKER =
