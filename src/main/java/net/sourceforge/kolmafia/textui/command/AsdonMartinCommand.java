@@ -105,7 +105,13 @@ public class AsdonMartinCommand extends AbstractCommand {
           driveCommand(params[1], params.length > 2 ? params[2] : null);
         }
       }
-      case "fuel" -> fuelCommand(parameters.substring(5));
+      case "fuel" -> {
+        if (params.length < 2) {
+          printUsage();
+        } else {
+          fuelCommand(parameters.trim().substring(5));
+        }
+      }
       default -> printUsage();
     }
   }
