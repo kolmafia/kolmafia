@@ -2146,6 +2146,12 @@ public class FightRequest extends GenericRequest {
       FightRequest.transformed = false;
     }
 
+    // Ensure that we won't try to carry over stale Manuel data if we for some reason do not parse a
+    // Manuel stat block out of this round's text. We expect this would only happen if switching
+    // from a researched monster into an unresearched monster. Do it after handling a transform so
+    // that we retain the stats we glimpsed if switching into an unresearched monster.
+    MonsterStatusTracker.resetManuelSeen();
+
     // If you twiddled, nothing more to do with this round.  We may
     // have reparsed the monster, but the round does not advance.
     if (responseText.contains("You twiddle your thumbs.")) {

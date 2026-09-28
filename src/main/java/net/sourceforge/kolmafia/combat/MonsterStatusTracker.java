@@ -20,29 +20,34 @@ public class MonsterStatusTracker {
   private static int healthManuel = 0;
   private static int attackManuel = 0;
   private static int defenseManuel = 0;
-  private static boolean manuelFound = false;
+  private static ManuelStatus manuelStatus = ManuelStatus.UNSEEN;
   private static int originalHealth = 0;
   private static int originalAttack = 0;
   private static int originalDefense = 0;
 
   private MonsterStatusTracker() {}
 
+  private enum ManuelStatus {
+    UNSEEN,
+    SEEN_THIS_FIGHT,
+    SEEN_THIS_ROUND;
+  }
+
   public static void reset() {
     reset(false);
   }
 
   public static void reset(boolean fromTransform) {
-    MonsterStatusTracker.healthModifier = 0;
-    MonsterStatusTracker.attackModifier = 0;
-    MonsterStatusTracker.defenseModifier = 0;
-
     // If we're resetting due to a transform, the Manuel stats that were recently parsed (if any)
     // are still valid.
-    if (!fromTransform) {
+    if (!fromTransform || manuelStatus != ManuelStatus.SEEN_THIS_ROUND) {
+      MonsterStatusTracker.healthModifier = 0;
+      MonsterStatusTracker.attackModifier = 0;
+      MonsterStatusTracker.defenseModifier = 0;
       MonsterStatusTracker.healthManuel = 0;
       MonsterStatusTracker.attackManuel = 0;
       MonsterStatusTracker.defenseManuel = 0;
-      MonsterStatusTracker.manuelFound = false;
+      MonsterStatusTracker.manuelStatus = ManuelStatus.UNSEEN;
     }
   }
 
@@ -79,7 +84,7 @@ public class MonsterStatusTracker {
 
       // If we just transformed, use the stats we just parsed from Manuel (if any) instead of
       // estimating new ones.
-      if (fromTransform && MonsterStatusTracker.manuelFound) {
+      if (fromTransform && manuelStatus == ManuelStatus.SEEN_THIS_ROUND) {
         MonsterStatusTracker.originalHealth = MonsterStatusTracker.healthManuel;
         MonsterStatusTracker.originalAttack = MonsterStatusTracker.attackManuel;
         MonsterStatusTracker.originalDefense = MonsterStatusTracker.defenseManuel;
@@ -307,23 +312,29 @@ public class MonsterStatusTracker {
     // If we don't know anything about this monster, assume that
     // Manuel is showing the original stats - even though, as
     // described above, that's not always the case.
-    if (!manuelFound && MonsterStatusTracker.originalAttack == 0) {
+    if (manuelStatus == ManuelStatus.UNSEEN && MonsterStatusTracker.originalAttack == 0) {
       MonsterStatusTracker.originalAttack = attack;
       MonsterStatusTracker.originalDefense = defense;
       MonsterStatusTracker.originalHealth = hp;
     }
 
-    MonsterStatusTracker.manuelFound = true;
+    manuelStatus = ManuelStatus.SEEN_THIS_ROUND;
   }
 
   public static void applyManuelStats() {
-    if (manuelFound) {
+    if (manuelStatus == ManuelStatus.SEEN_THIS_ROUND) {
       MonsterStatusTracker.attackModifier =
           MonsterStatusTracker.attackManuel - MonsterStatusTracker.originalAttack;
       MonsterStatusTracker.defenseModifier =
           MonsterStatusTracker.defenseManuel - MonsterStatusTracker.originalDefense;
       MonsterStatusTracker.healthModifier =
           MonsterStatusTracker.originalHealth - MonsterStatusTracker.healthManuel;
+    }
+  }
+
+  public static void resetManuelSeen() {
+    if (manuelStatus != ManuelStatus.UNSEEN) {
+      manuelStatus = ManuelStatus.SEEN_THIS_FIGHT;
     }
   }
 }
