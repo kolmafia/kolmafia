@@ -88,7 +88,7 @@ class CustomScriptTest {
               });
     }
 
-    // Looks for the file "test/root/expected/" + script + ".out".
+    // Looks for the file "src/test/root/expected/" + script + ".out".
     private static String getExpectedOutput(String script) throws IOException {
       return Files.readString(new File(EXPECTED_LOCATION, script + ".out").toPath());
     }

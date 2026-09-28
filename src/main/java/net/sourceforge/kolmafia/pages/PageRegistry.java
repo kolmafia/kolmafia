@@ -36,7 +36,8 @@ public class PageRegistry {
     Class<?> pageClass = null;
 
     try {
-      String className = "net.sourceforge.kolmafia.pages." + path.substring(0, path.length() - 4);
+      String className =
+          PageRegistry.class.getPackageName() + "." + path.substring(0, path.length() - 4);
 
       pageClass = Class.forName(className);
     } catch (ClassNotFoundException e) {
