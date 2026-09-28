@@ -4817,29 +4817,33 @@ public class FightRequestTest {
   }
 
   @Test
-  void manuelStatsNotCarriedOverWhenSwitchPageHasNoManuel() {
-    var cleanups = new Cleanups(withFight(), withMuscle(300, 500), withMoxie(300, 500));
+  void manuelStatsHandledCorrectlyWhenSwitchingIntoUnresearchedMonster() {
+    var cleanups = new Cleanups(withFight());
 
     try (cleanups) {
-      String fightInitPage = "request/test_fight_manuel_switchmonster_init.html";
+      String fightInitPage = "request/test_fight_switchmonster_intounknown_init.html";
       GenericRequest request = new GenericRequest("fight.php");
       request.responseText = html(fightInitPage);
       AdventureRequest.registerEncounter(request);
       parseCombatData(fightInitPage, "fight.php");
-      assertThat(MonsterStatusTracker.getMonsterAttack(), is(21));
+      assertThat(MonsterStatusTracker.getLastMonsterName(), is("dairy goat"));
+      assertThat(MonsterStatusTracker.getMonsterAttack(), is(169));
 
-      var switchPage =
-          html("request/test_fight_manuel_switchmonster_feesh.html")
-              .replaceFirst("<td id='fstats'><table>.*?</table>", "<td id='fstats'>");
-      var location = "fight.php?action=skill&whichskill=7570";
-      FightRequest.registerRequest(true, location);
-      FightRequest.updateCombatData(location, null, switchPage);
+      // Switchmonster into a pig, which is not in our Manuel but still displays stats for one
+      // round.
+      parseCombatData(
+          "request/test_fight_switchmonster_intounknown_pigify.html",
+          "fight.php?action=useitem&whichitem=7518&whichitem2=0");
+      assertThat(MonsterStatusTracker.getLastMonsterName(), is("pig"));
+      assertThat(MonsterStatusTracker.getMonsterAttack(), is(118));
 
-      var monster = MonsterStatusTracker.getLastMonster();
-      assertThat(monster.getName(), is("some fish"));
-      assertThat(MonsterStatusTracker.getMonsterAttack(), is(monster.getAttack()));
-      assertThat(MonsterStatusTracker.getMonsterDefense(), is(monster.getDefense()));
-      assertThat(MonsterStatusTracker.getMonsterHealth(), is(monster.getHP()));
+      // After one combat round, we no longer get a stat block and rely on internal tracking. Gob of
+      // wet hair decreases attack by 3.
+      parseCombatData(
+          "request/test_fight_switchmonster_intounknown_nextround.html",
+          "fight.php?action=useitem&whichitem=1922&whichitem2=0");
+      assertThat(MonsterStatusTracker.getLastMonsterName(), is("pig"));
+      assertThat(MonsterStatusTracker.getMonsterAttack(), is(115));
     }
   }
 
