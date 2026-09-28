@@ -6,10 +6,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.ObjectStreamClass;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -21,7 +19,6 @@ import net.sourceforge.kolmafia.AreaCombatData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.session.CrystalBallManager;
@@ -39,25 +36,6 @@ public class AdventureQueueDatabase implements Serializable {
 
   private static TreeMap<String, RollingLinkedList<String>> COMBAT_QUEUE = new TreeMap<>();
   private static TreeMap<String, RollingLinkedList<String>> NONCOMBAT_QUEUE = new TreeMap<>();
-
-  private static final String SERIALIZED_PACKAGE = "net.sourceforge.kolmafia.";
-
-  private static class RunningPackageInputStream extends ObjectInputStream {
-    RunningPackageInputStream(InputStream in) throws IOException {
-      super(in);
-    }
-
-    @Override
-    protected Class<?> resolveClass(ObjectStreamClass desc)
-        throws IOException, ClassNotFoundException {
-      var name = desc.getName();
-      if (!name.startsWith(SERIALIZED_PACKAGE)) {
-        return super.resolveClass(desc);
-      }
-      return Class.forName(
-          KoLmafia.class.getPackageName() + "." + name.substring(SERIALIZED_PACKAGE.length()));
-    }
-  }
 
   // for testing only, otherwise leave at true;
   public static boolean allowSerializationWrite = true;
@@ -239,7 +217,7 @@ public class AdventureQueueDatabase implements Serializable {
       return;
     }
     try {
-      try (ObjectInputStream in = new RunningPackageInputStream(new FileInputStream(file))) {
+      try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(file))) {
         List<TreeMap<String, RollingLinkedList<String>>> queues =
             (List<TreeMap<String, RollingLinkedList<String>>>) in.readObject();
 
