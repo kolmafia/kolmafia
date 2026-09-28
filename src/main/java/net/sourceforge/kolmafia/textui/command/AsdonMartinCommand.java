@@ -1,6 +1,5 @@
 package net.sourceforge.kolmafia.textui.command;
 
-import java.util.List;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
@@ -14,53 +13,76 @@ import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class AsdonMartinCommand extends AbstractCommand {
 
-  private record DriveStyle(String name, int driveId, AdventureResult effect) {}
+  private enum DrivingStyle {
+    OBNOXIOUSLY("Obnoxiously", 0, EffectPool.OBNOXIOUSLY),
+    STEALTHILY("Stealthily", 1, EffectPool.STEALTHILY),
+    WASTEFULLY("Wastefully", 2, EffectPool.WASTEFULLY),
+    SAFELY("Safely", 3, EffectPool.SAFELY),
+    RECKLESSLY("Recklessly", 4, EffectPool.RECKLESSLY),
+    QUICKLY("Quickly", 5, EffectPool.QUICKLY),
+    INTIMIDATINGLY("Intimidatingly", 6, EffectPool.INTIMIDATINGLY),
+    OBSERVANTLY("Observantly", 7, EffectPool.OBSERVANTLY),
+    WATERPROOFLY("Waterproofly", 8, EffectPool.WATERPROOFLY);
 
-  private static final DriveStyle[] DRIVESTYLE =
-      new DriveStyle[] {
-        new DriveStyle("Obnoxiously", 0, EffectPool.get(EffectPool.OBNOXIOUSLY)),
-        new DriveStyle("Stealthily", 1, EffectPool.get(EffectPool.STEALTHILY)),
-        new DriveStyle("Wastefully", 2, EffectPool.get(EffectPool.WASTEFULLY)),
-        new DriveStyle("Safely", 3, EffectPool.get(EffectPool.SAFELY)),
-        new DriveStyle("Recklessly", 4, EffectPool.get(EffectPool.RECKLESSLY)),
-        new DriveStyle("Quickly", 5, EffectPool.get(EffectPool.QUICKLY)),
-        new DriveStyle("Intimidatingly", 6, EffectPool.get(EffectPool.INTIMIDATINGLY)),
-        new DriveStyle("Observantly", 7, EffectPool.get(EffectPool.OBSERVANTLY)),
-        new DriveStyle("Waterproofly", 8, EffectPool.get(EffectPool.WATERPROOFLY)),
-      };
+    private final String name;
+    private final int driveId;
+    private final AdventureResult effect;
+
+    DrivingStyle(final String name, final int driveId, final int effectId) {
+      this.name = name;
+      this.driveId = driveId;
+      this.effect = EffectPool.get(effectId);
+    }
+
+    static DrivingStyle find(final String name) {
+      for (var style : values()) {
+        if (style.name.equalsIgnoreCase(name)) {
+          return style;
+        }
+      }
+      return null;
+    }
+
+    static DrivingStyle current() {
+      for (var style : values()) {
+        if (KoLConstants.activeEffects.contains(style.effect)) {
+          return style;
+        }
+      }
+      return null;
+    }
+  }
 
   public AsdonMartinCommand() {
     this.usage =
-        " drive style|clear, fuel [#] item name  - Get drive buff or convert items to fuel";
+        " drive style [times]|clear, fuel [#] item name  - Get drive buff or convert items to fuel";
   }
 
-  private static int findDriveStyle(final String name) {
-    for (DriveStyle driveStyle : DRIVESTYLE) {
-      if (name.equalsIgnoreCase(driveStyle.name)) {
-        return driveStyle.driveId;
-      }
-    }
-    return -1;
+  private static void undrive(final DrivingStyle style) {
+    RequestThread.postRequest(
+        new GenericRequest("campground.php?pwd&preaction=undrive&stop=Stop+Driving+" + style.name));
   }
 
-  private static String driveStyleName(final int index) {
-    if (index < 0 || index > 8) {
-      return null;
-    }
-    return DRIVESTYLE[index].name;
+  private static void drive(final DrivingStyle style, final int times) {
+    post("campground.php?pwd&preaction=drive&whichdrive=" + style.driveId, times);
   }
 
-  private static int currentDriveStyle() {
-    List<AdventureResult> active = KoLConstants.activeEffects;
-    for (DriveStyle driveStyle : DRIVESTYLE) {
-      if (active.contains(driveStyle.effect)) {
-        return driveStyle.driveId;
-      }
-    }
-    return -1;
+  private static void driveMore(final int times) {
+    var style = DrivingStyle.current();
+    post(
+        "campground.php?pwd&preaction=drive&whichdrive="
+            + style.driveId
+            + "&more=Drive+More+"
+            + style.name,
+        times);
+  }
+
+  private static void post(final String url, final int times) {
+    RequestThread.postRequest(new GenericRequest(times > 1 ? url + "&drivetimes=" + times : url));
   }
 
   @Override
@@ -72,87 +94,81 @@ public class AsdonMartinCommand extends AbstractCommand {
     }
 
     String[] params = parameters.trim().split("\\s+");
-    String command = params[0];
 
-    if (command.equals("drive")) {
-      if (params.length < 2) {
-        RequestLogger.printLine("Usage: asdonmartin" + this.usage);
-        return;
-      }
-      String driveStyle = params[1];
-      if (driveStyle.equalsIgnoreCase("clear")) {
-        int currentStyle = AsdonMartinCommand.currentDriveStyle();
-        if (currentStyle == -1) {
-          KoLmafia.updateDisplay(MafiaState.ERROR, "You do not have a driving style");
-          return;
-        }
-        String request =
-            "campground.php?pwd&preaction=undrive&stop=Stop+Driving+"
-                + AsdonMartinCommand.driveStyleName(currentStyle);
-        // Remove driving style
-        RequestThread.postRequest(new GenericRequest(request));
-        return;
-      } else {
-        int style = AsdonMartinCommand.findDriveStyle(driveStyle);
-        if (style == -1) {
-          KoLmafia.updateDisplay(
-              MafiaState.ERROR, "Driving style " + driveStyle + " not recognised");
-          return;
-        }
-
-        if (CampgroundRequest.getFuel() < 37) {
-          RequestLogger.printLine("You haven't got enough fuel");
-          return;
-        }
-
-        int currentStyle = AsdonMartinCommand.currentDriveStyle();
-        if (currentStyle == -1) {
-          // Get buff, none to remove or extend
-          RequestThread.postRequest(
-              new GenericRequest("campground.php?preaction=drive&whichdrive=" + style));
-          return;
-        } else if (currentStyle == style) {
-          // Extend buff
-          String request =
-              "campground.php?pwd&preaction=drive&whichdrive="
-                  + style
-                  + "&more=Drive+More+"
-                  + AsdonMartinCommand.driveStyleName(style);
-          RequestThread.postRequest(new GenericRequest(request));
-          return;
+    switch (params[0]) {
+      case "drive" -> {
+        if (params.length < 2) {
+          printUsage();
+        } else if (params[1].equalsIgnoreCase("clear")) {
+          clearCommand();
         } else {
-          // Remove buff
-          String request =
-              "campground.php?pwd&preaction=undrive&stop=Stop+Driving+"
-                  + AsdonMartinCommand.driveStyleName(currentStyle);
-          RequestThread.postRequest(new GenericRequest(request));
-          // Get new buff
-          RequestThread.postRequest(
-              new GenericRequest("campground.php?preaction=drive&whichdrive=" + style));
-          return;
+          driveCommand(params[1], params.length > 2 ? params[2] : null);
         }
       }
-    } else if (command.equals("fuel")) {
-      String param = parameters.substring(5);
-      AdventureResult item = ItemFinder.getFirstMatchingItem(param, true, null, Match.ASDON);
-      if (item == null) {
-        KoLmafia.updateDisplay(MafiaState.ERROR, param + " cannot be used as fuel.");
-        return;
-      }
-      if (!InventoryManager.checkpointedRetrieveItem(item)) {
-        KoLmafia.updateDisplay(
-            MafiaState.ERROR, "You don't have enough " + item.getDataName() + ".");
-        return;
-      }
-      if (item.getCount() > 0) {
-        CampgroundRequest request = new CampgroundRequest("fuelconvertor");
-        request.addFormField("qty", String.valueOf(item.getCount()));
-        request.addFormField("iid", String.valueOf(item.getItemId()));
-        RequestThread.postRequest(request);
-      }
+      case "fuel" -> fuelCommand(parameters.substring(5));
+      default -> printUsage();
+    }
+  }
+
+  private void printUsage() {
+    RequestLogger.printLine("Usage: asdonmartin" + this.usage);
+  }
+
+  private static void clearCommand() {
+    var currentStyle = DrivingStyle.current();
+    if (currentStyle == null) {
+      KoLmafia.updateDisplay(MafiaState.ERROR, "You do not have a driving style");
+      return;
+    }
+    undrive(currentStyle);
+  }
+
+  private static void driveCommand(final String styleName, final String timesParam) {
+    var style = DrivingStyle.find(styleName);
+    if (style == null) {
+      KoLmafia.updateDisplay(MafiaState.ERROR, "Driving style " + styleName + " not recognised");
       return;
     }
 
-    RequestLogger.printLine("Usage: asdonmartin" + this.usage);
+    int times = 1;
+    if (timesParam != null) {
+      times = StringUtilities.parseInt(timesParam);
+      if (times < 1) {
+        KoLmafia.updateDisplay(MafiaState.ERROR, "Invalid number of times to drive");
+        return;
+      }
+    }
+
+    if (CampgroundRequest.getFuel() < 37 * times) {
+      RequestLogger.printLine("You haven't got enough fuel");
+      return;
+    }
+
+    switch (DrivingStyle.current()) {
+      case null -> drive(style, times);
+      case DrivingStyle current when current == style -> driveMore(times);
+      case DrivingStyle current -> {
+        undrive(current);
+        drive(style, times);
+      }
+    }
+  }
+
+  private static void fuelCommand(final String param) {
+    AdventureResult item = ItemFinder.getFirstMatchingItem(param, true, null, Match.ASDON);
+    if (item == null) {
+      KoLmafia.updateDisplay(MafiaState.ERROR, param + " cannot be used as fuel.");
+      return;
+    }
+    if (!InventoryManager.checkpointedRetrieveItem(item)) {
+      KoLmafia.updateDisplay(MafiaState.ERROR, "You don't have enough " + item.getDataName() + ".");
+      return;
+    }
+    if (item.getCount() > 0) {
+      CampgroundRequest request = new CampgroundRequest("fuelconvertor");
+      request.addFormField("qty", String.valueOf(item.getCount()));
+      request.addFormField("iid", String.valueOf(item.getItemId()));
+      RequestThread.postRequest(request);
+    }
   }
 }

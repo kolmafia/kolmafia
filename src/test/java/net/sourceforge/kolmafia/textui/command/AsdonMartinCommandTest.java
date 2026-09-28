@@ -11,12 +11,14 @@ import static internal.helpers.Player.withWorkshedItem;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.empty;
+import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 
 import internal.helpers.Cleanups;
 import internal.helpers.HttpClientWrapper;
+import internal.helpers.Networking;
 import internal.network.FakeHttpClientBuilder;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -65,7 +67,7 @@ public class AsdonMartinCommandTest extends AbstractCommandTestBase {
       assertThat(
           output,
           containsString(
-              "Usage: asdonmartin drive style|clear, fuel [#] item name  - Get drive buff or convert items to fuel"));
+              "Usage: asdonmartin drive style [times]|clear, fuel [#] item name  - Get drive buff or convert items to fuel"));
     }
   }
 
@@ -78,7 +80,7 @@ public class AsdonMartinCommandTest extends AbstractCommandTestBase {
       assertThat(
           output,
           containsString(
-              "Usage: asdonmartin drive style|clear, fuel [#] item name  - Get drive buff or convert items to fuel"));
+              "Usage: asdonmartin drive style [times]|clear, fuel [#] item name  - Get drive buff or convert items to fuel"));
     }
   }
 
@@ -189,6 +191,95 @@ public class AsdonMartinCommandTest extends AbstractCommandTestBase {
       assertPostRequest(
           requests.get(0), "/campground.php", "preaction=undrive&stop=Stop+Driving+Obnoxiously");
       assertPostRequest(requests.get(1), "/campground.php", "preaction=drive&whichdrive=7");
+    }
+  }
+
+  @Test
+  void driveSameEffectMultipleTimesExtends() {
+    var builder = new FakeHttpClientBuilder();
+
+    builder.client.addResponse(200, html("request/test_campground_drive_more_observantly.html"));
+
+    var cleanups =
+        new Cleanups(
+            withWorkshedItem(ItemPool.ASDON_MARTIN),
+            withEffect("Driving Observantly"),
+            withFuel(522),
+            withHttpClientBuilder(builder));
+
+    try (cleanups) {
+      execute("drive observantly 2");
+
+      var requests = builder.client.getRequests();
+
+      assertThat(requests, not(empty()));
+      assertPostRequest(
+          requests.get(0),
+          "/campground.php",
+          "preaction=drive&whichdrive=7&more=Drive+More+Observantly&drivetimes=2");
+      assertThat(CampgroundRequest.getFuel(), is(448));
+    }
+  }
+
+  @Test
+  void driveNewEffectMultipleTimesAdds() {
+    var cleanups = new Cleanups(withWorkshedItem(ItemPool.ASDON_MARTIN), withFuel(111));
+
+    try (cleanups) {
+      execute("drive observantly 3");
+
+      var requests = getRequests();
+
+      assertThat(requests, hasSize(1));
+      assertPostRequest(
+          requests.get(0), "/campground.php", "preaction=drive&whichdrive=7&drivetimes=3");
+    }
+  }
+
+  @Test
+  void driveNewEffectMultipleTimesRemovesAndAdds() {
+    var builder = new FakeHttpClientBuilder();
+
+    builder.client.addResponse(200, html("request/test_campground_asdon_not_driving.html"));
+
+    var cleanups =
+        new Cleanups(
+            withWorkshedItem(ItemPool.ASDON_MARTIN),
+            withEffect("Driving Obnoxiously"),
+            withFuel(200),
+            withHttpClientBuilder(builder));
+
+    try (cleanups) {
+      execute("drive observantly 2");
+
+      var requests = builder.client.getRequests();
+
+      assertThat(requests, not(empty()));
+      assertPostRequest(
+          requests.get(0), "/campground.php", "preaction=undrive&stop=Stop+Driving+Obnoxiously");
+      assertThat(
+          requests.stream()
+              .filter(r -> r.method().equals("POST"))
+              .map(Networking::getPostRequestBody)
+              .toList(),
+          hasItem("preaction=drive&whichdrive=7&drivetimes=2"));
+      assertThat(CampgroundRequest.getFuel(), is(82));
+    }
+  }
+
+  @Test
+  void driveMultipleTimesNotEnoughFuelErrors() {
+    var cleanups =
+        new Cleanups(
+            withWorkshedItem(ItemPool.ASDON_MARTIN),
+            withEffect("Driving Observantly"),
+            withFuel(73));
+
+    try (cleanups) {
+      String output = execute("drive observantly 2");
+
+      assertThat(output, containsString("You haven't got enough fuel"));
+      assertThat(getRequests(), empty());
     }
   }
 
