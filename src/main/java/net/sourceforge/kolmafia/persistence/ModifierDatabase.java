@@ -1591,18 +1591,24 @@ public class ModifierDatabase {
 
       loop:
       while ((data = FileUtilities.readData(reader)) != null) {
-        if (data.length != 3) {
+        if (data.length != 2 && data.length != 3) {
           continue;
         }
 
         String typeString = data[0];
-        String name = data[1];
-        String modifiers = data[2];
 
         ModifierType type = ModifierType.fromString(typeString);
         if (type == null) {
           throw new RuntimeException("Bad modifier type " + typeString);
         }
+
+        var ungrouped = type == ModifierType.BASE;
+        if (data.length != (ungrouped ? 2 : 3)) {
+          continue;
+        }
+
+        String name = ungrouped ? "" : data[1];
+        String modifiers = data[data.length - 1];
 
         Lookup lookup = new Lookup(type, name);
 

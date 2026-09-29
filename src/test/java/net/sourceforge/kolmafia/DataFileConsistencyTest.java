@@ -557,7 +557,8 @@ public class DataFileConsistencyTest {
                 "RobotRight",
                 "RobotBottom",
                 "RobotLeft",
-                "RobotCPU" -> {
+                "RobotCPU",
+                "Base" -> {
               // all fine
             }
             default -> fail("unrecognised identifier " + identifier);
@@ -575,7 +576,7 @@ public class DataFileConsistencyTest {
       String[] fields;
       try (BufferedReader reader = FileUtilities.getVersionedReader(file, version)) {
         while ((fields = FileUtilities.readData(reader)) != null) {
-          String modifierString = fields[2];
+          String modifierString = fields[fields.length - 1];
           var mods = ModifierDatabase.splitModifiers(modifierString);
           for (var mod : mods) {
             var val = mod.getValue();
@@ -635,7 +636,7 @@ public class DataFileConsistencyTest {
       try (BufferedReader reader = FileUtilities.getVersionedReader(file, version)) {
         while ((fields = FileUtilities.readData(reader)) != null) {
           String element = fields[1];
-          String modifierString = fields[2];
+          String modifierString = fields[fields.length - 1];
           var mods = ModifierDatabase.splitModifiers(modifierString);
           assertModCountEqual(mods, element, "Effect", "Effect Duration");
           assertModCountEqual(mods, element, "Rollover Effect", "Rollover Effect Duration");
