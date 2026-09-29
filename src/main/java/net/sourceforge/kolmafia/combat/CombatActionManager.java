@@ -171,8 +171,11 @@ public abstract class CombatActionManager {
     } else if (key.startsWith("the ")) {
       // It really is "The Man" or "The Big Wisniewski"
     } else if (key.startsWith("some ")) {
-      key = key.substring(5);
-      line = line.substring(5);
+      // some fish is literally named "some fish"; otherwise, remove the "some"
+      if (!key.equals("some fish")) {
+        key = key.substring(5);
+        line = line.substring(5);
+      }
     }
 
     return changeCase ? key : line;

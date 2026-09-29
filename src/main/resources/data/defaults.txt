@@ -3019,7 +3019,7 @@ user	choiceAdventure91	1
 user	choiceAdventure105	3
 user	choiceAdventure106	4
 user	choiceAdventure107	4
-user	choiceAdventure108	4
+user	choiceAdventure108	5
 user	choiceAdventure109	1
 user	choiceAdventure110	4
 user	choiceAdventure111	3
@@ -3291,7 +3291,7 @@ user	choiceAdventure518	0
 user	choiceAdventure519	0
 user	choiceAdventure521	1
 user	choiceAdventure522	2
-user	choiceAdventure523	5
+user	choiceAdventure523	6
 user	choiceAdventure527	1
 user	choiceAdventure528	1
 user	choiceAdventure529	0

@@ -2878,6 +2878,7 @@ public class FightRequestTest {
               withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR),
               withProperty("wereProfessorResearchPoints", 11),
               withProperty("wereProfessorAdvancedResearch", "1000,10,30,20"),
+              withNextMonster("Beaver"),
               withFight(1));
       try (cleanups) {
         String html = html("request/test_fight_research_advanced_success.html");
@@ -2897,6 +2898,7 @@ public class FightRequestTest {
               withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR),
               withProperty("wereProfessorResearchPoints", 11),
               withProperty("wereProfessorAdvancedResearch", "1000,10,30,20"),
+              withNextMonster("Beaver"),
               withFight(1));
       try (cleanups) {
         String html = html("request/test_fight_research_advanced_failed.html");
@@ -4788,6 +4790,78 @@ public class FightRequestTest {
       parseCombatData(
           "request/test_fight_msm_protectme.html", "fight.php?action=skill&whichskill=7597");
       assertThat("_blessingShieldStenchReceived", isSetTo(true));
+    }
+  }
+
+  @Nested
+  class SwitchMonster {
+    @Test
+    void manuelStatsPreservedOnSwitchmonster() {
+      var cleanups = new Cleanups(withFight(), withMuscle(300, 500), withMoxie(300, 500));
+
+      try (cleanups) {
+        String fightInitPage = "request/test_fight_manuel_switchmonster_init.html";
+        GenericRequest request = new GenericRequest("fight.php");
+        request.responseText = html(fightInitPage);
+        AdventureRequest.registerEncounter(request);
+        parseCombatData(fightInitPage, "fight.php");
+        assertThat(MonsterStatusTracker.getLastMonsterName(), is("crate"));
+        assertThat(MonsterStatusTracker.getMonsterAttack(), is(21));
+        assertThat(MonsterStatusTracker.getMonsterDefense(), is(21));
+        assertThat(MonsterStatusTracker.getMonsterHealth(), is(22));
+
+        parseCombatData(
+            "request/test_fight_manuel_switchmonster_feesh.html",
+            "fight.php?action=skill&whichskill=7570");
+        assertThat(MonsterStatusTracker.getLastMonsterName(), is("some fish"));
+        assertThat(MonsterStatusTracker.getMonsterAttack(), is(916));
+        assertThat(MonsterStatusTracker.getMonsterDefense(), is(574));
+        assertThat(MonsterStatusTracker.getMonsterHealth(), is(406));
+      }
+    }
+
+    @Test
+    void manuelStatsHandledCorrectlyWhenSwitchingIntoUnresearchedMonster() {
+      var cleanups = new Cleanups(withFight());
+
+      try (cleanups) {
+        String fightInitPage = "request/test_fight_switchmonster_intounknown_init.html";
+        GenericRequest request = new GenericRequest("fight.php");
+        request.responseText = html(fightInitPage);
+        AdventureRequest.registerEncounter(request);
+        parseCombatData(fightInitPage, "fight.php");
+        assertThat(MonsterStatusTracker.getLastMonsterName(), is("dairy goat"));
+        assertThat(MonsterStatusTracker.getMonsterAttack(), is(169));
+
+        // Switchmonster into a pig, which is not in our Manuel but still displays stats for one
+        // round.
+        parseCombatData(
+            "request/test_fight_switchmonster_intounknown_pigify.html",
+            "fight.php?action=useitem&whichitem=7518&whichitem2=0");
+        assertThat(MonsterStatusTracker.getLastMonsterName(), is("pig"));
+        assertThat(MonsterStatusTracker.getMonsterAttack(), is(118));
+
+        // After one combat round, we no longer get a stat block and rely on internal tracking. Gob
+        // of
+        // wet hair decreases attack by 3.
+        parseCombatData(
+            "request/test_fight_switchmonster_intounknown_nextround.html",
+            "fight.php?action=useitem&whichitem=1922&whichitem2=0");
+        assertThat(MonsterStatusTracker.getLastMonsterName(), is("pig"));
+        assertThat(MonsterStatusTracker.getMonsterAttack(), is(115));
+      }
+    }
+
+    @Test
+    void currentEncounterUpdatedOnSwitchmonster() {
+      var cleanups = new Cleanups(withFight(), withCurrentEncounter("crate"));
+
+      try (cleanups) {
+        parseCombatData(
+            "request/test_fight_manuel_switchmonster_feesh.html",
+            "fight.php?action=skill&whichskill=7570");
+        assertThat(FightRequest.currentEncounter, is("some fish"));
+      }
     }
   }
 }

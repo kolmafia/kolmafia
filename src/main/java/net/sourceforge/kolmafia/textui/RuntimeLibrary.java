@@ -3065,6 +3065,9 @@ public abstract class RuntimeLibrary {
     functions.add(new LibraryFunction("monster_hp", DataTypes.INT_TYPE, params));
 
     params = List.of();
+    functions.add(new LibraryFunction("monster_name", DataTypes.STRING_TYPE, params));
+
+    params = List.of();
     functions.add(new LibraryFunction("monster_phylum", DataTypes.PHYLUM_TYPE, params));
 
     params = List.of(namedParam("monster", DataTypes.MONSTER_TYPE));
@@ -10508,6 +10511,10 @@ public abstract class RuntimeLibrary {
     return new Value(monster.getHP());
   }
 
+  public static Value monster_name(ScriptRuntime controller) {
+    return new Value(StringUtilities.getEntityDecode(FightRequest.currentEncounter));
+  }
+
   public static Value monster_phylum(ScriptRuntime controller) {
     Phylum phylum = MonsterStatusTracker.getMonsterPhylum();
     return new Value(DataTypes.PHYLUM_TYPE, phylum.toString(), phylum);
@@ -10998,6 +11005,8 @@ public abstract class RuntimeLibrary {
     if (name.contains(":")) {
       ModifierType modifierType = ModifierType.fromString(name.substring(0, name.indexOf(":")));
       if (modifierType != null) return modifierType;
+    } else if ("base".equalsIgnoreCase(name)) {
+      return ModifierType.BASE;
     }
     return ModifierType.ITEM;
   }
@@ -11010,6 +11019,9 @@ public abstract class RuntimeLibrary {
         || type.equals(DataTypes.SKILL_TYPE)
         || type.equals(DataTypes.EFFECT_TYPE)) {
       return "[" + id + "]";
+    }
+    if ("base".equalsIgnoreCase(name)) {
+      return "";
     }
     int index = name.indexOf(":");
     if (index != -1) {
@@ -12485,7 +12497,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value heartstone_middle_letter(ScriptRuntime controller) {
-    return heartstone_middle_letter(FightRequest.currentEncounter);
+    return heartstone_middle_letter(StringUtilities.getEntityDecode(FightRequest.currentEncounter));
   }
 
   private static Value heartstone_middle_letter(String monsterName) {

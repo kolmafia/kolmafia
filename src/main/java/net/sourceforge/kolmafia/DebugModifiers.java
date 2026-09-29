@@ -86,11 +86,13 @@ public class DebugModifiers extends Modifiers {
         continue;
       }
 
+      var typeName = type.wordsName();
       if (!name.equals(DebugModifiers.currentName)
+          || !typeName.equals(DebugModifiers.currentType)
           || DebugModifiers.adjustments.containsKey(wanted)) {
         DebugModifiers.flushRow();
       }
-      DebugModifiers.currentType = type.wordsName();
+      DebugModifiers.currentType = typeName;
       DebugModifiers.currentName = name;
       DebugModifiers.adjustments.put(
           wanted,
