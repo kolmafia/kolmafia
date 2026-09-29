@@ -1225,7 +1225,7 @@ public class CampgroundRequest extends GenericRequest {
       return;
     }
 
-    if (preaction.equals("drive")) {
+    if (preaction.equals("drive") || preaction.equals("undrive")) {
       Matcher fuelMatcher = FUEL_PATTERN_1.matcher(responseText);
       if (fuelMatcher.find()) {
         asdonMartinFuel = StringUtilities.parseInt(fuelMatcher.group(1));
