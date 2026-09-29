@@ -8995,12 +8995,12 @@ public class FightRequest extends GenericRequest {
   }
 
   private static final Pattern[] SWORD_OF_SWORDS_KILLS = {
-    Pattern.compile("kills +(?:an?|the|some)? (.*?) and returns with"),
-    Pattern.compile("hauling back a bunch of (.*?) loot"),
-    Pattern.compile("kills a (.*?), and brings you back"),
-    Pattern.compile("senses a (.*?) nearby"),
-    Pattern.compile("one less (.*?) in the world"),
-    Pattern.compile("a slain (.*?)\\. "),
+    Pattern.compile("kills .*? and returns with"),
+    Pattern.compile("hauling back a bunch of .*? loot"),
+    Pattern.compile("kills .*?, and brings you back"),
+    Pattern.compile("senses .*? nearby and flies away"),
+    Pattern.compile("one less .*? in the world"),
+    Pattern.compile("Presumably from a slain .*?\\. "),
   };
 
   private static boolean handleSwordOfSwords(String text, TagStatus status) {
