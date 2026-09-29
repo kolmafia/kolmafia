@@ -2348,7 +2348,7 @@ Item	faded red protest sign	Last Available: "2015-12"
 # fake hand: Gives Extra Offhand Equipment Slot
 Item	fake hand	Weapon Damage: -1, Last Available: "2006-04"
 Item	fake washboard	Muscle Experience Percent: +25, Damage Absorption: +50, Accessory Drop: +75, Last Available: "2015-04"
-Item	familiar scrapbook	HP Regen Min: [4+min(30,pref(scrapbookCharges)/10)], HP Regen Max: [6+min(30,pref(scrapbookCharges)/10)], MP Regen Min: [2+min(30,pref(scrapbookCharges)/10)], MP Regen Max: [3+min(30,pref(scrapbookCharges)/10)], Muscle Experience Percent: [5+min(10,pref(scrapbookCharges)/10)], Mysticality Experience Percent: [5+min(10,pref(scrapbookCharges)/10)], Moxie Experience Percent: [5+min(10,pref(scrapbookCharges)/10)], Familiar Weight: +5, Familiar Experience: +1, Moxie: [min(1,floor(pref(scrapbookCharges)/1111))], Last Available: "2021-06", Conditional Skill (Equipped): "Show Your Boring Familiar Pictures"
+Item	familiar scrapbook	HP Regen Min: [4+min(30,pref(scrapbookCharges)/10)], HP Regen Max: [6+min(30,pref(scrapbookCharges)/10)], MP Regen Min: [2+min(30,pref(scrapbookCharges)/10)], MP Regen Max: [3+min(30,pref(scrapbookCharges)/10)], Muscle Experience Percent: [5+min(10,pref(scrapbookCharges)/10)], Mysticality Experience Percent: [5+min(10,pref(scrapbookCharges)/10)], Moxie Experience Percent: [5+min(10,pref(scrapbookCharges)/10)], Familiar Weight: +5, Familiar Experience: +1, Moxie: [gte(pref(scrapbookCharges),1111)], Last Available: "2021-06", Conditional Skill (Equipped): "Show Your Boring Familiar Pictures"
 Item	fancy marzipan briefcase	MP Regen Min: 4, MP Regen Max: 8, Combat Rate: -10, Lasts Until Rollover, Last Available: "2016-12"
 Item	fancy opera glasses	Meat Drop: +5, Item Drop: +5
 # fiberglass fetish: A Seal Spirit will accompany you in combat
@@ -4258,7 +4258,7 @@ Item	Xiblaxian xeno-detection goggles	Meat Drop: +15, Single Equip, Last Availab
 Item	Xlyinia's notebook	All Attributes: +15
 Item	yamtility belt	Meat Drop: +55, Initiative: +15, Moxie Percent: +5, Lasts Until Rollover, Last Available: "2024-05"
 Item	ye olde golde frontes	Muscle: +15, Class: "Disco Bandit", Single Equip
-Item	Yearbook Club Camera	Muscle: [5*min(pref(yearbookCameraUpgrades),1)+5*max(min(pref(yearbookCameraUpgrades)-3,1),0)+5*max(min(pref(yearbookCameraUpgrades)-6,1),0)], Mysticality: [5*max(min(pref(yearbookCameraUpgrades)-1,1),0)+5*max(min(pref(yearbookCameraUpgrades)-4,1),0)+5*max(min(pref(yearbookCameraUpgrades)-7,1),0)], Moxie: [5*max(min(pref(yearbookCameraUpgrades)-2,1),0)+5*max(min(pref(yearbookCameraUpgrades)-5,1),0)+5*max(min(pref(yearbookCameraUpgrades)-8,1),0)], Maximum HP: [20*max(min(pref(yearbookCameraUpgrades)-9,1),0)], Maximum MP: [10*max(min(pref(yearbookCameraUpgrades)-10,1),0)], HP Regen Min: [4*max(min(pref(yearbookCameraUpgrades)-11,1),0)], HP Regen Max: [5*max(min(pref(yearbookCameraUpgrades)-11,1),0)], MP Regen Min: [2*max(min(pref(yearbookCameraUpgrades)-12,1),0)], MP Regen Max: [3*max(min(pref(yearbookCameraUpgrades)-12,1),0)], Adventures: [5*max(min(pref(yearbookCameraUpgrades)-13,1),0)], PvP Fights: [5*max(min(pref(yearbookCameraUpgrades)-14,1),0)], Damage Reduction: [5*max(min(pref(yearbookCameraUpgrades)-15,1),0)], Hot Damage: [max(min(pref(yearbookCameraUpgrades)-16,1),0)], Cold Damage: [max(min(pref(yearbookCameraUpgrades)-16,1),0)], Spooky Damage: [max(min(pref(yearbookCameraUpgrades)-16,1),0)], Stench Damage: [max(min(pref(yearbookCameraUpgrades)-16,1),0)], Sleaze Damage: [max(min(pref(yearbookCameraUpgrades)-16,1),0)], Initiative: [10*max(min(pref(yearbookCameraUpgrades)-17,1),0)], Meat Drop: [20*max(min(pref(yearbookCameraUpgrades)-18,1),0)], Item Drop: [10*max(min(pref(yearbookCameraUpgrades)-19,1),0)], Conditional Skill (Equipped): "Blinding Flash", Enchantment Count: 1
+Item	Yearbook Club Camera	Muscle: [5*gt(pref(yearbookCameraUpgrades),0)+5*gt(pref(yearbookCameraUpgrades),3)+5*gt(pref(yearbookCameraUpgrades),6)], Mysticality: [5*gt(pref(yearbookCameraUpgrades),1)+5*gt(pref(yearbookCameraUpgrades),4)+5*gt(pref(yearbookCameraUpgrades),7)], Moxie: [5*gt(pref(yearbookCameraUpgrades),2)+5*gt(pref(yearbookCameraUpgrades),5)+5*gt(pref(yearbookCameraUpgrades),8)], Maximum HP: [20*gt(pref(yearbookCameraUpgrades),9)], Maximum MP: [10*gt(pref(yearbookCameraUpgrades),10)], HP Regen Min: [4*gt(pref(yearbookCameraUpgrades),11)], HP Regen Max: [5*gt(pref(yearbookCameraUpgrades),11)], MP Regen Min: [2*gt(pref(yearbookCameraUpgrades),12)], MP Regen Max: [3*gt(pref(yearbookCameraUpgrades),12)], Adventures: [5*gt(pref(yearbookCameraUpgrades),13)], PvP Fights: [5*gt(pref(yearbookCameraUpgrades),14)], Damage Reduction: [5*gt(pref(yearbookCameraUpgrades),15)], Hot Damage: [gt(pref(yearbookCameraUpgrades),16)], Cold Damage: [gt(pref(yearbookCameraUpgrades),16)], Spooky Damage: [gt(pref(yearbookCameraUpgrades),16)], Stench Damage: [gt(pref(yearbookCameraUpgrades),16)], Sleaze Damage: [gt(pref(yearbookCameraUpgrades),16)], Initiative: [10*gt(pref(yearbookCameraUpgrades),17)], Meat Drop: [20*gt(pref(yearbookCameraUpgrades),18)], Item Drop: [10*gt(pref(yearbookCameraUpgrades),19)], Conditional Skill (Equipped): "Blinding Flash", Enchantment Count: 1
 # Yeg's Motel slippers: Extremely fragile (will be destroyed if you are hit in combat)
 Item	Yeg's Motel slippers	Spooky Spell Damage: +100, Mysticality Percent: +66, Single Equip, Lasts Until Rollover, Last Available: "2020-09"
 Item	yellow glowstick	Maximum MP: +5, Moxie: -3, Last Available: "2007-08", Raveosity: +1
@@ -4944,7 +4944,7 @@ Familiar	Mechamelion	Last Available: "2018-03"
 Familiar	Mechanical Songbird	Fairy Effectiveness: [if(zone(Dreadsylvania),1.5,1)]
 Familiar	Melodramedary	Last Available: "2020-07"
 Familiar	Mini Kiwi	Last Available: "2024-06"
-Familiar	Mini-Adventurer	Last Available: "2013-06", Volleyball: [if(pref(miniAdvClass,1),gte(L,5),pref(miniAdvClass,2))], Leprechaun: [if(pref(miniAdvClass,3),gte(L,10),pref(miniAdvClass,4))], Fairy: [if(pref(miniAdvClass,5),gte(L,5),pref(miniAdvClass,6),gte(L,10),0)], Sombrero: [pref(miniAdvClass,6)*max(0,min(L-14,1))]
+Familiar	Mini-Adventurer	Last Available: "2013-06", Volleyball: [if(pref(miniAdvClass,1),gte(L,5),pref(miniAdvClass,2))], Leprechaun: [if(pref(miniAdvClass,3),gte(L,10),pref(miniAdvClass,4))], Fairy: [if(pref(miniAdvClass,5),gte(L,5),pref(miniAdvClass,6),gte(L,10),0)], Sombrero: [pref(miniAdvClass,6)*gte(L,15)]
 Familiar	Mini-Crimbot	Experience: [3*pref(crimbotChassis,Smile-O-Matic)], Initiative: [30*pref(crimbotPropulsion,V-TOP Frictionless Monocycle Wheel)], Item Drop: [20*pref(crimbotPropulsion,Lambada-Class Dancing Legs)], Last Available: "2014-12"
 Familiar	Mini-Hipster	Last Available: "2010-08"
 Familiar	Mini-Skulldozer	Last Available: "2012-10"
@@ -7863,7 +7863,7 @@ Effect	Sizzling with Fury	Hot Damage: +25, Initiative: +60
 Effect	Skeletal Buddy	Experience: +2
 # Skeletal Cleric
 Effect	Skeletal Cleric	Damage Aura: 1
-Effect	Skeletal Rogue	Damage Aura: [min(1,effect(Skeletal Warrior))]
+Effect	Skeletal Rogue	Damage Aura: [gt(effect(Skeletal Warrior),0)]
 # Skeletal Warrior
 Effect	Skeletal Warrior	Damage Aura: 1
 # Skeletal Wizard
