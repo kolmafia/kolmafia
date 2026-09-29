@@ -1248,6 +1248,39 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     }
 
     @Test
+    void canGetNumericModifierForBase() {
+      assertThat(
+          execute("numeric_modifier(\"Base\", \"Familiar Experience\")"), is("Returned: 1.0\n"));
+      assertThat(
+          execute("numeric_modifier(\"Base\", \"Critical Hit Percent\")"), is("Returned: 9.0\n"));
+      assertThat(
+          execute("numeric_modifier(\"Base\", \"Spell Critical Percent\")"), is("Returned: 9.0\n"));
+      assertThat(execute("numeric_modifier(\"Base\", \"Adventures\")"), is("Returned: 40.0\n"));
+      assertThat(execute("numeric_modifier(\"Base\", \"PvP Fights\")"), is("Returned: 10.0\n"));
+      assertThat(
+          execute("numeric_modifier(\"Base\", $modifier[Adventures])"), is("Returned: 40.0\n"));
+    }
+
+    @Test
+    void canGetNumericModifierForBaseCaseInsensitive() {
+      assertThat(execute("numeric_modifier(\"base\", \"Adventures\")"), is("Returned: 40.0\n"));
+      assertThat(execute("numeric_modifier(\"BASE\", \"PvP Fights\")"), is("Returned: 10.0\n"));
+      assertThat(execute("numeric_modifier(\"Base:\", \"Adventures\")"), is("Returned: 40.0\n"));
+    }
+
+    @Test
+    void baseReflectsCurrentPath() {
+      try (var cleanups = withPath(Path.YOU_ROBOT)) {
+        assertThat(execute("numeric_modifier(\"Base\", \"Adventures\")"), is("Returned: 0.0\n"));
+        assertThat(execute("numeric_modifier(\"Base\", \"PvP Fights\")"), is("Returned: 10.0\n"));
+      }
+
+      try (var cleanups = withPath(Path.SLOW_AND_STEADY)) {
+        assertThat(execute("numeric_modifier(\"Base\", \"Adventures\")"), is("Returned: 100.0\n"));
+      }
+    }
+
+    @Test
     void canCallBooleanWithModifier() {
       String input = "boolean_modifier($item[Brimstone Beret], $modifier[Four Songs])";
       String output = execute(input);
@@ -2937,12 +2970,20 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       assertThat(execute("heartstone_middle_letter(\"crate\")").trim(), is("Returned: A"));
     }
 
-    @Test
-    void parameterlessUsesCurrentEncounter() {
-      var cleanups = withCurrentEncounter("wet jock");
+    @ParameterizedTest
+    @CsvSource({
+      "crate,A", // Normal monster
+      "wet jock,J", // OCRS modifier
+      "Possessed Jar of Alphredo&trade;,O", // Encoded characters
+      "jock,''" // No middle letter
+    })
+    void parameterlessUsesCurrentEncounter(String currentEncounter, String expectedAnswer) {
+      var cleanups = withCurrentEncounter(currentEncounter);
 
       try (cleanups) {
-        assertThat(execute("heartstone_middle_letter()").trim(), is("Returned: J"));
+        assertThat(
+            execute("heartstone_middle_letter()").trim(),
+            is(("Returned: " + expectedAnswer).trim()));
       }
     }
 
@@ -3247,6 +3288,20 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
   void shieldDrReturnsInnateDamageReduction(String item, int dr) {
     try (var cleanups = withLevel(15)) {
       assertThat(execute("shield_dr($item[" + item + "])").trim(), is("Returned: " + dr));
+    }
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+    "crate,crate", // Normal monster
+    "wet jock,wet jock", // OCRS modifier
+    "Possessed Jar of Alphredo&trade;,Possessed Jar of Alphredo™", // Encoded characters
+  })
+  void monsterNameFromCurrentEncounter(String currentEncounter, String expectedAnswer) {
+    var cleanups = withCurrentEncounter(currentEncounter);
+
+    try (cleanups) {
+      assertThat(execute("monster_name()").trim(), is(("Returned: " + expectedAnswer).trim()));
     }
   }
 

@@ -2135,10 +2135,22 @@ public class FightRequest extends GenericRequest {
       // Reparse the encounter, since random modifiers,
       // intergnat, etc. could have changed the name.
       encounter = AdventureRequest.parseCombatEncounter(responseText);
+
+      // Most of the time, when a monster switch occurs, the current encounter gets updated in
+      // processNode(), but in some cases (e.g. when OCRS modifiers are in play), the monster name
+      // will change again on the next page load. Therefore, set it here too.
+      FightRequest.setCurrentEncounter(encounter);
+
       MonsterData newMonster = AdventureRequest.extractMonster(encounter, responseText);
       MonsterStatusTracker.transformMonster(newMonster);
       FightRequest.transformed = false;
     }
+
+    // Ensure that we won't try to carry over stale Manuel data if we for some reason do not parse a
+    // Manuel stat block out of this round's text. We expect this would only happen if switching
+    // from a researched monster into an unresearched monster. Do it after handling a transform so
+    // that we retain the stats we glimpsed if switching into an unresearched monster.
+    MonsterStatusTracker.resetManuelSeen();
 
     // If you twiddled, nothing more to do with this round.  We may
     // have reparsed the monster, but the round does not advance.
@@ -6519,6 +6531,7 @@ public class FightRequest extends GenericRequest {
       String monsterName = m.group(2);
 
       FightRequest.clearInstanceData(true);
+      FightRequest.setCurrentEncounter(CombatActionManager.encounterKey(monsterName, false));
       FightRequest.logText("your opponent becomes " + monsterName + "!", status);
 
       return;
@@ -8995,12 +9008,12 @@ public class FightRequest extends GenericRequest {
   }
 
   private static final Pattern[] SWORD_OF_SWORDS_KILLS = {
-    Pattern.compile("kills +(?:an?|the|some)? (.*?) and returns with"),
-    Pattern.compile("hauling back a bunch of (.*?) loot"),
-    Pattern.compile("kills a (.*?), and brings you back"),
-    Pattern.compile("senses a (.*?) nearby"),
-    Pattern.compile("one less (.*?) in the world"),
-    Pattern.compile("a slain (.*?)\\. "),
+    Pattern.compile("kills .*? and returns with"),
+    Pattern.compile("hauling back a bunch of .*? loot"),
+    Pattern.compile("kills .*?, and brings you back"),
+    Pattern.compile("senses .*? nearby and flies away"),
+    Pattern.compile("one less .*? in the world"),
+    Pattern.compile("Presumably from a slain .*?\\. "),
   };
 
   private static boolean handleSwordOfSwords(String text, TagStatus status) {
@@ -9118,7 +9131,7 @@ public class FightRequest extends GenericRequest {
 
     // In Ed we'll only clear the monster status when we have won or abandoned the fight
     if (!KoLCharacter.isEd() || Preferences.getInteger("_edDefeats") == 0) {
-      MonsterStatusTracker.reset();
+      MonsterStatusTracker.reset(transform);
     }
 
     if (transform) {
@@ -9704,6 +9717,8 @@ public class FightRequest extends GenericRequest {
 
   private static final Pattern STEAL_LETTER_PATTERN =
       Pattern.compile("You rip the heart \\(([A-Z])\\) right out of your foe");
+  private static final Pattern STEAL_LETTER_NAME_PATTERN =
+      Pattern.compile("getElementById\\(\"monname\"\\).innerHTML = \"(.*?)\";</script>");
 
   private static void payActionCost(final String responseText) {
     // If we don't know what we tried, punt now.
@@ -11274,6 +11289,13 @@ public class FightRequest extends GenericRequest {
             curLetters = "";
           }
           Preferences.setString("heartstoneLetters", curLetters + letter);
+
+          // Parse the new monster name
+          Matcher nameMatcher = STEAL_LETTER_NAME_PATTERN.matcher(responseText);
+          if (nameMatcher.find()) {
+            String newName = nameMatcher.group(1);
+            FightRequest.setCurrentEncounter(CombatActionManager.encounterKey(newName, false));
+          }
         }
       }
       case SkillPool.HEARTSTONE_KILL -> {
