@@ -82,17 +82,13 @@ public class MonsterStatusTracker {
       MonsterStatusTracker.monsterData = MonsterStatusTracker.monsterData.handleRandomModifiers();
       MonsterStatusTracker.monsterData = MonsterStatusTracker.monsterData.handleMonsterLevel();
 
-      // If we just transformed, use the stats we just parsed from Manuel (if any) instead of
-      // estimating new ones.
-      if (fromTransform && manuelStatus == ManuelStatus.SEEN_THIS_ROUND) {
-        MonsterStatusTracker.originalHealth = MonsterStatusTracker.healthManuel;
-        MonsterStatusTracker.originalAttack = MonsterStatusTracker.attackManuel;
-        MonsterStatusTracker.originalDefense = MonsterStatusTracker.defenseManuel;
-      } else {
-        MonsterStatusTracker.originalHealth = MonsterStatusTracker.monsterData.getHP();
-        MonsterStatusTracker.originalAttack = MonsterStatusTracker.monsterData.getAttack();
-        MonsterStatusTracker.originalDefense = MonsterStatusTracker.monsterData.getDefense();
-      }
+      // Estimate the new monster's base stats
+      MonsterStatusTracker.originalHealth = MonsterStatusTracker.monsterData.getHP();
+      MonsterStatusTracker.originalAttack = MonsterStatusTracker.monsterData.getAttack();
+      MonsterStatusTracker.originalDefense = MonsterStatusTracker.monsterData.getDefense();
+
+      // Set up modifiers using manuel stats, if available
+      MonsterStatusTracker.applyManuelStats();
 
       MonsterStatusTracker.lastMonsterName = monster.getName();
     }
