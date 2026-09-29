@@ -4,7 +4,7 @@
 # + - * / ( ) have their usual mathematical meaning and precedence.
 # ^ is exponentiation, with the highest precedence.
 # Functions available:
-#	ceil(x) floor(x) sqrt(x) min(x,y) max(x,y) clamp(x,min,max) abs(x)
+#	ceil(x) floor(x) sqrt(x) min(x,y) max(x,y) abs(x)
 # Clamp function: clamp(x,min,max)
 #	Returns x limited to the range min..max. Equivalent to min(max(x,min),max).
 # Conditional function: if(cond,value,...,otherwise)
