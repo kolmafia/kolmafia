@@ -10998,6 +10998,8 @@ public abstract class RuntimeLibrary {
     if (name.contains(":")) {
       ModifierType modifierType = ModifierType.fromString(name.substring(0, name.indexOf(":")));
       if (modifierType != null) return modifierType;
+    } else if ("base".equalsIgnoreCase(name)) {
+      return ModifierType.BASE;
     }
     return ModifierType.ITEM;
   }
@@ -11010,6 +11012,9 @@ public abstract class RuntimeLibrary {
         || type.equals(DataTypes.SKILL_TYPE)
         || type.equals(DataTypes.EFFECT_TYPE)) {
       return "[" + id + "]";
+    }
+    if ("base".equalsIgnoreCase(name)) {
+      return "";
     }
     int index = name.indexOf(":");
     if (index != -1) {
