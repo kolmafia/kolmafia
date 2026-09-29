@@ -97,6 +97,10 @@ public class ExpressionTest {
     "'if(1,2,1,3,4)', 2",
     "'if(0,2,1,3,4)', 3",
     "'if(0,2,0,3,4)', 4",
+    "'clamp(5,1,10)', 5",
+    "'clamp(0,1,10)', 1",
+    "'clamp(15,1,10)', 10",
+    "'clamp(2+3*4,1,10)', 10",
   })
   public void canDoSupportedMathFunctions(String input, Double expected) {
     var exp = new Expression(input, input);
@@ -150,6 +154,13 @@ public class ExpressionTest {
   @ValueSource(strings = {"if(1)", "if(1,2)", "if(1,2,3,4)"})
   void rejectsIfWithoutElse(String input) {
     var exp = new Expression(input, "if without else");
+    assertThat(exp.hasErrors(), equalTo(true));
+  }
+
+  @ParameterizedTest
+  @ValueSource(strings = {"clamp(1)", "clamp(1,2)", "clamp(1,2,3,4)"})
+  void rejectsClampWithWrongArgumentCount(String input) {
+    var exp = new Expression(input, "clamp with wrong argument count");
     assertThat(exp.hasErrors(), equalTo(true));
   }
 
