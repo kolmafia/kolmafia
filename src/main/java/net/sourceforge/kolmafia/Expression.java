@@ -598,6 +598,16 @@ public class Expression {
     return rv;
   }
 
+  private String clamp() {
+    var rv = this.expr();
+    this.expect(",");
+    rv = rv + this.expr() + 'x';
+    this.expect(",");
+    rv = rv + this.expr() + 'm';
+    this.expect(")");
+    return rv;
+  }
+
   private String conditional() {
     var rv = new StringBuilder(this.expr());
     var args = 1;
@@ -637,6 +647,9 @@ public class Expression {
     }
     if (this.optional("max(")) {
       return binary('x');
+    }
+    if (this.optional("clamp(")) {
+      return clamp();
     }
     if (this.optional("gt(")) {
       return binary('>');
