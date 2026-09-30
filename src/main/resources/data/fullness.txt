@@ -83,6 +83,7 @@ Black Angus blackburger	2	1	good	5-7	0	0	0	100 The Power of Negative Thinking
 black forest cake	3	7	good	6-8	0	25-50	0	5 Sugar Rush
 black forest ham	3	7	good	8-9	25-45	0	0
 black pudding	3	7	decent	5-7	10-12	10-12	9-12
+black rose bowl	2	1	awesome	0	0	0	0	Unspaded
 blackberry	1	2	good	2-3	2-4	2-4	2-4
 blob-shaped Crimbo cookie	2	7	awesome	6-12	0	0	0	10/20 Amorphous Cheer (+50% all)
 blood roll-up	1	1	super ultra mega turbo EPIC	20	20-25	20-25	20-25	Vampyre
@@ -420,6 +421,7 @@ giant green gummi bear	4	4	good	9-10	0	80-150	0	40 Gummibrain (+100 Myst)
 giant heirloom grape tomato	5	6	good	13-15	20-30	20-30	20-30
 giant marshmallow	4	3	decent	7-9	10-20	0	0
 giant red gummi bear	4	4	good	9-10	80-150	0	0	40 Gummiheart (+100 Mus)
+giant stonefruit	5	8	EPIC	0	0	0	0	Unspaded
 giant yellow gummi bear	4	4	good	9-10	0	0	80-150	40 Gummiskin (+100 Mox)
 Gingerborg Hive	5	5	good	10-15	0	0	0
 gingerbread bugbear	1	4	good	1-5	10-20	10-20	10-20
