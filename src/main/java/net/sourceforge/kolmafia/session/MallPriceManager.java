@@ -732,7 +732,7 @@ public abstract class MallPriceManager {
 
       // If unknown item
       if (itemId <= 0 || ItemDatabase.getItemName(itemId) == null) {
-        return;
+        continue;
       }
 
       results.addAll(NPCStoreDatabase.getAvailablePurchaseRequests(itemId));

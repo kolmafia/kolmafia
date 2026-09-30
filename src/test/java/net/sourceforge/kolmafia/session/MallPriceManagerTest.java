@@ -802,6 +802,21 @@ public class MallPriceManagerTest {
     }
 
     @Test
+    public void skipsUnknownItemsWithoutDiscardingOthers() {
+      try (var cleanups = new Cleanups(mockClock())) {
+        Mockito.when(clock.millis()).thenReturn(1_000_000L);
+
+        parseMallPrices(
+            5,
+            listing("\"id\":999999,\"descid\":\"999999999\"", 100)
+                + ","
+                + listing(ItemPool.HELL_RAMEN, 642));
+
+        assertEquals(642, MallPriceManager.getMallPrice(ItemPool.HELL_RAMEN));
+      }
+    }
+
+    @Test
     public void ignoresResponsesMissingAStoreField() {
       try (var cleanups = new Cleanups(mockClock())) {
         Mockito.when(clock.millis()).thenReturn(1_000_000L);

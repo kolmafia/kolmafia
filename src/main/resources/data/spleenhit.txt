@@ -65,6 +65,7 @@ ceramic scree	3	12		0	0	0	0	Unspaded
 chalk chunks	2	12		0	0	0	0	Unspaded
 chiffon carbage	2	12		0	0	0	0	Unspaded
 chlorophyll paste	4	4	good	5-10	18-22	18-22	18-22	10 Chlorophyll Flavor (mp regen)
+clove incense	1	1		0	0	0	0	Unspaded
 clovermint	7	1		0	0	0	0	Lucky!
 coffee pixie stick	4	4	good	5-10	0	0	0
 cold jelly	1	1		0	0	50-60	0	50 Cold Jellied (+3 mys stats/fight, +5 cold damage, +30% mys), gain base booze when drinking
