@@ -5324,6 +5324,7 @@ Throne	Untamed Turtle	Initiative: +20, Drops Items
 Throne	Urchin Urchin	Weapon Damage: +10
 Throne	Vampire Vintner	Maximum HP: +10
 Throne	Warbear Drone	Maximum HP / MP: +15, Drops Items
+Throne	Weeping Cherub Statue	
 Throne	Wereturtle	Muscle Percent: +15, Drops Meat
 Throne	Wet Paper Tiger	Weapon Damage: +10
 Throne	Whirling Maple Leaf	Spell Damage Percent: +10
@@ -5819,6 +5820,7 @@ Effect	Bitterskin	Slime Hates It: +1
 Effect	Black Eyes	Spell Damage Percent: +15
 # Black Lung: Stops Monsters from Attacking You
 Effect	Black Magic? Woah, Man!	Avatar: "black magic woman"
+Effect	Black Rose Guardin'	Initiative: +50
 Effect	Black Sweat	Spooky Resistance: +7
 # Black Tongue: Recover HP and MP after battle
 Effect	Black Tongue	Familiar Weight: +5, Familiar Experience: +2, Experience: +3, Meat Drop: +50, Item Drop: +30, HP Regen Min: 20, HP Regen Max: 20, MP Regen Min: 20, MP Regen Max: 20
@@ -6083,6 +6085,7 @@ Effect	Cletus's Canticle of Celerity	Initiative: +20
 Effect	Cloak of Shadows	Combat Rate: -15
 Effect	Closer to Fine	HP Regen Min: [min(T,50)], HP Regen Max: [2*min(T,50)]
 Effect	Cloud of Mosquitos	HP Regen Min: 40, HP Regen Max: 50
+Effect	Cloven Mind	Mysticality: +25, Mysticality Percent: +200
 Effect	Clumsy	Always Fumble
 Effect	Clyde's Blessing	Item Drop: +50
 Effect	Coal-Powered	Damage Aura: 1
@@ -9590,6 +9593,7 @@ Item	bishop cookie	Effect: "Mitre Cut", Effect Duration: 30, Last Available: "20
 Item	Black Angus blackburger	Effect: "The Power of Negative Thinking", Effect Duration: 100, Last Available: "2016-12"
 Item	black forest cake	Effect: "Sugar Rush", Effect Duration: 5
 Item	black pudding	Wiki Name: "black pudding (food)"
+Item	black rose bowl	Last Available: "2026-10"
 Item	blob-shaped Crimbo cookie	Effect: "Amorphous Cheer", Effect Duration: 10, Last Available: "2023-06"
 Item	blueberry muffin	Effect: "All Blued Up", Effect Duration: 25
 Item	blueberry-frosted king cake	Last Available: "2008-12"
@@ -9772,6 +9776,7 @@ Item	ghost dog	Effect: "Scaredy Dog", Effect Duration: 30
 Item	ghostly ectoplasm	Effect: "Haunted Stomach", Effect Duration: 3, Last Available: "2018-11"
 Item	giant green gummi bear	Effect: "Gummibrain", Effect Duration: 40, Last Available: "2011-11"
 Item	giant red gummi bear	Effect: "Gummiheart", Effect Duration: 40, Last Available: "2011-11"
+Item	giant stonefruit	Last Available: "2026-10"
 Item	giant yellow gummi bear	Effect: "Gummiskin", Effect Duration: 40, Last Available: "2011-11"
 Item	gingerbread horror	Last Available: "2006-12"
 Item	gingerbread mug	Last Available: "2016-12"
@@ -10187,6 +10192,7 @@ Item	Bee's Knees	Effect: "On the Trolley", Effect Duration: 25, Last Available: 
 Item	Beignet Milgranet	Effect: "Sugar Rush", Effect Duration: 100, Last Available: "2011-09"
 Item	berry-infused sake	Effect: "Warm Belly", Effect Duration: 1
 Item	black brandy	Effect: "The Power of Negative Thinking", Effect Duration: 100, Last Available: "2016-12"
+Item	black garden ros&eacute;	Last Available: "2026-10"
 Item	Black Hole	Last Available: "2012-03"
 Item	blood and blood	Effect: "Bloodthirsty", Effect Duration: 30, Last Available: "2015-10"
 Item	Blood Light	Effect: "Bloody-minded", Effect Duration: 30, Last Available: "2011-10"
@@ -10737,6 +10743,7 @@ Item	ceramic scree	Last Available: "2023-12"
 Item	chalk chunks	Last Available: "2019-12"
 Item	chiffon carbage	Last Available: "2023-12"
 Item	chlorophyll paste	Effect: "Chlorophyll Flavor", Effect Duration: 10, Last Available: "2011-08"
+Item	clove incense	Effect: "Cloven Mind", Effect Duration: 50, Last Available: "2026-10"
 # clovermint: Gives you good luck
 Item	clovermint	Last Available: "2024-12"
 Item	coffee pixie stick	Last Available: "2010-06"
@@ -12490,6 +12497,7 @@ Item	Beach Buck	Last Available: "2014-05"
 Item	Beach Comb Box	Free Pull, Last Available: "2019-07"
 Item	bear tattoo	Last Available: "2026-08"
 Item	beautiful rainbow	Last Available: "2014-11", Skill: "Belch The Rainbow"
+Item	bed of stone roses	Last Available: "2026-10"
 # beehive: Full of bees!
 # beer bomb: Deals 55-75 Physical Damage
 # beer-scented teddy bear: Restores 15-20 MP
@@ -12527,12 +12535,17 @@ Item	black BRICKO brick	Last Available: "2010-02"
 Item	black candygram	Last Available: "2008-04"
 # black cherry soda: Restores 9-11 MP
 Item	black Crimbo ball	Last Available: "2021-12"
+# black garden rose: Plant a black rose garden in your campground
+Item	black garden rose	Last Available: "2026-10"
 Item	black hymnal	Skill: "Canticle of Carboloading"
 Item	black mana	Last Available: "2015-07"
 # black pepper: Weakens enemies a little bit
 # black plastic oyster egg: Deals 300-400 Physical Damage and gives you matching Meat
+Item	black rose pentacle	Last Available: "2026-10"
+Item	black rosebud	Free Pull, Last Available: "2026-10"
 Item	black slime glob	Last Available: "2018-11"
 # black spot: Deals 30-40 Physical Damage per round for the rest of the fight
+Item	black thorn key	Last Available: "2026-10"
 Item	black-and-blue light	Last Available: "2008-04"
 Item	blank fudge mold	Last Available: "2011-11"
 # Blatantly Canadian: Restores 20-25 MP
@@ -14159,8 +14172,8 @@ Item	mime eraser	Last Available: "2017-12"
 Item	mime soul fragment	Last Available: "2012-04"
 Item	mini kiwi aioli	Last Available: "2024-06"
 Item	mini kiwi egg	Free Pull, Last Available: "2024-06"
-Item	mini kiwi tipi	Last Available: "2024-06", Base Resting HP: +49, Base Resting MP: +50
 Item	mini kiwi invisible dirigible	Familiar Weight: -20, Last Available: "2024-06", Generic
+Item	mini kiwi tipi	Last Available: "2024-06", Base Resting HP: +49, Base Resting MP: +50
 Item	Mini-Crimbot crate	Last Available: "2014-12"
 # miniature boiler: Deals 20-40 Physical Damage
 # miniature Embering Hulk: Fight an Embering Hulk
@@ -14441,6 +14454,9 @@ Item	papier-m&acirc;ch&eacute; trophy pi&ntilde;ata	Last Available: "2012-09"
 Item	paranormal ricotta	Class: "Pastamancer"
 Item	parchment	Last Available: "2014-12"
 Item	parity bit	Familiar Weight: +5
+# partial tombstone: Instantly destroy an enemy
+# partial tombstone: (limit 11/day)
+Item	partial tombstone	Last Available: "2026-10"
 Item	Party Planning on a Budget	Skill: "Budget Conscious", Last Available: "2018-09"
 Item	party pup	Last Available: "2018-09"
 Item	Party Tattoo&trade; gift certificate	Last Available: "2018-09"
@@ -15201,6 +15217,7 @@ Item	St. Sneaky Pete's Whey	Last Available: "2022-11"
 Item	Stabonic scroll	Last Available: "2010-10", Effect: "Bone Homie", Effect Duration: 20
 # star throwing star: Deals 50-75 Physical Damage
 Item	STATS+++ rom chip	Skill: "STATS+++", Last Available: "2025-12"
+Item	statuary chunk	Last Available: "2026-10"
 # steam-powered model rocketship: Allows access to the Hole in the Sky
 # stench clusterbomb: Deals <font color=green>Stench Damage</font> based on your highest stat
 # stench clusterbomb: (more effective against groups)
@@ -15433,6 +15450,7 @@ Item	tiny ember	Cold Resistance: +1
 # tiny goth giant: Makes combat all Gothy
 # tiny goth giant: (doesn't go away when used)
 # tiny house: Restores 20-24 HP and MP and removes negative effects
+Item	tiny stone harp	Familiar Weight: +5, Last Available: "2026-10"
 Item	To Build an Igloo	Skill: "Refusal to Freeze", Last Available: "2015-11"
 Item	to-go brew	Lasts Until Rollover, Last Available: "2018-04"
 Item	toe jam	Last Available: "2011-01"
@@ -15684,6 +15702,7 @@ Item	white mana	Last Available: "2015-07"
 # white picket fence: Stops Enemy From Attacking and Restores 14-15 Hit Points
 Item	whoopie cushion	Last Available: "2006-04"
 Item	wicksilver spurs	Last Available: "2016-02"
+Item	wide-eyed cherub statue	Last Available: "2026-10"
 Item	wind-up chattering teeth	Last Available: "2006-04"
 Item	wind-up spider	Last Available: "2015-10"
 Item	windicle	Last Available: "2019-04"
