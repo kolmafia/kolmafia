@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.function.ToDoubleFunction;
 import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.ExpressionOverrides;
@@ -59,6 +61,8 @@ public class Evaluator {
   private final Map<Modeable, Boolean> modeablesNeeded = Modeable.getBooleanMap();
 
   private record ScoreModifier(Modifier modifier, double weight, double min, double max) {}
+
+  private record MinimumRequirement(DoubleModifier modifier, double scale) {}
 
   // Equipment slots, that aren't the primary slot of any item type,
   // that are repurposed here (rather than making the array bigger).
@@ -431,6 +435,62 @@ public class Evaluator {
     return Constraint.IRRELEVANT;
   }
 
+  private boolean contributesToBitmapMinimum(Modifiers modifiers) {
+    for (var scoreModifier : this.activeScoreModifiers) {
+      if (scoreModifier.min() == Double.NEGATIVE_INFINITY) continue;
+      if (scoreModifier.modifier() instanceof BitmapModifier bitmapModifier
+          && modifiers.getRawBitmap(bitmapModifier) != 0) return true;
+    }
+    return false;
+  }
+
+  private Set<CheckedItem> selectMinimumCandidates(
+      List<MaximizerSpeculation> candidates, List<MinimumRequirement> requirements, int maxUseful) {
+    if (requirements.isEmpty()) return Set.of();
+
+    var selected = new HashSet<CheckedItem>();
+    for (var requirement : requirements) {
+      selectTopCandidates(
+          candidates,
+          maxUseful,
+          candidate -> candidate.getModifiers().getDouble(requirement.modifier()),
+          selected);
+    }
+
+    selectTopCandidates(
+        candidates,
+        maxUseful,
+        candidate -> combinedMinimumValue(candidate, requirements),
+        selected);
+    return selected;
+  }
+
+  private static void selectTopCandidates(
+      List<MaximizerSpeculation> candidates,
+      int maxUseful,
+      ToDoubleFunction<MaximizerSpeculation> value,
+      Set<CheckedItem> selected) {
+    candidates.stream()
+        .sorted(
+            (left, right) -> {
+              int comparison =
+                  Double.compare(value.applyAsDouble(right), value.applyAsDouble(left));
+              return comparison != 0 ? comparison : right.compareTo(left);
+            })
+        .limit(maxUseful)
+        .map(candidate -> candidate.attachment)
+        .forEach(selected::add);
+  }
+
+  private static double combinedMinimumValue(
+      MaximizerSpeculation candidate, List<MinimumRequirement> requirements) {
+    double value = 0.0;
+    for (var requirement : requirements) {
+      value += candidate.getModifiers().getDouble(requirement.modifier()) / requirement.scale();
+    }
+    return value;
+  }
+
   public static boolean cannotGainEffect(int effectId) {
     // Return true if effect cannot be gained due to current other effects or class
     return switch (effectId) {
@@ -514,6 +574,8 @@ public class Evaluator {
     SlotList<CheckedItem> automatic = new SlotList<>(this.expression.familiars.size());
     // Items to be considered based on their score
     SlotList<CheckedItem> ranked = new SlotList<>(this.expression.familiars.size());
+    boolean considerMinModifiersInShortlist =
+        Preferences.getBoolean("maximizerConsiderMinModifiersInShortlist");
 
     double nullScore = this.getScore(new Modifiers());
 
@@ -949,6 +1011,11 @@ public class Evaluator {
           case MEETS:
             item.automaticFlag = true;
             break gotItem;
+        }
+
+        if (considerMinModifiersInShortlist && this.contributesToBitmapMinimum(mods)) {
+          item.automaticFlag = true;
+          break gotItem;
         }
 
         if ((hoboPowerUseful && mods.getDouble(DoubleModifier.HOBO_POWER) > 0.0)
@@ -1591,9 +1658,25 @@ public class Evaluator {
       RequestLogger.printLine(outfitSummary.toString());
     }
 
+    List<MinimumRequirement> minimumRequirements =
+        considerMinModifiersInShortlist
+            ? this.activeScoreModifiers.stream()
+                .filter(scoreModifier -> scoreModifier.min() != Double.NEGATIVE_INFINITY)
+                .filter(scoreModifier -> scoreModifier.modifier() instanceof DoubleModifier)
+                .map(
+                    scoreModifier ->
+                        new MinimumRequirement(
+                            (DoubleModifier) scoreModifier.modifier(),
+                            Math.max(1.0, Math.abs(scoreModifier.min()))))
+                .toList()
+            : List.of();
     for (var entry : ranked.entries()) {
       List<CheckedItem> checkedItemList = ranked.get(entry);
       var automaticEntry = automatic.get(entry);
+      int useful = entry.isSlot() ? this.maxUseful(entry.slot()) : 1;
+
+      var minimumCandidates =
+          this.selectMinimumCandidates(speculationList.get(entry), minimumRequirements, useful);
 
       if (this.expression.dump > 0) {
         RequestLogger.printLine(
@@ -1617,8 +1700,6 @@ public class Evaluator {
           }
         }
       }
-
-      int useful = entry.isSlot() ? this.maxUseful(entry.slot()) : 1;
 
       // If slots already handled by required items, we're done with the slot
       if (useful > total) {
@@ -1694,6 +1775,14 @@ public class Evaluator {
               }
               beeotches += item.getCount();
               beeosity += b * item.getCount();
+            } else if (minimumCandidates.contains(item)
+                && beeotches < useful
+                && beeosity < this.expression.beeosity) {
+              if (!automaticEntry.contains(item)) {
+                automaticEntry.add(item);
+              }
+              beeotches += item.getCount();
+              beeosity += b * item.getCount();
             } else if (total < useful
                 && beeotches < useful
                 && beeosity < this.expression.beeosity) {
@@ -1709,6 +1798,10 @@ public class Evaluator {
               if (!item.conditionalFlag && item.getCount() >= foldItemsNeeded) {
                 total += item.getCount();
               }
+            }
+          } else if (minimumCandidates.contains(item)) {
+            if (!automaticEntry.contains(item)) {
+              automaticEntry.add(item);
             }
           } else if (total < useful) {
             if (!automaticEntry.contains(item)) {

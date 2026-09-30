@@ -47,6 +47,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.hasToString;
 import static org.hamcrest.Matchers.is;
@@ -58,6 +59,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
 import java.time.Month;
+import java.util.List;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -4710,6 +4712,71 @@ public class MaximizerTest {
     try (var cleanups = new Cleanups(withEquipped(Slot.HAT, "helmet turtle"))) {
       assertTrue(maximize("empty"));
       assertThat(getBoosts(), contains(hasToString(containsString("keep hat: helmet turtle"))));
+    }
+  }
+
+  @Test
+  void retainsEquipmentThatContributesAcrossMultipleMinimums() {
+    int itemDropHat = ItemPool.get("bounty-hunting helmet").getItemId();
+    int coldHat = ItemPool.HELMET_TURTLE;
+    int hotHat = ItemPool.DISCO_MASK;
+    int balancedHat = ItemPool.MINERS_HELMET;
+    int balancedShirt = ItemPool.get("ASCII shirt").getItemId();
+    try (var cleanups =
+        new Cleanups(
+            withProperty("maximizerConsiderMinModifiersInShortlist", true),
+            withSkill("Torso Awareness"),
+            withStats(300, 300, 300),
+            withOverrideModifiers(ModifierType.ITEM, itemDropHat, "Item Drop: +100"),
+            withOverrideModifiers(ModifierType.ITEM, coldHat, "Cold Resistance: +10"),
+            withOverrideModifiers(ModifierType.ITEM, hotHat, "Hot Resistance: +10"),
+            withOverrideModifiers(
+                ModifierType.ITEM, balancedHat, "Cold Resistance: +6, Hot Resistance: +6"),
+            withOverrideModifiers(
+                ModifierType.ITEM, balancedShirt, "Cold Resistance: +4, Hot Resistance: +4"),
+            withEquippableItem(itemDropHat),
+            withEquippableItem(coldHat),
+            withEquippableItem(hotHat),
+            withEquippableItem(balancedHat),
+            withEquippableItem(balancedShirt))) {
+      assertTrue(
+          maximize(
+              "0.01 cold resistance 10 min 10 max, 0.01 hot resistance 10 min 10 max, item drop, -tie"));
+      assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "miner's helmet")));
+      assertThat(getBoosts(), hasItem(recommendsSlot(Slot.SHIRT, "ASCII shirt")));
+    }
+  }
+
+  @Test
+  void retainsEnoughAccessoriesToMeetAMinimum() {
+    var itemDropAccessories = List.of("polka-dot bow tie", "gold wedding ring", "adobe ascot");
+    var resistanceAccessories =
+        List.of("hardened slime belt", "incredibly dense meat gem", "Groll doll");
+    try (var cleanups =
+        new Cleanups(
+            withProperty("maximizerConsiderMinModifiersInShortlist", true),
+            withOverrideModifiers(ModifierType.ITEM, itemDropAccessories.get(0), "Item Drop: +100"),
+            withOverrideModifiers(ModifierType.ITEM, itemDropAccessories.get(1), "Item Drop: +90"),
+            withOverrideModifiers(ModifierType.ITEM, itemDropAccessories.get(2), "Item Drop: +80"),
+            withOverrideModifiers(
+                ModifierType.ITEM, resistanceAccessories.get(0), "Sleaze Resistance: +4"),
+            withOverrideModifiers(
+                ModifierType.ITEM, resistanceAccessories.get(1), "Sleaze Resistance: +3"),
+            withOverrideModifiers(
+                ModifierType.ITEM, resistanceAccessories.get(2), "Sleaze Resistance: +3"),
+            withEquippableItem(itemDropAccessories.get(0)),
+            withEquippableItem(itemDropAccessories.get(1)),
+            withEquippableItem(itemDropAccessories.get(2)),
+            withEquippableItem(resistanceAccessories.get(0)),
+            withEquippableItem(resistanceAccessories.get(1)),
+            withEquippableItem(resistanceAccessories.get(2)))) {
+      assertTrue(maximize("0.01 sleaze resistance 10 min 10 max, item drop, -tie"));
+      assertThat(
+          SlotSet.ACCESSORY_SLOTS.stream().map(Maximizer.best.equipment::get).toList(),
+          hasItems(
+              ItemPool.get(resistanceAccessories.get(0)),
+              ItemPool.get(resistanceAccessories.get(1)),
+              ItemPool.get(resistanceAccessories.get(2))));
     }
   }
 }

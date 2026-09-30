@@ -6,7 +6,9 @@ import static internal.helpers.Player.withEnthroned;
 import static internal.helpers.Player.withEquippableItem;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliarInTerrarium;
+import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withSign;
+import static internal.helpers.Player.withSkill;
 import static internal.helpers.Player.withStats;
 import static internal.matchers.Maximizer.recommendsSlot;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -25,14 +27,19 @@ import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.modifiers.DerivedModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 public class MaximizerRegressionTest {
   @BeforeEach
   public void init() {
     KoLCharacter.reset(true);
+    Preferences.reset("MaximizerRegressionTest");
   }
 
   // https://kolmafia.us/threads/maximizer-reduces-score-with-combat-chance-at-soft-limit-failing-test-included.25672/
@@ -269,6 +276,30 @@ public class MaximizerRegressionTest {
       assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.ACCESSORY1))));
       assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.ACCESSORY2))));
       assertThat(getBoosts(), hasItem(recommendsSlot(Slot.ACCESSORY3, "Counterclockwise Watch")));
+    }
+  }
+
+  // https://github.com/kolmafia/kolmafia/issues/3796
+  @ParameterizedTest
+  @ValueSource(booleans = {false, true})
+  void retainsLowerRankedEquipmentNeededToMeetAMinimum(boolean considerMinModifiers) {
+    try (var cleanups =
+        new Cleanups(
+            withProperty("maximizerConsiderMinModifiersInShortlist", considerMinModifiers),
+            withSkill("Torso Awareness"),
+            withStats(300, 300, 300),
+            withEquippableItem("Grateful Undead T-shirt"),
+            withEquippableItem("Hodgman's disgusting technicolor overcoat"),
+            withEquippableItem("Treads of Loathing"),
+            withEquippableItem("Dallas Dynasty Falcon Crest shield"),
+            withEquippableItem("sea-worn candlestick"))) {
+      assertEquals(
+          considerMinModifiers, maximize("0.01 sleaze resistance 18 min 18 max, item drop"));
+      if (considerMinModifiers) {
+        assertThat(
+            Maximizer.best.equipment.get(Slot.SHIRT),
+            equalTo(ItemPool.get("Hodgman's disgusting technicolor overcoat")));
+      }
     }
   }
 }
