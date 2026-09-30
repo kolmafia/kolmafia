@@ -42,7 +42,7 @@ Cast	Aug. 28th: Race Your Mouse Day!	_aug28Cast
 Cast	Aug. 29th: More Herbs, Less Salt  Day!	_aug29Cast
 Cast	Aug. 30th: Beach Day!	_aug30Cast
 Cast	Aug. 31st: Cabernet Sauvignon  Day!	_aug31Cast
-Cast	Back-Up to your Last Enemy	_backUpUses	[11+path(You, Robot)*5]
+Cast	Back-Up to your Last Enemy	_backUpUses	[if(path(You, Robot),16,11)]
 Cast	Baleful Howl	_balefulHowlUses	10
 Cast	Beancannon	_beanCannonUses	5
 Cast	Become a Bat	_vampyreCloakeFormUses	10
@@ -60,7 +60,7 @@ Cast	CHEAT CODE: Invisible Avatar	_powerfulGloveBatteryPowerUsed	100
 Cast	CHEAT CODE: Replace Enemy	_powerfulGloveBatteryPowerUsed	100
 Cast	CHEAT CODE: Shrink Enemy	_powerfulGloveBatteryPowerUsed	100
 Cast	CHEAT CODE: Triple Size	_powerfulGloveBatteryPowerUsed	100
-Cast	Calculate the Universe	_universeCalculated	[interact*pref(skillLevel144)+(1-interact)*min(pref(skillLevel144),3)]
+Cast	Calculate the Universe	_universeCalculated	[if(interact,pref(skillLevel144),min(pref(skillLevel144),3))]
 Cast	Canticle of Carboloading	_carboLoaded
 Cast	Ceci N'Est Pas Un Chapeau	_ceciHatUsed
 Cast	Chest X-Ray	_chestXRayUsed	3
@@ -90,7 +90,7 @@ Cast	Digitize	_sourceTerminalDigitizeUses	[1+pref(sourceTerminalChips,TRAM)+pref
 Cast	Do an epic McTwist!	_epicMcTwistUsed
 Cast	Donho's Bubbly Ballad	_donhosCasts	50
 Cast	Douse Foe	_douseFoeUses	3
-Cast	Duplicate	_sourceTerminalDuplicateUses	[1+(4*path(The Source))]
+Cast	Duplicate	_sourceTerminalDuplicateUses	[if(path(The Source),5,1)]
 Cast	Elron's Explosive Etude	_elronsCasts	10
 Cast	Ensorcel	_ensorcelUsed	3
 Cast	Evoke Eldritch Horror	_eldritchHorrorEvoked
@@ -154,7 +154,7 @@ Cast	Offer Latte to Opponent	_latteCopyUsed
 Cast	Order a Kneecapping	_kneecappingOrdered
 Cast	Otoscope	_otoscopeUsed	3
 Cast	Pastamastery	noodleSummons
-Cast	Peel Out	_petePeeledOut	[10+(pref(peteMotorbikeTires,Racing Slicks)*20)]
+Cast	Peel Out	_petePeeledOut	[if(pref(peteMotorbikeTires,Racing Slicks),30,10)]
 Cast	Perfect Freeze	_perfectFreezeUsed
 Cast	Perpetrate Mild Evil	_mildEvilPerpetrated	3
 Cast	Pirate Bellow	_pirateBellowUsed
