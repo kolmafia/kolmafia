@@ -2229,8 +2229,11 @@ time cop	2497	timecop.gif	NOCOPY Scale: 2 Cap: ? Floor: ? Init: 250 P: dude Arti
 some fish	2499	somefish.gif	Scale: 0 Cap: ? Floor: ? Init: -10000 P: fish BvR: enemy	beefy fish meat (10)	glistening fish meat (10)	slick fish meat (10)	dull fish scale (30)	rough fish scale (20)	pristine fish scale (10)
 
 # Black Rose Garden (Oct 2026)
-rose golem	2541	rosemonster1.gif	
-rose garden ghost	2546	rosemonster5.gif	
+rose golem	2541	rosemonster1.gif	Scale: 0 Init: -10000 P: plant Article: a	black rose key (c0)
+giant flamingo statue	2542	rosemonster2.gif	Scale: 0 Init: -10000 P: construct EA: none EA: sleaze Article: a	statuary chunk (0)
+rose garden gnome	2543	rosemonster3.gif	Scale: 0 Init: -10000 P: construct Article: a	statuary chunk (0)
+hollow-eyed angel statue	2544	rosemonster4.gif	Scale: 0 Init: -10000 P: construct EA: none EA: spooky Article: a	statuary chunk (0)
+rose garden ghost	2546	rosemonster5.gif	Scale: 0 Init: -10000 P: undead EA: sleaze EA: cold EA: spooky	black rose pentacle (c0)
 
 # KoL Con
 

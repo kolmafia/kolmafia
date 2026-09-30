@@ -5820,6 +5820,7 @@ Effect	Bitterskin	Slime Hates It: +1
 Effect	Black Eyes	Spell Damage Percent: +15
 # Black Lung: Stops Monsters from Attacking You
 Effect	Black Magic? Woah, Man!	Avatar: "black magic woman"
+Effect	Black Rosacea	Maximum HP: +50, Maximum MP: +25
 Effect	Black Rose Guardin'	Initiative: +50
 Effect	Black Sweat	Spooky Resistance: +7
 # Black Tongue: Recover HP and MP after battle

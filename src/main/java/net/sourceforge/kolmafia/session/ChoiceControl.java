@@ -10270,6 +10270,7 @@ public abstract class ChoiceControl {
       case 1596: // Dig at Zone
       case 1601: // Cup of 13s
       case 1637: // The Black Rose Garden
+      case 1639: // The Blood Fountain
         return true;
 
       default:
