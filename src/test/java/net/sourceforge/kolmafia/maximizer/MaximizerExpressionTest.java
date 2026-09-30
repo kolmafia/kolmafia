@@ -282,6 +282,38 @@ class MaximizerExpressionTest {
   }
 
   @Test
+  void explicitLimitOverridesDefaultOsityMinimum() {
+    var expression = new MaximizerExpression();
+
+    expression.parse("clownosity, 4 min");
+
+    assertThat(expression.min, hasEntry(BitmapModifier.CLOWNINESS, 4.0));
+    assertThat(expression.max, hasEntry(BitmapModifier.CLOWNINESS, 100.0));
+  }
+
+  @Test
+  void appliesLimitsAtStartToTotalScore() {
+    var expression = new MaximizerExpression();
+
+    expression.parse("5 min, 7 max, item");
+
+    assertThat(expression.totalMin, is(5.0));
+    assertThat(expression.totalMax, is(7.0));
+    assertThat(expression.weight, hasEntry(DoubleModifier.ITEMDROP, 1.0));
+  }
+
+  @Test
+  void parsesModifierLimitsWithoutCommas() {
+    var expression = new MaximizerExpression();
+
+    expression.parse("1 DR 20 min 30 max");
+
+    assertThat(expression.weight, hasEntry(DoubleModifier.DAMAGE_REDUCTION, 1.0));
+    assertThat(expression.min, hasEntry(DoubleModifier.DAMAGE_REDUCTION, 20.0));
+    assertThat(expression.max, hasEntry(DoubleModifier.DAMAGE_REDUCTION, 30.0));
+  }
+
+  @Test
   void rejectsInvalidLimitBeforeApplyingEarlierTerms() {
     var expression = new MaximizerExpression();
 

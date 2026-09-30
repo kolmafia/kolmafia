@@ -92,13 +92,7 @@ class MaximizerExpression {
   private record ModifierLimits(double minimum, double maximum) {}
 
   private record ParsedTerm(
-      double weight,
-      String originalKeyword,
-      String keyword,
-      String operand,
-      boolean operandRequired,
-      Modifier modifier,
-      ModifierLimits defaultLimits) {
+      double weight, String originalKeyword, String keyword, String operand, Modifier modifier) {
     private static ParsedTerm from(Matcher matcher) {
       double weight =
           StringUtilities.parseDouble(
@@ -116,7 +110,6 @@ class MaximizerExpression {
       int separator = originalKeyword.indexOf(' ');
       String possibleDirective =
           separator == -1 ? originalKeyword : originalKeyword.substring(0, separator);
-      boolean operandRequired = DIRECTIVES_WITH_OPERANDS.getOrDefault(possibleDirective, false);
       if (DIRECTIVES_WITH_OPERANDS.containsKey(possibleDirective)) {
         keyword = possibleDirective;
         if (separator != -1) {
@@ -126,25 +119,12 @@ class MaximizerExpression {
 
       keyword = canonicalize(keyword);
       Modifier modifier = modifierFor(keyword);
-      return new ParsedTerm(
-          weight,
-          originalKeyword,
-          keyword,
-          operand,
-          operandRequired,
-          modifier,
-          defaultLimitsFor(modifier));
+      return new ParsedTerm(weight, originalKeyword, keyword, operand, modifier);
     }
 
     private ParsedTerm withModifier(Modifier modifier) {
       return new ParsedTerm(
-          this.weight,
-          this.originalKeyword,
-          this.keyword,
-          this.operand,
-          this.operandRequired,
-          modifier,
-          null);
+          this.weight, this.originalKeyword, this.keyword, this.operand, modifier);
     }
   }
 
@@ -179,6 +159,7 @@ class MaximizerExpression {
           canonicalization("com", "combat"),
           canonicalization("advs", "adv"),
           canonicalization("fite", "fites"),
+          canonicalization("clownosity", BitmapModifier.CLOWNINESS.getName()),
           canonicalization("init", DoubleModifier.INITIATIVE.getName()),
           canonicalization("hp", DoubleModifier.HP.getName()),
           canonicalization("mp", DoubleModifier.MP.getName()),
@@ -209,20 +190,26 @@ class MaximizerExpression {
       keyword =
           canonicalization.pattern().matcher(keyword).replaceAll(canonicalization.canonical());
     }
-    return keyword;
+    return switch (keyword) {
+      case "mainstat", "combat", "adv", "fites", "ocrs" -> keyword;
+      default -> {
+        Modifier modifier = modifierFor(keyword);
+        yield modifier == null ? keyword : modifier.getName();
+      }
+    };
   }
 
   private static Modifier modifierFor(String keyword) {
     return switch (keyword) {
-      case "clownosity", "clowniness" -> BitmapModifier.CLOWNINESS;
-      case "raveosity" -> BitmapModifier.RAVEOSITY;
-      case "surgeonosity" -> BitmapModifier.SURGEONOSITY;
       case "mainstat" -> DoubleModifier.primeStat();
       case "combat" -> DoubleModifier.COMBAT_RATE;
       case "adv" -> DoubleModifier.ADVENTURES;
       case "fites" -> DoubleModifier.PVP_FIGHTS;
       case "ocrs" -> DoubleModifier.RANDOM_MONSTER_MODIFIERS;
-      default -> DoubleModifier.byCaselessName(keyword);
+      default -> {
+        Modifier modifier = DoubleModifier.byCaselessName(keyword);
+        yield modifier != null ? modifier : BitmapModifier.byCaselessName(keyword);
+      }
     };
   }
 
@@ -258,7 +245,8 @@ class MaximizerExpression {
       position = matcher.end();
       ParsedTerm term = ParsedTerm.from(matcher);
 
-      if (term.operandRequired() && term.operand().isEmpty()) {
+      if (DIRECTIVES_WITH_OPERANDS.getOrDefault(term.keyword(), false)
+          && term.operand().isEmpty()) {
         KoLmafia.updateDisplay(
             MafiaState.ERROR, "Directive '" + term.keyword() + "' requires an operand");
         return null;
@@ -566,7 +554,7 @@ class MaximizerExpression {
             }
 
             this.weight.put(modifier, weight);
-            ModifierLimits defaultLimits = term.defaultLimits();
+            ModifierLimits defaultLimits = defaultLimitsFor(modifier);
             if (defaultLimits != null) {
               this.min.put(modifier, defaultLimits.minimum());
               this.max.put(modifier, defaultLimits.maximum());
