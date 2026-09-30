@@ -195,3 +195,4 @@
 188
 189	Dino Drip	dinotat.gif	dinosaur skull helmet, dinosaur bone club, dinosaur bone corset	candy bone
 190	Flimsy Plastic Armor	lightknighttat.gif	flimsy plastic helmet, flimsy plastic breastplate, flimsy plastic shield, flimsy plastic greaves	Pixie-Swordz
+191	Black Thorn Ensemble	rosetat.gif	black thorn crown, black thorn whip, black thorn sarong, black thorn necklace	black rose pastille

@@ -12364,8 +12364,10 @@
 12335	giant stonefruit	721070998	stonefruit.gif	food	t,d	25
 12336	bed of stone roses	302752054	stonebed.gif	usable	t,d	55
 12337	wide-eyed cherub statue	580430719	cherub.gif	grow	t,d	111
-12338
-12339
-12340
-12341
+12338	black thorn crown	970342052	brghat.gif	hat		0
+12339	black thorn necklace	457198406	brgnecklace.gif	accessory		0
+12340	black thorn whip	293537229	brgwhip.gif	weapon		0
+12341	black thorn sarong	850524241	brgsarong.gif	pants		0
 12342	tiny stone harp	676107367	harp.gif	familiar	t,d	75
+12343	black rose pastille	597788640	brgcandy.gif	potion, usable	t,d	5
+12344	black rose hips extract	561727989	potion30.gif	potion, usable	t	0
