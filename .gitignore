@@ -15,7 +15,6 @@
 /src/test/root/images/*
 /src/test/root/relay/*
 /src/test/root/settings/*
-.classpath
 
 # Created by https://www.toptal.com/developers/gitignore/api/intellij
 # Edit at https://www.toptal.com/developers/gitignore?templates=intellij
@@ -104,3 +103,7 @@ fabric.properties
 .idea/codestream.xml
 
 # End of https://www.toptal.com/developers/gitignore/api/intellij
+
+# Eclipse
+.classpath
+.project
