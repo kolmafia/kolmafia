@@ -2228,6 +2228,13 @@ time cop	2497	timecop.gif	NOCOPY Scale: 2 Cap: ? Floor: ? Init: 250 P: dude Arti
 # Monodent of the Sea (Sept 2025)
 some fish	2499	somefish.gif	Scale: 0 Cap: ? Floor: ? Init: -10000 P: fish BvR: enemy	beefy fish meat (10)	glistening fish meat (10)	slick fish meat (10)	dull fish scale (30)	rough fish scale (20)	pristine fish scale (10)
 
+# Black Rose Garden (Oct 2026)
+rose golem	2541	rosemonster1.gif	Scale: 0 Init: -10000 P: plant Article: a	black rose key (c0)
+giant flamingo statue	2542	rosemonster2.gif	Scale: 0 Init: -10000 P: construct EA: none EA: sleaze Article: a	statuary chunk (0)
+rose garden gnome	2543	rosemonster3.gif	Scale: 0 Init: -10000 P: construct Article: a	statuary chunk (0)
+hollow-eyed angel statue	2544	rosemonster4.gif	Scale: 0 Init: -10000 P: construct EA: none EA: spooky Article: a	statuary chunk (0)
+rose garden ghost	2546	rosemonster5.gif	Scale: 0 Init: -10000 P: undead EA: sleaze EA: cold EA: spooky	black rose pentacle (c0)
+
 # KoL Con
 
 # Gygaxian Libram (KoL Con VIII)
@@ -2962,4 +2969,3 @@ eXtreme Sports Orcs	336	wcorcs.gif	Atk: 39 Def: 34 HP: 30 Init: 60 Meat: 30 Grou
 giant pair of tweezers	38	tweezers.gif	Atk: 16 Def: 14 HP: 8 Init: 60 P: construct Article: a
 Gnollish Sorceress	17	gnollmage.gif	Atk: 11 Def: 9 HP: 5 Init: 60 Meat: 22 P: humanoid EA: cold EA: hot EA: none Article: a	gnoll teeth (5)	gnoll lips (5)
 Knob Goblin Elite Guardsman	79	kg_guardcaptain.gif	Atk: 30 Def: 25 HP: 30 Init: 90 Meat: 50 P: goblin Article: a	Knob Goblin elite helm (5)	Knob Goblin elite pants (5)	Knob Goblin elite polearm (5)	knob bugle (5)	Knob Goblin elite shirt (c5)
-

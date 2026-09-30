@@ -3142,3 +3142,6 @@
 3139	Blessing of the Tax Shield	msm_tax.gif	57fa6c6826f2e9993e92da4bc49d9b1b	neutral	nohookah
 3140	Blessing of the Wind Shield	msm_wind.gif	62614a3f112b3f02eba5ac257865b49e	neutral	nohookah
 3141	Singing of your Prowess	msm_song.gif	d64e3b55d6f06b2b32ee18690810c589	neutral	none	cast 1 %fn, sing a song of my prowess
+3142	Black Rosacea	brgflower.gif	c04eab949b924adac2be783cf53f94df	neutral	none
+3143	Black Rose Guardin'	brgflower.gif	e1e85890fcb022dc09b75304d8b6cd80	neutral	none
+3144	Cloven Mind	brgclove.gif	21e5323d024c07a4e4a07ff221959367	neutral	none	chew 1 clove incense
