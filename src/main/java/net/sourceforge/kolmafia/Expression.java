@@ -170,6 +170,11 @@ public class Expression {
         case '≥' -> v = s[--sp] <= s[--sp] ? 1 : 0;
         case '=' -> v = s[--sp] == s[--sp] ? 1 : 0;
         case '≠' -> v = s[--sp] != s[--sp] ? 1 : 0;
+        case '?' -> {
+          double otherwise = s[--sp];
+          double then = s[--sp];
+          v = s[--sp] != 0 ? then : otherwise;
+        }
         case 'o' -> {
           var token = (String) this.literals.get((int) s[--sp]);
           var item =
@@ -593,6 +598,34 @@ public class Expression {
     return rv;
   }
 
+  private String clamp() {
+    var rv = this.expr();
+    this.expect(",");
+    rv = rv + this.expr() + 'x';
+    this.expect(",");
+    rv = rv + this.expr() + 'm';
+    this.expect(")");
+    return rv;
+  }
+
+  private String conditional() {
+    var rv = new StringBuilder(this.expr());
+    var args = 1;
+    while (this.optional(",")) {
+      rv.append(this.expr());
+      args++;
+    }
+    this.expect(")");
+    if (args < 3 || args % 2 == 0) {
+      var buf = this.newError();
+      buf.append("Expected if(cond, value, ..., else), found ");
+      buf.append(args);
+      buf.append(" arguments");
+    }
+    rv.append("?".repeat(args / 2));
+    return rv.toString();
+  }
+
   private String value() {
     String rv;
     if (this.optional("(")) {
@@ -615,6 +648,9 @@ public class Expression {
     if (this.optional("max(")) {
       return binary('x');
     }
+    if (this.optional("clamp(")) {
+      return clamp();
+    }
     if (this.optional("gt(")) {
       return binary('>');
     }
@@ -632,6 +668,9 @@ public class Expression {
     }
     if (this.optional("neq(")) {
       return binary('≠');
+    }
+    if (this.optional("if(")) {
+      return conditional();
     }
     if (this.optional("abs(")) {
       return unary('a');
