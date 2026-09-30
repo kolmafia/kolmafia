@@ -4,23 +4,36 @@ import java.util.EnumMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
 
+/**
+ * The bitmaps of one Modifiers, and the map they live in. Synchronized for the reasons set out on
+ * {@link DoubleModifierCollection}, and silent when it goes wrong for the reasons set out on {@link
+ * StringModifierCollection}.
+ */
 public class BitmapModifierCollection {
   private final Map<BitmapModifier, Integer> bitmaps = new EnumMap<>(BitmapModifier.class);
 
-  public void reset() {
+  public synchronized void reset() {
     this.bitmaps.clear();
   }
 
   public void set(BitmapModifierCollection source) {
-    this.bitmaps.clear();
-    this.bitmaps.putAll(source.bitmaps);
+    // Two monitors, never held together; see StringModifierCollection.set.
+    Map<BitmapModifier, Integer> copy = source.copyOfBitmaps();
+    synchronized (this) {
+      this.bitmaps.clear();
+      this.bitmaps.putAll(copy);
+    }
   }
 
-  public Integer get(final BitmapModifier mod) {
+  private synchronized Map<BitmapModifier, Integer> copyOfBitmaps() {
+    return new EnumMap<>(this.bitmaps);
+  }
+
+  public synchronized Integer get(final BitmapModifier mod) {
     return this.bitmaps.getOrDefault(mod, 0);
   }
 
-  public boolean set(BitmapModifier modifier, Integer value) {
+  public synchronized boolean set(BitmapModifier modifier, Integer value) {
     Integer oldValue =
         value == 0 ? this.bitmaps.remove(modifier) : this.bitmaps.put(modifier, value);
 
@@ -28,11 +41,12 @@ public class BitmapModifierCollection {
     return oldValue == null || !oldValue.equals(value);
   }
 
-  public double add(final BitmapModifier mod, final Integer value) {
+  public synchronized double add(final BitmapModifier mod, final Integer value) {
     return this.bitmaps.merge(mod, value, (v1, v2) -> v1 | v2);
   }
 
+  /** Outside the lock, over a copy: the action writes to another collection. */
   public void forEach(BiConsumer<? super BitmapModifier, ? super Integer> action) {
-    this.bitmaps.forEach(action);
+    this.copyOfBitmaps().forEach(action);
   }
 }
