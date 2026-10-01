@@ -791,6 +791,32 @@ public class MallPriceManagerTest {
     }
 
     @Test
+    public void mallSearchResultsAreFlushable() {
+      var builder = new FakeHttpClientBuilder();
+
+      try (var cleanups = new Cleanups(mockClock(), withHttpClientBuilder(builder))) {
+        Mockito.when(clock.millis()).thenReturn(1_000_000L);
+        builder.client.addResponse(200, html("request/test_mallprices_allitems.json"));
+
+        int count = MallPriceManager.getMallPrices("allitems", "");
+
+        assertPostRequest(
+            builder.client.getRequests().getFirst(),
+            "/api.php",
+            "what=mallprices&for=KoLmafia&category=allitems&" + MALL_PRICE_FIELDS + "&count=5");
+        assertEquals(1, builder.client.getRequests().size());
+        assertEquals(8422, count);
+
+        List<PurchaseRequest> prs =
+            MallPriceManager.getSavedSearch(ItemPool.ONE_HUNDRED_WATT_BULB, 1);
+        assertEquals(7227, MallPriceManager.getMallPrice(ItemPool.ONE_HUNDRED_WATT_BULB));
+        MallPurchaseRequest toFlush = (MallPurchaseRequest) prs.getFirst();
+        MallPriceManager.flushCache(ItemPool.ONE_HUNDRED_WATT_BULB, toFlush.getShopId());
+        assertEquals(7777, MallPriceManager.getMallPrice(ItemPool.ONE_HUNDRED_WATT_BULB));
+      }
+    }
+
+    @Test
     public void canResolveItemByDescid() {
       try (var cleanups = new Cleanups(mockClock())) {
         Mockito.when(clock.millis()).thenReturn(1_000_000L);

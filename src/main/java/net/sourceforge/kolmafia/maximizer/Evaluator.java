@@ -749,6 +749,7 @@ public class Evaluator {
             if (this.expression.effective) {
               if (id != ItemPool.FOURTH_SABER
                   && id != ItemPool.REPLICA_FOURTH_SABER
+                  && id != ItemPool.MONODENT_OF_THE_SEA
                   && !ModifierDatabase.getBooleanModifier(
                       ModifierType.ITEM, id, BooleanModifier.ATTACKS_CANT_MISS)) {
                 // Always uses best stat, so always considered effective

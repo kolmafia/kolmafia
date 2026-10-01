@@ -12354,18 +12354,20 @@
 12325	black rosebud	578861589	rosebud.gif	usable	t	0
 12326	black garden rose	740525907	brgflower.gif	usable		0
 12327
-12328	black garden ros&eacute;	272543461	wine2.gif	drink	t,d	15
-12329	clove incense	752066087	brgclove.gif	spleen, usable	t,d	15
+12328	black garden ros&eacute;	272543461	wine2.gif	drink	t,d	15	bottles of black garden ros&eacute;
+12329	clove incense	752066087	brgclove.gif	spleen, usable	t,d	15	clove incense sticks
 12330
 12331	black thorn key	451264007	brgkey.gif	none	t	0
 12332	black rose pentacle	677950794	brgpentacle.gif	none	t	0
-12333	statuary chunk	270709628	statuechunk.gif	usable	t,d	5
+12333	statuary chunk	270709628	statuechunk.gif	multiple	t,d	5
 12334	partial tombstone	542203052	tombstonebit.gif	none, combat	t,d	5
 12335	giant stonefruit	721070998	stonefruit.gif	food	t,d	25
-12336	bed of stone roses	302752054	stonebed.gif	usable	t,d	55
+12336	bed of stone roses	302752054	stonebed.gif	usable	t,d	55	beds of stones rose
 12337	wide-eyed cherub statue	580430719	cherub.gif	grow	t,d	111
-12338
-12339
-12340
-12341
+12338	black thorn crown	970342052	brghat.gif	hat		0
+12339	black thorn necklace	457198406	brgnecklace.gif	accessory		0
+12340	black thorn whip	293537229	brgwhip.gif	weapon		0
+12341	black thorn sarong	850524241	brgsarong.gif	pants		0
 12342	tiny stone harp	676107367	harp.gif	familiar	t,d	75
+12343	black rose pastille	597788640	brgcandy.gif	potion, usable	t,d	5
+12344	black rose hips extract	561727989	potion30.gif	potion, usable	t	0
