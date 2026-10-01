@@ -401,6 +401,7 @@ Use	mojo filter	currentMojoFilters	3
 Use	molehill mountain	_molehillMountainUsed
 Use	moveable feast	_feastUsed	5
 Use	overflowing gift basket	_overflowingGiftBasketUsed
+Use	partial tombstone	_partialTombstonesUsed	11
 Use	perfectly fair coin	_perfectlyFairCoinUsed
 Use	picky tweezers	_pickyTweezersUsed
 Use	pirate dinghy	_pirateDinghyUsed

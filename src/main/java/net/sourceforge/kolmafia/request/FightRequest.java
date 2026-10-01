@@ -11783,6 +11783,11 @@ public class FightRequest extends GenericRequest {
             itemSuccess = true;
           }
         }
+        case ItemPool.PARTIAL_TOMBSTONE -> {
+          if (responseText.contains("You use the tombstone chunk")) {
+            itemSuccess = true;
+          }
+        }
       }
     }
 
