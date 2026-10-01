@@ -44,6 +44,7 @@ birdseed hat	100	none
 bishop's mitre	30	none
 black cowboy hat	165	Mox: 67
 black helmet	160	Mus: 65
+black thorn crown	110	Mox: 20
 blue traffic cone	60	Mox: 15
 bonedanna	120	Mox: 45
 Boris's Helm	100	none
@@ -514,6 +515,7 @@ bauxite boxers	150	Mox: 10
 big pants	200	Mox: 150
 biomechanical crimborg leg armor	150	Mox: 60
 black greaves	160	Mox: 65
+black thorn sarong	110	Mox: 20
 bloodied surgical dungarees	155	Mox: 62
 bloody clown pants	50	Mox: 10
 boneana hammock	120	Mox: 45
@@ -1073,6 +1075,7 @@ Bjorn's Hammer	50	Mus: 10	1-handed club
 black blade	160	Mus: 65	1-handed knife
 black kettle drum	140	Mox: 55	2-handed drum
 black sword	160	Mus: 65	1-handed sword
+black thorn whip	10	Mus: 20	1-handed whip
 blade of dismemberment	100	Mus: 0	1-handed sword
 blammer	50	Mus: 0	1-handed club
 blood knife	300	Mus: 0	1-handed knife
@@ -2591,6 +2594,7 @@ bitter bowtie	160	Mox: 65
 black belt	150	Mys: 60
 black glass	0	none
 black rose key	10	none
+black thorn necklace	0	Mys: 20
 blackberry combat boots	180	Mus: 75
 blackberry galoshes	180	Mox: 60
 blackberry moccasins	180	Mys: 75

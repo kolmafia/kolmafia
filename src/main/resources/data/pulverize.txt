@@ -534,3 +534,9 @@ rainbow pearl ring	rainbow pearl
 meteorite earring	meteorite fragment
 meteorite necklace	meteorite fragment
 meteorite ring	meteorite fragment
+
+# Black Thorn Ensemble
+black thorn crown	black rose hips extract
+black thorn necklace	black rose hips extract
+black thorn whip	black rose hips extract
+black thorn sarong	black rose hips extract
