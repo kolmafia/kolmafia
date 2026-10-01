@@ -3103,3 +3103,9 @@ essential banana decoction	SAUCE	classic banana	scrumptious reagent
 Aqua Citrulanatae	SSAUCE	antique watermelon	scrumdiddlyumptious solution
 Quickquince	SSAUCE	quince	scrumdiddlyumptious solution
 banana quintessence	SSAUCE	classic banana	scrumdiddlyumptious solution
+
+# Black Rose Garden
+partial tombstone	MUSE	statuary chunk (3)
+giant stonefruit	MUSE	statuary chunk (5)
+bed of stone roses	MUSE	statuary chunk (11)
+wide-eyed cherub statue	MUSE	statuary chunk (23)
