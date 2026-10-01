@@ -9,6 +9,8 @@ import static org.hamcrest.Matchers.hasEntry;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 
+import java.util.Collections;
+import java.util.Map;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -80,5 +82,27 @@ class ChoiceUtilitiesTest {
     assertThat(choices, hasEntry(1, "A barrel"));
     assertThat(choices, hasEntry(2, "Turn Crank (1)"));
     assertThat(choices, hasEntry(3, "Exit"));
+  }
+
+  @Test
+  void canParseChoicesWithExtras() {
+    String page = html("request/test_choice_peridot.html");
+    var choices = ChoiceUtilities.parseFormChoices(page);
+    assertThat(choices.size(), is(6));
+
+    var formChoice = choices.get(0);
+    assertThat(formChoice.decision(), is(1));
+    assertThat(formChoice.hidden(), is(Map.of("bandersnatch", "100")));
+    assertThat(formChoice.label(), is("a Ninja Snowman"));
+
+    formChoice = choices.get(3);
+    assertThat(formChoice.decision(), is(1));
+    assertThat(formChoice.hidden(), is(Map.of("bandersnatch", "339")));
+    assertThat(formChoice.label(), is("a Ninja Snowman Janitor"));
+
+    formChoice = choices.get(5);
+    assertThat(formChoice.decision(), is(2));
+    assertThat(formChoice.hidden(), is(Collections.emptyMap()));
+    assertThat(formChoice.label(), is("I choose peace"));
   }
 }

@@ -385,6 +385,17 @@ public abstract class RuntimeLibrary {
           new String[] {"main_ingredient", "main_effect", "meals"},
           new Type[] {DataTypes.STRING_TYPE, DataTypes.EFFECT_TYPE, blackWhiteApronMealsType});
 
+  private static final RecordType choiceWithExtrasRec =
+      new RecordType(
+          "{int decision; string[string] extras; string extras_joined; string label;}",
+          new String[] {"decision", "extras", "extras_joined", "label"},
+          new Type[] {
+            DataTypes.INT_TYPE,
+            DataTypes.STRING_TO_STRING_TYPE,
+            DataTypes.STRING_TYPE,
+            DataTypes.STRING_TYPE
+          });
+
   private static final AggregateType NumberologyType =
       new AggregateType(DataTypes.INT_TYPE, DataTypes.INT_TYPE);
   private static final AggregateType HeistType =
@@ -2059,6 +2070,13 @@ public abstract class RuntimeLibrary {
     params = List.of(namedParam("spoilers", DataTypes.BOOLEAN_TYPE));
     functions.add(
         new LibraryFunction("available_choice_options", DataTypes.INT_TO_STRING_TYPE, params));
+
+    params = List.of();
+    functions.add(
+        new LibraryFunction(
+            "available_choice_options_with_extras",
+            new AggregateType(RuntimeLibrary.choiceWithExtrasRec, DataTypes.INT_TYPE),
+            params));
 
     params = List.of(namedParam("decision", DataTypes.INT_TYPE));
     functions.add(
@@ -8095,6 +8113,33 @@ public abstract class RuntimeLibrary {
     }
 
     return value;
+  }
+
+  public static Value available_choice_options_with_extras(ScriptRuntime controller) {
+    AshRuntime interpreter = controller instanceof AshRuntime ? (AshRuntime) controller : null;
+    List<Value> choiceVs = new ArrayList<>();
+    List<ChoiceUtilities.FormChoice> choices =
+        ChoiceUtilities.parseFormChoices(ChoiceManager.lastResponseText);
+    for (ChoiceUtilities.FormChoice choice : choices) {
+      RecordValue choiceV = new RecordValue(RuntimeLibrary.choiceWithExtrasRec);
+      choiceV.aset(0, DataTypes.makeIntValue(choice.decision()), interpreter);
+      MapValue extrasV = new MapValue(DataTypes.STRING_TO_STRING_TYPE);
+      for (Entry<String, String> e : choice.hidden().entrySet()) {
+        extrasV.aset(
+            DataTypes.makeStringValue(e.getKey()), DataTypes.makeStringValue(e.getValue()));
+      }
+      choiceV.aset(1, extrasV, interpreter);
+      String extrasJoined =
+          choice.hidden().entrySet().stream()
+              .map(e -> e.getKey() + "=" + e.getValue())
+              .collect(Collectors.joining("&"));
+      choiceV.aset(2, DataTypes.makeStringValue(extrasJoined), interpreter);
+      choiceV.aset(3, DataTypes.makeStringValue(choice.label()), interpreter);
+      choiceVs.add(choiceV);
+    }
+
+    return new ArrayValue(
+        new AggregateType(RuntimeLibrary.choiceWithExtrasRec, DataTypes.INT_TYPE), choiceVs);
   }
 
   public static Value available_choice_select_inputs(ScriptRuntime controller, Value decision) {
