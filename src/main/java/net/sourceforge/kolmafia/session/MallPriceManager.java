@@ -819,7 +819,7 @@ public abstract class MallPriceManager {
             entry.getValue().stream()
                 .filter(x -> !(x instanceof CoinMasterPurchaseRequest))
                 .sorted(PurchaseRequest.priceComparator)
-                .toList();
+                .collect(Collectors.toCollection(ArrayList::new));
         MallPriceManager.flushCache(itemId);
         MallPriceManager.updateMallPrice(itemId, prs, true);
         MallPriceManager.mallSearches.put(itemId, prs);
