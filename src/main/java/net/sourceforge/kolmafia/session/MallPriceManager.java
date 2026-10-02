@@ -627,18 +627,17 @@ public abstract class MallPriceManager {
       return 0;
     }
 
-    long price = MallPriceDatabase.getPrice(itemId);
-    if (MallPriceDatabase.getAge(itemId) > maxAge) {
-      MallPriceManager.flushCache(itemId);
-      MallPriceManager.mallPrices.remove(itemId);
-      price = 0;
+    if (maxAge > 0.0) {
+
+      long price = MallPriceDatabase.getPrice(itemId);
+      float age = MallPriceDatabase.getAge(itemId);
+      if (price > 0 && age <= maxAge) {
+        return price;
+      }
     }
 
-    // If this item is not in the database, look at local cache.
-    if (price <= 0) {
-      price = MallPriceManager.getMallPrice(itemId);
-    }
-    return price;
+    // If this item is not in the database, or too old, look at local cache.
+    return MallPriceManager.getMallPrice(itemId);
   }
 
   public static int getMallPrices(AdventureResult[] items, float maxAge) {
