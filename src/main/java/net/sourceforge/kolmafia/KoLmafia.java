@@ -1333,6 +1333,7 @@ public abstract class KoLmafia {
     boolean isAdventure = request instanceof KoLAdventure;
 
     List<AdventureResult> goals = GoalManager.getGoals();
+    boolean hadGoals = !goals.isEmpty();
 
     boolean deferConcoctionRefresh = true;
 
@@ -1356,7 +1357,8 @@ public abstract class KoLmafia {
       int runBeforeRequest = KoLCharacter.getCurrentRun();
       KoLmafia.tookChoice = false;
 
-      KoLmafia.executeRequestOnce(request, currentIteration, totalIterations, wasAdventuring);
+      KoLmafia.executeRequestOnce(
+          request, currentIteration, totalIterations, hadGoals, wasAdventuring);
 
       // If updates are suppressed, turn counter doesn't change, so we get stuck in an infinite loop
       // Avoid an API update in that case.
@@ -1410,10 +1412,11 @@ public abstract class KoLmafia {
       final Runnable request,
       final int currentIteration,
       final int totalIterations,
+      final boolean hadGoals,
       final boolean wasAdventuring) {
     if (request instanceof KoLAdventure) {
       KoLmafia.executeAdventureOnce(
-          (KoLAdventure) request, currentIteration, totalIterations, wasAdventuring);
+          (KoLAdventure) request, currentIteration, totalIterations, hadGoals, wasAdventuring);
       return;
     }
 
@@ -1431,13 +1434,14 @@ public abstract class KoLmafia {
       final KoLAdventure adventure,
       final int currentIteration,
       final int totalIterations,
+      final boolean hadGoals,
       final boolean wasAdventuring) {
     if (KoLCharacter.getAdventuresLeft() == 0) {
       KoLmafia.updateDisplay(MafiaState.PENDING, "Ran out of adventures.");
       return;
     }
 
-    if (KoLmafia.handleConditions()) {
+    if (KoLmafia.handleConditions(hadGoals)) {
       KoLmafia.updateDisplay(
           MafiaState.PENDING, "Conditions satisfied after " + currentIteration + " adventures.");
       return;
@@ -1492,7 +1496,7 @@ public abstract class KoLmafia {
 
     KoLmafia.executeAfterAdventureScript();
 
-    if (KoLmafia.handleConditions()) {
+    if (KoLmafia.handleConditions(hadGoals)) {
       KoLmafia.updateDisplay(
           MafiaState.PENDING, "Conditions satisfied after " + currentIteration + " adventures.");
       return;
@@ -1515,9 +1519,11 @@ public abstract class KoLmafia {
     return false;
   }
 
-  private static boolean handleConditions() {
+  private static boolean handleConditions(final boolean hadGoals) {
     if (!GoalManager.hasGoals()) {
-      return true;
+      // If we started with goals, we satisfied them all and
+      // should stop adventuring. If we didn't, we should not.
+      return hadGoals;
     }
 
     // Creating an item can change our goals, so copy
