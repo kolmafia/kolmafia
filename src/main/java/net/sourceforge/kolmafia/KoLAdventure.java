@@ -568,6 +568,14 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     return true;
   }
 
+  public boolean tooFullToAdventure() {
+    return KoLCharacter.isOverfull() && this.hasSnarfblat();
+  }
+
+  public boolean tooSpleenedToAdventure() {
+    return KoLCharacter.isOverspleened() && this.hasSnarfblat();
+  }
+
   public static boolean woodsOpen() {
     return QuestDatabase.isQuestStarted(Quest.LARVA) || QuestDatabase.isQuestStarted(Quest.CITADEL);
   }
@@ -619,6 +627,16 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   public boolean preValidateAdventure() {
     if (tooDrunkToAdventure()) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "You are too drunk to continue.");
+      return false;
+    }
+
+    if (tooFullToAdventure()) {
+      KoLmafia.updateDisplay(MafiaState.ERROR, "You are too full to continue.");
+      return false;
+    }
+
+    if (tooSpleenedToAdventure()) {
+      KoLmafia.updateDisplay(MafiaState.ERROR, "Your spleen is too damaged to continue.");
       return false;
     }
 
@@ -3731,7 +3749,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     // steps have been executed.
 
     // If we are too drunk adventure, return now.
-    if (tooDrunkToAdventure()) return;
+    if (tooDrunkToAdventure() || tooFullToAdventure() || tooSpleenedToAdventure()) return;
 
     // Unleash Your Inner Wolf redirects to a fight chain that takes 3 turns,
     // regardless of how many fights are actually fought.
