@@ -1514,7 +1514,7 @@ public class ModifiersTest {
 
     @Test
     void sombreroGivesExperience() {
-      var cleanups = withFamiliar(FamiliarPool.SOMBRERO, 100);
+      var cleanups = new Cleanups(withFamiliar(FamiliarPool.SOMBRERO, 100), withLocation(null));
 
       try (cleanups) {
         Modifiers current = KoLCharacter.getCurrentModifiers();
