@@ -168,7 +168,9 @@ public class RelayRequest extends PasswordHashRequest {
     RALPH2,
     DESERT_WEAPON,
     SPRING_SHOES,
-    TRANSFORM;
+    TRANSFORM,
+    OVERFULL_ADVENTURE,
+    OVERSPLEENED_ADVENTURE;
 
     @Override
     public String toString() {
@@ -3141,6 +3143,46 @@ public class RelayRequest extends PasswordHashRequest {
     return true;
   }
 
+  public boolean sendOverfullAdventureWarning(final KoLAdventure adventure) {
+    if (adventure == null) {
+      return false;
+    }
+
+    if (this.getFormField(Confirm.OVERFULL_ADVENTURE) != null) {
+      return false;
+    }
+
+    if (!adventure.tooFullToAdventure()) {
+      return false;
+    }
+
+    String warning =
+        "KoLmafia has detected that you are about to adventure while overfull. "
+            + "If you are sure you wish to adventure in a Food Coma, click the icon to adventure. ";
+    this.sendGeneralWarning("sleepy.gif", warning, Confirm.OVERFULL_ADVENTURE);
+    return true;
+  }
+
+  public boolean sendOverspleenedAdventureWarning(final KoLAdventure adventure) {
+    if (adventure == null) {
+      return false;
+    }
+
+    if (this.getFormField(Confirm.OVERSPLEENED_ADVENTURE) != null) {
+      return false;
+    }
+
+    if (!adventure.tooSpleenedToAdventure()) {
+      return false;
+    }
+
+    String warning =
+        "KoLmafia has detected that you are about to adventure while overspleened. "
+            + "If you are sure you wish to be sent home by Strangers With Medical Advice, click the icon to adventure. ";
+    this.sendGeneralWarning("whisk.gif", warning, Confirm.OVERSPLEENED_ADVENTURE);
+    return true;
+  }
+
   private boolean sendSpelunkyWarning(final KoLAdventure adventure) {
     // If this is not an adventure URL, nothing to do here
     if (adventure == null) {
@@ -4184,6 +4226,14 @@ public class RelayRequest extends PasswordHashRequest {
       if (this.sendOverdrunkAdventureWarning(adventure)) {
         return true;
       }
+    }
+
+    if (this.sendOverfullAdventureWarning(adventure)) {
+      return true;
+    }
+
+    if (this.sendOverspleenedAdventureWarning(adventure)) {
+      return true;
     }
 
     if (this.sendColosseumWarning(adventure)) {

@@ -654,6 +654,14 @@ public abstract class KoLCharacter {
     return KoLCharacter.getInebriety() > KoLCharacter.getLiverCapacity();
   }
 
+  public static boolean isOverfull() {
+    return KoLCharacter.getFullness() > KoLCharacter.getStomachCapacity();
+  }
+
+  public static boolean isOverspleened() {
+    return KoLCharacter.getSpleenUse() > KoLCharacter.getSpleenLimit();
+  }
+
   public static void setSpleenUse(int spleenUse) {
     int value = Math.max(0, spleenUse);
     if (KoLCharacter.spleenUse != value) {
