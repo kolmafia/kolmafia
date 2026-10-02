@@ -4,15 +4,21 @@ import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withAdventuresLeft;
 import static internal.helpers.Player.withConcoctionRefresh;
+import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withGoal;
+import static internal.helpers.Player.withHP;
 import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withLocation;
+import static internal.helpers.Player.withQuestProgress;
 import static internal.helpers.Player.withResponses;
 import static internal.helpers.Player.withSkill;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.not;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -24,10 +30,12 @@ import internal.network.FakeHttpResponse;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -100,6 +108,21 @@ public class KoLmafiaTest {
 
   @Nested
   class Goals {
+    private Cleanups withCanAdventure() {
+      return new Cleanups(
+          withAdventuresLeft(1),
+          withHP(50, 50, 50),
+          withEquipped(Slot.WEAPON, ItemPool.JUNE_CLEAVER));
+    }
+
+    private Cleanups canAccessHoleInTheSky() {
+      return withItem(ItemPool.ROCKETSHIP, 1);
+    }
+
+    private Cleanups canAccessOilPeak() {
+      return withQuestProgress(Quest.TOPPING, 1);
+    }
+
     private FakeHttpClientBuilder buyStarKey() {
       var starKeyAcquired =
           "<html>You place the stars and lines on the chart -- the chart bursts into flames"
@@ -117,16 +140,16 @@ public class KoLmafiaTest {
     }
 
     @Test
-    public void satisfiesCoinMasterGoalWithoutAutoSatisfy() {
+    public void satisfiesCoinMasterGoal() {
       var builder = buyStarKey();
       var client = builder.client;
 
       var cleanups =
           new Cleanups(
               withHttpClientBuilder(builder),
-              withAdventuresLeft(1),
+              withCanAdventure(),
               withGoal(ItemPool.get(ItemPool.STAR_KEY, 1)),
-              withItem(ItemPool.ROCKETSHIP, 1),
+              canAccessHoleInTheSky(),
               withItem(ItemPool.STAR_CHART, 1),
               withItem(ItemPool.STAR, 8),
               withItem(ItemPool.LINE, 7),
@@ -152,20 +175,27 @@ public class KoLmafiaTest {
       var cleanups =
           new Cleanups(
               withHttpClientBuilder(builder),
-              withAdventuresLeft(1),
+              withCanAdventure(),
               withGoal(ItemPool.get(ItemPool.STAR_KEY, 1)),
-              withItem(ItemPool.ROCKETSHIP, 1),
+              canAccessHoleInTheSky(),
               withItem(ItemPool.STAR_CHART, 1),
               withItem(ItemPool.STAR, 7),
               withItem(ItemPool.LINE, 7),
+              withLocation("The Hole in the Sky"),
               withConcoctionRefresh());
 
       try (cleanups) {
         KoLmafia.makeRequest(AdventureDatabase.getAdventureByName("The Hole in the Sky"), 1);
 
-        var requests = client.getRequests();
-        assertThat(requests, hasSize(1));
-        assertPostRequest(requests.get(0), "/adventure.php", containsString("snarfblat=83"));
+        var paths = client.getRequests().stream().map(r -> r.uri().getPath()).toList();
+        assertThat(paths, not(hasItem("/shop.php")));
+
+        var adventures =
+            client.getRequests().stream()
+                .filter(r -> r.uri().getPath().equals("/adventure.php"))
+                .toList();
+        assertThat(adventures, hasSize(1));
+        assertPostRequest(adventures.get(0), "/adventure.php", containsString("snarfblat=83"));
       }
     }
 
@@ -192,7 +222,8 @@ public class KoLmafiaTest {
       var cleanups =
           new Cleanups(
               withHttpClientBuilder(builder),
-              withAdventuresLeft(1),
+              withCanAdventure(),
+              canAccessOilPeak(),
               withGoal(ItemPool.get(ItemPool.JAR_OF_OIL, 1)),
               withItem(ItemPool.BUBBLIN_CRUDE, 12),
               withConcoctionRefresh());
@@ -220,9 +251,11 @@ public class KoLmafiaTest {
       var cleanups =
           new Cleanups(
               withHttpClientBuilder(builder),
-              withAdventuresLeft(1),
+              withCanAdventure(),
+              canAccessOilPeak(),
               withGoal(ItemPool.get(ItemPool.JAR_OF_OIL, 1)),
               withItem(ItemPool.BUBBLIN_CRUDE, 11),
+              withLocation("Oil Peak"),
               withConcoctionRefresh());
 
       try (cleanups) {
@@ -234,8 +267,10 @@ public class KoLmafiaTest {
         KoLmafia.makeRequest(AdventureDatabase.getAdventureByName("Oil Peak"), 1);
 
         var requests = client.getRequests();
-        assertThat(requests, hasSize(1));
-        assertPostRequest(requests.get(0), "/adventure.php", containsString("snarfblat=298"));
+        var adventures =
+            requests.stream().filter(r -> r.uri().getPath().equals("/adventure.php")).toList();
+        assertThat(adventures, hasSize(1));
+        assertPostRequest(adventures.get(0), "/adventure.php", containsString("snarfblat=298"));
       }
     }
   }
