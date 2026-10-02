@@ -225,6 +225,20 @@ public class KoLAdventureValidationTest {
             is(true));
       }
     }
+
+    @ParameterizedTest
+    @EnumSource(
+        value = LimitMode.class,
+        names = {"SPELUNKY", "BATMAN"})
+    void beingOverfullInLimitModeWithoutCapacityPassesPreValidation(final LimitMode limitMode) {
+      var cleanups =
+          new Cleanups(
+              withClass(AscensionClass.SEAL_CLUBBER), withFullness(10), withLimitMode(limitMode));
+
+      try (cleanups) {
+        assertThat(WARREN.preValidateAdventure(), is(true));
+      }
+    }
   }
 
   @Nested
@@ -259,6 +273,20 @@ public class KoLAdventureValidationTest {
             AdventureDatabase.getAdventureByName("The Typical Tavern Cellar")
                 .preValidateAdventure(),
             is(true));
+      }
+    }
+
+    @ParameterizedTest
+    @EnumSource(
+        value = LimitMode.class,
+        names = {"SPELUNKY", "BATMAN"})
+    void beingOverspleenedInLimitModeWithoutCapacityPassesPreValidation(final LimitMode limitMode) {
+      var cleanups =
+          new Cleanups(
+              withClass(AscensionClass.SEAL_CLUBBER), withSpleenUse(10), withLimitMode(limitMode));
+
+      try (cleanups) {
+        assertThat(WARREN.preValidateAdventure(), is(true));
       }
     }
   }

@@ -655,11 +655,11 @@ public abstract class KoLCharacter {
   }
 
   public static boolean isOverfull() {
-    return KoLCharacter.getFullness() > KoLCharacter.getStomachCapacity();
+    return KoLCharacter.canEat() && KoLCharacter.getFullness() > KoLCharacter.getStomachCapacity();
   }
 
   public static boolean isOverspleened() {
-    return KoLCharacter.getSpleenUse() > KoLCharacter.getSpleenLimit();
+    return KoLCharacter.canChew() && KoLCharacter.getSpleenUse() > KoLCharacter.getSpleenLimit();
   }
 
   public static void setSpleenUse(int spleenUse) {
