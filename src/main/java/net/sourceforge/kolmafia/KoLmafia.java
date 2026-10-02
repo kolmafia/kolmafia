@@ -13,6 +13,7 @@ import java.io.RandomAccessFile;
 import java.math.BigInteger;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -33,6 +34,8 @@ import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
+import net.sourceforge.kolmafia.objectpool.Concoction;
+import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
@@ -1333,17 +1336,10 @@ public abstract class KoLmafia {
 
     boolean deferConcoctionRefresh = true;
 
-    AdventureResult[] items = new AdventureResult[goals.size()];
-    CreateItemRequest[] creatables = new CreateItemRequest[goals.size()];
-
-    for (int i = 0; i < goals.size(); ++i) {
-      AdventureResult goal = goals.get(i);
-      items[i] = goal;
-      creatables[i] = CreateItemRequest.getInstance(goal);
-
-      if (deferConcoctionRefresh
-          && ConcoctionDatabase.getMixingMethod(goal) != CraftingType.NOCREATE) {
+    for (AdventureResult goal : goals) {
+      if (ConcoctionDatabase.getMixingMethod(goal) != CraftingType.NOCREATE) {
         deferConcoctionRefresh = false;
+        break;
       }
     }
 
@@ -1360,8 +1356,7 @@ public abstract class KoLmafia {
       int runBeforeRequest = KoLCharacter.getCurrentRun();
       KoLmafia.tookChoice = false;
 
-      KoLmafia.executeRequestOnce(
-          request, currentIteration, totalIterations, items, creatables, wasAdventuring);
+      KoLmafia.executeRequestOnce(request, currentIteration, totalIterations, wasAdventuring);
 
       // If updates are suppressed, turn counter doesn't change, so we get stuck in an infinite loop
       // Avoid an API update in that case.
@@ -1415,17 +1410,10 @@ public abstract class KoLmafia {
       final Runnable request,
       final int currentIteration,
       final int totalIterations,
-      final AdventureResult[] items,
-      final CreateItemRequest[] creatables,
       final boolean wasAdventuring) {
     if (request instanceof KoLAdventure) {
       KoLmafia.executeAdventureOnce(
-          (KoLAdventure) request,
-          currentIteration,
-          totalIterations,
-          items,
-          creatables,
-          wasAdventuring);
+          (KoLAdventure) request, currentIteration, totalIterations, wasAdventuring);
       return;
     }
 
@@ -1443,15 +1431,13 @@ public abstract class KoLmafia {
       final KoLAdventure adventure,
       final int currentIteration,
       final int totalIterations,
-      final AdventureResult[] items,
-      final CreateItemRequest[] creatables,
       final boolean wasAdventuring) {
     if (KoLCharacter.getAdventuresLeft() == 0) {
       KoLmafia.updateDisplay(MafiaState.PENDING, "Ran out of adventures.");
       return;
     }
 
-    if (KoLmafia.handleConditions(items, creatables)) {
+    if (KoLmafia.handleConditions()) {
       KoLmafia.updateDisplay(
           MafiaState.PENDING, "Conditions satisfied after " + currentIteration + " adventures.");
       return;
@@ -1506,7 +1492,7 @@ public abstract class KoLmafia {
 
     KoLmafia.executeAfterAdventureScript();
 
-    if (KoLmafia.handleConditions(items, creatables)) {
+    if (KoLmafia.handleConditions()) {
       KoLmafia.updateDisplay(
           MafiaState.PENDING, "Conditions satisfied after " + currentIteration + " adventures.");
       return;
@@ -1529,58 +1515,57 @@ public abstract class KoLmafia {
     return false;
   }
 
-  private static boolean handleConditions(
-      final AdventureResult[] items, final CreateItemRequest[] creatables) {
-    if (items.length == 0) {
-      return false;
-    }
-
+  private static boolean handleConditions() {
     if (!GoalManager.hasGoals()) {
       return true;
     }
 
-    boolean shouldCreate = false;
+    // Creating an item can change our goals, so copy
+    List<AdventureResult> goals = new ArrayList<>(GoalManager.getGoals());
 
-    for (int i = 0; i < creatables.length && !shouldCreate; ++i) {
-      shouldCreate =
-          creatables[i] != null && creatables[i].getQuantityPossible() >= items[i].getCount();
-    }
+    for (final AdventureResult goal : goals) {
+      CreateItemRequest creatable = CreateItemRequest.getInstance(goal);
 
-    // In theory, you could do a real validation by doing a full
-    // dependency search. While that's technically better, it's
-    // also not very useful.
-
-    for (int i = 0; i < creatables.length && shouldCreate; ++i) {
-      shouldCreate =
-          creatables[i] == null || creatables[i].getQuantityPossible() >= items[i].getCount();
-    }
-
-    // Create any items which are creatable.
-
-    if (shouldCreate) {
-      for (int i = creatables.length - 1; i >= 0; --i) {
-        if (creatables[i] != null && creatables[i].getQuantityPossible() >= items[i].getCount()) {
-          creatables[i].setQuantityNeeded(items[i].getCount());
-          // Don't autocreate items here as well as in ResultProcessor
-          switch (creatables[i].getItemId()) {
-            case ItemPool.REASSEMBLED_BLACKBIRD:
-            case ItemPool.RECONSTITUTED_CROW:
-            case ItemPool.BATSKIN_BELT:
-            case ItemPool.BADASS_BELT:
-            case ItemPool.BONERDAGON_NECKLACE:
-            case ItemPool.TALISMAN:
-            case ItemPool.MCCLUSKY_FILE:
-              if (!Preferences.getBoolean("autoCraft")) {
-                RequestThread.postRequest(creatables[i]);
-              }
-              break;
-            default:
-              RequestThread.postRequest(creatables[i]);
-              break;
-          }
-          creatables[i] = null;
+      if (creatable != null && creatable.getQuantityPossible() >= goal.getCount()) {
+        creatable.setQuantityNeeded(goal.getCount());
+        // Don't autocreate items here as well as in ResultProcessor
+        switch (creatable.getItemId()) {
+          case ItemPool.REASSEMBLED_BLACKBIRD:
+          case ItemPool.RECONSTITUTED_CROW:
+          case ItemPool.BATSKIN_BELT:
+          case ItemPool.BADASS_BELT:
+          case ItemPool.BONERDAGON_NECKLACE:
+          case ItemPool.TALISMAN:
+          case ItemPool.MCCLUSKY_FILE:
+            if (!Preferences.getBoolean("autoCraft")) {
+              RequestThread.postRequest(creatable);
+            }
+            break;
+          default:
+            RequestThread.postRequest(creatable);
+            break;
         }
+        continue;
       }
+
+      // A goal is an explicit ask, so trade with a coinmaster even if
+      // autoSatisfyWithCoinmasters is false.
+
+      if (!goal.isItem()) {
+        continue;
+      }
+
+      Concoction concoction = ConcoctionPool.get(goal);
+      PurchaseRequest request = concoction == null ? null : concoction.getPurchaseRequest();
+
+      if (request == null
+          || !request.isAccessible()
+          || request.affordableCount() < goal.getCount()) {
+        continue;
+      }
+
+      request.setLimit(goal.getCount());
+      request.run();
     }
 
     // If the conditions existed and have been satisfied,
