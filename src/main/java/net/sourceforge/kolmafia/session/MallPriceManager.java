@@ -631,7 +631,7 @@ public abstract class MallPriceManager {
 
       long price = MallPriceDatabase.getPrice(itemId);
       float age = MallPriceDatabase.getAge(itemId);
-      if (price > 0 && age < maxAge) {
+      if (price > 0 && age <= maxAge) {
         return price;
       }
     }
