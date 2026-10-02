@@ -45,7 +45,6 @@ public class KoLmafiaTest {
   @BeforeEach
   public void beforeEach() {
     KoLCharacter.reset("KoLmafiaTest");
-    KoLmafia.forceContinue();
   }
 
   @Test
@@ -134,7 +133,7 @@ public class KoLmafiaTest {
             if (req.uri().getPath().equals("/shop.php")) {
               return new FakeHttpResponse<>(200, starKeyAcquired);
             }
-            return new FakeHttpResponse<>(200, "");
+            return new FakeHttpResponse<>(200, "Nonempty");
           });
       return builder;
     }
@@ -209,7 +208,7 @@ public class KoLmafiaTest {
             if (req.uri().getPath().equals("/multiuse.php")) {
               return new FakeHttpResponse<>(200, oilAcquired);
             }
-            return new FakeHttpResponse<>(200, "");
+            return new FakeHttpResponse<>(200, "Nonempty");
           });
       return builder;
     }
