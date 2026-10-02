@@ -3,12 +3,15 @@ package net.sourceforge.kolmafia;
 import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withAdventuresLeft;
+import static internal.helpers.Player.withConcoctionRefresh;
 import static internal.helpers.Player.withGoal;
 import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withResponses;
 import static internal.helpers.Player.withSkill;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -25,7 +28,6 @@ import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
-import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -34,7 +36,8 @@ import org.junit.jupiter.api.Test;
 public class KoLmafiaTest {
   @BeforeEach
   public void beforeEach() {
-    KoLCharacter.reset(true);
+    KoLCharacter.reset("KoLmafiaTest");
+    KoLmafia.forceContinue();
   }
 
   @Test
@@ -96,23 +99,17 @@ public class KoLmafiaTest {
   }
 
   @Nested
-  class CoinMasterGoals {
-    // A Star Chart item can be made by "A Star Chart", which is a coin master.
-    // Coin master purchases are not a permitted crafting method unless the user has
-    // set autoSatisfyWithCoinmasters, but asking for an item as an adventuring goal
-    // is explicit enough that we should still buy it for them.
-
-    private static final String ACQUIRED =
-        "<html>You place the stars and lines on the chart -- the chart bursts into flames"
-            + " and leaves behind a sweet star item!"
-            + "<b>You acquire an item: <b>Richard's star key</b></b></html>";
-
+  class Goals {
     private FakeHttpClientBuilder buyStarKey() {
+      var starKeyAcquired =
+          "<html>You place the stars and lines on the chart -- the chart bursts into flames"
+              + " and leaves behind a sweet star item!"
+              + "<b>You acquire an item: <b>Richard's star key</b></b></html>";
       var builder = new FakeHttpClientBuilder();
       builder.client.setResponseFunc(
           req -> {
             if (req.uri().getPath().equals("/shop.php")) {
-              return new FakeHttpResponse<>(200, ACQUIRED);
+              return new FakeHttpResponse<>(200, starKeyAcquired);
             }
             return new FakeHttpResponse<>(200, "");
           });
@@ -129,20 +126,17 @@ public class KoLmafiaTest {
               withHttpClientBuilder(builder),
               withAdventuresLeft(1),
               withGoal(ItemPool.get(ItemPool.STAR_KEY, 1)),
+              withItem(ItemPool.ROCKETSHIP, 1),
               withItem(ItemPool.STAR_CHART, 1),
               withItem(ItemPool.STAR, 8),
-              withItem(ItemPool.LINE, 7));
+              withItem(ItemPool.LINE, 7),
+              withConcoctionRefresh());
 
       try (cleanups) {
-        ConcoctionDatabase.refreshConcoctionsNow();
-
-        // We have not opted into trading with coin masters, so there is no
-        // permitted method of creating this.
         assertNull(CreateItemRequest.getInstance(ItemPool.get(ItemPool.STAR_KEY, 1)));
 
         KoLmafia.makeRequest(AdventureDatabase.getAdventureByName("The Hole in the Sky"), 1);
 
-        // Nevertheless, it is an explicit goal, so we buy it.
         var requests = client.getRequests();
         assertThat(requests, hasSize(1));
         assertPostRequest(
@@ -158,19 +152,90 @@ public class KoLmafiaTest {
       var cleanups =
           new Cleanups(
               withHttpClientBuilder(builder),
-              withAdventuresLeft(0),
+              withAdventuresLeft(1),
               withGoal(ItemPool.get(ItemPool.STAR_KEY, 1)),
+              withItem(ItemPool.ROCKETSHIP, 1),
               withItem(ItemPool.STAR_CHART, 1),
               withItem(ItemPool.STAR, 7),
-              withItem(ItemPool.LINE, 7));
+              withItem(ItemPool.LINE, 7),
+              withConcoctionRefresh());
 
       try (cleanups) {
-        ConcoctionDatabase.refreshConcoctionsNow();
-
         KoLmafia.makeRequest(AdventureDatabase.getAdventureByName("The Hole in the Sky"), 1);
 
-        // We cannot afford it, so we just go adventuring.
-        assertThat(client.getRequests(), hasSize(0));
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(1));
+        assertPostRequest(requests.get(0), "/adventure.php", containsString("snarfblat=83"));
+      }
+    }
+
+    private FakeHttpClientBuilder makeJarOfOil() {
+      var oilAcquired =
+          "<html>Driven by forces you don't understand, you make a jar out of oil and fill it with oil before making a lid out of oil and sealing the jar."
+              + "<b>You acquire an item: <b>jar of oil</b></b></html>";
+      var builder = new FakeHttpClientBuilder();
+      builder.client.setResponseFunc(
+          req -> {
+            if (req.uri().getPath().equals("/multiuse.php")) {
+              return new FakeHttpResponse<>(200, oilAcquired);
+            }
+            return new FakeHttpResponse<>(200, "");
+          });
+      return builder;
+    }
+
+    @Test
+    public void createsCreatableGoal() {
+      var builder = makeJarOfOil();
+      var client = builder.client;
+
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withAdventuresLeft(1),
+              withGoal(ItemPool.get(ItemPool.JAR_OF_OIL, 1)),
+              withItem(ItemPool.BUBBLIN_CRUDE, 12),
+              withConcoctionRefresh());
+
+      try (cleanups) {
+        assertThat(
+            CreateItemRequest.getInstance(ItemPool.get(ItemPool.JAR_OF_OIL, 1))
+                .getQuantityPossible(),
+            equalTo(1));
+
+        KoLmafia.makeRequest(AdventureDatabase.getAdventureByName("Oil Peak"), 1);
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(1));
+        assertPostRequest(
+            requests.get(0), "/multiuse.php", "action=useitem&quantity=12&whichitem=5789");
+      }
+    }
+
+    @Test
+    public void doesNotCreateCreatableGoalWithoutEnoughIngredients() {
+      var builder = makeJarOfOil();
+      var client = builder.client;
+
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withAdventuresLeft(1),
+              withGoal(ItemPool.get(ItemPool.JAR_OF_OIL, 1)),
+              withItem(ItemPool.BUBBLIN_CRUDE, 11),
+              withConcoctionRefresh());
+
+      try (cleanups) {
+        assertThat(
+            CreateItemRequest.getInstance(ItemPool.get(ItemPool.JAR_OF_OIL, 1))
+                .getQuantityPossible(),
+            equalTo(0));
+
+        KoLmafia.makeRequest(AdventureDatabase.getAdventureByName("Oil Peak"), 1);
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(1));
+        assertPostRequest(requests.get(0), "/adventure.php", containsString("snarfblat=298"));
       }
     }
   }
