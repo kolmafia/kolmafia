@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.chat;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.SwingUtilities;
 import net.java.dev.spellcast.utilities.ChatBuffer;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -95,13 +96,16 @@ public class StyledChatBuffer extends ChatBuffer {
   }
 
   public void applyHighlights() {
-    String[] lines = this.getContent().split("<br>");
+    SwingUtilities.invokeLater(
+        () -> {
+          String[] lines = this.getContent().split("<br>");
 
-    this.clear();
+          this.clear();
 
-    for (String line : lines) {
-      this.append(line + "<br>");
-    }
+          for (String line : lines) {
+            this.append(line + "<br>");
+          }
+        });
   }
 
   private String applyHighlight(

@@ -40,17 +40,22 @@ package net.java.dev.spellcast.utilities;
 
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.HierarchyEvent;
 import java.io.File;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Stack;
 import java.util.Set;
+import java.util.WeakHashMap;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
@@ -58,7 +63,10 @@ import javax.swing.JEditorPane;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.text.BadLocationException;
 import javax.swing.text.Element;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.html.HTML;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
 
@@ -75,18 +83,16 @@ public class ChatBuffer
 
 	private final String title;
 
-	private final StringBuffer content = new StringBuffer();
-	private final LinkedList<JEditorPane> displayPanes = new LinkedList<>();
+	private final Deque<String> entries = new ArrayDeque<>();
+	private int contentLength = 0;
 
-	private final Set<JEditorPane> stickyPanes = new LinkedHashSet<>();
-	private final LinkedList<JEditorPane> addStickyPanes = new LinkedList<>();
-	private final LinkedList<JEditorPane> removeStickyPanes = new LinkedList<>();
+	private final Set<JEditorPane> displayPanes = ChatBuffer.weakSet();
+	private final Set<JEditorPane> stickyPanes = ChatBuffer.weakSet();
+	private final Set<JEditorPane> stalePanes = ChatBuffer.weakSet();
 
-	private volatile int resetSequence = 0;
-
-	// Every queued update for this ChatBuffer carries the then-current value of resetSequence,
-	// which is incremented only on updates that completely rewrite the display.  Any update
-	// with an outdated sequence number is simply ignored.
+	private int pendingCount = 0;
+	private int pendingRemovals = 0;
+	private boolean flushScheduled = false;
 
 	private File logFile;
 	private PrintWriter logWriter;
@@ -95,6 +101,8 @@ public class ChatBuffer
 
 	private static final int MAXIMUM_LENGTH = 50000;
 	private static final int TRIM_TO_LENGTH = 45000;
+	private static final int MINIMUM_ENTRIES = 100;
+	private static final int MAXIMUM_RETAINED_LENGTH = 200000;
 
 	/**
 	 * Constructs a new <code>ChatBuffer</code>. However, note that this does not automatically translate into the
@@ -134,10 +142,20 @@ public class ChatBuffer
 			}
 		});
 
-		displayPane.setText( this.getHTMLContent() );
+		displayPane.addHierarchyListener( e ->
+		{
+			if ( ( e.getChangeFlags() & HierarchyEvent.DISPLAYABILITY_CHANGED ) != 0 && displayPane.isDisplayable() )
+			{
+				SwingUtilities.invokeLater( () -> this.markStale( displayPane ) );
+			}
+		} );
 
-		this.displayPanes.addLast( displayPane );
-		this.addStickyPanes.addLast( displayPane );
+		SwingUtilities.invokeLater( () ->
+		{
+			this.displayPanes.add( displayPane );
+			this.stickyPanes.add( displayPane );
+			this.markStale( displayPane );
+		} );
 
 		JScrollPane scroller =
 			new JScrollPane(
@@ -198,17 +216,19 @@ public class ChatBuffer
 
 	public void dispose()
 	{
-		this.displayPanes.clear();
-		this.stickyPanes.clear();
-		this.addStickyPanes.clear();
-		this.removeStickyPanes.clear();
+		SwingUtilities.invokeLater( () ->
+		{
+			this.displayPanes.clear();
+			this.stickyPanes.clear();
+			this.stalePanes.clear();
+		} );
 
 		if ( this.logWriter != null )
 		{
 			this.logWriter.close();
 		}
 
-		this.content.setLength( 0 );
+		this.clear();
 	}
 
 	private static void printHTML( final HTMLDocument doc )
@@ -232,9 +252,13 @@ public class ChatBuffer
 
 	public void clear()
 	{
-		this.content.setLength( 0 );
+		SwingUtilities.invokeLater( () ->
+		{
+			this.entries.clear();
+			this.contentLength = 0;
 
-		SwingUtilities.invokeLater( new ResetHandler( this.getHTMLContent() ) );
+			this.requestReset();
+		} );
 	}
 
 	public File getLogFile() {
@@ -247,59 +271,40 @@ public class ChatBuffer
 
 	public void append( String newContents )
 	{
-		synchronized ( this.stickyPanes )
-		{
-			this.stickyPanes.addAll( this.addStickyPanes );
-			this.addStickyPanes.clear();
-
-			this.stickyPanes.removeAll( this.removeStickyPanes );
-			this.removeStickyPanes.clear();
-		}
-
 		if ( newContents == null )
 		{
-			SwingUtilities.invokeLater( new ResetHandler( this.getHTMLContent() ) );
+			SwingUtilities.invokeLater( this::requestReset );
 			return;
 		}
 
-		newContents = newContents.trim();
+		String entry = newContents.trim();
 
-		if ( newContents.length() == 0 )
+		if ( entry.length() == 0 )
 		{
 			return;
 		}
-
-		this.content.append( newContents );
 
 		if ( this.logWriter != null )
 		{
-			this.logWriter.println( newContents );
+			this.logWriter.println( entry );
 		}
 
-		if ( this.content.length() < ChatBuffer.MAXIMUM_LENGTH )
+		SwingUtilities.invokeLater( () -> this.addEntry( entry ) );
+	}
+
+	private void addEntry( final String entry )
+	{
+		this.entries.addLast( entry );
+		this.contentLength += entry.length();
+
+		this.pendingCount++;
+
+		if ( this.contentLength >= ChatBuffer.MAXIMUM_LENGTH )
 		{
-			SwingUtilities.invokeLater( new AppendHandler( newContents ) );
-			SwingUtilities.invokeLater( new ScrollHandler() );
-			return;
+			this.trim();
 		}
 
-		int lineIndex = this.content.indexOf( "<br", ChatBuffer.MAXIMUM_LENGTH - ChatBuffer.TRIM_TO_LENGTH );
-
-		if ( lineIndex != -1 )
-		{
-			lineIndex = this.content.indexOf( ">", lineIndex ) + 1;
-		}
-
-		if ( lineIndex == -1 )
-		{
-			this.clear();
-			return;
-		}
-
-		this.content.delete( 0, lineIndex );
-
-		SwingUtilities.invokeLater( new ResetHandler( this.getHTMLContent() ) );
-		SwingUtilities.invokeLater( new ScrollHandler() );
+		this.scheduleFlush();
 	}
 
 	/**
@@ -317,7 +322,7 @@ public class ChatBuffer
 
 	public String getContent()
 	{
-		return this.content.toString();
+		return String.join( "", this.entries );
 	}
 
 	/**
@@ -330,240 +335,258 @@ public class ChatBuffer
 
 		htmlContent.append( "<html><head><style>" );
 		htmlContent.append( this.getStyle() );
-		htmlContent.append( "</style></head><body><main>" );
+		htmlContent.append( "</style></head><body>" );
 
-		htmlContent.append( this.content.toString() );
+		htmlContent.append( ChatBuffer.wrapEntries( this.entries ) );
 
-		htmlContent.append( "</main></body></html>" );
+		htmlContent.append( "</body></html>" );
 
 		return htmlContent.toString();
 	}
 
+	private static String wrapEntries( final Iterable<String> entries )
+	{
+		StringBuilder html = new StringBuilder();
+
+		for ( String entry : entries )
+		{
+			html.append( "<div>" ).append( ChatBuffer.balanceTags( entry ) ).append( "</div>" );
+		}
+
+		return html.toString();
+	}
+
 	public void setSticky( JEditorPane editor, boolean sticky )
 	{
-		synchronized ( this.stickyPanes )
+		SwingUtilities.invokeLater( () ->
 		{
 			if ( sticky )
 			{
-				this.addStickyPanes.add( editor );
-				this.removeStickyPanes.remove( editor );
+				this.stickyPanes.add( editor );
 			}
 			else
 			{
-				this.addStickyPanes.remove( editor );
-				this.removeStickyPanes.add( editor );
+				this.stickyPanes.remove( editor );
 			}
+		} );
+	}
+
+	private static Set<JEditorPane> weakSet()
+	{
+		return Collections.newSetFromMap( new WeakHashMap<>() );
+	}
+
+	private void markStale( final JEditorPane displayPane )
+	{
+		this.stalePanes.add( displayPane );
+		this.scheduleFlush();
+	}
+
+	private void requestReset()
+	{
+		this.pendingCount = 0;
+		this.pendingRemovals = 0;
+		this.stalePanes.addAll( this.displayPanes );
+		this.scheduleFlush();
+	}
+
+	private void trim()
+	{
+		while ( this.entries.size() > 1 && this.contentLength > ChatBuffer.TRIM_TO_LENGTH
+			&& ( this.entries.size() > ChatBuffer.MINIMUM_ENTRIES || this.contentLength > ChatBuffer.MAXIMUM_RETAINED_LENGTH ) )
+		{
+			if ( this.pendingCount == this.entries.size() )
+			{
+				this.pendingCount--;
+			}
+			else
+			{
+				this.pendingRemovals++;
+			}
+
+			this.contentLength -= this.entries.removeFirst().length();
 		}
 	}
 
-	private class ResetHandler
-		implements Runnable
+	private void scheduleFlush()
 	{
-		private final String htmlContent;
-		private final int resetSequence;
-
-		public ResetHandler( final String htmlContent )
+		if ( this.flushScheduled )
 		{
-			this.htmlContent = htmlContent;
-			this.resetSequence = ++ChatBuffer.this.resetSequence;
+			return;
 		}
 
-		public void run()
+		this.flushScheduled = true;
+		SwingUtilities.invokeLater( this::flush );
+	}
+
+	private void flush()
+	{
+		int removals = this.pendingRemovals;
+		String added = ChatBuffer.wrapEntries( this.entries.stream().skip( this.entries.size() - this.pendingCount ).toList() );
+		String htmlContent = null;
+
+		this.pendingRemovals = 0;
+		this.pendingCount = 0;
+		this.flushScheduled = false;
+
+		for ( JEditorPane displayPane : this.displayPanes )
 		{
-			if ( this.resetSequence != ChatBuffer.this.resetSequence )
+			if ( !displayPane.isDisplayable() )
 			{
-				return;	// outdated by a subsequent display reset
+				continue;
 			}
 
-			Iterator<JEditorPane> paneIterator = ChatBuffer.this.displayPanes.iterator();
-
-			while ( paneIterator.hasNext() )
+			if ( this.stalePanes.remove( displayPane ) || !ChatBuffer.update( displayPane, removals, added ) )
 			{
-				JEditorPane displayPane = paneIterator.next();
-
-				if ( displayPane == null )
+				if ( htmlContent == null )
 				{
-					paneIterator.remove();
-					continue;
+					htmlContent = this.getHTMLContent();
 				}
 
-				displayPane.setText( this.htmlContent );
+				displayPane.setText( htmlContent );
 			}
+
+			// Non-ASCII text sets "multiByte", which switches to a much slower bidi-aware layout.
+			displayPane.getDocument().putProperty( "multiByte", Boolean.FALSE );
+		}
+
+		for ( JEditorPane stickyPane : this.stickyPanes )
+		{
+			if ( !stickyPane.isDisplayable() )
+			{
+				continue;
+			}
+
+			int contentLength = stickyPane.getDocument().getLength();
+
+			int caretPosition = Math.max( contentLength - 1, 0 );
+
+			stickyPane.setCaretPosition( caretPosition );
 		}
 	}
 
-	private class AppendHandler
-		implements Runnable
+	private static boolean update( final JEditorPane displayPane, final int removals, final String added )
 	{
-		private final String newContent;
-		private final int resetSequence;
+		HTMLDocument currentHTML = (HTMLDocument) displayPane.getDocument();
+		Element body = currentHTML.getElement( currentHTML.getDefaultRootElement(), StyleConstants.NameAttribute, HTML.Tag.BODY );
 
-		public AppendHandler( final String newContent )
+		if ( body == null )
 		{
-			// Check for imbalanced HTML here
+			return false;
+		}
 
-			Stack<String> openTags = new Stack<>();
-			Set<String> skippedTags = new HashSet<>();
-			StringBuffer buffer = new StringBuffer();
+		List<Element> entryElements = new ArrayList<>();
 
-			String noCommentsContent = COMMENT_PATTERN.matcher( newContent ).replaceAll( "" );
+		for ( int i = 0; i < body.getElementCount() && entryElements.size() <= removals; i++ )
+		{
+			Element child = body.getElement( i );
 
-			Matcher tagMatcher = TAG_PATTERN.matcher( noCommentsContent );
-
-			while ( tagMatcher.find() )
+			if ( child.getAttributes().getAttribute( StyleConstants.NameAttribute ) == HTML.Tag.DIV )
 			{
-				String tagName = tagMatcher.group( 1 );
-				StringBuffer replacement = new StringBuffer();
+				entryElements.add( child );
+			}
+		}
 
-				if ( tagName.startsWith( "/" ) )
+		if ( entryElements.size() <= removals )
+		{
+			return false;
+		}
+
+		try
+		{
+			for ( int i = 0; i < removals; i++ )
+			{
+				currentHTML.removeElement( entryElements.get( i ) );
+			}
+
+			if ( !added.isEmpty() )
+			{
+				currentHTML.insertBeforeEnd( body, added );
+			}
+		}
+		catch ( BadLocationException | IOException e )
+		{
+			return false;
+		}
+
+		// ChatBuffer.printHTML( currentHTML );
+
+		return true;
+	}
+
+	static String balanceTags( final String newContent )
+	{
+		// Check for imbalanced HTML here
+
+		Stack<String> openTags = new Stack<>();
+		Set<String> skippedTags = new HashSet<>();
+		StringBuffer buffer = new StringBuffer();
+
+		String noCommentsContent = COMMENT_PATTERN.matcher( newContent ).replaceAll( "" );
+
+		Matcher tagMatcher = TAG_PATTERN.matcher( noCommentsContent );
+
+		while ( tagMatcher.find() )
+		{
+			String tagName = tagMatcher.group( 1 );
+			StringBuffer replacement = new StringBuffer();
+
+			if ( tagName.startsWith( "/" ) )
+			{
+				String closeTag = tagName.substring( 1 );
+
+				if ( skippedTags.contains( closeTag ) )
 				{
-					String closeTag = tagName.substring( 1 );
-
-					if ( skippedTags.contains( closeTag ) )
-					{
-						skippedTags.remove( closeTag );
-					}
-					else
-					{
-						while ( !openTags.isEmpty() )
-						{
-							String openTag = openTags.pop();
-							replacement.append( "</" );
-							replacement.append( openTag );
-							replacement.append( ">" );
-
-							if ( openTag.equalsIgnoreCase( closeTag ) )
-							{
-								break;
-							}
-							else if ( skippedTags.contains( closeTag ) )
-							{
-								skippedTags.remove( closeTag );
-								break;
-							}
-							else
-							{
-								skippedTags.add( closeTag );
-							}
-						}
-					}
+					skippedTags.remove( closeTag );
 				}
 				else
 				{
-					if ( !tagName.equalsIgnoreCase( "br" ) )
+					while ( !openTags.isEmpty() )
 					{
-						openTags.push( tagName );
+						String openTag = openTags.pop();
+						replacement.append( "</" );
+						replacement.append( openTag );
+						replacement.append( ">" );
+
+						if ( openTag.equalsIgnoreCase( closeTag ) )
+						{
+							break;
+						}
+						else if ( skippedTags.contains( closeTag ) )
+						{
+							skippedTags.remove( closeTag );
+							break;
+						}
+						else
+						{
+							skippedTags.add( closeTag );
+						}
 					}
-
-					replacement.append( "<$1$2>" );
+				}
+			}
+			else
+			{
+				if ( !tagName.equalsIgnoreCase( "br" ) )
+				{
+					openTags.push( tagName );
 				}
 
-				tagMatcher.appendReplacement( buffer, replacement.toString() );
+				replacement.append( "<$1$2>" );
 			}
 
-			tagMatcher.appendTail( buffer );
-
-			while ( !openTags.isEmpty() )
-			{
-				String openTag = openTags.pop();
-				buffer.append( "</" );
-				buffer.append( openTag );
-				buffer.append( ">" );
-			}
-
-			this.newContent = buffer.toString();
-
-			this.resetSequence = ChatBuffer.this.resetSequence;
+			tagMatcher.appendReplacement( buffer, replacement.toString() );
 		}
 
-		public void run()
+		tagMatcher.appendTail( buffer );
+
+		while ( !openTags.isEmpty() )
 		{
-			if ( this.resetSequence != ChatBuffer.this.resetSequence )
-			{
-				return;	// outdated by a subsequent display reset
-			}
-
-			Iterator<JEditorPane> paneIterator = ChatBuffer.this.displayPanes.iterator();
-
-			while ( paneIterator.hasNext() )
-			{
-				JEditorPane displayPane = paneIterator.next();
-
-				if ( displayPane == null )
-				{
-					paneIterator.remove();
-					continue;
-				}
-
-				HTMLDocument currentHTML = (HTMLDocument) displayPane.getDocument();
-
-				Element contentElement = currentHTML.getDefaultRootElement();
-
-				while ( !contentElement.isLeaf() )
-				{
-					contentElement = contentElement.getElement( contentElement.getElementCount() - 1 );
-				}
-
-				try
-				{
-					currentHTML.insertAfterEnd( contentElement, this.newContent );
-					// If the insertion contained any non-ASCII characters, the "multiByte"
-					// property will be set on the document.  This causes the use of
-					// an alternate layout algorithm that handles bidirectional text
-					// and other Unicode oddities: it's slower, and on some combinations
-					// of platform and JRE version, tremendously slower.
-					currentHTML.putProperty( "multiByte", Boolean.FALSE );
-				}
-				catch ( Exception e )
-				{
-					// If there's an exception, continue onward so that you
-					// still have an updated display. But, print the stack
-					// trace so you know what's going on.
-
-					e.printStackTrace();
-				}
-
-				// ChatBuffer.printHTML( currentHTML );
-			}
+			String openTag = openTags.pop();
+			buffer.append( "</" );
+			buffer.append( openTag );
+			buffer.append( ">" );
 		}
+
+		return buffer.toString();
 	}
-
-	private class ScrollHandler
-		implements Runnable
-	{
-		private final int resetSequence;
-
-		public ScrollHandler()
-		{
-			this.resetSequence = ChatBuffer.this.resetSequence;
-		}
-
-		public void run()
-		{
-			if ( this.resetSequence != ChatBuffer.this.resetSequence )
-			{
-				return;	// outdated by a subsequent display reset
-			}
-
-			Iterator<JEditorPane> paneIterator = ChatBuffer.this.stickyPanes.iterator();
-
-			while ( paneIterator.hasNext() )
-			{
-				JEditorPane stickyPane = paneIterator.next();
-
-				if ( stickyPane == null )
-				{
-					paneIterator.remove();
-					continue;
-				}
-
-				int contentLength = stickyPane.getDocument().getLength();
-
-				int caretPosition = Math.max( contentLength - 1, 0 );
-
-				stickyPane.setCaretPosition( caretPosition );
-			}
-		}
-	}
-
 }
