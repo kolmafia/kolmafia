@@ -1,5 +1,8 @@
 package net.sourceforge.kolmafia.utilities;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -409,59 +412,58 @@ public class ChoiceUtilities {
       return hiddens;
     }
 
-    // Find all choice forms
-    Matcher m = FORM_PATTERN.matcher(responseText);
-    while (m.find()) {
-      String form = m.group();
-      if (isNonChoiceForm(form)) continue;
-      Matcher optMatcher = OPTION_PATTERN1.matcher(form);
-      if (!optMatcher.find()) {
-        continue;
-      }
-
-      // Collect all the hidden inputs from this form
-      var extra = extractExtraHiddenFields(form);
-
-      if (!extra.isEmpty()) {
+    for (FormChoice form : parseFormChoices(responseText)) {
+      if (!form.hidden().isEmpty()) {
         hiddens
-            .computeIfAbsent(Integer.parseInt(optMatcher.group(1)), (k) -> new TreeSet<>())
-            .addAll(extra);
+            .computeIfAbsent(form.decision(), (k) -> new TreeSet<>())
+            .addAll(form.hidden().keySet());
       }
     }
 
     return hiddens;
   }
 
+  public record FormChoice(int decision, Map<String, String> hidden, String label) {}
+
+  public static List<FormChoice> parseFormChoices(final String responseText) {
+    List<FormChoice> rv = new ArrayList<>();
+
+    // Find all choice forms
+    Matcher m = FORM_PATTERN.matcher(responseText);
+    while (m.find()) {
+      String form = m.group();
+      if (isNonChoiceForm(form)) continue;
+      var parsed = Jsoup.parseBodyFragment(form);
+
+      var decisionInput = parsed.select("input[type=hidden][name=option]");
+      int decision = Integer.parseInt(decisionInput.attr("value"));
+
+      var submitButton = parsed.select("input[type=submit][class=button]");
+      String label = submitButton.attr("value");
+
+      // Collect all the hidden inputs from this form
+      Map<String, String> extra = extractExtraHiddenFields(form);
+
+      rv.add(new FormChoice(decision, extra, label));
+    }
+    return rv;
+  }
+
   private static final Set<String> STANDARD_HIDDEN_INPUT_FIELDS =
       Set.of("option", "pwd", "whichchoice");
 
-  private static Set<String> extractExtraHiddenFields(String form) {
-    Set<String> choice = new TreeSet<>();
+  private static Map<String, String> extractExtraHiddenFields(String form) {
+    Map<String, String> choice = new HashMap<>();
 
-    // Find all hidden "input" tags that are non-standard within this form
-    var i = INPUT_PATTERN.matcher(form);
-    while (i.find()) {
-      var typeMatcher = TYPE_PATTERN.matcher(i.group(1));
-      if (!typeMatcher.find()) {
-        continue;
-      }
-
-      if (!typeMatcher.group(1).equals("hidden")) {
-        continue;
-      }
-
-      var input = i.group(1);
-      var n = NAME_PATTERN.matcher(input);
-      if (!n.find()) {
-        continue;
-      }
-      var name = n.group(1);
-
+    var parsed = Jsoup.parseBodyFragment(form);
+    var hiddenInputs = parsed.select("input[type=hidden]");
+    for (var element : hiddenInputs) {
+      String name = element.attr("name");
       if (STANDARD_HIDDEN_INPUT_FIELDS.contains(name)) {
         continue;
       }
-
-      choice.add(name);
+      String value = element.attr("value");
+      choice.put(name, value);
     }
 
     return choice;
