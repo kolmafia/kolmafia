@@ -18,6 +18,7 @@ import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withFamiliarInTerrarium;
 import static internal.helpers.Player.withFight;
+import static internal.helpers.Player.withFullness;
 import static internal.helpers.Player.withGender;
 import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withInebriety;
@@ -37,6 +38,7 @@ import static internal.helpers.Player.withQuestProgress;
 import static internal.helpers.Player.withRange;
 import static internal.helpers.Player.withRestricted;
 import static internal.helpers.Player.withSign;
+import static internal.helpers.Player.withSpleenUse;
 import static internal.helpers.Player.withUnequipped;
 import static internal.matchers.Preference.isSetTo;
 import static internal.matchers.Quest.isStarted;
@@ -185,6 +187,106 @@ public class KoLAdventureValidationTest {
 
       try (cleanups) {
         assertThat(AdventureDatabase.getAdventure(adventureName).preValidateAdventure(), is(true));
+      }
+    }
+  }
+
+  @Nested
+  class Overfull {
+    private static final KoLAdventure WARREN =
+        AdventureDatabase.getAdventureByName("The Dire Warren");
+
+    @Test
+    void beingFullPassesPreValidation() {
+      var cleanups = new Cleanups(withClass(AscensionClass.SEAL_CLUBBER), withFullness(15));
+
+      try (cleanups) {
+        assertThat(WARREN.preValidateAdventure(), is(true));
+      }
+    }
+
+    @Test
+    void beingOverfullFailsPreValidation() {
+      var cleanups = new Cleanups(withClass(AscensionClass.SEAL_CLUBBER), withFullness(16));
+
+      try (cleanups) {
+        assertThat(WARREN.preValidateAdventure(), is(false));
+      }
+    }
+
+    @Test
+    void beingOverfullInNonSnarfblatPassesPreValidation() {
+      var cleanups = new Cleanups(withClass(AscensionClass.SEAL_CLUBBER), withFullness(16));
+
+      try (cleanups) {
+        assertThat(
+            AdventureDatabase.getAdventureByName("The Typical Tavern Cellar")
+                .preValidateAdventure(),
+            is(true));
+      }
+    }
+
+    @ParameterizedTest
+    @EnumSource(
+        value = LimitMode.class,
+        names = {"SPELUNKY", "BATMAN"})
+    void beingOverfullInLimitModeWithoutCapacityPassesPreValidation(final LimitMode limitMode) {
+      var cleanups =
+          new Cleanups(
+              withClass(AscensionClass.SEAL_CLUBBER), withFullness(10), withLimitMode(limitMode));
+
+      try (cleanups) {
+        assertThat(WARREN.preValidateAdventure(), is(true));
+      }
+    }
+  }
+
+  @Nested
+  class Overspleened {
+    private static final KoLAdventure WARREN =
+        AdventureDatabase.getAdventureByName("The Dire Warren");
+
+    @Test
+    void beingAtSpleenLimitPassesPreValidation() {
+      var cleanups = new Cleanups(withClass(AscensionClass.SEAL_CLUBBER), withSpleenUse(15));
+
+      try (cleanups) {
+        assertThat(WARREN.preValidateAdventure(), is(true));
+      }
+    }
+
+    @Test
+    void beingOverspleenedFailsPreValidation() {
+      var cleanups = new Cleanups(withClass(AscensionClass.SEAL_CLUBBER), withSpleenUse(16));
+
+      try (cleanups) {
+        assertThat(WARREN.preValidateAdventure(), is(false));
+      }
+    }
+
+    @Test
+    void beingOverspleenedInNonSnarfblatPassesPreValidation() {
+      var cleanups = new Cleanups(withClass(AscensionClass.SEAL_CLUBBER), withSpleenUse(16));
+
+      try (cleanups) {
+        assertThat(
+            AdventureDatabase.getAdventureByName("The Typical Tavern Cellar")
+                .preValidateAdventure(),
+            is(true));
+      }
+    }
+
+    @ParameterizedTest
+    @EnumSource(
+        value = LimitMode.class,
+        names = {"SPELUNKY", "BATMAN"})
+    void beingOverspleenedInLimitModeWithoutCapacityPassesPreValidation(final LimitMode limitMode) {
+      var cleanups =
+          new Cleanups(
+              withClass(AscensionClass.SEAL_CLUBBER), withSpleenUse(10), withLimitMode(limitMode));
+
+      try (cleanups) {
+        assertThat(WARREN.preValidateAdventure(), is(true));
       }
     }
   }

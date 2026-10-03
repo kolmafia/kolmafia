@@ -128,6 +128,7 @@ Item	biomechanical crimborg helmet	Hot Damage: +5, Stench Damage: +5, Last Avail
 Item	bishop's mitre	Spooky Damage: +2, Stench Damage: +2, Hot Damage: +2, Cold Damage: +2, Sleaze Damage: +2
 Item	black cowboy hat	Muscle: +8, Weapon Damage: +8, Familiar Effect: "1xBarrr, 1xLep, cap 41"
 Item	black helmet	Maximum HP: +30, Familiar Effect: "1xFairy, cap 40"
+Item	black thorn crown	Moxie Percent: +30, Thorns: 1, Last Available: "2026-10"
 Item	blue traffic cone	Moxie: +3, Hot Resistance: +2, Last Available: "2006-03", Familiar Effect: "2xLep, 2xFairy, cap 15"
 Item	bonedanna	Spooky Resistance: +3, Weapon Damage: +20, Last Available: "2010-10", Familiar Effect: "atk, cap 30"
 Item	Boris's Helm	Initiative: +25, Weapon Damage Percent: +50, Familiar Weight: +5, Softcore Only: [1-path(Avatar of Boris)], Free Pull: [path(Avatar of Boris)], Last Available: "2012-04", MP Regen Min: [floor(L/2)+1], MP Regen Max: [floor(L/2)+3], Minstrel Level: +1, Familiar Effect: "atk, MP regen, cap 25", Enchantment Count: 2
@@ -637,6 +638,7 @@ Item	bauxite boxers	Moxie: +11, Initiative: [23+floor(pref(daycareToddlers)^0.35
 Item	big pants	Weapon Damage: +25, Spell Damage: +25, Familiar Effect: "atk"
 Item	biomechanical crimborg leg armor	Hot Damage: +5, Stench Damage: +5, Last Available: "2007-12", Familiar Effect: "1xBarrr, 1.5xGhuol, cap 37"
 Item	black greaves	Muscle: +10, Damage Absorption: +30, Familiar Effect: "atk, 1xBarrr, cap 40"
+Item	black thorn sarong	All Attributes Percent: +10, Thorns: 1, Last Available: "2026-10"
 # bloodied surgical dungarees: Makes you look like a gross doctor
 Item	bloodied surgical dungarees	MP Regen Min: 3, MP Regen Max: 5, Surgeonosity: +1, Familiar Effect: "1xPotato, 1xFairy, cap 38"
 Item	bloody clown pants	Spooky Damage: +3, Clowniness: 25, Familiar Effect: "3xPotato, 2xFairy, cap 12"
@@ -1249,6 +1251,8 @@ Item	Bjorn's Hammer	Muscle: +10, Class: "Seal Clubber"
 Item	black blade	Spooky Damage: +10
 Item	black kettle drum	Moxie: +5, Maximum HP / MP: +30
 Item	black sword	Critical Hit Percent: +7, Weapon Damage: +7
+# black thorn whip: Successful melee hit restores 5-10 HP
+Item	black thorn whip	Muscle Percent: +30, Last Available: "2026-10"
 # blade of dismemberment: Does more damage to armed or legged foes
 Item	blade of dismemberment	Weakens Monster, Lasts Until Rollover, Last Available: "2024-09"
 Item	blammer	Critical Hit Percent: +7, Weakens Monster, Last Available: "2011-09"
@@ -2945,6 +2949,7 @@ Item	bitter bowtie	Cold Resistance: +1, Meat Drop: +10, Last Available: "2009-06
 Item	black belt	Muscle: +7, Weapon Damage: +7, Single Equip
 # black glass
 Item	black rose key	Familiar Weight: +5, Familiar Experience: +2, Last Available: "2020-08"
+Item	black thorn necklace	Mysticality Percent: +30, Thorns: 1, Last Available: "2026-10"
 Item	blackberry combat boots	Muscle: +10, Maximum HP: +45, Weapon Damage: +5, Single Equip
 Item	blackberry galoshes	All Attributes: +7, Single Equip
 Item	blackberry moccasins	Moxie: +8, Initiative: +25, Damage Reduction: 3, Single Equip
@@ -8219,7 +8224,8 @@ Effect	Teacher's Pet	Sleaze Resistance: +2, Damage Absorption: +50, Damage Reduc
 Effect	Tearful, Fearful	Item Drop: +30
 Effect	Techno Bliss	Item Drop: +10
 Effect	Teleportitis	Adventure Randomly
-Effect	Temporarily Damned	Hot Damage: +13, Hot Spell Damage: +13
+Effect	[3053]Temporarily Damned	Hot Damage: +13, Hot Spell Damage: +13
+Effect	[3145]Temporarily Damned	Spooky Resistance: +1, Sleaze Resistance: +1
 Effect	Temporarily Filtered	Stench Resistance: +5
 # Temporary Amnesia: Who am I?
 Effect	Temporary Blindness	Item Drop: -75, Moxie Percent: -25, Initiative: -30, Blind
@@ -8311,6 +8317,7 @@ Effect	There Is A Spoon	Mysticality: +20
 # There is No Spoon
 Effect	There Wolf	Weapon Damage Percent: +100
 Effect	There's No N in Love	Item Drop: +50, Food Drop: +50, Booze Drop: +50
+Effect	These Hips Don't Lie	Muscle: +100, Mysticality: +100, Moxie: +100
 Effect	They Call Him Shifty Because...	Moxie Experience: +5, Moxie Percent: +100, Initiative: +50
 Effect	They Called You Mad at the University	Avatar: "government scientist"
 # They've Got Fleas: Your opponents will be annoyed and weakened.
@@ -9250,6 +9257,7 @@ Outfit	Bakelite Brigandine	Item Drop: +20
 Outfit	Bauxite Baubles	Pool Skill: [10+floor(pref(daycareToddlers)^0.25)]
 Outfit	Bits o' Honey	Item Drop: +5
 Outfit	Black Armaments	Muscle: +6
+Outfit	Black Thorn Ensemble	Spooky Damage: +50, Spooky Spell Damage: +50
 Outfit	Blasphemous Bedizenment	Muscle Percent: +30, Mysticality Percent: +30, Moxie Percent: +30
 Outfit	Bounty-Hunting Rig	Item Drop: +15
 Outfit	Bow Tux	Item Drop: +5
@@ -11009,6 +11017,8 @@ Item	black eye shadow	Effect: "Black Eyes", Effect Duration: 10
 Item	black eyedrops	Effect: "Hyphemariffic", Effect Duration: 10
 Item	black facepaint	Effect: "Football Eyes", Effect Duration: 10
 Item	Black No. 2	Effect: "Locks Like the Raven", Effect Duration: 10
+Item	black rose hips extract	Effect: "These Hips Don't Lie", Effect Duration: 10, Last Available: "2026-10"
+Item	black rose pastille	Effect: "[3145]Temporarily Damned", Effect Duration: 5, Last Available: "2026-10"
 Item	black sheepskin diploma	Effect: "Erudite", Effect Duration: 10
 Item	black snowcone	Effect: "Black Tongue", Effect Duration: 20, Last Available: "2006-01"
 Item	black tear	Effect: "Weepy, Creepy", Effect Duration: 1
@@ -11355,7 +11365,7 @@ Item	Gabarbar	Effect: "Gabarding", Effect Duration: 25
 Item	gaffer's tape	Effect: "Gaffe Free", Effect Duration: 20, Last Available: "2022-05"
 Item	garbage-juice-flavored Hob-O	Effect: "Refuse Reflux", Effect Duration: 1
 Item	gazely stare	Effect: "The Eyes Have It", Effect Duration: 100
-Item	Gehenna tattoo	Effect: "Temporarily Damned", Effect Duration: 10
+Item	Gehenna tattoo	Effect: "[3053]Temporarily Damned", Effect Duration: 10
 Item	Gene Tonic: Beast	Effect: "Human-Beast Hybrid", Effect Duration: 30, Last Available: "2014-04"
 Item	Gene Tonic: Constellation	Effect: "Human-Constellation Hybrid", Effect Duration: 30, Last Available: "2014-04"
 Item	Gene Tonic: Construct	Effect: "Human-Machine Hybrid", Effect Duration: 30, Last Available: "2014-04"

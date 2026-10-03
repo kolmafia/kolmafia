@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
@@ -160,6 +161,8 @@ public class RelayRequest extends PasswordHashRequest {
     SPELUNKY,
     ZEPPELIN,
     OVERDRUNK_ADVENTURE,
+    OVERFULL_ADVENTURE,
+    OVERSPLEENED_ADVENTURE,
     STICKER,
     DESERT_OFFHAND,
     MACHETE,
@@ -3108,36 +3111,66 @@ public class RelayRequest extends PasswordHashRequest {
     return true;
   }
 
-  private boolean sendOverdrunkAdventureWarning(final KoLAdventure adventure) {
+  public boolean sendOverdrunkAdventureWarning(final KoLAdventure adventure) {
+    return this.sendOverCapacityAdventureWarning(
+        adventure,
+        a ->
+            // Don't warn again if you've already said ok to the Wineglass warning
+            this.getFormField(Confirm.WINEGLASS) == null
+                && a.tooDrunkToAdventure()
+                && a.hasSnarfblat(),
+        Confirm.OVERDRUNK_ADVENTURE,
+        "martini.gif",
+        "overdrunk",
+        "adventure in a Drunken Stupor");
+  }
+
+  public boolean sendOverfullAdventureWarning(final KoLAdventure adventure) {
+    return this.sendOverCapacityAdventureWarning(
+        adventure,
+        KoLAdventure::tooFullToAdventure,
+        Confirm.OVERFULL_ADVENTURE,
+        "sleepy.gif",
+        "overfull",
+        "adventure in a Food Coma");
+  }
+
+  public boolean sendOverspleenedAdventureWarning(final KoLAdventure adventure) {
+    return this.sendOverCapacityAdventureWarning(
+        adventure,
+        KoLAdventure::tooSpleenedToAdventure,
+        Confirm.OVERSPLEENED_ADVENTURE,
+        "whisk.gif",
+        "overspleened",
+        "be sent home by Strangers With Medical Advice");
+  }
+
+  private boolean sendOverCapacityAdventureWarning(
+      final KoLAdventure adventure,
+      final Predicate<KoLAdventure> overCapacity,
+      final Confirm confirm,
+      final String image,
+      final String condition,
+      final String consequence) {
     if (adventure == null) {
       return false;
     }
 
-    // Don't warn again if you've already said ok to Wineglass warning about overdrunk (or this one)
-    if (this.getFormField(Confirm.OVERDRUNK_ADVENTURE) != null
-        || this.getFormField(Confirm.WINEGLASS) != null) {
+    if (this.getFormField(confirm) != null) {
       return false;
     }
 
-    // If you are not overdrunk, nothing to warn about
-    if (!KoLCharacter.isFallingDown()) {
+    if (!overCapacity.test(adventure)) {
       return false;
     }
 
-    // If you are equipped with Drunkula's wineglass, nothing to warn about
-    if (KoLCharacter.hasEquipped(ItemPool.DRUNKULA_WINEGLASS, Slot.OFFHAND)) {
-      return false;
-    }
-
-    // Only adventure.php will shunt you into a Drunken Stupor
-    if (!adventure.getFormSource().equals("adventure.php")) {
-      return false;
-    }
-
-    String warning =
-        "KoLmafia has detected that you are about to adventure while overdrunk. "
-            + "If you are sure you wish to adventure in a Drunken Stupor, click the icon to adventure. ";
-    this.sendGeneralWarning("martini.gif", warning, Confirm.OVERDRUNK_ADVENTURE);
+    var warning =
+        "KoLmafia has detected that you are about to adventure while "
+            + condition
+            + ". If you are sure you wish to "
+            + consequence
+            + ", click the icon to adventure. ";
+    this.sendGeneralWarning(image, warning, confirm);
     return true;
   }
 
@@ -4188,6 +4221,14 @@ public class RelayRequest extends PasswordHashRequest {
       if (this.sendOverdrunkAdventureWarning(adventure)) {
         return true;
       }
+    }
+
+    if (this.sendOverfullAdventureWarning(adventure)) {
+      return true;
+    }
+
+    if (this.sendOverspleenedAdventureWarning(adventure)) {
+      return true;
     }
 
     if (this.sendColosseumWarning(adventure)) {
