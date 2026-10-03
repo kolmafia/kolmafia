@@ -21,6 +21,7 @@ import net.sourceforge.kolmafia.persistence.RestoresDatabase;
 import net.sourceforge.kolmafia.persistence.Script;
 import net.sourceforge.kolmafia.persistence.ScriptManager;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.AutoSellRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
 import net.sourceforge.kolmafia.swingui.DatabaseFrame;
@@ -105,7 +106,7 @@ public class TableCellFactory {
     return switch (columnIndex) {
       case 0 -> ItemDatabase.getDisplayName(result.getKey());
       case 1 -> result.getKey();
-      case 2 -> ItemDatabase.getPriceById(result.getKey());
+      case 2 -> AutoSellRequest.getEffectiveAutosellPrice(result.getKey());
       case 3 -> MallPriceDatabase.getPrice(result.getKey());
       case 4 ->
           ConsumablesDatabase.getFullness(result.getValue())
@@ -327,7 +328,7 @@ public class TableCellFactory {
   private static Object getAutosellString(int itemId, boolean raw) {
     int price = 0;
     if (ItemDatabase.isDiscardable(itemId)) {
-      price = ItemDatabase.getPriceById(itemId);
+      price = AutoSellRequest.getEffectiveAutosellPrice(itemId);
     }
 
     if (raw) {

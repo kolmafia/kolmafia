@@ -10,10 +10,19 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
+import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.session.ChoiceManager;
+import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -23,6 +32,89 @@ public class AutoSellRequest extends TransferItemRequest {
 
   private boolean setMode = false;
 
+  private static boolean canEquipSellingShorts() {
+    return Preferences.getBoolean("autoSellingShorts")
+        && FightRequest.currentRound == 0
+        && !ChoiceManager.handlingChoice
+        && !KoLCharacter.getLimitMode().limitSlot(Slot.PANTS)
+        && !KoLCharacter.inFistcore()
+        && EquipmentManager.canEquip(ItemPool.SELLING_SHORTS)
+        && InventoryManager.getAccessibleCount(ItemPool.SELLING_SHORTS, false) > 0;
+  }
+
+  /** Expected proceeds for one item, including selling shorts when worn or automatically usable. */
+  public static int getEffectiveAutosellPrice(final int itemId) {
+    return (int) getEffectiveAutosellPrice(itemId, 1);
+  }
+
+  /** Round the bonus down after multiplying by quantity, not once per item. */
+  public static long getEffectiveAutosellPrice(final int itemId, final int quantity) {
+    long price = (long) ItemDatabase.getPriceById(itemId) * Math.max(0, quantity);
+    if (price <= 0
+        || KoLCharacter.inFistcore()
+        || itemId == ItemPool.MEAT_PASTE
+        || itemId == ItemPool.MEAT_STACK
+        || itemId == ItemPool.DENSE_STACK) {
+      return price;
+    }
+
+    boolean worn = KoLCharacter.hasEquipped(ItemPool.SELLING_SHORTS, Slot.PANTS);
+    // Match the safeguard against selling a copy of the pants being temporarily removed.
+    if (worn
+        || (canEquipSellingShorts()
+            && EquipmentManager.getEquipment(Slot.PANTS).getItemId() != itemId)) {
+      return price + price / 20;
+    }
+    return price;
+  }
+
+  static void withSellingShorts(final GenericRequest request, final Runnable action) {
+    String path = request.getBasePath();
+    String url = request.getURLString();
+    boolean compact = path.equals("sellstuff.php");
+    boolean detailed = path.equals("sellstuff_ugly.php");
+    Pattern itemPattern = compact ? TransferItemRequest.ITEMID_PATTERN : EMBEDDED_ID_PATTERN;
+    if ((!compact && !detailed)
+        || !"sell".equals(request.getFormField("action"))
+        || !itemPattern.matcher(url).find()
+        || !canEquipSellingShorts()
+        || KoLmafia.refusesContinue()
+        || KoLCharacter.hasEquipped(ItemPool.SELLING_SHORTS, Slot.PANTS)) {
+      action.run();
+      return;
+    }
+
+    // Unequipping pants adds a copy to inventory. Do not change the quantity of a sale
+    // of those pants (especially "all" and "all but one").
+    int pants = EquipmentManager.getEquipment(Slot.PANTS).getItemId();
+    Matcher items = itemPattern.matcher(url);
+    while (items.find()) {
+      if (StringUtilities.parseInt(items.group(1)) == pants) {
+        action.run();
+        return;
+      }
+    }
+
+    var checkpoint = new Checkpoint();
+    try {
+      RequestThread.postRequest(
+          new EquipmentRequest(ItemPool.get(ItemPool.SELLING_SHORTS, 1), Slot.PANTS));
+      if (KoLmafia.permitsContinue()) {
+        action.run();
+      }
+    } finally {
+      var state = StaticEntity.getContinuationState();
+      KoLmafia.forceContinue();
+      try {
+        checkpoint.close();
+      } finally {
+        if (state != MafiaState.CONTINUE) {
+          StaticEntity.setContinuationState(state);
+        }
+      }
+    }
+  }
+
   public AutoSellRequest(final AdventureResult item) {
     this(new AdventureResult[] {item});
   }
@@ -31,6 +123,12 @@ public class AutoSellRequest extends TransferItemRequest {
     super("sellstuff.php", items);
     this.addFormField("action", "sell");
     this.addFormField("ajax", "1");
+  }
+
+  @Override
+  public void execute() {
+    // TransferItemRequest has populated the sale's form fields by this point.
+    withSellingShorts(this, super::execute);
   }
 
   @Override

@@ -232,6 +232,7 @@ user	autoSatisfyWithNPCs	false
 user	autoSatisfyWithStash	false
 user	autoSatisfyWithStorage	true
 user	autoSatisfyWithShop	false
+user	autoSellingShorts	false
 user	autoSetConditions	true
 user	autoSteal	true
 user	autoTuxedo	false

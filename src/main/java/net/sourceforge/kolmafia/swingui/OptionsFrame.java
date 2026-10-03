@@ -448,6 +448,8 @@ public class OptionsFrame extends GenericFrame {
           "Take items available in your mall shop whenever needed instead of buying them elsewhere"
         },
         {},
+        {"autoSellingShorts", "Wear Selling Shorts when autoselling (& include in autosell price)"},
+        {},
         {"autoGarish", "Use Potion of the Field Gar when appropriate (& include in adv gain)"},
         {"autoTuxedo", "Wear Tuxedo when when appropriate (& include in adv gain)"},
         {"autoPinkyRing", "Wear Mafia Pinky Ring when when appropriate (& include in adv gain)"},
