@@ -9,6 +9,7 @@ import static internal.helpers.Networking.json;
 import static internal.helpers.Player.withAdventuresLeft;
 import static internal.helpers.Player.withAdventuresSpent;
 import static internal.helpers.Player.withBanishedPhyla;
+import static internal.helpers.Player.withChoice;
 import static internal.helpers.Player.withClass;
 import static internal.helpers.Player.withCurrentEncounter;
 import static internal.helpers.Player.withCurrentRun;
@@ -31,6 +32,7 @@ import static internal.helpers.Player.withItemInCloset;
 import static internal.helpers.Player.withItemInDisplay;
 import static internal.helpers.Player.withItemInShop;
 import static internal.helpers.Player.withItemInStorage;
+import static internal.helpers.Player.withLastLocation;
 import static internal.helpers.Player.withLevel;
 import static internal.helpers.Player.withMallPrice;
 import static internal.helpers.Player.withMeat;
@@ -3366,6 +3368,30 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
         assertContinueState();
         validateBWKitOutput(output);
       }
+    }
+  }
+
+  @Test
+  void canGetChoiceOptionsWithExtras() {
+    var cleanups =
+        new Cleanups(
+            withLastLocation("Lair of the Ninja Snowmen"),
+            withChoice(1557, html("request/test_choice_peridot.html")));
+
+    try (cleanups) {
+      String choiceScript =
+          """
+            void main(){
+              var choices=available_choice_extras();
+              foreach idx, choice in choices {
+                print(`{choice.label}: {choice.decision} with \\{{choice.extras_joined}}`);
+              }
+            }""";
+      String output = execute(choiceScript);
+      assertThat(output, containsString("a Ninja Snowman: 1 with {bandersnatch=100}"));
+      assertThat(output, containsString("a Ninja Snowman: 1 with {bandersnatch=137}"));
+      assertThat(output, containsString("a Ninja Snowman Janitor: 1 with {bandersnatch=339}"));
+      assertThat(output, containsString("I choose peace: 2 with {}"));
     }
   }
 }
