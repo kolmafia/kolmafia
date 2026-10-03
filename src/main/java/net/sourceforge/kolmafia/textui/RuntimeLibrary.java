@@ -2074,7 +2074,7 @@ public abstract class RuntimeLibrary {
     params = List.of();
     functions.add(
         new LibraryFunction(
-            "available_choice_options_with_extras",
+            "available_choice_extras",
             new AggregateType(RuntimeLibrary.choiceWithExtrasRec, DataTypes.INT_TYPE),
             params));
 
@@ -8115,7 +8115,7 @@ public abstract class RuntimeLibrary {
     return value;
   }
 
-  public static Value available_choice_options_with_extras(ScriptRuntime controller) {
+  public static Value available_choice_extras(ScriptRuntime controller) {
     AshRuntime interpreter = controller instanceof AshRuntime ? (AshRuntime) controller : null;
     List<Value> choiceVs = new ArrayList<>();
     List<ChoiceUtilities.FormChoice> choices =

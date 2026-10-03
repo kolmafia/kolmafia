@@ -3382,7 +3382,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       String choiceScript =
           """
             void main(){
-              var choices=available_choice_options_with_extras();
+              var choices=available_choice_extras();
               foreach idx, choice in choices {
                 print(`{choice.label}: {choice.decision} with \\{{choice.extras_joined}}`);
               }
