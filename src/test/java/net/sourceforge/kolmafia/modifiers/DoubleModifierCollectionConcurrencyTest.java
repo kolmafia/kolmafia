@@ -10,25 +10,13 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 import org.junit.jupiter.api.Test;
 
-/**
- * A Modifiers in ModifierDatabase's cache is shared, and more than one thread reads it: the relay
- * browser rendering a page, a script in the CLI, the main thread after a request. Reading one while
- * another thread is still filling it in used to throw from inside TreeMap - and not where the
- * reading was, but wherever the aborted script happened to be.
- *
- * <p>These run the two things against each other on purpose. Without synchronization they fail in
- * well under a second, from inside TreeMap's own iterator: a ConcurrentModificationException when
- * the write is seen, or a NoSuchElementException when it isn't and the map simply runs out before
- * the count putAll() was promised. The second is what reached a user, as "Script execution aborted
- * (java.util.NoSuchElementException)" in a script that had nothing to do with modifiers - and what
- * left a half-copied map in ModifierDatabase's cache for every later read to trip over. Which of
- * the two comes out is a matter of where the writer happens to be, so neither is asserted on: what
- * is asserted is that reading a collection while it is written does not throw.
- */
+// Reading a cached Modifiers while another thread fills it in used to throw from inside
+// TreeMap. These run a writer and a reader against each other; without synchronization they
+// fail in well under a second.
 class DoubleModifierCollectionConcurrencyTest {
   private static final long RUN_FOR_MS = 2000;
 
-  /** Enough to churn, few enough that the collection stays a sparse TreeMap. */
+  // Enough to churn, few enough that the collection stays a sparse TreeMap.
   private static List<DoubleModifier> churnable() {
     List<DoubleModifier> mods = new ArrayList<>();
     for (DoubleModifier mod : Arrays.asList(DoubleModifier.values())) {
@@ -39,10 +27,7 @@ class DoubleModifierCollectionConcurrencyTest {
     return mods;
   }
 
-  /**
-   * One thread writing, one copying. The copy is what Modifiers' own constructor does, and where
-   * putAll() asks a map how big it is and then reads that many entries out of it.
-   */
+  // One thread writing, one copying, which is what Modifiers' own constructor does.
   @Test
   void copyingSurvivesWritesToTheCollectionBeingCopied() throws InterruptedException {
     var source = new DoubleModifierCollection();
@@ -57,11 +42,9 @@ class DoubleModifierCollectionConcurrencyTest {
             stop,
             failure,
             () -> {
-              // Fill it, then empty it. A value of 0 is the default, which removes the entry, so
-              // the size swings the whole way and back on every pass - and the size is exactly
-              // what putAll() reads once and then trusts. An earlier version of this set the even
-              // entries and removed the odd ones, which leaves the size where it was after the
-              // first pass and races against nothing at all.
+              // Fill it, then empty it: 0 is the default, so the entry is removed and the
+              // size swings the whole way and back, which is what putAll() reads once and
+              // then trusts.
               for (DoubleModifier mod : mods) source.set(mod, 1.0);
               for (DoubleModifier mod : mods) source.set(mod, 0.0);
             });
@@ -85,7 +68,7 @@ class DoubleModifierCollectionConcurrencyTest {
     assertNull(failure.get(), () -> "copying threw: " + failure.get());
   }
 
-  /** The same, for the other way a collection is read whole. */
+  // The same, for the other way a collection is read whole.
   @Test
   void iteratingSurvivesWritesToTheCollectionBeingIterated() throws InterruptedException {
     var source = new DoubleModifierCollection();

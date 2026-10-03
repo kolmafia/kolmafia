@@ -3,11 +3,6 @@ package net.sourceforge.kolmafia.modifiers;
 import java.util.EnumSet;
 import java.util.function.Consumer;
 
-/**
- * The booleans of one Modifiers, and the set they live in. Synchronized for the reasons set out on
- * {@link DoubleModifierCollection}, and silent when it goes wrong for the reasons set out on {@link
- * StringModifierCollection}.
- */
 public class BooleanModifierCollection {
   private final EnumSet<BooleanModifier> booleans = EnumSet.noneOf(BooleanModifier.class);
 
@@ -16,7 +11,8 @@ public class BooleanModifierCollection {
   }
 
   public void set(BooleanModifierCollection source) {
-    // Two monitors, never held together; see StringModifierCollection.set.
+    // Copy under the source's monitor and assign under ours, never both at once:
+    // a.set(b) and b.set(a) on two threads would deadlock.
     EnumSet<BooleanModifier> copy = source.raw();
     synchronized (this) {
       this.booleans.clear();
@@ -36,7 +32,7 @@ public class BooleanModifierCollection {
     return this.booleans.clone();
   }
 
-  /** Outside the lock, over a copy: the action writes to another collection. */
+  // Run the action outside the lock, over a copy: it writes to a different collection.
   public void forEach(Consumer<? super BooleanModifier> action) {
     this.raw().forEach(action);
   }

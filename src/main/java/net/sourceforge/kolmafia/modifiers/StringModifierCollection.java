@@ -5,15 +5,6 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * The strings of one Modifiers, and the map they live in.
- *
- * <p>Access to that map is synchronized on the collection that owns it, for the reasons set out on
- * {@link DoubleModifierCollection}. This one cannot fail as loudly - an EnumMap is not fail-fast,
- * so a read during a write returns an answer rather than throwing - which makes it the more
- * dangerous of the two: set() empties the map before refilling it, and a reader arriving in that
- * window is told, with no complaint at all, that the modifier it asked about is not set.
- */
 public class StringModifierCollection {
   private static final StringOrList DEFAULT = new StringOrList("");
   private final Map<StringModifier, StringOrList> strings = new EnumMap<>(StringModifier.class);
@@ -23,8 +14,8 @@ public class StringModifierCollection {
   }
 
   public void set(StringModifierCollection source) {
-    // The source is copied under its own monitor and this map refilled under ours, never both at
-    // once: a.set(b) and b.set(a) on two threads would otherwise wait on each other for ever.
+    // Copy under the source's monitor and assign under ours, never both at once:
+    // a.set(b) and b.set(a) on two threads would deadlock.
     Map<StringModifier, StringOrList> copy = source.copyOfStrings();
     synchronized (this) {
       this.strings.clear();

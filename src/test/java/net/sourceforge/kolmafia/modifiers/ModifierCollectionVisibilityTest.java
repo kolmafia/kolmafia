@@ -10,20 +10,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 import org.junit.jupiter.api.Test;
 
-/**
- * The bitmap and boolean collections fail more quietly than the double one. They are backed by an
- * EnumMap and an EnumSet, which are not fail-fast: a read during a write returns an answer rather
- * than throwing. And set() empties the collection before refilling it, so whatever reads it in that
- * window is told, with no complaint at all, that modifiers which are set are not. Wrong modifiers
- * are worse than an aborted script, because nothing says so.
- *
- * <p>What is asserted is what a lock on each collection can actually promise: that a read of the
- * <em>whole</em> collection - forEach, raw() - sees one state or another and never half of each.
- * Reading a modifier at a time and expecting the answers to agree with each other is a different
- * thing, which no per-method lock has ever provided here and which nothing in Modifiers needs: an
- * earlier version of this test asked for exactly that, and failed with the fix in place as loudly
- * as without it.
- */
+// EnumMap and EnumSet are not fail-fast, so the bitmap and boolean collections do not throw
+// on a read during a write - they answer, and set() empties before refilling, so the answer
+// can be that modifiers which are set are not. These assert that a read of the whole
+// collection sees one state or the other, never half of each.
 class ModifierCollectionVisibilityTest {
   private static final long RUN_FOR_MS = 2000;
   private static final int HOW_MANY = 12;
@@ -43,8 +33,7 @@ class ModifierCollectionVisibilityTest {
       other.set(mod, 2);
     }
 
-    // However many there turn out to be - there are fewer BitmapModifiers than HOW_MANY, and
-    // asserting on HOW_MANY instead made this fail whatever the code did.
+    // However many there turn out to be: fewer BitmapModifiers than HOW_MANY.
     final int expected = mods.size();
 
     var shared = new BitmapModifierCollection();
@@ -55,8 +44,7 @@ class ModifierCollectionVisibilityTest {
         failure -> {
           var seen = new ArrayList<Integer>();
           shared.forEach((mod, value) -> seen.add(value));
-          // Both states have every modifier set, so anything short of all of them, or any
-          // disagreement between them, is half of one copy and half of another.
+          // Both states set every modifier, so anything missing is half of each copy.
           Integer first = seen.isEmpty() ? null : seen.get(0);
           if (seen.size() != expected || seen.stream().anyMatch(v -> !v.equals(first))) {
             failure.compareAndSet(null, new AssertionError("half-copied: saw " + seen));
@@ -72,9 +60,8 @@ class ModifierCollectionVisibilityTest {
       if (mods.size() == HOW_MANY) break;
     }
 
-    // Two states that are both non-empty, and of different sizes. Alternating between "all set"
-    // and "none set" cannot show this: empty is then a state the writer really does copy in, so
-    // an empty read is indistinguishable from a read taken halfway through one.
+    // Both states non-empty and of different sizes: with "none set" as one of them, an
+    // empty read would be a state the writer really does copy in.
     var all = new BooleanModifierCollection();
     for (BooleanModifier mod : mods) all.set(mod, true);
     final int whole = mods.size();
@@ -103,7 +90,7 @@ class ModifierCollectionVisibilityTest {
     void read(AtomicReference<Throwable> failure);
   }
 
-  /** A writer and a reader, against each other, until one of them objects. */
+  // A writer and a reader, against each other, until one of them objects.
   private static void race(Writer writer, Reader reader) throws InterruptedException {
     var failure = new AtomicReference<Throwable>();
     var stop = new AtomicBoolean(false);

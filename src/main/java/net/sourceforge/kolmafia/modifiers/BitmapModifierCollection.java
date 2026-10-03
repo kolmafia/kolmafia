@@ -4,11 +4,6 @@ import java.util.EnumMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
 
-/**
- * The bitmaps of one Modifiers, and the map they live in. Synchronized for the reasons set out on
- * {@link DoubleModifierCollection}, and silent when it goes wrong for the reasons set out on {@link
- * StringModifierCollection}.
- */
 public class BitmapModifierCollection {
   private final Map<BitmapModifier, Integer> bitmaps = new EnumMap<>(BitmapModifier.class);
 
@@ -17,7 +12,8 @@ public class BitmapModifierCollection {
   }
 
   public void set(BitmapModifierCollection source) {
-    // Two monitors, never held together; see StringModifierCollection.set.
+    // Copy under the source's monitor and assign under ours, never both at once:
+    // a.set(b) and b.set(a) on two threads would deadlock.
     Map<BitmapModifier, Integer> copy = source.copyOfBitmaps();
     synchronized (this) {
       this.bitmaps.clear();
@@ -45,7 +41,7 @@ public class BitmapModifierCollection {
     return this.bitmaps.merge(mod, value, (v1, v2) -> v1 | v2);
   }
 
-  /** Outside the lock, over a copy: the action writes to another collection. */
+  // Run the action outside the lock, over a copy: it writes to a different collection.
   public void forEach(BiConsumer<? super BitmapModifier, ? super Integer> action) {
     this.copyOfBitmaps().forEach(action);
   }
