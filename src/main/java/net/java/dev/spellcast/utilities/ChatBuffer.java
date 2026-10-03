@@ -92,7 +92,6 @@ public class ChatBuffer
 
 	private int pendingCount = 0;
 	private int pendingRemovals = 0;
-	private boolean pendingReset = false;
 	private boolean flushScheduled = false;
 
 	private File logFile;
@@ -147,13 +146,16 @@ public class ChatBuffer
 		{
 			if ( ( e.getChangeFlags() & HierarchyEvent.DISPLAYABILITY_CHANGED ) != 0 && displayPane.isDisplayable() )
 			{
-				this.markStale( displayPane );
+				SwingUtilities.invokeLater( () -> this.markStale( displayPane ) );
 			}
 		} );
 
-		this.displayPanes.add( displayPane );
-		this.stickyPanes.add( displayPane );
-		this.markStale( displayPane );
+		SwingUtilities.invokeLater( () ->
+		{
+			this.displayPanes.add( displayPane );
+			this.stickyPanes.add( displayPane );
+			this.markStale( displayPane );
+		} );
 
 		JScrollPane scroller =
 			new JScrollPane(
@@ -214,9 +216,12 @@ public class ChatBuffer
 
 	public void dispose()
 	{
-		this.displayPanes.clear();
-		this.stickyPanes.clear();
-		this.stalePanes.clear();
+		SwingUtilities.invokeLater( () ->
+		{
+			this.displayPanes.clear();
+			this.stickyPanes.clear();
+			this.stalePanes.clear();
+		} );
 
 		if ( this.logWriter != null )
 		{
@@ -245,12 +250,15 @@ public class ChatBuffer
 	 * Clears the current buffer content.
 	 */
 
-	public synchronized void clear()
+	public void clear()
 	{
-		this.entries.clear();
-		this.contentLength = 0;
+		SwingUtilities.invokeLater( () ->
+		{
+			this.entries.clear();
+			this.contentLength = 0;
 
-		this.requestReset();
+			this.requestReset();
+		} );
 	}
 
 	public File getLogFile() {
@@ -265,38 +273,38 @@ public class ChatBuffer
 	{
 		if ( newContents == null )
 		{
-			this.requestReset();
+			SwingUtilities.invokeLater( this::requestReset );
 			return;
 		}
 
-		newContents = newContents.trim();
+		String entry = newContents.trim();
 
-		if ( newContents.length() == 0 )
+		if ( entry.length() == 0 )
 		{
 			return;
 		}
 
 		if ( this.logWriter != null )
 		{
-			this.logWriter.println( newContents );
+			this.logWriter.println( entry );
 		}
 
-		String entry = ChatBuffer.balanceTags( newContents );
+		SwingUtilities.invokeLater( () -> this.addEntry( entry ) );
+	}
 
-		synchronized ( this )
+	private void addEntry( final String entry )
+	{
+		this.entries.addLast( entry );
+		this.contentLength += entry.length();
+
+		this.pendingCount++;
+
+		if ( this.contentLength >= ChatBuffer.MAXIMUM_LENGTH )
 		{
-			this.entries.addLast( entry );
-			this.contentLength += entry.length();
-
-			this.pendingCount++;
-
-			if ( this.contentLength >= ChatBuffer.MAXIMUM_LENGTH )
-			{
-				this.trim();
-			}
-
-			this.scheduleFlush();
+			this.trim();
 		}
+
+		this.scheduleFlush();
 	}
 
 	/**
@@ -312,7 +320,7 @@ public class ChatBuffer
 	 * Returns all the content stored within this chat buffer.
 	 */
 
-	public synchronized String getContent()
+	public String getContent()
 	{
 		return String.join( "", this.entries );
 	}
@@ -321,12 +329,7 @@ public class ChatBuffer
 	 * Returns all the styled content stored within this chat buffer.
 	 */
 
-	public synchronized String getHTMLContent()
-	{
-		return this.getHTMLContent( this.entries );
-	}
-
-	private String getHTMLContent( final Iterable<String> entries )
+	public String getHTMLContent()
 	{
 		StringBuffer htmlContent = new StringBuffer();
 
@@ -334,7 +337,7 @@ public class ChatBuffer
 		htmlContent.append( this.getStyle() );
 		htmlContent.append( "</style></head><body>" );
 
-		htmlContent.append( ChatBuffer.wrapEntries( entries ) );
+		htmlContent.append( ChatBuffer.wrapEntries( this.entries ) );
 
 		htmlContent.append( "</body></html>" );
 
@@ -347,7 +350,7 @@ public class ChatBuffer
 
 		for ( String entry : entries )
 		{
-			html.append( "<div>" ).append( entry ).append( "</div>" );
+			html.append( "<div>" ).append( ChatBuffer.balanceTags( entry ) ).append( "</div>" );
 		}
 
 		return html.toString();
@@ -355,27 +358,22 @@ public class ChatBuffer
 
 	public void setSticky( JEditorPane editor, boolean sticky )
 	{
-		if ( sticky )
+		SwingUtilities.invokeLater( () ->
 		{
-			this.stickyPanes.add( editor );
-		}
-		else
-		{
-			this.stickyPanes.remove( editor );
-		}
+			if ( sticky )
+			{
+				this.stickyPanes.add( editor );
+			}
+			else
+			{
+				this.stickyPanes.remove( editor );
+			}
+		} );
 	}
 
 	private static Set<JEditorPane> weakSet()
 	{
-		return Collections.synchronizedSet( Collections.newSetFromMap( new WeakHashMap<>() ) );
-	}
-
-	private static List<JEditorPane> snapshot( final Set<JEditorPane> panes )
-	{
-		synchronized ( panes )
-		{
-			return new ArrayList<>( panes );
-		}
+		return Collections.newSetFromMap( new WeakHashMap<>() );
 	}
 
 	private void markStale( final JEditorPane displayPane )
@@ -384,11 +382,11 @@ public class ChatBuffer
 		this.scheduleFlush();
 	}
 
-	private synchronized void requestReset()
+	private void requestReset()
 	{
 		this.pendingCount = 0;
 		this.pendingRemovals = 0;
-		this.pendingReset = true;
+		this.stalePanes.addAll( this.displayPanes );
 		this.scheduleFlush();
 	}
 
@@ -410,7 +408,7 @@ public class ChatBuffer
 		}
 	}
 
-	private synchronized void scheduleFlush()
+	private void scheduleFlush()
 	{
 		if ( this.flushScheduled )
 		{
@@ -423,56 +421,36 @@ public class ChatBuffer
 
 	private void flush()
 	{
-		List<JEditorPane> stale = ChatBuffer.snapshot( this.stalePanes );
-		this.stalePanes.removeAll( stale );
-
-		boolean reset;
-		int removals;
-		String added;
-		List<String> current;
-
-		synchronized ( this )
-		{
-			reset = this.pendingReset;
-			removals = this.pendingRemovals;
-			current = new ArrayList<>( this.entries );
-			added = ChatBuffer.wrapEntries( current.subList( current.size() - this.pendingCount, current.size() ) );
-
-			this.pendingReset = false;
-			this.pendingRemovals = 0;
-			this.pendingCount = 0;
-			this.flushScheduled = false;
-		}
-
+		int removals = this.pendingRemovals;
+		String added = ChatBuffer.wrapEntries( this.entries.stream().skip( this.entries.size() - this.pendingCount ).toList() );
 		String htmlContent = null;
 
-		for ( JEditorPane displayPane : ChatBuffer.snapshot( this.displayPanes ) )
+		this.pendingRemovals = 0;
+		this.pendingCount = 0;
+		this.flushScheduled = false;
+
+		for ( JEditorPane displayPane : this.displayPanes )
 		{
 			if ( !displayPane.isDisplayable() )
 			{
-				this.stalePanes.add( displayPane );
 				continue;
 			}
 
-			if ( reset || stale.contains( displayPane ) || !ChatBuffer.update( displayPane, removals, added ) )
+			if ( this.stalePanes.remove( displayPane ) || !ChatBuffer.update( displayPane, removals, added ) )
 			{
 				if ( htmlContent == null )
 				{
-					htmlContent = this.getHTMLContent( current );
+					htmlContent = this.getHTMLContent();
 				}
 
 				displayPane.setText( htmlContent );
 			}
 
-			// If the insertion contained any non-ASCII characters, the "multiByte"
-			// property will be set on the document.  This causes the use of
-			// an alternate layout algorithm that handles bidirectional text
-			// and other Unicode oddities: it's slower, and on some combinations
-			// of platform and JRE version, tremendously slower.
+			// Non-ASCII text sets "multiByte", which switches to a much slower bidi-aware layout.
 			displayPane.getDocument().putProperty( "multiByte", Boolean.FALSE );
 		}
 
-		for ( JEditorPane stickyPane : ChatBuffer.snapshot( this.stickyPanes ) )
+		for ( JEditorPane stickyPane : this.stickyPanes )
 		{
 			if ( !stickyPane.isDisplayable() )
 			{

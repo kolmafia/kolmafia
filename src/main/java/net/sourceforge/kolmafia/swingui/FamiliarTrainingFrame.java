@@ -452,6 +452,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
 
       private class SaveListener extends ThreadedListener {
         File output = null;
+        String content = null;
 
         @Override
         protected void execute() {
@@ -465,6 +466,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
                     SaveListener.this.output =
                         InputFieldUtilities.chooseOutputFile(
                             KoLConstants.DATA_LOCATION, FamiliarTrainingFrame.this);
+                    SaveListener.this.content = FamiliarTrainingFrame.results.getHTMLContent();
                   }
                 });
           } catch (Exception ie) {
@@ -476,10 +478,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
 
           try {
             try (PrintStream ostream = LogStream.openStream(output, false)) {
-              ostream.println(
-                  FamiliarTrainingFrame.results
-                      .getHTMLContent()
-                      .replaceAll("<br>", KoLConstants.LINE_BREAK));
+              ostream.println(this.content.replaceAll("<br>", KoLConstants.LINE_BREAK));
             }
           } catch (Exception ex) {
             // This should not happen.  Therefore, print

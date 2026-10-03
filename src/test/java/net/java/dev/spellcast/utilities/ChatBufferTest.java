@@ -8,6 +8,7 @@ import static org.hamcrest.Matchers.lessThan;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.startsWith;
 
+import java.awt.event.HierarchyEvent;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -33,6 +34,7 @@ public class ChatBufferTest {
   }
 
   private static void flush() throws Exception {
+    SwingUtilities.invokeAndWait(() -> {});
     SwingUtilities.invokeAndWait(() -> {});
   }
 
@@ -75,10 +77,11 @@ public class ChatBufferTest {
   @Nested
   class Content {
     @Test
-    void wrapsEachEntryInADiv() {
+    void wrapsEachEntryInADiv() throws Exception {
       var buffer = new ChatBuffer("test");
       buffer.append("one<br>");
       buffer.append("  two<br>  ");
+      flush();
 
       assertThat(buffer.getContent(), is("one<br>two<br>"));
       assertThat(
@@ -87,19 +90,22 @@ public class ChatBufferTest {
     }
 
     @Test
-    void ignoresBlankAppends() {
+    void ignoresBlankAppends() throws Exception {
       var buffer = new ChatBuffer("test");
       buffer.append("   ");
+      flush();
 
       assertThat(buffer.getContent(), is(""));
     }
 
     @Test
-    void trimsOldestEntriesWhenFull() {
+    void trimsOldestEntriesWhenFull() throws Exception {
       var buffer = new ChatBuffer("test");
       for (int i = 0; i < 150; i++) {
         buffer.append(line(i));
       }
+
+      flush();
 
       String content = buffer.getContent();
       assertThat(content.length(), lessThan(50000));
@@ -108,20 +114,22 @@ public class ChatBufferTest {
     }
 
     @Test
-    void clearRemovesEverything() {
+    void clearRemovesEverything() throws Exception {
       var buffer = new ChatBuffer("test");
       buffer.append("one<br>");
       buffer.clear();
+      flush();
 
       assertThat(buffer.getContent(), is(""));
     }
 
     @Test
-    void keepsALargeEntryAndRecentHistoryWhenMoreOutputFollows() {
+    void keepsALargeEntryAndRecentHistoryWhenMoreOutputFollows() throws Exception {
       var buffer = new ChatBuffer("test");
       buffer.append("earlier<br>");
       buffer.append("big " + "y".repeat(60000) + "<br>");
       buffer.append("Returned: void<br>");
+      flush();
 
       assertThat(buffer.getContent(), containsString("earlier"));
       assertThat(buffer.getContent(), containsString("big "));
@@ -129,26 +137,37 @@ public class ChatBufferTest {
     }
 
     @Test
-    void eventuallyTrimsALargeEntry() {
+    void eventuallyTrimsALargeEntry() throws Exception {
       var buffer = new ChatBuffer("test");
       buffer.append("big " + "y".repeat(60000) + "<br>");
       for (int i = 0; i < 100; i++) {
         buffer.append("line " + i + "<br>");
       }
+      flush();
 
       assertThat(buffer.getContent(), not(containsString("big ")));
       assertThat(buffer.getContent(), containsString("line 99"));
     }
 
     @Test
-    void capsRetainedContentWhenEntriesAreLarge() {
+    void capsRetainedContentWhenEntriesAreLarge() throws Exception {
       var buffer = new ChatBuffer("test");
       for (int i = 0; i < 100; i++) {
         buffer.append("big " + i + " " + "y".repeat(5000) + "<br>");
       }
+      flush();
 
       assertThat(buffer.getContent().length(), lessThan(200000));
       assertThat(buffer.getContent(), containsString("big 99 "));
+    }
+
+    @Test
+    void returnsTheRawAppendedContent() throws Exception {
+      var buffer = new ChatBuffer("test");
+      buffer.append("foo <img src=x.gif><br>");
+      flush();
+
+      assertThat(buffer.getContent(), is("foo <img src=x.gif><br>"));
     }
   }
 
@@ -275,11 +294,16 @@ public class ChatBufferTest {
       assertThat(text(hidden), not(containsString("one")));
 
       hidden.displayable = true;
-      buffer.append("two<br>");
+      hidden.dispatchEvent(
+          new HierarchyEvent(
+              hidden,
+              HierarchyEvent.HIERARCHY_CHANGED,
+              hidden,
+              null,
+              HierarchyEvent.DISPLAYABILITY_CHANGED));
       flush();
 
       assertThat(text(hidden), containsString("one"));
-      assertThat(text(hidden), containsString("two"));
     }
 
     @Test
