@@ -5,6 +5,7 @@ import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withEquippableItem;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
+import static internal.helpers.Player.withFullness;
 import static internal.helpers.Player.withInebriety;
 import static internal.helpers.Player.withIntrinsicEffect;
 import static internal.helpers.Player.withItem;
@@ -12,9 +13,12 @@ import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withQuestProgress;
 import static internal.helpers.Player.withRange;
+import static internal.helpers.Player.withSpleenUse;
 import static internal.helpers.Player.withStats;
 import static internal.helpers.Player.withTurnsPlayed;
 import static internal.helpers.Player.withUnequipped;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junitpioneer.jupiter.cartesian.CartesianTest.Values;
 
@@ -46,6 +50,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.junitpioneer.jupiter.cartesian.CartesianTest;
 
@@ -1617,6 +1622,168 @@ public class RelayRequestWarningsTest {
                 + " If you are sure you want to do this, click the icon on the left to proceed."
                 + " If you want to visit your Research Bench, click the icon on the right.";
         assertEquals(expected, request.lastWarning);
+      }
+    }
+  }
+
+  @Nested
+  class Overfull {
+    private static final KoLAdventure WARREN =
+        AdventureDatabase.getAdventureByName("The Dire Warren");
+    private static final Confirm confirm = Confirm.OVERFULL_ADVENTURE;
+
+    @Test
+    public void thatNoWarningNeededIfNotOverfull() {
+      var cleanups = new Cleanups(withClass(AscensionClass.SEAL_CLUBBER), withFullness(15));
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(WARREN.getRequest().getURLString());
+        assertThat(request.sendOverfullAdventureWarning(WARREN), is(false));
+      }
+    }
+
+    @Test
+    public void thatWarningNeededIfOverfull() {
+      var cleanups = new Cleanups(withClass(AscensionClass.SEAL_CLUBBER), withFullness(16));
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(WARREN.getRequest().getURLString());
+        assertThat(request.sendOverfullAdventureWarning(WARREN), is(true));
+        assertThat(
+            request.lastWarning,
+            is(
+                "KoLmafia has detected that you are about to adventure while overfull. "
+                    + "If you are sure you wish to adventure in a Food Coma, click the icon to adventure. "));
+      }
+    }
+
+    @Test
+    public void thatNoWarningNeededIfConfirmed() {
+      var cleanups = new Cleanups(withClass(AscensionClass.SEAL_CLUBBER), withFullness(16));
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(WARREN.getRequest().getURLString() + "&" + confirm + "=on");
+        assertThat(request.sendOverfullAdventureWarning(WARREN), is(false));
+      }
+    }
+  }
+
+  @Nested
+  class Overspleened {
+    private static final KoLAdventure WARREN =
+        AdventureDatabase.getAdventureByName("The Dire Warren");
+    private static final Confirm confirm = Confirm.OVERSPLEENED_ADVENTURE;
+
+    @Test
+    public void thatNoWarningNeededIfNotOverspleened() {
+      var cleanups = new Cleanups(withClass(AscensionClass.SEAL_CLUBBER), withSpleenUse(15));
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(WARREN.getRequest().getURLString());
+        assertThat(request.sendOverspleenedAdventureWarning(WARREN), is(false));
+      }
+    }
+
+    @Test
+    public void thatWarningNeededIfOverspleened() {
+      var cleanups = new Cleanups(withClass(AscensionClass.SEAL_CLUBBER), withSpleenUse(16));
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(WARREN.getRequest().getURLString());
+        assertThat(request.sendOverspleenedAdventureWarning(WARREN), is(true));
+        assertThat(
+            request.lastWarning,
+            is(
+                "KoLmafia has detected that you are about to adventure while overspleened. "
+                    + "If you are sure you wish to be sent home by Strangers With Medical Advice, click the icon to adventure. "));
+      }
+    }
+
+    @Test
+    public void thatNoWarningNeededIfConfirmed() {
+      var cleanups = new Cleanups(withClass(AscensionClass.SEAL_CLUBBER), withSpleenUse(16));
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(WARREN.getRequest().getURLString() + "&" + confirm + "=on");
+        assertThat(request.sendOverspleenedAdventureWarning(WARREN), is(false));
+      }
+    }
+  }
+
+  @Nested
+  class Overdrunk {
+    private static final KoLAdventure WARREN =
+        AdventureDatabase.getAdventureByName("The Dire Warren");
+    private static final KoLAdventure CELLAR =
+        AdventureDatabase.getAdventureByName("The Typical Tavern Cellar");
+
+    @Test
+    public void thatNoWarningNeededIfNotOverdrunk() {
+      var cleanups = new Cleanups(withInebriety(5));
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(WARREN.getRequest().getURLString());
+        assertThat(request.sendOverdrunkAdventureWarning(WARREN), is(false));
+      }
+    }
+
+    @Test
+    public void thatWarningNeededIfOverdrunk() {
+      var cleanups = new Cleanups(withInebriety(30));
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(WARREN.getRequest().getURLString());
+        assertThat(request.sendOverdrunkAdventureWarning(WARREN), is(true));
+        assertThat(
+            request.lastWarning,
+            is(
+                "KoLmafia has detected that you are about to adventure while overdrunk. "
+                    + "If you are sure you wish to adventure in a Drunken Stupor, click the icon to adventure. "));
+      }
+    }
+
+    @Test
+    public void thatNoWarningNeededIfWineglassEquipped() {
+      var cleanups =
+          new Cleanups(withInebriety(30), withEquipped(Slot.OFFHAND, ItemPool.DRUNKULA_WINEGLASS));
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(WARREN.getRequest().getURLString());
+        assertThat(request.sendOverdrunkAdventureWarning(WARREN), is(false));
+      }
+    }
+
+    @Test
+    public void thatNoWarningNeededIfNotAdventurePhp() {
+      var cleanups = new Cleanups(withInebriety(30));
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(CELLAR.getRequest().getURLString());
+        assertThat(request.sendOverdrunkAdventureWarning(CELLAR), is(false));
+      }
+    }
+
+    @Test
+    public void thatNoWarningNeededInDrunkenStupor() {
+      var stupor = AdventureDatabase.getAdventure("Drunken Stupor");
+      var cleanups = new Cleanups(withInebriety(30));
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(stupor.getRequest().getURLString());
+        assertThat(request.sendOverdrunkAdventureWarning(stupor), is(false));
+      }
+    }
+
+    @ParameterizedTest
+    @EnumSource(
+        value = Confirm.class,
+        names = {"OVERDRUNK_ADVENTURE", "WINEGLASS"})
+    public void thatNoWarningNeededIfConfirmed(final Confirm confirm) {
+      var cleanups = new Cleanups(withInebriety(30));
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(WARREN.getRequest().getURLString() + "&" + confirm + "=on");
+        assertThat(request.sendOverdrunkAdventureWarning(WARREN), is(false));
       }
     }
   }
