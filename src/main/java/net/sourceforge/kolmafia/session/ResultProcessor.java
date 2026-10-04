@@ -1144,11 +1144,6 @@ public class ResultProcessor {
 
     if (result.isStatusEffect()) {
       switch (result.getEffectId()) {
-        case EffectPool.HALF_ASTRAL -> {
-          if (result.getCount() > 0) {
-            KoLCharacter.setLimitMode(LimitMode.ASTRAL);
-          }
-        }
         case EffectPool.HARE_BRAINED -> {
           Preferences.setInteger("hareTurnsUsed", 30 - result.getCount());
         }
@@ -1264,7 +1259,6 @@ public class ResultProcessor {
       case EffectPool.FIZZY_FIZZY -> {
         // Gaining or losing this effect will add or subtract 1 PP
         KoLCharacter.recalculateAdjustments();
-        KoLCharacter.resetCurrentPP();
       }
       case EffectPool.COWRRUPTION -> {
         if (active && KoLCharacter.getAscensionClass() == AscensionClass.COW_PUNCHER) {
@@ -1276,9 +1270,7 @@ public class ResultProcessor {
       case EffectPool.HALF_ASTRAL -> {
         // There is no "cool down" choice adventure for leaving this,
         // unlike the various llama lama forms
-        if (!active) {
-          KoLCharacter.setLimitMode(LimitMode.NONE);
-        }
+        KoLCharacter.setLimitMode(active ? LimitMode.ASTRAL : LimitMode.NONE);
       }
     }
   }

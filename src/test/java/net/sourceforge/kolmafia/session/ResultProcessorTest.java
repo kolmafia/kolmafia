@@ -15,6 +15,7 @@ import static internal.helpers.Player.withIntrinsicEffect;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withItemInCloset;
 import static internal.helpers.Player.withLimitMode;
+import static internal.helpers.Player.withNoEffects;
 import static internal.helpers.Player.withNoItems;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withQuestProgress;
@@ -627,6 +628,15 @@ public class ResultProcessorTest {
     }
 
     @Test
+    void fizzyFizzyExpiringKeepsSpentPP() {
+      try (var cleanups = new Cleanups(withEffect(EffectPool.FIZZY_FIZZY, 1))) {
+        KoLCharacter.setPP(0, 2);
+        ResultProcessor.processAdventuresUsed(1);
+        assertThat(KoLCharacter.getCurrentPP(), is(0));
+      }
+    }
+
+    @Test
     void halfAstralTickingDownKeepsAstralLimitMode() {
       try (var cleanups =
           new Cleanups(withEffect(EffectPool.HALF_ASTRAL, 2), withLimitMode(LimitMode.ASTRAL))) {
@@ -670,6 +680,23 @@ public class ResultProcessorTest {
           new Cleanups(withEffect(EffectPool.HALF_ASTRAL, 5), withLimitMode(LimitMode.ASTRAL))) {
         ResultProcessor.setActiveEffects(List.of(EffectPool.get(EffectPool.HALF_ASTRAL, 4)));
         assertThat(HALF_ASTRAL.getCount(KoLConstants.activeEffects), is(4));
+        assertThat(KoLCharacter.getLimitMode(), is(LimitMode.ASTRAL));
+      }
+    }
+
+    @Test
+    void gainingHalfAstralEntersAstralLimitMode() {
+      try (var cleanups = new Cleanups(withNoEffects(), withLimitMode(LimitMode.NONE))) {
+        ResultProcessor.processResult(EffectPool.get(EffectPool.HALF_ASTRAL, 5));
+        ResultProcessor.applyEffects();
+        assertThat(KoLCharacter.getLimitMode(), is(LimitMode.ASTRAL));
+      }
+    }
+
+    @Test
+    void refreshingWithNewHalfAstralEntersAstralLimitMode() {
+      try (var cleanups = new Cleanups(withNoEffects(), withLimitMode(LimitMode.NONE))) {
+        ResultProcessor.setActiveEffects(List.of(EffectPool.get(EffectPool.HALF_ASTRAL, 5)));
         assertThat(KoLCharacter.getLimitMode(), is(LimitMode.ASTRAL));
       }
     }
