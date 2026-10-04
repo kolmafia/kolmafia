@@ -42,13 +42,13 @@ class FaxRequestFrameTest {
     ChatManager.setChatLiteracy(true);
     ChatPoller.reset();
     ChatPoller.lastServerPoll = new Date(0);
-    ChatPoller.lastIdlePoll = 0;
+    ChatPoller.lastLocalPoll = 0;
   }
 
   @AfterEach
   void afterEach() {
     ChatPoller.lastServerPoll = new Date(0);
-    ChatPoller.lastIdlePoll = 0;
+    ChatPoller.lastLocalPoll = 0;
     cleanups.close();
   }
 
@@ -121,6 +121,35 @@ class FaxRequestFrameTest {
       ChatPoller.pollIfIdle();
 
       assertThat(builder.client.getRequests(), empty());
+    }
+  }
+
+  @Test
+  void pollsWhenBrowserChatHasGoneQuiet() {
+    var builder = new FakeHttpClientBuilder();
+    builder.client.setResponseFunc(request -> new FakeHttpResponse<>(200, NO_MESSAGES));
+
+    try (var cleanups = new Cleanups(withHttpClientBuilder(builder))) {
+      ChatPoller.lastServerPoll = new Date(System.currentTimeMillis() - 60 * 1000);
+
+      ChatPoller.pollIfIdle();
+
+      assertThat(path(builder.client.getLastRequest()), is("/newchatmessages.php"));
+    }
+  }
+
+  @Test
+  void doesNotPollRightAfterChatGuiPolls() {
+    var builder = new FakeHttpClientBuilder();
+    builder.client.setResponseFunc(request -> new FakeHttpResponse<>(200, NO_MESSAGES));
+
+    try (var cleanups = new Cleanups(withHttpClientBuilder(builder))) {
+      ChatPoller.getEntries(ChatPoller.localLastSeen, false, false);
+      int requests = builder.client.getRequests().size();
+
+      ChatPoller.pollIfIdle();
+
+      assertThat(builder.client.getRequests(), hasSize(requests));
     }
   }
 

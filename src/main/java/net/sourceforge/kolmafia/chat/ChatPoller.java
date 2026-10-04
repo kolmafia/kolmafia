@@ -56,7 +56,7 @@ public class ChatPoller extends Thread {
   public static Date lastServerPoll = new Date(0);
   public static Date lastSentMessage = new Date(0);
   public static long lastLocalSent = 0;
-  public static long lastIdlePoll = 0;
+  public static long lastLocalPoll = 0;
 
   private static String rightClickMenu = "";
 
@@ -169,31 +169,19 @@ public class ChatPoller extends Thread {
     ChatPoller.lastServerPoll = new Date();
   }
 
-  // Is our chat GUI or the browser polling chat?
-  public static boolean isPolling() {
-    if (ChatPoller.INSTANCE != null) {
-      return true;
-    }
-
+  // Poll chat once unless the browser or our chat GUI did so recently
+  public static void pollIfIdle() {
+    long now = System.currentTimeMillis();
     long serverLast;
     synchronized (ChatPoller.lastServerPoll) {
       serverLast = ChatPoller.lastServerPoll.getTime();
     }
-    return serverLast != 0 && System.currentTimeMillis() - serverLast < BROWSER_POLL_WINDOW;
-  }
 
-  // Poll chat once if nothing else is, at most once per chat delay
-  public static void pollIfIdle() {
-    if (ChatPoller.isPolling()) {
+    if (now - serverLast < BROWSER_POLL_WINDOW
+        || now - ChatPoller.lastLocalPoll < ChatPoller.LCHAT_DELAY_NORMAL) {
       return;
     }
 
-    long now = System.currentTimeMillis();
-    if (now - ChatPoller.lastIdlePoll < ChatPoller.LCHAT_DELAY_NORMAL) {
-      return;
-    }
-
-    ChatPoller.lastIdlePoll = now;
     ChatPoller.getEntries(ChatPoller.localLastSeen, false, false);
   }
 
@@ -315,6 +303,7 @@ public class ChatPoller extends Thread {
       ChatSender.sendMessage(null, "/listen", true);
     }
 
+    ChatPoller.lastLocalPoll = System.currentTimeMillis();
     ChatRequest request = new ChatRequest(ChatPoller.serverLastSeen, false, paused);
     request.run();
 
