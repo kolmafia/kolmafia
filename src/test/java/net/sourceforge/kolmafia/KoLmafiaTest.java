@@ -11,6 +11,7 @@ import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withLocation;
 import static internal.helpers.Player.withQuestProgress;
+import static internal.helpers.Player.withRedoSkippedAdventure;
 import static internal.helpers.Player.withResponses;
 import static internal.helpers.Player.withSkill;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -37,6 +38,7 @@ import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
+import net.sourceforge.kolmafia.session.GoalManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -108,8 +110,12 @@ public class KoLmafiaTest {
   @Nested
   class Goals {
     private Cleanups withCanAdventure() {
+      return withCanAdventure(1);
+    }
+
+    private Cleanups withCanAdventure(int adventuresLeft) {
       return new Cleanups(
-          withAdventuresLeft(1),
+          withAdventuresLeft(adventuresLeft),
           withHP(50, 50, 50),
           withEquipped(Slot.WEAPON, ItemPool.JUNE_CLEAVER));
     }
@@ -270,6 +276,71 @@ public class KoLmafiaTest {
             requests.stream().filter(r -> r.uri().getPath().equals("/adventure.php")).toList();
         assertThat(adventures, hasSize(1));
         assertPostRequest(adventures.get(0), "/adventure.php", containsString("snarfblat=298"));
+      }
+    }
+
+    @Test
+    public void keepsAdventuringWhenThereAreNoGoals() {
+      var builder = new FakeHttpClientBuilder();
+      builder.client.setResponseFunc(req -> new FakeHttpResponse<>(200, "adventure.php"));
+      var client = builder.client;
+
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withCanAdventure(),
+              canAccessOilPeak(),
+              withLocation("Oil Peak"),
+              withRedoSkippedAdventure(false),
+              withConcoctionRefresh());
+
+      try (cleanups) {
+        assertThat(GoalManager.getGoals(), hasSize(0));
+
+        KoLmafia.makeRequest(AdventureDatabase.getAdventureByName("Oil Peak"), 2);
+
+        var adventures =
+            client.getRequests().stream()
+                .filter(r -> r.uri().getPath().equals("/adventure.php"))
+                .toList();
+        assertThat(adventures, hasSize(2));
+        assertPostRequest(adventures.get(0), "/adventure.php", containsString("snarfblat=298"));
+      }
+    }
+
+    @Test
+    public void stopsAdventuringWhenAnAdventureSatisfiesTheGoal() {
+      var paintAcquired =
+          "<html>What you do instead is you see a pail lying on the ground, and you think \"Hey, isn't that the pail that Artist guy was looking for?\" Then you think \"Yes, yes it is,\" and then you pick it up and take it with you. "
+              + "<b>You acquire an item: <b>pail of pretentious paint</b></b></html>";
+      var builder = new FakeHttpClientBuilder();
+      builder.client.setResponseFunc(
+          req -> {
+            if (req.uri().getPath().equals("/adventure.php")) {
+              return new FakeHttpResponse<>(200, paintAcquired);
+            }
+            return new FakeHttpResponse<>(200, "Nonempty");
+          });
+      var client = builder.client;
+
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withCanAdventure(2),
+              withGoal(ItemPool.get(ItemPool.PRETENTIOUS_PAIL, 1)),
+              withLocation("The Sleazy Back Alley"),
+              withRedoSkippedAdventure(false),
+              withConcoctionRefresh());
+
+      try (cleanups) {
+        KoLmafia.makeRequest(AdventureDatabase.getAdventureByName("The Sleazy Back Alley"), 2);
+
+        var adventures =
+            client.getRequests().stream()
+                .filter(r -> r.uri().getPath().equals("/adventure.php"))
+                .toList();
+        assertThat(adventures, hasSize(1));
+        assertPostRequest(adventures.get(0), "/adventure.php", containsString("snarfblat=112"));
       }
     }
   }

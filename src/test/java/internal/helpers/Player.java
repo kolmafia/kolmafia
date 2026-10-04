@@ -33,6 +33,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLCharacter.Gender;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.MonsterData;
@@ -3147,5 +3148,11 @@ public class Player {
     var old = FightRequest.currentEncounter;
     FightRequest.currentEncounter = currentEncounter;
     return new Cleanups(() -> FightRequest.setCurrentEncounter(old));
+  }
+
+  public static Cleanups withRedoSkippedAdventure(final boolean redoSkippedAdventure) {
+    var old = KoLmafia.redoSkippedAdventures;
+    KoLmafia.redoSkippedAdventures = redoSkippedAdventure;
+    return new Cleanups(() -> KoLmafia.redoSkippedAdventures = old);
   }
 }
