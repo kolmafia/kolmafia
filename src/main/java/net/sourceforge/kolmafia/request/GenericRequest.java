@@ -2430,7 +2430,7 @@ public class GenericRequest implements Runnable {
 
     // If this is a lucky adventure, then remove the Lucky intrinsic
     if (this.responseText.contains("You feel less lucky")) {
-      KoLConstants.activeEffects.remove(EffectPool.get(EffectPool.LUCKY));
+      ResultProcessor.removeEffect(EffectPool.get(EffectPool.LUCKY));
     }
 
     if (this.responseText.contains("You break the bottle on the ground")) {
