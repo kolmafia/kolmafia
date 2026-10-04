@@ -45,8 +45,6 @@ class MaximizerExpression {
   double totalMin;
   double totalMax;
   int dump = 0;
-  static final Set<BitmapModifier> OSITY_MODIFIERS =
-      EnumSet.of(BitmapModifier.CLOWNINESS, BitmapModifier.RAVEOSITY, BitmapModifier.SURGEONOSITY);
   int stinkycheese = 0;
   int beeosity = 2;
   final EnumSet<BooleanModifier> booleanMask = EnumSet.noneOf(BooleanModifier.class);
@@ -91,6 +89,12 @@ class MaximizerExpression {
 
   private record ModifierLimits(double minimum, double maximum) {}
 
+  private enum OperandSupport {
+    NOT_SUPPORTED,
+    OPTIONAL,
+    REQUIRED
+  }
+
   private record ParsedTerm(
       double weight, String originalKeyword, String keyword, String operand, Modifier modifier) {
     private static ParsedTerm from(Matcher matcher) {
@@ -110,7 +114,8 @@ class MaximizerExpression {
       int separator = originalKeyword.indexOf(' ');
       String possibleDirective =
           separator == -1 ? originalKeyword : originalKeyword.substring(0, separator);
-      if (DIRECTIVES_WITH_OPERANDS.containsKey(possibleDirective)) {
+      OperandSupport operandSupport = DIRECTIVES.get(possibleDirective);
+      if (operandSupport != null && operandSupport != OperandSupport.NOT_SUPPORTED) {
         keyword = possibleDirective;
         if (separator != -1) {
           operand = originalKeyword.substring(separator + 1).trim();
@@ -128,22 +133,66 @@ class MaximizerExpression {
     }
   }
 
-  // {directive, operandRequired}
-  private static final Map<String, Boolean> DIRECTIVES_WITH_OPERANDS =
-      Map.of(
-          "type", true,
-          "equip", true,
-          "bonus", true,
-          "modbonus", true,
-          "letter", false,
-          "outfit", false,
-          "switch", true);
+  private static final Map<String, OperandSupport> DIRECTIVES =
+      Map.ofEntries(
+          Map.entry("min", OperandSupport.NOT_SUPPORTED),
+          Map.entry("max", OperandSupport.NOT_SUPPORTED),
+          Map.entry("dump", OperandSupport.NOT_SUPPORTED),
+          Map.entry("hand", OperandSupport.NOT_SUPPORTED),
+          Map.entry("tie", OperandSupport.NOT_SUPPORTED),
+          Map.entry("current", OperandSupport.NOT_SUPPORTED),
+          Map.entry("type", OperandSupport.REQUIRED),
+          Map.entry("club", OperandSupport.NOT_SUPPORTED),
+          Map.entry("shield", OperandSupport.NOT_SUPPORTED),
+          Map.entry("utensil", OperandSupport.NOT_SUPPORTED),
+          Map.entry("sword", OperandSupport.NOT_SUPPORTED),
+          Map.entry("knife", OperandSupport.NOT_SUPPORTED),
+          Map.entry("accordion", OperandSupport.NOT_SUPPORTED),
+          Map.entry("melee", OperandSupport.NOT_SUPPORTED),
+          Map.entry("effective", OperandSupport.NOT_SUPPORTED),
+          Map.entry("empty", OperandSupport.NOT_SUPPORTED),
+          Map.entry("beeosity", OperandSupport.NOT_SUPPORTED),
+          Map.entry(BitmapModifier.STINKYCHEESE.getName(), OperandSupport.NOT_SUPPORTED),
+          Map.entry("sea", OperandSupport.NOT_SUPPORTED),
+          Map.entry("equip", OperandSupport.REQUIRED),
+          Map.entry("bonus", OperandSupport.REQUIRED),
+          Map.entry("modbonus", OperandSupport.REQUIRED),
+          Map.entry("letter", OperandSupport.OPTIONAL),
+          Map.entry("number", OperandSupport.NOT_SUPPORTED),
+          Map.entry("plumber", OperandSupport.NOT_SUPPORTED),
+          Map.entry("cold plumber", OperandSupport.NOT_SUPPORTED),
+          Map.entry("outfit", OperandSupport.OPTIONAL),
+          Map.entry("switch", OperandSupport.REQUIRED),
+          Map.entry("elemental resistance", OperandSupport.NOT_SUPPORTED),
+          Map.entry("elemental damage", OperandSupport.NOT_SUPPORTED),
+          Map.entry("hp regen", OperandSupport.NOT_SUPPORTED),
+          Map.entry("mp regen", OperandSupport.NOT_SUPPORTED),
+          Map.entry("passive damage", OperandSupport.NOT_SUPPORTED),
+          Map.entry("organ capacity", OperandSupport.NOT_SUPPORTED),
+          Map.entry(DoubleModifier.COMBAT_RATE.getName(), OperandSupport.NOT_SUPPORTED),
+          Map.entry(DoubleModifier.ADVENTURES.getName(), OperandSupport.NOT_SUPPORTED),
+          Map.entry(DoubleModifier.PVP_FIGHTS.getName(), OperandSupport.NOT_SUPPORTED),
+          Map.entry(
+              DoubleModifier.RANDOM_MONSTER_MODIFIERS.getName(), OperandSupport.NOT_SUPPORTED),
+          Map.entry(BitmapModifier.CLOWNINESS.getName(), OperandSupport.NOT_SUPPORTED),
+          Map.entry(BitmapModifier.RAVEOSITY.getName(), OperandSupport.NOT_SUPPORTED),
+          Map.entry(BitmapModifier.SURGEONOSITY.getName(), OperandSupport.NOT_SUPPORTED));
+
+  static final Set<BitmapModifier> OSITY_MODIFIERS = supportedBitmapModifiers();
+
+  private static Set<BitmapModifier> supportedBitmapModifiers() {
+    var modifiers = EnumSet.allOf(BitmapModifier.class);
+    modifiers.removeIf(
+        modifier ->
+            !DIRECTIVES.containsKey(modifier.getName()) || defaultLimitsFor(modifier) == null);
+    return modifiers;
+  }
 
   private static final List<Canonicalization> KEYWORD_CANONICALIZATIONS =
       List.of(
           canonicalization("handed|hands", "hand"),
           canonicalization("tiebreaker", "tie"),
-          canonicalization("stinky cheese", "stinkycheese"),
+          canonicalization("stinky ?cheese", BitmapModifier.STINKYCHEESE.getName()),
           tokenCanonicalization("mus", "muscle"),
           tokenCanonicalization("mys(t(ical(ity)?)?)?", "mysticality"),
           tokenCanonicalization("mox", "moxie"),
@@ -156,9 +205,10 @@ class MaximizerExpression {
           canonicalization("organs?", "organ capacity"),
           canonicalization("any resistance", "elemental resistance"),
           canonicalization("main", "mainstat"),
-          canonicalization("com", "combat"),
-          canonicalization("advs", "adv"),
-          canonicalization("fite", "fites"),
+          canonicalization("com(bat)?", DoubleModifier.COMBAT_RATE.getName()),
+          canonicalization("adv", DoubleModifier.ADVENTURES.getName()),
+          canonicalization("fites", DoubleModifier.PVP_FIGHTS.getName()),
+          canonicalization("ocrs", DoubleModifier.RANDOM_MONSTER_MODIFIERS.getName()),
           canonicalization("clownosity", BitmapModifier.CLOWNINESS.getName()),
           canonicalization("init", DoubleModifier.INITIATIVE.getName()),
           canonicalization("hp", DoubleModifier.HP.getName()),
@@ -190,27 +240,24 @@ class MaximizerExpression {
       keyword =
           canonicalization.pattern().matcher(keyword).replaceAll(canonicalization.canonical());
     }
-    return switch (keyword) {
-      case "mainstat", "combat", "adv", "fites", "ocrs" -> keyword;
-      default -> {
-        Modifier modifier = modifierFor(keyword);
-        yield modifier == null ? keyword : modifier.getName();
-      }
-    };
+    if (keyword.equals("mainstat")) {
+      return DoubleModifier.primeStat().getName();
+    }
+    Modifier modifier = modifierFor(keyword);
+    return modifier == null ? keyword : modifier.getName();
   }
 
   private static Modifier modifierFor(String keyword) {
-    return switch (keyword) {
-      case "mainstat" -> DoubleModifier.primeStat();
-      case "combat" -> DoubleModifier.COMBAT_RATE;
-      case "adv" -> DoubleModifier.ADVENTURES;
-      case "fites" -> DoubleModifier.PVP_FIGHTS;
-      case "ocrs" -> DoubleModifier.RANDOM_MONSTER_MODIFIERS;
-      default -> {
-        Modifier modifier = DoubleModifier.byCaselessName(keyword);
-        yield modifier != null ? modifier : BitmapModifier.byCaselessName(keyword);
-      }
-    };
+    Modifier modifier = DoubleModifier.byCaselessName(keyword);
+    if (modifier != null) {
+      return modifier;
+    }
+    BitmapModifier bitmapModifier = BitmapModifier.byCaselessName(keyword);
+    return bitmapModifier != null
+            && DIRECTIVES.containsKey(bitmapModifier.getName())
+            && defaultLimitsFor(bitmapModifier) != null
+        ? bitmapModifier
+        : null;
   }
 
   private static ModifierLimits defaultLimitsFor(Modifier modifier) {
@@ -245,10 +292,18 @@ class MaximizerExpression {
       position = matcher.end();
       ParsedTerm term = ParsedTerm.from(matcher);
 
-      if (DIRECTIVES_WITH_OPERANDS.getOrDefault(term.keyword(), false)
-          && term.operand().isEmpty()) {
+      if (DIRECTIVES.get(term.keyword()) == OperandSupport.REQUIRED && term.operand().isEmpty()) {
         KoLmafia.updateDisplay(
             MafiaState.ERROR, "Directive '" + term.keyword() + "' requires an operand");
+        return null;
+      }
+
+      String keyword = term.keyword();
+      if (!DIRECTIVES.containsKey(keyword)
+          && term.modifier() == null
+          && !SlotSet.ALL_SLOTS.contains(EquipmentRequest.slotNumber(keyword))
+          && BooleanModifier.byCaselessName(keyword) == null) {
+        KoLmafia.updateDisplay(MafiaState.ERROR, "Unrecognized keyword: " + term.originalKeyword());
         return null;
       }
 
@@ -373,7 +428,7 @@ class MaximizerExpression {
           }
         }
         case "beeosity" -> this.beeosity = (int) weight;
-        case "stinkycheese" -> this.stinkycheese = (int) weight;
+        case "Stinky Cheese" -> this.stinkycheese = (int) weight;
         case "sea" -> {
           var adventureUnderwater =
               EnumSet.of(BooleanModifier.ADVENTURE_UNDERWATER, BooleanModifier.UNDERWATER_FAMILIAR);
@@ -540,12 +595,11 @@ class MaximizerExpression {
               this.booleanValue.add(booleanModifier);
             }
           } else if (modifier != null) {
-            switch (keyword) {
-              case "combat" -> {
-                if (AdventureDatabase.isUnderwater(Modifiers.currentLocation)) {
-                  this.weight.put(DoubleModifier.UNDERWATER_COMBAT_RATE, weight);
-                }
-              }
+            if (modifier == DoubleModifier.COMBAT_RATE
+                && AdventureDatabase.isUnderwater(Modifiers.currentLocation)) {
+              this.weight.put(DoubleModifier.UNDERWATER_COMBAT_RATE, weight);
+            }
+            switch (originalKeyword) {
               case "adv", "fites" -> this.beeosity = 999;
               case "ocrs" -> {
                 this.noTiebreaker = true;

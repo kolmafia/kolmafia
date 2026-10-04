@@ -205,7 +205,7 @@ class MaximizerExpressionTest {
       delimiter = '|',
       value = {
         "nonsense | Unrecognized keyword: nonsense",
-        "nonsense 3 min | min must follow a modifier or appear at the start of the expression; preceding term was 'nonsense'",
+        "nonsense 3 min | Unrecognized keyword: nonsense",
         "handicap | Unrecognized keyword: handicap",
         "tier | Unrecognized keyword: tier",
         "currently | Unrecognized keyword: currently",
