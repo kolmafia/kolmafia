@@ -17,6 +17,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.chat.ChatManager;
+import net.sourceforge.kolmafia.chat.ChatPoller;
 import net.sourceforge.kolmafia.chat.ChatSender;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.FaxBotDatabase;
@@ -162,14 +163,6 @@ public class FaxRequestFrame extends GenericFrame implements ChangeListener {
       return false;
     }
 
-    // Make sure we can receive chat messages, either via KoLmafia chat or in the Relay Browser.
-    if (!(ChatManager.isRunning() || true)) {
-      FaxRequestFrame.statusMessage =
-          "You must be in chat so we can receive messages from " + botName;
-      KoLmafia.updateDisplay(FaxRequestFrame.statusMessage);
-      return false;
-    }
-
     // Do you already have a photocopied monster?
     if (InventoryManager.hasItem(ItemPool.PHOTOCOPIED_MONSTER)) {
       String current = Preferences.getString("photocopyMonster");
@@ -205,6 +198,10 @@ public class FaxRequestFrame extends GenericFrame implements ChangeListener {
       while (true) {
         KoLmafia.updateDisplay(message);
 
+        // The reply comes by chat, which may not be open.
+        // Catch up first so that only newer messages count.
+        ChatPoller.pollIfIdle();
+
         // Clear last message, just in case.
         ChatManager.getLastFaxBotMessage();
 
@@ -215,6 +212,7 @@ public class FaxRequestFrame extends GenericFrame implements ChangeListener {
 
         int polls = LIMIT * 1000 / DELAY;
         for (int i = 0; i < polls; ++i) {
+          ChatPoller.pollIfIdle();
           response = ChatManager.getLastFaxBotMessage();
           if (response != null) {
             break;

@@ -40,6 +40,9 @@ public class ChatPoller extends Thread {
   private static final int MCHAT_DELAY_NORMAL = 3000;
   private static final int MCHAT_DELAY_PAUSED = 10000;
 
+  // How recently the browser must have polled for us to rely on it
+  private static final int BROWSER_POLL_WINDOW = 3 * ChatPoller.LCHAT_DELAY_PAUSED;
+
   // lchat and mchat like to go into "away" mode after 15 minutes.  If
   // you are running GUI chat and browser chat at the same time, let the
   // browser chat go first.
@@ -53,6 +56,7 @@ public class ChatPoller extends Thread {
   public static Date lastServerPoll = new Date(0);
   public static Date lastSentMessage = new Date(0);
   public static long lastLocalSent = 0;
+  public static long lastIdlePoll = 0;
 
   private static String rightClickMenu = "";
 
@@ -163,6 +167,34 @@ public class ChatPoller extends Thread {
 
   public static void serverPolled() {
     ChatPoller.lastServerPoll = new Date();
+  }
+
+  // Is our chat GUI or the browser polling chat?
+  public static boolean isPolling() {
+    if (ChatPoller.INSTANCE != null) {
+      return true;
+    }
+
+    long serverLast;
+    synchronized (ChatPoller.lastServerPoll) {
+      serverLast = ChatPoller.lastServerPoll.getTime();
+    }
+    return serverLast != 0 && System.currentTimeMillis() - serverLast < BROWSER_POLL_WINDOW;
+  }
+
+  // Poll chat once if nothing else is, at most once per chat delay
+  public static void pollIfIdle() {
+    if (ChatPoller.isPolling()) {
+      return;
+    }
+
+    long now = System.currentTimeMillis();
+    if (now - ChatPoller.lastIdlePoll < ChatPoller.LCHAT_DELAY_NORMAL) {
+      return;
+    }
+
+    ChatPoller.lastIdlePoll = now;
+    ChatPoller.getEntries(ChatPoller.localLastSeen, false, false);
   }
 
   public static void sentMessage(final boolean mchat) {
