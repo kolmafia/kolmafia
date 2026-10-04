@@ -4,7 +4,7 @@ import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
 import javax.swing.JEditorPane;
 import javax.swing.JScrollBar;
-import net.java.dev.spellcast.utilities.ChatBuffer;
+import net.sourceforge.kolmafia.chat.ChatBuffer;
 
 public class StickyListener implements AdjustmentListener {
   private final ChatBuffer buffer;

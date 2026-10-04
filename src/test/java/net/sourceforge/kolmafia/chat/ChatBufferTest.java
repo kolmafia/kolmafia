@@ -1,4 +1,4 @@
-package net.java.dev.spellcast.utilities;
+package net.sourceforge.kolmafia.chat;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
