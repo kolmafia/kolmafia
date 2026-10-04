@@ -340,47 +340,72 @@ public abstract class BastilleBattalionManager {
     }
   }
 
+  // Each preparation option (choices 1317 and 1318, plus the three cheesy
+  // options in 1317) adds a fixed delta to your stats. Cheese Seeking options
+  // do not change stats.
+  public static enum Preparation {
+    // A Hello to Arms
+    CONSCRIPT_THE_SOLDIERS("Conscript the soldiers", 5, 0, 0, 0, 0, 0),
+    PICK_UP_THE_BOULDERS("Pick up the boulders", 0, 0, 5, 0, 0, 0),
+    COMMISSION_SOME_ART("Commission some art", 0, 0, 0, 0, 5, 0),
+    DRAFT_THOSE_ARTISTS("Draft those artists", 10, 0, 0, 0, 0, -5),
+    WIDEN_THE_ARROW_SLITS("Widen the arrow slits", 0, -5, 10, 0, 0, 0),
+    ADD_MORE_WINDOWS("Add more windows", 0, 0, 0, -5, 10, 0),
+    STRENGTHEN_THE_WALLS("Strengthen the walls", 10, 0, 10, 0, -10, 0),
+    BUILD_THE_MEMORIAL("Build the memorial", 10, 0, -10, 0, 10, 0),
+    IMPROVE_THE_KEEP("Improve the keep", -10, 0, 10, 0, 10, 0),
+    APPROVE_THE_RETROFIT("Approve the retrofit", 5, 0, 5, 0, 5, 0),
+    GET_SLOPPY("Get sloppy", 10, -5, 10, -5, 10, -5),
+    ADOPT_THE_RADICAL_COMBAT_STYLE("Adopt the radical combat style", 15, -15, 15, -15, 15, -15),
+    LEVY_THE_TAX("Levy the tax", 10, 0, 0, -10, 0, 0),
+    LET_THE_CITIZENS_HURL_CHEESE_AT_YOU("Let the citizens hurl cheese at you", 0, 0, 10, 0, 0, -10),
+    TRADE_SOLDIERS_FOR_CHEESE("Trade soldiers for cheese", 0, -10, 0, 0, 10, 0),
+    // Defensive Posturing
+    TRAIN_THE_SOLDIERS("Train the soldiers", 0, 5, 0, 0, 0, 0),
+    THICKEN_THE_WALLS("Thicken the walls", 0, 0, 0, 5, 0, 0),
+    ADD_MORE_MURALS("Add more murals", 0, 0, 0, 0, 0, 5),
+    CONVERT_THE_GALLERIES("Convert the galleries", 0, 10, 0, 0, -5, 0),
+    MAKE_THE_SOLDIERS_MASONS("Make the soldiers masons", -5, 0, 0, 10, 0, 0),
+    BUILD_THE_WEIRD_STATUE("Build the weird statue", 0, 0, -5, 0, 0, 10),
+    REPURPOSE_THE_STATUES("Repurpose the statues", 0, 10, 0, 10, 0, -10),
+    LOWER_THE_WALLS("Lower the walls", 0, 10, 0, -10, 0, 10),
+    CUT_MILITARY_SPENDING("Cut military spending", 0, -10, 0, 10, 0, 10),
+    THROW_THE_PARTY("Throw the party", 0, 5, 0, 5, 0, 5),
+    BLUNT_EVERYTHING("Blunt everything", -5, 10, -5, 10, -5, 10),
+    DO_THE_PLOWSHARES_THING("Do the plowshares thing", -15, 15, -15, 15, -15, 15);
+
+    private static final Map<String, Preparation> textToPreparation =
+        Arrays.stream(values()).collect(Collectors.toMap(p -> p.text, p -> p));
+
+    private final String text;
+    private final Stats delta;
+
+    private Preparation(String text, int... delta) {
+      this.text = text;
+      this.delta = new Stats(delta);
+    }
+
+    public static Preparation find(String text) {
+      return textToPreparation.get(text);
+    }
+
+    public static void apply(String text) {
+      var preparation = find(text);
+      if (preparation == null) {
+        return;
+      }
+      preparation.apply();
+    }
+
+    public void apply() {
+      saveStats(loadStats().add(this.delta));
+    }
+  }
+
   // *** Stat tracking
 
   // Everyone's stats before style deltas are applied.
   private static final Stats BASELINE = new Stats(100, 90, 110, 100, 110, 110);
-
-  // Each preparation option (choices 1317 and 1318, plus the three cheesy
-  // options in 1317) adds a fixed delta to your stats. Cheese Seeking options
-  // do not change stats.
-  private static final Map<String, Stats> prepDeltas = new HashMap<>();
-
-  static {
-    // A Hello to Arms
-    prepDeltas.put("Conscript the soldiers", new Stats(5, 0, 0, 0, 0, 0));
-    prepDeltas.put("Pick up the boulders", new Stats(0, 0, 5, 0, 0, 0));
-    prepDeltas.put("Commission some art", new Stats(0, 0, 0, 0, 5, 0));
-    prepDeltas.put("Draft those artists", new Stats(10, 0, 0, 0, 0, -5));
-    prepDeltas.put("Widen the arrow slits", new Stats(0, -5, 10, 0, 0, 0));
-    prepDeltas.put("Add more windows", new Stats(0, 0, 0, -5, 10, 0));
-    prepDeltas.put("Strengthen the walls", new Stats(10, 0, 10, 0, -10, 0));
-    prepDeltas.put("Build the memorial", new Stats(10, 0, -10, 0, 10, 0));
-    prepDeltas.put("Improve the keep", new Stats(-10, 0, 10, 0, 10, 0));
-    prepDeltas.put("Approve the retrofit", new Stats(5, 0, 5, 0, 5, 0));
-    prepDeltas.put("Get sloppy", new Stats(10, -5, 10, -5, 10, -5));
-    prepDeltas.put("Adopt the radical combat style", new Stats(15, -15, 15, -15, 15, -15));
-    prepDeltas.put("Levy the tax", new Stats(10, 0, 0, -10, 0, 0));
-    prepDeltas.put("Let the citizens hurl cheese at you", new Stats(0, 0, 10, 0, 0, -10));
-    prepDeltas.put("Trade soldiers for cheese", new Stats(0, -10, 0, 0, 10, 0));
-    // Defensive Posturing
-    prepDeltas.put("Train the soldiers", new Stats(0, 5, 0, 0, 0, 0));
-    prepDeltas.put("Thicken the walls", new Stats(0, 0, 0, 5, 0, 0));
-    prepDeltas.put("Add more murals", new Stats(0, 0, 0, 0, 0, 5));
-    prepDeltas.put("Convert the galleries", new Stats(0, 10, 0, 0, -5, 0));
-    prepDeltas.put("Make the soldiers masons", new Stats(-5, 0, 0, 10, 0, 0));
-    prepDeltas.put("Build the weird statue", new Stats(0, 0, -5, 0, 0, 10));
-    prepDeltas.put("Repurpose the statues", new Stats(0, 10, 0, 10, 0, -10));
-    prepDeltas.put("Lower the walls", new Stats(0, 10, 0, -10, 0, 10));
-    prepDeltas.put("Cut military spending", new Stats(0, -10, 0, 10, 0, 10));
-    prepDeltas.put("Throw the party", new Stats(0, 5, 0, 5, 0, 5));
-    prepDeltas.put("Blunt everything", new Stats(-5, 10, -5, 10, -5, 10));
-    prepDeltas.put("Do the plowshares thing", new Stats(-15, 15, -15, 15, -15, 15));
-  }
 
   private static Stats stylesToStats(Collection<Style> styles) {
     Stats stats = BASELINE.copy();
@@ -663,14 +688,6 @@ public abstract class BastilleBattalionManager {
     }
     saveStyles(currentStyles);
     saveStats(stylesToStats(currentStyles.values()));
-    checkNeedles(text);
-  }
-
-  private static void applyPrepOption(String option, String text) {
-    Stats delta = prepDeltas.get(option);
-    if (delta != null) {
-      saveStats(loadStats().add(delta));
-    }
     checkNeedles(text);
   }
 
@@ -1024,7 +1041,8 @@ public abstract class BastilleBattalionManager {
         }
         String option = Preferences.getString("_bastilleLastEncounter");
         addOptionTaken(option);
-        applyPrepOption(option, text);
+        Preparation.apply(option);
+        checkNeedles(text);
         logStrength();
         return;
     }
