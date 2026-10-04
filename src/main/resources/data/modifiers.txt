@@ -5991,7 +5991,7 @@ Effect	Buttery, Boy	Sleaze Resistance: +3, Sleaze Damage: +30, Moxie Percent: +1
 Effect	Buttons Rouged, Louisiana	Avatar: "man with the red buttons"
 Effect	Buy!  Sell!  Buy!  Sell!	Meat Drop: [max(0,202-2*T)]
 Effect	Buzzard Breath	Stench Damage: +30, Spooky Damage: +30
-# Buzzed on Distillate: Variable
+Effect	Buzzed on Distillate	Variable
 Effect	Cabernet Hunter	Booze Drop: +100
 Effect	Cafeter&iacute;a Brujer&iacute;a	MP Regen Min: 3, MP Regen Max: 4
 Effect	Cake Caked	Mysticality Percent: +50
@@ -6811,7 +6811,7 @@ Effect	Heart of Orange	All Attributes: +3, Hot Damage: +5, Hot Spell Damage: +5,
 Effect	Heart of Pink	All Attributes: +3, Meat Drop: +20
 Effect	Heart of White	All Attributes: +3, Experience: +1, Familiar Experience: +1
 Effect	Heart of Yellow	All Attributes: +3, Initiative: +20
-# Heartstone Attunement: Variable
+Effect	Heartstone Attunement	Variable
 Effect	Heated Up	Muscle Percent: +200, Mysticality Percent: +200, Moxie Percent: +200
 Effect	Heavily Breathing	Muscle Experience: [L]
 Effect	Heavy Petting	Familiar Weight: +5, All Attributes Percent: -10
