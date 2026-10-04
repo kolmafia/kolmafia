@@ -4,10 +4,12 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -169,9 +171,7 @@ public abstract class BastilleBattalionManager {
     }
 
     public Stats add(Stats stats) {
-      for (int i = 0; i < 6; ++i) {
-        this.stats[i] += stats.stats[i];
-      }
+      Arrays.setAll(this.stats, i -> this.stats[i] + stats.stats[i]);
       return this;
     }
 
@@ -180,22 +180,14 @@ public abstract class BastilleBattalionManager {
     }
 
     public String toStrengthString() {
-      StringBuilder buf = new StringBuilder();
-      buf.append("Military ");
-      buf.append(this.get(Stat.MA));
-      buf.append("/");
-      buf.append(this.get(Stat.MD));
-      buf.append(" ");
-      buf.append("Castle ");
-      buf.append(this.get(Stat.CA));
-      buf.append("/");
-      buf.append(this.get(Stat.CD));
-      buf.append(" ");
-      buf.append("Psychological ");
-      buf.append(this.get(Stat.PA));
-      buf.append("/");
-      buf.append(this.get(Stat.PD));
-      return buf.toString();
+      return String.format(
+          "Military %d/%d Castle %d/%d Psychological %d/%d",
+          this.get(Stat.MA),
+          this.get(Stat.MD),
+          this.get(Stat.CA),
+          this.get(Stat.CD),
+          this.get(Stat.PA),
+          this.get(Stat.PD));
     }
   }
 
@@ -512,25 +504,19 @@ public abstract class BastilleBattalionManager {
     }
 
     private String setValue() {
-      StringBuilder buf = new StringBuilder();
-      buf.append('M');
-      buf.append(this.aggressor ? 'A' : 'D');
-      buf.append(this.military ? '>' : '<');
-      buf.append('M');
-      buf.append(this.aggressor ? 'D' : 'A');
-      buf.append(",");
-      buf.append('C');
-      buf.append(this.aggressor ? 'A' : 'D');
-      buf.append(this.castle ? '>' : '<');
-      buf.append('C');
-      buf.append(this.aggressor ? 'D' : 'A');
-      buf.append(",");
-      buf.append('P');
-      buf.append(this.aggressor ? 'A' : 'D');
-      buf.append(this.psychological ? '>' : '<');
-      buf.append('P');
-      buf.append(this.aggressor ? 'D' : 'A');
-      return buf.toString();
+      var ours = this.aggressor ? 'A' : 'D';
+      var theirs = this.aggressor ? 'D' : 'A';
+      return String.format(
+          "M%c%cM%c,C%c%cC%c,P%c%cP%c",
+          ours,
+          this.military ? '>' : '<',
+          theirs,
+          ours,
+          this.castle ? '>' : '<',
+          theirs,
+          ours,
+          this.psychological ? '>' : '<',
+          theirs);
     }
 
     public String getValue() {
@@ -538,11 +524,8 @@ public abstract class BastilleBattalionManager {
     }
 
     public boolean won() {
-      int wins = 0;
-      wins += this.military ? 1 : 0;
-      wins += this.castle ? 1 : 0;
-      wins += this.psychological ? 1 : 0;
-      return wins >= 2;
+      return Stream.of(this.military, this.castle, this.psychological).filter(won -> won).count()
+          >= 2;
     }
   }
 
@@ -557,10 +540,10 @@ public abstract class BastilleBattalionManager {
 
   private static Stats loadStats() {
     Stats stats = new Stats();
-    Matcher matcher = STAT_PATTERN.matcher(Preferences.getString("_bastilleStats"));
-    while (matcher.find()) {
-      stats.set(Stat.valueOf(matcher.group(1)), StringUtilities.parseInt(matcher.group(2)));
-    }
+    STAT_PATTERN
+        .matcher(Preferences.getString("_bastilleStats"))
+        .results()
+        .forEach(m -> stats.set(Stat.valueOf(m.group(1)), StringUtilities.parseInt(m.group(2))));
     return stats;
   }
 
@@ -665,13 +648,9 @@ public abstract class BastilleBattalionManager {
       int expected = statToNeedle(stat, value);
       if (expected != left) {
         logLine(
-            stat
-                + " is tracked as "
-                + value
-                + " (needle at "
-                + expected
-                + ") but the needle is at "
-                + left);
+            String.format(
+                "%s is tracked as %d (needle at %d) but the needle is at %d",
+                stat, value, expected, left));
         retval = false;
       }
     }
@@ -679,13 +658,12 @@ public abstract class BastilleBattalionManager {
   }
 
   public static void parseStyles(String text) {
-    Matcher matcher = IMAGE_PATTERN.matcher(text);
-    while (matcher.find()) {
-      Style style = imageToStyle.get(matcher.group(4));
-      if (style != null) {
-        style.apply();
-      }
-    }
+    IMAGE_PATTERN
+        .matcher(text)
+        .results()
+        .map(m -> imageToStyle.get(m.group(4)))
+        .filter(Objects::nonNull)
+        .forEach(Style::apply);
     saveStyles(currentStyles);
     saveStats(stylesToStats(currentStyles.values()));
     checkNeedles(text);
@@ -829,7 +807,7 @@ public abstract class BastilleBattalionManager {
         int total = StringUtilities.parseInt(matcher.group(2));
         // Sanity check
         if (calculated != total) {
-          System.out.println("Calculated = " + calculated + " total = " + total);
+          System.out.println(String.format("Calculated = %d total = %d", calculated, total));
           Preferences.setInteger("_bastilleCheese", total);
         }
       }
@@ -880,13 +858,9 @@ public abstract class BastilleBattalionManager {
       return;
     }
     logLine(
-        "("
-            + stats
-            + " attack and defense boosted by "
-            + Math.min(turns, 3) * 10
-            + "% from "
-            + effect.getName()
-            + ")");
+        String.format(
+            "(%s attack and defense boosted by %d%% from %s)",
+            stats, Math.min(turns, 3) * 10, effect.getName()));
   }
 
   private static void logStrength() {
@@ -894,11 +868,8 @@ public abstract class BastilleBattalionManager {
   }
 
   private static StringBuilder logAction(StringBuilder buf, String action) {
-    buf.append("Turn #");
-    buf.append(Preferences.getInteger("_bastilleGameTurn"));
-    buf.append(": ");
-    buf.append(action);
-    return buf;
+    return buf.append(
+        String.format("Turn #%d: %s", Preferences.getInteger("_bastilleGameTurn"), action));
   }
 
   // *** Interface for testing
