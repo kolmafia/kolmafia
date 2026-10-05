@@ -65,7 +65,7 @@ public class Preferences {
   // Obsolete properties.
   private static final String[] obsoleteProperties =
       new String[] {
-        "shadowRiftLastNC", "shadowRiftTotalTurns",
+        "logBastilleBattalionBattles", "shadowRiftLastNC", "shadowRiftTotalTurns",
       };
 
   // Map to store deprecation notices for preferences
