@@ -2,10 +2,13 @@ package net.sourceforge.kolmafia.session;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
 import net.sourceforge.kolmafia.AscensionClass;
@@ -441,7 +444,7 @@ public class ResultProcessor {
       requiresRefresh = processNormalResults(adventureResults, results, data, items, effects);
     } finally {
       if (data == null) {
-        KoLmafia.applyEffects();
+        applyEffects();
       }
     }
 
@@ -809,12 +812,14 @@ public class ResultProcessor {
     int effectId = EffectDatabase.getEffectId(effectName);
     AdventureResult result = EffectPool.get(effectId, Integer.MAX_VALUE);
 
+    int before = result.getCount(KoLConstants.activeEffects);
     if (message.startsWith("You lose")) {
       AdventureResult.removeResultFromList(KoLConstants.activeEffects, result);
     } else {
       KoLConstants.activeEffects.add(result);
       LockableListFactory.sort(KoLConstants.activeEffects);
     }
+    effectChanged(effectId, before, result.getCount(KoLConstants.activeEffects));
 
     return true;
   }
@@ -1139,32 +1144,8 @@ public class ResultProcessor {
 
     if (result.isStatusEffect()) {
       switch (result.getEffectId()) {
-        case EffectPool.GARISH -> {
-          // If you gain or lose Gar-ish, and autoGarish
-          // not set, benefit of Lasagna changes
-          if (!Preferences.getBoolean("autoGarish")) {
-            ConcoctionDatabase.setRefreshNeeded(true);
-          }
-        }
-        case EffectPool.HALF_ASTRAL -> {
-          if (result.getCount() > 0) {
-            KoLCharacter.setLimitMode(LimitMode.ASTRAL);
-          }
-        }
         case EffectPool.HARE_BRAINED -> {
           Preferences.setInteger("hareTurnsUsed", 30 - result.getCount());
-        }
-        case EffectPool.INIGOS, EffectPool.CRAFT_TEA, EffectPool.SAVING_SOME_BONDO -> {
-          // If you gain or lose one of these, what you can craft changes
-          ConcoctionDatabase.setRefreshNeeded(true);
-        }
-        case EffectPool.RECORD_HUNGER,
-            EffectPool.DRUNK_AVUNCULAR,
-            EffectPool.BARREL_OF_LAUGHS,
-            EffectPool.BEER_BARREL_POLKA,
-            EffectPool.REFINED_PALATE -> {
-          // Turn generation from food and booze changes
-          ConcoctionDatabase.setRefreshNeeded(true);
         }
         case EffectPool.CHILLED_TO_THE_BONE -> {
           int duration = result.getCount();
@@ -1189,6 +1170,105 @@ public class ResultProcessor {
     GoalManager.updateProgress(result);
 
     return shouldRefresh;
+  }
+
+  /**
+   * Adds the recent effects accumulated so far to the actual effects. This should be called after
+   * the previous effects were decremented, if adventuring took place.
+   */
+  static void applyEffects() {
+    int oldCount = KoLConstants.activeEffects.size();
+
+    record Change(int effectId, int before, int after) {}
+    var changes = new ArrayList<Change>();
+    for (AdventureResult effect : KoLConstants.recentEffects) {
+      int before = effect.getCount(KoLConstants.activeEffects);
+      AdventureResult.addResultToList(KoLConstants.activeEffects, effect);
+      changes.add(
+          new Change(effect.getEffectId(), before, effect.getCount(KoLConstants.activeEffects)));
+    }
+
+    KoLConstants.recentEffects.clear();
+    LockableListFactory.sort(KoLConstants.activeEffects);
+
+    if (oldCount != KoLConstants.activeEffects.size()) {
+      KoLCharacter.updateStatus();
+    }
+
+    for (var change : changes) {
+      effectChanged(change.effectId(), change.before(), change.after());
+    }
+  }
+
+  public static void setActiveEffects(final List<AdventureResult> effects) {
+    var before = effectCounts(KoLConstants.activeEffects);
+
+    KoLConstants.recentEffects.clear();
+    KoLConstants.activeEffects.clear();
+    KoLConstants.activeEffects.addAll(effects);
+    LockableListFactory.sort(KoLConstants.activeEffects);
+
+    var after = effectCounts(KoLConstants.activeEffects);
+    var ids = new HashSet<>(before.keySet());
+    ids.addAll(after.keySet());
+    for (int id : ids) {
+      effectChanged(id, before.getOrDefault(id, 0), after.getOrDefault(id, 0));
+    }
+  }
+
+  private static Map<Integer, Integer> effectCounts(final List<AdventureResult> effects) {
+    return effects.stream()
+        .collect(
+            Collectors.toMap(AdventureResult::getEffectId, AdventureResult::getCount, (a, b) -> b));
+  }
+
+  public static void removeEffect(final AdventureResult effect) {
+    int before = effect.getCount(KoLConstants.activeEffects);
+    if (KoLConstants.activeEffects.remove(effect)) {
+      effectChanged(effect.getEffectId(), before, 0);
+    }
+  }
+
+  private static void effectChanged(int effectId, int before, int after) {
+    // Only react to the effect being gained or lost, not to its duration changing
+    if ((before > 0) == (after > 0)) {
+      return;
+    }
+
+    var active = after > 0;
+    switch (effectId) {
+      case EffectPool.INIGOS, EffectPool.CRAFT_TEA, EffectPool.SAVING_SOME_BONDO -> {
+        // If you gain or lose one of these, what you can craft changes
+        ConcoctionDatabase.setRefreshNeeded(true);
+      }
+      case EffectPool.RECORD_HUNGER,
+          EffectPool.DRUNK_AVUNCULAR,
+          EffectPool.BARREL_OF_LAUGHS,
+          EffectPool.BEER_BARREL_POLKA,
+          EffectPool.REFINED_PALATE -> {
+        // Turn generation from food and booze changes
+        ConcoctionDatabase.setRefreshNeeded(true);
+      }
+      case EffectPool.GARISH -> {
+        // If you gain or lose Gar-ish, and autoGarish
+        // not set, benefit of Lasagna changes
+        if (!Preferences.getBoolean("autoGarish")) {
+          ConcoctionDatabase.setRefreshNeeded(true);
+        }
+      }
+      case EffectPool.COWRRUPTION -> {
+        if (active && KoLCharacter.getAscensionClass() == AscensionClass.COW_PUNCHER) {
+          KoLCharacter.addAvailableSkill(SkillPool.ABSORB_COWRRUPTION);
+        } else {
+          KoLCharacter.removeAvailableSkill(SkillPool.ABSORB_COWRRUPTION);
+        }
+      }
+      case EffectPool.HALF_ASTRAL -> {
+        // There is no "cool down" choice adventure for leaving this,
+        // unlike the various llama lama forms
+        KoLCharacter.setLimitMode(active ? LimitMode.ASTRAL : LimitMode.NONE);
+      }
+    }
   }
 
   public static boolean processItem(int itemId, int count) {
@@ -1293,27 +1373,20 @@ public class ResultProcessor {
           int duration = effect.getCount();
           if (duration == Integer.MAX_VALUE) {
             // Intrinsic effect
-          } else if (KoLCharacter.getAscensionClass() == AscensionClass.COW_PUNCHER
+            continue;
+          }
+          if (KoLCharacter.getAscensionClass() == AscensionClass.COW_PUNCHER
               && effect.getEffectId() == EffectPool.COWRRUPTION) {
             // Does not decrement
-          } else if (duration + result.getCount() <= 0) {
-            KoLConstants.activeEffects.remove(i);
-
-            switch (effect.getEffectId()) {
-              case EffectPool.INIGOS, EffectPool.CRAFT_TEA -> {
-                // If you lose Inigo's or Craft Tea, what you can craft changes
-                ConcoctionDatabase.setRefreshNeeded(true);
-              }
-              case EffectPool.HALF_ASTRAL -> {
-                // There is no "cool down" choice adventure for leaving this,
-                // unlike the various llama lama forms
-                KoLCharacter.setLimitMode(LimitMode.NONE);
-              }
-            }
-          } else {
-            KoLConstants.activeEffects.set(
-                i, effect.getInstance(effect.getCount() + result.getCount()));
+            continue;
           }
+          int remaining = Math.max(0, duration + result.getCount());
+          if (remaining == 0) {
+            KoLConstants.activeEffects.remove(i);
+          } else {
+            KoLConstants.activeEffects.set(i, effect.getInstance(remaining));
+          }
+          effectChanged(effect.getEffectId(), duration, remaining);
         }
 
         KoLCharacter.setCurrentRun(KoLCharacter.getCurrentRun() - result.getCount());

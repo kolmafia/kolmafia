@@ -6,8 +6,6 @@
 
 package net.sourceforge.kolmafia.chat;
 
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.HierarchyEvent;
 import java.io.File;
 import java.io.IOException;
@@ -37,6 +35,8 @@ import javax.swing.text.html.HTML;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
 import net.java.dev.spellcast.utilities.DataUtilities;
+import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.swingui.listener.StickyListener;
 
 /**
  * A multi-purpose message buffer which stores all sorts of the messages that can either be
@@ -54,8 +54,8 @@ public class ChatBuffer {
   private int contentLength = 0;
 
   private final Set<JEditorPane> displayPanes = ChatBuffer.weakSet();
-  private final Set<JEditorPane> stickyPanes = ChatBuffer.weakSet();
   private final Set<JEditorPane> stalePanes = ChatBuffer.weakSet();
+  private final Set<JEditorPane> statusLines = ChatBuffer.weakSet();
 
   private int pendingCount = 0;
   private int pendingRemovals = 0;
@@ -66,10 +66,10 @@ public class ChatBuffer {
 
   protected static final HashMap<String, PrintWriter> ACTIVE_LOG_FILES = new HashMap<>();
 
-  private static final int MAXIMUM_LENGTH = 50000;
-  private static final int TRIM_TO_LENGTH = 45000;
+  private static final int MINIMUM_LENGTH = 10000;
   private static final int MINIMUM_ENTRIES = 100;
   private static final int MAXIMUM_RETAINED_LENGTH = 200000;
+  private static final int STATUS_LINE_ENTRIES = 10;
 
   /**
    * Constructs a new <code>ChatBuffer</code>. However, note that this does not automatically
@@ -82,27 +82,20 @@ public class ChatBuffer {
 
   /** Adds a chat display used to display the chat messages currently being stored in the buffer. */
   public JScrollPane addDisplay(final JEditorPane displayPane) {
+    return this.addDisplay(displayPane, false);
+  }
+
+  public JScrollPane addStatusLine(final JEditorPane displayPane) {
+    return this.addDisplay(displayPane, true);
+  }
+
+  private JScrollPane addDisplay(final JEditorPane displayPane, final boolean statusLine) {
     if (displayPane == null) {
       return null;
     }
 
     displayPane.setContentType("text/html");
     displayPane.setEditable(false);
-    displayPane.addFocusListener(
-        new FocusListener() {
-          @Override
-          public void focusGained(FocusEvent e) {
-            // In java 21, a change was made to always render the caret's position despite text
-            // being uneditable
-            // This isn't as useful for us as we automatically scroll to bottom
-            // https://bugs.openjdk.org/browse/JDK-4512626
-            displayPane.getCaret().setVisible(false);
-          }
-
-          @Override
-          public void focusLost(FocusEvent e) {}
-        });
-
     displayPane.addHierarchyListener(
         e -> {
           if ((e.getChangeFlags() & HierarchyEvent.DISPLAYABILITY_CHANGED) != 0
@@ -111,18 +104,28 @@ public class ChatBuffer {
           }
         });
 
-    SwingUtilities.invokeLater(
-        () -> {
-          this.displayPanes.add(displayPane);
-          this.stickyPanes.add(displayPane);
-          this.markStale(displayPane);
-        });
-
     JScrollPane scroller =
         new JScrollPane(
             displayPane,
-            ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+            statusLine
+                ? ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER
+                : ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
             ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
+    var stickyListener = new StickyListener(scroller.getVerticalScrollBar());
+    displayPane.putClientProperty(StickyListener.class, stickyListener);
+    displayPane.setCaret(new ChatCaret(stickyListener));
+
+    SwingUtilities.invokeLater(
+        () -> {
+          this.displayPanes.add(displayPane);
+
+          if (statusLine) {
+            this.statusLines.add(displayPane);
+          }
+
+          this.markStale(displayPane);
+        });
 
     return scroller;
   }
@@ -169,7 +172,6 @@ public class ChatBuffer {
     SwingUtilities.invokeLater(
         () -> {
           this.displayPanes.clear();
-          this.stickyPanes.clear();
           this.stalePanes.clear();
         });
 
@@ -232,8 +234,10 @@ public class ChatBuffer {
 
     this.pendingCount++;
 
-    if (this.contentLength >= ChatBuffer.MAXIMUM_LENGTH) {
-      this.trim();
+    var maximumLength = ChatBuffer.maximumLength();
+
+    if (this.contentLength >= maximumLength) {
+      this.trim(maximumLength);
     }
 
     this.scheduleFlush();
@@ -251,13 +255,19 @@ public class ChatBuffer {
 
   /** Returns all the styled content stored within this chat buffer. */
   public String getHTMLContent() {
+    return this.getHTMLContent(this.entries.size());
+  }
+
+  private String getHTMLContent(final int latestEntries) {
     StringBuffer htmlContent = new StringBuffer();
 
     htmlContent.append("<html><head><style>");
     htmlContent.append(this.getStyle());
     htmlContent.append("</style></head><body>");
 
-    htmlContent.append(ChatBuffer.wrapEntries(this.entries));
+    htmlContent.append(
+        ChatBuffer.wrapEntries(
+            this.entries.stream().skip(Math.max(0, this.entries.size() - latestEntries)).toList()));
 
     htmlContent.append("</body></html>");
 
@@ -272,17 +282,6 @@ public class ChatBuffer {
     }
 
     return html.toString();
-  }
-
-  public void setSticky(JEditorPane editor, boolean sticky) {
-    SwingUtilities.invokeLater(
-        () -> {
-          if (sticky) {
-            this.stickyPanes.add(editor);
-          } else {
-            this.stickyPanes.remove(editor);
-          }
-        });
   }
 
   private static Set<JEditorPane> weakSet() {
@@ -301,11 +300,18 @@ public class ChatBuffer {
     this.scheduleFlush();
   }
 
-  private void trim() {
+  private static int maximumLength() {
+    return Math.max(Preferences.getInteger("outputBufferLength"), ChatBuffer.MINIMUM_LENGTH);
+  }
+
+  private void trim(final int maximumLength) {
+    var trimToLength = maximumLength / 10 * 9;
+    var maximumRetainedLength = Math.max(maximumLength, ChatBuffer.MAXIMUM_RETAINED_LENGTH);
+
     while (this.entries.size() > 1
-        && this.contentLength > ChatBuffer.TRIM_TO_LENGTH
+        && this.contentLength > trimToLength
         && (this.entries.size() > ChatBuffer.MINIMUM_ENTRIES
-            || this.contentLength > ChatBuffer.MAXIMUM_RETAINED_LENGTH)) {
+            || this.contentLength > maximumRetainedLength)) {
       if (this.pendingCount == this.entries.size()) {
         this.pendingCount--;
       } else {
@@ -331,6 +337,7 @@ public class ChatBuffer {
         ChatBuffer.wrapEntries(
             this.entries.stream().skip(this.entries.size() - this.pendingCount).toList());
     String htmlContent = null;
+    String statusLineContent = null;
 
     this.pendingRemovals = 0;
     this.pendingCount = 0;
@@ -341,7 +348,20 @@ public class ChatBuffer {
         continue;
       }
 
-      if (this.stalePanes.remove(displayPane) || !ChatBuffer.update(displayPane, removals, added)) {
+      var stale = this.stalePanes.remove(displayPane);
+
+      if (this.statusLines.contains(displayPane)) {
+        if (statusLineContent == null) {
+          statusLineContent = this.getHTMLContent(ChatBuffer.STATUS_LINE_ENTRIES);
+        }
+
+        displayPane.setText(statusLineContent);
+      } else if (stale
+          || !ChatBuffer.update(
+              displayPane,
+              (StickyListener) displayPane.getClientProperty(StickyListener.class),
+              removals,
+              added)) {
         if (htmlContent == null) {
           htmlContent = this.getHTMLContent();
         }
@@ -352,22 +372,13 @@ public class ChatBuffer {
       // Non-ASCII text sets "multiByte", which switches to a much slower bidi-aware layout.
       displayPane.getDocument().putProperty("multiByte", Boolean.FALSE);
     }
-
-    for (JEditorPane stickyPane : this.stickyPanes) {
-      if (!stickyPane.isDisplayable()) {
-        continue;
-      }
-
-      int contentLength = stickyPane.getDocument().getLength();
-
-      int caretPosition = Math.max(contentLength - 1, 0);
-
-      stickyPane.setCaretPosition(caretPosition);
-    }
   }
 
   private static boolean update(
-      final JEditorPane displayPane, final int removals, final String added) {
+      final JEditorPane displayPane,
+      final StickyListener stickyListener,
+      final int removals,
+      final String added) {
     HTMLDocument currentHTML = (HTMLDocument) displayPane.getDocument();
     Element body =
         currentHTML.getElement(
@@ -391,6 +402,12 @@ public class ChatBuffer {
       return false;
     }
 
+    int removedHeight =
+        removals > 0 && stickyListener.keepsPosition()
+            ? ChatBuffer.top(displayPane, entryElements.get(removals))
+                - ChatBuffer.top(displayPane, entryElements.get(0))
+            : 0;
+
     try {
       for (int i = 0; i < removals; i++) {
         currentHTML.removeElement(entryElements.get(i));
@@ -403,9 +420,22 @@ public class ChatBuffer {
       return false;
     }
 
+    if (removedHeight > 0) {
+      stickyListener.contentRemovedAbove(removedHeight);
+    }
+
     // ChatBuffer.printHTML( currentHTML );
 
     return true;
+  }
+
+  private static int top(final JEditorPane displayPane, final Element element) {
+    try {
+      var bounds = displayPane.modelToView2D(element.getStartOffset());
+      return bounds == null ? 0 : (int) bounds.getY();
+    } catch (BadLocationException e) {
+      return 0;
+    }
   }
 
   static String balanceTags(final String newContent) {

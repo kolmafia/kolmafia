@@ -36,9 +36,7 @@ import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
-import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
@@ -1206,53 +1204,6 @@ public abstract class KoLmafia {
 
     if (FamiliarDatabase.newFamiliars) {
       FamiliarDatabase.writeFamiliars(new File(KoLConstants.DATA_LOCATION, "familiars.txt"));
-    }
-  }
-
-  /**
-   * Adds the recent effects accumulated so far to the actual effects. This should be called after
-   * the previous effects were decremented, if adventuring took place.
-   */
-  public static final void applyEffects() {
-    boolean concoctionRefreshNeeded = false;
-    boolean updatePPNeeded = false;
-
-    int oldCount = KoLConstants.activeEffects.size();
-
-    for (int j = 0; j < KoLConstants.recentEffects.size(); ++j) {
-      AdventureResult effect = KoLConstants.recentEffects.get(j);
-      AdventureResult.addResultToList(KoLConstants.activeEffects, effect);
-
-      int effectId = effect.getEffectId();
-      if (effectId == EffectPool.INIGOS || effectId == EffectPool.CRAFT_TEA) {
-        concoctionRefreshNeeded = true;
-      } else if (effectId == EffectPool.FIZZY_FIZZY) {
-        updatePPNeeded = true;
-      } else if (effectId == EffectPool.COWRRUPTION) {
-        if (KoLConstants.activeEffects.contains(effect)
-            && KoLCharacter.getAscensionClass() == AscensionClass.COW_PUNCHER) {
-          KoLCharacter.addAvailableSkill(SkillPool.ABSORB_COWRRUPTION);
-        } else {
-          KoLCharacter.removeAvailableSkill(SkillPool.ABSORB_COWRRUPTION);
-        }
-      }
-    }
-
-    KoLConstants.recentEffects.clear();
-    LockableListFactory.sort(KoLConstants.activeEffects);
-
-    if (oldCount != KoLConstants.activeEffects.size()) {
-      KoLCharacter.updateStatus();
-    }
-
-    if (updatePPNeeded) {
-      // Gaining or losing this effect will add or subtract 1 PP
-      KoLCharacter.recalculateAdjustments();
-      KoLCharacter.resetCurrentPP();
-    }
-
-    if (concoctionRefreshNeeded) {
-      ConcoctionDatabase.setRefreshNeeded(true);
     }
   }
 
