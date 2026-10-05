@@ -257,8 +257,6 @@ public class LoginManager {
     if (MailManager.hasNewMessages()) {
       KoLmafia.updateDisplay("You have new mail.");
     }
-
-    printWarningMessages();
   }
 
   public static String getCurrentHoliday() {
@@ -274,14 +272,5 @@ public class LoginManager {
 
   public static boolean isSvnLoginUpdateUnfinished() {
     return svnLoginUpdateNotFinished;
-  }
-
-  private static void printWarningMessages() {
-    var version = Runtime.version();
-    if (version.feature() < 21) {
-      KoLmafia.updateDisplay("Java versions lower than 21 will stop being supported by KoLMafia.");
-      KoLmafia.updateDisplay(
-          "You are running a version of Java lower than 21. Visit https://adoptium.net/ to download a newer version of Java.");
-    }
   }
 }

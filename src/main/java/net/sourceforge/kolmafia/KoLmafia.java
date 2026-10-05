@@ -174,7 +174,7 @@ public abstract class KoLmafia {
           "http://images.kingdomofloathing.com/",
           "https://d2uyhvukfffg5a.cloudfront.net/");
   // Displays a warning in several areas when the JVM is running an older version
-  public static final int MINIMUM_JAVA_VERSION = 25;
+  public static final int UPCOMING_MINIMUM_JAVA_VERSION = 25;
 
   public static String imageServerPrefix() {
     return PREFERRED_IMAGE_SERVER;
@@ -386,11 +386,11 @@ public abstract class KoLmafia {
   }
 
   public static List<String> minimumJavaVersionWarning() {
-    if (Runtime.version().feature() >= MINIMUM_JAVA_VERSION) return List.of();
+    if (Runtime.version().feature() >= UPCOMING_MINIMUM_JAVA_VERSION) return List.of();
 
     return List.of(
         "You are currently on Java " + System.getProperty("java.version"),
-        "Please update to Java " + MINIMUM_JAVA_VERSION,
+        "Please update to Java " + UPCOMING_MINIMUM_JAVA_VERSION,
         "https://adoptium.net/installation/");
   }
 
